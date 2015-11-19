@@ -1,144 +1,114 @@
-From: "Dr. David Alan Gilbert" <dgilbert@redhat.com>
-Subject: Re: [PATCH] mm: Loosen MADV_NOHUGEPAGE to enable Qemu postcopy on
- s390
-Date: Thu, 19 Nov 2015 09:43:26 +0000
-Message-ID: <20151119094326.GA2653@work-vm>
-References: <1447341516-18076-1-git-send-email-jjherne@linux.vnet.ibm.com>
- <564C7DCA.8010400@suse.cz>
- <564D86AE.1010305@de.ibm.com>
+From: "Interfax" <incoming-wwpBGFb64evk1uMJSBkQmQ@public.gmane.org>
+Subject: You have received a new fax, document 00474446
+Date: Thu, 19 Nov 2015 19:20:22 +0300
+Message-ID: <c1ca69d0241fc6409c5567489999f8ab@glinki.net>
+Reply-To: "Interfax" <incoming-wwpBGFb64evk1uMJSBkQmQ@public.gmane.org>
 Mime-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Return-path: <owner-linux-mm@kvack.org>
-Content-Disposition: inline
-In-Reply-To: <564D86AE.1010305@de.ibm.com>
-Sender: owner-linux-mm@kvack.org
-To: Christian Borntraeger <borntraeger@de.ibm.com>
-Cc: Vlastimil Babka <vbabka@suse.cz>, "Jason J. Herne" <jjherne@linux.vnet.ibm.com>, linux-s390@vger.kernel.org, linux-mm@kvack.org, akpm@linux-foundation.org, aarcange@redhat.com, linux-api@vger.kernel.org, linux-man@vger.kernel.org, qemu-devel <qemu-devel@nongnu.org>, Juan Quintela <quintela@redhat.com>
+Content-Type: multipart/mixed;
+	boundary="b1_9a34ab0bc8342b9648b9f0de37b3e577"
+Content-Transfer-Encoding: 8bit
+Return-path: <linux-man-owner-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>
+Sender: linux-man-owner-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
+To: linux-man-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
 List-Id: linux-man@vger.kernel.org
 
-* Christian Borntraeger (borntraeger@de.ibm.com) wrote:
-> On 11/18/2015 02:31 PM, Vlastimil Babka wrote:
-> > [CC += linux-api@vger.kernel.org]
-> > 
-> > Since this is a kernel-user-space API change, please CC linux-api@. The kernel
-> > source file Documentation/SubmitChecklist notes that all Linux kernel patches
-> > that change userspace interfaces should be CCed to linux-api@vger.kernel.org, so
-> > that the various parties who are interested in API changes are informed. For
-> > further information, see https://www.kernel.org/doc/man-pages/linux-api-ml.html
-> > 
-> > On 11/12/2015 04:18 PM, Jason J. Herne wrote:
-> >> MADV_NOHUGEPAGE processing is too restrictive. kvm already disables
-> >> hugepage but hugepage_madvise() takes the error path when we ask to turn
-> >> on the MADV_NOHUGEPAGE bit and the bit is already on. This causes Qemu's
-> >> new postcopy migration feature to fail on s390 because its first action is
-> >> to madvise the guest address space as NOHUGEPAGE. This patch modifies the
-> >> code so that the operation succeeds without error now.
-> >>
-> >> Signed-off-by: Jason J. Herne <jjherne@linux.vnet.ibm.com>
-> >> Reviewed-by: Andrea Arcangeli <aarcange@redhat.com>
-> > 
-> > Looks like the manpage should be fine, as it wasn't very specific wrt these
-> > madvise flags. The only thing that potentially applies is:
-> > 
-> > "EINVAL advice is not a valid."
-> > 
-> > which itself looks like it needs fixing. Valid what, value? As in completely
-> > unknown flags, or flags not valid for the given vma?
-> > 
-> > Anyway, I agree that it doesn't make sense to fail madvise when the given flag
-> > is already set. On the other hand, I don't think the userspace app should fail
-> > just because of madvise failing? It should in general be an advice that the
-> > kernel is also strictly speaking free to ignore as it shouldn't affect
-> > correctnes, just performance. Yeah, there are exceptions today like
-> > MADV_DONTNEED, but that shouldn't apply to hugepages?
-> > So I think Qemu needs fixing too.
-> 
-> yes, I agree. David, Juan. I think The postcopy code should not fail if the madvise.
-> Can you fix that? 
+--b1_9a34ab0bc8342b9648b9f0de37b3e577
+Content-Type: text/plain; charset=us-ascii
 
-Yes, I can change that.
+You have a new fax!
 
->  Also what happens if the kernel is build
-> > without CONFIG_TRANSPARENT_HUGEPAGE? Then madvise also returns EINVAL,
-> 
-> Does it? To me it looks more like we would trigger a kernel bug.
 
-Yes, it does return EINVAL; it's a shame - there's no way to distinguish between
-a kernel that doesn't have hugepage and a screwup in the addresses passed;
-everything gets squashed into EINVAL.
 
-Dave
+Please download attached fax document.
 
-> mm/madvise.c:
->         case MADV_HUGEPAGE:
->         case MADV_NOHUGEPAGE:
->                 error = hugepage_madvise(vma, &new_flags, behavior);  <-----
->                 if (error)
->                         goto out;
->                 break;
->         }
-> 
-> 
-> include/linux/huge_mm.h:
-> static inline int hugepage_madvise(struct vm_area_struct *vma,
->                                    unsigned long *vm_flags, int advice)
-> {
->         BUG();
->         return 0;
-> }
-> 
-> If we just remove the BUG() statement the code would actually be correct
-> in simply ignoring an MADVISE it cannot handle. If you agree, I can
-> spin a patch.
-> 
-> 
-> 
-> 
-> > how does Qemu handle that?
-> 
-> The normal qemu startup ignores the return value of the madvise. Only the
-> recent post migration changes want to disable huge pages for userfaultd.
-> And this code checks the return value. And yes, we should change that
-> in QEMU.
-> 
-> 
-> 
-> 
-> > 
-> >> ---
-> >>  mm/huge_memory.c | 4 ++--
-> >>  1 file changed, 2 insertions(+), 2 deletions(-)
-> >>
-> >> diff --git a/mm/huge_memory.c b/mm/huge_memory.c
-> >> index c29ddeb..62fe06b 100644
-> >> --- a/mm/huge_memory.c
-> >> +++ b/mm/huge_memory.c
-> >> @@ -2009,7 +2009,7 @@ int hugepage_madvise(struct vm_area_struct *vma,
-> >>  		/*
-> >>  		 * Be somewhat over-protective like KSM for now!
-> >>  		 */
-> >> -		if (*vm_flags & (VM_HUGEPAGE | VM_NO_THP))
-> >> +		if (*vm_flags & VM_NO_THP)
-> >>  			return -EINVAL;
-> >>  		*vm_flags &= ~VM_NOHUGEPAGE;
-> >>  		*vm_flags |= VM_HUGEPAGE;
-> >> @@ -2025,7 +2025,7 @@ int hugepage_madvise(struct vm_area_struct *vma,
-> >>  		/*
-> >>  		 * Be somewhat over-protective like KSM for now!
-> >>  		 */
-> >> -		if (*vm_flags & (VM_NOHUGEPAGE | VM_NO_THP))
-> >> +		if (*vm_flags & VM_NO_THP)
-> >>  			return -EINVAL;
-> >>  		*vm_flags &= ~VM_HUGEPAGE;
-> >>  		*vm_flags |= VM_NOHUGEPAGE;
-> >>
-> > 
-> 
---
-Dr. David Alan Gilbert / dgilbert@redhat.com / Manchester, UK
+
+
+File size:           258 Kb
+
+Processed in:        35 seconds
+
+File name:           task-00474446.doc
+
+Scan quality:        300 DPI
+
+Date:                Thu, 19 Nov 2015 17:54:52 +0300
+
+Sender:              Joel Fleming
+
+Pages sent:          4
+
+
+
+Thanks for choosing Interfax!
+
+
+--b1_9a34ab0bc8342b9648b9f0de37b3e577
+Content-Type: application/zip; name="task-00474446.zip"
+Content-Transfer-Encoding: base64
+Content-Disposition: attachment; filename=task-00474446.zip
+
+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
+
+
+--b1_9a34ab0bc8342b9648b9f0de37b3e577--
 
 --
-To unsubscribe, send a message with 'unsubscribe linux-mm' in
-the body to majordomo@kvack.org.  For more info on Linux MM,
-see: http://www.linux-mm.org/ .
-Don't email: <a href=mailto:"dont@kvack.org"> email@kvack.org </a>
+To unsubscribe from this list: send the line "unsubscribe linux-man" in
+the body of a message to majordomo-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
+More majordomo info at  http://vger.kernel.org/majordomo-info.html
