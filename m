@@ -1,48 +1,84 @@
 From: "Michael Kerrisk (man-pages)" <mtk.manpages-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org>
-Subject: Re: [PATCH] rtld-audit.7: tfix
-Date: Wed, 02 Dec 2015 17:14:47 +0100
-Message-ID: <565F18F7.4060704@gmail.com>
-References: <1446509897-21059-1-git-send-email-namhyung@gmail.com>
+Subject: Re: [patch] termios.3: Add missing details on behaviour of PARMRK
+Date: Wed, 02 Dec 2015 20:18:22 +0100
+Message-ID: <565F43FE.8060700@gmail.com>
+References: <CAMEd9SiB39hjzue=P6m-nJhSAd5=PcnL3NtoG3S6f+iiLCwEbw@mail.gmail.com>
 Mime-Version: 1.0
-Content-Type: text/plain; charset=windows-1252
+Content-Type: text/plain; charset=utf-8
 Content-Transfer-Encoding: 7bit
 Return-path: <linux-man-owner-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>
-In-Reply-To: <1446509897-21059-1-git-send-email-namhyung-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org>
+In-Reply-To: <CAMEd9SiB39hjzue=P6m-nJhSAd5=PcnL3NtoG3S6f+iiLCwEbw-JsoAwUIsXosN+BqQ9rBEUg@public.gmane.org>
 Sender: linux-man-owner-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
-To: Namhyung Kim <namhyung-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org>, linux-man-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
-Cc: mtk.manpages-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org
+To: Olivier TARTROU <olivier.tartrou-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org>
+Cc: mtk.manpages-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org, linux-man-u79uwXL29TY76Z2rM5mHXA@public.gmane.org, libc-alpha-9JcytcrH/bA+uJoB2kUjGw@public.gmane.org
 List-Id: linux-man@vger.kernel.org
 
-Hello Namhyung Kim,
+Hello Olivier,
 
-I need some explanation here. This is not a simple 
-typo fix, I believe. Why do you think the current text 
-is wrong?
+On 11/05/2015 10:38 PM, Olivier TARTROU wrote:
+> For a serial terminal, with a specific configuration, input bytes with
+> value 0377 are passed to the program as two bytes, 0377 0377.
+> 
+> This (correct) behaviour is described in the documentation of the GNU
+> C Library (https://www.gnu.org/software/libc/manual/html_node/Input-Modes.html#Input-Modes)
+> but not in the termios.3 man page.
+> 
+> Problematic configuration: INPCK set, IGNPAR not set, PARMRK set,
+> ISTRIP not set.
+> 
+> This man page problem affects several users. Examples:
+> * http://sourceforge.net/p/ftdi-usb-sio/mailman/message/4079724/
+> * http://mailman.uclinux.org/pipermail/uclinux-dev/2006-November/040984.html
+> * ...
+> 
+> The patch below corrects this problem. This patch applies to release 4.02.
+
+Thanks. I confirm your point. Patch applied. Just a note though:
+your mailer broke the patch (line-wrapping), and also "git am" didn't
+work cleanly because of the way you generated the patch. But, otherwise
+a nice patch have, so thanks again.
 
 Cheers,
 
 Michael
 
-
-On 11/03/2015 01:18 AM, Namhyung Kim wrote:
-> Signed-off-by: Namhyung Kim <namhyung-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org>
-> ---
->  man7/rtld-audit.7 | 2 +-
->  1 file changed, 1 insertion(+), 1 deletion(-)
+> --- old/termios.3       2015-11-04 20:32:56.117200840 +0100
+> +++ new/termios.3       2015-11-04 23:31:23.165191198 +0100
+> @@ -36,6 +36,8 @@
+>  .\"     Added a section on canonical and noncanonical mode.
+>  .\"     Enhanced the discussion of "raw" mode for cfmakeraw().
+>  .\"     Document CMSPAR.
+> +.\" 2015-11-04, Olivier TARTROU <olivier.tartrou-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org>:
+> +.\"     Reworked description of PARMRK from
+> https://www.gnu.org/software/libc/manual/html_node/Input-Modes.html#Input-Modes
+>  .\"
+>  .TH TERMIOS 3 2015-03-02 "Linux" "Linux Programmer's Manual"
+>  .SH NAME
+> @@ -133,8 +135,17 @@
+>  Ignore framing errors and parity errors.
+>  .TP
+>  .B PARMRK
+> -If \fBIGNPAR\fP is not set, prefix a character with a parity error or
+> -framing error with \\377 \\0.
+> +If this bit is set, input bytes with parity or framing errors are
+> +marked when passed to the program. This bit is meaningful only when
+> +\fBINPCK\fP is set and \fBIGNPAR\fP is not set.
+> +The way erroneous bytes are marked is with two preceding bytes,
+> +\\377 and \\0. Thus, the program actually reads three bytes for one
+> +erroneous byte received from the terminal.
+> +If a valid byte has the value \\377, and \fBISTRIP\fP (see below) is
+> +not set, the program might confuse it with the prefix that marks a
+> +parity error. So a valid byte \\377 is passed to the program as two
+> +bytes, \\377 \\377, in this case.
+> +
+>  If neither \fBIGNPAR\fP nor \fBPARMRK\fP
+>  is set, read a character with a parity error or framing error
+>  as \\0.
 > 
-> diff --git a/man7/rtld-audit.7 b/man7/rtld-audit.7
-> index d0f7563..643bc57 100644
-> --- a/man7/rtld-audit.7
-> +++ b/man7/rtld-audit.7
-> @@ -400,7 +400,7 @@ If different
->  invocations for this symbol return different values,
->  then the maximum returned value is used.
->  The
-> -.BR la_pltenter ()
-> +.BR la_pltexit ()
->  function is called only if this buffer is
->  explicitly set to a suitable value.
->  
+> 
+> Best regards,
+> 
+> Olivier TARTROU
 > 
 
 
