@@ -1,84 +1,58 @@
 From: "Michael Kerrisk (man-pages)" <mtk.manpages-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org>
-Subject: Re: [patch] termios.3: Add missing details on behaviour of PARMRK
-Date: Wed, 02 Dec 2015 20:18:22 +0100
-Message-ID: <565F43FE.8060700@gmail.com>
-References: <CAMEd9SiB39hjzue=P6m-nJhSAd5=PcnL3NtoG3S6f+iiLCwEbw@mail.gmail.com>
+Subject: Re: [PATCH] reboot.2: 1-argument reboot() is also provided by alternative
+ libc.
+Date: Wed, 02 Dec 2015 20:22:21 +0100
+Message-ID: <565F44ED.2080204@gmail.com>
+References: <7306b677818ad893376f0d6cead68a3912b73de5.1447763024.git.CasperVector@gmail.com>
 Mime-Version: 1.0
-Content-Type: text/plain; charset=utf-8
+Content-Type: text/plain; charset=windows-1252
 Content-Transfer-Encoding: 7bit
 Return-path: <linux-man-owner-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>
-In-Reply-To: <CAMEd9SiB39hjzue=P6m-nJhSAd5=PcnL3NtoG3S6f+iiLCwEbw-JsoAwUIsXosN+BqQ9rBEUg@public.gmane.org>
+In-Reply-To: <7306b677818ad893376f0d6cead68a3912b73de5.1447763024.git.CasperVector-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org>
 Sender: linux-man-owner-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
-To: Olivier TARTROU <olivier.tartrou-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org>
-Cc: mtk.manpages-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org, linux-man-u79uwXL29TY76Z2rM5mHXA@public.gmane.org, libc-alpha-9JcytcrH/bA+uJoB2kUjGw@public.gmane.org
+To: "Casper Ti. Vector" <caspervector-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org>
+Cc: mtk.manpages-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org, linux-man-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
 List-Id: linux-man@vger.kernel.org
 
-Hello Olivier,
+On 11/17/2015 11:37 AM, Casper Ti. Vector wrote:
+> As far as the patch author knows, at least the following alternative C
+> libraries for linux also provide the 1-argument variant:
+> 
+> * uclibc: all public releases.
+> * dietlibc: 0.7.2 and all later releases; reboot() was not provided in
+>             0.7.1 and earlier releases.
+> * musl: all public releases.
+> * klibc: all public releases.
+> * bionic: all public releases.
+> 
+> ... which should already cover most use cases.
 
-On 11/05/2015 10:38 PM, Olivier TARTROU wrote:
-> For a serial terminal, with a specific configuration, input bytes with
-> value 0377 are passed to the program as two bytes, 0377 0377.
-> 
-> This (correct) behaviour is described in the documentation of the GNU
-> C Library (https://www.gnu.org/software/libc/manual/html_node/Input-Modes.html#Input-Modes)
-> but not in the termios.3 man page.
-> 
-> Problematic configuration: INPCK set, IGNPAR not set, PARMRK set,
-> ISTRIP not set.
-> 
-> This man page problem affects several users. Examples:
-> * http://sourceforge.net/p/ftdi-usb-sio/mailman/message/4079724/
-> * http://mailman.uclinux.org/pipermail/uclinux-dev/2006-November/040984.html
-> * ...
-> 
-> The patch below corrects this problem. This patch applies to release 4.02.
-
-Thanks. I confirm your point. Patch applied. Just a note though:
-your mailer broke the patch (line-wrapping), and also "git am" didn't
-work cleanly because of the way you generated the patch. But, otherwise
-a nice patch have, so thanks again.
+Thanks, Casper. Patch applied.
 
 Cheers,
 
 Michael
 
-> --- old/termios.3       2015-11-04 20:32:56.117200840 +0100
-> +++ new/termios.3       2015-11-04 23:31:23.165191198 +0100
-> @@ -36,6 +36,8 @@
->  .\"     Added a section on canonical and noncanonical mode.
->  .\"     Enhanced the discussion of "raw" mode for cfmakeraw().
->  .\"     Document CMSPAR.
-> +.\" 2015-11-04, Olivier TARTROU <olivier.tartrou-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org>:
-> +.\"     Reworked description of PARMRK from
-> https://www.gnu.org/software/libc/manual/html_node/Input-Modes.html#Input-Modes
->  .\"
->  .TH TERMIOS 3 2015-03-02 "Linux" "Linux Programmer's Manual"
->  .SH NAME
-> @@ -133,8 +135,17 @@
->  Ignore framing errors and parity errors.
->  .TP
->  .B PARMRK
-> -If \fBIGNPAR\fP is not set, prefix a character with a parity error or
-> -framing error with \\377 \\0.
-> +If this bit is set, input bytes with parity or framing errors are
-> +marked when passed to the program. This bit is meaningful only when
-> +\fBINPCK\fP is set and \fBIGNPAR\fP is not set.
-> +The way erroneous bytes are marked is with two preceding bytes,
-> +\\377 and \\0. Thus, the program actually reads three bytes for one
-> +erroneous byte received from the terminal.
-> +If a valid byte has the value \\377, and \fBISTRIP\fP (see below) is
-> +not set, the program might confuse it with the prefix that marks a
-> +parity error. So a valid byte \\377 is passed to the program as two
-> +bytes, \\377 \\377, in this case.
-> +
->  If neither \fBIGNPAR\fP nor \fBPARMRK\fP
->  is set, read a character with a parity error or framing error
->  as \\0.
+
+
+> ---
+>  man2/reboot.2 | 3 ++-
+>  1 file changed, 2 insertions(+), 1 deletion(-)
 > 
-> 
-> Best regards,
-> 
-> Olivier TARTROU
+> diff --git a/man2/reboot.2 b/man2/reboot.2
+> index 6ad5c67..cd6b6ea 100644
+> --- a/man2/reboot.2
+> +++ b/man2/reboot.2
+> @@ -40,7 +40,8 @@ reboot \- reboot or enable/disable Ctrl-Alt-Del
+>  .sp
+>  .BI "int reboot(int " magic ", int " magic2 ", int " cmd ", void *" arg );
+>  .sp
+> -/* Under glibc some of the constants involved have gotten
+> +/* Under glibc and most alternative libc's (including uclibc, dietlibc,
+> +   musl and a few others), some of the constants involved have gotten
+>     symbolic names RB_*, and the library call is a 1-argument
+>     wrapper around the 3-argument system call: */
+>  .sp
 > 
 
 
