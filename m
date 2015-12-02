@@ -1,45 +1,50 @@
-From: Stefan Tauner <tauner-1IEs1BiS2Ng4SCxGYwAy/16hYfS7NtTn@public.gmane.org>
-Subject: erroneous scanf's %s pointer description
-Date: Wed, 2 Dec 2015 13:36:43 +0100
-Message-ID: <20151202133643.62758daf@tauner-w510>
+From: "Michael Kerrisk (man-pages)" <mtk.manpages-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org>
+Subject: Re: [PATCH 1/4] bpf.2: tfix
+Date: Wed, 02 Dec 2015 17:11:24 +0100
+Message-ID: <565F182C.2070602@gmail.com>
+References: <1445525054-2880-1-git-send-email-jwilk@jwilk.net>
 Mime-Version: 1.0
-Content-Type: text/plain; charset=US-ASCII
+Content-Type: text/plain; charset=windows-1252
 Content-Transfer-Encoding: 7bit
 Return-path: <linux-man-owner-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>
+In-Reply-To: <1445525054-2880-1-git-send-email-jwilk-tXgOlIzOKNReoWH0uzbU5w@public.gmane.org>
 Sender: linux-man-owner-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
-To: mtk.manpages-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org
-Cc: linux-man-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
+To: Jakub Wilk <jwilk-tXgOlIzOKNReoWH0uzbU5w@public.gmane.org>
+Cc: mtk.manpages-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org, linux-man-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
 List-Id: linux-man@vger.kernel.org
 
-Hi,
+Thanks, Jakub. Applied.
 
-I have noticed that the description about the %s type modifier in
-the official scanf man page is a bit misleading (man3/scanf.3:454). It
-currently states "the next pointer must be a pointer to character
-array". However the (C99) standard says "the corresponding argument
-shall be a pointer to the initial element of a character array".
+Cheers,
 
-So IMHO the wording of the man page is sloppy at best - a pointer to an
-array is not the same as a pointer to its first element (which can also
-obtained by just supplying the name of the array). This led to some
-confused students and lecturers here ;)
+Michael
 
-The man pages of e.g. FreeBSD and Opensolaris contain "the next pointer
-must be a pointer to char" and "a pointer to the initial byte of an
-array of char" respectively. I have not checked others.
+On 10/22/2015 04:44 PM, Jakub Wilk wrote:
+> Signed-off-by: Jakub Wilk <jwilk-tXgOlIzOKNReoWH0uzbU5w@public.gmane.org>
+> ---
+>  man2/bpf.2 | 2 +-
+>  1 file changed, 1 insertion(+), 1 deletion(-)
+> 
+> diff --git a/man2/bpf.2 b/man2/bpf.2
+> index 385d44a..5d583c7 100644
+> --- a/man2/bpf.2
+> +++ b/man2/bpf.2
+> @@ -85,7 +85,7 @@ unloaded when the process exits.
+>  In some cases, for example,
+>  .BR tc-bpf (8),
+>  the program will continue to stay alive inside the kernel even after the
+> -the process that loaded the program exits.
+> +process that loaded the program exits.
+>  In that case,
+>  the tc subsystem holds a reference to the eBPF program after the
+>  file descriptor has been closed by the user-space program.
+> 
 
-KR
+
 -- 
-Dipl.-Ing. Stefan Tauner
-Research and Development
-Embedded Systems Department
-
-University of Applied Sciences Technikum Wien
-Hoechstaedtplatz 6, 1200 Vienna, Austria
-T: +43 1 333 40 77-316
-E: stefan.tauner-1IEs1BiS2Ng4SCxGYwAy/16hYfS7NtTn@public.gmane.org
-I: embsys.technikum-wien.at
-I: www.technikum-wien.at
+Michael Kerrisk
+Linux man-pages maintainer; http://www.kernel.org/doc/man-pages/
+Linux/UNIX System Programming Training: http://man7.org/training/
 --
 To unsubscribe from this list: send the line "unsubscribe linux-man" in
 the body of a message to majordomo-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
