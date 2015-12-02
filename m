@@ -1,71 +1,37 @@
 From: "Michael Kerrisk (man-pages)" <mtk.manpages-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org>
-Subject: Re: [PATCH] tty_ioctl.4: Remove TIOCTTYGSTRUCT ioctl info
-Date: Wed, 02 Dec 2015 20:52:10 +0100
-Message-ID: <565F4BEA.4050505@gmail.com>
-References: <1447709969-26477-1-git-send-email-peter@hurleysoftware.com>
+Subject: Re: include error in example code
+Date: Wed, 02 Dec 2015 20:56:07 +0100
+Message-ID: <565F4CD7.2080403@gmail.com>
+References: <F1C54C2B29AD45429DFA1538CDE11207@gmail.com>
 Mime-Version: 1.0
-Content-Type: text/plain; charset=windows-1252
+Content-Type: text/plain; charset=utf-8
 Content-Transfer-Encoding: 7bit
 Return-path: <linux-man-owner-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>
-In-Reply-To: <1447709969-26477-1-git-send-email-peter-WaGBZJeGNqdsbIuE7sb01tBPR1lH4CV8@public.gmane.org>
+In-Reply-To: <F1C54C2B29AD45429DFA1538CDE11207-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org>
 Sender: linux-man-owner-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
-To: Peter Hurley <peter-WaGBZJeGNqdsbIuE7sb01tBPR1lH4CV8@public.gmane.org>
-Cc: mtk.manpages-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org, linux-man-u79uwXL29TY76Z2rM5mHXA@public.gmane.org, Greg Kroah-Hartman <gregkh-hQyY1W1yCW8ekmWlsbkhG0B+6BGkLq7r@public.gmane.org>, Jiri Slaby <jslaby-AlSwsSmVLrQ@public.gmane.org>
+To: alikewmk <alikewmk-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org>
+Cc: mtk.manpages-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org, linux-man-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
 List-Id: linux-man@vger.kernel.org
 
-Hello Peter,
+On 11/07/2015 02:05 AM, alikewmk wrote:
+> Hello, 
+> 
+> The example code under
+> http://man7.org/linux/man-pages/man7/aio.7.html lacks a include file
+> `fcntl.h`, since the code is using `O_RDONLY` in `open()` function,
+> according to the GNU document here
+> (http://www.gnu.org/software/libc/manual/html_node/Opening-and-Closing-Files.html),
+> it needs to be included.
+> 
+> I tested the code after including the `fcntl.h` file and it worked.> 
+> Thanks. :) 
 
-On 11/16/2015 10:39 PM, Peter Hurley wrote:
-> Thankfully, TIOCTTYGSTRUCT was removed in v2.5.67 by:
-> 
->     commit b3506a09d15dc5aee6d4bb88d759b157016e1864
->     Author: Andries E. Brouwer <andries.brouwer-rh8NL+sEX9E@public.gmane.org>
->     Date:   Tue Apr 1 04:42:46 2003 -0800
-> 
->     [PATCH] kill TIOCTTYGSTRUCT
-> 
->     Only used for (dubious) debugging purposes, and exposes
->     internal kernel state.
-> 
-> [The git SHA is from Thomas Gleixner's history tree at
-> https://git.kernel.org/pub/scm/linux/kernel/git/tglx/history.git]
-
-Thanks for the report/patch. Man-pages tends to take a conservative
-approach about discarding stuff though, since people reading man pages
-also need to know about past behavior. Therefore, I instead
-just added a note that this ioctl() disappeared in Linux 2.5.67:
-"This command was removed in Linux 2.5.67."
+Thanks, Meikun. I added that header file to the example code.
 
 Cheers,
 
 Michael
 
- 
-> Signed-off-by: Peter Hurley <peter-WaGBZJeGNqdsbIuE7sb01tBPR1lH4CV8@public.gmane.org>
-> ---
->  man4/tty_ioctl.4 | 8 --------
->  1 file changed, 8 deletions(-)
-> 
-> diff --git a/man4/tty_ioctl.4 b/man4/tty_ioctl.4
-> index 53645d8..c3bee35 100644
-> --- a/man4/tty_ioctl.4
-> +++ b/man4/tty_ioctl.4
-> @@ -471,14 +471,6 @@ For the
->  .B TIOCLINUX
->  ioctl, see
->  .BR console_ioctl (4).
-> -.SS Kernel debugging
-> -.B "#include <linux/tty.h>"
-> -.TP
-> -.BI "TIOCTTYGSTRUCT	struct tty_struct *" argp
-> -Get the
-> -.I tty_struct
-> -corresponding to
-> -.IR fd .
->  .\"
->  .\" .SS Serial info
->  .\" .BR "#include <linux/serial.h>"
-> 
 
 
 -- 
