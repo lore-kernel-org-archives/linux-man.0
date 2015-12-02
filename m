@@ -1,71 +1,81 @@
-From: "Michael Kerrisk (man-pages)" <mtk.manpages-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org>
-Subject: Re: [PATCH] core: Add info about DAX coredump filtering flags
-Date: Wed, 02 Dec 2015 21:22:03 +0100
-Message-ID: <565F52EB.5060002@gmail.com>
-References: <1447264982-20535-1-git-send-email-ross.zwisler@linux.intel.com>
+From: Peter Hurley <peter-WaGBZJeGNqdsbIuE7sb01tBPR1lH4CV8@public.gmane.org>
+Subject: Re: [PATCH] tty_ioctl.4: Remove TIOCTTYGSTRUCT ioctl info
+Date: Wed, 2 Dec 2015 16:40:46 -0500
+Message-ID: <565F655E.70707@hurleysoftware.com>
+References: <1447709969-26477-1-git-send-email-peter@hurleysoftware.com>
+ <565F4BEA.4050505@gmail.com>
 Mime-Version: 1.0
-Content-Type: text/plain; charset=windows-1252
+Content-Type: text/plain; charset=utf-8
 Content-Transfer-Encoding: 7bit
 Return-path: <linux-man-owner-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>
-In-Reply-To: <1447264982-20535-1-git-send-email-ross.zwisler-VuQAYsv1563Yd54FQh9/CA@public.gmane.org>
+In-Reply-To: <565F4BEA.4050505-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org>
 Sender: linux-man-owner-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
-To: Ross Zwisler <ross.zwisler-VuQAYsv1563Yd54FQh9/CA@public.gmane.org>
-Cc: mtk.manpages-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org, linux-man-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
+To: "Michael Kerrisk (man-pages)" <mtk.manpages-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org>
+Cc: linux-man-u79uwXL29TY76Z2rM5mHXA@public.gmane.org, Greg Kroah-Hartman <gregkh-hQyY1W1yCW8ekmWlsbkhG0B+6BGkLq7r@public.gmane.org>, Jiri Slaby <jslaby-AlSwsSmVLrQ@public.gmane.org>
 List-Id: linux-man@vger.kernel.org
 
-Hello Ross,
-
-On 11/11/2015 07:03 PM, Ross Zwisler wrote:
-> Kernel 4.4 added two new core dump filtering flags, MMF_DUMP_DAX_PRIVATE
-> and MMF_DUMP_DAX_SHARED.
+On 12/02/2015 02:52 PM, Michael Kerrisk (man-pages) wrote:
+> Hello Peter,
 > 
-> These flags allow us to explicitly filter DAX mappings.  This is desirable
-> because DAX mappings, like hugetlb mappings, have the potential to be very
-> large.
+> On 11/16/2015 10:39 PM, Peter Hurley wrote:
+>> Thankfully, TIOCTTYGSTRUCT was removed in v2.5.67 by:
+>>
+>>     commit b3506a09d15dc5aee6d4bb88d759b157016e1864
+>>     Author: Andries E. Brouwer <andries.brouwer-rh8NL+sEX9E@public.gmane.org>
+>>     Date:   Tue Apr 1 04:42:46 2003 -0800
+>>
+>>     [PATCH] kill TIOCTTYGSTRUCT
+>>
+>>     Only used for (dubious) debugging purposes, and exposes
+>>     internal kernel state.
+>>
+>> [The git SHA is from Thomas Gleixner's history tree at
+>> https://git.kernel.org/pub/scm/linux/kernel/git/tglx/history.git]
 > 
-> Signed-off-by: Ross Zwisler <ross.zwisler-VuQAYsv1563Yd54FQh9/CA@public.gmane.org>
-> ---
+> Thanks for the report/patch. Man-pages tends to take a conservative
+> approach about discarding stuff though, since people reading man pages
+> also need to know about past behavior. Therefore, I instead
+> just added a note that this ioctl() disappeared in Linux 2.5.67:
+> "This command was removed in Linux 2.5.67."
+
+Ok, thanks for the clarification.
+
+I saw the commented-out TIOCGSERIAL/TIOCSSERIAL (which is _never_
+going away) and assumed the policy was more best-practices than
+complete.
+
+Regards,
+Peter Hurley
+
+  
+>> Signed-off-by: Peter Hurley <peter-WaGBZJeGNqdsbIuE7sb01tBPR1lH4CV8@public.gmane.org>
+>> ---
+>>  man4/tty_ioctl.4 | 8 --------
+>>  1 file changed, 8 deletions(-)
+>>
+>> diff --git a/man4/tty_ioctl.4 b/man4/tty_ioctl.4
+>> index 53645d8..c3bee35 100644
+>> --- a/man4/tty_ioctl.4
+>> +++ b/man4/tty_ioctl.4
+>> @@ -471,14 +471,6 @@ For the
+>>  .B TIOCLINUX
+>>  ioctl, see
+>>  .BR console_ioctl (4).
+>> -.SS Kernel debugging
+>> -.B "#include <linux/tty.h>"
+>> -.TP
+>> -.BI "TIOCTTYGSTRUCT	struct tty_struct *" argp
+>> -Get the
+>> -.I tty_struct
+>> -corresponding to
+>> -.IR fd .
+>>  .\"
+>>  .\" .SS Serial info
+>>  .\" .BR "#include <linux/serial.h>"
+>>
 > 
-> The patches adding these flags have been merged for v4.4, but we're
-> currently still very early in the v4.4 release cycle.  I'm not sure if it's
-> correct to apply this documentation patch now, or if you'd rather wait
-> until v4.4 is actually released.
-
-Well, we're at -rc3 now, so I feel reasonably okay with this. I've applied.
-Thanks for the patch.
-
-Cheers,
-
-Michael
-
-> ---
->  man5/core.5 | 6 ++++++
->  1 file changed, 6 insertions(+)
-> 
-> diff --git a/man5/core.5 b/man5/core.5
-> index fc7f927..b8a8182 100644
-> --- a/man5/core.5
-> +++ b/man5/core.5
-> @@ -288,6 +288,12 @@ Dump private huge pages.
->  .TP
->  bit 6 (since Linux 2.6.28)
->  Dump shared huge pages.
-> +.TP
-> +bit 7 (since Linux 4.4)
-> +Dump private DAX pages.
-> +.TP
-> +bit 8 (since Linux 4.4)
-> +Dump shared DAX pages.
->  .RE
->  .PD
->  .PP
 > 
 
-
--- 
-Michael Kerrisk
-Linux man-pages maintainer; http://www.kernel.org/doc/man-pages/
-Linux/UNIX System Programming Training: http://man7.org/training/
 --
 To unsubscribe from this list: send the line "unsubscribe linux-man" in
 the body of a message to majordomo-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
