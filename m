@@ -1,36 +1,25 @@
 From: bugzilla-daemon-590EEB7GvNiWaY/ihj7yzEB+6BGkLq7r@public.gmane.org
-Subject: [Bug 108821] New: dlopen example with libm.so is incorrect
-Date: Thu, 03 Dec 2015 14:58:51 +0000
-Message-ID: <bug-108821-11311@https.bugzilla.kernel.org/>
+Subject: [Bug 108821] dlopen example with libm.so is incorrect
+Date: Thu, 03 Dec 2015 15:00:43 +0000
+Message-ID: <bug-108821-11311-KFaluf0ILR@https.bugzilla.kernel.org/>
+References: <bug-108821-11311@https.bugzilla.kernel.org/>
 Mime-Version: 1.0
 Content-Type: text/plain; charset="UTF-8"
 Content-Transfer-Encoding: 7bit
 Return-path: <linux-man-owner-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>
+In-Reply-To: <bug-108821-11311-3bo0kxnWaOQUvHkbgXJLS5sdmw4N0Rt+2LY78lusg7I@public.gmane.org/>
 Sender: linux-man-owner-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
 To: linux-man-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
 List-Id: linux-man@vger.kernel.org
 
 https://bugzilla.kernel.org/show_bug.cgi?id=108821
 
-            Bug ID: 108821
-           Summary: dlopen example with libm.so is incorrect
-           Product: Documentation
-           Version: unspecified
-          Hardware: All
-                OS: Linux
-            Status: NEW
-          Severity: normal
-          Priority: P1
-         Component: man-pages
-          Assignee: documentation_man-pages-ztI5WcYan/vQLgFONoPN62D2FQJk+8+b@public.gmane.org
-          Reporter: fweimer-H+wXaHxf7aLQT0dZR+AlfA@public.gmane.org
-        Regression: No
+Florian Weimer <fweimer-H+wXaHxf7aLQT0dZR+AlfA@public.gmane.org> changed:
 
-This does not work because libm.so can be a linker script:
-
-           handle = dlopen("libm.so", RTLD_LAZY);
-
-The proper way to do this is to include <gnu/lib-names.h> and use LIBM_SO.
+           What    |Removed                     |Added
+----------------------------------------------------------------------------
+           See Also|                            |https://sourceware.org/bugz
+                   |                            |illa/show_bug.cgi?id=18915
 
 -- 
 You are receiving this mail because:
