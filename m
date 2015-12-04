@@ -1,29 +1,40 @@
-From: bugzilla-daemon-590EEB7GvNiWaY/ihj7yzEB+6BGkLq7r@public.gmane.org
-Subject: [Bug 108821] dlopen example with libm.so is incorrect
-Date: Thu, 03 Dec 2015 15:00:43 +0000
-Message-ID: <bug-108821-11311-KFaluf0ILR@https.bugzilla.kernel.org/>
-References: <bug-108821-11311@https.bugzilla.kernel.org/>
+From: "Michael Kerrisk (man-pages)" <mtk.manpages-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org>
+Subject: Re: erroneous scanf's %s pointer description
+Date: Fri, 4 Dec 2015 20:08:00 +0100
+Message-ID: <CAKgNAkhnXUqOra16E_s5t0vN5QST-2nMw5n+fbC2U8WMto0TyQ@mail.gmail.com>
+References: <20151202133643.62758daf@tauner-w510>
+Reply-To: mtk.manpages-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org
 Mime-Version: 1.0
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: 7bit
+Content-Type: text/plain; charset=UTF-8
 Return-path: <linux-man-owner-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>
-In-Reply-To: <bug-108821-11311-3bo0kxnWaOQUvHkbgXJLS5sdmw4N0Rt+2LY78lusg7I@public.gmane.org/>
+In-Reply-To: <20151202133643.62758daf@tauner-w510>
 Sender: linux-man-owner-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
-To: linux-man-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
+To: Stefan Tauner <tauner-1IEs1BiS2Ng4SCxGYwAy/16hYfS7NtTn@public.gmane.org>
+Cc: linux-man <linux-man-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>
 List-Id: linux-man@vger.kernel.org
 
-https://bugzilla.kernel.org/show_bug.cgi?id=108821
+Hello Stefan,
 
-Florian Weimer <fweimer-H+wXaHxf7aLQT0dZR+AlfA@public.gmane.org> changed:
+On 2 December 2015 at 13:36, Stefan Tauner <tauner-1IEs1BiS2Ng4SCxGYwAy/16hYfS7NtTn@public.gmane.org> wrote:
+> Hi,
+>
+> I have noticed that the description about the %s type modifier in
+> the official scanf man page is a bit misleading (man3/scanf.3:454). It
+> currently states "the next pointer must be a pointer to character
+> array". However the (C99) standard says "the corresponding argument
+> shall be a pointer to the initial element of a character array".
 
-           What    |Removed                     |Added
-----------------------------------------------------------------------------
-           See Also|                            |https://sourceware.org/bugz
-                   |                            |illa/show_bug.cgi?id=18915
+Fair enough. I changed the text of the page as you suggest. Thanbks
+for the report.
+
+Cheers,
+
+Michael
 
 -- 
-You are receiving this mail because:
-You are watching the assignee of the bug.
+Michael Kerrisk
+Linux man-pages maintainer; http://www.kernel.org/doc/man-pages/
+Linux/UNIX System Programming Training: http://man7.org/training/
 --
 To unsubscribe from this list: send the line "unsubscribe linux-man" in
 the body of a message to majordomo-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
