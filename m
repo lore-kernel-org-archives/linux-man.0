@@ -1,7 +1,7 @@
 From: bugzilla-daemon-590EEB7GvNiWaY/ihj7yzEB+6BGkLq7r@public.gmane.org
 Subject: [Bug 108821] dlopen example with libm.so is incorrect
-Date: Fri, 04 Dec 2015 19:15:13 +0000
-Message-ID: <bug-108821-11311-BI8GoXjLn4@https.bugzilla.kernel.org/>
+Date: Fri, 04 Dec 2015 19:24:31 +0000
+Message-ID: <bug-108821-11311-V3GwMOYwyk@https.bugzilla.kernel.org/>
 References: <bug-108821-11311@https.bugzilla.kernel.org/>
 Mime-Version: 1.0
 Content-Type: text/plain; charset="UTF-8"
@@ -14,22 +14,23 @@ List-Id: linux-man@vger.kernel.org
 
 https://bugzilla.kernel.org/show_bug.cgi?id=108821
 
-Michael Kerrisk <mtk.manpages-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org> changed:
+--- Comment #2 from Florian Weimer <fweimer-H+wXaHxf7aLQT0dZR+AlfA@public.gmane.org> ---
+(In reply to Michael Kerrisk from comment #1)
+> Hi Florian,
+> 
+> I'm reluctant code a glibc dependency into what I would like to be a fairly
+> vanilla dlopen example.
 
-           What    |Removed                     |Added
-----------------------------------------------------------------------------
-                 CC|                            |mtk.manpages-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org
+Fair point.  Although the example might confuse users because even where it
+works, it typically needs development packages at run time (because the .so
+link are only installed by them).
 
---- Comment #1 from Michael Kerrisk <mtk.manpages-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org> ---
-Hi Florian,
+> What if I used a function from libc itself (e.g.,
+> strlen()). Does the same issue exist?
 
-I'm reluctant code a glibc dependency into what I would like to be a fairly
-vanilla dlopen example. What if I used a function from libc itself (e.g.,
-strlen()). Does the same issue exist?
-
-Cheers,
-
-Michael
+libc.so is a linker script, too.  libm.so.6 and libc.so.6 are not, but they are
+glibc-specific to (some moderately current Solaris versions use libm.so.2 and
+libc.so.1, for example).
 
 -- 
 You are receiving this mail because:
