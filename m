@@ -1,7 +1,7 @@
 From: bugzilla-daemon-590EEB7GvNiWaY/ihj7yzEB+6BGkLq7r@public.gmane.org
 Subject: [Bug 108821] dlopen example with libm.so is incorrect
-Date: Fri, 04 Dec 2015 19:48:17 +0000
-Message-ID: <bug-108821-11311-XGjiaevTuS@https.bugzilla.kernel.org/>
+Date: Fri, 04 Dec 2015 21:05:51 +0000
+Message-ID: <bug-108821-11311-tfkBnqYzyW@https.bugzilla.kernel.org/>
 References: <bug-108821-11311@https.bugzilla.kernel.org/>
 Mime-Version: 1.0
 Content-Type: text/plain; charset="UTF-8"
@@ -14,14 +14,18 @@ List-Id: linux-man@vger.kernel.org
 
 https://bugzilla.kernel.org/show_bug.cgi?id=108821
 
---- Comment #3 from Michael Kerrisk <mtk.manpages-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org> ---
-So, I'm inclined to close this as WONTFIX. I mean: this example will work for
-most people on most systems, right? The alternative is to create a bigger
-example where I build a little library that is then dlopen()-ed. But that seems
-like a little too much work, and might actually be less easy to understand than
-the current example.
+--- Comment #4 from Florian Weimer <fweimer-H+wXaHxf7aLQT0dZR+AlfA@public.gmane.org> ---
+(In reply to Michael Kerrisk from comment #3)
 
-Do you have a strong objection to WONTFIX, Florian?
+> So, I'm inclined to close this as WONTFIX. I mean: this example will work
+> for most people on most systems, right?
+
+With glibc, libm.so is increasingly a linker script on x86_64 due to this
+change:
+
+  <https://sourceware.org/glibc/wiki/libmvec>
+
+This was introduced in glibc 2.22, so few distributions have this change yet.
 
 -- 
 You are receiving this mail because:
