@@ -1,33 +1,43 @@
-From: bugzilla-daemon-590EEB7GvNiWaY/ihj7yzEB+6BGkLq7r@public.gmane.org
-Subject: [Bug 108821] dlopen example with libm.so is incorrect
-Date: Sat, 05 Dec 2015 07:03:35 +0000
-Message-ID: <bug-108821-11311-vM4E2JABgS@https.bugzilla.kernel.org/>
-References: <bug-108821-11311@https.bugzilla.kernel.org/>
+From: "Michael Kerrisk (man-pages)" <mtk.manpages-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org>
+Subject: Re: [PING][patch] ld.so.8: outline missed cases of secure run
+Date: Sat, 05 Dec 2015 08:33:15 +0100
+Message-ID: <5662933B.9000207@gmail.com>
+References: <"01f701d0e407$c718f530$554adf90$@guseva"@samsung.com> <55F65D25.1080708@gmail.com> <"00f601d1282e$e3e04ef0$aba0ecd0$@guseva"@samsung.com> <CAKvUva-pDmq7Cuvh0=Ne+Z+tbTdxO=s5YX6KVa1dUeB=uw5YPA@mail.gmail.com> <565C7E09.4030209@samsung.com>
 Mime-Version: 1.0
-Content-Type: text/plain; charset="UTF-8"
+Content-Type: text/plain; charset=utf-8
 Content-Transfer-Encoding: 7bit
 Return-path: <linux-man-owner-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>
-In-Reply-To: <bug-108821-11311-3bo0kxnWaOQUvHkbgXJLS5sdmw4N0Rt+2LY78lusg7I@public.gmane.org/>
+In-Reply-To: <565C7E09.4030209-Sze3O3UU22JBDgjK7y7TUQ@public.gmane.org>
 Sender: linux-man-owner-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
-To: linux-man-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
+To: Maria Guseva <m.guseva-Sze3O3UU22JBDgjK7y7TUQ@public.gmane.org>, Silvan Jegen <s.jegen-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org>
+Cc: mtk.manpages-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org, Yury Gribov <y.gribov-Sze3O3UU22JBDgjK7y7TUQ@public.gmane.org>, v.garbuzov-Sze3O3UU22JBDgjK7y7TUQ@public.gmane.org, linux-man <linux-man-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>
 List-Id: linux-man@vger.kernel.org
 
-https://bugzilla.kernel.org/show_bug.cgi?id=108821
+Hello Maria,
 
-Michael Kerrisk <mtk.manpages-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org> changed:
+> @@ -313,7 +335,12 @@ prints a help message about which categories can be 
+> specified in this
+>   environment variable.
+>   Since glibc 2.3.4,
+>   .B LD_DEBUG
+> -is ignored for set-user-ID/set-group-ID binaries.
+> +is ignored in secure-execution mode.
+> +However, if the file
+> +.IR /etc/suid\-debug
+> +exists (the content of the file is irrelevant), then
+> +.BR LD_DEBUG
+> +has an effect in secure-execution mode.
 
-           What    |Removed                     |Added
-----------------------------------------------------------------------------
-             Status|NEW                         |RESOLVED
-         Resolution|---                         |CODE_FIX
+Thanks also for this piece. I added it, but trimmed a little.
 
---- Comment #5 from Michael Kerrisk <mtk.manpages-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org> ---
-Thanks for all of the info Florian. So, in the end it seems best to make the
-change you already suggested :-}. Done!
+Cheers,
+
+Michael
 
 -- 
-You are receiving this mail because:
-You are watching the assignee of the bug.
+Michael Kerrisk
+Linux man-pages maintainer; http://www.kernel.org/doc/man-pages/
+Linux/UNIX System Programming Training: http://man7.org/training/
 --
 To unsubscribe from this list: send the line "unsubscribe linux-man" in
 the body of a message to majordomo-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
