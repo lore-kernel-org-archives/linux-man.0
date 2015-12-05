@@ -1,19 +1,33 @@
-From: Don Boyer <donboyer-LGIT8KtdQo8AvxtiuMwx3w@public.gmane.org>
-Subject: (unknown)
-Date: Fri, 4 Dec 2015 21:05:57 -0700 (MST)
-Message-ID: <43225249.5548485.1449288357869.JavaMail.zimbra@indra.com>
-Reply-To: Mr Brett McCorriston <brettmccoriston777-/E1597aS9LQAvxtiuMwx3w@public.gmane.org>
+From: bugzilla-daemon-590EEB7GvNiWaY/ihj7yzEB+6BGkLq7r@public.gmane.org
+Subject: [Bug 108821] dlopen example with libm.so is incorrect
+Date: Sat, 05 Dec 2015 07:03:35 +0000
+Message-ID: <bug-108821-11311-vM4E2JABgS@https.bugzilla.kernel.org/>
+References: <bug-108821-11311@https.bugzilla.kernel.org/>
 Mime-Version: 1.0
-Content-Type: text/plain; charset=utf-8
+Content-Type: text/plain; charset="UTF-8"
 Content-Transfer-Encoding: 7bit
 Return-path: <linux-man-owner-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>
-Subject: 
+In-Reply-To: <bug-108821-11311-3bo0kxnWaOQUvHkbgXJLS5sdmw4N0Rt+2LY78lusg7I@public.gmane.org/>
 Sender: linux-man-owner-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
+To: linux-man-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
 List-Id: linux-man@vger.kernel.org
 
+https://bugzilla.kernel.org/show_bug.cgi?id=108821
 
+Michael Kerrisk <mtk.manpages-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org> changed:
 
-My name is Brett McCorriston a merchant of Paris but currently base in Nevada Las Vegas Cartgate Ct United states, I have been diagnosed with esophageal cancer which has defiled all forms of medical treatment i have only few weeks to live here on earth.My condition is really deteriorating. i have decided to divide part of my fortune,by contributing to the Charities & Motherless. I am willing to donate the sum of US$ 5 Million to the poor through you.Can you help me? contact me on my private email ( brettmccorriston88-/E1597aS9LQAvxtiuMwx3w@public.gmane.org ) I really need you to help me.
+           What    |Removed                     |Added
+----------------------------------------------------------------------------
+             Status|NEW                         |RESOLVED
+         Resolution|---                         |CODE_FIX
+
+--- Comment #5 from Michael Kerrisk <mtk.manpages-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org> ---
+Thanks for all of the info Florian. So, in the end it seems best to make the
+change you already suggested :-}. Done!
+
+-- 
+You are receiving this mail because:
+You are watching the assignee of the bug.
 --
 To unsubscribe from this list: send the line "unsubscribe linux-man" in
 the body of a message to majordomo-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
