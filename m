@@ -1,39 +1,43 @@
 From: "Michael Kerrisk (man-pages)" <mtk.manpages-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org>
-Subject: Re: [PING][patch] ld.so.8: outline missed cases of secure run
-Date: Sat, 05 Dec 2015 08:33:15 +0100
-Message-ID: <5662933B.9000207@gmail.com>
-References: <"01f701d0e407$c718f530$554adf90$@guseva"@samsung.com> <55F65D25.1080708@gmail.com> <"00f601d1282e$e3e04ef0$aba0ecd0$@guseva"@samsung.com> <CAKvUva-pDmq7Cuvh0=Ne+Z+tbTdxO=s5YX6KVa1dUeB=uw5YPA@mail.gmail.com> <565C7E09.4030209@samsung.com>
+Subject: Re: can't find grep on man7.org/linux/man-pages
+Date: Sat, 5 Dec 2015 13:13:20 +0100
+Message-ID: <CAKgNAkg8-Z1xYHCrZiSfKiMp8m7Hg44GP6x+5Fps-gu8Fy4BZg@mail.gmail.com>
+References: <CAEPYdQ+gaQE0tZ=4f1xZemfkYhFwpB6rVxFVvA-dj3Ws-FVt9A@mail.gmail.com>
+Reply-To: mtk.manpages-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org
 Mime-Version: 1.0
-Content-Type: text/plain; charset=utf-8
-Content-Transfer-Encoding: 7bit
+Content-Type: text/plain; charset=UTF-8
 Return-path: <linux-man-owner-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>
-In-Reply-To: <565C7E09.4030209-Sze3O3UU22JBDgjK7y7TUQ@public.gmane.org>
+In-Reply-To: <CAEPYdQ+gaQE0tZ=4f1xZemfkYhFwpB6rVxFVvA-dj3Ws-FVt9A-JsoAwUIsXosN+BqQ9rBEUg@public.gmane.org>
 Sender: linux-man-owner-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
-To: Maria Guseva <m.guseva-Sze3O3UU22JBDgjK7y7TUQ@public.gmane.org>, Silvan Jegen <s.jegen-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org>
-Cc: mtk.manpages-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org, Yury Gribov <y.gribov-Sze3O3UU22JBDgjK7y7TUQ@public.gmane.org>, v.garbuzov-Sze3O3UU22JBDgjK7y7TUQ@public.gmane.org, linux-man <linux-man-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>
+To: Hal Perkins <perkins-GmWTxIRN22iJaUV4rX00uodd74u8MsAO@public.gmane.org>
+Cc: linux-man <linux-man-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>
 List-Id: linux-man@vger.kernel.org
 
-Hello Maria,
+Hello Hal,
 
-> @@ -313,7 +335,12 @@ prints a help message about which categories can be 
-> specified in this
->   environment variable.
->   Since glibc 2.3.4,
->   .B LD_DEBUG
-> -is ignored for set-user-ID/set-group-ID binaries.
-> +is ignored in secure-execution mode.
-> +However, if the file
-> +.IR /etc/suid\-debug
-> +exists (the content of the file is irrelevant), then
-> +.BR LD_DEBUG
-> +has an effect in secure-execution mode.
+On 2 November 2015 at 03:22, Hal Perkins <perkins-GmWTxIRN22iJaUV4rX00uodd74u8MsAO@public.gmane.org> wrote:
+> Hello -
+>
+> First a thanks for all the work to keep the linux man pages current and
+> online, and for the Linux Programming Interface book, which has been a
+> steady companion for a while now.
 
-Thanks also for this piece. I added it, but trimmed a little.
+Good to hear!
+
+> I did run across something that seemed strange today when I was trying to go
+> over some linux topics with some students.  There doesn't seem to be any
+> manual page for grep in the online set.  I may be looking in the wrong
+> place, but if it is indeed missing, would it be possible to add it?   Many
+> similar things like sed do seem to be there.
+>
+> Thank you for your help.
+
+Thanks for the info. grep(1) is now there:
+http://man7.org/linux/man-pages/man1/grep.1.html
 
 Cheers,
 
 Michael
-
 -- 
 Michael Kerrisk
 Linux man-pages maintainer; http://www.kernel.org/doc/man-pages/
