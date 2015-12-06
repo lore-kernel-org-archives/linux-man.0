@@ -1,7 +1,7 @@
 From: Jakub Wilk <jwilk-tXgOlIzOKNReoWH0uzbU5w@public.gmane.org>
-Subject: [PATCH 06/19] cbrt.3: tfix
-Date: Sun,  6 Dec 2015 19:47:19 +0100
-Message-ID: <1449427652-3585-6-git-send-email-jwilk@jwilk.net>
+Subject: [PATCH 17/19] pthread_rwlockattr_setkind_np.3: tfix
+Date: Sun,  6 Dec 2015 19:47:30 +0100
+Message-ID: <1449427652-3585-17-git-send-email-jwilk@jwilk.net>
 References: <1449427652-3585-1-git-send-email-jwilk@jwilk.net>
 Return-path: <linux-man-owner-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>
 In-Reply-To: <1449427652-3585-1-git-send-email-jwilk-tXgOlIzOKNReoWH0uzbU5w@public.gmane.org>
@@ -12,22 +12,22 @@ List-Id: linux-man@vger.kernel.org
 
 Signed-off-by: Jakub Wilk <jwilk-tXgOlIzOKNReoWH0uzbU5w@public.gmane.org>
 ---
- man3/cbrt.3 | 2 +-
+ man3/pthread_rwlockattr_setkind_np.3 | 2 +-
  1 file changed, 1 insertion(+), 1 deletion(-)
 
-diff --git a/man3/cbrt.3 b/man3/cbrt.3
-index c44b8ec..cdbae5b 100644
---- a/man3/cbrt.3
-+++ b/man3/cbrt.3
-@@ -63,7 +63,7 @@ or
- .BR cbrtl ():
- .RS 4
- _BSD_SOURCE || _SVID_SOURCE || _XOPEN_SOURCE\ >=\ 600 || _ISOC99_SOURCE ||
--_POSIX_C_SOUCE\ >=\ 200112L;
-+_POSIX_C_SOURCE\ >=\ 200112L;
- .br
- or
- .I cc\ -std=c99
+diff --git a/man3/pthread_rwlockattr_setkind_np.3 b/man3/pthread_rwlockattr_setkind_np.3
+index bf7f7c6..c90d9a5 100644
+--- a/man3/pthread_rwlockattr_setkind_np.3
++++ b/man3/pthread_rwlockattr_setkind_np.3
+@@ -6,7 +6,7 @@
+ .\" preserved on all copies.
+ .\"
+ .\" Permission is granted to copy and distribute modified versions of this
+-.\" manual under the conditions for verbat`im copying, provided that the
++.\" manual under the conditions for verbatim copying, provided that the
+ .\" entire resulting derived work is distributed under the terms of a
+ .\" permission notice identical to this one.
+ .\"
 -- 
 2.6.2
 
