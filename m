@@ -1,33 +1,24 @@
-From: Alec Leamas <leamas.alec-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org>
-Subject: Re: New manpage lirc.4 (Was: Possibly new manpages: lirc and
- lirc_ioctl)
-Date: Mon, 7 Dec 2015 10:28:11 +0100
-Message-ID: <5665512B.5080508@gmail.com>
-References: <5664AAA5.6040203@gmail.com> <5664AB93.2040106@gmail.com>
+From: "Chimezie" <chilax090-w9fAFgjg1Hs@public.gmane.org>
+Subject: Re:Relocating funds
+Date: Tue, 08 Dec 2015 21:32:12 -0800
+Message-ID: <20151209054319.0A4491A30B2@mail.cpagardens.com>
+Reply-To: chiout0144-Qp5uEh9QsHlBDgjK7y7TUQ@public.gmane.org
 Mime-Version: 1.0
-Content-Type: text/plain; charset=utf-8
-Content-Transfer-Encoding: 7bit
+Content-Type: text/plain; charset=US-ASCII
+Content-Transfer-Encoding: 7BIT
 Return-path: <linux-man-owner-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>
-In-Reply-To: <5664AB93.2040106-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org>
+Content-Description: Mail message body
 Sender: linux-man-owner-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
-To: linux-man-u79uwXL29TY76Z2rM5mHXA@public.gmane.org, "Michael Kerrisk (man-pages)" <mtk.manpages-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org>
+To: Recipients <chilax090-w9fAFgjg1Hs@public.gmane.org>
 List-Id: linux-man@vger.kernel.org
 
-On 06/12/15 22:41, Alec Leamas wrote:
+Hello,
 
-Reviewing myself:
+I need your urgent help, regarding moving money from africa to any trusted foriegn Account for safe keeping purpose. I cant explian now,but will give details as soon as i get your reponse
 
-> Subject: New manpage lirc.4 (Was: Possibly new manpages: lirc and
-> lirc_ioctl)
+Regards
 
-> +.\" Copyright (c) <year>, <copyright holder>
-
-Oops... Should be  Copyright (c) 2015, Alec Leamas
-
-"Blushes"
-
---alec
-
+Chimezie Madueke
 --
 To unsubscribe from this list: send the line "unsubscribe linux-man" in
 the body of a message to majordomo-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
