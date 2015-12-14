@@ -1,62 +1,31 @@
 From: "Michael Kerrisk (man-pages)" <mtk.manpages-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org>
-Subject: Re: New manpage lirc.4  (Was: Possibly new manpages: lirc and lirc_ioctl)
-Date: Mon, 14 Dec 2015 17:45:01 +0100
-Message-ID: <566EF20D.5080100@gmail.com>
-References: <548EE482.4020700@gmail.com>	<54998ACB.2070500@gmail.com>	<554789CA.2070302@gmail.com>	<5547A19B.9080503@gmail.com>	<5547B8F1.2000305@gmail.com>	<5547CD95.2070208@gmail.com>	<5663FD8C.9030204@gmail.com>	<CAKgNAkj3C2ApPhBfUiQVtptquS5b5Cfti+gdpqbXbOR2tCWBFg@mail.gmail.com>	<5664AAA5.6040203@gmail.com>	<566B20F0.1020808@gmail.com>	<20151212073418.088593cb@snorken.kolmodin.net>	<CAKgNAkjaTX5N89ZHPJGBeAcj-cznp-gfGeCM-FfLky1=GC3znA@mail.gmail.com> <20151214123138.7a2979f8@snorken.kolmodin.net>
+Subject: Re: New manpage lirc.4 (Was: Possibly new manpages: lirc and lirc_ioctl)
+Date: Mon, 14 Dec 2015 17:48:53 +0100
+Message-ID: <566EF2F5.5020608@gmail.com>
+References: <548EE482.4020700@gmail.com> <54998ACB.2070500@gmail.com> <554789CA.2070302@gmail.com> <5547A19B.9080503@gmail.com> <5547B8F1.2000305@gmail.com> <5547CD95.2070208@gmail.com> <5663FD8C.9030204@gmail.com> <CAKgNAkj3C2ApPhBfUiQVtptquS5b5Cfti+gdpqbXbOR2tCWBFg@mail.gmail.com> <5664AAA5.6040203@gmail.com> <566B20F0.1020808@gmail.com> <20151212073418.088593cb@snorken.kolmodin.net> <CAKgNAkjaTX5N89ZHPJGBeAcj-cznp-gfGeCM-FfLky1=GC3znA@mail.gmail.com> <566DBA29.3090605@gmx.com> <566E9120.2060806@gmail.com>
 Mime-Version: 1.0
-Content-Type: text/plain; charset=windows-1252
+Content-Type: text/plain; charset=utf-8
 Content-Transfer-Encoding: 7bit
 Return-path: <linux-man-owner-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>
-In-Reply-To: <20151214123138.7a2979f8-+x4wjRbgnhz3VejZBQxdeuTW4wlIGRCZ@public.gmane.org>
+In-Reply-To: <566E9120.2060806-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org>
 Sender: linux-man-owner-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
 To: Alec Leamas <leamas.alec-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org>, elseifthen-KK0ffGbhmjU@public.gmane.org, linux-man-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
 Cc: mtk.manpages-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org
 List-Id: linux-man@vger.kernel.org
 
-On 12/14/2015 12:31 PM, Alec Leamas wrote:
-> Dear list et. al.,
-> 
-> I missed it again... this time I think the patch is OK, but I 
-> forgot to use claws-mail so it's probably garbled. Re-sending last message,
-> please just drop the previous.
+Hello Alec, 
 
-Too late. I already was offline for a bitand responding to the 
-previous. Stand by :-).
+Thanks for the revised page. See below for comments.
 
-Cheers,
-
-Michael
-
-> 
-> --alec
-> 
-> On 13/12/15 19:34, J William Piggott wrote:
->>
->>
->> On 12/13/2015 03:23 AM, Michael Kerrisk (man-pages) wrote:
->>> Hello Alec,
->>>
->>> On 12 December 2015 at 07:34, Alec Leamas <leamas.alec-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org> wrote:
->>>> On Fri, 11 Dec 2015 20:16:00 +0100
->>>> "Michael Kerrisk (man-pages)" <mtk.manpages-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org> wrote:
->>>
->>> [Excellent walk though of fixes snipped]
-> 
-> 
-> And a not so excellent patch... somethinh wnt terribly wromg when I
-> generated the patch - it seems like most of my changes wasn't included.
-> Making a fresh retry, please ignore the last, broken patch.
-> 
->>>
 >>>> Revised patch:
 >>>
 >>> Patches on top of patches is confusing. For the next round, just send
 >>> a fresh complete patch. A few more comments below.
 > 
 > Indeed, and that's what I thought I did...
-> 
-> 
-> 
+
+Okay :-)
+
 >>>> +Drivers for this kind of hardware work in
 >>>>  .B LIRC_MODE_LIRCCODE.
 >>>
@@ -69,392 +38,21 @@ Michael
 >>> (i.e., add space before '.') Probably there are other instances to fix as well.
 > 
 > Hopefully found and fixed them all.
-> 
-> 
->>>>  .SH Reading using LIRC_MODE_MODE2 drivers
->>
->> s/using/input with the/
-> 
-> Fixed.
-> 
-> 
->>>> +.IR lirc_t.
->>>
->>> .IR lirc_t .
-> 
-> Fixed.
-> 
-> 
->>>> -Value reflects a pulse duration (us).
->>>> +.BR LIRC_MODE2_PULSE
->>>
->>> s/$/ ./
->>> (And at various other places below.)
->>    s/below/above and below/
-> 
-> Fixed four occurences, unsure where to apply this.
-> 
->>>
->>>> +Value reflects a pulse duration (microseconds).
->>>>  .TP 4
->>>> -.B LIRC_MODE2_FREQUENCY
->>>> +.BR LIRC_MODE2_FREQUENCY
->>>>  Value reflects a frequency (hz), see the LIRC_SET_MEASURE_CARRIER ioctl.
->>>>  .TP 4
->>>> -.B LIRC_MODE2_TIMEOUT
->>>> +.BR LIRC_MODE2_TIMEOUT
->>>>  The package reflects a timeout, see the LIRC_SET_REC_TIMEOUT_REPORTS ioctl.
->>>>
->>>>  .SH Reading using LIRC_MODE_LIRCCODE drivers.
->>>
->>> s/.$//
->>>
->> s/using/input with the/
-> 
-> Fixed
-> 
-> 
->>
->> s/read() on the device must be done/Device input must be read/
-> 
-> fixed
-> 
-> 
->>> s/the driver/the write() call/
->>>
->>> Start new sentence on new line.
-> 
-> Fixed
-> 
->>>
->>>>  returns
->>>
->>> s/returns/fails with the error/
->>>
->>>> -.B EINVAL
->>>> +.BR EINVAL
->>>
->>> .BR EINVAL .
->>>
-> 
-> Fixed
-> 
-> 
->>>>  Many require a third argument, usually an int.
->>>
->>> Put the"int" on a separate line as
->>>
->>> .IR int .
-> 
-> Fixed
-> 
-> 
->>
->>>> @@ -88,111 +114,117 @@ the device can rely on working with the default settings initially.
->>>>  .P
->>>>  \fI/dev/lirc*\fR devices always supports the following commands:
->>>>  .TP 4
->>>> -.B LIRC_GET_FEATURES void
->>>> +.BR LIRC_GET_FEATURES void
->>
->> Why? (and others below)
-> 
-> Don't know, I have read your remarks as 's/^\.B /\.BR /' When should it
-> be .BR, and when .B ?
-> 
-> 
->>>>  Driver returns integer values, each of which representing a decoded button
->>>
->>> s/representing/represents/
-> 
-> Fixed
-> 
-> 
->>>> +If a device returns an error code  for
->>
->> s/  for/ for/
->>
-> 
-> Fixed
->>>> +.BR LIRC_GET_REC_MODE
->>>
->>> s/$/ ,/
->>>
->>>>  it is safe to assume it is not a lirc device.
->>>>
->>>>  .BR
->>>
-> 
->>> Remove that last line.
-> 
-> fixed
-> 
->>>
->>>>  .SH Optional Commands
->>>>  .Ped.
->>>> +Some lirc devices supports the following commands.
->>>
->>> s/supports/supports/
->>
->> s/supports/support/
->>
-> 
-> Fixed
-> 
->>>
->>>> +Unless otherwise stated these returns \fIENOIOCTLCMD\fR
->>>
->>> s/returns/fail with the error/
->>>
->>>> +or \fIENOSYS\fR if the operation
->>>> +isn't supported and \fIEINVAL\fR if operation failed.
->>>
->>> s/and/or with the error/
->>
->> s/ and/, or with the error/
->>
->>> s/operation/the operation/
-> 
-> Fixed (?)
-> 
-> 
->>>>  .TP
->>>> -.B LIRC_GET_LENGTH " (\fIvoid\fP)"
->>>> +.BR LIRC_GET_LENGTH " (\fIvoid\fP)"
->>>>  Return the positive  length of the returned codes for
->>
->> s/  length/ length/
->>
->>>> -.B LIRC_LIRCCODE
->>>> +.BR LIRC_LIRCCODE
-> 
-> See above. When is using .BR right, and when .B?
-> 
->>>>  type
->>>>  drivers, otherwise
->>>
->>> s/$/ fail with the error/
-> 
-> Fixed
-> 
-> 
->>>> -.B LIRC_GET_MAX_TIMEOUT.
->>>> +.BR LIRC_GET_MAX_TIMEOUT.
->>>
->>> s/.$/ .$/
-> 
-> Fixed
-> 
-> 
->>>>  Some receivers are equipped with special wide band receiver which is
->>>>  intended to be used to learn output of existing remote.
->>
->> s/receivers/devices/
->> s/receiver which is/receivers which are/
->> s/output/the output/
->> s/existing/an existing/
-> 
-> Fixed
-> 
->>>>  Calling that ioctl with (1) will enable it, and with (0) disable it.
->>>> @@ -223,123 +255,136 @@ This might be useful of receivers that have otherwise narrow band receiver
->>
->> s/useful of receivers/useful for devices/
->> s/have otherwise/otherwise have/
->> s/receiver/receivers/
-> 
-> Fixed
-> 
->>
->>>>  that prevents them to be used with some remotes.
->>
->> which prevent them from being used with certain remotes.
->>
->>>>  Wide band receiver might also be more precise.
->>
->> s/receiver/receivers/
->> s/might/may/
-> 
-> Fixed
-> 
->>
->>>>  On the other hand its disadvantage usually is reduced range of reception.
->>>> -Note: wide band receiver might be implictly enabled if you enable
->>>> +Note: wide band receiver might be implicitly enabled if you enable
->>>>  carrier reports.
->>>>  In that case it will be disabled as soon as you disable carrier reports.
->>>>  Trying to disable wide band receiver while carrier reports are active will
->>>>  do nothing
->>
->> s/wide/a wide/
->> s/$/.$/
-> 
-> Fixed.
-> 
->>>>
->>>>  .TP
->>>> -.B LIRC_SETUP_START " (\fIvoid\fP)", LIRC_SETUP_END " (\fIvoid\fP)"
->>>> +.BR LIRC_SETUP_START " (\fIvoid\fP)", LIRC_SETUP_END " (\fIvoid\fP)"
->>>>  Setting of several driver parameters can be optimized by encapsulating
->>>>  the according ioctl calls with
->>
->> does 'according' make sense here? accompanying?
-> 
-> Fixed (usinng 'actual')
->>
-> 
->>>> +for example by flashing a LED.
->>
->> s/a/an/
-> 
-> Fixed
-> 
-> 
->>>> +.BR LIRC_MODE_RAW
->>>
->>> s/$/ ./
->>> (And other instances below)
-> 
-> Fixed
-> 
-> 
->>>> +That this file is not public is a bug, see
->>
->> This file not being public is a bug, see
-> 
-> Fixed
-> 
-> On 13/12/15 19:34, J William Piggott wrote:
->>
-> 
->>> .SH Reading using LIRC_MODE_MODE2 drivers
-> 
->> s/using/input with the/
-> 
-> Fixed
-> 
->>> read() on the device must be done in blocks matching
->>>  the bit count, rounded up so it matches full bytes.
-> 
->> s/read() on the device must be done/Device input must be read/
-> 
-> Fixed
-> 
->>  Driver returns integer values, each of which representing a decoded
-> button
-> 
->> s/representing/represents/
-> 
-> Fixed
-> 
->>> +If a device returns an error code  for
-> 
->> s/  for/ for/
-> 
-> Fixed
-> 
->>> +Some lirc devices supports the following commands.
-> 
->> s/supports/support/
-> 
-> Fixed
-> 
-> 
->> Unless otherwise stated these returns \fIENOIOCTLCMD\fR>
-> 
->> s/returns/fail with the error/
-> 
-> Fixed
-> 
->>>  Return the positive  length of the returned codes for
-> 
->> s/  length/ length/
-> 
-> Fixed together with some other double spaces.
-> 
-> 
->>>  Some receivers are equipped with special wide band receiver which is
->>>  intended to be used to learn output of existing remote.
-> 
->> s/receivers/devices/
->> s/receiver which is/receivers which are/
->> s/output/the output/
->> s/existing/an existing/
-> 
-> Fixed
-> 
->>>  Calling that ioctl with (1) will enable it, and with (0) disable it.
->>> @@ -223,123 +255,136 @@ This might be useful of receivers that have
-> otherwise narrow band receiver
-> 
->> s/useful of receivers/useful for devices/
->> s/have otherwise/otherwise have/
->> s/receiver/receivers/
-> 
-> 
-> Fixed
-> 
->>>  that prevents them to be used with some remotes.
-> 
->> which prevent them from being used with certain remotes.
-> 
-> Fixed
-> 
->>> Wide band receiver might also be more precise.
-> 
->> s/receiver/receivers/
->> s/might/may/
-> 
-> 
-> Fixed
-> 
->>> Trying to disable wide band receiver while carrier reports are active
-> will
->>>  do nothing
-> 
->> s/wide/a wide/
->> s/$/.$/
-> 
-> Fixed
-> 
->>> etting of several driver parameters can be optimized by encapsulating
->>>  the according ioctl calls with
-> 
->> does 'according' make sense here? accompanying?
-> 
-> Fixed, (usingf 'actual')
-> 
->>> -to give visual user feedback e.g.,  by flashing a LED.
->>> +incoming IR signal could be done.
-> 
->> s/could be done/is possible/
-> 
-> Fixed
-> 
->>> or example by flashing a LED.
-> 
->> s/a/an/
-> 
-> Fixed
-> 
->>> +That this file is not public is a bug, see
-> 
->> This file not being public is a bug, see
-> 
-> Fixed
-> 
-> 
-> 
-> 
+
+[...]
+
 > New patch (hopefully in better shape...)
-> 
-> From 0864603b5f912be5e9b43dc690b313e1ba83b0f5 Mon Sep 17 00:00:00 2001
+
+Thanks, better, but your mailer is still wrapping patches...
+
+>>From 0864603b5f912be5e9b43dc690b313e1ba83b0f5 Mon Sep 17 00:00:00 2001
 > From: Alec Leamas <leamas.alec-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org>
 > Date: Mon, 14 Dec 2015 10:47:08 +0100
 > Subject: [PATCH] Adding new lirc.4 manpage
 > 
 > ---
->  doc/man-source/lirc.4 | 396 ++++++++++++++++++++++++++++++++++++++++++++++++++
+>  doc/man-source/lirc.4 | 396
+> ++++++++++++++++++++++++++++++++++++++++++++++++++
 >  1 file changed, 396 insertions(+)
 >  create mode 100644 doc/man-source/lirc.4
 > 
@@ -514,10 +112,24 @@ Michael
 > +Such hardware can be used with (almost) any kind of remote.
 > +.P
 > +The \fBLIRC_GET_REC_MODE\fR ioctl allows probing for the mode.
+
+s/ioctl/ioctl (described below)/
+
 > +
 > +.SH Reading input with the LIRC_MODE_MODE2 drivers
 > +.P
 > +In the \fBLIRC_MODE_MODE2 mode\fR, the driver read() provides 32-bit values
+
+s/ mode\fR/\fR mode/
+
+Change "the driver read() provides" to
+
+[[
+the data returned by
+.BR read (2)
+consists of
+]]
+
 > +representing a space or a pulse duration, by convention typed as
 > +.IR lirc_t .
 > +The time of the duration (microseonds) is encoded in the lower 24 bits.
@@ -531,32 +143,71 @@ Michael
 > +.TP 4
 > +.BR LIRC_MODE2_FREQUENCY .
 > +Value reflects a frequency (hz), see the LIRC_SET_MEASURE_CARRIER ioctl.
+
+Constants should generally always be bolded, so:
+
+.B LIRC_SET_MEASURE_CARRIER
+
+Various other places need fixing below.
+
 > +.TP 4
 > +.BR LIRC_MODE2_TIMEOUT .
 > +The package reflects a timeout, see the LIRC_SET_REC_TIMEOUT_REPORTS ioctl.
 > +
 > +.SH Reading input with the LIRC_MODE_LIRCCODE drivers
+
+For all of the ".SH" lines that use lower-case titles, change
+".SH" to ".SS".
+
+(Many instances to change below.)
+
 > +.P
 > +In the \fBLIRC_MODE_LIRCCODE\fR
 > +mode, the data returned by read() reflects decoded
+
+.BR read (2)
+
 > +button presses.
 > +The length of each packet can be retrieved using
 > +the \fBLIRC_GET_LENGTH\fR ioctl.
 > +Device must be read in blocks matching
+
+s/Device must be read/Reads must be/
+
 > +the bit count, rounded up so it matches full bytes.
+
+What bit count is this? This needs clarifying.
+
 > +
 > +.SH Sending data.
+
+s/.$//
+
 > +.P
 > +When sending data, only the \fBLIRC_MODE_PULSE\fR
 > +mode is supported.
 > +The data written to the character device using write() is a pulse/space
+
+.BR write (2)
+
 > +sequence of integer values.
 > +Pulses and spaces are only marked implicitly by their position.
 > +The data must start and end with a pulse, thus it must always include an
 > +odd number of samples.
 > +The write() function blocks until the data has been transmitted by the
+
+Change "The write() function" to
+
+[[
+A
+.BR write (2)
+]]
+
 > +hardware.
 > +If more data is provided than the hardware can send, the write() call
+
+.BR write (2)
+
 > +fails with the error
 > +.BR EINVAL
 > +
@@ -564,6 +215,12 @@ Michael
 > +.P
 > +.nf
 > +#include " (\fIuapi/lirc.h\fP)"
+
+So, presumably this is not the correct path, as noted in BUGS. Where 
+does the "lirc" package put it? Use that path here, and write:
+
+#include <path.h>     /* But see BUGS */
+
 > +int ioctl(int fd, int cmd, ...);
 > +.fi
 > +.P
@@ -571,6 +228,14 @@ Michael
 > +hardware settings.
 > +Many require a third argument, usually an
 > +.IR int .
+
+Replace last line with
+
+[[
+.IR int ,
+referred to below as
+.I val .
+]]
 > +.P
 > +In general, each driver should have a default set of settings.
 > +The driver implementation is expected to re-apply the default settings
@@ -581,18 +246,32 @@ Michael
 > +.SH Always Supported Commands
 > +.P
 > +\fI/dev/lirc*\fR devices always supports the following commands:
+
+s/supports/support/
+
 > +.TP 4
 > +.BR LIRC_GET_FEATURES void
+
+s/void/" (\fIvoid\fP)"
+
 > +Returns a bitmask of combined features bits, see FEATURES.
 > +Some drivers have dynamic features which are not updated until after
 > +an init() command.
 > +.TP 4
 > +.BR LIRC_GET_REC_MODE void
+
+s/void/" (\fIvoid\fP)"
+
 > +Returns the receive mode, one of
+
+a/one of/which will be one of:/
+
 > +.RS 4
 > +.TP
 > +.BR LIRC_MODE_MODE2
 > +Driver return a sequence of pulse/space durations.
+
+s/return/returns
 > +.TP
 > +.BR LIRC_MODE_LIRCCODE
 > +Driver returns integer values, each of which represents a decoded button
@@ -601,17 +280,45 @@ Michael
 > +.P
 > +If a device returns an error code for
 > +.BR LIRC_GET_REC_MODE
+
+s/$/ ,/
+
 > +it is safe to assume it is not a lirc device.
 > +
 > +.SH Optional Commands
 > +.P
 > +Some lirc devices support the following commands.
+
+s/following commands/commands listed below/
+
 > +Unless otherwise stated these fails with the error \fIENOIOCTLCMD\fR
+
+s/stated/stated,/
+s/fails/fail/
+
+Formatting of ENOIOCTLCMD should be \fB, not \fI
+
 > +or with the error\fIENOSYS\fR if the operation
+
+s/error/error /
+
+\fI ==> \fB
+
 > +isn't supported, or with the error \fIEINVAL\fR if the operation failed.
+
+\fI ==> \fB
+
 > +.TP
 > +.BR LIRC_SET_REC_MODE " (\fIint\fP)"
 > +Set the receive mode, either
+
+Change ", either" to
+
+[[
+;
+.IR val
+is either
+]]
 > +.BR LIRC_MODE_LIRCCODE
 > +or
 > +.BR LIRC_MODE_MODE2 .
@@ -619,6 +326,9 @@ Michael
 > +.TP
 > +.BR LIRC_GET_LENGTH " (\fIvoid\fP)"
 > +Return the positive length of the returned codes for
+
+s/positive //
+
 > +.BR LIRC_LIRCCODE
 > +type
 > +drivers, otherwise fail with the error
@@ -632,6 +342,10 @@ Michael
 > +.BR LIRC_SET_SEND_MODE " (\fIint\fP)"
 > +Set the send mode.
 > +Obsolete since only
+
+I think the word "Obsolete" isn't right here. Change to 
+"Currently serves no purpose"?
+
 > +.BR LIRC_MODE_PULSE
 > +is supported.
 > +.TP
@@ -641,25 +355,57 @@ Michael
 > +.BR SET_SEND_DUTY_CYCLE " (\fIint\fP)"
 > +Set the carrier duty cycle.
 > +The argument is an int (0 < value < 100) which
+
+.I int
+
 > +describes the pulse width in percent of the total cycle.
 > +Currently, no special meaning is defined for 0 or 100, but the values
 > +are reserved for future use.
 > +.TP
-> +.BR LIRC_GET_MIN_TIMEOUT " (\fIvoid\fP)", LIRC_GET_MAX_TIMEOUT " (\fIvoid\fP)"
+> +.BR LIRC_GET_MIN_TIMEOUT " (\fIvoid\fP)", LIRC_GET_MAX_TIMEOUT "
+> (\fIvoid\fP)"
+
+Formatting problems here. 
+
+Make these last two (wrapped) lines:
+
++.BR LIRC_GET_MIN_TIMEOUT " (\fIvoid\fP), " LIRC_GET_MAX_TIMEOUT " (\fIvoid\fP)"
+
+The same kind of change is required at various points below where you 
+put two constants on one line after .TP
+
 > +Some devices have internal timers that can be used to detect when
 > +there's no IR activity for a long time.
 > +This can help lircd in detecting that a IR signal is finished and
+
+.BR lircd (8)
+
+s/a IR/an IR/
+
 > +can speed up the decoding process.
 > +Returns an integer value with the minimum/maximum timeout that can be
 > +set.
+
+Note the unit that is used here for measuring the timeout. Microseconds?
+
 > +Some devices have a fixed timeout, in that case
+
+s/, in that case/. For such drivers,/
+
 > +.BR LIRC_GET_MIN_TIMEOUT
 > +and
 > +.BR LIRC_GET_MAX_TIMEOUT
 > +will return the same value even though the timeout cannot be changed.
+
+s/ even though the timeout cannot be changed//
+
 > +.TP
 > +.BR LIRC_SET_REC_TIMEOUT " (\fIint\fP)"
 > +Sets the integer value for IR inactivity timeout.
+
+It seems to me that the unit of measurement for this timeout 
+should be specified. Is it microseconds? Make it explicit.
+
 > +To be accepted, the value must be within the limits defined by
 > +.BR LIRC_GET_MIN_TIMEOUT
 > +and
@@ -672,6 +418,17 @@ Michael
 > +.TP
 > +.BR LIRC_SET_REC_TIMEOUT_REPORTS " (\fIint\fP)"
 > +Enables/disables (1/0) timeout packages in
+
+Change that last line to
+
+[[
+Enables
+.RI ( val
+is 1) or disables
+.RI (val is
+0) timeout packages in
+]]
+
 > +.BR LIRC_MODE_MODE2 .
 > +By default, timeout reports should be turned off.
 > +.TP
@@ -681,9 +438,31 @@ Michael
 > +.BR LIRC_SET_REC_CARRIER_RANGE " (\fIint\fP)"
 > +First time called sets the lower bound of the carrier range, second time
 > +the upper bound (Hz).
+
+Really? What an odd API!
+
+But this sentence could be clearer. "First time called"... since when?
+System boot? Open of the device? Make it explicit. Also, I'd word something
+like
+
+After [some explicit point in time], the first use of
+.BR LIRC_SET_REC_CARRIER_RANGE
+sets the lower bound of the carrier range, and the second use sets the 
+upper bound (hz).
+
+> +the upper bound (Hz).
 > +.TP
 > +.BR LIRC_SET_MEASURE_CARRIER " (\fIint\fP)"
 > +Enable/disable (1/0) the measure mode.
+
+[[
+Enables
+.RI ( val
+is 1) or disables
+.RI (val is
+0) the measure mode
+]]
+
 > +If enabled, from the next key press on, the driver will send
 > +.BR LIRC_MODE2_FREQUENCY
 > +packets. By default this should be turned off.
@@ -698,34 +477,63 @@ Michael
 > +of the possible filters.
 > +Filter settings depend on the IR protocols that are expected.
 > +lircd derives the settings from all protocols definitions found in its
+
+.BR lircd (8)
+
 > +config file.
 > +.TP
-> +.BR LIRC_GET_MIN_FILTER_SPACE " (\fIvoid\fP)", LIRC_GET_MAX_FILTER_SPACE " (\fIvoid\fP)"
+> +.BR LIRC_GET_MIN_FILTER_SPACE " (\fIvoid\fP)",
+> LIRC_GET_MAX_FILTER_SPACE " (\fIvoid\fP)"
 > +See
 > +.BR LIRC_GET_MIN_FILTER_PULSE
+
+s/$/ ./
+
 > +.TP
 > +.BR LIRC_SET_REC_FILTER " (\fIint\fP)"
-> +Pulses/spaces shorter than this (microseconds) are filtered out by hardware.
+> +Pulses/spaces shorter than this (microseconds) are filtered out by
+> hardware.
 > +.TP
-> +.BR LIRC_SET_REC_FILTER_PULSE " (\fIint\fP)", LIRC_SET_REC_FILTER_SPACE " (\fIint\fP)"
-> +Pulses/spaces shorter than this (microseconds) are filtered out by hardware.
+> +.BR LIRC_SET_REC_FILTER_PULSE " (\fIint\fP)", LIRC_SET_REC_FILTER_SPACE
+> " (\fIint\fP)"
+> +Pulses/spaces shorter than this (microseconds) are filtered out by
+> hardware.
 > +If filters cannot be set independently for pulse/space, the corresponding
 > +ioctls must return an error and
 > +.BR LIRC_SET_REC_FILTER
 > +shall be used instead.
+
+s/shall/should/ (I think).
+
 > +.TP
 > +.BR LIRC_SET_WIDEBAND_RECEIVER " (\fIint\fP)"
 > +Some devices are equipped with special wide band receiver which are
+
+s/special/a special/
+
 > +intended to be used to learn the output of an existing remote.
 > +Calling that ioctl with (1) will enable it, and with (0) disable it.
+
+Better for the last sentence would I think be:
+
+[[
+This ioctl can be used to enable
+.RI ( val
+equals 1) or disable
+.RI ( val
+equals 0) this functionality.
+
 > +This might be useful for devices that otherwise have narrow band receivers
 > +that prevent them to be used with certain remotes.
 > +Wide band receivers may also be more precise.
 > +On the other hand its disadvantage usually is reduced range of reception.
+
+Insert a ".IP" line here
 > +Note: wide band receiver may be implicitly enabled if you enable
 > +carrier reports.
 > +In that case it will be disabled as soon as you disable carrier reports.
-> +Trying to disable a wide band receiver while carrier reports are active will
+> +Trying to disable a wide band receiver while carrier reports are active
+> will
 > +do nothing.
 > +
 > +.TP
@@ -749,7 +557,13 @@ Michael
 > +.TP
 > +.BR LIRC_NOTIFY_DECODE " (\fIvoid\fP)"
 > +This ioctl is called by lircd whenever a successful decoding of an
+
+.BR lircd (8)
+
 > +incoming IR signal is possible..
+
+s/..$/./
+
 > +This can be used by supporting hardware to give visual user feedback,
 > +for example by flashing an LED.
 > +
@@ -785,6 +599,14 @@ Michael
 > +.TP 8
 > +.BR LIRC_CAN_SET_TRANSMITTER_MASK
 > +Enables the given set of transmitters.
+
+I don't understand that last sentence. this bit mask is being
+used to return some information to us. How can it be enabling
+something. Should this be something like:
+
+"The bits covered by this mask return the set of currently enabled
+transmitters." ?
+
 > +The first transmitter is encoded by the least significant bit, etc.
 > +When an invalid bit mask is given, for example a bit is set even though the
 > +device does not have so many transmitters, returns the number of available
@@ -797,6 +619,10 @@ Michael
 > +.BR LIRC_CAN_SET_REC_DUTY_CYCLE_RANGE
 > +Driver supports
 > +.BR LIRC_SET_REC_DUTY_CYCLE_RANGE
+
+s/$/ ./
+(And various cases below)
+
 > +.TP 8
 > +.BR LIRC_CAN_SET_REC_CARRIER_RANGE
 > +Driver supports
@@ -855,12 +681,18 @@ Michael
 > +see http://www.lirc.org.
 > +.P
 > +This manual page should really be part of the upstream man-pages project.
+
+You can remove that last line. It will soon cease to be true ;-).
+
 > +
 > +
 > +.SH SEE ALSO
 > +.P
 > +https://www.kernel.org/doc/htmldocs/media_api/lirc_dev.html
-> 
+
+Thanks
+
+Michael
 
 
 -- 
