@@ -1,46 +1,68 @@
-From: Alec Leamas <leamas.alec-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org>
-Subject: Re: New manpage lirc.4 (Was: Possibly new manpages: lirc and
- lirc_ioctl)
-Date: Tue, 15 Dec 2015 17:19:30 +0100
-Message-ID: <56703D92.8090500@gmail.com>
-References: <5664AAA5.6040203@gmail.com> <5664AB93.2040106@gmail.com>
- <20151214171521.GA30123@infradead.org> <566F0FC1.5020308@gmail.com>
- <20151215080208.GA16793@infradead.org>
+From: Mike Frysinger <vapier-aBrp7R+bbdUdnm+yROfE0A@public.gmane.org>
+Subject: Re: The time(2) man page conflicts with glibc
+Date: Tue, 15 Dec 2015 13:38:26 -0500
+Message-ID: <20151215183826.GY11489@vapier.lan>
+References: <CAMe9rOoJLk8VzyJKmkOvbmBxhCj4mVA2huYtHJsdxpatbkgJ1g@mail.gmail.com>
+ <CAKCAbMj-X+wLKX3=MDm9z3L9zyikemxCNggu2bfw6=o6K5PGgg@mail.gmail.com>
+ <20151215145517.GR11489@vapier.lan>
+ <CAKCAbMh2ysZPQe3oOSjcPsx1_pcnCAQ6yf+gMbv6iDmvfnGXZA@mail.gmail.com>
 Mime-Version: 1.0
-Content-Type: text/plain; charset=windows-1252; format=flowed
-Content-Transfer-Encoding: 7bit
+Content-Type: multipart/signed; micalg=pgp-sha256;
+	protocol="application/pgp-signature"; boundary="0MoqnzNJK6dBR8Pl"
 Return-path: <linux-man-owner-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>
-In-Reply-To: <20151215080208.GA16793-wEGCiKHe2LqWVfeAwA7xHQ@public.gmane.org>
+Content-Disposition: inline
+In-Reply-To: <CAKCAbMh2ysZPQe3oOSjcPsx1_pcnCAQ6yf+gMbv6iDmvfnGXZA-JsoAwUIsXosN+BqQ9rBEUg@public.gmane.org>
 Sender: linux-man-owner-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
-To: Christoph Hellwig <hch-wEGCiKHe2LqWVfeAwA7xHQ@public.gmane.org>
-Cc: linux-man-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
+To: Zack Weinberg <zackw-VmQCmMdMyN0AvxtiuMwx3w@public.gmane.org>
+Cc: "H.J. Lu" <hjl.tools-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org>, "Michael Kerrisk (man-pages)" <mtk.manpages-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org>, libc-alpha <libc-alpha-9JcytcrH/bA+uJoB2kUjGw@public.gmane.org>, linux-man <linux-man-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>
 List-Id: linux-man@vger.kernel.org
 
 
+--0MoqnzNJK6dBR8Pl
+Content-Type: text/plain; charset=utf-8
+Content-Disposition: inline
+Content-Transfer-Encoding: quoted-printable
 
-On 15/12/15 09:02, Christoph Hellwig wrote:
-> On Mon, Dec 14, 2015 at 07:51:45PM +0100, Alec Leamas wrote:
->> On 14/12/15 18:15, Christoph Hellwig wrote:
->>> On Sun, Dec 06, 2015 at 10:41:39PM +0100, Alec Leamas wrote:
->>>> +#include " (\fIuapi/lirc.h\fP)"
->>> Where is that header supposed to come from?
->>>
->> kernel-headers, once the media subsystem patch is merged.
-> Can you show me the piece of code that mangles the hierachy generated in
-> the kernel into a flat namespace?  The include path just doesn't seem
-> to fit our normal patterns.
+On 15 Dec 2015 10:19, Zack Weinberg wrote:
+> On Tue, Dec 15, 2015 at 9:55 AM, Mike Frysinger wrote:
+> > On 15 Dec 2015 09:14, Zack Weinberg wrote:
+> >> Given the extreme obsolescence of the argument to `time`, I would
+> >> recommend that the *kernel* be changed to fire an actual SIGSEGV
+> >> instead of returning -EFAULT from the syscall version of `time`, and
+> >> then that can be the documented behavior, with the historic behavior
+> >> relegated to the BUGS section of the manpage.
+> >
+> > meh.  it would be out of character for the kernel to do this.
+>=20
+> Why?
 
-Hm... this might be silly me. Anyway, during the review process the path 
-has been changed to use the bundled copy in the lirc package, with a 
-reference to the kernel bug. Let's wait until the kernel patch is merged 
-before we resolve this.
+because it returns EFAULT for other syscalls when you pass bad pointers.
+projects like LTP utilize that to verify edge case functionality.
+-mike
 
-Thanks for heads-up!
+--0MoqnzNJK6dBR8Pl
+Content-Type: application/pgp-signature; name="signature.asc"
+Content-Description: Digital signature
 
---alec
+-----BEGIN PGP SIGNATURE-----
+Version: GnuPG v2
 
+iQIcBAEBCAAGBQJWcF4hAAoJEEFjO5/oN/WBNBAP/2p7t3fOoSPUdlTT4KxTP+Up
+T1d8SA6Xo5ag1D7KcfMEuHqhrJI4AqPMk1Yc/WMrgkyZr+qQXvBbr88qDyFWBPGV
+ZJ9IOLOAiEZ/RlQZeH+UX+epe3Pc+XN+8IP51+2nUUeVR3bbKMcm63ZKwXYK0q6v
+LowHQlEa6/NbExTYOU0yC/eqwMphSfH+ZWXfbPv+kFtdhvz5YKIqej6vYq4Yi7SU
+rRI2VXd/4N8Yn8j/xzX3JdmQ3QOi+X0rfKIrd8v943AqgYcqkE9kCoU0CYAtlYzI
+JwK2oIytwdgg44pXMZ7O6y6gEJjXsTGOYczy9a3R8/+qg+RlI6N09ZzDHCBVdxho
+r+U3F9YuaTbAE+MGs+luc+36W3yOXum5wSR4TbOc5+y/NR/BIz77mloXBCT6ogRW
+WyHdBovCxVF+8cdwH+38VC1CD/na9R+/6nPS0UFQ1HYUUrUzC4WAgZmNfnkAAZEm
+L8HV21h9NIQP1zevgPVeaPsFHdzaSSOfnf8fJGPKhC2I4IR6aKomli8o4ZGbh5Du
+IdfbxKrevw+Bl34WrOIv2Gy2f7Tjjed/pU36EeVgWSrP6zGJW9aQ8PLMBrc3QODz
+PNWTaEbbqE0SHF0uJnBzJ0i6IOAx1pCZ1HbA+SWaLS6Jk2CBu7+na1HOac0qlCgX
+y1R4wn9u60goDJzSJpiv
+=tq9y
+-----END PGP SIGNATURE-----
 
-
+--0MoqnzNJK6dBR8Pl--
 --
 To unsubscribe from this list: send the line "unsubscribe linux-man" in
 the body of a message to majordomo-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
