@@ -1,58 +1,93 @@
 From: "Michael Kerrisk (man-pages)" <mtk.manpages-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org>
-Subject: Re: The time(2) man page conflicts with glibc
-Date: Wed, 16 Dec 2015 15:07:46 +0100
-Message-ID: <56717032.7000007@gmail.com>
-References: <CAMe9rOoJLk8VzyJKmkOvbmBxhCj4mVA2huYtHJsdxpatbkgJ1g@mail.gmail.com>	<mvmegen94qs.fsf@hawking.suse.de>	<CAMe9rOr_Ydg5Nr7aV8vS0vYEFehSwFBuxrMAnCFXyyVoTF4vJQ@mail.gmail.com>	<5671696B.3070203@gmail.com> <CAMe9rOqsxCEia7OWqzJ-HzZWCra5BTyYqt4japjZTw0pY=fugw@mail.gmail.com>
+Subject: Re: [patch] gettimeofday.2: Expand on the historic historical meaning
+ of tz_dsttime.
+Date: Wed, 16 Dec 2015 15:13:47 +0100
+Message-ID: <5671719B.60907@gmail.com>
+References: <5669DA15.2050606@redhat.com>
 Mime-Version: 1.0
 Content-Type: text/plain; charset=utf-8
-Content-Transfer-Encoding: QUOTED-PRINTABLE
+Content-Transfer-Encoding: 7bit
 Return-path: <linux-man-owner-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>
-In-Reply-To: <CAMe9rOqsxCEia7OWqzJ-HzZWCra5BTyYqt4japjZTw0pY=fugw-JsoAwUIsXosN+BqQ9rBEUg@public.gmane.org>
+In-Reply-To: <5669DA15.2050606-H+wXaHxf7aLQT0dZR+AlfA@public.gmane.org>
 Sender: linux-man-owner-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
-To: "H.J. Lu" <hjl.tools-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org>
-Cc: mtk.manpages-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org, Andreas Schwab <schwab-l3A5Bk7waGM@public.gmane.org>, libc-alpha <libc-alpha-9JcytcrH/bA+uJoB2kUjGw@public.gmane.org>, linux-man <linux-man-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>, Mike Frysinger <vapier-aBrp7R+bbdUdnm+yROfE0A@public.gmane.org>, Zack Weinberg <zackw-VmQCmMdMyN0AvxtiuMwx3w@public.gmane.org>
+To: Carlos O'Donell <carlos-H+wXaHxf7aLQT0dZR+AlfA@public.gmane.org>, "linux-man-u79uwXL29TY76Z2rM5mHXA@public.gmane.org" <linux-man-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>
+Cc: mtk.manpages-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org
 List-Id: linux-man@vger.kernel.org
 
-On 12/16/2015 02:53 PM, H.J. Lu wrote:
-> On Wed, Dec 16, 2015 at 5:38 AM, Michael Kerrisk (man-pages)
-> <mtk.manpages-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org> wrote:
->> On 12/15/2015 03:17 PM, H.J. Lu wrote:
->>> On Tue, Dec 15, 2015 at 6:16 AM, Andreas Schwab <schwab-l3A5Bk7waGM@public.gmane.org> wr=
-ote:
->>>> In which way does it conflict?
->>>
->>> On error, ((time_t) -1) is returned, and errno is set appropriately=
-=2E
->>
->>
->> So, how would the following text be for the man page?
->>
->>     ERRORS
->>        EFAULT t  points  outside your accessible address space.  On =
-sys=E2=80=90
->>               tems where the C library time() wrapper  function  inv=
-okes
->>               an  implementation  provided by the vdso(7) (so that t=
-here
->>               is no trap  into  the  kernel),  an  invalid  address =
- may
->>               instead trigger a SIGSEGV signal.
->>
->=20
-> time never sets errno.  You can't tell if it returns error when time
-> in libc.a is used.
+On 12/10/2015 09:01 PM, Carlos O'Donell wrote:
+> Given that the NOTES in question are willing to discuss
+> hitory, I have clarified the use of tz_dsttime for non-Linux
+> and Linux to allow the reader to contrast that with the older
+> system usage.
+> 
+> On a non-Linux glibc the meaning of tz_dsttime is exactly
+> that of daylight for the current zone. It has been this way
+> since the beginning of glibc:
+> 
+> ^28f540f (Roland McGrath 1995-02-18 01:27:10 +0000 52)
+>        tz->tz_dsttime = __daylight;
+> 
+> On a Linux glibc the field has never been used.
+> 
+> Clarify the meaning of tz_dsttime for gettimeofday,
+> and for settimeofday distinctly for non-Linux and Linux
+> glibc cases (for historical completeness).
+> 
+> Signed-off-by: Carlos O'Donell <carlos-H+wXaHxf7aLQT0dZR+AlfA@public.gmane.org>
 
-Yes, but the raw system call can give us EFAULT. That needs to be
-documented.
+Thanks, Carlos. Applied.
 
-By the way, what's the reason that one can't tell if it returns=20
-an error when time() in libc.a is used?
-
-Thanks,
+Cheers,
 
 Michael
 
---=20
+
+> ---
+> Cheers,
+> Carlos.
+> 
+> diff --git a/man2/gettimeofday.2 b/man2/gettimeofday.2
+> index 8006797..5df82e6 100644
+> --- a/man2/gettimeofday.2
+> +++ b/man2/gettimeofday.2
+> @@ -190,15 +190,30 @@ Traditionally, the fields of
+>  were of type
+>  .IR long .
+>  
+> -The
+> +On a non-Linux kernel, with glibc, the
+> +.I tz_dsttime
+> +field of
+> +.I struct timezone
+> +will be set to a non-zero value by
+> +.BR gettimeofday ()
+> +if the current timezone has ever had or will have a daylight saving
+> +rule applied. In this sense it exactly mirrors the meaning of
+> +.BR daylight (3)
+> +for the current zone.
+> +On Linux, with glibc, the setting of the
+>  .I tz_dsttime
+> -field has never been used under Linux.
+> +field of
+> +.I struct timezone
+> +has never been used by
+> +.BR settimeofday ()
+> +or
+> +.BR gettimeofday ().
+>  .\" it has not
+>  .\" been and will not be supported by libc or glibc.
+>  .\" Each and every occurrence of this field in the kernel source
+>  .\" (other than the declaration) is a bug.
+>  Thus, the following
+> -is purely of historic interest.
+> +is purely of historical interest.
+>  
+>  On old systems, the field
+>  .I tz_dsttime
+> 
+
+
+-- 
 Michael Kerrisk
 Linux man-pages maintainer; http://www.kernel.org/doc/man-pages/
 Linux/UNIX System Programming Training: http://man7.org/training/
