@@ -1,38 +1,63 @@
-From: "Michael Kerrisk (man-pages)" <mtk.manpages-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org>
-Subject: Re: [PATCH] Add Prefer_MAP_32BIT_EXEC to map executable pages with
- MAP_32BIT
-Date: Wed, 16 Dec 2015 15:33:45 +0100
-Message-ID: <56717649.6080102@gmail.com>
-References: <CAMe9rOo1OBOGruWMoLTx96wnkKUYPzBZ5HcOCFdGJEp+jTRzVA@mail.gmail.com>	 <56716EDC.7020205@gmail.com> <1450275413.1472.215.camel@pbcl.net>
+From: Zack Weinberg <zackw-VmQCmMdMyN0AvxtiuMwx3w@public.gmane.org>
+Subject: Re: The time(2) man page conflicts with glibc
+Date: Wed, 16 Dec 2015 09:50:37 -0500
+Message-ID: <CAKCAbMjrKfsT7P=Q=+1zWC68552aK=ciod0HYk3=HWMvkYW26w@mail.gmail.com>
+References: <CAMe9rOoJLk8VzyJKmkOvbmBxhCj4mVA2huYtHJsdxpatbkgJ1g@mail.gmail.com>
+	<mvmegen94qs.fsf@hawking.suse.de>
+	<CAMe9rOr_Ydg5Nr7aV8vS0vYEFehSwFBuxrMAnCFXyyVoTF4vJQ@mail.gmail.com>
+	<5671696B.3070203@gmail.com>
+	<CAMe9rOqsxCEia7OWqzJ-HzZWCra5BTyYqt4japjZTw0pY=fugw@mail.gmail.com>
+	<56717032.7000007@gmail.com>
 Mime-Version: 1.0
-Content-Type: text/plain; charset=utf-8
-Content-Transfer-Encoding: 7bit
+Content-Type: text/plain; charset=UTF-8
 Return-path: <linux-man-owner-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>
-In-Reply-To: <1450275413.1472.215.camel-MHJFCCCcTeg@public.gmane.org>
+In-Reply-To: <56717032.7000007-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org>
 Sender: linux-man-owner-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
-To: Phil Blundell <pb-MHJFCCCcTeg@public.gmane.org>, "H.J. Lu" <hjl.tools-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org>, Carlos O'Donell <carlos-H+wXaHxf7aLQT0dZR+AlfA@public.gmane.org>, linux-man <linux-man-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>
-Cc: mtk.manpages-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org, Jeff Law <law-H+wXaHxf7aLQT0dZR+AlfA@public.gmane.org>, Zack Weinberg <zackw-VmQCmMdMyN0AvxtiuMwx3w@public.gmane.org>, Andi Kleen <andi-Vw/NltI1exuRpAAqCnN02g@public.gmane.org>, Adhemerval Zanella <adhemerval.zanella-QSEj5FYQhm4dnm+yROfE0A@public.gmane.org>, GNU C Library <libc-alpha-9JcytcrH/bA+uJoB2kUjGw@public.gmane.org>
+To: "Michael Kerrisk (man-pages)" <mtk.manpages-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org>
+Cc: "H.J. Lu" <hjl.tools-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org>, Andreas Schwab <schwab-l3A5Bk7waGM@public.gmane.org>, libc-alpha <libc-alpha-9JcytcrH/bA+uJoB2kUjGw@public.gmane.org>, linux-man <linux-man-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>, Mike Frysinger <vapier-aBrp7R+bbdUdnm+yROfE0A@public.gmane.org>
 List-Id: linux-man@vger.kernel.org
 
-On 12/16/2015 03:16 PM, Phil Blundell wrote:
-> On Wed, 2015-12-16 at 15:02 +0100, Michael Kerrisk (man-pages) wrote:
->>
->> NB: MAP_32BIT will map to the low 2GB (not 2GB) of  the  address
->> space.
-> 
-> Isn't that meant to say "not 4GB"?
+On Wed, Dec 16, 2015 at 9:07 AM, Michael Kerrisk (man-pages)
+<mtk.manpages-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org> wrote:
+>
+> Yes, but the raw system call can give us EFAULT. That needs to be
+> documented.
+>
+> By the way, what's the reason that one can't tell if it returns
+> an error when time() in libc.a is used?
 
-Quite! Thanks, Phil.
+time() in libc.a assumes that the syscall cannot fail, so it doesn't
+set errno.  And -EFAULT = (time_t) -14 = 1969-12-31T23:59:46Z is
+something that time() could return *without* its being an error.  It's
+kind of the same problem as strtol() has, except I honestly don't see
+any way libc.a could tell the difference.
 
-Cheers,
+Given what other people have said about not changing the kernel-level
+behavior, here's a new suggestion for the manpages:
 
-Michael
+RETURN VALUE
 
+    Time in seconds since the Epoch.
 
--- 
-Michael Kerrisk
-Linux man-pages maintainer; http://www.kernel.org/doc/man-pages/
-Linux/UNIX System Programming Training: http://man7.org/training/
+ERRORS
+
+    EFAULT `t` is non-NULL and points outside your accessible
+    address space (but see BUGS).
+
+    On systems where the C library time() wrapper  function invokes
+    an implementation provided by the vdso(7) (so that there is no
+    trap into the kernel), an invalid address may instead trigger a
+    SIGSEGV signal.  Note that whether vdso(7) is used may depend
+    on whether a program is statically or dynamically linked.
+
+BUGS
+
+    Error returns from this system call are indistinguishable from
+    successful reports that the time is a few seconds _before_ the
+    Epoch, so the C library never sets `errno` as a result of this call.
+
+   The `t` argument is obsolescent and should always be NULL in
+   new code.  When `t` is NULL, the call cannot fail.
 --
 To unsubscribe from this list: send the line "unsubscribe linux-man" in
 the body of a message to majordomo-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
