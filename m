@@ -1,59 +1,61 @@
-From: "Carlos O'Donell" <carlos-H+wXaHxf7aLQT0dZR+AlfA@public.gmane.org>
-Subject: Re: [PATCH] Add Prefer_MAP_32BIT_EXEC to map executable pages with
- MAP_32BIT
-Date: Wed, 16 Dec 2015 09:04:05 -0500
-Message-ID: <56716F55.3020009@redhat.com>
-References: <CAMe9rOo1OBOGruWMoLTx96wnkKUYPzBZ5HcOCFdGJEp+jTRzVA@mail.gmail.com>
- <56716EDC.7020205@gmail.com>
+From: "Michael Kerrisk (man-pages)" <mtk.manpages-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org>
+Subject: Re: The time(2) man page conflicts with glibc
+Date: Wed, 16 Dec 2015 15:07:46 +0100
+Message-ID: <56717032.7000007@gmail.com>
+References: <CAMe9rOoJLk8VzyJKmkOvbmBxhCj4mVA2huYtHJsdxpatbkgJ1g@mail.gmail.com>	<mvmegen94qs.fsf@hawking.suse.de>	<CAMe9rOr_Ydg5Nr7aV8vS0vYEFehSwFBuxrMAnCFXyyVoTF4vJQ@mail.gmail.com>	<5671696B.3070203@gmail.com> <CAMe9rOqsxCEia7OWqzJ-HzZWCra5BTyYqt4japjZTw0pY=fugw@mail.gmail.com>
 Mime-Version: 1.0
 Content-Type: text/plain; charset=utf-8
 Content-Transfer-Encoding: QUOTED-PRINTABLE
 Return-path: <linux-man-owner-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>
-In-Reply-To: <56716EDC.7020205-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org>
+In-Reply-To: <CAMe9rOqsxCEia7OWqzJ-HzZWCra5BTyYqt4japjZTw0pY=fugw-JsoAwUIsXosN+BqQ9rBEUg@public.gmane.org>
 Sender: linux-man-owner-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
-To: "Michael Kerrisk (man-pages)" <mtk.manpages-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org>, "H.J. Lu" <hjl.tools-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org>, linux-man <linux-man-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>
-Cc: Jeff Law <law-H+wXaHxf7aLQT0dZR+AlfA@public.gmane.org>, Zack Weinberg <zackw-VmQCmMdMyN0AvxtiuMwx3w@public.gmane.org>, Andi Kleen <andi-Vw/NltI1exuRpAAqCnN02g@public.gmane.org>, Adhemerval Zanella <adhemerval.zanella-QSEj5FYQhm4dnm+yROfE0A@public.gmane.org>, GNU C Library <libc-alpha-9JcytcrH/bA+uJoB2kUjGw@public.gmane.org>
+To: "H.J. Lu" <hjl.tools-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org>
+Cc: mtk.manpages-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org, Andreas Schwab <schwab-l3A5Bk7waGM@public.gmane.org>, libc-alpha <libc-alpha-9JcytcrH/bA+uJoB2kUjGw@public.gmane.org>, linux-man <linux-man-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>, Mike Frysinger <vapier-aBrp7R+bbdUdnm+yROfE0A@public.gmane.org>, Zack Weinberg <zackw-VmQCmMdMyN0AvxtiuMwx3w@public.gmane.org>
 List-Id: linux-man@vger.kernel.org
 
-On 12/16/2015 09:02 AM, Michael Kerrisk (man-pages) wrote:
-> (Thanks, Carlos.)
+On 12/16/2015 02:53 PM, H.J. Lu wrote:
+> On Wed, Dec 16, 2015 at 5:38 AM, Michael Kerrisk (man-pages)
+> <mtk.manpages-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org> wrote:
+>> On 12/15/2015 03:17 PM, H.J. Lu wrote:
+>>> On Tue, Dec 15, 2015 at 6:16 AM, Andreas Schwab <schwab-l3A5Bk7waGM@public.gmane.org> wr=
+ote:
+>>>> In which way does it conflict?
+>>>
+>>> On error, ((time_t) -1) is returned, and errno is set appropriately=
+=2E
+>>
+>>
+>> So, how would the following text be for the man page?
+>>
+>>     ERRORS
+>>        EFAULT t  points  outside your accessible address space.  On =
+sys=E2=80=90
+>>               tems where the C library time() wrapper  function  inv=
+okes
+>>               an  implementation  provided by the vdso(7) (so that t=
+here
+>>               is no trap  into  the  kernel),  an  invalid  address =
+ may
+>>               instead trigger a SIGSEGV signal.
+>>
 >=20
->> Here is a patch for Linux man page.
->=20
-> Thanks, H.J. I applied the patch and tweaked your text somewhat.
-> Does the following look okay?
->=20
->        LD_PREFER_MAP_32BIT_EXEC
->               (x86-64 only)(glibc since 2.23)  According  to  the  In=
-tel
->               Silvermont  software optimization guide, for 64-bit app=
-li=E2=80=90
->               cations, branch prediction performance can  be  negativ=
-ely
->               impacted when the target of a branch is more than 4GB a=
-way
->               from the branch.  If this environment variable is set  =
-(to
->               any  value),  ld.so will first try to map executable pa=
-ges
->               using the mmap(2) MAP_32BIT flag, and fall back to mapp=
-ing
->               without  that  flag  if that attempt fails.  NB: MAP_32=
-BIT
->               will map to the low 2GB (not 2GB) of  the  address  spa=
-ce.
->               Because  MAP_32BIT reduces the address range available =
-for
->               address  space  layout   randomization   (ASLR),   LD_P=
-RE=E2=80=90
->               FER_MAP_32BIT_EXEC  is always disabled in secure-execut=
-ion
->               mode.
+> time never sets errno.  You can't tell if it returns error when time
+> in libc.a is used.
 
-Looks great. Thanks for the quick turnaround Michael!
+Yes, but the raw system call can give us EFAULT. That needs to be
+documented.
 
-Cheers,
-Carlos.
+By the way, what's the reason that one can't tell if it returns=20
+an error when time() in libc.a is used?
+
+Thanks,
+
+Michael
+
+--=20
+Michael Kerrisk
+Linux man-pages maintainer; http://www.kernel.org/doc/man-pages/
+Linux/UNIX System Programming Training: http://man7.org/training/
 --
 To unsubscribe from this list: send the line "unsubscribe linux-man" in
 the body of a message to majordomo-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
