@@ -1,85 +1,30 @@
-From: "Michael Kerrisk (man-pages)" <mtk.manpages-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org>
-Subject: Re: [patch] tzset.3: Clarify "daylight" and remove erroneous note.
-Date: Wed, 16 Dec 2015 15:16:12 +0100
-Message-ID: <5671722C.2080302@gmail.com>
-References: <5669F70E.9000904@redhat.com>
+From: Phil Blundell <pb@pbcl.net>
+Subject: Re: [PATCH] Add Prefer_MAP_32BIT_EXEC to map executable pages with
+ MAP_32BIT
+Date: Wed, 16 Dec 2015 14:16:53 +0000
+Message-ID: <1450275413.1472.215.camel@pbcl.net>
+References: <CAMe9rOo1OBOGruWMoLTx96wnkKUYPzBZ5HcOCFdGJEp+jTRzVA@mail.gmail.com>
+	 <56716EDC.7020205@gmail.com>
 Mime-Version: 1.0
-Content-Type: text/plain; charset=utf-8
+Content-Type: text/plain; charset="UTF-8"
 Content-Transfer-Encoding: 7bit
-Return-path: <linux-man-owner-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>
-In-Reply-To: <5669F70E.9000904-H+wXaHxf7aLQT0dZR+AlfA@public.gmane.org>
-Sender: linux-man-owner-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
-To: Carlos O'Donell <carlos-H+wXaHxf7aLQT0dZR+AlfA@public.gmane.org>, "linux-man-u79uwXL29TY76Z2rM5mHXA@public.gmane.org" <linux-man-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>
-Cc: mtk.manpages-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org
+Return-path: <libc-alpha-return-65687-glibc-alpha=m.gmane.org@sourceware.org>
+List-Unsubscribe: <mailto:libc-alpha-unsubscribe-glibc-alpha=m.gmane.org@sourceware.org>
+List-Subscribe: <mailto:libc-alpha-subscribe@sourceware.org>
+List-Archive: <http://sourceware.org/ml/libc-alpha/>
+List-Post: <mailto:libc-alpha@sourceware.org>
+List-Help: <mailto:libc-alpha-help@sourceware.org>, <http://sourceware.org/ml/#faqs>
+Sender: libc-alpha-owner@sourceware.org
+In-Reply-To: <56716EDC.7020205@gmail.com>
+To: "Michael Kerrisk (man-pages)" <mtk.manpages@gmail.com>, "H.J. Lu" <hjl.tools@gmail.com>, Carlos O'Donell <carlos@redhat.com>, linux-man <linux-man@vger.kernel.org>
+Cc: Jeff Law <law@redhat.com>, Zack Weinberg <zackw@panix.com>, Andi Kleen <andi@firstfloor.org>, Adhemerval Zanella <adhemerval.zanella@linaro.org>, GNU C Library <libc-alpha@sourceware.org>
 List-Id: linux-man@vger.kernel.org
 
-On 12/10/2015 11:05 PM, Carlos O'Donell wrote:
-> When tzset is run the value of daylight is computed
-> by looking at all available rules for the application
-> of daylight savings. This includes reading the tzdata
-> files to determine if there is a transition or not for
-> the current timezone. It also includes parsing TZ env
-> to see if it specifies custom rules which are used in
-> precedence to any tzdata rules. Therefore daylight is
-> going to be set if there is a daylight saving rule past,
-> present, or future that indicates a transition. We clarify
-> that in the man page.
+On Wed, 2015-12-16 at 15:02 +0100, Michael Kerrisk (man-pages) wrote:
 > 
-> Lastly, the note about tz_dsttime is not correct and is
-> removed. The earlier paragraph about daylight makes it
-> clear that it doesn't mean "daylight saving rule applies
-> now", and the interaction with tz_dsttime is not correct
-> for glibc on Linux (as outlined in my gettimeofday.3 patch
-> sent here: http://marc.info/?l=linux-man&m=144977768703615&w=2).
+> NB: MAP_32BIT will map to the low 2GB (not 2GB) of  the  address
+> space.
 
-Thanks, Carlos. Applied.
+Isn't that meant to say "not 4GB"?
 
-Cheers,
-
-Michael
-
-
-> Signed-off-by: Carlos O'Donell <carlos-H+wXaHxf7aLQT0dZR+AlfA@public.gmane.org>
-> ---
-> Cheers,
-> Carlos.
-> 
-> diff --git a/man3/tzset.3 b/man3/tzset.3
-> index 545bd9c..4786dd9 100644
-> --- a/man3/tzset.3
-> +++ b/man3/tzset.3
-> @@ -70,8 +70,8 @@ This function is automatically called by the
->  other time conversion functions that depend on the timezone.
->  In a System-V-like environment, it will also set the variables \fItimezone\fP
->  (seconds West of UTC) and \fIdaylight\fP (to 0 if this timezone does not
-> -have any daylight saving time rules, or to nonzero if there is a time during
-> -the year when daylight saving time applies).
-> +have any daylight saving time rules, or to nonzero if there is a time,
-> +past, present or future when daylight saving time applies).
->  .PP
->  If the
->  .B TZ
-> @@ -223,12 +223,6 @@ T}	Thread safety	MT-Safe env locale
->  .SH CONFORMING TO
->  POSIX.1-2001, POSIX.1-2008, SVr4, 4.3BSD.
->  .SH NOTES
-> -Note that the variable \fIdaylight\fP does not indicate that daylight
-> -saving time applies right now.
-> -It used to give the number of some
-> -algorithm (see the variable \fItz_dsttime\fP in
-> -.BR gettimeofday (2)).
-> -It has been obsolete for many years but is required by SUSv2.
->  .LP
->  4.3BSD had a function
->  .BI "char *timezone(" zone ", " dst )
-> 
-
-
--- 
-Michael Kerrisk
-Linux man-pages maintainer; http://www.kernel.org/doc/man-pages/
-Linux/UNIX System Programming Training: http://man7.org/training/
---
-To unsubscribe from this list: send the line "unsubscribe linux-man" in
-the body of a message to majordomo-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
-More majordomo info at  http://vger.kernel.org/majordomo-info.html
+p.
