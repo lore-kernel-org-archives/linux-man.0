@@ -1,57 +1,90 @@
 From: "Michael Kerrisk (man-pages)" <mtk.manpages-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org>
-Subject: Re: Confusion regarding unit of RLIMIT_RSS
-Date: Thu, 17 Dec 2015 08:17:56 +0100
-Message-ID: <567261A4.5060608@gmail.com>
-References: <20151109160710.GA7322@gardel-login>
+Subject: Re: Unit of /proc/sys/kernel/random/poolsize
+Date: Thu, 17 Dec 2015 08:51:57 +0100
+Message-ID: <5672699D.5010803@gmail.com>
+References: <CAG-2HqXo9GqNmiSt2npnBwx+F9_03eUTcxujgt_vNmdGhX8i6A@mail.gmail.com>
 Mime-Version: 1.0
-Content-Type: text/plain; charset=windows-1252
+Content-Type: text/plain; charset=utf-8
 Content-Transfer-Encoding: 7bit
 Return-path: <linux-man-owner-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>
-In-Reply-To: <20151109160710.GA7322@gardel-login>
+In-Reply-To: <CAG-2HqXo9GqNmiSt2npnBwx+F9_03eUTcxujgt_vNmdGhX8i6A-JsoAwUIsXosN+BqQ9rBEUg@public.gmane.org>
 Sender: linux-man-owner-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
-To: Lennart Poettering <lennart-mdGvqq1h2p+GdvJs77BJ7Q@public.gmane.org>
+To: Tom Gundersen <teg-B22kvLQNl6c@public.gmane.org>
 Cc: mtk.manpages-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org, linux-man-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
 List-Id: linux-man@vger.kernel.org
 
-Hi Lennart
+Hello Tom,
 
-On 11/09/2015 05:07 PM, Lennart Poettering wrote:
-> heya,
+On 10/22/2011 02:13 PM, Tom Gundersen wrote:
+> Hi,
 > 
-> The man page for setrlimit() claims that RLIMIT_RSS is to be specified
-> in bytes, but glibc's bits/resources.h claims it was in bytes. 
+> This might not be so much a bug report, as a request for clarification.
+> 
+> In random(4) it is explained that /proc/sys/kernel/random/poolsize
+> contains the value in bits or bytes in >=2.6 and 2.4 respectively.
+> However, the example in the preceding paragraph assumes a 2.4 kernel
+> is being used, and treats the value as if it were in bytes.
+> 
+> I ran across this as I maintain the initscripts for Arch Linux, where
+> we have been (mistakenly) following the example even though we use a
+> 3.0 kernel. Maybe it would be worthwhile to change the example into
+> the 2.6 interface, or at least include a word of caution?
+> 
+> I realise that using a value which is too large, probably does no harm
+> at all, but not being cryptography expert, I'd rather not take the
+> chance.
 
-I'm confused by that sentence. You have a "but", but both cases are
-"bytes". What's the contradiction you are trying to point out?
-Ahhh -- I get it now. The man page says "pages".
+Long after the fact... I applied the patch below.
+Okay?
 
-> My
-> suspicion is that the header is right, and the man page wrong. But of
-> course, since the limit has no effect on Linux anyway, maybe this is
-> not the most important thing to fix, but I thought I'd at least report
-> the discrepancy here...
+Thanks for the report.
 
-The man page is clearly wrong. From bits/resources.h we have:
-
-[[
-  /* Largest resident set size, in bytes.   <=====
-     This affects swapping; processes that are exceeding their
-     resident set size will be more likely to have physical memory
-     taken from them.  */
-  __RLIMIT_RSS = 5,
-#define RLIMIT_RSS __RLIMIT_RSS
-]]
-
-And in the kernel source file fs/proc/base.c, we have:
-
-        [RLIMIT_RSS] = {"Max resident set", "bytes"},
-
-As you note, the point is kind of moot, but the page should be fixed.
-Done! 
-
-Thanks for the report,
+Cheers,
 
 Michael
+
+PS I am going to be in Oslo a couple of times in coming months.
+Perhaps we could meet up for a beer or so.
+
+diff --git a/man4/random.4 b/man4/random.4
+index 2519981..4a32aac 100644
+--- a/man4/random.4
++++ b/man4/random.4
+@@ -171,7 +171,7 @@ This reduces the actual amount of noise in the entropy pool
+ below the estimate.
+ In order to counteract this effect, it helps to carry
+ entropy pool information across shut-downs and start-ups.
+-To do this, add the following lines to an appropriate script
++To do this, add the lines to an appropriate script
+ which is run during the Linux system start-up sequence:
+ 
+ .nf
+@@ -186,7 +186,8 @@ which is run during the Linux system start-up sequence:
+     fi
+     chmod 600 $random_seed
+     poolfile=/proc/sys/kernel/random/poolsize
+-    [ \-r $poolfile ] && bytes=\`cat $poolfile\` || bytes=512
++    [ \-r $poolfile ] && bits=\`cat $poolfile\` || bits=4096
++    bytes=$(expr $bits / 8)
+     dd if=/dev/urandom of=$random_seed count=1 bs=$bytes
+ .fi
+ 
+@@ -201,9 +202,14 @@ run during the Linux system shutdown:
+     touch $random_seed
+     chmod 600 $random_seed
+     poolfile=/proc/sys/kernel/random/poolsize
+-    [ \-r $poolfile ] && bytes=\`cat $poolfile\` || bytes=512
++    [ \-r $poolfile ] && bits=\`cat $poolfile\` || bits=4096
++    bytes=$(expr $bits / 8)
+     dd if=/dev/urandom of=$random_seed count=1 bs=$bytes
+ .fi
++
++In the above examples, we assume Linux 2.6.0 or later, where
++.IR /proc/sys/kernel/random/poolsize
++returns the size of the entropy pool in bits (see below).
+ .SS /proc Interface
+ The files in the directory
+ .I /proc/sys/kernel/random
 
 
 -- 
