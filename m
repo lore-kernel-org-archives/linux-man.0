@@ -1,96 +1,78 @@
-From: "Michael Kerrisk (man-pages)" <mtk.manpages-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org>
-Subject: Re: Unit of /proc/sys/kernel/random/poolsize
-Date: Thu, 17 Dec 2015 08:51:57 +0100
-Message-ID: <5672699D.5010803@gmail.com>
-References: <CAG-2HqXo9GqNmiSt2npnBwx+F9_03eUTcxujgt_vNmdGhX8i6A@mail.gmail.com>
+From: =?iso-8859-1?Q?J=F6rn?= Engel <joern-BHEL68pLQRGGvPXPguhicg@public.gmane.org>
+Subject: Re: mlockall(MCL_FUTURE) implies MAP_POPULATE
+Date: Thu, 17 Dec 2015 09:54:28 -0800
+Message-ID: <20151217175428.GF5070@Sligo.logfs.org>
+References: <20151028010510.GF21688@Sligo.logfs.org>
+ <CAFs=pgb+LatY8WKV+sZsvgUGMtzVsSxwX0FTKx3u5Nuj1AiOYg@mail.gmail.com>
+ <20151216185006.GA31243@Sligo.logfs.org>
+ <56725EED.80502@gmail.com>
 Mime-Version: 1.0
 Content-Type: text/plain; charset=utf-8
-Content-Transfer-Encoding: 7bit
+Content-Transfer-Encoding: QUOTED-PRINTABLE
 Return-path: <linux-man-owner-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>
-In-Reply-To: <CAG-2HqXo9GqNmiSt2npnBwx+F9_03eUTcxujgt_vNmdGhX8i6A-JsoAwUIsXosN+BqQ9rBEUg@public.gmane.org>
+Content-Disposition: inline
+In-Reply-To: <56725EED.80502-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org>
 Sender: linux-man-owner-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
-To: Tom Gundersen <teg-B22kvLQNl6c@public.gmane.org>
-Cc: mtk.manpages-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org, linux-man-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
+To: "Michael Kerrisk (man-pages)" <mtk.manpages-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org>
+Cc: linux-man-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
 List-Id: linux-man@vger.kernel.org
 
-Hello Tom,
+On Thu, Dec 17, 2015 at 08:06:21AM +0100, Michael Kerrisk (man-pages) w=
+rote:
+>=20
+> So, I just realized that a recent change to the API, plus its
+> associated documentation in the mlock(2) pages actually probably
+> lessens the chance of this mistake. The next release of man-pages
+> will include documentation of MCL_ONFAULT:
+>=20
+>        MCL_CURRENT Lock  all pages which are currently mapped into th=
+e
+>                    address space of the process.
+>=20
+>        MCL_FUTURE  Lock all pages which will become  mapped  into  th=
+e
+>                    address  space of the process in the future.  Thes=
+e
+>                    could be, for instance, new  pages  required  by  =
+a
+>                    growing heap and stack as well as new memory-mappe=
+d
+>                    files or shared memory regions.
+>=20
+>        MCL_ONFAULT (since Linux 4.4)
+>                    Used  together  with  MCL_CURRENT,  MCL_FUTURE,  o=
+r
+>                    both.   Mark  all  current  (with  MCL_CURRENT)  o=
+r
+>                    future (with MCL_FUTURE)  mappings  to  lock  page=
+s
+>                    when  they are faulted in.  When used with MCL_CUR=
+=E2=80=90
+>                    RENT, all present pages are locked, but  mlockall(=
+)
+>                    will  not  fault  in  non-present pages.  When use=
+d
+>                    with MCL_FUTURE, all future mappings will be marke=
+d
+>                    to  lock  pages  when they are faulted in, but the=
+y
+>                    will not be populated by the lock when the  mappin=
+g
+>                    is  created.   MCL_ONFAULT must be used with eithe=
+r
+>                    MCL_CURRENT or MCL_FUTURE or both.
+>=20
+> Do you think that text helps?
 
-On 10/22/2011 02:13 PM, Tom Gundersen wrote:
-> Hi,
-> 
-> This might not be so much a bug report, as a request for clarification.
-> 
-> In random(4) it is explained that /proc/sys/kernel/random/poolsize
-> contains the value in bits or bytes in >=2.6 and 2.4 respectively.
-> However, the example in the preceding paragraph assumes a 2.4 kernel
-> is being used, and treats the value as if it were in bytes.
-> 
-> I ran across this as I maintain the initscripts for Arch Linux, where
-> we have been (mistakenly) following the example even though we use a
-> 3.0 kernel. Maybe it would be worthwhile to change the example into
-> the 2.6 interface, or at least include a word of caution?
-> 
-> I realise that using a value which is too large, probably does no harm
-> at all, but not being cryptography expert, I'd rather not take the
-> chance.
+Yes.  It seems foolproof for the one fool that is me.
 
-Long after the fact... I applied the patch below.
-Okay?
+Thank you!
 
-Thanks for the report.
+J=C3=B6rn
 
-Cheers,
-
-Michael
-
-PS I am going to be in Oslo a couple of times in coming months.
-Perhaps we could meet up for a beer or so.
-
-diff --git a/man4/random.4 b/man4/random.4
-index 2519981..4a32aac 100644
---- a/man4/random.4
-+++ b/man4/random.4
-@@ -171,7 +171,7 @@ This reduces the actual amount of noise in the entropy pool
- below the estimate.
- In order to counteract this effect, it helps to carry
- entropy pool information across shut-downs and start-ups.
--To do this, add the following lines to an appropriate script
-+To do this, add the lines to an appropriate script
- which is run during the Linux system start-up sequence:
- 
- .nf
-@@ -186,7 +186,8 @@ which is run during the Linux system start-up sequence:
-     fi
-     chmod 600 $random_seed
-     poolfile=/proc/sys/kernel/random/poolsize
--    [ \-r $poolfile ] && bytes=\`cat $poolfile\` || bytes=512
-+    [ \-r $poolfile ] && bits=\`cat $poolfile\` || bits=4096
-+    bytes=$(expr $bits / 8)
-     dd if=/dev/urandom of=$random_seed count=1 bs=$bytes
- .fi
- 
-@@ -201,9 +202,14 @@ run during the Linux system shutdown:
-     touch $random_seed
-     chmod 600 $random_seed
-     poolfile=/proc/sys/kernel/random/poolsize
--    [ \-r $poolfile ] && bytes=\`cat $poolfile\` || bytes=512
-+    [ \-r $poolfile ] && bits=\`cat $poolfile\` || bits=4096
-+    bytes=$(expr $bits / 8)
-     dd if=/dev/urandom of=$random_seed count=1 bs=$bytes
- .fi
-+
-+In the above examples, we assume Linux 2.6.0 or later, where
-+.IR /proc/sys/kernel/random/poolsize
-+returns the size of the entropy pool in bits (see below).
- .SS /proc Interface
- The files in the directory
- .I /proc/sys/kernel/random
-
-
--- 
-Michael Kerrisk
-Linux man-pages maintainer; http://www.kernel.org/doc/man-pages/
-Linux/UNIX System Programming Training: http://man7.org/training/
+--
+It does not matter how slowly you go, so long as you do not stop.
+-- Confucius
 --
 To unsubscribe from this list: send the line "unsubscribe linux-man" in
 the body of a message to majordomo-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
