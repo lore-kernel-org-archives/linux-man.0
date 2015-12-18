@@ -1,96 +1,97 @@
-From: Torvald Riegel <triegel-H+wXaHxf7aLQT0dZR+AlfA@public.gmane.org>
+From: Jonathan Wakely <jwakely-H+wXaHxf7aLQT0dZR+AlfA@public.gmane.org>
 Subject: Re: futex(3) man page, final draft for pre-release review
-Date: Fri, 18 Dec 2015 13:26:30 +0100
-Message-ID: <1450441590.26597.74.camel@localhost.localdomain>
+Date: Fri, 18 Dec 2015 15:34:02 +0000
+Message-ID: <20151218153402.GV5356@redhat.com>
 References: <56701916.4090203@gmail.com>
-	 <20151215224119.GA28877@linux-uzut.site>
+ <20151215211816.GR11972@malice.jf.intel.com>
+ <5671891E.404@gmail.com>
+ <1450437061.26597.45.camel@localhost.localdomain>
 Mime-Version: 1.0
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: 7bit
+Content-Type: text/plain; charset=utf-8;
+	format=flowed
+Content-Transfer-Encoding: QUOTED-PRINTABLE
 Return-path: <linux-man-owner-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>
-In-Reply-To: <20151215224119.GA28877-95RKjC4jbl+7r5TWoziOLQ@public.gmane.org>
+Content-Disposition: inline
+In-Reply-To: <1450437061.26597.45.camel-bi+AKbBUZKY6gyzm1THtWbp2dZbC/Bob@public.gmane.org>
 Sender: linux-man-owner-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
-To: Davidlohr Bueso <dave-h16yJtLeMjHk1uMJSBkQmQ@public.gmane.org>
-Cc: "Michael Kerrisk (man-pages)" <mtk.manpages-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org>, Thomas Gleixner <tglx-hfZtesqFncYOwBW4kG4KsQ@public.gmane.org>, Darren Hart <dvhart-wEGCiKHe2LqWVfeAwA7xHQ@public.gmane.org>, lkml <linux-kernel-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>, libc-alpha <libc-alpha-9JcytcrH/bA+uJoB2kUjGw@public.gmane.org>, linux-man <linux-man-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>, Carlos O'Donell <carlos-H+wXaHxf7aLQT0dZR+AlfA@public.gmane.org>, Roland McGrath <roland-/Z5OmTQCD9xF6kxbq+BtvQ@public.gmane.org>, Jakub Jelinek <jakub-H+wXaHxf7aLQT0dZR+AlfA@public.gmane.org>, Ingo Molnar <mingo-X9Un+BFzKDI@public.gmane.org>, bill o gallmeister <bgallmeister-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org>, bert hubert <bert.hubert-dxZxOz86jR8sYtaaK7K+xw@public.gmane.org>, Jan Kiszka <jan.kiszka-kv7WeFo6aLtBDgjK7y7TUQ@public.gmane.org>, Eric Dumazet <edumazet-hpIqsD4AKlfQT0dZR+AlfA@public.gmane.org>, Arnd Bergmann <arnd-r2nGTMty4D4@public.gmane.org>, Rusty Russell <rusty-8n+1lVoiYb80n/F98K4Iww@public.gmane.org>, Heinrich Schuchardt <xypron.glpk-Mmb7MZpHnFY@public.gmane.org>, Andy Lutomirski <luto-kltTT9wpgjJwATOyAt5JVQ@public.gmane.org>, Daniel Wagner <wagi-kQCPcA+X3s7YtjvyW6yDsg@public.gmane.org>, Anton Blanchard <anton-eUNUBHrolfbYtjvyW6yDsg@public.gmane.org>, Steven Rostedt <rostedt-nx8X9YLhiw1AfugRpC6u6w@public.gmane.org>, Rich Felker <dalias-8zAoT0mYgF4@public.gmane.org>, Jonathan Wakely <jwakely-H+wXaHxf7aLQT0dZR+AlfA@public.gmane.org>, Mik
+To: Torvald Riegel <triegel-H+wXaHxf7aLQT0dZR+AlfA@public.gmane.org>
+Cc: "Michael Kerrisk (man-pages)" <mtk.manpages-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org>, Darren Hart <dvhart-wEGCiKHe2LqWVfeAwA7xHQ@public.gmane.org>, Thomas Gleixner <tglx-hfZtesqFncYOwBW4kG4KsQ@public.gmane.org>, lkml <linux-kernel-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>, libc-alpha <libc-alpha-9JcytcrH/bA+uJoB2kUjGw@public.gmane.org>, linux-man <linux-man-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>, Carlos O'Donell <carlos-H+wXaHxf7aLQT0dZR+AlfA@public.gmane.org>, Roland McGrath <roland-/Z5OmTQCD9xF6kxbq+BtvQ@public.gmane.org>, Davidlohr Bueso <dave-h16yJtLeMjHk1uMJSBkQmQ@public.gmane.org>, Jakub Jelinek <jakub-H+wXaHxf7aLQT0dZR+AlfA@public.gmane.org>, Ingo Molnar <mingo-X9Un+BFzKDI@public.gmane.org>, bill o gallmeister <bgallmeister-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org>, bert hubert <bert.hubert-dxZxOz86jR8sYtaaK7K+xw@public.gmane.org>, Jan Kiszka <jan.kiszka-kv7WeFo6aLtBDgjK7y7TUQ@public.gmane.org>, Eric Dumazet <edumazet-hpIqsD4AKlfQT0dZR+AlfA@public.gmane.org>, Arnd Bergmann <arnd-r2nGTMty4D4@public.gmane.org>, Rusty Russell <rusty-8n+1lVoiYb80n/F98K4Iww@public.gmane.org>, Heinrich Schuchardt <xypron.glpk-Mmb7MZpHnFY@public.gmane.org>, Andy Lutomirski <luto-kltTT9wpgjJwATOyAt5JVQ@public.gmane.org>, Daniel Wagner <wagi-kQCPcA+X3s7YtjvyW6yDsg@public.gmane.org>, Anton Blanchard <anton-eUNUBHrolfbYtjvyW6yDsg@public.gmane.org>, Steven Rostedt <rostedt-nx8X9YLhiw1AfugRpC6u6w@public.gmane.org>, Rich Felker <dalias-8zAoT0mYgF4@public.gmane.org>, Mike
 List-Id: linux-man@vger.kernel.org
 
-On Tue, 2015-12-15 at 14:41 -0800, Davidlohr Bueso wrote:
-> On Tue, 15 Dec 2015, Michael Kerrisk (man-pages) wrote:
-> 
-> >       When executing a futex operation that requests to block a thread,
-> >       the kernel will block only if the futex word has the  value  that
-> >       the  calling  thread  supplied  (as  one  of the arguments of the
-> >       futex() call) as the expected value of the futex word.  The load???
-> >       ing  of the futex word's value, the comparison of that value with
-> >       the expected value, and the actual blocking  will  happen  atomi???
-> >
-> >FIXME: for next line, it would be good to have an explanation of
-> >"totally ordered" somewhere around here.
-> >
-> >       cally  and totally ordered with respect to concurrently executing
-> >       futex operations on the same futex word.
-> 
-> So there are two things here regarding ordering. One is the most obvious
-> which is ordered due to the taking/dropping the hb spinlock.
+On 18/12/15 12:11 +0100, Torvald Riegel wrote:
+>On Wed, 2015-12-16 at 16:54 +0100, Michael Kerrisk (man-pages) wrote:
+>> Hello Darren,
+>>
+>> On 12/15/2015 10:18 PM, Darren Hart wrote:
+>> > On Tue, Dec 15, 2015 at 02:43:50PM +0100, Michael Kerrisk (man-pag=
+es) wrote:
+>>
+>> [...]
+>>
+>> >>        When executing a futex operation that requests to block a =
+thread,
+>> >>        the kernel will block only if the futex word has the  valu=
+e  that
+>> >>        the  calling  thread  supplied  (as  one  of the arguments=
+ of the
+>> >>        futex() call) as the expected value of the futex word.  Th=
+e load=E2=80=90
+>> >>        ing  of the futex word's value, the comparison of that val=
+ue with
+>> >>        the expected value, and the actual blocking  will  happen =
+ atomi=E2=80=90
+>> >>
+>> >> FIXME: for next line, it would be good to have an explanation of
+>> >> "totally ordered" somewhere around here.
+>> >>
+>> >>        cally  and totally ordered with respect to concurrently ex=
+ecuting
+>> >
+>> > Totally ordered with respect futex operations refers to semantics =
+of the
+>> > ACQUIRE/RELEASE operations and how they impact ordering of memory =
+reads and
+>> > writes. The kernel futex operations are protected by spinlocks, wh=
+ich ensure
+>> > that that all operations are serialized with respect to one anothe=
+r.
+>> >
+>> > This is a lot to attempt to define in this document. Perhaps a ref=
+erence to
+>> > linux/Documentation/memory-barriers.txt as a footnote would be suf=
+ficient? Or
+>> > perhaps for this manual, "serialized" would be sufficient, with a =
+footnote
+>> > regarding "totally ordered" and a pointer to the memory-barrier do=
+cumentation?
+>>
+>> I think I'll just settle for writing serialized in the man page, and=
+ be
+>> done with it :-).
+>
+>I'd prefer if you'd not just use "serialized" :)  Eventually, I'd pref=
+er
+>if we can explain the semantics for the user in terms of the terminolo=
+gy
+>and semantics of the memory model of the programming language that use=
+rs
+>will likely use to call futex ops (ie, C11 / C++11).
 
-I suppose that this means what is described in the manpage already?
-That is, that futex operations (ie, the syscalls) are atomic wrt each
-other and in a strict total order?
+=46WIW a couple of uses of "serialized" were replaced in the C++11 fina=
+l
+draft due to comments pointing out that term is not defined in the
+standard, see http://wg21.link/lwg1494 and http://wg21.link/lwg1504
 
-> Secondly, its
-> the cases which Peter brought up a while ago that involves atomic futex ops
-> futex_atomic_*(), which	do not have clearly defined semantics, and you get
-> inconsistencies with certain archs (tile being the worst iirc).
+That's not quite the same, because an ISO standard is supposed to
+define all terms it uses, even for something like "serialized" where
+the meaning is commonly understood by those in the field.
 
-OK.  So, from a user's POV, this is about the semantics of the kernel's
-accesses to the futex word.  I agree that specifying this more clearly
-would be helpful.
+But I do like Torvald's suggestion to describe the semantics in
+similar terms to C11, because that's the user-space model that
+non-kernel folks (like me) are more likely to be familiar with.
 
-First, there are the comparisons of the futex words used in, for
-example, FUTEX_WAIT.  They should use an atomic load within the
-conceptual critical sections that make up futex operations.  This load
-itself doesn't need to establish any ordering, so it can be equivalent
-to a C11 memory_order_relaxed load.  Are there any objections to that?
-
-Second, We have the write accesses in FUTEX_[TRY]LOCK_PI and
-FUTEX_UNLOCK_PI.  We already specify those as atomic and within the
-conceptual critical sections of the futex operation.  In addition, they
-should establish ordering themselves, so C11 have memory_order_acquire /
-memory_order_release semantics.  Specifying this would be good.  Any
-objections to these semantics?
-
-Third, we have the atomic read-modify-write operation that is part of
-FUTEX_WAKE_OP (ie, AFAIU, the case you pointed at specifically).  I
-don't have a strong opinion on what it should be, because I think
-userspace can enforce the orderings it needs on its own (eg, if I
-interpret Peter Zijlstra's example correctly, userspace can add
-appropriate fences before the CPU0/futex_unlock and after the
-CPU2/futex_load calls).  FUTEX_WAKE_OP accesses no other userspace
-memory location, so there's no ordering relation to other accesses to
-userspace memory that userspace cannot affect.
-OTOH, legacy userspace may have assumed strong semantics, so making the
-read-modify-write have memory_order_seq_cst semantics is probably a safe
-bet.  Futex operations typically shouldn't be on the fast paths anyway.
-
-> But anyway, the important thing users need to know about is that the atomic
-> futex operation must be totally ordered wrt any other user tasks that are trying
-> to access that address.
-
-I'm not sure what you mean precisely.  One can't order the whole futex
-operations totally wrt memory accesses by userspace because they'd need
-to synchronize to do that, and thus userspace would to hvae either hook
-into the kernel's synchronization or use HTM or such.
-
-> This is not necessarily the case for kernel ops. Peter
-> illustrates this nicely with lock stealing example; 
-> (see https://lkml.org/lkml/2015/8/26/596).
-> 
-> Internally, I believe we decided that making it fully ordered (as opposed to
-> making use of implicit barriers for ACQUIRE/RELEASE), so you'd endup having
-> an MB ll/sc MB kind of setup.
-
-OK.  So, any objections to documenting that the read-modify-write op in
-FUTEX_WAKE_OP has memory_order_seq_cst semantics?
+Overall I like the new page a lot, I found it clear and readable. Nice
+work.
 
 --
 To unsubscribe from this list: send the line "unsubscribe linux-man" in
