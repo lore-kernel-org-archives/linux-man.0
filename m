@@ -1,96 +1,30 @@
-From: "Michael Kerrisk (man-pages)" <mtk.manpages-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org>
-Subject: Re: Unit of /proc/sys/kernel/random/poolsize
-Date: Sun, 20 Dec 2015 22:02:10 +0100
-Message-ID: <56771752.90705@gmail.com>
-References: <CAG-2HqXo9GqNmiSt2npnBwx+F9_03eUTcxujgt_vNmdGhX8i6A@mail.gmail.com>
- <5672699D.5010803@gmail.com> <56732173.20905@bfs.de>
+From: DR-u79uwXL29TY76Z2rM5mHXA@public.gmane.org, JACK-u79uwXL29TY76Z2rM5mHXA@public.gmane.org, HARRY-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
+Subject: ATTENTION BUSINESS PARTNERSHIP NEEDED URGENT RESPONSE TO PROCEED .......
+Date: Mon, 21 Dec 2015 15:57:36 +0530
+Message-ID: <BLUPR17MB0466A7E408277BB6E97F4B43B8E40@BLUPR17MB0466.namprd17.prod.outlook.com>
+Reply-To: <jackharry160-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org>
 Mime-Version: 1.0
-Content-Type: text/plain; charset=utf-8
-Content-Transfer-Encoding: 7bit
+Content-Type: text/plain; charset=US-ASCII
+Content-Transfer-Encoding: 7BIT
 Return-path: <linux-man-owner-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>
-In-Reply-To: <56732173.20905-fPG8STNUNVg@public.gmane.org>
+Content-Description: Mail message body
 Sender: linux-man-owner-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
-To: wharms-fPG8STNUNVg@public.gmane.org
-Cc: mtk.manpages-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org, Tom Gundersen <teg-B22kvLQNl6c@public.gmane.org>, linux-man-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
+To: Recipients-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
 List-Id: linux-man@vger.kernel.org
 
-Hello Walter,
+Hello,
 
-On 12/17/2015 09:56 PM, walter harms wrote:
-> 
-> 
-> Am 17.12.2015 08:51, schrieb Michael Kerrisk (man-pages):
->> Hello Tom,
->>
->> On 10/22/2011 02:13 PM, Tom Gundersen wrote:
->>> Hi,
->>>
->>> This might not be so much a bug report, as a request for clarification.
->>>
->>> In random(4) it is explained that /proc/sys/kernel/random/poolsize
->>> contains the value in bits or bytes in >=2.6 and 2.4 respectively.
->>> However, the example in the preceding paragraph assumes a 2.4 kernel
->>> is being used, and treats the value as if it were in bytes.
->>>
->>> I ran across this as I maintain the initscripts for Arch Linux, where
->>> we have been (mistakenly) following the example even though we use a
->>> 3.0 kernel. Maybe it would be worthwhile to change the example into
->>> the 2.6 interface, or at least include a word of caution?
->>>
->>> I realise that using a value which is too large, probably does no harm
->>> at all, but not being cryptography expert, I'd rather not take the
->>> chance.
->>
->> Long after the fact... I applied the patch below.
->> Okay?
->>
->> Thanks for the report.
->>
->> Cheers,
->>
->> Michael
->>
->> PS I am going to be in Oslo a couple of times in coming months.
->> Perhaps we could meet up for a beer or so.
->>
->> diff --git a/man4/random.4 b/man4/random.4
->> index 2519981..4a32aac 100644
->> --- a/man4/random.4
->> +++ b/man4/random.4
->> @@ -171,7 +171,7 @@ This reduces the actual amount of noise in the entropy pool
->>  below the estimate.
->>  In order to counteract this effect, it helps to carry
->>  entropy pool information across shut-downs and start-ups.
->> -To do this, add the following lines to an appropriate script
->> +To do this, add the lines to an appropriate script
->>  which is run during the Linux system start-up sequence:
->>  
->>  .nf
->> @@ -186,7 +186,8 @@ which is run during the Linux system start-up sequence:
->>      fi
->>      chmod 600 $random_seed
->>      poolfile=/proc/sys/kernel/random/poolsize
->> -    [ \-r $poolfile ] && bytes=\`cat $poolfile\` || bytes=512
->> +    [ \-r $poolfile ] && bits=\`cat $poolfile\` || bits=4096
-> 
-> I believe it was end of the 80's when $( ) was introduced to replace \`
-> Since this example is for 2.6 maybe it would be useful to use it and
-> improve readability ?
+Compliments,
 
-Yes, of course, and especially so since I use the modern syntax in the 
-new piece that I added. Fixed. Thanks for catching the obvious point
-that I missed!
+I got your contact from a business directory.I decided to contact you for a business with my company.The company I work with is into manufacturing of pharmaceutical materials.There is a raw material which the company used to send me to India to buy. now I have been promoted to the post of manager.The company can not send me to India again,they will send a more junior staff.
 
-Cheers,
+The director has asked for the contact of the supplier in India.I need a person I will present to the company as the supplier in India.You will now buy the product from the local dealer and supply to my company.The profit would be shared between you and I. Why I don't want the company to have direct contact of the local dealer,is that, I don't want the company to know the actual price I was buying the product.
 
-Michael
+If you are interested kindly contact me for more details.through this E-mail
+( jackharry160-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org )
 
-
-
--- 
-Michael Kerrisk
-Linux man-pages maintainer; http://www.kernel.org/doc/man-pages/
-Linux/UNIX System Programming Training: http://man7.org/training/
+Thanks!
+DR JACK HARRY
 --
 To unsubscribe from this list: send the line "unsubscribe linux-man" in
 the body of a message to majordomo-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
