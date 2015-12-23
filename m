@@ -1,30 +1,45 @@
-From: DR-u79uwXL29TY76Z2rM5mHXA@public.gmane.org, JACK-u79uwXL29TY76Z2rM5mHXA@public.gmane.org, HARRY-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
-Subject: ATTENTION BUSINESS PARTNERSHIP NEEDED URGENT RESPONSE TO PROCEED .......
-Date: Mon, 21 Dec 2015 15:57:36 +0530
-Message-ID: <BLUPR17MB0466A7E408277BB6E97F4B43B8E40@BLUPR17MB0466.namprd17.prod.outlook.com>
-Reply-To: <jackharry160-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org>
+From: "richardvoigt-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org" <richardvoigt-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org>
+Subject: [patch] poll.2: timeout_ts is a pointer, so use -> not . for member access
+Date: Wed, 23 Dec 2015 13:30:29 -0600
+Message-ID: <CAO_2OxVnn4cmvX5fZmXYHgW6v3aoH=OAGrk62QgrTA=qYrrcew@mail.gmail.com>
 Mime-Version: 1.0
-Content-Type: text/plain; charset=US-ASCII
-Content-Transfer-Encoding: 7BIT
+Content-Type: text/plain; charset=UTF-8
 Return-path: <linux-man-owner-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>
-Content-Description: Mail message body
 Sender: linux-man-owner-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
-To: Recipients-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
+To: mtk.manpages-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org
+Cc: linux-man-u79uwXL29TY76Z2rM5mHXA@public.gmane.org, netdev-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
 List-Id: linux-man@vger.kernel.org
 
-Hello,
+>From the context, it is apparent that in the code explaining ppoll in
+terms of poll, timeout_ts must be a pointer.
 
-Compliments,
+Usage #1:   ready = ppoll(&fds, nfds, timeout_ts, &sigmask);
 
-I got your contact from a business directory.I decided to contact you for a business with my company.The company I work with is into manufacturing of pharmaceutical materials.There is a raw material which the company used to send me to India to buy. now I have been promoted to the post of manager.The company can not send me to India again,they will send a more junior staff.
+Usage #2:    (timeout_ts == NULL)
 
-The director has asked for the contact of the supplier in India.I need a person I will present to the company as the supplier in India.You will now buy the product from the local dealer and supply to my company.The profit would be shared between you and I. Why I don't want the company to have direct contact of the local dealer,is that, I don't want the company to know the actual price I was buying the product.
+Thus member access in (timeout_ts.tv_sec * 1000 + timeout_ts.tv_nsec /
+1000000) is an error.
 
-If you are interested kindly contact me for more details.through this E-mail
-( jackharry160-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org )
+Ben
 
-Thanks!
-DR JACK HARRY
+
+
+man2/poll.2 | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
+
+diff --git a/man2/poll.2 b/man2/poll.2
+index bcbecad..34b55a6 100644
+--- a/man2/poll.2
++++ b/man2/poll.2
+@@ -266,7 +266,7 @@ executing the following calls:
+     int timeout;
+
+     timeout = (timeout_ts == NULL) ? \-1 :
+-              (timeout_ts.tv_sec * 1000 + timeout_ts.tv_nsec / 1000000);
++              (timeout_ts\->tv_sec * 1000 + timeout_ts\->tv_nsec / 1000000);
+     pthread_sigmask(SIG_SETMASK, &sigmask, &origmask);
+     ready = poll(&fds, nfds, timeout);
+     pthread_sigmask(SIG_SETMASK, &origmask, NULL);
 --
 To unsubscribe from this list: send the line "unsubscribe linux-man" in
 the body of a message to majordomo-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
