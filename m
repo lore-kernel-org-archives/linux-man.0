@@ -1,7 +1,7 @@
 From: bugzilla-daemon-590EEB7GvNiWaY/ihj7yzEB+6BGkLq7r@public.gmane.org
 Subject: [Bug 107311] Wrong link on power-management.txt
-Date: Fri, 25 Dec 2015 01:02:52 +0000
-Message-ID: <bug-107311-11311-mF8SpP2SSd@https.bugzilla.kernel.org/>
+Date: Sat, 26 Dec 2015 06:27:41 +0000
+Message-ID: <bug-107311-11311-iHkuaT0YKK@https.bugzilla.kernel.org/>
 References: <bug-107311-11311@https.bugzilla.kernel.org/>
 Mime-Version: 1.0
 Content-Type: text/plain; charset="UTF-8"
@@ -14,16 +14,13 @@ List-Id: linux-man@vger.kernel.org
 
 https://bugzilla.kernel.org/show_bug.cgi?id=107311
 
-Mikhail Solomatin <m.solomatin-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org> changed:
+Michael Kerrisk <mtk.manpages-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org> changed:
 
            What    |Removed                     |Added
 ----------------------------------------------------------------------------
-                 CC|                            |m.solomatin-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org
-
---- Comment #1 from Mikhail Solomatin <m.solomatin-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org> ---
-Seems like it's been fixed -
-http://dl.dropbox.com/u/96820575/sarah-sharp-lpt-port-power-off2-mini.pdf is
-live.
+             Status|NEW                         |RESOLVED
+                 CC|                            |mtk.manpages-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org
+         Resolution|---                         |OBSOLETE
 
 -- 
 You are receiving this mail because:
