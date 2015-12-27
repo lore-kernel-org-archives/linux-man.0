@@ -1,95 +1,76 @@
 From: "Michael Kerrisk (man-pages)" <mtk.manpages-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org>
-Subject: Re: socket(2) manpage - EMFILE ENFILE descriptions need swapped
-Date: Sun, 27 Dec 2015 17:13:58 +0100
-Message-ID: <56800E46.1050309@gmail.com>
-References: <CAJYtZH=As454RY9Qo_DFQKDGGvCpyVWmBU4QtY_EGbaV_gQuXg@mail.gmail.com>
- <CAJYtZHn+jBqgty_jw9k8Djqw2O7RxvvJPOSMekYU9KggE1=Fkw@mail.gmail.com>
+Subject: Re: [PATCH] fnmatch.3: Describe the FNM_EXTMATCH flag and pattern
+ syntax
+Date: Sun, 27 Dec 2015 17:15:35 +0100
+Message-ID: <56800EA7.8000504@gmail.com>
+References: <1444899508-24394-1-git-send-email-P@draigBrady.com>
 Mime-Version: 1.0
 Content-Type: text/plain; charset=utf-8
-Content-Transfer-Encoding: 7bit
+Content-Transfer-Encoding: QUOTED-PRINTABLE
 Return-path: <linux-man-owner-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>
-In-Reply-To: <CAJYtZHn+jBqgty_jw9k8Djqw2O7RxvvJPOSMekYU9KggE1=Fkw-JsoAwUIsXosN+BqQ9rBEUg@public.gmane.org>
+In-Reply-To: <1444899508-24394-1-git-send-email-P-V8g9lnOeT5ydJdNcDFJN0w@public.gmane.org>
 Sender: linux-man-owner-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
-To: Paul Fee <paul.f.fee-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org>
-Cc: mtk.manpages-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org, linux-man-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
+To: =?UTF-8?Q?P=c3=a1draig_Brady?= <P@draigBrady.com>
+Cc: mtk.manpages-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org, linux-man-u79uwXL29TY76Z2rM5mHXA@public.gmane.org, libc-alpha-9JcytcrH/bA+uJoB2kUjGw@public.gmane.org
 List-Id: linux-man@vger.kernel.org
 
-Hi Paul,
+On 10/15/2015 10:58 AM, P=C3=A1draig Brady wrote:
+> Signed-off-by: P=C3=A1draig Brady <P@draigBrady.com>
 
-On 10/16/2015 02:37 PM, Paul Fee wrote:
-> [Resending, hopefully as plain text this time for the benefit of
-> vger.kernel.org]
-> 
-> Hi,
-> 
-> Here's the current text from the socket(2) manpage, ERRORS section:
-> 
->        EMFILE Process file table overflow.
-> 
->        ENFILE The system limit on the total number of open files has been
->               reached.
-> 
-> These appear to be the wrong way round.  Here's an extract from
-> errno-base.h:
-> 
-> #define ENFILE          23      /* File table overflow */
-> #define EMFILE          24      /* Too many open files */
-> 
-> In my test program, I see that errno is set to 24, with strerror()
-> returning "Too many open files".  Therefore the comments in errno-base.h
-> look correct and the manpage needs updating.
-
-Well, both the man page and the comments could be better. I changed the 
-man page to:
-
-       EMFILE The  per-process  limit  on  the  number  of  open  file
-              descriptors has been reached.
-
-       ENFILE The  system-wide limit on the total number of open files
-              has been reached.
-
-EMFILE is caused by encountering the RLIMIT_NOFILE limit (see 
-getrlimit(2)).
-
-ENFILE is about encountering the /proc/sys/fs/file-max limit
-(see proc(5)).
-
-Thanks for the report!
+Thanks, P=C3=A1draig. APplied.
 
 Cheers,
 
 Michael
 
-> 
-> Test code
-> ==========
-> #include <sys/socket.h>
-> #include <stdio.h>
-> #include <errno.h>
-> #include <string.h>
-> 
-> int main(int argc, char* argv[])
-> {
->   while(1)
->   {
->     int s = socket(AF_UNIX, SOCK_STREAM, 0);
->     printf("Created socket, fd: %d\n", s);
->     if (-1 == s)
->     {
->       printf("Error: %d: %s\n", errno, strerror(errno));
->       return 1;
->     }
->   }
->   return 0;
-> }
-> ==========
-> 
-> Thanks,
-> Paul
-> 
+
+> ---
+>  man3/fnmatch.3 | 26 ++++++++++++++++++++++++++
+>  1 file changed, 26 insertions(+)
+>=20
+> diff --git a/man3/fnmatch.3 b/man3/fnmatch.3
+> index a7c55ff..3502e06 100644
+> --- a/man3/fnmatch.3
+> +++ b/man3/fnmatch.3
+> @@ -86,6 +86,32 @@ use of glibc and is implemented only in certain ca=
+ses.
+>  .B FNM_CASEFOLD
+>  If this flag (a GNU extension) is set, the pattern is matched
+>  case-insensitively.
+> +.TP
+> +.B FNM_EXTMATCH
+> +If this flag (a GNU extension) is set, extended patterns are
+> +supported, as introduced by \&'ksh' and now supported by other shell=
+s.
+> +The extended format is as follows, with \fIpattern\-list\fR
+> +being a \&'|' separated list of patterns.
+> +.TP
+> +\&'?(\fIpattern\-list\fR)'
+> +The pattern matches if zero or one occurrences of any of the
+> +patterns in the \fIpattern\-list\fR match the input \fIstring\fR.
+> +.TP
+> +\&'*(\fIpattern\-list\fR)'
+> +The pattern matches if zero or more occurrences of any of the
+> +patterns in the \fIpattern\-list\fR match the input \fIstring\fR.
+> +.TP
+> +\&'+(\fIpattern\-list\fR)'
+> +The pattern matches if one or more occurrences of any of the
+> +patterns in the \fIpattern\-list\fR match the input \fIstring\fR.
+> +.TP
+> +\&'@(\fIpattern\-list\fR)'
+> +The pattern matches if exactly one occurrence of any of the
+> +patterns in the \fIpattern\-list\fR match the input \fIstring\fR.
+> +.TP
+> +\&'!(\fIpattern\-list\fR)'
+> +The pattern matches if the input \fIstring\fR cannot be matched with
+> +any of the patterns in the \fIpattern\-list\fR.
+>  .SH RETURN VALUE
+>  Zero if
+>  .I string
+>=20
 
 
--- 
+--=20
 Michael Kerrisk
 Linux man-pages maintainer; http://www.kernel.org/doc/man-pages/
 Linux/UNIX System Programming Training: http://man7.org/training/
