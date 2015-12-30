@@ -1,44 +1,32 @@
 From: Jakub Wilk <jwilk-tXgOlIzOKNReoWH0uzbU5w@public.gmane.org>
-Subject: [PATCH 1/3] futex.2: tfix
-Date: Wed, 30 Dec 2015 15:16:38 +0100
-Message-ID: <1451485000-350-1-git-send-email-jwilk@jwilk.net>
+Subject: [PATCH 2/3] fcntl.2: tfix
+Date: Wed, 30 Dec 2015 15:16:39 +0100
+Message-ID: <1451485000-350-2-git-send-email-jwilk@jwilk.net>
+References: <1451485000-350-1-git-send-email-jwilk@jwilk.net>
 Return-path: <linux-man-owner-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>
+In-Reply-To: <1451485000-350-1-git-send-email-jwilk-tXgOlIzOKNReoWH0uzbU5w@public.gmane.org>
 Sender: linux-man-owner-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
 To: Michael Kerrisk <mtk.manpages-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org>
 Cc: linux-man-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
 List-Id: linux-man@vger.kernel.org
 
 ---
- man2/futex.2 | 6 +++---
- 1 file changed, 3 insertions(+), 3 deletions(-)
+ man2/fcntl.2 | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
 
-diff --git a/man2/futex.2 b/man2/futex.2
-index 7144bf1..8c6c023 100644
---- a/man2/futex.2
-+++ b/man2/futex.2
-@@ -88,7 +88,7 @@ on the same futex word.
- .\"     Totally ordered with respect futex operations refers to semantics
- .\"     of the ACQUIRE/RELEASE operations and how they impact ordering of
- .\"     memory reads and writes. The kernel futex operations are protected
--.\"     by spinlocks, which ensure that that all operations are serialized
-+.\"     by spinlocks, which ensure that all operations are serialized
- .\"     with respect to one another.
- .\"
- .\"     This is a lot to attempt to define in this document. Perhaps a
-@@ -125,11 +125,11 @@ wait operation.
- This
- .BR futex ()
- operation will block if and only if the lock is still acquired
--(i.e., the value in the futex word still matches the "acquiired state").
-+(i.e., the value in the futex word still matches the "acquired state").
- When releasing the lock, a thread has to first reset the
- lock state to not acquired and then execute a futex
- operation that wakes threads blocked on the lock flag used as a futex word
--(this can be be further optimized to avoid unnecessary wake-ups).
-+(this can be further optimized to avoid unnecessary wake-ups).
- See
- .BR futex (7)
- for more detail on how to use futexes.
+diff --git a/man2/fcntl.2 b/man2/fcntl.2
+index 9abfb71..96c6993 100644
+--- a/man2/fcntl.2
++++ b/man2/fcntl.2
+@@ -937,7 +937,7 @@ set etc.) to determine which file descriptors are available for I/O.
+ 
+ Note that the file descriptor provided in
+ .I si_fd
+-is the one that that was specified during the
++is the one that was specified during the
+ .BR F_SETSIG
+ operation.
+ This can lead to an unusual corner case.
 -- 
 2.6.4
 
