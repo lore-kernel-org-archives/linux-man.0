@@ -1,43 +1,32 @@
-From: Nikola =?ISO-8859-1?Q?Forr=F3?= <nforro-H+wXaHxf7aLQT0dZR+AlfA@public.gmane.org>
-Subject: [patch] rcmd.3: Add missing condition concerning .rhosts file
-Date: Mon, 04 Jan 2016 17:18:33 +0100
-Message-ID: <1451924313.4749.4.camel@redhat.com>
-Reply-To: nforro-H+wXaHxf7aLQT0dZR+AlfA@public.gmane.org
-Mime-Version: 1.0
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: 7bit
+From: Jakub Wilk <jwilk-tXgOlIzOKNReoWH0uzbU5w@public.gmane.org>
+Subject: [PATCH 2/2] futex.2: tfix
+Date: Mon,  4 Jan 2016 16:59:35 +0100
+Message-ID: <1451923175-4316-2-git-send-email-jwilk@jwilk.net>
+References: <1451923175-4316-1-git-send-email-jwilk@jwilk.net>
 Return-path: <linux-man-owner-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>
+In-Reply-To: <1451923175-4316-1-git-send-email-jwilk-tXgOlIzOKNReoWH0uzbU5w@public.gmane.org>
 Sender: linux-man-owner-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
 To: Michael Kerrisk <mtk.manpages-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org>
-Cc: linux-man <linux-man-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>
+Cc: linux-man-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
 List-Id: linux-man@vger.kernel.org
 
-The list of conditions determining if iruserok() and ruserok()
-functions automatically fail is incomplete. According to glibc
-source code, the functions also fail if the .rhosts file
-is hardlinked anywhere.
----
- man3/rcmd.3 | 4 ++--
- 1 file changed, 2 insertions(+), 2 deletions(-)
+Signed-off-by: Jakub Wilk <jwilk-tXgOlIzOKNReoWH0uzbU5w@public.gmane.org>
 
-diff --git a/man3/rcmd.3 b/man3/rcmd.3
-index 33eae3c..f32fe52 100644
---- a/man3/rcmd.3
-+++ b/man3/rcmd.3
-@@ -200,8 +200,8 @@ in the local user's home directory is checked to see if the request for
- service is allowed.
- .PP
- If this file does not exist, is not a regular file, is owned by anyone
--other than the user or the superuser, or is writable by anyone other
--than the owner, the check automatically fails.
-+other than the user or the superuser, is writable by anyone other
-+than the owner, or is hardlinked anywhere, the check automatically fails.
- Zero is returned if the machine name is listed in the
- .IR hosts.equiv
- file, or the host and remote username are found in the
+diff --git a/man2/futex.2 b/man2/futex.2
+index 8c6c023..7cf0d0b 100644
+--- a/man2/futex.2
++++ b/man2/futex.2
+@@ -516,7 +516,7 @@ unlock(A);
+ If a waker thread used
+ .BR FUTEX_WAKE ,
+ then all waiters waiting on B would be woken up,
+-and they would would all try to acquire lock A.
++and they would all try to acquire lock A.
+ However, waking all of the threads in this manner would be pointless because
+ all except one of the threads would immediately block on lock A again.
+ By contrast, a requeue operation wakes just one waiter and moves
 -- 
-2.4.3
-
+2.6.4
 
 --
 To unsubscribe from this list: send the line "unsubscribe linux-man" in
