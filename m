@@ -1,33 +1,44 @@
-From: "Jeff Skoll" <s_w9gc9x-uCjPqYABYO6OPzg9A3tDVg@public.gmane.org>
-Subject: Charity Donation
-Date: Sat, 02 Jan 2016 11:04:30 -0500
-Message-ID: <auto-000000183667@mailadmin.uni-kassel.de>
-Reply-To: jeff.skoll-aj9EiHWJibxFWb1O811qSg@public.gmane.org
+From: Nikola =?ISO-8859-1?Q?Forr=F3?= <nforro-H+wXaHxf7aLQT0dZR+AlfA@public.gmane.org>
+Subject: [patch] rcmd.3: Add missing condition concerning .rhosts file
+Date: Mon, 04 Jan 2016 17:18:33 +0100
+Message-ID: <1451924313.4749.4.camel@redhat.com>
+Reply-To: nforro-H+wXaHxf7aLQT0dZR+AlfA@public.gmane.org
 Mime-Version: 1.0
-Content-Type: text/plain; charset=utf-8
-Content-Transfer-Encoding: QUOTED-PRINTABLE
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: 7bit
 Return-path: <linux-man-owner-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>
-Content-Description: Mail message body
 Sender: linux-man-owner-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
-To: Me <s_w9gc9x-uCjPqYABYO6OPzg9A3tDVg@public.gmane.org>
+To: Michael Kerrisk <mtk.manpages-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org>
+Cc: linux-man <linux-man-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>
 List-Id: linux-man@vger.kernel.org
 
-Hi,
-My name is Jeffrey Skoll, a philanthropist and the founder of one of th=
-e largest private foundations in the world. I believe strongly in =E2=80=
-=98giving while living.=E2=80=99 I had one idea that never changed in m=
-y mind =E2=80=94 that you should use your wealth to help people and I h=
-ave decided to secretly give USD2.498 Million to a randomly selected in=
-dividual. On receipt of this email, you should count yourself as the in=
-dividual. Kindly get back to me at your earliest convenience, so I know=
- your email address is valid.
+The list of conditions determining if iruserok() and ruserok()
+functions automatically fail is incomplete. According to glibc
+source code, the functions also fail if the .rhosts file
+is hardlinked anywhere.
+---
+ man3/rcmd.3 | 4 ++--
+ 1 file changed, 2 insertions(+), 2 deletions(-)
 
-Visit the web page to know more about me: http://www.theglobeandmail.co=
-m/news/national/meet-the-canadian-billionaire-whos-giving-it-all-away/a=
-rticle4209888/ or you can read an article of me on Wikipedia.
+diff --git a/man3/rcmd.3 b/man3/rcmd.3
+index 33eae3c..f32fe52 100644
+--- a/man3/rcmd.3
++++ b/man3/rcmd.3
+@@ -200,8 +200,8 @@ in the local user's home directory is checked to see if the request for
+ service is allowed.
+ .PP
+ If this file does not exist, is not a regular file, is owned by anyone
+-other than the user or the superuser, or is writable by anyone other
+-than the owner, the check automatically fails.
++other than the user or the superuser, is writable by anyone other
++than the owner, or is hardlinked anywhere, the check automatically fails.
+ Zero is returned if the machine name is listed in the
+ .IR hosts.equiv
+ file, or the host and remote username are found in the
+-- 
+2.4.3
 
-Regards,
-Jeffrey Skoll.
+
 --
 To unsubscribe from this list: send the line "unsubscribe linux-man" in
 the body of a message to majordomo-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
