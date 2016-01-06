@@ -1,71 +1,49 @@
-From: Jann Horn <jann-XZ1E9jl8jIdeoWH0uzbU5w@public.gmane.org>
-Subject: [PATCH] prctl.2: PR_SET_PDEATHSIG by orphan process
-Date: Wed,  6 Jan 2016 19:23:26 +0100
-Message-ID: <1452104606-25569-1-git-send-email-jann@thejh.net>
+From: Heinrich Schuchardt <xypron.glpk-Mmb7MZpHnFY@public.gmane.org>
+Subject: Re: [PATCH] unix.7: add example
+Date: Wed, 6 Jan 2016 22:06:21 +0100
+Message-ID: <568D81CD.5010508@gmx.de>
+References: <1452007033-26166-1-git-send-email-xypron.glpk@gmx.de>
+ <568D277D.5000205@gmail.com>
+Mime-Version: 1.0
+Content-Type: text/plain; charset=windows-1252
+Content-Transfer-Encoding: 8bit
 Return-path: <linux-man-owner-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>
+In-Reply-To: <568D277D.5000205-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org>
 Sender: linux-man-owner-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
-To: mtk.manpages-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org
+To: "Michael Kerrisk (man-pages)" <mtk.manpages-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org>
 Cc: linux-man-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
 List-Id: linux-man@vger.kernel.org
 
-Proof:
-In kernel/sys.c:
+On 01/06/2016 03:41 PM, Michael Kerrisk (man-pages) wrote:
+> Hello Heinrich,
+>
+> On 01/05/2016 04:17 PM, Heinrich Schuchardt wrote:
+>> A complete example demonstrating the usage of sockets for local
+interprocess
+>> communication is added.
+>
+> Thanks for doing this. I'm happy to take such a piece for the page, but
+> I think things could be improved a little.
+>
 
-	case PR_SET_PDEATHSIG:
-		if (!valid_signal(arg2)) {
-			error = -EINVAL;
-			break;
-		}
-		me->pdeath_signal = arg2;
-		break;
+Hello Michael,
 
-Testcase:
+thank you for reviewing. I will update the patch.
 
-#include <sys/prctl.h>
-#include <err.h>
-#include <unistd.h>
-#include <signal.h>
-#include <stdio.h>
+http://pubs.opengroup.org/onlinepubs/009695399/functions/recv.html
+has the following sentence:
 
-void ponk(int s) {
-  puts("ponk!");
-}
+The recv() function is equivalent to recvfrom() with a zero address_len
+argument, and to read() if no flags are used.
 
-int main(void) {
-  if (fork() == 0) {
-    if (fork() == 0) {
-      sleep(1);
-      signal(SIGUSR1, ponk);
-      prctl(PR_SET_PDEATHSIG, SIGUSR1, 0, 0, 0);
-      sleep(1);
-      return 0;
-    }
-    return 0;
-  }
+Shouldn't we add this information to recv.2?
 
-  sleep(3);
-  return 0;
-}
----
- man2/prctl.2 | 3 +++
- 1 file changed, 3 insertions(+)
+Send.2 documents the equivalences.
 
-diff --git a/man2/prctl.2 b/man2/prctl.2
-index 5cea3bb..3dce8e9 100644
---- a/man2/prctl.2
-+++ b/man2/prctl.2
-@@ -670,6 +670,9 @@ In other words, the signal will be sent when that thread terminates
- (via, for example,
- .BR pthread_exit (3)),
- rather than after all of the threads in the parent process terminate.
-+
-+If the parent has already died by the time the parent death signal
-+is set, the new parent death signal will not be sent.
- .TP
- .BR PR_GET_PDEATHSIG " (since Linux 2.3.15)"
- Return the current value of the parent process death signal,
--- 
-2.1.4
+Best regards
+
+Heinrich
+
 
 --
 To unsubscribe from this list: send the line "unsubscribe linux-man" in
