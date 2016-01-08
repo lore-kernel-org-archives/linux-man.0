@@ -1,100 +1,59 @@
 From: "Michael Kerrisk (man-pages)" <mtk.manpages-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org>
-Subject: Re: [PATCH] prctl.2: PR_SET_PDEATHSIG by orphan process
-Date: Fri, 8 Jan 2016 17:21:55 +0100
-Message-ID: <568FE223.20209@gmail.com>
-References: <1452104606-25569-1-git-send-email-jann@thejh.net>
+Subject: Re: [patch] rcmd.3: Add missing condition concerning .rhosts file
+Date: Fri, 8 Jan 2016 17:24:05 +0100
+Message-ID: <568FE2A5.3020809@gmail.com>
+References: <1451924313.4749.4.camel@redhat.com>
 Mime-Version: 1.0
-Content-Type: text/plain; charset=windows-1252
-Content-Transfer-Encoding: 7bit
+Content-Type: text/plain; charset=utf-8
+Content-Transfer-Encoding: QUOTED-PRINTABLE
 Return-path: <linux-man-owner-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>
-In-Reply-To: <1452104606-25569-1-git-send-email-jann-XZ1E9jl8jIdeoWH0uzbU5w@public.gmane.org>
+In-Reply-To: <1451924313.4749.4.camel-H+wXaHxf7aLQT0dZR+AlfA@public.gmane.org>
 Sender: linux-man-owner-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
-To: Jann Horn <jann-XZ1E9jl8jIdeoWH0uzbU5w@public.gmane.org>
-Cc: mtk.manpages-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org, linux-man-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
+To: nforro-H+wXaHxf7aLQT0dZR+AlfA@public.gmane.org
+Cc: mtk.manpages-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org, linux-man <linux-man-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>
 List-Id: linux-man@vger.kernel.org
 
-Hi Jann,
+Hello Nikola,
 
-Your mail is a little cryptic. It would be best to start with
-a brief summary of your point--something like the text of your
-patch at the end of the mail.
+On 01/04/2016 05:18 PM, Nikola Forr=C3=B3 wrote:
+> The list of conditions determining if iruserok() and ruserok()
+> functions automatically fail is incomplete. According to glibc
+> source code, the functions also fail if the .rhosts file
+> is hardlinked anywhere.
 
-On 01/06/2016 07:23 PM, Jann Horn wrote:
-> Proof:
-> In kernel/sys.c:
-> 
-> 	case PR_SET_PDEATHSIG:
-> 		if (!valid_signal(arg2)) {
-> 			error = -EINVAL;
-> 			break;
-> 		}
-> 		me->pdeath_signal = arg2;
-> 		break;
-
-I don't understand how the code above relates to the point you
-want to make. (Or maybe you mean: "look, there's no check here
-to see that if the parent is already dead"; but it would help
-to state that explicitly).
-
-> Testcase:
-> 
-> #include <sys/prctl.h>
-> #include <err.h>
-> #include <unistd.h>
-> #include <signal.h>
-> #include <stdio.h>
-> 
-> void ponk(int s) {
->   puts("ponk!");
-> }
-> 
-> int main(void) {
->   if (fork() == 0) {
->     if (fork() == 0) {
->       sleep(1);
->       signal(SIGUSR1, ponk);
->       prctl(PR_SET_PDEATHSIG, SIGUSR1, 0, 0, 0);
->       sleep(1);
->       return 0;
->     }
->     return 0;
->   }
-> 
->   sleep(3);
->   return 0;
-> }
-> ---
->  man2/prctl.2 | 3 +++
->  1 file changed, 3 insertions(+)
-> 
-> diff --git a/man2/prctl.2 b/man2/prctl.2
-> index 5cea3bb..3dce8e9 100644
-> --- a/man2/prctl.2
-> +++ b/man2/prctl.2
-> @@ -670,6 +670,9 @@ In other words, the signal will be sent when that thread terminates
->  (via, for example,
->  .BR pthread_exit (3)),
->  rather than after all of the threads in the parent process terminate.
-> +
-> +If the parent has already died by the time the parent death signal
-> +is set, the new parent death signal will not be sent.
-
-In a way, this seems almost obvious. But perhaps it is better to make the
-point explicitly, as you suggest. But, because there may have been a
-previous PR_SET_PDEATHSIG, I'd prefer something like this:
-
-[[
-If the caller's parent has already died by the time of this
-PR_SET_PDEATHSIG operation, the operation shall have no effect.
-]]
-
-What do you think?
+Just to better document the patch, could you point to the=20
+relevant location in the glibc source code?
 
 Thanks,
 
 Michael
 
--- 
+> ---
+>  man3/rcmd.3 | 4 ++--
+>  1 file changed, 2 insertions(+), 2 deletions(-)
+>=20
+> diff --git a/man3/rcmd.3 b/man3/rcmd.3
+> index 33eae3c..f32fe52 100644
+> --- a/man3/rcmd.3
+> +++ b/man3/rcmd.3
+> @@ -200,8 +200,8 @@ in the local user's home directory is checked to =
+see if the request for
+>  service is allowed.
+>  .PP
+>  If this file does not exist, is not a regular file, is owned by anyo=
+ne
+> -other than the user or the superuser, or is writable by anyone other
+> -than the owner, the check automatically fails.
+> +other than the user or the superuser, is writable by anyone other
+> +than the owner, or is hardlinked anywhere, the check automatically f=
+ails.
+>  Zero is returned if the machine name is listed in the
+>  .IR hosts.equiv
+>  file, or the host and remote username are found in the
+>=20
+
+
+--=20
 Michael Kerrisk
 Linux man-pages maintainer; http://www.kernel.org/doc/man-pages/
 Linux/UNIX System Programming Training: http://man7.org/training/
