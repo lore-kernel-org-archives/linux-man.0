@@ -1,26 +1,47 @@
-From: bugzilla-daemon-590EEB7GvNiWaY/ihj7yzEB+6BGkLq7r@public.gmane.org
-Subject: [Bug
- 104511]=?UTF-8?Q?=20Add=20=E2=80=9Clocale=20=2Dc=20charmap=E2=80=9D=20as=20an=20example=20to=20locale?=(1)
-Date: Mon, 18 Jan 2016 10:57:27 +0000
-Message-ID: <bug-104511-11311-167UKGKOYw@https.bugzilla.kernel.org/>
-References: <bug-104511-11311@https.bugzilla.kernel.org/>
+From: Florian Weimer <fweimer-H+wXaHxf7aLQT0dZR+AlfA@public.gmane.org>
+Subject: Re: locale.1: update for 104511
+Date: Mon, 18 Jan 2016 12:00:21 +0100
+Message-ID: <569CC5C5.40107@redhat.com>
+References: <569CC4C8.9070608@redhat.com>
 Mime-Version: 1.0
-Content-Type: text/plain; charset="UTF-8"
+Content-Type: text/plain; charset=utf-8
 Content-Transfer-Encoding: 7bit
 Return-path: <linux-man-owner-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>
-In-Reply-To: <bug-104511-11311-3bo0kxnWaOQUvHkbgXJLS5sdmw4N0Rt+2LY78lusg7I@public.gmane.org/>
+In-Reply-To: <569CC4C8.9070608-H+wXaHxf7aLQT0dZR+AlfA@public.gmane.org>
 Sender: linux-man-owner-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
-To: linux-man-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
+To: Marko Myllynen <myllynen-H+wXaHxf7aLQT0dZR+AlfA@public.gmane.org>, linux-man <linux-man-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>
 List-Id: linux-man@vger.kernel.org
 
-https://bugzilla.kernel.org/show_bug.cgi?id=104511
+On 01/18/2016 11:56 AM, Marko Myllynen wrote:
+> Addresses https://bugzilla.kernel.org/show_bug.cgi?id=104511.
+> 
+> ---
+>  man1/locale.1 | 4 ++++
+>  1 file changed, 4 insertions(+)
+> 
+> diff --git a/man1/locale.1 b/man1/locale.1
+> index c10355f..505191d 100644
+> --- a/man1/locale.1
+> +++ b/man1/locale.1
+> @@ -162,6 +162,10 @@ $ \fBlocale \-ck date_fmt\fP
+>  LC_TIME
+>  date_fmt="%a %b %e %H:%M:%S %Z %Y"
+>  
+> +$ \fBlocale -c charmap\fP
+> +LC_CTYPE
+> +UTF-8
+> +
 
---- Comment #3 from Marko Myllynen <myllynen-H+wXaHxf7aLQT0dZR+AlfA@public.gmane.org> ---
-Patch posted at http://thread.gmane.org/gmane.linux.man/10064. Thanks.
+I think this needs a comment that it shows the charset, or something like
 
--- 
-You are receiving this mail because:
-You are watching the assignee of the bug.
+For example, the keyword
+.B charmap
+causes
+.BR locale (1)
+to display the character set for the locale.
+
+Florian
+
 --
 To unsubscribe from this list: send the line "unsubscribe linux-man" in
 the body of a message to majordomo-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
