@@ -1,34 +1,38 @@
-From: Jakub Wilk <jwilk-tXgOlIzOKNReoWH0uzbU5w@public.gmane.org>
-Subject: [PATCH] perfmonctl.2: tfix
-Date: Fri, 22 Jan 2016 20:13:15 +0100
-Message-ID: <1453489995-4990-1-git-send-email-jwilk@jwilk.net>
+From: "Dmitry V. Levin" <ldv-u2l5PoMzF/Vg9hUCZPvPmw@public.gmane.org>
+Subject: [PATCH] vcs.4: tfix
+Date: Sat, 23 Jan 2016 15:18:46 +0300
+Message-ID: <20160123121846.GA20560@altlinux.org>
+Mime-Version: 1.0
+Content-Type: text/plain; charset=us-ascii
 Return-path: <linux-man-owner-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>
+Content-Disposition: inline
 Sender: linux-man-owner-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
-To: Michael Kerrisk <mtk.manpages-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org>
+To: mtk.manpages-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org
 Cc: linux-man-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
 List-Id: linux-man@vger.kernel.org
 
-Signed-off-by: Jakub Wilk <jwilk-tXgOlIzOKNReoWH0uzbU5w@public.gmane.org>
+Fixes: 42c3e94740fb ("Convert inline formatting (\fX...\fP) to dot-directive formatting")
+Reported-by: Pakin Yury <zxwarior-o+MxOtu4lMCHXe+LvDLADg@public.gmane.org>
+Signed-off-by: Dmitry V. Levin <ldv-u2l5PoMzF/Vg9hUCZPvPmw@public.gmane.org>
 ---
- man2/perfmonctl.2 | 2 +-
+ man4/vcs.4 | 2 +-
  1 file changed, 1 insertion(+), 1 deletion(-)
 
-diff --git a/man2/perfmonctl.2 b/man2/perfmonctl.2
-index c942def..e061e2a 100644
---- a/man2/perfmonctl.2
-+++ b/man2/perfmonctl.2
-@@ -148,7 +148,7 @@ Restart monitoring after receiving an overflow notification.
- .B PFM_GET_FEATURES
- .\" pfm_get_features()
- .nf
--.BI  "perfmonctl(int " fd ", PFM_GET_FEARURES, pfarg_features_t *" arg ", 1);
-+.BI  "perfmonctl(int " fd ", PFM_GET_FEATURES, pfarg_features_t *" arg ", 1);
- .fi
- .TP
- .B PFM_DEBUG
+diff --git a/man4/vcs.4 b/man4/vcs.4
+index e4928a7..3399c78 100644
+--- a/man4/vcs.4
++++ b/man4/vcs.4
+@@ -107,7 +107,7 @@ Note that the output does not contain
+ newline characters, so some processing may be required, like
+ in
+ 
+-    old \-w 81 /dev/vcs3 | lpr
++    fold \-w 81 /dev/vcs3 | lpr
+ 
+ or (horrors)
+ 
 -- 
-2.7.0
-
+ldv
 --
 To unsubscribe from this list: send the line "unsubscribe linux-man" in
 the body of a message to majordomo-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
