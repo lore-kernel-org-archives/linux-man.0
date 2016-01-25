@@ -1,47 +1,41 @@
 From: "Michael Kerrisk (man-pages)" <mtk.manpages-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org>
-Subject: Re: [PATCH] vcs.4: tfix
-Date: Mon, 25 Jan 2016 14:28:22 +0100
-Message-ID: <56A622F6.1010705@gmail.com>
-References: <20160123121846.GA20560@altlinux.org>
+Subject: Re: [patch] keyctl.2: tfix
+Date: Mon, 25 Jan 2016 14:32:33 +0100
+Message-ID: <56A623F1.8020804@gmail.com>
+References: <CAKqBPxZN3k_B5GqkmJgb9dmXh+BB0uK-S-bgBou_OJnG8HTxfQ@mail.gmail.com>
 Mime-Version: 1.0
-Content-Type: text/plain; charset=windows-1252
+Content-Type: text/plain; charset=utf-8
 Content-Transfer-Encoding: 7bit
 Return-path: <linux-man-owner-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>
-In-Reply-To: <20160123121846.GA20560-u2l5PoMzF/Vg9hUCZPvPmw@public.gmane.org>
+In-Reply-To: <CAKqBPxZN3k_B5GqkmJgb9dmXh+BB0uK-S-bgBou_OJnG8HTxfQ-JsoAwUIsXosN+BqQ9rBEUg@public.gmane.org>
 Sender: linux-man-owner-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
-To: "Dmitry V. Levin" <ldv-u2l5PoMzF/Vg9hUCZPvPmw@public.gmane.org>
+To: Joe Stein <joeaarons-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org>
 Cc: mtk.manpages-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org, linux-man-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
 List-Id: linux-man@vger.kernel.org
 
-On 01/23/2016 01:18 PM, Dmitry V. Levin wrote:
-> Fixes: 42c3e94740fb ("Convert inline formatting (\fX...\fP) to dot-directive formatting")
-> Reported-by: Pakin Yury <zxwarior-o+MxOtu4lMCHXe+LvDLADg@public.gmane.org>
-> Signed-off-by: Dmitry V. Levin <ldv-u2l5PoMzF/Vg9hUCZPvPmw@public.gmane.org>
+On 01/19/2016 11:18 PM, Joe Stein wrote:
+> Signed-off-by: Joe Stein <joeaarons-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org>
 
-Thanks, Dmitry. Applied.
+Thanks, Joe. Applied.
 
 Cheers,
 
 Michael
 
 
-> ---
->  man4/vcs.4 | 2 +-
->  1 file changed, 1 insertion(+), 1 deletion(-)
-> 
-> diff --git a/man4/vcs.4 b/man4/vcs.4
-> index e4928a7..3399c78 100644
-> --- a/man4/vcs.4
-> +++ b/man4/vcs.4
-> @@ -107,7 +107,7 @@ Note that the output does not contain
->  newline characters, so some processing may be required, like
->  in
->  
-> -    old \-w 81 /dev/vcs3 | lpr
-> +    fold \-w 81 /dev/vcs3 | lpr
->  
->  or (horrors)
->  
+> diff --git a/man2/keyctl.2 b/man2/keyctl.2
+> index 8a9cb9b..8d706af 100644
+> --- a/man2/keyctl.2
+> +++ b/man2/keyctl.2
+> @@ -98,7 +98,7 @@ Assume authority to instantiate key.
+>  .P
+>  These are wrapped by
+>  .B libkeyutils
+> -into individual functions to permit compiler the compiler to check types.
+> +into individual functions to permit the compiler to check types.
+>  See the
+>  .B See Also
+>  section at the bottom.
 > 
 
 
