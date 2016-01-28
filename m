@@ -1,76 +1,111 @@
-From: Naoya Horiguchi <n-horiguchi@ah.jp.nec.com>
-Subject: Re: [PATCH v1] mm/madvise: pass return code of memory_failure() to
- userspace
-Date: Thu, 28 Jan 2016 05:49:11 +0000
-Message-ID: <20160128054910.GA5512@hori1.linux.bs1.fc.nec.co.jp>
-References: <1453451277-20979-1-git-send-email-n-horiguchi@ah.jp.nec.com>
- <56A8CD2F.5080903@suse.cz>
+From: "Michael Kerrisk (man-pages)" <mtk.manpages-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org>
+Subject: Re: [PATCH] elf.5: remove erroneous, duplicate SHN_* section
+Date: Thu, 28 Jan 2016 08:55:31 +0100
+Message-ID: <56A9C973.7070802@gmail.com>
+References: <CAKXpx3pmsBpp8UF+sGKf2O=mXz8ma-8h6Cmxib49N8s9pULn8g@mail.gmail.com>
 Mime-Version: 1.0
-Content-Type: text/plain; charset="iso-2022-jp"
-Content-Transfer-Encoding: quoted-printable
-Return-path: <owner-linux-mm@kvack.org>
-In-Reply-To: <56A8CD2F.5080903@suse.cz>
-Content-Language: ja-JP
-Content-ID: <660470AA4C6CBE4BBBE0AA15FAA87D66@gisp.nec.co.jp>
-Sender: owner-linux-mm@kvack.org
-To: Vlastimil Babka <vbabka@suse.cz>
-Cc: Andrew Morton <akpm@linux-foundation.org>, Chen Gong <gong.chen@linux.intel.com>, "linux-mm@kvack.org" <linux-mm@kvack.org>, "linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>, Naoya Horiguchi <nao.horiguchi@gmail.com>, Linux API <linux-api@vger.kernel.org>, "linux-man@vger.kernel.org" <linux-man@vger.kernel.org>, Michael Kerrisk <mtk.manpages@gmail.com>
+Content-Type: text/plain; charset=windows-1252
+Content-Transfer-Encoding: 7bit
+Return-path: <linux-man-owner-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>
+In-Reply-To: <CAKXpx3pmsBpp8UF+sGKf2O=mXz8ma-8h6Cmxib49N8s9pULn8g-JsoAwUIsXosN+BqQ9rBEUg@public.gmane.org>
+Sender: linux-man-owner-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
+To: Chris Pick <kernel-IESHnRRlF+tiLUuM0BA3LQ@public.gmane.org>
+Cc: mtk.manpages-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org, linux-man-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
 List-Id: linux-man@vger.kernel.org
 
-On Wed, Jan 27, 2016 at 02:59:11PM +0100, Vlastimil Babka wrote:
-> [CC +=3D linux-api, linux-man]
->=20
-> On 01/22/2016 09:27 AM, Naoya Horiguchi wrote:
-> > Currently the return value of memory_failure() is not passed to userspa=
-ce, which
-> > is inconvenient for test programs that want to know the result of error=
- handling.
-> > So let's return it to the caller as we already do in MADV_SOFT_OFFLINE =
-case.
-> >=20
-> > Signed-off-by: Naoya Horiguchi <n-horiguchi@ah.jp.nec.com>
-> > ---
-> >  mm/madvise.c | 5 +++--
-> >  1 file changed, 3 insertions(+), 2 deletions(-)
-> >=20
-> > diff --git v4.4-mmotm-2016-01-20-16-10/mm/madvise.c v4.4-mmotm-2016-01-=
-20-16-10_patched/mm/madvise.c
-> > index f56825b..6a77114 100644
-> > --- v4.4-mmotm-2016-01-20-16-10/mm/madvise.c
-> > +++ v4.4-mmotm-2016-01-20-16-10_patched/mm/madvise.c
-> > @@ -555,8 +555,9 @@ static int madvise_hwpoison(int bhv, unsigned long =
-start, unsigned long end)
-> >  		}
-> >  		pr_info("Injecting memory failure for page %#lx at %#lx\n",
-> >  		       page_to_pfn(p), start);
-> > -		/* Ignore return value for now */
-> > -		memory_failure(page_to_pfn(p), 0, MF_COUNT_INCREASED);
-> > +		ret =3D memory_failure(page_to_pfn(p), 0, MF_COUNT_INCREASED);
-> > +		if (ret)
-> > +			return ret;
->=20
-> Can you explain what madvise can newly return for MADV_HWPOISON in which
-> situations, for the purposes of updated man page?
+On 01/27/2016 11:57 PM, Chris Pick wrote:
+> The ELF header section's e_shstrndx contained a duplicate desription of
+> the SHN_* special section header indicies.  Remove them.
 
-OK, this patch newly allows madvise(MADV_HWPOISON) to return EBUSY when
-error handling failed due to 2 major reasons:
- - the target page is a page type which memory error handler doesn't suppor=
-t
-   (like slab pages, kernel-reserved pages)
- - the memory error handler failed to isolate the target page (for example,
-   due to failure in unmapping)
+Thanks, Chris. Patch applied. (Things are a little easier if you
+inline patches though.)
 
-And for man page purpose, errnos of MADV_SOFT_OFFLINE is not documented eit=
-her.
-So let me refer to 2 possible error code from madvise(MADV_SOFT_OFFLINE):
- - EBUSY: failed to isolate from lru list,
- - EIO: failed to migrate the target page to another page.
+Cheers,
 
-Thanks,
-Naoya Horiguchi=
+Michael
 
+
+====
+>From 562c62bc0fd68fb7f94a98142a9fd49baab95e45 Mon Sep 17 00:00:00 2001
+From: Chris Pick <kernel-IESHnRRlF+tiLUuM0BA3LQ@public.gmane.org>
+Date: Wed, 27 Jan 2016 17:32:21 -0500
+Subject: [PATCH] elf.5: remove erroneous, duplicate SHN_* section
+
+The ELF header section's e_shstrndx contained a duplicate desription of
+the SHN_* special section header indicies.  Remove them.
+---
+ man5/elf.5 | 49 -------------------------------------------------
+ 1 file changed, 49 deletions(-)
+
+diff --git a/man5/elf.5 b/man5/elf.5
+index c140bb2..5a64704 100644
+--- a/man5/elf.5
++++ b/man5/elf.5
+@@ -622,55 +622,6 @@ member of the initial entry in section header table.
+ Otherwise, the
+ .IR sh_link
+ member of the initial entry in section header table contains the value zero.
+-.RS 12
+-.\" .Bl -tag -width "SHN_LORESERVE"
+-.TP 14
+-.BR SHN_UNDEF
+-This value marks an undefined, missing, irrelevant, or otherwise meaningless
+-section reference.
+-For example, a symbol
+-"defined"
+-relative to section number
+-.BR SHN_UNDEF
+-is an undefined symbol.
+-.TP
+-.BR SHN_LORESERVE
+-This value specifies the lower bound of the range of reserved indices.
+-.TP
+-.BR SHN_LOPROC
+-Values greater than or equal to
+-.BR SHN_HIPROC
+-are reserved for processor-specific semantics.
+-.TP
+-.BR SHN_HIPROC
+-Values less than or equal to
+-.BR SHN_LOPROC
+-are reserved for processor-specific semantics.
+-.TP
+-.BR SHN_ABS
+-This value specifies absolute values for the corresponding reference.
+-For
+-example, symbols defined relative to section number
+-.BR SHN_ABS
+-have absolute values and are not affected by relocation.
+-.TP
+-.BR SHN_COMMON
+-Symbols defined relative to this section are common symbols, such as Fortran
+-COMMON or unallocated C external variables.
+-.TP
+-.BR SHN_HIRESERVE
+-This value specifies the upper bound of the range of reserved
+-indices between
+-.BR SHN_LORESERVE
+-and
+-.BR SHN_HIRESERVE ,
+-inclusive; the values do
+-not reference the section header table.
+-That is, the section header table
+-does
+-.I not
+-contain entries for the reserved indices.
+-.RE
+ .\" .El
+ .\" .El
+ .PP
+-- 
+1.9.1
+
+
+-- 
+Michael Kerrisk
+Linux man-pages maintainer; http://www.kernel.org/doc/man-pages/
+Linux/UNIX System Programming Training: http://man7.org/training/
 --
-To unsubscribe, send a message with 'unsubscribe linux-mm' in
-the body to majordomo@kvack.org.  For more info on Linux MM,
-see: http://www.linux-mm.org/ .
-Don't email: <a href=mailto:"dont@kvack.org"> email@kvack.org </a>
+To unsubscribe from this list: send the line "unsubscribe linux-man" in
+the body of a message to majordomo-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
+More majordomo info at  http://vger.kernel.org/majordomo-info.html
