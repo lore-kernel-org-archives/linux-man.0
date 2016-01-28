@@ -1,67 +1,76 @@
-From: Chris Pick <kernel-IESHnRRlF+tiLUuM0BA3LQ@public.gmane.org>
-Subject: [PATCH] elf.5: remove erroneous, duplicate SHN_* section
-Date: Wed, 27 Jan 2016 17:57:27 -0500
-Message-ID: <CAKXpx3pmsBpp8UF+sGKf2O=mXz8ma-8h6Cmxib49N8s9pULn8g@mail.gmail.com>
+From: Naoya Horiguchi <n-horiguchi@ah.jp.nec.com>
+Subject: Re: [PATCH v1] mm/madvise: pass return code of memory_failure() to
+ userspace
+Date: Thu, 28 Jan 2016 05:49:11 +0000
+Message-ID: <20160128054910.GA5512@hori1.linux.bs1.fc.nec.co.jp>
+References: <1453451277-20979-1-git-send-email-n-horiguchi@ah.jp.nec.com>
+ <56A8CD2F.5080903@suse.cz>
 Mime-Version: 1.0
-Content-Type: multipart/mixed; boundary=001a1133cd00df76f6052a58b99e
-Return-path: <linux-man-owner-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>
-Sender: linux-man-owner-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
-To: mtk.manpages-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org
-Cc: linux-man-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
+Content-Type: text/plain; charset="iso-2022-jp"
+Content-Transfer-Encoding: quoted-printable
+Return-path: <owner-linux-mm@kvack.org>
+In-Reply-To: <56A8CD2F.5080903@suse.cz>
+Content-Language: ja-JP
+Content-ID: <660470AA4C6CBE4BBBE0AA15FAA87D66@gisp.nec.co.jp>
+Sender: owner-linux-mm@kvack.org
+To: Vlastimil Babka <vbabka@suse.cz>
+Cc: Andrew Morton <akpm@linux-foundation.org>, Chen Gong <gong.chen@linux.intel.com>, "linux-mm@kvack.org" <linux-mm@kvack.org>, "linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>, Naoya Horiguchi <nao.horiguchi@gmail.com>, Linux API <linux-api@vger.kernel.org>, "linux-man@vger.kernel.org" <linux-man@vger.kernel.org>, Michael Kerrisk <mtk.manpages@gmail.com>
 List-Id: linux-man@vger.kernel.org
 
---001a1133cd00df76f6052a58b99e
-Content-Type: text/plain; charset=UTF-8
+On Wed, Jan 27, 2016 at 02:59:11PM +0100, Vlastimil Babka wrote:
+> [CC +=3D linux-api, linux-man]
+>=20
+> On 01/22/2016 09:27 AM, Naoya Horiguchi wrote:
+> > Currently the return value of memory_failure() is not passed to userspa=
+ce, which
+> > is inconvenient for test programs that want to know the result of error=
+ handling.
+> > So let's return it to the caller as we already do in MADV_SOFT_OFFLINE =
+case.
+> >=20
+> > Signed-off-by: Naoya Horiguchi <n-horiguchi@ah.jp.nec.com>
+> > ---
+> >  mm/madvise.c | 5 +++--
+> >  1 file changed, 3 insertions(+), 2 deletions(-)
+> >=20
+> > diff --git v4.4-mmotm-2016-01-20-16-10/mm/madvise.c v4.4-mmotm-2016-01-=
+20-16-10_patched/mm/madvise.c
+> > index f56825b..6a77114 100644
+> > --- v4.4-mmotm-2016-01-20-16-10/mm/madvise.c
+> > +++ v4.4-mmotm-2016-01-20-16-10_patched/mm/madvise.c
+> > @@ -555,8 +555,9 @@ static int madvise_hwpoison(int bhv, unsigned long =
+start, unsigned long end)
+> >  		}
+> >  		pr_info("Injecting memory failure for page %#lx at %#lx\n",
+> >  		       page_to_pfn(p), start);
+> > -		/* Ignore return value for now */
+> > -		memory_failure(page_to_pfn(p), 0, MF_COUNT_INCREASED);
+> > +		ret =3D memory_failure(page_to_pfn(p), 0, MF_COUNT_INCREASED);
+> > +		if (ret)
+> > +			return ret;
+>=20
+> Can you explain what madvise can newly return for MADV_HWPOISON in which
+> situations, for the purposes of updated man page?
 
-The ELF header section's e_shstrndx contained a duplicate desription of
-the SHN_* special section header indicies.  Remove them.
+OK, this patch newly allows madvise(MADV_HWPOISON) to return EBUSY when
+error handling failed due to 2 major reasons:
+ - the target page is a page type which memory error handler doesn't suppor=
+t
+   (like slab pages, kernel-reserved pages)
+ - the memory error handler failed to isolate the target page (for example,
+   due to failure in unmapping)
 
---001a1133cd00df76f6052a58b99e
-Content-Type: text/x-patch; charset=US-ASCII;
-	name="0001-elf.5-remove-erroneous-duplicate-SHN_-section.patch"
-Content-Disposition: attachment;
-	filename="0001-elf.5-remove-erroneous-duplicate-SHN_-section.patch"
-Content-Transfer-Encoding: base64
-X-Attachment-Id: f_ijxfm26k0
+And for man page purpose, errnos of MADV_SOFT_OFFLINE is not documented eit=
+her.
+So let me refer to 2 possible error code from madvise(MADV_SOFT_OFFLINE):
+ - EBUSY: failed to isolate from lru list,
+ - EIO: failed to migrate the target page to another page.
 
-RnJvbSA1NjJjNjJiYzBmZDY4ZmI3Zjk0YTk4MTQyYTlmZDQ5YmFhYjk1ZTQ1IE1vbiBTZXAgMTcg
-MDA6MDA6MDAgMjAwMQpGcm9tOiBDaHJpcyBQaWNrIDxrZXJuZWxAY2hyaXNwaWNrLmNvbT4KRGF0
-ZTogV2VkLCAyNyBKYW4gMjAxNiAxNzozMjoyMSAtMDUwMApTdWJqZWN0OiBbUEFUQ0hdIGVsZi41
-OiByZW1vdmUgZXJyb25lb3VzLCBkdXBsaWNhdGUgU0hOXyogc2VjdGlvbgoKVGhlIEVMRiBoZWFk
-ZXIgc2VjdGlvbidzIGVfc2hzdHJuZHggY29udGFpbmVkIGEgZHVwbGljYXRlIGRlc3JpcHRpb24g
-b2YKdGhlIFNITl8qIHNwZWNpYWwgc2VjdGlvbiBoZWFkZXIgaW5kaWNpZXMuICBSZW1vdmUgdGhl
-bS4KLS0tCiBtYW41L2VsZi41IHwgNDkgLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0t
-LS0tLS0tLS0tLS0tLS0tLQogMSBmaWxlIGNoYW5nZWQsIDQ5IGRlbGV0aW9ucygtKQoKZGlmZiAt
-LWdpdCBhL21hbjUvZWxmLjUgYi9tYW41L2VsZi41CmluZGV4IGMxNDBiYjIuLjVhNjQ3MDQgMTAw
-NjQ0Ci0tLSBhL21hbjUvZWxmLjUKKysrIGIvbWFuNS9lbGYuNQpAQCAtNjIyLDU1ICs2MjIsNiBA
-QCBtZW1iZXIgb2YgdGhlIGluaXRpYWwgZW50cnkgaW4gc2VjdGlvbiBoZWFkZXIgdGFibGUuCiBP
-dGhlcndpc2UsIHRoZQogLklSIHNoX2xpbmsKIG1lbWJlciBvZiB0aGUgaW5pdGlhbCBlbnRyeSBp
-biBzZWN0aW9uIGhlYWRlciB0YWJsZSBjb250YWlucyB0aGUgdmFsdWUgemVyby4KLS5SUyAxMgot
-LlwiIC5CbCAtdGFnIC13aWR0aCAiU0hOX0xPUkVTRVJWRSIKLS5UUCAxNAotLkJSIFNITl9VTkRF
-RgotVGhpcyB2YWx1ZSBtYXJrcyBhbiB1bmRlZmluZWQsIG1pc3NpbmcsIGlycmVsZXZhbnQsIG9y
-IG90aGVyd2lzZSBtZWFuaW5nbGVzcwotc2VjdGlvbiByZWZlcmVuY2UuCi1Gb3IgZXhhbXBsZSwg
-YSBzeW1ib2wKLSJkZWZpbmVkIgotcmVsYXRpdmUgdG8gc2VjdGlvbiBudW1iZXIKLS5CUiBTSE5f
-VU5ERUYKLWlzIGFuIHVuZGVmaW5lZCBzeW1ib2wuCi0uVFAKLS5CUiBTSE5fTE9SRVNFUlZFCi1U
-aGlzIHZhbHVlIHNwZWNpZmllcyB0aGUgbG93ZXIgYm91bmQgb2YgdGhlIHJhbmdlIG9mIHJlc2Vy
-dmVkIGluZGljZXMuCi0uVFAKLS5CUiBTSE5fTE9QUk9DCi1WYWx1ZXMgZ3JlYXRlciB0aGFuIG9y
-IGVxdWFsIHRvCi0uQlIgU0hOX0hJUFJPQwotYXJlIHJlc2VydmVkIGZvciBwcm9jZXNzb3Itc3Bl
-Y2lmaWMgc2VtYW50aWNzLgotLlRQCi0uQlIgU0hOX0hJUFJPQwotVmFsdWVzIGxlc3MgdGhhbiBv
-ciBlcXVhbCB0bwotLkJSIFNITl9MT1BST0MKLWFyZSByZXNlcnZlZCBmb3IgcHJvY2Vzc29yLXNw
-ZWNpZmljIHNlbWFudGljcy4KLS5UUAotLkJSIFNITl9BQlMKLVRoaXMgdmFsdWUgc3BlY2lmaWVz
-IGFic29sdXRlIHZhbHVlcyBmb3IgdGhlIGNvcnJlc3BvbmRpbmcgcmVmZXJlbmNlLgotRm9yCi1l
-eGFtcGxlLCBzeW1ib2xzIGRlZmluZWQgcmVsYXRpdmUgdG8gc2VjdGlvbiBudW1iZXIKLS5CUiBT
-SE5fQUJTCi1oYXZlIGFic29sdXRlIHZhbHVlcyBhbmQgYXJlIG5vdCBhZmZlY3RlZCBieSByZWxv
-Y2F0aW9uLgotLlRQCi0uQlIgU0hOX0NPTU1PTgotU3ltYm9scyBkZWZpbmVkIHJlbGF0aXZlIHRv
-IHRoaXMgc2VjdGlvbiBhcmUgY29tbW9uIHN5bWJvbHMsIHN1Y2ggYXMgRm9ydHJhbgotQ09NTU9O
-IG9yIHVuYWxsb2NhdGVkIEMgZXh0ZXJuYWwgdmFyaWFibGVzLgotLlRQCi0uQlIgU0hOX0hJUkVT
-RVJWRQotVGhpcyB2YWx1ZSBzcGVjaWZpZXMgdGhlIHVwcGVyIGJvdW5kIG9mIHRoZSByYW5nZSBv
-ZiByZXNlcnZlZAotaW5kaWNlcyBiZXR3ZWVuCi0uQlIgU0hOX0xPUkVTRVJWRQotYW5kCi0uQlIg
-U0hOX0hJUkVTRVJWRSAsCi1pbmNsdXNpdmU7IHRoZSB2YWx1ZXMgZG8KLW5vdCByZWZlcmVuY2Ug
-dGhlIHNlY3Rpb24gaGVhZGVyIHRhYmxlLgotVGhhdCBpcywgdGhlIHNlY3Rpb24gaGVhZGVyIHRh
-YmxlCi1kb2VzCi0uSSBub3QKLWNvbnRhaW4gZW50cmllcyBmb3IgdGhlIHJlc2VydmVkIGluZGlj
-ZXMuCi0uUkUKIC5cIiAuRWwKIC5cIiAuRWwKIC5QUAotLSAKMS45LjEKCg==
---001a1133cd00df76f6052a58b99e--
+Thanks,
+Naoya Horiguchi=
+
 --
-To unsubscribe from this list: send the line "unsubscribe linux-man" in
-the body of a message to majordomo-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
-More majordomo info at  http://vger.kernel.org/majordomo-info.html
+To unsubscribe, send a message with 'unsubscribe linux-mm' in
+the body to majordomo@kvack.org.  For more info on Linux MM,
+see: http://www.linux-mm.org/ .
+Don't email: <a href=mailto:"dont@kvack.org"> email@kvack.org </a>
