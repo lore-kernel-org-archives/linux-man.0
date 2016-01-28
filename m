@@ -1,126 +1,151 @@
-From: Joachim Wuttke <j.wuttke-97/bSmCnXvjoK6nBLMlh1Q@public.gmane.org>
-Subject: exp(3) should refer to expm1(3)
-Date: Thu, 28 Jan 2016 10:24:06 +0100
-Message-ID: <56A9DE36.2070101@fz-juelich.de>
+From: "Michael Kerrisk (man-pages)" <mtk.manpages-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org>
+Subject: Re: [PATCH] elf.5: wfix
+Date: Thu, 28 Jan 2016 10:42:49 +0100
+Message-ID: <56A9E299.80706@gmail.com>
+References: <CAKXpx3q=TzyVknkBscpZ9yoeva0ODp6BsjvAyoQB-vC68uaRDw@mail.gmail.com>
 Mime-Version: 1.0
-Content-Type: multipart/signed; protocol="application/pkcs7-signature";
-	micalg=sha-256; boundary="------------ms050300050704020808050002"
+Content-Type: text/plain; charset=windows-1252
+Content-Transfer-Encoding: 7bit
 Return-path: <linux-man-owner-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>
+In-Reply-To: <CAKXpx3q=TzyVknkBscpZ9yoeva0ODp6BsjvAyoQB-vC68uaRDw-JsoAwUIsXosN+BqQ9rBEUg@public.gmane.org>
 Sender: linux-man-owner-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
-To: mtk.manpages-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org
-Cc: linux-man-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
+To: Chris Pick <kernel-IESHnRRlF+tiLUuM0BA3LQ@public.gmane.org>
+Cc: mtk.manpages-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org, linux-man-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
 List-Id: linux-man@vger.kernel.org
 
---------------ms050300050704020808050002
-Content-Type: text/plain; charset=utf-8; format=flowed
-Content-Transfer-Encoding: quoted-printable
+On 01/27/2016 11:50 PM, Chris Pick wrote:
+> Clarify PT_LOPROC/PT_HIPROC and SHN_LOPROC/SHN_HIPROC ranges.
+> 
 
-expm1(3) should be added to the "see also" section of exp(3) -
+Thanks for catching that. I actually applied a different, somewhat
+large patch. See below.
 
-compare log(3), which appropriately refers to log1p(3).
+Cheers,
+
+Michael
+
+diff --git a/man5/elf.5 b/man5/elf.5
+index fb4ee30..4de3cea 100644
+--- a/man5/elf.5
++++ b/man5/elf.5
+@@ -739,14 +739,9 @@ occur only if the program header table is part of the memory image of the
+ program.
+ If it is present, it must precede any loadable segment entry.
+ .TP
+-.BR PT_LOPROC
+-Values greater than or equal to
+-.BR PT_HIPROC
+-are reserved for processor-specific semantics.
+-.TP
+-.BR PT_HIPROC
+-Values less than or equal to
+-.BR PT_LOPROC
++.BR PT_LOPROC ", " PT_HIPROC
++Values in the inclusive range
++.RB [ PT_LOPROC ", " PT_HIPROC ]
+ are reserved for processor-specific semantics.
+ .TP
+ .BR PT_GNU_STACK
+@@ -870,14 +865,9 @@ section reference.
+ .BR SHN_LORESERVE
+ This value specifies the lower bound of the range of reserved indices.
+ .TP
+-.BR SHN_LOPROC
+-Values greater than or equal to
+-.BR SHN_HIPROC
+-are reserved for processor-specific semantics.
+-.TP
+-.BR SHN_HIPROC
+-Values less than or equal to
+-.BR SHN_LOPROC
++.BR SHN_LOPROC ", " SHN_HIPROC
++Values greater in the inclusive range
++.RB [ SHN_LOPROC ", " SHN_HIPROC ]
+ are reserved for processor-specific semantics.
+ .TP
+ .BR SHN_ABS
+@@ -1032,15 +1022,10 @@ object file can also contain a
+ .BR SHT_SYMTAB
+ section.
+ .TP
+-.BR SHT_LOPROC
+-This value up to and including
+-.BR SHT_HIPROC
+-is reserved for processor-specific semantics.
+-.TP
+-.BR SHT_HIPROC
+-This value down to and including
+-.BR SHT_LOPROC
+-is reserved for processor-specific semantics.
++.BR SHT_LOPROC ", " SHT_HIPROC
++Values in the inclusive range
++.RB [ SHT_LOPROC ", " SHT_HIPROC ]
++are reserved for processor-specific semantics.
+ .TP
+ .BR SHT_LOUSER
+ This value specifies the lower bound of the range of indices reserved for
+@@ -1542,15 +1527,10 @@ and it precedes the other
+ .BR STB_LOCAL
+ symbols of the file, if it is present.
+ .TP
+-.BR STT_LOPROC
+-This value up to and including
+-.BR STT_HIPROC
+-is reserved for processor-specific semantics.
+-.TP
+-.BR STT_HIPROC
+-This value down to and including
+-.BR STT_LOPROC
+-is reserved for processor-specific semantics.
++.BR STT_LOPROC ", " STT_HIPROC
++Values in the inclusive range
++.RB [ STT_LOPROC ", " STT_HIPROC ]
++are reserved for processor-specific semantics.
+ .\" .El
+ .\" .Bl -tag -width "STB_GLOBAL"
+ .TP
+@@ -1570,15 +1550,10 @@ reference to the same symbol.
+ Weak symbols resemble global symbols, but their definitions have lower
+ precedence.
+ .TP
+-.BR STB_LOPROC
+-This value up to and including
+-.BR STB_HIPROC
+-is reserved for processor-specific semantics.
+-.TP
+-.BR STB_HIPROC
+-This value down to and including
+-.BR STB_LOPROC
+-is reserved for processor-specific semantics.
++.BR STB_LOPROC ", " STB_HIPROC
++Values in the inclusive range
++.RB [ STB_LOPROC ", " STB_HIPROC ]
++are reserved for processor-specific semantics.
+ .IP
+ There are macros for packing and unpacking the binding and type fields:
+ .IP
+@@ -1840,11 +1815,10 @@ the executable
+ .BR DT_RUNPATH
+ String table offset to library search path
+ .TP
+-.BR DT_LOPROC
+-Start of processor-specific semantics
+-.TP
+-.BR DT_HIPROC
+-End of processor-specific semantics
++.BR DT_LOPROC ", " DT_HIPROC
++Values in the inclusive range
++.RB [ DT_LOPROC ", " DT_HIPROC ]
++are reserved for processor-specific semantics
+ .RE
+ .\" .El
+ .TP
 
 
---------------ms050300050704020808050002
-Content-Type: application/pkcs7-signature; name="smime.p7s"
-Content-Transfer-Encoding: base64
-Content-Disposition: attachment; filename="smime.p7s"
-Content-Description: S/MIME Cryptographic Signature
-
-MIAGCSqGSIb3DQEHAqCAMIACAQExDzANBglghkgBZQMEAgEFADCABgkqhkiG9w0BBwEAAKCC
-D4kwggTVMIIDvaADAgECAghQTsb1PRG0ZDANBgkqhkiG9w0BAQsFADBxMQswCQYDVQQGEwJE
-RTEcMBoGA1UEChMTRGV1dHNjaGUgVGVsZWtvbSBBRzEfMB0GA1UECxMWVC1UZWxlU2VjIFRy
-dXN0IENlbnRlcjEjMCEGA1UEAxMaRGV1dHNjaGUgVGVsZWtvbSBSb290IENBIDIwHhcNMTQw
-NzIyMTIwODI2WhcNMTkwNzA5MjM1OTAwWjBaMQswCQYDVQQGEwJERTETMBEGA1UEChMKREZO
-LVZlcmVpbjEQMA4GA1UECxMHREZOLVBLSTEkMCIGA1UEAxMbREZOLVZlcmVpbiBQQ0EgR2xv
-YmFsIC0gRzAxMIIBIjANBgkqhkiG9w0BAQEFAAOCAQ8AMIIBCgKCAQEA6ZvDZ4X5Da71jVTD
-llA1PWLpbkztlNcAW5UidNQg6zSP1uzAMQQLmYHiphTSUqAoI4SLdIkEXlvg4njBeMsWyyg1
-OXstkEXQ7aAAeny/Sg4bAMOG6VwrMRF7DPOCJEOMHDiLamgAmu7cT3ir0sYTm3at7t4m6O8B
-r3QPwQmi9mvOvdPNFDBP9eXjpMhim4IaAycwDQJlYE3t0QkjKpY1WCfTdsZxtpAdxO3/NYZ9
-bzOz2w/FEcKKg6GUXUFr2NIQ9Uz9ylGs2b3vkoO72uuLFlZWQ8/h1RM9ph8nMM1JVNvJEzSa
-cXXFbOqnC5j5IZ0nrz6jOTlIaoytyZn7wxLyvQIDAQABo4IBhjCCAYIwDgYDVR0PAQH/BAQD
-AgEGMB0GA1UdDgQWBBRJt8bP6D0ff+pEexMp9/EKcD7eZDAfBgNVHSMEGDAWgBQxw3kbuvVT
-1xfgiXotF2wKsyudMzASBgNVHRMBAf8ECDAGAQH/AgECMGIGA1UdIARbMFkwEQYPKwYBBAGB
-rSGCLAEBBAICMBEGDysGAQQBga0hgiwBAQQDADARBg8rBgEEAYGtIYIsAQEEAwEwDwYNKwYB
-BAGBrSGCLAEBBDANBgsrBgEEAYGtIYIsHjA+BgNVHR8ENzA1MDOgMaAvhi1odHRwOi8vcGtp
-MDMzNi50ZWxlc2VjLmRlL3JsL0RUX1JPT1RfQ0FfMi5jcmwweAYIKwYBBQUHAQEEbDBqMCwG
-CCsGAQUFBzABhiBodHRwOi8vb2NzcDAzMzYudGVsZXNlYy5kZS9vY3NwcjA6BggrBgEFBQcw
-AoYuaHR0cDovL3BraTAzMzYudGVsZXNlYy5kZS9jcnQvRFRfUk9PVF9DQV8yLmNlcjANBgkq
-hkiG9w0BAQsFAAOCAQEAYyAo/ZwhhnK+OUZZOTIlvKkBmw3Myn1BnIZtCm4ssxNZdbEzkhth
-Jxb/w7LVNYL7hCoBSb1mu2YvssIGXW4/buMBWlvKQ2NclbbhMacf1QdfTeZlgk4y+cN8ekvN
-TVx07iHydQLsUj7SyWrTkCNuSWc1vn9NVqTszC/Pt6GXqHI+ybxA1lqkCD3WvILDt7cyjrEs
-jmpttzUCGc/1OURYY6ckABCwu/xOr24vOLulV0k/2G5QbyyXltwdRpplic+uzPLl2Z9Tsz6h
-L5Kp2AvGhB8Exuse6J99tXulAvEkxSRjETTMWpMgKnmIOiVCkKllO3yG0xIVIyn8LNrMOVtU
-FzCCBUowggQyoAMCAQICBxZaUDgc+AQwDQYJKoZIhvcNAQEFBQAwgYMxCzAJBgNVBAYTAkRF
-MScwJQYDVQQKEx5Gb3JzY2h1bmdzemVudHJ1bSBKdWVsaWNoIEdtYkgxKjAoBgNVBAMTIUZa
-SiBDZXJ0aWZpY2F0aW9uIEF1dGhvcml0eSAtIEcwMjEfMB0GCSqGSIb3DQEJARYQY2FAZnot
-anVlbGljaC5kZTAeFw0xMzA5MTkxMDMyMDhaFw0xNjA5MTgxMDMyMDhaMF4xCzAJBgNVBAYT
-AkRFMScwJQYDVQQKEx5Gb3JzY2h1bmdzemVudHJ1bSBKdWVsaWNoIEdtYkgxDTALBgNVBAsT
-BEpDTlMxFzAVBgNVBAMTDkpvYWNoaW0gV3V0dGtlMIIBIjANBgkqhkiG9w0BAQEFAAOCAQ8A
-MIIBCgKCAQEA0Be8MAEZZT9CMI9x7xeeraeAQtIpJhSJVqVrSY3abITqCHn2xr09Kd8ki2dS
-vsre7zBGRelEG5/cXbqJ2UB8DierWzu9qYkY1imx3/zkxIqcH1l0/Cv5+YvGd4LqtrZgNoUu
-h8wROaBz99RcmD4j/viQx/8qmjy9aFxX3TlQdJm8JVRWzfbs4PN8zsORR5TGZkM1reMIVSEL
-3cKZBmlUUqzJpnKZ1uq0xdGcGghnjSkodlHl33G1XxSmVPXEOWA37QzQ8usq4ImN0bbt9PMM
-Xk0OO7v2HrmVy+RcAL2BBt42qcSHw5KPf3TrUkKe78zdNS3c/nktJVIPSG19rVb++wIDAQAB
-o4IB5TCCAeEwLwYDVR0gBCgwJjARBg8rBgEEAYGtIYIsAQEEAwAwEQYPKwYBBAGBrSGCLAIB
-BAMAMAkGA1UdEwQCMAAwCwYDVR0PBAQDAgXgMB0GA1UdJQQWMBQGCCsGAQUFBwMCBggrBgEF
-BQcDBDAdBgNVHQ4EFgQUsIoCLjXQKrD3vxrAPxOKt4QowkowHwYDVR0jBBgwFoAUIL1xiaXJ
-KjMvEeAf5ZQmVg8RAiUwIQYDVR0RBBowGIEWai53dXR0a2VAZnotanVlbGljaC5kZTB7BgNV
-HR8EdDByMDegNaAzhjFodHRwOi8vY2RwMS5wY2EuZGZuLmRlL2Z6ai1jYS9wdWIvY3JsL2df
-Y2FjcmwuY3JsMDegNaAzhjFodHRwOi8vY2RwMi5wY2EuZGZuLmRlL2Z6ai1jYS9wdWIvY3Js
-L2dfY2FjcmwuY3JsMIGWBggrBgEFBQcBAQSBiTCBhjBBBggrBgEFBQcwAoY1aHR0cDovL2Nk
-cDEucGNhLmRmbi5kZS9memotY2EvcHViL2NhY2VydC9nX2NhY2VydC5jcnQwQQYIKwYBBQUH
-MAKGNWh0dHA6Ly9jZHAyLnBjYS5kZm4uZGUvZnpqLWNhL3B1Yi9jYWNlcnQvZ19jYWNlcnQu
-Y3J0MA0GCSqGSIb3DQEBBQUAA4IBAQCJvMiAq39j0N1RI0lglvJ2NLhCvRIsrj4057mDs83Y
-n+MJMtSGT3S9Yy6avF9Fl+N2wOLC7qUraJ7bT5bWgkZ5BdepSzOsd2B3w/Gt0CYRx8K8jDBe
-5GZB+JcDrdoPXW+MJCJVr6wmhPpprh0J2fBPw84cyVm50n5rZ9Xh6+rHD4Q9iVZz8y7FWEOY
-+j8xc7ILwDUgWmgZ8iUl4DPmfJZx6C9F8T/lEn82aHkGAFMww62aF5+hE/xWx1kbyli364Ps
-fQ1u9KFuYkA6Md1mXpaYmiXfe4iFvkkEi48ocY8Z7eu1oMSeGnHGOeQZCJ082ddVrewqknvU
-jT9g4m7KxgIJMIIFXjCCBEagAwIBAgIHF6Qkm3kQ3zANBgkqhkiG9w0BAQsFADBaMQswCQYD
-VQQGEwJERTETMBEGA1UEChMKREZOLVZlcmVpbjEQMA4GA1UECxMHREZOLVBLSTEkMCIGA1UE
-AxMbREZOLVZlcmVpbiBQQ0EgR2xvYmFsIC0gRzAxMB4XDTE0MDUyNzE0NTQwM1oXDTE5MDcw
-OTIzNTkwMFowgYMxCzAJBgNVBAYTAkRFMScwJQYDVQQKEx5Gb3JzY2h1bmdzemVudHJ1bSBK
-dWVsaWNoIEdtYkgxKjAoBgNVBAMTIUZaSiBDZXJ0aWZpY2F0aW9uIEF1dGhvcml0eSAtIEcw
-MjEfMB0GCSqGSIb3DQEJARYQY2FAZnotanVlbGljaC5kZTCCASIwDQYJKoZIhvcNAQEBBQAD
-ggEPADCCAQoCggEBAKMmSAUNDDTyykywGt4Jp6Ewx42cyN605du2f44+2suXWA0AKPqwjYU+
-eF4TSpodWNNCe0lY1rO01g8Rs8/GDeaCtbTwtqcLXWuyEb43ecV8QhprmZq7FW3XmO8lva4I
-INsUCtyIVJOJC4+WKvFAsEle2Y9ZJm1+2bJkv30lz0LHndhPcpcorsApVw7Idp7jVadF2e7o
-IYrSrKrqMRVj+X6sOLkQ0XdLtEmxDMHDD3HapHv24GJbp3/JgGjdElko1O5ooR8hDwHMmVHS
-f7KCVxJjD8QaT+lCWm8Ikfh9EWnmJ897Bm2QtaD/8iBokED5i9YjYC/ylZ6zK2KRBNAfLBEC
-AwEAAaOCAf0wggH5MBIGA1UdEwEB/wQIMAYBAf8CAQEwDgYDVR0PAQH/BAQDAgEGMBEGA1Ud
-IAQKMAgwBgYEVR0gADAdBgNVHQ4EFgQUIL1xiaXJKjMvEeAf5ZQmVg8RAiUwHwYDVR0jBBgw
-FoAUSbfGz+g9H3/qRHsTKffxCnA+3mQwGwYDVR0RBBQwEoEQY2FAZnotanVlbGljaC5kZTCB
-iAYDVR0fBIGAMH4wPaA7oDmGN2h0dHA6Ly9jZHAxLnBjYS5kZm4uZGUvZ2xvYmFsLXJvb3Qt
-Y2EvcHViL2NybC9jYWNybC5jcmwwPaA7oDmGN2h0dHA6Ly9jZHAyLnBjYS5kZm4uZGUvZ2xv
-YmFsLXJvb3QtY2EvcHViL2NybC9jYWNybC5jcmwwgdcGCCsGAQUFBwEBBIHKMIHHMDMGCCsG
-AQUFBzABhidodHRwOi8vb2NzcC5wY2EuZGZuLmRlL09DU1AtU2VydmVyL09DU1AwRwYIKwYB
-BQUHMAKGO2h0dHA6Ly9jZHAxLnBjYS5kZm4uZGUvZ2xvYmFsLXJvb3QtY2EvcHViL2NhY2Vy
-dC9jYWNlcnQuY3J0MEcGCCsGAQUFBzAChjtodHRwOi8vY2RwMi5wY2EuZGZuLmRlL2dsb2Jh
-bC1yb290LWNhL3B1Yi9jYWNlcnQvY2FjZXJ0LmNydDANBgkqhkiG9w0BAQsFAAOCAQEAZx+M
-TZsyZ0M+0A59ikr+jSmNp+NJu2kWhbKf5OObbvT3xJtKTTry53id4NN/IOSpUpQmh0YUNfio
-GavZirOwPTSludARArFOhFF9+Xd3PrvPhCWEu1XFB3BbY8+8/sVIAF+Vd0QwUsZrhhxYylyf
-FEE4b1qELTkFmo/8XlhRSt+OAYozZL9TY2M/c7Smj9I2/46Yv38slKRTBI7geZP2Pym0B9hx
-iQkm2cb+DJtprkeyzz3RcluYtn0ncT8hLa5AK5BOfXm/+who0JQ98Cj3agWFc6yeFuoWF7u9
-ubYR6fO6Pexw9vo3ERmmGxxOh/w74Pp1XW75GyRbgS2b7XkmXTGCA94wggPaAgEBMIGPMIGD
-MQswCQYDVQQGEwJERTEnMCUGA1UEChMeRm9yc2NodW5nc3plbnRydW0gSnVlbGljaCBHbWJI
-MSowKAYDVQQDEyFGWkogQ2VydGlmaWNhdGlvbiBBdXRob3JpdHkgLSBHMDIxHzAdBgkqhkiG
-9w0BCQEWEGNhQGZ6LWp1ZWxpY2guZGUCBxZaUDgc+AQwDQYJYIZIAWUDBAIBBQCgggIfMBgG
-CSqGSIb3DQEJAzELBgkqhkiG9w0BBwEwHAYJKoZIhvcNAQkFMQ8XDTE2MDEyODA5MjQwNlow
-LwYJKoZIhvcNAQkEMSIEIIqanLRBK5kfJo9V7YeOA8kdmvI91+2+yaT9vtICF+mTMGwGCSqG
-SIb3DQEJDzFfMF0wCwYJYIZIAWUDBAEqMAsGCWCGSAFlAwQBAjAKBggqhkiG9w0DBzAOBggq
-hkiG9w0DAgICAIAwDQYIKoZIhvcNAwICAUAwBwYFKw4DAgcwDQYIKoZIhvcNAwICASgwgaAG
-CSsGAQQBgjcQBDGBkjCBjzCBgzELMAkGA1UEBhMCREUxJzAlBgNVBAoTHkZvcnNjaHVuZ3N6
-ZW50cnVtIEp1ZWxpY2ggR21iSDEqMCgGA1UEAxMhRlpKIENlcnRpZmljYXRpb24gQXV0aG9y
-aXR5IC0gRzAyMR8wHQYJKoZIhvcNAQkBFhBjYUBmei1qdWVsaWNoLmRlAgcWWlA4HPgEMIGi
-BgsqhkiG9w0BCRACCzGBkqCBjzCBgzELMAkGA1UEBhMCREUxJzAlBgNVBAoTHkZvcnNjaHVu
-Z3N6ZW50cnVtIEp1ZWxpY2ggR21iSDEqMCgGA1UEAxMhRlpKIENlcnRpZmljYXRpb24gQXV0
-aG9yaXR5IC0gRzAyMR8wHQYJKoZIhvcNAQkBFhBjYUBmei1qdWVsaWNoLmRlAgcWWlA4HPgE
-MA0GCSqGSIb3DQEBAQUABIIBAAulIJzimCB8Regj5gF8NYG1oO78T4wfRl46NgULiGDJfpTE
-U7jwzbssA4qvj+F+t2+QQ6TotGMDwmVB6vLgUkt0rzzUwpgSsMm7m1lvr04VwcI9+WL92bqn
-U20tDUK/nWz3ZOV1JVsgmh22AbJUv4RkIJX1dwXnM7dvP/Smd/cjw3O66vzngXjC+qH7AmFM
-M68OA5rVvbZ/nNB9n9JVuHEwn7QBleqEcFGpMHvbYYibmudfdeTQ0UvogVHQdS9aYvhbA2ng
-ImtWrB2txKZrLsS2sqFKhW0vKc1cJpVsEaP+7seEefX4W4wQbG8dYNPeDy594dWnzSHGhUeR
-VNdyAAkAAAAAAAA=
---------------ms050300050704020808050002--
+-- 
+Michael Kerrisk
+Linux man-pages maintainer; http://www.kernel.org/doc/man-pages/
+Linux/UNIX System Programming Training: http://man7.org/training/
 --
 To unsubscribe from this list: send the line "unsubscribe linux-man" in
 the body of a message to majordomo-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
