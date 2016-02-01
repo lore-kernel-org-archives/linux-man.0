@@ -1,83 +1,29 @@
 From: "Michael Kerrisk (man-pages)" <mtk.manpages-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org>
-Subject: Re: locale.1: update for 104511
-Date: Mon, 1 Feb 2016 15:29:10 +0100
-Message-ID: <56AF6BB6.1030505@gmail.com>
-References: <569CC4C8.9070608@redhat.com> <569CC5C5.40107@redhat.com>
- <569CC775.5080509@redhat.com>
+Subject: Re: exp(3) should refer to expm1(3)
+Date: Mon, 1 Feb 2016 15:31:30 +0100
+Message-ID: <56AF6C42.6020901@gmail.com>
+References: <56A9DE36.2070101@fz-juelich.de>
 Mime-Version: 1.0
 Content-Type: text/plain; charset=utf-8
 Content-Transfer-Encoding: 7bit
 Return-path: <linux-man-owner-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>
-In-Reply-To: <569CC775.5080509-H+wXaHxf7aLQT0dZR+AlfA@public.gmane.org>
+In-Reply-To: <56A9DE36.2070101-97/bSmCnXvjoK6nBLMlh1Q@public.gmane.org>
 Sender: linux-man-owner-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
-To: Marko Myllynen <myllynen-H+wXaHxf7aLQT0dZR+AlfA@public.gmane.org>, Florian Weimer <fweimer-H+wXaHxf7aLQT0dZR+AlfA@public.gmane.org>, linux-man <linux-man-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>
-Cc: mtk.manpages-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org
+To: Joachim Wuttke <j.wuttke-97/bSmCnXvjoK6nBLMlh1Q@public.gmane.org>
+Cc: mtk.manpages-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org, linux-man-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
 List-Id: linux-man@vger.kernel.org
 
-On 01/18/2016 12:07 PM, Marko Myllynen wrote:
-> Hi,
+On 01/28/2016 10:24 AM, Joachim Wuttke wrote:
+> expm1(3) should be added to the "see also" section of exp(3) -
 > 
-> On 2016-01-18 13:00, Florian Weimer wrote:
->> On 01/18/2016 11:56 AM, Marko Myllynen wrote:
->>> Addresses https://bugzilla.kernel.org/show_bug.cgi?id=104511.
->>>
->>> ---
->>>  man1/locale.1 | 4 ++++
->>>  1 file changed, 4 insertions(+)
->>>
->>> diff --git a/man1/locale.1 b/man1/locale.1
->>> index c10355f..505191d 100644
->>> --- a/man1/locale.1
->>> +++ b/man1/locale.1
->>> @@ -162,6 +162,10 @@ $ \fBlocale \-ck date_fmt\fP
->>>  LC_TIME
->>>  date_fmt="%a %b %e %H:%M:%S %Z %Y"
->>>  
->>> +$ \fBlocale -c charmap\fP
->>> +LC_CTYPE
->>> +UTF-8
->>> +
->>
->> I think this needs a comment that it shows the charset, or something like
->>
->> For example, the keyword
->> .B charmap
->> causes
->> .BR locale (1)
->> to display the character set for the locale.
-> 
-> Fair enough, how about this?
-> 
-> 
-> Addresses https://bugzilla.kernel.org/show_bug.cgi?id=104511.
+> compare log(3), which appropriately refers to log1p(3).
 
-Applied. Thanks, Marko.
+Agreed. Added. Thanks for the report.
 
 Cheers,
 
 Michael
 
-
-> ---
->  man1/locale.1 | 2 ++
->  1 file changed, 2 insertions(+)
-> 
-> diff --git a/man1/locale.1 b/man1/locale.1
-> index c10355f..a1cdfd8 100644
-> --- a/man1/locale.1
-> +++ b/man1/locale.1
-> @@ -65,6 +65,8 @@ metadata about each locale to be included in the output.
->  .TP
->  .BR \-m ", " \-\-charmaps
->  Display the available charmaps (character set description files).
-> +To display the current character set for the locale, use
-> +\fBlocale -c charmap\fR.
->  .PP
->  The
->  .B locale
-> 
-> Thanks,
-> 
 
 
 -- 
