@@ -1,61 +1,44 @@
-From: walter harms <wharms-fPG8STNUNVg@public.gmane.org>
-Subject: Re: [PATCH] aio.7: Improve example
-Date: Mon, 01 Feb 2016 13:09:29 +0100
-Message-ID: <56AF4AF9.9000807@bfs.de>
-References: <1454320018-14176-1-git-send-email-agruenba@redhat.com>
-Reply-To: wharms-fPG8STNUNVg@public.gmane.org
+From: "Michael Kerrisk (man-pages)" <mtk.manpages-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org>
+Subject: Re: [patch] select.2: Mention the fd size limitation early and refer
+ to poll
+Date: Mon, 1 Feb 2016 15:23:26 +0100
+Message-ID: <56AF6A5E.9040502@gmail.com>
+References: <1454058532.3459.1.camel@gnutls.org>
 Mime-Version: 1.0
-Content-Type: text/plain; charset=UTF-8
+Content-Type: text/plain; charset=utf-8
 Content-Transfer-Encoding: 7bit
 Return-path: <linux-man-owner-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>
-In-Reply-To: <1454320018-14176-1-git-send-email-agruenba-H+wXaHxf7aLQT0dZR+AlfA@public.gmane.org>
+In-Reply-To: <1454058532.3459.1.camel-c5N7Ur/I1ocdnm+yROfE0A@public.gmane.org>
 Sender: linux-man-owner-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
-To: Andreas Gruenbacher <agruenba-H+wXaHxf7aLQT0dZR+AlfA@public.gmane.org>
+To: Nikos Mavrogiannopoulos <nmav-c5N7Ur/I1ocdnm+yROfE0A@public.gmane.org>
 Cc: mtk.manpages-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org, linux-man-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
 List-Id: linux-man@vger.kernel.org
 
+Hello Nikos,
+
+On 01/29/2016 10:08 AM, Nikos Mavrogiannopoulos wrote:
+> That is because the serious limitation of select imposing a limit
+> on the values a file descriptor can have, is mentioned too late
+> in the documentation in the notes section. The manpage should
+> warn and refer to poll as soon as possible.
+
+Agreed. I merged your patch, and in fact even expanded the details
+quite a bit to emphasize this issue with (glibc) select()/pselect().
+
+> (patch attached)
+
+Thanks. (But inline patches are much easier to deal with...)
+
+Cheers,
+
+Michael
 
 
-Am 01.02.2016 10:46, schrieb Andreas Gruenbacher:
-> When aio_sigevent.sigev_notify is set to SIGEV_SIGNAL, signal handlers
-> called for asychronous I/O operations will have si->si_code set to
-> SI_ASYNCIO.  Check to make sure that si->si_value.sival_ptr is defined.
-> 
-> Signed-off-by: Andreas Gruenbacher <agruenba-H+wXaHxf7aLQT0dZR+AlfA@public.gmane.org>
-> ---
->  aio.7 | 12 +++++++-----
->  1 file changed, 7 insertions(+), 5 deletions(-)
-> 
-> diff --git a/aio.7 b/aio.7
-> index 1f861da..21193fd 100644
-> --- a/aio.7
-> +++ b/aio.7
-> @@ -281,12 +281,14 @@ quitHandler(int sig)
->  static void                 /* Handler for I/O completion signal */
->  aioSigHandler(int sig, siginfo_t *si, void *ucontext)
->  {
-> -    write(STDOUT_FILENO, "I/O completion signal received\\n", 31);
-> +    if (si->si_code == SI_ASYNCIO) {
-> +        write(STDOUT_FILENO, "I/O completion signal received\\n", 31);
 
-what about the replace write with dprintf ? dprintf is POSIX since 2008.
-
-re,
- wh
-
->  
-> -    /* The corresponding ioRequest structure would be available as
-> -           struct ioRequest *ioReq = si\->si_value.sival_ptr;
-> -       and the file descriptor would then be available via
-> -           ioReq\->aiocbp\->aio_fildes */
-> +        /* The corresponding ioRequest structure would be available as
-> +               struct ioRequest *ioReq = si\->si_value.sival_ptr;
-> +           and the file descriptor would then be available via
-> +               ioReq\->aiocbp\->aio_fildes */
-> +    }
->  }
->  
->  int
+-- 
+Michael Kerrisk
+Linux man-pages maintainer; http://www.kernel.org/doc/man-pages/
+Linux/UNIX System Programming Training: http://man7.org/training/
 --
 To unsubscribe from this list: send the line "unsubscribe linux-man" in
 the body of a message to majordomo-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
