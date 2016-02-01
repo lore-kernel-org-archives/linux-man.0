@@ -1,35 +1,45 @@
-From: "Michael Kerrisk (man-pages)" <mtk.manpages-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org>
-Subject: Re: exp(3) should refer to expm1(3)
-Date: Mon, 1 Feb 2016 15:31:30 +0100
-Message-ID: <56AF6C42.6020901@gmail.com>
-References: <56A9DE36.2070101@fz-juelich.de>
+From: Eric Dumazet <eric.dumazet-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org>
+Subject: [PATCH] ip.7: add IP_BIND_ADDRESS_NO_PORT description
+Date: Mon, 01 Feb 2016 15:35:22 -0800
+Message-ID: <1454369722.7627.191.camel@edumazet-glaptop2.roam.corp.google.com>
 Mime-Version: 1.0
-Content-Type: text/plain; charset=utf-8
+Content-Type: text/plain; charset="UTF-8"
 Content-Transfer-Encoding: 7bit
 Return-path: <linux-man-owner-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>
-In-Reply-To: <56A9DE36.2070101-97/bSmCnXvjoK6nBLMlh1Q@public.gmane.org>
 Sender: linux-man-owner-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
-To: Joachim Wuttke <j.wuttke-97/bSmCnXvjoK6nBLMlh1Q@public.gmane.org>
-Cc: mtk.manpages-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org, linux-man-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
+To: Michael Kerrisk <mtk.manpages-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org>
+Cc: linux-man-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
 List-Id: linux-man@vger.kernel.org
 
-On 01/28/2016 10:24 AM, Joachim Wuttke wrote:
-> expm1(3) should be added to the "see also" section of exp(3) -
-> 
-> compare log(3), which appropriately refers to log1p(3).
+From: Eric Dumazet <edumazet-hpIqsD4AKlfQT0dZR+AlfA@public.gmane.org>
 
-Agreed. Added. Thanks for the report.
+Documentation for IP_BIND_ADDRESS_NO_PORT socket option
+added in linux-4.2
+http://git.kernel.org/cgit/linux/kernel/git/torvalds/linux.git/commit/?id=90c337da1524863838658078ec34241f45d8394d
 
-Cheers,
+Signed-off-by: Eric Dumazet <edumazet-hpIqsD4AKlfQT0dZR+AlfA@public.gmane.org>
+---
+ man7/ip.7 |    5 +++++
+ 1 file changed, 5 insertions(+)
 
-Michael
+diff --git a/man7/ip.7 b/man7/ip.7
+index 1c51a50..f8d4e63 100644
+--- a/man7/ip.7
++++ b/man7/ip.7
+@@ -338,6 +338,11 @@ application wants to receive data from.
+ This option can be used multiple times to allow
+ receiving data from more than one source.
+ .TP
++.BR IP_BIND_ADDRESS_NO_PORT " (since Linux 4.2)
++Instruct kernel to not reserve an ephemeral port at bind() time.
++The port will be automatically chosen at connect() time, in a way
++that allows sharing a source port as long as the 4-tuples are unique.
++.TP
+ .BR IP_BLOCK_SOURCE " (since Linux 2.4.22 / 2.5.68)"
+ Stop receiving multicast data from a specific source in a given group.
+ This is valid only after the application has subscribed
 
 
-
--- 
-Michael Kerrisk
-Linux man-pages maintainer; http://www.kernel.org/doc/man-pages/
-Linux/UNIX System Programming Training: http://man7.org/training/
 --
 To unsubscribe from this list: send the line "unsubscribe linux-man" in
 the body of a message to majordomo-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
