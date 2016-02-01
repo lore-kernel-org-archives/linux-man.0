@@ -1,72 +1,82 @@
 From: "Michael Kerrisk (man-pages)" <mtk.manpages-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org>
-Subject: Re: [PATCH] aio.7: Improve example
-Date: Mon, 1 Feb 2016 15:25:54 +0100
-Message-ID: <56AF6AF2.9090009@gmail.com>
-References: <1454320018-14176-1-git-send-email-agruenba@redhat.com>
- <56AF4AF9.9000807@bfs.de>
+Subject: Re: locale.1: update for 104511
+Date: Mon, 1 Feb 2016 15:29:10 +0100
+Message-ID: <56AF6BB6.1030505@gmail.com>
+References: <569CC4C8.9070608@redhat.com> <569CC5C5.40107@redhat.com>
+ <569CC775.5080509@redhat.com>
 Mime-Version: 1.0
 Content-Type: text/plain; charset=utf-8
 Content-Transfer-Encoding: 7bit
 Return-path: <linux-man-owner-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>
-In-Reply-To: <56AF4AF9.9000807-fPG8STNUNVg@public.gmane.org>
+In-Reply-To: <569CC775.5080509-H+wXaHxf7aLQT0dZR+AlfA@public.gmane.org>
 Sender: linux-man-owner-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
-To: wharms-fPG8STNUNVg@public.gmane.org, Andreas Gruenbacher <agruenba-H+wXaHxf7aLQT0dZR+AlfA@public.gmane.org>
-Cc: mtk.manpages-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org, linux-man-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
+To: Marko Myllynen <myllynen-H+wXaHxf7aLQT0dZR+AlfA@public.gmane.org>, Florian Weimer <fweimer-H+wXaHxf7aLQT0dZR+AlfA@public.gmane.org>, linux-man <linux-man-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>
+Cc: mtk.manpages-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org
 List-Id: linux-man@vger.kernel.org
 
-On 02/01/2016 01:09 PM, walter harms wrote:
+On 01/18/2016 12:07 PM, Marko Myllynen wrote:
+> Hi,
 > 
-> 
-> Am 01.02.2016 10:46, schrieb Andreas Gruenbacher:
->> When aio_sigevent.sigev_notify is set to SIGEV_SIGNAL, signal handlers
->> called for asychronous I/O operations will have si->si_code set to
->> SI_ASYNCIO.  Check to make sure that si->si_value.sival_ptr is defined.
+> On 2016-01-18 13:00, Florian Weimer wrote:
+>> On 01/18/2016 11:56 AM, Marko Myllynen wrote:
+>>> Addresses https://bugzilla.kernel.org/show_bug.cgi?id=104511.
+>>>
+>>> ---
+>>>  man1/locale.1 | 4 ++++
+>>>  1 file changed, 4 insertions(+)
+>>>
+>>> diff --git a/man1/locale.1 b/man1/locale.1
+>>> index c10355f..505191d 100644
+>>> --- a/man1/locale.1
+>>> +++ b/man1/locale.1
+>>> @@ -162,6 +162,10 @@ $ \fBlocale \-ck date_fmt\fP
+>>>  LC_TIME
+>>>  date_fmt="%a %b %e %H:%M:%S %Z %Y"
+>>>  
+>>> +$ \fBlocale -c charmap\fP
+>>> +LC_CTYPE
+>>> +UTF-8
+>>> +
 >>
->> Signed-off-by: Andreas Gruenbacher <agruenba-H+wXaHxf7aLQT0dZR+AlfA@public.gmane.org>
->> ---
->>  aio.7 | 12 +++++++-----
->>  1 file changed, 7 insertions(+), 5 deletions(-)
+>> I think this needs a comment that it shows the charset, or something like
 >>
->> diff --git a/aio.7 b/aio.7
->> index 1f861da..21193fd 100644
->> --- a/aio.7
->> +++ b/aio.7
->> @@ -281,12 +281,14 @@ quitHandler(int sig)
->>  static void                 /* Handler for I/O completion signal */
->>  aioSigHandler(int sig, siginfo_t *si, void *ucontext)
->>  {
->> -    write(STDOUT_FILENO, "I/O completion signal received\\n", 31);
->> +    if (si->si_code == SI_ASYNCIO) {
->> +        write(STDOUT_FILENO, "I/O completion signal received\\n", 31);
+>> For example, the keyword
+>> .B charmap
+>> causes
+>> .BR locale (1)
+>> to display the character set for the locale.
 > 
-> what about the replace write with dprintf ? dprintf is POSIX since 2008.
+> Fair enough, how about this?
+> 
+> 
+> Addresses https://bugzilla.kernel.org/show_bug.cgi?id=104511.
 
-Hi Walter,
-
-The problem there is that dprintf() is not async-signal-safe.
+Applied. Thanks, Marko.
 
 Cheers,
 
 Michael
 
 
-
-> re,
->  wh
+> ---
+>  man1/locale.1 | 2 ++
+>  1 file changed, 2 insertions(+)
 > 
->>  
->> -    /* The corresponding ioRequest structure would be available as
->> -           struct ioRequest *ioReq = si\->si_value.sival_ptr;
->> -       and the file descriptor would then be available via
->> -           ioReq\->aiocbp\->aio_fildes */
->> +        /* The corresponding ioRequest structure would be available as
->> +               struct ioRequest *ioReq = si\->si_value.sival_ptr;
->> +           and the file descriptor would then be available via
->> +               ioReq\->aiocbp\->aio_fildes */
->> +    }
->>  }
->>  
->>  int
+> diff --git a/man1/locale.1 b/man1/locale.1
+> index c10355f..a1cdfd8 100644
+> --- a/man1/locale.1
+> +++ b/man1/locale.1
+> @@ -65,6 +65,8 @@ metadata about each locale to be included in the output.
+>  .TP
+>  .BR \-m ", " \-\-charmaps
+>  Display the available charmaps (character set description files).
+> +To display the current character set for the locale, use
+> +\fBlocale -c charmap\fR.
+>  .PP
+>  The
+>  .B locale
+> 
+> Thanks,
 > 
 
 
