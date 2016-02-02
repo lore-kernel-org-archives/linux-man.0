@@ -1,45 +1,41 @@
-From: Eric Dumazet <eric.dumazet-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org>
-Subject: [PATCH] ip.7: add IP_BIND_ADDRESS_NO_PORT description
-Date: Mon, 01 Feb 2016 15:35:22 -0800
-Message-ID: <1454369722.7627.191.camel@edumazet-glaptop2.roam.corp.google.com>
+From: "Michael Kerrisk (man-pages)" <mtk.manpages-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org>
+Subject: Re: Typo on shmget manpage
+Date: Tue, 2 Feb 2016 20:19:48 +0100
+Message-ID: <56B10154.60906@gmail.com>
+References: <CAPHDHKmCeGq=B7ta3+TwfKGaZSw+Vy0G2cwHMhJhQfn5shtyHg@mail.gmail.com>
 Mime-Version: 1.0
-Content-Type: text/plain; charset="UTF-8"
+Content-Type: text/plain; charset=utf-8
 Content-Transfer-Encoding: 7bit
 Return-path: <linux-man-owner-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>
+In-Reply-To: <CAPHDHKmCeGq=B7ta3+TwfKGaZSw+Vy0G2cwHMhJhQfn5shtyHg-JsoAwUIsXosN+BqQ9rBEUg@public.gmane.org>
 Sender: linux-man-owner-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
-To: Michael Kerrisk <mtk.manpages-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org>
-Cc: linux-man-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
+To: Fernando Monteiro <nandospm-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org>
+Cc: mtk.manpages-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org, linux-man-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
 List-Id: linux-man@vger.kernel.org
 
-From: Eric Dumazet <edumazet-hpIqsD4AKlfQT0dZR+AlfA@public.gmane.org>
+Hi Fernando,
 
-Documentation for IP_BIND_ADDRESS_NO_PORT socket option
-added in linux-4.2
-http://git.kernel.org/cgit/linux/kernel/git/torvalds/linux.git/commit/?id=90c337da1524863838658078ec34241f45d8394d
+On 02/02/2016 11:14 AM, Fernando Monteiro wrote:
+> Hi
+> 
+> There is a typo on return value section of shmget manpage.
+> 
+> On success, a valid shared memory identifier is returned.  On *errir*, -1
+>        is returned, and errno is set to indicate the error.
 
-Signed-off-by: Eric Dumazet <edumazet-hpIqsD4AKlfQT0dZR+AlfA@public.gmane.org>
----
- man7/ip.7 |    5 +++++
- 1 file changed, 5 insertions(+)
+Thanks for the report, but that typo was fixed about 20 releases ago!
+Always best to check the git version or http://man7.org/linux/man-pages/
+to see if an error is still present in the latest pages.
 
-diff --git a/man7/ip.7 b/man7/ip.7
-index 1c51a50..f8d4e63 100644
---- a/man7/ip.7
-+++ b/man7/ip.7
-@@ -338,6 +338,11 @@ application wants to receive data from.
- This option can be used multiple times to allow
- receiving data from more than one source.
- .TP
-+.BR IP_BIND_ADDRESS_NO_PORT " (since Linux 4.2)
-+Instruct kernel to not reserve an ephemeral port at bind() time.
-+The port will be automatically chosen at connect() time, in a way
-+that allows sharing a source port as long as the 4-tuples are unique.
-+.TP
- .BR IP_BLOCK_SOURCE " (since Linux 2.4.22 / 2.5.68)"
- Stop receiving multicast data from a specific source in a given group.
- This is valid only after the application has subscribed
+Thanks,
+
+Michael
 
 
+-- 
+Michael Kerrisk
+Linux man-pages maintainer; http://www.kernel.org/doc/man-pages/
+Linux/UNIX System Programming Training: http://man7.org/training/
 --
 To unsubscribe from this list: send the line "unsubscribe linux-man" in
 the body of a message to majordomo-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
