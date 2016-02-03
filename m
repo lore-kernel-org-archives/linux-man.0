@@ -1,14 +1,14 @@
 From: "Michael Kerrisk (man-pages)" <mtk.manpages-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org>
-Subject: Re: [PATCH 4/5] futex.2: tfix
-Date: Wed, 3 Feb 2016 08:27:12 +0100
-Message-ID: <56B1ABD0.8060207@gmail.com>
+Subject: Re: [PATCH 5/5] wavelan.4: tfix
+Date: Wed, 3 Feb 2016 08:27:30 +0100
+Message-ID: <56B1ABE2.3000305@gmail.com>
 References: <1454446248-448-1-git-send-email-jwilk@jwilk.net>
- <1454446248-448-4-git-send-email-jwilk@jwilk.net>
+ <1454446248-448-5-git-send-email-jwilk@jwilk.net>
 Mime-Version: 1.0
 Content-Type: text/plain; charset=windows-1252
 Content-Transfer-Encoding: 7bit
 Return-path: <linux-man-owner-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>
-In-Reply-To: <1454446248-448-4-git-send-email-jwilk-tXgOlIzOKNReoWH0uzbU5w@public.gmane.org>
+In-Reply-To: <1454446248-448-5-git-send-email-jwilk-tXgOlIzOKNReoWH0uzbU5w@public.gmane.org>
 Sender: linux-man-owner-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
 To: Jakub Wilk <jwilk-tXgOlIzOKNReoWH0uzbU5w@public.gmane.org>
 Cc: mtk.manpages-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org, linux-man-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
@@ -23,32 +23,24 @@ Cheers,
 
 Michael
 
+
 > ---
->  man2/futex.2 | 4 ++--
->  1 file changed, 2 insertions(+), 2 deletions(-)
+>  man4/wavelan.4 | 2 +-
+>  1 file changed, 1 insertion(+), 1 deletion(-)
 > 
-> diff --git a/man2/futex.2 b/man2/futex.2
-> index 7cf0d0b..4876b97 100644
-> --- a/man2/futex.2
-> +++ b/man2/futex.2
-> @@ -199,7 +199,7 @@ The
->  .I futex_op
->  argument consists of two parts:
->  a command that specifies the operation to be performed,
-> -bit-wise ORed with zero or or more options that
-> +bit-wise ORed with zero or more options that
->  modify the behaviour of the operation.
->  The options that may be included in
->  .I futex_op
-> @@ -456,7 +456,7 @@ ordered with respect to other operations on the same futex word.
->  
->  Typical values to specify for
->  .I val
-> -are 0 or or 1.
-> +are 0 or 1.
->  (Specifying
->  .BR INT_MAX
->  is not useful, because it would make the
+> diff --git a/man4/wavelan.4 b/man4/wavelan.4
+> index ebc4100..3ebdb7c 100644
+> --- a/man4/wavelan.4
+> +++ b/man4/wavelan.4
+> @@ -118,7 +118,7 @@ This distribution might be used to calculate the mean value
+>  and standard deviation of the signal level.
+>  .SS Specific notes
+>  This driver will fail to detect some
+> -.B non-NCR/ATT&T/Lucent
+> +.B non-NCR/AT&T/Lucent
+>  Wavelan cards.
+>  If this happens for you, you must look in the source code on
+>  how to add your card to the detection routine.
 > 
 
 
