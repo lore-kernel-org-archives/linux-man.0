@@ -1,14 +1,14 @@
 From: "Michael Kerrisk (man-pages)" <mtk.manpages-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org>
-Subject: Re: [PATCH 3/5] perf_event_open.2: tfix
-Date: Wed, 3 Feb 2016 08:26:49 +0100
-Message-ID: <56B1ABB9.7050907@gmail.com>
+Subject: Re: [PATCH 4/5] futex.2: tfix
+Date: Wed, 3 Feb 2016 08:27:12 +0100
+Message-ID: <56B1ABD0.8060207@gmail.com>
 References: <1454446248-448-1-git-send-email-jwilk@jwilk.net>
- <1454446248-448-3-git-send-email-jwilk@jwilk.net>
+ <1454446248-448-4-git-send-email-jwilk@jwilk.net>
 Mime-Version: 1.0
 Content-Type: text/plain; charset=windows-1252
 Content-Transfer-Encoding: 7bit
 Return-path: <linux-man-owner-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>
-In-Reply-To: <1454446248-448-3-git-send-email-jwilk-tXgOlIzOKNReoWH0uzbU5w@public.gmane.org>
+In-Reply-To: <1454446248-448-4-git-send-email-jwilk-tXgOlIzOKNReoWH0uzbU5w@public.gmane.org>
 Sender: linux-man-owner-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
 To: Jakub Wilk <jwilk-tXgOlIzOKNReoWH0uzbU5w@public.gmane.org>
 Cc: mtk.manpages-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org, linux-man-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
@@ -24,22 +24,31 @@ Cheers,
 Michael
 
 > ---
->  man2/perf_event_open.2 | 2 +-
->  1 file changed, 1 insertion(+), 1 deletion(-)
+>  man2/futex.2 | 4 ++--
+>  1 file changed, 2 insertions(+), 2 deletions(-)
 > 
-> diff --git a/man2/perf_event_open.2 b/man2/perf_event_open.2
-> index 152bc5c..317ecbe 100644
-> --- a/man2/perf_event_open.2
-> +++ b/man2/perf_event_open.2
-> @@ -362,7 +362,7 @@ in Linux 3.19.
->  .\" commit 60e2364e60e86e81bc6377f49779779e6120977f
->  .B PERF_ATTR_SIZE_VER5
->  is 112 corresponding to the addition of
-> -.I aux_watermak
-> +.I aux_watermark
->  in Linux 4.1.
->  .\" commit 1a5941312414c71dece6717da9a0fa1303127afa
->  .TP
+> diff --git a/man2/futex.2 b/man2/futex.2
+> index 7cf0d0b..4876b97 100644
+> --- a/man2/futex.2
+> +++ b/man2/futex.2
+> @@ -199,7 +199,7 @@ The
+>  .I futex_op
+>  argument consists of two parts:
+>  a command that specifies the operation to be performed,
+> -bit-wise ORed with zero or or more options that
+> +bit-wise ORed with zero or more options that
+>  modify the behaviour of the operation.
+>  The options that may be included in
+>  .I futex_op
+> @@ -456,7 +456,7 @@ ordered with respect to other operations on the same futex word.
+>  
+>  Typical values to specify for
+>  .I val
+> -are 0 or or 1.
+> +are 0 or 1.
+>  (Specifying
+>  .BR INT_MAX
+>  is not useful, because it would make the
 > 
 
 
