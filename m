@@ -1,81 +1,26 @@
-From: Ross Zwisler <zwisler-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org>
-Subject: Re: [PATCH] update the sync.2 man page
-Date: Wed, 10 Feb 2016 09:00:40 -0700
-Message-ID: <CAOxpaSWLp8+gOh_dfaPB2jx3Py=ei1YpuCxRP-5OLHOHmUegXw@mail.gmail.com>
-References: <20160209162134.GA18634@infradead.org>
+From: fu.zhongjun-giKlXZhrs3sAvxtiuMwx3w@public.gmane.org
+Subject: Good day
+Date: Wed, 10 Feb 2016 17:33:56 +0100
+Message-ID: <TRU-DC2I8NFr9oD6XML00009987__47030.9077915319$1455162663$gmane$org@TRU-DC2.utu-trust.com>
+Reply-To: fuzhong348-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org
 Mime-Version: 1.0
-Content-Type: text/plain; charset=UTF-8
+Content-Type: text/plain; charset=US-ASCII
+Content-Transfer-Encoding: 7BIT
 Return-path: <linux-man-owner-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>
-In-Reply-To: <20160209162134.GA18634-wEGCiKHe2LqWVfeAwA7xHQ@public.gmane.org>
+Content-Description: Mail message body
 Sender: linux-man-owner-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
-To: Christoph Hellwig <hch-wEGCiKHe2LqWVfeAwA7xHQ@public.gmane.org>
-Cc: linux-man-u79uwXL29TY76Z2rM5mHXA@public.gmane.org, linux-fsdevel <linux-fsdevel-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>
+To: Recipients <fu.zhongjun-giKlXZhrs3sAvxtiuMwx3w@public.gmane.org>
 List-Id: linux-man@vger.kernel.org
 
-On Tue, Feb 9, 2016 at 9:21 AM, Christoph Hellwig <hch-wEGCiKHe2LqWVfeAwA7xHQ@public.gmane.org> wrote:
-> Clarify the description a bit, and document the Linux data integrity
-> guarantees.
->
-> Signed-off-by: Christoph Hellwig <hch-jcswGhMUV9g@public.gmane.org>
+Good day,
 
-Thank you for clarifying this.
+I need a foreign partner for a proposed mutual business, which refers to the transfer of a large sum of money to an account abroad, as the beneficiary of the funds. Everything about this operation, will be legally done without any bridge financial authority, both in my country and yours.I wil indulge you exercise the utmost discretion in all matters concerning this issue. If you are interested, please reply back through my private email address written down, I'll give you more information about myself with the financial institution I represented and the actual amounts involved about the project so I receive your positive response.
 
-> diff --git a/man2/sync.2 b/man2/sync.2
-> index 5e222cb..28a42c4 100644
-> --- a/man2/sync.2
-> +++ b/man2/sync.2
-> @@ -35,7 +35,7 @@
->  .\"
->  .TH SYNC 2 2015-08-08 "Linux" "Linux Programmer's Manual"
->  .SH NAME
-> -sync, syncfs \- commit buffer cache to disk
-> +sync, syncfs \- commit filesystem caches to disk
->  .SH SYNOPSIS
->  .B #include <unistd.h>
->  .sp
-> @@ -64,8 +64,8 @@ _GNU_SOURCE
->  .ad
->  .SH DESCRIPTION
->  .BR sync ()
-> -causes all buffered modifications to file metadata and data to be
-> -written to the underlying filesystems.
-> +causes all pending modifications to file system metadata and cached file
-> +data to be written to the underlying filesystems.
->
->  .BR syncfs ()
->  is like
-> @@ -108,16 +108,21 @@ In glibc 2.2.1 and earlier,
->  it was "int sync(void)", and
->  .BR sync ()
->  always returned 0.
-> -.SH BUGS
-> +
->  According to the standard specification (e.g., POSIX.1-2001),
->  .BR sync ()
->  schedules the writes, but may return before the actual
-> -writing is done.
-> -However, since version 1.3.20 Linux does actually wait.
-> -(This still does not guarantee data integrity: modern disks have
-> -large caches.)
-> +writing is done.  However Linux waits for I/O completions,
-> +and thus
-> +.BR sync ()
-> +or
-> +.BR syncfs ()
-> +provide the same guarantees as fsync called on every file in
-> +the system or filesystem respectively.
-> +.SH BUGS
-> +Before version 1.3.20 Linux did not wait for I/O to complete
-> +before returning.
->  .SH SEE ALSO
-> -.BR bdflush (2),
->  .BR fdatasync (2),
->  .BR fsync (2),
->  .BR sync (1)
-> --
-> To unsubscribe from this list: send the line "unsubscribe linux-fsdevel" in
-> the body of a message to majordomo-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
-> More majordomo info at  http://vger.kernel.org/majordomo-info.html
+Private E-mail: fu.zhong-x3Aeo2lzUarYa4IuQwzu8g@public.gmane.org
+
+Friendly greeting,
+
+Executive director.
 --
 To unsubscribe from this list: send the line "unsubscribe linux-man" in
 the body of a message to majordomo-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
