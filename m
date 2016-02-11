@@ -1,61 +1,88 @@
 From: "Michael Kerrisk (man-pages)" <mtk.manpages-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org>
-Subject: Re: [PATCH] unicode.7: Document private use areas
-Date: Thu, 11 Feb 2016 13:24:15 +0100
-Message-ID: <56BC7D6F.8060801@gmail.com>
-References: <56B9CD22.3090306@debian.org>
+Subject: Re: [PATCH] update the sync.2 man page
+Date: Thu, 11 Feb 2016 13:35:30 +0100
+Message-ID: <56BC8012.6080900@gmail.com>
+References: <20160209162134.GA18634@infradead.org>
 Mime-Version: 1.0
-Content-Type: text/plain; charset=utf-8
+Content-Type: text/plain; charset=windows-1252
 Content-Transfer-Encoding: 7bit
 Return-path: <linux-man-owner-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>
-In-Reply-To: <56B9CD22.3090306-8fiUuRrzOP0dnm+yROfE0A@public.gmane.org>
+In-Reply-To: <20160209162134.GA18634-wEGCiKHe2LqWVfeAwA7xHQ@public.gmane.org>
 Sender: linux-man-owner-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
-To: "Dr. Tobias Quathamer" <toddy-8fiUuRrzOP0dnm+yROfE0A@public.gmane.org>
-Cc: mtk.manpages-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org, linux-man-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
+To: Christoph Hellwig <hch-wEGCiKHe2LqWVfeAwA7xHQ@public.gmane.org>, linux-man-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
+Cc: mtk.manpages-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org, linux-fsdevel-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
 List-Id: linux-man@vger.kernel.org
 
-On 02/09/2016 12:27 PM, Dr. Tobias Quathamer wrote:
-> there's a quite old bug report in Debian about missing information in
-> unicode.7. I've attached a patch with a wording suggestion.
-> 
-> <https://bugs.debian.org/285444>
+On 02/09/2016 05:21 PM, Christoph Hellwig wrote:
+> Clarify the description a bit, and document the Linux data integrity
+> guarantees.
 
-Thanks, Tobias. Applied.
+Thanks, Christoph. Applied.
 
 Cheers,
 
 Michael
 
-
-> ---
->  man7/unicode.7 | 7 ++++++-
->  1 file changed, 6 insertions(+), 1 deletion(-)
+> Signed-off-by: Christoph Hellwig <hch-jcswGhMUV9g@public.gmane.org>
 > 
-> diff --git a/man7/unicode.7 b/man7/unicode.7
-> index b21b5fb..dc586d8 100644
-> --- a/man7/unicode.7
-> +++ b/man7/unicode.7
-> @@ -191,7 +191,7 @@ and
->  tells, how many positions (0\(en2) the cursor is advanced by the
->  output of a character.
->  .PP
-> -.SS Private area
-> +.SS Private Use Areas (PUA)
->  In the Basic Multilingual Plane,
->  the range 0xe000 to 0xf8ff will never be assigned to any characters by
->  the standard and is reserved for private usage.
-> @@ -205,6 +205,11 @@ assigned to the Linux zone is maintained by LANANA and the registry
->  itself is
->  .I Documentation/unicode.txt
->  in the Linux kernel sources.
-> +.PP
-> +Two other planes are reserved for private usage, plane 15
-> +(Supplementary Private Use Area-A, range 0xf0000 to 0xffffd)
-> +and plane 16 (Supplementary Private Use Area-B, range
-> +0x100000 to 0x10fffd).
->  .SS Literature
->  .IP * 3
->  Information technology \(em Universal Multiple-Octet Coded Character
-> -- 
+> diff --git a/man2/sync.2 b/man2/sync.2
+> index 5e222cb..28a42c4 100644
+> --- a/man2/sync.2
+> +++ b/man2/sync.2
+> @@ -35,7 +35,7 @@
+>  .\"
+>  .TH SYNC 2 2015-08-08 "Linux" "Linux Programmer's Manual"
+>  .SH NAME
+> -sync, syncfs \- commit buffer cache to disk
+> +sync, syncfs \- commit filesystem caches to disk
+>  .SH SYNOPSIS
+>  .B #include <unistd.h>
+>  .sp
+> @@ -64,8 +64,8 @@ _GNU_SOURCE
+>  .ad
+>  .SH DESCRIPTION
+>  .BR sync ()
+> -causes all buffered modifications to file metadata and data to be
+> -written to the underlying filesystems.
+> +causes all pending modifications to file system metadata and cached file
+> +data to be written to the underlying filesystems.
+>  
+>  .BR syncfs ()
+>  is like
+> @@ -108,16 +108,21 @@ In glibc 2.2.1 and earlier,
+>  it was "int sync(void)", and
+>  .BR sync ()
+>  always returned 0.
+> -.SH BUGS
+> +
+>  According to the standard specification (e.g., POSIX.1-2001),
+>  .BR sync ()
+>  schedules the writes, but may return before the actual
+> -writing is done.
+> -However, since version 1.3.20 Linux does actually wait.
+> -(This still does not guarantee data integrity: modern disks have
+> -large caches.)
+> +writing is done.  However Linux waits for I/O completions,
+> +and thus
+> +.BR sync ()
+> +or
+> +.BR syncfs ()
+> +provide the same guarantees as fsync called on every file in
+> +the system or filesystem respectively.
+> +.SH BUGS
+> +Before version 1.3.20 Linux did not wait for I/O to complete
+> +before returning.
+>  .SH SEE ALSO
+> -.BR bdflush (2),
+>  .BR fdatasync (2),
+>  .BR fsync (2),
+>  .BR sync (1)
+> --
+> To unsubscribe from this list: send the line "unsubscribe linux-man" in
+> the body of a message to majordomo-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
+> More majordomo info at  http://vger.kernel.org/majordomo-info.html
+> .
+> 
 
 
 -- 
