@@ -1,26 +1,63 @@
-From: fu.zhongjun-giKlXZhrs3sAvxtiuMwx3w@public.gmane.org
-Subject: Good day
-Date: Wed, 10 Feb 2016 17:33:56 +0100
-Message-ID: <TRU-DC2I8NFr9oD6XML00009987__47030.9077915319$1455162663$gmane$org@TRU-DC2.utu-trust.com>
-Reply-To: fuzhong348-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org
+From: "Michael Kerrisk (man-pages)" <mtk.manpages-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org>
+Subject: Re: [PATCH] st4: Remove spurious copyright section
+Date: Thu, 11 Feb 2016 13:21:11 +0100
+Message-ID: <56BC7CB7.4040601@gmail.com>
+References: <56BA4329.4040402@debian.org>
 Mime-Version: 1.0
-Content-Type: text/plain; charset=US-ASCII
-Content-Transfer-Encoding: 7BIT
+Content-Type: text/plain; charset=utf-8
+Content-Transfer-Encoding: 7bit
 Return-path: <linux-man-owner-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>
-Content-Description: Mail message body
+In-Reply-To: <56BA4329.4040402-8fiUuRrzOP0dnm+yROfE0A@public.gmane.org>
 Sender: linux-man-owner-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
-To: Recipients <fu.zhongjun-giKlXZhrs3sAvxtiuMwx3w@public.gmane.org>
+To: "Dr. Tobias Quathamer" <toddy-8fiUuRrzOP0dnm+yROfE0A@public.gmane.org>
+Cc: mtk.manpages-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org, linux-man-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
 List-Id: linux-man@vger.kernel.org
 
-Good day,
+Hello Tobias,
 
-I need a foreign partner for a proposed mutual business, which refers to the transfer of a large sum of money to an account abroad, as the beneficiary of the funds. Everything about this operation, will be legally done without any bridge financial authority, both in my country and yours.I wil indulge you exercise the utmost discretion in all matters concerning this issue. If you are interested, please reply back through my private email address written down, I'll give you more information about myself with the financial institution I represented and the actual amounts involved about the project so I receive your positive response.
+> there seems to be a leftover copyright section in st.4.
 
-Private E-mail: fu.zhong-x3Aeo2lzUarYa4IuQwzu8g@public.gmane.org
+Thanks for the patch! Applied.
 
-Friendly greeting,
+By the way, inline patches make my life rather easier. Could 
+you do that for future patches?
 
-Executive director.
+Thanks,
+
+Michael
+
+
+> ---
+>  man4/st.4 | 10 ----------
+>  1 file changed, 10 deletions(-)
+> 
+> diff --git a/man4/st.4 b/man4/st.4
+> index f44310b..13e7f8e 100644
+> --- a/man4/st.4
+> +++ b/man4/st.4
+> @@ -941,16 +941,6 @@ kernel.
+>  The solution is to tell the software to use larger transfers (often
+>  telling it to use larger blocks).
+>  If this is not possible, direct transfers can be disabled.
+> -.\" .SH COPYRIGHT
+> -.\" Copyright \(co 1995 Robert K. Nichols.
+> -.\" .br
+> -.\" Copyright \(co 1999-2005 Kai M\(:akisara.
+> -.\" .PP
+> -.\" %%%LICENSE_START(VERBATIM)
+> -.\" Permission is granted to make and distribute verbatim copies of this
+> -.\" manual provided the copyright notice and this permission notice are
+> -.\" preserved on all copies.
+> -.\" Additional permissions are contained in the header of the source file.
+>  .SH SEE ALSO
+>  .BR mt (1)
+>  .PP
+
+
+-- 
+Michael Kerrisk
+Linux man-pages maintainer; http://www.kernel.org/doc/man-pages/
+Linux/UNIX System Programming Training: http://man7.org/training/
 --
 To unsubscribe from this list: send the line "unsubscribe linux-man" in
 the body of a message to majordomo-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
