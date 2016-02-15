@@ -1,44 +1,32 @@
 From: "Dr. Tobias Quathamer" <toddy-8fiUuRrzOP0dnm+yROfE0A@public.gmane.org>
-Subject: [PATCH] termios.3: Document line length in canonical mode
-Date: Mon, 15 Feb 2016 14:26:59 +0100
-Message-ID: <1455542819-29184-1-git-send-email-toddy@debian.org>
+Subject: [PATCH] queue.3: Remove double CONFORMING TO section
+Date: Mon, 15 Feb 2016 14:40:13 +0100
+Message-ID: <1455543613-29970-1-git-send-email-toddy@debian.org>
 Return-path: <linux-man-owner-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>
 Sender: linux-man-owner-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
 To: Michael Kerrisk <mtk.manpages-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org>
 Cc: linux-man-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
 List-Id: linux-man@vger.kernel.org
 
-See https://git.kernel.org/cgit/linux/kernel/git/torvalds/linux.git/tree/drivers/tty/n_tty.c#n1673
-See https://bugs.debian.org/797479
 ---
- man3/termios.3 | 9 +++++++++
- 1 file changed, 9 insertions(+)
+ man3/queue.3 | 4 +---
+ 1 file changed, 1 insertion(+), 3 deletions(-)
 
-diff --git a/man3/termios.3 b/man3/termios.3
-index 7d738d4..3f57607 100644
---- a/man3/termios.3
-+++ b/man3/termios.3
-@@ -728,11 +728,20 @@ requested fewer bytes than are available in the current line of input,
- then only as many bytes as requested are read,
- and the remaining characters will be available for a future
- .BR read (2).
-+.IP * 2
-+The maximum line length is 4096 chars (including the line termination
-+char); lines longer than 4096 chars are truncated. After 4095 chars,
-+input data is still processed but not stored. Overflow processing
-+ensures the tty can always receive more input until at least one
-+line can be read.
- .PP
- In noncanonical mode input is available immediately (without
- the user having to type a line-delimiter character),
- no input processing is performed,
- and line editing is disabled.
-+The read buffer will only accept 4095 chars; this provides the
-+necessary space for a newline char if the input mode is switched
-+to canonical.
- The settings of MIN
- .RI ( c_cc[VMIN] )
- and TIME
+diff --git a/man3/queue.3 b/man3/queue.3
+index fdc17b2..5b0147f 100644
+--- a/man3/queue.3
++++ b/man3/queue.3
+@@ -1219,9 +1219,7 @@ while (head.cqh_first != (void *)&head)
+     CIRCLEQ_REMOVE(&head, head.cqh_first, entries);
+ .Ed
+ .Sh CONFORMING TO
+-Not in POSIX.1-2001 or POSIX.1-2008.
+-.SH CONFORMING TO
+-Not in POSIX.1.
++Not in POSIX.1, POSIX.1-2001 or POSIX.1-2008.
+ Present on the BSDs.
+ .Nm queue
+ functions first appeared in
 -- 
 2.5.0
 
