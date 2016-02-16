@@ -1,64 +1,95 @@
-From: Mike Frysinger <vapier-aBrp7R+bbdUdnm+yROfE0A@public.gmane.org>
-Subject: SEE ALSO: func based or man page based?
-Date: Tue, 16 Feb 2016 17:26:13 -0500
-Message-ID: <20160216222613.GJ7732@vapier.lan>
+From: Peter Hurley <peter-WaGBZJeGNqdsbIuE7sb01tBPR1lH4CV8@public.gmane.org>
+Subject: Re: [PATCH] termios.3: Document line length in canonical mode
+Date: Tue, 16 Feb 2016 14:30:37 -0800
+Message-ID: <56C3A30D.5010101@hurleysoftware.com>
+References: <1455542819-29184-1-git-send-email-toddy@debian.org>
+ <56C1EEA6.5080500@gmail.com>
 Mime-Version: 1.0
-Content-Type: multipart/signed; micalg=pgp-sha256;
-	protocol="application/pgp-signature"; boundary="cQx5fYD6zrLPRXWY"
+Content-Type: text/plain; charset=utf-8
+Content-Transfer-Encoding: QUOTED-PRINTABLE
 Return-path: <linux-man-owner-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>
-Content-Disposition: inline
+In-Reply-To: <56C1EEA6.5080500-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org>
 Sender: linux-man-owner-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
-To: linux-man-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
+To: "Michael Kerrisk (man-pages)" <mtk.manpages-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org>, "Dr. Tobias Quathamer" <toddy-8fiUuRrzOP0dnm+yROfE0A@public.gmane.org>
+Cc: linux-man-u79uwXL29TY76Z2rM5mHXA@public.gmane.org, Daniel Shahaf <danielsh-1oDqGaOF3Lkdnm+yROfE0A@public.gmane.org>
 List-Id: linux-man@vger.kernel.org
 
+On 02/15/2016 07:28 AM, Michael Kerrisk (man-pages) wrote:
+> Hello Tobias,
+>=20
+> On 02/15/2016 02:26 PM, Dr. Tobias Quathamer wrote:
+>> See https://git.kernel.org/cgit/linux/kernel/git/torvalds/linux.git/=
+tree/drivers/tty/n_tty.c#n1673
+>> See https://bugs.debian.org/797479
+>> ---
+>>  man3/termios.3 | 9 +++++++++
+>>  1 file changed, 9 insertions(+)
+>>
+>> diff --git a/man3/termios.3 b/man3/termios.3
+>> index 7d738d4..3f57607 100644
+>> --- a/man3/termios.3
+>> +++ b/man3/termios.3
+>> @@ -728,11 +728,20 @@ requested fewer bytes than are available in th=
+e current line of input,
+>>  then only as many bytes as requested are read,
+>>  and the remaining characters will be available for a future
+>>  .BR read (2).
+>> +.IP * 2
+>> +The maximum line length is 4096 chars (including the line terminati=
+on
+>> +char); lines longer than 4096 chars are truncated. After 4095 chars=
+,
+>> +input data is still processed but not stored. Overflow processing
+>> +ensures the tty can always receive more input until at least one
+>> +line can be read.
+>>  .PP
+>>  In noncanonical mode input is available immediately (without
+>>  the user having to type a line-delimiter character),
+>>  no input processing is performed,
+>>  and line editing is disabled.
+>> +The read buffer will only accept 4095 chars; this provides the
+>> +necessary space for a newline char if the input mode is switched
+>> +to canonical.
+>>  The settings of MIN
+>>  .RI ( c_cc[VMIN] )
+>>  and TIME
+>=20
+> Thanks for crafting this. I've applied, and tweaked a little to clari=
+fy
+> some details:
+>=20
+>        * The maximum line length is 4096 chars (including the  termin=
+ating
+>          newline  character);  lines longer than 4096 chars are trunc=
+ated.
+>          After 4095 characters, input data up (but not including) any=
+ ter=E2=80=90
+>          minating  newline  is  discarded.  This ensures that the ter=
+minal
+>          can always receive more input until at  least  one  line  ca=
+n  be
+>          read.
 
---cQx5fYD6zrLPRXWY
-Content-Type: text/plain; charset=utf-8
-Content-Disposition: inline
+Hmm. Neither description is accurate of the observable behavior from us=
+erspace.
+=46or example, it's entirely possible to retrieve > 4096 bytes in non-c=
+anonical
+mode, at least since 3.12
 
-i often remember the func name "sigprocmask".  but when i'm in that page,
-i have a hard time remembering the exact naming for the set operators.
-rather than search, i figure just checking out the SEE ALSO section will
-quickly answer me ... except it doesn't (directly).
+And input processing continues on the input, even past 4096 bytes.
+Line editing, ISIG, ECHOxx processing still occurs.
 
-this is what sigprocmask(2) has:
-SEE ALSO
-    kill(2), pause(2), sigaction(2), signal(2), sigpending(2),
-    sigsuspend(2), pthread_sigmask(3), sigqueue(3), sigsetops(3),
-    signal(7)
+It is true that it is not possible to retrieve > 4096 char line in cano=
+nical
+mode, and I don't see that ever changing via read() because userspace m=
+ay
+assume it has received a terminated line in 4096-byte read buffer.
 
-i read that a few times and then just start picking signal related
-pages until i stumble across sigsetops(3).
+However, the noncanonical mode input buffer size may change in the near
+future.
 
-is there a policy against listing the functions that appear in a
-grouped page ?  or would it be ok to add the funcs in the sigsetops
-page directly to sigprocmask's SEE ALSO ?  grepping shows that at
-least select_tut(2) is out of sync ...
--mike
-
---cQx5fYD6zrLPRXWY
-Content-Type: application/pgp-signature; name="signature.asc"
-Content-Description: Digital signature
-
------BEGIN PGP SIGNATURE-----
-Version: GnuPG v2
-
-iQIcBAEBCAAGBQJWw6IFAAoJEEFjO5/oN/WBHXEQANjuFcpJNtEpSvOzBtQVBBxz
-rv3XrPmPRyw8IClw3RHcHpWFHr6CVzV32j3yEJwi+uaHI1dVPe3ZBYoexPbPWy+I
-+c5l8FjdZen4wNXyQHdl2nsLYZcC3U3AXfYatlX31KonkaqiGfOcVGCd6Ban35Tu
-Ts4bF+x/LCAr39J7b2agAgh5Drcm1dHTZs/AqUdYD6nxB6jV7IRI8ZagYZ6mFT8n
-IboygUaHf2qpz7d+sefT45ngv/vr9plLI/MX8fM20oTlsOzOYzmMeKrRsWrl3vOG
-kQCGcK4STXZx/Ny5t4HJcuoqOoIfX3cqFSOtIlwuSf5ZpvNXLBrf9eTbMDJ3QisR
-5X/NNBuBYZK9wFKYY0ogrgd12er1F5QgNy8S06e3pYX0sS7FzEaCgyIdEEpqTACo
-rEzWwpXSt4RRlUdFpXyHbAr/V4iRXKHSjlRQtwthAHDuegITbQXQ4Qg0YKwP/Dcy
-2f9ZrOpzebucyd99FHwg5KRRXvrsb7fDGetpBzqnhr9pPIDNPSJ9Kxj2JsuZzSu1
-JtB9a/5vObgZSTcP9pdiKCH6gSRM8JZy3Rz0lUJCmstIvgRND4GJVC3126U5IlPs
-HYhzavTY99m7sXayjiKoQJYTe9VSfL4QXkiCS8554l5jMWkoyNnK9H4zro4QfWmU
-0GVZAsfKNkIKco6wgyOQ
-=0xXo
------END PGP SIGNATURE-----
-
---cQx5fYD6zrLPRXWY--
+Regards,
+Peter Hurley
 --
 To unsubscribe from this list: send the line "unsubscribe linux-man" in
 the body of a message to majordomo-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
