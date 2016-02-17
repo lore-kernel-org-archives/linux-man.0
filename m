@@ -1,130 +1,84 @@
 From: "Michael Kerrisk (man-pages)" <mtk.manpages-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org>
-Subject: Re: [PATCH] termios.3: Document line length in canonical mode
-Date: Wed, 17 Feb 2016 11:09:39 +0100
-Message-ID: <56C446E3.2070501@gmail.com>
-References: <1455542819-29184-1-git-send-email-toddy@debian.org>
- <56C1EEA6.5080500@gmail.com> <56C3A30D.5010101@hurleysoftware.com>
+Subject: Re: Proposed change to str*.3 man pages
+Date: Wed, 17 Feb 2016 11:29:26 +0100
+Message-ID: <56C44B86.8020406@gmail.com>
+References: <CAAHpriNWwEnK0ciFnhUMR+N0SpyGBss7nQmxBE11R7Q9GJA7GA@mail.gmail.com>
 Mime-Version: 1.0
 Content-Type: text/plain; charset=utf-8
-Content-Transfer-Encoding: QUOTED-PRINTABLE
+Content-Transfer-Encoding: 7bit
 Return-path: <linux-man-owner-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>
-In-Reply-To: <56C3A30D.5010101-WaGBZJeGNqdsbIuE7sb01tBPR1lH4CV8@public.gmane.org>
+In-Reply-To: <CAAHpriNWwEnK0ciFnhUMR+N0SpyGBss7nQmxBE11R7Q9GJA7GA-JsoAwUIsXosN+BqQ9rBEUg@public.gmane.org>
 Sender: linux-man-owner-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
-To: Peter Hurley <peter-WaGBZJeGNqdsbIuE7sb01tBPR1lH4CV8@public.gmane.org>, "Dr. Tobias Quathamer" <toddy-8fiUuRrzOP0dnm+yROfE0A@public.gmane.org>
-Cc: mtk.manpages-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org, linux-man-u79uwXL29TY76Z2rM5mHXA@public.gmane.org, Daniel Shahaf <danielsh-1oDqGaOF3Lkdnm+yROfE0A@public.gmane.org>
+To: Keith Thompson <keithsthompson-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org>, linux-man-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
+Cc: mtk.manpages-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org, Keith Thompson <Keith.S.Thompson-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org>
 List-Id: linux-man@vger.kernel.org
 
-Hello Peter
+Hello Keith,
 
-On 02/16/2016 11:30 PM, Peter Hurley wrote:
-> On 02/15/2016 07:28 AM, Michael Kerrisk (man-pages) wrote:
->> Hello Tobias,
->>
->> On 02/15/2016 02:26 PM, Dr. Tobias Quathamer wrote:
->>> See https://git.kernel.org/cgit/linux/kernel/git/torvalds/linux.git=
-/tree/drivers/tty/n_tty.c#n1673
->>> See https://bugs.debian.org/797479
->>> ---
->>>  man3/termios.3 | 9 +++++++++
->>>  1 file changed, 9 insertions(+)
->>>
->>> diff --git a/man3/termios.3 b/man3/termios.3
->>> index 7d738d4..3f57607 100644
->>> --- a/man3/termios.3
->>> +++ b/man3/termios.3
->>> @@ -728,11 +728,20 @@ requested fewer bytes than are available in t=
-he current line of input,
->>>  then only as many bytes as requested are read,
->>>  and the remaining characters will be available for a future
->>>  .BR read (2).
->>> +.IP * 2
->>> +The maximum line length is 4096 chars (including the line terminat=
-ion
->>> +char); lines longer than 4096 chars are truncated. After 4095 char=
-s,
->>> +input data is still processed but not stored. Overflow processing
->>> +ensures the tty can always receive more input until at least one
->>> +line can be read.
->>>  .PP
->>>  In noncanonical mode input is available immediately (without
->>>  the user having to type a line-delimiter character),
->>>  no input processing is performed,
->>>  and line editing is disabled.
->>> +The read buffer will only accept 4095 chars; this provides the
->>> +necessary space for a newline char if the input mode is switched
->>> +to canonical.
->>>  The settings of MIN
->>>  .RI ( c_cc[VMIN] )
->>>  and TIME
->>
->> Thanks for crafting this. I've applied, and tweaked a little to clar=
-ify
->> some details:
->>
->>        * The maximum line length is 4096 chars (including the  termi=
-nating
->>          newline  character);  lines longer than 4096 chars are trun=
-cated.
->>          After 4095 characters, input data up (but not including) an=
-y ter=E2=80=90
->>          minating  newline  is  discarded.  This ensures that the te=
-rminal
->>          can always receive more input until at  least  one  line  c=
-an  be
->>          read.
->=20
-> Hmm. Neither description is accurate of the observable behavior from =
-userspace.
-> For example, it's entirely possible to retrieve > 4096 bytes in non-c=
-anonical
-> mode, at least since 3.12
+On 02/16/2016 11:52 PM, Keith Thompson wrote:
+> A number of man pages refer to char* arguments as "strings" rather than as
+> "pointers to strings".
+> 
+> For example, here's an excerpt from man3/strcmp.3:
+> 
+>     The strcmp() function compares the two strings s1 and s2. It returns
+>     an integer less than, equal to, or greater than zero if s1 is found,
+>     respectively, to be less than, to match, or be greater than s2.
+> 
+> Compare the wording in the ISO C standard:
+> 
+>     The strcmp function compares the string pointed to by s1 to the string
+>     pointed to by s2.
+>     ...
+>     The strcmp function returns an integer greater than, equal to,
+>     or less than zero, accordingly as the string pointed to by s1 is
+>     greater than, equal to, or less than the string pointed to by s2.
+> 
+> The Solaris strcmp(3) man page also correctly refers to the arguments
+> as pointers to strings.
+> 
+> There is a widespread misconception that a char* pointer value
+> is itself a string, rather than a pointer to a string.
 
-Note that the text I quoted applies just to canonical mode:
+Is there? Maybe I'm too used to it. But something that declared 
+as "type *" seems obviously to me to be a pointer.
 
-       In canonical mode:
+> See the
+> definitions in the C standard draft, N1570 7.1.1 paragraph 1,
+> http://www.open-std.org/jtc1/sc22/wg14/www/docs/n1570.pdf :
+> 
+>     A *string* is a contiguous sequence of characters terminated by and
+>     including the first null character. [...] A *pointer to a string*
+>     is a pointer to its initial (lowest addressed) character.
+> 
+> I haven't checked, but it's likely that there are man pages other than
+> the str*.3 pages that have this problem. However, I note that man3/fopen.3
+> correctly refers to "the string pointed to by path".
+> 
+> I'd like to volunteer to produce a patch that correctly refers to these
+> pointers as pointers rather than as strings -- but it would take a
+> while, and I don't want to spend the time if the patch is unlikely to
+> be accepted.
+> 
+> What say you?
 
-       [...]
+I suppose that I myself have been guilty of writing such faulty text
+as you describe, possibly because it seems obvious to me that "char *"
+is a pointer. I'm not so sure this is a big problem, but I 
+certainly wouldn't reject patches of this sort, especially for the 
+more obvious cases such as described above. And thanks for 
+volunteering to look at this. 
 
-       * The maximum line length is 4096 chars (including the  terminat=
-=E2=80=90
-         ing  newline character); lines longer than 4096 chars are trun=
-=E2=80=90
-         cated.  After 4095 characters, input data up (but  not  includ=
-=E2=80=90
-         ing)  any  terminating newline is discarded.  This ensures tha=
-t
-         the terminal can always receive more input until at  least  on=
-e
-         line can be read.
+I suggest you start by writing one or two patches and sending 
+them in, rather than creating a long series at the outset.
+Then we can early on determine how far we want to go with this.
 
-So, does that seem okay?
-
-> And input processing continues on the input, even past 4096 bytes.
-> Line editing, ISIG, ECHOxx processing still occurs.
-
-Yes, but only in noncanonical mode, right?
->
-> It is true that it is not possible to retrieve > 4096 char line in ca=
-nonical
-> mode, and I don't see that ever changing via read() because userspace=
- may
-> assume it has received a terminated line in 4096-byte read buffer.
-
-Yep. So we all seem to agree.
-=20
-> However, the noncanonical mode input buffer size may change in the ne=
-ar
-> future.
-
-Can you say some more about that? And what changed in 3.13 with respect
-to noncanonical mode, by the way?
-
-Cheers,
+Thanks,
 
 Michael
 
 
---=20
+-- 
 Michael Kerrisk
 Linux man-pages maintainer; http://www.kernel.org/doc/man-pages/
 Linux/UNIX System Programming Training: http://man7.org/training/
