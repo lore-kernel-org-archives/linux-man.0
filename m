@@ -1,187 +1,136 @@
-From: Peter Hurley <peter-WaGBZJeGNqdsbIuE7sb01tBPR1lH4CV8@public.gmane.org>
-Subject: Re: [PATCH] termios.3: Document line length in canonical mode
-Date: Wed, 17 Feb 2016 08:37:56 -0800
-Message-ID: <56C4A1E4.3090201@hurleysoftware.com>
-References: <1455542819-29184-1-git-send-email-toddy@debian.org>
- <56C1EEA6.5080500@gmail.com> <56C3A30D.5010101@hurleysoftware.com>
- <56C446E3.2070501@gmail.com>
+From: walter harms <wharms-fPG8STNUNVg@public.gmane.org>
+Subject: Re: manpages-dev: printf(3) example: possible integer overflow
+Date: Wed, 17 Feb 2016 22:13:13 +0100
+Message-ID: <56C4E269.5020108@bfs.de>
+References: <e62670273dd84e658fe32cda6e16e94b@legtux.org>
+Reply-To: wharms-fPG8STNUNVg@public.gmane.org
 Mime-Version: 1.0
-Content-Type: text/plain; charset=utf-8
+Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: QUOTED-PRINTABLE
 Return-path: <linux-man-owner-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>
-In-Reply-To: <56C446E3.2070501-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org>
+In-Reply-To: <e62670273dd84e658fe32cda6e16e94b-lkSrsyIBln0dnm+yROfE0A@public.gmane.org>
 Sender: linux-man-owner-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
-To: "Michael Kerrisk (man-pages)" <mtk.manpages-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org>, "Dr. Tobias Quathamer" <toddy-8fiUuRrzOP0dnm+yROfE0A@public.gmane.org>
-Cc: linux-man-u79uwXL29TY76Z2rM5mHXA@public.gmane.org, Daniel Shahaf <danielsh-1oDqGaOF3Lkdnm+yROfE0A@public.gmane.org>
+To: saulery-lkSrsyIBln0dnm+yROfE0A@public.gmane.org
+Cc: 794947-61a8vm9lEZVf4u+23C9RwQ@public.gmane.org, control-61a8vm9lEZVf4u+23C9RwQ@public.gmane.org, linux-man-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
 List-Id: linux-man@vger.kernel.org
 
-Hi Michael,
 
-On 02/17/2016 02:09 AM, Michael Kerrisk (man-pages) wrote:
-> On 02/16/2016 11:30 PM, Peter Hurley wrote:
->> On 02/15/2016 07:28 AM, Michael Kerrisk (man-pages) wrote:
->>> On 02/15/2016 02:26 PM, Dr. Tobias Quathamer wrote:
->>>> See https://git.kernel.org/cgit/linux/kernel/git/torvalds/linux.gi=
-t/tree/drivers/tty/n_tty.c#n1673
->>>> See https://bugs.debian.org/797479
->>>> ---
->>>>  man3/termios.3 | 9 +++++++++
->>>>  1 file changed, 9 insertions(+)
->>>>
->>>> diff --git a/man3/termios.3 b/man3/termios.3
->>>> index 7d738d4..3f57607 100644
->>>> --- a/man3/termios.3
->>>> +++ b/man3/termios.3
->>>> @@ -728,11 +728,20 @@ requested fewer bytes than are available in =
-the current line of input,
->>>>  then only as many bytes as requested are read,
->>>>  and the remaining characters will be available for a future
->>>>  .BR read (2).
->>>> +.IP * 2
->>>> +The maximum line length is 4096 chars (including the line termina=
-tion
->>>> +char); lines longer than 4096 chars are truncated. After 4095 cha=
-rs,
->>>> +input data is still processed but not stored. Overflow processing
->>>> +ensures the tty can always receive more input until at least one
->>>> +line can be read.
->>>>  .PP
->>>>  In noncanonical mode input is available immediately (without
->>>>  the user having to type a line-delimiter character),
->>>>  no input processing is performed,
->>>>  and line editing is disabled.
->>>> +The read buffer will only accept 4095 chars; this provides the
->>>> +necessary space for a newline char if the input mode is switched
->>>> +to canonical.
->>>>  The settings of MIN
->>>>  .RI ( c_cc[VMIN] )
->>>>  and TIME
->>>
->>> Thanks for crafting this. I've applied, and tweaked a little to cla=
-rify
->>> some details:
->>>
->>>        * The maximum line length is 4096 chars (including the  term=
-inating
->>>          newline  character);  lines longer than 4096 chars are tru=
-ncated.
->>>          After 4095 characters, input data up (but not including) a=
-ny ter=E2=80=90
->>>          minating  newline  is  discarded.  This ensures that the t=
-erminal
->>>          can always receive more input until at  least  one  line  =
-can  be
->>>          read.
+
+Am 17.02.2016 13:40, schrieb St=C3=A9phane Aulery:
+> retitle 794947 printf(3): possible integer overflow in make_message e=
+xample
+> severity 794947 wishlist
+> tags 794947 + confirmed
+> tags 794947 + upstream
+> forwarded 794947 linux-man-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
+> stop
+>=20
+> -----
+>=20
+> Hello Walter,
+>=20
+> Jakub Wilk reported a possible integer overflow in make_message examp=
+le :
+>=20
+>> The example in the printf(3) manpages looks like this (with boring p=
+arts
+>> omitted):
 >>
->> Hmm. Neither description is accurate of the observable behavior from=
- userspace.
->> For example, it's entirely possible to retrieve > 4096 bytes in non-=
-canonical
->> mode, at least since 3.12
+>> int n;
+>> /* ... */
+>>   n =3D vsnprintf(p, size, fmt, ap);
+>>    /* ... */
+>>    if (n < 0) {
+>>        /* ... */
+>>        return NULL;
+>>    }
+>>    /* ... */
+>>    size =3D n + 1;
+>>
+>>
+>> But vsnprintf could return INT_MAX, which would then cause "n + 1" t=
+o
+>> overflow.
+>>
+>> (AFAICS, the glibc vsnprintf implementation never returns INT_MAX, b=
+ut
+>> it could in principle.)
+>>
+>> I'd suggest changing "n < 0" to "n < 0 || n =3D=3D INT_MAX".
 >=20
-> Note that the text I quoted applies just to canonical mode:
 >=20
->        In canonical mode:
->=20
->        [...]
->=20
->        * The maximum line length is 4096 chars (including the  termin=
-at=E2=80=90
->          ing  newline character); lines longer than 4096 chars are tr=
-un=E2=80=90
->          cated.  After 4095 characters, input data up (but  not  incl=
-ud=E2=80=90
->          ing)  any  terminating newline is discarded.  This ensures t=
-hat
->          the terminal can always receive more input until at  least  =
-one
->          line can be read.
->=20
-> So, does that seem okay?
 
-See below.
+Hi,
 
->> And input processing continues on the input, even past 4096 bytes.
->> Line editing, ISIG, ECHOxx processing still occurs.
->=20
-> Yes, but only in noncanonical mode, right?
+the bug is real, the type of size should be size_t (in my original post=
+ it was int)
+That would make the error check useless, so we would need to store
+the vsnprintf return value in an int.
 
-No. Input processing continues in canonical mode, including echoing.
-Only when bytes are to actually be stored for userspace to later read i=
-s
-the input data discarded if the buffer is full (less the 1 byte require=
-d to
-store the line termination).
+The problem is that the idea was to have a simple example and clutterin=
+g
+it with error checks will make it hard to read. How many people would
+notice that size_t is unsigned and n is signed ? (i added an comment).
 
-Every input byte received in canonical mode is always processed normall=
-y
-and only discarded if the buffer is full. IOW, a Ctrl+u (line kill) rec=
-eived
-as the 6000th byte received w/o line termination will still cause all p=
-revious
-data to be flushed and the line restarted when new input arrives.
+IMHO we should simply add a sentence that "examples are examples and
+will not check for every possible error condition."
 
-Similarly, all data is still echoed regardless of how long the line is.
+re,
+ wh
 
->> It is true that it is not possible to retrieve > 4096 char line in c=
-anonical
->> mode, and I don't see that ever changing via read() because userspac=
-e may
->> assume it has received a terminated line in 4096-byte read buffer.
->=20
-> Yep. So we all seem to agree.
+#include <stdio.h>
+#include <stdarg.h>
+#include <stdlib.h>
 
-The way I read your edits above is that all new input data is simply di=
-scarded
-until line termination, which is not the case.
+char *
+make_message2 (const char *fmt, ...)
+{
+  int n =3D 0;
+  size_t size=3D0;
+  char *p =3D NULL;
+  va_list ap;
 
-Dr. Quathamer's first diff hunk is accurate wrt canonical mode. However=
-,
-I think the 'Overflow processing ...' is overly specific; the tty core =
-contains
-many elements which prevent terminal lockup.
+  /* figure our required size */
+  va_start (ap, fmt);
+  n =3D vsnprintf (p, size, fmt, ap);
+  va_end (ap);
+
+  if (n < 0)
+    return NULL;
+
+  /* size is unsigned */
+  size=3Dn;
+
+  /* leave room for \0 */
+  size++;
+  p =3D malloc (size);
+  if (p =3D=3D NULL)
+    return NULL;
+
+  va_start (ap, fmt);
+  n =3D vsnprintf (p, size, fmt, ap);
+  va_end (ap);
+
+return p;
+}
 
 
->> However, the noncanonical mode input buffer size may change in the n=
-ear
->> future.
->=20
-> Can you say some more about that?
 
-At very high line rates and with ptys, the size of the read buffer beco=
-mes a
-bottleneck, while at the same time, an already-committed page of memory=
- is
-going unused because of the page order allocation used by vm area alloc=
-ator
-(where N_TTY data is stored).
 
-The change is non-trivial however, since the maximum read size returned
-by canonical mode cannot > 4096 bytes (because of the userspace assumpt=
-ions
-I referred to earlier).
-
-> And what changed in 3.13 with respect to noncanonical mode, by the wa=
-y?
-
-In 3.12, the entire tty input path was parallelized.
-
-So while data is being read by userspace, input processing continues
-concurrently, adding new data for userspace to read (the actual
-construct used is a lockless circular buffer). In non-canonical modes,
-the userspace copy is always performed twice -- first, from beginning o=
-f
-unread data (head) to the end of buffer and then, from the beginning of
-buffer to last unread data (tail).
-
-Since new data may be added to the circular buffer in parallel after th=
+> Since this example has been modified by you (Walter Harms), after the
+> bug #794947 [1] has been reported, I wanted to ask your opinion on th=
 e
-first user copy has been performed, it's possible to retrieve up to 819=
-2
-bytes (assuming the user copy buffer is that large).
-
-Regards,
-Peter Hurley
+> best option.
+>=20
+> Should we add this test to good practice, or rather a comment to ment=
+ion
+> that the case is not taken into account because the example uses glib=
+c?
+>=20
+> Regards,
+>=20
+> [1] https://bugs.debian.org/cgi-bin/bugreport.cgi?bug=3D794947
+>=20
 --
 To unsubscribe from this list: send the line "unsubscribe linux-man" in
 the body of a message to majordomo-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
