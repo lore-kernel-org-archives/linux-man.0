@@ -1,59 +1,70 @@
 From: "Michael Kerrisk (man-pages)" <mtk.manpages-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org>
-Subject: Re: links redirect
-Date: Thu, 18 Feb 2016 13:18:39 +0100
-Message-ID: <56C5B69F.1070308@gmail.com>
-References: <56C3A841.2000601@jguk.org> <56C44586.3040409@gmail.com>
- <56C4E65A.3090906@jguk.org>
+Subject: Re: strlen man-page misinformation
+Date: Thu, 18 Feb 2016 14:12:30 +0100
+Message-ID: <56C5C33E.7030407@gmail.com>
+References: <56B237F9.8010206@cox.net>
 Mime-Version: 1.0
 Content-Type: text/plain; charset=utf-8
-Content-Transfer-Encoding: 7bit
+Content-Transfer-Encoding: QUOTED-PRINTABLE
 Return-path: <linux-man-owner-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>
-In-Reply-To: <56C4E65A.3090906-hus3n9K41k0@public.gmane.org>
+In-Reply-To: <56B237F9.8010206-j9pdmedNgrk@public.gmane.org>
 Sender: linux-man-owner-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
-To: Jonny Grant <jg-hus3n9K41k0@public.gmane.org>
-Cc: mtk.manpages-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org, linux-man <linux-man-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>
+To: Alan Aversa <alan.aversa-j9pdmedNgrk@public.gmane.org>
+Cc: mtk.manpages-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org, linux-man-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
 List-Id: linux-man@vger.kernel.org
 
-On 02/17/2016 10:30 PM, Jonny Grant wrote:
-> 
-> 
-> On 17/02/16 10:03, Michael Kerrisk (man-pages) wrote:
->> On 02/16/2016 11:52 PM, Jonny Grant wrote:
->>> http://man7.org/linux/man-pages/man2/open.2.html
->>>
->>> Could the link to http://www.kernel.org/doc/man-pages/ which redirects..
->>> be updated to be the redirect? [https]
->>>
->>> https://www.kernel.org/doc/man-pages/
->>
->> Sorry, I don't understand your report, Jonny.
->> Can you elaborate?
-> 
-> 
-> 
-> Hi Michael
-> 
-> Thank you for your reply. A bit more info:
-> 
-> When I click on the link in the man pages:
-> 
-> http://www.kernel.org/doc/man-pages/
-> 
-> It uses a REDIRECT to go the httpS site:
-> 
-> https://www.kernel.org/doc/man-pages/
-> 
-> My suggestion is for for the man page URL links to just link directly to 
-> the httpS site.
+Hello Alan,
 
-Got it. I'll try to fix that.
+On 02/03/2016 06:25 PM, Alan Aversa wrote:
+> Hello,
+>=20
+> The 2015-08-08 strlen man-page is incorrect. Here's a diff:
+>=20
+>     --- a/man3/strlen.3
+>     +++ b/man3/strlen.3
+>     @@ -45,7 +45,7 @@ excluding the terminating null byte (\(aq\\0\(a=
+q).
+>      .SH RETURN VALUE
+>      The
+>      .BR strlen ()
+>     -function returns the number of bytes in the string
+>     +function returns the number of *characters* in the string that
+>     precede the terminating null character
+
+I went for a simpler change: s/bytes/characters/
+
+>      .IR s .
+>      .SH ATTRIBUTES
+>      For an explanation of the terms used in this section, see
+>     @@ -60,7 +60,7 @@ T{
+>      T}     Thread safety   MT-Safe
+>      .TE
+>      .SH CONFORMING TO
+>     -POSIX.1-2001, POSIX.1-2008, C89, C99, SVr4, 4.3BSD.
+>     +POSIX.1-2001, POSIX.1-2008, C89, C99, C11, SVr4, 4.3BSD.
+
+=46ixed.
+
+>      .SH SEE ALSO
+>      .BR string (3),
+>      .BR strnlen (3),
+>=20
+> Page 392 (PDF p. 390, =C2=A77.24.6.3) of the C11 standard
+> <http://www.open-std.org/jtc1/sc22/wg14/www/docs/n1570.pdf> says:
+>=20
+>     The *strlen* function returns the number of characters that prece=
+de
+>     the terminating null character.
+
+Thanks for the report. Interesting, POSIX.1 still uses the term "bytes"
+the spec.
 
 Cheers,
 
 Michael
 
 
--- 
+--=20
 Michael Kerrisk
 Linux man-pages maintainer; http://www.kernel.org/doc/man-pages/
 Linux/UNIX System Programming Training: http://man7.org/training/
