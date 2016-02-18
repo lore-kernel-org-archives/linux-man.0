@@ -1,97 +1,90 @@
-From: =?UTF-8?Q?St=c3=a9phane_Aulery?= <saulery-lkSrsyIBln0dnm+yROfE0A@public.gmane.org>
-Subject: Re: Bug#794947: manpages-dev: printf(3) example: possible integer
- overflow
-Date: Thu, 18 Feb 2016 20:18:33 +0100
-Message-ID: <56C61909.20606@legtux.org>
-References: <e62670273dd84e658fe32cda6e16e94b@legtux.org>
- <56C4E269.5020108@bfs.de>
-Reply-To: saulery-lkSrsyIBln0dnm+yROfE0A@public.gmane.org
+From: "Michael Kerrisk (man-pages)" <mtk.manpages-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org>
+Subject: Re: [PATCH] termios.3: Document line length in canonical mode
+Date: Thu, 18 Feb 2016 20:29:43 +0100
+Message-ID: <CAKgNAkhHNeHo0yS3D0cpUfFT9pA7bp5xQoidksbq9J4tP8zXnA@mail.gmail.com>
+References: <1455542819-29184-1-git-send-email-toddy@debian.org>
+ <56C1EEA6.5080500@gmail.com> <56C3A30D.5010101@hurleysoftware.com>
+ <56C446E3.2070501@gmail.com> <56C4A1E4.3090201@hurleysoftware.com>
+ <56C5AA39.4090007@gmail.com> <56C5E3DC.6040504@hurleysoftware.com>
+Reply-To: mtk.manpages-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org
 Mime-Version: 1.0
-Content-Type: text/plain; charset=utf-8;
-	format=flowed
-Content-Transfer-Encoding: QUOTED-PRINTABLE
+Content-Type: text/plain; charset=UTF-8
 Return-path: <linux-man-owner-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>
-In-Reply-To: <56C4E269.5020108-fPG8STNUNVg@public.gmane.org>
+In-Reply-To: <56C5E3DC.6040504-WaGBZJeGNqdsbIuE7sb01tBPR1lH4CV8@public.gmane.org>
 Sender: linux-man-owner-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
-To: wharms-fPG8STNUNVg@public.gmane.org, 794947-61a8vm9lEZVf4u+23C9RwQ@public.gmane.org
-Cc: linux-man-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
+To: Peter Hurley <peter-WaGBZJeGNqdsbIuE7sb01tBPR1lH4CV8@public.gmane.org>
+Cc: "Dr. Tobias Quathamer" <toddy-8fiUuRrzOP0dnm+yROfE0A@public.gmane.org>, linux-man <linux-man-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>, Daniel Shahaf <danielsh-1oDqGaOF3Lkdnm+yROfE0A@public.gmane.org>
 List-Id: linux-man@vger.kernel.org
 
-Hello Walter,
+Hello Peter
 
-Le 17/02/2016 22:13, walter harms a =C3=A9crit :
+On 18 February 2016 at 16:31, Peter Hurley <peter-WaGBZJeGNqdsbIuE7sb01tBPR1lH4CV8@public.gmane.org> wrote:
+> On 02/18/2016 03:25 AM, Michael Kerrisk (man-pages) wrote:
+>> Hello Peter,
 >>
->> Jakub Wilk reported a possible integer overflow in make_message exam=
-ple :
+>> On 02/17/2016 05:37 PM, Peter Hurley wrote:
+[...]
+>> Okay -- so how's this text?
 >>
->>> The example in the printf(3) manpages looks like this (with boring =
-parts
->>> omitted):
+>>        In canonical mode:
+>>        [...]
+>>        * The maximum line length is 4096 chars (including the terminating
+>>          newline character); lines longer than 4096 chars are  truncated.
+>>          After  4095  characters,  input processing (e.g., ISIG and ECHO*
+>>          processing) continues, but any input data after 4095  characters
+>>          up  to (but not including) any terminating newline is discarded.
+>>          This ensures that the terminal can  always  receive  more  input
+>>          until at least one line can be read.
+>
+> Yeah, this seems fine.
+
+Thanks for checking it.
+
+>>>>> However, the noncanonical mode input buffer size may change in the near
+>>>>> future.
+>>>>
+>>>> Can you say some more about that?
 >>>
->>> int n;
->>> /* ... */
->>>    n =3D vsnprintf(p, size, fmt, ap);
->>>     /* ... */
->>>     if (n < 0) {
->>>         /* ... */
->>>         return NULL;
->>>     }
->>>     /* ... */
->>>     size =3D n + 1;
+>>> At very high line rates and with ptys, the size of the read buffer becomes a
+>>> bottleneck, while at the same time, an already-committed page of memory is
+>>> going unused because of the page order allocation used by vm area allocator
+>>> (where N_TTY data is stored).
 >>>
+>>> The change is non-trivial however, since the maximum read size returned
+>>> by canonical mode cannot > 4096 bytes (because of the userspace assumptions
+>>> I referred to earlier).
 >>>
->>> But vsnprintf could return INT_MAX, which would then cause "n + 1" =
-to
->>> overflow.
+>>>> And what changed in 3.13 with respect to noncanonical mode, by the way?
 >>>
->>> (AFAICS, the glibc vsnprintf implementation never returns INT_MAX, =
-but
->>> it could in principle.)
+>>> In 3.12, the entire tty input path was parallelized.
 >>>
->>> I'd suggest changing "n < 0" to "n < 0 || n =3D=3D INT_MAX".
+>>> So while data is being read by userspace, input processing continues
+>>> concurrently, adding new data for userspace to read (the actual
+>>> construct used is a lockless circular buffer). In non-canonical modes,
+>>> the userspace copy is always performed twice -- first, from beginning of
+>>> unread data (head) to the end of buffer and then, from the beginning of
+>>> buffer to last unread data (tail).
+>>>
+>>> Since new data may be added to the circular buffer in parallel after the
+>>> first user copy has been performed, it's possible to retrieve up to 8192
+>>> bytes (assuming the user copy buffer is that large).
 >>
+>> Thanks for the info. Do you think this warrants any changes in the man page?
 >
-> the bug is real, the type of size should be size_t (in my original po=
-st it was int)
-> That would make the error check useless, so we would need to store
-> the vsnprintf return value in an int.
->
-> The problem is that the idea was to have a simple example and clutter=
-ing
-> it with error checks will make it hard to read. How many people would
-> notice that size_t is unsigned and n is signed ? (i added an comment)=
-=2E
->
-> IMHO we should simply add a sentence that "examples are examples and
-> will not check for every possible error condition."
+> I don't think so. The goal of most changes in tty is to improve reliability
+> or performance w/o affecting userspace-observable behavior.
+
+Okay.
+
+Cheers,
+
+Michael
 
 
-I agree with the general idea: the examples must remain so. They must=20
-also be correct. Tough choice!
-
-I will not put a note on this page about it, nor on the other, too much=
-=20
-for so little.
-
-man-pages.7 specifically requests:
-
-      Example programs shoulds be fairly short (preferably less than 10=
-0=20
-lines;
-      Ideally less than 50 lines).
-
-      Example programs shoulds do error checking after-system calls and
-      library function calls.
-
-So I will do a patch with your new corrected version that is very reada=
-ble.
-
-Thanks a lot for your help.
-
-Regards,
-
---=20
-St=C3=A9phane Aulery
+-- 
+Michael Kerrisk
+Linux man-pages maintainer; http://www.kernel.org/doc/man-pages/
+Linux/UNIX System Programming Training: http://man7.org/training/
 --
 To unsubscribe from this list: send the line "unsubscribe linux-man" in
 the body of a message to majordomo-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
