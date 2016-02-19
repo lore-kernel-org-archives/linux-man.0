@@ -1,49 +1,69 @@
-From: "Michael Kerrisk (man-pages)" <mtk.manpages-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org>
+From: =?utf-8?Q?St=C3=A9phane?= Aulery <saulery-GANU6spQydw@public.gmane.org>
 Subject: Re: clearenv(3): implies that it's a security tool
-Date: Fri, 19 Feb 2016 12:59:05 +0100
-Message-ID: <CAKgNAkh0qR-5Kj0-bc6QtAM7j44s41YfNMUOfi_BAiFHYVOO5g@mail.gmail.com>
-References: <2022845728.87847295.1455816499626.JavaMail.root@zimbra51-e8.priv.proxad.net>
- <20160218203447.GF3560@alcor.net>
-Reply-To: mtk.manpages-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org
+Date: Fri, 19 Feb 2016 13:25:07 +0100 (CET)
+Message-ID: <1074498453.89962320.1455884707598.JavaMail.root@zimbra51-e8.priv.proxad.net>
+References: <CAKgNAkh0qR-5Kj0-bc6QtAM7j44s41YfNMUOfi_BAiFHYVOO5g@mail.gmail.com>
+Reply-To: =?utf-8?Q?St=C3=A9phane?= Aulery <saulery-GANU6spQydw@public.gmane.org>
 Mime-Version: 1.0
-Content-Type: text/plain; charset=UTF-8
+Content-Type: text/plain; charset=utf-8
+Content-Transfer-Encoding: QUOTED-PRINTABLE
 Return-path: <linux-man-owner-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>
-In-Reply-To: <20160218203447.GF3560-GlOw+ZFk85JeoWH0uzbU5w@public.gmane.org>
+In-Reply-To: <CAKgNAkh0qR-5Kj0-bc6QtAM7j44s41YfNMUOfi_BAiFHYVOO5g-JsoAwUIsXosN+BqQ9rBEUg@public.gmane.org>
 Sender: linux-man-owner-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
-To: Matt Zimmerman <mdz-8fiUuRrzOP0dnm+yROfE0A@public.gmane.org>
-Cc: =?UTF-8?Q?St=C3=A9phane_Aulery?= <saulery-GANU6spQydw@public.gmane.org>, 679323-61a8vm9lEZVf4u+23C9RwQ@public.gmane.org, linux-man <linux-man-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>
+To: mtk manpages <mtk.manpages-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org>
+Cc: Matt Zimmerman <mdz-8fiUuRrzOP0dnm+yROfE0A@public.gmane.org>, 679323-61a8vm9lEZVf4u+23C9RwQ@public.gmane.org, linux-man <linux-man-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>
 List-Id: linux-man@vger.kernel.org
 
-On 18 February 2016 at 21:34, Matt Zimmerman <mdz-8fiUuRrzOP0dnm+yROfE0A@public.gmane.org> wrote:
-> Thanks for following up.  My recommendation is to say something like:
->
-> This function DOES NOT securely erase the contents of the environment.
-> Security-conscious applications which need to do this should use ....
-> instead.
+Hello Michael and Matt,
 
-So, I think this report is a little confused, but mainly because of
-the poor description in the man page.
+----- Michael Kerrisk (man-pages) <mtk.manpages-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org> a =C3=A9crit=
+=C2=A0:
+> On 18 February 2016 at 21:34, Matt Zimmerman <mdz-8fiUuRrzOP0dnm+yROfE0A@public.gmane.org> wrote:
+> > Thanks for following up.  My recommendation is to say something lik=
+e:
+> >
+> > This function DOES NOT securely erase the contents of the environme=
+nt.
+> > Security-conscious applications which need to do this should use ..=
+=2E.
+> > instead.
+>=20
+> So, I think this report is a little confused, but mainly because of
+> the poor description in the man page.
+>=20
+> The security-conscious applications in this context are those that
+> want to precisely control the environment passed to an exec()ed
+> program. clearenv() cannot, indeed must not, try to erase the buffers
+> containing the environment definitions. (See putenv(3) to understand
+> why.) I've adjusted the man page in away that I hope explains things
+> better:
+>=20
+>        The  clearenv()  function  may  be  useful  in security-consci=
+ous
+>        applications that want to precisely control the environment  t=
+hat
+>        is  passed  to  programs executed using exec(3).  The applicat=
+ion
+>        would do this by first clearing the environment and  then  add=
+ing
+>        select environment variables.
+>=20
+>        Note that the main effect of clearenv() is to adjust the value=
+ of
+>        the pointer environ(7); this function does not erase the conte=
+nts
+>        of the buffers containing the environment definitions.
 
-The security-conscious applications in this context are those that
-want to precisely control the environment passed to an exec()ed
-program. clearenv() cannot, indeed must not, try to erase the buffers
-containing the environment definitions. (See putenv(3) to understand
-why.) I've adjusted the man page in away that I hope explains things
-better:
 
-       The  clearenv()  function  may  be  useful  in security-conscious
-       applications that want to precisely control the environment  that
-       is  passed  to  programs executed using exec(3).  The application
-       would do this by first clearing the environment and  then  adding
-       select environment variables.
+It's much better that I can do.
+If no objection Matt,
+I pass the bug report in fixed-upstream.
 
-       Note that the main effect of clearenv() is to adjust the value of
-       the pointer environ(7); this function does not erase the contents
-       of the buffers containing the environment definitions.
 
-Cheers,
+Regards,
 
-Michael
+--=20
+St=C3=A9phane Aulery
 --
 To unsubscribe from this list: send the line "unsubscribe linux-man" in
 the body of a message to majordomo-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
