@@ -1,38 +1,33 @@
-From: Martin Gebert <Murphy.Gebert-Mmb7MZpHnFY@public.gmane.org>
-Subject: backtrace(3): Inconsistency and missing indentation
-Date: Wed, 24 Feb 2016 10:26:04 +0100
-Message-ID: <56CD772C.8030606@gmx.de>
-Mime-Version: 1.0
-Content-Type: text/plain; charset=utf-8; format=flowed
-Content-Transfer-Encoding: 7bit
+From: Jakub Wilk <jwilk-tXgOlIzOKNReoWH0uzbU5w@public.gmane.org>
+Subject: [PATCH] utimensat.2: tfix
+Date: Wed, 24 Feb 2016 19:03:18 +0100
+Message-ID: <1456336998-8134-1-git-send-email-jwilk@jwilk.net>
 Return-path: <linux-man-owner-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>
 Sender: linux-man-owner-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
-To: mtk.manpages-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org
+To: Michael Kerrisk <mtk.manpages-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org>
 Cc: linux-man-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
 List-Id: linux-man@vger.kernel.org
 
-In the example section of the page the following snippet is given:
+Signed-off-by: Jakub Wilk <jwilk-tXgOlIzOKNReoWH0uzbU5w@public.gmane.org>
+---
+ man2/utimensat.2 | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
 
---8><--
-        void
-        myfunc3(void)
-        {
-            int j, nptrs;
-        #define SIZE 100
-            void *buffer[100];
-            char **strings;
-
-            nptrs = backtrace(buffer, SIZE);
---><8--
-
-Problems:
-
- 1. "#define SIZE 100" is not indented correctly.
- 2. SIZE should also be used for the buffer array size.
-
-Thank you.
-
-Martin
+diff --git a/man2/utimensat.2 b/man2/utimensat.2
+index 047cda0..bfad7d6 100644
+--- a/man2/utimensat.2
++++ b/man2/utimensat.2
+@@ -243,7 +243,7 @@ values are
+ and either:
+ .RS
+ .IP * 3
+-the the effective user ID of the caller does not match
++the effective user ID of the caller does not match
+ the owner of the file,
+ the caller does not have write access to the file,
+ and the caller is not privileged
+-- 
+2.7.0
 
 --
 To unsubscribe from this list: send the line "unsubscribe linux-man" in
