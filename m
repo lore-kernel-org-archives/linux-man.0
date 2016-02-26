@@ -1,106 +1,48 @@
-From: Keith Thompson <keithsthompson-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org>
+From: Martin Gebert <Murphy.Gebert-Mmb7MZpHnFY@public.gmane.org>
 Subject: Re: backtrace(3): Inconsistency and missing indentation
-Date: Fri, 26 Feb 2016 12:41:13 -0800
-Message-ID: <CAAHpriOfFRjm4jnjMm9_ypRQCOZREbmrS5QHRLQA8hbuNhguCQ@mail.gmail.com>
-References: <56CD772C.8030606@gmx.de>
-	<56D07349.10901@gmail.com>
-	<CAAHpriNbkVCsH-mrVi97Y57ahw=6yO=kh+C7OuLzfQXrJiJO-Q@mail.gmail.com>
-	<56D0B704.8050001@gmail.com>
+Date: Fri, 26 Feb 2016 22:08:13 +0100
+Message-ID: <56D0BEBD.50908@gmx.de>
+References: <56CD772C.8030606@gmx.de> <56D07349.10901@gmail.com>
+ <CAAHpriNbkVCsH-mrVi97Y57ahw=6yO=kh+C7OuLzfQXrJiJO-Q@mail.gmail.com>
+ <56D0B704.8050001@gmail.com>
 Mime-Version: 1.0
-Content-Type: text/plain; charset=UTF-8
+Content-Type: text/plain; charset=utf-8
+Content-Transfer-Encoding: 7bit
 Return-path: <linux-man-owner-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>
 In-Reply-To: <56D0B704.8050001-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org>
 Sender: linux-man-owner-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
-To: "Michael Kerrisk (man-pages)" <mtk.manpages-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org>
-Cc: Martin Gebert <Murphy.Gebert-Mmb7MZpHnFY@public.gmane.org>, linux-man-u79uwXL29TY76Z2rM5mHXA@public.gmane.org, Keith Thompson <Keith.S.Thompson-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org>
+To: "Michael Kerrisk (man-pages)" <mtk.manpages-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org>, Keith Thompson <keithsthompson-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org>
+Cc: linux-man-u79uwXL29TY76Z2rM5mHXA@public.gmane.org, Keith Thompson <Keith.S.Thompson-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org>
 List-Id: linux-man@vger.kernel.org
 
-Sorry, I meant "gcc -ansi -pedantic".
+Hi Keith!
 
-On Fri, Feb 26, 2016 at 12:35 PM, Michael Kerrisk (man-pages)
-<mtk.manpages-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org> wrote:
-> Hi Keith,
->
-> On 02/26/2016 08:52 PM, Keith Thompson wrote:
->> On Fri, Feb 26, 2016 at 7:46 AM, Michael Kerrisk (man-pages)
->> <mtk.manpages-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org> wrote:
->>> On 02/24/2016 10:26 AM, Martin Gebert wrote:
->>>> In the example section of the page the following snippet is given:
->>>>
->>>> --8><--
->>>>         void
->>>>         myfunc3(void)
->>>>         {
->>>>             int j, nptrs;
->>>>         #define SIZE 100
->>>>             void *buffer[100];
->>>>             char **strings;
->>>>
->>>>             nptrs = backtrace(buffer, SIZE);
->>>> --><8--
->>>>
->>>> Problems:
->>>>
->>>>  1. "#define SIZE 100" is not indented correctly.
->>>>  2. SIZE should also be used for the buffer array size.
->>>
->>> Thanks, Martin. Fixed as below.
->>>
->>> Cheers,
->>>
->>> Michael
->>>
->>> diff --git a/man3/backtrace.3 b/man3/backtrace.3
->>> index afca93d..064b970 100644
->>> --- a/man3/backtrace.3
->>> +++ b/man3/backtrace.3
->>> @@ -215,8 +215,8 @@ void
->>>  myfunc3(void)
->>>  {
->>>      int j, nptrs;
->>> -#define SIZE 100
->>> -    void *buffer[100];
->>> +    const int SIZE = 100;
->>> +    void *buffer[SIZE];
->>>      char **strings;
->>>
->>>      nptrs = backtrace(buffer, SIZE);
->>
->> I suggest leaving it as it was, apart from using SIZE in the definition
->> of buffer.
->>
->> It's common for preprocessor directives to be left-justified rather
->> than aligned with the surrounding code.  (They mostly appear at file
->> scope, so it's not usually an issue.)  It's perfectly valid to indent
->> the #define, but it's a bit misleading, since it implies that SIZE has
->> a scope (it doesn't, it's visible to the end of the translation unit).
->>
->> With the "const int" declaration, buffer becomes a VLA (variable
->> length array).  VLAs don't exist in C90, do exist in C99, and are
->> optional in C11.
->
-> Ahhh -- I was not aware of the C11 detail.
->
->> The code won't compile with "gcc -pedantic-errors".
->
-> Which gcc versions do that? I do not see such an error from gcc 5.3.
->
-> Cheers,
->
-> Michael
->
->
->
->
-> --
-> Michael Kerrisk
-> Linux man-pages maintainer; http://www.kernel.org/doc/man-pages/
-> Linux/UNIX System Programming Training: http://man7.org/training/
+> I suggest leaving it as it was, apart from using SIZE in the definition > of buffer. > > It's common for preprocessor directives to be
+left-justified rather > than aligned with the surrounding code.  (They
+mostly appear at file > scope, so it's not usually an issue.)  It's
+perfectly valid to indent > the #define, but it's a bit misleading,
+since it implies that SIZE has > a scope (it doesn't, it's visible to
+the end of the translation unit).
 
+While I agree with you concerning the scope, I would then expect the
+SIZE macro be placed between the includes and the function header, as
+everything that has not a block scope. It just seems misplaced in the
+middle of the function (more exactly between the variable definitions),
+but outdented.
+More generally, if somebody wants to make clear that a macro has only
+meaning in the local block I would prefer to place it there, but indent
+it with the rest of the code. If it's supposed to be used file-wide I
+would expect it before the first function, but without indention. IMHO
+the given code snippet is a wild mix that caught my eye as being quite
+unpleasing and unintuitive. So I suggest doing it the one /or/ the other
+way; I would've preferred Michael's solution in the first place, but
+obviously that's not universal enough for a man page.
+And as a disclaimer, that's my built-in, intuitive style guide speaking,
+as I'm by no means an authority of C code formatting.
 
+Cheers,
 
--- 
-Keith Thompson <Keith.S.Thompson-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org>
+Martin
 --
 To unsubscribe from this list: send the line "unsubscribe linux-man" in
 the body of a message to majordomo-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
