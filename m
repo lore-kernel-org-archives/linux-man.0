@@ -1,37 +1,29 @@
-From: "Kondo, Naoya" <kondo-naoya-+CUm20s59erQFUHtdCDX3A@public.gmane.org>
-Subject: [PATCH] times.2: an incorrect description in NOTES
-Date: Fri, 26 Feb 2016 04:34:18 +0000
-Message-ID: <A08AE9AAF58B274598D033A64FFA03C613167122@G01JPEXMBYT04>
+From: blackmoor-1Ww2luigxekRVMDPamJrIw@public.gmane.org
+Subject: capabilities.7 bug
+Date: Fri, 26 Feb 2016 13:05:25 +0100
+Message-ID: <57293b5ae5201df06141bc43a5cea72a@openmailbox.org>
 Mime-Version: 1.0
-Content-Type: text/plain; charset="iso-2022-jp"
+Content-Type: text/plain; charset=US-ASCII;
+ format=flowed
+Content-Transfer-Encoding: 7bit
 Return-path: <linux-man-owner-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>
-Content-Language: ja-JP
 Sender: linux-man-owner-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
-To: "mtk.manpages-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org" <mtk.manpages-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org>
-Cc: "linux-man-u79uwXL29TY76Z2rM5mHXA@public.gmane.org" <linux-man-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>
+To: mtk.manpages-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org
+Cc: linux-man-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
 List-Id: linux-man@vger.kernel.org
 
-Hi,
+Hello,
 
-times(2) man page has an incorrect description in NOTES, it says that
-(2^32/HZ) - 300 is about 429 million. It is correct only if HZ=10 which
-does not look common today. So just removing "(i.e., about 429 million)"
-is good enough.
+I found a bug in the capabilities.7 manual page, in the latest git 
+revision (e92f04afa522316c1df54819b45db46e5663b72d).
 
-----
-Signed-off-by: Naoya Kondo <kondo-naoya-+CUm20s59erQFUHtdCDX3A@public.gmane.org>
+Line 1124 reads SECBIT_NO_CAP_AMBIENT_RAISE, but should be 
+SECBIT_NO_CAP_AMBIENT_RAISE_LOCKED
 
---- man-pages-4.04/man2/times.2	2015-12-29 21:51:44.000000000 +0900
-+++ man-pages-4.04-fix/man2/times.2	2016-02-25 12:04:33.062739815 +0900
-@@ -168,7 +168,7 @@
- is measured has varied across kernel versions.
- On Linux 2.4 and earlier this point is the moment the system was booted.
- Since Linux 2.6, this point is \fI(2^32/HZ) \- 300\fP
--(i.e., about 429 million) seconds before system boot time.
-+seconds before system boot time.
- This variability across kernel versions (and across UNIX implementations),
- combined with the fact that the returned value may overflow the range of
- .IR clock_t ,
+I wish you a very good day.
+Best regards,
+
+Marianne CHEVROT
 --
 To unsubscribe from this list: send the line "unsubscribe linux-man" in
 the body of a message to majordomo-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
