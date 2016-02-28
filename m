@@ -1,45 +1,40 @@
-From: "Michael Kerrisk (man-pages)" <mtk.manpages-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org>
-Subject: Re: test(1): Obsolescent logical operators
-Date: Fri, 4 Mar 2016 11:51:03 +0100
-Message-ID: <56D96897.5060508@gmail.com>
-References: <56D964D6.8070002@gmx.de>
+From: "linux-man-u79uwXL29TY76Z2rM5mHXA@public.gmane.org" <linux-man-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>
+Subject: =?utf-8?Q?=D0=9A=D0=9B=D0=98=D0=95=D0=9D=D0=A2=D0=A1=D0?=
+	=?utf-8?Q?=9A=D0=98=D0=95_=D0=91=D0=90=D0=97=D0=AB!_=D0?=
+	=?utf-8?Q?=A2=D0=B5=D0=BB=5CViber=5CWhatsapp=3A_+79133913?=
+	=?utf-8?Q?837_Email=3A_mloginova19=40gmail=2Ecom_Skype=3A?=
+	=?utf-8?Q?_prodawez389?=
+Date: Mon, 29 Feb 2016 03:13:26 +0600
+Message-ID: <5DA61481DD0926E5393C75CA3EB2D0C5@vger.kernel.org>
+Reply-To: "linux-man-u79uwXL29TY76Z2rM5mHXA@public.gmane.org" <mloginova19-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org>
 Mime-Version: 1.0
 Content-Type: text/plain; charset=utf-8
-Content-Transfer-Encoding: 7bit
+Content-Transfer-Encoding: QUOTED-PRINTABLE
 Return-path: <linux-man-owner-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>
-In-Reply-To: <56D964D6.8070002-Mmb7MZpHnFY@public.gmane.org>
 Sender: linux-man-owner-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
-To: Martin Gebert <Murphy.Gebert-Mmb7MZpHnFY@public.gmane.org>
-Cc: mtk.manpages-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org, linux-man-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
+To: linux-man-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
 List-Id: linux-man@vger.kernel.org
 
-Hi Martin,
+=D0=9A=D0=9B=D0=98=D0=95=D0=9D=D0=A2=D0=A1=D0=9A=D0=98=D0=95 =D0=91=D0=90=
+=D0=97=D0=AB!
 
-On 03/04/2016 11:35 AM, Martin Gebert wrote:
-> Hi Michael!
-> 
-> As I just learned from this discussion
-> 
-> http://unix.stackexchange.com/questions/267335/how-can-i-check-that-two-input-values-are-correct-in-a-bash-script
-> 
-> the -a and -o operators of test(1) are marked obsolescent:
-> 
-> http://pubs.opengroup.org/onlinepubs/9699919799/utilities/test.html#tag_20_128_16
-> 
-> Yet the Linux man pages don't contain a hint to that.
-
-That page belongs to another project. See
-http://man7.org/linux/man-pages/man1/test.1.html#COLOPHON
-
-Cheers,
-
-Michael
-
-
--- 
-Michael Kerrisk
-Linux man-pages maintainer; http://www.kernel.org/doc/man-pages/
-Linux/UNIX System Programming Training: http://man7.org/training/
+=D0=A1=D0=BE=D0=B1=D0=B5=D1=80=D0=B5=D0=BC =D0=B4=D0=BB=D1=8F =D0=92=D0=
+=B0=D1=81 =D0=BF=D0=BE =D0=B8=D0=BD=D1=82=D0=B5=D1=80=D0=BD=D0=B5=D1=82=
+ =D0=B1=D0=B0=D0=B7=D1=83 =D0=B4=D0=B0=D0=BD=D0=BD=D1=8B=D1=85 =D0=BF=D0=
+=BE=D1=82=D0=B5=D0=BD=D1=86=D0=B8=D0=B0=D0=BB=D1=8C=D0=BD=D1=8B=D1=85 =D0=
+=BA=D0=BB=D0=B8=D0=B5=D0=BD=D1=82=D0=BE=D0=B2=20
+=D0=B4=D0=BB=D1=8F =D0=92=D0=B0=D1=88=D0=B5=D0=B3=D0=BE =D0=91=D0=B8=D0=
+=B7=D0=BD=D0=B5=D1=81=D0=B0!
+=D0=9C=D0=BD=D0=BE=D0=B3=D0=BE! =D0=91=D1=8B=D1=81=D1=82=D1=80=D0=BE! =D0=
+=9D=D0=B5=D0=B4=D0=BE=D1=80=D0=BE=D0=B3=D0=BE!=20
+=D0=A3=D0=B7=D0=BD=D0=B0=D0=B9=D1=82=D0=B5 =D0=BE=D0=B1 =D1=8D=D1=82=D0=
+=BE=D0=BC =D0=BF=D0=BE=D0=B4=D1=80=D0=BE=D0=B1=D0=BD=D0=B5=D0=B5 =D0=BF=
+=D0=BE=20
+=D0=A2=D0=B5=D0=BB: +79133913837
+Viber: +79133913837
+Whatsapp: +79133913837
+Skype: prodawez389
+Email: mloginova19-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org
 --
 To unsubscribe from this list: send the line "unsubscribe linux-man" in
 the body of a message to majordomo-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
