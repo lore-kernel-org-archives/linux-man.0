@@ -1,48 +1,49 @@
-From: Martin Gebert <Murphy.Gebert-Mmb7MZpHnFY@public.gmane.org>
-Subject: Re: backtrace(3): Inconsistency and missing indentation
-Date: Fri, 26 Feb 2016 22:08:13 +0100
-Message-ID: <56D0BEBD.50908@gmx.de>
-References: <56CD772C.8030606@gmx.de> <56D07349.10901@gmail.com>
- <CAAHpriNbkVCsH-mrVi97Y57ahw=6yO=kh+C7OuLzfQXrJiJO-Q@mail.gmail.com>
- <56D0B704.8050001@gmail.com>
-Mime-Version: 1.0
-Content-Type: text/plain; charset=utf-8
-Content-Transfer-Encoding: 7bit
+From: Jakub Wilk <jwilk-tXgOlIzOKNReoWH0uzbU5w@public.gmane.org>
+Subject: [PATCH 3/3] prctl.2: tfix
+Date: Sun, 28 Feb 2016 01:32:41 +0100
+Message-ID: <1456619561-613-3-git-send-email-jwilk@jwilk.net>
+References: <1456619561-613-1-git-send-email-jwilk@jwilk.net>
 Return-path: <linux-man-owner-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>
-In-Reply-To: <56D0B704.8050001-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org>
+In-Reply-To: <1456619561-613-1-git-send-email-jwilk-tXgOlIzOKNReoWH0uzbU5w@public.gmane.org>
 Sender: linux-man-owner-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
-To: "Michael Kerrisk (man-pages)" <mtk.manpages-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org>, Keith Thompson <keithsthompson-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org>
-Cc: linux-man-u79uwXL29TY76Z2rM5mHXA@public.gmane.org, Keith Thompson <Keith.S.Thompson-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org>
+To: Michael Kerrisk <mtk.manpages-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org>
+Cc: linux-man-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
 List-Id: linux-man@vger.kernel.org
 
-Hi Keith!
+Signed-off-by: Jakub Wilk <jwilk-tXgOlIzOKNReoWH0uzbU5w@public.gmane.org>
+---
+ man2/prctl.2 | 8 ++++----
+ 1 file changed, 4 insertions(+), 4 deletions(-)
 
-> I suggest leaving it as it was, apart from using SIZE in the definition > of buffer. > > It's common for preprocessor directives to be
-left-justified rather > than aligned with the surrounding code.  (They
-mostly appear at file > scope, so it's not usually an issue.)  It's
-perfectly valid to indent > the #define, but it's a bit misleading,
-since it implies that SIZE has > a scope (it doesn't, it's visible to
-the end of the translation unit).
+diff --git a/man2/prctl.2 b/man2/prctl.2
+index 5cea3bb..1417a15 100644
+--- a/man2/prctl.2
++++ b/man2/prctl.2
+@@ -311,9 +311,9 @@ in the location pointed to by
+ .TP
+ .BR PR_SET_KEEPCAPS " (since Linux 2.2.18)"
+ Set the state of the thread's "keep capabilities" flag,
+-which determines whether the threads's permitted
+-capability set is cleared when a change is made to the threads's user IDs
+-such that the threads's real UID, effective UID, and saved set-user-ID
++which determines whether the thread's permitted
++capability set is cleared when a change is made to the thread's user IDs
++such that the thread's real UID, effective UID, and saved set-user-ID
+ all become nonzero when at least one of them previously had the value 0.
+ By default, the permitted capability set is cleared when such a change is made;
+ setting the "keep capabilities" flag prevents it from being cleared.
+@@ -328,7 +328,7 @@ The "keep capabilities" value will be reset to 0 on subsequent calls to
+ .BR execve (2).
+ .TP
+ .BR PR_GET_KEEPCAPS " (since Linux 2.2.18)"
+-Return (as the function result) the current state of the calling threads's
++Return (as the function result) the current state of the calling thread's
+ "keep capabilities" flag.
+ .TP
+ .BR PR_MCE_KILL " (since Linux 2.6.32)"
+-- 
+2.7.0
 
-While I agree with you concerning the scope, I would then expect the
-SIZE macro be placed between the includes and the function header, as
-everything that has not a block scope. It just seems misplaced in the
-middle of the function (more exactly between the variable definitions),
-but outdented.
-More generally, if somebody wants to make clear that a macro has only
-meaning in the local block I would prefer to place it there, but indent
-it with the rest of the code. If it's supposed to be used file-wide I
-would expect it before the first function, but without indention. IMHO
-the given code snippet is a wild mix that caught my eye as being quite
-unpleasing and unintuitive. So I suggest doing it the one /or/ the other
-way; I would've preferred Michael's solution in the first place, but
-obviously that's not universal enough for a man page.
-And as a disclaimer, that's my built-in, intuitive style guide speaking,
-as I'm by no means an authority of C code formatting.
-
-Cheers,
-
-Martin
 --
 To unsubscribe from this list: send the line "unsubscribe linux-man" in
 the body of a message to majordomo-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
