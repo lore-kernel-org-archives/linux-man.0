@@ -1,22 +1,34 @@
-From: David and Carol Martin <adela-pRLLElrzKrpSOeZaZIezHw@public.gmane.org>
-Subject: (unknown)
-Date: Sun, 28 Feb 2016 08:11:00 +0800 (MYT)
-Message-ID: <2068762403.324835.1456618260404.JavaMail.root@imr.gov.my>
-Mime-Version: 1.0
-Content-Type: text/plain; charset=utf-8
-Content-Transfer-Encoding: QUOTED-PRINTABLE
+From: Jakub Wilk <jwilk-tXgOlIzOKNReoWH0uzbU5w@public.gmane.org>
+Subject: [PATCH 1/3] getaddrinfo.3: tfix
+Date: Sun, 28 Feb 2016 01:32:39 +0100
+Message-ID: <1456619561-613-1-git-send-email-jwilk@jwilk.net>
 Return-path: <linux-man-owner-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>
-Subject: 
 Sender: linux-man-owner-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
+To: Michael Kerrisk <mtk.manpages-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org>
+Cc: linux-man-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
 List-Id: linux-man@vger.kernel.org
 
+Signed-off-by: Jakub Wilk <jwilk-tXgOlIzOKNReoWH0uzbU5w@public.gmane.org>
+---
+ man3/getaddrinfo.3 | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
 
+diff --git a/man3/getaddrinfo.3 b/man3/getaddrinfo.3
+index 7bf815a..f924cdf 100644
+--- a/man3/getaddrinfo.3
++++ b/man3/getaddrinfo.3
+@@ -232,7 +232,7 @@ for IPv4 addresses,
+ .BR IN6ADDR_ANY_INIT
+ for IPv6 address).
+ The wildcard address is used by applications (typically servers)
+-that intend to accept connections on any of the hosts's network addresses.
++that intend to accept connections on any of the host's network addresses.
+ If
+ .I node
+ is not NULL, then the
+-- 
+2.7.0
 
---=20
-We are donating to you 1,500,000 GBP, from David and Carol Martin =C2=A3=
-33million lottery, contact : davidcarolm-/E1597aS9LTXPF5Rlphj1Q@public.gmane.org=20
-view link: http://www.ibtimes.co.uk/lotto-winners-david-carol-martin-wa=
-nt-blast-into-space-after-buying-new-shoes-1537851
 --
 To unsubscribe from this list: send the line "unsubscribe linux-man" in
 the body of a message to majordomo-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
