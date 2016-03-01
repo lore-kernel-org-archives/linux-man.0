@@ -1,72 +1,48 @@
-From: "Michael Kerrisk (man-pages)" <mtk.manpages-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org>
-Subject: Re: [PATCH v2] socket.7: Document some BPF-related socket options
-Date: Tue, 1 Mar 2016 21:26:36 +0100
-Message-ID: <56D5FAFC.10905@gmail.com>
-References: <1456767399-7533-1-git-send-email-kraigatgoog@gmail.com>
- <56D56901.5070307@gmail.com> <87k2lm7bks.fsf@zoro.exoscale.ch>
- <56D56F24.3090605@gmail.com>
- <CAEfhGixaxUxon++cTNrs3SrgXa11NpAAgok-_LB-A=JW29wQOw@mail.gmail.com>
- <CAKgNAkgbJtFQqStHFYt20U+7XKvDyBKN0meJSrrs9xS_cWudDw@mail.gmail.com>
- <CAEfhGizA8h2jzdd82TYwmM04K2u6yRQ=5UCsNkAJyGE6F_Eoig@mail.gmail.com>
- <87povenoig.fsf@zoro.exoscale.ch>
+From: Florian Weimer <fweimer-H+wXaHxf7aLQT0dZR+AlfA@public.gmane.org>
+Subject: Re: [PATCH] Fix readdir_r with long file names
+Date: Tue, 1 Mar 2016 21:27:41 +0100
+Message-ID: <56D5FB3D.5000306@redhat.com>
+References: <51B0B39F.4060202@redhat.com> <51B0BD36.3030202@redhat.com>
+ <CAHGf_=r9Rz63pho+84ORk0a_oDyJSj-MCnZ56uPrT3L6sVEfeQ@mail.gmail.com>
+ <20130607013024.GO29800@brightrain.aerifal.cx> <51B19203.3070307@redhat.com>
+ <20130607144143.GQ29800@brightrain.aerifal.cx> <51B57E35.4080403@redhat.com>
+ <51B65EA7.2020402@redhat.com> <20130611011324.GT29800@brightrain.aerifal.cx>
+ <51B8702D.2060505@redhat.com>
+ <20130813040038.GE21795@spoyarek.pnq.redhat.com>
+ <520C88A6.9070501@redhat.com> <56D54DAD.1040306@gmail.com>
+ <56D5CA79.9030204@redhat.com> <56D5F832.3070209@gmail.com>
 Mime-Version: 1.0
 Content-Type: text/plain; charset=utf-8
-Content-Transfer-Encoding: QUOTED-PRINTABLE
+Content-Transfer-Encoding: 8bit
 Return-path: <linux-man-owner-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>
-In-Reply-To: <87povenoig.fsf-5eSmzDr29cuEUmwQmL7/Pg@public.gmane.org>
+In-Reply-To: <56D5F832.3070209-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org>
 Sender: linux-man-owner-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
-To: Vincent Bernat <bernat-PWwKhitvBKI@public.gmane.org>, Craig Gallek <kraigatgoog-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org>
-Cc: mtk.manpages-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org, linux-man <linux-man-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>
+To: "Michael Kerrisk (man-pages)" <mtk.manpages-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org>, Siddhesh Poyarekar <siddhesh-H+wXaHxf7aLQT0dZR+AlfA@public.gmane.org>
+Cc: Rich Felker <dalias-/miJ2pyFWUyWIDz0JBNUog@public.gmane.org>, Carlos O'Donell <carlos-H+wXaHxf7aLQT0dZR+AlfA@public.gmane.org>, KOSAKI Motohiro <kosaki.motohiro-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org>, libc-alpha <libc-alpha-9JcytcrH/bA+uJoB2kUjGw@public.gmane.org>, Roland McGrath <roland-/Z5OmTQCD9xF6kxbq+BtvQ@public.gmane.org>, linux-man <linux-man-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>
 List-Id: linux-man@vger.kernel.org
 
-Hello Vincent,
+On 03/01/2016 09:14 PM, Michael Kerrisk (man-pages) wrote:
 
-On 03/01/2016 05:36 PM, Vincent Bernat wrote:
->  =E2=9D=A6  1 mars 2016 11:31 -0500, Craig Gallek <kraigatgoog@gmail.=
-com> :
->=20
->>> But, what about the second paragraph mentioned in my other mail. I
->>> think we should just kill it. What do you think?
->> Ah, that's an interesting question...  I believe the 'typical use
->> case' paragraph is correct with removal of the 'privilege' qualifier=
-s
->> (and pretty much lifted from the commit message), but I'll defer to
->> you as to whether or not it's appropriate for a man page.  There don=
-'t
->> appear to be other such examples in this specific page and anyone wh=
-o
->> is really interested in the motivation behind the implementation of =
-a
->> feature is better off looking at the code and commit messages
->> anyway...
->=20
-> The typical use case is still about privileges since a fully privileg=
-ed
-> process could just create a similar socket without the filter. It mak=
-es
-> little sense to create a socket, add a filter and lock it if you keep
-> your privileges.
+> What happens with readdir() when it gets a filename that is larger 
+> than 255 characters?
 
-Thanks. That, plus a reread of the commit message was the info I needed=
-=2E
-The point here is that we're talking about raw sockets, right? I=20
-reworded that paragraph to:
+Good question.  Ugh.
 
-              The typical use case is for a privileged process to  set
-              up   a  raw  socket  (an  operation  that  requires  the
-              CAP_NET_RAW capability), apply a restrictive filter, set
-              the  SO_LOCK_FILTER  option,  and  then  either drop its
-              privileges or pass the  socket  file  descriptor  to  an
-              unprivileged process via a UNIX domain socket.
+readdir will return a pointer to a struct dirent whose d_name member
+will not be null-terminated, but the memory following the struct dirent
+object will contain the rest of the name, and will eventually be
+null-terminated.
 
-Cheers,
+This will work perfectly fine if you don't copy struct dirent objects
+using memcpy, and the compiler does not optimize things too much.  We
+should implement compiler support for this wart: inhibit optimizations
+(I think there are already special cases for length-0 and length-1
+arrays at the end, so it's not totally without precedent), and warn
+about sizeof (struct dirent) and using it as a (non-pointer) declarator.
+ The second part is likely generally useful for structs whose size is
+not intended to be part of the ABI.
 
-Michael
-
---=20
-Michael Kerrisk
-Linux man-pages maintainer; http://www.kernel.org/doc/man-pages/
-Linux/UNIX System Programming Training: http://man7.org/training/
+Florian
 --
 To unsubscribe from this list: send the line "unsubscribe linux-man" in
 the body of a message to majordomo-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
