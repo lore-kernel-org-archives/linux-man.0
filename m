@@ -1,489 +1,269 @@
-From: "Michael Kerrisk (man-pages)" <mtk.lists-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org>
-Subject: Re: [PATCH] Fix readdir_r with long file names
-Date: Tue, 1 Mar 2016 09:07:09 +0100
-Message-ID: <56D54DAD.1040306@gmail.com>
-References: <51B0B39F.4060202@redhat.com> <51B0BD36.3030202@redhat.com>
- <CAHGf_=r9Rz63pho+84ORk0a_oDyJSj-MCnZ56uPrT3L6sVEfeQ@mail.gmail.com>
- <20130607013024.GO29800@brightrain.aerifal.cx> <51B19203.3070307@redhat.com>
- <20130607144143.GQ29800@brightrain.aerifal.cx> <51B57E35.4080403@redhat.com>
- <51B65EA7.2020402@redhat.com> <20130611011324.GT29800@brightrain.aerifal.cx>
- <51B8702D.2060505@redhat.com>
- <20130813040038.GE21795@spoyarek.pnq.redhat.com>
- <520C88A6.9070501@redhat.com>
-Reply-To: mtk.manpages-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org
+From: "Michael Kerrisk (man-pages)" <mtk.manpages@gmail.com>
+Subject: Re: [PATCH v2] socket.7: Document some BPF-related socket options
+Date: Tue, 1 Mar 2016 11:03:45 +0100
+Message-ID: <56D56901.5070307@gmail.com>
+References: <1456767399-7533-1-git-send-email-kraigatgoog@gmail.com>
 Mime-Version: 1.0
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: QUOTED-PRINTABLE
-Return-path: <linux-man-owner-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>
-In-Reply-To: <520C88A6.9070501-H+wXaHxf7aLQT0dZR+AlfA@public.gmane.org>
-Sender: linux-man-owner-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
-To: Florian Weimer <fweimer-H+wXaHxf7aLQT0dZR+AlfA@public.gmane.org>, Siddhesh Poyarekar <siddhesh-H+wXaHxf7aLQT0dZR+AlfA@public.gmane.org>
-Cc: "Michael Kerrisk (gmail)" <mtk.manpages-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org>, Rich Felker <dalias-/miJ2pyFWUyWIDz0JBNUog@public.gmane.org>, Carlos O'Donell <carlos-H+wXaHxf7aLQT0dZR+AlfA@public.gmane.org>, KOSAKI Motohiro <kosaki.motohiro-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org>, libc-alpha <libc-alpha-9JcytcrH/bA+uJoB2kUjGw@public.gmane.org>, Roland McGrath <roland-/Z5OmTQCD9xF6kxbq+BtvQ@public.gmane.org>, linux-man <linux-man-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>
+Content-Type: text/plain; charset=windows-1252
+Content-Transfer-Encoding: 7bit
+Return-path: <netdev-owner@vger.kernel.org>
+In-Reply-To: <1456767399-7533-1-git-send-email-kraigatgoog@gmail.com>
+Sender: netdev-owner@vger.kernel.org
+To: Craig Gallek <kraigatgoog@gmail.com>
+Cc: mtk.manpages@gmail.com, linux-man@vger.kernel.org, netdev@vger.kernel.org, alexei.starovoitov@gmail.com, bernat@luffy.cx
 List-Id: linux-man@vger.kernel.org
 
-Hello Florian,
+Hi Craig,
 
-On 08/15/2013 09:52 AM, Florian Weimer wrote:
-> On 08/13/2013 06:00 AM, Siddhesh Poyarekar wrote:
->>> +In POSIX.1-2008, @code{readdir} is not thread-safe.  In @theglibc{=
-}
->>> +implementation, it is safe to call @code{readdir} concurrently on
->>> +different @var{dirstream}s (but multiple threads accessing the sam=
-e
->>> +@var{dirstream} result in undefined behavior).  @code{readdir_r} i=
-s a
->>
->> Minor nit - you could get rid of the round brackets and simply write
->> the line as:
->>
->> In @theglibc{} implementation, it is safe to call @code{readdir}
->> concurrently on different @var{dirstream}s, but multiple threads
->> accessing the same @var{dirstream} result in undefined behavior.
->=20
-> Applied, thanks.
->=20
->>> +@item
->>> +POSIX-1.2008 does not guarantee that @code{readdir} is thread-safe=
-,
->>> +even when access to the same @var{dirstream} is serialized.  But i=
-n
->>> +current implementations (including @theglibc{}), it is safe to cal=
-l
->>> +@code{readdir} concurrently on different @var{dirstream}s, so ther=
-e is
->>> +no requirement to use @code{readdir_r} even in multi-threaded
->>> +programs.
->>> +
->>
->> This seems to gloss over the fact that one would need synchronizatio=
-n
->> (or readdir_r) if readdir is called concurrently on the same
->> dirstream.  It seems like a bad idea to do this at all, but we
->> probably should add a note about it anyway.
->=20
-> I ended up with this:
->=20
-> +@item
-> +POSIX-1.2008 does not guarantee that @code{readdir} is thread-safe,
-> +even when access to the same @var{dirstream} is serialized.  But in
-> +current implementations (including @theglibc{}), it is safe to call
-> +@code{readdir} concurrently on different @var{dirstream}s, so there =
-is
-> +no need to use @code{readdir_r} in most multi-threaded programs.  In
-> +the rare case that multiple threads need to read from the same
-> +@var{dirstream}, it is still better to use @code{readdir} and extern=
-al
-> +synchronization.
->=20
-> I'm attaching my current version.  It compiles, but tests are still r=
-unning.
->=20
-> I'll update the NEWS file with the bug number on the final commit.
+On 02/29/2016 06:36 PM, Craig Gallek wrote:
+> From: Craig Gallek <kraig@google.com>
 
-I see that glibc 2.23 deprecates readdir_r(), which prompted me to catc=
-h
-up on this thread. I'd like to see the points you make documented in th=
-e
-readdir_r(3) man page also. Would you be willing to allow that text to
-be reused / reworked for the page, under that page's existing "verbatim=
-"
-license (https://www.kernel.org/doc/man-pages/licenses.html#verbatim)?
+Thanks for improvements. I've applied the patch and tweaked things 
+somewhat, but I have a few comments and queries below. I'd be 
+grateful if you'd check these, in case I have introduced any errors.
+(The tweaked version of the page can be found in the Git repo.)
 
-The text I'd propose to add to the man page would be (new material
-starting at =3D=3D=3D>):
+> Document the behavior and the first kernel version for each of the
+> following socket options:
+> SO_ATTACH_FILTER
+> SO_ATTACH_BPF
+> SO_ATTACH_REUSEPORT_CBPF
+> SO_ATTACH_REUSEPORT_EBPF
+> SO_DETACH_FILTER
+> SO_DETACH_BPF
+> SO_LOCK_FILTER
+> 
+> Signed-off-by: Craig Gallek <kraig@google.com>
+> ---
+> v2 changes:
+> - Content suggestions from Michael Kerrisk <mtk.manpages@gmail.com>:
+>   * Clarify socket filter return value semantics
+>   * Clarify wording of minimal kernel versions
+>   * Explain behavior of multiple calls using SO_ATTACH_[BPF|FILTER]
+>   * Define 'reuseport groups' in SO_ATTACH_REUSEPORT_*
+> - Include SO_LOCK_FILTER documentation mostly based off of the wording
+>   in the commit message by Vincent Bernat <bernat@luffy.cx>
+>   d59577b6ffd3 ("sk-filter: Add ability to lock a socket filter program")
+> 
+> ---
+>  man7/socket.7 | 136 +++++++++++++++++++++++++++++++++++++++++++++++++---------
+>  1 file changed, 115 insertions(+), 21 deletions(-)
+> 
+> diff --git a/man7/socket.7 b/man7/socket.7
+> index db7cb8324dde..d22107cc47d7 100644
+> --- a/man7/socket.7
+> +++ b/man7/socket.7
+> @@ -41,9 +41,6 @@
+>  .\" 	SO_GET_FILTER (3.8)
+>  .\"		commit a8fc92778080c845eaadc369a0ecf5699a03bef0
+>  .\"		Author: Pavel Emelyanov <xemul@parallels.com>
+> -.\"	SO_LOCK_FILTER (3.9)
+> -.\"		commit d59577b6ffd313d0ab3be39cb1ab47e29bdc9182
+> -.\"		Author: Vincent Bernat <bernat@luffy.cx>
+>  .\"	SO_SELECT_ERR_QUEUE (3.10)
+>  .\"             commit 7d4c04fc170087119727119074e72445f2bb192b
+>  .\"		Author: Keller, Jacob E <jacob.e.keller@intel.com>
+> @@ -53,13 +50,6 @@
+>  .\"     SO_BPF_EXTENSIONS (3.14)
+>  .\"             commit ea02f9411d9faa3553ed09ce0ec9f00ceae9885e
+>  .\"		Author: Michal Sekletar <msekleta@redhat.com>
+> -.\"     SO_ATTACH_BPF (3.19)
+> -.\"             and SO_DETACH_BPF as synonym for SO_DETACH_FILTER
+> -.\"             commit 89aa075832b0da4402acebd698d0411dcc82d03e
+> -.\"		Author: Alexei Starovoitov <ast@plumgrid.com>
+> -.\"	SO_ATTACH_REUSEPORT_CBPF, SO_ATTACH_REUSEPORT_EBPF (4.5)
+> -.\"		commit 538950a1b7527a0a52ccd9337e3fcd304f027f13
+> -.\"		Author: Craig Gallek <kraig@google.com>
+>  .\"
+>  .TH SOCKET 7 2015-05-07 Linux "Linux Programmer's Manual"
+>  .SH NAME
+> @@ -311,6 +301,90 @@ The value 0 indicates that this is not a listening socket,
+>  the value 1 indicates that this is a listening socket.
+>  This socket option is read-only.
+>  .TP
+> +.BR SO_ATTACH_FILTER " and " SO_ATTACH_BPF
+> +Attach a classic or extended BPF program (respectively) to the socket
+> +for use as a filter of incoming packets. A packet will be dropped if
+> +the filter program returns zero.  If the filter program returns a
+> +non-zero value which is less than the packet's data length, the packet
+> +will be truncated to the length returned.  If the value returned by
+> +the filter is greater than or equal to the packet's data length, the
+> +packet is allowed to proceed unmodified.
+> +
+> +The argument for
+> +.BR SO_ATTACH_FILTER
+> +is a
+> +.I sock_fprog
+> +structure in
+> +.B <linux/filter.h>.
+> +.sp
+> +.in +4n
+> +.nf
+> +struct sock_fprog {
+> +    unsigned short      len;
+> +    struct sock_filter *filter;
+> +};
+> +.fi
+> +.in
+> +.IP
+> +The argument for
+> +.BR SO_ATTACH_BPF
+> +is a file descriptor returned by the
+> +.BR bpf (2)
+> +system call and must refer to a program of type
+> +.BR BPF_PROG_TYPE_SOCKET_FILTER.
+> +These options may be set multiple times for a given socket, each time
+> +replacing the previous filter program.  The classic and extended
+> +versions may be called on the same socket, but the previous filter
+> +will always be replaced such that a socket never has more than one
+> +filter defined.
+> +
+> +.BR SO_ATTACH_FILTER
+> +is available since Linux 2.2.
+> +.BR SO_ATTACH_BPF
+> +is available since Linux 3.19.  Both classic and extended BPF are
+> +explained in the kernel source file
+> +.I Documentation/networking/filter.txt
+> +.TP
+> +.BR SO_ATTACH_REUSEPORT_CBPF " and " SO_ATTACH_REUSEPORT_EBPF " (since Linux 4.5)"
+> +For use with the
+> +.BR SO_REUSEPORT
+> +option, these options allow the user to set a classic or extended
+> +BPF program (respectively) which defines how packets are assigned to
+> +the sockets in the reuseport group (that is, all sockets which have
+> +.BR SO_REUSEPORT
+> +set and are using the same local address to receive packets).  The BPF
+> +program must return an index between 0 and N-1 representing the socket
+> +which should receive the packet (where N is the number of sockets in
+> +the group). If the BPF program returns an invalid index, socket
+> +selection will fall back to the plain
+> +.BR SO_REUSEPORT
+> +mechanism.
+> +
+> +Sockets are numbered in the order in which they are added to the group
+> +(that is, the order of
+> +.BR bind (2)
+> +calls for UDP sockets or the order of
+> +.BR listen (2)
+> +calls for TCP sockets).  New sockets added to a reuseport group will
+> +inherit the BPF program.  When a socket is removed from a reuseport
+> +group (via
+> +.BR close (2))
+> +the last socket in the group will be moved into the closed socket's
+> +position.
+> +
+> +These options may be set repeatedly at any time on any single socket
+> +in the group to replace the current BPF program used by all sockets in
+> +the group.
+> +.BR SO_ATTACH_REUSEPORT_CBPF
+> +takes the same socket argument type as
+> +.BR SO_ATTACH_FILTER
+> +and
+> +.BR SO_ATTACH_REUSEPORT_EBPF
+> +takes the same socket argument type as
+> +.BR SO_ATTACH_BPF.
+> +UDP support for this feature is available since Linux 4.5.
+> +TCP support for this feature is available since Linux 4.6.
+> +.TP
+>  .B SO_BINDTODEVICE
+>  Bind this socket to a particular device like \(lqeth0\(rq,
+>  as specified in the passed interface name.
+> @@ -368,6 +442,18 @@ Only allowed for processes with the
+>  .B CAP_NET_ADMIN
+>  capability or an effective user ID of 0.
+>  .TP
+> +.BR SO_DETACH_FILTER " and " SO_DETACH_BPF
+> +These options may be used to remove the BPF program attached to the
 
-  readdir_r()
-       The readdir_r() function is a reentrant version  of  readdir().
-       It  reads  the  next  directory entry from the directory stream
-       dirp, and returns it in the caller-allocated buffer pointed  to
-       by entry.  A pointer to the returned item is placed in *result;
-       if the end of the directory stream was encountered,  then  NULL
-       is instead returned in *result.
+Here, I added some wording to note that these two options are
+synonyms.
 
-       Since  POSIX.1  does  not specify the size of the d_name field,
-       and other nonstandard fields may precede that field within  the
-       dirent  structure,  portable  applications that use readdir_r()
-       could allocate the buffer whose address is passed in  entry  as
-       follows:
+> +socket with either
+> +.BR SO_ATTACH_FILTER
+> +or
+> +.BR SO_ATTACH_BPF.
+> +The option value is ignored.
+> +.BR SO_DETACH_FILTER
+> +is available since Linux 2.2.
+> +.BR SO_DETACH_BPF
+> +is available since Linux 3.19.
+> +.TP
+>  .BR SO_DOMAIN " (since Linux 2.6.32)"
+>  Retrieves the socket domain as an integer, returning a value such as
+>  .BR AF_INET6 .
+> @@ -423,6 +509,25 @@ When the socket is closed as part of
+>  .BR exit (2),
+>  it always lingers in the background.
+>  .TP
+> +.B SO_LOCK_FILTER
+> +When set, this option will prevent an unprivileged process from
 
-           name_max =3D pathconf(dirpath, _PC_NAME_MAX);
-           if (name_max =3D=3D -1)         /* Limit not defined, or err=
-or */
-               name_max =3D 255;         /* Take a guess */
-           len =3D offsetof(struct dirent, d_name) + name_max + 1;
-           entryp =3D malloc(len);
+Looks like a wording misstep here. It looks like SO_LOCK_FILTER
+applies for any process (even root), as per the commit message for
+this feature, and my reading of the code.
 
-       (POSIX.1  requires  that  d_name  is the last field in a struct
-       dirent.)
+> +changing the filters associated with the socket.
 
-=3D=3D=3D>   However, the above approach has problems, and it is recomm=
-ended
-       that  applications  use readdir() instead of readdir_r().  Fur=E2=
-=80=90
-       thermore, since version  2.23,  glibc  deprecates  readdir_r().
-       The reasons are as follows:
+s/filters/filter/ surely? (Since a socket can only have one 
+filter installed, right?)
+  
+Also the process is prevented from *removing* the filter
+or *disabling the SO_LOCK_FILTER* option. Right?
 
-       *  On  systems where NAME_MAX is undefined, calling readdir_r()
-          may be unsafe because the interface does not allow the call=E2=
-=80=90
-          er to specify the length of the buffer used for the returned
-          directory entry.
+I reworded this piece to:
 
-       *  On some systems, readdir_r() can't  read  directory  entries
-          with very long names.  When the glibc implementation encoun=E2=
-=80=90
-          ters such a name, readdir_r() fails with the error ENAMETOO=E2=
-=80=90
-          LONG after the final directory entry has been read.  On some
-          other systems, readdir_r() may return a success status,  but
-          the  returned d_name field may not be null terminated or may
-          be truncated.
+          Once   the   SO_LOCK_FILTER  option  has  been  enabled,
+          attempts by an unprivileged process to change or  remove
+          the  filter  attached  to  a  socket,  or to disable the
+          SO_LOCK_FILTER option will fail with the error EPERM.
 
-       *  In the current POSIX.1 specification  (POSIX.1-2008),  read=E2=
-=80=90
-          dir_r() is not required to be thread-safe.  However, in mod=E2=
-=80=90
-          ern implementations (including  the  glibc  implementation),
-          concurrent  calls  to  readdir_r()  that  specify  different
-          directory streams are thread-safe.  Therefore,  the  use  of
-          readdir_r()  is  generally unnecessary in multithreaded pro=E2=
-=80=90
-          grams.  In cases where multiple threads must read  from  the
-          same  directory  stream,  using readdir() with external syn=E2=
-=80=90
-          chronization is still preferable to the use of  readdir_r(),
-          for the reasons given in the points above.
+Okay?
 
-       *  It  is  expected  that a future version of POSIX.1 will make
-          readdir_r() obsolete, and require that readdir() be  thread-
-          safe  when  concurrently  employed  on  different  directory
-          streams.
+> These filters
+> +include any set using the socket options
+> +.BR SO_ATTACH_FILTER,
+> +.BR SO_ATTACH_BPF,
+> +.BR SO_ATTACH_REUSEPORT_CBPF
+> +or
+> +.BR SO_ATTACH_REUSEPORT_EPBF.
+> +The typical use case is for a privileged process to setup a socket with
+> +restrictive filters, set
+> +.BR SO_LOCK_FILTER
+> +and then either drop its privileges or pass the socket file descriptor
+> +to an unprivileged process.  Attempts to change a filter by an
+> +unprivileged process while
+> +.BR SO_LOCK_FILTER
+> +is set will result in an error with value
+> +.BR EPERM.
+> +.TP
+>  .BR SO_MARK " (since Linux 2.6.25)"
+>  .\" commit 4a19ec5800fc3bb64e2d87c4d9fdd9e636086fe0
+>  .\" and    914a9ab386a288d0f22252fc268ecbc048cdcbd5
+> @@ -991,17 +1096,6 @@ where only the later program needs to set the
+>  option.
+>  Typically this difference is invisible, since, for example, a server
+>  program is designed to always set this option.
+> -.SH BUGS
+> -The
+> -.B CONFIG_FILTER
+> -socket options
+> -.B SO_ATTACH_FILTER
+> -and
+> -.B SO_DETACH_FILTER
+> -.\" FIXME Document SO_ATTACH_FILTER and SO_DETACH_FILTER
+> -are not documented.
+> -The suggested interface to use them is via the libpcap
+> -library.
+>  .\" .SH AUTHORS
+>  .\" This man page was written by Andi Kleen.
+>  .SH SEE ALSO
 
-Cheers,
+Thanks,
 
 Michael
 
-=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=
-=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D
-2013-08-15  Florian Weimer  <fweimer-H+wXaHxf7aLQT0dZR+AlfA@public.gmane.org>
 
-	[BZ #14699]
-	CVE-2013-4237
-	* sysdeps/posix/dirstream.h (struct __dirstream): Add errcode
-	member.
-	* sysdeps/posix/opendir.c (__alloc_dir): Initialize errcode
-	member.
-	* sysdeps/posix/rewinddir.c (rewinddir): Reset errcode member.
-	* sysdeps/posix/readdir_r.c (__READDIR_R): Enforce NAME_MAX limit.
-	Return delayed error code.  Remove GETDENTS_64BIT_ALIGNED
-	conditional.
-	* sysdeps/unix/sysv/linux/wordsize-64/readdir_r.c: Do not define
-	GETDENTS_64BIT_ALIGNED.
-	* sysdeps/unix/sysv/linux/i386/readdir64_r.c: Likewise.
-	* manual/filesys.texi (Reading/Closing Directory): Document
-	ENAMETOOLONG return value of readdir_r.  Recommend readdir more
-	strongly.
-	* manual/conf.texi (Limits for Files): Add portability note to
-	NAME_MAX, PATH_MAX.
-	(Pathconf): Add portability note for _PC_NAME_MAX, _PC_PATH_MAX.
-
-diff --git a/manual/conf.texi b/manual/conf.texi
-index 7eb8b36..c720063 100644
---- a/manual/conf.texi
-+++ b/manual/conf.texi
-@@ -1149,6 +1149,9 @@ typed ahead as input.  @xref{I/O Queues}.
- @deftypevr Macro int NAME_MAX
- The uniform system limit (if any) for the length of a file name compon=
-ent, not
- including the terminating null character.
-+
-+@strong{Portability Note:} On some systems, @theglibc{} defines
-+@code{NAME_MAX}, but does not actually enforce this limit.
- @end deftypevr
-=20
- @comment limits.h
-@@ -1157,6 +1160,9 @@ including the terminating null character.
- The uniform system limit (if any) for the length of an entire file nam=
-e (that
- is, the argument given to system calls such as @code{open}), including=
- the
- terminating null character.
-+
-+@strong{Portability Note:} @Theglibc{} does not enforce this limit
-+even if @code{PATH_MAX} is defined.
- @end deftypevr
-=20
- @cindex limits, pipe buffer size
-@@ -1476,6 +1482,9 @@ Inquire about the value of @code{POSIX_REC_MIN_XF=
-ER_SIZE}.
- Inquire about the value of @code{POSIX_REC_XFER_ALIGN}.
- @end table
-=20
-+@strong{Portability Note:} On some systems, @theglibc{} does not
-+enforce @code{_PC_NAME_MAX} or @code{_PC_PATH_MAX} limits.
-+
- @node Utility Limits
- @section Utility Program Capacity Limits
-=20
-diff --git a/manual/filesys.texi b/manual/filesys.texi
-index 1df9cf2..814c210 100644
---- a/manual/filesys.texi
-+++ b/manual/filesys.texi
-@@ -444,9 +444,9 @@ symbols are declared in the header file @file{diren=
-t.h}.
- @comment POSIX.1
- @deftypefun {struct dirent *} readdir (DIR *@var{dirstream})
- This function reads the next entry from the directory.  It normally
--returns a pointer to a structure containing information about the file=
-=2E
--This structure is statically allocated and can be rewritten by a
--subsequent call.
-+returns a pointer to a structure containing information about the
-+file.  This structure is associated with the @var{dirstream} handle
-+and can be rewritten by a subsequent call.
-=20
- @strong{Portability Note:} On some systems @code{readdir} may not
- return entries for @file{.} and @file{..}, even though these are alway=
-s
-@@ -461,19 +461,61 @@ conditions are defined for this function:
- The @var{dirstream} argument is not valid.
- @end table
-=20
--@code{readdir} is not thread safe.  Multiple threads using
--@code{readdir} on the same @var{dirstream} may overwrite the return
--value.  Use @code{readdir_r} when this is critical.
-+To distinguish between an end-of-directory condition or an error, you
-+must set @code{errno} to zero before calling @code{readdir}.  To avoid
-+entering an infinite loop, you should stop reading from the directory
-+after the first error.
-+
-+In POSIX.1-2008, @code{readdir} is not thread-safe.  In @theglibc{}
-+implementation, it is safe to call @code{readdir} concurrently on
-+different @var{dirstream}s, but multiple threads accessing the same
-+@var{dirstream} result in undefined behavior.  @code{readdir_r} is a
-+fully thread-safe alternative, but suffers from poor portability (see
-+below).  It is recommended that you use @code{readdir}, with external
-+locking if multiple threads access the same @var{dirstream}.
- @end deftypefun
-=20
- @comment dirent.h
- @comment GNU
- @deftypefun int readdir_r (DIR *@var{dirstream}, struct dirent *@var{e=
-ntry}, struct dirent **@var{result})
--This function is the reentrant version of @code{readdir}.  Like
--@code{readdir} it returns the next entry from the directory.  But to
--prevent conflicts between simultaneously running threads the result is
--not stored in statically allocated memory.  Instead the argument
--@var{entry} points to a place to store the result.
-+This function is a version of @code{readdir} which performs internal
-+locking.  Like @code{readdir} it returns the next entry from the
-+directory.  To prevent conflicts between simultaneously running
-+threads the result is stored inside the @var{entry} object.
-+
-+@strong{Portability Note:} It is recommended to use @code{readdir}
-+instead of @code{readdir_r} for the following reasons:
-+
-+@itemize @bullet
-+@item
-+On systems which do not define @code{NAME_MAX}, it may not be possible
-+to use @code{readdir_r} safely because the caller does not specify the
-+length of the buffer for the directory entry.
-+
-+@item
-+On some systems, @code{readdir_r} cannot read directory entries with
-+very long names.  If such a name is encountered, @theglibc{}
-+implementation of @code{readdir_r} returns with an error code of
-+@code{ENAMETOOLONG} after the final directory entry has been read.  On
-+other systems, @code{readdir_r} may return successfully, but the
-+@code{d_name} member may not be NUL-terminated or may be truncated.
-+
-+@item
-+POSIX-1.2008 does not guarantee that @code{readdir} is thread-safe,
-+even when access to the same @var{dirstream} is serialized.  But in
-+current implementations (including @theglibc{}), it is safe to call
-+@code{readdir} concurrently on different @var{dirstream}s, so there is
-+no need to use @code{readdir_r} in most multi-threaded programs.  In
-+the rare case that multiple threads need to read from the same
-+@var{dirstream}, it is still better to use @code{readdir} and external
-+synchronization.
-+
-+@item
-+It is expected that future versions of POSIX will obsolete
-+@code{readdir_r} and mandate the level of thread safety for
-+@code{readdir} which is provided by @theglibc{} and other
-+implementations today.
-+@end itemize
-=20
- Normally @code{readdir_r} returns zero and sets @code{*@var{result}}
- to @var{entry}.  If there are no more entries in the directory or an
-@@ -481,15 +523,6 @@ error is detected, @code{readdir_r} sets @code{*@v=
-ar{result}} to a
- null pointer and returns a nonzero error code, also stored in
- @code{errno}, as described for @code{readdir}.
-=20
--@strong{Portability Note:} On some systems @code{readdir_r} may not
--return a NUL terminated string for the file name, even when there is n=
-o
--@code{d_reclen} field in @code{struct dirent} and the file
--name is the maximum allowed size.  Modern systems all have the
--@code{d_reclen} field, and on old systems multi-threading is not
--critical.  In any case there is no such problem with the @code{readdir=
-}
--function, so that even on systems without the @code{d_reclen} member o=
-ne
--could use multiple threads by using external locking.
--
- It is also important to look at the definition of the @code{struct
- dirent} type.  Simply passing a pointer to an object of this type for
- the second parameter of @code{readdir_r} might not be enough.  Some
-diff --git a/sysdeps/posix/dirstream.h b/sysdeps/posix/dirstream.h
-index a7a074d..8e8570d 100644
---- a/sysdeps/posix/dirstream.h
-+++ b/sysdeps/posix/dirstream.h
-@@ -39,6 +39,8 @@ struct __dirstream
-=20
-     off_t filepos;		/* Position of next entry to read.  */
-=20
-+    int errcode;		/* Delayed error code.  */
-+
-     /* Directory block.  */
-     char data[0] __attribute__ ((aligned (__alignof__ (void*))));
-   };
-diff --git a/sysdeps/posix/opendir.c b/sysdeps/posix/opendir.c
-index ddfc3a7..fc05b0f 100644
---- a/sysdeps/posix/opendir.c
-+++ b/sysdeps/posix/opendir.c
-@@ -231,6 +231,7 @@ __alloc_dir (int fd, bool close_fd, int flags, cons=
-t struct stat64 *statp)
-   dirp->size =3D 0;
-   dirp->offset =3D 0;
-   dirp->filepos =3D 0;
-+  dirp->errcode =3D 0;
-=20
-   return dirp;
- }
-diff --git a/sysdeps/posix/readdir_r.c b/sysdeps/posix/readdir_r.c
-index b5a8e2e..8ed5c3f 100644
---- a/sysdeps/posix/readdir_r.c
-+++ b/sysdeps/posix/readdir_r.c
-@@ -40,6 +40,7 @@ __READDIR_R (DIR *dirp, DIRENT_TYPE *entry, DIRENT_TY=
-PE **result)
-   DIRENT_TYPE *dp;
-   size_t reclen;
-   const int saved_errno =3D errno;
-+  int ret;
-=20
-   __libc_lock_lock (dirp->lock);
-=20
-@@ -70,10 +71,10 @@ __READDIR_R (DIR *dirp, DIRENT_TYPE *entry, DIRENT_=
-TYPE **result)
- 		  bytes =3D 0;
- 		  __set_errno (saved_errno);
- 		}
-+	      if (bytes < 0)
-+		dirp->errcode =3D errno;
-=20
- 	      dp =3D NULL;
--	      /* Reclen !=3D 0 signals that an error occurred.  */
--	      reclen =3D bytes !=3D 0;
- 	      break;
- 	    }
- 	  dirp->size =3D (size_t) bytes;
-@@ -106,29 +107,46 @@ __READDIR_R (DIR *dirp, DIRENT_TYPE *entry, DIREN=
-T_TYPE **result)
-       dirp->filepos +=3D reclen;
- #endif
-=20
--      /* Skip deleted files.  */
-+#ifdef NAME_MAX
-+      if (reclen > offsetof (DIRENT_TYPE, d_name) + NAME_MAX + 1)
-+	{
-+	  /* The record is very long.  It could still fit into the
-+	     caller-supplied buffer if we can skip padding at the
-+	     end.  */
-+	  size_t namelen =3D _D_EXACT_NAMLEN (dp);
-+	  if (namelen <=3D NAME_MAX)
-+	    reclen =3D offsetof (DIRENT_TYPE, d_name) + namelen + 1;
-+	  else
-+	    {
-+	      /* The name is too long.  Ignore this file.  */
-+	      dirp->errcode =3D ENAMETOOLONG;
-+	      dp->d_ino =3D 0;
-+	      continue;
-+	    }
-+	}
-+#endif
-+
-+      /* Skip deleted and ignored files.  */
-     }
-   while (dp->d_ino =3D=3D 0);
-=20
-   if (dp !=3D NULL)
-     {
--#ifdef GETDENTS_64BIT_ALIGNED
--      /* The d_reclen value might include padding which is not part of
--	 the DIRENT_TYPE data structure.  */
--      reclen =3D MIN (reclen,
--		    offsetof (DIRENT_TYPE, d_name) + sizeof (dp->d_name));
--#endif
-       *result =3D memcpy (entry, dp, reclen);
--#ifdef GETDENTS_64BIT_ALIGNED
-+#ifdef _DIRENT_HAVE_D_RECLEN
-       entry->d_reclen =3D reclen;
- #endif
-+      ret =3D 0;
-     }
-   else
--    *result =3D NULL;
-+    {
-+      *result =3D NULL;
-+      ret =3D dirp->errcode;
-+    }
-=20
-   __libc_lock_unlock (dirp->lock);
-=20
--  return dp !=3D NULL ? 0 : reclen ? errno : 0;
-+  return ret;
- }
-=20
- #ifdef __READDIR_R_ALIAS
-diff --git a/sysdeps/posix/rewinddir.c b/sysdeps/posix/rewinddir.c
-index 2935a8e..d4991ad 100644
---- a/sysdeps/posix/rewinddir.c
-+++ b/sysdeps/posix/rewinddir.c
-@@ -33,6 +33,7 @@ rewinddir (dirp)
-   dirp->filepos =3D 0;
-   dirp->offset =3D 0;
-   dirp->size =3D 0;
-+  dirp->errcode =3D 0;
- #ifndef NOT_IN_libc
-   __libc_lock_unlock (dirp->lock);
- #endif
-diff --git a/sysdeps/unix/sysv/linux/i386/readdir64_r.c b/sysdeps/unix/=
-sysv/linux/i386/readdir64_r.c
-index 8ebbcfd..a7d114e 100644
---- a/sysdeps/unix/sysv/linux/i386/readdir64_r.c
-+++ b/sysdeps/unix/sysv/linux/i386/readdir64_r.c
-@@ -18,7 +18,6 @@
- #define __READDIR_R __readdir64_r
- #define __GETDENTS __getdents64
- #define DIRENT_TYPE struct dirent64
--#define GETDENTS_64BIT_ALIGNED 1
-=20
- #include <sysdeps/posix/readdir_r.c>
-=20
-diff --git a/sysdeps/unix/sysv/linux/wordsize-64/readdir_r.c b/sysdeps/=
-unix/sysv/linux/wordsize-64/readdir_r.c
-index 5ed8e95..290f2c8 100644
---- a/sysdeps/unix/sysv/linux/wordsize-64/readdir_r.c
-+++ b/sysdeps/unix/sysv/linux/wordsize-64/readdir_r.c
-@@ -1,5 +1,4 @@
- #define readdir64_r __no_readdir64_r_decl
--#define GETDENTS_64BIT_ALIGNED 1
- #include <sysdeps/posix/readdir_r.c>
- #undef readdir64_r
- weak_alias (__readdir_r, readdir64_r)
---
-To unsubscribe from this list: send the line "unsubscribe linux-man" in
-the body of a message to majordomo-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
-More majordomo info at  http://vger.kernel.org/majordomo-info.html
+-- 
+Michael Kerrisk
+Linux man-pages maintainer; http://www.kernel.org/doc/man-pages/
+Linux/UNIX System Programming Training: http://man7.org/training/
