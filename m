@@ -1,97 +1,58 @@
-From: Paul Eggert <eggert@cs.ucla.edu>
-Subject: Re: [PATCH] Fix readdir_r with long file names
-Date: Tue, 1 Mar 2016 14:41:10 -0800
-Message-ID: <56D61A86.3050108@cs.ucla.edu>
-References: <51B0B39F.4060202@redhat.com> <51B0BD36.3030202@redhat.com>
- <CAHGf_=r9Rz63pho+84ORk0a_oDyJSj-MCnZ56uPrT3L6sVEfeQ@mail.gmail.com>
- <20130607013024.GO29800@brightrain.aerifal.cx> <51B19203.3070307@redhat.com>
- <20130607144143.GQ29800@brightrain.aerifal.cx> <51B57E35.4080403@redhat.com>
- <51B65EA7.2020402@redhat.com> <20130611011324.GT29800@brightrain.aerifal.cx>
- <51B8702D.2060505@redhat.com>
- <20130813040038.GE21795@spoyarek.pnq.redhat.com>
- <520C88A6.9070501@redhat.com> <56D54DAD.1040306@gmail.com>
- <56D5CA79.9030204@redhat.com> <56D5F832.3070209@gmail.com>
- <56D5FB3D.5000306@redhat.com> <56D607BB.6080701@cs.ucla.edu>
- <56D614AA.7020500@redhat.com>
+From: Vincent Bernat <bernat-PWwKhitvBKI@public.gmane.org>
+Subject: Re: [PATCH v2] socket.7: Document some BPF-related socket options
+Date: Tue, 01 Mar 2016 23:43:57 +0100
+Message-ID: <m34mcpakeq.fsf@neo.luffy.cx>
+References: <1456767399-7533-1-git-send-email-kraigatgoog@gmail.com>
+	<56D56901.5070307@gmail.com> <87k2lm7bks.fsf@zoro.exoscale.ch>
+	<56D56F24.3090605@gmail.com>
+	<CAEfhGixaxUxon++cTNrs3SrgXa11NpAAgok-_LB-A=JW29wQOw@mail.gmail.com>
+	<CAKgNAkgbJtFQqStHFYt20U+7XKvDyBKN0meJSrrs9xS_cWudDw@mail.gmail.com>
+	<CAEfhGizA8h2jzdd82TYwmM04K2u6yRQ=5UCsNkAJyGE6F_Eoig@mail.gmail.com>
+	<87povenoig.fsf@zoro.exoscale.ch> <56D5FAFC.10905@gmail.com>
 Mime-Version: 1.0
-Content-Type: multipart/mixed;
- boundary="------------040905010705010105050909"
-Return-path: <libc-alpha-return-67750-glibc-alpha=m.gmane.org@sourceware.org>
-List-Unsubscribe: <mailto:libc-alpha-unsubscribe-glibc-alpha=m.gmane.org@sourceware.org>
-List-Subscribe: <mailto:libc-alpha-subscribe@sourceware.org>
-List-Archive: <http://sourceware.org/ml/libc-alpha/>
-List-Post: <mailto:libc-alpha@sourceware.org>
-List-Help: <mailto:libc-alpha-help@sourceware.org>, <http://sourceware.org/ml/#faqs>
-Sender: libc-alpha-owner@sourceware.org
-In-Reply-To: <56D614AA.7020500@redhat.com>
-To: Florian Weimer <fweimer@redhat.com>, "Michael Kerrisk (man-pages)" <mtk.manpages@gmail.com>, Siddhesh Poyarekar <siddhesh@redhat.com>
-Cc: Rich Felker <dalias@aerifal.cx>, Carlos O'Donell <carlos@redhat.com>, KOSAKI Motohiro <kosaki.motohiro@gmail.com>, libc-alpha <libc-alpha@sourceware.org>, Roland McGrath <roland@hack.frob.com>, linux-man <linux-man@vger.kernel.org>
+Content-Type: text/plain; charset=utf-8
+Content-Transfer-Encoding: QUOTED-PRINTABLE
+Return-path: <linux-man-owner-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>
+In-Reply-To: <56D5FAFC.10905-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org> (Michael Kerrisk's message of "Tue, 1
+	Mar 2016 21:26:36 +0100")
+Sender: linux-man-owner-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
+To: "Michael Kerrisk (man-pages)" <mtk.manpages-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org>
+Cc: Craig Gallek <kraigatgoog-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org>, linux-man <linux-man-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>
 List-Id: linux-man@vger.kernel.org
 
-This is a multi-part message in MIME format.
---------------040905010705010105050909
-Content-Type: text/plain; charset=utf-8; format=flowed
-Content-Transfer-Encoding: 7bit
+ =E2=9D=A6  1 mars 2016 21:26 +0100, "Michael Kerrisk (man-pages)" <mtk=
+=2Emanpages-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org>=C2=A0:
 
-On 03/01/2016 02:16 PM, Florian Weimer wrote:
->> Why not use a flexible array member for this?
-> For which part, and how exactly?
+>> The typical use case is still about privileges since a fully privile=
+ged
+>> process could just create a similar socket without the filter. It ma=
+kes
+>> little sense to create a socket, add a filter and lock it if you kee=
+p
+>> your privileges.
+>
+> Thanks. That, plus a reread of the commit message was the info I need=
+ed.
+> The point here is that we're talking about raw sockets, right? I=20
+> reworded that paragraph to:
+>
+>               The typical use case is for a privileged process to  se=
+t
+>               up   a  raw  socket  (an  operation  that  requires  th=
+e
+>               CAP_NET_RAW capability), apply a restrictive filter, se=
+t
+>               the  SO_LOCK_FILTER  option,  and  then  either drop it=
+s
+>               privileges or pass the  socket  file  descriptor  to  a=
+n
+>               unprivileged process via a UNIX domain socket.
 
-Something like the attached patch, say.  (Totally untested.)
-
-> You can't put a flexible array member into a transparent union.
-
-That's OK. Any such usage of struct dirent would be unportable anyway.
-
-> If you mean to add some zero-width padding member at the end of the
-> struct, after the d_name member, then I'm worried that makes overrunning
-> the d_name array member even more undefined than it already is.
-
-No, no padding member, just use C99 the way it was designed.  This 
-should improve overrun detection in programs like valgrind. With glibc's 
-current definition these programs can be fooled into thinking that 
-struct dirent accesses are invalid (outside of array bounds) when they 
-are actually OK, so people shut off array-bounds checking. If we used 
-flexible array members, valgrind etc. should know that the array's upper 
-bound is unknown and should not issue so many false alarms, so people 
-can leave bounds checking on.
-
-Also, I expect this sort of thing will become more important as GCC 
--fbounds-check becomes more practical.
-
-If flexible arrays are no-go for some reason, I suppose we could use 
-'char 'd_name[SIZE_MAX - 1000];' instead. That should get peoples' 
-attention. :-)
-
---------------040905010705010105050909
-Content-Type: text/x-patch;
- name="d_name.diff"
-Content-Transfer-Encoding: 7bit
-Content-Disposition: attachment;
- filename="d_name.diff"
-
-diff --git a/bits/dirent.h b/bits/dirent.h
-index 7b79a53..8546c29 100644
---- a/bits/dirent.h
-+++ b/bits/dirent.h
-@@ -32,7 +32,7 @@ struct dirent
-     unsigned char d_namlen;	/* Length of the file name.  */
- 
-     /* Only this member is in the POSIX standard.  */
--    char d_name[1];		/* File name (actually longer).  */
-+    char d_name __flexarr;	/* File name.  */
-   };
- 
- #ifdef __USE_LARGEFILE64
-@@ -42,8 +42,7 @@ struct dirent64
-     unsigned short int d_reclen;
-     unsigned char d_type;
-     unsigned char d_namlen;
--
--    char d_name[1];
-+    char d_name __flexarr;	/* File name.  */
-   };
- #endif
- 
-
---------------040905010705010105050909--
+Perfect for me.
+--=20
+The better part of valor is discretion.
+		-- William Shakespeare, "Henry IV"
+--
+To unsubscribe from this list: send the line "unsubscribe linux-man" in
+the body of a message to majordomo-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
+More majordomo info at  http://vger.kernel.org/majordomo-info.html
