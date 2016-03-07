@@ -1,62 +1,57 @@
-From: walter harms <wharms-fPG8STNUNVg@public.gmane.org>
+From: Mike Frysinger <vapier-aBrp7R+bbdUdnm+yROfE0A@public.gmane.org>
 Subject: Re: locale.5: drop tel/fax description
-Date: Mon, 07 Mar 2016 13:16:31 +0100
-Message-ID: <56DD711F.3090605@bfs.de>
+Date: Mon, 7 Mar 2016 12:48:50 -0500
+Message-ID: <20160307174850.GI6588@vapier.lan>
 References: <56DD6B93.8070802@redhat.com>
-Reply-To: wharms-fPG8STNUNVg@public.gmane.org
 Mime-Version: 1.0
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 7bit
+Content-Type: multipart/signed; micalg=pgp-sha256;
+	protocol="application/pgp-signature"; boundary="TIEGfCGDzZzDroj5"
 Return-path: <linux-man-owner-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>
+Content-Disposition: inline
 In-Reply-To: <56DD6B93.8070802-H+wXaHxf7aLQT0dZR+AlfA@public.gmane.org>
 Sender: linux-man-owner-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
 To: Marko Myllynen <myllynen-H+wXaHxf7aLQT0dZR+AlfA@public.gmane.org>
-Cc: "Michael Kerrisk (man-pages)" <mtk.manpages-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org>, linux-man <linux-man-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>, Mike Frysinger <vapier-aBrp7R+bbdUdnm+yROfE0A@public.gmane.org>
+Cc: "Michael Kerrisk (man-pages)" <mtk.manpages-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org>, linux-man <linux-man-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>
 List-Id: linux-man@vger.kernel.org
 
-It should simply be noted that these fields are droped since glibc xyz
 
-Others may support them and it is stil valid for older version.
+--TIEGfCGDzZzDroj5
+Content-Type: text/plain; charset=utf-8
+Content-Disposition: inline
 
-re,
- wh
-
-
-Am 07.03.2016 12:52, schrieb Marko Myllynen:
-> Hi Michael,
-> 
+On 07 Mar 2016 13:52, Marko Myllynen wrote:
 > glibc upstream recently deemed that the tel/fax fields are not useful
 > and dropped them from the few locales which had them defined. Do you
 > think we could/should drop the descriptions from the man page as well?
-> 
-> https://sourceware.org/git/?p=glibc.git;a=commit;h=5453f739e5fae1f9235c3207a8604f164dc9e484
-> 
-> ---
->  man5/locale.5 | 8 --------
->  1 file changed, 8 deletions(-)
-> 
-> diff --git a/man5/locale.5 b/man5/locale.5
-> index 0a26f91..cc6edf2 100644
-> --- a/man5/locale.5
-> +++ b/man5/locale.5
-> @@ -569,14 +569,6 @@ the organization that maintains this document.
->  followed by the email address of the person or
->  organization that maintains this document.
->  .TP
-> -.I tel
-> -followed by the telephone number (in international format)
-> -of the organization that maintains this document.
-> -.TP
-> -.I fax
-> -followed by the fax number (in international format)
-> -of the organization that maintains this document.
-> -.TP
->  .I language
->  followed by the name of the language to which this document applies.
->  .TP
-> 
-> Thanks,
-> 
+
+the fields are technically still supported, we've just emptied them out.
+i would add a note saying that their use is discouraged in favor of the
+other fields like e-mail.
+-mike
+
+--TIEGfCGDzZzDroj5
+Content-Type: application/pgp-signature; name="signature.asc"
+Content-Description: Digital signature
+
+-----BEGIN PGP SIGNATURE-----
+Version: GnuPG v2
+
+iQIcBAEBCAAGBQJW3b8CAAoJEEFjO5/oN/WB318P/0YgGriiwWByd0xCFA7CW0bB
+WnkrjIStUAh4tnhGgaVy1a4Yyx6XjhSNwihVk/0iYwGYFlQPTm0KVOITbCMexeDx
+67C/EblC+CrAlDq3uPVTeU79qpujwnU+6cDjpb8avYgy9r748fr3VWpz+DVZiOZD
+rDGr83FoHV1jn4XYRNwnDqkz/lTdlYx3pQFVB92RTTrBxIwl5KCAheMILW+WwVbd
+Uv9pG58yax//nM8RZtiR8SNR+y7RQ+pXd+EOFxX6rKjI/VODoiwQeIH9KyyzT1B0
+UY/kzPEfL+BbistAQ87KJv/HQvY91eheX5gTaxMVs/V+e1ndDaUvt4ey6txflpwo
+ZTLQ/gyVVTHg+Hcqb4LO12dNBY32I9A5oSsOgL7f5AyGt2oXXnuzEj+e10h+ww2W
+IExVssVVwO2P8PztRKijE0zoRGecLQ6W9iTI2rhfwBKDsPmF7VkFv4nL6cPEQbca
+NNybynTh2CWLWEb976FPijoeAIrgTLhLdHBRcfph8cnDiISmxaLeeUB7zurW9hDR
+Gv4fw3Krll5iRpZgU/tCbNsmFQOESu985724TtBVBWuT+sOZmHbs75WlNbdlC1Fv
+1zQTssMRnftSzazaREafsSVNu2rvzgzp+huvB3GKuFs8AprKjs8SrXWt0Rk/1MKW
+QNCcAcXu7ae8KcarnnoT
+=DChi
+-----END PGP SIGNATURE-----
+
+--TIEGfCGDzZzDroj5--
 --
 To unsubscribe from this list: send the line "unsubscribe linux-man" in
 the body of a message to majordomo-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
