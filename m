@@ -1,40 +1,53 @@
-From: "linux-man-u79uwXL29TY76Z2rM5mHXA@public.gmane.org" <linux-man-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>
-Subject: =?utf-8?Q?=D0=9A=D0=9B=D0=98=D0=95=D0=9D=D0=A2=D0=A1=D0?=
-	=?utf-8?Q?=9A=D0=98=D0=95_=D0=91=D0=90=D0=97=D0=AB!_=D0?=
-	=?utf-8?Q?=A2=D0=B5=D0=BB=5CViber=5CWhatsapp=3A_+79133913?=
-	=?utf-8?Q?837_Email=3A_mloginova19=40gmail=2Ecom_Skype=3A?=
-	=?utf-8?Q?_prodawez389?=
-Date: Mon, 29 Feb 2016 03:13:26 +0600
-Message-ID: <5DA61481DD0926E5393C75CA3EB2D0C5@vger.kernel.org>
-Reply-To: "linux-man-u79uwXL29TY76Z2rM5mHXA@public.gmane.org" <mloginova19-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org>
+From: Marko Myllynen <myllynen-H+wXaHxf7aLQT0dZR+AlfA@public.gmane.org>
+Subject: locale.5: drop tel/fax description
+Date: Mon, 7 Mar 2016 13:52:51 +0200
+Message-ID: <56DD6B93.8070802@redhat.com>
+Reply-To: Marko Myllynen <myllynen-H+wXaHxf7aLQT0dZR+AlfA@public.gmane.org>
 Mime-Version: 1.0
 Content-Type: text/plain; charset=utf-8
-Content-Transfer-Encoding: QUOTED-PRINTABLE
+Content-Transfer-Encoding: 7bit
 Return-path: <linux-man-owner-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>
 Sender: linux-man-owner-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
-To: linux-man-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
+To: "Michael Kerrisk (man-pages)" <mtk.manpages-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org>
+Cc: linux-man <linux-man-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>, Mike Frysinger <vapier-aBrp7R+bbdUdnm+yROfE0A@public.gmane.org>
 List-Id: linux-man@vger.kernel.org
 
-=D0=9A=D0=9B=D0=98=D0=95=D0=9D=D0=A2=D0=A1=D0=9A=D0=98=D0=95 =D0=91=D0=90=
-=D0=97=D0=AB!
+Hi Michael,
 
-=D0=A1=D0=BE=D0=B1=D0=B5=D1=80=D0=B5=D0=BC =D0=B4=D0=BB=D1=8F =D0=92=D0=
-=B0=D1=81 =D0=BF=D0=BE =D0=B8=D0=BD=D1=82=D0=B5=D1=80=D0=BD=D0=B5=D1=82=
- =D0=B1=D0=B0=D0=B7=D1=83 =D0=B4=D0=B0=D0=BD=D0=BD=D1=8B=D1=85 =D0=BF=D0=
-=BE=D1=82=D0=B5=D0=BD=D1=86=D0=B8=D0=B0=D0=BB=D1=8C=D0=BD=D1=8B=D1=85 =D0=
-=BA=D0=BB=D0=B8=D0=B5=D0=BD=D1=82=D0=BE=D0=B2=20
-=D0=B4=D0=BB=D1=8F =D0=92=D0=B0=D1=88=D0=B5=D0=B3=D0=BE =D0=91=D0=B8=D0=
-=B7=D0=BD=D0=B5=D1=81=D0=B0!
-=D0=9C=D0=BD=D0=BE=D0=B3=D0=BE! =D0=91=D1=8B=D1=81=D1=82=D1=80=D0=BE! =D0=
-=9D=D0=B5=D0=B4=D0=BE=D1=80=D0=BE=D0=B3=D0=BE!=20
-=D0=A3=D0=B7=D0=BD=D0=B0=D0=B9=D1=82=D0=B5 =D0=BE=D0=B1 =D1=8D=D1=82=D0=
-=BE=D0=BC =D0=BF=D0=BE=D0=B4=D1=80=D0=BE=D0=B1=D0=BD=D0=B5=D0=B5 =D0=BF=
-=D0=BE=20
-=D0=A2=D0=B5=D0=BB: +79133913837
-Viber: +79133913837
-Whatsapp: +79133913837
-Skype: prodawez389
-Email: mloginova19-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org
+glibc upstream recently deemed that the tel/fax fields are not useful
+and dropped them from the few locales which had them defined. Do you
+think we could/should drop the descriptions from the man page as well?
+
+https://sourceware.org/git/?p=glibc.git;a=commit;h=5453f739e5fae1f9235c3207a8604f164dc9e484
+
+---
+ man5/locale.5 | 8 --------
+ 1 file changed, 8 deletions(-)
+
+diff --git a/man5/locale.5 b/man5/locale.5
+index 0a26f91..cc6edf2 100644
+--- a/man5/locale.5
++++ b/man5/locale.5
+@@ -569,14 +569,6 @@ the organization that maintains this document.
+ followed by the email address of the person or
+ organization that maintains this document.
+ .TP
+-.I tel
+-followed by the telephone number (in international format)
+-of the organization that maintains this document.
+-.TP
+-.I fax
+-followed by the fax number (in international format)
+-of the organization that maintains this document.
+-.TP
+ .I language
+ followed by the name of the language to which this document applies.
+ .TP
+
+Thanks,
+
+-- 
+Marko Myllynen
 --
 To unsubscribe from this list: send the line "unsubscribe linux-man" in
 the body of a message to majordomo-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
