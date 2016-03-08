@@ -1,42 +1,60 @@
-From: "Michael Kerrisk (man-pages)" <mtk.manpages-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org>
-Subject: Re: proc(5) fdinfo should mention O_CLOEXEC may be set in file flags
-Date: Tue, 8 Mar 2016 20:33:35 +0100
-Message-ID: <56DF290F.4070104@gmail.com>
-References: <CACh33FqAXhMsJoFszxNkLG+MWoP6eXKjfaDb1XoDGGcXhdgZFA@mail.gmail.com>
+From: =?UTF-8?Q?J=C3=A9r=C3=A9mie_Galarneau?=
+	<jeremie.galarneau-vg+e7yoeK/dWk0Htik3J/w@public.gmane.org>
+Subject: Re: [PATCH] posix_fallocate.3: fallocate may be interrupted
+Date: Tue, 8 Mar 2016 16:18:12 -0500
+Message-ID: <CA+jJMxsE+2cHZCn4ABhzHGU5BMaNx3OECH7oqBwP=a40131HwQ@mail.gmail.com>
+References: <1444773650-3009-1-git-send-email-jeremie.galarneau@efficios.com>
 Mime-Version: 1.0
-Content-Type: text/plain; charset=utf-8
-Content-Transfer-Encoding: 7bit
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: QUOTED-PRINTABLE
 Return-path: <linux-man-owner-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>
-In-Reply-To: <CACh33FqAXhMsJoFszxNkLG+MWoP6eXKjfaDb1XoDGGcXhdgZFA-JsoAwUIsXosN+BqQ9rBEUg@public.gmane.org>
+In-Reply-To: <1444773650-3009-1-git-send-email-jeremie.galarneau-vg+e7yoeK/dWk0Htik3J/w@public.gmane.org>
 Sender: linux-man-owner-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
-To: Patrick Donnelly <batrick-dP08NitdTj1Wk0Htik3J/w@public.gmane.org>
-Cc: mtk.manpages-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org, linux-man-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
+To: Michael Kerrisk-manpages <mtk.manpages-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org>, linux-man-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
+Cc: =?UTF-8?Q?J=C3=A9r=C3=A9mie_Galarneau?= <jeremie.galarneau-vg+e7yoeK/dWk0Htik3J/w@public.gmane.org>
 List-Id: linux-man@vger.kernel.org
 
-Hello Patrick
+Sorry for the bump, but was this forgotten?
 
-On 03/07/2016 08:51 PM, Patrick Donnelly wrote:
-> The man page says this
-> 
-> "The flags field is an octal number that displays the file access mode
-> and file  status  flags  (see  open(2))."
-> 
-> flags may also include the file descriptor flags (F_GETFD). (Although
-> there is only the O_CLOEXEC flag and that is explicitly included [1])
-> 
-> [1] https://github.com/torvalds/linux/blob/master/fs/proc/fd.c#L41-L43
+J=C3=A9r=C3=A9mie
 
-Thanks. I added this detail.
+On Tue, Oct 13, 2015 at 6:00 PM, J=C3=A9r=C3=A9mie Galarneau
+<jeremie.galarneau-vg+e7yoeK/dWk0Htik3J/w@public.gmane.org> wrote:
+> The glibc implementation of posix_fallocate, which calls
+> fallocate(), may be interrupted. The fallocate() emulation
+> also makes use of pread()/pwrite(), which may also be
+> interrupted.
+>
+> Signed-off-by: J=C3=A9r=C3=A9mie Galarneau <jeremie.galarneau@efficio=
+s.com>
+> ---
+>  man3/posix_fallocate.3 | 3 +++
+>  1 file changed, 3 insertions(+)
+>
+> diff --git a/man3/posix_fallocate.3 b/man3/posix_fallocate.3
+> index 6d8d593..d30f681 100644
+> --- a/man3/posix_fallocate.3
+> +++ b/man3/posix_fallocate.3
+> @@ -98,6 +98,9 @@ referred to by
+>  .B ESPIPE
+>  .I fd
+>  refers to a pipe.
+> +.TP
+> +.B EINTR
+> +A signal was caught during execution.
+>  .SH VERSIONS
+>  .BR posix_fallocate ()
+>  is available since glibc 2.1.94.
+> --
+> 2.6.1
+>
 
-Cheers,
-
-Michael
 
 
--- 
-Michael Kerrisk
-Linux man-pages maintainer; http://www.kernel.org/doc/man-pages/
-Linux/UNIX System Programming Training: http://man7.org/training/
+--=20
+J=C3=A9r=C3=A9mie Galarneau
+EfficiOS Inc.
+http://www.efficios.com
 --
 To unsubscribe from this list: send the line "unsubscribe linux-man" in
 the body of a message to majordomo-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
