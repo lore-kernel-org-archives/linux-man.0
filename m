@@ -1,302 +1,129 @@
-From: "Michael Kerrisk (man-pages)" <mtk.manpages-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org>
-Subject: Revised fmemopen(3) man page
-Date: Wed, 9 Mar 2016 05:19:59 +0100
-Message-ID: <56DFA46F.1050509@gmail.com>
+From: Mike Frysinger <vapier-aBrp7R+bbdUdnm+yROfE0A@public.gmane.org>
+Subject: Re: STV_PROTECTED
+Date: Wed, 9 Mar 2016 00:01:36 -0500
+Message-ID: <20160309050136.GR6588@vapier.lan>
+References: <20150929101411.GA17105@skagos.loria.fr>
+ <56DF7669.70204@gmail.com>
 Mime-Version: 1.0
-Content-Type: text/plain; charset=utf-8
-Content-Transfer-Encoding: QUOTED-PRINTABLE
+Content-Type: multipart/signed; micalg=pgp-sha256;
+	protocol="application/pgp-signature"; boundary="1WqHV5/jCvFSwawE"
 Return-path: <linux-man-owner-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>
+Content-Disposition: inline
+In-Reply-To: <56DF7669.70204-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org>
 Sender: linux-man-owner-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
-To: Adhemerval Zanella <adhemerval.zanella-QSEj5FYQhm4dnm+yROfE0A@public.gmane.org>, Paul Pluzhnikov <ppluzhnikov-hpIqsD4AKlfQT0dZR+AlfA@public.gmane.org>
-Cc: mtk.manpages-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org, linux-man <linux-man-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>, libc-alpha <libc-alpha-9JcytcrH/bA+uJoB2kUjGw@public.gmane.org>
+To: "Michael Kerrisk (man-pages)" <mtk.manpages-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org>
+Cc: Gabriel Corona <gabriel.corona-Pj3lBMu8rt9bbU8NOSLlsg@public.gmane.org>, linux-man-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
 List-Id: linux-man@vger.kernel.org
 
-Hello Adhemerval
 
-Since you recently did a reimplementation of fmemopen() (which
-Paul reminded me of) I've similarly just now done a major rework
-of the man page. Might you (or Paul, feel free to also chin in!),
-be willing to take a look at the text below and let me know if=20
-anything needs fixing?
+--1WqHV5/jCvFSwawE
+Content-Type: text/plain; charset=utf-8
+Content-Disposition: inline
+Content-Transfer-Encoding: quoted-printable
 
-Thanks,
+On 09 Mar 2016 02:03, Michael Kerrisk (man-pages) wrote:
+> On 09/29/2015 12:14 PM, Gabriel Corona wrote:
+> > The elf manpage [2] claims that:
+> >=20
+> >> STV_PROTECTED   Not preemptible, not exported.
+> >=20
+> > However the System V gABI [1] claims that:
+> >=20
+> >> A symbol defined in the current component is protected if it is
+> >> visible in other components but not preemptable
+> >=20
+> > Should the manpage read something like:
+> >=20
+> >> STV_PROTECTED   Not preemptible but exported.
+> >=20
+> > [1] http://www.sco.com/developers/gabi/2003-12-17/ch4.symtab.html
+> >=20
+> > [2] http://man7.org/linux/man-pages/man5/elf.5.html
+>=20
+> I think you are right, but let's see if Mike might confirm,
+> since he originally added that text. (Mike, I suspect there
+> was a wordo here.)
 
-Michael
+i didn't really author that content, but take it from elf.h in glibc:
+#define STV_PROTECTED	3		/* Not preemptible, not exported */
 
-NAME
-       fmemopen -  open memory as stream
+and binutils says:
+#define STV_PROTECTED	3		/* Treat as STB_LOCAL inside current component */
 
-SYNOPSIS
-       #include <stdio.h>
+and llvm says:
+  STV_PROTECTED =3D 3   // Visible in other components but not preemptable
 
-       FILE *fmemopen(void *buf, size_t size, const char *mode);
+gabi says:
+https://refspecs.linuxbase.org/elf/gabi4+/ch4.symtab.html
+A symbol defined in the current component is protected if it is visible in =
+other=20
+components but not preemptable, meaning that any reference to such a symbol=
+ from=20
+within the defining component must be resolved to the definition in that=20
+component, even if there is a definition in another component that would pr=
+eempt=20
+by the default rules. A symbol with STB_LOCAL binding may not have STV_PROT=
+ECTED=20
+visibility. If a symbol definition with STV_PROTECTED visibility from a sha=
+red=20
+object is taken as resolving a reference from an executable or another shar=
+ed=20
+object, the SHN_UNDEF symbol table entry created has STV_DEFAULT visibility.
 
-   Feature    Test    Macro   Requirements   for   glibc   (see   fea=E2=
-=80=90
-   ture_test_macros(7)):
+solaris/oracle says:
+https://docs.oracle.com/cd/E26502_01/html/E26507/chapter6-79797.html
+A symbol that is defined in the current component is protected if the symbo=
+l is=20
+visible in other components, but cannot be preempted. Any reference to such=
+ a=20
+symbol from within the defining component must be resolved to the definitio=
+n in=20
+that component. This resolution must occur, even if a symbol definition exi=
+sts=20
+in another component that would interpose by the default rules. A symbol wi=
+th=20
+STB_LOCAL binding will not have STV_PROTECTED visibility.
 
-       fmemopen():
-           Since glibc 2.10:
-               _POSIX_C_SOURCE >=3D 200809L
-           Before glibc 2.10:
-               _GNU_SOURCE
+but i think this ibm article is probably the most understandable:
+https://www.ibm.com/developerworks/aix/library/au-aix-symbol-visibility/
+The symbol is visible outside the current executable or shared object, but =
+it=20
+may not be overridden. In other words, if a protected symbol in a shared li=
+brary=20
+is referenced by an other code in the shared library, the other code will a=
+lways=20
+reference the symbol in the shared library, even if the executable defines =
+a=20
+symbol with the same name.
 
-DESCRIPTION
-       The fmemopen() function opens a stream that permits the  access
-       specified  by  mode.   The stream allows I/O to be performed on
-       the string or memory buffer pointed to by buf.
+so while "Not preemptible but exported" is more correct, i'm not sure it's
+still all that great.  maybe "Exported; not preemptible in current module."=
+ ?
+-mike
 
-       The mode argument specifies the semantics of I/O on the stream,
-       and is one of the following:
+--1WqHV5/jCvFSwawE
+Content-Type: application/pgp-signature; name="signature.asc"
+Content-Description: Digital signature
 
-       r       The stream is opened for reading.
+-----BEGIN PGP SIGNATURE-----
+Version: GnuPG v2
 
-       w       The stream is opened for writing.
+iQIcBAEBCAAGBQJW364wAAoJEEFjO5/oN/WBLYgQAK91CoEgKV2DTna22ZjkEr/3
+8WkXDcIMVmOoiLP025wS22NMaWsOUA0SOpkL4WeLGr8lbNMDyFXP1+v3fKZ6S3AV
+QgJ68q7VVJlp33LxoUJcAZf95ZMzg8nFDhJGH40uDb4serAI5G9xNUZRUcRzcKB8
+HTZYcOBEmm3S84qO3cde2vP56e36umP1icaEaOmuLck+jWZ6Vqvn9DKfNsGriDjM
+KCF2IKB8IoyYCX0QIkwJmSXFaMlIqCAWtZyXkY9g/eSZ0s0t8dqDGvgNAIvV+Qzi
+KwvRzhIF5giRPM5mM5acSGZRdmSEmlCny8Ei8JGtHpW4bdFC77V1GFQLJJHeJ0Oc
+jBpu9t4ux8RELPru/9nF95V3DnafrR1V0D0sJjE1T8dq6VzaVGuYjsrlx2AxiedT
+OW/0q+/3U6YP1dhZlrL9wuptz/yjetnAlUw/EZa4/EJrK48ae+d1auStIymjyHGm
+5FccIiG5j1ypP/D9qw0Jjoo07ipVQMnKWiFJT1ML5L7Qowydl/HzHvrCauRtITBU
+evy+j4zJacpGOugtFocVO0T3+gbUYhlwjjelUUKi5wxE4NMsXUDqQJxu66RuzbVh
+HCUJdMAx3MERz/oyu8qlvpy+vmrEft0Q+mCI1ga41EKrtiX9ToKhPPd5Xq8CM2gZ
+iTS/qIIUDheIAS15geEE
+=4frb
+-----END PGP SIGNATURE-----
 
-       a       Append; open the stream for writing, with the file ini=E2=
-=80=90
-               tial position set to the first null byte.
-
-       r+      Open the stream for reading and writing.
-
-       w+      Open the stream for reading and  writing.   The  buffer
-               contents  are  truncated  (i.e.,  '\0' is placed in the
-               first byte of the buffer).
-
-       a+      Append; open the stream for reading and  writing,  with
-               the file initial position set to the first null byte.
-
-       The  stream  maintains  the  notion  of a current position, the
-       location where the next I/O operation will be  performed.   The
-       current  position  is implicitly updated by I/O operations.  It
-       can be explicitly updated using fseek(3), and determined  using
-       ftell(3).  In all modes other than append, the initial position
-       is set to the start of the buffer.  In append mode, if no  null
-       byte  is  found within the buffer, then the initial position is
-       size+1.
-
-       If buf is specified as NULL, then fmemopen() allocates a buffer
-       of size bytes.  This is useful for an application that wants to
-       write data to a temporary buffer and then read it  back  again.
-       The  initial  position  is set to the start of the buffer.  The
-       buffer is automatically freed when the stream is closed.   Note
-       that the caller has no way to obtain a pointer to the temporary
-       buffer allocated by this call (but see open_memstream(3)).
-
-       If buf is not NULL, then it should point  to  a  buffer  of  at
-       least len bytes allocated by the caller.
-
-       When  a  stream  that  has  been  opened for writing is flushed
-       (fflush(3)) or closed (fclose(3)), a null byte  is  written  at
-       the  end  of  the  buffer if there is space.  The caller should
-       ensure that an extra byte is available in the buffer (and  that
-       size counts that byte) to allow for this.
-
-       In a stream opened for reading, null bytes ('\0') in the buffer
-       do not cause read operations to return an  end-of-file  indica=E2=
-=80=90
-       tion.   A  read  from the buffer will indicate end-of-file only
-       when the file current position advances  size  bytes  past  the
-       start of the buffer.
-
-       Write operations take place either at the current position (for
-       modes other than append), or at the current size of the  stream
-       (for append modes).
-
-       Attempts  to write more than size bytes to the buffer result in
-       an error.  By default, such errors  will  be  visible  (by  the
-       absence  of  data) only when the stdio buffer is flushed.  Dis=E2=
-=80=90
-       abling buffering with the  following  call  may  be  useful  to
-       detect errors at the time of an output operation:
-
-           setbuf(stream, NULL);
-
-       Alternatively,  the  caller can explicitly set buf as the stdio
-       stream buffer, at the same time informing stdio of the buffer's
-       size, using:
-
-           setbuffer(stream, buf, size);
-
-RETURN VALUE
-       Upon  successful completion, fmemopen() returns a FILE pointer.
-       Otherwise, NULL is returned and errno is set  to  indicate  the
-       error.
-
-VERSIONS
-       fmemopen() was already available in glibc 1.0.x.
-
-ATTRIBUTES
-       For  an  explanation  of  the  terms  used in this section, see
-       attributes(7).
-
-       =E2=94=8C=E2=94=80=E2=94=80=E2=94=80=E2=94=80=E2=94=80=E2=94=80=E2=
-=94=80=E2=94=80=E2=94=80=E2=94=80=E2=94=80=E2=94=80=E2=94=AC=E2=94=80=E2=
-=94=80=E2=94=80=E2=94=80=E2=94=80=E2=94=80=E2=94=80=E2=94=80=E2=94=80=E2=
-=94=80=E2=94=80=E2=94=80=E2=94=80=E2=94=80=E2=94=80=E2=94=AC=E2=94=80=E2=
-=94=80=E2=94=80=E2=94=80=E2=94=80=E2=94=80=E2=94=80=E2=94=80=E2=94=80=E2=
-=94=90
-       =E2=94=82Interface   =E2=94=82 Attribute     =E2=94=82 Value   =E2=
-=94=82
-       =E2=94=9C=E2=94=80=E2=94=80=E2=94=80=E2=94=80=E2=94=80=E2=94=80=E2=
-=94=80=E2=94=80=E2=94=80=E2=94=80=E2=94=80=E2=94=80=E2=94=BC=E2=94=80=E2=
-=94=80=E2=94=80=E2=94=80=E2=94=80=E2=94=80=E2=94=80=E2=94=80=E2=94=80=E2=
-=94=80=E2=94=80=E2=94=80=E2=94=80=E2=94=80=E2=94=80=E2=94=BC=E2=94=80=E2=
-=94=80=E2=94=80=E2=94=80=E2=94=80=E2=94=80=E2=94=80=E2=94=80=E2=94=80=E2=
-=94=A4
-       =E2=94=82fmemopen(), =E2=94=82 Thread safety =E2=94=82 MT-Safe =E2=
-=94=82
-       =E2=94=94=E2=94=80=E2=94=80=E2=94=80=E2=94=80=E2=94=80=E2=94=80=E2=
-=94=80=E2=94=80=E2=94=80=E2=94=80=E2=94=80=E2=94=80=E2=94=B4=E2=94=80=E2=
-=94=80=E2=94=80=E2=94=80=E2=94=80=E2=94=80=E2=94=80=E2=94=80=E2=94=80=E2=
-=94=80=E2=94=80=E2=94=80=E2=94=80=E2=94=80=E2=94=80=E2=94=B4=E2=94=80=E2=
-=94=80=E2=94=80=E2=94=80=E2=94=80=E2=94=80=E2=94=80=E2=94=80=E2=94=80=E2=
-=94=98
-
-CONFORMING TO
-       POSIX.1-2008.  This function is not specified in  POSIX.1-2001,
-       and is not widely available on other systems.
-
-       POSIX.1-2008 specifies that 'b' in mode shall be ignored.  How=E2=
-=80=90
-       ever, Technical Corrigendum 1 adjusts  the  standard  to  allow
-       implementation-specific  treatment  for this case, thus permit=E2=
-=80=90
-       ting the glibc treatment of 'b'.
-
-NOTES
-       There is no file descriptor associated  with  the  file  stream
-       returned by this function (i.e., fileno(3) will return an error
-       if called on the returned stream).
-
-       With version 2.22, binary mode (see below)  was  removed,  many
-       longstanding  bugs  in  the  implementation  of fmemopen() were
-       fixed, and a new versioned symbol was created for  this  inter=E2=
-=80=90
-       face.
-
-   Binary mode
-       From  version  2.9  to 2.21, the glibc implementation of fmemo=E2=
-=80=90
-       pen() supported a "binary" mode, enabled by specifying the let=E2=
-=80=90
-       ter  'b' as the second character in mode.  In this mode, writes
-       don't implicitly add a  terminating  null  byte,  and  fseek(3)
-       SEEK_END  is relative to the end of the buffer (i.e., the value
-       specified by the size argument), rather than the current string
-       length.
-
-       An  API  bug  afflicted  the  implementation of binary mode: to
-       specify binary mode, the 'b' must be the  second  character  in
-       mode.   Thus,  for  example,  "wb+" has the desired effect, but
-       "w+b" does not.  This is inconsistent  with  the  treatment  of
-       mode by fopen(3).
-
-       Binary  mode was removed in glibc 2.22; a 'b' specified in mode
-       has no effect.
-
-BUGS
-       In versions of glibc before 2.22, if size is specified as zero,
-       fmemopen()  fails with the error EINVAL.  It would be more con=E2=
-=80=90
-       sistent if this case successfully created a  stream  that  then
-       returned  end  of  file  on the first attempt at reading; since
-       version 2.22, the glibc implementation provides that behavior.
-
-       In versions of glibc before 2.22, specifying append  mode  ("a"
-       or "a+") for fmemopen() sets the initial buffer position to the
-       first null byte, but (if the file offset is reset to a location
-       other  than  the  end  of the stream) does not force subsequent
-       writes to append at the end of the stream.  This bug  is  fixed
-       in glibc 2.22.
-
-       In versions of glibc before 2.22, if the mode argument to fmem=E2=
-=80=90
-       open() specifies append ("a" or "a+"), and  the  size  argument
-       does  not  cover  a  null  byte  in  buf,  then,  according  to
-       POSIX.1-2008, the initial buffer position should be set to  the
-       next  byte  after the end of the buffer.  However, in this case
-       the glibc fmemopen() sets the buffer position to -1.  This  bug
-       is fixed in glibc 2.22.
-
-       In  versions of glibc before 2.22, when a call to fseek(3) with
-       a whence value of SEEK_END was performed on a stream created by
-       fmemopen(),  the  offset  was subtracted from the end-of-stream
-       position, instead of being added.  This bug is fixed  in  glibc
-       2.22.
-
-       The glibc 2.9 addition of "binary" mode for fmemopen() silently
-       changed the ABI: previously, fmemopen() ignored 'b' in mode.
-
-EXAMPLE
-       The program below uses fmemopen() to open an input buffer,  and
-       open_memstream(3)  to  open  a dynamically sized output buffer.
-       The program scans its input string (taken  from  the  program's
-       first  command-line  argument) reading integers, and writes the
-       squares of these integers to the output buffer.  An example  of
-       the output produced by this program is the following:
-
-           $ ./a.out '1 23 43'
-           size=3D11; ptr=3D1 529 1849
-
-   Program source
-
-       #define _GNU_SOURCE
-       #include <string.h>
-       #include <stdio.h>
-       #include <stdlib.h>
-
-       #define handle_error(msg) \
-           do { perror(msg); exit(EXIT_FAILURE); } while (0)
-
-       int
-       main(int argc, char *argv[])
-       {
-           FILE *out, *in;
-           int v, s;
-           size_t size;
-           char *ptr;
-
-           if (argc !=3D 2) {
-               fprintf(stderr, "Usage: %s '<num>...'\n", argv[0]);
-               exit(EXIT_FAILURE);
-           }
-
-           in =3D fmemopen(argv[1], strlen(argv[1]), "r");
-           if (in =3D=3D NULL)
-               handle_error("fmemopen");
-
-           out =3D open_memstream(&ptr, &size);
-           if (out =3D=3D NULL)
-               handle_error("open_memstream");
-
-           for (;;) {
-               s =3D fscanf(in, "%d", &v);
-               if (s <=3D 0)
-                   break;
-
-               s =3D fprintf(out, "%d ", v * v);
-               if (s =3D=3D -1)
-                   handle_error("fprintf");
-           }
-
-           fclose(in);
-           fclose(out);
-
-           printf("size=3D%zu; ptr=3D%s\n", size, ptr);
-
-           free(ptr);
-           exit(EXIT_SUCCESS);
-       }
-
-SEE ALSO
-       fopen(3), fopencookie(3), open_memstream(3)
-
-
---=20
-Michael Kerrisk
-Linux man-pages maintainer; http://www.kernel.org/doc/man-pages/
-Linux/UNIX System Programming Training: http://man7.org/training/
+--1WqHV5/jCvFSwawE--
 --
 To unsubscribe from this list: send the line "unsubscribe linux-man" in
 the body of a message to majordomo-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
