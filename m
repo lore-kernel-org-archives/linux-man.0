@@ -1,45 +1,50 @@
 From: "Michael Kerrisk (man-pages)" <mtk.manpages-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org>
-Subject: Re: STV_PROTECTED
-Date: Wed, 9 Mar 2016 02:03:37 +0100
-Message-ID: <56DF7669.70204@gmail.com>
-References: <20150929101411.GA17105@skagos.loria.fr>
+Subject: Re: [PATCH] getaddrinfo.3: require POSIX.1-2001
+Date: Wed, 9 Mar 2016 02:23:07 +0100
+Message-ID: <56DF7AFB.5060403@gmail.com>
+References: <mvmio8nmo0n.fsf@hawking.suse.de>
 Mime-Version: 1.0
-Content-Type: text/plain; charset=utf-8
+Content-Type: text/plain; charset=windows-1252
 Content-Transfer-Encoding: 7bit
 Return-path: <linux-man-owner-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>
-In-Reply-To: <20150929101411.GA17105-0+RUnzqQamR98t58zOhiHA@public.gmane.org>
+In-Reply-To: <mvmio8nmo0n.fsf-8jEJWzg51KSXcDkGTvBoYw@public.gmane.org>
 Sender: linux-man-owner-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
-To: Gabriel Corona <gabriel.corona-Pj3lBMu8rt9bbU8NOSLlsg@public.gmane.org>, linux-man-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
-Cc: mtk.manpages-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org, Mike Frysinger <vapier-aBrp7R+bbdUdnm+yROfE0A@public.gmane.org>
+To: Andreas Schwab <schwab-l3A5Bk7waGM@public.gmane.org>
+Cc: mtk.manpages-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org, linux-man-u79uwXL29TY76Z2rM5mHXA@public.gmane.org, Orion Poplawski <orion-CVdf0l11yl+B+jHODAdFcQ@public.gmane.org>
 List-Id: linux-man@vger.kernel.org
 
-[CC += Mike]
+Hello Andreas,
 
-Hello Gabriel,
+Sorry for the delay,
 
-On 09/29/2015 12:14 PM, Gabriel Corona wrote:
-> Hi,
+On 08/10/2015 12:33 PM, Andreas Schwab wrote:
+> Since glibc 2.22 getaddrinfo etc. are only declared for POSIX.1-2001 or later.
 > 
-> The elf manpage [2] claims that:
+> Signed-off-by: Andreas Schwab <schwab-l3A5Bk7waGM@public.gmane.org>
+> ---
+>  man3/getaddrinfo.3 | 3 ++-
+>  1 file changed, 2 insertions(+), 1 deletion(-)
 > 
->> STV_PROTECTED   Not preemptible, not exported.
-> 
-> However the System V gABI [1] claims that:
-> 
->> A symbol defined in the current component is protected if it is
->> visible in other components but not preemptable
-> 
-> Should the manpage read something like:
-> 
->> STV_PROTECTED   Not preemptible but exported.
-> 
-> [1] http://www.sco.com/developers/gabi/2003-12-17/ch4.symtab.html
-> 
-> [2] http://man7.org/linux/man-pages/man5/elf.5.html
+> diff --git a/man3/getaddrinfo.3 b/man3/getaddrinfo.3
+> index 7bf815a..a746bf4 100644
+> --- a/man3/getaddrinfo.3
+> +++ b/man3/getaddrinfo.3
+> @@ -70,7 +70,8 @@ Feature Test Macro Requirements for glibc (see
+>  .BR freeaddrinfo (),
+>  .BR gai_strerror ():
+>  .RS 4
+> -_POSIX_C_SOURCE\ >=\ 1 || _XOPEN_SOURCE || _POSIX_SOURCE
+> +_XOPEN_SOURCE\ >=\ 600 || _POSIX_C_SOURCE\ >=\ 200112L
+> +.\" since glibc 2.22
+>  .RE
+>  .ad b
+>  .SH DESCRIPTION
 
-I think you are right, but let's see if Mike might confirm,
-since he originally added that text. (Mike, I suspect there
-was a wordo here.)
+Orion also posted a very similar patch. I updated the page,
+but just mentioned "_POSIX_C_SOURCE >= 200112L", since
+"_XOPEN_SOURCE >= 600" implies "_POSIX_C_SOURCE >= 200112L".
+(For the next release, the FTM descriptions in many pages 
+have been simplified in this way.)
 
 Cheers,
 
