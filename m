@@ -1,28 +1,30 @@
 From: bugzilla-daemon-590EEB7GvNiWaY/ihj7yzEB+6BGkLq7r@public.gmane.org
-Subject: [Bug 102551] fmemopen.3 manpage needs update for glibc-2.22
-Date: Fri, 11 Mar 2016 18:45:57 +0000
-Message-ID: <bug-102551-11311-CmfYp07GWl@https.bugzilla.kernel.org/>
-References: <bug-102551-11311@https.bugzilla.kernel.org/>
+Subject: [Bug 103011] struct dl_phdr_info has additional members not yet
+ documented in  dl_iterate_phdr man page.
+Date: Fri, 11 Mar 2016 19:02:24 +0000
+Message-ID: <bug-103011-11311-TXq7KZRtOC@https.bugzilla.kernel.org/>
+References: <bug-103011-11311@https.bugzilla.kernel.org/>
 Mime-Version: 1.0
 Content-Type: text/plain; charset="UTF-8"
 Content-Transfer-Encoding: 7bit
 Return-path: <linux-man-owner-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>
-In-Reply-To: <bug-102551-11311-3bo0kxnWaOQUvHkbgXJLS5sdmw4N0Rt+2LY78lusg7I@public.gmane.org/>
+In-Reply-To: <bug-103011-11311-3bo0kxnWaOQUvHkbgXJLS5sdmw4N0Rt+2LY78lusg7I@public.gmane.org/>
 Sender: linux-man-owner-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
 To: linux-man-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
 List-Id: linux-man@vger.kernel.org
 
-https://bugzilla.kernel.org/show_bug.cgi?id=102551
+https://bugzilla.kernel.org/show_bug.cgi?id=103011
 
 Michael Kerrisk <mtk.manpages-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org> changed:
 
            What    |Removed                     |Added
 ----------------------------------------------------------------------------
              Status|NEW                         |RESOLVED
+                 CC|                            |mtk.manpages-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org
          Resolution|---                         |CODE_FIX
 
---- Comment #2 from Michael Kerrisk <mtk.manpages-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org> ---
-Page reviewed by Adhemerval, who thinks it's fine. So, closing this bug.
+--- Comment #1 from Michael Kerrisk <mtk.manpages-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org> ---
+I've added these fields to the man page. Closing
 
 -- 
 You are receiving this mail because:
