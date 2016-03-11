@@ -1,18 +1,19 @@
 From: bugzilla-daemon-590EEB7GvNiWaY/ihj7yzEB+6BGkLq7r@public.gmane.org
-Subject: [Bug 100471] cgroups' memory documentation is oudated
-Date: Fri, 11 Mar 2016 19:13:51 +0000
-Message-ID: <bug-100471-11311-8vehzZnLnr@https.bugzilla.kernel.org/>
-References: <bug-100471-11311@https.bugzilla.kernel.org/>
+Subject: [Bug 94141] man page for dl_iterate_phdr() does not mention
+ current-executable-first iteration pattern
+Date: Fri, 11 Mar 2016 19:30:01 +0000
+Message-ID: <bug-94141-11311-p1jPJqMl3t@https.bugzilla.kernel.org/>
+References: <bug-94141-11311@https.bugzilla.kernel.org/>
 Mime-Version: 1.0
 Content-Type: text/plain; charset="UTF-8"
 Content-Transfer-Encoding: 7bit
 Return-path: <linux-man-owner-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>
-In-Reply-To: <bug-100471-11311-3bo0kxnWaOQUvHkbgXJLS5sdmw4N0Rt+2LY78lusg7I@public.gmane.org/>
+In-Reply-To: <bug-94141-11311-3bo0kxnWaOQUvHkbgXJLS5sdmw4N0Rt+2LY78lusg7I@public.gmane.org/>
 Sender: linux-man-owner-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
 To: linux-man-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
 List-Id: linux-man@vger.kernel.org
 
-https://bugzilla.kernel.org/show_bug.cgi?id=100471
+https://bugzilla.kernel.org/show_bug.cgi?id=94141
 
 Michael Kerrisk <mtk.manpages-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org> changed:
 
@@ -20,12 +21,15 @@ Michael Kerrisk <mtk.manpages-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org> changed:
 ----------------------------------------------------------------------------
              Status|NEW                         |RESOLVED
                  CC|                            |mtk.manpages-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org
-         Resolution|---                         |INVALID
+         Resolution|---                         |CODE_FIX
 
 --- Comment #1 from Michael Kerrisk <mtk.manpages-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org> ---
-Not a man pages. (And, in principle, posting a bug report like this to try to
-get someone else to do this work, probably won't be a success approach.)
-Closong this.
+I added some text to the man page to note this:
+
+       The first object visited by callback is the main program.   For
+       the main program, the dlpi_name field will be an empty string.
+
+Closing this bug.
 
 -- 
 You are receiving this mail because:
