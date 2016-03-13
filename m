@@ -1,52 +1,36 @@
-From: bugzilla-daemon-590EEB7GvNiWaY/ihj7yzEB+6BGkLq7r@public.gmane.org
-Subject: [Bug 104601] Description of getname-related syscalls wrong
-Date: Fri, 11 Mar 2016 20:42:09 +0000
-Message-ID: <bug-104601-11311-FOARzk2Fxd@https.bugzilla.kernel.org/>
-References: <bug-104601-11311@https.bugzilla.kernel.org/>
-Mime-Version: 1.0
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: 7bit
+From: Jakub Wilk <jwilk-tXgOlIzOKNReoWH0uzbU5w@public.gmane.org>
+Subject: [PATCH 3/3] feature_test_macros.7: tfix
+Date: Sun, 13 Mar 2016 19:00:59 +0100
+Message-ID: <1457892059-7685-3-git-send-email-jwilk@jwilk.net>
+References: <1457892059-7685-1-git-send-email-jwilk@jwilk.net>
 Return-path: <linux-man-owner-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>
-In-Reply-To: <bug-104601-11311-3bo0kxnWaOQUvHkbgXJLS5sdmw4N0Rt+2LY78lusg7I@public.gmane.org/>
+In-Reply-To: <1457892059-7685-1-git-send-email-jwilk-tXgOlIzOKNReoWH0uzbU5w@public.gmane.org>
 Sender: linux-man-owner-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
-To: linux-man-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
+To: Michael Kerrisk <mtk.manpages-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org>
+Cc: linux-man-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
 List-Id: linux-man@vger.kernel.org
 
-https://bugzilla.kernel.org/show_bug.cgi?id=104601
+Signed-off-by: Jakub Wilk <jwilk-tXgOlIzOKNReoWH0uzbU5w@public.gmane.org>
+---
+ man7/feature_test_macros.7 | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
 
---- Comment #2 from Michael Kerrisk <mtk.manpages-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org> ---
-See also this code in net/socket.c
-
-static int move_addr_to_user(struct sockaddr_storage *kaddr, int klen,
-                             void __user *uaddr, int __user *ulen)
-{
-        int err;
-        int len;
-
-        BUG_ON(klen > sizeof(struct sockaddr_storage));
-        err = get_user(len, ulen);
-        if (err)
-                return err;
-        if (len > klen)
-                len = klen;
-        if (len < 0)
-                return -EINVAL;
-        if (len) {
-                if (audit_sockaddr(klen, kaddr))
-                        return -ENOMEM;
-                if (copy_to_user(uaddr, kaddr, len))
-                        return -EFAULT;
-        }
-        /*
-         *      "fromlen shall refer to the value before truncation.."
-         *                      1003.1g
-         */
-        return __put_user(klen, ulen);
-}
-
+diff --git a/man7/feature_test_macros.7 b/man7/feature_test_macros.7
+index 527bf73..b3c3295 100644
+--- a/man7/feature_test_macros.7
++++ b/man7/feature_test_macros.7
+@@ -133,7 +133,7 @@ The macros that you most likely need to use in modern source code are
+ .BR _POSIX_C_SOURCE
+ (for definitions from various versions of POSIX.1),
+ .BR _XOPEN_SOURCE
+-(fof definitions from various versions of SUS),
++(for definitions from various versions of SUS),
+ .BR _GNU_SOURCE
+ (for GNU and/or Linux specific stuff), and
+ .BR _DEFAULT_SOURCE
 -- 
-You are receiving this mail because:
-You are watching the assignee of the bug.
+2.7.0
+
 --
 To unsubscribe from this list: send the line "unsubscribe linux-man" in
 the body of a message to majordomo-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
