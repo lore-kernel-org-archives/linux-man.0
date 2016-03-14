@@ -1,34 +1,37 @@
-From: bugzilla-daemon-590EEB7GvNiWaY/ihj7yzEB+6BGkLq7r@public.gmane.org
-Subject: [Bug 82531] Nondumpable processes that are sandboxed with
- CLONE_NEWUSER can be ptraced from outside.
-Date: Sun, 13 Mar 2016 20:14:54 +0000
-Message-ID: <bug-82531-11311-lzN6Ocdyim@https.bugzilla.kernel.org/>
-References: <bug-82531-11311@https.bugzilla.kernel.org/>
+From: Nikola =?ISO-8859-1?Q?Forr=F3?= <nforro-H+wXaHxf7aLQT0dZR+AlfA@public.gmane.org>
+Subject: [patch] strftime.3: tfix
+Date: Mon, 14 Mar 2016 12:37:49 +0100
+Message-ID: <1457955469.3192.3.camel@redhat.com>
+Reply-To: nforro-H+wXaHxf7aLQT0dZR+AlfA@public.gmane.org
 Mime-Version: 1.0
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: 7bit
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: QUOTED-PRINTABLE
 Return-path: <linux-man-owner-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>
-In-Reply-To: <bug-82531-11311-3bo0kxnWaOQUvHkbgXJLS5sdmw4N0Rt+2LY78lusg7I@public.gmane.org/>
 Sender: linux-man-owner-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
-To: linux-man-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
+To: "Michael Kerrisk (man-pages)" <mtk.manpages-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org>
+Cc: linux-man-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
 List-Id: linux-man@vger.kernel.org
 
-https://bugzilla.kernel.org/show_bug.cgi?id=82531
+Signed-off-by: Nikola Forr=C3=B3 <nforro-H+wXaHxf7aLQT0dZR+AlfA@public.gmane.org>
+---
+ man3/strftime.3 | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
 
-Michael Kerrisk <mtk.manpages-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org> changed:
-
-           What    |Removed                     |Added
-----------------------------------------------------------------------------
-             Status|REOPENED                    |RESOLVED
-                 CC|                            |mtk.manpages-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org
-         Resolution|---                         |PATCH_ALREADY_AVAILABLE
-
---- Comment #10 from Michael Kerrisk <mtk.manpages-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org> ---
-Closing this, as the behavior is documented in the man pages.
-
--- 
-You are receiving this mail because:
-You are watching the assignee of the bug.
+diff --git a/man3/strftime.3 b/man3/strftime.3
+index 3dfa9c6..23f9b0b 100644
+--- a/man3/strftime.3
++++ b/man3/strftime.3
+@@ -80,7 +80,7 @@ are copied verbatim from
+ to
+ .IR s .
+ However, the characters
+-of conversion specifications are replaced as whown in the list below.
++of conversion specifications are replaced as shown in the list below.
+ In this list, the field(s) employed from the
+ .I tm
+ structure are also shown.
+--=20
+2.4.3
 --
 To unsubscribe from this list: send the line "unsubscribe linux-man" in
 the body of a message to majordomo-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
