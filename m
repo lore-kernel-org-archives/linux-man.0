@@ -1,32 +1,30 @@
 From: bugzilla-daemon-590EEB7GvNiWaY/ihj7yzEB+6BGkLq7r@public.gmane.org
-Subject: [Bug 110481] console(4) is out of date
-Date: Tue, 15 Mar 2016 00:50:17 +0000
-Message-ID: <bug-110481-11311-97F0TIUXiZ@https.bugzilla.kernel.org/>
-References: <bug-110481-11311@https.bugzilla.kernel.org/>
+Subject: [Bug 103181] Some definitions are not available in sys/ptrace.h
+Date: Tue, 15 Mar 2016 00:52:51 +0000
+Message-ID: <bug-103181-11311-YsOFfBCqCN@https.bugzilla.kernel.org/>
+References: <bug-103181-11311@https.bugzilla.kernel.org/>
 Mime-Version: 1.0
 Content-Type: text/plain; charset="UTF-8"
 Content-Transfer-Encoding: 7bit
 Return-path: <linux-man-owner-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>
-In-Reply-To: <bug-110481-11311-3bo0kxnWaOQUvHkbgXJLS5sdmw4N0Rt+2LY78lusg7I@public.gmane.org/>
+In-Reply-To: <bug-103181-11311-3bo0kxnWaOQUvHkbgXJLS5sdmw4N0Rt+2LY78lusg7I@public.gmane.org/>
 Sender: linux-man-owner-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
 To: linux-man-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
 List-Id: linux-man@vger.kernel.org
 
-https://bugzilla.kernel.org/show_bug.cgi?id=110481
+https://bugzilla.kernel.org/show_bug.cgi?id=103181
 
 Michael Kerrisk <mtk.manpages-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org> changed:
 
            What    |Removed                     |Added
 ----------------------------------------------------------------------------
+             Status|NEW                         |RESOLVED
                  CC|                            |mtk.manpages-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org
+         Resolution|---                         |OBSOLETE
 
---- Comment #2 from Michael Kerrisk <mtk.manpages-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org> ---
-So, I'm not averse to deleting this page. It has seen no substantial updates
-since it was first written in 1994. Marko, what are your thoughts?
-
-Cheers,
-
-Michael
+--- Comment #1 from Michael Kerrisk <mtk.manpages-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org> ---
+It looks as though this problem has been addressed by changes in the glibc 2.23
+headers, so I'm closing this bug.
 
 -- 
 You are receiving this mail because:
