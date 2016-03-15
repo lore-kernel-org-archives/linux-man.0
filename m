@@ -1,7 +1,7 @@
 From: "Dmitry V. Levin" <ldv-u2l5PoMzF/Vg9hUCZPvPmw@public.gmane.org>
-Subject: [PATCH 2/4] sock_diag.7: Add EXAMPLE program
-Date: Tue, 15 Mar 2016 20:26:05 +0300
-Message-ID: <20160315172605.GC2903@altlinux.org>
+Subject: [PATCH 3/4] netlink.7: Rename NETLINK_INET_DIAG to NETLINK_SOCK_DIAG
+Date: Tue, 15 Mar 2016 20:26:10 +0300
+Message-ID: <20160315172610.GD2903@altlinux.org>
 References: <cover.1458040999.git.ldv@altlinux.org>
 Mime-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
@@ -14,210 +14,42 @@ Cc: Pavel Emelyanov <xemul-5HdwGun5lf+gSpxsJD1C4w@public.gmane.org>, linux-man-u
 List-Id: linux-man@vger.kernel.org
 
 Signed-off-by: Dmitry V. Levin <ldv-u2l5PoMzF/Vg9hUCZPvPmw@public.gmane.org>
-Acked-by: Pavel Emelyanov <xemul-5HdwGun5lf+gSpxsJD1C4w@public.gmane.org>
 ---
- man7/sock_diag.7 | 188 +++++++++++++++++++++++++++++++++++++++++++++++++++++++
- 1 file changed, 188 insertions(+)
+ man7/netlink.7 | 12 +++++++-----
+ 1 file changed, 7 insertions(+), 5 deletions(-)
 
-diff --git a/man7/sock_diag.7 b/man7/sock_diag.7
-index d1be9cf..776e2c9 100644
---- a/man7/sock_diag.7
-+++ b/man7/sock_diag.7
-@@ -626,6 +626,194 @@ was introduced in Linux 3.3.
- and
- .BR INET_DIAG_SKMEMINFO
- were introduced in Linux 3.6.
-+.SH EXAMPLE
-+The following example program prints inode number, peer's inode number,
-+and name of all UNIX domain sockets in the current namespace.
+diff --git a/man7/netlink.7 b/man7/netlink.7
+index 513f854..9462862 100644
+--- a/man7/netlink.7
++++ b/man7/netlink.7
+@@ -62,9 +62,9 @@ Used by
+ .I ip_queue
+ kernel module.
+ .TP
+-.B NETLINK_INET_DIAG
+-.\" FIXME More details on NETLINK_INET_DIAG needed.
+-INET socket monitoring.
++.BR NETLINK_SOCK_DIAG " (formerly known as " NETLINK_INET_DIAG )
++Query information about sockets of various protocol families
++from the kernel.
+ .TP
+ .B NETLINK_NFLOG
+ Netfilter/iptables ULOG.
+@@ -383,10 +383,12 @@ NETLINK_KOBJECT_UEVENT appeared in Linux 2.6.10.
+ 
+ NETLINK_W1 and NETLINK_FIB_LOOKUP appeared in Linux 2.6.13.
+ 
+-NETLINK_INET_DIAG, NETLINK_CONNECTOR and NETLINK_NETFILTER appeared in
+-Linux 2.6.14.
++NETLINK_CONNECTOR and NETLINK_NETFILTER appeared in Linux 2.6.14.
+ 
+ NETLINK_GENERIC and NETLINK_ISCSI appeared in Linux 2.6.15.
 +
-+.nf
-+#include <errno.h>
-+#include <stdio.h>
-+#include <unistd.h>
-+#include <sys/socket.h>
-+#include <sys/un.h>
-+#include <linux/netlink.h>
-+#include <linux/rtnetlink.h>
-+#include <linux/sock_diag.h>
-+#include <linux/unix_diag.h>
-+
-+static int
-+send_query(int fd)
-+{
-+    struct sockaddr_nl nladdr = {
-+        .nl_family = AF_NETLINK
-+    };
-+    struct
-+    {
-+        struct nlmsghdr nlh;
-+        struct unix_diag_req udr;
-+    } req = {
-+        .nlh = {
-+            .nlmsg_len = sizeof(req),
-+            .nlmsg_type = SOCK_DIAG_BY_FAMILY,
-+            .nlmsg_flags = NLM_F_REQUEST | NLM_F_DUMP
-+        },
-+        .udr = {
-+            .sdiag_family = PF_UNIX,
-+            .udiag_states = \-1,
-+            .udiag_show = UDIAG_SHOW_NAME | UDIAG_SHOW_PEER
-+        }
-+    };
-+    struct iovec iov = {
-+        .iov_base = &req,
-+        .iov_len = sizeof(req)
-+    };
-+    struct msghdr msg = {
-+        .msg_name = (void *) &nladdr,
-+        .msg_namelen = sizeof(nladdr),
-+        .msg_iov = &iov,
-+        .msg_iovlen = 1
-+    };
-+
-+    for (;;) {
-+        if (sendmsg(fd, &msg, 0) < 0) {
-+            if (errno == EINTR)
-+                continue;
-+            perror("sendmsg");
-+            return \-1;
-+        }
-+        return 0;
-+    }
-+}
-+
-+static int
-+print_diag(const struct unix_diag_msg *diag, unsigned int len)
-+{
-+    if (len < NLMSG_LENGTH(sizeof(*diag))) {
-+        fputs("short response\\n", stderr);
-+        return \-1;
-+    }
-+    if (diag\->udiag_family != PF_UNIX) {
-+        fprintf(stderr, "unexpected family %u\\n", diag\->udiag_family);
-+        return \-1;
-+    }
-+
-+    struct rtattr *attr;
-+    unsigned int rta_len = len \- NLMSG_LENGTH(sizeof(*diag));
-+    unsigned int peer = 0;
-+    size_t path_len = 0;
-+    char path[sizeof(((struct sockaddr_un *) 0)\->sun_path) + 1];
-+
-+    for (attr = (struct rtattr *) (diag + 1);
-+             RTA_OK(attr, rta_len); attr = RTA_NEXT(attr, rta_len)) {
-+        switch (attr\->rta_type) {
-+            case UNIX_DIAG_NAME:
-+                if (!path_len) {
-+                    path_len = RTA_PAYLOAD(attr);
-+                    if (path_len > sizeof(path) \- 1)
-+                        path_len = sizeof(path) \- 1;
-+                    memcpy(path, RTA_DATA(attr), path_len);
-+                    path[path_len] = '\\0';
-+                }
-+                break;
-+            case UNIX_DIAG_PEER:
-+                if (RTA_PAYLOAD(attr) >= sizeof(peer))
-+                    peer = *(unsigned int *) RTA_DATA(attr);
-+                break;
-+        }
-+    }
-+
-+    printf("inode=%u", diag->udiag_ino);
-+
-+    if (peer)
-+        printf(", peer=%u", peer);
-+
-+    if (path_len)
-+        printf(", name=%s%s", *path ? "" : "@", *path ? path : path + 1);
-+
-+    putchar('\\n');
-+    return 0;
-+}
-+
-+static int
-+receive_responses(int fd)
-+{
-+    long buf[8192 / sizeof(long)];
-+    struct sockaddr_nl nladdr = {
-+        .nl_family = AF_NETLINK
-+    };
-+    struct iovec iov = {
-+        .iov_base = buf,
-+        .iov_len = sizeof(buf)
-+    };
-+    int flags = 0;
-+
-+    for (;;) {
-+        struct msghdr msg = {
-+            .msg_name = (void *) &nladdr,
-+            .msg_namelen = sizeof(nladdr),
-+            .msg_iov = &iov,
-+            .msg_iovlen = 1
-+        };
-+
-+        ssize_t ret = recvmsg(fd, &msg, flags);
-+
-+        if (ret < 0) {
-+            if (errno == EINTR)
-+                continue;
-+            perror("recvmsg");
-+            return \-1;
-+        }
-+        if (ret == 0)
-+            return 0;
-+
-+        const struct nlmsghdr *h = (struct nlmsghdr *) buf;
-+
-+        if (!NLMSG_OK(h, ret)) {
-+            fputs("!NLMSG_OK\\n", stderr);
-+            return \-1;
-+        }
-+        for (; NLMSG_OK(h, ret); h = NLMSG_NEXT(h, ret)) {
-+            if (h\->nlmsg_type == NLMSG_DONE)
-+                return 0;
-+            if (h\->nlmsg_type == NLMSG_ERROR) {
-+                const struct nlmsgerr *err = NLMSG_DATA(h);
-+
-+                if (h\->nlmsg_len < NLMSG_LENGTH(sizeof(*err))) {
-+                    fputs("NLMSG_ERROR\\n", stderr);
-+                } else {
-+                    errno = \-err\->error;
-+                    perror("NLMSG_ERROR");
-+                }
-+                return \-1;
-+            }
-+            if (h\->nlmsg_type != SOCK_DIAG_BY_FAMILY) {
-+                fprintf(stderr, "unexpected nlmsg_type %u\\n",
-+                        (unsigned) h\->nlmsg_type);
-+                return \-1;
-+            }
-+
-+            if (print_diag(NLMSG_DATA(h), h\->nlmsg_len))
-+                return \-1;
-+        }
-+    }
-+}
-+
-+int
-+main(void)
-+{
-+    int fd = socket(AF_NETLINK, SOCK_RAW, NETLINK_SOCK_DIAG);
-+
-+    if (fd < 0) {
-+        perror("socket");
-+        return 1;
-+    }
-+
-+    int ret = send_query(fd) || receive_responses(fd);
-+
-+    close(fd);
-+    return ret;
-+}
-+.fi
- .SH SEE ALSO
- .BR netlink (3),
- .BR rtnetlink (3),
++NETLINK_INET_DIAG appeared in Linux 2.6.14,
++in Linux 3.3 it was renamed to NETLINK_SOCK_DIAG.
+ .SH NOTES
+ It is often better to use netlink via
+ .I libnetlink
 -- 
 ldv
 
