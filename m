@@ -1,18 +1,32 @@
-From: Christoph Hellwig <hch@infradead.org>
-Subject: Re: [PATCH v5 0/2] man-pages: document reflink/dedupe ioctls
-Date: Tue, 15 Mar 2016 10:04:11 -0700
-Message-ID: <20160315170411.GA4937@infradead.org>
-References: <20160315164804.30909.83270.stgit@birch.djwong.org>
+From: "Dmitry V. Levin" <ldv-u2l5PoMzF/Vg9hUCZPvPmw@public.gmane.org>
+Subject: [PATCH 0/4] Document NETLINK_SOCK_DIAG interface
+Date: Tue, 15 Mar 2016 20:25:51 +0300
+Message-ID: <20160315172551.GA2903@altlinux.org>
 Mime-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
-Return-path: <linux-fsdevel-owner@vger.kernel.org>
+Return-path: <linux-man-owner-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>
 Content-Disposition: inline
-In-Reply-To: <20160315164804.30909.83270.stgit@birch.djwong.org>
-Sender: linux-fsdevel-owner@vger.kernel.org
-To: "Darrick J. Wong" <darrick.wong@oracle.com>
-Cc: mtk.manpages@gmail.com, linux-fsdevel@vger.kernel.org, linux-api@vger.kernel.org, hch@infradead.org, linux-man@vger.kernel.org
+Sender: linux-man-owner-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
+To: mtk.manpages-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org
+Cc: Pavel Emelyanov <xemul-5HdwGun5lf+gSpxsJD1C4w@public.gmane.org>, linux-man-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
 List-Id: linux-man@vger.kernel.org
 
-Both man pages looks fine to me:
+Pavel Emelyanov (1):
+  sock_diag.7: New page documenting NETLINK_SOCK_DIAG interface
 
-Reviewed-by: Christoph Hellwig <hch@lst.de>
+Dmitry V. Levin (3):
+  sock_diag.7: Add EXAMPLE program
+  netlink.7: Rename NETLINK_INET_DIAG to NETLINK_SOCK_DIAG
+  netlink.7: Add references to sock_diag(7)
+
+ man7/netlink.7   |  16 +-
+ man7/sock_diag.7 | 820 +++++++++++++++++++++++++++++++++++++++++++++++++++++++
+ 2 files changed, 830 insertions(+), 6 deletions(-)
+ create mode 100644 man7/sock_diag.7
+
+-- 
+ldv
+--
+To unsubscribe from this list: send the line "unsubscribe linux-man" in
+the body of a message to majordomo-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
+More majordomo info at  http://vger.kernel.org/majordomo-info.html
