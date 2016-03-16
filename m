@@ -1,51 +1,35 @@
-From: "Dmitry V. Levin" <ldv-u2l5PoMzF/Vg9hUCZPvPmw@public.gmane.org>
-Subject: [PATCH 4/4] netlink.7: Add references to sock_diag(7)
-Date: Tue, 15 Mar 2016 20:26:14 +0300
-Message-ID: <20160315172614.GE2903@altlinux.org>
-References: <cover.1458040999.git.ldv@altlinux.org>
-Mime-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
+From: "Dr. Tobias Quathamer" <toddy-8fiUuRrzOP0dnm+yROfE0A@public.gmane.org>
+Subject: [PATCH] lirc.4: srcfix
+Date: Wed, 16 Mar 2016 20:15:31 +0100
+Message-ID: <1458155731-10057-1-git-send-email-toddy@debian.org>
 Return-path: <linux-man-owner-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>
-Content-Disposition: inline
-In-Reply-To: <cover.1458040999.git.ldv-u2l5PoMzF/Vg9hUCZPvPmw@public.gmane.org>
 Sender: linux-man-owner-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
-To: mtk.manpages-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org
-Cc: Pavel Emelyanov <xemul-5HdwGun5lf+gSpxsJD1C4w@public.gmane.org>, linux-man-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
+To: Michael Kerrisk <mtk.manpages-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org>
+Cc: linux-man-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
 List-Id: linux-man@vger.kernel.org
 
-Signed-off-by: Dmitry V. Levin <ldv-u2l5PoMzF/Vg9hUCZPvPmw@public.gmane.org>
+Hi Michael,
+
+I'm using a script to collect authors and licensing
+information for the various manpages. Currently, the
+script cannot extract meaningful information from
+lirc.4, because it relies on the information being
+present before the ".TH" macro.
+
+Would you consider this patch? Otherwise, I'll have
+to make the script more robust ... :-)
+
+Regards,
+Tobias
+
 ---
- man7/netlink.7 | 6 ++++--
- 1 file changed, 4 insertions(+), 2 deletions(-)
+ man4/lirc.4 | 4 +---
+ 1 file changed, 1 insertion(+), 3 deletions(-)
 
-diff --git a/man7/netlink.7 b/man7/netlink.7
-index 9462862..0d5ae05 100644
---- a/man7/netlink.7
-+++ b/man7/netlink.7
-@@ -64,7 +64,8 @@ kernel module.
- .TP
- .BR NETLINK_SOCK_DIAG " (formerly known as " NETLINK_INET_DIAG )
- Query information about sockets of various protocol families
--from the kernel.
-+from the kernel (see
-+.BR sock_diag (7)).
- .TP
- .B NETLINK_NFLOG
- Netfilter/iptables ULOG.
-@@ -476,7 +477,8 @@ for (nh = (struct nlmsghdr *) buf; NLMSG_OK (nh, len);
- .BR cmsg (3),
- .BR netlink (3),
- .BR capabilities (7),
--.BR rtnetlink (7)
-+.BR rtnetlink (7),
-+.BR sock_diag (7)
- 
- .UR ftp://ftp.inr.ac.ru\:/ip-routing\:/iproute2*
- information about libnetlink
--- 
-ldv
-
---
-To unsubscribe from this list: send the line "unsubscribe linux-man" in
-the body of a message to majordomo-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
-More majordomo info at  http://vger.kernel.org/majordomo-info.html
+diff --git a/man4/lirc.4 b/man4/lirc.4
+index c63a3f4..90d31e1 100644
+--- a/man4/lirc.4
++++ b/man4/lirc.4
+@@ -1,6 +1,3 @@
+-.TH LIRC 4 "Aug 2015" "Linux" "Linux Programmer's Manual"
+-
