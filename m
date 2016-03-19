@@ -1,29 +1,16 @@
-From: Patrick Donnelly <batrick-dP08NitdTj1Wk0Htik3J/w@public.gmane.org>
-Subject: ptrace(2): wrong kernel version for PTRACE_SEIZE and others
-Date: Fri, 18 Mar 2016 17:21:28 -0400
-Message-ID: <CACh33FrJRvC-ZQkBD2DZjW-YYnqNY5iCu_DtB8x+Jz_w80tMPg@mail.gmail.com>
+From: Robert <kec.belimbing-W1ECK2RyFG3INMGAYQq/A7yscVyMRj84@public.gmane.org>
+Subject: RE: RE
+Date: Sat, 19 Mar 2016 17:06:47 +0700 (WIB)
+Message-ID: <1131389466.13178.1458382007774.JavaMail.zimbra__46596.8242650435$1458387934$gmane$org@muaraenimkab.go.id>
+Reply-To: Robert <cquinn-SaMnSzMTH7DR7s880joybQ@public.gmane.org>
 Mime-Version: 1.0
-Content-Type: text/plain; charset=UTF-8
+Content-Type: text/plain; charset=utf-8
+Content-Transfer-Encoding: 7bit
 Return-path: <linux-man-owner-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>
 Sender: linux-man-owner-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
-To: Michael Kerrisk-manpages <mtk.manpages-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org>
-Cc: linux-man-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
 List-Id: linux-man@vger.kernel.org
 
-The ptrace(2) man page says that PTRACE_SEIZE, PTRACE_LISTEN, and
-PTRACE_INTERRUPT was introduced in Linux 3.4. In fact, this was added
-in 3.1:
-
-$ git diff v3.0 v3.1 include/linux/ptrace.h | grep SEIZE
-+#define PTRACE_SEIZE           0x4206
-+/* flags in @data for PTRACE_SEIZE */
-+#define PTRACE_SEIZE_DEVEL     0x80000000 /* temp flag for development */
-+#define PT_SEIZED      0x00010000      /* SEIZE used, enable new behavior */
-+               if (child->ptrace & PT_SEIZED)
-
-
--- 
-Patrick Donnelly
+Please confirm receipt of my previous mail..When can i call you 
 --
 To unsubscribe from this list: send the line "unsubscribe linux-man" in
 the body of a message to majordomo-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
