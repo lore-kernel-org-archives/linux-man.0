@@ -1,24 +1,46 @@
-From: Stephen Hemminger <stephen@networkplumber.org>
-Subject: Re: [PATCH] rtnetlink.7: add missing RTA_* attributes
-Date: Mon, 21 Mar 2016 12:04:49 -0700
-Message-ID: <20160321120449.42cd6f50@xeon-e3>
-References: <1458043587-5115-1-git-send-email-mq@ucw.cz>
+From: =?iso-8859-1?Q?J=F6rn?= Engel <joern@purestorage.com>
+Subject: open(2) manpage and O_NONBLOCK
+Date: Mon, 21 Mar 2016 13:23:47 -0700
+Message-ID: <20160321202347.GG1612@cork>
 Mime-Version: 1.0
-Content-Type: text/plain; charset=US-ASCII
-Content-Transfer-Encoding: 7bit
-Return-path: <netdev-owner@vger.kernel.org>
-In-Reply-To: <1458043587-5115-1-git-send-email-mq@ucw.cz>
-Sender: netdev-owner@vger.kernel.org
-To: Jan Moskyto Matejka <mq@ucw.cz>
-Cc: mtk.manpages@gmail.com, "Eric W . Biederman" <ebiederm@xmission.com>, Eric Dumazet <eric.dumazet@gmail.com>, Patrick McHardy <kaber@trash.net>, Lubomir Rintel <lkundrak@v3.sk>, netdev@vger.kernel.org, linux-man@vger.kernel.org
+Content-Type: text/plain; charset=iso-8859-1
+Content-Transfer-Encoding: QUOTED-PRINTABLE
+Return-path: <linux-fsdevel-owner@vger.kernel.org>
+Content-Disposition: inline
+Sender: linux-fsdevel-owner@vger.kernel.org
+To: "Michael Kerrisk (man-pages)" <mtk.manpages@gmail.com>
+Cc: linux-man@vger.kernel.org, linux-fsdevel@vger.kernel.org
 List-Id: linux-man@vger.kernel.org
 
-On Tue, 15 Mar 2016 13:06:27 +0100
-Jan Moskyto Matejka <mq@ucw.cz> wrote:
+In open(2), we seem to promise more than the kernel can deliver:
+       O_NONBLOCK or O_NDELAY
+               When possible, the file is opened in nonblocking mode.
+	       Neither the open() nor any subsequent operations on the
+	       file descriptor which is returned  will  cause  the
+	       calling process to wait.
 
-> Used Bird's source code, kernel source code, iproute2 source code and
-> iproute2 manpages to find meanings of these new attributes.
-> 
-> Signed-off-by: Jan Moskyto Matejka <mq@ucw.cz>
+Clearly you can question whether every last device driver correctly
+supports O_NONBLOCK in its open routine.  But even if that was the case=
+,
+we still cannot guarantee nonblocking behaviour for open().
+get_empty_filp() has to be called for every open() and contains a
+blocking memory allocation:
+        f =3D kmem_cache_zalloc(filp_cachep, GFP_KERNEL);
 
-This is patch against linux man pages (not iproute2)
+As such I would propose to change the documentation and keep the code.
+The open() itself may very well block, but subsequent operations should
+not.
+
+J=F6rn
+
+--
+Why do musicians compose symphonies and poets write poems?
+They do it because life wouldn't have any meaning for them if they didn=
+'t.
+That's why I draw cartoons.  It's my life.
+-- Charles Shultz
+--
+To unsubscribe from this list: send the line "unsubscribe linux-fsdevel=
+" in
+the body of a message to majordomo@vger.kernel.org
+More majordomo info at  http://vger.kernel.org/majordomo-info.html
