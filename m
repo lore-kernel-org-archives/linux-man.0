@@ -1,46 +1,43 @@
-From: =?iso-8859-1?Q?J=F6rn?= Engel <joern@purestorage.com>
-Subject: open(2) manpage and O_NONBLOCK
-Date: Mon, 21 Mar 2016 13:23:47 -0700
-Message-ID: <20160321202347.GG1612@cork>
-Mime-Version: 1.0
-Content-Type: text/plain; charset=iso-8859-1
-Content-Transfer-Encoding: QUOTED-PRINTABLE
-Return-path: <linux-fsdevel-owner@vger.kernel.org>
-Content-Disposition: inline
-Sender: linux-fsdevel-owner@vger.kernel.org
-To: "Michael Kerrisk (man-pages)" <mtk.manpages@gmail.com>
-Cc: linux-man@vger.kernel.org, linux-fsdevel@vger.kernel.org
+From: Benjamin Poirier <bpoirier-IBi9RG/b67k@public.gmane.org>
+Subject: [PATCH] ip.7: Fix incorrect sockopt name
+Date: Mon, 21 Mar 2016 13:28:44 -0700
+Message-ID: <1458592124-6208-1-git-send-email-bpoirier@suse.com>
+Return-path: <linux-man-owner-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>
+Sender: linux-man-owner-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
+To: mtk.manpages-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org
+Cc: linux-man-u79uwXL29TY76Z2rM5mHXA@public.gmane.org, netdev-u79uwXL29TY76Z2rM5mHXA@public.gmane.org, Radek Pazdera <rpazdera-H+wXaHxf7aLQT0dZR+AlfA@public.gmane.org>
 List-Id: linux-man@vger.kernel.org
 
-In open(2), we seem to promise more than the kernel can deliver:
-       O_NONBLOCK or O_NDELAY
-               When possible, the file is opened in nonblocking mode.
-	       Neither the open() nor any subsequent operations on the
-	       file descriptor which is returned  will  cause  the
-	       calling process to wait.
+"IP_LEAVE_GROUP" does not exist. It was perhaps a confusion with
+MCAST_LEAVE_GROUP. Change the text to IP_DROP_MEMBERSHIP which has the same
+function as MCAST_LEAVE_GROUP and is documented in the ip.7 man page.
 
-Clearly you can question whether every last device driver correctly
-supports O_NONBLOCK in its open routine.  But even if that was the case=
-,
-we still cannot guarantee nonblocking behaviour for open().
-get_empty_filp() has to be called for every open() and contains a
-blocking memory allocation:
-        f =3D kmem_cache_zalloc(filp_cachep, GFP_KERNEL);
+Reference:
+Linux kernel net/ipv4/ip_sockglue.c do_ip_setsockopt()
 
-As such I would propose to change the documentation and keep the code.
-The open() itself may very well block, but subsequent operations should
-not.
+Cc: Radek Pazdera <rpazdera-H+wXaHxf7aLQT0dZR+AlfA@public.gmane.org>
+Signed-off-by: Benjamin Poirier <bpoirier-IBi9RG/b67k@public.gmane.org>
+---
+ man7/ip.7 | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
 
-J=F6rn
+diff --git a/man7/ip.7 b/man7/ip.7
+index 3905573..37e2c86 100644
+--- a/man7/ip.7
++++ b/man7/ip.7
+@@ -376,7 +376,7 @@ a given multicast group that come from a given source.
+ If the application has subscribed to multiple sources within
+ the same group, data from the remaining sources will still be delivered.
+ To stop receiving data from all sources at once, use
+-.BR IP_LEAVE_GROUP .
++.BR IP_DROP_MEMBERSHIP .
+ .IP
+ Argument is an
+ .I ip_mreq_source
+-- 
+2.7.2
 
 --
-Why do musicians compose symphonies and poets write poems?
-They do it because life wouldn't have any meaning for them if they didn=
-'t.
-That's why I draw cartoons.  It's my life.
--- Charles Shultz
---
-To unsubscribe from this list: send the line "unsubscribe linux-fsdevel=
-" in
-the body of a message to majordomo@vger.kernel.org
+To unsubscribe from this list: send the line "unsubscribe linux-man" in
+the body of a message to majordomo-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
 More majordomo info at  http://vger.kernel.org/majordomo-info.html
