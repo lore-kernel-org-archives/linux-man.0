@@ -1,70 +1,66 @@
-From: "Dmitry V. Levin" <ldv-u2l5PoMzF/Vg9hUCZPvPmw@public.gmane.org>
-Subject: Re: ptrace(2): wrong kernel version for PTRACE_SEIZE and others
-Date: Tue, 22 Mar 2016 14:16:29 +0300
-Message-ID: <20160322111629.GA13320@altlinux.org>
-References: <CACh33FrJRvC-ZQkBD2DZjW-YYnqNY5iCu_DtB8x+Jz_w80tMPg@mail.gmail.com>
+From: Craig Howland <howland-ZkbvEYpuQwKSe5ORCPIMD9BPR1lH4CV8@public.gmane.org>
+Subject: random(3) man page error
+Date: Wed, 23 Mar 2016 15:20:29 -0400
+Message-ID: <56F2EC7D.6010108@LGSInnovations.com>
 Mime-Version: 1.0
-Content-Type: multipart/signed; micalg=x-unknown;
-	protocol="application/pgp-signature"; boundary="5mCyUwZo2JvN/JJP"
+Content-Type: text/plain; charset="utf-8"; format=flowed
+Content-Transfer-Encoding: 7bit
 Return-path: <linux-man-owner-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>
-Content-Disposition: inline
-In-Reply-To: <CACh33FrJRvC-ZQkBD2DZjW-YYnqNY5iCu_DtB8x+Jz_w80tMPg-JsoAwUIsXosN+BqQ9rBEUg@public.gmane.org>
 Sender: linux-man-owner-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
-To: Patrick Donnelly <batrick-dP08NitdTj1Wk0Htik3J/w@public.gmane.org>
-Cc: Michael Kerrisk-manpages <mtk.manpages-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org>, linux-man-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
+To: mtk.manpages-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org
+Cc: linux-man-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
 List-Id: linux-man@vger.kernel.org
 
+http://man7.org/linux/man-pages/man3/random.3.html contains an error with 
+respect to the feature test macro requirements.
 
---5mCyUwZo2JvN/JJP
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-Content-Transfer-Encoding: quoted-printable
+It says "_XOPEN_SOURCE >= 500
+                || /* Glibc since 2.19: */ _DEFAULT_SOURCE
+                || /* Glibc versions <= 2.19: */ _SVID_SOURCE || _BSD_SOURCE"
 
-On Fri, Mar 18, 2016 at 05:21:28PM -0400, Patrick Donnelly wrote:
-> The ptrace(2) man page says that PTRACE_SEIZE, PTRACE_LISTEN, and
-> PTRACE_INTERRUPT was introduced in Linux 3.4. In fact, this was added
-> in 3.1:
->=20
-> $ git diff v3.0 v3.1 include/linux/ptrace.h | grep SEIZE
-> +#define PTRACE_SEIZE           0x4206
-> +/* flags in @data for PTRACE_SEIZE */
-> +#define PTRACE_SEIZE_DEVEL     0x80000000 /* temp flag for development */
+However, the POSIX-related requirement is not complete.  According to POSIX, it 
+originated in issue 4 as an X/OPEN UNIX extension (see 
+http://pubs.opengroup.org/onlinepubs/9699919799/functions/random.html), and was 
+moved to BASE in issue 5.  The GLIBC 2.12 on my RHEL6 system do seem to gate it 
+as POSIX says (see clips below), so it is only the man page in error.
 
-Yes, PTRACE_SEIZE was introduced by commit v3.1-rc1~308^2~28, but
-it had to be used along with a temporary flag PTRACE_SEIZE_DEVEL,
-which was removed later by commit v3.4-rc1~109^2~20.
+So the man page really should say "_XOPEN_SOURCE >= 500
+                || _XOPEN_SOURCE_EXTENDED  && _XOPEN_SOURCE
+                || /* Glibc since 2.19: */ _DEFAULT_SOURCE
+                || /* Glibc versions <= 2.19: */ _SVID_SOURCE || _BSD_SOURCE"
+(I'm not totally certain of the right way for _XOPEN_SOURCE_EXTENDED to be used, 
+but you get the idea.)
 
-That is, between v3.0 and v3.4 we had a test mode of PTRACE_SEIZE API,
-which was not compatible with the current PTRACE_SEIZE API introduced
-in Linux 3.4.
+Now perhaps this extra line was purposely left out based on a statement in 
+feature_test_macros(7) that says "since defining _XOPEN_SOURCE with a value of 
+500 or more has the same effect as defining _XOPEN_SOURCE_EXTENDED, the latter 
+(obsolete) feature test macro is generally not described in the SYNOPSIS in man 
+pages." However, for this case it leaves out a user getting it with a version 
+older than 500.  (The manual as-is is good for a new user, really, but it is not 
+good for a developer working on the proper gates in the code, or a user looking 
+at older code.)
+
+Craig Howland
+
+Supporting information:
+
+ From stdlib.h;
+#if defined __USE_SVID || defined __USE_XOPEN_EXTENDED || defined __USE_BSD
+...
+extern long int random (void) __THROW;
+
+ From features.h:
+#ifdef  _XOPEN_SOURCE
+# define __USE_XOPEN    1
+# if (_XOPEN_SOURCE - 0) >= 500
+#  define __USE_XOPEN_EXTENDED  1
+#  ...
+# else
+#  ifdef _XOPEN_SOURCE_EXTENDED
+#   define __USE_XOPEN_EXTENDED 1
+...
 
 
---=20
-ldv
-
---5mCyUwZo2JvN/JJP
-Content-Type: application/pgp-signature
-Content-Disposition: inline
-
------BEGIN PGP SIGNATURE-----
-Version: GnuPG v1
-
-iQIcBAEBCAAGBQJW8SmNAAoJEAVFT+BVnCUIxnsQAIvex0nBJwYNA8QjRmP6VPKT
-tPOMQFxiLjqfpt50F8JsZmJ9vBdmMALxJazB6qiXO3NReW94Dl8Lh4rDS/fCa3fV
-kZFCwi5IedkyzU+jTf+XJMGLKq4MqVxXkoVZv99OtEB5VINAK8ATG6rQ2llErIAN
-Pkr/GoIFngQDMarJWZU+maLlWlfppXObZPVXJTWo9Pnc1Mio+TEP/kt6QYJYJrQm
-6JKNiy/nFhfXk4m3MsOaN2IbQFB7wBTMdSvu7fchU2oZd43c7qJ7QtLol+F43ObN
-I4ZP6Mid9eaWBfKMKAY3KngW2hZboyyzAF876vwRqHLa5lXC2+v6o9ouqmhYj88W
-4yryIbM9ciRHzFj4Ji/8E6io11RWizl360NQcu1bkwWoRh7oOE5lhmyyh9z7eUJB
-YoPHhl+6lCwxiQeo+OlrJENmPM/w3icvIkJZtH1wXQdJIJYgP6bmrtFTxDzaAxR4
-SFQlHqb7Y0rtwibnjxkb0UNkAVBQwNjzavcAfq6jXYUpXIFnlOlu9ehzwGIIUDGG
-oj4BaLdWLawfyIXn/fusDbyuIp40xTHtf/dnydmJMCJa7mTDp/XQUxADbrA5CKue
-b2u5oFKArf/W4t2MioeriFfkBU19CnWRsB0PIWdumxdbj5edA0UT6MnrWrd3mteU
-t1ky43V1AkwJW0TD/hnm
-=duK9
------END PGP SIGNATURE-----
-
---5mCyUwZo2JvN/JJP--
 --
 To unsubscribe from this list: send the line "unsubscribe linux-man" in
 the body of a message to majordomo-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
