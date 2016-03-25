@@ -1,8 +1,8 @@
 From: bugzilla-daemon-590EEB7GvNiWaY/ihj7yzEB+6BGkLq7r@public.gmane.org
 Subject: [Bug 95331] fcntl.2 + sigaction.2 + signal.7 need further
  information about use of a SA_SIGINFO signal handler that uses si->si_fd
-Date: Fri, 25 Mar 2016 19:44:57 +0000
-Message-ID: <bug-95331-11311-ZIRTPChjF7@https.bugzilla.kernel.org/>
+Date: Fri, 25 Mar 2016 19:45:14 +0000
+Message-ID: <bug-95331-11311-vh4bYLIuAj@https.bugzilla.kernel.org/>
 References: <bug-95331-11311@https.bugzilla.kernel.org/>
 Mime-Version: 1.0
 Content-Type: text/plain; charset="UTF-8"
@@ -15,10 +15,12 @@ List-Id: linux-man@vger.kernel.org
 
 https://bugzilla.kernel.org/show_bug.cgi?id=95331
 
---- Comment #21 from Michael Kerrisk <mtk.manpages-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org> ---
-Closing this, as I can't decipher the bug report. If you can _succinctly_
-summarize the changes you believe are required in any man page(s), please
-reopen.
+Michael Kerrisk <mtk.manpages-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org> changed:
+
+           What    |Removed                     |Added
+----------------------------------------------------------------------------
+             Status|NEW                         |RESOLVED
+         Resolution|---                         |INSUFFICIENT_DATA
 
 -- 
 You are receiving this mail because:
