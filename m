@@ -1,29 +1,24 @@
 From: bugzilla-daemon-590EEB7GvNiWaY/ihj7yzEB+6BGkLq7r@public.gmane.org
-Subject: [Bug 104601] Description of getname-related syscalls wrong
-Date: Fri, 25 Mar 2016 19:40:43 +0000
-Message-ID: <bug-104601-11311-S2CBL2rgal@https.bugzilla.kernel.org/>
-References: <bug-104601-11311@https.bugzilla.kernel.org/>
+Subject: [Bug 95331] fcntl.2 + sigaction.2 + signal.7 need further
+ information about use of a SA_SIGINFO signal handler that uses si->si_fd
+Date: Fri, 25 Mar 2016 19:44:57 +0000
+Message-ID: <bug-95331-11311-ZIRTPChjF7@https.bugzilla.kernel.org/>
+References: <bug-95331-11311@https.bugzilla.kernel.org/>
 Mime-Version: 1.0
 Content-Type: text/plain; charset="UTF-8"
 Content-Transfer-Encoding: 7bit
 Return-path: <linux-man-owner-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>
-In-Reply-To: <bug-104601-11311-3bo0kxnWaOQUvHkbgXJLS5sdmw4N0Rt+2LY78lusg7I@public.gmane.org/>
+In-Reply-To: <bug-95331-11311-3bo0kxnWaOQUvHkbgXJLS5sdmw4N0Rt+2LY78lusg7I@public.gmane.org/>
 Sender: linux-man-owner-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
 To: linux-man-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
 List-Id: linux-man@vger.kernel.org
 
-https://bugzilla.kernel.org/show_bug.cgi?id=104601
+https://bugzilla.kernel.org/show_bug.cgi?id=95331
 
-Michael Kerrisk <mtk.manpages-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org> changed:
-
-           What    |Removed                     |Added
-----------------------------------------------------------------------------
-             Status|NEW                         |RESOLVED
-         Resolution|---                         |INVALID
-
---- Comment #3 from Michael Kerrisk <mtk.manpages-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org> ---
-Closing as I believe this is not a bug. Please reopen if you can provide
-information to show otherwise.
+--- Comment #21 from Michael Kerrisk <mtk.manpages-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org> ---
+Closing this, as I can't decipher the bug report. If you can _succinctly_
+summarize the changes you believe are required in any man page(s), please
+reopen.
 
 -- 
 You are receiving this mail because:
