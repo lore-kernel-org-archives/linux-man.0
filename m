@@ -1,48 +1,58 @@
 From: "Michael Kerrisk (man-pages)" <mtk.manpages-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org>
-Subject: Re: ptrace(2): wrong kernel version for PTRACE_SEIZE and others
-Date: Mon, 28 Mar 2016 16:55:14 +1300
-Message-ID: <CAKgNAkg-MfedjbfFqjP7OjXuyN_akats1GJpZPfRk68TgEh8Fg@mail.gmail.com>
-References: <CACh33FrJRvC-ZQkBD2DZjW-YYnqNY5iCu_DtB8x+Jz_w80tMPg@mail.gmail.com>
- <20160322111629.GA13320@altlinux.org>
+Subject: Re: open(2) manpage and O_NONBLOCK
+Date: Mon, 28 Mar 2016 16:58:33 +1300
+Message-ID: <CAKgNAkiLsw5c_Q+EknRijgeJGNvQ_R6HxdgA=YhBgcXsbv+mpQ@mail.gmail.com>
+References: <20160321202347.GG1612@cork>
 Reply-To: mtk.manpages-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org
 Mime-Version: 1.0
 Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: QUOTED-PRINTABLE
 Return-path: <linux-man-owner-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>
-In-Reply-To: <20160322111629.GA13320-u2l5PoMzF/Vg9hUCZPvPmw@public.gmane.org>
+In-Reply-To: <20160321202347.GG1612@cork>
 Sender: linux-man-owner-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
-To: "Dmitry V. Levin" <ldv-u2l5PoMzF/Vg9hUCZPvPmw@public.gmane.org>
-Cc: Patrick Donnelly <batrick-dP08NitdTj1Wk0Htik3J/w@public.gmane.org>, linux-man <linux-man-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>
+To: =?UTF-8?Q?J=C3=B6rn_Engel?= <joern-BHEL68pLQRGGvPXPguhicg@public.gmane.org>
+Cc: linux-man <linux-man-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>, "linux-fsdevel-u79uwXL29TY76Z2rM5mHXA@public.gmane.org" <linux-fsdevel-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>
 List-Id: linux-man@vger.kernel.org
 
-Hi Dmitry,
+Hello J=C3=B6rn,
 
-On 23 March 2016 at 00:16, Dmitry V. Levin <ldv-u2l5PoMzF/Vg9hUCZPvPmw@public.gmane.org> wrote:
-> On Fri, Mar 18, 2016 at 05:21:28PM -0400, Patrick Donnelly wrote:
->> The ptrace(2) man page says that PTRACE_SEIZE, PTRACE_LISTEN, and
->> PTRACE_INTERRUPT was introduced in Linux 3.4. In fact, this was added
->> in 3.1:
->>
->> $ git diff v3.0 v3.1 include/linux/ptrace.h | grep SEIZE
->> +#define PTRACE_SEIZE           0x4206
->> +/* flags in @data for PTRACE_SEIZE */
->> +#define PTRACE_SEIZE_DEVEL     0x80000000 /* temp flag for development */
+On 22 March 2016 at 09:23, J=C3=B6rn Engel <joern-BHEL68pLQRGGvPXPguhicg@public.gmane.org> wrot=
+e:
+> In open(2), we seem to promise more than the kernel can deliver:
+>        O_NONBLOCK or O_NDELAY
+>                When possible, the file is opened in nonblocking mode.
+>                Neither the open() nor any subsequent operations on th=
+e
+>                file descriptor which is returned  will  cause  the
+>                calling process to wait.
 >
-> Yes, PTRACE_SEIZE was introduced by commit v3.1-rc1~308^2~28, but
-> it had to be used along with a temporary flag PTRACE_SEIZE_DEVEL,
-> which was removed later by commit v3.4-rc1~109^2~20.
->
-> That is, between v3.0 and v3.4 we had a test mode of PTRACE_SEIZE API,
-> which was not compatible with the current PTRACE_SEIZE API introduced
-> in Linux 3.4.
+> Clearly you can question whether every last device driver correctly
+> supports O_NONBLOCK in its open routine.  But even if that was the ca=
+se,
+> we still cannot guarantee nonblocking behaviour for open().
+> get_empty_filp() has to be called for every open() and contains a
+> blocking memory allocation:
+>         f =3D kmem_cache_zalloc(filp_cachep, GFP_KERNEL);
 
-So, it sounds like the page is good as it stands, right?
+=46or how long might this block, though?
+
+> As such I would propose to change the documentation and keep the code=
+=2E
+> The open() itself may very well block, but subsequent operations shou=
+ld
+> not.
+
+I think the most obvious userland case that's being covered here is
+O_NONBLOCK with FIFOs. The "Wen possible" text is, I imagine, there to
+deal with cases such as drivers that do not support O_NONBLOCK.
 
 Cheers,
 
 Michael
 
 
--- 
+
+--=20
 Michael Kerrisk
 Linux man-pages maintainer; http://www.kernel.org/doc/man-pages/
 Linux/UNIX System Programming Training: http://man7.org/training/
