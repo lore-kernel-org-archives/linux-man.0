@@ -1,51 +1,47 @@
-From: =?iso-8859-1?Q?J=F6rn?= Engel <joern-BHEL68pLQRGGvPXPguhicg@public.gmane.org>
-Subject: Re: open(2) manpage and O_NONBLOCK
-Date: Sun, 27 Mar 2016 22:04:50 -0700
-Message-ID: <20160328050450.GA27411@cork>
-References: <20160321202347.GG1612@cork>
- <CAKgNAkiLsw5c_Q+EknRijgeJGNvQ_R6HxdgA=YhBgcXsbv+mpQ@mail.gmail.com>
- <20160328040845.GT17997@ZenIV.linux.org.uk>
+From: Wang Nan <wangnan0-hv44wF8Li93QT0dZR+AlfA@public.gmane.org>
+Subject: [PATCH][manpages 1/2] perf_event_open.2: Document PERF_EVENT_IOC_PAUSE_OUTPUT
+Date: Mon, 28 Mar 2016 10:15:47 +0000
+Message-ID: <1459160147-240738-1-git-send-email-wangnan0@huawei.com>
+References: <1459147292-239310-2-git-send-email-wangnan0@huawei.com>
 Mime-Version: 1.0
-Content-Type: text/plain; charset=iso-8859-1
-Content-Transfer-Encoding: QUOTED-PRINTABLE
+Content-Type: text/plain
 Return-path: <linux-man-owner-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>
-Content-Disposition: inline
-In-Reply-To: <20160328040845.GT17997-3bDd1+5oDREiFSDQTTA3OLVCufUGDwFn@public.gmane.org>
+In-Reply-To: <1459147292-239310-2-git-send-email-wangnan0-hv44wF8Li93QT0dZR+AlfA@public.gmane.org>
 Sender: linux-man-owner-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
-To: Al Viro <viro-3bDd1+5oDREiFSDQTTA3OLVCufUGDwFn@public.gmane.org>
-Cc: "Michael Kerrisk (man-pages)" <mtk.manpages-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org>, linux-man <linux-man-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>, "linux-fsdevel-u79uwXL29TY76Z2rM5mHXA@public.gmane.org" <linux-fsdevel-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>
+To: peterz-wEGCiKHe2LqWVfeAwA7xHQ@public.gmane.org, vince-yfjdyHUqu3OsTnJN9+BGXg@public.gmane.org, mtk.manpages-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org
+Cc: linux-kernel-u79uwXL29TY76Z2rM5mHXA@public.gmane.org, linux-man-u79uwXL29TY76Z2rM5mHXA@public.gmane.org, pi3orama-9Onoh4P/yGk@public.gmane.org, lizefan-hv44wF8Li93QT0dZR+AlfA@public.gmane.org, Wang Nan <wangnan0-hv44wF8Li93QT0dZR+AlfA@public.gmane.org>
 List-Id: linux-man@vger.kernel.org
 
-On Mon, Mar 28, 2016 at 05:08:45AM +0100, Al Viro wrote:
-> On Mon, Mar 28, 2016 at 04:58:33PM +1300, Michael Kerrisk (man-pages)=
- wrote:
-> > > blocking memory allocation:
-> > >         f =3D kmem_cache_zalloc(filp_cachep, GFP_KERNEL);
-> >=20
-> > For how long might this block, though?
->=20
-> Not much, usually.  Finding the file, though, can bloody well take a =
-_long_
-> time - put it behind an automount from a slow server and we might be =
-easily
-> talking about minutes, if not longer.
+Signed-off-by: Wang Nan <wangnan0-hv44wF8Li93QT0dZR+AlfA@public.gmane.org>
+---
+ man2/perf_event_open.2 | 11 +++++++++++
+ 1 file changed, 11 insertions(+)
 
-Another example that bit me in the past is scsi devices checking for
-media presence.  If any part of your storage stack drops the cdb, you
-have to wait for a scsi timeout, usually 30s.
+diff --git a/man2/perf_event_open.2 b/man2/perf_event_open.2
+index c90fc51..b232cba 100644
+--- a/man2/perf_event_open.2
++++ b/man2/perf_event_open.2
+@@ -2719,6 +2719,17 @@ The argument is a BPF program file descriptor that was created by
+ a previous
+ .BR bpf (2)
+ system call.
++.TP
++.BR PERF_EVENT_IOC_PAUSE_OUTPUT " (since Linux 4.6)"
++.\" commit ? (http://lkml.kernel.org/g/1459147292-239310-2-git-send-email-wangnan0-hv44wF8Li93QT0dZR+AlfA@public.gmane.org)
++This allows pausing and resuming the event's ring-buffer. A
++paused ring-buffer does not prevent samples generation, but simply
++discards them. The discarded samples are considered lost, causes
++.BR PERF_RECORD_LOST
++to be generated when possible.
++
++The argument is an integer. Nonzero value pauses the ring-buffer,
++zero value resumes the ring-buffer.
+ .SS Using prctl
+ A process can enable or disable all the event groups that are
+ attached to it using the
+-- 
+1.8.3.4
 
-Disk events commonly cause delays around the half-second mark.  I
-haven't gone through the code yet to see what the actual limits are.
-Half a second might already be too long for some realtime
-applications.
-
-J=F6rn
-
---
-When I am working on a problem I never think about beauty.  I think
-only how to solve the problem.  But when I have finished, if the
-solution is not beautiful, I know it is wrong.
--- R. Buckminster Fuller
 --
 To unsubscribe from this list: send the line "unsubscribe linux-man" in
 the body of a message to majordomo-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
