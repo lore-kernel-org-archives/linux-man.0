@@ -1,58 +1,51 @@
-From: "Michael Kerrisk (man-pages)" <mtk.manpages-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org>
-Subject: Re: ptrace(2): wrong kernel version for PTRACE_SEIZE and others
-Date: Mon, 28 Mar 2016 17:38:31 +1300
-Message-ID: <CAKgNAkiTcaHAcTkj84-uUYq=6cqz+CTW+msxxPQ2B0Cbd==XxA@mail.gmail.com>
-References: <CACh33FrJRvC-ZQkBD2DZjW-YYnqNY5iCu_DtB8x+Jz_w80tMPg@mail.gmail.com>
- <20160322111629.GA13320@altlinux.org> <CAKgNAkg-MfedjbfFqjP7OjXuyN_akats1GJpZPfRk68TgEh8Fg@mail.gmail.com>
- <20160328043019.GW6588@vapier.lan>
-Reply-To: mtk.manpages-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org
+From: =?iso-8859-1?Q?J=F6rn?= Engel <joern-BHEL68pLQRGGvPXPguhicg@public.gmane.org>
+Subject: Re: open(2) manpage and O_NONBLOCK
+Date: Sun, 27 Mar 2016 22:04:50 -0700
+Message-ID: <20160328050450.GA27411@cork>
+References: <20160321202347.GG1612@cork>
+ <CAKgNAkiLsw5c_Q+EknRijgeJGNvQ_R6HxdgA=YhBgcXsbv+mpQ@mail.gmail.com>
+ <20160328040845.GT17997@ZenIV.linux.org.uk>
 Mime-Version: 1.0
-Content-Type: text/plain; charset=UTF-8
+Content-Type: text/plain; charset=iso-8859-1
+Content-Transfer-Encoding: QUOTED-PRINTABLE
 Return-path: <linux-man-owner-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>
-In-Reply-To: <20160328043019.GW6588-UgUKS2FnFs9+urZeOPWqwQ@public.gmane.org>
+Content-Disposition: inline
+In-Reply-To: <20160328040845.GT17997-3bDd1+5oDREiFSDQTTA3OLVCufUGDwFn@public.gmane.org>
 Sender: linux-man-owner-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
-To: "Michael Kerrisk (man-pages)" <mtk.manpages-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org>, "Dmitry V. Levin" <ldv-u2l5PoMzF/Vg9hUCZPvPmw@public.gmane.org>, Patrick Donnelly <batrick-dP08NitdTj1Wk0Htik3J/w@public.gmane.org>, linux-man <linux-man-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>, Mike Frysinger <vapier-aBrp7R+bbdUdnm+yROfE0A@public.gmane.org>
+To: Al Viro <viro-3bDd1+5oDREiFSDQTTA3OLVCufUGDwFn@public.gmane.org>
+Cc: "Michael Kerrisk (man-pages)" <mtk.manpages-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org>, linux-man <linux-man-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>, "linux-fsdevel-u79uwXL29TY76Z2rM5mHXA@public.gmane.org" <linux-fsdevel-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>
 List-Id: linux-man@vger.kernel.org
 
-Hi Mike,
+On Mon, Mar 28, 2016 at 05:08:45AM +0100, Al Viro wrote:
+> On Mon, Mar 28, 2016 at 04:58:33PM +1300, Michael Kerrisk (man-pages)=
+ wrote:
+> > > blocking memory allocation:
+> > >         f =3D kmem_cache_zalloc(filp_cachep, GFP_KERNEL);
+> >=20
+> > For how long might this block, though?
+>=20
+> Not much, usually.  Finding the file, though, can bloody well take a =
+_long_
+> time - put it behind an automount from a slow server and we might be =
+easily
+> talking about minutes, if not longer.
 
-On 28 March 2016 at 17:30, Mike Frysinger <vapier-aBrp7R+bbdUdnm+yROfE0A@public.gmane.org> wrote:
-> On 28 Mar 2016 16:55, Michael Kerrisk (man-pages) wrote:
->> On 23 March 2016 at 00:16, Dmitry V. Levin <ldv-u2l5PoMzF/Vg9hUCZPvPmw@public.gmane.org> wrote:
->> > On Fri, Mar 18, 2016 at 05:21:28PM -0400, Patrick Donnelly wrote:
->> >> The ptrace(2) man page says that PTRACE_SEIZE, PTRACE_LISTEN, and
->> >> PTRACE_INTERRUPT was introduced in Linux 3.4. In fact, this was added
->> >> in 3.1:
->> >>
->> >> $ git diff v3.0 v3.1 include/linux/ptrace.h | grep SEIZE
->> >> +#define PTRACE_SEIZE           0x4206
->> >> +/* flags in @data for PTRACE_SEIZE */
->> >> +#define PTRACE_SEIZE_DEVEL     0x80000000 /* temp flag for development */
->> >
->> > Yes, PTRACE_SEIZE was introduced by commit v3.1-rc1~308^2~28, but
->> > it had to be used along with a temporary flag PTRACE_SEIZE_DEVEL,
->> > which was removed later by commit v3.4-rc1~109^2~20.
->> >
->> > That is, between v3.0 and v3.4 we had a test mode of PTRACE_SEIZE API,
->> > which was not compatible with the current PTRACE_SEIZE API introduced
->> > in Linux 3.4.
->>
->> So, it sounds like the page is good as it stands, right?
->
-> if the commented source has these details, then yes.  otherwise, might
-> be good to stash them in the commented block.
+Another example that bit me in the past is scsi devices checking for
+media presence.  If any part of your storage stack drops the cdb, you
+have to wait for a scsi timeout, usually 30s.
 
-Yes, that seems a wise idea. Done.
+Disk events commonly cause delays around the half-second mark.  I
+haven't gone through the code yet to see what the actual limits are.
+Half a second might already be too long for some realtime
+applications.
 
-Cheers,
+J=F6rn
 
-Michael
-
-
--- 
-Michael Kerrisk
-Linux man-pages maintainer; http://www.kernel.org/doc/man-pages/
-Linux/UNIX System Programming Training: http://man7.org/training/
+--
+When I am working on a problem I never think about beauty.  I think
+only how to solve the problem.  But when I have finished, if the
+solution is not beautiful, I know it is wrong.
+-- R. Buckminster Fuller
 --
 To unsubscribe from this list: send the line "unsubscribe linux-man" in
 the body of a message to majordomo-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
