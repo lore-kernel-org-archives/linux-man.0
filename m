@@ -1,30 +1,39 @@
-From: AKINWUMI <urr-/Yhyw5NYHaO8M6O89LB0+IOsJ71xGSVV@public.gmane.org>
-Subject: FROM: MR. OLIVER SENO!!
-Date: Fri, 8 Apr 2016 11:53:03 -0700
-Message-ID: <BY2PR17MB04889866242B40184364F9D3D0910@BY2PR17MB0488.namprd17.prod.outlook.com>
-Reply-To: <officeosenol-/E1597aS9LQAvxtiuMwx3w@public.gmane.org>
+From: Alexander Miller <alex.miller-Mmb7MZpHnFY@public.gmane.org>
+Subject: [PATCH 1/2] elf.5: wfix
+Date: Sat, 9 Apr 2016 03:14:17 +0200
+Message-ID: <20160409031417.398e3a85.alex.miller@gmx.de>
 Mime-Version: 1.0
 Content-Type: text/plain; charset=US-ASCII
-Content-Transfer-Encoding: 7BIT
+Content-Transfer-Encoding: 7bit
 Return-path: <linux-man-owner-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>
-Content-Description: Mail message body
 Sender: linux-man-owner-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
-To: Recipients <urr-/Yhyw5NYHaO8M6O89LB0+IOsJ71xGSVV@public.gmane.org>
+To: mtk.manpages-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org
+Cc: linux-man-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
 List-Id: linux-man@vger.kernel.org
 
-Dear Sir.
+Restore "before" deleted in 9c08fc7d47913501acfc18e0035e08b31e0a7cd9
 
-I bring you greetings. My name is Mr.Oliver Seno Lim, I am a staff of Abbey National Plc. London and heading our regional office in West Africa. Our late customer named Engr.Ben W.westland, made a fixed deposit amount of US$7Million.He did not declare any next of kin in any of his paper work, I want you as a foreigner to stand as the beneficiary to transfer this funds out of my bank into your account, after the successful transfer, we shall share in the ratio of 30% for you, 70%for me. Should you be interested please send me your information:
+Signed-off-by: Alexander Miller <alex.miller-Mmb7MZpHnFY@public.gmane.org>
+---
+ man5/elf.5 | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
 
-1,Full names.
-2,current residential address.
-3,Tele/Fax numbers./your work.
- 
-   
-All I need from you is your readiness, trustworthiness and edication. Please email me directly on my private email address: officeosenol-/E1597aS9LQAvxtiuMwx3w@public.gmane.org) so we can begin arrangements and I would give you more information on how we would handle this venture and once i hear from you i will give you information of the bank for the transferring funds on your name.
+diff --git a/man5/elf.5 b/man5/elf.5
+index af9af8a..3a02757 100644
+--- a/man5/elf.5
++++ b/man5/elf.5
+@@ -1767,7 +1767,7 @@ apply to a nonwritable segment
+ Address of relocation entries associated solely with the PLT
+ .TP
+ .BR DT_BIND_NOW
+-Instruct dynamic linker to process all relocations
++Instruct dynamic linker to process all relocations before
+ transferring control to the executable
+ .TP
+ .BR DT_RUNPATH
+-- 
+2.7.3
 
-Regards,
-Mr.Oliver Seno Lim 
 --
 To unsubscribe from this list: send the line "unsubscribe linux-man" in
 the body of a message to majordomo-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
