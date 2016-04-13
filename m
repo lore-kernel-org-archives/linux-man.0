@@ -1,7 +1,8 @@
 From: Alexander Miller <alex.miller-Mmb7MZpHnFY@public.gmane.org>
-Subject: [PATCH 3/4] Makefile: wsfix (trailing space)
-Date: Thu, 14 Apr 2016 01:17:42 +0200
-Message-ID: <20160414011742.367b3b00.alex.miller@gmx.de>
+Subject: [PATCH 4/4] Makefile: Remove line continuation at end of "install"
+ recipe
+Date: Thu, 14 Apr 2016 01:18:24 +0200
+Message-ID: <20160414011824.11e3fc6e.alex.miller@gmx.de>
 References: <20160414010434.1a7bdcfc.alex.miller@gmx.de>
 Mime-Version: 1.0
 Content-Type: text/plain; charset=US-ASCII
@@ -19,18 +20,18 @@ Signed-off-by: Alexander Miller <alex.miller-Mmb7MZpHnFY@public.gmane.org>
  1 file changed, 1 insertion(+), 1 deletion(-)
 
 diff --git a/Makefile b/Makefile
-index 6531641..1b64974 100644
+index 1b64974..61a1164 100644
 --- a/Makefile
 +++ b/Makefile
-@@ -62,7 +62,7 @@ install:
- 	done; \
+@@ -59,7 +59,7 @@ install:
+ 	for i in man?; do \
+ 		install -d -m 755 $(DESTDIR)$(MANDIR)/"$$i" || exit $$?; \
+ 		install -m 644 "$$i"/* $(DESTDIR)$(MANDIR)/"$$i" || exit $$?; \
+-	done; \
++	done
  
  # Check if groff reports warnings (may be words of sentences not displayed)
--# from http://lintian.debian.org/tags/manpage-has-errors-from-man.html 
-+# from http://lintian.debian.org/tags/manpage-has-errors-from-man.html
- check-groff-warnings:
- 	GROFF_LOG=$$(mktemp --tmpdir manpages-checksXXXX) || exit $$?; \
- 	for i in man?/*.[1-9]; \
+ # from http://lintian.debian.org/tags/manpage-has-errors-from-man.html
 -- 
 2.7.3
 
