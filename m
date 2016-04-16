@@ -1,69 +1,65 @@
-From: Alexander Miller <alex.miller-Mmb7MZpHnFY@public.gmane.org>
-Subject: [PATCH 6/7] Makefile: Avoid compressing very small files in
- gz/bz2/xz targets
-Date: Sat, 16 Apr 2016 03:09:03 +0200
-Message-ID: <20160416030903.624571b1.alex.miller@gmx.de>
+From: Mike Frysinger <vapier-aBrp7R+bbdUdnm+yROfE0A@public.gmane.org>
+Subject: Re: [PATCH 0/7] Improve support for compressed man pages
+Date: Sat, 16 Apr 2016 00:50:58 -0400
+Message-ID: <20160416045058.GS6588@vapier.lan>
 References: <20160416022503.1df762cb.alex.miller@gmx.de>
 Mime-Version: 1.0
-Content-Type: text/plain; charset=US-ASCII
-Content-Transfer-Encoding: 7bit
+Content-Type: multipart/signed; micalg=pgp-sha256;
+	protocol="application/pgp-signature"; boundary="KKauK+tA+COOvO64"
 Return-path: <linux-man-owner-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>
+Content-Disposition: inline
 In-Reply-To: <20160416022503.1df762cb.alex.miller-Mmb7MZpHnFY@public.gmane.org>
 Sender: linux-man-owner-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
-To: mtk.manpages-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org
-Cc: linux-man-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
+To: Alexander Miller <alex.miller-Mmb7MZpHnFY@public.gmane.org>
+Cc: mtk.manpages-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org, linux-man-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
 List-Id: linux-man@vger.kernel.org
 
-Compressing very small files has only disadvantages. There is
-the overhead of running a decompressor, and because of the
-added file headers they become even bigger.
 
-Since the scan and uninstall targets now properly handle
-mixing compressed and uncompressed files, it becomes possible
-to avoid compression where it's not beneficial.
+--KKauK+tA+COOvO64
+Content-Type: text/plain; charset=utf-8
+Content-Disposition: inline
 
-Signed-off-by: Alexander Miller <alex.miller-Mmb7MZpHnFY@public.gmane.org>
----
-If you want to support this feature but disable it by default,
-you can set NOCOMPRESS_SIZE=0.
----
- Makefile | 7 ++++---
- 1 file changed, 4 insertions(+), 3 deletions(-)
+On 16 Apr 2016 02:25, Alexander Miller wrote:
+> when I looked at the Makefile I noticed it has incomplete compression
+> support. Most notably the screen and uninstall targets didn't support
+> switching to a different compression type. More precisely, uninstall
+> supported only switching from gz or bz2 (but not xz) to uncompressed.
+> The screen target had no explicit compression support and when it
+> worked for compressed files it was pure luck.
+> The patches 2 and 3 provide new recipes for both targets that can
+> handle any combination of the supported compression types. Any file,
+> installed or source, may be uncompressed or compressed with any of
+> gz, bz2, or xz. Whether you compress before or after screen and uninstall
+> doesn't matter any more.
 
-diff --git a/Makefile b/Makefile
-index 86b1568..2c5719c 100644
---- a/Makefile
-+++ b/Makefile
-@@ -10,6 +10,7 @@ MANDIR=$(prefix)/share/man
- GZIP=gzip -9
- BZIP2=bzip2 -9
- LZMA=xz --lzma2=dict=1M,pb=0
-+NOCOMPRESS_SIZE=256
- 
- all: screen remove install
- 
-@@ -53,15 +54,15 @@ uninstall remove:
- 
- gz:
- 	find man? -mindepth 1 -maxdepth 1 -name '*.[gx]z' -o -name '*.bz2' \
--		-o -exec $(GZIP) '{}' +
-+		-o -size +$(NOCOMPRESS_SIZE)c -exec $(GZIP) '{}' +
- 
- bz2:
- 	find man? -mindepth 1 -maxdepth 1 -name '*.[gx]z' -o -name '*.bz2' \
--		-o -exec $(BZIP2) '{}' +
-+		-o -size +$(NOCOMPRESS_SIZE)c -exec $(BZIP2) '{}' +
- 
- xz:
- 	find man? -mindepth 1 -maxdepth 1 -name '*.[gx]z' -o -name '*.bz2' \
--		-o -exec $(LZMA) '{}' +
-+		-o -size +$(NOCOMPRESS_SIZE)c -exec $(LZMA) '{}' +
- 
- uncompress:
- 	find man? -name '*.gz' -exec gunzip '{}' + \
--- 
-2.7.3
+imo, we should just drop all compression support.  distros already
+handle this properly and pick whatever they want/need.  if no one
+is using this code, then it's just sucking up space.
+-mike
 
+--KKauK+tA+COOvO64
+Content-Type: application/pgp-signature; name="signature.asc"
+Content-Description: Digital signature
+
+-----BEGIN PGP SIGNATURE-----
+Version: GnuPG v2
+
+iQIcBAEBCAAGBQJXEcSyAAoJEEFjO5/oN/WBhu4P/3aeLt7lwKW4gRKKpH8NnpCQ
+WWzoiZ1wyMQr18ud7g1voYBoDg/MNlgYIHf9VY6SF85apbcnIjTccLNhZmZeJ9Vk
+bLZrEeeuDQ5llctbPL86x2NcnxAMOt4/kAwqVNkrWECJdPpSPKzLJjYNNGIEHTo7
+82mR29SQjSDZPgXQ6K4aRVsWjrzHv7Bq5cgdDGnK3mZ0lEcn/Ub2C44gJD6PU3iE
++QrzqPAH6GE4b6rlCN9tUWxTszma2mcwLEqy63UU0hP+s3/2dPNv7/TUE2zUJrfn
+hzQD7tWII3a+rgbt5dH48p8IAUdXn/QM8LKkelAkBNV2gMg0JNPWKrdgX06qB7P7
+k/aadtW2Q199LsHpcT/5g+u5qpJ9xkz035nVNCp3kQuN93oNAogkGkUseoC49NHQ
+L3R9Fcm+WMr7n+ohfP9YVeYXLDDrj6bK4dHUqH01VKzmj5FbbNAyfm9FY5KIkaqU
+MLC1V0fTvd6SlPOyuR3P/ZS1HH3dmq3XT5dN8m0/3/6rInWvdcfek6C90Azl6vrw
+69j6o3IQ3bmB4Je1rGZ34fVsHDZCPTIuH9uDgX0bZfT4u7+JXRipYO0eB2I9nrfR
++aTmn1YOxIxUVkow7SOb8ACOD36FWuKX3U9oQMZ8AuzuUBg27l+o6u+vebso7bVC
+1oA4pt9ZwEZC4z/CihBI
+=RpLR
+-----END PGP SIGNATURE-----
+
+--KKauK+tA+COOvO64--
 --
 To unsubscribe from this list: send the line "unsubscribe linux-man" in
 the body of a message to majordomo-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
