@@ -1,8 +1,7 @@
 From: Alexander Miller <alex.miller-Mmb7MZpHnFY@public.gmane.org>
-Subject: [PATCH 4/7] Makefile: Skip already compressed files in gz/bz2/xz
- targets
-Date: Sat, 16 Apr 2016 03:01:41 +0200
-Message-ID: <20160416030141.505ec75c.alex.miller@gmx.de>
+Subject: [PATCH 7/7] Makefile: Mention xz in the instructive comment at top
+Date: Sat, 16 Apr 2016 03:09:36 +0200
+Message-ID: <20160416030936.3a28fcc6.alex.miller@gmx.de>
 References: <20160416022503.1df762cb.alex.miller@gmx.de>
 Mime-Version: 1.0
 Content-Type: text/plain; charset=US-ASCII
@@ -16,33 +15,23 @@ List-Id: linux-man@vger.kernel.org
 
 Signed-off-by: Alexander Miller <alex.miller-Mmb7MZpHnFY@public.gmane.org>
 ---
- Makefile | 9 ++++++---
- 1 file changed, 6 insertions(+), 3 deletions(-)
+ Makefile | 3 ++-
+ 1 file changed, 2 insertions(+), 1 deletion(-)
 
 diff --git a/Makefile b/Makefile
-index 8f2e25c..cdedb4a 100644
+index 2c5719c..2c4aa6a 100644
 --- a/Makefile
 +++ b/Makefile
-@@ -52,13 +52,16 @@ uninstall remove:
- 		(cd $(MANDIR) && xargs -d \\n rm -f)
+@@ -1,7 +1,8 @@
+ # Do "make screen" first, if you want to protect already installed,
+ # more up-to-date manual pages than the ones included in this package.
+ # Do "make install" to copy the pages to their destination.
+-# Do "make gz" or "make bz2" first if you use compressed source pages.
++# Do "make gz", "make bz2", or "make xz" first if you use compressed
++# source pages.
  
- gz:
--	for i in man?; do $(GZIP) "$$i"/*; done
-+	find man? -mindepth 1 -maxdepth 1 -name '*.[gx]z' -o -name '*.bz2' \
-+		-o -exec $(GZIP) '{}' +
- 
- bz2:
--	for i in man?; do $(BZIP2) "$$i"/*; done
-+	find man? -mindepth 1 -maxdepth 1 -name '*.[gx]z' -o -name '*.bz2' \
-+		-o -exec $(BZIP2) '{}' +
- 
- xz:
--	for i in man?; do $(LZMA) "$$i"/*; done
-+	find man? -mindepth 1 -maxdepth 1 -name '*.[gx]z' -o -name '*.bz2' \
-+		-o -exec $(LZMA) '{}' +
- 
- # Use with
- #  make HTDIR=/some/dir HTOPTS=whatever html
+ DESTDIR=
+ prefix?=/usr
 -- 
 2.7.3
 
