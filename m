@@ -1,7 +1,7 @@
 From: Alexander Miller <alex.miller-Mmb7MZpHnFY@public.gmane.org>
-Subject: [PATCH 7/7] Makefile: Mention xz in the instructive comment at top
-Date: Sat, 16 Apr 2016 03:09:36 +0200
-Message-ID: <20160416030936.3a28fcc6.alex.miller@gmx.de>
+Subject: [PATCH 3/7] Makefile: Support compressed files for screen target
+Date: Sat, 16 Apr 2016 02:59:45 +0200
+Message-ID: <20160416025945.70bcdd4e.alex.miller@gmx.de>
 References: <20160416022503.1df762cb.alex.miller@gmx.de>
 Mime-Version: 1.0
 Content-Type: text/plain; charset=US-ASCII
@@ -13,25 +13,59 @@ To: mtk.manpages-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org
 Cc: linux-man-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
 List-Id: linux-man@vger.kernel.org
 
+Now, make screen supports (optional, possibly different) compression
+of the sources and installed man pages. Thus, allgz/allbz2/allxz/all
+targets should update correctly even when switching compression types.
+
 Signed-off-by: Alexander Miller <alex.miller-Mmb7MZpHnFY@public.gmane.org>
 ---
- Makefile | 3 ++-
- 1 file changed, 2 insertions(+), 1 deletion(-)
+The formatting of the script is a bit unusual, but I wanted to keep
+it compact and I think it's still readable. Feel free to add more
+line breaks to the if blocks or use longer variable names if you
+don't like it.
+---
+ Makefile | 28 +++++++++++++++++++++++-----
+ 1 file changed, 23 insertions(+), 5 deletions(-)
 
 diff --git a/Makefile b/Makefile
-index 2c5719c..2c4aa6a 100644
+index a14078c..8f2e25c 100644
 --- a/Makefile
 +++ b/Makefile
-@@ -1,7 +1,8 @@
- # Do "make screen" first, if you want to protect already installed,
- # more up-to-date manual pages than the ones included in this package.
- # Do "make install" to copy the pages to their destination.
--# Do "make gz" or "make bz2" first if you use compressed source pages.
-+# Do "make gz", "make bz2", or "make xz" first if you use compressed
-+# source pages.
+@@ -22,11 +22,29 @@ allxz: xz all
+ screen:
+ 	mkdir -p not_installed
+ 	for i in man?/*; do \
+-		if [ $(MANDIR)/"$$i" -nt "$$i" ]; then \
+-			cmp -s $(MANDIR)/"$$i" "$$i" > /dev/null 2>&1; \
+-			if [ "$$?" != 0 ]; then mv "$$i" not_installed; fi; \
+-		fi; \
+-	done
++		if b="$${i%.bz2}" && [ "$$b".bz2 = "$$i" ]; then c1=bunzip2; \
++		elif b="$${i%.gz}" && [ "$$b".gz = "$$i" ]; then c1=gunzip; \
++		elif b="$${i%.xz}" && [ "$$b".xz = "$$i" ]; then c1=unxz; \
++		else b="$$i"; c1=; fi; \
++		b=$(MANDIR)/"$$b"; \
++		if [ "$$b" -nt "$$i" ]; then c2=; \
++		elif [ "$$b".bz2 -nt "$$i" ]; then c2=bunzip2; b="$$b.bz2"; \
++		elif [ "$$b".gz -nt "$$i" ]; then c2=gunzip; b="$$b.gz"; \
++		elif [ "$$b".xz -nt "$$i" ]; then c2=unxz; b="$$b.xz"; \
++		else continue; fi; \
++		if [ -z "$$c1$$c2" ]; then \
++			cmp -s "$$i" "$$b"; \
++		elif [ -z "$$c1" ]; then \
++			$$c2 -c "$$b" | cmp -s "$$i" -; \
++		elif [ -z "$$c2" ]; then \
++			$$c1 -c "$$i" | cmp -s - "$$b"; \
++		else \
++			[ "$$c1" = "$$c2" ] && cmp -s "$$i" "$$b" || \
++			$$c1 -c "$$i" | { $$c2 -c "$$b" | \
++				cmp -s /dev/fd/3 -; } 3<&0; \
++		fi || mv "$$i" not_installed; \
++	done; \
++	rmdir not_installed 2> /dev/null; true
  
- DESTDIR=
- prefix?=/usr
+ uninstall remove:
+ 	find man? -mindepth 1 -maxdepth 1 -print | \
 -- 
 2.7.3
 
