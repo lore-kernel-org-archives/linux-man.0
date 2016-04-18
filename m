@@ -1,40 +1,78 @@
-From: Alexander Miller <alex.miller-Mmb7MZpHnFY@public.gmane.org>
-Subject: Re: [PATCH 0/7] Improve support for compressed man pages
-Date: Sat, 16 Apr 2016 18:30:13 +0200
-Message-ID: <20160416183013.352f4ba6.alex.miller@gmx.de>
-References: <20160416022503.1df762cb.alex.miller@gmx.de>
- <20160416045058.GS6588@vapier.lan>
+From: Marko Myllynen <myllynen-H+wXaHxf7aLQT0dZR+AlfA@public.gmane.org>
+Subject: locale.5: update LC_ADDRESS after glibc change
+Date: Mon, 18 Apr 2016 10:06:59 +0300
+Message-ID: <57148793.5090400@redhat.com>
+Reply-To: Marko Myllynen <myllynen-H+wXaHxf7aLQT0dZR+AlfA@public.gmane.org>
 Mime-Version: 1.0
-Content-Type: text/plain; charset=US-ASCII
+Content-Type: text/plain; charset=utf-8
 Content-Transfer-Encoding: 7bit
 Return-path: <linux-man-owner-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>
-In-Reply-To: <20160416045058.GS6588-UgUKS2FnFs9+urZeOPWqwQ@public.gmane.org>
 Sender: linux-man-owner-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
-To: Mike Frysinger <vapier-aBrp7R+bbdUdnm+yROfE0A@public.gmane.org>
-Cc: linux-man-u79uwXL29TY76Z2rM5mHXA@public.gmane.org, mtk.manpages-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org
+To: "Michael Kerrisk (man-pages)" <mtk.manpages-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org>
+Cc: linux-man <linux-man-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>, Mike Frysinger <vapier-aBrp7R+bbdUdnm+yROfE0A@public.gmane.org>
 List-Id: linux-man@vger.kernel.org
 
-On Sat, 16 Apr 2016 00:50:58 -0400
-Mike Frysinger <vapier-aBrp7R+bbdUdnm+yROfE0A@public.gmane.org> wrote:
+Hi Michael,
 
-> imo, we should just drop all compression support.  distros already
-> handle this properly and pick whatever they want/need.
+This patch updates locale.5 to match the recent glibc change:
 
-For distros this is useless, of course. I've never used it either.
-But I guess there are still people installing stuff from sources
-without using a package manager, and they might find it convenient.
+https://sourceware.org/git/?p=glibc.git;a=commitdiff;h=a837257199ffab76237385b830cc7b6179fc2f18
 
->  if no one
-> is using this code, then it's just sucking up space.
+---
+ man5/locale.5 | 27 +++++++++------------------
+ 1 file changed, 9 insertions(+), 18 deletions(-)
 
-I'm not concerned about the space, but code needs to be maintained.
-IMO, as long as it works, we can keep it; if it has issues we'd
-better remove it.
+diff --git a/man5/locale.5 b/man5/locale.5
+index 6aa8b9f..da46ef7 100644
+--- a/man5/locale.5
++++ b/man5/locale.5
+@@ -127,18 +127,13 @@ The following keywords are allowed:
+ followed by a string containing field descriptors that define
+ the format used for postal addresses in the locale.
+ The following field descriptors are recognized:
+-.\" From localedata/locales/uk_UA:
+ .RS
+-.\" .TP
+-.\" %n
+-.\" 	BUG: %l escape sequence from ISO/IEC 14652:2002 is not supported
+-.\"	by glibc
+-.\" Person's name, possibly constructed with the
+-.\" .B LC_NAME
+-.\" .I name_fmt
+-.\" keyword.
+-.\"
+-.\" https://sourceware.org/bugzilla/show_bug.cgi?id=16983
++.TP
++%n
++Person's name, possibly constructed with the
++.B LC_NAME
++.I name_fmt
++keyword (since glibc 2.24).
+ .TP 4
+ %a
+ Care of person, or organization.
+@@ -174,13 +169,9 @@ Floor number.
+ .TP
+ %C
+ Country designation, from the <country_post> keyword.
+-.\" .TP
+-.\" %l
+-.\"	 BUG: %l escape sequence from ISO/IEC 14652:2002 is not
+-.\"	supported by glibc
+-.\" Local township within town or city.
+-.\"
+-.\" https://sourceware.org/bugzilla/show_bug.cgi?id=16983
++.TP
++%l
++Local township within town or city (since glibc 2.24).
+ .TP
+ %z
+ Zip number, postal code.
 
-We can drop compression support or do it right - I'm fine with
-either option. We shouldn't keep the status quo, though.
+Thanks,
 
-Alex
+-- 
+Marko Myllynen
 --
 To unsubscribe from this list: send the line "unsubscribe linux-man" in
 the body of a message to majordomo-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
