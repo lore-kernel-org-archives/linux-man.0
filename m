@@ -1,36 +1,25 @@
-From: Alexander Miller <alex.miller-Mmb7MZpHnFY@public.gmane.org>
-Subject: Re: [PATCH] Makefile: Drop compression support and screen target
-Date: Mon, 18 Apr 2016 21:45:44 +0200
-Message-ID: <20160418214544.0fddf8ee.alex.miller@gmx.de>
-References: <20160418183024.GX5369@vapier.lan>
-	<20160418212955.498ce1dd.alex.miller@gmx.de>
+From: andreas122-Ko4HvKsVEdMwu+U/h7MTDQ@public.gmane.org
+Subject: Greetings!!!
+Date: Mon, 18 Apr 2016 21:12:16 +0100
+Message-ID: <828729.35773.qm__22125.424250453$1461010821$gmane$org@smtp105.biz.mail.ne1.yahoo.com>
+Reply-To: J_ericdaniels111-1ViLX0X+lBJBDgjK7y7TUQ@public.gmane.org
 Mime-Version: 1.0
-Content-Type: text/plain; charset=US-ASCII
-Content-Transfer-Encoding: 7bit
+Content-Type: text/plain; charset=utf-8
+Content-Transfer-Encoding: QUOTED-PRINTABLE
 Return-path: <linux-man-owner-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>
-In-Reply-To: <20160418212955.498ce1dd.alex.miller-Mmb7MZpHnFY@public.gmane.org>
+Content-Description: Mail message body
 Sender: linux-man-owner-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
-To: mtk.manpages-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org, Mike Frysinger <vapier-aBrp7R+bbdUdnm+yROfE0A@public.gmane.org>
-Cc: linux-man-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
+To: "Mr. Eric" <andreas122-Ko4HvKsVEdMwu+U/h7MTDQ@public.gmane.org>
 List-Id: linux-man@vger.kernel.org
 
-Fixup.
----
-Sorry, I messed it up.
-I forgot to delete the part of the initial comment mentioning screen.
-please append this to the previous patch and apply them together.
----
-diff --git a/Makefile b/Makefile
-index eef45ef..f494e8f 100644
---- a/Makefile
-+++ b/Makefile
-@@ -1,5 +1,3 @@
--# Do "make screen" first, if you want to protect already installed,
--# more up-to-date manual pages than the ones included in this package.
- # Do "make install" to copy the pages to their destination.
- 
- DESTDIR=
--- 
+Hi, how are you? My name is J Eric Denials, External Financial Auditor =
+at Lloyds Banking Group plc., London. It is a pleasure to contact you a=
+t this time through this medium. I have a cool and legitimate deal to d=
+o with you as you're a foreigner, it will be mutually beneficial to bot=
+h. If you=E2=80=99re interested, urgently, get back to me for more expl=
+anation about the deal.
+Regards
+Eric
 --
 To unsubscribe from this list: send the line "unsubscribe linux-man" in
 the body of a message to majordomo-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
