@@ -1,47 +1,38 @@
 From: "Michael Kerrisk (man-pages)" <mtk.manpages-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org>
-Subject: Re: [PATCH 2/2] elf.5: wfix
-Date: Mon, 18 Apr 2016 14:04:52 +0100
-Message-ID: <5714DB74.1040902@gmail.com>
-References: <20160409031417.398e3a85.alex.miller@gmx.de>
- <20160409031745.11d94c02.alex.miller@gmx.de>
+Subject: Re: [PATCHv2] vdso.7: update for MIPS
+Date: Mon, 18 Apr 2016 14:15:41 +0100
+Message-ID: <5714DDFD.1080800@gmail.com>
+References: <20160406190137.GH6588@vapier.lan>
+ <1460448781-42861-1-git-send-email-Zubair.Kakakhel@imgtec.com>
+ <20160413020828.GD6588@vapier.lan>
 Mime-Version: 1.0
-Content-Type: text/plain; charset=windows-1252
+Content-Type: text/plain; charset=utf-8
 Content-Transfer-Encoding: 7bit
 Return-path: <linux-man-owner-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>
-In-Reply-To: <20160409031745.11d94c02.alex.miller-Mmb7MZpHnFY@public.gmane.org>
+In-Reply-To: <20160413020828.GD6588-UgUKS2FnFs9+urZeOPWqwQ@public.gmane.org>
 Sender: linux-man-owner-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
-To: Alexander Miller <alex.miller-Mmb7MZpHnFY@public.gmane.org>
-Cc: mtk.manpages-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org, linux-man-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
+To: Zubair Lutfullah Kakakhel <Zubair.Kakakhel-1AXoQHu6uovQT0dZR+AlfA@public.gmane.org>, linux-man-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
+Cc: mtk.manpages-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org
 List-Id: linux-man@vger.kernel.org
 
-On 04/09/2016 02:17 AM, Alexander Miller wrote:
-> Signed-off-by: Alexander Miller <alex.miller-Mmb7MZpHnFY@public.gmane.org>
+On 04/13/2016 03:08 AM, Mike Frysinger wrote:
+> On 12 Apr 2016 09:13, Zubair Lutfullah Kakakhel wrote:
+>> +__kernel_rt_sigreturn	LINUX_2.6 (exported since Linux 4.4)
+>> +__kernel_sigreturn	LINUX_2.6 (exported since Linux 4.4)
+> 
+> are these actually exported ?  looking at vdso.lds.S, only the other two
+> are.  my question previously was more about the kernel behavior than it
+> was about the docs being incorrect.  your v1 looks fine to merge now (as
+> the 4.4 release is already out the door).
+> -mike
 
-Thanks, Alex. Applied.
+Thanks for noting this Mike.
+
+Zubair, I've applied the v1 of your patch.
 
 Cheers,
 
 Michael
-
-
-> ---
->  man5/elf.5 | 2 +-
->  1 file changed, 1 insertion(+), 1 deletion(-)
-> 
-> diff --git a/man5/elf.5 b/man5/elf.5
-> index 3a02757..6cc4898 100644
-> --- a/man5/elf.5
-> +++ b/man5/elf.5
-> @@ -1450,7 +1450,7 @@ which holds character representations of the symbol names.
->  If the value
->  is nonzero, it represents a string table index that gives the symbol
->  name.
-> -Otherwise, the symbol table has no name.
-> +Otherwise, the symbol has no name.
->  .TP
->  .IR st_value
->  This member gives the value of the associated symbol.
-> 
 
 
 -- 
