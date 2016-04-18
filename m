@@ -1,38 +1,46 @@
 From: "Michael Kerrisk (man-pages)" <mtk.manpages-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org>
-Subject: Re: [PATCHv2] vdso.7: update for MIPS
-Date: Mon, 18 Apr 2016 14:15:41 +0100
-Message-ID: <5714DDFD.1080800@gmail.com>
-References: <20160406190137.GH6588@vapier.lan>
- <1460448781-42861-1-git-send-email-Zubair.Kakakhel@imgtec.com>
- <20160413020828.GD6588@vapier.lan>
+Subject: Re: [PATCH] locale(5): country_car: add a better description
+Date: Mon, 18 Apr 2016 14:59:27 +0100
+Message-ID: <5714E83F.1050407@gmail.com>
+References: <1460513138-16422-1-git-send-email-vapier@gentoo.org>
 Mime-Version: 1.0
-Content-Type: text/plain; charset=utf-8
+Content-Type: text/plain; charset=windows-1252
 Content-Transfer-Encoding: 7bit
 Return-path: <linux-man-owner-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>
-In-Reply-To: <20160413020828.GD6588-UgUKS2FnFs9+urZeOPWqwQ@public.gmane.org>
+In-Reply-To: <1460513138-16422-1-git-send-email-vapier-aBrp7R+bbdUdnm+yROfE0A@public.gmane.org>
 Sender: linux-man-owner-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
-To: Zubair Lutfullah Kakakhel <Zubair.Kakakhel-1AXoQHu6uovQT0dZR+AlfA@public.gmane.org>, linux-man-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
-Cc: mtk.manpages-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org
+To: Mike Frysinger <vapier-aBrp7R+bbdUdnm+yROfE0A@public.gmane.org>
+Cc: mtk.manpages-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org, linux-man-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
 List-Id: linux-man@vger.kernel.org
 
-On 04/13/2016 03:08 AM, Mike Frysinger wrote:
-> On 12 Apr 2016 09:13, Zubair Lutfullah Kakakhel wrote:
->> +__kernel_rt_sigreturn	LINUX_2.6 (exported since Linux 4.4)
->> +__kernel_sigreturn	LINUX_2.6 (exported since Linux 4.4)
-> 
-> are these actually exported ?  looking at vdso.lds.S, only the other two
-> are.  my question previously was more about the kernel behavior than it
-> was about the docs being incorrect.  your v1 looks fine to merge now (as
-> the 4.4 release is already out the door).
-> -mike
+On 04/13/2016 03:05 AM, Mike Frysinger wrote:
+> Signed-off-by: Mike Frysinger <vapier-aBrp7R+bbdUdnm+yROfE0A@public.gmane.org>
 
-Thanks for noting this Mike.
-
-Zubair, I've applied the v1 of your patch.
+Thanks, Mike. Applied.
 
 Cheers,
 
 Michael
+
+
+> ---
+>  man5/locale.5 | 2 +-
+>  1 file changed, 1 insertion(+), 1 deletion(-)
+> 
+> diff --git a/man5/locale.5 b/man5/locale.5
+> index 6aa8b9f..863de47 100644
+> --- a/man5/locale.5
+> +++ b/man5/locale.5
+> @@ -219,7 +219,7 @@ followed by the three-letter abbreviation of the country (ISO 3166).
+>  followed by the numeric country code as plain numbers (ISO 3166).
+>  .TP
+>  .I country_car
+> -followed by the code for the country car number.
+> +followed by the international licence plate country code.
+>  .TP
+>  .I country_isbn
+>  followed by the ISBN code (for books).
+> 
 
 
 -- 
