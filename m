@@ -1,69 +1,62 @@
-From: Mike Frysinger <vapier-aBrp7R+bbdUdnm+yROfE0A@public.gmane.org>
-Subject: Re: [PATCH mtd-utils] include sys/sysmacros.h for major/minor/makedev
-Date: Mon, 18 Apr 2016 12:49:08 -0400
-Message-ID: <20160418164908.GR5369@vapier.lan>
-References: <1460860245-14895-1-git-send-email-vapier@gentoo.org>
- <20160418163926.GB52272@google.com>
+From: Alexander Miller <alex.miller-Mmb7MZpHnFY@public.gmane.org>
+Subject: Re: [PATCH 0/7] Improve support for compressed man pages
+Date: Mon, 18 Apr 2016 19:10:26 +0200
+Message-ID: <20160418191026.7fa8c669.alex.miller@gmx.de>
+References: <20160416022503.1df762cb.alex.miller@gmx.de>
+	<20160416045058.GS6588@vapier.lan>
+	<20160416183013.352f4ba6.alex.miller@gmx.de>
+	<5714D9D2.8050501@gmail.com>
 Mime-Version: 1.0
-Content-Type: multipart/signed; micalg=pgp-sha256;
-	protocol="application/pgp-signature"; boundary="7a4X6VOqfbl9xMrG"
+Content-Type: text/plain; charset=US-ASCII
+Content-Transfer-Encoding: 7bit
 Return-path: <linux-man-owner-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>
-Content-Disposition: inline
-In-Reply-To: <20160418163926.GB52272-hpIqsD4AKlfQT0dZR+AlfA@public.gmane.org>
+In-Reply-To: <5714D9D2.8050501-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org>
 Sender: linux-man-owner-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
-To: Brian Norris <computersforpeace-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org>
-Cc: linux-mtd-IAPFreCvJWM7uuMidbF8XUB+6BGkLq7r@public.gmane.org, Michael Kerrisk <mtk.manpages-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org>, linux-man-u79uwXL29TY76Z2rM5mHXA@public.gmane.org, libc-alpha-9JcytcrH/bA+uJoB2kUjGw@public.gmane.org
+To: "Michael Kerrisk (man-pages)" <mtk.manpages-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org>
+Cc: Mike Frysinger <vapier-aBrp7R+bbdUdnm+yROfE0A@public.gmane.org>, linux-man-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
 List-Id: linux-man@vger.kernel.org
 
+On Mon, 18 Apr 2016 13:57:54 +0100 Michael Kerrisk wrote:
 
---7a4X6VOqfbl9xMrG
-Content-Type: text/plain; charset=utf-8
-Content-Disposition: inline
-Content-Transfer-Encoding: quoted-printable
+> On 04/16/2016 05:30 PM, Alexander Miller wrote:
+> > On Sat, 16 Apr 2016 00:50:58 -0400
+> > Mike Frysinger <vapier-aBrp7R+bbdUdnm+yROfE0A@public.gmane.org> wrote:
+> >   
+> >> imo, we should just drop all compression support.  distros already
+> >> handle this properly and pick whatever they want/need.  
+> > 
+[...]
+> > 
+> > We can drop compression support or do it right - I'm fine with
+> > either option. We shouldn't keep the status quo, though.  
+> 
+> I'm inclined to say drop it. Would you mind putting together a 
+> patch, Alex?
 
-On 18 Apr 2016 09:39, Brian Norris wrote:
-> On Sat, Apr 16, 2016 at 10:30:45PM -0400, Mike Frysinger wrote:
-> > These functions have always been defined in sys/sysmacros.h under
-> > Linux C libraries.  For some, including sys/types.h implicitly
-> > includes that as well, but glibc wants to deprecate that, and some
-> > others already have.  Include the header explicitly for the funcs.
-> >=20
-> > Signed-off-by: Mike Frysinger <vapier-aBrp7R+bbdUdnm+yROfE0A@public.gmane.org>
->=20
-> Patch looks fine to me, thanks. Pushed to mtd-utils.git.
->=20
-> But I don't see this change documented anywhere. (Helpfully, I do see
-> the change from your other patch -- _BSD_SOURCE -> _DEFAULT_SOURCE --
-> documented though!) Should the man-pages project be updated? I see the
-> latest makedev(5) still recommends #include <sys/types.h>.
+I'm not sure what exactly we should do.
+The problem isn't really compressing the files, but the "screen"
+and "uninstall" targets.
 
-glibc hasn't moved forward (yet).  we should update the man pages now
-though to mention sys/sysmacros.h.
--mike
+If we drop support for compressing man pages ourselves, what shall
+we do with those targets? They aren't useful for distros either.
+And they *still* might have to deal with files compressed by the
+distro's package manager (if a user tries to update manually).
+We could
+- drop "screen" and/or "uninstall", too
+  (getting rid of the problem and simplifying the Makefile but
+  being inconvenient for users);
+- fix them to handle man pages compressed by the distro
+  (but not compressed sources, resulting in only slightly simpler
+  patches than those I've posted);
+- or explicitly state "screen" (and maybe "uninstall") don't support
+  compressed files. This is problematic IMO, especially since they
+  are used by "make all". Moreover, "uninstall" can remove .gz/.bz2
+  files but no .xz files right now; this could be changed to include
+  .xz or to exclude .gz/.bz2.
+  
+What do you want me to drop/fix with a new patch?
 
---7a4X6VOqfbl9xMrG
-Content-Type: application/pgp-signature; name="signature.asc"
-Content-Description: Digital signature
-
------BEGIN PGP SIGNATURE-----
-Version: GnuPG v2
-
-iQIcBAEBCAAGBQJXFRAEAAoJEEFjO5/oN/WB0nAP/i/PVPI0n2jp5RuhguMuP0Ap
-vEXT2rP6IWW5xg5fLMcE8fzjII1k+OBXdQAceIgz1Qku660YhWARBMVrH2sBkGpM
-ThH1R2IO8V3dNFd9x4PHz5IoqLlo4vcV5lO55SQmxj3ZrR/M2xsstgqoJUxTh8X8
-mjljSE/c4z/tybDdClgUR4sBbmpz09CpN8TqBN9J8UfVaXjwJ2fbTRuD79n5f6NV
-1bloJz2RDtpYFCfxqr9HYij6PY153l1Ah18zftBp1kauGB2L3VXE5GAEjqjbPpDD
-5s5HJURgAPdiVNuikuB9Jr4QNoAI3Vcb6SA7QoawHjfU5eyvhVrXy+MuFIVM6oJo
-vxmvSmHecWBYNmEAjriuPH7F8mTsVOrsQtqBMs4VclnFswm/jEVwt0NXxnah4ci9
-JdGBQbW8zEdLc6nkQNfR9goWB9xnxoqS/as6if06ToXqAiIu97LjJM8QMDvqCf2Z
-HVNem7V/n6Br6/sWqvvO6ykrND7LfbMXI/c0zG6n38bWF2zw2hx1iFyie1tfem7+
-WImpDEbXIlmOvVTD6Y9b6XVrNbEZOvAXHkbNXpx01CQvySLPeLUe1ouaVs2Unlig
-oEEukBJJZHmBcVqidxLU9jQw0EUvzh3yQj6gZWEI8TyWEjHyi8MrXC3orRhTemVA
-rzIUoPkw0K7UYOxr1MB1
-=TPB4
------END PGP SIGNATURE-----
-
---7a4X6VOqfbl9xMrG--
+Alex 
 --
 To unsubscribe from this list: send the line "unsubscribe linux-man" in
 the body of a message to majordomo-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
