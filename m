@@ -1,149 +1,158 @@
-From: "George Spelvin" <linux-gpGsJRJZ3PBBDgjK7y7TUQ@public.gmane.org>
-Subject: Re: [PATCH] Update the random(4) documentation towards a more accurate view on /dev/urandom
-Date: 26 Apr 2016 12:58:47 -0400
-Message-ID: <20160426165847.5804.qmail@ns.horizon.com>
-References: <1461681983.15804.76.camel@redhat.com>
+From: Marko Myllynen <myllynen-H+wXaHxf7aLQT0dZR+AlfA@public.gmane.org>
+Subject: locale.5: Complete LC_COLLATE
+Date: Tue, 26 Apr 2016 22:55:51 +0300
+Message-ID: <571FC7C7.1070402@redhat.com>
+Reply-To: Marko Myllynen <myllynen-H+wXaHxf7aLQT0dZR+AlfA@public.gmane.org>
+Mime-Version: 1.0
+Content-Type: text/plain; charset=utf-8
+Content-Transfer-Encoding: 7bit
 Return-path: <linux-man-owner-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>
-In-Reply-To: <1461681983.15804.76.camel-H+wXaHxf7aLQT0dZR+AlfA@public.gmane.org>
 Sender: linux-man-owner-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
-To: linux-gpGsJRJZ3PBBDgjK7y7TUQ@public.gmane.org, mtk.manpages-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org, nmav-H+wXaHxf7aLQT0dZR+AlfA@public.gmane.org
-Cc: linux-man-u79uwXL29TY76Z2rM5mHXA@public.gmane.org, mpm-VDJrAJ4Gl5ZBDgjK7y7TUQ@public.gmane.org, tytso-3s7WtUTddSA@public.gmane.org
+To: "Michael Kerrisk (man-pages)" <mtk.manpages-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org>
+Cc: Mike Frysinger <vapier-aBrp7R+bbdUdnm+yROfE0A@public.gmane.org>, Mike Fabian <mfabian-H+wXaHxf7aLQT0dZR+AlfA@public.gmane.org>, linux-man <linux-man-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>
 List-Id: linux-man@vger.kernel.org
 
-Nikos Mavrogiannopoulos wrote:
-> On Mon, 2016-04-25 at 11:46 -0400, George Spelvin wrote:
->> Removing the examples of high quality randomness I'm less fond of;
->> the whole idea is to inform people who don't quite understand what
->> the general terms mean.  Good enough for one-time pads is a design
->> goal of /dev/random.
+Hi,
 
-> If that's about documenting a design goal I'd prefer to move it out of
-> the main text for 2 reasons. (a) There is no practical crypto system
-> using one time pads, thus mentioning it in the main body only creates
-> confusion (b), one time pad is such a theoretical construction that any
-> real algorithm wouldn't implement it.
+Here's the first attempt to (almost) complete the locale.5 manual page
+by documenting all (but perhaps one) of the missing LC_COLLATE keywords.
 
-The original (removed by your patch) line was:
+I think the LC_COLLATE section is still not enough to be used as the
+only source when writing collation rules from scratch but perhaps
+that's not even needed, it could be also thought that the section 5
+pages merely describe the format used in the files. Naturally more
+information could be added later on top of this patch.
 
--high quality randomness such as one-time pad or key generation.
+Few notes:
 
-It's not the words "one-time pad" I'm attached to, but the specific
-examples of when "high-quality randomness" is required.  A big point is
-to teach people *how* to use it, and without those examples, when would
-anyone think "my application wants low-quality randomness"?
+- AFAICS coll_weight_max is not used anywhere in glibc
+- I'm not aware of any C library implementation on Linux (for which
+this manual page would be relevant) which would implement the POSIX
+options not supported by glibc
+- the glibc specific script keyword could still be documented
 
-You're right that a one-time pad is impractical, but it's still
-a common and familiar pedagogical example, and more importantly
-something that a person wondering which to use can see that their
-application is NOT.
+Sources:
 
-Your proposed patch *also* deleted the other usage example at the end:
+http://pubs.opengroup.org/onlinepubs/9699919799/basedefs/V1_chap07.html
+http://www.open-std.org/jtc1/SC22/WG20/docs/n972-14652ft.pdf
 
--should be used for everything except long-lived GPG/SSL/SSH keys.
+PS. A couple of unrelated comment clean-ups slipped in as well, sorry
+about those.
 
-which really reduces the value of the man page as a guide to people
-who aren't crypto experts.
+---
+ man5/locale.5 | 45 +++++++++++++++++++++++++++++++--------------
+ 1 file changed, 31 insertions(+), 14 deletions(-)
 
->> The bit about early boot is actually not as much of an issue as you
->> think.
->>
->> Even /dev/urandom will stall early on boot until a minimum initial seed
->> (128 bits at present) has been acumulated.  (grep for "urandom_init_wait")
+diff --git a/man5/locale.5 b/man5/locale.5
+index e451798..ad2aac0 100644
+--- a/man5/locale.5
++++ b/man5/locale.5
+@@ -114,14 +114,14 @@ the GNU C library supports the following nonstandard categories:
+ See
+ .BR locale (7)
+ for a more detailed description of each category.
+-.\"
++
+ .SS LC_ADDRESS
+ The definition starts with the string
+ .I LC_ADDRESS
+ in the first column.
+ 
+ The following keywords are allowed:
+-.\" Thanks to the kind folk who wrote localedata/locales/uk_UA
++.\" From localedata/locales/uk_UA
+ .TP
+ .I postal_fmt
+ followed by a string containing field descriptors that define
+@@ -494,20 +494,20 @@ The
+ definition ends with the string
+ .IR "END LC_CTYPE" .
+ .SS LC_COLLATE
+-Due to limitations of glibc not all POSIX-options are implemented.
++Note that glibc does not support all POSIX-defined options,
++only the options described below are supported (as of glibc 2.23).
+ 
+ The definition starts with the string
+ .I LC_COLLATE
+ in the first column.
+ 
+ The following keywords are allowed:
+-.\" FIXME The following LC_COLLATE keywords are not documented:
+-.\" 	reorder-after
+-.\" 	reorder-end
+-.\" 	reorder-sections-after
+-.\" 	reorder-sections-end
++.\" FIXME The following glibc LC_COLLATE keywords are not documented:
+ .\" 	script
+-.\" 	symbol-equivalence
++.TP
++.I coll_weight_max
++followed by the number representing used collation levels.
++This keyword is recognized but ignored by glibc.
+ .TP
+ .I collating-element
+ followed by the definition of a collating-element symbol
+@@ -516,8 +516,25 @@ representing a multicharacter collating element.
+ .I collating-symbol
+ followed by the definition of a collating symbol
+ that can be used in collation order statements.
++.TP
++.I reorder-after
++followed by a redefinition of a collation rule.
++.TP
++.I reorder-end
++marks the end of the redefinition of a collation rule.
++.TP
++.I section
++followed by a section of collation order statements.
++.TP
++.I section-symbol
++followed by a section symbol representing a set of collation order
++statements.
++.TP
++.I symbol-equivalence
++followed by a collating-symbol to be equivalent to another defined
++collating-symbol.
+ .PP
+-The order-definition starts with a line:
++The collation rule definition starts with a line:
+ .TP
+ .I order_start
+ followed by a list of keywords chosen from
+@@ -525,8 +542,8 @@ followed by a list of keywords chosen from
+ .BR backward ,
+ or
+ .BR position .
+-The order definition consists of lines that describe the order
+-and is terminated with the keyword
++The order definition consists of lines that describe the collation
++order and is terminated with the keyword
+ .IR order_end .
+ .PP
+ The
+@@ -878,7 +895,7 @@ The allowed keywords are as follows:
+ followed by a string containing field descriptors that define
+ the format used for names in the locale.
+ The following field descriptors are recognized:
+-.\" From localedata/locales/uk_UA:
++.\" From localedata/locales/uk_UA
+ .RS
+ .TP 4
+ %f
+@@ -1233,7 +1250,7 @@ The default value is
+ See NOTES.
+ .TP
+ .I cal_direction
+-.\" from localedata/locales/uk_UA
++.\" From localedata/locales/uk_UA
+ followed by a plain number value that indicates the direction for the
+ display of calendar dates, as follows:
+ .RS
 
-> No it will not. We notice often the keys for sshd being generated
-> *before* the kernel logs that the random pool has been
-> initialized.
+Thanks,
 
-H'm... observation definitely trumps theoretical predictions based on
-reading the code.
-
-Is that a documentation problem or a code bug, or something I'm not
-understanding properly?  If you look for that symbol in the source
-it definitely looks like it's supposed to wait for initial seeding.
-And ssh-keygen uses /dev/urandom.
-
-The getrandom(2) man page also documents the block-on-startup behavior.
-
-The driver wakes up the sleeping readers *before* printing
-the message.  Is it possible that syslog is just losing the race?
-
->> How about something more like (draft, not final edit):
->> 
->>  A read from the \fI/dev/urandom\fP device will not block
->>  waiting for more entropy.
->> +If the estimated fresh entropy is not sufficient, a
->> \fI/dev/urandom\fP
->> +will produce output anyway, relying on the cryptographic primitives
->> in
->> +the driver's pseudo-random number generator to ensure that the
->> output,
->> +although correlated with previous output in an information theoretic
->> +sense (it exceeds the unicity distance), is secure for all practical
->> +purposes.
-
-> What is the purpose of this text? To whom does it target?
-
-To replace the text
-
--If there is not sufficient entropy, a pseudorandom number generator is used
--to create the requested bytes.
-
-or
-
-+If the estimated fresh entropy is not sufficient, a pseudorandom number generator is
-+used to create the requested bytes.
-
-with something that doesn't imply a mode switch.
-
-I labelled it "draft" because I wasn't really thrilled with the wording,
-myself, but I thought it gave the general idea and wasn't worth massaging
-into editorial perfection since it was due to get torn apart anyway.
-
-Can you think of better wording?  I'm all for keeping it simple, but
-not at the expense of seriously misleading people.
-
-> I wouldn't like to get into such details about the device in the manpage,
-> but if you would like a section studying the theoretical properties of
-> /dev/urandom I'd again suggest to keep it separate and elaborate. What
-> is on the text above is certainly not complete analysis and is certainly
-> not targetting administrators and developers who would like to understand
-> what this device does.
-
-A reorganization might indeed be a good way forward; I was examining 
-your changes without stepping back and considering the whole forest.
-
-Shall I take a stab at it?
-
->> I don't like the bit about "use /dev/random or getrandom(2)"; while
->> getrandom(2) should be mentioned in "see also", the equivalent is
->> "getrandom(..., GRND_RANDOM)".   It's the flag, no the syscall.
-
-> It is the syscall. According the description in getrandom(2):
-> "If the pool has not yet been initialized, then the call blocks,
-> unless GRND_RANDOM is specified in flags."
-
-1. You have a buggy man page.  The corrected one says "If the pool has
-   not yet been initialized, then the call blocks, unless GRND_NONBLOCK
-   is specified in flags."
-
-2. I stand by what I wrote above.  Without the GRND_RANDOM flag,
-   getrandom() access the nonblocking pool (/dev/urandom).
-
->> I strongly dislike the deletion of the "as a general rule" advice.
->> Specific recommendations are very valuable.
-
-> This advice despite being present for so long, is widely ignored as
-> /dev/urandom is used unconditionally by all software generating keys
-> (SSH/SSL), gnupg being the exception.
-
-No, it's not being ignored.  The advice isn't "use /dev/random for
-SSH keys", but "*don't* use /dev/random for anything *except* SSH
-keys".  The "(and maybe not even then)" part is implicit, but much
-less of a concern.
-
-The audience is not the authors of ssh, libssl, or gnupg; they know
-what they're doing.  The audience is everyone *else*, and I think
-specific examples really help there.
+-- 
+Marko Myllynen
 --
 To unsubscribe from this list: send the line "unsubscribe linux-man" in
 the body of a message to majordomo-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
