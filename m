@@ -1,31 +1,56 @@
-From: Ed Avis <eda-0aTcAJqSNDHby3iVrkZq2A@public.gmane.org>
-Subject: strtod(3) manual page not clear on error handling when endptr is
- null
-Date: Thu, 28 Apr 2016 16:31:45 +0000
-Message-ID: <7E039918541B4C4183BFDB8F015C7430DEB54FB3@WCL-EXCH02.wcl.local>
+From: Georg Sauthoff <mail-vzQcyvifq/Y@public.gmane.org>
+Subject: prctl() PR_SET_PDEATHSIG race condition note
+Date: Fri, 29 Apr 2016 21:06:06 +0200
+Message-ID: <20160429190606.GA30805@dell12.lru.li>
 Mime-Version: 1.0
-Content-Type: text/plain; charset="us-ascii"
-Content-Transfer-Encoding: 8BIT
+Content-Type: text/plain; charset=us-ascii
 Return-path: <linux-man-owner-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>
-Content-Language: en-US
+Content-Disposition: inline
 Sender: linux-man-owner-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
-To: "'mtk.manpages-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org'" <mtk.manpages-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org>
-Cc: "'linux-man-u79uwXL29TY76Z2rM5mHXA@public.gmane.org'" <linux-man-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>
+To: mtk.manpages-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org
+Cc: linux-man-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
 List-Id: linux-man@vger.kernel.org
 
-strtod(3) says:
+Hello,
 
->If no conversion is performed, zero is returned and the value of nptr is stored in the location referenced by endptr.
+regarding the PR_SET_PDEATHSIG paragraph in prctl(2):
 
-This surely can't be the case if endptr is null.  I believe that the behaviour is more like
+> PR_SET_PDEATHSIG (since Linux 2.1.57)
+>       Set the parent death signal of the calling process to arg2
+>       (either a signal value in the range 1..maxsig, or 0 to clear).
+>       This is the signal that the calling process will get when its
+>       parent dies.  This value is cleared for the child of a fork(2)
+>       and (since Linux 2.4.36 / 2.6.23) when executing a set-user-ID
+>       or set-group-ID binary, or a binary that has associated
+>       capabilities (see capabilities(7)).  This value is preserved
+>       across execve(2).
+>
+>       Warning: the "parent" in this case is considered to be the
+>       thread that created this process.  In other words, the signal
+>       will be sent when that thread terminates (via, for example,
+>       pthread_exit(3)), rather than after all of the threads in the
+>       parent process terminate.
 
->If no conversion is performed, zero is returned, and (unless endptr is null) the value of nptr is stored in the location referenced by endptr.
+Perhaps it makes sense to add a note regarding a race condition
+between the child being able to call prctl() and an early exit of
+the parent process (after a successful fork()); i.e. when the
+parent death signal is installed after the parent has already
+died.
 
--- 
-Ed Avis <eda-0aTcAJqSNDHby3iVrkZq2A@public.gmane.org>
+See for example following links that may indicate that this isn't
+necessarily obvious:
+
+- http://lkml.iu.edu/hypermail/linux/kernel/0003.1/0769.html
+- http://stackoverflow.com/a/284443/427158
+
+If you like you can include a code snippet how to use
+prctl(PR_SET_PDEATHSIGH, ) race condition free, cf. the snippets
+I've included in my answer on SO:
+http://stackoverflow.com/a/36945270/427158
 
 
-This email is intended only for the person to whom it is addressed and may contain confidential information. Any retransmission, copying, disclosure or other use of, this information by persons other than the intended recipient is prohibited. If you received this email in error, please contact the sender and delete the material. This email is for information only and is not intended as an offer or solicitation for the purchase or sale of any financial instrument. Wadhwani Asset Management LLP is a Limited Liability Partnership registered in England (OC303168) with registered office at 40 Berkeley Square, 3rd Floor, London, W1J 5AL. It is authorised and regulated by the Financial Conduct Authority.
+Best regards
+Georg
 --
 To unsubscribe from this list: send the line "unsubscribe linux-man" in
 the body of a message to majordomo-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
