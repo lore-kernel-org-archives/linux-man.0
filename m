@@ -1,56 +1,64 @@
-From: Georg Sauthoff <mail-vzQcyvifq/Y@public.gmane.org>
-Subject: prctl() PR_SET_PDEATHSIG race condition note
-Date: Fri, 29 Apr 2016 21:06:06 +0200
-Message-ID: <20160429190606.GA30805@dell12.lru.li>
+From: Marko Myllynen <myllynen-H+wXaHxf7aLQT0dZR+AlfA@public.gmane.org>
+Subject: nsswitch.conf.5: document group merging
+Date: Mon, 2 May 2016 14:03:59 +0300
+Message-ID: <5727341F.9000204@redhat.com>
+Reply-To: Marko Myllynen <myllynen-H+wXaHxf7aLQT0dZR+AlfA@public.gmane.org>
 Mime-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
+Content-Type: text/plain; charset=utf-8
+Content-Transfer-Encoding: 7bit
 Return-path: <linux-man-owner-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>
-Content-Disposition: inline
 Sender: linux-man-owner-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
-To: mtk.manpages-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org
-Cc: linux-man-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
+To: "Michael Kerrisk (man-pages)" <mtk.manpages-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org>, Stephen Gallagher <sgallagh-H+wXaHxf7aLQT0dZR+AlfA@public.gmane.org>
+Cc: linux-man <linux-man-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>
 List-Id: linux-man@vger.kernel.org
 
-Hello,
+Hi,
 
-regarding the PR_SET_PDEATHSIG paragraph in prctl(2):
+Here's a patch to document the recently merged glibc group merge
+support.
 
-> PR_SET_PDEATHSIG (since Linux 2.1.57)
->       Set the parent death signal of the calling process to arg2
->       (either a signal value in the range 1..maxsig, or 0 to clear).
->       This is the signal that the calling process will get when its
->       parent dies.  This value is cleared for the child of a fork(2)
->       and (since Linux 2.4.36 / 2.6.23) when executing a set-user-ID
->       or set-group-ID binary, or a binary that has associated
->       capabilities (see capabilities(7)).  This value is preserved
->       across execve(2).
->
->       Warning: the "parent" in this case is considered to be the
->       thread that created this process.  In other words, the signal
->       will be sent when that thread terminates (via, for example,
->       pthread_exit(3)), rather than after all of the threads in the
->       parent process terminate.
+https://sourceware.org/git/?p=glibc.git;a=commitdiff;h=ced8f8933673f4efda1d666d26a1a949602035ed
+https://sourceware.org/glibc/wiki/Proposals/GroupMerging
 
-Perhaps it makes sense to add a note regarding a race condition
-between the child being able to call prctl() and an early exit of
-the parent process (after a successful fork()); i.e. when the
-parent death signal is installed after the parent has already
-died.
+---
+ man5/nsswitch.conf.5 | 12 ++++++++++++
+ 1 file changed, 12 insertions(+)
 
-See for example following links that may indicate that this isn't
-necessarily obvious:
+diff --git a/man5/nsswitch.conf.5 b/man5/nsswitch.conf.5
+index b99f9fd..8b62796 100644
+--- a/man5/nsswitch.conf.5
++++ b/man5/nsswitch.conf.5
+@@ -204,6 +204,8 @@ where
+ .B return
+ |
+ .B continue
++|
++.B merge
+ .RE
+ .LP
+ The ! negates the test, matching all possible results except the
+@@ -257,6 +259,16 @@ without affecting the search result.
+ .TP
+ .B continue
+ Call the next lookup function.
++.TP
++.B merge
++.I [SUCCESS=merge]
++is used between two database entries.
++When a group is located in the first of the two group entries,
++processing will continue on to the next one.
++If the group is also found in the next entry (and the group name and GID
++are an exact match), the member list of the second entry will be added
++to the group object to be returned.
++Available since glibc 2.24.
+ .RE
+ .SS Compatibility mode (compat)
+ The NSS "compat" service is similar to "files" except that it
 
-- http://lkml.iu.edu/hypermail/linux/kernel/0003.1/0769.html
-- http://stackoverflow.com/a/284443/427158
+Thanks,
 
-If you like you can include a code snippet how to use
-prctl(PR_SET_PDEATHSIGH, ) race condition free, cf. the snippets
-I've included in my answer on SO:
-http://stackoverflow.com/a/36945270/427158
-
-
-Best regards
-Georg
+-- 
+Marko Myllynen
 --
 To unsubscribe from this list: send the line "unsubscribe linux-man" in
 the body of a message to majordomo-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
