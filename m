@@ -1,67 +1,44 @@
-From: Nikola =?ISO-8859-1?Q?Forr=F3?= <nforro-H+wXaHxf7aLQT0dZR+AlfA@public.gmane.org>
-Subject: [PATCH] clone.2, fork.2: Document ERESTARTNOINTR error code
-Date: Wed, 04 May 2016 10:55:56 +0200
-Message-ID: <1462352156.3183.1.camel@redhat.com>
-Reply-To: nforro-H+wXaHxf7aLQT0dZR+AlfA@public.gmane.org
-Mime-Version: 1.0
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: QUOTED-PRINTABLE
+From: Heinrich Schuchardt <xypron.glpk-Mmb7MZpHnFY@public.gmane.org>
+Subject: [PATCH 1/1] ioctl_fat.2: use %04x to print volume id
+Date: Sat,  7 May 2016 10:42:52 +0200
+Message-ID: <1462610572-10908-1-git-send-email-xypron.glpk@gmx.de>
 Return-path: <linux-man-owner-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>
 Sender: linux-man-owner-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
-To: "Michael Kerrisk (man-pages)" <mtk.manpages-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org>
-Cc: linux-man-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
+To: Michael Kerrisk <mtk.manpages-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org>
+Cc: linux-man-u79uwXL29TY76Z2rM5mHXA@public.gmane.org, Heinrich Schuchardt <xypron.glpk-Mmb7MZpHnFY@public.gmane.org>
 List-Id: linux-man@vger.kernel.org
 
-Since Linux 2.6.17, clone and fork syscalls return ERESTARTNOINTR
-when interrupted by a signal before newly created process is added
-to its process group.
-This error code can only be seen by ptrace at syscall exit tracing.
+Leading zeroes should be used when display a FAT volume id.
 
-The information was obtained from kernel source code:
-http://bit.ly/24xdofn
-
-Signed-off-by: Nikola Forr=C3=B3 <nforro-H+wXaHxf7aLQT0dZR+AlfA@public.gmane.org>
+Signed-off-by: Heinrich Schuchardt <xypron.glpk-Mmb7MZpHnFY@public.gmane.org>
 ---
- man2/clone.2 | 4 ++++
- man2/fork.2  | 4 ++++
- 2 files changed, 8 insertions(+)
+ man2/ioctl_fat.2 | 4 ++--
+ 1 file changed, 2 insertions(+), 2 deletions(-)
 
-diff --git a/man2/clone.2 b/man2/clone.2
-index 8373700..ab1e58d 100644
---- a/man2/clone.2
-+++ b/man2/clone.2
-@@ -1013,6 +1013,10 @@ and the call would cause the limit on the number=
- of
- nested user namespaces to be exceeded.
- See
- .BR user_namespaces (7).
-+.TP
-+.BR ERESTARTNOINTR " (since Linux 2.6.17)"
-+System call was interrupted by a signal and will be restarted.
-+(This can be seen only during a trace.)
- .SH VERSIONS
- There is no entry for
- .BR clone ()
-diff --git a/man2/fork.2 b/man2/fork.2
-index 559a47f..3accc8c 100644
---- a/man2/fork.2
-+++ b/man2/fork.2
-@@ -242,6 +242,10 @@ failed to allocate the necessary kernel structures=
- because memory is tight.
- is not supported on this platform (for example,
- .\" e.g., arm (optionally), blackfin, c6x, frv, h8300, microblaze, xte=
-nsa
- hardware without a Memory-Management Unit).
-+.TP
-+.BR ERESTARTNOINTR " (since Linux 2.6.17)"
-+System call was interrupted by a signal and will be restarted.
-+(This can be seen only during a trace.)
- .SH CONFORMING TO
- POSIX.1-2001, POSIX.1-2008, SVr4, 4.3BSD.
- .SH NOTES
---=20
-2.4.11
-
+diff --git a/man2/ioctl_fat.2 b/man2/ioctl_fat.2
+index 4ae0e5d..875b57e 100644
+--- a/man2/ioctl_fat.2
++++ b/man2/ioctl_fat.2
+@@ -111,7 +111,7 @@ Typically the volume label is displayed to the user as a group of two
+ .PP
+ .in +4n
+ .nf
+-printf("Volume ID %4x-%4x\\n", id >> 16, id & 0xFFFF);
++printf("Volume ID %04x-%04x\\n", id >> 16, id & 0xFFFF);
+ .fi
+ .in
+ .SS Reading short file names of a directory
+@@ -403,7 +403,7 @@ main(int argc, char *argv[])
+     /*
+      * Format the output as two groups of 16 bits each.
+      */
+-    printf("Volume ID %4x\-%4x\\n", id >> 16, id & 0xFFFF);
++    printf("Volume ID %04x\-%04x\\n", id >> 16, id & 0xFFFF);
+ 
+     close(fd);
+ 
+-- 
+2.1.4
 
 --
 To unsubscribe from this list: send the line "unsubscribe linux-man" in
