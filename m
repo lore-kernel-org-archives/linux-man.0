@@ -1,59 +1,78 @@
 From: "Michael Kerrisk (man-pages)" <mtk.manpages-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org>
-Subject: Re: [PATCH 1/1] ioctl_fat.2: use %04x to print volume id
-Date: Mon, 9 May 2016 22:26:16 +0200
-Message-ID: <860ad4d2-1d47-2887-0799-6ea4abda4df7@gmail.com>
-References: <1462610572-10908-1-git-send-email-xypron.glpk@gmx.de>
+Subject: Re: [PATCH] clone.2, fork.2: Document ERESTARTNOINTR error code
+Date: Mon, 9 May 2016 22:32:15 +0200
+Message-ID: <bfbed141-6fb7-b008-7ac4-e24db340f68f@gmail.com>
+References: <1462352156.3183.1.camel@redhat.com>
 Mime-Version: 1.0
-Content-Type: text/plain; charset=windows-1252
-Content-Transfer-Encoding: 7bit
+Content-Type: text/plain; charset=utf-8
+Content-Transfer-Encoding: QUOTED-PRINTABLE
 Return-path: <linux-man-owner-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>
-In-Reply-To: <1462610572-10908-1-git-send-email-xypron.glpk-Mmb7MZpHnFY@public.gmane.org>
+In-Reply-To: <1462352156.3183.1.camel-H+wXaHxf7aLQT0dZR+AlfA@public.gmane.org>
 Sender: linux-man-owner-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
-To: Heinrich Schuchardt <xypron.glpk-Mmb7MZpHnFY@public.gmane.org>
+To: nforro-H+wXaHxf7aLQT0dZR+AlfA@public.gmane.org
 Cc: mtk.manpages-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org, linux-man-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
 List-Id: linux-man@vger.kernel.org
 
-On 05/07/2016 10:42 AM, Heinrich Schuchardt wrote:
-> Leading zeroes should be used when display a FAT volume id.
+On 05/04/2016 10:55 AM, Nikola Forr=C3=B3 wrote:
+> Since Linux 2.6.17, clone and fork syscalls return ERESTARTNOINTR
+> when interrupted by a signal before newly created process is added
+> to its process group.
+> This error code can only be seen by ptrace at syscall exit tracing.
+>=20
+> The information was obtained from kernel source code:
+> http://bit.ly/24xdofn
 
-Thanks, Heinrich. Applied.
+Thanks Nikola. I see this relates to kernel commit 4a2c7a7837da.=20
+Patch applied.
 
 Cheers,
 
 Michael
 
 
-> Signed-off-by: Heinrich Schuchardt <xypron.glpk-Mmb7MZpHnFY@public.gmane.org>
+> Signed-off-by: Nikola Forr=C3=B3 <nforro-H+wXaHxf7aLQT0dZR+AlfA@public.gmane.org>
 > ---
->  man2/ioctl_fat.2 | 4 ++--
->  1 file changed, 2 insertions(+), 2 deletions(-)
-> 
-> diff --git a/man2/ioctl_fat.2 b/man2/ioctl_fat.2
-> index 4ae0e5d..875b57e 100644
-> --- a/man2/ioctl_fat.2
-> +++ b/man2/ioctl_fat.2
-> @@ -111,7 +111,7 @@ Typically the volume label is displayed to the user as a group of two
->  .PP
->  .in +4n
->  .nf
-> -printf("Volume ID %4x-%4x\\n", id >> 16, id & 0xFFFF);
-> +printf("Volume ID %04x-%04x\\n", id >> 16, id & 0xFFFF);
->  .fi
->  .in
->  .SS Reading short file names of a directory
-> @@ -403,7 +403,7 @@ main(int argc, char *argv[])
->      /*
->       * Format the output as two groups of 16 bits each.
->       */
-> -    printf("Volume ID %4x\-%4x\\n", id >> 16, id & 0xFFFF);
-> +    printf("Volume ID %04x\-%04x\\n", id >> 16, id & 0xFFFF);
->  
->      close(fd);
->  
-> 
+>  man2/clone.2 | 4 ++++
+>  man2/fork.2  | 4 ++++
+>  2 files changed, 8 insertions(+)
+>=20
+> diff --git a/man2/clone.2 b/man2/clone.2
+> index 8373700..ab1e58d 100644
+> --- a/man2/clone.2
+> +++ b/man2/clone.2
+> @@ -1013,6 +1013,10 @@ and the call would cause the limit on the numb=
+er of
+>  nested user namespaces to be exceeded.
+>  See
+>  .BR user_namespaces (7).
+> +.TP
+> +.BR ERESTARTNOINTR " (since Linux 2.6.17)"
+> +System call was interrupted by a signal and will be restarted.
+> +(This can be seen only during a trace.)
+>  .SH VERSIONS
+>  There is no entry for
+>  .BR clone ()
+> diff --git a/man2/fork.2 b/man2/fork.2
+> index 559a47f..3accc8c 100644
+> --- a/man2/fork.2
+> +++ b/man2/fork.2
+> @@ -242,6 +242,10 @@ failed to allocate the necessary kernel structur=
+es because memory is tight.
+>  is not supported on this platform (for example,
+>  .\" e.g., arm (optionally), blackfin, c6x, frv, h8300, microblaze, x=
+tensa
+>  hardware without a Memory-Management Unit).
+> +.TP
+> +.BR ERESTARTNOINTR " (since Linux 2.6.17)"
+> +System call was interrupted by a signal and will be restarted.
+> +(This can be seen only during a trace.)
+>  .SH CONFORMING TO
+>  POSIX.1-2001, POSIX.1-2008, SVr4, 4.3BSD.
+>  .SH NOTES
+>=20
 
 
--- 
+--=20
 Michael Kerrisk
 Linux man-pages maintainer; http://www.kernel.org/doc/man-pages/
 Linux/UNIX System Programming Training: http://man7.org/training/
