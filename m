@@ -1,87 +1,46 @@
 From: "Michael Kerrisk (man-pages)" <mtk.manpages-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org>
-Subject: Re: [PATCH] popen.3: RETURN VALUE: describe successful case
-Date: Mon, 9 May 2016 22:45:59 +0200
-Message-ID: <f07b1fd6-ab35-3133-4b8d-cac3ba26f4f4@gmail.com>
-References: <1461855269.3095.1.camel@redhat.com>
+Subject: Re: strtod(3) manual page not clear on error handling when endptr is
+ null
+Date: Mon, 9 May 2016 22:54:51 +0200
+Message-ID: <e9ad0c55-5dc8-bca4-1cb9-e803887700d2@gmail.com>
+References: <7E039918541B4C4183BFDB8F015C7430DEB54FB3@WCL-EXCH02.wcl.local>
 Mime-Version: 1.0
-Content-Type: text/plain; charset=utf-8
-Content-Transfer-Encoding: QUOTED-PRINTABLE
+Content-Type: text/plain; charset=windows-1252
+Content-Transfer-Encoding: 7bit
 Return-path: <linux-man-owner-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>
-In-Reply-To: <1461855269.3095.1.camel-H+wXaHxf7aLQT0dZR+AlfA@public.gmane.org>
+In-Reply-To: <7E039918541B4C4183BFDB8F015C7430DEB54FB3-wKnzbhvBYoCBAzx/YO/BcIT4S9po1h25@public.gmane.org>
 Sender: linux-man-owner-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
-To: nforro-H+wXaHxf7aLQT0dZR+AlfA@public.gmane.org
-Cc: mtk.manpages-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org, linux-man-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
+To: Ed Avis <eda-0aTcAJqSNDHby3iVrkZq2A@public.gmane.org>
+Cc: mtk.manpages-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org, "'linux-man-u79uwXL29TY76Z2rM5mHXA@public.gmane.org'" <linux-man-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>
 List-Id: linux-man@vger.kernel.org
 
-On 04/28/2016 04:54 PM, Nikola Forr=C3=B3 wrote:
-> Reference:
-> http://pubs.opengroup.org/onlinepubs/9699919799/functions/popen.html
-> http://pubs.opengroup.org/onlinepubs/9699919799/functions/pclose.html
+Hello Ed,
 
-Thanks, Nikola. Patch applied.
+On 04/28/2016 06:31 PM, Ed Avis wrote:
+> strtod(3) says:
+> 
+> If no conversion is performed, zero is returned and the value of nptr
+> is stored in the location referenced by endptr.
+> 
+> This surely can't be the case if endptr is null.  I believe that the
+> behaviour is more like
+> 
+> 
+> If no conversion is performed, zero is returned, and (unless endptr
+> is null) the value of nptr is stored in the location referenced by
+> endptr.
 
-Cheers,
+Agreed. Page corrected.
+
+Thanks,
 
 Michael
 
 
-> Signed-off-by: Nikola Forr=C3=B3 <nforro-H+wXaHxf7aLQT0dZR+AlfA@public.gmane.org>
-> ---
->  man3/popen.3 | 25 ++++++++++++++-----------
->  1 file changed, 14 insertions(+), 11 deletions(-)
->=20
-> diff --git a/man3/popen.3 b/man3/popen.3
-> index f075581..bafa42c 100644
-> --- a/man3/popen.3
-> +++ b/man3/popen.3
-> @@ -123,17 +123,18 @@ function waits for the associated process to te=
-rminate and returns the exit
->  status of the command as returned by
->  .BR wait4 (2).
->  .SH RETURN VALUE
-> -The
-> -.BR popen ()
-> -function returns NULL if the
-> +.BR popen ():
-> +on success, returns a pointer to an open stream that
-> +can be used to read or write to the pipe;
-> +if the
->  .BR fork (2)
->  or
->  .BR pipe (2)
-> -calls fail, or if it cannot allocate memory.
-> -.PP
-> -The
-> -.BR pclose ()
-> -function returns \-1 if
-> +calls fail, or if the function cannot allocate memory,
-> +NULL is returned.
-> +
-> +.BR pclose ():
-> +on success, returns the exit status of the command; if
->  .\" These conditions actually give undefined results, so I commented
->  .\" them out.
->  .\" .I stream
-> @@ -141,10 +142,12 @@ function returns \-1 if
->  .\".I stream
->  .\" already "pclose()d", or if
->  .BR wait4 (2)
-> -returns an error, or some other error is detected.
-> -In the event of an error, these functions set
-> +returns an error, or some other error is detected,
-> +\-1 is returned.
-> +.PP
-> +Both functions set
->  .I errno
-> -to indicate the cause of the error.
-> +to an appropriate value in the case of an error.
->  .SH ERRORS
->  The
->  .BR popen ()
->=20
+> 
 
 
---=20
+-- 
 Michael Kerrisk
 Linux man-pages maintainer; http://www.kernel.org/doc/man-pages/
 Linux/UNIX System Programming Training: http://man7.org/training/
