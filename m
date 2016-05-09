@@ -1,173 +1,87 @@
 From: "Michael Kerrisk (man-pages)" <mtk.manpages-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org>
-Subject: Re: locale.5: Complete LC_COLLATE
-Date: Mon, 9 May 2016 22:44:42 +0200
-Message-ID: <9a368386-e61e-9396-3638-94d52c9909ab@gmail.com>
-References: <571FC7C7.1070402@redhat.com>
+Subject: Re: [PATCH] popen.3: RETURN VALUE: describe successful case
+Date: Mon, 9 May 2016 22:45:59 +0200
+Message-ID: <f07b1fd6-ab35-3133-4b8d-cac3ba26f4f4@gmail.com>
+References: <1461855269.3095.1.camel@redhat.com>
 Mime-Version: 1.0
 Content-Type: text/plain; charset=utf-8
-Content-Transfer-Encoding: 7bit
+Content-Transfer-Encoding: QUOTED-PRINTABLE
 Return-path: <linux-man-owner-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>
-In-Reply-To: <571FC7C7.1070402-H+wXaHxf7aLQT0dZR+AlfA@public.gmane.org>
+In-Reply-To: <1461855269.3095.1.camel-H+wXaHxf7aLQT0dZR+AlfA@public.gmane.org>
 Sender: linux-man-owner-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
-To: Marko Myllynen <myllynen-H+wXaHxf7aLQT0dZR+AlfA@public.gmane.org>
-Cc: mtk.manpages-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org, Mike Frysinger <vapier-aBrp7R+bbdUdnm+yROfE0A@public.gmane.org>, Mike Fabian <mfabian-H+wXaHxf7aLQT0dZR+AlfA@public.gmane.org>, linux-man <linux-man-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>
+To: nforro-H+wXaHxf7aLQT0dZR+AlfA@public.gmane.org
+Cc: mtk.manpages-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org, linux-man-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
 List-Id: linux-man@vger.kernel.org
 
-Hi Marko,
+On 04/28/2016 04:54 PM, Nikola Forr=C3=B3 wrote:
+> Reference:
+> http://pubs.opengroup.org/onlinepubs/9699919799/functions/popen.html
+> http://pubs.opengroup.org/onlinepubs/9699919799/functions/pclose.html
 
-On 04/26/2016 09:55 PM, Marko Myllynen wrote:
-> Hi,
-> 
-> Here's the first attempt to (almost) complete the locale.5 manual page
-> by documenting all (but perhaps one) of the missing LC_COLLATE keywords.
-> 
-> I think the LC_COLLATE section is still not enough to be used as the
-> only source when writing collation rules from scratch but perhaps
-> that's not even needed, it could be also thought that the section 5
-> pages merely describe the format used in the files. Naturally more
-> information could be added later on top of this patch.
-> 
-> Few notes:
-> 
-> - AFAICS coll_weight_max is not used anywhere in glibc
-> - I'm not aware of any C library implementation on Linux (for which
-> this manual page would be relevant) which would implement the POSIX
-> options not supported by glibc
-> - the glibc specific script keyword could still be documented
-> 
-> Sources:
-> 
-> http://pubs.opengroup.org/onlinepubs/9699919799/basedefs/V1_chap07.html
-> http://www.open-std.org/jtc1/SC22/WG20/docs/n972-14652ft.pdf
-
-Okay.
-
-> PS. A couple of unrelated comment clean-ups slipped in as well, sorry
-> about those.
-
-No worries.
-
-Thanks. Patch applied! 
+Thanks, Nikola. Patch applied.
 
 Cheers,
 
 Michael
 
+
+> Signed-off-by: Nikola Forr=C3=B3 <nforro-H+wXaHxf7aLQT0dZR+AlfA@public.gmane.org>
 > ---
->  man5/locale.5 | 45 +++++++++++++++++++++++++++++++--------------
->  1 file changed, 31 insertions(+), 14 deletions(-)
-> 
-> diff --git a/man5/locale.5 b/man5/locale.5
-> index e451798..ad2aac0 100644
-> --- a/man5/locale.5
-> +++ b/man5/locale.5
-> @@ -114,14 +114,14 @@ the GNU C library supports the following nonstandard categories:
->  See
->  .BR locale (7)
->  for a more detailed description of each category.
-> -.\"
-> +
->  .SS LC_ADDRESS
->  The definition starts with the string
->  .I LC_ADDRESS
->  in the first column.
->  
->  The following keywords are allowed:
-> -.\" Thanks to the kind folk who wrote localedata/locales/uk_UA
-> +.\" From localedata/locales/uk_UA
->  .TP
->  .I postal_fmt
->  followed by a string containing field descriptors that define
-> @@ -494,20 +494,20 @@ The
->  definition ends with the string
->  .IR "END LC_CTYPE" .
->  .SS LC_COLLATE
-> -Due to limitations of glibc not all POSIX-options are implemented.
-> +Note that glibc does not support all POSIX-defined options,
-> +only the options described below are supported (as of glibc 2.23).
->  
->  The definition starts with the string
->  .I LC_COLLATE
->  in the first column.
->  
->  The following keywords are allowed:
-> -.\" FIXME The following LC_COLLATE keywords are not documented:
-> -.\" 	reorder-after
-> -.\" 	reorder-end
-> -.\" 	reorder-sections-after
-> -.\" 	reorder-sections-end
-> +.\" FIXME The following glibc LC_COLLATE keywords are not documented:
->  .\" 	script
-> -.\" 	symbol-equivalence
-> +.TP
-> +.I coll_weight_max
-> +followed by the number representing used collation levels.
-> +This keyword is recognized but ignored by glibc.
->  .TP
->  .I collating-element
->  followed by the definition of a collating-element symbol
-> @@ -516,8 +516,25 @@ representing a multicharacter collating element.
->  .I collating-symbol
->  followed by the definition of a collating symbol
->  that can be used in collation order statements.
-> +.TP
-> +.I reorder-after
-> +followed by a redefinition of a collation rule.
-> +.TP
-> +.I reorder-end
-> +marks the end of the redefinition of a collation rule.
-> +.TP
-> +.I section
-> +followed by a section of collation order statements.
-> +.TP
-> +.I section-symbol
-> +followed by a section symbol representing a set of collation order
-> +statements.
-> +.TP
-> +.I symbol-equivalence
-> +followed by a collating-symbol to be equivalent to another defined
-> +collating-symbol.
->  .PP
-> -The order-definition starts with a line:
-> +The collation rule definition starts with a line:
->  .TP
->  .I order_start
->  followed by a list of keywords chosen from
-> @@ -525,8 +542,8 @@ followed by a list of keywords chosen from
->  .BR backward ,
+>  man3/popen.3 | 25 ++++++++++++++-----------
+>  1 file changed, 14 insertions(+), 11 deletions(-)
+>=20
+> diff --git a/man3/popen.3 b/man3/popen.3
+> index f075581..bafa42c 100644
+> --- a/man3/popen.3
+> +++ b/man3/popen.3
+> @@ -123,17 +123,18 @@ function waits for the associated process to te=
+rminate and returns the exit
+>  status of the command as returned by
+>  .BR wait4 (2).
+>  .SH RETURN VALUE
+> -The
+> -.BR popen ()
+> -function returns NULL if the
+> +.BR popen ():
+> +on success, returns a pointer to an open stream that
+> +can be used to read or write to the pipe;
+> +if the
+>  .BR fork (2)
 >  or
->  .BR position .
-> -The order definition consists of lines that describe the order
-> -and is terminated with the keyword
-> +The order definition consists of lines that describe the collation
-> +order and is terminated with the keyword
->  .IR order_end .
->  .PP
+>  .BR pipe (2)
+> -calls fail, or if it cannot allocate memory.
+> -.PP
+> -The
+> -.BR pclose ()
+> -function returns \-1 if
+> +calls fail, or if the function cannot allocate memory,
+> +NULL is returned.
+> +
+> +.BR pclose ():
+> +on success, returns the exit status of the command; if
+>  .\" These conditions actually give undefined results, so I commented
+>  .\" them out.
+>  .\" .I stream
+> @@ -141,10 +142,12 @@ function returns \-1 if
+>  .\".I stream
+>  .\" already "pclose()d", or if
+>  .BR wait4 (2)
+> -returns an error, or some other error is detected.
+> -In the event of an error, these functions set
+> +returns an error, or some other error is detected,
+> +\-1 is returned.
+> +.PP
+> +Both functions set
+>  .I errno
+> -to indicate the cause of the error.
+> +to an appropriate value in the case of an error.
+>  .SH ERRORS
 >  The
-> @@ -878,7 +895,7 @@ The allowed keywords are as follows:
->  followed by a string containing field descriptors that define
->  the format used for names in the locale.
->  The following field descriptors are recognized:
-> -.\" From localedata/locales/uk_UA:
-> +.\" From localedata/locales/uk_UA
->  .RS
->  .TP 4
->  %f
-> @@ -1233,7 +1250,7 @@ The default value is
->  See NOTES.
->  .TP
->  .I cal_direction
-> -.\" from localedata/locales/uk_UA
-> +.\" From localedata/locales/uk_UA
->  followed by a plain number value that indicates the direction for the
->  display of calendar dates, as follows:
->  .RS
-> 
-> Thanks,
-> 
+>  .BR popen ()
+>=20
 
 
--- 
+--=20
 Michael Kerrisk
 Linux man-pages maintainer; http://www.kernel.org/doc/man-pages/
 Linux/UNIX System Programming Training: http://man7.org/training/
