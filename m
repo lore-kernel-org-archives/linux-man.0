@@ -1,19 +1,25 @@
 From: "Michael Kerrisk (man-pages)" <mtk.manpages-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org>
-Subject: Re: [PATCH] open.2: tfix
-Date: Mon, 9 May 2016 22:32:55 +0200
-Message-ID: <82fa362e-28c8-f40a-904e-ec0ef36aff3f@gmail.com>
-References: <1462218123-11111-1-git-send-email-toddy@debian.org>
+Subject: Re: nsswitch.conf.5: document group merging
+Date: Mon, 9 May 2016 22:34:27 +0200
+Message-ID: <399b1707-c3d2-56ef-b991-e448ac2b0c8d@gmail.com>
+References: <5727341F.9000204@redhat.com>
 Mime-Version: 1.0
-Content-Type: text/plain; charset=windows-1252
+Content-Type: text/plain; charset=utf-8
 Content-Transfer-Encoding: 7bit
 Return-path: <linux-man-owner-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>
-In-Reply-To: <1462218123-11111-1-git-send-email-toddy-8fiUuRrzOP0dnm+yROfE0A@public.gmane.org>
+In-Reply-To: <5727341F.9000204-H+wXaHxf7aLQT0dZR+AlfA@public.gmane.org>
 Sender: linux-man-owner-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
-To: "Dr. Tobias Quathamer" <toddy-8fiUuRrzOP0dnm+yROfE0A@public.gmane.org>
-Cc: mtk.manpages-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org, linux-man-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
+To: Marko Myllynen <myllynen-H+wXaHxf7aLQT0dZR+AlfA@public.gmane.org>, Stephen Gallagher <sgallagh-H+wXaHxf7aLQT0dZR+AlfA@public.gmane.org>
+Cc: mtk.manpages-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org, linux-man <linux-man-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>
 List-Id: linux-man@vger.kernel.org
 
-Thanks, Tobia. 
+On 05/02/2016 01:03 PM, Marko Myllynen wrote:
+> Hi,
+> 
+> Here's a patch to document the recently merged glibc group merge
+> support.
+
+Thanks, Marko.
 
 Patch applied.
 
@@ -22,25 +28,45 @@ Cheers,
 Michael
 
 
-
-On 05/02/2016 09:42 PM, Dr. Tobias Quathamer wrote:
-> ---
->  man2/open.2 | 2 +-
->  1 file changed, 1 insertion(+), 1 deletion(-)
+> https://sourceware.org/git/?p=glibc.git;a=commitdiff;h=ced8f8933673f4efda1d666d26a1a949602035ed
+> https://sourceware.org/glibc/wiki/Proposals/GroupMerging
 > 
-> diff --git a/man2/open.2 b/man2/open.2
-> index 0ff0865..012d0c4 100644
-> --- a/man2/open.2
-> +++ b/man2/open.2
-> @@ -1587,7 +1587,7 @@ is ignored).
->  .BR unlink (2),
->  .BR write (2),
->  .BR fopen (3),
-> -.BR acl (5)
-> +.BR acl (5),
->  .BR fifo (7),
->  .BR path_resolution (7),
->  .BR symlink (7)
+> ---
+>  man5/nsswitch.conf.5 | 12 ++++++++++++
+>  1 file changed, 12 insertions(+)
+> 
+> diff --git a/man5/nsswitch.conf.5 b/man5/nsswitch.conf.5
+> index b99f9fd..8b62796 100644
+> --- a/man5/nsswitch.conf.5
+> +++ b/man5/nsswitch.conf.5
+> @@ -204,6 +204,8 @@ where
+>  .B return
+>  |
+>  .B continue
+> +|
+> +.B merge
+>  .RE
+>  .LP
+>  The ! negates the test, matching all possible results except the
+> @@ -257,6 +259,16 @@ without affecting the search result.
+>  .TP
+>  .B continue
+>  Call the next lookup function.
+> +.TP
+> +.B merge
+> +.I [SUCCESS=merge]
+> +is used between two database entries.
+> +When a group is located in the first of the two group entries,
+> +processing will continue on to the next one.
+> +If the group is also found in the next entry (and the group name and GID
+> +are an exact match), the member list of the second entry will be added
+> +to the group object to be returned.
+> +Available since glibc 2.24.
+>  .RE
+>  .SS Compatibility mode (compat)
+>  The NSS "compat" service is similar to "files" except that it
+> 
+> Thanks,
 > 
 
 
