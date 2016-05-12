@@ -1,37 +1,27 @@
-From: "W. Trevor King" <wking-vJI2gpByivqcqzYg7KEe8g@public.gmane.org>
-Subject: [PATCH] unix.7: tfix 'ret' check after accept populates 'data_socket'
-Date: Thu, 12 May 2016 01:24:26 -0700
-Message-ID: <df1c8881c6f1632e714aa3a99ce6656e944be74c.1463041407.git.wking@tremily.us>
-Return-path: <linux-man-owner-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>
-Sender: linux-man-owner-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
-To: mtk.manpages-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org
-Cc: linux-man-u79uwXL29TY76Z2rM5mHXA@public.gmane.org, Heinrich Schuchardt <xypron.glpk-Mmb7MZpHnFY@public.gmane.org>, "W. Trevor King" <wking-vJI2gpByivqcqzYg7KEe8g@public.gmane.org>
+From: Florian Weimer <fweimer@redhat.com>
+Subject: Re: [PATCH 1/2] mount.2: document MS_REC and shared subtree flags
+Date: Thu, 12 May 2016 10:36:00 +0200
+Message-ID: <57344070.3020603@redhat.com>
+References: <8896f51c3802ade59b398058c1d22c9830f9ae09.1463037379.git.osandov@fb.com>
+Mime-Version: 1.0
+Content-Type: text/plain; charset=windows-1252; format=flowed
+Content-Transfer-Encoding: 7bit
+Return-path: <linux-fsdevel-owner@vger.kernel.org>
+In-Reply-To: <8896f51c3802ade59b398058c1d22c9830f9ae09.1463037379.git.osandov@fb.com>
+Sender: linux-fsdevel-owner@vger.kernel.org
+To: Omar Sandoval <osandov@osandov.com>, Michael Kerrisk <mtk.manpages@gmail.com>
+Cc: linux-man@vger.kernel.org, linux-fsdevel@vger.kernel.org, Omar Sandoval <osandov@fb.com>
 List-Id: linux-man@vger.kernel.org
 
-A typo from 15545eb6 (unix.7: Add example, 2016-01-06).
+On 05/12/2016 09:17 AM, Omar Sandoval wrote:
+> +.BR MS_PRIVATE " (since Linux 2.6.15)"
+> +Set the mount propagation on this mountpoint to private. Mounts will not
+> +propagate to or from replicated subtrees.
+> +When used, this must be the only flag in
+> +.IR mountflags .
 
-Signed-off-by: W. Trevor King <wking-vJI2gpByivqcqzYg7KEe8g@public.gmane.org>
----
- man7/unix.7 | 2 +-
- 1 file changed, 1 insertion(+), 1 deletion(-)
+Is the last sentence actually true?  Further down, your patch mentions 
+combining MS_PRIVATE with other flags.
 
-diff --git a/man7/unix.7 b/man7/unix.7
-index 64f7610..ca6a621 100644
---- a/man7/unix.7
-+++ b/man7/unix.7
-@@ -735,7 +735,7 @@ main(int argc, char *argv[])
-         /* Wait for incoming connection. */
- 
-         data_socket = accept(connection_socket, NULL, NULL);
--        if (ret == \-1) {
-+        if (data_socket == \-1) {
-             perror("accept");
-             exit(EXIT_FAILURE);
-         }
--- 
-2.1.0.60.g85f0837
-
---
-To unsubscribe from this list: send the line "unsubscribe linux-man" in
-the body of a message to majordomo-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
-More majordomo info at  http://vger.kernel.org/majordomo-info.html
+Thanks,
+Florian
