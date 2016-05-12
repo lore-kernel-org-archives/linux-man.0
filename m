@@ -1,40 +1,44 @@
-From: Stefan Puiu <stefan.puiu-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org>
-Subject: [PATCH] inet_pton.3: Mention byte order
-Date: Thu, 12 May 2016 10:16:23 +0300
-Message-ID: <CACKs7VAgKPUOp7+_0NzWujruw0fsMF0L+UnsNqV=zsfmF+tqrw@mail.gmail.com>
-Mime-Version: 1.0
-Content-Type: text/plain; charset=UTF-8
-Return-path: <linux-man-owner-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>
-Sender: linux-man-owner-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
-To: lnx-man <linux-man-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>
+From: Omar Sandoval <osandov@osandov.com>
+Subject: [PATCH 2/2] mount.2: MS_BIND still ignores mountflags
+Date: Thu, 12 May 2016 00:17:09 -0700
+Message-ID: <f38bf1c7f30de297fc92efb9c6620f9c66599d09.1463037379.git.osandov@fb.com>
+References: <8896f51c3802ade59b398058c1d22c9830f9ae09.1463037379.git.osandov@fb.com>
+Return-path: <linux-fsdevel-owner@vger.kernel.org>
+In-Reply-To: <8896f51c3802ade59b398058c1d22c9830f9ae09.1463037379.git.osandov@fb.com>
+In-Reply-To: <8896f51c3802ade59b398058c1d22c9830f9ae09.1463037379.git.osandov@fb.com>
+References: <8896f51c3802ade59b398058c1d22c9830f9ae09.1463037379.git.osandov@fb.com>
+Sender: linux-fsdevel-owner@vger.kernel.org
+To: Michael Kerrisk <mtk.manpages@gmail.com>
+Cc: linux-man@vger.kernel.org, linux-fsdevel@vger.kernel.org, Omar Sandoval <osandov@fb.com>
 List-Id: linux-man@vger.kernel.org
 
-Hi,
+From: Omar Sandoval <osandov@fb.com>
 
-I was a bit stumped recently to realize that both inet_ntop() and
-inet_pton() work with addresses in network byte order. inet_ntop.3
-mentions that, and the example from inet_pton(), as far as I can tell,
-implies that you can call inet_ntop() on the result of inet_pton(), so
-the byte order needs to match, but I think it's better to mention this
-explicitly in the man page text. How about this (patch against git)?
+This is clear from the do_mount() function in the kernel as of v4.6-rc7.
 
-diff --git a/man3/inet_pton.3 b/man3/inet_pton.3
-index 4ff16b9..8b1017e 100644
---- a/man3/inet_pton.3
-+++ b/man3/inet_pton.3
-@@ -64,6 +64,8 @@ and copied to
- which must be
- .I sizeof(struct in_addr)
- (4) bytes (32 bits) long.
-+.IR dst
-+is written in network byte order.
+Signed-off-by: Omar Sandoval <osandov@fb.com>
+---
+ man2/mount.2 | 6 +++---
+ 1 file changed, 3 insertions(+), 3 deletions(-)
+
+diff --git a/man2/mount.2 b/man2/mount.2
+index cc624d3fe1c6..162bbddeba21 100644
+--- a/man2/mount.2
++++ b/man2/mount.2
+@@ -98,10 +98,10 @@ The
+ and
+ .IR data
+ arguments are ignored.
+-Up until Linux 2.6.26,
++The
+ .I mountflags
+-was also ignored
+-.\" with the exception of the "hidden" MS_REC mountflags bit
++argument is also ignored, with the exception of
++.B MS_REC
+ (the bind mount has the same mount options as
+ the underlying mount point).
  .TP
- .B AF_INET6
- .I src
+-- 
+2.8.2
 
-Thanks,
-Stefan.
---
-To unsubscribe from this list: send the line "unsubscribe linux-man" in
-the body of a message to majordomo-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
-More majordomo info at  http://vger.kernel.org/majordomo-info.html
