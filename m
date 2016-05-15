@@ -1,49 +1,43 @@
-From: bugzilla-daemon-590EEB7GvNiWaY/ihj7yzEB+6BGkLq7r@public.gmane.org
-Subject: [Bug 118241] New: clone(2) gives wrong prototype for raw system call
-Date: Sun, 15 May 2016 18:45:15 +0000
-Message-ID: <bug-118241-11311@https.bugzilla.kernel.org/>
-Mime-Version: 1.0
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: 7bit
+From: Marko Kevac <marko-+omovHKzcgHYtjvyW6yDsg@public.gmane.org>
+Subject: [PATCH] memfd_create.2: tfix
+Date: Mon, 16 May 2016 00:00:22 +0300
+Message-ID: <E6A48A90-00E9-4DC1-8246-480EF51364F9@kevac.org>
+Mime-Version: 1.0 (Mac OS X Mail 9.3 \(3124\))
+Content-Type: text/plain; charset=us-ascii
+Content-Transfer-Encoding: 8BIT
 Return-path: <linux-man-owner-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>
 Sender: linux-man-owner-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
-To: linux-man-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
+To: mtk.manpages-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org
+Cc: linux-man-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
 List-Id: linux-man@vger.kernel.org
 
-https://bugzilla.kernel.org/show_bug.cgi?id=118241
+This is patch for current master. Fixes small typo.
 
-            Bug ID: 118241
-           Summary: clone(2) gives wrong prototype for raw system call
-           Product: Documentation
-           Version: unspecified
-          Hardware: All
-                OS: Linux
-            Status: NEW
-          Severity: normal
-          Priority: P1
-         Component: man-pages
-          Assignee: documentation_man-pages-ztI5WcYan/vQLgFONoPN62D2FQJk+8+b@public.gmane.org
-          Reporter: b7.10110111-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org
-        Regression: No
+>From 94292ebe260a64920c63fe64075e0fa636a126cb Mon Sep 17 00:00:00 2001
+From: Marko Kevac <marko-+omovHKzcgHYtjvyW6yDsg@public.gmane.org>
+Date: Sun, 15 May 2016 23:56:34 +0300
+Subject: [PATCH] memfd_create.2: tfix
 
-clone(2) man gives the following prototype for the raw system call:
+---
+ man2/memfd_create.2 | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
 
-long clone(unsigned long flags, void *child_stack,
-           void *ptid, void *ctid,
-           struct pt_regs *regs);
+diff --git a/man2/memfd_create.2 b/man2/memfd_create.2
+index 09128e1..737be06 100644
+--- a/man2/memfd_create.2
++++ b/man2/memfd_create.2
+@@ -268,7 +268,7 @@ since they are running under the same user ID.
+ Therefore, file sealing would not normally be necessary.)
+ .IP *
+ The second process opens the file
+-.IR /proc/<pd>/fd/<fd> ,
++.IR /proc/<pid>/fd/<fd> ,
+ where
+ .I <pid>
+ is the PID of the first process (the one that called
+--
+2.8.2
 
-But actual kernel never seems to take `struct pt_regs* regs` as an argument.
-Instead it takes `struct user_desc* tls`. See the definitions of clone in
-kernel/fork.c. None of the #if branches have anything resembling `struct
-pt_regs`, but all do have `tls`.
-You can see another evidence of this in arch/x86/entry/entry_64_compat.S:
-
-* The 32-bit clone ABI is: clone(..., int tls_val, int *child_tidptr).
-* The 64-bit clone ABI is: clone(..., int *child_tidptr, int tls_val).
-
--- 
-You are receiving this mail because:
-You are watching the assignee of the bug.
 --
 To unsubscribe from this list: send the line "unsubscribe linux-man" in
 the body of a message to majordomo-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
