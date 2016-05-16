@@ -1,43 +1,43 @@
-From: Marko Kevac <marko-+omovHKzcgHYtjvyW6yDsg@public.gmane.org>
-Subject: [PATCH] memfd_create.2: tfix
-Date: Mon, 16 May 2016 00:00:22 +0300
-Message-ID: <E6A48A90-00E9-4DC1-8246-480EF51364F9@kevac.org>
-Mime-Version: 1.0 (Mac OS X Mail 9.3 \(3124\))
-Content-Type: text/plain; charset=us-ascii
-Content-Transfer-Encoding: 8BIT
+From: bugzilla-daemon-590EEB7GvNiWaY/ihj7yzEB+6BGkLq7r@public.gmane.org
+Subject: [Bug 118311] New: Non-free licensed man pages
+Date: Mon, 16 May 2016 21:13:00 +0000
+Message-ID: <bug-118311-11311@https.bugzilla.kernel.org/>
+Mime-Version: 1.0
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: 7bit
 Return-path: <linux-man-owner-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>
 Sender: linux-man-owner-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
-To: mtk.manpages-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org
-Cc: linux-man-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
+To: linux-man-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
 List-Id: linux-man@vger.kernel.org
 
-This is patch for current master. Fixes small typo.
+https://bugzilla.kernel.org/show_bug.cgi?id=118311
 
->From 94292ebe260a64920c63fe64075e0fa636a126cb Mon Sep 17 00:00:00 2001
-From: Marko Kevac <marko-+omovHKzcgHYtjvyW6yDsg@public.gmane.org>
-Date: Sun, 15 May 2016 23:56:34 +0300
-Subject: [PATCH] memfd_create.2: tfix
+            Bug ID: 118311
+           Summary: Non-free licensed man pages
+           Product: Documentation
+           Version: unspecified
+          Hardware: All
+                OS: Linux
+            Status: NEW
+          Severity: normal
+          Priority: P1
+         Component: man-pages
+          Assignee: documentation_man-pages-ztI5WcYan/vQLgFONoPN62D2FQJk+8+b@public.gmane.org
+          Reporter: tcallawa-H+wXaHxf7aLQT0dZR+AlfA@public.gmane.org
+        Regression: No
 
----
- man2/memfd_create.2 | 2 +-
- 1 file changed, 1 insertion(+), 1 deletion(-)
+These three files are under licenses which either have restrictions on
+modification or no permission to modify at all:
+"man2/getitimer.2"
+"man2/pciconfig_read.2"
+"man2/sysinfo.2"
 
-diff --git a/man2/memfd_create.2 b/man2/memfd_create.2
-index 09128e1..737be06 100644
---- a/man2/memfd_create.2
-+++ b/man2/memfd_create.2
-@@ -268,7 +268,7 @@ since they are running under the same user ID.
- Therefore, file sealing would not normally be necessary.)
- .IP *
- The second process opens the file
--.IR /proc/<pd>/fd/<fd> ,
-+.IR /proc/<pid>/fd/<fd> ,
- where
- .I <pid>
- is the PID of the first process (the one that called
---
-2.8.2
+Given the age of these files, it may be difficult to contact the copyright
+holder to get these files relicensed, but perhaps this is possible.
 
+-- 
+You are receiving this mail because:
+You are watching the assignee of the bug.
 --
 To unsubscribe from this list: send the line "unsubscribe linux-man" in
 the body of a message to majordomo-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
