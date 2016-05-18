@@ -1,25 +1,22 @@
 From: "Michael Kerrisk (man-pages)" <mtk.manpages-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org>
-Subject: Re: [PATCH] unix.7: tfix 'ret' check after accept populates
- 'data_socket'
-Date: Wed, 18 May 2016 22:36:55 +0200
-Message-ID: <111a78f3-3a7e-4ce2-eee1-5665c4aea316@gmail.com>
-References: <df1c8881c6f1632e714aa3a99ce6656e944be74c.1463041407.git.wking@tremily.us>
+Subject: Re: [PATCH 1/2] proc.5: tfix
+Date: Wed, 18 May 2016 22:37:01 +0200
+Message-ID: <a74ad291-3a4e-67c2-398b-9ddb576457e4@gmail.com>
+References: <1462994188-7596-1-git-send-email-jwilk@jwilk.net>
 Mime-Version: 1.0
 Content-Type: text/plain; charset=windows-1252
 Content-Transfer-Encoding: 7bit
 Return-path: <linux-man-owner-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>
-In-Reply-To: <df1c8881c6f1632e714aa3a99ce6656e944be74c.1463041407.git.wking-vJI2gpByivqcqzYg7KEe8g@public.gmane.org>
+In-Reply-To: <1462994188-7596-1-git-send-email-jwilk-tXgOlIzOKNReoWH0uzbU5w@public.gmane.org>
 Sender: linux-man-owner-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
-To: "W. Trevor King" <wking-vJI2gpByivqcqzYg7KEe8g@public.gmane.org>
-Cc: mtk.manpages-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org, linux-man-u79uwXL29TY76Z2rM5mHXA@public.gmane.org, Heinrich Schuchardt <xypron.glpk-Mmb7MZpHnFY@public.gmane.org>
+To: Jakub Wilk <jwilk-tXgOlIzOKNReoWH0uzbU5w@public.gmane.org>
+Cc: mtk.manpages-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org, linux-man-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
 List-Id: linux-man@vger.kernel.org
 
-On 05/12/2016 10:24 AM, W. Trevor King wrote:
-> A typo from 15545eb6 (unix.7: Add example, 2016-01-06).
-> 
-> Signed-off-by: W. Trevor King <wking-vJI2gpByivqcqzYg7KEe8g@public.gmane.org>
+On 05/11/2016 09:16 PM, Jakub Wilk wrote:
+> Signed-off-by: Jakub Wilk <jwilk-tXgOlIzOKNReoWH0uzbU5w@public.gmane.org>
 
-Thanks, Trevor. Applied.
+Thanks, Jakub! Applied.
 
 Cheers,
 
@@ -27,22 +24,22 @@ Michael
 
 
 > ---
->  man7/unix.7 | 2 +-
+>  man5/proc.5 | 2 +-
 >  1 file changed, 1 insertion(+), 1 deletion(-)
 > 
-> diff --git a/man7/unix.7 b/man7/unix.7
-> index 64f7610..ca6a621 100644
-> --- a/man7/unix.7
-> +++ b/man7/unix.7
-> @@ -735,7 +735,7 @@ main(int argc, char *argv[])
->          /* Wait for incoming connection. */
->  
->          data_socket = accept(connection_socket, NULL, NULL);
-> -        if (ret == \-1) {
-> +        if (data_socket == \-1) {
->              perror("accept");
->              exit(EXIT_FAILURE);
->          }
+> diff --git a/man5/proc.5 b/man5/proc.5
+> index dadac32..f263817 100644
+> --- a/man5/proc.5
+> +++ b/man5/proc.5
+> @@ -1118,7 +1118,7 @@ root: the pathname of the directory in the filesystem
+>  which forms the root of this mount.
+>  .TP
+>  (5)
+> -mount point: ithe pathname of the mount point relative
+> +mount point: the pathname of the mount point relative
+>  to the process's root directory.
+>  .TP
+>  (6)
 > 
 
 
