@@ -1,47 +1,73 @@
-From: Omar Sandoval <osandov-nWWhXC5lh1RBDgjK7y7TUQ@public.gmane.org>
-Subject: [PATCH v2 2/2] mount.2: MS_BIND still ignores mountflags
-Date: Wed, 18 May 2016 11:57:30 -0700
-Message-ID: <b7d41a470056188c253e61095fe40e02cbf03040.1463597825.git.osandov@fb.com>
-References: <cb66a4ad2808c6d6054e483348134d2e05405084.1463597825.git.osandov@fb.com>
+From: "Michael Kerrisk (man-pages)" <mtk.manpages-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org>
+Subject: Re: [PATCH] inet_pton.3: Mention byte order
+Date: Wed, 18 May 2016 22:36:20 +0200
+Message-ID: <c7e11344-b0ab-3ec0-49e4-0e66bc3f9530@gmail.com>
+References: <CACKs7VAgKPUOp7+_0NzWujruw0fsMF0L+UnsNqV=zsfmF+tqrw@mail.gmail.com>
+Mime-Version: 1.0
+Content-Type: text/plain; charset=utf-8
+Content-Transfer-Encoding: 7bit
 Return-path: <linux-man-owner-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>
-In-Reply-To: <cb66a4ad2808c6d6054e483348134d2e05405084.1463597825.git.osandov-b10kYP2dOMg@public.gmane.org>
-In-Reply-To: <cb66a4ad2808c6d6054e483348134d2e05405084.1463597825.git.osandov-b10kYP2dOMg@public.gmane.org>
-References: <cb66a4ad2808c6d6054e483348134d2e05405084.1463597825.git.osandov-b10kYP2dOMg@public.gmane.org>
+In-Reply-To: <CACKs7VAgKPUOp7+_0NzWujruw0fsMF0L+UnsNqV=zsfmF+tqrw-JsoAwUIsXosN+BqQ9rBEUg@public.gmane.org>
 Sender: linux-man-owner-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
-To: Michael Kerrisk <mtk.manpages-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org>
-Cc: linux-man-u79uwXL29TY76Z2rM5mHXA@public.gmane.org, linux-fsdevel-u79uwXL29TY76Z2rM5mHXA@public.gmane.org, Omar Sandoval <osandov-b10kYP2dOMg@public.gmane.org>
+To: Stefan Puiu <stefan.puiu-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org>, lnx-man <linux-man-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>
+Cc: mtk.manpages-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org
 List-Id: linux-man@vger.kernel.org
 
-From: Omar Sandoval <osandov-b10kYP2dOMg@public.gmane.org>
+Hello Stefan,
 
-This is clear from the do_mount() function in the kernel as of v4.6.
+On 05/12/2016 09:16 AM, Stefan Puiu wrote:
+> Hi,
+> 
+> I was a bit stumped recently to realize that both inet_ntop() and
+> inet_pton() work with addresses in network byte order.
 
-Signed-off-by: Omar Sandoval <osandov-b10kYP2dOMg@public.gmane.org>
----
- man2/mount.2 | 6 +++---
- 1 file changed, 3 insertions(+), 3 deletions(-)
+Yes, that's correct.
 
-diff --git a/man2/mount.2 b/man2/mount.2
-index 419e22da800f..bd4c35bd15ff 100644
---- a/man2/mount.2
-+++ b/man2/mount.2
-@@ -98,10 +98,10 @@ The
- and
- .IR data
- arguments are ignored.
--Up until Linux 2.6.26,
-+The
- .I mountflags
--was also ignored
--.\" with the exception of the "hidden" MS_REC mountflags bit
-+argument is also ignored, with the exception of
-+.B MS_REC
- (the bind mount has the same mount options as
- the underlying mount point).
- .TP
+> inet_ntop.3
+> mentions that, and the example from inet_pton(), as far as I can tell,
+> implies that you can call inet_ntop() on the result of inet_pton(), so
+> the byte order needs to match, but I think it's better to mention this
+> explicitly in the man page text. 
+
+Yes, it should be mentioned.
+
+> How about this (patch against git)?
+
+Following up in next mail...
+
+Cheers,
+
+Michael
+
+
+> diff --git a/man3/inet_pton.3 b/man3/inet_pton.3
+> index 4ff16b9..8b1017e 100644
+> --- a/man3/inet_pton.3
+> +++ b/man3/inet_pton.3
+> @@ -64,6 +64,8 @@ and copied to
+>  which must be
+>  .I sizeof(struct in_addr)
+>  (4) bytes (32 bits) long.
+> +.IR dst
+> +is written in network byte order.
+>  .TP
+>  .B AF_INET6
+>  .I src
+> 
+> Thanks,
+> Stefan.
+> --
+> To unsubscribe from this list: send the line "unsubscribe linux-man" in
+> the body of a message to majordomo-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
+> More majordomo info at  http://vger.kernel.org/majordomo-info.html
+> .
+> 
+
+
 -- 
-2.8.2
-
+Michael Kerrisk
+Linux man-pages maintainer; http://www.kernel.org/doc/man-pages/
+Linux/UNIX System Programming Training: http://man7.org/training/
 --
 To unsubscribe from this list: send the line "unsubscribe linux-man" in
 the body of a message to majordomo-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
