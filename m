@@ -1,53 +1,48 @@
 From: "Michael Kerrisk (man-pages)" <mtk.manpages-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org>
-Subject: Re: [PATCH] memfd_create.2: tfix
-Date: Wed, 18 May 2016 22:36:51 +0200
-Message-ID: <4a43720f-81e8-32a3-86f2-b2feaf316988@gmail.com>
-References: <E6A48A90-00E9-4DC1-8246-480EF51364F9@kevac.org>
+Subject: Re: [PATCH] unix.7: tfix 'ret' check after accept populates
+ 'data_socket'
+Date: Wed, 18 May 2016 22:36:55 +0200
+Message-ID: <111a78f3-3a7e-4ce2-eee1-5665c4aea316@gmail.com>
+References: <df1c8881c6f1632e714aa3a99ce6656e944be74c.1463041407.git.wking@tremily.us>
 Mime-Version: 1.0
 Content-Type: text/plain; charset=windows-1252
 Content-Transfer-Encoding: 7bit
 Return-path: <linux-man-owner-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>
-In-Reply-To: <E6A48A90-00E9-4DC1-8246-480EF51364F9-+omovHKzcgHYtjvyW6yDsg@public.gmane.org>
+In-Reply-To: <df1c8881c6f1632e714aa3a99ce6656e944be74c.1463041407.git.wking-vJI2gpByivqcqzYg7KEe8g@public.gmane.org>
 Sender: linux-man-owner-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
-To: Marko Kevac <marko-+omovHKzcgHYtjvyW6yDsg@public.gmane.org>
-Cc: mtk.manpages-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org, linux-man-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
+To: "W. Trevor King" <wking-vJI2gpByivqcqzYg7KEe8g@public.gmane.org>
+Cc: mtk.manpages-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org, linux-man-u79uwXL29TY76Z2rM5mHXA@public.gmane.org, Heinrich Schuchardt <xypron.glpk-Mmb7MZpHnFY@public.gmane.org>
 List-Id: linux-man@vger.kernel.org
 
-On 05/15/2016 11:00 PM, Marko Kevac wrote:
-> This is patch for current master. Fixes small typo.
+On 05/12/2016 10:24 AM, W. Trevor King wrote:
+> A typo from 15545eb6 (unix.7: Add example, 2016-01-06).
+> 
+> Signed-off-by: W. Trevor King <wking-vJI2gpByivqcqzYg7KEe8g@public.gmane.org>
 
-Thanks, Marko. Applied.
+Thanks, Trevor. Applied.
 
 Cheers,
 
 Michael
 
 
-> From 94292ebe260a64920c63fe64075e0fa636a126cb Mon Sep 17 00:00:00 2001
-> From: Marko Kevac <marko-+omovHKzcgHYtjvyW6yDsg@public.gmane.org>
-> Date: Sun, 15 May 2016 23:56:34 +0300
-> Subject: [PATCH] memfd_create.2: tfix
-> 
 > ---
->  man2/memfd_create.2 | 2 +-
+>  man7/unix.7 | 2 +-
 >  1 file changed, 1 insertion(+), 1 deletion(-)
 > 
-> diff --git a/man2/memfd_create.2 b/man2/memfd_create.2
-> index 09128e1..737be06 100644
-> --- a/man2/memfd_create.2
-> +++ b/man2/memfd_create.2
-> @@ -268,7 +268,7 @@ since they are running under the same user ID.
->  Therefore, file sealing would not normally be necessary.)
->  .IP *
->  The second process opens the file
-> -.IR /proc/<pd>/fd/<fd> ,
-> +.IR /proc/<pid>/fd/<fd> ,
->  where
->  .I <pid>
->  is the PID of the first process (the one that called
-> --
-> 2.8.2
-> 
+> diff --git a/man7/unix.7 b/man7/unix.7
+> index 64f7610..ca6a621 100644
+> --- a/man7/unix.7
+> +++ b/man7/unix.7
+> @@ -735,7 +735,7 @@ main(int argc, char *argv[])
+>          /* Wait for incoming connection. */
+>  
+>          data_socket = accept(connection_socket, NULL, NULL);
+> -        if (ret == \-1) {
+> +        if (data_socket == \-1) {
+>              perror("accept");
+>              exit(EXIT_FAILURE);
+>          }
 > 
 
 
