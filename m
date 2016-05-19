@@ -1,81 +1,276 @@
-From: Egmont Koblinger <egmont-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org>
-Subject: Re: getlogin(3): mention loginuid
-Date: Wed, 18 May 2016 22:48:09 +0200
-Message-ID: <CAGWcZkKy8BU-aak=cPX4buGYSFB+WXadJ=aCM1o3HhYZSrCYNw@mail.gmail.com>
-References: <CAGWcZkJFZZQgCAs4JnnGBj1jSh9aYdBiDUhRA+yj1Wx64H0xXA@mail.gmail.com>
- <8ee6ef8b-c976-0410-e525-42689b4bdf94@gmail.com>
+From: "Michael Kerrisk (man-pages)" <mtk.manpages-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org>
+Subject: Re: [PATCH v2 1/2] mount.2: document MS_REC and shared subtree flags
+Date: Thu, 19 May 2016 13:22:26 +0200
+Message-ID: <437ccc73-e37f-fe37-70c4-a52eafed0219@gmail.com>
+References: <cb66a4ad2808c6d6054e483348134d2e05405084.1463597825.git.osandov@fb.com>
 Mime-Version: 1.0
-Content-Type: text/plain; charset=UTF-8
+Content-Type: text/plain; charset=windows-1252
+Content-Transfer-Encoding: 7bit
 Return-path: <linux-man-owner-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>
-In-Reply-To: <8ee6ef8b-c976-0410-e525-42689b4bdf94-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org>
+In-Reply-To: <cb66a4ad2808c6d6054e483348134d2e05405084.1463597825.git.osandov-b10kYP2dOMg@public.gmane.org>
 Sender: linux-man-owner-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
-To: "Michael Kerrisk (man-pages)" <mtk.manpages-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org>
-Cc: linux-man <linux-man-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>
+To: Omar Sandoval <osandov-nWWhXC5lh1RBDgjK7y7TUQ@public.gmane.org>
+Cc: mtk.manpages-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org, linux-man-u79uwXL29TY76Z2rM5mHXA@public.gmane.org, linux-fsdevel-u79uwXL29TY76Z2rM5mHXA@public.gmane.org, Omar Sandoval <osandov-b10kYP2dOMg@public.gmane.org>
 List-Id: linux-man@vger.kernel.org
 
-Hi Michael,
+Hello Omar,
 
-I'm sorry but I hardly know anything about it, basically just what the
-mentioned link contains.
+Thanks for tackling this. Some comments below.
 
-loginuid is something that may or may not be compiled into the kernel.
-If available, it's initially -1, inherited on fork(), can be changed
-from -1 to any arbitrary value by anyone, but if it's not -1 then it
-can only be changed by root. Supposedly login programs (e.g. sshd,
-graphical display manager, etc., the one that changes from a system
-daemon to a user process) sets this to the user who logs in (probably
-via a pam module), for auditing (whatever it means) purposes. The
-value is supposed to be preserved across a su/sudo, that is, still
-contain the user who originally logged in, rather than the user su/sudo
-changes to.
+On 05/18/2016 08:57 PM, Omar Sandoval wrote:
+> From: Omar Sandoval <osandov-b10kYP2dOMg@public.gmane.org>
+> 
+> This stuff is all documented in the kernel source tree under
+> Documentation/filesystems/sharedsubtree.txt, so let's document it
+> properly for users.
+> 
+> Signed-off-by: Omar Sandoval <osandov-b10kYP2dOMg@public.gmane.org>
+> ---
+>  man2/mount.2 | 133 +++++++++++++++++++++++++++++++++++++++--------------------
+>  1 file changed, 88 insertions(+), 45 deletions(-)
+> 
+> diff --git a/man2/mount.2 b/man2/mount.2
+> index aa6558a87cd9..419e22da800f 100644
+> --- a/man2/mount.2
+> +++ b/man2/mount.2
+> @@ -83,44 +83,6 @@ and various mount flags
+>  .\" (as defined in \fI<linux/fs.h>\fP for libc4 and libc5
+>  .\" and in \fI<sys/mount.h>\fP for glibc2)
+>  in the low order 16 bits:
+> -.\" FIXME 2.6.15 added flags for "shared subtree" functionality:
+> -.\"
+> -.\"	MS_PRIVATE
+> -.\"		All mounts are private by default. Previously shared mounts
+> -.\"		can be re-marked PRIVATE.
+> -.\"	MS_SHARED
+> -.\"		Mount points that are marked SHARED propagate mount events
+> -.\"		to one another after being cloned.
+> -.\"			mount --make-rshared ==> MS_SHARED | MS_REC
+> -.\"	MS_SLAVE
+> -.\"		A previously shared mount point can be marked SLAVE, meaning
+> -.\"		it receives propagated events, but does not propagate events.
+> -.\"	MS_UNBINDABLE
+> -.\"		mounts cannot be bound into other places, and will not be
+> -.\"		propagated into new subtrees	
+> -.\"
+> -.\" These settings are visible in /proc/$$/mountinfo
+> -.\"
+> -.\" These need to be documented on this page.
+> -.\" See:
+> -.\"
+> -.\" * Documentation/filesystems/sharedsubtree.txt
+> -.\"
+> -.\" * http://lwn.net/Articles/159077/
+> -.\"
+> -.\" * https://www.kernel.org/doc/ols/2006/ols2006v2-pages-209-222.pdf
+> -.\"       Shared-Subtree Concept, Implementation, and Applications in Linux
+> -.\"       Al Viro viro-rfM+Q5joDG/XmaaqVzeoHQ@public.gmane.org
+> -.\"       Ram Pai linuxram-r/Jw6+rmf7HQT0dZR+AlfA@public.gmane.org
+> -.\"
+> -.\" * http://www.ibm.com/developerworks/linux/library/l-mount-namespaces/index.html
+> -.\"       Applying mount namespaces
+> -.\"
+> -.\"       Uncover practical applications for advanced Linux mounts features
+> -.\"       Serge E. Hallyn (sergeh-r/Jw6+rmf7HQT0dZR+AlfA@public.gmane.org), Software Engineer, IBM
+> -.\"       Ram Pai (linuxram-r/Jw6+rmf7HQT0dZR+AlfA@public.gmane.org), Software Engineer, IBM
+> -.\"       Date:  17 Sep 2007
+> -.\"
+>  .\" FIXME 2.6.25 Added MS_I_VERSION, which needs to be documented.
+>  .\"
+>  .TP
+> @@ -240,12 +202,34 @@ programs from this filesystem.
+>  .\" (This is a security feature to prevent users executing set-user-ID and
+>  .\" set-group-ID programs from removable disk devices.)
+>  .TP
+> +.BR MS_PRIVATE " (since Linux 2.6.15)"
+> +Set the mount propagation on this mountpoint to private. Mounts will not
 
-I came across this at
-https://bugzilla.gnome.org/show_bug.cgi?id=747046 which discusses the
-removal of utmp logging from gnome-terminal. Quite a few utilities
-rely on getlogin(3) which in turn looks at utmp and hence returns
-incorrect result there. On the other hand, as discussed there, utmp is
-unreliable and broken by design.
+s/mountpoint/mount point/ (all occurrences)
 
-I was surprised to learn about the existence of loginuid, as well as
-the fact that getlogin(3) actually first looks as loginuid, and only
-if it's unavailable or unset (-1) then it goes on to utmp. For the
-gnome-terminal utmp discussion I wish I had known this earlier.
+Change "this mountpoint" to
 
-Sorry, I know this is nowhere close to the style and precision that a
-manpage requires.
+the
+.I target
+mount point
 
-cheers,
-egmont
+(and other instances below).
 
-On Wed, May 18, 2016 at 10:36 PM, Michael Kerrisk (man-pages)
-<mtk.manpages-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org> wrote:
-> On 04/23/2016 11:00 PM, Egmont Koblinger wrote:
->> Hi,
->>
->> I just got to know about /proc/self/loginuid, as well as getlogin(3)
->> referring to this file prior to utmp, by browsing this bug:
->> https://bugzilla.redhat.com/show_bug.cgi?id=1328947 (esp. comments
->> 13-17 are relevant).
->>
->> getlogin(3)'s manual page does not mention this at all. (And, for the
->> record, neither does proc(5), it has a FIXME comment about it).
->>
->> Could you please fill in this gap?
->
-> Hello Egmont,
->
-> Can you provide some information about this field? If not a patch
-> to the man page, then at least some descriptive text?
->
-> Thanks,
->
-> Michael
->
->
-> --
-> Michael Kerrisk
-> Linux man-pages maintainer; http://www.kernel.org/doc/man-pages/
-> Linux/UNIX System Programming Training: http://man7.org/training/
+> +propagate to or from replicated subtrees.
+
+What is a "replicated subtree"? This isn't explained in the text (and, doesn't
+feel quite right as a term, but perhaps that is just because you do not explain
+what you mean).
+
+> +This flag can only be combined with
+
+s/can only be combined with/ can be combined with only/
+(all occurrences)
+
+> +.B MS_REC
+> +and
+> +.BR MS_SILENT .
+> +The
+> +.IR source ,
+> +.IR filesystemtype ,
+> +and
+> +.IR data
+> +arguments are ignored.
+> +.TP
+>  .B MS_RDONLY
+>  Mount filesystem read-only.
+> -.\"
+> -.\" FIXME Document MS_REC, available since 2.4.11.
+> -.\" This flag has meaning in conjunction with MS_BIND and
+> -.\" also with the shared subtree flags.
+> +.TP
+> +.BR MS_REC " (since Linux 2.4.11)"
+> +When passed together with
+> +.BR MS_BIND ,
+> +recursively bind mount all mountpoints underneath the source subtree.
+
+Change "source subtree" to
+
+.I source
+subtree.
+
+> +When passed together with a shared subtree flag (one of
+> +.BR MS_PRIVATE ,
+> +.BR MS_SHARED ,
+> +.BR MS_SLAVE ", or"
+> +.BR MS_UNBINDABLE ),
+> +recursively apply the shared subtree setting to all mountpoints
+> +underneath the target subtree.
+
+Change "target subtree" to
+
+.I target
+subtree.
+
+
+>  .TP
+>  .BR MS_RELATIME " (since Linux 2.6.20)"
+>  When a file on this filesystem is accessed,
+> @@ -306,6 +290,21 @@ and, additionally, before kernel 2.4.10, the following could also be changed:
+>  .BR MS_NODEV ,
+>  .BR MS_NOEXEC .
+>  .TP
+> +.BR MS_SHARED " (since Linux 2.6.15)"
+> +Set the mount propagation on this mountpoint to shared.
+> +Mounts will be propagated to and from replicated subtrees
+
+s/Mount/Mount and unmount events/
+
+> +(i.e., all replicas will continue to be the same).
+> +This flag can only be combined with
+> +.B MS_REC
+> +and
+> +.BR MS_SILENT .
+> +The
+> +.IR source ,
+> +.IR filesystemtype ,
+> +and
+> +.IR data
+> +arguments are ignored.
+> +.TP
+>  .BR MS_SILENT " (since Linux 2.6.17)"
+>  Suppress the display of certain
+>  .RI ( printk ())
+> @@ -314,6 +313,28 @@ This flag supersedes the misnamed and obsolete
+>  .BR MS_VERBOSE
+>  flag (available since Linux 2.4.12), which has the same meaning.
+>  .TP
+> +.BR MS_SLAVE " (since Linux 2.6.15)"
+> +Make this mountpoint a slave of its source mountpoint, referred to as
+> +its master.
+> +Mounts made underneath the master subtree will be propagated to this
+
+s/Mounts made/Mount and unmount events/
+
+> +subtree, but mounts made underneath this subtree will not be propagated
+
+s/mounts made/events/
+
+> +back to the master.
+> +Note that a slave mountpoint can still have either private propagation
+> +(see
+> +.BR MS_PRIVATE )
+> +or shared propagation (see
+> +.BR MS_SHARED ).
+> +This flag can only be combined with
+> +.B MS_REC
+> +and
+> +.BR MS_SILENT .
+> +The
+> +.IR source ,
+> +.IR filesystemtype ,
+> +and
+> +.IR data
+> +arguments are ignored.
+> +.TP
+>  .BR MS_STRICTATIME " (since Linux 2.6.30)"
+>  Always update the last access time (atime) when files on this
+>  filesystem are accessed.
+> @@ -331,6 +352,21 @@ the
+>  flag to
+>  .BR open (2)
+>  was specified for all file opens to this filesystem).
+> +.TP
+> +.BR MS_UNBINDABLE " (since Linux 2.6.15)"
+> +Set the mount propagation on this mountpoint to private (see
+> +.BR MS_PRIVATE )
+> +and disallow bind mounts with this mountpoint as the source.
+> +This flag can only be combined with
+> +.B MS_REC
+> +and
+> +.BR MS_SILENT .
+> +The
+> +.IR source ,
+> +.IR filesystemtype ,
+> +and
+> +.IR data
+> +arguments are ignored.
+>  .PP
+>  From Linux 2.4 onward, the
+>  .BR MS_NODEV ", " MS_NOEXEC ", and " MS_NOSUID
+> @@ -408,6 +444,11 @@ Or, a move
+>  was attempted, but
+>  .I source
+>  was not a mount point, or was \(aq/\(aq.
+> +Or, more than one shared subtree flag was given.
+> +Or, a shared subtree flag was combined with a flag other than
+> +.B MS_REC
+> +or
+> +.BR MS_SILENT .
+>  .TP
+>  .B ELOOP
+>  Too many links encountered during pathname resolution.
+> @@ -457,11 +498,13 @@ The definitions of
+>  .BR MS_MOVE ,
+>  .BR MS_REC ,
+>  .BR MS_RELATIME ,
+> +.BR MS_STRICTATIME ,
+> +.BR MS_PRIVATE ,
+> +.BR MS_SHARED ,
+> +.BR MS_SLAVE ,
+>  and
+> -.BR MS_STRICTATIME
+> +.BR MS_UNBINDABLE
+>  were added to glibc headers in version 2.12.
+> -.\" FIXME . Definitions of the so-far-undocumented MS_UNBINDABLE, MS_PRIVATE,
+> -.\" MS_SHARED, and MS_SLAVE were (also) only added to glibc headers in 2.12.
+>  .SH CONFORMING TO
+>  This function is Linux-specific and should not be used in
+>  programs intended to be portable.
+
+Cheers,
+
+Michael
+
+
+-- 
+Michael Kerrisk
+Linux man-pages maintainer; http://www.kernel.org/doc/man-pages/
+Linux/UNIX System Programming Training: http://man7.org/training/
 --
 To unsubscribe from this list: send the line "unsubscribe linux-man" in
 the body of a message to majordomo-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
