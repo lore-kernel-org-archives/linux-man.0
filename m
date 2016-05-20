@@ -1,276 +1,136 @@
-From: "Michael Kerrisk (man-pages)" <mtk.manpages-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org>
-Subject: Re: [PATCH v2 1/2] mount.2: document MS_REC and shared subtree flags
-Date: Thu, 19 May 2016 13:22:26 +0200
-Message-ID: <437ccc73-e37f-fe37-70c4-a52eafed0219@gmail.com>
-References: <cb66a4ad2808c6d6054e483348134d2e05405084.1463597825.git.osandov@fb.com>
+From: Alec Leamas <leamas.alec-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org>
+Subject: [PATCH] lirc.4: Update after upstreamed lirc.h + updated kernel docs.
+Date: Fri, 20 May 2016 12:49:38 +0200
+Message-ID: <42d49eaf-7f4e-68f3-420e-e5c294488647@gmail.com>
 Mime-Version: 1.0
-Content-Type: text/plain; charset=windows-1252
-Content-Transfer-Encoding: 7bit
+Content-Type: multipart/mixed;
+ boundary="------------3F6B106F7CD0C8F499B186F5"
 Return-path: <linux-man-owner-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>
-In-Reply-To: <cb66a4ad2808c6d6054e483348134d2e05405084.1463597825.git.osandov-b10kYP2dOMg@public.gmane.org>
 Sender: linux-man-owner-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
-To: Omar Sandoval <osandov-nWWhXC5lh1RBDgjK7y7TUQ@public.gmane.org>
-Cc: mtk.manpages-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org, linux-man-u79uwXL29TY76Z2rM5mHXA@public.gmane.org, linux-fsdevel-u79uwXL29TY76Z2rM5mHXA@public.gmane.org, Omar Sandoval <osandov-b10kYP2dOMg@public.gmane.org>
+To: mtk.manpages-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org
+Cc: linux-man-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
 List-Id: linux-man@vger.kernel.org
 
-Hello Omar,
-
-Thanks for tackling this. Some comments below.
-
-On 05/18/2016 08:57 PM, Omar Sandoval wrote:
-> From: Omar Sandoval <osandov-b10kYP2dOMg@public.gmane.org>
-> 
-> This stuff is all documented in the kernel source tree under
-> Documentation/filesystems/sharedsubtree.txt, so let's document it
-> properly for users.
-> 
-> Signed-off-by: Omar Sandoval <osandov-b10kYP2dOMg@public.gmane.org>
-> ---
->  man2/mount.2 | 133 +++++++++++++++++++++++++++++++++++++++--------------------
->  1 file changed, 88 insertions(+), 45 deletions(-)
-> 
-> diff --git a/man2/mount.2 b/man2/mount.2
-> index aa6558a87cd9..419e22da800f 100644
-> --- a/man2/mount.2
-> +++ b/man2/mount.2
-> @@ -83,44 +83,6 @@ and various mount flags
->  .\" (as defined in \fI<linux/fs.h>\fP for libc4 and libc5
->  .\" and in \fI<sys/mount.h>\fP for glibc2)
->  in the low order 16 bits:
-> -.\" FIXME 2.6.15 added flags for "shared subtree" functionality:
-> -.\"
-> -.\"	MS_PRIVATE
-> -.\"		All mounts are private by default. Previously shared mounts
-> -.\"		can be re-marked PRIVATE.
-> -.\"	MS_SHARED
-> -.\"		Mount points that are marked SHARED propagate mount events
-> -.\"		to one another after being cloned.
-> -.\"			mount --make-rshared ==> MS_SHARED | MS_REC
-> -.\"	MS_SLAVE
-> -.\"		A previously shared mount point can be marked SLAVE, meaning
-> -.\"		it receives propagated events, but does not propagate events.
-> -.\"	MS_UNBINDABLE
-> -.\"		mounts cannot be bound into other places, and will not be
-> -.\"		propagated into new subtrees	
-> -.\"
-> -.\" These settings are visible in /proc/$$/mountinfo
-> -.\"
-> -.\" These need to be documented on this page.
-> -.\" See:
-> -.\"
-> -.\" * Documentation/filesystems/sharedsubtree.txt
-> -.\"
-> -.\" * http://lwn.net/Articles/159077/
-> -.\"
-> -.\" * https://www.kernel.org/doc/ols/2006/ols2006v2-pages-209-222.pdf
-> -.\"       Shared-Subtree Concept, Implementation, and Applications in Linux
-> -.\"       Al Viro viro-rfM+Q5joDG/XmaaqVzeoHQ@public.gmane.org
-> -.\"       Ram Pai linuxram-r/Jw6+rmf7HQT0dZR+AlfA@public.gmane.org
-> -.\"
-> -.\" * http://www.ibm.com/developerworks/linux/library/l-mount-namespaces/index.html
-> -.\"       Applying mount namespaces
-> -.\"
-> -.\"       Uncover practical applications for advanced Linux mounts features
-> -.\"       Serge E. Hallyn (sergeh-r/Jw6+rmf7HQT0dZR+AlfA@public.gmane.org), Software Engineer, IBM
-> -.\"       Ram Pai (linuxram-r/Jw6+rmf7HQT0dZR+AlfA@public.gmane.org), Software Engineer, IBM
-> -.\"       Date:  17 Sep 2007
-> -.\"
->  .\" FIXME 2.6.25 Added MS_I_VERSION, which needs to be documented.
->  .\"
->  .TP
-> @@ -240,12 +202,34 @@ programs from this filesystem.
->  .\" (This is a security feature to prevent users executing set-user-ID and
->  .\" set-group-ID programs from removable disk devices.)
->  .TP
-> +.BR MS_PRIVATE " (since Linux 2.6.15)"
-> +Set the mount propagation on this mountpoint to private. Mounts will not
-
-s/mountpoint/mount point/ (all occurrences)
-
-Change "this mountpoint" to
-
-the
-.I target
-mount point
-
-(and other instances below).
-
-> +propagate to or from replicated subtrees.
-
-What is a "replicated subtree"? This isn't explained in the text (and, doesn't
-feel quite right as a term, but perhaps that is just because you do not explain
-what you mean).
-
-> +This flag can only be combined with
-
-s/can only be combined with/ can be combined with only/
-(all occurrences)
-
-> +.B MS_REC
-> +and
-> +.BR MS_SILENT .
-> +The
-> +.IR source ,
-> +.IR filesystemtype ,
-> +and
-> +.IR data
-> +arguments are ignored.
-> +.TP
->  .B MS_RDONLY
->  Mount filesystem read-only.
-> -.\"
-> -.\" FIXME Document MS_REC, available since 2.4.11.
-> -.\" This flag has meaning in conjunction with MS_BIND and
-> -.\" also with the shared subtree flags.
-> +.TP
-> +.BR MS_REC " (since Linux 2.4.11)"
-> +When passed together with
-> +.BR MS_BIND ,
-> +recursively bind mount all mountpoints underneath the source subtree.
-
-Change "source subtree" to
-
-.I source
-subtree.
-
-> +When passed together with a shared subtree flag (one of
-> +.BR MS_PRIVATE ,
-> +.BR MS_SHARED ,
-> +.BR MS_SLAVE ", or"
-> +.BR MS_UNBINDABLE ),
-> +recursively apply the shared subtree setting to all mountpoints
-> +underneath the target subtree.
-
-Change "target subtree" to
-
-.I target
-subtree.
+This is a multi-part message in MIME format.
+--------------3F6B106F7CD0C8F499B186F5
+Content-Type: text/plain; charset=utf-8; format=flowed
+Content-Transfer-Encoding: 7bit
 
 
->  .TP
->  .BR MS_RELATIME " (since Linux 2.6.20)"
->  When a file on this filesystem is accessed,
-> @@ -306,6 +290,21 @@ and, additionally, before kernel 2.4.10, the following could also be changed:
->  .BR MS_NODEV ,
->  .BR MS_NOEXEC .
->  .TP
-> +.BR MS_SHARED " (since Linux 2.6.15)"
-> +Set the mount propagation on this mountpoint to shared.
-> +Mounts will be propagated to and from replicated subtrees
 
-s/Mount/Mount and unmount events/
+--------------3F6B106F7CD0C8F499B186F5
+Content-Type: text/x-patch;
+ name="0001-lirc.4-Update-after-upstreamed-lirc.h-bugfixes.patch"
+Content-Transfer-Encoding: 7bit
+Content-Disposition: attachment;
+ filename*0="0001-lirc.4-Update-after-upstreamed-lirc.h-bugfixes.patch"
 
-> +(i.e., all replicas will continue to be the same).
-> +This flag can only be combined with
-> +.B MS_REC
-> +and
-> +.BR MS_SILENT .
-> +The
-> +.IR source ,
-> +.IR filesystemtype ,
-> +and
-> +.IR data
-> +arguments are ignored.
-> +.TP
->  .BR MS_SILENT " (since Linux 2.6.17)"
->  Suppress the display of certain
->  .RI ( printk ())
-> @@ -314,6 +313,28 @@ This flag supersedes the misnamed and obsolete
->  .BR MS_VERBOSE
->  flag (available since Linux 2.4.12), which has the same meaning.
->  .TP
-> +.BR MS_SLAVE " (since Linux 2.6.15)"
-> +Make this mountpoint a slave of its source mountpoint, referred to as
-> +its master.
-> +Mounts made underneath the master subtree will be propagated to this
+>From 1d2278cf244a47ed3b8108be319945050a7b9601 Mon Sep 17 00:00:00 2001
+From: Alec Leamas <leamas.alec-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org>
+Date: Fri, 20 May 2016 12:28:15 +0200
+Subject: [PATCH] lirc.4: Update after upstreamed lirc.h, bugfixes.
 
-s/Mounts made/Mount and unmount events/
+The lirc.h header has landed in the kernel, and the kernel docs
+has been updated all of which reflected in this patch.
 
-> +subtree, but mounts made underneath this subtree will not be propagated
+Here is still an open issue with duplicated info in the kernel
+docs and the manpage. Eventually, this should be addressed but
+I frankly don't know how. In the meantime, acknowledge the fact
+that the kernel docs is the ultimate source
+---
+ man4/lirc.4 | 31 +++++++++++++++++++++++++------
+ 1 file changed, 25 insertions(+), 6 deletions(-)
 
-s/mounts made/events/
-
-> +back to the master.
-> +Note that a slave mountpoint can still have either private propagation
-> +(see
-> +.BR MS_PRIVATE )
-> +or shared propagation (see
-> +.BR MS_SHARED ).
-> +This flag can only be combined with
-> +.B MS_REC
-> +and
-> +.BR MS_SILENT .
-> +The
-> +.IR source ,
-> +.IR filesystemtype ,
-> +and
-> +.IR data
-> +arguments are ignored.
-> +.TP
->  .BR MS_STRICTATIME " (since Linux 2.6.30)"
->  Always update the last access time (atime) when files on this
->  filesystem are accessed.
-> @@ -331,6 +352,21 @@ the
->  flag to
->  .BR open (2)
->  was specified for all file opens to this filesystem).
-> +.TP
-> +.BR MS_UNBINDABLE " (since Linux 2.6.15)"
-> +Set the mount propagation on this mountpoint to private (see
-> +.BR MS_PRIVATE )
-> +and disallow bind mounts with this mountpoint as the source.
-> +This flag can only be combined with
-> +.B MS_REC
-> +and
-> +.BR MS_SILENT .
-> +The
-> +.IR source ,
-> +.IR filesystemtype ,
-> +and
-> +.IR data
-> +arguments are ignored.
->  .PP
->  From Linux 2.4 onward, the
->  .BR MS_NODEV ", " MS_NOEXEC ", and " MS_NOSUID
-> @@ -408,6 +444,11 @@ Or, a move
->  was attempted, but
->  .I source
->  was not a mount point, or was \(aq/\(aq.
-> +Or, more than one shared subtree flag was given.
-> +Or, a shared subtree flag was combined with a flag other than
-> +.B MS_REC
-> +or
-> +.BR MS_SILENT .
->  .TP
->  .B ELOOP
->  Too many links encountered during pathname resolution.
-> @@ -457,11 +498,13 @@ The definitions of
->  .BR MS_MOVE ,
->  .BR MS_REC ,
->  .BR MS_RELATIME ,
-> +.BR MS_STRICTATIME ,
-> +.BR MS_PRIVATE ,
-> +.BR MS_SHARED ,
-> +.BR MS_SLAVE ,
->  and
-> -.BR MS_STRICTATIME
-> +.BR MS_UNBINDABLE
->  were added to glibc headers in version 2.12.
-> -.\" FIXME . Definitions of the so-far-undocumented MS_UNBINDABLE, MS_PRIVATE,
-> -.\" MS_SHARED, and MS_SLAVE were (also) only added to glibc headers in 2.12.
->  .SH CONFORMING TO
->  This function is Linux-specific and should not be used in
->  programs intended to be portable.
-
-Cheers,
-
-Michael
-
-
+diff --git a/man4/lirc.4 b/man4/lirc.4
+index 78e96412..053c134 100644
+--- a/man4/lirc.4
++++ b/man4/lirc.4
+@@ -1,4 +1,4 @@
+-.\" Copyright (c) 2015, Alec Leamas
++.\" Copyright (c) 2015-2016, Alec Leamas
+ .\"
+ .\" %%%LICENSE_START(GPLv2+_DOC_FULL)
+ .\" This is free documentation; you can redistribute it and/or
+@@ -20,7 +20,7 @@
+ .\" License along with this manual; if not, see
+ .\" <http://www.gnu.org/licenses/>.
+ .\" %%%LICENSE_END
+-.TH LIRC 4 "2016-03-17" "Linux" "Linux Programmer's Manual"
++.TH LIRC 4 "2016-05-20" "Linux" "Linux Programmer's Manual"
+ .SH NAME
+ lirc \- lirc devices
+ .SH DESCRIPTION
+@@ -111,7 +111,18 @@ If more data is provided than the hardware can send, the
+ call fails with the error
+ .BR EINVAL
+ .\"
+-.SH SUPPORTED IOCTL COMMANDS
++.SH IOCTL COMMANDS
++.P
++The complete list of ioctl commands is maintained in the kernel
++documentation, see SEE ALSO.
++The ioctl commands presented here is a subset  of the kernel
++docs.
++.P
++The LIRC device's ioctl definition is bound by the ioctl function
++definition of struct file_operations, leaving us with an unsigned
++int for the ioctl command and an unsigned long for the arg.
++For the purposes of ioctl portability across 32-bit and 64-bit,
++these values are capped to their 32-bit sizes.
+ .P
+ .nf
+ #include <lirc/include/media/lirc.h>    /* But see BUGS */
+@@ -140,6 +151,8 @@ Returns a bit mask of combined features bits; see FEATURES.
+ Some drivers have dynamic features which are not updated until after an
+ .I init()
+ command.
++If a driver does not announce support of certain features, calling of
++the corresponding ioctls is undefined.
+ .TP
+ .BR LIRC_GET_REC_MODE
+ Return the receive mode, which will be one of:
+@@ -191,10 +204,16 @@ Currently serves no purpose since only
+ .BR LIRC_MODE_PULSE
+ is supported.
+ .TP
++.BR LIRC_GET_SEND_CARRIER " (\fIvoid\fP)"
++Get the modulation frequency (Hz).
++.TP
+ .BR LIRC_SET_SEND_CARRIER " (\fIint\fP)"
+ Set the modulation frequency.
+ The argument is the frequency (Hz).
+ .TP
++.BR LIRC_GET_SEND_CARRIER " (\fIvoid\fP)"
++Get the modulation frequency used when decoding (Hz).
++.TP
+ .BR SET_SEND_DUTY_CYCLE " (\fIint\fP)"
+ Set the carrier duty cycle.
+ .I val
+@@ -202,6 +221,7 @@ is a number in the range [0,100] which
+ describes the pulse width as a percentage of the total cycle.
+ Currently, no special meaning is defined for 0 or 100, but the values
+ are reserved for future use.
++
+ .TP
+ .BR LIRC_GET_MIN_TIMEOUT " (\fIvoid\fP)", " "\
+ LIRC_GET_MAX_TIMEOUT " (\fIvoid\fP)"
+@@ -444,9 +464,8 @@ sending.)
+ .SH BUGS
+ Using these devices requires the kernel source header file
+ .IR lirc.h .
+-This file is not (yet) publicly exported by kernel headers.
+-.\" FIXME . https://bugzilla.kernel.org/show_bug.cgi?id=3D75751.
+-For the time being, the file is bundled in the lirc package; see
++This file is not available before kernel release 4.6. Users of older
++kernels could use the file bundled in
+ .UR http://www.lirc.org
+ .UE .
+ .\"
 -- 
-Michael Kerrisk
-Linux man-pages maintainer; http://www.kernel.org/doc/man-pages/
-Linux/UNIX System Programming Training: http://man7.org/training/
+2.5.5
+
+
+--------------3F6B106F7CD0C8F499B186F5--
 --
 To unsubscribe from this list: send the line "unsubscribe linux-man" in
 the body of a message to majordomo-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
