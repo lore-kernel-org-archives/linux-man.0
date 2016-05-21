@@ -1,64 +1,50 @@
-From: "Michael Kerrisk (man-pages)" <mtk.manpages-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org>
-Subject: Re: [PATCH v2 2/2] mount.2: MS_BIND still ignores mountflags
-Date: Sat, 21 May 2016 11:29:50 -0500
-Message-ID: <7e6468ec-fd5d-bfdd-c86f-925b3d9fc251@gmail.com>
-References: <cb66a4ad2808c6d6054e483348134d2e05405084.1463597825.git.osandov@fb.com>
- <b7d41a470056188c253e61095fe40e02cbf03040.1463597825.git.osandov@fb.com>
+From: bugzilla-daemon-590EEB7GvNiWaY/ihj7yzEB+6BGkLq7r@public.gmane.org
+Subject: [Bug 118671] New: mkfifo(3) & mknod(3) and EPERM
+Date: Sat, 21 May 2016 19:50:54 +0000
+Message-ID: <bug-118671-11311@https.bugzilla.kernel.org/>
 Mime-Version: 1.0
-Content-Type: text/plain; charset=windows-1252
+Content-Type: text/plain; charset="UTF-8"
 Content-Transfer-Encoding: 7bit
 Return-path: <linux-man-owner-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>
-In-Reply-To: <b7d41a470056188c253e61095fe40e02cbf03040.1463597825.git.osandov-b10kYP2dOMg@public.gmane.org>
 Sender: linux-man-owner-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
-To: Omar Sandoval <osandov-nWWhXC5lh1RBDgjK7y7TUQ@public.gmane.org>
-Cc: mtk.manpages-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org, linux-man-u79uwXL29TY76Z2rM5mHXA@public.gmane.org, linux-fsdevel-u79uwXL29TY76Z2rM5mHXA@public.gmane.org, Omar Sandoval <osandov-b10kYP2dOMg@public.gmane.org>
+To: linux-man-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
 List-Id: linux-man@vger.kernel.org
 
-On 05/18/2016 01:57 PM, Omar Sandoval wrote:
-> From: Omar Sandoval <osandov-b10kYP2dOMg@public.gmane.org>
-> 
-> This is clear from the do_mount() function in the kernel as of v4.6.
-> 
+https://bugzilla.kernel.org/show_bug.cgi?id=118671
 
-Hello Omar
+            Bug ID: 118671
+           Summary: mkfifo(3) & mknod(3) and EPERM
+           Product: Documentation
+           Version: unspecified
+          Hardware: All
+                OS: Linux
+            Status: NEW
+          Severity: low
+          Priority: P1
+         Component: man-pages
+          Assignee: documentation_man-pages-ztI5WcYan/vQLgFONoPN62D2FQJk+8+b@public.gmane.org
+          Reporter: nyh-TS7m/3hpY0sOpacJJkBjfT4kX+cae0hd@public.gmane.org
+        Regression: No
 
-I've applied this patch, and await your input on the other patch.
+The mkfifo(3) manual page explains several possible errno settings for mkfifo()
+failures, but fails to mention one: EPERM.
+For example, I am getting this error when trying to create a named pipe in a
+directory mounted on CIFS (Windows share):
 
-Cheers,
+    $ mkfifo a
+    mkfifo: cannot create fifo 'a': Operation not permitted
 
-Michael
-
-
-> Signed-off-by: Omar Sandoval <osandov-b10kYP2dOMg@public.gmane.org>
-> ---
->  man2/mount.2 | 6 +++---
->  1 file changed, 3 insertions(+), 3 deletions(-)
-> 
-> diff --git a/man2/mount.2 b/man2/mount.2
-> index 419e22da800f..bd4c35bd15ff 100644
-> --- a/man2/mount.2
-> +++ b/man2/mount.2
-> @@ -98,10 +98,10 @@ The
->  and
->  .IR data
->  arguments are ignored.
-> -Up until Linux 2.6.26,
-> +The
->  .I mountflags
-> -was also ignored
-> -.\" with the exception of the "hidden" MS_REC mountflags bit
-> +argument is also ignored, with the exception of
-> +.B MS_REC
->  (the bind mount has the same mount options as
->  the underlying mount point).
->  .TP
-> 
-
+It appears that mknod(3) also gets the same error (EPERM) when trying to create
+a FIFO on a CIFS-mounted directory. Here, the manual page does mention EPERM,
+but it says it can only happen when the file type is *not* FIFO, but this is
+apparently not the whole story - it seems mknod() can fail with EPERM also on
+FIFO, if the filesystem does not support fifos. By the way, it can also fail
+with EPERM when trying to create other special files if the filesystem doesn't
+support them - even if the user has every possible permissions.
 
 -- 
-Michael Kerrisk
-Linux man-pages maintainer; http://www.kernel.org/doc/man-pages/
-Linux/UNIX System Programming Training: http://man7.org/training/
+You are receiving this mail because:
+You are watching the assignee of the bug.
 --
 To unsubscribe from this list: send the line "unsubscribe linux-man" in
 the body of a message to majordomo-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
