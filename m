@@ -1,29 +1,42 @@
-From: bugzilla-daemon-590EEB7GvNiWaY/ihj7yzEB+6BGkLq7r@public.gmane.org
-Subject: [Bug 118671] mkfifo(3) & mknod(2) and EPERM
-Date: Sun, 22 May 2016 18:14:22 +0000
-Message-ID: <bug-118671-11311-CXlE3JZrWz@https.bugzilla.kernel.org/>
-References: <bug-118671-11311@https.bugzilla.kernel.org/>
+From: Iustin Pop <iustin-JC6qDa14zzLYtjvyW6yDsg@public.gmane.org>
+Subject: [PATCH] fnctl.2: tfix - remove duplicate paragraph in NOTES
+Date: Mon, 23 May 2016 11:54:27 +0200
+Message-ID: <20160523095427.GA23850@hq.k1024.org>
 Mime-Version: 1.0
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: 7bit
+Content-Type: text/plain; charset=us-ascii
 Return-path: <linux-man-owner-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>
-In-Reply-To: <bug-118671-11311-3bo0kxnWaOQUvHkbgXJLS5sdmw4N0Rt+2LY78lusg7I@public.gmane.org/>
+Content-Disposition: inline
 Sender: linux-man-owner-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
-To: linux-man-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
+To: mtk.manpages-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org
+Cc: linux-man-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
 List-Id: linux-man@vger.kernel.org
 
-https://bugzilla.kernel.org/show_bug.cgi?id=118671
+This paragraph already appears above, right before the "File Locking"
+one.
 
-Nadav Har'El <nyh-TS7m/3hpY0sOpacJJkBjfT4kX+cae0hd@public.gmane.org> changed:
+Signed-off-by: Iustin Pop <iustin-JC6qDa14zzLYtjvyW6yDsg@public.gmane.org>
+---
+ man2/fcntl.2 | 4 ----
+ 1 file changed, 4 deletions(-)
 
-           What    |Removed                     |Added
-----------------------------------------------------------------------------
-            Summary|mkfifo(3) & mknod(3) and    |mkfifo(3) & mknod(2) and
-                   |EPERM                       |EPERM
-
+diff --git a/man2/fcntl.2 b/man2/fcntl.2
+index d7c6ccf..a28812b 100644
+--- a/man2/fcntl.2
++++ b/man2/fcntl.2
+@@ -1758,10 +1758,6 @@ However, these details can be ignored by applications using glibc, whose
+ wrapper function transparently employs the more recent system call
+ where it is available.
+ 
+-The errors returned by
+-.BR dup2 (2)
+-are different from those returned by
+-.BR F_DUPFD .
+ .SS Record locks
+ Since kernel 2.0, there is no interaction between the types of lock
+ placed by
 -- 
-You are receiving this mail because:
-You are watching the assignee of the bug.
+2.8.1
+
 --
 To unsubscribe from this list: send the line "unsubscribe linux-man" in
 the body of a message to majordomo-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
