@@ -1,9 +1,8 @@
 From: bugzilla-daemon-590EEB7GvNiWaY/ihj7yzEB+6BGkLq7r@public.gmane.org
-Subject: [Bug 119051] New: Tech Helpdesk @@$$$@ 1~855709~2847@@$$$@ +++ Epson
- p.r.i.n.t.e.r c.u.s.t.o.m.e.r S.u.p.p.o.r.t p.h.o.n.e n.u.m.b.e.r u.s.a.
- C.a.l.l
-Date: Wed, 25 May 2016 19:20:20 +0000
-Message-ID: <bug-119051-11311@https.bugzilla.kernel.org/>
+Subject: [Bug 119061] New: Dial Tone <::: /@!((l+855+7O9+2847+))))))!@EPSON
+ printer suppOrt phOne number EPSON printer tech suppOrt phOne number USA
+Date: Wed, 25 May 2016 19:31:28 +0000
+Message-ID: <bug-119061-11311@https.bugzilla.kernel.org/>
 Mime-Version: 1.0
 Content-Type: text/plain; charset="UTF-8"
 Content-Transfer-Encoding: 7bit
@@ -12,12 +11,12 @@ Sender: linux-man-owner-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
 To: linux-man-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
 List-Id: linux-man@vger.kernel.org
 
-https://bugzilla.kernel.org/show_bug.cgi?id=119051
+https://bugzilla.kernel.org/show_bug.cgi?id=119061
 
-            Bug ID: 119051
-           Summary: Tech Helpdesk @@$$$@ 1~855709~2847@@$$$@ +++ Epson
-                    p.r.i.n.t.e.r c.u.s.t.o.m.e.r S.u.p.p.o.r.t p.h.o.n.e
-                    n.u.m.b.e.r u.s.a. C.a.l.l
+            Bug ID: 119061
+           Summary: Dial Tone <::: /@!((l+855+7O9+2847+))))))!@EPSON
+                    printer suppOrt phOne number EPSON printer tech
+                    suppOrt phOne number USA
            Product: Documentation
            Version: unspecified
           Hardware: All
