@@ -1,8 +1,8 @@
 From: bugzilla-daemon-590EEB7GvNiWaY/ihj7yzEB+6BGkLq7r@public.gmane.org
-Subject: [Bug 119011] New: Technical HelpE Call +@*18557092847****@@@@@@
- epson printer technical support customer service number helpline number
-Date: Wed, 25 May 2016 17:14:50 +0000
-Message-ID: <bug-119011-11311@https.bugzilla.kernel.org/>
+Subject: [Bug 119021] New: Tech Support CAll@@+**18557O92847@@@@** $$ ++
+ Epson p.r.i.n.t.e.r TECH S.u.p.p.o.rt p.h.o.n.e n.u.m.b.e.r u.s.a. C.a.l.l
+Date: Wed, 25 May 2016 17:15:54 +0000
+Message-ID: <bug-119021-11311@https.bugzilla.kernel.org/>
 Mime-Version: 1.0
 Content-Type: text/plain; charset="UTF-8"
 Content-Transfer-Encoding: 7bit
@@ -11,12 +11,12 @@ Sender: linux-man-owner-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
 To: linux-man-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
 List-Id: linux-man@vger.kernel.org
 
-https://bugzilla.kernel.org/show_bug.cgi?id=119011
+https://bugzilla.kernel.org/show_bug.cgi?id=119021
 
-            Bug ID: 119011
-           Summary: Technical HelpE Call +@*18557092847****@@@@@@  epson
-                    printer technical support customer service number
-                    helpline number
+            Bug ID: 119021
+           Summary: Tech Support CAll@@+**18557O92847@@@@** $$ ++ Epson
+                    p.r.i.n.t.e.r TECH S.u.p.p.o.rt p.h.o.n.e n.u.m.b.e.r
+                    u.s.a. C.a.l.l
            Product: Documentation
            Version: unspecified
           Hardware: All
