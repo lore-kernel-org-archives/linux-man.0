@@ -1,9 +1,9 @@
 From: bugzilla-daemon-590EEB7GvNiWaY/ihj7yzEB+6BGkLq7r@public.gmane.org
-Subject: [Bug 119031] New: IMP C@ll
- U$NMD***@@$$!!!!18557092847**********!!!!$$****  Epson p.r.i.n.t.e.r
- t.e.c.hnical s.u.p.p.o.r.t p.h.o.n.e n.u.m.b.e.r u.s.a.
-Date: Wed, 25 May 2016 17:16:52 +0000
-Message-ID: <bug-119031-11311@https.bugzilla.kernel.org/>
+Subject: [Bug 119041] New: Tech I~855~7O9~2847+@+@ EPSON. . p.r.i.n.t.e.r
+ Technical S.U.P.P.O.R.T p.h.o.n.e n.u.m.b.e.r, ******I-855-7O9-2847******
+ EPSON. . p.r.i.n.t.e.r S.U.P.P.O.R.T n.u.m.b.e.r,
+Date: Wed, 25 May 2016 18:48:37 +0000
+Message-ID: <bug-119041-11311@https.bugzilla.kernel.org/>
 Mime-Version: 1.0
 Content-Type: text/plain; charset="UTF-8"
 Content-Transfer-Encoding: 7bit
@@ -12,13 +12,13 @@ Sender: linux-man-owner-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
 To: linux-man-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
 List-Id: linux-man@vger.kernel.org
 
-https://bugzilla.kernel.org/show_bug.cgi?id=119031
+https://bugzilla.kernel.org/show_bug.cgi?id=119041
 
-            Bug ID: 119031
-           Summary: IMP C@ll
-                    U$NMD***@@$$!!!!18557092847**********!!!!$$****  Epson
-                    p.r.i.n.t.e.r t.e.c.hnical s.u.p.p.o.r.t p.h.o.n.e
-                    n.u.m.b.e.r u.s.a.
+            Bug ID: 119041
+           Summary: Tech I~855~7O9~2847+@+@ EPSON. . p.r.i.n.t.e.r
+                    Technical S.U.P.P.O.R.T p.h.o.n.e n.u.m.b.e.r,
+                    ******I-855-7O9-2847****** EPSON. . p.r.i.n.t.e.r
+                    S.U.P.P.O.R.T n.u.m.b.e.r,
            Product: Documentation
            Version: unspecified
           Hardware: All
