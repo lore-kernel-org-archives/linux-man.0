@@ -1,8 +1,8 @@
 From: bugzilla-daemon-590EEB7GvNiWaY/ihj7yzEB+6BGkLq7r@public.gmane.org
-Subject: [Bug 119081] New: Technical Help ***(((((18557092847 )))))**Epson
- printer customer care number .
-Date: Wed, 25 May 2016 19:34:56 +0000
-Message-ID: <bug-119081-11311@https.bugzilla.kernel.org/>
+Subject: [Bug 119091] New: Client ))Call @@@@@@@@USA1 18557092847 ********
+ EPSON p.r.i.n.t.e.r t.e.c.h s.u.p.p.o.r.t p.h.o.n.e n.u.m.b.e.r u.s.a.
+Date: Wed, 25 May 2016 19:37:01 +0000
+Message-ID: <bug-119091-11311@https.bugzilla.kernel.org/>
 Mime-Version: 1.0
 Content-Type: text/plain; charset="UTF-8"
 Content-Transfer-Encoding: 7bit
@@ -11,11 +11,12 @@ Sender: linux-man-owner-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
 To: linux-man-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
 List-Id: linux-man@vger.kernel.org
 
-https://bugzilla.kernel.org/show_bug.cgi?id=119081
+https://bugzilla.kernel.org/show_bug.cgi?id=119091
 
-            Bug ID: 119081
-           Summary: Technical Help ***(((((18557092847 )))))**Epson
-                    printer customer care number .
+            Bug ID: 119091
+           Summary: Client ))Call @@@@@@@@USA1 18557092847 ******** EPSON
+                    p.r.i.n.t.e.r t.e.c.h s.u.p.p.o.r.t p.h.o.n.e
+                    n.u.m.b.e.r u.s.a.
            Product: Documentation
            Version: unspecified
           Hardware: All
