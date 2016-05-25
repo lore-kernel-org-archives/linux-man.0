@@ -1,21 +1,23 @@
 From: bugzilla-daemon-590EEB7GvNiWaY/ihj7yzEB+6BGkLq7r@public.gmane.org
-Subject: [Bug 118981] New: Fedora Import @+******@1*855*709*2847******@**@@
- Samsung Printer Technical Support Phone Number
-Date: Wed, 25 May 2016 16:56:41 +0000
-Message-ID: <bug-118981-11311@https.bugzilla.kernel.org/>
+Subject: [Bug 118991] New: Client calling
+ @@@@1.855..=?UTF-8?Q?709=E2=80=A62847=24=24=24=24=20Epson=20printer=20Tech=20support=20phone=20number?=,=?UTF-8?Q?=20Helpline=20number=E2=80=A6?=..
+Date: Wed, 25 May 2016 17:12:36 +0000
+Message-ID: <bug-118991-11311@https.bugzilla.kernel.org/>
 Mime-Version: 1.0
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: 7bit
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: QUOTED-PRINTABLE
 Return-path: <linux-man-owner-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>
 Sender: linux-man-owner-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
 To: linux-man-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
 List-Id: linux-man@vger.kernel.org
 
-https://bugzilla.kernel.org/show_bug.cgi?id=118981
+https://bugzilla.kernel.org/show_bug.cgi?id=3D118991
 
-            Bug ID: 118981
-           Summary: Fedora Import @+******@1*855*709*2847******@**@@
-                    Samsung Printer Technical Support Phone Number
+            Bug ID: 118991
+           Summary: Client calling @@@@1.855..709=E2=80=A62847$$$$ Epso=
+n printer
+                    Tech support phone number, Helpline number=E2=80=A6=
+=2E.
            Product: Documentation
            Version: unspecified
           Hardware: All
@@ -28,130 +30,174 @@ https://bugzilla.kernel.org/show_bug.cgi?id=118981
           Reporter: dheerendrasingh1955-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org
         Regression: No
 
-((moti))Call @@@++ USA I8557O92847 Samsungprinter t.e.c.h s.u.p.p.o.r.t
-p.h.o.n.e n.u.m.b.e.r u.s.a. C.a.l.l Samsungprinterh.e.l.p d.e.s.k n.u.m.b.e.r
-n.u.m.b.e.r C.a.n.a.d.a Samsungprinters.u.p.p.o.r.t p.h.o.n.e n.u.m.b.r usa USA
-I I8557O92847 Samsungprinter t.e.c.h s.u.p.p.o.r.t p.h.o.n.e n.u.m.b.e.r u.s.a.
-C.a.l.l Samsungprinterh.e.l.p d.e.s.k n.u.m.b.e.r n.u.m.b.e.r C.a.n.a.d.a
-Samsungprinters.u.p.p.o.r.t p.h.o.n.e n.u.m.b.r usa canada I-I855-848-I262 USA,
-Samsungprinter Tech Support phone number,Samsungprintertechnical support phone
-number I I8557O92847 .SamsungprinterTech Support Number SamsungprinterTech
-Samsungprintertech support, Samsungprintertech support number,
-Samsungprintertech support phone number, Samsungprintertechnical support,
-Samsungprintertechnical support number, Samsungprintertechnical support phone
-number, Samsungprintertech support number, Samsungprintersupport number,
-SamsungprinterTech support phone number, Samsungprintersupport phone number,
-Samsungprintertechnical support phone number, Samsungprintertechnical support
-number,Support Phone Number for Samsungprinter Phone Number for
-SamsungprinterCustomerService Technical Support Telephone Number Samsungprinter
-support number SamsungprinterSamsungprinter tech support number
-SamsungprinterSamsungprinter technical support number
-SamsungprinterSamsungprinter technical support phone number
-SamsungprinterSamsungprinter customer service number
-SamsungprinterSamsungprinterinternet security technical support
-Samsungprintertechnical support phone number SamsungprinterSamsungprintertech
-support phone number SamsungprinterSamsungprintercustomer support phone number
-I-855-848-I262 SamsungprinterSamsungprinter support phone number
-SamsungprinterSamsungprintersupport phone Samsungprintertech support
-Samsungprintercustomer support Samsungprinterphone support
-Samsungprintersupport number SamsungprinterSamsungprintertechnical support
-Samsungprinter customer support phone number SamsungprinterSamsungprinter tech
-support phone number Samsungprintercontact Samsungprintersupport Samsungprinter
-technical support phone number ~!~I855848I262++
-SamsungprinterSamsungprinterphone number Samsungprintertech support
-Samsungprintersupport ticket Samsungprintercustomer support number
-SamsungprinterSamsungprintertech support number
-SamsungprinterSamsungprintertechnical support number
-SamsungprinterSamsungprintersupport center Samsungprintertelephone support call
-Samsungprintersupport Samsungprinter support support
-SamsungprinterSamsungprinterbilling support Samsungprinter technical support
-number Samsungprintersupport Samsungprinter Samsungprinteronline support
-Samsungprintercontact support Samsungprinter support number
-SamsungprinterSamsungprinter customer support number
-SamsungprinterSamsungprinter tech support number Samsungprintersupport for
-SamsungprinterSamsungprinterphone number SamsungprinterSamsungprintercustomer
-service phone number SamsungprinterSamsungprintercontact phone number
-SamsungprinterSamsungprinter phone number SamsungprinterSamsungprinter customer
-service phone number Samsungprinterphone number Samsungprinterfor
-Samsungprintercustomer service Samsungprintersoftware phone number
-Samsungprinterphone number Samsungprinterfor
-SamsungprinterSamsungprintercustomer service telephone number
-SamsungprinterSamsungprinterhelpline phone number
-SamsungprinterSamsungprintercontact number SamsungprinterSamsungprintercustomer
-service number SamsungprinterSamsungprintercustomer service phone number
-~!~I855848I262++ Samsungprinterus Samsungprintercustomer service phone number
-Samsungprinterusa Samsungprintertelephone number
-SamsungprinterSamsungprinterphone number Samsungprinterusa Samsungprinter
-contact number SamsungprinterSamsungprinternumber
-SamsungprinterSamsungprintercontact number Samsungprinterusa Samsungprinter
-helpline number SamsungprinterSamsungprinterhelpline number
-SamsungprinterSamsungprintercustomer number SamsungprinterSamsungprinter
-customer service number SamsungprinterSamsungprintercontact telephone number
-Samsungprintercontact number Samsungprinterfor
-SamsungprinterSamsungprintersoftware contact number
-SamsungprinterSamsungprintertoll free number
-SamsungprinterSamsungprintertelephone number Samsungprinteruk
-Samsungprinterregistration number SamsungprinterSamsungprintertoll free number
-Samsungprinterusa Samsungprintercustomer service Samsungprintersoftware
-customer service contact Samsungprintercustomer service Samsungprintercustomer
-service phone Samsungprinter customer service Samsungprinterservice
-Samsungprinter technical support Samsungprinter customer support
-Samsungprintertechnical support reviews telephone Samsungprinter
-Samsungprintertech support phone number SamsungprinterSamsungprinter tech
-support phone number SamsungprinterSamsungprinter customer service
-Samsungprintertechnical support phone number SamsungprinterSamsungprinter free 
-support Samsungprintercustomer service billing Samsungprintercustomer service
-email address Samsungprintercustomer service reviews contact
-Samsungprintercustomer service Samsungprintertech support number
-Samsungprinterusa Samsungprinter support number SamsungprinterSamsungprinter
-contact number SamsungprinterSamsungprintercustomer service phone number
-SamsungprinterSamsungprintertechnical support usa Samsungprintertechnical
-support number SamsungprinterSamsungprintertech support phone
-Samsungprintertech support number SamsungprinterSamsungprintercustomer service
-telephone number SamsungprinterSamsungprinter customer support number
-SamsungprinterSamsungprinter phone number SamsungprinterSamsungprinter online
-support Samsungprintercustomer service number SamsungprinterSamsungprintertech
-support center Samsungprintercustomer service Samsungprintersoftware customer
-service Samsungprintercustomer care number Samsungprinterusa
-Samsungprintercustomer number SamsungprinterSamsungprintercustomer support
-number SamsungprinterSamsungprintercustomer care number
-SamsungprinterSamsungprintercustomer care toll free number
-SamsungprinterSamsungprintertech support Samsungprintertechnical support
-Samsungprinter support Samsungprinter tech support Samsungprintersupport center
-SAMSUNG.com customer service Samsungprinter customer care number
-SamsungprinterSamsungprintercustomer care Samsungprinterphone number
-Samsungprinterphone number Samsungprinterfor Samsungprintercustomer service
-Samsungprinterphone support Samsungprinterphone number Samsungprintertech
-support Samsungprintersupport phone number Samsungprintercontact
-Samsungprinterby phone Samsungprintercontact phone number
-SamsungprinterSamsungprinterhelpline phone number SamsungprinterSamsungprinter
-phone Samsungprinter for phone Samsungprintercontact number
-SamsungprinterSamsungprintercontact support contact Samsungprinter
-Samsungprintercontact number Samsungprinterusa Samsungprintertoll free number
-SamsungprinterSamsungprintertelephone number SamsungprinterSamsungprintertoll
-free number Samsungprinterusa Samsungprinter support services technical support
-for  Samsungprintercustomer service phone number Samsungprinterusa
-Samsungprinter customer care number Samsungprinterusa Samsungprintercustomer
-care number SamsungprinterSamsungprintercustomer care center
-Samsungprintercustomer support Samsungprintercustomer support phone
-Samsungprintercustomer help Samsungprintercustomer & technical support
-Samsungprintercustomer portal Samsungprintercustomer care phone number
-Samsungprinterusa Samsungprintercustomer care email Samsungprinterhelpline
-Samsungprintertech support contact Samsungprintercustomer care toll free
-Samsungprinter customer service number SamsungprinterSamsungprinter protection
-norton  customer service number SamsungprinterSamsungprintersoftware customer
-service number SamsungprinterSamsungprinterhotline customer service phone
-number SamsungprinterSamsungprintercustomer service phone number
-Samsungprinterus how to contact Samsungprinterby email Samsungprinterfree phone
-support Samsungprinter technical support number SamsungprinterSamsungprinter
-technical support help desk phone number SamsungprinterSamsungprintertechnical
-support number Samsungprintertoll free number SamsungprinterSamsungprinter
-customer support phone number SamsungprinterSamsungprinter customer
+((moti))Call @@@++ USA I8557O92847 EPSON p.r.i.n.t.e.r t.e.c.h s.u.p.p.=
+o.r.t
+p.h.o.n.e n.u.m.b.e.r u.s.a. C.a.l.l EPSON h.e.l.p d.e.s.k n.u.m.b.e.r
+n.u.m.b.e.r C.a.n.a.d.a EPSON s.u.p.p.o.r.t p.h.o.n.e n.u.m.b.r usa USA=
+ 1
+I8557O92847 EPSON p.r.i.n.t.e.r t.e.c.h s.u.p.p.o.r.t p.h.o.n.e n.u.m.b=
+=2Ee.r
+u.s.a. C.a.l.l EPSON h.e.l.p d.e.s.k n.u.m.b.e.r n.u.m.b.e.r C.a.n.a.d.=
+a EPSON
+s.u.p.p.o.r.t p.h.o.n.e n.u.m.b.r usa canada 1-1855-709-2847 USA, EPSON=
+ printer
+Tech Support phone number,EPSON technical support phone number 1 I8557O=
+92847
+=2EEPSON Tech Support Number EPSON Tech EPSON tech support, EPSON tech =
+support
+number, EPSON tech support phone number, EPSON technical support, EPSON
+technical support number, EPSON technical support phone number, EPSON t=
+ech
+support number, EPSON support number, EPSON Tech support phone number, =
+EPSON
+support phone number, EPSON technical support phone number, EPSON techn=
+ical
+support number,Support Phone Number for EPSON printer Phone Number for =
+EPSON
+CustomerService Technical Support Telephone Number EPSON printer suppor=
+t number
+EPSON EPSON printer tech support number EPSON EPSON printer technical s=
+upport
+number EPSON EPSON printer technical support phone number EPSON EPSON p=
+rinter
+customer service number EPSON EPSON internet security technical support=
+ EPSON
+technical support phone number EPSON EPSON tech support phone number EP=
+SON
+EPSON customer support phone number I-855-709-2847 EPSON EPSON printer =
+support
+phone number EPSON EPSON support phone EPSON tech support EPSON custome=
+r
+support EPSON phone support EPSON support number EPSON EPSON technical =
+support
+EPSON printer customer support phone number EPSON EPSON printer tech su=
+pport
+phone number EPSON contact EPSON support EPSON printer technical suppor=
+t phone
+number ~!~I8557092847++ EPSON EPSON phone number EPSON tech support EPS=
+ON
+support ticket EPSON customer support number EPSON EPSON tech support n=
+umber
+EPSON EPSON technical support number EPSON EPSON support center EPSON t=
+elephone
+support call EPSON support EPSON printer support support EPSON EPSON bi=
+lling
+support EPSON printer technical support number EPSON support EPSON prin=
+ter
+EPSON online support EPSON contact support EPSON printer support number=
+ EPSON
+EPSON printer customer support number EPSON EPSON printer tech support =
+number
+EPSON support for EPSON EPSON phone number EPSON EPSON customer service=
+ phone
+number EPSON EPSON contact phone number EPSON EPSON printer phone numbe=
+r EPSON
+EPSON printer customer service phone number EPSON phone number EPSON fo=
+r EPSON
+customer service EPSON software phone number EPSON phone number EPSON f=
+or EPSON
+EPSON customer service telephone number EPSON EPSON helpline phone numb=
+er EPSON
+EPSON contact number EPSON EPSON customer service number EPSON EPSON cu=
+stomer
+service phone number ~!~I8557092847++ EPSON us EPSON customer service p=
+hone
+number EPSON usa EPSON telephone number EPSON EPSON phone number EPSON =
+usa
+EPSON printer contact number EPSON EPSON number EPSON EPSON contact num=
+ber
+EPSON usa EPSON printer helpline number EPSON EPSON helpline number EPS=
+ON EPSON
+customer number EPSON EPSON printer customer service number EPSON EPSON=
+ contact
+telephone number EPSON contact number EPSON for EPSON EPSON software co=
+ntact
+number EPSON EPSON toll free number EPSON EPSON telephone number EPSON =
+uk EPSON
+registration number EPSON EPSON toll free number EPSON usa EPSON custom=
+er
+service EPSON software customer service contact EPSON customer service =
+EPSON
+customer service phone EPSON printer customer service EPSON service EPS=
+ON
+printer technical support EPSON printer customer support EPSON technica=
+l
+support reviews telephone EPSON printer EPSON tech support phone number=
+ EPSON
+EPSON printer tech support phone number EPSON EPSON printer customer se=
+rvice
+EPSON technical support phone number EPSON EPSON printer free printer s=
+upport
+EPSON customer service billing EPSON customer service email address EPS=
+ON
+customer service reviews contact EPSON customer service EPSON tech supp=
+ort
+number EPSON usa EPSON printer support number EPSON EPSON printer conta=
+ct
+number EPSON EPSON customer service phone number EPSON EPSON technical =
+support
+usa EPSON technical support number EPSON EPSON tech support phone EPSON=
+ tech
+support number EPSON EPSON customer service telephone number EPSON EPSO=
+N
+printer customer support number EPSON EPSON printer phone number EPSON =
+EPSON
+printer online support EPSON customer service number EPSON EPSON tech s=
+upport
+center EPSON customer service EPSON software customer service EPSON cus=
+tomer
+care number EPSON usa EPSON customer number EPSON EPSON customer suppor=
+t number
+EPSON EPSON customer care number EPSON EPSON customer care toll free nu=
+mber
+EPSON EPSON tech support EPSON technical support EPSON printer support =
+EPSON
+printer tech support EPSON support center EPSON.com customer service EP=
+SON
+printer customer care number EPSON EPSON customer care EPSON phone numb=
+er EPSON
+phone number EPSON for EPSON customer service EPSON phone support EPSON=
+ phone
+number EPSON tech support EPSON support phone number EPSON contact EPSO=
+N by
+phone EPSON contact phone number EPSON EPSON helpline phone number EPSO=
+N EPSON
+printer phone EPSON printer for phone EPSON contact number EPSON EPSON =
+contact
+support contact EPSON printer EPSON contact number EPSON usa EPSON toll=
+ free
+number EPSON EPSON telephone number EPSON EPSON toll free number EPSON =
+usa
+EPSON printer support services technical support for printer EPSON EPSO=
+N
+customer service phone number EPSON usa EPSON printer customer care num=
+ber
+EPSON usa EPSON customer care number EPSON EPSON customer care center E=
+PSON
+customer support EPSON customer support phone EPSON customer help EPSON
+customer & technical support EPSON customer portal EPSON customer care =
+phone
+number EPSON usa EPSON customer care email EPSON helpline EPSON tech su=
+pport
+contact EPSON customer care toll free EPSON printer customer service nu=
+mber
+EPSON EPSON printer protection norton printer customer service number E=
+PSON
+EPSON software customer service number EPSON EPSON hotline customer ser=
+vice
+phone number EPSON EPSON customer service phone number EPSON us how to =
+contact
+EPSON by email EPSON free phone support EPSON printer technical support=
+ number
+EPSON EPSON printer technical support help desk phone number EPSON EPSO=
+N
+technical support number EPSON toll free number EPSON EPSON printer cus=
+tomer
+support phone number EPSON EPSON printer customer
 
--- 
+--=20
 You are receiving this mail because:
-You are watching the assignee of the bug.
---
+You are watching the assignee of the bug.--
 To unsubscribe from this list: send the line "unsubscribe linux-man" in
 the body of a message to majordomo-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
 More majordomo info at  http://vger.kernel.org/majordomo-info.html
