@@ -1,8 +1,8 @@
 From: bugzilla-daemon-590EEB7GvNiWaY/ihj7yzEB+6BGkLq7r@public.gmane.org
-Subject: [Bug 119001] New: !@$^&*!@$^& I8557O92847**** $$$$ Epson help
- p.r.i.n.t.e.r t.e.c.h s.u.p.p.o.r.t p.h.o.n.e n.u.m.b.e.r u.s.a. C.a.l.l
-Date: Wed, 25 May 2016 17:13:47 +0000
-Message-ID: <bug-119001-11311@https.bugzilla.kernel.org/>
+Subject: [Bug 119011] New: Technical HelpE Call +@*18557092847****@@@@@@
+ epson printer technical support customer service number helpline number
+Date: Wed, 25 May 2016 17:14:50 +0000
+Message-ID: <bug-119011-11311@https.bugzilla.kernel.org/>
 Mime-Version: 1.0
 Content-Type: text/plain; charset="UTF-8"
 Content-Transfer-Encoding: 7bit
@@ -11,12 +11,12 @@ Sender: linux-man-owner-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
 To: linux-man-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
 List-Id: linux-man@vger.kernel.org
 
-https://bugzilla.kernel.org/show_bug.cgi?id=119001
+https://bugzilla.kernel.org/show_bug.cgi?id=119011
 
-            Bug ID: 119001
-           Summary: !@$^&*!@$^& I8557O92847**** $$$$ Epson help
-                    p.r.i.n.t.e.r t.e.c.h s.u.p.p.o.r.t p.h.o.n.e
-                    n.u.m.b.e.r u.s.a. C.a.l.l
+            Bug ID: 119011
+           Summary: Technical HelpE Call +@*18557092847****@@@@@@  epson
+                    printer technical support customer service number
+                    helpline number
            Product: Documentation
            Version: unspecified
           Hardware: All
