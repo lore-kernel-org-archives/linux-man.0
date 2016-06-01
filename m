@@ -1,19 +1,19 @@
 From: bugzilla-daemon-590EEB7GvNiWaY/ihj7yzEB+6BGkLq7r@public.gmane.org
-Subject: [Bug 119071] Canada<::: /@!((l~855~7O9~2847))!!@EPSON printer
- suppOrt phOne number EPSON printer tech suppOrt phOne number ???
-Date: Wed, 01 Jun 2016 15:10:59 +0000
-Message-ID: <bug-119071-11311-Ai53PiSS6s@https.bugzilla.kernel.org/>
-References: <bug-119071-11311@https.bugzilla.kernel.org/>
+Subject: [Bug 119001] !@$^&*!@$^& I8557O92847**** $$$$ Epson help
+ p.r.i.n.t.e.r t.e.c.h s.u.p.p.o.r.t p.h.o.n.e n.u.m.b.e.r u.s.a. C.a.l.l
+Date: Wed, 01 Jun 2016 15:11:52 +0000
+Message-ID: <bug-119001-11311-904zQGhhxz@https.bugzilla.kernel.org/>
+References: <bug-119001-11311@https.bugzilla.kernel.org/>
 Mime-Version: 1.0
 Content-Type: text/plain; charset="UTF-8"
 Content-Transfer-Encoding: 7bit
 Return-path: <linux-man-owner-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>
-In-Reply-To: <bug-119071-11311-3bo0kxnWaOQUvHkbgXJLS5sdmw4N0Rt+2LY78lusg7I@public.gmane.org/>
+In-Reply-To: <bug-119001-11311-3bo0kxnWaOQUvHkbgXJLS5sdmw4N0Rt+2LY78lusg7I@public.gmane.org/>
 Sender: linux-man-owner-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
 To: linux-man-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
 List-Id: linux-man@vger.kernel.org
 
-https://bugzilla.kernel.org/show_bug.cgi?id=119071
+https://bugzilla.kernel.org/show_bug.cgi?id=119001
 
 Michael Kerrisk <mtk.manpages-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org> changed:
 
