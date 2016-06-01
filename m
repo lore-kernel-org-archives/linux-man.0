@@ -1,19 +1,19 @@
 From: bugzilla-daemon-590EEB7GvNiWaY/ihj7yzEB+6BGkLq7r@public.gmane.org
-Subject: [Bug 119091] Client ))Call @@@@@@@@USA1 18557092847 ******** EPSON
- p.r.i.n.t.e.r t.e.c.h s.u.p.p.o.r.t p.h.o.n.e n.u.m.b.e.r u.s.a.
-Date: Wed, 01 Jun 2016 15:07:30 +0000
-Message-ID: <bug-119091-11311-jeeyVTncBV@https.bugzilla.kernel.org/>
-References: <bug-119091-11311@https.bugzilla.kernel.org/>
+Subject: [Bug 119081] Technical Help ***(((((18557092847 )))))**Epson printer
+ customer care number .
+Date: Wed, 01 Jun 2016 15:09:17 +0000
+Message-ID: <bug-119081-11311-GuiWbNf0g6@https.bugzilla.kernel.org/>
+References: <bug-119081-11311@https.bugzilla.kernel.org/>
 Mime-Version: 1.0
 Content-Type: text/plain; charset="UTF-8"
 Content-Transfer-Encoding: 7bit
 Return-path: <linux-man-owner-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>
-In-Reply-To: <bug-119091-11311-3bo0kxnWaOQUvHkbgXJLS5sdmw4N0Rt+2LY78lusg7I@public.gmane.org/>
+In-Reply-To: <bug-119081-11311-3bo0kxnWaOQUvHkbgXJLS5sdmw4N0Rt+2LY78lusg7I@public.gmane.org/>
 Sender: linux-man-owner-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
 To: linux-man-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
 List-Id: linux-man@vger.kernel.org
 
-https://bugzilla.kernel.org/show_bug.cgi?id=119091
+https://bugzilla.kernel.org/show_bug.cgi?id=119081
 
 Michael Kerrisk <mtk.manpages-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org> changed:
 
@@ -21,8 +21,7 @@ Michael Kerrisk <mtk.manpages-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org> changed:
 ----------------------------------------------------------------------------
              Status|NEW                         |RESOLVED
                  CC|                            |mtk.manpages-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org
-         Resolution|---                         |CODE_FIX
-         Regression|No                          |Yes
+         Resolution|---                         |INVALID
 
 -- 
 You are receiving this mail because:
