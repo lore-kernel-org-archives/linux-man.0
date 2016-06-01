@@ -1,19 +1,19 @@
 From: bugzilla-daemon-590EEB7GvNiWaY/ihj7yzEB+6BGkLq7r@public.gmane.org
-Subject: [Bug 118981] Fedora Import @+******@1*855*709*2847******@**@@
- Samsung Printer Technical Support Phone Number
-Date: Wed, 01 Jun 2016 15:12:46 +0000
-Message-ID: <bug-118981-11311-t1XXJP54rZ@https.bugzilla.kernel.org/>
-References: <bug-118981-11311@https.bugzilla.kernel.org/>
+Subject: [Bug 119061] Dial Tone <::: /@!((l+855+7O9+2847+))))))!@EPSON
+ printer suppOrt phOne number EPSON printer tech suppOrt phOne number USA
+Date: Wed, 01 Jun 2016 15:13:27 +0000
+Message-ID: <bug-119061-11311-l5Vv749MfQ@https.bugzilla.kernel.org/>
+References: <bug-119061-11311@https.bugzilla.kernel.org/>
 Mime-Version: 1.0
 Content-Type: text/plain; charset="UTF-8"
 Content-Transfer-Encoding: 7bit
 Return-path: <linux-man-owner-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>
-In-Reply-To: <bug-118981-11311-3bo0kxnWaOQUvHkbgXJLS5sdmw4N0Rt+2LY78lusg7I@public.gmane.org/>
+In-Reply-To: <bug-119061-11311-3bo0kxnWaOQUvHkbgXJLS5sdmw4N0Rt+2LY78lusg7I@public.gmane.org/>
 Sender: linux-man-owner-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
 To: linux-man-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
 List-Id: linux-man@vger.kernel.org
 
-https://bugzilla.kernel.org/show_bug.cgi?id=118981
+https://bugzilla.kernel.org/show_bug.cgi?id=119061
 
 Michael Kerrisk <mtk.manpages-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org> changed:
 
