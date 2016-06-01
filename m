@@ -1,58 +1,53 @@
-From: "Michael Kerrisk (man-pages)" <mtk.manpages-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org>
-Subject: Re: RHEL man pages type - popen(3) "errnro"
-Date: Tue, 31 May 2016 20:04:08 -0500
-Message-ID: <CAKgNAkg03ADuvbboCDek46OZqya5Rc4+cFW72v9zZ6D2XWJ8jg@mail.gmail.com>
-References: <20160531202855.F3E89B204E@b01ledav03.gho.pok.ibm.com>
-Reply-To: mtk.manpages-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org
+From: bugzilla-daemon-590EEB7GvNiWaY/ihj7yzEB+6BGkLq7r@public.gmane.org
+Subject: [Bug 118671] mkfifo(3) & mknod(2) and EPERM
+Date: Wed, 01 Jun 2016 04:53:20 +0000
+Message-ID: <bug-118671-11311-wXU6zr3Bqv@https.bugzilla.kernel.org/>
+References: <bug-118671-11311@https.bugzilla.kernel.org/>
 Mime-Version: 1.0
-Content-Type: text/plain; charset=UTF-8
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: 7bit
 Return-path: <linux-man-owner-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>
-In-Reply-To: <20160531202855.F3E89B204E-jxtXAbmmQznzwXz9eL2nSbq9uwJ/xSLv0E9HWUfgJXw@public.gmane.org>
+In-Reply-To: <bug-118671-11311-3bo0kxnWaOQUvHkbgXJLS5sdmw4N0Rt+2LY78lusg7I@public.gmane.org/>
 Sender: linux-man-owner-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
-To: Joseph Reynolds <jpreyno-r/Jw6+rmf7HQT0dZR+AlfA@public.gmane.org>
-Cc: linux-man <linux-man-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>
+To: linux-man-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
 List-Id: linux-man@vger.kernel.org
 
-Hi Joseph
+https://bugzilla.kernel.org/show_bug.cgi?id=118671
 
-On 31 May 2016 at 15:28, Joseph Reynolds <jpreyno-r/Jw6+rmf7HQT0dZR+AlfA@public.gmane.org> wrote:
->
-> Bug report:
->
-> The pclose(3) man page has a typo: errno is misspelled errnro:
+Navin <navinp1912-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org> changed:
 
-You're looking at a very old version of the man pages. That typo was
-fixed nearly three years ago. Always worth checking the latest
-versions online at http://man7.org/linux/man-pages/index.html
+           What    |Removed                     |Added
+----------------------------------------------------------------------------
+                 CC|                            |navinp1912-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org
 
-Cheers,
+--- Comment #1 from Navin <navinp1912-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org> ---
+Works for me.Maybe samba configuration issue. You need to have a writeable user
+.
+The below tells that issue is not with cifs driver.
 
-Michael
-
-
-> > uname -rsvo
-> Linux 3.10.0-229.4.2.el7.x86_64 #1 SMP Fri Apr 24 15:26:38 EDT 2015 GNU/Linux
-> > man pclose | grep errnro
->        tions set errnro to indicate the cause of the error.
->
->
-> Joseph Reynolds
-> Software Engineer - IBM Analytics | InfoSphere Streams | Eden KVS
-> ________________________________
-> Phone:    1-507-253-3002
-> Tie line:   553-3002
-> E-Mail:    jpreyno-r/Jw6+rmf7HQT0dZR+AlfA@public.gmane.org 3601 HW 52 North
-> Rochester MN, 55901
-> USA
-> ________________________________
->
-
-
+root@junk-foo:/mnt/3# touch foo
+root@junk-foo:/mnt/3# ls -l foo
+-rw-r--r--+ 1 root root 0 Jun  1 10:20 foo
+root@junk-foo:/mnt/3# mknod foo b 4 3
+mknod: foo: File exists
+root@junk-foo:/mnt/3# mknod devfoo b 4 3
+root@junk-foo:/mnt/3# mkfifo pipe
+root@junk-foo:/mnt/3# ls -l
+total 0
+brw-r--r-- 1 root root 4, 3 Jun  1 10:21 devfoo
+-rw-r--r-- 1 root root    0 Jun  1 10:20 foo
+prw-r--r-- 1 root root    0 Jun  1 10:21 pipe
+root@junk-foo:/mnt/3# uname -a
+Linux junk-foo 4.7.0-rc1+ #1 SMP Tue May 31 21:24:09 IST 2016 x86_64 x86_64
+x86_64 GNU/Linux
+root@junk-foo:/mnt/3# mount | grep /mnt/3
+//192.168.0.103/xyz on /mnt/3 type cifs
+(rw,relatime,vers=1.0,cache=strict,username=root,domain=JUNK-FOO,uid=0,noforceuid,gid=0,noforcegid,addr=192.168.0.103,unix,posixpaths,serverino,mapposix,acl,rsize=1048576,wsize=65536,echo_interval=60,actimeo=1)
+root@junk-foo:/mnt/3#
 
 -- 
-Michael Kerrisk
-Linux man-pages maintainer; http://www.kernel.org/doc/man-pages/
-Linux/UNIX System Programming Training: http://man7.org/training/
+You are receiving this mail because:
+You are watching the assignee of the bug.
 --
 To unsubscribe from this list: send the line "unsubscribe linux-man" in
 the body of a message to majordomo-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
