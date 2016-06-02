@@ -1,92 +1,76 @@
-From: Nikos Mavrogiannopoulos <nmav-H+wXaHxf7aLQT0dZR+AlfA@public.gmane.org>
-Subject: [PATCH] assert.3: improved description
-Date: Thu, 02 Jun 2016 11:07:31 +0200
-Message-ID: <1464858451.5804.3.camel@redhat.com>
-Mime-Version: 1.0
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: QUOTED-PRINTABLE
+From: Rahul Bedarkar <rahulbedarkar89-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org>
+Subject: [PATCH 1/1] mmap.2: improve example
+Date: Thu,  2 Jun 2016 23:26:27 +0530
+Message-ID: <1464890187-4141-1-git-send-email-rahulbedarkar89@gmail.com>
 Return-path: <linux-man-owner-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>
 Sender: linux-man-owner-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
 To: mtk.manpages-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org
-Cc: linux-man-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
+Cc: linux-man-u79uwXL29TY76Z2rM5mHXA@public.gmane.org, Rahul Bedarkar <rahulbedarkar89-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org>
 List-Id: linux-man@vger.kernel.org
 
-Removed text referring to text not being helpful to users. Provide
-the error text instead to allow the reader to determine whether it is h=
-elpful.
-Recommend against using NDEBUG for programs to excibit deterministic be=
-havior.
-Moved description ahead of recommendations.
+free resources on error paths and at the end after use.
 
-Signed-off-by: Nikos Mavrogiannopoulos <nmav-H+wXaHxf7aLQT0dZR+AlfA@public.gmane.org>
+Signed-off-by: Rahul Bedarkar <rahulbedarkar89-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org>
 ---
-=C2=A0man3/assert.3 | 29 +++++++++++++++--------------
-=C2=A01 file changed, 15 insertions(+), 14 deletions(-)
+ man2/mmap.2 | 18 +++++++++++++++---
+ 1 file changed, 15 insertions(+), 3 deletions(-)
 
-diff --git a/man3/assert.3 b/man3/assert.3
-index 7cf7328..1b85a68 100644
---- a/man3/assert.3
-+++ b/man3/assert.3
-@@ -24,6 +24,7 @@
-=C2=A0.\"
-=C2=A0.\" Modified Sat Jul 24 21:42:42 1993 by Rik Faith <faith-tsp8moGkja0@public.gmane.org=
-edu>
-=C2=A0.\" Modified Tue Oct 22 23:44:11 1996 by Eric S. Raymond <esr@thy=
-rsus.com>
-+.\" Modified Thu Jun=C2=A0=C2=A02 23:44:11 2016 by Nikos Mavrogiannopo=
-ulos <nmav-H+wXaHxf7aLQT0dZR+AlfA@public.gmane.org>
-=C2=A0.TH ASSERT 3=C2=A0=C2=A02015-08-08 "GNU" "Linux Programmer's Manu=
-al"
-=C2=A0.SH NAME
-=C2=A0assert \- abort the program if assertion is false
-@@ -34,26 +35,26 @@ assert \- abort the program if assertion is false
-=C2=A0.BI "void assert(scalar " expression );
-=C2=A0.fi
-=C2=A0.SH DESCRIPTION
-+This macro can help programmers find bugs in their programs, or handle=
- exceptional cases
-+via a crash that will produce limited debugging output. The function w=
-ill print an
-+error message to standard error, e.g., "assertion failed in file foo.c=
-, function do_bar(), line 1287"
-+and terminate the program by calling
-+.BR abort (3)
-+if
-+.I expression
-+is false (i.e., compares equal to zero).
-+.LP
-=C2=A0If the macro
-=C2=A0.B NDEBUG
--was defined at the moment
-+is defined at the moment
-=C2=A0.I <assert.h>
-=C2=A0was last included, the macro
-=C2=A0.BR assert ()
--generates no code, and hence does nothing at all.
--Otherwise, the macro
-+generates no code, and hence does nothing at all. It is not recommende=
-d to define=C2=A0
-+.B NDEBUG
-+if using
-=C2=A0.BR assert ()
--prints an error message to standard error and terminates the program
--by calling
--.BR abort (3)
--if
--.I expression
--is false (i.e., compares equal to zero).
--.LP
--The purpose of this macro is to help programmers find bugs in
--their programs.
--The message "assertion failed in file foo.c, function
--do_bar(), line 1287" is of no help at all to a user.
-+to detect error conditions since the software may behave non-determini=
-stically.
-=C2=A0.SH RETURN VALUE
-=C2=A0No value is returned.
-=C2=A0.SH ATTRIBUTES
---=C2=A0
-2.5.5
+diff --git a/man2/mmap.2 b/man2/mmap.2
+index 0f2f277..cede984 100644
+--- a/man2/mmap.2
++++ b/man2/mmap.2
+@@ -765,8 +765,10 @@ main(int argc, char *argv[])
+     if (fd == \-1)
+         handle_error("open");
+ 
+-    if (fstat(fd, &sb) == \-1)           /* To obtain file size */
++    if (fstat(fd, &sb) == \-1) {          /* To obtain file size */
++        close(fd);
+         handle_error("fstat");
++    }
+ 
+     offset = atoi(argv[2]);
+     pa_offset = offset & ~(sysconf(_SC_PAGE_SIZE) \- 1);
+@@ -774,6 +776,7 @@ main(int argc, char *argv[])
+ 
+     if (offset >= sb.st_size) {
+         fprintf(stderr, "offset is past end of file\\n");
++        close(fd);
+         exit(EXIT_FAILURE);
+     }
+ 
+@@ -789,18 +792,27 @@ main(int argc, char *argv[])
+ 
+     addr = mmap(NULL, length + offset \- pa_offset, PROT_READ,
+                 MAP_PRIVATE, fd, pa_offset);
+-    if (addr == MAP_FAILED)
++    if (addr == MAP_FAILED) {
++        close(fd);
+         handle_error("mmap");
++    }
+ 
+     s = write(STDOUT_FILENO, addr + offset \- pa_offset, length);
+     if (s != length) {
+-        if (s == \-1)
++        if (s == \-1) {
++            munmap(addr, length + offset \- pa_offset);
++            close(fd);
+             handle_error("write");
++        }
+ 
++        munmap(addr, length + offset \- pa_offset);
++        close(fd);
+         fprintf(stderr, "partial write");
+         exit(EXIT_FAILURE);
+     }
+ 
++    munmap(addr, length + offset \- pa_offset);
++    close(fd);
+     exit(EXIT_SUCCESS);
+ }
+ .fi
+-- 
+1.8.3.2
 
 --
 To unsubscribe from this list: send the line "unsubscribe linux-man" in
