@@ -1,57 +1,43 @@
-From: "Michael Kerrisk (man-pages)" <mtk.manpages-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org>
-Subject: Re: [PATCH 1/1] mmap.2: improve example
-Date: Fri, 3 Jun 2016 06:55:19 -0500
-Message-ID: <70538406-784a-5b19-0b5e-46b9ee6182dc@gmail.com>
-References: <1464890187-4141-1-git-send-email-rahulbedarkar89@gmail.com>
- <06bc8862-f4b2-c024-3852-e1db3d2ae5fb@gmail.com>
- <CA+NV+Vn9_9eDLvNWhgH7pLFyf+Bjd-fU6Cu0POb3vF-Qb-CnTQ@mail.gmail.com>
+From: Dave Hansen <dave.hansen-ral2JQCrhuEAvxtiuMwx3w@public.gmane.org>
+Subject: Re: [PATCH] [RFCv3] add manpages for Memory Protection Keys
+Date: Fri, 3 Jun 2016 07:53:56 -0700
+Message-ID: <57519A04.5020700@intel.com>
+References: <1464826600-17110-1-git-send-email-dave.hansen@intel.com>
+ <647d23bf-a163-deee-d0ec-f961ecfb0b90@gmail.com>
 Mime-Version: 1.0
-Content-Type: text/plain; charset=utf-8
+Content-Type: text/plain; charset=windows-1252
 Content-Transfer-Encoding: 7bit
-Return-path: <linux-man-owner-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>
-In-Reply-To: <CA+NV+Vn9_9eDLvNWhgH7pLFyf+Bjd-fU6Cu0POb3vF-Qb-CnTQ-JsoAwUIsXosN+BqQ9rBEUg@public.gmane.org>
-Sender: linux-man-owner-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
-To: Rahul Bedarkar <rahulbedarkar89-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org>
-Cc: mtk.manpages-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org, linux-man-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
+Return-path: <linux-api-owner-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>
+In-Reply-To: <647d23bf-a163-deee-d0ec-f961ecfb0b90-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org>
+Sender: linux-api-owner-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
+To: "Michael Kerrisk (man-pages)" <mtk.manpages-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org>, dave-gkUM19QKKo4@public.gmane.org
+Cc: Dave Hansen <dave.hansen-VuQAYsv1563Yd54FQh9/CA@public.gmane.org>, linux-man-u79uwXL29TY76Z2rM5mHXA@public.gmane.org, linux-api-u79uwXL29TY76Z2rM5mHXA@public.gmane.org, x86-DgEjT+Ai2ygdnm+yROfE0A@public.gmane.org
 List-Id: linux-man@vger.kernel.org
 
-On 06/03/2016 02:46 AM, Rahul Bedarkar wrote:
-> Hello Michael,
+On 06/02/2016 05:25 PM, Michael Kerrisk (man-pages) wrote:
+> The convention for man-pages is that new sentences always start 
+> of new source lines. (This makes subsequent patches less "noisy", 
+> since the common unit of change in a text is a sentence.)
+> Could you fix this throughout please?
+
+Yep, I can do that, and I'll also integrate all of your comments,
+although I won't respond to all of them individually, I will integrate them.
+
+>> +no longer be used in any protection-key-related operations.
+>> +.PP
+>> +.RB ( pkey_alloc ())
+>> +.I flags
+>> +may contain zero or more disable operations:
 > 
-> On Fri, Jun 3, 2016 at 4:59 AM, Michael Kerrisk (man-pages)
-> <mtk.manpages-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org> wrote:
->> Hello Rahul,
->>
->>
->> Given that handle_error() calls exit(), and that triggers close()
->> on all FDs and munmap() on all mappings, I'm not sure this patch
->> improves things. Can you say some more on why you think it is
->> needed?
-> 
-> I think it is always better to free resources after use to avoid
-> memory leaks later. But doing that in such
-> simple example might be debatable.
+> Why "zero or more" rather than "zero or one"? I mean:
+> what sense could it make to OR together PKEY_DISABLE_ACCESS and
+> PKEY_DISABLE_WRITE?
 
-Yep.
+This is one of the attributes of the hardware that I carried up in to
+the interfaces.  The hardware contains two bits: one to write-disable
+and one to access-disable.  You're allowed to set both at the same time,
+even though the "access" bit overrules the "write" bit when set.
 
-> May be at-least at the end we should call munmap() and close(). That
-> will cover munmap() usage as well.
-
-Yes, by way of example, I think it doesn't hurt to add the munmap() 
-call especially. Added.
-
-Thanks for the input.
-
-Cheers,
-
-Michael
-
-
--- 
-Michael Kerrisk
-Linux man-pages maintainer; http://www.kernel.org/doc/man-pages/
-Linux/UNIX System Programming Training: http://man7.org/training/
---
-To unsubscribe from this list: send the line "unsubscribe linux-man" in
-the body of a message to majordomo-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
-More majordomo info at  http://vger.kernel.org/majordomo-info.html
+So, it doesn't make a ton of logical sense with these two flags, but it
+might if we ever got an "execute disable" feature or some other feature
+that could be combined more arbitrarily.
