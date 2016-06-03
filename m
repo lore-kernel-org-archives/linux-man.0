@@ -1,95 +1,39 @@
-From: Nikos Mavrogiannopoulos <nmav-H+wXaHxf7aLQT0dZR+AlfA@public.gmane.org>
-Subject: Re: [PATCH] assert.3: improved description
-Date: Fri, 03 Jun 2016 07:08:50 +0200
-Message-ID: <1464930530.2843.0.camel@redhat.com>
-References: <1464858451.5804.3.camel@redhat.com>
-	 <dce9e3be-8461-2d09-197d-424a64eed8b7@gmail.com>
+From: Rahul Bedarkar <rahulbedarkar89-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org>
+Subject: Re: [PATCH 1/1] mmap.2: improve example
+Date: Fri, 3 Jun 2016 13:16:46 +0530
+Message-ID: <CA+NV+Vn9_9eDLvNWhgH7pLFyf+Bjd-fU6Cu0POb3vF-Qb-CnTQ@mail.gmail.com>
+References: <1464890187-4141-1-git-send-email-rahulbedarkar89@gmail.com> <06bc8862-f4b2-c024-3852-e1db3d2ae5fb@gmail.com>
 Mime-Version: 1.0
-Content-Type: multipart/mixed; boundary="=-NOFlEDWmS3Yd4JkRzVKv"
+Content-Type: text/plain; charset=UTF-8
 Return-path: <linux-man-owner-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>
-In-Reply-To: <dce9e3be-8461-2d09-197d-424a64eed8b7-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org>
+In-Reply-To: <06bc8862-f4b2-c024-3852-e1db3d2ae5fb-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org>
 Sender: linux-man-owner-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
 To: "Michael Kerrisk (man-pages)" <mtk.manpages-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org>
 Cc: linux-man-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
 List-Id: linux-man@vger.kernel.org
 
+Hello Michael,
 
---=-NOFlEDWmS3Yd4JkRzVKv
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: 7bit
+On Fri, Jun 3, 2016 at 4:59 AM, Michael Kerrisk (man-pages)
+<mtk.manpages-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org> wrote:
+> Hello Rahul,
+>
+>
+> Given that handle_error() calls exit(), and that triggers close()
+> on all FDs and munmap() on all mappings, I'm not sure this patch
+> improves things. Can you say some more on why you think it is
+> needed?
 
-On Thu, 2016-06-02 at 18:35 -0500, Michael Kerrisk (man-pages) wrote:
-> Hi Nikos,
-> 
-> On 06/02/2016 04:07 AM, Nikos Mavrogiannopoulos wrote:
-> > 
-> > Removed text referring to text not being helpful to users. Provide
-> > the error text instead to allow the reader to determine whether it
-> > is helpful.
-> > Recommend against using NDEBUG for programs to excibit
-> > deterministic behavior.
-> > Moved description ahead of recommendations.
-> The patch concept seems good to me, butfor some reason it does not
-> apply.
-> Could you check against latest git please?
+I think it is always better to free resources after use to avoid
+memory leaks later. But doing that in such
+simple example might be debatable.
 
-I've rebased it against current master. Attached in case my mailer
-broke the patch.
+May be at-least at the end we should call munmap() and close(). That
+will cover munmap() usage as well.
 
---=-NOFlEDWmS3Yd4JkRzVKv
-Content-Disposition: attachment; filename="0001-assert.3-improved-description.patch"
-Content-Transfer-Encoding: base64
-Content-Type: text/x-patch; name="0001-assert.3-improved-description.patch";
-	charset="UTF-8"
+Regards,
 
-RnJvbSAwYjU5NDU1ZDA4ODljZWQzYzlkMjBmZmVkNzY4YzM5MTFlZDkxNWIzIE1vbiBTZXAgMTcg
-MDA6MDA6MDAgMjAwMQpGcm9tOiBOaWtvcyBNYXZyb2dpYW5ub3BvdWxvcyA8bm1hdkByZWRoYXQu
-Y29tPgpEYXRlOiBUaHUsIDIgSnVuIDIwMTYgMTE6MDM6MjYgKzAyMDAKU3ViamVjdDogW1BBVENI
-XSBhc3NlcnQuMzogaW1wcm92ZWQgZGVzY3JpcHRpb24KClJlbW92ZWQgdGV4dCByZWZlcnJpbmcg
-dG8gdGV4dCBub3QgYmVpbmcgaGVscGZ1bCB0byB1c2Vycy4gUHJvdmlkZQp0aGUgZXJyb3IgdGV4
-dCBpbnN0ZWFkIHRvIGFsbG93IHRoZSByZWFkZXIgdG8gZGV0ZXJtaW5lIHdoZXRoZXIgaXQgaXMg
-aGVscGZ1bC4KUmVjb21tZW5kIGFnYWluc3QgdXNpbmcgTkRFQlVHIGZvciBwcm9ncmFtcyB0byBl
-eGNpYml0IGRldGVybWluaXN0aWMgYmVoYXZpb3IuCk1vdmVkIGRlc2NyaXB0aW9uIGFoZWFkIG9m
-IHJlY29tbWVuZGF0aW9ucy4KClNpZ25lZC1vZmYtYnk6IE5pa29zIE1hdnJvZ2lhbm5vcG91bG9z
-IDxubWF2QHJlZGhhdC5jb20+Ci0tLQogbWFuMy9hc3NlcnQuMyB8IDI5ICsrKysrKysrKysrKysr
-Ky0tLS0tLS0tLS0tLS0tCiAxIGZpbGUgY2hhbmdlZCwgMTUgaW5zZXJ0aW9ucygrKSwgMTQgZGVs
-ZXRpb25zKC0pCgpkaWZmIC0tZ2l0IGEvbWFuMy9hc3NlcnQuMyBiL21hbjMvYXNzZXJ0LjMKaW5k
-ZXggN2NmNzMyOC4uMWI4NWE2OCAxMDA2NDQKLS0tIGEvbWFuMy9hc3NlcnQuMworKysgYi9tYW4z
-L2Fzc2VydC4zCkBAIC0yNCw2ICsyNCw3IEBACiAuXCIKIC5cIiBNb2RpZmllZCBTYXQgSnVsIDI0
-IDIxOjQyOjQyIDE5OTMgYnkgUmlrIEZhaXRoIDxmYWl0aEBjcy51bmMuZWR1PgogLlwiIE1vZGlm
-aWVkIFR1ZSBPY3QgMjIgMjM6NDQ6MTEgMTk5NiBieSBFcmljIFMuIFJheW1vbmQgPGVzckB0aHly
-c3VzLmNvbT4KKy5cIiBNb2RpZmllZCBUaHUgSnVuICAyIDIzOjQ0OjExIDIwMTYgYnkgTmlrb3Mg
-TWF2cm9naWFubm9wb3Vsb3MgPG5tYXZAcmVkaGF0LmNvbT4KIC5USCBBU1NFUlQgMyAgMjAxNS0w
-OC0wOCAiR05VIiAiTGludXggUHJvZ3JhbW1lcidzIE1hbnVhbCIKIC5TSCBOQU1FCiBhc3NlcnQg
-XC0gYWJvcnQgdGhlIHByb2dyYW0gaWYgYXNzZXJ0aW9uIGlzIGZhbHNlCkBAIC0zNCwyNiArMzUs
-MjYgQEAgYXNzZXJ0IFwtIGFib3J0IHRoZSBwcm9ncmFtIGlmIGFzc2VydGlvbiBpcyBmYWxzZQog
-LkJJICJ2b2lkIGFzc2VydChzY2FsYXIgIiBleHByZXNzaW9uICk7CiAuZmkKIC5TSCBERVNDUklQ
-VElPTgorVGhpcyBtYWNybyBjYW4gaGVscCBwcm9ncmFtbWVycyBmaW5kIGJ1Z3MgaW4gdGhlaXIg
-cHJvZ3JhbXMsIG9yIGhhbmRsZSBleGNlcHRpb25hbCBjYXNlcwordmlhIGEgY3Jhc2ggdGhhdCB3
-aWxsIHByb2R1Y2UgbGltaXRlZCBkZWJ1Z2dpbmcgb3V0cHV0LiBUaGUgZnVuY3Rpb24gd2lsbCBw
-cmludCBhbgorZXJyb3IgbWVzc2FnZSB0byBzdGFuZGFyZCBlcnJvciwgZS5nLiwgImFzc2VydGlv
-biBmYWlsZWQgaW4gZmlsZSBmb28uYywgZnVuY3Rpb24gZG9fYmFyKCksIGxpbmUgMTI4NyIKK2Fu
-ZCB0ZXJtaW5hdGUgdGhlIHByb2dyYW0gYnkgY2FsbGluZworLkJSIGFib3J0ICgzKQoraWYKKy5J
-IGV4cHJlc3Npb24KK2lzIGZhbHNlIChpLmUuLCBjb21wYXJlcyBlcXVhbCB0byB6ZXJvKS4KKy5M
-UAogSWYgdGhlIG1hY3JvCiAuQiBOREVCVUcKLXdhcyBkZWZpbmVkIGF0IHRoZSBtb21lbnQKK2lz
-IGRlZmluZWQgYXQgdGhlIG1vbWVudAogLkkgPGFzc2VydC5oPgogd2FzIGxhc3QgaW5jbHVkZWQs
-IHRoZSBtYWNybwogLkJSIGFzc2VydCAoKQotZ2VuZXJhdGVzIG5vIGNvZGUsIGFuZCBoZW5jZSBk
-b2VzIG5vdGhpbmcgYXQgYWxsLgotT3RoZXJ3aXNlLCB0aGUgbWFjcm8KK2dlbmVyYXRlcyBubyBj
-b2RlLCBhbmQgaGVuY2UgZG9lcyBub3RoaW5nIGF0IGFsbC4gSXQgaXMgbm90IHJlY29tbWVuZGVk
-IHRvIGRlZmluZSAKKy5CIE5ERUJVRworaWYgdXNpbmcKIC5CUiBhc3NlcnQgKCkKLXByaW50cyBh
-biBlcnJvciBtZXNzYWdlIHRvIHN0YW5kYXJkIGVycm9yIGFuZCB0ZXJtaW5hdGVzIHRoZSBwcm9n
-cmFtCi1ieSBjYWxsaW5nCi0uQlIgYWJvcnQgKDMpCi1pZgotLkkgZXhwcmVzc2lvbgotaXMgZmFs
-c2UgKGkuZS4sIGNvbXBhcmVzIGVxdWFsIHRvIHplcm8pLgotLkxQCi1UaGUgcHVycG9zZSBvZiB0
-aGlzIG1hY3JvIGlzIHRvIGhlbHAgcHJvZ3JhbW1lcnMgZmluZCBidWdzIGluCi10aGVpciBwcm9n
-cmFtcy4KLVRoZSBtZXNzYWdlICJhc3NlcnRpb24gZmFpbGVkIGluIGZpbGUgZm9vLmMsIGZ1bmN0
-aW9uCi1kb19iYXIoKSwgbGluZSAxMjg3IiBpcyBvZiBubyBoZWxwIGF0IGFsbCB0byBhIHVzZXIu
-Cit0byBkZXRlY3QgZXJyb3IgY29uZGl0aW9ucyBzaW5jZSB0aGUgc29mdHdhcmUgbWF5IGJlaGF2
-ZSBub24tZGV0ZXJtaW5pc3RpY2FsbHkuCiAuU0ggUkVUVVJOIFZBTFVFCiBObyB2YWx1ZSBpcyBy
-ZXR1cm5lZC4KIC5TSCBBVFRSSUJVVEVTCi0tIAoyLjUuNQoK
-
-
---=-NOFlEDWmS3Yd4JkRzVKv--
-
+Rahul
 --
 To unsubscribe from this list: send the line "unsubscribe linux-man" in
 the body of a message to majordomo-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
