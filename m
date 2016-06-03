@@ -1,68 +1,95 @@
-From: "Michael Kerrisk (man-pages)" <mtk.manpages-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org>
-Subject: Re: get_mempolicy(2) type mismatch
-Date: Thu, 2 Jun 2016 21:34:24 -0500
-Message-ID: <7415bda7-c018-0efa-5799-53666465f3c0@gmail.com>
-References: <20160503005821.GC9613@cork> <20160503010428.GD9613@cork>
+From: Nikos Mavrogiannopoulos <nmav-H+wXaHxf7aLQT0dZR+AlfA@public.gmane.org>
+Subject: Re: [PATCH] assert.3: improved description
+Date: Fri, 03 Jun 2016 07:08:50 +0200
+Message-ID: <1464930530.2843.0.camel@redhat.com>
+References: <1464858451.5804.3.camel@redhat.com>
+	 <dce9e3be-8461-2d09-197d-424a64eed8b7@gmail.com>
 Mime-Version: 1.0
-Content-Type: text/plain; charset=windows-1252
-Content-Transfer-Encoding: QUOTED-PRINTABLE
+Content-Type: multipart/mixed; boundary="=-NOFlEDWmS3Yd4JkRzVKv"
 Return-path: <linux-man-owner-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>
-In-Reply-To: <20160503010428.GD9613@cork>
+In-Reply-To: <dce9e3be-8461-2d09-197d-424a64eed8b7-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org>
 Sender: linux-man-owner-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
-To: =?UTF-8?Q?J=c3=b6rn_Engel?= <joern-BHEL68pLQRGGvPXPguhicg@public.gmane.org>
-Cc: mtk.manpages-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org, linux-man-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
+To: "Michael Kerrisk (man-pages)" <mtk.manpages-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org>
+Cc: linux-man-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
 List-Id: linux-man@vger.kernel.org
 
-Hi J=F6rn,
 
-On 05/02/2016 08:04 PM, J=F6rn Engel wrote:
-> [ Removed linux-fsdevel - shouldn't have been on Cc: ]
->=20
-> On Mon, May 02, 2016 at 05:58:21PM -0700, J=F6rn Engel wrote:
->> The manpage seems to have the wrong type for "addr".
->>
->> Manpage:
->>        int get_mempolicy(int *mode, unsigned long *nodemask,
->>                          unsigned long maxnode, unsigned long addr,
->>                          unsigned long flags);
->>
->> /usr/include/numaif.h:
->> extern long get_mempolicy(int *policy, const unsigned long *nmask,
->>                         unsigned long maxnode, void *addr, int flags=
-);
->=20
-> Found another problem.
->=20
-> "is always rounded to a multiple of sizeof(unsigned long)"
->=20
-> I suspect the rounding should be done to a multiple of BITS_PER_LONG,=
- or
-> "sizeof(unsigned long) * 8".
+--=-NOFlEDWmS3Yd4JkRzVKv
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: 7bit
 
-It looks to me like you are right, but with reports like this, it's
-really helpful if you provide me some context on why you drew the
-conclusion. That makes things much easier to check.
+On Thu, 2016-06-02 at 18:35 -0500, Michael Kerrisk (man-pages) wrote:
+> Hi Nikos,
+> 
+> On 06/02/2016 04:07 AM, Nikos Mavrogiannopoulos wrote:
+> > 
+> > Removed text referring to text not being helpful to users. Provide
+> > the error text instead to allow the reader to determine whether it
+> > is helpful.
+> > Recommend against using NDEBUG for programs to excibit
+> > deterministic behavior.
+> > Moved description ahead of recommendations.
+> The patch concept seems good to me, butfor some reason it does not
+> apply.
+> Could you check against latest git please?
 
-=46or example, you could cite pieces of code such as the following in
-mm/mempolicy.c::COMPAT_SYSCALL_DEFINE5(get_mempolicy):
+I've rebased it against current master. Attached in case my mailer
+broke the patch.
 
-        nr_bits =3D min_t(unsigned long, maxnode-1, MAX_NUMNODES);
-        alloc_size =3D ALIGN(nr_bits, BITS_PER_LONG) / 8;
+--=-NOFlEDWmS3Yd4JkRzVKv
+Content-Disposition: attachment; filename="0001-assert.3-improved-description.patch"
+Content-Transfer-Encoding: base64
+Content-Type: text/x-patch; name="0001-assert.3-improved-description.patch";
+	charset="UTF-8"
 
-> J=F6rn, wondering how many others actually care about NUMA
+RnJvbSAwYjU5NDU1ZDA4ODljZWQzYzlkMjBmZmVkNzY4YzM5MTFlZDkxNWIzIE1vbiBTZXAgMTcg
+MDA6MDA6MDAgMjAwMQpGcm9tOiBOaWtvcyBNYXZyb2dpYW5ub3BvdWxvcyA8bm1hdkByZWRoYXQu
+Y29tPgpEYXRlOiBUaHUsIDIgSnVuIDIwMTYgMTE6MDM6MjYgKzAyMDAKU3ViamVjdDogW1BBVENI
+XSBhc3NlcnQuMzogaW1wcm92ZWQgZGVzY3JpcHRpb24KClJlbW92ZWQgdGV4dCByZWZlcnJpbmcg
+dG8gdGV4dCBub3QgYmVpbmcgaGVscGZ1bCB0byB1c2Vycy4gUHJvdmlkZQp0aGUgZXJyb3IgdGV4
+dCBpbnN0ZWFkIHRvIGFsbG93IHRoZSByZWFkZXIgdG8gZGV0ZXJtaW5lIHdoZXRoZXIgaXQgaXMg
+aGVscGZ1bC4KUmVjb21tZW5kIGFnYWluc3QgdXNpbmcgTkRFQlVHIGZvciBwcm9ncmFtcyB0byBl
+eGNpYml0IGRldGVybWluaXN0aWMgYmVoYXZpb3IuCk1vdmVkIGRlc2NyaXB0aW9uIGFoZWFkIG9m
+IHJlY29tbWVuZGF0aW9ucy4KClNpZ25lZC1vZmYtYnk6IE5pa29zIE1hdnJvZ2lhbm5vcG91bG9z
+IDxubWF2QHJlZGhhdC5jb20+Ci0tLQogbWFuMy9hc3NlcnQuMyB8IDI5ICsrKysrKysrKysrKysr
+Ky0tLS0tLS0tLS0tLS0tCiAxIGZpbGUgY2hhbmdlZCwgMTUgaW5zZXJ0aW9ucygrKSwgMTQgZGVs
+ZXRpb25zKC0pCgpkaWZmIC0tZ2l0IGEvbWFuMy9hc3NlcnQuMyBiL21hbjMvYXNzZXJ0LjMKaW5k
+ZXggN2NmNzMyOC4uMWI4NWE2OCAxMDA2NDQKLS0tIGEvbWFuMy9hc3NlcnQuMworKysgYi9tYW4z
+L2Fzc2VydC4zCkBAIC0yNCw2ICsyNCw3IEBACiAuXCIKIC5cIiBNb2RpZmllZCBTYXQgSnVsIDI0
+IDIxOjQyOjQyIDE5OTMgYnkgUmlrIEZhaXRoIDxmYWl0aEBjcy51bmMuZWR1PgogLlwiIE1vZGlm
+aWVkIFR1ZSBPY3QgMjIgMjM6NDQ6MTEgMTk5NiBieSBFcmljIFMuIFJheW1vbmQgPGVzckB0aHly
+c3VzLmNvbT4KKy5cIiBNb2RpZmllZCBUaHUgSnVuICAyIDIzOjQ0OjExIDIwMTYgYnkgTmlrb3Mg
+TWF2cm9naWFubm9wb3Vsb3MgPG5tYXZAcmVkaGF0LmNvbT4KIC5USCBBU1NFUlQgMyAgMjAxNS0w
+OC0wOCAiR05VIiAiTGludXggUHJvZ3JhbW1lcidzIE1hbnVhbCIKIC5TSCBOQU1FCiBhc3NlcnQg
+XC0gYWJvcnQgdGhlIHByb2dyYW0gaWYgYXNzZXJ0aW9uIGlzIGZhbHNlCkBAIC0zNCwyNiArMzUs
+MjYgQEAgYXNzZXJ0IFwtIGFib3J0IHRoZSBwcm9ncmFtIGlmIGFzc2VydGlvbiBpcyBmYWxzZQog
+LkJJICJ2b2lkIGFzc2VydChzY2FsYXIgIiBleHByZXNzaW9uICk7CiAuZmkKIC5TSCBERVNDUklQ
+VElPTgorVGhpcyBtYWNybyBjYW4gaGVscCBwcm9ncmFtbWVycyBmaW5kIGJ1Z3MgaW4gdGhlaXIg
+cHJvZ3JhbXMsIG9yIGhhbmRsZSBleGNlcHRpb25hbCBjYXNlcwordmlhIGEgY3Jhc2ggdGhhdCB3
+aWxsIHByb2R1Y2UgbGltaXRlZCBkZWJ1Z2dpbmcgb3V0cHV0LiBUaGUgZnVuY3Rpb24gd2lsbCBw
+cmludCBhbgorZXJyb3IgbWVzc2FnZSB0byBzdGFuZGFyZCBlcnJvciwgZS5nLiwgImFzc2VydGlv
+biBmYWlsZWQgaW4gZmlsZSBmb28uYywgZnVuY3Rpb24gZG9fYmFyKCksIGxpbmUgMTI4NyIKK2Fu
+ZCB0ZXJtaW5hdGUgdGhlIHByb2dyYW0gYnkgY2FsbGluZworLkJSIGFib3J0ICgzKQoraWYKKy5J
+IGV4cHJlc3Npb24KK2lzIGZhbHNlIChpLmUuLCBjb21wYXJlcyBlcXVhbCB0byB6ZXJvKS4KKy5M
+UAogSWYgdGhlIG1hY3JvCiAuQiBOREVCVUcKLXdhcyBkZWZpbmVkIGF0IHRoZSBtb21lbnQKK2lz
+IGRlZmluZWQgYXQgdGhlIG1vbWVudAogLkkgPGFzc2VydC5oPgogd2FzIGxhc3QgaW5jbHVkZWQs
+IHRoZSBtYWNybwogLkJSIGFzc2VydCAoKQotZ2VuZXJhdGVzIG5vIGNvZGUsIGFuZCBoZW5jZSBk
+b2VzIG5vdGhpbmcgYXQgYWxsLgotT3RoZXJ3aXNlLCB0aGUgbWFjcm8KK2dlbmVyYXRlcyBubyBj
+b2RlLCBhbmQgaGVuY2UgZG9lcyBub3RoaW5nIGF0IGFsbC4gSXQgaXMgbm90IHJlY29tbWVuZGVk
+IHRvIGRlZmluZSAKKy5CIE5ERUJVRworaWYgdXNpbmcKIC5CUiBhc3NlcnQgKCkKLXByaW50cyBh
+biBlcnJvciBtZXNzYWdlIHRvIHN0YW5kYXJkIGVycm9yIGFuZCB0ZXJtaW5hdGVzIHRoZSBwcm9n
+cmFtCi1ieSBjYWxsaW5nCi0uQlIgYWJvcnQgKDMpCi1pZgotLkkgZXhwcmVzc2lvbgotaXMgZmFs
+c2UgKGkuZS4sIGNvbXBhcmVzIGVxdWFsIHRvIHplcm8pLgotLkxQCi1UaGUgcHVycG9zZSBvZiB0
+aGlzIG1hY3JvIGlzIHRvIGhlbHAgcHJvZ3JhbW1lcnMgZmluZCBidWdzIGluCi10aGVpciBwcm9n
+cmFtcy4KLVRoZSBtZXNzYWdlICJhc3NlcnRpb24gZmFpbGVkIGluIGZpbGUgZm9vLmMsIGZ1bmN0
+aW9uCi1kb19iYXIoKSwgbGluZSAxMjg3IiBpcyBvZiBubyBoZWxwIGF0IGFsbCB0byBhIHVzZXIu
+Cit0byBkZXRlY3QgZXJyb3IgY29uZGl0aW9ucyBzaW5jZSB0aGUgc29mdHdhcmUgbWF5IGJlaGF2
+ZSBub24tZGV0ZXJtaW5pc3RpY2FsbHkuCiAuU0ggUkVUVVJOIFZBTFVFCiBObyB2YWx1ZSBpcyBy
+ZXR1cm5lZC4KIC5TSCBBVFRSSUJVVEVTCi0tIAoyLjUuNQoK
 
-Intersection of the set of people who care about both
-NUMA and docs is evidently small... Thanks for taking care.
 
-Cheers,
+--=-NOFlEDWmS3Yd4JkRzVKv--
 
-Michael
-
-
---=20
-Michael Kerrisk
-Linux man-pages maintainer; http://www.kernel.org/doc/man-pages/
-Linux/UNIX System Programming Training: http://man7.org/training/
 --
 To unsubscribe from this list: send the line "unsubscribe linux-man" in
 the body of a message to majordomo-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
