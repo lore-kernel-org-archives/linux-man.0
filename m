@@ -1,51 +1,38 @@
-From: "Michael Kerrisk (man-pages)" <mtk.manpages-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org>
-Subject: Re: [PATCH] termios.3: spfix
-Date: Mon, 6 Jun 2016 16:03:31 -0500
-Message-ID: <dcd7269c-5f98-62f1-a1d0-cf38e3c6f43e@gmail.com>
-References: <1465160968-9772-1-git-send-email-jwilk@jwilk.net>
-Mime-Version: 1.0
-Content-Type: text/plain; charset=windows-1252
-Content-Transfer-Encoding: 7bit
+From: Jakub Wilk <jwilk-tXgOlIzOKNReoWH0uzbU5w@public.gmane.org>
+Subject: [PATCH 1/2] proc.5: tfix
+Date: Tue,  7 Jun 2016 11:19:23 +0200
+Message-ID: <1465291164-5486-1-git-send-email-jwilk@jwilk.net>
 Return-path: <linux-man-owner-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>
-In-Reply-To: <1465160968-9772-1-git-send-email-jwilk-tXgOlIzOKNReoWH0uzbU5w@public.gmane.org>
 Sender: linux-man-owner-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
-To: Jakub Wilk <jwilk-tXgOlIzOKNReoWH0uzbU5w@public.gmane.org>
-Cc: mtk.manpages-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org, linux-man-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
+To: Michael Kerrisk <mtk.manpages-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org>
+Cc: linux-man-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
 List-Id: linux-man@vger.kernel.org
 
-On 06/05/2016 04:09 PM, Jakub Wilk wrote:
-> Signed-off-by: Jakub Wilk <jwilk-tXgOlIzOKNReoWH0uzbU5w@public.gmane.org>
+Signed-off-by: Jakub Wilk <jwilk-tXgOlIzOKNReoWH0uzbU5w@public.gmane.org>
+---
+ man5/proc.5 | 4 ++--
+ 1 file changed, 2 insertions(+), 2 deletions(-)
 
-Thanks, Jakub. Applied!
-
-Cheers,
-
-Michael
-
-> ---
->  man3/termios.3 | 2 +-
->  1 file changed, 1 insertion(+), 1 deletion(-)
-> 
-> diff --git a/man3/termios.3 b/man3/termios.3
-> index 306186d..c6e6cbd 100644
-> --- a/man3/termios.3
-> +++ b/man3/termios.3
-> @@ -708,7 +708,7 @@ noncanonical mode
->  unset).
->  By default,
->  .B ICANON
-> -set.
-> +is set.
->  
->  In canonical mode:
->  .IP * 2
-> 
-
-
+diff --git a/man5/proc.5 b/man5/proc.5
+index c84319b..2f8b51c 100644
+--- a/man5/proc.5
++++ b/man5/proc.5
+@@ -133,10 +133,10 @@ whether other users are running any program at all, and so on).
+ Specifies the ID of a group whose members are authorized to
+ learn process information otherwise prohibited by
+ .BR hidepid
+-(ie/e/, users in this group behave as though
++(i.e., users in this group behave as though
+ .I /proc
+ was mounted with
+-.IR hidepid=0 .
++.IR hidepid=0 ).
+ This group should be used instead of approaches such as putting
+ nonroot users into the
+ .BR sudoers (5)
 -- 
-Michael Kerrisk
-Linux man-pages maintainer; http://www.kernel.org/doc/man-pages/
-Linux/UNIX System Programming Training: http://man7.org/training/
+2.8.1
+
 --
 To unsubscribe from this list: send the line "unsubscribe linux-man" in
 the body of a message to majordomo-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
