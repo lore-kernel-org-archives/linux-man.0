@@ -1,47 +1,52 @@
-From: bugzilla-daemon-590EEB7GvNiWaY/ihj7yzEB+6BGkLq7r@public.gmane.org
-Subject: [Bug 118671] mkfifo(3) & mknod(2) and EPERM
-Date: Wed, 08 Jun 2016 15:06:37 +0000
-Message-ID: <bug-118671-11311-CULNB1OqEJ@https.bugzilla.kernel.org/>
-References: <bug-118671-11311@https.bugzilla.kernel.org/>
+From: Fabien Siron <fabien.siron-ZrNlpQwM5lQ@public.gmane.org>
+Subject: [PATCH] netlink.7: Change NETLINK_INET_DIAG to NETLINK_SOCK_DIAG
+Date: Wed, 8 Jun 2016 16:09:38 +0000
+Message-ID: <20160608160938.13275-1-fabien.siron@epita.fr>
 Mime-Version: 1.0
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: 7bit
+Content-Type: text/plain
 Return-path: <linux-man-owner-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>
-In-Reply-To: <bug-118671-11311-3bo0kxnWaOQUvHkbgXJLS5sdmw4N0Rt+2LY78lusg7I@public.gmane.org/>
 Sender: linux-man-owner-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
 To: linux-man-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
+Cc: mtk.manpages-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org, xemul-5HdwGun5lf+gSpxsJD1C4w@public.gmane.org, Fabien Siron <fabien.siron-ZrNlpQwM5lQ@public.gmane.org>
 List-Id: linux-man@vger.kernel.org
 
-https://bugzilla.kernel.org/show_bug.cgi?id=118671
+As NETLINK_INET_DIAG should not longer be used, NETLINK_SOCK_DIAG should be
+written instead.
 
---- Comment #2 from Nadav Har'El <nyh-TS7m/3hpY0sOpacJJkBjfT4kX+cae0hd@public.gmane.org> ---
-I don't know why it worked for you and not for me, but I did paste the exact
-error message ("operation not permitted") I got from mkfifo ;-)
+Signed-off-by: Fabien Siron <fabien.siron-ZrNlpQwM5lQ@public.gmane.org>
+---
+ man7/netlink.7 | 8 ++++----
+ 1 file changed, 4 insertions(+), 4 deletions(-)
 
-Looking at the Linux source code, fs/cifs/dir.c, the cifs_mknod function, I see
-the lines causing this EPERM::
-
-        int rc = -EPERM;
-        ...
-        if (!(cifs_sb->mnt_cifs_flags & CIFS_MOUNT_UNX_EMUL))
-                goto mknod_out;
-        ...
-        mknod_out:
-        ...
-        return rc;
-
-So it appears that if this "CIFS_MOUNT_UNX_EMUL" flag is not turned on, indeed
-an EPERM is being returned. I'm not sure who is supposed to turn on this flag
-(does it come from the server? is it a mount-time flag?), but I guess it can be
-off, and mknod() would result in EPERM.
-
-I'm not sure why the CIFS guys decided to return EPERM in this case (and not
-something else, like ENOSYS), but perhaps this decision has precedent in other
-drivers as well. I didn't check.
-
+diff --git a/man7/netlink.7 b/man7/netlink.7
+index 513f854..88e3dc1 100644
+--- a/man7/netlink.7
++++ b/man7/netlink.7
+@@ -62,9 +62,9 @@ Used by
+ .I ip_queue
+ kernel module.
+ .TP
+-.B NETLINK_INET_DIAG
+-.\" FIXME More details on NETLINK_INET_DIAG needed.
+-INET socket monitoring.
++.B NETLINK_SOCK_DIAG
++.\" FIXME More details on NETLINK_SOCK_DIAG needed.
++Socket monitoring.
+ .TP
+ .B NETLINK_NFLOG
+ Netfilter/iptables ULOG.
+@@ -383,7 +383,7 @@ NETLINK_KOBJECT_UEVENT appeared in Linux 2.6.10.
+ 
+ NETLINK_W1 and NETLINK_FIB_LOOKUP appeared in Linux 2.6.13.
+ 
+-NETLINK_INET_DIAG, NETLINK_CONNECTOR and NETLINK_NETFILTER appeared in
++NETLINK_SOCK_DIAG, NETLINK_CONNECTOR and NETLINK_NETFILTER appeared in
+ Linux 2.6.14.
+ 
+ NETLINK_GENERIC and NETLINK_ISCSI appeared in Linux 2.6.15.
 -- 
-You are receiving this mail because:
-You are watching the assignee of the bug.
+2.8.3
+
 --
 To unsubscribe from this list: send the line "unsubscribe linux-man" in
 the body of a message to majordomo-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
