@@ -1,75 +1,85 @@
-From: "Michael Kerrisk (man-pages)" <mtk.manpages-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org>
-Subject: Re: [PATCH 4/5] printf: %m is supported by uclibc and musl, no %n in
- bionic
-Date: Thu, 9 Jun 2016 10:37:45 +0200
-Message-ID: <eef8bc8b-f717-4f06-4242-9916e975586c@gmail.com>
-References: <1387586263-9002-1-git-send-email-shawn@churchofgit.com>
- <1387586263-9002-4-git-send-email-shawn@churchofgit.com>
+From: "Darrick J. Wong" <darrick.wong-QHcLZuEGTsvQT0dZR+AlfA@public.gmane.org>
+Subject: Re: [PATCH] ioctl_ficlonerange.2/ioctl_fideduperange.2: mention
+ same-fs requirement
+Date: Thu, 9 Jun 2016 10:34:47 -0700
+Message-ID: <20160609173447.GA10371@birch.djwong.org>
+References: <20160608164040.GB5740@birch.djwong.org>
+ <f1f16a4c-046c-ea32-4171-a68f1044f85a@gmail.com>
 Mime-Version: 1.0
-Content-Type: text/plain; charset=windows-1252
-Content-Transfer-Encoding: 7bit
+Content-Type: text/plain; charset=us-ascii
 Return-path: <linux-man-owner-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>
-In-Reply-To: <1387586263-9002-4-git-send-email-shawn-01I/ocv1qBBILuwUvNxBeQ@public.gmane.org>
+Content-Disposition: inline
+In-Reply-To: <f1f16a4c-046c-ea32-4171-a68f1044f85a-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org>
 Sender: linux-man-owner-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
-To: Shawn Landden <shawn-01I/ocv1qBBILuwUvNxBeQ@public.gmane.org>, linux-man-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
-Cc: mtk.manpages-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org
+To: "Michael Kerrisk (man-pages)" <mtk.manpages-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org>
+Cc: linux-fsdevel-u79uwXL29TY76Z2rM5mHXA@public.gmane.org, linux-api-u79uwXL29TY76Z2rM5mHXA@public.gmane.org, hch-wEGCiKHe2LqWVfeAwA7xHQ@public.gmane.org, linux-man-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
 List-Id: linux-man@vger.kernel.org
 
-On 12/21/2013 01:37 AM, Shawn Landden wrote:
-> Signed-off-by: Shawn Landden <shawn-01I/ocv1qBBILuwUvNxBeQ@public.gmane.org>
-> ---
->  man3/printf.3 | 4 ++--
->  1 file changed, 2 insertions(+), 2 deletions(-)
+On Thu, Jun 09, 2016 at 10:11:42AM +0200, Michael Kerrisk (man-pages) wrote:
+> On 06/08/2016 06:40 PM, Darrick J. Wong wrote:
+> > Mention that FICLONE, FICLONERANGE, and FIDEDUPERANGE all require both
+> > files to reside on the same filesystem.
 > 
-> diff --git a/man3/printf.3 b/man3/printf.3
-> index 20a3b5d..a861126 100644
-> --- a/man3/printf.3
-> +++ b/man3/printf.3
-> @@ -791,10 +791,10 @@ The number of characters written so far is stored into the integer
->  indicated by the
->  .I "int\ *"
->  (or variant) pointer argument.
-> -No argument is converted.
-> +No argument is converted. (absent in bionic)
->  .TP
->  .B m
-> -(Glibc extension.)
-> +(Glibc extension. Supported by uClibc and musl)
->  Print output of
->  .IR strerror(errno) .
->  No argument is required.
+> Thanks, Darrick. Applied.
+> 
+> I sees there's also some small problems with the page licenses in these
+> two new pages: the markup "VERBATIM" is wrong. And you don't mention 
+> the GPL version.
+> 
+> Can I suggest either changing the license to the real "verbatim" 
+> license (https://www.kernel.org/doc/man-pages/licenses.html#verbatim),
+> or to a GPL with version (see 
+> https://www.kernel.org/doc/man-pages/licenses.html#gpl
 
-Hi Shawn,
+Oops, that was a bad thinko on my part.  Will send a patch
+changing it to GPLv2+ shortly.  A big thank you for pointing
+this out!
 
-I applied a slightly different patch.
+--D
 
-Cheers,
-
-Michael
-
---- a/man3/printf.3
-+++ b/man3/printf.3
-@@ -817,11 +817,12 @@ That argument shall be an
- or variant whose size matches the (optionally)
- supplied integer length modifier.
- No argument is converted.
-+(This specifier is not supported by the bionic C library.)
- The behavior is undefined if the conversion specification includes
- any flags, a field width, or a precision.
- .TP
- .B m
--(Glibc extension.)
-+(Glibc extension; supported by uClibc and musl.)
- Print output of
- .IR strerror(errno) .
- No argument is required.
- 
-
-
--- 
-Michael Kerrisk
-Linux man-pages maintainer; http://www.kernel.org/doc/man-pages/
-Linux/UNIX System Programming Training: http://man7.org/training/
+> 
+> Cheers,
+> 
+> Michael
+> 
+> 
+> > Signed-off-by: Darrick J. Wong <darrick.wong-QHcLZuEGTsvQT0dZR+AlfA@public.gmane.org>
+> > ---
+> >  man2/ioctl_ficlonerange.2  |    1 +
+> >  man2/ioctl_fideduperange.2 |    1 +
+> >  2 files changed, 2 insertions(+)
+> > 
+> > diff --git a/man2/ioctl_ficlonerange.2 b/man2/ioctl_ficlonerange.2
+> > index 0cb1567..c6e0762 100644
+> > --- a/man2/ioctl_ficlonerange.2
+> > +++ b/man2/ioctl_ficlonerange.2
+> > @@ -36,6 +36,7 @@ file appear in the
+> >  .I dest_fd
+> >  file by sharing the underlying storage, which is faster than making a separate
+> >  physical copy of the data.
+> > +Both files must reside within the same filesystem.
+> >  If a file write should occur to a shared region,
+> >  the filesystem must ensure that the changes remain private to the file being
+> >  written.
+> > diff --git a/man2/ioctl_fideduperange.2 b/man2/ioctl_fideduperange.2
+> > index c69f8c5..44a7765 100644
+> > --- a/man2/ioctl_fideduperange.2
+> > +++ b/man2/ioctl_fideduperange.2
+> > @@ -34,6 +34,7 @@ file appear in the
+> >  .B dest_fd
+> >  file by sharing the underlying storage if the file data is identical
+> >  ("deduplication").
+> > +Both files must reside within the same filesystem.
+> >  This reduces storage consumption by allowing the filesystem
+> >  to store one shared copy of the data.
+> >  If a file write should occur to a shared
+> > 
+> 
+> 
+> -- 
+> Michael Kerrisk
+> Linux man-pages maintainer; http://www.kernel.org/doc/man-pages/
+> Linux/UNIX System Programming Training: http://man7.org/training/
 --
 To unsubscribe from this list: send the line "unsubscribe linux-man" in
 the body of a message to majordomo-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
