@@ -1,54 +1,126 @@
 From: "Michael Kerrisk (man-pages)" <mtk.manpages-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org>
-Subject: Re: Drop localedef.1 --old-style description
-Date: Sun, 12 Jun 2016 12:54:48 +0200
-Message-ID: <79951c07-b1ac-a1e5-b0d7-bf57b1c1e8b8@gmail.com>
-References: <575C0C8B.5050103@redhat.com>
+Subject: Re: [PATCH] netlink.7: describe netlink socket options
+Date: Sun, 12 Jun 2016 13:21:36 +0200
+Message-ID: <a8483b6f-160e-1743-35d3-65b0d4594fd6@gmail.com>
+References: <1465590517-7182-1-git-send-email-avagin@openvz.org>
 Mime-Version: 1.0
-Content-Type: text/plain; charset=utf-8
+Content-Type: text/plain; charset=windows-1252
 Content-Transfer-Encoding: 7bit
 Return-path: <linux-man-owner-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>
-In-Reply-To: <575C0C8B.5050103-H+wXaHxf7aLQT0dZR+AlfA@public.gmane.org>
+In-Reply-To: <1465590517-7182-1-git-send-email-avagin-GEFAQzZX7r8dnm+yROfE0A@public.gmane.org>
 Sender: linux-man-owner-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
-To: Marko Myllynen <myllynen-H+wXaHxf7aLQT0dZR+AlfA@public.gmane.org>
-Cc: mtk.manpages-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org, linux-man <linux-man-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>
+To: Andrey Vagin <avagin-GEFAQzZX7r8dnm+yROfE0A@public.gmane.org>
+Cc: mtk.manpages-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org, netdev-u79uwXL29TY76Z2rM5mHXA@public.gmane.org, linux-man-u79uwXL29TY76Z2rM5mHXA@public.gmane.org, Kir Kolyshkin <kir-GEFAQzZX7r8dnm+yROfE0A@public.gmane.org>, Herbert Xu <herbert-lOAM2aK0SrRLBo1qDEOMRrpzq4S04n8Q@public.gmane.org>, Patrick McHardy <kaber-dcUjhNyLwpNeoWH0uzbU5w@public.gmane.org>, Christophe Ricard <christophe.ricard-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org>, Nicolas Dichtel <nicolas.dichtel-pdR9zngts4EAvxtiuMwx3w@public.gmane.org>
 List-Id: linux-man@vger.kernel.org
 
-On 06/11/2016 03:05 PM, Marko Myllynen wrote:
-> Hi Michael,
-> 
-> the glibc upstream decided to drop localedef(1) --old-style option [1]
-> altogether, I think we can do the same with localedef(1), the option
-> hasn't done anything in over 16 years and I doubt anyone uses it.
+Hi Andrey,
 
-Thanks, Marko. Applied.
+On 06/10/2016 10:28 PM, Andrey Vagin wrote:
+> Cc: Kir Kolyshkin <kir-GEFAQzZX7r8dnm+yROfE0A@public.gmane.org>
+> Cc: Michael Kerrisk <mtk.manpages-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org>
+> Cc: Herbert Xu <herbert-lOAM2aK0SrRLBo1qDEOMRrpzq4S04n8Q@public.gmane.org>
+> Cc: Patrick McHardy <kaber-dcUjhNyLwpNeoWH0uzbU5w@public.gmane.org>
+> Cc: Christophe Ricard <christophe.ricard-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org>
+> Cc: Nicolas Dichtel <nicolas.dichtel-pdR9zngts4EAvxtiuMwx3w@public.gmane.org>
+> Signed-off-by: Andrey Vagin <avagin-GEFAQzZX7r8dnm+yROfE0A@public.gmane.org>
+> ---
+>  man7/netlink.7 | 75 ++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
+>  1 file changed, 75 insertions(+)
+
+
+Thanks for the nicely done patch. Applied!
 
 Cheers,
 
 Michael
 
 
-> 1) https://sourceware.org/git/?p=glibc.git;a=commit;h=6a54bcda7a2a64e465992a9984785443fd594743
-> 
-> ---
->  man1/localedef.1 | 3 ---
->  1 file changed, 3 deletions(-)
-> 
-> diff --git a/man1/localedef.1 b/man1/localedef.1
-> index 204a7f6..f8b1f63 100644
-> --- a/man1/localedef.1
-> +++ b/man1/localedef.1
-> @@ -216,9 +216,6 @@ the archive would be placed in
->  Write the output files even if warnings were generated about the input
->  file.
->  .TP
-> -.B \-\-old\-style
-> -This option is a no-op and preserved only for backward compatibility.
-> -.TP
->  .BR \-v ", " \-\-verbose
->  Generate extra warnings about errors that are normally ignored.
->  .TP
-> 
-> Thanks,
+> diff --git a/man7/netlink.7 b/man7/netlink.7
+> index 513f854..b4848df 100644
+> --- a/man7/netlink.7
+> +++ b/man7/netlink.7
+> @@ -368,6 +368,81 @@ and
+>  .BR NETLINK_SELINUX
+>  groups allow other users to receive messages.
+>  No groups allow other users to send messages.
+> +
+> +.SS Socket options
+> +To set or get a netlink socket option, call
+> +.BR getsockopt (2)
+> +to read or
+> +.BR setsockopt (2)
+> +to write the option with the option level argument set to
+> +.BR SOL_NETLINK .
+> +Unless otherwise noted,
+> +.I optval
+> +is a pointer to an
+> +.IR int .
+> +.TP
+> +.BR NETLINK_PKTINFO " (since Linux 2.6.14)"
+> +Enable
+> +.B nl_pktinfo
+> +control messages for received packets to get the extended
+> +destination group number.
+> +.TP
+> +.BR NETLINK_ADD_MEMBERSHIP ,\  NETLINK_DROP_MEMBERSHIP " (since Linux 2.6.14)"
+> +Join/leave a group specified by
+> +.IR optval .
+> +.\"	commit 9a4595bc7e67962f13232ee55a64e063062c3a99
+> +.\"	Author: Patrick McHardy <kaber-dcUjhNyLwpNeoWH0uzbU5w@public.gmane.org>
+> +.TP
+> +.BR NETLINK_LIST_MEMBERSHIPS " (since Linux 4.2)"
+> +Retrieve all groups a socket is a member of.
+> +.I optval
+> +is a pointer to
+> +.B __u32
+> +and
+> +.I optlen
+> +is the size of the array. The array is filled with the full membership set of the
+> +socket, and the required array size is returned in
+> +.I optlen.
+> +.\"	commit b42be38b2778eda2237fc759e55e3b698b05b315
+> +.\"	Author: David Herrmann <dh.herrmann-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org>
+> +.TP
+> +.BR NETLINK_BROADCAST_ERROR " (since Linux 2.6.30)"
+> +When not set,
+> +.B netlink_broadcast()
+> +only reports
+> +.B ESRCH
+> +errors and silently ignore
+> +.B NOBUFS
+> +errors.
+> +.\"	commit be0c22a46cfb79ab2342bb28fde99afa94ef868e
+> +.\"	Author: Pablo Neira Ayuso <pablo-Cap9r6Oaw4JrovVCs/uTlw@public.gmane.org>
+> +.TP
+> +.BR NETLINK_NO_ENOBUFS " (since Linux 2.6.30)"
+> +This flag can be used by unicast and broadcast listeners to avoid receiving
+> +.B ENOBUFS
+> +errors.
+> +.\"	commit 38938bfe3489394e2eed5e40c9bb8f66a2ce1405
+> +.\"	Author: Pablo Neira Ayuso <pablo-Cap9r6Oaw4JrovVCs/uTlw@public.gmane.org>
+> +.TP
+> +.BR NETLINK_LISTEN_ALL_NSID " (since Linux 4.2)"
+> +When set, this socket will receive netlink notifications from all network namespaces that
+> +have an
+> +.I nsid
+> +assigned into the network namespace where the socket has been opened. The
+> +.I nsid
+> +is sent to user space via an ancillary data.
+> +.\"	commit 59324cf35aba5336b611074028777838a963d03b
+> +.\"	Author: Nicolas Dichtel <nicolas.dichtel-pdR9zngts4EAvxtiuMwx3w@public.gmane.org>
+> +.TP
+> +.BR NETLINK_CAP_ACK " (since Linux 4.2)"
+> +The kernel may fail to allocate the necessary room for the acknowledgment
+> +message back to userspace. This option trims off the payload of the original
+> +netlink message.
+> +The netlink message header is still included, so the user can guess from the
+> +sequence number what is the message that has triggered the acknowledgment.
+> +.\"	commit 0a6a3a23ea6efde079a5b77688541a98bf202721
+> +.\"	Author: Christophe Ricard <christophe.ricard-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org>
+> +
+>  .SH VERSIONS
+>  The socket interface to netlink is a new feature of Linux 2.2.
+>  
 > 
 
 
