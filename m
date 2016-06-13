@@ -1,7 +1,7 @@
 From: Marko Myllynen <myllynen-H+wXaHxf7aLQT0dZR+AlfA@public.gmane.org>
-Subject: locale.5, repertoiremap.5: clarify keyword syntax
-Date: Mon, 13 Jun 2016 10:19:55 +0300
-Message-ID: <575E5E9B.9030301@redhat.com>
+Subject: locale.5: document missing keywords, minor updates
+Date: Mon, 13 Jun 2016 10:20:14 +0300
+Message-ID: <575E5EAE.7060107@redhat.com>
 Reply-To: Marko Myllynen <myllynen-H+wXaHxf7aLQT0dZR+AlfA@public.gmane.org>
 Mime-Version: 1.0
 Content-Type: text/plain; charset=utf-8
@@ -14,92 +14,142 @@ List-Id: linux-man@vger.kernel.org
 
 Hi Michael,
 
-All the glibc locale/repertoiremap files use the format described in the
-patch below, the fix is trivial (and adds an example just in case), I
-presume these were copypasted from charmaps.5 page, all the glibc charmaps
-use slightly different format for keywords (I'll send a separate patch
-to address charmaps.5 next).
+I cross-checked the current locale.5 page against glibc locales are
+fixed the following issues:
+
+- mention define/ifdef/else/endif
+- mention reorder-sections-{after,end}
+- mention script
+- section/section-symbol are not used, only mentioned in the ISO TR
+- Fix int_currency_symbol -> int_curr_symbol typo
+- few formatting fixes
 
 ---
- man5/locale.5        |  8 +++++---
- man5/repertoiremap.5 | 14 ++++++++++----
- 2 files changed, 15 insertions(+), 7 deletions(-)
+ man5/locale.5 | 43 ++++++++++++++++++++++++++++---------------
+ 1 file changed, 28 insertions(+), 15 deletions(-)
 
 diff --git a/man5/locale.5 b/man5/locale.5
-index ad2aac0..4889d39 100644
+index 4889d39..db20368 100644
 --- a/man5/locale.5
 +++ b/man5/locale.5
-@@ -41,13 +41,13 @@ for additional details for these categories.
- The locale definition file starts with a header that may consist
- of the following keywords:
- .TP
--.I <escape_char>
-+.I escape_char
- is followed by a character that should be used as the
- escape-character for the rest of the file to mark characters that
- should be interpreted in a special way.
- It defaults to the backslash (\\).
- .TP
--.I <comment_char>
-+.I comment_char
- is followed by a character that will be used as the
- comment-character for the rest of the file.
- It defaults to the number sign (#).
-@@ -168,7 +168,9 @@ Room number, door designation.
- Floor number.
- .TP
- %C
--Country designation, from the <country_post> keyword.
-+Country designation, from the
-+.I country_post
-+keyword.
- .TP
- %l
- Local township within town or city (since glibc 2.24).
-diff --git a/man5/repertoiremap.5 b/man5/repertoiremap.5
-index be473f7..93b7770 100644
---- a/man5/repertoiremap.5
-+++ b/man5/repertoiremap.5
-@@ -33,12 +33,12 @@ names are used instead of now preferred Unicode code points.
- The repertoiremap file starts with a header that may consist of the
- following keywords:
- .TP
--.I <comment_char>
-+.I comment_char
- is followed by a character that will be used as the
- comment character for the rest of the file.
- It defaults to the number sign (#).
- .TP
--.I <escape_char>
-+.I escape_char
- is followed by a character that should be used as the escape character
- for the rest of the file to mark characters that should be interpreted
- in a special way.
-@@ -50,9 +50,9 @@ in the first column.
- 
- The mapping lines have the following form:
- .TP
--.I <symbolic-name> <code-point> <comment>
-+.I <symbolic-name> <code-point> comment
- This defines exactly one mapping,
--.I <comment>
-+.I comment
- being optional.
+@@ -57,7 +57,7 @@ Each part can be copied from another existing locale or
+ can be defined from scratch.
+ If the category should be copied,
+ the only valid keyword in the definition is
+-.B copy
++.I copy
+ followed by the name of the locale in double quotes which should be
+ copied.
+ The exceptions for this rule are
+@@ -65,7 +65,7 @@ The exceptions for this rule are
+ and
+ .B LC_CTYPE
+ where a
+-.B copy
++.I copy
+ statement can be followed by locale-specific rules and selected overrides.
  .PP
- The mapping section ends with the string
-@@ -63,6 +63,12 @@ The mapping section ends with the string
- Usual default repertoire map path.
- .SH CONFORMING TO
- POSIX.2.
-+.SH EXAMPLE
-+A mnemonic for the Euro sign can be defined as follows:
-+.PP
-+.nf
-+<Eu> <U20AC> EURO SIGN
-+.fi
- .SH NOTES
- Repertoire maps are deprecated in favor of Unicode code points.
- .SH SEE ALSO
+ When defining a category from scratch, all field descriptors and strings
+@@ -196,7 +196,7 @@ entity.
+ .I country_name
+ followed by the country name in the language of the current document
+ (e.g., "Deutschland" for the
+-.IR de_DE
++.B de_DE
+ locale).
+ .TP
+ .I country_post
+@@ -504,8 +504,6 @@ The definition starts with the string
+ in the first column.
+ 
+ The following keywords are allowed:
+-.\" FIXME The following glibc LC_COLLATE keywords are not documented:
+-.\" 	script
+ .TP
+ .I coll_weight_max
+ followed by the number representing used collation levels.
+@@ -519,18 +517,32 @@ representing a multicharacter collating element.
+ followed by the definition of a collating symbol
+ that can be used in collation order statements.
+ .TP
++.I define
++followed by
++.B string
++to be evaluated in an
++.I ifdef
++.B string
++/
++.I else
++/
++.I endif
++construct.
++.TP
+ .I reorder-after
+ followed by a redefinition of a collation rule.
+ .TP
+ .I reorder-end
+ marks the end of the redefinition of a collation rule.
+ .TP
+-.I section
+-followed by a section of collation order statements.
++.I reorder-sections-after
++followed by a script name to reorder listed scripts after.
++.TP
++.I reorder-sections-end
++marks the end of the reordering of sections.
+ .TP
+-.I section-symbol
+-followed by a section symbol representing a set of collation order
+-statements.
++.I script
++followed by a declaration of a script.
+ .TP
+ .I symbol-equivalence
+ followed by a collating-symbol to be equivalent to another defined
+@@ -599,7 +611,8 @@ followed by the name of the country/geographic extent
+ to which this document applies.
+ .TP
+ .I audience
+-followed by a description of the audience for which this document is intended.
++followed by a description of the audience for which this document is
++intended.
+ .TP
+ .I application
+ followed by a description of any special application
+@@ -833,21 +846,21 @@ The same values are recognized as for
+ .TP
+ .I int_p_cs_precedes
+ followed by an integer that indicates the placement of
+-.I int_currency_symbol
++.I int_curr_symbol
+ for a nonnegative internationally formatted monetary quantity.
+ The same values are recognized as for
+ .IR p_cs_precedes .
+ .TP
+ .I int_n_cs_precedes
+ followed by an integer that indicates the placement of
+-.I int_currency_symbol
++.I int_curr_symbol
+ for a negative internationally formatted monetary quantity.
+ The same values are recognized as for
+ .IR p_cs_precedes .
+ .TP
+ .I int_p_sep_by_space
+ followed by an integer that indicates the separation of
+-.IR int_currency_symbol ,
++.IR int_curr_symbol ,
+ the sign string,
+ and the value for a nonnegative internationally formatted monetary quantity.
+ The same values are recognized as for
+@@ -855,7 +868,7 @@ The same values are recognized as for
+ .TP
+ .I int_n_sep_by_space
+ followed by an integer that indicates the separation of
+-.IR int_currency_symbol ,
++.IR int_curr_symbol ,
+ the sign string,
+ and the value for a negative internationally formatted monetary quantity.
+ The same values are recognized as for
 
 Thanks,
 
