@@ -1,111 +1,60 @@
-From: "Michael Kerrisk (man-pages)" <mtk.manpages-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org>
+From: Mike Frysinger <vapier-aBrp7R+bbdUdnm+yROfE0A@public.gmane.org>
 Subject: Re: charmap.5: clarify keyword syntax
-Date: Tue, 14 Jun 2016 18:31:31 +0200
-Message-ID: <de6aa5b6-1d48-9e5a-1cd3-ac3a11ddbf62@gmail.com>
+Date: Tue, 14 Jun 2016 12:56:43 -0400
+Message-ID: <20160614165643.GF4053@vapier.lan>
 References: <575E5EA5.6050707@redhat.com>
 Mime-Version: 1.0
-Content-Type: text/plain; charset=utf-8
-Content-Transfer-Encoding: 7bit
+Content-Type: multipart/signed; micalg=pgp-sha256;
+	protocol="application/pgp-signature"; boundary="ZW6EFwch5npBRW5X"
 Return-path: <linux-man-owner-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>
+Content-Disposition: inline
 In-Reply-To: <575E5EA5.6050707-H+wXaHxf7aLQT0dZR+AlfA@public.gmane.org>
 Sender: linux-man-owner-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
 To: Marko Myllynen <myllynen-H+wXaHxf7aLQT0dZR+AlfA@public.gmane.org>
-Cc: mtk.manpages-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org, linux-man <linux-man-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>
+Cc: "Michael Kerrisk (man-pages)" <mtk.manpages-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org>, linux-man <linux-man-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>
 List-Id: linux-man@vger.kernel.org
 
-On 06/13/2016 09:20 AM, Marko Myllynen wrote:
-> Hi Michael,
-> 
+
+--ZW6EFwch5npBRW5X
+Content-Type: text/plain; charset=utf-8
+Content-Disposition: inline
+
+On 13 Jun 2016 10:20, Marko Myllynen wrote:
 > The patch below updates charmap.5 to match the syntax all the glibc
 > charmap files are using currently.
 
-Thanks, Marko. Applied.
+hmm, i guess this is confusing.  when i read the man page, i see it as
+the normal syntax of "<required value>" rather than the <> being literal
+characers that you need to type out.  although in that regard, i would
+expect it to look something like:
+	<character> <byte-sequence> [comment]
 
-Cheers,
+although in the locale(5) page, we rarely use the <foo> syntax.
+-mike
 
-Michael
+--ZW6EFwch5npBRW5X
+Content-Type: application/pgp-signature; name="signature.asc"
+Content-Description: Digital signature
 
+-----BEGIN PGP SIGNATURE-----
+Version: GnuPG v2
 
+iQIcBAEBCAAGBQJXYDdLAAoJEEFjO5/oN/WBolQQAJKlJ8nb52KE98GcpFeIMKwd
+bfd2BrJDNkypXE7DLAztd4ufwal+uqV7UpGKwpwUzq23ygq0phGW0RcoJq7O83lT
+5B+g8WDBmT/ioc/9d5iTWS5YJ8Us+fYa8zAaeQfUhy7PM5wqLxVCgBxrybF4JPf8
+GJyM/0RAM62z4a17V7CaG+SufOVgPF+KaiZ2Ez3RPmchTw43xNZehno26GViHcuO
+FfLjI2DvwTK594lgXmHlaAGor9wHhiM67NFrVZ5kZGOpoO7o4yXf7CsGkxBNMDgy
+4CSTuOmKPl4nvAHDKihhchWohFGzzJ3GhTLIFyjYdS+508zxz90VnFlgO65+ni1T
+5c1xy4ZTAt0QzXflRW2c6X+b+MTeLdgEO/74DNgMmN2iwmxdh5M4z345Y7+whOvM
+VR0n/7tqrEZw6Woy5fLXnyelQ1WSOIJlUuSfdL2zH9sUB1zGYXI45t3bsQ5hfpaM
+C8NWWWieZ7NnO0cV3NWtWHaA4rRYE8zXaF+w1VKkMDf89vITG9RVZKPGQHiy12mt
+SmFBwF3fPsJVsvAjbv1koGoK7Dv5i9hbR3QxFVIOVjTBDbKMw4ZvrrtgbX/3zKx5
+YZSmFEO1YG3n5RGvuoOwsMw4bxjqRjs75A+yAQBoxxLtWu2Ub3g6IWdAL0bqHFMG
+HkFY5JFdzEw7cBUp3bwp
+=Tqxf
+-----END PGP SIGNATURE-----
 
-> ---
->  man5/charmap.5 | 20 ++++++++++----------
->  1 file changed, 10 insertions(+), 10 deletions(-)
-> 
-> diff --git a/man5/charmap.5 b/man5/charmap.5
-> index 31e3cb4..f43d5a5 100644
-> --- a/man5/charmap.5
-> +++ b/man5/charmap.5
-> @@ -49,9 +49,9 @@ The default value is 1.
->  .I <mb_cur_min>
->  is followed by the minimum number of bytes for a character.
->  This value must be less than or equal than
-> -.IR mb_cur_max .
-> +.IR <mb_cur_max> .
->  If not specified, it defaults to
-> -.IR mb_cur_max .
-> +.IR <mb_cur_max> .
->  .PP
->  The character set definition section starts with the keyword
->  .I CHARMAP
-> @@ -60,14 +60,14 @@ in the first column.
->  The following lines may have one of the two following forms to
->  define the character set:
->  .TP
-> -.I <character> <byte-sequence> <comment>
-> +.I <character> byte-sequence comment
->  This form defines exactly one character and its byte sequence,
-> -.I <comment>
-> +.I comment
->  being optional.
->  .TP
-> -.I <character>..<character> <byte-sequence> <comment>
-> +.I <character>..<character> byte-sequence comment
->  This form defines a character range and its byte sequence,
-> -.I <comment>
-> +.I comment
->  being optional.
->  .PP
->  The character set definition section ends with the string
-> @@ -77,7 +77,7 @@ The character set definition section may optionally be followed by a
->  section to define widths of characters.
->  .PP
->  The
-> -.B WIDTH_DEFAULT
-> +.I WIDTH_DEFAULT
->  keyword can be used to define the default width for all characters
->  not explicitly listed.
->  The default character width is 1.
-> @@ -89,10 +89,10 @@ in the first column.
->  The following lines may have one of the two following forms to
->  define the widths of the characters:
->  .TP
-> -.I <character> <width>
-> +.I <character> width
->  This form defines the width of exactly one character.
->  .TP
-> -.I <character>...<character> <width>
-> +.I <character>...<character> width
->  This form defines the width for all the characters in the range.
->  .PP
->  The width definition section ends with the string
-> @@ -109,7 +109,7 @@ The Euro sign is defined as follows in the
->  charmap:
->  .PP
->  .nf
-> -<U20AC>     /xe2/x82/xac
-> +<U20AC>     /xe2/x82/xac EURO SIGN
->  .fi
->  .SH SEE ALSO
->  .BR iconv (1),
-> 
-> Thanks,
-> 
-
-
--- 
-Michael Kerrisk
-Linux man-pages maintainer; http://www.kernel.org/doc/man-pages/
-Linux/UNIX System Programming Training: http://man7.org/training/
+--ZW6EFwch5npBRW5X--
 --
 To unsubscribe from this list: send the line "unsubscribe linux-man" in
 the body of a message to majordomo-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
