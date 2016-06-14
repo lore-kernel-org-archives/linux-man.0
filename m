@@ -1,13 +1,13 @@
 From: "Michael Kerrisk (man-pages)" <mtk.manpages-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org>
-Subject: Re: locale.5: document missing keywords, minor updates
-Date: Tue, 14 Jun 2016 18:33:26 +0200
-Message-ID: <e2fe3826-fb0c-2f7f-f753-9bb7894aad96@gmail.com>
-References: <575E5EAE.7060107@redhat.com>
+Subject: Re: charmap.5: clarify keyword syntax
+Date: Tue, 14 Jun 2016 18:31:31 +0200
+Message-ID: <de6aa5b6-1d48-9e5a-1cd3-ac3a11ddbf62@gmail.com>
+References: <575E5EA5.6050707@redhat.com>
 Mime-Version: 1.0
 Content-Type: text/plain; charset=utf-8
 Content-Transfer-Encoding: 7bit
 Return-path: <linux-man-owner-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>
-In-Reply-To: <575E5EAE.7060107-H+wXaHxf7aLQT0dZR+AlfA@public.gmane.org>
+In-Reply-To: <575E5EA5.6050707-H+wXaHxf7aLQT0dZR+AlfA@public.gmane.org>
 Sender: linux-man-owner-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
 To: Marko Myllynen <myllynen-H+wXaHxf7aLQT0dZR+AlfA@public.gmane.org>
 Cc: mtk.manpages-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org, linux-man <linux-man-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>
@@ -16,15 +16,8 @@ List-Id: linux-man@vger.kernel.org
 On 06/13/2016 09:20 AM, Marko Myllynen wrote:
 > Hi Michael,
 > 
-> I cross-checked the current locale.5 page against glibc locales are
-> fixed the following issues:
-> 
-> - mention define/ifdef/else/endif
-> - mention reorder-sections-{after,end}
-> - mention script
-> - section/section-symbol are not used, only mentioned in the ISO TR
-> - Fix int_currency_symbol -> int_curr_symbol typo
-> - few formatting fixes
+> The patch below updates charmap.5 to match the syntax all the glibc
+> charmap files are using currently.
 
 Thanks, Marko. Applied.
 
@@ -33,132 +26,77 @@ Cheers,
 Michael
 
 
+
 > ---
->  man5/locale.5 | 43 ++++++++++++++++++++++++++++---------------
->  1 file changed, 28 insertions(+), 15 deletions(-)
+>  man5/charmap.5 | 20 ++++++++++----------
+>  1 file changed, 10 insertions(+), 10 deletions(-)
 > 
-> diff --git a/man5/locale.5 b/man5/locale.5
-> index 4889d39..db20368 100644
-> --- a/man5/locale.5
-> +++ b/man5/locale.5
-> @@ -57,7 +57,7 @@ Each part can be copied from another existing locale or
->  can be defined from scratch.
->  If the category should be copied,
->  the only valid keyword in the definition is
-> -.B copy
-> +.I copy
->  followed by the name of the locale in double quotes which should be
->  copied.
->  The exceptions for this rule are
-> @@ -65,7 +65,7 @@ The exceptions for this rule are
->  and
->  .B LC_CTYPE
->  where a
-> -.B copy
-> +.I copy
->  statement can be followed by locale-specific rules and selected overrides.
+> diff --git a/man5/charmap.5 b/man5/charmap.5
+> index 31e3cb4..f43d5a5 100644
+> --- a/man5/charmap.5
+> +++ b/man5/charmap.5
+> @@ -49,9 +49,9 @@ The default value is 1.
+>  .I <mb_cur_min>
+>  is followed by the minimum number of bytes for a character.
+>  This value must be less than or equal than
+> -.IR mb_cur_max .
+> +.IR <mb_cur_max> .
+>  If not specified, it defaults to
+> -.IR mb_cur_max .
+> +.IR <mb_cur_max> .
 >  .PP
->  When defining a category from scratch, all field descriptors and strings
-> @@ -196,7 +196,7 @@ entity.
->  .I country_name
->  followed by the country name in the language of the current document
->  (e.g., "Deutschland" for the
-> -.IR de_DE
-> +.B de_DE
->  locale).
+>  The character set definition section starts with the keyword
+>  .I CHARMAP
+> @@ -60,14 +60,14 @@ in the first column.
+>  The following lines may have one of the two following forms to
+>  define the character set:
 >  .TP
->  .I country_post
-> @@ -504,8 +504,6 @@ The definition starts with the string
->  in the first column.
->  
->  The following keywords are allowed:
-> -.\" FIXME The following glibc LC_COLLATE keywords are not documented:
-> -.\" 	script
+> -.I <character> <byte-sequence> <comment>
+> +.I <character> byte-sequence comment
+>  This form defines exactly one character and its byte sequence,
+> -.I <comment>
+> +.I comment
+>  being optional.
 >  .TP
->  .I coll_weight_max
->  followed by the number representing used collation levels.
-> @@ -519,18 +517,32 @@ representing a multicharacter collating element.
->  followed by the definition of a collating symbol
->  that can be used in collation order statements.
+> -.I <character>..<character> <byte-sequence> <comment>
+> +.I <character>..<character> byte-sequence comment
+>  This form defines a character range and its byte sequence,
+> -.I <comment>
+> +.I comment
+>  being optional.
+>  .PP
+>  The character set definition section ends with the string
+> @@ -77,7 +77,7 @@ The character set definition section may optionally be followed by a
+>  section to define widths of characters.
+>  .PP
+>  The
+> -.B WIDTH_DEFAULT
+> +.I WIDTH_DEFAULT
+>  keyword can be used to define the default width for all characters
+>  not explicitly listed.
+>  The default character width is 1.
+> @@ -89,10 +89,10 @@ in the first column.
+>  The following lines may have one of the two following forms to
+>  define the widths of the characters:
 >  .TP
-> +.I define
-> +followed by
-> +.B string
-> +to be evaluated in an
-> +.I ifdef
-> +.B string
-> +/
-> +.I else
-> +/
-> +.I endif
-> +construct.
-> +.TP
->  .I reorder-after
->  followed by a redefinition of a collation rule.
+> -.I <character> <width>
+> +.I <character> width
+>  This form defines the width of exactly one character.
 >  .TP
->  .I reorder-end
->  marks the end of the redefinition of a collation rule.
->  .TP
-> -.I section
-> -followed by a section of collation order statements.
-> +.I reorder-sections-after
-> +followed by a script name to reorder listed scripts after.
-> +.TP
-> +.I reorder-sections-end
-> +marks the end of the reordering of sections.
->  .TP
-> -.I section-symbol
-> -followed by a section symbol representing a set of collation order
-> -statements.
-> +.I script
-> +followed by a declaration of a script.
->  .TP
->  .I symbol-equivalence
->  followed by a collating-symbol to be equivalent to another defined
-> @@ -599,7 +611,8 @@ followed by the name of the country/geographic extent
->  to which this document applies.
->  .TP
->  .I audience
-> -followed by a description of the audience for which this document is intended.
-> +followed by a description of the audience for which this document is
-> +intended.
->  .TP
->  .I application
->  followed by a description of any special application
-> @@ -833,21 +846,21 @@ The same values are recognized as for
->  .TP
->  .I int_p_cs_precedes
->  followed by an integer that indicates the placement of
-> -.I int_currency_symbol
-> +.I int_curr_symbol
->  for a nonnegative internationally formatted monetary quantity.
->  The same values are recognized as for
->  .IR p_cs_precedes .
->  .TP
->  .I int_n_cs_precedes
->  followed by an integer that indicates the placement of
-> -.I int_currency_symbol
-> +.I int_curr_symbol
->  for a negative internationally formatted monetary quantity.
->  The same values are recognized as for
->  .IR p_cs_precedes .
->  .TP
->  .I int_p_sep_by_space
->  followed by an integer that indicates the separation of
-> -.IR int_currency_symbol ,
-> +.IR int_curr_symbol ,
->  the sign string,
->  and the value for a nonnegative internationally formatted monetary quantity.
->  The same values are recognized as for
-> @@ -855,7 +868,7 @@ The same values are recognized as for
->  .TP
->  .I int_n_sep_by_space
->  followed by an integer that indicates the separation of
-> -.IR int_currency_symbol ,
-> +.IR int_curr_symbol ,
->  the sign string,
->  and the value for a negative internationally formatted monetary quantity.
->  The same values are recognized as for
+> -.I <character>...<character> <width>
+> +.I <character>...<character> width
+>  This form defines the width for all the characters in the range.
+>  .PP
+>  The width definition section ends with the string
+> @@ -109,7 +109,7 @@ The Euro sign is defined as follows in the
+>  charmap:
+>  .PP
+>  .nf
+> -<U20AC>     /xe2/x82/xac
+> +<U20AC>     /xe2/x82/xac EURO SIGN
+>  .fi
+>  .SH SEE ALSO
+>  .BR iconv (1),
 > 
 > Thanks,
 > 
