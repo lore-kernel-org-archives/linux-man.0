@@ -1,65 +1,53 @@
-From: "Michael Kerrisk (man-pages)" <mtk.manpages-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org>
-Subject: Re: locale.5: adjust conformance
-Date: Tue, 14 Jun 2016 20:09:32 +0200
-Message-ID: <51d557dc-ce39-2eb2-11d9-e310c9b5f80c@gmail.com>
-References: <575E5EB7.7060802@redhat.com>
+From: Marko Myllynen <myllynen-H+wXaHxf7aLQT0dZR+AlfA@public.gmane.org>
+Subject: Re: charmap.5: clarify keyword syntax
+Date: Wed, 15 Jun 2016 10:58:05 +0300
+Message-ID: <57610A8D.6080105@redhat.com>
+References: <575E5EA5.6050707@redhat.com> <20160614165643.GF4053@vapier.lan>
+Reply-To: Marko Myllynen <myllynen-H+wXaHxf7aLQT0dZR+AlfA@public.gmane.org>
 Mime-Version: 1.0
 Content-Type: text/plain; charset=utf-8
 Content-Transfer-Encoding: 7bit
 Return-path: <linux-man-owner-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>
-In-Reply-To: <575E5EB7.7060802-H+wXaHxf7aLQT0dZR+AlfA@public.gmane.org>
+In-Reply-To: <20160614165643.GF4053-UgUKS2FnFs9+urZeOPWqwQ@public.gmane.org>
 Sender: linux-man-owner-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
-To: Marko Myllynen <myllynen-H+wXaHxf7aLQT0dZR+AlfA@public.gmane.org>
-Cc: mtk.manpages-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org, linux-man <linux-man-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>
+To: Mike Frysinger <vapier-aBrp7R+bbdUdnm+yROfE0A@public.gmane.org>
+Cc: "Michael Kerrisk (man-pages)" <mtk.manpages-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org>, linux-man <linux-man-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>
 List-Id: linux-man@vger.kernel.org
 
-Hi Marko,
+Hi,
 
-On 06/13/2016 09:20 AM, Marko Myllynen wrote:
-> Hi Michael,
+On 2016-06-14 19:56, Mike Frysinger wrote:
+> On 13 Jun 2016 10:20, Marko Myllynen wrote:
+>> The patch below updates charmap.5 to match the syntax all the glibc
+>> charmap files are using currently.
 > 
-> Since we now know that glibc does not support all the keywords
-> mentioned in ISO/IEC TR 14652 [1] and in general glibc aims to
-> be conforming to POSIX first and foremost, I think it's best
-> just to drop the reference to ISO/IEC TR 14652 from the man page.
+> hmm, i guess this is confusing.  when i read the man page, i see it as
+> the normal syntax of "<required value>" rather than the <> being literal
+> characers that you need to type out.  although in that regard, i would
+> expect it to look something like:
+> 	<character> <byte-sequence> [comment]
 > 
-> 1) http://www.open-std.org/jtc1/SC22/WG20/docs/n972-14652ft.pdf
+> although in the locale(5) page, we rarely use the <foo> syntax.
 
-Thanks. Applied.
+Yes, in the locale(5) page <foo> is now used only in cases like:
 
-> After this I think the locale related man pages are finally as
-> complete as they need to be.
+  The characters <space> and <tab> are automatically included.
 
-That's a great thing... Thanks for all the work you put in, Marko!
+In the glibc charmap files the <> notation is used with keywords, the
+man pages states that comment is optional but would it make thing
+clearer if we would use something like:
 
-Michael
+.TP
+<
+.I code_set_name
+> is followed by the name of the character map.
 
-> ---
->  man5/locale.5 | 5 +-
->  1 file changed, 1 insertion(+), 1 deletion(-)
-> 
-> diff --git a/man5/locale.5 b/man5/locale.5
-> index db20368..ab7b6f7 100644
-> --- a/man5/locale.5
-> +++ b/man5/locale.5
-> @@ -1298,7 +1297,7 @@ Usual default locale archive location.
->  .I /usr/share/i18n/locales
->  Usual default path for locale definition files.
->  .SH CONFORMING TO
-> -POSIX.2, ISO/IEC TR 14652.
-> +POSIX.2.
->  .SH NOTES
->  The collective GNU C library community wisdom regarding
->  .IR abday ,
-> 
-> Thanks,
-> 
+(Ok, that renders badly but you get the idea.)
 
+Thanks,
 
 -- 
-Michael Kerrisk
-Linux man-pages maintainer; http://www.kernel.org/doc/man-pages/
-Linux/UNIX System Programming Training: http://man7.org/training/
+Marko Myllynen
 --
 To unsubscribe from this list: send the line "unsubscribe linux-man" in
 the body of a message to majordomo-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
