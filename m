@@ -1,67 +1,52 @@
-From: "Michael Kerrisk (man-pages)" <mtk.manpages-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org>
-Subject: Re: charmap.5: clarify keyword syntax
-Date: Mon, 20 Jun 2016 22:34:17 +0200
-Message-ID: <60df9e3e-8ea2-0c70-c00e-af07f36b0019@gmail.com>
-References: <575E5EA5.6050707@redhat.com> <20160614165643.GF4053@vapier.lan>
- <57610A8D.6080105@redhat.com>
+From: Mike Frysinger <vapier-aBrp7R+bbdUdnm+yROfE0A@public.gmane.org>
+Subject: Re: How to find bugs in man pages?
+Date: Mon, 20 Jun 2016 16:45:56 -0400
+Message-ID: <20160620204556.GP24532@vapier.lan>
+References: <49d6a2b1-0069-9325-08a1-c7e48205a787@gmail.com>
 Mime-Version: 1.0
-Content-Type: text/plain; charset=utf-8
-Content-Transfer-Encoding: 7bit
+Content-Type: multipart/signed; micalg=pgp-sha256;
+	protocol="application/pgp-signature"; boundary="umrsQkkrw7viUWFs"
 Return-path: <linux-man-owner-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>
-In-Reply-To: <57610A8D.6080105-H+wXaHxf7aLQT0dZR+AlfA@public.gmane.org>
+Content-Disposition: inline
+In-Reply-To: <49d6a2b1-0069-9325-08a1-c7e48205a787-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org>
 Sender: linux-man-owner-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
-To: Marko Myllynen <myllynen-H+wXaHxf7aLQT0dZR+AlfA@public.gmane.org>, Mike Frysinger <vapier-aBrp7R+bbdUdnm+yROfE0A@public.gmane.org>
-Cc: mtk.manpages-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org, linux-man <linux-man-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>
+To: Xose Vazquez Perez <xose.vazquez-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org>, linux-man-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
 List-Id: linux-man@vger.kernel.org
 
-On 06/15/2016 09:58 AM, Marko Myllynen wrote:
-> Hi,
-> 
-> On 2016-06-14 19:56, Mike Frysinger wrote:
->> On 13 Jun 2016 10:20, Marko Myllynen wrote:
->>> The patch below updates charmap.5 to match the syntax all the glibc
->>> charmap files are using currently.
->>
->> hmm, i guess this is confusing.  when i read the man page, i see it as
->> the normal syntax of "<required value>" rather than the <> being literal
->> characers that you need to type out.  although in that regard, i would
->> expect it to look something like:
->> 	<character> <byte-sequence> [comment]
->>
->> although in the locale(5) page, we rarely use the <foo> syntax.
-> 
-> Yes, in the locale(5) page <foo> is now used only in cases like:
-> 
->   The characters <space> and <tab> are automatically included.
-> 
-> In the glibc charmap files the <> notation is used with keywords, the
-> man pages states that comment is optional but would it make thing
-> clearer if we would use something like:
-> 
-> .TP
-> <
-> .I code_set_name
->> is followed by the name of the character map.
-> 
-> (Ok, that renders badly but you get the idea.)
 
-I'd take patches to fix this. 
+--umrsQkkrw7viUWFs
+Content-Type: text/plain; charset=utf-8
+Content-Disposition: inline
 
-I think you want:
+On 19 Jun 2016 16:46, Xose Vazquez Perez wrote:
+> I'm using: groff -z -b -wall manpage.x
 
-.TP
-.RI < code_set_name >
+seems like something we could add to `make check`
+-mike
 
-Cheers,
+--umrsQkkrw7viUWFs
+Content-Type: application/pgp-signature; name="signature.asc"
+Content-Description: Digital signature
 
-Michael
+-----BEGIN PGP SIGNATURE-----
+Version: GnuPG v2
 
+iQIcBAEBCAAGBQJXaFYDAAoJEEFjO5/oN/WByPwQANlBhdGTK7KeOH5mIpx25Jwm
+9X1Rz4f1ctqlAeTYmqFqKDCLjF5sECk2+cIHaW4a3EUDWKiPNnt2yIi7BVnsYujl
+aT+apb2jRaaD08crHu/Qp1u8IVs6NosdNSfyrdpqo0AwH/LPsofAqjyD4JeLitpe
+gCGRYyNwg14MFoPg9AFmPkvRLj7tFC9WgVvbTaybxq1Az8XBq50Fy6J09Xi9PXf9
+Z8pRrfsOpwKCjRwHorGmNnvYh7iPLolafJ9lvvibq+w4zNUgVlQBi38vwHRB/rrF
+IVDIfKPfD50kZyhaXogwU/0PcWjNt85OOILjEEJmp6pOXhBa5ECoYTQLcNYwqNo6
+onWqfkLf7qOFWBWKMk+bdjM3tsJirs6nXB7impn1J9x3rn9yJdJ1cKvuCZrxv433
+6TrsCXLPWKUOcldylzwV/3BGaTPSylqYLF8N0LWJ9rGJEwVF1KZ7EFKF1a1el0x6
+B0aoLOLU+18K8yq1E0XKevEtdDhwskIhE/0c/oyBk9czZqvi/kNuN0UD88rnUpPK
+1C5SbK1h8rpAoPkRiG2w7a1m3VaB5ad2pbrSBaV82QkMfjvyzF/Z08YLI2e19seg
+/BF4Q9eFHmTbfRRFj8wWIly5Z2a2mbyi007YM8ZnenptmG7kNCsej8p4kP6hLpBp
+0w3LdUqQqIBAehrTUqlD
+=JLu9
+-----END PGP SIGNATURE-----
 
-
--- 
-Michael Kerrisk
-Linux man-pages maintainer; http://www.kernel.org/doc/man-pages/
-Linux/UNIX System Programming Training: http://man7.org/training/
+--umrsQkkrw7viUWFs--
 --
 To unsubscribe from this list: send the line "unsubscribe linux-man" in
 the body of a message to majordomo-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
