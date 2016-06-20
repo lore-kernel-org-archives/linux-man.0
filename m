@@ -1,7 +1,7 @@
 From: bugzilla-daemon-590EEB7GvNiWaY/ihj7yzEB+6BGkLq7r@public.gmane.org
 Subject: [Bug 120671] missing info about userns restrictions
-Date: Mon, 20 Jun 2016 14:26:56 +0000
-Message-ID: <bug-120671-11311-iO8OlOv7SC@https.bugzilla.kernel.org/>
+Date: Mon, 20 Jun 2016 20:18:59 +0000
+Message-ID: <bug-120671-11311-GAi8gaGhvj@https.bugzilla.kernel.org/>
 References: <bug-120671-11311@https.bugzilla.kernel.org/>
 Mime-Version: 1.0
 Content-Type: text/plain; charset=UTF-8
@@ -14,38 +14,46 @@ List-Id: linux-man@vger.kernel.org
 
 https://bugzilla.kernel.org/show_bug.cgi?id=3D120671
 
-Michael Kerrisk <mtk.manpages-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org> changed:
+--- Comment #4 from Michael Kerrisk <mtk.manpages-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org> ---
+(In reply to Micha=C5=82 Zegan from comment #2)
+> Well... For example, cap_sys_module does not work in user namespace, =
+doesn't
+> it? cap_sys_mknod last i checked did not work in userns, but may be w=
+rong.
 
-           What    |Removed                     |Added
------------------------------------------------------------------------=
------
-                 CC|                            |mtk.manpages-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org
+Yes, but that is conveyed in a sentence in user_namespaces(7):
 
---- Comment #1 from Michael Kerrisk <mtk.manpages-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org> ---
-(In reply to Micha=C5=82 Zegan from comment #0)
-> I have noticed that some information related to user namespaces that =
-could
-> be useful are actually missing from the user_namespaces manpage.
-> Example: what capabilities do not have effect in user namespace, what
-> filesystems can or cannot be mounted in a mount namespace assigned to=
- the
-> user namespace, other applied restrictions, maybe also current securi=
-ty
-> issues with user namespaces (optional).
+       Having a capability inside a user namespace permits  a  process
+       to   perform   operations  (that  require  privilege)  only  on
+       resources governed by that namespace.
 
-Hello Micha=C5=82,
+[1] Loading a kernel module or creating a device node are not governed =
+by any
+of the 7 current namespace types. What I mean here: this is not a quest=
+ion of
+whether particular capabilities work in a namespace, rather what operat=
+ions /
+abilities are associated with various namespaces.
 
-Unless you can give me something more specific, it's very hard to do mu=
-ch with
-this bug report. For example, what capabilities do you find/think do no=
-t have
-effect in a user NS? Which filesystems have you encountered problems mo=
-unting
-filesystems.
+> About mounting filesystems, there is probably a whitelist.  If I reca=
+ll
+> correctly you are unable to mount any block based fs like ext4 inside=
+ of the
+> userns, like you have no permissions to mount most of them except tmp=
+fs,
+> proc and such like.=20
 
-Thanks,
+[2] This isn't correct as far as I know, but if you can show me an inte=
+resting
+counterexample...
 
-Michael
+> There may be other restrictions I am not aware of, but
+> those are some I know, unless I am wrong. It will help to clarify som=
+e
+> things that are just not present in that manpage.
+
+So far, I don't see a real problem in the man page(s). (But maybe, the
+explanations on the first point could be more detailed.)
 
 --=20
 You are receiving this mail because:
