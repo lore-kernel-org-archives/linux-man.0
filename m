@@ -1,7 +1,7 @@
 From: bugzilla-daemon-590EEB7GvNiWaY/ihj7yzEB+6BGkLq7r@public.gmane.org
 Subject: [Bug 120671] missing info about userns restrictions
-Date: Mon, 20 Jun 2016 20:18:59 +0000
-Message-ID: <bug-120671-11311-GAi8gaGhvj@https.bugzilla.kernel.org/>
+Date: Mon, 20 Jun 2016 20:32:34 +0000
+Message-ID: <bug-120671-11311-VG0HbtSHYJ@https.bugzilla.kernel.org/>
 References: <bug-120671-11311@https.bugzilla.kernel.org/>
 Mime-Version: 1.0
 Content-Type: text/plain; charset=UTF-8
@@ -14,46 +14,19 @@ List-Id: linux-man@vger.kernel.org
 
 https://bugzilla.kernel.org/show_bug.cgi?id=3D120671
 
---- Comment #4 from Michael Kerrisk <mtk.manpages-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org> ---
-(In reply to Micha=C5=82 Zegan from comment #2)
-> Well... For example, cap_sys_module does not work in user namespace, =
-doesn't
-> it? cap_sys_mknod last i checked did not work in userns, but may be w=
-rong.
-
-Yes, but that is conveyed in a sentence in user_namespaces(7):
-
-       Having a capability inside a user namespace permits  a  process
-       to   perform   operations  (that  require  privilege)  only  on
-       resources governed by that namespace.
-
-[1] Loading a kernel module or creating a device node are not governed =
-by any
-of the 7 current namespace types. What I mean here: this is not a quest=
-ion of
-whether particular capabilities work in a namespace, rather what operat=
-ions /
-abilities are associated with various namespaces.
-
-> About mounting filesystems, there is probably a whitelist.  If I reca=
-ll
-> correctly you are unable to mount any block based fs like ext4 inside=
- of the
-> userns, like you have no permissions to mount most of them except tmp=
-fs,
-> proc and such like.=20
-
-[2] This isn't correct as far as I know, but if you can show me an inte=
-resting
-counterexample...
-
-> There may be other restrictions I am not aware of, but
-> those are some I know, unless I am wrong. It will help to clarify som=
-e
-> things that are just not present in that manpage.
-
-So far, I don't see a real problem in the man page(s). (But maybe, the
-explanations on the first point could be more detailed.)
+--- Comment #5 from Micha=C5=82 Zegan <webczat_200-wo4oW1Pw1HF3vZ0LZ0W7Rg@public.gmane.org> ---
+yes, what I mean is just to make soe things more detailed in case someo=
+ne
+wonders.
+About filesystes, you can try to test mounting an ext4 filesystem after=
+ doing
+unshare of both userns and mountns, almost sure you will fail. I mean m=
+ounting
+the fs from inside of the ns. I may test that too when I have time, to =
+be sure,
+but I am almost certain that is the case, especially that mounting an a=
+rbitrary
+fs could be a security risk because uids are not shifted.
 
 --=20
 You are receiving this mail because:
