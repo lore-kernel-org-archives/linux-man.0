@@ -1,7 +1,7 @@
 From: bugzilla-daemon-590EEB7GvNiWaY/ihj7yzEB+6BGkLq7r@public.gmane.org
 Subject: [Bug 120671] missing info about userns restrictions
-Date: Tue, 21 Jun 2016 14:15:49 +0000
-Message-ID: <bug-120671-11311-LGj6aElecK@https.bugzilla.kernel.org/>
+Date: Tue, 21 Jun 2016 19:56:44 +0000
+Message-ID: <bug-120671-11311-ABmfLRwju4@https.bugzilla.kernel.org/>
 References: <bug-120671-11311@https.bugzilla.kernel.org/>
 Mime-Version: 1.0
 Content-Type: text/plain; charset=UTF-8
@@ -14,13 +14,20 @@ List-Id: linux-man@vger.kernel.org
 
 https://bugzilla.kernel.org/show_bug.cgi?id=3D120671
 
---- Comment #10 from Micha=C5=82 Zegan <webczat_200-wo4oW1Pw1HF3vZ0LZ0W7Rg@public.gmane.org> ---
-I believe you can mount cgroup2 if cgroup namespaces are enabled and us=
-ed, you
-can also verify if it may apply to cgroupv1 fs?
-About the text you proposed: can you actually have CAP_SYS_ADMIN in bot=
-h user
-namespaces at the same time? I mean in initial and noninitial?
+--- Comment #11 from Michael Kerrisk <mtk.manpages-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org> ---
+(In reply to Micha=C5=82 Zegan from comment #10)
+> I believe you can mount cgroup2 if cgroup namespaces are enabled and =
+used,
+> you can also verify if it may apply to cgroupv1 fs?
+
+Could you please test and let me know. (My quick test suggest not.)
+
+> About the text you proposed: can you actually have CAP_SYS_ADMIN in b=
+oth
+> user namespaces at the same time? I mean in initial and noninitial?
+
+Read the user_namespaces(7) man page. I believe it answers this questio=
+n.
 
 --=20
 You are receiving this mail because:
