@@ -1,142 +1,76 @@
-From: Marko Myllynen <myllynen-H+wXaHxf7aLQT0dZR+AlfA@public.gmane.org>
-Subject: Re: charmap.5: clarify keyword syntax
-Date: Tue, 21 Jun 2016 10:07:42 +0300
-Message-ID: <5768E7BE.6020002@redhat.com>
-References: <575E5EA5.6050707@redhat.com> <20160614165643.GF4053@vapier.lan>
- <57610A8D.6080105@redhat.com>
- <60df9e3e-8ea2-0c70-c00e-af07f36b0019@gmail.com>
-Reply-To: Marko Myllynen <myllynen-H+wXaHxf7aLQT0dZR+AlfA@public.gmane.org>
+From: bugzilla-daemon-590EEB7GvNiWaY/ihj7yzEB+6BGkLq7r@public.gmane.org
+Subject: [Bug 120671] missing info about userns restrictions
+Date: Tue, 21 Jun 2016 08:48:18 +0000
+Message-ID: <bug-120671-11311-HIWHdb9Viq@https.bugzilla.kernel.org/>
+References: <bug-120671-11311@https.bugzilla.kernel.org/>
 Mime-Version: 1.0
-Content-Type: text/plain; charset=utf-8
-Content-Transfer-Encoding: 7bit
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: QUOTED-PRINTABLE
 Return-path: <linux-man-owner-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>
-In-Reply-To: <60df9e3e-8ea2-0c70-c00e-af07f36b0019-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org>
+In-Reply-To: <bug-120671-11311-3bo0kxnWaOQUvHkbgXJLS5sdmw4N0Rt+2LY78lusg7I@public.gmane.org/>
 Sender: linux-man-owner-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
-To: "Michael Kerrisk (man-pages)" <mtk.manpages-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org>, Mike Frysinger <vapier-aBrp7R+bbdUdnm+yROfE0A@public.gmane.org>
-Cc: linux-man <linux-man-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>
+To: linux-man-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
 List-Id: linux-man@vger.kernel.org
 
-Hi,
+https://bugzilla.kernel.org/show_bug.cgi?id=3D120671
 
-On 2016-06-20 23:34, Michael Kerrisk (man-pages) wrote:
-> On 06/15/2016 09:58 AM, Marko Myllynen wrote:
->> On 2016-06-14 19:56, Mike Frysinger wrote:
->>> On 13 Jun 2016 10:20, Marko Myllynen wrote:
->>>> The patch below updates charmap.5 to match the syntax all the glibc
->>>> charmap files are using currently.
->>>
->>> hmm, i guess this is confusing.  when i read the man page, i see it as
->>> the normal syntax of "<required value>" rather than the <> being literal
->>> characers that you need to type out.  although in that regard, i would
->>> expect it to look something like:
->>> 	<character> <byte-sequence> [comment]
->>>
->>> although in the locale(5) page, we rarely use the <foo> syntax.
->>
->> Yes, in the locale(5) page <foo> is now used only in cases like:
->>
->>   The characters <space> and <tab> are automatically included.
->>
->> In the glibc charmap files the <> notation is used with keywords, the
->> man pages states that comment is optional but would it make thing
->> clearer if we would use something like:
->>
->> .TP
->> <
->> .I code_set_name
->>> is followed by the name of the character map.
->>
->> (Ok, that renders badly but you get the idea.)
-> 
-> I'd take patches to fix this. 
-> 
-> I think you want:
-> 
-> .TP
-> .RI < code_set_name >
+Michael Kerrisk <mtk.manpages-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org> changed:
 
-Thanks, the patch below seems to do the trick:
+           What    |Removed                     |Added
+-----------------------------------------------------------------------=
+-----
+             Status|NEW                         |RESOLVED
+         Resolution|---                         |CODE_FIX
 
----
- man5/charmap.5 | 22 +++++++++++-----------
- 1 file changed, 11 insertions(+), 11 deletions(-)
+--- Comment #6 from Michael Kerrisk <mtk.manpages-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org> ---
+(In reply to Micha=C5=82 Zegan from comment #5)
+> yes, what I mean is just to make soe things more detailed in case som=
+eone
+> wonders.
 
-diff --git a/man5/charmap.5 b/man5/charmap.5
-index f43d5a5..9bc2440 100644
---- a/man5/charmap.5
-+++ b/man5/charmap.5
-@@ -28,30 +28,30 @@ can use charmaps to create locale variants for different character sets.
- The charmap file starts with a header that may consist of the
- following keywords:
- .TP
--.I <code_set_name>
-+.RI < code_set_name >
- is followed by the name of the character map.
- .TP
--.I <comment_char>
-+.RI < comment_char >
- is followed by a character that will be used as the comment character
- for the rest of the file.
- It defaults to the number sign (#).
- .TP
--.I <escape_char>
-+.RI < escape_char >
- is followed by a character that should be used as the escape character
- for the rest of the file to mark characters that should be interpreted
- in a special way.
- It defaults to the backslash (\\).
- .TP
--.I <mb_cur_max>
-+.RI < mb_cur_max >
- is followed by the maximum number of bytes for a character.
- The default value is 1.
- .TP
--.I <mb_cur_min>
-+.RI < mb_cur_min >
- is followed by the minimum number of bytes for a character.
- This value must be less than or equal than
--.IR <mb_cur_max> .
-+.RI < mb_cur_max >.
- If not specified, it defaults to
--.IR <mb_cur_max> .
-+.RI < mb_cur_max >.
- .PP
- The character set definition section starts with the keyword
- .I CHARMAP
-@@ -60,12 +60,12 @@ in the first column.
- The following lines may have one of the two following forms to
- define the character set:
- .TP
--.I <character> byte-sequence comment
-+.RI < character >\  byte-sequence\ comment
- This form defines exactly one character and its byte sequence,
- .I comment
- being optional.
- .TP
--.I <character>..<character> byte-sequence comment
-+.RI < character >..< character >\  byte-sequence\ comment
- This form defines a character range and its byte sequence,
- .I comment
- being optional.
-@@ -89,10 +89,10 @@ in the first column.
- The following lines may have one of the two following forms to
- define the widths of the characters:
- .TP
--.I <character> width
-+.RI < character >\  width
- This form defines the width of exactly one character.
- .TP
--.I <character>...<character> width
-+.RI < character >...< character >\  width
- This form defines the width for all the characters in the range.
- .PP
- The width definition section ends with the string
+=46air enough. See the new text below, which I've added to the man page=
+=2E
+
+> About filesystes, you can try to test mounting an ext4 filesystem aft=
+er
+> doing unshare of both userns and mountns, almost sure you will fail. =
+I mean
+> mounting the fs from inside of the ns. I may test that too when I hav=
+e time,
+> to be sure, but I am almost certain that is the case, especially that
+> mounting an arbitrary fs could be a security risk because uids are no=
+t
+> shifted.
+
+When you've tested to see check that there's an issue, please reopen th=
+is bug
+if needed. For now, I consider the problem to be addressed, as per the =
+new text
+below, so I'll close.
 
 Cheers,
 
--- 
-Marko Myllynen
---
+Michael
+
+
+       Having  a  capability inside a user namespace permits a process
+       to  perform  operations  (that  require  privilege)   only   on
+       resources governed by that namespace.  In other words, having a
+       capability in a user namespace permits  a  process  to  perform
+       privileged   operations  on  resources  that  are  governed  by
+       (nonuser) namespaces associated with the  user  namespace  (see
+       the next subsection).  On the other hand, there are many privi=E2=
+=80=90
+       leged operations that affect resources that are not  associated
+       with  any namespace type, for example, changing the system time
+       (governed by CAP_SYS_TIME), loading a kernel  module  (governed
+       by   CAP_SYS_MODULE),   and  creating  a  device  (governed  by
+       CAP_MKNOD).  Only a process with privileges in the initial user
+       namespace can perform such operations.
+
+--=20
+You are receiving this mail because:
+You are watching the assignee of the bug.--
 To unsubscribe from this list: send the line "unsubscribe linux-man" in
 the body of a message to majordomo-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
 More majordomo info at  http://vger.kernel.org/majordomo-info.html
