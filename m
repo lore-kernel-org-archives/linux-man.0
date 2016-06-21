@@ -1,52 +1,141 @@
-From: Mike Frysinger <vapier-aBrp7R+bbdUdnm+yROfE0A@public.gmane.org>
-Subject: Re: How to find bugs in man pages?
-Date: Mon, 20 Jun 2016 16:45:56 -0400
-Message-ID: <20160620204556.GP24532@vapier.lan>
-References: <49d6a2b1-0069-9325-08a1-c7e48205a787@gmail.com>
+From: Marko Myllynen <myllynen-H+wXaHxf7aLQT0dZR+AlfA@public.gmane.org>
+Subject: Re: charmap.5: clarify keyword syntax
+Date: Tue, 21 Jun 2016 10:07:42 +0300
+Message-ID: <5768E7BE.6020002@redhat.com>
+References: <575E5EA5.6050707@redhat.com> <20160614165643.GF4053@vapier.lan>
+ <57610A8D.6080105@redhat.com>
+ <60df9e3e-8ea2-0c70-c00e-af07f36b0019@gmail.com>
+Reply-To: Marko Myllynen <myllynen-H+wXaHxf7aLQT0dZR+AlfA@public.gmane.org>
 Mime-Version: 1.0
-Content-Type: multipart/signed; micalg=pgp-sha256;
-	protocol="application/pgp-signature"; boundary="umrsQkkrw7viUWFs"
+Content-Type: text/plain; charset=utf-8
+Content-Transfer-Encoding: 7bit
 Return-path: <linux-man-owner-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>
-Content-Disposition: inline
-In-Reply-To: <49d6a2b1-0069-9325-08a1-c7e48205a787-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org>
+In-Reply-To: <60df9e3e-8ea2-0c70-c00e-af07f36b0019-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org>
 Sender: linux-man-owner-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
-To: Xose Vazquez Perez <xose.vazquez-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org>, linux-man-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
+To: "Michael Kerrisk (man-pages)" <mtk.manpages-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org>, Mike Frysinger <vapier-aBrp7R+bbdUdnm+yROfE0A@public.gmane.org>
+Cc: linux-man <linux-man-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>
 List-Id: linux-man@vger.kernel.org
 
+Hi,
 
---umrsQkkrw7viUWFs
-Content-Type: text/plain; charset=utf-8
-Content-Disposition: inline
+On 2016-06-20 23:34, Michael Kerrisk (man-pages) wrote:
+> On 06/15/2016 09:58 AM, Marko Myllynen wrote:
+>> On 2016-06-14 19:56, Mike Frysinger wrote:
+>>> On 13 Jun 2016 10:20, Marko Myllynen wrote:
+>>>> The patch below updates charmap.5 to match the syntax all the glibc
+>>>> charmap files are using currently.
+>>>
+>>> hmm, i guess this is confusing.  when i read the man page, i see it as
+>>> the normal syntax of "<required value>" rather than the <> being literal
+>>> characers that you need to type out.  although in that regard, i would
+>>> expect it to look something like:
+>>> 	<character> <byte-sequence> [comment]
+>>>
+>>> although in the locale(5) page, we rarely use the <foo> syntax.
+>>
+>> Yes, in the locale(5) page <foo> is now used only in cases like:
+>>
+>>   The characters <space> and <tab> are automatically included.
+>>
+>> In the glibc charmap files the <> notation is used with keywords, the
+>> man pages states that comment is optional but would it make thing
+>> clearer if we would use something like:
+>>
+>> .TP
+>> <
+>> .I code_set_name
+>>> is followed by the name of the character map.
+>>
+>> (Ok, that renders badly but you get the idea.)
+> 
+> I'd take patches to fix this. 
+> 
+> I think you want:
+> 
+> .TP
+> .RI < code_set_name >
 
-On 19 Jun 2016 16:46, Xose Vazquez Perez wrote:
-> I'm using: groff -z -b -wall manpage.x
+Thanks, the patch below seems to do the trick:
 
-seems like something we could add to `make check`
--mike
+---
+ man5/charmap.5 | 22 +++++++++++-----------
+ 1 file changed, 11 insertions(+), 11 deletions(-)
 
---umrsQkkrw7viUWFs
-Content-Type: application/pgp-signature; name="signature.asc"
-Content-Description: Digital signature
+diff --git a/man5/charmap.5 b/man5/charmap.5
+index f43d5a5..9bc2440 100644
+--- a/man5/charmap.5
++++ b/man5/charmap.5
+@@ -28,30 +28,30 @@ can use charmaps to create locale variants for different character sets.
+ The charmap file starts with a header that may consist of the
+ following keywords:
+ .TP
+-.I <code_set_name>
++.RI < code_set_name >
+ is followed by the name of the character map.
+ .TP
+-.I <comment_char>
++.RI < comment_char >
+ is followed by a character that will be used as the comment character
+ for the rest of the file.
+ It defaults to the number sign (#).
+ .TP
+-.I <escape_char>
++.RI < escape_char >
+ is followed by a character that should be used as the escape character
+ for the rest of the file to mark characters that should be interpreted
+ in a special way.
+ It defaults to the backslash (\\).
+ .TP
+-.I <mb_cur_max>
++.RI < mb_cur_max >
+ is followed by the maximum number of bytes for a character.
+ The default value is 1.
+ .TP
+-.I <mb_cur_min>
++.RI < mb_cur_min >
+ is followed by the minimum number of bytes for a character.
+ This value must be less than or equal than
+-.IR <mb_cur_max> .
++.RI < mb_cur_max >.
+ If not specified, it defaults to
+-.IR <mb_cur_max> .
++.RI < mb_cur_max >.
+ .PP
+ The character set definition section starts with the keyword
+ .I CHARMAP
+@@ -60,12 +60,12 @@ in the first column.
+ The following lines may have one of the two following forms to
+ define the character set:
+ .TP
+-.I <character> byte-sequence comment
++.RI < character >\  byte-sequence\ comment
+ This form defines exactly one character and its byte sequence,
+ .I comment
+ being optional.
+ .TP
+-.I <character>..<character> byte-sequence comment
++.RI < character >..< character >\  byte-sequence\ comment
+ This form defines a character range and its byte sequence,
+ .I comment
+ being optional.
+@@ -89,10 +89,10 @@ in the first column.
+ The following lines may have one of the two following forms to
+ define the widths of the characters:
+ .TP
+-.I <character> width
++.RI < character >\  width
+ This form defines the width of exactly one character.
+ .TP
+-.I <character>...<character> width
++.RI < character >...< character >\  width
+ This form defines the width for all the characters in the range.
+ .PP
+ The width definition section ends with the string
 
------BEGIN PGP SIGNATURE-----
-Version: GnuPG v2
+Cheers,
 
-iQIcBAEBCAAGBQJXaFYDAAoJEEFjO5/oN/WByPwQANlBhdGTK7KeOH5mIpx25Jwm
-9X1Rz4f1ctqlAeTYmqFqKDCLjF5sECk2+cIHaW4a3EUDWKiPNnt2yIi7BVnsYujl
-aT+apb2jRaaD08crHu/Qp1u8IVs6NosdNSfyrdpqo0AwH/LPsofAqjyD4JeLitpe
-gCGRYyNwg14MFoPg9AFmPkvRLj7tFC9WgVvbTaybxq1Az8XBq50Fy6J09Xi9PXf9
-Z8pRrfsOpwKCjRwHorGmNnvYh7iPLolafJ9lvvibq+w4zNUgVlQBi38vwHRB/rrF
-IVDIfKPfD50kZyhaXogwU/0PcWjNt85OOILjEEJmp6pOXhBa5ECoYTQLcNYwqNo6
-onWqfkLf7qOFWBWKMk+bdjM3tsJirs6nXB7impn1J9x3rn9yJdJ1cKvuCZrxv433
-6TrsCXLPWKUOcldylzwV/3BGaTPSylqYLF8N0LWJ9rGJEwVF1KZ7EFKF1a1el0x6
-B0aoLOLU+18K8yq1E0XKevEtdDhwskIhE/0c/oyBk9czZqvi/kNuN0UD88rnUpPK
-1C5SbK1h8rpAoPkRiG2w7a1m3VaB5ad2pbrSBaV82QkMfjvyzF/Z08YLI2e19seg
-/BF4Q9eFHmTbfRRFj8wWIly5Z2a2mbyi007YM8ZnenptmG7kNCsej8p4kP6hLpBp
-0w3LdUqQqIBAehrTUqlD
-=JLu9
------END PGP SIGNATURE-----
-
---umrsQkkrw7viUWFs--
+-- 
+Marko Myllynen
 --
 To unsubscribe from this list: send the line "unsubscribe linux-man" in
 the body of a message to majordomo-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
