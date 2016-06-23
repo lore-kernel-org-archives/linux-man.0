@@ -1,110 +1,157 @@
 From: "Michael Kerrisk (man-pages)" <mtk.manpages-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org>
-Subject: Re: Documenting ptrace access mode checking
-Date: Thu, 23 Jun 2016 09:42:09 +0200
-Message-ID: <33209000-3fd4-0b26-f249-eb4e1a9e1651@gmail.com>
-References: <e335a243-2199-2185-c7b3-fb1c898e9ab4@gmail.com>
- <20160621205550.GA5191@pc.thejh.net>
- <86486234-d78a-234b-58bb-6ca646881dc6@gmail.com>
- <20160622224428.GA15902@pc.thejh.net>
+Subject: Re: charmap.5: clarify keyword syntax
+Date: Thu, 23 Jun 2016 12:55:21 +0200
+Message-ID: <675e3917-a530-3174-dfcc-5b9a743beba0@gmail.com>
+References: <575E5EA5.6050707@redhat.com> <20160614165643.GF4053@vapier.lan>
+ <57610A8D.6080105@redhat.com>
+ <60df9e3e-8ea2-0c70-c00e-af07f36b0019@gmail.com>
+ <5768E7BE.6020002@redhat.com>
 Mime-Version: 1.0
-Content-Type: text/plain; charset=utf-8;
-	format=flowed
-Content-Transfer-Encoding: QUOTED-PRINTABLE
-Return-path: <linux-api-owner-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>
-In-Reply-To: <20160622224428.GA15902-J1fxOzX/cBvk1uMJSBkQmQ@public.gmane.org>
-Sender: linux-api-owner-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
-To: Jann Horn <jann-XZ1E9jl8jIdeoWH0uzbU5w@public.gmane.org>
-Cc: mtk.manpages-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org, James Morris <jmorris-gx6/JNMH7DfYtjvyW6yDsg@public.gmane.org>, linux-man <linux-man-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>, Stephen Smalley <sds-+05T5uksL2qpZYMLLGbcSA@public.gmane.org>, lkml <linux-kernel-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>, Kees Cook <keescook-F7+t8E8rja9g9hUCZPvPmw@public.gmane.org>, "Eric W. Biederman" <ebiederm-aS9lmoZGLiVWk0Htik3J/w@public.gmane.org>, linux-security-module <linux-security-module-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>, Linux API <linux-api-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>
+Content-Type: text/plain; charset=utf-8; format=flowed
+Content-Transfer-Encoding: 7bit
+Return-path: <linux-man-owner-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>
+In-Reply-To: <5768E7BE.6020002-H+wXaHxf7aLQT0dZR+AlfA@public.gmane.org>
+Sender: linux-man-owner-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
+To: Marko Myllynen <myllynen-H+wXaHxf7aLQT0dZR+AlfA@public.gmane.org>, Mike Frysinger <vapier-aBrp7R+bbdUdnm+yROfE0A@public.gmane.org>
+Cc: mtk.manpages-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org, linux-man <linux-man-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>
 List-Id: linux-man@vger.kernel.org
 
-Hi Jann,
+Ho Marko,
 
-Thanks for your further review. Follow-up of one point below.
-
-On 06/23/2016 12:44 AM, Jann Horn wrote:
-> On Wed, Jun 22, 2016 at 09:21:29PM +0200, Michael Kerrisk (man-pages)=
- wrote:
->> On 06/21/2016 10:55 PM, Jann Horn wrote:
->>> On Tue, Jun 21, 2016 at 11:41:16AM +0200, Michael Kerrisk (man-page=
-s) wrote:
-
-[...]
-
->>>>       The  algorithm  employed for ptrace access mode checking det=
-er=E2=80=90
->>>>       mines whether the calling process is  allowed  to  perform  =
-the
->>>>       corresponding action on the target process, as follows:
+On 06/21/2016 09:07 AM, Marko Myllynen wrote:
+> Hi,
+>
+> On 2016-06-20 23:34, Michael Kerrisk (man-pages) wrote:
+>> On 06/15/2016 09:58 AM, Marko Myllynen wrote:
+>>> On 2016-06-14 19:56, Mike Frysinger wrote:
+>>>> On 13 Jun 2016 10:20, Marko Myllynen wrote:
+>>>>> The patch below updates charmap.5 to match the syntax all the glibc
+>>>>> charmap files are using currently.
 >>>>
->>>>       1.  If the calling thread and the target thread are in the s=
-ame
->>>>           thread group, access is always allowed.
+>>>> hmm, i guess this is confusing.  when i read the man page, i see it as
+>>>> the normal syntax of "<required value>" rather than the <> being literal
+>>>> characers that you need to type out.  although in that regard, i would
+>>>> expect it to look something like:
+>>>> 	<character> <byte-sequence> [comment]
 >>>>
->>>>       2.  If the access mode specifies PTRACE_MODE_FSCREDS, then  =
-for
->>>>           the  check in the next step, employ the caller's filesys=
-tem
->>>>           user ID and group ID (see credentials(7));  otherwise  (=
-the
->>>>           access  mode  specifies  PTRACE_MODE_REALCREDS, so) use =
-the
->>>>           caller's real user ID and group ID.
+>>>> although in the locale(5) page, we rarely use the <foo> syntax.
 >>>
->>> Might want to add a "for historical reasons" or so here.
+>>> Yes, in the locale(5) page <foo> is now used only in cases like:
+>>>
+>>>   The characters <space> and <tab> are automatically included.
+>>>
+>>> In the glibc charmap files the <> notation is used with keywords, the
+>>> man pages states that comment is optional but would it make thing
+>>> clearer if we would use something like:
+>>>
+>>> .TP
+>>> <
+>>> .I code_set_name
+>>>> is followed by the name of the character map.
+>>>
+>>> (Ok, that renders badly but you get the idea.)
 >>
->> Can you be a little more precise about "here", and maybe tell me why
->> you think it helps?
+>> I'd take patches to fix this.
+>>
+>> I think you want:
+>>
+>> .TP
+>> .RI < code_set_name >
 >
-> I'm not sure, but it might be a good idea to add something like this =
-at the
-> end of 2.:
-> "(Most other APIs that check one of the caller's UIDs use the effecti=
-ve one.
-> This API uses the real UID instead for historical reasons.)"
->
-> In my opinion, it is inconsistent to use the real UID/GID here, the
-> effective one would be more appropriate. But since the existing code =
-uses
-> the real UID/GID and that's not a security issue for existing users o=
-f
-> the ptrace API, this wasn't changed when I added the REALCREDS/FSCRED=
-S
-> distinction.
->
-> I think that for a reader, it might help to point out that in most ca=
-ses,
-> when a process is the subject in an access check, its effective UID/G=
-ID
-> are used, and this is (together with kill()) an exception to that rul=
-e.
-> But you're the expert on writing documentation, if you think that tha=
-t's
-> too much detail / confusing here, it probably is.
+> Thanks, the patch below seems to do the trick:
 
-Okay -- got it now, I think. I made this text:
-
-        2.  If the access mode specifies PTRACE_MODE_FSCREDS, then, for
-            the check in the next step, employ the caller's  filesystem
-            UID  and  GID.  (As noted in credentials(7), the filesystem
-            UID and GID almost always have the same values as the  cor=E2=
-=80=90
-            responding effective IDs.)
-
-            Otherwise, the access mode specifies PTRACE_MODE_REALCREDS,
-            so use the caller's real UID and GID for the checks in  the
-            next  step.  (Most APIs that check the caller's UID and GID
-            use  the  effective  IDs.   For  historical  reasons,   the
-            PTRACE_MODE_REALCREDS check uses the real IDs instead.)
-
-[...]
+Thanks! Applied.
 
 Cheers,
 
 Michael
 
 
+>
+> ---
+>  man5/charmap.5 | 22 +++++++++++-----------
+>  1 file changed, 11 insertions(+), 11 deletions(-)
+>
+> diff --git a/man5/charmap.5 b/man5/charmap.5
+> index f43d5a5..9bc2440 100644
+> --- a/man5/charmap.5
+> +++ b/man5/charmap.5
+> @@ -28,30 +28,30 @@ can use charmaps to create locale variants for different character sets.
+>  The charmap file starts with a header that may consist of the
+>  following keywords:
+>  .TP
+> -.I <code_set_name>
+> +.RI < code_set_name >
+>  is followed by the name of the character map.
+>  .TP
+> -.I <comment_char>
+> +.RI < comment_char >
+>  is followed by a character that will be used as the comment character
+>  for the rest of the file.
+>  It defaults to the number sign (#).
+>  .TP
+> -.I <escape_char>
+> +.RI < escape_char >
+>  is followed by a character that should be used as the escape character
+>  for the rest of the file to mark characters that should be interpreted
+>  in a special way.
+>  It defaults to the backslash (\\).
+>  .TP
+> -.I <mb_cur_max>
+> +.RI < mb_cur_max >
+>  is followed by the maximum number of bytes for a character.
+>  The default value is 1.
+>  .TP
+> -.I <mb_cur_min>
+> +.RI < mb_cur_min >
+>  is followed by the minimum number of bytes for a character.
+>  This value must be less than or equal than
+> -.IR <mb_cur_max> .
+> +.RI < mb_cur_max >.
+>  If not specified, it defaults to
+> -.IR <mb_cur_max> .
+> +.RI < mb_cur_max >.
+>  .PP
+>  The character set definition section starts with the keyword
+>  .I CHARMAP
+> @@ -60,12 +60,12 @@ in the first column.
+>  The following lines may have one of the two following forms to
+>  define the character set:
+>  .TP
+> -.I <character> byte-sequence comment
+> +.RI < character >\  byte-sequence\ comment
+>  This form defines exactly one character and its byte sequence,
+>  .I comment
+>  being optional.
+>  .TP
+> -.I <character>..<character> byte-sequence comment
+> +.RI < character >..< character >\  byte-sequence\ comment
+>  This form defines a character range and its byte sequence,
+>  .I comment
+>  being optional.
+> @@ -89,10 +89,10 @@ in the first column.
+>  The following lines may have one of the two following forms to
+>  define the widths of the characters:
+>  .TP
+> -.I <character> width
+> +.RI < character >\  width
+>  This form defines the width of exactly one character.
+>  .TP
+> -.I <character>...<character> width
+> +.RI < character >...< character >\  width
+>  This form defines the width for all the characters in the range.
+>  .PP
+>  The width definition section ends with the string
+>
+> Cheers,
+>
 
---=20
+
+-- 
 Michael Kerrisk
 Linux man-pages maintainer; http://www.kernel.org/doc/man-pages/
 Linux/UNIX System Programming Training: http://man7.org/training/
+--
+To unsubscribe from this list: send the line "unsubscribe linux-man" in
+the body of a message to majordomo-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
+More majordomo info at  http://vger.kernel.org/majordomo-info.html
