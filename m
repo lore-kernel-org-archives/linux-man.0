@@ -1,47 +1,81 @@
-From: Kees Cook <keescook-F7+t8E8rja9g9hUCZPvPmw@public.gmane.org>
-Subject: Re: Documenting ptrace access mode checking
-Date: Fri, 24 Jun 2016 13:07:13 -0700
-Message-ID: <CAGXu5jJT2m0z-bDXjGb8dSmy=Qy1=1D8smdMBgKdJxRzwk327A@mail.gmail.com>
-References: <e335a243-2199-2185-c7b3-fb1c898e9ab4@gmail.com>
- <20160621205550.GA5191@pc.thejh.net> <86486234-d78a-234b-58bb-6ca646881dc6@gmail.com>
- <CAGXu5j+DoWCT=NwZK-yNBmZOu9LdEn=0-gjJvtPVmNJFanWoKA@mail.gmail.com>
- <7eee2029-4269-f9ab-78a7-341556f1350d@gmail.com> <f45383ca-6bdc-bba0-07d0-a8e3cb9c08d2@schaufler-ca.com>
+From: "Peter K. Durst  -  ." <clubservices-7a+NbVwu0MkuTKyZQZDZLw@public.gmane.org>
+Subject: Loan offer for Projects Finance (1.5 -1).
+Date: Sat, 25 Jun 2016 02:59:27 +0700
+Message-ID: <36f6e43b-2e1c-4277-8997-99fc58e91711@EGDCEX.egu.local>
+Reply-To: <aledrynov-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org>
 Mime-Version: 1.0
-Content-Type: text/plain; charset=UTF-8
-Return-path: <linux-api-owner-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>
-In-Reply-To: <f45383ca-6bdc-bba0-07d0-a8e3cb9c08d2-iSGtlc1asvQWG2LlvL+J4A@public.gmane.org>
-Sender: linux-api-owner-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
-To: Casey Schaufler <casey-iSGtlc1asvQWG2LlvL+J4A@public.gmane.org>
-Cc: "Michael Kerrisk (man-pages)" <mtk.manpages-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org>, Jann Horn <jann-XZ1E9jl8jIdeoWH0uzbU5w@public.gmane.org>, James Morris <jmorris-gx6/JNMH7DfYtjvyW6yDsg@public.gmane.org>, linux-man <linux-man-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>, Stephen Smalley <sds-+05T5uksL2qpZYMLLGbcSA@public.gmane.org>, lkml <linux-kernel-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>, "Eric W. Biederman" <ebiederm-aS9lmoZGLiVWk0Htik3J/w@public.gmane.org>, linux-security-module <linux-security-module-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>, Linux API <linux-api-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>
+Content-Type: text/plain; charset=utf-8
+Content-Transfer-Encoding: QUOTED-PRINTABLE
+Return-path: <linux-man-owner-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>
+Sender: linux-man-owner-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
+To: linux-man-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
 List-Id: linux-man@vger.kernel.org
 
-On Fri, Jun 24, 2016 at 8:18 AM, Casey Schaufler <casey-iSGtlc1asvQWG2LlvL+J4A@public.gmane.org> wrote:
-> On 6/24/2016 1:40 AM, Michael Kerrisk (man-pages) wrote:
->> So, I just want to check my understanding of a couple of points:
->>
->> 1. The commoncap LSM is invoked first, and if it denies access,
->>    then no further LSM is/needs to be called.
->
-> Yes. The LSM infrastructure is "bail on fail".
->
->>
->> 2. Is it the case that only one of the other LSMs (SELinux, Yama,
->>    AppArmor, etc.) is invoked, or can more than one be invoked.
->>    I thought only one is invoked, but perhaps I am out of date
->>    in my understanding.
->
-> All registered modules are invoked, but only one "major"
-> module can be registered. The "minor" modules show up in
-> security_init, while the majors come in via do_security_initcalls.
+=EF=BB=BFSir,
 
-Just to fill in the history: prior the the recent LSM stacking changes
-(v4.2), commoncap (which is effectively an LSM) was hard-coded to be
-stacked with the single selected primary LSM. Then Yama got hard-coded
-stacked with the primary LSM too, and then Casey saved us from total
-insanity by providing a proper way to stack LSMs.
+I am a retired banker, currently working as a consultant.
 
--Kees
+By virtue of my past working experience, I have contacts to high net wo=
+rth Individuals and Investment firms in need to place funds into differ=
+ent projects to generate profits. The funding would be provided as a so=
+ft loan at 3% Return on Investment (ROI) with minimal documentations re=
+quired to complete the funding modalities.
 
--- 
-Kees Cook
-Chrome OS & Brillo Security
+A commission of 1% is paid to the Intermediary/Agent/Broker who introdu=
+ce project owners for finance.
+
+I anticipate your reply.
+
+Yours faithfully,
+
+Peter Karl Durst
+
+
+
+
+Club Services
+Participation & Club Support Department
+
+England Golf
+
+Tel: 01526 354500
+
+Web: www.englandgolf.org
+
+=46ollow us on Twitter:=20
+www.twitter.com/EnglandGolf
+
+=46ind us on Facebook: www.facebook.com/EnglandGolf
+
+The English Golf Union Ltd is=20
+a company limited by Guarantee registered in England, trading as Englan=
+d Golf.=C2=A0=20
+Registered number: 5564108. Registered Office:=C2=A0The National Golf C=
+entre, The Broadway,=20
+Woodhall Spa, Lincolnshire, LN10 6PU.
+
+If you are not the intended=20
+recipient, and disclosure, copying, distribution or any action taken or=
+ omitted=20
+in reliance on this is prohibited and may be unlawful. If you have rece=
+ived this=20
+message in error, please notify us and remove it from your system.=C2=A0=
+ No=20
+liability or responsibility is accepted if information or data is, for =
+whatever=20
+reason corrupted or does not reach its intended recipient.=C2=A0 No War=
+ranty is=20
+given that this email is free of viruses.=C2=A0 The views expressed in =
+this=20
+email are, unless otherwise stated, those of the author and not those o=
+f The=20
+English Golf Union Limited or its management. The English Golf Union Li=
+mited=20
+reserves the right to monitor, intercept and block emails addressed to =
+its users=20
+or take any other action in accordance with its email use policy.
+
+--
+To unsubscribe from this list: send the line "unsubscribe linux-man" in
+the body of a message to majordomo-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
+More majordomo info at  http://vger.kernel.org/majordomo-info.html
