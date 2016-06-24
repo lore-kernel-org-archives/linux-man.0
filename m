@@ -1,76 +1,121 @@
-From: ebiederm-aS9lmoZGLiVWk0Htik3J/w@public.gmane.org (Eric W. Biederman)
+From: Jann Horn <jann-XZ1E9jl8jIdeoWH0uzbU5w@public.gmane.org>
 Subject: Re: Documenting ptrace access mode checking
-Date: Thu, 23 Jun 2016 14:04:43 -0500
-Message-ID: <87por7hgl0.fsf@x220.int.ebiederm.org>
+Date: Fri, 24 Jun 2016 08:35:27 +0200
+Message-ID: <20160624063527.GA786@pc.thejh.net>
 References: <e335a243-2199-2185-c7b3-fb1c898e9ab4@gmail.com>
-	<87ziqewc3r.fsf@x220.int.ebiederm.org>
-	<4c6a338f-619b-9e99-9fd8-1cf6d86ecfed@gmail.com>
+ <20160621205550.GA5191@pc.thejh.net>
+ <86486234-d78a-234b-58bb-6ca646881dc6@gmail.com>
+ <20160622224428.GA15902@pc.thejh.net>
+ <33209000-3fd4-0b26-f249-eb4e1a9e1651@gmail.com>
 Mime-Version: 1.0
-Content-Type: text/plain
+Content-Type: multipart/signed; micalg=pgp-sha1;
+	protocol="application/pgp-signature"; boundary="7AUc2qLy4jB3hD7Z"
 Return-path: <linux-man-owner-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>
-In-Reply-To: <4c6a338f-619b-9e99-9fd8-1cf6d86ecfed-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org> (Michael
-	Kerrisk's message of "Wed, 22 Jun 2016 21:20:32 +0200")
+Content-Disposition: inline
+In-Reply-To: <33209000-3fd4-0b26-f249-eb4e1a9e1651-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org>
 Sender: linux-man-owner-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
 To: "Michael Kerrisk (man-pages)" <mtk.manpages-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org>
-Cc: Jann Horn <jann-XZ1E9jl8jIdeoWH0uzbU5w@public.gmane.org>, James Morris <jmorris-gx6/JNMH7DfYtjvyW6yDsg@public.gmane.org>, linux-man <linux-man-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>, Stephen Smalley <sds-+05T5uksL2qpZYMLLGbcSA@public.gmane.org>, lkml <linux-kernel-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>, Kees Cook <keescook-F7+t8E8rja9g9hUCZPvPmw@public.gmane.org>, linux-security-module <linux-security-module-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>, Linux API <linux-api-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>, Oleg Nesterov <oleg-H+wXaHxf7aLQT0dZR+AlfA@public.gmane.org>
+Cc: James Morris <jmorris-gx6/JNMH7DfYtjvyW6yDsg@public.gmane.org>, linux-man <linux-man-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>, Stephen Smalley <sds-+05T5uksL2qpZYMLLGbcSA@public.gmane.org>, lkml <linux-kernel-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>, Kees Cook <keescook-F7+t8E8rja9g9hUCZPvPmw@public.gmane.org>, "Eric W. Biederman" <ebiederm-aS9lmoZGLiVWk0Htik3J/w@public.gmane.org>, linux-security-module <linux-security-module-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>, Linux API <linux-api-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>
 List-Id: linux-man@vger.kernel.org
 
-"Michael Kerrisk (man-pages)" <mtk.manpages-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org> writes:
 
-> Hi Eric,
->
-> On 06/21/2016 09:55 PM, Eric W. Biederman wrote:
->> Hmm.
->>
->> When I gave this level of detail about the user namespace permission
->> checks you gave me some flack, because it was not particularly
->> comprehensible to the end users.  I think you deserve the same feedback.
->>
->> How do we say this in a way that does not describes a useful way to
->> think about it.  I read this and I know a lot of what is going on and my
->> mind goes numb.
->>
->> How about something like this:
->>
->>    If the callers uid and gid are the same as a processes uids and gids
->>    and the processes is configured to allow core dumps (aka it was never
->>    setuid or setgid) then the caller is allowed to ptrace a process.
->>
->>    Otherwise the caller must have CAP_SYS_PTRACE.
->>
->>    Linux security modules impose additional restrictions.
->>
->>    For consistency access to various process attributes are guarded with
->>    the same security checks as the ptrace system call itself.  As they are
->>    all methods to get information about a process.
->>
->> We certainly need something that gives a high level view so people
->> reading the man page can know what to expect.   If you get down into the
->> weeds we run the danger of people beginning to think they can depend
->> upon bugs in the implementation.
->
-> Thanks for the feedback, but I think more detail is required than you
-> suggest. (And I added all of that detail somewhat reluctantly.)
-> See my other replies for my rationale.
+--7AUc2qLy4jB3hD7Z
+Content-Type: text/plain; charset=utf-8
+Content-Disposition: inline
+Content-Transfer-Encoding: quoted-printable
 
-What I saw badly missing from your description is not the level of
-detail but bring things into a form that ordinary mortals can
-understand.
+On Thu, Jun 23, 2016 at 09:42:09AM +0200, Michael Kerrisk (man-pages) wrote:
+> Hi Jann,
+>=20
+> Thanks for your further review. Follow-up of one point below.
+>=20
+> On 06/23/2016 12:44 AM, Jann Horn wrote:
+> >On Wed, Jun 22, 2016 at 09:21:29PM +0200, Michael Kerrisk (man-pages) wr=
+ote:
+> >>On 06/21/2016 10:55 PM, Jann Horn wrote:
+> >>>On Tue, Jun 21, 2016 at 11:41:16AM +0200, Michael Kerrisk (man-pages) =
+wrote:
+>=20
+> [...]
+>=20
+> >>>>      The  algorithm  employed for ptrace access mode checking deter=
+=E2=80=90
+> >>>>      mines whether the calling process is  allowed  to  perform  the
+> >>>>      corresponding action on the target process, as follows:
+> >>>>
+> >>>>      1.  If the calling thread and the target thread are in the same
+> >>>>          thread group, access is always allowed.
+> >>>>
+> >>>>      2.  If the access mode specifies PTRACE_MODE_FSCREDS, then  for
+> >>>>          the  check in the next step, employ the caller's filesystem
+> >>>>          user ID and group ID (see credentials(7));  otherwise  (the
+> >>>>          access  mode  specifies  PTRACE_MODE_REALCREDS, so) use the
+> >>>>          caller's real user ID and group ID.
+> >>>
+> >>>Might want to add a "for historical reasons" or so here.
+> >>
+> >>Can you be a little more precise about "here", and maybe tell me why
+> >>you think it helps?
+> >
+> >I'm not sure, but it might be a good idea to add something like this at =
+the
+> >end of 2.:
+> >"(Most other APIs that check one of the caller's UIDs use the effective =
+one.
+> >This API uses the real UID instead for historical reasons.)"
+> >
+> >In my opinion, it is inconsistent to use the real UID/GID here, the
+> >effective one would be more appropriate. But since the existing code uses
+> >the real UID/GID and that's not a security issue for existing users of
+> >the ptrace API, this wasn't changed when I added the REALCREDS/FSCREDS
+> >distinction.
+> >
+> >I think that for a reader, it might help to point out that in most cases,
+> >when a process is the subject in an access check, its effective UID/GID
+> >are used, and this is (together with kill()) an exception to that rule.
+> >But you're the expert on writing documentation, if you think that that's
+> >too much detail / confusing here, it probably is.
+>=20
+> Okay -- got it now, I think. I made this text:
+>=20
+>        2.  If the access mode specifies PTRACE_MODE_FSCREDS, then, for
+>            the check in the next step, employ the caller's  filesystem
+>            UID  and  GID.  (As noted in credentials(7), the filesystem
+>            UID and GID almost always have the same values as the  cor=E2=
+=80=90
+>            responding effective IDs.)
+>=20
+>            Otherwise, the access mode specifies PTRACE_MODE_REALCREDS,
+>            so use the caller's real UID and GID for the checks in  the
+>            next  step.  (Most APIs that check the caller's UID and GID
+>            use  the  effective  IDs.   For  historical  reasons,   the
+>            PTRACE_MODE_REALCREDS check uses the real IDs instead.)
 
-For an explanation to be clear I think we very much need the high level
-overview first.  Then we can expand that description with the very
-detailed view.
+Thanks, that sounds good.
 
-I very much think we need to describe things in such a way that people
-understand the principles behind the permission checks, and not just
-have the documentation echo the code, so that people can know what weird
-things LSMs like yama are likely to do, and how these checks are likely
-to evolve in the future.
+--7AUc2qLy4jB3hD7Z
+Content-Type: application/pgp-signature; name="signature.asc"
+Content-Description: Digital signature
 
-Because one thing is clear to me.  The evolution of these details is
-clearly not done, and will continue to change in the future.
+-----BEGIN PGP SIGNATURE-----
+Version: GnuPG v1
 
-Eric
+iQIcBAEBAgAGBQJXbNSvAAoJED4KNFJOeCOoorAP/iczL3I4q+8CaK6fWnmy8FGF
+HhJdOz9ja2nd2oVdCh3a2cBbOVsvdcHVFtgvrx9tXLJ+ndkssb66+nvkUQa7hZTX
+dzqqQ7DANaqM4uSxqSh4D4Cyn9DMrajHUEUZjJ/JVDKfWhi5iXbubQpd3RfQ+hvy
+886x5O3jWW1EM2ONxfMXGR006/ucX6+VlKSBcOvhiqWkmpzR5E7/TrOECzDeLbgc
+pDbnB45n+AV07q6zDZoZMEJDhXc33iTa3MYTb7UxsYtrlQOeSgn3LcLDENe/M5/t
+i80Qfpw4lz7eBBg2O+F8QPXg3KYXJH6hNpUcsHbpbfZMjLINTPyLPSGloLSvKvE5
+6uZrk8uqYjkdcLYCbtDB8IbH1yEqMCMCQuPW8WN1YY2UNO9o4WSGBNt8eerKix9E
+XvQm9W2gjoz7NRCGHnygy0lP8QveAHh98bv/CTM2eWcmSBGyddy9xevHCBbvYwYP
+FZU8TEjloSc5LBt9lzFDJw01+zhzD38uYXbnCWhpuc8NxSHFzHR5yuQQFqWHkyWj
+cEjFV8XwCeU/RC8JiV8ZwJUwxIpOuAe/HpyAofZBQ8ou8IDycRcqOxmpT4eVjicw
+NhAgjEoLGkkzCoXJTn0jtktEBFye4qWEsLHpO+1kLuKLdXiKMdLr7Nog26UPQqFh
+vFacqzzXnGvDXIxUKGV8
+=XNg9
+-----END PGP SIGNATURE-----
+
+--7AUc2qLy4jB3hD7Z--
 --
 To unsubscribe from this list: send the line "unsubscribe linux-man" in
 the body of a message to majordomo-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
