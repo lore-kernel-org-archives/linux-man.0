@@ -1,269 +1,71 @@
-From: "Michael Kerrisk (man-pages)" <mtk.manpages@gmail.com>
-Subject: Re: Review of ptrace Yama ptrace_scope description
-Date: Wed, 29 Jun 2016 07:05:08 +0200
-Message-ID: <b1769b73-41ce-1896-306a-bb15902503e0@gmail.com>
-References: <a80772d7-f52a-0943-de24-a0cf8d6b2f7c@gmail.com>
- <20160625143006.GA24730@pc.thejh.net>
- <0017835d-c672-02fe-dab8-d1b11c100c24@gmail.com>
- <CAGXu5jJJFL1YtwEvqhTz2RrVSbszUF32QhN6BH92aWqqpPyNew@mail.gmail.com>
+From: bugzilla-daemon-590EEB7GvNiWaY/ihj7yzEB+6BGkLq7r@public.gmane.org
+Subject: [Bug 121211] New: Please provide conventions for documenting
+ subcommands in man-pages(7)
+Date: Thu, 30 Jun 2016 09:34:51 +0000
+Message-ID: <bug-121211-11311@https.bugzilla.kernel.org/>
 Mime-Version: 1.0
-Content-Type: text/plain; charset=utf-8;
-	format=flowed
-Content-Transfer-Encoding: QUOTED-PRINTABLE
-Return-path: <linux-security-module-owner@vger.kernel.org>
-In-Reply-To: <CAGXu5jJJFL1YtwEvqhTz2RrVSbszUF32QhN6BH92aWqqpPyNew@mail.gmail.com>
-Sender: owner-linux-security-module@vger.kernel.org
-To: Kees Cook <keescook@chromium.org>
-Cc: mtk.manpages@gmail.com, Jann Horn <jann@thejh.net>, Linux API <linux-api@vger.kernel.org>, linux-man <linux-man@vger.kernel.org>, linux-security-module <linux-security-module@vger.kernel.org>, lkml <linux-kernel@vger.kernel.org>, Casey Schaufler <casey@schaufler-ca.com>, James Morris <jmorris@namei.org>
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: 7bit
+Return-path: <linux-man-owner-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>
+Sender: linux-man-owner-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
+To: linux-man-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
 List-Id: linux-man@vger.kernel.org
 
-Hi Kees,
+https://bugzilla.kernel.org/show_bug.cgi?id=121211
 
-On 06/28/2016 10:55 PM, Kees Cook wrote:
-> On Mon, Jun 27, 2016 at 11:11 PM, Michael Kerrisk (man-pages)
-> <mtk.manpages@gmail.com> wrote:
->> Hi Jann,
->>
->>
->> On 06/25/2016 04:30 PM, Jann Horn wrote:
->>>
->>> On Sat, Jun 25, 2016 at 09:30:43AM +0200, Michael Kerrisk (man-page=
-s)
->>> wrote:
->>>>
->>>> Hi Kees,
->>>>
->>>> So, last year, I added some documentation to ptrace(2) to describe
->>>> the Yama ptrace_scope file. I don't think I asked you for review
->>>> at the time, but in the light of other changes to the ptrace(2)
->>>> page, it occurred to me that it might be a good idea to ask you
->>>> to check the text below to see if anything is missing or could be
->>>> improved. Might you have a moment for that?
->>>>
->>>>    /proc/sys/kernel/yama/ptrace_scope
->>>>        On systems with the Yama Linux Security Module (LSM)  insta=
-lled
->>>>        (i.e.,  the  kernel  was configured with CONFIG_SECURITY_YA=
-MA),
->>>>        the /proc/sys/kernel/yama/ptrace_scope  file  (available  s=
-ince
->>>>        Linux  3.4)  can  be  used  to  restrict the ability to tra=
-ce a
->>>>        process with ptrace(2) (and thus also the ability to use  t=
-ools
->>>>        such  as  strace(1) and gdb(1)).  The goal of such restrict=
-ions
->>>>        is to prevent attack escalation whereby a  compromised  pro=
-cess
->>>>        can  ptrace-attach  to  other  sensitive processes (e.g., a=
- GPG
->>>>        agent or an SSH session) owned by the user  in  order  to  =
-gain
->>>>        additional credentials and thus expand the scope of the att=
-ack.
->
-> Maybe clarify "additional credentials that may exist in memory only a=
-nd thus..."
+            Bug ID: 121211
+           Summary: Please provide conventions for documenting subcommands
+                    in man-pages(7)
+           Product: Documentation
+           Version: unspecified
+          Hardware: All
+                OS: Linux
+            Status: NEW
+          Severity: enhancement
+          Priority: P1
+         Component: man-pages
+          Assignee: documentation_man-pages-ztI5WcYan/vQLgFONoPN62D2FQJk+8+b@public.gmane.org
+          Reporter: josh-DgEjT+Ai2ygdnm+yROfE0A@public.gmane.org
+        Regression: No
 
-Done.
+Many programs now provide subcommands, such as git, systemctl, git-remote,
+git-hub, and apt.  These programs follow various different inconsistent
+conventions for documenting these subcommands in their manpages.  I'm about to
+write such a program with subcommands myself.  I'd love to see some standard
+conventions documented in man-pages(7).
 
->>>>
->>>>        More precisely, the Yama LSM limits two types of operations=
-:
->>>>
->>>>        *  Any   operation   that   performs   a   ptrace  access  =
-mode
->>>>           PTRACE_MODE_ATTACH     check=E2=80=94for      example,  =
-    ptrace()
->>>>           PTRACE_ATTACH.   (See the "Ptrace access mode checking" =
-dis=E2=80=90
->>>>           cussion above.)
->>>>
->>>>        *  ptrace() PTRACE_TRACEME.
->>>>
->>>>        A process that has the CAP_SYS_PTRACE capability can update=
- the
->>>>        /proc/sys/kernel/yama/ptrace_scope file with one of the fol=
-low=E2=80=90
->>>>        ing values:
->>>>
->>>>        0 ("classic ptrace permissions")
->>>>               No additional restrictions on  operations  that  per=
-form
->>>>               PTRACE_MODE_ATTACH  checks  (beyond those imposed by=
- the
->>>>               commoncap and other LSMs).
->>>>
->>>>               The use of PTRACE_TRACEME is unchanged.
->>>>
->>>>        1 ("restricted ptrace") [default value]
->>>>               When   performing   an   operation   that   requires=
-   a
->>>>               PTRACE_MODE_ATTACH  check, the calling process must =
-have
->>>>               a predefined relationship with the target  process. =
-  By
->>>>               default,  the predefined relationship is that the ta=
-rget
->>>>               process must be a child of the caller.
->>>>
->>>>               A target process can employ the prctl(2)  PR_SET_PTR=
-ACER
->>>>               operation  to declare a different PID that is allowe=
-d to
->>>>               perform PTRACE_MODE_ATTACH  operations  on  the  tar=
-get.
->>>>               See   the   kernel   source   file   Documentation/s=
-ecu=E2=80=90
->>>>               rity/Yama.txt for further details.
->>>>
->>>>               The use of PTRACE_TRACEME is unchanged.
->>>
->>>
->>> (namespaced) CAP_SYS_PTRACE is also sufficient here.
->>>
->>>
->>> Both here and in the "admin-only attach" case, it is IMO important =
-to
->>> note that creating a user namespace effectively removes the Yama
->>> protection because the owner of a namespace, when accessing its
->>> contents from outside, is relatively capable.
->>>
->>> This means that when a process tries to use namespaces to sandbox
->>> itself, it inadvertently makes itself more accessible.
->>>
->>> (This could probably be worked around in the kernel, but such a
->>> workaround would likely not be default, but rather opt-in via a new
->>> flag for clone() and unshare() or so.)
->>
->>
->> Tanks for catching this!
->>
->> So I've made that section of text:
->>
->>        A  process  that  has the CAP_SYS_PTRACE capability can updat=
-e the
->>        /proc/sys/kernel/yama/ptrace_scope file with one of the  foll=
-owing
->>        values:
->>
->>        0 ("classic ptrace permissions")
->>               No  additional  restrictions  on  operations  that  pe=
-rform
->>               PTRACE_MODE_ATTACH checks (beyond those imposed by the=
- com=E2=80=90
->>               moncap and other LSMs).
->>
->>               The use of PTRACE_TRACEME is unchanged.
->>
->>        1 ("restricted ptrace") [default value]
->>               When    performing    an    operation   that   require=
-s   a
->>               PTRACE_MODE_ATTACH check, the calling process  must  e=
-ither
->>               have the CAP_SYS_PTRACE capability in the user namespa=
-ce of
->>               the target process or it  have  a  predefined  relatio=
-nship
->>               with  the target process.  By default, the predefined =
-rela=E2=80=90
->>               tionship is that the target process must be a child of=
-  the
->>               caller.
->
-> More accurately, must be a descendant of the caller (grand child is f=
-ine, etc).
+Note that some programs will want to document all their subcommands in separate
+manpages, and others will want a single all-encompassing manpage.  I don't
+think man-pages(7) should mandate one or the other approach there, just
+establish standards that work either way.
 
-Thanks, Fixed.
+In particular:
 
->
->>
->>               A  target  process  can  employ the prctl(2) PR_SET_PT=
-RACER
->>               operation to declare a different PID  that  is  allowe=
-d  to
->>               perform  PTRACE_MODE_ATTACH  operations on the target.=
-  See
->>               the kernel source file Documentation/security/Yama.txt=
-  for
->>               further details.
->
-> I would say "additional" pid to perform... since its ancestors can
-> still ptrace it too.
+- Should the SYNOPSIS section document the usage of every subcommand (see
+git-remote for an example), or use a placeholders for subcommands and their
+options (see systemctl, git, or git-hub for examples)?
 
-Ahhh -- thanks. I'd not understood that to be the case. Fixed now.
+- If the SYNOPSIS just uses placeholders, what placeholder should it use for
+subcommands?  "<command>" or "<subcommand>" or "<cmd>" or "<subcmd>"?  (Or
+similar with square brackets if optional.)
 
->>               The use of PTRACE_TRACEME is unchanged.
->>
->>        2 ("admin-only attach")
->>               Only  processes  with  the CAP_SYS_PTRACE capability i=
-n the
->>               user  namespace  of  the   target   process   may   pe=
-rform
->>               PTRACE_MODE_ATTACH operations or trace children that e=
-mploy
->>               PTRACE_TRACEME.
->>
->>        3 ("no attach")
->>               No process may  perform  PTRACE_MODE_ATTACH  operation=
-s  or
->>               trace children that employ PTRACE_TRACEME.
->>
->>               Once  this value has been written to the file, it cann=
-ot be
->>               changed.
->>
->>        With respect to values 1 and 2, note that creating a  user  n=
-ames=E2=80=90
->>        pace effectively removes the Yama protection, because the own=
-er of
->>        a  namespace,  when  accessing  its  members  from  outside, =
-  has
->>        CAP_SYS_PTRACE  within  the  namespace.   This  means  that w=
-hen a
->>        process tries to use namespaces to  sandbox  itself,  it  ina=
-dver=E2=80=90
->>        tently weakens the protections offered by the Yama LSM.
->
-> Perhaps clarify "has CAP_SYS_PTRACE within all its namespaces, so the
-> ancestry rule is bypassed"?
+- What section should subcommands appear in?  I've seen both "COMMANDS" and
+"SUBCOMMANDS".
 
-So, I've reworked that last piece somewhat to something
-I hope is a little clearer:
+- Within that section, what formatting should subcommands use for their name,
+usage, description, and options?
 
-        With respect to values 1 and 2, note  that  creating  a  new  u=
-ser
-        namespace  effectively  removes  the  protection  offered by Ya=
-ma.
-        This is because a process  in  the  parent  user  namespace  wh=
-ose
-        effective  UID matches the UID of the creator of a child namesp=
-ace
-        has all capabilities (including  CAP_SYS_PTRACE)  when  perform=
-ing
-        operations  within  the  child user namespace (and further-remo=
-ved
-        descendants of that  namespace).   Consequently,  when  a  proc=
-ess
-        tries  to  use user namespaces to sandbox itself, it inadverten=
-tly
-        weakens the protections offered by the Yama LSM.
+- If programs don't ship separate manual pages for each subcommand, should they
+ship symlinks for each subcommand to the main manpage?
 
-> Otherwise it looks great, thanks for writing it up!
+- How does this work with programs that have multiple levels of subcommand? 
+(For instance, consider git-remote, which itself has subcommands.  Or consider
+a third-party git extension, like git-hub, which itself has subcommands.)
 
-No problem. Thanks for reviewing!
-
-Cheers,
-
-Michael
-
-
---=20
-Michael Kerrisk
-Linux man-pages maintainer; http://www.kernel.org/doc/man-pages/
-Linux/UNIX System Programming Training: http://man7.org/training/
+-- 
+You are receiving this mail because:
+You are watching the assignee of the bug.
 --
-To unsubscribe from this list: send the line "unsubscribe linux-securit=
-y-module" in
-the body of a message to majordomo@vger.kernel.org
+To unsubscribe from this list: send the line "unsubscribe linux-man" in
+the body of a message to majordomo-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
 More majordomo info at  http://vger.kernel.org/majordomo-info.html
