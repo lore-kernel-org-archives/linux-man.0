@@ -1,45 +1,34 @@
-From: Robin Kuzmin <kuzmin.robin-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org>
-Subject: Re: Man Page Simple Error: GETPRIORITY(2)
-Date: Thu, 30 Jun 2016 09:41:00 -0700
-Message-ID: <CAAztzVGyvDgshzq3+taoYmGcdR2odyyfYvHJz7GkmFQ=RYpNjA@mail.gmail.com>
-References: <CAAztzVFFvLPCKe+rXdxBXEBrmtTwL58-JQ0OV2ZcuLueUSYAcQ@mail.gmail.com>
-Mime-Version: 1.0
-Content-Type: text/plain; charset=UTF-8
+From: Jakub Wilk <jwilk-tXgOlIzOKNReoWH0uzbU5w@public.gmane.org>
+Subject: [PATCH 1/3] syscalls.2: tfix
+Date: Thu, 30 Jun 2016 13:25:16 +0200
+Message-ID: <1467285918-6408-1-git-send-email-jwilk@jwilk.net>
 Return-path: <linux-man-owner-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>
-In-Reply-To: <CAAztzVFFvLPCKe+rXdxBXEBrmtTwL58-JQ0OV2ZcuLueUSYAcQ-JsoAwUIsXosN+BqQ9rBEUg@public.gmane.org>
 Sender: linux-man-owner-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
-To: Michael Kerrisk-manpages <mtk.manpages-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org>
+To: Michael Kerrisk <mtk.manpages-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org>
 Cc: linux-man-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
 List-Id: linux-man@vger.kernel.org
 
-http://man7.org/linux/man-pages/man2/getpriority.2.html     2015-07-23
+Signed-off-by: Jakub Wilk <jwilk-tXgOlIzOKNReoWH0uzbU5w@public.gmane.org>
+---
+ man2/syscalls.2 | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
 
-1.
-What I see: "lower priorities cause more favorable scheduling".
-What I expect: "lower values (higher priority) cause more favorable scheduling".
+diff --git a/man2/syscalls.2 b/man2/syscalls.2
+index 3ebb916..6610631 100644
+--- a/man2/syscalls.2
++++ b/man2/syscalls.2
+@@ -818,7 +818,7 @@ on i386 one finds
+ .IR old_select ()
+ and
+ .IR old_mmap ()
+-(routines that use a pointer to a
++(routines that use a pointer to an
+ argument block) instead.
+ These days passing five arguments
+ is not a problem any more, and there is a
+-- 
+2.8.1
 
-2.
-What I see: "Only the superuser may lower priorities".
-What I expect: "Only the superuser may lower values (boost/increase
-the priorities)".
-
-3.
-What I see: "The caller attempted to lower a process priority".
-What I expect: "The caller attempted to lower a priority value (to
-increase a priority)".
-
-4.
-Add to section "SEE ALSO" the reference to "nice(2)" -
-http://man7.org/linux/man-pages/man2/nice.2.html
-
-Why I think so: The man page GETPRIORITY(2) should be in synch with
-nice(2) http://man7.org/linux/man-pages/man2/nice.2.html
-Both getpriority(2) and nice(2) are referred by sched(7) section
-"SCHED_OTHER: Default Linux time-sharing scheduling" -
-http://man7.org/linux/man-pages/man7/sched.7.html.
-
-Robin Kuzmin
-kuzmin.robin-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org
 --
 To unsubscribe from this list: send the line "unsubscribe linux-man" in
 the body of a message to majordomo-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
