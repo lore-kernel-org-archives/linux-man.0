@@ -1,33 +1,36 @@
-From: Jakub Wilk <jwilk-tXgOlIzOKNReoWH0uzbU5w@public.gmane.org>
-Subject: [PATCH 1/3] syscalls.2: tfix
-Date: Thu, 30 Jun 2016 13:25:16 +0200
-Message-ID: <1467285918-6408-1-git-send-email-jwilk@jwilk.net>
+From: Quentin Rameau <quinq-UlqG2OPX9a0ue8ZPuPpd/Q@public.gmane.org>
+Subject: [PATCH] mkstemp: fix _POSIX_C_SOURCE value for mkstemp()
+Date: Fri, 1 Jul 2016 13:51:17 +0200
+Message-ID: <20160701115117.GA25519@alpha.fifth.space>
+Mime-Version: 1.0
+Content-Type: text/plain; charset=utf-8
 Return-path: <linux-man-owner-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>
+Content-Disposition: inline
 Sender: linux-man-owner-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
-To: Michael Kerrisk <mtk.manpages-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org>
+To: mtk.manpages-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org
 Cc: linux-man-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
 List-Id: linux-man@vger.kernel.org
 
-Signed-off-by: Jakub Wilk <jwilk-tXgOlIzOKNReoWH0uzbU5w@public.gmane.org>
+The correct _POSIX_C_SOURCE value has always been 200809L, not 200112L
 ---
- man2/syscalls.2 | 2 +-
+ man3/mkstemp.3 | 2 +-
  1 file changed, 1 insertion(+), 1 deletion(-)
 
-diff --git a/man2/syscalls.2 b/man2/syscalls.2
-index 3ebb916..6610631 100644
---- a/man2/syscalls.2
-+++ b/man2/syscalls.2
-@@ -818,7 +818,7 @@ on i386 one finds
- .IR old_select ()
- and
- .IR old_mmap ()
--(routines that use a pointer to a
-+(routines that use a pointer to an
- argument block) instead.
- These days passing five arguments
- is not a problem any more, and there is a
+diff --git a/man3/mkstemp.3 b/man3/mkstemp.3
+index 8fcd608..d1d4805 100644
+--- a/man3/mkstemp.3
++++ b/man3/mkstemp.3
+@@ -59,7 +59,7 @@ Feature Test Macro Requirements for glibc (see
+ .PD 0
+ _XOPEN_SOURCE\ >=\ 500
+ .\"    || _XOPEN_SOURCE\ &&\ _XOPEN_SOURCE_EXTENDED
+-    || /* Since glibc 2.12: */ _POSIX_C_SOURCE\ >=\ 200112L
++    || /* Since glibc 2.12: */ _POSIX_C_SOURCE\ >=\ 200809L
+     || /* Glibc versions <= 2.19: */ _SVID_SOURCE || _BSD_SOURCE
+ .PD
+ .RE
 -- 
-2.8.1
+2.9.0
 
 --
 To unsubscribe from this list: send the line "unsubscribe linux-man" in
