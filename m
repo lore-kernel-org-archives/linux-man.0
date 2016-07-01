@@ -1,36 +1,58 @@
-From: Quentin Rameau <quinq-UlqG2OPX9a0ue8ZPuPpd/Q@public.gmane.org>
-Subject: [PATCH] mkstemp: fix _POSIX_C_SOURCE value for mkstemp()
-Date: Fri, 1 Jul 2016 13:51:17 +0200
-Message-ID: <20160701115117.GA25519@alpha.fifth.space>
-Mime-Version: 1.0
-Content-Type: text/plain; charset=utf-8
+From: Jann Horn <jannh-hpIqsD4AKlfQT0dZR+AlfA@public.gmane.org>
+Subject: [PATCH] setfsuid.2: Fix note about errors from the syscall wrapper
+Date: Fri,  1 Jul 2016 16:14:09 +0200
+Message-ID: <1467382449-32544-1-git-send-email-jannh@google.com>
 Return-path: <linux-man-owner-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>
-Content-Disposition: inline
 Sender: linux-man-owner-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
 To: mtk.manpages-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org
-Cc: linux-man-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
+Cc: linux-man-u79uwXL29TY76Z2rM5mHXA@public.gmane.org, Jann Horn <jannh-hpIqsD4AKlfQT0dZR+AlfA@public.gmane.org>
 List-Id: linux-man@vger.kernel.org
 
-The correct _POSIX_C_SOURCE value has always been 200809L, not 200112L
----
- man3/mkstemp.3 | 2 +-
- 1 file changed, 1 insertion(+), 1 deletion(-)
+See sysdeps/unix/sysv/linux/i386/setfsuid.c in glibc-2.2.1.
+(This code is not present in modern glibc anymore.)
 
-diff --git a/man3/mkstemp.3 b/man3/mkstemp.3
-index 8fcd608..d1d4805 100644
---- a/man3/mkstemp.3
-+++ b/man3/mkstemp.3
-@@ -59,7 +59,7 @@ Feature Test Macro Requirements for glibc (see
- .PD 0
- _XOPEN_SOURCE\ >=\ 500
- .\"    || _XOPEN_SOURCE\ &&\ _XOPEN_SOURCE_EXTENDED
--    || /* Since glibc 2.12: */ _POSIX_C_SOURCE\ >=\ 200112L
-+    || /* Since glibc 2.12: */ _POSIX_C_SOURCE\ >=\ 200809L
-     || /* Glibc versions <= 2.19: */ _SVID_SOURCE || _BSD_SOURCE
- .PD
- .RE
+Signed-off-by: Jann Horn <jannh-hpIqsD4AKlfQT0dZR+AlfA@public.gmane.org>
+---
+ man2/setfsgid.2 | 6 ++++--
+ man2/setfsuid.2 | 6 ++++--
+ 2 files changed, 8 insertions(+), 4 deletions(-)
+
+diff --git a/man2/setfsgid.2 b/man2/setfsgid.2
+index d1d021d..910b3fd 100644
+--- a/man2/setfsgid.2
++++ b/man2/setfsgid.2
+@@ -77,8 +77,10 @@ This system call is present in Linux since version 1.2.
+ is Linux-specific and should not be used in programs intended
+ to be portable.
+ .SH NOTES
+-When glibc determines that the argument is not a valid group ID,
+-it will return \-1 and set \fIerrno\fP to
++When old versions of glibc determine that the argument can not be
++passed to the kernel without integer truncation (because the kernel
++is old and does not support 32-bit group IDs),
++they will return \-1 and set \fIerrno\fP to
+ .B EINVAL
+ without attempting
+ the system call.
+diff --git a/man2/setfsuid.2 b/man2/setfsuid.2
+index 57b125e..08735df 100644
+--- a/man2/setfsuid.2
++++ b/man2/setfsuid.2
+@@ -77,8 +77,10 @@ This system call is present in Linux since version 1.2.
+ is Linux-specific and should not be used in programs intended
+ to be portable.
+ .SH NOTES
+-When glibc determines that the argument is not a valid user ID,
+-it will return \-1 and set \fIerrno\fP to
++When old versions of glibc determine that the argument can not be
++passed to the kernel without integer truncation (because the kernel
++is old and does not support 32-bit user IDs),
++they will return \-1 and set \fIerrno\fP to
+ .B EINVAL
+ without attempting
+ the system call.
 -- 
-2.9.0
+2.8.0.rc3.226.g39d4020
 
 --
 To unsubscribe from this list: send the line "unsubscribe linux-man" in
