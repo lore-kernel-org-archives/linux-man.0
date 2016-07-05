@@ -1,43 +1,34 @@
-From: Vince Weaver <vincent.weaver-e7X0jjDqjFGHXe+LvDLADg@public.gmane.org>
-Subject: Re: [PATCH] perf_event_open.2: Add a note that dyn_size is omitted
- if size == 0
-Date: Mon, 4 Jul 2016 13:11:19 -0400 (EDT)
-Message-ID: <alpine.DEB.2.20.1607041259170.1440@macbook-air>
-References: <CABV8kRwrvuPsqwep5xJv+G_vN6cK=xqWRHRp0ducR7pZxwfr6Q@mail.gmail.com>
+From: bugzilla-daemon-590EEB7GvNiWaY/ihj7yzEB+6BGkLq7r@public.gmane.org
+Subject: [Bug 120061] unix.7: Extend notes about ignored permissions for UNIX
+ domain sockets
+Date: Tue, 05 Jul 2016 07:50:05 +0000
+Message-ID: <bug-120061-11311-R30yUscOHK@https.bugzilla.kernel.org/>
+References: <bug-120061-11311@https.bugzilla.kernel.org/>
 Mime-Version: 1.0
-Content-Type: text/plain; charset=US-ASCII
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: 7bit
 Return-path: <linux-man-owner-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>
-In-Reply-To: <CABV8kRwrvuPsqwep5xJv+G_vN6cK=xqWRHRp0ducR7pZxwfr6Q-JsoAwUIsXosN+BqQ9rBEUg@public.gmane.org>
+In-Reply-To: <bug-120061-11311-3bo0kxnWaOQUvHkbgXJLS5sdmw4N0Rt+2LY78lusg7I@public.gmane.org/>
 Sender: linux-man-owner-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
-To: Keno Fischer <keno-9DCaDmOhoh+8M3too/+dENBPR1lH4CV8@public.gmane.org>
-Cc: mtk.manpages-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org, linux-man-u79uwXL29TY76Z2rM5mHXA@public.gmane.org, vincent.weaver-e7X0jjDqjFGHXe+LvDLADg@public.gmane.org
+To: linux-man-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
 List-Id: linux-man@vger.kernel.org
 
-On Sun, 3 Jul 2016, Keno Fischer wrote:
+https://bugzilla.kernel.org/show_bug.cgi?id=120061
 
-> The perf_output_sample_ustack in kernel/events/core.c only writes a
-> single 64 bit word
-> if it can't dump the user registers. From the current version of the
-> man page, I would
-> have expected two 64 bit words (one for size, one for dyn_size). Change the man
-> page to make this behavior explicit.
-> 
-> This is my first man-pages patch, please let me know if I should do
-> anything else.
+Michael Kerrisk <mtk.manpages-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org> changed:
 
-Overall it looks fine, to me at least. 
+           What    |Removed                     |Added
+----------------------------------------------------------------------------
+             Status|NEW                         |RESOLVED
+         Resolution|---                         |CODE_FIX
 
-It's sometimes also nice to have the commit where the behavior was first 
-introuduced mentioned, but in this case since the behavior hasn't changed 
-since introduction that's probably not necessary.
+--- Comment #3 from Michael Kerrisk <mtk.manpages-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org> ---
+Lacking any further input, I'm going to consider this resolved. Please reopen
+if you think something more is required.
 
-I'm fine with this being taken directly.  (not sure if I should kick in a 
-reviewed-by or some such tag (?)).
- 
-I'm slowly catching up on the backlog of perf_event_open.2 updates, 
-hopefully I'll start sending those in soon.
-
-Vince
+-- 
+You are receiving this mail because:
+You are watching the assignee of the bug.
 --
 To unsubscribe from this list: send the line "unsubscribe linux-man" in
 the body of a message to majordomo-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
