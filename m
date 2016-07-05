@@ -1,7 +1,7 @@
 From: bugzilla-daemon-590EEB7GvNiWaY/ihj7yzEB+6BGkLq7r@public.gmane.org
 Subject: [Bug 120671] missing info about userns restrictions
-Date: Tue, 05 Jul 2016 14:01:32 +0000
-Message-ID: <bug-120671-11311-WAliz8URNw@https.bugzilla.kernel.org/>
+Date: Tue, 05 Jul 2016 16:02:04 +0000
+Message-ID: <bug-120671-11311-AGAdwmPKxl@https.bugzilla.kernel.org/>
 References: <bug-120671-11311@https.bugzilla.kernel.org/>
 Mime-Version: 1.0
 Content-Type: text/plain; charset=UTF-8
@@ -14,18 +14,9 @@ List-Id: linux-man@vger.kernel.org
 
 https://bugzilla.kernel.org/show_bug.cgi?id=3D120671
 
---- Comment #15 from Michael Kerrisk <mtk.manpages-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org> ---
-(In reply to Micha=C5=82 Zegan from comment #14)
-> could you confirm what I once tested? cgroup version v1 cannot be mou=
-nted in
-> userns. cgroup version 2 cannot be mounted in user namespace unless c=
-group
-> namespace is also created, in which case mounting cgroupv2 becomes al=
-lowed.
-
-How long ago did you test this? (I'm thinking about what kernel version=
- you may
-have been running.)
+--- Comment #16 from Micha=C5=82 Zegan <webczat_200-wo4oW1Pw1HF3vZ0LZ0W7Rg@public.gmane.org> ---
+mine is 4.6.x. so it has introduced cgroup ns. I can of course retest, =
+but well
 
 --=20
 You are receiving this mail because:
