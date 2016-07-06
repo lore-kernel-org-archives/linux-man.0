@@ -1,43 +1,43 @@
-From: bugzilla-daemon-590EEB7GvNiWaY/ihj7yzEB+6BGkLq7r@public.gmane.org
-Subject: [Bug 118311] Non-free licensed man pages
-Date: Tue, 05 Jul 2016 17:37:01 +0000
-Message-ID: <bug-118311-11311-dPbb1HexDr@https.bugzilla.kernel.org/>
-References: <bug-118311-11311@https.bugzilla.kernel.org/>
-Mime-Version: 1.0
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: 7bit
+From: Jann Horn <jann-XZ1E9jl8jIdeoWH0uzbU5w@public.gmane.org>
+Subject: [PATCH] perf_event_open.2: document new perf_event_paranoid default
+Date: Wed,  6 Jul 2016 11:43:53 +0200
+Message-ID: <1467798233-7838-1-git-send-email-jann@thejh.net>
 Return-path: <linux-man-owner-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>
-In-Reply-To: <bug-118311-11311-3bo0kxnWaOQUvHkbgXJLS5sdmw4N0Rt+2LY78lusg7I@public.gmane.org/>
 Sender: linux-man-owner-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
-To: linux-man-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
+To: mtk.manpages-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org
+Cc: linux-man-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
 List-Id: linux-man@vger.kernel.org
 
-https://bugzilla.kernel.org/show_bug.cgi?id=118311
+Signed-off-by: Jann Horn <jann-XZ1E9jl8jIdeoWH0uzbU5w@public.gmane.org>
+---
+ man2/perf_event_open.2 | 5 +++--
+ 1 file changed, 3 insertions(+), 2 deletions(-)
 
---- Comment #2 from tcallawa-H+wXaHxf7aLQT0dZR+AlfA@public.gmane.org <tcallawa-H+wXaHxf7aLQT0dZR+AlfA@public.gmane.org> ---
->From sysinfo.2
-
-.\" Copyright (C) 1993 by Dan Miner (dminer-JuKJvrMPp/bgpn9g0Uvcdg@public.gmane.org)
-.\"
-.\" %%%LICENSE_START(FREELY_REDISTRIBUTABLE)
-.\"  Permission is granted to freely distribute or modify this file
-.\"  for the purpose of improving Linux or its documentation efforts.
-.\"  If you modify this file, please put a date stamp and HOW you
-.\"  changed this file.  Thanks.   -DM
-.\" %%%LICENSE_END
-
-The "purpose" clause means that any distribution or modification for any other
-purpose is not permitted.
-
-*****
-
-I concur with you on getitimer.2. I hope you manage to work with the author on
-pciconfig_read.2 to resolve the issue there. I tried to find a working email
-address for Dan Miner, but was not successful.
-
+diff --git a/man2/perf_event_open.2 b/man2/perf_event_open.2
+index 0e42c50..3cbf080 100644
+--- a/man2/perf_event_open.2
++++ b/man2/perf_event_open.2
+@@ -2747,14 +2747,15 @@ Files in
+ .TP
+ .I /proc/sys/kernel/perf_event_paranoid
+ 
++.\" default changed in commit 0161028b7c8aebef64194d3d73e43bc3b53b5c66
+ The
+ .I perf_event_paranoid
+ file can be set to restrict access to the performance counters.
+ .RS
+ .IP 2 4
+-allow only user-space measurements.
++allow only user-space measurements (default since Linux 4.6).
+ .IP 1
+-allow both kernel and user measurements (default).
++allow both kernel and user measurements (default before Linux 4.6).
+ .IP 0
+ allow access to CPU-specific data but not raw tracepoint samples.
+ .IP \-1
 -- 
-You are receiving this mail because:
-You are watching the assignee of the bug.
+2.1.4
+
 --
 To unsubscribe from this list: send the line "unsubscribe linux-man" in
 the body of a message to majordomo-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
