@@ -1,7 +1,7 @@
 From: Jakub Wilk <jwilk-tXgOlIzOKNReoWH0uzbU5w@public.gmane.org>
-Subject: [PATCH 3/3] mount_namespaces.7: tfix
-Date: Thu,  7 Jul 2016 11:57:38 +0200
-Message-ID: <1467885458-625-3-git-send-email-jwilk@jwilk.net>
+Subject: [PATCH 2/3] ip.7: tfix
+Date: Thu,  7 Jul 2016 11:57:37 +0200
+Message-ID: <1467885458-625-2-git-send-email-jwilk@jwilk.net>
 References: <1467885458-625-1-git-send-email-jwilk@jwilk.net>
 Return-path: <linux-man-owner-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>
 In-Reply-To: <1467885458-625-1-git-send-email-jwilk-tXgOlIzOKNReoWH0uzbU5w@public.gmane.org>
@@ -12,31 +12,22 @@ List-Id: linux-man@vger.kernel.org
 
 Signed-off-by: Jakub Wilk <jwilk-tXgOlIzOKNReoWH0uzbU5w@public.gmane.org>
 ---
- man7/mount_namespaces.7 | 4 ++--
- 1 file changed, 2 insertions(+), 2 deletions(-)
+ man7/ip.7 | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
 
-diff --git a/man7/mount_namespaces.7 b/man7/mount_namespaces.7
-index fdd7368..1640c5b 100644
---- a/man7/mount_namespaces.7
-+++ b/man7/mount_namespaces.7
-@@ -677,7 +677,7 @@ as for a bind operation on each mount in the subtree.
- (Unbindable mounts are automatically pruned at the target mount point.)
- 
- For further details, see
--.I Documenation/filesystems/sharedsubtrees.txt
-+.I Documentation/filesystems/sharedsubtree.txt
- in the kernel source tree.
- .\"
- .SS Move (MS_MOVE) semantics
-@@ -715,7 +715,7 @@ dest(B)	shared    |	shared	shared	slave+shared	invalid
- Note: moving a mount that resides under a shared mount is invalid.
- 
- For further details, see
--.I Documenation/filesystems/sharedsubtrees.txt
-+.I Documentation/filesystems/sharedsubtree.txt
- in the kernel source tree.
- .\"
- .SS Mount semantics
+diff --git a/man7/ip.7 b/man7/ip.7
+index 37e2c86..8db71e2 100644
+--- a/man7/ip.7
++++ b/man7/ip.7
+@@ -1150,7 +1150,7 @@ address was not local.
+ Operation on a nonblocking socket would block.
+ .TP
+ .B EALREADY
+-An connection operation on a nonblocking socket is already in progress.
++A connection operation on a nonblocking socket is already in progress.
+ .TP
+ .B ECONNABORTED
+ A connection was closed during an
 -- 
 2.8.1
 
