@@ -1,13 +1,14 @@
 From: "Michael Kerrisk (man-pages)" <mtk.manpages-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org>
-Subject: Re: [PATCH 1/3] rtc.4: tfix
-Date: Thu, 7 Jul 2016 12:10:36 +0200
-Message-ID: <67a02f14-a821-f70d-92d7-4537517573a7@gmail.com>
+Subject: Re: [PATCH 2/3] ip.7: tfix
+Date: Thu, 7 Jul 2016 12:16:14 +0200
+Message-ID: <c56b1a92-ebcf-15a0-4a98-57e48f182271@gmail.com>
 References: <1467885458-625-1-git-send-email-jwilk@jwilk.net>
+ <1467885458-625-2-git-send-email-jwilk@jwilk.net>
 Mime-Version: 1.0
 Content-Type: text/plain; charset=windows-1252; format=flowed
 Content-Transfer-Encoding: 7bit
 Return-path: <linux-man-owner-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>
-In-Reply-To: <1467885458-625-1-git-send-email-jwilk-tXgOlIzOKNReoWH0uzbU5w@public.gmane.org>
+In-Reply-To: <1467885458-625-2-git-send-email-jwilk-tXgOlIzOKNReoWH0uzbU5w@public.gmane.org>
 Sender: linux-man-owner-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
 To: Jakub Wilk <jwilk-tXgOlIzOKNReoWH0uzbU5w@public.gmane.org>
 Cc: mtk.manpages-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org, linux-man-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
@@ -23,26 +24,24 @@ Cheers,
 Michael
 
 
+
 > ---
->  man4/rtc.4 | 4 ++--
->  1 file changed, 2 insertions(+), 2 deletions(-)
+>  man7/ip.7 | 2 +-
+>  1 file changed, 1 insertion(+), 1 deletion(-)
 >
-> diff --git a/man4/rtc.4 b/man4/rtc.4
-> index c4675a7..218582c 100644
-> --- a/man4/rtc.4
-> +++ b/man4/rtc.4
-> @@ -238,9 +238,9 @@ these operations can be used to read or to set the RTC's Epoch,
->  respectively.
->  The third
->  .BR ioctl (2)
-> -argument is a
-> +argument is an
->  .I "unsigned long\ *"
-> -or a
-> +or an
->  .IR "unsigned long" ,
->  respectively, and the value returned (or assigned) is the Epoch.
->  To set the RTC's Epoch the process must be privileged (i.e., have the
+> diff --git a/man7/ip.7 b/man7/ip.7
+> index 37e2c86..8db71e2 100644
+> --- a/man7/ip.7
+> +++ b/man7/ip.7
+> @@ -1150,7 +1150,7 @@ address was not local.
+>  Operation on a nonblocking socket would block.
+>  .TP
+>  .B EALREADY
+> -An connection operation on a nonblocking socket is already in progress.
+> +A connection operation on a nonblocking socket is already in progress.
+>  .TP
+>  .B ECONNABORTED
+>  A connection was closed during an
 >
 
 
