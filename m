@@ -1,7 +1,7 @@
 From: bugzilla-daemon-590EEB7GvNiWaY/ihj7yzEB+6BGkLq7r@public.gmane.org
 Subject: [Bug 118311] Non-free licensed man pages
-Date: Thu, 07 Jul 2016 07:16:06 +0000
-Message-ID: <bug-118311-11311-p5cqcMneaQ@https.bugzilla.kernel.org/>
+Date: Thu, 07 Jul 2016 07:17:01 +0000
+Message-ID: <bug-118311-11311-B5JFVsw1yg@https.bugzilla.kernel.org/>
 References: <bug-118311-11311@https.bugzilla.kernel.org/>
 Mime-Version: 1.0
 Content-Type: text/plain; charset="UTF-8"
@@ -14,13 +14,8 @@ List-Id: linux-man@vger.kernel.org
 
 https://bugzilla.kernel.org/show_bug.cgi?id=118311
 
---- Comment #4 from Michael Kerrisk <mtk.manpages-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org> ---
-Okay -- I've taken a similar approach to getitimer(2). I have rewritten all
-except trivial pieces of the sysinfo.2 page, and the structure definitions in
-any case came from kernel header files. I think this gives me license rights on
-the page. I've relicensed the page to the "verbatim" license.
-
-When there's a public note from Niki, one of us can close this bug.
+--- Comment #5 from Michael Kerrisk <mtk.manpages-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org> ---
+Updates pages are now pushed to Git.
 
 -- 
 You are receiving this mail because:
