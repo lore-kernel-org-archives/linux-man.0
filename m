@@ -1,63 +1,37 @@
-From: "Michael Kerrisk (man-pages)" <mtk.manpages-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org>
-Subject: Re: [PATCH 3/3] mount_namespaces.7: tfix
-Date: Thu, 7 Jul 2016 12:17:39 +0200
-Message-ID: <46cf150e-b6ba-3a39-59fc-cfca0032fd6e@gmail.com>
-References: <1467885458-625-1-git-send-email-jwilk@jwilk.net>
- <1467885458-625-3-git-send-email-jwilk@jwilk.net>
-Mime-Version: 1.0
-Content-Type: text/plain; charset=windows-1252; format=flowed
-Content-Transfer-Encoding: 7bit
+From: Jakub Wilk <jwilk-tXgOlIzOKNReoWH0uzbU5w@public.gmane.org>
+Subject: [PATCH 1/3] rtc.4: tfix
+Date: Thu,  7 Jul 2016 11:57:36 +0200
+Message-ID: <1467885458-625-1-git-send-email-jwilk@jwilk.net>
 Return-path: <linux-man-owner-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>
-In-Reply-To: <1467885458-625-3-git-send-email-jwilk-tXgOlIzOKNReoWH0uzbU5w@public.gmane.org>
 Sender: linux-man-owner-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
-To: Jakub Wilk <jwilk-tXgOlIzOKNReoWH0uzbU5w@public.gmane.org>
-Cc: mtk.manpages-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org, linux-man-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
+To: Michael Kerrisk <mtk.manpages-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org>
+Cc: linux-man-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
 List-Id: linux-man@vger.kernel.org
 
-On 07/07/2016 11:57 AM, Jakub Wilk wrote:
-> Signed-off-by: Jakub Wilk <jwilk-tXgOlIzOKNReoWH0uzbU5w@public.gmane.org>
+Signed-off-by: Jakub Wilk <jwilk-tXgOlIzOKNReoWH0uzbU5w@public.gmane.org>
+---
+ man4/rtc.4 | 4 ++--
+ 1 file changed, 2 insertions(+), 2 deletions(-)
 
-Thanks, Jakub! Applied.
-
-Cheers,
-
-Michael
-
-
-
-> ---
->  man7/mount_namespaces.7 | 4 ++--
->  1 file changed, 2 insertions(+), 2 deletions(-)
->
-> diff --git a/man7/mount_namespaces.7 b/man7/mount_namespaces.7
-> index fdd7368..1640c5b 100644
-> --- a/man7/mount_namespaces.7
-> +++ b/man7/mount_namespaces.7
-> @@ -677,7 +677,7 @@ as for a bind operation on each mount in the subtree.
->  (Unbindable mounts are automatically pruned at the target mount point.)
->
->  For further details, see
-> -.I Documenation/filesystems/sharedsubtrees.txt
-> +.I Documentation/filesystems/sharedsubtree.txt
->  in the kernel source tree.
->  .\"
->  .SS Move (MS_MOVE) semantics
-> @@ -715,7 +715,7 @@ dest(B)	shared    |	shared	shared	slave+shared	invalid
->  Note: moving a mount that resides under a shared mount is invalid.
->
->  For further details, see
-> -.I Documenation/filesystems/sharedsubtrees.txt
-> +.I Documentation/filesystems/sharedsubtree.txt
->  in the kernel source tree.
->  .\"
->  .SS Mount semantics
->
-
-
+diff --git a/man4/rtc.4 b/man4/rtc.4
+index c4675a7..218582c 100644
+--- a/man4/rtc.4
++++ b/man4/rtc.4
+@@ -238,9 +238,9 @@ these operations can be used to read or to set the RTC's Epoch,
+ respectively.
+ The third
+ .BR ioctl (2)
+-argument is a
++argument is an
+ .I "unsigned long\ *"
+-or a
++or an
+ .IR "unsigned long" ,
+ respectively, and the value returned (or assigned) is the Epoch.
+ To set the RTC's Epoch the process must be privileged (i.e., have the
 -- 
-Michael Kerrisk
-Linux man-pages maintainer; http://www.kernel.org/doc/man-pages/
-Linux/UNIX System Programming Training: http://man7.org/training/
+2.8.1
+
 --
 To unsubscribe from this list: send the line "unsubscribe linux-man" in
 the body of a message to majordomo-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
