@@ -1,68 +1,57 @@
 From: "Michael Kerrisk (man-pages)" <mtk.manpages-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org>
 Subject: Re: [PATCH] perf_event_open.2: Add a note that dyn_size is omitted if
  size == 0
-Date: Thu, 7 Jul 2016 12:06:49 +0200
-Message-ID: <ca14ce7c-853d-d2c8-ee8c-7ffcc4b05d21@gmail.com>
+Date: Thu, 7 Jul 2016 12:08:23 +0200
+Message-ID: <aa3f12ad-ef08-76f6-0630-4b90448fcaee@gmail.com>
 References: <CABV8kRwrvuPsqwep5xJv+G_vN6cK=xqWRHRp0ducR7pZxwfr6Q@mail.gmail.com>
+ <alpine.DEB.2.20.1607041259170.1440@macbook-air>
 Mime-Version: 1.0
-Content-Type: text/plain; charset=utf-8; format=flowed
+Content-Type: text/plain; charset=windows-1252; format=flowed
 Content-Transfer-Encoding: 7bit
 Return-path: <linux-man-owner-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>
-In-Reply-To: <CABV8kRwrvuPsqwep5xJv+G_vN6cK=xqWRHRp0ducR7pZxwfr6Q-JsoAwUIsXosN+BqQ9rBEUg@public.gmane.org>
+In-Reply-To: <alpine.DEB.2.20.1607041259170.1440@macbook-air>
 Sender: linux-man-owner-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
-To: Keno Fischer <keno-9DCaDmOhoh+8M3too/+dENBPR1lH4CV8@public.gmane.org>
-Cc: mtk.manpages-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org, linux-man-u79uwXL29TY76Z2rM5mHXA@public.gmane.org, vincent.weaver-e7X0jjDqjFGHXe+LvDLADg@public.gmane.org
+To: Vince Weaver <vincent.weaver-e7X0jjDqjFGHXe+LvDLADg@public.gmane.org>, Keno Fischer <keno-9DCaDmOhoh+8M3too/+dENBPR1lH4CV8@public.gmane.org>
+Cc: mtk.manpages-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org, linux-man-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
 List-Id: linux-man@vger.kernel.org
 
-On 07/04/2016 01:08 AM, Keno Fischer wrote:
-> The perf_output_sample_ustack in kernel/events/core.c only writes a
-> single 64 bit word
-> if it can't dump the user registers. From the current version of the
-> man page, I would
-> have expected two 64 bit words (one for size, one for dyn_size). Change the man
-> page to make this behavior explicit.
->
-> This is my first man-pages patch, please let me know if I should do
-> anything else.
+Hello Vince,
 
-Looks good to me, Keno. Applied. Thanks for the patch!
+On 07/04/2016 07:11 PM, Vince Weaver wrote:
+> On Sun, 3 Jul 2016, Keno Fischer wrote:
+>
+>> The perf_output_sample_ustack in kernel/events/core.c only writes a
+>> single 64 bit word
+>> if it can't dump the user registers. From the current version of the
+>> man page, I would
+>> have expected two 64 bit words (one for size, one for dyn_size). Change the man
+>> page to make this behavior explicit.
+>>
+>> This is my first man-pages patch, please let me know if I should do
+>> anything else.
+>
+> Overall it looks fine, to me at least.
+
+It helps hugely when I get a review by someone! Thanks!
+(And Keno, thanks also for thinking to CC Vince!)
+
+> It's sometimes also nice to have the commit where the behavior was first
+> introuduced mentioned, but in this case since the behavior hasn't changed
+> since introduction that's probably not necessary.
+>
+> I'm fine with this being taken directly.  (not sure if I should kick in a
+> reviewed-by or some such tag (?)).
+
+I added one for you.
+
+> I'm slowly catching up on the backlog of perf_event_open.2 updates,
+> hopefully I'll start sending those in soon.
+
+That would of course be wonderful!
 
 Cheers,
 
 Michael
-
-> ---
->  man2/perf_event_open.2 | 7 ++++++-
->  1 file changed, 6 insertions(+), 1 deletion(-)
->
-> diff --git a/man2/perf_event_open.2 b/man2/perf_event_open.2
-> index 0e42c50..6788154 100644
-> --- a/man2/perf_event_open.2
-> +++ b/man2/perf_event_open.2
-> @@ -1994,7 +1994,7 @@ struct {
->                        /* if PERF_SAMPLE_REGS_USER */
->      u64   size;       /* if PERF_SAMPLE_STACK_USER */
->      char  data[size]; /* if PERF_SAMPLE_STACK_USER */
-> -    u64   dyn_size;   /* if PERF_SAMPLE_STACK_USER */
-> +    u64   dyn_size;   /* if PERF_SAMPLE_STACK_USER && size != 0 */
->      u64   weight;     /* if PERF_SAMPLE_WEIGHT */
->      u64   data_src;   /* if PERF_SAMPLE_DATA_SRC */
->      u64   transaction;/* if PERF_SAMPLE_TRANSACTION */
-> @@ -2185,6 +2185,11 @@ stack pointer at the time of sampling).
->  .I dyn_size
->  is the amount of data actually dumped (can be less than
->  .IR size ).
-> +Note that
-> +.I dyn_size
-> +is omitted if
-> +.I size
-> +is 0.
->  .TP
->  .I weight
->  If
-> --
-> 2.6.4
->
 
 
 -- 
