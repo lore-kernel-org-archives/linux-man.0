@@ -1,8 +1,8 @@
 From: bugzilla-daemon-590EEB7GvNiWaY/ihj7yzEB+6BGkLq7r@public.gmane.org
 Subject: [Bug 121211] Please provide conventions for documenting subcommands
  in man-pages(7)
-Date: Thu, 07 Jul 2016 18:25:17 +0000
-Message-ID: <bug-121211-11311-FVY5ermBux@https.bugzilla.kernel.org/>
+Date: Thu, 07 Jul 2016 18:25:39 +0000
+Message-ID: <bug-121211-11311-0TdJjOLxfz@https.bugzilla.kernel.org/>
 References: <bug-121211-11311@https.bugzilla.kernel.org/>
 Mime-Version: 1.0
 Content-Type: text/plain; charset="UTF-8"
@@ -15,10 +15,10 @@ List-Id: linux-man@vger.kernel.org
 
 https://bugzilla.kernel.org/show_bug.cgi?id=121211
 
---- Comment #3 from Josh Triplett <josh-DgEjT+Ai2ygdnm+yROfE0A@public.gmane.org> ---
-Created attachment 222381
-  --> https://bugzilla.kernel.org/attachment.cgi?id=222381&action=edit
-[PATCH 1/3] man-pages.7: tfix
+--- Comment #4 from Josh Triplett <josh-DgEjT+Ai2ygdnm+yROfE0A@public.gmane.org> ---
+Created attachment 222391
+  --> https://bugzilla.kernel.org/attachment.cgi?id=222391&action=edit
+[PATCH 2/3] man-pages.7: Document conventions for formatting OPTIONS
 
 -- 
 You are receiving this mail because:
