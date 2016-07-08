@@ -1,29 +1,40 @@
-From: Niki Rahimi <niki.rahimi-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org>
-Subject: https://bugzilla.kernel.org/show_bug.cgi?id=118311 (plain text mode)
-Date: Thu, 7 Jul 2016 12:18:18 -0700
-Message-ID: <CANDTgJw6rywXX_snCZtSwk5No50b5+xKqfZqtH6E3e2d6A=gXQ@mail.gmail.com>
+From: Quentin Rameau <quinq-UlqG2OPX9a0ue8ZPuPpd/Q@public.gmane.org>
+Subject: Re: [PATCH] mkstemp: fix _POSIX_C_SOURCE value for mkstemp()
+Date: Fri, 8 Jul 2016 02:06:26 +0200
+Message-ID: <20160708000626.GA26576@alpha.fifth.space>
 Mime-Version: 1.0
-Content-Type: text/plain; charset=UTF-8
+Content-Type: text/plain; charset=utf-8
 Return-path: <linux-man-owner-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>
+Content-Disposition: inline
 Sender: linux-man-owner-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
-To: linux-man-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
+To: mtk.manpages-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org
+Cc: linux-man-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
 List-Id: linux-man@vger.kernel.org
 
-Hello,
+Here are more informations to save you the time searching for it.
+Introduced in f095bb7 (2010-01-09) in stdlib/stdlib.h line 609:
 
++#if defined __USE_MISC || defined __USE_XOPEN_EXTENDED \
++    || defined __USE_XOPEN2K8
+[..]
+extern int mkstemp (char *__template) __nonnull ((1)) __wur;
 
-I am the original author of the man page referenced in bug 118311
-(pciconfig_read.2). I completely approve updating the license so that
-it "May be freely distributed and modified". This was the my intent
-when creating the man page.
+And in include/features.h (from glibc 2.12 e28c887):
 
+#if (_POSIX_C_SOURCE - 0) >= 200112L
+# define __USE_XOPEN2K		1
+# undef __USE_ISOC95
+# define __USE_ISOC95		1
+# undef __USE_ISOC99
+# define __USE_ISOC99		1
+#endif
 
-Please let me know if you have any further questions.
+#if (_POSIX_C_SOURCE - 0) >= 200809L
+# define __USE_XOPEN2K8		1
+# undef  _ATFILE_SOURCE
+# define _ATFILE_SOURCE	1
+#endif
 
-
-Best regards,
-
-Niki
 --
 To unsubscribe from this list: send the line "unsubscribe linux-man" in
 the body of a message to majordomo-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
