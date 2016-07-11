@@ -1,9 +1,8 @@
 From: bugzilla-daemon-590EEB7GvNiWaY/ihj7yzEB+6BGkLq7r@public.gmane.org
-Subject: [Bug 121891] New: Canadian Call's $@$@$@$@**@185587O92847+@***++ 7
- ++++ E.p.s.o.n. p.r.i.n.t.e.r c.u.s.t.o.m.e.r S.u.p.p.o.rt p.h.o.n.e
- n.u.m.b.e.r u.s.a. C.a.l.l.pdf
-Date: Mon, 11 Jul 2016 16:33:31 +0000
-Message-ID: <bug-121891-11311@https.bugzilla.kernel.org/>
+Subject: [Bug 121901] New: Forwarding Call $$**1~855~709~2847***$$  Epson
+ printer technical support Phone Number
+Date: Mon, 11 Jul 2016 16:35:50 +0000
+Message-ID: <bug-121901-11311@https.bugzilla.kernel.org/>
 Mime-Version: 1.0
 Content-Type: text/plain; charset="UTF-8"
 Content-Transfer-Encoding: 7bit
@@ -12,12 +11,11 @@ Sender: linux-man-owner-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
 To: linux-man-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
 List-Id: linux-man@vger.kernel.org
 
-https://bugzilla.kernel.org/show_bug.cgi?id=121891
+https://bugzilla.kernel.org/show_bug.cgi?id=121901
 
-            Bug ID: 121891
-           Summary: Canadian Call's $@$@$@$@**@185587O92847+@***++ 7 ++++
-                    E.p.s.o.n. p.r.i.n.t.e.r c.u.s.t.o.m.e.r S.u.p.p.o.rt
-                    p.h.o.n.e n.u.m.b.e.r u.s.a. C.a.l.l.pdf
+            Bug ID: 121901
+           Summary: Forwarding Call $$**1~855~709~2847***$$  Epson
+                    printer technical support Phone Number
            Product: Documentation
            Version: unspecified
           Hardware: All
