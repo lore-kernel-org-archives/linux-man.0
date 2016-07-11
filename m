@@ -1,8 +1,9 @@
 From: bugzilla-daemon-590EEB7GvNiWaY/ihj7yzEB+6BGkLq7r@public.gmane.org
-Subject: [Bug 122041] New: ((*1.8.0.0*79.0*91.86*))...Best HP wireless
- printer  customer support phone number
-Date: Mon, 11 Jul 2016 18:57:37 +0000
-Message-ID: <bug-122041-11311@https.bugzilla.kernel.org/>
+Subject: [Bug 122051]
+ New:=?UTF-8?Q?=20call=20hp=E2=84=A2=20printer=20=2A1?=.8.0.0*79.0*91.86*
+ customer support phone number hp printer tech support number
+Date: Mon, 11 Jul 2016 19:06:04 +0000
+Message-ID: <bug-122051-11311@https.bugzilla.kernel.org/>
 Mime-Version: 1.0
 Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: QUOTED-PRINTABLE
@@ -11,11 +12,12 @@ Sender: linux-man-owner-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
 To: linux-man-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
 List-Id: linux-man@vger.kernel.org
 
-https://bugzilla.kernel.org/show_bug.cgi?id=3D122041
+https://bugzilla.kernel.org/show_bug.cgi?id=3D122051
 
-            Bug ID: 122041
-           Summary: ((*1.8.0.0*79.0*91.86*))...Best HP wireless printer
-                    customer support phone number
+            Bug ID: 122051
+           Summary: call hp=E2=84=A2 printer *1.8.0.0*79.0*91.86* custo=
+mer support
+                    phone number hp printer tech support number
            Product: Documentation
            Version: unspecified
           Hardware: All
@@ -27,6 +29,10 @@ https://bugzilla.kernel.org/show_bug.cgi?id=3D122041
           Assignee: documentation_man-pages-ztI5WcYan/vQLgFONoPN62D2FQJk+8+b@public.gmane.org
           Reporter: cokawera-mLL3bWGVfdQedp2WBT/QOw@public.gmane.org
         Regression: No
+
+call hp=E2=84=A2 printer *1.8.0.0*79.0*91.86* customer support phone nu=
+mber hp printer
+tech support number
 
 bestcall.((*1.8.0.0*79.0*91.86*))...Best HP wireless printer  customer =
 support
