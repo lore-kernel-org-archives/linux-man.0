@@ -1,43 +1,35 @@
-From: "Michael Kerrisk (man-pages)" <mtk.manpages-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org>
-Subject: Re: https://bugzilla.kernel.org/show_bug.cgi?id=118311 (plain text
- mode)
-Date: Tue, 12 Jul 2016 20:19:09 +0200
-Message-ID: <a70ef7a0-6a4b-6948-1583-0a408e37daa9@gmail.com>
-References: <CANDTgJw6rywXX_snCZtSwk5No50b5+xKqfZqtH6E3e2d6A=gXQ@mail.gmail.com>
+From: bugzilla-daemon-590EEB7GvNiWaY/ihj7yzEB+6BGkLq7r@public.gmane.org
+Subject: [Bug 118311] Non-free licensed man pages
+Date: Tue, 12 Jul 2016 18:22:48 +0000
+Message-ID: <bug-118311-11311-8UTSEWCnhm@https.bugzilla.kernel.org/>
+References: <bug-118311-11311@https.bugzilla.kernel.org/>
 Mime-Version: 1.0
-Content-Type: text/plain; charset=utf-8; format=flowed
+Content-Type: text/plain; charset="UTF-8"
 Content-Transfer-Encoding: 7bit
 Return-path: <linux-man-owner-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>
-In-Reply-To: <CANDTgJw6rywXX_snCZtSwk5No50b5+xKqfZqtH6E3e2d6A=gXQ-JsoAwUIsXosN+BqQ9rBEUg@public.gmane.org>
+In-Reply-To: <bug-118311-11311-3bo0kxnWaOQUvHkbgXJLS5sdmw4N0Rt+2LY78lusg7I@public.gmane.org/>
 Sender: linux-man-owner-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
-To: Niki Rahimi <niki.rahimi-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org>, linux-man-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
-Cc: mtk.manpages-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org
+To: linux-man-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
 List-Id: linux-man@vger.kernel.org
 
-On 07/07/2016 09:18 PM, Niki Rahimi wrote:
-> Hello,
->
->
-> I am the original author of the man page referenced in bug 118311
-> (pciconfig_read.2). I completely approve updating the license so that
-> it "May be freely distributed and modified". This was the my intent
-> when creating the man page.
->
->
-> Please let me know if you have any further questions.
+https://bugzilla.kernel.org/show_bug.cgi?id=118311
 
-Thanks, Niki!
+Michael Kerrisk <mtk.manpages-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org> changed:
 
-Cheers,
+           What    |Removed                     |Added
+----------------------------------------------------------------------------
+             Status|NEW                         |RESOLVED
+         Resolution|---                         |CODE_FIX
 
-Michael
+--- Comment #6 from Michael Kerrisk <mtk.manpages-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org> ---
+Niki has publicly stated that it's okay to change the license. See
+http://www.spinics.net/lists/linux-man/msg10526.html.
 
-
+So, all pages are now resolved. Closing.
 
 -- 
-Michael Kerrisk
-Linux man-pages maintainer; http://www.kernel.org/doc/man-pages/
-Linux/UNIX System Programming Training: http://man7.org/training/
+You are receiving this mail because:
+You are watching the assignee of the bug.
 --
 To unsubscribe from this list: send the line "unsubscribe linux-man" in
 the body of a message to majordomo-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
