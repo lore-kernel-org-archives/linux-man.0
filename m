@@ -1,19 +1,18 @@
 From: bugzilla-daemon-590EEB7GvNiWaY/ihj7yzEB+6BGkLq7r@public.gmane.org
-Subject: [Bug 122081] Cheap Tow Truck Services in Miami 1844-257-4713 Best
- Towing & Roadside Assistance
-Date: Tue, 12 Jul 2016 11:24:39 +0000
-Message-ID: <bug-122081-11311-J78hQWFAS2@https.bugzilla.kernel.org/>
-References: <bug-122081-11311@https.bugzilla.kernel.org/>
+Subject: [Bug 122171] ioikjkljkl
+Date: Tue, 12 Jul 2016 11:25:18 +0000
+Message-ID: <bug-122171-11311-ushKBVsH2r@https.bugzilla.kernel.org/>
+References: <bug-122171-11311@https.bugzilla.kernel.org/>
 Mime-Version: 1.0
 Content-Type: text/plain; charset="UTF-8"
 Content-Transfer-Encoding: 7bit
 Return-path: <linux-man-owner-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>
-In-Reply-To: <bug-122081-11311-3bo0kxnWaOQUvHkbgXJLS5sdmw4N0Rt+2LY78lusg7I@public.gmane.org/>
+In-Reply-To: <bug-122171-11311-3bo0kxnWaOQUvHkbgXJLS5sdmw4N0Rt+2LY78lusg7I@public.gmane.org/>
 Sender: linux-man-owner-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
 To: linux-man-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
 List-Id: linux-man@vger.kernel.org
 
-https://bugzilla.kernel.org/show_bug.cgi?id=122081
+https://bugzilla.kernel.org/show_bug.cgi?id=122171
 
 Michael Kerrisk <mtk.manpages-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org> changed:
 
