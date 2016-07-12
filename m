@@ -1,19 +1,19 @@
 From: bugzilla-daemon-590EEB7GvNiWaY/ihj7yzEB+6BGkLq7r@public.gmane.org
-Subject: [Bug 121921] Fedora Posting @@***I8557092847*** Epson Printer  
- t.e.c.h s.u.p.p.o.r.t p.h.o.n.e n.u.m.b.e.r u.s.a.
-Date: Tue, 12 Jul 2016 11:27:23 +0000
-Message-ID: <bug-121921-11311-xvXoJqWrGw@https.bugzilla.kernel.org/>
-References: <bug-121921-11311@https.bugzilla.kernel.org/>
+Subject: [Bug 121931] Support Call $$$$!!!**I85578O2847*** !!!****Epson
+ Printer  t.e.c.h s.u.p.p.o.r.t p.h.o.n.e n.u.m.b.e.r u.s.a.
+Date: Tue, 12 Jul 2016 11:27:57 +0000
+Message-ID: <bug-121931-11311-za5Ml5k4GY@https.bugzilla.kernel.org/>
+References: <bug-121931-11311@https.bugzilla.kernel.org/>
 Mime-Version: 1.0
 Content-Type: text/plain; charset="UTF-8"
 Content-Transfer-Encoding: 7bit
 Return-path: <linux-man-owner-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>
-In-Reply-To: <bug-121921-11311-3bo0kxnWaOQUvHkbgXJLS5sdmw4N0Rt+2LY78lusg7I@public.gmane.org/>
+In-Reply-To: <bug-121931-11311-3bo0kxnWaOQUvHkbgXJLS5sdmw4N0Rt+2LY78lusg7I@public.gmane.org/>
 Sender: linux-man-owner-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
 To: linux-man-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
 List-Id: linux-man@vger.kernel.org
 
-https://bugzilla.kernel.org/show_bug.cgi?id=121921
+https://bugzilla.kernel.org/show_bug.cgi?id=121931
 
 Michael Kerrisk <mtk.manpages-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org> changed:
 
