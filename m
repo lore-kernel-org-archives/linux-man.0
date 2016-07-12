@@ -1,19 +1,19 @@
 From: bugzilla-daemon-590EEB7GvNiWaY/ihj7yzEB+6BGkLq7r@public.gmane.org
-Subject: [Bug 123561] TECHNICIAN OF Eset 1800.445.27.90 $$PHONE NUMBER Eset
- ANTIVIRUS TECH SUPPORT PHONE NUMBER USA
-Date: Tue, 12 Jul 2016 18:18:19 +0000
-Message-ID: <bug-123561-11311-Ar6T5Pa5et@https.bugzilla.kernel.org/>
-References: <bug-123561-11311@https.bugzilla.kernel.org/>
+Subject: [Bug 123551] Avast Support 18OO.445.27.9O Avast antivirus Support
+ phone Number~USA Avast antivirus phone number
+Date: Tue, 12 Jul 2016 18:18:39 +0000
+Message-ID: <bug-123551-11311-8xvztBCqle@https.bugzilla.kernel.org/>
+References: <bug-123551-11311@https.bugzilla.kernel.org/>
 Mime-Version: 1.0
 Content-Type: text/plain; charset="UTF-8"
 Content-Transfer-Encoding: 7bit
 Return-path: <linux-man-owner-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>
-In-Reply-To: <bug-123561-11311-3bo0kxnWaOQUvHkbgXJLS5sdmw4N0Rt+2LY78lusg7I@public.gmane.org/>
+In-Reply-To: <bug-123551-11311-3bo0kxnWaOQUvHkbgXJLS5sdmw4N0Rt+2LY78lusg7I@public.gmane.org/>
 Sender: linux-man-owner-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
 To: linux-man-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
 List-Id: linux-man@vger.kernel.org
 
-https://bugzilla.kernel.org/show_bug.cgi?id=123561
+https://bugzilla.kernel.org/show_bug.cgi?id=123551
 
 Michael Kerrisk <mtk.manpages-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org> changed:
 
