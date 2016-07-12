@@ -1,18 +1,18 @@
 From: bugzilla-daemon-590EEB7GvNiWaY/ihj7yzEB+6BGkLq7r@public.gmane.org
-Subject: [Bug 118311] Non-free licensed man pages
-Date: Tue, 12 Jul 2016 18:22:48 +0000
-Message-ID: <bug-118311-11311-8UTSEWCnhm@https.bugzilla.kernel.org/>
-References: <bug-118311-11311@https.bugzilla.kernel.org/>
+Subject: [Bug 104221] strxfrm: not equivalent to strncpy
+Date: Tue, 12 Jul 2016 18:23:53 +0000
+Message-ID: <bug-104221-11311-Fty1BtrqrC@https.bugzilla.kernel.org/>
+References: <bug-104221-11311@https.bugzilla.kernel.org/>
 Mime-Version: 1.0
 Content-Type: text/plain; charset="UTF-8"
 Content-Transfer-Encoding: 7bit
 Return-path: <linux-man-owner-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>
-In-Reply-To: <bug-118311-11311-3bo0kxnWaOQUvHkbgXJLS5sdmw4N0Rt+2LY78lusg7I@public.gmane.org/>
+In-Reply-To: <bug-104221-11311-3bo0kxnWaOQUvHkbgXJLS5sdmw4N0Rt+2LY78lusg7I@public.gmane.org/>
 Sender: linux-man-owner-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
 To: linux-man-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
 List-Id: linux-man@vger.kernel.org
 
-https://bugzilla.kernel.org/show_bug.cgi?id=118311
+https://bugzilla.kernel.org/show_bug.cgi?id=104221
 
 Michael Kerrisk <mtk.manpages-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org> changed:
 
@@ -21,11 +21,8 @@ Michael Kerrisk <mtk.manpages-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org> changed:
              Status|NEW                         |RESOLVED
          Resolution|---                         |CODE_FIX
 
---- Comment #6 from Michael Kerrisk <mtk.manpages-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org> ---
-Niki has publicly stated that it's okay to change the license. See
-http://www.spinics.net/lists/linux-man/msg10526.html.
-
-So, all pages are now resolved. Closing.
+--- Comment #4 from Michael Kerrisk <mtk.manpages-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org> ---
+I should have closed this after the fix I made in Comment 3.
 
 -- 
 You are receiving this mail because:
