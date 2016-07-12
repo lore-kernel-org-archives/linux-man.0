@@ -1,19 +1,20 @@
 From: bugzilla-daemon-590EEB7GvNiWaY/ihj7yzEB+6BGkLq7r@public.gmane.org
-Subject: [Bug 122811] Contact us222-1800-213-2171 office technical support
- phone number
-Date: Tue, 12 Jul 2016 11:22:52 +0000
-Message-ID: <bug-122811-11311-aT8i5MCnwR@https.bugzilla.kernel.org/>
-References: <bug-122811-11311@https.bugzilla.kernel.org/>
+Subject: [Bug 122781] Dial4Norton Help 1-800-769-2805 Norton Technical
+ Helpline Number Norton Customer Support for Norton Customer Service Phone
+ Number
+Date: Tue, 12 Jul 2016 11:23:37 +0000
+Message-ID: <bug-122781-11311-SNAM5JQTJ6@https.bugzilla.kernel.org/>
+References: <bug-122781-11311@https.bugzilla.kernel.org/>
 Mime-Version: 1.0
 Content-Type: text/plain; charset="UTF-8"
 Content-Transfer-Encoding: 7bit
 Return-path: <linux-man-owner-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>
-In-Reply-To: <bug-122811-11311-3bo0kxnWaOQUvHkbgXJLS5sdmw4N0Rt+2LY78lusg7I@public.gmane.org/>
+In-Reply-To: <bug-122781-11311-3bo0kxnWaOQUvHkbgXJLS5sdmw4N0Rt+2LY78lusg7I@public.gmane.org/>
 Sender: linux-man-owner-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
 To: linux-man-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
 List-Id: linux-man@vger.kernel.org
 
-https://bugzilla.kernel.org/show_bug.cgi?id=122811
+https://bugzilla.kernel.org/show_bug.cgi?id=122781
 
 Michael Kerrisk <mtk.manpages-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org> changed:
 
