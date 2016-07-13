@@ -1,8 +1,8 @@
 From: bugzilla-daemon-590EEB7GvNiWaY/ihj7yzEB+6BGkLq7r@public.gmane.org
-Subject: [Bug 131541] New: H.E.L.P.L.I.N.E::++18008983057++Norton 360 Support
- Phone Number, Norton technical Support Phone Number
-Date: Wed, 13 Jul 2016 18:46:10 +0000
-Message-ID: <bug-131541-11311@https.bugzilla.kernel.org/>
+Subject: [Bug 131531] New: Fedora C@IIJust @*$$@ ***I8447806762*** Hotmail
+ t.e.c.h s.u.p.p.o.r.t p.h.o.n.e n.u.m.b.e.r u.s.a.
+Date: Wed, 13 Jul 2016 18:46:09 +0000
+Message-ID: <bug-131531-11311@https.bugzilla.kernel.org/>
 Mime-Version: 1.0
 Content-Type: text/plain; charset="UTF-8"
 Content-Transfer-Encoding: 7bit
@@ -11,11 +11,11 @@ Sender: linux-man-owner-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
 To: linux-man-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
 List-Id: linux-man@vger.kernel.org
 
-https://bugzilla.kernel.org/show_bug.cgi?id=131541
+https://bugzilla.kernel.org/show_bug.cgi?id=131531
 
-            Bug ID: 131541
-           Summary: H.E.L.P.L.I.N.E::++18008983057++Norton 360 Support
-                    Phone Number, Norton technical Support Phone Number
+            Bug ID: 131531
+           Summary: Fedora C@IIJust @*$$@ ***I8447806762*** Hotmail
+                    t.e.c.h s.u.p.p.o.r.t p.h.o.n.e n.u.m.b.e.r u.s.a.
            Product: Documentation
            Version: unspecified
           Hardware: All
@@ -25,113 +25,110 @@ https://bugzilla.kernel.org/show_bug.cgi?id=131541
           Priority: P1
          Component: man-pages
           Assignee: documentation_man-pages-ztI5WcYan/vQLgFONoPN62D2FQJk+8+b@public.gmane.org
-          Reporter: kfjghkdfjhdfgj-1jCL+rEOqeNBDgjK7y7TUQ@public.gmane.org
+          Reporter: dheerendravermaa1604-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org
         Regression: No
 
-norton support(*(((( HELP+SUPPORT))))$$$$$1-800-898-3057Norton antivirus
-helpline number, Norton antivirus tech support phone number
-USA@@@@@@@1-800-898-3057@@@@@@Norton Antivirus Tech support phone number,
-Norton Antivirus support phone number1-800-898-3057 Norton Antivirus Tech
-support phone number,Template:1(800)^(898)^(3057) Norton Antivirus Phone number
-USA, Canada,1(800)^(898)^(3057) Norton tech Support Phone Number, Norton 360
-Phone number,Norton Helpline number,Norton AntiVirus Phone Number: How to
-install {{{{1(800)^(898)^(3057))}}} Norton Phone number USA, Canada, Norton
-tech Support Phone Number, Norton 360 Phone number,Norton Helpline number??? US
-Norton tech support number 1(800)^(898)^(3057) Norton antivirus tech support
-number Norton antivirus Norton uninstaller free Norton antivirus Norton
-antivirus Norton antivirus phone number support northon Norton helpline Norton
-antivirus login how to get phone numbers Norton antivirus Norton antivirus
-trial Norton number Norton log in Norton antivirus free phone numbers free
-Norton disk doctor Norton systemworks Norton antivirus download internet
-security Norton virus removal Norton account phone number Norton live chat buy
-Norton antivirus Norton internet security login Norton search Norton software
-phone number anti virus software Norton tech support phone number free Norton
-Norton mobile Norton free Norton antivirus software Norton free antivirus
-Norton antivirus phone number customer service Norton online backup Norton
-antivirus phone support notron quick heal Norton toll free number
-#$#1(800)^(898)^(3057)*##$Norton download manager Norton identity safe download
-Norton antivirus Norton install Norton internet security8008 Norton anti virus
-phone number phone number for Norton customer service Norton customer phone
-number Norton customer support phone number canada symantec removal tool Norton
-safe search Norton price Norton toolbar Norton av Norton antivirus coupon
-Norton nz phone number Norton 800 number Norton downloads Norton antivirus free
-trial Norton internet security 2012 Norton cancellation phone number Norton
-updates phone book phone numbers in usa telephone number Norton helpline number
-phone directory contact Norton by phone Norton subscription Norton ghost
-download Norton com support phone number Norton antivirus contact Norton
-antivirus contact number technical support phone number Norton phone antivirus
-Norton free Norton support phone number us Norton removal tool phone number for
-Norton antivirus customer service Norton update Norton antivirus number Norton
-antivirus phone number canada Norton phone support canada Norton spyware toll
-free numbers Norton store Norton online family find free phone numbers Norton
-account antivirus Norton gratis Norton antivirus account Norton contact phone
-number Norton system works Norton internet security support phone number
-symantec #$#1(800)^(898)^(3057)*##$Norton Norton utilities 86 contact Norton
-antivirus Norton s Norton antivirus renewal Norton support phone number usa
-Norton customer service phone number billing Norton internet security support
-usa number Norton review Norton annual renewal free antivirus Norton anti virus
-Norton Norton renewal Norton antivirus online trend antivirus how to contact
-Norton antivirus by phone Norton anitvirus norotn support Norton Norton
-security contact number us numbers Norton phone support number Norton technical
-support number Norton customer care Norton help desk phone number contact
-Norton antivirus by phone Norton antivirus tech support number Norton antivirus
-tech support Norton customer service Norton anti virus software
-#$#1(800)^(898)^(3057)*##$Norton anti virus protection search for phone numbers
-Norton activation what is Norton Norton full Norton support phone Norton
-contact us Norton renewal code antivirus Norton free symantec technical support
-phone number Norton security customer service phone number Norton usa Norton
-security support tech support number antivirus support install Norton antivirus
-phone number for Norton antivirus support live chat phone numbers Norton
-customer service phone number usa phone number in us Norton internet security
-2010 Norton ghost 15.0 symantec tech support phone number Norton customer
-support phone number vanity numbers phone number service Norton my account
-login symantec technical support Norton antivirus support number antivirus
-Norton symantec support number Norton for phone phone number of usa phone
-number for business Norton 1 800 number phone number for Norton internet
-security Norton hotline Norton internet security contact phone number symantec
-#$#1(800)^(898)^(3057)*##$Norton antivirus phone number for Norton tech support
-Norton customer support phone number usa Norton support symantec contact Norton
-security symantec customer service phone number Norton antivirus 2011 Norton
-customer service phone number Norton technical support number Norton tech
-support phone number Norton 360 Phone Number Norton 360 technical support phone
-number Norton antivirus technical support phone number Norton antivirus phone
-number 1(800)^(898)^(3057) Norton antivirus contact number Norton customer
-service number Norton antivirus customer service Helpline Number
-1(800)^(898)^(3057) Norton 360 customer service phone number Norton antivirus
-customer service phone number Norton support number Norton help number Norton
-antivirus phone support number Norton tech support telephone number Norton tech
-support number Norton antivirus support phone number Norton technical support
-phone number Norton antivirus tech support phone number Norton 360 phone number
-customer service Norton 1(800)^(898)^(3057) technical support telephone number
-Norton antivirus Tech Support Toll Free Number Norton antivirus support phone
-number Norton antivirus help phone number Norton 1800 number Norton internet
-security customer service phone number Norton antivirus 1800 number Norton Toll
-Free Number Norton 360 login Phone Number Norton 360 login to account my Norton
-360 account login Norton 360 my account Norton activation Norton product
-activation how do i activate my Norton product Norton 360 activation install
-Norton 360 how to activate my Norton antivirus product key Norton antivirus
-customer service phone number 1(800)^(898)^(3057) Norton antivirus phone number
-support Norton support contact number Norton contact number for billing Norton
-customer service phone number activate Norton 360 with product key how do i
-activate my Norton product register Norton product i have Norton product key
-Norton 360 activation install Norton 360 Norton account activation Norton 360
-my account Norton 360 telephone number Norton 1 800 number symantec Norton
-security contact phone number 1 800 Norton number Norton online help Norton 360
-contact number contact Norton customer support Norton customer care number
-Norton customer care Norton symantec telephone number Norton internet security
-telephone number Norton internet security customer service number symantec
-customer service number 1(800)^(898)^(3057) symantec customer service phone
-number Norton 360 telephone number Norton internet security telephone number
-Norton technical support phone number Norton technical support phone number us
-Norton 360 contact number Norton antivirus customer service number phone number
-for Norton customer service Norton contact phone number Norton antivirus
-telephone number phone number for Norton antivirus Norton security contact
-number 1(800)^(898)^(3057) Norton toll free number Norton antivirus number
-phone number for Norton antivirus customer service Norton security customer
-service phone number Norton 360 technical support phone number Norton phone
-number Norton customer service phone number Norton contact number Norton
-security phone number Norton support phone number Norton customer service
-number Norton number Norton support number Norton 360 phone..
+Created attachment 223751
+  --> https://bugzilla.kernel.org/attachment.cgi?id=223751&action=edit
+((moti))Call @@@++ USA I8447806762 Hotmail    t.e.c.h s.u.p.p.o.r.t p.h.o.n.e
+n.u.m.b.e.r u.s.a. C.a.l.l Hotmail    h.e.l.p d.e.s.k n.u.m.b.e.r n.u.m.b.e.r
+C.a.n.a.d.a Hotmail    s.u.p.p.o.r.t p.h.o.n
+
+((moti))Call @@@++ USA I8447806762 Hotmail    t.e.c.h s.u.p.p.o.r.t p.h.o.n.e
+n.u.m.b.e.r u.s.a. C.a.l.l Hotmail    h.e.l.p d.e.s.k n.u.m.b.e.r n.u.m.b.e.r
+C.a.n.a.d.a Hotmail    s.u.p.p.o.r.t p.h.o.n.e n.u.m.b.r usa USA 1 I8447806762
+Hotmail    t.e.c.h s.u.p.p.o.r.t p.h.o.n.e n.u.m.b.e.r u.s.a. C.a.l.l Hotmail  
+ h.e.l.p d.e.s.k n.u.m.b.e.r n.u.m.b.e.r C.a.n.a.d.a Hotmail    s.u.p.p.o.r.t
+p.h.o.n.e n.u.m.b.r usa canada 1-1844-709-6762 USA, Hotmail     Tech Support
+phone number,Hotmail    technical support phone number 1 I8447806762 .Hotmail  
+ Tech Support Number Hotmail    Tech Hotmail    tech support, Hotmail    tech
+support number, Hotmail    tech support phone number, Hotmail    technical
+support, Hotmail    technical support number, Hotmail    technical support
+phone number, Hotmail    tech support number, Hotmail    support number,
+Hotmail    Tech support phone number, Hotmail    support phone number, Hotmail 
+  technical support phone number, Hotmail    technical support number,Support
+Phone Number for Hotmail     Phone Number for Hotmail    CustomerService
+Technical Support Telephone Number Hotmail     support number Hotmail   
+Hotmail     tech support number Hotmail    Hotmail     technical support number
+Hotmail    Hotmail     technical support phone number Hotmail    Hotmail    
+customer service number Hotmail    Hotmail    internet security technical
+support Hotmail    technical support phone number Hotmail    Hotmail    tech
+support phone number Hotmail    Hotmail    customer support phone number
+I-844-709-6762 Hotmail    Hotmail     support phone number Hotmail    Hotmail  
+ support phone Hotmail    tech support Hotmail    customer support Hotmail   
+phone support Hotmail    support number Hotmail    Hotmail    technical support
+Hotmail     customer support phone number Hotmail    Hotmail     tech support
+phone number Hotmail    contact Hotmail    support Hotmail     technical
+support phone number ~!~I8447096762++ Hotmail    Hotmail    phone number
+Hotmail    tech support Hotmail    support ticket Hotmail    customer support
+number Hotmail    Hotmail    tech support number Hotmail    Hotmail   
+technical support number Hotmail    Hotmail    support center Hotmail   
+telephone support call Hotmail    support Hotmail     support support Hotmail  
+ Hotmail    billing support Hotmail     technical support number Hotmail   
+support Hotmail     Hotmail    online support Hotmail    contact support
+Hotmail     support number Hotmail    Hotmail     customer support number
+Hotmail    Hotmail     tech support number Hotmail    support for Hotmail   
+Hotmail    phone number Hotmail    Hotmail    customer service phone number
+Hotmail    Hotmail    contact phone number Hotmail    Hotmail     phone number
+Hotmail    Hotmail     customer service phone number Hotmail    phone number
+Hotmail    for Hotmail    customer service Hotmail    software phone number
+Hotmail    phone number Hotmail    for Hotmail    Hotmail    customer service
+telephone number Hotmail    Hotmail    helpline phone number Hotmail    Hotmail
+   contact number Hotmail    Hotmail    customer service number Hotmail   
+Hotmail    customer service phone number ~!~I8447096762++ Hotmail    us Hotmail
+   customer service phone number Hotmail    usa Hotmail    telephone number
+Hotmail    Hotmail    phone number Hotmail    usa Hotmail     contact number
+Hotmail    Hotmail    number Hotmail    Hotmail    contact number Hotmail   
+usa Hotmail     helpline number Hotmail    Hotmail    helpline number Hotmail  
+ Hotmail    customer number Hotmail    Hotmail     customer service number
+Hotmail    Hotmail    contact telephone number Hotmail    contact number
+Hotmail    for Hotmail    Hotmail    software contact number Hotmail    Hotmail
+   toll free number Hotmail    Hotmail    telephone number Hotmail    uk
+Hotmail    registration number Hotmail    Hotmail    toll free number Hotmail  
+ usa Hotmail    customer service Hotmail    software customer service contact
+Hotmail    customer service Hotmail    customer service phone Hotmail    
+customer service Hotmail    service Hotmail     technical support Hotmail    
+customer support Hotmail    technical support reviews telephone Hotmail    
+Hotmail    tech support phone number Hotmail    Hotmail     tech support phone
+number Hotmail    Hotmail     customer service Hotmail    technical support
+phone number Hotmail    Hotmail     free  support Hotmail    customer service
+billing Hotmail    customer service email address Hotmail    customer service
+reviews contact Hotmail    customer service Hotmail    tech support number
+Hotmail    usa Hotmail     support number Hotmail    Hotmail     contact number
+Hotmail    Hotmail    customer service phone number Hotmail    Hotmail   
+technical support usa Hotmail    technical support number Hotmail    Hotmail   
+tech support phone Hotmail    tech support number Hotmail  Hotmail  customer
+service telephone number Hotmail  Hotmail   customer support number Hotmail 
+Hotmail   phone number Hotmail  Hotmail   online support Hotmail  customer
+service number Hotmail  Hotmail  tech support center Hotmail  customer service
+Hotmail  software customer service Hotmail  customer care number Hotmail  usa
+Hotmail  customer number Hotmail  Hotmail  customer support number Hotmail 
+Hotmail  customer care number Hotmail  Hotmail  customer care toll free number
+Hotmail  Hotmail  tech support Hotmail  technical support Hotmail   support
+Hotmail   tech support Hotmail  support centerHotmail  .com customer service
+Hotmail   customer care number Hotmail  Hotmail  customer care Hotmail  phone
+number Hotmail  phone number Hotmail  for Hotmail  customer service Hotmail 
+phone support Hotmail  phone number Hotmail  tech support Hotmail  support
+phone number Hotmail  contact Hotmail  by phone Hotmail  contact phone number
+Hotmail  Hotmail  helpline phone number Hotmail  Hotmail   phone Hotmail   for
+phone Hotmail  contact number Hotmail  Hotmail  contact support contact Hotmail
+  Hotmail  contact number Hotmail  usa Hotmail  toll free number Hotmail 
+Hotmail  telephone number Hotmail  Hotmail  toll free number Hotmail  usa
+Hotmail   support services technical support for  Hotmail  Hotmail  customer
+service phone number Hotmail  usa Hotmail   customer care number Hotmail  usa
+Hotmail  customer care number Hotmail  Hotmail  customer care center Hotmail 
+customer support Hotmail  customer support phone Hotmail  customer help Hotmail
+ customer & technical support Hotmail  customer portal Hotmail  customer care
+phone number Hotmail  usa Hotmail  customer care email Hotmail  helpline
+Hotmail  tech support contact Hotmail  customer care toll free Hotmail  
+customer service number Hotmail  Hotmail   protection norton  customer service
+number Hotmail  Hotmail  software customer service number Hotmail  Hotmail 
+hotline customer service phone number Hotmail  Hotmail  customer service phone
+number Hotmail  us how to contact Hotmail  by email Hotmail  free phone support
+Hotmail   technical support number Hotmail  Hotmail   technical support help
+desk phone number Hotmail  Hotmail  technical support number Hotmail  toll free
+number Hotmail  Hotmail   customer support phone number Hotmail    Hotmail    
+customer
 
 -- 
 You are receiving this mail because:
