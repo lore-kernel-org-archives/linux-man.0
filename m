@@ -1,18 +1,19 @@
 From: bugzilla-daemon-590EEB7GvNiWaY/ihj7yzEB+6BGkLq7r@public.gmane.org
-Subject: [Bug 130491] 1-888-226-1422 Google Chrome tech Support number
-Date: Wed, 13 Jul 2016 18:19:11 +0000
-Message-ID: <bug-130491-11311-Egz45QspDK@https.bugzilla.kernel.org/>
-References: <bug-130491-11311@https.bugzilla.kernel.org/>
+Subject: [Bug 130301] toshiba phone number 1-888-226-1422, toshiba support
+ phone number 1-888-226-1422
+Date: Wed, 13 Jul 2016 18:19:02 +0000
+Message-ID: <bug-130301-11311-vQFxM3GI4v@https.bugzilla.kernel.org/>
+References: <bug-130301-11311@https.bugzilla.kernel.org/>
 Mime-Version: 1.0
 Content-Type: text/plain; charset="UTF-8"
 Content-Transfer-Encoding: 7bit
 Return-path: <linux-man-owner-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>
-In-Reply-To: <bug-130491-11311-3bo0kxnWaOQUvHkbgXJLS5sdmw4N0Rt+2LY78lusg7I@public.gmane.org/>
+In-Reply-To: <bug-130301-11311-3bo0kxnWaOQUvHkbgXJLS5sdmw4N0Rt+2LY78lusg7I@public.gmane.org/>
 Sender: linux-man-owner-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
 To: linux-man-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
 List-Id: linux-man@vger.kernel.org
 
-https://bugzilla.kernel.org/show_bug.cgi?id=130491
+https://bugzilla.kernel.org/show_bug.cgi?id=130301
 
 Michael Kerrisk <mtk.manpages-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org> changed:
 
