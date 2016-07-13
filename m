@@ -1,19 +1,19 @@
 From: bugzilla-daemon-590EEB7GvNiWaY/ihj7yzEB+6BGkLq7r@public.gmane.org
-Subject: [Bug 131041] USAAA(((1866-992-6425 panda antivirus tech support
- number ,v techNICAL SUPPORT phone number
-Date: Wed, 13 Jul 2016 18:29:25 +0000
-Message-ID: <bug-131041-11311-LeTGVjWmw3@https.bugzilla.kernel.org/>
-References: <bug-131041-11311@https.bugzilla.kernel.org/>
+Subject: [Bug 131051] contact number 18557092847 Brother printer tech support
+ customer service number helpline number
+Date: Wed, 13 Jul 2016 18:29:40 +0000
+Message-ID: <bug-131051-11311-WQT6p9FIxc@https.bugzilla.kernel.org/>
+References: <bug-131051-11311@https.bugzilla.kernel.org/>
 Mime-Version: 1.0
 Content-Type: text/plain; charset="UTF-8"
 Content-Transfer-Encoding: 7bit
 Return-path: <linux-man-owner-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>
-In-Reply-To: <bug-131041-11311-3bo0kxnWaOQUvHkbgXJLS5sdmw4N0Rt+2LY78lusg7I@public.gmane.org/>
+In-Reply-To: <bug-131051-11311-3bo0kxnWaOQUvHkbgXJLS5sdmw4N0Rt+2LY78lusg7I@public.gmane.org/>
 Sender: linux-man-owner-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
 To: linux-man-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
 List-Id: linux-man@vger.kernel.org
 
-https://bugzilla.kernel.org/show_bug.cgi?id=131041
+https://bugzilla.kernel.org/show_bug.cgi?id=131051
 
 Michael Kerrisk <mtk.manpages-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org> changed:
 
