@@ -1,8 +1,8 @@
 From: bugzilla-daemon-590EEB7GvNiWaY/ihj7yzEB+6BGkLq7r@public.gmane.org
-Subject: [Bug 129741] New: 1~888~226~1422 Mcafee tech Support Number
- 1~888~226~1422 Mcafee technical Support Number
-Date: Wed, 13 Jul 2016 17:16:32 +0000
-Message-ID: <bug-129741-11311@https.bugzilla.kernel.org/>
+Subject: [Bug 129781] New: 1~888~226~1322 Mcafee Antivirus Phone number
+ 1~888~226~1322 Mcafee Antivirus support  Phone number
+Date: Wed, 13 Jul 2016 17:18:02 +0000
+Message-ID: <bug-129781-11311@https.bugzilla.kernel.org/>
 Mime-Version: 1.0
 Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: QUOTED-PRINTABLE
@@ -11,11 +11,12 @@ Sender: linux-man-owner-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
 To: linux-man-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
 List-Id: linux-man@vger.kernel.org
 
-https://bugzilla.kernel.org/show_bug.cgi?id=3D129741
+https://bugzilla.kernel.org/show_bug.cgi?id=3D129781
 
-            Bug ID: 129741
-           Summary: 1~888~226~1422 Mcafee tech Support Number
-                    1~888~226~1422 Mcafee technical Support Number
+            Bug ID: 129781
+           Summary: 1~888~226~1322 Mcafee Antivirus Phone number
+                    1~888~226~1322 Mcafee Antivirus support  Phone numb=
+er
            Product: Documentation
            Version: unspecified
           Hardware: All
@@ -28,15 +29,15 @@ https://bugzilla.kernel.org/show_bug.cgi?id=3D129741
           Reporter: nirajsinghrawat12-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org
         Regression: No
 
-1~888~226~1422 Mcafee tech Support Number 1~888~226~1422 Mcafee technic=
-al
-Support Number mcafee phone number 1-888-226-1422, mcafee phone support=
-, mcafee
-customer service phone number 1-888-226-1422, mcafee support phone numb=
-er
-1-888-226-1422, mcafee technical support phone number 1-888-226-1422, p=
-hone
-number 1-888-226-1422 for=20
+1~888~226~1322 Mcafee Antivirus Phone number 1~888~226~1322 Mcafee Anti=
+virus
+support  Phone number mcafee phone number 1-888-226-1422, mcafee phone =
+support,
+mcafee customer service phone number 1-888-226-1422, mcafee support pho=
+ne
+number 1-888-226-1422, mcafee technical support phone number 1-888-226-=
+1422,
+phone number 1-888-226-1422 for=20
 
 mcafee, mcafee customer support phone number 1-888-226-1422, mcafee pho=
 ne,
