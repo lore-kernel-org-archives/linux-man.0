@@ -1,32 +1,30 @@
-From: bugzilla-daemon-590EEB7GvNiWaY/ihj7yzEB+6BGkLq7r@public.gmane.org
-Subject: [Bug 124541] Canada+ 1-8OO-445-2790 Avast Antivirus Support phone
- number
-Date: Wed, 13 Jul 2016 06:26:16 +0000
-Message-ID: <bug-124541-11311-A9W9jq66Zv@https.bugzilla.kernel.org/>
-References: <bug-124541-11311@https.bugzilla.kernel.org/>
+From: Szabolcs Nagy <szabolcs.nagy@arm.com>
+Subject: Re: [patch] getauxval.3 correct AT_HWCAP result description
+Date: Wed, 13 Jul 2016 09:13:41 +0100
+Message-ID: <5785F835.4070209@arm.com>
+References: <397D95928DECEF49983F5B237627E9785733058A@IRSMSX108.ger.corp.intel.com> <2b181d0f-3a50-bf18-268b-9991de75d216@gmail.com>
 Mime-Version: 1.0
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: 7bit
-Return-path: <linux-man-owner-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>
-In-Reply-To: <bug-124541-11311-3bo0kxnWaOQUvHkbgXJLS5sdmw4N0Rt+2LY78lusg7I@public.gmane.org/>
-Sender: linux-man-owner-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
-To: linux-man-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
+Content-Type: text/plain; charset=WINDOWS-1252
+Content-Transfer-Encoding: quoted-printable
+Return-path: <libc-alpha-return-71746-glibc-alpha=m.gmane.org@sourceware.org>
+List-Unsubscribe: <mailto:libc-alpha-unsubscribe-glibc-alpha=m.gmane.org@sourceware.org>
+List-Subscribe: <mailto:libc-alpha-subscribe@sourceware.org>
+List-Archive: <http://sourceware.org/ml/libc-alpha/>
+List-Post: <mailto:libc-alpha@sourceware.org>
+List-Help: <mailto:libc-alpha-help@sourceware.org>, <http://sourceware.org/ml/#faqs>
+Sender: libc-alpha-owner@sourceware.org
+In-Reply-To: <2b181d0f-3a50-bf18-268b-9991de75d216@gmail.com>
+To: "Michael Kerrisk (man-pages)" <mtk.manpages@gmail.com>, "Cownie, James H" <james.h.cownie@intel.com>
+Cc: nd@arm.com, "libc-alpha@sourceware.org" <libc-alpha@sourceware.org>, "linux-man@vger.kernel.org" <linux-man@vger.kernel.org>
 List-Id: linux-man@vger.kernel.org
 
-https://bugzilla.kernel.org/show_bug.cgi?id=124541
+On 12/07/16 21:24, Michael Kerrisk (man-pages) wrote:
+>>  .BR AT_HWCAP
+>> -A pointer to a multibyte mask of bits whose settings
+>> +A four byte long bit-mask whose settings
+>>  indicate detailed processor capabilities.
 
-Michael Kerrisk <mtk.manpages-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org> changed:
+why is it four byte long?
 
-           What    |Removed                     |Added
-----------------------------------------------------------------------------
-             Status|NEW                         |RESOLVED
-                 CC|                            |mtk.manpages-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org
-         Resolution|---                         |INVALID
-
--- 
-You are receiving this mail because:
-You are watching the assignee of the bug.
---
-To unsubscribe from this list: send the line "unsubscribe linux-man" in
-the body of a message to majordomo-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
-More majordomo info at  http://vger.kernel.org/majordomo-info.html
+it's a long and the target abi decides how many
+bits of that is used.
