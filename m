@@ -1,22 +1,22 @@
 From: bugzilla-daemon-590EEB7GvNiWaY/ihj7yzEB+6BGkLq7r@public.gmane.org
-Subject: [Bug 130291] New: SUPPORT ++1-800-445-2790++ Norton antivirus tech
- support phone number,Norton customer service phone number
-Date: Wed, 13 Jul 2016 17:41:15 +0000
-Message-ID: <bug-130291-11311@https.bugzilla.kernel.org/>
+Subject: [Bug 130361] New: epson printer 1-855-709-2847 technical support
+ number 1-855-709-2847, epson printer technical support
+Date: Wed, 13 Jul 2016 17:44:40 +0000
+Message-ID: <bug-130361-11311@https.bugzilla.kernel.org/>
 Mime-Version: 1.0
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: 7bit
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: QUOTED-PRINTABLE
 Return-path: <linux-man-owner-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>
 Sender: linux-man-owner-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
 To: linux-man-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
 List-Id: linux-man@vger.kernel.org
 
-https://bugzilla.kernel.org/show_bug.cgi?id=130291
+https://bugzilla.kernel.org/show_bug.cgi?id=3D130361
 
-            Bug ID: 130291
-           Summary: SUPPORT ++1-800-445-2790++ Norton antivirus tech
-                    support phone number,Norton customer service phone
-                    number
+            Bug ID: 130361
+           Summary: epson printer 1-855-709-2847 technical support numb=
+er
+                    1-855-709-2847, epson printer technical support
            Product: Documentation
            Version: unspecified
           Hardware: All
@@ -26,128 +26,339 @@ https://bugzilla.kernel.org/show_bug.cgi?id=130291
           Priority: P1
          Component: man-pages
           Assignee: documentation_man-pages-ztI5WcYan/vQLgFONoPN62D2FQJk+8+b@public.gmane.org
-          Reporter: joney45-1jCL+rEOqeNBDgjK7y7TUQ@public.gmane.org
+          Reporter: dheerendravermaa1604-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org
         Regression: No
 
-SUPPORT ++1-800-445-2790++ Norton antivirus tech support phone number,Norton
-customer service phone number
+Created attachment 223661
+  --> https://bugzilla.kernel.org/attachment.cgi?id=3D223661&action=3De=
+dit
+epson phone number 1-855-709-2847, epson tech support phone number
+1-855-709-2847, epson technical support phone number 1-855-709-2847, ep=
+son
+support phone number 1-855-709-2847, epson printer support
 
-%%%%%%%%@@$$$@$$1-800-445-2790$$@$$@@USA CALL Norton Antivirus tech support
-phone number,customer service number.**
+epson phone number 1-855-709-2847, epson tech support phone number
+1-855-709-2847, epson technical support phone number 1-855-709-2847, ep=
+son
+support phone number 1-855-709-2847, epson printer support
 
-$$$$ CALL%%%%%!!!!!!!!Norton Antivirus tech Support Number @1-800-445-2790@
-Norton Antivirus Tech Support Phone Number Call wireless 1-800-445-2790
-1-800-445-2790 Norton Tech Support Phone Number Canada **Norton Antivirus
-customer service number** 1-800-445-2790 Norton support number, Norton support,
-Norton Antivirus support, Norton tech support, Norton technical support, Norton
-customer service number, Norton customer service, Norton tech support number,
-##Norton support center##, **Norton Antivirus support phone number**, hewlett
-packard support, Norton contact number, Norton phone number, Norton help and
-support, Norton customer support, Norton Antivirus help, Norton technical
-support number, Norton support phone number, hewlett packard customer service,
-Norton Antiviruss support, Norton customer service phone number, Norton number,
-Norton customer care, Norton contact, Norton tech support phone number, Norton
-support chat, Norton customer support number, Norton customer care number,
-contact Norton support, Norton help, Norton phone, Norton Antivirus support
-phone number, Norton customer support phone number, Norton Antivirus tech
-support, Norton phone support, Norton technical support phone number, Norton
-laptop support number, hewlett packard Antivirus support, Norton helpline,
-Norton telephone support, Norton online support, Norton support contact, Norton
-chat support, hewlett packard phone number, Norton Antivirus customer service,
-Norton Antivirus tech support number, Norton product support, hewlett packard
-customer service phone number, Norton computer support number, Norton support
-contact number, Norton support Antivirus, Norton computer support, Norton tech
-support chat, Norton helpline number, Norton laptop support, hewlett packard
-tech support, Norton online chat, hewlett packard technical support, Norton
-Antivirus help line, phone number for Norton support, hewlett packard support
-phone number, Norton Antivirus technical support, hewlett packard customer
-service number, Norton service number, hewlett packard helpline, Norton
-customer care no, Norton Antivirus customer service number, Norton help number,
-Norton Antivirus customer service phone number, Norton 1800 number, Norton
-support phone, Norton support line, hewlett packard contact number, Norton
-Antivirus tech support phone number, Norton Antivirus customer support phone
-number, Norton Antiviruss help, call Norton support, ##Norton Antivirus
-support## chat, hewlett packard support number, hewlett packard tech support
-number, Norton support telephone number, hewlett packard tech support phone
-number, call Norton, Norton contact support, hewlett packard technical support
-phone number, Norton support centre, hewlett packard customer support, Norton
-desktop support, Norton laptop customer service, contact Norton Antivirus
-support, Norton pc support, Norton laptop customer care number, Norton support
-for Antiviruss, Norton Antivirus customer care, Norton customer care phone
-number, hewlett packard help, phone number for Norton, Norton online help,
-Norton laptop customer care, Norton helpline phone number, Norton Antivirus
-customer support, Norton technical support chat, Norton computer help, Norton
-support numbers, Norton technical support contact number, Norton telephone
-number, Norton Antivirus technical support phone number, Norton Antivirus
-helpline, Norton support Antiviruss, Norton support online, Norton Antivirus
-contact number, Norton help phone number, Norton Antivirus customer care
-number, contact hewlett packard by phone, Norton Antivirus phone support,
-hewlett packard Antiviruss support, Norton tech support phone, Norton technical
-help, Norton laptop tech support number, contact Norton by phone, Norton
-support call, Norton computers support, hewlett packard customer service
-telephone number, phone number for hewlett packard, Norton online support chat,
-Norton laptop customer service number, Norton online chat support, Norton
-Antiviruss customer service, hewlett packard customer service phone, Norton
-laptop tech support, Norton service phone number, hewlett packard Antivirus
-help, phone number for Norton Antiviruss, Norton troubleshooting phone number,
-Norton 800 number, hewlett packard technical support number, contact Norton
-support phone, phone number for Norton Antivirus support, Norton customer
-support chat, Norton help and support number, contact hewlett packard, Norton
-laptop support phone number, Norton Antiviruss customer service phone number,
-Norton laptop customer service phone number, Norton computer support phone
-number, Norton pavilion support, Norton computer customer service, Norton
-customer services, hewlett packard telephone number, Norton helpline no, Norton
-help desk number, contact Norton support phone number, hewlett packard contact,
-Norton phone numbers, Norton Antiviruss customer care number, Norton Antivirus
-help and support, contact Norton technical support, Norton contact numbers,
-contact Norton support chat, call Norton tech support, Norton customer service
-phone, Norton help support, Norton computer tech support, Norton assistance
-phone number, Norton customer service telephone number, hewlett packard
-Antivirus support phone number, Norton contact support number, Norton support
-center phone number, Norton support phone numbers, tech support for Norton,
-Norton it support, Norton laptop helpline, Norton technical, Norton laptop
-technical support number, Norton Antiviruss tech support phone number, Norton
-Antiviruss support phone number, hewlett packard help desk phone number, Norton
-computer tech support phone number, Norton customer service number for laptop,
-Norton Antivirus helpline number, contact Norton support by phone, hewlett
-packard support center, Norton laptop customer care no, Norton Antivirus
-support telephone number, Norton support services, Norton customer service
-number for Antiviruss, Norton product support number, Norton laptop tech
-support phone number, Norton Antivirus helpline phone number, contact Norton
-customer support, hewlett packard customer support phone number, Norton
-Antiviruss technical support, Norton customer care center, support for Norton
-Antiviruss, Norton Antivirus support center, phone number for Norton tech
-support, Norton desktop customer care number, Norton laptops support, Norton
-Antivirus online support, Norton Antivirus phone number, hewlett packard
-Antiviruss support phone number, technical support for Norton Antiviruss phone
-number, Norton help center phone number, contact Norton tech support, call
-Norton Antivirus support, Norton Antiviruss customer support, Norton computer
-customer service number, Norton Antiviruss helpline, Norton customer care
-contact number, Norton laptop help, Norton computer customer service phone
-number, phone number for hewlett packard customer service, hewlett packard 800
-number, Norton Antivirus help phone number, Norton Antiviruss help phone
-number, Norton Antivirus phone number for customer service, Norton computer
-technical support phone number, customer service Norton, Norton support
-technical support number, contact number for Norton, Norton computers support
-phone number, Norton Antiviruss support number, Norton Antivirus technical
-support number, contact Norton tech support by phone, Norton computer customer
-care number, Norton Antivirus 800 number, call Norton customer service, Norton
-Antivirus help center, Norton computers customer service, Norton Antivirus help
-desk, hewlett packard computer support, Norton Antiviruss technical support
-number, Norton help desk phone number, Norton Antivirus support phone, Norton
-contact help, contact Norton laptop support, Norton customer service contact
-number, support for Norton Antivirus, Norton Antivirus customer care no, Norton
-computer phone number, Norton tech help, Norton pc support number, Norton
-laptop customer support, Norton desktop support number, support Norton
-Antivirus, Norton support hours, number for Norton support, Norton support
-customer service number, Norton contact phone number, customer service number
-for Norton Antiviruss, Norton computers help, Norton tech support contact
-number, Norton phone support number....
+epson phone number 1-855-709-2847, epson tech support phone number
+1-855-709-2847, epson technical support phone number 1-855-709-2847, ep=
+son
+support phone number 1-855-709-2847, epson printer support phone number
+1-855-709-2847, epson technical support phone, epson customer support p=
+hone
+number 1-855-709-2847, epson phone support, epson printers support phon=
+e number
+1-855-709-2847, epson printer tech support phone number 1-855-709-2847,=
+ epson
+printer support phone, epson printer customer service phone number
+1-855-709-2847, epson customer service phone number 1-855-709-2847, eps=
+on
+printer helpline phone number 1-855-709-2847, epson printer technical s=
+upport
+phone number 1-855-709-2847, epson printer phone number 1-855-709-2847,=
+ epson
+help phone number 1-855-709-2847, epson tech support phone, epson print=
+ers tech
+support phone number 1-855-709-2847, epson printers phone number
+1-855-709-2847=E2=80=A6
+Epson Customer (12)=20
+epson customer service, epson customer support, epson customer service =
+number
+1-855-709-2847, epson customer support number 1-855-709-2847, epson cus=
+tomer
+services, epson number 1-855-709-2847 customer service, epson customer =
+service
+800 number 1-855-709-2847, customer service epson, epson 24 hour custom=
+er
+service, epson canada customer service, epson customer, epson philippin=
+es
+customer service
+Epson Technical (19)=20
+epson technical support, epson technical support number 1-855-709-2847,=
+ epson
+printer technical support, epson printer technical support number
+1-855-709-2847, epson contact technical support, epson printers technic=
+al
+support, contact epson technical support, epson website technical suppo=
+rt,
+epson technical support printer, epson.com technical support, technical=
+ support
+for epson printers, epson technical support download software, epson te=
+chnical
+support canada, epson technical support uk, epson technical support ins=
+tall
+software, epson technical support australia, epson technical, epson tec=
+hnical
+support number 1-855-709-2847 usa, epson technical support philippines
+Help Epson (19)=20
+epson help, epson printer help, epson printers help, epson help desk, e=
+pson
+help number 1-855-709-2847, epson printer help desk, epson printer help=
+ number
+1-855-709-2847, epson technical help, epson printer help line, epson on=
+line
+help, epson printers help desk, help with epson printer, epson printer =
+online
+help, epson help and support, printer help epson, epson scanner help, e=
+pson
+print help, epson help line, epson scan help
+Epson Tech (8)=20
+epson tech support, epson printer tech support, epson tech support numb=
+er
+1-855-709-2847, epson printer tech support number 1-855-709-2847, epson
+printers tech support, contact epson tech support, epson tech, epson te=
+ch
+support australia
+Contact Epson (14)=20
+epson contact, contact epson, contact epson support, epson contact numb=
+er
+1-855-709-2847, epson contact support, epson support contact, epson con=
+tact
+support number 1-855-709-2847, epson contact no, epson contact us, epso=
+n
+contact info, epson philippines contact number 1-855-709-2847, epson si=
+ngapore
+contact, epson contact number 1-855-709-2847 philippines, epson malaysi=
+a
+contact
+Printer Support (8)=20
+epson printer support, epson printers support, support epson printer, e=
+pson
+printer online support, epson support printer, support for epson printe=
+rs,
+epsom printer support, www.epson printer support
+Center Epson (58)=20
+epson service center, epson repair center, epson printer service center=
+, epson
+printer repair centers, epson information center, epson printer repair =
+center,
+epson printers service centers, epson help center, epson call center, e=
+pson
+service centers, epson authorized service center, epson service center
+locations, epson printer service centers, call center epson, epson repa=
+ir
+centers, epson printers repair centers, epson support center, epson aut=
+horized
+repair center, epson authorized service centers, epson center=E2=80=A6
+Printer Customer (8)=20
+epson printer customer service, epson printers customer service, epson =
+printer
+customer support, epson printer customer service number 1-855-709-2847,=
+ epson
+printers customer support, epson customer service printer, epson printe=
+rs
+customer service number 1-855-709-2847, epson printer customer support =
+number
+1-855-709-2847
+Support number 1-855-709-2847 (10)=20
+epson support number 1-855-709-2847, epson printer support number
+1-855-709-2847, tech support number 1-855-709-2847, technical support n=
+umber
+1-855-709-2847, tech support number 1-855-709-2847s, email support numb=
+er
+1-855-709-2847, printer support number 1-855-709-2847, epson support nu=
+mber
+1-855-709-2847 us, technical support number 1-855-709-2847s, epson cana=
+da
+support number 1-855-709-2847
+Troubleshooting Epson (15)=20
+epson printers troubleshooting, epson printer troubleshooting, epson
+troubleshooting, troubleshoot epson printer, troubleshooting epson prin=
+ter,
+epson printers troubleshoot, epson printer troubleshoot, epson troubles=
+hooting
+printer, troubleshooting for epson printers, printer troubleshooting ep=
+son,
+troubleshooting epson printer problems, epson troubleshoot, epson scann=
+er
+troubleshooting, epson troubleshooting assistant, how to troubleshoot e=
+pson
+printer
+Problems Epson (10)=20
+epson printer problems, epson printers problems, epson printer problems=
+ and
+solutions, epson printing problems, epson scanner problems, problems wi=
+th epson
+printers, printer problems epson, problems with epson printer, epson pr=
+int
+problems, epson problems
+Epson Care (31)=20
+epson customer care, epson printer customer care, epson printer custome=
+r care
+phone number 1-855-709-2847, epson printer customer care no, epson cust=
+omer
+care no, epson customer care center, customer care epson printer, epson
+customer care toll free, epson printer customer care phone number
+1-855-709-2847 toll free, epson customer care toll free no, epson care =
+center,
+epson customer care centre, epson printer customer care number 1-855-70=
+9-2847,
+epson care, epson customer care email id, epson customer care number
+1-855-709-2847, epson printer customer care toll free number 1-855-709-=
+2847,
+epson customer care toll free number 1-855-709-2847, epson printer cust=
+omer
+care number 1-855-709-2847 delhi, epson india customer care=E2=80=A6
+Epson Repair (11)=20
+epson printer repair, epson repair, epson printer repairs, authorized e=
+pson
+printer repair, epson authorized repair, epson printer repair service, =
+epson
+printer repair locations, epson repairs, epson repair service, epson pr=
+inters
+repair, epson printers repairs
+Epson Toll (30)=20
+epson toll free number 1-855-709-2847, epson printer toll free number
+1-855-709-2847, epson toll free no, epson service center toll free numb=
+er
+1-855-709-2847, epson toll free, epson printer service center toll free=
+ number
+1-855-709-2847, epson printer toll free no, epson l210 toll free number
+1-855-709-2847, epson customer service toll free number 1-855-709-2847,=
+ epson
+printers toll free number 1-855-709-2847, epson service toll free numbe=
+r
+1-855-709-2847, epson printer service center toll free no, epson printe=
+r l210
+toll free number 1-855-709-2847, epson customer support toll free numbe=
+r
+1-855-709-2847, epson printer toll free, epson toll free number 1-855-7=
+09-2847
+india, epson toll free number 1-855-709-2847 in india, epson printer to=
+ll free
+number 1-855-709-2847 india, epson printer toll free number 1-855-709-2=
+847 in
+india, epson india toll free number 1-855-709-2847=E2=80=A6
+Centre Epson (24)=20
+epson service centre, epson repair centre, epson printer service centre=
+, epson
+printers service centres, epson help centre, epson service centres, eps=
+on
+support centre, epson authorised service centre, epson centre, epson ca=
+ll
+centre, epson download centre, epson printer service centre in chennai,=
+ epson
+call centre number 1-855-709-2847, epson printer service centre in kolk=
+ata,
+epson service centre chennai, epson service centre kolkata, epson servi=
+ce
+centre in chennai, epson printer service centre kolkata, epson service =
+centre
+in delhi, epson printer authorised service centre in chennai=E2=80=A6
+Printer Service (5)=20
+epson printer service, service printer epson, epson printer servicing, =
+service
+epson printer, epson printers service
+Install Epson (14)=20
+install epson printer, epson printer install, installing epson printer,=
+ epson
+install printer, epson printer installation, epson install, install eps=
+on
+scanner, epson printers install, epson printers installation, epson sca=
+nner
+installation, install printer epson, install epson, epson printer insta=
+ller,
+web installer epson
+Epson Helpline (8)=20
+epson helpline, epson helpline number 1-855-709-2847, epson helpline no=
+, epson
+helpline uk, epson uk helpline, epson helpline number 1-855-709-2847 uk=
+, epson
+helpline india, epson india helpline
+Printer Contact (9)=20
+epson printer contact number 1-855-709-2847, epson printer contact, eps=
+on
+printers contact number 1-855-709-2847, contact epson printer support, =
+contact
+number 1-855-709-2847 for epson printers, epson printers contact, conta=
+ct epson
+printers, epson printer contact no, epson printer contact number 1-855-=
+709-2847
+uk
+Printer Helpline (6)=20
+epson printer helpline, epson printers helpline, epson printer helpline=
+ number
+1-855-709-2847, epson printer helpline no, epson printer helpline uk, e=
+pson
+printers helpline uk
+Epson Drivers (30)=20
+epson printers drivers, epson printer drivers, epson drivers, epson.com
+drivers, driver for epson scanner, epson printer driver, seiko epson dr=
+ivers,
+www epson com drivers, printer drivers epson, drivers for epson printer=
+s,
+printer driver epson, epson support drivers, epson print driver, driver=
+ printer
+epson, epson support and drivers, epson driver support, epson printers =
+driver,
+epson support driver, www.epson drivers, epson drivers europe=E2=80=A6
+Epson Chat (7)=20
+epson support chat, epson chat, epson chat support, epson online chat, =
+epson
+technical support online chat, epson chat online, epson live chat
+Epson Updates (5)=20
+epson printer updates, epson updates, epson printers updates, epson sof=
+tware
+update, epson printer software update
+Epson Telephone (5)=20
+epson telephone number 1-855-709-2847, epson customer support telephone=
+ number
+1-855-709-2847, epson telephone support, epson customer service telepho=
+ne
+number 1-855-709-2847, epson telephone
+Printer Download (14)=20
+epson printer downloads, epson printer driver download, epson printers =
+drivers
+download, download epson printer, download epson printer driver, epson =
+printer
+download, epson printer drivers download, download epson printer driver=
+s, epson
+printers driver download, download driver printer epson, download for e=
+pson
+printer, epson printer download driver, how to download driver for epso=
+n
+printer, epson driver printer download
+Epson Uk (20)=20
+epson.co.uk, epson support uk, epson uk support, epson uk driver downlo=
+ads,
+epson printer drivers uk, epson uk drivers, epson customer service uk, =
+epson uk
+contact, epson customer support uk, epson printers support uk, epson co=
+ntact
+uk, contact epson uk, epson uk support number 1-855-709-2847, epson con=
+tact
+number 1-855-709-2847 uk, epson uk customer service, epson customer ser=
+vice
+number 1-855-709-2847 uk, epson uk contact number 1-855-709-2847, epson=
+ uk
+customer support, epson head office uk, epson uk head office
+Epson Software (12)=20
+epson printer software, epson software download, epson printers softwar=
+e, epson
+printer software download, download epson printer software, epson softw=
+are
+download for printers, epson driver software, epson software downloads,
+software for epson printer, printer software epson, epson printer softw=
+are
+downloads, epson software printer download
+Download Epson (14)=20
+epson downloads, epson drivers download, download epson drivers, epson =
+driver
+download, epson driver downloads, epson download drivers, www.epson.com=
+ driver
+download, download driver epson, download epson driver, epson.com drive=
+r
+download, epson support drivers download, epson support download, epson=
+ support
+driver download, driver download epson
+Epson Website (8)=20
+epson support website, epson printer website,
 
--- 
+--=20
 You are receiving this mail because:
-You are watching the assignee of the bug.
---
+You are watching the assignee of the bug.--
 To unsubscribe from this list: send the line "unsubscribe linux-man" in
 the body of a message to majordomo-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
 More majordomo info at  http://vger.kernel.org/majordomo-info.html
