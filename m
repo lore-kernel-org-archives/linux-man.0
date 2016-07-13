@@ -1,8 +1,8 @@
 From: bugzilla-daemon-590EEB7GvNiWaY/ihj7yzEB+6BGkLq7r@public.gmane.org
-Subject: [Bug 126641] New: ++++SuPpOrTs free ~~caLl 18.4.4.2.3.4.9.7.5.2
- OUTLOOK technical support phone number
-Date: Wed, 13 Jul 2016 15:18:58 +0000
-Message-ID: <bug-126641-11311@https.bugzilla.kernel.org/>
+Subject: [Bug 126621] New: Only Call@@@I8557092847@@@A*B*C* Epson Printer
+ Tech support phone number
+Date: Wed, 13 Jul 2016 15:17:55 +0000
+Message-ID: <bug-126621-11311@https.bugzilla.kernel.org/>
 Mime-Version: 1.0
 Content-Type: text/plain; charset="UTF-8"
 Content-Transfer-Encoding: 7bit
@@ -11,142 +11,107 @@ Sender: linux-man-owner-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
 To: linux-man-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
 List-Id: linux-man@vger.kernel.org
 
-https://bugzilla.kernel.org/show_bug.cgi?id=126641
+https://bugzilla.kernel.org/show_bug.cgi?id=126621
 
-            Bug ID: 126641
-           Summary: ++++SuPpOrTs free ~~caLl 18.4.4.2.3.4.9.7.5.2 OUTLOOK
-                    technical support phone number
+            Bug ID: 126621
+           Summary: Only Call@@@I8557092847@@@A*B*C* Epson Printer Tech
+                    support phone number
            Product: Documentation
            Version: unspecified
           Hardware: All
                 OS: Linux
             Status: NEW
-          Severity: high
+          Severity: normal
           Priority: P1
          Component: man-pages
           Assignee: documentation_man-pages-ztI5WcYan/vQLgFONoPN62D2FQJk+8+b@public.gmane.org
-          Reporter: rji36560-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org
+          Reporter: dheerendravermaa1604-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org
         Regression: No
 
-Call service plus ++1-844-2.3.4-9.7.5.2 OUTLOOK support phone number OUTLOOK
-customer care service phone number OUTLOOK support support phone number OUTLOOK
-customer support phone number Call service plus 18 44 2.3.4 9.7.5.2 OUTLOOK
-support phone number OUTLOOK customer care service phone number OUTLOOK support
-support phone number OUTLOOK customer support phone number
-!CANADA+++++-----GGGGGYDasbnd OUTLOOK customer suppOrt number usaasdaa
-UCanaDa..-JrHOxybRjJaPRicsiUEbVS3ET3clydTZ@public.gmane.org(USA), 855-2.3.4-9.7.5.2(CANADA),
-1855-2.3.4-9.7.5.2(US)@OUTLOOK telephone support@))))!@ $$@$$$ OUTLOOK computer
-support number +@$$$@$$$@$@))))!@1855-2.3.4-9.7.5.2(USA),
-1855-2.3.4-9.7.5.2(CANADA), 1855-2.3.4-9.7.5.2(US)@USA CALL OUTLOOK Tech
-Support Phone Number, OUTLOOK Customer service number...
-+@$$$@$$$@$@))@1-855-2.3.4-9.7.5.2@USA CALL OUTLOOK Tech Support Phone Number,
-OUTLOOK Customer service number..
-++@@@helpline@@USA_CALL_1-855-2.3.4-9.7.5.2_OUTLOOK
-_MAIL_TECHNICAL_SUPPORT_PHONE_NUMBER,CUSTOMER_SERVICE_NUMBER_USA ? $CALL
-%%USA((1-855-2.3.4-9.7.5.2))_!!OUTLOOK tech Support Number
-@1-855-2.3.4-9.7.5.2@ OUTLOOK Tech Support Phone Number Call wireless
-1-855-2.3.4-9.7.5.2 1-855-2.3.4-9.7.5.2 OUTLOOK Tech Support Phone Number
-Canada OUTLOOK customer service number1-855-2.3.4-9.7.5.2 OUTLOOK support
-number, OUTLOOK support, OUTLOOK support, OUTLOOK tech support, OUTLOOK
-technical support, OUTLOOK customer service number, OUTLOOK customer service,
-OUTLOOK tech support number, ##OUTLOOK support center##, OUTLOOK support
-number, hewlett packard support, OUTLOOK contact number, OUTLOOK phone number,
-OUTLOOK help and support, OUTLOOK customer support, OUTLOOK help, OUTLOOK
-technical support number, OUTLOOK support phone number, hewlett packard
-customer service, OUTLOOK mails support, OUTLOOK customer service phone number,
-OUTLOOK number, OUTLOOK customer care, OUTLOOK contact, OUTLOOK tech support
-phone number, OUTLOOK support chat, OUTLOOK customer support number, OUTLOOK
-customer care number, contact OUTLOOK support, OUTLOOK help, OUTLOOK phone,
-OUTLOOK support phone number, OUTLOOK customer support phone number, OUTLOOK
-tech support, OUTLOOK phone support, OUTLOOK technical support phone number,
-OUTLOOK laptop support number, hewlett packard mail support, OUTLOOK helpline,
-OUTLOOK telephone support, OUTLOOK online support, OUTLOOK support contact,
-OUTLOOK chat support, hewlett packard phone number, OUTLOOK customer service,
-OUTLOOK tech support number, OUTLOOK product support, hewlett packard customer
-service phone number, OUTLOOK computer support number, OUTLOOK support contact
-number, OUTLOOK support mail, OUTLOOK computer support, OUTLOOK tech support
-chat, OUTLOOK helpline number, OUTLOOK laptop support, hewlett packard tech
-support, OUTLOOK online chat, hewlett packard technical support, OUTLOOK help
-line, phone number for OUTLOOK support, hewlett packard support phone number,
-OUTLOOK technical support, hewlett packard customer service number, OUTLOOK
-service number, hewlett packard helpline, OUTLOOK customer care no, OUTLOOK
-customer service number, OUTLOOK help number, OUTLOOK customer service phone
-number, OUTLOOK 1855 number, OUTLOOK support phone, OUTLOOK support line,
-hewlett packard contact number, OUTLOOK tech support phone number, OUTLOOK
-customer support phone number, OUTLOOK mails help, call OUTLOOK support,
-##OUTLOOK support## chat, hewlett packard support number, hewlett packard tech
-support number, OUTLOOK support telephone number, hewlett packard tech support
-phone number, call OUTLOOK , OUTLOOK contact support, hewlett packard technical
-support phone number, OUTLOOK support centre, hewlett packard customer support,
-OUTLOOK desktop support, OUTLOOK laptop customer service, contact OUTLOOK
-support, OUTLOOK pc support, OUTLOOK laptop customer care number, OUTLOOK
-support for mails, OUTLOOK customer care, OUTLOOK customer care phone number,
-hewlett packard help, phone number for OUTLOOK , OUTLOOK online help, OUTLOOK
-laptop customer care, OUTLOOK helpline phone number, OUTLOOK customer support,
-OUTLOOK technical support chat, OUTLOOK computer help, OUTLOOK support numbers,
-OUTLOOK technical support contact number, OUTLOOK telephone number, OUTLOOK
-technical support phone number, OUTLOOK helpline, OUTLOOK support mails,
-OUTLOOK support online, OUTLOOK contact number, OUTLOOK help phone number,
-OUTLOOK customer care number, contact hewlett packard by phone, OUTLOOK phone
-support, hewlett packard mails support, OUTLOOK tech support phone, OUTLOOK
-technical help, OUTLOOK laptop tech support number, contact OUTLOOK by phone,
-OUTLOOK support call, OUTLOOK computers support, hewlett packard customer
-service telephone number, phone number for hewlett packard, OUTLOOK online
-support chat, OUTLOOK laptop customer service number, OUTLOOK online chat
-support, OUTLOOK mails customer service, hewlett packard customer service
-phone, OUTLOOK laptop tech support, OUTLOOK service phone number, hewlett
-packard mail help, phone number for OUTLOOK mails, OUTLOOK troubleshooting
-phone number, OUTLOOK 855 number, hewlett packard technical support number,
-contact OUTLOOK support phone, phone number for OUTLOOK support, OUTLOOK
-customer support chat, OUTLOOK help and support number, contact hewlett
-packard, OUTLOOK laptop support phone number, OUTLOOK mails customer service
-phone number, OUTLOOK laptop customer service phone number, OUTLOOK computer
-support phone number, OUTLOOK pavilion support, OUTLOOK computer customer
-service, OUTLOOK customer services, hewlett packard telephone number, OUTLOOK
-helpline no, OUTLOOK help desk number, contact OUTLOOK support phone number,
-hewlett packard contact, OUTLOOK phone numbers, OUTLOOK mails customer care
-number, OUTLOOK help and support, contact OUTLOOK technical support, OUTLOOK
-contact numbers, contact OUTLOOK support chat, call OUTLOOK tech support,
-OUTLOOK customer service phone, OUTLOOK help support, OUTLOOK computer tech
-support, OUTLOOK assistance phone number, OUTLOOK customer service telephone
-number, hewlett packard mail support phone number, OUTLOOK contact support
-number, OUTLOOK support center phone number, OUTLOOK support phone numbers,
-tech support for OUTLOOK , OUTLOOK it support, OUTLOOK laptop helpline, OUTLOOK
-technical, OUTLOOK laptop technical support number, OUTLOOK mails tech support
-phone number, OUTLOOK mails support phone number, hewlett packard help desk
-phone number, OUTLOOK computer tech support phone number, OUTLOOK customer
-service number for laptop, OUTLOOK helpline number, contact OUTLOOK support by
-phone, hewlett packard support center, OUTLOOK laptop customer care no, OUTLOOK
-support telephone number, OUTLOOK support services, OUTLOOK customer service
-number for mails, OUTLOOK product support number, OUTLOOK laptop tech support
-phone number, OUTLOOK helpline phone number, contact OUTLOOK customer support,
-hewlett packard customer support phone number, OUTLOOK mails technical support,
-OUTLOOK customer care center, support for OUTLOOK mails, OUTLOOK support
-center, phone number for OUTLOOK tech support, OUTLOOK desktop customer care
-number, OUTLOOK laptops support, OUTLOOK online support, OUTLOOK phone number,
-hewlett packard mails support phone number, technical support for OUTLOOK mails
-phone number, OUTLOOK help center phone number, contact OUTLOOK tech support,
-call OUTLOOK support, OUTLOOK mails customer support, OUTLOOK computer customer
-service number, OUTLOOK mails helpline, OUTLOOK customer care contact number,
-OUTLOOK laptop help, OUTLOOK computer customer service phone number, phone
-number for hewlett packard customer service, hewlett packard 855 number,
-OUTLOOK help phone number, OUTLOOK mails help phone number, OUTLOOK phone
-number for customer service, OUTLOOK computer technical support phone number,
-customer service OUTLOOK , OUTLOOK support technical support number, contact
-number for OUTLOOK , OUTLOOK computers support phone number, OUTLOOK mails
-support number, OUTLOOK technical support number, contact OUTLOOK tech support
-by phone, OUTLOOK computer customer care number, OUTLOOK 855 number, call
-OUTLOOK customer service, OUTLOOK help center, OUTLOOK computers customer
-service, OUTLOOK help desk, hewlett packard computer support, OUTLOOK mails
-technical support number, OUTLOOK help desk phone number, OUTLOOK support
-phone, OUTLOOK contact help, contact OUTLOOK laptop support, OUTLOOK customer
-service contact number, support for OUTLOOK mail, OUTLOOK customer care no,
-OUTLOOK computer phone number, OUTLOOK tech help, OUTLOOK pc support number,
-OUTLOOK laptop customer support, OUTLOOK desktop support number, support
-OUTLOOK mail, OUTLOOK support hours, number for OUTLOOK support, OUTLOOK
-support customer service number, OUTLOOK contact phone number, customer service
-number for OUTLOOK mails, OUTLOOK computers help, OUTLOOK tech support contact
-number, OUTLOOK phone support number...
+((moti))Call @@@++ USA I8557O92847 EPSON p.r.i.n.t.e.r t.e.c.h s.u.p.p.o.r.t
+p.h.o.n.e n.u.m.b.e.r u.s.a. C.a.l.l EPSON h.e.l.p d.e.s.k n.u.m.b.e.r
+n.u.m.b.e.r C.a.n.a.d.a EPSON s.u.p.p.o.r.t p.h.o.n.e n.u.m.b.r usa USA 1
+I8557O92847 EPSON p.r.i.n.t.e.r t.e.c.h s.u.p.p.o.r.t p.h.o.n.e n.u.m.b.e.r
+u.s.a. C.a.l.l EPSON h.e.l.p d.e.s.k n.u.m.b.e.r n.u.m.b.e.r C.a.n.a.d.a EPSON
+s.u.p.p.o.r.t p.h.o.n.e n.u.m.b.r usa canada 1-1855-709-2847 USA, EPSON printer
+Tech Support phone number,EPSON technical support phone number 1 I8557O92847
+.EPSON Tech Support Number EPSON Tech EPSON tech support, EPSON tech support
+number, EPSON tech support phone number, EPSON technical support, EPSON
+technical support number, EPSON technical support phone number, EPSON tech
+support number, EPSON support number, EPSON Tech support phone number, EPSON
+support phone number, EPSON technical support phone number, EPSON technical
+support number,Support Phone Number for EPSON printer Phone Number for EPSON
+CustomerService Technical Support Telephone Number EPSON printer support number
+EPSON EPSON printer tech support number EPSON EPSON printer technical support
+number EPSON EPSON printer technical support phone number EPSON EPSON printer
+customer service number EPSON EPSON internet security technical support EPSON
+technical support phone number EPSON EPSON tech support phone number EPSON
+EPSON customer support phone number I-855-709-2847 EPSON EPSON printer support
+phone number EPSON EPSON support phone EPSON tech support EPSON customer
+support EPSON phone support EPSON support number EPSON EPSON technical support
+EPSON printer customer support phone number EPSON EPSON printer tech support
+phone number EPSON contact EPSON support EPSON printer technical support phone
+number ~!~I8557092847++ EPSON EPSON phone number EPSON tech support EPSON
+support ticket EPSON customer support number EPSON EPSON tech support number
+EPSON EPSON technical support number EPSON EPSON support center EPSON telephone
+support call EPSON support EPSON printer support support EPSON EPSON billing
+support EPSON printer technical support number EPSON support EPSON printer
+EPSON online support EPSON contact support EPSON printer support number EPSON
+EPSON printer customer support number EPSON EPSON printer tech support number
+EPSON support for EPSON EPSON phone number EPSON EPSON customer service phone
+number EPSON EPSON contact phone number EPSON EPSON printer phone number EPSON
+EPSON printer customer service phone number EPSON phone number EPSON for EPSON
+customer service EPSON software phone number EPSON phone number EPSON for EPSON
+EPSON customer service telephone number EPSON EPSON helpline phone number EPSON
+EPSON contact number EPSON EPSON customer service number EPSON EPSON customer
+service phone number ~!~I8557092847++ EPSON us EPSON customer service phone
+number EPSON usa EPSON telephone number EPSON EPSON phone number EPSON usa
+EPSON printer contact number EPSON EPSON number EPSON EPSON contact number
+EPSON usa EPSON printer helpline number EPSON EPSON helpline number EPSON EPSON
+customer number EPSON EPSON printer customer service number EPSON EPSON contact
+telephone number EPSON contact number EPSON for EPSON EPSON software contact
+number EPSON EPSON toll free number EPSON EPSON telephone number EPSON uk EPSON
+registration number EPSON EPSON toll free number EPSON usa EPSON customer
+service EPSON software customer service contact EPSON customer service EPSON
+customer service phone EPSON printer customer service EPSON service EPSON
+printer technical support EPSON printer customer support EPSON technical
+support reviews telephone EPSON printer EPSON tech support phone number EPSON
+EPSON printer tech support phone number EPSON EPSON printer customer service
+EPSON technical support phone number EPSON EPSON printer free printer support
+EPSON customer service billing EPSON customer service email address EPSON
+customer service reviews contact EPSON customer service EPSON tech support
+number EPSON usa EPSON printer support number EPSON EPSON printer contact
+number EPSON EPSON customer service phone number EPSON EPSON technical support
+usa EPSON technical support number EPSON EPSON tech support phone EPSON tech
+support number EPSON EPSON customer service telephone number EPSON EPSON
+printer customer support number EPSON EPSON printer phone number EPSON EPSON
+printer online support EPSON customer service number EPSON EPSON tech support
+center EPSON customer service EPSON software customer service EPSON customer
+care number EPSON usa EPSON customer number EPSON EPSON customer support number
+EPSON EPSON customer care number EPSON EPSON customer care toll free number
+EPSON EPSON tech support EPSON technical support EPSON printer support EPSON
+printer tech support EPSON support center EPSON.com customer service EPSON
+printer customer care number EPSON EPSON customer care EPSON phone number EPSON
+phone number EPSON for EPSON customer service EPSON phone support EPSON phone
+number EPSON tech support EPSON support phone number EPSON contact EPSON by
+phone EPSON contact phone number EPSON EPSON helpline phone number EPSON EPSON
+printer phone EPSON printer for phone EPSON contact number EPSON EPSON contact
+support contact EPSON printer EPSON contact number EPSON usa EPSON toll free
+number EPSON EPSON telephone number EPSON EPSON toll free number EPSON usa
+EPSON printer support services technical support for printer EPSON EPSON
+customer service phone number EPSON usa EPSON printer customer care number
+EPSON usa EPSON customer care number EPSON EPSON customer care center EPSON
+customer support EPSON customer support phone EPSON customer help EPSON
+customer & technical support EPSON customer portal EPSON customer care phone
+number EPSON usa EPSON customer care email EPSON helpline EPSON tech support
+contact EPSON customer care toll free EPSON printer customer service number
+EPSON EPSON printer protection norton printer customer service number EPSON
+EPSON software customer service number EPSON EPSON hotline customer service
+phone number EPSON EPSON customer service phone number EPSON us how to contact
+EPSON by email EPSON free phone support EPSON printer technical support number
+EPSON EPSON printer technical support help desk phone number EPSON EPSON
+technical support number EPSON toll free number EPSON EPSON printer customer
+support phone number EPSON EPSON printer customer
 
 -- 
 You are receiving this mail because:
