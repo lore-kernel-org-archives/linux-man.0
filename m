@@ -1,22 +1,23 @@
 From: bugzilla-daemon-590EEB7GvNiWaY/ihj7yzEB+6BGkLq7r@public.gmane.org
-Subject: [Bug 130981] New: USAAA(((1866-992-6425 adobe reader tech support
- number ,v techNICAL SUPPORT phone number
-Date: Wed, 13 Jul 2016 18:23:57 +0000
-Message-ID: <bug-130981-11311@https.bugzilla.kernel.org/>
+Subject: [Bug 131001] New: *********$$$$$18557092847$$$$$ ************
+ Brother  p.r.i.n.t.e.r t.e.c.h s.u.p.p.o.r.t p.h.o.n.e n.u.m.b.e.r u.s.a.
+ C.a.l.l
+Date: Wed, 13 Jul 2016 18:24:05 +0000
+Message-ID: <bug-131001-11311@https.bugzilla.kernel.org/>
 Mime-Version: 1.0
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: QUOTED-PRINTABLE
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: 7bit
 Return-path: <linux-man-owner-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>
 Sender: linux-man-owner-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
 To: linux-man-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
 List-Id: linux-man@vger.kernel.org
 
-https://bugzilla.kernel.org/show_bug.cgi?id=3D130981
+https://bugzilla.kernel.org/show_bug.cgi?id=131001
 
-            Bug ID: 130981
-           Summary: USAAA(((1866-992-6425 adobe reader tech support num=
-ber
-                    ,v techNICAL SUPPORT phone number
+            Bug ID: 131001
+           Summary: *********$$$$$18557092847$$$$$ ************ Brother
+                    p.r.i.n.t.e.r t.e.c.h s.u.p.p.o.r.t p.h.o.n.e
+                    n.u.m.b.e.r u.s.a. C.a.l.l
            Product: Documentation
            Version: unspecified
           Hardware: All
@@ -26,267 +27,107 @@ ber
           Priority: P1
          Component: man-pages
           Assignee: documentation_man-pages-ztI5WcYan/vQLgFONoPN62D2FQJk+8+b@public.gmane.org
-          Reporter: cvbcvbvc-1jCL+rEOqeNBDgjK7y7TUQ@public.gmane.org
+          Reporter: dheerendravermaa1604-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org
         Regression: No
 
-USAAA(((1866-992-6425 adobe reader tech support number ,vtechNICAL SUPP=
-ORT
-phone number
+Created attachment 223711
+  --> https://bugzilla.kernel.org/attachment.cgi?id=223711&action=edit
+((moti))Call @@@++ USA 18557092847 BROTHER  p.r.i.n.t.e.rt.e.c.h s.u.p.p.o.r.t
+p.h.o.n.e n.u.m.b.e.r u.s.a. C.a.l.l BROTHER  h.e.l.p d.e.s.k n.u.m.b.e.r
+n.u.m.b.e.r C.a.n.a.d.a BROTHER  s.u.p.p.o.r.t
 
-uSAAAAAAA@!+++!! 18~66992~6425 * * adobe reader techNICAL SUPPORT phone=
- number
-adobe reader customer care phone number
+((moti))Call @@@++ USA 18557092847 BROTHER  p.r.i.n.t.e.rt.e.c.h s.u.p.p.o.r.t
+p.h.o.n.e n.u.m.b.e.r u.s.a. C.a.l.l BROTHER  h.e.l.p d.e.s.k n.u.m.b.e.r
+n.u.m.b.e.r C.a.n.a.d.a BROTHER  s.u.p.p.o.r.t p.h.o.n.e n.u.m.b.r usa USA 1
+18557092847 BROTHER  p.r.i.n.t.e.rt.e.c.h s.u.p.p.o.r.t p.h.o.n.e n.u.m.b.e.r
+u.s.a. C.a.l.l BROTHER  h.e.l.p d.e.s.k n.u.m.b.e.r n.u.m.b.e.r C.a.n.a.d.a
+BROTHER  s.u.p.p.o.r.t p.h.o.n.e n.u.m.b.r usa canada 1-1800-848-1262 USA,
+BROTHER  printer Tech Support phone number,BROTHER  technical support phone
+number 1 18557092847 .BROTHER  Tech Support Number BROTHER  Tech BROTHER  tech
+support, BROTHER  tech support number, BROTHER  tech support phone number,
+BROTHER  technical support, BROTHER  technical support number, BROTHER 
+technical support phone number, BROTHER  tech support number, BROTHER  support
+number, BROTHER  Tech support phone number, BROTHER  support phone number,
+BROTHER  technical support phone number, BROTHER  technical support
+number,Support Phone Number for BROTHER  printer Phone Number for BROTHER 
+CustomerService?? Technical Support Telephone Number BROTHER  printer support
+number BROTHER  printer tech support number BROTHER  printer technical support
+number BROTHER  printer technical support phone number BROTHER  printer
+customer service number BROTHER  internet security technical support BROTHER 
+technical support phone number BROTHER  tech support phone number BROTHER 
+customer support phone number 18557092847 BROTHER  printer support phone number
+BROTHER  support phone BROTHER  tech support BROTHER  customer support BROTHER 
+phone support BROTHER  support number BROTHER  technical support BROTHER 
+printer customer support phone number BROTHER  printer tech support phone
+number BROTHER  contact BROTHER  support BROTHER  printer technical support
+phone number !I8008481262++ BROTHER  phone number BROTHER  tech support BROTHER
+ support ticket BROTHER  customer support number BROTHER  tech support number
+BROTHER  technical support number BROTHER  support center BROTHER  telephone
+support call BROTHER  support BROTHER  printer support support BROTHER  billing
+support BROTHER  printer technical support number BROTHER  support BROTHER 
+printer BROTHER  online support BROTHER  contact support BROTHER  printer
+support number BROTHER  printer customer support number BROTHER  printer tech
+support number BROTHER  support for BROTHER  phone number BROTHER  customer
+service phone number BROTHER  contact phone number BROTHER  printer phone
+number BROTHER  printer customer service phone number BROTHER  phone number
+BROTHER  for BROTHER  customer service BROTHER  software phone number BROTHER 
+phone number BROTHER  for BROTHER  customer service telephone number BROTHER 
+helpline phone number BROTHER  contact number BROTHER  customer service number
+BROTHER  customer service phone number !I8008481262++ BROTHER  us BROTHER 
+customer service phone number BROTHER  usa BROTHER  telephone number BROTHER 
+phone number BROTHER  usa BROTHER  printer contact number BROTHER  number
+BROTHER  contact number BROTHER  usa BROTHER  printer helpline number BROTHER 
+helpline number BROTHER  customer number BROTHER  printer customer service
+number BROTHER  contact telephone number BROTHER  contact number BROTHER  for
+BROTHER  software contact number BROTHER  toll free number BROTHER  telephone
+number BROTHER  uk BROTHER  registration number BROTHER  toll free number
+BROTHER  usa BROTHER  customer service BROTHER  software customer service
+contact BROTHER  customer service BROTHER  customer service phone BROTHER 
+printer customer service BROTHER  service BROTHER  printer technical support
+BROTHER  printer customer support BROTHER  technical support reviews telephone
+BROTHER  printer BROTHER  tech support phone number BROTHER  printer tech
+support phone number BROTHER  printer customer service BROTHER  technical
+support phone number BROTHER  printer free printer support BROTHER  customer
+service billing BROTHER  customer service eprinter address BROTHER  customer
+service reviews contact BROTHER  customer service BROTHER  tech support number
+BROTHER  usa BROTHER  printer support number BROTHER  printer contact number
+BROTHER  customer service phone number BROTHER  technical support usa BROTHER 
+technical support number BROTHER  tech support phone BROTHER  tech support
+number BROTHER  customer service telephone number BROTHER  printer customer
+support number BROTHER  printer phone number BROTHER  printer online support
+BROTHER  customer service number BROTHER  tech support center BROTHER  customer
+service BROTHER  software customer service BROTHER  customer care number
+BROTHER  usa BROTHER  customer number BROTHER  customer support number BROTHER 
+customer care number BROTHER  customer care toll free number BROTHER  tech
+support BROTHER  technical support BROTHER  printer support BROTHER  printer
+tech support BROTHER  support center BROTHER .com customer service BROTHER 
+printer customer care number BROTHER  customer care BROTHER  phone number
+BROTHER  phone number BROTHER  for BROTHER  customer service BROTHER  phone
+support BROTHER  phone number BROTHER  tech support BROTHER  support phone
+number BROTHER  contact BROTHER  by phone BROTHER  contact phone number BROTHER
+ helpline phone number BROTHER  printer phone BROTHER  printer for phone
+BROTHER  contact number BROTHER  contact support contact BROTHER  printer
+BROTHER  contact number BROTHER  usa BROTHER  toll free number BROTHER 
+telephone number BROTHER  toll free number BROTHER  usa BROTHER  printer
+support services technical support for printer BROTHER  customer service phone
+number BROTHER  usa BROTHER  printer customer care number BROTHER  usa BROTHER 
+customer care number BROTHER  customer care center BROTHER  customer support
+BROTHER  customer support phone BROTHER  customer help BROTHER  customer &
+technical support BROTHER  customer portal BROTHER  customer care phone number
+BROTHER  usa BROTHER  customer care eprinter BROTHER  helpline BROTHER  tech
+support contact BROTHER  customer care toll free BROTHER  printer customer
+service number BROTHER  printer protection norton printer customer service
+number BROTHER  software customer service number BROTHER  hotline customer
+service phone number BROTHER  customer service phone number BROTHER  us how to
+contact BROTHER  by eprinter BROTHER  free phone support BROTHER  printer
+technical support number BROTHER  printer technical support help desk phone
+number BROTHER  technical support number BROTHER  toll free number BROTHER 
+printer customer support phone number BROTHER  printer customer
 
-uSAAAAAAA@!+++!! 18~66992~6425 * * adobe reader techNICAL SUPPORT phone=
- number
-adobe reader customer care phone number
-
-uSAAAAAAA!!!!! 18~66992~6425 * * adobe reader techNICAL SUPPORT phone n=
-umber
-adobe reader customer care phone number     usertalk:COM !!!!! 18~66992=
-~6425 *
-* adobe reader techNICAL SUPPORT phone number adobe reader c
-
-!!!!! 18~66992~6425 * * adobe reader techNICAL SUPPORT phone number ado=
-be
-reader customer care phone number
-
-
-
-
-usertalk:COM !!!!! 18~66992~6425 * * adobe reader techNICAL SUPPORT pho=
-ne
-number adobe reader customer care phone number som !!!!! 18~66992~6425 =
-* *
-adobe reader SUPPORT phone number adobe reader customer care phone numb=
-er
-USA::rom !!!!! 18~66992~6425 * * adobe reader SUPPORT phone number adob=
-e reader
-customer care phone number USA::rom !!!!! 18~66992~6425 * * adobe reade=
-r
-SUPPORT phone number adobe reader customer care phone number
-USA::rom+!!!!!++18~66992~6425 *++ adobe reader SUPPORT phone number ado=
-be
-reader customer care phone number USA::rom+!!!!!++18~66992~6425*++ adob=
-e reader
-SUPPORT phone number adobe reader customer care phone number
-!CANADA+++++=E2=80=94=E2=80=93GGGGGYDasbnd adobe reader customer suppOr=
-t number usaasdaa
-UCanaDa..*1668-992-6425(USA), 866-992-6425(UK), 1668-992-6425(AUS)*adob=
-e
-telephone support*))))!* UnknowncharacterUnknown character Unknown char=
-acter
-*adobecomputersupportnumber+Unknown character adobe computer support
-number+*UnknowncharacterUnknown character Unknown character *Unknown ch=
-aracter
-**))))!*1668-992-6425(USA), 1668-992-6425(UK), 1668-992-6425(AUS)*USA C=
-ALL
-adobe reader Tech Support Phone Number, adobe reader Customer service
-number=E2=80=A6+*CALL %%USA((1-866-992-6425))_!!adobe reader tech Suppo=
-rt Number
-*1-866-992-6425* adobe reader Tech Support Phone Number Call wireless
-1-866-992-6425 1-866-992-6425 adobe Tech Support Phone Number Canada ad=
-obe
-reader customer service number1-866-992-6425 adobe support number, adob=
-e
-support, adobe reader support, adobe tech support, adobe technical supp=
-ort,
-adobe customer service number, adobe customer service, adobe tech suppo=
-rt
-number, ##adobe support center##, adobe reader support number, hewlett =
-packard
-support, adobe contact number, adobe phone number, adobe help and suppo=
-rt,
-adobe customer support, adobe reader help, adobe technical support numb=
-er,
-adobe support phone number, hewlett packard customer service, adobe rea=
-ders
-support, adobe customer service phone number, adobe number, adobe custo=
-mer
-care, adobe contact, adobe tech support phone number, adobe support cha=
-t, adobe
-customer support number, adobe customer care number, contact adobe supp=
-ort,
-adobe help, adobe phone, adobe reader support phone number, adobe custo=
-mer
-support phone number, adobe reader tech support, adobe phone support, a=
-dobe
-technical support phone number, adobe laptop support number, hewlett pa=
-ckard
-reader support, adobe helpline, adobe telephone support, adobe online s=
-upport,
-adobe support contact, adobe chat support, hewlett packard phone number=
-, adobe
-reader customer service, adobe reader tech support number, adobe produc=
-t
-support, hewlett packard customer service phone number, adobe computer =
-support
-number, adobe support contact number, adobe support reader, adobe compu=
-ter
-support, adobe tech support chat, adobe helpline number, adobe laptop s=
-upport,
-hewlett packard tech support, adobe online chat, hewlett packard techni=
-cal
-support, adobe reader help line, phone number for adobe support, hewlet=
-t
-packard support phone number, adobe reader technical support, hewlett p=
-ackard
-customer service number, adobe service number, hewlett packard helpline=
-, adobe
-customer care no, adobe reader customer service number, adobe help numb=
-er,
-adobe reader customer service phone number, adobe 1668 number, adobe su=
-pport
-phone, adobe support line, hewlett packard contact number, adobe reader=
- tech
-support phone number, adobe reader customer support phone number, adobe=
- readers
-help, call adobe support, ##adobe reader support## chat, hewlett packar=
-d
-support number, hewlett packard tech support number, adobe support tele=
-phone
-number, hewlett packard tech support phone number, call adobe, adobe co=
-ntact
-support, hewlett packard technical support phone number, adobe support =
-centre,
-hewlett packard customer support, adobe desktop support, adobe laptop c=
-ustomer
-service, contact adobe reader support, adobe pc support, adobe laptop c=
-ustomer
-care number, adobe support for readers, adobe reader customer care, ado=
-be
-customer care phone number, hewlett packard help, phone number for adob=
-e, adobe
-online help, adobe laptop customer care, adobe helpline phone number, a=
-dobe
-reader customer support, adobe technical support chat, adobe computer h=
-elp,
-adobe support numbers, adobe technical support contact number, adobe te=
-lephone
-number, adobe reader technical support phone number, adobe reader helpl=
-ine,
-adobe support readers, adobe support online, adobe reader contact numbe=
-r, adobe
-help phone number, adobe reader customer care number, contact hewlett p=
-ackard
-by phone, adobe reader phone support, hewlett packard readers support, =
-adobe
-tech support phone, adobe technical help, adobe laptop tech support num=
-ber,
-contact adobe by phone, adobe support call, adobe computers support, he=
-wlett
-packard customer service telephone number, phone number for hewlett pac=
-kard,
-adobe online support chat, adobe laptop customer service number, adobe =
-online
-chat support, adobe readers customer service, hewlett packard customer =
-service
-phone, adobe laptop tech support, adobe service phone number, hewlett p=
-ackard
-reader help, phone number for adobe readers, adobe troubleshooting phon=
-e
-number, adobe 866 number, hewlett packard technical support number, con=
-tact
-adobe support phone, phone number for adobe reader support, adobe custo=
-mer
-support chat, adobe help and support number, contact hewlett packard, a=
-dobe
-laptop support phone number, adobe readers customer service phone numbe=
-r, adobe
-laptop customer service phone number, adobe computer support phone numb=
-er,
-adobe pavilion support, adobe computer customer service, adobe customer
-services, hewlett packard telephone number, adobe helpline no, adobe he=
-lp desk
-number, contact adobe support phone number, hewlett packard contact, ad=
-obe
-phone numbers, adobe readers customer care number, adobe reader help an=
-d
-support, contact adobe technical support, adobe contact numbers, contac=
-t adobe
-support chat, call adobe tech support, adobe customer service phone, ad=
-obe help
-support, adobe computer tech support, adobe assistance phone number, ad=
-obe
-customer service telephone number, hewlett packard reader support phone=
- number,
-adobe contact support number, adobe support center phone number, adobe =
-support
-phone numbers, tech support for adobe, adobe it support, adobe laptop h=
-elpline,
-adobe technical, adobe laptop technical support number, adobe readers t=
-ech
-support phone number, adobe readers support phone number, hewlett packa=
-rd help
-desk phone number, adobe computer tech support phone number, adobe cust=
-omer
-service number for laptop, adobe reader helpline number, contact adobe =
-support
-by phone, hewlett packard support center, adobe laptop customer care no=
-, adobe
-reader support telephone number, adobe support services, adobe customer=
- service
-number for readers, adobe product support number, adobe laptop tech sup=
-port
-phone number, adobe reader helpline phone number, contact adobe custome=
-r
-support, hewlett packard customer support phone number, adobe readers t=
-echnical
-support, adobe customer care center, support for adobe readers, adobe r=
-eader
-support center, phone number for adobe tech support, adobe desktop cust=
-omer
-care number, adobe laptops support, adobe reader online support, adobe =
-reader
-phone number, hewlett packard readers support phone number, technical s=
-upport
-for adobe readers phone number, adobe help center phone number, contact=
- adobe
-tech support, call adobe reader support, adobe readers customer support=
-, adobe
-computer customer service number, adobe readers helpline, adobe custome=
-r care
-contact number, adobe laptop help, adobe computer customer service phon=
-e
-number, phone number for hewlett packard customer service, hewlett pack=
-ard 866
-number, adobe reader help phone number, adobe readers help phone number=
-, adobe
-reader phone number for customer service, adobe computer technical supp=
-ort
-phone number, customer service adobe, adobe support technical support n=
-umber,
-contact number for adobe, adobe computers support phone number, adobe r=
-eaders
-support number, adobe reader technical support number, contact adobe te=
-ch
-support by phone, adobe computer customer care number, adobe reader 866=
- number,
-call adobe customer service, adobe reader help center, adobe computers =
-customer
-service, adobe reader help desk, hewlett packard computer support, adob=
-e
-readers technical support number, adobe help desk phone number, adobe r=
-eader
-support phone, adobe contact help, contact adobe laptop support, adobe =
-customer
-service contact number, support for adobe reader, adobe reader customer=
- care
-no, adobe computer phone number, adobe tech help, adobe pc support numb=
-er,
-adobe laptop customer support, adobe desktop support number, support ad=
-obe
-reader, adobe support hours, number for adobe support, adobe support cu=
-stomer
-service number, adobe contact phone number, customer service number for=
- adobe
-readers, adobe computers help, adobe tech support contact number, adobe=
- phone
-support number.
-
---=20
+-- 
 You are receiving this mail because:
-You are watching the assignee of the bug.--
+You are watching the assignee of the bug.
+--
 To unsubscribe from this list: send the line "unsubscribe linux-man" in
 the body of a message to majordomo-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
 More majordomo info at  http://vger.kernel.org/majordomo-info.html
