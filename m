@@ -1,19 +1,19 @@
 From: bugzilla-daemon-590EEB7GvNiWaY/ihj7yzEB+6BGkLq7r@public.gmane.org
-Subject: [Bug 129021] TALK@@1.8.00.44.52.790++ Norton 360 Support Phone
- Number Norton antivirus Support Phone Number Norton 360 Phone Number
-Date: Wed, 13 Jul 2016 18:08:06 +0000
-Message-ID: <bug-129021-11311-2op5KqEh9o@https.bugzilla.kernel.org/>
-References: <bug-129021-11311@https.bugzilla.kernel.org/>
+Subject: [Bug 126621] Only Call@@@I8557092847@@@A*B*C* Epson Printer Tech
+ support phone number
+Date: Wed, 13 Jul 2016 18:08:14 +0000
+Message-ID: <bug-126621-11311-e2xNw3w2Gt@https.bugzilla.kernel.org/>
+References: <bug-126621-11311@https.bugzilla.kernel.org/>
 Mime-Version: 1.0
 Content-Type: text/plain; charset="UTF-8"
 Content-Transfer-Encoding: 7bit
 Return-path: <linux-man-owner-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>
-In-Reply-To: <bug-129021-11311-3bo0kxnWaOQUvHkbgXJLS5sdmw4N0Rt+2LY78lusg7I@public.gmane.org/>
+In-Reply-To: <bug-126621-11311-3bo0kxnWaOQUvHkbgXJLS5sdmw4N0Rt+2LY78lusg7I@public.gmane.org/>
 Sender: linux-man-owner-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
 To: linux-man-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
 List-Id: linux-man@vger.kernel.org
 
-https://bugzilla.kernel.org/show_bug.cgi?id=129021
+https://bugzilla.kernel.org/show_bug.cgi?id=126621
 
 Michael Kerrisk <mtk.manpages-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org> changed:
 
