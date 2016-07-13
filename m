@@ -1,47 +1,31 @@
-From: "Michael Kerrisk (man-pages)" <mtk.manpages-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org>
-Subject: Re: Bugzilla spam
-Date: Wed, 13 Jul 2016 20:48:14 +0200
-Message-ID: <CAKgNAkjS5EW4d0mw6N_CvQAY11uY8hPXiLk_WXMcU1J=ojLmzA@mail.gmail.com>
-References: <CAKgNAkiFnCHHERn5ECZ1xHhO6Y7jzsr7wrZB6o8wag2dceaaSw@mail.gmail.com>
- <20160713183756.GA3810@gmail.com>
-Reply-To: mtk.manpages-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org
+From: bugzilla-daemon-590EEB7GvNiWaY/ihj7yzEB+6BGkLq7r@public.gmane.org
+Subject: [Bug 131521] USA(1800-445-2790) Mcafee helpline phone number, Mcafee
+ antivirus phone number
+Date: Wed, 13 Jul 2016 18:48:31 +0000
+Message-ID: <bug-131521-11311-rXZ7WE7fzo@https.bugzilla.kernel.org/>
+References: <bug-131521-11311@https.bugzilla.kernel.org/>
 Mime-Version: 1.0
-Content-Type: text/plain; charset=UTF-8
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: 7bit
 Return-path: <linux-man-owner-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>
-In-Reply-To: <20160713183756.GA3810-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org>
+In-Reply-To: <bug-131521-11311-3bo0kxnWaOQUvHkbgXJLS5sdmw4N0Rt+2LY78lusg7I@public.gmane.org/>
 Sender: linux-man-owner-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
-To: Konstantin Ryabitsev <mricon-DgEjT+Ai2ygdnm+yROfE0A@public.gmane.org>
-Cc: linux-man <linux-man-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>, lkml <linux-kernel-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>
+To: linux-man-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
 List-Id: linux-man@vger.kernel.org
 
-Hello Konstantin,
+https://bugzilla.kernel.org/show_bug.cgi?id=131521
 
-On 13 July 2016 at 20:37, Konstantin Ryabitsev <mricon-DgEjT+Ai2ygdnm+yROfE0A@public.gmane.org> wrote:
-> On Wed, Jul 13, 2016 at 08:28:18PM +0200, Michael Kerrisk (man-pages) wrote:
->> Hello Konstantin,
->>
->> The man-pages Bugzilla component (as well as other components on
->> Bugzilla by the look of things) is receiving vast quantities of spam.
->> What can be done about this? (Just marking the bugs private and
->> closing isn't workable. There's just too many bugs coming in...).
->
-> Not much can be done. :( Bugzilla's default spam-fighting capabilities
-> are abysmal -- I can't even delete any accounts without installing
-> multiple extensions. I'm actively investigating what we can do to
-> improve the situation and will follow up shortly.
+Michael Kerrisk <mtk.manpages-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org> changed:
 
-Okay, thanks. In the meantime, is it possible for you to lock the
-man-pages component so that no further bug reports can be made via
-that component?
-
-Thanks,
-
-Michael
+           What    |Removed                     |Added
+----------------------------------------------------------------------------
+             Status|NEW                         |RESOLVED
+                 CC|                            |mtk.manpages-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org
+         Resolution|---                         |INVALID
 
 -- 
-Michael Kerrisk
-Linux man-pages maintainer; http://www.kernel.org/doc/man-pages/
-Linux/UNIX System Programming Training: http://man7.org/training/
+You are receiving this mail because:
+You are watching the assignee of the bug.
 --
 To unsubscribe from this list: send the line "unsubscribe linux-man" in
 the body of a message to majordomo-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
