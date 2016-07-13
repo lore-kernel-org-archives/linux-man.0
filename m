@@ -1,31 +1,21 @@
-From: bugzilla-daemon-590EEB7GvNiWaY/ihj7yzEB+6BGkLq7r@public.gmane.org
-Subject: [Bug 131581] 1-888-226-1322 Century Link tech Support Number
-Date: Wed, 13 Jul 2016 18:52:48 +0000
-Message-ID: <bug-131581-11311-XtloTouuYx@https.bugzilla.kernel.org/>
-References: <bug-131581-11311@https.bugzilla.kernel.org/>
+From: ellis@spinics.net
+Subject: Re: Bugzilla spam
+Date: Wed, 13 Jul 2016 14:35:14 -0700 (PDT)
+Message-ID: <201607132135.u6DLZEvS030590@spinics.net>
+References: <CAKgNAkjS5EW4d0mw6N_CvQAY11uY8hPXiLk_WXMcU1J=ojLmzA@mail.gmail.com>
 Mime-Version: 1.0
-Content-Type: text/plain; charset="UTF-8"
+Content-Type: text/plain; charset=us-ascii
 Content-Transfer-Encoding: 7bit
-Return-path: <linux-man-owner-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>
-In-Reply-To: <bug-131581-11311-3bo0kxnWaOQUvHkbgXJLS5sdmw4N0Rt+2LY78lusg7I@public.gmane.org/>
-Sender: linux-man-owner-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
-To: linux-man-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
+Return-path: <linux-kernel-owner@vger.kernel.org>
+In-Reply-To: <CAKgNAkjS5EW4d0mw6N_CvQAY11uY8hPXiLk_WXMcU1J=ojLmzA@mail.gmail.com>
+Sender: linux-kernel-owner@vger.kernel.org
+To: mtk.manpages@gmail.com
+Cc: Konstantin Ryabitsev <mricon@kernel.org>, linux-man <linux-man@vger.kernel.org>, lkml <linux-kernel@vger.kernel.org>
 List-Id: linux-man@vger.kernel.org
 
-https://bugzilla.kernel.org/show_bug.cgi?id=131581
+> Okay, thanks. In the meantime, is it possible for you to lock the
+> man-pages component so that no further bug reports can be made via
+> that component?
 
-Michael Kerrisk <mtk.manpages-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org> changed:
-
-           What    |Removed                     |Added
-----------------------------------------------------------------------------
-             Status|NEW                         |RESOLVED
-                 CC|                            |mtk.manpages-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org
-         Resolution|---                         |INVALID
-
--- 
-You are receiving this mail because:
-You are watching the assignee of the bug.
---
-To unsubscribe from this list: send the line "unsubscribe linux-man" in
-the body of a message to majordomo-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
-More majordomo info at  http://vger.kernel.org/majordomo-info.html
+It's not just the man-pages component. I'm seeing the same spam starting
+up on backports.
