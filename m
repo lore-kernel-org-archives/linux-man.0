@@ -1,19 +1,19 @@
 From: bugzilla-daemon-590EEB7GvNiWaY/ihj7yzEB+6BGkLq7r@public.gmane.org
-Subject: [Bug 126021] USA ~*@tech@ (1-800-929-1150)*microsoft msn email
- customer support phone number
-Date: Wed, 13 Jul 2016 15:02:32 +0000
-Message-ID: <bug-126021-11311-yGOxXC1Itq@https.bugzilla.kernel.org/>
-References: <bug-126021-11311@https.bugzilla.kernel.org/>
+Subject: [Bug 126311] canada$$$$$ 18~44551~9757 * * aol mail techNICAL
+ SUPPORT phone number aol mail customer care phone number
+Date: Wed, 13 Jul 2016 15:02:56 +0000
+Message-ID: <bug-126311-11311-9wZt9OdkJ7@https.bugzilla.kernel.org/>
+References: <bug-126311-11311@https.bugzilla.kernel.org/>
 Mime-Version: 1.0
 Content-Type: text/plain; charset="UTF-8"
 Content-Transfer-Encoding: 7bit
 Return-path: <linux-man-owner-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>
-In-Reply-To: <bug-126021-11311-3bo0kxnWaOQUvHkbgXJLS5sdmw4N0Rt+2LY78lusg7I@public.gmane.org/>
+In-Reply-To: <bug-126311-11311-3bo0kxnWaOQUvHkbgXJLS5sdmw4N0Rt+2LY78lusg7I@public.gmane.org/>
 Sender: linux-man-owner-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
 To: linux-man-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
 List-Id: linux-man@vger.kernel.org
 
-https://bugzilla.kernel.org/show_bug.cgi?id=126021
+https://bugzilla.kernel.org/show_bug.cgi?id=126311
 
 Michael Kerrisk <mtk.manpages-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org> changed:
 
