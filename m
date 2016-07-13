@@ -1,19 +1,19 @@
 From: bugzilla-daemon-590EEB7GvNiWaY/ihj7yzEB+6BGkLq7r@public.gmane.org
-Subject: [Bug 127971] TALK~T!ME !!!!!+1.8.4.4.7.7.8.8.6.0.3+ @*outlook
- SUPPORT phone number outlook customer care phone number
-Date: Wed, 13 Jul 2016 18:08:37 +0000
-Message-ID: <bug-127971-11311-aD1AG3Xubh@https.bugzilla.kernel.org/>
-References: <bug-127971-11311@https.bugzilla.kernel.org/>
+Subject: [Bug 126721] UST/U$$<::::: /@!!((I+855+7O9+2847+))!!@BROTHER printer
+ suppOrt phOne number BROTHER printer tech suppOrt phOne number USA
+Date: Wed, 13 Jul 2016 18:10:50 +0000
+Message-ID: <bug-126721-11311-J9jdXst2RN@https.bugzilla.kernel.org/>
+References: <bug-126721-11311@https.bugzilla.kernel.org/>
 Mime-Version: 1.0
 Content-Type: text/plain; charset="UTF-8"
 Content-Transfer-Encoding: 7bit
 Return-path: <linux-man-owner-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>
-In-Reply-To: <bug-127971-11311-3bo0kxnWaOQUvHkbgXJLS5sdmw4N0Rt+2LY78lusg7I@public.gmane.org/>
+In-Reply-To: <bug-126721-11311-3bo0kxnWaOQUvHkbgXJLS5sdmw4N0Rt+2LY78lusg7I@public.gmane.org/>
 Sender: linux-man-owner-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
 To: linux-man-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
 List-Id: linux-man@vger.kernel.org
 
-https://bugzilla.kernel.org/show_bug.cgi?id=127971
+https://bugzilla.kernel.org/show_bug.cgi?id=126721
 
 Michael Kerrisk <mtk.manpages-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org> changed:
 
