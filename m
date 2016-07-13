@@ -1,8 +1,8 @@
 From: bugzilla-daemon-590EEB7GvNiWaY/ihj7yzEB+6BGkLq7r@public.gmane.org
-Subject: [Bug 126721] New: UST/U$$<::::: /@!!((I+855+7O9+2847+))!!@BROTHER
- printer suppOrt phOne number BROTHER printer tech suppOrt phOne number USA
-Date: Wed, 13 Jul 2016 15:22:51 +0000
-Message-ID: <bug-126721-11311@https.bugzilla.kernel.org/>
+Subject: [Bug 127131] New: ++++SuPpOrTs free ~~caLl 18.5.5.332..........4042
+ ROADRUNNER technical support phone number
+Date: Wed, 13 Jul 2016 15:48:23 +0000
+Message-ID: <bug-127131-11311@https.bugzilla.kernel.org/>
 Mime-Version: 1.0
 Content-Type: text/plain; charset="UTF-8"
 Content-Transfer-Encoding: 7bit
@@ -11,12 +11,11 @@ Sender: linux-man-owner-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
 To: linux-man-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
 List-Id: linux-man@vger.kernel.org
 
-https://bugzilla.kernel.org/show_bug.cgi?id=126721
+https://bugzilla.kernel.org/show_bug.cgi?id=127131
 
-            Bug ID: 126721
-           Summary: UST/U$$<::::: /@!!((I+855+7O9+2847+))!!@BROTHER
-                    printer suppOrt phOne number BROTHER printer tech
-                    suppOrt phOne number USA
+            Bug ID: 127131
+           Summary: ++++SuPpOrTs free ~~caLl 18.5.5.332..........4042
+                    ROADRUNNER technical support phone number
            Product: Documentation
            Version: unspecified
           Hardware: All
@@ -26,100 +25,136 @@ https://bugzilla.kernel.org/show_bug.cgi?id=126721
           Priority: P1
          Component: man-pages
           Assignee: documentation_man-pages-ztI5WcYan/vQLgFONoPN62D2FQJk+8+b@public.gmane.org
-          Reporter: saxenaharsh819-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org
+          Reporter: masddad-/E1597aS9LQAvxtiuMwx3w@public.gmane.org
         Regression: No
 
-((moti))Call @@@++ USA I8557O92847 BROTHER p.r.i.n.t.e.r t.e.c.h s.u.p.p.o.r.t
-p.h.o.n.e n.u.m.b.e.r u.s.a. C.a.l.l BROTHER h.e.l.p d.e.s.k n.u.m.b.e.r
-n.u.m.b.e.r C.a.n.a.d.a BROTHER s.u.p.p.o.r.t p.h.o.n.e n.u.m.b.r usa USA 1
-I8557O92847 BROTHER p.r.i.n.t.e.r t.e.c.h s.u.p.p.o.r.t p.h.o.n.e n.u.m.b.e.r
-u.s.a. C.a.l.l BROTHER h.e.l.p d.e.s.k n.u.m.b.e.r n.u.m.b.e.r C.a.n.a.d.a
-BROTHER s.u.p.p.o.r.t p.h.o.n.e n.u.m.b.r usa canada 1-1844-848-1262 USA,
-BROTHER printer Tech Support phone number,BROTHER technical support phone
-number 1 I8557O92847 .BROTHER Tech Support Number BROTHER Tech BROTHER tech
-support, BROTHER tech support number, BROTHER tech support phone number,
-BROTHER technical support, BROTHER technical support number, BROTHER technical
-support phone number, BROTHER tech support number, BROTHER support number,
-BROTHER Tech support phone number, BROTHER support phone number, BROTHER
-technical support phone number, BROTHER technical support number,Support Phone
-Number for BROTHER printer Phone Number for BROTHER CustomerService Technical
-Support Telephone Number BROTHER printer support number BROTHER BROTHER printer
-tech support number BROTHER BROTHER printer technical support number BROTHER
-BROTHER printer technical support phone number BROTHER BROTHER printer customer
-service number BROTHER BROTHER internet security technical support BROTHER
-technical support phone number BROTHER BROTHER tech support phone number
-BROTHER BROTHER customer support phone number I-844-848-1262 BROTHER BROTHER
-printer support phone number BROTHER BROTHER support phone BROTHER tech support
-BROTHER customer support BROTHER phone support BROTHER support number BROTHER
-BROTHER technical support BROTHER printer customer support phone number BROTHER
-BROTHER printer tech support phone number BROTHER contact BROTHER support
-BROTHER printer technical support phone number ~!~I8448481262++ BROTHER BROTHER
-phone number BROTHER tech support BROTHER support ticket BROTHER customer
-support number BROTHER BROTHER tech support number BROTHER BROTHER technical
-support number BROTHER BROTHER support center BROTHER telephone support call
-BROTHER support BROTHER printer support support BROTHER BROTHER billing support
-BROTHER printer technical support number BROTHER support BROTHER printer
-BROTHER online support BROTHER contact support BROTHER printer support number
-BROTHER BROTHER printer customer support number BROTHER BROTHER printer tech
-support number BROTHER support for BROTHER BROTHER phone number BROTHER BROTHER
-customer service phone number BROTHER BROTHER contact phone number BROTHER
-BROTHER printer phone number BROTHER BROTHER printer customer service phone
-number BROTHER phone number BROTHER for BROTHER customer service BROTHER
-software phone number BROTHER phone number BROTHER for BROTHER BROTHER customer
-service telephone number BROTHER BROTHER helpline phone number BROTHER BROTHER
-contact number BROTHER BROTHER customer service number BROTHER BROTHER customer
-service phone number ~!~I8448481262++ BROTHER us BROTHER customer service phone
-number BROTHER usa BROTHER telephone number BROTHER BROTHER phone number
-BROTHER usa BROTHER printer contact number BROTHER BROTHER number BROTHER
-BROTHER contact number BROTHER usa BROTHER printer helpline number BROTHER
-BROTHER helpline number BROTHER BROTHER customer number BROTHER BROTHER printer
-customer service number BROTHER BROTHER contact telephone number BROTHER
-contact number BROTHER for BROTHER BROTHER software contact number BROTHER
-BROTHER toll free number BROTHER BROTHER telephone number BROTHER uk BROTHER
-registration number BROTHER BROTHER toll free number BROTHER usa BROTHER
-customer service BROTHER software customer service contact BROTHER customer
-service BROTHER customer service phone BROTHER printer customer service BROTHER
-service BROTHER printer technical support BROTHER printer customer support
-BROTHER technical support reviews telephone BROTHER printer BROTHER tech
-support phone number BROTHER BROTHER printer tech support phone number BROTHER
-BROTHER printer customer service BROTHER technical support phone number BROTHER
-BROTHER printer free printer support BROTHER customer service billing BROTHER
-customer service email address BROTHER customer service reviews contact BROTHER
-customer service BROTHER tech support number BROTHER usa BROTHER printer
-support number BROTHER BROTHER printer contact number BROTHER BROTHER customer
-service phone number BROTHER BROTHER technical support usa BROTHER technical
-support number BROTHER BROTHER tech support phone BROTHER tech support number
-BROTHER BROTHER customer service telephone number BROTHER BROTHER printer
-customer support number BROTHER BROTHER printer phone number BROTHER BROTHER
-printer online support BROTHER customer service number BROTHER BROTHER tech
-support center BROTHER customer service BROTHER software customer service
-BROTHER customer care number BROTHER usa BROTHER customer number BROTHER
-BROTHER customer support number BROTHER BROTHER customer care number BROTHER
-BROTHER customer care toll free number BROTHER BROTHER tech support BROTHER
-technical support BROTHER printer support BROTHER printer tech support BROTHER
-support center BROTHER.com customer service BROTHER printer customer care
-number BROTHER BROTHER customer care BROTHER phone number BROTHER phone number
-BROTHER for BROTHER customer service BROTHER phone support BROTHER phone number
-BROTHER tech support BROTHER support phone number BROTHER contact BROTHER by
-phone BROTHER contact phone number BROTHER BROTHER helpline phone number
-BROTHER BROTHER printer phone BROTHER printer for phone BROTHER contact number
-BROTHER BROTHER contact support contact BROTHER printer BROTHER contact number
-BROTHER usa BROTHER toll free number BROTHER BROTHER telephone number BROTHER
-BROTHER toll free number BROTHER usa BROTHER printer support services technical
-support for printer BROTHER BROTHER customer service phone number BROTHER usa
-BROTHER printer customer care number BROTHER usa BROTHER customer care number
-BROTHER BROTHER customer care center BROTHER customer support BROTHER customer
-support phone BROTHER customer help BROTHER customer & technical support
-BROTHER customer portal BROTHER customer care phone number BROTHER usa BROTHER
-customer care email BROTHER helpline BROTHER tech support contact BROTHER
-customer care toll free BROTHER printer customer service number BROTHER BROTHER
-printer protection norton printer customer service number BROTHER BROTHER
-software customer service number BROTHER BROTHER hotline customer service phone
-number BROTHER BROTHER customer service phone number BROTHER us how to contact
-BROTHER by email BROTHER free phone support BROTHER printer technical support
-number BROTHER BROTHER printer technical support help desk phone number BROTHER
-BROTHER technical support number BROTHER toll free number BROTHER BROTHER
-printer customer support phone number BROTHER BROTHER printer customer
+Call service plus ++1-844-332-4042 ROADRUNNER support phone number ROADRUNNER
+customer care service phone number ROADRUNNER support support phone number
+ROADRUNNER customer support phone number Call service plus 18 44 332 4042
+ROADRUNNER support phone number ROADRUNNER customer care service phone number
+ROADRUNNER support support phone number ROADRUNNER customer support phone
+number !CANADA+++++-----GGGGGYDasbnd ROADRUNNER customer suppOrt number
+usaasdaa UCanaDa..@1855-332-4042(USA), 855-332-4042(CANADA),
+1855-332-4042(US)@ROADRUNNER telephone support@))))!@ $$@$$$ ROADRUNNER
+computer support number +@$$$@$$$@$@))))!@1855-332-4042(USA),
+1855-332-4042(CANADA), 1855-332-4042(US)@USA CALL ROADRUNNER Tech Support Phone
+Number, ROADRUNNER Customer service number... +@$$$@$$$@$@))@1-855-332-4042@USA
+CALL ROADRUNNER Tech Support Phone Number, ROADRUNNER Customer service number..
+++@@@helpline@@USA_CALL_1-855-332-4042_ROADRUNNER
+_MAIL_TECHNICAL_SUPPORT_PHONE_NUMBER,CUSTOMER_SERVICE_NUMBER_USA ? $CALL
+%%USA((1-855-332-4042))_!!ROADRUNNER tech Support Number @1-855-332-4042@
+ROADRUNNER Tech Support Phone Number Call wireless 1-855-332-4042
+1-855-332-4042 ROADRUNNER Tech Support Phone Number Canada ROADRUNNER customer
+service number1-855-332-4042 ROADRUNNER support number, ROADRUNNER support,
+ROADRUNNER support, ROADRUNNER tech support, ROADRUNNER technical support,
+ROADRUNNER customer service number, ROADRUNNER customer service, ROADRUNNER
+tech support number, ##ROADRUNNER support center##, ROADRUNNER support number,
+hewlett packard support, ROADRUNNER contact number, ROADRUNNER phone number,
+ROADRUNNER help and support, ROADRUNNER customer support, ROADRUNNER help,
+ROADRUNNER technical support number, ROADRUNNER support phone number, hewlett
+packard customer service, ROADRUNNER mails support, ROADRUNNER customer service
+phone number, ROADRUNNER number, ROADRUNNER customer care, ROADRUNNER contact,
+ROADRUNNER tech support phone number, ROADRUNNER support chat, ROADRUNNER
+customer support number, ROADRUNNER customer care number, contact ROADRUNNER
+support, ROADRUNNER help, ROADRUNNER phone, ROADRUNNER support phone number,
+ROADRUNNER customer support phone number, ROADRUNNER tech support, ROADRUNNER
+phone support, ROADRUNNER technical support phone number, ROADRUNNER laptop
+support number, hewlett packard mail support, ROADRUNNER helpline, ROADRUNNER
+telephone support, ROADRUNNER online support, ROADRUNNER support contact,
+ROADRUNNER chat support, hewlett packard phone number, ROADRUNNER customer
+service, ROADRUNNER tech support number, ROADRUNNER product support, hewlett
+packard customer service phone number, ROADRUNNER computer support number,
+ROADRUNNER support contact number, ROADRUNNER support mail, ROADRUNNER computer
+support, ROADRUNNER tech support chat, ROADRUNNER helpline number, ROADRUNNER
+laptop support, hewlett packard tech support, ROADRUNNER online chat, hewlett
+packard technical support, ROADRUNNER help line, phone number for ROADRUNNER
+support, hewlett packard support phone number, ROADRUNNER technical support,
+hewlett packard customer service number, ROADRUNNER service number, hewlett
+packard helpline, ROADRUNNER customer care no, ROADRUNNER customer service
+number, ROADRUNNER help number, ROADRUNNER customer service phone number,
+ROADRUNNER 1855 number, ROADRUNNER support phone, ROADRUNNER support line,
+hewlett packard contact number, ROADRUNNER tech support phone number,
+ROADRUNNER customer support phone number, ROADRUNNER mails help, call
+ROADRUNNER support, ##ROADRUNNER support## chat, hewlett packard support
+number, hewlett packard tech support number, ROADRUNNER support telephone
+number, hewlett packard tech support phone number, call ROADRUNNER , ROADRUNNER
+contact support, hewlett packard technical support phone number, ROADRUNNER
+support centre, hewlett packard customer support, ROADRUNNER desktop support,
+ROADRUNNER laptop customer service, contact ROADRUNNER support, ROADRUNNER pc
+support, ROADRUNNER laptop customer care number, ROADRUNNER support for mails,
+ROADRUNNER customer care, ROADRUNNER customer care phone number, hewlett
+packard help, phone number for ROADRUNNER , ROADRUNNER online help, ROADRUNNER
+laptop customer care, ROADRUNNER helpline phone number, ROADRUNNER customer
+support, ROADRUNNER technical support chat, ROADRUNNER computer help,
+ROADRUNNER support numbers, ROADRUNNER technical support contact number,
+ROADRUNNER telephone number, ROADRUNNER technical support phone number,
+ROADRUNNER helpline, ROADRUNNER support mails, ROADRUNNER support online,
+ROADRUNNER contact number, ROADRUNNER help phone number, ROADRUNNER customer
+care number, contact hewlett packard by phone, ROADRUNNER phone support,
+hewlett packard mails support, ROADRUNNER tech support phone, ROADRUNNER
+technical help, ROADRUNNER laptop tech support number, contact ROADRUNNER by
+phone, ROADRUNNER support call, ROADRUNNER computers support, hewlett packard
+customer service telephone number, phone number for hewlett packard, ROADRUNNER
+online support chat, ROADRUNNER laptop customer service number, ROADRUNNER
+online chat support, ROADRUNNER mails customer service, hewlett packard
+customer service phone, ROADRUNNER laptop tech support, ROADRUNNER service
+phone number, hewlett packard mail help, phone number for ROADRUNNER mails,
+ROADRUNNER troubleshooting phone number, ROADRUNNER 855 number, hewlett packard
+technical support number, contact ROADRUNNER support phone, phone number for
+ROADRUNNER support, ROADRUNNER customer support chat, ROADRUNNER help and
+support number, contact hewlett packard, ROADRUNNER laptop support phone
+number, ROADRUNNER mails customer service phone number, ROADRUNNER laptop
+customer service phone number, ROADRUNNER computer support phone number,
+ROADRUNNER pavilion support, ROADRUNNER computer customer service, ROADRUNNER
+customer services, hewlett packard telephone number, ROADRUNNER helpline no,
+ROADRUNNER help desk number, contact ROADRUNNER support phone number, hewlett
+packard contact, ROADRUNNER phone numbers, ROADRUNNER mails customer care
+number, ROADRUNNER help and support, contact ROADRUNNER technical support,
+ROADRUNNER contact numbers, contact ROADRUNNER support chat, call ROADRUNNER
+tech support, ROADRUNNER customer service phone, ROADRUNNER help support,
+ROADRUNNER computer tech support, ROADRUNNER assistance phone number,
+ROADRUNNER customer service telephone number, hewlett packard mail support
+phone number, ROADRUNNER contact support number, ROADRUNNER support center
+phone number, ROADRUNNER support phone numbers, tech support for ROADRUNNER ,
+ROADRUNNER it support, ROADRUNNER laptop helpline, ROADRUNNER technical,
+ROADRUNNER laptop technical support number, ROADRUNNER mails tech support phone
+number, ROADRUNNER mails support phone number, hewlett packard help desk phone
+number, ROADRUNNER computer tech support phone number, ROADRUNNER customer
+service number for laptop, ROADRUNNER helpline number, contact ROADRUNNER
+support by phone, hewlett packard support center, ROADRUNNER laptop customer
+care no, ROADRUNNER support telephone number, ROADRUNNER support services,
+ROADRUNNER customer service number for mails, ROADRUNNER product support
+number, ROADRUNNER laptop tech support phone number, ROADRUNNER helpline phone
+number, contact ROADRUNNER customer support, hewlett packard customer support
+phone number, ROADRUNNER mails technical support, ROADRUNNER customer care
+center, support for ROADRUNNER mails, ROADRUNNER support center, phone number
+for ROADRUNNER tech support, ROADRUNNER desktop customer care number,
+ROADRUNNER laptops support, ROADRUNNER online support, ROADRUNNER phone number,
+hewlett packard mails support phone number, technical support for ROADRUNNER
+mails phone number, ROADRUNNER help center phone number, contact ROADRUNNER
+tech support, call ROADRUNNER support, ROADRUNNER mails customer support,
+ROADRUNNER computer customer service number, ROADRUNNER mails helpline,
+ROADRUNNER customer care contact number, ROADRUNNER laptop help, ROADRUNNER
+computer customer service phone number, phone number for hewlett packard
+customer service, hewlett packard 855 number, ROADRUNNER help phone number,
+ROADRUNNER mails help phone number, ROADRUNNER phone number for customer
+service, ROADRUNNER computer technical support phone number, customer service
+ROADRUNNER , ROADRUNNER support technical support number, contact number for
+ROADRUNNER , ROADRUNNER computers support phone number, ROADRUNNER mails
+support number, ROADRUNNER technical support number, contact ROADRUNNER tech
+support by phone, ROADRUNNER computer customer care number, ROADRUNNER 855
+number, call ROADRUNNER customer service, ROADRUNNER help center, ROADRUNNER
+computers customer service, ROADRUNNER help desk, hewlett packard computer
+support, ROADRUNNER mails technical support number, ROADRUNNER help desk phone
+number, ROADRUNNER support phone, ROADRUNNER contact help, contact ROADRUNNER
+laptop support, ROADRUNNER customer service contact number, support for
+ROADRUNNER mail, ROADRUNNER customer care no, ROADRUNNER computer phone number,
+ROADRUNNER tech help, ROADRUNNER pc support number, ROADRUNNER laptop customer
+support, ROADRUNNER desktop support number, support ROADRUNNER mail, ROADRUNNER
+support hours, number for ROADRUNNER support, ROADRUNNER support customer
+service number, ROADRUNNER contact phone number, customer service number for
+ROADRUNNER mails, ROADRUNNER computers help, ROADRUNNER tech support contact
+number, ROADRUNNER phone support number...
 
 -- 
 You are receiving this mail because:
