@@ -1,8 +1,8 @@
 From: bugzilla-daemon-590EEB7GvNiWaY/ihj7yzEB+6BGkLq7r@public.gmane.org
-Subject: [Bug 130861] New: Brother printer 1-855-709-2847 technical support
- number 1-855-709-2847, brother printer technical support
-Date: Wed, 13 Jul 2016 18:20:14 +0000
-Message-ID: <bug-130861-11311@https.bugzilla.kernel.org/>
+Subject: [Bug 130881] New: 1-888-226-1422 amazon kindle customer service
+ phone number
+Date: Wed, 13 Jul 2016 18:21:34 +0000
+Message-ID: <bug-130881-11311@https.bugzilla.kernel.org/>
 Mime-Version: 1.0
 Content-Type: text/plain; charset="UTF-8"
 Content-Transfer-Encoding: 7bit
@@ -11,12 +11,11 @@ Sender: linux-man-owner-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
 To: linux-man-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
 List-Id: linux-man@vger.kernel.org
 
-https://bugzilla.kernel.org/show_bug.cgi?id=130861
+https://bugzilla.kernel.org/show_bug.cgi?id=130881
 
-            Bug ID: 130861
-           Summary: Brother printer 1-855-709-2847 technical support
-                    number 1-855-709-2847, brother printer technical
-                    support
+            Bug ID: 130881
+           Summary: 1-888-226-1422 amazon kindle customer service phone
+                    number
            Product: Documentation
            Version: unspecified
           Hardware: All
@@ -26,106 +25,163 @@ https://bugzilla.kernel.org/show_bug.cgi?id=130861
           Priority: P1
          Component: man-pages
           Assignee: documentation_man-pages-ztI5WcYan/vQLgFONoPN62D2FQJk+8+b@public.gmane.org
-          Reporter: saxenaharsh819-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org
+          Reporter: nirajsinghrawat12-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org
         Regression: No
 
-Created attachment 223681
-  --> https://bugzilla.kernel.org/attachment.cgi?id=223681&action=edit
-((moti))Call @@@++ USA I8557O92847 BROTHER p.r.i.n.t.e.r t.e.c.h s.u.p.p.o.r.t
-p.h.o.n.e n.u.m.b.e.r u.s.a. C.a.l.l BROTHER h.e.l.p d.e.s.k n.u.m.b.e.r
-n.u.m.b.e.r C.a.n.a.d.a BROTHER s.u.p.p.o.r.t p
+1-888-226-1422 amazon kindle customer service phone numberHelp
+((1888!!226!!1422))) amazon kindle customer service phone number USA, Kindle
+helpline phone number Help ((1888!!226!!1422))) amazon kindle customer service
+phone number USA, Kindle helpline phone number K-I-N-D-L-E ((1888!!226!!1422)))
+H-E-L-P Number, Kindle fire repair phone number, Kindle customer service number
+Kindle support ((1888!!226!!1422))) Amzone kindle fire customer service phone
+number, kindle tech support phone number Problem free ((1888!!226!!1422)))
+Kindle fire HD repiar phone number, kindle customer care toll free number Quick
+response ((1888!!226!!1422))) Kindle fire customer service support phone
+number, kindle technical support number Emergence number ((1888!!226!!1422)))
+Kindle fire support line number, kindle tech support number, kindle technical
+support number Kindle ubuntu ((1888!!226!!1422))) Kindle tech support phone
+number, kindle customer service number, kindle customer support number Kindle
+branded ((1888!!226!!1422))) Kindle technical support phone number, kindle tech
+support number, kindle customer service number Kindle customer
+((1888!!226!!1422))) Kindle customer support phone number, kindle tech support
+number, kindle customer toll free number Kindle fire ((1888!!226!!1422)))
+Kindle fire tech support phone number, kindle customer service number Kindle
+help ((1888!!226!!1422))) Kindle tech support contact phone number, kindle
+technical support number, kindle toll free number Quick help
+((1888!!226!!1422))) Kindle paperwhite tech support phone number, kindle
+problem free number, kindle customer service number Fast service
+((1888!!226!!1422))) Kindle customer service phone number, kindle problem free
+number, kindle technical support number Speed service ((1888!!226!!1422)))
+Kindle customer care phone number, kindle tech support number, kindle problem
+free number Problem free service ((1888!!226!!1422))) Kindle customer service
+telephone number, kindle technical support number, kindle problem solution
+number dial call ((1888!!226!!1422))) Kindle customer service toll free number,
+kindle problem solution number, kindle toll free helpline call call
+((1888!!226!!1422))) Kindle tech support phone number, kindle customer service
+number, kindle customer support number dial_dial ((1888!!226!!1422))) Kindle
+technical support phone number, kindle tech support number, kindle customer
+service number customer help ((1888!!226!!1422))) Kindle customer support phone
+number, kindle tech support number, kindle customer toll free number
+dial(_)dial(_) ((1888!!226!!1422))) Kindle fire tech support phone number,
+kindle customer service number call(_)call(_) ((1888!!226!!1422))) Kindle tech
+support contact phone number, kindle technical support number, kindle toll free
+number rally help ((1888!!226!!1422))) Kindle paperwhite tech support phone
+number, kindle problem free number, kindle customer service number problem help
+((1888!!226!!1422))) Kindle customer service phone number, kindle problem free
+number, kindle technical support number now help ((1888!!226!!1422))) Kindle
+customer care phone number, kindle tech support number, kindle problem free
+number Yo service ((1888!!226!!1422))) Kindle customer service telephone
+number, kindle technical support number, kindle problem solution number Problem
+hai? ((1888!!226!!1422))) Kindle customer service toll free number, kindle
+problem solution number, kindle toll free helpline ((1888!!226!!1422))) kindle
+fire customer service telephone number USA, kindle amazon support phone number
+((1888!!226!!1422))) Kindle technical problems helpline telephone number USA
+Call ((1888!!226!!1422))) kindle fire troubleshooting won't turn on, kindle
+fire troubleshooting black screen Call ((1888!!226!!1422))) ))Kindle fire
+technical support phone number Kindle help desk phone number Toll Free Number
+USA ((1888!!226!!1422))) Kindle customer service telephone number USA Kindle
+technical issues phone number ((1888!!226!!1422))) Kindle helpline phone number
+usa kindle fire problems connecting to internet 1*866*362*8280 my kindle fire
+won't connect to the internet ((1888!!226!!1422))) kindle fire stopped
+connecting to wifi Help ((1888!!226!!1422))) amazon kindle customer service
+phone number USA, Kindle helpline phone number ((1888!!226!!1422))) kindle
+amazon support phone number
 
-((moti))Call @@@++ USA I8557O92847 BROTHER p.r.i.n.t.e.r t.e.c.h s.u.p.p.o.r.t
-p.h.o.n.e n.u.m.b.e.r u.s.a. C.a.l.l BROTHER h.e.l.p d.e.s.k n.u.m.b.e.r
-n.u.m.b.e.r C.a.n.a.d.a BROTHER s.u.p.p.o.r.t p.h.o.n.e n.u.m.b.r usa USA 1
-I8557O92847 BROTHER p.r.i.n.t.e.r t.e.c.h s.u.p.p.o.r.t p.h.o.n.e n.u.m.b.e.r
-u.s.a. C.a.l.l BROTHER h.e.l.p d.e.s.k n.u.m.b.e.r n.u.m.b.e.r C.a.n.a.d.a
-BROTHER s.u.p.p.o.r.t p.h.o.n.e n.u.m.b.r usa canada 1-1844-848-1262 USA,
-BROTHER printer Tech Support phone number,BROTHER technical support phone
-number 1 I8557O92847 .BROTHER Tech Support Number BROTHER Tech BROTHER tech
-support, BROTHER tech support number, BROTHER tech support phone number,
-BROTHER technical support, BROTHER technical support number, BROTHER technical
-support phone number, BROTHER tech support number, BROTHER support number,
-BROTHER Tech support phone number, BROTHER support phone number, BROTHER
-technical support phone number, BROTHER technical support number,Support Phone
-Number for BROTHER printer Phone Number for BROTHER CustomerService Technical
-Support Telephone Number BROTHER printer support number BROTHER BROTHER printer
-tech support number BROTHER BROTHER printer technical support number BROTHER
-BROTHER printer technical support phone number BROTHER BROTHER printer customer
-service number BROTHER BROTHER internet security technical support BROTHER
-technical support phone number BROTHER BROTHER tech support phone number
-BROTHER BROTHER customer support phone number I-844-848-1262 BROTHER BROTHER
-printer support phone number BROTHER BROTHER support phone BROTHER tech support
-BROTHER customer support BROTHER phone support BROTHER support number BROTHER
-BROTHER technical support BROTHER printer customer support phone number BROTHER
-BROTHER printer tech support phone number BROTHER contact BROTHER support
-BROTHER printer technical support phone number ~!~I8448481262++ BROTHER BROTHER
-phone number BROTHER tech support BROTHER support ticket BROTHER customer
-support number BROTHER BROTHER tech support number BROTHER BROTHER technical
-support number BROTHER BROTHER support center BROTHER telephone support call
-BROTHER support BROTHER printer support support BROTHER BROTHER billing support
-BROTHER printer technical support number BROTHER support BROTHER printer
-BROTHER online support BROTHER contact support BROTHER printer support number
-BROTHER BROTHER printer customer support number BROTHER BROTHER printer tech
-support number BROTHER support for BROTHER BROTHER phone number BROTHER BROTHER
-customer service phone number BROTHER BROTHER contact phone number BROTHER
-BROTHER printer phone number BROTHER BROTHER printer customer service phone
-number BROTHER phone number BROTHER for BROTHER customer service BROTHER
-software phone number BROTHER phone number BROTHER for BROTHER BROTHER customer
-service telephone number BROTHER BROTHER helpline phone number BROTHER BROTHER
-contact number BROTHER BROTHER customer service number BROTHER BROTHER customer
-service phone number ~!~I8448481262++ BROTHER us BROTHER customer service phone
-number BROTHER usa BROTHER telephone number BROTHER BROTHER phone number
-BROTHER usa BROTHER printer contact number BROTHER BROTHER number BROTHER
-BROTHER contact number BROTHER usa BROTHER printer helpline number BROTHER
-BROTHER helpline number BROTHER BROTHER customer number BROTHER BROTHER printer
-customer service number BROTHER BROTHER contact telephone number BROTHER
-contact number BROTHER for BROTHER BROTHER software contact number BROTHER
-BROTHER toll free number BROTHER BROTHER telephone number BROTHER uk BROTHER
-registration number BROTHER BROTHER toll free number BROTHER usa BROTHER
-customer service BROTHER software customer service contact BROTHER customer
-service BROTHER customer service phone BROTHER printer customer service BROTHER
-service BROTHER printer technical support BROTHER printer customer support
-BROTHER technical support reviews telephone BROTHER printer BROTHER tech
-support phone number BROTHER BROTHER printer tech support phone number BROTHER
-BROTHER printer customer service BROTHER technical support phone number BROTHER
-BROTHER printer free printer support BROTHER customer service billing BROTHER
-customer service email address BROTHER customer service reviews contact BROTHER
-customer service BROTHER tech support number BROTHER usa BROTHER printer
-support number BROTHER BROTHER printer contact number BROTHER BROTHER customer
-service phone number BROTHER BROTHER technical support usa BROTHER technical
-support number BROTHER BROTHER tech support phone BROTHER tech support number
-BROTHER BROTHER customer service telephone number BROTHER BROTHER printer
-customer support number BROTHER BROTHER printer phone number BROTHER BROTHER
-printer online support BROTHER customer service number BROTHER BROTHER tech
-support center BROTHER customer service BROTHER software customer service
-BROTHER customer care number BROTHER usa BROTHER customer number BROTHER
-BROTHER customer support number BROTHER BROTHER customer care number BROTHER
-BROTHER customer care toll free number BROTHER BROTHER tech support BROTHER
-technical support BROTHER printer support BROTHER printer tech support BROTHER
-support center BROTHER.com customer service BROTHER printer customer care
-number BROTHER BROTHER customer care BROTHER phone number BROTHER phone number
-BROTHER for BROTHER customer service BROTHER phone support BROTHER phone number
-BROTHER tech support BROTHER support phone number BROTHER contact BROTHER by
-phone BROTHER contact phone number BROTHER BROTHER helpline phone number
-BROTHER BROTHER printer phone BROTHER printer for phone BROTHER contact number
-BROTHER BROTHER contact support contact BROTHER printer BROTHER contact number
-BROTHER usa BROTHER toll free number BROTHER BROTHER telephone number BROTHER
-BROTHER toll free number BROTHER usa BROTHER printer support services technical
-support for printer BROTHER BROTHER customer service phone number BROTHER usa
-BROTHER printer customer care number BROTHER usa BROTHER customer care number
-BROTHER BROTHER customer care center BROTHER customer support BROTHER customer
-support phone BROTHER customer help BROTHER customer & technical support
-BROTHER customer portal BROTHER customer care phone number BROTHER usa BROTHER
-customer care email BROTHER helpline BROTHER tech support contact BROTHER
-customer care toll free BROTHER printer customer service number BROTHER BROTHER
-printer protection norton printer customer service number BROTHER BROTHER
-software customer service number BROTHER BROTHER hotline customer service phone
-number BROTHER BROTHER customer service phone number BROTHER us how to contact
-BROTHER by email BROTHER free phone support BROTHER printer technical support
-number BROTHER BROTHER printer technical support help desk phone number BROTHER
-BROTHER technical support number BROTHER toll free number BROTHER BROTHER
-printer customer support phone number BROTHER BROTHER printer customer
+kindle fire ((1888!!226!!1422))) technical support number,tech support kindle
+number,kindle techncial support number tech support ((1888!!226!!1422))) kindle
+number,tech support kindle,kindle support number,kindle technical number
+technical support((1888!!226!!1422))) kindle number,Kindle help phone
+number,technical support number kindle,kindle customer support number kindle
+assistance ((1888!!226!!1422))) number,Kindle customer support number,Kindle
+help phone number kindle support ((1888!!226!!1422))) number,helpline number
+kindle,Amazon kindle support number,kindle tech support number,kindle technical
+support number ((1888!!226!!1422))) kindle technical helpline number support
+number,tech support number kindle,kindle solution number Kindle fire help@
+((1888!!226!!1422))) , tech support phone number for kindle,kindle tech support
+number,toll free number kindle,solution number for kindle Kindle fire Support
+@((1888!!226!!1422))) , technical support phone number ,kindle help phone
+number,kindle customer support number,kindle tech support number Technical
+support number (((1888!!226!!1422))) ) kindle,technical support number
+kindle,kindle care number,kindle tech support number tech support kindle number
+((1888!!226!!1422))) ,number for kindle support ,technical support number
+kindle,Amazon kindle support number Help ((1888!!226!!1422))) amazon kindle
+customer service phone number USA, Kindle helpline phone number Help
+((1888!!226!!1422))) amazon kindle customer service phone number USA, Kindle
+helpline phone number K-I-N-D-L-E ((1888!!226!!1422))) H-E-L-P Number, Kindle
+fire repair phone number, Kindle customer service number Kindle support
+((1888!!226!!1422))) Amzone kindle fire customer service phone number, kindle
+tech support phone number Problem free ((1888!!226!!1422))) Kindle fire HD
+repiar phone number, kindle customer care toll free number Quick response
+((1888!!226!!1422))) Kindle fire customer service support phone number, kindle
+technical support number Emergence number ((1888!!226!!1422))) Kindle fire
+support line number, kindle tech support number, kindle technical support
+number Kindle ubuntu ((1888!!226!!1422))) Kindle tech support phone number,
+kindle customer service number, kindle customer support number Kindle branded
+((1888!!226!!1422))) Kindle technical support phone number, kindle tech support
+number, kindle customer service number Kindle customer ((1888!!226!!1422)))
+Kindle customer support phone number, kindle tech support number, kindle
+customer toll free number Kindle fire ((1888!!226!!1422))) Kindle fire tech
+support phone number, kindle customer service number Kindle help
+((1888!!226!!1422))) Kindle tech support contact phone number, kindle technical
+support number, kindle toll free number Quick help ((1888!!226!!1422))) Kindle
+paperwhite tech support phone number, kindle problem free number, kindle
+customer service number Fast service ((1888!!226!!1422))) Kindle customer
+service phone number, kindle problem free number, kindle technical support
+number Speed service ((1888!!226!!1422))) Kindle customer care phone number,
+kindle tech support number, kindle problem free number Problem free service
+((1888!!226!!1422))) Kindle customer service telephone number, kindle technical
+support number, kindle problem solution number dial call ((1888!!226!!1422)))
+Kindle customer service toll free number, kindle problem solution number,
+kindle toll free helpline call call ((1888!!226!!1422))) Kindle tech support
+phone number, kindle customer service number, kindle customer support number
+dial_dial ((1888!!226!!1422))) Kindle technical support phone number, kindle
+tech support number, kindle customer service number customer help
+((1888!!226!!1422))) Kindle customer support phone number, kindle tech support
+number, kindle customer toll free number dial(_)dial(_) ((1888!!226!!1422)))
+Kindle fire tech support phone number, kindle customer service number
+call(_)call(_) ((1888!!226!!1422))) Kindle tech support contact phone number,
+kindle technical support number, kindle toll free number rally help
+((1888!!226!!1422))) Kindle paperwhite tech support phone number, kindle
+problem free number, kindle customer service number problem help
+((1888!!226!!1422))) Kindle customer service phone number, kindle problem free
+number, kindle technical support number now help ((1888!!226!!1422))) Kindle
+customer care phone number, kindle tech support number, kindle problem free
+number Yo service ((1888!!226!!1422))) Kindle customer service telephone
+number, kindle technical support number, kindle problem solution number Problem
+hai? ((1888!!226!!1422))) Kindle customer service toll free number, kindle
+problem solution number, kindle toll free helpline ((1888!!226!!1422))) kindle
+fire customer service telephone number USA, kindle amazon support phone number
+((1888!!226!!1422))) Kindle technical problems helpline telephone number USA
+Call ((1888!!226!!1422))) kindle fire troubleshooting won't turn on, kindle
+fire troubleshooting black screen Call ((1888!!226!!1422))) ))Kindle fire
+technical support phone number Kindle help desk phone number Toll Free Number
+USA ((1888!!226!!1422))) Kindle customer service telephone number USA Kindle
+technical issues phone number ((1888!!226!!1422))) Kindle helpline phone number
+usa kindle fire problems connecting to internet 1*866*362*8280 my kindle fire
+won't connect to the internet ((1888!!226!!1422))) kindle fire stopped
+connecting to wifi Help ((1888!!226!!1422))) amazon kindle customer service
+phone number USA, Kindle helpline phone number ((1888!!226!!1422))) kindle
+amazon support phone number
+
+kindle fire ((1888!!226!!1422))) technical support number,tech support kindle
+number,kindle techncial support number tech support ((1888!!226!!1422))) kindle
+number,tech support kindle,kindle support number,kindle technical number
+technical support((1888!!226!!1422))) kindle number,Kindle help phone
+number,technical support number kindle,kindle customer support number kindle
+assistance ((1888!!226!!1422))) number,Kindle customer support number,Kindle
+help phone number kindle support ((1888!!226!!1422))) number,helpline number
+kindle,Amazon kindle support number,kindle tech support number,kindle technical
+support number ((1888!!226!!1422))) kindle technical helpline number support
+number,tech support number kindle,kindle solution number Kindle fire help@
+((1888!!226!!1422))) , tech support phone number for kindle,kindle tech support
+number,toll free number kindle,solution number for kindle Kindle fire Support
+@((1888!!226!!1422))) , technical support phone number ,kindle help phone
+number,kindle customer support number,kindle tech support number Technical
+support number (((1888!!226!!1422))) ) kindle,technical support number
+kindle,kindle care number,kindle tech support number tech support kindle number
+((1888!!226!!1422))) ,number for kindle support ,technical support number
+kindle,Amazon kindle support number
+a
 
 -- 
 You are receiving this mail because:
