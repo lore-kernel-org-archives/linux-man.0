@@ -1,20 +1,19 @@
 From: bugzilla-daemon-590EEB7GvNiWaY/ihj7yzEB+6BGkLq7r@public.gmane.org
-Subject: [Bug 128821] USA~TALK~outlook @!!!!!+1.8.0.0.8.0.6.1.4.5.7+!!!@@
- outlook customer care support phone number outlook support phone number
- usa-canada
-Date: Wed, 13 Jul 2016 18:07:04 +0000
-Message-ID: <bug-128821-11311-81uSlEFQlz@https.bugzilla.kernel.org/>
-References: <bug-128821-11311@https.bugzilla.kernel.org/>
+Subject: [Bug 129741] 1~888~226~1422 Mcafee tech Support Number
+ 1~888~226~1422 Mcafee technical Support Number
+Date: Wed, 13 Jul 2016 18:07:17 +0000
+Message-ID: <bug-129741-11311-SHrJsanRbB@https.bugzilla.kernel.org/>
+References: <bug-129741-11311@https.bugzilla.kernel.org/>
 Mime-Version: 1.0
 Content-Type: text/plain; charset="UTF-8"
 Content-Transfer-Encoding: 7bit
 Return-path: <linux-man-owner-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>
-In-Reply-To: <bug-128821-11311-3bo0kxnWaOQUvHkbgXJLS5sdmw4N0Rt+2LY78lusg7I@public.gmane.org/>
+In-Reply-To: <bug-129741-11311-3bo0kxnWaOQUvHkbgXJLS5sdmw4N0Rt+2LY78lusg7I@public.gmane.org/>
 Sender: linux-man-owner-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
 To: linux-man-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
 List-Id: linux-man@vger.kernel.org
 
-https://bugzilla.kernel.org/show_bug.cgi?id=128821
+https://bugzilla.kernel.org/show_bug.cgi?id=129741
 
 Michael Kerrisk <mtk.manpages-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org> changed:
 
