@@ -1,9 +1,9 @@
 From: bugzilla-daemon-590EEB7GvNiWaY/ihj7yzEB+6BGkLq7r@public.gmane.org
-Subject: [Bug 127181] New: Qb-s-up-p-o-rt-1-80*0*72*8-7-3-5--6**
- Quickbo-ok-s-e-r-r-o-r-Supp-ort ser-vic-e Phone number Quickbooks  error
- -c-u-s-t-o-m-e-r-s-u-p-p-o-r-t-n-umber
-Date: Wed, 13 Jul 2016 15:50:46 +0000
-Message-ID: <bug-127181-11311@https.bugzilla.kernel.org/>
+Subject: [Bug 127221] New: MORE~SOLUT!ON+!@+1.8.4.4.7.7.8.8.6.0.3 +@!+
+ outlook support Phone Number Outlook customer care phone number helpline
+ number usa
+Date: Wed, 13 Jul 2016 15:51:48 +0000
+Message-ID: <bug-127221-11311@https.bugzilla.kernel.org/>
 Mime-Version: 1.0
 Content-Type: text/plain; charset="UTF-8"
 Content-Transfer-Encoding: 7bit
@@ -12,210 +12,119 @@ Sender: linux-man-owner-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
 To: linux-man-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
 List-Id: linux-man@vger.kernel.org
 
-https://bugzilla.kernel.org/show_bug.cgi?id=127181
+https://bugzilla.kernel.org/show_bug.cgi?id=127221
 
-            Bug ID: 127181
-           Summary: Qb-s-up-p-o-rt-1-80*0*72*8-7-3-5--6**
-                    Quickbo-ok-s-e-r-r-o-r-Supp-ort ser-vic-e Phone number
-                    Quickbooks  error
-                    -c-u-s-t-o-m-e-r-s-u-p-p-o-r-t-n-umber
+            Bug ID: 127221
+           Summary: MORE~SOLUT!ON+!@+1.8.4.4.7.7.8.8.6.0.3 +@!+ outlook
+                    support Phone Number Outlook customer care phone
+                    number helpline number usa
            Product: Documentation
            Version: unspecified
-          Hardware: All
+          Hardware: Intel
                 OS: Linux
             Status: NEW
           Severity: normal
           Priority: P1
          Component: man-pages
           Assignee: documentation_man-pages-ztI5WcYan/vQLgFONoPN62D2FQJk+8+b@public.gmane.org
-          Reporter: kumar8009869989-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org
+          Reporter: intelomedia09-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org
         Regression: No
 
-QB support +1-80*0*72*8-7356@** Quickbooks  error  Support Phone number
-Quickbooks  error  customer support number @@Call, 1-800+728+7356 for all type
-help by Quickbooks  error  tech support phone number, Intuit Quickbooks  error 
-Tech Support Phone Number, Quickbooks  error  Help Desk Phone Number,
-Quickbooks  error  tech support number, Quickbooks  error  technical support
-phone number,@@@ Quickbooks  error  phone number, Quickbooks  error  technical
-support number, Quickbooks  error  support phone number, Quickbooks  error 
-technical support, Quickbooks  error  Customer Service Phone Number, Quickbooks
- error  Customer Service Number, Quickbooks  error  Customer Support Phone
-Number, Quickbooks  error  Customer Support Number,@@@@ Quickbooks  error 
-Customer Service Helpline Number, Quickbooks  error  Customer Care Number,
-Quickbooks  error  support team phone number, @@@@@ Quickbooks  error  help
-number- Quickbooks  error  Helpline Number; Quickbooks  error  help phone
-number- Quickbooks  error  Helpline Number, Quickbooks  error  Tech Support
-Toll free Number, Quickbooks  error  Support Telephone Number, Quickbooks 
-error  Tech Support Telephone number, Quickbooks  error  Tech Support contact
-number, Quickbooks  error  support contact number, Quickbooks  error  technical
-support contact number. Call, Quickbooks  error  tech support phone number,
-Intuit Quickbooks  error  Tech Support Phone Number, Quickbooks  error  Help
-Desk Phone Number, Quickbooks  error  tech support number, Quickbooks  error 
-technical support phone number, Quickbooks  error  phone number, Quickbooks 
-error  technical support number, Quickbooks  error  support phone number. It is
-very popular toll free number which POSvide by Quickbooks  error  technical
-support, Quickbooks  error  Customer Service Phone Number, Quickbooks  error 
-Customer Service Number, Quickbooks  error  Customer Support Phone Number,
-Quickbooks  error  Customer Support Number, Quickbooks  error  Customer Service
-Helpline Number, Quickbooks  error  Customer Care Number, Quickbooks  error 
-support team phone number. Call, Quickbooks  error  tech support phone number,
-Intuit Quickbooks  error  Tech Support Phone Number, Quickbooks  error  Help
-Desk Phone Number, Quickbooks  error  tech support number, Quickbooks  error 
-technical support phone number, Quickbooks  error  phone number, Quickbooks 
-error  technical support number, Quickbooks  error  support phone number,
-Quickbooks  error  technical support, Quickbooks  error  Customer Service Phone
-Number, Quickbooks  error  Customer Service Number, Quickbooks  error  Customer
-Support Phone Number, Quickbooks  error  Customer Support Number, Quickbooks 
-error  Customer Service Helpline Number,Describe USA intuit Help
-@@1+800+728+7356@@ Quickbooks  error  PREMIER technical support phone number
-1-800-728-7356 Quickbooks  error  PREMIER customer service phone number usa
-here.USA intuit Help @@1+800+728+7356@@ Quickbooks  error  PREMIER technical
-support phone number 1-800-728-7356 Quickbooks  error  PREMIER customer service
-phone number usa # Quickbooks  error  PREMIER Toll Free, @(+1.800.728.7356)@-:
-Quickbooks  error  PREMIER Tech Support Phone Number PREMIERvides online
-solution for all USA/CANADA clients. For any help of query call 1 800 to get
-all Quickbooks  error  PREMIER account solution. @@Call, +1.800.728.7356 for
-all type help by Quickbooks  error  PREMIER tech support phone number,
-Quickbooks  error  PREMIER Tech Support Phone Number, Quickbooks  error 
-PREMIER Help Desk Phone Number, Quickbooks  error  PREMIER tech support number,
-Quickbooks  error  PREMIER technical support phone number,@@@ Quickbooks  error
- PREMIER phone number, Quickbooks  error  PREMIER technical support number,
-Quickbooks  error  PREMIER support phone number, Quickbooks  error  PREMIER
-technical support, Quickbooks  error  PREMIER Customer Service Phone Number,
-Quickbooks  error  PREMIER Customer Service Number, Quickbooks  error  PREMIER
-Customer Support Phone Number, Quickbooks  error  PREMIER Customer Support
-Number,@@@@ Quickbooks  error  PREMIER Customer Service Helpline Number,
-Quickbooks  error  PREMIER Customer Care Number, Quickbooks  error  PREMIER
-support team phone number, @@@@@ Quickbooks  error  PREMIER help number-
-Quickbooks  error  PREMIER Helpline Number; Quickbooks  error  PREMIER help
-phone number- Quickbooks  error  PREMIER Helpline Number, Quickbooks  error 
-PREMIER Tech Support Toll free Number, Quickbooks  error  PREMIER Support
-Telephone Number, Quickbooks  error  PREMIER Tech Support Telephone number,
-Quickbooks  error  PREMIER Tech Support contact number, Quickbooks  error 
-PREMIER support contact number, Quickbooks  error  PREMIER technical support
-contact number. Call, Quickbooks  error  PREMIER tech support phone number,
-Quickbooks  error  PREMIER Tech Support Phone Number, Quickbooks  error 
-PREMIER Help Desk Phone Number, Quickbooks  error  PREMIER tech support number,
-Quickbooks  error  PREMIER technical support phone number, Quickbooks  error 
-PREMIER phone number, Quickbooks  error  PREMIER technical support number,
-Quickbooks  error  PREMIER support phone number. It is very popular toll free
-number which PREMIERvide by Quickbooks  error  PREMIER technical support,
-Quickbooks  error  PREMIER Customer Service Phone Number, Quickbooks  error 
-PREMIER Customer Service Number, Quickbooks  error  PREMIER Customer Support
-Phone Number, Quickbooks  error  PREMIER Customer Support Number, Quickbooks 
-error  PREMIER Customer Service Helpline Number, Quickbooks  error  PREMIER
-Customer Care Number, Quickbooks  error  PREMIER support team phone number.
-Call, Quickbooks  error  PREMIER tech support phone number, Quickbooks  error 
-PREMIER Tech Support Phone Number, Quickbooks  error  PREMIER Help Desk Phone
-Number, Quickbooks  error  PREMIER tech support number, Quickbooks  error 
-PREMIER technical support phone number, Quickbooks  error  PREMIER phone
-number, Quickbooks  error  PREMIER technical support number, Quickbooks  error 
-PREMIER support phone number, Quickbooks  error  PREMIER technical support,
-Quickbooks  error  PREMIER Customer Service Phone Number, Quickbooks  error 
-PREMIER Customer Service Number, Quickbooks  error  PREMIER Customer Support
-Phone Number, Quickbooks  error  PREMIER Customer Support Number, Quickbooks 
-error  PREMIER Customer Service Helpline Number, Quickbooks  error  PREMIER
-Customer Care Number,CALL @@@ 1800.728.7356 Quickbooks  error  pro
-s.u.p.p.o.r.t. .p.h.o.n.e. .n.u.m.b.e.r. usa/ca 1800.728.7356 Quickbooks  error
- pro s.u.p.p.o.r.t. .p.h.o.n.e. .n.u.m.b.e.r. usa
-Intuit@(1-800-728-7356)Quickbooks  error  pro Tech Support Phone
-NumberIntuit?????@(1-800-728-7356)Quickbooks  error  pro Tech Support Phone
-Number provides online solution for all USA/CANADA clients. For any help of
-query call 1 800 728 7356 to get all Quickbooks  error  pro account solution.
-@@Call, 1-800-728-7356 for all type help by Quickbooks  error  pro tech support
-phone number, Intuit Quickbooks  error  pro Tech Support Phone Number,
-Quickbooks  error  pro Help Desk Phone Number, Quickbooks  error  pro tech
-support number, Quickbooks  error  pro technical support phone number,@@@
-Quickbooks  error  pro phone number, Quickbooks  error  pro technical support
-number, Quickbooks  error  pro support phone number, Quickbooks  error  pro
-technical support, Quickbooks  error  pro CustomeraService?? Phone Number,
-Quickbooks  error  pro Customer Service Number, Quickbooks  error  pro Customer
-Support Phone Number, Quickbooks  error  pro Customer Support Number,@@@@
-Quickbooks  error  pro Customer Service Helpline Number, Quickbooks  error  pro
-Customer Care Number, Quickbooks  error  pro support team phone number, @@@@@
-Quickbooks  error  pro help number-Quickbooks  error  pro Helpline Number;
-Quickbooks  error  pro help phone number-Quickbooks  error  pro Helpline
-Number, Quickbooks  error  pro Tech Support Toll free Number, Quickbooks  error
- pro Support Telephone Number, Quickbooks  error  pro Tech Support Telephone
-number, Quickbooks  error  pro Tech Support contact number, Quickbooks  error 
-pro support contact number, Quickbooks  error  pro technical support contact
-number. Call, Quickbooks  error  pro tech support phone number, Intuit
-Quickbooks  error  pro Tech Support Phone Number, Quickbooks  error  pro Help
-Desk Phone Number, Quickbooks  error  pro tech support number, Quickbooks 
-error  pro technical support phone number, Quickbooks  error  pro phone number,
-Quickbooks  error  pro technical support number, Quickbooks  error  pro support
-phone number. It is very popular toll free number which provide by Quickbooks 
-error  pro technical support, Quickbooks  error  pro Customer Service Phone
-Number, Quickbooks  error  pro Customer Service Number, Quickbooks  error  pro
-Customer Support Phone Number, Quickbooks  error  pro Customer Support Number,
-Quickbooks  error  pro Customer Service Helpline Number, Quickbooks  error  pro
-Customer Care Number, Quickbooks  error  pro support team phone number. Call,
-Quickbooks  error  pro tech support phone number, Intuit Quickbooks  error  pro
-Tech Support Phone Number, Quickbooks  error  pro Help Desk Phone Number,
-Quickbooks  error  pro tech support number, Quickbooks  error  pro technical
-support phone number, Quickbooks  error  pro phone number, Quickbooks  error 
-pro technical support number, Quickbooks  error  pro support phone number,
-Quickbooks  error  pro technical support, Quickbooks  error  pro Customer
-Service Phone Number, Quickbooks  error  pro Customer Service Number,
-Quickbooks  error  pro Customer Support Phone Number, Quickbooks  error  pro
-Customer Support Number, Quickbooks  error  pro Customer Service Helpline
-Number, Quickbooks  error  pro Customer Care Number, Quickbooks  error  pro
-support team phone number, Quickbooks  error  pro help number-Quickbooks  error
- pro Helpline Number; Quickbooks  error  pro help phone number, Quickbooks 
-error  pro Helpline Number1800-728-7356 Quickbooks  error  technical help
-telephone number, Quickbooks  error  technical help contact number, Quickbooks 
-error  technical support contact number, Quickbooks  error  contact number,
-Quickbooks  error  contact phone number, Quickbooks  error  contact telephone
-number, Quickbooks  error  24 hour contact number, Quickbooks  error  customer
-support contact number, Quickbooks  error  customer service contact number,
-Quickbooks  error  official number, Quickbooks  error  official contact number,
-Quickbooks  error  800 contact number, Quickbooks  error  toll free number, 800
-number for Quickbooks  error  support, Quickbooks  error  24/7 support phone
-number Quickbooks  error  support phone number,Quickbooks  error  support phone
-number,Quickbooks  error  help phone number, Quickbooks  error  technical
-support number.Quickbooks  error  support number, Quickbooks  error  phone
-number, Quickbooks  error  HELP DESK number, Quickbooks  error  customer
-support number, Quickbooks  error  customer support phone number, Quickbooks 
-error  customer service phone number, Quickbooks  error  customer service phone
-number, Quickbooks  error  support phone number. Help@Call
-1-800-728-7356/.Quickbooks  error  24/7 support phone number,Quickbooks  error 
-telephone number for support? call 1800-728-7356@./Quickbooks  error  contact
-number, Quickbooks  error  contact phone number, Quickbooks  error  contact
-telephone number,,telephone number for Quickbooks  error  online
-support,Quickbooks  error  official support number,Quickbooks  error  official
-number,Quickbooks  error  official phone number,,,phone number for Quickbooks 
-error  support,,Quickbooks  error  24/7 support phone number,,Quickbooks  error
- support number,Quickbooks  error  telephone number for support QB SUPPORT ON
-((1-800-728-7356)) Quickbooks  error  PHONE NUMBER AND Quickbooks  error 
-Enterprise SUPPORT PHONE NUMBER Online Support For (((1+800+728+7356)!!!
-Quickbooks  error  ((Technical)) Support phone number,, Quickbooks  error  HELP
-DESK phone number Online Support For (((1+800+728+7356)!!! Quickbooks  error 
-((Technical)) Support phone number,, Quickbooks  error  HELP DESK phone number
-Helpline TECH ))1-800-728-7356((Quickbooks  error  technical support phone
-number Quickbooks  error  phone number QB SUPPORT ON ((1-800-728-7356))
-Quickbooks  error  PHONE NUMBER AND Quickbooks  error  SUPPORT PHONE NUMBER
-Quickbooks  error  Toll Free, Intuit@(1-800-728-7356)@ Quickbooks  error  HELP
-DESK Phone Number vides online solution for all USA/CANADA clients. For any
-help of query call 1 800 728 7356 to get all Quickbooks  error  account
-solution. @@Call, 1-800-728-7356 for all type help by Quickbooks  error  HELP
-DESK phone number, Intuit Quickbooks  error  HELP DESK Phone Number, Quickbooks
- error  Help Desk Phone Number, Quickbooks  error  HELP DESK number @Call,
-1-800-728-7356 for all type help by Quickbooks  error  pos tech support phone
-USA, Quickbooks  error  pos Quickbooks  error  pos Tech Support Phone USA,
-Quickbooks  error  pos Help Desk Phone USA, Quickbooks  error  pos tech support
-USA, Quickbooks  error  pos technical support phone USA,@@@ Quickbooks  error 
-pos phone USA, Quickbooks  error  pos technical support USA, Quickbooks  error 
-pos support phone USA, Quickbooks  error  pos technical support, Quickbooks 
-error  pos Customer Service Phone USA, Quickbooks  error  pos Customer Service
-USA, Quickbooks  error  pos Customer Support Phone USA, Quickbooks  error  pos
-Customer Support USA,@@@@ Quickbooks  error  pos Customer Service Helpline USA,
-Quickbooks  error  pos Customer Care USA, Quickbooks  error  pos support team
-phone USA, @@@@@ Quickbooks  error  pos help USA-Quickbooks  error  pos
-Helpline USA; Quickbooks  error  pos help phone USA-Quickbooks  error  pos
-Helpline USA, Quickbooks  error  pos Tech Support Toll free USA, Quickbooks 
-error  pos Support Telephone USA, Quickbooks  error  pos Tech Support Telephone
-USA, Quickbooks  error  pos Tech Support contact USA, Quickbooks  error  pos
-support contact USA,
+MORE~SOLUT!ON+!@+1.8.4.4.7.7.8.8.6.0.3 +@!+ outlook support Phone Number
+Outlook customer care phone number helpline number usa
+Call, +++1-844-778-8603 +++for all type help by Outlook customer support phone
+number, 1844-778-8603 Intuit Outlook Customer Support Phone Number,
+1-844-778-8603 Outlook Help Desk Phone Number, 1-844-778-8603 Outlook customer
+support number, Outlook customer support phone number,@@ 1-844-778-8603 @
+Outlook phone number, 1-844-778-8603 Outlook customer support number,
+1-844-778-8603 Outlook support phone number, 1-844-778-8603 Outlook customer
+support, Outlook Customer Service Phone Number, Outlook Customer Service
+Number, Outlook Customer Support Phone Number, Outlook Customer Support
+Number,@@@@ Outlook Customer Service Helpline Number, Outlook Customer Care
+Number, Outlook support team phone number, @@@@@ Outlook help number-Outlook
+Helpline Number; Outlook help phone number-Outlook Helpline Number, Outlook
+Customer Support Toll free Number, Outlook Support Telephone Number, Outlook
+Customer Support Telephone number, Outlook Customer Support contact number,
+Outlook support contact number, Outlook customer support contact number.
+1-844-778-8603  Call, Outlook customer support phone number, Intuit Outlook
+Customer Support Phone Number, Outlook Help Desk Phone Number, Outlook customer
+support number, Outlook customer support phone number, Outlook phone number,
+Outlook customer support number, Outlook support phone number. It is very
+popular toll free number which provide by Outlook customer support, Outlook
+Customer Service Phone Number, Outlook Customer Service Number, Outlook
+Customer Support Phone Number, Outlook Customer Support Number, Outlook
+Customer1-844-778-8603  Service Helpline Number, 1-844-778-8603  Outlook
+Customer Care Number, Outlook support team phone number. Call, Outlook customer
+support phone number, Intuit Outlook Customer Support Phone Number, Outlook
+Help Desk Phone Number, Outlook customer support number, Outlook customer
+support phone number, Outlook phone number, Outlook customer support number,
+Outlook support phone number, Outlook customer support, Outlook Customer
+Service Phone Number, Outlook Customer Service Number, Outlook Customer Support
+Phone Number, Outlook Customer Support Number, Outlook Customer Service
+Helpline Number, Outlook Customer Care Number, Outlook support team phone
+number, Outlook help number-Outlook Helpline Number; Outlook help phone number,
+Outlook Helpline Number, Outlook Customer Support Toll free Number, Outlook
+Support Telephone Number, Outlook Customer Support Telephone number, Outlook
+Customer Support contact number, Outlook support contact number, Outlook
+customer support contact number, Outlook pro support phone number, Outlook
+payroll support phone number. Outlook payroll customer support phone number
+Outlook Support Helpline Number, Outlook contact number Outlook customer
+support phone number Outlook support team phone number Outlook contact number
+1-844-778-8603 Outlook customer help telephone number, Outlook customer help
+contact number, Outlook customer support contact number, Outlook contact
+number, Outlook contact phone number, Outlook contact telephone number, Outlook
+24 hour contact number, Outlook customer support contact number, Outlook
+customer service contact number, Outlook official number, Outlook official
+contact number, Outlook 844 contact number, Outlook toll free number, 844
+number for Outlook support, Outlook 24/7 support phone number Outlook PRO
+support phone number,Outlook PRO support phone number,Outlook PRO help phone
+number, Outlook PRO customer support number.Outlook PRO support number, Outlook
+PRO phone number, Outlook PRO customer support number, Outlook PRO customer
+support number, Outlook PRO customer support phone number, Outlook PRO customer
+service phone number, Outlook PRO payroll customer service phone number,
+Outlook PRO support phone number. Help@Call 1-844-778-8603/.Outlook 24/7
+support phone number,Outlook telephone number for support? call
+1844-778-8603@./Outlook contact number, Outlook contact phone number, Outlook
+contact telephone number,,telephone number for Outlook online support,Outlook
+official support number,Outlook official number,Outlook payroll official phone
+number,,,phone number for Outlook payroll support,,Outlook 24/7 support phone
+number,,Outlook support number,Outlook telephone number for support
+.................. Outlook PRO phone number,(1-844-778-8603)// Outlook PRO
+customer care number..... Outlook PRO Toll Free, Intuit@(1-844.778-8603)@-:
+Outlook PRO Customer Support Number, Outlook PRO help desk phone number
+provides online solution for all USA/CANADA clients. For any help of query call
+1 844 778 8603 to get all Outlook PRO account solution. For any help of query
+call 1 844 778 8603 to get all Outlook PRO account solution. @@Call,
+1-844-778-8603 for all type help by Outlook PRO support telephone
+number,Outlook PRO support phone number,Outlook PRO support phone
+number,Outlook PRO help phone number, Outlook PRO customer support
+number.Outlook PRO support number, Outlook PRO phone number, Outlook PRO
+customer support number, Outlook PRO customer support number, Outlook PRO
+customer support phone number, Outlook PRO customer service phone number,
+Outlook PRO payroll customer service phone number, Outlook PRO support phone
+number Outlook PRO help number-Outlook PRO Helpline Number; Outlook PRO help
+phone number-Outlook PRO Helpline Number, Outlook PRO Customer Support Toll
+free Number, Outlook PRO Support Telephone Number, Outlook PRO Customer Support
+Telephone number, Outlook PRO Customer Support contact number, Outlook PRO
+support contact number, Outlook PRO customer support contact number, Outlook
+PRO help desk phone number. Call, @(1-844-778-8603)@-: It is very popular toll
+free number which provide by Outlook PRO customer support, Outlook PRO Customer
+Service Phone Number, Outlook PRO Customer Service Number, Outlook PRO Customer
+Support Phone Number, Outlook PRO Customer Support Number, Outlook PRO Customer
+Service Helpline Number, Outlook PRO Customer Care Number, Outlook PRO support
+team phone number. Call,@(1-844-778-8603)@-: Outlook PRO help number-Outlook
+PRO Helpline Number; Outlook PRO help phone number, Outlook PRO Helpline
+Number, Outlook PRO Customer Support Toll free Number, Outlook PRO Support
+Telephone Number, Outlook PRO Customer Support Telephone number, Outlook PRO
+Customer Support contact number, Outlook PRO support contact number, Outlook
+PRO customer support contact number, Outlook PRO pro support phone number,
+Outlook PRO payroll support phone number. Outlook PRO payroll customer support
+phone number for all type help by Outlook PRO support telephone number, Outlook
+PRO help phone number, Outlook PRO customer support number.Outlook PRO support
+number, Outlook PRO phone number, Outlook PRO customer support number, Outlook
+PRO customer support number, Outlook PRO customer support phone number, Outlook
+PRO customer service phone number, Outlook PRO payroll customer service phone
+number
 
 -- 
 You are receiving this mail because:
