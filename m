@@ -1,19 +1,19 @@
 From: bugzilla-daemon-590EEB7GvNiWaY/ihj7yzEB+6BGkLq7r@public.gmane.org
-Subject: [Bug 127991] !!!!@@!!(((( 1+800+882+0652 ))))) AVG Antivirus tech
- Support Phone Number,
-Date: Wed, 13 Jul 2016 18:16:09 +0000
-Message-ID: <bug-127991-11311-ycp7lvmohz@https.bugzilla.kernel.org/>
-References: <bug-127991-11311@https.bugzilla.kernel.org/>
+Subject: [Bug 128401] uSa@!+++!! 18~00750~6584 * * adobe reader techNICAL
+ SUPPORT phone number adobe reader customer care phone
+Date: Wed, 13 Jul 2016 18:16:24 +0000
+Message-ID: <bug-128401-11311-1SiUarAoMj@https.bugzilla.kernel.org/>
+References: <bug-128401-11311@https.bugzilla.kernel.org/>
 Mime-Version: 1.0
 Content-Type: text/plain; charset="UTF-8"
 Content-Transfer-Encoding: 7bit
 Return-path: <linux-man-owner-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>
-In-Reply-To: <bug-127991-11311-3bo0kxnWaOQUvHkbgXJLS5sdmw4N0Rt+2LY78lusg7I@public.gmane.org/>
+In-Reply-To: <bug-128401-11311-3bo0kxnWaOQUvHkbgXJLS5sdmw4N0Rt+2LY78lusg7I@public.gmane.org/>
 Sender: linux-man-owner-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
 To: linux-man-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
 List-Id: linux-man@vger.kernel.org
 
-https://bugzilla.kernel.org/show_bug.cgi?id=127991
+https://bugzilla.kernel.org/show_bug.cgi?id=128401
 
 Michael Kerrisk <mtk.manpages-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org> changed:
 
