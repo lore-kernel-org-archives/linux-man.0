@@ -1,56 +1,35 @@
-From: Quentin Rameau <quinq-UlqG2OPX9a0ue8ZPuPpd/Q@public.gmane.org>
-Subject: Re: [PATCH] mkstemp: fix _POSIX_C_SOURCE value for mkstemp()
-Date: Thu, 14 Jul 2016 11:32:49 +0200
-Message-ID: <20160714093249.GA25778@alpha.fifth.space>
-References: <20160708000626.GA26576@alpha.fifth.space>
+From: "Darrick J. Wong" <darrick.wong-QHcLZuEGTsvQT0dZR+AlfA@public.gmane.org>
+Subject: [PATCH] ioctl_ficlonerange.2: mention a subtlety with length == 0
+Date: Thu, 14 Jul 2016 11:11:11 -0700
+Message-ID: <20160714181111.GC5215@birch.djwong.org>
 Mime-Version: 1.0
-Content-Type: text/plain; charset=utf-8
-Return-path: <linux-man-owner-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>
+Content-Type: text/plain; charset=us-ascii
+Return-path: <linux-api-owner-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>
 Content-Disposition: inline
-In-Reply-To: <20160708000626.GA26576-lvRy8M+iZ/WfwRssfSzb0bNAH6kLmebB@public.gmane.org>
-Sender: linux-man-owner-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
-To: mtk.manpages-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org
-Cc: linux-man-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
+Sender: linux-api-owner-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
+To: "Michael Kerrisk (man-pages)" <mtk.manpages-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org>
+Cc: linux-fsdevel-u79uwXL29TY76Z2rM5mHXA@public.gmane.org, linux-api-u79uwXL29TY76Z2rM5mHXA@public.gmane.org, linux-man-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
 List-Id: linux-man@vger.kernel.org
 
-*ping*
+I forgot to document that passing length == 0 to clonerange actually
+makes it clone all the way to EOF, so do that now.
 
-Forgive me for being insistant, but as there has been no response to
-this thread, and with all the spam thas has been going on on the ml in
-the last few days, I'm thinking maybe you didn't see it pass.
-Or maybe you just don't find it acceptable, then a response would be
-appreciated anyway.
-Thanks for your time!
+Signed-off-by: Darrick J. Wong <darrick.wong-QHcLZuEGTsvQT0dZR+AlfA@public.gmane.org>
+---
+ man2/ioctl_ficlonerange.2 |    3 +++
+ 1 file changed, 3 insertions(+)
 
-> Here are more informations to save you the time searching for it.
-> Introduced in f095bb7 (2010-01-09) in stdlib/stdlib.h line 609:
-> 
-> +#if defined __USE_MISC || defined __USE_XOPEN_EXTENDED \
-> +    || defined __USE_XOPEN2K8
-> [..]
-> extern int mkstemp (char *__template) __nonnull ((1)) __wur;
-> 
-> And in include/features.h (from glibc 2.12 e28c887):
-> 
-> #if (_POSIX_C_SOURCE - 0) >= 200112L
-> # define __USE_XOPEN2K		1
-> # undef __USE_ISOC95
-> # define __USE_ISOC95		1
-> # undef __USE_ISOC99
-> # define __USE_ISOC99		1
-> #endif
-> 
-> #if (_POSIX_C_SOURCE - 0) >= 200809L
-> # define __USE_XOPEN2K8		1
-> # undef  _ATFILE_SOURCE
-> # define _ATFILE_SOURCE	1
-> #endif
-> 
-> --
-> To unsubscribe from this list: send the line "unsubscribe linux-man" in
-> the body of a message to majordomo-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
-> More majordomo info at  http://vger.kernel.org/majordomo-info.html
---
-To unsubscribe from this list: send the line "unsubscribe linux-man" in
-the body of a message to majordomo-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
-More majordomo info at  http://vger.kernel.org/majordomo-info.html
+diff --git a/man2/ioctl_ficlonerange.2 b/man2/ioctl_ficlonerange.2
+index d1da3e6..c4715d0 100644
+--- a/man2/ioctl_ficlonerange.2
++++ b/man2/ioctl_ficlonerange.2
+@@ -59,6 +59,9 @@ into the file
+ at offset
+ .IR dest_offset ",
+ provided that both are files.
++If
++.IR src_length
++is zero, the ioctl reflinks to the end of the source file.
+ This information is conveyed in a structure of
+ the following form:
+ .in +4n
