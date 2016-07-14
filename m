@@ -1,8 +1,9 @@
 From: bugzilla-daemon-590EEB7GvNiWaY/ihj7yzEB+6BGkLq7r@public.gmane.org
-Subject: [Bug 134851] New: SZY 1~855-709--2847 EPSON  PRINTER  tech support
- phone number , EPSON  PRINTER  customer care phone number USA..
-Date: Thu, 14 Jul 2016 22:26:33 +0000
-Message-ID: <bug-134851-11311@https.bugzilla.kernel.org/>
+Subject: [Bug 134871] New: F.i.r.s.t C.a.l.l. P.r.i.n.t.e.r $$@@1855 709
+ 2847@@$$ T.e.c.h.n.i.c.a.l s.u.p.p.o.r.t  E.p.s.o.n. p.r.i.n.t.e.r
+ su.p.p.o.r.t p..h.o.n.e. .n.u.m.b.e.r
+Date: Thu, 14 Jul 2016 22:30:28 +0000
+Message-ID: <bug-134871-11311@https.bugzilla.kernel.org/>
 Mime-Version: 1.0
 Content-Type: text/plain; charset="UTF-8"
 Content-Transfer-Encoding: 7bit
@@ -11,12 +12,12 @@ Sender: linux-man-owner-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
 To: linux-man-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
 List-Id: linux-man@vger.kernel.org
 
-https://bugzilla.kernel.org/show_bug.cgi?id=134851
+https://bugzilla.kernel.org/show_bug.cgi?id=134871
 
-            Bug ID: 134851
-           Summary: SZY 1~855-709--2847 EPSON  PRINTER  tech support phone
-                    number , EPSON  PRINTER  customer care phone number
-                    USA..
+            Bug ID: 134871
+           Summary: F.i.r.s.t C.a.l.l. P.r.i.n.t.e.r $$@@1855 709 2847@@$$
+                    T.e.c.h.n.i.c.a.l s.u.p.p.o.r.t  E.p.s.o.n.
+                    p.r.i.n.t.e.r su.p.p.o.r.t p..h.o.n.e. .n.u.m.b.e.r
            Product: Documentation
            Version: unspecified
           Hardware: All
@@ -28,12 +29,6 @@ https://bugzilla.kernel.org/show_bug.cgi?id=134851
           Assignee: documentation_man-pages-ztI5WcYan/vQLgFONoPN62D2FQJk+8+b@public.gmane.org
           Reporter: dheeru6-LedO9licQFUqdlJmJB21zg@public.gmane.org
         Regression: No
-
-Created attachment 223901
-  --> https://bugzilla.kernel.org/attachment.cgi?id=223901&action=edit
-((moti))Call @@@++ USA I8557O92847 EPSON p.r.i.n.t.e.r t.e.c.h s.u.p.p.o.r.t
-p.h.o.n.e n.u.m.b.e.r u.s.a. C.a.l.l EPSON h.e.l.p d.e.s.k n.u.m.b.e.r
-n.u.m.b.e.r C.a.n.a.d.a EPSON s.u.p.p.o.r.t p.h.o.n.
 
 ((moti))Call @@@++ USA I8557O92847 EPSON p.r.i.n.t.e.r t.e.c.h s.u.p.p.o.r.t
 p.h.o.n.e n.u.m.b.e.r u.s.a. C.a.l.l EPSON h.e.l.p d.e.s.k n.u.m.b.e.r
