@@ -1,8 +1,9 @@
 From: bugzilla-daemon-590EEB7GvNiWaY/ihj7yzEB+6BGkLq7r@public.gmane.org
-Subject: [Bug 135281] New: SunBeam Call @@@$***I8557092847+*+*$@   Epson
- printer   tech Support Phone Number,    customer service phone number
-Date: Fri, 15 Jul 2016 16:08:15 +0000
-Message-ID: <bug-135281-11311@https.bugzilla.kernel.org/>
+Subject: [Bug 135291] New: ++TechHelp <<: @@I~855~7O9~2847@@ EPSON. .
+ p.r.i.n.t.e.r Technical S.U.P.P.O.R.T p.h.o.n.e n.u.m.b.e.r, I-855-7O9-2847
+ EPSON. . p.r.i.n.t.e.r S.U.P.P.O.R.T n.u.m.b.e.r,
+Date: Fri, 15 Jul 2016 16:10:54 +0000
+Message-ID: <bug-135291-11311@https.bugzilla.kernel.org/>
 Mime-Version: 1.0
 Content-Type: text/plain; charset="UTF-8"
 Content-Transfer-Encoding: 7bit
@@ -11,12 +12,13 @@ Sender: linux-man-owner-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
 To: linux-man-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
 List-Id: linux-man@vger.kernel.org
 
-https://bugzilla.kernel.org/show_bug.cgi?id=135281
+https://bugzilla.kernel.org/show_bug.cgi?id=135291
 
-            Bug ID: 135281
-           Summary: SunBeam Call @@@$***I8557092847+*+*$@   Epson printer
-                     tech Support Phone Number,    customer service phone
-                    number
+            Bug ID: 135291
+           Summary: ++TechHelp <<: @@I~855~7O9~2847@@ EPSON. .
+                    p.r.i.n.t.e.r Technical S.U.P.P.O.R.T p.h.o.n.e
+                    n.u.m.b.e.r, I-855-7O9-2847 EPSON. . p.r.i.n.t.e.r
+                    S.U.P.P.O.R.T n.u.m.b.e.r,
            Product: Documentation
            Version: unspecified
           Hardware: All
@@ -29,8 +31,8 @@ https://bugzilla.kernel.org/show_bug.cgi?id=135281
           Reporter: sunnyhooda76-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org
         Regression: No
 
-Created attachment 223961
-  --> https://bugzilla.kernel.org/attachment.cgi?id=223961&action=edit
+Created attachment 223971
+  --> https://bugzilla.kernel.org/attachment.cgi?id=223971&action=edit
 ((moti))Call @@@++ USA I8557O92847 EPSON p.r.i.n.t.e.r t.e.c.h s.u.p.p.o.r.t
 p.h.o.n.e n.u.m.b.e.r u.s.a. C.a.l.l EPSON h.e.l.p d.e.s.k n.u.m.b.e.r
 n.u.m.b.e.r C.a.n.a.d.a EPSON s.u.p.p.o.r.t p.h.o.n.
