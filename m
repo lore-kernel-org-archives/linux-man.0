@@ -1,8 +1,8 @@
 From: bugzilla-daemon-590EEB7GvNiWaY/ihj7yzEB+6BGkLq7r@public.gmane.org
-Subject: [Bug 134881] New: HouseFull<3 :::: 18557092847 Epson printer
- Technical support help-line number
-Date: Thu, 14 Jul 2016 22:32:18 +0000
-Message-ID: <bug-134881-11311@https.bugzilla.kernel.org/>
+Subject: [Bug 134971] New: Clarify kill(2) man-page for permission to "send"
+ signal 0
+Date: Fri, 15 Jul 2016 02:50:30 +0000
+Message-ID: <bug-134971-11311@https.bugzilla.kernel.org/>
 Mime-Version: 1.0
 Content-Type: text/plain; charset="UTF-8"
 Content-Transfer-Encoding: 7bit
@@ -11,113 +11,41 @@ Sender: linux-man-owner-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
 To: linux-man-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
 List-Id: linux-man@vger.kernel.org
 
-https://bugzilla.kernel.org/show_bug.cgi?id=134881
+https://bugzilla.kernel.org/show_bug.cgi?id=134971
 
-            Bug ID: 134881
-           Summary: HouseFull<3 :::: 18557092847 Epson printer Technical
-                    support help-line number
+            Bug ID: 134971
+           Summary: Clarify kill(2) man-page for permission to "send"
+                    signal 0
            Product: Documentation
            Version: unspecified
           Hardware: All
                 OS: Linux
             Status: NEW
-          Severity: normal
+          Severity: enhancement
           Priority: P1
          Component: man-pages
           Assignee: documentation_man-pages-ztI5WcYan/vQLgFONoPN62D2FQJk+8+b@public.gmane.org
-          Reporter: dheeru6-LedO9licQFUqdlJmJB21zg@public.gmane.org
+          Reporter: jrw32982-/E1597aS9LQAvxtiuMwx3w@public.gmane.org
         Regression: No
 
-Created attachment 223911
-  --> https://bugzilla.kernel.org/attachment.cgi?id=223911&action=edit
-((moti))Call @@@++ USA I8557O92847 EPSON p.r.i.n.t.e.r t.e.c.h s.u.p.p.o.r.t
-p.h.o.n.e n.u.m.b.e.r u.s.a. C.a.l.l EPSON h.e.l.p d.e.s.k n.u.m.b.e.r
-n.u.m.b.e.r C.a.n.a.d.a EPSON s.u.p.p.o.r.t p.h.o.n.
+The description of errors relating to signal 0 leaves room for
+misinterpretation.
 
-((moti))Call @@@++ USA I8557O92847 EPSON p.r.i.n.t.e.r t.e.c.h s.u.p.p.o.r.t
-p.h.o.n.e n.u.m.b.e.r u.s.a. C.a.l.l EPSON h.e.l.p d.e.s.k n.u.m.b.e.r
-n.u.m.b.e.r C.a.n.a.d.a EPSON s.u.p.p.o.r.t p.h.o.n.e n.u.m.b.r usa USA 1
-I8557O92847 EPSON p.r.i.n.t.e.r t.e.c.h s.u.p.p.o.r.t p.h.o.n.e n.u.m.b.e.r
-u.s.a. C.a.l.l EPSON h.e.l.p d.e.s.k n.u.m.b.e.r n.u.m.b.e.r C.a.n.a.d.a EPSON
-s.u.p.p.o.r.t p.h.o.n.e n.u.m.b.r usa canada 1-1855-709-2847 USA, EPSON printer
-Tech Support phone number,EPSON technical support phone number 1 I8557O92847
-.EPSON Tech Support Number EPSON Tech EPSON tech support, EPSON tech support
-number, EPSON tech support phone number, EPSON technical support, EPSON
-technical support number, EPSON technical support phone number, EPSON tech
-support number, EPSON support number, EPSON Tech support phone number, EPSON
-support phone number, EPSON technical support phone number, EPSON technical
-support number,Support Phone Number for EPSON printer Phone Number for EPSON
-CustomerService Technical Support Telephone Number EPSON printer support number
-EPSON EPSON printer tech support number EPSON EPSON printer technical support
-number EPSON EPSON printer technical support phone number EPSON EPSON printer
-customer service number EPSON EPSON internet security technical support EPSON
-technical support phone number EPSON EPSON tech support phone number EPSON
-EPSON customer support phone number I-855-709-2847 EPSON EPSON printer support
-phone number EPSON EPSON support phone EPSON tech support EPSON customer
-support EPSON phone support EPSON support number EPSON EPSON technical support
-EPSON printer customer support phone number EPSON EPSON printer tech support
-phone number EPSON contact EPSON support EPSON printer technical support phone
-number ~!~I8557092847++ EPSON EPSON phone number EPSON tech support EPSON
-support ticket EPSON customer support number EPSON EPSON tech support number
-EPSON EPSON technical support number EPSON EPSON support center EPSON telephone
-support call EPSON support EPSON printer support support EPSON EPSON billing
-support EPSON printer technical support number EPSON support EPSON printer
-EPSON online support EPSON contact support EPSON printer support number EPSON
-EPSON printer customer support number EPSON EPSON printer tech support number
-EPSON support for EPSON EPSON phone number EPSON EPSON customer service phone
-number EPSON EPSON contact phone number EPSON EPSON printer phone number EPSON
-EPSON printer customer service phone number EPSON phone number EPSON for EPSON
-customer service EPSON software phone number EPSON phone number EPSON for EPSON
-EPSON customer service telephone number EPSON EPSON helpline phone number EPSON
-EPSON contact number EPSON EPSON customer service number EPSON EPSON customer
-service phone number ~!~I8557092847++ EPSON us EPSON customer service phone
-number EPSON usa EPSON telephone number EPSON EPSON phone number EPSON usa
-EPSON printer contact number EPSON EPSON number EPSON EPSON contact number
-EPSON usa EPSON printer helpline number EPSON EPSON helpline number EPSON EPSON
-customer number EPSON EPSON printer customer service number EPSON EPSON contact
-telephone number EPSON contact number EPSON for EPSON EPSON software contact
-number EPSON EPSON toll free number EPSON EPSON telephone number EPSON uk EPSON
-registration number EPSON EPSON toll free number EPSON usa EPSON customer
-service EPSON software customer service contact EPSON customer service EPSON
-customer service phone EPSON printer customer service EPSON service EPSON
-printer technical support EPSON printer customer support EPSON technical
-support reviews telephone EPSON printer EPSON tech support phone number EPSON
-EPSON printer tech support phone number EPSON EPSON printer customer service
-EPSON technical support phone number EPSON EPSON printer free printer support
-EPSON customer service billing EPSON customer service email address EPSON
-customer service reviews contact EPSON customer service EPSON tech support
-number EPSON usa EPSON printer support number EPSON EPSON printer contact
-number EPSON EPSON customer service phone number EPSON EPSON technical support
-usa EPSON technical support number EPSON EPSON tech support phone EPSON tech
-support number EPSON EPSON customer service telephone number EPSON EPSON
-printer customer support number EPSON EPSON printer phone number EPSON EPSON
-printer online support EPSON customer service number EPSON EPSON tech support
-center EPSON customer service EPSON software customer service EPSON customer
-care number EPSON usa EPSON customer number EPSON EPSON customer support number
-EPSON EPSON customer care number EPSON EPSON customer care toll free number
-EPSON EPSON tech support EPSON technical support EPSON printer support EPSON
-printer tech support EPSON support center EPSON.com customer service EPSON
-printer customer care number EPSON EPSON customer care EPSON phone number EPSON
-phone number EPSON for EPSON customer service EPSON phone support EPSON phone
-number EPSON tech support EPSON support phone number EPSON contact EPSON by
-phone EPSON contact phone number EPSON EPSON helpline phone number EPSON EPSON
-printer phone EPSON printer for phone EPSON contact number EPSON EPSON contact
-support contact EPSON printer EPSON contact number EPSON usa EPSON toll free
-number EPSON EPSON telephone number EPSON EPSON toll free number EPSON usa
-EPSON printer support services technical support for printer EPSON EPSON
-customer service phone number EPSON usa EPSON printer customer care number
-EPSON usa EPSON customer care number EPSON EPSON customer care center EPSON
-customer support EPSON customer support phone EPSON customer help EPSON
-customer & technical support EPSON customer portal EPSON customer care phone
-number EPSON usa EPSON customer care email EPSON helpline EPSON tech support
-contact EPSON customer care toll free EPSON printer customer service number
-EPSON EPSON printer protection norton printer customer service number EPSON
-EPSON software customer service number EPSON EPSON hotline customer service
-phone number EPSON EPSON customer service phone number EPSON us how to contact
-EPSON by email EPSON free phone support EPSON printer technical support number
-EPSON EPSON printer technical support help desk phone number EPSON EPSON
-technical support number EPSON toll free number EPSON EPSON printer customer
-support phone number EPSON EPSON printer customer
+The kill(2) man-page says that for signal 0, no signal is sent, mentions that
+error checking is performed and that signal 0 can be used to check for process
+existence.  Then it says the a process must have perms to send a signal. 
+Later, for EPERM, it says that the process doesn't have perms to send the
+signal.
+
+But for signal 0, no signal is sent.  What's not 100% clear is that, *even for
+signal 0*, a process must have perms (CAP_KILL or matching user ID).  I
+misinterpreted it to mean that any process could send signal 0 to any other
+process (regardless of user ID), but could not send a non-zero signal to a
+process without the appropriate perms.  But this is wrong.  The reason for the
+confusion is the word "send/sent" not being used 100% consistently.
+
+Maybe the wording could be enhanced to say "For a process to have permission to
+send a signal, including signal 0, it must either be ...".
 
 -- 
 You are receiving this mail because:
