@@ -1,7 +1,7 @@
 From: bugzilla-daemon-590EEB7GvNiWaY/ihj7yzEB+6BGkLq7r@public.gmane.org
 Subject: [Bug 118671] mkfifo(3) & mknod(2) and EPERM
-Date: Sat, 16 Jul 2016 10:43:55 +0000
-Message-ID: <bug-118671-11311-3j2rLnIXYI@https.bugzilla.kernel.org/>
+Date: Sat, 16 Jul 2016 10:44:16 +0000
+Message-ID: <bug-118671-11311-oVXzroxS39@https.bugzilla.kernel.org/>
 References: <bug-118671-11311@https.bugzilla.kernel.org/>
 Mime-Version: 1.0
 Content-Type: text/plain; charset="UTF-8"
@@ -18,18 +18,7 @@ Michael Kerrisk <mtk.manpages-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org> changed:
 
            What    |Removed                     |Added
 ----------------------------------------------------------------------------
-             Status|NEW                         |RESOLVED
-         Resolution|---                         |CODE_FIX
-
---- Comment #5 from Michael Kerrisk <mtk.manpages-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org> ---
-(In reply to Navin from comment #4)
-> I don't think so . This is not a bug. 
-
-Okay -- closing.
-
-Cheers,
-
-Michael
+         Resolution|CODE_FIX                    |INVALID
 
 -- 
 You are receiving this mail because:
