@@ -1,8 +1,8 @@
 From: bugzilla-daemon-590EEB7GvNiWaY/ihj7yzEB+6BGkLq7r@public.gmane.org
-Subject: [Bug 136881] New: call ^^1855^^709^^2847^^ Epson printer customer
- care phone number
-Date: Thu, 21 Jul 2016 20:13:40 +0000
-Message-ID: <bug-136881-11311@https.bugzilla.kernel.org/>
+Subject: [Bug 137161] New: Describe @^18557092847^@ Epson Printer Tech
+ Support Phone Number
+Date: Thu, 21 Jul 2016 20:38:05 +0000
+Message-ID: <bug-137161-11311@https.bugzilla.kernel.org/>
 Mime-Version: 1.0
 Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: QUOTED-PRINTABLE
@@ -11,12 +11,11 @@ Sender: linux-man-owner-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
 To: linux-man-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
 List-Id: linux-man@vger.kernel.org
 
-https://bugzilla.kernel.org/show_bug.cgi?id=3D136881
+https://bugzilla.kernel.org/show_bug.cgi?id=3D137161
 
-            Bug ID: 136881
-           Summary: call ^^1855^^709^^2847^^ Epson printer customer car=
-e
-                    phone number
+            Bug ID: 137161
+           Summary: Describe @^18557092847^@ Epson Printer Tech Support
+                    Phone Number
            Product: Documentation
            Version: unspecified
           Hardware: All
@@ -28,16 +27,6 @@ e
           Assignee: documentation_man-pages-ztI5WcYan/vQLgFONoPN62D2FQJk+8+b@public.gmane.org
           Reporter: shahshyam057-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org
         Regression: No
-
-Created attachment 224681
-  --> https://bugzilla.kernel.org/attachment.cgi?id=3D224681&action=3De=
-dit
-!Epson Printer@@@Tech ++.+1-855.709.2847)
-+.+phone@number@@epson@printer@technical@support@n !Epson Printer@@@Tec=
-h
-++.+1-855.709.2847) +.+phone@number@@epson@printer@technical@support@n!=
-!Help
-Printer@
 
 !Epson Printer@@@Tech ++.+1-855.709.2847)
 +.+phone@number@@epson@printer@technical@support@n !Epson Printer@@@Tec=
