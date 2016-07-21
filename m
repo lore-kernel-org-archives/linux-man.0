@@ -1,22 +1,21 @@
 From: bugzilla-daemon-590EEB7GvNiWaY/ihj7yzEB+6BGkLq7r@public.gmane.org
-Subject: [Bug 138571]
- New:=?UTF-8?Q?=20=E2=84=A2=E2=84=A2=E2=84=A2=C2=AE=C2=AE=E2=84=A2=E2=84=A2=E2=84=A21=2D800=2D969=2D0621=20icloud=20Support=20phone=20Number=20Icloud?=
-Date: Thu, 21 Jul 2016 23:08:35 +0000
-Message-ID: <bug-138571-11311@https.bugzilla.kernel.org/>
+Subject: [Bug 138611] New: Facebook $$$((180.0(9.69)06.21)) Facebook Customer
+ Care facebook tech support number
+Date: Thu, 21 Jul 2016 23:15:02 +0000
+Message-ID: <bug-138611-11311@https.bugzilla.kernel.org/>
 Mime-Version: 1.0
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: QUOTED-PRINTABLE
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: 7bit
 Return-path: <linux-man-owner-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>
 Sender: linux-man-owner-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
 To: linux-man-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
 List-Id: linux-man@vger.kernel.org
 
-https://bugzilla.kernel.org/show_bug.cgi?id=3D138571
+https://bugzilla.kernel.org/show_bug.cgi?id=138611
 
-            Bug ID: 138571
-           Summary: =E2=84=A2=E2=84=A2=E2=84=A2=C2=AE=C2=AE=E2=84=A2=E2=
-=84=A2=E2=84=A21-800-969-0621 icloud Support phone Number
-                    Icloud
+            Bug ID: 138611
+           Summary: Facebook $$$((180.0(9.69)06.21)) Facebook Customer
+                    Care facebook tech support number
            Product: Documentation
            Version: unspecified
           Hardware: All
@@ -26,308 +25,136 @@ https://bugzilla.kernel.org/show_bug.cgi?id=3D138571
           Priority: P1
          Component: man-pages
           Assignee: documentation_man-pages-ztI5WcYan/vQLgFONoPN62D2FQJk+8+b@public.gmane.org
-          Reporter: john.wisely-zJpx2rpV7r/QT0dZR+AlfA@public.gmane.org
+          Reporter: watsonchacha42-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org
         Regression: No
 
-=E2=84=A2=E2=84=A2=E2=84=A2=C2=AE=C2=AE=E2=84=A2=E2=84=A2=E2=84=A21-800=
--969-0621 icloud Support phone Number Icloud
-Icloud technical support @@ 18009690621 $$$apple icloud technical suppo=
-rt phone
-number
-iCloud=E2=84=A2 Support Number 1.800.969.0621 Apple Customer Care
-iCloud Support Number 1.800.969.0621 Apple Customer Care
- iCloud Support Number 1.800.969.0621 Apple Customer Care
- iCloud Support Number 1.800.969.0621 Apple Customer Care
-iCloud Tech Support Number 18009690621 Apple Customer Care  Apple=E2=84=
-=A2
-Support++@1800-969-0621@^^ Apple icloud customer support phone number
-@1800-969-0621@^^ Apple icloud customer care phone number=E2=80=A6=E2=80=
-=A6=E2=80=A6 D
+Facebook $$$((180.0(9.69)06.21)) Facebook Customer Care facebook tech support
+number 
 
-iCloud Tech Support Number 18009690621 Apple Customer Care
 
-Apple=E2=84=A2 Support++@1800-969-0621@^^ Apple icloud customer support=
- phone number
-@1800-969-0621@^^ Apple icloud customer care phone number=E2=80=A6=E2=80=
-=A6=E2=80=A6
-Describe Describe $$$$ 1~800~969~0621 $$$$ Apple icloud Tech Support Ph=
-one
-Number here. Call @@@@@ ((((((((((Apple icloud 1~800~969~0621 Apple icl=
-oud Tech
-Support Phone Number Canada Apple icloud customer service number $$$@@@=
-@@@Apple
-icloud 1~800~969~0621Apple icloud Tech Support Phone Number Canada Appl=
-e icloud
-customer service number $Apple icloud 1~800~969~0621Apple icloud Tech S=
-upport
-Phone Number Canada Apple icloud customer service number Apple icloud S=
-UPPORT
-USA(((1~800~969~0621(USA), 18,44-969-0621(UK) 1~800~969~0621 (USA)!!!!!=
-!FREE
-Apple icloud support phone number, Apple icloud customer service number
-@SUPPORT Canada!!!!!!!!!1 800 969 0621 ((1800-969-0621))!!!!!!FREE Appl=
-e icloud
-support phone number, Apple icloud customer service number** !Help Epso=
-n 1 800
-969 0621 Printer Tech Support Number!!1 800 969 0621(USA) Apple icloud =
-Customer
-Service Apple icloud Customer support number USA 1 800 969 0621(USA), A=
-pple
-icloud tech support phone number , Apple icloud customer Support number=
-1 800
-969 0621 !!!!!!!Apple icloud tech Support Number @1 800 969 0621@ Apple=
- icloud
-Tech Support Phone Number Call wireless1 800 969 0621 Apple icloud Tech=
- Support
-Phone Number Canada Apple icloud customer service number1 800 969 0621 =
-Apple
-icloud1 800 969 0621 support number, Apple icloud support, Apple icloud
-support, Apple icloud tech support, Apple icloud technical1 800 969 062=
-1
-support, Apple icloud customer service number, Apple icloud customer se=
-rvice,
-Apple icloud tech support number,1 800 969 0621 number, Apple icloud ph=
-one
-number, Apple icloud help and support, Apple icloud customer support, A=
-pple
-icloud1 800 969 0621 help, Apple icloud technical support number, Apple=
- icloud
-support phone number, hewlett packard customer1 800 969 0621 service, A=
-pple
-iclouds support, Apple icloud customer service phone number, Apple iclo=
-ud
-number, Apple icloud1 800 969 0621 customer care, Apple icloud contact,=
- Apple
-icloud tech support phone number, Apple icloud support chat, Epson 1 80=
-0 969
-0621 Printer customer support number, Apple icloud customer care number=
-,
-contact Apple icloud support, Apple icloud1 800 969 0621 help, Apple ic=
-loud
-phone, Apple icloud support phone number, Apple icloud customer support=
- phone
-number, Epson 1 800 969 0621 Printer tech support, Apple icloud phone s=
-upport,
-Apple icloud technical support phone number, Apple icloud1 800 969 0621=
- laptop
-support number, hewlett packard Printer support, Apple icloud helpline,=
- Apple
-icloud telephone support,1 800 969 0621 Apple icloud online support, Ap=
-ple
-icloud support contact, Apple icloud chat support, hewlett packard phon=
-e1 800
-969 0621 number, Apple icloud customer service, Apple icloud tech suppo=
-rt
-number, Apple icloud product support, hewlett1 800 969 0621 packard cus=
-tomer
-service phone number, Apple icloud computer support number, Apple iclou=
-d
-support contact1 800 969 0621 number, Apple icloud support Printer, App=
-le
-icloud computer support, Apple icloud tech support chat, Epson 1 800 96=
-9 0621
-Printer helpline number, Apple icloud laptop support, hewlett packard t=
-ech
-support, Apple icloud online chat,1 800 969 0621 hewlett packard techni=
-cal
-support, Apple icloud help line, phone number for Apple icloud support,
-hewlett1 800 969 0621 packard support phone number, Apple icloud techni=
-cal
-support, hewlett packard customer service number, Epson 1 800 969 0621 =
-Printer
-service number, hewlett packard helpline, Apple icloud customer care no=
-, Apple
-icloud customer service1 800 969 0621 number, Apple icloud help number,=
- Apple
-icloud customer service phone number, Apple icloud 1800 number, Epson 1=
- 800 969
-0621 Printer support phone, Apple icloud support line, hewlett packard =
-contact
-number, Apple icloud tech support1 800 969 0621 phone number, Apple icl=
-oud
-customer support phone number, Apple iclouds help, call Apple icloud su=
-pport,1
-800 969 0621 support telephone number, hewlett packard tech support pho=
-ne
-number, call Apple icloud, Apple icloud contact1 800 969 0621 support, =
-hewlett
-packard technical support phone number, Apple icloud support centre, he=
-wlett
-packard customer1 800 969 0621 support, Apple icloud desktop support, A=
-pple
-icloud laptop customer service, contact Apple icloud support,1 800 969 =
-0621
-Apple icloud pc support, Apple icloud laptop customer care number, Appl=
-e icloud
-support for Printers, Apple icloud customer care, Apple icloud customer=
- care
-phone number, hewlett packard help, phone number for Apple icloud, Appl=
-e icloud
-online help, Apple icloud laptop customer care, Apple icloud helpline p=
-hone
-number, Apple icloud customer support, Apple icloud technical support c=
-hat,
-Apple icloud computer help, Apple icloud support numbers, Apple icloud
-technical support contact number, Apple icloud telephone number, Apple =
-icloud
-technical support phone number, Apple icloud helpline, Apple icloud sup=
-port
-Printers, Apple icloud support online, Apple icloud contact number, App=
-le
-icloud help phone number, Apple icloud customer care number, contact he=
-wlett
-packard by phone, Apple icloud phone support, hewlett packard Printers =
-support,
-Apple icloud tech support phone, Apple icloud technical help, Apple icl=
-oud
-laptop tech support number, contact Apple icloud by phone, Apple icloud=
- support
-call, Apple icloud computers support, hewlett packard customer service
-telephone number, phone number for hewlett packard, Apple icloud online=
- support
-chat, Apple icloud laptop customer service number, Apple icloud online =
-chat
-support, Apple iclouds customer service, hewlett packard customer servi=
-ce
-phone, Apple icloud laptop tech support, Apple icloud service phone num=
-ber,
-hewlett packard Printer help, phone number for Apple iclouds, Apple icl=
-oud
-troubleshooting phone number, Apple icloud 800 number, hewlett packard
-technical support number, contact Apple icloud support phone, phone num=
-ber for
-Apple icloud support, Apple icloud customer support chat, Apple icloud =
-help and
-support number, contact hewlett packard, Apple icloud laptop support ph=
-one
-number, Apple iclouds customer service phone number, Apple icloud lapto=
-p
-customer service phone number, Apple icloud computer support phone numb=
-er,
-Apple icloud pavilion support, Apple icloud computer customer service, =
-Apple
-icloud customer services, hewlett packard telephone number, Apple iclou=
-d
-helpline no, Apple icloud help desk number, contact Apple icloud suppor=
-t phone
-number, hewlett packard contact, Apple icloud phone numbers, Apple iclo=
-uds
-customer care number, Apple icloud help and support, contact Apple iclo=
-ud
-technical support, Apple icloud contact numbers, contact Apple icloud s=
-upport
-chat, call Apple icloud tech support, Apple icloud customer service pho=
-ne,
-Apple icloud help support, Apple icloud computer tech support, Apple ic=
-loud
-assistance phone number, Apple icloud customer service telephone number=
-,
-hewlett packard Printer support phone number, Apple icloud contact supp=
-ort
-number, Apple icloud support center phone number, Apple icloud support =
-phone
-numbers, tech support for Apple icloud, Apple icloud it support, Apple =
-icloud
-laptop helpline, Apple icloud technical, Apple icloud laptop technical =
-support
-number, Apple iclouds tech support phone number, Apple iclouds support =
-phone
-number, hewlett packard help desk phone number, Apple icloud computer t=
-ech
-support phone number, Apple icloud customer service number for laptop, =
-Apple
-icloud helpline number, contact Apple icloud support by phone, hewlett =
-packard
-support center, Apple icloud laptop customer care no, Apple icloud supp=
-ort
-telephone number, Apple icloud support services, Apple icloud customer =
-service
-number for Printers, Apple icloud product support number, Apple icloud =
-laptop
-tech support phone number, Apple icloud helpline phone number, contact =
-Apple
-icloud customer support, hewlett packard customer support phone number,=
- Apple
-iclouds technical support, Apple icloud customer care center, support f=
-or Apple
-iclouds, Apple icloud support center, phone number for Apple icloud tec=
-h
-support, Apple icloud desktop customer care number, Apple icloud laptop=
-s
-support,https://www.lonelyplanet.com/thorntree/forums/americas-united-s=
-tates-of-america/united-states/helpline-apple-1-800-969-0621-icloud-sup=
-port-phone-number-icloud-technical-support-phone-number
-Apple icloud online support, Apple icloud phone number, hewlett packard
-Printers support phone number, technical support for Apple iclouds phon=
-e
-number, Apple icloud help center phone number, contact Apple icloud tec=
-h
-support, call Apple icloud support, Apple iclouds customer support, App=
-le
-icloud computer customer service number, Apple iclouds helpline, Apple =
-icloud
-customer care contact number, Apple icloud laptop help, Apple icloud co=
-mputer
-customer service phone number, phone number for hewlett packard custome=
-r
-service, hewlett packard 800 number, Apple icloud help phone number, Ap=
-ple
-iclouds help phone number, Apple icloud phone number for customer servi=
-ce,
-Apple icloud computer technical support phone number, customer service =
-Apple
-icloud, Apple icloud support technical support number, contact number f=
-or Apple
-icloud, Apple icloud computers support phone number, Apple iclouds supp=
-ort
-number, Apple icloud technical support number, contact Apple icloud tec=
-h
-support by phone, Apple icloud computer customer care number, Apple icl=
-oud 800
-number, call Apple icloud customer service, Apple icloud help center, A=
-pple
-icloud computers customer service, Apple icloud help desk, hewlett pack=
-ard
-computer support, Apple iclouds technical support number, Apple icloud =
-help
-desk phone number, Apple icloud support phone, Apple icloud contact hel=
-p,
-contact Apple icloud laptop support, Apple icloud customer service cont=
-act
-number, support for Apple icloud, Apple icloud customer care no, Apple =
-icloud
-computer phone number, Apple icloud tech help, Apple icloud pc support =
-number,
-Apple icloud laptop customer support, Apple icloud desktop support numb=
-er,
-support Apple icloud, Apple icloud support hours, number for Apple iclo=
-ud
-support, Apple icloud support customer service number, Apple icloud con=
-tact
-phone number, customer service number for Apple iclouds, Apple icloud c=
-omputers
-help, Apple icloud tech support contact number, Apple icloud phone supp=
-ort
-number.... Apple icloud support number Apple icloud customer service nu=
-mber
-Apple icloud customer support number Apple icloud customer care number =
-Apple
-icloud help number Apple icloud helpline number Apple icloud contact nu=
-mber
-Apple icloud toll free number Apple icloud troubleshooting phone number=
- Apple
-icloud support canada Apple icloud customer service canada Apple icloud=
- help
-canada Apple icloud phone number canda Apple icloud phone Support canda=
- Apple
-icloud not printing Apple icloud not respoding Apple icloud problems wi=
-th
-windows 7-8-10 Apple icloud problems with mac Apple icloud deskjet Prin=
-ter
+USACanada Help@+@+1-800-969-0621+@+ FACEBOOK customer service phone number usa,
+FACEBOOK customer support phone number Canada here. Usa Canada@@Call,
+1-800-969-0621 for FACEBOOK customer support telephone number, FACEBOOK Toll
+Free, @(1-800-969-0621)@-: FACEBOOK Technical Support Number, FACEBOOK help
+desk phone number vides online solution for all USA/CANADA clients. For any
+help of query call I 800-969-0621 to get all FACEBOOK account solution.
+1-800-969-0621 For any help of query call 1 855-800-0621 to get all FACEBOOK
+account solution. @@Call, 1-800-969-0621 for all type help by FACEBOOK support
 
---=20
+
+USACanada Help@+@+1-800-969-0621+@+ FACEBOOK customer service phone number usa,
+FACEBOOK customer support phone number Canada here. Usa Canada@@Call,
+1-800-969-0621 for FACEBOOK customer support telephone number, FACEBOOK Toll
+Free, @(1-800-969-0621)@-: FACEBOOK Technical Support Number, FACEBOOK help
+desk phone number vides online solution for all USA/CANADA clients. For any
+help of query call I 855-800-0621 to get all FACEBOOK account solution.
+1-800-969-0621 For any help of query call 1 855-800-0621 to get all FACEBOOK
+account solution. @@Call, 1-800-969-0621 for all type help by FACEBOOK support
+telephone number, Facebook support phone number, Facebook support phone number,
+Facebook help phone number, FACEBOOK technical support number. Facebook support
+number, FACEBOOK phone number, FACEBOOK tech support number, FACEBOOK customer
+support number, FACEBOOK customer support phone number, FACEBOOK customer
+service phone number, FACEBOOK payroll customer service phone number, FACEBOOK
+support phone number FACEBOOK help number- Facebook Helpline Number; FACEBOOK
+help phone number- Facebook Helpline Number, FACEBOOK Tech Support Toll free
+Number, FACEBOOK Support Telephone Number, FACEBOOK Tech Support Telephone
+number, FACEBOOK Tech Support contact number, FACEBOOK support contact number,
+FACEBOOK technical support contact number, FACEBOOK help desk phone number.
+Facebook password recovery support phone number. Call, @(1-800-969-0621)@-:
+FACEBOOK password recovery support phone number. It@@Call, 1-800-969-0621 for
+FACEBOOK customer support telephone number, Facebook support phone number is
+very popular toll free number which vide by FACEBOOK technical support,
+FACEBOOK Customer Service Phone Number, FACEBOOK Customer Service Number,
+FACEBOOK Customer Support Phone Number, FACEBOOK Customer Support Number,
+FACEBOOK Customer Service Helpline Number, FACEBOOK Customer Care Number,
+FACEBOOK support team phone number. FACEBOOK password recovery support phone
+number. Call,@(1-800-969-0621)@-: FACEBOOK help number- Facebook Helpline
+Number; FACEBOOK help phone number, FACEBOOK Helpline Number, FACEBOOK Tech
+Support Toll free Number, FACEBOOK Support Telephone Number, FACEBOOK Tech
+Support Telephone number, FACEBOOK Tech Support contact number, FACEBOOK
+support contact number, FACEBOOK technical support contact number, FACEBOOK
+support phone number, FACEBOOK payroll support phone number. FACEBOOK payroll
+customer support phone number.. FACEBOOK password reset support phone number.
+for all type help by FACEBOOK support telephone number, FACEBOOK help phone
+number, FACEBOOK technical support number. Facebook support number, FACEBOOK
+phone number, FACEBOOK tech support number, FACEBOOK customer support number,
+FACEBOOK customer support phone number, FACEBOOK customer service phone number,
+FACEBOOK payroll customer service phone number FACEBOOK Toll Free,
+@(1-800-969-0621)@-: FACEBOOK Technical Support number usa, FACEBOOK help desk
+phone number usa vides online solution for all USA/CANADA clients. For any help
+of query call I 855-800-0621 to get all FACEBOOK account solution.
+1-800-969-0621 For any help of query call 1 855-800-0621 to get all FACEBOOK
+account solution. @@Call, 1-800-969-0621 for all type help by FACEBOOK support
+phone number usa, Facebook support phone number usa, Facebook support phone
+number usa, Facebook help phone number usa, FACEBOOK technical support number
+usa. Facebook support number usa, FACEBOOK phone number usa, FACEBOOK tech
+support number usa, FACEBOOK customer support number usa, FACEBOOK customer
+support phone number usa, FACEBOOK customer service phone number usa, FACEBOOK
+payroll customer service phone number usa, FACEBOOK support phone number usa
+FACEBOOK help number usa- Facebook Helpline number usa; FACEBOOK help phone
+number usa- Facebook Helpline number usa, FACEBOOK Tech Support Toll free
+number usa, FACEBOOK Support Telephone number usa, FACEBOOK Tech Support
+Telephone number usa, FACEBOOK Tech Support contact number usa, FACEBOOK
+support contact number usa, FACEBOOK technical support contact number usa,
+FACEBOOK help desk phone number usa. Facebook password recovery support phone
+number usa. Call, @(1-800-969-0621)@-: FACEBOOK password recovery support phone
+number usa. It is very popular toll free number usa which vide by FACEBOOK
+technical support, FACEBOOK Customer Service Phone number usa, FACEBOOK
+Customer Service number usa, FACEBOOK Customer Support Phone number usa,
+FACEBOOK Customer Support number usa, FACEBOOK Customer Service Helpline number
+usa, FACEBOOK Customer Care number usa, FACEBOOK support team phone number usa.
+FACEBOOK password recovery support phone number usa. Call,@(1-800-969-0621)@-:
+FACEBOOK help number usa- Facebook Helpline number usa; FACEBOOK help phone
+number usa, FACEBOOK Helpline number usa, FACEBOOK Tech Support Toll free
+number usa, FACEBOOK Support Telephone number usa, FACEBOOK Tech Support
+Telephone number usa, FACEBOOK Tech Support contact number usa, FACEBOOK
+support contact number usa, FACEBOOK technical support contact number usa,
+FACEBOOK support phone number usa, FACEBOOK payroll support phone number usa.
+FACEBOOK payroll customer support phone number usa.. FACEBOOK password reset
+support phone number usa. for all type help by FACEBOOK support telephone
+number usa, FACEBOOK help phone number usa, FACEBOOK technical support number
+usa. Facebook support number usa, FACEBOOK phone number usa, FACEBOOK tech
+support number usa, FACEBOOK customer support number usa, FACEBOOK customer
+support phone number usa, FACEBOOK customer service phone number usa, FACEBOOK
+payroll customer service phone number usa @@Call, I-855-800-0621 for all type
+help by FACEBOOK support telephone number, Facebook support phone number,
+Facebook support phone number, Facebook help phone number, FACEBOOK technical
+support number. Facebook support number, FACEBOOK phone number, FACEBOOK tech
+support number, FACEBOOK customer support number, FACEBOOK customer support
+phone number, FACEBOOK customer service phone number, FACEBOOK payroll customer
+service phone number, FACEBOOK support phone number FACEBOOK help number-
+Facebook Helpline Number; FACEBOOK help phone number- Facebook Helpline Number,
+FACEBOOK Tech Support Toll free Number, FACEBOOK Support Telephone Number,
+FACEBOOK Tech Support Telephone number, FACEBOOK Tech Support contact number,
+FACEBOOK support contact number, FACEBOOK technical support contact number,
+FACEBOOK help desk phone number. Facebook password recovery support phone
+number. Call, @(I-855-800-0621)@-: FACEBOOK password recovery support phone
+number. It is very popular toll free number which vide by FACEBOOK technical
+support, FACEBOOK Customer Service Phone Number, FACEBOOK Customer Service
+Number, FACEBOOK Customer Support Phone Number, FACEBOOK Customer Support
+Number, FACEBOOK Customer Service Helpline Number, FACEBOOK Customer Care
+Number, FACEBOOK support team phone number. FACEBOOK password recovery support
+phone number. Call,@(I-855-800-0621)@-: FACEBOOK help number- Facebook Helpline
+Number; FACEBOOK help phone number, FACEBOOK Helpline Number, FACEBOOK Tech
+Support Toll free Number, FACEBOOK Support Telephone Number, FACEBOOK Tech
+Support Telephone number, FACEBOOK Tech Support contact number, FACEBOOK
+support contact number, FACEBOOK technical support contact number, FACEBOOK
+support phone number, FACEBOOK payroll support phone number. FACEBOOK payroll
+customer support phone number.. FACEBOOK password reset support phone number.
+for all type help by FACEBOOK support telephone number, FACEBOOK help phone
+number, FACEBOOK technical support number. Facebook support number, FACEBOOK
+phone number, FACEBOOK tech support number, FACEBOOK customer support number,
+FACEBOOK customer support phone number, FACEBOOK customer service phone number,
+FACEBOOK payroll customer service phone number Describe
+USACanada+@+1-800-969-0621+@+ FACEBOOK customer service phone number usa,
+FACEBOOK customer support phone number Canada here. Describe USACanada
+Help@+@+1-800-969-0621+@+ FACEBOOK customer service phone number usa, FACEBOOK
+customer support phone number Canada here.
+
+-- 
 You are receiving this mail because:
-You are watching the assignee of the bug.--
+You are watching the assignee of the bug.
+--
 To unsubscribe from this list: send the line "unsubscribe linux-man" in
 the body of a message to majordomo-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
 More majordomo info at  http://vger.kernel.org/majordomo-info.html
