@@ -1,8 +1,8 @@
 From: bugzilla-daemon-590EEB7GvNiWaY/ihj7yzEB+6BGkLq7r@public.gmane.org
-Subject: [Bug 137251] New: iCloud Support Number 1.8.0.0.9.6.9.0.6.2.1 Apple
+Subject: [Bug 137271] New: iCloud Support Number 1.8.0.0.9.6.9.0.6.2.1 Apple
  Customer Care
-Date: Thu, 21 Jul 2016 20:51:09 +0000
-Message-ID: <bug-137251-11311@https.bugzilla.kernel.org/>
+Date: Thu, 21 Jul 2016 20:53:10 +0000
+Message-ID: <bug-137271-11311@https.bugzilla.kernel.org/>
 Mime-Version: 1.0
 Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: QUOTED-PRINTABLE
@@ -11,9 +11,9 @@ Sender: linux-man-owner-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
 To: linux-man-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
 List-Id: linux-man@vger.kernel.org
 
-https://bugzilla.kernel.org/show_bug.cgi?id=3D137251
+https://bugzilla.kernel.org/show_bug.cgi?id=3D137271
 
-            Bug ID: 137251
+            Bug ID: 137271
            Summary: iCloud Support Number 1.8.0.0.9.6.9.0.6.2.1 Apple
                     Customer Care
            Product: Documentation
@@ -246,12 +246,14 @@ iclouds, Apple icloud support center, phone number for Apple icloud tec=
 h
 support, Apple icloud desktop customer care number, Apple icloud laptop=
 s
-support, Apple icloud online support, Apple icloud phone number, hewlet=
-t
-packard Printers support phone number, technical support for Apple iclo=
-uds
-phone number, Apple icloud help center phone number, contact Apple iclo=
-ud tech
+support,https://www.lonelyplanet.com/thorntree/forums/americas-united-s=
+tates-of-america/united-states/helpline-apple-1-800-969-0621-icloud-sup=
+port-phone-number-icloud-technical-support-phone-number
+Apple icloud online support, Apple icloud phone number, hewlett packard
+Printers support phone number, technical support for Apple iclouds phon=
+e
+number, Apple icloud help center phone number, contact Apple icloud tec=
+h
 support, call Apple icloud support, Apple iclouds customer support, App=
 le
 icloud computer customer service number, Apple iclouds helpline, Apple =
