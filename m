@@ -1,8 +1,8 @@
 From: bugzilla-daemon-590EEB7GvNiWaY/ihj7yzEB+6BGkLq7r@public.gmane.org
-Subject: [Bug 136091] New: Roadrunner Help Phone Number 18447806762
- Roadrunner Customer Service Phone Number
-Date: Thu, 21 Jul 2016 18:41:05 +0000
-Message-ID: <bug-136091-11311@https.bugzilla.kernel.org/>
+Subject: [Bug 136101] New: roadrunner customer care 18447806762 tech support
+ phone number help support phone number
+Date: Thu, 21 Jul 2016 18:42:29 +0000
+Message-ID: <bug-136101-11311@https.bugzilla.kernel.org/>
 Mime-Version: 1.0
 Content-Type: text/plain; charset="UTF-8"
 Content-Transfer-Encoding: 7bit
@@ -11,11 +11,11 @@ Sender: linux-man-owner-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
 To: linux-man-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
 List-Id: linux-man@vger.kernel.org
 
-https://bugzilla.kernel.org/show_bug.cgi?id=136091
+https://bugzilla.kernel.org/show_bug.cgi?id=136101
 
-            Bug ID: 136091
-           Summary: Roadrunner Help Phone Number 18447806762 Roadrunner
-                    Customer Service Phone Number
+            Bug ID: 136101
+           Summary: roadrunner customer care 18447806762 tech support
+                    phone number help support phone number
            Product: Documentation
            Version: unspecified
           Hardware: All
@@ -28,8 +28,8 @@ https://bugzilla.kernel.org/show_bug.cgi?id=136091
           Reporter: support8743-LedO9licQFUqdlJmJB21zg@public.gmane.org
         Regression: No
 
-Roadrunner Help Phone Number 18447806762 Roadrunner Customer Service Phone
-Number 
+roadrunner customer care 18447806762 tech support phone number help support
+phone number
 Desktop Support _( 1-855-335-9520))USA Roadrunner tech support phone Number,
 Roadrunner technical support phone Number Roadrunner customer service phone
 Number Describe call 1855-335-9520, Roadrunner Accounting Tech support Phone
