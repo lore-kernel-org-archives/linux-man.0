@@ -2,8 +2,8 @@ From: bugzilla-daemon-590EEB7GvNiWaY/ihj7yzEB+6BGkLq7r@public.gmane.org
 Subject: [Bug 137351] MSG_NOSIGNAL not documented in man 2 recv, OR misprint
  in man recvmsg in the line "This can be avoided by passing the MSG_NOSIGNAL
  flag to sendmsg(2) or recvmsg(2)."
-Date: Fri, 22 Jul 2016 06:29:28 +0000
-Message-ID: <bug-137351-11311-qPFmfhtQmn@https.bugzilla.kernel.org/>
+Date: Fri, 22 Jul 2016 06:51:48 +0000
+Message-ID: <bug-137351-11311-bJRPGie1xi@https.bugzilla.kernel.org/>
 References: <bug-137351-11311@https.bugzilla.kernel.org/>
 Mime-Version: 1.0
 Content-Type: text/plain; charset="UTF-8"
@@ -16,15 +16,11 @@ List-Id: linux-man@vger.kernel.org
 
 https://bugzilla.kernel.org/show_bug.cgi?id=137351
 
-Michael Kerrisk <mtk.manpages-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org> changed:
-
-           What    |Removed                     |Added
-----------------------------------------------------------------------------
-                 CC|                            |mtk.manpages-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org
-
---- Comment #1 from Michael Kerrisk <mtk.manpages-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org> ---
-But, as far as I know, it does nothing for recv(2). If you believe otherwise,
-please add some supporting info.
+--- Comment #2 from Michael Kerrisk <mtk.manpages-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org> ---
+I see that you changed the title of the bug. This is far too cryptic as a way
+of reporting a bug. I can't find the text you refer to. Please note in a
+comment exactly the text and exactly the page you are referring to, and also
+check that the bug is present in the latest man page.
 
 -- 
 You are receiving this mail because:
