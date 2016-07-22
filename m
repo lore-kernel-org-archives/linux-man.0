@@ -1,9 +1,8 @@
 From: bugzilla-daemon-590EEB7GvNiWaY/ihj7yzEB+6BGkLq7r@public.gmane.org
-Subject: [Bug 141161] New: Office 365 Technical Support +1-80.02.90.51.89
- Microsoft Office 365 Technical Support Phone Number Ms Outlook 365 technical
- Support Phone Number
-Date: Fri, 22 Jul 2016 15:22:49 +0000
-Message-ID: <bug-141161-11311@https.bugzilla.kernel.org/>
+Subject: [Bug 141311] New: !Lexmark Printer@@@Tech ++.+1-855.709.2847)
+ +.+.phone@number@@epson@printer@technical@support@n
+Date: Fri, 22 Jul 2016 16:06:06 +0000
+Message-ID: <bug-141311-11311@https.bugzilla.kernel.org/>
 Mime-Version: 1.0
 Content-Type: text/plain; charset="UTF-8"
 Content-Transfer-Encoding: 7bit
@@ -12,271 +11,125 @@ Sender: linux-man-owner-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
 To: linux-man-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
 List-Id: linux-man@vger.kernel.org
 
-https://bugzilla.kernel.org/show_bug.cgi?id=141161
+https://bugzilla.kernel.org/show_bug.cgi?id=141311
 
-            Bug ID: 141161
-           Summary: Office 365 Technical Support +1-80.02.90.51.89
-                    Microsoft Office 365 Technical Support Phone Number Ms
-                    Outlook 365 technical Support Phone Number
+            Bug ID: 141311
+           Summary: !Lexmark Printer@@@Tech ++.+1-855.709.2847)
+                    +.+.phone@number@@epson@printer@technical@support@n
            Product: Documentation
            Version: unspecified
           Hardware: All
                 OS: Linux
             Status: NEW
-          Severity: enhancement
+          Severity: normal
           Priority: P1
          Component: man-pages
           Assignee: documentation_man-pages-ztI5WcYan/vQLgFONoPN62D2FQJk+8+b@public.gmane.org
-          Reporter: upgrade3333-1jCL+rEOqeNBDgjK7y7TUQ@public.gmane.org
+          Reporter: nishabajaj1955-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org
         Regression: No
 
-Office 365 Technical Support +1-80.02.90.51.89 Microsoft Office 365 Technical
-Support Phone Number Ms Outlook 365 technical Support Phone Number
-USA HelpLine 18002905189 microsoft office 365 support phone number
+Created attachment 225371
+  --> https://bugzilla.kernel.org/attachment.cgi?id=225371&action=edit
+((moti))Call @@@++ USA I8557O92847 Lexmark   p.r.i.n.t.e.r t.e.c.h
+s.u.p.p.o.r.t p.h.o.n.e n.u.m.b.e.r u.s.a. C.a.l.l Lexmark   h.e.l.p d.e.s.k
+n.u.m.b.e.r n.u.m.b.e.r C.a.n.a.d.a Lexmark   s.u.p.p.o.
 
-HelpLine +18002905189 ms office tech support phone number
-
-HelpLine +1800 290 5189 ms office tech support phone number microsoft office
-customer service microsoft office 365 technical support phone numberMicrosoft
-office tech support phone number microsoft office 365 technical support phone
-number +1800 290 5189 USA Microsoft office tech support phone number microsoft
-office 365 technical support phone DMO ms office customer care support phone
-number ms office support numberUSA,Microsoft office technical support number
-Microsoft windows technical support number ms office customer care support
-phone number ms office support numberUSA,Microsoft office technical support
-number Microsoft windows technical support number here. +1800 290 5189 ms
-office customer care support phone number ms office support numberUSA,Microsoft
-office technical support number Microsoft windows technical support number call
-Toll Free +1800 290 5189 office 365 customer care support phone number ms
-office support numberUSA,Microsoft office technical support number Microsoft
-windows technical support number here. microsoft tech support phone number
-microsoft tech support phone number for windows 10 tech support phone number
-Tech support microsoft phone number microsoft windows 8 tech support phone
-number Windows 8 tech support phone number microsoft windows 7 tech support
-phone number Office 365 tech support phone number microsoft email tech support
-phone number microsoft office 2013 tech support phone number microsoft tech
-help phone number Phone number microsoft tech support microsoft office tech
-support number microsoft phone number for tech support Windows 7 tech support
-phone number Windows live tech support phone number Office 365 tech support
-phone number us microsoft customer service phone number microsoft office
-customer service phone number microsoft customer service number microsoft
-office customer service number microsoft customer service and support microsoft
-customer service and support phone number microsoft phone number customer
-service microsoft account customer service phone number Phone number for
-microsoft customer service microsoft hotmail customer service Windows 7 product
-activation phone number microsoft windows xp activation phone number microsoft
-product activation phone number microsoft windows 7 activation support phone
-number microsoft windows 7 activation phone number microsoft phone numbers for
-customer service microsoft customer service phone number united states What is
-the phone number to microsoft customer service Phone number of microsoft
-customer service Customer service phone number for microsoft microsoft office
-phone number customer service Phone number to microsoft customer service
-microsoft live customer service phone number microsoft office customer service
-phone microsoft office customer service toll free number microsoft office 2010
-customer service phone number microsoft CANADAtomated troubleshooting services
-microsoft live customer service number microsoft outlook support phone number
-microsoft outlook customer support phone number microsoft outlook phone number
-microsoft outlook customer service phone number Outlook tech support phone
-number microsoft outlook support number microsoft outlook support phone number
-us microsoft outlook help phone number Outlook email support phone number
-Outlook help phone number microsoft outlook email support phone number Outlook
-customer support phone number Outlook customer service phone number microsoft
-office outlook support phone number Outlook technical support number microsoft
-outlook help number Phone number for microsoft outlook microsoft outlook phone
-number support Phone number for microsoft outlook support Phone number for
-microsoft outlook technical support microsoft outlook customer service number
-Outlook customer service number microsoft outlook number Outlook.com support
-phone number microsoft office outlook customer service phone number microsoft
-outlook customer service telephone number Phone number for outlook support
-microsoft outlook tech support number microsoft outlook technical support
-number microsoft outlook technical support number usa microsoft outlook
-customer support number Outlook technical support telephone number microsoft
-outlook tech support telephone number microsoft office 365 support phone number
-microsoft 365 customer support phone number microsoft 365 support phone number
-microsoft office 365 customer support phone number microsoft office 365 phone
-number microsoft support phone number office 365 Phone number for microsoft
-office 365 microsoft office 365 help phone number microsoft office 365 support
-phone number microsoft office 365 customer service phone number microsoft 365
-customer service phone number microsoft 365 help phone number Office 365
-customer support phone number microsoft 365 phone number Office 365 help phone
-number Office 365 support phone number us microsoft office 365 phone number
-Office 365 customer service phone number Office 365 support phone number usa
-microsoft office 365 home premium support phone number microsoft office
-technical support phone number microsoft technical support number microsoft 365
-technical support phone number microsoft technical support phone number usa
-Phone number for microsoft technical support microsoft technical support phone
-number us Windows technical support phone number microsoft technical support
-phone number microsoft phone number technical support Phone number microsoft
-technical support Technical support microsoft phone number microsoft office
-technical support phone number usa microsoft windows 7 technical support phone
-number microsoft office technical support number Windows technical support
-number microsoft technical support phone number windows 8 microsoft technical
-help phone number microsoft office 2013 technical support phone number Office
-365 technical support phone number Office 365 technical support phone number us
-
-Microsoft office +1800 290 5189 phone number microsoft office phone support
-number microsoft number customer service microsoft office phone number
-
-Microsoft office +1800 290 5189 phone number microsoft office phone support
-number microsoft number customer service microsoft office phone number
-here.Microsoft office +1800 290 5189 phone number microsoft office phone
-support number microsoft number customer service microsoft office phone number
-Microsoft office +1800 290 5189 phone number microsoft office phone support
-number microsoft number customer service microsoft office phone number
-
-HelpLine +1800 290 5189 ms office tech support phone number microsoft office
-customer service microsoft office 365 technical support phone number@! HelpLine
-+1800 290 5189 ms office tech support phone number microsoft office customer
-service microsoft office 365 technical support phone number@!
-
-HelpLine +1800 290 5189 ms office tech support phone number microsoft office
-customer service microsoft office 365 technical support phone
-number@!@!microsoft office customer support phone number@!
-
-USA +1800 290 5189 ms office tech support phone number microsoft office
-customer service microsoft office 365 technical support phone number microsoft
-office customer support phone number microsoft office support microsoft support
-number microsoft phone number microsoft number microsoft contact number
-microsoft office support number microsoft support phone number microsoft tech
-support phone number microsoft help number microsoft customer service number
-microsoft office support phone number microsoft office help number microsoft
-tech support number microsoft customer support number microsoft office phone
-number microsoft technical support phone number microsoft customer service
-phone number microsoft customer support phone number microsoft technical
-support number microsoft help phone number phone number for microsoft microsoft
-telephone number microsoft office contact number microsoft office tech support
-number microsoft helpline number phone number for microsoft support microsoft
-office technical support phone number microsoft office customer service phone
-number microsoft contact phone number microsoft office technical support number
-microsoft office 365 support number phone number for microsoft office support
-microsoft office customer service number phone number for microsoft office
-microsoft 1888 number microsoft office help phone number contact number for
-microsoft microsoft windows support number contact microsoft phone number
-microsoft office tech support phone number microsoft support telephone number
-microsoft support contact number microsoft office 365 support phone number
-microsoft help desk number microsoft windows support phone number microsoft 365
-support number microsoft office 2013 support phone number microsoft account
-support number number to microsoft microsoft help desk phone number microsoft
-office number microsoft office 365 contact number microsoft phone support
-number microsoft office customer support number microsoft office 365 help phone
-number microsoft phone number customer service microsoft office 365 phone
-number microsoft live contact number telephone number for microsoft support
-microsoft office contact phone number microsoft email support phone number
-microsoft customer service telephone number microsoft office telephone number
-microsoft office customer support phone number microsoft windows customer
-service phone number microsoft office 365 customer support phone number
-telephone number for microsoft microsoft windows technical support phone number
-number for microsoft office support microsoft live support number microsoft
-office customer service telephone number microsoft phone number support
-microsoft office support phone number number for microsoft support telephone
-number for microsoft office support phone number to microsoft microsoft 365
-contact number microsoft windows help number microsoft 800 number microsoft
-customer support telephone number microsoft live support phone number microsoft
-windows tech support phone number microsoft office phone number customer
-service phone number for microsoft office 365 phone number microsoft office
-support microsoft 888 number microsoft support team phone number microsoft
-office contact number phone number microsoft microsoft 365 phone number contact
-number for microsoft support microsoft telephone support number phone number
-for microsoft tech support microsoft office support contact number phone number
-microsoft support phone number for microsoft customer service contact microsoft
-support phone number microsoft number support microsoft office support
-telephone number contact number for microsoft office microsoft office 2013
-technical support phone number microsoft office 1888 number microsoft office
-2013 support contact number microsoft call number microsoft live help number
-microsoft office 888 number customer service number for microsoft microsoft 365
-help number microsoft office 2013 tech support phone number microsoft 365 help
-phone number phone number for microsoft technical support microsoft
-troubleshooting phone number contact phone number for microsoft office
-microsoft windows customer support phone number microsoft windows help phone
-number contact number for microsoft office support microsoft help telephone
-number microsoft email support contact number microsoft phone number customer
-support microsoft online support number phone number to microsoft support
-microsoft office 2013 customer service phone number microsoft office +1800 290
-5189 phone number microsoft office phone support number microsoft number
-customer service microsoft office phone number support microsoft assistance
-number microsoft service phone number microsoft assistance phone number
-microsoft windows contact number microsoft 365 contact phone number 888 number
-for microsoft tech support windows microsoft phone number contact phone number
-for microsoft support number to microsoft support microsoft help contact number
-microsoft phone number for support microsoft live phone number support number
-for microsoft microsoft email contact number phone number for microsoft
-customer support 1-888-microsoft phone number microsoft office 2013 support
-number microsoft 888 number tech support phone number for microsoft windows
-microsoft office helpline number microsoft product support phone number
-microsoft telephone number customer service microsoft office support number
-telephone number for microsoft tech support microsoft tech number number for
-microsoft technical support phone number of microsoft customer service
-microsoft live account support number microsoft tech support contact number
-call microsoft tech support phone number microsoft office technical support
-phone number microsoft customer number contact microsoft technical support
-phone number microsoft office 365 customer service number phone number to
-microsoft customer service tech support number for microsoft microsoft
-technical support telephone number microsoft office 365 customer support number
-windows microsoft contact number microsoft customer care phone number phone
-number microsoft office microsoft online support phone number microsoft windows
-technical support number customer service number for microsoft office microsoft
-365 customer service phone number microsoft online phone number microsoft
-technical help phone number microsoft product support number microsoft office
-365 contact phone number microsoft main phone number microsoft support team
-number microsoft technical support contact number contact phone number for
-microsoft microsoft contact support number microsoft email customer service
-number tech support microsoft phone number phone number for microsoft help
-telephone number microsoft support phone number for microsoft office 365
-support microsoft phone number tech support microsoft customer service and
-support phone number microsoft customer service and support number microsoft
-troubleshooting number microsoft office tech support phone number microsoft
-customer services phone number microsoft email support number telephone number
-for microsoft technical support microsoft windows telephone number microsoft
-office 365 technical support number 1 888 number for microsoft microsoft
-support 888 number microsoft.com support phone number microsoft tech help phone
-number microsoft tech support telephone number microsoft tel number microsoft
-telephone number for technical support contact number microsoft microsoft.com
-contact number contact microsoft support number contact microsoft tech support
-phone number microsoft live customer service phone number microsoft helpline
-phone number contact microsoft office support phone number microsoft office
-2013 support telephone number microsoft office 365 tech support number
-microsoft office customer support phone number microsoft help support phone
-number microsoft live account support phone number microsoft account support
-phone number microsoft contact number usa number to microsoft customer service
-microsoft support call number microsoft support contact phone number microsoft
-office 365 help number phone number to contact microsoft support phone number
-to contact microsoft support phone number for microsoft telephone number for
-microsoft office customer service phone number for microsoft microsoft online
-contact number microsoft main office phone number microsoft hotline number
-microsoft tech phone number contact microsoft number microsoft technical
-assistance phone number phone number of microsoft microsoft live customer
-service number microsoft live help phone number number to call microsoft
-microsoft contact support phone number 1888 number for microsoft microsoft
-number to call microsoft number for support phone number for microsoft windows
-support microsoft office tech support contact number technical support
-microsoft phone number microsoft help contact phone number microsoft customer
-service support number 1888 number for microsoft support windows microsoft
-support phone number microsoft contact telephone number microsoft windows
-customer support number phone number to microsoft office microsoft customer
-phone number microsoft tech help number microsoft customer service contact
-number microsoft windows 8 tech support phone number microsoft support phone
-number windows 7 microsoft live customer support number microsoft phone number
-for tech support support microsoft phone number microsoft windows tech support
-number microsoft.com phone number contact number microsoft office 800 microsoft
-phone number microsoft email customer service phone number microsoft store
-phone number microsoft customer service number usa microsoft office support
-number usa microsoft support customer service number customer support number
-for microsoft microsoft office support phone number usa phone number microsoft
-customer service microsoft company phone number microsoft windows phone number
-for customer service microsoft office contact number usa microsoft email help
-phone number microsoft live customer support phone number phone number for
-microsoft live support microsoft headquarters number microsoft windows 7 tech
-support phone number microsoft number usa microsoft help center phone number
-microsoft windows 8 technical support phone number microsoft computer support
-phone number microsoft windows 7 technical support phone number microsoft
-support center phone number contact number of microsoft microsoft email phone
-number microsoft windows contact phone number what is microsoft phone number
-microsoft office help desk number microsoft office support phone number
-microsoft word support number microsoft service center phone number phone
-number for microsoft account support microsoft corporate office phone number
-
-Microsoft office +1800 290 5189 phone number microsoft office phone support
-number microsoft number customer service microsoft office phone number
+((moti))Call @@@++ USA I8557O92847 Lexmark   p.r.i.n.t.e.r t.e.c.h
+s.u.p.p.o.r.t p.h.o.n.e n.u.m.b.e.r u.s.a. C.a.l.l Lexmark   h.e.l.p d.e.s.k
+n.u.m.b.e.r n.u.m.b.e.r C.a.n.a.d.a Lexmark   s.u.p.p.o.r.t p.h.o.n.e n.u.m.b.r
+usa USA 1 I8557O92847 Lexmark   p.r.i.n.t.e.r t.e.c.h s.u.p.p.o.r.t p.h.o.n.e
+n.u.m.b.e.r u.s.a. C.a.l.l Lexmark   h.e.l.p d.e.s.k n.u.m.b.e.r n.u.m.b.e.r
+C.a.n.a.d.a Lexmark   s.u.p.p.o.r.t p.h.o.n.e n.u.m.b.r usa canada
+1-1855-709-2847 USA, Lexmark   printer Tech Support phone number,Lexmark  
+technical support phone number 1 I8557O92847 .Lexmark   Tech Support Number
+Lexmark   Tech Lexmark   tech support, Lexmark   tech support number, Lexmark  
+tech support phone number, Lexmark   technical support, Lexmark   technical
+support number, Lexmark   technical support phone number, Lexmark   tech
+support number, Lexmark   support number, Lexmark   Tech support phone number,
+Lexmark   support phone number, Lexmark   technical support phone number,
+Lexmark   technical support number,Support Phone Number for Lexmark   printer
+Phone Number for Lexmark   CustomerService Technical Support Telephone Number
+Lexmark   printer support number Lexmark   Lexmark   printer tech support
+number Lexmark   Lexmark   printer technical support number Lexmark   Lexmark  
+printer technical support phone number Lexmark   Lexmark   printer customer
+service number Lexmark   Lexmark   internet security technical support Lexmark 
+ technical support phone number Lexmark   Lexmark   tech support phone number
+Lexmark   Lexmark   customer support phone number I-855-709-2847 Lexmark  
+Lexmark   printer support phone number Lexmark   Lexmark   support phone
+Lexmark   tech support Lexmark   customer support Lexmark   phone support
+Lexmark   support number Lexmark   Lexmark   technical support Lexmark  
+printer customer support phone number Lexmark   Lexmark   printer tech support
+phone number Lexmark   contact Lexmark   support Lexmark   printer technical
+support phone number ~!~I8557092847++ Lexmark   Lexmark   phone number Lexmark 
+ tech support Lexmark   support ticket Lexmark   customer support number
+Lexmark   Lexmark   tech support number Lexmark   Lexmark   technical support
+number Lexmark   Lexmark   support center Lexmark   telephone support call
+Lexmark   support Lexmark   printer support support Lexmark   Lexmark   billing
+support Lexmark   printer technical support number Lexmark   support Lexmark  
+printer Lexmark   online support Lexmark   contact support Lexmark   printer
+support number Lexmark   Lexmark   printer customer support number Lexmark  
+Lexmark   printer tech support number Lexmark   support for Lexmark   Lexmark  
+phone number Lexmark   Lexmark   customer service phone number Lexmark  
+Lexmark   contact phone number Lexmark   Lexmark   printer phone number Lexmark
+  Lexmark   printer customer service phone number Lexmark   phone number
+Lexmark   for Lexmark   customer service Lexmark   software phone number
+Lexmark   phone number Lexmark   for Lexmark   Lexmark   customer service
+telephone number Lexmark   Lexmark   helpline phone number Lexmark   Lexmark  
+contact number Lexmark   Lexmark   customer service number Lexmark   Lexmark  
+customer service phone number ~!~I8557092847++ Lexmark   us Lexmark   customer
+service phone number Lexmark   usa Lexmark   telephone number Lexmark   Lexmark
+  phone number Lexmark   usa Lexmark   printer contact number Lexmark   Lexmark
+  number Lexmark   Lexmark   contact number Lexmark   usa Lexmark   printer
+helpline number Lexmark   Lexmark   helpline number Lexmark   Lexmark  
+customer number Lexmark   Lexmark   printer customer service number Lexmark  
+Lexmark   contact telephone number Lexmark   contact number Lexmark   for
+Lexmark   Lexmark   software contact number Lexmark   Lexmark   toll free
+number Lexmark   Lexmark   telephone number Lexmark   uk Lexmark   registration
+number Lexmark   Lexmark   toll free number Lexmark   usa Lexmark   customer
+service Lexmark   software customer service contact Lexmark   customer service
+Lexmark   customer service phone Lexmark   printer customer service Lexmark  
+service Lexmark   printer technical support Lexmark   printer customer support
+Lexmark   technical support reviews telephone Lexmark   printer Lexmark   tech
+support phone number Lexmark   Lexmark   printer tech support phone number
+Lexmark   Lexmark   printer customer service Lexmark   technical support phone
+number Lexmark   Lexmark   printer free printer support Lexmark   customer
+service billing Lexmark   customer service email address Lexmark   customer
+service reviews contact Lexmark   customer service Lexmark   tech support
+number Lexmark   usa Lexmark   printer support number Lexmark   Lexmark  
+printer contact number Lexmark   Lexmark   customer service phone number
+Lexmark   Lexmark   technical support usa Lexmark   technical support number
+Lexmark   Lexmark   tech support phone Lexmark   tech support number LEXMARK
+LEXMARK customer service telephone number LEXMARK LEXMARK printer customer
+support number LEXMARK LEXMARK printer phone number LEXMARK LEXMARK printer
+online support LEXMARK customer service number LEXMARK LEXMARK tech support
+center LEXMARK customer service LEXMARK software customer service LEXMARK
+customer care number LEXMARK usa LEXMARK customer number LEXMARK LEXMARK
+customer support number LEXMARK LEXMARK customer care number LEXMARK LEXMARK
+customer care toll free number LEXMARK LEXMARK tech support LEXMARK technical
+support LEXMARK printer support LEXMARK printer tech support LEXMARK support
+center LEXMARK.com customer service LEXMARK printer customer care number
+LEXMARK LEXMARK customer care LEXMARK phone number LEXMARK phone number LEXMARK
+for LEXMARK customer service LEXMARK phone support LEXMARK phone number LEXMARK
+tech support LEXMARK support phone number LEXMARK contact LEXMARK by phone
+LEXMARK contact phone number LEXMARK LEXMARK helpline phone number LEXMARK
+LEXMARK printer phone LEXMARK printer for phone LEXMARK contact number LEXMARK
+LEXMARK contact support contact LEXMARK printer LEXMARK contact number LEXMARK
+usa LEXMARK toll free number LEXMARK LEXMARK telephone number LEXMARK LEXMARK
+toll free number LEXMARK usa LEXMARK printer support services technical support
+for printer LEXMARK LEXMARK customer service phone number LEXMARK usa LEXMARK
+printer customer care number LEXMARK usa LEXMARK customer care number LEXMARK
+LEXMARK customer care center LEXMARK customer support LEXMARK customer support
+phone LEXMARK customer help LEXMARK customer & technical support LEXMARK
+customer portal LEXMARK customer care phone number LEXMARK usa LEXMARK customer
+care email LEXMARK helpline LEXMARK tech support contact LEXMARK customer care
+toll free LEXMARK printer customer service number LEXMARK LEXMARK printer
+protection norton printer customer service number LEXMARK LEXMARK software
+customer service number LEXMARK LEXMARK hotline customer service phone number
+LEXMARK LEXMARK customer service phone number LEXMARK us how to contact LEXMARK
+by email LEXMARK free phone support LEXMARK printer technical support number
+LEXMARK LEXMARK printer technical support help desk phone number LEXMARK
+LEXMARK technical support number LEXMARK toll free number LEXMARK LEXMARK
+printer customer support phone number Lexmark   Lexmark   printer customer
 
 -- 
 You are receiving this mail because:
