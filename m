@@ -1,8 +1,8 @@
 From: bugzilla-daemon-590EEB7GvNiWaY/ihj7yzEB+6BGkLq7r@public.gmane.org
-Subject: [Bug 141311] New: !Lexmark Printer@@@Tech ++.+1-855.709.2847)
- +.+.phone@number@@epson@printer@technical@support@n
-Date: Fri, 22 Jul 2016 16:06:06 +0000
-Message-ID: <bug-141311-11311@https.bugzilla.kernel.org/>
+Subject: [Bug 141321] New: American-Support  1 844 780 6762 Bellsouth Support
+ phone number
+Date: Fri, 22 Jul 2016 16:08:27 +0000
+Message-ID: <bug-141321-11311@https.bugzilla.kernel.org/>
 Mime-Version: 1.0
 Content-Type: text/plain; charset="UTF-8"
 Content-Transfer-Encoding: 7bit
@@ -11,11 +11,11 @@ Sender: linux-man-owner-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
 To: linux-man-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
 List-Id: linux-man@vger.kernel.org
 
-https://bugzilla.kernel.org/show_bug.cgi?id=141311
+https://bugzilla.kernel.org/show_bug.cgi?id=141321
 
-            Bug ID: 141311
-           Summary: !Lexmark Printer@@@Tech ++.+1-855.709.2847)
-                    +.+.phone@number@@epson@printer@technical@support@n
+            Bug ID: 141321
+           Summary: American-Support  1 844 780 6762 Bellsouth Support
+                    phone number
            Product: Documentation
            Version: unspecified
           Hardware: All
@@ -25,111 +25,169 @@ https://bugzilla.kernel.org/show_bug.cgi?id=141311
           Priority: P1
          Component: man-pages
           Assignee: documentation_man-pages-ztI5WcYan/vQLgFONoPN62D2FQJk+8+b@public.gmane.org
-          Reporter: nishabajaj1955-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org
+          Reporter: jonty.carlo21-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org
         Regression: No
 
-Created attachment 225371
-  --> https://bugzilla.kernel.org/attachment.cgi?id=225371&action=edit
-((moti))Call @@@++ USA I8557O92847 Lexmark   p.r.i.n.t.e.r t.e.c.h
-s.u.p.p.o.r.t p.h.o.n.e n.u.m.b.e.r u.s.a. C.a.l.l Lexmark   h.e.l.p d.e.s.k
-n.u.m.b.e.r n.u.m.b.e.r C.a.n.a.d.a Lexmark   s.u.p.p.o.
-
-((moti))Call @@@++ USA I8557O92847 Lexmark   p.r.i.n.t.e.r t.e.c.h
-s.u.p.p.o.r.t p.h.o.n.e n.u.m.b.e.r u.s.a. C.a.l.l Lexmark   h.e.l.p d.e.s.k
-n.u.m.b.e.r n.u.m.b.e.r C.a.n.a.d.a Lexmark   s.u.p.p.o.r.t p.h.o.n.e n.u.m.b.r
-usa USA 1 I8557O92847 Lexmark   p.r.i.n.t.e.r t.e.c.h s.u.p.p.o.r.t p.h.o.n.e
-n.u.m.b.e.r u.s.a. C.a.l.l Lexmark   h.e.l.p d.e.s.k n.u.m.b.e.r n.u.m.b.e.r
-C.a.n.a.d.a Lexmark   s.u.p.p.o.r.t p.h.o.n.e n.u.m.b.r usa canada
-1-1855-709-2847 USA, Lexmark   printer Tech Support phone number,Lexmark  
-technical support phone number 1 I8557O92847 .Lexmark   Tech Support Number
-Lexmark   Tech Lexmark   tech support, Lexmark   tech support number, Lexmark  
-tech support phone number, Lexmark   technical support, Lexmark   technical
-support number, Lexmark   technical support phone number, Lexmark   tech
-support number, Lexmark   support number, Lexmark   Tech support phone number,
-Lexmark   support phone number, Lexmark   technical support phone number,
-Lexmark   technical support number,Support Phone Number for Lexmark   printer
-Phone Number for Lexmark   CustomerService Technical Support Telephone Number
-Lexmark   printer support number Lexmark   Lexmark   printer tech support
-number Lexmark   Lexmark   printer technical support number Lexmark   Lexmark  
-printer technical support phone number Lexmark   Lexmark   printer customer
-service number Lexmark   Lexmark   internet security technical support Lexmark 
- technical support phone number Lexmark   Lexmark   tech support phone number
-Lexmark   Lexmark   customer support phone number I-855-709-2847 Lexmark  
-Lexmark   printer support phone number Lexmark   Lexmark   support phone
-Lexmark   tech support Lexmark   customer support Lexmark   phone support
-Lexmark   support number Lexmark   Lexmark   technical support Lexmark  
-printer customer support phone number Lexmark   Lexmark   printer tech support
-phone number Lexmark   contact Lexmark   support Lexmark   printer technical
-support phone number ~!~I8557092847++ Lexmark   Lexmark   phone number Lexmark 
- tech support Lexmark   support ticket Lexmark   customer support number
-Lexmark   Lexmark   tech support number Lexmark   Lexmark   technical support
-number Lexmark   Lexmark   support center Lexmark   telephone support call
-Lexmark   support Lexmark   printer support support Lexmark   Lexmark   billing
-support Lexmark   printer technical support number Lexmark   support Lexmark  
-printer Lexmark   online support Lexmark   contact support Lexmark   printer
-support number Lexmark   Lexmark   printer customer support number Lexmark  
-Lexmark   printer tech support number Lexmark   support for Lexmark   Lexmark  
-phone number Lexmark   Lexmark   customer service phone number Lexmark  
-Lexmark   contact phone number Lexmark   Lexmark   printer phone number Lexmark
-  Lexmark   printer customer service phone number Lexmark   phone number
-Lexmark   for Lexmark   customer service Lexmark   software phone number
-Lexmark   phone number Lexmark   for Lexmark   Lexmark   customer service
-telephone number Lexmark   Lexmark   helpline phone number Lexmark   Lexmark  
-contact number Lexmark   Lexmark   customer service number Lexmark   Lexmark  
-customer service phone number ~!~I8557092847++ Lexmark   us Lexmark   customer
-service phone number Lexmark   usa Lexmark   telephone number Lexmark   Lexmark
-  phone number Lexmark   usa Lexmark   printer contact number Lexmark   Lexmark
-  number Lexmark   Lexmark   contact number Lexmark   usa Lexmark   printer
-helpline number Lexmark   Lexmark   helpline number Lexmark   Lexmark  
-customer number Lexmark   Lexmark   printer customer service number Lexmark  
-Lexmark   contact telephone number Lexmark   contact number Lexmark   for
-Lexmark   Lexmark   software contact number Lexmark   Lexmark   toll free
-number Lexmark   Lexmark   telephone number Lexmark   uk Lexmark   registration
-number Lexmark   Lexmark   toll free number Lexmark   usa Lexmark   customer
-service Lexmark   software customer service contact Lexmark   customer service
-Lexmark   customer service phone Lexmark   printer customer service Lexmark  
-service Lexmark   printer technical support Lexmark   printer customer support
-Lexmark   technical support reviews telephone Lexmark   printer Lexmark   tech
-support phone number Lexmark   Lexmark   printer tech support phone number
-Lexmark   Lexmark   printer customer service Lexmark   technical support phone
-number Lexmark   Lexmark   printer free printer support Lexmark   customer
-service billing Lexmark   customer service email address Lexmark   customer
-service reviews contact Lexmark   customer service Lexmark   tech support
-number Lexmark   usa Lexmark   printer support number Lexmark   Lexmark  
-printer contact number Lexmark   Lexmark   customer service phone number
-Lexmark   Lexmark   technical support usa Lexmark   technical support number
-Lexmark   Lexmark   tech support phone Lexmark   tech support number LEXMARK
-LEXMARK customer service telephone number LEXMARK LEXMARK printer customer
-support number LEXMARK LEXMARK printer phone number LEXMARK LEXMARK printer
-online support LEXMARK customer service number LEXMARK LEXMARK tech support
-center LEXMARK customer service LEXMARK software customer service LEXMARK
-customer care number LEXMARK usa LEXMARK customer number LEXMARK LEXMARK
-customer support number LEXMARK LEXMARK customer care number LEXMARK LEXMARK
-customer care toll free number LEXMARK LEXMARK tech support LEXMARK technical
-support LEXMARK printer support LEXMARK printer tech support LEXMARK support
-center LEXMARK.com customer service LEXMARK printer customer care number
-LEXMARK LEXMARK customer care LEXMARK phone number LEXMARK phone number LEXMARK
-for LEXMARK customer service LEXMARK phone support LEXMARK phone number LEXMARK
-tech support LEXMARK support phone number LEXMARK contact LEXMARK by phone
-LEXMARK contact phone number LEXMARK LEXMARK helpline phone number LEXMARK
-LEXMARK printer phone LEXMARK printer for phone LEXMARK contact number LEXMARK
-LEXMARK contact support contact LEXMARK printer LEXMARK contact number LEXMARK
-usa LEXMARK toll free number LEXMARK LEXMARK telephone number LEXMARK LEXMARK
-toll free number LEXMARK usa LEXMARK printer support services technical support
-for printer LEXMARK LEXMARK customer service phone number LEXMARK usa LEXMARK
-printer customer care number LEXMARK usa LEXMARK customer care number LEXMARK
-LEXMARK customer care center LEXMARK customer support LEXMARK customer support
-phone LEXMARK customer help LEXMARK customer & technical support LEXMARK
-customer portal LEXMARK customer care phone number LEXMARK usa LEXMARK customer
-care email LEXMARK helpline LEXMARK tech support contact LEXMARK customer care
-toll free LEXMARK printer customer service number LEXMARK LEXMARK printer
-protection norton printer customer service number LEXMARK LEXMARK software
-customer service number LEXMARK LEXMARK hotline customer service phone number
-LEXMARK LEXMARK customer service phone number LEXMARK us how to contact LEXMARK
-by email LEXMARK free phone support LEXMARK printer technical support number
-LEXMARK LEXMARK printer technical support help desk phone number LEXMARK
-LEXMARK technical support number LEXMARK toll free number LEXMARK LEXMARK
-printer customer support phone number Lexmark   Lexmark   printer customer
+USA  1.844-780-6762 Bellsouth antivirus USA 1800.445.2790 Support phone number
+Bellsouth antivirus phone number
+USA 1.844-780-6762 Bellsouth antivirus Support phone number Bellsouth antivirus
+phone number
+Describe USA 1.844-780-6762 Bellsouth antivirus Support phone number Bellsouth
+antivirus phone number here.USA 1.844-780-6762 Bellsouth antivirus Support
+phone number Bellsouth antivirus phone number Canada-1.844-780-6762Bellsouth
+Antivirus Technical Support number Bellsouth antivirus technical support
+Bellsouth customer support phone number USA 1.844-780-6762Bellsouth tech
+support phone number Toll free 1.844-780-6762Bellsouth technical support phone
+number Canada 1.844-780-6762Bellsouth 360 customer service phone number
+Bellsouth technical support phone number USA Bellsouth customer service phone
+number USA Bellsouth free support phone number Bellsouth customer support phone
+number us Bellsouth 360 customer support telephone number Bellsouth technical
+support contact number telephone number for Bellsouth customer support
+Bellsouth antivirus software problems Bellsouth antivirus tech support phone
+number Bellsouth antivirus customer service phone number Bellsouth technical
+support Bellsouth contact info for tech support Bellsouth antivirus contact
+phone number Bellsouth customer service contact number Bellsouth support sales
+Bellsouth 360 customer service phone Bellsouth antivirus technical support toll
+free number Bellsouth antivirus technical support email address Bellsouth
+antivirus customer support phone number Bellsouth antivirus telephone support
+number Bellsouth ntivirus contact phone number for USA Bellsouth antivirus
+technical support contact number Bellsouth antivirus technical support chat
+Bellsouth antivirus customer care number Bellsouth antivirus helpline number
+Bellsouth support phone number Bellsouth tech support toll free number in USA
+Bellsouth tech support phone number Bellsouth tech support phone number free
+Bellsouth 360 technical support phone number Bellsouth technologies phone
+number Bellsouth telephone support number Bellsouth support contact number
+Bellsouth antivirus customer support phone number Bellsouth antivirus problems
+Bellsouth antivirus tech support Bellsouth antivirus technical support
+Bellsouth antivirus toll free number Bellsouth com customer service phone
+number Bellsouth contact phone number Bellsouth contact telephone number
+Bellsouth customer service contact number Bellsouth customer service email
+Bellsouth customer service phone number Bellsouth customer service telephone
+number Bellsouth customer services email Bellsouth customer support email
+address Bellsouth 360 customer support number Bellsouth customer support phone
+number Bellsouth internet security contact phone number Bellsouth internet
+security customer service phone number Bellsouth internet security phone number
+Bellsouth phone number customer service Bellsouth phone numbers customer
+support Bellsouth phone support number phone number for Bellsouth antivirus
+customer service contact Bellsouth antivirus customer service phone number
+Bellsouth customer service phone number phone number for Bellsouth customer
+service Bellsouth 360 security support phone number phone number for Bellsouth
+security Bellsouth internet security phone number in USA Bellsouth antivirus
+contact phone number in USA Bellsouth security contact phone number Bellsouth
+antivirus help desk phone number in USA Bellsouth antivirus tech support phone
+number free in USA Bellsouth antivirus support phone number Bellsouth antivirus
+phone number support for technical issue in USA phone number for Bellsouth
+antivirus technical support Bellsouth antivirus customer service telephone
+number Bellsouth antivirus toll free customer care number Bellsouth technical
+support number Bellsouth tech support phone number Bellsouth support phone
+number Bellsouth customer support phone number Bellsouth antivirus technical
+support phone number Bellsouth technical support phone number USA phone number
+for Bellsouth technical support Bellsouth customer service phone number USA
+Bellsouth customer service number Bellsouth technical support number USA
+Bellsouth customer support number Bellsouth tech support number phone number
+for Bellsouth support Bellsouth support phone number USA Bellsouth phone number
+customer service Bellsouth phone number tech support Bellsouth help phone
+number Bellsouth help desk phone number Bellsouth phone number USA Bellsouth
+contact phone number USA Bellsouth contact phone number customer service
+Bellsouth phone number Bellsouth phone number support Bellsouth security phone
+number Bellsouth customer service number USA Bellsouth contact number USA
+Bellsouth USA phone number Bellsouth support number USA Bellsouth tech support
+number USA phone number for Bellsouth technical support phone number for
+Bellsouth tech support telephone number forBellsouth technical support
+Bellsouth antivirus help phone number Bellsouth phone number technical support
+contactBellsouth antivirus tech support USA kasperskycom customer service
+Bellsouth labs USA customer service Bellsouth Bellsouth antivirus phone number
+in USA Bellsouth antivirus technical support customer care number Bellsouth
+antivirus technical support email address Bellsouth ntivirus contact phone
+number for USA Bellsouth antivirus technical support contact number Bellsouth
+technical support phone number Bellsouth security phone number customer service
+phone number for Bellsouth customer service Bellsouth antivirus customer
+support phone number Bellsouth antivirus help desk support phone number free in
+USA phone number for Bellsouth antivirus technical support Bellsouth technical
+support number free in USA Bellsouth technical support cutomer phone number
+Bellsouth antivirus technical support phone number Bellsouth antivirus tech
+support contact number Bellsouth antivirus tech support email address Bellsouth
+antivirus support phone number Bellsouth antivirus support telephone number
+Bellsouth antivirus tech support number Bellsouth antivirus tech support phone
+number Bellsouth antivirus tech support phone number free Bellsouth antivirus
+technical support phone number Bellsouth antivirus technologies phone number
+Bellsouth antivirus telephone support number Bellsouth antivirus technical
+support number Bellsouth antivirus technical support help desk phone number
+Bellsouth technical support number toll free number Bellsouth 360 technical
+support phone number Bellsouth antivirus customer support phone number
+Bellsouth antivirus customer service phone number phone number for Bellsouth
+antivirus customer service contact Bellsouth antivirus customer service phone
+number Bellsouth symantec support phone number Bellsouth symantec customer
+service phone number phone number for Bellsouth symantec customer service
+symantec Bellsouth customer service phone number Bellsouth security support
+phone number Bellsouth internet security support phone number phone number for
+Bellsouth security Bellsouth internet security phone number in USA Bellsouth
+antivirus contact phone number in USA Bellsouth security contact phone number
+Bellsouth antivirus help desk phone number in USA Bellsouth antivirus tech
+support phone number free in USA Bellsouth antivirus support phone number
+Bellsouth antivirus phone number support for technical issue in USA phone
+number for Bellsouth antivirus technical support Bellsouth antivirus customer
+service telephone number Bellsouth antivirus toll free customer care number
+Bellsouth antivirus technical support toll free number Bellsouth antivirus
+technical support Phone Number in USA call Bellsouth technical support helpdesk
+phone number Bellsouth telephone number for technical support Bellsouth
+antivirus customer care number number Bellsouth antivirus customer helpline
+number Bellsouth antivirus technologies customer care number Bellsouth
+antivirus toll free number in USA Bellsouth antivirus customer support phone
+number Bellsouth antivirus customer service phone number Bellsouth antivirus
+customer service number Bellsouth antivirus contact phone number Bellsouth
+antivirus help phone number Bellsouth security support phone number Bellsouth
+support phone number USA Bellsouth customer support phone number Bellsouth
+telephone number how to contact Bellsouth customer service Bellsouth tech
+support phone number Bellsouth antivirus support phone number Bellsouth
+antivirus technical support number Bellsouth antivirus toll free number
+Bellsouth technical support phone number Bellsouth antivirus technical support
+number Bellsouth security support phone number Bellsouth internet security
+support phone number phone number for Bellsouth security Bellsouth internet
+security phone number in USA Bellsouth antivirus contact phone number in USA
+Bellsouth security contact phone number Bellsouth antivirus help desk phone
+number in USA Bellsouth internet security phone number Bellsouth phone number
+customer service Bellsouth phone numbers customer support Bellsouth phone
+support number Bellsouth support contact number Bellsouth support email address
+Bellsouth support phone number Bellsouth support telephone number Bellsouth
+tech support number Bellsouth technologies phone number Bellsouth telephone
+support number Bellsouth customer care number USA Bellsouth antivirus customer
+care Bellsouth customer care tchnical support Bellsouth customer care number
+USA toll free Bellsouth customer care USA Bellsouth USA customer care for tech
+support Bellsouth customer care toll free number phone number for Bellsouth
+customer service phone number for Bellsouth customer support Bellsouth
+technical support number Bellsouth customer service number phone number for
+Bellsouth technical support phone number for Bellsouth tech support Bellsouth
+antivirus support number Bellsouth antivirus contact number Bellsouth antivirus
+phone number USA Bellsouth phone number support Bellsouth contact phone number
+Bellsouth antivirus support Bellsouth antivirus tech support Bellsouth
+antivirus support telephone number Bellsouth tech support Bellsouth antivirus
+phone support contact Bellsouth antivirus tech support USA Bellsouth customer
+service USA Bellsouthcom customer service Bellsouth internet security customer
+service Bellsouth USA customer service Bellsouth lab USA customer service
+Bellsouth labs USA customer service Bellsouth USA customer care number for
+Bellsouth antivirus technical support contact Bellsouth technical support
+Bellsouth lab technical support call Bellsouth technical support Bellsouth
+technical support USA Bellsouth antivirus support services Bellsouth online
+antivirus support Bellsouth antivirus online tech support Bellsouth antivirus
+remote tech support Bellsouth antivirus 24/7 tech support Bellsouth antivirus
+email tech support Bellsouth antivirus tech support USA Bellsouth antivirus
+tech support online Bellsouth antivirus USA tech support Bellsouth antivirus
+phone tech support Bellsouth antivirus tech support Bellsouth virus customer
+service customer service Bellsouth Bellsouth software customer service customer
+service for Bellsouth Bellsouth antivirus help Bellsouth antivirus help desk
+Bellsouth antivirus customer service Bellsouth antivirus customer support
+Bellsouth antivirus customer service phone Bellsouth antivirus customer service
+usa customer service Bellsouth antivirus phone number for Bellsouth support
+Bellsouth com support phone number Bellsouth phone number for support Bellsouth
+phone support Bellsouth support telephone number USA Bellsouth internet
+security contact phone number Bellsouth internet security customer service
+phone number Bellsouth antivirus plus tech support Bellsouth technical support
+phone number Bellsouth antivirus technical support help desk phone number
+Bellsouth technical support number toll free number Bellsouth technical support
+phone number Bellsouth antivirus customer support phone number Bellsouth
+antivirus customer service phone number Bellsouth antivirus customer support
+phone number Bellsouth antivirus customer service phone number
 
 -- 
 You are receiving this mail because:
