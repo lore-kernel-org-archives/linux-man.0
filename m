@@ -1,8 +1,8 @@
 From: bugzilla-daemon-590EEB7GvNiWaY/ihj7yzEB+6BGkLq7r@public.gmane.org
-Subject: [Bug 141341] New: USA NUMBER $$$$$18447806762$$$$ Aol P.r.i.n.t.e.r
- t.e.c.h s.u.p.p.o.r.t p.h.o.n.e n.u.m.b.e.r u.s.a.
-Date: Fri, 22 Jul 2016 16:08:57 +0000
-Message-ID: <bug-141341-11311@https.bugzilla.kernel.org/>
+Subject: [Bug 141351] New: Call USA++1-844-780-6762 AOL Mail technical
+ support Number
+Date: Fri, 22 Jul 2016 16:09:38 +0000
+Message-ID: <bug-141351-11311@https.bugzilla.kernel.org/>
 Mime-Version: 1.0
 Content-Type: text/plain; charset="UTF-8"
 Content-Transfer-Encoding: 7bit
@@ -11,11 +11,11 @@ Sender: linux-man-owner-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
 To: linux-man-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
 List-Id: linux-man@vger.kernel.org
 
-https://bugzilla.kernel.org/show_bug.cgi?id=141341
+https://bugzilla.kernel.org/show_bug.cgi?id=141351
 
-            Bug ID: 141341
-           Summary: USA NUMBER $$$$$18447806762$$$$ Aol P.r.i.n.t.e.r
-                    t.e.c.h s.u.p.p.o.r.t p.h.o.n.e n.u.m.b.e.r u.s.a.
+            Bug ID: 141351
+           Summary: Call USA++1-844-780-6762 AOL Mail technical support
+                    Number
            Product: Documentation
            Version: unspecified
           Hardware: All
@@ -28,92 +28,140 @@ https://bugzilla.kernel.org/show_bug.cgi?id=141341
           Reporter: nishabajaj1955-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org
         Regression: No
 
-Created attachment 225391
-  --> https://bugzilla.kernel.org/attachment.cgi?id=225391&action=edit
-USA NUMBER $$$$$18447806762$$$$ Aol P.r.i.n.t.e.r t.e.c.h s.u.p.p.o.r.t
-p.h.o.n.e n.u.m.b.e.r u.s.a. USA CAll @@+@@18447806762+ @@ Customer Service
-Phone Number AOL Mail Technical Support Phone 2016-0
+Created attachment 225401
+  --> https://bugzilla.kernel.org/attachment.cgi?id=225401&action=edit
+Call USA++1-844-780-6762 AOL Mail technical support Number @@Call,
++1-844-780-6762  for all type help by AOL tech support phone number, Intuit AOL
+Tech Support  Phone Number, AOL Help Desk Phone Numbe
 
-USA NUMBER $$$$$18447806762$$$$ Aol P.r.i.n.t.e.r t.e.c.h s.u.p.p.o.r.t
-p.h.o.n.e n.u.m.b.e.r u.s.a.
-USA CAll @@+@@18447806762+ @@ Customer Service Phone Number AOL Mail Technical
-Support Phone 2016-07-18 23:37:32 +0000 1 1 1 Unclassified connecteddeveloper
-Bugzilla 8.0 PC Windows 7 NEW P3 normal TBD 1 ranjan2 tstupka issues DEFECT 0
-oldest_to_newest 1409533 0 ranjan2 2016-07-18 23:37:32 +0000 ((moti))Call @@@++
-USA I8447O96762 Aol p.r.i.n.t.e.r t.e.c.h s.u.p.p.o.r.t p.h.o.n.e n.u.m.b.e.r
-u.s.a. C.a.l.l Aol h.e.l.p d.e.s.k n.u.m.b.e.r n.u.m.b.e.r C.a.n.a.d.a Aol
-s.u.p.p.o.r.t p.h.o.n.e n.u.m.b.r usa USA 1 I8447O96762 Aol p.r.i.n.t.e.r
-t.e.c.h s.u.p.p.o.r.t p.h.o.n.e n.u.m.b.e.r u.s.a. C.a.l.l Aol h.e.l.p d.e.s.k
-n.u.m.b.e.r n.u.m.b.e.r C.a.n.a.d.a Aol s.u.p.p.o.r.t p.h.o.n.e n.u.m.b.r usa
-canada 1-1844-780-6762 USA, Aol mail Tech Support phone number,Aol technical
-support phone number 1 I8447O96762 .Aol Tech Support Number Aol Tech Aol tech
-support, Aol tech support number, Aol tech support phone number, Aol technical
-support, Aol technical support number, Aol technical support phone number, Aol
-tech support number, Aol support number, Aol Tech support phone number, Aol
-support phone number, Aol technical support phone number, Aol technical support
-number,Support Phone Number for Aol mail Phone Number for Aol CustomerService
-Technical Support Telephone Number Aol mail support number Aol Aol mail tech
-support number Aol Aol mail technical support number Aol Aol mail technical
-support phone number Aol Aol mail customer service number Aol Aol internet
-security technical support Aol technical support phone number Aol Aol tech
-support phone number Aol Aol customer support phone number I-844-780-6762 Aol
-Aol mail support phone number Aol Aol support phone Aol tech support Aol
-customer support Aol phone support Aol support number Aol Aol technical support
-Aol mail customer support phone number Aol Aol mail tech support phone number
-Aol contact Aol support Aol mail technical support phone number
-~!~I8447806762++ Aol Aol phone number Aol tech support Aol support ticket Aol
-customer support number Aol Aol tech support number Aol Aol technical support
-number Aol Aol support center Aol telephone support call Aol support Aol mail
-support support Aol Aol billing support Aol mail technical support number Aol
-support Aol mail Aol online support Aol contact support Aol mail support number
-Aol Aol mail customer support number Aol Aol mail tech support number Aol
-support for Aol Aol phone number Aol Aol customer service phone number Aol Aol
-contact phone number Aol Aol mail phone number Aol Aol mail customer service
-phone number Aol phone number Aol for Aol customer service Aol software phone
-number Aol phone number Aol for Aol Aol customer service telephone number Aol
-Aol helpline phone number Aol Aol contact number Aol Aol customer service
-number Aol Aol customer service phone number ~!~I8447806762++ Aol us Aol
-customer service phone number Aol usa Aol telephone number Aol Aol phone number
-Aol usa Aol mail contact number Aol Aol number Aol Aol contact number Aol usa
-Aol mail helpline number Aol Aol helpline number Aol Aol customer number Aol
-Aol mail customer service number Aol Aol contact telephone number Aol contact
-number Aol for Aol Aol software contact number Aol Aol toll free number Aol Aol
-telephone number Aol uk Aol registration number Aol Aol toll free number Aol
-usa Aol customer service Aol software customer service contact Aol customer
-service Aol customer service phone Aol mail customer service Aol service Aol
-mail technical support Aol mail customer support Aol technical support reviews
-telephone Aol mail Aol tech support phone number Aol Aol mail tech support
-phone number Aol Aol mail customer service Aol technical support phone number
-Aol Aol mail free mail support Aol customer service billing Aol customer
-service email address Aol customer service reviews contact Aol customer service
-Aol tech support number Aol usa Aol mail support number Aol Aol mail contact
-number Aol Aol customer service phone number Aol Aol technical support usa Aol
-technical support number Aol Aol tech support phone Aol tech support number Aol
-Aol customer service telephone number Aol Aol mail customer support number Aol
-Aol mail phone number Aol Aol mail online support Aol customer service number
-Aol Aol tech support center Aol customer service Aol software customer service
-Aol customer care number Aol usa Aol customer number Aol Aol customer support
-number Aol Aol customer care number Aol Aol customer care toll free number Aol
-Aol tech support Aol technical support Aol mail support Aol mail tech support
-Aol support center Aol .com customer service Aol mail customer care number Aol
-Aol customer care Aol phone number Aol phone number Aol for Aol customer
-service Aol phone support Aol phone number Aol tech support Aol support phone
-number Aol contact Aol by phone Aol contact phone number Aol Aol helpline phone
-number Aol Aol mail phone Aol mail for phone Aol contact number Aol Aol contact
-support contact Aol mail Aol contact number Aol usa Aol toll free number Aol
-Aol telephone number Aol Aol toll free number Aol usa Aol mail support services
-technical support for mail Aol Aol customer service phone number Aol usa Aol
-mail customer care number Aol usa Aol customer care number Aol Aol customer
-care center Aol customer support Aol customer support phone Aol customer help
-Aol customer & technical support Aol customer portal Aol customer care phone
-number Aol usa Aol customer care email Aol helpline Aol tech support contact
-Aol customer care toll free Aol mail customer service number Aol Aol mail
-protection norton mail customer service number Aol Aol software customer
-service number Aol Aol hotline customer service phone number Aol Aol customer
-service phone number Aol us how to contact Aol by email Aol free phone support
-Aol mail technical support number Aol Aol mail technical support help desk
-phone number Aol Aol technical support number Aol toll free number Aol Aol mail
-customer support phone number Aol Aol mail customer
+Call USA++1-844-780-6762 AOL Mail technical support Number
+@@Call, +1-844-780-6762 
+for all type help by AOL tech support phone number, Intuit AOL Tech Support 
+Phone Number, AOL Help Desk Phone Number, AOL tech support number, AOL 
+technical support phone number, @@@ AOL phone number, AOL technical support 
+number, AOL support phone number, AOL technical support, AOL Customer Service 
+Phone Number, AOL Customer Service Number, AOL Customer Support Phone Numb
+@@Call, +1-844-780-6762 
+for all type help by AOL tech support phone number, Intuit AOL Tech Support 
+Phone Number, AOL Help Desk Phone Number, AOL tech support number, AOL 
+technical support phone number, @@@ AOL phone number, AOL technical support 
+number, AOL support phone number, AOL technical support, AOL Customer Service 
+Phone Number, AOL Customer Service Number, AOL Customer Support Phone Number,
+AOL 
+Customer Support Number, @@1-844-780-6762@@ AOL Customer Service Helpline 
+Number, AOL Customer Care Number, AOL support team phone number,
+@@1-844-780-6762@@AOL 
+help number-AOL Helpline Number; AOL help phone number-AOL Helpline Number, AOL 
+Tech Support Toll free Number, AOL Support Telephone Number, AOL Tech Support 
+Telephone number, AOL Tech Support contact number, AOL support contact number,
+AOL 
+technical support contact number. Call, +1-844-780-6762 AOL tech support phone 
+number, Intuit AOL Tech Support Phone Number, AOL Help Desk Phone Number, AOL 
+tech support number, AOL technical support phone number, AOL phone number, AOL 
+technical support number, AOL support phone number. It is very popular toll 
+free number which provide by AOL technical support, AOL Customer Service Phone 
+Number, AOL Customer Service Number, AOL Customer Support Phone Number, AOL 
+Customer Support Number, AOL Customer Service Helpline Number, AOL Customer 
+Care Number, AOL support team phone number. Call, AOL tech support phone 
+number, Intuit AOL Tech Support Phone Number, AOL Help Desk Phone Number, AOL 
+tech support number, AOL technical support phone number, AOL phone number, AOL 
+technical support number, AOL support phone number, AOL technical support, AOL 
+Customer Service Phone Number, AOL Customer Service Number, AOL Customer 
+Support Phone Number, AOL Customer Support Number, AOL Customer Service 
+Helpline Number, AOL Customer Care Number, AOL support team phone number, #AOL 
+Tech Support Phone +1-844-780-6762 Number AOL customer support number
+AOL 1-844-780-6762 
+technical support
+AOL 
+support phone number
+AOL tech 
+support toll free number in usa
+AOL tech 
+support phone number
+AOL tech 
+support phone number free
+AOL 
+technical support phone number
+AOL 
+technologies phone number
+AOL 
+telephone support number
+AOL 
+support contact number
+AOL 1-844-780-6762 
+customer support phone number
+AOL 1-844-780-6762 
+problems
+AOL 1-844-780-6762 
+tech support
+AOL 1-844-780-6762 
+technical support
+AOL 1-844-780-6762 
+toll free number
+AOL com 
+customer service phone number
+AOL 
+contact phone number
+AOL 
+contact telephone number
+AOL 
+customer service contact number
+AOL 
+customer service email
+AOL 
+customer service phone number
+AOL 
+customer service telephone number
+AOL 
+customer services email
+AOL 
+customer support email address
+AOL 
+customer support number
+AOL 
+customer support phone number
+AOL 1-844-780-6762 
+tech support assistant
+AOL 
+support assistant
+AOL tech 
+support
++AOL 1-844-780-6762 
++online +support
++AOL+support+number
++AOL+online+support
+AOL 1-844-780-6762 
+number technical support
+AOL 1-844-780-6762 
+service number
+AOL 1-844-780-6762 
+support contact phone number
+AOL 1-844-780-6762 
+telephone support number
+telephone 
+number AOL 1-844-780-6762
+customer 
+service number AOL 1-844-780-6762
+compaq AOL 
+1-844-780-6762 support
+AOL 1-844-780-6762 
+compaq support
+AOL 1-844-780-6762 
+customer service
+AOL 1-844-780-6762 
+contact phone number
+AOL 1-844-780-6762 
+customer phone number
+AOL 1-844-780-6762 
+customer services number
+AOL 1-844-780-6762 
+customer support telephone number
+AOL 1-844-780-6762 
+support online
+AOL 1-844-780-6762 
+tech support
+AOL 1-844-780-6762 
+service phone number
 
 -- 
 You are receiving this mail because:
