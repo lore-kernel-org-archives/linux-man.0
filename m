@@ -1,8 +1,9 @@
 From: bugzilla-daemon-590EEB7GvNiWaY/ihj7yzEB+6BGkLq7r@public.gmane.org
-Subject: [Bug 140781] New: Toll Free +1-80.02.90.51.89 Microsoft Office 365
- Helpline Phone Number Ms Office 365 Help phone number(())()((((
-Date: Fri, 22 Jul 2016 14:36:01 +0000
-Message-ID: <bug-140781-11311@https.bugzilla.kernel.org/>
+Subject: [Bug 140811] New: USA-Canada Office +1-80-02-90-51-89 mICROSOFT
+ OFFICE 365 usa phone number ms office canada toll free numbmer ms office tech
+ support phone number ms office 365 toll free
+Date: Fri, 22 Jul 2016 14:40:22 +0000
+Message-ID: <bug-140811-11311@https.bugzilla.kernel.org/>
 Mime-Version: 1.0
 Content-Type: text/plain; charset="UTF-8"
 Content-Transfer-Encoding: 7bit
@@ -11,29 +12,28 @@ Sender: linux-man-owner-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
 To: linux-man-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
 List-Id: linux-man@vger.kernel.org
 
-https://bugzilla.kernel.org/show_bug.cgi?id=140781
+https://bugzilla.kernel.org/show_bug.cgi?id=140811
 
-            Bug ID: 140781
-           Summary: Toll Free +1-80.02.90.51.89 Microsoft Office 365
-                    Helpline Phone Number Ms Office 365 Help phone
-                    number(())()((((
+            Bug ID: 140811
+           Summary: USA-Canada Office +1-80-02-90-51-89 mICROSOFT OFFICE
+                    365 usa phone number ms office canada toll free
+                    numbmer ms office tech support phone number ms office
+                    365 toll free
            Product: Documentation
            Version: unspecified
-          Hardware: All
+          Hardware: Intel
                 OS: Linux
             Status: NEW
-          Severity: normal
+          Severity: enhancement
           Priority: P1
          Component: man-pages
           Assignee: documentation_man-pages-ztI5WcYan/vQLgFONoPN62D2FQJk+8+b@public.gmane.org
           Reporter: upgrade2223-1jCL+rEOqeNBDgjK7y7TUQ@public.gmane.org
         Regression: No
 
-Toll Free +1-80.02.90.51.89 Microsoft Office 365 Helpline Phone Number Ms
-Office 365 Help phone number(())()((((
-Toll Free +1-80.02.90.51.89 Microsoft Office 365 Helpline Phone Number Ms
-Office 365 Help phone number(())()((((
-
+USA-Canada Office +1-80-02-90-51-89 mICROSOFT OFFICE 365 usa phone number ms
+office canada toll free numbmer ms office tech support phone number ms office
+365 toll free
 USA HelpLine 18002905189 microsoft office 365 support phone number
 
 HelpLine +18002905189 ms office tech support phone number
