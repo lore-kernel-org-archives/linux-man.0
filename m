@@ -1,9 +1,8 @@
 From: bugzilla-daemon-590EEB7GvNiWaY/ihj7yzEB+6BGkLq7r@public.gmane.org
-Subject: [Bug 140711] New: Microsoft Office 365 Phone Number
- +1-80.02.90.51.89 Microsoft Office 365 Toll Free Number Microsoft Office
- Refund Phone Number ++
-Date: Fri, 22 Jul 2016 14:25:56 +0000
-Message-ID: <bug-140711-11311@https.bugzilla.kernel.org/>
+Subject: [Bug 140751] New: Support +1-80.02.9.05.18.9 Microsoft Office 365
+ Toll Free Number Ms Office 365 Support Phone Number
+Date: Fri, 22 Jul 2016 14:30:34 +0000
+Message-ID: <bug-140751-11311@https.bugzilla.kernel.org/>
 Mime-Version: 1.0
 Content-Type: text/plain; charset="UTF-8"
 Content-Transfer-Encoding: 7bit
@@ -12,12 +11,11 @@ Sender: linux-man-owner-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
 To: linux-man-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
 List-Id: linux-man@vger.kernel.org
 
-https://bugzilla.kernel.org/show_bug.cgi?id=140711
+https://bugzilla.kernel.org/show_bug.cgi?id=140751
 
-            Bug ID: 140711
-           Summary: Microsoft Office 365 Phone Number +1-80.02.90.51.89
-                    Microsoft Office 365 Toll Free Number Microsoft Office
-                    Refund Phone Number ++
+            Bug ID: 140751
+           Summary: Support +1-80.02.9.05.18.9 Microsoft Office 365 Toll
+                    Free Number Ms Office 365 Support Phone Number
            Product: Documentation
            Version: unspecified
           Hardware: All
@@ -29,6 +27,13 @@ https://bugzilla.kernel.org/show_bug.cgi?id=140711
           Assignee: documentation_man-pages-ztI5WcYan/vQLgFONoPN62D2FQJk+8+b@public.gmane.org
           Reporter: upgrade2223-1jCL+rEOqeNBDgjK7y7TUQ@public.gmane.org
         Regression: No
+
+Support +1-80.02.9.05.18.9 Microsoft Office 365 Toll Free Number Ms Office 365
+Support Phone Number
+Support +1-80.02.9.05.18.9 Microsoft Office 365 Toll Free Number Ms Office 365
+Support Phone Number
+Support +1-80.02.9.05.18.9 Microsoft Office 365 Toll Free Number Ms Office 365
+Support Phone Number
 
 USA HelpLine 18002905189 microsoft office 365 support phone number
 
