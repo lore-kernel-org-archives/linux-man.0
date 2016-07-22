@@ -1,8 +1,8 @@
 From: bugzilla-daemon-590EEB7GvNiWaY/ihj7yzEB+6BGkLq7r@public.gmane.org
-Subject: [Bug 141061] New: Icloud technical support @@18447806762 $$$$$$apple
- icloud technical support phone number
-Date: Fri, 22 Jul 2016 15:04:13 +0000
-Message-ID: <bug-141061-11311@https.bugzilla.kernel.org/>
+Subject: [Bug 141071] New: icloud tech support 18447806762 $$$ customer
+ service phone number
+Date: Fri, 22 Jul 2016 15:05:37 +0000
+Message-ID: <bug-141071-11311@https.bugzilla.kernel.org/>
 Mime-Version: 1.0
 Content-Type: text/plain; charset="UTF-8"
 Content-Transfer-Encoding: 7bit
@@ -11,11 +11,11 @@ Sender: linux-man-owner-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
 To: linux-man-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
 List-Id: linux-man@vger.kernel.org
 
-https://bugzilla.kernel.org/show_bug.cgi?id=141061
+https://bugzilla.kernel.org/show_bug.cgi?id=141071
 
-            Bug ID: 141061
-           Summary: Icloud technical support @@18447806762 $$$$$$apple
-                    icloud technical support phone number
+            Bug ID: 141071
+           Summary: icloud tech support 18447806762 $$$ customer service
+                    phone number
            Product: Documentation
            Version: unspecified
           Hardware: All
@@ -28,14 +28,6 @@ https://bugzilla.kernel.org/show_bug.cgi?id=141061
           Reporter: surajnagar-LedO9licQFUqdlJmJB21zg@public.gmane.org
         Regression: No
 
-Icloud technical support @@18447806762 $$$$$$apple icloud technical support
-phone number
- Icloud technical support @@18447806762 $$$$$$apple icloud technical support
-phone number
- Icloud technical support @@18447806762 $$$$$$apple icloud technical support
-phone number
- Icloud technical support @@18447806762 $$$$$$apple icloud technical support
-phone number
 ICLOUD support number, ICLOUD support, ICLOUD mail support, ICLOUD tech
 support, ICLOUD technical support, ICLOUD customer service number, ICLOUD
 customer service, ICLOUD tech support number, ##ICLOUD support center##, ICLOUD
