@@ -1,9 +1,9 @@
 From: bugzilla-daemon-590EEB7GvNiWaY/ihj7yzEB+6BGkLq7r@public.gmane.org
-Subject: [Bug 147441] New:
- Qb/=?UTF-8?Q?number=20=5E=5E=C2=AE?=(#$#1-866-388-3501#$#)^^$quickbooks
+Subject: [Bug 148291] New:
+ Qb/=?UTF-8?Q?number=20=5E=5E=C2=AE?=(#$#1-866-725-7490#$#)^^$quickbooks
  payroll customer care phone number
-Date: Mon, 25 Jul 2016 17:18:16 +0000
-Message-ID: <bug-147441-11311@https.bugzilla.kernel.org/>
+Date: Mon, 25 Jul 2016 17:37:27 +0000
+Message-ID: <bug-148291-11311@https.bugzilla.kernel.org/>
 Mime-Version: 1.0
 Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: QUOTED-PRINTABLE
@@ -12,10 +12,10 @@ Sender: linux-man-owner-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
 To: linux-man-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
 List-Id: linux-man@vger.kernel.org
 
-https://bugzilla.kernel.org/show_bug.cgi?id=3D147441
+https://bugzilla.kernel.org/show_bug.cgi?id=3D148291
 
-            Bug ID: 147441
-           Summary: Qb/number ^^=C2=AE(#$#1-866-388-3501#$#)^^$quickboo=
+            Bug ID: 148291
+           Summary: Qb/number ^^=C2=AE(#$#1-866-725-7490#$#)^^$quickboo=
 ks
                     payroll customer care phone number
            Product: Documentation
@@ -27,94 +27,94 @@ ks
           Priority: P1
          Component: man-pages
           Assignee: documentation_man-pages-ztI5WcYan/vQLgFONoPN62D2FQJk+8+b@public.gmane.org
-          Reporter: jensikaur2-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org
+          Reporter: pk7186379-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org
         Regression: No
 
-Qb/number ^^=C2=AE(#$#1-866-388-3501#$#)^^$quickbooks payroll customer =
+Qb/number ^^=C2=AE(#$#1-866-725-7490#$#)^^$quickbooks payroll customer =
 care phone
 number
 
-quickbooks payroll=E2=84=A21-866+388+3501 quickbooks payroll tech suppo=
+quickbooks payroll=E2=84=A21-866+725+7490 quickbooks payroll tech suppo=
 rt phone number
 quickbooks payroll technical Support phone Number quickbooks payroll su=
 pport
 phone
 
-quickbooks payroll=E2=84=A21-866+388+3501 quickbooks payroll tech suppo=
+quickbooks payroll=E2=84=A21-866+725+7490 quickbooks payroll tech suppo=
 rt phone number
 quickbooks payroll technical Support phone Number quickbooks payroll su=
 pport
 phone
 
-quickbooks payroll=E2=84=A21-866+388+3501 quickbooks payroll tech suppo=
+quickbooks payroll=E2=84=A21-866+725+7490 quickbooks payroll tech suppo=
 rt phone number
 quickbooks payroll technical Support phone Number quickbooks payroll su=
 pport
 phone
-- quickbooks payroll=E2=84=A21-866+388+3501 quickbooks payroll tech sup=
+- quickbooks payroll=E2=84=A21-866+725+7490 quickbooks payroll tech sup=
 port phone
 number quickbooks payroll technical Support phone Number quickbooks pay=
 roll
 support phone number
-quickbooks payroll=E2=84=A21-866+388+3501 quickbooks payroll tech suppo=
+quickbooks payroll=E2=84=A21-866+725+7490 quickbooks payroll tech suppo=
 rt phone number
 quickbooks payroll technical Support phone Number quickbooks payroll su=
 pport
 phone number
 1
-Aus quickbooks payroll=E2=84=A2+++1-866+388+3501 @@@quickbooks payroll =
+Aus quickbooks payroll=E2=84=A2+++1-866+725+7490 @@@quickbooks payroll =
 tech support
 phone number quickbooks payroll technical Support phone Number quickboo=
 ks
 payroll support phone number
 
 
-Aus quickbooks payroll=E2=84=A2+++1-866+388+3501 @@@quickbooks payroll =
+Aus quickbooks payroll=E2=84=A2+++1-866+725+7490 @@@quickbooks payroll =
 tech support
 phone number quickbooks payroll technical Support phone Number quickboo=
 ks
 payroll support phone number=20
-Support**i?=E2=84=A2+1-866-388-3501 quickbooks payroll Tech Support Pho=
+Support**i?=E2=84=A2+1-866-725-7490 quickbooks payroll Tech Support Pho=
 ne number,
 quickbooks payroll customer support phone number quickbooks payroll cus=
 tomer
-care phone number,quickbooks payroll +?=E2=84=A2UK +1-866-388-3501 quic=
+care phone number,quickbooks payroll +?=E2=84=A2UK +1-866-725-7490 quic=
 kbooks payroll
 Tech Support Phone number, quickbooks payroll customer support phone nu=
 mber
 quickbooks payroll customer care phone number quickbooks payroll USA(((=
 (USa=3D
-1+866+388+3501 ))))) quickbooks payroll tech Support Phone Number, quic=
+1+866+725+7490 ))))) quickbooks payroll tech Support Phone Number, quic=
 kbooks
 payroll Technical Support Phone Number, quickbooks payroll Customer Sup=
 port
 phone Number quickbooks payroll help desk number, quickbooks payroll te=
 lephone
-number quickbooks payroll Support Phone Number 1-866-388-3501 Aus, quic=
+number quickbooks payroll Support Phone Number 1-866-725-7490 Aus, quic=
 kbooks
 payroll Support Phone Number, quickbooks payroll Technical Support Phon=
 e
 Number, quickbooks payroll Customer Support Number?? quickbooks payroll=
  Support
-Phone Number 1-866-388-3501 Aus, quickbooks payroll Support Phone Numbe=
+Phone Number 1-866-725-7490 Aus, quickbooks payroll Support Phone Numbe=
 r,
 quickbooks payroll Technical Support Phone Number, quickbooks payroll C=
 ustomer
-Support Number?? quickbooks payroll phone number #$#1-866-388-3501##$qu=
+Support Number?? quickbooks payroll phone number #$#1-866-725-7490##$qu=
 ickbooks
 payroll phone number quickbooks payroll security phone number quickbook=
 s
-payroll phone number #$#1-866-388-3501##$quickbooks payroll support pho=
+payroll phone number #$#1-866-725-7490##$quickbooks payroll support pho=
 ne
 number quickbooks payroll symantec phone number quickbooks payroll phon=
 e number
-customer service #$#1-866-388-3501##$quickbooks payroll customer servic=
+customer service #$#1-866-725-7490##$quickbooks payroll customer servic=
 e phone
 number quickbooks payroll tech support phone number quickbooks payroll
 technical support phone number quickbooks payroll phone numbers quickbo=
 oks
 payroll help phone number quickbooks payroll support phone number
-#$#1-866-388-3501##$quickbooks payroll phone support quickbooks payroll=
+#$#1-866-725-7490##$quickbooks payroll phone support quickbooks payroll=
  contact
 phone number quickbooks payroll internet security phone number quickboo=
 ks
@@ -132,7 +132,7 @@ payroll phone support free phone numbers phone number quickbooks payrol=
 l phone
 number get human find phone number phone number for quickbooks payroll =
 security
-us phone number phone number Aus #$#1-866-388-3501##$quickbooks payroll=
+us phone number phone number Aus #$#1-866-725-7490##$quickbooks payroll=
  contact
 phone number quickbooks payroll phone number for support quickbooks pay=
 roll
@@ -153,7 +153,7 @@ quickbooks payroll phone number billing symantec quickbooks payroll rem=
 oval
 tool quickbooks payroll support quickbooks payroll support phone number=
  Aus
-quickbooks payroll renewal phone number #$#1-866-388-3501##$symantec ph=
+quickbooks payroll renewal phone number #$#1-866-725-7490##$symantec ph=
 one
 number quickbooks payroll utilities quickbooks payroll download quickbo=
 oks
@@ -165,7 +165,7 @@ quickbooks payroll account login quickbooks payroll sign in quickbooks =
 payroll
 australia phone number quickbooks payroll phone number quickbooks payro=
 ll
-symantec Pro quickbooks payroll quickbooks payroll s#$#1-866-388-3501##=
+symantec Pro quickbooks payroll quickbooks payroll s#$#1-866-725-7490##=
 $
 quickbooks payroll login tech support phone number download quickbooks =
 payroll
@@ -196,7 +196,7 @@ ckbooks
 payroll quickbooks payroll renewal phone numbers Aus quickbooks payroll=
  by
 symantec quickbooks payroll update quickbooks payroll internet security
-customer service phone number #$#1-866-388-3501##$my quickbooks payroll=
+customer service phone number #$#1-866-725-7490##$my quickbooks payroll=
  account
 login quickbooks payroll phone support number download quickbooks payro=
 ll
@@ -230,7 +230,7 @@ kbooks
 payroll customer service phone number Aus buy quickbooks payroll get a =
 phone
 number quickbooks payroll tech support number virus protection
-#$#1-866-388-3501##$quickbooks payroll customer support phone number fo=
+#$#1-866-725-7490##$quickbooks payroll customer support phone number fo=
 r
 quickbooks payroll support quickbooks payroll support quickbooks payrol=
 l
@@ -265,7 +265,7 @@ phone number customer service quickbooks payroll online backup quickboo=
 ks
 payroll phone support notron quick heal quickbooks payroll toll free nu=
 mber
-#$#1-866-388-3501##$quickbooks payroll download manager quickbooks payr=
+#$#1-866-725-7490##$quickbooks payroll download manager quickbooks payr=
 oll
 identity safe download quickbooks payroll quickbooks payroll install qu=
 ickbooks
@@ -306,7 +306,7 @@ payroll account Pro quickbooks payroll gratis quickbooks payroll accoun=
 t
 quickbooks payroll contact phone number quickbooks payroll system works
 quickbooks payroll internet security support phone number symantec
-#$#1-866-388-3501##$quickbooks payroll quickbooks payroll utilities 15 =
+#$#1-866-725-7490##$quickbooks payroll quickbooks payroll utilities 15 =
 contact
 quickbooks payroll quickbooks payroll s quickbooks payroll renewal quic=
 kbooks
@@ -330,7 +330,7 @@ kbooks
 payroll tech support number quickbooks payroll tech support quickbooks =
 payroll
 customer service quickbooks payroll anti virus software
-#$#1-866-388-3501##$quickbooks payroll anti virus protection search for=
+#$#1-866-725-7490##$quickbooks payroll anti virus protection search for=
  phone
 numbers quickbooks payroll activation what is quickbooks payroll quickb=
 ooks
@@ -360,7 +360,7 @@ quickbooks payroll 1 866 number phone number for quickbooks payroll int=
 ernet
 security quickbooks payroll hotline quickbooks payroll internet securit=
 y
-contact phone number symantec #$#1-866-388-3501##$quickbooks payroll ph=
+contact phone number symantec #$#1-866-725-7490##$quickbooks payroll ph=
 one
 number for quickbooks payroll tech support quickbooks payroll customer =
 support
@@ -384,7 +384,7 @@ one
 numbers quickbooks payroll sign in quickbooks payroll price quickbooks =
 payroll
 customer service telephone number www quickbooks payroll com
-#$#1-866-388-3501##$ support phone numbers antiviry quickbooks payroll =
+#$#1-866-725-7490##$ support phone numbers antiviry quickbooks payroll =
 help
 desk phone number quickbooks payroll subscription renewal quickbooks pa=
 yroll
@@ -407,7 +407,7 @@ quickbooks payroll phone contact quickbooks payroll customer care numbe=
 r
 quickbooks payroll help phone number for quickbooks payroll quickbooks =
 payroll
-2012 #$#1-866-388-3501##$quickbooks payroll help phone number support f=
+2012 #$#1-866-725-7490##$quickbooks payroll help phone number support f=
 or
 quickbooks payroll quickbooks payroll help number call quickbooks payro=
 ll
@@ -433,7 +433,7 @@ products
 quickbooks payroll problems quickbooks payroll .com phone number quickb=
 ooks
 payroll 866 find contact number quickbooks payroll siteadvisor
-#$#1-866-388-3501##$quickbooks payroll telephone number quickbooks payr=
+#$#1-866-725-7490##$quickbooks payroll telephone number quickbooks payr=
 oll
 account login business phone numbers free quickbooks payroll deals quic=
 kbooks
@@ -452,7 +452,7 @@ quickbooks payroll 5.0 phone numbers in us get a phone number for free =
 symantec
 tech support quickbooks payroll support number quickbooks payroll helpd=
 esk
-#$#1-866-388-3501##$quickbooks payroll sales quickbooks payroll technic=
+#$#1-866-725-7490##$quickbooks payroll sales quickbooks payroll technic=
 al
 support number quickbooks payroll customer service phone quickbooks pay=
 roll
@@ -474,7 +474,7 @@ website quickbooks payroll technical support phone numbers of quickbook=
 s
 payroll v5 phone number quickbooks payroll customer service quickbooks =
 payroll
-symantec support #$#1-866-388-3501##$contact quickbooks payroll by phon=
+symantec support #$#1-866-725-7490##$contact quickbooks payroll by phon=
 e
 symantec contact quickbooks payroll homepage quickbooks payroll custome=
 r
@@ -579,7 +579,7 @@ Pro products phone number in the us phone contact numbers cheap quickbo=
 oks
 payroll call quickbooks payroll quickbooks payroll s anti virus toll fr=
 ee phone
-support phone numbers #$#1-866-388-3501##$symantec customer support cen=
+support phone numbers #$#1-866-725-7490##$symantec customer support cen=
 ter
 problems with quickbooks payroll anti virus business help phone numbers
 quickbooks payroll free vanity toll free phone numbers symantec phone s=
@@ -600,7 +600,7 @@ Pro quickbooks payroll telephone an virus symantec customer service num=
 ber free
 information for phone numbers how can i find phone numbers quickbooks p=
 ayroll
-toll free number Aus #$#1-866-388-3501##$quickbooks payroll tm find an =
+toll free number Aus #$#1-866-725-7490##$quickbooks payroll tm find an =
 phone
 number phone service number quickbooks payroll support teHlephone numbe=
 r
@@ -623,7 +623,7 @@ roll
 removal quickbooks payroll and quickbooks payroll quickbooks payroll s =
 support
 personalized phone numbers quickbooks payroll toll free Pro help call
-#$#1-866-388-3501##$quickbooks payroll support free Pro quickbooks payr=
+#$#1-866-725-7490##$quickbooks payroll support free Pro quickbooks payr=
 oll
 quickbooks payroll symantec tech support number tech support in Aus is
 quickbooks payroll free quickbooks payroll us how phone number symantec
@@ -673,22 +673,22 @@ ooks
 payroll business best quickbooks payroll anti vyras quickbooks payroll =
 virus
 help quickbooks payroll support.com quickbooks payroll by symantec
-#$#1-866-388-3501##$quickbooks payroll helpline uk 866 vanity number co=
+#$#1-866-725-7490##$quickbooks payroll helpline uk 866 vanity number co=
 ntact
 help number telephone number for quickbooks payroll customer service qu=
 ickbooks
 payroll live chat what are anti virus contact tech support quickbooks p=
 ayroll
-products#$#1-866-388-3501#+1866-388-3501 quickbooks payroll technical s=
+products#$#1-866-725-7490#+1866-725-7490 quickbooks payroll technical s=
 upport
-phone number Call us 1-866-388-3501 and get fix all issues related quic=
+phone number Call us 1-866-725-7490 and get fix all issues related quic=
 kbooks
-payroll Technical Support For quickbooks payroll Issue : 1866-388-3501
-quickbooks payroll +1866-388-3501 Customer Support Number, quickbooks p=
+payroll Technical Support For quickbooks payroll Issue : 1866-725-7490
+quickbooks payroll +1866-725-7490 Customer Support Number, quickbooks p=
 ayroll
 Technical Helpline Number USA, quickbooks payroll support phone number =
 united
-states +1866-388-3501 quickbooks payroll +1866-388-3501 Customer Suppor=
+states +1866-725-7490 quickbooks payroll +1866-725-7490 Customer Suppor=
 t ,
 quickbooks payroll technical Support phone number
 
