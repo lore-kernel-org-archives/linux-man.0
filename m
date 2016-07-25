@@ -1,9 +1,8 @@
 From: bugzilla-daemon-590EEB7GvNiWaY/ihj7yzEB+6BGkLq7r@public.gmane.org
-Subject: [Bug 148671] New:
- ~Qb/=?UTF-8?Q?number=20=5E=5E=C2=AE?=(#$#1-8OO-75O-6584#$#)^^$quickbooks
- payroll customer care phone number
-Date: Mon, 25 Jul 2016 17:53:50 +0000
-Message-ID: <bug-148671-11311@https.bugzilla.kernel.org/>
+Subject: [Bug 148711]
+ New:=?UTF-8?Q?=20quickbooks=20payroll=E2=84=A21=2D8OO=2B75O=2B6584=20quickbooks=20payroll=20tech=20support=20phone=20number=20quickbooks=20payroll=20technical=20Support=20phone=20Number?=
+Date: Mon, 25 Jul 2016 17:55:45 +0000
+Message-ID: <bug-148711-11311@https.bugzilla.kernel.org/>
 Mime-Version: 1.0
 Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: QUOTED-PRINTABLE
@@ -12,12 +11,14 @@ Sender: linux-man-owner-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
 To: linux-man-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
 List-Id: linux-man@vger.kernel.org
 
-https://bugzilla.kernel.org/show_bug.cgi?id=3D148671
+https://bugzilla.kernel.org/show_bug.cgi?id=3D148711
 
-            Bug ID: 148671
-           Summary: ~Qb/number ^^=C2=AE(#$#1-8OO-75O-6584#$#)^^$quickbo=
-oks
-                    payroll customer care phone number
+            Bug ID: 148711
+           Summary: quickbooks payroll=E2=84=A21-8OO+75O+6584 quickbook=
+s payroll
+                    tech support phone number quickbooks payroll techni=
+cal
+                    Support phone Number
            Product: Documentation
            Version: unspecified
           Hardware: All
