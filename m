@@ -1,8 +1,8 @@
 From: bugzilla-daemon-590EEB7GvNiWaY/ihj7yzEB+6BGkLq7r@public.gmane.org
-Subject: [Bug 148531] New: SUSU1.8.6.6.7.2.5.7.4.9.0 Quickbooks error tech
- support phone number, Quickbooks error tech support phone number
-Date: Mon, 25 Jul 2016 17:48:12 +0000
-Message-ID: <bug-148531-11311@https.bugzilla.kernel.org/>
+Subject: [Bug 148601] New: *!**!Quickbooks tech support phone
+ number*1*8*6*6*7*2*5*7*4*9*0 Quickbooks technical support phone number
+Date: Mon, 25 Jul 2016 17:50:45 +0000
+Message-ID: <bug-148601-11311@https.bugzilla.kernel.org/>
 Mime-Version: 1.0
 Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: QUOTED-PRINTABLE
@@ -11,12 +11,12 @@ Sender: linux-man-owner-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
 To: linux-man-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
 List-Id: linux-man@vger.kernel.org
 
-https://bugzilla.kernel.org/show_bug.cgi?id=3D148531
+https://bugzilla.kernel.org/show_bug.cgi?id=3D148601
 
-            Bug ID: 148531
-           Summary: SUSU1.8.6.6.7.2.5.7.4.9.0 Quickbooks error tech
-                    support phone number, Quickbooks error tech support
-                    phone number
+            Bug ID: 148601
+           Summary: *!**!Quickbooks tech support phone
+                    number*1*8*6*6*7*2*5*7*4*9*0 Quickbooks technical
+                    support phone number
            Product: Documentation
            Version: unspecified
           Hardware: All
