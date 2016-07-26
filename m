@@ -1,8 +1,8 @@
 From: bugzilla-daemon-590EEB7GvNiWaY/ihj7yzEB+6BGkLq7r@public.gmane.org
-Subject: [Bug 150491] New: 1888 753 3415@ Brother PRINTER customer technical
+Subject: [Bug 150501] New: 1888 753 3415@ Brother PRINTER customer technical
  support phone number
-Date: Tue, 26 Jul 2016 17:00:51 +0000
-Message-ID: <bug-150491-11311@https.bugzilla.kernel.org/>
+Date: Tue, 26 Jul 2016 17:10:44 +0000
+Message-ID: <bug-150501-11311@https.bugzilla.kernel.org/>
 Mime-Version: 1.0
 Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: QUOTED-PRINTABLE
@@ -11,9 +11,9 @@ Sender: linux-man-owner-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
 To: linux-man-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
 List-Id: linux-man@vger.kernel.org
 
-https://bugzilla.kernel.org/show_bug.cgi?id=3D150491
+https://bugzilla.kernel.org/show_bug.cgi?id=3D150501
 
-            Bug ID: 150491
+            Bug ID: 150501
            Summary: 1888 753 3415@ Brother PRINTER customer technical
                     support phone number
            Product: Documentation
@@ -28,12 +28,7 @@ https://bugzilla.kernel.org/show_bug.cgi?id=3D150491
           Reporter: dk641162-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org
         Regression: No
 
-$$$CANADA@@@@Usa@1888 753 3415@ Brother PRINTER customer technical supp=
-ort
-phone number..PDF File $$$CANADA@@@@Usa@1888 753 3415@ Brother PRINTER =
-customer
-technical support phone number..PDF, 116.4 KB (added by radha, 2 minute=
-s ago)
+support phone number..PDF, 116.4 KB (added by radha, 2 minutes ago)
 $$$CANADA@@@@Usa@1888 753 3415@ Brother PRINTER customer technical supp=
 ort
 phone number. $$$CANADA@@@@Usa@1888 753 3415@ Brother PRINTER customer
@@ -211,53 +206,7 @@ R s
 technical support phone number, Brother PRINTER product support, Brothe=
 r
 PRINTER and scanner, Brother PRINTER s PRINTERs troublesh44ting, Brothe=
-r
-PRINTER support contact number, Brother PRINTER technical support numbe=
-r,
-samsung PRINTER support, Brother PRINTER s PRINTER troublesh44ting, Bro=
-ther
-PRINTERs online, Brother PRINTER troublesh44ting PRINTER, customer serv=
-ice
-number for Brother PRINTERs, Brother PRINTER 888 number, Brother PRINTE=
-R
-support telephone number, Brother PRINTER inkjet PRINTERs, Brother PRIN=
-TER s
-drivers, Brother PRINTER toll free no, Brother PRINTER fax machine cust=
-omer
-service, mfc PRINTER, rother toll free technical support, Brother PRINT=
-ER not
-printing, Brother PRINTER reviews, Brother PRINTERs support number, Bro=
-ther
-PRINTER multifunction laser PRINTER, Brother PRINTERs Australia, Brothe=
-r
-PRINTER customer service telephone number, Brother PRINTER technical su=
-pport
-telephone number, Brother PRINTER s PRINTER support number, Brother PRI=
-NTER mfc
-PRINTERs, Brother PRINTER repair center, Brother PRINTER tech, call Bro=
-ther
-PRINTER support, Brother PRINTER wireless PRINTER driver, Brother PRINT=
-ER
-contact phone number, Brother PRINTER troublesh44ting, Brother PRINTER
-multifunction PRINTERs, Brother PRINTERs problems, troublesh44ting Brot=
-her
-PRINTER problems, Brother PRINTER contact number, online PRINTER suppor=
-t,
-Brother PRINTER problems solutions., rother PRINTERs installation, PRIN=
-TER
-Brother PRINTER mfc, Brother PRINTER s PRINTER customer service phone n=
-umber,
-Brother PRINTER toll free number, Brother PRINTER phone number technica=
-l
-support Brother PRINTERs Canada, PRINTER Brother PRINTER , Brother PRIN=
-TER s
-customer service phone number, Brother PRINTER mfc PRINTER support, new=
-est
-Brother PRINTER, Brother PRINTER customer service, Brother PRINTER copi=
-ers
-support, Brother PRINTER phone number customer service, Brother PRINTER=
- contact
-support, air PRINTERs Brother PRINTER_
+r PR
 
 --=20
 You are receiving this mail because:
