@@ -1,137 +1,70 @@
-From: Nikos Mavrogiannopoulos <nmav-H+wXaHxf7aLQT0dZR+AlfA@public.gmane.org>
-Subject: Re: [PATCH] Update the random(4) documentation towards a more
- accurate view on /dev/urandom
-Date: Mon, 01 Aug 2016 13:48:19 +0200
-Message-ID: <1470052099.2926.6.camel@redhat.com>
-References: <1461574090.32558.45.camel@redhat.com>
+From: Quentin Rameau <quinq-UlqG2OPX9a0ue8ZPuPpd/Q@public.gmane.org>
+Subject: Re: [PATCH] mkstemp: fix _POSIX_C_SOURCE value for mkstemp()
+Date: Mon, 1 Aug 2016 14:44:13 +0200
+Message-ID: <20160801124413.GA25609@alpha.fifth.space>
+References: <20160708000626.GA26576@alpha.fifth.space>
+ <20160714093249.GA25778@alpha.fifth.space>
+ <20160721191931.305a456e@wee.quinq.eu.org>
 Mime-Version: 1.0
-Content-Type: multipart/mixed; boundary="=-VOKWh2x9zIu7mPG3I03P"
+Content-Type: text/plain; charset=utf-8
 Return-path: <linux-man-owner-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>
-In-Reply-To: <1461574090.32558.45.camel-H+wXaHxf7aLQT0dZR+AlfA@public.gmane.org>
+Content-Disposition: inline
+In-Reply-To: <20160721191931.305a456e-PEB9nCXmw2nfEafzWYgPkA@public.gmane.org>
 Sender: linux-man-owner-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
 To: mtk.manpages-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org
 Cc: linux-man-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
 List-Id: linux-man@vger.kernel.org
 
+*ping*
 
---=-VOKWh2x9zIu7mPG3I03P
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: 7bit
-
-On Mon, 2016-04-25 at 10:48 +0200, Nikos Mavrogiannopoulos wrote:
-> This documents the "property" of /dev/urandom of being able to serve
-> numbers
-> prior to pool being initialized, and removes any suggested usages of
-> /dev/random
-> which are disputable (i.e., one-time pad).
-> Document the fact /dev/random is only suitable for applications which
-> can afford
-> indeterminate delays since very few applications can do so.
-> Smooth the alarming language about a theoretical attack, and mention
-> that its
-> security depends on the cryptographic primitives used by the kernel,
-> as well
-> as the total entropy gathered.
-
-This is an updated patch reflecting the recent discussion in linux-
-crypto:
-
-http://www.mail-archive.com/linux-crypto-u79uwXL29TY76Z2rM5mHXA@public.gmane.org/msg20400.html
-
-regards,
-Nikos
-
---=-VOKWh2x9zIu7mPG3I03P
-Content-Disposition: attachment;
-	filename*0=0001-Update-the-random-4-documentation-towards-a-more-acc.pat;
-	filename*1=ch
-Content-Type: text/x-patch;
-	name="0001-Update-the-random-4-documentation-towards-a-more-acc.patch";
-	charset="UTF-8"
-Content-Transfer-Encoding: base64
-
-RnJvbSBlZDJjMjcwYjRjNWJhOTZjMjYyZWFmMWFjOGJiMmUyNGE5MThlMmFmIE1vbiBTZXAgMTcg
-MDA6MDA6MDAgMjAwMQpGcm9tOiBOaWtvcyBNYXZyb2dpYW5ub3BvdWxvcyA8bm1hdkByZWRoYXQu
-Y29tPgpEYXRlOiBUaHUsIDcgQXByIDIwMTYgMDk6MDg6MTQgKzAyMDAKU3ViamVjdDogW1BBVENI
-XSBVcGRhdGUgdGhlIHJhbmRvbSg0KSBkb2N1bWVudGF0aW9uIHRvd2FyZHMgYSBtb3JlIGFjY3Vy
-YXRlCiB2aWV3IG9uIC9kZXYvdXJhbmRvbQoKVGhpcyBkb2N1bWVudHMgdGhlICJwcm9wZXJ0eSIg
-b2YgL2Rldi91cmFuZG9tIG9mIGJlaW5nIGFibGUgdG8gc2VydmUgbnVtYmVycwpwcmlvciB0byBw
-b29sIGJlaW5nIGluaXRpYWxpemVkLCBhbmQgcmVtb3ZlcyBhbnkgc3VnZ2VzdGVkIHVzYWdlcyBv
-ZiAvZGV2L3JhbmRvbQp3aGljaCBhcmUgZGlzcHV0YWJsZSAoaS5lLiwgb25lLXRpbWUgcGFkKS4K
-RG9jdW1lbnQgdGhlIGZhY3QgL2Rldi9yYW5kb20gaXMgYSBsZWdhY3kgaW50ZXJmYWNlIGFuZCBv
-bmx5IHN1aXRhYmxlIGZvcgphcHBsaWNhdGlvbnMgd2hpY2ggY2FuIGFmZm9yZCBpbmRldGVybWlu
-YXRlIGRlbGF5cyBzaW5jZSB2ZXJ5IGZldyBhcHBsaWNhdGlvbnMKY2FuIGRvIHNvLgoKU2lnbmVk
-LW9mZi1ieTogTmlrb3MgTWF2cm9naWFubm9wb3Vsb3MgPG5tYXZAcmVkaGF0LmNvbT4KLS0tCiBt
-YW40L3JhbmRvbS40IHwgNTEgKysrKysrKysrKysrKysrKysrKysrKysrKystLS0tLS0tLS0tLS0t
-LS0tLS0tLS0tLS0tCiAxIGZpbGUgY2hhbmdlZCwgMjYgaW5zZXJ0aW9ucygrKSwgMjUgZGVsZXRp
-b25zKC0pCgpkaWZmIC0tZ2l0IGEvbWFuNC9yYW5kb20uNCBiL21hbjQvcmFuZG9tLjQKaW5kZXgg
-YjZmZGQ4Yy4uZTJiOTc1YiAxMDA2NDQKLS0tIGEvbWFuNC9yYW5kb20uNAorKysgYi9tYW40L3Jh
-bmRvbS40CkBAIC0xMyw4ICsxMyw5IEBACiAuXCIgMjAwNC0wNC0wOCwgQUVCLCBJbXByb3ZlZCBk
-ZXNjcmlwdGlvbiBvZiByZWFkIGZyb20gL2Rldi91cmFuZG9tCiAuXCIgMjAwOC0wNi0yMCwgR2Vv
-cmdlIFNwZWx2aW4gPGxpbnV4QGhvcml6b24uY29tPiwKIC5cIiAgICAgICAgICAgICBNYXR0IE1h
-Y2thbGwgPG1wbUBzZWxlbmljLmNvbT4KLS5cIiAgICAgQWRkIGEgVXNhZ2Ugc3Vic2VjdGlvbiB0
-aGF0IHJlY29tbWVuZHMgbW9zdCB1c2VycyB0byB1c2UKLS5cIiAgICAgL2Rldi91cmFuZG9tLCBh
-bmQgZW1waGFzaXplcyBwYXJzaW1vbmlvdXMgdXNhZ2Ugb2YgL2Rldi9yYW5kb20uCisuXCIgMjAx
-Ni0wOC0wMSwgTmlrb3MgTWF2cm9naWFubm9wb3Vsb3MgPG5tYXZAcmVkaGF0LmNvbT4KKy5cIiAg
-ICAgTWVudGlvbiB0aGF0IC9kZXYvcmFuZG9tIGlzIGEgbGVnYWN5IGludGVyZmFjZSBhbmQgcmVt
-b3ZlZCBzdWdnZXN0ZWQKKy5cIiAgICAgdXNlcyBvZiAvZGV2L3JhbmRvbS4KIC5cIgogLlRIIFJB
-TkRPTSA0IDIwMTUtMTItMjggIkxpbnV4IiAiTGludXggUHJvZ3JhbW1lcidzIE1hbnVhbCIKIC5T
-SCBOQU1FCkBAIC0zNywxMSArMzgsMjIgQEAgVGhlIGdlbmVyYXRvciBhbHNvIGtlZXBzIGFuIGVz
-dGltYXRlIG9mIHRoZQogbnVtYmVyIG9mIGJpdHMgb2Ygbm9pc2UgaW4gdGhlIGVudHJvcHkgcG9v
-bC4KIEZyb20gdGhpcyBlbnRyb3B5IHBvb2wgcmFuZG9tIG51bWJlcnMgYXJlIGNyZWF0ZWQuCiAu
-TFAKLVdoZW4gcmVhZCwgdGhlIFxmSS9kZXYvcmFuZG9tXGZQIGRldmljZSB3aWxsIHJldHVybiBy
-YW5kb20gYnl0ZXMKLW9ubHkgd2l0aGluIHRoZSBlc3RpbWF0ZWQgbnVtYmVyIG9mIGJpdHMgb2Yg
-bm9pc2UgaW4gdGhlIGVudHJvcHkKLXBvb2wuCi1cZkkvZGV2L3JhbmRvbVxmUCBzaG91bGQgYmUg
-c3VpdGFibGUgZm9yIHVzZXMgdGhhdCBuZWVkIHZlcnkKLWhpZ2ggcXVhbGl0eSByYW5kb21uZXNz
-IHN1Y2ggYXMgb25lLXRpbWUgcGFkIG9yIGtleSBnZW5lcmF0aW9uLgorV2hlbiByZWFkLCB0aGUg
-XGZJL2Rldi91cmFuZG9tXGZQIGRldmljZSByZXR1cm4gcmFuZG9tIGJ5dGVzIHVzaW5nIGEgcHNl
-dWRvcmFuZG9tIAorbnVtYmVyIGdlbmVyYXRvciBzZWVkZWQgZnJvbSB0aGUgZW50cm9weSBwb29s
-LiBUaGF0IG9wZXJhdGlvbiBpcworbm9uLWJsb2NraW5nLiBXaGVuIHVzZWQgZHVyaW5nIGVhcmx5
-IGJvb3QgdGltZSwgdGhpcyBkZXZpY2UgbWF5IHJldHVybgorZGF0YSBwcmlvciB0byB0aGUgZW50
-cm9weSBwb29sIGJlaW5nIGluaXRpYWxpemF0aW9uLgorSWYgdGhpcyBpcyBvZiBjb25jZXJuIGlu
-IHlvdXIgYXBwbGljYXRpb24sIHVzZQorLkJSIGdldHJhbmRvbSgyKQorb3IgXGZJL2Rldi9yYW5k
-b21cZlAgaW5zdGVhZC4KKworLkxQCitUaGUgXGZJL2Rldi9yYW5kb21cZlAgZGV2aWNlIGlzIGEg
-bGVnYWN5IGludGVyZmFjZSB3aGljaCBkYXRlcyBiYWNrIHRvCithIHRpbWUgd2hlcmUgdGhlIGNy
-eXB0b2dyYXBoaWMgcHJpbWl0aXZlcyB1c2VkIGluIHRoZSBpbXBsZW1lbnRhdGlvbgord2VyZSBu
-b3Qgd2lkZWx5IHRydXN0ZWQuIEl0IHdpbGwgcmV0dXJuIHJhbmRvbSBieXRlcworb25seSB3aXRo
-aW4gdGhlIGVzdGltYXRlZCBudW1iZXIgb2YgYml0cyBvZiBmcmVzaCBub2lzZSBpbiB0aGUgZW50
-cm9weQorcG9vbCwgYmxvY2tpbmcgaWYgbmVjZXNzYXJ5LgorXGZJL2Rldi9yYW5kb21cZlAgaXMg
-c3VpdGFibGUgZm9yIGFwcGxpY2F0aW9ucyB0aGF0IG5lZWQgdmVyeQoraGlnaCBxdWFsaXR5IHJh
-bmRvbW5lc3MsIGFuZCBjYW4gYWZmb3JkIGluZGV0ZXJtaW5hdGUgZGVsYXlzLgogV2hlbiB0aGUg
-ZW50cm9weSBwb29sIGlzIGVtcHR5LCByZWFkcyBmcm9tIFxmSS9kZXYvcmFuZG9tXGZQIHdpbGwg
-YmxvY2sKIHVudGlsIGFkZGl0aW9uYWwgZW52aXJvbm1lbnRhbCBub2lzZSBpcyBnYXRoZXJlZC4K
-IElmCkBAIC02MCwxOCArNzIsOCBAQCB3aWxsIHJldHVybiAtMSBhbmQKIC5JIGVycm5vCiB3aWxs
-IGJlIHNldCB0bwogLkJSIEVBR0FJTiAuCi0uTFAKLUEgcmVhZCBmcm9tIHRoZSBcZkkvZGV2L3Vy
-YW5kb21cZlAgZGV2aWNlIHdpbGwgbm90IGJsb2NrCi13YWl0aW5nIGZvciBtb3JlIGVudHJvcHku
-Ci1JZiB0aGVyZSBpcyBub3Qgc3VmZmljaWVudCBlbnRyb3B5LCBhIHBzZXVkb3JhbmRvbSBudW1i
-ZXIgZ2VuZXJhdG9yIGlzIHVzZWQKLXRvIGNyZWF0ZSB0aGUgcmVxdWVzdGVkIGJ5dGVzLgotQXMg
-YSByZXN1bHQsIGluIHRoaXMgY2FzZSB0aGUgcmV0dXJuZWQgdmFsdWVzIGFyZSB0aGVvcmV0aWNh
-bGx5IHZ1bG5lcmFibGUgdG8gYQotY3J5cHRvZ3JhcGhpYyBhdHRhY2sgb24gdGhlIGFsZ29yaXRo
-bXMgdXNlZCBieSB0aGUgZHJpdmVyLgotS25vd2xlZGdlIG9mIGhvdyB0byBkbyB0aGlzIGlzIG5v
-dCBhdmFpbGFibGUgaW4gdGhlIGN1cnJlbnQgdW5jbGFzc2lmaWVkCi1saXRlcmF0dXJlLCBidXQg
-aXQgaXMgdGhlb3JldGljYWxseSBwb3NzaWJsZSB0aGF0IHN1Y2ggYW4gYXR0YWNrIG1heQotZXhp
-c3QuCi1JZiB0aGlzIGlzIGEgY29uY2VybiBpbiB5b3VyIGFwcGxpY2F0aW9uLCB1c2UgXGZJL2Rl
-di9yYW5kb21cZlAKLWluc3RlYWQuCisKK1RoZSBmbGFnCiAuQiBPX05PTkJMT0NLCiBoYXMgbm8g
-ZWZmZWN0IHdoZW4gb3BlbmluZwogLklSIC9kZXYvdXJhbmRvbSAuCkBAIC04Miw2ICs4NCw4IEBA
-IGZvciB0aGUgZGV2aWNlCiBzaWduYWxzIHdpbGwgbm90IGJlIGhhbmRsZWQgdW50aWwgYWZ0ZXIg
-dGhlIHJlcXVlc3RlZCByYW5kb20gYnl0ZXMKIGhhdmUgYmVlbiBnZW5lcmF0ZWQuCiAKKworCiBT
-aW5jZSBMaW51eCAzLjE2LAogLlwiIGNvbW1pdCA3OWE4NDY4NzQ3YzVmOTVlZDNkNWNlODM3NmEz
-ZTgyZTBjNTg1N2ZjCiBhCkBAIC0xMDQsMTQgKzEwOCwxMSBAQCBUaGlzIG1lYW5zIHRoYXQgaXQg
-d2lsbCBpbXBhY3QgdGhlIGNvbnRlbnRzCiByZWFkIGZyb20gYm90aCBmaWxlcywgYnV0IGl0IHdp
-bGwgbm90IG1ha2UgcmVhZHMgZnJvbQogXGZJL2Rldi9yYW5kb21cZlAgZmFzdGVyLgogLlNTIFVz
-YWdlCi1JZiB5b3UgYXJlIHVuc3VyZSBhYm91dCB3aGV0aGVyIHlvdSBzaG91bGQgdXNlCitUaGUg
-CiAuSVIgL2Rldi9yYW5kb20KLW9yCitpbnRlcmZhY2UgaXMgY29uc2lkZXJlZCBhIGxlZ2FjeSBp
-bnRlcmZhY2UsIGFuZCAKIC5JUiAvZGV2L3VyYW5kb20gLAotdGhlbiBwcm9iYWJseSB5b3Ugd2Fu
-dCB0byB1c2UgdGhlIGxhdHRlci4KLUFzIGEgZ2VuZXJhbCBydWxlLAotLklSIC9kZXYvdXJhbmRv
-bQotc2hvdWxkIGJlIHVzZWQgZm9yIGV2ZXJ5dGhpbmcgZXhjZXB0IGxvbmctbGl2ZWQgR1BHL1NT
-TC9TU0gga2V5cy4KK2lzIHJlY29tbWVuZGVkIGZvciBnZW5lcmFsIHVzZS4KIAogSWYgYSBzZWVk
-IGZpbGUgaXMgc2F2ZWQgYWNyb3NzIHJlYm9vdHMgYXMgcmVjb21tZW5kZWQgYmVsb3cgKGFsbCBt
-YWpvcgogTGludXggZGlzdHJpYnV0aW9ucyBoYXZlIGRvbmUgdGhpcyBzaW5jZSAyMDAwIGF0IGxl
-YXN0KSwgdGhlIG91dHB1dCBpcwotLSAKMi43LjQKCg==
-
-
---=-VOKWh2x9zIu7mPG3I03P--
-
+> *ping*
+> 
+> > *ping*
+> > 
+> > Forgive me for being insistant, but as there has been no response to
+> > this thread, and with all the spam thas has been going on on the ml in
+> > the last few days, I'm thinking maybe you didn't see it pass.
+> > Or maybe you just don't find it acceptable, then a response would be
+> > appreciated anyway.
+> > Thanks for your time!
+> > 
+> > > Here are more informations to save you the time searching for it.
+> > > Introduced in f095bb7 (2010-01-09) in stdlib/stdlib.h line 609:
+> > > 
+> > > +#if defined __USE_MISC || defined __USE_XOPEN_EXTENDED \
+> > > +    || defined __USE_XOPEN2K8
+> > > [..]
+> > > extern int mkstemp (char *__template) __nonnull ((1)) __wur;
+> > > 
+> > > And in include/features.h (from glibc 2.12 e28c887):
+> > > 
+> > > #if (_POSIX_C_SOURCE - 0) >= 200112L
+> > > # define __USE_XOPEN2K		1
+> > > # undef __USE_ISOC95
+> > > # define __USE_ISOC95		1
+> > > # undef __USE_ISOC99
+> > > # define __USE_ISOC99		1
+> > > #endif
+> > > 
+> > > #if (_POSIX_C_SOURCE - 0) >= 200809L
+> > > # define __USE_XOPEN2K8		1
+> > > # undef  _ATFILE_SOURCE
+> > > # define _ATFILE_SOURCE	1
+> > > #endif
+> > > 
+> > > --
+> > > To unsubscribe from this list: send the line "unsubscribe
+> > > linux-man" in the body of a message to majordomo-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
+> > > More majordomo info at  http://vger.kernel.org/majordomo-info.html  
+> > --
+> > To unsubscribe from this list: send the line "unsubscribe linux-man"
+> > in the body of a message to majordomo-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
+> > More majordomo info at  http://vger.kernel.org/majordomo-info.html
+> 
+> --
+> To unsubscribe from this list: send the line "unsubscribe linux-man" in
+> the body of a message to majordomo-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
+> More majordomo info at  http://vger.kernel.org/majordomo-info.html
 --
 To unsubscribe from this list: send the line "unsubscribe linux-man" in
 the body of a message to majordomo-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
