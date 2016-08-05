@@ -1,38 +1,44 @@
-From: Steven Munroe <munroesj@linux.vnet.ibm.com>
-Subject: Re: [patch] getauxval.3 correct AT_HWCAP result description
-Date: Thu, 04 Aug 2016 15:35:43 -0500
-Message-ID: <1470342943.15257.1.camel@oc7878010663>
-References: <397D95928DECEF49983F5B237627E9785733058A@IRSMSX108.ger.corp.intel.com>
-	 <2b181d0f-3a50-bf18-268b-9991de75d216@gmail.com> <5785F835.4070209@arm.com>
-Reply-To: munroesj@linux.vnet.ibm.com
-Mime-Version: 1.0
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: 7bit
-Return-path: <libc-alpha-return-72298-glibc-alpha=m.gmane.org@sourceware.org>
-List-Unsubscribe: <mailto:libc-alpha-unsubscribe-glibc-alpha=m.gmane.org@sourceware.org>
-List-Subscribe: <mailto:libc-alpha-subscribe@sourceware.org>
-List-Archive: <http://sourceware.org/ml/libc-alpha/>
-List-Post: <mailto:libc-alpha@sourceware.org>
-List-Help: <mailto:libc-alpha-help@sourceware.org>, <http://sourceware.org/ml/#faqs>
-Sender: libc-alpha-owner@sourceware.org
-In-Reply-To: <5785F835.4070209@arm.com>
-To: Szabolcs Nagy <szabolcs.nagy@arm.com>
-Cc: "Michael Kerrisk (man-pages)" <mtk.manpages@gmail.com>, "Cownie, James
- H" <james.h.cownie@intel.com>, nd@arm.com, "libc-alpha@sourceware.org" <libc-alpha@sourceware.org>, "linux-man@vger.kernel.org" <linux-man@vger.kernel.org>
+From: Jakub Wilk <jwilk-tXgOlIzOKNReoWH0uzbU5w@public.gmane.org>
+Subject: [PATCH] Changes.old: tfix
+Date: Fri,  5 Aug 2016 12:16:27 +0200
+Message-ID: <1470392187-7286-1-git-send-email-jwilk@jwilk.net>
+Return-path: <linux-man-owner-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>
+Sender: linux-man-owner-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
+To: Michael Kerrisk <mtk.manpages-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org>
+Cc: linux-man-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
 List-Id: linux-man@vger.kernel.org
 
-On Wed, 2016-07-13 at 09:13 +0100, Szabolcs Nagy wrote:
-> On 12/07/16 21:24, Michael Kerrisk (man-pages) wrote:
-> >>  .BR AT_HWCAP
-> >> -A pointer to a multibyte mask of bits whose settings
-> >> +A four byte long bit-mask whose settings
-> >>  indicate detailed processor capabilities.
-> 
-> why is it four byte long?
-> 
-> it's a long and the target abi decides how many
-> bits of that is used.
-> 
+Signed-off-by: Jakub Wilk <jwilk-tXgOlIzOKNReoWH0uzbU5w@public.gmane.org>
+---
+ Changes.old | 4 ++--
+ 1 file changed, 2 insertions(+), 2 deletions(-)
 
-For platforms that support 32- and 64-bit modes, maintaining AT_HWCAP at
-32-bits simplifies code portability.
+diff --git a/Changes.old b/Changes.old
+index 1035ec3..c9e737a 100644
+--- a/Changes.old
++++ b/Changes.old
+@@ -42217,7 +42217,7 @@ charsets.7
+         Remove console(4) references
+             0f9e647 removed the obsolete console(4) page but we still have few
+             references to it. The patch below removes them or converts to refs
+-            to concole_ioctl(4) where appropriate.
++            to console_ioctl(4) where appropriate.
+ 
+ console_ioctl.4
+     Michael Kerrisk  [Chris Gassib]
+@@ -42386,7 +42386,7 @@ unix.7
+     Michael Kerrisk
+         Expand discussion of socket permissions
+     Michael Kerrisk
+-        Fix statement about permissions needed to connect to a UNIX doain socket
++        Fix statement about permissions needed to connect to a UNIX domain socket
+             Read permission is not required (verified by experiment).
+     Michael Kerrisk
+         Clarify ownership and permissions assigned during socket creation
+-- 
+2.8.1
+
+--
+To unsubscribe from this list: send the line "unsubscribe linux-man" in
+the body of a message to majordomo-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
+More majordomo info at  http://vger.kernel.org/majordomo-info.html
