@@ -1,61 +1,34 @@
-From: "Michael Kerrisk (man-pages)" <mtk.manpages-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org>
-Subject: Re: [PATCH] Changes.old: tfix
-Date: Sat, 6 Aug 2016 09:52:26 +1000
-Message-ID: <9fb292e5-17cc-991c-be81-14cf6d4abcb4@gmail.com>
-References: <1470392187-7286-1-git-send-email-jwilk@jwilk.net>
-Mime-Version: 1.0
-Content-Type: text/plain; charset=windows-1252; format=flowed
-Content-Transfer-Encoding: 7bit
+From: Jakub Wilk <jwilk-tXgOlIzOKNReoWH0uzbU5w@public.gmane.org>
+Subject: [PATCH] proc.5: tfix
+Date: Sun,  7 Aug 2016 12:47:18 +0200
+Message-ID: <1470566838-8148-1-git-send-email-jwilk@jwilk.net>
 Return-path: <linux-man-owner-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>
-In-Reply-To: <1470392187-7286-1-git-send-email-jwilk-tXgOlIzOKNReoWH0uzbU5w@public.gmane.org>
 Sender: linux-man-owner-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
-To: Jakub Wilk <jwilk-tXgOlIzOKNReoWH0uzbU5w@public.gmane.org>
-Cc: mtk.manpages-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org, linux-man-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
+To: Michael Kerrisk <mtk.manpages-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org>
+Cc: linux-man-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
 List-Id: linux-man@vger.kernel.org
 
-On 08/05/2016 08:16 PM, Jakub Wilk wrote:
-> Signed-off-by: Jakub Wilk <jwilk-tXgOlIzOKNReoWH0uzbU5w@public.gmane.org>
+Signed-off-by: Jakub Wilk <jwilk-tXgOlIzOKNReoWH0uzbU5w@public.gmane.org>
+---
+ man5/proc.5 | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
 
-Thanks, Jakub! Applied.
-
-Cheers,
-
-Michael
-
-
-> ---
->  Changes.old | 4 ++--
->  1 file changed, 2 insertions(+), 2 deletions(-)
->
-> diff --git a/Changes.old b/Changes.old
-> index 1035ec3..c9e737a 100644
-> --- a/Changes.old
-> +++ b/Changes.old
-> @@ -42217,7 +42217,7 @@ charsets.7
->          Remove console(4) references
->              0f9e647 removed the obsolete console(4) page but we still have few
->              references to it. The patch below removes them or converts to refs
-> -            to concole_ioctl(4) where appropriate.
-> +            to console_ioctl(4) where appropriate.
->
->  console_ioctl.4
->      Michael Kerrisk  [Chris Gassib]
-> @@ -42386,7 +42386,7 @@ unix.7
->      Michael Kerrisk
->          Expand discussion of socket permissions
->      Michael Kerrisk
-> -        Fix statement about permissions needed to connect to a UNIX doain socket
-> +        Fix statement about permissions needed to connect to a UNIX domain socket
->              Read permission is not required (verified by experiment).
->      Michael Kerrisk
->          Clarify ownership and permissions assigned during socket creation
->
-
-
+diff --git a/man5/proc.5 b/man5/proc.5
+index 351c33b..8fa4aa3 100644
+--- a/man5/proc.5
++++ b/man5/proc.5
+@@ -2359,7 +2359,7 @@ Until Linux 4.2, the presence of this file was governed by the
+ kernel configuration option.
+ Since Linux 4.2,
+ .\" commit 2e13ba54a2682eea24918b87ad3edf70c2cf085b
+-it it is governed by the
++it is governed by the
+ .B CONFIG_PROC_CHILDREN
+ option.
+ .TP
 -- 
-Michael Kerrisk
-Linux man-pages maintainer; http://www.kernel.org/doc/man-pages/
-Linux/UNIX System Programming Training: http://man7.org/training/
+2.8.1
+
 --
 To unsubscribe from this list: send the line "unsubscribe linux-man" in
 the body of a message to majordomo-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
