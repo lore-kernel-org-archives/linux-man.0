@@ -1,46 +1,42 @@
 From: "Michael Kerrisk (man-pages)" <mtk.manpages-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org>
-Subject: Re: [PATCH] proc.5: tfix
-Date: Mon, 8 Aug 2016 03:47:28 +1000
-Message-ID: <0905d42a-3dcc-a4d9-e388-e8a766f99a02@gmail.com>
-References: <1470566838-8148-1-git-send-email-jwilk@jwilk.net>
+Subject: Re: How to find bugs in man pages?
+Date: Tue, 9 Aug 2016 07:38:57 +1200
+Message-ID: <CAKgNAkgmLqBjPJUtp177Q3k54fOD-siTATRK-Ht=HNa_aEBW7Q@mail.gmail.com>
+References: <49d6a2b1-0069-9325-08a1-c7e48205a787@gmail.com> <20160620204556.GP24532@vapier.lan>
+Reply-To: mtk.manpages-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org
 Mime-Version: 1.0
-Content-Type: text/plain; charset=windows-1252; format=flowed
-Content-Transfer-Encoding: 7bit
+Content-Type: text/plain; charset=UTF-8
 Return-path: <linux-man-owner-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>
-In-Reply-To: <1470566838-8148-1-git-send-email-jwilk-tXgOlIzOKNReoWH0uzbU5w@public.gmane.org>
+In-Reply-To: <20160620204556.GP24532-UgUKS2FnFs9+urZeOPWqwQ@public.gmane.org>
 Sender: linux-man-owner-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
-To: Jakub Wilk <jwilk-tXgOlIzOKNReoWH0uzbU5w@public.gmane.org>
-Cc: mtk.manpages-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org, linux-man-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
+To: Xose Vazquez Perez <xose.vazquez-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org>, linux-man <linux-man-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>, Mike Frysinger <vapier-aBrp7R+bbdUdnm+yROfE0A@public.gmane.org>
 List-Id: linux-man@vger.kernel.org
 
-On 08/07/2016 08:47 PM, Jakub Wilk wrote:
-> Signed-off-by: Jakub Wilk <jwilk-tXgOlIzOKNReoWH0uzbU5w@public.gmane.org>
+Hi Mike,
 
-Thanks, Jakub! Patch applied.
+On 21 June 2016 at 08:45, Mike Frysinger <vapier-aBrp7R+bbdUdnm+yROfE0A@public.gmane.org> wrote:
+> On 19 Jun 2016 16:46, Xose Vazquez Perez wrote:
+>> I'm using: groff -z -b -wall manpage.x
+>
+> seems like something we could add to `make check`
+
+What's the advantage over the existing "man --warnings" check in the
+"check-groff-warnings" target?
+
+I see that the groff check above throws some warnings on pages that
+aren't shown by "man --warnings":
+
+==> "warning: invalid input character code" for Unicode input characters
+==> "warning: indent cannot be negative" where I use ".in -4" in my
+    feature test macro descriptions
+
+But, I'm not sure that either of those warnings is helpful. Neither
+seems indicative of a real problem, but maybe I misunderstand
+something.
 
 Cheers,
 
 Michael
-
-> ---
->  man5/proc.5 | 2 +-
->  1 file changed, 1 insertion(+), 1 deletion(-)
->
-> diff --git a/man5/proc.5 b/man5/proc.5
-> index 351c33b..8fa4aa3 100644
-> --- a/man5/proc.5
-> +++ b/man5/proc.5
-> @@ -2359,7 +2359,7 @@ Until Linux 4.2, the presence of this file was governed by the
->  kernel configuration option.
->  Since Linux 4.2,
->  .\" commit 2e13ba54a2682eea24918b87ad3edf70c2cf085b
-> -it it is governed by the
-> +it is governed by the
->  .B CONFIG_PROC_CHILDREN
->  option.
->  .TP
->
-
 
 -- 
 Michael Kerrisk
