@@ -1,59 +1,52 @@
 From: "Michael Kerrisk (man-pages)" <mtk.manpages-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org>
-Subject: Re: [patch] fmemopen.3:
-Date: Thu, 11 Aug 2016 06:15:51 +1200
-Message-ID: <153c0320-eec1-e6a7-eff6-0cb524fae8e7@gmail.com>
-References: <trinity-da881baa-d26a-44b7-8330-067caefe6495-1470823527004@3capp-gmx-bs71>
+Subject: Re: [patch] resolver.3: correct arguments to res_ninit(res_state
+ statep)
+Date: Thu, 11 Aug 2016 06:22:07 +1200
+Message-ID: <c52076aa-42f1-d655-5405-44995eb7a896@gmail.com>
+References: <4208e9bc-38c0-a17b-298f-bb6659d00138@isc.org>
 Mime-Version: 1.0
 Content-Type: text/plain; charset=utf-8; format=flowed
 Content-Transfer-Encoding: 7bit
 Return-path: <linux-man-owner-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>
-In-Reply-To: <trinity-da881baa-d26a-44b7-8330-067caefe6495-1470823527004@3capp-gmx-bs71>
+In-Reply-To: <4208e9bc-38c0-a17b-298f-bb6659d00138-2cKsPvgpMDY@public.gmane.org>
 Sender: linux-man-owner-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
-To: ralfg1-hi6Y0CQ0nG0@public.gmane.org
-Cc: mtk.manpages-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org, linux-man-u79uwXL29TY76Z2rM5mHXA@public.gmane.org, libc-alpha-9JcytcrH/bA+uJoB2kUjGw@public.gmane.org
+To: Ray Bellis <ray-2cKsPvgpMDY@public.gmane.org>
+Cc: mtk.manpages-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org, linux-man-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
 List-Id: linux-man@vger.kernel.org
 
-Hello Ralf,
+Hello Ray,
 
-On 08/10/2016 10:05 PM, ralfg1-hi6Y0CQ0nG0@public.gmane.org wrote:
-> fmemopen(3), release 4.07 of the Linux /man-pages/ project
-> The manpage suggests to use buf itself as IO-buffer:
-> setbuffer(stream,buf,size);.  It seems strange at least. In versions glibc 2.24
-> it also results in incorrect behavior, see
-> http://stackoverflow.com/questions/38854163/using-rewind-on-a-file-opened-with-fmemopen.
-> Thus I believe, the suggested code is invalid and I suggest to delete the
-> corresponding sentence from the manpage. Should be cross-checked by some glibc
-> developer.
-> Best regards
+On 08/10/2016 10:24 PM, Ray Bellis wrote:
+> The man page for res_ninit() incorrectly says that it takes no
+> parameters, when in fact (and indeed according to the same page further
+> down) it has to take a res_state parameter.
 
-Thanks for the patch. Rich Felker already reported this issue to me, and I've
-already made the same change to the page.
+Thanks for the patch! Applied.
 
 Cheers,
 
 Michael
 
 
-> Ralfg1.
-> -------------------------------------------------------------------------------------------------------------
-> diff --git a/man3/fmemopen.3 b/man3/fmemopen.3
-> index b17b6af..5836603 100644
-> --- a/man3/fmemopen.3
-> +++ b/man3/fmemopen.3
-> @@ -137,13 +137,6 @@ Disabling buffering with the following call
->   may be useful to detect errors at the time of an output operation:
+> --8<--8<--
+> diff --git a/man3/resolver.3 b/man3/resolver.3
+> index a5cfd22..dc0519a 100644
+> --- a/man3/resolver.3
+> +++ b/man3/resolver.3
+> @@ -44,7 +44,7 @@ dn_comp, dn_expand \- resolver routines
+>  .B struct __res_state;
+>  .B typedef struct __res_state *res_state;
 >
->       setbuf(stream, NULL);
-> -
-> -Alternatively, the caller can explicitly set
-> -.I buf
-> -as the stdio stream buffer, at the same time informing stdio
-> -of the buffer's size, using:
-> -
-> -    setbuffer(stream, buf, size);
->   .\"
->   .\" See http://sourceware.org/bugzilla/show_bug.cgi?id=1995
->   .\" and
+> -.B int res_ninit(void);
+> +.BI "int res_ninit(res_state " statep );
+>
+>  .BI "int res_nquery(res_state " statep ,
+>  .BI "           const char *" dname ", int " class ", int " type ,
+> --8<--8<--
+>
+> kind regards,
+>
+> Ray Bellis
 >
 
 
