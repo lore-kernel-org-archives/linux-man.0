@@ -1,45 +1,62 @@
 From: Vegard Nossum <vegard.nossum-QHcLZuEGTsvQT0dZR+AlfA@public.gmane.org>
-Subject: [PATCH 1/2] pipe.2: mention fcntl and F_GETPIPE_SZ/F_SETPIPE_SZ
-Date: Fri, 12 Aug 2016 17:35:11 +0200
-Message-ID: <1471016112-18025-1-git-send-email-vegard.nossum@oracle.com>
+Subject: [PATCH 2/2] pipe.2: document sysctls
+Date: Fri, 12 Aug 2016 17:35:12 +0200
+Message-ID: <1471016112-18025-2-git-send-email-vegard.nossum@oracle.com>
+References: <1471016112-18025-1-git-send-email-vegard.nossum@oracle.com>
 Return-path: <linux-man-owner-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>
+In-Reply-To: <1471016112-18025-1-git-send-email-vegard.nossum-QHcLZuEGTsvQT0dZR+AlfA@public.gmane.org>
 Sender: linux-man-owner-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
 To: Michael Kerrisk <mtk.manpages-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org>
-Cc: linux-man-u79uwXL29TY76Z2rM5mHXA@public.gmane.org, Vegard Nossum <vegard.nossum-QHcLZuEGTsvQT0dZR+AlfA@public.gmane.org>
+Cc: linux-man-u79uwXL29TY76Z2rM5mHXA@public.gmane.org, Vegard Nossum <vegard.nossum-QHcLZuEGTsvQT0dZR+AlfA@public.gmane.org>, Willy Tarreau <w@1wt.eu>, Jens Axboe <jens.axboe-QHcLZuEGTsvQT0dZR+AlfA@public.gmane.org>
 List-Id: linux-man@vger.kernel.org
 
+Cc: Willy Tarreau <w@1wt.eu>
+Cc: Jens Axboe <jens.axboe-QHcLZuEGTsvQT0dZR+AlfA@public.gmane.org>
 Signed-off-by: Vegard Nossum <vegard.nossum-QHcLZuEGTsvQT0dZR+AlfA@public.gmane.org>
 ---
- man2/pipe.2 | 9 +++++++++
- 1 file changed, 9 insertions(+)
+ man2/pipe.2 | 29 +++++++++++++++++++++++++++++
+ 1 file changed, 29 insertions(+)
 
 diff --git man2/pipe.2 man2/pipe.2
-index 88835ca..e817ba9 100644
+index e817ba9..ecf2f34 100644
 --- man2/pipe.2
 +++ man2/pipe.2
-@@ -130,6 +130,14 @@ file status flag on the two new open file descriptions.
- Using this flag saves extra calls to
- .BR fcntl (2)
- to achieve the same result.
-+.P
-+On Linux, the size of the pipe buffer can be obtained or changed using
-+.B F_GETPIPE_SZ
+@@ -184,6 +184,35 @@ POSIX.1-2001, POSIX.1-2008.
+ 
+ .BR pipe2 ()
+ is Linux-specific.
++
++.SH FILES
++On Linux, the following files control how much memory can be used for pipes:
++.SS /proc/sys/fs/pipe-max-pages " (since Linux 2.6.34)"
++.\" commit b492e95be0ae672922f4734acf3f5d35c30be948
++Deprecated since Linux 2.6.35.
++.SS /proc/sys/fs/pipe-max-size " (since Linux 2.6.35)"
++.\" commit ff9da691c0498ff81fdd014e7a0731dab2337dac
++The maximum size (in bytes) of individual pipes created or set by users
++without the
++.B CAP_SYS_RESOURCE
++capability.
++.SS /proc/sys/fs/pipe-user-pages-hard " (since Linux 4.4)"
++.\" commit 759c01142a5d0f364a462346168a56de28a80f52
++The combined maximum size (in pages) of all pipes created or set by a
++single user without both the
++.B CAP_SYS_RESOURCE
 +and
-+.B F_SETPIPE_SZ;
-+see
-+.BR fcntl (2)
-+for more information.
- .SH RETURN VALUE
- On success, zero is returned.
- On error, \-1 is returned, and
-@@ -244,6 +252,7 @@ main(int argc, char *argv[])
- }
- .fi
- .SH SEE ALSO
-+.BR fcntl (2),
- .BR fork (2),
- .BR read (2),
- .BR socketpair (2),
++.B CAP_SYS_ADMIN
++capabilities.
++.SS /proc/sys/fs/pipe-user-pages-soft " (since Linux 4.4)"
++.\" commit 759c01142a5d0f364a462346168a56de28a80f52
++The combined size (in pages) of all pipes created or set by a single
++user (without both the
++.B CAP_SYS_RESOURCE
++and
++.B CAP_SYS_ADMIN
++capabilities) after which individual pipes will be limited to 1 page.
++
+ .SH EXAMPLE
+ .\" fork.2 refers to this example program.
+ The following program creates a pipe, and then
 -- 
 1.9.1
 
