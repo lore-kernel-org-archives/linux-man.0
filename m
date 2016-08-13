@@ -1,64 +1,137 @@
-From: Cyrill Gorcunov <gorcunov-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org>
-Subject: Re: [PATCH] proc.5: document /proc/[pid]/task/[tid]/children
-Date: Sun, 14 Aug 2016 11:40:26 +0300
-Message-ID: <20160814084026.GA1857@uranus.lan>
-References: <1470097536-17377-1-git-send-email-jann@thejh.net>
- <b97bbf47-1180-0d32-ba08-1482020cc883@gmail.com>
- <20160803225254.GA14948@pc.thejh.net>
+From: "Michael Kerrisk (man-pages)" <mtk.manpages-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org>
+Subject: Re: [PATCH 2/2] pipe.2: document sysctls
+Date: Sun, 14 Aug 2016 11:43:31 +1200
+Message-ID: <c33c5ede-5a65-aa96-9c12-87126d4353d2@gmail.com>
+References: <1471016112-18025-1-git-send-email-vegard.nossum@oracle.com>
+ <1471016112-18025-2-git-send-email-vegard.nossum@oracle.com>
+ <908c5c9e-f4b0-b274-e124-e5b7b505fde6@gmail.com>
 Mime-Version: 1.0
-Content-Type: text/plain; charset=utf-8
+Content-Type: text/plain; charset=utf-8; format=flowed
 Content-Transfer-Encoding: 8bit
 Return-path: <linux-man-owner-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>
-Content-Disposition: inline
-In-Reply-To: <20160803225254.GA14948-J1fxOzX/cBvk1uMJSBkQmQ@public.gmane.org>
+In-Reply-To: <908c5c9e-f4b0-b274-e124-e5b7b505fde6-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org>
 Sender: linux-man-owner-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
-To: Jann Horn <jann-XZ1E9jl8jIdeoWH0uzbU5w@public.gmane.org>
-Cc: "Michael Kerrisk (man-pages)" <mtk.manpages-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org>, linux-man-u79uwXL29TY76Z2rM5mHXA@public.gmane.org, Iago =?iso-8859-1?Q?L=F3pez?= Galeiras <iago-973cpzSjLbNWk0Htik3J/w@public.gmane.org>
+To: Vegard Nossum <vegard.nossum-QHcLZuEGTsvQT0dZR+AlfA@public.gmane.org>
+Cc: mtk.manpages-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org, linux-man-u79uwXL29TY76Z2rM5mHXA@public.gmane.org, Willy Tarreau <w@1wt.eu>, Jens Axboe <axboe-b10kYP2dOMg@public.gmane.org>
 List-Id: linux-man@vger.kernel.org
 
-On Thu, Aug 04, 2016 at 12:52:54AM +0200, Jann Horn wrote:
-...
-> > 
-> > Thanks for this! I tweaked your text somewhat, and added some
-> > details about kernel configuration options, so that now the text
-> > reads:
-> > 
-> >        /proc/[pid]/task/[tid]/children (since Linux 3.5)
-> >               A  space-separated  list  of child tasks of this task.
-> >               Each child task is represented by its TID.
-> > 
-> >               This option is intended for  use  by  the  checkpoint-
-> >               restore (CRIU) system, and reliably provides a list of
-> >               children only  if  all  of  the  child  processes  are
-> >               stopped or frozen.  It does not work properly if chil‐
-> >               dren of the target task exit while the file  is  being
-> >               read!  Exiting children may cause non-exiting children
-> >               to be omitted from the list.  This makes  this  inter‐
-> >               face  even  more  unreliable  than  classic  PID-based
-> >               approaches if the  inspected  task  and  its  children
-> >               aren't  frozen,  and most code should probably not use
-> >               this interface.
+[Adding a typo fix, and correct email for Jens]
 
-Hi! First of all, sorry for delay. Guys, this is not really true. The same
-applies to plain "ls /proc". You can fetch pid from the procfs and then
-process get dead just right after you've finished reading. So this interface
-works "properly" all the time, but if one needs precise results it should
-stop/freeze processes first. In contrary I think it worth switching into
-children interface in user-space programs because it incredibly fast.
+On 08/14/2016 11:13 AM, Michael Kerrisk (man-pages) wrote:
+> Hello Vegard,
+>
+> On 08/13/2016 03:35 AM, Vegard Nossum wrote:
+>> Cc: Willy Tarreau <w@1wt.eu>
+>> Cc: Jens Axboe <jens.axboe-QHcLZuEGTsvQT0dZR+AlfA@public.gmane.org>
+>> Signed-off-by: Vegard Nossum <vegard.nossum-QHcLZuEGTsvQT0dZR+AlfA@public.gmane.org>
+>> ---
+>>  man2/pipe.2 | 29 +++++++++++++++++++++++++++++
+>>  1 file changed, 29 insertions(+)
+>> diff --git man2/pipe.2 man2/pipe.2
+>> index e817ba9..ecf2f34 100644
+>> --- man2/pipe.2
+>> +++ man2/pipe.2
+>> @@ -184,6 +184,35 @@ POSIX.1-2001, POSIX.1-2008.
+>>
+>>  .BR pipe2 ()
+>>  is Linux-specific.
+>> +
+>> +.SH FILES
+>> +On Linux, the following files control how much memory can be used for pipes:
+>> +.SS /proc/sys/fs/pipe-max-pages " (since Linux 2.6.34)"
+>> +.\" commit b492e95be0ae672922f4734acf3f5d35c30be948
+>> +Deprecated since Linux 2.6.35.
+>> +.SS /proc/sys/fs/pipe-max-size " (since Linux 2.6.35)"
+>> +.\" commit ff9da691c0498ff81fdd014e7a0731dab2337dac
+>> +The maximum size (in bytes) of individual pipes created or set by users
+>> +without the
+>> +.B CAP_SYS_RESOURCE
+>> +capability.
+>> +.SS /proc/sys/fs/pipe-user-pages-hard " (since Linux 4.4)"
+>> +.\" commit 759c01142a5d0f364a462346168a56de28a80f52
+>> +The combined maximum size (in pages) of all pipes created or set by a
+>> +single user without both the
+>> +.B CAP_SYS_RESOURCE
+>> +and
+>> +.B CAP_SYS_ADMIN
+>> +capabilities.
+>> +.SS /proc/sys/fs/pipe-user-pages-soft " (since Linux 4.4)"
+>> +.\" commit 759c01142a5d0f364a462346168a56de28a80f52
+>> +The combined size (in pages) of all pipes created or set by a single
+>> +user (without both the
+>> +.B CAP_SYS_RESOURCE
+>> +and
+>> +.B CAP_SYS_ADMIN
+>> +capabilities) after which individual pipes will be limited to 1 page.
+>> +
+>>  .SH EXAMPLE
+>>  .\" fork.2 refers to this example program.
+>>  The following program creates a pipe, and then
+>
+> Thanks. I've added this text to pipe(7) (rather than pipe(2)), and
+> expanded it considerably:
+>
+>     /proc files
+>         On  Linux, the following files control how much memory can be used
+>         for pipes:
+>
+>         /proc/sys/fs/pipe-max-pages (only in Linux 2.6.34)
+>                An upper limit, in pages, on the capacity that an  unprivi‐
+>                leged  user  (one without the CAP_SYS_ADMIN capability) can
 
-> > 
-> >               Until Linux 4.2, the presence of this  file  was  gov‐
-> >               erned by the CONFIG_CHECKPOINT_RESTORE kernel configu‐
-> >               ration option.  Since Linux 4.2, it it is governed  by
-> >               the CONFIG_PROC_CHILDREN option.
-> > 
-> > Look okay?
-> 
-> Looks good to me.
+s/CAP_SYS_ADMIN/CAP_SYS_RESOURCE/
+(Along the way, I injected that as a typo.)
+
+>                set for a pipe.  The default value for  this  limit  is  16
+>                times  the  default  pipe  capacity  (see above); the lower
+>                limit is two pages.  This interface was  removed  in  Linux
+>                2.6.35, in favor of /proc/sys/fs/pipe-max-size.
+>
+>         /proc/sys/fs/pipe-max-size (since Linux 2.6.35)
+>                The  maximum size (in bytes) of individual pipes created or
+>                set by users without the CAP_SYS_RESOURCE capability.   The
+>                default  value for this file is 1048576.  Attempts to set a
+>                limit less than the page size cause write(2) to  fail  with
+>                the error EINVAL.
+>
+>         /proc/sys/fs/pipe-user-pages-hard (since Linux 4.5)
+>                The  hard  limit  on the total size (in pages) of all pipes
+>                created or set by a single  unprivileged  user  (i.e.,  one
+>                with  neither  the  CAP_SYS_RESOURCE  nor the CAP_SYS_ADMIN
+>                capability).  So long as the total number  of  pages  allo‐
+>                cated  to  pipe  buffers  for  this  user is at this limit,
+>                attempts to create new pipes will be denied,  and  attempts
+>                to increase a pipe's capacity will be denied.
+>
+>                When  the  value  of  this  limit  is  zero  (which  is the
+>                default), no hard limit is applied.
+>
+>         /proc/sys/fs/pipe-user-pages-soft (since Linux 4.5)
+>                The soft limit on the total size (in pages)  of  all  pipes
+>                created or set by a single unprivileged user (.e., one with
+>                neither the CAP_SYS_RESOURCE nor the CAP_SYS_ADMIN capabil‐
+>                ity).   So  long  as the total number of pages allocated to
+>                pipe buffers for this user is  at  this  limit,  individual
+>                pipes  created  by  a user will be limited to one page, and
+>                attempts to increase a pipe's capacity will be denied.
+>
+>                When the value of this limit is  zero,  no  soft  limit  is
+>                applied.   The  default value for this file is 16384, which
+>                permits creating up to 1024 pipes with the  default  capac‐
+>                ity.
+>
+> How does the above seem?
+
+Cheers,
+
+Michael
 
 
 
-	Cyrill
+-- 
+Michael Kerrisk
+Linux man-pages maintainer; http://www.kernel.org/doc/man-pages/
+Linux/UNIX System Programming Training: http://man7.org/training/
 --
 To unsubscribe from this list: send the line "unsubscribe linux-man" in
 the body of a message to majordomo-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
