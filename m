@@ -1,7 +1,7 @@
-From: "Michael Kerrisk (man-pages)" <mtk.manpages-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org>
+From: Vegard Nossum <vegard.nossum-QHcLZuEGTsvQT0dZR+AlfA@public.gmane.org>
 Subject: Re: [PATCH 2/2] pipe.2: document sysctls
-Date: Sun, 14 Aug 2016 11:43:31 +1200
-Message-ID: <c33c5ede-5a65-aa96-9c12-87126d4353d2@gmail.com>
+Date: Sun, 14 Aug 2016 09:41:28 +0200
+Message-ID: <57B020A8.7070501@oracle.com>
 References: <1471016112-18025-1-git-send-email-vegard.nossum@oracle.com>
  <1471016112-18025-2-git-send-email-vegard.nossum@oracle.com>
  <908c5c9e-f4b0-b274-e124-e5b7b505fde6@gmail.com>
@@ -11,65 +11,17 @@ Content-Transfer-Encoding: 8bit
 Return-path: <linux-man-owner-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>
 In-Reply-To: <908c5c9e-f4b0-b274-e124-e5b7b505fde6-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org>
 Sender: linux-man-owner-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
-To: Vegard Nossum <vegard.nossum-QHcLZuEGTsvQT0dZR+AlfA@public.gmane.org>
-Cc: mtk.manpages-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org, linux-man-u79uwXL29TY76Z2rM5mHXA@public.gmane.org, Willy Tarreau <w@1wt.eu>, Jens Axboe <axboe-b10kYP2dOMg@public.gmane.org>
+To: "Michael Kerrisk (man-pages)" <mtk.manpages-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org>
+Cc: linux-man-u79uwXL29TY76Z2rM5mHXA@public.gmane.org, Willy Tarreau <w@1wt.eu>, Jens Axboe <axboe-b10kYP2dOMg@public.gmane.org>
 List-Id: linux-man@vger.kernel.org
 
-[Adding a typo fix, and correct email for Jens]
-
-On 08/14/2016 11:13 AM, Michael Kerrisk (man-pages) wrote:
-> Hello Vegard,
->
-> On 08/13/2016 03:35 AM, Vegard Nossum wrote:
->> Cc: Willy Tarreau <w@1wt.eu>
->> Cc: Jens Axboe <jens.axboe-QHcLZuEGTsvQT0dZR+AlfA@public.gmane.org>
->> Signed-off-by: Vegard Nossum <vegard.nossum-QHcLZuEGTsvQT0dZR+AlfA@public.gmane.org>
->> ---
->>  man2/pipe.2 | 29 +++++++++++++++++++++++++++++
->>  1 file changed, 29 insertions(+)
->> diff --git man2/pipe.2 man2/pipe.2
->> index e817ba9..ecf2f34 100644
->> --- man2/pipe.2
->> +++ man2/pipe.2
->> @@ -184,6 +184,35 @@ POSIX.1-2001, POSIX.1-2008.
->>
->>  .BR pipe2 ()
->>  is Linux-specific.
->> +
->> +.SH FILES
->> +On Linux, the following files control how much memory can be used for pipes:
->> +.SS /proc/sys/fs/pipe-max-pages " (since Linux 2.6.34)"
->> +.\" commit b492e95be0ae672922f4734acf3f5d35c30be948
->> +Deprecated since Linux 2.6.35.
->> +.SS /proc/sys/fs/pipe-max-size " (since Linux 2.6.35)"
->> +.\" commit ff9da691c0498ff81fdd014e7a0731dab2337dac
->> +The maximum size (in bytes) of individual pipes created or set by users
->> +without the
->> +.B CAP_SYS_RESOURCE
->> +capability.
->> +.SS /proc/sys/fs/pipe-user-pages-hard " (since Linux 4.4)"
->> +.\" commit 759c01142a5d0f364a462346168a56de28a80f52
->> +The combined maximum size (in pages) of all pipes created or set by a
->> +single user without both the
->> +.B CAP_SYS_RESOURCE
->> +and
->> +.B CAP_SYS_ADMIN
->> +capabilities.
->> +.SS /proc/sys/fs/pipe-user-pages-soft " (since Linux 4.4)"
->> +.\" commit 759c01142a5d0f364a462346168a56de28a80f52
->> +The combined size (in pages) of all pipes created or set by a single
->> +user (without both the
->> +.B CAP_SYS_RESOURCE
->> +and
->> +.B CAP_SYS_ADMIN
->> +capabilities) after which individual pipes will be limited to 1 page.
->> +
->>  .SH EXAMPLE
->>  .\" fork.2 refers to this example program.
->>  The following program creates a pipe, and then
+On 08/14/2016 01:13 AM, Michael Kerrisk (man-pages) wrote:
 >
 > Thanks. I've added this text to pipe(7) (rather than pipe(2)), and
 > expanded it considerably:
+
+Good idea!
+
 >
 >     /proc files
 >         On  Linux, the following files control how much memory can be used
@@ -77,11 +29,7 @@ On 08/14/2016 11:13 AM, Michael Kerrisk (man-pages) wrote:
 >
 >         /proc/sys/fs/pipe-max-pages (only in Linux 2.6.34)
 >                An upper limit, in pages, on the capacity that an  unprivi‐
->                leged  user  (one without the CAP_SYS_ADMIN capability) can
-
-s/CAP_SYS_ADMIN/CAP_SYS_RESOURCE/
-(Along the way, I injected that as a typo.)
-
+>                leged  user  (one without the CAP_SYS_RESOURCE capability) can
 >                set for a pipe.  The default value for  this  limit  is  16
 >                times  the  default  pipe  capacity  (see above); the lower
 >                limit is two pages.  This interface was  removed  in  Linux
@@ -89,10 +37,19 @@ s/CAP_SYS_ADMIN/CAP_SYS_RESOURCE/
 >
 >         /proc/sys/fs/pipe-max-size (since Linux 2.6.35)
 >                The  maximum size (in bytes) of individual pipes created or
+
+I think I had a mistake in my original text because this limit is not
+checked at creation time (the default pipe size, PIPE_DEF_BUFFERS, is
+used even when it is greater than pipe-max-size), so maybe we can take
+out the "created or".
+
 >                set by users without the CAP_SYS_RESOURCE capability.   The
 >                default  value for this file is 1048576.  Attempts to set a
 >                limit less than the page size cause write(2) to  fail  with
 >                the error EINVAL.
+
+Maybe add in a paranthesis that 1048576 is 1 MiB?
+
 >
 >         /proc/sys/fs/pipe-user-pages-hard (since Linux 4.5)
 >                The  hard  limit  on the total size (in pages) of all pipes
@@ -122,16 +79,10 @@ s/CAP_SYS_ADMIN/CAP_SYS_RESOURCE/
 >
 > How does the above seem?
 
-Cheers,
-
-Michael
+It looks great, thanks for cleaning up my measly attempt.
 
 
-
--- 
-Michael Kerrisk
-Linux man-pages maintainer; http://www.kernel.org/doc/man-pages/
-Linux/UNIX System Programming Training: http://man7.org/training/
+Vegard
 --
 To unsubscribe from this list: send the line "unsubscribe linux-man" in
 the body of a message to majordomo-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
