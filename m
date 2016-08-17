@@ -1,112 +1,33 @@
-From: "Michael Kerrisk (man-pages)" <mtk.manpages-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org>
-Subject: Re: [PATCH 2/2] pipe.2: document sysctls
-Date: Wed, 17 Aug 2016 09:47:16 +1200
-Message-ID: <8ce97416-f1d4-777b-6913-a6c5349b7df9@gmail.com>
-References: <1471016112-18025-1-git-send-email-vegard.nossum@oracle.com>
- <1471016112-18025-2-git-send-email-vegard.nossum@oracle.com>
- <908c5c9e-f4b0-b274-e124-e5b7b505fde6@gmail.com>
- <57B020A8.7070501@oracle.com>
-Mime-Version: 1.0
-Content-Type: text/plain; charset=utf-8
-Content-Transfer-Encoding: 8bit
+From: David Turner <novalis-qEvXGNtQsBNAfugRpC6u6w@public.gmane.org>
+Subject: [PATCH] cpuset.7: tfix
+Date: Tue, 16 Aug 2016 22:55:25 -0400
+Message-ID: <1471402525-21666-1-git-send-email-novalis@novalis.org>
 Return-path: <linux-man-owner-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>
-In-Reply-To: <57B020A8.7070501-QHcLZuEGTsvQT0dZR+AlfA@public.gmane.org>
 Sender: linux-man-owner-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
-To: Vegard Nossum <vegard.nossum-QHcLZuEGTsvQT0dZR+AlfA@public.gmane.org>
-Cc: mtk.manpages-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org, linux-man-u79uwXL29TY76Z2rM5mHXA@public.gmane.org, Willy Tarreau <w@1wt.eu>, Jens Axboe <axboe-b10kYP2dOMg@public.gmane.org>
+To: mtk.manpages-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org
+Cc: David Turner <novalis-qEvXGNtQsBNAfugRpC6u6w@public.gmane.org>, linux-man-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
 List-Id: linux-man@vger.kernel.org
 
-Hello Vegard,
+---
+ man7/cpuset.7 | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
 
-On 08/14/2016 07:41 PM, Vegard Nossum wrote:
-> On 08/14/2016 01:13 AM, Michael Kerrisk (man-pages) wrote:
->>
->> Thanks. I've added this text to pipe(7) (rather than pipe(2)), and
->> expanded it considerably:
-> 
-> Good idea!
-> 
->>
->>     /proc files
->>         On  Linux, the following files control how much memory can be used
->>         for pipes:
->>
->>         /proc/sys/fs/pipe-max-pages (only in Linux 2.6.34)
->>                An upper limit, in pages, on the capacity that an  unprivi‐
->>                leged  user  (one without the CAP_SYS_RESOURCE capability) can
->>                set for a pipe.  The default value for  this  limit  is  16
->>                times  the  default  pipe  capacity  (see above); the lower
->>                limit is two pages.  This interface was  removed  in  Linux
->>                2.6.35, in favor of /proc/sys/fs/pipe-max-size.
->>
->>         /proc/sys/fs/pipe-max-size (since Linux 2.6.35)
->>                The  maximum size (in bytes) of individual pipes created or
-> 
-> I think I had a mistake in my original text because this limit is not
-> checked at creation time (the default pipe size, PIPE_DEF_BUFFERS, is
-> used even when it is greater than pipe-max-size), so maybe we can take
-> out the "created or".
-
-Hmmm -- that's true. It seems a little weird that one can create a pipe
-whose initial size exceeds pipe-max-size. Should we fix that in the kernel?
-(I can add a third patch to my series.) Setting pipe-max-size lower than
-PIPE_DEF_BUFFERS is an admittedly an odd set up, so maybe it's not worth
-changing the code(?).
-
-I removed the "created or".
-
->>                set by users without the CAP_SYS_RESOURCE capability.   The
->>                default  value for this file is 1048576.  Attempts to set a
->>                limit less than the page size cause write(2) to  fail  with
->>                the error EINVAL.
-> 
-> Maybe add in a paranthesis that 1048576 is 1 MiB?
-
-Done.
-
->>
->>         /proc/sys/fs/pipe-user-pages-hard (since Linux 4.5)
->>                The  hard  limit  on the total size (in pages) of all pipes
->>                created or set by a single  unprivileged  user  (i.e.,  one
->>                with  neither  the  CAP_SYS_RESOURCE  nor the CAP_SYS_ADMIN
->>                capability).  So long as the total number  of  pages  allo‐
->>                cated  to  pipe  buffers  for  this  user is at this limit,
->>                attempts to create new pipes will be denied,  and  attempts
->>                to increase a pipe's capacity will be denied.
->>
->>                When  the  value  of  this  limit  is  zero  (which  is the
->>                default), no hard limit is applied.
->>
->>         /proc/sys/fs/pipe-user-pages-soft (since Linux 4.5)
->>                The soft limit on the total size (in pages)  of  all  pipes
->>                created or set by a single unprivileged user (.e., one with
->>                neither the CAP_SYS_RESOURCE nor the CAP_SYS_ADMIN capabil‐
->>                ity).   So  long  as the total number of pages allocated to
->>                pipe buffers for this user is  at  this  limit,  individual
->>                pipes  created  by  a user will be limited to one page, and
->>                attempts to increase a pipe's capacity will be denied.
->>
->>                When the value of this limit is  zero,  no  soft  limit  is
->>                applied.   The  default value for this file is 16384, which
->>                permits creating up to 1024 pipes with the  default  capac‐
->>                ity.
->>
->> How does the above seem?
-> 
-> It looks great, thanks for cleaning up my measly attempt.
-
-No problem. Yet again, documenting the API well finds some interesting
-bugs ;-).
-
-Cheers,
-
-Michael
-
-
+diff --git a/man7/cpuset.7 b/man7/cpuset.7
+index c5cbf1d..6669816 100644
+--- a/man7/cpuset.7
++++ b/man7/cpuset.7
+@@ -48,7 +48,7 @@ on that system.
+ By default, if the cpuset configuration
+ on a system is not modified or if the cpuset filesystem
+ is not even mounted, then the cpuset mechanism,
+-though present, has no affect on the system's behavior.
++though present, has no effect on the system's behavior.
+ .PP
+ A cpuset defines a list of CPUs and memory nodes.
+ .PP
 -- 
-Michael Kerrisk
-Linux man-pages maintainer; http://www.kernel.org/doc/man-pages/
-Linux/UNIX System Programming Training: http://man7.org/training/
+2.8.0.rc4.22.g8ae061a
+
 --
 To unsubscribe from this list: send the line "unsubscribe linux-man" in
 the body of a message to majordomo-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
