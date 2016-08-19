@@ -1,7 +1,7 @@
-From: Ursache Vladimir <f35f22fan-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org>
-Subject: readlink() example sometimes fails
-Date: Thu, 18 Aug 2016 08:30:49 +0300
-Message-ID: <CAJbVpmwRAi1dEJw=zUtsJLE2RRMGtsjqBJk4x+_KsJGWnoRsMA@mail.gmail.com>
+From: Matthew Saunders <msaund05-DKaQ6Ef2ZpOd6fZ6bFEAhg@public.gmane.org>
+Subject: [patch] capabilities.7: Add note about nosuid to file capabilities section
+Date: Fri, 19 Aug 2016 16:36:52 -0400
+Message-ID: <CAL=YXq=OZh8XFqNULv1_6tH8cyTOHyX=1Jcra1HwHdXByEwsgQ@mail.gmail.com>
 Mime-Version: 1.0
 Content-Type: text/plain; charset=UTF-8
 Return-path: <linux-man-owner-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>
@@ -10,34 +10,44 @@ To: mtk.manpages-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org
 Cc: linux-man-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
 List-Id: linux-man@vger.kernel.org
 
- Hi,
-the readlink() example from:
+Issue: capabilities.7 does not mention nosuid
+Patch applies to version 4.07 or 4.08? (pulled from
+http://git.kernel.org/pub/scm/docs/man-pages/man-pages
+on 2016-08-19, the repo isn't clear if it contains the latest release
+or the in-progress next version.)
 
-http://man7.org/linux/man-pages/man2/readlink.2.html
+This patch is the result of my investigation/struggle documented at:
+http://stackoverflow.com/questions/38965819/file-capabilities-do-not-transfer-to-process-once-executed
+(and multiple other similar questions across the web which can be
+found by searching for "capabilities nosuid").
 
-relies on lstat()'s st_size, but that doesn't work for files contents
-created dynamically by the Linux kernel which often report a zero
-size, for example the link at:
-/sys/block/sda
+Relevant kernel code snippet at:
+https://github.com/torvalds/linux/blob/a867d7349e94b6409b08629886a819f802377e91/security/commoncap.c#L456
 
-the example code will fail because stat.st_size reports zero and you
-try to read (stat.st_size + 1) which will succeed, which will generate
-the error : "symlink increased in size between lstat() and
-readlink()".
+*****
+diff -u output below:
 
-Somewhat related, the same issue is true for reading regular text
-files, e.g: "/proc/filesystems" which will report stat.st_size = 0.
+--- ../man-pages/man7/capabilities.7 2016-08-19 15:51:40.683061817 -0400
++++ capabilities.7 2016-08-19 15:54:14.511732428 -0400
+@@ -804,6 +804,13 @@
+ then the effective flag must also be specified as enabled
+ for all other capabilities for which the corresponding permitted or
+ inheritable flags is enabled.
++.RE
++
++Note that file capability sets are ignored if the executable file
++is stored on a filesystem mounted
++.RB ( mount (2),
++.BR mount (8))
++with the nosuid option.
+ .\"
+ .SS Transformation of capabilities during execve()
+ .PP
 
-My quick workaround:
+*****
 
-if (stat.st_size != 0)
-    // work as usual
-else if (file_is_a_link)
-    // malloc 4K of ram and try to readlink() into it
-else if (is_regular_file)
-    // read() into a byte array that grows accordingly
-
-In case it matters, I'm using Ubuntu 16.04 amd64.
+Regards,
+Matt
 --
 To unsubscribe from this list: send the line "unsubscribe linux-man" in
 the body of a message to majordomo-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
