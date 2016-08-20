@@ -1,62 +1,112 @@
 From: "Michael Kerrisk (man-pages)" <mtk.manpages-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org>
-Subject: Re: [patch] capabilities.7: Add note about nosuid to file
- capabilities section
-Date: Sat, 20 Aug 2016 11:43:22 +1200
-Message-ID: <71518f5b-5b96-4f96-f393-6e755593db1a@gmail.com>
-References: <CAL=YXq=OZh8XFqNULv1_6tH8cyTOHyX=1Jcra1HwHdXByEwsgQ@mail.gmail.com>
+Subject: Re: readlink() example sometimes fails
+Date: Sat, 20 Aug 2016 15:32:41 +1200
+Message-ID: <28d2728c-e43c-dd90-3beb-fac899646ded@gmail.com>
+References: <CAJbVpmwRAi1dEJw=zUtsJLE2RRMGtsjqBJk4x+_KsJGWnoRsMA@mail.gmail.com>
 Mime-Version: 1.0
 Content-Type: text/plain; charset=utf-8
 Content-Transfer-Encoding: 7bit
 Return-path: <linux-man-owner-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>
-In-Reply-To: <CAL=YXq=OZh8XFqNULv1_6tH8cyTOHyX=1Jcra1HwHdXByEwsgQ-JsoAwUIsXosN+BqQ9rBEUg@public.gmane.org>
+In-Reply-To: <CAJbVpmwRAi1dEJw=zUtsJLE2RRMGtsjqBJk4x+_KsJGWnoRsMA-JsoAwUIsXosN+BqQ9rBEUg@public.gmane.org>
 Sender: linux-man-owner-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
-To: Matthew Saunders <msaund05-DKaQ6Ef2ZpOd6fZ6bFEAhg@public.gmane.org>
+To: Ursache Vladimir <f35f22fan-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org>
 Cc: mtk.manpages-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org, linux-man-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
 List-Id: linux-man@vger.kernel.org
 
-Hello Matthew,
+Hello Vladimir,
 
-On 08/20/2016 08:36 AM, Matthew Saunders wrote:
-> Issue: capabilities.7 does not mention nosuid
-> Patch applies to version 4.07 or 4.08? (pulled from
-> http://git.kernel.org/pub/scm/docs/man-pages/man-pages
-> on 2016-08-19, the repo isn't clear if it contains the latest release
-> or the in-progress next version.)
+On 08/18/2016 05:30 PM, Ursache Vladimir wrote:
+>  Hi,
+> the readlink() example from:
 > 
-> This patch is the result of my investigation/struggle documented at:
-> http://stackoverflow.com/questions/38965819/file-capabilities-do-not-transfer-to-process-once-executed
-> (and multiple other similar questions across the web which can be
-> found by searching for "capabilities nosuid").
+> http://man7.org/linux/man-pages/man2/readlink.2.html
 > 
-> Relevant kernel code snippet at:
-> https://github.com/torvalds/linux/blob/a867d7349e94b6409b08629886a819f802377e91/security/commoncap.c#L456
+> relies on lstat()'s st_size, but that doesn't work for files contents
+> created dynamically by the Linux kernel which often report a zero
+> size, for example the link at:
+> /sys/block/sda
 > 
-> *****
-> diff -u output below:
+> the example code will fail because stat.st_size reports zero and you
+> try to read (stat.st_size + 1) which will succeed, which will generate
+> the error : "symlink increased in size between lstat() and
+> readlink()".
+> 
+> Somewhat related, the same issue is true for reading regular text
+> files, e.g: "/proc/filesystems" which will report stat.st_size = 0.
+> 
+> My quick workaround:
+> 
+> if (stat.st_size != 0)
+>     // work as usual
+> else if (file_is_a_link)
+>     // malloc 4K of ram and try to readlink() into it
+> else if (is_regular_file)
+>     // read() into a byte array that grows accordingly
+> 
+> In case it matters, I'm using Ubuntu 16.04 amd64.
 
-(Minor nit: "git diff", or "git format-patch" generates a patch that is 
-a little easier to work with.)
+Thanks for this report. I agree that the page needs to be fixed.
+I modified the example program to be as follows:
 
-> 
-> --- ../man-pages/man7/capabilities.7 2016-08-19 15:51:40.683061817 -0400
-> +++ capabilities.7 2016-08-19 15:54:14.511732428 -0400
-> @@ -804,6 +804,13 @@
->  then the effective flag must also be specified as enabled
->  for all other capabilities for which the corresponding permitted or
->  inheritable flags is enabled.
-> +.RE
-> +
-> +Note that file capability sets are ignored if the executable file
-> +is stored on a filesystem mounted
-> +.RB ( mount (2),
-> +.BR mount (8))
-> +with the nosuid option.
->  .\"
->  .SS Transformation of capabilities during execve()
->  .PP
+#include <sys/types.h>
+#include <sys/stat.h>
+#include <limits.h>
+#include <stdio.h>
+#include <stdlib.h>
+#include <unistd.h>
 
-Thanks for that patch! The man page should already have said this :-(.
-Applied.
+int
+main(int argc, char *argv[])
+{
+    struct stat sb;
+    char *linkname;
+    ssize_t r, bufsiz;
+
+    if (argc != 2) {
+        fprintf(stderr, "Usage: %s <pathname>\n", argv[0]);
+        exit(EXIT_FAILURE);
+    }
+
+    if (lstat(argv[1], &sb) == -1) {
+        perror("lstat");
+        exit(EXIT_FAILURE);
+    }
+
+    bufsiz = sb.st_size + 1;
+
+    /* Some magic symlinks under (for example) /proc and /sys
+       report 'st_size' as zero. In that case, take PATH_MAX as
+       a "good enough" estimate */
+
+    if (sb.st_size == 0)
+	bufsiz = PATH_MAX;
+
+    printf("%zd\n", bufsiz);
+
+    linkname = malloc(bufsiz);
+    if (linkname == NULL) {
+        perror("malloc");
+        exit(EXIT_FAILURE);
+    }
+
+    r = readlink(argv[1], linkname, bufsiz);
+    if (r == -1) {
+        perror("readlink");
+        exit(EXIT_FAILURE);
+    }
+
+    linkname[r] = '\0';
+
+    printf("'%s' points to '%s'\n", argv[1], linkname);
+
+    if (r == bufsiz)
+        printf("(Returned buffer may have been truncated)\n");
+
+    free(linkname);
+    exit(EXIT_SUCCESS);
+}
+
+Seem okay?
 
 Cheers,
 
