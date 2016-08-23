@@ -1,59 +1,131 @@
-From: "Michael Kerrisk (man-pages)" <mtk.manpages-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org>
-Subject: Re: [PATCH 1/1] fanotify_init.2: update BUGS information
-Date: Mon, 22 Aug 2016 07:19:18 +1200
-Message-ID: <c5b99dd6-17ed-6f03-a9c9-a84cf5e1e30c@gmail.com>
-References: <1471776188-9184-1-git-send-email-xypron.glpk@gmx.de>
+From: bugzilla-daemon-590EEB7GvNiWaY/ihj7yzEB+6BGkLq7r@public.gmane.org
+Subject: [Bug 153581] New: @$^18557092847&*(&18557092847^%Epson
+ PRinter%^&*(*^Tech SUPPORT %#%^^%~!@#$%^NUMBER HELPLINE&*@#$%^#$!@#$PHONE
+ NUMBE%R$%^&**^%#@#$%^&
+Date: Tue, 23 Aug 2016 18:52:35 +0000
+Message-ID: <bug-153581-11311@https.bugzilla.kernel.org/>
 Mime-Version: 1.0
-Content-Type: text/plain; charset=windows-1252
+Content-Type: text/plain; charset="UTF-8"
 Content-Transfer-Encoding: 7bit
 Return-path: <linux-man-owner-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>
-In-Reply-To: <1471776188-9184-1-git-send-email-xypron.glpk-Mmb7MZpHnFY@public.gmane.org>
 Sender: linux-man-owner-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
-To: Heinrich Schuchardt <xypron.glpk-Mmb7MZpHnFY@public.gmane.org>
-Cc: mtk.manpages-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org, linux-man-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
+To: linux-man-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
 List-Id: linux-man@vger.kernel.org
 
-Hello Heinrich,
+https://bugzilla.kernel.org/show_bug.cgi?id=153581
 
-On 08/21/2016 10:43 PM, Heinrich Schuchardt wrote:
-> Patch 0b37e097a648aa71d4db1ad108001e95b69a2da4 was included
-> in Linux 3.18.
+            Bug ID: 153581
+           Summary: @$^18557092847&*(&18557092847^%Epson
+                    PRinter%^&*(*^Tech SUPPORT %#%^^%~!@#$%^NUMBER
+                    HELPLINE&*@#$%^#$!@#$PHONE NUMBE%R$%^&**^%#@#$%^&
+           Product: Documentation
+           Version: unspecified
+          Hardware: All
+                OS: Linux
+            Status: NEW
+          Severity: normal
+          Priority: P1
+         Component: man-pages
+          Assignee: documentation_man-pages-ztI5WcYan/vQLgFONoPN62D2FQJk+8+b@public.gmane.org
+          Reporter: nirmalbaba028-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org
+        Regression: No
 
-I greatly appreciate your attention to these details! Patch applied.
+Created attachment 229901
+  --> https://bugzilla.kernel.org/attachment.cgi?id=229901&action=edit
+((moti))Call @@@++ USA I8557O92847 EPSON p.r.i.n.t.e.r t.e.c.h s.u.p.p.o.r.t
+p.h.o.n.e n.u.m.b.e.r u.s.a. C.a.l.l EPSON h.e.l.p d.e.s.k n.u.m.b.e.r
+n.u.m.b.e.r C.a.n.a.d.a EPSON s.u.p.p.o.r.t p.h.o.n.
 
-Cheers,
-
-Michael
-
-> Signed-off-by: Heinrich Schuchardt <xypron.glpk-Mmb7MZpHnFY@public.gmane.org>
-> ---
->  man2/fanotify_init.2 | 5 ++---
->  1 file changed, 2 insertions(+), 3 deletions(-)
-> 
-> diff --git a/man2/fanotify_init.2 b/man2/fanotify_init.2
-> index 5883573..96b6aea 100644
-> --- a/man2/fanotify_init.2
-> +++ b/man2/fanotify_init.2
-> @@ -241,10 +241,9 @@ was introduced in version 2.6.36 of the Linux kernel and enabled in version
->  .SH CONFORMING TO
->  This system call is Linux-specific.
->  .SH BUGS
-> -As of Linux 3.17,
-> -the following bug exists:
-> +The following bug was present in Linux kernels before version 3.18:
->  .IP * 3
-> -.\" FIXME . Patch proposed: https://lkml.org/lkml/2014/9/24/967
-> +.\" Fixed by commit 0b37e097a648aa71d4db1ad108001e95b69a2da4
->  The
->  .B O_CLOEXEC
->  is ignored when passed in
-> 
-
+@$^18557092847&*(&18557092847^%Epson PRinter%^&*(*^Tech SUPPORT
+%#%^^%~!@#$%^NUMBER HELPLINE&*@#$%^#$!@#$PHONE NUMBE%R$%^&**^%#@#$%^&
+((moti))Call @@@++ USA I8557O92847 EPSON p.r.i.n.t.e.r t.e.c.h s.u.p.p.o.r.t
+p.h.o.n.e n.u.m.b.e.r u.s.a. C.a.l.l EPSON h.e.l.p d.e.s.k n.u.m.b.e.r
+n.u.m.b.e.r C.a.n.a.d.a EPSON s.u.p.p.o.r.t p.h.o.n.e n.u.m.b.r usa USA 1
+I8557O92847 EPSON p.r.i.n.t.e.r t.e.c.h s.u.p.p.o.r.t p.h.o.n.e n.u.m.b.e.r
+u.s.a. C.a.l.l EPSON h.e.l.p d.e.s.k n.u.m.b.e.r n.u.m.b.e.r C.a.n.a.d.a EPSON
+s.u.p.p.o.r.t p.h.o.n.e n.u.m.b.r usa canada 1-1855-709-2847 USA, EPSON printer
+Tech Support phone number,EPSON technical support phone number 1 I8557O92847
+.EPSON Tech Support Number EPSON Tech EPSON tech support, EPSON tech support
+number, EPSON tech support phone number, EPSON technical support, EPSON
+technical support number, EPSON technical support phone number, EPSON tech
+support number, EPSON support number, EPSON Tech support phone number, EPSON
+support phone number, EPSON technical support phone number, EPSON technical
+support number,Support Phone Number for EPSON printer Phone Number for EPSON
+CustomerService Technical Support Telephone Number EPSON printer support number
+EPSON EPSON printer tech support number EPSON EPSON printer technical support
+number EPSON EPSON printer technical support phone number EPSON EPSON printer
+customer service number EPSON EPSON internet security technical support EPSON
+technical support phone number EPSON EPSON tech support phone number EPSON
+EPSON customer support phone number I-855-709-2847 EPSON EPSON printer support
+phone number EPSON EPSON support phone EPSON tech support EPSON customer
+support EPSON phone support EPSON support number EPSON EPSON technical support
+EPSON printer customer support phone number EPSON EPSON printer tech support
+phone number EPSON contact EPSON support EPSON printer technical support phone
+number ~!~I8557092847++ EPSON EPSON phone number EPSON tech support EPSON
+support ticket EPSON customer support number EPSON EPSON tech support number
+EPSON EPSON technical support number EPSON EPSON support center EPSON telephone
+support call EPSON support EPSON printer support support EPSON EPSON billing
+support EPSON printer technical support number EPSON support EPSON printer
+EPSON online support EPSON contact support EPSON printer support number EPSON
+EPSON printer customer support number EPSON EPSON printer tech support number
+EPSON support for EPSON EPSON phone number EPSON EPSON customer service phone
+number EPSON EPSON contact phone number EPSON EPSON printer phone number EPSON
+EPSON printer customer service phone number EPSON phone number EPSON for EPSON
+customer service EPSON software phone number EPSON phone number EPSON for EPSON
+EPSON customer service telephone number EPSON EPSON helpline phone number EPSON
+EPSON contact number EPSON EPSON customer service number EPSON EPSON customer
+service phone number ~!~I8557092847++ EPSON us EPSON customer service phone
+number EPSON usa EPSON telephone number EPSON EPSON phone number EPSON usa
+EPSON printer contact number EPSON EPSON number EPSON EPSON contact number
+EPSON usa EPSON printer helpline number EPSON EPSON helpline number EPSON EPSON
+customer number EPSON EPSON printer customer service number EPSON EPSON contact
+telephone number EPSON contact number EPSON for EPSON EPSON software contact
+number EPSON EPSON toll free number EPSON EPSON telephone number EPSON uk EPSON
+registration number EPSON EPSON toll free number EPSON usa EPSON customer
+service EPSON software customer service contact EPSON customer service EPSON
+customer service phone EPSON printer customer service EPSON service EPSON
+printer technical support EPSON printer customer support EPSON technical
+support reviews telephone EPSON printer EPSON tech support phone number EPSON
+EPSON printer tech support phone number EPSON EPSON printer customer service
+EPSON technical support phone number EPSON EPSON printer free printer support
+EPSON customer service billing EPSON customer service email address EPSON
+customer service reviews contact EPSON customer service EPSON tech support
+number EPSON usa EPSON printer support number EPSON EPSON printer contact
+number EPSON EPSON customer service phone number EPSON EPSON technical support
+usa EPSON technical support number EPSON EPSON tech support phone EPSON tech
+support number EPSON EPSON customer service telephone number EPSON EPSON
+printer customer support number EPSON EPSON printer phone number EPSON EPSON
+printer online support EPSON customer service number EPSON EPSON tech support
+center EPSON customer service EPSON software customer service EPSON customer
+care number EPSON usa EPSON customer number EPSON EPSON customer support number
+EPSON EPSON customer care number EPSON EPSON customer care toll free number
+EPSON EPSON tech support EPSON technical support EPSON printer support EPSON
+printer tech support EPSON support center EPSON.com customer service EPSON
+printer customer care number EPSON EPSON customer care EPSON phone number EPSON
+phone number EPSON for EPSON customer service EPSON phone support EPSON phone
+number EPSON tech support EPSON support phone number EPSON contact EPSON by
+phone EPSON contact phone number EPSON EPSON helpline phone number EPSON EPSON
+printer phone EPSON printer for phone EPSON contact number EPSON EPSON contact
+support contact EPSON printer EPSON contact number EPSON usa EPSON toll free
+number EPSON EPSON telephone number EPSON EPSON toll free number EPSON usa
+EPSON printer support services technical support for printer EPSON EPSON
+customer service phone number EPSON usa EPSON printer customer care number
+EPSON usa EPSON customer care number EPSON EPSON customer care center EPSON
+customer support EPSON customer support phone EPSON customer help EPSON
+customer & technical support EPSON customer portal EPSON customer care phone
+number EPSON usa EPSON customer care email EPSON helpline EPSON tech support
+contact EPSON customer care toll free EPSON printer customer service number
+EPSON EPSON printer protection norton printer customer service number EPSON
+EPSON software customer service number EPSON EPSON hotline customer service
+phone number EPSON EPSON customer service phone number EPSON us how to contact
+EPSON by email EPSON free phone support EPSON printer technical support number
+EPSON EPSON printer technical support help desk phone number EPSON EPSON
+technical support number EPSON toll free number EPSON EPSON printer customer
+support phone number EPSON EPSON printer customer
 
 -- 
-Michael Kerrisk
-Linux man-pages maintainer; http://www.kernel.org/doc/man-pages/
-Linux/UNIX System Programming Training: http://man7.org/training/
+You are receiving this mail because:
+You are watching the assignee of the bug.
 --
 To unsubscribe from this list: send the line "unsubscribe linux-man" in
 the body of a message to majordomo-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
