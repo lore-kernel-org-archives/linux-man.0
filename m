@@ -1,93 +1,134 @@
 From: Keno Fischer <keno-9DCaDmOhoh+8M3too/+dENBPR1lH4CV8@public.gmane.org>
-Subject: [PATCH] clone.2: Adjust syscall prototype and expand CLONE_SETTLS
- description
-Date: Tue, 23 Aug 2016 23:06:07 -0400
-Message-ID: <20160824030607.GA2596@Kenos-MacBook-Pro-2.local>
+Subject: [PATCH] sigprocmask.2: Expand/Clarify libc/kernel sigset_t difference
+Date: Wed, 24 Aug 2016 23:24:56 -0400
+Message-ID: <20160825032456.GA15347@Kenos-MacBook-Pro-2.local>
 Mime-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Return-path: <linux-man-owner-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>
 Content-Disposition: inline
 Sender: linux-man-owner-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
-To: Michael Kerrisk-manpages <mtk.manpages-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org>
-Cc: linux-man-u79uwXL29TY76Z2rM5mHXA@public.gmane.org, pschiffe-H+wXaHxf7aLQT0dZR+AlfA@public.gmane.org
+To: mtk.manpages-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org
+Cc: linux-man-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
 List-Id: linux-man@vger.kernel.org
 
-The prototype for the system call was added in 81f10dad, but looking at the
-kernel's fork.c, I believe the relevant definition is
+Also move up the signature for rt_sigprocmask, similar to the way this is
+done in clone.2.
 
-SYSCALL_DEFINE5(clone, unsigned long, clone_flags, unsigned long, newsp,
-int __user *, parent_tidptr,
-int __user *, child_tidptr,
-unsigned long, tls)
+Due to the history of sigprocmask, there are various notions of what sigset_t
+refers to. This attempts to clarify the man page, by giving the major instances
+different names:
+- sigset_t is the glibc sigset_t (1024 bits)
+- kernel_sigset_t is the kernel's sigset_t (64 bits)
+- old_kernel_sigset_t is the pre-rt kernel's sigset_t (32 bits)
 
-so the last argument is the tls argument, not a pt_regs argument.
-I stumbled upon this while trying to understand CLONE_SETTLS, so I expanded
-that description a little to cover other architectures.
+and explaining their difference in the NOTES. Even though the sources do
+not refer to the various sigset_t's by these names, I think it is
+important to be explicit, esp since sizeof(sigset_t) would give
+an incorrect value for `sigsetsize` if written in a source file that
+includes the libc headers.
+
+Lastly, move the note on an incorrect `sigsetsize` causing EINVAL up to
+the ERRORS section, so everything is in one place.
 ---
- man2/clone.2 | 26 ++++++++++++++++++++------
- 1 file changed, 20 insertions(+), 6 deletions(-)
+ man2/sigprocmask.2 | 49 +++++++++++++++++++++++++++++++++++++++----------
+ 1 file changed, 39 insertions(+), 10 deletions(-)
 
-diff --git a/man2/clone.2 b/man2/clone.2
-index b867961..7c80e63 100644
---- a/man2/clone.2
-+++ b/man2/clone.2
-@@ -51,14 +51,14 @@ clone, __clone2 \- create a child process
- 
- .BI "int clone(int (*" "fn" ")(void *), void *" child_stack ,
- .BI "          int " flags ", void *" "arg" ", ... "
--.BI "          /* pid_t *" ptid ", struct user_desc *" tls \
-+.BI "          /* pid_t *" ptid ", void *" newtls \
- ", pid_t *" ctid " */ );"
- 
- /* Prototype for the raw system call */
- 
- .BI "long clone(unsigned long " flags ", void *" child_stack ,
- .BI "          void *" ptid ", void *" ctid ,
--.BI "          struct pt_regs *" regs );
-+.BI "          unsigned long " newtls );
- .fi
- .SH DESCRIPTION
- .BR clone ()
-@@ -544,11 +544,25 @@ then trace the child also (see
- .BR ptrace (2)).
- .TP
- .BR CLONE_SETTLS " (since Linux 2.5.32)"
--The
-+The TLS (Thread Local Storage) descriptor is set to
-+.I newtls.
+diff --git a/man2/sigprocmask.2 b/man2/sigprocmask.2
+index 51f7933..907061f 100644
+--- a/man2/sigprocmask.2
++++ b/man2/sigprocmask.2
+@@ -32,8 +32,19 @@ sigprocmask, rt_sigprocmask \- examine and change blocked signals
+ .SH SYNOPSIS
+ .B #include <signal.h>
+ .sp
+-.BI "int sigprocmask(int " how ", const sigset_t *" set ,
+-.BI "sigset_t *" oldset );
++.nf
++/* Prototype for the glibc wrapper function */
++.BI "int sigprocmask(int " how ", const sigset_t *" set ", sigset_t *" oldset );
 +
-+The interpretation of
-+.I newtls
-+and the resulting effect is architecture dependent.
-+On x86,
- .I newtls
--argument is the new TLS (Thread Local Storage) descriptor.
-+is interpreted as a
-+.IR "struct user_desc *"
- (See
--.BR set_thread_area (2).)
-+.BR set_thread_area (2)).
-+On x86_64 it is the new value to be set for the %fs base register
-+(See the
-+.I ARCH_SET_FS
-+argument to
-+.BR arch_prctl (2)).
-+On architectures with a dedicated TLS register, it is the new value
-+of that register.
++/* Prototype for the underlying system call */
++.BI "int rt_sigprocmask(int " how ", const kernel_sigset_t *" set ,
++.BI "                   kernel_sigset_t *" oldset, " size_t " sigsetsize );
++
++/* Prototype for the legacy system call (deprecated) */
++.BI "int sigprocmask(int " how ", const old_kernel_sigset_t *" set ,
++.BI "                old_kernel_sigset_t *" oldset ); "
++.fi
++
+ .sp
+ .in -4n
+ Feature Test Macro Requirements for glibc (see
+@@ -111,9 +122,10 @@ or
+ argument points outside the process's allocated address space.
  .TP
- .BR CLONE_SIGHAND " (since Linux 2.0)"
- If
-@@ -813,7 +827,7 @@ The raw system call interface on x86 and many other architectures is roughly:
- 
- .BI "long clone(unsigned long " flags ", void *" child_stack ,
- .BI "           void *" ptid ", void *" ctid ,
--.BI "           struct pt_regs *" regs );
-+.BI "           unsigned long " newtls );
- 
- .fi
- .in
+ .B EINVAL
+-The value specified in
++Either the value specified in
+ .I how
+-was invalid.
++was invalid or the kernel does not support the size passed in
++.I sigsetsize.
+ .SH CONFORMING TO
+ POSIX.1-2001, POSIX.1-2008.
+ .SH NOTES
+@@ -148,6 +160,16 @@ See
+ for details on manipulating signal sets.
+ .\"
+ .SS C library/kernel differences
++
++The kernel's definition of
++.IR sigset_t
++differs in size from that used
++by the C library. In this man page the former is referred to as
++.I kernel_sigset_t
++(it is still named
++.I sigset_t
++in the kernel sources).
++
+ The glibc wrapper function for
+ .BR sigprocmask ()
+ silently ignores attempts to block the two real-time signals that
+@@ -161,23 +183,30 @@ The original Linux system call was named
+ However, with the addition of real-time signals in Linux 2.2,
+ the fixed-size, 32-bit
+ .IR sigset_t
++(referred to as
++.IR old_kernel_sigset_t
++in this man page)
+ type supported by that system call was no longer fit for purpose.
+ Consequently, a new system call,
+ .BR rt_sigprocmask (),
+ was added to support an enlarged
+ .IR sigset_t
+-type.
++type
++(referred to as
++.IR kernel_sigset_t
++in this man page
++).
+ The new system call takes a fourth argument,
+ .IR "size_t sigsetsize" ,
+ which specifies the size in bytes of the signal sets in
+ .IR set
+ and
+ .IR oldset .
+-This argument is currently required to have the value
+-.IR sizeof(sigset_t)
+-(or the error
+-.B EINVAL
+-results).
++This argument is currently required to have the value 8
++(
++.IR sizeof(kernel_sigset_t)
++).
++
+ The glibc
+ .BR sigprocmask ()
+ wrapper function hides these details from us, transparently calling
 -- 
 2.8.1
+
 --
 To unsubscribe from this list: send the line "unsubscribe linux-man" in
 the body of a message to majordomo-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
