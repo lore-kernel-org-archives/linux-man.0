@@ -1,135 +1,37 @@
-From: Keno Fischer <keno-9DCaDmOhoh+8M3too/+dENBPR1lH4CV8@public.gmane.org>
-Subject: [PATCH] sigprocmask.2: Expand/Clarify libc/kernel sigset_t difference
-Date: Wed, 24 Aug 2016 23:24:56 -0400
-Message-ID: <20160825032456.GA15347@Kenos-MacBook-Pro-2.local>
+From: "Darrick J. Wong" <darrick.wong-QHcLZuEGTsvQT0dZR+AlfA@public.gmane.org>
+Subject: [PATCH v8 0/3] man-pages: fix reflink/dedupe ioctl manpages
+Date: Thu, 25 Aug 2016 16:26:23 -0700
+Message-ID: <147216758326.32321.8525481353986871349.stgit@birch.djwong.org>
 Mime-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Return-path: <linux-man-owner-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>
-Content-Disposition: inline
-Sender: linux-man-owner-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
-To: mtk.manpages-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org
-Cc: linux-man-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: 7bit
+Return-path: <linux-api-owner-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>
+Sender: linux-api-owner-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
+To: mtk.manpages-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org, darrick.wong-QHcLZuEGTsvQT0dZR+AlfA@public.gmane.org
+Cc: linux-fsdevel-u79uwXL29TY76Z2rM5mHXA@public.gmane.org, linux-api-u79uwXL29TY76Z2rM5mHXA@public.gmane.org, linux-man-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
 List-Id: linux-man@vger.kernel.org
 
-Also move up the signature for rt_sigprocmask, similar to the way this is
-done in clone.2.
+Hi all,
 
-Due to the history of sigprocmask, there are various notions of what sigset_t
-refers to. This attempts to clarify the man page, by giving the major instances
-different names:
-- sigset_t is the glibc sigset_t (1024 bits)
-- kernel_sigset_t is the kernel's sigset_t (64 bits)
-- old_kernel_sigset_t is the pre-rt kernel's sigset_t (32 bits)
+This is the eighth revision of a patchset that adds to XFS kernel
+support for mapping multiple file logical blocks to the same physical
+block (reflink/deduplication), implements the beginnings of online
+metadata scrubbing and preening, and implements reverse mapping for
+the realtime device.  There shouldn't be any incompatible on-disk
+format changes, pending a thorough review of the patches within.
 
-and explaining their difference in the NOTES. Even though the sources do
-not refer to the various sigset_t's by these names, I think it is
-important to be explicit, esp since sizeof(sigset_t) would give
-an incorrect value for `sigsetsize` if written in a source file that
-includes the libc headers.
+The patches in this series fix some errors and clarify further the
+behavior of the clone and dedupe ioctls.  The third patch is a RFC
+manpage for the proposed GETFSMAP ioctl, though the interface is not
+yet upstream.
 
-Lastly, move the note on an incorrect `sigsetsize` causing EINVAL up to
-the ERRORS section, so everything is in one place.
----
- man2/sigprocmask.2 | 49 +++++++++++++++++++++++++++++++++++++++----------
- 1 file changed, 39 insertions(+), 10 deletions(-)
+This is an extraordinary way to eat your data.  Enjoy! 
+Comments and questions are, as always, welcome.
 
-diff --git a/man2/sigprocmask.2 b/man2/sigprocmask.2
-index 51f7933..907061f 100644
---- a/man2/sigprocmask.2
-+++ b/man2/sigprocmask.2
-@@ -32,8 +32,19 @@ sigprocmask, rt_sigprocmask \- examine and change blocked signals
- .SH SYNOPSIS
- .B #include <signal.h>
- .sp
--.BI "int sigprocmask(int " how ", const sigset_t *" set ,
--.BI "sigset_t *" oldset );
-+.nf
-+/* Prototype for the glibc wrapper function */
-+.BI "int sigprocmask(int " how ", const sigset_t *" set ", sigset_t *" oldset );
-+
-+/* Prototype for the underlying system call */
-+.BI "int rt_sigprocmask(int " how ", const kernel_sigset_t *" set ,
-+.BI "                   kernel_sigset_t *" oldset, " size_t " sigsetsize );
-+
-+/* Prototype for the legacy system call (deprecated) */
-+.BI "int sigprocmask(int " how ", const old_kernel_sigset_t *" set ,
-+.BI "                old_kernel_sigset_t *" oldset ); "
-+.fi
-+
- .sp
- .in -4n
- Feature Test Macro Requirements for glibc (see
-@@ -111,9 +122,10 @@ or
- argument points outside the process's allocated address space.
- .TP
- .B EINVAL
--The value specified in
-+Either the value specified in
- .I how
--was invalid.
-+was invalid or the kernel does not support the size passed in
-+.I sigsetsize.
- .SH CONFORMING TO
- POSIX.1-2001, POSIX.1-2008.
- .SH NOTES
-@@ -148,6 +160,16 @@ See
- for details on manipulating signal sets.
- .\"
- .SS C library/kernel differences
-+
-+The kernel's definition of
-+.IR sigset_t
-+differs in size from that used
-+by the C library. In this man page the former is referred to as
-+.I kernel_sigset_t
-+(it is still named
-+.I sigset_t
-+in the kernel sources).
-+
- The glibc wrapper function for
- .BR sigprocmask ()
- silently ignores attempts to block the two real-time signals that
-@@ -161,23 +183,30 @@ The original Linux system call was named
- However, with the addition of real-time signals in Linux 2.2,
- the fixed-size, 32-bit
- .IR sigset_t
-+(referred to as
-+.IR old_kernel_sigset_t
-+in this man page)
- type supported by that system call was no longer fit for purpose.
- Consequently, a new system call,
- .BR rt_sigprocmask (),
- was added to support an enlarged
- .IR sigset_t
--type.
-+type
-+(referred to as
-+.IR kernel_sigset_t
-+in this man page
-+).
- The new system call takes a fourth argument,
- .IR "size_t sigsetsize" ,
- which specifies the size in bytes of the signal sets in
- .IR set
- and
- .IR oldset .
--This argument is currently required to have the value
--.IR sizeof(sigset_t)
--(or the error
--.B EINVAL
--results).
-+This argument is currently required to have the value 8
-+(
-+.IR sizeof(kernel_sigset_t)
-+).
-+
- The glibc
- .BR sigprocmask ()
- wrapper function hides these details from us, transparently calling
--- 
-2.8.1
+--D
 
---
-To unsubscribe from this list: send the line "unsubscribe linux-man" in
-the body of a message to majordomo-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
-More majordomo info at  http://vger.kernel.org/majordomo-info.html
+[1] https://github.com/djwong/linux/tree/djwong-devel
+[2] https://github.com/djwong/xfsprogs/tree/djwong-devel
+[3] https://github.com/djwong/xfstests/tree/djwong-devel
+[4] https://github.com/djwong/xfs-documentation/tree/djwong-devel
+[5] https://github.com/djwong/man-pages/tree/djwong-devel
