@@ -1,7 +1,7 @@
 From: Ruben Kerkhof <ruben-pkfekA+zf0jEimEGZCN+oA@public.gmane.org>
-Subject: [PATCH] epoll_ctl(2) fix typo
-Date: Sun, 28 Aug 2016 14:56:24 +0200
-Message-ID: <20160828125624.13625-1-ruben@rubenkerkhof.com>
+Subject: [PATCH] epoll_ctl(2): fix another typo
+Date: Sun, 28 Aug 2016 15:00:48 +0200
+Message-ID: <20160828130048.13759-1-ruben@rubenkerkhof.com>
 Return-path: <linux-man-owner-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>
 Sender: linux-man-owner-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
 To: mtk.manpages-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org
@@ -13,18 +13,18 @@ List-Id: linux-man@vger.kernel.org
  1 file changed, 1 insertion(+), 1 deletion(-)
 
 diff --git a/man2/epoll_ctl.2 b/man2/epoll_ctl.2
-index 3203ba5..995c47a 100644
+index 995c47a..41de995 100644
 --- a/man2/epoll_ctl.2
 +++ b/man2/epoll_ctl.2
-@@ -205,7 +205,7 @@ is thus useful for avoiding thundering herd problems in certain scenarios.
- If the same file descriptor is in multiple epoll instances,
- some with the
- .BR EPOLLEXCLUSIVE
--flag, and others without, then events will provided to all epoll
-+flag, and others without, then events will be provided to all epoll
- instances that did not specify
- .BR EPOLLEXCLUSIVE ,
- and at least one of the epoll instances that did specify
+@@ -236,7 +236,7 @@ operation; attempts to employ it with
+ yield an error.
+ If
+ .B EPOLLEXCLUSIVE
+-has set using
++has been set using
+ .BR epoll_ctl (),
+ then a subsequent
+ .B EPOLL_CTL_MOD
 -- 
 2.9.3
 
