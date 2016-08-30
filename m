@@ -1,54 +1,64 @@
-From: Mats Wichmann <mats-mBRmNHn34rVzbRFIqnYvSA@public.gmane.org>
-Subject: Re: Man page bug report about pthread_join
-Date: Mon, 29 Aug 2016 15:48:33 -0600
-Message-ID: <279302ac-6ca2-a061-8d98-42ff6ea5a3cd@wichmann.us>
-References: <CAPrqJzHFonOuZW+k=G662CK59gpftyUCdPsYFSRUWRRDbfCaLQ@mail.gmail.com>
- <590f86e0-6af1-5fd6-d1ac-c798acbd4763@gmail.com>
- <d3925e02-c02a-b969-5221-ea98fcbadbaf@wichmann.us>
- <eccff3a8-f68a-4843-5ce6-b14976b260be@gmail.com>
+From: Sebastian Andrzej Siewior <bigeasy-hfZtesqFncYOwBW4kG4KsQ@public.gmane.org>
+Subject: [PATCH] mlock.2: document that is a bad idea to fork() after mlock()
+Date: Tue, 30 Aug 2016 10:59:11 +0200
+Message-ID: <20160830085911.5336-1-bigeasy@linutronix.de>
 Mime-Version: 1.0
-Content-Type: text/plain; charset=utf-8
-Content-Transfer-Encoding: 8bit
+Content-Transfer-Encoding: quoted-printable
 Return-path: <linux-man-owner-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>
-In-Reply-To: <eccff3a8-f68a-4843-5ce6-b14976b260be-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org>
 Sender: linux-man-owner-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
-To: "Michael Kerrisk (man-pages)" <mtk.manpages-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org>, =?UTF-8?B?546L5a6I5aCw?= <wangshouyan-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org>
-Cc: linux-man-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
+To: mtk.manpages-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org
+Cc: linux-man-u79uwXL29TY76Z2rM5mHXA@public.gmane.org, linux-kernel-u79uwXL29TY76Z2rM5mHXA@public.gmane.org, linux-mm-Bw31MaZKKs3YtjvyW6yDsg@public.gmane.org, linux-rt-users-u79uwXL29TY76Z2rM5mHXA@public.gmane.org, Sebastian Andrzej Siewior <bigeasy-hfZtesqFncYOwBW4kG4KsQ@public.gmane.org>
 List-Id: linux-man@vger.kernel.org
 
-On 08/29/2016 01:59 PM, Michael Kerrisk (man-pages) wrote:
-> Hello Mats,
+fork() will remove the write PTE bit from the page table on each VMA
+which will be copied via COW. A such such, the memory is available but
+marked read only in the page table and will fault on write access.
+This renders the previous mlock() operation almost useless because in a
+multi threaded application the RT thread may block on mmap_sem while the
+thread with low priority is holding the mmap_sem (for instance because
+it is allocating memory which needs to be mapped in).
 
->> The wording here comes off kind of awkward. How about this as an
->> alternate thought:
->>
->> If retval is not NULL, pthread_join shall return a pointer to a location
->> containing the exit status of the target thread in retval. If the target
->> thread was canceled, the exit status will indicate PTHREAD_CANCELED.
-> 
-> I guess it's in the eye of the beholder. 
+There is actually nothing we can do to mitigate the outcome. We could
+add a warning to the kernel for people that are not yet aware of the
+updated documentation.
 
-of course.
+Signed-off-by: Sebastian Andrzej Siewior <bigeasy-hfZtesqFncYOwBW4kG4KsQ@public.gmane.org>
+---
+ man2/mlock.2 | 14 ++++++++++++++
+ 1 file changed, 14 insertions(+)
 
+diff --git a/man2/mlock.2 b/man2/mlock.2
+index e34bb3b4e045..27f80f6664ef 100644
+--- a/man2/mlock.2
++++ b/man2/mlock.2
+@@ -350,6 +350,20 @@ settings are not inherited by a child created via
+ and are cleared during an
+ .BR execve (2).
+=20
++Note that
++.BR fork (2)
++will prepare the address space for a copy-on-write operation. The conseque=
+nce
++is that any write access that follows will cause a page fault which in tur=
+n may
++cause high latencies for a real-time process. Therefore it is crucial not =
+to
++invoke
++.BR fork (2)
++after the
++.BR mlockall ()
++or
++.BR mlock ()
++operation not even from thread which runs at a low priority within a proce=
+ss
++which also has a thread running at elevated priority.
++
+ The memory lock on an address range is automatically removed
+ if the address range is unmapped via
+ .BR munmap (2).
+--=20
+2.9.3
 
->> While we're here, this page doesn't mention the justification for
->> joining in the first place, which is to have an opportunity to clean up
->> after a thread exits - or rather, it is mentioned, but in a negative
->> sense ("failure to join with a thread that is joinable..."). I don't
->> immediately have a proposal, but could think about it if anyone believes
->> that's a good idea.
-> 
-> I added a sentence at the end of the first paragraph in NOTES:
-> 
->        After a successful call to pthread_join(), the caller  is  guaran‐
->        teed  that  the target thread has terminated.  <<The caller may then
->        choose to do any clean-up that is required  after  termination  of
->        the  thread  (e.g.,  freeing  memory  or other resources that were
->        allocated to the target thread).>>
-> 
-> Helpful?
-
-Yes, I think that improves things.
 --
 To unsubscribe from this list: send the line "unsubscribe linux-man" in
 the body of a message to majordomo-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
