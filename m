@@ -1,73 +1,106 @@
 From: "Michael Kerrisk (man-pages)" <mtk.manpages-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org>
-Subject: Re: Typo in RENAME(2)
-Date: Sun, 4 Sep 2016 04:08:20 +1200
-Message-ID: <02abb433-274f-a6e8-f83c-253b5c31ed9e@gmail.com>
-References: <CALxoUzuHx3Wv4=p=V2kXj+AVv=phquteCU_Et9ww02day0aADA@mail.gmail.com>
+Subject: Re: [PATCH] clone.2: Adjust syscall prototype and expand CLONE_SETTLS
+ description
+Date: Sun, 4 Sep 2016 16:30:44 +1200
+Message-ID: <2c257a1e-b7c5-c2bc-09ab-a2a685ae37b7@gmail.com>
+References: <20160824030607.GA2596@Kenos-MacBook-Pro-2.local>
 Mime-Version: 1.0
-Content-Type: text/plain; charset=utf-8
+Content-Type: text/plain; charset=windows-1252
 Content-Transfer-Encoding: 7bit
 Return-path: <linux-man-owner-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>
-In-Reply-To: <CALxoUzuHx3Wv4=p=V2kXj+AVv=phquteCU_Et9ww02day0aADA-JsoAwUIsXosN+BqQ9rBEUg@public.gmane.org>
+In-Reply-To: <20160824030607.GA2596-nTuEee01erudBw3G0RLmbfBZMHv189dXZkel5v8DVj8@public.gmane.org>
 Sender: linux-man-owner-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
-To: Tim Savannah <kata198-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org>
-Cc: mtk.manpages-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org, linux-man-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
+To: Keno Fischer <keno-9DCaDmOhoh+8M3too/+dENBPR1lH4CV8@public.gmane.org>
+Cc: mtk.manpages-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org, linux-man-u79uwXL29TY76Z2rM5mHXA@public.gmane.org, pschiffe-H+wXaHxf7aLQT0dZR+AlfA@public.gmane.org, Josh Triplett <josh-DgEjT+Ai2ygdnm+yROfE0A@public.gmane.org>
 List-Id: linux-man@vger.kernel.org
 
-Hello Tim,
+[CC += Josh]
 
-On 09/02/2016 09:37 AM, Tim Savannah wrote:
-> Hey,
-> 
-> There's a mistake/typo in RENAME(2) [man chapter 2, rename function]
-> 
-> In description it says:
-> 
-> "       If newpath already exists, it will be atomically replaced (subject
-> to a few conditions; see ERRORS below), so that there  is  no  point  at
-> which  another  process
->        attempting to access newpath will find it missing.
-> "
-> 
-> The "see ERRORS below" should actually read "see BUGS below".
-> 
-> 
-> The "ERRORS" lists the various values of errno for various error conditions.
-> 
-> The "BUGS" section actually describes the conditions being referred-to in
-> the description:
-> 
-> """
-> BUGS
->        On NFS filesystems, you can not assume that if the operation failed,
-> the file was not renamed.  If the server does  the  rename  operation  and
-> then  crashes,  the
->        retransmitted  RPC  which will be processed when the server is up
-> again causes a failure.  The application is expected to deal with this.
-> See link(2) for a similar
->        problem.
-> """
+Josh, I know you were submitting patches relate to the clone() TLS argument a 
+while back. Could you comment on this patch proposal below (also
+https://bugzilla.kernel.org/show_bug.cgi?id=118241 is relevant).
 
-I think the sentence you cite is problematic, but for different reasons 
-than you suggest. The wording suggests that there are ERRORS that may
-cause the operation to be nonatomic. The point is of course that there
-are various restrictions on rename operations that may cause the operation 
-to fail. I reworded the opening paragraphs prevent that misinterpretation:
-
-       rename()   renames  a  file,  moving  it  between  directories  if
-       required.  Any other hard links to  the  file  (as  created  using
-       link(2))  are  unaffected.   Open file descriptors for oldpath are
-       also unaffected.
-
-#      Various restrictions determine whether or not the rename operation
-#      succeeds: see ERRORS below.
-
-       If newpath already exists, it will be atomically replaced (##), so that
-       there is no point at which another process  attempting  to  access
-       newpath will find it missing.
-
-Cheers,
+Thanks,
 
 Michael
+
+On 08/24/2016 03:06 PM, Keno Fischer wrote:
+> The prototype for the system call was added in 81f10dad, but looking at the
+> kernel's fork.c, I believe the relevant definition is
+> 
+> SYSCALL_DEFINE5(clone, unsigned long, clone_flags, unsigned long, newsp,
+> int __user *, parent_tidptr,
+> int __user *, child_tidptr,
+> unsigned long, tls)
+> 
+> so the last argument is the tls argument, not a pt_regs argument.
+> I stumbled upon this while trying to understand CLONE_SETTLS, so I expanded
+> that description a little to cover other architectures.
+> ---
+>  man2/clone.2 | 26 ++++++++++++++++++++------
+>  1 file changed, 20 insertions(+), 6 deletions(-)
+> 
+> diff --git a/man2/clone.2 b/man2/clone.2
+> index b867961..7c80e63 100644
+> --- a/man2/clone.2
+> +++ b/man2/clone.2
+> @@ -51,14 +51,14 @@ clone, __clone2 \- create a child process
+>  
+>  .BI "int clone(int (*" "fn" ")(void *), void *" child_stack ,
+>  .BI "          int " flags ", void *" "arg" ", ... "
+> -.BI "          /* pid_t *" ptid ", struct user_desc *" tls \
+> +.BI "          /* pid_t *" ptid ", void *" newtls \
+>  ", pid_t *" ctid " */ );"
+>  
+>  /* Prototype for the raw system call */
+>  
+>  .BI "long clone(unsigned long " flags ", void *" child_stack ,
+>  .BI "          void *" ptid ", void *" ctid ,
+> -.BI "          struct pt_regs *" regs );
+> +.BI "          unsigned long " newtls );
+>  .fi
+>  .SH DESCRIPTION
+>  .BR clone ()
+> @@ -544,11 +544,25 @@ then trace the child also (see
+>  .BR ptrace (2)).
+>  .TP
+>  .BR CLONE_SETTLS " (since Linux 2.5.32)"
+> -The
+> +The TLS (Thread Local Storage) descriptor is set to
+> +.I newtls.
+> +
+> +The interpretation of
+> +.I newtls
+> +and the resulting effect is architecture dependent.
+> +On x86,
+>  .I newtls
+> -argument is the new TLS (Thread Local Storage) descriptor.
+> +is interpreted as a
+> +.IR "struct user_desc *"
+>  (See
+> -.BR set_thread_area (2).)
+> +.BR set_thread_area (2)).
+> +On x86_64 it is the new value to be set for the %fs base register
+> +(See the
+> +.I ARCH_SET_FS
+> +argument to
+> +.BR arch_prctl (2)).
+> +On architectures with a dedicated TLS register, it is the new value
+> +of that register.
+>  .TP
+>  .BR CLONE_SIGHAND " (since Linux 2.0)"
+>  If
+> @@ -813,7 +827,7 @@ The raw system call interface on x86 and many other architectures is roughly:
+>  
+>  .BI "long clone(unsigned long " flags ", void *" child_stack ,
+>  .BI "           void *" ptid ", void *" ctid ,
+> -.BI "           struct pt_regs *" regs );
+> +.BI "           unsigned long " newtls );
+>  
+>  .fi
+>  .in
+> 
+
 
 -- 
 Michael Kerrisk
