@@ -1,30 +1,39 @@
-From: bugzilla-daemon-590EEB7GvNiWaY/ihj7yzEB+6BGkLq7r@public.gmane.org
-Subject: [Bug 156101] Gmail Customer Service Number USA
-Date: Mon, 05 Sep 2016 06:52:20 +0000
-Message-ID: <bug-156101-11311-zLun55egiV@https.bugzilla.kernel.org/>
-References: <bug-156101-11311@https.bugzilla.kernel.org/>
+From: HuKeping <hukeping-hv44wF8Li93QT0dZR+AlfA@public.gmane.org>
+Subject: [PATCH] rtnetlink.3: tfix
+Date: Mon, 5 Sep 2016 14:54:59 +0800
+Message-ID: <1473058499-23820-1-git-send-email-hukeping@huawei.com>
 Mime-Version: 1.0
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: 7bit
+Content-Type: text/plain
 Return-path: <linux-man-owner-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>
-In-Reply-To: <bug-156101-11311-3bo0kxnWaOQUvHkbgXJLS5sdmw4N0Rt+2LY78lusg7I@public.gmane.org/>
 Sender: linux-man-owner-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
-To: linux-man-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
+To: mtk.manpages-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org
+Cc: linux-man-u79uwXL29TY76Z2rM5mHXA@public.gmane.org, hukeping-hv44wF8Li93QT0dZR+AlfA@public.gmane.org, davem-fT/PcQaiUtIeIZ0/mPfg9Q@public.gmane.org, daniel-FeC+5ew28dpmcu3hnIyYJQ@public.gmane.org, herbert-lOAM2aK0SrRLBo1qDEOMRrpzq4S04n8Q@public.gmane.org, chamaken-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org, pablo-Cap9r6Oaw4JrovVCs/uTlw@public.gmane.org, fw-HFFVJYpyMKqzQB+pC5nmwQ@public.gmane.org, elfring-Rn4VEauK+AKRv+LV9MX5uipxlwaOVQ5f@public.gmane.org
 List-Id: linux-man@vger.kernel.org
 
-https://bugzilla.kernel.org/show_bug.cgi?id=156101
+It seems that the structure in this example doesn't
+have a field named n.
 
-Anna wilson <aw2161990-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org> changed:
+Signed-off-by: Hu Keping <hukeping-hv44wF8Li93QT0dZR+AlfA@public.gmane.org>
+---
+ man3/rtnetlink.3 | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
 
-           What    |Removed                     |Added
-----------------------------------------------------------------------------
-                URL|                            |http://www.customer-service
-                   |                            |number.com/gmail-customer-c
-                   |                            |are
-
+diff --git a/man3/rtnetlink.3 b/man3/rtnetlink.3
+index 143be57..430206d 100644
+--- a/man3/rtnetlink.3
++++ b/man3/rtnetlink.3
+@@ -113,7 +113,7 @@ Creating a rtnetlink message to set the MTU of a device:
+                              NLMSG_ALIGN(req.nh.nlmsg_len));
+     rta\->rta_type = IFLA_MTU;
+     rta\->rta_len = RTA_LENGTH(sizeof(unsigned int));
+-    req.n.nlmsg_len = NLMSG_ALIGN(req.nh.nlmsg_len) +
++    req.nh.nlmsg_len = NLMSG_ALIGN(req.nh.nlmsg_len) +
+                                   RTA_LENGTH(sizeof(mtu));
+     memcpy(RTA_DATA(rta), &mtu, sizeof(mtu));
+     send(rtnetlink_sk, &req, req.nh.nlmsg_len, 0);
 -- 
-You are receiving this mail because:
-You are watching the assignee of the bug.
+2.8.0.GIT
+
 --
 To unsubscribe from this list: send the line "unsubscribe linux-man" in
 the body of a message to majordomo-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
