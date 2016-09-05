@@ -1,56 +1,116 @@
-From: "Michael Kerrisk (man-pages)" <mtk.manpages-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org>
-Subject: Re: [PATCH] rtnetlink.3: tfix
-Date: Mon, 5 Sep 2016 21:05:26 +1200
-Message-ID: <e5609d3a-1d3a-a8f4-3b6c-f8e8e474ca74@gmail.com>
-References: <1473058499-23820-1-git-send-email-hukeping@huawei.com>
+From: walter harms <wharms-fPG8STNUNVg@public.gmane.org>
+Subject: Re: CLONE_FILES description confusing
+Date: Mon, 05 Sep 2016 20:10:23 +0200
+Message-ID: <57CDB50F.4070201@bfs.de>
+References: <CAJgzZopmS1ph4G4zMu-_chLjsyE4CLnZiuOPqXBC=vdUE9R96w@mail.gmail.com> <e9dc2d61-4d72-32f4-3fb7-8864dd575f32@gmail.com> <CAJgzZor_Ru3TJfjA0L9PFo7r+2asCD+BxW=GAgmdFHY_UR2Gag@mail.gmail.com> <57C17454.80707@bfs.de> <63e31345-ccb2-22c8-4584-62fb32db7d96@gmail.com>
+Reply-To: wharms-fPG8STNUNVg@public.gmane.org
 Mime-Version: 1.0
-Content-Type: text/plain; charset=windows-1252
+Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 7bit
 Return-path: <linux-man-owner-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>
-In-Reply-To: <1473058499-23820-1-git-send-email-hukeping-hv44wF8Li93QT0dZR+AlfA@public.gmane.org>
+In-Reply-To: <63e31345-ccb2-22c8-4584-62fb32db7d96-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org>
 Sender: linux-man-owner-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
-To: HuKeping <hukeping-hv44wF8Li93QT0dZR+AlfA@public.gmane.org>
-Cc: mtk.manpages-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org, linux-man-u79uwXL29TY76Z2rM5mHXA@public.gmane.org, davem-fT/PcQaiUtIeIZ0/mPfg9Q@public.gmane.org, daniel-FeC+5ew28dpmcu3hnIyYJQ@public.gmane.org, herbert-lOAM2aK0SrRLBo1qDEOMRrpzq4S04n8Q@public.gmane.org, chamaken-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org, pablo-Cap9r6Oaw4JrovVCs/uTlw@public.gmane.org, fw-HFFVJYpyMKqzQB+pC5nmwQ@public.gmane.org, elfring-Rn4VEauK+AKRv+LV9MX5uipxlwaOVQ5f@public.gmane.org
+To: "Michael Kerrisk (man-pages)" <mtk.manpages-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org>
+Cc: linux-man-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
 List-Id: linux-man@vger.kernel.org
 
-Hello Hu Keping,
- 
-On 09/05/2016 06:54 PM, HuKeping wrote:
-> It seems that the structure in this example doesn't
-> have a field named n.
-
-Thanks. Patch applied.
-
-Cheers,
-
-Michael
 
 
-> Signed-off-by: Hu Keping <hukeping-hv44wF8Li93QT0dZR+AlfA@public.gmane.org>
-> ---
->  man3/rtnetlink.3 | 2 +-
->  1 file changed, 1 insertion(+), 1 deletion(-)
+Am 28.08.2016 06:43, schrieb Michael Kerrisk (man-pages):
+> On 08/27/2016 11:07 PM, walter harms wrote:
+>>
+>>
+>> Am 24.08.2016 02:11, schrieb enh:
+>>> On Tue, Aug 23, 2016 at 4:52 PM, Michael Kerrisk (man-pages)
+>>> <mtk.manpages-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org> wrote:
+>>>> Hello Elliott
+>>>>
+
+>>
+>>
+>> Just one note:
+>> People are terrible bad at negation. So i would suggest:
+>>
+>> If  CLONE_FILES  is  set, the child process share
+>> all file descriptors opened in the calling  process
+>> at the time of clone().
+>> Subsequent operations that open or close file descriptors,
+>> or change  file  descriptor  flags, performed  by  either
+>> the  calling  process  or  the child
+>> process do also affect the other  process.
+>>  Note,  however,
+>>  that  the duplicated file descriptors in the child refer to
+>>  the same open file descriptions as the  corresponding  file
+>>  descriptors  in  the  calling  process, and thus share file
+>>  offsets and files status flags (see open(2)).
 > 
-> diff --git a/man3/rtnetlink.3 b/man3/rtnetlink.3
-> index 143be57..430206d 100644
-> --- a/man3/rtnetlink.3
-> +++ b/man3/rtnetlink.3
-> @@ -113,7 +113,7 @@ Creating a rtnetlink message to set the MTU of a device:
->                               NLMSG_ALIGN(req.nh.nlmsg_len));
->      rta\->rta_type = IFLA_MTU;
->      rta\->rta_len = RTA_LENGTH(sizeof(unsigned int));
-> -    req.n.nlmsg_len = NLMSG_ALIGN(req.nh.nlmsg_len) +
-> +    req.nh.nlmsg_len = NLMSG_ALIGN(req.nh.nlmsg_len) +
->                                    RTA_LENGTH(sizeof(mtu));
->      memcpy(RTA_DATA(rta), &mtu, sizeof(mtu));
->      send(rtnetlink_sk, &req, req.nh.nlmsg_len, 0);
+> Hi Walter,
 > 
+> I am having trouble to see what you find wrong, and what you want to change,
+> since the text comparison is difficult. Could you formulate this as a patch?
+> 
+> Thanks,
+> 
+> Michael
+> 
+>  
+
+Most people are bad at negations. The patch attempts to reword the
+description of the CLONE_FILES without describing "what is not does
+when not set".
+
+This changes not the whole file but it should give an idea how it could be done.
+
+re,
+ wh
 
 
--- 
-Michael Kerrisk
-Linux man-pages maintainer; http://www.kernel.org/doc/man-pages/
-Linux/UNIX System Programming Training: http://man7.org/training/
+----
+
+diff --git a/man2/clone.2 b/man2/clone.2
+index b867961..fd25e38 100644
+--- a/man2/clone.2
++++ b/man2/clone.2
+@@ -172,6 +172,17 @@ Store the child thread ID at the location
+ in the child's memory.
+ .TP
+ .BR CLONE_FILES " (since Linux 2.0)"
++
++By default the child process still inherits a copy of all file descriptors
++opened in the calling process at the time of
++.BR clone ().
++The child and parent process can close or change
++file descriptors independently.
++The duplicated file descriptors in the child refer to the same open file
++descriptions as the corresponding file descriptors in the calling process,
++and thus share file offsets and files status flags (see
++.BR open (2)).
++
+ If
+ .B CLONE_FILES
+ is set, the calling process and the child process share the same file
+@@ -187,20 +198,6 @@ If a process sharing a file descriptor table calls
+ .BR execve (2),
+ its file descriptor table is duplicated (unshared).
+
+-If
+-.B CLONE_FILES
+-is not set, the child process inherits a copy of all file descriptors
+-opened in the calling process at the time of
+-.BR clone ().
+-Subsequent operations that open or close file descriptors,
+-or change file descriptor flags,
+-performed by either the calling
+-process or the child process do not affect the other process.
+-Note, however,
+-that the duplicated file descriptors in the child refer to the same open file
+-descriptions as the corresponding file descriptors in the calling process,
+-and thus share file offsets and files status flags (see
+-.BR open (2)).
+ .TP
+ .BR CLONE_FS " (since Linux 2.0)"
+ If
+
 --
 To unsubscribe from this list: send the line "unsubscribe linux-man" in
 the body of a message to majordomo-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
