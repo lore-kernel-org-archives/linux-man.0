@@ -1,54 +1,42 @@
-From: bugzilla-daemon-590EEB7GvNiWaY/ihj7yzEB+6BGkLq7r@public.gmane.org
-Subject: [Bug 156231] New: man fcntl isn't clear about how to get
- seal-related constants
-Date: Tue, 06 Sep 2016 18:07:08 +0000
-Message-ID: <bug-156231-11311@https.bugzilla.kernel.org/>
-Mime-Version: 1.0
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: 7bit
+From: Namhyung Kim <namhyung-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org>
+Subject: [PATCH] proc.5: Add description of CLEAR_REFS_MM_HIWATER_RSS
+Date: Thu,  8 Sep 2016 00:04:39 +0900
+Message-ID: <20160907150439.21524-1-namhyung@gmail.com>
 Return-path: <linux-man-owner-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>
 Sender: linux-man-owner-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
-To: linux-man-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
+To: mtk.manpages-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org
+Cc: linux-man-u79uwXL29TY76Z2rM5mHXA@public.gmane.org, Petr Cermak <petrcermak-F7+t8E8rja9g9hUCZPvPmw@public.gmane.org>
 List-Id: linux-man@vger.kernel.org
 
-https://bugzilla.kernel.org/show_bug.cgi?id=156231
+The Linux kernel commit 695f05593693 ("fs/proc/task_mmu.c: add
+user-space support for resetting mm->hiwater_rss (peak RSS)") added a
+way to reset peak RSS of a process but missed to update manpage.
 
-            Bug ID: 156231
-           Summary: man fcntl isn't clear about how to get seal-related
-                    constants
-           Product: Documentation
-           Version: unspecified
-          Hardware: All
-                OS: Linux
-            Status: NEW
-          Severity: normal
-          Priority: P1
-         Component: man-pages
-          Assignee: documentation_man-pages-ztI5WcYan/vQLgFONoPN62D2FQJk+8+b@public.gmane.org
-          Reporter: tom+bugzilla.kernel.org-TykxONGntnP10XsdtD+oqA@public.gmane.org
-        Regression: No
+Cc: Petr Cermak <petrcermak-F7+t8E8rja9g9hUCZPvPmw@public.gmane.org>
+Signed-off-by: Namhyung Kim <namhyung-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org>
+---
+ man5/proc.5 | 5 +++++
+ 1 file changed, 5 insertions(+)
 
-man fcntl tells you to include unistd.h and fcntl.h - but to get the
-seal-related constants, you need (it seems) to include linux/fcntl.h.
-
-The need for _GNU_SOURCE (etc.) for other constants is called out clearly
-enough in the CONFORMING TO section. The directions for the seal-related
-constants are a bit unclear.
-
-(Perhaps this is just one of those things you're supposed to know, but pages
-such as shm_open and 2 stat show that being clear about the headers is not
-without precedent...)
-
-Stack Overflow question:
-http://stackoverflow.com/questions/39353442/f-seal-seal-undeclared-even-when-headers-are-included
-
-Thanks,
-
---Tom
-
+diff --git a/man5/proc.5 b/man5/proc.5
+index 14588fe..5cb3c85 100644
+--- a/man5/proc.5
++++ b/man5/proc.5
+@@ -352,6 +352,11 @@ by the check-point restore system to discover which pages of a process
+ have been dirtied since the file
+ .IR /proc/[pid]/clear_refs
+ was written to.
++.TP
++5 (since Linux 4.0)
++.\" Internally: CLEAR_REFS_MM_HIWATER_RSS
++Reset the peak resident set size ("high water mark") to the process's
++current value.
+ .RE
+ .IP
+ Writing any value to
 -- 
-You are receiving this mail because:
-You are watching the assignee of the bug.
+2.9.3
+
 --
 To unsubscribe from this list: send the line "unsubscribe linux-man" in
 the body of a message to majordomo-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
