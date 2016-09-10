@@ -1,17 +1,20 @@
 From: Namhyung Kim <namhyung-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org>
-Subject: [PATCH v3] proc.5: Add description of CLEAR_REFS_MM_HIWATER_RSS
-Date: Sat, 10 Sep 2016 11:16:42 +0900
-Message-ID: <20160910021642.2633-1-namhyung@gmail.com>
+Subject: [PATCH v3.1] proc.5: Add description of CLEAR_REFS_MM_HIWATER_RSS
+Date: Sat, 10 Sep 2016 11:19:06 +0900
+Message-ID: <20160910021906.2762-1-namhyung@gmail.com>
+References: <20160910021642.2633-1-namhyung@gmail.com>
 Return-path: <linux-man-owner-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>
+In-Reply-To: <20160910021642.2633-1-namhyung-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org>
 Sender: linux-man-owner-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
 To: mtk.manpages-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org
-Cc: linux-man-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
+Cc: linux-man-u79uwXL29TY76Z2rM5mHXA@public.gmane.org, Petr Cermak <petrcermak-F7+t8E8rja9g9hUCZPvPmw@public.gmane.org>
 List-Id: linux-man@vger.kernel.org
 
 The Linux kernel commit 695f05593693 ("fs/proc/task_mmu.c: add
 user-space support for resetting mm->hiwater_rss (peak RSS)") added a
 way to reset peak RSS of a process but missed to update manpage.
 
+Cc: Petr Cermak <petrcermak-F7+t8E8rja9g9hUCZPvPmw@public.gmane.org>
 Acked-by: Petr Cermak <petrcermak-F7+t8E8rja9g9hUCZPvPmw@public.gmane.org>
 Signed-off-by: Namhyung Kim <namhyung-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org>
 ---
