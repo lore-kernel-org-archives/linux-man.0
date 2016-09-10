@@ -1,61 +1,77 @@
-From: Petr Cermak <petrcermak-F7+t8E8rja9g9hUCZPvPmw@public.gmane.org>
-Subject: Re: [PATCH v2] proc.5: Add description of CLEAR_REFS_MM_HIWATER_RSS
-Date: Fri, 9 Sep 2016 10:43:56 +0100
-Message-ID: <20160909094356.GA14216@google.com>
-References: <20160909060313.733-1-namhyung@gmail.com>
+From: Dave Chinner <david@fromorbit.com>
+Subject: Re: [PATCH 3/3] ioctl_xfs_ioc_getfsmap.2: document XFS_IOC_GETFSMAP
+ ioctl
+Date: Sat, 10 Sep 2016 10:00:29 +1000
+Message-ID: <20160910000029.GI30056@dastard>
+References: <147216758326.32321.8525481353986871349.stgit@birch.djwong.org>
+ <147216760214.32321.8331561706153372268.stgit@birch.djwong.org>
+ <32A3DAED-21FC-4252-B53E-3503764342E8@dilger.ca>
+ <20160830190949.GA8262@birch.djwong.org>
+ <20160908233806.GB30056@dastard>
+ <20160909060716.GD8969@birch.djwong.org>
 Mime-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
-Return-path: <linux-man-owner-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>
+Return-path: <linux-fsdevel-owner@vger.kernel.org>
 Content-Disposition: inline
-In-Reply-To: <20160909060313.733-1-namhyung-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org>
-Sender: linux-man-owner-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
-To: Namhyung Kim <namhyung-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org>
-Cc: mtk.manpages-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org, linux-man-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
+In-Reply-To: <20160909060716.GD8969@birch.djwong.org>
+Sender: linux-fsdevel-owner@vger.kernel.org
+To: "Darrick J. Wong" <darrick.wong@oracle.com>
+Cc: Andreas Dilger <adilger@dilger.ca>, linux-man@vger.kernel.org, linux-api@vger.kernel.org, xfs <xfs@oss.sgi.com>, linux-xfs@vger.kernel.org, mtk.manpages@gmail.com, linux-fsdevel@vger.kernel.org, linux-btrfs@vger.kernel.org
 List-Id: linux-man@vger.kernel.org
 
-On Fri, Sep 09, 2016 at 03:03:13PM +0900, Namhyung Kim wrote:
-> The Linux kernel commit 695f05593693 ("fs/proc/task_mmu.c: add
-> user-space support for resetting mm->hiwater_rss (peak RSS)") added a
-> way to reset peak RSS of a process but missed to update manpage.
+On Thu, Sep 08, 2016 at 11:07:16PM -0700, Darrick J. Wong wrote:
+> On Fri, Sep 09, 2016 at 09:38:06AM +1000, Dave Chinner wrote:
+> > On Tue, Aug 30, 2016 at 12:09:49PM -0700, Darrick J. Wong wrote:
+> > > > I recall for FIEMAP that some filesystems may not have files aligned
+> > > > to sector offsets, and we just used byte offsets.  Storage like
+> > > > NVDIMMs are cacheline granular, so I don't think it makes sense to
+> > > > tie this to old disk sector sizes.  Alternately, the units could be
+> > > > in terms of fs blocks as returned by statvfs.st_bsize, but mixing
+> > > > units for fmv_block, fmv_offset, fmv_length is uneeded complexity.
+> > > 
+> > > Ugh.  I'd rather just change the units to bytes rather than force all
+> > > the users to multiply things. :)
+> > 
+> > Yup, units need to be either in disk addresses (i.e. 512 byte units)
+> > or bytes. If people can't handle disk addresses (seems to be the
+> > case), the bytes it should be.
 > 
-> Cc: Petr Cermak <petrcermak-F7+t8E8rja9g9hUCZPvPmw@public.gmane.org>
-> Signed-off-by: Namhyung Kim <namhyung-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org>
-> ---
->  man5/proc.5 | 7 ++++++-
->  1 file changed, 6 insertions(+), 1 deletion(-)
+> <nod>
 > 
-> diff --git a/man5/proc.5 b/man5/proc.5
-> index 14588fe..cf32e0f 100644
-> --- a/man5/proc.5
-> +++ b/man5/proc.5
-> @@ -340,7 +340,7 @@ process during the measured interval.
->  If one is interested only in inspecting the selected mapping types,
->  then the value 2 or 3 can be used instead of 1.
->  
-> -A further value can be written to affect a different bit:
-> +A further value can be written to affect different properties:
->  .RS
->  .TP
->  4 (since Linux 3.11)
-> @@ -352,6 +352,11 @@ by the check-point restore system to discover which pages of a process
->  have been dirtied since the file
->  .IR /proc/[pid]/clear_refs
->  was written to.
-> +.TP
-> +5 (since Linux 4.0)
-> +.\" Internally: CLEAR_REFS_MM_HIWATER_RSS
-> +Reset the peak resident set size ("high water mark") to the process'
-> +current value.
->  .RE
->  .IP
->  Writing any value to
-> -- 
-> 2.9.3
+> > > I'd much rather just add more special owner codes for any other
+> > > filesystem that has distinguishable metadata types that are not
+> > > covered by the existing OWN_ codes.  We /do/ have 2^64 possible
+> > > values, so it's not like we're going to run out.
+> > 
+> > This is diagnositc information as much as anything, just like
+> > fiemap is diagnostic information. So if we have specific type
+> > information, it needs to be reported accurately to be useful.
+> > 
+> > Hence I really don't care if the users and developers of other fs
+> > types don't understand what the special owner codes that a specific
+> > filesystem returns mean. i.e. it's not useful user information -
+> > only a tool that groks the specific filesystem is going to be able
+> > to anything useful with special owner codes. So, IMO, there's little
+> > point trying to make them generic or to even trying to define and
+> > explain them in the man page....
+> 
+> <shrug> I'm ok with describing generally what each special owner code
+> means.  Maybe the manpage could be more explicit about "None of these
+> codes are useful unless you're a low level filesystem tool"?
 
-Please also change "A further value" to "Further values" since there are
-now two (CLEAR_REFS_SOFT_DIRTY (4) and CLEAR_REFS_MM_HIWATER_RSS (5)).
-Thanks!
---
-To unsubscribe from this list: send the line "unsubscribe linux-man" in
-the body of a message to majordomo-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
-More majordomo info at  http://vger.kernel.org/majordomo-info.html
+You can add that, but it doesn't address the underlying problem.
+i.e.  that we can add/change the codes, their name, meaning, etc,
+and now there's a third party man page that is incorrect and out of
+date. It's the same problem with documenting filesystem specific
+mount options in mount(8). Better, IMO, is to simple say "refer to
+filesystem specific documentation for a description of these special
+values". e.g. refer them to the XFS Filesystem Structure
+document where this is all spelled out in enough detail to be useful
+for someone thinking that they might want to use them....
+
+Cheers,
+
+Dave.
+-- 
+Dave Chinner
+david@fromorbit.com
