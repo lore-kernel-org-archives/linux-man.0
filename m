@@ -1,23 +1,31 @@
-From: Petr Cermak <petrcermak-F7+t8E8rja9g9hUCZPvPmw@public.gmane.org>
+From: "Michael Kerrisk (man-pages)" <mtk.manpages-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org>
 Subject: Re: [PATCH v3.1] proc.5: Add description of CLEAR_REFS_MM_HIWATER_RSS
-Date: Mon, 12 Sep 2016 11:27:45 +0100
-Message-ID: <20160912102745.GA10993@google.com>
+Date: Mon, 12 Sep 2016 21:36:27 +0100
+Message-ID: <25be3baa-acf0-8b1a-73bc-6b817005f2aa@gmail.com>
 References: <20160910021642.2633-1-namhyung@gmail.com>
  <20160910021906.2762-1-namhyung@gmail.com>
 Mime-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
+Content-Type: text/plain; charset=windows-1252
+Content-Transfer-Encoding: 7bit
 Return-path: <linux-man-owner-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>
-Content-Disposition: inline
 In-Reply-To: <20160910021906.2762-1-namhyung-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org>
 Sender: linux-man-owner-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
 To: Namhyung Kim <namhyung-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org>
-Cc: mtk.manpages-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org, linux-man-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
+Cc: mtk.manpages-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org, linux-man-u79uwXL29TY76Z2rM5mHXA@public.gmane.org, Petr Cermak <petrcermak-F7+t8E8rja9g9hUCZPvPmw@public.gmane.org>
 List-Id: linux-man@vger.kernel.org
 
-On Sat, Sep 10, 2016 at 11:19:06AM +0900, Namhyung Kim wrote:
+On 09/10/2016 03:19 AM, Namhyung Kim wrote:
 > The Linux kernel commit 695f05593693 ("fs/proc/task_mmu.c: add
 > user-space support for resetting mm->hiwater_rss (peak RSS)") added a
 > way to reset peak RSS of a process but missed to update manpage.
+
+Thanks, Namhyung Kim. I have applied this patch.
+
+Cheers,
+
+Michael
+
+
 > 
 > Cc: Petr Cermak <petrcermak-F7+t8E8rja9g9hUCZPvPmw@public.gmane.org>
 > Acked-by: Petr Cermak <petrcermak-F7+t8E8rja9g9hUCZPvPmw@public.gmane.org>
@@ -51,14 +59,13 @@ On Sat, Sep 10, 2016 at 11:19:06AM +0900, Namhyung Kim wrote:
 >  .RE
 >  .IP
 >  Writing any value to
-> -- 
-> 2.9.3
 > 
 
-Thanks a lot for the modifications.
 
-One more thing I've just realized: I believe that the correct spelling
-is "process's" because it's a singular noun.
+-- 
+Michael Kerrisk
+Linux man-pages maintainer; http://www.kernel.org/doc/man-pages/
+Linux/UNIX System Programming Training: http://man7.org/training/
 --
 To unsubscribe from this list: send the line "unsubscribe linux-man" in
 the body of a message to majordomo-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
