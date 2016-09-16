@@ -1,22 +1,23 @@
 From: bugzilla-daemon-590EEB7GvNiWaY/ihj7yzEB+6BGkLq7r@public.gmane.org
-Subject: [Bug 158031] New: ****+++18009190992+++****Quickbooks  Enterprise
- tech  Customer Support Number#Quickbooks  Support phone number#
-Date: Fri, 16 Sep 2016 11:24:50 +0000
-Message-ID: <bug-158031-11311@https.bugzilla.kernel.org/>
+Subject: [Bug 158351] New: {Gmail KI
+ id}!!!---|||+++18009190992+++||||Quickbooks  Enterprise  technical support
+ number>Quickbooks  Support phone number>>
+Date: Fri, 16 Sep 2016 11:35:59 +0000
+Message-ID: <bug-158351-11311@https.bugzilla.kernel.org/>
 Mime-Version: 1.0
 Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: 7bit
+Content-Transfer-Encoding: 8BIT
 Return-path: <linux-man-owner-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>
 Sender: linux-man-owner-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
 To: linux-man-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
 List-Id: linux-man@vger.kernel.org
 
-https://bugzilla.kernel.org/show_bug.cgi?id=158031
+https://bugzilla.kernel.org/show_bug.cgi?id=158351
 
-            Bug ID: 158031
-           Summary: ****+++18009190992+++****Quickbooks  Enterprise tech
-                    Customer Support Number#Quickbooks  Support phone
-                    number#
+            Bug ID: 158351
+           Summary: {Gmail KI id}!!!---|||+++18009190992+++||||Quickbooks
+                    Enterprise  technical support number>Quickbooks
+                    Support phone number>>
            Product: Documentation
            Version: unspecified
           Hardware: All
@@ -56,12 +57,30 @@ canada P.h.o.n.e NUMBER 1800 919 0992 Quickbooks for Quickbooks Enterprise
 technical s.u.p.p.o.r.t Quickbooks Enterprise c.u.s.t.o.m.e.r s.e.r.v.i.c.e
 teleP.h.o.n.e NUMBER 1800 919 0992 Call 1-800-919-0992 Quickbooks Enterprise
 toll free customer care NUMBER 1800 919 0992 Call 1-800-919-0992 Quickbooks
-internet security h.e.l.p
+internet security h.e.l.p Quickbooks enterprise technical support phone
+number... Quickbooks Enterprise Customer Service Helpline Number,
+Quickbooks Enterprise Customer Care Number, Quickbooks Enterprise support team
+phone number,  Quickbooks Enterprise phone number, Quickbooks Enterprise
+technical support number, Quickbooks Enterprise support phone number,
+Quickbooks Enterprise technical support, Quickbooks Enterprise Customer Service
+Phone Number, Quickbooks Enterprise Customer Service Number, Quickbooks
+Enterprise Customer Support Phone Number, Quickbooks Enterprise Customer
+Support Number QuickBooks help number-QuickBooks Helpline Number; QuickBooks
+help phone number-QuickBooks Helpline Number, QuickBooks HELP DESK Toll free
+Number, QuickBooks Support Telephone Number, QuickBooks HELP DESK Telephone
+number, QuickBooks HELP DESK contact number, QuickBooks support contact number,
+QuickBooks technical support contact number. Quickbooks Enterprise PHONE NUMBER
+AND Quickbooks Enterprise SUPPORT PHONE NUMBER Quickbooks Enterprise Toll Free,
+Intuit QuickBooks Customer Service Helpline Number, QuickBooks Customer
+Care Number, QuickBooks support team phone number,  QuickBooks phone
+number, QuickBooks technical support number, QuickBooks support phone number,
+QuickBooks technical support, QuickBooks Customer Service Phone Number,
+QuickBooks Customer Service Number, QuickBooks Customer Support Phone Number,
+QuickBooks Customer Support Number.
 
 -- 
 You are receiving this mail because:
-You are watching the assignee of the bug.
---
+You are watching the assignee of the bug.--
 To unsubscribe from this list: send the line "unsubscribe linux-man" in
 the body of a message to majordomo-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
 More majordomo info at  http://vger.kernel.org/majordomo-info.html
