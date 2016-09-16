@@ -1,8 +1,8 @@
 From: bugzilla-daemon-590EEB7GvNiWaY/ihj7yzEB+6BGkLq7r@public.gmane.org
-Subject: [Bug 160911] New: QPML +===1877-778-8714=== Quickbooks SUpport
- Number, Quickbooks tech support number,
-Date: Fri, 16 Sep 2016 13:11:35 +0000
-Message-ID: <bug-160911-11311@https.bugzilla.kernel.org/>
+Subject: [Bug 161131] New: QB SUPPORT ON ((1-877-778-8714)) Quickbooks Number
+ AND Quickbooks SUPPORT Number
+Date: Fri, 16 Sep 2016 13:26:30 +0000
+Message-ID: <bug-161131-11311@https.bugzilla.kernel.org/>
 Mime-Version: 1.0
 Content-Type: text/plain; charset="UTF-8"
 Content-Transfer-Encoding: 7bit
@@ -11,11 +11,11 @@ Sender: linux-man-owner-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
 To: linux-man-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
 List-Id: linux-man@vger.kernel.org
 
-https://bugzilla.kernel.org/show_bug.cgi?id=160911
+https://bugzilla.kernel.org/show_bug.cgi?id=161131
 
-            Bug ID: 160911
-           Summary: QPML +===1877-778-8714=== Quickbooks SUpport Number,
-                    Quickbooks tech support number,
+            Bug ID: 161131
+           Summary: QB SUPPORT ON ((1-877-778-8714)) Quickbooks Number AND
+                    Quickbooks SUPPORT Number
            Product: Documentation
            Version: unspecified
           Hardware: All
@@ -25,13 +25,13 @@ https://bugzilla.kernel.org/show_bug.cgi?id=160911
           Priority: P1
          Component: man-pages
           Assignee: documentation_man-pages-ztI5WcYan/vQLgFONoPN62D2FQJk+8+b@public.gmane.org
-          Reporter: malikmeena943-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org
+          Reporter: felixw995-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org
         Regression: No
 
-Created attachment 236301
-  --> https://bugzilla.kernel.org/attachment.cgi?id=236301&action=edit
-QPML +===1877-778-8714=== Quickbooks SUpport Number, Quickbooks tech support
-number,
+Created attachment 236411
+  --> https://bugzilla.kernel.org/attachment.cgi?id=236411&action=edit
+QB SUPPORT ON ((1-877-778-8714)) Quickbooks Number AND Quickbooks SUPPORT
+Number
 
 QPML +===1877-778-8714=== Quickbooks SUpport Number, Quickbooks tech support
 number, Quickbooks technical support support number, Quickbooks support number,
@@ -128,6 +128,7 @@ https://java.net/bugzilla/show_bug.cgi?id=115901
 https://bugzilla.kernel.org/show_bug.cgi?id=160751
 https://bugzilla.kernel.org/show_bug.cgi?id=160841
 https://www.plurk.com/p/luas4k
+https://bugzilla.kernel.org/show_bug.cgi?id=160911
 
 -- 
 You are receiving this mail because:
