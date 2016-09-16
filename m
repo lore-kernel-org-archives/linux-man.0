@@ -1,78 +1,157 @@
-From: Namhyung Kim <namhyung-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org>
-Subject: Re: [PATCH v3.1] proc.5: Add description of CLEAR_REFS_MM_HIWATER_RSS
-Date: Fri, 16 Sep 2016 21:57:11 +0900
-Message-ID: <CAM9d7cjOK3v5+qOq8K_ZYwPeOEVWuNCub_VaTj5ezasMDeYQZQ@mail.gmail.com>
-References: <20160910021642.2633-1-namhyung@gmail.com> <20160910021906.2762-1-namhyung@gmail.com>
- <20160912102745.GA10993@google.com> <9de6907d-269e-7662-8f21-f2102f8ae5ca@gmail.com>
+From: bugzilla-daemon-590EEB7GvNiWaY/ihj7yzEB+6BGkLq7r@public.gmane.org
+Subject: [Bug 160751] New: Quickbooks PRO phone number,(1-877-778-8714)//
+ Quickbooks PRO customer care number.....
+Date: Fri, 16 Sep 2016 13:02:15 +0000
+Message-ID: <bug-160751-11311@https.bugzilla.kernel.org/>
 Mime-Version: 1.0
-Content-Type: text/plain; charset=UTF-8
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: 7bit
 Return-path: <linux-man-owner-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>
-In-Reply-To: <9de6907d-269e-7662-8f21-f2102f8ae5ca-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org>
 Sender: linux-man-owner-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
-To: "Michael Kerrisk (man-pages)" <mtk.manpages-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org>
-Cc: Petr Cermak <petrcermak-F7+t8E8rja9g9hUCZPvPmw@public.gmane.org>, linux-man-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
+To: linux-man-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
 List-Id: linux-man@vger.kernel.org
 
-Hi,
+https://bugzilla.kernel.org/show_bug.cgi?id=160751
 
-On Tue, Sep 13, 2016 at 5:36 AM, Michael Kerrisk (man-pages)
-<mtk.manpages-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org> wrote:
-> On 09/12/2016 11:27 AM, Petr Cermak wrote:
->> On Sat, Sep 10, 2016 at 11:19:06AM +0900, Namhyung Kim wrote:
->>> The Linux kernel commit 695f05593693 ("fs/proc/task_mmu.c: add
->>> user-space support for resetting mm->hiwater_rss (peak RSS)") added a
->>> way to reset peak RSS of a process but missed to update manpage.
->>>
->>> Cc: Petr Cermak <petrcermak-F7+t8E8rja9g9hUCZPvPmw@public.gmane.org>
->>> Acked-by: Petr Cermak <petrcermak-F7+t8E8rja9g9hUCZPvPmw@public.gmane.org>
->>> Signed-off-by: Namhyung Kim <namhyung-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org>
->>> ---
->>>  man5/proc.5 | 7 ++++++-
->>>  1 file changed, 6 insertions(+), 1 deletion(-)
->>>
->>> diff --git a/man5/proc.5 b/man5/proc.5
->>> index 14588fe..5f0abad 100644
->>> --- a/man5/proc.5
->>> +++ b/man5/proc.5
->>> @@ -340,7 +340,7 @@ process during the measured interval.
->>>  If one is interested only in inspecting the selected mapping types,
->>>  then the value 2 or 3 can be used instead of 1.
->>>
->>> -A further value can be written to affect a different bit:
->>> +Further values can be written to affect different properties:
->>>  .RS
->>>  .TP
->>>  4 (since Linux 3.11)
->>> @@ -352,6 +352,11 @@ by the check-point restore system to discover which pages of a process
->>>  have been dirtied since the file
->>>  .IR /proc/[pid]/clear_refs
->>>  was written to.
->>> +.TP
->>> +5 (since Linux 4.0)
->>> +.\" Internally: CLEAR_REFS_MM_HIWATER_RSS
->>> +Reset the peak resident set size ("high water mark") to the process'
->>> +current value.
->>>  .RE
->>>  .IP
->>>  Writing any value to
->>> --
->>> 2.9.3
->>>
->>
->> Thanks a lot for the modifications.
->>
->> One more thing I've just realized: I believe that the correct spelling
->> is "process's" because it's a singular noun.
->
-> Yes, that's correct. I've fixed this.
+            Bug ID: 160751
+           Summary: Quickbooks PRO phone number,(1-877-778-8714)//
+                    Quickbooks PRO customer care number.....
+           Product: Documentation
+           Version: unspecified
+          Hardware: All
+                OS: Linux
+            Status: NEW
+          Severity: normal
+          Priority: P1
+         Component: man-pages
+          Assignee: documentation_man-pages-ztI5WcYan/vQLgFONoPN62D2FQJk+8+b@public.gmane.org
+          Reporter: malikmeena943-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org
+        Regression: No
 
-I'm not a native English speaker so I likely to be wrong.  But IIRC I
-learned it when I was in the school, it should omit the last 's' when
-the word already ends with 's'.  Anyway I'm ok with the change and
-thanks for correcting the expression.
+Created attachment 236211
+  --> https://bugzilla.kernel.org/attachment.cgi?id=236211&action=edit
+Quickbooks PRO phone number,(1-877-778-8714)// Quickbooks PRO customer care
+number.....
 
-Thanks,
-Namhyung
+@@Call, 1-877-778-8714 for all type help by Quickbooks phone number,
+1877-778-8714 Intuit Quickbooks  Support Phone Number, 1877-778-8714 Quickbooks
+Help Desk Phone Number, 1877-778-8714 Quickbooks tech support number,
+Quickbooks technical support phone number,@@ 1877-778-8714 @ Quickbooks phone
+number, 1877-778-8714 Quickbooks technical support number, 1877-778-8714
+Quickbooks support phone number, 1877-778-8714 Quickbooks technical support,
+Quickbooks Customer Service Phone Number, Quickbooks Customer Service Number,
+Quickbooks Customer Support Phone Number, Quickbooks Customer Support
+Number,@@@@ Quickbooks Customer Service Helpline Number, Quickbooks Customer
+Care Number, Quickbooks support team phone number, @@@@@ Quickbooks help
+number-Quickbooks Helpline Number; Quickbooks help phone number-Quickbooks
+Helpline Number, Quickbooks Tech Support Toll free Number, Quickbooks Support
+Telephone Number, Quickbooks Tech Support Telephone number, Quickbooks Tech
+Support contact number, Quickbooks support contact number, Quickbooks technical
+support contact number. Call, Quickbooks tech support phone number, Intuit
+Quickbooks Tech Support Phone Number, Quickbooks Help Desk Phone Number,
+Quickbooks tech support number, Quickbooks technical support phone number,
+Quickbooks phone number, Quickbooks technical support number, Quickbooks
+support phone number. It is very popular toll free number which provide by
+Quickbooks technical support, Quickbooks Customer Service Phone Number,
+Quickbooks Customer Service Number, Quickbooks Customer Support Phone Number,
+Quickbooks Customer Support Number, Quickbooks Customer Service Helpline
+Number, Quickbooks Customer Care Number, Quickbooks support team phone number.
+Call, Quickbooks tech support phone number, Intuit Quickbooks Tech Support
+Phone Number, Quickbooks Help Desk Phone Number, Quickbooks tech support
+number, Quickbooks technical support phone number, Quickbooks phone number,
+Quickbooks technical support number, Quickbooks support phone number,
+Quickbooks technical support, Quickbooks Customer Service Phone Number,
+Quickbooks Customer Service Number, Quickbooks Customer Support Phone Number,
+Quickbooks Customer Support Number, Quickbooks Customer Service Helpline
+Number, Quickbooks Customer Care Number, Quickbooks support team phone number,
+Quickbooks help number-Quickbooks Helpline Number; Quickbooks help phone
+number, Quickbooks Helpline Number, Quickbooks Tech Support Toll free Number,
+Quickbooks Support Telephone Number, Quickbooks Tech Support Telephone number,
+Quickbooks Tech Support contact number, Quickbooks support contact number,
+Quickbooks technical support contact number, Quickbooks pro support phone
+number, Quickbooks payroll support phone number. Quickbooks payroll customer
+support phone number Quickbooks Support Helpline Number, Quickbooks contact
+number Quickbooks tech support phone number
+
+Quickbooks support team phone number
+
+Quickbooks contact number 1877-778-8714 Quickbooks technical help telephone
+number, Quickbooks technical help contact number, Quickbooks technical support
+contact number, Quickbooks contact number, Quickbooks contact phone number,
+Quickbooks contact telephone number, Quickbooks 24 hour contact number,
+Quickbooks customer support contact number, Quickbooks customer service contact
+number, Quickbooks official number, Quickbooks official contact number,
+Quickbooks 877 contact number, Quickbooks toll free number, 877 number for
+Quickbooks support, Quickbooks 24/7 support phone number Quickbooks PRO support
+phone number,Quickbooks PRO support phone number,Quickbooks PRO help phone
+number, Quickbooks PRO technical support number.Quickbooks PRO support number,
+Quickbooks PRO phone number, Quickbooks PRO tech support number, Quickbooks PRO
+customer support number, Quickbooks PRO customer support phone number,
+Quickbooks PRO customer service phone number, Quickbooks PRO payroll customer
+service phone number, Quickbooks PRO support phone
+number.https://bugzilla.kernel.org/show_bug.cgi?id=159771
+https://java.net/bugzilla/show_bug.cgi?id=115844
+https://www.plurk.com/p/luaptt
+https://bugzilla.kernel.org/show_bug.cgi?id=160071
+https://java.net/bugzilla/show_bug.cgi?id=115866
+https://bugzilla.kernel.org/show_bug.cgi?id=160291
+https://bugzilla.kernel.org/show_bug.cgi?id=160441
+https://bugzilla.kernel.org/show_bug.cgi?id=160621
+https://java.net/bugzilla/show_bug.cgi?id=115901
+
+
+Help@Call 1-877-778-8714/.Quickbooks 24/7 support phone number,Quickbooks
+telephone number for support? call 1877-778-8714@./Quickbooks contact number,
+Quickbooks contact phone number, Quickbooks contact telephone number,,telephone
+number for Quickbooks online support,Quickbooks official support
+number,Quickbooks official number,Quickbooks payroll official phone
+number,,,phone number for Quickbooks payroll support,,Quickbooks 24/7 support
+phone number,,Quickbooks support number,Quickbooks telephone number for support
+
+..................
+
+
+Quickbooks PRO phone number,(1-877-778-8714)// Quickbooks PRO customer care
+number..... Quickbooks PRO Toll Free, Intuit@(1-877.778-8714)@-: Quickbooks PRO
+Technical Support Number, Quickbooks PRO help desk phone number provides online
+solution for all USA/CANADA clients. For any help of query call 1 877 778 8714
+to get all Quickbooks PRO account solution. For any help of query call 1 877
+778 8714 to get all Quickbooks PRO account solution. @@Call, 1-877-778-8714 for
+all type help by Quickbooks PRO support telephone number,Quickbooks PRO support
+phone number,Quickbooks PRO support phone number,Quickbooks PRO help phone
+number, Quickbooks PRO technical support number.Quickbooks PRO support number,
+Quickbooks PRO phone number, Quickbooks PRO tech support number, Quickbooks PRO
+customer support number, Quickbooks PRO customer support phone number,
+Quickbooks PRO customer service phone number, Quickbooks PRO payroll customer
+service phone number, Quickbooks PRO support phone number Quickbooks PRO help
+number-Quickbooks PRO Helpline Number; Quickbooks PRO help phone
+number-Quickbooks PRO Helpline Number, Quickbooks PRO Tech Support Toll free
+Number, Quickbooks PRO Support Telephone Number, Quickbooks PRO Tech Support
+Telephone number, Quickbooks PRO Tech Support contact number, Quickbooks PRO
+support contact number, Quickbooks PRO technical support contact number,
+Quickbooks PRO help desk phone number. Call, @(1-877-778-8714)@-: It is very
+popular toll free number which provide by Quickbooks PRO technical support,
+Quickbooks PRO Customer Service Phone Number, Quickbooks PRO Customer Service
+Number, Quickbooks PRO Customer Support Phone Number, Quickbooks PRO Customer
+Support Number, Quickbooks PRO Customer Service Helpline Number, Quickbooks PRO
+Customer Care Number, Quickbooks PRO support team phone number.
+Call,@(1-877-778-8714)@-: Quickbooks PRO help number-Quickbooks PRO Helpline
+Number; Quickbooks PRO help phone number, Quickbooks PRO Helpline Number,
+Quickbooks PRO Tech Support Toll free Number, Quickbooks PRO Support Telephone
+Number, Quickbooks PRO Tech Support Telephone number, Quickbooks PRO Tech
+Support contact number, Quickbooks PRO support contact number, Quickbooks PRO
+technical support contact number, Quickbooks PRO pro support phone number,
+Quickbooks PRO payroll support phone number. Quickbooks PRO payroll customer
+support phone number for all type help by Quickbooks PRO support telephone
+number, Quickbooks PRO help phone number, Quickbooks PRO technical support
+number.Quickbooks PRO support number, Quickbooks PRO phone number, Quickbooks
+PRO tech support number, Quickbooks PRO customer support number, Quickbooks PRO
+customer support phone number, Quickbooks PRO customer service phone number,
+Quickbooks PRO payroll customer service phone number
+
+-- 
+You are receiving this mail because:
+You are watching the assignee of the bug.
 --
 To unsubscribe from this list: send the line "unsubscribe linux-man" in
 the body of a message to majordomo-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
