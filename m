@@ -1,7 +1,7 @@
 From: bugzilla-daemon-590EEB7GvNiWaY/ihj7yzEB+6BGkLq7r@public.gmane.org
-Subject: [Bug 159871] New: ?? 1-8.0.0??????9.1.9.-.0.9.9.2.????"USA"
-Date: Fri, 16 Sep 2016 12:28:02 +0000
-Message-ID: <bug-159871-11311@https.bugzilla.kernel.org/>
+Subject: [Bug 159931] New: ??
+Date: Fri, 16 Sep 2016 12:30:10 +0000
+Message-ID: <bug-159931-11311@https.bugzilla.kernel.org/>
 Mime-Version: 1.0
 Content-Type: text/plain; charset="UTF-8"
 Content-Transfer-Encoding: 7bit
@@ -10,10 +10,10 @@ Sender: linux-man-owner-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
 To: linux-man-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
 List-Id: linux-man@vger.kernel.org
 
-https://bugzilla.kernel.org/show_bug.cgi?id=159871
+https://bugzilla.kernel.org/show_bug.cgi?id=159931
 
-            Bug ID: 159871
-           Summary: ?? 1-8.0.0??????9.1.9.-.0.9.9.2.????"USA"
+            Bug ID: 159931
+           Summary: ??
            Product: Documentation
            Version: unspecified
           Hardware: All
@@ -26,11 +26,11 @@ https://bugzilla.kernel.org/show_bug.cgi?id=159871
           Reporter: deepika003-O5WfVfzUwx8@public.gmane.org
         Regression: No
 
-Created attachment 235461
-  --> https://bugzilla.kernel.org/attachment.cgi?id=235461&action=edit
-Quickbooks enterprise customer service number
+Created attachment 235511
+  --> https://bugzilla.kernel.org/attachment.cgi?id=235511&action=edit
+http://quickbookssupportphonenumber.bravesites.com/
 
-?? 1-8.0.0??????9.1.9.-.0.9.9.2.????"USA"
+??
 
 -- 
 You are receiving this mail because:
