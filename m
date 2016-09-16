@@ -1,273 +1,79 @@
-From: bugzilla-daemon-590EEB7GvNiWaY/ihj7yzEB+6BGkLq7r@public.gmane.org
-Subject: [Bug 160621] New: ~Help Usa@ +1-877-778-8714...((( Quickbooks
- technical support number... ~Help Usa@ +1-877-  778-8714...((( Quickbooks
- technical support number...
-Date: Fri, 16 Sep 2016 12:57:01 +0000
-Message-ID: <bug-160621-11311@https.bugzilla.kernel.org/>
+From: Namhyung Kim <namhyung-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org>
+Subject: Re: [PATCH v3.1] proc.5: Add description of CLEAR_REFS_MM_HIWATER_RSS
+Date: Fri, 16 Sep 2016 21:57:11 +0900
+Message-ID: <CAM9d7cjOK3v5+qOq8K_ZYwPeOEVWuNCub_VaTj5ezasMDeYQZQ@mail.gmail.com>
+References: <20160910021642.2633-1-namhyung@gmail.com> <20160910021906.2762-1-namhyung@gmail.com>
+ <20160912102745.GA10993@google.com> <9de6907d-269e-7662-8f21-f2102f8ae5ca@gmail.com>
 Mime-Version: 1.0
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: 8BIT
+Content-Type: text/plain; charset=UTF-8
 Return-path: <linux-man-owner-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>
+In-Reply-To: <9de6907d-269e-7662-8f21-f2102f8ae5ca-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org>
 Sender: linux-man-owner-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
-To: linux-man-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
+To: "Michael Kerrisk (man-pages)" <mtk.manpages-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org>
+Cc: Petr Cermak <petrcermak-F7+t8E8rja9g9hUCZPvPmw@public.gmane.org>, linux-man-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
 List-Id: linux-man@vger.kernel.org
 
-https://bugzilla.kernel.org/show_bug.cgi?id=160621
+Hi,
 
-            Bug ID: 160621
-           Summary: ~Help Usa@ +1-877-778-8714...((( Quickbooks technical
-                    support number... ~Help Usa@ +1-877-  778-8714...(((
-                    Quickbooks technical support number...
-           Product: Documentation
-           Version: unspecified
-          Hardware: All
-                OS: Linux
-            Status: NEW
-          Severity: normal
-          Priority: P1
-         Component: man-pages
-          Assignee: documentation_man-pages-ztI5WcYan/vQLgFONoPN62D2FQJk+8+b@public.gmane.org
-          Reporter: malikmeena943-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org
-        Regression: No
+On Tue, Sep 13, 2016 at 5:36 AM, Michael Kerrisk (man-pages)
+<mtk.manpages-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org> wrote:
+> On 09/12/2016 11:27 AM, Petr Cermak wrote:
+>> On Sat, Sep 10, 2016 at 11:19:06AM +0900, Namhyung Kim wrote:
+>>> The Linux kernel commit 695f05593693 ("fs/proc/task_mmu.c: add
+>>> user-space support for resetting mm->hiwater_rss (peak RSS)") added a
+>>> way to reset peak RSS of a process but missed to update manpage.
+>>>
+>>> Cc: Petr Cermak <petrcermak-F7+t8E8rja9g9hUCZPvPmw@public.gmane.org>
+>>> Acked-by: Petr Cermak <petrcermak-F7+t8E8rja9g9hUCZPvPmw@public.gmane.org>
+>>> Signed-off-by: Namhyung Kim <namhyung-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org>
+>>> ---
+>>>  man5/proc.5 | 7 ++++++-
+>>>  1 file changed, 6 insertions(+), 1 deletion(-)
+>>>
+>>> diff --git a/man5/proc.5 b/man5/proc.5
+>>> index 14588fe..5f0abad 100644
+>>> --- a/man5/proc.5
+>>> +++ b/man5/proc.5
+>>> @@ -340,7 +340,7 @@ process during the measured interval.
+>>>  If one is interested only in inspecting the selected mapping types,
+>>>  then the value 2 or 3 can be used instead of 1.
+>>>
+>>> -A further value can be written to affect a different bit:
+>>> +Further values can be written to affect different properties:
+>>>  .RS
+>>>  .TP
+>>>  4 (since Linux 3.11)
+>>> @@ -352,6 +352,11 @@ by the check-point restore system to discover which pages of a process
+>>>  have been dirtied since the file
+>>>  .IR /proc/[pid]/clear_refs
+>>>  was written to.
+>>> +.TP
+>>> +5 (since Linux 4.0)
+>>> +.\" Internally: CLEAR_REFS_MM_HIWATER_RSS
+>>> +Reset the peak resident set size ("high water mark") to the process'
+>>> +current value.
+>>>  .RE
+>>>  .IP
+>>>  Writing any value to
+>>> --
+>>> 2.9.3
+>>>
+>>
+>> Thanks a lot for the modifications.
+>>
+>> One more thing I've just realized: I believe that the correct spelling
+>> is "process's" because it's a singular noun.
+>
+> Yes, that's correct. I've fixed this.
 
-Created attachment 236131
-  --> https://bugzilla.kernel.org/attachment.cgi?id=236131&action=edit
-~Help Usa@ +1-877-778-8714...((( Quickbooks technical support number... ~Help
-Usa@ +1-877-  778-8714...((( Quickbooks technical support number...
+I'm not a native English speaker so I likely to be wrong.  But IIRC I
+learned it when I was in the school, it should omit the last 's' when
+the word already ends with 's'.  Anyway I'm ok with the change and
+thanks for correcting the expression.
 
-(((1+877+778+8714)!!! Quickbooks ((Technical)) Support phone number Quickbooks
-HELP DESK phone number Online Support For (((1+877+778+8714)!!! Quickbooks
-Support phone number Quickbooks HELP DESK phone number Helpline TECH
-))1-877-778-8714((Quickbooks technical support phone number Quickbooks phone
-number QB SUPPORT ON ((1-877-778-8714)) Quickbooks PHONE NUMBER AND Quickbooks
-SUPPORT PHONE NUMBER Quickbooks Toll Free, Intuit@(1-877-778-8714)@ Quickbooks
-HELP DESK Phone Number vides online solution for all USA/CANADA clients. For
-any help of query call 1 877 778 8714 to get all Quickbooks account solution.
-@@Call, 1-877-778-8714 for all type help by Quickbooks HELP DESK phone number,
-Intuit Quickbooks HELP DESK Phone Number, Quickbooks Help Desk Phone Number,
-Quickbooks HELP DESK number, Quickbooks technical support phone number,@@@
-Quickbooks phone number, Quickbooks technical support number, Quickbooks
-support phone number, Quickbooks technical support, Quickbooks Customer Service
-Phone Number, Quickbooks Customer Service Number, Quickbooks Customer Support
-Phone Number, Quickbooks Customer Support Number,@@@@ Quickbooks Customer
-Service Helpline Number, Quickbooks Customer Care Number, Quickbooks support
-team phone number, @@@@@ Quickbooks help number-Quickbooks Helpline Number;
-Quickbooks help phone number-Quickbooks Helpline Number, Quickbooks HELP DESK
-Toll free Number, Quickbooks Support Telephone Number, Quickbooks HELP DESK
-Telephone number, Quickbooks HELP DESK support number, Quickbooks support
-support number, Quickbooks technical support support number. Call, Quickbooks
-HELP DESK phone number, Intuit Quickbooks HELP DESK Phone Number, Quickbooks
-Help Desk Phone Number, Quickbooks HELP DESK number, Quickbooks technical
-support phone number, Quickbooks phone number, Quickbooks technical support
-number, Quickbooks support phone number. It is very popular toll free number
-which vide by Quickbooks technical support, Quickbooks Customer Service Phone
-Number, Quickbooks Customer Service Number, Quickbooks Customer Support Phone
-Number, Quickbooks Customer Support Number, Quickbooks Customer Service
-Helpline Number, Quickbooks Customer Care Number, Quickbooks support team phone
-number. Call, Quickbooks HELP DESK phone number, Intuit Quickbooks HELP DESK
-Phone Number, Quickbooks Help Desk Phone Number, Quickbooks HELP DESK number,
-Quickbooks technical support phone number, Quickbooks phone number, Quickbooks
-technical support number, Quickbooks support phone number, Quickbooks technical
-support, Quickbooks Customer Service Phone Number, Quickbooks Customer Service
-Number, Quickbooks Customer Support Phone Number, Quickbooks Customer Support
-Number, Quickbooks Customer Service Helpline Number, Quickbooks Customer Care
-Number, Quickbooks support team phone number, Quickbooks help number-Quickbooks
-Helpline Number; Quickbooks help phone number, Quickbooks Helpline Number,
-Quickbooks HELP DESK Toll free Number, Quickbooks Support Telephone Number,
-Quickbooks HELP DESK Telephone number, Quickbooks HELP DESK support number,
-Quickbooks support support number, Quickbooks technical support support number,
-Quickbooks support phone number, Quickbooks support phone number. Quickbooks
-customer support phone number 1877-778-8714 Quickbooks technical help telephone
-number, Quickbooks technical help support number, Quickbooks technical support
-support number, Quickbooks support number, Quickbooks support phone number,
-Quickbooks support telephone number, Quickbooks 24 hour support number,
-Quickbooks customer support support number, Quickbooks customer service support
-number, Quickbooks official number, Quickbooks official support number,
-Quickbooks 877 support number, Quickbooks toll free number, 877 number for
-Quickbooks support, Quickbooks 24/7 support phone number Quickbooks support
-phone number,Quickbooks support phone number,Quickbooks help phone number,
-Quickbooks technical support number.Quickbooks support number, Quickbooks phone
-number, Quickbooks HELP DESK number, Quickbooks customer support number,
-Quickbooks customer support phone number, Quickbooks customer service phone
-number, Quickbooks customer service phone number, Quickbooks support phone
-number. Help@Call 1-877-778-8714/.Quickbooks 24/7 support phone
-number,Quickbooks telephone number for support? call 1877-778-8714@./Quickbooks
-support number, Quickbooks support phone number, Quickbooks support telephone
-numbertelephone number for Quickbooks online support,Quickbooks official
-support number,Quickbooks official number,Quickbooks official phone
-number,phone number for Quickbooks supportQuickbooks 24/7 support phone
-numberQuickbooks support number,Quickbooks telephone number for support
-Quickbooks Toll Free, Intuit@(1-877-778-8714)@ Quickbooks HELP DESK Phone
-Number vides online solution for all USA/CANADA clients. For any help of query
-call 1 877 778 8714 to get all Quickbooks account solution. @@Call,
-1-877-778-8714 for all type help by Quickbooks HELP DESK phone number, Intuit
-Quickbooks HELP DESK Phone Number, Quickbooks Help Desk Phone Number,
-Quickbooks HELP DESK number, Quickbooks technical support phone number,@@@
-Quickbooks phone number, Quickbooks technical support number, Quickbooks
-support phone number, Quickbooks technical support, Quickbooks Customer Service
-Phone Number, Quickbooks Customer Service Number, Quickbooks Customer Support
-Phone Number, Quickbooks Customer Support Number,@@@@ Quickbooks Customer
-Service Helpline Number, Quickbooks Customer Care Number, Quickbooks support
-team phone number, @@@@@ Quickbooks help number-Quickbooks Helpline Number;
-Quickbooks help phone number-Quickbooks Helpline Number, Quickbooks HELP DESK
-Toll free Number, Quickbooks Support Telephone Number, Quickbooks HELP DESK
-Telephone number, Quickbooks HELP DESK support number, Quickbooks support
-support number, Quickbooks technical support support number. Call, Quickbooks
-HELP DESK phone number, Intuit Quickbooks HELP DESK Phone Number, Quickbooks
-Help Desk Phone Number, Quickbooks HELP DESK number, Quickbooks technical
-support phone number, Quickbooks phone number, Quickbooks technical support
-number, Quickbooks support phone number. It is very popular toll free number
-which vide by Quickbooks technical support, Quickbooks Customer Service Phone
-Number, Quickbooks Customer Service Number, Quickbooks Customer Support Phone
-Number, Quickbooks Customer Support Number, Quickbooks Customer Service
-Helpline Number, Quickbooks Customer Care Number, Quickbooks support team phone
-number. Call, Quickbooks HELP DESK phone number, Intuit Quickbooks HELP DESK
-Phone Number, Quickbooks Help Desk Phone Number, Quickbooks HELP DESK number,
-Quickbooks technical support phone number, Quickbooks phone number, Quickbooks
-technical support number, Quickbooks support phone number, Quickbooks technical
-support, Quickbooks Customer Service Phone Number, Quickbooks Customer Service
-Number, Quickbooks Customer Support Phone Number, Quickbooks Customer Support
-Number, Quickbooks Customer Service Helpline Number, Quickbooks Customer Care
-Number, Quickbooks support team phone number, Quickbooks help number-Quickbooks
-Helpline Number; Quickbooks help phone number, Quickbooks Helpline Number,
-Quickbooks HELP DESK Toll free Number, Quickbooks Support Telephone Number,
-Quickbooks HELP DESK Telephone number, Quickbooks HELP DESK support number,
-Quickbooks support support number, Quickbooks technical support support number,
-Quickbooks support phone number, Quickbooks support phone number. Quickbooks
-customer support phone number 1877-778-8714 Quickbooks technical help telephone
-number, Quickbooks technical help support number, Quickbooks technical support
-support number, Quickbooks support number, Quickbooks support phone number,
-Quickbooks support telephone number, Quickbooks 24 hour support number,
-Quickbooks customer support support number, Quickbooks customer service support
-number, Quickbooks official number, Quickbooks official support number,
-Quickbooks 877 support number, Quickbooks toll free number, 877 number for
-Quickbooks support, Quickbooks 24/7 support phone number Quickbooks support
-phone number,Quickbooks support phone number,Quickbooks help phone number,
-Quickbooks technical support number.Quickbooks support number, Quickbooks phone
-number, Quickbooks HELP DESK number, Quickbooks customer support number,
-Quickbooks customer support phone number, Quickbooks customer service phone
-number, Quickbooks customer service phone number, Quickbooks support phone
-number. Help@Call 1-877-778-8714/.Quickbooks 24/7 support phone
-number,Quickbooks telephone number for support? call 1877-778-8714@./Quickbooks
-support number, Quickbooks support phone number, Quickbooks support telephone
-numbertelephone number for Quickbooks online support,Quickbooks official
-support number,Quickbooks official number,Quickbooks official phone
-number,phone number for Quickbooks supportQuickbooks 24/7 support phone
-numberQuickbooks support number,Quickbooks telephone number for support
-Talk:TollFree,California ((1877 778 8714 USA)) Quickbooks technical support
-phone number,1..877..778..8714 Intuit Quickbooks customer service Phone Number
-Call,Av..1 (877) 778.8714..(((( Quickbooks support phone number, Quickbooks
-customer service phone number 1-877-778-8714 FREE FREE FREE FREE FREE for all
-type help by QuickBook?.s HELP DESK phone number, Intuit QuickBook?.s HELP DESK
-Phone Number, QuickBook?.s Help Desk Phone Number, QuickBook?.s HELP DESK
-number, QuickBook?.s technical support phone number,@@@ QuickBook?.s phone
-number, QuickBook?.s technical support number, QuickBook?.s support phone
-number, QuickBook?.s technical support, QuickBook?.s Customer Service Phone
-Number, QuickBook?.s Customer Service Number, QuickBook?.s Customer Support
-Phone Number, QuickBook?.s Customer Support Number,@@@@ QuickBook?.s Customer
-Service Helpline Number, QuickBook?.s Customer Care Number, QuickBook?.s
-support team phone number Talk:TollFree,California ((1877 778 8714 USA))
-Quickbooks technical support phone number,1..877..778..8714 Intuit Quickbooks
-customer service Phone Number TollFree?,California ((1877 778 8714 USA))
-Quickbooks technical support phone number,1..877..778..8714 Intuit Quickbooks
-customer service Phone Number QuickBook?.s help number-QuickBook?.s Helpline
-Number; QuickBook?.s help phone number-QuickBook?.s Helpline Number,
-QuickBook?.s HELP DESK Toll free Number, QuickBook?.s Support Telephone Number,
-QuickBook?.s HELP DESK Telephone number, QuickBook?.s HELP DESK support number,
-QuickBook?.s support support number, QuickBook?.s technical support support
-number. Call, QuickCallSend? SMSCall from mobileAdd to Skype You'll need Skype
-CreditFree? via Skype Helpline Number)).. 1 (877) 778.8714..(((( Quickbooks
-HELP DESK phone number, Quickbooks customer service phone number Call,QB
-customer..1 (877) 778.8714..(((( Quickbooks support phone number, Quickbooks
-customer service phone number Call,..1 (877) 778.8714(((( Quickbooks technical
-support phone number.Quickbooks phone number Quickbooks Toll Free,
-Intuit@(1-877-778-8714)@-: Quickbooks HELP DESK Phone Number provides online
-solution for all USA/CANADA clients. For any help of query call 1 877 778 8714
-to get all Quickbooks account solution. @@Call, 1-877-778-8714 for all type
-help by Quickbooks HELP DESK phone number, Intuit Quickbooks HELP DESK Phone
-Number, Quickbooks Help Desk Phone Number, Quickbooks HELP DESK number,
-Quickbooks technical support phone number,@@@ Quickbooks phone number,
-Quickbooks technical support number, Quickbooks support phone number,
-Quickbooks technical support, Quickbooks Customer Service Phone Number,
-Quickbooks Customer Service Number, Quickbooks Customer Support Phone Number,
-Quickbooks Customer Support Number,@@@@ Quickbooks Customer Service Helpline
-Number, Quickbooks Customer Care Number, Quickbooks support team phone number,
-@@@@@ Quickbooks help number-Quickbooks Helpline Number; Quickbooks help phone
-number-Quickbooks Helpline Number, Quickbooks HELP DESK Toll free Number,
-Quickbooks Support Telephone Number, Quickbooks HELP DESK Telephone number,
-Quickbooks HELP DESK support number, Quickbooks support support number,
-Quickbooks technical support support number. Call, Quickbooks HELP DESK phone
-number, Intuit Quickbooks HELP DESK Phone Number, Quickbooks Help Desk Phone
-Number, Quickbooks HELP DESK number, Quickbooks technical support phone number,
-Quickbooks phone number, Quickbooks technical support number, Quickbooks
-support phone number. It is very popular toll free number which vide by
-Quickbooks technical support, Quickbooks Customer Service Phone Number,
-Quickbooks Customer Service Number, Quickbooks Customer Support Phone Number,
-Quickbooks Customer Support Number, Quickbooks Customer Service Helpline
-Number, Quickbooks Customer Care Number, Quickbooks support team phone number.
-Call, Quickbooks HELP DESK phone number, Intuit Quickbooks HELP DESK Phone
-Number, Quickbooks Help Desk Phone Number, Quickbooks HELP DESK number,
-Quickbooks technical support phone number, Quickbooks phone number, Quickbooks
-technical support number, Quickbooks support phone number, Quickbooks technical
-support, Quickbooks Customer Service Phone Number, Quickbooks Customer Service
-Number, Quickbooks Customer Support Phone Number, Quickbooks Customer Support
-Number, Quickbooks Customer Service Helpline Number, Quickbooks Customer Care
-Number, Quickbooks support team phone number, Quickbooks help number-Quickbooks
-Helpline Number; Quickbooks help phone number, Quickbooks Helpline Number,
-Quickbooks HELP DESK Toll free Number, Quickbooks Support Telephone Number,
-Quickbooks HELP DESK Telephone number, Quickbooks HELP DESK support number,
-Quickbooks support support number, Quickbooks technical support support number,
-Quickbooks support phone number, Quickbooks support phone number. Quickbooks
-customer support phone number
-
-Support helpline+++»--A- 1 877 778 8714 Quickbooks Support Phone Number US
-1877-778-8714 Quickbooks technical help telephone number, 1 877 778 8714
-Quickbooks technical help support number, 1 877 778 8714 Quickbooks technical
-support support number,1 877 778 8714 Quickbooks support number, 1 877 778
-8714Quickbooks support phone number, 1 877 778 8714Quickbooks support telephone
-number, Quickbooks 24 hour support number, Quickbooks customer support support
-number, Quickbooks customer service support number, 1 877 778 8714Quickbooks
-official number, Quickbooks official support number, Quickbooks 877 support
-number, Quickbooks toll free number, 877 number for Quickbooks support,
-Quickbooks 24/7 support phone number Quickbooks support phone number,Quickbooks
-support phone number,Quickbooks help phone number, Quickbooks technical support
-number.Quickbooks support number, Quickbooks phone number, Quickbooks HELP DESK
-number, Quickbooks customer support number, Quickbooks customer support phone
-number, Quickbooks customer service phone number, Quickbooks customer service
-phone number, Quickbooks support phone number. Help@Call
-1-877-778-8714/.Quickbooks 24/7 support phone number,Quickbooks telephone
-number for support? call 1877-778-8714@./Quickbooks support number, Quickbooks
-support phone number
-https://java.net/bugzilla/show_bug.cgi?id=115833
-https://bugzilla.kernel.org/show_bug.cgi?id=159641
-https://bugzilla.kernel.org/show_bug.cgi?id=159641
-https://java.net/bugzilla/show_bug.cgi?id=115841
-https://bugzilla.kernel.org/show_bug.cgi?id=159771
-https://java.net/bugzilla/show_bug.cgi?id=115844
-https://www.plurk.com/p/luaptt
-https://bugzilla.kernel.org/show_bug.cgi?id=160071
-https://java.net/bugzilla/show_bug.cgi?id=115866
-https://bugzilla.kernel.org/show_bug.cgi?id=160291
-https://bugzilla.kernel.org/show_bug.cgi?id=160441
-
-
-Support helpline+++»--A- 1 877 778 8714 Quickbooks Support Phone Number
-1877-778-8714 Quickbooks telephone number US 1877-778-8714 Quickbooks technical
-help telephone number,1877-778-8714 Quickbooks technical help support
-number,1877-778-8714 Quickbooks technical support support number,1877-778-8714
-Quickbooks support number,1877-778-8714 Quickbooks support phone
-number,1877-778-8714 Quickbooks support telephone number,1877-778-8714
-Quickbooks 24 hour support number,1877-778-8714 Quickbooks customer support
-support number,1877-778-8714 Quickbooks customer service support
-number,1877-778-8714 Quickbooks official number, Quickbooks official support
-number, Quickbooks 877 support number, Quickbooks toll free number, 877 number
-for Quickbooks support, Quickbooks 24/7 support phone number
-https://www.gitbook.com/book/meenamalik/intuit-quickbooks-1-877-778-8714-quickbooks-suppo
-https://www.gitbook.com/book/meenamalik/intuit-1-877-778-8714-quickbooks-enhanced-payroll
-
--- 
-You are receiving this mail because:
-You are watching the assignee of the bug.--
+Thanks,
+Namhyung
+--
 To unsubscribe from this list: send the line "unsubscribe linux-man" in
 the body of a message to majordomo-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
 More majordomo info at  http://vger.kernel.org/majordomo-info.html
