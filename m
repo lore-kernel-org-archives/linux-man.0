@@ -1,9 +1,8 @@
 From: bugzilla-daemon-590EEB7GvNiWaY/ihj7yzEB+6BGkLq7r@public.gmane.org
-Subject: [Bug 161261] New: >>>>>>>>Basanti1::Cal>>>>.l 1 -8-*0.0.9*19*09*9-2
- >>>>>>.Q-*U-*I-*C-*K-*B-*0-0-K-*S-S. e-n-t-e-r-p-r-i-s-e *U.*P.*P.*O.*R.*T
- ph.o..-ne n.u.-m-.b-e-r>>>>
-Date: Fri, 16 Sep 2016 13:35:27 +0000
-Message-ID: <bug-161261-11311@https.bugzilla.kernel.org/>
+Subject: [Bug 161311] New: < QuickBooks customer service phone number
+ +1-800-919-0992
+Date: Fri, 16 Sep 2016 13:35:30 +0000
+Message-ID: <bug-161311-11311@https.bugzilla.kernel.org/>
 Mime-Version: 1.0
 Content-Type: text/plain; charset="UTF-8"
 Content-Transfer-Encoding: 7bit
@@ -12,13 +11,11 @@ Sender: linux-man-owner-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
 To: linux-man-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
 List-Id: linux-man@vger.kernel.org
 
-https://bugzilla.kernel.org/show_bug.cgi?id=161261
+https://bugzilla.kernel.org/show_bug.cgi?id=161311
 
-            Bug ID: 161261
-           Summary: >>>>>>>>Basanti1::Cal>>>>.l 1 -8-*0.0.9*19*09*9-2
-                    >>>>>>.Q-*U-*I-*C-*K-*B-*0-0-K-*S-S.
-                    e-n-t-e-r-p-r-i-s-e *U.*P.*P.*O.*R.*T ph.o..-ne
-                    n.u.-m-.b-e-r>>>>
+            Bug ID: 161311
+           Summary: < QuickBooks customer service phone number
+                    +1-800-919-0992
            Product: Documentation
            Version: unspecified
           Hardware: All
@@ -31,12 +28,11 @@ https://bugzilla.kernel.org/show_bug.cgi?id=161261
           Reporter: deepika010-O5WfVfzUwx8@public.gmane.org
         Regression: No
 
-Created attachment 236451
-  --> https://bugzilla.kernel.org/attachment.cgi?id=236451&action=edit
+Created attachment 236501
+  --> https://bugzilla.kernel.org/attachment.cgi?id=236501&action=edit
 Quickbooks enterprise customer service number
 
->>>>>>>>Basanti1::Cal>>>>.l 1 -8-*0.0.9*19*09*9-2 >>>>>>.Q-*U-*I-*C-*K-*B-*0-0-K-*S-S. e-n-t-e-r-p-r-i-s-e *U.*P.*P.*O.*R.*T ph.o..-ne n.u.-m-.b-e-r>>>>
-
+< QuickBooks customer service phone number +1-800-919-0992
 
 
 Call (Toll Free)+1800 919 0992 QuickBooks Technical Support Phone
