@@ -1,52 +1,103 @@
-From: Mats Wichmann <mats-mBRmNHn34rVzbRFIqnYvSA@public.gmane.org>
-Subject: Re: Missing "restrict" keyword in function signatures
-Date: Fri, 16 Sep 2016 14:03:49 -0600
-Message-ID: <eff57742-9c5a-e8a1-f87e-312f25fa098d@wichmann.us>
-References: <CALgdb5+XAEqE4k+-BeuVxYFh_8TBP4Q-Xt5LMc=BmLD6jS1dHQ@mail.gmail.com>
+From: bugzilla-daemon-590EEB7GvNiWaY/ihj7yzEB+6BGkLq7r@public.gmane.org
+Subject: [Bug 161881] New: ffdfddgf:;:++Quickbooks intuit++++1-800-919-0992
+ +++++ Quickbooks Support phone number quickbooks enterprise technical support
+ phone number usa canbada
+Date: Sat, 17 Sep 2016 08:20:45 +0000
+Message-ID: <bug-161881-11311@https.bugzilla.kernel.org/>
 Mime-Version: 1.0
-Content-Type: text/plain; charset=utf-8
-Content-Transfer-Encoding: 8bit
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: 8BIT
 Return-path: <linux-man-owner-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>
-In-Reply-To: <CALgdb5+XAEqE4k+-BeuVxYFh_8TBP4Q-Xt5LMc=BmLD6jS1dHQ-JsoAwUIsXosN+BqQ9rBEUg@public.gmane.org>
 Sender: linux-man-owner-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
-To: Ori Avtalion <ori-prZfzsrDuP2LwutG50LtGA@public.gmane.org>, linux-man-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
+To: linux-man-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
 List-Id: linux-man@vger.kernel.org
 
-On 09/16/2016 03:06 AM, Ori Avtalion wrote:
-> Hi,
-> 
-> None of the function signatures in man pages list the "restrict"
-> keywords, even if the actual function signatures in the headers have
-> them.
-> 
-> Some example functions that use "restrict":
-> * memcpy (src and dest must not overlap)
-> * strtod
-> 
-> Is this an intentional omission?
+https://bugzilla.kernel.org/show_bug.cgi?id=161881
 
-It's an interesting question. These largely come from ISO C, and I
-recall reading that glibc developers consider the qualifier rather
-useless, noting something like "since ISO C uses it, we have to also".
+            Bug ID: 161881
+           Summary: ffdfddgf:;:++Quickbooks intuit++++1-800-919-0992 +++++
+                    Quickbooks Support phone number quickbooks enterprise
+                    technical support phone number usa canbada
+           Product: Documentation
+           Version: unspecified
+          Hardware: All
+                OS: Linux
+            Status: NEW
+          Severity: normal
+          Priority: P1
+         Component: man-pages
+          Assignee: documentation_man-pages-ztI5WcYan/vQLgFONoPN62D2FQJk+8+b@public.gmane.org
+          Reporter: 6yh6tytrytyy-O5WfVfzUwx8@public.gmane.org
+        Regression: No
 
-This is one of the interesting pieces of text in ISO C11 on it (6.7.3):
+Created attachment 236771
+  --> https://bugzilla.kernel.org/attachment.cgi?id=236771&action=edit
+Quickbooks> support++ 1+800+919+0992@ Quickbooks tech support phone
+numberQuickbooks> support++ 1+800+919+0992@ Quickbooks tech support phone
+numberQuickbooks> support++ 1+800+919+0992@ Quickbooks tec
 
-An object that is accessed through a restrict-qualified pointer has a
-special association with that pointer. This association, defined in
-6.7.3.1 below, requires that all accesses to that object use, directly
-or indirectly, the value of that particular ponter. 135) The intended
-use of the restrict qualifier (like the register storage class) is to
-promote optimization, and deleting all instances of the qualifier from
-all preprocessing translation units composing a conforming program does
-not change its meaning (i.e., observable behavior).
+Quickbooks> support++ 1+800+919+0992@ Quickbooks tech support phone
+numberQuickbooks> support++ 1+800+919+0992@ Quickbooks tech support phone
+numberQuickbooks> support++ 1+800+919+0992@ Quickbooks tech support phone
+numberQuickbooks> support++ 1+800+919+0992@ Quickbooks tech support phone
+number Phone Number, Quickbooks Help Desk Phone Number, Quickbooks customer
+care number, Quickbooks customer care phone number, Quickbooks phone number,
+Quickbooks customer care number, Quickbooks customer service phone number,
+Quickbooks customer care, Quickbooks Customer Customer service Phone Number,
+Quickbooks Customer Customer service Number, Quickbooks Customer care Phone
+Number, Quickbooks Customer care Number, Quickbooks Customer Customer service
+Helpline Number, Quickbooks Customer Care Number, Quickbooks customer service
+team phone number, Quickbooks help number-Quickbooks Helpline Number;
+Quickbooks help phone number, Quickbooks Helpline Number, Quickbooks Customer
+care Toll free Number, Quickbooks Customer service Telephone Number, Quickbooks
+Customer care Telephone number, Quickbooks Customer care contact number,
+Quickbooks customer service phone number, Quickbooks customer care contact
+number, quickbooks customer service phone number, quickbooks payroll customer
+service phone
+number.https://www.facebook.com/Quickbooks-1800-919-0992-Enterprise-Support-Phone-Number-1776222839321546/
+Quickbooks Customer customer service phone number 1800-919-0992 quickbooks
+technical help telephone number, quickbooks technical help contact number,
+quickbooks customer care contact number, quickbooks contact number, quickbooks
+contact phone number, quickbooks contact telephone number, quickbooks 24 hour
+contact number, Quickbooks Customer care contact number, Quickbooks Customer
+Customer service contact number, quickbooks official number, quickbooks
+official contact number, quickbooks 800 contact number, quickbooks toll free
+number, 800 number for quickbooks customer service, quickbooks 24/7 customer
+service phone number Quickbooks customer service phone number,Quickbooks
+customer service phone number,Quickbooks help phone number, Quickbooks customer
+care number.Quickbooks customer service number, Quickbooks phone number,
+Quickbooks customer care number, Quickbooks Customer care number, Quickbooks
+Customer care phone number, Quickbooks Tech service phone number, Quickbooks
+payroll customer service phone number, Quickbooks customer service phone
+number. Help@Call 1-800-919-0992/.quickbooks 24/7 customer service phone
+number,quickbooks telephone number for customer service? call
+1800-919-0992@./quickbooks contact number, quickbooks contact phone number,
+quickbooks contact telephone number,,telephone number for quickbooks online
+customer service,quickbooks official customer service number,quickbooks
+official number,quickbooks payroll official phone number,,,phone number for
+quickbooks payroll customer service,,quickbooks 24/7 customer service phone
+number,,quickbooks customer service number,quickbooks telephone number for
+customer service quickbooks phone number, quickbooks customer service phone
+number, quickbooks customer care number, quickbooks customer care number,
+california@dail **))@1800.919~0992(((@USA Quickbooks Customer care Phone
+Number..,, Quickbooks Tech Customer care phone Number..,..USA@JEETôßPππu◙ 1 800
+919 0992 Quickbooks Customer service PHONE Number..,Ω»Γ╚╚☻☻ô US 1800-919-0992
+quickbooks technical help telePHONE Number..,, ╚╚☻☻ôquickbooks technical help
+contact Number..,, ╚╚☻☻ôquickbooks customer care contact Number..,, quickbooks
+contact Number..,, quickbooks contact PHONE Number..,, quickbooks contact
+telePHONE Number..,, quickbooks 24 hour contact Number..,, Quickbooks Customer
+care contact Number..,, quickbooks customer care number Quickbooks customer
+service 1 800 919 0992 team phone numberGet Instant Help Usa & Canada at 1 800
+919 0992 Quickbooks Customer care phone number , Quickbooks Customer Customer
+service number , Quickbooks customer care number, Quickbooks customer care
+number, Quickbooks customer care number , Quickbooks customer care phoe number
+, Quickbooks helpdesk customer service phone number, Quickbooks helpdesk
+customer service number, Quickbooks helpdesk number, Quickbooks customer
+service help number, Quickbooks customer service help number
 
-
-So you could argue that since there is no behavioral change from
-adding/omitting it, it doesn't help programmers when used in the manpage
-functions signatures.  But that's just me noodling out loud.  You could
-also argue that since ISO C uses it, glibc headers use it, and POSIX
-pages use it it's kind of silly to leave restrict out.
---
+-- 
+You are receiving this mail because:
+You are watching the assignee of the bug.--
 To unsubscribe from this list: send the line "unsubscribe linux-man" in
 the body of a message to majordomo-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
 More majordomo info at  http://vger.kernel.org/majordomo-info.html
