@@ -1,8 +1,8 @@
 From: bugzilla-daemon-590EEB7GvNiWaY/ihj7yzEB+6BGkLq7r@public.gmane.org
-Subject: [Bug 162081] New: ?MAhabharat?+++{{{18009190992}}}??+++Quickbooks
- Support phone number^^?Quickbooks  Support phone number?
-Date: Sat, 17 Sep 2016 09:33:20 +0000
-Message-ID: <bug-162081-11311@https.bugzilla.kernel.org/>
+Subject: [Bug 162121] New: *?RAja baabu?**+++18009190992++]]]****-Quickbooks
+ Support number*Quickbooks  Support phone number*
+Date: Sat, 17 Sep 2016 09:40:39 +0000
+Message-ID: <bug-162121-11311@https.bugzilla.kernel.org/>
 Mime-Version: 1.0
 Content-Type: text/plain; charset="UTF-8"
 Content-Transfer-Encoding: 7bit
@@ -11,12 +11,11 @@ Sender: linux-man-owner-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
 To: linux-man-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
 List-Id: linux-man@vger.kernel.org
 
-https://bugzilla.kernel.org/show_bug.cgi?id=162081
+https://bugzilla.kernel.org/show_bug.cgi?id=162121
 
-            Bug ID: 162081
-           Summary: ?MAhabharat?+++{{{18009190992}}}??+++Quickbooks
-                    Support phone number^^?Quickbooks  Support phone
-                    number?
+            Bug ID: 162121
+           Summary: *?RAja baabu?**+++18009190992++]]]****-Quickbooks
+                    Support number*Quickbooks  Support phone number*
            Product: Documentation
            Version: unspecified
           Hardware: All
