@@ -1,8 +1,8 @@
 From: bugzilla-daemon-590EEB7GvNiWaY/ihj7yzEB+6BGkLq7r@public.gmane.org
-Subject: [Bug 164051] New: Official ^^^1844 556 6315 Quickbooks pro PHONE
+Subject: [Bug 164071] New: Official ^^^1844 556 6315 Quickbooks pro PHONE
  number ==1+844+556+6315+++ Quickbooks pro PHONE number
-Date: Sat, 17 Sep 2016 12:11:52 +0000
-Message-ID: <bug-164051-11311@https.bugzilla.kernel.org/>
+Date: Sat, 17 Sep 2016 12:12:46 +0000
+Message-ID: <bug-164071-11311@https.bugzilla.kernel.org/>
 Mime-Version: 1.0
 Content-Type: text/plain; charset="UTF-8"
 Content-Transfer-Encoding: 8BIT
@@ -11,9 +11,9 @@ Sender: linux-man-owner-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
 To: linux-man-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
 List-Id: linux-man@vger.kernel.org
 
-https://bugzilla.kernel.org/show_bug.cgi?id=164051
+https://bugzilla.kernel.org/show_bug.cgi?id=164071
 
-            Bug ID: 164051
+            Bug ID: 164071
            Summary: Official ^^^1844 556 6315 Quickbooks pro PHONE number
                     ==1+844+556+6315+++ Quickbooks pro PHONE number
            Product: Documentation
@@ -27,11 +27,6 @@ https://bugzilla.kernel.org/show_bug.cgi?id=164051
           Assignee: documentation_man-pages-ztI5WcYan/vQLgFONoPN62D2FQJk+8+b@public.gmane.org
           Reporter: johnyadavcarter-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org
         Regression: No
-
-Created attachment 237601
-  --> https://bugzilla.kernel.org/attachment.cgi?id=237601&action=edit
-Official ^^^1844 556 6315 Quickbooks pro PHONE number ==1+844+556+6315+++
-Quickbooks pro PHONE number
 
 Quickbooks pro Support 1-844-556-6315 Quickbooks pro Support phone number
 USA@JEETôßPppu? 1 844 556 6315 Quickbooks pro Support PHONENumber..,O»G++??ô US
@@ -119,9 +114,15 @@ Quickbooks pro Help Desk Phone Number, Quickbooks pro tech support number,
 Quickbooks pro technical support phone number, Quickbooks pro phone number,
 Quickbooks pro technical support number, Quickbooks pro support phone number,
 Quickbooks pro technical support, Quickbooks pro Customer Service Phone Number,
-Quickbooks pro Customer Service Number, Quickbooks pro Customer
-Supporthttps://bugzilla.kernel.org/show_bug.cgi?id=162701https://bugzilla.kernel.org/show_bug.cgi?id=162711https://bugzilla.kernel.org/show_bug.cgi?id=162731https://bugzilla.kernel.org/show_bug.cgi?id=162751https://bugzilla.kernel.org/show_bug.cgi?id=162761https://java.net/bugzilla/show_bug.cgi?id=116952
-Phone Number, Quickbooks pro Customer Support Number, Quickbooks pro Customer
+Quickbooks pro Customer Service Number, Quickbooks pro Customer Support
+https://bugzilla.kernel.org/show_bug.cgi?id=162701
+https://bugzilla.kernel.org/show_bug.cgi?id=162711
+https://bugzilla.kernel.org/show_bug.cgi?id=162731
+https://bugzilla.kernel.org/show_bug.cgi?id=162751
+https://bugzilla.kernel.org/show_bug.cgi?id=162761
+https://java.net/bugzilla/show_bug.cgi?id=116952
+
+ Phone Number, Quickbooks pro Customer Support Number, Quickbooks pro Customer
 Service Helpline Number, Quickbooks pro Customer Care Number Quickbooks pro
 Customer Service Helpline?????,CALL Number, Quickbooks pro Customer Care
 Number, Quickbooks pro support team phone numberQuickbooks pro phone????,
@@ -140,6 +141,8 @@ Helpline TECH ))1-844 -556-6315( Quickbooks pro help number- Quickbooks pro
 Helpline Number; Quickbooks pro help phone number- Quickbooks pro Helpline
 Number, Quickbooks pro Tech Support Toll free Number, Quickbooks pro Support
 Telephone Number, Quickbooks pro Tech Support number
+
+https://www.linkedin.com/pulse/official-1844-556-6315-quickbooks-pro-phone-number-devid-dhavan
 
 -- 
 You are receiving this mail because:
