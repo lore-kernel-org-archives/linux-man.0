@@ -1,8 +1,8 @@
 From: bugzilla-daemon-590EEB7GvNiWaY/ihj7yzEB+6BGkLq7r@public.gmane.org
-Subject: [Bug 167291] New: ms (1800-6264703) office toll free
- number"microsoft outlook help desk number"
-Date: Sat, 17 Sep 2016 17:53:02 +0000
-Message-ID: <bug-167291-11311@https.bugzilla.kernel.org/>
+Subject: [Bug 167321] New: customer Care @ 18006264703 Ms office toll free
+ number..&office 365 tech help number
+Date: Sat, 17 Sep 2016 17:54:55 +0000
+Message-ID: <bug-167321-11311@https.bugzilla.kernel.org/>
 Mime-Version: 1.0
 Content-Type: text/plain; charset="UTF-8"
 Content-Transfer-Encoding: 7bit
@@ -11,11 +11,11 @@ Sender: linux-man-owner-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
 To: linux-man-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
 List-Id: linux-man@vger.kernel.org
 
-https://bugzilla.kernel.org/show_bug.cgi?id=167291
+https://bugzilla.kernel.org/show_bug.cgi?id=167321
 
-            Bug ID: 167291
-           Summary: ms (1800-6264703) office toll free number"microsoft
-                    outlook help desk number"
+            Bug ID: 167321
+           Summary: customer Care @ 18006264703 Ms office toll free
+                    number..&office 365 tech help number
            Product: Documentation
            Version: unspecified
           Hardware: All
