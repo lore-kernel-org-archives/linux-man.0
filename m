@@ -1,128 +1,27 @@
 From: bugzilla-daemon-590EEB7GvNiWaY/ihj7yzEB+6BGkLq7r@public.gmane.org
-Subject: [Bug 168081] New: 1 844 447 4040 QUICKBOOKS ENTERPRISE Technical
- Support Helpline Number
-Date: Sat, 17 Sep 2016 19:27:27 +0000
-Message-ID: <bug-168081-11311@https.bugzilla.kernel.org/>
+Subject: [Bug 168081] 1 844 447 4040 QUICKBOOKS ENTERPRISE Technical Support
+ Helpline Number
+Date: Sat, 17 Sep 2016 19:27:36 +0000
+Message-ID: <bug-168081-11311-5Ifk7Ij4WH@https.bugzilla.kernel.org/>
+References: <bug-168081-11311@https.bugzilla.kernel.org/>
 Mime-Version: 1.0
 Content-Type: text/plain; charset="UTF-8"
 Content-Transfer-Encoding: 7bit
 Return-path: <linux-man-owner-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>
+In-Reply-To: <bug-168081-11311-3bo0kxnWaOQUvHkbgXJLS5sdmw4N0Rt+2LY78lusg7I@public.gmane.org/>
 Sender: linux-man-owner-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
 To: linux-man-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
 List-Id: linux-man@vger.kernel.org
 
 https://bugzilla.kernel.org/show_bug.cgi?id=168081
 
-            Bug ID: 168081
-           Summary: 1 844 447 4040 QUICKBOOKS ENTERPRISE Technical Support
-                    Helpline Number
-           Product: Documentation
-           Version: unspecified
-          Hardware: All
-                OS: Linux
-            Status: NEW
-          Severity: normal
-          Priority: P1
-         Component: man-pages
-          Assignee: documentation_man-pages-ztI5WcYan/vQLgFONoPN62D2FQJk+8+b@public.gmane.org
-          Reporter: araja3004-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org
-        Regression: No
+AndyAshish <araja3004-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org> changed:
 
-1 844 447 4040 QUICKBOOKS ENTERPRISE Technical Support Helpline
-Numberhttps://www.createspace.com/pub/community/give.review.do?id=1193341&rewrite=true&
-https://www.createspace.com/pub/community/give.review.do?id=1193341&rewrite=true&
-https://www.createspace.com/pub/community/give.review.do?id=1193344&rewrite=true&
-https://www.createspace.com/pub/community/give.review.do?id=1193473&rewrite=true&
-https://www.createspace.com/pub/community/give.review.do?id=1193342&rewrite=true&
-1 844 447 4040 Call, QuickBooks tech support phone number USA CanadaBoominggg 1
-844 447 4040 Call, QuickBooks tech support phone number USA CanadaBoominggg 1
-844 447 4040 Call, QuickBooks tech support phone number USA CanadaBoominggg 1
-844 447 4040 Call, QuickBooks tech support phone number USA CanadaBoominggg 1
-844 447 4040 Call, QuickBooks tech support phone number USA CanadaBoominggg 1
-844 447 4040 Call, QuickBooks tech support phone number USA Canada 1 844 447
-4040 quickbooks accountant payroll support number1 844 447 4040 quickbooks
-enhanced payroll for accountants support number1 844 447 4040 contact
-quickbooks assisted payroll support number
-1 844 447 4040 quickbooks full service payroll support number1 844 447 4040
-uickbooks payroll service support phone number1 844 447 4040 quickbooks
-ENTERPRISE support phone number1 844 447 4040 quickbooks ENTERPRISE support uk
-number1 844 447 4040 #NAME?1 844 447 4040 intuit quickbooks ENTERPRISE upport
-number1 844 447 4040 quickbooks ENTERPRISE customer support number1 844 447
-4040 quickbooks ENTERPRISE support number1 844 447 4040 quickbooks pro
-ENTERPRISE support number1 844 447 4040 uickbooks ENTERPRISE technical support
-number1 844 447 4040 quickbooks ENTERPRISE tech support number1 844 447 4040
-quickbooks point of sale support phone number1 844 447 4040 quickbooks point of
-sale support phone number1 844 447 4040 intuit point of sale support number 1
-844 447 4040 quickbooks point of sale 2013 support number1 844 447 4040
-quickbooks point of sale customer support number1 844 447 4040 phone number for
-quickbooks point of sale support number1 844 447 4040 intuit quickbooks point
-of sale technical support number1 844 447 4040 quickbooks point of sale suport
-number1 844 447 4040 quickbooks customer support contact number1 844 447 4040
-quickbooks online support number1 844 447 4040 online support canada number1
-844 447 4040 quickbooks technical support number1 844 447 4040 quickbooks
-customer service 800 number1 844 447 4040 quickbooks online accountant support
-number1 844 447 4040 quickbooks assisted payroll customer support number1 844
-447 4040 quickbooks technical support contact number1 844 447 4040 quickbooks
-online support contact number1 844 447 4040 quickbooks tech support in usa
-number1 844 447 4040 quickbooks tech support phone number usa number1 844 447
-4040 quickbooks tech support helpdesk number number1 844 447 4040 tech support
-telephone number1 844 447 4040 quickbooks tech support phone number1 844 447
-4040 quickbooks technical support agent number1 844 447 4040 quickbooks
-proadvisor tech support number1 844 447 4040 quickbooks technical support
-enterprise number1 844 447 4040 quickbooks enterprise tech support phone
-number1 844 447 4040 quickbooks enhanced payroll tech support number1 844 447
-4040 quickbooks 24 hour tech support number
-1 844 447 4040 quickbooks payroll support telephone number1 844 447 4040
-quickbooks payroll supported versions number1 844 447 4040 -quickbooks payroll
-support for 2011 number1 844 447 4040 quickbooks payroll support 2012 number1
-844 447 4040 intuit payroll assisted support number1 844 447 4040 quickbooks
-accountant payroll support number1 844 447 4040 quickbooks enhanced payroll for
-accountants support number1 844 447 4040 contact quickbooks assisted payroll
-support numberBoominggg 1 844 447 4040 Call, QuickBooks tech support phone
-number USA CanadaBoominggg 1 844 447 4040 Call, QuickBooks tech support phone
-number USA CanadaBoominggg 1 844 447 4040 Call, QuickBooks tech support phone
-number USA CanadaBoominggg 1 844 447 4040 Call, QuickBooks tech support phone
-number USA CanadaBoominggg 1 844 447 4040 Call, QuickBooks tech support phone
-number USA CanadaBoominggg 1 844 447 4040 Call, QuickBooks tech support phone
-number USA Canada 1 844 447 4040 quickbooks accountant payroll support number1
-844 447 4040 quickbooks enhanced payroll for accountants support number1 844
-447 4040 contact quickbooks assisted payroll support number
-1 844 447 4040 quickbooks full service payroll support number1 844 447 4040
-uickbooks payroll service support phone number1 844 447 4040 quickbooks
-ENTERPRISE support phone number1 844 447 4040 quickbooks ENTERPRISE support uk
-number1 844 447 4040 #NAME?1 844 447 4040 intuit quickbooks ENTERPRISE upport
-number1 844 447 4040 quickbooks ENTERPRISE customer support number1 844 447
-4040 quickbooks ENTERPRISE support number1 844 447 4040 quickbooks pro
-ENTERPRISE support number1 844 447 4040 uickbooks ENTERPRISE technical support
-number1 844 447 4040 quickbooks ENTERPRISE tech support number1 844 447 4040
-quickbooks point of sale support phone number1 844 447 4040 quickbooks point of
-sale support phone number1 844 447 4040 intuit point of sale support number 1
-844 447 4040 quickbooks point of sale 2013 support number1 844 447 4040
-quickbooks point of sale customer support number1 844 447 4040 phone number for
-quickbooks point of sale support number1 844 447 4040 intuit quickbooks point
-of sale technical support number1 844 447 4040 quickbooks point of sale suport
-number1 844 447 4040 quickbooks customer support contact number1 844 447 4040
-quickbooks online support number1 844 447 4040 online support canada number1
-844 447 4040 quickbooks technical support number1 844 447 4040 quickbooks
-customer service 800 number1 844 447 4040 quickbooks online accountant support
-number1 844 447 4040 quickbooks assisted payroll customer support number1 844
-447 4040 quickbooks technical support contact number1 844 447 4040 quickbooks
-online support contact number1 844 447 4040 quickbooks tech support in usa
-number1 844 447 4040 quickbooks tech support phone number usa number1 844 447
-4040 quickbooks tech support helpdesk number number1 844 447 4040 tech support
-telephone number1 844 447 4040 quickbooks tech support phone number1 844 447
-4040 quickbooks technical support agent number1 844 447 4040 quickbooks
-proadvisor tech support number1 844 447 4040 quickbooks technical support
-enterprise number1 844 447 4040 quickbooks enterprise tech support phone
-number1 844 447 4040 quickbooks enhanced payroll tech support number1 844 447
-4040 quickbooks 24 hour tech support number
-1 844 447 4040 quickbooks payroll support telephone number1 844 447 4040
-quickbooks payroll supported versions number1 844 447 4040 -quickbooks payroll
-support for 2011 number1 844 447 4040 quickbooks payroll support 2012 number1
-844 447 4040 intuit payroll assisted support number1 844 447 4040 quickbooks
-accountant payroll support number1 844 447 4040 quickbooks enhanced payroll for
-accountants support number1 844 447 4040 contact quickbooks assisted payroll
-support number
+           What    |Removed                     |Added
+----------------------------------------------------------------------------
+                URL|                            |https://www.createspace.com
+                   |                            |/pub/community/give.review.
+                   |                            |do?id=1193342&rewrite=true&
 
 -- 
 You are receiving this mail because:
