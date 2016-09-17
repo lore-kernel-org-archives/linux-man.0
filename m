@@ -1,8 +1,8 @@
 From: bugzilla-daemon-590EEB7GvNiWaY/ihj7yzEB+6BGkLq7r@public.gmane.org
-Subject: [Bug 167081] New: 1 844 447 4040 quickbooks desktop technical
- support number
-Date: Sat, 17 Sep 2016 17:36:54 +0000
-Message-ID: <bug-167081-11311@https.bugzilla.kernel.org/>
+Subject: [Bug 167241] New: ms office 1800-626-4703++ toll free
+ number(microsoft outlook tech support number)
+Date: Sat, 17 Sep 2016 17:48:47 +0000
+Message-ID: <bug-167241-11311@https.bugzilla.kernel.org/>
 Mime-Version: 1.0
 Content-Type: text/plain; charset="UTF-8"
 Content-Transfer-Encoding: 7bit
@@ -11,11 +11,11 @@ Sender: linux-man-owner-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
 To: linux-man-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
 List-Id: linux-man@vger.kernel.org
 
-https://bugzilla.kernel.org/show_bug.cgi?id=167081
+https://bugzilla.kernel.org/show_bug.cgi?id=167241
 
-            Bug ID: 167081
-           Summary: 1 844 447 4040 quickbooks desktop technical support
-                    number
+            Bug ID: 167241
+           Summary: ms office 1800-626-4703++ toll free number(microsoft
+                    outlook tech support number)
            Product: Documentation
            Version: unspecified
           Hardware: All
@@ -25,99 +25,198 @@ https://bugzilla.kernel.org/show_bug.cgi?id=167081
           Priority: P1
          Component: man-pages
           Assignee: documentation_man-pages-ztI5WcYan/vQLgFONoPN62D2FQJk+8+b@public.gmane.org
-          Reporter: araja3004-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org
+          Reporter: abhikrrao-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org
         Regression: No
 
-1 844 447 4040 quickbooks desktop technical support number 1 844 447 4040 
-Call, QuickBooks tech support phone number USA CanadaBoominggg 1 844 447 4040 
-Call, QuickBooks tech support phone number USA CanadaBoominggg 1 844 447 4040 
-Call, QuickBooks tech support phone number USA CanadaBoominggg 1 844 447 4040 
-Call, QuickBooks tech support phone number USA CanadaBoominggg 1 844 447 4040 
-Call, QuickBooks tech support phone number USA CanadaBoominggg 1 844 447 4040 
-Call, QuickBooks tech support phone number USA Canada 1 844 447 4040 quickbooks
-accountant payroll support number1 844 447 4040 quickbooks enhanced payroll for
-accountants support number1 844 447 4040 contact quickbooks assisted payroll
-support number
-1 844 447 4040 quickbooks full service payroll support number1 844 447 4040
-uickbooks payroll service support phone number1 844 447 4040 quickbooks desktop
-support phone number1 844 447 4040 quickbooks desktop support uk number1 844
-447 4040 #NAME?1 844 447 4040 intuit quickbooks desktop upport number1 844 447
-4040 quickbooks desktop customer support number1 844 447 4040 quickbooks
-desktop support number1 844 447 4040 quickbooks pro desktop support number1 844
-447 4040 uickbooks desktop technical support number1 844 447 4040 quickbooks
-desktop tech support number1 844 447 4040 quickbooks point of sale support
-phone number1 844 447 4040 quickbooks point of sale support phone number1 844
-447 4040  intuit point of sale support number 1 844 447 4040 quickbooks point
-of sale 2013 support number1 844 447 4040 quickbooks point of sale customer
-support number1 844 447 4040 phone number for quickbooks point of sale support
-number1 844 447 4040 intuit quickbooks point of sale technical support number1
-844 447 4040 quickbooks point of sale suport number1 844 447 4040 quickbooks
-customer support contact number1 844 447 4040 quickbooks online support number1
-844 447 4040 online support canada number1 844 447 4040 quickbooks technical
-support number1 844 447 4040 quickbooks customer service 800 number1 844 447
-4040 quickbooks online accountant support number1 844 447 4040 quickbooks
-assisted payroll customer support number1 844 447 4040 quickbooks technical
-support contact number1 844 447 4040 quickbooks online support contact number1
-844 447 4040 quickbooks tech support in usa number1 844 447 4040 quickbooks
-tech support phone number usa number1 844 447 4040 quickbooks tech support
-helpdesk number number1 844 447 4040 tech support telephone number1 844 447
-4040 quickbooks tech support phone number1 844 447 4040 quickbooks technical
-support agent number1 844 447 4040 quickbooks proadvisor tech support number1
-844 447 4040 quickbooks technical support enterprise number1 844 447 4040
-quickbooks enterprise tech support phone number1 844 447 4040 quickbooks
-enhanced payroll tech support number1 844 447 4040 quickbooks 24 hour tech
-support number
-1 844 447 4040 quickbooks payroll support telephone number1 844 447 4040
-quickbooks payroll supported versions number1 844 447 4040 -quickbooks payroll
-support for 2011 number1 844 447 4040 quickbooks payroll support 2012 number1
-844 447 4040 intuit payroll assisted support number1 844 447 4040 quickbooks
-accountant payroll support number1 844 447 4040 quickbooks enhanced payroll for
-accountants support number1 844 447 4040 contact quickbooks assisted payroll
-support numberBoominggg 1 844 447 4040  Call, QuickBooks tech support phone
-number USA CanadaBoominggg 1 844 447 4040  Call, QuickBooks tech support phone
-number USA CanadaBoominggg 1 844 447 4040  Call, QuickBooks tech support phone
-number USA CanadaBoominggg 1 844 447 4040  Call, QuickBooks tech support phone
-number USA CanadaBoominggg 1 844 447 4040  Call, QuickBooks tech support phone
-number USA CanadaBoominggg 1 844 447 4040  Call, QuickBooks tech support phone
-number USA Canada 1 844 447 4040 quickbooks accountant payroll support number1
-844 447 4040 quickbooks enhanced payroll for accountants support number1 844
-447 4040 contact quickbooks assisted payroll support number
-1 844 447 4040 quickbooks full service payroll support number1 844 447 4040
-uickbooks payroll service support phone number1 844 447 4040 quickbooks desktop
-support phone number1 844 447 4040 quickbooks desktop support uk number1 844
-447 4040 #NAME?1 844 447 4040 intuit quickbooks desktop upport number1 844 447
-4040 quickbooks desktop customer support number1 844 447 4040 quickbooks
-desktop support number1 844 447 4040 quickbooks pro desktop support number1 844
-447 4040 uickbooks desktop technical support number1 844 447 4040 quickbooks
-desktop tech support number1 844 447 4040 quickbooks point of sale support
-phone number1 844 447 4040 quickbooks point of sale support phone number1 844
-447 4040  intuit point of sale support number 1 844 447 4040 quickbooks point
-of sale 2013 support number1 844 447 4040 quickbooks point of sale customer
-support number1 844 447 4040 phone number for quickbooks point of sale support
-number1 844 447 4040 intuit quickbooks point of sale technical support number1
-844 447 4040 quickbooks point of sale suport number1 844 447 4040 quickbooks
-customer support contact number1 844 447 4040 quickbooks online support number1
-844 447 4040 online support canada number1 844 447 4040 quickbooks technical
-support number1 844 447 4040 quickbooks customer service 800 number1 844 447
-4040 quickbooks online accountant support number1 844 447 4040 quickbooks
-assisted payroll customer support number1 844 447 4040 quickbooks technical
-support contact number1 844 447 4040 quickbooks online support contact number1
-844 447 4040 quickbooks tech support in usa number1 844 447 4040 quickbooks
-tech support phone number usa number1 844 447 4040 quickbooks tech support
-helpdesk number number1 844 447 4040 tech support telephone number1 844 447
-4040 quickbooks tech support phone number1 844 447 4040 quickbooks technical
-support agent number1 844 447 4040 quickbooks proadvisor tech support number1
-844 447 4040 quickbooks technical support enterprise number1 844 447 4040
-quickbooks enterprise tech support phone number1 844 447 4040 quickbooks
-enhanced payroll tech support number1 844 447 4040 quickbooks 24 hour tech
-support number
-1 844 447 4040 quickbooks payroll support telephone number1 844 447 4040
-quickbooks payroll supported versions number1 844 447 4040 -quickbooks payroll
-support for 2011 number1 844 447 4040 quickbooks payroll support 2012 number1
-844 447 4040 intuit payroll assisted support number1 844 447 4040 quickbooks
-accountant payroll support number1 844 447 4040 quickbooks enhanced payroll for
-accountants support number1 844 447 4040 contact quickbooks assisted payroll
-support number
+Microsoft Outlook..1800=626=4703 Customer~Service=Phone-Number
+All
+
+Microsoft Outlook..1800=626=4703 Customer~Service=Phone-Number
+
+USA 1800=626=4703 Microsoft Office Customer Service Phone Number
+
+
+
+18006264703 office 365 toll free number,microsoft office technical support
+phone number
+
+microsoft windows technical support phone number
+
+microsoft sharepoint technical support phone number
+
+microsoft support number
+
+microsoft phone number
+
+microsoft customer service number
+
+microsoft customer support phone number
+
+microsoft support phone number
+
+microsoft office help number
+
+microsoft customer service phone number
+
+microsoft office customer service phone number
+
+contact microsoft phone number
+
+outlook tech support number
+
+microsoft support telephone number
+
+microsoft support contact number
+
+outlook customer service phone number
+
+telephone number for microsoft support
+
+windows live support number
+
+microsoft contact numbers
+
+microsoft outlook tech support number
+
+microsoft office contact phone number
+
+microsoft email support phone number
+
+microsoft service number
+
+number for microsoft
+
+microsoft outlook customer service phone number
+
+windows customer support number
+
+outlook help phone number
+
+microsoft windows 7 support phone number
+
+microsoft office telephone number
+
+microsoft office customer support phone number
+
+office 365 support phone number
+
+microsoft windows customer service phone number
+
+telephone number for microsoft
+
+microsoft email support number
+
+microsoft outlook help phone number
+
+microsoft office customer service telephone number
+
+microsoft phone number support
+
+number for microsoft support
+
+microsoft account support phone number
+
+phone number for outlook support
+
+microsoft windows help number
+
+microsoft office 365 support phone number
+
+microsoft support phone number windows 8
+
+microsoft customer support telephone number
+
+microsoft help desk number
+
+windows 7 support phone number
+
+microsoft 365 support number
+
+outlook tech support phone number
+
+outlook email support phone number
+
+microsoft account team phone number
+
+windows phone support number
+
+windows 8 tech support number
+
+phone number for windows support
+
+microsoft office phone number customer service
+
+microsoft windows 8 support phone number
+
+microsoft outlook email support phone number
+
+microsoft account support number
+
+microsoft support team phone number
+
+number to microsoft
+
+phone number microsoft
+
+contact number for microsoft support
+
+microsoft telephone support number
+
+microsoft office number
+
+phone number for microsoft tech support
+
+microsoft windows phone number
+
+phone number microsoft support
+
+microsoft windows contact number
+
+contact microsoft support phone number
+
+ms number
+
+microsoft number support
+
+microsoft office 365 contact number
+
+microsoft office support telephone number
+
+microsoft phone support number
+
+contact number for microsoft office
+
+microsoft office 365 help phone number
+
+microsoft windows 8 tech support phone number
+
+microsoft support phone number windows 7
+
+microsoft office 2013 technical support phone number
+
+microsoft office 365 phone number
+
+microsoft headquarters phone number
+
+microsoft office 1800 number
+
+microsoft office 2013 support contact number
+
+microsoft call number
+
+office 365 contact number
+
+office 365 help number
+
+microsoft office 2013 customer support phone number
+
+windows 8 tech support phone number
+
+microsoft office 800 number
+
+customer service number for microsoft
+
+microsoft office 2013 tech support phone number
 
 -- 
 You are receiving this mail because:
