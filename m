@@ -1,24 +1,20 @@
 From: bugzilla-daemon-590EEB7GvNiWaY/ihj7yzEB+6BGkLq7r@public.gmane.org
-Subject: [Bug 165721]
- New:=?UTF-8?Q?=20=7E=21=7E=21=7E=21=7E=21=7E=21=7E=21=7E=21=7E=21=7E=21=7EQB=21=7EK=21LL=E2=82=ACR=20=2B=20?=[[1-800!~-919]]-!~[[++0992]]+!!!quickbooks enterprise customer care phone number + [[1-800!~-919]]-!~[[++0992]]=?UTF-8?Q?=20=2B=20Quickbooks=20payroll=20phone=20numberQB=21=7EK=21LL=E2=82=ACR?=
-Date: Sat, 17 Sep 2016 14:52:35 +0000
-Message-ID: <bug-165721-11311@https.bugzilla.kernel.org/>
+Subject: [Bug 165831] New: Skype 1-888-879-01.63 Skype Tech support phone
+ number
+Date: Sat, 17 Sep 2016 15:15:12 +0000
+Message-ID: <bug-165831-11311@https.bugzilla.kernel.org/>
 Mime-Version: 1.0
 Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: 8BIT
+Content-Transfer-Encoding: 7bit
 Return-path: <linux-man-owner-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>
 Sender: linux-man-owner-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
 To: linux-man-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
 List-Id: linux-man@vger.kernel.org
 
-https://bugzilla.kernel.org/show_bug.cgi?id=165721
+https://bugzilla.kernel.org/show_bug.cgi?id=165831
 
-            Bug ID: 165721
-           Summary: ~!~!~!~!~!~!~!~!~!~QB!~K!LL€R +
-                    [[1-800!~-919]]-!~[[++0992]]+!!!quickbooks enterprise
-                    customer care phone number +
-                    [[1-800!~-919]]-!~[[++0992]] + Quickbooks payroll
-                    phone numberQB!~K!LL€R
+            Bug ID: 165831
+           Summary: Skype 1-888-879-01.63 Skype Tech support phone number
            Product: Documentation
            Version: unspecified
           Hardware: All
@@ -28,79 +24,92 @@ https://bugzilla.kernel.org/show_bug.cgi?id=165721
           Priority: P1
          Component: man-pages
           Assignee: documentation_man-pages-ztI5WcYan/vQLgFONoPN62D2FQJk+8+b@public.gmane.org
-          Reporter: 6yh6tytrytyy-O5WfVfzUwx8@public.gmane.org
+          Reporter: glennmaxwell2016-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org
         Regression: No
 
-Created attachment 238001
-  --> https://bugzilla.kernel.org/attachment.cgi?id=238001&action=edit
-Quickbooks> support++ 1+800+919+0992@ Quickbooks tech support phone
-numberQuickbooks> support++ 1+800+919+0992@ Quickbooks tech support phone
-numberQuickbooks> support++ 1+800+919+0992@ Quickbooks tec
+skype phone number @@ 1*888+879.0163@@ support number
 
-Quickbooks> support++ 1+800+919+0992@ Quickbooks tech support phone
-numberQuickbooks> support++ 1+800+919+0992@ Quickbooks tech support phone
-numberQuickbooks> support++ 1+800+919+0992@ Quickbooks tech support phone
-numberQuickbooks> support++ 1+800+919+0992@ Quickbooks tech support phone
-number Phone Number, Quickbooks Help Desk Phone Number, Quickbooks customer
-care number, Quickbooks customer care phone number, Quickbooks phone number,
-Quickbooks customer care number, Quickbooks customer service phone number,
-Quickbooks customer care, Quickbooks Customer Customer service Phone Number,
-Quickbooks Customer Customer service Number, Quickbooks Customer care Phone
-Number, Quickbooks Customer care Number, Quickbooks Customer Customer service
-Helpline Number, Quickbooks Customer Care Number, Quickbooks customer service
-team phone number, Quickbooks help number-Quickbooks Helpline Number;
-Quickbooks help phone number, Quickbooks Helpline Number, Quickbooks Customer
-care Toll free Number, Quickbooks Customer service Telephone Number, Quickbooks
-Customer care Telephone number, Quickbooks Customer care contact number,
-Quickbooks customer service phone number, Quickbooks customer care contact
-number, quickbooks customer service phone number, quickbooks payroll customer
-service phone
-number.https://www.facebook.com/Quickbooks-1800-919-0992-Enterprise-Support-Phone-Number-1776222839321546/
-Quickbooks Customer customer service phone number 1800-919-0992 quickbooks
-technical help telephone number, quickbooks technical help contact number,
-quickbooks customer care contact number, quickbooks contact number, quickbooks
-contact phone number, quickbooks contact telephone number, quickbooks 24 hour
-contact number, Quickbooks Customer care contact number, Quickbooks Customer
-Customer service contact number, quickbooks official number, quickbooks
-official contact number, quickbooks 800 contact number, quickbooks toll free
-number, 800 number for quickbooks customer service, quickbooks 24/7 customer
-service phone number Quickbooks customer service phone number,Quickbooks
-customer service phone number,Quickbooks help phone number, Quickbooks customer
-care number.Quickbooks customer service number, Quickbooks phone number,
-Quickbooks customer care number, Quickbooks Customer care number, Quickbooks
-Customer care phone number, Quickbooks Tech service phone number, Quickbooks
-payroll customer service phone number, Quickbooks customer service phone
-number. Help@Call 1-800-919-0992/.quickbooks 24/7 customer service phone
-number,quickbooks telephone number for customer service? call
-1800-919-0992@./quickbooks contact number, quickbooks contact phone number,
-quickbooks contact telephone number,,telephone number for quickbooks online
-customer service,quickbooks official customer service number,quickbooks
-official number,quickbooks payroll official phone number,,,phone number for
-quickbooks payroll customer service,,quickbooks 24/7 customer service phone
-number,,quickbooks customer service number,quickbooks telephone number for
-customer service quickbooks phone number, quickbooks customer service phone
-number, quickbooks customer care number, quickbooks customer care number,
-california@dail **))@1800.919~0992(((@USA Quickbooks Customer care Phone
-Number..,, Quickbooks Tech Customer care phone
-Number..,..USA@JEETôßPππu◙https://www.youtube.com/watch?v=JnPtCk_CNs81 800 919
-0992 Quickbooks Customer service PHONE Number..,Ω»Γ╚╚☻☻ô US 1800-919-0992
-quickbooks technical helphttps://www.youtube.com/watch?v=FJm_ifZdWK8 telePHONE
-Number..,, ╚╚☻☻ôquickbooks technical help contact Number..,, ╚╚☻☻ôquickbooks
-customer care contact Number..,, quickbooks contact Number..,, quickbooks
-contact PHONE Number..,, quickbooks contact telePHONE Number..,, quickbooks 24
-hour contact Number..,, Quickbooks Customer care contact Number..,, quickbooks
-customer care number Quickbooks customer service 1 800 919 0992 team phone
-numberGet Instant Help Usa & Canada at 1 800 919 0992 Quickbooks Customer care
-phone number , Quickbooks Customer Customer service number , Quickbooks
-customer care number, Quickbooks customer care number, Quickbooks customer care
-number , Quickbooks customer care phoe number , Quickbooks helpdesk customer
-service phone number, Quickbooks helpdesk customer service number, Quickbooks
-helpdesk number, Quickbooks customer service help number, Quickbooks customer
-service help number
+skype phone number @@ 1*888+879.0163@@ support number
+DocuSign for Microsoft
+skype customer service Phone Number@(1 888 879 0163) skype Technical Support
+Phone number?
+(@(1 888+879+0163)&skype Mail technical Support Phone Number skype Tech Support
+Number skype customer service phone Number skype Tech Support Phone Number
+Mail official phone number,,1-888-879-0163,phone number for skype Mail
+support,,skype 24/7 support phone number,,skype support number,skype telephone
+number for support
+skype technical phone number, skype support phone number, skype tech support
+number, skype customer care number, skype technical support number....
+Support skype 1-888-879-0163 skype tech support phone number,telephone number ?
+Support skype 1-888-879-0163 skype tech support phone number,telephone number ?
+Support skype 1-888-879-0163 skype tech support phone number,telephone number
+skype 1-888-879-0163 customer service phone number
+skype 1-888-879-0163 customer service phone number
+Toll Free Number 1-888-879-0163
+skype toll free number,
+skype toll free number,
+skype toll free number,
+skype Customer service number, 1-888-879-0163
+skype Customer service number,
+skype Customer service number,
+skype technical support phone number, 1-888-879-0163
+skype technical support phone number,
+skype technical support phone number, 1-888-879-0163
+skype tech support phone number,
+skype tech support phone number
+skype password recovery phone number,
+skype customer service phone number, 1-888-879-0163
+skype customer service number,
+skype customer service number usa,
+skype customer service number Canada 1-888-879-0163
+skype customer care phone number,
+skype customer service,
+skype customer service phone number, 1-888-879-0163
+skype customer service number,
+skype customer service phone,
+skype customer service number usa,
+skype customer service phone number usa, 1-888-879-0163
+skype customer service canada,
+skype customer support,
+skype customer care,
+1-888-879-0163,phone number for skype Mail support,,skype 24/7 support phone
+number,,skype support number,skype telephone number for support
+skype technical phone number,1-888-879-0163,phone number for skype Mail
+support,,skype 24/7 support phone number,,skype support number,skype telephone
+number for support
+skype technical phone number 1-888-879-0163
+skype customer support phone number
+skype customer care phone number,
+skype customer service phone number,
+skype technical support phone number usa, 1-888-879-0163
+skype technical support phone number,
+skype technical support number usa,
+skype technical support phone canada,
+skype technical support phone number canada, 1-888-879-0163
+skype tech support,
+skype technical support,
+skype tech support,
+skype password reset,
+skype contact number,
+skype phone number,
+skype support number, 1-888-879-0163
+skype helpline number,
+skype tollfree number,
+skype support phone number,
+skype tech support number,
+skype technical support number, 1-888-879-0163
+skype customer support number,
+skype customer service phone number,
+skype customer service number,
+skype customer service number usa,
+skype customer service number Canada 1-888-879-0163
+skype customer care phone number,
+skype customer service,
 
 -- 
 You are receiving this mail because:
-You are watching the assignee of the bug.--
+You are watching the assignee of the bug.
+--
 To unsubscribe from this list: send the line "unsubscribe linux-man" in
 the body of a message to majordomo-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
 More majordomo info at  http://vger.kernel.org/majordomo-info.html
