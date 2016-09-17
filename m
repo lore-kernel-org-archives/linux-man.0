@@ -1,8 +1,8 @@
 From: bugzilla-daemon-590EEB7GvNiWaY/ihj7yzEB+6BGkLq7r@public.gmane.org
-Subject: [Bug 162971]
- New:=?UTF-8?Q?=20QB=E2=84=A2?=::=?UTF-8?Q?=C2=AE?=??=?UTF-8?Q?=2D=20QuickBooKs=20Phone=20number=E2=84=A2?=::=?UTF-8?Q?=C2=AE?=??-1877 778 8714-?? QuickBooKs tech support Phone number, QuickBooKs number QuickBooKs customer care number
-Date: Sat, 17 Sep 2016 10:57:24 +0000
-Message-ID: <bug-162971-11311@https.bugzilla.kernel.org/>
+Subject: [Bug 163031] New: USA"quickbooks help desk phone number
+ $$1-877-778-8714"USA"quickbooks payroll customer service number
+Date: Sat, 17 Sep 2016 11:01:50 +0000
+Message-ID: <bug-163031-11311@https.bugzilla.kernel.org/>
 Mime-Version: 1.0
 Content-Type: text/plain; charset="UTF-8"
 Content-Transfer-Encoding: 8BIT
@@ -11,12 +11,12 @@ Sender: linux-man-owner-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
 To: linux-man-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
 List-Id: linux-man@vger.kernel.org
 
-https://bugzilla.kernel.org/show_bug.cgi?id=162971
+https://bugzilla.kernel.org/show_bug.cgi?id=163031
 
-            Bug ID: 162971
-           Summary: QB™::®??- QuickBooKs Phone number™::®??-1877 778
-                    8714-?? QuickBooKs tech support Phone number,
-                    QuickBooKs number QuickBooKs customer care number
+            Bug ID: 163031
+           Summary: USA"quickbooks help desk phone number
+                    $$1-877-778-8714"USA"quickbooks payroll customer
+                    service number
            Product: Documentation
            Version: unspecified
           Hardware: All
@@ -28,6 +28,11 @@ https://bugzilla.kernel.org/show_bug.cgi?id=162971
           Assignee: documentation_man-pages-ztI5WcYan/vQLgFONoPN62D2FQJk+8+b@public.gmane.org
           Reporter: johnyadavcarter-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org
         Regression: No
+
+Created attachment 237301
+  --> https://bugzilla.kernel.org/attachment.cgi?id=237301&action=edit
+USA"quickbooks help desk phone number $$1-877-778-8714"USA"quickbooks payroll
+customer service number
 
 QB™::®??- QuickBooKs Phone number™::®??-1877 778 8714-?? QuickBooKs tech
 support Phone number, QuickBooKs number QuickBooKs customer care number
@@ -245,8 +250,11 @@ $$1-877-778-8714"USA"quickbooks payroll technical support phone number
 $$1-877-778-8714"USA"quickbooks technical support contact number
 $$1-877-778-8714"USA"
 https://www.linkedin.com/pulse/quickbooks-phone-number-1-877-778-8714-support-devid-dhavan
-
 https://www.linkedin.com/pulse/official-1-877-778-8714-quickbooks-phone-number-1877778-devid-dhavan
+https://bugzilla.kernel.org/show_bug.cgi?id=162911
+https://bugzilla.kernel.org/show_bug.cgi?id=162941
+https://bugzilla.kernel.org/show_bug.cgi?id=162971
+https://bugzilla.kernel.org/show_bug.cgi?id=162981
 
 -- 
 You are receiving this mail because:
