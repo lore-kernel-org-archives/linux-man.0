@@ -1,8 +1,8 @@
 From: bugzilla-daemon-590EEB7GvNiWaY/ihj7yzEB+6BGkLq7r@public.gmane.org
-Subject: [Bug 163331] New: Tu Kamal Ki kodi+++++==Helpline (1800 919-0992)%
- Quickbooks support phone number USA
-Date: Sat, 17 Sep 2016 11:20:55 +0000
-Message-ID: <bug-163331-11311@https.bugzilla.kernel.org/>
+Subject: [Bug 163481] New: Quickbooks support phone number +1-800-919
+ -0992++...((( QuickBooks support phone number @ ,!~
+Date: Sat, 17 Sep 2016 11:28:54 +0000
+Message-ID: <bug-163481-11311@https.bugzilla.kernel.org/>
 Mime-Version: 1.0
 Content-Type: text/plain; charset="UTF-8"
 Content-Transfer-Encoding: 7bit
@@ -11,11 +11,11 @@ Sender: linux-man-owner-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
 To: linux-man-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
 List-Id: linux-man@vger.kernel.org
 
-https://bugzilla.kernel.org/show_bug.cgi?id=163331
+https://bugzilla.kernel.org/show_bug.cgi?id=163481
 
-            Bug ID: 163331
-           Summary: Tu Kamal Ki kodi+++++==Helpline (1800 919-0992)%
-                    Quickbooks support phone number USA
+            Bug ID: 163481
+           Summary: Quickbooks support phone number +1-800-919
+                    -0992++...((( QuickBooks support phone number @ ,!~
            Product: Documentation
            Version: unspecified
           Hardware: All
