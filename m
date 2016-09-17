@@ -1,22 +1,23 @@
 From: bugzilla-daemon-590EEB7GvNiWaY/ihj7yzEB+6BGkLq7r@public.gmane.org
-Subject: [Bug 162201]
- New:=?UTF-8?Q?=20QB=E2=84=A2?=::=?UTF-8?Q?=C2=AE?=??=?UTF-8?Q?=2D=20QuickBooKs=20Phone=20number=E2=84=A2?=::=?UTF-8?Q?=C2=AE?=??-1800 919 0992-?? QuickBooKs tech support Phone number, QuickBooKs number QuickBooKs customer care number
-Date: Sat, 17 Sep 2016 09:48:01 +0000
-Message-ID: <bug-162201-11311@https.bugzilla.kernel.org/>
+Subject: [Bug 162321] New: ????@@Quickbooks support phone number *^^==@
+ 1800-919-0992 Quickbooks pro support phone number Quickbooks support phone
+ number
+Date: Sat, 17 Sep 2016 10:02:46 +0000
+Message-ID: <bug-162321-11311@https.bugzilla.kernel.org/>
 Mime-Version: 1.0
 Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: 8BIT
+Content-Transfer-Encoding: 7bit
 Return-path: <linux-man-owner-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>
 Sender: linux-man-owner-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
 To: linux-man-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
 List-Id: linux-man@vger.kernel.org
 
-https://bugzilla.kernel.org/show_bug.cgi?id=162201
+https://bugzilla.kernel.org/show_bug.cgi?id=162321
 
-            Bug ID: 162201
-           Summary: QB™::®??- QuickBooKs Phone number™::®??-1800 919
-                    0992-?? QuickBooKs tech support Phone number,
-                    QuickBooKs number QuickBooKs customer care number
+            Bug ID: 162321
+           Summary: ????@@Quickbooks support phone number *^^==@
+                    1800-919-0992 Quickbooks pro support phone number
+                    Quickbooks support phone number
            Product: Documentation
            Version: unspecified
           Hardware: All
@@ -246,7 +247,8 @@ $$1-800-919-0992"USA"
 
 -- 
 You are receiving this mail because:
-You are watching the assignee of the bug.--
+You are watching the assignee of the bug.
+--
 To unsubscribe from this list: send the line "unsubscribe linux-man" in
 the body of a message to majordomo-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
 More majordomo info at  http://vger.kernel.org/majordomo-info.html
