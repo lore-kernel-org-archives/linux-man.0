@@ -1,67 +1,67 @@
-From: "Michael Kerrisk (man-pages)" <mtk.manpages-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org>
-Subject: Re: [PATCH] epoll_wait.2: Clarify that the timeout is measured
- against CLOCK_MONOTONIC
-Date: Tue, 20 Sep 2016 14:33:45 +0200
-Message-ID: <5e86d5bf-0520-4dec-dac6-599ba600b67a@gmail.com>
-References: <1473931073-26587-1-git-send-email-mac@mcrowe.com>
+From: Vlastimil Babka <vbabka-AlSwsSmVLrQ@public.gmane.org>
+Subject: Re: [PATCH] mm/mempolicy.c: forbid static or relative flags for local
+ NUMA mode
+Date: Tue, 20 Sep 2016 17:12:16 +0200
+Message-ID: <65cb95b8-4521-cc4c-a30c-e6c23731479c@suse.cz>
+References: <20160918112943.1645-1-kwapulinski.piotr@gmail.com>
 Mime-Version: 1.0
-Content-Type: text/plain; charset=windows-1252
+Content-Type: text/plain; charset=utf-8; format=flowed
 Content-Transfer-Encoding: 7bit
-Return-path: <linux-man-owner-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>
-In-Reply-To: <1473931073-26587-1-git-send-email-mac-6JwzNyXSCK3QT0dZR+AlfA@public.gmane.org>
-Sender: linux-man-owner-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
-To: Mike Crowe <mac-6JwzNyXSCK3QT0dZR+AlfA@public.gmane.org>
-Cc: mtk.manpages-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org, linux-man-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
+Return-path: <linux-api-owner-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>
+In-Reply-To: <20160918112943.1645-1-kwapulinski.piotr-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org>
+Sender: linux-api-owner-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
+To: Piotr Kwapulinski <kwapulinski.piotr-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org>, akpm-de/tnXTf+JLsfHDXvbKv3WD2FQJk+8+b@public.gmane.org
+Cc: kirill.shutemov-VuQAYsv1563Yd54FQh9/CA@public.gmane.org, rientjes-hpIqsD4AKlfQT0dZR+AlfA@public.gmane.org, mhocko-DgEjT+Ai2ygdnm+yROfE0A@public.gmane.org, mgorman-3eNAlZScCAx27rWaFMvyedHuzzzSOjJt@public.gmane.org, liangchen.linux-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org, nzimmer-sJ/iWh9BUns@public.gmane.org, linux-mm-Bw31MaZKKs3YtjvyW6yDsg@public.gmane.org, linux-kernel-u79uwXL29TY76Z2rM5mHXA@public.gmane.org, Linux API <linux-api-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>, linux-man-u79uwXL29TY76Z2rM5mHXA@public.gmane.org, Peter Zijlstra <peterz-wEGCiKHe2LqWVfeAwA7xHQ@public.gmane.org>
 List-Id: linux-man@vger.kernel.org
 
-On 09/15/2016 11:17 AM, Mike Crowe wrote:
-> The existing page left the choice of clock as ambiguous. My reading of the
-> kernel implementation is that CLOCK_MONOTONIC is always used since ep_poll
-> calls schedule_hrtimeout_range, which calls schedule_hrtimeout_range_clock
-> passing CLOCK_MONOTONIC.
-> 
-> References:
->  http://lxr.free-electrons.com/source/fs/eventpoll.c?v=4.7#L1614
->  http://lxr.free-electrons.com/source/kernel/time/hrtimer.c?v=4.7#L1785
-> 
-> The "measured against" terminology was borrowed from nanosleep.2.
-> 
-> I've checked all the way back to Linux v2.6.12 where the calculation was
-> done using jiffies so I think that this has effectively always been true.
+[CC += linux-api-u79uwXL29TY76Z2rM5mHXA@public.gmane.org]
 
-Thanks, Mike. I've applied this patch.
+     Since this is a kernel-user-space API change, please CC linux-api@. The 
+kernel source file Documentation/SubmitChecklist notes that all Linux kernel 
+patches that change userspace interfaces should be CCed to 
+linux-api-u79uwXL29TY76Z2rM5mHXA@public.gmane.org, so that the various parties who are interested in API 
+changes are informed. For further information, see 
+https://www.kernel.org/doc/man-pages/linux-api-ml.html
 
-Cheers,
+I think man page should document the change? Also I noticed that MPOL_NUMA 
+itself is missing in the man page...
 
-Michael
+On 09/18/2016 01:29 PM, Piotr Kwapulinski wrote:
+> The MPOL_F_STATIC_NODES and MPOL_F_RELATIVE_NODES flags are irrelevant
+> when setting them for MPOL_LOCAL NUMA memory policy via set_mempolicy.
+> Return the "invalid argument" from set_mempolicy whenever
+> any of these flags is passed along with MPOL_LOCAL.
+> It is consistent with MPOL_PREFERRED passed with empty nodemask.
+> It also slightly shortens the execution time in paths where these flags
+> are used e.g. when trying to rebind the NUMA nodes for changes in
+> cgroups cpuset mems (mpol_rebind_preferred()) or when just printing
+> the mempolicy structure (/proc/PID/numa_maps).
 
-> Signed-off-by: Mike Crowe <mac-6JwzNyXSCK3QT0dZR+AlfA@public.gmane.org>
+Hmm not sure I understand. How does change in mpol_new() affect 
+mpol_rebind_preferred()?
+
+Vlastimil
+
+> Isolated tests done.
+>
+> Signed-off-by: Piotr Kwapulinski <kwapulinski.piotr-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org>
 > ---
->  man2/epoll_wait.2 | 3 +++
->  1 file changed, 3 insertions(+)
-> 
-> diff --git a/man2/epoll_wait.2 b/man2/epoll_wait.2
-> index 9637906..48bb281 100644
-> --- a/man2/epoll_wait.2
-> +++ b/man2/epoll_wait.2
-> @@ -55,6 +55,9 @@ The
->  argument specifies the number of milliseconds that
->  .BR epoll_wait ()
->  will block.
-> +Time is measured against the
-> +.B CLOCK_MONOTONIC
-> +clock.
->  The call will block until either:
->  .IP * 3
->  a file descriptor delivers an event;
-> 
-
-
--- 
-Michael Kerrisk
-Linux man-pages maintainer; http://www.kernel.org/doc/man-pages/
-Linux/UNIX System Programming Training: http://man7.org/training/
---
-To unsubscribe from this list: send the line "unsubscribe linux-man" in
-the body of a message to majordomo-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
-More majordomo info at  http://vger.kernel.org/majordomo-info.html
+>  mm/mempolicy.c | 4 +++-
+>  1 file changed, 3 insertions(+), 1 deletion(-)
+>
+> diff --git a/mm/mempolicy.c b/mm/mempolicy.c
+> index 2da72a5..27b07d1 100644
+> --- a/mm/mempolicy.c
+> +++ b/mm/mempolicy.c
+> @@ -276,7 +276,9 @@ static struct mempolicy *mpol_new(unsigned short mode, unsigned short flags,
+>  				return ERR_PTR(-EINVAL);
+>  		}
+>  	} else if (mode == MPOL_LOCAL) {
+> -		if (!nodes_empty(*nodes))
+> +		if (!nodes_empty(*nodes) ||
+> +		    (flags & MPOL_F_STATIC_NODES) ||
+> +		    (flags & MPOL_F_RELATIVE_NODES))
+>  			return ERR_PTR(-EINVAL);
+>  		mode = MPOL_PREFERRED;
+>  	} else if (nodes_empty(*nodes))
+>
