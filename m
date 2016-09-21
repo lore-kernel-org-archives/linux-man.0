@@ -1,70 +1,154 @@
-From: Eugene Syromyatnikov <evgsyr-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org>
-Subject: Re: [PATCH 0/4] quotactl.2 updates
-Date: Wed, 21 Sep 2016 06:28:39 +0000
-Message-ID: <CACGkJds0SO5R6pGD0U6ufaedbwMs9WQ2GTsSom+dL8QykXbJOw@mail.gmail.com>
-References: <20160921032810.GA3699@obsidian> <CAKgNAkiMR9z718TjrFT6gyBm73HQ5RKfCq-qzpp3XYe_ndP0ZQ@mail.gmail.com>
+From: Florian Weimer <fweimer@redhat.com>
+Subject: Naming O_TMPFILE files
+Date: Wed, 21 Sep 2016 13:50:40 +0200
+Message-ID: <0831c636-4513-7c6c-255d-737a4415c8af@redhat.com>
 Mime-Version: 1.0
-Content-Type: text/plain; charset=UTF-8
-Return-path: <linux-man-owner-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>
-In-Reply-To: <CAKgNAkiMR9z718TjrFT6gyBm73HQ5RKfCq-qzpp3XYe_ndP0ZQ-JsoAwUIsXosN+BqQ9rBEUg@public.gmane.org>
-Sender: linux-man-owner-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
-To: Michael Kerrisk-manpages <mtk.manpages-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org>
-Cc: linux-man <linux-man-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>
+Content-Type: multipart/mixed;
+ boundary="------------513D8F41BF2DC31C92EDEDE3"
+Return-path: <linux-fsdevel-owner@vger.kernel.org>
+Sender: linux-fsdevel-owner@vger.kernel.org
+To: "linux-man@vger.kernel.org" <linux-man@vger.kernel.org>, Linux API <linux-api@vger.kernel.org>, Linux FS Devel <linux-fsdevel@vger.kernel.org>, aneesh.kumar@linux.vnet.ibm.com, Alexander Viro <viro@zeniv.linux.org.uk>
 List-Id: linux-man@vger.kernel.org
 
-On Wed, Sep 21, 2016 at 5:55 AM, Michael Kerrisk (man-pages)
-<mtk.manpages-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org> wrote:
-> Hi Eugene
->
-> On 21 September 2016 at 05:28, Eugene Syromyatnikov <evgsyr-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org> wrote:
->> Hello.
->>
->> The following set of patches provides set of updates for the quotactl.2
->> man page, mostly regarding XFS-specific subcommands.
->
-> The patch series looks good. It'd he helpful to know how you derived
-> the information in the patches. Could you tell me?
-Sure, I've got this information by looking at kernel (mostly
-fs/quota/quota.c, fs/quota/dquot.c, include/uapi/linux/quota.h,
-include/uapi/linux/dqblk_xfs.h, include/linux/quota.h) and glibc
-(sysdeps/unix/sysv/linux/sys/quota.h) sources during the course of
-writing test for strace's quotactl syscall decoder.
+This is a multi-part message in MIME format.
+--------------513D8F41BF2DC31C92EDEDE3
+Content-Type: text/plain; charset=utf-8; format=flowed
+Content-Transfer-Encoding: 7bit
 
->
-> Thanks,
->
-> Michael
->
->
->>
->> eSyr (4):
->>   quotactl.2: Additions regarding project quotas
->>   quotactl.2: Updated information regarding disk quota flags
->>   quotactl.2: Updated information regarding XFS-specific quotactl
->>     subcommands
->>   quotactl.2: wfix
->>
->>  man2/quotactl.2 |  260 ++++++++++++++++++++++++++++++++++++++++++++++++-------
->>  1 file changed, 229 insertions(+), 31 deletions(-)
->>
->> --
->> 1.7.10.4
->>
->
->
->
-> --
-> Michael Kerrisk
-> Linux man-pages maintainer; http://www.kernel.org/doc/man-pages/
-> Linux/UNIX System Programming Training: http://man7.org/training/
+AT_EMPTY_PATH is supposed to be able to give names to files created with 
+O_TMPFILE unless O_EXCL was specified at creation time.
 
+However, since this commit
 
+commit 11a7b371b64ef39fc5fb1b6f2218eef7c4d035e3
+Author: Aneesh Kumar K.V <aneesh.kumar@linux.vnet.ibm.com>
+Date:   Sat Jan 29 18:43:42 2011 +0530
 
--- 
-Eugene "eSyr" Syromyatnikov
-mailto:evgSyr-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org
-xmpp:eSyr@jabber.{ru|org}
---
-To unsubscribe from this list: send the line "unsubscribe linux-man" in
-the body of a message to majordomo-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
-More majordomo info at  http://vger.kernel.org/majordomo-info.html
+fs: allow AT_EMPTY_PATH in linkat(), limit that to CAP_DAC_READ_SEARCH
+
+linkat bails out early with AT_EMPTY_PATH and !CAP_DAC_READ_SEARCH, 
+never looking at O_EXCL.
+
+The /proc/self/fd kludge works for unprivileged users, but only if 
+*both* paths use AT_FDCWD.  It fails if the first path uses a real 
+descriptor for /proc/self/fd, or if the second path uses a real 
+descriptor for the current directory, or both.  For privileged users, 
+only AT_EMPTY_PATH case with an AT_FDCWD target works.
+
+The attached test program prints under a non-privileged user:
+
+error: linkat (fd, "", AT_FDCWD, out_name, AT_EMPTY_PATH):
+   No such file or directory
+error: linkat (fd, "", current_fd, out_name, AT_EMPTY_PATH):
+   No such file or directory
+success: linkat (AT_FDCWD, proc_name, AT_FDCWD, out_name, AT_SYMLINK_FOLLOW)
+error: linkat (AT_FDCWD, proc_name, current_fd, out_name, 
+AT_SYMLINK_FOLLOW):
+   No such file or directory
+error: linkat (proc_fd, proc_name, AT_FDCWD, out_name, AT_SYMLINK_FOLLOW):
+   No such file or directory
+error: linkat (proc_fd, proc_name, current_fd, out_name, AT_SYMLINK_FOLLOW):
+   No such file or directory
+successes: 1, failures: 5
+
+And under a privileged user:
+
+success: linkat (fd, "", AT_FDCWD, out_name, AT_EMPTY_PATH)
+error: linkat (fd, "", current_fd, out_name, AT_EMPTY_PATH):
+   No such file or directory
+error: linkat (AT_FDCWD, proc_name, AT_FDCWD, out_name, AT_SYMLINK_FOLLOW):
+   No such file or directory
+error: linkat (AT_FDCWD, proc_name, current_fd, out_name, 
+AT_SYMLINK_FOLLOW):
+   No such file or directory
+error: linkat (proc_fd, proc_name, AT_FDCWD, out_name, AT_SYMLINK_FOLLOW):
+   No such file or directory
+error: linkat (proc_fd, proc_name, current_fd, out_name, AT_SYMLINK_FOLLOW):
+   No such file or directory
+successes: 1, failures: 5
+
+(Seen on tmpfs and XFS, 4.7.x kernels.)
+
+I double-checked with strace, and the test case does not appear to be 
+broken.  But the exhibited behavior is truly bizarre, and it means that 
+it is very difficult to give a name to an O_TMPFILE file.
+
+Is this really the intended behavior?  Has it always been this way?
+
+Thanks,
+Florian
+
+--------------513D8F41BF2DC31C92EDEDE3
+Content-Type: text/x-csrc;
+ name="linkat.c"
+Content-Transfer-Encoding: 7bit
+Content-Disposition: attachment;
+ filename="linkat.c"
+
+#include <unistd.h>
+#include <fcntl.h>
+#include <err.h>
+#include <stdio.h>
+
+static int failures;
+static int successes;
+
+#define CHECK(ret)                              \
+  do                                            \
+    if ((ret) < 0)                              \
+      {                                         \
+        printf ("error: %s:\n  %m\n", #ret);    \
+        ++failures;                             \
+      }                                         \
+    else                                        \
+      {                                         \
+        printf ("success: %s\n", #ret);         \
+        ++successes;                            \
+      }                                         \
+  while (0)
+
+int
+main (void)
+{
+  const char *const out_name = "linkat.out";
+  unlink (out_name);
+
+  int fd = open (".", O_RDWR | O_TMPFILE, 0);
+  if (fd < 0)
+    err (1, "open");
+  int current_fd = open (".", O_RDONLY | O_DIRECTORY);
+  if (current_fd < 0)
+    err (1, "open (O_DIRECTORY)");
+  int proc_fd = open ("/proc/self/fd", O_RDONLY | O_DIRECTORY);
+  if (proc_fd < 0)
+    err (1, "open (O_DIRECTORY)");
+
+  CHECK (linkat (fd, "", AT_FDCWD, out_name, AT_EMPTY_PATH));
+  unlink (out_name);
+  CHECK (linkat (fd, "", current_fd, out_name, AT_EMPTY_PATH));
+  unlink (out_name);
+
+  char proc_name[100];
+  snprintf (proc_name, sizeof (proc_name), "/proc/self/fd/%d", fd);
+
+  CHECK (linkat (AT_FDCWD, proc_name, AT_FDCWD, out_name,
+                 AT_SYMLINK_FOLLOW));
+  unlink (out_name);
+  CHECK (linkat (AT_FDCWD, proc_name, current_fd, out_name,
+                 AT_SYMLINK_FOLLOW));
+  unlink (out_name);
+
+  snprintf (proc_name, sizeof (proc_name), "%d", fd);
+  CHECK (linkat (proc_fd, proc_name, AT_FDCWD, out_name,
+                 AT_SYMLINK_FOLLOW));
+  unlink (out_name);
+  CHECK (linkat (proc_fd, proc_name, current_fd, out_name,
+                 AT_SYMLINK_FOLLOW));
+  unlink (out_name);
+
+  printf ("successes: %d, failures: %d\n", successes, failures);
+
+  return 0;
+}
+
+--------------513D8F41BF2DC31C92EDEDE3--
