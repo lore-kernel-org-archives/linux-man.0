@@ -1,60 +1,49 @@
-From: "Michael Kerrisk (man-pages)" <mtk.manpages-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org>
-Subject: Re: [PATCH] document FIONREAD on pipe
-Date: Sun, 25 Sep 2016 12:10:28 +0200
-Message-ID: <453f4338-96aa-63de-339f-ce53a44bebd3@gmail.com>
-References: <CAE2NFgU-hfRvNBxDBhN9=QpZ2AVwmNxx-kCXNajcRv0wfrwYPQ@mail.gmail.com>
+From: bugzilla-daemon-590EEB7GvNiWaY/ihj7yzEB+6BGkLq7r@public.gmane.org
+Subject: [Bug 172901] New: +1-855-526-4335 @ Quicken Technical Support Number
+Date: Sun, 25 Sep 2016 16:04:02 +0000
+Message-ID: <bug-172901-11311@https.bugzilla.kernel.org/>
 Mime-Version: 1.0
-Content-Type: text/plain; charset=windows-1252
+Content-Type: text/plain; charset="UTF-8"
 Content-Transfer-Encoding: 7bit
 Return-path: <linux-man-owner-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>
-In-Reply-To: <CAE2NFgU-hfRvNBxDBhN9=QpZ2AVwmNxx-kCXNajcRv0wfrwYPQ-JsoAwUIsXosN+BqQ9rBEUg@public.gmane.org>
 Sender: linux-man-owner-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
-To: Patrick McLean <patrickm-aTCcZBytkHbQT0dZR+AlfA@public.gmane.org>
-Cc: mtk.manpages-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org, linux-man-u79uwXL29TY76Z2rM5mHXA@public.gmane.org, David Coles <coles.david-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org>, Roderick Colenbrander <roderick-aTCcZBytkHbQT0dZR+AlfA@public.gmane.org>
+To: linux-man-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
 List-Id: linux-man@vger.kernel.org
 
-Hello Patrick
+https://bugzilla.kernel.org/show_bug.cgi?id=172901
 
-On 09/24/2016 12:17 AM, Patrick McLean wrote:
-> The FIONREAD ioctl can be used on a pipe to get the current amount of
-> data in the pipe. This ioctl is currently only documented in tty_ioctl
-> (4). This adds a blurb to the pipe(7) man page about this ioctl.
+            Bug ID: 172901
+           Summary: +1-855-526-4335 @ Quicken Technical Support Number
+           Product: Documentation
+           Version: unspecified
+          Hardware: All
+                OS: Linux
+            Status: NEW
+          Severity: normal
+          Priority: P1
+         Component: man-pages
+          Assignee: documentation_man-pages-ztI5WcYan/vQLgFONoPN62D2FQJk+8+b@public.gmane.org
+          Reporter: johnchhibber-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org
+        Regression: No
 
-Thanks for the patch. In the end, I wrote something more extensive.
-See below.
-
-Cheers,
-
-Michael
-
-diff --git a/man7/pipe.7 b/man7/pipe.7
-index 9977acc..b6a3007 100644
---- a/man7/pipe.7
-+++ b/man7/pipe.7
-@@ -143,6 +143,21 @@ operations.
- See
- .BR fcntl (2)
- for more information.
-+
-+The following
-+.BR ioctl (2)
-+operation, which can be applied to a file descriptor
-+that refers to either end of a pipe,
-+places a count of the number of unread bytes in the pipe in the
-+.I int
-+buffer pointed to by the final argument of the call:
-+
-+    ioctl(fd, FIONREAD, &nbytes);
-+
-+The
-+.B FIONREAD
-+operation is not specified in any standard,
-+but is provided on many implementations.
+Quicken accounting software does wonders when it comes to managing your
+personal finances quickly and in the most efficient way. Sometimes Quicken show
+some technical problems and errors, this is when you need Quicken Technical
+Support executives for troubleshooting. Contact Quicken Support Center by
+dialing Quicken Support Phone Number for quick and instant online techncial
+support services from certified Quicken technicians. Quicken Technical support
+company offering help and support services to Quicken customers 365 days a
+year. You need technical staff to help you convert Quicken data file to export
+Quicken file. Get premium technical assistance and support services from
+Intelli Atlas on Quicken accounting software through team of Quicken expert
+professionals. These certified technicians are highly trained and experienced
+on Quicken to fix almost all Quicken errors and problems.
+To know more, you can visit @ http://www.quickentechservices.com or you can
+also Contact us at +1 855 526 4335...
 
 -- 
-Michael Kerrisk
-Linux man-pages maintainer; http://www.kernel.org/doc/man-pages/
-Linux/UNIX System Programming Training: http://man7.org/training/
+You are receiving this mail because:
+You are watching the assignee of the bug.
 --
 To unsubscribe from this list: send the line "unsubscribe linux-man" in
 the body of a message to majordomo-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
