@@ -1,39 +1,60 @@
-From: Patrick McLean <patrickm-aTCcZBytkHbQT0dZR+AlfA@public.gmane.org>
-Subject: [PATCH] document FIONREAD on pipe
-Date: Fri, 23 Sep 2016 15:17:28 -0700
-Message-ID: <CAE2NFgU-hfRvNBxDBhN9=QpZ2AVwmNxx-kCXNajcRv0wfrwYPQ@mail.gmail.com>
+From: "Michael Kerrisk (man-pages)" <mtk.manpages-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org>
+Subject: Re: [PATCH] document FIONREAD on pipe
+Date: Sun, 25 Sep 2016 12:10:28 +0200
+Message-ID: <453f4338-96aa-63de-339f-ce53a44bebd3@gmail.com>
+References: <CAE2NFgU-hfRvNBxDBhN9=QpZ2AVwmNxx-kCXNajcRv0wfrwYPQ@mail.gmail.com>
 Mime-Version: 1.0
-Content-Type: multipart/mixed; boundary=94eb2c111e54cead20053d3424e1
+Content-Type: text/plain; charset=windows-1252
+Content-Transfer-Encoding: 7bit
 Return-path: <linux-man-owner-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>
+In-Reply-To: <CAE2NFgU-hfRvNBxDBhN9=QpZ2AVwmNxx-kCXNajcRv0wfrwYPQ-JsoAwUIsXosN+BqQ9rBEUg@public.gmane.org>
 Sender: linux-man-owner-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
-To: mtk.manpages-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org
-Cc: linux-man-u79uwXL29TY76Z2rM5mHXA@public.gmane.org, David Coles <coles.david-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org>, Roderick Colenbrander <roderick-aTCcZBytkHbQT0dZR+AlfA@public.gmane.org>
+To: Patrick McLean <patrickm-aTCcZBytkHbQT0dZR+AlfA@public.gmane.org>
+Cc: mtk.manpages-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org, linux-man-u79uwXL29TY76Z2rM5mHXA@public.gmane.org, David Coles <coles.david-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org>, Roderick Colenbrander <roderick-aTCcZBytkHbQT0dZR+AlfA@public.gmane.org>
 List-Id: linux-man@vger.kernel.org
 
---94eb2c111e54cead20053d3424e1
-Content-Type: text/plain; charset=UTF-8
+Hello Patrick
 
-The FIONREAD ioctl can be used on a pipe to get the current amount of
-data in the pipe. This ioctl is currently only documented in tty_ioctl
-(4). This adds a blurb to the pipe(7) man page about this ioctl.
+On 09/24/2016 12:17 AM, Patrick McLean wrote:
+> The FIONREAD ioctl can be used on a pipe to get the current amount of
+> data in the pipe. This ioctl is currently only documented in tty_ioctl
+> (4). This adds a blurb to the pipe(7) man page about this ioctl.
 
---94eb2c111e54cead20053d3424e1
-Content-Type: text/x-patch; charset=US-ASCII;
-	name="man-pages-document-FIONREAD-on-pipe.patch"
-Content-Disposition: attachment;
-	filename="man-pages-document-FIONREAD-on-pipe.patch"
-Content-Transfer-Encoding: base64
-X-Attachment-Id: f_itgbuxou0
+Thanks for the patch. In the end, I wrote something more extensive.
+See below.
 
-ZGlmZiAtLWdpdCBhL21hbjcvcGlwZS43IGIvbWFuNy9waXBlLjcKaW5kZXggOTk3N2FjYy4uZDQz
-NjcxYiAxMDA2NDQKLS0tIGEvbWFuNy9waXBlLjcKKysrIGIvbWFuNy9waXBlLjcKQEAgLTE0Myw2
-ICsxNDMsMTcgQEAgb3BlcmF0aW9ucy4KIFNlZQogLkJSIGZjbnRsICgyKQogZm9yIG1vcmUgaW5m
-b3JtYXRpb24uCisKK1RoZSBjdXJyZW50IGFtb3VudCBvZiBkYXRhIHdhaXRpbmcgaW4gYSBwaXBl
-IGNhbiBiZSBxdWVyaWVkIHdpdGggdGhlCisuQlIgaW9jdGwgKDIpCitvcGVyYXRpb24KKy5CUiBG
-SU9OUkVBRCAuCitTZWUKKy5CUiBpb2N0bCAoMikKK2FuZAorLkJSIHR0eV9pb2N0bCAoNCkKK2Zv
-ciBtb3JlIGluZm9ybWF0aW9uIG9uIHVzYWdlIG9mCisuQlIgRklPTlJFQUQgLgogLlwiCiAuU1Mg
-UElQRV9CVUYKIFBPU0lYLjEgc2F5cyB0aGF0Cg==
---94eb2c111e54cead20053d3424e1--
+Cheers,
+
+Michael
+
+diff --git a/man7/pipe.7 b/man7/pipe.7
+index 9977acc..b6a3007 100644
+--- a/man7/pipe.7
++++ b/man7/pipe.7
+@@ -143,6 +143,21 @@ operations.
+ See
+ .BR fcntl (2)
+ for more information.
++
++The following
++.BR ioctl (2)
++operation, which can be applied to a file descriptor
++that refers to either end of a pipe,
++places a count of the number of unread bytes in the pipe in the
++.I int
++buffer pointed to by the final argument of the call:
++
++    ioctl(fd, FIONREAD, &nbytes);
++
++The
++.B FIONREAD
++operation is not specified in any standard,
++but is provided on many implementations.
+
+-- 
+Michael Kerrisk
+Linux man-pages maintainer; http://www.kernel.org/doc/man-pages/
+Linux/UNIX System Programming Training: http://man7.org/training/
 --
 To unsubscribe from this list: send the line "unsubscribe linux-man" in
 the body of a message to majordomo-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
