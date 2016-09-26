@@ -1,34 +1,31 @@
 From: Bill Pemberton <wfp5p-rupya+Y+cgAvmQRmTv5wTA@public.gmane.org>
-Subject: [PATCH] semctl.2: CONFORMING TO: change a POSIX.1-2001 to POSIX.1-2008
-Date: Mon, 26 Sep 2016 11:35:18 -0400
-Message-ID: <20160926153518.16677-1-wfp5p@worldbroken.com>
+Subject: [PATCH] vfork.2: wfix
+Date: Mon, 26 Sep 2016 11:35:07 -0400
+Message-ID: <20160926153507.16627-1-wfp5p@worldbroken.com>
 Return-path: <linux-man-owner-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>
 Sender: linux-man-owner-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
 To: mtk.manpages-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org
 Cc: linux-man-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
 List-Id: linux-man@vger.kernel.org
 
-The section had POSIX.1-2001 listed twice in a row instead of
-POSIX.1-2001 and POSIX.1-2008
-
 Signed-off-by: Bill Pemberton <wfp5p-rupya+Y+cgAvmQRmTv5wTA@public.gmane.org>
 ---
- man2/semctl.2 | 2 +-
+ man2/vfork.2 | 2 +-
  1 file changed, 1 insertion(+), 1 deletion(-)
 
-diff --git a/man2/semctl.2 b/man2/semctl.2
-index 2897de7a4bb1..8cdb1f6f6cd8 100644
---- a/man2/semctl.2
-+++ b/man2/semctl.2
-@@ -457,7 +457,7 @@ is to be set (for some semaphore of the set) is less than 0
- or greater than the implementation limit
- .BR SEMVMX .
- .SH CONFORMING TO
--POSIX.1-2001, POSIX.1-2001, SVr4.
-+POSIX.1-2001, POSIX.1-2008, SVr4.
- .\" SVr4 documents more error conditions EINVAL and EOVERFLOW.
- 
- POSIX.1 specifies the
+diff --git a/man2/vfork.2 b/man2/vfork.2
+index 6f20900df4ae..ce03bcd67541 100644
+--- a/man2/vfork.2
++++ b/man2/vfork.2
+@@ -202,7 +202,7 @@ can't be implemented on such systems.
+ .BR vfork ()
+ from the standard; the POSIX rationale for the
+ .BR posix_spawn (3)
+-function notes that that function,
++function notes that the function,
+ which provides functionality equivalent to
+ .BR fork (2)+ exec (3),
+ is designed to be implementable on systems that lack an MMU.)
 -- 
 2.9.0
 
