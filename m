@@ -1,146 +1,734 @@
-From: "Michael Kerrisk (man-pages)" <mtk.manpages-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org>
-Subject: Re: [PATCH] clone.2: Adjust syscall prototype and expand CLONE_SETTLS
- description
-Date: Sun, 25 Sep 2016 22:20:02 +0200
-Message-ID: <1bdb82c7-0450-18ba-ebb0-c12de0ba6527@gmail.com>
-References: <20160824030607.GA2596@Kenos-MacBook-Pro-2.local>
- <2c257a1e-b7c5-c2bc-09ab-a2a685ae37b7@gmail.com>
- <20160904051102.hgatyfxspa7fjvzz@x>
- <5b7eb44c-0f9a-f143-9e3d-9927961b2139@gmail.com>
- <20160925192930.qxrefcc46fmbnxzv@x>
+From: Eugene Syromyatnikov <evgsyr-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org>
+Subject: [PATCH] keyctl.2: updates regarding command usage, return values and
+ error codes
+Date: Mon, 26 Sep 2016 05:24:48 +0300
+Message-ID: <20160926022448.GA28764@obsidian>
 Mime-Version: 1.0
-Content-Type: text/plain; charset=windows-1252
-Content-Transfer-Encoding: 7bit
+Content-Type: text/plain; charset=us-ascii
 Return-path: <linux-man-owner-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>
-In-Reply-To: <20160925192930.qxrefcc46fmbnxzv@x>
+Content-Disposition: inline
 Sender: linux-man-owner-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
-To: Josh Triplett <josh-DgEjT+Ai2ygdnm+yROfE0A@public.gmane.org>
-Cc: mtk.manpages-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org, Keno Fischer <keno-9DCaDmOhoh+8M3too/+dENBPR1lH4CV8@public.gmane.org>, linux-man-u79uwXL29TY76Z2rM5mHXA@public.gmane.org, pschiffe-H+wXaHxf7aLQT0dZR+AlfA@public.gmane.org, Mike Frysinger <vapier-aBrp7R+bbdUdnm+yROfE0A@public.gmane.org>
+To: mtk.manpages-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org
+Cc: linux-man-u79uwXL29TY76Z2rM5mHXA@public.gmane.org, dhowells-H+wXaHxf7aLQT0dZR+AlfA@public.gmane.org
 List-Id: linux-man@vger.kernel.org
 
-On 09/25/2016 09:29 PM, Josh Triplett wrote:
-> On Sun, Sep 25, 2016 at 09:03:07PM +0200, Michael Kerrisk (man-pages) wrote:
->> On 09/04/2016 07:11 AM, Josh Triplett wrote:
->>> On Sun, Sep 04, 2016 at 04:30:44PM +1200, Michael Kerrisk (man-pages) wrote:
->>>> [CC += Josh]
->>>>
->>>> Josh, I know you were submitting patches relate to the clone() TLS argument a 
->>>> while back. Could you comment on this patch proposal below (also
->>>> https://bugzilla.kernel.org/show_bug.cgi?id=118241 is relevant).
->>>
->>> Sure.
->>>
->>>> On 08/24/2016 03:06 PM, Keno Fischer wrote:
->>>>> The prototype for the system call was added in 81f10dad, but looking at the
->>>>> kernel's fork.c, I believe the relevant definition is
->>>>>
->>>>> SYSCALL_DEFINE5(clone, unsigned long, clone_flags, unsigned long, newsp,
->>>>> int __user *, parent_tidptr,
->>>>> int __user *, child_tidptr,
->>>>> unsigned long, tls)
->>>>>
->>>>> so the last argument is the tls argument, not a pt_regs argument.
->>>>> I stumbled upon this while trying to understand CLONE_SETTLS, so I expanded
->>>>> that description a little to cover other architectures.
->>>
->>> This description and patch looks correct to me.
->>> Reviewed-by: Josh Triplett <josh-iaAMLnmF4UmaiuxdJuQwMA@public.gmane.org>
->>
->> Thanks, Josh.
->>
->>> Ideally, I'd suggest a follow-up patch to improve the prototypes for the
->>> various architectures.  Rather than saying "x86 looks roughly this way,
->>> on these architectures swap these arguments, on these architectures
->>> ...", I'd suggest explicitly giving each of the four prototypes (normal,
->>> CONFIG_CLONE_BACKWARDS, CONFIG_CLONE_BACKWARDS2,
->>> CONFIG_CLONE_BACKWARDS3) and the corresponding architectures.
->>
->> I applied the patch below. Okay?
-> 
-> Mostly looks good, but one comment below.
-> 
->> diff --git a/man2/clone.2 b/man2/clone.2
->> index 5c1e301..26c6b30 100644
->> --- a/man2/clone.2
->> +++ b/man2/clone.2
->> @@ -54,11 +54,7 @@ clone, __clone2 \- create a child process
->>  .BI "          /* pid_t *" ptid ", void *" newtls \
->>  ", pid_t *" ctid " */ );"
->>  
->> -/* Prototype for the raw system call */
->> -
->> -.BI "long clone(unsigned long " flags ", void *" child_stack ,
->> -.BI "          int *" ptid ", int *" ctid ,
->> -.BI "          unsigned long " newtls );
->> +/* For the prototype of the raw system call, see NOTES */
->>  .fi
->>  .SH DESCRIPTION
->>  .BR clone ()
->> @@ -821,16 +817,58 @@ arguments of the
->>  .BR clone ()
->>  wrapper function are omitted.
->>  Furthermore, the argument order changes.
->> -The raw system call interface on x86 and many other architectures is roughly:
->> +In addition, there are variations across architectures.
->> +
->> +The raw system call interface on x86-64 and some other architectures
->> +(including sh, tile, and alpha) is roughly:
->> +
->>  .in +4
->>  .nf
->> +.BI "long clone(unsigned long " flags ", void *" child_stack ,
->> +.BI "           int *" ptid ", int *" ctid ,
->> +.BI "           unsigned long " newtls );
->> +.fi
->> +.in
->> +
->> +On x86-32, and several other common architectures
->> +(including score, microblaze, ARM, ARM 64, PA-RISC, arc, Power PC, xtensa,
->> +and MIPS),
->> +.\" CONFIG_CLONE_BACKWARDS
->> +the order of the last two arguments is reversed:
->>  
->> +.in +4
->> +.nf
->>  .BI "long clone(unsigned long " flags ", void *" child_stack ,
->> +.BI "          int *" ptid ", unsigned long " newtls ,
->> +.BI "          int *" ctid );
->> +.fi
->> +.in
->> +
->> +On the cris and s390 architectures,
->> +.\" CONFIG_CLONE_BACKWARDS2
->> +the order of the first two arguments is reversed:
->> +
->> +.in +4
->> +.nf
->> +.BI "long clone(void *" child_stack ", unsigned long " flags ,
->>  .BI "           int *" ptid ", int *" ctid ,
->>  .BI "           unsigned long " newtls );
->> +.fi
->> +.in
->> +
->> +On the microblaze architecture,
->> +.\" CONFIG_CLONE_BACKWARDS3
->> +an additional argument is supplied:
-> 
-> This mentions microblaze twice: one in CONFIG_CLONE_BACKWARDS and again
-> here.  
+Hello.
 
-Ahh -- the furst mention was a mistake. Fixed now. Thanks for spotting that.
+I've drafted some updates to the keyctl.2 man page while preparing test
+for strace syscall decoder. It is focused mostly on description of argument
+format used in various commands and return values/error codes.
+Information is based on Documentation/security/keys.txt,
+include/uapi/linux/keyctl.h, and source code and comments in
+security/keys/ (mostly comments from security/keys/keyctl.c).
+Hope you find it useful.
 
-> And I don't see IA-64 mentioned anywhere.
+---
+* keyctl.2 (SYNOPSIS): Added information regarding direct call via
+  sysctl(2).
+  (DESCRIPTION): Added information regarding argument usage for
+  KEYCTL_GET_KEYRING_ID, KEYCTL_JOIN_SESSION_KEYRING, KEYCTL_UPDATE,
+  KEYCTL_REVOKE, KEYCTL_CHOWN, KEYCTL_SETPERM, KEYCTL_DESCRIBE,
+  KEYCTL_CLEAR, KEYCTL_LINK, KEYCTL_UNLINK, KEYCTL_SEARCH, KEYCTL_READ,
+  KEYCTL_INSTANTIATE, KEYCTL_NEGATE, KEYCTL_SET_REQKEY_KEYRING,
+  KEYCTL_SET_TIMEOUT, KEYCTL_ASSUME_AUTHORITY commands; added
+  information about KEYCTL_GET_SECURITY, KEYCTL_SESSION_TO_PARENT,
+  KEYCTL_REJECT, KEYCTL_INSTANTIATE_IOV, KEYCTL_INVALIDATE,
+  KEYCTL_GET_PERSISTENT, KEYCTL_DH_COMPUTE commands.
+  (RETURN VALUE): Added information regarding command-specific return
+  values (where it is non-zero).
+  (ERRORS): Addad information regarding ENOTSUPP, ENOTDIR, ENFILE,
+  ENOENT, EINVAL error codes.
+---
+ man2/keyctl.2 |  619 ++++++++++++++++++++++++++++++++++++++++++++++++++++-----
+ 1 file changed, 568 insertions(+), 51 deletions(-)
 
-It was already covered by existing text in the page.
-
-Cheers,
-
-Michael
-
+diff --git a/man2/keyctl.2 b/man2/keyctl.2
+index 2cb382a..001197c 100644
+--- a/man2/keyctl.2
++++ b/man2/keyctl.2
+@@ -8,30 +8,6 @@
+ .\" 2 of the License, or (at your option) any later version.
+ .\" %%%LICENSE_END
+ .\"
+-.\" FIXME Document KEYCTL_GET_SECURITY (new in 2.6.26)
+-.\"		commit 70a5bb72b55e82fbfbf1e22cae6975fac58a1e2d
+-.\"		Author: David Howells <dhowells-H+wXaHxf7aLQT0dZR+AlfA@public.gmane.org>
+-.\"		Date:   Tue Apr 29 01:01:26 2008 -0700
+-.\" FIXME Document KEYCTL_SESSION_TO_PARENT (new in 2.6.32)
+-.\"		commit ee18d64c1f632043a02e6f5ba5e045bb26a5465f
+-.\"		Author: David Howells <dhowells-H+wXaHxf7aLQT0dZR+AlfA@public.gmane.org>
+-.\"		Date:   Wed Sep 2 09:14:21 2009 +0100
+-.\" FIXME Document KEYCTL_REJECT (new in 2.6.39)
+-.\"		commit fdd1b94581782a2ddf9124414e5b7a5f48ce2f9c
+-.\"		Author: David Howells <dhowells-H+wXaHxf7aLQT0dZR+AlfA@public.gmane.org>
+-.\"		Documentation/security/keys.txt
+-.\" FIXME Document KEYCTL_INSTANTIATE_IOV (new in 2.6.39)
+-.\"		commit ee009e4a0d4555ed522a631bae9896399674f064
+-.\"		Author: David Howells <dhowells-H+wXaHxf7aLQT0dZR+AlfA@public.gmane.org>
+-.\"		Documentation/security/keys.txt
+-.\" FIXME Document KEYCTL_INVALIDATE (new in 3.5)
+-.\"		commit fd75815f727f157a05f4c96b5294a4617c0557da
+-.\"		Author: David Howells <dhowells-H+wXaHxf7aLQT0dZR+AlfA@public.gmane.org>
+-.\"		Documentation/security/keys.txt
+-.\" FIXME Document KEYCTL_GET_PERSISTENT (new in 3.13)
+-.\"		commit f36f8c75ae2e7d4da34f4c908cebdb4aa42c977e
+-.\"		Author: David Howells <dhowells-H+wXaHxf7aLQT0dZR+AlfA@public.gmane.org>
+-.\"
+ .TH KEYCTL 2 2015-05-07 Linux "Linux Key Management Calls"
+ .SH NAME
+ keyctl \- manipulate the kernel's key management facility
+@@ -39,73 +15,588 @@ keyctl \- manipulate the kernel's key management facility
+ .nf
+ .B #include <keyutils.h>
+ .sp
+-.BI "long keyctl(int " cmd ", ...);"
++.BI "long keyctl(int " cmd ", ...)"
++.sp
++.IB "/* For direct call via the " syscall "(2): */"
++.B #include <asm/unistd.h>
++.B #include <linux/keyctl.h>
++.B #include <unistd.h>
++.sp
++.BI "long syscall(__NR_keyctl, int " option ", __kernel_ulong_t " arg2 \
++", __kernel_ulong_t " arg3 ", __kernel_ulong_t " arg4 ", __kernel_ulong_t " \
++arg5 ");"
+ .fi
+ .SH DESCRIPTION
+ .BR keyctl ()
+-has a number of functions available:
++(along with
++.IR add_key (2))
++provides abilities for userspace key manipulation. The operation performed by
++the
++.BR keyctl ()
++call is determined by the value of the
++.I option
++argument, which could one of the following:
+ .TP
+ .B KEYCTL_GET_KEYRING_ID
+-Ask for a keyring's ID.
++Ask for a keyring's whose ID provided in
++.I arg2
++(converted to
++.IR key_serial_t ).
++If the
++.I arg3
++argument contains non-zero value, new keyring would be created. Caller should
++have
++.I search
++permission on a keyring for it to be found. Arguments
++.IR arg4 and  arg5
++are ignored.
+ .TP
+ .B KEYCTL_JOIN_SESSION_KEYRING
+-Join or start named session keyring.
++Create new anonymous session keyring (in case
++.I arg2
++is
++.BR NULL )
++or join existing named session keyring
++.RI ( arg2
++should be pointer to a string containing session name in this case). The caller
++should have
++.I search
++permission on the keyring name of which is provided in order
++to successfully join. Arguments
++.IR arg3 ", " arg4 ", " arg5
++are ignored.
+ .TP
+ .B KEYCTL_UPDATE
+-Update a key.
++Update a key's data payload using data provided. The
++.I arg2
++argument (converted to
++.IR key_serial_t )
++should contain key ID, the
++.I arg3
++argument is interpreted as a pointer to the new payload and
++.I arg4
++(converted to
++.IR size_t )
++should contain payload size in bytes. The caller should has
++.I write
++permission on the key specified and key type should support updating. Negative
++key can be positively instantiated with this call. The
++.I arg5
++argument is ignored.
+ .TP
+ .B KEYCTL_REVOKE
+-Revoke a key.
++Revoke a key with ID provided in
++.I arg2
++(converted to
++.IR key_serial_t ).
++The caller should have
++.IR write " or " setattr
++permissions. Arguments
++.IR arg3 ", " arg4 ", " arg5
++are ignored.
+ .TP
+ .B KEYCTL_CHOWN
+-Set ownership of a key.
++Set ownership of a key. The
++.I arg2
++argument (converted to
++.IR key_serial_t )
++contains key ID, the
++.I arg3
++argument (converted to
++.IR uid_t )
++contains new user ID (or -1 in case user ID shouldn't be changed), the
++.I arg4
++argument (converted to
++.IR gid_t )
++contains new group ID (or -1 in case group ID shouldn't be changed).
++The key must grant the caller
++.I setattr
++permission. For the UID to be changed, or for the GID to be changed to a group
++the caller is not a member of, the caller must have
++.I CAP_SYS_ADMIN
++capability (see
++.IR capabilities (7)
++for details). If the UID is to be changed, the new user must have sufficient
++quota to accept the key. The quota deduction will be removed from the old user
++to the new user should the attribute be changed. The
++.I arg5
++argument is ignored.
+ .TP
+ .B KEYCTL_SETPERM
+-Set perms on a key.
++Change the permissions of a key with ID provided in the
++.I arg2
++argument (converted to
++.IR key_serial_t )
++to the ones provided in the
++.I arg3
++argument (converted to
++.IR key_perms_t ).
++The key must grant
++.I setattr
++permission to the caller. If the caller doesn't have
++.I CAP_SYS_ADMIN
++capability, it can only change permissions of the keys it owns.
++Permissions contains mask of available operations for possessor
++(since Linux 2.6.14), user, group, other. Each mask is eight bit in size,
++with only six currently used. The available permissions are:
++.RS
++.IP \(bu 3
++.BR View .
++Allows reading attributes of a key. Needed for
++.IR KEYCTL_DESCRIBE .
++.IP \(bu
++.BR Read .
++Allows reading key's payload. Needed for
++.IR KEYCTL_READ .
++.IP \(bu
++.BR Write .
++Allows update or instantiation of key's payload. For a keyring, it enables
++adding and removal of keys to a keyring. Needed for
++.IR KEYCTL_UPDATE ", " KEYCTL_REVOKE ", " KEYCTL_CLEAR ", " KEYCTL_LINK ", "
++.IR KEYCTL_UNLINK .
++.IP \(bu
++.BR Search .
++This permits keyrings to be searched and keys to be found. Searches can
++only recurse into nested keyrings that have search permission set. Needed for
++.IR KEYCTL_GET_KEYRING_ID ", " KEYCTL_JOIN_SESSION_KEYRING ", " KEYCTL_SEARCH
++.IR KEYCTL_INVALIDATE .
++.IP \(bu
++.BR Link .
++This permits a key or keyring to be linked to. Needed for
++.IR KEYCTL_LINK ", " KEYCTL_SESSION_TO_PARENT .
++.IP \(bu
++.BR "Set attribute" " (since Linux. 2.6.15)."
++This permits a key's UID, GID and permissions mask to be changed. Needed for
++.IR KEYCTL_REVOKE ", " KEYCTL_CHOWN ", " KEYCTL_SETPERM .
++.RE
++.IP
++The
++.IR arg4 " and " arg5
++arguments are ignored.
+ .TP
+ .B KEYCTL_DESCRIBE
+-Describe a key.
++Describe a key. Key ID to be described should be provided in the
++.I arg2
++argument (converted to
++.IR key_serial_t ),
++the
++.I arg3
++argument should point to destination buffer (of type
++.IR "char *" ),
++and the
++.I arg4
++argument should contain size of the buffer (of kernel's
++.I size_t
++type). The key must grant the caller
++.I view
++permission. Writing to buffer is attempted only in case buffer is non-NULL and
++has enough space to accept the description.
++'\" Function commentary says it copies up to buflen bytes, bu see the
++'\" (buffer && buflen >= ret) condition in keyctl_describe_key() in
++'\" security/keyctl.c
++The description itself provided in
++.RS
++.IP
++.IR type ; uid ; gid ; perm ; description "<NUL>"
++.RE
++.IP
++format. The
++.I arg5
++argument is ignored.
+ .TP
+ .B KEYCTL_CLEAR
+-Clear contents of a keyring.
++Clear contents of a keyring with ID provided in the
++.I arg2
++argument (converted to
++.IR key_serial_t ).
++Caller should have
++.I write
++permission. Arguments
++.IR arg3 ", " arg4 ", " arg5
++are ignored.
+ .TP
+ .B KEYCTL_LINK
+-Link a key into a keyring.
++Link a key (provided in the
++.I arg2
++argument converted to
++.I key_serial_t
++type) to a keyring (provided in the
++.I arg3
++argument converted to
++.I key_serial_t
++type) of there is no matching key in the keyring, or replace the link
++to the matching key with a link to the new key. The caller should have
++.I link
++permission on the key being added and
++.I write
++permission on the keyring to which key being added to. Arguments
++.IR arg4 " and " arg5
++are ignored.
+ .TP
+ .B KEYCTL_UNLINK
+-Unlink a key from a keyring.
++Unlink a key (provided in the
++.I arg2
++argument converted to
++.I key_serial_t
++type) from a keyring (provided in the
++.I arg3
++argument converted to
++.I key_serial_t
++type). The caller should have
++.I write
++permission on the keyring from which key being removed from. If the last link
++to a key is removed then that key will be scheduled for destruction.Arguments
++.IR arg4 " and " arg5
++are ignored.
+ .TP
+ .B KEYCTL_SEARCH
+-Search for a key in a keyring.
++Search for a key in a keyring with ID provided in the
++.I arg2
++argument (converted to
++.I key_serial_t
++type). The
++.I arg3
++argument should be a
++.I char *
++pointing to the name of the type the key being searched (NUL-terminated
++character string up to 32 bytes in size), and the
++.I arg4
++argument should be a
++.I char *
++pointing to the NUL-terminated character string (up to 4096 bytes in size) with
++the description of the key being searched. The search is performed recursively
++starting from the keyring with ID provided in
++.IR arg2 .
++Only keyrings that grant the caller
++.I search
++permission will be searched (this includes the starting keyring).
++Only keys with
++.I search
++permission can be found. If the
++.I arg5
++argument (converted to
++.I key_serial_t
++type) contains non-zero value, it is interpreted as a keyring ID to which
++the found key should be linked.
+ .TP
+ .B KEYCTL_READ
+-Read a key or keyring's contents.
++Read a payload of a key ID of which provided in the
++.I arg2
++argument (converted to
++.I key_serial_t
++type) to a buffer pointed by the
++.I arg3
++argument (converted to
++.I char *
++type) of size provided in the
++.I arg4
++argument (converted to kernel's
++.I size_t
++type). The key must either grant the caller
++.I read
++permission, or it must grant the caller
++.I search
++permission when searched for from the process keyrings. The
++.I arg5
++argument is ignored.
+ .TP
+ .B KEYCTL_INSTANTIATE
+-Instantiate a partially constructed key.
++Instantiate a partially constructed key ID of which provided in the
++.I arg2
++argument (converted to
++.I key_serial_t
++type) with a payload pointed by the
++.I arg3
++argument (converted to
++.I char *
++type) of size provided in the
++.I arg4
++argument (converted to kernel's
++.I size_t
++type). Instantiated key will be linked to keyring Id of which provided in the
++.I arg5
++argument (converted to
++.I key_serial_t
++type). The caller must have the appropriate instantiation permit set (auth key).
+ .TP
+ .B KEYCTL_NEGATE
+-Negate a partially constructed key.
++Negatively instantiate a partially constructed key with ID provided in the
++.I arg2
++argument (converted to
++.I key_serial_t
++type), setting timeout (in seconds) to the value provided in the
++.I arg3
++argument (converted to
++.I unsigned int
++type). Instantiated key will be linked to keyring Id of which provided in the
++.I arg4
++argument (converted to
++.I key_serial_t
++type). The caller must have the appropriate instantiation permit set
++(authorisation key, see
++.I KEYCTL_ASSUME_AUTHORITY
++command). Negative keys are used to rate limit repeated
++.BR request_key ()
++calls by causing them to return
++.B -ENOKEY
++until the negative key expires. Equivalent to
++.BI "keyctl(" KEYCTL_REJECT ", " arg2 ", " arg3 ", " ENOKEY ", " arg4 )
++call.
++The
++.I arg5
++argument is ignored.
+ .TP
+-.B KEYCTL_SET_REQKEY_KEYRING
+-Set default request-key keyring.
++.BR KEYCTL_SET_REQKEY_KEYRING " (since Linux 2.6.13)"
++Read or set default keyring in which
++.BR request_key ()
++will cache keys. The
++.I arg2
++argument (converted to
++.I int
++type) should contain one of the following values, defined in
++.IR <linux/keyring.h> :
++
++.nf
++.in +4n
++#define KEY_REQKEY_DEFL_NO_CHANGE             -1 /* No change */
++#define KEY_REQKEY_DEFL_DEFAULT               0  /* Default keyring */
++#define KEY_REQKEY_DEFL_THREAD_KEYRING        1  /* Thread-specific keyring */
++#define KEY_REQKEY_DEFL_PROCESS_KEYRING       2  /* Process-specific keyring */
++#define KEY_REQKEY_DEFL_SESSION_KEYRING       3  /* Session-specific keyring */
++#define KEY_REQKEY_DEFL_USER_KEYRING          4  /* UID-specific keyring */
++#define KEY_REQKEY_DEFL_USER_SESSION_KEYRING  5  /* Session keyring of UID */
++'\" 8bbf4976b59fc9fc2861e79cab7beb3f6d647640
++#define KEY_REQKEY_DEFL_REQUESTOR_KEYRING     7  /* since 2.6.29: requestor keyring */
++.in
++.fi
++
++All other values (including still-unsupported
++.BR KEY_REQKEY_DEFL_GROUP_KEYRING )
++are invalid. Arguments
++.IR arg3 ", " arg4 " and " arg5
++are ignored.
+ .TP
+-.B KEYCTL_SET_TIMEOUT
+-Set timeout on a key.
++.BR KEYCTL_SET_TIMEOUT " (since Linux 2.6.16)"
++Set timeout on a key. ID of a key provided in the
++.I arg2
++argument (converted to
++.I key_serial_t
++type), timeout value (in seconds from current time) provided in the
++.I arg3
++argument (converted to
++.I unsigned int
++type). the caller must either have the
++.I setattr
++permission or hold an instantiation authorisation token for the key. Timeout
++value of 0 clears the timeout. The key and any links to the key will be
++automatically garbage collected after the timeout expires. Arguments
++.IR arg4 " and " arg5
++are ignored.
+ .TP
+-.B KEYCTL_ASSUME_AUTHORITY
+-Assume authority to instantiate key.
++.BR KEYCTL_ASSUME_AUTHORITY " (since Linux 2.6.16)"
++Assume (or clear) the authority for the key instantiation. The ID of
++the authorisation key provided in the
++.I arg2
++argument (converted to
++.I key_serial_t
++type). The caller must have the instantiation key in their process keyrings
++with a
++.I search
++permission grant available to the caller. If the ID given in the
++.I arg2
++argument is 0, then the setting will be cleared. Arguments
++.IR arg3 ", " arg4 " and " arg5
++are ignored.
++.TP
++.BR KEYCTL_GET_SECURITY " (since Linux 2.6.26)"
++Get LSM security label of the specified key. The ID of the key should be provided
++in the
++.I arg2
++argument (converted to
++.I key_serial_t
++type). Buffer where security label should be stored provided in the
++.I arg3
++argument (converted to
++.I char *
++type) with its size provided in the
++.I arg4
++argument (converted to kernel's
++.I size_t
++type). The
++.I arg5
++argument is ignored.
++.TP
++.BR KEYCTL_SESSION_TO_PARENT " (since Linux 2.6.32)"
++Apply session keyring to parent process.
++.IP
++Attempt to install the calling process's session keyring on the process's parent
++process. The keyring must exist and must grant the caller
++.I link
++permission, and the parent process must be single-threaded and must have
++the same effective ownership as this process and mustn't be SUID/SGID.
++.IP
++The keyring will be emplaced on the parent when it next resumes userspace.
++Arguments
++.IR arg2 ", " arg3 ", " arg4 " and " arg5
++are ignored.
++.TP
++.BR KEYCTL_REJECT " (since Linux 2.6.39)"
++Negatively instantiate a partially constructed key with ID provided in the
++.I arg2
++argument (converted to
++.I key_serial_t
++type), setting timeout (in seconds) to the value provided in the
++.I arg3
++argument (converted to
++.I unsigned int
++type) and instantiation error to the value provided in the
++.I arg4
++argument (converted to
++.I unsigned int
++type). Instantiated key will be linked to keyring Id of which provided in the
++.I arg5
++argument (converted to
++.I key_serial_t
++type). The caller must have the appropriate instantiation permit set
++(authorisation key, see
++.I KEYCTL_ASSUME_AUTHORITY
++command). Negative keys are used to rate limit repeated
++.BR request_key ()
++calls by causing them to return the error specified until the negative key
++expires.
++.TP
++.BR KEYCTL_INSTANTIATE_IOV " (since Linux 2.6.39)"
++Instantiate a key (with ID specified in the
++.I arg2
++argument of type
++.IR key_serial_t )
++with the specified (in the
++.I arg3
++argument of type
++.IR "const struct iovec *" )
++multipart payload and link the key into
++the destination keyring (ID of which provided in the
++.I arg4
++argument of type
++.IR key_serial_t )
++if non-zero one is given. The caller must have the appropriate instantiation
++permit (authorisation key, see
++.I KEYCTL_ASSUME_AUTHORITY
++command) set for this to  work. No other permissions are required. The
++.I arg5
++argument is ignored.
++.TP
++.BR KEYCTL_INVALIDATE " (since Linux 3.5)"
++Invalidate a key with ID provided in the
++.I arg2
++argument (converted to
++.I key_serial_t
++type). The caller must have
++.I search
++permission in order to perform invalidation. The key and any links to the key
++will be automatically garbage collected immediately. Arguments
++.IR arg3 ", " arg4 " and " arg5
++are ignored.
++.TP
++.BR KEYCTL_GET_PERSISTENT " (since Linux 3.13)"
++Get the persistent keyring of the user specified in the
++.I arg2
++(converted to
++.I uid_t
++type) and link it to the keyring with ID provided in the
++.I arg3
++argument (converted to
++.I key_serial_t
++type). If -1 is provided as UID, current user's ID is used. Arguments
++.IR arg4 " and " arg5
++are ignored.
++.TP
++.BR KEYCTL_DH_COMPUTE " (since Linux 4.7)"
++Compute Diffie-Hellman values. The
++.I arg2
++argument is a pointer to
++.B struct kayctl_dh_params
++which is defined in
++.I <linux/keyctl.h>
++as follows:
++
++.nf
++.in +4n
++struct keyctl_dh_params {
++    int32_t private;
++    int32_t prime;
++    int32_t base;
++};
++.in
++.fi
++
++, where
++.IR private ", " prime " and " base
++fields are ID's of the keys, payload of which would be used for DH values
++calculation. Result is calculated as
++.IR "base^private mod prime" .
++The
++.I arg3
++argument (converted to
++.I char *
++type) should point to output buffer with size passed in the
++.I arg4
++argument (converted to kernel's
++.I size_t
++type). Buffer should be big enough in order to accommodate output data,
++otherwise error is returned. NULL pointer can be provided as buffer in order
++to obtains required buffer size. The
++.I arg5
++argument is reserved and should be 0.
+ .P
+ These are wrapped by
+ .B libkeyutils
+ into individual functions (listed under SEE ALSO)
+ to permit the compiler to check types.
+ .SH RETURN VALUE
+-On success
+-.BR keyctl ()
+-returns the serial number of the key it found.
+-On error, the value \-1
+-will be returned and errno will have been set to an appropriate error.
++For a successful call, the return value depends on the operation:
++.TP
++.B KEYCTL_GET_KEYRING_ID
++The ID of the requested keyring.
++.TP
++.B KEYCTL_JOIN_SESSION_KEYRING
++The ID of the joined session keyring.
++.TP
++.B KEYCTL_DESCRIBE
++The size of description (including terminating NUL byte), irrespective
++of the provided buffer size.
++.TP
++.B KEYCTL_SEARCH
++The found key ID.
++.TP
++.B KEYCTL_READ
++The amount of data that is available in the key, irrespective of the provided
++buffer size.
++.TP
++.B KEYCTL_SET_REQKEY_KEYRING
++Old setting (one of
++.IR KEY_REQKEY_DEFL_USER_* )
++.TP
++.B KEYCTL_ASSUME_AUTHORITY
++0, if the ID given is 0. ID of the authorisation key matching key with the given
++ID if non-zero key ID provided.
++.TP
++.B KEYCTL_GET_SECURITY
++The amount of information available (including terminating NUL byte),
++irrespective of the provided buffer size.
++.TP
++.B KEYCTL_GET_PERSISTENT
++ID of the persistent keyring.
++.TP
++.B KEYCTL_DH_COMPUTE
++Amount of bytes being copied.
++.TP
++All other commands
++Zero.
++.PP
++On error, \-1 is returned, and
++.I errno
++is set appropriately to indicate the error.
+ .SH ERRORS
+ .TP
+ .B EACCES
+@@ -126,6 +617,32 @@ A revoked key was found or specified.
+ .TP
+ .B ENOKEY
+ No matching key was found or an invalid key was specified.
++.TP
++.B ENOTSUPP
++.I option
++is
++.B KEYCTL_UPDATE
++and key type does not support updating.
++.TP
++.B ENOTDIR
++Key of keyring type is expected but ID of a key with a different type provided.
++.TP
++.B ENFILE
++Keyring is full.
++.TP
++.B ENOENT
++.I option
++is
++.B KEYCTL_UNLINK
++and the key requested for unlinking isn't linked to the keyring.
++.TP
++.B EINVAL
++.I option
++is
++.B KEYCTL_DH_COMPUTE
++and buffer size provided is not enough for the result to fit in. Provide 0 as
++a buffer size in order to obtain minimum buffer size first.
++
+ .SH LINKING
+ Although this is a Linux system call, it is not present in
+ .I libc
 -- 
-Michael Kerrisk
-Linux man-pages maintainer; http://www.kernel.org/doc/man-pages/
-Linux/UNIX System Programming Training: http://man7.org/training/
+1.7.10.4
+
 --
 To unsubscribe from this list: send the line "unsubscribe linux-man" in
 the body of a message to majordomo-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
