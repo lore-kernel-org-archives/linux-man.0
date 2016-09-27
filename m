@@ -1,33 +1,103 @@
-From: Bill Pemberton <wfp5p-rupya+Y+cgAvmQRmTv5wTA@public.gmane.org>
-Subject: Re: [PATCH] vfork.2: wfix
-Date: Tue, 27 Sep 2016 09:14:01 -0400
-Message-ID: <e4cd286f-aab7-05bc-fa09-9fa02ee0cac8@worldbroken.com>
-References: <20160926153507.16627-1-wfp5p@worldbroken.com>
- <48c594a2-9a8e-5c75-01bf-a3a80f642a55@gmail.com>
-Mime-Version: 1.0
-Content-Type: text/plain; charset=windows-1252; format=flowed
-Content-Transfer-Encoding: 7bit
-Return-path: <linux-man-owner-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>
-In-Reply-To: <48c594a2-9a8e-5c75-01bf-a3a80f642a55-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org>
-Sender: linux-man-owner-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
-To: "Michael Kerrisk (man-pages)" <mtk.manpages-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org>
-Cc: linux-man-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
+From: Piotr Kwapulinski <kwapulinski.piotr@gmail.com>
+Subject: [PATCH 0/1] man/set_mempolicy.2,mbind.2: add MPOL_LOCAL NUMA memory policy documentation
+Date: Tue, 27 Sep 2016 15:19:48 +0200
+Message-ID: <20160927131948.11974-1-kwapulinski.piotr@gmail.com>
+References: <alpine.DEB.2.10.1609201304450.134671@chino.kir.corp.google.com>
+Return-path: <owner-linux-mm@kvack.org>
+In-Reply-To: <alpine.DEB.2.10.1609201304450.134671@chino.kir.corp.google.com>
+Sender: owner-linux-mm@kvack.org
+To: mtk.manpages@gmail.com
+Cc: kirill.shutemov@linux.intel.com, vbabka@suse.cz, rientjes@google.com, mhocko@kernel.org, mgorman@techsingularity.net, liangchen.linux@gmail.com, nzimmer@sgi.com, a.p.zijlstra@chello.nl, cl@linux.com, riel@redhat.com, lee.schermerhorn@hp.com, jmarchan@redhat.com, joe@perches.com, corbet@lwn.net, iamyooon@gmail.com, n-horiguchi@ah.jp.nec.com, linux-mm@kvack.org, linux-kernel@vger.kernel.org, linux-man@vger.kernel.org, akpm@linux-foundation.org, linux-doc@vger.kernel.org, linux-api@vger.kernel.org, kwapulinski.piotr@gmail.com
 List-Id: linux-man@vger.kernel.org
 
-On 09/27/2016 05:00 AM, Michael Kerrisk (man-pages) wrote:
-> Hi Bill,
->
-> Please re-read the original text. It ("that that") is okay, I believe.
->
+The MPOL_LOCAL mode has been implemented by
+Peter Zijlstra <a.p.zijlstra@chello.nl>
+(commit: 479e2802d09f1e18a97262c4c6f8f17ae5884bd8).
+Add the documentation for this mode.
 
-Yes, I see where it's intentional in this case.  "that that" sounds 
-wrong to me, but I'm certainly no authority on the English language.
+Signed-off-by: Piotr Kwapulinski <kwapulinski.piotr@gmail.com>
+---
+ man2/mbind.2         | 16 ++++++++++++----
+ man2/set_mempolicy.2 | 11 ++++++++++-
+ 2 files changed, 22 insertions(+), 5 deletions(-)
 
+diff --git a/man2/mbind.2 b/man2/mbind.2
+index 3ea24f6..b184f4e 100644
+--- a/man2/mbind.2
++++ b/man2/mbind.2
+@@ -130,8 +130,9 @@ argument must specify one of
+ .BR MPOL_DEFAULT ,
+ .BR MPOL_BIND ,
+ .BR MPOL_INTERLEAVE ,
++.BR MPOL_PREFERRED ,
+ or
+-.BR MPOL_PREFERRED .
++.BR MPOL_LOCAL .
+ All policy modes except
+ .B MPOL_DEFAULT
+ require the caller to specify via the
+@@ -258,9 +259,14 @@ and
+ .I maxnode
+ arguments specify the empty set, then the memory is allocated on
+ the node of the CPU that triggered the allocation.
+-This is the only way to specify "local allocation" for a
+-range of memory via
+-.BR mbind ().
++
++.B MPOL_LOCAL
++specifies the "local allocation", the memory is allocated on
++the node of the CPU that triggered the allocation. The
++.I nodemask
++and
++.I maxnode
++arguments must specify the empty set.
+ 
+ If
+ .B MPOL_MF_STRICT
+@@ -440,6 +446,8 @@ To select explicit "local allocation" for a memory range,
+ specify a
+ .I mode
+ of
++.B MPOL_LOCAL
++or
+ .B MPOL_PREFERRED
+ with an empty set of nodes.
+ This method will work for
+diff --git a/man2/set_mempolicy.2 b/man2/set_mempolicy.2
+index 1f02037..5755322 100644
+--- a/man2/set_mempolicy.2
++++ b/man2/set_mempolicy.2
+@@ -79,8 +79,9 @@ argument must specify one of
+ .BR MPOL_DEFAULT ,
+ .BR MPOL_BIND ,
+ .BR MPOL_INTERLEAVE ,
++.BR MPOL_PREFERRED ,
+ or
+-.BR MPOL_PREFERRED .
++.BR MPOL_LOCAL .
+ All modes except
+ .B MPOL_DEFAULT
+ require the caller to specify via the
+@@ -211,6 +212,14 @@ arguments specify the empty set, then the policy
+ specifies "local allocation"
+ (like the system default policy discussed above).
+ 
++.B MPOL_LOCAL
++specifies the "local allocation" (like the system default policy
++discussed above). The
++.I nodemask
++and
++.I maxnode
++arguments must specify the empty set.
++
+ The thread memory policy is preserved across an
+ .BR execve (2),
+ and is inherited by child threads created using
 -- 
-Bill
-
+2.10.0
 
 --
-To unsubscribe from this list: send the line "unsubscribe linux-man" in
-the body of a message to majordomo-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
-More majordomo info at  http://vger.kernel.org/majordomo-info.html
+To unsubscribe, send a message with 'unsubscribe linux-mm' in
+the body to majordomo@kvack.org.  For more info on Linux MM,
+see: http://www.linux-mm.org/ .
+Don't email: <a href=mailto:"dont@kvack.org"> email@kvack.org </a>
