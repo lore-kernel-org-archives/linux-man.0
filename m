@@ -1,46 +1,48 @@
 From: "Michael Kerrisk (man-pages)" <mtk.manpages-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org>
-Subject: Re: [PATCH] vfork.2: wfix
-Date: Tue, 27 Sep 2016 11:00:55 +0200
-Message-ID: <48c594a2-9a8e-5c75-01bf-a3a80f642a55@gmail.com>
-References: <20160926153507.16627-1-wfp5p@worldbroken.com>
+Subject: Re: [PATCH] semctl.2: CONFORMING TO: change a POSIX.1-2001 to
+ POSIX.1-2008
+Date: Tue, 27 Sep 2016 11:01:01 +0200
+Message-ID: <4999f39e-a9f6-016b-9f9b-5f2e3933810f@gmail.com>
+References: <20160926153518.16677-1-wfp5p@worldbroken.com>
 Mime-Version: 1.0
 Content-Type: text/plain; charset=windows-1252
 Content-Transfer-Encoding: 7bit
 Return-path: <linux-man-owner-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>
-In-Reply-To: <20160926153507.16627-1-wfp5p-rupya+Y+cgAvmQRmTv5wTA@public.gmane.org>
+In-Reply-To: <20160926153518.16677-1-wfp5p-rupya+Y+cgAvmQRmTv5wTA@public.gmane.org>
 Sender: linux-man-owner-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
 To: Bill Pemberton <wfp5p-rupya+Y+cgAvmQRmTv5wTA@public.gmane.org>
 Cc: mtk.manpages-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org, linux-man-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
 List-Id: linux-man@vger.kernel.org
 
-Hi Bill,
+On 09/26/2016 05:35 PM, Bill Pemberton wrote:
+> The section had POSIX.1-2001 listed twice in a row instead of
+> POSIX.1-2001 and POSIX.1-2008
 
-Please re-read the original text. It ("that that") is okay, I believe.
+Thanks, Bill. Patch applied.
 
 Cheers,
 
 Michael
 
 
-On 09/26/2016 05:35 PM, Bill Pemberton wrote:
 > Signed-off-by: Bill Pemberton <wfp5p-rupya+Y+cgAvmQRmTv5wTA@public.gmane.org>
 > ---
->  man2/vfork.2 | 2 +-
+>  man2/semctl.2 | 2 +-
 >  1 file changed, 1 insertion(+), 1 deletion(-)
 > 
-> diff --git a/man2/vfork.2 b/man2/vfork.2
-> index 6f20900df4ae..ce03bcd67541 100644
-> --- a/man2/vfork.2
-> +++ b/man2/vfork.2
-> @@ -202,7 +202,7 @@ can't be implemented on such systems.
->  .BR vfork ()
->  from the standard; the POSIX rationale for the
->  .BR posix_spawn (3)
-> -function notes that that function,
-> +function notes that the function,
->  which provides functionality equivalent to
->  .BR fork (2)+ exec (3),
->  is designed to be implementable on systems that lack an MMU.)
+> diff --git a/man2/semctl.2 b/man2/semctl.2
+> index 2897de7a4bb1..8cdb1f6f6cd8 100644
+> --- a/man2/semctl.2
+> +++ b/man2/semctl.2
+> @@ -457,7 +457,7 @@ is to be set (for some semaphore of the set) is less than 0
+>  or greater than the implementation limit
+>  .BR SEMVMX .
+>  .SH CONFORMING TO
+> -POSIX.1-2001, POSIX.1-2001, SVr4.
+> +POSIX.1-2001, POSIX.1-2008, SVr4.
+>  .\" SVr4 documents more error conditions EINVAL and EOVERFLOW.
+>  
+>  POSIX.1 specifies the
 > 
 
 
