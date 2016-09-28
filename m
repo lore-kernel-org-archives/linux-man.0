@@ -1,112 +1,73 @@
-From: bugzilla-daemon-590EEB7GvNiWaY/ihj7yzEB+6BGkLq7r@public.gmane.org
-Subject: [Bug 172971] New: TEChNICAL Assistance +1 (855) 7O9 (2847) Lexmark
- printer service phone number USA All
-Date: Tue, 27 Sep 2016 17:06:58 +0000
-Message-ID: <bug-172971-11311@https.bugzilla.kernel.org/>
-Mime-Version: 1.0
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: 7bit
+From: Mike Frysinger <vapier-aBrp7R+bbdUdnm+yROfE0A@public.gmane.org>
+Subject: [PATCH] core(5): add more details for output paths and the crash handler
+Date: Wed, 28 Sep 2016 07:14:50 -0400
+Message-ID: <20160928111450.32157-1-vapier@gentoo.org>
 Return-path: <linux-man-owner-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>
 Sender: linux-man-owner-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
-To: linux-man-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
+To: Michael Kerrisk <mtk.manpages-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org>
+Cc: linux-man-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
 List-Id: linux-man@vger.kernel.org
 
-https://bugzilla.kernel.org/show_bug.cgi?id=172971
+People sometimes assume that the crash handler runs in the same context
+as the crashing process.  They would be incorrect :).
+---
+ man5/core.5 | 30 ++++++++++++++++++++++++++++++
+ 1 file changed, 30 insertions(+)
 
-            Bug ID: 172971
-           Summary: TEChNICAL Assistance +1 (855) 7O9 (2847) Lexmark
-                    printer service phone number USA All
-           Product: Documentation
-           Version: unspecified
-          Hardware: All
-                OS: Linux
-            Status: NEW
-          Severity: normal
-          Priority: P1
-         Component: man-pages
-          Assignee: documentation_man-pages-ztI5WcYan/vQLgFONoPN62D2FQJk+8+b@public.gmane.org
-          Reporter: sanketarya255-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org
-        Regression: No
-
-Lexmark customer service telephone number
-Lexmark PRINTER customer support number
- Lexmark PRINTER technical support
- Lexmark PRINTER customer support phone number
- Lexmark PRINTER customer service phone number
- Lexmark PRINTER customer support number
- Lexmark PRINTER customer service number
- phone number for Lexmark  PRINTER customer service
- Lexmark PRINTER customer support
- contact Lexmark PRINTER customer service phone number
- Lexmark PRINTER customer service phone number us
- Lexmark PRINTER phone number customer service us
- phone number Lexmark  PRINTER customer service
- Lexmark PRINTER phone number customer service
- customer service number for Lexmark  PRINTER
- Lexmark PRINTER customer service phone
- Lexmark PRINTER tech support phone number
- Lexmark tech support phone number
- Lexmark tech support phone number us
- Lexmark PRINTER tech support number
- phone number for Lexmark  tech support
- Lexmark tech support number
- Lexmark customer support phone number
- Lexmark customer service phone number
- Lexmark phone number customer service
- Lexmark PRINTER phone number customer service
- phone number for Lexmark  customer service
- Lexmark customer service phone number
- Lexmark PRINTER customer service phone number
- Lexmark customer service phone numbers
- Lexmark PRINTER customer service phone number
- Lexmark phone number customer support
- phone number for Lexmark  customer support
- Lexmark PRINTER customer service
- Lexmark PRINTER phone number customer service
- Lexmark support phone number
- phone number for Lexmark  customer service
- Lexmark PRINTER help phone number
- Lexmark PRINTER customer service telephone number
- Lexmark technical support telephone number
- Lexmark support telephone number
- Lexmark helpline phone number
- Lexmark PRINTER technical support phone number
-Lexmark tech support phone number free
-Lexmark technologies phone number
-Lexmark telephone support number
-Lexmark support telephone number usa
-Lexmark customer service number
-Lexmark PRINTER plus tech support
-Lexmark technical support phone number
-Lexmark PRINTER technical support number
-Lexmark PRINTER technical support help desk phone number
-Lexmark technical support number toll free number
-Lexmark technical support phone number
-Lexmark PRINTER customer support phone number
-Lexmark PRINTER customer service phone number
-Lexmark PRINTER customer support phone number
-Lexmark PRINTER customer service phone number
-phone number for Lexmark PRINTER customer service
-contact Lexmark  PRINTER customer service phone number
-Lexmark customer service phone number
-phone number for Lexmark customer service
-Lexmark PRINTER support phone number
-Lexmark PRINTER support phone number
-phone number for Lexmark  PRINTER
-Lexmark PRINTER phone number in usa
-Lexmark PRINTER contact phone number in usa
-Lexmark PRINTER contact phone number
-Lexmark PRINTER help desk phone number in usa
-Lexmark PRINTER tech support  phone number free in usa
-Lexmark PRINTER support phone number
-Lexmark PRINTER phone num855ber support for technical issue in usa
-phone number for Lexmark  PRINTER technical support
-Lexmark PRINTER customer service telephone number
-Lexmark PRINTER toll free customer care number
-
+diff --git a/man5/core.5 b/man5/core.5
+index c587da5209c8..1c2c6a45c047 100644
+--- a/man5/core.5
++++ b/man5/core.5
+@@ -208,6 +208,16 @@ and
+ (see below)
+ is nonzero, then .PID will be appended to the core filename.
+ 
++Paths are interpreted according to the settings that are active for the
++crashing process.
++That means the current mount
++.BR namespaces (7),
++the current working directory (found via
++.BR getcwd (2)),
++and the current
++.BR chroot (2)
++path.
++
+ Since version 2.4, Linux has also provided
+ a more primitive method of controlling
+ the name of the core dump file.
+@@ -240,9 +250,29 @@ The program must be specified using an absolute pathname (or a
+ pathname relative to the root directory, \fI/\fP),
+ and must immediately follow the '|' character.
+ .IP *
++The program must live in the root filesystem as it is always executed there.
++It is not affected by the
++.BR chroot (2)
++setting of the crashing process.
++.IP *
+ The process created to run the program runs as user and group
+ .IR root .
+ .IP *
++Running as
++.I root
++does not confer any exceptional security bypasses.
++Namely, LSMs (e.g. SELinux) are still active and may prevent the handler
++from accessing details about the crashed process via
++.I /proc/PID
++.IP *
++The process created runs in the initial namespaces (pid, mount, user, etc...)
++and not in the namespaces of the crashing process.
++You can utilize specifiers like
++.I %P
++to find the right
++.I /proc/PID
++directory and probe/enter the crashing process's namespaces if needed.
++.IP *
+ Command-line arguments can be supplied to the
+ program (since Linux 2.6.24),
+ delimited by white space (up to a total line length of 128 bytes).
 -- 
-You are receiving this mail because:
-You are watching the assignee of the bug.
+2.9.0
+
 --
 To unsubscribe from this list: send the line "unsubscribe linux-man" in
 the body of a message to majordomo-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
