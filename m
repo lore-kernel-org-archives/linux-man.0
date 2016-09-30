@@ -1,8 +1,8 @@
 From: bugzilla-daemon-590EEB7GvNiWaY/ihj7yzEB+6BGkLq7r@public.gmane.org
-Subject: [Bug 174871] New: Most Tried Outlook Help Desk 18006264703 Phone
- Number
-Date: Fri, 30 Sep 2016 17:07:54 +0000
-Message-ID: <bug-174871-11311@https.bugzilla.kernel.org/>
+Subject: [Bug 175111] New: Call Us 18006264703 MicroSoft Outlook Technical
+ Support Service Phone Number ?
+Date: Fri, 30 Sep 2016 18:35:59 +0000
+Message-ID: <bug-175111-11311@https.bugzilla.kernel.org/>
 Mime-Version: 1.0
 Content-Type: text/plain; charset="UTF-8"
 Content-Transfer-Encoding: 7bit
@@ -11,10 +11,11 @@ Sender: linux-man-owner-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
 To: linux-man-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
 List-Id: linux-man@vger.kernel.org
 
-https://bugzilla.kernel.org/show_bug.cgi?id=174871
+https://bugzilla.kernel.org/show_bug.cgi?id=175111
 
-            Bug ID: 174871
-           Summary: Most Tried Outlook Help Desk 18006264703 Phone Number
+            Bug ID: 175111
+           Summary: Call Us 18006264703 MicroSoft Outlook Technical
+                    Support Service Phone Number ?
            Product: Documentation
            Version: unspecified
           Hardware: All
@@ -24,7 +25,7 @@ https://bugzilla.kernel.org/show_bug.cgi?id=174871
           Priority: P1
          Component: man-pages
           Assignee: documentation_man-pages-ztI5WcYan/vQLgFONoPN62D2FQJk+8+b@public.gmane.org
-          Reporter: bafap-mwPil3r+mJ6GglJvpFV4uA@public.gmane.org
+          Reporter: kimutigaf-mwPil3r+mJ6GglJvpFV4uA@public.gmane.org
         Regression: No
 
 Office mobile
