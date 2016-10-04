@@ -1,21 +1,141 @@
-From: Christoph Lameter <cl-vYTEC60ixJUAvxtiuMwx3w@public.gmane.org>
-Subject: Re: [PATCH 0/1] man/set_mempolicy.2,mbind.2: add MPOL_LOCAL NUMA
- memory policy documentation
-Date: Tue, 4 Oct 2016 03:36:53 -0500 (CDT)
-Message-ID: <alpine.DEB.2.20.1610040333050.10814@east.gentwo.org>
-References: <alpine.DEB.2.10.1609201304450.134671@chino.kir.corp.google.com> <20160927131948.11974-1-kwapulinski.piotr@gmail.com>
-Content-Type: text/plain; charset=US-ASCII
-Return-path: <linux-api-owner-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>
-In-Reply-To: <20160927131948.11974-1-kwapulinski.piotr-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org>
-Sender: linux-api-owner-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
-To: Piotr Kwapulinski <kwapulinski.piotr-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org>
-Cc: mtk.manpages-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org, kirill.shutemov-VuQAYsv1563Yd54FQh9/CA@public.gmane.org, vbabka-AlSwsSmVLrQ@public.gmane.org, rientjes-hpIqsD4AKlfQT0dZR+AlfA@public.gmane.org, mhocko-DgEjT+Ai2ygdnm+yROfE0A@public.gmane.org, mgorman-3eNAlZScCAx27rWaFMvyedHuzzzSOjJt@public.gmane.org, liangchen.linux-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org, nzimmer-sJ/iWh9BUns@public.gmane.org, a.p.zijlstra-/NLkJaSkS4VmR6Xm/wNWPw@public.gmane.org, riel-H+wXaHxf7aLQT0dZR+AlfA@public.gmane.org, lee.schermerhorn-VXdhtT5mjnY@public.gmane.org, jmarchan-H+wXaHxf7aLQT0dZR+AlfA@public.gmane.org, joe-6d6DIl74uiNBDgjK7y7TUQ@public.gmane.org, corbet-T1hC0tSOHrs@public.gmane.org, iamyooon-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org, n-horiguchi-PaJj6Psr51x8UrSeD/g0lQ@public.gmane.org, linux-mm-Bw31MaZKKs3YtjvyW6yDsg@public.gmane.org, linux-kernel-u79uwXL29TY76Z2rM5mHXA@public.gmane.org, linux-man-u79uwXL29TY76Z2rM5mHXA@public.gmane.org, akpm-de/tnXTf+JLsfHDXvbKv3WD2FQJk+8+b@public.gmane.org, linux-doc-u79uwXL29TY76Z2rM5mHXA@public.gmane.org, linux-api-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
+From: bugzilla-daemon-590EEB7GvNiWaY/ihj7yzEB+6BGkLq7r@public.gmane.org
+Subject: [Bug 176281] New: 1-866-66-02799phone number, AVG antivirus customer
+ service phone number, AVG antivirus tech support?
+Date: Tue, 04 Oct 2016 13:06:00 +0000
+Message-ID: <bug-176281-11311@https.bugzilla.kernel.org/>
+Mime-Version: 1.0
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: 7bit
+Return-path: <linux-man-owner-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>
+Sender: linux-man-owner-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
+To: linux-man-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
 List-Id: linux-man@vger.kernel.org
 
-Well the difference between MPOL_DEFAULT and MPOL_LOCAL may be confusing.
-Mention somewhere in the MPOL_LOCAL description that the policy with
-MPOL_DEFAULT reverts to the policy of the process and MPOL_LOCAL to try to
-allocate local? Note that MPOL_LOCAL also will not be local if it just
-happens that the local node is overallocated. This is usually confusing
-for newcomers. The node/zone reclaim must be activated in order to allow
-node local reclaim that results in a node local allocation.
+https://bugzilla.kernel.org/show_bug.cgi?id=176281
+
+            Bug ID: 176281
+           Summary: 1-866-66-02799phone number, AVG antivirus customer
+                    service phone number, AVG antivirus tech support?
+           Product: Documentation
+           Version: unspecified
+          Hardware: All
+                OS: Linux
+            Status: NEW
+          Severity: normal
+          Priority: P1
+         Component: man-pages
+          Assignee: documentation_man-pages-ztI5WcYan/vQLgFONoPN62D2FQJk+8+b@public.gmane.org
+          Reporter: rohit121-hRtevi7K+EU+Va1GwOuvDg@public.gmane.org
+        Regression: No
+
+1-866-66-02799AVG tech support support AVG AVG gold support AVG1-866-66-02799
+support portal AVG online support support for AVG AVG support
+1-866-66-02799website 1-866-66-02799AVG saas support AVG.com support
+1-866-66-02799tech support for AVG AVG support email AVG account login
+1-866-66-02799AVG login AVG login account AVG uk login AVG my account
+1-866-66-02799login AVG login uk AVG support login
+1-866-66-02799AVG ANTIVIRUS technical support phone number
+1-866-66-02799AVG ANTIVIRUS support phone number
+1-866-66-02799AVG ANTIVIRUS tech support phone number
+1-866-66-02799AVG ANTIVIRUS phone number
+1-866-66-02799AVG ANTIVIRUS technical support number
+1-866-66-02799AVG ANTIVIRUS customer support phone number
+1-866-66-02799AVG ANTIVIRUS customer service phone number
+phone number for AVG ANTIVIRUS
+AVG ANTIVIRUS support number
+phone number for AVG ANTIVIRUS technical support
+AVG ANTIVIRUS phone number uk
+AVG ANTIVIRUS number
+AVG ANTIVIRUS help phone number
+AVG ANTIVIRUS customer service number
+AVG ANTIVIRUS contact number
+AVG ANTIVIRUS customer support number
+AVG ANTIVIRUS tech support number
+phone number for AVG ANTIVIRUS support
+AVG ANTIVIRUS support uk phone number
+AVG ANTIVIRUS uk phone number
+AVG ANTIVIRUS contact number uk
+AVG ANTIVIRUS contact phone number
+phone number for AVG ANTIVIRUS customer service
+AVG ANTIVIRUS help desk phone number
+AVG ANTIVIRUS phone number tech support
+AVG ANTIVIRUS phone number customer service
+AVG ANTIVIRUS security phone number
+AVG ANTIVIRUS technical support contact number
+phone number AVG ANTIVIRUS
+AVG ANTIVIRUS customer care number
+AVG antivirus tech support phone number
+AVG antivirus support phone number
+AVG antivirus phone number
+AVG antivirus customer service phone number
+AVG antivirus customer support phone number
+AVG antivirus tech support number
+AVG antivirus technical phone number
+AVG antivirus support number
+AVG antivirus tech phone number
+AVG antivirus contact number
+phone number for AVG antivirus
+AVG antivirus customer service number
+AVG antivirus customer care number
+AVG antivirus customer support number
+AVG antivirus number
+AVG antivirus contact number USA
+AVG antivirus support number
+AVG antivirus technical support
+AVG technical support
+service.AVG.com technical support
+technical support AVG
+AVG technical support live chat
+technical support for AVG
+technical support for AVG antivirus
+chat with AVG technical support
+AVG antivirus free download
+free AVG antivirus
+AVG free antivirus
+free AVG antivirus download
+AVG antivirus free
+AVG free
+AVG free trial
+free AVG
+%
+AVG free download
+AVG download free
+download AVG free
+free AVG antivirus software
+free AVG download
+antivirus AVG free
+AVG free antivirus software
+free AVG virus protection
+free download AVG
+is AVG free
+antivirus free AVG
+download free AVG
+AVG for free
+AVG free version
+how to get AVG for free
+download AVG for free
+AVG ANTIVIRUS customer service
+AVG ANTIVIRUS AVG ANTIVIRUS customer service
+AVG ANTIVIRUS customer support
+AVG ANTIVIRUS customer care
+AVG ANTIVIRUS AVG ANTIVIRUS customer support
+AVG ANTIVIRUS customer services
+AVG ANTIVIRUS customer
+customer service AVG AVG ANTIVIRUS
+AVG ANTIVIRUS technical support
+AVG ANTIVIRUS AVG ANTIVIRUS support
+AVG ANTIVIRUS AVG ANTIVIRUS tech support
+AVG ANTIVIRUS support
+AVG ANTIVIRUS tech support
+AVG ANTIVIRUS support services
+support for AVG ANTIVIRUS
+online AVG ANTIVIRUS support
+support for AVG ANTIVIRUS AVG ANTIVIRUS
+
+-- 
+You are receiving this mail because:
+You are watching the assignee of the bug.
+--
+To unsubscribe from this list: send the line "unsubscribe linux-man" in
+the body of a message to majordomo-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
+More majordomo info at  http://vger.kernel.org/majordomo-info.html
