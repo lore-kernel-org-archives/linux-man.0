@@ -1,8 +1,8 @@
 From: bugzilla-daemon-590EEB7GvNiWaY/ihj7yzEB+6BGkLq7r@public.gmane.org
-Subject: [Bug 176771] New: Kentucky@+1 844 762 84487 facebook phone number
- facebook customer service number facebook contact number
-Date: Thu, 06 Oct 2016 16:47:14 +0000
-Message-ID: <bug-176771-11311@https.bugzilla.kernel.org/>
+Subject: [Bug 176801] New: Montana @+1 844 762 84487 facebook help phone
+ number facebook customer service number facebook contact number
+Date: Thu, 06 Oct 2016 16:47:16 +0000
+Message-ID: <bug-176801-11311@https.bugzilla.kernel.org/>
 Mime-Version: 1.0
 Content-Type: text/plain; charset="UTF-8"
 Content-Transfer-Encoding: 8BIT
@@ -11,10 +11,10 @@ Sender: linux-man-owner-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
 To: linux-man-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
 List-Id: linux-man@vger.kernel.org
 
-https://bugzilla.kernel.org/show_bug.cgi?id=176771
+https://bugzilla.kernel.org/show_bug.cgi?id=176801
 
-            Bug ID: 176771
-           Summary: Kentucky@+1 844 762 84487 facebook phone number
+            Bug ID: 176801
+           Summary: Montana @+1 844 762 84487 facebook help phone number
                     facebook customer service number facebook contact
                     number
            Product: Documentation
@@ -29,11 +29,15 @@ https://bugzilla.kernel.org/show_bug.cgi?id=176771
           Reporter: gpvr-ejAdKHeCWX8@public.gmane.org
         Regression: No
 
+Montana @+1 844 762 84487 facebook help phone number facebook customer service
+number facebook contact numberMontana @+1 844 762 84487 facebook help phone
+number facebook customer service number facebook contact numberMontana @+1 844
+762 84487 facebook help phone number facebook customer service number facebook
+contact numberMontana @+1 844 762 84487 facebook help phone number facebook
+customer service number facebook contact number
+
+
 Kentucky@+1 844 762 84487 facebook phone number facebook customer service
-number facebook contact numberKentucky@+1 844 762 84487 facebook phone number
-facebook customer service number facebook contact numberKentucky@+1 844 762
-84487 facebook phone number facebook customer service number facebook contact
-numberKentucky@+1 844 762 84487 facebook phone number facebook customer service
 number facebook contact number
 
 
