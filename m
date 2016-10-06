@@ -1,8 +1,8 @@
 From: bugzilla-daemon-590EEB7GvNiWaY/ihj7yzEB+6BGkLq7r@public.gmane.org
-Subject: [Bug 176811] New: Iowa @+1 844 762 84487 facebook tech support
+Subject: [Bug 176841] New: Iowa @+1 844 762 84487 facebook tech support
  number facebook customer service number facebook contact number
-Date: Thu, 06 Oct 2016 16:47:17 +0000
-Message-ID: <bug-176811-11311@https.bugzilla.kernel.org/>
+Date: Thu, 06 Oct 2016 16:47:28 +0000
+Message-ID: <bug-176841-11311@https.bugzilla.kernel.org/>
 Mime-Version: 1.0
 Content-Type: text/plain; charset="UTF-8"
 Content-Transfer-Encoding: 8BIT
@@ -11,9 +11,9 @@ Sender: linux-man-owner-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
 To: linux-man-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
 List-Id: linux-man@vger.kernel.org
 
-https://bugzilla.kernel.org/show_bug.cgi?id=176811
+https://bugzilla.kernel.org/show_bug.cgi?id=176841
 
-            Bug ID: 176811
+            Bug ID: 176841
            Summary: Iowa @+1 844 762 84487 facebook tech support number
                     facebook customer service number facebook contact
                     number
