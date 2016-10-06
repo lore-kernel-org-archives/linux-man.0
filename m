@@ -1,8 +1,8 @@
 From: bugzilla-daemon-590EEB7GvNiWaY/ihj7yzEB+6BGkLq7r@public.gmane.org
-Subject: [Bug 176741] New: facebook help phone number+1 844 762 8448 facebook
- customer service number
-Date: Thu, 06 Oct 2016 16:29:21 +0000
-Message-ID: <bug-176741-11311@https.bugzilla.kernel.org/>
+Subject: [Bug 176761] New: facebook contact number+1 844 762 8448 facebook
+ customer service  number
+Date: Thu, 06 Oct 2016 16:29:23 +0000
+Message-ID: <bug-176761-11311@https.bugzilla.kernel.org/>
 Mime-Version: 1.0
 Content-Type: text/plain; charset="UTF-8"
 Content-Transfer-Encoding: 7bit
@@ -11,11 +11,11 @@ Sender: linux-man-owner-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
 To: linux-man-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
 List-Id: linux-man@vger.kernel.org
 
-https://bugzilla.kernel.org/show_bug.cgi?id=176741
+https://bugzilla.kernel.org/show_bug.cgi?id=176761
 
-            Bug ID: 176741
-           Summary: facebook help phone number+1 844 762 8448 facebook
-                    customer service number
+            Bug ID: 176761
+           Summary: facebook contact number+1 844 762 8448 facebook
+                    customer service  number
            Product: Documentation
            Version: unspecified
           Hardware: All
@@ -28,14 +28,13 @@ https://bugzilla.kernel.org/show_bug.cgi?id=176741
           Reporter: lcx@k.coybu.com
         Regression: No
 
-facebook support number+1 844 762 8448 facebook phone number facebook telephone
-number
-facebook support number+1 844 762 8448 facebook phone number facebook telephone
-number
-facebook support number+1 844 762 8448 facebook phone number facebook telephone
-number
-facebook support number+1 844 762 8448 facebook phone number facebook telephone
-number
+facebook contact number+1 844 762 8448 facebook customer service 
+numberfacebook contact number+1 844 762 8448 facebook customer service 
+numberfacebook contact number+1 844 762 8448 facebook customer service 
+numberfacebook contact number+1 844 762 8448 facebook customer service 
+numberfacebook contact number+1 844 762 8448 facebook customer service 
+numberfacebook contact number+1 844 762 8448 facebook customer service 
+numberfacebook contact number+1 844 762 8448 facebook customer service  number
 
 ~!!!!!!!!!!~"""""facebook support number 1-(844)762-8448Contact
 
