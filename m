@@ -1,79 +1,166 @@
-From: Stefan Tauner <tauner-1IEs1BiS2Ng4SCxGYwAy/16hYfS7NtTn@public.gmane.org>
-Subject: ffs.3 is missing XSI reference for ffs
-Date: Fri, 7 Oct 2016 17:22:37 +0200
-Message-ID: <20161007172237.28b0e46b@tauner-w510>
+From: bugzilla-daemon-590EEB7GvNiWaY/ihj7yzEB+6BGkLq7r@public.gmane.org
+Subject: [Bug 176981] New: 24 HRS USA Telephone +1 844 762 8448 facebook
+ customer service toll-free number + facebook contact number
+Date: Fri, 07 Oct 2016 18:39:54 +0000
+Message-ID: <bug-176981-11311@https.bugzilla.kernel.org/>
 Mime-Version: 1.0
-Content-Type: text/plain; charset=US-ASCII
+Content-Type: text/plain; charset="UTF-8"
 Content-Transfer-Encoding: 7bit
 Return-path: <linux-man-owner-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>
 Sender: linux-man-owner-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
-To: mtk.manpages-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org
-Cc: linux-man-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
+To: linux-man-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
 List-Id: linux-man@vger.kernel.org
 
-Hi,
+https://bugzilla.kernel.org/show_bug.cgi?id=176981
 
-the current man page indicates the following feature flags for ffs(3):
+            Bug ID: 176981
+           Summary: 24 HRS USA Telephone +1 844 762 8448 facebook customer
+                    service toll-free number + facebook contact number
+           Product: Documentation
+           Version: unspecified
+          Hardware: All
+                OS: Linux
+            Status: NEW
+          Severity: normal
+          Priority: P1
+         Component: man-pages
+          Assignee: documentation_man-pages-ztI5WcYan/vQLgFONoPN62D2FQJk+8+b@public.gmane.org
+          Reporter: lateisha1-m1Iy0B3IAbQvvNk3GtA9IQ@public.gmane.org
+        Regression: No
 
-Since glibc 2.12:
-_POSIX_C_SOURCE\ >=\ 200809L
-    || /* Glibc since 2.19: */ _DEFAULT_SOURCE
-    || /* Glibc versions <= 2.19: */ _BSD_SOURCE || _SVID_SOURCE
+It is number for help +1 844 762 8448 facebook customer service number +
+facebook contact number
 
-So I would expect the following program to compile well without
-warnings:
+Toll-Free Number: 1 844 762 8448
 
-#define _POSIX_C_SOURCE 200809L
-#include <strings.h>
-int main(void) {
-    return ffs(0x4);
-}
 
-However, it does not and warns about the implicit reference of ffs.
-It compiles fine _without_ the POSIX define though (as expected due to
-_DEFAULT_SOURCE).
 
-According to the standard, ffs(3) is indeed an XSI function:
-http://pubs.opengroup.org/onlinepubs/9699919799/basedefs/strings.h.html
+It is number for help +1 844 762 8448 Facebook customer service number +
+Facebook contact number
+It is number for help +1 844 762 8448 Facebook customer service number +
+Facebook contact number+It is number for help +1 844 762 8448 Facebook customer
+service number + Facebook contact number+It is number for help +1 844 762 8448
+Facebook customer service number + Facebook contact number.
 
-Looking at my local system header from glibc 2.23 seems to confirm
-that glibc handles it that way too:
+Facebook Services:-
 
-features.h has:
-#if defined _POSIX_C_SOURCE && (_POSIX_C_SOURCE - 0) >= 200809L
-# define __USE_XOPEN2K8		1
-# undef  _ATFILE_SOURCE
-# define _ATFILE_SOURCE	1
-#endif
 
-which is used by strings.h:
-#if defined __USE_MISC || !defined __USE_XOPEN2K8 || defined __USE_XOPEN2K8XSI
-/* Return the position of the first bit set in I, or 0 if none are set.
-   The least-significant bit is position 1, the most-significant 32.  */
-extern int ffs (int __i) __THROW __attribute__ ((const));
-#endif
 
-Note the ! in the _USE_XOPEN2K8 clause.
+facebook corporate office phone number 
+facebook headquarters phone number
+facebook corporate office telephone number
+facebook headquarters phone number
+facebook corporate office telephone number
+facebook corporate office & headquarters international promotions/prize award
+facebook corporate office tour
+facebook phone number
+apple corporate office
+how do i email facebook with a problem
+facebook headquarters USA
+facebook home office
+contact facebook customer service
+how do i email facebook with a problem
+facebook corporate office
+facebook phone number
+facebook headquarters address
+facebook login
+phone number for facebook complaints
+target headquarters phone number
+phone number for facebook security
+contact facebook phone number
+phone number for facebook problems
+how do i email facebook with a problem
+phone number for facebook customer service
+phone number for facebook headquarters
+facebook login
+how to add phone number to facebook
+how do i email facebook with a problem
+phone number for facebook complaints
+fake phone number for facebook
+phone number for facebook offices
+phone number for facebook help desk
+phone number for facebook 
+phone number for facebook advertising
+phone number for facebook customer service
+facebook customer service toll free number
+how to contact facebook
+facebook customer service email
+facebook customer 
+facebook login
+facebook help phone number
+facebook customer service chat
+phone number for facebook issues
+how to contact facebook directly
+facebook phone number
+how to contact facebook about a problem
+contact facebook email
+how to contact facebook administrators
+how to contact facebook team
+call facebook
+contact facebook phone
+how to contact facebook by email
+facebook phone number
+how to contact facebook 
+how to contact facebook administrators
+how do i email facebook with a problem
+how to contact facebook directly by phone
+how to contact facebook directly uk
+how to contact facebook directly by email
+how to contact facebook by phone
+how to contact facebook by email
+how to contact facebook directly
+how to contact facebook team
+how to contact facebook team by phone
+how to contact facebook by email
+how do i email facebook with a problem
+how can i contact facebook
+contact facebook customer service
+contact facebook email
+can you call facebook
+facebook main number
+facebook 24 hour customer service
+facebook login
+contact facebook 
+facebook phone number search
+facebook security department phone number
+facebook headquarters phone number
+phone number for facebook security check
+phone number for facebook offices
+facebook main number
+how do you email facebook 
+phone number for facebook complaints
+phone number for facebook help
+facebook customer service telephone number,facebook by phone number,can you
+call facebook,how to get in touch with facebook,facebook 1 800 number,facebook
+security phone number,contact fb,help center facebook,fb phone number,contact
+facebook support phone,phone number for facebook headquarters,i need to call
+facebook,facebook customer service contact,facebook advertising phone
+number,800 number for facebook,facebook 800 number,facebook office phone
+number,facebook phone number help,contact facebook administrator,facebook
+service,facebook ads support,contact facebook ads,how to get in contact with
+facebook,contact facebook support email,how to contact facebook by
+email,facebook help chat,facebook corporate phone number,how to contact
+facebook support by email,facebook ad support,facebook main number,facebook ads
+phone number,how to call facebook,fb customer service,the number to
+facebook,facebook customer service chat,facebook customer care number,1 800
+number for facebook,facebook help line,how to call facebook support,facebook
+phone number list,facebook toll free number,how to contact facebook support by
+phone,how do you contact facebook,facebook headquarters number,facebook help
+email address,how do i contact facebook by phone,facebook help,how can i call
+facebook,facebook hq phone number,how to email facebook,how to contact facebook
+support team,facebook hotline,does facebook have a phone number,facebook
+numbers,is there a phone number for facebook,how to contact facebook customer
+service,how to call on facebook,how do i email facebook,how do i contact
+facebook directly,facebook head office,facebook corporate office phone
+number,how to contact facebook about a problem
 
-I am not 100% sure, but I guess that the right fix would be to replace
-the _POSIX_C_SOURCE clause in ffs.3 with _XOPEN_SOURCE >= 700?
-FWIW, this also makes the test program above work fine on my system.
-I have not checked in detail if the current manpage was correct with
-glibc 2.12 or anything before my 2.23 but I don't think so from looking
-at some relevant changes of strings.h in the glibc repo.
+******Thanks for calling Facebook technical support team******
 
-HTH, thanks for your work Michael and KR,
+                   !!!!!!!!!!!!!Have a nice day!!!!!!!!!!!!!
+
 -- 
-Dipl.-Ing. Stefan Tauner
-Research and Development
-Embedded Systems Department
-
-University of Applied Sciences Technikum Wien
-Hoechstaedtplatz 6, 1200 Vienna, Austria
-T: +43 1 333 40 77-316
-E: stefan.tauner-1IEs1BiS2Ng4SCxGYwAy/16hYfS7NtTn@public.gmane.org
-I: embsys.technikum-wien.at
-I: www.technikum-wien.at
+You are receiving this mail because:
+You are watching the assignee of the bug.
 --
 To unsubscribe from this list: send the line "unsubscribe linux-man" in
 the body of a message to majordomo-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
