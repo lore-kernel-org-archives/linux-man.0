@@ -1,8 +1,8 @@
 From: bugzilla-daemon-590EEB7GvNiWaY/ihj7yzEB+6BGkLq7r@public.gmane.org
-Subject: [Bug 177001] New: 24 HRS USA Help Desk +1 844 762 8448 facebook
+Subject: [Bug 176971] New: 24 HRS USA Helpline +1 844 762 8448 facebook
  customer service toll-free number + facebook contact number
-Date: Fri, 07 Oct 2016 18:39:55 +0000
-Message-ID: <bug-177001-11311@https.bugzilla.kernel.org/>
+Date: Fri, 07 Oct 2016 18:39:52 +0000
+Message-ID: <bug-176971-11311@https.bugzilla.kernel.org/>
 Mime-Version: 1.0
 Content-Type: text/plain; charset="UTF-8"
 Content-Transfer-Encoding: 7bit
@@ -11,10 +11,10 @@ Sender: linux-man-owner-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
 To: linux-man-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
 List-Id: linux-man@vger.kernel.org
 
-https://bugzilla.kernel.org/show_bug.cgi?id=177001
+https://bugzilla.kernel.org/show_bug.cgi?id=176971
 
-            Bug ID: 177001
-           Summary: 24 HRS USA Help Desk +1 844 762 8448 facebook customer
+            Bug ID: 176971
+           Summary: 24 HRS USA Helpline +1 844 762 8448 facebook customer
                     service toll-free number + facebook contact number
            Product: Documentation
            Version: unspecified
