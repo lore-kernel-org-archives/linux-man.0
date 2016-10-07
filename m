@@ -1,166 +1,65 @@
-From: bugzilla-daemon-590EEB7GvNiWaY/ihj7yzEB+6BGkLq7r@public.gmane.org
-Subject: [Bug 177011] New: 24 HRS Ohio +1 844 762 8448 facebook customer
- service toll-free number + facebook contact number
-Date: Fri, 07 Oct 2016 18:39:56 +0000
-Message-ID: <bug-177011-11311@https.bugzilla.kernel.org/>
+From: Mike Frysinger <vapier-aBrp7R+bbdUdnm+yROfE0A@public.gmane.org>
+Subject: Re: [PATCH v2] core(5): add more details for output paths and the
+ crash handler
+Date: Fri, 7 Oct 2016 12:18:00 -0700
+Message-ID: <20161007191800.GX21655@vapier.lan>
+References: <20160928111450.32157-1-vapier@gentoo.org>
+ <20161006172437.3329-1-vapier@gentoo.org>
+ <50b6faa5-d490-4a18-f2c5-87241fd0aeee@gmail.com>
 Mime-Version: 1.0
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: 7bit
+Content-Type: multipart/signed; micalg=pgp-sha256;
+        protocol="application/pgp-signature"; boundary="O/sh2HmV2lEgPixT"
 Return-path: <linux-man-owner-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>
+Content-Disposition: inline
+In-Reply-To: <50b6faa5-d490-4a18-f2c5-87241fd0aeee-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org>
 Sender: linux-man-owner-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
-To: linux-man-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
+To: "Michael Kerrisk (man-pages)" <mtk.manpages-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org>
+Cc: linux-man-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
 List-Id: linux-man@vger.kernel.org
 
-https://bugzilla.kernel.org/show_bug.cgi?id=177011
 
-            Bug ID: 177011
-           Summary: 24 HRS Ohio +1 844 762 8448 facebook customer service
-                    toll-free number + facebook contact number
-           Product: Documentation
-           Version: unspecified
-          Hardware: All
-                OS: Linux
-            Status: NEW
-          Severity: normal
-          Priority: P1
-         Component: man-pages
-          Assignee: documentation_man-pages-ztI5WcYan/vQLgFONoPN62D2FQJk+8+b@public.gmane.org
-          Reporter: lateisha1-m1Iy0B3IAbQvvNk3GtA9IQ@public.gmane.org
-        Regression: No
+--O/sh2HmV2lEgPixT
+Content-Type: text/plain; charset=utf-8
+Content-Disposition: inline
+Content-Transfer-Encoding: quoted-printable
 
-It is number for help +1 844 762 8448 facebook customer service number +
-facebook contact number
+On 07 Oct 2016 14:34, Michael Kerrisk (man-pages) wrote:
+> On 10/06/2016 07:24 PM, Mike Frysinger wrote:
+> > People sometimes assume that the crash handler runs in the same context
+> > as the crashing process.  They would be incorrect :).
+>=20
+> Nice details to add to the page! Thanks for that. I've tweaked the
+> text a little, so you might want to take a look at my changes in
+> commit 4389c7abfffbe.
 
-Toll-Free Number: 1 844 762 8448
+looks fine.  wrt /proc/PID vs /proc/[pid], i was using the form that
+core(5) already appeared to use.  should all cases of /proc/PID be
+changed to /proc/[pid] in there ?  there's both now ...
+-mike
 
+--O/sh2HmV2lEgPixT
+Content-Type: application/pgp-signature; name="signature.asc"
+Content-Description: Digital signature
 
+-----BEGIN PGP SIGNATURE-----
+Version: GnuPG v2
 
-It is number for help +1 844 762 8448 Facebook customer service number +
-Facebook contact number
-It is number for help +1 844 762 8448 Facebook customer service number +
-Facebook contact number+It is number for help +1 844 762 8448 Facebook customer
-service number + Facebook contact number+It is number for help +1 844 762 8448
-Facebook customer service number + Facebook contact number.
+iQIcBAEBCAAGBQJX9/ToAAoJEEFjO5/oN/WBkPQP/ipti2PjdM9TiwMkWf6tYSTR
+afV2AZP8EBzm70lAu0VKMeuxPyKyxw+H+wB3MqE6J8bS6Vou48YWNGgq8Bpg6Rjy
+Dg6LdVZfgrHmONLCEtrcLdDFcLNSzO7OJSatzhYgy5AN/uoawXHcTq/J+5XmXNGF
+iEIE/P/jGzncvcSiXfz8i1UW6JROK6MPw83YBwtu0Bd/NUhJc/GlVyQmg527I6vT
+7LWpEp6qElq5/3h2axLvXA0tECOJHb05nB0d2CmZgCxA/5NfH43Mrxg5hgxTxP0f
+5GwfvQs+xdY2D2kGtY/JPbMMn1dxxQEnzot5ieh8sVRDAL5J7H2Pl/YUBG9pc6K4
+FJEzKdDz6UR+GbRcNQpi/X21NX0C8WOKvI/MTCA3RNPoqTTyUiSaVnVqBDoiIkeL
+waXkOL5KWRGEIlwzQD9RgtyiGtGrY7828eTJUoEUZufsGWxHbUvIRAkCz9rcqULU
+dgu70bEVh4oWPgofdo1ybc4BqPWBqj9no9OcayEmON6BRu53SZ+WUZJwL5QJPwbC
+nPW+BTNmZddn6OlJtzN+R2eQ29IeWpSwjIuBvt1DzVewMFgXFHpZc/b2Xb9wHxNK
+7WvjEh9nIryZvIuL8aHkvMaturyBEUKGmv2xD0GCnlpfGOlf2L6cDiOPLZ2gMwzC
+1QLmYbAM/LZECRmdYSgU
+=OEJd
+-----END PGP SIGNATURE-----
 
-Facebook Services:-
-
-
-
-facebook corporate office phone number 
-facebook headquarters phone number
-facebook corporate office telephone number
-facebook headquarters phone number
-facebook corporate office telephone number
-facebook corporate office & headquarters international promotions/prize award
-facebook corporate office tour
-facebook phone number
-apple corporate office
-how do i email facebook with a problem
-facebook headquarters USA
-facebook home office
-contact facebook customer service
-how do i email facebook with a problem
-facebook corporate office
-facebook phone number
-facebook headquarters address
-facebook login
-phone number for facebook complaints
-target headquarters phone number
-phone number for facebook security
-contact facebook phone number
-phone number for facebook problems
-how do i email facebook with a problem
-phone number for facebook customer service
-phone number for facebook headquarters
-facebook login
-how to add phone number to facebook
-how do i email facebook with a problem
-phone number for facebook complaints
-fake phone number for facebook
-phone number for facebook offices
-phone number for facebook help desk
-phone number for facebook 
-phone number for facebook advertising
-phone number for facebook customer service
-facebook customer service toll free number
-how to contact facebook
-facebook customer service email
-facebook customer 
-facebook login
-facebook help phone number
-facebook customer service chat
-phone number for facebook issues
-how to contact facebook directly
-facebook phone number
-how to contact facebook about a problem
-contact facebook email
-how to contact facebook administrators
-how to contact facebook team
-call facebook
-contact facebook phone
-how to contact facebook by email
-facebook phone number
-how to contact facebook 
-how to contact facebook administrators
-how do i email facebook with a problem
-how to contact facebook directly by phone
-how to contact facebook directly uk
-how to contact facebook directly by email
-how to contact facebook by phone
-how to contact facebook by email
-how to contact facebook directly
-how to contact facebook team
-how to contact facebook team by phone
-how to contact facebook by email
-how do i email facebook with a problem
-how can i contact facebook
-contact facebook customer service
-contact facebook email
-can you call facebook
-facebook main number
-facebook 24 hour customer service
-facebook login
-contact facebook 
-facebook phone number search
-facebook security department phone number
-facebook headquarters phone number
-phone number for facebook security check
-phone number for facebook offices
-facebook main number
-how do you email facebook 
-phone number for facebook complaints
-phone number for facebook help
-facebook customer service telephone number,facebook by phone number,can you
-call facebook,how to get in touch with facebook,facebook 1 800 number,facebook
-security phone number,contact fb,help center facebook,fb phone number,contact
-facebook support phone,phone number for facebook headquarters,i need to call
-facebook,facebook customer service contact,facebook advertising phone
-number,800 number for facebook,facebook 800 number,facebook office phone
-number,facebook phone number help,contact facebook administrator,facebook
-service,facebook ads support,contact facebook ads,how to get in contact with
-facebook,contact facebook support email,how to contact facebook by
-email,facebook help chat,facebook corporate phone number,how to contact
-facebook support by email,facebook ad support,facebook main number,facebook ads
-phone number,how to call facebook,fb customer service,the number to
-facebook,facebook customer service chat,facebook customer care number,1 800
-number for facebook,facebook help line,how to call facebook support,facebook
-phone number list,facebook toll free number,how to contact facebook support by
-phone,how do you contact facebook,facebook headquarters number,facebook help
-email address,how do i contact facebook by phone,facebook help,how can i call
-facebook,facebook hq phone number,how to email facebook,how to contact facebook
-support team,facebook hotline,does facebook have a phone number,facebook
-numbers,is there a phone number for facebook,how to contact facebook customer
-service,how to call on facebook,how do i email facebook,how do i contact
-facebook directly,facebook head office,facebook corporate office phone
-number,how to contact facebook about a problem
-
-******Thanks for calling Facebook technical support team******
-
-                   !!!!!!!!!!!!!Have a nice day!!!!!!!!!!!!!
-
--- 
-You are receiving this mail because:
-You are watching the assignee of the bug.
+--O/sh2HmV2lEgPixT--
 --
 To unsubscribe from this list: send the line "unsubscribe linux-man" in
 the body of a message to majordomo-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
