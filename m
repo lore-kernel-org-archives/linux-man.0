@@ -1,37 +1,49 @@
 From: Jakub Wilk <jwilk-tXgOlIzOKNReoWH0uzbU5w@public.gmane.org>
-Subject: [PATCH] uri.7: Use "example.com" as example domain
-Date: Sat,  8 Oct 2016 16:20:44 +0200
-Message-ID: <20161008142044.4983-1-jwilk@jwilk.net>
+Subject: [PATCH] cgroups.7: tfix
+Date: Sat,  8 Oct 2016 15:58:36 +0200
+Message-ID: <20161008135836.3977-1-jwilk@jwilk.net>
 Return-path: <linux-man-owner-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>
 Sender: linux-man-owner-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
 To: Michael Kerrisk <mtk.manpages-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org>
 Cc: linux-man-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
 List-Id: linux-man@vger.kernel.org
 
-The owner of the "xyz.com" domain might not be happy that their domain
-is used is examples. RFC 2606 reserves (among others) "example.com" for
-this purpose, so let's use it.
-
 Signed-off-by: Jakub Wilk <jwilk-tXgOlIzOKNReoWH0uzbU5w@public.gmane.org>
 ---
- man7/uri.7 | 4 ++--
- 1 file changed, 2 insertions(+), 2 deletions(-)
+ man7/cgroups.7 | 6 +++---
+ 1 file changed, 3 insertions(+), 3 deletions(-)
 
-diff --git a/man7/uri.7 b/man7/uri.7
-index d1f20e5..4d3fc6a 100644
---- a/man7/uri.7
-+++ b/man7/uri.7
-@@ -124,8 +124,8 @@ The
- is the name of the host computer, either its name as determined by DNS
- or an IP address (numbers separated by periods).
- Thus the URI
--<http://fred:fredpassword-+zpghU0kKgY@public.gmane.org:8080/>
--logs into a web server on host xyz.com
-+<http://fred:fredpassword-hcDgGtZH8xNBDgjK7y7TUQ@public.gmane.org:8080/>
-+logs into a web server on host example.com
- as fred (using fredpassword) using port 8080.
- Avoid including a password in a URI if possible because of the many
- security risks of having a password written down.
+diff --git a/man7/cgroups.7 b/man7/cgroups.7
+index 9dc0e15..556dea6 100644
+--- a/man7/cgroups.7
++++ b/man7/cgroups.7
+@@ -28,7 +28,7 @@
+ cgroups \- Linux control groups
+ .SH DESCRIPTION
+ Control cgroups, usually referred to as cgroups,
+-are a Linux kernel feature which which allow processes to
++are a Linux kernel feature which allow processes to
+ be organized into hierarchical groups whose usage of
+ various types of resources can then be limited and monitored.
+ The kernel's cgroup interface is provided through
+@@ -453,7 +453,7 @@ under both the v1 and the v2 hierarchies.
+ The new behaviors in cgroups v2 are summarized here,
+ and in some cases elaborated in the following subsections.
+ .IP 1. 3
+-Cgroups v2 provides a unified hiearchy against
++Cgroups v2 provides a unified hierarchy against
+ which all controllers are mounted.
+ .IP 2.
+ "Internal" processes are not permitted.
+@@ -593,7 +593,7 @@ since a single process can monitor multiple
+ files.
+ By contrast, the cgroups v1 mechanism requires the creation
+ of a process for each notification.
+-Second, notfication can be delegated to a process that lives inside
++Second, notification can be delegated to a process that lives inside
+ a container associated with the newly empty cgroup.
+ .\"
+ .SS /proc files
 -- 
 2.9.3
 
