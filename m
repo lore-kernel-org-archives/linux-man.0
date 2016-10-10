@@ -1,120 +1,149 @@
-From: Piotr Kwapulinski <kwapulinski.piotr@gmail.com>
-Subject: [PATCH v3 0/1] man/set_mempolicy.2,mbind.2: add MPOL_LOCAL NUMA memory policy documentation
-Date: Mon, 10 Oct 2016 18:23:10 +0200
-Message-ID: <20161010162310.2463-1-kwapulinski.piotr@gmail.com>
-References: <alpine.DEB.2.20.1610100854001.27158@east.gentwo.org>
-Return-path: <linux-doc-owner@vger.kernel.org>
-In-Reply-To: <alpine.DEB.2.20.1610100854001.27158@east.gentwo.org>
-Sender: linux-doc-owner@vger.kernel.org
-To: mtk.manpages@gmail.com
-Cc: kirill.shutemov@linux.intel.com, vbabka@suse.cz, rientjes@google.com, mhocko@kernel.org, mgorman@techsingularity.net, liangchen.linux@gmail.com, nzimmer@sgi.com, a.p.zijlstra@chello.nl, cl@linux.com, riel@redhat.com, lee.schermerhorn@hp.com, jmarchan@redhat.com, joe@perches.com, corbet@lwn.net, iamyooon@gmail.com, n-horiguchi@ah.jp.nec.com, linux-mm@kvack.org, linux-kernel@vger.kernel.org, linux-man@vger.kernel.org, akpm@linux-foundation.org, linux-doc@vger.kernel.org, linux-api@vger.kernel.org, kwapulinski.piotr@gmail.com
+From: bugzilla-daemon-590EEB7GvNiWaY/ihj7yzEB+6BGkLq7r@public.gmane.org
+Subject: [Bug 177191] New: facebook contact number +1 844 762 8448 facebook
+ telephone number Pennsylvania......
+Date: Mon, 10 Oct 2016 20:13:29 +0000
+Message-ID: <bug-177191-11311@https.bugzilla.kernel.org/>
+Mime-Version: 1.0
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: 7bit
+Return-path: <linux-man-owner-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>
+Sender: linux-man-owner-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
+To: linux-man-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
 List-Id: linux-man@vger.kernel.org
 
-The MPOL_LOCAL mode has been implemented by
-Peter Zijlstra <a.p.zijlstra@chello.nl>
-(commit: 479e2802d09f1e18a97262c4c6f8f17ae5884bd8).
-Add the documentation for this mode.
+https://bugzilla.kernel.org/show_bug.cgi?id=177191
 
-Signed-off-by: Piotr Kwapulinski <kwapulinski.piotr@gmail.com>
----
-This version fixes grammar
----
- man2/mbind.2         | 28 ++++++++++++++++++++++++----
- man2/set_mempolicy.2 | 19 ++++++++++++++++++-
- 2 files changed, 42 insertions(+), 5 deletions(-)
+            Bug ID: 177191
+           Summary: facebook contact number +1 844 762 8448 facebook
+                    telephone number Pennsylvania......
+           Product: Documentation
+           Version: unspecified
+          Hardware: All
+                OS: Linux
+            Status: NEW
+          Severity: normal
+          Priority: P1
+         Component: man-pages
+          Assignee: documentation_man-pages-ztI5WcYan/vQLgFONoPN62D2FQJk+8+b@public.gmane.org
+          Reporter: reta-gV0cRslXQTZWk0Htik3J/w@public.gmane.org
+        Regression: No
 
-diff --git a/man2/mbind.2 b/man2/mbind.2
-index 3ea24f6..854580c 100644
---- a/man2/mbind.2
-+++ b/man2/mbind.2
-@@ -130,8 +130,9 @@ argument must specify one of
- .BR MPOL_DEFAULT ,
- .BR MPOL_BIND ,
- .BR MPOL_INTERLEAVE ,
-+.BR MPOL_PREFERRED ,
- or
--.BR MPOL_PREFERRED .
-+.BR MPOL_LOCAL .
- All policy modes except
- .B MPOL_DEFAULT
- require the caller to specify via the
-@@ -258,9 +259,26 @@ and
- .I maxnode
- arguments specify the empty set, then the memory is allocated on
- the node of the CPU that triggered the allocation.
--This is the only way to specify "local allocation" for a
--range of memory via
--.BR mbind ().
-+
-+.B MPOL_LOCAL
-+specifies the "local allocation", the memory is allocated on
-+the node of the CPU that triggered the allocation, "local node".
-+The
-+.I nodemask
-+and
-+.I maxnode
-+arguments must specify the empty set. If the "local node" is low
-+on free memory the kernel will try to allocate memory from other
-+nodes. The kernel will allocate memory from the "local node"
-+whenever memory for this node is available. If the "local node"
-+is not allowed by the process's current cpuset context the kernel
-+will try to allocate memory from other nodes. The kernel will
-+allocate memory from the "local node" whenever it becomes allowed
-+by the process's current cpuset context. In contrast
-+.B MPOL_DEFAULT
-+reverts to the policy of the process which may have been set with
-+.BR set_mempolicy (2).
-+It may not be the "local allocation".
- 
- If
- .B MPOL_MF_STRICT
-@@ -440,6 +458,8 @@ To select explicit "local allocation" for a memory range,
- specify a
- .I mode
- of
-+.B MPOL_LOCAL
-+or
- .B MPOL_PREFERRED
- with an empty set of nodes.
- This method will work for
-diff --git a/man2/set_mempolicy.2 b/man2/set_mempolicy.2
-index 1f02037..22b0f7c 100644
---- a/man2/set_mempolicy.2
-+++ b/man2/set_mempolicy.2
-@@ -79,8 +79,9 @@ argument must specify one of
- .BR MPOL_DEFAULT ,
- .BR MPOL_BIND ,
- .BR MPOL_INTERLEAVE ,
-+.BR MPOL_PREFERRED ,
- or
--.BR MPOL_PREFERRED .
-+.BR MPOL_LOCAL .
- All modes except
- .B MPOL_DEFAULT
- require the caller to specify via the
-@@ -211,6 +212,22 @@ arguments specify the empty set, then the policy
- specifies "local allocation"
- (like the system default policy discussed above).
- 
-+.B MPOL_LOCAL
-+specifies the "local allocation", the memory is allocated on
-+the node of the CPU that triggered the allocation, "local node".
-+The
-+.I nodemask
-+and
-+.I maxnode
-+arguments must specify the empty set. If the "local node" is low
-+on free memory the kernel will try to allocate memory from other
-+nodes. The kernel will allocate memory from the "local node"
-+whenever memory for this node is available. If the "local node"
-+is not allowed by the process's current cpuset context the kernel
-+will try to allocate memory from other nodes. The kernel will
-+allocate memory from the "local node" whenever it becomes allowed
-+by the process's current cpuset context.
-+
- The thread memory policy is preserved across an
- .BR execve (2),
- and is inherited by child threads created using
+facebook contact number +1 844 762 8448 facebook telephone number
+Pennsylvania......
+facebook contact number +1 844 762 8448 facebook telephone number
+Pennsylvania......
+
+~!!!!!!!!!!~"""""facebook support number 1-(844)762-8448Contact
+
+~!!!!!!!!!!~"""""facebook support number 1-(844)762-8448Contact
+
+~!!!!!!!!!!~"""""facebook support number 1-(844)762-8448Contact
+
+Facebook customer 1-(844) 762 8448 phone number,password reset for facebook,
+Now a days has become a medium of personally attached people with their loved
+ones, families and friend.As it is user friendly but there are some
+circumstances when a user can face problems in operating Facebook Account.
+Generally it happens with new Facebook users .
+Facebook customer  phone number,password reset for facebook,
+Facebook password reset phone number,facebook contact number,
+Facebook  Account Hacked phone number,Facebook login problem support
+number,instant support for facebook,get fast tech & technical help for
+facebook,USA-Canada-florida-california-support-technical-for facebook-account.
+
+facebook service :
+
+facebook contact number 2016
+facebook contact number united states
+facebook contact number us
+facebook contact number to report abuse
+facebook contact number for support
+facebook contact number for law enforcement
+facebook contact number for harassment
+facebook contact number 2015
+facebook contact number uk
+facebook contact number australia
+facebook contact number
+facebook contact number india
+facebook contact number for help
+facebook contact number for customer service
+facebook contact number android
+facebook contact number apk
+facebook contact number and email
+facebook contact number ads
+facebook contact number app
+facebook contact phone number australia
+facebook contact number south africa
+facebook contact number report abuse
+facebook support contact number australia
+facebook contact number bangalore
+facebook contact number bangladesh
+facebook contact number backup
+facebook contact number business
+facebook contact by telephone
+search facebook contact by number
+contact facebook by telephone uk
+find facebook contact by number
+facebook billing contact number
+facebook contact number customer service
+facebook contact number canada
+facebook contact number change
+facebook complaints contact number in india
+contact number facebook customer service uk
+facebook help centre contact number
+facebook help center contact number
+facebook contact number dublin
+facebook contact number dubai
+facebook contact number delhi
+facebook contact number download
+facebook direct contact number
+
+Expert-Advice-number1(844)762 8448 facebook helpline
+Facebook customer  phone number,password reset for facebook,
+Facebook password reset phone number,facebook contact number,
+Facebook  Account Hacked phone number,Facebook login problem support
+number,instant support for facebook,get fast tech & technical help for
+facebook,USA-Canada-florida-california-support-technical-for facebook-account.
+Facebook customer 1-(844) 762 8448 phone number,password reset for facebook,
+Now a days has become a medium of personally attached people with their loved
+ones, families and friend.As it is user friendly but there are some
+circumstances when a user can face problems in operating Facebook Account.
+Generally it happens with new Facebook users .
+
+As it is user friendly but there are some circumstances when a user can face
+problems in operating Facebook Account. Generally it happens with new Facebook
+users.Facebook customer  phone number,password reset for facebook.
+facebook phone number 1-(844)762-8448Contact
+Facebook password reset phone number,facebook contact number,
+Facebook  Account Hacked phone number,Facebook login problem support number.
+Facebook customer 1-(844) 762 8448 phone number,password reset for facebook,
+Now a days has become a medium of personally attached people with their loved
+ones, families and friend.instant support for facebook,get fast tech &
+technical help for facebook,USA-Canada-florida-california-support-technical-for
+facebook-account.
+
+# facebook phone number| 1-(844)762-8448 |Contact
+As it is user friendly but there are some circumstances when a user can face
+problems in operating Facebook Account. Generally it happens with new Facebook
+users.Facebook customer  phone number,password reset for facebook.
+facebook phone number 1-(844)762-8448Contact
+Facebook password reset phone number,facebook contact number,
+Facebook  Account Hacked phone number,Facebook login problem support number.
+Facebook customer 1-(844) 762 8448 phone number,password reset for facebook,
+Now a days has become a medium of personally attached people with their loved
+ones, families and friend.instant support for facebook,get fast tech &
+technical help for facebook,USA-Canada-florida-california-support-technical-for
+facebook-account.
+
+https://customerservicetollfree.freshdesk.com/support/solutions/articles/19000010908-facebook-technical-support-phone-number-1-844-762-8448-facebook-customer-service-phone-number
+https://www.linkedin.com/pulse/facebook-contact-number1-844-762-8448-customer-service-liam-adword
+https://sbcglobalemailsupport.freshdesk.com/support/solutions/folders/19000097008
+
+https://sbcglobalemailsupport.freshdesk.com/support/solutions/articles/19000011050-facebook-technical-support-phone-number-1-844-762-8448-facebook-customer-service-phone-number
+
 -- 
-2.10.0
-
+You are receiving this mail because:
+You are watching the assignee of the bug.
+--
+To unsubscribe from this list: send the line "unsubscribe linux-man" in
+the body of a message to majordomo-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
+More majordomo info at  http://vger.kernel.org/majordomo-info.html
