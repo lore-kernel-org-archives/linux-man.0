@@ -1,8 +1,8 @@
 From: bugzilla-daemon-590EEB7GvNiWaY/ihj7yzEB+6BGkLq7r@public.gmane.org
-Subject: [Bug 177271] New: contact number of facebook@+1 844 762 8448
- facebook customer service number+facebook telephone number
-Date: Mon, 10 Oct 2016 20:39:45 +0000
-Message-ID: <bug-177271-11311@https.bugzilla.kernel.org/>
+Subject: [Bug 177261] New: facebook no contact order@+1 844 762 8448 facebook
+ customer service number+facebook support
+Date: Mon, 10 Oct 2016 20:39:43 +0000
+Message-ID: <bug-177261-11311@https.bugzilla.kernel.org/>
 Mime-Version: 1.0
 Content-Type: text/plain; charset="UTF-8"
 Content-Transfer-Encoding: 7bit
@@ -11,11 +11,11 @@ Sender: linux-man-owner-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
 To: linux-man-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
 List-Id: linux-man@vger.kernel.org
 
-https://bugzilla.kernel.org/show_bug.cgi?id=177271
+https://bugzilla.kernel.org/show_bug.cgi?id=177261
 
-            Bug ID: 177271
-           Summary: contact number of facebook@+1 844 762 8448 facebook
-                    customer service number+facebook telephone number
+            Bug ID: 177261
+           Summary: facebook no contact order@+1 844 762 8448 facebook
+                    customer service number+facebook support
            Product: Documentation
            Version: unspecified
           Hardware: All
@@ -206,7 +206,7 @@ facebook-account.
 https://customerservicetollfree.freshdesk.com/support/solutions/articles/19000010908-facebook-technical-support-phone-number-1-844-762-8448-facebook-customer-service-phone-number
 https://www.linkedin.com/pulse/facebook-contact-number1-844-762-8448-customer-service-liam-adword
 https://sbcglobalemailsupport.freshdesk.com/support/solutions/folders/19000097008
-https://www.linkedin.com/pulse/usa-1-844-762-8448-facebook-tech-support-number-customer-kim-adword
+
 https://sbcglobalemailsupport.freshdesk.com/support/solutions/articles/19000011050-facebook-technical-support-phone-number-1-844-762-8448-facebook-customer-service-phone-number
 
 -- 
