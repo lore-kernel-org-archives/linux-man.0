@@ -1,8 +1,8 @@
 From: bugzilla-daemon-590EEB7GvNiWaY/ihj7yzEB+6BGkLq7r@public.gmane.org
-Subject: [Bug 177231] New: facebook contact number 2016 +1 844 762 8448
- Facebook customer service number+Facebook telephone number
-Date: Mon, 10 Oct 2016 20:22:57 +0000
-Message-ID: <bug-177231-11311@https.bugzilla.kernel.org/>
+Subject: [Bug 177211] New: Facebook direct contact number+1 844 762 84448
+ Facebook customer service number
+Date: Mon, 10 Oct 2016 20:22:47 +0000
+Message-ID: <bug-177211-11311@https.bugzilla.kernel.org/>
 Mime-Version: 1.0
 Content-Type: text/plain; charset="UTF-8"
 Content-Transfer-Encoding: 7bit
@@ -11,11 +11,11 @@ Sender: linux-man-owner-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
 To: linux-man-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
 List-Id: linux-man@vger.kernel.org
 
-https://bugzilla.kernel.org/show_bug.cgi?id=177231
+https://bugzilla.kernel.org/show_bug.cgi?id=177211
 
-            Bug ID: 177231
-           Summary: facebook contact number 2016 +1 844 762 8448 Facebook
-                    customer service number+Facebook telephone number
+            Bug ID: 177211
+           Summary: Facebook direct contact number+1 844 762 84448
+                    Facebook customer service number
            Product: Documentation
            Version: unspecified
           Hardware: All
@@ -28,6 +28,10 @@ https://bugzilla.kernel.org/show_bug.cgi?id=177231
           Reporter: bous-7+aFW328pE4kK3z51khF+pqQE7yCjDx5@public.gmane.org
         Regression: No
 
+Facebook direct contact number+1 844 762 84448 Facebook customer service number
+ Facebook direct contact number+1 844 762 84448 Facebook customer service
+number  Facebook direct contact number+1 844 762 84448 Facebook customer
+service number  
 ~!!!!!!!!!!~"""""facebook support number 1-(844)762-8448Contact
 
 ~!!!!!!!!!!~"""""facebook support number 1-(844)762-8448Contact
