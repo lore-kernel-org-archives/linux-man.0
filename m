@@ -1,8 +1,8 @@
 From: bugzilla-daemon-590EEB7GvNiWaY/ihj7yzEB+6BGkLq7r@public.gmane.org
-Subject: [Bug 177241] New: facebook real contact number@+1 844 762 8448
- facebook customer service number
-Date: Mon, 10 Oct 2016 20:39:41 +0000
-Message-ID: <bug-177241-11311@https.bugzilla.kernel.org/>
+Subject: [Bug 177251] New: facebook no contact rule@+1 844 762 8448 facebook
+ customer service number+facebook phone
+Date: Mon, 10 Oct 2016 20:39:42 +0000
+Message-ID: <bug-177251-11311@https.bugzilla.kernel.org/>
 Mime-Version: 1.0
 Content-Type: text/plain; charset="UTF-8"
 Content-Transfer-Encoding: 7bit
@@ -11,11 +11,11 @@ Sender: linux-man-owner-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
 To: linux-man-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
 List-Id: linux-man@vger.kernel.org
 
-https://bugzilla.kernel.org/show_bug.cgi?id=177241
+https://bugzilla.kernel.org/show_bug.cgi?id=177251
 
-            Bug ID: 177241
-           Summary: facebook real contact number@+1 844 762 8448 facebook
-                    customer service number
+            Bug ID: 177251
+           Summary: facebook no contact rule@+1 844 762 8448 facebook
+                    customer service number+facebook phone
            Product: Documentation
            Version: unspecified
           Hardware: All
