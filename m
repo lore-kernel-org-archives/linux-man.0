@@ -1,32 +1,38 @@
-From: Florian Weimer <fweimer-H+wXaHxf7aLQT0dZR+AlfA@public.gmane.org>
-Subject: Re: [PATCH 1/6] pkey.7: New page with overview of Memory Protection
- Keys
-Date: Wed, 12 Oct 2016 10:41:17 +0200
-Message-ID: <ece20e5b-981d-e5c4-7b71-b1bd538c6937@redhat.com>
-References: <20160608173351.5CF7B2D3@ray> <20160608173423.A35B7734@ray>
-Mime-Version: 1.0
-Content-Type: text/plain; charset=windows-1252; format=flowed
-Content-Transfer-Encoding: 7bit
-Return-path: <linux-man-owner-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>
-In-Reply-To: <20160608173423.A35B7734@ray>
-Sender: linux-man-owner-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
-To: Dave Hansen <dave-gkUM19QKKo4@public.gmane.org>, mtk.manpages-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org
-Cc: linux-man-u79uwXL29TY76Z2rM5mHXA@public.gmane.org, linux-api-u79uwXL29TY76Z2rM5mHXA@public.gmane.org, x86-DgEjT+Ai2ygdnm+yROfE0A@public.gmane.org
+From: Christoph Lameter <cl@linux.com>
+Subject: Re: [PATCH v3 0/1] man/set_mempolicy.2,mbind.2: add MPOL_LOCAL NUMA
+ memory policy documentation
+Date: Wed, 12 Oct 2016 09:08:31 -0500 (CDT)
+Message-ID: <alpine.DEB.2.20.1610120906150.14274@east.gentwo.org>
+References: <alpine.DEB.2.20.1610100854001.27158@east.gentwo.org> <20161010162310.2463-1-kwapulinski.piotr@gmail.com> <4d816fee-4690-2ed7-7faa-c437e67cfbf5@gmail.com>
+Content-Type: text/plain; charset=US-ASCII
+Return-path: <linux-doc-owner@vger.kernel.org>
+In-Reply-To: <4d816fee-4690-2ed7-7faa-c437e67cfbf5@gmail.com>
+Sender: linux-doc-owner@vger.kernel.org
+To: "Michael Kerrisk (man-pages)" <mtk.manpages@gmail.com>
+Cc: Piotr Kwapulinski <kwapulinski.piotr@gmail.com>, kirill.shutemov@linux.intel.com, vbabka@suse.cz, rientjes@google.com, mhocko@kernel.org, mgorman@techsingularity.net, liangchen.linux@gmail.com, nzimmer@sgi.com, a.p.zijlstra@chello.nl, riel@redhat.com, lee.schermerhorn@hp.com, jmarchan@redhat.com, joe@perches.com, corbet@lwn.net, iamyooon@gmail.com, n-horiguchi@ah.jp.nec.com, linux-mm@kvack.org, linux-kernel@vger.kernel.org, linux-man@vger.kernel.org, akpm@linux-foundation.org, linux-doc@vger.kernel.org, linux-api@vger.kernel.org
 List-Id: linux-man@vger.kernel.org
 
-On 06/08/2016 07:34 PM, Dave Hansen wrote:
-> +To use this feature, the processor must support it, and Linux
-> +must contain support for the feature on a given processor.
-> +As of early 2016 only future Intel x86 processors are supported,
-> +and this hardware supports 16 protection keys in each process.
-> +However, pkey 0 is used as the default key, so a maximum of 15
-> +are available for actual application use.
+On Wed, 12 Oct 2016, Michael Kerrisk (man-pages) wrote:
 
-How can we reserve pkeys for use in system libraries?
+> > +arguments must specify the empty set. If the "local node" is low
+> > +on free memory the kernel will try to allocate memory from other
+> > +nodes. The kernel will allocate memory from the "local node"
+> > +whenever memory for this node is available. If the "local node"
+> > +is not allowed by the process's current cpuset context the kernel
+> > +will try to allocate memory from other nodes. The kernel will
+> > +allocate memory from the "local node" whenever it becomes allowed
+> > +by the process's current cpuset context. In contrast
+> > +.B MPOL_DEFAULT
+> > +reverts to the policy of the process which may have been set with
+> > +.BR set_mempolicy (2).
+> > +It may not be the "local allocation".
+>
+> What is the sense of "may not be" here? (And repeated below).
+> Is the meaning "this could be something other than"?
+> Presumably the answer is yes, in which case I'll clarify
+> the wording there. Let me know.
 
-Thanks,
-Florian
---
-To unsubscribe from this list: send the line "unsubscribe linux-man" in
-the body of a message to majordomo-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
-More majordomo info at  http://vger.kernel.org/majordomo-info.html
+Someone may have set for example a round robin policy with numactl
+--interleave before starting the process? Then allocations will go through
+all nodes.
+
