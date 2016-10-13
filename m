@@ -1,8 +1,8 @@
 From: bugzilla-daemon-590EEB7GvNiWaY/ihj7yzEB+6BGkLq7r@public.gmane.org
-Subject: [Bug 177401] New: +1 844 762 8448 facebook asking for phone number
- how to get rid of it
+Subject: [Bug 177411] New: facebook's tech support phone number+1 844 762
+ 8448 facebook customer service number, facebook contact number
 Date: Thu, 13 Oct 2016 18:48:57 +0000
-Message-ID: <bug-177401-11311@https.bugzilla.kernel.org/>
+Message-ID: <bug-177411-11311@https.bugzilla.kernel.org/>
 Mime-Version: 1.0
 Content-Type: text/plain; charset="UTF-8"
 Content-Transfer-Encoding: 8BIT
@@ -11,11 +11,12 @@ Sender: linux-man-owner-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
 To: linux-man-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
 List-Id: linux-man@vger.kernel.org
 
-https://bugzilla.kernel.org/show_bug.cgi?id=177401
+https://bugzilla.kernel.org/show_bug.cgi?id=177411
 
-            Bug ID: 177401
-           Summary: +1 844 762 8448 facebook asking for phone number how
-                    to get rid of it
+            Bug ID: 177411
+           Summary: facebook's tech support phone number+1 844 762 8448
+                    facebook customer service number, facebook contact
+                    number
            Product: Documentation
            Version: unspecified
           Hardware: All
@@ -28,9 +29,12 @@ https://bugzilla.kernel.org/show_bug.cgi?id=177401
           Reporter: fec@i.klipp.su
         Regression: No
 
-+1 844 762 8448 facebook asking for phone number how to get rid of it
-+1 844 762 8448 facebook asking for phone number how to get rid of it
-+1 844 762 8448 facebook asking for phone number how to get rid of it
+facebook's tech support phone number+1 844 762 8448 facebook customer service
+number, facebook contact number
+facebook's tech support phone number+1 844 762 8448 facebook customer service
+number, facebook contact number
+facebook's tech support phone number+1 844 762 8448 facebook customer service
+number, facebook contact number
  facebook  Toll Free, facebook  Technical Support 
 
 Number , facebook  help desk phone number  vides online 
