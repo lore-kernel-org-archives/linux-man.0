@@ -1,8 +1,8 @@
 From: bugzilla-daemon-590EEB7GvNiWaY/ihj7yzEB+6BGkLq7r@public.gmane.org
-Subject: [Bug 177531] New: California      1-877-424-6647 hotmail customer
- service phone number |hotmail   support USA
-Date: Thu, 13 Oct 2016 21:49:31 +0000
-Message-ID: <bug-177531-11311@https.bugzilla.kernel.org/>
+Subject: [Bug 177511] New: Virginia   1-877-424-6647 Hotmail customer service
+ phone number |hotmail   support customer service phone number USA
+Date: Thu, 13 Oct 2016 21:49:30 +0000
+Message-ID: <bug-177511-11311@https.bugzilla.kernel.org/>
 Mime-Version: 1.0
 Content-Type: text/plain; charset="UTF-8"
 Content-Transfer-Encoding: 7bit
@@ -11,11 +11,12 @@ Sender: linux-man-owner-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
 To: linux-man-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
 List-Id: linux-man@vger.kernel.org
 
-https://bugzilla.kernel.org/show_bug.cgi?id=177531
+https://bugzilla.kernel.org/show_bug.cgi?id=177511
 
-            Bug ID: 177531
-           Summary: California      1-877-424-6647 hotmail customer
-                    service phone number |hotmail   support USA
+            Bug ID: 177511
+           Summary: Virginia   1-877-424-6647 Hotmail customer service
+                    phone number |hotmail   support customer service phone
+                    number USA
            Product: Documentation
            Version: unspecified
           Hardware: All
