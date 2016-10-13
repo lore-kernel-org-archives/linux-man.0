@@ -1,8 +1,8 @@
 From: bugzilla-daemon-590EEB7GvNiWaY/ihj7yzEB+6BGkLq7r@public.gmane.org
-Subject: [Bug 177501] New: Washington   1-877-424-6647hotmail customer
- service phone number |Hotmail support number USA users
+Subject: [Bug 177491] New: hotmail support @ 1x877x424-6647 Hotmail support
+ number | Hotmail   tech support number USA
 Date: Thu, 13 Oct 2016 21:49:30 +0000
-Message-ID: <bug-177501-11311@https.bugzilla.kernel.org/>
+Message-ID: <bug-177491-11311@https.bugzilla.kernel.org/>
 Mime-Version: 1.0
 Content-Type: text/plain; charset="UTF-8"
 Content-Transfer-Encoding: 7bit
@@ -11,11 +11,11 @@ Sender: linux-man-owner-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
 To: linux-man-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
 List-Id: linux-man@vger.kernel.org
 
-https://bugzilla.kernel.org/show_bug.cgi?id=177501
+https://bugzilla.kernel.org/show_bug.cgi?id=177491
 
-            Bug ID: 177501
-           Summary: Washington   1-877-424-6647hotmail customer service
-                    phone number |Hotmail support number USA users
+            Bug ID: 177491
+           Summary: hotmail support @ 1x877x424-6647 Hotmail support
+                    number | Hotmail   tech support number USA
            Product: Documentation
            Version: unspecified
           Hardware: All
