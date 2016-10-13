@@ -1,8 +1,8 @@
 From: bugzilla-daemon-590EEB7GvNiWaY/ihj7yzEB+6BGkLq7r@public.gmane.org
-Subject: [Bug 177521] New: Florida  1-877-424-6647 hotmail  help customer
- service phone number |hotmail   support for USA users
-Date: Thu, 13 Oct 2016 21:49:31 +0000
-Message-ID: <bug-177521-11311@https.bugzilla.kernel.org/>
+Subject: [Bug 177501] New: Washington   1-877-424-6647hotmail customer
+ service phone number |Hotmail support number USA users
+Date: Thu, 13 Oct 2016 21:49:30 +0000
+Message-ID: <bug-177501-11311@https.bugzilla.kernel.org/>
 Mime-Version: 1.0
 Content-Type: text/plain; charset="UTF-8"
 Content-Transfer-Encoding: 7bit
@@ -11,11 +11,11 @@ Sender: linux-man-owner-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
 To: linux-man-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
 List-Id: linux-man@vger.kernel.org
 
-https://bugzilla.kernel.org/show_bug.cgi?id=177521
+https://bugzilla.kernel.org/show_bug.cgi?id=177501
 
-            Bug ID: 177521
-           Summary: Florida  1-877-424-6647 hotmail  help customer service
-                    phone number |hotmail   support for USA users
+            Bug ID: 177501
+           Summary: Washington   1-877-424-6647hotmail customer service
+                    phone number |Hotmail support number USA users
            Product: Documentation
            Version: unspecified
           Hardware: All
