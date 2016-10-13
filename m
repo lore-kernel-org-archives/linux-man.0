@@ -1,8 +1,8 @@
 From: bugzilla-daemon-590EEB7GvNiWaY/ihj7yzEB+6BGkLq7r@public.gmane.org
-Subject: [Bug 177421] New: facebook contact details usa+1 844 762 8448
- facebook telephone number, facebook customer service number
-Date: Thu, 13 Oct 2016 18:48:58 +0000
-Message-ID: <bug-177421-11311@https.bugzilla.kernel.org/>
+Subject: [Bug 177401] New: +1 844 762 8448 facebook asking for phone number
+ how to get rid of it
+Date: Thu, 13 Oct 2016 18:48:57 +0000
+Message-ID: <bug-177401-11311@https.bugzilla.kernel.org/>
 Mime-Version: 1.0
 Content-Type: text/plain; charset="UTF-8"
 Content-Transfer-Encoding: 8BIT
@@ -11,11 +11,11 @@ Sender: linux-man-owner-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
 To: linux-man-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
 List-Id: linux-man@vger.kernel.org
 
-https://bugzilla.kernel.org/show_bug.cgi?id=177421
+https://bugzilla.kernel.org/show_bug.cgi?id=177401
 
-            Bug ID: 177421
-           Summary: facebook contact details usa+1 844 762 8448 facebook
-                    telephone number, facebook customer service number
+            Bug ID: 177401
+           Summary: +1 844 762 8448 facebook asking for phone number how
+                    to get rid of it
            Product: Documentation
            Version: unspecified
           Hardware: All
@@ -28,10 +28,9 @@ https://bugzilla.kernel.org/show_bug.cgi?id=177421
           Reporter: fec@i.klipp.su
         Regression: No
 
-facebook contact details usa+1 844 762 8448 facebook telephone number, facebook
-customer service number
-facebook contact details usa+1 844 762 8448 facebook telephone number, facebook
-customer service number
++1 844 762 8448 facebook asking for phone number how to get rid of it
++1 844 762 8448 facebook asking for phone number how to get rid of it
++1 844 762 8448 facebook asking for phone number how to get rid of it
  facebook  Toll Free, facebook  Technical Support 
 
 Number , facebook  help desk phone number  vides online 
