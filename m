@@ -1,8 +1,8 @@
 From: bugzilla-daemon-590EEB7GvNiWaY/ihj7yzEB+6BGkLq7r@public.gmane.org
-Subject: [Bug 177431] New: I need facebook contact number+1 844 762 8448
- facebook customer service number, facebook telephone number
-Date: Thu, 13 Oct 2016 18:49:00 +0000
-Message-ID: <bug-177431-11311@https.bugzilla.kernel.org/>
+Subject: [Bug 177441] New: Get facebook contact number+1 844 762 8448
+ facebook tech support number facebook help number
+Date: Thu, 13 Oct 2016 18:49:01 +0000
+Message-ID: <bug-177441-11311@https.bugzilla.kernel.org/>
 Mime-Version: 1.0
 Content-Type: text/plain; charset="UTF-8"
 Content-Transfer-Encoding: 8BIT
@@ -11,11 +11,11 @@ Sender: linux-man-owner-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
 To: linux-man-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
 List-Id: linux-man@vger.kernel.org
 
-https://bugzilla.kernel.org/show_bug.cgi?id=177431
+https://bugzilla.kernel.org/show_bug.cgi?id=177441
 
-            Bug ID: 177431
-           Summary: I need facebook contact number+1 844 762 8448 facebook
-                    customer service number, facebook telephone number
+            Bug ID: 177441
+           Summary: Get facebook contact number+1 844 762 8448 facebook
+                    tech support number facebook help number
            Product: Documentation
            Version: unspecified
           Hardware: All
@@ -28,12 +28,14 @@ https://bugzilla.kernel.org/show_bug.cgi?id=177431
           Reporter: fec@i.klipp.su
         Regression: No
 
-I need facebook contact number+1 844 762 8448 facebook customer service number,
-facebook telephone number
-I need facebook contact number+1 844 762 8448 facebook customer service number,
-facebook telephone number
-I need facebook contact number+1 844 762 8448 facebook customer service number,
-facebook telephone number
+Get facebook contact number+1 844 762 8448 facebook tech support number
+facebook help number
+Get facebook contact number+1 844 762 8448 facebook tech support number
+facebook help number
+Get facebook contact number+1 844 762 8448 facebook tech support number
+facebook help number
+Get facebook contact number+1 844 762 8448 facebook tech support number
+facebook help number
  facebook  Toll Free, facebook  Technical Support 
 
 Number , facebook  help desk phone number  vides online 
