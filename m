@@ -1,85 +1,73 @@
-From: bugzilla-daemon-590EEB7GvNiWaY/ihj7yzEB+6BGkLq7r@public.gmane.org
-Subject: [Bug 177511] New: Virginia   1-877-424-6647 Hotmail customer service
- phone number |hotmail   support customer service phone number USA
-Date: Thu, 13 Oct 2016 21:49:30 +0000
-Message-ID: <bug-177511-11311@https.bugzilla.kernel.org/>
+From: "Michael Kerrisk (man-pages)" <mtk.manpages@gmail.com>
+Subject: Re: Rewording language in mbind(2) to "threads" not "processes"
+Date: Fri, 14 Oct 2016 12:09:44 +0200
+Message-ID: <CAKgNAkiMo-AMZ2PUm3A8NqfiNa+GOnRFn4NrFwjRJa8Z7xNsPw@mail.gmail.com>
+References: <f3c4ca9d-a880-5244-e06e-db4725e4d945@gmail.com> <alpine.DEB.2.20.1610131314020.3176@east.gentwo.org>
+Reply-To: mtk.manpages@gmail.com
 Mime-Version: 1.0
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: 7bit
-Return-path: <linux-man-owner-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>
-Sender: linux-man-owner-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
-To: linux-man-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
+Content-Type: text/plain; charset=UTF-8
+Return-path: <owner-linux-mm@kvack.org>
+In-Reply-To: <alpine.DEB.2.20.1610131314020.3176@east.gentwo.org>
+Sender: owner-linux-mm@kvack.org
+To: Christoph Lameter <cl@linux.com>
+Cc: Piotr Kwapulinski <kwapulinski.piotr@gmail.com>, mhocko@kernel.org, mgorman@techsingularity.net, Peter Zijlstra <a.p.zijlstra@chello.nl>, Rik van Riel <riel@redhat.com>, "linux-mm@kvack.org" <linux-mm@kvack.org>, lkml <linux-kernel@vger.kernel.org>, linux-man <linux-man@vger.kernel.org>, Brice Goglin <Brice.Goglin@inria.fr>
 List-Id: linux-man@vger.kernel.org
 
-https://bugzilla.kernel.org/show_bug.cgi?id=177511
+Hi Christoph,
 
-            Bug ID: 177511
-           Summary: Virginia   1-877-424-6647 Hotmail customer service
-                    phone number |hotmail   support customer service phone
-                    number USA
-           Product: Documentation
-           Version: unspecified
-          Hardware: All
-                OS: Linux
-            Status: NEW
-          Severity: normal
-          Priority: P1
-         Component: man-pages
-          Assignee: documentation_man-pages-ztI5WcYan/vQLgFONoPN62D2FQJk+8+b@public.gmane.org
-          Reporter: mima-L7FjwqxEkFyakBO8gow8eQ@public.gmane.org
-        Regression: No
+On 13 October 2016 at 20:16, Christoph Lameter <cl@linux.com> wrote:
+> On Thu, 13 Oct 2016, Michael Kerrisk (man-pages) wrote:
+>
+>> @@ -100,7 +100,10 @@ If, however, the shared memory region was created with the
+>>  .B SHM_HUGETLB
+>>  flag,
+>>  the huge pages will be allocated according to the policy specified
+>> -only if the page allocation is caused by the process that calls
+>> +only if the page allocation is caused by the thread that calls
+>> +.\"
+>> +.\" ??? Is it correct to change "process" to "thread" in the preceding line?
+>
+> No leave it as process. Pages get one map refcount per page table
+> that references them (meaning a process). More than one map refcount means
+> that multiple processes have mapped the page.
+>
+>> @@ -300,7 +303,10 @@ is specified in
+>>  .IR flags ,
+>>  then the kernel will attempt to move all the existing pages
+>>  in the memory range so that they follow the policy.
+>> -Pages that are shared with other processes will not be moved.
+>> +Pages that are shared with other threads will not be moved.
+>> +.\"
+>> +.\" ??? Is it correct to change "processes" to "threads" in the preceding line?
+>> +.\"
+>
+> Leave it. Same as before.
+>
+>>  If
+>>  then the kernel will attempt to move all existing pages in the memory range
+>> -regardless of whether other processes use the pages.
+>> -The calling process must be privileged
+>> +regardless of whether other threads use the pages.
+>> +.\"
+>> +.\" ??? Is it correct to change "processes" to "threads" in the preceding line?
+>> +.\"
+>
+> Leave as process.
 
-California      1-877-424-6647 hotmail customer service phone number |hotmail 
+Thanks. So, are all the other cases where I changed "process" to
+"thread" okay then?
 
-support USA California      1-877-424-6647 hotmail customer service phone
-number |hotmail 
+Cheers,
 
-support USA California      1-877-424-6647 hotmail customer service phone
-number |hotmail 
-
-support USA California      1-877-424-6647 hotmail customer service phone
-number |hotmail 
-
-support USA Call18774246647 for all type help by HOTMAIL tech support phone
-numberIntuit HOTMAIL Tech Support Phone NumberHOTMAIL Help Desk Phone
-NumberHOTMAIL tech support numberHOTMAIL technical support phone number HOTMAIL
-phone numberHOTMAIL technical support numberHOTMAIL support phone numberHOTMAIL
-technical supportHOTMAIL Customer Service Phone NumberHOTMAIL Customer Service
-NumberHOTMAIL Customer Support Phone NumberHOTMAIL Customer Support Number
-1-877-424-6647 HOTMAIL Customer Service Helpline NumberHOTMAIL Customer Care
-NumberHOTMAIL support team phone number HOTMAIL help number-HOTMAIL Helpline
-Number; HOTMAIL help phone number-HOTMAIL Helpline NumberHOTMAIL Tech Support
-Toll free NumberHOTMAIL Support Telephone NumberHOTMAIL Tech Support Telephone
-numberHOTMAIL Tech Support SUPPORT numberHOTMAIL support SUPPORT
-number1-877-424-6647 HOTMAIL technical support SUPPORT number. CallHOTMAIL tech
-support phone numberIntuit HOTMAIL Tech Support Phone NumberHOTMAIL Help Desk
-Phone NumberHOTMAIL tech support numberHOTMAIL technical support phone
-numberHOTMAIL phone numberHOTMAIL technical support numberHOTMAIL support phone
-number. It is very popular toll free number which vide by HOTMAIL technical
-supportHOTMAIL Customer Service Phone Number1-877-424-6647 HOTMAIL Customer
-Service NumberHOTMAIL Customer Support Phone NumberHOTMAIL Customer Support
-NumberHOTMAIL Customer Service Helpline NumberHOTMAIL Customer Care
-NumberHOTMAIL support team phone number. CallHOTMAIL tech support phone
-numberIntuit HOTMAIL Tech Support Phone NumberHOTMAIL Help Desk Phone
-NumberHOTMAIL tech support numberHOTMAIL technical support phone numberHOTMAIL
-phone numberHOTMAIL technical support numberHOTMAIL support phone numberHOTMAIL
-technical supportHOTMAIL Customer Service Phone Number1.877.424.6647HOTMAIL
-Customer Service NumberHOTMAIL Customer Support Phone NumberHOTMAIL Customer
-Support NumberHOTMAIL Customer Service Helpline Number1.877.424.6647HOTMAIL
-Customer Care NumberHOTMAIL support team phone numberHOTMAIL help
-number-1.877.424.6647HOTMAIL Helpline Number; HOTMAIL help phone numberHOTMAIL
-Helpline Number1.877.424.6647HOTMAIL Tech Support Toll free NumberHOTMAIL
-Support Telephone NumberHOTMAIL Tech Support Telephone numberHOTMAIL Tech
-Support SUPPORT numberHOTMAIL support SUPPORT numberHOTMAIL technical support
-SUPPORT numberHOTMAIL support phone numberHOTMAIL   support phone number.
-HOTMAIL   customer support phone number HOTMAIL Support Helpline NumberHOTMAIL
-SUPPORT number HOTMAIL tech support phone number HOTMAIL support team phone
-number HOTMAIL SUPPORT number
+Michael
 
 -- 
-You are receiving this mail because:
-You are watching the assignee of the bug.
+Michael Kerrisk
+Linux man-pages maintainer; http://www.kernel.org/doc/man-pages/
+Linux/UNIX System Programming Training: http://man7.org/training/
+
 --
-To unsubscribe from this list: send the line "unsubscribe linux-man" in
-the body of a message to majordomo-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
-More majordomo info at  http://vger.kernel.org/majordomo-info.html
+To unsubscribe, send a message with 'unsubscribe linux-mm' in
+the body to majordomo@kvack.org.  For more info on Linux MM,
+see: http://www.linux-mm.org/ .
+Don't email: <a href=mailto:"dont@kvack.org"> email@kvack.org </a>
