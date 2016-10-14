@@ -1,8 +1,8 @@
 From: bugzilla-daemon-590EEB7GvNiWaY/ihj7yzEB+6BGkLq7r@public.gmane.org
-Subject: [Bug 177601] New: hotmail 1800 number  1-877424-6647  @ hotmail
- number | hotmail number for customer service  | hotmail  phone number
-Date: Fri, 14 Oct 2016 17:33:55 +0000
-Message-ID: <bug-177601-11311@https.bugzilla.kernel.org/>
+Subject: [Bug 177631] New: hotmail without phone number  1-877424-6647  @
+ hotmail number | hotmail number for customer service  | hotmail  phone number
+Date: Fri, 14 Oct 2016 17:33:56 +0000
+Message-ID: <bug-177631-11311@https.bugzilla.kernel.org/>
 Mime-Version: 1.0
 Content-Type: text/plain; charset="UTF-8"
 Content-Transfer-Encoding: 8BIT
@@ -11,12 +11,12 @@ Sender: linux-man-owner-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
 To: linux-man-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
 List-Id: linux-man@vger.kernel.org
 
-https://bugzilla.kernel.org/show_bug.cgi?id=177601
+https://bugzilla.kernel.org/show_bug.cgi?id=177631
 
-            Bug ID: 177601
-           Summary: hotmail 1800 number  1-877424-6647  @ hotmail number |
-                    hotmail number for customer service  | hotmail  phone
-                    number
+            Bug ID: 177631
+           Summary: hotmail without phone number  1-877424-6647  @ hotmail
+                    number | hotmail number for customer service  |
+                    hotmail  phone number
            Product: Documentation
            Version: unspecified
           Hardware: All
