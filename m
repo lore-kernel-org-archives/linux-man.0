@@ -1,50 +1,53 @@
-From: "Michael Kerrisk (man-pages)" <mtk.manpages@gmail.com>
-Subject: Re: [patch] perf_event_open.2: PERF_SAMPLE_BRANCH_IND_JUMP
- branch_sample_type
-Date: Sat, 15 Oct 2016 09:13:32 +0200
-Message-ID: <0b12315e-d292-169b-6a9f-566d667d2386@gmail.com>
-References: <alpine.DEB.2.20.1610141628010.29438@macbook-air>
+From: Vince Weaver <vincent.weaver-e7X0jjDqjFGHXe+LvDLADg@public.gmane.org>
+Subject: [patch] perf_event_open.2: PERF_RECORD_LOST_SAMPLES record type
+Date: Sat, 15 Oct 2016 22:02:51 -0400 (EDT)
+Message-ID: <alpine.DEB.2.20.1610152201370.4137@macbook-air>
 Mime-Version: 1.0
-Content-Type: text/plain; charset=windows-1252
-Content-Transfer-Encoding: 7bit
-Return-path: <linux-kernel-owner@vger.kernel.org>
-In-Reply-To: <alpine.DEB.2.20.1610141628010.29438@macbook-air>
-Sender: linux-kernel-owner@vger.kernel.org
-To: Vince Weaver <vincent.weaver@maine.edu>
-Cc: mtk.manpages@gmail.com, linux-man@vger.kernel.org, linux-kernel@vger.kernel.org, Stephane Eranian <eranian@google.com>, Peter Zijlstra <peterz@infradead.org>, Ingo Molnar <mingo@redhat.com>
+Content-Type: text/plain; charset=US-ASCII
+Return-path: <linux-man-owner-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>
+Sender: linux-man-owner-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
+To: "Michael Kerrisk (man-pages)" <mtk.manpages-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org>
+Cc: linux-man-u79uwXL29TY76Z2rM5mHXA@public.gmane.org, linux-kernel-u79uwXL29TY76Z2rM5mHXA@public.gmane.org, Kan Liang <kan.liang-ral2JQCrhuEAvxtiuMwx3w@public.gmane.org>, Peter Zijlstra <peterz-wEGCiKHe2LqWVfeAwA7xHQ@public.gmane.org>, Ingo Molnar <mingo-H+wXaHxf7aLQT0dZR+AlfA@public.gmane.org>, Stephane Eranian <eranian-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org>
 List-Id: linux-man@vger.kernel.org
 
-On 10/14/2016 10:31 PM, Vince Weaver wrote:
-> 
-> Linux 4.2 added a new branch_sample_type: PERF_SAMPLE_BRANCH_IND_JUMP
 
-Thanks, Vince. Applied!
+Linux 4.2 added a new record type: PERF_RECORD_LOST_SAMPLES
+It is generated when hardware samples (currently only Intel PEBS)
+are lost.
 
-Cheers,
+Signed-off-by: Vince Weaver <vincent.weaver-e7X0jjDqjFGHXe+LvDLADg@public.gmane.org>
 
-Michael
-
-> Signed-off-by: Vince Weaver <vincent.weaver@maine.edu>
-> 
-> diff --git a/man2/perf_event_open.2 b/man2/perf_event_open.2
-> index afdee49..cd49cbb 100644
-> --- a/man2/perf_event_open.2
-> +++ b/man2/perf_event_open.2
-> @@ -1247,6 +1247,10 @@ Any return branch.
->  .B PERF_SAMPLE_BRANCH_IND_CALL
->  Indirect calls.
->  .TP
-> +.BR PERF_SAMPLE_BRANCH_IND_JUMP " (since Linux 4.2)"
-> +.\" commit c9fdfa14c3792c0160849c484e83aa57afd80ccc
-> +Indirect jumps.
-> +.TP
->  .BR PERF_SAMPLE_BRANCH_COND " (since Linux 3.16)"
->  .\" commit bac52139f0b7ab31330e98fd87fc5a2664951050
->  Conditional branches.
-> 
-
-
--- 
-Michael Kerrisk
-Linux man-pages maintainer; http://www.kernel.org/doc/man-pages/
-Linux/UNIX System Programming Training: http://man7.org/training/
+diff --git a/man2/perf_event_open.2 b/man2/perf_event_open.2
+index 9f33122..a47df2d 100644
+--- a/man2/perf_event_open.2
++++ b/man2/perf_event_open.2
+@@ -2551,6 +2551,25 @@ process ID of the thread starting an instruction trace.
+ .I tid
+ thread ID of the thread starting an instruction trace.
+ .RE
++.TP
++.BR PERF_RECORD_LOST_SAMPLES " (since Linux 4.2)"
++\" f38b0dbb491a6987e198aa6b428db8692a6480f8
++When using hardware sampling (such as Intel PEBS) this record
++indicates some number of samples may have been lost.
++
++.in +4n
++.nf
++struct {
++    struct perf_event_header header;
++    u64 lost;
++    struct sample_id sample_id;
++};
++.fi
++.RS
++.TP
++.I lost
++the number of potentially lost samples.
++.RE
+ .RE
+ .SS Overflow handling
+ Events can be set to notify when a threshold is crossed,
+--
+To unsubscribe from this list: send the line "unsubscribe linux-man" in
+the body of a message to majordomo-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
+More majordomo info at  http://vger.kernel.org/majordomo-info.html
