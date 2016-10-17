@@ -1,8 +1,8 @@
 From: bugzilla-daemon-590EEB7GvNiWaY/ihj7yzEB+6BGkLq7r@public.gmane.org
-Subject: [Bug 178031] New: hotmail support 1-877-424-6647 hotmail phone
- number USA | dial  for  1-877-424-6647 hotmail support USA
-Date: Mon, 17 Oct 2016 15:43:58 +0000
-Message-ID: <bug-178031-11311@https.bugzilla.kernel.org/>
+Subject: [Bug 178011] New: Hotmail service  @ 1x877x424x6647 @ Hotmail number
+ California USA ...
+Date: Mon, 17 Oct 2016 15:43:45 +0000
+Message-ID: <bug-178011-11311@https.bugzilla.kernel.org/>
 Mime-Version: 1.0
 Content-Type: text/plain; charset="UTF-8"
 Content-Transfer-Encoding: 7bit
@@ -11,11 +11,11 @@ Sender: linux-man-owner-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
 To: linux-man-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
 List-Id: linux-man@vger.kernel.org
 
-https://bugzilla.kernel.org/show_bug.cgi?id=178031
+https://bugzilla.kernel.org/show_bug.cgi?id=178011
 
-            Bug ID: 178031
-           Summary: hotmail support 1-877-424-6647 hotmail phone  number
-                    USA | dial  for  1-877-424-6647 hotmail support USA
+            Bug ID: 178011
+           Summary: Hotmail service  @ 1x877x424x6647 @ Hotmail number
+                    California USA ...
            Product: Documentation
            Version: unspecified
           Hardware: All
@@ -28,16 +28,15 @@ https://bugzilla.kernel.org/show_bug.cgi?id=178031
           Reporter: wezi-L7FjwqxEkFyakBO8gow8eQ@public.gmane.org
         Regression: No
 
-hotmail support 1-877-424-6647 hotmail phone  number USA | dial  for 
-1-877-424-6647 hotmail support USA 
-hotmail support 1-877-424-6647 hotmail phone  number USA | dial  for 
-1-877-424-6647 hotmail support USA 
-hotmail support 1-877-424-6647 hotmail phone  number USA | dial  for 
-1-877-424-6647 hotmail support USA 
-hotmail support 1-877-424-6647 hotmail phone  number USA | dial  for 
-1-877-424-6647 hotmail support USA 
-hotmail support 1-877-424-6647 hotmail phone  number USA | dial  for 
-1-877-424-6647 hotmail support USA 
+Hotmail service  @ 1x877x424x6647 @ Hotmail number California USA ...
+Hotmail service  @ 1x877x424x6647 @ Hotmail number California USA ...
+Hotmail service  @ 1x877x424x6647 @ Hotmail number California USA ...
+Hotmail service  @ 1x877x424x6647 @ Hotmail number California USA ...Hotmail
+service  @ 1x877x424x6647 @ Hotmail number California USA ...
+Hotmail service  @ 1x877x424x6647 @ Hotmail number California USA ...
+Hotmail service  @ 1x877x424x6647 @ Hotmail number California USA ...
+Hotmail service  @ 1x877x424x6647 @ Hotmail number California USA ...
+Hotmail service  @ 1x877x424x6647 @ Hotmail number California USA ...
 hotmail phone number verification
 
 hotmail phone number change
