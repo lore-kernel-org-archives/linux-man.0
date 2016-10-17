@@ -1,8 +1,8 @@
 From: bugzilla-daemon-590EEB7GvNiWaY/ihj7yzEB+6BGkLq7r@public.gmane.org
-Subject: [Bug 177901] New: hotmail support  1-877-424-6647 hotmail phone
- number USA | dial  for 1-877-424-6647 hotmail support USA
-Date: Mon, 17 Oct 2016 15:11:49 +0000
-Message-ID: <bug-177901-11311@https.bugzilla.kernel.org/>
+Subject: [Bug 177891] New: Connecticut   1-877-424-6647hotmail phone  number
+ |hotmail support ph0ne number USA
+Date: Mon, 17 Oct 2016 15:11:48 +0000
+Message-ID: <bug-177891-11311@https.bugzilla.kernel.org/>
 Mime-Version: 1.0
 Content-Type: text/plain; charset="UTF-8"
 Content-Transfer-Encoding: 7bit
@@ -11,11 +11,11 @@ Sender: linux-man-owner-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
 To: linux-man-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
 List-Id: linux-man@vger.kernel.org
 
-https://bugzilla.kernel.org/show_bug.cgi?id=177901
+https://bugzilla.kernel.org/show_bug.cgi?id=177891
 
-            Bug ID: 177901
-           Summary: hotmail support  1-877-424-6647 hotmail phone  number
-                    USA | dial  for 1-877-424-6647 hotmail support USA
+            Bug ID: 177891
+           Summary: Connecticut   1-877-424-6647hotmail phone  number
+                    |hotmail support ph0ne number USA
            Product: Documentation
            Version: unspecified
           Hardware: All
@@ -28,52 +28,19 @@ https://bugzilla.kernel.org/show_bug.cgi?id=177901
           Reporter: pidip-L7FjwqxEkFyakBO8gow8eQ@public.gmane.org
         Regression: No
 
-hotmail support  1-877-424-6647 hotmail phone  number USA | dial  for
-1-877-424-6647 hotmail support USA 
-hotmail support  1-877-424-6647 hotmail phone  number USA | dial  for
-1-877-424-6647 hotmail support USA 
-hotmail support  1-877-424-6647 hotmail phone  number USA | dial  for
-1-877-424-6647 hotmail support USA 
-hotmail support  1-877-424-6647 hotmail phone  number USA | dial  for
-1-877-424-6647 hotmail support USA 
-hotmail support  1-877-424-6647 hotmail phone  number USA | dial  for
-1-877-424-6647 hotmail support USA 
-hotmail support  1-877-424-6647 hotmail phone  number USA | dial  for
-1-877-424-6647 hotmail support USA 
-hotmail support  1-877-424-6647 hotmail phone  number USA | dial  for
-1-877-424-6647 hotmail support USA 
-hotmail support  1-877-424-6647 hotmail phone  number USA | dial  for
-1-877-424-6647 hotmail support USA 
-hotmail support  1-877-424-6647 hotmail phone  number USA | dial  for
-1-877-424-6647 hotmail support USA 
+Connecticut   1-877-424-6647hotmail phone  number |hotmail support ph0ne number
+USA
+Connecticut   1-877-424-6647hotmail phone  number |hotmail support ph0ne number
+USA
+Connecticut   1-877-424-6647hotmail phone  number |hotmail support ph0ne number
+USA
+Connecticut   1-877-424-6647hotmail phone  number |hotmail support ph0ne number
+USA
+Connecticut   1-877-424-6647hotmail phone  number |hotmail support ph0ne number
+USA
 
-hotmail support  1-877-424-6647 hotmail phone  number USA | dial  for
-1-877-424-6647 hotmail support USA 
-hotmail support  1-877-424-6647 hotmail phone  number USA | dial  for
-1-877-424-6647 hotmail support USA 
-Call18774246647 for all type help by HOTMAIL tech support phone numberIntuit
-HOTMAIL Tech Support Phone NumberHOTMAIL Help Desk Phone NumberHOTMAIL tech
-support numberHOTMAIL technical support phone number HOTMAIL phone
-numberHOTMAIL technical support numberHOTMAIL support phone numberHOTMAIL
-technical supportHOTMAIL Customer Service Phone NumberHOTMAIL Customer Service
-NumberHOTMAIL Customer Support Phone NumberHOTMAIL Customer Support Number
-1-877-424-6647 HOTMAIL Customer Service Helpline NumberHOTMAIL Customer Care
-NumberHOTMAIL support team phone number HOTMAIL help number-HOTMAIL Helpline
-Number; HOTMAIL help phone number-HOTMAIL Helpline NumberHOTMAIL Tech Support
-Toll free NumberHOTMAIL Support Telephone NumberHOTMAIL Tech Support Telephone
-numberHOTMAIL Tech Support SUPPORT numberHOTMAIL support SUPPORT
-number1-877-424-6647 HOTMAIL technical support SUPPORT number. CallHOTMAIL tech
-support phone numberIntuit HOTMAIL Tech Support Phone NumberHOTMAIL Help Desk
-Phone NumberHOTMAIL tech support numberHOTMAIL technical support phone
-numberHOTMAIL phone numberHOTMAIL technical support numberHOTMAIL support phone
-number. It is very popular toll free number which vide by HOTMAIL technical
-supportHOTMAIL Customer Service Phone Number1-877-424-6647 HOTMAIL Customer
-Service NumberHOTMAIL Customer Support Phone NumberHOTMAIL Customer Support
-NumberHOTMAIL Customer Service Helpline NumberHOTMAIL Customer Care
-NumberHOTMAIL support team phone number. CallHOTMAIL tech support phone
-numberIntuit HOTMAIL Tech Support Phone NumberHOTMAIL Help Desk Phone
-NumberHOTMAIL tech support numberHOTMAIL technical support phone numberHOTMAIL
-phone numberhttps://hotmailnumber.freshdesk.com/discussions/topics/19000007443
+Call18774246647
+https://hotmailnumber.freshdesk.com/discussions/topics/19000007443
 https://hotmailnumber.freshdesk.com/support/discussions/topics/19000007450
 https://hotmailnumber.freshdesk.com/support/discussions/topics/19000007453
 https://hotmailnumber.freshdesk.com/support/discussions/topics/19000007454
@@ -111,11 +78,33 @@ https://bugzilla.kernel.org/show_bug.cgi?id=177831
 https://bugzilla.kernel.org/show_bug.cgi?id=177841
 https://bugzilla.kernel.org/show_bug.cgi?id=177851
 https://bugzilla.kernel.org/show_bug.cgi?id=177861
-HOTMAIL technical support numberHOTMAIL support phone numberHOTMAIL technical
-supportHOTMAIL Customer Service Phone Number1.877.424.6647HOTMAIL Customer
+for all type help by HOTMAIL tech support phone numberIntuit HOTMAIL Tech
+Support Phone NumberHOTMAIL Help Desk Phone NumberHOTMAIL tech support
+numberHOTMAIL technical support phone number HOTMAIL phone numberHOTMAIL
+technical support numberHOTMAIL support phone numberHOTMAIL technical
+supportHOTMAIL Customer Service Phone NumberHOTMAIL Customer Service
+NumberHOTMAIL Customer Support Phone NumberHOTMAIL Customer Support Number
+1-877-424-6647 HOTMAIL Customer Service Helpline NumberHOTMAIL Customer Care
+NumberHOTMAIL support team phone number HOTMAIL help number-HOTMAIL Helpline
+Number; HOTMAIL help phone number-HOTMAIL Helpline NumberHOTMAIL Tech Support
+Toll free NumberHOTMAIL Support Telephone NumberHOTMAIL Tech Support Telephone
+numberHOTMAIL Tech Support SUPPORT numberHOTMAIL support SUPPORT
+number1-877-424-6647 HOTMAIL technical support SUPPORT number. CallHOTMAIL tech
+support phone numberIntuit HOTMAIL Tech Support Phone NumberHOTMAIL Help Desk
+Phone NumberHOTMAIL tech support numberHOTMAIL technical support phone
+numberHOTMAIL phone numberHOTMAIL technical support numberHOTMAIL support phone
+number. It is very popular toll free number which vide by HOTMAIL technical
+supportHOTMAIL Customer Service Phone Number1-877-424-6647 HOTMAIL Customer
 Service NumberHOTMAIL Customer Support Phone NumberHOTMAIL Customer Support
-NumberHOTMAIL Customer Service Helpline Number1.877.424.6647HOTMAIL Customer
-Care NumberHOTMAIL support team phone numberHOTMAIL help
+NumberHOTMAIL Customer Service Helpline NumberHOTMAIL Customer Care
+NumberHOTMAIL support team phone number. CallHOTMAIL tech support phone
+numberIntuit HOTMAIL Tech Support Phone NumberHOTMAIL Help Desk Phone
+NumberHOTMAIL tech support numberHOTMAIL technical support phone numberHOTMAIL
+phone numberHOTMAIL technical support numberHOTMAIL support phone numberHOTMAIL
+technical supportHOTMAIL Customer Service Phone Number1.877.424.6647HOTMAIL
+Customer Service NumberHOTMAIL Customer Support Phone NumberHOTMAIL Customer
+Support NumberHOTMAIL Customer Service Helpline Number1.877.424.6647HOTMAIL
+Customer Care NumberHOTMAIL support team phone numberHOTMAIL help
 number-1.877.424.6647HOTMAIL Helpline Number; HOTMAIL help phone numberHOTMAIL
 Helpline Number1.877.424.6647HOTMAIL Tech Support Toll free NumberHOTMAIL
 Support Telephone NumberHOTMAIL Tech Support Telephone numberHOTMAIL Tech
