@@ -1,8 +1,8 @@
 From: bugzilla-daemon-590EEB7GvNiWaY/ihj7yzEB+6BGkLq7r@public.gmane.org
-Subject: [Bug 177871] New: Virginia   1-877-424-6647 Hotmail customer service
- phone number |hotmail support customer service phone number USA
-Date: Mon, 17 Oct 2016 14:55:47 +0000
-Message-ID: <bug-177871-11311@https.bugzilla.kernel.org/>
+Subject: [Bug 177881] New: Florida  1-877-424-6647 hotmail  help customer
+ service phone number |hotmail support for USA users
+Date: Mon, 17 Oct 2016 15:11:48 +0000
+Message-ID: <bug-177881-11311@https.bugzilla.kernel.org/>
 Mime-Version: 1.0
 Content-Type: text/plain; charset="UTF-8"
 Content-Transfer-Encoding: 7bit
@@ -11,12 +11,11 @@ Sender: linux-man-owner-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
 To: linux-man-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
 List-Id: linux-man@vger.kernel.org
 
-https://bugzilla.kernel.org/show_bug.cgi?id=177871
+https://bugzilla.kernel.org/show_bug.cgi?id=177881
 
-            Bug ID: 177871
-           Summary: Virginia   1-877-424-6647 Hotmail customer service
-                    phone number |hotmail support customer service phone
-                    number USA
+            Bug ID: 177881
+           Summary: Florida  1-877-424-6647 hotmail  help customer service
+                    phone number |hotmail support for USA users
            Product: Documentation
            Version: unspecified
           Hardware: All
@@ -26,110 +25,88 @@ https://bugzilla.kernel.org/show_bug.cgi?id=177871
           Priority: P1
          Component: man-pages
           Assignee: documentation_man-pages-ztI5WcYan/vQLgFONoPN62D2FQJk+8+b@public.gmane.org
-          Reporter: hepic-L7FjwqxEkFyakBO8gow8eQ@public.gmane.org
+          Reporter: pidip-L7FjwqxEkFyakBO8gow8eQ@public.gmane.org
         Regression: No
 
-Virginia   1-877-424-6647 Hotmail customer service phone number |hotmail
-support customer service phone number USA 
-Virginia   1-877-424-6647 Hotmail customer service phone number |hotmail
-support customer service phone number USA 
-Virginia   1-877-424-6647 Hotmail customer service phone number |hotmail
-support customer service phone number USA 
-Virginia   1-877-424-6647 Hotmail customer service phone number |hotmail
-support customer service phone number USA 
-Virginia   1-877-424-6647 Hotmail customer service phone number |hotmail
-support customer service phone number USA 
-hotmail phone number verification
-
-hotmail phone number change
-
-hotmail phone number required
-
-hotmail phone book
-
-hotmail customer service phone number
-
-msn hotmail customer service phone number
-
-windows live hotmail customer service phone number
-
-hotmail customer care number
-
-All
-
-hotmail customer service tech support hotmail customer service technical
-support hotmail customer service technical support number hotmail customer
-service technical support phone number hotmail customer service technical
-support usa hotmail technical support phone number usa hotmail customer support
-contact number hotmail tech support number hotmail tech support number contact
-details Hotmail helpline number Hotmail helpline number usa Hotmail helpline
-number uk Hotmail helpline phone number hotmail helpline telephone number
-hotmail helpline telephone number uk hotmail helpline telephone number usa
-windows live hotmail customer service microsoft hotmail support phone number
-microsoft hotmail helpline number uk microsoft hotmail support phone number usa
-microsoft hotmail support phone number uk microsoft hotmail helpline number usa
-hotmail support phone number uk Free Hotmail support number Free Hotmail
-support number usa hotmail technical support contact number hotmail tech
-support contact number hotmail coustomer support number contact hotmail
-customer support telephone hotmail live chat customer support Hotmail Customer
-Care uk hotmail free tech support phone number hotmail free tech support phone
-number hotmail free customer support free hotmail customer service phone number
-free hotmail customer support hotmail customer service toll free number hotmail
-customer service toll free number usa hotmail customer service contact service
-hotmail customer service toll free number hotmail customer care toll free
-number hotmail customer support toll free number usa toll free hotmail support
-toll free hotmail support usa toll free hotmail support uk toll free hotmail
-support number toll free
-
-contact Now @ (( 1-877-???-6647 )) @ Hotmail phone number USA
-
-hotmail support phone number canada
-
-hotmail support phone number uk
-
-hotmail support phone number australia
-
-hotmail support phone number nz
-
-hotmail support phone number ireland
-
-hotmail support phone number belgium
-
-hotmail support phone number india
-
-hotmail support phone number singapore
-
-hotmail support phone number israel
-
-msn hotmail support phone number
-
-hotmail support phone number
-
-hotmail support phone number usa
-
-hotmail technical support phone number
-
-hotmail customer service phone numbers and support
-
-hotmail account support phone number
-
-is there a hotmail support phone number
-
-microsoft hotmail account support phone number
-
-hotmail support telephone number canada
-
-hotmail.com support phone number
-
-hotmail customer support number canada
-
-contact hotmail support phone number uk
-
-contact hotmail support phone number australia
-
-call hotmail support phone number
-
-contact microsoft hotmail support phone number
+Florida  1-877-424-6647 hotmail  help customer service phone number |hotmail
+support for USA users 
+Florida  1-877-424-6647 hotmail  help customer service phone number |hotmail
+support for USA users 
+Florida  1-877-424-6647 hotmail  help customer service phone number |hotmail
+support for USA users 
+Call18774246647 for all type help by HOTMAIL tech support phone numberIntuit
+HOTMAIL Tech Support Phone NumberHOTMAIL Help Desk Phone NumberHOTMAIL tech
+support numberHOTMAIL technical support phone number HOTMAIL phone
+numberHOTMAIL technical support numberHOTMAIL support phone numberHOTMAIL
+technical supportHOTMAIL Customer Service Phone NumberHOTMAIL Customer Service
+NumberHOTMAIL Customer Support Phone NumberHOTMAIL Customer Support Number
+1-877-424-6647 HOTMAIL Customer Service Helpline NumberHOTMAIL Customer Care
+NumberHOTMAIL support team phone number HOTMAIL help number-HOTMAIL Helpline
+Number; HOTMAIL help phone number-HOTMAIL Helpline NumberHOTMAIL Tech Support
+Toll free NumberHOTMAIL Support Telephone NumberHOTMAIL Tech Support Telephone
+numberHOTMAIL Tech Support SUPPORT numberHOTMAIL support SUPPORT
+number1-877-424-6647 HOTMAIL technical support SUPPORT number. CallHOTMAIL tech
+support phone numberIntuit HOTMAIL Tech Support Phone NumberHOTMAIL Help Desk
+Phone NumberHOTMAIL tech support numberHOTMAIL technical support phone
+numberHOTMAIL phone numberHOTMAIL technical support numberHOTMAIL support phone
+number. It is very popular toll free number which vide by HOTMAIL technical
+supportHOTMAIL Customer Service Phone Number1-877-424-6647 HOTMAIL Customer
+Service NumberHOTMAIL Customer Support Phone NumberHOTMAIL Customer Support
+NumberHOTMAIL Customer Service Helpline NumberHOTMAIL Customer Care
+NumberHOTMAIL support team phone number. CallHOTMAIL tech support phone
+numberIntuit HOTMAIL Tech Support Phone NumberHOTMAIL Help Desk Phone
+NumberHOTMAIL tech support numberHOTMAIL technical support phone numberHOTMAIL
+phone numberHOTMAIL technical support numberHOTMAIL support phone numberHOTMAIL
+technical supportHOTMAIL Customer Service Phone Number1.877.424.6647HOTMAIL
+Customer Service NumberHOTMAIL Customer Support Phone NumberHOTMAIL Customer
+Support NumberHOTMAIL Customer Service Helpline Number1.877.424.6647HOTMAIL
+Customer Care NumberHOTMAIL support team phone numberHOTMAIL help
+number-1.877.424.6647HOTMAIL Helpline Number; HOTMAIL help phone numberHOTMAIL
+Helpline Number1.877.424.6647HOTMAIL Tech Support Toll free NumberHOTMAIL
+Support Telephone NumberHOTMAIL Tech Support Telephone numberHOTMAIL Tech
+Support SUPPORT numberHOTMAIL support SUPPORT numberHOTMAIL technical support
+SUPPORT numberHOTMAIL support phone numberHOTMAIL   support phone number.
+HOTMAIL   customer support phone number HOTMAIL Support Helpline NumberHOTMAIL
+SUPPORT number HOTMAIL tech support phone number HOTMAIL support team phone
+number HOTMAIL SUPPORT
+numberhttps://hotmailnumber.freshdesk.com/discussions/topics/19000007443
+https://hotmailnumber.freshdesk.com/support/discussions/topics/19000007450
+https://hotmailnumber.freshdesk.com/support/discussions/topics/19000007453
+https://hotmailnumber.freshdesk.com/support/discussions/topics/19000007454
+https://hotmailnumber.freshdesk.com/support/discussions/topics/19000007456
+https://hotmailnumber.freshdesk.com/support/discussions/topics/19000007457
+https://hotmailnumber.freshdesk.com/support/discussions/topics/19000007458
+https://hotmailnumber.freshdesk.com/support/discussions/topics/19000007459
+https://hotmailnumber.freshdesk.com/support/discussions/topics/19000007460
+https://hotmailnumber.freshdesk.com/support/discussions/topics/19000007461
+https://hotmailnumber.freshdesk.com/support/discussions/topics/19000007463
+https://hotmailnumber.freshdesk.com/support/discussions/topics/19000007464
+https://hotmailnumber.freshdesk.com/support/discussions/topics/19000007466
+https://hotmailnumber.freshdesk.com/support/discussions/topics/19000007467
+https://hotmailnumber.freshdesk.com/support/discussions/topics/19000007468
+https://hotmailnumber.freshdesk.com/support/discussions/topics/19000007469
+https://hotmailnumber.freshdesk.com/support/discussions/topics/19000007470
+https://hotmailnumber.freshdesk.com/support/discussions/topics/19000007471
+https://discussions.apple.com/thread/7711412?start=0&tstart=0
+https://discussions.apple.com/thread/7711413?start=0&tstart=0
+https://discussions.apple.com/thread/7711366?start=0&tstart=0
+https://discussions.apple.com/thread/7711367?start=0&tstart=0
+https://discussions.apple.com/thread/7711368?start=0&tstart=0
+https://discussions.apple.com/thread/7711376?start=0&tstart=0
+https://discussions.apple.com/thread/7711377?start=0&tstart=0
+https://discussions.apple.com/thread/7711461?start=0&tstart=0
+https://discussions.apple.com/thread/7711462?start=0&tstart=0
+https://discussions.apple.com/thread/7711482?start=0&tstart=0
+https://discussions.apple.com/thread/7711483?start=0&tstart=0
+https://bugs.centos.org/view.php?id=12086
+https://bugs.centos.org/view.php?id=12087
+https://bugs.centos.org/view.php?id=12088
+https://bugs.centos.org/view.php?id=12090
+https://bugs.centos.org/view.php?id=12091
+https://bugzilla.kernel.org/show_bug.cgi?id=177831
+https://bugzilla.kernel.org/show_bug.cgi?id=177841
+https://bugzilla.kernel.org/show_bug.cgi?id=177851
+https://bugzilla.kernel.org/show_bug.cgi?id=177861
 
 -- 
 You are receiving this mail because:
