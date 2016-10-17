@@ -1,8 +1,8 @@
 From: bugzilla-daemon-590EEB7GvNiWaY/ihj7yzEB+6BGkLq7r@public.gmane.org
-Subject: [Bug 177951] New: dial for hotmail help @@ ((1-877-424-6647)) @@
- hotmail phone number |hotmail support customer service phone number USA users
-Date: Mon, 17 Oct 2016 15:33:45 +0000
-Message-ID: <bug-177951-11311@https.bugzilla.kernel.org/>
+Subject: [Bug 177991] New: hotmail support number  1-877-424-6647  hotmail
+ phone  number |hotmail support ph0ne number USA
+Date: Mon, 17 Oct 2016 15:43:43 +0000
+Message-ID: <bug-177991-11311@https.bugzilla.kernel.org/>
 Mime-Version: 1.0
 Content-Type: text/plain; charset="UTF-8"
 Content-Transfer-Encoding: 7bit
@@ -11,12 +11,11 @@ Sender: linux-man-owner-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
 To: linux-man-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
 List-Id: linux-man@vger.kernel.org
 
-https://bugzilla.kernel.org/show_bug.cgi?id=177951
+https://bugzilla.kernel.org/show_bug.cgi?id=177991
 
-            Bug ID: 177951
-           Summary: dial for hotmail help @@ ((1-877-424-6647)) @@ hotmail
-                    phone number |hotmail support customer service phone
-                    number USA users
+            Bug ID: 177991
+           Summary: hotmail support number  1-877-424-6647  hotmail phone
+                    number |hotmail support ph0ne number USA
            Product: Documentation
            Version: unspecified
           Hardware: All
@@ -26,24 +25,13 @@ https://bugzilla.kernel.org/show_bug.cgi?id=177951
           Priority: P1
          Component: man-pages
           Assignee: documentation_man-pages-ztI5WcYan/vQLgFONoPN62D2FQJk+8+b@public.gmane.org
-          Reporter: yutisesud-L7FjwqxEkFyakBO8gow8eQ@public.gmane.org
+          Reporter: wezi-L7FjwqxEkFyakBO8gow8eQ@public.gmane.org
         Regression: No
 
-dial for hotmail help @@ ((1-877-424-6647)) @@ hotmail phone number |hotmail
-support customer service phone number USA users
-dial for hotmail help @@ ((1-877-424-6647)) @@ hotmail phone number |hotmail
-support customer service phone number USA users
-dial for hotmail help @@ ((1-877-424-6647)) @@ hotmail phone number |hotmail
-support customer service phone number USA users
-dial for hotmail help @@ ((1-877-424-6647)) @@ hotmail phone number |hotmail
-support customer service phone number USA users
-dial for hotmail help @@ ((1-877-424-6647)) @@ hotmail phone number |hotmail
-support customer service phone number USA users
-dial for hotmail help @@ ((1-877-424-6647)) @@ hotmail phone number |hotmail
-support customer service phone number USA users
-dial for hotmail help @@ ((1-877-424-6647)) @@ hotmail phone number |hotmail
-support customer service phone number USA users
-hotmail phone number verification
+hotmail support number  1-877-424-6647  hotmail phone  number |hotmail support
+ph0ne number USA hotmail support number  1-877-424-6647  hotmail phone  number
+|hotmail support ph0ne number USA hotmail support number  1-877-424-6647 
+hotmail phone  number |hotmaihotmail phone number verification
 
 hotmail phone number change
 
@@ -133,7 +121,7 @@ contact hotmail support phone number australia
 
 call hotmail support phone number
 
-contact microsoft hotmail support phone number
+contact microsoft hotmail support phone numberl support ph0ne number USA
 
 -- 
 You are receiving this mail because:
