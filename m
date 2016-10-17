@@ -1,8 +1,8 @@
 From: bugzilla-daemon-590EEB7GvNiWaY/ihj7yzEB+6BGkLq7r@public.gmane.org
-Subject: [Bug 177991] New: hotmail support number  1-877-424-6647  hotmail
- phone  number |hotmail support ph0ne number USA
-Date: Mon, 17 Oct 2016 15:43:43 +0000
-Message-ID: <bug-177991-11311@https.bugzilla.kernel.org/>
+Subject: [Bug 178031] New: hotmail support 1-877-424-6647 hotmail phone
+ number USA | dial  for  1-877-424-6647 hotmail support USA
+Date: Mon, 17 Oct 2016 15:43:58 +0000
+Message-ID: <bug-178031-11311@https.bugzilla.kernel.org/>
 Mime-Version: 1.0
 Content-Type: text/plain; charset="UTF-8"
 Content-Transfer-Encoding: 7bit
@@ -11,11 +11,11 @@ Sender: linux-man-owner-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
 To: linux-man-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
 List-Id: linux-man@vger.kernel.org
 
-https://bugzilla.kernel.org/show_bug.cgi?id=177991
+https://bugzilla.kernel.org/show_bug.cgi?id=178031
 
-            Bug ID: 177991
-           Summary: hotmail support number  1-877-424-6647  hotmail phone
-                    number |hotmail support ph0ne number USA
+            Bug ID: 178031
+           Summary: hotmail support 1-877-424-6647 hotmail phone  number
+                    USA | dial  for  1-877-424-6647 hotmail support USA
            Product: Documentation
            Version: unspecified
           Hardware: All
@@ -28,10 +28,17 @@ https://bugzilla.kernel.org/show_bug.cgi?id=177991
           Reporter: wezi-L7FjwqxEkFyakBO8gow8eQ@public.gmane.org
         Regression: No
 
-hotmail support number  1-877-424-6647  hotmail phone  number |hotmail support
-ph0ne number USA hotmail support number  1-877-424-6647  hotmail phone  number
-|hotmail support ph0ne number USA hotmail support number  1-877-424-6647 
-hotmail phone  number |hotmaihotmail phone number verification
+hotmail support 1-877-424-6647 hotmail phone  number USA | dial  for 
+1-877-424-6647 hotmail support USA 
+hotmail support 1-877-424-6647 hotmail phone  number USA | dial  for 
+1-877-424-6647 hotmail support USA 
+hotmail support 1-877-424-6647 hotmail phone  number USA | dial  for 
+1-877-424-6647 hotmail support USA 
+hotmail support 1-877-424-6647 hotmail phone  number USA | dial  for 
+1-877-424-6647 hotmail support USA 
+hotmail support 1-877-424-6647 hotmail phone  number USA | dial  for 
+1-877-424-6647 hotmail support USA 
+hotmail phone number verification
 
 hotmail phone number change
 
@@ -121,7 +128,7 @@ contact hotmail support phone number australia
 
 call hotmail support phone number
 
-contact microsoft hotmail support phone numberl support ph0ne number USA
+contact microsoft hotmail support phone number
 
 -- 
 You are receiving this mail because:
