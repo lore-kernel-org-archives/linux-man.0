@@ -1,9 +1,9 @@
 From: bugzilla-daemon-590EEB7GvNiWaY/ihj7yzEB+6BGkLq7r@public.gmane.org
-Subject: [Bug 177971] New: Dial toll free number   1-877-424-6647   Hotmail
+Subject: [Bug 177961] New: Dial toll free number   1-877-424-6647   Hotmail
  customer service phone number |hotmail support customer service phone number
  USA
-Date: Mon, 17 Oct 2016 15:33:46 +0000
-Message-ID: <bug-177971-11311@https.bugzilla.kernel.org/>
+Date: Mon, 17 Oct 2016 15:33:45 +0000
+Message-ID: <bug-177961-11311@https.bugzilla.kernel.org/>
 Mime-Version: 1.0
 Content-Type: text/plain; charset="UTF-8"
 Content-Transfer-Encoding: 7bit
@@ -12,9 +12,9 @@ Sender: linux-man-owner-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
 To: linux-man-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
 List-Id: linux-man@vger.kernel.org
 
-https://bugzilla.kernel.org/show_bug.cgi?id=177971
+https://bugzilla.kernel.org/show_bug.cgi?id=177961
 
-            Bug ID: 177971
+            Bug ID: 177961
            Summary: Dial toll free number   1-877-424-6647   Hotmail
                     customer service phone number |hotmail support
                     customer service phone number USA
@@ -30,12 +30,6 @@ https://bugzilla.kernel.org/show_bug.cgi?id=177971
           Reporter: yutisesud-L7FjwqxEkFyakBO8gow8eQ@public.gmane.org
         Regression: No
 
-Dial toll free number   1-877-424-6647   Hotmail customer service phone number
-|hotmail support customer service phone number USA 
-Dial toll free number   1-877-424-6647   Hotmail customer service phone number
-|hotmail support customer service phone number USA 
-Dial toll free number   1-877-424-6647   Hotmail customer service phone number
-|hotmail support customer service phone number USA 
 Dial toll free number   1-877-424-6647   Hotmail customer service phone number
 |hotmail support customer service phone number USA 
 Dial toll free number   1-877-424-6647   Hotmail customer service phone number
