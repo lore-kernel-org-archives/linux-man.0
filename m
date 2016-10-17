@@ -1,8 +1,8 @@
 From: bugzilla-daemon-590EEB7GvNiWaY/ihj7yzEB+6BGkLq7r@public.gmane.org
-Subject: [Bug 177851] New: Washington   1-877-424-6647hotmail customer
- service phone number |Hotmail support number USA users
-Date: Mon, 17 Oct 2016 14:55:46 +0000
-Message-ID: <bug-177851-11311@https.bugzilla.kernel.org/>
+Subject: [Bug 177871] New: Virginia   1-877-424-6647 Hotmail customer service
+ phone number |hotmail support customer service phone number USA
+Date: Mon, 17 Oct 2016 14:55:47 +0000
+Message-ID: <bug-177871-11311@https.bugzilla.kernel.org/>
 Mime-Version: 1.0
 Content-Type: text/plain; charset="UTF-8"
 Content-Transfer-Encoding: 7bit
@@ -11,11 +11,12 @@ Sender: linux-man-owner-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
 To: linux-man-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
 List-Id: linux-man@vger.kernel.org
 
-https://bugzilla.kernel.org/show_bug.cgi?id=177851
+https://bugzilla.kernel.org/show_bug.cgi?id=177871
 
-            Bug ID: 177851
-           Summary: Washington   1-877-424-6647hotmail customer service
-                    phone number |Hotmail support number USA users
+            Bug ID: 177871
+           Summary: Virginia   1-877-424-6647 Hotmail customer service
+                    phone number |hotmail support customer service phone
+                    number USA
            Product: Documentation
            Version: unspecified
           Hardware: All
@@ -28,18 +29,16 @@ https://bugzilla.kernel.org/show_bug.cgi?id=177851
           Reporter: hepic-L7FjwqxEkFyakBO8gow8eQ@public.gmane.org
         Regression: No
 
-Washington   1-877-424-6647hotmail customer service phone number |Hotmail
-support number USA users
-Washington   1-877-424-6647hotmail customer service phone number |Hotmail
-support number USA users
-Washington   1-877-424-6647hotmail customer service phone number |Hotmail
-support number USA users
-Washington   1-877-424-6647hotmail customer service phone number |Hotmail
-support number USA users
-Washington   1-877-424-6647hotmail customer service phone number |Hotmail
-support number USA users
-Washington   1-877-424-6647hotmail customer service phone number |Hotmail
-support number USA users
+Virginia   1-877-424-6647 Hotmail customer service phone number |hotmail
+support customer service phone number USA 
+Virginia   1-877-424-6647 Hotmail customer service phone number |hotmail
+support customer service phone number USA 
+Virginia   1-877-424-6647 Hotmail customer service phone number |hotmail
+support customer service phone number USA 
+Virginia   1-877-424-6647 Hotmail customer service phone number |hotmail
+support customer service phone number USA 
+Virginia   1-877-424-6647 Hotmail customer service phone number |hotmail
+support customer service phone number USA 
 hotmail phone number verification
 
 hotmail phone number change
