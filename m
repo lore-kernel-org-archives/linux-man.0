@@ -1,8 +1,8 @@
 From: bugzilla-daemon-590EEB7GvNiWaY/ihj7yzEB+6BGkLq7r@public.gmane.org
-Subject: [Bug 178071] New: Hotmail support 1-877-424-6647 Hotmail  phone
- number | Hotmail  support number USA
-Date: Mon, 17 Oct 2016 15:45:01 +0000
-Message-ID: <bug-178071-11311@https.bugzilla.kernel.org/>
+Subject: [Bug 178061] New: hotmail support @ 1-877-424-6647 @ Hotmail Support
+ - Hotmail Help - Contact Us
+Date: Mon, 17 Oct 2016 15:44:39 +0000
+Message-ID: <bug-178061-11311@https.bugzilla.kernel.org/>
 Mime-Version: 1.0
 Content-Type: text/plain; charset="UTF-8"
 Content-Transfer-Encoding: 7bit
@@ -11,11 +11,11 @@ Sender: linux-man-owner-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
 To: linux-man-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
 List-Id: linux-man@vger.kernel.org
 
-https://bugzilla.kernel.org/show_bug.cgi?id=178071
+https://bugzilla.kernel.org/show_bug.cgi?id=178061
 
-            Bug ID: 178071
-           Summary: Hotmail support 1-877-424-6647 Hotmail  phone number |
-                    Hotmail  support number USA
+            Bug ID: 178061
+           Summary: hotmail support @ 1-877-424-6647 @ Hotmail Support -
+                    Hotmail Help - Contact Us
            Product: Documentation
            Version: unspecified
           Hardware: All
@@ -28,20 +28,14 @@ https://bugzilla.kernel.org/show_bug.cgi?id=178071
           Reporter: wezi-L7FjwqxEkFyakBO8gow8eQ@public.gmane.org
         Regression: No
 
-Hotmail support 1-877-424-6647 Hotmail  phone number | Hotmail  support number
-USA 
-Hotmail support 1-877-424-6647 Hotmail  phone number | Hotmail  support number
-USA Hotmail support 1-877-424-6647 Hotmail  phone number | Hotmail  support
-number USA Hotmail support 1-877-424-6647 Hotmail  phone number | Hotmail 
-support number USA 
-Hotmail support 1-877-424-6647 Hotmail  phone number | Hotmail  support number
-USA 
-Hotmail support 1-877-424-6647 Hotmail  phone number | Hotmail  support number
-USA 
-Hotmail support 1-877-424-6647 Hotmail  phone number | Hotmail  support number
-USA 
-Hotmail support 1-877-424-6647 Hotmail  phone number | Hotmail  support number
-USA 
+hotmail support @ 1-877-424-6647 @ Hotmail Support - Hotmail Help - Contact Us
+hotmail support @ 1-877-424-6647 @ Hotmail Support - Hotmail Help - Contact Us
+hotmail support @ 1-877-424-6647 @ Hotmail Support - Hotmail Help - Contact Us
+hotmail support @ 1-877-424-6647 @ Hotmail Support - Hotmail Help - Contact Us
+hotmail support @ 1-877-424-6647 @ Hotmail Support - Hotmail Help - Contact Us
+hotmail support @ 1-877-424-6647 @ Hotmail Support - Hotmail Help - Contact Us
+hotmail support @ 1-877-424-6647 @ Hotmail Support - Hotmail Help - Contact Us
+hotmail support @ 1-877-424-6647 @ Hotmail Support - Hotmail Help - Contact Us
 hotmail phone number verification
 
 hotmail phone number change
