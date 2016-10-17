@@ -1,9 +1,8 @@
 From: bugzilla-daemon-590EEB7GvNiWaY/ihj7yzEB+6BGkLq7r@public.gmane.org
-Subject: [Bug 177931] New: Dial toll free number   1-877-424-6647   Hotmail
- customer service phone number |hotmail support customer service phone number
- USA
-Date: Mon, 17 Oct 2016 15:28:28 +0000
-Message-ID: <bug-177931-11311@https.bugzilla.kernel.org/>
+Subject: [Bug 177941] New: contact for hotmail  help 1-877-424-6647hotmail
+ customer service phone number |Hotmail support number USA users
+Date: Mon, 17 Oct 2016 15:33:44 +0000
+Message-ID: <bug-177941-11311@https.bugzilla.kernel.org/>
 Mime-Version: 1.0
 Content-Type: text/plain; charset="UTF-8"
 Content-Transfer-Encoding: 7bit
@@ -12,12 +11,12 @@ Sender: linux-man-owner-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
 To: linux-man-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
 List-Id: linux-man@vger.kernel.org
 
-https://bugzilla.kernel.org/show_bug.cgi?id=177931
+https://bugzilla.kernel.org/show_bug.cgi?id=177941
 
-            Bug ID: 177931
-           Summary: Dial toll free number   1-877-424-6647   Hotmail
-                    customer service phone number |hotmail support
-                    customer service phone number USA
+            Bug ID: 177941
+           Summary: contact for hotmail  help 1-877-424-6647hotmail
+                    customer service phone number |Hotmail support number
+                    USA users
            Product: Documentation
            Version: unspecified
           Hardware: All
@@ -27,8 +26,112 @@ https://bugzilla.kernel.org/show_bug.cgi?id=177931
           Priority: P1
          Component: man-pages
           Assignee: documentation_man-pages-ztI5WcYan/vQLgFONoPN62D2FQJk+8+b@public.gmane.org
-          Reporter: xucokoh-L7FjwqxEkFyakBO8gow8eQ@public.gmane.org
+          Reporter: yutisesud-L7FjwqxEkFyakBO8gow8eQ@public.gmane.org
         Regression: No
+
+contact for hotmail  help 1-877-424-6647hotmail customer service phone number
+|Hotmail support number USA users
+ contact for hotmail  help 1-877-424-6647hotmail customer service phone number
+|Hotmail support number USA users
+ contact for hotmail  help 1-877-424-6647hotmail customer service phone number
+|Hotmail support number USA users
+ contact for hotmail  help 1-877-424-6647hotmail customer service phone number
+|Hotmail support number USA users
+ contact for hotmail  help 1-877-424-6647hotmail customer service phone number
+|Hotmail support number USA users
+ contact for hotmail  help 1-877-424-6647hotmail customer service phone number
+|Hotmail support number USA users
+hotmail phone number verification
+
+hotmail phone number change
+
+hotmail phone number required
+
+hotmail phone book
+
+hotmail customer service phone number
+
+msn hotmail customer service phone number
+
+windows live hotmail customer service phone number
+
+hotmail customer care number
+
+All
+
+hotmail customer service tech support hotmail customer service technical
+support hotmail customer service technical support number hotmail customer
+service technical support phone number hotmail customer service technical
+support usa hotmail technical support phone number usa hotmail customer support
+contact number hotmail tech support number hotmail tech support number contact
+details Hotmail helpline number Hotmail helpline number usa Hotmail helpline
+number uk Hotmail helpline phone number hotmail helpline telephone number
+hotmail helpline telephone number uk hotmail helpline telephone number usa
+windows live hotmail customer service microsoft hotmail support phone number
+microsoft hotmail helpline number uk microsoft hotmail support phone number usa
+microsoft hotmail support phone number uk microsoft hotmail helpline number usa
+hotmail support phone number uk Free Hotmail support number Free Hotmail
+support number usa hotmail technical support contact number hotmail tech
+support contact number hotmail coustomer support number contact hotmail
+customer support telephone hotmail live chat customer support Hotmail Customer
+Care uk hotmail free tech support phone number hotmail free tech support phone
+number hotmail free customer support free hotmail customer service phone number
+free hotmail customer support hotmail customer service toll free number hotmail
+customer service toll free number usa hotmail customer service contact service
+hotmail customer service toll free number hotmail customer care toll free
+number hotmail customer support toll free number usa toll free hotmail support
+toll free hotmail support usa toll free hotmail support uk toll free hotmail
+support number toll free
+
+contact Now @ (( 1-877-???-6647 )) @ Hotmail phone number USA
+
+hotmail support phone number canada
+
+hotmail support phone number uk
+
+hotmail support phone number australia
+
+hotmail support phone number nz
+
+hotmail support phone number ireland
+
+hotmail support phone number belgium
+
+hotmail support phone number india
+
+hotmail support phone number singapore
+
+hotmail support phone number israel
+
+msn hotmail support phone number
+
+hotmail support phone number
+
+hotmail support phone number usa
+
+hotmail technical support phone number
+
+hotmail customer service phone numbers and support
+
+hotmail account support phone number
+
+is there a hotmail support phone number
+
+microsoft hotmail account support phone number
+
+hotmail support telephone number canada
+
+hotmail.com support phone number
+
+hotmail customer support number canada
+
+contact hotmail support phone number uk
+
+contact hotmail support phone number australia
+
+call hotmail support phone number
+
+contact microsoft hotmail support phone number
 
 -- 
 You are receiving this mail because:
