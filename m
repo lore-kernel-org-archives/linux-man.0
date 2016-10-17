@@ -1,68 +1,45 @@
 From: "Michael Kerrisk (man-pages)" <mtk.manpages-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org>
-Subject: Re: [patch] perf_event_open.2: PERF_RECORD_LOST_SAMPLES record type
-Date: Mon, 17 Oct 2016 08:46:10 +0200
-Message-ID: <46a73e4c-1f0f-e14c-391c-e865f52ff9be@gmail.com>
-References: <alpine.DEB.2.20.1610152201370.4137@macbook-air>
+Subject: Re: [PATCH 1/5] pkey.7: New page with overview of Memory Protection
+ Keys
+Date: Mon, 17 Oct 2016 14:04:53 +0200
+Message-ID: <558d30e9-e374-728c-2099-ed8eccadf7a2@gmail.com>
+References: <20160913194406.20CBFD0C@ray> <20160913194438.A94997CE@ray>
+ <CAKgNAkj8voeBsjERrRq+17L9rK5Vy_quv7Dm_7Hkmuvxfpw_iQ@mail.gmail.com>
+ <57FE679D.8010101@intel.com>
 Mime-Version: 1.0
-Content-Type: text/plain; charset=windows-1252
+Content-Type: text/plain; charset=utf-8
 Content-Transfer-Encoding: 7bit
 Return-path: <linux-man-owner-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>
-In-Reply-To: <alpine.DEB.2.20.1610152201370.4137@macbook-air>
+In-Reply-To: <57FE679D.8010101-ral2JQCrhuEAvxtiuMwx3w@public.gmane.org>
 Sender: linux-man-owner-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
-To: Vince Weaver <vincent.weaver-e7X0jjDqjFGHXe+LvDLADg@public.gmane.org>
-Cc: mtk.manpages-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org, linux-man-u79uwXL29TY76Z2rM5mHXA@public.gmane.org, linux-kernel-u79uwXL29TY76Z2rM5mHXA@public.gmane.org, Kan Liang <kan.liang-ral2JQCrhuEAvxtiuMwx3w@public.gmane.org>, Peter Zijlstra <peterz-wEGCiKHe2LqWVfeAwA7xHQ@public.gmane.org>, Ingo Molnar <mingo-H+wXaHxf7aLQT0dZR+AlfA@public.gmane.org>, Stephane Eranian <eranian-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org>
+To: Dave Hansen <dave.hansen-ral2JQCrhuEAvxtiuMwx3w@public.gmane.org>
+Cc: mtk.manpages-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org, linux-man <linux-man-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>, Linux API <linux-api-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>, "x86-DgEjT+Ai2ygdnm+yROfE0A@public.gmane.org" <x86-DgEjT+Ai2ygdnm+yROfE0A@public.gmane.org>
 List-Id: linux-man@vger.kernel.org
 
-Hello Vince,
+Hi Dave,
 
-On 10/16/2016 04:02 AM, Vince Weaver wrote:
+On 10/12/2016 06:41 PM, Dave Hansen wrote:
+> On 10/11/2016 11:25 PM, Michael Kerrisk (man-pages) wrote:
+>> On 13 September 2016 at 21:44, Dave Hansen <dave.hansen-ral2JQCrhuEAvxtiuMwx3w@public.gmane.org> wrote:
+>>> Signed-off-by: Dave Hansen <dave.hansen-VuQAYsv1563Yd54FQh9/CA@public.gmane.org>
+>>
+>> Now that these system calls have hit mainline, are there any updates
+>> to the 13 Sep series of man page patches?
 > 
-> Linux 4.2 added a new record type: PERF_RECORD_LOST_SAMPLES
-> It is generated when hardware samples (currently only Intel PEBS)
-> are lost.
+> The 13 Sep version is the latest version of the man pages.  Those fully
+> describe the functionality that hit mainline and I haven't updated them
+> since 13 Sep.
 
-Thanks! Applied!
+Okay -- I've merged these pages. I did a fair bit of editing, mainly
+wording fixes, and textual reorganization, but also adding a few
+details that were missing. Could you take a look at the pkey_alloc(2),
+mprotect(2), and pkeys(7) page that are currently in man-pages
+Git and let me know if anything needs fixing, or if there are any
+details  that it occurs to you still need to be added.
 
 Cheers,
 
 Michael
-
-
- 
-> Signed-off-by: Vince Weaver <vincent.weaver-e7X0jjDqjFGHXe+LvDLADg@public.gmane.org>
-> 
-> diff --git a/man2/perf_event_open.2 b/man2/perf_event_open.2
-> index 9f33122..a47df2d 100644
-> --- a/man2/perf_event_open.2
-> +++ b/man2/perf_event_open.2
-> @@ -2551,6 +2551,25 @@ process ID of the thread starting an instruction trace.
->  .I tid
->  thread ID of the thread starting an instruction trace.
->  .RE
-> +.TP
-> +.BR PERF_RECORD_LOST_SAMPLES " (since Linux 4.2)"
-> +\" f38b0dbb491a6987e198aa6b428db8692a6480f8
-> +When using hardware sampling (such as Intel PEBS) this record
-> +indicates some number of samples may have been lost.
-> +
-> +.in +4n
-> +.nf
-> +struct {
-> +    struct perf_event_header header;
-> +    u64 lost;
-> +    struct sample_id sample_id;
-> +};
-> +.fi
-> +.RS
-> +.TP
-> +.I lost
-> +the number of potentially lost samples.
-> +.RE
->  .RE
->  .SS Overflow handling
->  Events can be set to notify when a threshold is crossed,
-> 
-
 
 -- 
 Michael Kerrisk
