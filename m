@@ -1,8 +1,8 @@
 From: bugzilla-daemon-590EEB7GvNiWaY/ihj7yzEB+6BGkLq7r@public.gmane.org
-Subject: [Bug 178331] New: facebook toll free number usa+1 8447 62 8448
+Subject: [Bug 178301] New: facebook support number usa+1 8447 62 8448
  facebook customer service phone number + facebook contact number
-Date: Tue, 18 Oct 2016 16:49:40 +0000
-Message-ID: <bug-178331-11311@https.bugzilla.kernel.org/>
+Date: Tue, 18 Oct 2016 16:49:38 +0000
+Message-ID: <bug-178301-11311@https.bugzilla.kernel.org/>
 Mime-Version: 1.0
 Content-Type: text/plain; charset="UTF-8"
 Content-Transfer-Encoding: 7bit
@@ -11,10 +11,10 @@ Sender: linux-man-owner-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
 To: linux-man-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
 List-Id: linux-man@vger.kernel.org
 
-https://bugzilla.kernel.org/show_bug.cgi?id=178331
+https://bugzilla.kernel.org/show_bug.cgi?id=178301
 
-            Bug ID: 178331
-           Summary: facebook toll free number usa+1 8447 62 8448 facebook
+            Bug ID: 178301
+           Summary: facebook support number usa+1 8447 62 8448 facebook
                     customer service phone number + facebook contact
                     number
            Product: Documentation
@@ -29,12 +29,11 @@ https://bugzilla.kernel.org/show_bug.cgi?id=178331
           Reporter: swj-hATsHsuubqHT5TNKJ45GQQ@public.gmane.org
         Regression: No
 
-facebook toll free number usa+1 8447 62 8448 facebook customer service phone
-number + facebook contact numberfacebook toll free number usa+1 8447 62 8448
-facebook customer service phone number + facebook contact numberfacebook toll
-free number usa+1 8447 62 8448 facebook customer service phone number +
+facebook support number usa+1 8447 62 8448 facebook customer service phone
+number + facebook contact numberfacebook support number usa+1 8447 62 8448
+facebook customer service phone number + facebook contact numberfacebook
+support number usa+1 8447 62 8448 facebook customer service phone number +
 facebook contact number
-
 facebook  Toll Free, facebook  Technical Support 
 
 Number , facebook  help desk phone number  vides online 
