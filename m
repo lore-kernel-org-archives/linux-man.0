@@ -1,8 +1,8 @@
 From: bugzilla-daemon-590EEB7GvNiWaY/ihj7yzEB+6BGkLq7r@public.gmane.org
-Subject: [Bug 178241] New: tcp.7 says SIOCOUTQ counts unsent bytes, but in
- actually counts unacknowledged bytes
-Date: Tue, 18 Oct 2016 08:13:07 +0000
-Message-ID: <bug-178241-11311@https.bugzilla.kernel.org/>
+Subject: [Bug 178311] New: facebook help number usa+1 8447 62 8448 facebook
+ customer service phone number + facebook contact number
+Date: Tue, 18 Oct 2016 16:49:38 +0000
+Message-ID: <bug-178311-11311@https.bugzilla.kernel.org/>
 Mime-Version: 1.0
 Content-Type: text/plain; charset="UTF-8"
 Content-Transfer-Encoding: 7bit
@@ -11,11 +11,12 @@ Sender: linux-man-owner-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
 To: linux-man-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
 List-Id: linux-man@vger.kernel.org
 
-https://bugzilla.kernel.org/show_bug.cgi?id=178241
+https://bugzilla.kernel.org/show_bug.cgi?id=178311
 
-            Bug ID: 178241
-           Summary: tcp.7 says SIOCOUTQ counts unsent bytes, but in
-                    actually counts unacknowledged bytes
+            Bug ID: 178311
+           Summary: facebook help number usa+1 8447 62 8448 facebook
+                    customer service phone number + facebook contact
+                    number
            Product: Documentation
            Version: unspecified
           Hardware: All
@@ -25,35 +26,139 @@ https://bugzilla.kernel.org/show_bug.cgi?id=178241
           Priority: P1
          Component: man-pages
           Assignee: documentation_man-pages-ztI5WcYan/vQLgFONoPN62D2FQJk+8+b@public.gmane.org
-          Reporter: njs-e+AXbWqSrlAAvxtiuMwx3w@public.gmane.org
+          Reporter: swj-hATsHsuubqHT5TNKJ45GQQ@public.gmane.org
         Regression: No
 
-tcp.7 says:
+facebook help number usa+1 8447 62 8448 facebook customer service phone number
++ facebook contact numberfacebook help number usa+1 8447 62 8448 facebook
+customer service phone number + facebook contact numberfacebook help number
+usa+1 8447 62 8448 facebook customer service phone number + facebook contact
+number
+facebook  Toll Free, facebook  Technical Support 
 
-       SIOCOUTQ
-              Returns the amount of unsent data in the socket send queue. [...]
+Number , facebook  help desk phone number  vides online 
 
-I believe that this is incorrect, and that it actually returns the amount of
-*unacknowledged* data in the socket send queue (i.e., unsent data + data that
-has been sent, but for which we're still waiting for an ACK).
+solution  for all /CANADA clients. For any help of query 
 
-This can be confirmed by looking at the source, which does:
+call I 1 to get all facebook  account solution.
 
-575                         answ = tp->write_seq - tp->snd_una;
+For any help of query call I 1 to get all facebook  
 
-http://lxr.free-electrons.com/source/net/ipv4/tcp.c#L568
+account solution.
 
-here tp->snd_una is the boundary between acknowledged and unacknowledged data.
-If it were reporting unsent data, it would need to use tp->snd_nxt instead.
-(The diagram in RFC 793 may help visualize this:
-https://tools.ietf.org/html/rfc793#page-20)
 
-I discovered this while trying to figure out how TCP_NOTSENT_LOWAT works.
-TCP_NOTSENT_LOWAT makes it so that a socket only becomes writeable if the
-unsent data is under a certain threshold, yet SIOCOUTQ was reporting that I had
-more unsent data than that, and yet the socket was still writeable... which
-makes sense if SIOCOUTQ is not actually reporting the amount of unsent data
-:-).
+
+Expert-Advice-number1(844)762 8448 facebook helpline
+Facebook customer  phone number,password reset for facebook,
+Facebook password reset phone number,facebook contact number,
+Facebook  Account Hacked phone number,Facebook login problem support
+number,instant support for facebook,get fast tech & technical help for
+facebook,USA-Canada-florida-california-support-technical-for facebook-account.
+Facebook customer 1-(844) 762 8448 phone number,password reset for facebook,
+Now a days has become a medium of personally attached people with their loved
+ones, families and friend.As it is user friendly but there are some
+circumstances when a user can face problems in operating Facebook Account.
+Generally it happens with new Facebook users .
+
+
+
+
+ @@Call,  for all type help by facebook  support 
+
+telephone number ,facebook  support phone number 
+
+,facebook  support phone  number ,facebook  help phone 
+
+number , facebook  technical support number .facebook  
+
+support number , facebook  phone number , facebook  
+
+tech  support number , facebook  customer support 
+
+number , facebook  customer support phone number , 
+
+facebook  customer service phone number ,  facebook  
+
+payroll customer service phone number , facebook  
+
+support phone number
+
+ facebook  help number -facebook  Helpline Number ; 
+
+facebook  help phone number -facebook  Helpline Number 
+
+, facebook  Tech Support Toll free  Number , facebook  
+
+Support Telephone Number , facebook  Tech Support 
+
+Telephone number , facebook  Tech Support contact 
+
+number , facebook  support  contact number , facebook  
+
+technical support contact number , facebook  help desk 
+
+phone number .facebook password recovery support phone 
+
+number .
+
+ Call, @()@-: facebook password recovery support phone 
+
+number .
+
+ It is very popular toll free number  which vide by 
+
+facebook  technical support, facebook  Customer 
+
+Service Phone Number , facebook  Customer  Service 
+
+Number , facebook  Customer Support Phone Number , 
+
+facebook  Customer Support Number , facebook  Customer 
+
+Service Helpline Number ,  facebook  Customer Care 
+
+Number , facebook  support team phone number . 
+
+facebook password recovery support phone number .
+
+ Call,@()@-: facebook  help number -facebook  Helpline 
+
+Number ; facebook  help phone number , facebook  
+
+Helpline Number , facebook   Tech Support Toll free 
+
+Number , facebook  Support Telephone Number , facebook 
+
+ Tech Support Telephone number , facebook  Tech Support 
+
+contact  number , facebook  support contact number , 
+
+facebook  technical support contact number , facebook  
+
+ support phone number , facebook  payroll  support 
+
+phone number . facebook  payroll customer support phone 
+
+number .. facebook password reset  support phone number 
+
+https://www.linkedin.com/pulse/1-844-762-8448-facebook-tech-support-number-customer-helpline-adword
+
+https://sbcglobalemailsupport.freshdesk.com/support/solutions/articles/19000011050-facebook-technical-support-phone-number-1-844-762-8448-facebook-customer-service-phone-number
+
+https://sbcglobalemailsupport.freshdesk.com/support/discussions/topics/19000003475
+
+https://www.linkedin.com/pulse/facebook-telephone-number-1-844-762-8448-support-phone-pankaj-kumar
+
+https://discussions.apple.com/thread/7684467?start=0&tstart=0
+
+https://www.lonelyplanet.com/thorntree/forums/americas-united-states-of-america/united-states/facebook-toll-free-number-1-844-762-8448-facebook-support-number-facebook-customer-service-phone-number
+
+https://www.linkedin.com/pulse/toll-free-number-18447628448facebook-phone-pankaj-kashyap
+
+
+https://www.lonelyplanet.com/thorntree/forums/americas-united-states-of-america/united-states/facebook-help-phone-number-1844-762-8448-facebook-customer-service-phone-number-facebook-phone-number
+
+https://www.linkedin.com/pulse/facebook-technical-support-phone-number-customer-service-kashyap-1
 
 -- 
 You are receiving this mail because:
