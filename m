@@ -1,168 +1,155 @@
-From: bugzilla-daemon-590EEB7GvNiWaY/ihj7yzEB+6BGkLq7r@public.gmane.org
-Subject: [Bug 178301] New: facebook support number usa+1 8447 62 8448
- facebook customer service phone number + facebook contact number
-Date: Tue, 18 Oct 2016 16:49:38 +0000
-Message-ID: <bug-178301-11311@https.bugzilla.kernel.org/>
+From: Vince Weaver <vincent.weaver-e7X0jjDqjFGHXe+LvDLADg@public.gmane.org>
+Subject: [patch] perf_event_open.2: PERF_RECORD_SWITCH support
+Date: Tue, 18 Oct 2016 13:22:20 -0400 (EDT)
+Message-ID: <alpine.DEB.2.20.1610181320290.10811@macbook-air>
 Mime-Version: 1.0
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: 7bit
+Content-Type: text/plain; charset=US-ASCII
 Return-path: <linux-man-owner-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>
 Sender: linux-man-owner-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
-To: linux-man-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
+To: "Michael Kerrisk (man-pages)" <mtk.manpages-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org>
+Cc: linux-man-u79uwXL29TY76Z2rM5mHXA@public.gmane.org, linux-kernel-u79uwXL29TY76Z2rM5mHXA@public.gmane.org, Adrian Hunter <adrian.hunter-ral2JQCrhuEAvxtiuMwx3w@public.gmane.org>, Arnaldo Carvalho de Melo <acme-H+wXaHxf7aLQT0dZR+AlfA@public.gmane.org>, Peter Zijlstra <peterz-wEGCiKHe2LqWVfeAwA7xHQ@public.gmane.org>, Ingo Molnar <mingo-H+wXaHxf7aLQT0dZR+AlfA@public.gmane.org>
 List-Id: linux-man@vger.kernel.org
 
-https://bugzilla.kernel.org/show_bug.cgi?id=178301
 
-            Bug ID: 178301
-           Summary: facebook support number usa+1 8447 62 8448 facebook
-                    customer service phone number + facebook contact
-                    number
-           Product: Documentation
-           Version: unspecified
-          Hardware: All
-                OS: Linux
-            Status: NEW
-          Severity: normal
-          Priority: P1
-         Component: man-pages
-          Assignee: documentation_man-pages-ztI5WcYan/vQLgFONoPN62D2FQJk+8+b@public.gmane.org
-          Reporter: swj-hATsHsuubqHT5TNKJ45GQQ@public.gmane.org
-        Regression: No
+Linux 4.3 introduced two new record types for recording context
+switches: PERF_RECORD_SWITCH and PERF_RECORD_SWITCH_CPU_WIDE.
 
-facebook support number usa+1 8447 62 8448 facebook customer service phone
-number + facebook contact numberfacebook support number usa+1 8447 62 8448
-facebook customer service phone number + facebook contact numberfacebook
-support number usa+1 8447 62 8448 facebook customer service phone number +
-facebook contact number
-facebook  Toll Free, facebook  Technical Support 
+The advantage over the existing tracepoint and software context
+switch events is primarily that full switch in/out data can be
+gathered even in the face of restrictive perf_event_paranoid
+settings.
 
-Number , facebook  help desk phone number  vides online 
+Signed-off-by: Vince Weaver <vincent.weaver-e7X0jjDqjFGHXe+LvDLADg@public.gmane.org>
 
-solution  for all /CANADA clients. For any help of query 
-
-call I 1 to get all facebook  account solution.
-
-For any help of query call I 1 to get all facebook  
-
-account solution.
-
-
-
-Expert-Advice-number1(844)762 8448 facebook helpline
-Facebook customer  phone number,password reset for facebook,
-Facebook password reset phone number,facebook contact number,
-Facebook  Account Hacked phone number,Facebook login problem support
-number,instant support for facebook,get fast tech & technical help for
-facebook,USA-Canada-florida-california-support-technical-for facebook-account.
-Facebook customer 1-(844) 762 8448 phone number,password reset for facebook,
-Now a days has become a medium of personally attached people with their loved
-ones, families and friend.As it is user friendly but there are some
-circumstances when a user can face problems in operating Facebook Account.
-Generally it happens with new Facebook users .
-
-
-
-
- @@Call,  for all type help by facebook  support 
-
-telephone number ,facebook  support phone number 
-
-,facebook  support phone  number ,facebook  help phone 
-
-number , facebook  technical support number .facebook  
-
-support number , facebook  phone number , facebook  
-
-tech  support number , facebook  customer support 
-
-number , facebook  customer support phone number , 
-
-facebook  customer service phone number ,  facebook  
-
-payroll customer service phone number , facebook  
-
-support phone number
-
- facebook  help number -facebook  Helpline Number ; 
-
-facebook  help phone number -facebook  Helpline Number 
-
-, facebook  Tech Support Toll free  Number , facebook  
-
-Support Telephone Number , facebook  Tech Support 
-
-Telephone number , facebook  Tech Support contact 
-
-number , facebook  support  contact number , facebook  
-
-technical support contact number , facebook  help desk 
-
-phone number .facebook password recovery support phone 
-
-number .
-
- Call, @()@-: facebook password recovery support phone 
-
-number .
-
- It is very popular toll free number  which vide by 
-
-facebook  technical support, facebook  Customer 
-
-Service Phone Number , facebook  Customer  Service 
-
-Number , facebook  Customer Support Phone Number , 
-
-facebook  Customer Support Number , facebook  Customer 
-
-Service Helpline Number ,  facebook  Customer Care 
-
-Number , facebook  support team phone number . 
-
-facebook password recovery support phone number .
-
- Call,@()@-: facebook  help number -facebook  Helpline 
-
-Number ; facebook  help phone number , facebook  
-
-Helpline Number , facebook   Tech Support Toll free 
-
-Number , facebook  Support Telephone Number , facebook 
-
- Tech Support Telephone number , facebook  Tech Support 
-
-contact  number , facebook  support contact number , 
-
-facebook  technical support contact number , facebook  
-
- support phone number , facebook  payroll  support 
-
-phone number . facebook  payroll customer support phone 
-
-number .. facebook password reset  support phone number 
-
-https://www.linkedin.com/pulse/1-844-762-8448-facebook-tech-support-number-customer-helpline-adword
-
-https://sbcglobalemailsupport.freshdesk.com/support/solutions/articles/19000011050-facebook-technical-support-phone-number-1-844-762-8448-facebook-customer-service-phone-number
-
-https://sbcglobalemailsupport.freshdesk.com/support/discussions/topics/19000003475
-
-https://www.linkedin.com/pulse/facebook-telephone-number-1-844-762-8448-support-phone-pankaj-kumar
-
-https://discussions.apple.com/thread/7684467?start=0&tstart=0
-
-https://www.lonelyplanet.com/thorntree/forums/americas-united-states-of-america/united-states/facebook-toll-free-number-1-844-762-8448-facebook-support-number-facebook-customer-service-phone-number
-
-https://www.linkedin.com/pulse/toll-free-number-18447628448facebook-phone-pankaj-kashyap
-
-
-https://www.lonelyplanet.com/thorntree/forums/americas-united-states-of-america/united-states/facebook-help-phone-number-1844-762-8448-facebook-customer-service-phone-number-facebook-phone-number
-
-https://www.linkedin.com/pulse/facebook-technical-support-phone-number-customer-service-kashyap-1
-
--- 
-You are receiving this mail because:
-You are watching the assignee of the bug.
+diff --git a/man2/perf_event_open.2 b/man2/perf_event_open.2
+index 68b99bb..04a0cf5 100644
+--- a/man2/perf_event_open.2
++++ b/man2/perf_event_open.2
+@@ -243,8 +243,9 @@ struct perf_event_attr {
+           comm_exec      :  1,  /* flag comm events that are
+                                    due to exec */
+           use_clockid    :  1,  /* use clockid for time fields */
++          context_switch :  1,  /* context switch data */
+ 
+-          __reserved_1   : 38;
++          __reserved_1   : 37;
+ 
+     union {
+         __u32 wakeup_events;    /* wakeup every n events */
+@@ -1112,6 +1113,21 @@ field.
+ This can make it easier to correlate perf sample times with
+ timestamps generated by other tools.
+ .TP
++.IR "context_switch" " (since Linux 4.3)"
++.\" commit 45ac1403f564f411c6a383a2448688ba8dd705a4
++This enables the generation of
++.B PERF_RECORD_SWITCH
++records when a context switch occurs.
++It also enables the generation of
++.B PERF_RECORD_SWITCH_CPU_WIDE
++records when sampling in cpu-wide mode.
++This functionality is in addition to existing tracepoint and
++software events for measuring context switches.
++The advantage of this method is that it will give full
++information event with strict
++.I perf_event_paranoid
++settings.
++.TP
+ .IR "wakeup_events" ", " "wakeup_watermark"
+ This union sets how many samples
+ .RI ( wakeup_events )
+@@ -1792,7 +1808,8 @@ Sample happened in guest user code.
+ .RE
+ 
+ .RS
+-In addition, one of the following bits can be set:
++The following three statuses are generated by
++different record types so they alias to the same bit:
+ .TP
+ .BR PERF_RECORD_MISC_MMAP_DATA " (since Linux 3.10)"
+ .\" commit 2fe85427e3bf65d791700d065132772fc26e4d75
+@@ -1807,9 +1824,18 @@ record on kernels more recent than Linux 3.16
+ if a process name change was caused by an
+ .BR exec (2)
+ system call.
+-It is an alias for
+-.B PERF_RECORD_MISC_MMAP_DATA
+-since the two values would not be set in the same record.
++.TP
++.BR PERF_RECORD_MISC_SWITCH_OUT " (since Linux 4.3)"
++.\" commit 45ac1403f564f411c6a383a2448688ba8dd705a4
++When a
++.BR PERF_RECORD_SWITCH " or " PERF_RECORD_SWITCH_CPU_WIDE
++record is generated this bit indicates that the
++context switch is away from the current process
++(instead of in to the current process).
++.RE
++
++.RS
++In addition, the following bits can be set:
+ .TP
+ .B PERF_RECORD_MISC_EXACT_IP
+ This indicates that the content of
+@@ -2583,6 +2609,59 @@ struct {
+ .I lost
+ the number of potentially lost samples.
+ .RE
++.TP
++.BR PERF_RECORD_SWITCH " (since Linux 4.3)"
++\" commit 45ac1403f564f411c6a383a2448688ba8dd705a4
++This record indicates a context switch has happened.
++The
++.B PERF_RECORD_MISC_SWITCH_OUT
++bit in the
++.I misc
++field indicates whether it was a context switch into
++or away from the current process.
++
++.in +4n
++.nf
++struct {
++    struct perf_event_header header;
++    struct sample_id sample_id;
++};
++.fi
++.TP
++.BR PERF_RECORD_SWITCH_CPU_WIDE " (since Linux 4.3)"
++\" commit 45ac1403f564f411c6a383a2448688ba8dd705a4
++As with
++.B PERF_RECORD_SWITCH
++this record indicates a context switch has happened,
++but it only occurs when sampling in cpu-wide mode
++and provides additional information on the process
++being switched to/from.
++The
++.B PERF_RECORD_MISC_SWITCH_OUT
++bit in the
++.I misc
++field indicates whether it was a context switch into
++or away from the current process.
++
++.in +4n
++.nf
++struct {
++    struct perf_event_header header;
++    u32 next_prev_pid;
++    u32 next_prev_tid;
++    struct sample_id sample_id;
++};
++.fi
++.RS
++.TP
++.I next_prev_pid
++The process id of the previous (if switching in)
++or next (if switching out) process on the CPU.
++.TP
++.I next_prev_tid
++The thread id of the previous (if switching in)
++or next (if switching out) thread on the CPU.
++.RE
+ .RE
+ .SS Overflow handling
+ Events can be set to notify when a threshold is crossed,
 --
 To unsubscribe from this list: send the line "unsubscribe linux-man" in
 the body of a message to majordomo-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
