@@ -1,8 +1,8 @@
 From: bugzilla-daemon-590EEB7GvNiWaY/ihj7yzEB+6BGkLq7r@public.gmane.org
-Subject: [Bug 178311] New: facebook help number usa+1 8447 62 8448 facebook
- customer service phone number + facebook contact number
-Date: Tue, 18 Oct 2016 16:49:38 +0000
-Message-ID: <bug-178311-11311@https.bugzilla.kernel.org/>
+Subject: [Bug 178291] New: facebook contact number usa+1 8447 62 8448
+ facebook customer service phone number + facebook support number
+Date: Tue, 18 Oct 2016 16:49:37 +0000
+Message-ID: <bug-178291-11311@https.bugzilla.kernel.org/>
 Mime-Version: 1.0
 Content-Type: text/plain; charset="UTF-8"
 Content-Transfer-Encoding: 7bit
@@ -11,11 +11,11 @@ Sender: linux-man-owner-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
 To: linux-man-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
 List-Id: linux-man@vger.kernel.org
 
-https://bugzilla.kernel.org/show_bug.cgi?id=178311
+https://bugzilla.kernel.org/show_bug.cgi?id=178291
 
-            Bug ID: 178311
-           Summary: facebook help number usa+1 8447 62 8448 facebook
-                    customer service phone number + facebook contact
+            Bug ID: 178291
+           Summary: facebook contact number usa+1 8447 62 8448 facebook
+                    customer service phone number + facebook support
                     number
            Product: Documentation
            Version: unspecified
@@ -29,11 +29,11 @@ https://bugzilla.kernel.org/show_bug.cgi?id=178311
           Reporter: swj-hATsHsuubqHT5TNKJ45GQQ@public.gmane.org
         Regression: No
 
-facebook help number usa+1 8447 62 8448 facebook customer service phone number
-+ facebook contact numberfacebook help number usa+1 8447 62 8448 facebook
-customer service phone number + facebook contact numberfacebook help number
-usa+1 8447 62 8448 facebook customer service phone number + facebook contact
-number
+facebook contact number usa+1 8447 62 8448 facebook customer service phone
+number + facebook support numberfacebook contact number usa+1 8447 62 8448
+facebook customer service phone number + facebook support numberfacebook
+contact number usa+1 8447 62 8448 facebook customer service phone number +
+facebook support number
 facebook  Toll Free, facebook  Technical Support 
 
 Number , facebook  help desk phone number  vides online 
