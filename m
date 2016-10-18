@@ -1,94 +1,48 @@
-From: "Darrick J. Wong" <darrick.wong@oracle.com>
-Subject: [PATCH 2/2] man2/ioctl_fideduperange.2: clarify operation some more
-Date: Mon, 17 Oct 2016 18:54:35 -0700
-Message-ID: <147675567514.12400.12489294497404900248.stgit@birch.djwong.org>
-References: <147675566778.12400.16090171199161180354.stgit@birch.djwong.org>
+From: "Michael Kerrisk (man-pages)" <mtk.manpages-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org>
+Subject: Re: [PATCH 1/5] pkey.7: New page with overview of Memory Protection
+ Keys
+Date: Tue, 18 Oct 2016 08:01:01 +0200
+Message-ID: <892b3bbe-f6c4-96f7-8db7-d0d257c78ab1@gmail.com>
+References: <20160913194406.20CBFD0C@ray> <20160913194438.A94997CE@ray>
+ <CAKgNAkj8voeBsjERrRq+17L9rK5Vy_quv7Dm_7Hkmuvxfpw_iQ@mail.gmail.com>
+ <57FE679D.8010101@intel.com> <558d30e9-e374-728c-2099-ed8eccadf7a2@gmail.com>
+ <58054B48.1030600@intel.com>
 Mime-Version: 1.0
-Content-Type: text/plain; charset="utf-8"
+Content-Type: text/plain; charset=utf-8
 Content-Transfer-Encoding: 7bit
-Return-path: <linux-fsdevel-owner@vger.kernel.org>
-In-Reply-To: <147675566778.12400.16090171199161180354.stgit@birch.djwong.org>
-Sender: linux-fsdevel-owner@vger.kernel.org
-To: mtk.manpages@gmail.com, darrick.wong@oracle.com
-Cc: linux-fsdevel@vger.kernel.org, linux-api@vger.kernel.org, linux-xfs@vger.kernel.org, linux-btrfs@vger.kernel.org, linux-man@vger.kernel.org
+Return-path: <linux-api-owner-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>
+In-Reply-To: <58054B48.1030600-ral2JQCrhuEAvxtiuMwx3w@public.gmane.org>
+Sender: linux-api-owner-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
+To: Dave Hansen <dave.hansen-ral2JQCrhuEAvxtiuMwx3w@public.gmane.org>
+Cc: mtk.manpages-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org, linux-man <linux-man-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>, Linux API <linux-api-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>, "x86-DgEjT+Ai2ygdnm+yROfE0A@public.gmane.org" <x86-DgEjT+Ai2ygdnm+yROfE0A@public.gmane.org>
 List-Id: linux-man@vger.kernel.org
 
-Clarify the behavior of the dedupe ioctl.
+On 10/18/2016 12:06 AM, Dave Hansen wrote:
+> On 10/17/2016 05:04 AM, Michael Kerrisk (man-pages) wrote:
+>>> The 13 Sep version is the latest version of the man pages.  Those fully
+>>> describe the functionality that hit mainline and I haven't updated them
+>>> since 13 Sep.
+>>
+>> Okay -- I've merged these pages. I did a fair bit of editing, mainly
+>> wording fixes, and textual reorganization, but also adding a few
+>> details that were missing. Could you take a look at the pkey_alloc(2),
+>> mprotect(2), and pkeys(7) page that are currently in man-pages
+>> Git and let me know if anything needs fixing, or if there are any
+>> details  that it occurs to you still need to be added.
+> 
+> These look good, except for a bit of signal handing description that I
+> neglected to send.  I'll have a patch out for it momentarily.
+> 
 
-Signed-off-by: Darrick J. Wong <darrick.wong@oracle.com>
----
- man2/ioctl_ficlonerange.2  |    2 +-
- man2/ioctl_fideduperange.2 |   26 ++++++++++++++++++++++----
- 2 files changed, 23 insertions(+), 5 deletions(-)
+Thanks for checking the pages!
+
+Cheers,
+
+Michael
 
 
-diff --git a/man2/ioctl_ficlonerange.2 b/man2/ioctl_ficlonerange.2
-index ac0738a..0e3ae0e 100644
---- a/man2/ioctl_ficlonerange.2
-+++ b/man2/ioctl_ficlonerange.2
-@@ -114,7 +114,7 @@ regions in directories.
- .TP
- .B EOPNOTSUPP
- This can appear if the filesystem does not support reflinking either file
--descriptor.
-+descriptor, or if either file descriptor refers to special inodes.
- .TP
- .B EPERM
- .IR dest_fd
-diff --git a/man2/ioctl_fideduperange.2 b/man2/ioctl_fideduperange.2
-index c52fa2a..2112d10 100644
---- a/man2/ioctl_fideduperange.2
-+++ b/man2/ioctl_fideduperange.2
-@@ -99,21 +99,39 @@ Each deduplication operation targets
- bytes in file descriptor
- .IR dest_fd
- at offset
--.IR logical_offset ".
-+.IR dest_offset ".
- The field
- .IR reserved
- must be zero.
-+During the call,
-+.IR src_fd
-+must be open for reading and
-+.IR dest_fd
-+must be open for writing.
-+For any call to this ioctl, there may not be more than 65,536
-+requests attached; each request may not exceed 16MiB.
-+By convention, the storage used by
-+.IR src_fd
-+is mapped into
-+.IR dest_fd
-+and the previous contents in
-+.IR dest_fd
-+are freed.
- 
- Upon successful completion of this ioctl, the number of bytes successfully
- deduplicated is returned in
- .IR bytes_deduped
- and a status code for the deduplication operation is returned in
- .IR status ".
--
-+If even a single byte in the range does not match, the deduplication
-+request will be ignored and
-+.IR status
-+set to
-+.BR FILE_DEDUPE_RANGE_DIFFERS .
- The
- .IR status
- code is set to
--.B 0
-+.B FILE_DEDUPE_RANGE_SAME
- for success, a negative error code in case of error, or
- .B FILE_DEDUPE_RANGE_DIFFERS
- if the data did not match.
-@@ -150,7 +168,7 @@ regions in directories.
- .TP
- .B EOPNOTSUPP
- This can appear if the filesystem does not support deduplicating either file
--descriptor.
-+descriptor, or if either file descriptor refers to special inodes.
- .TP
- .B EPERM
- .IR dest_fd
 
+-- 
+Michael Kerrisk
+Linux man-pages maintainer; http://www.kernel.org/doc/man-pages/
+Linux/UNIX System Programming Training: http://man7.org/training/
