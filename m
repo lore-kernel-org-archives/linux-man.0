@@ -1,8 +1,8 @@
 From: bugzilla-daemon-590EEB7GvNiWaY/ihj7yzEB+6BGkLq7r@public.gmane.org
-Subject: [Bug 178511] New: facebook customer support number+1844 762 8448
- facebook telephone number
-Date: Wed, 19 Oct 2016 19:05:57 +0000
-Message-ID: <bug-178511-11311@https.bugzilla.kernel.org/>
+Subject: [Bug 178491] New: facebook contact number new york+1 844 762 8448
+ facebook customer service number Maryland....
+Date: Wed, 19 Oct 2016 19:05:55 +0000
+Message-ID: <bug-178491-11311@https.bugzilla.kernel.org/>
 Mime-Version: 1.0
 Content-Type: text/plain; charset="UTF-8"
 Content-Transfer-Encoding: 8BIT
@@ -11,11 +11,11 @@ Sender: linux-man-owner-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
 To: linux-man-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
 List-Id: linux-man@vger.kernel.org
 
-https://bugzilla.kernel.org/show_bug.cgi?id=178511
+https://bugzilla.kernel.org/show_bug.cgi?id=178491
 
-            Bug ID: 178511
-           Summary: facebook customer support number+1844 762 8448
-                    facebook telephone number
+            Bug ID: 178491
+           Summary: facebook contact number new york+1 844 762 8448
+                    facebook customer service number Maryland....
            Product: Documentation
            Version: unspecified
           Hardware: All
@@ -28,8 +28,12 @@ https://bugzilla.kernel.org/show_bug.cgi?id=178511
           Reporter: tyw@o.tyhe.ro
         Regression: No
 
-facebook customer support number+1844 762 8448 facebook telephone number 
-facebook customer support number+1844 762 8448 facebook telephone number 
+facebook contact number new york+1 844 762 8448 facebook customer service
+number Maryland....
+facebook contact number new york+1 844 762 8448 facebook customer service
+number Maryland....
+facebook contact number new york+1 844 762 8448 facebook customer service
+number Maryland....
 
 facebook support team number+1 844 762 8448 facebook customer service number
 facebook support team number+1 844 762 8448 facebook customer service number
