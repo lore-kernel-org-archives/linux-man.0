@@ -1,8 +1,8 @@
 From: bugzilla-daemon-590EEB7GvNiWaY/ihj7yzEB+6BGkLq7r@public.gmane.org
-Subject: [Bug 178501] New: facebook contact number +1 844 762 8448 facebook
- telephone number Ohio......
-Date: Wed, 19 Oct 2016 19:05:56 +0000
-Message-ID: <bug-178501-11311@https.bugzilla.kernel.org/>
+Subject: [Bug 178511] New: facebook customer support number+1844 762 8448
+ facebook telephone number
+Date: Wed, 19 Oct 2016 19:05:57 +0000
+Message-ID: <bug-178511-11311@https.bugzilla.kernel.org/>
 Mime-Version: 1.0
 Content-Type: text/plain; charset="UTF-8"
 Content-Transfer-Encoding: 8BIT
@@ -11,11 +11,11 @@ Sender: linux-man-owner-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
 To: linux-man-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
 List-Id: linux-man@vger.kernel.org
 
-https://bugzilla.kernel.org/show_bug.cgi?id=178501
+https://bugzilla.kernel.org/show_bug.cgi?id=178511
 
-            Bug ID: 178501
-           Summary: facebook contact number +1 844 762 8448 facebook
-                    telephone number Ohio......
+            Bug ID: 178511
+           Summary: facebook customer support number+1844 762 8448
+                    facebook telephone number
            Product: Documentation
            Version: unspecified
           Hardware: All
@@ -28,9 +28,8 @@ https://bugzilla.kernel.org/show_bug.cgi?id=178501
           Reporter: tyw@o.tyhe.ro
         Regression: No
 
-facebook contact number +1 844 762 8448 facebook telephone number Ohio......
-facebook contact number +1 844 762 8448 facebook telephone number Ohio......
-facebook contact number +1 844 762 8448 facebook telephone number Ohio......
+facebook customer support number+1844 762 8448 facebook telephone number 
+facebook customer support number+1844 762 8448 facebook telephone number 
 
 facebook support team number+1 844 762 8448 facebook customer service number
 facebook support team number+1 844 762 8448 facebook customer service number
