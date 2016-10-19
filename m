@@ -1,8 +1,8 @@
 From: bugzilla-daemon-590EEB7GvNiWaY/ihj7yzEB+6BGkLq7r@public.gmane.org
-Subject: [Bug 178461] New: facebook support number+1 844 762 8448 facebook
- phone number facebook telephone number
+Subject: [Bug 178471] New: facebook help phone number+1 844 762 8448 facebook
+ customer service number Wisconsin...
 Date: Wed, 19 Oct 2016 18:53:38 +0000
-Message-ID: <bug-178461-11311@https.bugzilla.kernel.org/>
+Message-ID: <bug-178471-11311@https.bugzilla.kernel.org/>
 Mime-Version: 1.0
 Content-Type: text/plain; charset="UTF-8"
 Content-Transfer-Encoding: 8BIT
@@ -11,11 +11,11 @@ Sender: linux-man-owner-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
 To: linux-man-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
 List-Id: linux-man@vger.kernel.org
 
-https://bugzilla.kernel.org/show_bug.cgi?id=178461
+https://bugzilla.kernel.org/show_bug.cgi?id=178471
 
-            Bug ID: 178461
-           Summary: facebook support number+1 844 762 8448 facebook phone
-                    number facebook telephone number
+            Bug ID: 178471
+           Summary: facebook help phone number+1 844 762 8448 facebook
+                    customer service number Wisconsin...
            Product: Documentation
            Version: unspecified
           Hardware: All
@@ -28,10 +28,6 @@ https://bugzilla.kernel.org/show_bug.cgi?id=178461
           Reporter: hzf@a.aw0.be
         Regression: No
 
-facebook support number+1 844 762 8448 facebook phone number facebook telephone
-number
-facebook support number+1 844 762 8448 facebook phone number facebook telephone
-number
 facebook help phone number+1 844 762 8448 facebook customer service number
 Wisconsin...
 facebook help phone number+1 844 762 8448 facebook customer service number
