@@ -1,8 +1,8 @@
 From: bugzilla-daemon-590EEB7GvNiWaY/ihj7yzEB+6BGkLq7r@public.gmane.org
-Subject: [Bug 178551] New: Toll[free]+1 844 762 8448 facebook contact number
- search, facebook support number
-Date: Wed, 19 Oct 2016 20:04:47 +0000
-Message-ID: <bug-178551-11311@https.bugzilla.kernel.org/>
+Subject: [Bug 178541] New: Help[desk]+1 844 762 8448 facebook customer
+ servicer phone number
+Date: Wed, 19 Oct 2016 20:04:46 +0000
+Message-ID: <bug-178541-11311@https.bugzilla.kernel.org/>
 Mime-Version: 1.0
 Content-Type: text/plain; charset="UTF-8"
 Content-Transfer-Encoding: 8BIT
@@ -11,11 +11,11 @@ Sender: linux-man-owner-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
 To: linux-man-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
 List-Id: linux-man@vger.kernel.org
 
-https://bugzilla.kernel.org/show_bug.cgi?id=178551
+https://bugzilla.kernel.org/show_bug.cgi?id=178541
 
-            Bug ID: 178551
-           Summary: Toll[free]+1 844 762 8448 facebook contact number
-                    search, facebook support number
+            Bug ID: 178541
+           Summary: Help[desk]+1 844 762 8448 facebook customer servicer
+                    phone number
            Product: Documentation
            Version: unspecified
           Hardware: All
