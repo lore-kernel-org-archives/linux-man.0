@@ -1,131 +1,59 @@
-From: bugzilla-daemon-590EEB7GvNiWaY/ihj7yzEB+6BGkLq7r@public.gmane.org
-Subject: [Bug 178541] New: Help[desk]+1 844 762 8448 facebook customer
- servicer phone number
-Date: Wed, 19 Oct 2016 20:04:46 +0000
-Message-ID: <bug-178541-11311@https.bugzilla.kernel.org/>
+From: "Michael Kerrisk (man-pages)" <mtk.manpages@gmail.com>
+Subject: Re: [patch] perf_event_open.2: PERF_RECORD_SWITCH support
+Date: Thu, 20 Oct 2016 07:49:40 +0200
+Message-ID: <d4c7c1c9-4b6c-8d25-52fe-9884bf4f3444@gmail.com>
+References: <alpine.DEB.2.20.1610181320290.10811@macbook-air>
+ <15d30ad2-2937-febe-d6c9-b8dded4642d8@gmail.com>
+ <alpine.DEB.2.20.1610191111090.16261@macbook-air>
 Mime-Version: 1.0
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: 8BIT
-Return-path: <linux-man-owner-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>
-Sender: linux-man-owner-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
-To: linux-man-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
+Content-Type: text/plain; charset=windows-1252
+Content-Transfer-Encoding: 7bit
+Return-path: <linux-kernel-owner@vger.kernel.org>
+In-Reply-To: <alpine.DEB.2.20.1610191111090.16261@macbook-air>
+Sender: linux-kernel-owner@vger.kernel.org
+To: Vince Weaver <vincent.weaver@maine.edu>
+Cc: mtk.manpages@gmail.com, linux-man@vger.kernel.org, linux-kernel@vger.kernel.org, Adrian Hunter <adrian.hunter@intel.com>, Arnaldo Carvalho de Melo <acme@redhat.com>, Peter Zijlstra <peterz@infradead.org>, Ingo Molnar <mingo@redhat.com>
 List-Id: linux-man@vger.kernel.org
 
-https://bugzilla.kernel.org/show_bug.cgi?id=178541
+On 10/19/2016 05:14 PM, Vince Weaver wrote:
+> On Wed, 19 Oct 2016, Michael Kerrisk (man-pages) wrote:
+> 
+>>> diff --git a/man2/perf_event_open.2 b/man2/perf_event_open.2
+>>> index 68b99bb..04a0cf5 100644
+>>> +.B PERF_RECORD_SWITCH_CPU_WIDE
+>>> +records when sampling in cpu-wide mode.
+>>> +This functionality is in addition to existing tracepoint and
+>>> +software events for measuring context switches.
+>>> +The advantage of this method is that it will give full
+>>
+>> s/give full/give a full/
+>>
+>> ok?
+>>
+>>> +information event with strict
+>>> +.I perf_event_paranoid
+>>> +settings.
+> 
+> What I meant to say was 
+> 
+> "it will give full information *even* with strict perf_event_paranoid 
+> settings"
+> 
+> Maybe saying something like "despite strict settings" would be better 
+> wording.
+> 
+> not sure how I missed that typo, apparently my fingers are used to typing 
+> "event" too much.
 
-            Bug ID: 178541
-           Summary: Help[desk]+1 844 762 8448 facebook customer servicer
-                    phone number
-           Product: Documentation
-           Version: unspecified
-          Hardware: All
-                OS: Linux
-            Status: NEW
-          Severity: normal
-          Priority: P1
-         Component: man-pages
-          Assignee: documentation_man-pages-ztI5WcYan/vQLgFONoPN62D2FQJk+8+b@public.gmane.org
-          Reporter: zpu@c.dob.jp
-        Regression: No
+Thanks, Vince. Fixed now.
 
-Tele[phone]+1 844 762 8448 facebook technical support phone numberTele[phone]+1
-844 762 8448 facebook technical support phone number
+Cheers,
 
-facebook contact number+1 844 762 8448 + facebook telephone number + facebook
-toll free number + facebook helpline number + facebook help phone number +
-facebook customer service phone number + facebook customer support phone number
-+ facebook customer care phone number + facebook tech support phone number +
-facebook technical support phone number + facebook phone number + facebook help
-phone number + facebook support number
-
-Facebook Technical Support Number 1-844-762-8448
-Now a days has become a medium of personally attached people with their loved
-ones, families and friend.As it is user friendly but there are some
-circumstances when a user can face problems in operating Facebook Account.
-Generally it happens with new Facebook users .When any one face the trouble in
-terms of face book login,operation, that time looking for a supportive hand for
-that respect and want to overcome these kind of Facebook issues, your search
-ends here we are always available for your help for Facebook related issues by
-phone with 24×7 supports.Facebook Support toll free number is available to
-helps those users who face many problems, we are here happy to help you.
-
-Facebook issues Users face:
-Unable to access Facebook account.
-How to compose Facebook messages?
-Facebook Messages are not delivering on the certain contact address.
-Unable to sign in your face book account due to security issues.
-Not able to set the cover page images, profile images.
-Wants to block some contact.
-And many more situations.
-We are here for you if you are looking for:-
-Contact Facebook Customer service Toll Free Number USA/ CANADA, “Facebook
-Customer Service”,”Facebook help Phone Number USA”,”Facebook help Phone Number
-Canada”,”Facebook technical support phone number USA”,”Tech solution Facebook”,
-CANADA Office Phone Number for any kind of help and many more with Facebook
-Accessibility issues.
-
-We Provide Facebook Technical Support Solution For:-
-Facebook technical support through Microsoft certified technician through toll
-free number.
-Facebook troubleshooting support for USA and Canada users via toll free number.
-High and best resolution support rate for Facebook and low recovery time.
+Michael
 
 
-
-“Facebook customer care toll free number”, “Call Facebook Customer Service
-Number”,”Facebook secure contact number”, “Facebook support number Canada”, “Fb
-secure customer service number”, “Facebook email support”, “Facebook 24 hour
-customer service phone number” …what ever comes to your mind just call us
-+1-844-762-8448
-
-(TOLL FREE) +1-844-762-8448
-
-https://www.linkedin.com/pulse/1-844-762-8448-facebook-tech-support-number-customer-helpline-adword
-
-https://discussions.apple.com/thread/7689141?start=0&tstart=0
-
-https://sbcglobalemailsupport.freshdesk.com/support/solutions/articles/19000011050-facebook-technical-support-phone-number-1-844-762-8448-facebook-customer-service-phone-number
-
-
-https://www.linkedin.com/pulse/facebook-telephone-number-1-844-762-8448-support-phone-pankaj-kumar
-
-https://www.linkedin.com/company/facebook-technical-support-phone-number-1-844-762-8448-fackebook-support-phone-number
-
-https://www.lonelyplanet.com/thorntree/forums/americas-united-states-of-america/united-states/facebook-telephone-number-1-844-762-8448-facebook-phone-number
-
-https://bugzilla.kernel.org/show_bug.cgi?id=178121
-
-https://wordpress.org/support/topic/facebook-customer-service-number-1-844-762-8448-facebook-toll-free-number-3/
-
-https://www.linkedin.com/pulse/facebook-technical-support-phone-number-customer-service-kashyap-1
-
-https://discussions.apple.com/thread/7673136?start=0&tstart=0
-
-https://sbcglobalemailsupport.freshdesk.com/support/solutions/articles/19000010258--1-844-762-8448-facebook-support-phone-number-
-
-https://www.lonelyplanet.com/thorntree/forums/americas-united-states-of-america/united-states/facebook-helpline-number-1844-762-8448-facebook-customer-service-phone-number-facebook-phone-number
-
-http://darcs.net/FACEBOOK%20SUPPORT%20NUMBER%20%201-(844)-762-8448%20%20FACEBOOK%20HELPLINE%20NUMBER
-
-https://sbcglobalemailsupport.freshdesk.com/support/solutions/articles/19000011050-facebook-technical-support-phone-number-1-844-762-8448-facebook-customer-service-phone-number
-
-
-https://youtubetechnicalsupport.freshdesk.com/support/discussions/topics/19000007843
-https://youtubetechnicalsupport.freshdesk.com/support/discussions/topics/19000007845
-https://youtubetechnicalsupport.freshdesk.com/support/discussions/topics/19000007847
-https://youtubetechnicalsupport.freshdesk.com/support/discussions/topics/19000007853
-https://youtubetechnicalsupport.freshdesk.com/support/discussions/topics/19000007856
-https://youtubetechnicalsupport.freshdesk.com/support/discussions/topics/19000007861
-https://youtubetechnicalsupport.freshdesk.com/support/discussions/topics/19000007865
-https://youtubetechnicalsupport.freshdesk.com/support/discussions/topics/19000007868
-https://youtubetechnicalsupport.freshdesk.com/support/discussions/topics/19000007870
-https://youtubetechnicalsupport.freshdesk.com/support/discussions/topics/19000007877
-
-https://www.linkedin.com/pulse/facebook-contact-number1-844-762-8448-customer-service-robert-adword
 
 -- 
-You are receiving this mail because:
-You are watching the assignee of the bug.--
-To unsubscribe from this list: send the line "unsubscribe linux-man" in
-the body of a message to majordomo-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
-More majordomo info at  http://vger.kernel.org/majordomo-info.html
+Michael Kerrisk
+Linux man-pages maintainer; http://www.kernel.org/doc/man-pages/
+Linux/UNIX System Programming Training: http://man7.org/training/
