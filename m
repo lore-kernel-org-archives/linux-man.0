@@ -1,8 +1,8 @@
 From: bugzilla-daemon-590EEB7GvNiWaY/ihj7yzEB+6BGkLq7r@public.gmane.org
-Subject: [Bug 179011] New: find on Facebook phone number +1 844 762 8448
- facebook support number+facebook customer service number
-Date: Thu, 20 Oct 2016 19:04:02 +0000
-Message-ID: <bug-179011-11311@https.bugzilla.kernel.org/>
+Subject: [Bug 179021] New: change of Facebook phone number+1 844 762 8448
+ facebook contact number+facebook customer service number
+Date: Thu, 20 Oct 2016 19:04:03 +0000
+Message-ID: <bug-179021-11311@https.bugzilla.kernel.org/>
 Mime-Version: 1.0
 Content-Type: text/plain; charset="UTF-8"
 Content-Transfer-Encoding: 8BIT
@@ -11,11 +11,12 @@ Sender: linux-man-owner-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
 To: linux-man-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
 List-Id: linux-man@vger.kernel.org
 
-https://bugzilla.kernel.org/show_bug.cgi?id=179011
+https://bugzilla.kernel.org/show_bug.cgi?id=179021
 
-            Bug ID: 179011
-           Summary: find on Facebook phone number +1 844 762 8448 facebook
-                    support number+facebook customer service number
+            Bug ID: 179021
+           Summary: change of Facebook phone number+1 844 762 8448
+                    facebook contact number+facebook customer service
+                    number
            Product: Documentation
            Version: unspecified
           Hardware: All
