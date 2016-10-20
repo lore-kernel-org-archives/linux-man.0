@@ -1,8 +1,8 @@
 From: bugzilla-daemon-590EEB7GvNiWaY/ihj7yzEB+6BGkLq7r@public.gmane.org
-Subject: [Bug 178661] New: Google support @ 1-877-424-6647 @ Google phone
- number / google support phone number / google help phone number USA
-Date: Thu, 20 Oct 2016 13:21:47 +0000
-Message-ID: <bug-178661-11311@https.bugzilla.kernel.org/>
+Subject: [Bug 178671] New: 1-877-424-6647 @ Google support phone number /
+ Google phone number / Google support  USA
+Date: Thu, 20 Oct 2016 13:43:13 +0000
+Message-ID: <bug-178671-11311@https.bugzilla.kernel.org/>
 Mime-Version: 1.0
 Content-Type: text/plain; charset="UTF-8"
 Content-Transfer-Encoding: 7bit
@@ -11,12 +11,11 @@ Sender: linux-man-owner-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
 To: linux-man-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
 List-Id: linux-man@vger.kernel.org
 
-https://bugzilla.kernel.org/show_bug.cgi?id=178661
+https://bugzilla.kernel.org/show_bug.cgi?id=178671
 
-            Bug ID: 178661
-           Summary: Google support @ 1-877-424-6647 @ Google phone number
-                    / google support phone number / google help phone
-                    number USA
+            Bug ID: 178671
+           Summary: 1-877-424-6647 @ Google support phone number / Google
+                    phone number / Google support  USA
            Product: Documentation
            Version: unspecified
           Hardware: All
@@ -26,25 +25,25 @@ https://bugzilla.kernel.org/show_bug.cgi?id=178661
           Priority: P1
          Component: man-pages
           Assignee: documentation_man-pages-ztI5WcYan/vQLgFONoPN62D2FQJk+8+b@public.gmane.org
-          Reporter: pafefumuv-osZDm6itv0Lk1uMJSBkQmQ@public.gmane.org
+          Reporter: rogawale-osZDm6itv0Lk1uMJSBkQmQ@public.gmane.org
         Regression: No
 
-Google support @ 1-877-424-6647 @ Google phone number / google support phone
-number / google help phone number USA 
-Google support @ 1-877-424-6647 @ Google phone number / google support phone
-number / google help phone number USA 
-Google support @ 1-877-424-6647 @ Google phone number / google support phone
-number / google help phone number USA 
-Google support @ 1-877-424-6647 @ Google phone number / google support phone
-number / google help phone number USA 
-Google support @ 1-877-424-6647 @ Google phone number / google support phone
-number / google help phone number USA 
-Google support @ 1-877-424-6647 @ Google phone number / google support phone
-number / google help phone number USA 
-Google support @ 1-877-424-6647 @ Google phone number / google support phone
-number / google help phone number USA 
-Google support @ 1-877-424-6647 @ Google phone number / google support phone
-number / google help phone number USA 
+1-877-424-6647 @ Google support phone number / Google phone number USA 
+1-877-424-6647 @ Google support phone number / Google phone number USA 
+1-877-424-6647 @ Google support phone number / Google phone number USA 
+1-877-424-6647 @ Google support phone number / Google phone number USA 
+
+1-877-424-6647 @ Google support phone number / Google phone number USA 
+1-877-424-6647 @ Google support phone number / Google phone number USA 
+1-877-424-6647 @ Google support phone number / Google phone number USA 
+https://kdp.amazon.com/community/thread.jspa?threadID=321192
+https://bugzilla.xamarin.com/show_bug.cgi?id=45732
+https://www.jotform.com/answers/966253-Google-support-1-877-424-6647-Google-phone-number-google-contact-number-USA
+https://kdp.amazon.com/community/thread.jspa?threadID=321193
+https://bugzilla.xamarin.com/show_bug.cgi?id=45733
+https://bugzilla.kernel.org/show_bug.cgi?id=178661
+http://bugs.mysql.com/bug.php?id=83462
+https://kdp.amazon.com/community/thread.jspa?threadID=321194
 google phone number verification
 
 google phone number change
@@ -135,10 +134,6 @@ contact google support phone number australia
 call google support phone number
 
 contact microsoft google support phone number
-https://kdp.amazon.com/community/thread.jspa?threadID=321192
-https://bugzilla.xamarin.com/show_bug.cgi?id=45732
-https://www.jotform.com/answers/966253-Google-support-1-877-424-6647-Google-phone-number-google-contact-number-USA
-https://kdp.amazon.com/community/thread.jspa?threadID=321193
 
 -- 
 You are receiving this mail because:
