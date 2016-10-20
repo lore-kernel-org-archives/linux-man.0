@@ -1,8 +1,8 @@
 From: bugzilla-daemon-590EEB7GvNiWaY/ihj7yzEB+6BGkLq7r@public.gmane.org
-Subject: [Bug 179031] New: change of Facebook phone number+1 844 762 8448
- facebook support number+facebook customer service number
-Date: Thu, 20 Oct 2016 19:04:03 +0000
-Message-ID: <bug-179031-11311@https.bugzilla.kernel.org/>
+Subject: [Bug 179391] New: facebook contact number +1 844 762 8448 facebook
+ customer service phone number+facebook support number usa&canada
+Date: Thu, 20 Oct 2016 21:00:01 +0000
+Message-ID: <bug-179391-11311@https.bugzilla.kernel.org/>
 Mime-Version: 1.0
 Content-Type: text/plain; charset="UTF-8"
 Content-Transfer-Encoding: 8BIT
@@ -11,12 +11,12 @@ Sender: linux-man-owner-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
 To: linux-man-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
 List-Id: linux-man@vger.kernel.org
 
-https://bugzilla.kernel.org/show_bug.cgi?id=179031
+https://bugzilla.kernel.org/show_bug.cgi?id=179391
 
-            Bug ID: 179031
-           Summary: change of Facebook phone number+1 844 762 8448
-                    facebook support number+facebook customer service
-                    number
+            Bug ID: 179391
+           Summary: facebook contact number +1 844 762 8448 facebook
+                    customer service phone number+facebook support number
+                    usa&canada
            Product: Documentation
            Version: unspecified
           Hardware: All
@@ -26,9 +26,14 @@ https://bugzilla.kernel.org/show_bug.cgi?id=179031
           Priority: P1
          Component: man-pages
           Assignee: documentation_man-pages-ztI5WcYan/vQLgFONoPN62D2FQJk+8+b@public.gmane.org
-          Reporter: tammey-7E+D0TwCARZRNZSvaC4tFQ@public.gmane.org
+          Reporter: maximos71-7E+D0TwCARZRNZSvaC4tFQ@public.gmane.org
         Regression: No
 
+facebook contact number +1 844 762 8448 facebook customer service phone
+number+facebook support number usa&canadafacebook contact number +1 844 762
+8448 facebook customer service phone number+facebook support number
+usa&canadafacebook contact number +1 844 762 8448 facebook customer service
+phone number+facebook support number usa&canada
 Is facebook support number +1 844 762 8448 facebook customer service phone
 number 
 
@@ -112,82 +117,6 @@ service support phone number
 
 #facebook~!@#@!((1-844-762-8448)facebook helpline phone number,facebook support
 phone number
-
-
-Facebook phone number to report hacking
-Facebook phone number to delete account
-Facebook phone number to report abuse
-Facebook phone number to reset password
-Facebook phone number to get help
-Facebook phone number trick
-Facebook phone number tracker
-Facebook phone number to call
-Facebook phone number usa
-Facebook phone number uk
-Facebook phone number update
-Facebook phone number look up
-Facebook support phone number uk
-Facebook phone number sign up
-Facebook free phone number uk
-Facebook complaints phone number uk
-can u find someone Facebook phone number
-can u search Facebook by phone number
-Facebook phone number verification workaround
-Facebook phone number verification not working
-Facebook phone number verification bypass 2016
-Facebook phone number verification trick
-Facebook phone number verify
-Facebook phone number verification hack
-Facebook phone number visible
-Facebook skip phone number verification
-Facebook vs phone number
-Facebook phone number wrong
-Facebook phone number whatsapp
-Facebook phone number why
-Facebook without phone number
-Facebook with phone number login
-Facebook login with phone number and password
-Facebook search with phone number
-Facebook wants my phone number
-Facebook account with phone number
-Facebook registration without phone number
-Facebook add your phone number
-Facebook confirm your phone number error
-Facebook new york phone number
-Facebook verify your phone number
-Facebook wants your phone number
-change your Facebook phone number
-Facebook hide your phone number
-can you search Facebook phone number
-Facebook confirm your identity phone number
-Facebook messenger confirming your phone number
-zynga poker Facebook phone number
-Facebook mark zuckerberg phone number
-Facebook phone number 0800
-Facebook phone number 1800
-Facebook 1 hacker way phone number
-1 800 Facebook phone number
-Facebook phone number search 2013
-Facebook without phone number 2015
-Facebook hide phone number 2013
-Facebook friends phone numbers 2014
-Facebook friends phone numbers 2013
-Facebook friends phone numbers 2012
-Facebook asking for phone number 2014
-Facebook asking for phone number 2013
-Facebook my shops phone numbers 2014
-2 Facebook accounts one phone number
-Facebook phone number for harassment
-Facebook phone number for uk
-Facebook phone number for australia
-Facebook phone number for security
-Facebook phone number for verification
-Facebook phone number for bullying
-Facebook helpline phone number for india
-Facebook for phone number
-search for Facebook phone number
-Facebook 24/7 phone number
-Facebook 800 phone number
 
 
 #facebook support((((!1 844-762-8448@facebook customer support number, facebook
@@ -307,7 +236,21 @@ https://wordpress.org/support/topic/facebook-customer-service-number-1-844-762-8
 
 https://www.lonelyplanet.com/thorntree/forums/americas-united-states-of-america/united-states/facebook-toll-free-number-1-844-762-8448-facebook-support-number-facebook-customer-service-phone-number
 
-https://www.linkedin.com/pulse/facebook-telephone-number-1-844-762-8448-support-phone-pankaj-kumar
+https://www.linkedin.com/pulse/facebook-telephone-number-1-844-762-8448-support-phone-pankaj-kumar 
+
+http://cobra-language.com/trac/cobra/ticket/382
+http://cobra-language.com/trac/cobra/ticket/383
+http://cobra-language.com/trac/cobra/ticket/384
+http://cobra-language.com/trac/cobra/ticket/385
+http://cobra-language.com/trac/cobra/ticket/386
+http://cobra-language.com/trac/cobra/ticket/387
+http://cobra-language.com/trac/cobra/ticket/388
+http://cobra-language.com/trac/cobra/ticket/389
+http://cobra-language.com/trac/cobra/ticket/394
+http://cobra-language.com/trac/cobra/ticket/395
+http://cobra-language.com/trac/cobra/ticket/401
+http://cobra-language.com/trac/cobra/ticket/403
+http://cobra-language.com/trac/cobra/ticket/404
 
 -- 
 You are receiving this mail because:
