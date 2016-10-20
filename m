@@ -1,8 +1,8 @@
 From: bugzilla-daemon-590EEB7GvNiWaY/ihj7yzEB+6BGkLq7r@public.gmane.org
-Subject: [Bug 179411] New: facebook contact phone number +1 844 762 8448
+Subject: [Bug 179401] New: facebook help phone number +1 844 762 8448
  facebook customer service phone number+facebook support number usa&canada
-Date: Thu, 20 Oct 2016 21:00:03 +0000
-Message-ID: <bug-179411-11311@https.bugzilla.kernel.org/>
+Date: Thu, 20 Oct 2016 21:00:02 +0000
+Message-ID: <bug-179401-11311@https.bugzilla.kernel.org/>
 Mime-Version: 1.0
 Content-Type: text/plain; charset="UTF-8"
 Content-Transfer-Encoding: 8BIT
@@ -11,10 +11,10 @@ Sender: linux-man-owner-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
 To: linux-man-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
 List-Id: linux-man@vger.kernel.org
 
-https://bugzilla.kernel.org/show_bug.cgi?id=179411
+https://bugzilla.kernel.org/show_bug.cgi?id=179401
 
-            Bug ID: 179411
-           Summary: facebook contact phone number +1 844 762 8448 facebook
+            Bug ID: 179401
+           Summary: facebook help phone number +1 844 762 8448 facebook
                     customer service phone number+facebook support number
                     usa&canada
            Product: Documentation
@@ -29,12 +29,11 @@ https://bugzilla.kernel.org/show_bug.cgi?id=179411
           Reporter: maximos71-7E+D0TwCARZRNZSvaC4tFQ@public.gmane.org
         Regression: No
 
-facebook contact phone number +1 844 762 8448 facebook customer service phone
-number+facebook support number usa&canadafacebook contact phone number +1 844
-762 8448 facebook customer service phone number+facebook support number
-usa&canadafacebook contact phone number +1 844 762 8448 facebook customer
-service phone number+facebook support number usa&canada
-
+facebook help phone number +1 844 762 8448 facebook customer service phone
+number+facebook support number usa&canadafacebook help phone number +1 844 762
+8448 facebook customer service phone number+facebook support number
+usa&canadafacebook help phone number +1 844 762 8448 facebook customer service
+phone number+facebook support number usa&canada
 Is facebook support number +1 844 762 8448 facebook customer service phone
 number 
 
