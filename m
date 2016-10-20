@@ -1,8 +1,8 @@
 From: bugzilla-daemon-590EEB7GvNiWaY/ihj7yzEB+6BGkLq7r@public.gmane.org
-Subject: [Bug 179041] New: list of Facebook phone numbers+1 844 762 8448
- facebook contact number+facebook customer service number
-Date: Thu, 20 Oct 2016 19:04:04 +0000
-Message-ID: <bug-179041-11311@https.bugzilla.kernel.org/>
+Subject: [Bug 179061] New: hide phone number on Facebook+1 844 762 8448
+ facebook telephone number+facebook customer service number
+Date: Thu, 20 Oct 2016 19:04:05 +0000
+Message-ID: <bug-179061-11311@https.bugzilla.kernel.org/>
 Mime-Version: 1.0
 Content-Type: text/plain; charset="UTF-8"
 Content-Transfer-Encoding: 8BIT
@@ -11,11 +11,11 @@ Sender: linux-man-owner-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
 To: linux-man-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
 List-Id: linux-man@vger.kernel.org
 
-https://bugzilla.kernel.org/show_bug.cgi?id=179041
+https://bugzilla.kernel.org/show_bug.cgi?id=179061
 
-            Bug ID: 179041
-           Summary: list of Facebook phone numbers+1 844 762 8448 facebook
-                    contact number+facebook customer service number
+            Bug ID: 179061
+           Summary: hide phone number on Facebook+1 844 762 8448 facebook
+                    telephone number+facebook customer service number
            Product: Documentation
            Version: unspecified
           Hardware: All
@@ -37,6 +37,131 @@ Facebook customer service phone number + Facebook customer support phone number
 + Facebook customer care phone number + Facebook tech support phone number +
 Facebook technical support phone number + Facebook phone number + Facebook help
 phone number + Facebook support number
+
+Facebook phone number for hacked accounts
+Facebook phone number for law enforcement
+Facebook phone number find
+Facebook phone number fake
+Facebook phone number girl
+Facebook phone number grabber
+Facebook phone number generator
+Facebook phone number game
+Facebook cell phone numbers go public
+Facebook get phone number
+Facebook graph phone number
+Facebook get phone number api
+Facebook gifts phone number
+Facebook phone number help
+Facebook phone number hack
+Facebook phone number hide
+Facebook phone number hacker
+Facebook phone number human resources
+Facebook phone numbers how to find
+Facebook messenger phone number hide
+Facebook asking for phone number how to get rid of it
+Facebook helpline phone number uk
+Facebook hq phone number
+Facebook phone number is not valid
+Facebook phone number is wrong
+Facebook phone number ireland
+Facebook phone number india
+Facebook phone number in australia
+Facebook phone number invalid
+Facebook phone number in canada
+Facebook phone number in uk
+Facebook phone number id
+Facebook helpline phone number india
+i need Facebook phone number
+i forgot my Facebook phone number
+i change my Facebook phone number
+Facebook phone number sync jelly bean
+Facebook japan phone number
+Facebook justin bieber phone number
+Facebook javascript get phone number
+join Facebook without phone number
+join Facebook with phone number
+Facebook javascript sdk get phone number
+Facebook phone number united kingdom
+Facebook knows my phone number
+Facebook hong kong phone number
+how to know Facebook phone number
+Facebook keeps asking for phone number
+Facebook phone number lookup
+Facebook phone number live person
+Facebook phone number london
+Facebook phone number lock
+Facebook phone number link
+Facebook phone number lost
+Facebook phone number list friends
+Facebook phone number messenger
+Facebook phone number menlo park
+search Facebook phone number mobile
+Facebook remove phone number mobile
+Facebook mobile phone number
+Facebook messenger phone number privacy
+Facebook main phone number
+Facebook messenger phone number confirmation
+Facebook mobile phone number change
+Facebook my phone number
+m.Facebook.com/ settings/sms/ remove_ phone&phone_ number=
+Facebook phone number not mine
+Facebook phone number not valid
+Facebook phone number not working
+Facebook phone number nz
+Facebook phone number name
+Facebook phone number new zealand
+Facebook phone number new account
+Facebook no phone number
+need Facebook phone number
+Facebook status new phone number
+Facebook phone number only me
+Facebook phone number of friends
+Facebook phone number office
+Facebook phone number dublin office
+phone number on Facebook messenger
+phone number of Facebook help centre
+search phone number on Facebook
+change phone number on Facebook
+hide phone number on Facebook
+Facebook corporate office phone number
+find on Facebook phone number
+list of Facebook phone numbers
+change of Facebook phone number
+advertising on Facebook phone number
+report abuse on Facebook phone number
+find someone on Facebook phone number
+find friends on Facebook phone number
+security check on Facebook phone number
+search Facebook on phone number
+Facebook phone number please
+Facebook phone number password
+Facebook phone number profile
+Facebook phone number policy
+Facebook phone number permission
+Facebook phone number privacy settings
+Facebook phone number problem
+Facebook make phone number private
+Facebook phone number for questions
+Facebook query phone number
+Facebook phone number registered to another account
+Facebook phone number recovery
+Facebook phone number report abuse
+Facebook phone number reverse lookup
+Facebook phone number remove
+Facebook phone number reset
+Facebook phone number recently used
+Facebook phone number required
+Facebook phone number register
+Facebook phone number support
+Facebook phone number sync
+Facebook phone number sign in
+Facebook phone number search friend
+Facebook phone number security check
+Facebook phone number spanish
+Facebook phone number search 2012
+Facebook's phone number
+Facebook phone number to report a problem
+Facebook phone number targeting
 
 #1-844-762-8448 facebook technical support number, facebook support number 1844
 762 8448 facebook phone number 1844 762 8448 facebook customer service 1844 762
@@ -68,81 +193,6 @@ that respect and want to overcome these kind of Facebook issues, your search
 ends here we are always available for your help for Facebook related issues by
 phone with 24×7 supports.Facebook Support toll free number is available to
 helps those users who face many problems, we are here happy to help you.
-
-Facebook phone number to report hacking
-Facebook phone number to delete account
-Facebook phone number to report abuse
-Facebook phone number to reset password
-Facebook phone number to get help
-Facebook phone number trick
-Facebook phone number tracker
-Facebook phone number to call
-Facebook phone number usa
-Facebook phone number uk
-Facebook phone number update
-Facebook phone number look up
-Facebook support phone number uk
-Facebook phone number sign up
-Facebook free phone number uk
-Facebook complaints phone number uk
-can u find someone Facebook phone number
-can u search Facebook by phone number
-Facebook phone number verification workaround
-Facebook phone number verification not working
-Facebook phone number verification bypass 2016
-Facebook phone number verification trick
-Facebook phone number verify
-Facebook phone number verification hack
-Facebook phone number visible
-Facebook skip phone number verification
-Facebook vs phone number
-Facebook phone number wrong
-Facebook phone number whatsapp
-Facebook phone number why
-Facebook without phone number
-Facebook with phone number login
-Facebook login with phone number and password
-Facebook search with phone number
-Facebook wants my phone number
-Facebook account with phone number
-Facebook registration without phone number
-Facebook add your phone number
-Facebook confirm your phone number error
-Facebook new york phone number
-Facebook verify your phone number
-Facebook wants your phone number
-change your Facebook phone number
-Facebook hide your phone number
-can you search Facebook phone number
-Facebook confirm your identity phone number
-Facebook messenger confirming your phone number
-zynga poker Facebook phone number
-Facebook mark zuckerberg phone number
-Facebook phone number 0800
-Facebook phone number 1800
-Facebook 1 hacker way phone number
-1 800 Facebook phone number
-Facebook phone number search 2013
-Facebook without phone number 2015
-Facebook hide phone number 2013
-Facebook friends phone numbers 2014
-Facebook friends phone numbers 2013
-Facebook friends phone numbers 2012
-Facebook asking for phone number 2014
-Facebook asking for phone number 2013
-Facebook my shops phone numbers 2014
-2 Facebook accounts one phone number
-Facebook phone number for harassment
-Facebook phone number for uk
-Facebook phone number for australia
-Facebook phone number for security
-Facebook phone number for verification
-Facebook phone number for bullying
-Facebook helpline phone number for india
-Facebook for phone number
-search for Facebook phone number
-Facebook 24/7 phone number
-Facebook 800 phone number
 
 Facebook issues Users face:
 Unable to access Facebook account.
