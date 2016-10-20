@@ -1,101 +1,128 @@
-From: "Michael Kerrisk (man-pages)" <mtk.manpages-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org>
-Subject: Re: [patch] perf_event_open.2: add cycles field in LBR records
-Date: Thu, 20 Oct 2016 07:54:13 +0200
-Message-ID: <d12eac86-231d-f8cb-c03a-43ad63d2225a@gmail.com>
-References: <alpine.DEB.2.20.1610191108080.16261@macbook-air>
+From: Nikos Mavrogiannopoulos <nmav-H+wXaHxf7aLQT0dZR+AlfA@public.gmane.org>
+Subject: Re: [PATCH] Update the random(4) documentation towards a more
+ accurate view on /dev/urandom
+Date: Thu, 20 Oct 2016 10:37:26 +0200
+Message-ID: <1476952646.2522.10.camel@redhat.com>
+References: <1461574090.32558.45.camel@redhat.com>
+         <1470052099.2926.6.camel@redhat.com>
 Mime-Version: 1.0
-Content-Type: text/plain; charset=windows-1252
-Content-Transfer-Encoding: 7bit
+Content-Type: multipart/mixed; boundary="=-tEV/eY5sDWwG9R71A6yX"
 Return-path: <linux-man-owner-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>
-In-Reply-To: <alpine.DEB.2.20.1610191108080.16261@macbook-air>
+In-Reply-To: <1470052099.2926.6.camel-H+wXaHxf7aLQT0dZR+AlfA@public.gmane.org>
 Sender: linux-man-owner-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
-To: Vince Weaver <vincent.weaver-e7X0jjDqjFGHXe+LvDLADg@public.gmane.org>
-Cc: mtk.manpages-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org, linux-man-u79uwXL29TY76Z2rM5mHXA@public.gmane.org, linux-kernel-u79uwXL29TY76Z2rM5mHXA@public.gmane.org, Andi Kleen <ak-VuQAYsv1563Yd54FQh9/CA@public.gmane.org>, Peter Zijlstra <peterz-wEGCiKHe2LqWVfeAwA7xHQ@public.gmane.org>, Ingo Molnar <mingo-H+wXaHxf7aLQT0dZR+AlfA@public.gmane.org>
+To: mtk.manpages-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org
+Cc: linux-man-u79uwXL29TY76Z2rM5mHXA@public.gmane.org, tytso-3s7WtUTddSA@public.gmane.org
 List-Id: linux-man@vger.kernel.org
 
-Hi Vince,
+
+--=-tEV/eY5sDWwG9R71A6yX
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: 8bit
+
+On Mon, 2016-08-01 at 13:48 +0200, Nikos Mavrogiannopoulos wrote:
+> This is an updated patch reflecting the recent discussion in linux-
+> crypto:
+> http://www.mail-archive.com/linux-crypto-u79uwXL29TY76Z2rM5mHXA@public.gmane.org/msg20400.html
+
+Hi,
+ I'm resending the patch with few typo fixes, and adding Ted in CC for
+review. Ted would you like to review this patch for the random(4)
+manpage?
+
+regards,
+Nikos
+
+--=-tEV/eY5sDWwG9R71A6yX
+Content-Disposition: attachment;
+	filename*0=0001-Update-the-random-4-documentation-towards-a-more-acc.pat;
+	filename*1=ch
+Content-Type: text/x-patch;
+	name="0001-Update-the-random-4-documentation-towards-a-more-acc.patch";
+	charset="UTF-8"
+Content-Transfer-Encoding: base64
+
+RnJvbSA3OTUyY2Y2YmJhYmYzNmE0YmU1MGEzYmE5NTMyNzgwNzdmN2I1MTU3IE1vbiBTZXAgMTcg
+MDA6MDA6MDAgMjAwMQpGcm9tOiBOaWtvcyBNYXZyb2dpYW5ub3BvdWxvcyA8bm1hdkByZWRoYXQu
+Y29tPgpEYXRlOiBUaHUsIDcgQXByIDIwMTYgMDk6MDg6MTQgKzAyMDAKU3ViamVjdDogW1BBVENI
+XSBVcGRhdGUgdGhlIHJhbmRvbSg0KSBkb2N1bWVudGF0aW9uIHRvd2FyZHMgYSBtb3JlIGFjY3Vy
+YXRlCiB2aWV3IG9uIC9kZXYvdXJhbmRvbQoKVGhpcyBkb2N1bWVudHMgdGhlICJwcm9wZXJ0eSIg
+b2YgL2Rldi91cmFuZG9tIG9mIGJlaW5nIGFibGUgdG8gc2VydmUgbnVtYmVycwpwcmlvciB0byBw
+b29sIGJlaW5nIGluaXRpYWxpemVkLCBhbmQgcmVtb3ZlcyBhbnkgc3VnZ2VzdGVkIHVzYWdlcyBv
+ZiAvZGV2L3JhbmRvbQp3aGljaCBhcmUgZGlzcHV0YWJsZSAoaS5lLiwgb25lLXRpbWUgcGFkKS4K
+RG9jdW1lbnQgdGhlIGZhY3QgL2Rldi9yYW5kb20gaXMgYSBsZWdhY3kgaW50ZXJmYWNlIGFuZCBv
+bmx5IHN1aXRhYmxlIGZvcgphcHBsaWNhdGlvbnMgd2hpY2ggY2FuIGFmZm9yZCBpbmRldGVybWlu
+YXRlIGRlbGF5cyBzaW5jZSB2ZXJ5IGZldyBhcHBsaWNhdGlvbnMKY2FuIGRvIHNvLgoKU2lnbmVk
+LW9mZi1ieTogTmlrb3MgTWF2cm9naWFubm9wb3Vsb3MgPG5tYXZAcmVkaGF0LmNvbT4KLS0tCiBt
+YW40L3JhbmRvbS40IHwgNTEgKysrKysrKysrKysrKysrKysrKysrKysrKystLS0tLS0tLS0tLS0t
+LS0tLS0tLS0tLS0tCiAxIGZpbGUgY2hhbmdlZCwgMjYgaW5zZXJ0aW9ucygrKSwgMjUgZGVsZXRp
+b25zKC0pCgpkaWZmIC0tZ2l0IGEvbWFuNC9yYW5kb20uNCBiL21hbjQvcmFuZG9tLjQKaW5kZXgg
+YjY3YzQ2Zi4uYzdhZmFmNCAxMDA2NDQKLS0tIGEvbWFuNC9yYW5kb20uNAorKysgYi9tYW40L3Jh
+bmRvbS40CkBAIC0xMyw4ICsxMyw5IEBACiAuXCIgMjAwNC0wNC0wOCwgQUVCLCBJbXByb3ZlZCBk
+ZXNjcmlwdGlvbiBvZiByZWFkIGZyb20gL2Rldi91cmFuZG9tCiAuXCIgMjAwOC0wNi0yMCwgR2Vv
+cmdlIFNwZWx2aW4gPGxpbnV4QGhvcml6b24uY29tPiwKIC5cIiAgICAgICAgICAgICBNYXR0IE1h
+Y2thbGwgPG1wbUBzZWxlbmljLmNvbT4KLS5cIiAgICAgQWRkIGEgVXNhZ2Ugc3Vic2VjdGlvbiB0
+aGF0IHJlY29tbWVuZHMgbW9zdCB1c2VycyB0byB1c2UKLS5cIiAgICAgL2Rldi91cmFuZG9tLCBh
+bmQgZW1waGFzaXplcyBwYXJzaW1vbmlvdXMgdXNhZ2Ugb2YgL2Rldi9yYW5kb20uCisuXCIgMjAx
+Ni0xMC0yMCwgTmlrb3MgTWF2cm9naWFubm9wb3Vsb3MgPG5tYXZAcmVkaGF0LmNvbT4KKy5cIiAg
+ICAgTWVudGlvbiB0aGF0IC9kZXYvcmFuZG9tIGlzIGEgbGVnYWN5IGludGVyZmFjZSBhbmQgcmVt
+b3ZlZCBzdWdnZXN0ZWQKKy5cIiAgICAgdXNlcyBvZiAvZGV2L3JhbmRvbS4KIC5cIgogLlRIIFJB
+TkRPTSA0IDIwMTYtMTAtMDggIkxpbnV4IiAiTGludXggUHJvZ3JhbW1lcidzIE1hbnVhbCIKIC5T
+SCBOQU1FCkBAIC0zNywxMSArMzgsMjIgQEAgVGhlIGdlbmVyYXRvciBhbHNvIGtlZXBzIGFuIGVz
+dGltYXRlIG9mIHRoZQogbnVtYmVyIG9mIGJpdHMgb2Ygbm9pc2UgaW4gdGhlIGVudHJvcHkgcG9v
+bC4KIEZyb20gdGhpcyBlbnRyb3B5IHBvb2wgcmFuZG9tIG51bWJlcnMgYXJlIGNyZWF0ZWQuCiAu
+TFAKLVdoZW4gcmVhZCwgdGhlIFxmSS9kZXYvcmFuZG9tXGZQIGRldmljZSB3aWxsIHJldHVybiBy
+YW5kb20gYnl0ZXMKLW9ubHkgd2l0aGluIHRoZSBlc3RpbWF0ZWQgbnVtYmVyIG9mIGJpdHMgb2Yg
+bm9pc2UgaW4gdGhlIGVudHJvcHkKLXBvb2wuCi1cZkkvZGV2L3JhbmRvbVxmUCBzaG91bGQgYmUg
+c3VpdGFibGUgZm9yIHVzZXMgdGhhdCBuZWVkIHZlcnkKLWhpZ2ggcXVhbGl0eSByYW5kb21uZXNz
+IHN1Y2ggYXMgb25lLXRpbWUgcGFkIG9yIGtleSBnZW5lcmF0aW9uLgorV2hlbiByZWFkLCB0aGUg
+XGZJL2Rldi91cmFuZG9tXGZQIGRldmljZSByZXR1cm4gcmFuZG9tIGJ5dGVzIHVzaW5nIGEgcHNl
+dWRvcmFuZG9tIAorbnVtYmVyIGdlbmVyYXRvciBzZWVkZWQgZnJvbSB0aGUgZW50cm9weSBwb29s
+LiBUaGF0IG9wZXJhdGlvbiBpcworbm9uLWJsb2NraW5nLiBXaGVuIHVzZWQgZHVyaW5nIGVhcmx5
+IGJvb3QgdGltZSwgdGhpcyBkZXZpY2UgbWF5IHJldHVybgorZGF0YSBwcmlvciB0byB0aGUgZW50
+cm9weSBwb29sIGJlaW5nIGluaXRpYWxpemVkLgorSWYgdGhpcyBpcyBvZiBjb25jZXJuIGluIHlv
+dXIgYXBwbGljYXRpb24sIHVzZQorLkJSIGdldHJhbmRvbSgyKQorb3IgXGZJL2Rldi9yYW5kb21c
+ZlAgaW5zdGVhZC4KKworLkxQCitUaGUgXGZJL2Rldi9yYW5kb21cZlAgZGV2aWNlIGlzIGEgbGVn
+YWN5IGludGVyZmFjZSB3aGljaCBkYXRlcyBiYWNrIHRvCithIHRpbWUgd2hlcmUgdGhlIGNyeXB0
+b2dyYXBoaWMgcHJpbWl0aXZlcyB1c2VkIGluIHRoZSBpbXBsZW1lbnRhdGlvbgord2VyZSBub3Qg
+d2lkZWx5IHRydXN0ZWQuIEl0IHdpbGwgcmV0dXJuIHJhbmRvbSBieXRlcworb25seSB3aXRoaW4g
+dGhlIGVzdGltYXRlZCBudW1iZXIgb2YgYml0cyBvZiBmcmVzaCBub2lzZSBpbiB0aGUgZW50cm9w
+eQorcG9vbCwgYmxvY2tpbmcgaWYgbmVjZXNzYXJ5LgorXGZJL2Rldi9yYW5kb21cZlAgaXMgc3Vp
+dGFibGUgZm9yIGFwcGxpY2F0aW9ucyB0aGF0IG5lZWQgdmVyeQoraGlnaCBxdWFsaXR5IHJhbmRv
+bW5lc3MsIGFuZCBjYW4gYWZmb3JkIGluZGV0ZXJtaW5hdGUgZGVsYXlzLgogV2hlbiB0aGUgZW50
+cm9weSBwb29sIGlzIGVtcHR5LCByZWFkcyBmcm9tIFxmSS9kZXYvcmFuZG9tXGZQIHdpbGwgYmxv
+Y2sKIHVudGlsIGFkZGl0aW9uYWwgZW52aXJvbm1lbnRhbCBub2lzZSBpcyBnYXRoZXJlZC4KIElm
+CkBAIC02MCwxOCArNzIsOCBAQCB3aWxsIHJldHVybiAtMSBhbmQKIC5JIGVycm5vCiB3aWxsIGJl
+IHNldCB0bwogLkJSIEVBR0FJTiAuCi0uTFAKLUEgcmVhZCBmcm9tIHRoZSBcZkkvZGV2L3VyYW5k
+b21cZlAgZGV2aWNlIHdpbGwgbm90IGJsb2NrCi13YWl0aW5nIGZvciBtb3JlIGVudHJvcHkuCi1J
+ZiB0aGVyZSBpcyBub3Qgc3VmZmljaWVudCBlbnRyb3B5LCBhIHBzZXVkb3JhbmRvbSBudW1iZXIg
+Z2VuZXJhdG9yIGlzIHVzZWQKLXRvIGNyZWF0ZSB0aGUgcmVxdWVzdGVkIGJ5dGVzLgotQXMgYSBy
+ZXN1bHQsIGluIHRoaXMgY2FzZSB0aGUgcmV0dXJuZWQgdmFsdWVzIGFyZSB0aGVvcmV0aWNhbGx5
+IHZ1bG5lcmFibGUgdG8gYQotY3J5cHRvZ3JhcGhpYyBhdHRhY2sgb24gdGhlIGFsZ29yaXRobXMg
+dXNlZCBieSB0aGUgZHJpdmVyLgotS25vd2xlZGdlIG9mIGhvdyB0byBkbyB0aGlzIGlzIG5vdCBh
+dmFpbGFibGUgaW4gdGhlIGN1cnJlbnQgdW5jbGFzc2lmaWVkCi1saXRlcmF0dXJlLCBidXQgaXQg
+aXMgdGhlb3JldGljYWxseSBwb3NzaWJsZSB0aGF0IHN1Y2ggYW4gYXR0YWNrIG1heQotZXhpc3Qu
+Ci1JZiB0aGlzIGlzIGEgY29uY2VybiBpbiB5b3VyIGFwcGxpY2F0aW9uLCB1c2UgXGZJL2Rldi9y
+YW5kb21cZlAKLWluc3RlYWQuCisKK1RoZSBmbGFnCiAuQiBPX05PTkJMT0NLCiBoYXMgbm8gZWZm
+ZWN0IHdoZW4gb3BlbmluZwogLklSIC9kZXYvdXJhbmRvbSAuCkBAIC04Miw2ICs4NCw4IEBAIGZv
+ciB0aGUgZGV2aWNlCiBzaWduYWxzIHdpbGwgbm90IGJlIGhhbmRsZWQgdW50aWwgYWZ0ZXIgdGhl
+IHJlcXVlc3RlZCByYW5kb20gYnl0ZXMKIGhhdmUgYmVlbiBnZW5lcmF0ZWQuCiAKKworCiBTaW5j
+ZSBMaW51eCAzLjE2LAogLlwiIGNvbW1pdCA3OWE4NDY4NzQ3YzVmOTVlZDNkNWNlODM3NmEzZTgy
+ZTBjNTg1N2ZjCiBhCkBAIC0xMDQsMTQgKzEwOCwxMSBAQCBUaGlzIG1lYW5zIHRoYXQgaXQgd2ls
+bCBpbXBhY3QgdGhlIGNvbnRlbnRzCiByZWFkIGZyb20gYm90aCBmaWxlcywgYnV0IGl0IHdpbGwg
+bm90IG1ha2UgcmVhZHMgZnJvbQogXGZJL2Rldi9yYW5kb21cZlAgZmFzdGVyLgogLlNTIFVzYWdl
+Ci1JZiB5b3UgYXJlIHVuc3VyZSBhYm91dCB3aGV0aGVyIHlvdSBzaG91bGQgdXNlCitUaGUgCiAu
+SVIgL2Rldi9yYW5kb20KLW9yCitpbnRlcmZhY2UgaXMgY29uc2lkZXJlZCBhIGxlZ2FjeSBpbnRl
+cmZhY2UsIGFuZCAKIC5JUiAvZGV2L3VyYW5kb20gLAotdGhlbiBwcm9iYWJseSB5b3Ugd2FudCB0
+byB1c2UgdGhlIGxhdHRlci4KLUFzIGEgZ2VuZXJhbCBydWxlLAotLklSIC9kZXYvdXJhbmRvbQot
+c2hvdWxkIGJlIHVzZWQgZm9yIGV2ZXJ5dGhpbmcgZXhjZXB0IGxvbmctbGl2ZWQgR1BHL1NTTC9T
+U0gga2V5cy4KK2lzIHJlY29tbWVuZGVkIGZvciBnZW5lcmFsIHVzZS4KIAogSWYgYSBzZWVkIGZp
+bGUgaXMgc2F2ZWQgYWNyb3NzIHJlYm9vdHMgYXMgcmVjb21tZW5kZWQgYmVsb3cgKGFsbCBtYWpv
+cgogTGludXggZGlzdHJpYnV0aW9ucyBoYXZlIGRvbmUgdGhpcyBzaW5jZSAyMDAwIGF0IGxlYXN0
+KSwgdGhlIG91dHB1dCBpcwotLSAKMi43LjQKCg==
 
 
-On 10/19/2016 05:10 PM, Vince Weaver wrote:
-> 
-> Linux 4.3 (71ef3c6b9d4665ee7afbbe4c208a98917dcfc32f)
-> added a cycles field to the PERF_SAMPLE_BRANCH_STACK
-> last branch records.
-> 
-> The kernel commit was a bit vague on this, but you can find
-> a few more details on this in the Intel Architectural Manual
-> vol3B.  The field indicates the number of core cycles elapsed
-> since the previous update to the LBR stack.
-> 
-> This feature is only found on Skylake and newer Intel chips,
-> as well as Intel Atom Goldmont chips.  I'm not sure if it's
-> worth adding this info to the manpage, as it seems a bit
-> specific and will probably get rapidly out of date.
-> 
-> I'm also not sure about the manpage project's opinion on
-> Oxford commas.
+--=-tEV/eY5sDWwG9R71A6yX--
 
-We like them!
-
-Patch applied. One comment below.
-> 
-> Signed-off-by: Vince Weaver <vincent.weaver-e7X0jjDqjFGHXe+LvDLADg@public.gmane.org>
-> 
-> diff --git a/man2/perf_event_open.2 b/man2/perf_event_open.2
-> index d64adaf..c9555c6 100644
-> --- a/man2/perf_event_open.2
-> +++ b/man2/perf_event_open.2
-> @@ -2183,15 +2183,18 @@ The branch was in a transactional memory transaction.
->  .IR abort " (since Linux 3.11)"
->  .\" commit 135c5612c460f89657c4698fe2ea753f6f667963
->  The branch was in an aborted transactional memory transaction.
-> +.TP
-> +.IR cycles " (since Linux 4.3)"
-> +.\" commit 71ef3c6b9d4665ee7afbbe4c208a98917dcfc32f
-> +This reports the number of cycles elapsed since the
-> +previous branch stack update.
->  .P
->  The entries are from most to least recent, so the first entry
->  has the most recent branch.
->  
->  Support for
-> -.I mispred
-> -and
-> -.I predicted
-> -is optional; if not supported, both
-> +.IR mispred ", " predicted " and " cycles
-
-Rather than the previous, I mostly prefer something like:
-
-Support for
-.IR mispred ,
-.IR predicted , 
-and
-.IR cycles
-
-I actually find source in that format a little easier to
-read, and a lot easier to script against.
-
-Cheers,
-
-Michael
-
-
-> +is optional; if not supported, those
->  values will be 0.
->  
->  The type of branches recorded is specified by the
-> --
-> To unsubscribe from this list: send the line "unsubscribe linux-man" in
-> the body of a message to majordomo-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
-> More majordomo info at  http://vger.kernel.org/majordomo-info.html
-> 
-
-
--- 
-Michael Kerrisk
-Linux man-pages maintainer; http://www.kernel.org/doc/man-pages/
-Linux/UNIX System Programming Training: http://man7.org/training/
 --
 To unsubscribe from this list: send the line "unsubscribe linux-man" in
 the body of a message to majordomo-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
