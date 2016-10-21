@@ -1,8 +1,8 @@
 From: bugzilla-daemon-590EEB7GvNiWaY/ihj7yzEB+6BGkLq7r@public.gmane.org
-Subject: [Bug 179621] New: facebook+ telephone+ number+1844 762 8448 facebook
- contact number facebook customer service number
-Date: Fri, 21 Oct 2016 15:41:08 +0000
-Message-ID: <bug-179621-11311@https.bugzilla.kernel.org/>
+Subject: [Bug 179591] New: facebook+ support+ number+1 844 762 8448 facebook
+ phone number facebook telephone number
+Date: Fri, 21 Oct 2016 15:41:05 +0000
+Message-ID: <bug-179591-11311@https.bugzilla.kernel.org/>
 Mime-Version: 1.0
 Content-Type: text/plain; charset="UTF-8"
 Content-Transfer-Encoding: 7bit
@@ -11,11 +11,11 @@ Sender: linux-man-owner-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
 To: linux-man-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
 List-Id: linux-man@vger.kernel.org
 
-https://bugzilla.kernel.org/show_bug.cgi?id=179621
+https://bugzilla.kernel.org/show_bug.cgi?id=179591
 
-            Bug ID: 179621
-           Summary: facebook+ telephone+ number+1844 762 8448 facebook
-                    contact number facebook customer service number
+            Bug ID: 179591
+           Summary: facebook+ support+ number+1 844 762 8448 facebook
+                    phone number facebook telephone number
            Product: Documentation
            Version: unspecified
           Hardware: All
@@ -28,9 +28,10 @@ https://bugzilla.kernel.org/show_bug.cgi?id=179621
           Reporter: jomayra-7E+D0TwCARZRNZSvaC4tFQ@public.gmane.org
         Regression: No
 
-facebook+ telephone+ number+1844 762 8448 facebook contact number facebook
-customer service numberfacebook+ telephone+ number+1844 762 8448 facebook
-contact number facebook customer service number
+facebook+ support+ number+1 844 762 8448 facebook phone number facebook
+telephone number facebook+ support+ number+1 844 762 8448 facebook phone number
+facebook telephone number facebook+ support+ number+1 844 762 8448 facebook
+phone number facebook telephone number
 
 https://www.linkedin.com/pulse/1-844-762-8448-facebook-tech-support-number-customer-helpline-adword
 
