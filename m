@@ -1,47 +1,48 @@
-From: Stephan Mueller <smueller-T9tCv8IpfcWELgA04lAiVw@public.gmane.org>
-Subject: Re: [PATCH] Update the random(4) documentation towards a more accurate view on /dev/urandom
-Date: Fri, 21 Oct 2016 20:00:34 +0200
-Message-ID: <1726851.hdjQplLLFm@tauon.atsec.com>
-References: <1461574090.32558.45.camel@redhat.com> <4610047.a51zB7LfZj@tauon.atsec.com> <20161021175633.5x5mp2xv3wq4ejjf@thunk.org>
+From: Vince Weaver <vincent.weaver@maine.edu>
+Subject: [patch] perf_event_open.2: add PERF_SAMPLE_BRANCH_CALL branch sample
+ type
+Date: Fri, 21 Oct 2016 16:55:21 -0400 (EDT)
+Message-ID: <alpine.DEB.2.20.1610211653160.12619@macbook-air>
 Mime-Version: 1.0
-Content-Type: text/plain; charset="us-ascii"
-Content-Transfer-Encoding: 7Bit
-Return-path: <linux-man-owner-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>
-In-Reply-To: <20161021175633.5x5mp2xv3wq4ejjf-AKGzg7BKzIDYtjvyW6yDsg@public.gmane.org>
-Sender: linux-man-owner-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
-To: Theodore Ts'o <tytso-3s7WtUTddSA@public.gmane.org>
-Cc: "Michael Kerrisk (man-pages)" <mtk.manpages-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org>, Nikos Mavrogiannopoulos <nmav-H+wXaHxf7aLQT0dZR+AlfA@public.gmane.org>, linux-man-u79uwXL29TY76Z2rM5mHXA@public.gmane.org, Laurent Georget <laurent.georget-vbcOdlJ0SulGWvitb5QawA@public.gmane.org>, George Spelvin <linux-gpGsJRJZ3PBBDgjK7y7TUQ@public.gmane.org>
+Content-Type: text/plain; charset=US-ASCII
+Return-path: <linux-kernel-owner@vger.kernel.org>
+Sender: linux-kernel-owner@vger.kernel.org
+To: "Michael Kerrisk (man-pages)" <mtk.manpages@gmail.com>
+Cc: linux-man@vger.kernel.org, linux-kernel@vger.kernel.org, Stephane Eranian <eranian@google.com>, Peter Zijlstra <peterz@infradead.org>, Ingo Molnar <mingo@redhat.com>, Arnaldo Carvalho de Melo <acme@kernel.org>
 List-Id: linux-man@vger.kernel.org
 
-Am Freitag, 21. Oktober 2016, 13:56:33 CEST schrieb Theodore Ts'o:
 
-Hi Theodore,
+Linux 4.4 (c229bf9dc179d2023e185c0f705bdf68484c1e73) added
+the PERF_SAMPLE_BRANCH_CALL branch sample type, which confusingly
+is a direct-call only subset of what PERF_SAMPLE_BRANCH_ANY_CALL
+provides.
 
-> > Although I this is not related to the man page, please note that I have
-> > tried this approach during the development of my LRNG. systemd did not
-> > like that at all. The system did not come up, even though there was only
-> > 0.5 seconds it would need to wait until getrandom would unblock during my
-> > tests.
-> 
-> Although I'd argue this is a systemd bug, to be fair to systemd, when
-> I briefly tried this approach, the zero day kernel testing system, let
-> me know than an older version of Ubuntu (which wasn't using systemd),
-> and CeroWrt (which also doesn't use systemd) were also hanging.
-> 
-> I haven't checked to see if that was because Cerowrt was trying to do
-> something security sensitive such as creating ssh host keys.  I've
-> been too busy, and I was afriad the result would be too depressing....
-> Besides, I don't use Cerowrt thes days, since I'm using Google OnHub
-> now.  :-)
+Signed-off-by: Vince Weaver <vincent.weaver@maine.edu>
 
-I will dig into that matter a bit further as I need an answer for this 
-behavior for other purposes.
-
-When I find the cause, I will report it.
-
-Ciao
-Stephan
---
-To unsubscribe from this list: send the line "unsubscribe linux-man" in
-the body of a message to majordomo-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
-More majordomo info at  http://vger.kernel.org/majordomo-info.html
+diff --git a/man2/perf_event_open.2 b/man2/perf_event_open.2
+index fade28c..8d985b3 100644
+--- a/man2/perf_event_open.2
++++ b/man2/perf_event_open.2
+@@ -1256,14 +1256,18 @@ following bits must be set.
+ Any branch type.
+ .TP
+ .B PERF_SAMPLE_BRANCH_ANY_CALL
+-Any call branch.
+-.TP
+-.B PERF_SAMPLE_BRANCH_ANY_RETURN
+-Any return branch.
++Any call branch (includes direct calls, indirect calls, and far jumps).
+ .TP
+ .B PERF_SAMPLE_BRANCH_IND_CALL
+ Indirect calls.
+ .TP
++.BR PERF_SAMPLE_BRANCH_CALL " (since Linux 4.4)"
++.\" commit c229bf9dc179d2023e185c0f705bdf68484c1e73
++Direct calls.
++.TP
++.B PERF_SAMPLE_BRANCH_ANY_RETURN
++Any return branch.
++.TP
+ .BR PERF_SAMPLE_BRANCH_IND_JUMP " (since Linux 4.2)"
+ .\" commit c9fdfa14c3792c0160849c484e83aa57afd80ccc
+ Indirect jumps.
