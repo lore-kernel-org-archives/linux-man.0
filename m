@@ -1,111 +1,157 @@
 From: "Michael Kerrisk (man-pages)" <mtk.manpages-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org>
-Subject: Re: [PATCH] perf_event_open.2: 4.9 PERF_EVENT_IOC_SET_DRV_CONFIGS
- support
-Date: Fri, 21 Oct 2016 08:50:51 +0200
-Message-ID: <7c5322b9-51f1-2cb3-4aa5-6cc21b90baed@gmail.com>
-References: <1470935365-2097-1-git-send-email-mathieu.poirier@linaro.org>
- <alpine.DEB.2.11.1608121248100.10883@pianoman.cluster.toy>
- <CANLsYkyKJJ-qHjyzpus6=Cx7OjN5gigBFdd2-cc7e-ezosJTjQ@mail.gmail.com>
+Subject: Re: [PATCH] Update the random(4) documentation towards a more
+ accurate view on /dev/urandom
+Date: Fri, 21 Oct 2016 09:21:28 +0200
+Message-ID: <8a5e82db-6f8a-2426-4a68-feab205bca57@gmail.com>
+References: <1461574090.32558.45.camel@redhat.com>
+ <1470052099.2926.6.camel@redhat.com> <1476952646.2522.10.camel@redhat.com>
 Mime-Version: 1.0
 Content-Type: text/plain; charset=utf-8
 Content-Transfer-Encoding: 7bit
-Return-path: <linux-api-owner-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>
-In-Reply-To: <CANLsYkyKJJ-qHjyzpus6=Cx7OjN5gigBFdd2-cc7e-ezosJTjQ-JsoAwUIsXosN+BqQ9rBEUg@public.gmane.org>
-Sender: linux-api-owner-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
-To: Mathieu Poirier <mathieu.poirier-QSEj5FYQhm4dnm+yROfE0A@public.gmane.org>, Vince Weaver <vince-yfjdyHUqu3OsTnJN9+BGXg@public.gmane.org>
-Cc: mtk.manpages-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org, Peter Zijlstra <peterz-wEGCiKHe2LqWVfeAwA7xHQ@public.gmane.org>, linux-man-u79uwXL29TY76Z2rM5mHXA@public.gmane.org, linux-api-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
+Return-path: <linux-man-owner-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>
+In-Reply-To: <1476952646.2522.10.camel-H+wXaHxf7aLQT0dZR+AlfA@public.gmane.org>
+Sender: linux-man-owner-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
+To: Nikos Mavrogiannopoulos <nmav-H+wXaHxf7aLQT0dZR+AlfA@public.gmane.org>
+Cc: mtk.manpages-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org, linux-man-u79uwXL29TY76Z2rM5mHXA@public.gmane.org, tytso-3s7WtUTddSA@public.gmane.org, Laurent Georget <laurent.georget-vbcOdlJ0SulGWvitb5QawA@public.gmane.org>, George Spelvin <linux-gpGsJRJZ3PBBDgjK7y7TUQ@public.gmane.org>
 List-Id: linux-man@vger.kernel.org
 
-Hi Mathieu,
+[Dropping a couple of other people into CC who may be able / willing
+to review.]
 
-This feature seems not to have made it into 4.9. (Or did I 
-miss something?) Is it still planned for a future release?
+Folks, I'd really appreciate some review help here!
 
 Cheers,
 
 Michael
 
-On 08/12/2016 07:56 PM, Mathieu Poirier wrote:
-> On 12 August 2016 at 10:52, Vince Weaver <vince-yfjdyHUqu3OsTnJN9+BGXg@public.gmane.org> wrote:
->> On Thu, 11 Aug 2016, Mathieu Poirier wrote:
->>
->>> This manpage patch relates to the addition of the
->>> PERF_EVENT_IOC_SET_DRV_CONFIGS ioctl.
->>>
->>> link: http://www.spinics.net/lists/kernel/msg2318998.html
->>> Signed-off-by: Mathieu Poirier <mathieu.poirier-QSEj5FYQhm4dnm+yROfE0A@public.gmane.org>
->>> ---
->>>  man2/perf_event_open.2 | 6 ++++++
->>>  1 file changed, 6 insertions(+)
->>>
->>> diff --git a/man2/perf_event_open.2 b/man2/perf_event_open.2
->>> index 3c894ccd1209..315b6a91079a 100644
->>> --- a/man2/perf_event_open.2
->>> +++ b/man2/perf_event_open.2
->>> @@ -2732,6 +2732,12 @@ The argument is a BPF program file descriptor that was created by
->>>  a previous
->>>  .BR bpf (2)
->>>  system call.
->>> +.TP
->>> +.BR PERF_EVENT_IOC_SET_DRV_CONFIGS " (since Linux 4.9)"
->>> +This makes it possible to pass configuration parameters to PMU drivers.
->>> +Configuration parameters are specific to each drivers.
->>> +
->>> +The argument is a pointer to the desired configuration parameters.
->>>  .SS Using prctl
->>>  A process can enable or disable all the event groups that are
->>>  attached to it using the
->>
->> This is a bit... vague.  So we're adding an interface to allow passing
->> arbitrary binary blobs through the perf_event interface?
->>
->> Is there any structure at all to these blobs?  From the other commit
->> messages it looked like you'd be passing in some sort of string.
+On 10/20/2016 10:37 AM, Nikos Mavrogiannopoulos wrote:
+> On Mon, 2016-08-01 at 13:48 +0200, Nikos Mavrogiannopoulos wrote:
+>> > This is an updated patch reflecting the recent discussion in linux-
+>> > crypto:
+>> > http://www.mail-archive.com/linux-crypto-u79uwXL29TY76Z2rM5mHXA@public.gmane.org/msg20400.html
+> Hi,
+>  I'm resending the patch with few typo fixes, and adding Ted in CC for
+> review. Ted would you like to review this patch for the random(4)
+> manpage?
 > 
-> I am adding an interface to pass PMU specific configuration to the
-> driver.  Since PMU drivers exist for different architecture and
-> drivers I am making the mechanism as generic as possible.
+> regards,
+> Nikos
 > 
-> In this case the CoreSight Tracers need to know what "sink" to use for
-> a trace session.  I've enhanced the perf cmd line tool to accept:
 > 
-> perf -e cs_etm/@sink=some_sink_definition/ ....
+> 0001-Update-the-random-4-documentation-towards-a-more-acc.patch
 > 
-> Everything falling with the '/' that is preceded by a '@' character is
-> considered PMU driver material.  At this time the perf lexer accept
-> two format:
 > 
-> "@cfg" and "@cfg=option".  The lexer will strip off the '@' and pass
-> "cfg" and "cfg=option" to the kernel.
+> From 7952cf6bbabf36a4be50a3ba953278077f7b5157 Mon Sep 17 00:00:00 2001
+> From: Nikos Mavrogiannopoulos <nmav-H+wXaHxf7aLQT0dZR+AlfA@public.gmane.org>
+> Date: Thu, 7 Apr 2016 09:08:14 +0200
+> Subject: [PATCH] Update the random(4) documentation towards a more accurate
+>  view on /dev/urandom
 > 
-> What gets sent down to the kernel is driver specific - it is up to the
-> PMU drivers to parse and validate what's given to them.
+> This documents the "property" of /dev/urandom of being able to serve numbers
+> prior to pool being initialized, and removes any suggested usages of /dev/random
+> which are disputable (i.e., one-time pad).
+> Document the fact /dev/random is a legacy interface and only suitable for
+> applications which can afford indeterminate delays since very few applications
+> can do so.
 > 
-> This feature loosely mimics the filter enhancement where it is now
-> possible to specify:
+> Signed-off-by: Nikos Mavrogiannopoulos <nmav-H+wXaHxf7aLQT0dZR+AlfA@public.gmane.org>
+> ---
+>  man4/random.4 | 51 ++++++++++++++++++++++++++-------------------------
+>  1 file changed, 26 insertions(+), 25 deletions(-)
 > 
-> perf record -e some_event// --filter 'start 0xstart_addr,stop 0xstop_address' or
-> perf record -e some_event// --filter 'filter 0xstart_address/offset'
-> 
-> Here it is up to the event to supply the mechanic to deal with the
-> filter specification (I'm doing the same thing).  Keywords "start",
-> "stop" and "filter" are common to both IntelPT and CoreSight tracers,
-> making them ideal candidates for parsing in the core.
-> 
-> But for driver specific configuration "sink" is only applicable to
-> CoreSight tracers...
-> 
-> Writing these lines I realise that "start", "stop" and "filter" are
-> applicable to only two drivers (IntelPT and CoreSight).  Peter, do you
-> think I should look for "sink" in the core parser, just like it is
-> done for filters?
-> 
-> Guidance would be appreciated here.
-> 
-> Mathieu
-> 
->>
->> Vince
+> diff --git a/man4/random.4 b/man4/random.4
+> index b67c46f..c7afaf4 100644
+> --- a/man4/random.4
+> +++ b/man4/random.4
+> @@ -13,8 +13,9 @@
+>  .\" 2004-04-08, AEB, Improved description of read from /dev/urandom
+>  .\" 2008-06-20, George Spelvin <linux-gpGsJRJZ3PBBDgjK7y7TUQ@public.gmane.org>,
+>  .\"             Matt Mackall <mpm-VDJrAJ4Gl5ZBDgjK7y7TUQ@public.gmane.org>
+> -.\"     Add a Usage subsection that recommends most users to use
+> -.\"     /dev/urandom, and emphasizes parsimonious usage of /dev/random.
+> +.\" 2016-10-20, Nikos Mavrogiannopoulos <nmav-H+wXaHxf7aLQT0dZR+AlfA@public.gmane.org>
+> +.\"     Mention that /dev/random is a legacy interface and removed suggested
+> +.\"     uses of /dev/random.
+>  .\"
+>  .TH RANDOM 4 2016-10-08 "Linux" "Linux Programmer's Manual"
+>  .SH NAME
+> @@ -37,11 +38,22 @@ The generator also keeps an estimate of the
+>  number of bits of noise in the entropy pool.
+>  From this entropy pool random numbers are created.
+>  .LP
+> -When read, the \fI/dev/random\fP device will return random bytes
+> -only within the estimated number of bits of noise in the entropy
+> -pool.
+> -\fI/dev/random\fP should be suitable for uses that need very
+> -high quality randomness such as one-time pad or key generation.
+> +When read, the \fI/dev/urandom\fP device return random bytes using a pseudorandom 
+> +number generator seeded from the entropy pool. That operation is
+> +non-blocking. When used during early boot time, this device may return
+> +data prior to the entropy pool being initialized.
+> +If this is of concern in your application, use
+> +.BR getrandom(2)
+> +or \fI/dev/random\fP instead.
+> +
+> +.LP
+> +The \fI/dev/random\fP device is a legacy interface which dates back to
+> +a time where the cryptographic primitives used in the implementation
+> +were not widely trusted. It will return random bytes
+> +only within the estimated number of bits of fresh noise in the entropy
+> +pool, blocking if necessary.
+> +\fI/dev/random\fP is suitable for applications that need very
+> +high quality randomness, and can afford indeterminate delays.
+>  When the entropy pool is empty, reads from \fI/dev/random\fP will block
+>  until additional environmental noise is gathered.
+>  If
+> @@ -60,18 +72,8 @@ will return -1 and
+>  .I errno
+>  will be set to
+>  .BR EAGAIN .
+> -.LP
+> -A read from the \fI/dev/urandom\fP device will not block
+> -waiting for more entropy.
+> -If there is not sufficient entropy, a pseudorandom number generator is used
+> -to create the requested bytes.
+> -As a result, in this case the returned values are theoretically vulnerable to a
+> -cryptographic attack on the algorithms used by the driver.
+> -Knowledge of how to do this is not available in the current unclassified
+> -literature, but it is theoretically possible that such an attack may
+> -exist.
+> -If this is a concern in your application, use \fI/dev/random\fP
+> -instead.
+> +
+> +The flag
+>  .B O_NONBLOCK
+>  has no effect when opening
+>  .IR /dev/urandom .
+> @@ -82,6 +84,8 @@ for the device
+>  signals will not be handled until after the requested random bytes
+>  have been generated.
+>  
+> +
+> +
+>  Since Linux 3.16,
+>  .\" commit 79a8468747c5f95ed3d5ce8376a3e82e0c5857fc
+>  a
+> @@ -104,14 +108,11 @@ This means that it will impact the contents
+>  read from both files, but it will not make reads from
+>  \fI/dev/random\fP faster.
+>  .SS Usage
+> -If you are unsure about whether you should use
+> +The 
+>  .IR /dev/random
+> -or
+> +interface is considered a legacy interface, and 
+>  .IR /dev/urandom ,
+> -then probably you want to use the latter.
+> -As a general rule,
+> -.IR /dev/urandom
+> -should be used for everything except long-lived GPG/SSL/SSH keys.
+> +is recommended for general use.
+>  
+>  If a seed file is saved across reboots as recommended below (all major
+>  Linux distributions have done this since 2000 at least), the output is
+> -- 2.7.4
 > 
 
 
@@ -113,3 +159,7 @@ On 08/12/2016 07:56 PM, Mathieu Poirier wrote:
 Michael Kerrisk
 Linux man-pages maintainer; http://www.kernel.org/doc/man-pages/
 Linux/UNIX System Programming Training: http://man7.org/training/
+--
+To unsubscribe from this list: send the line "unsubscribe linux-man" in
+the body of a message to majordomo-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
+More majordomo info at  http://vger.kernel.org/majordomo-info.html
