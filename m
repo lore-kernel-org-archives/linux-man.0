@@ -1,48 +1,43 @@
-From: Vince Weaver <vincent.weaver@maine.edu>
-Subject: [patch] perf_event_open.2: add PERF_SAMPLE_BRANCH_CALL branch sample
- type
-Date: Fri, 21 Oct 2016 16:55:21 -0400 (EDT)
-Message-ID: <alpine.DEB.2.20.1610211653160.12619@macbook-air>
+From: Vince Weaver <vincent.weaver-e7X0jjDqjFGHXe+LvDLADg@public.gmane.org>
+Subject: Re: [PATCH 1/2] perf_event_open.2: Document
+ PERF_EVENT_IOC_PAUSE_OUTPUT
+Date: Fri, 21 Oct 2016 17:16:22 -0400 (EDT)
+Message-ID: <alpine.DEB.2.20.1610211710440.16183@macbook-air>
+References: <1477049893-143199-1-git-send-email-wangnan0@huawei.com>
 Mime-Version: 1.0
 Content-Type: text/plain; charset=US-ASCII
-Return-path: <linux-kernel-owner@vger.kernel.org>
-Sender: linux-kernel-owner@vger.kernel.org
-To: "Michael Kerrisk (man-pages)" <mtk.manpages@gmail.com>
-Cc: linux-man@vger.kernel.org, linux-kernel@vger.kernel.org, Stephane Eranian <eranian@google.com>, Peter Zijlstra <peterz@infradead.org>, Ingo Molnar <mingo@redhat.com>, Arnaldo Carvalho de Melo <acme@kernel.org>
+Return-path: <linux-man-owner-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>
+In-Reply-To: <1477049893-143199-1-git-send-email-wangnan0-hv44wF8Li93QT0dZR+AlfA@public.gmane.org>
+Sender: linux-man-owner-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
+To: Wang Nan <wangnan0-hv44wF8Li93QT0dZR+AlfA@public.gmane.org>
+Cc: mtk.manpages-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org, pi3orama-9Onoh4P/yGk@public.gmane.org, linux-kernel-u79uwXL29TY76Z2rM5mHXA@public.gmane.org, linux-man-u79uwXL29TY76Z2rM5mHXA@public.gmane.org, lizefan-hv44wF8Li93QT0dZR+AlfA@public.gmane.org, vincent.weaver-e7X0jjDqjFGHXe+LvDLADg@public.gmane.org
 List-Id: linux-man@vger.kernel.org
 
+On Fri, 21 Oct 2016, Wang Nan wrote:
 
-Linux 4.4 (c229bf9dc179d2023e185c0f705bdf68484c1e73) added
-the PERF_SAMPLE_BRANCH_CALL branch sample type, which confusingly
-is a direct-call only subset of what PERF_SAMPLE_BRANCH_ANY_CALL
-provides.
 
-Signed-off-by: Vince Weaver <vincent.weaver@maine.edu>
+> -.SS Using prctl(2)
+> +.SS Using prctl
 
-diff --git a/man2/perf_event_open.2 b/man2/perf_event_open.2
-index fade28c..8d985b3 100644
---- a/man2/perf_event_open.2
-+++ b/man2/perf_event_open.2
-@@ -1256,14 +1256,18 @@ following bits must be set.
- Any branch type.
- .TP
- .B PERF_SAMPLE_BRANCH_ANY_CALL
--Any call branch.
--.TP
--.B PERF_SAMPLE_BRANCH_ANY_RETURN
--Any return branch.
-+Any call branch (includes direct calls, indirect calls, and far jumps).
- .TP
- .B PERF_SAMPLE_BRANCH_IND_CALL
- Indirect calls.
- .TP
-+.BR PERF_SAMPLE_BRANCH_CALL " (since Linux 4.4)"
-+.\" commit c229bf9dc179d2023e185c0f705bdf68484c1e73
-+Direct calls.
-+.TP
-+.B PERF_SAMPLE_BRANCH_ANY_RETURN
-+Any return branch.
-+.TP
- .BR PERF_SAMPLE_BRANCH_IND_JUMP " (since Linux 4.2)"
- .\" commit c9fdfa14c3792c0160849c484e83aa57afd80ccc
- Indirect jumps.
+why this change?
+
+> +.BR PERF_EVENT_IOC_PAUSE_OUTPUT " (since Linux 4.7)"
+> +.\" commit 86e7972f690c1017fd086cdfe53d8524e68c661c
+> +This allows pausing and resuming the event's ring-buffer. A
+> +paused ring-buffer does not prevent samples generation, but simply
+> +discards them. The discarded samples are considered lost, causes
+> +.BR PERF_RECORD_LOST
+> +to be generated when possible.
+
+I don't know if it's worth mentioning that the reason to add this is to 
+allow reading the ring-buffer without having to worry about data being
+overwritten.
+
+There are a few odd wording choices (mostly plural nouns) but otherwise 
+looks fine to me.
+
+Reviewed-by: Vince Weaver <vincent.weaver-e7X0jjDqjFGHXe+LvDLADg@public.gmane.org>
+--
+To unsubscribe from this list: send the line "unsubscribe linux-man" in
+the body of a message to majordomo-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
+More majordomo info at  http://vger.kernel.org/majordomo-info.html
