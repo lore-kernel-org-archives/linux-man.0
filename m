@@ -1,8 +1,8 @@
 From: bugzilla-daemon-590EEB7GvNiWaY/ihj7yzEB+6BGkLq7r@public.gmane.org
-Subject: [Bug 179591] New: facebook+ support+ number+1 844 762 8448 facebook
- phone number facebook telephone number
-Date: Fri, 21 Oct 2016 15:41:05 +0000
-Message-ID: <bug-179591-11311@https.bugzilla.kernel.org/>
+Subject: [Bug 179601] New: facebook+ contact+ number+ +1 844 762 8448
+ facebook customer service phone number
+Date: Fri, 21 Oct 2016 15:41:06 +0000
+Message-ID: <bug-179601-11311@https.bugzilla.kernel.org/>
 Mime-Version: 1.0
 Content-Type: text/plain; charset="UTF-8"
 Content-Transfer-Encoding: 7bit
@@ -11,11 +11,11 @@ Sender: linux-man-owner-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
 To: linux-man-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
 List-Id: linux-man@vger.kernel.org
 
-https://bugzilla.kernel.org/show_bug.cgi?id=179591
+https://bugzilla.kernel.org/show_bug.cgi?id=179601
 
-            Bug ID: 179591
-           Summary: facebook+ support+ number+1 844 762 8448 facebook
-                    phone number facebook telephone number
+            Bug ID: 179601
+           Summary: facebook+ contact+ number+ +1 844 762 8448 facebook
+                    customer service phone number
            Product: Documentation
            Version: unspecified
           Hardware: All
@@ -28,10 +28,9 @@ https://bugzilla.kernel.org/show_bug.cgi?id=179591
           Reporter: jomayra-7E+D0TwCARZRNZSvaC4tFQ@public.gmane.org
         Regression: No
 
-facebook+ support+ number+1 844 762 8448 facebook phone number facebook
-telephone number facebook+ support+ number+1 844 762 8448 facebook phone number
-facebook telephone number facebook+ support+ number+1 844 762 8448 facebook
-phone number facebook telephone number
+facebook+ contact+ number+ +1 844 762 8448 facebook customer service phone
+numberfacebook+ contact+ number+ +1 844 762 8448 facebook customer service
+phone number
 
 https://www.linkedin.com/pulse/1-844-762-8448-facebook-tech-support-number-customer-helpline-adword
 
