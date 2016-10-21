@@ -1,85 +1,57 @@
-From: bugzilla-daemon-590EEB7GvNiWaY/ihj7yzEB+6BGkLq7r@public.gmane.org
-Subject: [Bug 179611] New: facebook+ phone+ number+1844 762 8448 facebook
- telephone number facebook customer service number
-Date: Fri, 21 Oct 2016 15:41:07 +0000
-Message-ID: <bug-179611-11311@https.bugzilla.kernel.org/>
+From: Theodore Ts'o <tytso-3s7WtUTddSA@public.gmane.org>
+Subject: Re: [PATCH] Update the random(4) documentation towards a more
+ accurate view on /dev/urandom
+Date: Fri, 21 Oct 2016 12:33:14 -0400
+Message-ID: <20161021163314.cvhjgr4s7lfzdsve@thunk.org>
+References: <1461574090.32558.45.camel@redhat.com>
+ <1476952646.2522.10.camel@redhat.com>
+ <8a5e82db-6f8a-2426-4a68-feab205bca57@gmail.com>
+ <2402524.TIv9Kdt40z@tauon.atsec.com>
 Mime-Version: 1.0
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: 7bit
+Content-Type: text/plain; charset=us-ascii
 Return-path: <linux-man-owner-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>
+Content-Disposition: inline
+In-Reply-To: <2402524.TIv9Kdt40z-gNvIQDDl/k7Ia13z/PHSgg@public.gmane.org>
 Sender: linux-man-owner-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
-To: linux-man-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
+To: Stephan Mueller <smueller-T9tCv8IpfcWELgA04lAiVw@public.gmane.org>
+Cc: "Michael Kerrisk (man-pages)" <mtk.manpages-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org>, Nikos Mavrogiannopoulos <nmav-H+wXaHxf7aLQT0dZR+AlfA@public.gmane.org>, linux-man-u79uwXL29TY76Z2rM5mHXA@public.gmane.org, Laurent Georget <laurent.georget-vbcOdlJ0SulGWvitb5QawA@public.gmane.org>, George Spelvin <linux-gpGsJRJZ3PBBDgjK7y7TUQ@public.gmane.org>
 List-Id: linux-man@vger.kernel.org
 
-https://bugzilla.kernel.org/show_bug.cgi?id=179611
+On Fri, Oct 21, 2016 at 04:07:05PM +0200, Stephan Mueller wrote:
+> > > -When read, the \fI/dev/random\fP device will return random bytes
+> > > -only within the estimated number of bits of noise in the entropy
+> > > -pool.
+> > > -\fI/dev/random\fP should be suitable for uses that need very
+> > > -high quality randomness such as one-time pad or key generation.
+> > > +When read, the \fI/dev/urandom\fP device return random bytes using a
+> > > pseudorandom +number generator seeded from the entropy pool. That
+> 
+> Starting with 4.8, there is no nonblocking_pool any more. Please refer to the 
+> ChaCha20 DRNG.
 
-            Bug ID: 179611
-           Summary: facebook+ phone+ number+1844 762 8448 facebook
-                    telephone number facebook customer service number
-           Product: Documentation
-           Version: unspecified
-          Hardware: All
-                OS: Linux
-            Status: NEW
-          Severity: normal
-          Priority: P1
-         Component: man-pages
-          Assignee: documentation_man-pages-ztI5WcYan/vQLgFONoPN62D2FQJk+8+b@public.gmane.org
-          Reporter: jomayra-7E+D0TwCARZRNZSvaC4tFQ@public.gmane.org
-        Regression: No
+That's true, although I think the suggested text is fine.  It doesn't
+reference the nonblocking_ool as near as I can tell.
 
-facebook+ phone+ number+1844 762 8448 facebook telephone number facebook
-customer service numberfacebook+ phone+ number+1844 762 8448 facebook telephone
-number facebook customer service number
+> Would it be possible to add something around getrandom stating that it blocks 
+> until initially 128 bits of entropy are measured before it unblocks and 
+> behaves like /dev/urandom? Maybe it makes even sense to add a recommendation 
+> to use getrandom in favor of /dev/urandom?
 
-https://www.linkedin.com/pulse/1-844-762-8448-facebook-tech-support-number-customer-helpline-adword
+It would certainly be a good idea to suggest the use of getrandom(2),
+and the fact that the only difference between getrandom(2) and
+/dev/urandom is that getrandom(2) will block until it can safely
+generate random numbers.  Unfortunately, there are far too many
+programs (including udev and systemd!) that try to use /dev/urandom at
+boot time, and making a change to /dev/urandom would break users.  If
+any of these use cases are security sensitive, they should really
+change it so that users aren't vulnerable to security attacks.  (The
+use of systemd on IOT devices especially terrifies me in this regard.)
 
-https://sbcglobalemailsupport.freshdesk.com/support/solutions/articles/19000010258--1-844-762-8448-facebook-support-phone-number-
+So anytihng we can do to at least nudge man page readers that they
+shouldn't be trying to use any of these interfaces during the boot
+sequence would be a Really Good Thing.
 
-https://sbcglobalemailsupport.freshdesk.com/support/solutions/articles/19000011050-facebook-technical-support-phone-number-1-844-762-8448-facebook-customer-service-phone-number
-
-https://www.linkedin.com/company/facebook-technical-support-phone-number-1-844-762-8448-fackebook-support-phone-number
-
-https://www.lonelyplanet.com/thorntree/forums/americas-united-states-of-america/united-states/facebook-toll-free-number-1-844-762-8448-facebook-support-number-facebook-customer-service-phone-number
-
-http://darcs.net/1-844-762-8448%20facebook%20technical%20support%20number%20%20facebook%20customer%20support%20number
-
-https://wordpress.org/support/topic/facebook-customer-service-number-1-844-762-8448-facebook-toll-free-number-3/
-
-https://customerservicetollfree.freshdesk.com/support/discussions/topics/19000003690
-https://facebookcustomerservicehelpcentre.quora.com/Facebook-Toll-free-Number-1-844-762-8448-Facebook-contact-number
-https://facebookcustomerservicehelpcentre.quora.com/
-https://customerservicetollfree.freshdesk.com/support/discussions/forums/19000105464
-https://www.linkedin.com/pulse/facebook-technical-support-phone-number-customer-service-kashyap-1
-https://www.linkedin.com/pulse/1-844-762-8448-facebook-tech-support-number-customer-helpline-adword
-https://customerservicetollfree.freshdesk.com/support/solutions/articles/19000010908-facebook-technical-support-phone-number-1-844-762-8448-facebook-customer-service-phone-number
-https://www.facebook.com/facbookcustomersupporthelplinenumber
-https://plus.google.com/communities/114555590557956369835
-https://facebookhelplinenumberblog.wordpress.com
-https://sbcglobalemailsupport.freshdesk.com/support/solutions/articles/19000011050-facebook-technical-support-phone-number-1-844-762-8448-facebook-customer-service-phone-number
-https://customerservicetollfree.freshdesk.com/support/solutions/articles/19000010281-facebook-toll-free-number-1-844-762-8448-facebook-support-number
-https://www.linkedin.com/pulse/toll-free-number-18447628448facebook-phone-pankaj-kashyap
-https://www.linkedin.com/company/facebook-technical-support-phone-number-1-844-762-8448-fackebook-support-phone-number
-https://www.youtube.com/watch?v=dgnL-epbbrk
-https://www.linkedin.com/pulse/facebook-toll-free-number1844-762-8448-support-i844-number-kashyap
-http://facebooktechnicalsupport-phone-number.blogspot.in/2016/09/facebook-technical-support-number-1-844.html
-https://www.linkedin.com/pulse/facebook-customer-service-1-844-762-8448-phone-number-pankaj-kashyap
-https://www.linkedin.com/pulse/1-844-762-8448facebook-technical-support-number-facebook-pankaj-kumar
-https://www.facebook.com/business/help/community/question/?id=655690971259854
-https://answers.launchpad.net/launchpad/+question/403311
-https://answers.launchpad.net/launchpad/+question/403311
-https://answers.launchpad.net/launchpad/+question/403314
-https://answers.launchpad.net/launchpad/+question/403313
-https://answers.launchpad.net/launchpad/+question/403318
-https://answers.launchpad.net/launchpad/+question/403319
-https://answers.launchpad.net/launchpad/+question/403321
-https://answers.launchpad.net/launchpad/+question/403320
-https://answers.launchpad.net/launchpad/+question/403323
-https://answers.launchpad.net/launchpad/+question/403322
-
--- 
-You are receiving this mail because:
-You are watching the assignee of the bug.
+						- Ted
 --
 To unsubscribe from this list: send the line "unsubscribe linux-man" in
 the body of a message to majordomo-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
