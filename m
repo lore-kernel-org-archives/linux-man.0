@@ -1,49 +1,68 @@
-From: Vince Weaver <vincent.weaver@maine.edu>
-Subject: Re: [PATCH 2/2] perf_event_open.2: Document write_backward
-Date: Fri, 21 Oct 2016 17:25:40 -0400 (EDT)
-Message-ID: <alpine.DEB.2.20.1610211716280.16183@macbook-air>
-References: <1477049893-143199-1-git-send-email-wangnan0@huawei.com> <1477049893-143199-2-git-send-email-wangnan0@huawei.com>
+From: "Michael Kerrisk (man-pages)" <mtk.manpages@gmail.com>
+Subject: Re: [patch] perf_event_open.2: add PERF_SAMPLE_BRANCH_CALL branch
+ sample type
+Date: Sat, 22 Oct 2016 11:56:12 +0200
+Message-ID: <d47dc0f3-ab1a-2271-847d-2b4be4d60c47@gmail.com>
+References: <alpine.DEB.2.20.1610211653160.12619@macbook-air>
 Mime-Version: 1.0
-Content-Type: text/plain; charset=US-ASCII
+Content-Type: text/plain; charset=windows-1252
+Content-Transfer-Encoding: 7bit
 Return-path: <linux-kernel-owner@vger.kernel.org>
-In-Reply-To: <1477049893-143199-2-git-send-email-wangnan0@huawei.com>
+In-Reply-To: <alpine.DEB.2.20.1610211653160.12619@macbook-air>
 Sender: linux-kernel-owner@vger.kernel.org
-To: Wang Nan <wangnan0@huawei.com>
-Cc: mtk.manpages@gmail.com, pi3orama@163.com, linux-kernel@vger.kernel.org, linux-man@vger.kernel.org, lizefan@huawei.com, vincent.weaver@maine.edu
+To: Vince Weaver <vincent.weaver@maine.edu>
+Cc: mtk.manpages@gmail.com, linux-man@vger.kernel.org, linux-kernel@vger.kernel.org, Stephane Eranian <eranian@google.com>, Peter Zijlstra <peterz@infradead.org>, Ingo Molnar <mingo@redhat.com>, Arnaldo Carvalho de Melo <acme@kernel.org>
 List-Id: linux-man@vger.kernel.org
 
-On Fri, 21 Oct 2016, Wang Nan wrote:
+Hi Vince,
 
->            context_switch :  1,  /* context switch data */
-> -
-> -          __reserved_1   : 37;
-> +          write_backward :  1,  /* Write ring buffer from end to beginning */
-> +          __reserved_1   : 36;
+On 10/21/2016 10:55 PM, Vince Weaver wrote:
+> 
+> Linux 4.4 (c229bf9dc179d2023e185c0f705bdf68484c1e73) added
+> the PERF_SAMPLE_BRANCH_CALL branch sample type, which confusingly
+> is a direct-call only subset of what PERF_SAMPLE_BRANCH_ANY_CALL
+> provides.
 
-This removes a blank line, not sure if intentional or not.
+Thanks. Applied.
 
-> +.IR "write_backward" " (since Linux 4.6)"
+Cheers,
 
-It didn't committed until Linux 4.7 from what I can tell?
+Michael
 
-> +This makes the resuling event use a backward ring-buffer, which
-resulting
 
-> +writes samples from the end of the ring-buffer.
-> +
-> +It is not allowed to connect events with backward and forward
-> +ring-buffer settings together using
-> +.B PERF_EVENT_IOC_SET_OUTPUT.
-> +
-> +Backward ring-buffer is useful when the ring-buffer is overwritable
-> +(created by readonly
-> +.BR mmap (2)
-> +). 
+> Signed-off-by: Vince Weaver <vincent.weaver@maine.edu>
+> 
+> diff --git a/man2/perf_event_open.2 b/man2/perf_event_open.2
+> index fade28c..8d985b3 100644
+> --- a/man2/perf_event_open.2
+> +++ b/man2/perf_event_open.2
+> @@ -1256,14 +1256,18 @@ following bits must be set.
+>  Any branch type.
+>  .TP
+>  .B PERF_SAMPLE_BRANCH_ANY_CALL
+> -Any call branch.
+> -.TP
+> -.B PERF_SAMPLE_BRANCH_ANY_RETURN
+> -Any return branch.
+> +Any call branch (includes direct calls, indirect calls, and far jumps).
+>  .TP
+>  .B PERF_SAMPLE_BRANCH_IND_CALL
+>  Indirect calls.
+>  .TP
+> +.BR PERF_SAMPLE_BRANCH_CALL " (since Linux 4.4)"
+> +.\" commit c229bf9dc179d2023e185c0f705bdf68484c1e73
+> +Direct calls.
+> +.TP
+> +.B PERF_SAMPLE_BRANCH_ANY_RETURN
+> +Any return branch.
+> +.TP
+>  .BR PERF_SAMPLE_BRANCH_IND_JUMP " (since Linux 4.2)"
+>  .\" commit c9fdfa14c3792c0160849c484e83aa57afd80ccc
+>  Indirect jumps.
+> 
 
-A ring buffer is over-writable when it is mmapped readonly?
-Is this a hard requirement?
-Can you set the read-backwards bit if not mapped readonly?
 
-Otherwise the documentation seems reasonable.
-
-Reviewed-by: Vince Weaver <vincent.weaver@maine.edu>
+-- 
+Michael Kerrisk
+Linux man-pages maintainer; http://www.kernel.org/doc/man-pages/
+Linux/UNIX System Programming Training: http://man7.org/training/
