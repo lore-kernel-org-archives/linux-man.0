@@ -1,74 +1,72 @@
 From: "Michael Kerrisk (man-pages)" <mtk.manpages@gmail.com>
-Subject: Re: [PATCH 2/2] perf_event_open.2: Document write_backward
-Date: Sat, 22 Oct 2016 12:05:55 +0200
-Message-ID: <c805a296-8a65-9297-74fe-ee04926055c8@gmail.com>
-References: <1477049893-143199-1-git-send-email-wangnan0@huawei.com>
- <1477049893-143199-2-git-send-email-wangnan0@huawei.com>
- <alpine.DEB.2.20.1610211716280.16183@macbook-air>
+Subject: Re: Rewording language in mbind(2) to "threads" not "processes"
+Date: Sat, 22 Oct 2016 12:08:51 +0200
+Message-ID: <f3172238-1601-22c8-e840-b012927866ac@gmail.com>
+References: <f3c4ca9d-a880-5244-e06e-db4725e4d945@gmail.com>
+ <alpine.DEB.2.20.1610131314020.3176@east.gentwo.org>
 Mime-Version: 1.0
 Content-Type: text/plain; charset=windows-1252
 Content-Transfer-Encoding: 7bit
-Return-path: <linux-kernel-owner@vger.kernel.org>
-In-Reply-To: <alpine.DEB.2.20.1610211716280.16183@macbook-air>
-Sender: linux-kernel-owner@vger.kernel.org
-To: Vince Weaver <vincent.weaver@maine.edu>, Wang Nan <wangnan0@huawei.com>
-Cc: mtk.manpages@gmail.com, pi3orama@163.com, linux-kernel@vger.kernel.org, linux-man@vger.kernel.org, lizefan@huawei.com
+Return-path: <owner-linux-mm@kvack.org>
+In-Reply-To: <alpine.DEB.2.20.1610131314020.3176@east.gentwo.org>
+Sender: owner-linux-mm@kvack.org
+To: Christoph Lameter <cl@linux.com>
+Cc: mtk.manpages@gmail.com, Piotr Kwapulinski <kwapulinski.piotr@gmail.com>, mhocko@kernel.org, mgorman@techsingularity.net, a.p.zijlstra@chello.nl, riel@redhat.com, linux-mm@kvack.org, linux-kernel@vger.kernel.org, linux-man@vger.kernel.org, Brice Goglin <Brice.Goglin@inria.fr>
 List-Id: linux-man@vger.kernel.org
 
-On 10/21/2016 11:25 PM, Vince Weaver wrote:
-> On Fri, 21 Oct 2016, Wang Nan wrote:
+On 10/13/2016 08:16 PM, Christoph Lameter wrote:
+> On Thu, 13 Oct 2016, Michael Kerrisk (man-pages) wrote:
 > 
->>            context_switch :  1,  /* context switch data */
->> -
->> -          __reserved_1   : 37;
->> +          write_backward :  1,  /* Write ring buffer from end to beginning */
->> +          __reserved_1   : 36;
+>> @@ -100,7 +100,10 @@ If, however, the shared memory region was created with the
+>>  .B SHM_HUGETLB
+>>  flag,
+>>  the huge pages will be allocated according to the policy specified
+>> -only if the page allocation is caused by the process that calls
+>> +only if the page allocation is caused by the thread that calls
+>> +.\"
+>> +.\" ??? Is it correct to change "process" to "thread" in the preceding line?
 > 
-> This removes a blank line, not sure if intentional or not.
+> No leave it as process. Pages get one map refcount per page table
+> that references them (meaning a process). More than one map refcount means
+> that multiple processes have mapped the page.
+> 
+>> @@ -300,7 +303,10 @@ is specified in
+>>  .IR flags ,
+>>  then the kernel will attempt to move all the existing pages
+>>  in the memory range so that they follow the policy.
+>> -Pages that are shared with other processes will not be moved.
+>> +Pages that are shared with other threads will not be moved.
+>> +.\"
+>> +.\" ??? Is it correct to change "processes" to "threads" in the preceding line?
+>> +.\"
+> 
+> Leave it. Same as before.
+> 
+>>  If
+>>  then the kernel will attempt to move all existing pages in the memory range
+>> -regardless of whether other processes use the pages.
+>> -The calling process must be privileged
+>> +regardless of whether other threads use the pages.
+>> +.\"
+>> +.\" ??? Is it correct to change "processes" to "threads" in the preceding line?
+>> +.\"
+> 
+> Leave as process.
 
-Maybe it would be better to keep it. I don't feel too strongly about 
-this though.
-
->> +.IR "write_backward" " (since Linux 4.6)"
-> 
-> It didn't committed until Linux 4.7 from what I can tell?
-
-Yes, that's my recollection too.
-
-> 
->> +This makes the resuling event use a backward ring-buffer, which
-> resulting
-> 
->> +writes samples from the end of the ring-buffer.
->> +
->> +It is not allowed to connect events with backward and forward
->> +ring-buffer settings together using
->> +.B PERF_EVENT_IOC_SET_OUTPUT.
->> +
->> +Backward ring-buffer is useful when the ring-buffer is overwritable
->> +(created by readonly
->> +.BR mmap (2)
->> +). 
-> 
-> A ring buffer is over-writable when it is mmapped readonly?
-> Is this a hard requirement?
-> Can you set the read-backwards bit if not mapped readonly?
-
-Wang Nan, could you perhaps clarify this in the next version of the patch?
-
-> 
-> Otherwise the documentation seems reasonable.
-> 
-> Reviewed-by: Vince Weaver <vincent.weaver@maine.edu>
-
-Thanks for reviewing both patches, Vince. Wang Nan, please include the
-Reviewed-by: in the next patch iteration.
+Thanks. I've reverted these changes.
 
 Cheers,
 
 Michael
 
+
 -- 
 Michael Kerrisk
 Linux man-pages maintainer; http://www.kernel.org/doc/man-pages/
 Linux/UNIX System Programming Training: http://man7.org/training/
+
+--
+To unsubscribe, send a message with 'unsubscribe linux-mm' in
+the body to majordomo@kvack.org.  For more info on Linux MM,
+see: http://www.linux-mm.org/ .
+Don't email: <a href=mailto:"dont@kvack.org"> email@kvack.org </a>
