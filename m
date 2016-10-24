@@ -1,61 +1,94 @@
-From: "Michael Kerrisk (man-pages)" <mtk.manpages-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org>
-Subject: Re: Reference to Documentation/perf-record.txt broken
-Date: Sat, 22 Oct 2016 13:52:27 +0200
-Message-ID: <CAKgNAki-EmLK1U5PTWsCzXYvFDPcTWaybijzVzNLqCV2Gq22Hw@mail.gmail.com>
-References: <415EAD72-096F-47F4-AB66-26BDFCCEA939@gmail.com>
-Reply-To: mtk.manpages-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org
+From: "Wangnan (F)" <wangnan0@huawei.com>
+Subject: Re: [PATCH 2/2] perf_event_open.2: Document write_backward
+Date: Mon, 24 Oct 2016 14:44:41 +0800
+Message-ID: <580DADD9.8020807@huawei.com>
+References: <1477049893-143199-1-git-send-email-wangnan0@huawei.com>
+ <1477049893-143199-2-git-send-email-wangnan0@huawei.com>
+ <alpine.DEB.2.20.1610211716280.16183@macbook-air>
+ <c805a296-8a65-9297-74fe-ee04926055c8@gmail.com>
 Mime-Version: 1.0
-Content-Type: text/plain; charset=UTF-8
-Return-path: <linux-man-owner-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>
-In-Reply-To: <415EAD72-096F-47F4-AB66-26BDFCCEA939-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org>
-Sender: linux-man-owner-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
-To: Michael Hausenblas <michael.hausenblas-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org>
-Cc: linux-man <linux-man-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>
+Content-Type: text/plain; charset="utf-8"; format=flowed
+Content-Transfer-Encoding: 7bit
+Return-path: <linux-kernel-owner@vger.kernel.org>
+In-Reply-To: <c805a296-8a65-9297-74fe-ee04926055c8@gmail.com>
+Sender: linux-kernel-owner@vger.kernel.org
+To: "Michael Kerrisk (man-pages)" <mtk.manpages@gmail.com>, Vince Weaver <vincent.weaver@maine.edu>
+Cc: pi3orama@163.com, linux-kernel@vger.kernel.org, linux-man@vger.kernel.org, lizefan@huawei.com
 List-Id: linux-man@vger.kernel.org
 
-Hello Michael
 
-On 22 October 2016 at 12:50, Michael Hausenblas
-<michael.hausenblas-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org> wrote:
+
+On 2016/10/22 18:05, Michael Kerrisk (man-pages) wrote:
+> On 10/21/2016 11:25 PM, Vince Weaver wrote:
+>> On Fri, 21 Oct 2016, Wang Nan wrote:
+>>
+>>>             context_switch :  1,  /* context switch data */
+>>> -
+>>> -          __reserved_1   : 37;
+>>> +          write_backward :  1,  /* Write ring buffer from end to beginning */
+>>> +          __reserved_1   : 36;
+>> This removes a blank line, not sure if intentional or not.
+> Maybe it would be better to keep it. I don't feel too strongly about
+> this though.
 >
-> In http://man7.org/linux/man-pages/man7/cgroups.7.html within the 'Cgroups version 1 controllers' section the following is stated under the 'perf_event' entry:
+>>> +.IR "write_backward" " (since Linux 4.6)"
+>> It didn't committed until Linux 4.7 from what I can tell?
+> Yes, that's my recollection too.
 >
-> [[
-> Further information can be found in the kernel source file
->
-> Documentation/perf-record.txt.
-> ]]
->
-> Which suggests that there is more information at https://www.kernel.org/doc/Documentation/perf-record.txt
+>>> +This makes the resuling event use a backward ring-buffer, which
+>> resulting
+>>
+>>> +writes samples from the end of the ring-buffer.
+>>> +
+>>> +It is not allowed to connect events with backward and forward
+>>> +ring-buffer settings together using
+>>> +.B PERF_EVENT_IOC_SET_OUTPUT.
+>>> +
+>>> +Backward ring-buffer is useful when the ring-buffer is overwritable
+>>> +(created by readonly
+>>> +.BR mmap (2)
+>>> +).
+>> A ring buffer is over-writable when it is mmapped readonly?
+>> Is this a hard requirement?
 
-Thanks for the report. The pathname should be
-tools/perf/Documentation/perf-record.txt. I've made a fix to the
-manual page.
+I'd like to explain over-writable ring buffer in patch 1/1 like this:
 
-Cheers,
+diff --git a/man2/perf_event_open.2 b/man2/perf_event_open.2
+index fade28c..561331c 100644
+--- a/man2/perf_event_open.2
++++ b/man2/perf_event_open.2
+@@ -1687,6 +1687,15 @@ the
+  .I data_tail
+  value should be written by user space to reflect the last read data.
+  In this case, the kernel will not overwrite unread data.
++
++When the mapping is read only (without
++.BR PROT_WRITE ),
++setting .I data_tail is not allowed.
++In this case, the kernel will overwrite data when sample coming, unless
++the ring buffer is paused by a
++.BR PERF_EVENT_IOC_PAUSE_OUTPUT
++.BR ioctl (2)
++system call before reading.
+  .TP
+  .IR data_offset " (since Linux 4.1)"
+  .\" commit e8c6deac69629c0cb97c3d3272f8631ef17f8f0f
 
-Michael
+The ring buffer become over-writable because there's no way to tell kernel
+the positioin of the last read data when mmaped read only.
 
+>> Can you set the read-backwards bit if not mapped readonly?
 
->
-> I was however not able to find anything there or, FWIW, in https://www.kernel.org/doc/Documentation/cgroup-v1/ where one would expect it in the first place.
->
-> Cheers,
->                 Michael
->
-> --
-> Michael Hausenblas
-> Ireland, Europe
-> http://mhausenblas.info
->
+I don't understand why we need read-backwards.
 
+Mapped with PROT_WRITE is the *default* setting. In this case user program
+like perf is able to tell the reading position to kernel through writing to
+'data_tail'. In this case kernel won't overwrite unread data, it reads
+forwardly.
 
+Or do you think the naming is confusing? The name of 'write_backward' is
+kernel-centric, means adjust kernel behavior. kernel *write* data, so I
+call it 'write_backward'. The name 'read-backwards' is user-centric,
+because user 'read' data.
 
--- 
-Michael Kerrisk
-Linux man-pages maintainer; http://www.kernel.org/doc/man-pages/
-Linux/UNIX System Programming Training: http://man7.org/training/
---
-To unsubscribe from this list: send the line "unsubscribe linux-man" in
-the body of a message to majordomo-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
-More majordomo info at  http://vger.kernel.org/majordomo-info.html
+Thank you.
