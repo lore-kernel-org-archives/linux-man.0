@@ -1,68 +1,28 @@
 From: Wang Nan <wangnan0@huawei.com>
-Subject: [PATCH v3][manpages 1/2] perf_event_open.2: Document PERF_EVENT_IOC_PAUSE_OUTPUT
-Date: Mon, 24 Oct 2016 06:52:55 +0000
-Message-ID: <20161024065256.160703-2-wangnan0@huawei.com>
-References: <20161024065256.160703-1-wangnan0@huawei.com>
+Subject: [PATCH v3][manpages 0/2] Document new feature in perf_event_open
+Date: Mon, 24 Oct 2016 06:52:54 +0000
+Message-ID: <20161024065256.160703-1-wangnan0@huawei.com>
 Mime-Version: 1.0
 Content-Type: text/plain
 Return-path: <linux-kernel-owner@vger.kernel.org>
-In-Reply-To: <20161024065256.160703-1-wangnan0@huawei.com>
 Sender: linux-kernel-owner@vger.kernel.org
 To: mtk.manpages@gmail.com, vincent.weaver@maine.edu
 Cc: pi3orama@163.com, linux-kernel@vger.kernel.org, lizefan@huawei.com, linux-man@vger.kernel.org, Wang Nan <wangnan0@huawei.com>
 List-Id: linux-man@vger.kernel.org
 
-Linux 4.7 (86e7972f690c1017fd086cdfe53d8524e68c661c) introduces
-PERF_EVENT_IOC_PAUSE_OUTPUT feature. Document it.
+Decribe PERF_EVENT_IOC_PAUSE_OUTPUT and write_backward in man pages.
 
-Signed-off-by: Wang Nan <wangnan0@huawei.com>
-Reviewed-by: Vince Weaver <vincent.weaver@maine.edu>
-Cc: Michael Kerrisk <mtk.manpages@gmail.com>
----
- man2/perf_event_open.2 | 24 ++++++++++++++++++++++++
- 1 file changed, 24 insertions(+)
+v2 -> v3:
+  Correct words.
+  Explain the relationship between readonly ring buffer and
+   over-writable ring buffer in patch 1/2.
 
-diff --git a/man2/perf_event_open.2 b/man2/perf_event_open.2
-index fade28c..561331c 100644
---- a/man2/perf_event_open.2
-+++ b/man2/perf_event_open.2
-@@ -1687,6 +1687,15 @@ the
- .I data_tail
- value should be written by user space to reflect the last read data.
- In this case, the kernel will not overwrite unread data.
-+
-+When the mapping is read only (without
-+.BR PROT_WRITE ),
-+setting .I data_tail is not allowed.
-+In this case, the kernel will overwrite data when sample coming, unless
-+the ring buffer is paused by a
-+.BR PERF_EVENT_IOC_PAUSE_OUTPUT
-+.BR ioctl (2)
-+system call before reading.
- .TP
- .IR data_offset " (since Linux 4.1)"
- .\" commit e8c6deac69629c0cb97c3d3272f8631ef17f8f0f
-@@ -2865,6 +2874,21 @@ The argument is a BPF program file descriptor that was created by
- a previous
- .BR bpf (2)
- system call.
-+.TP
-+.BR PERF_EVENT_IOC_PAUSE_OUTPUT " (since Linux 4.7)"
-+.\" commit 86e7972f690c1017fd086cdfe53d8524e68c661c
-+This allows pausing and resuming the event's ring-buffer. A
-+paused ring-buffer does not prevent generation of samples, but simply
-+discards the samples. The discarded samples are considered lost,
-+causing
-+.BR PERF_RECORD_LOST
-+to be generated when possible.
-+
-+The argument is an integer. A nonzero value pauses the ring-buffer,
-+zero resumes the ring-buffer.
-+
-+Pausing a read only ring buffer before reading from it without having
-+to worry about data being overwritten.
- .SS Using prctl(2)
- A process can enable or disable all the event groups that are
- attached to it using the
+Wang Nan (2):
+  perf_event_open.2: Document PERF_EVENT_IOC_PAUSE_OUTPUT
+  perf_event_open.2: Document write_backward
+
+ man2/perf_event_open.2 | 81 ++++++++++++++++++++++++++++++++++++++++++++++++--
+ 1 file changed, 79 insertions(+), 2 deletions(-)
+
 -- 
 2.10.1
