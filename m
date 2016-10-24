@@ -1,8 +1,8 @@
 From: bugzilla-daemon-590EEB7GvNiWaY/ihj7yzEB+6BGkLq7r@public.gmane.org
-Subject: [Bug 180531] New: microsoft 18009690507 office outlook/Hotmail tech
- support phone number
-Date: Mon, 24 Oct 2016 17:55:22 +0000
-Message-ID: <bug-180531-11311@https.bugzilla.kernel.org/>
+Subject: [Bug 180981] New: microsoft 1800-935-0647 office outlook/Hotmail
+ tech support phone number
+Date: Mon, 24 Oct 2016 19:47:36 +0000
+Message-ID: <bug-180981-11311@https.bugzilla.kernel.org/>
 Mime-Version: 1.0
 Content-Type: text/plain; charset="UTF-8"
 Content-Transfer-Encoding: 7bit
@@ -11,10 +11,10 @@ Sender: linux-man-owner-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
 To: linux-man-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
 List-Id: linux-man@vger.kernel.org
 
-https://bugzilla.kernel.org/show_bug.cgi?id=180531
+https://bugzilla.kernel.org/show_bug.cgi?id=180981
 
-            Bug ID: 180531
-           Summary: microsoft 18009690507 office outlook/Hotmail tech
+            Bug ID: 180981
+           Summary: microsoft 1800-935-0647 office outlook/Hotmail tech
                     support phone number
            Product: Documentation
            Version: unspecified
@@ -25,22 +25,22 @@ https://bugzilla.kernel.org/show_bug.cgi?id=180531
           Priority: P1
          Component: man-pages
           Assignee: documentation_man-pages-ztI5WcYan/vQLgFONoPN62D2FQJk+8+b@public.gmane.org
-          Reporter: Knook1964-EwNxoZ0NJZ3QT0dZR+AlfA@public.gmane.org
+          Reporter: nok@i.klipp.su
         Regression: No
 
-microsoft 18009690507 office outlook/Hotmail tech support phone number
+microsoft 18009350647 office outlook/Hotmail tech support phone number
 
-SA Toll Free@ 18009690507 Microsoft Office technical support phone number
+SA Toll Free@ 18009350647 Microsoft Office technical support phone number
 Microsoft Office Helpline
-outlook/Hotmail toll @free@number @ 18009690507 & 18009690507 & 18009690507 
-outlook/Hotmail @ toll @ free @ number @ 18009690507 & 18009690507 &
-18009690507 
-USA Toll Free 18009690507 Microsoft Office technical support phone number
+outlook/Hotmail toll @free@number @ 18009350647 & 18009350647 & 18009350647 
+outlook/Hotmail @ toll @ free @ number @ 18009350647 & 18009350647 &
+18009350647 
+USA Toll Free 18009350647 Microsoft Office technical support phone number
 Microsoft Office Helpline usa 
-USA Toll Free 18009690507 Microsoft Office technical support phone number
+USA Toll Free 18009350647 Microsoft Office technical support phone number
 Microsoft Office Helpline usa 
-outlook/Hotmail @ toll @ free @ number @ 18009690507 & 18009690507 &
-18009690507 
+outlook/Hotmail @ toll @ free @ number @ 18009350647 & 18009350647 &
+18009350647 
 customer services phone number microsoft customer service and support microsoft
 phone number customer service microsoft account customer service phone number
 microsoft customer services number microsoft office customer service number
@@ -97,7 +97,7 @@ outlook/Hotmail customer support phone outlook/Hotmail customer support phone
 microsoft outlook/Hotmail customer service phone microsoft outlook/Hotmail
 customer care microsoft outlook/Hotmail email customer service microsoft help
 desk phone number us microsoft office tech support microsoft tech support phone
-number 18009690507
+number 18009350647
 
 -- 
 You are receiving this mail because:
