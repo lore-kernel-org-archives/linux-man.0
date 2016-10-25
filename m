@@ -1,45 +1,202 @@
-From: Vincent Lefevre <vincent-buymaDBGzMOsTnJN9+BGXg@public.gmane.org>
-Subject: timegm(3): behavior is not described in case of error
-Date: Tue, 25 Oct 2016 14:58:16 +0200
-Message-ID: <20161025125816.GA29678@cventin.lip.ens-lyon.fr>
+From: Piotr Kwapulinski <kwapulinski.piotr@gmail.com>
+Subject: Re: Rewording language in mbind(2) to "threads" not "processes"
+Date: Tue, 25 Oct 2016 17:40:53 +0200
+Message-ID: <20161025154050.GA3186@home>
+References: <f3c4ca9d-a880-5244-e06e-db4725e4d945@gmail.com>
 Mime-Version: 1.0
-Content-Type: text/plain; charset=iso-8859-1
-Content-Transfer-Encoding: 8bit
-Return-path: <linux-man-owner-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>
+Content-Type: text/plain; charset=us-ascii
+Return-path: <linux-kernel-owner@vger.kernel.org>
 Content-Disposition: inline
-Sender: linux-man-owner-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
-To: mtk.manpages-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org
-Cc: linux-man-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
+In-Reply-To: <f3c4ca9d-a880-5244-e06e-db4725e4d945@gmail.com>
+Sender: linux-kernel-owner@vger.kernel.org
+To: "Michael Kerrisk (man-pages)" <mtk.manpages@gmail.com>
+Cc: Christoph Lameter <cl@linux.com>, mhocko@kernel.org, mgorman@techsingularity.net, a.p.zijlstra@chello.nl, riel@redhat.com, linux-mm@kvack.org, linux-kernel@vger.kernel.org, linux-man@vger.kernel.org, Brice Goglin <Brice.Goglin@inria.fr>
 List-Id: linux-man@vger.kernel.org
 
-In the timegm(3) man page, the behavior is not described in case of
-error, i.e. if the result is not representable in a time_t (e.g.,
-with a huge year).
+Hi Michael,
 
-The glibc manual says:
+I spent a couple of hours trying to review your patch. Unfortunately
+nowadays I spend no more than an hour per day for whole my linux
+kernel activity. It may take longer time for me to review it.
+This patch touches some areas of the kernel I'm still not an expert of
+(though I'm learning a lot). I'll review (and possibly fix) it ASAP.
 
-     'timegm' is functionally identical to 'mktime' except it always
-     takes the input values to be Coordinated Universal Time (UTC)
-     regardless of any local time zone setting.
-
-So, I assume that (time_t) -1 is returned in such a case, just like
-mktime.
-
-The man page could add a sentence like the glibc manual one, or
-explicitly say what happens in case of error like in the mktime(3)
-man page.
-
-This is mainly for the timegm() function. For the timelocal() function,
-the man page already says:
-
-    The timelocal() function is equivalent to the POSIX standard
-    function mktime(3). [...]
-
--- 
-Vincent Lefèvre <vincent-buymaDBGzMOsTnJN9+BGXg@public.gmane.org> - Web: <https://www.vinc17.net/>
-100% accessible validated (X)HTML - Blog: <https://www.vinc17.net/blog/>
-Work: CR INRIA - computer arithmetic / AriC project (LIP, ENS-Lyon)
+Best Regards
 --
-To unsubscribe from this list: send the line "unsubscribe linux-man" in
-the body of a message to majordomo-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
-More majordomo info at  http://vger.kernel.org/majordomo-info.html
+Piotr
+
+
+On Thu, Oct 13, 2016 at 10:38:33AM +0200, Michael Kerrisk (man-pages) wrote:
+> Christoph, Piotr, and Brice
+> 
+> Since you (Christoph and Piotr) helped with documenting MPOL_LOCAL 
+> just recently, I wonder if I might ask you to review a patch that I 
+> propose for the mbind(2) manual page.
+> 
+> As far as I understand, memory policy, as set by set_mempolicy(2)
+> is a per-thread attribute. The set_mempolicy(2) and get_mempolicy(2)
+> pages already reflect this, thanks to a patch from Brice last year.
+> 
+> However, such changes were not made in the mbind(2) page.
+> I wonder if I could ask you (and Brice, and anyone who's willing)
+> to look at the patch that I propose below to remedy this. (There are 
+> a couple questions "???" that I've injected in the patch.) Is it okay?
+> 
+> Cheers,
+> 
+> Michael
+> 
+> 
+> diff --git a/man2/mbind.2 b/man2/mbind.2
+> index a5f26e2..9494854 100644
+> --- a/man2/mbind.2
+> +++ b/man2/mbind.2
+> @@ -75,16 +75,16 @@ page in the kernel containing all zeros.
+>  For a file mapped with
+>  .BR MAP_PRIVATE ,
+>  an initial read access will allocate pages according to the
+> -process policy of the process that causes the page to be allocated.
+> -This may not be the process that called
+> +memory policy of the thread that causes the page to be allocated.
+> +This may not be the thread that called
+>  .BR mbind ().
+>  
+>  The specified policy will be ignored for any
+>  .B MAP_SHARED
+>  mappings in the specified memory range.
+> -Rather the pages will be allocated according to the process policy
+> -of the process that caused the page to be allocated.
+> -Again, this may not be the process that called
+> +Rather the pages will be allocated according to the memory policy
+> +of the thread that caused the page to be allocated.
+> +Again, this may not be the thread that called
+>  .BR mbind ().
+>  
+>  If the specified memory range includes a shared memory region
+> @@ -100,7 +100,10 @@ If, however, the shared memory region was created with the
+>  .B SHM_HUGETLB
+>  flag,
+>  the huge pages will be allocated according to the policy specified
+> -only if the page allocation is caused by the process that calls
+> +only if the page allocation is caused by the thread that calls
+> +.\"
+> +.\" ??? Is it correct to change "process" to "thread" in the preceding line?
+> +.\"
+>  .BR mbind ()
+>  for that region.
+>  
+> @@ -146,15 +149,15 @@ A nonempty
+>  specifies physical node IDs.
+>  Linux does not remap the
+>  .I nodemask
+> -when the process moves to a different cpuset context,
+> -nor when the set of nodes allowed by the process's
+> +when the thread moves to a different cpuset context,
+> +nor when the set of nodes allowed by the thread's
+>  current cpuset context changes.
+>  .TP
+>  .BR MPOL_F_RELATIVE_NODES " (since Linux-2.6.26)"
+>  A nonempty
+>  .I nodemask
+>  specifies node IDs that are relative to the set of
+> -node IDs allowed by the process's current cpuset.
+> +node IDs allowed by the thread's current cpuset.
+>  .PP
+>  .I nodemask
+>  points to a bit mask of nodes containing up to
+> @@ -178,7 +181,7 @@ argument is ignored.
+>  Where a
+>  .I nodemask
+>  is required, it must contain at least one node that is on-line,
+> -allowed by the process's current cpuset context
+> +allowed by the thread's current cpuset context
+>  (unless the
+>  .B MPOL_F_STATIC_NODES
+>  mode flag is specified),
+> @@ -194,10 +197,10 @@ mode requests that any nondefault policy be removed,
+>  restoring default behavior.
+>  When applied to a range of memory via
+>  .BR mbind (),
+> -this means to use the process policy,
+> +this means to use the thread memory policy,
+>  which may have been set with
+>  .BR set_mempolicy (2).
+> -If the mode of the process policy is also
+> +If the mode of the thread memory policy is also
+>  .BR MPOL_DEFAULT ,
+>  the system-wide default policy will be used.
+>  The system-wide default policy allocates
+> @@ -268,13 +271,13 @@ If the "local node" is low on free memory,
+>  the kernel will try to allocate memory from other nodes.
+>  The kernel will allocate memory from the "local node"
+>  whenever memory for this node is available.
+> -If the "local node" is not allowed by the process's current cpuset context,
+> +If the "local node" is not allowed by the thread's current cpuset context,
+>  the kernel will try to allocate memory from other nodes.
+>  The kernel will allocate memory from the "local node" whenever
+> -it becomes allowed by the process's current cpuset context.
+> +it becomes allowed by the thread's current cpuset context.
+>  By contrast,
+>  .B MPOL_DEFAULT
+> -reverts to the policy of the process (which may be set via
+> +reverts to the memory policy of the thread (which may be set via
+>  .BR set_mempolicy (2));
+>  that policy may be something other than "local allocation".
+>  .PP
+> @@ -300,7 +303,10 @@ is specified in
+>  .IR flags ,
+>  then the kernel will attempt to move all the existing pages
+>  in the memory range so that they follow the policy.
+> -Pages that are shared with other processes will not be moved.
+> +Pages that are shared with other threads will not be moved.
+> +.\"
+> +.\" ??? Is it correct to change "processes" to "threads" in the preceding line?
+> +.\"
+>  If
+>  .B MPOL_MF_STRICT
+>  is also specified, then the call will fail with the error
+> @@ -312,8 +318,11 @@ If
+>  is passed in
+>  .IR flags ,
+>  then the kernel will attempt to move all existing pages in the memory range
+> -regardless of whether other processes use the pages.
+> -The calling process must be privileged
+> +regardless of whether other threads use the pages.
+> +.\"
+> +.\" ??? Is it correct to change "processes" to "threads" in the preceding line?
+> +.\"
+> +The calling thread must be privileged
+>  .RB ( CAP_SYS_NICE )
+>  to use this flag.
+>  If
+> @@ -383,7 +392,7 @@ specifies one or more node IDs that are
+>  greater than the maximum supported node ID.
+>  Or, none of the node IDs specified by
+>  .I nodemask
+> -are on-line and allowed by the process's current cpuset context,
+> +are on-line and allowed by the thread's current cpuset context,
+>  or none of the specified nodes contain memory.
+>  Or, the
+>  .I mode
+> @@ -440,14 +449,14 @@ When
+>  .B MPOL_DEFAULT
+>  is specified for
+>  .BR set_mempolicy (2),
+> -the process's policy reverts to system default policy
+> +the thread's memory policy reverts to the system default policy
+>  or local allocation.
+>  When
+>  .B MPOL_DEFAULT
+>  is specified for a range of memory using
+>  .BR mbind (),
+>  any pages subsequently allocated for that range will use
+> -the process's policy, as set by
+> +the thread's memory policy, as set by
+>  .BR set_mempolicy (2).
+>  This effectively removes the explicit policy from the
+>  specified range, "falling back" to a possibly nondefault
+> 
+> -- 
+> Michael Kerrisk
+> Linux man-pages maintainer; http://www.kernel.org/doc/man-pages/
+> Linux/UNIX System Programming Training: http://man7.org/training/
