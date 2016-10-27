@@ -1,33 +1,24 @@
-From: Eugene Syromyatnikov <evgsyr-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org>
-Subject: Re: [PATCH] keyctl.2: updates regarding command usage, return values
- and error codes
-Date: Thu, 27 Oct 2016 15:57:54 +0000
-Message-ID: <CACGkJdv0Lp3bLZEOGkiaA5v0O-qd7LGowL67zyWYdZSoxknntQ@mail.gmail.com>
-References: <20160926022448.GA28764@obsidian> <746d51ba-e459-4af9-0664-7f9a44528b0a@gmail.com>
+From: bugzilla-daemon-590EEB7GvNiWaY/ihj7yzEB+6BGkLq7r@public.gmane.org
+Subject: [Kernel Bug Tracker] Your account linux-man-u79uwXL29TY76Z2rM5mHXA@public.gmane.org is being
+ impersonated
+Date: Thu, 27 Oct 2016 17:00:38 +0000 (UTC)
+Message-ID: <20161027170038.6BBAC9F3BC@bugzilla2.web.kernel.org>
 Mime-Version: 1.0
-Content-Type: text/plain; charset=UTF-8
+Content-Type: text/plain; charset="UTF-8"
 Return-path: <linux-man-owner-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>
-In-Reply-To: <746d51ba-e459-4af9-0664-7f9a44528b0a-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org>
 Sender: linux-man-owner-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
-To: "Michael Kerrisk (man-pages)" <mtk.manpages-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org>
-Cc: linux-man <linux-man-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>, dhowells-H+wXaHxf7aLQT0dZR+AlfA@public.gmane.org
+To: linux-man-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
 List-Id: linux-man@vger.kernel.org
 
-On Thu, Oct 27, 2016 at 9:30 AM, Michael Kerrisk (man-pages)
-<mtk.manpages-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org> wrote:
-> I'd like to propose that we switch the
-> licenses to my preferred licenses for man pages:
->
-> https://www.kernel.org/doc/man-pages/licenses.html#verbatim
->
-> Would you be agreeable?
-Yes, sure.
+    Konstantin Ryabitsev <mricon-DgEjT+Ai2ygdnm+yROfE0A@public.gmane.org> has used the 'sudo' feature to access 
+Kernel Bug Tracker using your account.
 
+    Konstantin Ryabitsev <mricon-DgEjT+Ai2ygdnm+yROfE0A@public.gmane.org> provided the following reason for doing this:
+fixing user watching
 
--- 
-Eugene "eSyr" Syromyatnikov
-mailto:evgSyr-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org
-xmpp:eSyr@jabber.{ru|org}
+    If you feel that this action was inappropriate, please contact 
+helpdesk-DgEjT+Ai2yi4UlQgPVntAg@public.gmane.org  For more information on this feature, 
+visit <https://bugzilla.kernel.org/page.cgi?id=sudo.html>.
 --
 To unsubscribe from this list: send the line "unsubscribe linux-man" in
 the body of a message to majordomo-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
