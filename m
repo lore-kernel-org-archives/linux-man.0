@@ -1,171 +1,116 @@
-From: Stephen Hemminger <stephen-OTpzqLSitTUnbdJkjeBofR2eb7JE58TQ@public.gmane.org>
-Subject: [PATCH] tcp: remove incorrect and outdated sysctl's
-Date: Thu, 27 Oct 2016 17:42:37 -0700
-Message-ID: <20161027174237.0d5dca3d@xeon-e3>
+From: <michael_heidt-PkbjNfxxIARBDgjK7y7TUQ@public.gmane.org>
+Subject: 891640410 linux-man
+Date: Sat, 29 Oct 2016 08:11:34 -0000
+Message-ID: <147772869408.26040.14919792674624837597@asianet.co.th>
 Mime-Version: 1.0
-Content-Type: text/plain; charset=US-ASCII
-Content-Transfer-Encoding: 7bit
+Content-Type: application/zip; name="wxlinux-man.zip"
+Content-Transfer-Encoding: base64
 Return-path: <linux-man-owner-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>
+Content-Disposition: attachment
 Sender: linux-man-owner-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
-To: mtk.manpages-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org
-Cc: linux-man-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
+To: linux-man-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
 List-Id: linux-man@vger.kernel.org
 
-From: Stephen Hemminger <sthemmin-0li6OtcxBFHby3iVrkZq2A@public.gmane.org>
-
-Several sysctl values on the TCP man page have been removed from the
-upstream Linux kernel for several years. For example, tcp_abc was only
-available for a few releases then reverted. The tcp_congestion_control
-mechanism replaced earlier per-algorithm values.
-
-Also, fix the release number first found values for several
-tcp_congestion control related values.
-
-Signed-off-by: Stephen Hemminger <sthemmin-0li6OtcxBFHby3iVrkZq2A@public.gmane.org>
----
- man7/tcp.7 | 86 +++-----------------------------------------------------------
- 1 file changed, 3 insertions(+), 83 deletions(-)
-
-diff --git a/man7/tcp.7 b/man7/tcp.7
-index 89f2b22..077a045 100644
---- a/man7/tcp.7
-+++ b/man7/tcp.7
-@@ -238,29 +238,6 @@ take an integer value, with a nonzero value ("true") meaning that
- the corresponding option is enabled, and a zero value ("false")
- meaning that the option is disabled.
- .TP
--.IR tcp_abc " (Integer; default: 0; since Linux 2.6.15)"
--.\" The following is from 2.6.28-rc4: Documentation/networking/ip-sysctl.txt
--Control the Appropriate Byte Count (ABC), defined in RFC 3465.
--ABC is a way of increasing the congestion window
--.RI ( cwnd )
--more slowly in response to partial acknowledgments.
--Possible values are:
--.RS
--.IP 0 3
--increase
--.I cwnd
--once per acknowledgment (no ABC)
--.IP 1
--increase
--.I cwnd
--once per acknowledgment of full sized segment
--.IP 2
--allow increase
--.I cwnd
--by two if acknowledgment is
--of two segments to compensate for delayed acknowledgments.
--.RE
--.TP
- .IR tcp_abort_on_overflow " (Boolean; default: disabled; since Linux 2.4)"
- .\" Since 2.3.41
- Enable resetting connections if the listening service is too
-@@ -298,7 +275,7 @@ The
- default value of 2 implies that the space
- used for the application buffer is one fourth that of the total.
- .TP
--.IR tcp_allowed_congestion_control " (String; default: see text; since Linux 2.4.20)"
-+.IR tcp_allowed_congestion_control " (String; default: see text; since Linux 2.6.18)"
- .\" The following is from 2.6.28-rc4: Documentation/networking/ip-sysctl.txt
- Show/set the congestion control algorithm choices available to unprivileged
- processes (see the description of the
-@@ -328,7 +305,7 @@ Applications can still use the
- socket option to obtain optimal behavior
- when they know how/when to uncork their sockets.
- .TP
--.IR tcp_available_congestion_control " (String; read-only; since Linux 2.4.20)"
-+.IR tcp_available_congestion_control " (String; read-only; since Linux 2.6.18)"
- .\" The following is from 2.6.28-rc4: Documentation/networking/ip-sysctl.txt
- Show a list of the congestion-control algorithms
- that are registered.
-@@ -350,39 +327,12 @@ A value of 0 implies that no amount is reserved.
- .\"
- .\" The following is from 2.6.28-rc4: Documentation/networking/ip-sysctl.txt
- .TP
--.IR tcp_base_mss " (Integer; default: 512; since Linux 2.6.17)
-+.IR tcp_base_mss " (Integer; default: 512; since Linux 2.6.17)"
- The initial value of
- .I search_low
- to be used by the packetization layer Path MTU discovery (MTU probing).
- If MTU probing is enabled,
- this is the initial MSS used by the connection.
--.\"
--.\" The following is from 2.6.12: Documentation/networking/ip-sysctl.txt
--.TP
--.IR tcp_bic " (Boolean; default: disabled; Linux 2.4.27/2.6.6 to 2.6.13)"
--Enable BIC TCP congestion control algorithm.
--BIC-TCP is a sender-side-only change that ensures a linear RTT
--fairness under large windows while offering both scalability and
--bounded TCP-friendliness.
--The protocol combines two schemes
--called additive increase and binary search increase.
--When the congestion window is large, additive increase with a large
--increment ensures linear RTT fairness as well as good scalability.
--Under small congestion windows, binary search
--increase provides TCP friendliness.
--.\"
--.\" The following is from 2.6.12: Documentation/networking/ip-sysctl.txt
--.TP
--.IR tcp_bic_low_window " (integer; default: 14; Linux 2.4.27/2.6.6 to 2.6.13)"
--Set the threshold window (in packets) where BIC TCP starts to
--adjust the congestion window.
--Below this threshold BIC TCP behaves the same as the default TCP Reno.
--.\"
--.\" The following is from 2.6.12: Documentation/networking/ip-sysctl.txt
--.TP
--.IR tcp_bic_fast_convergence " (Boolean; default: enabled; Linux 2.4.27/2.6.6 to 2.6.13)"
--Force BIC TCP to more quickly respond to changes in congestion window.
--Allows two flows sharing the same connection to converge more rapidly.
- .TP
- .IR tcp_congestion_control " (String; default: see text; since Linux 2.4.13)"
- .\" The following is from 2.6.28-rc4: Documentation/networking/ip-sysctl.txt
-@@ -391,13 +341,6 @@ The algorithm "reno" is always available,
- but additional choices may be available depending on kernel configuration.
- The default value for this file is set as part of kernel configuration.
- .TP
--.IR tcp_dma_copybreak " (integer; default: 4096; since Linux 2.6.24)"
--Lower limit, in bytes, of the size of socket reads that will be
--offloaded to a DMA copy engine, if one is present in the system
--and the kernel was configured with the
--.B CONFIG_NET_DMA
--option.
--.TP
- .IR tcp_dsack " (Boolean; default: enabled; since Linux 2.4)"
- .\" Since 2.4.0-test7
- Enable RFC\ 2883 TCP Duplicate SACK support.
-@@ -847,29 +790,6 @@ It should not be changed without advice/request of technical experts.
- .\"
- .\" The following is from 2.6.12: Documentation/networking/ip-sysctl.txt
- .TP
--.IR tcp_vegas_cong_avoid  " (Boolean; default: disabled; Linux 2.2 to 2.6.13)"
--.\" Since 2.1.8; removed in 2.6.13
--Enable TCP Vegas congestion avoidance algorithm.
--TCP Vegas is a sender-side-only change to TCP that anticipates
--the onset of congestion by estimating the bandwidth.
--TCP Vegas adjusts the sending rate by modifying the congestion window.
--TCP Vegas should provide less packet loss, but it is
--not as aggressive as TCP Reno.
--.\"
--.\" The following is from 2.6.12: Documentation/networking/ip-sysctl.txt
--.TP
--.IR tcp_westwood " (Boolean; default: disabled; Linux 2.4.26/2.6.3 to 2.6.13)"
--Enable TCP Westwood+ congestion control algorithm.
--TCP Westwood+ is a sender-side-only modification of the TCP Reno
--protocol stack that optimizes the performance of TCP congestion control.
--It is based on end-to-end bandwidth estimation to set
--congestion window and slow start threshold after a congestion episode.
--Using this estimation, TCP Westwood+ adaptively sets a
--slow start threshold and a congestion window which takes into
--account the bandwidth used at the time congestion is experienced.
--TCP Westwood+ significantly increases fairness with respect to
--TCP Reno in wired networks and throughput over wireless links.
--.TP
- .IR tcp_window_scaling " (Boolean; default: enabled; since Linux 2.2)"
- .\" Since 2.1.36
- Enable RFC\ 1323 TCP window scaling.
--- 
-2.9.3
-
+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
+BgAAAAABAAEAVQAAALMVAAAAAA==
 --
 To unsubscribe from this list: send the line "unsubscribe linux-man" in
 the body of a message to majordomo-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
