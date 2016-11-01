@@ -1,34 +1,19 @@
-From: Jakub Wilk <jwilk-tXgOlIzOKNReoWH0uzbU5w@public.gmane.org>
-Subject: [PATCH 1/2] mtrace.3: tfix
-Date: Mon, 31 Oct 2016 11:10:42 +0100
-Message-ID: <20161031101043.8201-1-jwilk@jwilk.net>
+From: huangh <luiz.arc-y7mWNqJcIDpfJ/NunPodnw@public.gmane.org>
+Subject: =?utf-8?B?SSBmb3VuZCBpdCE=?=
+Date: Tue, 1 Nov 2016 11:07:49 +0300
+Message-ID: <000015e65c19$38b9697d$467c9e42$@ict.ac.cn>
+Mime-Version: 1.0
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: base64
 Return-path: <linux-man-owner-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>
 Sender: linux-man-owner-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
-To: Michael Kerrisk <mtk.manpages-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org>
-Cc: linux-man-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
+To: lizhibing <lizhibing-+I6WMpcfFcY@public.gmane.org>, linux-man <linux-man-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>, linningyu <linningyu-+I6WMpcfFcY@public.gmane.org>, linux-mips <linux-mips-6z/3iImG2C8G8FEW9MqTrA@public.gmane.org>, lucky <lucky-F3m4/jXepmfQT0dZR+AlfA@public.gmane.org>
 List-Id: linux-man@vger.kernel.org
 
-Signed-off-by: Jakub Wilk <jwilk-tXgOlIzOKNReoWH0uzbU5w@public.gmane.org>
----
- man3/mtrace.3 | 2 +-
- 1 file changed, 1 insertion(+), 1 deletion(-)
-
-diff --git a/man3/mtrace.3 b/man3/mtrace.3
-index 20efff1..537d1fc 100644
---- a/man3/mtrace.3
-+++ b/man3/mtrace.3
-@@ -88,7 +88,7 @@ T{
- .BR muntrace ()
- T}	Thread safety	MT-Unsafe
- .TE
--.\" FIXME: The marking is different from that in theglibc manual,
-+.\" FIXME: The marking is different from that in the glibc manual,
- .\" markings in glibc manual are more detailed:
- .\"
- .\"      mtrace: MT-Unsafe env race:mtrace const:malloc_hooks init
--- 
-2.10.1
-
+SGVsbG8hIA0KDQpJIGtub3cgIHlvdSB3ZXJlIGxvb2tpbmcgIGZvciAgdGhhdCAgc3R1ZmYgZm9yICBh
+IGxvbmcgdGltZSwgc28gSSBndWVzcyBJICBmb3VuZCBpdCwgIHRha2UgYSBsb29rICAgaGVyZSAgPGh0
+dHA6Ly9tYXJpZWxsYS5wYXZldGZvdW5kYXRpb24ub3JnL2U0cHUvMjM0Pg0KDQoNCkxvb2tpbmcgZm9y
+d2FyZCwgaHVhbmdoDQo=
 --
 To unsubscribe from this list: send the line "unsubscribe linux-man" in
 the body of a message to majordomo-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
