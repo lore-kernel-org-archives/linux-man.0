@@ -1,41 +1,18 @@
-From: Jann Horn <jann-XZ1E9jl8jIdeoWH0uzbU5w@public.gmane.org>
-Subject: [PATCH] seccomp.2: document changed interaction with ptrace
-Date: Sat,  5 Nov 2016 21:40:36 +0100
-Message-ID: <1478378436-7368-1-git-send-email-jann@thejh.net>
+From: bancoleite-VvPEbV8fm2ydXbR9Wn5p+EWldV4+N/cJ@public.gmane.org
+Subject: DO YOU NEED A LOAN?
+Date: Sun, 06 Nov 2016 05:00:01 +0530
+Message-ID: <20161105233015.C7F6B5F6D94@zmail.goiania.go.gov.br>
+Reply-To: gbllc1955-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org
+Mime-Version: 1.0
+Content-Type: text/plain; charset="iso-8859-1"
+Content-Transfer-Encoding: 8BIT
 Return-path: <linux-man-owner-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>
+Content-Description: Mail message body
 Sender: linux-man-owner-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
-To: mtk.manpages-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org
-Cc: linux-man-u79uwXL29TY76Z2rM5mHXA@public.gmane.org, Kees Cook <keescook-F7+t8E8rja9g9hUCZPvPmw@public.gmane.org>
+To: Recipients <bancoleite-VvPEbV8fm2ydXbR9Wn5p+EWldV4+N/cJ@public.gmane.org>
 List-Id: linux-man@vger.kernel.org
 
-Signed-off-by: Jann Horn <jann-XZ1E9jl8jIdeoWH0uzbU5w@public.gmane.org>
----
- man2/seccomp.2 | 9 +++++++--
- 1 file changed, 7 insertions(+), 2 deletions(-)
-
-diff --git a/man2/seccomp.2 b/man2/seccomp.2
-index dc3d87d..8d36fdc 100644
---- a/man2/seccomp.2
-+++ b/man2/seccomp.2
-@@ -455,8 +455,13 @@ requested by changing the system call to a valid system call number.
- If the tracer asks to skip the system call, then the system call will
- appear to return the value that the tracer puts in the return value register.
- 
--The seccomp check will not be run again after the tracer is notified.
--(This means that seccomp-based sandboxes
-+.\" This was changed in ce6526e8afa4.
-+.\" A related hole, using PTRACE_SYSCALL instead of SECCOMP_RET_TRACE, was
-+.\" changed in arch-specific commits, e.g. 93e35efb8de4 for X86 and
-+.\" 0f3912fd934c for ARM.
-+Before kernel 4.8, the seccomp check will not be run again after the tracer is
-+notified.
-+(This means that, on older kernels, seccomp-based sandboxes
- .B "must not"
- allow use of
- .BR ptrace (2)\(emeven
--- 
-2.1.4
-
+We offer loan at 3% if interested reply us with your email for full info
 --
 To unsubscribe from this list: send the line "unsubscribe linux-man" in
 the body of a message to majordomo-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
