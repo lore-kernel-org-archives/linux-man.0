@@ -1,52 +1,55 @@
 From: "Michael Kerrisk (man-pages)" <mtk.manpages-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org>
-Subject: Re: timegm(3): behavior is not described in case of error
-Date: Sun, 6 Nov 2016 04:30:39 -0700
-Message-ID: <f4a367d4-8e94-dfd8-9316-c58589e8c1aa@gmail.com>
-References: <20161025125816.GA29678@cventin.lip.ens-lyon.fr>
+Subject: Re: [PATCH] seccomp.2: document changed interaction with ptrace
+Date: Sun, 6 Nov 2016 13:22:14 -0700
+Message-ID: <a0d03b9a-2a2a-d641-92b2-575186f4071d@gmail.com>
+References: <1478378436-7368-1-git-send-email-jann@thejh.net>
 Mime-Version: 1.0
 Content-Type: text/plain; charset=windows-1252
 Content-Transfer-Encoding: 7bit
 Return-path: <linux-man-owner-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>
-In-Reply-To: <20161025125816.GA29678-d/FE5ZiCopwvkDgRb4gLyeMIjtZQB4uX@public.gmane.org>
+In-Reply-To: <1478378436-7368-1-git-send-email-jann-XZ1E9jl8jIdeoWH0uzbU5w@public.gmane.org>
 Sender: linux-man-owner-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
-To: Vincent Lefevre <vincent-buymaDBGzMOsTnJN9+BGXg@public.gmane.org>
-Cc: mtk.manpages-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org, linux-man-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
+To: Jann Horn <jann-XZ1E9jl8jIdeoWH0uzbU5w@public.gmane.org>
+Cc: mtk.manpages-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org, linux-man-u79uwXL29TY76Z2rM5mHXA@public.gmane.org, Kees Cook <keescook-F7+t8E8rja9g9hUCZPvPmw@public.gmane.org>
 List-Id: linux-man@vger.kernel.org
 
-Hello Vincent,
+Hello Jann,
 
-On 10/25/2016 06:58 AM, Vincent Lefevre wrote:
-> In the timegm(3) man page, the behavior is not described in case of
-> error, i.e. if the result is not representable in a time_t (e.g.,
-> with a huge year).
-> 
-> The glibc manual says:
-> 
->      'timegm' is functionally identical to 'mktime' except it always
->      takes the input values to be Coordinated Universal Time (UTC)
->      regardless of any local time zone setting.
-> 
-> So, I assume that (time_t) -1 is returned in such a case, just like
-> mktime.
+On 11/05/2016 02:40 PM, Jann Horn wrote:
+> Signed-off-by: Jann Horn <jann-XZ1E9jl8jIdeoWH0uzbU5w@public.gmane.org>
 
-Yes.
-
-> The man page could add a sentence like the glibc manual one, or
-> explicitly say what happens in case of error like in the mktime(3)
-> man page.
-
-I've added such a sentence. (Changes are pushed to Git.) 
-Thanks for the report!
+Thanks for this! I knew the behavior was planned to change here, but
+had not tracked the details. Patch applied.
 
 Cheers,
 
 Michael
 
-> This is mainly for the timegm() function. For the timelocal() function,
-> the man page already says:
+> ---
+>  man2/seccomp.2 | 9 +++++++--
+>  1 file changed, 7 insertions(+), 2 deletions(-)
 > 
->     The timelocal() function is equivalent to the POSIX standard
->     function mktime(3). [...]
+> diff --git a/man2/seccomp.2 b/man2/seccomp.2
+> index dc3d87d..8d36fdc 100644
+
+> --- a/man2/seccomp.2
+> +++ b/man2/seccomp.2
+> @@ -455,8 +455,13 @@ requested by changing the system call to a valid system call number.
+>  If the tracer asks to skip the system call, then the system call will
+>  appear to return the value that the tracer puts in the return value register.
+>  
+> -The seccomp check will not be run again after the tracer is notified.
+> -(This means that seccomp-based sandboxes
+> +.\" This was changed in ce6526e8afa4.
+> +.\" A related hole, using PTRACE_SYSCALL instead of SECCOMP_RET_TRACE, was
+> +.\" changed in arch-specific commits, e.g. 93e35efb8de4 for X86 and
+> +.\" 0f3912fd934c for ARM.
+> +Before kernel 4.8, the seccomp check will not be run again after the tracer is
+> +notified.
+> +(This means that, on older kernels, seccomp-based sandboxes
+>  .B "must not"
+>  allow use of
+>  .BR ptrace (2)\(emeven
 > 
 
 
