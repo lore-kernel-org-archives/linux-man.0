@@ -1,72 +1,42 @@
-From: "Michael Kerrisk (man-pages)" <mtk.manpages-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org>
-Subject: Re: [PATCH] seccomp.2: document changed interaction with ptrace
-Date: Tue, 8 Nov 2016 14:16:10 +0100
-Message-ID: <2a097967-5d7a-7a05-7389-0b14de825b74@gmail.com>
-References: <1478378436-7368-1-git-send-email-jann@thejh.net>
- <CAGXu5jK8+vbnww=YovZKo-j=Quwv_rkx-KrjP9TH9FBBG-R9xg@mail.gmail.com>
-Mime-Version: 1.0
-Content-Type: text/plain; charset=utf-8
-Content-Transfer-Encoding: 7bit
+From: Heinrich Schuchardt <xypron.glpk-Mmb7MZpHnFY@public.gmane.org>
+Subject: [PATCH 1/1] fanotify_mark.2: mention FAN_Q_OVERFLOW
+Date: Tue,  8 Nov 2016 23:13:38 +0100
+Message-ID: <20161108221338.9611-1-xypron.glpk@gmx.de>
 Return-path: <linux-man-owner-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>
-In-Reply-To: <CAGXu5jK8+vbnww=YovZKo-j=Quwv_rkx-KrjP9TH9FBBG-R9xg-JsoAwUIsXosN+BqQ9rBEUg@public.gmane.org>
 Sender: linux-man-owner-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
-To: Kees Cook <keescook-F7+t8E8rja9g9hUCZPvPmw@public.gmane.org>, Jann Horn <jann-XZ1E9jl8jIdeoWH0uzbU5w@public.gmane.org>
-Cc: mtk.manpages-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org, linux-man <linux-man-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>
+To: Michael Kerrisk <mtk.manpages-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org>
+Cc: linux-man-u79uwXL29TY76Z2rM5mHXA@public.gmane.org, Heinrich Schuchardt <xypron.glpk-Mmb7MZpHnFY@public.gmane.org>
 List-Id: linux-man@vger.kernel.org
 
-On 11/08/2016 01:18 AM, Kees Cook wrote:
-> On Sat, Nov 5, 2016 at 2:40 PM, Jann Horn <jann-XZ1E9jl8jIdeoWH0uzbU5w@public.gmane.org> wrote:
->> Signed-off-by: Jann Horn <jann-XZ1E9jl8jIdeoWH0uzbU5w@public.gmane.org>
-> 
-> Thanks Jann! I realize it's already applied, but FWIW:
-> 
-> Acked-by: Kees Cook <keescook-F7+t8E8rja9g9hUCZPvPmw@public.gmane.org>
-> 
-> :)
+To receive overflow events it is necessary to set this bit
+in fanotify_mark().
 
-Thanks for checking this, Kees!
+Signed-off-by: Heinrich Schuchardt <xypron.glpk-Mmb7MZpHnFY@public.gmane.org>
+---
+ man2/fanotify_mark.2 | 7 +++++++
+ 1 file changed, 7 insertions(+)
 
-Cheers,
-
-Michael
-
-
->> ---
->>  man2/seccomp.2 | 9 +++++++--
->>  1 file changed, 7 insertions(+), 2 deletions(-)
->>
->> diff --git a/man2/seccomp.2 b/man2/seccomp.2
->> index dc3d87d..8d36fdc 100644
->> --- a/man2/seccomp.2
->> +++ b/man2/seccomp.2
->> @@ -455,8 +455,13 @@ requested by changing the system call to a valid system call number.
->>  If the tracer asks to skip the system call, then the system call will
->>  appear to return the value that the tracer puts in the return value register.
->>
->> -The seccomp check will not be run again after the tracer is notified.
->> -(This means that seccomp-based sandboxes
->> +.\" This was changed in ce6526e8afa4.
->> +.\" A related hole, using PTRACE_SYSCALL instead of SECCOMP_RET_TRACE, was
->> +.\" changed in arch-specific commits, e.g. 93e35efb8de4 for X86 and
->> +.\" 0f3912fd934c for ARM.
->> +Before kernel 4.8, the seccomp check will not be run again after the tracer is
->> +notified.
->> +(This means that, on older kernels, seccomp-based sandboxes
->>  .B "must not"
->>  allow use of
->>  .BR ptrace (2)\(emeven
->> --
->> 2.1.4
->>
-> 
-> 
-> 
-
-
+diff --git a/man2/fanotify_mark.2 b/man2/fanotify_mark.2
+index 88aa17e..4933ecc 100644
+--- a/man2/fanotify_mark.2
++++ b/man2/fanotify_mark.2
+@@ -149,6 +149,13 @@ Create an event when a read-only file or directory is closed.
+ .B FAN_OPEN
+ Create an event when a file or directory is opened.
+ .TP
++.B FAN_Q_OVERFLOW
++Create an event when an overflow of the event queue occurs.
++The size of the event queue is limited to 16384 entries if
++.B FAN_UNLIMITED_QUEUE
++is not set in
++.BR fanotify_init (2).
++.TP
+ .B FAN_OPEN_PERM
+ Create an event when a permission to open a file or directory is requested.
+ An fanotify file descriptor created with
 -- 
-Michael Kerrisk
-Linux man-pages maintainer; http://www.kernel.org/doc/man-pages/
-Linux/UNIX System Programming Training: http://man7.org/training/
+2.10.2
+
 --
 To unsubscribe from this list: send the line "unsubscribe linux-man" in
 the body of a message to majordomo-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
