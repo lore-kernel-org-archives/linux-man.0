@@ -1,8 +1,8 @@
 From: Eugene Syromyatnikov <evgsyr-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org>
-Subject: [PATCH 1/3] quotactl.2: clarification regarding Q_XQUOTASYNC, which
- is present but no-op in recent kernels
-Date: Wed, 9 Nov 2016 20:30:36 +0300
-Message-ID: <20161109173036.GA19381@obsidian>
+Subject: [PATCH 3/3] mq_open.3: clarification regarding usage of mq_flags
+ attribute in mq_open()
+Date: Wed, 9 Nov 2016 20:31:06 +0300
+Message-ID: <20161109173106.GA19836@obsidian>
 Mime-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Return-path: <linux-man-owner-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>
@@ -13,37 +13,29 @@ Cc: linux-man-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
 List-Id: linux-man@vger.kernel.org
 
 ---
- man2/quotactl.2 |   16 ++++++++++------
- 1 file changed, 10 insertions(+), 6 deletions(-)
+ man3/mq_open.3 |    9 ++++++++-
+ 1 file changed, 8 insertions(+), 1 deletion(-)
 
-diff --git a/man2/quotactl.2 b/man2/quotactl.2
-index 2fc791f..c68b44f 100644
---- a/man2/quotactl.2
-+++ b/man2/quotactl.2
-@@ -657,13 +657,17 @@ Quotas must have already been turned off.
- The
- .I id
- argument is ignored.
--.PP
--There is no command equivalent to
--.B Q_SYNC
--for XFS since
-+.TP
-+.B Q_XQUOTASYNC
-+This command was an XFS quota equivalent to
-+.IR Q_SYNC ,
-+.\" 4b217ed9e30f94b6e8e5e262020ef0ceab6113af
-+but it is no-op since Linux 3.4, as
- .BR sync (1)
--writes quota information to disk (in addition to the other filesystem
--metadata that it writes out).
-+writes quota information to disk now (in addition to the other filesystem
-+metadata that it writes out). The
-+.IR special ", " id " and " addr
-+arguments are ignored.
- .SH RETURN VALUE
- .LP
- On success,
+diff --git a/man3/mq_open.3 b/man3/mq_open.3
+index 771a263..ba70ada 100644
+--- a/man3/mq_open.3
++++ b/man3/mq_open.3
+@@ -123,7 +123,14 @@ The
+ argument specifies attributes for the queue.
+ See
+ .BR mq_getattr (3)
+-for details.
++for details (except for
++.I mq_flags
++field which is currently ignored by
++.BR mq_open() ;
++.B O_NONBLOCK
++flag should be set in
++.I oflag
++parameter instead).
+ If
+ .I attr
+ is NULL, then the queue is created with implementation-defined
 -- 
 1.7.10.4
 
