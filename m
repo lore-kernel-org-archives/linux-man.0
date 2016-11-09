@@ -1,174 +1,167 @@
 From: "Michael Kerrisk (man-pages)" <mtk.manpages-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org>
-Subject: Re: [PATCH] Update the random(4) documentation towards a more
- accurate view on /dev/urandom
-Date: Wed, 9 Nov 2016 16:26:32 +0100
-Message-ID: <8a990d27-1fc2-8358-f9d3-c9474d6d8616@gmail.com>
-References: <20160426165847.5804.qmail@ns.horizon.com>
+Subject: Re: Status for bug 71211? [random(4): clarify utility and volume]
+Date: Wed, 9 Nov 2016 16:27:38 +0100
+Message-ID: <2fc34759-5d2b-4192-9611-b499e23efdf8@gmail.com>
+References: <CACsCw1MM+eH2zpSajyaT42jHPzrjuxcWpxPA7qqVTBR=uzaLYA@mail.gmail.com>
+ <55B65DAC.6010906@lgeorget.eu>
 Mime-Version: 1.0
-Content-Type: text/plain; charset=windows-1252
-Content-Transfer-Encoding: 7bit
+Content-Type: text/plain; charset=utf-8
+Content-Transfer-Encoding: 8bit
 Return-path: <linux-man-owner-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>
-In-Reply-To: <20160426165847.5804.qmail-HzZAx2gCgqrSUeElwK9/Pw@public.gmane.org>
+In-Reply-To: <55B65DAC.6010906-AyimVQWTEHzsq35pWSNszA@public.gmane.org>
 Sender: linux-man-owner-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
-To: George Spelvin <linux-gpGsJRJZ3PBBDgjK7y7TUQ@public.gmane.org>, nmav-H+wXaHxf7aLQT0dZR+AlfA@public.gmane.org
-Cc: mtk.manpages-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org, linux-man-u79uwXL29TY76Z2rM5mHXA@public.gmane.org, mpm-VDJrAJ4Gl5ZBDgjK7y7TUQ@public.gmane.org, tytso-3s7WtUTddSA@public.gmane.org, Stephan Mueller <smueller-T9tCv8IpfcWELgA04lAiVw@public.gmane.org>, =?UTF-8?Q?Carl_Winb=c3=a4ck?= <c@tunnel53.net>, Laurent Georget <laurent-AyimVQWTEHzsq35pWSNszA@public.gmane.org>
+To: Laurent Georget <laurent-AyimVQWTEHzsq35pWSNszA@public.gmane.org>, =?UTF-8?Q?Carl_Winb=c3=a4ck?= <c@tunnel53.net>, nmav-H+wXaHxf7aLQT0dZR+AlfA@public.gmane.org
+Cc: mtk.manpages-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org, linux-man-u79uwXL29TY76Z2rM5mHXA@public.gmane.org, Stephan Mueller <smueller-T9tCv8IpfcWELgA04lAiVw@public.gmane.org>, George Spelvin <linux-gpGsJRJZ3PBBDgjK7y7TUQ@public.gmane.org>, Theodore T'so <tytso-3s7WtUTddSA@public.gmane.org>, mpm-VDJrAJ4Gl5ZBDgjK7y7TUQ@public.gmane.org
 List-Id: linux-man@vger.kernel.org
 
-Hello Nikos,
+Nikos,
 
-This was the mail from George that I just referred to in my 
-other mail. Is there anything that needs to be covered here?
-Some specific comments below.
+This was an earlier mail from Laurent Georget. I bring
+you into this thread in case there's any of Laurent's comments
+that may be helpful as inspiration for your patch.
 
-On 04/26/2016 06:58 PM, George Spelvin wrote:
-> Nikos Mavrogiannopoulos wrote:
->> On Mon, 2016-04-25 at 11:46 -0400, George Spelvin wrote:
->>> Removing the examples of high quality randomness I'm less fond of;
->>> the whole idea is to inform people who don't quite understand what
->>> the general terms mean.  Good enough for one-time pads is a design
->>> goal of /dev/random.
-> 
->> If that's about documenting a design goal I'd prefer to move it out of
->> the main text for 2 reasons. (a) There is no practical crypto system
->> using one time pads, thus mentioning it in the main body only creates
->> confusion (b), one time pad is such a theoretical construction that any
->> real algorithm wouldn't implement it.
-> 
-> The original (removed by your patch) line was:
-> 
-> -high quality randomness such as one-time pad or key generation.
-> 
-> It's not the words "one-time pad" I'm attached to, but the specific
-> examples of when "high-quality randomness" is required.  A big point is
-> to teach people *how* to use it, and without those examples, when would
-> anyone think "my application wants low-quality randomness"?
-> 
-> You're right that a one-time pad is impractical, but it's still
-> a common and familiar pedagogical example, and more importantly
-> something that a person wondering which to use can see that their
-> application is NOT.
-> 
-> Your proposed patch *also* deleted the other usage example at the end:
-> 
-> -should be used for everything except long-lived GPG/SSL/SSH keys.
-> 
-> which really reduces the value of the man page as a guide to people
-> who aren't crypto experts.
-
-Nikos, what are your thoughts on the above comments?
-
->>> The bit about early boot is actually not as much of an issue as you
->>> think.
->>>
->>> Even /dev/urandom will stall early on boot until a minimum initial seed
->>> (128 bits at present) has been acumulated.  (grep for "urandom_init_wait")
-> 
->> No it will not. We notice often the keys for sshd being generated
->> *before* the kernel logs that the random pool has been
->> initialized.
-> 
-> H'm... observation definitely trumps theoretical predictions based on
-> reading the code.
-> 
-> Is that a documentation problem or a code bug, or something I'm not
-> understanding properly?  If you look for that symbol in the source
-> it definitely looks like it's supposed to wait for initial seeding.
-> And ssh-keygen uses /dev/urandom.
-> 
-> The getrandom(2) man page also documents the block-on-startup behavior.
-> 
-> The driver wakes up the sleeping readers *before* printing
-> the message.  Is it possible that syslog is just losing the race?
-
-Anything from the above that is relevant to add to your patch?
-
->>> How about something more like (draft, not final edit):
->>>
->>>  A read from the \fI/dev/urandom\fP device will not block
->>>  waiting for more entropy.
->>> +If the estimated fresh entropy is not sufficient, a
->>> \fI/dev/urandom\fP
->>> +will produce output anyway, relying on the cryptographic primitives
->>> in
->>> +the driver's pseudo-random number generator to ensure that the
->>> output,
->>> +although correlated with previous output in an information theoretic
->>> +sense (it exceeds the unicity distance), is secure for all practical
->>> +purposes.
-> 
->> What is the purpose of this text? To whom does it target?
-> 
-> To replace the text
-> 
-> -If there is not sufficient entropy, a pseudorandom number generator is used
-> -to create the requested bytes.
-> 
-> or
-> 
-> +If the estimated fresh entropy is not sufficient, a pseudorandom number generator is
-> +used to create the requested bytes.
-> 
-> with something that doesn't imply a mode switch.
-> 
-> I labelled it "draft" because I wasn't really thrilled with the wording,
-> myself, but I thought it gave the general idea and wasn't worth massaging
-> into editorial perfection since it was due to get torn apart anyway.
-> 
-> Can you think of better wording?  I'm all for keeping it simple, but
-> not at the expense of seriously misleading people.
-
-Comments?
-
->> I wouldn't like to get into such details about the device in the manpage,
->> but if you would like a section studying the theoretical properties of
->> /dev/urandom I'd again suggest to keep it separate and elaborate. What
->> is on the text above is certainly not complete analysis and is certainly
->> not targetting administrators and developers who would like to understand
->> what this device does.
-> 
-> A reorganization might indeed be a good way forward; I was examining 
-> your changes without stepping back and considering the whole forest.
-> 
-> Shall I take a stab at it?
-
-Comments? Nikos? George?
-
->>> I don't like the bit about "use /dev/random or getrandom(2)"; while
->>> getrandom(2) should be mentioned in "see also", the equivalent is
->>> "getrandom(..., GRND_RANDOM)".   It's the flag, no the syscall.
-> 
->> It is the syscall. According the description in getrandom(2):
->> "If the pool has not yet been initialized, then the call blocks,
->> unless GRND_RANDOM is specified in flags."
-> 
-> 1. You have a buggy man page.  The corrected one says "If the pool has
->    not yet been initialized, then the call blocks, unless GRND_NONBLOCK
->    is specified in flags."
-> 
-> 2. I stand by what I wrote above.  Without the GRND_RANDOM flag,
->    getrandom() access the nonblocking pool (/dev/urandom).
-> 
->>> I strongly dislike the deletion of the "as a general rule" advice.
->>> Specific recommendations are very valuable.
-> 
->> This advice despite being present for so long, is widely ignored as
->> /dev/urandom is used unconditionally by all software generating keys
->> (SSH/SSL), gnupg being the exception.
-> 
-> No, it's not being ignored.  The advice isn't "use /dev/random for
-> SSH keys", but "*don't* use /dev/random for anything *except* SSH
-> keys".  The "(and maybe not even then)" part is implicit, but much
-> less of a concern.
-> 
-> The audience is not the authors of ssh, libssl, or gnupg; they know
-> what they're doing.  The audience is everyone *else*, and I think
-> specific examples really help there.
-
-Comments?
+See also https://bugzilla.kernel.org/show_bug.cgi?id=71211
 
 Cheers,
 
 Michael
+
+On 07/27/2015 06:34 PM, Laurent Georget wrote:
+> 
+> -----BEGIN PGP SIGNED MESSAGE-----
+> Hash: SHA256
+> 
+> Hello,
+> 
+> the text of this man page has been the subject of endless controversies
+> for ages. CSPRNGs are confusing and the page unfortunately adds a
+> little to the confusion. The newer getrandom(2) page is better, and I
+> (personally, this doesn't engage Michael nor any other author) think
+> that the random(4) page should be rewritten in the same spirit.
+> (getrandom is a system call used to get a random number, by default,
+> it's more or less equivalent than reading from /dev/urandom if you call
+> it without flags and for less than 256 bytes).
+> 
+> Compare this in random(4)
+> 
+>> The kernel random-number generator is designed to produce a small
+>> amount of high-quality seed material to seed a cryptographic pseudo-
+>> random number generator (CPRNG). It is designed for security, not
+>> speed, and is poorly suited to generating large amounts of random
+>> data. Users should be very economical in the amount of seed material
+>> that they read from /dev/urandom (and /dev/random); unnecessarily
+>> reading large quantities of data from this device will have a
+>> negative impact on other users of the device.
+> with this in getrandom(2)
+> 
+>> *getrandom*() relies on entropy gathered from device drivers and other
+>> sources of environmental noise.  Unnecessarily reading large
+>> quantities of data will have a negative impact on other users of the
+>> //dev/random/ and //dev/urandom/ devices.  Therefore, *getrandom*() should
+>> not be used for Monte Carlo simulations or other programs/algorithms
+>> which are doing probabilistic sampling.
+> This says exactly the same thing, but getrandom(2) is less misleading.
+> First note that the man page for random says that /dev/urandom is
+> "poorly suited to generating large amounts of random data", not
+> "poorly suited to generating large amounts of *cryptographic* random data".
+> Basically, you can use /dev/urandom for all cryptographic purposes,
+> because you never need so many bits at once when doing cryptography.
+> Even generating several 16-bytes (128-bits) UIDs per minute if you need
+> them to be cryptographically secure (you may want to think about this
+> requirement, is it strict?) is not that much. A Monte-Carlo simulation
+> requires, say (I don't know exactly let's make a rough guess) around
+> several MB of random numbers per minute. That's 4 or 5 orders of
+> magnitude higher than your UIDs use case. This would be a wrong
+> usage of /dev/urandom for two reasons:
+> - - it would be awfully slow
+> - - you don't need cryptographically secure random numbers, so there's
+> no need to deplete the entropy pool.
+> Next, compare this in random(4):
+> 
+>> If  you    are  unsure  about  whether  you  should  use  /dev/random  or
+>> /dev/urandom,  then  probably you want to use the latter.  As a general
+>> rule, /dev/urandom should be  used  for    everything  except  long-lived
+>> GPG/SSL/SSH keys.
+> with this in getrandom(2):
+> 
+>> Unless  you  are     doing    long-term key generation (and perhaps not even
+>> then), you probably shouldn't be using GRND_RANDOM.  The     cryptographic
+>> algorithms  used for /dev/urandom are quite conservative, and so should
+>> be sufficient for all purposes.    The  disadvantage  of  GRND_RANDOM  is
+>> that  it     can block.  Furthermore, dealing with the partially fulfilled
+>> getrandom() requests that can occur when     using    GRND_RANDOM  increases
+>> code complexity.
+> Again, the two man pages say the same. getrandom(2) is more nuanced,
+> though.
+> 
+> To answer your question about how much you can ask /dev/urandom for :
+> 
+> in random(4) :
+> 
+>> if any program reads more than 256 bits (32 bytes) from the kernel    random
+>> pool  per  invocation, or per reasonable reseed interval (not less than
+>> one minute), that should be taken as a sign that its  cryptography  is
+>> not skillfully implemented.
+> In getrandom(2):
+> 
+>> Calling getrandom() to read /dev/urandom for small values  (<= 256 bytes)
+>> of buflen is the preferred mode of usage.
+> Furthermore, it's impossible to read more than 32MB from /dev/urandom
+> per invocation.
+> 
+> So, actually, the random(4) page is very conservative about the reading
+> limit.
+> 
+> My final conclusion: as long as you use /dev/urandom for cryptographic
+> purposes only, you should be ok, because you will never need *a lot* of
+> random data anyway in any sensible program. For non-cryptographic usage,
+> seed a user-space PRNG with a few bytes from /dev/urandom and you will
+> be good.
+> 
+> Laurent
+> 
+> 
+> 
+> Le 26/07/2015 22:20, Carl Winbäck a écrit :
+>> Hello Michael & Co,
+>>
+>> I would like to bring your attention to bug report 71211, ”random(4):
+>> clarify utility and volume”.
+>>
+>> https://bugzilla.kernel.org/show_bug.cgi?id=71211
+>>
+>> This report was filed over a year ago but still hasn’t received any response.
+>>
+>> Michael, do you have the time to take a look?
+>>
+>> Perhaps you, or someone else on the linux-man list, are familiar with
+>> CSPRNGs and have some ideas on how to reword this man page?
+>>
+>> Unfortunately I’m not at all an expert in this area, so I’m afraid I
+>> don’t have any specific suggestions regarding how to change this man
+>> page. But I still think it would be helpful to the Linux community if
+>> it could be improved, and as a result, hopefully cause less confusion
+>> regarding getting random numbers on Linux.
+>>
+>>
+>> Looking forward to hear your thoughts on this.
+>>
+>> Best regards,
+>> Carl Winbäck
+>> --
+>> To unsubscribe from this list: send the line "unsubscribe linux-man" in
+>> the body of a message to majordomo-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
+>> More majordomo info at  http://vger.kernel.org/majordomo-info.html
+> 
+> -----BEGIN PGP SIGNATURE-----
+> Version: GnuPG v2
+> 
+> iF4EAREIAAYFAlW2XawACgkQRTidSplJch4jJQD/d4LOrShlXmQx5RClVCdj7sKL
+> 6n7SQhlCIjfqvi86JDcA/28cCtYZ8HKL1RgWkgEjGmWoIH6ZA+AKJjgnmugk1wFj
+> =ff9U
+> -----END PGP SIGNATURE-----
+> 
+> 
 
 
 -- 
