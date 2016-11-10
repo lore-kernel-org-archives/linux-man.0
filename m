@@ -1,8 +1,8 @@
 From: "Michael Kerrisk (man-pages)" <mtk.manpages-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org>
-Subject: Re: [PATCH] Update the random(4) documentation towards a more
- accurate view on /dev/urandom
-Date: Thu, 10 Nov 2016 15:19:07 +0100
-Message-ID: <e17ded03-f924-36e6-1a9f-4045790e638c@gmail.com>
+Subject: [PATCH] random.4: Improve discussion or urandom, blocking reads, and
+ signals
+Date: Thu, 10 Nov 2016 15:20:59 +0100
+Message-ID: <4a8c573c-0c19-29d0-248e-74c088968806@gmail.com>
 References: <1461574090.32558.45.camel@redhat.com>
  <1470052099.2926.6.camel@redhat.com> <1476952646.2522.10.camel@redhat.com>
  <b07fb334-149d-cf65-74f3-1d1951e5981b@gmail.com>
@@ -20,47 +20,52 @@ To: Nikos Mavrogiannopoulos <nmav-H+wXaHxf7aLQT0dZR+AlfA@public.gmane.org>
 Cc: mtk.manpages-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org, linux-man-u79uwXL29TY76Z2rM5mHXA@public.gmane.org, tytso-3s7WtUTddSA@public.gmane.org, George Spelvin <linux-gpGsJRJZ3PBBDgjK7y7TUQ@public.gmane.org>, Stephan Mueller <smueller-T9tCv8IpfcWELgA04lAiVw@public.gmane.org>, =?UTF-8?Q?Carl_Winb=c3=a4ck?= <c@tunnel53.net>, Laurent Georget <laurent-AyimVQWTEHzsq35pWSNszA@public.gmane.org>, mpm-VDJrAJ4Gl5ZBDgjK7y7TUQ@public.gmane.org
 List-Id: linux-man@vger.kernel.org
 
-On 11/10/2016 12:56 PM, Michael Kerrisk (man-pages) wrote:
-> On 11/10/2016 12:53 PM, Nikos Mavrogiannopoulos wrote:
->> On Thu, 2016-11-10 at 12:50 +0100, Michael Kerrisk (man-pages) wrote:
->>> Hello Nikos,
->>
->>>>>>  If a seed file is saved across reboots as recommended below
->>>>>> (all
->>>>>> major
->>>>>>  Linux distributions have done this since 2000 at least), the
->>>>>> output is
->>>>>> -- 2.7.4
->>>>> Laurent Georget also commented on this page in a mail last year.
->>>>> I'm going to thread you (and the other people on this mail) into
->>>>> that mail discussion in case there's something there that you
->>>>> might incorporate into a revised patch.
->>>>
->>>> I think it was a different paragraph. Replied in the other email.
->>>
->>> Okay.
->>>
->>> I've applied your patch. Thanks for persisting with this.
->>> After massaging the text a little, I have also applied 
->>> the following wording fix, which I hope is okay:
->>
->> The new text is fine with me.
-> 
-> Thanks, Nikos.
+Hello all,
 
-All the changes we discussed so far are now pushed to Git.
-I'll now send out a couple of proposed patches.
+While reworking the text of the random(4) page, I found
+what appear to be some inaccuracies. Could I get some feedback
+on the patch below?
 
-Cheers,
+Thanks,
 
 Michael
 
+    random.4: Improve discussion or urandom, blocking reads, and signals
+    
+    The text currently states that O_NONBLOCK has no effect for
+    /dev/urandom, which is true.  It also says that reads from
+    /dev/urandom are nonblocking.  This is at the least confusing.
+    If one attempts large reads (say 10MB) from /dev/urandom
+    there is an appreciable delay, and interruption by a signal
+    handler will result in a short read. Amend the text to
+    reflect this.
+    
+    Signed-off-by: Michael Kerrisk <mtk.manpages-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org>
 
+diff --git a/man4/random.4 b/man4/random.4
+index db5d0a2..736cbde 100644
+--- a/man4/random.4
++++ b/man4/random.4
+@@ -46,7 +46,6 @@ When read, the
+ .I /dev/urandom
+ device returns random bytes using a pseudorandom
+ number generator seeded from the entropy pool.
+-Reads from this device are nonblocking.
+ When read during early boot time, this device may return
+ data prior to the entropy pool being initialized.
+ If this is of concern in your application, use
+@@ -88,8 +87,11 @@ When calling
+ .BR read (2)
+ for the device
+ .IR /dev/urandom ,
+-signals will not be handled until after the requested random bytes
+-have been generated.
++reads of up to 256 bytes will return as many bytes as are requested
++and will not be interrupted by a signal handler.
++Reads with a buffer over this limit may return less than the
++requested number of bytes or fail with the error
++.BR EINTR .
 
--- 
-Michael Kerrisk
-Linux man-pages maintainer; http://www.kernel.org/doc/man-pages/
-Linux/UNIX System Programming Training: http://man7.org/training/
 --
 To unsubscribe from this list: send the line "unsubscribe linux-man" in
 the body of a message to majordomo-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
