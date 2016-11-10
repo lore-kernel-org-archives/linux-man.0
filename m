@@ -1,252 +1,280 @@
 From: "Michael Kerrisk (man-pages)" <mtk.manpages-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org>
 Subject: Re: [PATCH] Update the random(4) documentation towards a more
  accurate view on /dev/urandom
-Date: Thu, 10 Nov 2016 12:29:34 +0100
-Message-ID: <94110a82-30ca-3be2-d010-0f6ee04d4c3b@gmail.com>
-References: <20160426165847.5804.qmail@ns.horizon.com>
- <8a990d27-1fc2-8358-f9d3-c9474d6d8616@gmail.com>
- <1478766102.2642.12.camel@redhat.com>
+Date: Thu, 10 Nov 2016 12:50:42 +0100
+Message-ID: <e5c1f87c-aad0-b526-a346-74348a36c2a3@gmail.com>
+References: <1461574090.32558.45.camel@redhat.com>
+ <1470052099.2926.6.camel@redhat.com> <1476952646.2522.10.camel@redhat.com>
+ <b07fb334-149d-cf65-74f3-1d1951e5981b@gmail.com>
+ <1478768067.2642.23.camel@redhat.com>
 Mime-Version: 1.0
 Content-Type: text/plain; charset=utf-8
 Content-Transfer-Encoding: 7bit
 Return-path: <linux-man-owner-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>
-In-Reply-To: <1478766102.2642.12.camel-H+wXaHxf7aLQT0dZR+AlfA@public.gmane.org>
+In-Reply-To: <1478768067.2642.23.camel-H+wXaHxf7aLQT0dZR+AlfA@public.gmane.org>
 Sender: linux-man-owner-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
-To: Nikos Mavrogiannopoulos <nmav-H+wXaHxf7aLQT0dZR+AlfA@public.gmane.org>, George Spelvin <linux-gpGsJRJZ3PBBDgjK7y7TUQ@public.gmane.org>
-Cc: mtk.manpages-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org, linux-man-u79uwXL29TY76Z2rM5mHXA@public.gmane.org, mpm-VDJrAJ4Gl5ZBDgjK7y7TUQ@public.gmane.org, tytso-3s7WtUTddSA@public.gmane.org, Stephan Mueller <smueller-T9tCv8IpfcWELgA04lAiVw@public.gmane.org>, =?UTF-8?Q?Carl_Winb=c3=a4ck?= <c@tunnel53.net>, Laurent Georget <laurent-AyimVQWTEHzsq35pWSNszA@public.gmane.org>
+To: Nikos Mavrogiannopoulos <nmav-H+wXaHxf7aLQT0dZR+AlfA@public.gmane.org>
+Cc: mtk.manpages-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org, linux-man-u79uwXL29TY76Z2rM5mHXA@public.gmane.org, tytso-3s7WtUTddSA@public.gmane.org, George Spelvin <linux-gpGsJRJZ3PBBDgjK7y7TUQ@public.gmane.org>, Stephan Mueller <smueller-T9tCv8IpfcWELgA04lAiVw@public.gmane.org>, =?UTF-8?Q?Carl_Winb=c3=a4ck?= <c@tunnel53.net>, Laurent Georget <laurent-AyimVQWTEHzsq35pWSNszA@public.gmane.org>, mpm-VDJrAJ4Gl5ZBDgjK7y7TUQ@public.gmane.org
 List-Id: linux-man@vger.kernel.org
 
-Hi Nikos,
+Hello Nikos,
 
-On 11/10/2016 09:21 AM, Nikos Mavrogiannopoulos wrote:
-> On Wed, 2016-11-09 at 16:26 +0100, Michael Kerrisk (man-pages) wrote:
+On 11/10/2016 09:54 AM, Nikos Mavrogiannopoulos wrote:
+> On Wed, 2016-11-09 at 16:23 +0100, Michael Kerrisk (man-pages) wrote:
+>> [I'm looping a few people into this mail who previously commented
+>> on this page. Nikos, I will also thread you into an earlier mail 
+>> by Laurent Georget.]
+>>
 >> Hello Nikos,
 >>
->> This was the mail from George that I just referred to in my 
->> other mail. Is there anything that needs to be covered here?
->> Some specific comments below.
+>> Sorry that I have been so slow to follow up on this.
+>> Thanks for your persistence. I have some comments 
+>> that probably require some tweaks to your patch.
+>> I also have some questions about a couple of other 
+>> earlier discussions.
 > 
-> Hi Michael,
->  I think George and I disagree on what the text would recommend. I'm
-> against keeping the existing text which implies (wrongly IMHO) that
-> /dev/random should be used for generating keys.
+> The comments should be addressed now (see inline for more info or the
+> attached patch). I have not included my proposed fix for Laurent's
+> issue (my proposal was to drop that text, though it can be done
+> independent of this patch).
 > 
-> I attach my reply at the time (I had agreed on George updating the
-> manpage and discussing it further - since that didn't happen I'm back
-> with an updated proposal).
+> https://bugzilla.kernel.org/show_bug.cgi?id=71211
 
-Was that reply to George offlist? It didn't land in my mailbox, at 
-least.
+Okay. I'll reply to that separately.
 
-Anyway, thanks for the context. See coming replies re your 
-latest patch.
+>> On 10/20/2016 10:37 AM, Nikos Mavrogiannopoulos wrote:
+>>>
+>>> On Mon, 2016-08-01 at 13:48 +0200, Nikos Mavrogiannopoulos wrote:
+>>>>
+>>>>>
+>>>>> This is an updated patch reflecting the recent discussion in
+>>>>> linux-
+>>>>> crypto:
+>>>>> http://www.mail-archive.com/linux-crypto-u79uwXL29TY76Z2rM5mHXA@public.gmane.org/msg204
+>>>>> 00.html
+>>> Hi,
+>>>  I'm resending the patch with few typo fixes, and adding Ted in CC
+>>> for
+>>> review. Ted would you like to review this patch for the random(4)
+>>> manpage?
+>>
+>> Some comments below.
+>>
+>> But one question first. You didn't further reply to George 
+>> Spelvin's comments on 26 April. Did you consider those comments
+>> irrelevant or already addressed or something else?
+> 
+> I believe we disagree on some points with George (see other mail).
+> 
+>> By the way, inline patches are rather easier for me to deal with.
+> 
+> (sorry for the attachment, I have no figured a way to make my mailer
+> send consistently the right data when inline)
+
+Okay. But, have you read "MUA-SPECIFIC HINTS" in the 
+git-format-patch(1) man page?
+
+[...]
+
+>>>  Since Linux 3.16,
+>>>  .\" commit 79a8468747c5f95ed3d5ce8376a3e82e0c5857fc
+>>>  a
+>>> @@ -104,14 +108,11 @@ This means that it will impact the contents
+>>>  read from both files, but it will not make reads from
+>>>  \fI/dev/random\fP faster.
+>>>  .SS Usage
+>>> -If you are unsure about whether you should use
+>>> +The 
+>>>  .IR /dev/random
+>>> -or
+>>> +interface is considered a legacy interface, and
+>>
+>> I'm a little uncomfortable with the term "legacy". To me it implies 
+>> that there is *no* legitimate use of /dev/random these days. I'm
+>> no expert on randomness, but I wonder if that is true. Is it?
+>> If it's not, then I would prefer simply a strong statement that
+>> "/dev/urandom is preferred and sufficient in all use cases".
+> 
+> That's a tough one to handle. Yes /dev/urandom is preferred and
+> sufficient in all use cases, with the exception of early boot time.
+> More in the text. I've also added a section "KNOWN ISSUES" to state
+> clearly that issue, and mention getrandom() early in the page.
+
+Okay. I can go with your suggestion now, especially since Laurent 
+also chimed in to agree with you.
+
+>>>  If a seed file is saved across reboots as recommended below (all
+>>> major
+>>>  Linux distributions have done this since 2000 at least), the
+>>> output is
+>>> -- 2.7.4
+>> Laurent Georget also commented on this page in a mail last year.
+>> I'm going to thread you (and the other people on this mail) into
+>> that mail discussion in case there's something there that you
+>> might incorporate into a revised patch.
+> 
+> I think it was a different paragraph. Replied in the other email.
+
+Okay.
+
+I've applied your patch. Thanks for persisting with this.
+After massaging the text a little, I have also applied 
+the following wording fix, which I hope is okay:
+
+===
+diff --git a/man4/random.4 b/man4/random.4
+index 0363dac..a0c10fa 100644
+--- a/man4/random.4
++++ b/man4/random.4
+@@ -46,8 +46,8 @@ When read, the
+ .I /dev/urandom
+ device returns random bytes using a pseudorandom
+ number generator seeded from the entropy pool.
+-That operation is non-blocking.
+-When used during early boot time, this device may return
++Reads from this device are nonblocking.
++When read during early boot time, this device may return
+ data prior to the entropy pool being initialized.
+ If this is of concern in your application, use
+ .BR getrandom (2)
+@@ -331,7 +331,7 @@ which gets added to the entropy pool.
+ Zero the entropy count of all pools and add some system data (such as
+ wall clock) to the pools.
+ .SH BUGS
+-When used during early boot,
++During early boot time, reads from
+ .I /dev/urandom
+ may return data prior to the entropy pool being initialized.
+ .SH FILES
+====
+
+The updates are currently sitting in a local branch on my machine
+just in case we need more tweaks, but the patch will go out
+with the next man-pages release.
 
 Cheers,
 
 Michael
 
-Message-ID: <1462178545.15353.37.camel-H+wXaHxf7aLQT0dZR+AlfA@public.gmane.org>
-Subject: Re: [PATCH] Update the random(4) documentation towards a more
- accurate view on /dev/urandom
+
+=====
+>From 652621c5601d788bd25cb05ee730e27f851e3b94 Mon Sep 17 00:00:00 2001
 From: Nikos Mavrogiannopoulos <nmav-H+wXaHxf7aLQT0dZR+AlfA@public.gmane.org>
-To: George Spelvin <linux-gpGsJRJZ3PBBDgjK7y7TUQ@public.gmane.org>
-Date: Mon, 02 May 2016 10:42:25 +0200
-In-Reply-To: <20160426165847.5804.qmail-HzZAx2gCgqrSUeElwK9/Pw@public.gmane.org>
-References: <20160426165847.5804.qmail-HzZAx2gCgqrSUeElwK9/Pw@public.gmane.org>
-Content-Type: text/plain; charset="UTF-8"
-X-Mailer: Evolution 3.18.5.2 (3.18.5.2-1.fc23) 
-Mime-Version: 1.0
-Content-Transfer-Encoding: 8bit
+Date: Thu, 7 Apr 2016 09:08:14 +0200
+Subject: [PATCH] Update the random(4) documentation towards a more accurate
+ view on /dev/urandom
 
-On Tue, 2016-04-26 at 12:58 -0400, George Spelvin wrote:
+This documents the "property" of /dev/urandom of being able to serve numbers
+prior to pool being initialized, and removes any suggested usages of /dev/random
+which are disputable (i.e., one-time pad).
+Document the fact /dev/random is a legacy interface and only suitable for
+applications which can afford indeterminate delays since very few applications
+can do so.
 
-> > If that's about documenting a design goal I'd prefer to move it out
-> > of
-> > the main text for 2 reasons. (a) There is no practical crypto
-> > system
-> > using one time pads, thus mentioning it in the main body only
-> > creates
-> > confusion (b), one time pad is such a theoretical construction that
-> > any
-> > real algorithm wouldn't implement it.
-> The original (removed by your patch) line was:
-> -high quality randomness such as one-time pad or key generation.
-> It's not the words "one-time pad" I'm attached to, but the specific
-> examples of when "high-quality randomness" is required.  A big point
-> is
-> to teach people *how* to use it, and without those examples, when
-> would
-> anyone think "my application wants low-quality randomness"?
-> 
-> You're right that a one-time pad is impractical, but it's still
-> a common and familiar pedagogical example, and more importantly
-> something that a person wondering which to use can see that their
-> application is NOT.
-> 
-> Your proposed patch *also* deleted the other usage example at the
-> end:
-> 
-> -should be used for everything except long-lived GPG/SSL/SSH keys.
-> which really reduces the value of the man page as a guide to people
-> who aren't crypto experts.
+Signed-off-by: Nikos Mavrogiannopoulos <nmav-H+wXaHxf7aLQT0dZR+AlfA@public.gmane.org>
+---
+ man4/random.4 | 57 ++++++++++++++++++++++++++++++++-------------------------
+ 1 file changed, 32 insertions(+), 25 deletions(-)
 
-Well I think that since it contradicts how SSL and SSH keys are
-generated in practice it may not be a good example to show. If you
-change "should be" to "is intended to be" I may be more sympathetic to
-the cause. But then it should also be added "by a user-interacting
-application" since the fact that /dev/random has indefinite delays it
-makes it unsuitable to generate SSL or SSH keys in an unattended
-matter.
-
-
-
-
-> > > The bit about early boot is actually not as much of an issue as
-> > > you
-> > > think.
-> > > 
-> > > Even /dev/urandom will stall early on boot until a minimum
-> > > initial seed
-> > > (128 bits at present) has been acumulated.  (grep for
-> > > "urandom_init_wait")
-> > 
-> > No it will not. We notice often the keys for sshd being generated
-> > *before* the kernel logs that the random pool has been
-> > initialized.
-> H'm... observation definitely trumps theoretical predictions based on
-> reading the code.
-[...]
-> The driver wakes up the sleeping readers *before* printing
-> the message.  Is it possible that syslog is just losing the race?
-
-Could be. But then could you point me to the code you are referring to.
-I'm certainly interested to figure the issue.
-
-
-> > > How about something more like (draft, not final edit):
-> > > 
-> > >  A read from the \fI/dev/urandom\fP device will not block
-> > >  waiting for more entropy.
-> > > +If the estimated fresh entropy is not sufficient, a
-> > > \fI/dev/urandom\fP
-> > > +will produce output anyway, relying on the cryptographic
-> > > primitives
-> > > in
-> > > +the driver's pseudo-random number generator to ensure that the
-> > > output,
-> > > +although correlated with previous output in an information
-> > > theoretic
-> > > +sense (it exceeds the unicity distance), is secure for all
-> > > practical
-> > > +purposes.
-> > 
-> > What is the purpose of this text? To whom does it target?
-> To replace the text
-> 
-> -If there is not sufficient entropy, a pseudorandom number generator
-> is used
-> -to create the requested bytes.
-> 
-> or
-> 
-> +If the estimated fresh entropy is not sufficient, a pseudorandom
-> number generator is
-> +used to create the requested bytes.
-> 
-> with something that doesn't imply a mode switch.
-> 
-> I labelled it "draft" because I wasn't really thrilled with the
-> wording,
-> myself, but I thought it gave the general idea and wasn't worth
-> massaging
-> into editorial perfection since it was due to get torn apart anyway.
-> 
-> Can you think of better wording?  I'm all for keeping it simple, but
-> not at the expense of seriously misleading people.
-
-Well by using academic language in a manpage you will certainly mislead
-:) since the audience cannot follow. I think the language of the text
-should be targeted to the audience, i.e., administrators, developers.
-Mentioning information-theoretic correlation will only scare people as
-they will believe there is some actual correlation.
-
-Note, that we live with this kind of information theoretic correlation
-for our cryptosystems and pretty much for about everything. However it
-is not mentioned in any crypto manpage because it will be misunderstood
-by the reader (as information-theoretic correlation is far from being
-correlation in the everyday sense, and in practice it is not, however
-that is not apparent to someone without clear theoretic knowledge).
-
-An internal analysis of the device can be done separately in a
-published paper in some reviewed conference/journal (ideally).
-
-
-> > I wouldn't like to get into such details about the device in the
-> > manpage,
-> > but if you would like a section studying the theoretical properties
-> > of
-> > /dev/urandom I'd again suggest to keep it separate and elaborate.
-> > What
-> > is on the text above is certainly not complete analysis and is
-> > certainly
-> > not targetting administrators and developers who would like to
-> > understand
-> > what this device does.
-> A reorganization might indeed be a good way forward; I was examining 
-> your changes without stepping back and considering the whole forest.
-> Shall I take a stab at it?
-
-Please do, I'd be grateful.
-
-
-
-> > > I don't like the bit about "use /dev/random or getrandom(2)";
-> > > while
-> > > getrandom(2) should be mentioned in "see also", the equivalent is
-> > > "getrandom(..., GRND_RANDOM)".   It's the flag, no the syscall.
-> > It is the syscall. According the description in getrandom(2):
-> > "If the pool has not yet been initialized, then the call blocks,
-> > unless GRND_RANDOM is specified in flags."
-> 1. You have a buggy man page.  The corrected one says "If the pool
-> has
->    not yet been initialized, then the call blocks, unless
-> GRND_NONBLOCK
->    is specified in flags."
-> 
-> 2. I stand by what I wrote above.  Without the GRND_RANDOM flag,
->    getrandom() access the nonblocking pool (/dev/urandom).
-
-I misunderstood what you wrote. My point was that getrandom() will
-block if the generator is not seeded (see my first point above).
-
-> > > I strongly dislike the deletion of the "as a general rule"
-> > > advice.
-> > > Specific recommendations are very valuable.
-> > 
-> > This advice despite being present for so long, is widely ignored as
-> > /dev/urandom is used unconditionally by all software generating
-> > keys
-> > (SSH/SSL), gnupg being the exception.
-> No, it's not being ignored.  The advice isn't "use /dev/random for
-> SSH keys", but "*don't* use /dev/random for anything *except* SSH
-> keys".  The "(and maybe not even then)" part is implicit, but much
-> less of a concern.
-> 
-> The audience is not the authors of ssh, libssl, or gnupg; they know
-> what they're doing.  The audience is everyone *else*, and I think
-> specific examples really help there.
-
-Could be, but note that an advice that goes against what the experts do
-is not really a good advice. I'd be concrete here any say:
- /dev/urandom is intended to be used by non-interactive applications
-generating long term keys which cannot afford unpredictable delays.
-Examples are SSL, or SSH keys.
- /dev/random is intended to be used by interactive applications, that
-can afford long delays, generating long term keys with very high
-requirements on the random data quality. A prominent example is gnupg.
-
-regards,
-Nikos
+diff --git a/man4/random.4 b/man4/random.4
+index b67c46f..8609b84 100644
+--- a/man4/random.4
++++ b/man4/random.4
+@@ -13,8 +13,6 @@
+ .\" 2004-04-08, AEB, Improved description of read from /dev/urandom
+ .\" 2008-06-20, George Spelvin <linux-gpGsJRJZ3PBBDgjK7y7TUQ@public.gmane.org>,
+ .\"             Matt Mackall <mpm-VDJrAJ4Gl5ZBDgjK7y7TUQ@public.gmane.org>
+-.\"     Add a Usage subsection that recommends most users to use
+-.\"     /dev/urandom, and emphasizes parsimonious usage of /dev/random.
+ .\"
+ .TH RANDOM 4 2016-10-08 "Linux" "Linux Programmer's Manual"
+ .SH NAME
+@@ -37,11 +35,26 @@ The generator also keeps an estimate of the
+ number of bits of noise in the entropy pool.
+ From this entropy pool random numbers are created.
+ .LP
+-When read, the \fI/dev/random\fP device will return random bytes
+-only within the estimated number of bits of noise in the entropy
+-pool.
+-\fI/dev/random\fP should be suitable for uses that need very
+-high quality randomness such as one-time pad or key generation.
++Linux 3.17 and later provides the simpler and safer (see below)
++.BR getrandom(2)
++interface which requires no special files.
++.LP
++When read, the \fI/dev/urandom\fP device return random bytes using a pseudorandom
++number generator seeded from the entropy pool. That operation is
++non-blocking. When used during early boot time, this device may return
++data prior to the entropy pool being initialized.
++If this is of concern in your application, use
++.BR getrandom(2)
++or \fI/dev/random\fP instead.
++
++.LP
++The \fI/dev/random\fP device is a legacy interface which dates back to
++a time where the cryptographic primitives used in the implementation
++of \fI/dev/urandom\fP were not widely trusted. It will return random bytes
++only within the estimated number of bits of fresh noise in the entropy
++pool, blocking if necessary.
++\fI/dev/random\fP is suitable for applications that need very
++high quality randomness, and can afford indeterminate delays.
+ When the entropy pool is empty, reads from \fI/dev/random\fP will block
+ until additional environmental noise is gathered.
+ If
+@@ -60,18 +73,8 @@ will return -1 and
+ .I errno
+ will be set to
+ .BR EAGAIN .
+-.LP
+-A read from the \fI/dev/urandom\fP device will not block
+-waiting for more entropy.
+-If there is not sufficient entropy, a pseudorandom number generator is used
+-to create the requested bytes.
+-As a result, in this case the returned values are theoretically vulnerable to a
+-cryptographic attack on the algorithms used by the driver.
+-Knowledge of how to do this is not available in the current unclassified
+-literature, but it is theoretically possible that such an attack may
+-exist.
+-If this is a concern in your application, use \fI/dev/random\fP
+-instead.
++
++The flag
+ .B O_NONBLOCK
+ has no effect when opening
+ .IR /dev/urandom .
+@@ -104,14 +107,15 @@ This means that it will impact the contents
+ read from both files, but it will not make reads from
+ \fI/dev/random\fP faster.
+ .SS Usage
+-If you are unsure about whether you should use
++The
+ .IR /dev/random
+-or
++interface is considered a legacy interface, and
+ .IR /dev/urandom ,
+-then probably you want to use the latter.
+-As a general rule,
+-.IR /dev/urandom
+-should be used for everything except long-lived GPG/SSL/SSH keys.
++is preferred and sufficient in all use cases, with the exception of
++applications which require randomness during early boot time; for
++these applications, the system call
++.BR getrandom(2)
++must be used instead, because will block until the entropy pool is initialized.
+ 
+ If a seed file is saved across reboots as recommended below (all major
+ Linux distributions have done this since 2000 at least), the output is
+@@ -319,6 +323,9 @@ which gets added to the entropy pool.
+ .BR RNDZAPENTCNT ", " RNDCLEARPOOL
+ Zero the entropy count of all pools and add some system data (such as
+ wall clock) to the pools.
++.SH KNOWN ISSUES
++When used during early boot, \fI/dev/urandom\fP may return data prior to the entropy pool being initialized.
++
+ .SH FILES
+ /dev/random
+ .br
+-- 
 
 -- 
 Michael Kerrisk
