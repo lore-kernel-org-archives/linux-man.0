@@ -1,14 +1,14 @@
 From: "Michael Kerrisk (man-pages)" <mtk.manpages-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org>
-Subject: Re: [PATCH 1/3] quotactl.2: clarification regarding Q_XQUOTASYNC,
- which is present but no-op in recent kernels
-Date: Thu, 10 Nov 2016 08:18:12 +0100
-Message-ID: <6e6ef0f4-3835-9a39-e792-08439f97251f@gmail.com>
-References: <20161109173036.GA19381@obsidian>
+Subject: Re: [PATCH 2/3] mq_receive.3, mq_send.3: clarification regarding
+ reasons behind EBADF
+Date: Thu, 10 Nov 2016 08:22:46 +0100
+Message-ID: <b6d853f0-fab9-5fe0-a84d-48874830a0c8@gmail.com>
+References: <20161109173052.GA19634@obsidian>
 Mime-Version: 1.0
 Content-Type: text/plain; charset=windows-1252
 Content-Transfer-Encoding: 7bit
 Return-path: <linux-man-owner-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>
-In-Reply-To: <20161109173036.GA19381@obsidian>
+In-Reply-To: <20161109173052.GA19634@obsidian>
 Sender: linux-man-owner-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
 To: Eugene Syromyatnikov <evgsyr-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org>
 Cc: mtk.manpages-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org, linux-man-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
@@ -18,8 +18,9 @@ Hi Eugene,
 
 On 11/09/2016 06:30 PM, Eugene Syromyatnikov wrote:
 > ---
->  man2/quotactl.2 |   16 ++++++++++------
->  1 file changed, 10 insertions(+), 6 deletions(-)
+>  man3/mq_receive.3 |    2 +-
+>  man3/mq_send.3    |    2 +-
+>  2 files changed, 2 insertions(+), 2 deletions(-)
 
 Thanks. Applied.
 
@@ -28,34 +29,32 @@ Cheers,
 Michael
 
 
-> diff --git a/man2/quotactl.2 b/man2/quotactl.2
-> index 2fc791f..c68b44f 100644
-> --- a/man2/quotactl.2
-> +++ b/man2/quotactl.2
-> @@ -657,13 +657,17 @@ Quotas must have already been turned off.
->  The
->  .I id
->  argument is ignored.
-> -.PP
-> -There is no command equivalent to
-> -.B Q_SYNC
-> -for XFS since
-> +.TP
-> +.B Q_XQUOTASYNC
-> +This command was an XFS quota equivalent to
-> +.IR Q_SYNC ,
-> +.\" 4b217ed9e30f94b6e8e5e262020ef0ceab6113af
-> +but it is no-op since Linux 3.4, as
->  .BR sync (1)
-> -writes quota information to disk (in addition to the other filesystem
-> -metadata that it writes out).
-> +writes quota information to disk now (in addition to the other filesystem
-> +metadata that it writes out). The
-> +.IR special ", " id " and " addr
-> +arguments are ignored.
->  .SH RETURN VALUE
->  .LP
->  On success,
+> diff --git a/man3/mq_receive.3 b/man3/mq_receive.3
+> index 57a1f58..f204b98 100644
+> --- a/man3/mq_receive.3
+> +++ b/man3/mq_receive.3
+> @@ -129,7 +129,7 @@ flag was set for the message queue description referred to by
+>  .B EBADF
+>  The file descriptor specified in
+>  .I mqdes
+> -was invalid.
+> +was invalid or unavailable for reading.
+>  .TP
+>  .B EINTR
+>  The call was interrupted by a signal handler; see
+> diff --git a/man3/mq_send.3 b/man3/mq_send.3
+> index 9d30092..4277c36 100644
+> --- a/man3/mq_send.3
+> +++ b/man3/mq_send.3
+> @@ -134,7 +134,7 @@ flag was set for the message queue description referred to by
+>  .B EBADF
+>  The file descriptor specified in
+>  .I mqdes
+> -was invalid.
+> +was invalid or unavailable for writing.
+>  .TP
+>  .B EINTR
+>  The call was interrupted by a signal handler; see
 > 
 
 
