@@ -1,136 +1,126 @@
 From: Laurent Georget <laurent.georget-vbcOdlJ0SulGWvitb5QawA@public.gmane.org>
-Subject: Re: [PATCH] random.4: Improve discussion or urandom, blocking reads,
- and signals
-Date: Fri, 11 Nov 2016 11:28:35 +0100
-Message-ID: <d5eca965-c8b9-51e5-6acb-172e47f85ba0@supelec.fr>
-References: <1461574090.32558.45.camel@redhat.com>
- <1470052099.2926.6.camel@redhat.com> <1476952646.2522.10.camel@redhat.com>
- <b07fb334-149d-cf65-74f3-1d1951e5981b@gmail.com>
- <1478768067.2642.23.camel@redhat.com>
- <e5c1f87c-aad0-b526-a346-74348a36c2a3@gmail.com>
- <1478778837.2642.26.camel@redhat.com>
- <05152136-6943-8ada-3d65-51ef4ce9c1b1@gmail.com>
- <4a8c573c-0c19-29d0-248e-74c088968806@gmail.com>
+Subject: Re: [patch] getrandom.2, random.4: Consolidate and improve discussion
+ on usage of randomness
+Date: Fri, 11 Nov 2016 12:01:34 +0100
+Message-ID: <48e730fc-4eeb-189e-92b4-eaa2720d3eda@supelec.fr>
+References: <CACsCw1MM+eH2zpSajyaT42jHPzrjuxcWpxPA7qqVTBR=uzaLYA@mail.gmail.com>
+ <55B65DAC.6010906@lgeorget.eu>
+ <2fc34759-5d2b-4192-9611-b499e23efdf8@gmail.com>
+ <1478767372.2642.15.camel@redhat.com>
+ <fa60e32a-1364-d0be-245f-d8ead6d04713@gmail.com>
+ <1478788558.3579.47.camel@redhat.com>
+ <66494ef9-80d1-e437-252a-4a15e1f497db@lgeorget.eu>
+ <02c2fa67-ce72-010b-e1ac-ae52c1bc6cf2@gmail.com>
+ <1478850099.2484.7.camel@redhat.com>
+ <CAKgNAkgb=OEvtRNJaDLO8e3_UaVC-zCQJq8GV1c9fU416RqhLg@mail.gmail.com>
 Mime-Version: 1.0
 Content-Type: multipart/signed; micalg=pgp-sha256;
  protocol="application/pgp-signature";
- boundary="Gx4GPjIhV1ib9da0SDFM5HVuMSqUmNTP5"
+ boundary="M4OkCHt0nLpTrf568fiGPt4iW12fMqIIi"
 Return-path: <linux-man-owner-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>
-In-Reply-To: <4a8c573c-0c19-29d0-248e-74c088968806-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org>
+In-Reply-To: <CAKgNAkgb=OEvtRNJaDLO8e3_UaVC-zCQJq8GV1c9fU416RqhLg-JsoAwUIsXosN+BqQ9rBEUg@public.gmane.org>
 Sender: linux-man-owner-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
-To: "Michael Kerrisk (man-pages)" <mtk.manpages-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org>, Nikos Mavrogiannopoulos <nmav-H+wXaHxf7aLQT0dZR+AlfA@public.gmane.org>
-Cc: linux-man-u79uwXL29TY76Z2rM5mHXA@public.gmane.org, tytso-3s7WtUTddSA@public.gmane.org, George Spelvin <linux-gpGsJRJZ3PBBDgjK7y7TUQ@public.gmane.org>, Stephan Mueller <smueller-T9tCv8IpfcWELgA04lAiVw@public.gmane.org>, =?UTF-8?Q?Carl_Winb=c3=a4ck?= <c@tunnel53.net>, Laurent Georget <laurent-AyimVQWTEHzsq35pWSNszA@public.gmane.org>, mpm-VDJrAJ4Gl5ZBDgjK7y7TUQ@public.gmane.org
+To: mtk.manpages-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org, Nikos Mavrogiannopoulos <nmav-H+wXaHxf7aLQT0dZR+AlfA@public.gmane.org>
+Cc: Laurent Georget <laurent-AyimVQWTEHzsq35pWSNszA@public.gmane.org>, =?UTF-8?Q?Carl_Winb=c3=a4ck?= <c@tunnel53.net>, linux-man <linux-man-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>, Stephan Mueller <smueller-T9tCv8IpfcWELgA04lAiVw@public.gmane.org>, George Spelvin <linux-gpGsJRJZ3PBBDgjK7y7TUQ@public.gmane.org>, Theodore T'so <tytso-3s7WtUTddSA@public.gmane.org>, Matt Mackall <mpm-VDJrAJ4Gl5ZBDgjK7y7TUQ@public.gmane.org>, Ivan Babrou <ibobrik-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org>, matt-6J8q6J5oQjkQrrorzV6ljw@public.gmane.org, Luke Bratch <luke-g3IQT7+C+D7QXOPxS62xeg@public.gmane.org>, Onkar Mahajan <on2014nm-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org>
 List-Id: linux-man@vger.kernel.org
 
 This is an OpenPGP/MIME signed message (RFC 4880 and 3156)
---Gx4GPjIhV1ib9da0SDFM5HVuMSqUmNTP5
-Content-Type: multipart/mixed; boundary="J98957EBmxJ6mIQe6rKNIlq2oVQlx3F3c"
+--M4OkCHt0nLpTrf568fiGPt4iW12fMqIIi
+Content-Type: multipart/mixed; boundary="ailxPNxkIAFBWHIx1xNRtfmdGV1pnH5u6"
 From: Laurent Georget <laurent.georget-vbcOdlJ0SulGWvitb5QawA@public.gmane.org>
-To: "Michael Kerrisk (man-pages)" <mtk.manpages-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org>,
- Nikos Mavrogiannopoulos <nmav-H+wXaHxf7aLQT0dZR+AlfA@public.gmane.org>
-Cc: linux-man-u79uwXL29TY76Z2rM5mHXA@public.gmane.org, tytso-3s7WtUTddSA@public.gmane.org,
- George Spelvin <linux-gpGsJRJZ3PBBDgjK7y7TUQ@public.gmane.org>, Stephan Mueller <smueller-T9tCv8IpfcWELgA04lAiVw@public.gmane.org>,
- =?UTF-8?Q?Carl_Winb=c3=a4ck?= <c@tunnel53.net>,
- Laurent Georget <laurent-AyimVQWTEHzsq35pWSNszA@public.gmane.org>, mpm-VDJrAJ4Gl5ZBDgjK7y7TUQ@public.gmane.org
-Message-ID: <d5eca965-c8b9-51e5-6acb-172e47f85ba0-vbcOdlJ0SulGWvitb5QawA@public.gmane.org>
-Subject: Re: [PATCH] random.4: Improve discussion or urandom, blocking reads,
- and signals
-References: <1461574090.32558.45.camel-H+wXaHxf7aLQT0dZR+AlfA@public.gmane.org>
- <1470052099.2926.6.camel-H+wXaHxf7aLQT0dZR+AlfA@public.gmane.org> <1476952646.2522.10.camel-H+wXaHxf7aLQT0dZR+AlfA@public.gmane.org>
- <b07fb334-149d-cf65-74f3-1d1951e5981b-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org>
- <1478768067.2642.23.camel-H+wXaHxf7aLQT0dZR+AlfA@public.gmane.org>
- <e5c1f87c-aad0-b526-a346-74348a36c2a3-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org>
- <1478778837.2642.26.camel-H+wXaHxf7aLQT0dZR+AlfA@public.gmane.org>
- <05152136-6943-8ada-3d65-51ef4ce9c1b1-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org>
- <4a8c573c-0c19-29d0-248e-74c088968806-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org>
-In-Reply-To: <4a8c573c-0c19-29d0-248e-74c088968806-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org>
+To: mtk.manpages-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org, Nikos Mavrogiannopoulos <nmav-H+wXaHxf7aLQT0dZR+AlfA@public.gmane.org>
+Cc: Laurent Georget <laurent-AyimVQWTEHzsq35pWSNszA@public.gmane.org>, =?UTF-8?Q?Carl_Winb=c3=a4ck?=
+ <c@tunnel53.net>, linux-man <linux-man-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>,
+ Stephan Mueller <smueller-T9tCv8IpfcWELgA04lAiVw@public.gmane.org>, George Spelvin <linux-gpGsJRJZ3PBBDgjK7y7TUQ@public.gmane.org>,
+ Theodore T'so <tytso-3s7WtUTddSA@public.gmane.org>, Matt Mackall <mpm-VDJrAJ4Gl5ZBDgjK7y7TUQ@public.gmane.org>,
+ Ivan Babrou <ibobrik-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org>, matt-6J8q6J5oQjkQrrorzV6ljw@public.gmane.org,
+ Luke Bratch <luke-g3IQT7+C+D7QXOPxS62xeg@public.gmane.org>, Onkar Mahajan <on2014nm-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org>
+Message-ID: <48e730fc-4eeb-189e-92b4-eaa2720d3eda-vbcOdlJ0SulGWvitb5QawA@public.gmane.org>
+Subject: Re: [patch] getrandom.2, random.4: Consolidate and improve discussion
+ on usage of randomness
+References: <CACsCw1MM+eH2zpSajyaT42jHPzrjuxcWpxPA7qqVTBR=uzaLYA-JsoAwUIsXosN+BqQ9rBEUg@public.gmane.org>
+ <55B65DAC.6010906-AyimVQWTEHzsq35pWSNszA@public.gmane.org>
+ <2fc34759-5d2b-4192-9611-b499e23efdf8-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org>
+ <1478767372.2642.15.camel-H+wXaHxf7aLQT0dZR+AlfA@public.gmane.org>
+ <fa60e32a-1364-d0be-245f-d8ead6d04713-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org>
+ <1478788558.3579.47.camel-H+wXaHxf7aLQT0dZR+AlfA@public.gmane.org>
+ <66494ef9-80d1-e437-252a-4a15e1f497db-AyimVQWTEHzsq35pWSNszA@public.gmane.org>
+ <02c2fa67-ce72-010b-e1ac-ae52c1bc6cf2-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org>
+ <1478850099.2484.7.camel-H+wXaHxf7aLQT0dZR+AlfA@public.gmane.org>
+ <CAKgNAkgb=OEvtRNJaDLO8e3_UaVC-zCQJq8GV1c9fU416RqhLg-JsoAwUIsXosN+BqQ9rBEUg@public.gmane.org>
+In-Reply-To: <CAKgNAkgb=OEvtRNJaDLO8e3_UaVC-zCQJq8GV1c9fU416RqhLg-JsoAwUIsXosN+BqQ9rBEUg@public.gmane.org>
 
---J98957EBmxJ6mIQe6rKNIlq2oVQlx3F3c
+--ailxPNxkIAFBWHIx1xNRtfmdGV1pnH5u6
 Content-Type: text/plain; charset=utf-8
 Content-Transfer-Encoding: quoted-printable
 
-Hello,
 
-Le 10/11/2016 =C3=A0 15:20, Michael Kerrisk (man-pages) a =C3=A9crit :
-> Hello all,
+
+Le 11/11/2016 =C3=A0 11:47, Michael Kerrisk (man-pages) a =C3=A9crit :
+> Hi Nikos,
 >=20
-> While reworking the text of the random(4) page, I found
-> what appear to be some inaccuracies. Could I get some feedback
-> on the patch below?
+> On 11 November 2016 at 08:41, Nikos Mavrogiannopoulos <nmav-H+wXaHxf7aLQT0dZR+AlfA@public.gmane.org>=
+ wrote:
+>> On Thu, 2016-11-10 at 19:16 +0100, Michael Kerrisk (man-pages) wrote:
+>>> Nikos, Laurent,
+>>> So, I must admit that after your respective mails, I'm still not
+>>> clear. Do you think I should keep this patch, change it, or
+>>> discard it?
+>>
+>> It is a bit confusing to me. The sentences:
+>> "When  reading  from  /dev/urandom  (GRND_RANDOM  is  not set),
+>> getrandom()"
+>>
+>> and
+>>
+>> "The behavior when a call to getrandom() that is
+>> blocked  while  reading  from  /dev/urandom"
+>>
+>> seem to imply that getrandom() is a wrapper over /dev/urandom (i.e.,
+>> internally it opens the device reads etc). That's not the case the
+>> system call doesn't go through /dev/urandom, although the pools behind=
+
+>> are the same.
 >=20
-> Thanks,
+> I agree that this language is a bit confusing. But that language was
+> not introduced by my patch.
 >=20
-> Michael
+>> maybe saying the /dev/urandom pool instead, but I find that even that
+>> could confuse someone.
+>>
+>> So while the text is better and more precise in other aspects than
+>> before I think it is a bit confusing the mix of getrandom() with
+>> /dev/urandom and /dev/random. Maybe copy the text back and separate th=
+e
+>> descriptions even if they are very similar at the moment?
 >=20
->     random.4: Improve discussion or urandom, blocking reads, and signal=
-s
->    =20
->     The text currently states that O_NONBLOCK has no effect for
->     /dev/urandom, which is true.  It also says that reads from
->     /dev/urandom are nonblocking.  This is at the least confusing.
->     If one attempts large reads (say 10MB) from /dev/urandom
->     there is an appreciable delay, and interruption by a signal
->     handler will result in a short read. Amend the text to
->     reflect this.
->    =20
->     Signed-off-by: Michael Kerrisk <mtk.manpages-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org>
->=20
-> diff --git a/man4/random.4 b/man4/random.4
-> index db5d0a2..736cbde 100644
-> --- a/man4/random.4
-> +++ b/man4/random.4
-> @@ -46,7 +46,6 @@ When read, the
->  .I /dev/urandom
->  device returns random bytes using a pseudorandom
->  number generator seeded from the entropy pool.
-> -Reads from this device are nonblocking.
+> I'm reluctant to duplicate text in two places. I think that that
+> duplication os prt of the reason why we have the current mess.
 
-Being non blocking is not incompatible with being interruptible, though.
-Non blocking only means that the reading will never explicitly yield the
-CPU to wait for data, which is true. This is consistent with the use of
-"non blocking" elsewhere in the filesystem, as far as I understand it.
-
-But I guess this can be confusing indeed, and that the precision is not
-useful in the man page.
-
->  When read during early boot time, this device may return
->  data prior to the entropy pool being initialized.
->  If this is of concern in your application, use
-> @@ -88,8 +87,11 @@ When calling
->  .BR read (2)
->  for the device
->  .IR /dev/urandom ,
-> -signals will not be handled until after the requested random bytes
-> -have been generated.
-> +reads of up to 256 bytes will return as many bytes as are requested
-> +and will not be interrupted by a signal handler.
-> +Reads with a buffer over this limit may return less than the
-> +requested number of bytes or fail with the error
-> +.BR EINTR .
-
-Yes, this is a useful precision.
-
-This patch looks good to me.
+So, maybe all this discussion about which interface to choose, expected
+usage, etc. should go to a random.7 man page? This would be the logical
+location to detail the differences about the three interfaces. What do
+you think?
 
 Cheers,
 Laurent
 
 
---J98957EBmxJ6mIQe6rKNIlq2oVQlx3F3c--
+--ailxPNxkIAFBWHIx1xNRtfmdGV1pnH5u6--
 
---Gx4GPjIhV1ib9da0SDFM5HVuMSqUmNTP5
+--M4OkCHt0nLpTrf568fiGPt4iW12fMqIIi
 Content-Type: application/pgp-signature; name="signature.asc"
 Content-Description: OpenPGP digital signature
 Content-Disposition: attachment; filename="signature.asc"
 
 -----BEGIN PGP SIGNATURE-----
 
-iF4EAREIAAYFAlglnVMACgkQRTidSplJch7CDgD/W0EhkP8/6w6Wi1oJ95t+kQQf
-ytz08j4wZoJnnkVo2noBAJjAT4Ob1tQ6mEnaLw7OOIbEGq5GzEzduiXfJop4OZ45
-=ygdR
+iF4EAREIAAYFAlglpQ4ACgkQRTidSplJch7tJQD+M5njIzqgkGh0jfXmmVBzvPvM
+HFlBxPU8SsCVwsKzopAA/1JOAW8j6TOQ1qHFS+yp/kUts5PukKqEWQ8B8jKfV7F6
+=oKIt
 -----END PGP SIGNATURE-----
 
---Gx4GPjIhV1ib9da0SDFM5HVuMSqUmNTP5--
+--M4OkCHt0nLpTrf568fiGPt4iW12fMqIIi--
 --
 To unsubscribe from this list: send the line "unsubscribe linux-man" in
 the body of a message to majordomo-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
