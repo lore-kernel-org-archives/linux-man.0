@@ -1,112 +1,140 @@
-From: "Michael Kerrisk (man-pages)" <mtk.manpages-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org>
-Subject: Re: [PATCH] random.4: Improve discussion or urandom, blocking reads,
- and signals
-Date: Fri, 11 Nov 2016 12:51:35 +0100
-Message-ID: <02f85ba2-b1ec-57b0-2b47-a8086facc223@gmail.com>
-References: <1461574090.32558.45.camel@redhat.com>
- <1470052099.2926.6.camel@redhat.com> <1476952646.2522.10.camel@redhat.com>
- <b07fb334-149d-cf65-74f3-1d1951e5981b@gmail.com>
- <1478768067.2642.23.camel@redhat.com>
- <e5c1f87c-aad0-b526-a346-74348a36c2a3@gmail.com>
- <1478778837.2642.26.camel@redhat.com>
- <05152136-6943-8ada-3d65-51ef4ce9c1b1@gmail.com>
- <4a8c573c-0c19-29d0-248e-74c088968806@gmail.com>
- <d5eca965-c8b9-51e5-6acb-172e47f85ba0@supelec.fr>
+From: Laurent Georget <laurent-AyimVQWTEHzsq35pWSNszA@public.gmane.org>
+Subject: Re: [patch] getrandom.2, random.4: Consolidate and improve discussion
+ on usage of randomness
+Date: Fri, 11 Nov 2016 13:08:42 +0100
+Message-ID: <c542ad59-869f-ea9e-c2a4-cf077182cf0c@lgeorget.eu>
+References: <CACsCw1MM+eH2zpSajyaT42jHPzrjuxcWpxPA7qqVTBR=uzaLYA@mail.gmail.com>
+ <55B65DAC.6010906@lgeorget.eu>
+ <2fc34759-5d2b-4192-9611-b499e23efdf8@gmail.com>
+ <1478767372.2642.15.camel@redhat.com>
+ <fa60e32a-1364-d0be-245f-d8ead6d04713@gmail.com>
+ <1478788558.3579.47.camel@redhat.com>
+ <66494ef9-80d1-e437-252a-4a15e1f497db@lgeorget.eu>
+ <02c2fa67-ce72-010b-e1ac-ae52c1bc6cf2@gmail.com>
+ <1478850099.2484.7.camel@redhat.com>
+ <CAKgNAkgb=OEvtRNJaDLO8e3_UaVC-zCQJq8GV1c9fU416RqhLg@mail.gmail.com>
+ <48e730fc-4eeb-189e-92b4-eaa2720d3eda@supelec.fr>
 Mime-Version: 1.0
 Content-Type: text/plain; charset=utf-8
-Content-Transfer-Encoding: 8bit
+Content-Transfer-Encoding: 7bit
 Return-path: <linux-man-owner-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>
-In-Reply-To: <d5eca965-c8b9-51e5-6acb-172e47f85ba0-vbcOdlJ0SulGWvitb5QawA@public.gmane.org>
+In-Reply-To: <48e730fc-4eeb-189e-92b4-eaa2720d3eda-vbcOdlJ0SulGWvitb5QawA@public.gmane.org>
 Sender: linux-man-owner-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
-To: Laurent Georget <laurent.georget-vbcOdlJ0SulGWvitb5QawA@public.gmane.org>, Nikos Mavrogiannopoulos <nmav-H+wXaHxf7aLQT0dZR+AlfA@public.gmane.org>
-Cc: mtk.manpages-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org, linux-man-u79uwXL29TY76Z2rM5mHXA@public.gmane.org, tytso-3s7WtUTddSA@public.gmane.org, George Spelvin <linux-gpGsJRJZ3PBBDgjK7y7TUQ@public.gmane.org>, Stephan Mueller <smueller-T9tCv8IpfcWELgA04lAiVw@public.gmane.org>, =?UTF-8?Q?Carl_Winb=c3=a4ck?= <c@tunnel53.net>, Laurent Georget <laurent-AyimVQWTEHzsq35pWSNszA@public.gmane.org>, mpm-VDJrAJ4Gl5ZBDgjK7y7TUQ@public.gmane.org
+To: mtk.manpages-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org, Nikos Mavrogiannopoulos <nmav-H+wXaHxf7aLQT0dZR+AlfA@public.gmane.org>
+Cc: =?UTF-8?Q?Carl_Winb=c3=a4ck?= <c@tunnel53.net>, linux-man <linux-man-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>, Stephan Mueller <smueller-T9tCv8IpfcWELgA04lAiVw@public.gmane.org>, George Spelvin <linux-gpGsJRJZ3PBBDgjK7y7TUQ@public.gmane.org>, Theodore T'so <tytso-3s7WtUTddSA@public.gmane.org>, Matt Mackall <mpm-VDJrAJ4Gl5ZBDgjK7y7TUQ@public.gmane.org>, Ivan Babrou <ibobrik-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org>, matt-6J8q6J5oQjkQrrorzV6ljw@public.gmane.org, Luke Bratch <luke-g3IQT7+C+D7QXOPxS62xeg@public.gmane.org>, Onkar Mahajan <on2014nm-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org>
 List-Id: linux-man@vger.kernel.org
 
-Hello Laurent,
-
-On 11/11/2016 11:28 AM, Laurent Georget wrote:
-> Hello,
+>> I'm reluctant to duplicate text in two places. I think that that
+>> duplication os prt of the reason why we have the current mess.
 > 
-> Le 10/11/2016 à 15:20, Michael Kerrisk (man-pages) a écrit :
->> Hello all,
->>
->> While reworking the text of the random(4) page, I found
->> what appear to be some inaccuracies. Could I get some feedback
->> on the patch below?
->>
->> Thanks,
->>
->> Michael
->>
->>     random.4: Improve discussion or urandom, blocking reads, and signals
->>     
->>     The text currently states that O_NONBLOCK has no effect for
->>     /dev/urandom, which is true.  It also says that reads from
->>     /dev/urandom are nonblocking.  This is at the least confusing.
->>     If one attempts large reads (say 10MB) from /dev/urandom
->>     there is an appreciable delay, and interruption by a signal
->>     handler will result in a short read. Amend the text to
->>     reflect this.
->>     
->>     Signed-off-by: Michael Kerrisk <mtk.manpages-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org>
->>
->> diff --git a/man4/random.4 b/man4/random.4
->> index db5d0a2..736cbde 100644
->> --- a/man4/random.4
->> +++ b/man4/random.4
->> @@ -46,7 +46,6 @@ When read, the
->>  .I /dev/urandom
->>  device returns random bytes using a pseudorandom
->>  number generator seeded from the entropy pool.
->> -Reads from this device are nonblocking.
-> 
-> Being non blocking is not incompatible with being interruptible, though.
-> Non blocking only means that the reading will never explicitly yield the
-> CPU to wait for data, which is true. This is consistent with the use of
-> "non blocking" elsewhere in the filesystem, as far as I understand it.
+> So, maybe all this discussion about which interface to choose, expected
+> usage, etc. should go to a random.7 man page? This would be the logical
+> location to detail the differences about the three interfaces. What do
+> you think?
 
-Yes, I see. Perhaps we can find a middle ground. I restored the removed 
-line, but elaborated a little:
+To follow up on this, what do you think of the following patch? I do not
+propose it for inclusion as is but more as a kind of RFC. Would it be useful
+to have this kind of table to sum up in one place the differences between
+getrandom(), /dev/random and /dev/urandom?
 
-[[
-Reads from this device do not block (i.e., the CPU is not yielded),
-but may incur an appreciable delay when requesting
-a large amount (megabytes) of data.
-]]
-
-> But I guess this can be confusing indeed, and that the precision is not
-> useful in the man page.
-> 
->>  When read during early boot time, this device may return
->>  data prior to the entropy pool being initialized.
->>  If this is of concern in your application, use
->> @@ -88,8 +87,11 @@ When calling
->>  .BR read (2)
->>  for the device
->>  .IR /dev/urandom ,
->> -signals will not be handled until after the requested random bytes
->> -have been generated.
->> +reads of up to 256 bytes will return as many bytes as are requested
->> +and will not be interrupted by a signal handler.
->> +Reads with a buffer over this limit may return less than the
->> +requested number of bytes or fail with the error
->> +.BR EINTR .
-> 
-> Yes, this is a useful precision.
-> 
-> This patch looks good to me.
-
-Thanks.
+Note that this is my first attempt to make tables in man pages so I have no
+idea if I did things right or not.
 
 Cheers,
+Laurent
 
-Michael
+---
+ man2/getrandom.2 | 75 ++++++++++++++++++++++++++++++++++++++++++++++++++++++++
+ 1 file changed, 75 insertions(+)
 
-
+diff --git a/man2/getrandom.2 b/man2/getrandom.2
+index 32c55bd..b337415 100644
+--- a/man2/getrandom.2
++++ b/man2/getrandom.2
+@@ -313,6 +313,81 @@ And indeed, such usage is unnecessary (and will be slow):
+ instead, use these interfaces to provide a small amount of
+ data used to seed a user-space pseudo-random number generator
+ for use by such applications.
++
++.\"
++.SS Comparison between getrandom, /dev/urandom and /dev/random
++
++.TS
++allbox;
++lb lb lb lb.
++Interface	Pool	Blocking behavior	Behavior in early boot time
++T{
++.I /dev/random
++T}	Blocking pool	T{
++Blocks when the entropy estimate is too low until there is enough entropy again
++T}	T{
++Blocks until enough entropy is gathered
++T}
++T{
++.I /dev/urandom
++T}	T{
++Cryptographically-secure Random Number Generator (CRNG) output
++T}	T{
++Does not block once the CRNG is ready
++T}	T{
++Returns output from uninitialized CRNG (possibly low entropy and not suitable for cryptography)
++T}
++T{
++.BR getrandom ()
++T}	T{
++Same as
++.I /dev/urandom
++T}	T{
++Does not block once the pool is ready
++T}	T{
++Blocks until the pool is ready
++T}
++T{
++.BR getrandom ()
++with
++.B GRND_RANDOM
++T}	T{
++Same as
++.I /dev/random
++T}	T{
++Blocks when the entropy estimate is too low until there is enough entropy again
++T}	T{
++Blocks until the pool is ready
++T}
++T{
++.BR getrandom ()
++with
++.B GRND_NONBLOCK
++T}	T{
++Same as
++.I /dev/urandom
++T}	T{
++Does not block
++T}	T{
++Returns -EAGAIN if the pool is not ready
++T}
++T{
++.BR getrandom ()
++with
++.B GRND_RANDOM
++and
++.B GRND_NONBLOCK
++T}	T{
++Same as
++.I /dev/random
++T}	T{
++Returns -EAGAIN if not enough entropy is available
++T}	T{
++Returns -EAGAIN if the pool is not ready
++T}
++.TE
++
++
+ .\"
+ .SS Generating cryptographic keys
+ The amount of seed material required to generate a cryptographic key
 -- 
-Michael Kerrisk
-Linux man-pages maintainer; http://www.kernel.org/doc/man-pages/
-Linux/UNIX System Programming Training: http://man7.org/training/
+2.10.1
 --
 To unsubscribe from this list: send the line "unsubscribe linux-man" in
 the body of a message to majordomo-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
