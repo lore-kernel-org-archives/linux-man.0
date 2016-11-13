@@ -1,117 +1,74 @@
-From: Eugene Syromyatnikov <evgsyr-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org>
-Subject: [PATCH] mprotect.2: Add information regarding
- PROT_{SEM,SAO,GROWSUP,GROWSDOWN}
-Date: Sun, 13 Nov 2016 22:33:23 +0300
-Message-ID: <20161113193323.GA19910@obsidian>
+From: Theodore Ts'o <tytso-3s7WtUTddSA@public.gmane.org>
+Subject: Re: New random(7) page for review
+Date: Sun, 13 Nov 2016 17:20:41 -0500
+Message-ID: <20161113222041.ypnz3sdm3fmjprnn@thunk.org>
+References: <1470052099.2926.6.camel@redhat.com>
+ <1476952646.2522.10.camel@redhat.com>
+ <b07fb334-149d-cf65-74f3-1d1951e5981b@gmail.com>
+ <1478768067.2642.23.camel@redhat.com>
+ <e5c1f87c-aad0-b526-a346-74348a36c2a3@gmail.com>
+ <1478778837.2642.26.camel@redhat.com>
+ <05152136-6943-8ada-3d65-51ef4ce9c1b1@gmail.com>
+ <4a8c573c-0c19-29d0-248e-74c088968806@gmail.com>
+ <d5eca965-c8b9-51e5-6acb-172e47f85ba0@supelec.fr>
+ <cb25213c-a70d-cbf1-6a42-959dcdc1f202@gmail.com>
 Mime-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
+Content-Type: text/plain; charset=utf-8
+Content-Transfer-Encoding: 8bit
 Return-path: <linux-man-owner-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>
 Content-Disposition: inline
+In-Reply-To: <cb25213c-a70d-cbf1-6a42-959dcdc1f202-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org>
 Sender: linux-man-owner-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
-To: mtk.manpages-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org
-Cc: linux-man-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
+To: "Michael Kerrisk (man-pages)" <mtk.manpages-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org>
+Cc: Laurent Georget <laurent.georget-vbcOdlJ0SulGWvitb5QawA@public.gmane.org>, Nikos Mavrogiannopoulos <nmav-H+wXaHxf7aLQT0dZR+AlfA@public.gmane.org>, linux-man-u79uwXL29TY76Z2rM5mHXA@public.gmane.org, Thomas =?iso-8859-1?Q?H=FChn?= <t@2uo.de>, Stephan Mueller <smueller-T9tCv8IpfcWELgA04lAiVw@public.gmane.org>, Carl =?iso-8859-1?Q?Winb=E4ck?= <c@tunnel53.net>, Laurent Georget <laurent-AyimVQWTEHzsq35pWSNszA@public.gmane.org>, mpm-VDJrAJ4Gl5ZBDgjK7y7TUQ@public.gmane.org
 List-Id: linux-man@vger.kernel.org
 
-The note regarding PROT_SEM is done based on observation that it is not
-actually used in mprotect code (as far as i understood it).
+On Sat, Nov 12, 2016 at 01:25:11PM +0100, Michael Kerrisk (man-pages) wrote:
+>     ┌──────────────┬──────────────┬──────────────────┬────────────────────┐
+>     │Interface     │ Pool         │ Blocking         │ Behavior in early  │
+>     │              │              │ behavior         │ boot time          │
+>     ├──────────────┼──────────────┼──────────────────┼────────────────────┤
+>     │/dev/random   │ Blocking     │ If entropy too   │ Blocks until       │
+>     │              │ pool         │ low, block until │ enough entropy     │
+>     │              │              │ there is enough  │ gathered           │
+>     │              │              │ entropy again    │                    │
+>     ├──────────────┼──────────────┼──────────────────┼────────────────────┤
+>     │/dev/urandom  │ CSPRNG out‐  │ Never blocks     │ Returns output     │
+>     │              │ put          │                  │ from uninitialized │
+>     │              │              │                  │ CSPRNG (may be low │
+>     │              │              │                  │ entropy and        │
+>     │              │              │                  │ unsuitable for     │
+>     │              │              │                  │ cryptography)      │
+>     ├──────────────┼──────────────┼──────────────────┼────────────────────┤
+>     │getrandom()   │ Same as      │ Does not block   │ Blocks until pool  │
+>     │              │ /dev/urandom │ once pool ready  │ ready              │
+>     ├──────────────┼──────────────┼──────────────────┼────────────────────┤
+>     │getrandom()   │ Same as      │ If entropy too   │ Blocks until pool  │
+>     │GRND_RANDOM   │ /dev/random  │ low, block until │ ready              │
+>     │              │              │ there is enough  │                    │
+>     │              │              │ entropy again    │                    │
+>     ├──────────────┼──────────────┼──────────────────┼────────────────────┤
+>     │getrandom()   │ Same as      │ Does not block   │ EAGAIN if pool not │
+>     │GRND_NONBLOCK │ /dev/urandom │                  │ ready              │
+>     ├──────────────┼──────────────┼──────────────────┼────────────────────┤
+>     │getrandom()   │ Same as      │ EAGAIN if not    │ EAGAIN if pool not │
+>     │GRND_RANDOM + │ /dev/random  │ enough entropy   │ ready              │
+>     │GRND_NONBLOCK │              │ available        │                    │
+>     └──────────────┴──────────────┴──────────────────┴────────────────────┘
 
----
- man2/mprotect.2 | 58 +++++++++++++++++++++++++++++++++++++++++++++++++--------
- 1 file changed, 50 insertions(+), 8 deletions(-)
+I would change the rightmost column to be "Behavior when pool not yet
+ready", and just the text in that column accordingly.
 
-diff --git a/man2/mprotect.2 b/man2/mprotect.2
-index 440fa65..4c3a1e2 100644
---- a/man2/mprotect.2
-+++ b/man2/mprotect.2
-@@ -30,12 +30,6 @@
- .\" 2007-06-02, mtk: Fairly substantial rewrites and additions, and
- .\" a much improved example program.
- .\"
--.\" FIXME The following protection flags need documenting:
--.\"         PROT_SEM
--.\"         PROT_GROWSDOWN
--.\"         PROT_GROWSUP
--.\"         PROT_SAO (PowerPC)
--.\"
- .TH MPROTECT 2 2015-07-23 "Linux" "Linux Programmer's Manual"
- .SH NAME
- mprotect, pkey_mprotect \- set protection on a region of memory
-@@ -60,7 +54,7 @@ that violates the protection, then the kernel generates a
- signal for the process.
- .PP
- .I prot
--is either
-+is a combination of the following access flags:
- .B PROT_NONE
- or a bitwise-or of the other values in the following list:
- .TP 1.1i
-@@ -75,6 +69,38 @@ The memory can be modified.
- .TP
- .B PROT_EXEC
- The memory can be executed.
-+'\" 882ad449046cec136c484dd2b3659fb4c683e0a3
-+.TP
-+.BR PROT_SEM " (since Linux 2.5.7)"
-+The memory can be used for atomic operations. It was introduced as part of
-+.BR futex (2)
-+implementation (in order), but not actually used in any currently supported
-+architecture so far.
-+'\" aba46c5027cb59d98052231b36efcbbde9c77a1d ef3d3246a0d06be622867d21af25f997aeeb105f
-+.TP
-+.BR PROT_SAO " (since Linux 2.6.26)"
-+The memory should have strong access ordering. This feature is specific to
-+PowerPC architecture (version 2.06 of architecture specification adds SAO CPU
-+feature, and is available on POWER 7 and newer, for example).
-+.PP
-+'\" c1dd59582e5b518983b0f4db66f0f8a969139c1b
-+Additionally (since Linux 2.6.0),
-+.I prot
-+can have one of the following flags set:
-+.TP 1.1i
-+.B PROT_GROWSUP
-+Apply protection mode to the whole VMA, which grows up (it should be mapped with
-+.B MAP_GROWSUP
-+flag set, which itself is available on IA-64 only, or be stack segment on
-+HP PARISC).
-+.TP
-+.B PROT_GROWSDOWN
-+Apply protection mode to the whole VMA, which grows down (it should be mapped
-+with
-+.B MAP_GROWSDOWN
-+flag set).
-+.PP
-+This is especially useful for stacks and other mappings which can grow.
- .PP
- Like
- .BR mprotect (),
-@@ -122,7 +148,23 @@ or not a multiple of the system page size.
- .RB ( pkey_mprotect ())
- \fIpkey\fP has not been allocated with
- .BR pkey_alloc (2)
--.\" Or: both PROT_GROWSUP and PROT_GROWSDOWN were specified in 'prot'.
-+.TP
-+.BR EINVAL
-+Both
-+.BR PROT_GROWSUP " and " PROT_GROWSDOWN
-+were specified in
-+.IR prot .
-+.TP
-+.BR EINVAL
-+Invalid flags specified in
-+.IR prot .
-+.TP
-+.BR EINVAL
-+(PowerPC architecture)
-+.B PROT_SAO
-+specified in
-+.IR prot ,
-+but SAO hardware feature is no available.
- .TP
- .B ENOMEM
- Internal kernel structures could not be allocated.
--- 
-2.10.2
+And the cell, getrandom() GRND_NONBLOCK and blocking behavior, "does
+not block" is not quite right.  It's EAGAIN if pool not ready.
 
+This distinguishes this from /dev/urandom & blocking behavior's "Never
+blocks", in that it will return potentially not fully secure
+randomness if the pool is not initialized.
+
+Cheers,
+
+						- Ted
 --
 To unsubscribe from this list: send the line "unsubscribe linux-man" in
 the body of a message to majordomo-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
