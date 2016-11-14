@@ -1,48 +1,63 @@
-From: Nikos Mavrogiannopoulos <nmav-H+wXaHxf7aLQT0dZR+AlfA@public.gmane.org>
-Subject: Re: New random(7) page for review
-Date: Mon, 14 Nov 2016 09:06:41 +0100
-Message-ID: <1479110801.2624.2.camel@redhat.com>
-References: <1461574090.32558.45.camel@redhat.com>
-         <1470052099.2926.6.camel@redhat.com> <1476952646.2522.10.camel@redhat.com>
-         <b07fb334-149d-cf65-74f3-1d1951e5981b@gmail.com>
-         <1478768067.2642.23.camel@redhat.com>
-         <e5c1f87c-aad0-b526-a346-74348a36c2a3@gmail.com>
-         <1478778837.2642.26.camel@redhat.com>
-         <05152136-6943-8ada-3d65-51ef4ce9c1b1@gmail.com>
-         <4a8c573c-0c19-29d0-248e-74c088968806@gmail.com>
-         <d5eca965-c8b9-51e5-6acb-172e47f85ba0@supelec.fr>
-         <cb25213c-a70d-cbf1-6a42-959dcdc1f202@gmail.com>
+From: dwilder <dwilder@us.ibm.com>
+Subject: [patch] netlink.7: srcfix Change buffer size in example code about
+ reading netlink message.
+Date: Mon, 14 Nov 2016 14:20:19 -0800
+Message-ID: <e9409957290af5249750afa0f10de3a6@linux.vnet.ibm.com>
 Mime-Version: 1.0
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: 8bit
-Return-path: <linux-man-owner-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>
-In-Reply-To: <cb25213c-a70d-cbf1-6a42-959dcdc1f202-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org>
-Sender: linux-man-owner-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
-To: "Michael Kerrisk (man-pages)" <mtk.manpages-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org>, Laurent Georget <laurent.georget-vbcOdlJ0SulGWvitb5QawA@public.gmane.org>
-Cc: linux-man-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
+Content-Type: text/plain; charset=US-ASCII;
+ format=flowed
+Content-Transfer-Encoding: 7bit
+Return-path: <netdev-owner@vger.kernel.org>
+Sender: netdev-owner@vger.kernel.org
+To: mtk.manpages@gmail.com
+Cc: linux-man@vger.kernel.org, netdev@vger.kernel.org
 List-Id: linux-man@vger.kernel.org
 
-On Sat, 2016-11-12 at 13:25 +0100, Michael Kerrisk (man-pages) wrote:
-> Hello all,
-> 
-> Following on from our discussions about the random(4)
-> page, and a suggestion from Laurent, I've created
-> a random(7) page that provides a short overview of
-> the APIs for obtaining randomness, and some comparisons
-> and recommendations for using those APIs. A good part of
-> the text is relocated from the existing getrandom(2) and
-> random(4) pages. I also incorporated a table that was
-> proposed by Laurent that compares the APIs on a number
-> of points.
-> 
-> The rendered version of the page is below. The source is
-> attached (and already pushed to Git.) 
-> 
-> Does anyone see any further tweaks that might be required?
+The example code in netlink(7) (for reading netlink message) suggests 
+using
+a 4k read buffer with recvmsg.  This can cause truncated messages on 
+systems
+using a page size is >4096.  Please see:
+linux/include/linux/netlink.h (in the kernel source)
 
-Looks fine to me.
+<snip>
+/*
+  *      skb should fit one page. This choice is good for headerless 
+malloc.
+  *      But we should limit to 8K so that userspace does not have to
+  *      use enormous buffer sizes on recvmsg() calls just to avoid
+  *      MSG_TRUNC when PAGE_SIZE is very large.
+  */
+#if PAGE_SIZE < 8192UL
+#define NLMSG_GOODSIZE  SKB_WITH_OVERHEAD(PAGE_SIZE)
+#else
+#define NLMSG_GOODSIZE  SKB_WITH_OVERHEAD(8192UL)
+#endif
 
---
-To unsubscribe from this list: send the line "unsubscribe linux-man" in
-the body of a message to majordomo-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
-More majordomo info at  http://vger.kernel.org/majordomo-info.html
+#define NLMSG_DEFAULT_SIZE (NLMSG_GOODSIZE - NLMSG_HDRLEN)
+<snip>
+
+I was troubleshooting some up-stream code on a ppc64le system
+(page:size of 64k) This code had duplicated the example from netlink(7) 
+and
+was using a 4k buffer.  On x86-64 with a 4k page size this is not a 
+problem,
+however on the 64k page system some messages were truncated.  Using an 
+8k buffer
+as implied in netlink.h prevents problems with any page size.
+
+Lets change the example so others don't propagate the problem further.
+
+Signed-off-by David Wilder <dwilder@us.ibm.com>
+
+--- man7/netlink.7.orig 2016-11-14 13:30:36.522101156 -0800
++++ man7/netlink.7      2016-11-14 13:30:51.002086354 -0800
+@@ -511,7 +511,7 @@
+  .in +4n
+  .nf
+  int len;
+-char buf[4096];
++char buf[8192];
+  struct iovec iov = { buf, sizeof(buf) };
+  struct sockaddr_nl sa;
+  struct msghdr msg;
