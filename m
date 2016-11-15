@@ -1,8 +1,7 @@
 From: Eugene Syromyatnikov <evgsyr-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org>
-Subject: [PATCH 3/5] add_key.2: change wording regarding storing of big_key
- payload
-Date: Tue, 15 Nov 2016 11:44:14 +0300
-Message-ID: <20161115084414.GA20638@obsidian>
+Subject: [PATCH 4/5] add_key.2: add information regarding EFAULT
+Date: Tue, 15 Nov 2016 11:44:30 +0300
+Message-ID: <20161115084430.GA20968@obsidian>
 References: <9a5cc2a7-a505-9d0d-5b78-4bc5ab100ff1@gmail.com>
 Mime-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
@@ -15,25 +14,25 @@ Cc: linux-man-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
 List-Id: linux-man@vger.kernel.org
 
 ---
- man2/add_key.2 | 5 +++--
- 1 file changed, 3 insertions(+), 2 deletions(-)
+ man2/add_key.2 | 5 +++++
+ 1 file changed, 5 insertions(+)
 
 diff --git a/man2/add_key.2 b/man2/add_key.2
-index b693927..78b1b99 100644
+index 78b1b99..082a2b8 100644
 --- a/man2/add_key.2
 +++ b/man2/add_key.2
-@@ -126,8 +126,9 @@ contains a ':' that is preceded by other characters.
- This key type is similar to
- .IR """user""" ,
- but may hold a payload of up to 1 MiB.
--If the key payload is large,
--then it may be stored in swap space rather than kernel memory.
-+If the key payload is large enough,
-+then it may be stored in tmpfs (which can be swapped out) rather than kernel
-+memory.
- .PP
- For further details on these key types, see
- .BR keyrings (7).
+@@ -148,6 +148,11 @@ The keyring wasn't available for modification by the user.
+ The key quota for this user would be exceeded by creating this key or linking
+ it to the keyring.
+ .TP
++.B EFAULT
++(Part of)
++.IR type ", " description " or " payload
++points outside process' accessible address space.
++.TP
+ .B EINVAL
+ The size of the string (including the terminating null byte) specified in
+ .I type
 -- 
 2.10.2
 
