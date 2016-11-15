@@ -1,8 +1,8 @@
 From: Eugene Syromyatnikov <evgsyr-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org>
-Subject: [PATCH 2/5] add_key.2: wording change regarding the reasons of call
- faliure
-Date: Tue, 15 Nov 2016 11:43:58 +0300
-Message-ID: <20161115084358.GA20227@obsidian>
+Subject: [PATCH 3/5] add_key.2: change wording regarding storing of big_key
+ payload
+Date: Tue, 15 Nov 2016 11:44:14 +0300
+Message-ID: <20161115084414.GA20638@obsidian>
 References: <9a5cc2a7-a505-9d0d-5b78-4bc5ab100ff1@gmail.com>
 Mime-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
@@ -15,24 +15,25 @@ Cc: linux-man-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
 List-Id: linux-man@vger.kernel.org
 
 ---
- man2/add_key.2 | 4 ++--
- 1 file changed, 2 insertions(+), 2 deletions(-)
+ man2/add_key.2 | 5 +++--
+ 1 file changed, 3 insertions(+), 2 deletions(-)
 
 diff --git a/man2/add_key.2 b/man2/add_key.2
-index 1dfbd7d..b693927 100644
+index b693927..78b1b99 100644
 --- a/man2/add_key.2
 +++ b/man2/add_key.2
-@@ -37,8 +37,8 @@ attaches it to the nominated
- .IR keyring ,
- and returns the key's serial number.
- .P
--The key type may reject the data if it is in the wrong format or
--is in some other way invalid.
-+The key may be rejected if the provided data is in the wrong format or
-+it is invalid in some other way.
- .P
- If the destination
- .I keyring
+@@ -126,8 +126,9 @@ contains a ':' that is preceded by other characters.
+ This key type is similar to
+ .IR """user""" ,
+ but may hold a payload of up to 1 MiB.
+-If the key payload is large,
+-then it may be stored in swap space rather than kernel memory.
++If the key payload is large enough,
++then it may be stored in tmpfs (which can be swapped out) rather than kernel
++memory.
+ .PP
+ For further details on these key types, see
+ .BR keyrings (7).
 -- 
 2.10.2
 
