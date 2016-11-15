@@ -1,81 +1,135 @@
-From: Eugene Syromyatnikov <evgsyr-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org>
-Subject: Re: [PATCH 5/5] add_key.2: add information regarding EPERM
-Date: Tue, 15 Nov 2016 21:17:52 +0000
-Message-ID: <CACGkJduKzn3ZK2uet_eVPFRmQszCRZQRyUBOJ-GYe44zCuvzMA@mail.gmail.com>
-References: <9a5cc2a7-a505-9d0d-5b78-4bc5ab100ff1@gmail.com>
- <20161115084440.GA21255@obsidian> <fc419c25-7e99-9b47-0439-3469bb6e9ed6@gmail.com>
+From: "Michael Kerrisk (man-pages)" <mtk.manpages-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org>
+Subject: Re: Revised draft of random(7) man page for review
+Date: Tue, 15 Nov 2016 22:51:59 +0100
+Message-ID: <d729f4db-945f-690b-ada8-d6973b83ac81@gmail.com>
+References: <50af97ae-e65e-30f3-c5ec-6f2129711f39@gmail.com>
+ <20161115150407.jy7ix2i6dw5nyhbk@thunk.org>
 Mime-Version: 1.0
-Content-Type: text/plain; charset=UTF-8
+Content-Type: text/plain; charset=utf-8
+Content-Transfer-Encoding: 8bit
 Return-path: <linux-man-owner-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>
-In-Reply-To: <fc419c25-7e99-9b47-0439-3469bb6e9ed6-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org>
+In-Reply-To: <20161115150407.jy7ix2i6dw5nyhbk-AKGzg7BKzIDYtjvyW6yDsg@public.gmane.org>
 Sender: linux-man-owner-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
-To: "Michael Kerrisk (man-pages)" <mtk.manpages-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org>
-Cc: linux-man <linux-man-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>
+To: Theodore Ts'o <tytso-3s7WtUTddSA@public.gmane.org>
+Cc: mtk.manpages-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org, Laurent Georget <laurent-AyimVQWTEHzsq35pWSNszA@public.gmane.org>, Nikos Mavrogiannopoulos <nmav-H+wXaHxf7aLQT0dZR+AlfA@public.gmane.org>, Laurent Georget <laurent.georget-vbcOdlJ0SulGWvitb5QawA@public.gmane.org>, Luke Bratch <luke-g3IQT7+C+D7QXOPxS62xeg@public.gmane.org>, Ivan Babrou <ibobrik-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org>, matt-6J8q6J5oQjkQrrorzV6ljw@public.gmane.org, Heinrich Schuchardt <xypron.glpk-Mmb7MZpHnFY@public.gmane.org>, linux-man-u79uwXL29TY76Z2rM5mHXA@public.gmane.org, =?UTF-8?Q?Thomas_H=c3=bchn?= <t@2uo.de>, Stephan Mueller <smueller-T9tCv8IpfcWELgA04lAiVw@public.gmane.org>, =?UTF-8?Q?Carl_Winb=c3=a4ck?= <c@tunnel53.net>, mpm-VDJrAJ4Gl5ZBDgjK7y7TUQ@public.gmane.org
 List-Id: linux-man@vger.kernel.org
 
-On Tue, Nov 15, 2016 at 9:00 PM, Michael Kerrisk (man-pages)
-<mtk.manpages-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org> wrote:
-> Hello Eugene
->
-> On 11/15/2016 09:44 AM, Eugene Syromyatnikov wrote:
->> ---
->>  man2/add_key.2 | 13 +++++++++++++
->>  1 file changed, 13 insertions(+)
->>
->> diff --git a/man2/add_key.2 b/man2/add_key.2
->> index 082a2b8..241eb92 100644
->> --- a/man2/add_key.2
->> +++ b/man2/add_key.2
->> @@ -183,6 +183,19 @@ The keyring doesn't exist.
->>  .TP
->>  .B ENOMEM
->>  Insufficient memory to create a key.
->> +.TP
->> +.B EPERM
->> +The
->> +.I type
->> +started from dot.
->
-> Oh -- I was unaware of this! What are key types that start with "." about,
-> do you know?
-I can't recall any clear indication that this is for internal purposes
-(and can't find any mention of this now), but there is explicit check
-in keyctl.c:key_get_type_from_user and it is used for
-".request_key_auth" key type. Judging by commit messages for 54e2c2c1,
-1260f801 and 3e30148c, it is indeed reserved for internal purposes and
-has been reserved as part of the introduction of the aforementioned
-".request_key_auth" key type.
+Hell Ted,
 
-> Cheers,
->
-> Michael
->
->
->> +.TP
->> +.B EPERM
->> +.I type
->> +was
->> +.I """keyring"""
->> +and the
->> +.I description
->> +started from dot.
->>  .SH VERSIONS
->>  This system call first appeared in Linux 2.6.10.
->>  .SH CONFORMING TO
+On 11/15/2016 04:04 PM, Theodore Ts'o wrote:
+> On Tue, Nov 15, 2016 at 07:56:09AM +0100, Michael Kerrisk (man-pages) wrote:
+>>        *  The Linux-specific getrandom(2) system call, available since
+>>           Linux 3.17.  This system call provides access either to  the
+>>           same  source  as  /dev/urandom (called the urandom source in
+>>           this page) or to the same source as /dev/random (called  the
+>>           random  source  in  this  page).  The default is the urandom
+>>           source; the random source  is  selected  by  specifying  the
+>>           GRND_RANDOM flag to the system call.
+>> ....
+>>    Choice of random device
+>>        Unless  you are doing long-term key generation (and most likely
+>>        not even then), you probably shouldn't be using the /dev/random
+>>        device or getrandom(2) with the GRND_RANDOM flag.
 >>
->
->
-> --
-> Michael Kerrisk
-> Linux man-pages maintainer; http://www.kernel.org/doc/man-pages/
-> Linux/UNIX System Programming Training: http://man7.org/training/
+> 
+> Given the definition earlier, maybe the title of this section should
+> be called "Choice of random source?"
+
+Yes. Fixed.
+
+>>    Usage recommendations
+>>        The kernel random-number generator relies on  entropy  gathered
+>>        from  device  drivers and other sources of environmental noise.
+>>        It is designed to produce a small amount of  high-quality  seed
+>>        material to seed a cryptographically secure pseudorandom number
+>>        generator (CSPRNG).  It is designed for  security,  not  speed,
+>>        and  is  poorly  suited  to generating large amounts of crypto‐
+>>        graphic random data.  Users should be economical in the  amount
+>>        of seed material that they consume via getrandom(2), /dev/uran‐
+>>        dom, and /dev/random.
+>>
+>>        ┌─────────────────────────────────────────────────────┐
+>>        │FIXME                                                │
+>>        ├─────────────────────────────────────────────────────┤
+>>        │Is it really  necessary  to  avoid  consuming  large │
+>>        │amounts from /dev/urandom? Various sources linked to │
+>>        │by https://bugzilla.kernel.org/show_bug.cgi?id=71211 │
+>>        │suggest it is not.                                   │
+>>        │                                                     │
+>>        │And: has the answer to the previous question changed │
+>>        │across kernel versions?                              │
+>>        └─────────────────────────────────────────────────────┘
+>>        Consuming unnecessarily large  quantities  of  data  via  these
+>>        interfaces  will  have  a negative impact on other consumers of
+>>        randomness.
+> 
+> So "poorly suited" is definitely true.  Also true is that urandom is
+> not engineered for use for non-cryptographic uses.  It's always going
+> to be faster to use random(3) for those purposes.
+> 
+> As far as whether or not it has a negative impact, it depends on how
+> much you trust the underlying cryptographic algorithms.  If the CSPRNG
+> is seeded correctly with at least 256 bits of entropy that can't be
+> guessed by the attacker, and if the underlying cryptographic
+> primitives are secure, then it won't matter.  But *if* there is an
+> unknown vulnerability in the underlying primitive, and *if* large
+> amounts of data generated by the CSPRNG would help exploit that
+> vulnerability, and *if* that bulk amount of CSPRNG output is made
+> available to an attacker with the capability to break the underlying
+> cryptographic vulnerability, then there would be a problem.
+> 
+> Obviously, no one knows of such a vulnerability, and I'm fairly
+> confident that there won't be such a vulnerability across the
+> different ways we've used to generate the urandom source --- but some
+> people are professional paranoids, and would argue that we shouldn't
+> make bulk output of the CSPRNG available for no good reason, just in
+> case.
+
+So, is it necessary to keep the statement about avoiding
+consuming large amounts from the random / urandom / getrandom()?
+
+>>        ┌─────────────────────────────────────────────────────┐
+>>        │FIXME                                                │
+>>        ├─────────────────────────────────────────────────────┤
+>>        │Above: we need to define "negative impact".  Is  the │
+>>        │only  negative  impact  that  we may slow readers of │
+>>        │/dev/random, since it will  block  until  sufficient │
+>>        │entropy has once more accumulated?                   │
+>>        │                                                     │
+>>        │And: has the answer to the previous question changed │
+>>        │across kernel versions?                              │
+>>        └─────────────────────────────────────────────────────┘
+> 
+> This answer has changed across kernel versions.  As of the changes
+> made in the 4.8 kernel and newer, we reseed the urandom pool every
+> five minutes (if it is in use) so it doesn't matter whether you draw
+> one byte or one gigabyte from the urandom source; it won't slow down
+> readers of the random source.
+> 
+> Between 3.13 and 4.8, we cap the number of times that entropy that
+> will be pulled from /dev/random to once every 60 seconds, so it
+> mattered a bit more, but it wouldn't significantly slow down readers
+> from /dev/random.
+> 
+> Before 3.13, it would significantly slow down readers of /dev/random
+> if you were pulling from /dev/urandom even by moderate amounts (for
+> example, by the Chrome browser, which is using /dev/urandom for
+> session keys for all TLS connections --- and a Chrome browser
+> typically opens lots of TLS connections as you browse the web).
+
+So, keep the existing man page text, or rework, do you think?
+
+Cheers,
+
+Michael
+
 
 
 
 -- 
-Eugene "eSyr" Syromyatnikov
-mailto:evgSyr-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org
-xmpp:eSyr@jabber.{ru|org}
+Michael Kerrisk
+Linux man-pages maintainer; http://www.kernel.org/doc/man-pages/
+Linux/UNIX System Programming Training: http://man7.org/training/
 --
 To unsubscribe from this list: send the line "unsubscribe linux-man" in
 the body of a message to majordomo-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
