@@ -1,7 +1,7 @@
 From: Eugene Syromyatnikov <evgsyr-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org>
-Subject: [PATCH 4/5] add_key.2: add information regarding EFAULT
-Date: Tue, 15 Nov 2016 11:44:30 +0300
-Message-ID: <20161115084430.GA20968@obsidian>
+Subject: [PATCH 5/5] add_key.2: add information regarding EPERM
+Date: Tue, 15 Nov 2016 11:44:40 +0300
+Message-ID: <20161115084440.GA21255@obsidian>
 References: <9a5cc2a7-a505-9d0d-5b78-4bc5ab100ff1@gmail.com>
 Mime-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
@@ -14,25 +14,33 @@ Cc: linux-man-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
 List-Id: linux-man@vger.kernel.org
 
 ---
- man2/add_key.2 | 5 +++++
- 1 file changed, 5 insertions(+)
+ man2/add_key.2 | 13 +++++++++++++
+ 1 file changed, 13 insertions(+)
 
 diff --git a/man2/add_key.2 b/man2/add_key.2
-index 78b1b99..082a2b8 100644
+index 082a2b8..241eb92 100644
 --- a/man2/add_key.2
 +++ b/man2/add_key.2
-@@ -148,6 +148,11 @@ The keyring wasn't available for modification by the user.
- The key quota for this user would be exceeded by creating this key or linking
- it to the keyring.
+@@ -183,6 +183,19 @@ The keyring doesn't exist.
  .TP
-+.B EFAULT
-+(Part of)
-+.IR type ", " description " or " payload
-+points outside process' accessible address space.
+ .B ENOMEM
+ Insufficient memory to create a key.
 +.TP
- .B EINVAL
- The size of the string (including the terminating null byte) specified in
- .I type
++.B EPERM
++The
++.I type
++started from dot.
++.TP
++.B EPERM
++.I type
++was
++.I """keyring"""
++and the
++.I description
++started from dot.
+ .SH VERSIONS
+ This system call first appeared in Linux 2.6.10.
+ .SH CONFORMING TO
 -- 
 2.10.2
 
