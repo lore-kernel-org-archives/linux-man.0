@@ -1,115 +1,170 @@
-From: Theodore Ts'o <tytso-3s7WtUTddSA@public.gmane.org>
-Subject: Re: Revised draft of random(7) man page for review
-Date: Tue, 15 Nov 2016 10:04:07 -0500
-Message-ID: <20161115150407.jy7ix2i6dw5nyhbk@thunk.org>
-References: <50af97ae-e65e-30f3-c5ec-6f2129711f39@gmail.com>
+From: "Michael Kerrisk (man-pages)" <mtk.manpages-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org>
+Subject: Re: [PATCH v2] mprotect.2: Added information regarding
+ PROT_{SEM,SAO,GROWSUP,GROWSDOWN}
+Date: Tue, 15 Nov 2016 21:34:53 +0100
+Message-ID: <0d7def2f-09b0-3790-af04-91393fc8ec58@gmail.com>
+References: <20161113193323.GA19910@obsidian> <20161114012309.GA1333@obsidian>
 Mime-Version: 1.0
-Content-Type: text/plain; charset=utf-8
-Content-Transfer-Encoding: 8bit
+Content-Type: text/plain; charset=windows-1252
+Content-Transfer-Encoding: 7bit
 Return-path: <linux-man-owner-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>
-Content-Disposition: inline
-In-Reply-To: <50af97ae-e65e-30f3-c5ec-6f2129711f39-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org>
+In-Reply-To: <20161114012309.GA1333@obsidian>
 Sender: linux-man-owner-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
-To: "Michael Kerrisk (man-pages)" <mtk.manpages-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org>
-Cc: Laurent Georget <laurent-AyimVQWTEHzsq35pWSNszA@public.gmane.org>, Nikos Mavrogiannopoulos <nmav-H+wXaHxf7aLQT0dZR+AlfA@public.gmane.org>, Laurent Georget <laurent.georget-vbcOdlJ0SulGWvitb5QawA@public.gmane.org>, Luke Bratch <luke-g3IQT7+C+D7QXOPxS62xeg@public.gmane.org>, Ivan Babrou <ibobrik-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org>, matt-6J8q6J5oQjkQrrorzV6ljw@public.gmane.org, Heinrich Schuchardt <xypron.glpk-Mmb7MZpHnFY@public.gmane.org>, linux-man-u79uwXL29TY76Z2rM5mHXA@public.gmane.org, Thomas =?iso-8859-1?Q?H=FChn?= <t@2uo.de>, Stephan Mueller <smueller-T9tCv8IpfcWELgA04lAiVw@public.gmane.org>, Carl =?iso-8859-1?Q?Winb=E4ck?= <c@tunnel53.net>, mpm-VDJrAJ4Gl5ZBDgjK7y7TUQ@public.gmane.org
+To: Eugene Syromyatnikov <evgsyr-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org>
+Cc: mtk.manpages-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org, linux-man-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
 List-Id: linux-man@vger.kernel.org
 
-On Tue, Nov 15, 2016 at 07:56:09AM +0100, Michael Kerrisk (man-pages) wrote:
->        *  The Linux-specific getrandom(2) system call, available since
->           Linux 3.17.  This system call provides access either to  the
->           same  source  as  /dev/urandom (called the urandom source in
->           this page) or to the same source as /dev/random (called  the
->           random  source  in  this  page).  The default is the urandom
->           source; the random source  is  selected  by  specifying  the
->           GRND_RANDOM flag to the system call.
->....
->    Choice of random device
->        Unless  you are doing long-term key generation (and most likely
->        not even then), you probably shouldn't be using the /dev/random
->        device or getrandom(2) with the GRND_RANDOM flag.
+Hello Eugene,
+
+Thanks. Overall, this looks helpful, but I have some questions, below.
+
+On 11/14/2016 02:23 AM, Eugene Syromyatnikov wrote:
+> Changes since v1:
+>  * Fixed description of PROT_GROWSUP/PROT_GROWSDOWN from "whole mapping"
+>    to "up to end/down to beginning".
+>  * Clarified situation regarding obtaining VMA with
+>    VM_GROWSUP/VM_GROWSDOWN bit set.
+>  * Clarified meaning of "invalid flag"
+>  * Some rewording, typo fixes.
+> 
+> ---
+>  man2/mprotect.2 | 65 ++++++++++++++++++++++++++++++++++++++++++++++++++-------
+>  1 file changed, 57 insertions(+), 8 deletions(-)
+> 
+> diff --git a/man2/mprotect.2 b/man2/mprotect.2
+> index 440fa65..f3b2b1a 100644
+> --- a/man2/mprotect.2
+> +++ b/man2/mprotect.2
+> @@ -30,12 +30,6 @@
+>  .\" 2007-06-02, mtk: Fairly substantial rewrites and additions, and
+>  .\" a much improved example program.
+>  .\"
+> -.\" FIXME The following protection flags need documenting:
+> -.\"         PROT_SEM
+> -.\"         PROT_GROWSDOWN
+> -.\"         PROT_GROWSUP
+> -.\"         PROT_SAO (PowerPC)
+> -.\"
+>  .TH MPROTECT 2 2015-07-23 "Linux" "Linux Programmer's Manual"
+>  .SH NAME
+>  mprotect, pkey_mprotect \- set protection on a region of memory
+> @@ -60,7 +54,7 @@ that violates the protection, then the kernel generates a
+>  signal for the process.
+>  .PP
+>  .I prot
+> -is either
+> +is a combination of the following access flags:
+>  .B PROT_NONE
+>  or a bitwise-or of the other values in the following list:
+>  .TP 1.1i
+> @@ -75,6 +69,42 @@ The memory can be modified.
+>  .TP
+>  .B PROT_EXEC
+>  The memory can be executed.
+> +'\" 882ad449046cec136c484dd2b3659fb4c683e0a3
+
+Presumably, this is a commit ID from a historical tree?
+I'd leave such IDs out, since most people probably don't
+have the histrorical git tree set up locally.
+
+By the way, the usual convention use for comment lines is
+
+    .\"
+
+rather than
+
+    '\"
+
+> +.TP
+> +.BR PROT_SEM " (since Linux 2.5.7)"
+> +The memory can be used for atomic operations. It was introduced as part of
+> +.BR futex (2)
+> +implementation (in order), but not actually used in any currently supported
+
+What do the words "in order" here mean?
+
+> +architecture so far.
+> +'\" aba46c5027cb59d98052231b36efcbbde9c77a1d ef3d3246a0d06be622867d21af25f997aeeb105f
+> +.TP
+> +.BR PROT_SAO " (since Linux 2.6.26)"
+> +The memory should have strong access ordering. This feature is specific to
+> +PowerPC architecture (version 2.06 of architecture specification adds SAO CPU
+> +feature, and it is available on POWER 7 or PowerPC A2, for example).
+> +.PP
+> +'\" c1dd59582e5b518983b0f4db66f0f8a969139c1b
+
+Drop previous line (historical git commit ID)
+
+> +Additionally (since Linux 2.6.0),
+> +.I prot
+> +can have one of the following flags set:
+> +.TP 1.1i
+> +'\" mm/mmap.c:
+> +'\"	vm_flags |= calc_vm_prot_bits(prot, pkey) | calc_vm_flag_bits(flags) |
+> +'\"			mm->def_flags | VM_MAYREAD | VM_MAYWRITE | VM_MAYEXEC;
+> +'\" And calc_vm_flag_bits converts only GROWSDOWN/DENYWRITE/LOCKED.
+> +.B PROT_GROWSUP
+> +Apply protection mode up to the end of the VMA which grows up (it should be a
+
+We need to explain VMA in user-space terms. Do you have an idea here?
+
+> +stack segment on HP PA-RISC, since there are no other ways to map a segment with
+> +.B VM_GROWSUP
+> +even if architecture has support for it.)
+> +.TP
+> +.B PROT_GROWSDOWN
+> +Apply protection mode down to the beginning of the VMA which grows down (it
+> +should be stack segment or mapped with
+> +.B MAP_GROWSDOWN
+> +flag set.)
+> +.PP
+> +This is especially useful for stacks and other mappings which can grow.
+
+Does "This" mean to PROT_GROWSUP, PROT_GROWSDOWN, or both?
+(This needs to be made clearer.)
+
+Cheers,
+
+Michael
+
+>  .PP
+>  Like
+>  .BR mprotect (),
+> @@ -122,7 +152,26 @@ or not a multiple of the system page size.
+>  .RB ( pkey_mprotect ())
+>  \fIpkey\fP has not been allocated with
+>  .BR pkey_alloc (2)
+> -.\" Or: both PROT_GROWSUP and PROT_GROWSDOWN were specified in 'prot'.
+> +.TP
+> +.BR EINVAL
+> +Both
+> +.BR PROT_GROWSUP " and " PROT_GROWSDOWN
+> +were specified in
+> +.IR prot .
+> +.TP
+> +.BR EINVAL
+> +Invalid (other than
+> +.BR PROT_READ ", " PROT_WRITE ", " PROT_EXEC ", " PROT_SEM ", "
+> +.BR PROT_SAO " (on PowerPC only), " PROT_GROWSUP ", " PROT_GROWSDOWN )
+> +flags specified in
+> +.IR prot .
+> +.TP
+> +.BR EINVAL
+> +(PowerPC architecture)
+> +.B PROT_SAO
+> +specified in
+> +.IR prot ,
+> +but SAO hardware feature is not available.
+>  .TP
+>  .B ENOMEM
+>  Internal kernel structures could not be allocated.
 > 
 
-Given the definition earlier, maybe the title of this section should
-be called "Choice of random source?"
 
->    Usage recommendations
->        The kernel random-number generator relies on  entropy  gathered
->        from  device  drivers and other sources of environmental noise.
->        It is designed to produce a small amount of  high-quality  seed
->        material to seed a cryptographically secure pseudorandom number
->        generator (CSPRNG).  It is designed for  security,  not  speed,
->        and  is  poorly  suited  to generating large amounts of crypto‐
->        graphic random data.  Users should be economical in the  amount
->        of seed material that they consume via getrandom(2), /dev/uran‐
->        dom, and /dev/random.
-> 
->        ┌─────────────────────────────────────────────────────┐
->        │FIXME                                                │
->        ├─────────────────────────────────────────────────────┤
->        │Is it really  necessary  to  avoid  consuming  large │
->        │amounts from /dev/urandom? Various sources linked to │
->        │by https://bugzilla.kernel.org/show_bug.cgi?id=71211 │
->        │suggest it is not.                                   │
->        │                                                     │
->        │And: has the answer to the previous question changed │
->        │across kernel versions?                              │
->        └─────────────────────────────────────────────────────┘
->        Consuming unnecessarily large  quantities  of  data  via  these
->        interfaces  will  have  a negative impact on other consumers of
->        randomness.
-
-So "poorly suited" is definitely true.  Also true is that urandom is
-not engineered for use for non-cryptographic uses.  It's always going
-to be faster to use random(3) for those purposes.
-
-As far as whether or not it has a negative impact, it depends on how
-much you trust the underlying cryptographic algorithms.  If the CSPRNG
-is seeded correctly with at least 256 bits of entropy that can't be
-guessed by the attacker, and if the underlying cryptographic
-primitives are secure, then it won't matter.  But *if* there is an
-unknown vulnerability in the underlying primitive, and *if* large
-amounts of data generated by the CSPRNG would help exploit that
-vulnerability, and *if* that bulk amount of CSPRNG output is made
-available to an attacker with the capability to break the underlying
-cryptographic vulnerability, then there would be a problem.
-
-Obviously, no one knows of such a vulnerability, and I'm fairly
-confident that there won't be such a vulnerability across the
-different ways we've used to generate the urandom source --- but some
-people are professional paranoids, and would argue that we shouldn't
-make bulk output of the CSPRNG available for no good reason, just in
-case.
-
->        ┌─────────────────────────────────────────────────────┐
->        │FIXME                                                │
->        ├─────────────────────────────────────────────────────┤
->        │Above: we need to define "negative impact".  Is  the │
->        │only  negative  impact  that  we may slow readers of │
->        │/dev/random, since it will  block  until  sufficient │
->        │entropy has once more accumulated?                   │
->        │                                                     │
->        │And: has the answer to the previous question changed │
->        │across kernel versions?                              │
->        └─────────────────────────────────────────────────────┘
-
-This answer has changed across kernel versions.  As of the changes
-made in the 4.8 kernel and newer, we reseed the urandom pool every
-five minutes (if it is in use) so it doesn't matter whether you draw
-one byte or one gigabyte from the urandom source; it won't slow down
-readers of the random source.
-
-Between 3.13 and 4.8, we cap the number of times that entropy that
-will be pulled from /dev/random to once every 60 seconds, so it
-mattered a bit more, but it wouldn't significantly slow down readers
-from /dev/random.
-
-Before 3.13, it would significantly slow down readers of /dev/random
-if you were pulling from /dev/urandom even by moderate amounts (for
-example, by the Chrome browser, which is using /dev/urandom for
-session keys for all TLS connections --- and a Chrome browser
-typically opens lots of TLS connections as you browse the web).
-
-	  	     	    		       - Ted
+-- 
+Michael Kerrisk
+Linux man-pages maintainer; http://www.kernel.org/doc/man-pages/
+Linux/UNIX System Programming Training: http://man7.org/training/
 --
 To unsubscribe from this list: send the line "unsubscribe linux-man" in
 the body of a message to majordomo-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
