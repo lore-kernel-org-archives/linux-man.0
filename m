@@ -1,21 +1,54 @@
-From: "hobart.s-KK0ffGbhmjU@public.gmane.org" <patch.m-KK0ffGbhmjU@public.gmane.org>
-Subject: =?utf-8?Q?=D0=9A=D0=BB=D0=B8=D0=B5=D0=BD=D1=82=D1=81=D0?=
-        =?utf-8?Q?=BA=D0=B8=D0=B5_=D0=B1=D0=B0=D0=B7=D1=8B_Skype?=
-        =?utf-8?Q?=3A_prodawez390_Whatsapp=3A_+79139230330_Viber?=
-        =?utf-8?Q?=3A__+79139230330_Telegram=3A_+79139230330_Emai?=
-        =?utf-8?Q?l=3A_prodawez391=40gmail=2Ecom?=
-Date: Thu, 17 Nov 2016 16:37:59 +0700
-Message-ID: <C4C177242FFBD566BABFF64A5E8768FF@gmx.com>
-Reply-To: "hobart.s-KK0ffGbhmjU@public.gmane.org" <prodawez391-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org>
+From: "Michael Kerrisk (man-pages)" <mtk.manpages-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org>
+Subject: Re: [PATCH 2/5] add_key.2: wording change regarding the reasons of
+ call faliure
+Date: Wed, 16 Nov 2016 18:56:47 +0100
+Message-ID: <572afe8e-28e8-7863-ea78-2c8e950a4bc5@gmail.com>
+References: <9a5cc2a7-a505-9d0d-5b78-4bc5ab100ff1@gmail.com>
+ <20161115084358.GA20227@obsidian>
 Mime-Version: 1.0
-Content-Type: text/plain; charset="utf-8";
-Content-Transfer-Encoding: 8BIT
+Content-Type: text/plain; charset=windows-1252
+Content-Transfer-Encoding: 7bit
 Return-path: <linux-man-owner-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>
+In-Reply-To: <20161115084358.GA20227@obsidian>
 Sender: linux-man-owner-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
-To: "leasing24-6xgfRr2Yogo@public.gmane.org" <leasing24-6xgfRr2Yogo@public.gmane.org>
+To: Eugene Syromyatnikov <evgsyr-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org>
+Cc: mtk.manpages-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org, linux-man-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
 List-Id: linux-man@vger.kernel.org
 
-Клиентские базы Skype: prodawez390 Whatsapp: +79139230330 Viber:  +79139230330 Telegram: +79139230330 Email: prodawez391-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org
+On 11/15/2016 09:43 AM, Eugene Syromyatnikov wrote:
+> ---
+>  man2/add_key.2 | 4 ++--
+>  1 file changed, 2 insertions(+), 2 deletions(-)
+
+Thanks, Eugene. Applied.
+
+Cheers,
+
+Michael
+
+
+> diff --git a/man2/add_key.2 b/man2/add_key.2
+> index 1dfbd7d..b693927 100644
+> --- a/man2/add_key.2
+> +++ b/man2/add_key.2
+> @@ -37,8 +37,8 @@ attaches it to the nominated
+>  .IR keyring ,
+>  and returns the key's serial number.
+>  .P
+> -The key type may reject the data if it is in the wrong format or
+> -is in some other way invalid.
+> +The key may be rejected if the provided data is in the wrong format or
+> +it is invalid in some other way.
+>  .P
+>  If the destination
+>  .I keyring
+> 
+
+
+-- 
+Michael Kerrisk
+Linux man-pages maintainer; http://www.kernel.org/doc/man-pages/
+Linux/UNIX System Programming Training: http://man7.org/training/
 --
 To unsubscribe from this list: send the line "unsubscribe linux-man" in
 the body of a message to majordomo-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
