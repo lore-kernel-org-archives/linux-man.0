@@ -1,91 +1,55 @@
-From: "Michael Kerrisk (man-pages)" <mtk.manpages-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org>
-Subject: Re: [PATCH 5/5] add_key.2: add information regarding EPERM
-Date: Wed, 16 Nov 2016 18:57:04 +0100
-Message-ID: <ead3ceb2-934b-0ea9-ef1b-5f0220fa075b@gmail.com>
-References: <9a5cc2a7-a505-9d0d-5b78-4bc5ab100ff1@gmail.com>
- <20161115084440.GA21255@obsidian>
- <fc419c25-7e99-9b47-0439-3469bb6e9ed6@gmail.com>
- <CACGkJduKzn3ZK2uet_eVPFRmQszCRZQRyUBOJ-GYe44zCuvzMA@mail.gmail.com>
+From: Mike Frysinger <vapier-aBrp7R+bbdUdnm+yROfE0A@public.gmane.org>
+Subject: elf(5): what is the scope?
+Date: Wed, 16 Nov 2016 14:39:05 -0800
+Message-ID: <20161116223905.GQ21655@vapier.lan>
 Mime-Version: 1.0
-Content-Type: text/plain; charset=utf-8
-Content-Transfer-Encoding: 7bit
+Content-Type: multipart/signed; micalg=pgp-sha256;
+        protocol="application/pgp-signature"; boundary="4JYkiJ1a9n8r8Bnm"
 Return-path: <linux-man-owner-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>
-In-Reply-To: <CACGkJduKzn3ZK2uet_eVPFRmQszCRZQRyUBOJ-GYe44zCuvzMA-JsoAwUIsXosN+BqQ9rBEUg@public.gmane.org>
+Content-Disposition: inline
 Sender: linux-man-owner-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
-To: Eugene Syromyatnikov <evgsyr-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org>
-Cc: mtk.manpages-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org, linux-man <linux-man-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>
+To: linux-man-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
 List-Id: linux-man@vger.kernel.org
 
-Hi Eugene,
 
-On 11/15/2016 10:17 PM, Eugene Syromyatnikov wrote:
-> On Tue, Nov 15, 2016 at 9:00 PM, Michael Kerrisk (man-pages)
-> <mtk.manpages-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org> wrote:
->> Hello Eugene
->>
->> On 11/15/2016 09:44 AM, Eugene Syromyatnikov wrote:
->>> ---
->>>  man2/add_key.2 | 13 +++++++++++++
->>>  1 file changed, 13 insertions(+)
->>>
->>> diff --git a/man2/add_key.2 b/man2/add_key.2
->>> index 082a2b8..241eb92 100644
->>> --- a/man2/add_key.2
->>> +++ b/man2/add_key.2
->>> @@ -183,6 +183,19 @@ The keyring doesn't exist.
->>>  .TP
->>>  .B ENOMEM
->>>  Insufficient memory to create a key.
->>> +.TP
->>> +.B EPERM
->>> +The
->>> +.I type
->>> +started from dot.
->>
->> Oh -- I was unaware of this! What are key types that start with "." about,
->> do you know?
-> I can't recall any clear indication that this is for internal purposes
-> (and can't find any mention of this now), but there is explicit check
-> in keyctl.c:key_get_type_from_user and it is used for
-> ".request_key_auth" key type. Judging by commit messages for 54e2c2c1,
-> 1260f801 and 3e30148c, it is indeed reserved for internal purposes and
-> has been reserved as part of the introduction of the aforementioned
-> ".request_key_auth" key type.
+--4JYkiJ1a9n8r8Bnm
+Content-Type: text/plain; charset=utf-8
+Content-Disposition: inline
 
-Ahh yes. That makes sense. Patch applied. And I'll add a few more words
-about the types starting with "." being reserved.
+what is fair game for the elf(5) man page ?
 
-Cheers,
+things that i think are missing:
+ - Elf##_Lib entries as found in at least SHT_GNU_LIBLIST (prelink)
+ - the format of SHT_HASH and SHT_GNU_HASH
+ - Elf##_Nhdr notes found in SHT_NOTE
+ - Elf##_Chdr for compressed sections
+ - Elf##_Syminfo
+ - Elf##_Ver{def,need} found in SHT_GNU_ver{def,need}
+-mike
 
-Michael
+--4JYkiJ1a9n8r8Bnm
+Content-Type: application/pgp-signature; name="signature.asc"
+Content-Description: Digital signature
 
->>> +.TP
->>> +.B EPERM
->>> +.I type
->>> +was
->>> +.I """keyring"""
->>> +and the
->>> +.I description
->>> +started from dot.
->>>  .SH VERSIONS
->>>  This system call first appeared in Linux 2.6.10.
->>>  .SH CONFORMING TO
->>>
->>
->>
->> --
->> Michael Kerrisk
->> Linux man-pages maintainer; http://www.kernel.org/doc/man-pages/
->> Linux/UNIX System Programming Training: http://man7.org/training/
-> 
-> 
-> 
+-----BEGIN PGP SIGNATURE-----
+Version: GnuPG v2
 
+iQIcBAEBCAAGBQJYLOAJAAoJEEFjO5/oN/WB5CgP/iMlhgaGq+vClqVbuDttQXG+
+793wEn8GJFO1Y+57ahHWU4Gnm0Z3Cj99GgxAGvoPOtmYn+gU1hVu+nCMl8gajbaU
+qOEODsOZlb1pobmwW9+SDSW7i/wXGPoZukYS4NVgEOa79XodTjRYSl31r7EXtN4C
+QuywyTIsnbipFuJUlI2+5mU6aZWmyQM6tmR2ri1N7U7cKprtxXdwcJS2rZ/R3BeC
+PrSoz0ya3ma+1kao8EH1u5CIJ/9GPCJXWh1KMniFcxOKkRcYT/1PX0kv9oi0zG+v
+4fVJj0f9vJz5MPci3ZyYNdNWhkQCapnYVZH1Ooum5U73z+pjbchPXps7fkR705au
+YJCylyI/kPDicQ02vxibDKSFJUDzG3hlSXonvJENdt2r/1rPQ7guHgArEk+sNvxp
+znNzU+3qpPKbAaDytnOUA4LkT3xIXR7X6aVdkmr1M/lDrA5pGOLuPTMrufLWokGI
+P1l/DYtzcskYDj0ZPBb/SlxH135i7oXTDyGZinYMnHGsqvT9bN/l8azlpQQYhNSw
+EL7+69uRn1GrFm/OSqlMvFQhwiaxU1JnqoqCX/589/YJLIOBNquu8F+N/pD/2lqk
+a90IwDXnjC9S5aSDlsiRkQk07qewYnx7UNQ3FEQWn85dlr3WVDpBOeTh7ttHgcNh
+a6sEohPPAzW5Eh2AA3zB
+=NfR4
+-----END PGP SIGNATURE-----
 
--- 
-Michael Kerrisk
-Linux man-pages maintainer; http://www.kernel.org/doc/man-pages/
-Linux/UNIX System Programming Training: http://man7.org/training/
+--4JYkiJ1a9n8r8Bnm--
 --
 To unsubscribe from this list: send the line "unsubscribe linux-man" in
 the body of a message to majordomo-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
