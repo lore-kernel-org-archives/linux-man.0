@@ -1,67 +1,92 @@
 From: Mike Frysinger <vapier-aBrp7R+bbdUdnm+yROfE0A@public.gmane.org>
-Subject: Re: elf(5): what is the scope?
-Date: Thu, 17 Nov 2016 06:23:19 -0800
-Message-ID: <20161117142319.GT21655@vapier.lan>
-References: <20161116223905.GQ21655@vapier.lan>
- <CAKgNAkjtZcSXoBbYE7UL-F9j=zLxN+S6=4YW1d7Mb=8Hsm=9gw@mail.gmail.com>
-Mime-Version: 1.0
-Content-Type: multipart/signed; micalg=pgp-sha256;
-        protocol="application/pgp-signature"; boundary="Vs6r5beQVWevPlSD"
+Subject: [PATCH] elf(5): add subsection headers at major points
+Date: Thu, 17 Nov 2016 09:34:27 -0500
+Message-ID: <20161117143427.26643-1-vapier@gentoo.org>
 Return-path: <linux-man-owner-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>
-Content-Disposition: inline
-In-Reply-To: <CAKgNAkjtZcSXoBbYE7UL-F9j=zLxN+S6=4YW1d7Mb=8Hsm=9gw-JsoAwUIsXosN+BqQ9rBEUg@public.gmane.org>
 Sender: linux-man-owner-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
-To: "Michael Kerrisk (man-pages)" <mtk.manpages-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org>
-Cc: linux-man <linux-man-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>
+To: Michael Kerrisk <mtk.manpages-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org>
+Cc: linux-man-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
 List-Id: linux-man@vger.kernel.org
 
+The current pages dumps all the content into one big DESCRIPTION with
+no real visual break up between logically independent sections.  Add
+some subsection headers to make it easier to read and scan.
 
---Vs6r5beQVWevPlSD
-Content-Type: text/plain; charset=utf-8
-Content-Disposition: inline
-Content-Transfer-Encoding: quoted-printable
+Signed-off-by: Mike Frysinger <vapier-aBrp7R+bbdUdnm+yROfE0A@public.gmane.org>
+---
+ man5/elf.5 | 14 +++++++-------
+ 1 file changed, 7 insertions(+), 7 deletions(-)
 
-On 17 Nov 2016 07:58, Michael Kerrisk (man-pages) wrote:
-> On 16 November 2016 at 23:39, Mike Frysinger <vapier-aBrp7R+bbdUdnm+yROfE0A@public.gmane.org> wrote:
-> > what is fair game for the elf(5) man page ?
-> >
-> > things that i think are missing:
-> >  - Elf##_Lib entries as found in at least SHT_GNU_LIBLIST (prelink)
-> >  - the format of SHT_HASH and SHT_GNU_HASH
-> >  - Elf##_Nhdr notes found in SHT_NOTE
-> >  - Elf##_Chdr for compressed sections
-> >  - Elf##_Syminfo
-> >  - Elf##_Ver{def,need} found in SHT_GNU_ver{def,need}
->=20
-> It all sounds fair game to me. Is this an offer to tackle some
-> of this?
+diff --git a/man5/elf.5 b/man5/elf.5
+index a7bea6a97290..b152ea3c55ac 100644
+--- a/man5/elf.5
++++ b/man5/elf.5
+@@ -83,7 +83,7 @@ the file.
+ This header file describes the above mentioned headers as C structures
+ and also includes structures for dynamic sections, relocation sections and
+ symbol tables.
+-.PP
++.SS Basic Types
+ The following types are used for N-bit architectures (N=32,64,
+ .I ElfN
+ stands for
+@@ -131,7 +131,7 @@ size and alignment guidelines for the relevant class.
+ If necessary,
+ data structures contain explicit padding to ensure 4-byte alignment
+ for 4-byte objects, to force structure sizes to a multiple of 4, and so on.
+-.PP
++.SS ELF Header (Ehdr)
+ The ELF header is described by the type
+ .I Elf32_Ehdr
+ or
+@@ -608,7 +608,7 @@ member of the initial entry in section header table.
+ Otherwise, the
+ .IR sh_link
+ member of the initial entry in section header table contains the value zero.
+-.PP
++.SS Program Header (Phdr)
+ An executable or shared object file's program header table is an array of
+ structures, each describing a segment or other information the system needs
+ to prepare the program for execution.
+@@ -800,7 +800,7 @@ should equal
+ .IR p_offset ,
+ modulo
+ .IR p_align .
+-.PP
++.SS Section Header (Shdr)
+ A file's section header table lets one locate all the file's sections.
+ The
+ section header table is an array of
+@@ -1398,7 +1398,7 @@ The attributes used are
+ .BR SHF_ALLOC
+ and
+ .BR SHF_EXECINSTR .
+-.PP
++.SS String and Symbol Tables
+ String table sections hold null-terminated character sequences, commonly
+ called strings.
+ The object file uses these strings to represent symbol
+@@ -1575,7 +1575,7 @@ Every symbol table entry is
+ in relation to some section.
+ This member holds the relevant section
+ header table index.
+-.PP
++.SS Relocation Entries (Rel & Rela)
+ Relocation is the process of connecting symbolic references with
+ symbolic definitions.
+ Relocatable files must have information that
+@@ -1652,7 +1652,7 @@ member.
+ .IR r_addend
+ This member specifies a constant addend used to compute the value to be
+ stored into the relocatable field.
+-.PP
++.SS Dynamic Tags (Dyn)
+ The
+ .I .dynamic
+ section contains a series of structures that hold relevant
+-- 
+2.10.2
 
-i'll try ... i've been needing to reference these recently
--mike
-
---Vs6r5beQVWevPlSD
-Content-Type: application/pgp-signature; name="signature.asc"
-Content-Description: Digital signature
-
------BEGIN PGP SIGNATURE-----
-Version: GnuPG v2
-
-iQIcBAEBCAAGBQJYLb1XAAoJEEFjO5/oN/WBJBwP/jDA2o2YRzJHKe/z4Ap1VZGp
-iCp0R/6vqmTozKHiCwVlzCd2GG4YFBGKqmn0olgwUqlj97/XP4Pv+DK19puKZDzk
-FqybJsRGAIYAPuj82CWvCp4OawiFkdUiuy4QaEiBeVBQvN6vmkocp46Ve1XLtKDc
-clONes/MHwqrxiPNb2GI+9MjmYtYeB7Z8y8hieEGW0j0+yXJwtwJiSOy5jHLTYyw
-s7jYG+l81rzzvbnKP/8LuRYnvt6tLm4/SD77f9oLNd4/KNbi6HcKMSACv1c5isT8
-Thvq5fCVdaMRKf5TH3IzajgCK3BkEGYWFpvn784yI9z68fReWPr6iZvA5OcvBYhK
-EErGeio2DH4bTTAbVNhnOSuKKfypfzaznFGrnaPti7mQQve/BCHaMLJ/cV5/LZPg
-xEy3NoE82Svd15fuM6A/0kfGiouH7kq+XftygjsoQDAhHFwhDtVFqbHVLtWU/oUI
-hKNb+T1iLaxKIMDFS3JgrYuIOEZWPBeicAsUwNvN3y38SQWhNn0mkJLmq6GITtq2
-du8VW9K8qpSZGhtRlPknySY38MvjfJnE/44W8IriBJEdID9YDvHeGXHcJk7vH5eV
-O6L6a9sDng38mDMHk097fmoLaKHs6DUc7LNsmJfKrw7z8tapQfwemOdDfYmduVaH
-EPa/her92SJyGuHLb5z+
-=uyLL
------END PGP SIGNATURE-----
-
---Vs6r5beQVWevPlSD--
 --
 To unsubscribe from this list: send the line "unsubscribe linux-man" in
 the body of a message to majordomo-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
