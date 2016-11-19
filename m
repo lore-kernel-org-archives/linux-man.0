@@ -1,35 +1,93 @@
 From: "Michael Kerrisk (man-pages)" <mtk.manpages-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org>
-Subject: Re: missing line in open(2)
-Date: Sat, 19 Nov 2016 11:10:18 +0100
-Message-ID: <CAKgNAkikCZHxYU==UqXzaRheO=joYLeRNvRQ_JZ_RWQNn+ispQ@mail.gmail.com>
-References: <201611152135.uAFLZ5U6003041@coolidge.cs.Dartmouth.EDU>
+Subject: Re: [PATCH] elf(5): document notes
+Date: Sat, 19 Nov 2016 11:13:12 +0100
+Message-ID: <CAKgNAkgqWayEyq5iej=+2y+uyD9BsLNDNHhAC539L955aet56w@mail.gmail.com>
+References: <20161117205939.2295-1-vapier@gentoo.org> <2dbf5664-524e-9411-16f4-2a84e6395c82@gmail.com>
+ <20161118182547.GY21655@vapier.lan>
 Reply-To: mtk.manpages-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org
 Mime-Version: 1.0
 Content-Type: text/plain; charset=UTF-8
 Return-path: <linux-man-owner-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>
-In-Reply-To: <201611152135.uAFLZ5U6003041-8cbNVySx9MqOSLXqXb3LzA+Np0iZ7rV0uDuwTybUTCk@public.gmane.org>
+In-Reply-To: <20161118182547.GY21655-UgUKS2FnFs9+urZeOPWqwQ@public.gmane.org>
 Sender: linux-man-owner-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
-To: Doug McIlroy <doug-bJGkzYaaMJvEkZP4S/TgZg@public.gmane.org>
-Cc: linux-man <linux-man-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>
+To: "Michael Kerrisk (man-pages)" <mtk.manpages-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org>, linux-man <linux-man-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>
 List-Id: linux-man@vger.kernel.org
 
-Hello Doug,
+Hi Mike,
 
-On 15 November 2016 at 22:35, Doug McIlroy <doug-bJGkzYaaMJvEkZP4S/TgZg@public.gmane.org> wrote:
+On 18 November 2016 at 19:25, Mike Frysinger <vapier-aBrp7R+bbdUdnm+yROfE0A@public.gmane.org> wrote:
+> On 18 Nov 2016 08:25, Michael Kerrisk (man-pages) wrote:
+>> On 11/17/2016 09:59 PM, Mike Frysinger wrote:
+>> > for documenting the Elf{32,64}_Nhdr structure,
+>> > the sections/segments that contain notes, and how to interpret them.  I've
+>> > been lazy and only included the GNU extensions here,
+>>
+>> Any chance you include the non-GNU stuff also? Or, failing that,
+>> some clear statements at appropriate points about what is not
+>> documented.
 >
-> Open(2) synopsis omits
->         #include <unistd.h>
+> the trouble i was running into is that the man pages says it documents
+> the elf.h header, but the one installed by glibc doesn't have defines
+> for all the non-GNU stuff.  so if i put in details about the FreeBSD
+> namespace, it'll have defines like NT_FREEBSD_THRMISC.  none of those
+> show up in the current elf.h though so people will get errors.
+>
+> i'm fine with that though if you are.
 
-I'm puzzled here. Linux doesn't need this header file, FreeBSD doesn't
-document it, and nor do SUSv2, POSIX.1-2001, and POSIX.1-2008. Have I
-misunderstood something?
+Actually, it sounds like your original approach is best then.
 
-> P.S. I applaud this policy about trivial fixes:
-> "Please do not report such bugs via the bugzilla. Doing so creates unnecessary bugzilla administrative overhead."
+>> > +Note sections contain a series of notes (see the structs below).
+>> > +Each note is followed by the name field (whose length is defined in
+>> > +\fIn_namesz\fR) and then by the desc field (whose length is defined in
+>> > +\fIn_descsz\fR).
+>>
+>> I think this could be a little clearer. I presume that the way things look is
+>>
+>>      struct {} Nhdr
+>>      <name>\0
+>>      <desc>\0
+>>
+>> ?
+>
+> i don't think desc is NUL terminated, but otherwise, yes.
+>
+>> Maybe shos something like that in the text?
+>
+> i couldn't find any precedent to copy :).  i didn't want to put it into
+> the struct def since those fields aren't in the struct, they're implicit
+> in memory.
+>
+> how about i put a small snippet of C that'd show how to extract things ?
+>
+>         void *memory, *name, *desc;
+>         Elf64_Nhdr *note, *next_note;
+>
+>         note = memory;
+>         name = note->n_namesz == 0 ? NULL : memory + sizeof(*note);
+>         desc = note->n_descsz == 0 ? NULL : name + note->n_namesz;
+>         next_note = memory + sizeof(*note) + note->n_namesz + note->n_descsz;
 
-My attempt to make everyone's life simpler...
+Yes, that's better than my idea.
 
-Thank you for pipelines!
+>> > +Keep in mind that the interpretation of
+>> > +.I n_type
+>> > +depends on the namespace defined by the
+>> > +.I n_namesz
+>> > +field.
+>> > +After, of course, whether the ELF image has been determined to be a core.
+>>
+>> I can't understand that last sentence...
+>
+> i meant that the namespaces are for non-core files, but i'll double check
+> that is the case.
+
+Just to be clear, the reason I could not understand that sentence was
+that there appear to be some words missing.
+
+> i snipped all the comments that i'll integrate so i don't have to just
+> keep saying "OK" over and over :).
+
+OK.
 
 Cheers,
 
