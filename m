@@ -1,8 +1,8 @@
 From: Eugene Syromyatnikov <evgsyr-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org>
-Subject: [PATCH] prctl.2: add information regarding PR_SET_FP_MODE and
- PR_GET_FP_MODE options
-Date: Sun, 20 Nov 2016 03:55:11 +0300
-Message-ID: <20161120005511.GA17261@obsidian>
+Subject: [PATCH v3] mprotect.2: Added information regarding
+ PROT_{SEM,SAO,GROWSUP,GROWSDOWN}
+Date: Sun, 20 Nov 2016 04:16:03 +0300
+Message-ID: <20161120011603.GA31811@obsidian>
 Mime-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Return-path: <linux-man-owner-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>
@@ -12,130 +12,112 @@ To: mtk.manpages-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org
 Cc: linux-man-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
 List-Id: linux-man@vger.kernel.org
 
-Based on description provided in commit 9791554b and information in
-https://dmz-portal.mips.com/wiki/MIPS_O32_ABI_-_FR0_and_FR1_Interlinking
----
- man2/prctl.2 | 100 +++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
- 1 file changed, 100 insertions(+)
+Changes since v2:
+ * Commit IDs from historic repositories removed.
+ * Note regarding intended purpose of PROT_SEM written up.
+ * Comment format changed to .\"
+ * "VMA" renamed to "mapping"
+ * Removed note regarding PROT_GROWS*.
 
-diff --git a/man2/prctl.2 b/man2/prctl.2
-index ae1fbc5..954641c 100644
---- a/man2/prctl.2
-+++ b/man2/prctl.2
-@@ -263,6 +263,98 @@ or
- Return the endian-ness of the calling process,
- in the location pointed to by
- .IR "(int\ *) arg2" .
-+.\" 9791554b45a2acc28247f66a5fd5bbc212a6b8c8
-+.TP
-+.BR PR_SET_FP_MODE " (since Linux 4.0, only on MIPS)"
-+On MIPS, user land code can be built using ABI which permits linking with a code
-+with a more restrictive floating point requirements.  For example, user land
-+code may be built to target the O32 FPXX ABI and linked with code built for
-+either one of the more restrictive FP32 or FP64. When more restrictive code is
-+linked in, the overall requirement for the process is to use this more
-+restrictive floating point mode. Since kernel has no means of knowing in advance
-+which mode process should be executed in, and having possibility that these
-+restrictions can be changed during the process' lifetime, the ability to control
-+it from the user space via this option is provided.
-+
-+.\" https://dmz-portal.mips.com/wiki/MIPS_O32_ABI_-_FR0_and_FR1_Interlinking
-+The
-+.I (unsigned int) arg2
-+argument is a bit mask describing floating point mode used:
-+.RS
-+.TP
-+.BR PR_FP_MODE_FR " = " "(1 << 0)"
-+When this bit is
-+.I unset
-+(so called
-+.BR FR=0 " or " FR0
-+mode), 32 FP registers are 32-bit wide, and 64-bit registers are represented as
-+pair of registers (even- and odd- numbered, with even-numbered register
-+containing lower 32 bits, and odd-numbered register containing higher 32 bits).
-+When this bit is
-+.I set
-+(on supported hardware), 32 FP registers are 64-bit wide (so called
-+.BR FR=1 " or " FR1
-+mode). Note that modern MIPS implementations (MIPS R6 and newer) support
-+.B FR=1
-+mode only.
-+
-+Applications that use O32 FP32 ABI can operate only when this bit is
-+.I unset
-+.RB ( FR=0 ;
-+or they can be used with FRE enabled, see below).
-+Applications that use O32 FP64 ABI (and O32 FP64A ABI, which exists for
-+providing ability to operate with existing FP32 code; see below) can operate
-+only when this bit is
-+.I set
-+.RB ( FR=1 ).
-+Applications that use O32 FPXX ABI can operate in both cases.
-+.TP
-+.BR PR_FP_MODE_FRE " = " "(1 << 1)"
-+Compatibility with 32-bit FP mode. When this mode is enabled, it emulates 32-bit
-+FP operations by raising reserved instruction exception on every instruction
-+that uses 32-bit formats and kernel then handles the instruction in software
-+(the problem lies in discrepancy of handling odd-numbered registers which are
-+high 32 bits of 64-bit registers with even numbers in
-+.B FR=0
-+mode and lower 32-bit parts of odd-numbered 64-bit registers in
-+.B FR=1
-+mode). Enabling of this bit is needed when code with O32 FP32 ABI should operate
-+with code with compatible O32 FPXX or O32 FP64A ABIs (which require
-+.B FR=1
-+FPU mode) or when it is executed on newer hardware (MIPS R6 onwards) which lacks
-+.B FR=0
-+mode support when binary with FP32 ABI is used.
-+.IP
-+Note that this mode only makes sense when FPU is in 64-bit mode
-+.RB ( FR=1 .)
-+.IP
-+Note that usage of emulation inherently has a significant performance hit and
-+should be avoided if possible.
-+.RE
-+.IP
-+Note that for N32/N64 ABI is a different story and does not need FPU emulation
-+and always operates in
-+.B FR=1
-+mode.
-+.IP
-+This option is mainly intended for use by dynamic loader, but may be of use by
-+applications in case library loading during runtime (via
-+.BR dlopen (3),
-+for example) is used.
-+.IP
-+Arguments
-+.IR arg3 ", " arg4 " and " arg5
-+are ignored.
-+.TP
-+.BR PR_GET_FP_MODE " (since Linux 4.0, only on MIPS)"
-+Get current floating point mode (see description for
-+.B PR_SET_FP_MODE
-+for details).
-+
-+Call returns bit mask which represents current FP mode in case of success.
-+Arguments
-+.IR arg2 ", " arg3 ", " arg4 " and " arg5
-+are ignored.
+---
+ man2/mprotect.2 | 63 +++++++++++++++++++++++++++++++++++++++++++++++++--------
+ 1 file changed, 55 insertions(+), 8 deletions(-)
+
+diff --git a/man2/mprotect.2 b/man2/mprotect.2
+index 440fa65..8f4c09f 100644
+--- a/man2/mprotect.2
++++ b/man2/mprotect.2
+@@ -30,12 +30,6 @@
+ .\" 2007-06-02, mtk: Fairly substantial rewrites and additions, and
+ .\" a much improved example program.
+ .\"
+-.\" FIXME The following protection flags need documenting:
+-.\"         PROT_SEM
+-.\"         PROT_GROWSDOWN
+-.\"         PROT_GROWSUP
+-.\"         PROT_SAO (PowerPC)
+-.\"
+ .TH MPROTECT 2 2015-07-23 "Linux" "Linux Programmer's Manual"
+ .SH NAME
+ mprotect, pkey_mprotect \- set protection on a region of memory
+@@ -60,7 +54,7 @@ that violates the protection, then the kernel generates a
+ signal for the process.
+ .PP
+ .I prot
+-is either
++is a combination of the following access flags:
+ .B PROT_NONE
+ or a bitwise-or of the other values in the following list:
+ .TP 1.1i
+@@ -75,6 +69,40 @@ The memory can be modified.
  .TP
- .BR PR_SET_FPEMU " (since Linux 2.4.18, 2.5.9, only on ia64)"
- Set floating-point emulation control bits to \fIarg2\fP.
-@@ -1285,6 +1377,14 @@ or
- and the kernel or the CPU does not support MPX management.
- Check that the kernel and processor have MPX support.
- .TP
-+.B EOPNOTSUPP
-+.I option
-+is
-+.B PR_SET_FP_MODE
-+and
-+.I arg2
-+has invalid or unsupported value.
+ .B PROT_EXEC
+ The memory can be executed.
 +.TP
- .B EPERM
- .I option
- is
++.BR PROT_SEM " (since Linux 2.5.7)"
++The memory can be used for atomic operations. It was introduced as part of
++.BR futex (2)
++implementation (in order to guarantee ability to perform atomic
++operations required by its commands such as
++.BR FUTEX_WAIT ),
++but not actually used in any currently supported architecture so far.
++.\" aba46c5027cb59d98052231b36efcbbde9c77a1d ef3d3246a0d06be622867d21af25f997aeeb105f
++.TP
++.BR PROT_SAO " (since Linux 2.6.26)"
++The memory should have strong access ordering. This feature is specific to
++PowerPC architecture (version 2.06 of architecture specification adds SAO CPU
++feature, and it is available on POWER 7 or PowerPC A2, for example).
++.PP
++Additionally (since Linux 2.6.0),
++.I prot
++can have one of the following flags set:
++.TP 1.1i
++.\" mm/mmap.c:
++.\"	vm_flags |= calc_vm_prot_bits(prot, pkey) | calc_vm_flag_bits(flags) |
++.\"			mm->def_flags | VM_MAYREAD | VM_MAYWRITE | VM_MAYEXEC;
++.\" And calc_vm_flag_bits converts only GROWSDOWN/DENYWRITE/LOCKED.
++.B PROT_GROWSUP
++Apply protection mode up to the end of the mapping which grows up (it should be a
++stack segment on HP PA-RISC, since there are no other ways to map a segment with
++.B VM_GROWSUP
++even if architecture has support for it.)
++.TP
++.B PROT_GROWSDOWN
++Apply protection mode down to the beginning of the mapping which grows down (it
++should be stack segment or mapped with
++.B MAP_GROWSDOWN
++flag set.)
+ .PP
+ Like
+ .BR mprotect (),
+@@ -122,7 +150,26 @@ or not a multiple of the system page size.
+ .RB ( pkey_mprotect ())
+ \fIpkey\fP has not been allocated with
+ .BR pkey_alloc (2)
+-.\" Or: both PROT_GROWSUP and PROT_GROWSDOWN were specified in 'prot'.
++.TP
++.BR EINVAL
++Both
++.BR PROT_GROWSUP " and " PROT_GROWSDOWN
++were specified in
++.IR prot .
++.TP
++.BR EINVAL
++Invalid (other than
++.BR PROT_READ ", " PROT_WRITE ", " PROT_EXEC ", " PROT_SEM ", "
++.BR PROT_SAO " (on PowerPC only), " PROT_GROWSUP ", " PROT_GROWSDOWN )
++flags specified in
++.IR prot .
++.TP
++.BR EINVAL
++(PowerPC architecture)
++.B PROT_SAO
++specified in
++.IR prot ,
++but SAO hardware feature is not available.
+ .TP
+ .B ENOMEM
+ Internal kernel structures could not be allocated.
 -- 
 2.10.2
 
