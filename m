@@ -1,18 +1,14 @@
 From: "Michael Kerrisk (man-pages)" <mtk.manpages-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org>
-Subject: Re: [PATCH] prctl.2: add information regarding PR_SET_FP_MODE and
- PR_GET_FP_MODE options
-Date: Sun, 20 Nov 2016 20:08:00 +0100
-Message-ID: <37185b75-61d3-3c99-ba62-615eff0843a0@gmail.com>
-References: <20161120005511.GA17261@obsidian>
- <ac782540-3001-899d-2e13-17ff24d6d2cb@gmail.com>
- <20161120145944.GA8724@obsidian>
- <eb7d6f73-e4b4-ed7f-39f4-1855b19438e0@gmail.com>
- <20161120173402.GB8724@obsidian>
+Subject: Re: [PATCH v3] mprotect.2: Added information regarding
+ PROT_{SEM,SAO,GROWSUP,GROWSDOWN}
+Date: Sun, 20 Nov 2016 22:39:48 +0100
+Message-ID: <91214c03-05a1-ad11-7ac8-282dc4177cca@gmail.com>
+References: <20161120011603.GA31811@obsidian>
 Mime-Version: 1.0
 Content-Type: text/plain; charset=windows-1252
 Content-Transfer-Encoding: 7bit
 Return-path: <linux-man-owner-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>
-In-Reply-To: <20161120173402.GB8724@obsidian>
+In-Reply-To: <20161120011603.GA31811@obsidian>
 Sender: linux-man-owner-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
 To: Eugene Syromyatnikov <evgsyr-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org>
 Cc: mtk.manpages-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org, linux-man-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
@@ -20,255 +16,86 @@ List-Id: linux-man@vger.kernel.org
 
 Hello Eugene,
 
-Looks like we're done with this. Thanks for all the help!
+I've applied this patch, and tweaked a few pieces, but need 
+help on one point.
+
+On 11/20/2016 02:16 AM, Eugene Syromyatnikov wrote:
+> Changes since v2:
+>  * Commit IDs from historic repositories removed.
+>  * Note regarding intended purpose of PROT_SEM written up.
+>  * Comment format changed to .\"
+>  * "VMA" renamed to "mapping"
+>  * Removed note regarding PROT_GROWS*.
+> 
+> ---
+>  man2/mprotect.2 | 63 +++++++++++++++++++++++++++++++++++++++++++++++++--------
+>  1 file changed, 55 insertions(+), 8 deletions(-)
+> 
+> diff --git a/man2/mprotect.2 b/man2/mprotect.2
+> index 440fa65..8f4c09f 100644
+> --- a/man2/mprotect.2
+> +++ b/man2/mprotect.2
+> @@ -30,12 +30,6 @@
+>  .\" 2007-06-02, mtk: Fairly substantial rewrites and additions, and
+>  .\" a much improved example program.
+>  .\"
+> -.\" FIXME The following protection flags need documenting:
+> -.\"         PROT_SEM
+> -.\"         PROT_GROWSDOWN
+> -.\"         PROT_GROWSUP
+> -.\"         PROT_SAO (PowerPC)
+> -.\"
+>  .TH MPROTECT 2 2015-07-23 "Linux" "Linux Programmer's Manual"
+>  .SH NAME
+>  mprotect, pkey_mprotect \- set protection on a region of memory
+> @@ -60,7 +54,7 @@ that violates the protection, then the kernel generates a
+>  signal for the process.
+>  .PP
+>  .I prot
+> -is either
+> +is a combination of the following access flags:
+>  .B PROT_NONE
+>  or a bitwise-or of the other values in the following list:
+>  .TP 1.1i
+> @@ -75,6 +69,40 @@ The memory can be modified.
+>  .TP
+>  .B PROT_EXEC
+>  The memory can be executed.
+> +.TP
+> +.BR PROT_SEM " (since Linux 2.5.7)"
+> +The memory can be used for atomic operations. It was introduced as part of
+> +.BR futex (2)
+> +implementation (in order to guarantee ability to perform atomic
+> +operations required by its commands such as
+> +.BR FUTEX_WAIT ),
+> +but not actually used in any currently supported architecture so far.
+> +.\" aba46c5027cb59d98052231b36efcbbde9c77a1d ef3d3246a0d06be622867d21af25f997aeeb105f
+> +.TP
+> +.BR PROT_SAO " (since Linux 2.6.26)"
+> +The memory should have strong access ordering. This feature is specific to
+> +PowerPC architecture (version 2.06 of architecture specification adds SAO CPU
+> +feature, and it is available on POWER 7 or PowerPC A2, for example).
+> +.PP
+> +Additionally (since Linux 2.6.0),
+> +.I prot
+> +can have one of the following flags set:
+> +.TP 1.1i
+> +.\" mm/mmap.c:
+> +.\"	vm_flags |= calc_vm_prot_bits(prot, pkey) | calc_vm_flag_bits(flags) |
+> +.\"			mm->def_flags | VM_MAYREAD | VM_MAYWRITE | VM_MAYEXEC;
+> +.\" And calc_vm_flag_bits converts only GROWSDOWN/DENYWRITE/LOCKED.
+> +.B PROT_GROWSUP
+> +Apply protection mode up to the end of the mapping which grows up (it should be a
+> +stack segment on HP PA-RISC, since there are no other ways to map a segment with
+> +.B VM_GROWSUP
+> +even if architecture has support for it.)
+
+We need a different way to talk about VM_GROWSUP, since that is
+a detail internal to the kernel. Do you have a suggestion?
 
 Cheers,
 
 Michael
-
-
-On 11/20/2016 06:34 PM, Eugene Syromyatnikov wrote:
-> On Sun, Nov 20, 2016 at 06:26:37PM +0100, Michael Kerrisk (man-pages) wrote:
->> Hello Eugene,
->>
->> On 11/20/2016 03:59 PM, Eugene Syromyatnikov wrote:
->>> On Sun, Nov 20, 2016 at 12:27:28PM +0100, Michael Kerrisk (man-pages) wrote:
->>>> Hi Eugene,
->>>>
->>>> I have applied this patch and tweaked some pieces (and pushed to Git),
->>>> but some parts need work still, I think. See my comments below.
->>>>
->>>> Rather than sending a patch, I think it would be easier if you just
->>>> respond to my comments in line below.
->>>>
->>>>
->>>> On 11/20/2016 01:55 AM, Eugene Syromyatnikov wrote:
->>>>> Based on description provided in commit 9791554b and information in
->>>>> https://dmz-portal.mips.com/wiki/MIPS_O32_ABI_-_FR0_and_FR1_Interlinking
->>>>> ---
->>>>>  man2/prctl.2 | 100 +++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
->>>>>  1 file changed, 100 insertions(+)
->>>>>
->>>>> diff --git a/man2/prctl.2 b/man2/prctl.2
->>>>> index ae1fbc5..954641c 100644
->>>>> --- a/man2/prctl.2
->>>>> +++ b/man2/prctl.2
->>>>> @@ -263,6 +263,98 @@ or
->>>>>  Return the endian-ness of the calling process,
->>>>>  in the location pointed to by
->>>>>  .IR "(int\ *) arg2" .
->>>>> +.\" 9791554b45a2acc28247f66a5fd5bbc212a6b8c8
->>>>> +.TP
->>>>> +.BR PR_SET_FP_MODE " (since Linux 4.0, only on MIPS)"
->>>>> +On MIPS, user land code can be built using ABI which permits linking with a code
->>>>> +with a more restrictive floating point requirements.  For example, user land
->>>>> +code may be built to target the O32 FPXX ABI and linked with code built for
->>>>> +either one of the more restrictive FP32 or FP64. When more restrictive code is
->>>>> +linked in, the overall requirement for the process is to use this more
->>>>> +restrictive floating point mode. Since kernel has no means of knowing in advance
->>>>> +which mode process should be executed in, and having possibility that these
->>>>> +restrictions can be changed during the process' lifetime, 
->>>>
->>>> I have trouble to understand "and having possibility that these
->>>> restrictions can be changed during the process' lifetime".
->>>>
->>>> I think the main problem is: who can do the changing?
->>>> It's not clear from the sentence. Can you explain a little?
->>>
->>> Yes, you are correct; probably the note regarding the time of change is
->>> rather misleading; the need for change which can be determined only from user
->>> space is what has lead to such interface.
->>
->> So, how would the wording be:
->>
->> [[
->> Because the kernel has no means of knowing in advance
->> which mode the process should be executed in,
->> and because the ABI restrictions can 
->> change over the lifetime of the process, the
->> .B PR_SET_FP_MODE
->> operation is provided to allow control of the floating-point mode
->> from user space.
->> ]]
-> 
-> Loooks fine.
-> 
->>>>> the ability to control
->>>>> +it from the user space via this option is provided.
->>>>
->>>> Does "it" in the previous line mean "the floating-point mode"?
->>> Yes.
->>
->> Thanks.
->>
->>>>> +
->>>>> +.\" https://dmz-portal.mips.com/wiki/MIPS_O32_ABI_-_FR0_and_FR1_Interlinking
->>>>> +The
->>>>> +.I (unsigned int) arg2
->>>>> +argument is a bit mask describing floating point mode used:
->>>>> +.RS
->>>>> +.TP
->>>>> +.BR PR_FP_MODE_FR " = " "(1 << 0)"
->>>>
->>>> I removed the piece [" = " "(1 << 0)"] (and similar below), since
->>>> presumably user-space doesn't need to know the precise numeric
->>>> values.
->>> Yes, sure.
->>
->> Okay.
->>
->>>>> +When this bit is
->>>>> +.I unset
->>>>> +(so called
->>>>> +.BR FR=0 " or " FR0
->>>>> +mode), 32 FP registers are 32-bit wide, and 64-bit registers are represented as
->>>>
->>>> What are "32 FP registers"? (And again below.)
->>>>
->>>> Perhaps this is just a language issue. Should it be "the 32 FP registers"?
->>>> (The lack of an article--"the" or "a"--can sometimes be fatal to 
->>>> comprehension in English.)
->>> Yes, you are correct, I meant the amount of floating point registers available.
->>
->> Okay. Fixed.
->>
->>>>> +pair of registers (even- and odd- numbered, with even-numbered register
->>>>> +containing lower 32 bits, and odd-numbered register containing higher 32 bits).
->>>>> +When this bit is
->>>>> +.I set
->>>>> +(on supported hardware), 32 FP registers are 64-bit wide (so called
->>>>
->>>> "the 32 FP registers"?
->>> Right.
->>
->> Fixed.
->>
->>>>> +.BR FR=1 " or " FR1
->>>>> +mode). Note that modern MIPS implementations (MIPS R6 and newer) support
->>>>> +.B FR=1
->>>>> +mode only.
->>>>> +
->>>>> +Applications that use O32 FP32 ABI can operate only when this bit is
->>>>> +.I unset
->>>>> +.RB ( FR=0 ;
->>>>> +or they can be used with FRE enabled, see below).
->>>>> +Applications that use O32 FP64 ABI (and O32 FP64A ABI, which exists for
->>>>> +providing ability to operate with existing FP32 code; see below) can operate
->>>>> +only when this bit is
->>>>> +.I set
->>>>> +.RB ( FR=1 ).
->>>>> +Applications that use O32 FPXX ABI can operate in both cases.
->>>>
->>>> What does "both cases" mean in the above line?
->>> Both in case of FR=0 and FR=1.
->>
->> So, I made this:
->> [[
->> Applications that use the O32 FPXX ABI can operate in with either
->> .BR FR=0
->> or
->> .BR FR=1 .
->> ]]
->>
->> Okay?
-> 
-> Yes, sure.
-> 
->>>>> +.TP
->>>>> +.BR PR_FP_MODE_FRE " = " "(1 << 1)"
->>>>> +Compatibility with 32-bit FP mode. When this mode is enabled, it emulates 32-bit
->>>>
->>>> I think the first sentence needs at least one or two more words.  Is
->>>>
->>>>     Provide compatibility with 32-bit FP mode.
->>>>
->>>> correct?
->>> Yes. Another possibility is "Enable emulation of 32-bit FP mode".
->>
->> Ah that's better. Changed.
->>
->>>>> +FP operations by raising reserved instruction exception on every instruction
->>>>> +that uses 32-bit formats and kernel then handles the instruction in software
->>>>> +(the problem lies in discrepancy of handling odd-numbered registers which are
->>>>> +high 32 bits of 64-bit registers with even numbers in
->>>>> +.B FR=0
->>>>> +mode and lower 32-bit parts of odd-numbered 64-bit registers in
->>>>> +.B FR=1
->>>>> +mode). Enabling of this bit is needed when code with O32 FP32 ABI should operate
->>>>> +with code with compatible O32 FPXX or O32 FP64A ABIs (which require
->>>>> +.B FR=1
->>>>> +FPU mode) or when it is executed on newer hardware (MIPS R6 onwards) which lacks
->>>>> +.B FR=0
->>>>> +mode support when binary with FP32 ABI is used.
->>>>> +.IP
->>>>> +Note that this mode only makes sense when FPU is in 64-bit mode
->>>>> +.RB ( FR=1 .)
->>>>> +.IP
->>>>> +Note that usage of emulation inherently has a significant performance hit and
->>>>> +should be avoided if possible.
->>>>> +.RE
->>>>> +.IP
->>>>> +Note that for N32/N64 ABI is a different story and does not need FPU emulation
->>>>> +and always operates in
->>>>> +.B FR=1
->>>>> +mode.
->>>>
->>>> That last sentence is a bit hard to parse. Would the following be okay:
->>>>
->>>> [[
->>>> For the N32/N64 ABI, the story is different story: FPU emulation
->>>> is not required and the FPU always operates in
->>>> .B FR=1
->>>> mode.
->>>> ]]
->>>>
->>>> ?
->>> Maybe
->>>
->>> [[
->>> In N32/N64 ABI, 64-bit FP mode is always used, so FPU emulation
->>> is not required and the FPU always operates in
->>> .B FR=1
->>> mode.
->>> ]]
->>>
->>> ?
->>
->> Good. Taken as you gave it. Thanks.
->>
->>>>> +.IP
->>>>> +This option is mainly intended for use by dynamic loader, but may be of use by
->>>>> +applications in case library loading during runtime (via
->>>>> +.BR dlopen (3),
->>>>> +for example) is used.
->>> Please discard the note regarding dlopen, I've incorrectly interpreted
->>> the glibc code found in sysdeps/mips/tst-abi-interlink.c; looks like
->>> glibc also accounts for libraries loaded via dlopen too (as noted in
->>> sysdeps/mips/dl-machine-reject-phdr.h); as a result,
->>> looks like this command is of little use for user applications and intended
->>> mainly for libc implementations (or some very specific applications which
->>> have to deal with pre-generated FP code, maybe).
->>
->> So, then just replace those lines with:
->>
->>     This option is mainly intended for use by dynamic loader.
->>
->> ?
-> 
-> Yes, thanks.
-> 
->> (Current version pushed to Git.)
->>
->> Thanks,
->>
->> Michael
->>
->> -- 
->> Michael Kerrisk
->> Linux man-pages maintainer; http://www.kernel.org/doc/man-pages/
->> Linux/UNIX System Programming Training: http://man7.org/training/
-> 
-
 
 -- 
 Michael Kerrisk
