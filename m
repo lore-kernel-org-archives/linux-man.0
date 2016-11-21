@@ -1,178 +1,89 @@
-From: Quentin Armitage <quentin-/BKvNsQo1N6tmTQ+vhA3Yw@public.gmane.org>
-Subject: [patch] system.3: Document additional return values
-Date: Mon, 21 Nov 2016 17:34:16 +0000
-Message-ID: <1479749656-6643-1-git-send-email-quentin@armitage.org.uk>
+From: Eugene Syromyatnikov <evgsyr-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org>
+Subject: [PATCH 1/5] request_key.2: add information regarding default keyring
+Date: Mon, 21 Nov 2016 23:59:40 +0300
+Message-ID: <20161121205940.GA16505@obsidian>
+References: <528b203d-ac72-e4a6-8517-e8c5c11055a4@gmail.com>
+Mime-Version: 1.0
+Content-Type: text/plain; charset=us-ascii
 Return-path: <linux-man-owner-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>
+Content-Disposition: inline
+In-Reply-To: <528b203d-ac72-e4a6-8517-e8c5c11055a4-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org>
 Sender: linux-man-owner-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
 To: mtk.manpages-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org
-Cc: linux-man-u79uwXL29TY76Z2rM5mHXA@public.gmane.org, Quentin Armitage <quentin-/BKvNsQo1N6tmTQ+vhA3Yw@public.gmane.org>
+Cc: linux-man-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
 List-Id: linux-man@vger.kernel.org
 
-Reason for finding problem:
-
-While developing an application using system(), I discovered returned
-values that weren't documented in the system.3 man page.
-
-man-pages version:
-
-Version 4.08, git commit 176b1a76656f5871c3d8ada29769e48b46215d66
-
-Demonstration of problem:
-
-The following code demonstrates the problem
-===========================================
-#include <stdio.h>
-#include <stdlib.h>
-#include <sys/types.h>
-#include <sys/stat.h>
-#include <unistd.h>
-#include <string.h>
-#include <sys/wait.h>
-
-char file_name[] = "/tmp/test_system.sh";
-
-void write_script(void)
-{
-	FILE *fp = fopen(file_name, "w");
-	char *script =
-"#!/bin/bash\n"
-"\n"
-"[[ $1 != NO ]] && kill -${1:-TERM} $$ 2>/dev/null\n"
-"\n"
-"exit ${2:-12}\n"
-;
-
-	fwrite(script, strlen(script), 1, fp);
-	fclose(fp);
-}
-
-static void
-run_command(const char *cmd, const char *feature)
-{
-	int ret;
-	char command_buf[sizeof(file_name) + 30];	// Give ourselves lots of space
-
-	sprintf(command_buf, "%s %s 2>/dev/null", file_name, cmd);
-	ret = system(command_buf);
-	printf("system() on %s returned exited with ", feature);
-	if (WIFSIGNALED(ret))
-		printf("signal %d", WTERMSIG(ret));
-	else if (WIFEXITED(ret))
-		printf("exit code %d", WEXITSTATUS(ret));
-	else
-		printf("return value 0x%x\n", ret);
-	printf("\n");
-}
-
-int main(int argc, char **argv)
-{
-	struct stat buf;
-
-	if (stat(file_name, &buf) == 0) {
-		fprintf(stderr, "%s exists, not overwriting\n", file_name);
-		exit(1);
-	}
-
-	run_command("11", "on non existant script");
-
-	write_script();
-	chmod(file_name, S_IWUSR);
-
-	run_command("12", "non readable script");
-
-	chmod(file_name, S_IRUSR | S_IWUSR);
-
-	run_command("13", "non executable script");
-
-	chmod(file_name, S_IRUSR | S_IWUSR | S_IXUSR);
-
-	run_command("TERM", "script terminating with SIGTERM");
-
-	run_command("NO 10", "script exiting with exit status 10");
-
-	run_command("65 15", "script exiting after invalid signal and exit status 15");
-
-	unlink(file_name);
-}
-===========================================
-
-The patch
-===========================================
-system.3: Document additional return values
-
-The man page did not include return values 126 (for no permission to
-execute command), or values 128+n when command is terminated by
-signal n.
-
-Signed-off-by: Quentin Armitage <quentin-/BKvNsQo1N6tmTQ+vhA3Yw@public.gmane.org>
 ---
- man3/system.3 |   25 +++++++++++++++++++++----
- 1 files changed, 21 insertions(+), 4 deletions(-)
+ man2/request_key.2 | 47 ++++++++++++++++++++++++++++++++++++++++++-----
+ 1 file changed, 42 insertions(+), 5 deletions(-)
 
-diff --git a/man3/system.3 b/man3/system.3
-index a41e61a..04bed24 100644
---- a/man3/system.3
-+++ b/man3/system.3
-@@ -84,17 +84,25 @@ If a child process could not be created,
- or its status could not be retrieved,
- the return value is \-1.
- .IP *
--If a shell could not be executed in the child process,
-+If a shell could not be found by the child process,
- then the return value is as though the child shell terminated by calling
- .BR _exit (2)
- with the status 127.
- .IP *
-+If the shell cannot find the command, then the return value will be 127.
-+If the shell finds the command but cannot execute it, the return value
-+may be 126 or 127, depending on the shell.
-+See the man page for
-+.BR sh (1)
-+for details for the specific shell in use.
-+.IP *
- If all system calls succeed,
- then the return value is the termination status of the child shell
- used to execute
- .IR command .
- (The termination status of a shell is the termination status of
--the last command it executes.)
-+the last command it executes, or if terminated by signal \fIn\fP,
-+128+\fIn\fP).
- .PP
- In the last two cases,
- the return value is a "wait status" that can be examined using
-@@ -105,6 +113,9 @@ the macros described in
- .BR WEXITSTATUS (),
- and so on).
- .PP
-+Specifically, if the shell can be executed,
-+the return status will be the termination status of the shell.
+diff --git a/man2/request_key.2 b/man2/request_key.2
+index a9d0561..e29ca06 100644
+--- a/man2/request_key.2
++++ b/man2/request_key.2
+@@ -35,11 +35,6 @@ If the key is found or created,
+ attaches it to the keyring whose ID is specified in
+ .I dest_keyring
+ and returns the key's serial number.
+-.\" FIXME Is 'keyring' allowed to be 0? Reading the source, it appears so.
+-.\" In this case, by default, the key is assigned to the session keyring.
+-.\" But, the KEYCTL_SET_REQKEY_KEYRING also seems to have an influence here.
+-.\" What are the details here?
+-.\"
+ 
+ .BR request_key ()
+ first recursively searches for a matching key in all of the keyrings
+@@ -104,6 +99,48 @@ This specifies the caller's UID-specific keyring
+ .B KEY_SPEC_USER_SESSION_KEYRING
+ This specifies the caller's UID-session keyring
+ .RB ( user-session-keyring (7)).
 +.PP
- .BR system ()
- does not affect the wait status of any other children.
- .SH ATTRIBUTES
-@@ -206,11 +217,17 @@ the calling program has previously called
- .BR chroot (2)
- (which is not specified by POSIX.1-2001).
- .PP
--It is possible for the shell command to terminate with a status of 127,
-+It is possible for the shell command to terminate with a status greater
-+than 125,
- which yields a
- .BR system ()
- return value that is indistinguishable from the case
--where a shell could not be executed in the child process.
-+where a shell could not be executed in the child process,
-+the shell could not execute the command,
-+or where the child process was terminated by a signal
-+(although a return value greater than 128 +
-+.BR SIGRTMAX
-+should be the exit status of the command).
- .SH SEE ALSO
- .BR sh (1),
- .BR execve (2),
++When the
++.I dest_keyring
++is specified to
++.BR 0 ,
++and no key construction have been performed, then no additional linking is done.
++Otherwise, if new key is constructed, it would be linked to the "default"
++keyring (which can be specified via the
++.BR keyctl (2)
++command
++.BR KEYCTL_SET_REQKEY_KEYRING ).
++More specifically, when kernel tries to determine to which keyring the
++newly constructed key should be linked, it tries the following options, starting
++from the value set via
++.BR KEYCTL_SET_REQKEY_KEYRING " " keyctl (2)
++command until it finds the first available one:
++.IP \(bu 3
++.\" 8bbf4976b59fc9fc2861e79cab7beb3f6d647640
++Requestor keyring (specified via
++.BR KEY_REQKEY_DEFL_REQUESTOR_KEYRING ,
++since Linux 2.6.29)
++.IP \(bu
++Thread-specific keyring (specified via
++.BR KEY_REQKEY_DEFL_THREAD_KEYRING )
++.IP \(bu
++Process-specific keyring (specified via
++.BR KEY_REQKEY_DEFL_PROCESS_KEYRING )
++.IP \(bu
++Session-specific keyring (specified via
++.BR KEY_REQKEY_DEFL_SESSION_KEYRING )
++.IP \(bu
++Session keyring for the process's user ID  (specified via
++.BR KEY_REQKEY_DEFL_USER_SESSION_KEYRING ).
++This keyring is expected to always exist.
++.IP \(bu
++UID-specific keyring (specified via
++.BR KEY_REQKEY_DEFL_USER_KEYRING ).
++This keyring is also expected to always exist.
++.PP
++Specifying
++.B KEY_REQKEY_DEFL_DEFAULT
++leads to starting from the beginning of the list.
+ .\"
+ .SS Requesting user-space instantiation of a key
+ If the kernel cannot find a key matching
 -- 
-1.7.7.6
+2.10.2
 
 --
 To unsubscribe from this list: send the line "unsubscribe linux-man" in
