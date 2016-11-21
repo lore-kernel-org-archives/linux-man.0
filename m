@@ -1,101 +1,77 @@
 From: "Michael Kerrisk (man-pages)" <mtk.manpages-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org>
-Subject: Re: [PATCH 1/5] request_key.2: add information regarding default
- keyring
-Date: Mon, 21 Nov 2016 23:08:33 +0100
-Message-ID: <9c323ec8-227f-3f52-b8d8-caaaaac9196f@gmail.com>
+Subject: Re: [PATCH 0/5] Re: Revised request_key(2) man page for review
+Date: Mon, 21 Nov 2016 23:33:19 +0100
+Message-ID: <c4be6cf8-e41b-3ad0-b947-025263cdbac3@gmail.com>
 References: <528b203d-ac72-e4a6-8517-e8c5c11055a4@gmail.com>
- <20161121205940.GA16505@obsidian>
+ <20161121205933.GA15629@obsidian>
 Mime-Version: 1.0
 Content-Type: text/plain; charset=windows-1252
 Content-Transfer-Encoding: 7bit
 Return-path: <linux-man-owner-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>
-In-Reply-To: <20161121205940.GA16505@obsidian>
+In-Reply-To: <20161121205933.GA15629@obsidian>
 Sender: linux-man-owner-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
 To: Eugene Syromyatnikov <evgsyr-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org>
-Cc: mtk.manpages-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org, linux-man-u79uwXL29TY76Z2rM5mHXA@public.gmane.org, David Howells <dhowells-H+wXaHxf7aLQT0dZR+AlfA@public.gmane.org>
+Cc: mtk.manpages-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org, linux-man-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
 List-Id: linux-man@vger.kernel.org
 
-Hi Eugene,
+Hello Eugene,
 
-Thanks for taking a shot at this. I'd really be keen to hear from 
-David on this before I apply.
+On 11/21/2016 09:59 PM, Eugene Syromyatnikov wrote:
+> Hello.
+> 
+> Possible amendments are in the following patches. The one thing i
+> couldn't comprehend properly is the following paragraph:
+> 
+> [[
+> This entry specifies that when a new "user" key with the prefix
+> "mtk:" must be instantiated, that task should be performed via the
+> .BR keyctl (1)
+> command's
+> .B instantiate
+> operation.
+> (The program could 
 
-David, could you comment please?
+The above line should not have been present.
+
+> The arguments supplied to the
+> .B instantiate
+> operation are:
+> the ID of the uninstantiated key
+> .RI ( %k );
+> the callout data supplied to the
+> .BR request_key ()
+> call
+> .RI ( %c );
+> and the session keyring
+> .RI ( %S )
+> of the requestor (i.e., the caller of
+> .BR request)key ()).
+> i(See
+> .BR request-key.conf (5)
+> for details of these
+> .I %
+> specifiers.)
+> ]]
+> 
+> I suppose there's some sort of copy-paste mistake.
+
+Yes. Fixed now.
 
 Cheers,
 
 Michael
 
-On 11/21/2016 09:59 PM, Eugene Syromyatnikov wrote:
-> ---
->  man2/request_key.2 | 47 ++++++++++++++++++++++++++++++++++++++++++-----
->  1 file changed, 42 insertions(+), 5 deletions(-)
+
+> Eugene Syromyatnikov (5):
+>   request_key.2: add information regarding default keyring
+>   requesT_key.2: add information regarding minimal kernel version for
+>     key instantiation on request
+>   request_key.2: whitespace fix
+>   request_key.2: wfix
+>   request_key.2: additional error information
 > 
-> diff --git a/man2/request_key.2 b/man2/request_key.2
-> index a9d0561..e29ca06 100644
-> --- a/man2/request_key.2
-> +++ b/man2/request_key.2
-> @@ -35,11 +35,6 @@ If the key is found or created,
->  attaches it to the keyring whose ID is specified in
->  .I dest_keyring
->  and returns the key's serial number.
-> -.\" FIXME Is 'keyring' allowed to be 0? Reading the source, it appears so.
-> -.\" In this case, by default, the key is assigned to the session keyring.
-> -.\" But, the KEYCTL_SET_REQKEY_KEYRING also seems to have an influence here.
-> -.\" What are the details here?
-> -.\"
->  
->  .BR request_key ()
->  first recursively searches for a matching key in all of the keyrings
-> @@ -104,6 +99,48 @@ This specifies the caller's UID-specific keyring
->  .B KEY_SPEC_USER_SESSION_KEYRING
->  This specifies the caller's UID-session keyring
->  .RB ( user-session-keyring (7)).
-> +.PP
-> +When the
-> +.I dest_keyring
-> +is specified to
-> +.BR 0 ,
-> +and no key construction have been performed, then no additional linking is done.
-> +Otherwise, if new key is constructed, it would be linked to the "default"
-> +keyring (which can be specified via the
-> +.BR keyctl (2)
-> +command
-> +.BR KEYCTL_SET_REQKEY_KEYRING ).
-> +More specifically, when kernel tries to determine to which keyring the
-> +newly constructed key should be linked, it tries the following options, starting
-> +from the value set via
-> +.BR KEYCTL_SET_REQKEY_KEYRING " " keyctl (2)
-> +command until it finds the first available one:
-> +.IP \(bu 3
-> +.\" 8bbf4976b59fc9fc2861e79cab7beb3f6d647640
-> +Requestor keyring (specified via
-> +.BR KEY_REQKEY_DEFL_REQUESTOR_KEYRING ,
-> +since Linux 2.6.29)
-> +.IP \(bu
-> +Thread-specific keyring (specified via
-> +.BR KEY_REQKEY_DEFL_THREAD_KEYRING )
-> +.IP \(bu
-> +Process-specific keyring (specified via
-> +.BR KEY_REQKEY_DEFL_PROCESS_KEYRING )
-> +.IP \(bu
-> +Session-specific keyring (specified via
-> +.BR KEY_REQKEY_DEFL_SESSION_KEYRING )
-> +.IP \(bu
-> +Session keyring for the process's user ID  (specified via
-> +.BR KEY_REQKEY_DEFL_USER_SESSION_KEYRING ).
-> +This keyring is expected to always exist.
-> +.IP \(bu
-> +UID-specific keyring (specified via
-> +.BR KEY_REQKEY_DEFL_USER_KEYRING ).
-> +This keyring is also expected to always exist.
-> +.PP
-> +Specifying
-> +.B KEY_REQKEY_DEFL_DEFAULT
-> +leads to starting from the beginning of the list.
->  .\"
->  .SS Requesting user-space instantiation of a key
->  If the kernel cannot find a key matching
+>  man2/request_key.2 | 64 +++++++++++++++++++++++++++++++++++++++++++++++-------
+>  1 file changed, 56 insertions(+), 8 deletions(-)
 > 
 
 
