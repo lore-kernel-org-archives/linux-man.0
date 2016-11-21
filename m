@@ -1,25 +1,24 @@
 From: "Michael Kerrisk (man-pages)" <mtk.manpages-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org>
-Subject: Re: [PATCH 3/5] request_key.2: whitespace fix
-Date: Mon, 21 Nov 2016 22:59:41 +0100
-Message-ID: <a570fd43-5472-c7b3-6307-057d43628968@gmail.com>
+Subject: Re: [PATCH 4/5] request_key.2: wfix
+Date: Mon, 21 Nov 2016 22:59:48 +0100
+Message-ID: <4780d347-264c-6013-0501-70cc9faa0de0@gmail.com>
 References: <528b203d-ac72-e4a6-8517-e8c5c11055a4@gmail.com>
- <20161121205954.GA16713@obsidian>
+ <20161121210001.GA16802@obsidian>
 Mime-Version: 1.0
 Content-Type: text/plain; charset=windows-1252
 Content-Transfer-Encoding: 7bit
 Return-path: <linux-man-owner-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>
-In-Reply-To: <20161121205954.GA16713@obsidian>
+In-Reply-To: <20161121210001.GA16802@obsidian>
 Sender: linux-man-owner-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
 To: Eugene Syromyatnikov <evgsyr-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org>
 Cc: mtk.manpages-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org, linux-man-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
 List-Id: linux-man@vger.kernel.org
 
-Hi Eugene,
+Hi Eugene
 
-On 11/21/2016 09:59 PM, Eugene Syromyatnikov wrote:
-> ---
->  man2/request_key.2 | 2 +-
->  1 file changed, 1 insertion(+), 1 deletion(-)
+On 11/21/2016 10:00 PM, Eugene Syromyatnikov wrote:> ---
+>  man2/request_key.2 | 3 +--
+>  1 file changed, 1 insertion(+), 2 deletions(-)
 
 Applied. Thanks!
 
@@ -27,20 +26,20 @@ Cheers,
 
 Michael
 
-> 
 > diff --git a/man2/request_key.2 b/man2/request_key.2
-> index e46dd61..63e8206 100644
+> index 63e8206..1a3af3f 100644
 > --- a/man2/request_key.2
 > +++ b/man2/request_key.2
-> @@ -169,7 +169,7 @@ is:
->  .RS
->  .IP (1) 4
->  the context in which the key U should be instantiated and secured, and
-> -.IP (2) 
-> +.IP (2)
->  the context from which associated key requests may be satisfied.
+> @@ -198,8 +198,7 @@ in the requesting program.
+>  The payload of the key is taken from the data specified in
+>  .IR callout_info .
+>  .IP *
+> -Internally, the kernel also records a record of the PID of the process
+> -that called
+> +Internally, the kernel also records the PID of the process that called
+>  .BR request_key (2).
 >  .RE
->  .IP
+>  .IP c)
 > 
 
 
