@@ -1,75 +1,179 @@
-From: "Michael Kerrisk (man-pages)" <mtk.manpages-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org>
-Subject: Re: [PATCH v3] mprotect.2: Added information regarding
- PROT_{SEM,SAO,GROWSUP,GROWSDOWN}
-Date: Mon, 21 Nov 2016 11:09:04 +0100
-Message-ID: <cf07546c-e0dd-20c8-1bfd-a718718b516a@gmail.com>
-References: <20161120011603.GA31811@obsidian>
- <91214c03-05a1-ad11-7ac8-282dc4177cca@gmail.com>
- <CACGkJdvCeG4a8dYb5JkbUtaCmpsZ_V8Mn_azucR1a+dKyo9xtA@mail.gmail.com>
-Mime-Version: 1.0
-Content-Type: text/plain; charset=utf-8
-Content-Transfer-Encoding: 7bit
+From: Quentin Armitage <quentin-/BKvNsQo1N6tmTQ+vhA3Yw@public.gmane.org>
+Subject: [patch] system.3: Document additional return values
+Date: Mon, 21 Nov 2016 17:34:16 +0000
+Message-ID: <1479749656-6643-1-git-send-email-quentin@armitage.org.uk>
 Return-path: <linux-man-owner-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>
-In-Reply-To: <CACGkJdvCeG4a8dYb5JkbUtaCmpsZ_V8Mn_azucR1a+dKyo9xtA-JsoAwUIsXosN+BqQ9rBEUg@public.gmane.org>
 Sender: linux-man-owner-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
-To: Eugene Syromyatnikov <evgsyr-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org>
-Cc: mtk.manpages-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org, linux-man <linux-man-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>
+To: mtk.manpages-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org
+Cc: linux-man-u79uwXL29TY76Z2rM5mHXA@public.gmane.org, Quentin Armitage <quentin-/BKvNsQo1N6tmTQ+vhA3Yw@public.gmane.org>
 List-Id: linux-man@vger.kernel.org
 
-On 11/21/2016 01:29 AM, Eugene Syromyatnikov wrote:
-> On Sun, Nov 20, 2016 at 9:39 PM, Michael Kerrisk (man-pages)
-> <mtk.manpages-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org> wrote:
->> Hello Eugene,
->>
->> I've applied this patch, and tweaked a few pieces, but need
->> help on one point.
->>
->> On 11/20/2016 02:16 AM, Eugene Syromyatnikov wrote:
+Reason for finding problem:
 
-[...]
+While developing an application using system(), I discovered returned
+values that weren't documented in the system.3 man page.
 
->>> +.B PROT_GROWSUP
->>> +Apply protection mode up to the end of the mapping which grows up (it should be a
->>> +stack segment on HP PA-RISC, since there are no other ways to map a segment with
->>> +.B VM_GROWSUP
->>> +even if architecture has support for it.)
->>
->> We need a different way to talk about VM_GROWSUP, since that is
->> a detail internal to the kernel. Do you have a suggestion?
-> Well, it's difficult to say, because, while there is some support for
-> VMAs that grow up or down, there are little controls available from
-> userspace (judging by the code i've read).  There's no way to perform
-> such mapping manually; on HP PA-RISC, it is done implicitly for stack,
-> as i understood, and on ia64 it should be used for register offload.
-> But the only handling present in mmap() is for
-> MAP_GROWSDOWN/MAP_DENYWRITE/MAP_LOCKED (calc_vm_flag_bits(); so, even
-> if MAP_GROWSUP definition is present on ia64, it can't be actually
-> used), and the VM_GROWSUP flag itself is arch-specific and defined
-> only on some arhitectures (pa-risc, metag and ia64) and used only as a
-> definition for VM_STACK.
-> 
-> Maybe, just say "Apply protection mode up to the end of the mapping
-> which grows up (stack segment on HP PA-RISC and some other
-> architectures where it grows up and not down)", because there couldn't
-> be any other segments with this flag set.
+man-pages version:
 
-Thanks. I reworded along those lines. While looking at this
-stuff, I was also prompted to add some detail about MAP_GROWSDOWN
-to mmap(2).
+Version 4.08, git commit 176b1a76656f5871c3d8ada29769e48b46215d66
 
-All changes pushed to Git.
+Demonstration of problem:
 
-Cheers,
+The following code demonstrates the problem
+===========================================
+#include <stdio.h>
+#include <stdlib.h>
+#include <sys/types.h>
+#include <sys/stat.h>
+#include <unistd.h>
+#include <string.h>
+#include <sys/wait.h>
 
-Michael
+char file_name[] = "/tmp/test_system.sh";
 
+void write_script(void)
+{
+	FILE *fp = fopen(file_name, "w");
+	char *script =
+"#!/bin/bash\n"
+"\n"
+"[[ $1 != NO ]] && kill -${1:-TERM} $$ 2>/dev/null\n"
+"\n"
+"exit ${2:-12}\n"
+;
 
+	fwrite(script, strlen(script), 1, fp);
+	fclose(fp);
+}
 
+static void
+run_command(const char *cmd, const char *feature)
+{
+	int ret;
+	char command_buf[sizeof(file_name) + 30];	// Give ourselves lots of space
 
+	sprintf(command_buf, "%s %s 2>/dev/null", file_name, cmd);
+	ret = system(command_buf);
+	printf("system() on %s returned exited with ", feature);
+	if (WIFSIGNALED(ret))
+		printf("signal %d", WTERMSIG(ret));
+	else if (WIFEXITED(ret))
+		printf("exit code %d", WEXITSTATUS(ret));
+	else
+		printf("return value 0x%x\n", ret);
+	printf("\n");
+}
+
+int main(int argc, char **argv)
+{
+	struct stat buf;
+
+	if (stat(file_name, &buf) == 0) {
+		fprintf(stderr, "%s exists, not overwriting\n", file_name);
+		exit(1);
+	}
+
+	run_command("11", "on non existant script");
+
+	write_script();
+	chmod(file_name, S_IWUSR);
+
+	run_command("12", "non readable script");
+
+	chmod(file_name, S_IRUSR | S_IWUSR);
+
+	run_command("13", "non executable script");
+
+	chmod(file_name, S_IRUSR | S_IWUSR | S_IXUSR);
+
+	run_command("TERM", "script terminating with SIGTERM");
+
+	run_command("NO 10", "script exiting with exit status 10");
+
+	run_command("65 15", "script exiting after invalid signal and exit status 15");
+
+	unlink(file_name);
+}
+===========================================
+
+The patch
+===========================================
+system.3: Document additional return values
+
+The man page did not include return values 126 (for no permission to
+execute command), or values 128+n when command is terminated by
+signal n.
+
+Signed-off-by: Quentin Armitage <quentin-/BKvNsQo1N6tmTQ+vhA3Yw@public.gmane.org>
+---
+ man3/system.3 |   25 +++++++++++++++++++++----
+ 1 files changed, 21 insertions(+), 4 deletions(-)
+
+diff --git a/man3/system.3 b/man3/system.3
+index a41e61a..04bed24 100644
+--- a/man3/system.3
++++ b/man3/system.3
+@@ -84,17 +84,25 @@ If a child process could not be created,
+ or its status could not be retrieved,
+ the return value is \-1.
+ .IP *
+-If a shell could not be executed in the child process,
++If a shell could not be found by the child process,
+ then the return value is as though the child shell terminated by calling
+ .BR _exit (2)
+ with the status 127.
+ .IP *
++If the shell cannot find the command, then the return value will be 127.
++If the shell finds the command but cannot execute it, the return value
++may be 126 or 127, depending on the shell.
++See the man page for
++.BR sh (1)
++for details for the specific shell in use.
++.IP *
+ If all system calls succeed,
+ then the return value is the termination status of the child shell
+ used to execute
+ .IR command .
+ (The termination status of a shell is the termination status of
+-the last command it executes.)
++the last command it executes, or if terminated by signal \fIn\fP,
++128+\fIn\fP).
+ .PP
+ In the last two cases,
+ the return value is a "wait status" that can be examined using
+@@ -105,6 +113,9 @@ the macros described in
+ .BR WEXITSTATUS (),
+ and so on).
+ .PP
++Specifically, if the shell can be executed,
++the return status will be the termination status of the shell.
++.PP
+ .BR system ()
+ does not affect the wait status of any other children.
+ .SH ATTRIBUTES
+@@ -206,11 +217,17 @@ the calling program has previously called
+ .BR chroot (2)
+ (which is not specified by POSIX.1-2001).
+ .PP
+-It is possible for the shell command to terminate with a status of 127,
++It is possible for the shell command to terminate with a status greater
++than 125,
+ which yields a
+ .BR system ()
+ return value that is indistinguishable from the case
+-where a shell could not be executed in the child process.
++where a shell could not be executed in the child process,
++the shell could not execute the command,
++or where the child process was terminated by a signal
++(although a return value greater than 128 +
++.BR SIGRTMAX
++should be the exit status of the command).
+ .SH SEE ALSO
+ .BR sh (1),
+ .BR execve (2),
 -- 
-Michael Kerrisk
-Linux man-pages maintainer; http://www.kernel.org/doc/man-pages/
-Linux/UNIX System Programming Training: http://man7.org/training/
+1.7.7.6
+
 --
 To unsubscribe from this list: send the line "unsubscribe linux-man" in
 the body of a message to majordomo-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
