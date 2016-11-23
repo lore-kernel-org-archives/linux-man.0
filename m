@@ -1,85 +1,99 @@
-From: Mike Galbraith <efault@gmx.de>
-Subject: Re: RFC: documentation of the autogroup feature
-Date: Wed, 23 Nov 2016 12:39:45 +0100
-Message-ID: <1479901185.4306.38.camel@gmx.de>
+From: "Michael Kerrisk (man-pages)" <mtk.manpages-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org>
+Subject: Re: [patch] sched/autogroup: Fix 64bit kernel nice adjustment
+Date: Wed, 23 Nov 2016 14:47:21 +0100
+Message-ID: <d21cf0b2-5c62-5a49-8758-58793c454cc2@gmail.com>
 References: <41d802dc-873a-ff02-17ff-93ce50f3e925@gmail.com>
+ <1479897217.4306.6.camel@gmx.de>
 Mime-Version: 1.0
-Content-Type: text/plain; charset="iso-2022-jp"
+Content-Type: text/plain; charset=iso-2022-jp
 Content-Transfer-Encoding: 7bit
-Return-path: <linux-kernel-owner@vger.kernel.org>
-In-Reply-To: <41d802dc-873a-ff02-17ff-93ce50f3e925@gmail.com>
-Sender: linux-kernel-owner@vger.kernel.org
-To: "Michael Kerrisk (man-pages)" <mtk.manpages@gmail.com>
-Cc: Peter Zijlstra <a.p.zijlstra@chello.nl>, Ingo Molnar <mingo@kernel.org>, linux-man <linux-man@vger.kernel.org>, lkml <linux-kernel@vger.kernel.org>, Thomas Gleixner <tglx@linutronix.de>
+Return-path: <linux-man-owner-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>
+In-Reply-To: <1479897217.4306.6.camel-Mmb7MZpHnFY@public.gmane.org>
+Sender: linux-man-owner-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
+To: Mike Galbraith <efault-Mmb7MZpHnFY@public.gmane.org>
+Cc: mtk.manpages-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org, Peter Zijlstra <a.p.zijlstra-/NLkJaSkS4VmR6Xm/wNWPw@public.gmane.org>, Ingo Molnar <mingo-DgEjT+Ai2ygdnm+yROfE0A@public.gmane.org>, linux-man <linux-man-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>, lkml <linux-kernel-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>, Thomas Gleixner <tglx-hfZtesqFncYOwBW4kG4KsQ@public.gmane.org>
 List-Id: linux-man@vger.kernel.org
 
-On Tue, 2016-11-22 at 16:59 +0100, Michael Kerrisk (man-pages) wrote:
+Hello Mike,
 
->        ┌─────────────────────────────────────────────────────┐
->        │FIXME                                                │
->        ├─────────────────────────────────────────────────────┤
->        │The following is a little vague. Does it need to  be │
->        │made more precise?                                   │
->        └─────────────────────────────────────────────────────┘
->        The CFS scheduler employs an algorithm that distributes the CPU
->        across task groups.  As a result of this  algorithm,  the  pro‐
->        cesses  in task groups that contain multiple CPU-intensive pro‐
->        cesses are in effect disfavored by the scheduler.
-
-Mmmm, they're actually equalized (modulo smp fairness goop), but I see
-what you mean.
-
->        A process's autogroup (task group) membership can be viewed via
->        the file /proc/[pid]/autogroup:
+On 11/23/2016 11:33 AM, Mike Galbraith wrote:
+> On Tue, 2016-11-22 at 16:59 +0100, Michael Kerrisk (man-pages) wrote:
 > 
->            $ cat /proc/1/autogroup
->            /autogroup-1 nice 0
+>>        ┌─────────────────────────────────────────────────────┐
+>>        │FIXME                                                │
+>>        ├─────────────────────────────────────────────────────┤
+>>        │Regarding the previous paragraph...  My tests  indi‐ │
+>>        │cate  that writing *any* value to the autogroup file │
+>>        │causes the task group to get a lower priority.  This │
 > 
->        This  file  can  also be used to modify the CPU bandwidth allo‐
->        cated to a task group.  This is done by writing a number in the
->        "nice"  range  to  the file to set the task group's nice value.
->        The allowed range is from +19 (low priority) to -20 (high  pri‐
->        ority).   Note that all values in this range cause a task group
->        to be further disfavored by the scheduler, with  -20  resulting
->        in  the  scheduler  mildy  disfavoring  the  task group and +19
->        greatly disfavoring it.
+> Because autogroup didn't call the then meaningless scale_load()...
 
-Group nice levels exactly work the same as task nice levels, ie
-negative nice increases share, positive nice decreases it relative to
-the default nice 0.
+So, does that mean that this buglet kicked in starting (only) in 
+Linux 4.7 with commit 2159197d66770ec01f75c93fb11dc66df81fd45b?
 
->        ┌─────────────────────────────────────────────────────┐
->        │FIXME                                                │
->        ├─────────────────────────────────────────────────────┤
->        │Regarding the previous paragraph...  My tests  indi‐ │
->        │cate  that writing *any* value to the autogroup file │
->        │causes the task group to get a lower priority.
+> Autogroup nice level adjustment has been broken ever since load
+> resolution was increased for 64bit kernels.  Use scale_load() to
+> scale group weight.
 
-(patchlet.. I'd prefer to whack the knob, but like the on/off switch,
-it may be in use, so I guess we're stuck with it)
+Tested-by: Michael Kerrisk <mtk.manpages-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org>
 
->        ┌─────────────────────────────────────────────────────┐
->        │FIXME                                                │
->        ├─────────────────────────────────────────────────────┤
->        │Is the following correct? Does the statement need to │
->        │be  more  precise? (E.g., in precisely which circum‐ │
->        │stances does the use of cgroups override autogroup?) │
->        └─────────────────────────────────────────────────────┘
->        The use of the cgroups(7) CPU controller overrides  the  effect
->        of autogrouping.
+Applied and tested against 4.9-rc6 on an Intel u7 (4 cores).
+Test setup:
 
-Correct, autogroup defers to cgroups.  Perhaps mention that moving a
-task back to the root task group will result in the autogroup again
-taking effect.
+Terminal window 1: running 40 CPU burner jobs
+Terminal window 2: running 40 CPU burner jobs
+Terminal window 1: running 1 CPU burner job
 
->        ┌─────────────────────────────────────────────────────┐
->        │FIXME                                                │
->        ├─────────────────────────────────────────────────────┤
->        │What  needs to be said about autogroup and real-time │
->        │tasks?                                               │
->        └─────────────────────────────────────────────────────┘
+Demonstrated that:
+* Writing "0" to the autogroup file for TW1 now causes no change
+  to the rate at which the process on the terminal consume CPU.
+* Writing -20 to the autogroup file for TW1 caused those processes
+  to get the lion's share of CPU while TW2 TW3 get a tiny amount.
+* Writing -20 to the autogroup files for TW1 and TW3 allowed the
+  process on TW3 to get as much CPU as it was getting as when
+  the autogroup nice values for both terminals were 0.
+   
+Thanks,
 
-That it does not group realtime tasks, they are auto-deflected to the
-root task group.
+Michael
 
-	-Mike
+> Signed-off-by: Mike Galbraith <umgwanakikbuti-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org>
+> Reported-by: Michael Kerrisk <mtk.manpages-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org>
+> Cc: stable-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
+> ---
+>  kernel/sched/auto_group.c |    4 +++-
+>  1 file changed, 3 insertions(+), 1 deletion(-)
+> 
+> --- a/kernel/sched/auto_group.c
+> +++ b/kernel/sched/auto_group.c
+> @@ -192,6 +192,7 @@ int proc_sched_autogroup_set_nice(struct
+>  {
+>  	static unsigned long next = INITIAL_JIFFIES;
+>  	struct autogroup *ag;
+> +	unsigned long shares;
+>  	int err;
+>  
+>  	if (nice < MIN_NICE || nice > MAX_NICE)
+> @@ -210,9 +211,10 @@ int proc_sched_autogroup_set_nice(struct
+>  
+>  	next = HZ / 10 + jiffies;
+>  	ag = autogroup_task_get(p);
+> +	shares = scale_load(sched_prio_to_weight[nice + 20]);
+>  
+>  	down_write(&ag->lock);
+> -	err = sched_group_set_shares(ag->tg, sched_prio_to_weight[nice + 20]);
+> +	err = sched_group_set_shares(ag->tg, shares);
+>  	if (!err)
+>  		ag->nice = nice;
+>  	up_write(&ag->lock);
+> 
+
+
+-- 
+Michael Kerrisk
+Linux man-pages maintainer; http://www.kernel.org/doc/man-pages/
+Linux/UNIX System Programming Training: http://man7.org/training/
+--
+To unsubscribe from this list: send the line "unsubscribe linux-man" in
+the body of a message to majordomo-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
+More majordomo info at  http://vger.kernel.org/majordomo-info.html
