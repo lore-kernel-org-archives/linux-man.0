@@ -1,7 +1,7 @@
 From: Mike Galbraith <efault@gmx.de>
-Subject: [patch] sched/autogroup: Fix 64bit kernel nice adjustment
-Date: Wed, 23 Nov 2016 11:33:37 +0100
-Message-ID: <1479897217.4306.6.camel@gmx.de>
+Subject: Re: RFC: documentation of the autogroup feature
+Date: Wed, 23 Nov 2016 12:39:45 +0100
+Message-ID: <1479901185.4306.38.camel@gmx.de>
 References: <41d802dc-873a-ff02-17ff-93ce50f3e925@gmail.com>
 Mime-Version: 1.0
 Content-Type: text/plain; charset="iso-2022-jp"
@@ -18,43 +18,68 @@ On Tue, 2016-11-22 at 16:59 +0100, Michael Kerrisk (man-pages) wrote:
 >        ┌─────────────────────────────────────────────────────┐
 >        │FIXME                                                │
 >        ├─────────────────────────────────────────────────────┤
+>        │The following is a little vague. Does it need to  be │
+>        │made more precise?                                   │
+>        └─────────────────────────────────────────────────────┘
+>        The CFS scheduler employs an algorithm that distributes the CPU
+>        across task groups.  As a result of this  algorithm,  the  pro‐
+>        cesses  in task groups that contain multiple CPU-intensive pro‐
+>        cesses are in effect disfavored by the scheduler.
+
+Mmmm, they're actually equalized (modulo smp fairness goop), but I see
+what you mean.
+
+>        A process's autogroup (task group) membership can be viewed via
+>        the file /proc/[pid]/autogroup:
+> 
+>            $ cat /proc/1/autogroup
+>            /autogroup-1 nice 0
+> 
+>        This  file  can  also be used to modify the CPU bandwidth allo‐
+>        cated to a task group.  This is done by writing a number in the
+>        "nice"  range  to  the file to set the task group's nice value.
+>        The allowed range is from +19 (low priority) to -20 (high  pri‐
+>        ority).   Note that all values in this range cause a task group
+>        to be further disfavored by the scheduler, with  -20  resulting
+>        in  the  scheduler  mildy  disfavoring  the  task group and +19
+>        greatly disfavoring it.
+
+Group nice levels exactly work the same as task nice levels, ie
+negative nice increases share, positive nice decreases it relative to
+the default nice 0.
+
+>        ┌─────────────────────────────────────────────────────┐
+>        │FIXME                                                │
+>        ├─────────────────────────────────────────────────────┤
 >        │Regarding the previous paragraph...  My tests  indi‐ │
 >        │cate  that writing *any* value to the autogroup file │
->        │causes the task group to get a lower priority.  This │
+>        │causes the task group to get a lower priority.
 
-Because autogroup didn't call the then meaningless scale_load()...
+(patchlet.. I'd prefer to whack the knob, but like the on/off switch,
+it may be in use, so I guess we're stuck with it)
 
+>        ┌─────────────────────────────────────────────────────┐
+>        │FIXME                                                │
+>        ├─────────────────────────────────────────────────────┤
+>        │Is the following correct? Does the statement need to │
+>        │be  more  precise? (E.g., in precisely which circum‐ │
+>        │stances does the use of cgroups override autogroup?) │
+>        └─────────────────────────────────────────────────────┘
+>        The use of the cgroups(7) CPU controller overrides  the  effect
+>        of autogrouping.
 
-Autogroup nice level adjustment has been broken ever since load
-resolution was increased for 64bit kernels.  Use scale_load() to
-scale group weight.
+Correct, autogroup defers to cgroups.  Perhaps mention that moving a
+task back to the root task group will result in the autogroup again
+taking effect.
 
-Signed-off-by: Mike Galbraith <umgwanakikbuti@gmail.com>
-Reported-by: Michael Kerrisk <mtk.manpages@gmail.com>
-Cc: stable@vger.kernel.org
----
- kernel/sched/auto_group.c |    4 +++-
- 1 file changed, 3 insertions(+), 1 deletion(-)
+>        ┌─────────────────────────────────────────────────────┐
+>        │FIXME                                                │
+>        ├─────────────────────────────────────────────────────┤
+>        │What  needs to be said about autogroup and real-time │
+>        │tasks?                                               │
+>        └─────────────────────────────────────────────────────┘
 
---- a/kernel/sched/auto_group.c
-+++ b/kernel/sched/auto_group.c
-@@ -192,6 +192,7 @@ int proc_sched_autogroup_set_nice(struct
- {
- 	static unsigned long next = INITIAL_JIFFIES;
- 	struct autogroup *ag;
-+	unsigned long shares;
- 	int err;
- 
- 	if (nice < MIN_NICE || nice > MAX_NICE)
-@@ -210,9 +211,10 @@ int proc_sched_autogroup_set_nice(struct
- 
- 	next = HZ / 10 + jiffies;
- 	ag = autogroup_task_get(p);
-+	shares = scale_load(sched_prio_to_weight[nice + 20]);
- 
- 	down_write(&ag->lock);
--	err = sched_group_set_shares(ag->tg, sched_prio_to_weight[nice + 20]);
-+	err = sched_group_set_shares(ag->tg, shares);
- 	if (!err)
- 		ag->nice = nice;
- 	up_write(&ag->lock);
+That it does not group realtime tasks, they are auto-deflected to the
+root task group.
+
+	-Mike
