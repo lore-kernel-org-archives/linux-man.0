@@ -1,104 +1,118 @@
-From: tip-bot for Mike Galbraith <tipbot-YMNOUZJC4hwAvxtiuMwx3w@public.gmane.org>
-Subject: [tip:sched/urgent] sched/autogroup: Fix 64-bit kernel nice level
- adjustment
-Date: Wed, 23 Nov 2016 22:24:48 -0800
-Message-ID: <tip-83929cce95251cc77e5659bf493bd424ae0e7a67@git.kernel.org>
-References: <1479897217.4306.6.camel@gmx.de>
-Reply-To: torvalds-de/tnXTf+JLsfHDXvbKv3WD2FQJk+8+b@public.gmane.org, umgwanakikbuti-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org,
-          efault-Mmb7MZpHnFY@public.gmane.org, mtk.manpages-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org,
-          linux-kernel-u79uwXL29TY76Z2rM5mHXA@public.gmane.org, peterz-wEGCiKHe2LqWVfeAwA7xHQ@public.gmane.org,
-          mingo-DgEjT+Ai2ygdnm+yROfE0A@public.gmane.org, tglx-hfZtesqFncYOwBW4kG4KsQ@public.gmane.org, a.p.zijlstra-/NLkJaSkS4VmR6Xm/wNWPw@public.gmane.org,
-          linux-man-u79uwXL29TY76Z2rM5mHXA@public.gmane.org, hpa-YMNOUZJC4hwAvxtiuMwx3w@public.gmane.org
+From: "Michael Kerrisk (man-pages)" <mtk.manpages@gmail.com>
+Subject: RFC: documentation of the autogroup feature [v2]
+Date: Thu, 24 Nov 2016 22:41:29 +0100
+Message-ID: <c5a9acd3-6b60-192c-312e-2777f2d537c2@gmail.com>
+References: <41d802dc-873a-ff02-17ff-93ce50f3e925@gmail.com>
+ <1479901185.4306.38.camel@gmx.de>
+ <327586fa-4672-d070-0ded-850654586273@gmail.com>
+ <1479915229.4306.106.camel@gmx.de>
+ <7513b0a5-c5d0-3a92-5849-995af22601e4@gmail.com>
+ <1479921075.4306.153.camel@gmx.de>
 Mime-Version: 1.0
 Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
-Return-path: <linux-man-owner-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>
-In-Reply-To: <1479897217.4306.6.camel-Mmb7MZpHnFY@public.gmane.org>
-Content-Disposition: inline
-Sender: linux-man-owner-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
-To: linux-tip-commits-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
-Cc: efault-Mmb7MZpHnFY@public.gmane.org, linux-kernel-u79uwXL29TY76Z2rM5mHXA@public.gmane.org, peterz-wEGCiKHe2LqWVfeAwA7xHQ@public.gmane.org, mtk.manpages-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org, umgwanakikbuti-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org, torvalds-de/tnXTf+JLsfHDXvbKv3WD2FQJk+8+b@public.gmane.org, tglx-hfZtesqFncYOwBW4kG4KsQ@public.gmane.org, a.p.zijlstra-/NLkJaSkS4VmR6Xm/wNWPw@public.gmane.org, hpa-YMNOUZJC4hwAvxtiuMwx3w@public.gmane.org, linux-man-u79uwXL29TY76Z2rM5mHXA@public.gmane.org, mingo-DgEjT+Ai2ygdnm+yROfE0A@public.gmane.org
+Return-path: <linux-kernel-owner@vger.kernel.org>
+In-Reply-To: <1479921075.4306.153.camel@gmx.de>
+Sender: linux-kernel-owner@vger.kernel.org
+To: Mike Galbraith <efault@gmx.de>
+Cc: mtk.manpages@gmail.com, Peter Zijlstra <a.p.zijlstra@chello.nl>, Ingo Molnar <mingo@kernel.org>, linux-man <linux-man@vger.kernel.org>, lkml <linux-kernel@vger.kernel.org>, Thomas Gleixner <tglx@linutronix.de>
 List-Id: linux-man@vger.kernel.org
 
-Commit-ID:  83929cce95251cc77e5659bf493bd424ae0e7a67
-Gitweb:     http://git.kernel.org/tip/83929cce95251cc77e5659bf493bd424ae0e7a67
-Author:     Mike Galbraith <efault-Mmb7MZpHnFY@public.gmane.org>
-AuthorDate: Wed, 23 Nov 2016 11:33:37 +0100
-Committer:  Ingo Molnar <mingo-DgEjT+Ai2ygdnm+yROfE0A@public.gmane.org>
-CommitDate: Thu, 24 Nov 2016 05:45:02 +0100
+Hi Mike,
 
-sched/autogroup: Fix 64-bit kernel nice level adjustment
+I reworked the text on autogroups, and in the process learned
+something/have another question. Could you tell me if anything 
+in the below needs fixing/improving, and also let me know about
+the FIXME?
 
-Michael Kerrisk reported:
+Thanks,
 
-> Regarding the previous paragraph...  My tests indicate
-> that writing *any* value to the autogroup [nice priority level]
-> file causes the task group to get a lower priority.
+Michael
 
-Because autogroup didn't call the then meaningless scale_load()...
+   The autogroup feature
+       Since Linux 2.6.38, the kernel  provides  a  feature  known  as
+       autogrouping  to improve interactive desktop performance in the
+       face of multiprocess, CPU-intensive workloads such as  building
+       the Linux kernel with large numbers of parallel build processes
+       (i.e., the make(1) -j flag).
 
-Autogroup nice level adjustment has been broken ever since load
-resolution was increased for 64-bit kernels.  Use scale_load() to
-scale group weight.
+       This feature operates in conjunction with the CFS scheduler and
+       requires  a  kernel  that is configured with CONFIG_SCHED_AUTO‐
+       GROUP.  On a running system, this feature is  enabled  or  dis‐
+       abled  via the file /proc/sys/kernel/sched_autogroup_enabled; a
+       value of 0 disables the feature, while a value of 1 enables it.
+       The  default  value  in  this  file is 1, unless the kernel was
+       booted with the noautogroup parameter.
 
-Michael Kerrisk tested this patch to fix the problem:
+       A new autogroup is created created when a new session  is  cre‐
+       ated  via setsid(2); this happens, for example, when a new ter‐
+       minal window is started.  A  new  process  created  by  fork(2)
+       inherits  its  parent's autogroup membership.  Thus, all of the
+       processes in a session are members of the same  autogroup.   An
+       autogroup  is  automatically destroyed when the last process in
+       the group terminates.
 
-> Applied and tested against 4.9-rc6 on an Intel u7 (4 cores).
-> Test setup:
->
-> Terminal window 1: running 40 CPU burner jobs
-> Terminal window 2: running 40 CPU burner jobs
-> Terminal window 1: running  1 CPU burner job
->
-> Demonstrated that:
-> * Writing "0" to the autogroup file for TW1 now causes no change
->   to the rate at which the process on the terminal consume CPU.
-> * Writing -20 to the autogroup file for TW1 caused those processes
->   to get the lion's share of CPU while TW2 TW3 get a tiny amount.
-> * Writing -20 to the autogroup files for TW1 and TW3 allowed the
->   process on TW3 to get as much CPU as it was getting as when
->   the autogroup nice values for both terminals were 0.
+       When autogrouping is enabled, all of the members  of  an  auto‐
+       group  are  placed  in  the same kernel scheduler "task group".
+       The CFS scheduler employs an algorithm that equalizes the  dis‐
+       tribution  of  CPU  cycles across task groups.  The benefits of
+       this for interactive desktop performance can be  described  via
+       the following example.
 
-Reported-by: Michael Kerrisk <mtk.manpages-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org>
-Tested-by: Michael Kerrisk <mtk.manpages-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org>
-Signed-off-by: Mike Galbraith <umgwanakikbuti-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org>
-Cc: Linus Torvalds <torvalds-de/tnXTf+JLsfHDXvbKv3WD2FQJk+8+b@public.gmane.org>
-Cc: Peter Zijlstra <a.p.zijlstra-/NLkJaSkS4VmR6Xm/wNWPw@public.gmane.org>
-Cc: Peter Zijlstra <peterz-wEGCiKHe2LqWVfeAwA7xHQ@public.gmane.org>
-Cc: Thomas Gleixner <tglx-hfZtesqFncYOwBW4kG4KsQ@public.gmane.org>
-Cc: linux-man <linux-man-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>
-Cc: stable-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
-Link: http://lkml.kernel.org/r/1479897217.4306.6.camel-Mmb7MZpHnFY@public.gmane.org
-Signed-off-by: Ingo Molnar <mingo-DgEjT+Ai2ygdnm+yROfE0A@public.gmane.org>
----
- kernel/sched/auto_group.c | 4 +++-
- 1 file changed, 3 insertions(+), 1 deletion(-)
+       Suppose  that  there  are two autogroups competing for the same
+       CPU.  The first group contains ten CPU-bound processes  from  a
+       kernel build started with make -j10.  The other contains a sin‐
+       gle CPU-bound process: a video player.   The  effect  of  auto‐
+       grouping  is  that the two groups will each receive half of the
+       CPU cycles.  That is, the video player will receive 50% of  the
+       CPU  cycles,  rather  just 9% of the cycles, which would likely
+       lead to degraded video playback.  Or to put things another way:
+       an  autogroup  that  contains  a large number of CPU-bound pro‐
+       cesses does not end up overwhelming the CPU at the  expense  of
+       the other jobs on the system.
 
-diff --git a/kernel/sched/auto_group.c b/kernel/sched/auto_group.c
-index f1c8fd5..da39489 100644
---- a/kernel/sched/auto_group.c
-+++ b/kernel/sched/auto_group.c
-@@ -212,6 +212,7 @@ int proc_sched_autogroup_set_nice(struct task_struct *p, int nice)
- {
- 	static unsigned long next = INITIAL_JIFFIES;
- 	struct autogroup *ag;
-+	unsigned long shares;
- 	int err;
- 
- 	if (nice < MIN_NICE || nice > MAX_NICE)
-@@ -230,9 +231,10 @@ int proc_sched_autogroup_set_nice(struct task_struct *p, int nice)
- 
- 	next = HZ / 10 + jiffies;
- 	ag = autogroup_task_get(p);
-+	shares = scale_load(sched_prio_to_weight[nice + 20]);
- 
- 	down_write(&ag->lock);
--	err = sched_group_set_shares(ag->tg, sched_prio_to_weight[nice + 20]);
-+	err = sched_group_set_shares(ag->tg, shares);
- 	if (!err)
- 		ag->nice = nice;
- 	up_write(&ag->lock);
---
-To unsubscribe from this list: send the line "unsubscribe linux-man" in
-the body of a message to majordomo-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
-More majordomo info at  http://vger.kernel.org/majordomo-info.html
+       A process's autogroup (task group) membership can be viewed via
+       the file /proc/[pid]/autogroup:
+
+           $ cat /proc/1/autogroup
+           /autogroup-1 nice 0
+
+       This file can also be used to modify the  CPU  bandwidth  allo‐
+       cated to an autogroup.  This is done by writing a number in the
+       "nice" range to the file to set  the  autogroup's  nice  value.
+       The  allowed range is from +19 (low priority) to -20 (high pri‐
+       ority), and the setting has the same effect  as  modifying  the
+       nice  level  via getpriority(2).  (For a discussion of the nice
+       value, see getpriority(2).)
+
+
+       ┌─────────────────────────────────────────────────────┐
+       │FIXME                                                │
+       ├─────────────────────────────────────────────────────┤
+       │How do the nice value of  a  process  and  the  nice │
+       │value of an autogroup interact? Which has priority?  │
+       │                                                     │
+       │It  *appears*  that the autogroup nice value is used │
+       │for CPU distribution between task groups,  and  that │
+       │the  process nice value has no effect there.  (I.e., │
+       │suppose two  autogroups  each  contain  a  CPU-bound │
+       │process,  with  one  process  having nice==0 and the │
+       │other having nice==19.  It appears  that  they  each │
+       │get  50%  of  the CPU.)  It appears that the process │
+       │nice value has effect only with respect to  schedul‐ │
+       │ing  relative to other processes in the *same* auto‐ │
+       │group.  Is this correct?                             │
+       └─────────────────────────────────────────────────────┘
+
+       The use of the cgroups(7) CPU controller overrides  the  effect
+       of autogrouping.
+
+       The  autogroup feature does not group processes that are sched‐
+       uled under a real-time and deadline policies.  Those  processes
+       are scheduled according to the rules described earlier.
+
+
+-- 
+Michael Kerrisk
+Linux man-pages maintainer; http://www.kernel.org/doc/man-pages/
+Linux/UNIX System Programming Training: http://man7.org/training/
