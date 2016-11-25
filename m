@@ -1,7 +1,7 @@
-From: "Michael Kerrisk (man-pages)" <mtk.manpages-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org>
+From: Peter Zijlstra <peterz-wEGCiKHe2LqWVfeAwA7xHQ@public.gmane.org>
 Subject: Re: RFC: documentation of the autogroup feature [v2]
-Date: Fri, 25 Nov 2016 17:08:44 +0100
-Message-ID: <d3d491d3-0770-d017-4f3c-43d88346835c@gmail.com>
+Date: Fri, 25 Nov 2016 17:13:36 +0100
+Message-ID: <20161125161336.GJ3174@twins.programming.kicks-ass.net>
 References: <41d802dc-873a-ff02-17ff-93ce50f3e925@gmail.com>
  <1479901185.4306.38.camel@gmx.de>
  <327586fa-4672-d070-0ded-850654586273@gmail.com>
@@ -11,77 +11,54 @@ References: <41d802dc-873a-ff02-17ff-93ce50f3e925@gmail.com>
  <c5a9acd3-6b60-192c-312e-2777f2d537c2@gmail.com>
  <1480078973.4075.58.camel@gmx.de>
  <ca16c155-22be-df06-4f2d-4337b72381de@gmail.com>
- <1480089063.4075.80.camel@gmx.de>
+ <20161125160456.GP3092@twins.programming.kicks-ass.net>
 Mime-Version: 1.0
-Content-Type: text/plain; charset=iso-2022-jp
-Content-Transfer-Encoding: 7bit
+Content-Type: text/plain; charset=us-ascii
 Return-path: <linux-man-owner-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>
-In-Reply-To: <1480089063.4075.80.camel-Mmb7MZpHnFY@public.gmane.org>
+Content-Disposition: inline
+In-Reply-To: <20161125160456.GP3092-ndre7Fmf5hadTX5a5knrm8zTDFooKrT+cvkQGrU6aU0@public.gmane.org>
 Sender: linux-man-owner-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
-To: Mike Galbraith <efault-Mmb7MZpHnFY@public.gmane.org>
-Cc: mtk.manpages-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org, Peter Zijlstra <a.p.zijlstra-/NLkJaSkS4VmR6Xm/wNWPw@public.gmane.org>, Ingo Molnar <mingo-DgEjT+Ai2ygdnm+yROfE0A@public.gmane.org>, linux-man <linux-man-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>, lkml <linux-kernel-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>, Thomas Gleixner <tglx-hfZtesqFncYOwBW4kG4KsQ@public.gmane.org>
+To: "Michael Kerrisk (man-pages)" <mtk.manpages-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org>
+Cc: Mike Galbraith <efault-Mmb7MZpHnFY@public.gmane.org>, Ingo Molnar <mingo-DgEjT+Ai2ygdnm+yROfE0A@public.gmane.org>, linux-man <linux-man-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>, lkml <linux-kernel-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>, Thomas Gleixner <tglx-hfZtesqFncYOwBW4kG4KsQ@public.gmane.org>
 List-Id: linux-man@vger.kernel.org
 
-On 11/25/2016 04:51 PM, Mike Galbraith wrote:
-> On Fri, 2016-11-25 at 16:04 +0100, Michael Kerrisk (man-pages) wrote:
+On Fri, Nov 25, 2016 at 05:04:56PM +0100, Peter Zijlstra wrote:
+> That is; the whole thing
+> becomes, where l denotes the level in the hierarchy and i an
+> entity on that level:
 > 
->>>>        ┌─────────────────────────────────────────────────────┐
->>>>        │FIXME                                                │
->>>>        ├─────────────────────────────────────────────────────┤
->>>>        │How do the nice value of  a  process  and  the  nice │
->>>>        │value of an autogroup interact? Which has priority?  │
->>>>        │                                                     │
->>>>        │It  *appears*  that the autogroup nice value is used │
->>>>        │for CPU distribution between task groups,  and  that │
->>>>        │the  process nice value has no effect there.  (I.e., │
->>>>        │suppose two  autogroups  each  contain  a  CPU-bound │
->>>>        │process,  with  one  process  having nice==0 and the │
->>>>        │other having nice==19.  It appears  that  they  each │
->>>>        │get  50%  of  the CPU.)  It appears that the process │
->>>>        │nice value has effect only with respect to  schedul‐ │
->>>>        │ing  relative to other processes in the *same* auto‐ │
->>>>        │group.  Is this correct?                             │
->>>>        └─────────────────────────────────────────────────────┘
->>>
->>> Yup, entity nice level affects distribution among peer entities.
->>
->> Huh! I only just learned about this via my experiments while
->> investigating autogroups. 
->>
->> How long have things been like this? Always? (I don't think
->> so.) Since the arrival of CFS? Since the arrival of
->> autogrouping? (I'm guessing not.) Since some other point?
->> (When?)
+>                  l      w_g,i
+>   dt_l,i = dt \Prod  ----------
+>                 g=0  \Sum w_g,j
 > 
-> Always.  Before CFS there just were no non-peers :)
-
-Well that's one way of looking at it. So, the change 
-that I'm talking about came in 2.6.32 with CFS then?
-
->> It seems to me that this renders the traditional process
->> nice pretty much useless. (I bet I'm not the only one who'd 
->> be surprised by the current behavior.)
 > 
-> Yup, group scheduling is not a single edged sword, those don't exist. 
->  Box wide nice loss is not the only thing that can bite you, fairness,
-> whether group or task oriented cuts both ways.
+> Or more concretely, for E:
+> 
+>                       w_E
+>   dt_1,E = dt_0,C -----------
+>                   (w_E + w_F)
+> 
+>                         w_C               w_E
+>          = dt ----------------------- -----------
+>               (w_A + w_B + w_C + w_D) (w_E + w_F)
+> 
 
-Understood. But again I'll say, I bet a lot of old-time users
-(and maybe many newer) would be surprised by the fact that 
-nice(1) / setpriority(2) have effectively been rendered no-ops
-in many use cases. At the very least, it'd have been nice
-if someone had sent a man pages patch or at least a note...
+And this also immediately shows one of the 'problems' with it. Since we
+don't have floating point in kernel, these fractions are evaluated with
+fixed-point arithmetic. Traditionally (and on 32bit) we use 10bit fixed
+point, recently we switched to 20bit for 64bit machines.
 
-Cheers,
+That change is what bit you on the nice testing.
 
-Michael
+But it also means that once we run out of fractional bits things go
+wobbly. The fractions, as per the above, increase the deeper the group
+hierarchy goes but are also affected by the number of CPUs in the system
+(not immediately represented in that equation).
 
-
-
--- 
-Michael Kerrisk
-Linux man-pages maintainer; http://www.kernel.org/doc/man-pages/
-Linux/UNIX System Programming Training: http://man7.org/training/
+Not to mention that many scheduler operations become O(depth) in cost,
+which also hurts. An obvious example being task selection, we pick a
+runnable entity for each level, until the resulting entity has no
+further children (iow. is a task).
 --
 To unsubscribe from this list: send the line "unsubscribe linux-man" in
 the body of a message to majordomo-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
