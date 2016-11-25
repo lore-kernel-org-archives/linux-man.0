@@ -1,101 +1,59 @@
 From: "Michael Kerrisk (man-pages)" <mtk.manpages-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org>
-Subject: Re: [PATCH 1/5] request_key.2: add information regarding default
- keyring
-Date: Fri, 25 Nov 2016 11:01:17 +0100
-Message-ID: <54aa766c-25de-74ba-fba5-59cd95b2ae91@gmail.com>
-References: <528b203d-ac72-e4a6-8517-e8c5c11055a4@gmail.com>
- <20161121205940.GA16505@obsidian>
+Subject: Re: [PATCH draft_keys 7/7] keyrings.7: information regarding pre-3.17
+ limits on root_maxbytes/root_maxkeys
+Date: Fri, 25 Nov 2016 09:54:03 +0100
+Message-ID: <44e0050d-a84b-410f-063c-d174ce5e53fa@gmail.com>
+References: <51643019-bb42-4066-c824-c55b9e668ac6@man7.org>
+ <20161125010133.GA892@obsidian>
 Mime-Version: 1.0
 Content-Type: text/plain; charset=windows-1252
 Content-Transfer-Encoding: 7bit
 Return-path: <linux-man-owner-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>
-In-Reply-To: <20161121205940.GA16505@obsidian>
+In-Reply-To: <20161125010133.GA892@obsidian>
 Sender: linux-man-owner-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
 To: Eugene Syromyatnikov <evgsyr-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org>
 Cc: mtk.manpages-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org, linux-man-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
 List-Id: linux-man@vger.kernel.org
 
-Hi Eugene,
-
-On 11/21/2016 09:59 PM, Eugene Syromyatnikov wrote:
+On 11/25/2016 02:01 AM, Eugene Syromyatnikov wrote:
 > ---
->  man2/request_key.2 | 47 ++++++++++++++++++++++++++++++++++++++++++-----
->  1 file changed, 42 insertions(+), 5 deletions(-)
-> 
-> diff --git a/man2/request_key.2 b/man2/request_key.2
-> index a9d0561..e29ca06 100644
-> --- a/man2/request_key.2
-> +++ b/man2/request_key.2
-> @@ -35,11 +35,6 @@ If the key is found or created,
->  attaches it to the keyring whose ID is specified in
->  .I dest_keyring
->  and returns the key's serial number.
-> -.\" FIXME Is 'keyring' allowed to be 0? Reading the source, it appears so.
-> -.\" In this case, by default, the key is assigned to the session keyring.
-> -.\" But, the KEYCTL_SET_REQKEY_KEYRING also seems to have an influence here.
-> -.\" What are the details here?
-> -.\"
->  
->  .BR request_key ()
->  first recursively searches for a matching key in all of the keyrings
-> @@ -104,6 +99,48 @@ This specifies the caller's UID-specific keyring
->  .B KEY_SPEC_USER_SESSION_KEYRING
->  This specifies the caller's UID-session keyring
->  .RB ( user-session-keyring (7)).
-> +.PP
-> +When the
-> +.I dest_keyring
-> +is specified to
-> +.BR 0 ,
-> +and no key construction have been performed, then no additional linking is done.
-> +Otherwise, if new key is constructed, it would be linked to the "default"
-> +keyring (which can be specified via the
-> +.BR keyctl (2)
-> +command
-> +.BR KEYCTL_SET_REQKEY_KEYRING ).
+>  man7/keyrings.7 | 6 ++++--
+>  1 file changed, 4 insertions(+), 2 deletions(-)
 
-For the purpose of me reviewing this, could you outline how you verified
-the following details:
 
-> +More specifically, when kernel tries to determine to which keyring the
-> +newly constructed key should be linked, it tries the following options, starting
-> +from the value set via
-> +.BR KEYCTL_SET_REQKEY_KEYRING " " keyctl (2)
-> +command until it finds the first available one:
-> +.IP \(bu 3
-> +.\" 8bbf4976b59fc9fc2861e79cab7beb3f6d647640
-> +Requestor keyring (specified via
-> +.BR KEY_REQKEY_DEFL_REQUESTOR_KEYRING ,
-> +since Linux 2.6.29)
-> +.IP \(bu
-> +Thread-specific keyring (specified via
-> +.BR KEY_REQKEY_DEFL_THREAD_KEYRING )
-> +.IP \(bu
-> +Process-specific keyring (specified via
-> +.BR KEY_REQKEY_DEFL_PROCESS_KEYRING )
-> +.IP \(bu
-> +Session-specific keyring (specified via
-> +.BR KEY_REQKEY_DEFL_SESSION_KEYRING )
-> +.IP \(bu
-> +Session keyring for the process's user ID  (specified via
-> +.BR KEY_REQKEY_DEFL_USER_SESSION_KEYRING ).
-> +This keyring is expected to always exist.
-> +.IP \(bu
-> +UID-specific keyring (specified via
-> +.BR KEY_REQKEY_DEFL_USER_KEYRING ).
-> +This keyring is also expected to always exist.
-> +.PP
-> +Specifying
-> +.B KEY_REQKEY_DEFL_DEFAULT
-> +leads to starting from the beginning of the list.
->  .\"
->  .SS Requesting user-space instantiation of a key
->  If the kernel cannot find a key matching
-> 
+Applied. Thanks, Eugene.
 
 Cheers,
 
 Michael
+
+
+> diff --git a/man7/keyrings.7 b/man7/keyrings.7
+> index 9dac4db..12853e8 100644
+> --- a/man7/keyrings.7
+> +++ b/man7/keyrings.7
+> @@ -734,7 +734,8 @@ This is the maximum number of bytes of data that the root user
+>  (UID 0 in the root user namespace)
+>  can hold in the payloads of the keys owned by root.
+>  
+> -The default value in this file is 25,000,000.
+> +.\"738c5d190f6540539a04baf36ce21d46b5da04bd
+> +The default value in this file is 25,000,000 (was 20,000 before Linux 3.17).
+>  .\" commit 0b77f5bfb45c13e1e5142374f9d6ca75292252a4
+>  .TP
+>  .IR /proc/sys/kernel/keys/root_maxkeys " (since Linux 2.6.26)"
+> @@ -743,7 +744,8 @@ This is the maximum number of keys that the root user
+>  (UID 0 in the root user namespace)
+>  may own.
+>  
+> -The default value in this file is 1,000,000.
+> +.\"738c5d190f6540539a04baf36ce21d46b5da04bd
+> +The default value in this file is 1,000,000 (was 200 before Linux 3.17).
+>  .PP
+>  With respect to keyrings,
+>  note that each link in a keyring consumes 4 bytes of the keyring payload.
+> 
+
 
 -- 
 Michael Kerrisk
