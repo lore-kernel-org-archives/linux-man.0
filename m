@@ -1,8 +1,7 @@
 From: Eugene Syromyatnikov <evgsyr-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org>
-Subject: [PATCH draft_keys 4/7] keyrings.7: minor clarification regarding
- decision whether to store big_key in tmpfs or not
-Date: Fri, 25 Nov 2016 04:01:11 +0300
-Message-ID: <20161125010111.GA557@obsidian>
+Subject: [PATCH draft_keys 5/7] keyrings.7: tfix
+Date: Fri, 25 Nov 2016 04:01:19 +0300
+Message-ID: <20161125010119.GA662@obsidian>
 References: <51643019-bb42-4066-c824-c55b9e668ac6@man7.org>
 Mime-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
@@ -15,23 +14,22 @@ Cc: linux-man-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
 List-Id: linux-man@vger.kernel.org
 
 ---
- man7/keyrings.7 | 3 ++-
- 1 file changed, 2 insertions(+), 1 deletion(-)
+ man7/keyrings.7 | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
 
 diff --git a/man7/keyrings.7 b/man7/keyrings.7
-index c15a273..2f452c6 100644
+index 2f452c6..2da882c 100644
 --- a/man7/keyrings.7
 +++ b/man7/keyrings.7
-@@ -149,7 +149,8 @@ key type, but it may hold a payload of up to 1 MiB in size.
- The data may be stored in the swap space rather than in kernel memory
- if the data size exceeds the overhead of storing the data in swap space
- (a tmpfs file is used, which requires filesystem structures
--to be allocated in the kernel).
-+to be allocated in the kernel; the size of these determines size threshold
-+above which tmpfs storage method is used).
- This key type is useful for tasks such as holding Kerberos ticket caches.
- .PP
- There are more specialized key types available also,
+@@ -489,7 +489,7 @@ and may filter out further keys that the process is not authorized to view.
+ An example of the data that one might see in this file is the following:
+ 
+ .nf
+-.in 0n
++.in +4n
+ 009a2028 I--Q---   1 perm 3f010000  1000  1000 user     krb_ccache:primary: 12
+ 1806c4ba I--Q---   1 perm 3f010000  1000  1000 keyring  _pid: 2
+ 25d3a08f I--Q---   1 perm 1f3f0000  1000 65534 keyring  _uid_ses.1000: 1
 -- 
 2.10.2
 
