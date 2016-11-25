@@ -1,118 +1,55 @@
-From: "Michael Kerrisk (man-pages)" <mtk.manpages@gmail.com>
-Subject: RFC: documentation of the autogroup feature [v2]
-Date: Thu, 24 Nov 2016 22:41:29 +0100
-Message-ID: <c5a9acd3-6b60-192c-312e-2777f2d537c2@gmail.com>
-References: <41d802dc-873a-ff02-17ff-93ce50f3e925@gmail.com>
- <1479901185.4306.38.camel@gmx.de>
- <327586fa-4672-d070-0ded-850654586273@gmail.com>
- <1479915229.4306.106.camel@gmx.de>
- <7513b0a5-c5d0-3a92-5849-995af22601e4@gmail.com>
- <1479921075.4306.153.camel@gmx.de>
+From: Eugene Syromyatnikov <evgsyr-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org>
+Subject: [PATCH draft_keys 0/7] Minor edits
+Date: Fri, 25 Nov 2016 04:00:43 +0300
+Message-ID: <20161125010043.GA25181@obsidian>
+References: <51643019-bb42-4066-c824-c55b9e668ac6@man7.org>
 Mime-Version: 1.0
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 8bit
-Return-path: <linux-kernel-owner@vger.kernel.org>
-In-Reply-To: <1479921075.4306.153.camel@gmx.de>
-Sender: linux-kernel-owner@vger.kernel.org
-To: Mike Galbraith <efault@gmx.de>
-Cc: mtk.manpages@gmail.com, Peter Zijlstra <a.p.zijlstra@chello.nl>, Ingo Molnar <mingo@kernel.org>, linux-man <linux-man@vger.kernel.org>, lkml <linux-kernel@vger.kernel.org>, Thomas Gleixner <tglx@linutronix.de>
+Content-Type: text/plain; charset=us-ascii
+Return-path: <linux-man-owner-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>
+Content-Disposition: inline
+In-Reply-To: <51643019-bb42-4066-c824-c55b9e668ac6-ASgREoAs3yw@public.gmane.org>
+Sender: linux-man-owner-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
+To: mtk.manpages-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org
+Cc: linux-man-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
 List-Id: linux-man@vger.kernel.org
 
-Hi Mike,
+Hello.
 
-I reworked the text on autogroups, and in the process learned
-something/have another question. Could you tell me if anything 
-in the below needs fixing/improving, and also let me know about
-the FIXME?
+There are some minor edits to keyrings(7) (and one minor typo fix for
+keyctl(2)).
 
-Thanks,
+One additional idea: add_key(2) and request_key(2) have some duplication
+regarding special keyrings (as already noted in comments there), maybe
+add overview information regarding them (along with constant names)
+to the Keyrings section of the keyrings(7) and then reference it from
+add_key/request_key (with the notes regarding non-applicability of
+requestor keyring in add_key and such).
 
-Michael
+Another thought is to document group keyring (that it is present since
+beginning but has never been implemented), since it has a constant
+definition and one may think (upon possible discovery in headers) that
+it is just some undocumented feature.
 
-   The autogroup feature
-       Since Linux 2.6.38, the kernel  provides  a  feature  known  as
-       autogrouping  to improve interactive desktop performance in the
-       face of multiprocess, CPU-intensive workloads such as  building
-       the Linux kernel with large numbers of parallel build processes
-       (i.e., the make(1) -j flag).
+Eugene Syromyatnikov (7):
+  keyctl.2: tfix
+  keyrings.7: minor clarification rearding storage method used in
+    keyrings
+  keyrings.7: spacing fix
+  keyrings.7: minor clarification regarding decision whether to store
+    big_key in tmpfs or not
+  keyrings.7: tfix
+  keyrings.7: tfix
+  keyrings.7: information regarding pre-3.17 limits on
+    root_maxbytes/root_maxkeys
 
-       This feature operates in conjunction with the CFS scheduler and
-       requires  a  kernel  that is configured with CONFIG_SCHED_AUTO‐
-       GROUP.  On a running system, this feature is  enabled  or  dis‐
-       abled  via the file /proc/sys/kernel/sched_autogroup_enabled; a
-       value of 0 disables the feature, while a value of 1 enables it.
-       The  default  value  in  this  file is 1, unless the kernel was
-       booted with the noautogroup parameter.
-
-       A new autogroup is created created when a new session  is  cre‐
-       ated  via setsid(2); this happens, for example, when a new ter‐
-       minal window is started.  A  new  process  created  by  fork(2)
-       inherits  its  parent's autogroup membership.  Thus, all of the
-       processes in a session are members of the same  autogroup.   An
-       autogroup  is  automatically destroyed when the last process in
-       the group terminates.
-
-       When autogrouping is enabled, all of the members  of  an  auto‐
-       group  are  placed  in  the same kernel scheduler "task group".
-       The CFS scheduler employs an algorithm that equalizes the  dis‐
-       tribution  of  CPU  cycles across task groups.  The benefits of
-       this for interactive desktop performance can be  described  via
-       the following example.
-
-       Suppose  that  there  are two autogroups competing for the same
-       CPU.  The first group contains ten CPU-bound processes  from  a
-       kernel build started with make -j10.  The other contains a sin‐
-       gle CPU-bound process: a video player.   The  effect  of  auto‐
-       grouping  is  that the two groups will each receive half of the
-       CPU cycles.  That is, the video player will receive 50% of  the
-       CPU  cycles,  rather  just 9% of the cycles, which would likely
-       lead to degraded video playback.  Or to put things another way:
-       an  autogroup  that  contains  a large number of CPU-bound pro‐
-       cesses does not end up overwhelming the CPU at the  expense  of
-       the other jobs on the system.
-
-       A process's autogroup (task group) membership can be viewed via
-       the file /proc/[pid]/autogroup:
-
-           $ cat /proc/1/autogroup
-           /autogroup-1 nice 0
-
-       This file can also be used to modify the  CPU  bandwidth  allo‐
-       cated to an autogroup.  This is done by writing a number in the
-       "nice" range to the file to set  the  autogroup's  nice  value.
-       The  allowed range is from +19 (low priority) to -20 (high pri‐
-       ority), and the setting has the same effect  as  modifying  the
-       nice  level  via getpriority(2).  (For a discussion of the nice
-       value, see getpriority(2).)
-
-
-       ┌─────────────────────────────────────────────────────┐
-       │FIXME                                                │
-       ├─────────────────────────────────────────────────────┤
-       │How do the nice value of  a  process  and  the  nice │
-       │value of an autogroup interact? Which has priority?  │
-       │                                                     │
-       │It  *appears*  that the autogroup nice value is used │
-       │for CPU distribution between task groups,  and  that │
-       │the  process nice value has no effect there.  (I.e., │
-       │suppose two  autogroups  each  contain  a  CPU-bound │
-       │process,  with  one  process  having nice==0 and the │
-       │other having nice==19.  It appears  that  they  each │
-       │get  50%  of  the CPU.)  It appears that the process │
-       │nice value has effect only with respect to  schedul‐ │
-       │ing  relative to other processes in the *same* auto‐ │
-       │group.  Is this correct?                             │
-       └─────────────────────────────────────────────────────┘
-
-       The use of the cgroups(7) CPU controller overrides  the  effect
-       of autogrouping.
-
-       The  autogroup feature does not group processes that are sched‐
-       uled under a real-time and deadline policies.  Those  processes
-       are scheduled according to the rules described earlier.
-
+ man2/keyctl.2   |  1 -
+ man7/keyrings.7 | 20 ++++++++++++--------
+ 2 files changed, 12 insertions(+), 9 deletions(-)
 
 -- 
-Michael Kerrisk
-Linux man-pages maintainer; http://www.kernel.org/doc/man-pages/
-Linux/UNIX System Programming Training: http://man7.org/training/
+2.10.2
+
+--
+To unsubscribe from this list: send the line "unsubscribe linux-man" in
+the body of a message to majordomo-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
+More majordomo info at  http://vger.kernel.org/majordomo-info.html
