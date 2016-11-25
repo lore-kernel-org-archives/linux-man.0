@@ -1,31 +1,25 @@
 From: "Michael Kerrisk (man-pages)" <mtk.manpages-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org>
-Subject: Re: [PATCH draft_keys 2/7] keyrings.7: minor clarification rearding
- storage method used in keyrings
-Date: Fri, 25 Nov 2016 09:37:52 +0100
-Message-ID: <07b9fbe1-2ab5-7db9-2aa9-72e8bfed7e46@gmail.com>
+Subject: Re: [PATCH draft_keys 3/7] keyrings.7: spacing fix
+Date: Fri, 25 Nov 2016 09:39:15 +0100
+Message-ID: <d998434e-351a-bd6a-91b8-a3ff1b38e559@gmail.com>
 References: <51643019-bb42-4066-c824-c55b9e668ac6@man7.org>
- <20161125010057.GA345@obsidian>
+ <20161125010104.GA453@obsidian>
 Mime-Version: 1.0
 Content-Type: text/plain; charset=windows-1252
 Content-Transfer-Encoding: 7bit
 Return-path: <linux-man-owner-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>
-In-Reply-To: <20161125010057.GA345@obsidian>
+In-Reply-To: <20161125010104.GA453@obsidian>
 Sender: linux-man-owner-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
 To: Eugene Syromyatnikov <evgsyr-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org>
 Cc: mtk.manpages-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org, linux-man-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
 List-Id: linux-man@vger.kernel.org
 
-On 11/25/2016 02:00 AM, Eugene Syromyatnikov wrote:
+On 11/25/2016 02:01 AM, Eugene Syromyatnikov wrote:
 > ---
->  man7/keyrings.7 | 5 ++++-
->  1 file changed, 4 insertions(+), 1 deletion(-)
+>  man7/keyrings.7 | 2 +-
+>  1 file changed, 1 insertion(+), 1 deletion(-)
 
-Ahh -- good catch! Applied. Thanks, Eugene.
-
-There was one typo in the title of the patch, but a more general
-point: when the patch subject isn't tfix/wfix/etc., the first
-word of the subject should have an initial capital 
-(i.e., s/minor/Minor/).
+Applied. Thanks, Eugene.
 
 Cheers,
 
@@ -33,21 +27,18 @@ Michael
 
 
 > diff --git a/man7/keyrings.7 b/man7/keyrings.7
-> index 81de084..ed3bbee 100644
+> index ed3bbee..c15a273 100644
 > --- a/man7/keyrings.7
 > +++ b/man7/keyrings.7
-> @@ -117,7 +117,10 @@ to which the key is of interest
->  .IR """afs:mykey""" ).
->  .TP
->  .I """keyring"""
-> -Keyrings are special keys whose payload consists of a set of links
-> +'\" Note that keyrings use different fields in struct key in order to store
-> +'\" their data - index_key instead of type/description and name_link/keys
-> +'\" instead of payload.
-> +Keyrings are special keys which store a set of links
->  to other keys (including other keyrings),
->  analogous to a directory holding links to files.
->  The main purpose of a keyring is to prevent other keys from
+> @@ -145,7 +145,7 @@ that should not be readable from user space.
+>  .\" commit ab3c3587f8cda9083209a61dbe3a4407d3cada10
+>  This key type is similar to the
+>  .I """user"""
+> -key type, but it may hold a payload of up to 1MiB in size.
+> +key type, but it may hold a payload of up to 1 MiB in size.
+>  The data may be stored in the swap space rather than in kernel memory
+>  if the data size exceeds the overhead of storing the data in swap space
+>  (a tmpfs file is used, which requires filesystem structures
 > 
 
 
