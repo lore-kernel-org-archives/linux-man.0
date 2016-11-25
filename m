@@ -1,14 +1,14 @@
 From: "Michael Kerrisk (man-pages)" <mtk.manpages-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org>
-Subject: Re: [PATCH draft_keys 3/7] keyrings.7: spacing fix
-Date: Fri, 25 Nov 2016 09:39:15 +0100
-Message-ID: <d998434e-351a-bd6a-91b8-a3ff1b38e559@gmail.com>
+Subject: Re: [PATCH draft_keys 6/7] keyrings.7: tfix
+Date: Fri, 25 Nov 2016 09:43:00 +0100
+Message-ID: <845f639b-a04b-48e4-6ac5-4144c99c5e8e@gmail.com>
 References: <51643019-bb42-4066-c824-c55b9e668ac6@man7.org>
- <20161125010104.GA453@obsidian>
+ <20161125010125.GA784@obsidian>
 Mime-Version: 1.0
 Content-Type: text/plain; charset=windows-1252
 Content-Transfer-Encoding: 7bit
 Return-path: <linux-man-owner-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>
-In-Reply-To: <20161125010104.GA453@obsidian>
+In-Reply-To: <20161125010125.GA784@obsidian>
 Sender: linux-man-owner-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
 To: Eugene Syromyatnikov <evgsyr-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org>
 Cc: mtk.manpages-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org, linux-man-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
@@ -16,8 +16,9 @@ List-Id: linux-man@vger.kernel.org
 
 On 11/25/2016 02:01 AM, Eugene Syromyatnikov wrote:
 > ---
->  man7/keyrings.7 | 2 +-
->  1 file changed, 1 insertion(+), 1 deletion(-)
+>  man7/keyrings.7 | 2 --
+>  1 file changed, 2 deletions(-)
+
 
 Applied. Thanks, Eugene.
 
@@ -25,20 +26,19 @@ Cheers,
 
 Michael
 
-
 > diff --git a/man7/keyrings.7 b/man7/keyrings.7
-> index ed3bbee..c15a273 100644
+> index 2da882c..9dac4db 100644
 > --- a/man7/keyrings.7
 > +++ b/man7/keyrings.7
-> @@ -145,7 +145,7 @@ that should not be readable from user space.
->  .\" commit ab3c3587f8cda9083209a61dbe3a4407d3cada10
->  This key type is similar to the
->  .I """user"""
-> -key type, but it may hold a payload of up to 1MiB in size.
-> +key type, but it may hold a payload of up to 1 MiB in size.
->  The data may be stored in the swap space rather than in kernel memory
->  if the data size exceeds the overhead of storing the data in swap space
->  (a tmpfs file is used, which requires filesystem structures
+> @@ -588,8 +588,6 @@ The key type (user, keyring, etc.)
+>  .TP
+>  Description
+>  The key description (name).
+> -.TP
+> -Description
+>  This field contains descriptive information about the key.
+>  For most key types, it has the form
+>  
 > 
 
 
