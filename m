@@ -1,11 +1,8 @@
-From: "Michael Kerrisk (man-pages)" <mtk.manpages-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org>
+From: Peter Zijlstra <peterz-wEGCiKHe2LqWVfeAwA7xHQ@public.gmane.org>
 Subject: Re: RFC: documentation of the autogroup feature [v2]
-Date: Fri, 25 Nov 2016 21:54:05 +0100
-Message-ID: <af075c46-152a-0392-d33f-c7956d3c8a0b@gmail.com>
-References: <1479901185.4306.38.camel@gmx.de>
- <327586fa-4672-d070-0ded-850654586273@gmail.com>
- <1479915229.4306.106.camel@gmx.de>
- <7513b0a5-c5d0-3a92-5849-995af22601e4@gmail.com>
+Date: Fri, 25 Nov 2016 22:49:36 +0100
+Message-ID: <20161125214936.GB3045@worktop.programming.kicks-ass.net>
+References: <7513b0a5-c5d0-3a92-5849-995af22601e4@gmail.com>
  <1479921075.4306.153.camel@gmx.de>
  <c5a9acd3-6b60-192c-312e-2777f2d537c2@gmail.com>
  <1480078973.4075.58.camel@gmx.de>
@@ -14,45 +11,31 @@ References: <1479901185.4306.38.camel@gmx.de>
  <d3d491d3-0770-d017-4f3c-43d88346835c@gmail.com>
  <20161125161810.GR3092@twins.programming.kicks-ass.net>
  <2cc53b76-668b-edf1-6aa7-e6cb5a9801e1@gmail.com>
+ <af075c46-152a-0392-d33f-c7956d3c8a0b@gmail.com>
 Mime-Version: 1.0
-Content-Type: text/plain; charset=windows-1252
-Content-Transfer-Encoding: 7bit
+Content-Type: text/plain; charset=us-ascii
 Return-path: <linux-man-owner-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>
-In-Reply-To: <2cc53b76-668b-edf1-6aa7-e6cb5a9801e1-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org>
+Content-Disposition: inline
+In-Reply-To: <af075c46-152a-0392-d33f-c7956d3c8a0b-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org>
 Sender: linux-man-owner-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
-To: Peter Zijlstra <peterz-wEGCiKHe2LqWVfeAwA7xHQ@public.gmane.org>
-Cc: mtk.manpages-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org, Mike Galbraith <efault-Mmb7MZpHnFY@public.gmane.org>, Ingo Molnar <mingo-DgEjT+Ai2ygdnm+yROfE0A@public.gmane.org>, linux-man <linux-man-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>, lkml <linux-kernel-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>, Thomas Gleixner <tglx-hfZtesqFncYOwBW4kG4KsQ@public.gmane.org>
+To: "Michael Kerrisk (man-pages)" <mtk.manpages-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org>
+Cc: Mike Galbraith <efault-Mmb7MZpHnFY@public.gmane.org>, Ingo Molnar <mingo-DgEjT+Ai2ygdnm+yROfE0A@public.gmane.org>, linux-man <linux-man-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>, lkml <linux-kernel-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>, Thomas Gleixner <tglx-hfZtesqFncYOwBW4kG4KsQ@public.gmane.org>
 List-Id: linux-man@vger.kernel.org
 
-Hi Peter,
+On Fri, Nov 25, 2016 at 09:54:05PM +0100, Michael Kerrisk (man-pages) wrote:
+> So, part of what I was struggling with was what you meant by cfs-cgroup.
+> Do you mean the CFS bandwidth control features added in Linux 3.2?
 
-On 11/25/2016 05:34 PM, Michael Kerrisk (man-pages) wrote:
-> On 11/25/2016 05:18 PM, Peter Zijlstra wrote:
->> On Fri, Nov 25, 2016 at 05:08:44PM +0100, Michael Kerrisk (man-pages) wrote:
->>> On 11/25/2016 04:51 PM, Mike Galbraith wrote:
->>> Well that's one way of looking at it. So, the change 
->>> that I'm talking about came in 2.6.32 with CFS then?
->>
->> cfs-cgroup landed later I think, and it was fairly wobbly in the first
->> few release (as per usual I'd say for major features).
-> 
-> So I've been searching git logs and elsewhere, but didn't yet
-> find a likely commit(s). Any clues what I should be looking for.
-> I'd like this info, because while documenting the changes, I'd
-> also like to document when they occurred.
+Nope, /me digs around for a bit... around here I suppose:
 
-So, part of what I was struggling with was what you meant by cfs-cgroup.
-Do you mean the CFS bandwidth control features added in Linux 3.2?
+ 68318b8e0b61 ("Hook up group scheduler with control groups")
 
-Cheers,
+68318b8e0b61 v2.6.24-rc1~151
 
-Michael
+But I really have no idea what that looked like.
 
-
--- 
-Michael Kerrisk
-Linux man-pages maintainer; http://www.kernel.org/doc/man-pages/
-Linux/UNIX System Programming Training: http://man7.org/training/
+In any case, for the case of autogroup, the behaviour has always been,
+autogroups came quite late.
 --
 To unsubscribe from this list: send the line "unsubscribe linux-man" in
 the body of a message to majordomo-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
