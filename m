@@ -1,65 +1,43 @@
-From: "Michael Kerrisk (man-pages)" <mtk.manpages-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org>
-Subject: Re: [PATCH draft_keys 7/7] keyrings.7: information regarding pre-3.17
- limits on root_maxbytes/root_maxkeys
-Date: Fri, 25 Nov 2016 09:54:03 +0100
-Message-ID: <44e0050d-a84b-410f-063c-d174ce5e53fa@gmail.com>
-References: <51643019-bb42-4066-c824-c55b9e668ac6@man7.org>
- <20161125010133.GA892@obsidian>
+From: Afzal Mohammed <afzal.mohd.ma@gmail.com>
+Subject: Re: RFC: documentation of the autogroup feature [v2]
+Date: Fri, 25 Nov 2016 18:22:46 +0530
+Message-ID: <20161125125246.GA7600@afzalpc>
+References: <41d802dc-873a-ff02-17ff-93ce50f3e925@gmail.com>
+ <1479901185.4306.38.camel@gmx.de>
+ <327586fa-4672-d070-0ded-850654586273@gmail.com>
+ <1479915229.4306.106.camel@gmx.de>
+ <7513b0a5-c5d0-3a92-5849-995af22601e4@gmail.com>
+ <1479921075.4306.153.camel@gmx.de>
+ <c5a9acd3-6b60-192c-312e-2777f2d537c2@gmail.com>
 Mime-Version: 1.0
-Content-Type: text/plain; charset=windows-1252
-Content-Transfer-Encoding: 7bit
-Return-path: <linux-man-owner-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>
-In-Reply-To: <20161125010133.GA892@obsidian>
-Sender: linux-man-owner-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
-To: Eugene Syromyatnikov <evgsyr-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org>
-Cc: mtk.manpages-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org, linux-man-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
+Content-Type: text/plain; charset=utf-8
+Content-Transfer-Encoding: 8bit
+Return-path: <linux-kernel-owner@vger.kernel.org>
+Content-Disposition: inline
+In-Reply-To: <c5a9acd3-6b60-192c-312e-2777f2d537c2@gmail.com>
+Sender: linux-kernel-owner@vger.kernel.org
+To: "Michael Kerrisk (man-pages)" <mtk.manpages@gmail.com>
+Cc: Mike Galbraith <efault@gmx.de>, Peter Zijlstra <a.p.zijlstra@chello.nl>, Ingo Molnar <mingo@kernel.org>, linux-man <linux-man@vger.kernel.org>, lkml <linux-kernel@vger.kernel.org>, Thomas Gleixner <tglx@linutronix.de>
 List-Id: linux-man@vger.kernel.org
 
-On 11/25/2016 02:01 AM, Eugene Syromyatnikov wrote:
-> ---
->  man7/keyrings.7 | 6 ++++--
->  1 file changed, 4 insertions(+), 2 deletions(-)
+Hi,
 
+On Thu, Nov 24, 2016 at 10:41:29PM +0100, Michael Kerrisk (man-pages) wrote:
 
-Applied. Thanks, Eugene.
+>        Suppose  that  there  are two autogroups competing for the same
+>        CPU.  The first group contains ten CPU-bound processes  from  a
+>        kernel build started with make -j10.  The other contains a sin‐
+>        gle CPU-bound process: a video player.   The  effect  of  auto‐
+>        grouping  is  that the two groups will each receive half of the
+>        CPU cycles.  That is, the video player will receive 50% of  the
+>        CPU  cycles,  rather  just 9% of the cycles, which would likely
+                            ^^^^
+                            than ?
 
-Cheers,
+Regards
+afzal
 
-Michael
-
-
-> diff --git a/man7/keyrings.7 b/man7/keyrings.7
-> index 9dac4db..12853e8 100644
-> --- a/man7/keyrings.7
-> +++ b/man7/keyrings.7
-> @@ -734,7 +734,8 @@ This is the maximum number of bytes of data that the root user
->  (UID 0 in the root user namespace)
->  can hold in the payloads of the keys owned by root.
->  
-> -The default value in this file is 25,000,000.
-> +.\"738c5d190f6540539a04baf36ce21d46b5da04bd
-> +The default value in this file is 25,000,000 (was 20,000 before Linux 3.17).
->  .\" commit 0b77f5bfb45c13e1e5142374f9d6ca75292252a4
->  .TP
->  .IR /proc/sys/kernel/keys/root_maxkeys " (since Linux 2.6.26)"
-> @@ -743,7 +744,8 @@ This is the maximum number of keys that the root user
->  (UID 0 in the root user namespace)
->  may own.
->  
-> -The default value in this file is 1,000,000.
-> +.\"738c5d190f6540539a04baf36ce21d46b5da04bd
-> +The default value in this file is 1,000,000 (was 200 before Linux 3.17).
->  .PP
->  With respect to keyrings,
->  note that each link in a keyring consumes 4 bytes of the keyring payload.
-> 
-
-
--- 
-Michael Kerrisk
-Linux man-pages maintainer; http://www.kernel.org/doc/man-pages/
-Linux/UNIX System Programming Training: http://man7.org/training/
---
-To unsubscribe from this list: send the line "unsubscribe linux-man" in
-the body of a message to majordomo-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
-More majordomo info at  http://vger.kernel.org/majordomo-info.html
+>        lead to degraded video playback.  Or to put things another way:
+>        an  autogroup  that  contains  a large number of CPU-bound pro‐
+>        cesses does not end up overwhelming the CPU at the  expense  of
+>        the other jobs on the system.
