@@ -1,7 +1,8 @@
 From: Eugene Syromyatnikov <evgsyr-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org>
-Subject: [PATCH draft_keys 3/7] keyrings.7: spacing fix
-Date: Fri, 25 Nov 2016 04:01:04 +0300
-Message-ID: <20161125010104.GA453@obsidian>
+Subject: [PATCH draft_keys 2/7] keyrings.7: minor clarification rearding
+ storage method used in keyrings
+Date: Fri, 25 Nov 2016 04:00:57 +0300
+Message-ID: <20161125010057.GA345@obsidian>
 References: <51643019-bb42-4066-c824-c55b9e668ac6@man7.org>
 Mime-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
@@ -14,22 +15,25 @@ Cc: linux-man-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
 List-Id: linux-man@vger.kernel.org
 
 ---
- man7/keyrings.7 | 2 +-
- 1 file changed, 1 insertion(+), 1 deletion(-)
+ man7/keyrings.7 | 5 ++++-
+ 1 file changed, 4 insertions(+), 1 deletion(-)
 
 diff --git a/man7/keyrings.7 b/man7/keyrings.7
-index ed3bbee..c15a273 100644
+index 81de084..ed3bbee 100644
 --- a/man7/keyrings.7
 +++ b/man7/keyrings.7
-@@ -145,7 +145,7 @@ that should not be readable from user space.
- .\" commit ab3c3587f8cda9083209a61dbe3a4407d3cada10
- This key type is similar to the
- .I """user"""
--key type, but it may hold a payload of up to 1MiB in size.
-+key type, but it may hold a payload of up to 1 MiB in size.
- The data may be stored in the swap space rather than in kernel memory
- if the data size exceeds the overhead of storing the data in swap space
- (a tmpfs file is used, which requires filesystem structures
+@@ -117,7 +117,10 @@ to which the key is of interest
+ .IR """afs:mykey""" ).
+ .TP
+ .I """keyring"""
+-Keyrings are special keys whose payload consists of a set of links
++'\" Note that keyrings use different fields in struct key in order to store
++'\" their data - index_key instead of type/description and name_link/keys
++'\" instead of payload.
++Keyrings are special keys which store a set of links
+ to other keys (including other keyrings),
+ analogous to a directory holding links to files.
+ The main purpose of a keyring is to prevent other keys from
 -- 
 2.10.2
 
