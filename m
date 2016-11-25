@@ -1,7 +1,8 @@
 From: Eugene Syromyatnikov <evgsyr-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org>
-Subject: [PATCH draft_keys 6/7] keyrings.7: tfix
-Date: Fri, 25 Nov 2016 04:01:25 +0300
-Message-ID: <20161125010125.GA784@obsidian>
+Subject: [PATCH draft_keys 7/7] keyrings.7: information regarding pre-3.17
+ limits on root_maxbytes/root_maxkeys
+Date: Fri, 25 Nov 2016 04:01:33 +0300
+Message-ID: <20161125010133.GA892@obsidian>
 References: <51643019-bb42-4066-c824-c55b9e668ac6@man7.org>
 Mime-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
@@ -14,22 +15,33 @@ Cc: linux-man-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
 List-Id: linux-man@vger.kernel.org
 
 ---
- man7/keyrings.7 | 2 --
- 1 file changed, 2 deletions(-)
+ man7/keyrings.7 | 6 ++++--
+ 1 file changed, 4 insertions(+), 2 deletions(-)
 
 diff --git a/man7/keyrings.7 b/man7/keyrings.7
-index 2da882c..9dac4db 100644
+index 9dac4db..12853e8 100644
 --- a/man7/keyrings.7
 +++ b/man7/keyrings.7
-@@ -588,8 +588,6 @@ The key type (user, keyring, etc.)
- .TP
- Description
- The key description (name).
--.TP
--Description
- This field contains descriptive information about the key.
- For most key types, it has the form
+@@ -734,7 +734,8 @@ This is the maximum number of bytes of data that the root user
+ (UID 0 in the root user namespace)
+ can hold in the payloads of the keys owned by root.
  
+-The default value in this file is 25,000,000.
++.\"738c5d190f6540539a04baf36ce21d46b5da04bd
++The default value in this file is 25,000,000 (was 20,000 before Linux 3.17).
+ .\" commit 0b77f5bfb45c13e1e5142374f9d6ca75292252a4
+ .TP
+ .IR /proc/sys/kernel/keys/root_maxkeys " (since Linux 2.6.26)"
+@@ -743,7 +744,8 @@ This is the maximum number of keys that the root user
+ (UID 0 in the root user namespace)
+ may own.
+ 
+-The default value in this file is 1,000,000.
++.\"738c5d190f6540539a04baf36ce21d46b5da04bd
++The default value in this file is 1,000,000 (was 200 before Linux 3.17).
+ .PP
+ With respect to keyrings,
+ note that each link in a keyring consumes 4 bytes of the keyring payload.
 -- 
 2.10.2
 
