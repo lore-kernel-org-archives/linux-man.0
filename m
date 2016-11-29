@@ -1,105 +1,79 @@
-From: "Michael Kerrisk (man-pages)" <mtk.manpages-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org>
-Subject: Re: RFC: documentation of the autogroup feature
-Date: Tue, 29 Nov 2016 10:10:22 +0100
-Message-ID: <CAKgNAkiLafr7KJNAo+_kwKQB7ueO-oontNL_FQrGtqitmJpEDg@mail.gmail.com>
-References: <41d802dc-873a-ff02-17ff-93ce50f3e925@gmail.com>
- <1479901185.4306.38.camel@gmx.de> <327586fa-4672-d070-0ded-850654586273@gmail.com>
- <1479915229.4306.106.camel@gmx.de> <8614679c-b1d3-3b35-193d-2ab6eac45aff@gmail.com>
- <1480297574.9163.76.camel@gmx.de> <1127218a-dd9b-71a8-845d-3a83969632fc@gmail.com>
-Reply-To: mtk.manpages-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org
+From: Peter Zijlstra <peterz-wEGCiKHe2LqWVfeAwA7xHQ@public.gmane.org>
+Subject: Re: RFC: documentation of the autogroup feature [v2]
+Date: Tue, 29 Nov 2016 12:46:29 +0100
+Message-ID: <20161129114629.GG3092@twins.programming.kicks-ass.net>
+References: <c5a9acd3-6b60-192c-312e-2777f2d537c2@gmail.com>
+ <1480078973.4075.58.camel@gmx.de>
+ <ca16c155-22be-df06-4f2d-4337b72381de@gmail.com>
+ <1480089063.4075.80.camel@gmx.de>
+ <d3d491d3-0770-d017-4f3c-43d88346835c@gmail.com>
+ <20161125161810.GR3092@twins.programming.kicks-ass.net>
+ <2cc53b76-668b-edf1-6aa7-e6cb5a9801e1@gmail.com>
+ <af075c46-152a-0392-d33f-c7956d3c8a0b@gmail.com>
+ <20161125214936.GB3045@worktop.programming.kicks-ass.net>
+ <755aba1b-9bf4-0277-0628-b27e725ee2f9@gmail.com>
 Mime-Version: 1.0
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: quoted-printable
+Content-Type: text/plain; charset=us-ascii
 Return-path: <linux-man-owner-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>
-In-Reply-To: <1127218a-dd9b-71a8-845d-3a83969632fc-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org>
+Content-Disposition: inline
+In-Reply-To: <755aba1b-9bf4-0277-0628-b27e725ee2f9-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org>
 Sender: linux-man-owner-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
-To: Mike Galbraith <efault-Mmb7MZpHnFY@public.gmane.org>
-Cc: Michael Kerrisk <mtk.manpages-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org>, Peter Zijlstra <a.p.zijlstra-/NLkJaSkS4VmR6Xm/wNWPw@public.gmane.org>, Ingo Molnar <mingo-DgEjT+Ai2ygdnm+yROfE0A@public.gmane.org>, linux-man <linux-man-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>, lkml <linux-kernel-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>, Thomas Gleixner <tglx-hfZtesqFncYOwBW4kG4KsQ@public.gmane.org>
+To: "Michael Kerrisk (man-pages)" <mtk.manpages-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org>
+Cc: Mike Galbraith <efault-Mmb7MZpHnFY@public.gmane.org>, Ingo Molnar <mingo-DgEjT+Ai2ygdnm+yROfE0A@public.gmane.org>, linux-man <linux-man-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>, lkml <linux-kernel-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>, Thomas Gleixner <tglx-hfZtesqFncYOwBW4kG4KsQ@public.gmane.org>
 List-Id: linux-man@vger.kernel.org
 
-[Resending because of bounces from the lists. (Somehow my mailer
-messed up the MIME labeling)]
+On Tue, Nov 29, 2016 at 08:43:33AM +0100, Michael Kerrisk (man-pages) wrote:
+> > 
+> > In any case, for the case of autogroup, the behaviour has always been,
+> > autogroups came quite late.
+> 
+> This ("the behavior has always been") isn't quite true. Yes, group
+> scheduling has been around since Linux 2.6.24, but in terms of the
+> semantics of the thread nice value, there was no visible change
+> then, *unless* explicit action was taken to create cgroups.
+> 
+> The arrival of autogroups in Linux 2.6.38 was different. 
+> With this feature enabled (which is the default), task
 
-Hi Mike,
+I don't think the SCHED_AUTOGROUP symbol is default y, most distros
+might have default enabled it, but that's not something I can help.
 
-On 11/28/2016 02:46 AM, Mike Galbraith wrote:
-> On Sun, 2016-11-27 at 22:13 +0100, Michael Kerrisk (man-pages) wrote:
->
->> Here's my attempt to define the root task group:
->>
->>        *  If autogrouping is disabled, then all processes in the root CP=
-U
->>           cgroup form a scheduling group (sometimes called the "root tas=
-k
->>           group").
->>
->> Can you improve on this?
+> groups were implicitly created *without the user needing to
+> do anything*. Thus, [two terminal windows] == [two task groups]
+> and in those two terminal windows, nice(1) on a CPU-bound
+> command in one terminal did nothing in terms of improving
+> CPU access for a CPU-bound tasks running on the other terminal
+> window.
+> 
+> Put more succinctly: in Linux 2.6.38, autogrouping broke nice(1)
+> for many use cases.
+> 
+> Once I came to that simple summary it was easy to find multiple
+> reports of problems from users:
+> 
+> http://serverfault.com/questions/405092/nice-level-not-working-on-linux
+> http://superuser.com/questions/805599/nice-has-no-effect-in-linux-unless-the-same-shell-is-used
+> https://www.reddit.com/r/linux/comments/1c4jew/nice_has_no_effect/
+> http://stackoverflow.com/questions/10342470/process-niceness-priority-setting-has-no-effect-on-linux
+> 
+> Someone else quickly pointed out to me another such report:
+> 
+> https://bbs.archlinux.org/viewtopic.php?id=149553
 
-The below is helpful, but...
+Well, none of that ever got back to me, so again, nothing I could do
+about that.
 
-> A task group is a set of percpu runqueues.
+> And when I quickly surveyed a few more or less savvy Linux users
+> in one room, most understood what nice does, but none of them knew
+> about the behavior change wrought by autogroup.
+> 
+> I haven't looked at all of the mails in the old threads that 
+> discussed the implementation of this feature, but so far none of
+> those that I saw mentioned this behavior change. It's unfortunate
+> that it never even got documented.
 
-The explanation needs really to be in terms of what user-space
-understands and sees. "Runqueues" are a kernel scheduler implementation
-detail.
-
-> The root task group is the
-> top level set in a hierarchy of such sets when group scheduling is
-> enabled, or the only set when group scheduling is not enabled.  The
-> autogroup hierarchy has a depth of one, ie all autogroups are peers
-> who's common parent is the root task group.
-
-Let's try and go further. How's this:
-
-       When scheduling non-real-time  processes  (i.e.,  those  scheduled
-       under  the SCHED_OTHER, SCHED_BATCH, and SCHED_IDLE policies), the
-       CFS scheduler employs a technique known as "group scheduling",  if
-       the  kernel was configured with the CONFIG_FAIR_GROUP_SCHED option
-       (which is typical).
-
-       Under group scheduling, threads are scheduled  in  "task  groups".
-       Task  groups  have  a  hierarchical relationship, rooted under the
-       initial task group on the system, known as the "root task  group".
-       Task groups are formed in the following circumstances:
-
-       *  All of the threads in a CPU cgroup form a task group.  The par=E2=
-=80=90
-          ent of this task group is the task group of  the  corresponding
-          parent cgroup.
-
-       *  If  autogrouping  is  enabled, then all of the threads that are
-          (implicitly) placed in an autogroup (i.e., the same session, as
-          created by setsid(2)) form a task group.  Each new autogroup is
-          thus a separate task group.  The root task group is the  parent
-          of all such autogroups.
-
-       *  If  autogrouping  is enabled, then the root task group consists
-          of all processes in the root CPU cgroup that were not otherwise
-          implicitly placed into a new autogroup.
-
-       *  If  autogrouping is disabled, then the root task group consists
-          of all processes in the root CPU cgroup.
-
-       *  If group scheduling was disabled (i.e., the kernel was  config=E2=
-=80=90
-          ured  without  CONFIG_FAIR_GROUP_SCHED),  then  all of the pro=E2=
-=80=90
-          cesses on the system are notionally placed  in  a  single  task
-          group.
-
-       [To be followed by a discussion of the nice value and task groups]
-
-?
-
-Cheers,
-
-Michael
-
-
---=20
-Michael Kerrisk
-Linux man-pages maintainer; http://www.kernel.org/doc/man-pages/
-Linux/UNIX System Programming Training: http://man7.org/training/
+Well, when we added the feature people (most notable Linus) understood
+what cgroups did. So no surprises for any of us.
 --
 To unsubscribe from this list: send the line "unsubscribe linux-man" in
 the body of a message to majordomo-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
