@@ -1,39 +1,40 @@
-From: Kees Cook <keescook-F7+t8E8rja9g9hUCZPvPmw@public.gmane.org>
-Subject: [PATCH] bpf.2: tfix
-Date: Fri, 2 Dec 2016 20:37:29 -0800
-Message-ID: <20161203043729.GA118799@beast>
+From: Kees Cook <keescook-hpIqsD4AKlfQT0dZR+AlfA@public.gmane.org>
+Subject: IPPROTO_ICMP
+Date: Fri, 2 Dec 2016 20:58:15 -0800
+Message-ID: <CAGXu5jLwj7p_ueaz-vEH_MJLC_xxwpXUT_GFLAnMOvdh7HUxmQ@mail.gmail.com>
 Mime-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
+Content-Type: text/plain; charset=UTF-8
 Return-path: <linux-man-owner-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>
-Content-Disposition: inline
 Sender: linux-man-owner-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
-To: mtk.manpages-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org
-Cc: linux-man-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
+To: linux-man <linux-man-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>
 List-Id: linux-man@vger.kernel.org
 
-Changed to "will" instead of "with".
+Hi,
 
-Signed-off-by: Kees Cook <keescook-F7+t8E8rja9g9hUCZPvPmw@public.gmane.org>
----
- man2/bpf.2 | 2 +-
- 1 file changed, 1 insertion(+), 1 deletion(-)
+So, while playing with IPPROTO_ICMP[1], I rediscovered the sysctl
+needed to use it, and went to make sure that it was covered in the
+man-pages. It is, in man.7 (ping_group_range), though there is no
+mention of IPPROTO_ICMP there. Also, it seems that socket.2 says to
+either look at protocols.5 (which just talks about the file) or ip.7
+for AF_INET. ip.7 says:
 
-diff --git a/man2/bpf.2 b/man2/bpf.2
-index 645f0e4..5339495 100644
---- a/man2/bpf.2
-+++ b/man2/bpf.2
-@@ -583,7 +583,7 @@ The kernel takes care of allocating and freeing key/value pairs.
- .IP *
- The
- .BR map_update_elem ()
--helper with fail to insert new element when the
-+helper will fail to insert new element when the
- .I max_entries
- limit is reached.
- (This ensures that eBPF programs cannot exhaust memory.)
--- 
-2.7.4
+       udp_socket = socket(AF_INET, SOCK_DGRAM, 0);
 
+And continues to make assumptions that IPPROTO_ICMP doesn't exist:
+"SOCK_DGRAM to  open a  udp(7) socket", "The  only  valid  values  for
+protocol  are ... 0 and IPPROTO_UDP", etc. Additionally, EACCESS is
+missing the error condition for not having ping_group_range set
+correctly.
+
+Does it make sense to put IPPROTO_ICMP details in ip.7? Or is there a
+better place to list it? Are there additional details beyond what I
+pointed out that should be updated in ip.7?
+
+Thanks!
+
+-Kees
+
+[1] https://lwn.net/Articles/443051/
 
 -- 
 Kees Cook
