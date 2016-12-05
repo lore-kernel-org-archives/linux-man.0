@@ -1,7 +1,7 @@
 From: Wainer dos Santos Moschetta <wainersm-23VcF4HTsmIX0ybBhKVfKdBPR1lH4CV8@public.gmane.org>
-Subject: [PATCH v2 3/6] strfroml.3: add link to strfromd(3)
-Date: Mon,  5 Dec 2016 16:30:35 -0200
-Message-ID: <b1c16d14ae4cafa3c937745a6c05178ea27e621f.1480961953.git.wainersm@linux.vnet.ibm.com>
+Subject: [PATCH v2 4/6] atof.3: SEE ALSO: add strfromd(3)
+Date: Mon,  5 Dec 2016 16:30:36 -0200
+Message-ID: <413a71a7e62ba707593b207005dbf9f6148b1a9f.1480961953.git.wainersm@linux.vnet.ibm.com>
 References: <c5d0be31-9c1d-000a-89ac-a18909ef4ac5@gmail.com>
  <cover.1480961953.git.wainersm@linux.vnet.ibm.com>
 Return-path: <linux-man-owner-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>
@@ -15,17 +15,21 @@ List-Id: linux-man@vger.kernel.org
 
 Signed-off-by: Wainer dos Santos Moschetta <wainersm-23VcF4HTsmIX0ybBhKVfKdBPR1lH4CV8@public.gmane.org>
 ---
- man3/strfroml.3 | 1 +
+ man3/atof.3 | 1 +
  1 file changed, 1 insertion(+)
- create mode 100644 man3/strfroml.3
 
-diff --git a/man3/strfroml.3 b/man3/strfroml.3
-new file mode 100644
-index 0000000..d20099d
---- /dev/null
-+++ b/man3/strfroml.3
-@@ -0,0 +1 @@
-+.so man3/strfromd.3
+diff --git a/man3/atof.3 b/man3/atof.3
+index 7cb18bd..7f3e892 100644
+--- a/man3/atof.3
++++ b/man3/atof.3
+@@ -71,6 +71,7 @@ POSIX.1-2001, POSIX.1-2008, C89, C99, SVr4, 4.3BSD.
+ .SH SEE ALSO
+ .BR atoi (3),
+ .BR atol (3),
++.BR strfromd (3),
+ .BR strtod (3),
+ .BR strtol (3),
+ .BR strtoul (3)
 -- 
 2.9.3
 
