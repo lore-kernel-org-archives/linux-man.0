@@ -1,7 +1,7 @@
 From: Wainer dos Santos Moschetta <wainersm-23VcF4HTsmIX0ybBhKVfKdBPR1lH4CV8@public.gmane.org>
-Subject: [PATCH v2 6/6] strtod.3: SEE ALSO: add strfromd(3)
-Date: Mon,  5 Dec 2016 16:30:38 -0200
-Message-ID: <ee459c07d632b641241707a4c60ed1d69e870b61.1480961953.git.wainersm@linux.vnet.ibm.com>
+Subject: [PATCH v2 3/6] strfroml.3: add link to strfromd(3)
+Date: Mon,  5 Dec 2016 16:30:35 -0200
+Message-ID: <b1c16d14ae4cafa3c937745a6c05178ea27e621f.1480961953.git.wainersm@linux.vnet.ibm.com>
 References: <c5d0be31-9c1d-000a-89ac-a18909ef4ac5@gmail.com>
  <cover.1480961953.git.wainersm@linux.vnet.ibm.com>
 Return-path: <linux-man-owner-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>
@@ -15,20 +15,17 @@ List-Id: linux-man@vger.kernel.org
 
 Signed-off-by: Wainer dos Santos Moschetta <wainersm-23VcF4HTsmIX0ybBhKVfKdBPR1lH4CV8@public.gmane.org>
 ---
- man3/strtod.3 | 1 +
+ man3/strfroml.3 | 1 +
  1 file changed, 1 insertion(+)
+ create mode 100644 man3/strfroml.3
 
-diff --git a/man3/strtod.3 b/man3/strtod.3
-index 4604462..b79c111 100644
---- a/man3/strtod.3
-+++ b/man3/strtod.3
-@@ -209,5 +209,6 @@ the use of the functions described in this manual page is similar.
- .BR nan (3),
- .BR nanf (3),
- .BR nanl (3),
-+.BR strfromd (3),
- .BR strtol (3),
- .BR strtoul (3)
+diff --git a/man3/strfroml.3 b/man3/strfroml.3
+new file mode 100644
+index 0000000..d20099d
+--- /dev/null
++++ b/man3/strfroml.3
+@@ -0,0 +1 @@
++.so man3/strfromd.3
 -- 
 2.9.3
 
