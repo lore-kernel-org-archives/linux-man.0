@@ -1,7 +1,7 @@
 From: Wainer dos Santos Moschetta <wainersm-23VcF4HTsmIX0ybBhKVfKdBPR1lH4CV8@public.gmane.org>
-Subject: [PATCH v2 2/6] strfromf.3: add link to strfromd(3)
-Date: Mon,  5 Dec 2016 16:30:34 -0200
-Message-ID: <dd19cb72a86d0e6931c8ad62c684093db5f0ad3c.1480961953.git.wainersm@linux.vnet.ibm.com>
+Subject: [PATCH v2 5/6] printf.3: SEE ALSO: add strfromd(3)
+Date: Mon,  5 Dec 2016 16:30:37 -0200
+Message-ID: <8794de8bdc9bfe175d2706de1c7d8eb15fc5d599.1480961953.git.wainersm@linux.vnet.ibm.com>
 References: <c5d0be31-9c1d-000a-89ac-a18909ef4ac5@gmail.com>
  <cover.1480961953.git.wainersm@linux.vnet.ibm.com>
 Return-path: <linux-man-owner-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>
@@ -15,17 +15,21 @@ List-Id: linux-man@vger.kernel.org
 
 Signed-off-by: Wainer dos Santos Moschetta <wainersm-23VcF4HTsmIX0ybBhKVfKdBPR1lH4CV8@public.gmane.org>
 ---
- man3/strfromf.3 | 1 +
+ man3/printf.3 | 1 +
  1 file changed, 1 insertion(+)
- create mode 100644 man3/strfromf.3
 
-diff --git a/man3/strfromf.3 b/man3/strfromf.3
-new file mode 100644
-index 0000000..d20099d
---- /dev/null
-+++ b/man3/strfromf.3
-@@ -0,0 +1 @@
-+.so man3/strfromd.3
+diff --git a/man3/printf.3 b/man3/printf.3
+index 603a253..85b0c4c 100644
+--- a/man3/printf.3
++++ b/man3/printf.3
+@@ -1153,6 +1153,7 @@ error instead of being handled gracefully.
+ .BR puts (3),
+ .BR scanf (3),
+ .BR setlocale (3),
++.BR strfromd (3),
+ .BR wcrtomb (3),
+ .BR wprintf (3),
+ .BR locale (5)
 -- 
 2.9.3
 
