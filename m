@@ -1,56 +1,308 @@
 From: "Michael Kerrisk (man-pages)" <mtk.manpages-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org>
-Subject: Re: [PATCH v2 3/3] netlink.7: Add references to sock_diag(7)
-Date: Wed, 7 Dec 2016 16:15:48 +0100
-Message-ID: <191d8d5c-cd8b-abbd-7b00-901b602a70a7@gmail.com>
-References: <20161207140014.GE1100@altlinux.org>
+Subject: Re: [PATCH v3 1/6] Add strfromd.3
+Date: Wed, 7 Dec 2016 16:51:13 +0100
+Message-ID: <a42b29ed-424f-891c-3bfc-d560c2ae1352@gmail.com>
+References: <bf67bf0f-0ac8-9d88-3a07-3f705e1f743e@gmail.com>
+ <cover.1481114754.git.wainersm@linux.vnet.ibm.com>
+ <2e277803abb58cd3d15ff5d26d667ac095df2562.1481114754.git.wainersm@linux.vnet.ibm.com>
 Mime-Version: 1.0
 Content-Type: text/plain; charset=windows-1252
 Content-Transfer-Encoding: 7bit
 Return-path: <linux-man-owner-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>
-In-Reply-To: <20161207140014.GE1100-u2l5PoMzF/Vg9hUCZPvPmw@public.gmane.org>
+In-Reply-To: <2e277803abb58cd3d15ff5d26d667ac095df2562.1481114754.git.wainersm-23VcF4HTsmIX0ybBhKVfKdBPR1lH4CV8@public.gmane.org>
 Sender: linux-man-owner-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
-To: "Dmitry V. Levin" <ldv-u2l5PoMzF/Vg9hUCZPvPmw@public.gmane.org>
-Cc: mtk.manpages-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org, Pavel Emelyanov <xemul-5HdwGun5lf+gSpxsJD1C4w@public.gmane.org>, linux-man-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
+To: Wainer dos Santos Moschetta <wainersm-23VcF4HTsmIX0ybBhKVfKdBPR1lH4CV8@public.gmane.org>
+Cc: mtk.manpages-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org, gftg-23VcF4HTsmIX0ybBhKVfKdBPR1lH4CV8@public.gmane.org, linux-man-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
 List-Id: linux-man@vger.kernel.org
 
-On 12/07/2016 03:00 PM, Dmitry V. Levin wrote:
-> Signed-off-by: Dmitry V. Levin <ldv-u2l5PoMzF/Vg9hUCZPvPmw@public.gmane.org>
+Hello Wainer,
 
-Applied.
+On 12/07/2016 01:54 PM, Wainer dos Santos Moschetta wrote:
+> The ISO/IEC TS 18661-1 specifies the strfrom() class
+> of functions that convert a float-point value to string.
+> 
+> The strfromd(), strfromf(), and strfroml() functions are
+> introduced (commit 6962682ffe5e) in GNU C Library 2.25.
 
-Thanks,
+Thanks for the excellent page, and the very easy process
+of working with you![*] I have applied the v3 series of patches
+and pushed to Git.
+
+Cheers,
 
 Michael
 
+[*] If you get tempted to document some of those other
+    new functions in glibc 2.25, by all means give in 
+    to the temptation :-).
+
+> Signed-off-by: Wainer dos Santos Moschetta <wainersm-23VcF4HTsmIX0ybBhKVfKdBPR1lH4CV8@public.gmane.org>
 > ---
->  man7/netlink.7 | 7 +++++--
->  1 file changed, 5 insertions(+), 2 deletions(-)
+>  man3/strfromd.3 | 255 ++++++++++++++++++++++++++++++++++++++++++++++++++++++++
+>  1 file changed, 255 insertions(+)
+>  create mode 100644 man3/strfromd.3
 > 
-> diff --git a/man7/netlink.7 b/man7/netlink.7
-> index 4c43344..45ccb74 100644
-> --- a/man7/netlink.7
-> +++ b/man7/netlink.7
-> @@ -63,7 +63,9 @@ Used by
->  kernel module.
->  .TP
->  .BR NETLINK_INET_DIAG " (since Linux 2.6.14, also known as " NETLINK_SOCK_DIAG " since Linux 3.3)"
-> -Query information about sockets of various protocol families from the kernel.
-> +Query information about sockets of various protocol families from the kernel
-> +(see
-> +.BR sock_diag (7)).
->  .TP
->  .BR NETLINK_NFLOG
->  Netfilter/iptables ULOG.
-> @@ -538,7 +540,8 @@ for (nh = (struct nlmsghdr *) buf; NLMSG_OK (nh, len);
->  .BR cmsg (3),
->  .BR netlink (3),
->  .BR capabilities (7),
-> -.BR rtnetlink (7)
-> +.BR rtnetlink (7),
-> +.BR sock_diag (7)
->  
->  .UR ftp://ftp.inr.ac.ru\:/ip-routing\:/iproute2*
->  information about libnetlink
+> diff --git a/man3/strfromd.3 b/man3/strfromd.3
+> new file mode 100644
+> index 0000000..ea3b140
+> --- /dev/null
+> +++ b/man3/strfromd.3
+> @@ -0,0 +1,255 @@
+> +.\" Copyright (c) 2016, IBM Corporation.
+> +.\" Written by Wainer dos Santos Moschetta <wainersm-23VcF4HTsmIX0ybBhKVfKdBPR1lH4CV8@public.gmane.org>
+> +.\"
+> +.\" %%%LICENSE_START(VERBATIM)
+> +.\" Permission is granted to make and distribute verbatim copies of this
+> +.\" manual provided the copyright notice and this permission notice are
+> +.\" preserved on all copies.
+> +.\"
+> +.\" Permission is granted to copy and distribute modified versions of
+> +.\" this manual under the conditions for verbatim copying, provided that
+> +.\" the entire resulting derived work is distributed under the terms of
+> +.\" a permission notice identical to this one.
+> +.\"
+> +.\" Since the Linux kernel and libraries are constantly changing, this
+> +.\" manual page may be incorrect or out-of-date.  The author(s) assume.
+> +.\" no responsibility for errors or omissions, or for damages resulting.
+> +.\" from the use of the information contained herein.  The author(s) may.
+> +.\" not have taken the same level of care in the production of this.
+> +.\" manual, which is licensed free of charge, as they might when working.
+> +.\" professionally.
+> +.\"
+> +.\" Formatted or processed versions of this manual, if unaccompanied by
+> +.\" the source, must acknowledge the copyright and authors of this work.
+> +.\" %%%LICENSE_END
+> +.\"
+> +.\" References consulted:
+> +.\"   Glibc 2.25 source code and manual.
+> +.\"   C99 standard document.
+> +.\"   ISO/IEC TS 18661-1 technical specification.
+> +.\"   snprintf and other man.3 pages.
+> +.\"
+> +.TH STRFROMD 3 2016-12-02 "GNU C Library"
+> +.SH NAME
+> +strfromd, strfromf, strfroml \- convert a floating-point value into
+> +a string.
+> +.SH SYNOPSIS
+> +.B #include <stdlib.h>
+> +.sp
+> +.BI "int strfromd (char *restrict " str ", size_t " n ",
+> +.br
+> +.BI "              const char *restrict " format ", double " fp ");"
+> +.br
+> +.BI "int strfromf (char *restrict " str ", size_t " n ",
+> +.br
+> +.BI "              const char *restrict " format ", float "fp ");"
+> +.br
+> +.BI "int strfroml (char *restrict " str ", size_t " n ",
+> +.br
+> +.BI "              const char *restrict " format ", long double " fp ");"
+> +.sp
+> +.in -4
+> +Feature Test Macro Requirements for glibc (see
+> +.BR feature_test_macros (7)):
+> +.in
+> +.sp
+> +.ad l
+> +.BR strfromd (),
+> +.BR strfromf (),
+> +.BR strfroml ():
+> +.RS 4
+> +__STDC_WANT_IEC_60559_BFP_EXT__
+> +.RE
+> +.ad b
+> +.SH DESCRIPTION
+> +The
+> +.BR strfrom ()
+> +class of functions converts a floating-point value
+> +.I fp
+> +into a string of characters
+> +.IR str ,
+> +with a configurable
+> +.IR format
+> +string.
+> +At most
+> +.I n
+> +characters are stored into
+> +.IR str .
+> +.sp
+> +The terminating null character ('\\0') is written if and only if
+> +.I n
+> +is sufficiently large, otherwise the written string is truncated at
+> +.I n
+> +characters.
+> +.sp
+> +The
+> +.BR strfromd (),
+> +.BR strfromf (),
+> +and
+> +.BR strfroml ()
+> +functions are equivalent to
+> +.sp
+> +.in +4
+> +.BI "snprintf (str,  n, format, fp)"
+> +.in
+> +.sp
+> +except for the
+> +.I format
+> +string.
+> +.SS Format of the format string
+> +The
+> +.I format
+> +string must start with the character %.
+> +This is followed by an optional precision which starts with period
+> +character (.), followed by an optional decimal integer.
+> +If no integer is specified after the period character, the precision used
+> +is zero.
+> +Finally, it should have one of the conversion specifiers
+> +.BR a ,
+> +.BR A ,
+> +.BR e ,
+> +.BR E ,
+> +.BR f ,
+> +.BR F ,
+> +.BR g ,
+> +or
+> +.BR G .
+> +.sp
+> +The conversion specifier is applied based on the floating-point type
+> +indicated by the function suffix.
+> +Therefore, unlike
+> +.BR snprintf (),
+> +the format string does not have a length modifier character.
+> +See
+> +.BR snprintf (3)
+> +for a detailed description of these conversion specifiers.
+> +.sp
+> +The implementation conforms to the C99 standard on conversion of NaN and
+> +infinity values:
+> +.sp
+> +.in +4
+> +If
+> +.I fp
+> +is a NaN, +NaN, or -NaN, and
+> +.BR f
+> +(or
+> +.BR a ,
+> +.BR e ,
+> +.BR g )
+> +is the conversion specifier, the conversion is to "nan", "nan", or "-nan",
+> +respectively.
+> +If
+> +.B F
+> +(or
+> +.BR A ,
+> +.BR E ,
+> +.BR G )
+> +is the conversion specifier, the conversion is to "NAN" or "-NAN".
+> +.sp
+> +Likewise if
+> +.I fp
+> +is infinity, it is converted to [-]inf or [-]INF.
+> +.in
+> +.sp
+> +A malformed
+> +.I format
+> +string results in undefined behavior.
+> +.SH RETURN VALUE
+> +The
+> +.BR strfromd (),
+> +.BR strfromf (),
+> +and
+> +.BR strfroml ()
+> +functions return the number of characters that would have been written in
+> +.I str
+> +if
+> +.I n
+> +had enough space,
+> +not counting the terminating null character.
+> +Thus, a return value of
+> +.I n
+> +or greater means that the output was truncated.
+> +.SH VERSIONS
+> +The
+> +.BR strfromd (),
+> +.BR strfromf (),
+> +and
+> +.BR strfroml ()
+> +functions are available in glibc since version 2.25.
+> +.SH ATTRIBUTES
+> +For an explanation of the terms used in this section, see
+> +.BR attributes (7)
+> +and the
+> +.B POSIX Safety Concepts
+> +section in GNU C Library manual.
+> +.sp
+> +.TS
+> +allbox;
+> +lb lb lb
+> +l l l.
+> +Interface	Attribute	Value
+> +T{
+> +.BR strfromd (),
+> +.BR strfromf (),
+> +.BR strfroml ()
+> +T}	Thread safety	MT-Safe locale
+> +\^	Asynchronous signal safety	AS-Unsafe heap
+> +\^	Asynchronous cancellation safety	AC-Unsafe mem
+> +.TE
+> +.sp
+> +Note: these attributes are preliminary.
+> +.SH CONFORMING TO
+> +C99, ISO/IEC TS 18661-1.
+> +.SH NOTES
+> +The behavior of
+> +.BR strfromd (),
+> +.BR strfromf (),
+> +and
+> +.BR strfroml ()
+> +functions take account of the
+> +.B LC_NUMERIC
+> +category of the current locale.
+> +
+> +.SH EXAMPLES
+> +To convert the value 12.1 as a float type to a string using decimal
+> +notation, resulting in "12.100000":
+> +.sp
+> +.in +4
+> +.nf
+> +#define __STDC_WANT_IEC_60559_BFP_EXT__
+> +#include <stdlib.h>
+> +int ssize = 10;
+> +char s[ssize];
+> +strfromf(s, ssize, "%f", 12.1);
+> +.fi
+> +.in
+> +.sp
+> +To convert the value 12.3456 as a float type to a string using
+> +decimal notation with two digits of precision, resulting in "12.35":
+> +.sp
+> +.in +4
+> +.nf
+> +#define __STDC_WANT_IEC_60559_BFP_EXT__
+> +#include <stdlib.h>
+> +int ssize = 10;
+> +char s[ssize];
+> +strfromf(s, ssize, "%.2f", 12.3456);
+> +.fi
+> +.in
+> +.sp
+> +To convert the value 12.345e19 as a double type to a string using
+> +scientific notation with zero digits of precision, resulting in "1E+20":
+> +.sp
+> +.in +4
+> +.nf
+> +#define __STDC_WANT_IEC_60559_BFP_EXT__
+> +#include <stdlib.h>
+> +int ssize = 10;
+> +char s[ssize];
+> +strfromd(s, ssize, "%.E", 12.345e19);
+> +.fi
+> +.in
+> +.SH SEE ALSO
+> +.BR atof (3),
+> +.BR snprintf (3),
+> +.BR strtod (3)
 > 
 
 
