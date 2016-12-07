@@ -1,321 +1,909 @@
-From: "Wainer S. Moschetta" <wainersm-23VcF4HTsmIX0ybBhKVfKdBPR1lH4CV8@public.gmane.org>
-Subject: Re: [PATCH v2 1/6] Add strfromd.3
-Date: Tue, 6 Dec 2016 10:49:31 -0200
-Message-ID: <9c5c049c-0eb8-90f7-30c4-ead462b20c65@linux.vnet.ibm.com>
-References: <c5d0be31-9c1d-000a-89ac-a18909ef4ac5@gmail.com>
- <cover.1480961953.git.wainersm@linux.vnet.ibm.com>
- <22cf57d5501526616e3f63d00102ce7cbf7e7287.1480961953.git.wainersm@linux.vnet.ibm.com>
- <bf67bf0f-0ac8-9d88-3a07-3f705e1f743e@gmail.com>
+From: "Dmitry V. Levin" <ldv-u2l5PoMzF/Vg9hUCZPvPmw@public.gmane.org>
+Subject: Re: [PATCH 1/4] sock_diag.7: New page documenting NETLINK_SOCK_DIAG interface
+Date: Wed, 7 Dec 2016 12:36:27 +0300
+Message-ID: <20161207093626.GA23316@altlinux.org>
+References: <20160315172558.GB2903@altlinux.org> <57022727.6040606@gmail.com>
 Mime-Version: 1.0
-Content-Type: text/plain; charset=windows-1252
-Content-Transfer-Encoding: 7bit
+Content-Type: multipart/mixed; boundary="k1lZvvs/B4yU6o8G"
 Return-path: <linux-man-owner-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>
-In-Reply-To: <bf67bf0f-0ac8-9d88-3a07-3f705e1f743e-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org>
+Content-Disposition: inline
+In-Reply-To: <57022727.6040606-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org>
 Sender: linux-man-owner-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
 To: "Michael Kerrisk (man-pages)" <mtk.manpages-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org>
-Cc: gftg-23VcF4HTsmIX0ybBhKVfKdBPR1lH4CV8@public.gmane.org, linux-man-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
+Cc: Pavel Emelyanov <xemul-5HdwGun5lf+gSpxsJD1C4w@public.gmane.org>, linux-man-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
 List-Id: linux-man@vger.kernel.org
 
-Hi Michael,
 
-Thanks for your very good review. See answers below.
+--k1lZvvs/B4yU6o8G
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
 
-On 12/05/2016 08:29 PM, Michael Kerrisk (man-pages) wrote:
-> Hello Wainer,
->
-> Just a few more questions and comments.
->
-> On 12/05/2016 07:30 PM, Wainer dos Santos Moschetta wrote:
->> The ISO/IEC TS 18661-1 specifies the strfrom() class
->> of functions that convert a float-point value to string.
->>
->> The strfromd(), strfromf(), and strfroml() functions are
->> introduced (commit 6962682ffe5e) in GNU C Library 2.25.
->>
->> Signed-off-by: Wainer dos Santos Moschetta <wainersm-23VcF4HTsmIX0ybBhKVfKdBPR1lH4CV8@public.gmane.org>
->> ---
->>  man3/strfromd.3 | 255 ++++++++++++++++++++++++++++++++++++++++++++++++++++++++
->>  1 file changed, 255 insertions(+)
->>  create mode 100644 man3/strfromd.3
->>
->> diff --git a/man3/strfromd.3 b/man3/strfromd.3
->> new file mode 100644
->> index 0000000..4b1aced
->> --- /dev/null
->> +++ b/man3/strfromd.3
->> @@ -0,0 +1,255 @@
->> +.\" Copyright (c) 2016, IBM Corporation.
->> +.\" Written by Wainer dos Santos Moschetta <wainersm-23VcF4HTsmIX0ybBhKVfKdBPR1lH4CV8@public.gmane.org>
->> +.\"
->> +.\" %%%LICENSE_START(VERBATIM)
->> +.\" Permission is granted to make and distribute verbatim copies of this
->> +.\" manual provided the copyright notice and this permission notice are
->> +.\" preserved on all copies.
->> +.\"
->> +.\" Permission is granted to copy and distribute modified versions of
->> +.\" this manual under the conditions for verbatim copying, provided that
->> +.\" the entire resulting derived work is distributed under the terms of
->> +.\" a permission notice identical to this one.
->> +.\"
->> +.\" Since the Linux kernel and libraries are constantly changing, this
->> +.\" manual page may be incorrect or out-of-date.  The author(s) assume.
->> +.\" no responsibility for errors or omissions, or for damages resulting.
->> +.\" from the use of the information contained herein.  The author(s) may.
->> +.\" not have taken the same level of care in the production of this.
->> +.\" manual, which is licensed free of charge, as they might when working.
->> +.\" professionally.
->> +.\"
->> +.\" Formatted or processed versions of this manual, if unaccompanied by
->> +.\" the source, must acknowledge the copyright and authors of this work.
->> +.\" %%%LICENSE_END
->> +.\"
->> +.\" References consulted:
->> +.\"   Glibc 2.25 source code and manual.
->> +.\"   C99 standard document.
->> +.\"   ISO/IEC TS 18661-1 technical specification.
->> +.\"   snprintf and other man.3 pages.
->> +.\"
->> +.TH STRFROMD 3 2016-12-02 "GNU C Library"
->> +.SH NAME
->> +strfromd, strfromf, strfroml \- convert a floating-point value into
->> +a string.
->> +.SH SYNOPSIS
->> +.B #include <stdlib.h>
->> +.sp
->> +.BI "int strfromd (char *restrict " str ", size_t " n ",
->> +.br
->> +.BI "              const char *restrict " format ", double " fp ");"
->> +.br
->> +.BI "int strfromf (char *restrict " str ", size_t " n ",
->> +.br
->> +.BI "              const char *restrict " format ", float "fp ");"
->> +.br
->> +.BI "int strfroml (char *restrict " str ", size_t " n ",
->> +.br
->> +.BI "              const char *restrict " format ", long double " fp ");"
->> +.sp
->> +.in -4
->> +Feature Test Macro Requirements for glibc (see
->> +.BR feature_test_macros (7)):
->> +.in
->> +.sp
->> +.ad l
->> +.BR strfromd (),
->> +.BR strfromf (),
->> +.BR strfroml ():
->> +.RS 4
->> +__STDC_WANT_IEC_60559_BFP_EXT__
->> +.RE
->> +.ad b
->> +.SH DESCRIPTION
->> +The
->> +.BR strfrom ()
->> +class of functions converts a floating-point value
->> +.I fp
->> +into a string of characters
->> +.IR str ,
->> +with a configurable
->> +.IR format
->> +string.
->> +At most
->> +.I n
->> +characters are stored into
->> +.IR str .
->> +.sp
->> +The terminating null character ('\\0') is written if and only if
->> +.I n
->> +is sufficiently large, otherwise the written string is truncated at
->> +.I n
->> +characters.
->> +.sp
->> +The
->> +.BR strfromd (),
->> +.BR strfromf (),
->> +and
->> +.BR strfroml ()
->> +functions are equivalent to
->> +.sp
->> +.in +4
->> +.BI "snprintf (str,  n, format, fp)"
->> +.in
->> +.sp
->> +except for the
->> +.I format
->> +string.
->> +.SS Format of the format string
->> +The
->> +.I format
->> +string must start with the character %.
->> +This is followed by an optional precision which starts with period
->> +character (.), followed by an optional decimal integer.
->> +If no integer is specified after the period character, the precision used
->> +is zero.
->> +Finally, it should have one of the conversion specifiers
->> +.BR a ,
->> +.BR A ,
->> +.BR e ,
->> +.BR E ,
->> +.BR f ,
->> +.BR F ,
->> +.BR g ,
->> +or
->> +.BR G .
->> +.sp
->> +The conversion specifier is applied based on the floating-point type
->> +indicated by the function suffix.
->> +Therefore, unlike
->> +.BR snprintf (),
->> +the format string does not have a length modifier character.
->> +See
->> +.BR snprintf (3)
->> +for a detailed description of these conversion specifiers.
->> +.sp
->> +The implementation conforms to the C99 standard on conversion of NaN and
->> +infinity values:
->> +.sp
->> +.in +4
->> +If
->> +.I fp
->> +is a NaN, +NaN, or -NaN, and
->> +.BR f
->> +(or
->> +.BR a ,
->> +.BR e ,
->> +.BR g )
->> +is the conversion specifier, the conversion is to "nan", "nan", or "-nan",
->> +respectively.
->> +If
->> +.B F
->> +(or
->> +.BR A ,
->> +.BR E ,
->> +.BR G )
->> +is the conversion specifier, the conversion is to "NAN" or "-NAN".
->> +.sp
->> +Likewise if
->> +.I fp
->> +is infinity, it is converted to [-]inf or [-]INF.
->> +.in
->> +.sp
->> +A malformed
->> +.I format
->> +string results in undefined behavior.
->> +.SH RETURN VALUE
->> +The
->> +.BR strfromd (),
->> +.BR strfromf (),
->> +and
->> +.BR strfroml ()
->> +functions return the number of characters that would have been written in
->> +.I str
->> +if
->> +.I n
->> +had enough space,
->> +not counting the terminating null character.
->> +Thus, a return value of
->> +.I n
->> +or greater means that the output was truncated.
->> +.SH VERSIONS
->> +The
->> +.BR strfromd (),
->> +.BR strfromf (),
->> +and
->> +.BR strfroml ()
->> +functions are available in glibc since version 2.25.
->> +.SH ATTRIBUTES
->> +For an explanation of the terms used in this section, see
->> +.BR attributes (7)
->> +and the
->> +.B POSIX Safety Concepts
->> +section in GNU C Library manual.
->> +.sp
->> +.TS
->> +allbox;
->> +lb lb lb
->> +l l l.
->> +Interface	Attribute	Value
->> +T{
->> +.BR strfromd (),
->> +.BR strfromf (),
->> +.BR strfroml ()
->> +T}	Thread safety	MT-Safe locale
->> +\^	Asynchronous signal safety	AS-Unsafe heap
->> +\^	Asynchronous cancellation safety	AC-Unsafe mem
->> +.TE
->> +.sp
->> +Note: these attributes are preliminary.
->> +.SH CONFORMING TO
->> +C99, ISO/IEC TS 18661-1.
->> +.SH NOTES
->> +The behavior of
->> +.BR strfromd (),
->> +.BR strfromf (),
->> +and
->> +.BR strfroml ()
->> +functions depends on the
-> Is not s/depends on/take account of/ more accurate?
+Hi,
 
-Yes, it does. I will send a v3 patch with this change.
+On Mon, Apr 04, 2016 at 08:34:47PM +1200, Michael Kerrisk (man-pages) wrote:
+> Hello Dmitry
+> 
+> Thanks for taking the time to work on this!
+> 
+> I will probably have more comments, for a future draft, but here are
+> a few initial comments. Could you take a look and send a new draft?
 
->
->> +.B LC_NUMERIC
->> +category of the current locale.
->> +
->> +.SH EXAMPLES
->> +To convert the value 12.1 as a float type to a string using decimal
->> +notation, resulting in "12.100000":q	
->> +.sp
->> +.in +4
->> +.nf
->> +#define __STDC_WANT_IEC_60559_BFP_EXT__
->> +#include <stdlib.h>
->> +int ssize = 10;
->> +char *s = (char *) malloc(ssize);
-> Why do you use malloc() in these examples, rather than just
-> using (say) a char[10]? (Sorry, I should have asked this before...)
-For no specific reason. I've a simple program that uses malloc, checked some of strfrom* features using it.
-Indeed, using char[10] simplifies the example. I will change it on patch v3 too.
->
->> +strfromf(s, ssize, "%f", 12.1);
->> +.fi
->> +.in
->> +.sp
->> +To convert the value 12.3456 as a float type to a string using
->> +decimal notation with two digits of precision, resulting in "12.35":
->> +.sp
->> +.in +4
->> +.nf
->> +#define __STDC_WANT_IEC_60559_BFP_EXT__
->> +#include <stdlib.h>
->> +int ssize = 10;
->> +char *s = (char *) malloc(ssize);
->> +strfromf(s, ssize, "%.2f", 12.3456);
->> +.fi
->> +.in
->> +.sp
->> +To convert the value 12.345e19 as a double type to a string using
->> +scientific notation with zero digits of precision, resulting in "1E+20":
->> +.sp
->> +.in +4
->> +.nf
->> +#define __STDC_WANT_IEC_60559_BFP_EXT__
->> +#include <stdlib.h>
->> +int ssize = 10;
->> +char *s = (char *) malloc(ssize);
->> +strfromd(s, ssize, "%.E", 12.345e19);
->> +.fi
->> +.in
->> +.SH SEE ALSO
->> +.BR atof (3),
->> +.BR snprintf (3),
->> +.BR strtod (3)
->
-> Cheers,
->
-> Michael
->
->
+Unfortunately, the new draft took much longer than I expected,
+but here it is.
 
+
+-- 
+ldv
+
+--k1lZvvs/B4yU6o8G
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: attachment; filename="sock_diag.7"
+
+.\" Copyright (c) 2016 Pavel Emelyanov <xemul-5HdwGun5lf+gSpxsJD1C4w@public.gmane.org>
+.\" Copyright (c) 2016 Dmitry V. Levin <ldv-u2l5PoMzF/Vg9hUCZPvPmw@public.gmane.org>
+.\"
+.\" %%%LICENSE_START(GPLv2+_DOC_FULL)
+.\" This is free documentation; you can redistribute it and/or
+.\" modify it under the terms of the GNU General Public License as
+.\" published by the Free Software Foundation; either version 2 of
+.\" the License, or (at your option) any later version.
+.\"
+.\" The GNU General Public License's references to "object code"
+.\" and "executables" are to be interpreted as the output of any
+.\" document formatting or typesetting system, including
+.\" intermediate and printed output.
+.\"
+.\" This manual is distributed in the hope that it will be useful,
+.\" but WITHOUT ANY WARRANTY; without even the implied warranty of
+.\" MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+.\" GNU General Public License for more details.
+.\"
+.\" You should have received a copy of the GNU General Public
+.\" License along with this manual; if not, see
+.\" <http://www.gnu.org/licenses/>.
+.\" %%%LICENSE_END
+.TH SOCK_DIAG 7 2016-12-06 "Linux" "Linux Programmer's Manual"
+.SH NAME
+sock_diag \- obtaining information about sockets
+.SH SYNOPSIS
+.nf
+.B #include <sys/socket.h>
+.B #include <linux/sock_diag.h>
+.BR "#include <linux/unix_diag.h>" " /* for UNIX domain sockets */"
+.BR "#include <linux/inet_diag.h>" " /* for IPv4 and IPv6 sockets */"
+
+.BI "diag_socket = socket(AF_NETLINK, " socket_type ", NETLINK_SOCK_DIAG);"
+.fi
+.SH DESCRIPTION
+The sock_diag netlink subsystem provides a mechanism for obtaining
+information about sockets of various protocol families from the kernel.
+This subsystem can be used to obtain information about individual
+sockets or request a list of sockets.
+
+In the request the caller can specify an additional information it would
+like to obtain about the socket, e.g. memory information or
+family-specific stuff.
+
+When requesting a list of sockets, the caller can specify filters that
+would be applied by the kernel to select a subset of sockets to report.
+For now there is only an ability to filter sockets by state (connected,
+listening, etc.)
+
+Note that sock_diag reports only those sockets that have a name,
+i.e. either bound explicitly with
+.BR bind (2)
+or auto-bound ones (e.g. connected).  This is the same set of sockets
+that is available via
+.IR /proc/net/unix ,
+.IR /proc/net/tcp ,
+.IR /proc/net/udp ,
+etc.
+
+.SS Request
+The request starts with
+.I "struct nlmsghdr"
+header described in
+.BR netlink (7)
+with
+.I nlmsg_type
+field set to
+.BR SOCK_DIAG_BY_FAMILY .
+It is followed by a protocol family specific header that starts with
+a common part shared by all protocol families:
+
+.in +4n
+.nf
+struct sock_diag_req {
+    __u8 sdiag_family;
+    __u8 sdiag_protocol;
+};
+.fi
+.in
+.PP
+The fields of this structure are as follows:
+.TP
+.I sdiag_family
+A protocol family.  It should be set to the appropriate
+.B AF_*
+constant.
+.TP
+.I sdiag_protocol
+Depends on
+.IR sdiag_family .
+It should be set to the appropriate
+.B IPPROTO_*
+constant for
+.B AF_INET
+and
+.BR AF_INET6,
+and to 0 otherwise.
+.PP
+If
+.I nlmsg_flags
+field of the
+.I "struct nlmsghdr"
+header has
+.BR NLM_F_DUMP
+flag set, it means that a list of sockets is being requested,
+otherwise it is a query about an individual socket.
+
+.SS Response
+The response starts with
+.I "struct nlmsghdr"
+header and is followed by an array of family-specific objects.
+The array is to be accessed with the standard
+.B NLMSG_*
+macros from
+.BR netlink (3)
+API.
+.PP
+Each object is the NLA (netlink attributes) list that is to be accessed
+with the
+.B RTA_*
+macros from
+.BR rtnetlink (3)
+API.
+
+.SS UNIX domain sockets
+For UNIX domain sockets the request is represented in the following structure:
+
+.in +4n
+.nf
+struct unix_diag_req {
+    __u8    sdiag_family;
+    __u8    sdiag_protocol;
+    __u16   pad;
+    __u32   udiag_states;
+    __u32   udiag_ino;
+    __u32   udiag_show;
+    __u32   udiag_cookie[2];
+};
+.fi
+.in
+.PP
+The fields of this structure are as follows:
+.TP
+.I sdiag_family
+The protocol family, it should be set to
+.BR AF_UNIX .
+.PP
+.I sdiag_protocol
+.PD 0
+.TP
+.PD
+.I pad
+These fields should be set to 0.
+.TP
+.I udiag_states
+This is a bit mask that defines a filter of sockets states.
+Only those sockets whose states are in this mask will be reported.
+Ignored when querying for an individual socket.
+Supported values are:
+.PD 0
+.RS
+.IP "" 2
+1 <<
+.B TCP_ESTABLISHED
+.IP
+1 <<
+.B TCP_LISTEN
+.RE
+.PD
+.TP
+.I udiag_ino
+This is an inode number when querying for an individual socket.
+Ignored when querying for a list of sockets.
+.TP
+.I udiag_show
+This is a set of flags defining what kind of information to report.
+Each requested kind of information is reported back as a netlink
+attribute as described below:
+.RS
+.IP "" 2
+.B UDIAG_SHOW_NAME
+.RS 4
+The attribute reported in answer to this request is
+.BR UNIX_DIAG_NAME .
+The payload associated with this attribute is the name of the socket
+to which it was bound (a sequence of bytes up to
+.B UNIX_PATH_MAX
+length).
+.RE
+.IP "" 2
+.B UDIAG_SHOW_VFS
+.RS 4
+The attribute reported in answer to this request is
+.BR UNIX_DIAG_VFS .
+The payload associated with this attribute is represented in the following
+structure:
+
+.in +4n
+.nf
+struct unix_diag_vfs {
+    __u32 udiag_vfs_dev;
+    __u32 udiag_vfs_ino;
+};
+.fi
+.in
+
+The fields of this structure are as follows:
+.PD 0
+.RS 2
+.IP "" 2
+.I udiag_vfs_dev
+The device number of the corresponding on-disk socket node.
+.IP
+.I udiag_vfs_ino
+The inode number of the corresponding on-disk socket node.
+.RE
+.PD
+.RE
+.IP
+.B UDIAG_SHOW_PEER
+.RS 4
+The attribute reported in answer to this request is
+.BR UNIX_DIAG_PEER .
+The payload associated with this attribute is a __u32 value
+which is the peer's inode number.
+This attribute is reported for connected sockets only.
+.RE
+.IP
+.B UDIAG_SHOW_ICONS
+.RS 4
+The attribute reported in answer to this request is
+.BR UNIX_DIAG_ICONS .
+The payload associated with this attribute is an array of __u32 values
+which are inode numbers of sockets that has passed the
+.BR connect (2)
+call, but hasn't been processed with
+.BR accept (2)
+yet.  This attribute is reported for listening sockets only.
+.RE
+.IP
+.B UDIAG_SHOW_RQLEN
+.RS 4
+The attribute reported in answer to this request is
+.BR UNIX_DIAG_RQLEN .
+The payload associated with this attribute is represented in the following
+structure:
+
+.in +4n
+.nf
+struct unix_diag_rqlen {
+    __u32 udiag_rqueue;
+    __u32 udiag_wqueue;
+};
+.fi
+.in
+
+The fields of this structure are as follows:
+.PD 0
+.RS 2
+.IP "" 2
+.I udiag_rqueue
+.RS 6
+.IP "listening sockets:" 2
+The number of pending connections which equals to
+.B UNIX_DIAG_ICONS
+array length.
+.IP "established sockets:"
+The amount of data in incoming queue.
+.RE
+.IP
+.I udiag_wqueue
+.RS 6
+.IP "listening sockets:" 2
+The backlog length which equals to the value passed as the second argument to
+.BR listen (2).
+.IP "established sockets:"
+The amount of memory available for sending.
+.RE
+.RE
+.PD
+.RE
+.IP
+.B UDIAG_SHOW_MEMINFO
+.RS 4
+The attribute reported in answer to this request is
+.BR UNIX_DIAG_MEMINFO .
+The payload associated with this attribute is an array of __u32 values
+described below in "Socket memory information" subsection.
+.RE
+.IP
+.RE
+.RS
+The following attributes are reported back without any specific request:
+.IP "" 2
+.BR UNIX_DIAG_SHUTDOWN .
+The payload associated with this attribute is __u8 value which represents
+bits of
+.BR shutdown (2)
+state.
+.RE
+.TP
+.I udiag_cookie
+This is an array of opaque identifiers that could be used along with
+.I udiag_ino
+to specify an individual socket.  It is ignored when querying for a list
+of sockets, as well as when all its elements are set to \-1.
+.PP
+The response to a query for UNIX domain sockets is represented as an array of
+
+.in +4n
+.nf
+struct unix_diag_msg {
+    __u8    udiag_family;
+    __u8    udiag_type;
+    __u8    udiag_state;
+    __u8    pad;
+    __u32   udiag_ino;
+    __u32   udiag_cookie[2];
+};
+.fi
+.in
+
+followed by netlink attributes.
+.PP
+The fields of this structure are as follows:
+.TP
+.I udiag_family
+This field has the same meaning as in
+.IR "struct unix_diag_req" .
+.TP
+.I udiag_type
+This is set to one of the following constants:
+.PD 0
+.RS
+.IP "" 2
+.B SOCK_PACKET
+.IP
+.B SOCK_STREAM
+.IP
+.B SOCK_SEQPACKET
+.RE
+.PD
+.TP
+.I udiag_state
+This is set to one of the following constants:
+.PD 0
+.RS
+.IP "" 2
+.B TCP_LISTEN
+.IP
+.B TCP_ESTABLISHED
+.RE
+.PD
+.TP
+.I pad
+This field is set to 0.
+.TP
+.I udiag_ino
+This is the socket inode number.
+.TP
+.I udiag_cookie
+This is an array of opaque identifiers that could be used in subsequent
+queries.
+
+.SS IPv4 and IPv6 sockets
+For IPv4 and IPv6 sockets the request is represented in the following structure:
+
+.in +4n
+.nf
+struct inet_diag_req_v2 {
+    __u8    sdiag_family;
+    __u8    sdiag_protocol;
+    __u8    idiag_ext;
+    __u8    pad;
+    __u32   idiag_states;
+    struct inet_diag_sockid id;
+};
+.fi
+.in
+
+where
+.I "struct inet_diag_sockid"
+is defined as follows:
+
+.in +4n
+.nf
+struct inet_diag_sockid {
+    __be16  idiag_sport;
+    __be16  idiag_dport;
+    __be32  idiag_src[4];
+    __be32  idiag_dst[4];
+    __u32   idiag_if;
+    __u32   idiag_cookie[2];
+};
+.fi
+.in
+.PP
+The fields of
+.I "struct inet_diag_req_v2"
+are as follows:
+.TP
+.I sdiag_family
+This should be set to either
+.B AF_INET
+or
+.B AF_INET6
+for
+.B IPv4
+or
+.B IPv6
+sockets respectively.
+.TP
+.I sdiag_protocol
+This should be set to one of the following constants:
+.PD 0
+.RS
+.IP "" 2
+.B IPPROTO_TCP
+.IP
+.B IPPROTO_UDP
+.IP
+.B IPPROTO_UDPLITE
+.RE
+.PD
+.TP
+.I idiag_ext
+This is a set of flags defining what kind of extended information to report.
+Each requested kind of information is reported back as a netlink attribute
+as described below:
+.RS
+.TP
+.B INET_DIAG_TOS
+The payload associated with this attribute is a __u8 value
+which is the TOS of the socket.
+.TP
+.B INET_DIAG_TCLASS
+The payload associated with this attribute is a __u8 value
+which is the TClass of the socket.  IPv6 sockets only.
+For LISTEN and CLOSE sockets this is followed by
+.B INET_DIAG_SKV6ONLY
+attribute with associated __u8 payload value meaning whether the socket
+is IPv6-only or not.
+.TP
+.B INET_DIAG_MEMINFO
+The payload associated with this attribute is represented in the following
+structure:
+
+.in +4n
+.nf
+struct inet_diag_meminfo {
+    __u32 idiag_rmem;
+    __u32 idiag_wmem;
+    __u32 idiag_fmem;
+    __u32 idiag_tmem;
+};
+.fi
+.in
+
+The fields of this structure are as follows:
+.RS
+.TP 12
+.I idiag_rmem
+The amount of data in the receive queue.
+.TP
+.I idiag_wmem
+The amount of data that is queued by TCP but not yet sent.
+.TP
+.I idiag_fmem
+The amount of memory scheduled for future use (TCP only).
+.TP
+.I idiag_tmem
+The amount of data in send queue.
+.RE
+.TP
+.B INET_DIAG_SKMEMINFO
+The payload associated with this attribute is an array of __u32 values
+described below in "Socket memory information" subsection.
+.TP
+.B INET_DIAG_INFO
+The payload associated with this attribute is protocol specific.
+For TCP sockets it is an object of type
+.IR "struct tcp_info" .
+.TP
+.B INET_DIAG_CONG
+The payload associated with this attribute is a string that describes the
+congestion control algorithm used.  For TCP sockets only.
+.RE
+.TP
+.I pad
+This should be set to 0.
+.TP
+.I idiag_states
+This is a bit mask that defines a filter of sockets states.
+Only those sockets whose states are in this mask will be reported.
+Ignored when querying for an individual socket.
+.TP
+.I id
+This is a socket id object that is used in dump requests, in queries
+about individual sockets, and is reported back in each response.
+Unlike UNIX domain sockets, IPv4 and IPv6 sockets are identified
+using addresses and ports.  All values are in network byte order.
+.PP
+The fields of
+.I "struct inet_diag_sockid"
+are as follows:
+.TP
+.I idiag_sport
+The source port.
+.TP
+.I idiag_dport
+The destination port.
+.TP
+.I idiag_src
+The source address.
+.TP
+.I idiag_dst
+The destination address.
+.TP
+.I idiag_if
+The interface number the socket is bound to.
+.TP
+.I idiag_cookie
+This is an array of opaque identifiers that could be used along with
+other fields of this structure to specify an individual socket.
+It is ignored when querying for a list of sockets, as well as
+when all its elements are set to \-1.
+.PP
+The response to a query for IPv4 or IPv6 sockets is represented as an array of
+
+.in +4n
+.nf
+struct inet_diag_msg {
+    __u8    idiag_family;
+    __u8    idiag_state;
+    __u8    idiag_timer;
+    __u8    idiag_retrans;
+
+    struct inet_diag_sockid id;
+
+    __u32   idiag_expires;
+    __u32   idiag_rqueue;
+    __u32   idiag_wqueue;
+    __u32   idiag_uid;
+    __u32   idiag_inode;
+};
+.fi
+.in
+
+followed by netlink attributes.
+.PP
+The fields of this structure are as follows:
+.TP
+.I idiag_family
+This is the same field as in
+.IR "struct inet_diag_req_v2" .
+.TP
+.I idiag_state
+This denotes socket state as in
+.IR "struct inet_diag_req_v2" .
+.TP
+.I idiag_timer
+For TCP sockets, this field describes the type of timer that is currently
+active for the socket.  It is set to one of the following constants:
+.RS
+.TP
+.B 0
+no timer is active
+.TP
+.B 1
+a retransmit timer
+.TP
+.B 2
+a keep-alive timer
+.TP
+.B 3
+a TIME_WAIT timer
+.TP
+.B 4
+a zero window probe timer
+.RE
+.IP
+.RS
+For non-TCP sockets this field is set to 0.
+.RE
+.TP
+.I idiag_retrans
+For
+.I idiag_timer
+values 1, 2, and 4 this field contains the number of retransmits.  For other
+.I idiag_timer
+values this field is set to 0.
+.TP
+.I idiag_expires
+For TCP sockets that have an active timer this field describes its expiration
+time in milliseconds.  For other sockets this field is set to 0.
+.TP
+.I idiag_rqueue
+.RS 7
+.IP "listening sockets:" 2
+The number of pending connections.
+.IP "other sockets:"
+The amount of data in incoming queue.
+.RE
+.TP
+.I idiag_wqueue
+.RS 7
+.IP "listening sockets:" 2
+The backlog length.
+.IP "other sockets:"
+The amount of memory available for sending.
+.RE
+.TP
+.I idiag_uid
+This is the socket owner UID.
+.TP
+.I idiag_inode
+This is the socket inode number.
+
+.SS Socket memory information
+The payload associated with
+.B UNIX_DIAG_MEMINFO
+and
+.BR INET_DIAG_SKMEMINFO
+netlink attributes is an array of the following __u32 values:
+.TP
+.B SK_MEMINFO_RMEM_ALLOC
+The amount of data in receive queue.
+.TP
+.B SK_MEMINFO_RCVBUF
+The receive socket buffer as set by
+.BR SO_RCVBUF .
+.TP
+.B SK_MEMINFO_WMEM_ALLOC
+The amount of data in send queue.
+.TP
+.B SK_MEMINFO_SNDBUF
+The send socket buffer as set by
+.BR SO_SNDBUF .
+.TP
+.B SK_MEMINFO_FWD_ALLOC
+The amount of memory scheduled for future use (TCP only).
+.TP
+.B SK_MEMINFO_WMEM_QUEUED
+The amount of data queued by TCP, but not yet sent.
+.TP
+.B SK_MEMINFO_OPTMEM
+The amount of memory allocated for socket's service needs (e.g. socket
+filter).
+.TP
+.B SK_MEMINFO_BACKLOG
+The amount of packets in the backlog (not yet processed).
+.SH CONFORMING TO
+The NETLINK_SOCK_DIAG API is Linux-specific.
+.SH VERSIONS
+.B NETLINK_INET_DIAG
+was introduced in Linux 2.6.14 and supported
+.B AF_INET
+and
+.B AF_INET6
+sockets only.  In Linux 3.3 it was renamed to
+.B NETLINK_SOCK_DIAG
+and extended to support
+.B AF_UNIX
+sockets.
+.PP
+.B UNIX_DIAG_MEMINFO
+and
+.BR INET_DIAG_SKMEMINFO
+were introduced in Linux 3.6.
+.SH EXAMPLE
+The following example program prints inode number, peer's inode number,
+and name of all UNIX domain sockets in the current namespace.
+
+.nf
+#include <errno.h>
+#include <stdio.h>
+#include <unistd.h>
+#include <sys/socket.h>
+#include <sys/un.h>
+#include <linux/netlink.h>
+#include <linux/rtnetlink.h>
+#include <linux/sock_diag.h>
+#include <linux/unix_diag.h>
+
+static int
+send_query(int fd)
+{
+    struct sockaddr_nl nladdr = {
+        .nl_family = AF_NETLINK
+    };
+    struct
+    {
+        struct nlmsghdr nlh;
+        struct unix_diag_req udr;
+    } req = {
+        .nlh = {
+            .nlmsg_len = sizeof(req),
+            .nlmsg_type = SOCK_DIAG_BY_FAMILY,
+            .nlmsg_flags = NLM_F_REQUEST | NLM_F_DUMP
+        },
+        .udr = {
+            .sdiag_family = AF_UNIX,
+            .udiag_states = \-1,
+            .udiag_show = UDIAG_SHOW_NAME | UDIAG_SHOW_PEER
+        }
+    };
+    struct iovec iov = {
+        .iov_base = &req,
+        .iov_len = sizeof(req)
+    };
+    struct msghdr msg = {
+        .msg_name = (void *) &nladdr,
+        .msg_namelen = sizeof(nladdr),
+        .msg_iov = &iov,
+        .msg_iovlen = 1
+    };
+
+    for (;;) {
+        if (sendmsg(fd, &msg, 0) < 0) {
+            if (errno == EINTR)
+                continue;
+            perror("sendmsg");
+            return \-1;
+        }
+        return 0;
+    }
+}
+
+static int
+print_diag(const struct unix_diag_msg *diag, unsigned int len)
+{
+    if (len < NLMSG_LENGTH(sizeof(*diag))) {
+        fputs("short response\\n", stderr);
+        return \-1;
+    }
+    if (diag\->udiag_family != AF_UNIX) {
+        fprintf(stderr, "unexpected family %u\\n", diag\->udiag_family);
+        return \-1;
+    }
+
+    struct rtattr *attr;
+    unsigned int rta_len = len \- NLMSG_LENGTH(sizeof(*diag));
+    unsigned int peer = 0;
+    size_t path_len = 0;
+    char path[sizeof(((struct sockaddr_un *) 0)\->sun_path) + 1];
+
+    for (attr = (struct rtattr *) (diag + 1);
+             RTA_OK(attr, rta_len); attr = RTA_NEXT(attr, rta_len)) {
+        switch (attr\->rta_type) {
+            case UNIX_DIAG_NAME:
+                if (!path_len) {
+                    path_len = RTA_PAYLOAD(attr);
+                    if (path_len > sizeof(path) \- 1)
+                        path_len = sizeof(path) \- 1;
+                    memcpy(path, RTA_DATA(attr), path_len);
+                    path[path_len] = '\\0';
+                }
+                break;
+            case UNIX_DIAG_PEER:
+                if (RTA_PAYLOAD(attr) >= sizeof(peer))
+                    peer = *(unsigned int *) RTA_DATA(attr);
+                break;
+        }
+    }
+
+    printf("inode=%u", diag->udiag_ino);
+
+    if (peer)
+        printf(", peer=%u", peer);
+
+    if (path_len)
+        printf(", name=%s%s", *path ? "" : "@", *path ? path : path + 1);
+
+    putchar('\\n');
+    return 0;
+}
+
+static int
+receive_responses(int fd)
+{
+    long buf[8192 / sizeof(long)];
+    struct sockaddr_nl nladdr = {
+        .nl_family = AF_NETLINK
+    };
+    struct iovec iov = {
+        .iov_base = buf,
+        .iov_len = sizeof(buf)
+    };
+    int flags = 0;
+
+    for (;;) {
+        struct msghdr msg = {
+            .msg_name = (void *) &nladdr,
+            .msg_namelen = sizeof(nladdr),
+            .msg_iov = &iov,
+            .msg_iovlen = 1
+        };
+
+        ssize_t ret = recvmsg(fd, &msg, flags);
+
+        if (ret < 0) {
+            if (errno == EINTR)
+                continue;
+            perror("recvmsg");
+            return \-1;
+        }
+        if (ret == 0)
+            return 0;
+
+        const struct nlmsghdr *h = (struct nlmsghdr *) buf;
+
+        if (!NLMSG_OK(h, ret)) {
+            fputs("!NLMSG_OK\\n", stderr);
+            return \-1;
+        }
+        for (; NLMSG_OK(h, ret); h = NLMSG_NEXT(h, ret)) {
+            if (h\->nlmsg_type == NLMSG_DONE)
+                return 0;
+            if (h\->nlmsg_type == NLMSG_ERROR) {
+                const struct nlmsgerr *err = NLMSG_DATA(h);
+
+                if (h\->nlmsg_len < NLMSG_LENGTH(sizeof(*err))) {
+                    fputs("NLMSG_ERROR\\n", stderr);
+                } else {
+                    errno = \-err\->error;
+                    perror("NLMSG_ERROR");
+                }
+                return \-1;
+            }
+            if (h\->nlmsg_type != SOCK_DIAG_BY_FAMILY) {
+                fprintf(stderr, "unexpected nlmsg_type %u\\n",
+                        (unsigned) h\->nlmsg_type);
+                return \-1;
+            }
+
+            if (print_diag(NLMSG_DATA(h), h\->nlmsg_len))
+                return \-1;
+        }
+    }
+}
+
+int
+main(void)
+{
+    int fd = socket(AF_NETLINK, SOCK_RAW, NETLINK_SOCK_DIAG);
+
+    if (fd < 0) {
+        perror("socket");
+        return 1;
+    }
+
+    int ret = send_query(fd) || receive_responses(fd);
+
+    close(fd);
+    return ret;
+}
+.fi
+.SH SEE ALSO
+.BR netlink (3),
+.BR rtnetlink (3),
+.BR netlink (7),
+.BR tcp (7)
+
+--k1lZvvs/B4yU6o8G--
 --
 To unsubscribe from this list: send the line "unsubscribe linux-man" in
 the body of a message to majordomo-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
