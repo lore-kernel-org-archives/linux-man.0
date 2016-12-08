@@ -1,36 +1,40 @@
-From: Wainer dos Santos Moschetta <wainersm-23VcF4HTsmIX0ybBhKVfKdBPR1lH4CV8@public.gmane.org>
-Subject: [PATCH v3 6/6] strtod.3: SEE ALSO: add strfromd(3)
-Date: Wed,  7 Dec 2016 10:54:54 -0200
-Message-ID: <3ecc608e272dc52b24a3da1993ecb2295d5ba40f.1481114754.git.wainersm@linux.vnet.ibm.com>
-References: <bf67bf0f-0ac8-9d88-3a07-3f705e1f743e@gmail.com>
- <cover.1481114754.git.wainersm@linux.vnet.ibm.com>
+From: Pavel Emelyanov <xemul-5HdwGun5lf+gSpxsJD1C4w@public.gmane.org>
+Subject: Re: [PATCH v2 1/3] sock_diag.7: New page documenting
+ NETLINK_SOCK_DIAG interface
+Date: Thu, 8 Dec 2016 13:39:31 +0300
+Message-ID: <58493863.7000602@virtuozzo.com>
+References: <20161207135943.GC1100@altlinux.org>
+ <447179de-e8a9-92aa-9196-b3e11ebbb11d@gmail.com>
+Mime-Version: 1.0
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: 7bit
 Return-path: <linux-man-owner-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>
-In-Reply-To: <cover.1481114754.git.wainersm-23VcF4HTsmIX0ybBhKVfKdBPR1lH4CV8@public.gmane.org>
-In-Reply-To: <cover.1481114754.git.wainersm-23VcF4HTsmIX0ybBhKVfKdBPR1lH4CV8@public.gmane.org>
-References: <cover.1481114754.git.wainersm-23VcF4HTsmIX0ybBhKVfKdBPR1lH4CV8@public.gmane.org>
+In-Reply-To: <447179de-e8a9-92aa-9196-b3e11ebbb11d-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org>
 Sender: linux-man-owner-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
-To: mtk.manpages-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org
-Cc: gftg-23VcF4HTsmIX0ybBhKVfKdBPR1lH4CV8@public.gmane.org, linux-man-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
+To: "Michael Kerrisk (man-pages)" <mtk.manpages-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org>, "Dmitry V. Levin" <ldv-u2l5PoMzF/Vg9hUCZPvPmw@public.gmane.org>
+Cc: linux-man-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
 List-Id: linux-man@vger.kernel.org
 
-Signed-off-by: Wainer dos Santos Moschetta <wainersm-23VcF4HTsmIX0ybBhKVfKdBPR1lH4CV8@public.gmane.org>
----
- man3/strtod.3 | 1 +
- 1 file changed, 1 insertion(+)
+On 12/07/2016 06:15 PM, Michael Kerrisk (man-pages) wrote:
+> On 12/07/2016 02:59 PM, Dmitry V. Levin wrote:
+>> From: Pavel Emelyanov <xemul-5HdwGun5lf+gSpxsJD1C4w@public.gmane.org>
+>>
+>> Co-authored-by: Dmitry V. Levin <ldv-u2l5PoMzF/Vg9hUCZPvPmw@public.gmane.org>
+>> Signed-off-by: Pavel Emelyanov <xemul-5HdwGun5lf+gSpxsJD1C4w@public.gmane.org>
+>> Signed-off-by: Dmitry V. Levin <ldv-u2l5PoMzF/Vg9hUCZPvPmw@public.gmane.org>
+> 
+> Thank you, Pavel and Dmitry, for all the work that went into this page!
+> I've applied and pushed to Git. I made a lot of trivial edits
 
-diff --git a/man3/strtod.3 b/man3/strtod.3
-index 4604462..b79c111 100644
---- a/man3/strtod.3
-+++ b/man3/strtod.3
-@@ -209,5 +209,6 @@ the use of the functions described in this manual page is similar.
- .BR nan (3),
- .BR nanf (3),
- .BR nanl (3),
-+.BR strfromd (3),
- .BR strtol (3),
- .BR strtoul (3)
--- 
-2.9.3
+Thank you, Michael :)
+
+> to the page. You may want to review it, but I don't think
+> I broke anything. Perhaps the most notable change was to consistently
+> replace "protocol family" by "address family".
+> 
+> Cheers,
+> 
+> Michael
 
 --
 To unsubscribe from this list: send the line "unsubscribe linux-man" in
