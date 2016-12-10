@@ -1,519 +1,611 @@
-From: Keno Fischer <keno-9DCaDmOhoh+8M3too/+dENBPR1lH4CV8@public.gmane.org>
-Subject: [PATCH] fuse.4: Add new file describing /dev/fuse
-Date: Sat, 10 Dec 2016 02:20:18 -0500
-Message-ID: <20161210072018.GA5267@juliacomputing.com>
+From: "Michael Kerrisk (man-pages)" <mtk.manpages-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org>
+Subject: Re: [PATCH] fuse.4: Add new file describing /dev/fuse
+Date: Sat, 10 Dec 2016 15:17:07 +0100
+Message-ID: <96577e95-953c-994c-1dbb-2b4c92c1d2c4@gmail.com>
+References: <20161210072018.GA5267@juliacomputing.com>
 Mime-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
+Content-Type: text/plain; charset=windows-1252
+Content-Transfer-Encoding: 7bit
 Return-path: <linux-man-owner-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>
-Content-Disposition: inline
+In-Reply-To: <20161210072018.GA5267-9DCaDmOhoh+8M3too/+dENBPR1lH4CV8@public.gmane.org>
 Sender: linux-man-owner-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
-To: mtk.manpages-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org
-Cc: linux-man-u79uwXL29TY76Z2rM5mHXA@public.gmane.org, Miklos Szeredi <miklos-sUDqSbJrdHQHWmgEVkV9KA@public.gmane.org>, linux-fsdevel-u79uwXL29TY76Z2rM5mHXA@public.gmane.org, nikolaus-BTH8mxji4b0@public.gmane.org
+To: Keno Fischer <keno-9DCaDmOhoh+8M3too/+dENBPR1lH4CV8@public.gmane.org>
+Cc: mtk.manpages-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org, linux-man-u79uwXL29TY76Z2rM5mHXA@public.gmane.org, Miklos Szeredi <miklos-sUDqSbJrdHQHWmgEVkV9KA@public.gmane.org>, linux-fsdevel-u79uwXL29TY76Z2rM5mHXA@public.gmane.org, nikolaus-BTH8mxji4b0@public.gmane.org
 List-Id: linux-man@vger.kernel.org
 
-This is my writeup of a basic description of /dev/fuse after playing with
-it for a few hours today. It is of course woefully incomplete, and since
-I neither have a use case nor am working on this code, I will not be
-in a position to expand it in the near future. However, I'm hoping this
-could still serve as a handy reference for others looking at this interface.
----
- man4/fuse.4 | 484 ++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
- 1 file changed, 484 insertions(+)
- create mode 100644 man4/fuse.4
+Hello Keno,
 
-diff --git a/man4/fuse.4 b/man4/fuse.4
-new file mode 100644
-index 0000000..06d6f3f
---- /dev/null
-+++ b/man4/fuse.4
-@@ -0,0 +1,484 @@
-+.\" Copyright (c) 2016 Julia Computing Inc, Keno Fischer
-+.\" Description based on include/uapi/fuse.h and code in fs/fuse
-+.\"
-+.\" %%%LICENSE_START(VERBATIM)
-+.\" Permission is granted to make and distribute verbatim copies of this
-+.\" manual provided the copyright notice and this permission notice are
-+.\" preserved on all copies.
-+.\"
-+.\" Permission is granted to copy and distribute modified versions of this
-+.\" manual under the conditions for verbatim copying, provided that the
-+.\" entire resulting derived work is distributed under the terms of a
-+.\" permission notice identical to this one.
-+.\"
-+.\" Since the Linux kernel and libraries are constantly changing, this
-+.\" manual page may be incorrect or out-of-date.  The author(s) assume no
-+.\" responsibility for errors or omissions, or for damages resulting from
-+.\" the use of the information contained herein.  The author(s) may not
-+.\" have taken the same level of care in the production of this manual,
-+.\" which is licensed free of charge, as they might when working
-+.\" professionally.
-+.\"
-+.\" Formatted or processed versions of this manual, if unaccompanied by
-+.\" the source, must acknowledge the copyright and authors of this work.
-+.\"
-+.\"    This man page incorporates parts of the fuse.h header, which is distributed
-+.\"    under the following license. No claim is made as to whether or not the
-+.\"    below notice is required or whether the parts used in this manual page
-+.\"    constitute fair use in applicable jurisdictions.
-+.\"
-+.\"    Copyright (C) 2001-2007 Miklos Szeredi. All rights reserved.
-+.\"
-+.\"    Redistribution and use in source and binary forms, with or without
-+.\"    modification, are permitted provided that the following conditions
-+.\"    are met:
-+.\"    1. Redistributions of source code must retain the above copyright
-+.\"       notice, this list of conditions and the following disclaimer.
-+.\"    2. Redistributions in binary form must reproduce the above copyright
-+.\"       notice, this list of conditions and the following disclaimer in the
-+.\"       documentation and/or other materials provided with the distribution.
-+.\"
-+.\"    THIS SOFTWARE IS PROVIDED BY AUTHOR AND CONTRIBUTORS ``AS IS'' AND
-+.\"    ANY EXPRESS OR IMPLIED WARRANTIES, INCLUDING, BUT NOT LIMITED TO, THE
-+.\"    IMPLIED WARRANTIES OF MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE
-+.\"    ARE DISCLAIMED.  IN NO EVENT SHALL AUTHOR OR CONTRIBUTORS BE LIABLE
-+.\"    FOR ANY DIRECT, INDIRECT, INCIDENTAL, SPECIAL, EXEMPLARY, OR CONSEQUENTIAL
-+.\"    DAMAGES (INCLUDING, BUT NOT LIMITED TO, PROCUREMENT OF SUBSTITUTE GOODS
-+.\"    OR SERVICES; LOSS OF USE, DATA, OR PROFITS; OR BUSINESS INTERRUPTION)
-+.\"    HOWEVER CAUSED AND ON ANY THEORY OF LIABILITY, WHETHER IN CONTRACT, STRICT
-+.\"    LIABILITY, OR TORT (INCLUDING NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY
-+.\"    OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF
-+.\"    SUCH DAMAGE.
-+.\"
-+.\" %%%LICENSE_END
-+.\"
-+.TH FUSE 4 2016-12-10 "Linux" "Linux Programmer's Manual"
-+.SH NAME
-+/dev/fuse \- Filesystem in Userspace (FUSE) device
-+.SH SYNOPSIS
-+.nf
-+.B #include <linux/fuse.h>
-+.nf
-+.SH DESCRIPTION
-+
-+This device is the primary interface between the FUSE filesystem driver
-+and a userspace process wishing to provide the file system (referred to
-+in the rest of this manual page as the
-+.I file system daemon.
-+This manual page is intended for those
-+interested in understanding the kernel interface
-+itself. Those implementing a FUSE filesystem may wish to make use of
-+a userspace library such as libfuse that abstracts away the low level
-+interface.
-+
-+At its core, FUSE is a simple client-server protocol, in which the Linux
-+kernel is the client and the daemon is the server. After obtaining
-+a file descriptor to this device, the daemon may
-+.BR read (2)
-+requests from that file descriptor and is expected to
-+.BR write (2)
-+back its replied. It is important to note, that a file descriptor is
-+associated to a unique FUSE file system. In particular, opening a
-+second copy of this device, will not allow access to resources created
-+through the first file descriptor (and vice versa).
-+
-+.SS The basic protocol
-+Every message that is read by the daemon begins with a header described by
-+the following struct:
-+
-+.in +4n
-+.nf
-+struct fuse_in_header {
-+    uint32_t    len;        /* Total length of the data, including this header */
-+    uint32_t    opcode;     /* The kind of operation (described below) */
-+    uint64_t    unique;     /* A unique identifier for this request */
-+    uint64_t    nodeid;     /* The id of the filesystem object being operated on */
-+    uint32_t    uid;        /* The uid of the requesting process */
-+    uint32_t    gid;        /* The gid of the requesting process */
-+    uint32_t    pid;        /* The pid of the requesting process */
-+    uint32_t    padding;
-+};
-+.fi
-+.in
-+
-+followed by a variable length data portion (which may be empty) specific to the requested operation
-+(the requested operation is indicated by
-+.I opcode
-+).
-+
-+The daemon should then process the request and if applicable send a reply (almost
-+all operations require a reply - if they do not this is documented below), by
-+performing a
-+.BR write(2)
-+to the file descriptor. All replies must start with the following header:
-+
-+.in +4n
-+.nf
-+    struct fuse_out_header {
-+        uint32_t    len;    /* Total length of data written to the fd */
-+        int32_t     error;  /* Any error that occurred (0 if none) */
-+        uint64_t    unique; /* The value from the corresponding request */
-+    };
-+.fi
-+.in
-+
-+again followed by (potentially empty) variable sized data depending on the
-+executed request. However, if the reply is an error reply (i.e. error is set),
-+then no further payload data should be sent, independent of the request.
-+
-+.SS Exchanged messages
-+
-+This section should contain documentation for each of the messages in the protocol.
-+This manual page is currently incomplete, so not all messages are documented. For
-+each message, first the struct sent by the kernel is given, followed by a description of the semantics of the message.
-+
-+.TP
-+.BR FUSE_INIT " ( 25 )"
-+
-+.in +4n
-+.nf
-+struct fuse_init_in {
-+    uint32_t    major;
-+    uint32_t    minor;
-+    uint32_t    max_readahead; /* Since protocol v7.6 */
-+    uint32_t    flags;         /* Since protocol v7.6 */
-+};
-+.fi
-+.in
-+
-+This is the first request sent by the kernel to the daemon. It is used to
-+negotiate the protocol version and other file system parameters. Note that
-+the protocol version may affect the layout of any structure in the protocol
-+(including this one). The daemon must thus remember the negotiated version
-+and flags for each session. As of the writing of this man page, the highest
-+supported kernel protocol version is
-+.I 7.26.
-+
-+Users should be aware that the descriptions in this manual page
-+may be incomplete or incorrect for older or more recent protocol versions.
-+
-+The reply format for this request is
-+.in +4n
-+.nf
-+struct fuse_init_out {
-+    uint32_t    major;
-+    uint32_t    minor;
-+    uint32_t    max_readahead;  /* Since v7.6 */
-+    /* field exists since v7.6 - certain flags were introduced
-+       in later versions */
-+    uint32_t    flags;
-+    uint16_t    max_background; /* Since v7.13 */
-+    uint16_t    congestion_threshold; /* Since v7.13 */
-+    uint32_t    max_write; /* Since v7.5 */
-+    uint32_t    time_gran; /* Since v7.6 */
-+    uint32_t    unused[9];
-+};
-+.fi
-+.in
-+
-+If the major version supported by the kernel, is larger than that supported
-+by the daemon, the reply shall consist of only
-+.I uint32_t major
-+(following the usual header), indicating the largest major version supported
-+by the daemon. The kernel will then issue a new
-+.I FUSE_INIT
-+request conforming to the older version. In the reverse case, the daemon should
-+quietly fall back to the kernel's major version.
-+
-+The negotiated minor version is considered to be the minimum of the minor versions
-+provided by the daemon and the kernel and both parties should use the protocol
-+corresponding to said minor version.
-+
-+.TP
-+.BR FUSE_GETATTR " ( 3 )"
-+.in +4n
-+.nf
-+struct fuse_getattr_in {
-+    uint32_t    getattr_flags;
-+    uint32_t    dummy;
-+    uint64_t    fh; /* Only set if (getattr_flags & FUSE_GETATTR_FH)
-+};
-+.fi
-+.in
-+
-+As usual, the filesystem object operated on is indicated by
-+.I header->nodeid.
-+The daemon should compute the attributes
-+of this object and reply with the following message:
-+.in +4n
-+.nf
-+struct fuse_attr {
-+    uint64_t    ino;
-+    uint64_t    size;
-+    uint64_t    blocks;
-+    uint64_t    atime;
-+    uint64_t    mtime;
-+    uint64_t    ctime;
-+    uint32_t    atimensec;
-+    uint32_t    mtimensec;
-+    uint32_t    ctimensec;
-+    uint32_t    mode;
-+    uint32_t    nlink;
-+    uint32_t    uid;
-+    uint32_t    gid;
-+    uint32_t    rdev;
-+    uint32_t    blksize;
-+    uint32_t    padding;
-+};
-+struct fuse_attr_out {
-+    /* Attribute cache duration (seconds + nanoseconds) */
-+    uint64_t    attr_valid;
-+    uint32_t    attr_valid_nsec;
-+    uint32_t    dummy;
-+    struct fuse_attr attr;
-+};
-+.fi
-+.in
-+
-+The fields of
-+.I struct fuse_attr
-+describe the attributes of the required file. For the interpretation
-+of these fields, see
-+.BR stat(2)
-+
-+.TP
-+.BR FUSE_ACCESS " ( 34 )"
-+
-+.in +4n
-+.nf
-+struct fuse_access_in {
-+    uint32_t    mask;
-+    uint32_t    padding;
-+};
-+.fi
-+.in
-+
-+If the
-+.I default_permissions
-+mount options is not used, this request may be used for permissions
-+checking. No reply data is expected, but errors may be indicated
-+as usual in the reply header (in particular, access denied errors
-+may be indicated, by setting such field to
-+.I -EACCES
-+)
-+
-+.TP
-+.BR FUSE_OPEN " ( 14 ) and " FUSE_OPENDIR " ( 34 )"
-+.in +4n
-+.nf
-+struct fuse_open_in {
-+    uint32_t    flags; /* The flags that were passed to the open(2) */
-+    uint32_t    unused;
-+};
-+.fi
-+.in
-+
-+The requested operation is to open the node indicated by
-+.I header->nodeid
-+the exact semantics of what this means will depend on the
-+filesystem being implemented. However, at the very least the
-+file system should validate that the requested
-+.I flags
-+are valid for the indicated resource and then reply with
-+
-+.in +4n
-+.nf
-+
-+struct fuse_open_out {
-+    uint64_t    fh;
-+    uint32_t    open_flags;
-+    uint32_t    padding;
-+};
-+
-+.fi
-+.in
-+
-+where
-+.I fh
-+is an opaque identifier that the kernel will use to refer
-+to this resource and open_flags is a bitfield of any number of
-+.B FOPEN_*
-+flags, which indicate properties of this file handle to the kernel.
-+
-+.TP
-+.BR FUSE_READ " ( 15 ) and " FUSE_READDIR " ( 28 )"
-+.in +4n
-+.nf
-+
-+struct fuse_read_in {
-+    uint64_t    fh;
-+    uint64_t    offset;
-+    uint32_t    size;
-+    uint32_t    read_flags;
-+    uint64_t    lock_owner;
-+    uint32_t    flags;
-+    uint32_t    padding;
-+};
-+
-+.fi
-+.in
-+
-+The requested action, it to read up to
-+.I size
-+bytes of the file or directory, starting at
-+.I offset
-+the bytes should be  returned directly following the out header,
-+with no further special out structure.
-+
-+.TP
-+.BR FUSE_INTERRUPT " ( 36 )"
-+.in +4n
-+.nf
-+struct fuse_interrupt_in {
-+    uint64_t    unique;
-+};
-+.fi
-+.in
-+
-+The requested action is to cancel the pending operation indicated by
-+.I unique
-+This request requires no response. However, receipt of this message does
-+not by itself cancel the indicated operation. The kernel will still expect
-+a reply to said operation (e.g. an EINTR error or a short read). At most
-+one
-+.B FUSE_INTERRUPT
-+request will be issued for a given operation. After issuing said operation,
-+the kernel will wait uninterrutably for completion of the indicated request.
-+
-+.TP
-+.BR FUSE_LOOKUP " ( 1 )"
-+
-+Directly following the header is a filename to be looked up in the directory
-+indicated by
-+.I header->nodeid.
-+The expected reply is of the form
-+
-+.in +4n
-+.nf
-+struct fuse_entry_out {
-+    uint64_t    nodeid;     /* Inode ID */
-+    uint64_t    generation; /* Inode generation: nodeid:gen must
-+                       be unique for the fs's lifetime */
-+    uint64_t    entry_valid;
-+    uint64_t    attr_valid;
-+    uint32_t    entry_valid_nsec;
-+    uint32_t    attr_valid_nsec;
-+    struct fuse_attr attr;
-+};
-+.fi
-+.in
-+
-+The interpretation of timeouts and
-+.I attr
-+is as in
-+.B FUSE_GETATTR
-+
-+.TP
-+.BR FUSE_FLUSH " ( 36 )"
-+.in +4n
-+.nf
-+struct fuse_flush_in {
-+    uint64_t    fh;
-+    uint32_t    unused;
-+    uint32_t    padding;
-+    uint64_t    lock_owner;
-+};
-+.fi
-+.in
-+
-+The requested action is to flush any pending changes to the indicated
-+file handle. No reply data is expected. However, an empty reply message
-+still needs to be issued once the flush operation is complete.
-+
-+.TP
-+.BR FUSE_RELEASE " ( 18 ) and " FUSE_RELEASEDIR " ( 29 )"
-+.in +4n
-+.nf
-+struct fuse_release_in {
-+    uint64_t    fh;
-+    uint32_t    flags;
-+    uint32_t    release_flags;
-+    uint64_t    lock_owner;
-+};
-+.fi
-+.in
-+
-+The counter operation to
-+.BR FUSE_OPEN
-+or
-+.BR FUSE_OPENDIR
-+respectively. The daemon may now free any resources associated with the
-+file handle
-+.I fh
-+as the kernel will no longer refer to it. There are no reply data associated
-+with this request, but a reply still needs to be issued once the request has
-+been completely processed.
-+
-+.TP
-+.BR FUSE_STATFS " ( 17 )"
-+This operation implements
-+.BR statfs(2)
-+for this file system. There is no input data associated with this request.
-+The expected reply data has the following structure:
-+.in +4n
-+.nf
-+struct fuse_kstatfs {
-+    uint64_t    blocks;
-+    uint64_t    bfree;
-+    uint64_t    bavail;
-+    uint64_t    files;
-+    uint64_t    ffree;
-+    uint32_t    bsize;
-+    uint32_t    namelen;
-+    uint32_t    frsize;
-+    uint32_t    padding;
-+    uint32_t    spare[6];
-+};
-+struct fuse_statfs_out {
-+    struct fuse_kstatfs st;
-+};
-+.fi
-+.in
-+
-+For the interpretation of these fields, see
-+.BR statfs(2).
-+
-+.SH ERRORS
-+
-+.B EPERM
-+Returned from operations on a
-+.I /dev/fuse
-+file descriptor that has not been mounted
-+
-+.B EIO
-+Returned from
-+.BR read(2)
-+operations when the kernel's request is too large for the provided buffer.
-+
-+.IR Note :
-+There are various ways in which incorrect use of these interfaces can cause
-+operations on the provided filesystem's files and directories to fail with
-+.BR EIO.
-+A partial list of such incorrect uses is
-+changing
-+.I mode & S_IFMT
-+for an inode that has previous been reported to the
-+kernel; or giving replies to the kernel that are shorter than what the kernel
-+expected.
-+
-+.B EINVAL
-+Returned from
-+.BR write(2)
-+if validation of the reply failed. Note all mistakes in replies will be caught
-+by this validation. However, basic mistakes, such as short replies or an incorrect
-+.I unique
-+value.
-+
-+.B E2BIG
-+Returned from
-+.BR read(2)
-+operations when the kernel's request is too large for the provided buffer
-+and the request was FUSE_SETXATTR.
-+
-+.B ENODEV
-+Returned from either operation if the FUSE file system was unmounted.
+On 12/10/2016 08:20 AM, Keno Fischer wrote:
+> This is my writeup of a basic description of /dev/fuse after playing with
+> it for a few hours today. It is of course woefully incomplete, and since
+> I neither have a use case nor am working on this code, I will not be
+> in a position to expand it in the near future. However, I'm hoping this
+> could still serve as a handy reference for others looking at this interface.
+
+Thanks. This is, as you say, incomplete. But it's a great start that 
+could be grown over time. Thank you!
+
+I've placed this into a branch here:
+http://git.kernel.org/cgit/docs/man-pages/man-pages.git/log/?h=draft_fuse
+
+I've made a lot of trivial (I believe obviously correct) edits.
+Then I've made a few edits that I believe are correct, but that
+I'd like you to check. Could you please take a look at the following
+commits to see if they are okay:
+
+pick 59c4cca fuse.4: fuse_entry_out: rework discussion of uniqueness of nodeid + generation
+pick ecc57e6 fuse.4: Repair wording in EINVAL error text
+pick 00a5527 fuse.4: Small rewording in FUSE_INIT
+pick 57b63af fuse.4: Repair ENODEV description
+pick 8c160d3 fuse.4: Add list of FOPEN_* flags
+pick bd49f64 fuse.4: Add list of undocumented messages
+
+In addition, I've dropped a few FIXMEs into the page.
+Could you take a look at those?
+
+For convenience, I've pasted the current page source below.
+
+Cheers,
+
+Michael
+
+.\" Copyright (c) 2016 Julia Computing Inc, Keno Fischer
+.\" Description based on include/uapi/fuse.h and code in fs/fuse
+.\"
+.\" %%%LICENSE_START(VERBATIM)
+.\" Permission is granted to make and distribute verbatim copies of this
+.\" manual provided the copyright notice and this permission notice are
+.\" preserved on all copies.
+.\"
+.\" Permission is granted to copy and distribute modified versions of this
+.\" manual under the conditions for verbatim copying, provided that the
+.\" entire resulting derived work is distributed under the terms of a
+.\" permission notice identical to this one.
+.\"
+.\" Since the Linux kernel and libraries are constantly changing, this
+.\" manual page may be incorrect or out-of-date.  The author(s) assume no
+.\" responsibility for errors or omissions, or for damages resulting from
+.\" the use of the information contained herein.  The author(s) may not
+.\" have taken the same level of care in the production of this manual,
+.\" which is licensed free of charge, as they might when working
+.\" professionally.
+.\"
+.\" Formatted or processed versions of this manual, if unaccompanied by
+.\" the source, must acknowledge the copyright and authors of this work.
+.\" %%%LICENSE_END
+.\"
+.TH FUSE 4 2016-12-10 "Linux" "Linux Programmer's Manual"
+.SH NAME
+/dev/fuse \- Filesystem in Userspace (FUSE) device
+.SH SYNOPSIS
+.nf
+.B #include <linux/fuse.h>
+.nf
+.SH DESCRIPTION
+
+This device is the primary interface between the FUSE filesystem driver
+and a user-space process wishing to provide the filesystem (referred to
+in the rest of this manual page as the
+.IR "filesystem daemon" ).
+This manual page is intended for those
+interested in understanding the kernel interface itself.
+Those implementing a FUSE filesystem may wish to make use of
+a user-space library such as
+.I libfuse
+that abstracts away the low-level interface.
+
+At its core, FUSE is a simple client-server protocol, in which the Linux
+kernel is the client and the daemon is the server.
+After obtaining a file descriptor for this device, the daemon may
+.BR read (2)
+requests from that file descriptor and is expected to
+.BR write (2)
+back its replies.
+It is important to note that a file descriptor is
+associated with a unique FUSE filesystem.
+In particular, opening a second copy of this device,
+will not allow access to resources created
+through the first file descriptor (and vice versa).
+.\"
+.SS The basic protocol
+Every message that is read by the daemon begins with a header described by
+the following structure:
+
+.in +4n
+.nf
+struct fuse_in_header {
+    uint32_t len;       /* Total length of the data,
+                           including this header */
+    uint32_t opcode;    /* The kind of operation (see below) */
+    uint64_t unique;    /* A unique identifier for this request */
+    uint64_t nodeid;    /* ID of the filesystem object
+                           being operated on */
+    uint32_t uid;       /* UID of the requesting process */
+    uint32_t gid;       /* GID of the requesting process */
+    uint32_t pid;       /* PID of the requesting process */
+    uint32_t padding;
+};
+.fi
+.in
+
+The header is followed by a variable-length data portion
+(which may be empty) specific to the requested operation
+(the requested operation is indicated by
+.IR opcode ).
+
+The daemon should then process the request and if applicable send
+a reply (almost all operations require a reply; if they do not,
+this is documented below), by performing a
+.BR write (2)
+to the file descriptor.
+All replies must start with the following header:
+
+.in +4n
+.nf
+struct fuse_out_header {
+    uint32_t len;       /* Total length of data written to
+                           the file descriptor */
+    int32_t  error;     /* Any error that occurred (0 if none) */
+    uint64_t unique;    /* The value from the
+                           corresponding request */
+};
+.fi
+.in
+
+This header is also followed by (potentially empty) variable-sized
+data depending on the executed request.
+However, if the reply is an error reply (i.e.,
+.I error
+is set),
+then no further payload data should be sent, independent of the request.
+.\"
+.SS Exchanged messages
+This section should contain documentation for each of the messages
+in the protocol.
+This manual page is currently incomplete,
+so not all messages are documented.
+For each message, first the struct sent by the kernel is given,
+followed by a description of the semantics of the message.
+.TP
+.BR FUSE_INIT " ( 25 )"
+
+.in +4n
+.nf
+struct fuse_init_in {
+    uint32_t major;
+    uint32_t minor;
+    uint32_t max_readahead; /* Since protocol v7.6 */
+    uint32_t flags;         /* Since protocol v7.6 */
+};
+.fi
+.in
+
+This is the first request sent by the kernel to the daemon.
+It is used to negotiate the protocol version and other filesystem parameters.
+Note that the protocol version may affect the layout of any structure
+in the protocol (including this structure).
+The daemon must thus remember the negotiated version
+and flags for each session.
+As of the writing of this man page,
+the highest supported kernel protocol version is
+.IR 7.26 .
+
+Users should be aware that the descriptions in this manual page
+may be incomplete or incorrect for older or more recent protocol versions.
+
+The reply for this request has the following format:
+
+.in +4n
+.nf
+struct fuse_init_out {
+    uint32_t major;
+    uint32_t minor;
+    uint32_t max_readahead;   /* Since v7.6 */
+    uint32_t flags;           /* Since v7.6; some flags bits
+                                 were introduced later */
+    uint16_t max_background;  /* Since v7.13 */
+    uint16_t congestion_threshold;  /* Since v7.13 */
+    uint32_t max_write;       /* Since v7.5 */
+    uint32_t time_gran;       /* Since v7.6 */
+    uint32_t unused[9];
+};
+.fi
+.in
+
+If the major version supported by the kernel is larger than that supported
+by the daemon, the reply shall consist of only
+.I uint32_t major
+(following the usual header),
+indicating the largest major version supported by the daemon.
+The kernel will then issue a new
+.B FUSE_INIT
+request conforming to the older version.
+In the reverse case, the daemon should
+quietly fall back to the kernel's major version.
+
+The negotiated minor version is considered to be the minimum
+of the minor versions provided by the daemon and the kernel and
+both parties should use the protocol corresponding to said minor version.
+.TP
+.BR FUSE_GETATTR " ( 3 )"
+.\" FIXME It looks like this is for implementing a stat(2) type of
+.\" operation. There needs to be a sentence here describing what
+.\" this option does.
+
+.in +4n
+.nf
+struct fuse_getattr_in {
+    uint32_t getattr_flags;
+    uint32_t dummy;
+    uint64_t fh;      /* Set only if
+                         (getattr_flags & FUSE_GETATTR_FH)
+};
+.fi
+.in
+
+As usual, the filesystem object operated on is indicated by
+.IR header\->nodeid .
+The daemon should compute the attributes
+of this object and reply with the following message:
+.in +4n
+
+.nf
+struct fuse_attr {
+    uint64_t ino;
+    uint64_t size;
+    uint64_t blocks;
+    uint64_t atime;
+    uint64_t mtime;
+    uint64_t ctime;
+    uint32_t atimensec;
+    uint32_t mtimensec;
+    uint32_t ctimensec;
+    uint32_t mode;
+    uint32_t nlink;
+    uint32_t uid;
+    uint32_t gid;
+    uint32_t rdev;
+    uint32_t blksize;
+    uint32_t padding;
+};
+
+struct fuse_attr_out {
+    /* Attribute cache duration (seconds + nanoseconds) */
+    uint64_t attr_valid;
+    uint32_t attr_valid_nsec;
+    uint32_t dummy;
+    struct fuse_attr attr;
+};
+.fi
+.in
+
+The fields of
+.I struct fuse_attr
+describe the attributes of the required file.
+For the interpretation of these fields, see
+.BR stat (2).
+.TP
+.BR FUSE_ACCESS " ( 34 )"
+
+.in +4n
+.nf
+struct fuse_access_in {
+    uint32_t mask;
+    uint32_t padding;
+};
+.fi
+.in
+
+If the
+.I default_permissions
+mount options is not used, this request may be used for permissions checking.
+No reply data is expected, but errors may be indicated
+as usual in the reply header (in particular, access denied errors
+may be indicated, by setting such field to
+.\" FIXME What does "such field" mean? The 'error' field?
+.BR \-EACCES ).
+.TP
+.BR FUSE_OPEN " ( 14 ) and " FUSE_OPENDIR " ( 34 )"
+.in +4n
+.nf
+struct fuse_open_in {
+    uint32_t flags;     /* The flags that were passed
+                           to the open(2) */
+    uint32_t unused;
+};
+.fi
+.in
+
+The requested operation is to open the node indicated by
+.IR header\->nodeid .
+The exact semantics of what this means will depend on the
+filesystem being implemented.
+However, at the very least the
+filesystem should validate that the requested
+.I flags
+are valid for the indicated resource and then send a reply with the
+following format:
+
+.in +4n
+.nf
+
+struct fuse_open_out {
+    uint64_t fh;
+    uint32_t open_flags;
+    uint32_t padding;
+};
+
+.fi
+.in
+
+The
+.I fh
+field is an opaque identifier that the kernel will use to refer
+to this resource
+The
+.I open_flags
+field is a bit mask of any number of the flags
+that indicate properties of this file handle to the kernel:
+.RS 7
+.TP 18
+.BR FOPEN_DIRECT_IO
+Bypass page cache for this open file.
+.TP
+.BR FOPEN_KEEP_CACHE
+Don't invalidate the data cache on open.
+.TP
+.BR FOPEN_NONSEEKABLE
+The file is not seekable.
+.RE
+.TP
+.BR FUSE_READ " ( 15 ) and " FUSE_READDIR " ( 28 )"
+.in +4n
+.nf
+
+struct fuse_read_in {
+    uint64_t fh;
+    uint64_t offset;
+    uint32_t size;
+    uint32_t read_flags;
+    uint64_t lock_owner;
+    uint32_t flags;
+    uint32_t padding;
+};
+
+.fi
+.in
+
+The requested action is to read up to
+.I size
+bytes of the file or directory, starting at
+.IR offset .
+.\" FIXME
+.\" In the following, what are "out header" and "out structure"?
+The bytes should be returned directly following the out header,
+with no further special out structure.
+.TP
+.BR FUSE_INTERRUPT " ( 36 )"
+.in +4n
+.nf
+struct fuse_interrupt_in {
+    uint64_t unique;
+};
+.fi
+.in
+
+The requested action is to cancel the pending operation indicated by
+.IR unique .
+This request requires no response.
+However, receipt of this message does
+not by itself cancel the indicated operation.
+The kernel will still expect a reply to said operation (e.g., an
+.I EINTR
+error or a short read).
+At most one
+.B FUSE_INTERRUPT
+request will be issued for a given operation.
+After issuing said operation,
+the kernel will wait uninterruptibly for completion of the indicated request.
+.TP
+.BR FUSE_LOOKUP " ( 1 )"
+Directly following the header is a filename to be looked up in the directory
+indicated by
+.IR header\->nodeid .
+The expected reply is of the form:
+
+.in +4n
+.nf
+struct fuse_entry_out {
+    uint64_t nodeid;            /* Inode ID */
+    uint64_t generation;        /* Inode generation */
+    uint64_t entry_valid;
+    uint64_t attr_valid;
+    uint32_t entry_valid_nsec;
+    uint32_t attr_valid_nsec;
+    struct fuse_attr attr;
+};
+.fi
+.in
+
+The combination of
+.I nodeid
+and
+.I generation
+must be unique for the filesystem's lifetime.
+
+The interpretation of timeouts and
+.I attr
+is as for
+.BR FUSE_GETATTR .
+.TP
+.BR FUSE_FLUSH " ( 36 )"
+.in +4n
+.nf
+struct fuse_flush_in {
+    uint64_t fh;
+    uint32_t unused;
+    uint32_t padding;
+    uint64_t lock_owner;
+};
+.fi
+.in
+
+The requested action is to flush any pending changes to the indicated
+file handle.
+No reply data is expected.
+However, an empty reply message
+still needs to be issued once the flush operation is complete.
+.TP
+.BR FUSE_RELEASE " ( 18 ) and " FUSE_RELEASEDIR " ( 29 )"
+.in +4n
+.nf
+struct fuse_release_in {
+    uint64_t fh;
+    uint32_t flags;
+    uint32_t release_flags;
+    uint64_t lock_owner;
+};
+.fi
+.in
+
+These are the converse of
+.BR FUSE_OPEN
+and
+.BR FUSE_OPENDIR
+respectively.
+The daemon may now free any resources associated with the
+file handle
+.I fh
+as the kernel will no longer refer to it.
+There is no reply data associated with this request,
+but a reply still needs to be issued once the request has
+been completely processed.
+.TP
+.BR FUSE_STATFS " ( 17 )"
+This operation implements
+.BR statfs (2)
+for this filesystem.
+There is no input data associated with this request.
+The expected reply data has the following structure:
+
+.in +4n
+.nf
+struct fuse_kstatfs {
+    uint64_t blocks;
+    uint64_t bfree;
+    uint64_t bavail;
+    uint64_t files;
+    uint64_t ffree;
+    uint32_t bsize;
+    uint32_t namelen;
+    uint32_t frsize;
+    uint32_t padding;
+    uint32_t spare[6];
+};
+
+struct fuse_statfs_out {
+    struct fuse_kstatfs st;
+};
+.fi
+.in
+
+For the interpretation of these fields, see
+.BR statfs (2).
+.SH ERRORS
+.TP
+.B EPERM
+Returned from operations on a
+.I /dev/fuse
+file descriptor that has not been mounted.
+.TP
+.B EIO
+Returned from
+.BR read (2)
+operations when the kernel's request is too large for the provided buffer.
+
+.IR Note :
+There are various ways in which incorrect use of these interfaces can cause
+operations on the provided filesystem's files and directories to fail with
+.BR EIO .
+Among the possible incorrect uses are
+.IP * 3
+changing
+.I mode & S_IFMT
+for an inode that has previously been reported to the kernel; or
+.IP *
+giving replies to the kernel that are shorter than what the kernel expected.
+.TP
+.B EINVAL
+Returned from
+.BR write (2)
+if validation of the reply failed.
+Not all mistakes in replies will be caught by this validation.
+However, basic mistakes, such as short replies or an incorrect
+.I unique
+value, are detected.
+.TP
+.B E2BIG
+Returned from
+.BR read (2)
+operations when the kernel's request is too large for the provided buffer
+and the request was
+.BR FUSE_SETXATTR .
+.TP
+.B ENODEV
+Returned from
+.BR read (2)
+and
+.BR write (2)
+if the FUSE filesystem was unmounted.
+.SH CONFORMING TO
+The FUSE filesystem is Linux-specific.
+.SH NOTES
+The following messages are not yet documented in this manual page:
+
+.in +8n
+.nf
+.BR FUSE_BATCH_FORGET
+.BR FUSE_BMAP
+.BR FUSE_CREATE
+.BR FUSE_DESTROY
+.BR FUSE_FALLOCATE
+.BR FUSE_FORGET
+.BR FUSE_FSYNC
+.BR FUSE_FSYNCDIR
+.BR FUSE_GETLK
+.BR FUSE_GETXATTR
+.BR FUSE_IOCTL
+.BR FUSE_LINK
+.BR FUSE_LISTXATTR
+.BR FUSE_LSEEK
+.BR FUSE_MKDIR
+.BR FUSE_MKNOD
+.BR FUSE_NOTIFY_REPLY
+.BR FUSE_POLL
+.BR FUSE_READDIRPLUS
+.BR FUSE_READLINK
+.BR FUSE_REMOVEXATTR
+.BR FUSE_RENAME
+.BR FUSE_RENAME2
+.BR FUSE_RMDIR
+.BR FUSE_SETATTR
+.BR FUSE_SETLK
+.BR FUSE_SETLKW
+.BR FUSE_SYMLINK
+.BR FUSE_UNLINK
+.BR FUSE_WRITE
+.fi
+.in
+.\" It looks like the following are undocumented so far. It probably would
+.\" be kind to list these in the man page
+.SH SEE ALSO
+.BR fusermount (1),
+.BR mount.fuse (8)
+
 -- 
-2.8.1
-
+Michael Kerrisk
+Linux man-pages maintainer; http://www.kernel.org/doc/man-pages/
+Linux/UNIX System Programming Training: http://man7.org/training/
 --
 To unsubscribe from this list: send the line "unsubscribe linux-man" in
 the body of a message to majordomo-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
