@@ -1,8 +1,8 @@
 From: "Michael Kerrisk (man-pages)" <mtk.manpages-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org>
 Subject: Re: [PATCH] prctl.2: Add note regarding the size of the output user
  space buffer for PR_GET_TID_ADDRESS operation on x32/n32
-Date: Mon, 12 Dec 2016 07:21:22 +0100
-Message-ID: <3e0e6537-fcb7-272f-5673-b379a8dc6626@gmail.com>
+Date: Mon, 12 Dec 2016 07:22:52 +0100
+Message-ID: <92c16e2d-d6d3-85c4-2f55-521e54e1ed4b@gmail.com>
 References: <20161212035441.GA29133@obsidian>
 Mime-Version: 1.0
 Content-Type: text/plain; charset=windows-1252
@@ -15,17 +15,17 @@ Cc: mtk.manpages-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org, linux-man-u79uwXL29TY7
 List-Id: linux-man@vger.kernel.org
 
 On 12/12/2016 04:54 AM, Eugene Syromyatnikov wrote:
+> ---
+>  man2/prctl.2 | 5 ++++-
+>  1 file changed, 4 insertions(+), 1 deletion(-)
 
-Thanks, Eugene. Applied.
+Thanks, Eugene. Applied. (And fantastic to get patches with this
+level of detail!)
 
 Cheers,
 
 Michael
 
-> ---
->  man2/prctl.2 | 5 ++++-
->  1 file changed, 4 insertions(+), 1 deletion(-)
-> 
 > diff --git a/man2/prctl.2 b/man2/prctl.2
 > index 5f84bb7..39b3e9a 100644
 > --- a/man2/prctl.2
