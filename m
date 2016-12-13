@@ -1,31 +1,27 @@
 From: David Howells <dhowells-H+wXaHxf7aLQT0dZR+AlfA@public.gmane.org>
-Subject: Re: Revised keyrings(7) man page for review
-Date: Tue, 13 Dec 2016 14:20:37 +0000
-Message-ID: <30566.1481638837@warthog.procyon.org.uk>
-References: <a5615075-dd39-e206-cbce-385bed72473f@gmail.com> <CAKgNAkh9JLN4P+Fu+yRCNo96E3VwjYLRquuaf43XRWeuC7gnNw@mail.gmail.com> <51643019-bb42-4066-c824-c55b9e668ac6@man7.org> <25262.1481628931@warthog.procyon.org.uk> <9f32a79b-5795-bff4-b741-bf927a525149@gmail.com> <26913.1481636296@warthog.procyon.org.uk>
+Subject: Re: Migration of some *.7 keyutils man pages from keyutils to man-pages
+Date: Tue, 13 Dec 2016 14:23:37 +0000
+Message-ID: <30633.1481639017@warthog.procyon.org.uk>
+References: <CAKgNAkheoNoft0G_smDfmM0zZPvTj65jSxQ0rGfS2QVX4=rORA@mail.gmail.com> <da3e1e69-bc26-fb2a-ce1f-980e77fc4652@gmail.com> <24383.1481625938@warthog.procyon.org.uk> <CAKgNAkij-OBkK8-eEj=kCLLCzv5OCHu_C81mqOC_fbQJbD0PAA@mail.gmail.com> <27361.1481636843@warthog.procyon.org.uk>
 Mime-Version: 1.0
 Content-Type: text/plain; charset="us-ascii"
 Return-path: <linux-man-owner-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>
-In-Reply-To: <a5615075-dd39-e206-cbce-385bed72473f-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org>
-Content-ID: <30565.1481638837.1-S6HVgzuS8uM4Awkfq6JHfwNdhmdF6hFW@public.gmane.org>
+In-Reply-To: <CAKgNAkheoNoft0G_smDfmM0zZPvTj65jSxQ0rGfS2QVX4=rORA-JsoAwUIsXosN+BqQ9rBEUg@public.gmane.org>
+Content-ID: <30632.1481639017.1-S6HVgzuS8uM4Awkfq6JHfwNdhmdF6hFW@public.gmane.org>
 Sender: linux-man-owner-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
-To: "Michael Kerrisk (man-pages)" <mtk.manpages-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org>
-Cc: dhowells-H+wXaHxf7aLQT0dZR+AlfA@public.gmane.org, lkml <linux-kernel-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>, Eugene Syromyatnikov <evgsyr-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org>, keyrings-u79uwXL29TY76Z2rM5mHXA@public.gmane.org, linux-man <linux-man-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>
+To: mtk.manpages-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org, Mat Martineau <mathew.j.martineau-VuQAYsv1563Yd54FQh9/CA@public.gmane.org>
+Cc: dhowells-H+wXaHxf7aLQT0dZR+AlfA@public.gmane.org, linux-man <linux-man-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>, keyrings-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
 List-Id: linux-man@vger.kernel.org
 
 Michael Kerrisk (man-pages) <mtk.manpages-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org> wrote:
 
->               The payload data may  be  stored  in  a  tmpfs  filesystem,
->               rather  than in kernel memory, if the data size exceeds the
->               overhead of storing the data in the  filesystem.   (Storing
->               the  data in a filesystem requires filesystem structures to
->               be allocated in the kernel.  The size of  these  structures
->               determines the size threshold above which the tmpfs storage
->               method is used.)  Since Linux  4.8,  the  payload  data  is
->               encrypted when stored in tmpfs, to prevent it being written
->               unencrypted into swap space.
+> Ow! I also have a few other patches I want to send, but was wanting to
+> wait until you took these. Hopefully, my other changes don't get
+> broken by your unpublished patches...
 
-"... thereby preventing it from being written unencrypted into the swapspace"?
+Okay, take a look at the next branch.  I rejigged one of the patches in what I
+had there to change 'private' to 'priv' to prevent C++ from getting upset.
+Your branch is pulled on top.
 
 David
 --
