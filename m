@@ -1,79 +1,25 @@
-From: "Michael Kerrisk (man-pages)" <mtk.manpages-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org>
-Subject: Re: Subject: [PATCH] Correct description of /proc/sys/kernel/random/entropy_avail
-Date: Tue, 13 Dec 2016 10:29:10 +0100
-Message-ID: <CAKgNAkhy2USSCjznDuYw+verUXDG2JGCY0bsu1R80EMttrEzmw@mail.gmail.com>
-References: <alpine.DEB.2.00.1007221816280.641@nhtr.ovalna.fjrygre.arg>
-Reply-To: mtk.manpages-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org
+From: David Howells <dhowells-H+wXaHxf7aLQT0dZR+AlfA@public.gmane.org>
+Subject: Re: Migration of some *.7 keyutils man pages from keyutils to man-pages
+Date: Tue, 13 Dec 2016 10:44:45 +0000
+Message-ID: <24341.1481625885@warthog.procyon.org.uk>
+References: <CAKgNAkg51nSYjNt-p_6GkAn9ZsuONy2KH1E0agvXaXCbm7Sj8g@mail.gmail.com> <da3e1e69-bc26-fb2a-ce1f-980e77fc4652@gmail.com> <c7132641-17ac-8c92-0892-72d272527bce@gmail.com>
 Mime-Version: 1.0
-Content-Type: text/plain; charset=UTF-8
+Content-Type: text/plain; charset="us-ascii"
 Return-path: <linux-man-owner-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>
-In-Reply-To: <alpine.DEB.2.00.1007221816280.641-8IY1rz5nw3/cU0+rfqQDSHigqES71Pyf@public.gmane.org>
+In-Reply-To: <CAKgNAkg51nSYjNt-p_6GkAn9ZsuONy2KH1E0agvXaXCbm7Sj8g-JsoAwUIsXosN+BqQ9rBEUg@public.gmane.org>
+Content-ID: <24340.1481625885.1-S6HVgzuS8uM4Awkfq6JHfwNdhmdF6hFW@public.gmane.org>
 Sender: linux-man-owner-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
-To: Jon Jensen <jon-O9fzpki4YnJWk0Htik3J/w@public.gmane.org>
-Cc: linux-man <linux-man-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>
+To: mtk.manpages-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org
+Cc: dhowells-H+wXaHxf7aLQT0dZR+AlfA@public.gmane.org, linux-man <linux-man-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>, keyrings-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
 List-Id: linux-man@vger.kernel.org
 
-Hello Jon,
+Hi Michael,
 
-On 23 July 2010 at 02:18, Jon Jensen <jon-O9fzpki4YnJWk0Htik3J/w@public.gmane.org> wrote:
-> Patch against Git HEAD, based on others' comments on the web and empirical
-> observation just reading the file repeatedly.
->
-> It contains the number of bits of currently available entropy,
-> not always the pool size of 4096.
-> ---
->  man4/random.4 |    4 ++--
->  1 files changed, 2 insertions(+), 2 deletions(-)
->
-> diff --git a/man4/random.4 b/man4/random.4
-> index 2307e07..b097b6d 100644
-> --- a/man4/random.4
-> +++ b/man4/random.4
-> @@ -177,9 +177,9 @@ and can be changed to any value for which an algorithm
-> is available.
->  The choices are 32, 64, 128, 256, 512, 1024, or 2048.
->  .TP
->  Linux 2.6:
-> -This file is read-only, and gives the size of the entropy pool in
-> +This file is read-only, and gives the amount of available entropy in
->  .IR bits .
-> -It contains the value 4096.
-> +The value will range from 0 to 4096 in a standard kernel.
->  .RE
->  .LP
->  The file
-> --
-> 1.7.1.86.g0e460
+Sorry about that, I tried really hard to get the secure boot stuff done in
+time for the merge window, but didn't quite make it this time.  So now I have
+time to look at the keyutils manpages stuff.
 
-Your email fell on the floor a few years ago. Sorry about that...
-
-Long after the fact, I've applied a slightly different patch:
-
-diff --git a/man4/random.4 b/man4/random.4
-index d4bd03f..4dbf585 100644
---- a/man4/random.4
-+++ b/man4/random.4
-@@ -213,9 +213,8 @@ The files in the directory
- device:
- .TP
- .I entropy_avail
--This read-only file gives the available entropy.
--Normally, this will be 4096 (bits),
--a full entropy pool.
-+This read-only file gives the available entropy, in bits.
-+This will be a number in the range 0 to 4096.
- .TP
- .I poolsize
- This file
-
-Cheers,
-
-Michael
-
--- 
-Michael Kerrisk
-Linux man-pages maintainer; http://www.kernel.org/doc/man-pages/
-Linux/UNIX System Programming Training: http://man7.org/training/
+David
 --
 To unsubscribe from this list: send the line "unsubscribe linux-man" in
 the body of a message to majordomo-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
