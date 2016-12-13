@@ -1,42 +1,57 @@
 From: David Howells <dhowells-H+wXaHxf7aLQT0dZR+AlfA@public.gmane.org>
-Subject: Re: Migration of some *.7 keyutils man pages from keyutils to man-pages
-Date: Tue, 13 Dec 2016 10:45:38 +0000
-Message-ID: <24383.1481625938@warthog.procyon.org.uk>
-References: <da3e1e69-bc26-fb2a-ce1f-980e77fc4652@gmail.com>
+Subject: Re: Revised add_key(2) man page for review
+Date: Tue, 13 Dec 2016 10:58:08 +0000
+Message-ID: <24646.1481626688@warthog.procyon.org.uk>
+References: <9a5cc2a7-a505-9d0d-5b78-4bc5ab100ff1@gmail.com>
 Mime-Version: 1.0
-Content-Type: text/plain; charset="us-ascii"
+Content-Type: text/plain; charset=utf-8
+Content-Transfer-Encoding: 8BIT
 Return-path: <linux-man-owner-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>
-In-Reply-To: <da3e1e69-bc26-fb2a-ce1f-980e77fc4652-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org>
-Content-ID: <24382.1481625938.1-S6HVgzuS8uM4Awkfq6JHfwNdhmdF6hFW@public.gmane.org>
+In-Reply-To: <9a5cc2a7-a505-9d0d-5b78-4bc5ab100ff1-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org>
 Sender: linux-man-owner-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
 To: "Michael Kerrisk (man-pages)" <mtk.manpages-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org>
-Cc: dhowells-H+wXaHxf7aLQT0dZR+AlfA@public.gmane.org, linux-man <linux-man-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>, keyrings-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
+Cc: dhowells-H+wXaHxf7aLQT0dZR+AlfA@public.gmane.org, Eugene Syromyatnikov <evgsyr-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org>, linux-man <linux-man-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>, keyrings-u79uwXL29TY76Z2rM5mHXA@public.gmane.org, lkml <linux-kernel-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>
 List-Id: linux-man@vger.kernel.org
 
 Michael Kerrisk (man-pages) <mtk.manpages-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org> wrote:
 
-> As we discussed face to face, it makes some sense to migrate various 
-> of the section 7 keyutils man pages to the man-pages project, since
-> they document kernel-user-space interfaces.
-> 
-> Thus, I have just pulled the current copies of the following pages
-> into man-pages:
-> 
-> keyrings.7
-> persistent-keyring.7
-> process-keyring.7
-> session-keyring.7
-> thread-keyring.7
-> user-keyring.7
-> user-session-keyring.7
-> 
-> Could you please delete these from the keyutils package.
-> 
-> Note that I have NOT taken the keyutils.7 page, since that's an
-> overview page about the keyutils package and other bits and pieces.
+>        The destination keyring serial number may be that  of  a  valid
+>        keyring for which the caller has write permission, or it may be
+>        one of the following special keyring IDs:
 
-Do you want to give me a patch for this so that the commit has your details on
-it?
+No comma before "or".
+
+>        "user" This is a general purpose key type whose payload may  be
+> ...
+>       "keyring"
+
+It probably makes sense to put keyring either first or last.
+
+>        "keyring"
+>               Keyrings are special key types that may contain links to
+>               sequences  of other keys of any type.  If this interface
+>               is used to create a keyring, then a NULL payload  should
+>               be specified, and plen should be zero.
+
+I think "then payload should be NULL and plen should be zero." sounds better.
+
+>        "logon" (since Linux 3.3)
+>               This  key type is essentially the same as "user", but it
+>               does not provide reading.
+
+"permit the key to be read" rather than "provide reading", I think.
+
+>        "big_key" (since Linux 3.13)
+>               This  key type is similar to "user", but may hold a pay‐
+>               load of up to 1 MiB.  If the key payload is large,  then
+>               it  may  be stored in swap space rather than kernel mem‐
+>               ory.
+
+"stored encrypted in swap space".
+
+>            printf("Key ID is %lx\n", (long) key);
+
+key_serial_t is an int.  It doesn't really need casting to long.
 
 David
 --
