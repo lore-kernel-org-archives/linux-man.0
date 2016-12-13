@@ -1,54 +1,66 @@
-From: David Howells <dhowells-H+wXaHxf7aLQT0dZR+AlfA@public.gmane.org>
+From: "Michael Kerrisk (man-pages)" <mtk.manpages@gmail.com>
 Subject: Re: Revised keyrings(7) man page for review
-Date: Tue, 13 Dec 2016 13:38:16 +0000
-Message-ID: <26913.1481636296@warthog.procyon.org.uk>
-References: <CAKgNAkh9JLN4P+Fu+yRCNo96E3VwjYLRquuaf43XRWeuC7gnNw@mail.gmail.com> <51643019-bb42-4066-c824-c55b9e668ac6@man7.org> <25262.1481628931@warthog.procyon.org.uk> <9f32a79b-5795-bff4-b741-bf927a525149@gmail.com>
+Date: Tue, 13 Dec 2016 14:41:35 +0100
+Message-ID: <0fb87812-56f9-df39-ef74-78d30cfaaeb8@gmail.com>
+References: <9f32a79b-5795-bff4-b741-bf927a525149@gmail.com>
+ <51643019-bb42-4066-c824-c55b9e668ac6@man7.org>
+ <25262.1481628931@warthog.procyon.org.uk>
+ <26757.1481635886@warthog.procyon.org.uk>
 Mime-Version: 1.0
 Content-Type: text/plain; charset=utf-8
-Content-Transfer-Encoding: 8BIT
-Return-path: <linux-man-owner-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>
-In-Reply-To: <CAKgNAkh9JLN4P+Fu+yRCNo96E3VwjYLRquuaf43XRWeuC7gnNw-JsoAwUIsXosN+BqQ9rBEUg@public.gmane.org>
-Sender: linux-man-owner-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
-To: mtk.manpages-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org
-Cc: dhowells-H+wXaHxf7aLQT0dZR+AlfA@public.gmane.org, Michael Kerrisk <mtk-ASgREoAs3yw@public.gmane.org>, lkml <linux-kernel-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>, Eugene Syromyatnikov <evgsyr-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org>, keyrings-u79uwXL29TY76Z2rM5mHXA@public.gmane.org, linux-man <linux-man-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>
+Content-Transfer-Encoding: 8bit
+Return-path: <linux-kernel-owner@vger.kernel.org>
+In-Reply-To: <26757.1481635886@warthog.procyon.org.uk>
+Sender: linux-kernel-owner@vger.kernel.org
+To: David Howells <dhowells@redhat.com>
+Cc: mtk.manpages@gmail.com, lkml <linux-kernel@vger.kernel.org>, Eugene Syromyatnikov <evgsyr@gmail.com>, keyrings@vger.kernel.org, linux-man <linux-man@vger.kernel.org>
 List-Id: linux-man@vger.kernel.org
 
-Michael Kerrisk (man-pages) <mtk.manpages-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org> wrote:
+Hi David,
 
-> So, I've updated this piece a couple of times since the draft that you
-> reviewed, and by now it reads:
+On 12/13/2016 02:31 PM, David Howells wrote:
+> Michael Kerrisk (man-pages) <mtk.manpages@gmail.com> wrote:
 > 
->        "big_key" (since Linux 3.13)
->               This key type is similar to the "user" key type, but it may
->               hold  a  payload  of up to 1 MiB in size.  This key type is
->               useful for tasks such as holding Kerberos ticket caches.
+>> I use/Linux man-pages uses the "Oxford comma" convention.
+> 
+> "... an optional comma ..." ;-)
+> 
+> There's also:
+> 
+> 	... LSM security checks are still performed, and may filter out
+>         further keys that the process is not authorized to view.
+> 
+> but has two parts and isn't a list... ;-P
 
-I'm not sure that "tasks" is quite the word I'd use here (it's overloaded).
-Perhaps "purposes"?
+Oxford comma doesn't apply there... But, to me, it depends how
+you read the text aloud. I'd read it with a pause where the comma is,
+and so added a comma there.
 
->               The payload data may be stored in  the  swap  space  rather
->               than in kernel memory if the data size exceeds the overhead
->               of storing the data encrypted in swap space.  (A tmpfs file
->               is  used,  which requires filesystem structures to be allo‐
->               cated in the kernel; The size of  these  structures  deter‐
->               mines  the  size  threshold  above  which the tmpfs storage
->               method  is  used.)   Since  Linux  4.8,  payload  data   is
->               encrypted,  to  prevent  it  being written unencrypted into
->               swap space.
+> 
+>>>>                      D   The key is dead (i.e., has been deleted).  (A
+>>>>                          key  may  be  briefly  in  this  state during
+>>>>                          garbage collection.)
+>>>
+>>> No - "dead" in this context means that the key type was unregistered.
+>>
+>> Okay, so the text should read as:
+>>
+>>                      D   The key is dead (i.e., the key has been unregis‐
+>>                          tered).  (A key may be  briefly  in  this  state
+>>                          during garbage collection.)
+>>
+>> Right?
+> 
+> Not quite.  The driver for the key type has been unregistered, not the key.
 
-I would either drop the first "encrypted" ("storing the data encrypted") since
-you mention this later or move it earlier to be after the word "stored" ("may
-be stored encrypted").
+Bother. I meant to write "key type"! Fixed.
 
-Note that with the "Since Linux 4.8 ..." sentence, the encryption is only
-applied if it is stored into tmpfs.
+Cheers,
 
-Also, the payload isn't directly stored into swapspace, but is rather stored
-into tmpfs, from where it can be swapped.  This is important since you can use
-this type of key without any swapspace available to your system.
+Michael
 
-David
---
-To unsubscribe from this list: send the line "unsubscribe linux-man" in
-the body of a message to majordomo-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
-More majordomo info at  http://vger.kernel.org/majordomo-info.html
+
+-- 
+Michael Kerrisk
+Linux man-pages maintainer; http://www.kernel.org/doc/man-pages/
+Linux/UNIX System Programming Training: http://man7.org/training/
