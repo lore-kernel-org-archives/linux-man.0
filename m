@@ -1,64 +1,90 @@
-From: "Michael Kerrisk (man-pages)" <mtk.manpages-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org>
-Subject: [pull request] Delete man pages that will migrate to the Linux
- man-pages project
-Date: Tue, 13 Dec 2016 15:50:09 +0100
-Message-ID: <CAKgNAki0M5qT-Cim+vemGRJxfoSf+9Xeg1Tjz6DfsAgDkETfgA@mail.gmail.com>
-Reply-To: mtk.manpages-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org
+From: Greg Kroah-Hartman <gregkh@linuxfoundation.org>
+Subject: [PATCH 4.8 13/33] sched/autogroup: Fix 64-bit kernel nice level adjustment
+Date: Tue, 13 Dec 2016 09:16:14 -0800
+Message-ID: <20161213171534.730737756@linuxfoundation.org>
+References: <20161213171534.171564506@linuxfoundation.org>
 Mime-Version: 1.0
 Content-Type: text/plain; charset=UTF-8
-Return-path: <linux-man-owner-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>
-Sender: linux-man-owner-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
-To: David Howells <dhowells-H+wXaHxf7aLQT0dZR+AlfA@public.gmane.org>
-Cc: keyrings-u79uwXL29TY76Z2rM5mHXA@public.gmane.org, linux-man <linux-man-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>, Michael Kerrisk <mtk.manpages-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org>
+Return-path: <linux-kernel-owner@vger.kernel.org>
+In-Reply-To: <20161213171534.171564506@linuxfoundation.org>
+Sender: linux-kernel-owner@vger.kernel.org
+To: linux-kernel@vger.kernel.org
+Cc: Greg Kroah-Hartman <gregkh@linuxfoundation.org>, stable@vger.kernel.org, Michael Kerrisk <mtk.manpages@gmail.com>, Mike Galbraith <umgwanakikbuti@gmail.com>, Linus Torvalds <torvalds@linux-foundation.org>, Peter Zijlstra <a.p.zijlstra@chello.nl>, Peter Zijlstra <peterz@infradead.org>, Thomas Gleixner <tglx@linutronix.de>, linux-man <linux-man@vger.kernel.org>, Ingo Molnar <mingo@kernel.org>
 List-Id: linux-man@vger.kernel.org
 
-As discussed face-to-face and by email, there are a number of
-man pages in keyutils that document kernel APIs. The more natural
-home for these pages is Linux man-pages. I've already migrated
-the pages listed below into Linux man-pages, and subsequently
-enhanced various pages. They'll be released with the next release of
-man-pages (around the end of Feb 2017).
+4.8-stable review patch.  If anyone has any objections, please let me know.
 
-The following changes since commit ce92e974b8ecff19cf430b7b58a09b8190645b5c:
+------------------
 
-  TEST: Fix endianness determination (2016-02-26 10:07:00 +0000)
+From: Mike Galbraith <efault@gmx.de>
 
-are available in the git repository at:
+commit 83929cce95251cc77e5659bf493bd424ae0e7a67 upstream.
 
-  http://git.kernel.org/pub/scm/linux/kernel/git/mtk/keyutils.git
-remove_migrated_man7
+Michael Kerrisk reported:
 
-for you to fetch changes up to aedfce27baf51a776dc93e38b61df30eaee16003:
+> Regarding the previous paragraph...  My tests indicate
+> that writing *any* value to the autogroup [nice priority level]
+> file causes the task group to get a lower priority.
 
-  man: Delete man pages that will migrate to the Linux man-pages
-project (2016-12-13 15:41:45 +0100)
+Because autogroup didn't call the then meaningless scale_load()...
 
-----------------------------------------------------------------
-Michael Kerrisk (1):
-      man: Delete man pages that will migrate to the Linux man-pages project
+Autogroup nice level adjustment has been broken ever since load
+resolution was increased for 64-bit kernels.  Use scale_load() to
+scale group weight.
 
- man/keyrings.7             | 416 ----------------------------------------------
- man/persistent-keyring.7   |  67 --------
- man/process-keyring.7      |  53 ------
- man/session-keyring.7      |  85 ----------
- man/thread-keyring.7       |  50 ------
- man/user-keyring.7         |  63 -------
- man/user-session-keyring.7 |  65 --------
- 7 files changed, 799 deletions(-)
- delete mode 100644 man/keyrings.7
- delete mode 100644 man/persistent-keyring.7
- delete mode 100644 man/process-keyring.7
- delete mode 100644 man/session-keyring.7
- delete mode 100644 man/thread-keyring.7
- delete mode 100644 man/user-keyring.7
- delete mode 100644 man/user-session-keyring.7
+Michael Kerrisk tested this patch to fix the problem:
 
+> Applied and tested against 4.9-rc6 on an Intel u7 (4 cores).
+> Test setup:
+>
+> Terminal window 1: running 40 CPU burner jobs
+> Terminal window 2: running 40 CPU burner jobs
+> Terminal window 1: running  1 CPU burner job
+>
+> Demonstrated that:
+> * Writing "0" to the autogroup file for TW1 now causes no change
+>   to the rate at which the process on the terminal consume CPU.
+> * Writing -20 to the autogroup file for TW1 caused those processes
+>   to get the lion's share of CPU while TW2 TW3 get a tiny amount.
+> * Writing -20 to the autogroup files for TW1 and TW3 allowed the
+>   process on TW3 to get as much CPU as it was getting as when
+>   the autogroup nice values for both terminals were 0.
 
--- 
-Michael Kerrisk
-Linux man-pages maintainer; http://www.kernel.org/doc/man-pages/
-Linux/UNIX System Programming Training: http://man7.org/training/
---
-To unsubscribe from this list: send the line "unsubscribe linux-man" in
-the body of a message to majordomo-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
-More majordomo info at  http://vger.kernel.org/majordomo-info.html
+Reported-by: Michael Kerrisk <mtk.manpages@gmail.com>
+Tested-by: Michael Kerrisk <mtk.manpages@gmail.com>
+Signed-off-by: Mike Galbraith <umgwanakikbuti@gmail.com>
+Cc: Linus Torvalds <torvalds@linux-foundation.org>
+Cc: Peter Zijlstra <a.p.zijlstra@chello.nl>
+Cc: Peter Zijlstra <peterz@infradead.org>
+Cc: Thomas Gleixner <tglx@linutronix.de>
+Cc: linux-man <linux-man@vger.kernel.org>
+Link: http://lkml.kernel.org/r/1479897217.4306.6.camel@gmx.de
+Signed-off-by: Ingo Molnar <mingo@kernel.org>
+Signed-off-by: Greg Kroah-Hartman <gregkh@linuxfoundation.org>
+
+---
+ kernel/sched/auto_group.c |    4 +++-
+ 1 file changed, 3 insertions(+), 1 deletion(-)
+
+--- a/kernel/sched/auto_group.c
++++ b/kernel/sched/auto_group.c
+@@ -192,6 +192,7 @@ int proc_sched_autogroup_set_nice(struct
+ {
+ 	static unsigned long next = INITIAL_JIFFIES;
+ 	struct autogroup *ag;
++	unsigned long shares;
+ 	int err;
+ 
+ 	if (nice < MIN_NICE || nice > MAX_NICE)
+@@ -210,9 +211,10 @@ int proc_sched_autogroup_set_nice(struct
+ 
+ 	next = HZ / 10 + jiffies;
+ 	ag = autogroup_task_get(p);
++	shares = scale_load(sched_prio_to_weight[nice + 20]);
+ 
+ 	down_write(&ag->lock);
+-	err = sched_group_set_shares(ag->tg, sched_prio_to_weight[nice + 20]);
++	err = sched_group_set_shares(ag->tg, shares);
+ 	if (!err)
+ 		ag->nice = nice;
+ 	up_write(&ag->lock);
