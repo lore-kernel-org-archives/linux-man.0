@@ -1,91 +1,56 @@
 From: "Michael Kerrisk (man-pages)" <mtk.manpages-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org>
-Subject: Re: Document accounting of FDs passed over UNIX domain sockets
-Date: Sat, 17 Dec 2016 10:34:46 +0100
-Message-ID: <5365dfbc-1506-d49f-975e-efa2ac49d002@gmail.com>
-References: <68dec064-17bb-0994-8dcf-e06d54d80ada@gmail.com>
- <20161217070431.GA13141@1wt.eu>
+Subject: Re: Revised request_key(2) man page for review
+Date: Sat, 17 Dec 2016 11:34:55 +0100
+Message-ID: <00a561ef-34c2-40e0-335d-66d34518ba8d@gmail.com>
+References: <CAKgNAkiOzLwoLN-Kaa3-jHUJuYxp-YcL-5FbCe-pOkxGq_u5-g@mail.gmail.com>
+ <528b203d-ac72-e4a6-8517-e8c5c11055a4@gmail.com>
+ <23323.1481796656@warthog.procyon.org.uk>
 Mime-Version: 1.0
-Content-Type: text/plain; charset=windows-1252
-Content-Transfer-Encoding: 7bit
+Content-Type: text/plain; charset=utf-8
+Content-Transfer-Encoding: 8bit
 Return-path: <linux-man-owner-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>
-In-Reply-To: <20161217070431.GA13141-K+wRfnb2/UA@public.gmane.org>
+In-Reply-To: <23323.1481796656-S6HVgzuS8uM4Awkfq6JHfwNdhmdF6hFW@public.gmane.org>
 Sender: linux-man-owner-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
-To: Willy Tarreau <w@1wt.eu>
-Cc: mtk.manpages-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org, linux-man <linux-man-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>, lkml <linux-kernel-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>, socketpair-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org, Tetsuo Handa <penguin-kernel-1yMVhJb1mP/7nzcFbJAaVXf5DAMn2ifp@public.gmane.org>, linux-fsdevel-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
+To: David Howells <dhowells-H+wXaHxf7aLQT0dZR+AlfA@public.gmane.org>
+Cc: mtk.manpages-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org, keyrings-u79uwXL29TY76Z2rM5mHXA@public.gmane.org, linux-man <linux-man-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>, Eugene Syromyatnikov <evgsyr-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org>, lkml <linux-kernel-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>
 List-Id: linux-man@vger.kernel.org
 
-Hi Willy,
+Hello David,
 
-On 12/17/2016 08:04 AM, Willy Tarreau wrote:
-> Hi Michael,
+On 12/15/2016 11:10 AM, David Howells wrote:
+> Michael Kerrisk (man-pages) <mtk.manpages-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org> wrote:
 > 
-> On Fri, Dec 16, 2016 at 12:08:33PM +0100, Michael Kerrisk (man-pages) wrote:
->> Hello Willy,
->>
->> Your commit 712f4aad406bb1 ("unix: properly account for FDs passed over 
->> unix sockets" added accounting to ensure that the RLIMIT_NOFILE limit
->> could not be bypassed when passing file descriptors across UNIX
->> domain sockets.
->>
->> Such patches should be CCed to linux-api-u79uwXL29TY76Z2rM5mHXA@public.gmane.org ;-)
+>>>        │Is 'keyring' allowed to be 0? Reading the source, it │
+>>>        │appears so.  In this case, by default,  the  key  is │
+>>>        │assigned   to   the   session   keyring.   But,  the │
+>>>        │KEYCTL_SET_REQKEY_KEYRING  also  seems  to  have  an │
+>>>        │influence here.  What are the details here?          │
 > 
-> Yes, I learned this after your presentation at kernel recipes, but this
-> patch pre-dates it ;-)
+> Yes, the destination keyring can be 0.  If you don't specify a destination
+> keyring, then:
+> 
+>  (1) If the key is found to already exist, the serial number is returned, but
+>      no extra link is made.
+> 
+>  (2) If an error occurs other than "this key doesn't exist", then you'll just
+>      get the error.
+> 
+>  (3) If we have to construct a new key, this will be attached to the default
+>      keyring (as there's no destination keyring to attach to).
 
-But the note in Documentation/SubmittingPatches predates that ;-)
+Okay. Please take a look at the revised text that I'll send out
+after applying Eugene's patch. (Mail in a few minutes.)
 
->> A documentation [atch would be great as well, but I had a shot 
->> at cobbling some text together. Does the text below (for the unix(7)
->> man page) look okay?
+>>>            # echo 'create user mtk:* *   /bin/keyctl instantiate %k %c %S' \
+>>>                      > /etc/request-keys.conf
 > 
-> I think so, though maybe we can arrange it very slightly given that
-> this was considered as a fix for a vulnerability and backported to
-> various kernels :
-> 
->>        ETOOMANYREFS
->>               This  error  can  occur  for sendmsg(2) when sending a file
->>               descriptor as ancilary data over a UNIX domain socket  (see
->>               the  description  of  SCM_RIGHTS, above).  It occurs if the
->>               number  of  "in-flight"  file   descriptors   exceeds   the
->>               RLIMIT_NOFILE  resource  limit and the caller does not have
->>               the  CAP_SYS_RESOURCE  capability.    An   in-flight   file
->>               descriptor  is  one that has been sent using sendmsg(2) but
->>               has not yet been accepted in the  recipient  process  using
->>               recvmsg(2).
->>
->>               This error is diagnosed since Linux 4.5.  In earlier kernel
->>               versions, it was possible to place an unlimited  number  of
->>               file descriptors in flight, by sending each file descriptor
->>               with sendmsg(2) and then closing  the  file  descriptor  so
->>               that   it  was  not  accounted  against  the  RLIMIT_NOFILE
->>               resource limit.
-> 
-> -               resource limit.
-> +               resource limit. Some older stable kernels might have
-> +               included the same check by backporting the fix from 4.5.
-> 
-> I've just checked the exact versions containing this, but I don't think
-> it's worth providing the list, in my opinion mentionning that it could be
-> observed on some older versions is enough to help developers who see it
-> in field :
->   - 3.2.78
->   - 3.10.99
->   - 3.12.57
->   - 3.14.63
->   - 3.16.35
->   - 3.18.27
->   - 4.1.19
->   - 4.4.4
+> There's a /etc/request-keys.d/ directory now.
 
-Yea. This is a tricky issue that I run into now and then. I've added
-some different wording that expresses they same idea you intended.
-Thanks for noting this.
+Yes, I'm aware. Did you mean I should fix something on this page?
 
 Cheers,
 
 Michael
-
-
 
 
 -- 
