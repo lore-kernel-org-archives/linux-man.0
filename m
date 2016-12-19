@@ -1,106 +1,95 @@
-From: Eugene Syromyatnikov <evgsyr-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org>
-Subject: Re: [PATCH 1/5] request_key.2: add information regarding default keyring
-Date: Mon, 19 Dec 2016 09:31:18 +0000
-Message-ID: <CACGkJdva-TGvkP_GZiwbLfj3aEL3N4F_AednT=Psb76J7Sf1JQ@mail.gmail.com>
-References: <6df2c812-c2d6-321c-902f-93b4d3aaa953@gmail.com>
- <528b203d-ac72-e4a6-8517-e8c5c11055a4@gmail.com> <20161121205940.GA16505@obsidian>
- <15546.1482135577@warthog.procyon.org.uk> <f06829ea-1d7c-3f9a-1f4b-e6880aacbdc2@gmail.com>
+From: "Rafael J. Wysocki" <rjw-LthD3rsA81gm4RdzfppkhA@public.gmane.org>
+Subject: Re: RFC: capabilities(7): notes for kernel developers
+Date: Mon, 19 Dec 2016 21:20:24 +0100
+Message-ID: <1901394.l2S6b8SCmT@aspire.rjw.lan>
+References: <cdbc35f2-925e-aa65-98e7-a4ae4a5ded2c@gmail.com> <20161216210539.GA15589@mail.hallyn.com> <CALAqxLUzmFcnfNU5RtF241Lu4He1BAQpqKttydUj4_cv4j==DQ@mail.gmail.com>
 Mime-Version: 1.0
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: base64
+Content-Type: text/plain; charset="us-ascii"
+Content-Transfer-Encoding: 7Bit
 Return-path: <linux-man-owner-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>
-In-Reply-To: <f06829ea-1d7c-3f9a-1f4b-e6880aacbdc2-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org>
+In-Reply-To: <CALAqxLUzmFcnfNU5RtF241Lu4He1BAQpqKttydUj4_cv4j==DQ-JsoAwUIsXosN+BqQ9rBEUg@public.gmane.org>
 Sender: linux-man-owner-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
-To: "Michael Kerrisk (man-pages)" <mtk.manpages-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org>
-Cc: David Howells <dhowells-H+wXaHxf7aLQT0dZR+AlfA@public.gmane.org>, linux-man <linux-man-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>
+To: John Stultz <john.stultz-QSEj5FYQhm4dnm+yROfE0A@public.gmane.org>
+Cc: "Serge E. Hallyn" <serge-A9i7LUbDfNHQT0dZR+AlfA@public.gmane.org>, "Michael Kerrisk (man-pages)" <mtk.manpages-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org>, Casey Schaufler <casey-iSGtlc1asvQWG2LlvL+J4A@public.gmane.org>, James Morris <jmorris-gx6/JNMH7DfYtjvyW6yDsg@public.gmane.org>, Kees Cook <keescook-F7+t8E8rja9g9hUCZPvPmw@public.gmane.org>, Andy Lutomirski <luto-kltTT9wpgjJwATOyAt5JVQ@public.gmane.org>, Jann Horn <jann-XZ1E9jl8jIdeoWH0uzbU5w@public.gmane.org>, "Eric W. Biederman" <ebiederm-aS9lmoZGLiVWk0Htik3J/w@public.gmane.org>, linux-man <linux-man-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>, linux-security-module <linux-security-module-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>, lkml <linux-kernel-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>
 List-Id: linux-man@vger.kernel.org
 
-T24gTW9uLCBEZWMgMTksIDIwMTYgYXQgODo0NyBBTSwgTWljaGFlbCBLZXJyaXNrIChtYW4tcGFn
-ZXMpDQo8bXRrLm1hbnBhZ2VzQGdtYWlsLmNvbT4gd3JvdGU6DQo+IE9uIDEyLzE5LzIwMTYgMDk6
-MTkgQU0sIERhdmlkIEhvd2VsbHMgd3JvdGU6DQo+PiBNaWNoYWVsIEtlcnJpc2sgKG1hbi1wYWdl
-cykgPG10ay5tYW5wYWdlc0BnbWFpbC5jb20+IHdyb3RlOg0KPj4NCj4+PiAgICAgICAgT3RoZXJ3
-aXNlLCAgaWYgIGRlc3Rfa2V5cmluZyBpcyAwIGFuZCBhIG5ldyBrZXkgaXMgY29uc3RydWN0ZWQs
-IHRoZSBuZXcNCj4+PiAgICAgICAga2V5IHdpbGwgYmUgbGlua2VkIHRvIHRoZSAiZGVmYXVsdCIg
-a2V5cmluZy4gIE1vcmUgcHJlY2lzZWx5LCB3aGVuICB0aGUNCj4+PiAgICAgICAga2VybmVsICB0
-cmllcyAgdG8gIGRldGVybWluZSB0byB3aGljaCBrZXlyaW5nIHRoZSBuZXdseSBjb25zdHJ1Y3Rl
-ZCBrZXkNCj4+PiAgICAgICAgc2hvdWxkIGJlIGxpbmtlZCwgaXQgdHJpZXMgdGhlIGZvbGxvd2lu
-ZyBrZXlyaW5ncywgYmVnaW5uaW5nICB3aXRoICB0aGUNCj4+PiAgICAgICAga2V5cmluZyAgc2V0
-ICB2aWEgIHRoZSAga2V5Y3RsKDIpIEtFWUNUTF9TRVRfUkVRS0VZX0tFWVJJTkcgY29tbWFuZCBh
-bmQNCj4+PiAgICAgICAgY29udGludWluZyBpbiB0aGUgb3JkZXIgc2hvd24gYmVsb3cgdW50aWwg
-aXQgZmluZHMgIHRoZSAgZmlyc3QgIGtleXJpbmcNCj4+PiAgICAgICAgdGhhdCBleGlzdHM6DQo+
-Pj4NCj4+PiAgICAgICAgwrcgIFRoZSAgIHJlcXVlc3RvciAga2V5cmluZyAgKEtFWV9SRVFLRVlf
-REVGTF9SRVFVRVNUT1JfS0VZUklORywgIHNpbmNlDQo+Pj4gICAgICAgICAgIExpbnV4IDIuNi4y
-OSkuDQo+Pg0KPj4gVGhpcyBpcyBvbmx5IGF2YWlsYWJsZSBpbiB0aGUgL3NiaW4vcmVxdWVzdC1r
-ZXkgdXBjYWxsLCB3aGVyZSBpdCByZWZlcnMgYmFjaw0KPj4gdG8gdGhlIGRlc3RpbmF0aW9uIGtl
-eXJpbmcgb2Ygd2hvZXZlciBjYWxsZWQgcmVxdWVzdF9rZXkoKS4NCj4NCj4gRXVnZW5lIGhhcyBz
-ZW50IGEgbG9uZ2VyIGFuYWx5c2lzLCB3aGljaCBJIGRpZG4ndCB5ZXQgc2NhbiB0aG9yb3VnaGx5
-Lg0KPiBCdXQsIEkgZmVlbCBsaWtlIEkgbXVzdCBiZSBtaXNzaW5nIHNvbWV0aGluZyBvYnZpb3Vz
-LiAoQW5kIHVuZm9ydHVuYXRlbHksIG15DQo+IEZJWE1FIHRleHQgd2FzIGEgYml0IGdhcmJsZWQp
-LiBIZXJlLCB3ZSdyZSB0YWxraW5nIGFib3V0IHRoZSBzaXR1YXRpb24gd2hlcmUNCj4gcmVxdWVz
-dF9rZXkoMikgaXMgY2FsbGVkIHdpdGggYSBkZXN0aW5hdGlvbiBrZXlyaW5nIGFyZ3VtZW50IChm
-aW5hbCBhcmd1bWVudA0KPiB0byB0aGUgY2FsbCkgdGhhdCBpcyAwLiBEb2VzIG5vdCBLRVlfUkVR
-S0VZX0RFRkxfUkVRVUVTVE9SX0tFWVJJTkcgdGhlbiB5aWVsZA0KPiAiMCIgYXMgaXRzIHZhbHVl
-LCBhbmQgdGh1cyB0aGlzIGNhc2UgaXMgYSBuby1vcCBpbiB0aGUgbGlzdCBvZiBrZXlyaW5ncyBz
-ZWFyY2hlZD8uDQo+IChJcyB0aGVyZSBzb21ldGhpbmcgaGVyZSB0aGF0IEknbSBtaXNzaW5nIHRv
-IGRvIHdpdGggY2hhaW5lZCB1cGNhbGxzPykNCkFmdGVyIHRoZSBzdWNjZXNzZnVsIGtleWN0bChL
-RVlDVExfQVNTVU1FX0FVVEhPUklUWSwgZGVzdF9rZXlfaWQpIGNhbGwNCih3aGVyZSBkZXN0X2tl
-eV9pZCBpcyB0aGUga2V5X2lkIHBhc3NlZCB0byB0aGUgdXBjYWxsZWQgcHJvZ3JhbSBpbiB0aGUN
-CnNlY29uZCBwYXJhbWV0ZXIpLCB0aGUgcmVxdWVzdF9rZXlfYXV0aCBmaWVsZCBvZiB0aGUgY3Jl
-ZCBzdHJ1Y3R1cmUNCndvdWxkIGJlIHNldCB3aXRoIHRoZSBhcHByb3ByaWF0ZSBhdXRoa2V5LCB3
-aGljaCBlbmFibGVzIGVudGVyaW5nIGludG8NCnRoZSBjb25kaXRpb24gYXQgcmVxdWVzdF9rZXku
-YzoyNzEuIE90aGVyd2lzZSB0aGlzIGNvbmRpdGlvbiB3b3VsZCBiZQ0KcGFzc2VkLg0KDQo+Pj4g
-ICAgICAgIMK3ICBUaGUgICAgc2Vzc2lvbiAgICBrZXlyaW5nICAgIGZvciAgICB0aGUgICAgcHJv
-Y2VzcydzICAgICB1c2VyICAgICBJRA0KPj4+ICAgICAgICAgICAoS0VZX1JFUUtFWV9ERUZMX1VT
-RVJfU0VTU0lPTl9LRVlSSU5HKS4gIFRoaXMga2V5cmluZyBpcyBleHBlY3RlZCB0bw0KPj4+ICAg
-ICAgICAgICBhbHdheXMgZXhpc3QuDQo+Pj4NCj4+PiAgICAgICAgICAg4pSM4pSA4pSA4pSA4pSA
-4pSA4pSA4pSA4pSA4pSA4pSA4pSA4pSA4pSA4pSA4pSA4pSA4pSA4pSA4pSA4pSA4pSA4pSA4pSA
-4pSA4pSA4pSA4pSA4pSA4pSA4pSA4pSA4pSA4pSA4pSA4pSA4pSA4pSA4pSA4pSA4pSA4pSA4pSA
-4pSA4pSA4pSA4pSA4pSA4pSA4pSA4pSA4pSA4pSA4pSA4pSQDQo+Pj4gICAgICAgICAgIOKUgkZJ
-WE1FICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAg4pSCDQo+
-Pj4gICAgICAgICAgIOKUnOKUgOKUgOKUgOKUgOKUgOKUgOKUgOKUgOKUgOKUgOKUgOKUgOKUgOKU
-gOKUgOKUgOKUgOKUgOKUgOKUgOKUgOKUgOKUgOKUgOKUgOKUgOKUgOKUgOKUgOKUgOKUgOKUgOKU
-gOKUgOKUgOKUgOKUgOKUgOKUgOKUgOKUgOKUgOKUgOKUgOKUgOKUgOKUgOKUgOKUgOKUgOKUgOKU
-gOKUgOKUpA0KPj4+ICAgICAgICAgICDilIJBcmUgdGhlcmUgY2lyY3Vtc3RhbmNlcyB3aGVyZSAg
-dGhlICBzZXNzaW9uICBrZXlyaW5nIOKUgg0KPj4+ICAgICAgICAgICDilIJkb2VzIG5vdCBleGlz
-dD8gIFdoYXQgYXJlIHRoZXk/ICAgICAgICAgICAgICAgICAgICAgIOKUgg0KPj4+ICAgICAgICAg
-ICDilJTilIDilIDilIDilIDilIDilIDilIDilIDilIDilIDilIDilIDilIDilIDilIDilIDilIDi
-lIDilIDilIDilIDilIDilIDilIDilIDilIDilIDilIDilIDilIDilIDilIDilIDilIDilIDilIDi
-lIDilIDilIDilIDilIDilIDilIDilIDilIDilIDilIDilIDilIDilIDilIDilIDilIDilJgNCj4+
-DQo+PiBUaGUgc2Vzc2lvbiBrZXlyaW5nIGRvZXMgbm90IGV4aXN0IGluIC9zYmluL2luaXQncyBw
-cm9jZXNzLCBmb3IgZXhhbXBsZSwNCj4+IHVubGVzcyB0aGF0IHByb2Nlc3MgY3JlYXRlZCBvbmUu
-ICBJdCdzIGV4aXN0ZW5jZSBvciBub24tZXhpc3RlbmNlIGlzIHRoZW4NCj4+IGluaGVyaXRlZCBi
-eSBhbGwgdGhlIHByb2Nlc3NlcyB0aGF0IGFyZSBzdGFydGVkIGZyb20gdGhhdC4gIFVwb24gYSBs
-b2ctaW4sIFBBTQ0KPj4gaXMgZXhwZWN0ZWQgdG8gY3JlYXRlIGEgc2Vzc2lvbiBrZXlyaW5nLg0K
-Pj4NCj4+PiAgICAgICAgwrcgIFRoZSAgIFVJRC1zcGVjaWZpYyAgIGtleXJpbmcgIChLRVlfUkVR
-S0VZX0RFRkxfVVNFUl9LRVlSSU5HKS4gICBUaGlzDQo+Pj4gICAgICAgICAgIGtleXJpbmcgaXMg
-YWxzbyBleHBlY3RlZCB0byBhbHdheXMgZXhpc3QuDQo+Pj4NCj4+PiAgICAgICAgICAg4pSM4pSA
-4pSA4pSA4pSA4pSA4pSA4pSA4pSA4pSA4pSA4pSA4pSA4pSA4pSA4pSA4pSA4pSA4pSA4pSA4pSA
-4pSA4pSA4pSA4pSA4pSA4pSA4pSA4pSA4pSA4pSA4pSA4pSA4pSA4pSA4pSA4pSA4pSA4pSA4pSA
-4pSA4pSA4pSA4pSA4pSA4pSA4pSA4pSA4pSA4pSA4pSA4pSA4pSA4pSA4pSQDQo+Pj4gICAgICAg
-ICAgIOKUgkZJWE1FICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAg
-ICAg4pSCDQo+Pj4gICAgICAgICAgIOKUnOKUgOKUgOKUgOKUgOKUgOKUgOKUgOKUgOKUgOKUgOKU
-gOKUgOKUgOKUgOKUgOKUgOKUgOKUgOKUgOKUgOKUgOKUgOKUgOKUgOKUgOKUgOKUgOKUgOKUgOKU
-gOKUgOKUgOKUgOKUgOKUgOKUgOKUgOKUgOKUgOKUgOKUgOKUgOKUgOKUgOKUgOKUgOKUgOKUgOKU
-gOKUgOKUgOKUgOKUgOKUpA0KPj4+ICAgICAgICAgICDilIJBcmUgIHRoZXJlICBjaXJjdW1zdGFu
-Y2VzICB3aGVyZSAgdGhlICAgVUlELXNwZWNpZmljIOKUgg0KPj4+ICAgICAgICAgICDilIJrZXly
-aW5nIGRvZXMgbm90IGV4aXN0PyAgV2hhdCBhcmUgdGhleT8gICAgICAgICAgICAgIOKUgg0KPj4+
-ICAgICAgICAgICDilJTilIDilIDilIDilIDilIDilIDilIDilIDilIDilIDilIDilIDilIDilIDi
-lIDilIDilIDilIDilIDilIDilIDilIDilIDilIDilIDilIDilIDilIDilIDilIDilIDilIDilIDi
-lIDilIDilIDilIDilIDilIDilIDilIDilIDilIDilIDilIDilIDilIDilIDilIDilIDilIDilIDi
-lIDilJgNCj4+DQo+PiBUaGUgdWlkIGtleXJpbmdzIGRvbid0IGV4aXN0IHVudGlsIHNvbWVvbmUg
-dHJpZXMgdG8gYWNjZXNzIHRoZW0gLSBhdCB3aGljaA0KPj4gcG9pbnQgdGhleSdyZSBib3RoIGNy
-ZWF0ZWQuDQo+DQo+IERvZXMgImFjY2VzcyIgaGVyZSBtZWFuIGF0dGVtcHQgdG8gInJlYWQgb3cg
-dXBkYXRlIiB0aGUga2V5cmluZywgb3IgYXJlIHRoZQ0KPiBVSUQga2V5cmluZyBjcmVhdGVkIG9u
-bHkgb24gdGhlIGZpcnN0IGF0dGVtcHQgdG8gInVwZGF0ZTogdGhlbT8NCj4NCj4gQ2hlZXJzLA0K
-Pg0KPiBNaWNoYWVsDQo+DQo+PiBXaGVuIHlvdSBsb2cgaW4sIHBhbV9rZXlpbml0IGNyZWF0ZXMg
-YSBsaW5rIHRvDQo+PiB5b3VyIHVzZXIga2V5cmluZyBpbiB0aGUgc2Vzc2lvbiBrZXlyaW5nIGl0
-IGp1c3QgY3JlYXRlZCwgdGhlcmVieSBjcmVhdGluZyB0aGUNCj4+IHVzZXIgYW5kIHVzZXItc2Vz
-c2lvbiBrZXlyaW5ncy4NCj4+DQo+PiBEYXZpZA0KPj4NCj4NCj4NCj4gLS0NCj4gTWljaGFlbCBL
-ZXJyaXNrDQo+IExpbnV4IG1hbi1wYWdlcyBtYWludGFpbmVyOyBodHRwOi8vd3d3Lmtlcm5lbC5v
-cmcvZG9jL21hbi1wYWdlcy8NCj4gTGludXgvVU5JWCBTeXN0ZW0gUHJvZ3JhbW1pbmcgVHJhaW5p
-bmc6IGh0dHA6Ly9tYW43Lm9yZy90cmFpbmluZy8NCg0KDQoNCi0tIA0KRXVnZW5lIFN5cm9teWF0
-bmlrb3YNCm1haWx0bzpldmdzeXJAZ21haWwuY29tDQp4bXBwOmVzeXJAamFiYmVyLntydXxvcmd9
-DQo=
+On Friday, December 16, 2016 01:16:15 PM John Stultz wrote:
+> On Fri, Dec 16, 2016 at 1:05 PM, Serge E. Hallyn <serge-A9i7LUbDfNHQT0dZR+AlfA@public.gmane.org> wrote:
+> > Quoting John Stultz (john.stultz-QSEj5FYQhm4dnm+yROfE0A@public.gmane.org):
+> >> On Fri, Dec 16, 2016 at 12:10 PM, Serge E. Hallyn <serge-A9i7LUbDfNHQT0dZR+AlfA@public.gmane.org> wrote:
+> >> > Quoting Michael Kerrisk (man-pages) (mtk.manpages-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org):
+> >> >> On 12/16/2016 01:44 AM, Casey Schaufler wrote:
+> >> >> > On 12/15/2016 4:31 PM, John Stultz wrote:
+> >> >> >> On Thu, Dec 15, 2016 at 12:40 PM, Casey Schaufler
+> >> >> >> <casey-iSGtlc1asvQWG2LlvL+J4A@public.gmane.org> wrote:
+> >> >> >>> On 12/15/2016 11:41 AM, Michael Kerrisk (man-pages) wrote:
+> >> >> >>>> On 12/15/2016 05:29 PM, Casey Schaufler wrote:
+> >> >> >>>>> CAP_WAKE_ALARM could readily be CAP_TIME.
+> >> >> >>>> Actually, I don't quite understand what you mean with that sentence.
+> >> >> >>>> Could you elaborate?
+> >> >> >>> Should have said CAP_SYS_TIME
+> >> >> >>>
+> >> >> >>> Setting an alarm could be considered a time management function,
+> >> >> >>> depending on what it actually does.
+> >> >> >> Just a nit here. CAP_WAKE_ALARM is more about the privilege of waking
+> >> >> >> a system from suspend, while CAP_SYS_TIME covers the ability to set
+> >> >> >> the time. One wouldn't necessarily want to give applications which
+> >> >> >> could wake a system up the capability to also set the time.
+> >> >> >
+> >> >> > Doesn't really matter, except that an ignorant developer
+> >> >> > might make the mistake I did and assume that WAKE_ALARM
+> >> >> > was somehow related to time management. If you want to use
+> >> >> > it as an example don't let my dunderheadedness get in your
+> >> >> > way.
+> >> >>
+> >> >> Actually, I decided it wasn't such a good example anyway.
+> >> >> That capability could potentially be generic. (But it probably
+> >> >> should better have been named something like 'CAP_WAKE_SYSTEM'.)
+> >> >
+> >> > How about:
+> >> >
+> >> > Subject: [PATCH 1/1] capabilities: alias CAP_WAKE_SYSTEM to CAP_WAKE_ALARM
+> >> >
+> >> > As suggested by Michael Kerrisk his is a less confusing name, and
+> >> > this won't break any old userspace.
+> >> >
+> >> > Signed-off-by: Serge Hallyn <serge-A9i7LUbDfNHQT0dZR+AlfA@public.gmane.org>
+> >> > Cc: Michael Kerrisk <mtk.manpages-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org>
+> >> > ---
+> >> >  include/uapi/linux/capability.h | 2 ++
+> >> >  1 file changed, 2 insertions(+)
+> >> >
+> >> > diff --git a/include/uapi/linux/capability.h b/include/uapi/linux/capability.h
+> >> > index fd4f87d..ba972ff 100644
+> >> > --- a/include/uapi/linux/capability.h
+> >> > +++ b/include/uapi/linux/capability.h
+> >> > @@ -357,6 +357,8 @@ struct vfs_ns_cap_data {
+> >> >
+> >> >  #define CAP_WAKE_ALARM            35
+> >> >
+> >> > +#define CAP_WAKE_SYSTEM      CAP_WAKE_ALARM
+> >> > +
+> >>
+> >> I was thinking of the same thing. Although I might rename the
+> >> numerical define to WAKE_SYSTEM and put WAKE_ALARM as the alias (along
+> >> with a comment as to WAKE_ALARM being deprecated), so its more clear
+> >> which is the one that ought to be used by new code.
+> >>
+> >> However, in the spirit of this thread, we might even consider
+> >> broadening the cap silo a bit further, to something like
+> >> CAP_WAKE_SUSPEND, such that it might also be able to cover broader PM
+> >> actions?
+> >
+> > Or just CAP_UNSUSPEND?
+> 
+> I guess I was trying to capture it could be use for actions like both
+> waking and suspending the system.
+
+Well, CAP_SYS_PM comes to mind then.
+
+Thanks,
+Rafael
+
 --
 To unsubscribe from this list: send the line "unsubscribe linux-man" in
 the body of a message to majordomo-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
