@@ -1,94 +1,106 @@
-From: "Michael Kerrisk (man-pages)" <mtk.manpages-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org>
-Subject: Re: [PATCH 1/5] request_key.2: add information regarding default
- keyring
-Date: Mon, 19 Dec 2016 09:47:14 +0100
-Message-ID: <f06829ea-1d7c-3f9a-1f4b-e6880aacbdc2@gmail.com>
+From: Eugene Syromyatnikov <evgsyr-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org>
+Subject: Re: [PATCH 1/5] request_key.2: add information regarding default keyring
+Date: Mon, 19 Dec 2016 09:31:18 +0000
+Message-ID: <CACGkJdva-TGvkP_GZiwbLfj3aEL3N4F_AednT=Psb76J7Sf1JQ@mail.gmail.com>
 References: <6df2c812-c2d6-321c-902f-93b4d3aaa953@gmail.com>
- <528b203d-ac72-e4a6-8517-e8c5c11055a4@gmail.com>
- <20161121205940.GA16505@obsidian> <15546.1482135577@warthog.procyon.org.uk>
+ <528b203d-ac72-e4a6-8517-e8c5c11055a4@gmail.com> <20161121205940.GA16505@obsidian>
+ <15546.1482135577@warthog.procyon.org.uk> <f06829ea-1d7c-3f9a-1f4b-e6880aacbdc2@gmail.com>
 Mime-Version: 1.0
-Content-Type: text/plain; charset=utf-8
-Content-Transfer-Encoding: 8bit
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: base64
 Return-path: <linux-man-owner-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>
-In-Reply-To: <15546.1482135577-S6HVgzuS8uM4Awkfq6JHfwNdhmdF6hFW@public.gmane.org>
+In-Reply-To: <f06829ea-1d7c-3f9a-1f4b-e6880aacbdc2-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org>
 Sender: linux-man-owner-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
-To: David Howells <dhowells-H+wXaHxf7aLQT0dZR+AlfA@public.gmane.org>
-Cc: mtk.manpages-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org, Eugene Syromyatnikov <evgsyr-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org>, linux-man-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
+To: "Michael Kerrisk (man-pages)" <mtk.manpages-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org>
+Cc: David Howells <dhowells-H+wXaHxf7aLQT0dZR+AlfA@public.gmane.org>, linux-man <linux-man-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>
 List-Id: linux-man@vger.kernel.org
 
-On 12/19/2016 09:19 AM, David Howells wrote:
-> Michael Kerrisk (man-pages) <mtk.manpages-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org> wrote:
-> 
->>        Otherwise,  if  dest_keyring is 0 and a new key is constructed, the new
->>        key will be linked to the "default" keyring.  More precisely, when  the
->>        kernel  tries  to  determine to which keyring the newly constructed key
->>        should be linked, it tries the following keyrings, beginning  with  the
->>        keyring  set  via  the  keyctl(2) KEYCTL_SET_REQKEY_KEYRING command and
->>        continuing in the order shown below until it finds  the  first  keyring
->>        that exists:
->>
->>        ·  The   requestor  keyring  (KEY_REQKEY_DEFL_REQUESTOR_KEYRING,  since
->>           Linux 2.6.29).
-> 
-> This is only available in the /sbin/request-key upcall, where it refers back
-> to the destination keyring of whoever called request_key().
-
-Eugene has sent a longer analysis, which I didn't yet scan thoroughly.
-But, I feel like I must be missing something obvious. (And unfortunately, my
-FIXME text was a bit garbled). Here, we're talking about the situation where
-request_key(2) is called with a destination keyring argument (final argument 
-to the call) that is 0. Does not KEY_REQKEY_DEFL_REQUESTOR_KEYRING then yield
-"0" as its value, and thus this case is a no-op in the list of keyrings searched?.
-(Is there something here that I'm missing to do with chained upcalls?)
-
->>        ·  The    session    keyring    for    the    process's     user     ID
->>           (KEY_REQKEY_DEFL_USER_SESSION_KEYRING).  This keyring is expected to
->>           always exist.
->>
->>           ┌─────────────────────────────────────────────────────┐
->>           │FIXME                                                │
->>           ├─────────────────────────────────────────────────────┤
->>           │Are there circumstances where  the  session  keyring │
->>           │does not exist?  What are they?                      │
->>           └─────────────────────────────────────────────────────┘
-> 
-> The session keyring does not exist in /sbin/init's process, for example,
-> unless that process created one.  It's existence or non-existence is then
-> inherited by all the processes that are started from that.  Upon a log-in, PAM
-> is expected to create a session keyring.
-> 
->>        ·  The   UID-specific   keyring  (KEY_REQKEY_DEFL_USER_KEYRING).   This
->>           keyring is also expected to always exist.
->>
->>           ┌─────────────────────────────────────────────────────┐
->>           │FIXME                                                │
->>           ├─────────────────────────────────────────────────────┤
->>           │Are  there  circumstances  where  the   UID-specific │
->>           │keyring does not exist?  What are they?              │
->>           └─────────────────────────────────────────────────────┘
-> 
-> The uid keyrings don't exist until someone tries to access them - at which
-> point they're both created.  
-
-Does "access" here mean attempt to "read ow update" the keyring, or are the
-UID keyring created only on the first attempt to "update: them?
-
-Cheers,
-
-Michael
-
-> When you log in, pam_keyinit creates a link to
-> your user keyring in the session keyring it just created, thereby creating the
-> user and user-session keyrings.
-> 
-> David
-> 
-
-
--- 
-Michael Kerrisk
-Linux man-pages maintainer; http://www.kernel.org/doc/man-pages/
-Linux/UNIX System Programming Training: http://man7.org/training/
+T24gTW9uLCBEZWMgMTksIDIwMTYgYXQgODo0NyBBTSwgTWljaGFlbCBLZXJyaXNrIChtYW4tcGFn
+ZXMpDQo8bXRrLm1hbnBhZ2VzQGdtYWlsLmNvbT4gd3JvdGU6DQo+IE9uIDEyLzE5LzIwMTYgMDk6
+MTkgQU0sIERhdmlkIEhvd2VsbHMgd3JvdGU6DQo+PiBNaWNoYWVsIEtlcnJpc2sgKG1hbi1wYWdl
+cykgPG10ay5tYW5wYWdlc0BnbWFpbC5jb20+IHdyb3RlOg0KPj4NCj4+PiAgICAgICAgT3RoZXJ3
+aXNlLCAgaWYgIGRlc3Rfa2V5cmluZyBpcyAwIGFuZCBhIG5ldyBrZXkgaXMgY29uc3RydWN0ZWQs
+IHRoZSBuZXcNCj4+PiAgICAgICAga2V5IHdpbGwgYmUgbGlua2VkIHRvIHRoZSAiZGVmYXVsdCIg
+a2V5cmluZy4gIE1vcmUgcHJlY2lzZWx5LCB3aGVuICB0aGUNCj4+PiAgICAgICAga2VybmVsICB0
+cmllcyAgdG8gIGRldGVybWluZSB0byB3aGljaCBrZXlyaW5nIHRoZSBuZXdseSBjb25zdHJ1Y3Rl
+ZCBrZXkNCj4+PiAgICAgICAgc2hvdWxkIGJlIGxpbmtlZCwgaXQgdHJpZXMgdGhlIGZvbGxvd2lu
+ZyBrZXlyaW5ncywgYmVnaW5uaW5nICB3aXRoICB0aGUNCj4+PiAgICAgICAga2V5cmluZyAgc2V0
+ICB2aWEgIHRoZSAga2V5Y3RsKDIpIEtFWUNUTF9TRVRfUkVRS0VZX0tFWVJJTkcgY29tbWFuZCBh
+bmQNCj4+PiAgICAgICAgY29udGludWluZyBpbiB0aGUgb3JkZXIgc2hvd24gYmVsb3cgdW50aWwg
+aXQgZmluZHMgIHRoZSAgZmlyc3QgIGtleXJpbmcNCj4+PiAgICAgICAgdGhhdCBleGlzdHM6DQo+
+Pj4NCj4+PiAgICAgICAgwrcgIFRoZSAgIHJlcXVlc3RvciAga2V5cmluZyAgKEtFWV9SRVFLRVlf
+REVGTF9SRVFVRVNUT1JfS0VZUklORywgIHNpbmNlDQo+Pj4gICAgICAgICAgIExpbnV4IDIuNi4y
+OSkuDQo+Pg0KPj4gVGhpcyBpcyBvbmx5IGF2YWlsYWJsZSBpbiB0aGUgL3NiaW4vcmVxdWVzdC1r
+ZXkgdXBjYWxsLCB3aGVyZSBpdCByZWZlcnMgYmFjaw0KPj4gdG8gdGhlIGRlc3RpbmF0aW9uIGtl
+eXJpbmcgb2Ygd2hvZXZlciBjYWxsZWQgcmVxdWVzdF9rZXkoKS4NCj4NCj4gRXVnZW5lIGhhcyBz
+ZW50IGEgbG9uZ2VyIGFuYWx5c2lzLCB3aGljaCBJIGRpZG4ndCB5ZXQgc2NhbiB0aG9yb3VnaGx5
+Lg0KPiBCdXQsIEkgZmVlbCBsaWtlIEkgbXVzdCBiZSBtaXNzaW5nIHNvbWV0aGluZyBvYnZpb3Vz
+LiAoQW5kIHVuZm9ydHVuYXRlbHksIG15DQo+IEZJWE1FIHRleHQgd2FzIGEgYml0IGdhcmJsZWQp
+LiBIZXJlLCB3ZSdyZSB0YWxraW5nIGFib3V0IHRoZSBzaXR1YXRpb24gd2hlcmUNCj4gcmVxdWVz
+dF9rZXkoMikgaXMgY2FsbGVkIHdpdGggYSBkZXN0aW5hdGlvbiBrZXlyaW5nIGFyZ3VtZW50IChm
+aW5hbCBhcmd1bWVudA0KPiB0byB0aGUgY2FsbCkgdGhhdCBpcyAwLiBEb2VzIG5vdCBLRVlfUkVR
+S0VZX0RFRkxfUkVRVUVTVE9SX0tFWVJJTkcgdGhlbiB5aWVsZA0KPiAiMCIgYXMgaXRzIHZhbHVl
+LCBhbmQgdGh1cyB0aGlzIGNhc2UgaXMgYSBuby1vcCBpbiB0aGUgbGlzdCBvZiBrZXlyaW5ncyBz
+ZWFyY2hlZD8uDQo+IChJcyB0aGVyZSBzb21ldGhpbmcgaGVyZSB0aGF0IEknbSBtaXNzaW5nIHRv
+IGRvIHdpdGggY2hhaW5lZCB1cGNhbGxzPykNCkFmdGVyIHRoZSBzdWNjZXNzZnVsIGtleWN0bChL
+RVlDVExfQVNTVU1FX0FVVEhPUklUWSwgZGVzdF9rZXlfaWQpIGNhbGwNCih3aGVyZSBkZXN0X2tl
+eV9pZCBpcyB0aGUga2V5X2lkIHBhc3NlZCB0byB0aGUgdXBjYWxsZWQgcHJvZ3JhbSBpbiB0aGUN
+CnNlY29uZCBwYXJhbWV0ZXIpLCB0aGUgcmVxdWVzdF9rZXlfYXV0aCBmaWVsZCBvZiB0aGUgY3Jl
+ZCBzdHJ1Y3R1cmUNCndvdWxkIGJlIHNldCB3aXRoIHRoZSBhcHByb3ByaWF0ZSBhdXRoa2V5LCB3
+aGljaCBlbmFibGVzIGVudGVyaW5nIGludG8NCnRoZSBjb25kaXRpb24gYXQgcmVxdWVzdF9rZXku
+YzoyNzEuIE90aGVyd2lzZSB0aGlzIGNvbmRpdGlvbiB3b3VsZCBiZQ0KcGFzc2VkLg0KDQo+Pj4g
+ICAgICAgIMK3ICBUaGUgICAgc2Vzc2lvbiAgICBrZXlyaW5nICAgIGZvciAgICB0aGUgICAgcHJv
+Y2VzcydzICAgICB1c2VyICAgICBJRA0KPj4+ICAgICAgICAgICAoS0VZX1JFUUtFWV9ERUZMX1VT
+RVJfU0VTU0lPTl9LRVlSSU5HKS4gIFRoaXMga2V5cmluZyBpcyBleHBlY3RlZCB0bw0KPj4+ICAg
+ICAgICAgICBhbHdheXMgZXhpc3QuDQo+Pj4NCj4+PiAgICAgICAgICAg4pSM4pSA4pSA4pSA4pSA
+4pSA4pSA4pSA4pSA4pSA4pSA4pSA4pSA4pSA4pSA4pSA4pSA4pSA4pSA4pSA4pSA4pSA4pSA4pSA
+4pSA4pSA4pSA4pSA4pSA4pSA4pSA4pSA4pSA4pSA4pSA4pSA4pSA4pSA4pSA4pSA4pSA4pSA4pSA
+4pSA4pSA4pSA4pSA4pSA4pSA4pSA4pSA4pSA4pSA4pSA4pSQDQo+Pj4gICAgICAgICAgIOKUgkZJ
+WE1FICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAg4pSCDQo+
+Pj4gICAgICAgICAgIOKUnOKUgOKUgOKUgOKUgOKUgOKUgOKUgOKUgOKUgOKUgOKUgOKUgOKUgOKU
+gOKUgOKUgOKUgOKUgOKUgOKUgOKUgOKUgOKUgOKUgOKUgOKUgOKUgOKUgOKUgOKUgOKUgOKUgOKU
+gOKUgOKUgOKUgOKUgOKUgOKUgOKUgOKUgOKUgOKUgOKUgOKUgOKUgOKUgOKUgOKUgOKUgOKUgOKU
+gOKUgOKUpA0KPj4+ICAgICAgICAgICDilIJBcmUgdGhlcmUgY2lyY3Vtc3RhbmNlcyB3aGVyZSAg
+dGhlICBzZXNzaW9uICBrZXlyaW5nIOKUgg0KPj4+ICAgICAgICAgICDilIJkb2VzIG5vdCBleGlz
+dD8gIFdoYXQgYXJlIHRoZXk/ICAgICAgICAgICAgICAgICAgICAgIOKUgg0KPj4+ICAgICAgICAg
+ICDilJTilIDilIDilIDilIDilIDilIDilIDilIDilIDilIDilIDilIDilIDilIDilIDilIDilIDi
+lIDilIDilIDilIDilIDilIDilIDilIDilIDilIDilIDilIDilIDilIDilIDilIDilIDilIDilIDi
+lIDilIDilIDilIDilIDilIDilIDilIDilIDilIDilIDilIDilIDilIDilIDilIDilIDilJgNCj4+
+DQo+PiBUaGUgc2Vzc2lvbiBrZXlyaW5nIGRvZXMgbm90IGV4aXN0IGluIC9zYmluL2luaXQncyBw
+cm9jZXNzLCBmb3IgZXhhbXBsZSwNCj4+IHVubGVzcyB0aGF0IHByb2Nlc3MgY3JlYXRlZCBvbmUu
+ICBJdCdzIGV4aXN0ZW5jZSBvciBub24tZXhpc3RlbmNlIGlzIHRoZW4NCj4+IGluaGVyaXRlZCBi
+eSBhbGwgdGhlIHByb2Nlc3NlcyB0aGF0IGFyZSBzdGFydGVkIGZyb20gdGhhdC4gIFVwb24gYSBs
+b2ctaW4sIFBBTQ0KPj4gaXMgZXhwZWN0ZWQgdG8gY3JlYXRlIGEgc2Vzc2lvbiBrZXlyaW5nLg0K
+Pj4NCj4+PiAgICAgICAgwrcgIFRoZSAgIFVJRC1zcGVjaWZpYyAgIGtleXJpbmcgIChLRVlfUkVR
+S0VZX0RFRkxfVVNFUl9LRVlSSU5HKS4gICBUaGlzDQo+Pj4gICAgICAgICAgIGtleXJpbmcgaXMg
+YWxzbyBleHBlY3RlZCB0byBhbHdheXMgZXhpc3QuDQo+Pj4NCj4+PiAgICAgICAgICAg4pSM4pSA
+4pSA4pSA4pSA4pSA4pSA4pSA4pSA4pSA4pSA4pSA4pSA4pSA4pSA4pSA4pSA4pSA4pSA4pSA4pSA
+4pSA4pSA4pSA4pSA4pSA4pSA4pSA4pSA4pSA4pSA4pSA4pSA4pSA4pSA4pSA4pSA4pSA4pSA4pSA
+4pSA4pSA4pSA4pSA4pSA4pSA4pSA4pSA4pSA4pSA4pSA4pSA4pSA4pSA4pSQDQo+Pj4gICAgICAg
+ICAgIOKUgkZJWE1FICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAg
+ICAg4pSCDQo+Pj4gICAgICAgICAgIOKUnOKUgOKUgOKUgOKUgOKUgOKUgOKUgOKUgOKUgOKUgOKU
+gOKUgOKUgOKUgOKUgOKUgOKUgOKUgOKUgOKUgOKUgOKUgOKUgOKUgOKUgOKUgOKUgOKUgOKUgOKU
+gOKUgOKUgOKUgOKUgOKUgOKUgOKUgOKUgOKUgOKUgOKUgOKUgOKUgOKUgOKUgOKUgOKUgOKUgOKU
+gOKUgOKUgOKUgOKUgOKUpA0KPj4+ICAgICAgICAgICDilIJBcmUgIHRoZXJlICBjaXJjdW1zdGFu
+Y2VzICB3aGVyZSAgdGhlICAgVUlELXNwZWNpZmljIOKUgg0KPj4+ICAgICAgICAgICDilIJrZXly
+aW5nIGRvZXMgbm90IGV4aXN0PyAgV2hhdCBhcmUgdGhleT8gICAgICAgICAgICAgIOKUgg0KPj4+
+ICAgICAgICAgICDilJTilIDilIDilIDilIDilIDilIDilIDilIDilIDilIDilIDilIDilIDilIDi
+lIDilIDilIDilIDilIDilIDilIDilIDilIDilIDilIDilIDilIDilIDilIDilIDilIDilIDilIDi
+lIDilIDilIDilIDilIDilIDilIDilIDilIDilIDilIDilIDilIDilIDilIDilIDilIDilIDilIDi
+lIDilJgNCj4+DQo+PiBUaGUgdWlkIGtleXJpbmdzIGRvbid0IGV4aXN0IHVudGlsIHNvbWVvbmUg
+dHJpZXMgdG8gYWNjZXNzIHRoZW0gLSBhdCB3aGljaA0KPj4gcG9pbnQgdGhleSdyZSBib3RoIGNy
+ZWF0ZWQuDQo+DQo+IERvZXMgImFjY2VzcyIgaGVyZSBtZWFuIGF0dGVtcHQgdG8gInJlYWQgb3cg
+dXBkYXRlIiB0aGUga2V5cmluZywgb3IgYXJlIHRoZQ0KPiBVSUQga2V5cmluZyBjcmVhdGVkIG9u
+bHkgb24gdGhlIGZpcnN0IGF0dGVtcHQgdG8gInVwZGF0ZTogdGhlbT8NCj4NCj4gQ2hlZXJzLA0K
+Pg0KPiBNaWNoYWVsDQo+DQo+PiBXaGVuIHlvdSBsb2cgaW4sIHBhbV9rZXlpbml0IGNyZWF0ZXMg
+YSBsaW5rIHRvDQo+PiB5b3VyIHVzZXIga2V5cmluZyBpbiB0aGUgc2Vzc2lvbiBrZXlyaW5nIGl0
+IGp1c3QgY3JlYXRlZCwgdGhlcmVieSBjcmVhdGluZyB0aGUNCj4+IHVzZXIgYW5kIHVzZXItc2Vz
+c2lvbiBrZXlyaW5ncy4NCj4+DQo+PiBEYXZpZA0KPj4NCj4NCj4NCj4gLS0NCj4gTWljaGFlbCBL
+ZXJyaXNrDQo+IExpbnV4IG1hbi1wYWdlcyBtYWludGFpbmVyOyBodHRwOi8vd3d3Lmtlcm5lbC5v
+cmcvZG9jL21hbi1wYWdlcy8NCj4gTGludXgvVU5JWCBTeXN0ZW0gUHJvZ3JhbW1pbmcgVHJhaW5p
+bmc6IGh0dHA6Ly9tYW43Lm9yZy90cmFpbmluZy8NCg0KDQoNCi0tIA0KRXVnZW5lIFN5cm9teWF0
+bmlrb3YNCm1haWx0bzpldmdzeXJAZ21haWwuY29tDQp4bXBwOmVzeXJAamFiYmVyLntydXxvcmd9
+DQo=
 --
 To unsubscribe from this list: send the line "unsubscribe linux-man" in
 the body of a message to majordomo-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
