@@ -1,95 +1,80 @@
-From: "Rafael J. Wysocki" <rjw-LthD3rsA81gm4RdzfppkhA@public.gmane.org>
-Subject: Re: RFC: capabilities(7): notes for kernel developers
-Date: Mon, 19 Dec 2016 21:20:24 +0100
-Message-ID: <1901394.l2S6b8SCmT@aspire.rjw.lan>
-References: <cdbc35f2-925e-aa65-98e7-a4ae4a5ded2c@gmail.com> <20161216210539.GA15589@mail.hallyn.com> <CALAqxLUzmFcnfNU5RtF241Lu4He1BAQpqKttydUj4_cv4j==DQ@mail.gmail.com>
+From: David Howells <dhowells-H+wXaHxf7aLQT0dZR+AlfA@public.gmane.org>
+Subject: Re: [PATCH 1/5] request_key.2: add information regarding default keyring
+Date: Tue, 20 Dec 2016 09:14:51 +0000
+Message-ID: <7354.1482225291@warthog.procyon.org.uk>
+References: <f06829ea-1d7c-3f9a-1f4b-e6880aacbdc2@gmail.com> <6df2c812-c2d6-321c-902f-93b4d3aaa953@gmail.com> <528b203d-ac72-e4a6-8517-e8c5c11055a4@gmail.com> <20161121205940.GA16505@obsidian> <15546.1482135577@warthog.procyon.org.uk>
 Mime-Version: 1.0
 Content-Type: text/plain; charset="us-ascii"
-Content-Transfer-Encoding: 7Bit
 Return-path: <linux-man-owner-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>
-In-Reply-To: <CALAqxLUzmFcnfNU5RtF241Lu4He1BAQpqKttydUj4_cv4j==DQ-JsoAwUIsXosN+BqQ9rBEUg@public.gmane.org>
+In-Reply-To: <f06829ea-1d7c-3f9a-1f4b-e6880aacbdc2-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org>
+Content-ID: <7353.1482225291.1-S6HVgzuS8uM4Awkfq6JHfwNdhmdF6hFW@public.gmane.org>
 Sender: linux-man-owner-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
-To: John Stultz <john.stultz-QSEj5FYQhm4dnm+yROfE0A@public.gmane.org>
-Cc: "Serge E. Hallyn" <serge-A9i7LUbDfNHQT0dZR+AlfA@public.gmane.org>, "Michael Kerrisk (man-pages)" <mtk.manpages-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org>, Casey Schaufler <casey-iSGtlc1asvQWG2LlvL+J4A@public.gmane.org>, James Morris <jmorris-gx6/JNMH7DfYtjvyW6yDsg@public.gmane.org>, Kees Cook <keescook-F7+t8E8rja9g9hUCZPvPmw@public.gmane.org>, Andy Lutomirski <luto-kltTT9wpgjJwATOyAt5JVQ@public.gmane.org>, Jann Horn <jann-XZ1E9jl8jIdeoWH0uzbU5w@public.gmane.org>, "Eric W. Biederman" <ebiederm-aS9lmoZGLiVWk0Htik3J/w@public.gmane.org>, linux-man <linux-man-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>, linux-security-module <linux-security-module-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>, lkml <linux-kernel-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>
+To: "Michael Kerrisk (man-pages)" <mtk.manpages-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org>
+Cc: dhowells-H+wXaHxf7aLQT0dZR+AlfA@public.gmane.org, Eugene Syromyatnikov <evgsyr-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org>, linux-man-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
 List-Id: linux-man@vger.kernel.org
 
-On Friday, December 16, 2016 01:16:15 PM John Stultz wrote:
-> On Fri, Dec 16, 2016 at 1:05 PM, Serge E. Hallyn <serge-A9i7LUbDfNHQT0dZR+AlfA@public.gmane.org> wrote:
-> > Quoting John Stultz (john.stultz-QSEj5FYQhm4dnm+yROfE0A@public.gmane.org):
-> >> On Fri, Dec 16, 2016 at 12:10 PM, Serge E. Hallyn <serge-A9i7LUbDfNHQT0dZR+AlfA@public.gmane.org> wrote:
-> >> > Quoting Michael Kerrisk (man-pages) (mtk.manpages-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org):
-> >> >> On 12/16/2016 01:44 AM, Casey Schaufler wrote:
-> >> >> > On 12/15/2016 4:31 PM, John Stultz wrote:
-> >> >> >> On Thu, Dec 15, 2016 at 12:40 PM, Casey Schaufler
-> >> >> >> <casey-iSGtlc1asvQWG2LlvL+J4A@public.gmane.org> wrote:
-> >> >> >>> On 12/15/2016 11:41 AM, Michael Kerrisk (man-pages) wrote:
-> >> >> >>>> On 12/15/2016 05:29 PM, Casey Schaufler wrote:
-> >> >> >>>>> CAP_WAKE_ALARM could readily be CAP_TIME.
-> >> >> >>>> Actually, I don't quite understand what you mean with that sentence.
-> >> >> >>>> Could you elaborate?
-> >> >> >>> Should have said CAP_SYS_TIME
-> >> >> >>>
-> >> >> >>> Setting an alarm could be considered a time management function,
-> >> >> >>> depending on what it actually does.
-> >> >> >> Just a nit here. CAP_WAKE_ALARM is more about the privilege of waking
-> >> >> >> a system from suspend, while CAP_SYS_TIME covers the ability to set
-> >> >> >> the time. One wouldn't necessarily want to give applications which
-> >> >> >> could wake a system up the capability to also set the time.
-> >> >> >
-> >> >> > Doesn't really matter, except that an ignorant developer
-> >> >> > might make the mistake I did and assume that WAKE_ALARM
-> >> >> > was somehow related to time management. If you want to use
-> >> >> > it as an example don't let my dunderheadedness get in your
-> >> >> > way.
-> >> >>
-> >> >> Actually, I decided it wasn't such a good example anyway.
-> >> >> That capability could potentially be generic. (But it probably
-> >> >> should better have been named something like 'CAP_WAKE_SYSTEM'.)
-> >> >
-> >> > How about:
-> >> >
-> >> > Subject: [PATCH 1/1] capabilities: alias CAP_WAKE_SYSTEM to CAP_WAKE_ALARM
-> >> >
-> >> > As suggested by Michael Kerrisk his is a less confusing name, and
-> >> > this won't break any old userspace.
-> >> >
-> >> > Signed-off-by: Serge Hallyn <serge-A9i7LUbDfNHQT0dZR+AlfA@public.gmane.org>
-> >> > Cc: Michael Kerrisk <mtk.manpages-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org>
-> >> > ---
-> >> >  include/uapi/linux/capability.h | 2 ++
-> >> >  1 file changed, 2 insertions(+)
-> >> >
-> >> > diff --git a/include/uapi/linux/capability.h b/include/uapi/linux/capability.h
-> >> > index fd4f87d..ba972ff 100644
-> >> > --- a/include/uapi/linux/capability.h
-> >> > +++ b/include/uapi/linux/capability.h
-> >> > @@ -357,6 +357,8 @@ struct vfs_ns_cap_data {
-> >> >
-> >> >  #define CAP_WAKE_ALARM            35
-> >> >
-> >> > +#define CAP_WAKE_SYSTEM      CAP_WAKE_ALARM
-> >> > +
-> >>
-> >> I was thinking of the same thing. Although I might rename the
-> >> numerical define to WAKE_SYSTEM and put WAKE_ALARM as the alias (along
-> >> with a comment as to WAKE_ALARM being deprecated), so its more clear
-> >> which is the one that ought to be used by new code.
-> >>
-> >> However, in the spirit of this thread, we might even consider
-> >> broadening the cap silo a bit further, to something like
-> >> CAP_WAKE_SUSPEND, such that it might also be able to cover broader PM
-> >> actions?
-> >
-> > Or just CAP_UNSUSPEND?
+Michael Kerrisk (man-pages) <mtk.manpages-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org> wrote:
+
+> Here, we're talking about the situation where request_key(2) is called with
+> a destination keyring argument (final argument to the call) that is 0.
+
+Yep.
+
+> Does not KEY_REQKEY_DEFL_REQUESTOR_KEYRING then yield "0" as its value, and
+> thus this case is a no-op in the list of keyrings searched?.
+
+No.  construct_key_and_link() calls construct_get_dest_keyring() to get the
+destination keyring (which includes handling the defaults) and then calls
+construct_key() which passes this default to request_key_auth_new().
+
+However, if there is no authorisation key around,
+KEY_REQKEY_DEFL_REQUESTOR_KEYRING defaults to the same as
+KEY_REQKEY_DEFL_THREAD_KEYRING.
+
+> (Is there something here that I'm missing to do with chained upcalls?)
+
+For chained upcalls, consider the following sequence:
+
+ (1) A process does request_key().  This selects a destination keyring which
+     it will paste into the auth key.
+
+ (2) request_key() upcalls and passes the auth key to /sbin/request-key which
+     assumes its authority and exec's an appropriate handler.  The default
+     keyring setting is KEY_REQKEY_DEFL_DEFAULT, inherited from init_creds.
+
+ (3) The handler process calls request_key() without specifying a destination
+     keyring and without changing the default.  This upcalls and selects the
+     destination keyring from (1) and pastes it into the auth key.
+
+ (4) request_key() upcalls ...
+
+> > The uid keyrings don't exist until someone tries to access them - at which
+> > point they're both created.  
 > 
-> I guess I was trying to capture it could be use for actions like both
-> waking and suspending the system.
+> Does "access" here mean attempt to "read ow update" the keyring, or are the
+> UID keyring created only on the first attempt to "update: them?
 
-Well, CAP_SYS_PM comes to mind then.
+It means lookup_user_key() was passed KEY_LOOKUP_CREATE.  So:
 
-Thanks,
-Rafael
+	add_key() - destination keyring
+	request_key() - destination keyring
+	KEYCTL_GET_KEYRING_ID - if create arg is true
+	KEYCTL_CLEAR
+	KEYCTL_LINK - both args
+	KEYCTL_SEARCH - destination keyring
+	KEYCTL_CHOWN
+	KEYCTL_SETPERM
+	KEYCTL_SET_TIMEOUT
+	KEYCTL_INSTANTIATE - destination keyring
+	KEYCTL_INSTANTIATE_IOV - destination keyring
+	KEYCTL_NEGATE - destination keyring
+	KEYCTL_REJECT - destination keyring
+	KEYCTL_GET_PERSISTENT - destination keyring
 
+will all create a keyring under some circumstances.  Whereas the rest, such as
+KEYCTL_GET_SECURITY, KEYCTL_READ and KEYCTL_REVOKE, won't.
+
+David
 --
 To unsubscribe from this list: send the line "unsubscribe linux-man" in
 the body of a message to majordomo-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
