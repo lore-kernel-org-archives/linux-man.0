@@ -1,7 +1,7 @@
 From: "Michael Kerrisk (man-pages)" <mtk.manpages-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org>
 Subject: Re: [PATCH] New page describing userfaultfd(2) system call.
-Date: Tue, 27 Dec 2016 09:14:38 +0100
-Message-ID: <CAKgNAkhThYKp1J2viczn+90i9awoYk_Rs2VvNjPJm1aV8PCi0Q@mail.gmail.com>
+Date: Tue, 27 Dec 2016 09:16:25 +0100
+Message-ID: <CAKgNAkgb=qfTZA4fzUGVmLis-bK5kFU0PfYwHs4dhz+1RRa2TQ@mail.gmail.com>
 References: <1482307713-21853-1-git-send-email-rppt@linux.vnet.ibm.com>
 Reply-To: mtk.manpages-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org
 Mime-Version: 1.0
@@ -9,17 +9,20 @@ Content-Type: text/plain; charset=UTF-8
 Return-path: <linux-man-owner-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>
 In-Reply-To: <1482307713-21853-1-git-send-email-rppt-23VcF4HTsmIX0ybBhKVfKdBPR1lH4CV8@public.gmane.org>
 Sender: linux-man-owner-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
-To: Andrea Arcangeli <aarcange-H+wXaHxf7aLQT0dZR+AlfA@public.gmane.org>
-Cc: linux-man <linux-man-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>, Mike Rapoport <rppt-23VcF4HTsmIX0ybBhKVfKdBPR1lH4CV8@public.gmane.org>
+To: Mike Rapoport <rppt-23VcF4HTsmIX0ybBhKVfKdBPR1lH4CV8@public.gmane.org>
+Cc: Andrea Arcangeli <aarcange-H+wXaHxf7aLQT0dZR+AlfA@public.gmane.org>, linux-man <linux-man-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>
 List-Id: linux-man@vger.kernel.org
 
-Hi Andrea,
+Hi Mike,
 
-Do you have any comment/input for this page?
+Thanks for working on this page. Just for background (since it helps
+me fore review), how did you get the info that is documented in the
+page?
 
 Cheers,
 
 Michael
+
 
 
 On 21 December 2016 at 09:08, Mike Rapoport <rppt-23VcF4HTsmIX0ybBhKVfKdBPR1lH4CV8@public.gmane.org> wrote:
