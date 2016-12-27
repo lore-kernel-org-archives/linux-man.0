@@ -1,74 +1,119 @@
 From: Keno Fischer <keno-9DCaDmOhoh+8M3too/+dENBPR1lH4CV8@public.gmane.org>
-Subject: [PATCH] poll.2/select.2: Add a reference to the sigset discussion in
- sigprocmask
-Date: Tue, 27 Dec 2016 14:32:29 -0500
-Message-ID: <20161227193229.GA557@juliacomputing.com>
+Subject: [PATCH] pid_namespaces.7: CLONE_SIGHAND|CLONE_VM|CLONE_NEWPID is no
+ longer disallowed
+Date: Tue, 27 Dec 2016 14:34:08 -0500
+Message-ID: <20161227193408.GA560@juliacomputing.com>
 Mime-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Return-path: <linux-man-owner-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>
 Content-Disposition: inline
 Sender: linux-man-owner-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
 To: mtk.manpages-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org
-Cc: linux-man-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
+Cc: linux-man-u79uwXL29TY76Z2rM5mHXA@public.gmane.org, oleg-H+wXaHxf7aLQT0dZR+AlfA@public.gmane.org, ebiederm-aS9lmoZGLiVWk0Htik3J/w@public.gmane.org
 List-Id: linux-man@vger.kernel.org
 
-A little while back, I added a note to sigprocmask.2 that discussed the
-difference between the libc's and the kernel's sigset_t structures.
-I added that note, because I saw this being done wrong in a tool tracing
-system calls (causing subtle bugs). As it turns out, the same bugs existed
-for ppoll and pselect, for the same reason. I'm hoping by adding the
-reference here, future writers of similar tools will find that discussion
-and not make the same mistake.
 ---
- man2/poll.2   |  5 ++++-
- man2/select.2 | 11 +++++++----
- 2 files changed, 11 insertions(+), 5 deletions(-)
+ man7/pid_namespaces.7 | 74 +++++++++++++++------------------------------------
+ 1 file changed, 22 insertions(+), 52 deletions(-)
 
-diff --git a/man2/poll.2 b/man2/poll.2
-index 26bb10d..163df6e 100644
---- a/man2/poll.2
-+++ b/man2/poll.2
-@@ -416,7 +416,10 @@ The glibc
- .BR ppoll ()
- wrapper function specifies this argument as a fixed value
- (equal to
--.IR sizeof(sigset_t) ).
-+.IR sizeof(kernel_sigset_t) ). See
-+.BR sigprocmask(2)
-+for a discussion on the differences between the kernel and the libc
-+notion of the sigset.
- .SH BUGS
- See the discussion of spurious readiness notifications under the
- BUGS section of
-diff --git a/man2/select.2 b/man2/select.2
-index 1a5d36a..5b02fda 100644
---- a/man2/select.2
-+++ b/man2/select.2
-@@ -510,9 +510,9 @@ pointer, but is instead a structure of the form:
- .nf
+diff --git a/man7/pid_namespaces.7 b/man7/pid_namespaces.7
+index 984bea9..0327e8e 100644
+--- a/man7/pid_namespaces.7
++++ b/man7/pid_namespaces.7
+@@ -233,71 +233,41 @@ between processes mirrors the parental relationship between PID namespaces:
+ the parent of a process is either in the same namespace
+ or resides in the immediate parent PID namespace.
+ .SS Compatibility of CLONE_NEWPID with other CLONE_* flags
++In current versions of Linux
+ .BR CLONE_NEWPID
+-can't be combined with some other
+-.BR CLONE_*
+-flags:
+-.IP * 3
+-.B CLONE_THREAD
+-requires being in the same PID namespace in order that
++can't be combined with
++.BR CLONE_THREAD .
++Threads are required to be in the same PID namespace such that
+ the threads in a process can send signals to each other.
+ Similarly, it must be possible to see all of the threads
+ of a processes in the
+ .BR proc (5)
+-filesystem.
+-.IP *
+-.BR CLONE_SIGHAND
+-requires being in the same PID namespace;
+-otherwise the process ID of the process sending a signal
++filesystem. Additionally, if two threads were in different PID
++namespaces, the process ID of the process sending a signal
+ could not be meaningfully encoded when a signal is sent
+ (see the description of the
+ .I siginfo_t
+ type in
+ .BR sigaction (2)).
+-A signal queue shared by processes in multiple PID namespaces
+-will defeat that.
+-.IP *
+-.BR CLONE_VM
+-requires all of the threads to be in the same PID namespace,
+-because, from the point of view of a core dump,
+-if two processes share the same address space then they are threads and will
+-be core dumped together.
+-When a core dump is written, the PID of each
+-thread is written into the core dump.
+-Writing the process IDs could not meaningfully succeed
+-if some of the process IDs were in a parent PID namespace.
+-.PP
+-To summarize: there is a technical requirement for each of
+-.BR CLONE_THREAD ,
+-.BR CLONE_SIGHAND ,
+-and
+-.BR CLONE_VM
+-to share a PID namespace.
+-(Note furthermore that in
+-.BR clone (2)
+-requires
+-.BR CLONE_VM
+-to be specified if
+-.BR CLONE_THREAD
+-or
+-.BR CLONE_SIGHAND
+-is specified.)
+-Thus, call sequences such as the following will fail (with the error
+-.BR EINVAL ):
+-
+-.nf
+-    unshare(CLONE_NEWPID);
+-    clone(..., CLONE_VM, ...);    /* Fails */
++Since this is computed when signals are enqueued,
++a signal queue shared by processes in multiple PID namespaces
++would defeat that.
  
- struct {
--    const sigset_t *ss;     /* Pointer to signal set */
--    size_t          ss_len; /* Size (in bytes) of object pointed
--                               to by 'ss' */
-+    const kernel_sigset_t *ss;     /* Pointer to signal set */
-+    size_t                 ss_len; /* Size (in bytes) of object pointed
-+                                      to by 'ss' */
- };
+-    setns(fd, CLONE_NEWPID);
+-    clone(..., CLONE_VM, ...);    /* Fails */
++.\" Note these restrictions were all introduced in
++.\" 8382fcac1b813ad0a4e68a838fc7ae93fa39eda0
++.\" when CLONE_NEWPID|CLONE_VM was disallowed
  
- .fi
-@@ -520,7 +520,10 @@ struct {
- This allows the system call to obtain both
- a pointer to the signal set and its size,
- while allowing for the fact that most architectures
--support a maximum of 6 arguments to a system call.
-+support a maximum of 6 arguments to a system call. See
-+.BR sigprocmask(2)
-+for a discussion of the difference between the kernel and libc
-+notion of the signal set.
- .SH BUGS
- POSIX allows an implementation to define an upper limit,
- advertised via the constant
+-    clone(..., CLONE_VM, ...);
+-    setns(fd, CLONE_NEWPID);      /* Fails */
++In prior versions of Linux,
++.BR CLONE_NEWPID
++was additionally disallowed in combination with
++.BR CLONE_SIGHAND
++.\" (restriction lifted in faf00da544045fdc1454f3b9e6d7f65c841de302)
++(Linux 3.5-4.3)
++as well as
++.\" (restriction lifted in e79f525e99b04390ca4d2366309545a836c03bf1)
++.BR CLONE_VM
++(Linux 3.5-3.12).
+ 
+-    clone(..., CLONE_VM, ...);
+-    unshare(CLONE_NEWPID);        /* Fails */
+-.fi
+ .\"
+ .\" ============================================================
+ .\"
 -- 
 2.8.1
 
