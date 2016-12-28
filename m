@@ -1,72 +1,77 @@
-From: Keno Fischer <keno-9DCaDmOhoh+8M3too/+dENBPR1lH4CV8@public.gmane.org>
-Subject: [PATCH 2/2] perf_event_open.2: Document the interaction of perf
- counters and execve
-Date: Tue, 27 Dec 2016 16:52:41 -0500
-Message-ID: <20161227215241.GA1214@juliacomputing.com>
+From: "Michael Kerrisk (man-pages)" <mtk.manpages-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org>
+Subject: Re: [PATCH 1/2] prctl.2: Be more precise in what causes dumpable to
+ reset
+Date: Wed, 28 Dec 2016 11:15:49 +0100
+Message-ID: <c8a135e1-4734-7394-8381-72f3327c8c2b@gmail.com>
+References: <20161227215216.GA1211@juliacomputing.com>
 Mime-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
+Content-Type: text/plain; charset=windows-1252
+Content-Transfer-Encoding: 7bit
 Return-path: <linux-man-owner-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>
-Content-Disposition: inline
+In-Reply-To: <20161227215216.GA1211-9DCaDmOhoh+8M3too/+dENBPR1lH4CV8@public.gmane.org>
 Sender: linux-man-owner-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
-To: mtk.manpages-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org
-Cc: linux-man-u79uwXL29TY76Z2rM5mHXA@public.gmane.org, vincent.weaver-e7X0jjDqjFGHXe+LvDLADg@public.gmane.org
+To: Keno Fischer <keno-9DCaDmOhoh+8M3too/+dENBPR1lH4CV8@public.gmane.org>
+Cc: mtk.manpages-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org, linux-man-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
 List-Id: linux-man@vger.kernel.org
 
----
- man2/perf_event_open.2 | 37 +++++++++++++++++++++++++++++++++++++
- 1 file changed, 37 insertions(+)
+Hello Keno,
 
-diff --git a/man2/perf_event_open.2 b/man2/perf_event_open.2
-index 65239e6..ad2c596 100644
---- a/man2/perf_event_open.2
-+++ b/man2/perf_event_open.2
-@@ -1338,6 +1338,43 @@ includes
- .BR PERF_SAMPLE_CALLCHAIN ,
- this field specifies how many stack frames to report when
- generating the callchain.
-+.SS Interaction with execve(2)
-+It is important to separate the consideration of a file descriptor obtained
-+from
-+.BR perf_event_open
-+and that of the underlying performance counters. The two may be, but often
-+aren't, associated with the same task. With the exception of the
-+.BR PERF_FLAG_FD_CLOEXEC
-+flag (see above) there is nothing special about the file descriptors, so this
-+section will discuss the underlying performance counters.
-+
-+When
-+.BR perf_event_open
-+is called, in addition to the file descriptor, the underlying performance counters
-+are created and associated with each thread in the specified process's thread group.
-+This association ends whenever the task exits, but generally persists across
-+.BR execve(2)
-+(unless of course, the execve causes the last file descriptor referencing these counters
-+to close). However, for security reasons, the association is broken if the
-+.BR execve(2)
-+causes the task's "dumpable", flag to be reset (see
-+.BR prctl(2)
-+).
-+
-+If the
-+.IR inherit
-+option is specified, new children of any task already associated with these performance counters,
-+will inherit this association.
-+
-+Once all associations are broken, no further events are counted. However, the file descriptor
-+will not indicate this condition through an error return
-+(i.e.
-+.BR read(2)
-+and
-+.BR mmap(2)
-+will still succeed
-+).
-+
- .SS Reading results
- Once a
- .BR perf_event_open ()
+On 12/27/2016 10:52 PM, Keno Fischer wrote:
+> ---
+>  man2/prctl.2 | 14 ++++++++++----
+>  1 file changed, 10 insertions(+), 4 deletions(-)
+
+
+Thanks! Patch applied. One minor comment below.
+
+> diff --git a/man2/prctl.2 b/man2/prctl.2
+> index 26ac5d4..4e037e4 100644
+> --- a/man2/prctl.2
+> +++ b/man2/prctl.2
+> @@ -216,7 +216,7 @@ However, it is reset to the current value contained in the file
+>  in the following circumstances:
+>  .\" See kernel/cred.c::commit_creds() (Linux 3.18 sources)
+>  .RS
+> -.IP * 3
+> +.IP * 4
+
+Best to separate such minor formatting changes into a separate patch.
+That said, an indent of 3 is the norm, and I reverted this change.
+
+Cheers,
+
+Michael
+
+
+>  The process's effective user or group ID is changed.
+>  .IP *
+>  The process's filesystem user or group ID is changed (see
+> @@ -224,9 +224,15 @@ The process's filesystem user or group ID is changed (see
+>  .IP *
+>  The process executes
+>  .RB ( execve (2))
+> -a set-user-ID or set-group-ID program,
+> -or a program that has capabilities (see
+> -.BR capabilities (7)).
+> +a set-user-ID or set-group-ID program, resuling in a change
+> +of either effective user or group id.
+> +.IP *
+> +The process executes
+> +.RB ( execve (2))
+> +a program that has file capabilities (see
+> +.BR capabilities (7)),
+> +but only if the permitted capabilities
+> +gained exceed those already permitted for the current process.
+>  .\" Also certain namespace operations;
+>  .RE
+>  .IP
+
+
+
 -- 
-2.8.1
-
+Michael Kerrisk
+Linux man-pages maintainer; http://www.kernel.org/doc/man-pages/
+Linux/UNIX System Programming Training: http://man7.org/training/
 --
 To unsubscribe from this list: send the line "unsubscribe linux-man" in
 the body of a message to majordomo-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
