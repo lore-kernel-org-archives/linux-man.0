@@ -1,20 +1,36 @@
-From: "Dr. David White" <"wd."@eagle.ocn.ne.jp>
-Subject: Urgent Please;;
-Date: Tue, 3 Jan 2017 02:34:38 +0900 (JST)
-Message-ID: <603429211.116392312.1483378478267.JavaMail.root__25396.8162382536$1483379646$gmane$org@eagle.ocn.ne.jp>
-Reply-To: "Dr. David White" <david_white34-SMvu0/A6zywAvxtiuMwx3w@public.gmane.org>
-Mime-Version: 1.0
-Content-Type: text/plain; charset=ISO-2022-JP
-Content-Transfer-Encoding: 7bit
+From: Jakub Wilk <jwilk-tXgOlIzOKNReoWH0uzbU5w@public.gmane.org>
+Subject: [PATCH 8/8] unix.7: tfix
+Date: Wed,  4 Jan 2017 00:36:57 +0100
+Message-ID: <20170103233657.8875-8-jwilk@jwilk.net>
+References: <20170103233657.8875-1-jwilk@jwilk.net>
 Return-path: <linux-man-owner-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>
+In-Reply-To: <20170103233657.8875-1-jwilk-tXgOlIzOKNReoWH0uzbU5w@public.gmane.org>
 Sender: linux-man-owner-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
+To: Michael Kerrisk <mtk.manpages-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org>
+Cc: linux-man-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
 List-Id: linux-man@vger.kernel.org
 
-Dear,
-With due respect to your person and much sincerity of purpose. I have a business proposal which I will like to handle with you and $14.5 Million USD is involve. But be rest assured that everything is legal and risk free as I have concluded all the arrangements and the legal papers that will back the transaction up. Kindly indicate your interest as to enable me tell you more detail of the proposal. Waiting for your urgent response.
+Signed-off-by: Jakub Wilk <jwilk-tXgOlIzOKNReoWH0uzbU5w@public.gmane.org>
+---
+ man7/unix.7 | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
 
-Yours Faithfully,
-Dr. David White
+diff --git a/man7/unix.7 b/man7/unix.7
+index d04adb4f9..89dada0ba 100644
+--- a/man7/unix.7
++++ b/man7/unix.7
+@@ -538,7 +538,7 @@ Unknown socket type.
+ .B ETOOMANYREFS
+ This error can occur for
+ .BR sendmsg (2)
+-when sending a file descriptor as ancilary data over
++when sending a file descriptor as ancillary data over
+ a UNIX domain socket (see the description of
+ .BR SCM_RIGHTS ,
+ above).
+-- 
+2.11.0
+
 --
 To unsubscribe from this list: send the line "unsubscribe linux-man" in
 the body of a message to majordomo-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
