@@ -1,13 +1,14 @@
 From: "Michael Kerrisk (man-pages)" <mtk.manpages-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org>
-Subject: Re: [PATCH 1/8] Changes.old: tfix
-Date: Wed, 4 Jan 2017 15:23:42 +1300
-Message-ID: <a555cb8d-b85b-7200-5e80-d6a2ca115c9e@gmail.com>
+Subject: Re: [PATCH 2/8] getrlimit.2: tfix
+Date: Wed, 4 Jan 2017 15:24:11 +1300
+Message-ID: <0f784d71-a3c7-559a-4d86-8785ee141fb4@gmail.com>
 References: <20170103233657.8875-1-jwilk@jwilk.net>
+ <20170103233657.8875-2-jwilk@jwilk.net>
 Mime-Version: 1.0
 Content-Type: text/plain; charset=windows-1252
 Content-Transfer-Encoding: 7bit
 Return-path: <linux-man-owner-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>
-In-Reply-To: <20170103233657.8875-1-jwilk-tXgOlIzOKNReoWH0uzbU5w@public.gmane.org>
+In-Reply-To: <20170103233657.8875-2-jwilk-tXgOlIzOKNReoWH0uzbU5w@public.gmane.org>
 Sender: linux-man-owner-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
 To: Jakub Wilk <jwilk-tXgOlIzOKNReoWH0uzbU5w@public.gmane.org>
 Cc: mtk.manpages-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org, linux-man-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
@@ -23,32 +24,24 @@ Cheers,
 Michael
 
 
+
 > ---
->  Changes.old | 4 ++--
->  1 file changed, 2 insertions(+), 2 deletions(-)
+>  man2/getrlimit.2 | 2 +-
+>  1 file changed, 1 insertion(+), 1 deletion(-)
 > 
-> diff --git a/Changes.old b/Changes.old
-> index c3c634264..d7713ad32 100644
-> --- a/Changes.old
-> +++ b/Changes.old
-> @@ -43256,7 +43256,7 @@ Global changes
->  --------------
->  
->  Various pages
-> -    Michael kerrisk
-> +    Michael Kerrisk
->          Remove ancient libc4 and libc5 details
->              It's nearly 20 years now since Linux libc went away.
->              Remove some ancient details from the pages.
-> @@ -43638,7 +43638,7 @@ isalpha.3
->  
->  killpg.3
->      Michael Kerrisk
-> -        Move killpg.2 from section to to section 3
-> +        Move killpg.2 from section to section 3
->  
->  mallopt.3
->      Michael Kerrisk  [Siddhesh Poyarekar]
+> diff --git a/man2/getrlimit.2 b/man2/getrlimit.2
+> index 2ee56ae24..dd99bb2f8 100644
+> --- a/man2/getrlimit.2
+> +++ b/man2/getrlimit.2
+> @@ -299,7 +299,7 @@ The actual ceiling for the nice value is calculated as
+>  The useful range for this limit is thus from 1
+>  (corresponding to a nice value of 19) to 40
+>  (corresponding to a nice value of -20).
+> -This unusual choice of range is was necessary
+> +This unusual choice of range was necessary
+>  because negative numbers cannot be specified
+>  as resource limit values, since they typically have special meanings.
+>  For example,
 > 
 
 
