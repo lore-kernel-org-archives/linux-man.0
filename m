@@ -1,14 +1,14 @@
 From: "Michael Kerrisk (man-pages)" <mtk.manpages-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org>
-Subject: Re: [PATCH 2/8] getrlimit.2: tfix
-Date: Wed, 4 Jan 2017 15:24:11 +1300
-Message-ID: <0f784d71-a3c7-559a-4d86-8785ee141fb4@gmail.com>
+Subject: Re: [PATCH 3/8] keyctl.2: tfix
+Date: Wed, 4 Jan 2017 15:24:43 +1300
+Message-ID: <b8bae7ec-2949-2ee7-d5be-8d909a82483c@gmail.com>
 References: <20170103233657.8875-1-jwilk@jwilk.net>
- <20170103233657.8875-2-jwilk@jwilk.net>
+ <20170103233657.8875-3-jwilk@jwilk.net>
 Mime-Version: 1.0
 Content-Type: text/plain; charset=windows-1252
 Content-Transfer-Encoding: 7bit
 Return-path: <linux-man-owner-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>
-In-Reply-To: <20170103233657.8875-2-jwilk-tXgOlIzOKNReoWH0uzbU5w@public.gmane.org>
+In-Reply-To: <20170103233657.8875-3-jwilk-tXgOlIzOKNReoWH0uzbU5w@public.gmane.org>
 Sender: linux-man-owner-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
 To: Jakub Wilk <jwilk-tXgOlIzOKNReoWH0uzbU5w@public.gmane.org>
 Cc: mtk.manpages-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org, linux-man-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
@@ -26,22 +26,31 @@ Michael
 
 
 > ---
->  man2/getrlimit.2 | 2 +-
->  1 file changed, 1 insertion(+), 1 deletion(-)
+>  man2/keyctl.2 | 4 ++--
+>  1 file changed, 2 insertions(+), 2 deletions(-)
 > 
-> diff --git a/man2/getrlimit.2 b/man2/getrlimit.2
-> index 2ee56ae24..dd99bb2f8 100644
-> --- a/man2/getrlimit.2
-> +++ b/man2/getrlimit.2
-> @@ -299,7 +299,7 @@ The actual ceiling for the nice value is calculated as
->  The useful range for this limit is thus from 1
->  (corresponding to a nice value of 19) to 40
->  (corresponding to a nice value of -20).
-> -This unusual choice of range is was necessary
-> +This unusual choice of range was necessary
->  because negative numbers cannot be specified
->  as resource limit values, since they typically have special meanings.
->  For example,
+> diff --git a/man2/keyctl.2 b/man2/keyctl.2
+> index e1efb1898..57d1a2133 100644
+> --- a/man2/keyctl.2
+> +++ b/man2/keyctl.2
+> @@ -816,7 +816,7 @@ The key must either grant the caller
+>  permission, or grant the caller
+>  .I search
+>  permission when searched for from the process keyrings
+> -(i.e, the key is possessed).
+> +(i.e., the key is possessed).
+>  
+>  The
+>  .I arg5
+> @@ -1166,7 +1166,7 @@ The keyring must exist and must grant the caller
+>  permission.
+>  The parent process must be single-threaded and have
+>  the same effective ownership as this process
+> -and must not be be set-user-ID or set-group-ID.
+> +and must not be set-user-ID or set-group-ID.
+>  The UID of the parent process's existing session keyring (f it has one),
+>  as well as the UID of the caller's session keyring
+>  much match the caller's effective UID.
 > 
 
 
