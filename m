@@ -1,37 +1,30 @@
-From: "Michael Kerrisk (man-pages)" <mtk.manpages-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org>
-Subject: Re: MSG_TRUNC and UNIX domain sockets (unix(7))
-Date: Mon, 16 Jan 2017 10:00:30 +1300
-Message-ID: <CAKgNAkiJV4sKi8pvfW4JK_Y1fw5OCUdLC_tnNGq-xkBjo2=-KQ@mail.gmail.com>
-Reply-To: mtk.manpages-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org
+From: Vlastimil Babka <vbabka-AlSwsSmVLrQ@public.gmane.org>
+Subject: Missing include in mbind(2) and set_mempolicy(2) manpages?
+Date: Wed, 18 Jan 2017 13:05:17 +0100
+Message-ID: <1d46ea2d-0076-603d-d922-1f414c91cea2@suse.cz>
 Mime-Version: 1.0
-Content-Type: text/plain; charset=UTF-8
+Content-Type: text/plain; charset=utf-8; format=flowed
+Content-Transfer-Encoding: 7bit
 Return-path: <linux-man-owner-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>
 Sender: linux-man-owner-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
-To: Sergey Polovko <sergey-r6a5ZGF03PZBDLzU/O5InQ@public.gmane.org>
-Cc: linux-man <linux-man-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>
+To: Michael Kerrisk <mtk.manpages-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org>
+Cc: "linux-man-u79uwXL29TY76Z2rM5mHXA@public.gmane.org" <linux-man-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>, linux-numa-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
 List-Id: linux-man@vger.kernel.org
 
-On 16 January 2017 at 08:56, Sergey Polovko <sergey-r6a5ZGF03PZBDLzU/O5InQ@public.gmane.org> wrote:
-> Hi,
->
-> It seems that unix(7) and recv(2) man pages have different information about using MSG_TRUNC flag with UNIX domain sockets.
-> Unix(7) man page says that this flag is not supported by UNIX domain sockets but actually it does. I wrote a simple program to
-> check usage of this flag. Recv(2) man pages says that it supports since linux 3.4. Unfortunately I have no such old kernel near me
-> but on 3.11, 3.13, 3.18 and 4.4 that I have this flag works with AF_UNIX sockets.
->
-> Could you please fix that?
+Hi,
 
-Thanks. The recv(2) page is indeed correct. I've updated the unix(7)
-page to note the change in Linux 3.4.
+the two manpages state that you have to #include <numaif.h>
+But apparently this is not enough when one wants to use the MPOL_F_STATIC_NODES 
+or MPOL_F_RELATIVE_NODES flag. With grep I found that these are defined in 
+linux/mempolicy.h.
 
-Cheers,
+This is on openSUSE Tumbleweed, numaif.h comes from 
+libnuma-devel-2.0.10-5.7.x86_64 (I checked upstream 2.0.11 tarball, no 
+difference here).
+linux/mempolicy.h is from linux-glibc-devel-4.8-1.1.noarch
 
-Michael
-
--- 
-Michael Kerrisk
-Linux man-pages maintainer; http://www.kernel.org/doc/man-pages/
-Linux/UNIX System Programming Training: http://man7.org/training/
+Thanks,
+Vlastimil
 --
 To unsubscribe from this list: send the line "unsubscribe linux-man" in
 the body of a message to majordomo-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
