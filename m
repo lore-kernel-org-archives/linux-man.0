@@ -1,44 +1,39 @@
-From: Heinrich Schuchardt <xypron.glpk-Mmb7MZpHnFY@public.gmane.org>
-Subject: [PATCH 1/1] strerror.3: indicate reasonable buffer size
-Date: Tue, 31 Jan 2017 19:53:58 +0100
-Message-ID: <1485888838-4055-1-git-send-email-xypron.glpk@gmx.de>
+From: Joyes Dadi <"YD."@biscuit.ocn.ne.jp>
+Subject: Urgent Please,,
+Date: Mon, 23 Jan 2017 23:07:49 +0900 (JST)
+Message-ID: <1028184183.25784289.1485180469689.JavaMail.root__6217.92778042636$1496095486$gmane$org@biscuit.ocn.ne.jp>
+Reply-To: Joyes Dadi <joyesdadi767-xnxYRYGmInRAgIPG3DZhQQ@public.gmane.org>
+Mime-Version: 1.0
+Content-Type: text/plain; charset=ISO-2022-JP
+Content-Transfer-Encoding: 7bit
 Return-path: <linux-man-owner-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>
 Sender: linux-man-owner-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
-To: Michael Kerrisk <mtk.manpages-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org>
-Cc: linux-man-u79uwXL29TY76Z2rM5mHXA@public.gmane.org, Heinrich Schuchardt <xypron.glpk-Mmb7MZpHnFY@public.gmane.org>
 List-Id: linux-man@vger.kernel.org
 
-Add a hint which buffer size is needed for
-strerror_r() and strerror_l().
+Good Day Dear,
 
-Signed-off-by: Heinrich Schuchardt <xypron.glpk-Mmb7MZpHnFY@public.gmane.org>
----
- man3/strerror.3 | 9 +++++++++
- 1 file changed, 9 insertions(+)
+My name is Ms. Joyes Dadi, I am glad you are reading this letter and I hope
+we will start our communication and I know that this message will look strange,
+surprising and probably unbelievable to you, but it is the reality. I want to
+make a donation of money to you.
 
-diff --git a/man3/strerror.3 b/man3/strerror.3
-index ec758fb..511a4a3 100644
---- a/man3/strerror.3
-+++ b/man3/strerror.3
-@@ -256,6 +256,15 @@ to
- .B EINVAL
- if the error number is unknown.
- C99 and POSIX.1-2008 require the return value to be non-NULL.
-+.SH NOTES
-+The GNU C Library, version 2.25 uses a buffer of 1024 characters for
-+.BR strerror ().
-+This buffer size therefore should be suffcient to avoid an
-+.B ERANGE
-+error in
-+.BR strerror_r ()
-+and
-+.BR strerror_l ().
- .SH SEE ALSO
- .BR err (3),
- .BR errno (3),
--- 
-2.1.4
+I contact you by the will of God. I am a firm German woman specialized in
+mining gold and diamonds in Africa. But now, I'm very sick of a cancer. My
+husband died in an accident two years ago with our two children and now I have
+cancer of the esophagus that damaged almost all the cells in my system/agencies
+and I'll die soon according to my doctor.
 
+My most concern now is, we grew up in the orphanage and were married in
+orphanage. If I die this deposited fund will soon be left alone in the hand of
+the bank, and I do want to it that  way. Please, if you can be reliable and
+sincere to accept my humble proposal; I have (10.5Millions Euro) in a fixed
+deposit account; I will order the Bank to transfer the money into your account
+in your country immediately, and then you will take the fund to  your country
+and invest it to the orphanage homes Please, answer as quickly as possible.
+
+God bless you.
+Ms. Joyes Dadi
+Email: joyesdadi767-xnxYRYGmInRAgIPG3DZhQQ@public.gmane.org
 --
 To unsubscribe from this list: send the line "unsubscribe linux-man" in
 the body of a message to majordomo-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
