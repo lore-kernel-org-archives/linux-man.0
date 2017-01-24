@@ -1,70 +1,53 @@
 From: "Michael Kerrisk (man-pages)" <mtk.manpages-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org>
-Subject: Re: Broken program example in documentation to strverscmp(3)
-Date: Wed, 25 Jan 2017 07:43:06 +1300
-Message-ID: <CAKgNAkj7aHpnTe-2oNOo0GrjhDuS0E92UHkGFrYdeTo_5rqATA@mail.gmail.com>
-References: <20170124105110.GA25883@ulegcpvplx.localdomain>
+Subject: Re: getopt(3) redundancy/confusion?
+Date: Wed, 25 Jan 2017 10:07:07 +1300
+Message-ID: <CAKgNAkieOmRVPt24mH8pOvPFr7s+dpfx3kHSPBVyfu4ronxv=Q@mail.gmail.com>
+References: <979857989.4058982.1485234629697.ref@mail.yahoo.com> <979857989.4058982.1485234629697@mail.yahoo.com>
 Reply-To: mtk.manpages-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org
 Mime-Version: 1.0
 Content-Type: text/plain; charset=UTF-8
 Return-path: <linux-man-owner-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>
-In-Reply-To: <20170124105110.GA25883-Xq46GwSkZg36NKmgiXY+hA0JkcsJGQge@public.gmane.org>
+In-Reply-To: <979857989.4058982.1485234629697-sAHhhX/85wgbqTNvkayDYw@public.gmane.org>
 Sender: linux-man-owner-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
-To: Vivenzio Pagliari <vivenzio.pagliari-xNZwKgViW5gAvxtiuMwx3w@public.gmane.org>
-Cc: linux-man <linux-man-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>
+To: John Wiersba <jrw32982-/E1597aS9LQAvxtiuMwx3w@public.gmane.org>
+Cc: "linux-man-u79uwXL29TY76Z2rM5mHXA@public.gmane.org" <linux-man-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>
 List-Id: linux-man@vger.kernel.org
 
-Hello Vinenzio
+Hi John!
 
-On 24 January 2017 at 23:51, Vivenzio Pagliari
-<vivenzio.pagliari-xNZwKgViW5gAvxtiuMwx3w@public.gmane.org> wrote:
-> Dear Micheal Kerrisk,
+On 24 January 2017 at 18:10, John Wiersba <jrw32982-/E1597aS9LQAvxtiuMwx3w@public.gmane.org> wrote:
+> Hi, Michael!
 >
-> the program source example shown in the current version of the strverscmp(3)
-> manpage is supposedly broken, as the return value of the library function is
-> interpreted incorrectly.
+> These two paragraphs in getopt(3) are confusing to me.  Isn't the first
+> paragraph redundant (and incomplete), based on the second paragraph?
 >
-> The execution of the example shows:
+>        If getopt() does not recognize an option character, it prints an
+>        error message to stderr, stores the character in optopt, and returns
+>        '?'.  The calling program may prevent the error message by setting
+>        opterr to 0.
 >
->   $ i./a.out jan1 jan10
->   jan1 < jan10
+>        If getopt() finds an option character in argv that was not included
+>        in optstring, or if it detects a missing option argument, it returns
+>        '?' and sets the external variable optopt to the actual option
+>        character.  If the first character (following any optional '+' or '-'
+>        described above) of optstring is a colon (':'), then getopt() returns
+>        ':' instead of '?' to indicate a missing option argument.  If an
+>        error was detected, and the first character of optstring is not a
+>        colon, and the external variable opterr is nonzero (which is the
+>        default), getopt() prints an error message.
 >
-> Another expected output is:
+> My understanding is that starting optstring with ":" is sufficient to
+> prevent an option error being printed by getopt().
 >
->   $ i./a.out jan10 jan11
->   jan10 < jan11
->
-> However, a simple change in the call unveils an unexpected result:
->
->   $ i./a.out jan10 jan12
->   jan10 > jan12
->
-> The unexpected behaviour originates from the test of the result of
-> strversort(): In the program code, the "less than" is tested by comparing
-> the function result for  equality to -1, however the test shall compare for
-> the function result to be less than 0, according the the documentation of
-> the RETURN VALUE in the manpage.
+> If my comments are correct, then I can submit a bug report.
 
-Thanks for the report. I applied the patch below.
+Yes, you're correct on all counts. I simply removed the first
+paragraph. I'll give some thought to further clarifications. Thanks
+for the report.
 
 Cheers,
 
 Michael
-
-
-diff --git a/man3/strverscmp.3 b/man3/strverscmp.3
-index e2a383a..8efc572 100644
---- a/man3/strverscmp.3
-+++ b/man3/strverscmp.3
-@@ -148,7 +148,7 @@ main(int argc, char *argv[])
-     res = strverscmp(argv[1], argv[2]);
-
-     printf("%s %s %s\\n", argv[1],
--            (res == \-1) ? "<" : (res == 0) ? "==" : ">", argv[2]);
-+            (res < 0) ? "<" : (res == 0) ? "==" : ">", argv[2]);
-
-     exit(EXIT_SUCCESS);
- }
-
 
 
 -- 
