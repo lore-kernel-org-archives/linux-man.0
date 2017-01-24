@@ -1,52 +1,47 @@
-From: "Michael Kerrisk (man-pages)" <mtk.manpages-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org>
-Subject: Re: Missing include in mbind(2) and set_mempolicy(2) manpages?
-Date: Mon, 23 Jan 2017 12:57:43 +1300
-Message-ID: <CAKgNAkhBRXm22fBS72T4CP6RutEubaqyDFUJe4gwje_irATzkQ@mail.gmail.com>
-References: <1d46ea2d-0076-603d-d922-1f414c91cea2@suse.cz>
-Reply-To: mtk.manpages-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org
+From: Vivenzio Pagliari <vivenzio.pagliari-xNZwKgViW5gAvxtiuMwx3w@public.gmane.org>
+Subject: Broken program example in documentation to strverscmp(3)
+Date: Tue, 24 Jan 2017 11:51:11 +0100
+Message-ID: <20170124105110.GA25883@ulegcpvplx.localdomain>
 Mime-Version: 1.0
-Content-Type: text/plain; charset=UTF-8
+Content-Type: text/plain; charset="us-ascii"
 Return-path: <linux-man-owner-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>
-In-Reply-To: <1d46ea2d-0076-603d-d922-1f414c91cea2-AlSwsSmVLrQ@public.gmane.org>
+Content-Disposition: inline
 Sender: linux-man-owner-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
-To: Vlastimil Babka <vbabka-AlSwsSmVLrQ@public.gmane.org>, Filipe Brandenburger <filbranden-hpIqsD4AKlfQT0dZR+AlfA@public.gmane.org>, Andi Kleen <andi-Vw/NltI1exuRpAAqCnN02g@public.gmane.org>
-Cc: "linux-man-u79uwXL29TY76Z2rM5mHXA@public.gmane.org" <linux-man-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>, linux-numa <linux-numa-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>
+To: mtk.manpages-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org
+Cc: linux-man-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
 List-Id: linux-man@vger.kernel.org
 
-Andi, Filipe,
+Dear Micheal Kerrisk,
 
-See the bug report below. I think the problem is rather that the
-header files should be fixed. Why are MPOL_F_STATIC_NODES and
-MPOL_F_RELATIVE_NODES not declared in numaif.h, whereas the other
-MPOL_* constants are?
+the program source example shown in the current version of the strverscmp(3)
+manpage is supposedly broken, as the return value of the library function is
+interpreted incorrectly.
 
-Cheers,
+The execution of the example shows:
 
-Michael
+  $ i./a.out jan1 jan10
+  jan1 < jan10
+
+Another expected output is:
+
+  $ i./a.out jan10 jan11
+  jan10 < jan11
+
+However, a simple change in the call unveils an unexpected result:
+
+  $ i./a.out jan10 jan12
+  jan10 > jan12
+
+The unexpected behaviour originates from the test of the result of
+strversort(): In the program code, the "less than" is tested by comparing
+the function result for  equality to -1, however the test shall compare for
+the function result to be less than 0, according the the documentation of
+the RETURN VALUE in the manpage.
+
+kind regards,
+Vivenzio Pagliari
 
 
-On 19 January 2017 at 01:05, Vlastimil Babka <vbabka-AlSwsSmVLrQ@public.gmane.org> wrote:
-> Hi,
->
-> the two manpages state that you have to #include <numaif.h>
-> But apparently this is not enough when one wants to use the
-> MPOL_F_STATIC_NODES or MPOL_F_RELATIVE_NODES flag. With grep I found that
-> these are defined in linux/mempolicy.h.
->
-> This is on openSUSE Tumbleweed, numaif.h comes from
-> libnuma-devel-2.0.10-5.7.x86_64 (I checked upstream 2.0.11 tarball, no
-> difference here).
-> linux/mempolicy.h is from linux-glibc-devel-4.8-1.1.noarch
->
-> Thanks,
-> Vlastimil
-
-
-
--- 
-Michael Kerrisk
-Linux man-pages maintainer; http://www.kernel.org/doc/man-pages/
-Linux/UNIX System Programming Training: http://man7.org/training/
 --
 To unsubscribe from this list: send the line "unsubscribe linux-man" in
 the body of a message to majordomo-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
