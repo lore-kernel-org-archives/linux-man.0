@@ -1,34 +1,35 @@
-From: Tadeusz Struk <tadeusz.struk-ral2JQCrhuEAvxtiuMwx3w@public.gmane.org>
-Subject: Typo in readdir.3
-Date: Tue, 24 Jan 2017 14:48:02 -0800
-Message-ID: <d4218e32-719f-9517-a85b-e7d6f6882737@intel.com>
+From: "Michael Kerrisk (man-pages)" <mtk.manpages-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org>
+Subject: Re: getopt(3) redundancy/confusion?
+Date: Wed, 25 Jan 2017 13:08:43 +1300
+Message-ID: <CAKgNAkjibXrQ=t86M1E86BSX9BObyzvNJgnU+-kZBxq8Fr82qA@mail.gmail.com>
+References: <979857989.4058982.1485234629697.ref@mail.yahoo.com>
+ <979857989.4058982.1485234629697@mail.yahoo.com> <CAKgNAkieOmRVPt24mH8pOvPFr7s+dpfx3kHSPBVyfu4ronxv=Q@mail.gmail.com>
+ <CAKgNAkjp0s+6WkDY+MjT3z6MWL_JePQSxS3UgsOS-aC2ev_5Fw@mail.gmail.com> <1283255103.93836.1485300405004@mail.yahoo.com>
+Reply-To: mtk.manpages-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org
 Mime-Version: 1.0
-Content-Type: text/plain; charset=utf-8
-Content-Transfer-Encoding: 7bit
+Content-Type: text/plain; charset=UTF-8
 Return-path: <linux-man-owner-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>
+In-Reply-To: <1283255103.93836.1485300405004-sAHhhX/85wgbqTNvkayDYw@public.gmane.org>
 Sender: linux-man-owner-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
-To: mtk.manpages-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org
-Cc: linux-man-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
+To: John Wiersba <jrw32982-/E1597aS9LQAvxtiuMwx3w@public.gmane.org>
+Cc: "linux-man-u79uwXL29TY76Z2rM5mHXA@public.gmane.org" <linux-man-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>
 List-Id: linux-man@vger.kernel.org
 
-diff --git a/man3/readdir.3 b/man3/readdir.3
-index 866fd45..677af62 100644
---- a/man3/readdir.3
-+++ b/man3/readdir.3
-@@ -230,7 +230,7 @@ A directory stream is opened using
- The order in which filenames are read by successive calls to
- .BR readdir ()
- depends on the filesystem implementation;
--it us unlikely that the names will be sorted in any fashion.
-+it is unlikely that the names will be sorted in any fashion.
- 
- Only the fields
- .I d_name
+On 25 January 2017 at 12:26, John Wiersba <jrw32982-/E1597aS9LQAvxtiuMwx3w@public.gmane.org> wrote:
+> Yes definitely!  Thanks!
 
+Good.
 
-Thanks,
--- 
-Tadeusz
+> Also, what's up with my email bouncing when sent to vger.kernel.org?  Is
+> this a "we hate yahoo" kind of thing?
+
+Nah -- it's a "we hate HTML mail" thing. It's a crude filter against
+spam and, in any case, most useful stuff such as patches could not be
+handled as HTML mail.
+
+Cheers,
+
+Michael
 --
 To unsubscribe from this list: send the line "unsubscribe linux-man" in
 the body of a message to majordomo-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
