@@ -1,24 +1,22 @@
 From: "Michael Kerrisk (man-pages)" <mtk.manpages-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org>
-Subject: Re: [PATCH 3/3] proc.5: tfix
-Date: Thu, 26 Jan 2017 07:24:40 +1300
-Message-ID: <bdcd0064-81ed-1fd3-27b3-64f13e77cc84@gmail.com>
-References: <20170125153733.3588-1-jwilk@jwilk.net>
- <20170125153733.3588-3-jwilk@jwilk.net>
+Subject: Re: [PATCH 2/2] iconv.1: ffix
+Date: Thu, 26 Jan 2017 07:25:48 +1300
+Message-ID: <a4e600fe-7d62-d973-f097-414eb60cf8f5@gmail.com>
+References: <20170125155846.4908-1-jwilk@jwilk.net>
+ <20170125155846.4908-2-jwilk@jwilk.net>
 Mime-Version: 1.0
 Content-Type: text/plain; charset=windows-1252
 Content-Transfer-Encoding: 7bit
 Return-path: <linux-man-owner-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>
-In-Reply-To: <20170125153733.3588-3-jwilk-tXgOlIzOKNReoWH0uzbU5w@public.gmane.org>
+In-Reply-To: <20170125155846.4908-2-jwilk-tXgOlIzOKNReoWH0uzbU5w@public.gmane.org>
 Sender: linux-man-owner-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
 To: Jakub Wilk <jwilk-tXgOlIzOKNReoWH0uzbU5w@public.gmane.org>
 Cc: mtk.manpages-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org, linux-man-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
 List-Id: linux-man@vger.kernel.org
 
-On 01/26/2017 04:37 AM, Jakub Wilk wrote:
-> Signed-off-by: Jakub Wilk <jwilk-tXgOlIzOKNReoWH0uzbU5w@public.gmane.org>
-> ---
->  man5/proc.5 | 2 +-
->  1 file changed, 1 insertion(+), 1 deletion(-)
+On 01/26/2017 04:58 AM, Jakub Wilk wrote:
+> Don't embolden commas between option names.
+
 
 Applied! Thanks, Jakub.
 
@@ -28,19 +26,39 @@ Michael
 
 
 
-> diff --git a/man5/proc.5 b/man5/proc.5
-> index 8a7b6bee7..c1d1a51eb 100644
-> --- a/man5/proc.5
-> +++ b/man5/proc.5
-> @@ -4024,7 +4024,7 @@ A nonzero value enables leases.
->  .\" commit d29216842a85c7970c536108e093963f02714498
->  The value in this file specifies the maximum number of mounts that may exist
->  in a mount namespace.
-> -The default vslue in this file is 100,000.
-> +The default value in this file is 100,000.
+> Signed-off-by: Jakub Wilk <jwilk-tXgOlIzOKNReoWH0uzbU5w@public.gmane.org>
+> ---
+>  man1/iconv.1 | 6 +++---
+>  1 file changed, 3 insertions(+), 3 deletions(-)
+> 
+> diff --git a/man1/iconv.1 b/man1/iconv.1
+> index 8c7e2447d..7d9eda76c 100644
+> --- a/man1/iconv.1
+> +++ b/man1/iconv.1
+> @@ -55,12 +55,12 @@ from the current locale's character
+>  encoding.
+>  .SH OPTIONS
 >  .TP
->  .IR /proc/sys/fs/mqueue " (since Linux 2.6.6)"
->  This directory contains files
+> -.BI \-f " from-encoding" ", \-\-from\-code=" from-encoding
+> +.BI \-f " from-encoding" "\fR, \fP\-\-from\-code=" from-encoding
+>  Use
+>  .I from-encoding
+>  for input characters.
+>  .TP
+> -.BI \-t " to-encoding" ", \-\-to\-code=" to-encoding
+> +.BI \-t " to-encoding" "\fR, \fP\-\-to\-code=" to-encoding
+>  Use
+>  .I to-encoding
+>  for output characters.
+> @@ -90,7 +90,7 @@ List all known character set encodings.
+>  Silently discard characters that cannot be converted instead of
+>  terminating when encountering such characters.
+>  .TP
+> -.BI \-o " outputfile" ", \-\-output=" outputfile
+> +.BI \-o " outputfile" "\fR, \fP\-\-output=" outputfile
+>  Use
+>  .I outputfile
+>  for output.
 > 
 
 
