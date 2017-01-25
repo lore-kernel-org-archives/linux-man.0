@@ -1,37 +1,46 @@
-From: Anshuman Khandual <khandual@linux.vnet.ibm.com>
-Subject: Re: [patch] mm, madvise: fail with ENOMEM when splitting vma will hit
- max_map_count
-Date: Wed, 25 Jan 2017 16:00:13 +0530
-Message-ID: <4c884355-0753-3b6e-a5a5-27b2a426c88b@linux.vnet.ibm.com>
-References: <alpine.DEB.2.10.1701241431120.42507@chino.kir.corp.google.com>
-Mime-Version: 1.0
-Content-Type: text/plain; charset=windows-1252
-Content-Transfer-Encoding: 7bit
-Return-path: <linux-kernel-owner@vger.kernel.org>
-In-Reply-To: <alpine.DEB.2.10.1701241431120.42507@chino.kir.corp.google.com>
-Sender: linux-kernel-owner@vger.kernel.org
-To: David Rientjes <rientjes@google.com>, Andrew Morton <akpm@linux-foundation.org>
-Cc: Jonathan Corbet <corbet@lwn.net>, Johannes Weiner <hannes@cmpxchg.org>, mtk.manpages@gmail.com, Jerome Marchand <jmarchan@redhat.com>, "Kirill A. Shutemov" <kirill.shutemov@linux.intel.com>, linux-man@vger.kernel.org, linux-kernel@vger.kernel.org, linux-mm@kvack.org
+From: Jakub Wilk <jwilk-tXgOlIzOKNReoWH0uzbU5w@public.gmane.org>
+Subject: [PATCH 2/3] vfork.2: tfix
+Date: Wed, 25 Jan 2017 16:37:32 +0100
+Message-ID: <20170125153733.3588-2-jwilk@jwilk.net>
+References: <20170125153733.3588-1-jwilk@jwilk.net>
+Return-path: <linux-man-owner-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>
+In-Reply-To: <20170125153733.3588-1-jwilk-tXgOlIzOKNReoWH0uzbU5w@public.gmane.org>
+Sender: linux-man-owner-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
+To: Michael Kerrisk <mtk.manpages-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org>
+Cc: linux-man-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
 List-Id: linux-man@vger.kernel.org
 
-On 01/25/2017 04:02 AM, David Rientjes wrote:
-> If madvise(2) advice will result in the underlying vma being split and
-> the number of areas mapped by the process will exceed
-> /proc/sys/vm/max_map_count as a result, return ENOMEM instead of EAGAIN.
-> 
-> EAGAIN is returned by madvise(2) when a kernel resource, such as slab,
-> is temporarily unavailable.  It indicates that userspace should retry the
-> advice in the near future.  This is important for advice such as
-> MADV_DONTNEED which is often used by malloc implementations to free
-> memory back to the system: we really do want to free memory back when
-> madvise(2) returns EAGAIN because slab allocations (for vmas, anon_vmas,
-> or mempolicies) cannot be allocated.
-> 
-> Encountering /proc/sys/vm/max_map_count is not a temporary failure,
-> however, so return ENOMEM to indicate this is a more serious issue.  A
-> followup patch to the man page will specify this behavior.
+Signed-off-by: Jakub Wilk <jwilk-tXgOlIzOKNReoWH0uzbU5w@public.gmane.org>
+---
+ man2/vfork.2 | 4 ++--
+ 1 file changed, 2 insertions(+), 2 deletions(-)
 
-But in the due course there might be other changes in number of VMAs of
-the process because of unmap() or merge() which could reduce the total
-number of VMAs and hence this condition may not exist afterwards. In
-that case EAGAIN still makes sense.
+diff --git a/man2/vfork.2 b/man2/vfork.2
+index bfc689b6e..b4ac02c48 100644
+--- a/man2/vfork.2
++++ b/man2/vfork.2
+@@ -219,7 +219,7 @@ avoids the need to temporarily commit memory (see the description of
+ in
+ .BR proc (5))
+ in order to execute a new program.
+-(This can be especifially beneficial where a large parent process wishes
++(This can be especially beneficial where a large parent process wishes
+ to execute a small helper program in a child process.)
+ By contrast, using
+ .BR fork (2)
+@@ -253,7 +253,7 @@ or similar),
+ since there are now two processes with different privilege levels
+ running in the same address space.
+ As an example of the dangers,
+-suppose that a multithreaded pgroam running as root creates a child using
++suppose that a multithreaded program running as root creates a child using
+ .BR vfork ().
+ After the
+ .BR vfork (),
+-- 
+2.11.0
+
+--
+To unsubscribe from this list: send the line "unsubscribe linux-man" in
+the body of a message to majordomo-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
+More majordomo info at  http://vger.kernel.org/majordomo-info.html
