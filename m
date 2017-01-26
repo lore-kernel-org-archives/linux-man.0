@@ -1,44 +1,45 @@
 From: "Michael Kerrisk (man-pages)" <mtk.manpages-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org>
-Subject: Re: [patch] getenv.3: wfix
-Date: Fri, 27 Jan 2017 08:46:33 +1300
-Message-ID: <01fd3990-fe07-fa17-8ec7-71ab2c5d576e@gmail.com>
-References: <CANXoondEx4ggqjscYDkmDWJwgk4JpTgW0h3Wk3tgJgEL8xv_ZQ@mail.gmail.com>
+Subject: Re: [PATCH] mlock.2: tfix
+Date: Fri, 27 Jan 2017 08:42:19 +1300
+Message-ID: <8e569307-453a-dab4-844f-d5bac2fc3b3d@gmail.com>
+References: <20170126151830.8088-1-jwilk@jwilk.net>
 Mime-Version: 1.0
-Content-Type: text/plain; charset=utf-8
+Content-Type: text/plain; charset=windows-1252
 Content-Transfer-Encoding: 7bit
 Return-path: <linux-man-owner-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>
-In-Reply-To: <CANXoondEx4ggqjscYDkmDWJwgk4JpTgW0h3Wk3tgJgEL8xv_ZQ-JsoAwUIsXosN+BqQ9rBEUg@public.gmane.org>
+In-Reply-To: <20170126151830.8088-1-jwilk-tXgOlIzOKNReoWH0uzbU5w@public.gmane.org>
 Sender: linux-man-owner-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
-To: Erik Kline <ekline-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org>
+To: Jakub Wilk <jwilk-tXgOlIzOKNReoWH0uzbU5w@public.gmane.org>
 Cc: mtk.manpages-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org, linux-man-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
 List-Id: linux-man@vger.kernel.org
 
-On 01/26/2017 11:17 PM, Erik Kline wrote:
-> diff --git a/man3/getenv.3 b/man3/getenv.3
-> index 1bfb39677..c801f3924 100644
+On 01/27/2017 04:18 AM, Jakub Wilk wrote:
+> Signed-off-by: Jakub Wilk <jwilk-tXgOlIzOKNReoWH0uzbU5w@public.gmane.org>
+> ---
 
-Hello Erik,
-
-Thanks for the patch. Somehow it was corrupt, so I applied the
-change manually.
+Thanks, Jakub!  Applied.
 
 Cheers,
 
 Michael
 
 
-> --- a/man3/getenv.3
-> +++ b/man3/getenv.3
-> @@ -76,7 +76,7 @@ the effective capability bit was set on the
-> executable file; or
->  .IP *
->  the process has a nonempty permitted capability set.
->  .PP
-> -Secure execution may also required if triggered
-> +Secure execution may also be required if triggered
->  by some Linux security modules.
+>  man2/mlock.2 | 2 +-
+>  1 file changed, 1 insertion(+), 1 deletion(-)
 > 
->  The
+> diff --git a/man2/mlock.2 b/man2/mlock.2
+> index 9d5c1902c..7c90819b2 100644
+> --- a/man2/mlock.2
+> +++ b/man2/mlock.2
+> @@ -493,7 +493,7 @@ resource limit is encountered.
+>  .\" "Rationale for RLIMIT_MEMLOCK"
+>  .\" 23 Jan 2006
+>  .SH SEE ALSO
+> -.BR minore (2),
+> +.BR mincore (2),
+>  .BR mmap (2),
+>  .BR setrlimit (2),
+>  .BR shmctl (2),
 > 
 
 
