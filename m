@@ -1,52 +1,69 @@
-From: "Michael Kerrisk (man-pages)" <mtk.manpages-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org>
-Subject: Re: [PATCH] mlock.2: tfix
-Date: Fri, 27 Jan 2017 08:42:19 +1300
-Message-ID: <8e569307-453a-dab4-844f-d5bac2fc3b3d@gmail.com>
-References: <20170126151830.8088-1-jwilk@jwilk.net>
-Mime-Version: 1.0
-Content-Type: text/plain; charset=windows-1252
-Content-Transfer-Encoding: 7bit
+From: Pavel Tikhomirov <ptikhomirov-5HdwGun5lf+gSpxsJD1C4w@public.gmane.org>
+Subject: [PATCH] prctl.2: Document new PR_SET_CHILD_SUBREAPER semantics
+Date: Fri, 27 Jan 2017 13:11:25 +0300
+Message-ID: <20170127101125.18709-1-ptikhomirov@virtuozzo.com>
+References: <20170127100543.18390-1-ptikhomirov@virtuozzo.com>
 Return-path: <linux-man-owner-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>
-In-Reply-To: <20170126151830.8088-1-jwilk-tXgOlIzOKNReoWH0uzbU5w@public.gmane.org>
+In-Reply-To: <20170127100543.18390-1-ptikhomirov-5HdwGun5lf+gSpxsJD1C4w@public.gmane.org>
 Sender: linux-man-owner-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
-To: Jakub Wilk <jwilk-tXgOlIzOKNReoWH0uzbU5w@public.gmane.org>
-Cc: mtk.manpages-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org, linux-man-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
+To: Michael Kerrisk <mtk.manpages-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org>
+Cc: linux-man-u79uwXL29TY76Z2rM5mHXA@public.gmane.org, Ingo Molnar <mingo-H+wXaHxf7aLQT0dZR+AlfA@public.gmane.org>, Peter Zijlstra <peterz-wEGCiKHe2LqWVfeAwA7xHQ@public.gmane.org>, Andrew Morton <akpm-de/tnXTf+JLsfHDXvbKv3WD2FQJk+8+b@public.gmane.org>, Cyrill Gorcunov <gorcunov-GEFAQzZX7r8dnm+yROfE0A@public.gmane.org>, John Stultz <john.stultz-QSEj5FYQhm4dnm+yROfE0A@public.gmane.org>, Thomas Gleixner <tglx-hfZtesqFncYOwBW4kG4KsQ@public.gmane.org>, Oleg Nesterov <oleg-H+wXaHxf7aLQT0dZR+AlfA@public.gmane.org>, Nicolas Pitre <nicolas.pitre-QSEj5FYQhm4dnm+yROfE0A@public.gmane.org>, Michal Hocko <mhocko-IBi9RG/b67k@public.gmane.org>, Stanislav Kinsburskiy <skinsbursky-5HdwGun5lf+gSpxsJD1C4w@public.gmane.org>, Mateusz Guzik <mguzik-H+wXaHxf7aLQT0dZR+AlfA@public.gmane.org>, linux-kernel-u79uwXL29TY76Z2rM5mHXA@public.gmane.org, Pavel Emelyanov <xemul-5HdwGun5lf+gSpxsJD1C4w@public.gmane.org>, Konstantin Khorenko <khorenko-5HdwGun5lf+gSpxsJD1C4w@public.gmane.org>, Pavel Tikhomirov <ptikhomirov-5HdwGun5lf+gSpxsJD1C4w@public.gmane.org>, Lennart Poettering <lennart-mdGvqq1h2p+GdvJs77BJ7Q@public.gmane.org>, "Eric W . Biederman" <ebiederm-aS9lmoZGLiVWk0Htik3J/w@public.gmane.org>, Kay Sievers <kay.sievers-tD+1rO4QERM@public.gmane.org>
 List-Id: linux-man@vger.kernel.org
 
-On 01/27/2017 04:18 AM, Jakub Wilk wrote:
-> Signed-off-by: Jakub Wilk <jwilk-tXgOlIzOKNReoWH0uzbU5w@public.gmane.org>
-> ---
+old semantics was non deterministic and worked differently
+depending on the external factors, but nothing changes if
+process first sets itself subreaper and only after forks
 
-Thanks, Jakub!  Applied.
+Signed-off-by: Pavel Tikhomirov <ptikhomirov-5HdwGun5lf+gSpxsJD1C4w@public.gmane.org>
+---
+ man2/prctl.2 | 24 +++++++++++++++++-------
+ 1 file changed, 17 insertions(+), 7 deletions(-)
 
-Cheers,
-
-Michael
-
-
->  man2/mlock.2 | 2 +-
->  1 file changed, 1 insertion(+), 1 deletion(-)
-> 
-> diff --git a/man2/mlock.2 b/man2/mlock.2
-> index 9d5c1902c..7c90819b2 100644
-> --- a/man2/mlock.2
-> +++ b/man2/mlock.2
-> @@ -493,7 +493,7 @@ resource limit is encountered.
->  .\" "Rationale for RLIMIT_MEMLOCK"
->  .\" 23 Jan 2006
->  .SH SEE ALSO
-> -.BR minore (2),
-> +.BR mincore (2),
->  .BR mmap (2),
->  .BR setrlimit (2),
->  .BR shmctl (2),
-> 
-
-
+diff --git a/man2/prctl.2 b/man2/prctl.2
+index 97cf21a..84fbd7e 100644
+--- a/man2/prctl.2
++++ b/man2/prctl.2
+@@ -162,20 +162,30 @@ if
+ is zero, unset the attribute.
+ 
+ When a process is marked as a child subreaper,
+-all of the children that it creates, and their descendants,
++all of the children that it creates or have created already, and their descendants,
+ will be marked as having a subreaper.
+ In effect, a subreaper fulfills the role of
+ .BR init (1)
+ for its descendant processes.
+-Upon termination of a process
+-that is orphaned (i.e., its immediate parent has already terminated)
+-and marked as having a subreaper,
+-the nearest still living ancestor subreaper
+-will receive a
++Upon termination of a process having a subreaper,
++all its children become orphaned
++and will be reparented to the nearest still living ancestor subreaper.
++So that on it's adopted child termination
++these subreaper will receive a
+ .BR SIGCHLD
+ signal and will be able to
+ .BR wait (2)
+-on the process to discover its termination status.
++on the child to discover its termination status.
++
++Note, that on older kernels these prctl works slightly different.
++Child subreaper process was not actualy the
++.BR init (1)
++for all its descendants.
++If process forks a child while not been a child subreaper,
++and after sets himself child subreaper,
++sub-tree of the child might or might not reparent to the subreaper,
++depending on the configuration of ancestors of the subreaper,
++at the time of forking our subtree.
+ .TP
+ .BR PR_GET_CHILD_SUBREAPER " (since Linux 3.4)"
+ Return the "child subreaper" setting of the caller,
 -- 
-Michael Kerrisk
-Linux man-pages maintainer; http://www.kernel.org/doc/man-pages/
-Linux/UNIX System Programming Training: http://man7.org/training/
+2.9.3
+
 --
 To unsubscribe from this list: send the line "unsubscribe linux-man" in
 the body of a message to majordomo-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
