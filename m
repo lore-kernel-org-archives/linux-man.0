@@ -1,99 +1,253 @@
-From: Pavel Tikhomirov <ptikhomirov-5HdwGun5lf+gSpxsJD1C4w@public.gmane.org>
-Subject: Re: [PATCH] prctl.2: Document new PR_SET_CHILD_SUBREAPER semantics
-Date: Sat, 28 Jan 2017 09:38:31 +0300
-Message-ID: <39f3a8c2-cad6-be8a-1843-d43e228a8326@virtuozzo.com>
-References: <20170127100543.18390-1-ptikhomirov@virtuozzo.com>
- <20170127101125.18709-1-ptikhomirov@virtuozzo.com>
- <CAKgNAkhg-JankZ1LNV38DHtat5HrUKKK1YO2s1figbHQ5GMhcQ@mail.gmail.com>
-Mime-Version: 1.0
-Content-Type: text/plain; charset="utf-8"; format=flowed
-Content-Transfer-Encoding: 7bit
+From: Jakub Wilk <jwilk-tXgOlIzOKNReoWH0uzbU5w@public.gmane.org>
+Subject: [PATCH 2/2] futex.2, open_by_handle_at.2, seccomp.2, socket.2, console_codes.4, protocols.5, aio.7, capabilities.7, libc.7, netlink.7, raw.7, standards.7, unicode.7, uri.7, vdso.7: tfix
+Date: Sun, 29 Jan 2017 16:21:13 +0100
+Message-ID: <20170129152113.9770-2-jwilk@jwilk.net>
+References: <20170129152113.9770-1-jwilk@jwilk.net>
 Return-path: <linux-man-owner-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>
-In-Reply-To: <CAKgNAkhg-JankZ1LNV38DHtat5HrUKKK1YO2s1figbHQ5GMhcQ-JsoAwUIsXosN+BqQ9rBEUg@public.gmane.org>
+In-Reply-To: <20170129152113.9770-1-jwilk-tXgOlIzOKNReoWH0uzbU5w@public.gmane.org>
 Sender: linux-man-owner-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
-To: mtk.manpages-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org
-Cc: linux-man <linux-man-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>, Ingo Molnar <mingo-H+wXaHxf7aLQT0dZR+AlfA@public.gmane.org>, Peter Zijlstra <peterz-wEGCiKHe2LqWVfeAwA7xHQ@public.gmane.org>, Andrew Morton <akpm-de/tnXTf+JLsfHDXvbKv3WD2FQJk+8+b@public.gmane.org>, Cyrill Gorcunov <gorcunov-GEFAQzZX7r8dnm+yROfE0A@public.gmane.org>, John Stultz <john.stultz-QSEj5FYQhm4dnm+yROfE0A@public.gmane.org>, Thomas Gleixner <tglx-hfZtesqFncYOwBW4kG4KsQ@public.gmane.org>, Oleg Nesterov <oleg-H+wXaHxf7aLQT0dZR+AlfA@public.gmane.org>, Nicolas Pitre <nicolas.pitre-QSEj5FYQhm4dnm+yROfE0A@public.gmane.org>, Michal Hocko <mhocko-IBi9RG/b67k@public.gmane.org>, Stanislav Kinsburskiy <skinsbursky-5HdwGun5lf+gSpxsJD1C4w@public.gmane.org>, Mateusz Guzik <mguzik-H+wXaHxf7aLQT0dZR+AlfA@public.gmane.org>, lkml <linux-kernel-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>, Pavel Emelyanov <xemul-5HdwGun5lf+gSpxsJD1C4w@public.gmane.org>, Konstantin Khorenko <khorenko-5HdwGun5lf+gSpxsJD1C4w@public.gmane.org>, Lennart Poettering <lennart-mdGvqq1h2p+GdvJs77BJ7Q@public.gmane.org>, "Eric W . Biederman" <ebiederm-aS9lmoZGLiVWk0Htik3J/w@public.gmane.org>, Kay Sievers <kay.sievers-tD+1rO4QERM@public.gmane.org>
+To: Michael Kerrisk <mtk.manpages-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org>
+Cc: linux-man-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
 List-Id: linux-man@vger.kernel.org
 
-On 01/28/2017 01:47 AM, Michael Kerrisk (man-pages) wrote:
-> Hello Pavel,
->
-> On 27 January 2017 at 23:11, Pavel Tikhomirov <ptikhomirov-5HdwGun5lf+gSpxsJD1C4w@public.gmane.org> wrote:
->> old semantics was non deterministic and worked differently
->> depending on the external factors, but nothing changes if
->> process first sets itself subreaper and only after forks
->
-> When did the kernel behavior change?
+Escape hyphens in URLs.
 
-Sorry for inconvenience, should have added you to cc of a main patch also.
+Signed-off-by: Jakub Wilk <jwilk-tXgOlIzOKNReoWH0uzbU5w@public.gmane.org>
+---
+ man2/futex.2             | 2 +-
+ man2/open_by_handle_at.2 | 2 +-
+ man2/seccomp.2           | 2 +-
+ man2/socket.2            | 2 +-
+ man4/console_codes.4     | 4 ++--
+ man5/protocols.5         | 2 +-
+ man7/aio.7               | 2 +-
+ man7/capabilities.7      | 2 +-
+ man7/libc.7              | 2 +-
+ man7/netlink.7           | 2 +-
+ man7/raw.7               | 2 +-
+ man7/standards.7         | 6 +++---
+ man7/unicode.7           | 2 +-
+ man7/uri.7               | 2 +-
+ man7/vdso.7              | 2 +-
+ 15 files changed, 18 insertions(+), 18 deletions(-)
 
-Kernel behavior haven't changed yet, doc change will be a continuation 
-of "[PATCH v2 0/2] prctl: make PR_SET_CHILD_SUBREAPER deterministic", 
-see https://lkml.org/lkml/2017/1/27/108
-
->
-> Cheers,
->
-> Michael
->
->
->> Signed-off-by: Pavel Tikhomirov <ptikhomirov-5HdwGun5lf+gSpxsJD1C4w@public.gmane.org>
->> ---
->>  man2/prctl.2 | 24 +++++++++++++++++-------
->>  1 file changed, 17 insertions(+), 7 deletions(-)
->>
->> diff --git a/man2/prctl.2 b/man2/prctl.2
->> index 97cf21a..84fbd7e 100644
->> --- a/man2/prctl.2
->> +++ b/man2/prctl.2
->> @@ -162,20 +162,30 @@ if
->>  is zero, unset the attribute.
->>
->>  When a process is marked as a child subreaper,
->> -all of the children that it creates, and their descendants,
->> +all of the children that it creates or have created already, and their descendants,
->>  will be marked as having a subreaper.
->>  In effect, a subreaper fulfills the role of
->>  .BR init (1)
->>  for its descendant processes.
->> -Upon termination of a process
->> -that is orphaned (i.e., its immediate parent has already terminated)
->> -and marked as having a subreaper,
->> -the nearest still living ancestor subreaper
->> -will receive a
->> +Upon termination of a process having a subreaper,
->> +all its children become orphaned
->> +and will be reparented to the nearest still living ancestor subreaper.
->> +So that on it's adopted child termination
->> +these subreaper will receive a
->>  .BR SIGCHLD
->>  signal and will be able to
->>  .BR wait (2)
->> -on the process to discover its termination status.
->> +on the child to discover its termination status.
->> +
->> +Note, that on older kernels these prctl works slightly different.
->> +Child subreaper process was not actualy the
->> +.BR init (1)
->> +for all its descendants.
->> +If process forks a child while not been a child subreaper,
->> +and after sets himself child subreaper,
->> +sub-tree of the child might or might not reparent to the subreaper,
->> +depending on the configuration of ancestors of the subreaper,
->> +at the time of forking our subtree.
->>  .TP
->>  .BR PR_GET_CHILD_SUBREAPER " (since Linux 3.4)"
->>  Return the "child subreaper" setting of the caller,
->> --
->> 2.9.3
->>
->
->
->
-
+diff --git a/man2/futex.2 b/man2/futex.2
+index 2f852e3c4..5e9eef295 100644
+--- a/man2/futex.2
++++ b/man2/futex.2
+@@ -1910,7 +1910,7 @@ Franke, H., Russell, R., and Kirwood, M., 2002.
+ \fIFuss, Futexes and Furwocks: Fast Userlevel Locking in Linux\fP
+ (from proceedings of the Ottawa Linux Symposium 2002),
+ .br
+-.UR http://kernel.org\:/doc\:/ols\:/2002\:/ols2002-pages-479-495.pdf
++.UR http://kernel.org\:/doc\:/ols\:/2002\:/ols2002\-pages\-479\-495.pdf
+ .UE
+ 
+ Hart, D., 2009. \fIA futex overview and update\fP,
+diff --git a/man2/open_by_handle_at.2 b/man2/open_by_handle_at.2
+index 689ff486b..ad59dc9bd 100644
+--- a/man2/open_by_handle_at.2
++++ b/man2/open_by_handle_at.2
+@@ -730,5 +730,5 @@ and
+ documentation in the latest
+ .I util-linux
+ release at
+-.UR https://www.kernel.org/pub/linux/utils/util-linux/
++.UR https://www.kernel.org/pub/linux/utils/util\-linux/
+ .UE
+diff --git a/man2/seccomp.2 b/man2/seccomp.2
+index 91f555a7b..7d0e72189 100644
+--- a/man2/seccomp.2
++++ b/man2/seccomp.2
+@@ -840,5 +840,5 @@ and
+ McCanne, S. and Jacobson, V. (1992)
+ .IR "The BSD Packet Filter: A New Architecture for User-level Packet Capture" ,
+ Proceedings of the USENIX Winter 1993 Conference
+-.UR http://www.tcpdump.org/papers/bpf-usenix93.pdf
++.UR http://www.tcpdump.org/papers/bpf\-usenix93.pdf
+ .UE
+diff --git a/man2/socket.2 b/man2/socket.2
+index ed696c524..4bd1e9809 100644
+--- a/man2/socket.2
++++ b/man2/socket.2
+@@ -390,7 +390,7 @@ The
+ protocol type was added in Linux 2.6.38.
+ More information on this interface is provided with the kernel HTML
+ documentation at
+-.IR https://www.kernel.org/doc/htmldocs/crypto-API/User.html .
++.IR https://www.kernel.org/doc/htmldocs/crypto\-API/User.html .
+ .SH EXAMPLE
+ An example of the use of
+ .BR socket ()
+diff --git a/man4/console_codes.4 b/man4/console_codes.4
+index a1eaa0e8f..13de9dc5a 100644
+--- a/man4/console_codes.4
++++ b/man4/console_codes.4
+@@ -598,7 +598,7 @@ That document, though terse, is much longer than this manual page.
+ For a chronological overview,
+ .PP
+ .RS
+-.UR http://invisible-island.net\:/xterm\:/xterm.log.html
++.UR http://invisible\-island.net\:/xterm\:/xterm.log.html
+ .UE
+ .RE
+ .PP
+@@ -607,7 +607,7 @@ details changes to xterm.
+ The \fIvttest\fP program
+ .PP
+ .RS
+-.UR http://invisible-island.net\:/vttest/
++.UR http://invisible\-island.net\:/vttest/
+ .UE
+ .RE
+ .PP
+diff --git a/man5/protocols.5 b/man5/protocols.5
+index 0248748bf..4ed17fe7c 100644
+--- a/man5/protocols.5
++++ b/man5/protocols.5
+@@ -81,5 +81,5 @@ The protocols definition file.
+ .SH SEE ALSO
+ .BR getprotoent (3)
+ 
+-.UR http://www.iana.org\:/assignments\:/protocol-numbers
++.UR http://www.iana.org\:/assignments\:/protocol\-numbers
+ .UE
+diff --git a/man7/aio.7 b/man7/aio.7
+index 47ceea7c9..8327a7a76 100644
+--- a/man7/aio.7
++++ b/man7/aio.7
+@@ -466,5 +466,5 @@ main(int argc, char *argv[])
+ "Asynchronous I/O Support in Linux 2.5",
+ Bhattacharya, Pratt, Pulavarty, and Morgan,
+ Proceedings of the Linux Symposium, 2003,
+-.UR https://www.kernel.org/doc/ols/2003/ols2003-pages-351-366.pdf
++.UR https://www.kernel.org/doc/ols/2003/ols2003\-pages\-351\-366.pdf
+ .UE
+diff --git a/man7/capabilities.7 b/man7/capabilities.7
+index 004a7f220..4ac197b23 100644
+--- a/man7/capabilities.7
++++ b/man7/capabilities.7
+@@ -1380,7 +1380,7 @@ and
+ programs.
+ It can be found at
+ .br
+-.UR http://www.kernel.org\:/pub\:/linux\:/libs\:/security\:/linux-privs
++.UR http://www.kernel.org\:/pub\:/linux\:/libs\:/security\:/linux\-privs
+ .UE .
+ 
+ Before kernel 2.6.24, and from kernel 2.6.24 to kernel 2.6.32 if
+diff --git a/man7/libc.7 b/man7/libc.7
+index 90e76ea11..e0f74a20a 100644
+--- a/man7/libc.7
++++ b/man7/libc.7
+@@ -106,7 +106,7 @@ Among such libraries are
+ .I dietlibc
+ .UE ,
+ and
+-.UR http://www.musl-libc.org/
++.UR http://www.musl\-libc.org/
+ .I "musl libc"
+ .UE .
+ Details of these libraries are covered by the
+diff --git a/man7/netlink.7 b/man7/netlink.7
+index 1d02feb32..dae58173d 100644
+--- a/man7/netlink.7
++++ b/man7/netlink.7
+@@ -564,7 +564,7 @@ for (nh = (struct nlmsghdr *) buf; NLMSG_OK (nh, len);
+ .BR rtnetlink (7),
+ .BR sock_diag (7)
+ 
+-.UR ftp://ftp.inr.ac.ru\:/ip-routing\:/iproute2*
++.UR ftp://ftp.inr.ac.ru\:/ip\-routing\:/iproute2*
+ information about libnetlink
+ .UE
+ 
+diff --git a/man7/raw.7 b/man7/raw.7
+index e71dc43b2..10c5d3342 100644
+--- a/man7/raw.7
++++ b/man7/raw.7
+@@ -40,7 +40,7 @@ number specified
+ for the raw socket are passed to this socket.
+ For a list of the allowed protocols,
+ see the IANA list of assigned protocol numbers at
+-.UR http://www.iana.org/assignments/protocol-numbers/
++.UR http://www.iana.org/assignments/protocol\-numbers/
+ .UE
+ and
+ .BR getprotobyname (3).
+diff --git a/man7/standards.7 b/man7/standards.7
+index ecfdd956d..981263fe1 100644
+--- a/man7/standards.7
++++ b/man7/standards.7
+@@ -114,7 +114,7 @@ and is thus occasionally referred to as
+ This revision of the C language standard was ratified by ISO in 1999
+ .RI ( "ISO/IEC 9899:1999" ).
+ Available online at
+-.UR http://www.open-std.org\:/jtc1\:/sc22\:/wg14\:/www\:/standards
++.UR http://www.open\-std.org\:/jtc1\:/sc22\:/wg14\:/www\:/standards
+ .UE .
+ .TP
+ .B C11
+@@ -186,7 +186,7 @@ This standard appeared in 1997.
+ Systems conforming to this standard can be branded
+ .IR "UNIX 98" .
+ See also
+-.UR http://www.UNIX-systems.org\:/version2/
++.UR http://www.UNIX\-systems.org\:/version2/
+ .UE .)
+ .TP
+ .B POSIX.1-2001, SUSv3
+@@ -196,7 +196,7 @@ conducted under the auspices of the Austin Group
+ .UR http://www.opengroup.org\:/austin/
+ .UE .
+ The standard is available online at
+-.UR http://www.unix-systems.org\:/version3/
++.UR http://www.unix\-systems.org\:/version3/
+ .UE ,
+ and the interfaces that it describes are also available in the Linux
+ manual pages package under sections 1p and 3p (e.g., "man 3p open").
+diff --git a/man7/unicode.7 b/man7/unicode.7
+index 40fdfe5ec..371cd227f 100644
+--- a/man7/unicode.7
++++ b/man7/unicode.7
+@@ -250,7 +250,7 @@ Markus Kuhn: UTF-8 and Unicode FAQ for UNIX/Linux.
+ .IP *
+ Bruno Haible: Unicode HOWTO.
+ .RS
+-.UR http://www.tldp.org\:/HOWTO\:/Unicode-HOWTO.html
++.UR http://www.tldp.org\:/HOWTO\:/Unicode\-HOWTO.html
+ .UE
+ .RE
+ .\" .SH AUTHOR
+diff --git a/man7/uri.7 b/man7/uri.7
+index d4ac41dc9..427f8ff83 100644
+--- a/man7/uri.7
++++ b/man7/uri.7
+@@ -586,7 +586,7 @@ use the standard format as described here.
+ .UR http://www.ietf.org\:/rfc\:/rfc2396.txt
+ (IETF RFC\ 2396)
+ .UE ,
+-.UR http://www.w3.org\:/TR\:/REC-html40
++.UR http://www.w3.org\:/TR\:/REC\-html40
+ (HTML 4.0)
+ .UE .
+ .SH NOTES
+diff --git a/man7/vdso.7 b/man7/vdso.7
+index be35f175a..58b0bbf58 100644
+--- a/man7/vdso.7
++++ b/man7/vdso.7
+@@ -247,7 +247,7 @@ object formats it runs aren't even ELF based (they're bFLT/FLAT).
+ For information on this code page,
+ it's best to refer to the public documentation:
+ .br
+-http://docs.blackfin.uclinux.org/doku.php?id=linux-kernel:fixed-code
++http://docs.blackfin.uclinux.org/doku.php?id=linux\-kernel:fixed\-code
+ .SS mips functions
+ .\" See linux/arch/mips/vdso/vdso.ld.S
+ 
 -- 
-Best regards, Tikhomirov Pavel
-Software Developer, Virtuozzo.
+2.11.0
+
 --
 To unsubscribe from this list: send the line "unsubscribe linux-man" in
 the body of a message to majordomo-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
