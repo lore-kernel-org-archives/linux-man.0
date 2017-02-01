@@ -1,39 +1,52 @@
-From: Joyes Dadi <"YD."@biscuit.ocn.ne.jp>
-Subject: Urgent Please,,
-Date: Mon, 23 Jan 2017 23:07:49 +0900 (JST)
-Message-ID: <1028184183.25784289.1485180469689.JavaMail.root__6217.92778042636$1496095486$gmane$org@biscuit.ocn.ne.jp>
-Reply-To: Joyes Dadi <joyesdadi767-xnxYRYGmInRAgIPG3DZhQQ@public.gmane.org>
-Mime-Version: 1.0
-Content-Type: text/plain; charset=ISO-2022-JP
-Content-Transfer-Encoding: 7bit
+From: Wei Wang <weiwan-hpIqsD4AKlfQT0dZR+AlfA@public.gmane.org>
+Subject: [patch] send.2: Add MSG_FASTOPEN flag
+Date: Tue, 31 Jan 2017 17:37:03 -0800
+Message-ID: <20170201013703.92907-1-tracywwnj@gmail.com>
 Return-path: <linux-man-owner-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>
 Sender: linux-man-owner-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
+To: mtk.manpages-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org
+Cc: linux-man-u79uwXL29TY76Z2rM5mHXA@public.gmane.org, Wei Wang <weiwan-hpIqsD4AKlfQT0dZR+AlfA@public.gmane.org>
 List-Id: linux-man@vger.kernel.org
 
-Good Day Dear,
+From: Wei Wang <weiwan-hpIqsD4AKlfQT0dZR+AlfA@public.gmane.org>
 
-My name is Ms. Joyes Dadi, I am glad you are reading this letter and I hope
-we will start our communication and I know that this message will look strange,
-surprising and probably unbelievable to you, but it is the reality. I want to
-make a donation of money to you.
+Add MSG_FASTOPEN flag description for send.2
 
-I contact you by the will of God. I am a firm German woman specialized in
-mining gold and diamonds in Africa. But now, I'm very sick of a cancer. My
-husband died in an accident two years ago with our two children and now I have
-cancer of the esophagus that damaged almost all the cells in my system/agencies
-and I'll die soon according to my doctor.
+Signed-off-by: Wei Wang <weiwan-hpIqsD4AKlfQT0dZR+AlfA@public.gmane.org>
+---
+ man2/send.2 | 16 ++++++++++++++++
+ 1 file changed, 16 insertions(+)
 
-My most concern now is, we grew up in the orphanage and were married in
-orphanage. If I die this deposited fund will soon be left alone in the hand of
-the bank, and I do want to it that  way. Please, if you can be reliable and
-sincere to accept my humble proposal; I have (10.5Millions Euro) in a fixed
-deposit account; I will order the Bank to transfer the money into your account
-in your country immediately, and then you will take the fund to  your country
-and invest it to the orphanage homes Please, answer as quickly as possible.
+diff --git a/man2/send.2 b/man2/send.2
+index 7f2340666..4b1902f75 100644
+--- a/man2/send.2
++++ b/man2/send.2
+@@ -255,6 +255,22 @@ data on sockets that support this notion (e.g., of type
+ the underlying protocol must also support
+ .I out-of-band
+ data.
++.TP
++.BR MSG_FASTOPEN " (since Linux 3.7)"
++Marks the attempt to send data in SYN like a combination of
++.BR connect (2)
++operation. It blocks until the handshake has completed and data is
++buffered.
++
++For a non-blocking socket, it returns the number of bytes buffered
++and sent in the SYN packet. If the cookie is not available locally,
++it returns
++.B EINPROGRESS
++, and sends a SYN with a Fast Open cookie request automatically.
++The caller needs to write the data again when the socket is connected.
++On errors, it returns the same errno as
++.BR connect (2)
++if the handshake fails.
+ .SS sendmsg()
+ The definition of the
+ .I msghdr
+-- 
+2.11.0.483.g087da7b7c-goog
 
-God bless you.
-Ms. Joyes Dadi
-Email: joyesdadi767-xnxYRYGmInRAgIPG3DZhQQ@public.gmane.org
 --
 To unsubscribe from this list: send the line "unsubscribe linux-man" in
 the body of a message to majordomo-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
