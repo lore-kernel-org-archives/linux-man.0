@@ -1,57 +1,45 @@
 From: "Michael Kerrisk (man-pages)" <mtk.manpages-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org>
-Subject: Re: [PATCH 1/1] strerror.3: indicate reasonable buffer size
-Date: Thu, 2 Feb 2017 09:15:07 +1300
-Message-ID: <528ee232-ff19-da72-cb6b-de58852a5766@gmail.com>
-References: <1485888838-4055-1-git-send-email-xypron.glpk@gmx.de>
+Subject: Re: Small bug in vsnprintf(3) man page
+Date: Thu, 2 Feb 2017 09:36:09 +1300
+Message-ID: <d94fd3bd-574e-36d0-c961-a4d1589d9207@gmail.com>
+References: <CAJ3xPgHrjzuneKDPzPsY3EqXcmO0dZFjN6tnccdupEgYMOoK3w@mail.gmail.com>
 Mime-Version: 1.0
-Content-Type: text/plain; charset=windows-1252
+Content-Type: text/plain; charset=utf-8
 Content-Transfer-Encoding: 7bit
 Return-path: <linux-man-owner-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>
-In-Reply-To: <1485888838-4055-1-git-send-email-xypron.glpk-Mmb7MZpHnFY@public.gmane.org>
+In-Reply-To: <CAJ3xPgHrjzuneKDPzPsY3EqXcmO0dZFjN6tnccdupEgYMOoK3w-JsoAwUIsXosN+BqQ9rBEUg@public.gmane.org>
 Sender: linux-man-owner-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
-To: Heinrich Schuchardt <xypron.glpk-Mmb7MZpHnFY@public.gmane.org>
+To: Erik Roland van der Meer <ervdmeer-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org>
 Cc: mtk.manpages-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org, linux-man-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
 List-Id: linux-man@vger.kernel.org
 
-On 02/01/2017 07:53 AM, Heinrich Schuchardt wrote:
-> Add a hint which buffer size is needed for
-> strerror_r() and strerror_l().
+Hello Erik
 
-Thanks, Heinrich.I applied the patch, but removed mention of 
-"version 2.25", since this buffer size goes *way* back (at
-least as far back 2.0.6).
+On 01/31/2017 11:02 PM, Erik Roland van der Meer wrote:
+> Hello,
+> 
+> I believe I have discovered a small bug in the vsnprintf(3) man page.
+> It occurs online at http://man7.org/linux/man-pages/man3/fprintf.3.html
+> which reports itself as part of the 4.09 release. I discovered it in the
+> Ubuntu 16.04 man page with reports itself as part of the 4.04 release.
+> 
+> It is in the code example of char *make_message(const char *fmt, ...) at
+> the end.
+> I believe that the second call to va_end(ap) should be moved to above the
+> if-block
+> that precedes it, so that the va_list ap will be cleaned up in all cases.
+
+Yes, that seems right to me. I've changed as you suggest
+
+> With deep gratitude for all the help the manpages have been for me
+> throughout the years,
+
+You're very welcome!
 
 Cheers,
 
 Michael
 
-
-> Signed-off-by: Heinrich Schuchardt <xypron.glpk-Mmb7MZpHnFY@public.gmane.org>
-> ---
->  man3/strerror.3 | 9 +++++++++
->  1 file changed, 9 insertions(+)
-> 
-> diff --git a/man3/strerror.3 b/man3/strerror.3
-> index ec758fb..511a4a3 100644
-> --- a/man3/strerror.3
-> +++ b/man3/strerror.3
-> @@ -256,6 +256,15 @@ to
->  .B EINVAL
->  if the error number is unknown.
->  C99 and POSIX.1-2008 require the return value to be non-NULL.
-> +.SH NOTES
-> +The GNU C Library, version 2.25 uses a buffer of 1024 characters for
-> +.BR strerror ().
-> +This buffer size therefore should be suffcient to avoid an
-> +.B ERANGE
-> +error in
-> +.BR strerror_r ()
-> +and
-> +.BR strerror_l ().
->  .SH SEE ALSO
->  .BR err (3),
->  .BR errno (3),
-> 
 
 
 -- 
