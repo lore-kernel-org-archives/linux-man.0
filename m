@@ -1,104 +1,47 @@
-From: walter harms <wharms-fPG8STNUNVg@public.gmane.org>
-Subject: Re: [PATCH 2/2] man.7, uri.7: Use "www.kernel.org" in example URLs
-Date: Mon, 06 Feb 2017 09:28:11 +0100
-Message-ID: <5898339B.5090306@bfs.de>
-References: <20170204104956.4620-1-jwilk@jwilk.net> <20170204104956.4620-2-jwilk@jwilk.net> <b471be63-1271-d70d-2603-673958c1118d@gmail.com> <5895CD3A.7010905@bfs.de> <CAKgNAkgAe7Usfv-oEis-euhQ=kBeO4pDNqk=YdfKsxzQLNtVDQ@mail.gmail.com>
-Reply-To: wharms-fPG8STNUNVg@public.gmane.org
+From: Jakub Wilk <jwilk-tXgOlIzOKNReoWH0uzbU5w@public.gmane.org>
+Subject: Re: [PATCH 1/2] netlink.7: Update libnl homepage URL
+Date: Mon, 6 Feb 2017 11:21:27 +0100
+Message-ID: <20170206102127.vjgvzo4ufz7wmttk@jwilk.net>
+References: <20170204104956.4620-1-jwilk@jwilk.net>
+ <d32fc5df-204d-fe83-b2dc-27935de4bcc0@gmail.com>
+ <5895CE95.1050303@bfs.de>
+ <CAKgNAkjo6djahZnWhXicZEt9LTfqrwwvcB8nz=AnbokTsW2uMQ@mail.gmail.com>
 Mime-Version: 1.0
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 7bit
+Content-Type: text/plain; charset=us-ascii; format=flowed
 Return-path: <linux-man-owner-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>
-In-Reply-To: <CAKgNAkgAe7Usfv-oEis-euhQ=kBeO4pDNqk=YdfKsxzQLNtVDQ-JsoAwUIsXosN+BqQ9rBEUg@public.gmane.org>
+Content-Disposition: inline
+In-Reply-To: <CAKgNAkjo6djahZnWhXicZEt9LTfqrwwvcB8nz=AnbokTsW2uMQ-JsoAwUIsXosN+BqQ9rBEUg@public.gmane.org>
 Sender: linux-man-owner-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
-To: mtk.manpages-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org
-Cc: Jakub Wilk <jwilk-tXgOlIzOKNReoWH0uzbU5w@public.gmane.org>, linux-man <linux-man-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>
+To: Michael Kerrisk <mtk.manpages-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org>
+Cc: Walter Harms <wharms-fPG8STNUNVg@public.gmane.org>, linux-man-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
 List-Id: linux-man@vger.kernel.org
 
-
-
-Am 06.02.2017 08:08, schrieb Michael Kerrisk (man-pages):
-> Hi Walter,
-> 
-> On 4 February 2017 at 13:46, walter harms <wharms-fPG8STNUNVg@public.gmane.org> wrote:
+* Michael Kerrisk (man-pages) <mtk.manpages-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org>, 2017-02-06, 08:28:
+>>>>-.UR http://people.suug.ch\:/~tgr\:/libnl/
+>>>>+.UR http://www.infradead.org\:/~tgr\:/libnl/
+>>>> information about libnl
+>>>> .UE
 >>
->>
->> Am 04.02.2017 12:11, schrieb Michael Kerrisk (man-pages):
->>> On 02/04/2017 11:49 PM, Jakub Wilk wrote:
->>>> Apparently www.kernelnotes.org is now a spam site.
->>>
->>> Charming!
->>>
->>> Thanks for the patch, Jakub. Applied.
->>>
->>> Cheers,
->>>
->>> Michael
->>>
->>>
->>>> Signed-off-by: Jakub Wilk <jwilk-tXgOlIzOKNReoWH0uzbU5w@public.gmane.org>
->>>> ---
->>>>  man7/man.7 | 2 +-
->>>>  man7/uri.7 | 4 ++--
->>>>  2 files changed, 3 insertions(+), 3 deletions(-)
->>>>
->>>> diff --git a/man7/man.7 b/man7/man.7
->>>> index ca063c3fd..aae04bfe8 100644
->>>> --- a/man7/man.7
->>>> +++ b/man7/man.7
->>>> @@ -487,7 +487,7 @@ You can also use the new
->>>>  macro to identify links to related information.
->>>>  If you include URLs, use the full URL
->>>>  (e.g.,
->>>> -.UR http://www.kernelnotes.org
->>>> +.UR http://www.kernel.org
->>>>  .UE )
->>>>  to ensure that tools can automatically find the URLs.
->>>>  .PP
->>>> diff --git a/man7/uri.7 b/man7/uri.7
->>>> index 427f8ff83..39d876055 100644
->>>> --- a/man7/uri.7
->>>> +++ b/man7/uri.7
->>>> @@ -82,7 +82,7 @@ the resource ceases to exist or becomes unavailable.
->>>>  .PP
->>>>  URIs are the standard way to name hypertext link destinations
->>>>  for tools such as web browsers.
->>>> -The string "http://www.kernelnotes.org" is a URL (and thus it
->>>> +The string "http://www.kernel.org" is a URL (and thus it
->>>>  is also a URI).
->>>>  Many people use the term URL loosely as a synonym for URI
->>>>  (though technically URLs are a subset of URIs).
->>>> @@ -538,7 +538,7 @@ use the URI escaping mechanism, that is,
->>>>  use the %HH encoding for unsafe octets.
->>>>  .SS Writing a URI
->>>>  When written, URIs should be placed inside double quotes
->>>> -(e.g., "http://www.kernelnotes.org"),
->>>> +(e.g., "http://www.kernel.org"),
->>>>  enclosed in angle brackets (e.g., <http://lwn.net>),
->>>>  or placed on a line by themselves.
->>>>  A warning for those who use double-quotes:
->>>>
->>>
->>
->>
->> I am not sure that is it a good idea to use real domain names here.
-> 
-> I think it's okay, in this case. Presumably, www.kernel.org will be
-> with us at least as long as the man pages, and I do not mind that a
-> man page gives a nod to lwn.net.
-> 
-I think it gives a bad example and it is not needed. Given  www.kernel.org
-will be very stable but since the man page is about URI we could use any.
+>>does not work for me. (can not connect)
 
-just my 2 cents, do as you like ...
+Yeah, the server appears to be down. :/
+I'll ask on the libnl mailing list what's going on.
 
-re,
- wh
+>>google finds https://www.infradead.org/~tgr/libnl/
+>>             ^^^^^^
+>>does not work for me either perhaps a temporally problem.
 
-> Cheers,
-> 
-> Michael
-> 
-> 
+The URL I used is in the latest libnl source, so one can presume it's official. 
+I know that Google can be overzealous about HTTP->HTTPS upgrades, so I decided 
+to be conservative and use the HTTP one.
+
+>Jakub, did you test the URL at the time you wrote the patch?
+
+I did a few days before that. According to my browser cache the site was still 
+up on 2017-01-31.
+
+-- 
+Jakub Wilk
 --
 To unsubscribe from this list: send the line "unsubscribe linux-man" in
 the body of a message to majordomo-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
