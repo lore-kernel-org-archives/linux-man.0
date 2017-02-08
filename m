@@ -1,91 +1,68 @@
 From: "Michael Kerrisk (man-pages)" <mtk.manpages-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org>
-Subject: Re: [PATCH] ioctl_fat.2: correctly reference volume ID instead of
- volume label
-Date: Wed, 8 Feb 2017 09:30:10 +0100
-Message-ID: <c17ee5c6-b6cd-44e6-3925-c3ab78d1445a@gmail.com>
-References: <20170208011336.6578-1-masneyb@onstation.org>
+Subject: Re: [PATCH] tkill.2: document EAGAIN error for real-time signals
+Date: Wed, 8 Feb 2017 09:31:18 +0100
+Message-ID: <f237f169-3792-c267-bdb0-ea17a59d67a8@gmail.com>
+References: <20170206155748.66643-1-jannh@google.com>
 Mime-Version: 1.0
 Content-Type: text/plain; charset=windows-1252
 Content-Transfer-Encoding: 7bit
 Return-path: <linux-man-owner-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>
-In-Reply-To: <20170208011336.6578-1-masneyb-1iNe0GrtECGEi8DpZVb4nw@public.gmane.org>
+In-Reply-To: <20170206155748.66643-1-jannh-hpIqsD4AKlfQT0dZR+AlfA@public.gmane.org>
 Sender: linux-man-owner-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
-To: Brian Masney <masneyb-1iNe0GrtECGEi8DpZVb4nw@public.gmane.org>
+To: Jann Horn <jannh-hpIqsD4AKlfQT0dZR+AlfA@public.gmane.org>
 Cc: mtk.manpages-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org, linux-man-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
 List-Id: linux-man@vger.kernel.org
 
-Hello Brian,
+On 02/06/2017 04:57 PM, Jann Horn wrote:
+> See __send_signal() in kernel/signal.c:
 
-On 02/08/2017 02:13 AM, Brian Masney wrote:
-> The description of FAT_IOCTL_GET_VOLUME_ID references volume name, when
-> it really should be volume ID since the volume label is different in the
-> FAT filesystem. This patch renames the incorrect volume name references
-> to volume id.
-> 
-> This man page supplies an example display_fat_volume_id.c program that
-> can be used to read the volume ID (serial number) from a filesystem.
-> Here is an additional test showing that the volume ID and volume name
-> are two different entities:
-> 
-> $ dd if=/dev/zero of=fat_volume bs=1M count=1
-> $ mkfs.fat -v -n MASNEYB fat_volume
-> [snip]
-> Volume ID is da8cecf2, volume label MASNEYB    .
-> $ sudo mount -o loop fat_volume /mnt
-> $ ./display_fat_volume_id /mnt/
-> Volume ID da8c-ecf2
-
-Thanks for the patch, and the omformative commit message! Applied.
+Thanks, Jann. Patch applied.
 
 Cheers,
 
 Michael
 
-
-> Signed-off-by: Brian Masney <masneyb-1iNe0GrtECGEi8DpZVb4nw@public.gmane.org>
-> ---
->  man2/ioctl_fat.2 | 12 ++++++------
->  1 file changed, 6 insertions(+), 6 deletions(-)
+> if (sig >= SIGRTMIN && info->si_code != SI_USER) {
+>   /*
+>    * Queue overflow, abort.  We may abort if the
+>    * signal was rt and sent by user using something
+>    * other than kill().
+>    */
+>   result = TRACE_SIGNAL_OVERFLOW_FAIL;
+>   ret = -EAGAIN;
+>   goto ret;
+> }
 > 
-> diff --git a/man2/ioctl_fat.2 b/man2/ioctl_fat.2
-> index 1417b61..aa6e9f8 100644
-> --- a/man2/ioctl_fat.2
-> +++ b/man2/ioctl_fat.2
-> @@ -88,9 +88,9 @@ It is reset by an archiving system.
->  The zero value
->  .B ATTR_NONE
->  can be used to indicate that no attribute bit is set.
-> -.SS Reading the volume label
-> -FAT filesystems are identified by a volume label.
-> -The volume label can be read with
-> +.SS Reading the volume ID
-> +FAT filesystems are identified by a volume ID.
-> +The volume ID can be read with
->  .BR FAT_IOCTL_GET_VOLUME_ID .
->  .PP
->  The
-> @@ -106,7 +106,7 @@ flag.
->  The
->  .I id
->  argument is a pointer to the field that will be filled with the volume ID.
-> -Typically the volume label is displayed to the user as a group of two
-> +Typically the volume ID is displayed to the user as a group of two
->  16-bit fields:
->  .PP
->  .in +4n
-> @@ -347,10 +347,10 @@ main(int argc, char *argv[])
->  }
->  .fi
->  .in
-> -.SS Reading the volume label
-> +.SS Reading the volume ID
->  The following program demonstrates the use of
->  .BR ioctl (2)
-> -to display the volume label of a FAT filesystem.
-> +to display the volume ID of a FAT filesystem.
->  .PP
->  The following output was recorded when applying the program for
->  directory
+> (kill() uses SI_USER, but tkill() and tgkill() use SI_TKILL.)
+> 
+> Signed-off-by: Jann Horn <jannh-hpIqsD4AKlfQT0dZR+AlfA@public.gmane.org>
+> ---
+>  man2/tkill.2 | 12 ++++++++++++
+>  1 file changed, 12 insertions(+)
+> 
+> diff --git a/man2/tkill.2 b/man2/tkill.2
+> index a61ef3182..dce5dd94c 100644
+> --- a/man2/tkill.2
+> +++ b/man2/tkill.2
+> @@ -103,6 +103,18 @@ For the required permissions, see
+>  .TP
+>  .B ESRCH
+>  No process with the specified thread ID (and thread group ID) exists.
+> +.TP
+> +.B EAGAIN
+> +The
+> +.B RLIMIT_SIGPENDING
+> +resource limit was reached and
+> +.I sig
+> +is a real-time signal.
+> +.TP
+> +.B EAGAIN
+> +Insufficient kernel memory was available and
+> +.I sig
+> +is a real-time signal.
+>  .SH VERSIONS
+>  .BR tkill ()
+>  is supported since Linux 2.4.19 / 2.5.4.
 > 
 
 
