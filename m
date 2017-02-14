@@ -1,51 +1,83 @@
-From: Pradeep Kumar <pradeepsixer-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org>
-Subject: fts man page
-Date: Sun, 12 Feb 2017 00:46:12 -0700
-Message-ID: <0cbe4f3a-c2d6-b45d-26eb-549d46a59667@gmail.com>
+From: Vincent Lefevre <vincent-buymaDBGzMOsTnJN9+BGXg@public.gmane.org>
+Subject: missing "restrict" in various prototypes
+Date: Tue, 14 Feb 2017 15:15:28 +0100
+Message-ID: <20170214141528.GC16063@cventin.lip.ens-lyon.fr>
 Mime-Version: 1.0
-Content-Type: text/plain; charset=utf-8; format=flowed
-Content-Transfer-Encoding: 7bit
+Content-Type: text/plain; charset=iso-8859-1
+Content-Transfer-Encoding: 8bit
 Return-path: <linux-man-owner-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>
+Content-Disposition: inline
 Sender: linux-man-owner-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
 To: mtk.manpages-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org
 Cc: linux-man-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
 List-Id: linux-man@vger.kernel.org
 
-The man page for fts library call states both the following:
+http://man7.org/linux/man-pages/man3/strtoimax.3.html contains:
 
-     short          fts_pathlen;  /* strlen(fts_path) */
+    intmax_t strtoimax(const char *nptr, char **endptr, int base);
+    uintmax_t strtoumax(const char *nptr, char **endptr, int base);
 
-     fts_pathlen The length of the string referenced by fts_path
+However the correct prototypes according to the C99 and C11 standards
+are:
 
-However, for the structures returned from fts_children() function, 
-fts_pathlen is strlen(fts_path) + strlen(fts_name), which contradicts 
-the man page statement. So I believe that there is either a bug in the 
-man page or the fts_children() library call.
+    intmax_t strtoimax(const char * restrict nptr,
+        char ** restrict endptr, int base);
+    uintmax_t strtoumax(const char * restrict nptr,
+        char ** restrict endptr, int base);
 
-The following program can be used for verification:
+i.e. the "restrict" is missing for all pointers.
 
-#include <fts.h>
-#include <pwd.h>
-#include <stdio.h>
-#include <string.h>
+This seems to be an error only in the man page. The glibc 2.19 manual
+gives the correct prototypes:
 
-int main() {
-	struct passwd *pwd_entry = getpwuid(getuid());
-	char *paths[] = {pwd_entry->pw_dir, NULL};
-	FTS* fts = fts_open(paths, FTS_LOGICAL, NULL);
-	FTSENT* ftsent = fts_read(fts);
-	FTSENT* child = fts_children(fts, 0);
-	while (child != NULL) {
-		printf("\n %s %s %d %lu", child->fts_path, child->fts_name,
-				child->fts_pathlen, strlen(child->fts_path));
-		child = child->fts_link;
-	}
-	return 0;
-}
+ -- Function: intmax_t strtoimax (const char *restrict STRING, char
+          **restrict TAILPTR, int BASE)
 
+ -- Function: uintmax_t strtoumax (const char *restrict STRING, char
+          **restrict TAILPTR, int BASE)
 
-Thanks,
-Pradeep Kumar
+and /usr/include/inttypes.h is correct too:
+
+extern intmax_t strtoimax (const char *__restrict __nptr,
+                           char **__restrict __endptr, int __base) __THROW;
+
+extern uintmax_t strtoumax (const char *__restrict __nptr,
+                            char ** __restrict __endptr, int __base) __THROW;
+
+Similarly, http://man7.org/linux/man-pages/man3/wcstoimax.3.html
+contains:
+
+    intmax_t wcstoimax(const wchar_t *nptr, wchar_t **endptr, int base);
+    uintmax_t wcstoumax(const wchar_t *nptr, wchar_t **endptr, int base);
+
+while it should be:
+
+    intmax_t wcstoimax(const wchar_t * restrict nptr,
+        wchar_t ** restrict endptr, int base);
+    uintmax_t wcstoumax(const wchar_t * restrict nptr,
+        wchar_t ** restrict endptr, int base);
+
+Ditto for some prototypes in:
+  http://man7.org/linux/man-pages/man3/strtod.3.html
+  http://man7.org/linux/man-pages/man3/strtol.3.html
+  http://man7.org/linux/man-pages/man3/strtoul.3.html
+  http://man7.org/linux/man-pages/man3/mbtowc.3.html
+  http://man7.org/linux/man-pages/man3/mbstowcs.3.html
+  http://man7.org/linux/man-pages/man3/wcstombs.3.html
+  http://man7.org/linux/man-pages/man3/memcpy.3.html
+  http://man7.org/linux/man-pages/man3/strcpy.3.html
+  http://man7.org/linux/man-pages/man3/strcat.3.html
+  http://man7.org/linux/man-pages/man3/printf.3.html
+  http://man7.org/linux/man-pages/man3/scanf.3.html
+etc.
+
+Ditto for (this time POSIX only):
+  http://man7.org/linux/man-pages/man3/realpath.3.html
+
+-- 
+Vincent Lefèvre <vincent-buymaDBGzMOsTnJN9+BGXg@public.gmane.org> - Web: <https://www.vinc17.net/>
+100% accessible validated (X)HTML - Blog: <https://www.vinc17.net/blog/>
+Work: CR INRIA - computer arithmetic / AriC project (LIP, ENS-Lyon)
 --
 To unsubscribe from this list: send the line "unsubscribe linux-man" in
 the body of a message to majordomo-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
