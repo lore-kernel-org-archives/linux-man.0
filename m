@@ -1,31 +1,40 @@
-From: Cyril Hrubis <chrubis-AlSwsSmVLrQ@public.gmane.org>
-Subject: Re: [PATCH] ioctl_list.2: BLKRASET/BLKRAGET take unsigned long
-Date: Wed, 15 Feb 2017 15:29:07 +0100
-Message-ID: <20170215142907.GA28937@rei.lan>
-References: <20170215112015.GA27080@rei.lan>
- <20170215112205.GA27269@rei.lan>
- <CAK8P3a0KzhqFZqvPH4q7_Nb6+TMmhCWXDi_-wQG=mi-1U=Ccxw@mail.gmail.com>
- <20170215125946.GA27511@rei.lan>
-Mime-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
+From: Mike Frysinger <vapier-aBrp7R+bbdUdnm+yROfE0A@public.gmane.org>
+Subject: [PATCH 1/3] prctl(2): PR_SET_MM: document arg4/arg5 zero behavior
+Date: Wed, 15 Feb 2017 15:14:41 -0500
+Message-ID: <20170215201443.448-1-vapier@gentoo.org>
 Return-path: <linux-man-owner-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>
-Content-Disposition: inline
-In-Reply-To: <20170215125946.GA27511-2UyX9mZUyMU@public.gmane.org>
 Sender: linux-man-owner-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
-To: Arnd Bergmann <arnd-r2nGTMty4D4@public.gmane.org>
-Cc: mtk.manpages-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org, linux-man-u79uwXL29TY76Z2rM5mHXA@public.gmane.org, linux-api-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
+To: Michael Kerrisk <mtk.manpages-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org>
+Cc: linux-man-u79uwXL29TY76Z2rM5mHXA@public.gmane.org, Mike Frysinger <vapier-F7+t8E8rja9g9hUCZPvPmw@public.gmane.org>
 List-Id: linux-man@vger.kernel.org
 
-Hi!
-> So as far as I can tell we depend here on a fact that upper part of $rdx
-> is zeroed. Not sure if that is guaranteed or not.
+The kernel will immediately reject calls where arg4/arg5 are not zero.
+See kernel/sys.c:prctl_set_mm().
 
-Which seems to be the case for x86_64 processors, so passing int value
-to ioctl() will work fine there. Not sure about the rest of 64bit archs.
+Signed-off-by: Mike Frysinger <vapier-F7+t8E8rja9g9hUCZPvPmw@public.gmane.org>
+---
+ man2/prctl.2 | 5 +++++
+ 1 file changed, 5 insertions(+)
 
+diff --git a/man2/prctl.2 b/man2/prctl.2
+index 97cf21a4c558..c91d328e5aa1 100644
+--- a/man2/prctl.2
++++ b/man2/prctl.2
+@@ -515,6 +515,11 @@ The value in
+ is one of the options below, while
+ .I arg3
+ provides a new value for the option.
++The
++.I arg4
++and
++.I arg5
++arguments must be zero if unused.
+ .RS
+ .TP
+ .BR PR_SET_MM_START_CODE
 -- 
-Cyril Hrubis
-chrubis-AlSwsSmVLrQ@public.gmane.org
+2.11.0
+
 --
 To unsubscribe from this list: send the line "unsubscribe linux-man" in
 the body of a message to majordomo-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
