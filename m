@@ -1,10 +1,9 @@
-From: Vincent Lefevre <vincent-buymaDBGzMOsTnJN9+BGXg@public.gmane.org>
-Subject: missing "restrict" in various prototypes
-Date: Tue, 14 Feb 2017 15:15:28 +0100
-Message-ID: <20170214141528.GC16063@cventin.lip.ens-lyon.fr>
+From: Cyril Hrubis <chrubis-AlSwsSmVLrQ@public.gmane.org>
+Subject: [PATCH] ioctl_list.2: BLKRASET/BLKRAGET take unsigned long
+Date: Wed, 15 Feb 2017 12:20:15 +0100
+Message-ID: <20170215112015.GA27080@rei.lan>
 Mime-Version: 1.0
-Content-Type: text/plain; charset=iso-8859-1
-Content-Transfer-Encoding: 8bit
+Content-Type: text/plain; charset=us-ascii
 Return-path: <linux-man-owner-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>
 Content-Disposition: inline
 Sender: linux-man-owner-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
@@ -12,72 +11,75 @@ To: mtk.manpages-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org
 Cc: linux-man-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
 List-Id: linux-man@vger.kernel.org
 
-http://man7.org/linux/man-pages/man3/strtoimax.3.html contains:
+The BLKRASET/BLKRAGET ioctls() take unsigned long, if I pass int * to
+the BLKRAGET ioctl on x86_64 (or on any other arch where sizeof(int) !=
+sizeof(long)) the BLKRAGET ioctl will rewrite four bytes on the stack.
 
-    intmax_t strtoimax(const char *nptr, char **endptr, int base);
-    uintmax_t strtoumax(const char *nptr, char **endptr, int base);
+If you look at block/ioctl.c in kernel sources you can clearly see that
+BLKRAGET ioctl calls put_long().
 
-However the correct prototypes according to the C99 and C11 standards
-are:
+Compile following reproducer and run it as ./a.out /dev/sda, you can see
+that the second member of the array will be zeroed. If you change the
+array to have only one member you will see stack smashing trace.
 
-    intmax_t strtoimax(const char * restrict nptr,
-        char ** restrict endptr, int base);
-    uintmax_t strtoumax(const char * restrict nptr,
-        char ** restrict endptr, int base);
+I also wonder if it's OK to pass int value to ioctl() at all, the arg
+value seems to be unsigned long in the syscall definition in fs/ioctl.c
+and there does not seem to be any glibc magic around the syscall.
 
-i.e. the "restrict" is missing for all pointers.
+-------------------------8<----------------------------
+#include <sys/mount.h>
+#include <sys/ioctl.h>
+#include <fcntl.h>
+#include <stdio.h>
 
-This seems to be an error only in the man page. The glibc 2.19 manual
-gives the correct prototypes:
+static int fd;
 
- -- Function: intmax_t strtoimax (const char *restrict STRING, char
-          **restrict TAILPTR, int BASE)
+int main(int argc, char *argv[])
+{
+	int ra[] = {100, 100};
 
- -- Function: uintmax_t strtoumax (const char *restrict STRING, char
-          **restrict TAILPTR, int BASE)
+	fd = open(argv[1], O_RDONLY);
+	if (fd < 0) {
+		perror("open");
+		return 1;
+	}
 
-and /usr/include/inttypes.h is correct too:
+	ioctl(fd, BLKRAGET, ra);
 
-extern intmax_t strtoimax (const char *__restrict __nptr,
-                           char **__restrict __endptr, int __base) __THROW;
+	fprintf(stderr, "%i %i\n", ra[0], ra[1]);
 
-extern uintmax_t strtoumax (const char *__restrict __nptr,
-                            char ** __restrict __endptr, int __base) __THROW;
+	return 0;
+}
 
-Similarly, http://man7.org/linux/man-pages/man3/wcstoimax.3.html
-contains:
+-------------------------8<----------------------------
 
-    intmax_t wcstoimax(const wchar_t *nptr, wchar_t **endptr, int base);
-    uintmax_t wcstoumax(const wchar_t *nptr, wchar_t **endptr, int base);
+Signed-off-by: Cyril Hrubis <chrubis-AlSwsSmVLrQ@public.gmane.org>
+---
+ man2/ioctl_list.2 | 4 ++--
+ 1 file changed, 2 insertions(+), 2 deletions(-)
 
-while it should be:
+diff --git a/man2/ioctl_list.2 b/man2/ioctl_list.2
+index 0165c77..c8efd66 100644
+--- a/man2/ioctl_list.2
++++ b/man2/ioctl_list.2
+@@ -311,8 +311,8 @@ l l l l.
+ 0x0000125F	BLKRRPART	void
+ 0x00001260	BLKGETSIZE	unsigned long *
+ 0x00001261	BLKFLSBUF	void
+-0x00001262	BLKRASET	int
+-0x00001263	BLKRAGET	int *
++0x00001262	BLKRASET	unsigned long
++0x00001263	BLKRAGET	unsigned long *
+ 0x00000001	FIBMAP	int *	// I-O
+ 0x00000002	FIGETBSZ	int *
+ 0x80086601	FS_IOC_GETFLAGS	int *
+-- 
+2.10.2
 
-    intmax_t wcstoimax(const wchar_t * restrict nptr,
-        wchar_t ** restrict endptr, int base);
-    uintmax_t wcstoumax(const wchar_t * restrict nptr,
-        wchar_t ** restrict endptr, int base);
-
-Ditto for some prototypes in:
-  http://man7.org/linux/man-pages/man3/strtod.3.html
-  http://man7.org/linux/man-pages/man3/strtol.3.html
-  http://man7.org/linux/man-pages/man3/strtoul.3.html
-  http://man7.org/linux/man-pages/man3/mbtowc.3.html
-  http://man7.org/linux/man-pages/man3/mbstowcs.3.html
-  http://man7.org/linux/man-pages/man3/wcstombs.3.html
-  http://man7.org/linux/man-pages/man3/memcpy.3.html
-  http://man7.org/linux/man-pages/man3/strcpy.3.html
-  http://man7.org/linux/man-pages/man3/strcat.3.html
-  http://man7.org/linux/man-pages/man3/printf.3.html
-  http://man7.org/linux/man-pages/man3/scanf.3.html
-etc.
-
-Ditto for (this time POSIX only):
-  http://man7.org/linux/man-pages/man3/realpath.3.html
 
 -- 
-Vincent Lefèvre <vincent-buymaDBGzMOsTnJN9+BGXg@public.gmane.org> - Web: <https://www.vinc17.net/>
-100% accessible validated (X)HTML - Blog: <https://www.vinc17.net/blog/>
-Work: CR INRIA - computer arithmetic / AriC project (LIP, ENS-Lyon)
+Cyril Hrubis
+chrubis-AlSwsSmVLrQ@public.gmane.org
 --
 To unsubscribe from this list: send the line "unsubscribe linux-man" in
 the body of a message to majordomo-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
