@@ -1,59 +1,47 @@
-From: Mike Frysinger <vapier-aBrp7R+bbdUdnm+yROfE0A@public.gmane.org>
-Subject: [PATCH] proc(5): clarify /proc/pid/environ behavior
-Date: Wed, 15 Feb 2017 17:16:54 -0500
-Message-ID: <20170215221654.10293-1-vapier@gentoo.org>
+From: Francois Saint-Jacques <fsaintjacques-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org>
+Subject: [patch] socket.7: Document SO_INCOMING_CPU
+Date: Fri, 17 Feb 2017 23:06:50 -0500
+Message-ID: <CABNn7+rHfUTjMtm3Biqfx83G6Rr7pY-LuHXY=JqA6N3H_SstZg@mail.gmail.com>
+Mime-Version: 1.0
+Content-Type: text/plain; charset=UTF-8
 Return-path: <linux-man-owner-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>
 Sender: linux-man-owner-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
-To: Michael Kerrisk <mtk.manpages-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org>
-Cc: linux-man-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
+To: mtk.manpages-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org
+Cc: linux-man-u79uwXL29TY76Z2rM5mHXA@public.gmane.org, netdev-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
 List-Id: linux-man@vger.kernel.org
 
-From: Mike Frysinger <vapier-F7+t8E8rja9g9hUCZPvPmw@public.gmane.org>
+This socket option is undocumented. Applies on the latest version
+(man-pages-4.09-511).
 
-Make sure people don't try to rely on this when there are no guarantees
-the target process respects it.
-
-Signed-off-by: Mike Frysinger <vapier-aBrp7R+bbdUdnm+yROfE0A@public.gmane.org>
----
- man5/proc.5 | 15 ++++++++++++++-
- 1 file changed, 14 insertions(+), 1 deletion(-)
-
-diff --git a/man5/proc.5 b/man5/proc.5
-index 0a3503f99360..89a7c09ad5af 100644
---- a/man5/proc.5
-+++ b/man5/proc.5
-@@ -477,7 +477,7 @@ check; see
- .BR ptrace (2).
+diff --git a/man7/socket.7 b/man7/socket.7
+index 3efd7a5d8..1a3ffa253 100644
+--- a/man7/socket.7
++++ b/man7/socket.7
+@@ -490,6 +490,26 @@ flag on a socket
+ operation.
+ Expects an integer boolean flag.
  .TP
- .I /proc/[pid]/environ
--This file contains the environment for the process.
-+This file contains the initial environment for the process.
- The entries are separated by null bytes (\(aq\\0\(aq),
- and there may be a null byte at the end.
- Thus, to print out the environment of process 1, you would do:
-@@ -488,6 +488,19 @@ Thus, to print out the environment of process 1, you would do:
- .fi
- .in
- 
-+Once a process starts modifying its environment
-+(e.g. by calling functions such as
-+.BR putenv (3)
-+or modifying the
-+.BR environ (7)
-+variable directly),
-+this file will not be kept up to date.
-+
-+Further, a process may change the memory this points to by calling
-+.BR prctl (2)
-+and using operations such as
-+.BR PR_SET_MM_ENV_START .
-+
- Permission to access this file is governed by a ptrace access mode
- .B PTRACE_MODE_READ_FSCREDS
- check; see
--- 
-2.11.0
-
++.BR SO_INCOMING_CPU " (getsockopt since Linux 3.19, setsockopt since
+Linux 4.4)"
++.\" getsocktop 2c8c56e15df3d4c2af3d656e44feb18789f75837
++.\" setsocktop 70da268b569d32a9fddeea85dc18043de9d89f89
++Sets or gets the cpu affinity of a socket. Expects an integer flag.
++.sp
++.in +4n
++.nf
++int cpu = 1;
++socklen_t len = sizeof(cpu);
++setsockopt(fd, SOL_SOCKET, SO_INCOMING_CPU, &cpu, &len);
++.fi
++.in
++.sp
++The typical use case is one listener per RX queue, as the associated listener
++should only accept flows handled in softirq by the same cpu.  This provides
++optimal NUMA behavior and keep cpu caches hot.
++.TP
+ .B SO_KEEPALIVE
+ Enable sending of keep-alive messages on connection-oriented sockets.
+ Expects an integer boolean flag.
 --
 To unsubscribe from this list: send the line "unsubscribe linux-man" in
 the body of a message to majordomo-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
