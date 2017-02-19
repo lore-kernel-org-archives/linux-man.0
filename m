@@ -1,88 +1,47 @@
-From: "Michael Kerrisk (man-pages)" <mtk.manpages-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org>
-Subject: Re: [patch] socket.7: Document SO_INCOMING_CPU
-Date: Sun, 19 Feb 2017 21:55:20 +0100
-Message-ID: <63815aac-9c8f-c599-9422-5c312cefc9e8@gmail.com>
-References: <CABNn7+rHfUTjMtm3Biqfx83G6Rr7pY-LuHXY=JqA6N3H_SstZg@mail.gmail.com>
+From: "Dmitry V. Levin" <ldv-u2l5PoMzF/Vg9hUCZPvPmw@public.gmane.org>
+Subject: [PATCH] sigprocmask.2: do not specify an exact value of rt_sigprocmask's 4th argument
+Date: Mon, 20 Feb 2017 00:13:03 +0300
+Message-ID: <20170219211302.GA30235@altlinux.org>
 Mime-Version: 1.0
-Content-Type: text/plain; charset=utf-8
-Content-Transfer-Encoding: 7bit
+Content-Type: text/plain; charset=us-ascii
 Return-path: <linux-man-owner-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>
-In-Reply-To: <CABNn7+rHfUTjMtm3Biqfx83G6Rr7pY-LuHXY=JqA6N3H_SstZg-JsoAwUIsXosN+BqQ9rBEUg@public.gmane.org>
+Content-Disposition: inline
 Sender: linux-man-owner-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
-To: Francois Saint-Jacques <fsaintjacques-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org>
-Cc: mtk.manpages-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org, linux-man-u79uwXL29TY76Z2rM5mHXA@public.gmane.org, netdev-u79uwXL29TY76Z2rM5mHXA@public.gmane.org, Eric Dumazet <edumazet-hpIqsD4AKlfQT0dZR+AlfA@public.gmane.org>
+To: Michael Kerrisk <mtk.manpages-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org>
+Cc: linux-man-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
 List-Id: linux-man@vger.kernel.org
 
-[CC += Eric, so that he might review]
+As sizeof(kernel_sigset_t) is not the same for all architectures,
+it would be better not to mention any numbers as its value.
 
-Hello Francois,
+Signed-off-by: Dmitry V. Levin <ldv-u2l5PoMzF/Vg9hUCZPvPmw@public.gmane.org>
+---
+ man2/sigprocmask.2 | 9 +++++----
+ 1 file changed, 5 insertions(+), 4 deletions(-)
 
-On 02/18/2017 05:06 AM, Francois Saint-Jacques wrote:
-> This socket option is undocumented. Applies on the latest version
-> (man-pages-4.09-511).
-> 
-> diff --git a/man7/socket.7 b/man7/socket.7
-> index 3efd7a5d8..1a3ffa253 100644
-> --- a/man7/socket.7
-> +++ b/man7/socket.7
-> @@ -490,6 +490,26 @@ flag on a socket
->  operation.
->  Expects an integer boolean flag.
->  .TP
-> +.BR SO_INCOMING_CPU " (getsockopt since Linux 3.19, setsockopt since
-> Linux 4.4)"
-> +.\" getsocktop 2c8c56e15df3d4c2af3d656e44feb18789f75837
-> +.\" setsocktop 70da268b569d32a9fddeea85dc18043de9d89f89
-> +Sets or gets the cpu affinity of a socket. Expects an integer flag.
-> +.sp
-> +.in +4n
-> +.nf
-> +int cpu = 1;
-> +socklen_t len = sizeof(cpu);
-> +setsockopt(fd, SOL_SOCKET, SO_INCOMING_CPU, &cpu, &len);
-> +.fi
-> +.in
-> +.sp
-> +The typical use case is one listener per RX queue, as the associated listener
-> +should only accept flows handled in softirq by the same cpu.  This provides
-> +optimal NUMA behavior and keep cpu caches hot.
-> +.TP
->  .B SO_KEEPALIVE
->  Enable sending of keep-alive messages on connection-oriented sockets.
->  Expects an integer boolean flag.
-
-Thank you! Patch applied.
-
-I have tried to enhance the description somewhat. I'm not sure whether
-what I've written is quite correct (or whether it should be further
-extended). Eric, could you please take a look at the following, and let 
-me know if anything needs fixing:
-
-       SO_INCOMING_CPU  (gettable  since Linux 3.19, settable since Linux
-       4.4)
-              Sets or gets the CPU affinity  of  a  socket.   Expects  an
-              integer flag.
-
-                  int cpu = 1;
-                  socklen_t len = sizeof(cpu);
-                  setsockopt(fd, SOL_SOCKET, SO_INCOMING_CPU, &cpu, &len);
-
-              Because  all  of the packets for a single stream (i.e., all
-              packets for the same 4-tuple) arrive on the single RX queue
-              that  is  associated with a particular CPU, the typical use
-              case is to employ one listening process per RX queue,  with
-              the  incoming  flow being handled by a listener on the same
-              CPU that is handling the RX queue.  This  provides  optimal
-              NUMA behavior and keeps CPU caches hot.
-
-Cheers,
-
-Michael
-
+diff --git a/man2/sigprocmask.2 b/man2/sigprocmask.2
+index 8388340..6379a4d 100644
+--- a/man2/sigprocmask.2
++++ b/man2/sigprocmask.2
+@@ -202,10 +202,11 @@ which specifies the size in bytes of the signal sets in
+ .IR set
+ and
+ .IR oldset .
+-This argument is currently required to have the value 8
+-(
+-.IR sizeof(kernel_sigset_t)
+-).
++This argument is currently required to have a fixed value
++(equal to
++.IR sizeof(kernel_sigset_t) ).
++.\" sizeof(kernel_sigset_t) == _NSIG / 8,
++.\" which equals to 8 on most architectures, but e.g. on MIPS it's 16.
+ 
+ The glibc
+ .BR sigprocmask ()
 -- 
-Michael Kerrisk
-Linux man-pages maintainer; http://www.kernel.org/doc/man-pages/
-Linux/UNIX System Programming Training: http://man7.org/training/
+ldv
+
 --
 To unsubscribe from this list: send the line "unsubscribe linux-man" in
 the body of a message to majordomo-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
