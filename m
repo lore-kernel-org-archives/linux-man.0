@@ -1,18 +1,88 @@
-From: university-82leFOi/TB4@public.gmane.org
-Subject: Hello.
-Date: Sat, 11 Feb 2017 22:16:00 +0000
-Message-ID: <E43BCBA2F75943D28FC4CACC8CB4F976.MAI@fdn.ir>
-Reply-To: anessa1col-PkbjNfxxIARBDgjK7y7TUQ@public.gmane.org
+From: "Michael Kerrisk (man-pages)" <mtk.manpages-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org>
+Subject: Re: [patch] socket.7: Document SO_INCOMING_CPU
+Date: Sun, 19 Feb 2017 21:55:20 +0100
+Message-ID: <63815aac-9c8f-c599-9422-5c312cefc9e8@gmail.com>
+References: <CABNn7+rHfUTjMtm3Biqfx83G6Rr7pY-LuHXY=JqA6N3H_SstZg@mail.gmail.com>
 Mime-Version: 1.0
-Content-Type: text/plain; charset="iso-8859-1"
-Content-Transfer-Encoding: 8BIT
+Content-Type: text/plain; charset=utf-8
+Content-Transfer-Encoding: 7bit
 Return-path: <linux-man-owner-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>
-Content-Description: Mail message body
+In-Reply-To: <CABNn7+rHfUTjMtm3Biqfx83G6Rr7pY-LuHXY=JqA6N3H_SstZg-JsoAwUIsXosN+BqQ9rBEUg@public.gmane.org>
 Sender: linux-man-owner-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
-To: Recipients <university-82leFOi/TB4@public.gmane.org>
+To: Francois Saint-Jacques <fsaintjacques-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org>
+Cc: mtk.manpages-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org, linux-man-u79uwXL29TY76Z2rM5mHXA@public.gmane.org, netdev-u79uwXL29TY76Z2rM5mHXA@public.gmane.org, Eric Dumazet <edumazet-hpIqsD4AKlfQT0dZR+AlfA@public.gmane.org>
 List-Id: linux-man@vger.kernel.org
 
-Hello,
+[CC += Eric, so that he might review]
+
+Hello Francois,
+
+On 02/18/2017 05:06 AM, Francois Saint-Jacques wrote:
+> This socket option is undocumented. Applies on the latest version
+> (man-pages-4.09-511).
+> 
+> diff --git a/man7/socket.7 b/man7/socket.7
+> index 3efd7a5d8..1a3ffa253 100644
+> --- a/man7/socket.7
+> +++ b/man7/socket.7
+> @@ -490,6 +490,26 @@ flag on a socket
+>  operation.
+>  Expects an integer boolean flag.
+>  .TP
+> +.BR SO_INCOMING_CPU " (getsockopt since Linux 3.19, setsockopt since
+> Linux 4.4)"
+> +.\" getsocktop 2c8c56e15df3d4c2af3d656e44feb18789f75837
+> +.\" setsocktop 70da268b569d32a9fddeea85dc18043de9d89f89
+> +Sets or gets the cpu affinity of a socket. Expects an integer flag.
+> +.sp
+> +.in +4n
+> +.nf
+> +int cpu = 1;
+> +socklen_t len = sizeof(cpu);
+> +setsockopt(fd, SOL_SOCKET, SO_INCOMING_CPU, &cpu, &len);
+> +.fi
+> +.in
+> +.sp
+> +The typical use case is one listener per RX queue, as the associated listener
+> +should only accept flows handled in softirq by the same cpu.  This provides
+> +optimal NUMA behavior and keep cpu caches hot.
+> +.TP
+>  .B SO_KEEPALIVE
+>  Enable sending of keep-alive messages on connection-oriented sockets.
+>  Expects an integer boolean flag.
+
+Thank you! Patch applied.
+
+I have tried to enhance the description somewhat. I'm not sure whether
+what I've written is quite correct (or whether it should be further
+extended). Eric, could you please take a look at the following, and let 
+me know if anything needs fixing:
+
+       SO_INCOMING_CPU  (gettable  since Linux 3.19, settable since Linux
+       4.4)
+              Sets or gets the CPU affinity  of  a  socket.   Expects  an
+              integer flag.
+
+                  int cpu = 1;
+                  socklen_t len = sizeof(cpu);
+                  setsockopt(fd, SOL_SOCKET, SO_INCOMING_CPU, &cpu, &len);
+
+              Because  all  of the packets for a single stream (i.e., all
+              packets for the same 4-tuple) arrive on the single RX queue
+              that  is  associated with a particular CPU, the typical use
+              case is to employ one listening process per RX queue,  with
+              the  incoming  flow being handled by a listener on the same
+              CPU that is handling the RX queue.  This  provides  optimal
+              NUMA behavior and keeps CPU caches hot.
+
+Cheers,
+
+Michael
+
+-- 
+Michael Kerrisk
+Linux man-pages maintainer; http://www.kernel.org/doc/man-pages/
+Linux/UNIX System Programming Training: http://man7.org/training/
 --
 To unsubscribe from this list: send the line "unsubscribe linux-man" in
 the body of a message to majordomo-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
