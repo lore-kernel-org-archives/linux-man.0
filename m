@@ -1,51 +1,55 @@
-From: "Dmitry V. Levin" <ldv-u2l5PoMzF/Vg9hUCZPvPmw@public.gmane.org>
-Subject: [PATCH v2] sigprocmask.2: do not specify an exact value of rt_sigprocmask's 4th argument
-Date: Mon, 20 Feb 2017 18:43:28 +0300
-Message-ID: <20170220154327.GA9511@altlinux.org>
-References: <20170219211302.GA30235@altlinux.org> <58AAA603.6020400@bfs.de>
+From: Mike Frysinger <vapier-aBrp7R+bbdUdnm+yROfE0A@public.gmane.org>
+Subject: Re: [PATCH] proc(5): clarify /proc/pid/environ behavior
+Date: Mon, 20 Feb 2017 13:54:58 -0500
+Message-ID: <20170220185458.GH28432@vapier>
+References: <20170215221654.10293-1-vapier@gentoo.org>
+ <a6982b2f-7cd6-ad1d-d375-0a41ab539084@gmail.com>
 Mime-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
+Content-Type: multipart/signed; micalg=pgp-sha256;
+        protocol="application/pgp-signature"; boundary="tjOMJDssiV0CZSJH"
 Return-path: <linux-man-owner-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>
 Content-Disposition: inline
-In-Reply-To: <58AAA603.6020400-fPG8STNUNVg@public.gmane.org>
+In-Reply-To: <a6982b2f-7cd6-ad1d-d375-0a41ab539084-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org>
 Sender: linux-man-owner-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
-To: Michael Kerrisk <mtk.manpages-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org>, walter harms <wharms-fPG8STNUNVg@public.gmane.org>
+To: "Michael Kerrisk (man-pages)" <mtk.manpages-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org>
 Cc: linux-man-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
 List-Id: linux-man@vger.kernel.org
 
-As sizeof(kernel_sigset_t) is not the same for all architectures,
-it would be better not to mention any numbers as its value.
 
-Signed-off-by: Dmitry V. Levin <ldv-u2l5PoMzF/Vg9hUCZPvPmw@public.gmane.org>
----
-v2: mention that sizeof(kernel_sigset_t) is architecture specific.
+--tjOMJDssiV0CZSJH
+Content-Type: text/plain; charset=utf-8
+Content-Disposition: inline
 
- man2/sigprocmask.2 | 9 +++++----
- 1 file changed, 5 insertions(+), 4 deletions(-)
+On 20 Feb 2017 15:16, Michael Kerrisk (man-pages) wrote:
+> Thanks! Patch applied. I tweaked somewhat, in particular to further clarify
+> the file content is set at execve(2) time. Does the following look okay
+> to you?
 
-diff --git a/man2/sigprocmask.2 b/man2/sigprocmask.2
-index 8388340..499fd0c 100644
---- a/man2/sigprocmask.2
-+++ b/man2/sigprocmask.2
-@@ -202,10 +202,11 @@ which specifies the size in bytes of the signal sets in
- .IR set
- and
- .IR oldset .
--This argument is currently required to have the value 8
--(
--.IR sizeof(kernel_sigset_t)
--).
-+This argument is currently required to have a fixed architecture specific value
-+(equal to
-+.IR sizeof(kernel_sigset_t) ).
-+.\" sizeof(kernel_sigset_t) == _NSIG / 8,
-+.\" which equals to 8 on most architectures, but e.g. on MIPS it's 16.
- 
- The glibc
- .BR sigprocmask ()
--- 
-ldv
+looks good, thanks
+-mike
 
+--tjOMJDssiV0CZSJH
+Content-Type: application/pgp-signature; name="signature.asc"
+Content-Description: Digital signature
+
+-----BEGIN PGP SIGNATURE-----
+
+iQIzBAEBCAAdFiEEuQK1JxMl+JKsJRrUQWM7n+g39YEFAlirO30ACgkQQWM7n+g3
+9YHphg/+JvhXpqLZ8QSOeLtfl2p/vNFAB+c6MT6bwy2gTtJHgXCU3b7dMp+iusYm
+/IhqNIiopgROh7fehhDsx2YwJhkZtcl8VREu/8RsUTa/OSS6vZ4q8993VmMdL7iO
+hUF7XZcdkdXHv2kxw+9PwHuf98K890e+rCVfogy+mhaXMWeFlfKVTCwKMhtmktB1
+NxD1GbPTlzBeyKTw5ZfLHSOElttkzSEc1s9fQyjZxLW7iKzoRlrS8JUXI/LqaNPa
+zATLnA471yShoAk+79opUtjrrGJmdbp+lvRoAlIKglVjo8uc7VPbcWH0/8H6bOyP
+4msXHJii7rYY1B0YWOCjfhYM8i3i6R5zdAAk+Mu7C1SdLgNFiU2xhIhMNeWN4IL2
+Gr3Ec4Qvp8+Z5/eE/As/HfQlNn9PFL/+alli7D5/ywENM/K5JcwwVWAtAtpNiaq/
+xjuEJ22Vs+fjMz22Q2J+Di4Px7MpKHVQ3VZHqNIGUea1siiJu6y6nFvpPguvYUd7
+L3Wov26SEuY1HoM+ihiV105yzhQwwSEAh9g1jUPUiKjHRogr2xWNupQlF9nUDCZa
+hGFdqXEsrw6B2i2ZQa6UjRPOPQmdr1Y9kxKbl5i+2ew9kX/pIhFHFhguK4xxXcoS
+nV/vW8ezKUmMtybeA2D53pyXN/hdv7AHt6JoSEtg2PF2hKIEMzU=
+=9B4t
+-----END PGP SIGNATURE-----
+
+--tjOMJDssiV0CZSJH--
 --
 To unsubscribe from this list: send the line "unsubscribe linux-man" in
 the body of a message to majordomo-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
