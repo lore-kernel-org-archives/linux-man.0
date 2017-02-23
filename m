@@ -1,21 +1,27 @@
-From: university-82leFOi/TB4@public.gmane.org
-Subject: Hello
-Date: Sun, 19 Feb 2017 16:40:21 +0000
-Message-ID: <40DCE0B265EF4897B5AEEE09544D631C.MAI@fdn.ir>
-Reply-To: anessa1col-PkbjNfxxIARBDgjK7y7TUQ@public.gmane.org
+From: Qin's Yanjun <Qin.Yanjun-ifvz4xmYPRU@public.gmane.org>
+Subject: RE:
+Date: Thu, 23 Feb 2017 20:09:29 +0500
+Message-ID: <cf3faff95fb3db02602e6f37c5cd928f__8797.23145994849$1487873563$gmane$org@mail.aknet.kz>
+Reply-To: Qin's Yanjun <Qin.Yanjun-ifvz4xmYPRU@public.gmane.org>
 Mime-Version: 1.0
-Content-Type: text/plain; charset="iso-8859-1"
-Content-Transfer-Encoding: 8BIT
+Content-Type: text/plain; charset=US-ASCII
+Content-Transfer-Encoding: 7BIT
 Return-path: <linux-man-owner-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>
-Content-Description: Mail message body
 Sender: linux-man-owner-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
-To: Recipients <university-82leFOi/TB4@public.gmane.org>
 List-Id: linux-man@vger.kernel.org
 
-Please kindly reply me if this your email is still in use.
 
-Sincerely yours
-Anessa...t
+How are you today and your family? I require your attention and honest
+co-operation about some issues which i will really want to discuss with you
+which.  Looking forward to read from you soon.  
+
+Qin's
+
+
+______________________________
+
+Sky Silk, http://aknet.kz
+
 --
 To unsubscribe from this list: send the line "unsubscribe linux-man" in
 the body of a message to majordomo-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
