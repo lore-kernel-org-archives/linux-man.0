@@ -1,63 +1,78 @@
-From: "J. Bruce Fields" <bfields-H+wXaHxf7aLQT0dZR+AlfA@public.gmane.org>
-Subject: Re: [PATCH] getxattr.2, listxattr.2: Document E2BIG errors
-Date: Fri, 24 Feb 2017 10:08:11 -0500
-Message-ID: <20170224150810.GA16839@parsley.fieldses.org>
-References: <1487887001-11203-1-git-send-email-agruenba@redhat.com>
+From: "Michael Kerrisk (man-pages)" <mtk.manpages-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org>
+Subject: Re: [patch] nftw(): clarify dangling symlinks case
+Date: Fri, 24 Feb 2017 18:41:10 +0100
+Message-ID: <CAKgNAkjaMMg0bA896gzeM2XQRgZ9ma3Ttap-eBgE=n8g319Eeg@mail.gmail.com>
+References: <xnshn7hw5i.fsf@greed.delorie.com> <23f174b0-5a52-213b-6fd8-4026c2b8fcc3@redhat.com>
+ <CAKgNAki6wMCLRNZzFM975NviY-fd6gDNBTLvWZKSA2hdtb3AYA@mail.gmail.com> <4b58684c-b026-a541-8774-a0858c10ccb9@redhat.com>
+Reply-To: mtk.manpages-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org
 Mime-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
+Content-Type: text/plain; charset=UTF-8
 Return-path: <linux-man-owner-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>
-Content-Disposition: inline
-In-Reply-To: <1487887001-11203-1-git-send-email-agruenba-H+wXaHxf7aLQT0dZR+AlfA@public.gmane.org>
+In-Reply-To: <4b58684c-b026-a541-8774-a0858c10ccb9-H+wXaHxf7aLQT0dZR+AlfA@public.gmane.org>
 Sender: linux-man-owner-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
-To: Andreas Gruenbacher <agruenba-H+wXaHxf7aLQT0dZR+AlfA@public.gmane.org>
-Cc: mtk.manpages-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org, linux-man-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
+To: Carlos O'Donell <carlos-H+wXaHxf7aLQT0dZR+AlfA@public.gmane.org>
+Cc: DJ Delorie <dj-H+wXaHxf7aLQT0dZR+AlfA@public.gmane.org>, linux-man <linux-man-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>, Carlos O'Donell <codonell-H+wXaHxf7aLQT0dZR+AlfA@public.gmane.org>
 List-Id: linux-man@vger.kernel.org
 
-Looks good, thanks!--b.
+Hi Carlos,
 
-On Thu, Feb 23, 2017 at 10:56:41PM +0100, Andreas Gruenbacher wrote:
-> Signed-off-by: Andreas Gruenbacher <agruenba-H+wXaHxf7aLQT0dZR+AlfA@public.gmane.org>
-> ---
->  man2/getxattr.2  | 5 +++++
->  man2/listxattr.2 | 6 ++++++
->  2 files changed, 11 insertions(+)
-> 
-> diff --git a/man2/getxattr.2 b/man2/getxattr.2
-> index c06c92f..83945fe 100644
-> --- a/man2/getxattr.2
-> +++ b/man2/getxattr.2
-> @@ -127,6 +127,11 @@ The
->  of the
->  .I value
->  buffer is too small to hold the result.
-> +.TP
-> +.B E2BIG
-> +The size of the attribute value is larger than the maximum size allowed; the
-> +attribute cannot be retrieved. This can happen on filesystems that support
-> +very large attribute values such as NFSv4, for example.
->  .PP
->  In addition, the errors documented in
->  .BR stat (2)
-> diff --git a/man2/listxattr.2 b/man2/listxattr.2
-> index 9c14679..e923af4 100644
-> --- a/man2/listxattr.2
-> +++ b/man2/listxattr.2
-> @@ -149,6 +149,12 @@ The
->  of the
->  .I list
->  buffer is too small to hold the result.
-> +.TP
-> +.B E2BIG
-> +The size of the list of extended attribute names is larger than the maximum
-> +size allowed; the list cannot be retrieved. This can happen on filesystems that
-> +support an unlimited number of extended attributes per file such as XFS, for
-> +example.
->  .PP
->  In addition, the errors documented in
->  .BR stat (2)
-> -- 
-> 2.7.4
-> 
+On 24 February 2017 at 14:10, Carlos O'Donell <carlos-H+wXaHxf7aLQT0dZR+AlfA@public.gmane.org> wrote:
+> On 02/24/2017 03:58 AM, Michael Kerrisk (man-pages) wrote:
+>> So, what do other implementations do? Every other implementation that
+>> I looked at, does return the lstat() information for the dangling
+>> symlink. I looked at Solaris, OpenBSD, FreeBSD, and musl.  All of this
+>> strongly suggests that glibc got it wrong.
+>
+> Michael,
+>
+> Just because everyone else does it doesn't mean it's right, but it does
+> argue strongly for a portability case or just cargo-culting from Solaris.
+>
+> However, what use case does that have? Why would you want the results
+> of the lstat() if you specified !FTW_PHYS?
+
+Perhaps because it's the historical behavior that always existed and
+therefore was standardized in POSIX? (The more I think about this, the
+more it seems clear to met that POSIX clearly specifies the behavior
+that every other implementations is providing.)
+
+> It seems to me that the lstat() is a waste of resources if the caller is
+> not interested in the results.
+
+Why? You got to know that this is a dangling symlink and you got to
+know information about the symlink. Seems pretty reasonable to me.
+(You could equally say that stat()  is a waste of resources in many
+other cases too, since the function called back by nftw() may not need
+any of the info supplied in the stat buffer.)
+
+> I think the bug is in the POSIX spec and they should have said that the
+> results of the stat buffer are undefined.
+
+I disagree. By and large POSIX standardizes existing implementation
+behavior. The evidence suggests that that is what has happened in this
+case also. (I do not know this for sure, of course. But 4/4
+implementations is a fairly strong argument, I'd say.)
+
+> This should go to the Austin Group for clarification.
+
+I think POSIX is actualy rather clear already...
+
+> Could you please ask the Austin Group[1] to clarify what is the result of
+> the stat buffer for dangling symlinks? Please post the bug once filed so
+> the rest of us can comment and provide our own guidance.
+
+But why? The glibc implementation should ideally do what every other
+implementation seems to do. Conversely: what's the argument for not
+fixing it?
+
+Cheers,
+
+Michael
+
+-- 
+Michael Kerrisk
+Linux man-pages maintainer; http://www.kernel.org/doc/man-pages/
+Linux/UNIX System Programming Training: http://man7.org/training/
 --
 To unsubscribe from this list: send the line "unsubscribe linux-man" in
 the body of a message to majordomo-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
