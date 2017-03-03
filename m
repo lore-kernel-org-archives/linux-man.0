@@ -1,62 +1,52 @@
-From: walter harms <wharms-fPG8STNUNVg@public.gmane.org>
-Subject: Re: man 1 getopts example code - wrong dash
-Date: Mon, 27 Feb 2017 17:02:02 +0100
-Message-ID: <58B44D7A.1090905@bfs.de>
-References: <CADOJ=xsjhuZ7_r8JXgfcgXVRi-bf1gN9irBnOePra+i-xv9HuA@mail.gmail.com>
-Reply-To: wharms-fPG8STNUNVg@public.gmane.org
+From: "Michael Kerrisk (man-pages)" <mtk.manpages-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org>
+Subject: Re: Manpage typo in posix_spawn(3)
+Date: Fri, 3 Mar 2017 15:43:53 +0100
+Message-ID: <CAKgNAkh8NBfKy4sLEL+AD6=DU2ZZmrfLM9Ts2Ktic7Ez+Mj4OA@mail.gmail.com>
+References: <CAJYtZH=ZFuOuyBX2NDz4XNKuLe=8DDNf4Rnh3YrrwtMnsD8vKA@mail.gmail.com>
+Reply-To: mtk.manpages-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org
 Mime-Version: 1.0
 Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 8bit
 Return-path: <linux-man-owner-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>
-In-Reply-To: <CADOJ=xsjhuZ7_r8JXgfcgXVRi-bf1gN9irBnOePra+i-xv9HuA-JsoAwUIsXosN+BqQ9rBEUg@public.gmane.org>
+In-Reply-To: <CAJYtZH=ZFuOuyBX2NDz4XNKuLe=8DDNf4Rnh3YrrwtMnsD8vKA-JsoAwUIsXosN+BqQ9rBEUg@public.gmane.org>
 Sender: linux-man-owner-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
-To: Marcus Geiger <geiger.marcus-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org>
-Cc: mtk.manpages-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org, linux-man-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
+To: Paul Fee <paul.f.fee-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org>
+Cc: linux-man <linux-man-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>
 List-Id: linux-man@vger.kernel.org
 
-i tried the example from http://man7.org/linux/man-pages/man1/getopts.1p.html
-and it failed because some invisible chars where embedded
+Hello Paul,
 
-sh -x page.sh
-+ aflag=
-+ bflag=
-+ getopts ab: name
-+ '[' '!' $'\342\210\222z' '' ']'
-page.sh: line 13: [: −z: unary operator expected
-+ '[' '!' $'\342\210\222z' '' ']'
-page.sh: line 16: [: −z: unary operator expected
-page.sh: line 19: 1 − 1: syntax error: invalid arithmetic operator (error token is "− 1")
+On 3 March 2017 at 14:00, Paul Fee <paul.f.fee-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org> wrote:
+> Hi Michael and co.
+>
+> http://man7.org/linux/man-pages/man3/posix_spawn.3.html
+>
+> Same results on Fedora 25, man-pages-4.06-4.fc25.noarch.
+>
+>
+> Current text:
+> For the remainder of this page, the discussion is phrased in terms of
+> posix_spawn(), with the
+> understanding that posix_spawn() differs only on the point just described.
+>
+> I suspect the second reference to posix_spawn() should instead be to
+> posix_spawnp().
+>
+> Suggested text:
+> For the remainder of this page, the discussion is phrased in terms of
+> posix_spawn(), with the
+> understanding that posix_spawnp() differs only on the point just described.
 
-this does not happen when i clip the example rendered with groff (aka man).
+Thanks! Fixed now.
 
-i guess your problem may have the some origin.
+Cheers,
 
-re,
- wh
+Michael
 
 
-Am 27.02.2017 15:16, schrieb Marcus Geiger:
-> Hello,
-> 
-> in the examples section of `man 1 getopts`, every dash/minus used in the
-> example code cannot be parsed by bash. vi claims it's 0x2212 instead of 0x2d.
-> 
-> I'm on Ubuntu 16.04 with bash 4.3.46(1)-release. Unfortunately I couldn't find
-> the source code for this man page, but the current online pages entry also has
-> this problem: http://man7.org/linux/man-pages/man1/getopts.1p.html
-> 
-> The containing package is:
-> 
->    $ dpkg -S $(man -w 1 getopts)
->    manpages-posix: /usr/share/man/man1/getopts.1posix.gz
-> 
-> Kind regards
-> 
-> Marcus Geiger
-> --
-> To unsubscribe from this list: send the line "unsubscribe linux-man" in
-> the body of a message to majordomo-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
-> More majordomo info at  http://vger.kernel.org/majordomo-info.html
+-- 
+Michael Kerrisk
+Linux man-pages maintainer; http://www.kernel.org/doc/man-pages/
+Linux/UNIX System Programming Training: http://man7.org/training/
 --
 To unsubscribe from this list: send the line "unsubscribe linux-man" in
 the body of a message to majordomo-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
