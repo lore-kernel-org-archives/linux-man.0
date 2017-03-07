@@ -1,52 +1,90 @@
-From: Olga Kornievskaia <aglo-63aXycvo3TyHXe+LvDLADg@public.gmane.org>
-Subject: Re: [RFC v1 01/19] Don't copy beyond the end of the file
-Date: Tue, 7 Mar 2017 09:18:14 -0500
-Message-ID: <CAN-5tyGvneN1WFgxmcr0Kx13EZRf-EhJb-EaQp_-+O5i+-0OXA@mail.gmail.com>
-References: <20170302160123.30375-1-kolga@netapp.com> <20170302160123.30375-2-kolga@netapp.com>
- <20170302162221.GA6854@infradead.org> <20170303204747.GE13877@fieldses.org>
- <4B2A2E86-AFC8-49EA-9D53-7A53AD824CF1@netapp.com> <20170303213230.GF13877@fieldses.org>
- <B3F80DA0-B4F8-4628-88C5-E5C047620F17@netapp.com> <20170304021008.GB21609@fieldses.org>
- <924FF7A2-27CD-4848-BD61-748758C2533F@netapp.com> <20170306192301.GB2294@fieldses.org>
+From: walter harms <wharms-fPG8STNUNVg@public.gmane.org>
+Subject: Re: syscall(2)
+Date: Tue, 07 Mar 2017 13:05:07 +0100
+Message-ID: <58BEA1F3.2070502@bfs.de>
+References: <CABLBYvTBKvQXSmiGx3LOUoFHZDGAMmNCofcuHTiKW51kS2bh4g@mail.gmail.com> <CAKgNAkg1iRisrd18WHn64j1NWAs2T0hrsc7dRoZs4XPV_22uhA@mail.gmail.com> <20170306190803.GJ28432@vapier>
+Reply-To: wharms-fPG8STNUNVg@public.gmane.org
 Mime-Version: 1.0
 Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: quoted-printable
+Content-Transfer-Encoding: 7bit
 Return-path: <linux-man-owner-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>
-In-Reply-To: <20170306192301.GB2294-uC3wQj2KruNg9hUCZPvPmw@public.gmane.org>
+In-Reply-To: <20170306190803.GJ28432@vapier>
 Sender: linux-man-owner-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
-To: "J. Bruce Fields" <bfields-uC3wQj2KruNg9hUCZPvPmw@public.gmane.org>
-Cc: linux-man-u79uwXL29TY76Z2rM5mHXA@public.gmane.org, Christoph Hellwig <hch-wEGCiKHe2LqWVfeAwA7xHQ@public.gmane.org>, Trond Myklebust <Trond.Myklebust-7I+n7zu2hftEKMMhf/gKZA@public.gmane.org>, linux-nfs <linux-nfs-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>, "linux-fsdevel-u79uwXL29TY76Z2rM5mHXA@public.gmane.org" <linux-fsdevel-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>, Olga Kornievskaia <kolga-HgOvQuBEEgTQT0dZR+AlfA@public.gmane.org>
+To: "Michael Kerrisk (man-pages)" <mtk.manpages-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org>, Victor Khimenko <khim-hpIqsD4AKlfQT0dZR+AlfA@public.gmane.org>, linux-man <linux-man-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>, Changhee Han <ch0.han-Hm3cg6mZ9cc@public.gmane.org>
 List-Id: linux-man@vger.kernel.org
 
-On Mon, Mar 6, 2017 at 2:23 PM, J. Bruce Fields <bfields-uC3wQj2KruNg9hUCZPvPmw@public.gmane.org> wrot=
-e:
-> On Mon, Mar 06, 2017 at 11:27:23AM -0500, Olga Kornievskaia wrote:
->> I don=E2=80=99t see copy_file_range() specifying that 0 means end of the=
- file.
->
-> Is there a reason that copy_file_range shouldn't be like read?  (From
-> read(2): "On  success,  the number of bytes read is returned (zero
-> indicates end of file)".
 
-The only thing I can think of is the fact that copy_file_range() does
-write too. And return 0 from the write is not expected/allowed (except
-when input count was 0)?
 
-> I haven't checked, but suspect that's already true of the
-> implementations we have.
->
-> Also, from copy_file_range():
->
->         EINVAL Requested  range  extends beyond the end of the source
->                 file; or the flags argument is not 0.
->
-> Some filesystems do this, some don't; I think the man page should make
-> it clear that this behavior is not required.
->
-> --b.
-> --
-> To unsubscribe from this list: send the line "unsubscribe linux-nfs" in
-> the body of a message to majordomo-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
-> More majordomo info at  http://vger.kernel.org/majordomo-info.html
+Am 06.03.2017 20:08, schrieb Mike Frysinger:
+> On 06 Mar 2017 12:01, Michael Kerrisk (man-pages) wrote:
+>> [Extending the CC for some other input. Changhee Han added the text
+>> that you are asking about; Mike F has done a lot of other work on the
+>> page. Perhaps they can comment.]
+>>
+>> On 5 March 2017 at 09:08, Victor Khimenko <khim-hpIqsD4AKlfQT0dZR+AlfA@public.gmane.org> wrote:
+>>> syscall(2) example includes the following snippet which explains how to
+>>> call readahead on ARM:
+>>>
+>>>        syscall(SYS_readahead, fd, 0,
+>>>                    (unsigned int) (offset >> 32),
+>>>                    (unsigned int) (offset & 0xFFFFFFFF),
+>>>                    count);
+>>>
+>>> But ARM EABI specifies that "A double-word sized type is passed in two
+>>> consecutive registers (e.g., r0 and r1, or r2 and r3). The content of
+>>> the registers is as if the value had been loaded from memory representation
+>>> with a single LDM instruction."
+>>>
+>>> This would imply that arguments are swapped around in the man page, no?
+>>
+>> So, I'm taking it that you mean the call should look like this:
+>>
+>>        syscall(SYS_readahead, fd, 0,
+>>                    (unsigned int) (offset & 0xFFFFFFFF),
+>>                    (unsigned int) (offset >> 32),
+>>                   count);
+>>
+>> Is that what you mean?
+>>
+>>> I've tried to experiement and with ftruncate, at least, it works like
+>>> this...
+>>
+>> Sounds plausible. I'm hoping that Mike or Changhee Han might comment.
+> 
+> it depends on the endianness.  the man page shows BE, and Victor's
+> suggestion changes it to LE.  we probably need to explain that and
+> not just swap the args in the example.
+> -mike
+
+
+I think that the point is: "invokes the system call whose assembly language interface"
+
+And a lot of new programmes have no experience with assembler these days. So the example
+should go into more details an explain how this is mapped into registers.
+e.g. ARM/EABI
+          syscall(SYS_readahead,                    // r7
+		   fd,                              // r0
+	            0,                              // r1
+                   (unsigned int) (offset >> 32),   // r2
+                   (unsigned int) (offset & 0xFFFFFFFF), // r3
+                   count);                         //r4
+
+Then the next lines make more sense for the reader:
+"       Since  the  offset  argument is 64 bits, and the first argument (fd) is
+       passed in r0, the caller must manually split and align the 64-bit value
+       so  that it is passed in the r2/r3 register pair.  That means inserting
+       a dummy value into r1 (the second argument of 0)."
+
+then adding something like pitfalls:
+The programmer needs to be aware of the endianess of is cpu. Big Endian CPU will
+need to swap arguments.
+
+@khim-hpIqsD4AKlfQT0dZR+AlfA@public.gmane.org
+what do you think ?
+
+re,
+ wh
+
 --
 To unsubscribe from this list: send the line "unsubscribe linux-man" in
 the body of a message to majordomo-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
