@@ -1,89 +1,52 @@
-From: Mike Frysinger <vapier-aBrp7R+bbdUdnm+yROfE0A@public.gmane.org>
-Subject: Re: syscall(2)
-Date: Mon, 6 Mar 2017 14:08:03 -0500
-Message-ID: <20170306190803.GJ28432@vapier>
-References: <CABLBYvTBKvQXSmiGx3LOUoFHZDGAMmNCofcuHTiKW51kS2bh4g@mail.gmail.com>
- <CAKgNAkg1iRisrd18WHn64j1NWAs2T0hrsc7dRoZs4XPV_22uhA@mail.gmail.com>
+From: Olga Kornievskaia <aglo-63aXycvo3TyHXe+LvDLADg@public.gmane.org>
+Subject: Re: [RFC v1 01/19] Don't copy beyond the end of the file
+Date: Tue, 7 Mar 2017 09:18:14 -0500
+Message-ID: <CAN-5tyGvneN1WFgxmcr0Kx13EZRf-EhJb-EaQp_-+O5i+-0OXA@mail.gmail.com>
+References: <20170302160123.30375-1-kolga@netapp.com> <20170302160123.30375-2-kolga@netapp.com>
+ <20170302162221.GA6854@infradead.org> <20170303204747.GE13877@fieldses.org>
+ <4B2A2E86-AFC8-49EA-9D53-7A53AD824CF1@netapp.com> <20170303213230.GF13877@fieldses.org>
+ <B3F80DA0-B4F8-4628-88C5-E5C047620F17@netapp.com> <20170304021008.GB21609@fieldses.org>
+ <924FF7A2-27CD-4848-BD61-748758C2533F@netapp.com> <20170306192301.GB2294@fieldses.org>
 Mime-Version: 1.0
-Content-Type: multipart/signed; micalg=pgp-sha256;
-        protocol="application/pgp-signature"; boundary="dfFGhfmGgEMjYtLA"
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: quoted-printable
 Return-path: <linux-man-owner-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>
-Content-Disposition: inline
-In-Reply-To: <CAKgNAkg1iRisrd18WHn64j1NWAs2T0hrsc7dRoZs4XPV_22uhA-JsoAwUIsXosN+BqQ9rBEUg@public.gmane.org>
+In-Reply-To: <20170306192301.GB2294-uC3wQj2KruNg9hUCZPvPmw@public.gmane.org>
 Sender: linux-man-owner-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
-To: "Michael Kerrisk (man-pages)" <mtk.manpages-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org>
-Cc: Victor Khimenko <khim-hpIqsD4AKlfQT0dZR+AlfA@public.gmane.org>, linux-man <linux-man-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>, Changhee Han <ch0.han-Hm3cg6mZ9cc@public.gmane.org>
+To: "J. Bruce Fields" <bfields-uC3wQj2KruNg9hUCZPvPmw@public.gmane.org>
+Cc: linux-man-u79uwXL29TY76Z2rM5mHXA@public.gmane.org, Christoph Hellwig <hch-wEGCiKHe2LqWVfeAwA7xHQ@public.gmane.org>, Trond Myklebust <Trond.Myklebust-7I+n7zu2hftEKMMhf/gKZA@public.gmane.org>, linux-nfs <linux-nfs-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>, "linux-fsdevel-u79uwXL29TY76Z2rM5mHXA@public.gmane.org" <linux-fsdevel-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>, Olga Kornievskaia <kolga-HgOvQuBEEgTQT0dZR+AlfA@public.gmane.org>
 List-Id: linux-man@vger.kernel.org
 
+On Mon, Mar 6, 2017 at 2:23 PM, J. Bruce Fields <bfields-uC3wQj2KruNg9hUCZPvPmw@public.gmane.org> wrot=
+e:
+> On Mon, Mar 06, 2017 at 11:27:23AM -0500, Olga Kornievskaia wrote:
+>> I don=E2=80=99t see copy_file_range() specifying that 0 means end of the=
+ file.
+>
+> Is there a reason that copy_file_range shouldn't be like read?  (From
+> read(2): "On  success,  the number of bytes read is returned (zero
+> indicates end of file)".
 
---dfFGhfmGgEMjYtLA
-Content-Type: text/plain; charset=utf-8
-Content-Disposition: inline
-Content-Transfer-Encoding: quoted-printable
+The only thing I can think of is the fact that copy_file_range() does
+write too. And return 0 from the write is not expected/allowed (except
+when input count was 0)?
 
-On 06 Mar 2017 12:01, Michael Kerrisk (man-pages) wrote:
-> [Extending the CC for some other input. Changhee Han added the text
-> that you are asking about; Mike F has done a lot of other work on the
-> page. Perhaps they can comment.]
->=20
-> On 5 March 2017 at 09:08, Victor Khimenko <khim-hpIqsD4AKlfQT0dZR+AlfA@public.gmane.org> wrote:
-> > syscall(2) example includes the following snippet which explains how to
-> > call readahead on ARM:
-> >
-> >        syscall(SYS_readahead, fd, 0,
-> >                    (unsigned int) (offset >> 32),
-> >                    (unsigned int) (offset & 0xFFFFFFFF),
-> >                    count);
-> >
-> > But ARM EABI specifies that "A double-word sized type is passed in two
-> > consecutive registers (e.g., r0 and r1, or r2 and r3). The content of
-> > the registers is as if the value had been loaded from memory representa=
-tion
-> > with a single LDM instruction."
-> >
-> > This would imply that arguments are swapped around in the man page, no?
->=20
-> So, I'm taking it that you mean the call should look like this:
->=20
->        syscall(SYS_readahead, fd, 0,
->                    (unsigned int) (offset & 0xFFFFFFFF),
->                    (unsigned int) (offset >> 32),
->                   count);
->=20
-> Is that what you mean?
->=20
-> > I've tried to experiement and with ftruncate, at least, it works like
-> > this...
->=20
-> Sounds plausible. I'm hoping that Mike or Changhee Han might comment.
-
-it depends on the endianness.  the man page shows BE, and Victor's
-suggestion changes it to LE.  we probably need to explain that and
-not just swap the args in the example.
--mike
-
---dfFGhfmGgEMjYtLA
-Content-Type: application/pgp-signature; name="signature.asc"
-Content-Description: Digital signature
-
------BEGIN PGP SIGNATURE-----
-
-iQIzBAEBCAAdFiEEuQK1JxMl+JKsJRrUQWM7n+g39YEFAli9s40ACgkQQWM7n+g3
-9YEj+g/+PKwrVf3Q1rXQxcmRAJiON+v4m0qZuv9hBlk8FQuPQ71VK/FDd5EnLIle
-Q/cRWUNML5BjeBT3eLiw9iTylviHZAs7USz9TtPzOXuv8nxgiNhkTtAXo+7nm/d2
-QpbknJQj+ZXKp4jHhxqvALwI99RIbvYcgDbZd+/E8FdarY5Nzqd52ZOUd7n8OLf/
-kv0etDPazMpwX+JJQpactzs7VezaZbnTY16hiHT7ybSfQnBvR5l0otD3S7MRpwQs
-JV/yEu69h7KtW35XYUmEQNpBjYBwfjDbzB8y7svf7gabUJtsWKRjbZ71MXA+r84U
-XDUMCN8gjAAPiHfPFTLl8uMb4rZ2e2lCWKhkszVP5+XgZItz37HX/ba9/t4Hh5va
-W48UoE2qRMMrWYbqKGcH4BPHCT7SH0IMiAs7N2bpLaa8SwRNCs+c8s/cDk5/FiQj
-Ytuv7Xh0feGqExkO7fhEFTcsxcbTD7Pa/UMUqpJ/IvdJK2hefZPj4BU1sL8VsLy6
-cFJowx6gv9zKbNq4X3t/CFhtduawQfqRFTU/iNwYzcVo63Br+uG/myTe0JU60S7g
-9CJLDi9gwuCyi66uKjEjDdP8ObFb+1CeI+pniWDjhHGABvnAFj2f9Xpm+ZrOeibe
-cWVOoT2Z3swsTCmEGhxQdFlSeq2mI7qNXd8T2KJHWwj7YKdhtd0=
-=R5cH
------END PGP SIGNATURE-----
-
---dfFGhfmGgEMjYtLA--
+> I haven't checked, but suspect that's already true of the
+> implementations we have.
+>
+> Also, from copy_file_range():
+>
+>         EINVAL Requested  range  extends beyond the end of the source
+>                 file; or the flags argument is not 0.
+>
+> Some filesystems do this, some don't; I think the man page should make
+> it clear that this behavior is not required.
+>
+> --b.
+> --
+> To unsubscribe from this list: send the line "unsubscribe linux-nfs" in
+> the body of a message to majordomo-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
+> More majordomo info at  http://vger.kernel.org/majordomo-info.html
 --
 To unsubscribe from this list: send the line "unsubscribe linux-man" in
 the body of a message to majordomo-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
