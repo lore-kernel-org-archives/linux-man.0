@@ -1,39 +1,33 @@
-From: Mike Frysinger <vapier-aBrp7R+bbdUdnm+yROfE0A@public.gmane.org>
-Subject: [PATCH] syscall(2): note parisc handling of aligned register pairs
-Date: Sat, 11 Mar 2017 13:04:38 -0800
-Message-ID: <20170311210438.4908-1-vapier@gentoo.org>
+From: Jakub Wilk <jwilk-tXgOlIzOKNReoWH0uzbU5w@public.gmane.org>
+Subject: [PATCH] open.2: tfix
+Date: Sun, 12 Mar 2017 00:01:45 +0100
+Message-ID: <20170311230145.7243-1-jwilk@jwilk.net>
 Return-path: <linux-man-owner-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>
 Sender: linux-man-owner-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
 To: Michael Kerrisk <mtk.manpages-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org>
-Cc: linux-parisc-u79uwXL29TY76Z2rM5mHXA@public.gmane.org, linux-man-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
+Cc: linux-man-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
 List-Id: linux-man@vger.kernel.org
 
-While parisc would normally have the same behavior as ARM/PowerPC,
-they decide to write shim syscall stubs to unpack/realign rather
-than expose the padding to userspace.
-
-Signed-off-by: Mike Frysinger <vapier-aBrp7R+bbdUdnm+yROfE0A@public.gmane.org>
+Signed-off-by: Jakub Wilk <jwilk-tXgOlIzOKNReoWH0uzbU5w@public.gmane.org>
 ---
- man2/syscall.2 | 4 ++++
- 1 file changed, 4 insertions(+)
+ man2/open.2 | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
 
-diff --git a/man2/syscall.2 b/man2/syscall.2
-index f8c89b84356d..b55540e039b7 100644
---- a/man2/syscall.2
-+++ b/man2/syscall.2
-@@ -133,6 +133,10 @@ on PowerPC with the 32-bit ABI, and on Xtensa.
- .\" Mike Frysinger: this issue ends up forcing MIPS
- .\" O32 to take 7 arguments to syscall()
+diff --git a/man2/open.2 b/man2/open.2
+index 6e6398374..750cc1ad0 100644
+--- a/man2/open.2
++++ b/man2/open.2
+@@ -178,7 +178,7 @@ Before each
+ the file offset is positioned at the end of the file,
+ as if with
+ .BR lseek (2).
+-The modification of the fle offset and the write operation
++The modification of the file offset and the write operation
+ are performed as a single atomic step.
  
-+.\" See arch/parisc/kernel/sys_parisc.c.
-+Note that while the parisc C ABI also uses aligned register pairs,
-+it uses a shim layer to hide the issue from userspace.
-+
- The affected system calls are
- .BR fadvise64_64 (2),
- .BR ftruncate64 (2),
+ .B O_APPEND
 -- 
-2.12.0
+2.11.0
 
 --
 To unsubscribe from this list: send the line "unsubscribe linux-man" in
