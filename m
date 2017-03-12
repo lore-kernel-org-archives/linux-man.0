@@ -1,43 +1,51 @@
 From: "Michael Kerrisk (man-pages)" <mtk.manpages-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org>
-Subject: Re: [PATCH] open.2: tfix
-Date: Sun, 12 Mar 2017 10:50:48 +0100
-Message-ID: <c7aa0afc-fece-6e0f-1ca7-29e88dbafc12@gmail.com>
-References: <20170311230145.7243-1-jwilk@jwilk.net>
+Subject: Re: [PATCH] syscall(2): note parisc handling of aligned register
+ pairs
+Date: Sun, 12 Mar 2017 11:26:16 +0100
+Message-ID: <73a668f4-308b-27f7-e611-4ffe49709624@gmail.com>
+References: <20170311210438.4908-1-vapier@gentoo.org>
 Mime-Version: 1.0
-Content-Type: text/plain; charset=windows-1252
+Content-Type: text/plain; charset=utf-8
 Content-Transfer-Encoding: 7bit
 Return-path: <linux-man-owner-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>
-In-Reply-To: <20170311230145.7243-1-jwilk-tXgOlIzOKNReoWH0uzbU5w@public.gmane.org>
+In-Reply-To: <20170311210438.4908-1-vapier-aBrp7R+bbdUdnm+yROfE0A@public.gmane.org>
 Sender: linux-man-owner-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
-To: Jakub Wilk <jwilk-tXgOlIzOKNReoWH0uzbU5w@public.gmane.org>
-Cc: mtk.manpages-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org, linux-man-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
+To: Mike Frysinger <vapier-aBrp7R+bbdUdnm+yROfE0A@public.gmane.org>
+Cc: mtk.manpages-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org, linux-parisc-u79uwXL29TY76Z2rM5mHXA@public.gmane.org, linux-man-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
 List-Id: linux-man@vger.kernel.org
 
-On 03/12/2017 12:01 AM, Jakub Wilk wrote:
-> Signed-off-by: Jakub Wilk <jwilk-tXgOlIzOKNReoWH0uzbU5w@public.gmane.org>
-> ---
->  man2/open.2 | 2 +-
->  1 file changed, 1 insertion(+), 1 deletion(-)
+On 03/11/2017 10:04 PM, Mike Frysinger wrote:
+> While parisc would normally have the same behavior as ARM/PowerPC,
+> they decide to write shim syscall stubs to unpack/realign rather
+> than expose the padding to userspace.
 
-Thanks, Jakub. Patch applied.
+Thanks, Mike. Patch applied.
 
 Cheers,
 
 Michael
 
-> diff --git a/man2/open.2 b/man2/open.2
-> index 6e6398374..750cc1ad0 100644
-> --- a/man2/open.2
-> +++ b/man2/open.2
-> @@ -178,7 +178,7 @@ Before each
->  the file offset is positioned at the end of the file,
->  as if with
->  .BR lseek (2).
-> -The modification of the fle offset and the write operation
-> +The modification of the file offset and the write operation
->  are performed as a single atomic step.
+
+> Signed-off-by: Mike Frysinger <vapier-aBrp7R+bbdUdnm+yROfE0A@public.gmane.org>
+> ---
+>  man2/syscall.2 | 4 ++++
+>  1 file changed, 4 insertions(+)
+> 
+> diff --git a/man2/syscall.2 b/man2/syscall.2
+> index f8c89b84356d..b55540e039b7 100644
+> --- a/man2/syscall.2
+> +++ b/man2/syscall.2
+> @@ -133,6 +133,10 @@ on PowerPC with the 32-bit ABI, and on Xtensa.
+>  .\" Mike Frysinger: this issue ends up forcing MIPS
+>  .\" O32 to take 7 arguments to syscall()
 >  
->  .B O_APPEND
+> +.\" See arch/parisc/kernel/sys_parisc.c.
+> +Note that while the parisc C ABI also uses aligned register pairs,
+> +it uses a shim layer to hide the issue from userspace.
+> +
+>  The affected system calls are
+>  .BR fadvise64_64 (2),
+>  .BR ftruncate64 (2),
 > 
 
 
