@@ -1,40 +1,35 @@
 From: Jakub Wilk <jwilk-tXgOlIzOKNReoWH0uzbU5w@public.gmane.org>
-Subject: [PATCH 1/2] Changes.old: tfix
-Date: Fri, 17 Mar 2017 00:31:00 +0100
-Message-ID: <20170316233101.1343-1-jwilk@jwilk.net>
+Subject: [PATCH 2/2] keyctl.2: tfix
+Date: Fri, 17 Mar 2017 00:31:01 +0100
+Message-ID: <20170316233101.1343-2-jwilk@jwilk.net>
+References: <20170316233101.1343-1-jwilk@jwilk.net>
 Return-path: <linux-man-owner-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>
+In-Reply-To: <20170316233101.1343-1-jwilk-tXgOlIzOKNReoWH0uzbU5w@public.gmane.org>
 Sender: linux-man-owner-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
 To: Michael Kerrisk <mtk.manpages-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org>
 Cc: linux-man-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
 List-Id: linux-man@vger.kernel.org
 
+Remove duplicated word.
+
 Signed-off-by: Jakub Wilk <jwilk-tXgOlIzOKNReoWH0uzbU5w@public.gmane.org>
 ---
- Changes.old | 4 ++--
- 1 file changed, 2 insertions(+), 2 deletions(-)
+ man2/keyctl.2 | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
 
-diff --git a/Changes.old b/Changes.old
-index ff7cb55cd..12f598925 100644
---- a/Changes.old
-+++ b/Changes.old
-@@ -44650,7 +44650,7 @@ system.3
- 
- random.4
-     Michael Kerrisk  [Jon Jensen]
--        Note that entropY-avail will be a number in the range 0..4096
-+        Note that entropy_avail will be a number in the range 0..4096
- 
- core.5
-     Michael Kerrisk
-@@ -44819,7 +44819,7 @@ signal.7
-     Michael Kerrisk
-         SIGXCPU: add reference to setrlimit(2)
-     Michael Kerrisk
--        Migrated signal-safety discussion to new signal-safet(7) page
-+        Migrated signal-safety discussion to new signal-safety(7) page
- 
- unix.7
-     Michael Kerrisk  [Sergey Polovko]
+diff --git a/man2/keyctl.2 b/man2/keyctl.2
+index 3da3489d5..a9bc4d571 100644
+--- a/man2/keyctl.2
++++ b/man2/keyctl.2
+@@ -136,7 +136,7 @@ does not exist depends on the value of
+ If
+ .I arg3
+ contains a non-zero value, then\(emif it is appropriate to do so
+-(e.g., when looking up the the user, user-session, or session key)\(ema new key is created and its real key ID returned as the function result.
++(e.g., when looking up the user, user-session, or session key)\(ema new key is created and its real key ID returned as the function result.
+ .\" The keyctl_get_keyring_ID.3 page says that a new key
+ .\" "will be created *if it is appropriate to do so**. What is the
+ .\" determiner for appropriate?
 -- 
 2.11.0
 
