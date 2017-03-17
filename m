@@ -1,56 +1,46 @@
 From: "Michael Kerrisk (man-pages)" <mtk.manpages-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org>
-Subject: Re: [PATCH 1/2] Changes.old: tfix
-Date: Fri, 17 Mar 2017 21:38:35 +0100
-Message-ID: <912d29ad-7940-b414-5c30-192697104065@gmail.com>
+Subject: Re: [PATCH 2/2] keyctl.2: tfix
+Date: Fri, 17 Mar 2017 21:39:00 +0100
+Message-ID: <ea64bb99-2961-4cf2-6035-138d4e76918f@gmail.com>
 References: <20170316233101.1343-1-jwilk@jwilk.net>
+ <20170316233101.1343-2-jwilk@jwilk.net>
 Mime-Version: 1.0
 Content-Type: text/plain; charset=windows-1252
 Content-Transfer-Encoding: 7bit
 Return-path: <linux-man-owner-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>
-In-Reply-To: <20170316233101.1343-1-jwilk-tXgOlIzOKNReoWH0uzbU5w@public.gmane.org>
+In-Reply-To: <20170316233101.1343-2-jwilk-tXgOlIzOKNReoWH0uzbU5w@public.gmane.org>
 Sender: linux-man-owner-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
 To: Jakub Wilk <jwilk-tXgOlIzOKNReoWH0uzbU5w@public.gmane.org>
 Cc: mtk.manpages-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org, linux-man-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
 List-Id: linux-man@vger.kernel.org
 
 On 03/17/2017 12:31 AM, Jakub Wilk wrote:
-> Signed-off-by: Jakub Wilk <jwilk-tXgOlIzOKNReoWH0uzbU5w@public.gmane.org>
+> Remove duplicated word.
 
-Hi Jakub,
-
-By chance I had already fixed this, but hadn't pushed the
-change yet (sorry!). Thanks for the patch though.
+Thanks, Jakub! Patch applied.
 
 Cheers,
 
 Michael
 
+> Signed-off-by: Jakub Wilk <jwilk-tXgOlIzOKNReoWH0uzbU5w@public.gmane.org>
 > ---
->  Changes.old | 4 ++--
->  1 file changed, 2 insertions(+), 2 deletions(-)
+>  man2/keyctl.2 | 2 +-
+>  1 file changed, 1 insertion(+), 1 deletion(-)
 > 
-> diff --git a/Changes.old b/Changes.old
-> index ff7cb55cd..12f598925 100644
-> --- a/Changes.old
-> +++ b/Changes.old
-> @@ -44650,7 +44650,7 @@ system.3
->  
->  random.4
->      Michael Kerrisk  [Jon Jensen]
-> -        Note that entropY-avail will be a number in the range 0..4096
-> +        Note that entropy_avail will be a number in the range 0..4096
->  
->  core.5
->      Michael Kerrisk
-> @@ -44819,7 +44819,7 @@ signal.7
->      Michael Kerrisk
->          SIGXCPU: add reference to setrlimit(2)
->      Michael Kerrisk
-> -        Migrated signal-safety discussion to new signal-safet(7) page
-> +        Migrated signal-safety discussion to new signal-safety(7) page
->  
->  unix.7
->      Michael Kerrisk  [Sergey Polovko]
+> diff --git a/man2/keyctl.2 b/man2/keyctl.2
+> index 3da3489d5..a9bc4d571 100644
+> --- a/man2/keyctl.2
+> +++ b/man2/keyctl.2
+> @@ -136,7 +136,7 @@ does not exist depends on the value of
+>  If
+>  .I arg3
+>  contains a non-zero value, then\(emif it is appropriate to do so
+> -(e.g., when looking up the the user, user-session, or session key)\(ema new key is created and its real key ID returned as the function result.
+> +(e.g., when looking up the user, user-session, or session key)\(ema new key is created and its real key ID returned as the function result.
+>  .\" The keyctl_get_keyring_ID.3 page says that a new key
+>  .\" "will be created *if it is appropriate to do so**. What is the
+>  .\" determiner for appropriate?
 > 
 
 
