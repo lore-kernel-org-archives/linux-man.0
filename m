@@ -1,30 +1,46 @@
-From: =?iso-8859-2?Q?Micha=B3_Miros=B3aw?= <mirq-linux-CoA6ZxLDdyEEUmgCuDUIdw@public.gmane.org>
-Subject: man-pages: fallocate.2: ext3 hole punch
-Date: Mon, 20 Mar 2017 21:08:08 +0100
-Message-ID: <20170320200808.vc73y4vfo6khqm3i@rere.qmqm.pl>
+From: "Dmitry V. Levin" <ldv-u2l5PoMzF/Vg9hUCZPvPmw@public.gmane.org>
+Subject: [PATCH] ttyname.3: document ENODEV error code
+Date: Mon, 20 Mar 2017 23:51:04 +0300
+Message-ID: <20170320205104.GA27434@altlinux.org>
 Mime-Version: 1.0
-Content-Type: text/plain; charset=iso-8859-2
-Content-Transfer-Encoding: 8bit
+Content-Type: text/plain; charset=us-ascii
 Return-path: <linux-man-owner-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>
 Content-Disposition: inline
 Sender: linux-man-owner-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
-To: mtk.manpages-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org
-Cc: linux-man-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
+To: Michael Kerrisk <mtk.manpages-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org>
+Cc: Christian Brauner <christian.brauner-Z7WLFzj8eWMS+FvcfC7Uqw@public.gmane.org>, linux-man-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
 List-Id: linux-man@vger.kernel.org
 
-Dear Developers,
+---
+ man3/ttyname.3 | 8 +++++++-
+ 1 file changed, 7 insertions(+), 1 deletion(-)
 
-According to git log, ext3 (via ext4 driver) or ext4 non-extent-mapped files
-are supported for FALLOC_FL_PUNCH_HOLE since Linux 3.9 [1] (incl. bugs),
-with fixes since 3.16 [2] or stable 3.14+.
+diff --git a/man3/ttyname.3 b/man3/ttyname.3
+index 14c24e7..0be50c6 100644
+--- a/man3/ttyname.3
++++ b/man3/ttyname.3
+@@ -71,6 +71,11 @@ File descriptor does not refer to a terminal device.
+ .RB ( ttyname_r ())
+ .I buflen
+ was too small to allow storing the pathname.
++.TP
++.\" glibc commit 15e9a4f378c8607c2ae1aa465436af4321db0e23
++.B ENODEV
++File descriptor refers to a slave pseudoterminal device
++but the corresponding pathname could not be found.
+ .SH ATTRIBUTES
+ For an explanation of the terms used in this section, see
+ .BR attributes (7).
+@@ -92,4 +97,5 @@ POSIX.1-2001, POSIX.1-2008, 4.2BSD.
+ .BR tty (1),
+ .BR fstat (2),
+ .BR ctermid (3),
+-.BR isatty (3)
++.BR isatty (3),
++.BR pts (4)
 
-I hope this qualifies for a simple one-liner mentioned on reporting_bugs page.
-
-Best Regards,
-Micha³ Miros³aw
-
-[1] commit 8bad6fc813a3a5300f51369c39d315679fd88c72
-[2] commit a93cd4cf86466caa49cfe64607bea7f0bde3f916
+-- 
+ldv
 --
 To unsubscribe from this list: send the line "unsubscribe linux-man" in
 the body of a message to majordomo-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
