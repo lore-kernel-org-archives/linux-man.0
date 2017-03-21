@@ -1,7 +1,7 @@
 From: Alexander Miller <alex.miller-Mmb7MZpHnFY@public.gmane.org>
-Subject: [PATCH] getdtablesize.2, attr.5: Move .so directive to first line
-Date: Tue, 21 Mar 2017 01:08:35 +0100
-Message-ID: <20170321010835.384cad5c.alex.miller@gmx.de>
+Subject: [PATCH] man-pages.7: wfix
+Date: Tue, 21 Mar 2017 01:09:06 +0100
+Message-ID: <20170321010906.2d7185bc.alex.miller@gmx.de>
 Mime-Version: 1.0
 Content-Type: text/plain; charset=US-ASCII
 Content-Transfer-Encoding: 7bit
@@ -11,31 +11,27 @@ To: mtk.manpages-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org
 Cc: linux-man-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
 List-Id: linux-man@vger.kernel.org
 
-Improves compatibility with the man and other dumb tools
-that process man page files.
-
 Signed-off-by: Alexander Miller <alex.miller-Mmb7MZpHnFY@public.gmane.org>
 ---
- man2/getdtablesize.2 | 2 +-
- man5/attr.5          | 2 +-
- 2 files changed, 2 insertions(+), 2 deletions(-)
+ man7/man-pages.7 | 4 ++--
+ 1 file changed, 2 insertions(+), 2 deletions(-)
 
-diff --git a/man2/getdtablesize.2 b/man2/getdtablesize.2
-index d9be980..68c2fd8 100644
---- a/man2/getdtablesize.2
-+++ b/man2/getdtablesize.2
-@@ -1,2 +1,2 @@
--.\" Created 2013-02-05; will eventually be removed
- .so man3/getdtablesize.3
-+.\" Created 2013-02-05; will eventually be removed
-diff --git a/man5/attr.5 b/man5/attr.5
-index 577f0c9..e979971 100644
---- a/man5/attr.5
-+++ b/man5/attr.5
-@@ -1,2 +1,2 @@
--.\" Page was imported from 'attr' project which had it in Section 5
- .so man7/xattr.7
-+.\" Page was imported from 'attr' project which had it in Section 5
+diff --git a/man7/man-pages.7 b/man7/man-pages.7
+index 1fbc375..5d43ed7 100644
+--- a/man7/man-pages.7
++++ b/man7/man-pages.7
+@@ -484,9 +484,9 @@ pages.
+ Use of "they" ("them", "themself", "their") as a gender-neutral singular
+ pronoun is acceptable.
+ .\"
+-.SS Formatting conventions for manual pages describing functions
++.SS Formatting conventions for manual pages describing commands
+ .PP
+-For manual pages that describe command (typically in Sections 1 and 8),
++For manual pages that describe a command (typically in Sections 1 and 8),
+ the arguments are always specified using italics,
+ .IR "even in the SYNOPSIS section" .
+ 
 -- 
 2.10.2
 
