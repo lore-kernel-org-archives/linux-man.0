@@ -1,45 +1,41 @@
-From: Alexander Miller <alex.miller-Mmb7MZpHnFY@public.gmane.org>
-Subject: Re: [PATCH] getdtablesize.2, attr.5: Move .so directive to first
- line
-Date: Fri, 24 Mar 2017 18:45:32 +0100
-Message-ID: <20170324184532.7c817c6a.alex.miller@gmx.de>
-References: <20170321010835.384cad5c.alex.miller@gmx.de>
-        <85d402cd-765d-74e0-6a00-a940d3d679b2@gmail.com>
+From: Ian Abbott <abbotti-GUHe90Wt2aFaa/9Udqfwiw@public.gmane.org>
+Subject: Re: syslog(3) inconsistency
+Date: Fri, 24 Mar 2017 17:26:19 +0000
+Message-ID: <bee344ea-5734-8106-183c-4530e2d245d6@mev.co.uk>
+References: <8ab6f0a9-1a71-c776-80a2-5913e941aaf2@mev.co.uk>
+ <4f302a52-1098-2b1a-baac-732b15784ee4@gmail.com>
 Mime-Version: 1.0
-Content-Type: text/plain; charset=US-ASCII
+Content-Type: text/plain; charset=utf-8; format=flowed
 Content-Transfer-Encoding: 7bit
 Return-path: <linux-man-owner-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>
-In-Reply-To: <85d402cd-765d-74e0-6a00-a940d3d679b2-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org>
+In-Reply-To: <4f302a52-1098-2b1a-baac-732b15784ee4-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org>
 Sender: linux-man-owner-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
 To: "Michael Kerrisk (man-pages)" <mtk.manpages-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org>
 Cc: linux-man-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
 List-Id: linux-man@vger.kernel.org
 
-On Fri, 24 Mar 2017 15:40:19 +0100 Michael Kerrisk wrote:
+On 24/03/2017 14:40, Michael Kerrisk (man-pages) wrote:
+> Hello Ian,
+>
+> On 03/23/2017 07:37 PM, Ian Abbott wrote:
+>> Hi,
+>>
+>> The first parameter of `syslog()` is called `priority` in the man-page,
+>> except in the breakdown of the possible log levels, where it is called
+>> `level`.
+>
+> Your report doesn't say clearly which pieces of text you find to
+> be incorrect, but I wonder if you have missed this sentence in the
+> man page:
+>
+>     The priority argument is formed by ORing the facility and the
+>     level values (explained below).
 
-> I've applied this. However, could you say more about the
-> problem it fixes? (I did not encounter or get any reports of
-> problems before, and at least for me, man(1) seems to have
-> no problem with the files as they were.)
+Oh, that's it!  My mistake.  Apologies for the noise.
 
-Hello Michael,
-
-this is a problem with the older man implementation (man 1.6g)
-and compressed man pages (man-db is not affected). 
-There is no zsoelim(1) in this implementation. Instead, man(1)
-has special code to handle redirections which recognizes .so only
-in the very first line. With uncompressed man pages it doesn't
-matter because groff finds the target page, but when that file
-is compresses groff can't find it and the result is an empty
-page.
-
-I know that the older man is mostly irrelevant today (and I have
-only one installation left for testing), but the fix is trivial,
-so I decided to submit it. There may also be other tools with
-similar restrictions, although I don't have any examples.
-
-Cheers,
-Alex
+-- 
+-=( Ian Abbott @ MEV Ltd.    E-mail: <abbotti-GUHe90Wt2aFaa/9Udqfwiw@public.gmane.org> )=-
+-=(                          Web: http://www.mev.co.uk/  )=-
 --
 To unsubscribe from this list: send the line "unsubscribe linux-man" in
 the body of a message to majordomo-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
