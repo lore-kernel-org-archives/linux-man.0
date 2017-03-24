@@ -1,41 +1,63 @@
-From: Ian Abbott <abbotti-GUHe90Wt2aFaa/9Udqfwiw@public.gmane.org>
-Subject: Re: syslog(3) inconsistency
-Date: Fri, 24 Mar 2017 17:26:19 +0000
-Message-ID: <bee344ea-5734-8106-183c-4530e2d245d6@mev.co.uk>
-References: <8ab6f0a9-1a71-c776-80a2-5913e941aaf2@mev.co.uk>
- <4f302a52-1098-2b1a-baac-732b15784ee4@gmail.com>
-Mime-Version: 1.0
-Content-Type: text/plain; charset=utf-8; format=flowed
-Content-Transfer-Encoding: 7bit
+From: Jakub Wilk <jwilk-tXgOlIzOKNReoWH0uzbU5w@public.gmane.org>
+Subject: [PATCH 1/2] localedef.1: ffix
+Date: Fri, 24 Mar 2017 21:00:23 +0100
+Message-ID: <20170324200024.1239-1-jwilk@jwilk.net>
 Return-path: <linux-man-owner-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>
-In-Reply-To: <4f302a52-1098-2b1a-baac-732b15784ee4-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org>
 Sender: linux-man-owner-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
-To: "Michael Kerrisk (man-pages)" <mtk.manpages-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org>
+To: Michael Kerrisk <mtk.manpages-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org>
 Cc: linux-man-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
 List-Id: linux-man@vger.kernel.org
 
-On 24/03/2017 14:40, Michael Kerrisk (man-pages) wrote:
-> Hello Ian,
->
-> On 03/23/2017 07:37 PM, Ian Abbott wrote:
->> Hi,
->>
->> The first parameter of `syslog()` is called `priority` in the man-page,
->> except in the breakdown of the possible log levels, where it is called
->> `level`.
->
-> Your report doesn't say clearly which pieces of text you find to
-> be incorrect, but I wonder if you have missed this sentence in the
-> man page:
->
->     The priority argument is formed by ORing the facility and the
->     level values (explained below).
+Don't embolden commas between option names.
 
-Oh, that's it!  My mistake.  Apologies for the noise.
+Signed-off-by: Jakub Wilk <jwilk-tXgOlIzOKNReoWH0uzbU5w@public.gmane.org>
+---
+ man1/localedef.1 | 8 ++++----
+ 1 file changed, 4 insertions(+), 4 deletions(-)
 
+diff --git a/man1/localedef.1 b/man1/localedef.1
+index 9d35d2bfa..f0f0bdd77 100644
+--- a/man1/localedef.1
++++ b/man1/localedef.1
+@@ -146,7 +146,7 @@ using
+ Some of the following options are sensible only for certain operations;
+ generally, it should be self-evident which ones.
+ .TP
+-.BI \-f " charmapfile" ", \-\-charmap=" charmapfile
++.BI \-f " charmapfile" "\fR, \fP\-\-charmap=" charmapfile
+ Specify the file that defines the character set
+ that is used by the input file.
+ If
+@@ -165,7 +165,7 @@ are also searched after the current directory.
+ The default directory for character maps is printed by
+ .BR "localedef \-\-help" .
+ .TP
+-.BI \-i " inputfile" ", \-\-inputfile=" inputfile
++.BI \-i " inputfile" "\fR, \fP\-\-inputfile=" inputfile
+ Specify the locale definition file to compile.
+ The file is sought in the current directory
+ and the default directory for locale definition files.
+@@ -179,7 +179,7 @@ are also searched after the current directory.
+ The default directory for locale definition files is printed by
+ .BR "localedef \-\-help" .
+ .TP
+-.BI \-u " repertoirefile" ", \-\-repertoire-map=" repertoirefile
++.BI \-u " repertoirefile" "\fR, \fP\-\-repertoire-map=" repertoirefile
+ Read mappings from symbolic names to Unicode code points from
+ .IR repertoirefile .
+ If
+@@ -198,7 +198,7 @@ are also searched after the current directory.
+ The default directory for repertoire maps is printed by
+ .BR "localedef \-\-help" .
+ .TP
+-.BI \-A " aliasfile" ", \-\-alias\-file=" aliasfile
++.BI \-A " aliasfile" "\fR, \fP\-\-alias\-file=" aliasfile
+ Use
+ .I aliasfile
+ to look up aliases for locale names.
 -- 
--=( Ian Abbott @ MEV Ltd.    E-mail: <abbotti-GUHe90Wt2aFaa/9Udqfwiw@public.gmane.org> )=-
--=(                          Web: http://www.mev.co.uk/  )=-
+2.11.0
+
 --
 To unsubscribe from this list: send the line "unsubscribe linux-man" in
 the body of a message to majordomo-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
