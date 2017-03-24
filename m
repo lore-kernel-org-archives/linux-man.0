@@ -1,70 +1,45 @@
-From: walter harms <wharms-fPG8STNUNVg@public.gmane.org>
-Subject: Fwd: Re: syslog(3) inconsistency
-Date: Fri, 24 Mar 2017 18:00:37 +0100
-Message-ID: <58D550B5.4020105@bfs.de>
-Reply-To: wharms-fPG8STNUNVg@public.gmane.org
+From: Alexander Miller <alex.miller-Mmb7MZpHnFY@public.gmane.org>
+Subject: Re: [PATCH] getdtablesize.2, attr.5: Move .so directive to first
+ line
+Date: Fri, 24 Mar 2017 18:45:32 +0100
+Message-ID: <20170324184532.7c817c6a.alex.miller@gmx.de>
+References: <20170321010835.384cad5c.alex.miller@gmx.de>
+        <85d402cd-765d-74e0-6a00-a940d3d679b2@gmail.com>
 Mime-Version: 1.0
-Content-Type: text/plain; charset=UTF-8
+Content-Type: text/plain; charset=US-ASCII
 Content-Transfer-Encoding: 7bit
 Return-path: <linux-man-owner-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>
+In-Reply-To: <85d402cd-765d-74e0-6a00-a940d3d679b2-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org>
 Sender: linux-man-owner-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
-To: linux-man <linux-man-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>
+To: "Michael Kerrisk (man-pages)" <mtk.manpages-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org>
+Cc: linux-man-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
 List-Id: linux-man@vger.kernel.org
 
+On Fri, 24 Mar 2017 15:40:19 +0100 Michael Kerrisk wrote:
 
+> I've applied this. However, could you say more about the
+> problem it fixes? (I did not encounter or get any reports of
+> problems before, and at least for me, man(1) seems to have
+> no problem with the files as they were.)
 
+Hello Michael,
 
+this is a problem with the older man implementation (man 1.6g)
+and compressed man pages (man-db is not affected). 
+There is no zsoelim(1) in this implementation. Instead, man(1)
+has special code to handle redirections which recognizes .so only
+in the very first line. With uncompressed man pages it doesn't
+matter because groff finds the target page, but when that file
+is compresses groff can't find it and the result is an empty
+page.
 
-Am 24.03.2017 15:40, schrieb Michael Kerrisk (man-pages):
-> Hello Ian,
-> 
-> On 03/23/2017 07:37 PM, Ian Abbott wrote:
->> Hi,
->>
->> The first parameter of `syslog()` is called `priority` in the man-page, 
->> except in the breakdown of the possible log levels, where it is called 
->> `level`.
-> 
-> Your report doesn't say clearly which pieces of text you find to
-> be incorrect, but I wonder if you have missed this sentence in the 
-> man page:
-> 
->     The priority argument is formed by ORing the facility and the
->     level values (explained below). 
-> 
-> If you still think there's a problem in the man page, could you please
-> describe the problem in more detail.
->
+I know that the older man is mostly irrelevant today (and I have
+only one installation left for testing), but the fix is trivial,
+so I decided to submit it. There may also be other tools with
+similar restrictions, although I don't have any examples.
 
-
-I thing i have an idea what he is talking about. One option
-os simply repeating the priority=(facility|level) sentence
-as below. Otherwise a simple example would also be helpful.
-
-re,
- wh
-
---- syslog.3.org	2017-03-24 15:58:02.000000000 +0100
-+++ syslog.3	2017-03-24 15:57:10.000000000 +0100
-@@ -167,6 +167,15 @@
- .TP
- .B LOG_PID
- Include PID with each message.
-+
-+.in 3
-+The
-+.B priority
-+argument is formed by ORing the
-+.I facility
-+and the
-+.I level
-+values (explained below).
- .SS facility
- The
- .I facility
-
-
-
+Cheers,
+Alex
 --
 To unsubscribe from this list: send the line "unsubscribe linux-man" in
 the body of a message to majordomo-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
