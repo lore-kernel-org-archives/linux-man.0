@@ -1,49 +1,40 @@
 From: "Michael Kerrisk (man-pages)" <mtk.manpages-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org>
-Subject: Re: [PATCH] man-pages.7: wfix
-Date: Fri, 24 Mar 2017 15:40:13 +0100
-Message-ID: <7460dcc0-f1e3-12a5-c467-520998c09b76@gmail.com>
-References: <20170321010906.2d7185bc.alex.miller@gmx.de>
+Subject: Re: syslog(3) inconsistency
+Date: Fri, 24 Mar 2017 15:40:09 +0100
+Message-ID: <4f302a52-1098-2b1a-baac-732b15784ee4@gmail.com>
+References: <8ab6f0a9-1a71-c776-80a2-5913e941aaf2@mev.co.uk>
 Mime-Version: 1.0
-Content-Type: text/plain; charset=windows-1252
+Content-Type: text/plain; charset=utf-8
 Content-Transfer-Encoding: 7bit
 Return-path: <linux-man-owner-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>
-In-Reply-To: <20170321010906.2d7185bc.alex.miller-Mmb7MZpHnFY@public.gmane.org>
+In-Reply-To: <8ab6f0a9-1a71-c776-80a2-5913e941aaf2-GUHe90Wt2aFaa/9Udqfwiw@public.gmane.org>
 Sender: linux-man-owner-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
-To: Alexander Miller <alex.miller-Mmb7MZpHnFY@public.gmane.org>
+To: Ian Abbott <abbotti-GUHe90Wt2aFaa/9Udqfwiw@public.gmane.org>
 Cc: mtk.manpages-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org, linux-man-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
 List-Id: linux-man@vger.kernel.org
 
-On 03/21/2017 01:09 AM, Alexander Miller wrote:
-> Signed-off-by: Alexander Miller <alex.miller-Mmb7MZpHnFY@public.gmane.org>
+Hello Ian,
 
-Thanks, Alex. Applied.
+On 03/23/2017 07:37 PM, Ian Abbott wrote:
+> Hi,
+> 
+> The first parameter of `syslog()` is called `priority` in the man-page, 
+> except in the breakdown of the possible log levels, where it is called 
+> `level`.
+
+Your report doesn't say clearly which pieces of text you find to
+be incorrect, but I wonder if you have missed this sentence in the 
+man page:
+
+    The priority argument is formed by ORing the facility and the
+    level values (explained below). 
+
+If you still think there's a problem in the man page, could you please
+describe the problem in more detail.
 
 Cheers,
 
 Michael
-
-
-> ---
->  man7/man-pages.7 | 4 ++--
->  1 file changed, 2 insertions(+), 2 deletions(-)
-> 
-> diff --git a/man7/man-pages.7 b/man7/man-pages.7
-> index 1fbc375..5d43ed7 100644
-> --- a/man7/man-pages.7
-> +++ b/man7/man-pages.7
-> @@ -484,9 +484,9 @@ pages.
->  Use of "they" ("them", "themself", "their") as a gender-neutral singular
->  pronoun is acceptable.
->  .\"
-> -.SS Formatting conventions for manual pages describing functions
-> +.SS Formatting conventions for manual pages describing commands
->  .PP
-> -For manual pages that describe command (typically in Sections 1 and 8),
-> +For manual pages that describe a command (typically in Sections 1 and 8),
->  the arguments are always specified using italics,
->  .IR "even in the SYNOPSIS section" .
->  
-> 
 
 
 -- 
