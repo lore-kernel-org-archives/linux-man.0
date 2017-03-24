@@ -1,61 +1,74 @@
 From: "Michael Kerrisk (man-pages)" <mtk.manpages-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org>
-Subject: Re: [PATCH v2] sigprocmask.2: do not specify an exact value of
- rt_sigprocmask's 4th argument
-Date: Fri, 24 Mar 2017 15:40:32 +0100
-Message-ID: <77c9ff20-d01c-1b7d-e2ff-997d39aa85ef@gmail.com>
-References: <20170219211302.GA30235@altlinux.org> <58AAA603.6020400@bfs.de>
- <20170220154327.GA9511@altlinux.org>
+Subject: Re: [PATCH] ttyname.3: document ENODEV error code
+Date: Fri, 24 Mar 2017 15:40:35 +0100
+Message-ID: <a3314168-ac99-28ef-2916-4da65adc8377@gmail.com>
+References: <20170320205104.GA27434@altlinux.org>
+ <CAPP7u0WL2wa2MLavq22q616=-pHNPyNXqLpPGzR4JqYzGA16-A@mail.gmail.com>
+ <20170320215823.GA28075@altlinux.org>
 Mime-Version: 1.0
 Content-Type: text/plain; charset=windows-1252
 Content-Transfer-Encoding: 7bit
 Return-path: <linux-man-owner-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>
-In-Reply-To: <20170220154327.GA9511-u2l5PoMzF/Vg9hUCZPvPmw@public.gmane.org>
+In-Reply-To: <20170320215823.GA28075-u2l5PoMzF/Vg9hUCZPvPmw@public.gmane.org>
 Sender: linux-man-owner-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
-To: "Dmitry V. Levin" <ldv-u2l5PoMzF/Vg9hUCZPvPmw@public.gmane.org>, walter harms <wharms-fPG8STNUNVg@public.gmane.org>
-Cc: mtk.manpages-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org, linux-man-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
+To: "Dmitry V. Levin" <ldv-u2l5PoMzF/Vg9hUCZPvPmw@public.gmane.org>, Christian Brauner <christian.brauner-Z7WLFzj8eWMS+FvcfC7Uqw@public.gmane.org>
+Cc: mtk.manpages-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org, linux-man-u79uwXL29TY76Z2rM5mHXA@public.gmane.org, Serge Hallyn <serge-A9i7LUbDfNHQT0dZR+AlfA@public.gmane.org>, =?UTF-8?Q?St=c3=a9phane_Graber?= <stgraber-GeWIH/nMZzLQT0dZR+AlfA@public.gmane.org>
 List-Id: linux-man@vger.kernel.org
 
-Hello Dmitry
+Hi Dmitry,
 
-On 02/20/2017 04:43 PM, Dmitry V. Levin wrote:
-> As sizeof(kernel_sigset_t) is not the same for all architectures,
-> it would be better not to mention any numbers as its value.
+On 03/20/2017 10:58 PM, Dmitry V. Levin wrote:
+> Hi,
+> 
+> On Mon, Mar 20, 2017 at 10:02:15PM +0100, Christian Brauner wrote:
+>> Hi,
+>>
+>> Thanks Dmitry. One comment
+>>
+>> On 20 Mar 2017 9:51 p.m., "Dmitry V. Levin" <ldv-u2l5PoMzF/Vg9hUCZPvPmw@public.gmane.org> wrote:
+>>
+>> ---
+>>  man3/ttyname.3 | 8 +++++++-
+>>  1 file changed, 7 insertions(+), 1 deletion(-)
+>>
+>> diff --git a/man3/ttyname.3 b/man3/ttyname.3
+>> index 14c24e7..0be50c6 100644
+>> --- a/man3/ttyname.3
+>> +++ b/man3/ttyname.3
+>> @@ -71,6 +71,11 @@ File descriptor does not refer to a terminal device.
+>>  .RB ( ttyname_r ())
+>>  .I buflen
+>>  was too small to allow storing the pathname.
+>> +.TP
+>> +.\" glibc commit 15e9a4f378c8607c2ae1aa465436af4321db0e23
+>> +.B ENODEV
+>> +File descriptor refers to a slave pseudoterminal device
+>> +but the corresponding pathname could not be found.
+>>
+>> I think it would be good to explicitly mention that ENODEV is set in case
+>> the fd does not refer to a pts device in its namespace. Otherwise users
+>> might take this as an indication that this is a more generic error which is
+>> not the case.
+> 
+> In fact, this is a more generic error than a namespace mismatch, although
+> the latter is the most likely reason.
+> 
+> Imagine that the corresponding file inside /dev/pts/ is not available for
+> some reason and the stat call has failed.  This situation could be
+> reproduced e.g. by bind-mounting an empty directory to /dev/pts.
+> A subsequent ttyname invocation would end up with ENODEV because the device
+> is literally not available although it's withing the same namespace.
+> 
+> I don't mind if you change the description to mention the namespace case
+> as the most likely, but please do not make it the only case when ENODEV
+> can happen.
 
-Thanks! Applied.
+I'm open on this point. If someone wants to write a suitable patch, I'll
+probably take it.
 
 Cheers,
 
 Michael
-
-
-> Signed-off-by: Dmitry V. Levin <ldv-u2l5PoMzF/Vg9hUCZPvPmw@public.gmane.org>
-> ---
-> v2: mention that sizeof(kernel_sigset_t) is architecture specific.
-> 
->  man2/sigprocmask.2 | 9 +++++----
->  1 file changed, 5 insertions(+), 4 deletions(-)
-> 
-> diff --git a/man2/sigprocmask.2 b/man2/sigprocmask.2
-> index 8388340..499fd0c 100644
-> --- a/man2/sigprocmask.2
-> +++ b/man2/sigprocmask.2
-> @@ -202,10 +202,11 @@ which specifies the size in bytes of the signal sets in
->  .IR set
->  and
->  .IR oldset .
-> -This argument is currently required to have the value 8
-> -(
-> -.IR sizeof(kernel_sigset_t)
-> -).
-> +This argument is currently required to have a fixed architecture specific value
-> +(equal to
-> +.IR sizeof(kernel_sigset_t) ).
-> +.\" sizeof(kernel_sigset_t) == _NSIG / 8,
-> +.\" which equals to 8 on most architectures, but e.g. on MIPS it's 16.
->  
->  The glibc
->  .BR sigprocmask ()
-> 
 
 
 -- 
