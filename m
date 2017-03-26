@@ -1,49 +1,57 @@
-From: Jakub Wilk <jwilk-tXgOlIzOKNReoWH0uzbU5w@public.gmane.org>
-Subject: [PATCH 2/2] ldconfig.8: ffix
-Date: Fri, 24 Mar 2017 21:00:24 +0100
-Message-ID: <20170324200024.1239-2-jwilk@jwilk.net>
-References: <20170324200024.1239-1-jwilk@jwilk.net>
+From: "Michael Kerrisk (man-pages)" <mtk.manpages-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org>
+Subject: Re: syslog(3) inconsistency
+Date: Sun, 26 Mar 2017 14:46:07 +0200
+Message-ID: <5d6ef264-1afe-0059-38fb-c7ebe7657b72@gmail.com>
+References: <8ab6f0a9-1a71-c776-80a2-5913e941aaf2@mev.co.uk>
+ <4f302a52-1098-2b1a-baac-732b15784ee4@gmail.com>
+ <bee344ea-5734-8106-183c-4530e2d245d6@mev.co.uk>
+Mime-Version: 1.0
+Content-Type: text/plain; charset=utf-8
+Content-Transfer-Encoding: 7bit
 Return-path: <linux-man-owner-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>
-In-Reply-To: <20170324200024.1239-1-jwilk-tXgOlIzOKNReoWH0uzbU5w@public.gmane.org>
+In-Reply-To: <bee344ea-5734-8106-183c-4530e2d245d6-GUHe90Wt2aFaa/9Udqfwiw@public.gmane.org>
 Sender: linux-man-owner-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
-To: Michael Kerrisk <mtk.manpages-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org>
-Cc: linux-man-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
+To: Ian Abbott <abbotti-GUHe90Wt2aFaa/9Udqfwiw@public.gmane.org>
+Cc: mtk.manpages-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org, linux-man-u79uwXL29TY76Z2rM5mHXA@public.gmane.org, walter harms <wharms-fPG8STNUNVg@public.gmane.org>
 List-Id: linux-man@vger.kernel.org
 
-Use italics for metavariables.
+On 03/24/2017 06:26 PM, Ian Abbott wrote:
+> On 24/03/2017 14:40, Michael Kerrisk (man-pages) wrote:
+>> Hello Ian,
+>>
+>> On 03/23/2017 07:37 PM, Ian Abbott wrote:
+>>> Hi,
+>>>
+>>> The first parameter of `syslog()` is called `priority` in the man-page,
+>>> except in the breakdown of the possible log levels, where it is called
+>>> `level`.
+>>
+>> Your report doesn't say clearly which pieces of text you find to
+>> be incorrect, but I wonder if you have missed this sentence in the
+>> man page:
+>>
+>>     The priority argument is formed by ORing the facility and the
+>>     level values (explained below).
+> 
+> Oh, that's it!  My mistake.  Apologies for the noise.
 
-Signed-off-by: Jakub Wilk <jwilk-tXgOlIzOKNReoWH0uzbU5w@public.gmane.org>
----
- man8/ldconfig.8 | 8 ++++----
- 1 file changed, 4 insertions(+), 4 deletions(-)
+So, I think the metapoint brought out by the comments of you and
+Walter is that the text of the page is not really organized in a
+way that is easy to parse. (And a few notable details were also
+missing, I see.) I've reworked the page quite a bit to (I hope)
+make the information easier to parse. The revised version
+is already pushed to Git, in case you want to take a look.
 
-diff --git a/man8/ldconfig.8 b/man8/ldconfig.8
-index c06212ebc..822a885cc 100644
---- a/man8/ldconfig.8
-+++ b/man8/ldconfig.8
-@@ -118,15 +118,15 @@ or
- .IR compat
- (default).
- .TP
--.B \-C cache
-+.BI "\-C " cache
- Use
--.B cache
-+.I cache
- instead of
- .IR /etc/ld.so.cache .
- .TP
--.B \-f conf
-+.BI "\-f " conf
- Use
--.B conf
-+.I conf
- instead of
- .IR /etc/ld.so.conf .
- .\" FIXME glibc 2.7 added -i
+Cheers,
+
+Michael
+
+
+
 -- 
-2.11.0
-
+Michael Kerrisk
+Linux man-pages maintainer; http://www.kernel.org/doc/man-pages/
+Linux/UNIX System Programming Training: http://man7.org/training/
 --
 To unsubscribe from this list: send the line "unsubscribe linux-man" in
 the body of a message to majordomo-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
