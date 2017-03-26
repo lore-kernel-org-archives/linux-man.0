@@ -1,59 +1,73 @@
 From: "Michael Kerrisk (man-pages)" <mtk.manpages-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org>
-Subject: Re: [PATCH 2/2] ldconfig.8: ffix
-Date: Sun, 26 Mar 2017 14:46:41 +0200
-Message-ID: <64d99c43-74f9-55bd-9444-95a8e02a03f5@gmail.com>
+Subject: Re: [PATCH 1/2] localedef.1: ffix
+Date: Sun, 26 Mar 2017 14:46:37 +0200
+Message-ID: <85dfe921-b31e-626b-68f5-6783563d1b66@gmail.com>
 References: <20170324200024.1239-1-jwilk@jwilk.net>
- <20170324200024.1239-2-jwilk@jwilk.net>
 Mime-Version: 1.0
 Content-Type: text/plain; charset=windows-1252
 Content-Transfer-Encoding: 7bit
 Return-path: <linux-man-owner-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>
-In-Reply-To: <20170324200024.1239-2-jwilk-tXgOlIzOKNReoWH0uzbU5w@public.gmane.org>
+In-Reply-To: <20170324200024.1239-1-jwilk-tXgOlIzOKNReoWH0uzbU5w@public.gmane.org>
 Sender: linux-man-owner-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
 To: Jakub Wilk <jwilk-tXgOlIzOKNReoWH0uzbU5w@public.gmane.org>
 Cc: mtk.manpages-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org, linux-man-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
 List-Id: linux-man@vger.kernel.org
 
 On 03/24/2017 09:00 PM, Jakub Wilk wrote:
-> Use italics for metavariables.
+> Don't embolden commas between option names.
 
-Thanks, Jakub! Applied.
+Thanks, Jakub. Applied.
 
 Cheers,
 
 Michael
 
 
-
 > Signed-off-by: Jakub Wilk <jwilk-tXgOlIzOKNReoWH0uzbU5w@public.gmane.org>
 > ---
->  man8/ldconfig.8 | 8 ++++----
+>  man1/localedef.1 | 8 ++++----
 >  1 file changed, 4 insertions(+), 4 deletions(-)
 > 
-> diff --git a/man8/ldconfig.8 b/man8/ldconfig.8
-> index c06212ebc..822a885cc 100644
-> --- a/man8/ldconfig.8
-> +++ b/man8/ldconfig.8
-> @@ -118,15 +118,15 @@ or
->  .IR compat
->  (default).
+> diff --git a/man1/localedef.1 b/man1/localedef.1
+> index 9d35d2bfa..f0f0bdd77 100644
+> --- a/man1/localedef.1
+> +++ b/man1/localedef.1
+> @@ -146,7 +146,7 @@ using
+>  Some of the following options are sensible only for certain operations;
+>  generally, it should be self-evident which ones.
 >  .TP
-> -.B \-C cache
-> +.BI "\-C " cache
->  Use
-> -.B cache
-> +.I cache
->  instead of
->  .IR /etc/ld.so.cache .
+> -.BI \-f " charmapfile" ", \-\-charmap=" charmapfile
+> +.BI \-f " charmapfile" "\fR, \fP\-\-charmap=" charmapfile
+>  Specify the file that defines the character set
+>  that is used by the input file.
+>  If
+> @@ -165,7 +165,7 @@ are also searched after the current directory.
+>  The default directory for character maps is printed by
+>  .BR "localedef \-\-help" .
 >  .TP
-> -.B \-f conf
-> +.BI "\-f " conf
+> -.BI \-i " inputfile" ", \-\-inputfile=" inputfile
+> +.BI \-i " inputfile" "\fR, \fP\-\-inputfile=" inputfile
+>  Specify the locale definition file to compile.
+>  The file is sought in the current directory
+>  and the default directory for locale definition files.
+> @@ -179,7 +179,7 @@ are also searched after the current directory.
+>  The default directory for locale definition files is printed by
+>  .BR "localedef \-\-help" .
+>  .TP
+> -.BI \-u " repertoirefile" ", \-\-repertoire-map=" repertoirefile
+> +.BI \-u " repertoirefile" "\fR, \fP\-\-repertoire-map=" repertoirefile
+>  Read mappings from symbolic names to Unicode code points from
+>  .IR repertoirefile .
+>  If
+> @@ -198,7 +198,7 @@ are also searched after the current directory.
+>  The default directory for repertoire maps is printed by
+>  .BR "localedef \-\-help" .
+>  .TP
+> -.BI \-A " aliasfile" ", \-\-alias\-file=" aliasfile
+> +.BI \-A " aliasfile" "\fR, \fP\-\-alias\-file=" aliasfile
 >  Use
-> -.B conf
-> +.I conf
->  instead of
->  .IR /etc/ld.so.conf .
->  .\" FIXME glibc 2.7 added -i
+>  .I aliasfile
+>  to look up aliases for locale names.
 > 
 
 
