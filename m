@@ -1,74 +1,51 @@
 From: "Michael Kerrisk (man-pages)" <mtk.manpages-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org>
-Subject: Re: [PATCH 1/2] localedef.1: ffix
-Date: Sun, 26 Mar 2017 14:46:37 +0200
-Message-ID: <85dfe921-b31e-626b-68f5-6783563d1b66@gmail.com>
-References: <20170324200024.1239-1-jwilk@jwilk.net>
+Subject: Re: [PATCH] getdtablesize.2, attr.5: Move .so directive to first line
+Date: Sun, 26 Mar 2017 14:46:13 +0200
+Message-ID: <a89f9a69-30e0-c25e-8f3e-d1ea1f158613@gmail.com>
+References: <20170321010835.384cad5c.alex.miller@gmx.de>
+ <85d402cd-765d-74e0-6a00-a940d3d679b2@gmail.com>
+ <20170324184532.7c817c6a.alex.miller@gmx.de>
 Mime-Version: 1.0
 Content-Type: text/plain; charset=windows-1252
 Content-Transfer-Encoding: 7bit
 Return-path: <linux-man-owner-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>
-In-Reply-To: <20170324200024.1239-1-jwilk-tXgOlIzOKNReoWH0uzbU5w@public.gmane.org>
+In-Reply-To: <20170324184532.7c817c6a.alex.miller-Mmb7MZpHnFY@public.gmane.org>
 Sender: linux-man-owner-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
-To: Jakub Wilk <jwilk-tXgOlIzOKNReoWH0uzbU5w@public.gmane.org>
+To: Alexander Miller <alex.miller-Mmb7MZpHnFY@public.gmane.org>
 Cc: mtk.manpages-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org, linux-man-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
 List-Id: linux-man@vger.kernel.org
 
-On 03/24/2017 09:00 PM, Jakub Wilk wrote:
-> Don't embolden commas between option names.
+Hello Alex,
 
-Thanks, Jakub. Applied.
+On 03/24/2017 06:45 PM, Alexander Miller wrote:
+> On Fri, 24 Mar 2017 15:40:19 +0100 Michael Kerrisk wrote:
+> 
+>> I've applied this. However, could you say more about the
+>> problem it fixes? (I did not encounter or get any reports of
+>> problems before, and at least for me, man(1) seems to have
+>> no problem with the files as they were.)
+> 
+> Hello Michael,
+> 
+> this is a problem with the older man implementation (man 1.6g)
+> and compressed man pages (man-db is not affected). 
+> There is no zsoelim(1) in this implementation. Instead, man(1)
+> has special code to handle redirections which recognizes .so only
+> in the very first line. With uncompressed man pages it doesn't
+> matter because groff finds the target page, but when that file
+> is compresses groff can't find it and the result is an empty
+> page.
+> 
+> I know that the older man is mostly irrelevant today (and I have
+> only one installation left for testing), but the fix is trivial,
+> so I decided to submit it. There may also be other tools with
+> similar restrictions, although I don't have any examples.
+
+Okay. Thanks for the explanation (and the fix)!
 
 Cheers,
 
 Michael
-
-
-> Signed-off-by: Jakub Wilk <jwilk-tXgOlIzOKNReoWH0uzbU5w@public.gmane.org>
-> ---
->  man1/localedef.1 | 8 ++++----
->  1 file changed, 4 insertions(+), 4 deletions(-)
-> 
-> diff --git a/man1/localedef.1 b/man1/localedef.1
-> index 9d35d2bfa..f0f0bdd77 100644
-> --- a/man1/localedef.1
-> +++ b/man1/localedef.1
-> @@ -146,7 +146,7 @@ using
->  Some of the following options are sensible only for certain operations;
->  generally, it should be self-evident which ones.
->  .TP
-> -.BI \-f " charmapfile" ", \-\-charmap=" charmapfile
-> +.BI \-f " charmapfile" "\fR, \fP\-\-charmap=" charmapfile
->  Specify the file that defines the character set
->  that is used by the input file.
->  If
-> @@ -165,7 +165,7 @@ are also searched after the current directory.
->  The default directory for character maps is printed by
->  .BR "localedef \-\-help" .
->  .TP
-> -.BI \-i " inputfile" ", \-\-inputfile=" inputfile
-> +.BI \-i " inputfile" "\fR, \fP\-\-inputfile=" inputfile
->  Specify the locale definition file to compile.
->  The file is sought in the current directory
->  and the default directory for locale definition files.
-> @@ -179,7 +179,7 @@ are also searched after the current directory.
->  The default directory for locale definition files is printed by
->  .BR "localedef \-\-help" .
->  .TP
-> -.BI \-u " repertoirefile" ", \-\-repertoire-map=" repertoirefile
-> +.BI \-u " repertoirefile" "\fR, \fP\-\-repertoire-map=" repertoirefile
->  Read mappings from symbolic names to Unicode code points from
->  .IR repertoirefile .
->  If
-> @@ -198,7 +198,7 @@ are also searched after the current directory.
->  The default directory for repertoire maps is printed by
->  .BR "localedef \-\-help" .
->  .TP
-> -.BI \-A " aliasfile" ", \-\-alias\-file=" aliasfile
-> +.BI \-A " aliasfile" "\fR, \fP\-\-alias\-file=" aliasfile
->  Use
->  .I aliasfile
->  to look up aliases for locale names.
-> 
 
 
 -- 
