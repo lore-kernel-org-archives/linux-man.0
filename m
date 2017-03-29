@@ -1,77 +1,78 @@
-From: walter harms <wharms-fPG8STNUNVg@public.gmane.org>
-Subject: Re: syslog(3) inconsistency
-Date: Mon, 27 Mar 2017 11:49:10 +0200
-Message-ID: <58D8E016.8000907@bfs.de>
-References: <8ab6f0a9-1a71-c776-80a2-5913e941aaf2@mev.co.uk> <4f302a52-1098-2b1a-baac-732b15784ee4@gmail.com> <bee344ea-5734-8106-183c-4530e2d245d6@mev.co.uk> <5d6ef264-1afe-0059-38fb-c7ebe7657b72@gmail.com> <68bdb70e-a70f-19a7-d85d-922c18d60833@mev.co.uk>
-Reply-To: wharms-fPG8STNUNVg@public.gmane.org
+From: Nikos Mavrogiannopoulos <nmav-H+wXaHxf7aLQT0dZR+AlfA@public.gmane.org>
+Subject: getentropy clarifications
+Date: Wed, 29 Mar 2017 14:46:47 +0200
+Message-ID: <1490791607.28079.8.camel@redhat.com>
 Mime-Version: 1.0
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 7bit
+Content-Type: multipart/mixed; boundary="=-8uaz2pncGPjwHJbOiBqj"
 Return-path: <linux-man-owner-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>
-In-Reply-To: <68bdb70e-a70f-19a7-d85d-922c18d60833-GUHe90Wt2aFaa/9Udqfwiw@public.gmane.org>
 Sender: linux-man-owner-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
-To: linux-man-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
+To: mtk.manpages-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org
+Cc: linux-man-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
 List-Id: linux-man@vger.kernel.org
 
 
+--=-8uaz2pncGPjwHJbOiBqj
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: 7bit
 
-Am 27.03.2017 11:34, schrieb Ian Abbott:
-> On 26/03/17 13:46, Michael Kerrisk (man-pages) wrote:
->> On 03/24/2017 06:26 PM, Ian Abbott wrote:
->>> On 24/03/2017 14:40, Michael Kerrisk (man-pages) wrote:
->>>> Hello Ian,
->>>>
->>>> On 03/23/2017 07:37 PM, Ian Abbott wrote:
->>>>> Hi,
->>>>>
->>>>> The first parameter of `syslog()` is called `priority` in the
->>>>> man-page,
->>>>> except in the breakdown of the possible log levels, where it is called
->>>>> `level`.
->>>>
->>>> Your report doesn't say clearly which pieces of text you find to
->>>> be incorrect, but I wonder if you have missed this sentence in the
->>>> man page:
->>>>
->>>>     The priority argument is formed by ORing the facility and the
->>>>     level values (explained below).
->>>
->>> Oh, that's it!  My mistake.  Apologies for the noise.
->>
->> So, I think the metapoint brought out by the comments of you and
->> Walter is that the text of the page is not really organized in a
->> way that is easy to parse. (And a few notable details were also
->> missing, I see.) I've reworked the page quite a bit to (I hope)
->> make the information easier to parse. The revised version
->> is already pushed to Git, in case you want to take a look.
-> 
-> Well I can tell you how my mental process worked in this case if it
-> helps.  Basically, I'd skipped over the bit that described the
-> 'priority' argument as being composed of two parts OR'ed together, and
-> went straight to what I thought was a description of each function
-> argument, so I thought the description of the 'level' was really a
-> description of the 'priority' argument.  A sentence similar to "This
-> forms part of the 'priority' argument, together with the 'facility'
-> value." would have helped me, but then again, so would reading the man
-> page properly!
-> 
-> The description of 'level' mentions 'setlogmask(3)', but that man page
-> calls the levels "priorities".
-> 
+Hi,
+ The attached patches clarify some parts of the getentropy() functions.
 
-Do you thing an other word than "priorities" would help ?
+regards,
+Nikos
 
-Also I have the feeling that the lists below and the fact that you are
-looking for a parameter, draws the attention quickly to these list.
+--=-8uaz2pncGPjwHJbOiBqj
+Content-Disposition: attachment;
+	filename*0=0001-getentropy-corrected-the-header-it-is-defined-under.patc;
+	filename*1=h
+Content-Type: text/x-patch;
+	name="0001-getentropy-corrected-the-header-it-is-defined-under.patch";
+	charset="UTF-8"
+Content-Transfer-Encoding: base64
 
-My next idea was the example i posted. For me ist very simple do you thing
-that would clarify things more easy ?
+RnJvbSBiZTc0MWUyZGRlNTFhMDYwYzQyOTQ3ODBmNWRhZDgzZTk2Nzk1NWEyIE1vbiBTZXAgMTcg
+MDA6MDA6MDAgMjAwMQpGcm9tOiBOaWtvcyBNYXZyb2dpYW5ub3BvdWxvcyA8bm1hdkByZWRoYXQu
+Y29tPgpEYXRlOiBXZWQsIDI5IE1hciAyMDE3IDE0OjQzOjE0ICswMjAwClN1YmplY3Q6IFtQQVRD
+SCAxLzJdIGdldGVudHJvcHk6IGNvcnJlY3RlZCB0aGUgaGVhZGVyIGl0IGlzIGRlZmluZWQgdW5k
+ZXIKClNpZ25lZC1vZmYtYnk6IE5pa29zIE1hdnJvZ2lhbm5vcG91bG9zIDxubWF2QHJlZGhhdC5j
+b20+Ci0tLQogbWFuMy9nZXRlbnRyb3B5LjMgfCA2ICsrKysrLQogMSBmaWxlIGNoYW5nZWQsIDUg
+aW5zZXJ0aW9ucygrKSwgMSBkZWxldGlvbigtKQoKZGlmZiAtLWdpdCBhL21hbjMvZ2V0ZW50cm9w
+eS4zIGIvbWFuMy9nZXRlbnRyb3B5LjMKaW5kZXggNjk3ZjkzNy4uNGNkNGQ2MSAxMDA2NDQKLS0t
+IGEvbWFuMy9nZXRlbnRyb3B5LjMKKysrIGIvbWFuMy9nZXRlbnRyb3B5LjMKQEAgLTI2LDcgKzI2
+LDcgQEAKIC5TSCBOQU1FCiBnZXRlbnRyb3B5IFwtIGZpbGwgYSBidWZmZXIgd2l0aCByYW5kb20g
+Ynl0ZXMKIC5TSCBTWU5PUFNJUwotLkIgI2luY2x1ZGUgPHN5cy9yYW5kb20uaD4KKy5CICNpbmNs
+dWRlIDx1bmlzdGQuaD4KIC5zcAogLkJJICJpbnQgZ2V0ZW50cm9weSh2b2lkICoiIGJ1ZmZlciAi
+LCBzaXplX3QgIiBsZW5ndGggKTsKIC5TSCBERVNDUklQVElPTgpAQCAtOTAsNiArOTAsMTAgQEAg
+YSBjYW5jZWxsYXRpb24gcG9pbnQsCiAuQlIgZ2V0ZW50cm9weSAoKQogaXMgbm90IGEgY2FuY2Vs
+bGF0aW9uIHBvaW50LgogCitJbiBlYXJsaWVyIHZlcnNpb25zIG9mIGdsaWJjIHRoaXMgZnVuY3Rp
+b24gd2FzIGF2YWlibGUgdW5kZXIgdGhlCisuQlIgPHN5cy9yYW5kb20uaD4KK2hlYWRlci4KKwog
+QSBjYWxsIHRvCiAuQlIgZ2V0ZW50cm9weSAoKQogbWF5IGJsb2NrIGlmIHRoZSBzeXN0ZW0gaGFz
+IGp1c3QgYm9vdGVkIGFuZCB0aGUga2VybmVsIGhhcwotLSAKMi45LjMKCg==
 
 
-re,
- wh
+--=-8uaz2pncGPjwHJbOiBqj
+Content-Disposition: attachment; filename="0002-getentropy-clarify-returns.patch"
+Content-Type: text/x-patch; name="0002-getentropy-clarify-returns.patch";
+	charset="UTF-8"
+Content-Transfer-Encoding: base64
+
+RnJvbSAxMTJjMzY1M2ZkMjkzNDUzNTA0YmZmZmYzNWI2MDc4NWM5ZjgyYzQwIE1vbiBTZXAgMTcg
+MDA6MDA6MDAgMjAwMQpGcm9tOiBOaWtvcyBNYXZyb2dpYW5ub3BvdWxvcyA8bm1hdkByZWRoYXQu
+Y29tPgpEYXRlOiBXZWQsIDI5IE1hciAyMDE3IDE0OjQ0OjIxICswMjAwClN1YmplY3Q6IFtQQVRD
+SCAyLzJdIGdldGVudHJvcHk6IGNsYXJpZnkgInJldHVybnMiCgpTaWduZWQtb2ZmLWJ5OiBOaWtv
+cyBNYXZyb2dpYW5ub3BvdWxvcyA8bm1hdkByZWRoYXQuY29tPgotLS0KIG1hbjMvZ2V0ZW50cm9w
+eS4zIHwgMiArLQogMSBmaWxlIGNoYW5nZWQsIDEgaW5zZXJ0aW9uKCspLCAxIGRlbGV0aW9uKC0p
+CgpkaWZmIC0tZ2l0IGEvbWFuMy9nZXRlbnRyb3B5LjMgYi9tYW4zL2dldGVudHJvcHkuMwppbmRl
+eCA0Y2Q0ZDYxLi5iMzQxMjg0IDEwMDY0NAotLS0gYS9tYW4zL2dldGVudHJvcHkuMworKysgYi9t
+YW4zL2dldGVudHJvcHkuMwpAQCAtNDMsNyArNDMsNyBAQCBhcmd1bWVudCBpcyAyNTYuCiAKIEEg
+c3VjY2Vzc2Z1bCBjYWxsIHRvCiAuQlIgZ2V0ZW50cm9weSAoKQotYWx3YXlzIHJldHVybnMgdGhl
+IHJlcXVlc3RlZCBudW1iZXIgb2YgYnl0ZXMgb2YgZW50cm9weS4KK2Fsd2F5cyByZXR1cm5zIHpl
+cm8gYW5kIHByb3ZpZGVzIHRoZSByZXF1ZXN0ZWQgbnVtYmVyIG9mIGJ5dGVzIG9mIGVudHJvcHku
+CiAuU0ggUkVUVVJOIFZBTFVFCiBPbiBzdWNjZXNzLCB0aGlzIGZ1bmN0aW9uIHJldHVybnMgemVy
+bywKIE9uIGVycm9yLCBcLTEgaXMgcmV0dXJuZWQsIGFuZAotLSAKMi45LjMKCg==
 
 
+--=-8uaz2pncGPjwHJbOiBqj--
 
 --
 To unsubscribe from this list: send the line "unsubscribe linux-man" in
