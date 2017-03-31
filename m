@@ -1,137 +1,38 @@
-From: Joachim Wuttke <j.wuttke-97/bSmCnXvjoK6nBLMlh1Q@public.gmane.org>
-Subject: pow(3): warn against ineffecient uses?
-Date: Wed, 29 Mar 2017 21:35:07 +0200
-Message-ID: <ee3b127b-5e9e-e82d-1731-172185c8ebd2@fz-juelich.de>
+From: Florian Weimer <fw-d32yF4oPJVt0XxTmqZlbVQ@public.gmane.org>
+Subject: Re: pow(3): warn against ineffecient uses?
+Date: Fri, 31 Mar 2017 13:17:56 +0200
+Message-ID: <871stdn197.fsf@mid.deneb.enyo.de>
+References: <ee3b127b-5e9e-e82d-1731-172185c8ebd2@fz-juelich.de>
 Mime-Version: 1.0
-Content-Type: multipart/signed; protocol="application/pkcs7-signature";
-        micalg=sha-256; boundary="------------ms090707060807020608000907"
+Content-Type: text/plain
 Return-path: <linux-man-owner-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>
+In-Reply-To: <ee3b127b-5e9e-e82d-1731-172185c8ebd2-97/bSmCnXvjoK6nBLMlh1Q@public.gmane.org> (Joachim
+        Wuttke's message of "Wed, 29 Mar 2017 21:35:07 +0200")
 Sender: linux-man-owner-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
-To: linux-man-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
+To: Joachim Wuttke <j.wuttke-97/bSmCnXvjoK6nBLMlh1Q@public.gmane.org>
+Cc: linux-man-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
 List-Id: linux-man@vger.kernel.org
 
---------------ms090707060807020608000907
-Content-Type: text/plain; charset=utf-8; format=flowed
-Content-Transfer-Encoding: quoted-printable
+* Joachim Wuttke:
 
-Maybe it would be appropriate to warn against inefficient
-uses of the function pow. To make a very first proposal
-for a paragraph to be added to pow(3):
+> Maybe it would be appropriate to warn against inefficient
+> uses of the function pow. To make a very first proposal
+> for a paragraph to be added to pow(3):
+>
+> In time-critical code, pow with small integer or simple
+> fractional exponents should be avoided in favor of
+> straightforward multiplication, division or square or
+> cubic roots: prefer x*x over pow(x,2), 1/x over pow(x,-1),
+> sqrt(x) over pow(x,0.5), or cbrt(x*x) over pow(x,2.0/3).
 
-In time-critical code, pow with small integer or simple
-fractional exponents should be avoided in favor of
-straightforward multiplication, division or square or
-cubic roots: prefer x*x over pow(x,2), 1/x over pow(x,-1),
-sqrt(x) over pow(x,0.5), or cbrt(x*x) over pow(x,2.0/3).
+I don't think transforming pow (x, 2.0 / 3) to cbrt (x * x) is correct
+because the result is not correctly rounded.  I'm not sure if it is a
+good idea to add those examples to the manual page without discussing
+the cases where the transformations might not be valid.
 
-My motivation for this proposal comes from student code
-in which I have seen exactly these mistakes.
-
-- Joachim
-
-
---------------ms090707060807020608000907
-Content-Type: application/pkcs7-signature; name="smime.p7s"
-Content-Transfer-Encoding: base64
-Content-Disposition: attachment; filename="smime.p7s"
-Content-Description: S/MIME Cryptographic Signature
-
-MIAGCSqGSIb3DQEHAqCAMIACAQExDzANBglghkgBZQMEAgEFADCABgkqhkiG9w0BBwEAAKCC
-D9YwggTVMIIDvaADAgECAghQTsb1PRG0ZDANBgkqhkiG9w0BAQsFADBxMQswCQYDVQQGEwJE
-RTEcMBoGA1UEChMTRGV1dHNjaGUgVGVsZWtvbSBBRzEfMB0GA1UECxMWVC1UZWxlU2VjIFRy
-dXN0IENlbnRlcjEjMCEGA1UEAxMaRGV1dHNjaGUgVGVsZWtvbSBSb290IENBIDIwHhcNMTQw
-NzIyMTIwODI2WhcNMTkwNzA5MjM1OTAwWjBaMQswCQYDVQQGEwJERTETMBEGA1UEChMKREZO
-LVZlcmVpbjEQMA4GA1UECxMHREZOLVBLSTEkMCIGA1UEAxMbREZOLVZlcmVpbiBQQ0EgR2xv
-YmFsIC0gRzAxMIIBIjANBgkqhkiG9w0BAQEFAAOCAQ8AMIIBCgKCAQEA6ZvDZ4X5Da71jVTD
-llA1PWLpbkztlNcAW5UidNQg6zSP1uzAMQQLmYHiphTSUqAoI4SLdIkEXlvg4njBeMsWyyg1
-OXstkEXQ7aAAeny/Sg4bAMOG6VwrMRF7DPOCJEOMHDiLamgAmu7cT3ir0sYTm3at7t4m6O8B
-r3QPwQmi9mvOvdPNFDBP9eXjpMhim4IaAycwDQJlYE3t0QkjKpY1WCfTdsZxtpAdxO3/NYZ9
-bzOz2w/FEcKKg6GUXUFr2NIQ9Uz9ylGs2b3vkoO72uuLFlZWQ8/h1RM9ph8nMM1JVNvJEzSa
-cXXFbOqnC5j5IZ0nrz6jOTlIaoytyZn7wxLyvQIDAQABo4IBhjCCAYIwDgYDVR0PAQH/BAQD
-AgEGMB0GA1UdDgQWBBRJt8bP6D0ff+pEexMp9/EKcD7eZDAfBgNVHSMEGDAWgBQxw3kbuvVT
-1xfgiXotF2wKsyudMzASBgNVHRMBAf8ECDAGAQH/AgECMGIGA1UdIARbMFkwEQYPKwYBBAGB
-rSGCLAEBBAICMBEGDysGAQQBga0hgiwBAQQDADARBg8rBgEEAYGtIYIsAQEEAwEwDwYNKwYB
-BAGBrSGCLAEBBDANBgsrBgEEAYGtIYIsHjA+BgNVHR8ENzA1MDOgMaAvhi1odHRwOi8vcGtp
-MDMzNi50ZWxlc2VjLmRlL3JsL0RUX1JPT1RfQ0FfMi5jcmwweAYIKwYBBQUHAQEEbDBqMCwG
-CCsGAQUFBzABhiBodHRwOi8vb2NzcDAzMzYudGVsZXNlYy5kZS9vY3NwcjA6BggrBgEFBQcw
-AoYuaHR0cDovL3BraTAzMzYudGVsZXNlYy5kZS9jcnQvRFRfUk9PVF9DQV8yLmNlcjANBgkq
-hkiG9w0BAQsFAAOCAQEAYyAo/ZwhhnK+OUZZOTIlvKkBmw3Myn1BnIZtCm4ssxNZdbEzkhth
-Jxb/w7LVNYL7hCoBSb1mu2YvssIGXW4/buMBWlvKQ2NclbbhMacf1QdfTeZlgk4y+cN8ekvN
-TVx07iHydQLsUj7SyWrTkCNuSWc1vn9NVqTszC/Pt6GXqHI+ybxA1lqkCD3WvILDt7cyjrEs
-jmpttzUCGc/1OURYY6ckABCwu/xOr24vOLulV0k/2G5QbyyXltwdRpplic+uzPLl2Z9Tsz6h
-L5Kp2AvGhB8Exuse6J99tXulAvEkxSRjETTMWpMgKnmIOiVCkKllO3yG0xIVIyn8LNrMOVtU
-FzCCBV4wggRGoAMCAQICBxekJJt5EN8wDQYJKoZIhvcNAQELBQAwWjELMAkGA1UEBhMCREUx
-EzARBgNVBAoTCkRGTi1WZXJlaW4xEDAOBgNVBAsTB0RGTi1QS0kxJDAiBgNVBAMTG0RGTi1W
-ZXJlaW4gUENBIEdsb2JhbCAtIEcwMTAeFw0xNDA1MjcxNDU0MDNaFw0xOTA3MDkyMzU5MDBa
-MIGDMQswCQYDVQQGEwJERTEnMCUGA1UEChMeRm9yc2NodW5nc3plbnRydW0gSnVlbGljaCBH
-bWJIMSowKAYDVQQDEyFGWkogQ2VydGlmaWNhdGlvbiBBdXRob3JpdHkgLSBHMDIxHzAdBgkq
-hkiG9w0BCQEWEGNhQGZ6LWp1ZWxpY2guZGUwggEiMA0GCSqGSIb3DQEBAQUAA4IBDwAwggEK
-AoIBAQCjJkgFDQw08spMsBreCaehMMeNnMjetOXbtn+OPtrLl1gNACj6sI2FPnheE0qaHVjT
-QntJWNaztNYPEbPPxg3mgrW08LanC11rshG+N3nFfEIaa5mauxVt15jvJb2uCCDbFArciFST
-iQuPlirxQLBJXtmPWSZtftmyZL99Jc9Cx53YT3KXKK7AKVcOyHae41WnRdnu6CGK0qyq6jEV
-Y/l+rDi5ENF3S7RJsQzBww9x2qR79uBiW6d/yYBo3RJZKNTuaKEfIQ8BzJlR0n+yglcSYw/E
-Gk/pQlpvCJH4fRFp5ifPewZtkLWg//IgaJBA+YvWI2Av8pWesytikQTQHywRAgMBAAGjggH9
-MIIB+TASBgNVHRMBAf8ECDAGAQH/AgEBMA4GA1UdDwEB/wQEAwIBBjARBgNVHSAECjAIMAYG
-BFUdIAAwHQYDVR0OBBYEFCC9cYmlySozLxHgH+WUJlYPEQIlMB8GA1UdIwQYMBaAFEm3xs/o
-PR9/6kR7Eyn38QpwPt5kMBsGA1UdEQQUMBKBEGNhQGZ6LWp1ZWxpY2guZGUwgYgGA1UdHwSB
-gDB+MD2gO6A5hjdodHRwOi8vY2RwMS5wY2EuZGZuLmRlL2dsb2JhbC1yb290LWNhL3B1Yi9j
-cmwvY2FjcmwuY3JsMD2gO6A5hjdodHRwOi8vY2RwMi5wY2EuZGZuLmRlL2dsb2JhbC1yb290
-LWNhL3B1Yi9jcmwvY2FjcmwuY3JsMIHXBggrBgEFBQcBAQSByjCBxzAzBggrBgEFBQcwAYYn
-aHR0cDovL29jc3AucGNhLmRmbi5kZS9PQ1NQLVNlcnZlci9PQ1NQMEcGCCsGAQUFBzAChjto
-dHRwOi8vY2RwMS5wY2EuZGZuLmRlL2dsb2JhbC1yb290LWNhL3B1Yi9jYWNlcnQvY2FjZXJ0
-LmNydDBHBggrBgEFBQcwAoY7aHR0cDovL2NkcDIucGNhLmRmbi5kZS9nbG9iYWwtcm9vdC1j
-YS9wdWIvY2FjZXJ0L2NhY2VydC5jcnQwDQYJKoZIhvcNAQELBQADggEBAGcfjE2bMmdDPtAO
-fYpK/o0pjafjSbtpFoWyn+Tjm27098SbSk068ud4neDTfyDkqVKUJodGFDX4qBmr2YqzsD00
-pbnQEQKxToRRffl3dz67z4QlhLtVxQdwW2PPvP7FSABflXdEMFLGa4YcWMpcnxRBOG9ahC05
-BZqP/F5YUUrfjgGKM2S/U2NjP3O0po/SNv+OmL9/LJSkUwSO4HmT9j8ptAfYcYkJJtnG/gyb
-aa5Hss890XJbmLZ9J3E/IS2uQCuQTn15v/sIaNCUPfAo92oFhXOsnhbqFhe7vbm2Eenzuj3s
-cPb6NxEZphscTof8O+D6dV1u+RskW4Etm+15Jl0wggWXMIIEf6ADAgECAgcb5j8DN1oGMA0G
-CSqGSIb3DQEBCwUAMIGDMQswCQYDVQQGEwJERTEnMCUGA1UEChMeRm9yc2NodW5nc3plbnRy
-dW0gSnVlbGljaCBHbWJIMSowKAYDVQQDEyFGWkogQ2VydGlmaWNhdGlvbiBBdXRob3JpdHkg
-LSBHMDIxHzAdBgkqhkiG9w0BCQEWEGNhQGZ6LWp1ZWxpY2guZGUwHhcNMTYwODMxMTEzNzIz
-WhcNMTkwNzA5MjM1OTAwWjBiMQswCQYDVQQGEwJERTEnMCUGA1UECgweRm9yc2NodW5nc3pl
-bnRydW0gSnVlbGljaCBHbWJIMREwDwYDVQQLDAhKQ05TLU1MWjEXMBUGA1UEAwwOSm9hY2hp
-bSBXdXR0a2UwggEiMA0GCSqGSIb3DQEBAQUAA4IBDwAwggEKAoIBAQCujdAoD6ZAsut2nbwV
-1sNmEibm3PaEXQfm/AXWZfrPeZf4RbDpWDIy3ychxmjiJPhxuwHNjTTt8EKLplTrUAPb1V5J
-Rj4BydrsMmDNT5T8kZ+ROHxjgOo/vUprRQv3T+fsEf6Q/DJL/jBNR2j8+LKh0q37uAduGKxP
-x8rBS2fj4bsdtCbnyjYnSiLcigoEAMBrciD2qaUsdJEiYYov7DfBn/EaqJ5vRLMvVj+dC/Pn
-tmzZBAPBfQC9OPVN01Kt2kZL6I8XceTecrQiINmAfvFXDGlQ/wR8xewM300tCDcpuSwI7nAF
-CA6Goq78IHP3gjBaoThw0TsBQAdWZa7fvkpFAgMBAAGjggIuMIICKjBABgNVHSAEOTA3MBEG
-DysGAQQBga0hgiwBAQQDBTARBg8rBgEEAYGtIYIsAgEEAwEwDwYNKwYBBAGBrSGCLAEBBDAJ
-BgNVHRMEAjAAMA4GA1UdDwEB/wQEAwIF4DAdBgNVHSUEFjAUBggrBgEFBQcDAgYIKwYBBQUH
-AwQwHQYDVR0OBBYEFNV68ySrMFz7kK7JB3iilKgWQFe4MB8GA1UdIwQYMBaAFCC9cYmlySoz
-LxHgH+WUJlYPEQIlMCEGA1UdEQQaMBiBFmoud3V0dGtlQGZ6LWp1ZWxpY2guZGUwewYDVR0f
-BHQwcjA3oDWgM4YxaHR0cDovL2NkcDEucGNhLmRmbi5kZS9memotY2EvcHViL2NybC9nX2Nh
-Y3JsLmNybDA3oDWgM4YxaHR0cDovL2NkcDIucGNhLmRmbi5kZS9memotY2EvcHViL2NybC9n
-X2NhY3JsLmNybDCBywYIKwYBBQUHAQEEgb4wgbswMwYIKwYBBQUHMAGGJ2h0dHA6Ly9vY3Nw
-LnBjYS5kZm4uZGUvT0NTUC1TZXJ2ZXIvT0NTUDBBBggrBgEFBQcwAoY1aHR0cDovL2NkcDEu
-cGNhLmRmbi5kZS9memotY2EvcHViL2NhY2VydC9nX2NhY2VydC5jcnQwQQYIKwYBBQUHMAKG
-NWh0dHA6Ly9jZHAyLnBjYS5kZm4uZGUvZnpqLWNhL3B1Yi9jYWNlcnQvZ19jYWNlcnQuY3J0
-MA0GCSqGSIb3DQEBCwUAA4IBAQBj15Ec3J/W0uQx/k+j+zptyOmtFJ39ws6ssETPMdHyIlPY
-53108k3ITRT6CoP7fQ76U2URCNcYgS/KEGIIhBFnlZXYRxcD43jecw5sPeMH5rPBZuQ+64xO
-lL+msRR6hX+UDw+32wwjwGb1deeMFTTNwUikQvxy20PONreQqd57wCIYtHrqj+jddLbQhg4d
-6luI1ZekaIuMrAQiEUgTuowp6TY/oPASFT3c1BGYnOXsaoNKxHU9V9dsiFm4cOk+nHeu+07B
-JoPi2LY4ztscs0+ZINIDpGa9FBDHaSJ08sEP5PP9Io3TDYeunOsFyFv5Gy4ppWVFqUeuEHBl
-rzq00BvSMYID3jCCA9oCAQEwgY8wgYMxCzAJBgNVBAYTAkRFMScwJQYDVQQKEx5Gb3JzY2h1
-bmdzemVudHJ1bSBKdWVsaWNoIEdtYkgxKjAoBgNVBAMTIUZaSiBDZXJ0aWZpY2F0aW9uIEF1
-dGhvcml0eSAtIEcwMjEfMB0GCSqGSIb3DQEJARYQY2FAZnotanVlbGljaC5kZQIHG+Y/Azda
-BjANBglghkgBZQMEAgEFAKCCAh8wGAYJKoZIhvcNAQkDMQsGCSqGSIb3DQEHATAcBgkqhkiG
-9w0BCQUxDxcNMTcwMzI5MTkzNTA3WjAvBgkqhkiG9w0BCQQxIgQgf144VPmhK9a6E4cghd4S
-VTjji4OA6KOFK/12VkhNARgwbAYJKoZIhvcNAQkPMV8wXTALBglghkgBZQMEASowCwYJYIZI
-AWUDBAECMAoGCCqGSIb3DQMHMA4GCCqGSIb3DQMCAgIAgDANBggqhkiG9w0DAgIBQDAHBgUr
-DgMCBzANBggqhkiG9w0DAgIBKDCBoAYJKwYBBAGCNxAEMYGSMIGPMIGDMQswCQYDVQQGEwJE
-RTEnMCUGA1UEChMeRm9yc2NodW5nc3plbnRydW0gSnVlbGljaCBHbWJIMSowKAYDVQQDEyFG
-WkogQ2VydGlmaWNhdGlvbiBBdXRob3JpdHkgLSBHMDIxHzAdBgkqhkiG9w0BCQEWEGNhQGZ6
-LWp1ZWxpY2guZGUCBxvmPwM3WgYwgaIGCyqGSIb3DQEJEAILMYGSoIGPMIGDMQswCQYDVQQG
-EwJERTEnMCUGA1UEChMeRm9yc2NodW5nc3plbnRydW0gSnVlbGljaCBHbWJIMSowKAYDVQQD
-EyFGWkogQ2VydGlmaWNhdGlvbiBBdXRob3JpdHkgLSBHMDIxHzAdBgkqhkiG9w0BCQEWEGNh
-QGZ6LWp1ZWxpY2guZGUCBxvmPwM3WgYwDQYJKoZIhvcNAQEBBQAEggEAmVVHiztwhrl8cXjB
-/0MurTk0J2Qm9tqcxvgSqbeTZc8zeE4RijqAztCsKX6GaDkZUo4bstlXev9xnjcpZFoRspZo
-U+FoiMtnJLmAuC7HtWQ9Ly9eoxX1Dpfsa71GUepXVlkfed432qXnzI5BbpMvXaVQd8OEpbAM
-oIpEGmM0CLAEH7n0YGTXZxQMDm7eehcs3vKdOqlryPtsUbXy+fa1AzQT+XCAbFvg8nSbPLDb
-xkp3aQWF5kx0xC69mqRonq3vItNci4IiGivl/dHf1aANRatZKDjfBLRnNHSPrL7D8COZntRd
-stpoykzf6A2ZUQTDzqjzWClumCyyXS7vcEa/BgAAAAAAAA==
---------------ms090707060807020608000907--
+If GCC does not handle some of the common cases from real-world code,
+that could be fixed in GCC (and GCC can do more transformations under
+-ffast-math, too).
 --
 To unsubscribe from this list: send the line "unsubscribe linux-man" in
 the body of a message to majordomo-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
