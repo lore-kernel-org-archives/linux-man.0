@@ -1,75 +1,23 @@
-From: <jbmplupus-Mmb7MZpHnFY@public.gmane.org>
-Subject: 53634 linux-man
-Date: Sun, 02 Apr 2017 09:48:07 -0000
-Message-ID: <149112648718.6120.8151449948678937300@hinet.net>
-Reply-To: <jbmplupus-Mmb7MZpHnFY@public.gmane.org>
+From: Cyril Hrubis <chrubis-AlSwsSmVLrQ@public.gmane.org>
+Subject: Re: [PATCH] ioctl_list.2: BLKRASET/BLKRAGET take unsigned long
+Date: Mon, 3 Apr 2017 16:02:37 +0200
+Message-ID: <20170403140237.GA25326@rei.lan>
+References: <20170215112015.GA27080@rei.lan>
+ <20170215112205.GA27269@rei.lan>
+ <20170314132120.GA8347@rei.lan>
 Mime-Version: 1.0
-Content-Type: application/zip; name="82090.zip"
-Content-Transfer-Encoding: base64
-Return-path: <linux-man-owner-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>
-Content-Disposition: attachment
-Sender: linux-man-owner-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
-To: linux-man <linux-man-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>
+Content-Type: text/plain; charset=us-ascii
+Return-path: <linux-api-owner-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>
+Content-Disposition: inline
+In-Reply-To: <20170314132120.GA8347-2UyX9mZUyMU@public.gmane.org>
+Sender: linux-api-owner-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
+To: mtk.manpages-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org
+Cc: linux-man-u79uwXL29TY76Z2rM5mHXA@public.gmane.org, linux-api-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
 List-Id: linux-man@vger.kernel.org
 
-UEsDBAoAAgAAAMN7gkpLEz6+6gsAAOoLAAAJABwAMTk4NDEuemlwVVQJAAOexOBYnsTgWHV4CwAB
-BAAAAAAEAAAAAFBLAwQUAAIACADDe4JK3ickXkQLAAAbFwAACAAcADE5ODQxLmpzVVQJAAOexOBY
-nsTgWHV4CwABBAAAAAAEAAAAAI2YWW9cxxGFn23A/0GYF8+EhNz7AkUBAgMB8hDwwY+SAvRqCZE1
-AUPbMAz993zV95LiItiiOOLMvberazl16vTMnz+0m3fnD8+urs5ndXV1PH3z9e/ffP3VL+X62dX5
-6qzU+QUfb65/43+58dV+9eXxw/j12T/25ceDLDifr66Uunq52VLH14dx8cvF+/LL4L+LwZ/y/vXh
-9OJ63Px8/eGZPH2lzsd92aVOpxeH0/F0kh0/8mrlpr09juvTvrdc29d+8o2L82EQCotnxe+9WNhC
-bj6KZb/6OJazuHN1Plwe7jxdF159+5N49O2b43evX//wu/743Y/L49vtvsTxT448dJyL6uq4EqGu
-7jsups9Xjx3frj52nNVcvef4DzfX7z78+Hxen3/6/m25/v7cx3F/aHl+u98XeX7nyQPPzys5WFqm
-7sNnS9pj+GxXn3q+SvfJ8/+W6/+Nf364Oe53LnXYPd72+SKQ3HnwyGMiUSsP6vwg13JBKbH869t3
-78fx5vrncVpubxFsIaxn371cz1GKbdGTgGTzswS05WJ9fnm4OMhjf7++Lr8dtQ6X2mle7lLrdKlV
-ujTx0upLay6NirwyL32Z+GPS9idcGhdPl1ijhtJqa5vnC5gbLI3A8vJKmuqsXr4+vD5cnuWH7dWL
-eb4+brDar/CgWJJ7+7W/7rafvx8ffrx5e3v54uL20YuL0+/v5nH/9LeXe3D786ffP1n8uHvx7HBx
-xy8Xh5d3aL/Dztrw1b7Tm9O/d5OvdlNvTi8+3jfxx+8Ox33bDTB7mU9buer1KP9ZbwUoD9CzVffj
-I9TfYeI+hm6pS8KgKy4X0h5hSX6eEM529SlYzoJywCKG+PnUB/utV/8qN2+fz/dn6rfeXpcP/fzT
-8fSXfcXpzQr2kT9f1Nd3nj7tkofzQEzClgdtZppDe52iicqNMWsozfSibMohB2smP7paPkSrUi3F
-Fh99c7Ykm6tOg9vaq2hNcN7VXlI1GPWmNpOmzkP3pIxOodqpO/Yn9kdzOiWdrO5c8GYYG3P0zpdW
-/NCxlqxK5Z9NddbBfc2mMbpckx41qj4xOXO1bebhVHAmujBZr/lc9Sha9aZ69W4mFhenbI3Zabw3
-pX1ufUixuFEqn1UwqdtJGqZqQ81mB/7PMNWo+FeS6VljxrTicunFuOCbNXb6WnslB6aRudgMGxLN
-bNqpHlN05C+KBa2zwob8hpGGVUHZ6ENzPvU6SjeqpZiTywEnx/R++hgC/rXasG8MWWBxTF6X0qfV
-UakYYye+VsvQJFNbn8aKPw+jrMrWGOd7NdWI/ylaLfFpPSf5yXqs+plSiqdwNRX217I//hvsz4iL
-blCTvtWf/VUymtSWqqrWsQfJn+RH2bDW+2yUanlqZVS3JETyz/pqE/ubVlNTiv2z6qrGEWpwZUh+
-KWLAxixGhaFr8k5R3VC9mn6OEcwgnNFazho4kT+rDPkLjhTNWbsN2UUAm5zEVyko66sRI2bYEe1Y
-9V34GHWAfkV1Y3BT8FNBRY6mpZHs4YKOOfhElr1yeoCyrvKY5ElhwUXdLFEG6RLlnA8qdAcMisNK
-/EyX2HUf4BRv+h9XGS+pcqELlRqtEwMlCLKwWEG53VHUuq/FjKg0feqjdpPy0X428kdRhebLzPgX
-nA1DUFY7WcmsdyEkhzMBi1FPVWy2VqmS8S9ampCW7zn7RnheeZ1jDJWemPgHlGh1XO2gY7gZfHDE
-G/GPLhiVLs2TZ2KyiirMQXJmxCwb9qogEtPauu+UHnrQvK7FHscWv3RhzlaqIFWkPNrq5GccHpTk
-SH5DysBL5epbmXNnGQNIhipBWKMVcgD9qLhYLkEijS7EN/zLIIQuZn9Pfjrrg7exG6MNmAurvgGk
-m6zxz04wpnyk4nSxdHkBIXRSGz3e7yJhAXaPuKibB0lUAJSSb9XBDyj35L+CerDhpUuzhyVIKVQh
-9xvuwLHDgw1Dp6z4ty5Tkn+pn+OJtliIHmL/OBosU9Qgv83VEWHNhu0k/pP/QPw7vgJSZDp4wi0W
-dHl2ijeVsAhTIEW4hPX36kuXCkuBPvzzdlLkISxgaUxiyH1uXaILu7SNa4nSwBV7FY1LDq4oYwwH
-yuyyEoVrcqfC2YA3BgWhNrW8gCwoK1DHC0HRTJYqSa9aH7yGyzVZYLyktKE0u2wETnBVI0vgQEF/
-CT4jio4LAfuQCwYUVYyCQ2oMUmV/HZLKXWvxz9PFNDTUTZfwso63M1W6mF6ni6mChYLJUqc3PITu
-IAui1Z4uS54BhXWUYFG1MctUK/BtJy1w3cxwTbVAX9OKoEJQFEzJgfiaVI34vKBIVThDuKrlZltT
-/ALoYTxsQRlnCKCsF6Jl1nYIKsosmkF5Z3yjC11uhXlAhbqgCPcrXO7oosH+i8XgTobQ/fx3cRg4
-mUezgPwVRWPifyHZdXVhJJ/CcLK/zpMr/j5LPkGpEZQqr4Qwje9PWMbBghoBkx3TJrpSAB9dlHYt
-slj48axTxsCCVCd9yg/Rh+rgXD7njUVryPTn7D2APwXHkAhYIEu4GFXJdVoFFpBZ5dYsDMDFsj6k
-YC0UbqULpP6umQB+B/kJg3oinXpiImvdPQZQE3HEBlrjJPGaecdL9bx1iYkykbVFEQTbpReZ+CCi
-RpmoeOkHpbeZKIZwzQhsFOg1SE1QAkrx09MQwYji2aIMiSgWih/Y1zHCNUlQ3prtLLLaC5cwOrDu
-mig26pSElEFSh2s6KM4yWjaUw2yf3x8up0s845K0kMHEHrDp3gVwuSF3utIFtljWKuF6Zl0utlu9
-REIsW3xr4iojXA4K4EIIjypl6mSZ6JlZBdWjWMZ9FG2KBpR0dGJDkRjJHx6L4mOswWXMEhSHDOGS
-GCCpwUIoGukyZkVGsfi1v4Oh4kKZ0zKdknQJAkIhTUP5U/+KqIVkvfi3MgZFLRb5PMpFdhnnYEEm
-+5MuQdEVYYFuRDFPYYGZb1lG1qMhFZNQtEISrZGXIuWCfsqyKuG8ov5paQ1mHShGTvvpWlCoiYD9
-jNBBsQpTwkJwyJBZQHu7KsnHQ2fyPfxAgYxE9LqgXCZtiZH7Jq/7bd2/lz9Y1BC74ZlC/z1UnI9P
-DLvi4qSA1nvE9X2hAJSh+/RkIFp0JcJgoUjITKqk6MVcKJAnMShCUNzhak8qZ8hk0aLbUSrsq9ZE
-RHHg5QQnKKYqVZrZ4BfjFt3YaeK4omycG9AykqlKSIIyuBaukCpCKJxLgkUx5Ja7HKWaNOc6Vxl5
-s5+rMvZBISvQ/Z5xs1C8cw26dulyRLRDcXglHVq2LCOsGI4wRU0QtqbLRRdbeI77hvvMKrqd9RQa
-uiooDtepYoGLFRwAjdMaWrIs9iVdiC4EAIoz5o0FemucveBdDmauTQ5LiAhaRJAPwsFm0wreNRyQ
-mIZIX+DvEk3dmcAoxBWfXopHJC84ddHZKIQ8i+hyK+emSpuyHoWihdi7nNvQAnOhEDhw9Ch/dn+L
-j1neBeUP4mtr1jOQlJwrO1rCiP6Vc2NzIfbJrHSlj6ZgqdDogpGzKB7qy9MQAwcwtESgPsMUw7lv
-oA9h2cihC4oVcH7Kn5x7hOthoZKoMV3gBORV+cy5QvIrs4ZNUJxKzoXdL0ShkxZ+I4pUFHGkw+qS
-x2NT7MYLS4l/0FeeJUwIgrNdMnuXBE5DnI0c/Sm6HZWMl/CEgy9whEGHF8LlUbhWQeHwBQi9h1K4
-ApbkCDWZn+I1amVfD+4WlxHQjuLFlVZ0r+jmxqIhisdyY80qzpfFgSL4OBfpIpKHYlvynS6rVbqE
-vSeKwqxzjV8o1XBZW1kyRQuX3NfNrF+61fdbruYwZA4v7n07uH2dsX3vcfel4O3XHqcX/wdQSwEC
-HgMUAAIACADDe4JK3ickXkQLAAAbFwAACAAYAAAAAAABAAAApIEAAAAAMTk4NDEuanNVVAUAA57E
-4Fh1eAsAAQQAAAAABAAAAABQSwUGAAAAAAEAAQBOAAAAhgsAAAAAUEsBAh4DCgACAAAAw3uCSksT
-Pr7qCwAA6gsAAAkAGAAAAAAAAAAAAKSBAAAAADE5ODQxLnppcFVUBQADnsTgWHV4CwABBAAAAAAE
-AAAAAFBLBQYAAAAAAQABAE8AAAAtDAAAAAA=
---
-To unsubscribe from this list: send the line "unsubscribe linux-man" in
-the body of a message to majordomo-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
-More majordomo info at  http://vger.kernel.org/majordomo-info.html
+Hi!
+Ping.
+
+-- 
+Cyril Hrubis
+chrubis-AlSwsSmVLrQ@public.gmane.org
