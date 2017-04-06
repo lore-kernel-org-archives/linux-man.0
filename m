@@ -1,85 +1,63 @@
-From: <jbmplupus-Mmb7MZpHnFY@public.gmane.org>
-Subject: 10025 linux-man
-Date: Wed, 05 Apr 2017 07:10:42 -0000
-Message-ID: <149137624201.6120.13375151725718325198@static.vdc.vn>
-Reply-To: <jbmplupus-Mmb7MZpHnFY@public.gmane.org>
+From: Florian Weimer <fweimer-H+wXaHxf7aLQT0dZR+AlfA@public.gmane.org>
+Subject: Mention sudoers in nsswitch.conf(5)
+Date: Thu, 6 Apr 2017 15:10:12 +0200
+Message-ID: <885caec0-dded-e22f-8b55-08f2868ad059@redhat.com>
 Mime-Version: 1.0
-Content-Type: application/zip; name="07.zip"
-Content-Transfer-Encoding: base64
+Content-Type: multipart/mixed;
+ boundary="------------4994291C20958AE7035E0F03"
 Return-path: <linux-man-owner-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>
-Content-Disposition: attachment
 Sender: linux-man-owner-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
-To: linux-man <linux-man-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>
+To: "linux-man-u79uwXL29TY76Z2rM5mHXA@public.gmane.org" <linux-man-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>
 List-Id: linux-man@vger.kernel.org
 
-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
-AFBLBQYAAAAAAQABAE8AAACdDgAAAAA=
+This is a multi-part message in MIME format.
+--------------4994291C20958AE7035E0F03
+Content-Type: text/plain; charset=utf-8; format=flowed
+Content-Transfer-Encoding: 7bit
+
+It turns out that sudo drops things into nsswitch.conf, too.  It has 
+been suggested that we should mention this in the manual page.
+
+Thanks,
+Florian
+
+--------------4994291C20958AE7035E0F03
+Content-Type: text/x-patch;
+ name="sudoers.patch"
+Content-Transfer-Encoding: 7bit
+Content-Disposition: attachment;
+ filename="sudoers.patch"
+
+diff --git a/man5/nsswitch.conf.5 b/man5/nsswitch.conf.5
+index 1e0ec3c..7a5b744 100644
+--- a/man5/nsswitch.conf.5
++++ b/man5/nsswitch.conf.5
+@@ -28,7 +28,7 @@ nsswitch.conf \- Name Service Switch configuration file
+ .SH DESCRIPTION
+ The Name Service Switch (NSS) configuration file,
+ .IR /etc/nsswitch.conf ,
+-is used by the GNU C Library to determine
++is used by the GNU C Library and certain other applications to determine
+ the sources from which to obtain name-service information in
+ a range of categories,
+ and in what order.
+@@ -102,6 +102,14 @@ Shadow user passwords, used by
+ .BR getspnam (3)
+ and related functions.
+ .LP
++The GNU C Library ignores databases with unknown names.  Some
++applications use this to implement special handling for their own
++databases.  For example,
++.BR sudo (8)
++consults the
++.B sudoers
++database.
++.LP
+ Here is an example
+ .I /etc/nsswitch.conf
+ file:
+
+--------------4994291C20958AE7035E0F03--
 --
 To unsubscribe from this list: send the line "unsubscribe linux-man" in
 the body of a message to majordomo-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
