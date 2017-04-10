@@ -1,48 +1,27 @@
 From: "Michael Kerrisk (man-pages)" <mtk.manpages-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org>
-Subject: Re: [PATCH] environ.7: Fix name of function that honors TMPDIR
-Date: Mon, 10 Apr 2017 13:17:52 +0200
-Message-ID: <3b2f6e91-ef7a-5b99-f772-af9ff7569609@gmail.com>
-References: <20170408161146.7064-1-jwilk@jwilk.net>
+Subject: Re: Mention sudoers in nsswitch.conf(5)
+Date: Mon, 10 Apr 2017 13:35:27 +0200
+Message-ID: <4271bae0-2f01-49eb-975c-31b89f73361b@gmail.com>
+References: <885caec0-dded-e22f-8b55-08f2868ad059@redhat.com>
 Mime-Version: 1.0
-Content-Type: text/plain; charset=windows-1252
+Content-Type: text/plain; charset=utf-8
 Content-Transfer-Encoding: 7bit
 Return-path: <linux-man-owner-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>
-In-Reply-To: <20170408161146.7064-1-jwilk-tXgOlIzOKNReoWH0uzbU5w@public.gmane.org>
+In-Reply-To: <885caec0-dded-e22f-8b55-08f2868ad059-H+wXaHxf7aLQT0dZR+AlfA@public.gmane.org>
 Sender: linux-man-owner-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
-To: Jakub Wilk <jwilk-tXgOlIzOKNReoWH0uzbU5w@public.gmane.org>
-Cc: mtk.manpages-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org, linux-man-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
+To: Florian Weimer <fweimer-H+wXaHxf7aLQT0dZR+AlfA@public.gmane.org>, "linux-man-u79uwXL29TY76Z2rM5mHXA@public.gmane.org" <linux-man-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>
+Cc: mtk.manpages-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org
 List-Id: linux-man@vger.kernel.org
 
-On 04/08/2017 06:11 PM, Jakub Wilk wrote:
-> tempnam() takes the TMPDIR environment variable into account, unlike
-> tmpnam(), which always creates pathnames within /tmp.
+On 04/06/2017 03:10 PM, Florian Weimer wrote:
+> It turns out that sudo drops things into nsswitch.conf, too.  It has 
+> been suggested that we should mention this in the manual page.
 
-Thnaks, Jakub. Applied.
+Thanks, Florian. Patch applied.
 
 Cheers,
 
 Michael
-
-
-> Signed-off-by: Jakub Wilk <jwilk-tXgOlIzOKNReoWH0uzbU5w@public.gmane.org>
-> ---
->  man7/environ.7 | 2 +-
->  1 file changed, 1 insertion(+), 1 deletion(-)
-> 
-> diff --git a/man7/environ.7 b/man7/environ.7
-> index a6b4fc14d..366a1e017 100644
-> --- a/man7/environ.7
-> +++ b/man7/environ.7
-> @@ -186,7 +186,7 @@ and
->  .IP *
->  .B TMPDIR
->  influences the path prefix of names created by
-> -.BR tmpnam (3)
-> +.BR tempnam (3)
->  and other routines, and the temporary directory used by
->  .BR sort (1)
->  and other programs.
-> 
 
 
 -- 
