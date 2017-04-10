@@ -1,39 +1,44 @@
 From: "Michael Kerrisk (man-pages)" <mtk.manpages-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org>
-Subject: Re: getentropy clarifications
-Date: Mon, 10 Apr 2017 14:09:41 +0200
-Message-ID: <d31930f9-6f0d-8713-5b09-0f82edf1ce47@gmail.com>
-References: <1490791607.28079.8.camel@redhat.com>
- <87pogxlm2e.fsf@mid.deneb.enyo.de>
+Subject: Re: pow(3): warn against ineffecient uses?
+Date: Mon, 10 Apr 2017 14:13:32 +0200
+Message-ID: <ebb70e49-3a71-5e64-a77f-93548150e606@gmail.com>
+References: <ee3b127b-5e9e-e82d-1731-172185c8ebd2@fz-juelich.de>
+ <871stdn197.fsf@mid.deneb.enyo.de>
 Mime-Version: 1.0
 Content-Type: text/plain; charset=windows-1252
 Content-Transfer-Encoding: 7bit
 Return-path: <linux-man-owner-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>
-In-Reply-To: <87pogxlm2e.fsf-ZqZwdwZz9NfTBotR3TxKnbNAH6kLmebB@public.gmane.org>
+In-Reply-To: <871stdn197.fsf-ZqZwdwZz9NfTBotR3TxKnbNAH6kLmebB@public.gmane.org>
 Sender: linux-man-owner-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
-To: Florian Weimer <fw-d32yF4oPJVt0XxTmqZlbVQ@public.gmane.org>, Nikos Mavrogiannopoulos <nmav-H+wXaHxf7aLQT0dZR+AlfA@public.gmane.org>
+To: Florian Weimer <fw-d32yF4oPJVt0XxTmqZlbVQ@public.gmane.org>, Joachim Wuttke <j.wuttke-97/bSmCnXvjoK6nBLMlh1Q@public.gmane.org>
 Cc: mtk.manpages-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org, linux-man-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
 List-Id: linux-man@vger.kernel.org
 
-On 03/31/2017 01:31 PM, Florian Weimer wrote:
-> * Nikos Mavrogiannopoulos:
+On 03/31/2017 01:17 PM, Florian Weimer wrote:
+> * Joachim Wuttke:
 > 
->> +In earlier versions of glibc this function was avaible under the
->> +.BR <sys/random.h>
->> +header.
+>> Maybe it would be appropriate to warn against inefficient
+>> uses of the function pow. To make a very first proposal
+>> for a paragraph to be added to pow(3):
+>>
+>> In time-critical code, pow with small integer or simple
+>> fractional exponents should be avoided in favor of
+>> straightforward multiplication, division or square or
+>> cubic roots: prefer x*x over pow(x,2), 1/x over pow(x,-1),
+>> sqrt(x) over pow(x,0.5), or cbrt(x*x) over pow(x,2.0/3).
 > 
-> It's still available in <sys/random.h>, and the declaration there can
-> still be useful if you want to compile without feature test macros.
+> I don't think transforming pow (x, 2.0 / 3) to cbrt (x * x) is correct
+> because the result is not correctly rounded.  I'm not sure if it is a
+> good idea to add those examples to the manual page without discussing
+> the cases where the transformations might not be valid.
 > 
-> In addition, I don't think there ever was a released glibc version
-> where getentropy was declared in <sys/random.h>, but not in <unistd.h>
-> (with the relevant feature test macros).
+> If GCC does not handle some of the common cases from real-world code,
+> that could be fixed in GCC (and GCC can do more transformations under
+> -ffast-math, too).
 
-Thanks, Florian. I tweaked the page to mention the FTM requirements
-when using <unistd.h>, and modified the text in NOTES to read:
-
-       getentropy() is also declared in <sys/random.h>.  (No feature test
-       macro  need  be defined to obtain the declaration from that header
-       file.)
+Thanks, Florian, for jumping in on this. I don't have enough
+knowledge of these details, so your comments help a lot. Lacking
+any further refinement, I'll drop this proposed change for now.
 
 Cheers,
 
