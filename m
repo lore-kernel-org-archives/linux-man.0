@@ -1,82 +1,54 @@
-From: <jbmplupus-Mmb7MZpHnFY@public.gmane.org>
-Subject: (unknown)
-Date: Sat, 08 Apr 2017 19:20:16 -0000
-Message-ID: <149167921627.16609.10514843342609454776@cableonline.com.mx>
-Reply-To: <jbmplupus-Mmb7MZpHnFY@public.gmane.org>
+From: "Michael Kerrisk (man-pages)" <mtk.manpages-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org>
+Subject: Re: [PATCH] environ.7: Fix name of function that honors TMPDIR
+Date: Mon, 10 Apr 2017 13:17:52 +0200
+Message-ID: <3b2f6e91-ef7a-5b99-f772-af9ff7569609@gmail.com>
+References: <20170408161146.7064-1-jwilk@jwilk.net>
 Mime-Version: 1.0
-Content-Type: application/zip; name="06153.zip"
-Content-Transfer-Encoding: base64
+Content-Type: text/plain; charset=windows-1252
+Content-Transfer-Encoding: 7bit
 Return-path: <linux-man-owner-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>
-Content-Disposition: attachment
-Subject: 
+In-Reply-To: <20170408161146.7064-1-jwilk-tXgOlIzOKNReoWH0uzbU5w@public.gmane.org>
 Sender: linux-man-owner-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
-To: linux-man <linux-man-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>
+To: Jakub Wilk <jwilk-tXgOlIzOKNReoWH0uzbU5w@public.gmane.org>
+Cc: mtk.manpages-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org, linux-man-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
 List-Id: linux-man@vger.kernel.org
 
-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
-AAAAAAEAAQBNAAAAtg0AAAAA
+On 04/08/2017 06:11 PM, Jakub Wilk wrote:
+> tempnam() takes the TMPDIR environment variable into account, unlike
+> tmpnam(), which always creates pathnames within /tmp.
+
+Thnaks, Jakub. Applied.
+
+Cheers,
+
+Michael
+
+
+> Signed-off-by: Jakub Wilk <jwilk-tXgOlIzOKNReoWH0uzbU5w@public.gmane.org>
+> ---
+>  man7/environ.7 | 2 +-
+>  1 file changed, 1 insertion(+), 1 deletion(-)
+> 
+> diff --git a/man7/environ.7 b/man7/environ.7
+> index a6b4fc14d..366a1e017 100644
+> --- a/man7/environ.7
+> +++ b/man7/environ.7
+> @@ -186,7 +186,7 @@ and
+>  .IP *
+>  .B TMPDIR
+>  influences the path prefix of names created by
+> -.BR tmpnam (3)
+> +.BR tempnam (3)
+>  and other routines, and the temporary directory used by
+>  .BR sort (1)
+>  and other programs.
+> 
+
+
+-- 
+Michael Kerrisk
+Linux man-pages maintainer; http://www.kernel.org/doc/man-pages/
+Linux/UNIX System Programming Training: http://man7.org/training/
 --
 To unsubscribe from this list: send the line "unsubscribe linux-man" in
 the body of a message to majordomo-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
