@@ -1,66 +1,52 @@
-From: =?UTF-8?Q?Marcin_=C5=9Alusarz?= <marcin.slusarz-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org>
-Subject: Re: [PATCH] stat.2: tweak description of AT_EMPTY_PATH
-Date: Wed, 12 Apr 2017 20:35:03 +0200
-Message-ID: <CA+GA0_sjHnu9+-hFw_+z6Q=d4fnhL02W-rQ6ohfu-8yr1oQmuA@mail.gmail.com>
-References: <CA+GA0_vdZxOQaUji0c+Sbv=qTYX3uRRGVnEov91_OM=DrNfg1g@mail.gmail.com>
- <ceea65c2-45d8-725d-0d38-9f1a0f42391f@gmail.com>
+From: <jbmplupus-Mmb7MZpHnFY@public.gmane.org>
+Subject: (unknown)
+Date: Sat, 15 Apr 2017 15:00:37 -0000
+Message-ID: <149226843748.21744.13604308044885995215@carrier2carrier.com>
 Mime-Version: 1.0
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: quoted-printable
+Content-Type: application/zip; name="REPORT_28110741209342_linux-man.zip"
+Content-Transfer-Encoding: base64
 Return-path: <linux-man-owner-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>
-In-Reply-To: <ceea65c2-45d8-725d-0d38-9f1a0f42391f-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org>
+Subject: 
+Content-Disposition: attachment
 Sender: linux-man-owner-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
-To: "Michael Kerrisk (man-pages)" <mtk.manpages-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org>
-Cc: linux-man-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
+To: linux-man <linux-man-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>
 List-Id: linux-man@vger.kernel.org
 
-2017-04-10 17:21 GMT+02:00 Michael Kerrisk (man-pages) <mtk.manpages@gmail.=
-com>:
-> Hello Marcin
->
-> On 04/01/2017 09:23 PM, Marcin =C5=9Alusarz wrote:
->> Currently it says when dirfd is AT_FDCWD it can be something
->> other than directory, which doesn't make much sense. Just swap
->> the order of sentences.
->>
->> Signed-off-by: Marcin =C5=9Alusarz <marcin.slusarz-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org>
->> ---
->>  man2/stat.2 | 6 +++---
->>  1 file changed, 3 insertions(+), 3 deletions(-)
->>
->> diff --git a/man2/stat.2 b/man2/stat.2
->> index 1d838a9..7ec2593 100644
->> --- a/man2/stat.2
->> +++ b/man2/stat.2
->> @@ -506,14 +506,14 @@ is an empty string, operate on the file referred t=
-o by
->>  .BR open (2)
->>  .B O_PATH
->>  flag).
->> +In this case,
->> +.I dirfd
->> +can refer to any type of file, not just a directory.
->>  If
->>  .I dirfd
->>  is
->>  .BR AT_FDCWD ,
->>  the call operates on the current working directory.
->> -In this case,
->> -.I dirfd
->> -can refer to any type of file, not just a directory.
->>  This flag is Linux-specific; define
->>  .B _GNU_SOURCE
->>  .\" Before glibc 2.16, defining _ATFILE_SOURCE sufficed
->
-> Thanks! Patch applied.
-
-I'm not seeing it in any of these trees:
-https://git.kernel.org/pub/scm/docs/man-pages/man-pages.git
-https://github.com/mkerrisk/man-pages
-
-Some secret repo? ;)
-
-Marcin
+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
 --
 To unsubscribe from this list: send the line "unsubscribe linux-man" in
 the body of a message to majordomo-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
