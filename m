@@ -1,52 +1,56 @@
-From: <jbmplupus-Mmb7MZpHnFY@public.gmane.org>
-Subject: (unknown)
-Date: Sat, 15 Apr 2017 15:00:37 -0000
-Message-ID: <149226843748.21744.13604308044885995215@carrier2carrier.com>
+From: Marko Myllynen <myllynen-H+wXaHxf7aLQT0dZR+AlfA@public.gmane.org>
+Subject: [PATCH] Use lower case for hostname example
+Date: Tue, 18 Apr 2017 13:54:33 +0300
+Message-ID: <142de45e-6ca5-bfea-60ab-9d634740a709@redhat.com>
+Reply-To: Marko Myllynen <myllynen-H+wXaHxf7aLQT0dZR+AlfA@public.gmane.org>
 Mime-Version: 1.0
-Content-Type: application/zip; name="REPORT_28110741209342_linux-man.zip"
-Content-Transfer-Encoding: base64
+Content-Type: text/plain; charset=utf-8
+Content-Transfer-Encoding: 7bit
 Return-path: <linux-man-owner-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>
-Subject: 
-Content-Disposition: attachment
 Sender: linux-man-owner-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
-To: linux-man <linux-man-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>
+To: "Michael Kerrisk (man-pages)" <mtk.manpages-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org>
+Cc: linux-man <linux-man-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>
 List-Id: linux-man@vger.kernel.org
 
-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
+I think upper-casing hostnames was a thing of the 90s, is this ok?
+
+---
+ man7/hostname.7 | 10 +++++-----
+ 1 file changed, 5 insertions(+), 5 deletions(-)
+
+diff --git a/man7/hostname.7 b/man7/hostname.7
+index 23c35e9..bc181a9 100644
+--- a/man7/hostname.7
++++ b/man7/hostname.7
+@@ -41,8 +41,8 @@
+ hostname \- hostname resolution description
+ .SH DESCRIPTION
+ Hostnames are domains, where a domain is a hierarchical, dot-separated
+-list of subdomains; for example, the machine monet, in the Berkeley
+-subdomain of the EDU domain would be represented as "monet.Berkeley.EDU".
++list of subdomains; for example, the machine "monet", in the "berkeley"
++subdomain of the "edu" domain would be represented as "monet.berkeley.edu".
+ 
+ Hostnames are often used with network client and server programs,
+ which must generally translate the name to an address for use.
+@@ -75,9 +75,9 @@ by searching through a list of domains until a match is found.
+ The default search list includes first the local domain,
+ then its parent domains with at least 2 name components (longest first).
+ For example,
+-in the domain CS.Berkeley.EDU, the name lithium.CChem will be checked first
+-as lithium.CChem.CS.Berkeley.EDU and then as lithium.CChem.Berkeley.EDU.
+-Lithium.CChem.EDU will not be tried, as there is only one component
++in the domain cs.berkeley.edu, the name lithium.cchem will be checked first
++as lithium.cchem.cs.berkeley.edu and then as lithium.cchem.berkeley.edu.
++lithium.cchem.edu will not be tried, as there is only one component
+ remaining from the local domain.
+ The search path can be changed from the default
+ by a system-wide configuration file (see
+
+Thanks,
+
+-- 
+Marko Myllynen
 --
 To unsubscribe from this list: send the line "unsubscribe linux-man" in
 the body of a message to majordomo-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
