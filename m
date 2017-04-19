@@ -1,57 +1,49 @@
 From: "Michael Kerrisk (man-pages)" <mtk.manpages-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org>
-Subject: Re: Missing include in mbind(2) and set_mempolicy(2) manpages?
-Date: Wed, 19 Apr 2017 15:28:16 +0200
-Message-ID: <40f295c1-abb1-b7cf-4c9b-fd62b58117ab@gmail.com>
-References: <1d46ea2d-0076-603d-d922-1f414c91cea2@suse.cz>
- <CAKgNAkhBRXm22fBS72T4CP6RutEubaqyDFUJe4gwje_irATzkQ@mail.gmail.com>
-Reply-To: mtk.manpages-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org
+Subject: Re: [PATCH 1/3] prctl(2): PR_SET_MM: document arg4/arg5 zero behavior
+Date: Wed, 19 Apr 2017 15:31:35 +0200
+Message-ID: <bc7fa6f5-de73-ae79-f2ee-e3bcbf3a2b18@gmail.com>
+References: <20170215201443.448-1-vapier@gentoo.org>
 Mime-Version: 1.0
-Content-Type: text/plain; charset=utf-8
+Content-Type: text/plain; charset=windows-1252
 Content-Transfer-Encoding: 7bit
 Return-path: <linux-man-owner-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>
-In-Reply-To: <CAKgNAkhBRXm22fBS72T4CP6RutEubaqyDFUJe4gwje_irATzkQ-JsoAwUIsXosN+BqQ9rBEUg@public.gmane.org>
+In-Reply-To: <20170215201443.448-1-vapier-aBrp7R+bbdUdnm+yROfE0A@public.gmane.org>
 Sender: linux-man-owner-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
-To: Vlastimil Babka <vbabka-AlSwsSmVLrQ@public.gmane.org>, Filipe Brandenburger <filbranden-hpIqsD4AKlfQT0dZR+AlfA@public.gmane.org>, Andi Kleen <andi-Vw/NltI1exuRpAAqCnN02g@public.gmane.org>
-Cc: "linux-man-u79uwXL29TY76Z2rM5mHXA@public.gmane.org" <linux-man-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>, linux-numa <linux-numa-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>
+To: Mike Frysinger <vapier-aBrp7R+bbdUdnm+yROfE0A@public.gmane.org>
+Cc: mtk.manpages-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org, linux-man-u79uwXL29TY76Z2rM5mHXA@public.gmane.org, Mike Frysinger <vapier-F7+t8E8rja9g9hUCZPvPmw@public.gmane.org>
 List-Id: linux-man@vger.kernel.org
 
-Andi, Filipe: Ping!
+On 02/15/2017 09:14 PM, Mike Frysinger wrote:
+> The kernel will immediately reject calls where arg4/arg5 are not zero.
+> See kernel/sys.c:prctl_set_mm().
 
-Thanks,
+Thanks, Mike. Applied.
+
+Cheers,
 
 Michael
 
-
-On 01/23/2017 12:57 AM, Michael Kerrisk (man-pages) wrote:
-> Andi, Filipe,
+> Signed-off-by: Mike Frysinger <vapier-F7+t8E8rja9g9hUCZPvPmw@public.gmane.org>
+> ---
+>  man2/prctl.2 | 5 +++++
+>  1 file changed, 5 insertions(+)
 > 
-> See the bug report below. I think the problem is rather that the
-> header files should be fixed. Why are MPOL_F_STATIC_NODES and
-> MPOL_F_RELATIVE_NODES not declared in numaif.h, whereas the other
-> MPOL_* constants are?
-> 
-> Cheers,
-> 
-> Michael
-> 
-> 
-> On 19 January 2017 at 01:05, Vlastimil Babka <vbabka-AlSwsSmVLrQ@public.gmane.org> wrote:
->> Hi,
->>
->> the two manpages state that you have to #include <numaif.h>
->> But apparently this is not enough when one wants to use the
->> MPOL_F_STATIC_NODES or MPOL_F_RELATIVE_NODES flag. With grep I found that
->> these are defined in linux/mempolicy.h.
->>
->> This is on openSUSE Tumbleweed, numaif.h comes from
->> libnuma-devel-2.0.10-5.7.x86_64 (I checked upstream 2.0.11 tarball, no
->> difference here).
->> linux/mempolicy.h is from linux-glibc-devel-4.8-1.1.noarch
->>
->> Thanks,
->> Vlastimil
-> 
-> 
+> diff --git a/man2/prctl.2 b/man2/prctl.2
+> index 97cf21a4c558..c91d328e5aa1 100644
+> --- a/man2/prctl.2
+> +++ b/man2/prctl.2
+> @@ -515,6 +515,11 @@ The value in
+>  is one of the options below, while
+>  .I arg3
+>  provides a new value for the option.
+> +The
+> +.I arg4
+> +and
+> +.I arg5
+> +arguments must be zero if unused.
+>  .RS
+>  .TP
+>  .BR PR_SET_MM_START_CODE
 > 
 
 
