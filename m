@@ -1,51 +1,57 @@
 From: "Michael Kerrisk (man-pages)" <mtk.manpages-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org>
-Subject: Re: renameat2 doesn't have a no-glibc-wrapper note
-Date: Wed, 19 Apr 2017 15:26:10 +0200
-Message-ID: <b0e95d1e-b4dd-1fa3-1dc1-e0cd043c20b5@gmail.com>
-References: <20170312230909.GA13985@dell12.lru.li>
+Subject: Re: Missing include in mbind(2) and set_mempolicy(2) manpages?
+Date: Wed, 19 Apr 2017 15:28:16 +0200
+Message-ID: <40f295c1-abb1-b7cf-4c9b-fd62b58117ab@gmail.com>
+References: <1d46ea2d-0076-603d-d922-1f414c91cea2@suse.cz>
+ <CAKgNAkhBRXm22fBS72T4CP6RutEubaqyDFUJe4gwje_irATzkQ@mail.gmail.com>
+Reply-To: mtk.manpages-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org
 Mime-Version: 1.0
-Content-Type: text/plain; charset=windows-1252
+Content-Type: text/plain; charset=utf-8
 Content-Transfer-Encoding: 7bit
 Return-path: <linux-man-owner-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>
-In-Reply-To: <20170312230909.GA13985-FBHWoc2sFkwTXckIgbG3eg@public.gmane.org>
+In-Reply-To: <CAKgNAkhBRXm22fBS72T4CP6RutEubaqyDFUJe4gwje_irATzkQ-JsoAwUIsXosN+BqQ9rBEUg@public.gmane.org>
 Sender: linux-man-owner-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
-To: Georg Sauthoff <mail-vzQcyvifq/Y@public.gmane.org>
-Cc: mtk.manpages-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org, linux-man-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
+To: Vlastimil Babka <vbabka-AlSwsSmVLrQ@public.gmane.org>, Filipe Brandenburger <filbranden-hpIqsD4AKlfQT0dZR+AlfA@public.gmane.org>, Andi Kleen <andi-Vw/NltI1exuRpAAqCnN02g@public.gmane.org>
+Cc: "linux-man-u79uwXL29TY76Z2rM5mHXA@public.gmane.org" <linux-man-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>, linux-numa <linux-numa-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>
 List-Id: linux-man@vger.kernel.org
 
-Hello Georg.
+Andi, Filipe: Ping!
 
-On 03/13/2017 12:09 AM, Georg Sauthoff wrote:
-> Hello,
-> 
-> the renameat2(2) man page [1] currently doesn't mention that you have to use
-> sycall() to access it. Tested it with glibc-2.24-4.fc25.x86_64.
-> 
-> Can you add notes similar to what e.g. kcmp(2) [2] has?
-
-Thanks for reporting this. I've added some text to the rename(2)
-page to note the requirement to use syscall(2).
-
-Cheers,
+Thanks,
 
 Michael
 
 
-> I mean:
+On 01/23/2017 12:57 AM, Michael Kerrisk (man-pages) wrote:
+> Andi, Filipe,
 > 
->> Note: There is no glibc wrapper for this system call; see NOTES.
->> [..]
->> NOTES
+> See the bug report below. I think the problem is rather that the
+> header files should be fixed. Why are MPOL_F_STATIC_NODES and
+> MPOL_F_RELATIVE_NODES not declared in numaif.h, whereas the other
+> MPOL_* constants are?
+> 
+> Cheers,
+> 
+> Michael
+> 
+> 
+> On 19 January 2017 at 01:05, Vlastimil Babka <vbabka-AlSwsSmVLrQ@public.gmane.org> wrote:
+>> Hi,
 >>
->>        Glibc does not provide a wrapper for this system call; call it using
->>        syscall(2).
+>> the two manpages state that you have to #include <numaif.h>
+>> But apparently this is not enough when one wants to use the
+>> MPOL_F_STATIC_NODES or MPOL_F_RELATIVE_NODES flag. With grep I found that
+>> these are defined in linux/mempolicy.h.
+>>
+>> This is on openSUSE Tumbleweed, numaif.h comes from
+>> libnuma-devel-2.0.10-5.7.x86_64 (I checked upstream 2.0.11 tarball, no
+>> difference here).
+>> linux/mempolicy.h is from linux-glibc-devel-4.8-1.1.noarch
+>>
+>> Thanks,
+>> Vlastimil
 > 
 > 
-> Best regards
-> Georg
-> 
-> [1]: http://man7.org/linux/man-pages/man2/renameat2.2.html
-> [2]: http://man7.org/linux/man-pages/man2/kcmp.2.html
 > 
 
 
