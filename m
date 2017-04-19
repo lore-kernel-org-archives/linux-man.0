@@ -1,75 +1,47 @@
-From: "Michael Kerrisk (man-pages)" <mtk.manpages-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org>
-Subject: Re: [PATCH] stat.2: tweak description of AT_EMPTY_PATH
-Date: Wed, 19 Apr 2017 17:23:53 +0200
-Message-ID: <f340a953-6934-d418-e484-0ea79f6bb9d6@gmail.com>
-References: <CA+GA0_vdZxOQaUji0c+Sbv=qTYX3uRRGVnEov91_OM=DrNfg1g@mail.gmail.com>
- <ceea65c2-45d8-725d-0d38-9f1a0f42391f@gmail.com>
- <CA+GA0_sjHnu9+-hFw_+z6Q=d4fnhL02W-rQ6ohfu-8yr1oQmuA@mail.gmail.com>
+From: Florian Weimer <fweimer-H+wXaHxf7aLQT0dZR+AlfA@public.gmane.org>
+Subject: Re: Documenting the (dynamic) linking rules for symbol versioning
+Date: Wed, 19 Apr 2017 17:48:40 +0200
+Message-ID: <ee5e8057-7afa-c919-8ccb-9c8e6d0833c4@redhat.com>
+References: <b3a962de-6703-d8b9-18f7-138185171475@gmail.com>
 Mime-Version: 1.0
-Content-Type: text/plain; charset=utf-8
-Content-Transfer-Encoding: 8bit
+Content-Type: text/plain; charset=utf-8; format=flowed
+Content-Transfer-Encoding: 7bit
 Return-path: <linux-man-owner-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>
-In-Reply-To: <CA+GA0_sjHnu9+-hFw_+z6Q=d4fnhL02W-rQ6ohfu-8yr1oQmuA-JsoAwUIsXosN+BqQ9rBEUg@public.gmane.org>
+In-Reply-To: <b3a962de-6703-d8b9-18f7-138185171475-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org>
+Content-Language: en-US
 Sender: linux-man-owner-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
-To: =?UTF-8?Q?Marcin_=c5=9alusarz?= <marcin.slusarz-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org>
-Cc: mtk.manpages-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org, linux-man-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
+To: "Michael Kerrisk (man-pages)" <mtk.manpages-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org>, "libc-alpha-9JcytcrH/bA+uJoB2kUjGw@public.gmane.org" <libc-alpha-9JcytcrH/bA+uJoB2kUjGw@public.gmane.org>
+Cc: linux-man <linux-man-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>, Siddhesh Poyarekar <siddhesh-9JcytcrH/bA+uJoB2kUjGw@public.gmane.org>, Carlos O'Donell <carlos-H+wXaHxf7aLQT0dZR+AlfA@public.gmane.org>, Rich Felker <dalias-/miJ2pyFWUyWIDz0JBNUog@public.gmane.org>, "H.J. Lu" <hjl.tools-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org>
 List-Id: linux-man@vger.kernel.org
 
-On 04/12/2017 08:35 PM, Marcin Ślusarz wrote:
-> 2017-04-10 17:21 GMT+02:00 Michael Kerrisk (man-pages) <mtk.manpages-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org>:
->> Hello Marcin
->>
->> On 04/01/2017 09:23 PM, Marcin Ślusarz wrote:
->>> Currently it says when dirfd is AT_FDCWD it can be something
->>> other than directory, which doesn't make much sense. Just swap
->>> the order of sentences.
->>>
->>> Signed-off-by: Marcin Ślusarz <marcin.slusarz-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org>
->>> ---
->>>  man2/stat.2 | 6 +++---
->>>  1 file changed, 3 insertions(+), 3 deletions(-)
->>>
->>> diff --git a/man2/stat.2 b/man2/stat.2
->>> index 1d838a9..7ec2593 100644
->>> --- a/man2/stat.2
->>> +++ b/man2/stat.2
->>> @@ -506,14 +506,14 @@ is an empty string, operate on the file referred to by
->>>  .BR open (2)
->>>  .B O_PATH
->>>  flag).
->>> +In this case,
->>> +.I dirfd
->>> +can refer to any type of file, not just a directory.
->>>  If
->>>  .I dirfd
->>>  is
->>>  .BR AT_FDCWD ,
->>>  the call operates on the current working directory.
->>> -In this case,
->>> -.I dirfd
->>> -can refer to any type of file, not just a directory.
->>>  This flag is Linux-specific; define
->>>  .B _GNU_SOURCE
->>>  .\" Before glibc 2.16, defining _ATFILE_SOURCE sufficed
->>
->> Thanks! Patch applied.
+On 04/19/2017 05:07 PM, Michael Kerrisk (man-pages) wrote:
+>     Am I right about my rough guess for the rationale for point 6,
+>     or is there something else I should know/write about?
+
+We currently have a bug where the symbol resolution depends on the order 
+of alternatives along a hash bucket list:
+
+   <https://sourceware.org/bugzilla/show_bug.cgi?id=12977#c2>
+
+Another open problem is what happens when a versioned symbol moves from 
+one DSO to another.  This is not a problem for unversioned symbols, but 
+we currently have a soname check for versioned symbols.  This is rather 
+odd because this check isn't used to accelerate lookups.  It does not 
+prevent symbol interposition from other DSOs, it merely introduces 
+spurious failures.
+
+> 7. The way to remove a versioned symbol from a new release
+>     of a shared library is to not define a default version
+>     (NAME@@VERSION) for that symbol. (Right?)
 > 
-> I'm not seeing it in any of these trees:
-> https://git.kernel.org/pub/scm/docs/man-pages/man-pages.git
-> https://github.com/mkerrisk/man-pages
-> 
-> Some secret repo? ;)
+>     In other words, if we wanted to create a VER_4 of lib_ver.so
+>     that removed the symbol 'abc', we simply don't create use
+>     the usual asm(".symver") magic to create abc@VER_4.
 
-No, I just hadn't pushed yet. Should be visible now.
+You still need to use .symver, but with a @ version instead of a @@ version.
 
-Cheers,
-
-Michael
-
--- 
-Michael Kerrisk
-Linux man-pages maintainer; http://www.kernel.org/doc/man-pages/
-Linux/UNIX System Programming Training: http://man7.org/training/
+Thanks,
+Florian
 --
 To unsubscribe from this list: send the line "unsubscribe linux-man" in
 the body of a message to majordomo-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
