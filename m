@@ -1,74 +1,157 @@
-From: "Michael Kerrisk (man-pages)" <mtk.manpages-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org>
-Subject: Re: [PATCH 3/3] prctl(2): PR_SET_MM: refine CONFIG_CHECKPOINT_RESTORE
- requirement
-Date: Wed, 19 Apr 2017 15:34:15 +0200
-Message-ID: <8aa78ed4-09d1-d64b-b038-f23fc648abe4@gmail.com>
-References: <20170215201443.448-1-vapier@gentoo.org>
- <20170215201443.448-3-vapier@gentoo.org>
+From: "Michael Kerrisk (man-pages)" <mtk.manpages@gmail.com>
+Subject: Documenting the (dynamic) linking rules for symbol versioning
+Date: Wed, 19 Apr 2017 17:07:44 +0200
+Message-ID: <b3a962de-6703-d8b9-18f7-138185171475@gmail.com>
 Mime-Version: 1.0
-Content-Type: text/plain; charset=windows-1252
+Content-Type: text/plain; charset=utf-8
 Content-Transfer-Encoding: 7bit
-Return-path: <linux-man-owner-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>
-In-Reply-To: <20170215201443.448-3-vapier-aBrp7R+bbdUdnm+yROfE0A@public.gmane.org>
-Sender: linux-man-owner-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
-To: Mike Frysinger <vapier-aBrp7R+bbdUdnm+yROfE0A@public.gmane.org>
-Cc: mtk.manpages-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org, linux-man-u79uwXL29TY76Z2rM5mHXA@public.gmane.org, Mike Frysinger <vapier-F7+t8E8rja9g9hUCZPvPmw@public.gmane.org>
+Return-path: <libc-alpha-return-78750-glibc-alpha=m.gmane.org@sourceware.org>
+List-Unsubscribe: <mailto:libc-alpha-unsubscribe-glibc-alpha=m.gmane.org@sourceware.org>
+List-Subscribe: <mailto:libc-alpha-subscribe@sourceware.org>
+List-Archive: <http://sourceware.org/ml/libc-alpha/>
+List-Post: <mailto:libc-alpha@sourceware.org>
+List-Help: <mailto:libc-alpha-help@sourceware.org>, <http://sourceware.org/ml/#faqs>
+Sender: libc-alpha-owner@sourceware.org
+To: "libc-alpha@sourceware.org" <libc-alpha@sourceware.org>
+Cc: mtk.manpages@gmail.com, linux-man <linux-man@vger.kernel.org>, Siddhesh Poyarekar <siddhesh@sourceware.org>, Carlos O'Donell <carlos@redhat.com>, Rich Felker <dalias@aerifal.cx>, "H.J. Lu" <hjl.tools@gmail.com>
 List-Id: linux-man@vger.kernel.org
 
-On 02/15/2017 09:14 PM, Mike Frysinger wrote:
-> The Linux 3.10 release dropped the c/r requirement and opened it up
-> to all users.
+Hello libc folk,
 
-Thanks, Mike. Applied.
+The documentation around symbol versioning as used by the glibc dynamic
+linker (DL) is currently rather weak, and I'd like to add some pieces to
+various man pages (ld.so(8), dlsym(3), and possibly others) to improve
+this situation. Before that though, I'd rather like to check my
+understanding of the rules.
+
+The following are the rules as I understand them. Please let
+me know of corrections and additions:
+
+1. If looking for a versioned symbol (NAME@VERSION), the DL will search
+   starting from the start of the link map ("namespace") until it finds the
+   first instance of either a matching unversioned NAME or an exact version
+   match on NAME@VERSION. Preloading takes advantage of the former case to
+   allow easy overriding of versioned symbols in a library that is loaded 
+   later in the link map.
+
+2. The version notation NAME@@VERSION denotes the default version
+   for NAME. This default version is used in the following places:
+
+   a) At static link time, this is the version that the static
+      linker will bind to when creating the relocation record
+      that will be used by the DL.
+   b) When doing a dlsym() look-up on the unversioned symbol NAME.
+      (See check_match() in elf/dl-lookup.c)
+
+   Is the default version used in any other circumstance?
+
+3. There can of course be only one NAME@@VERSION definition.
+
+4. The version notation NAME@VERSION denotes a "hidden" version of the
+   symbol. Such versions are not directly accessible, but can be
+   accessed via asm(".symver") magic. There can be multiple "hidden"
+   versions of a symbol.
+
+5. When resolving a reference to an unversioned symbol, NAME,
+   in an executable that was linked against a nonsymbol-versioned
+   library, the DL will, if it finds a symbol-versioned library
+   in the link map use the earliest version of the symbol provided
+   by that library.
+
+   I presume that this behavior exists to allow easy migration
+   of a non-symbol-versioned application onto a system with
+   a symbol-versioned versioned library that uses the same major
+   version real name for the library as was formerly used by
+   a non-symbol-versioned library. (My knowledge of this area
+   was pretty much nonexistent at that time, but presumably this 
+   is what was done in the transition from glibc 2.0 to glibc 2.1.)
+   
+   To clarify the scenario I am talking about:
+
+   a) We have prog.c which calls xyz() and is linked against a
+      non-symbol-versioned libxyz.so.2.
+
+   b) Later, a symbol-versioned libxyz.so.2 is created that defines
+      (for example):
+          
+          xyz@@VER_3
+          xyz@VER_2
+          xyz@VER_1
+
+      (Alternatively, we preload a shared library that defines
+      these three versions of 'xyz'.)
+
+   c) If we run the ancient binary 'prog' which requests refers
+      to an unversioned 'xyz', that will resolve to xyz@VER_1.
+
+6. [An additional detail to 5, which surprised me at first, but
+   I can sort of convince myself it makes sense...]
+
+   In the scenario described in point 5, an unversioned
+   reference to NAME will be resolved to the earliest versioned
+   symbol NAME inside a symbol-versioned library if there is
+   is a version of NAME in the *lowest* version provided
+   by the library. Otherwise, it will resolve to the *latest*
+   version of NAME (and *not* to the default NAME@@VERSION
+   version of the symbol).
+
+   To clarify with an example:
+
+   We have prog.c that calls abc() and xyz(), and is linked
+   against a non-symbol-versioned library, lib_nonver.so,
+   that provides definitions of abc() and xyz().
+
+   Then, we have a symbol-versioned library, lib_ver.so,
+   that has three versions, VER_1, VER_2, and VER_3, and defines
+   the following symbols:
+
+       xyz@@VER_3
+       xyz@VER_2
+       xyz@VER_1
+
+       abc@@VER_3
+       abc@VER_2
+
+   Then we run 'prog' using:
+
+       LD_PRELOAD=./lib_ver.so ./prog
+
+   In this case, 'prog' will call xyz@VER_1 and abc@@VER_3
+   (*not* abc@VER_2) from lib_ver.so.
+
+   I can convince myself (sort of) that this makes some sense by
+   thinking about things from the perspective of the scenario of
+   migrating from the non-symbol-versioned shared library to the
+   symbol-versioned shared library: the old non-symbol-versioned library
+   never provided a symbol 'abc()' so in this scenario, use the latest
+   version of 'abc'. This applies even if the the latest version is not
+   the 'default'.  In other words, even if the versions of 'abc'
+   provided by lib_ver.so were the following, it would still be the
+   VER_3 of abc() that is called:
+
+       abc@VER_3
+       abc@@VER_2
+
+   Am I right about my rough guess for the rationale for point 6,
+   or is there something else I should know/write about?
+
+7. The way to remove a versioned symbol from a new release
+   of a shared library is to not define a default version
+   (NAME@@VERSION) for that symbol. (Right?) 
+
+   In other words, if we wanted to create a VER_4 of lib_ver.so
+   that removed the symbol 'abc', we simply don't create use
+   the usual asm(".symver") magic to create abc@VER_4.
+   
+And of course if there are other symbol versioning details
+that should be documented, please let me know.
 
 Cheers,
 
 Michael
-
-
-> Signed-off-by: Mike Frysinger <vapier-F7+t8E8rja9g9hUCZPvPmw@public.gmane.org>
-> ---
->  man2/prctl.2 | 12 +++++++++---
->  1 file changed, 9 insertions(+), 3 deletions(-)
-> 
-> diff --git a/man2/prctl.2 b/man2/prctl.2
-> index dba32ebee1b5..42827aa2def4 100644
-> --- a/man2/prctl.2
-> +++ b/man2/prctl.2
-> @@ -504,9 +504,7 @@ Usually these fields are set by the kernel and dynamic loader (see
->  for more information) and a regular application should not use this feature.
->  However, there are cases, such as self-modifying programs,
->  where a program might find it useful to change its own memory map.
-> -This feature is available only if the kernel is built with the
-> -.BR CONFIG_CHECKPOINT_RESTORE
-> -option enabled.
-> +
->  The calling process must have the
->  .BR CAP_SYS_RESOURCE
->  capability.
-> @@ -520,6 +518,14 @@ The
->  and
->  .I arg5
->  arguments must be zero if unused.
-> +
-> +.\" commit 52b3694157e3aa6df871e283115652ec6f2d31e0
-> +Since Linux 3.10,
-> +this feature is available all the time.
-> +Before Linux 3.10,
-> +this feature is available only if the kernel is built with the
-> +.BR CONFIG_CHECKPOINT_RESTORE
-> +option enabled.
->  .RS
->  .TP
->  .BR PR_SET_MM_START_CODE
-> 
-
-
+   
+   
 -- 
 Michael Kerrisk
 Linux man-pages maintainer; http://www.kernel.org/doc/man-pages/
 Linux/UNIX System Programming Training: http://man7.org/training/
---
-To unsubscribe from this list: send the line "unsubscribe linux-man" in
-the body of a message to majordomo-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
-More majordomo info at  http://vger.kernel.org/majordomo-info.html
