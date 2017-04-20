@@ -1,107 +1,127 @@
-From: "Michael Kerrisk (man-pages)" <mtk.manpages-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org>
-Subject: Re: Documenting the (dynamic) linking rules for symbol versioning
-Date: Thu, 20 Apr 2017 16:35:25 +0200
-Message-ID: <f8e7374d-64bd-d919-4a30-dd6115e65bf9@gmail.com>
-References: <b3a962de-6703-d8b9-18f7-138185171475@gmail.com>
- <22f26755-f7f0-898a-ac74-3f6df92a22d7@sourceware.org>
- <c6736794-60bb-517e-0bcf-2e80331f0f72@gmail.com>
- <eb5bea0c-1f54-1b20-dc78-999160738ed3@sourceware.org>
- <2fab9588-2fa6-8c87-da25-be9376c085ea@redhat.com>
- <c31e55fb-25af-bfe9-09db-83e622ec5e3f@sourceware.org>
- <89907506-fddb-2429-7e18-b00b8a560070@redhat.com>
- <c1b5fd84-22ec-56de-b169-502d8072d188@gmail.com>
+From: "Michael Kerrisk (man-pages)" <mtk.manpages@gmail.com>
+Subject: Re: [patch] socket.7: Document SO_INCOMING_CPU
+Date: Thu, 20 Apr 2017 16:43:14 +0200
+Message-ID: <1d21aa72-ab2a-0a02-b8d3-dc8b4dd49333@gmail.com>
+References: <CABNn7+rHfUTjMtm3Biqfx83G6Rr7pY-LuHXY=JqA6N3H_SstZg@mail.gmail.com>
+ <63815aac-9c8f-c599-9422-5c312cefc9e8@gmail.com>
+ <9c754f31-8ace-03f2-97f3-81e29eb6d997@gmail.com>
+ <1492621535.22296.8.camel@edumazet-glaptop3.roam.corp.google.com>
+ <326b99c3-cc86-3abd-1069-2b3a52d9ba47@gmail.com>
+ <1492632801.22296.11.camel@edumazet-glaptop3.roam.corp.google.com>
 Mime-Version: 1.0
 Content-Type: text/plain; charset=utf-8
 Content-Transfer-Encoding: 7bit
-Return-path: <linux-man-owner-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>
-In-Reply-To: <c1b5fd84-22ec-56de-b169-502d8072d188-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org>
-Sender: linux-man-owner-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
-To: Florian Weimer <fweimer-H+wXaHxf7aLQT0dZR+AlfA@public.gmane.org>, siddhesh-9JcytcrH/bA+uJoB2kUjGw@public.gmane.org, "libc-alpha-9JcytcrH/bA+uJoB2kUjGw@public.gmane.org" <libc-alpha-9JcytcrH/bA+uJoB2kUjGw@public.gmane.org>
-Cc: mtk.manpages-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org, linux-man <linux-man-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>, Carlos O'Donell <carlos-H+wXaHxf7aLQT0dZR+AlfA@public.gmane.org>, Rich Felker <dalias-/miJ2pyFWUyWIDz0JBNUog@public.gmane.org>, "H.J. Lu" <hjl.tools-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org>
+Return-path: <netdev-owner@vger.kernel.org>
+In-Reply-To: <1492632801.22296.11.camel@edumazet-glaptop3.roam.corp.google.com>
+Sender: netdev-owner@vger.kernel.org
+To: Eric Dumazet <eric.dumazet@gmail.com>
+Cc: mtk.manpages@gmail.com, Francois Saint-Jacques <fsaintjacques@gmail.com>, linux-man@vger.kernel.org, netdev@vger.kernel.org, Eric Dumazet <edumazet@google.com>
 List-Id: linux-man@vger.kernel.org
 
-On 04/20/2017 04:09 PM, Michael Kerrisk (man-pages) wrote:
-> On 04/20/2017 03:45 PM, Florian Weimer wrote:
->> On 04/20/2017 03:15 PM, Siddhesh Poyarekar wrote:
->>> On Thursday 20 April 2017 06:31 PM, Florian Weimer wrote:
->>>>> Hmm interesting, I thought 'latest' would imply the last version in the
->>>>> sequence of versions in the map, but I guess it kinda makes sense that
->>>>> it is the @@ default, similar to how a static linker would pick it up.
->>>>
->>>> It might be another instance of bug 12977.  At least its fix will
->>>> involve preferring the default version in this case.  I don't know what
->>>
->>>  From Michael's test case it seems like it already is preferring the
->>> default version.  The fix would have to be to the comment that says
->>> prefer the oldest version for regular unversioned lookups and the
->>> *latest* for the dlsym lookups.
->>>
->>> That or I misunderstood what you said.
+On 04/19/2017 10:13 PM, Eric Dumazet wrote:
+> On Wed, 2017-04-19 at 20:48 +0200, Michael Kerrisk (man-pages) wrote:
+>> Hi Eric,
 >>
->> I think it picked the default version by accident because of the way the 
->> linker ordered the list.  But I could be mistaken.
+>> [reodering for clarity]
+>>
+>>>> On 02/19/2017 09:55 PM, Michael Kerrisk (man-pages) wrote:
+>>>>> [CC += Eric, so that he might review]
+>>>>>
+>>>>> Hello Francois,
+>>>>>
+>>>>> On 02/18/2017 05:06 AM, Francois Saint-Jacques wrote:
+>>>>>> This socket option is undocumented. Applies on the latest version
+>>>>>> (man-pages-4.09-511).
+>>>>>>
+>>>>>> diff --git a/man7/socket.7 b/man7/socket.7
+>>>>>> index 3efd7a5d8..1a3ffa253 100644
+>>>>>> --- a/man7/socket.7
+>>>>>> +++ b/man7/socket.7
+>>>>>> @@ -490,6 +490,26 @@ flag on a socket
+>>>>>>  operation.
+>>>>>>  Expects an integer boolean flag.
+>>>>>>  .TP
+>>>>>> +.BR SO_INCOMING_CPU " (getsockopt since Linux 3.19, setsockopt since
+>>>>>> Linux 4.4)"
+>>>>>> +.\" getsocktop 2c8c56e15df3d4c2af3d656e44feb18789f75837
+>>>>>> +.\" setsocktop 70da268b569d32a9fddeea85dc18043de9d89f89
+>>>>>> +Sets or gets the cpu affinity of a socket. Expects an integer flag.
+>>>>>> +.sp
+>>>>>> +.in +4n
+>>>>>> +.nf
+>>>>>> +int cpu = 1;
+>>>>>> +socklen_t len = sizeof(cpu);
+>>>>>> +setsockopt(fd, SOL_SOCKET, SO_INCOMING_CPU, &cpu, &len);
+>>>>>> +.fi
+>>>>>> +.in
+>>>>>> +.sp
+>>>>>> +The typical use case is one listener per RX queue, as the associated listener
+>>>>>> +should only accept flows handled in softirq by the same cpu.  This provides
+>>>>>> +optimal NUMA behavior and keep cpu caches hot.
+>>>>>> +.TP
+>>>>>>  .B SO_KEEPALIVE
+>>>>>>  Enable sending of keep-alive messages on connection-oriented sockets.
+>>>>>>  Expects an integer boolean flag.
+>>>>>
+>>>>> Thank you! Patch applied.
+>>>>>
+>>>>> I have tried to enhance the description somewhat. I'm not sure whether
+>>>>> what I've written is quite correct (or whether it should be further
+>>>>> extended). Eric, could you please take a look at the following, and let 
+>>>>> me know if anything needs fixing:
+>>>>>
+>>>>>        SO_INCOMING_CPU  (gettable  since Linux 3.19, settable since Linux
+>>>>>        4.4)
+>>>>>               Sets or gets the CPU affinity  of  a  socket.   Expects  an
+>>>>>               integer flag.
+>>>>>
+>>>>>                   int cpu = 1;
+>>>>>                   socklen_t len = sizeof(cpu);
+>>>>>                   setsockopt(fd, SOL_SOCKET, SO_INCOMING_CPU, &cpu, &len);
+>>>>>
+>>>>>               Because  all  of the packets for a single stream (i.e., all
+>>>>>               packets for the same 4-tuple) arrive on the single RX queue
+>>>>>               that  is  associated with a particular CPU, the typical use
+>>>>>               case is to employ one listening process per RX queue,  with
+>>>>>               the  incoming  flow being handled by a listener on the same
+>>>>>               CPU that is handling the RX queue.  This  provides  optimal
+>>>>>               NUMA behavior and keeps CPU caches hot.
+>>
+>>> Hi Michael
+>>>
+>>> Sorry for the delay.
+>>
+>> Thanks for the reply, but I think you are assuming I know more than 
+>> I do. I'd like you to elaborate a little please. See below.
+>>
+>>> Note that setting the option is not supported if SO_REUSEPORT is used.
+>>
+>> Please define "not supported". Does this yield an API diagnostic?
+>> If so, what is it?
+>>
+>>> Socket will be selected from an array, either by a hash or BPF program
+>>> that has no access to this information.
+>>
+>> Sorry -- I'm lost here. How does this comment relate to the proposed
+>> man page text above?
 > 
-> How could I test your hypothesis? Just a longer chain of versions,
-> maybe? Or oddly named version tags?
+> Simply that :
+> 
+> If an application uses both SO_INCOMING_CPU and SO_REUSEPORT, then
+> SO_REUSEPORT logic, selecting the socket to receive the packet, ignores
+> SO_INCOMING_CPU setting.
+> 
+> This does not need to be documented, because it is an implementation
+> detail/bug that could be changed, if someone cares enough.
 
-So, some quick testing.
-
-1. A map file that have tags VER_1 through VER_5.
-2. A C file with five implementations of xyz corresponding
-   to those 5 VER_* tags.
-3. My 'dynload' program that loads a shared library and looks up
-   (dlsym) and calls the named function symbol.
-
-I tried variously marking all five versions of xyz with '@@',
-rebuilding the library, and running the command
-
-    ./dynload libsv.o xyz
-
-In each case, it was the xyz@@ symbol that was found by
-dlsym().
-
-If I marked none of five versions of xyz as default (i.e., @@),
-then I get the error:
-
-    dlsym: ./libsv.so: undefined symbol: xyz
-
-All of this *suggests* that the observed behavior is not accidental.
-
-And then there is this comment in elf/dl-lookup.c::check_match():
-
-      /* No specific version is selected.  There are two ways we
-         can got here:
-
-         - a binary which does not include versioning information
-         is loaded
-
-         - dlsym() instead of dlvsym() is used to get a symbol which
-         might exist in more than one form
-
-         If the library does not provide symbol version information
-         there is no problem at all: we simply use the symbol if it
-         is defined.
-
-         These two lookups need to be handled differently if the
-         library defines versions.  In the case of the old
-         unversioned application the oldest (default) version
-         should be used.  In case of a dlsym() call the latest and
-         public interface should be returned.  */
-
-The last sentence doesn't seem quite right though: it appears
-that it is the default symbol that is returned, not the latest
-(which would always have been VER_5 in my example).
+Okay, thanks, Eric. I'll just merge the page text as it currently 
+is then.
 
 Cheers,
 
 Michael
 
-
 -- 
 Michael Kerrisk
 Linux man-pages maintainer; http://www.kernel.org/doc/man-pages/
 Linux/UNIX System Programming Training: http://man7.org/training/
---
-To unsubscribe from this list: send the line "unsubscribe linux-man" in
-the body of a message to majordomo-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
-More majordomo info at  http://vger.kernel.org/majordomo-info.html
