@@ -1,47 +1,95 @@
-From: Siddhesh Poyarekar <siddhesh@sourceware.org>
+From: Florian Weimer <fweimer@redhat.com>
 Subject: Re: Documenting the (dynamic) linking rules for symbol versioning
-Date: Thu, 20 Apr 2017 18:45:31 +0530
-Message-ID: <c31e55fb-25af-bfe9-09db-83e622ec5e3f@sourceware.org>
+Date: Thu, 20 Apr 2017 15:17:52 +0200
+Message-ID: <5093fc5e-2f99-edff-b657-5f93f978ce1e@redhat.com>
 References: <b3a962de-6703-d8b9-18f7-138185171475@gmail.com>
- <22f26755-f7f0-898a-ac74-3f6df92a22d7@sourceware.org>
- <c6736794-60bb-517e-0bcf-2e80331f0f72@gmail.com>
- <eb5bea0c-1f54-1b20-dc78-999160738ed3@sourceware.org>
- <2fab9588-2fa6-8c87-da25-be9376c085ea@redhat.com>
-Reply-To: siddhesh@sourceware.org
+ <ee5e8057-7afa-c919-8ccb-9c8e6d0833c4@redhat.com>
+ <517c3e75-93b5-0762-d6a4-7a17d196654e@gmail.com>
+ <3edb27c6-c9b6-df95-3810-a8b5abc740fb@redhat.com>
+ <23c0ee0f-3abe-d411-b8fc-821d91b75fa7@gmail.com>
 Mime-Version: 1.0
-Content-Type: text/plain; charset=utf-8
-Content-Transfer-Encoding: 7bit
-Return-path: <libc-alpha-return-78791-glibc-alpha=m.gmane.org@sourceware.org>
+Content-Type: text/plain; charset=utf-8; format=flowed
+Content-Transfer-Encoding: 8bit
+Return-path: <libc-alpha-return-78792-glibc-alpha=m.gmane.org@sourceware.org>
 List-Unsubscribe: <mailto:libc-alpha-unsubscribe-glibc-alpha=m.gmane.org@sourceware.org>
 List-Subscribe: <mailto:libc-alpha-subscribe@sourceware.org>
 List-Archive: <http://sourceware.org/ml/libc-alpha/>
 List-Post: <mailto:libc-alpha@sourceware.org>
 List-Help: <mailto:libc-alpha-help@sourceware.org>, <http://sourceware.org/ml/#faqs>
 Sender: libc-alpha-owner@sourceware.org
-In-Reply-To: <2fab9588-2fa6-8c87-da25-be9376c085ea@redhat.com>
-To: Florian Weimer <fweimer@redhat.com>, "Michael Kerrisk (man-pages)" <mtk.manpages@gmail.com>, "libc-alpha@sourceware.org" <libc-alpha@sourceware.org>
-Cc: linux-man <linux-man@vger.kernel.org>, Carlos O'Donell <carlos@redhat.com>, Rich Felker <dalias@aerifal.cx>, "H.J. Lu" <hjl.tools@gmail.com>
+In-Reply-To: <23c0ee0f-3abe-d411-b8fc-821d91b75fa7@gmail.com>
+To: "Michael Kerrisk (man-pages)" <mtk.manpages@gmail.com>, "libc-alpha@sourceware.org" <libc-alpha@sourceware.org>
+Cc: linux-man <linux-man@vger.kernel.org>, Siddhesh Poyarekar <siddhesh@sourceware.org>, Carlos O'Donell <carlos@redhat.com>, Rich Felker <dalias@aerifal.cx>, "H.J. Lu" <hjl.tools@gmail.com>
 List-Id: linux-man@vger.kernel.org
 
-On Thursday 20 April 2017 06:31 PM, Florian Weimer wrote:
->> Hmm interesting, I thought 'latest' would imply the last version in the
->> sequence of versions in the map, but I guess it kinda makes sense that
->> it is the @@ default, similar to how a static linker would pick it up.
+On 04/20/2017 01:45 PM, Michael Kerrisk (man-pages) wrote:
+
+>>>>> 7. The way to remove a versioned symbol from a new release
+>>>>>       of a shared library is to not define a default version
+>>>>>       (NAME@@VERSION) for that symbol. (Right?)
+>>>>>
+>>>>>       In other words, if we wanted to create a VER_4 of lib_ver.so
+>>>>>       that removed the symbol 'abc', we simply don't create use
+>>>>>       the usual asm(".symver") magic to create abc@VER_4.
+>>>>
+>>>> You still need to use .symver, but with a @ version instead of a @@ version.
+>>>
+>>> Why is that? What functionally is the difference between
+>>> having no .symver and a .symver with an @ version? (I tried
+>>> both, and they *both* result in undefined symbol errors from
+>>> ld(1), as I expected.
+>>
+>> I was assuming that you want to preserve ABI.  People who are interested
+>> in symbol versioning usually want that. :)
 > 
-> It might be another instance of bug 12977.  At least its fix will
-> involve preferring the default version in this case.  I don't know what
+> I am thinking of the situation where one explicitly wants to
+> deprecate a function in say VER_4, while still allowing that symbol
+> to be available in VER_1 to VER_3. For example, one might possibly
+> want to do this one day for the gets() function that has been
+> removed in C11 and is deprecated in the last POSIX.1 (2008).
 
->From Michael's test case it seems like it already is preferring the
-default version.  The fix would have to be to the comment that says
-prefer the oldest version for regular unversioned lookups and the
-*latest* for the dlsym lookups.
+They way this usually works is that deprecation involves removing the 
+default, but keeping the version itself around.  This means that 
+existing binaries will continue to work, but new programs won't be able 
+to use the symbol anymore.
 
-That or I misunderstood what you said.
+> The point is that removing a symbol is possible in the traditional
+> (filename-based) major versioning scheme where we create a new
+> incompatible major version that drops the symbol. I've occasionally
+> had people ask me how you would do something similar with symbol
+> versioning.
 
-> to do if there is no default version.  We currently do not perform a
-> topological sort on the version graph to find the maximum version.
+Yes.  Removing the entire version still requires a soname bump (at which 
+point you can remove all non-default versions because there aren't any 
+legacy binaries anymore), which is why I believe you typically do not 
+want to do that.
 
-My understanding is that the VERSYM section is set up in a chained
-manner and the oldest and the newest can be derived from it.
+> To return to my question: given the two options, having no abc@VER_4
 
-Siddhesh
+I think you mean “no abc” (with any version whatsoever).
+
+> defined and having abc@VER_4 (not abc@@VER_4), then the effects are
+> as follows:
+> 
+> * In both cases, the static linker would emit an error when trying
+>    to resolve a reference to 'abc'.
+
+Right.
+
+> * In the case where we had a symbol abc@VER_4 in the SO, then
+>    that symbol would be accessible to the static linker using
+>    asm(".symver") (and obviously this wouldn't be possible
+>    if there was no abc@VER_4 defined).
+> 
+> Any other differences to be aware of?
+
+The key difference is that if there used to be an abc@@VER_4 default 
+version, then older binaries did not have to use the .symver kludge to 
+get the definition.  The static linker would have magically applied that 
+version.
+
+In fact, the general expectation is that the .symver backdoor to get 
+symbols at non-default versions doesn't really exist. :)
+
+Thanks,
+Florian
