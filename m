@@ -1,241 +1,747 @@
-From: "Michael Kerrisk (man-pages)" <mtk.manpages@gmail.com>
-Subject: Re: Review request: draft ioctl_userfaultfd(2) manual page
-Date: Fri, 21 Apr 2017 13:41:18 +0200
-Message-ID: <4c05c2bb-af77-d706-9455-8ceaa5510580@gmail.com>
-References: <487b2c79-f99b-6d0f-2412-aa75cde65569@gmail.com>
- <9af29fc6-dce2-f729-0f07-a0bfcc6c3587@gmail.com>
- <20170322135423.GB27789@rapoport-lnx>
- <e8c5ca4a-0710-7206-b96e-10d171bda218@gmail.com>
- <20170421110714.GC20569@rapoport-lnx>
+From: "Michael Kerrisk (man-pages)" <mtk.manpages-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org>
+Subject: Re: statx.2 manpage
+Date: Fri, 21 Apr 2017 16:23:02 +0200
+Message-ID: <a4c18b07-ec6b-76da-b685-1fa42d2ed1a8@gmail.com>
+References: <7053.1491488145@warthog.procyon.org.uk>
 Mime-Version: 1.0
-Content-Type: text/plain; charset=utf-8
-Content-Transfer-Encoding: 8bit
-Return-path: <owner-linux-mm@kvack.org>
-In-Reply-To: <20170421110714.GC20569@rapoport-lnx>
-Sender: owner-linux-mm@kvack.org
-To: Mike Rapoport <rppt@linux.vnet.ibm.com>
-Cc: mtk.manpages@gmail.com, Andrea Arcangeli <aarcange@redhat.com>, lkml <linux-kernel@vger.kernel.org>, "linux-mm@kvack.org" <linux-mm@kvack.org>, linux-man <linux-man@vger.kernel.org>
+Content-Type: text/plain; charset=windows-1252
+Content-Transfer-Encoding: 7bit
+Return-path: <linux-man-owner-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>
+In-Reply-To: <7053.1491488145-S6HVgzuS8uM4Awkfq6JHfwNdhmdF6hFW@public.gmane.org>
+Sender: linux-man-owner-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
+To: David Howells <dhowells-H+wXaHxf7aLQT0dZR+AlfA@public.gmane.org>
+Cc: mtk.manpages-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org, linux-man-u79uwXL29TY76Z2rM5mHXA@public.gmane.org, hch-wEGCiKHe2LqWVfeAwA7xHQ@public.gmane.org, linux-fsdevel-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
 List-Id: linux-man@vger.kernel.org
 
-Hi Mike,
-
-On 04/21/2017 01:07 PM, Mike Rapoport wrote:
-> Hello Michael,
+On 04/06/2017 04:15 PM, David Howells wrote:
+> Hi Michael,
 > 
-> On Fri, Apr 21, 2017 at 11:11:18AM +0200, Michael Kerrisk (man-pages) wrote:
->> Hello Mike,
->> Hello Andrea (we need your help!),
->>
->> On 03/22/2017 02:54 PM, Mike Rapoport wrote:
->>> Hello Michael,
->>>
->>> On Mon, Mar 20, 2017 at 09:11:07PM +0100, Michael Kerrisk (man-pages) wrote:
->>>> Hello Andrea, Mike, and all,
->>>>
->>>> Mike: here's the split out page that describes the 
->>>> userfaultfd ioctl() operations.
->>>>
->>>> I'd like to get review input, especially from you and
->>>> Andrea, but also anyone else, for the current version
->>>> of this page, which includes quite a few FIXMEs to be
->>>> sorted.
->>>>
->>>> I've shown the rendered version of the page below. 
->>>> The groff source is attached, and can also be found
->>>> at the branch here:
->>>>
->>>> https://git.kernel.org/pub/scm/docs/man-pages/man-pages.git/log/?h=draft_userfaultfd
->>>>
->>>> The new ioctl_userfaultfd(2) page follows this mail.
->>>>
->>>> Cheers,
->>>>
->>>> Michael
->>>>
->>>> NAME
->>>>        userfaultfd - create a file descriptor for handling page faults in user
->>>>        space
->>>>
->>>> SYNOPSIS
->>>>        #include <sys/ioctl.h>
->>>>
->>>>        int ioctl(int fd, int cmd, ...);
->>>>
->>>> DESCRIPTION
->>>>        Various ioctl(2) operations can be performed on  a  userfaultfd  object
->>>>        (created by a call to userfaultfd(2)) using calls of the form:
->>>>
->>>>            ioctl(fd, cmd, argp);
->>>>
->>>>        In  the  above,  fd  is  a  file  descriptor referring to a userfaultfd
->>>>        object, cmd is one of the commands listed below, and argp is a  pointer
->>>>        to a data structure that is specific to cmd.
->>>>
->>>>        The  various  ioctl(2) operations are described below.  The UFFDIO_API,
->>>>        UFFDIO_REGISTER, and UFFDIO_UNREGISTER operations are used to configure
->>>>        userfaultfd behavior.  These operations allow the caller to choose what
->>>>        features will be enabled and what kinds of events will be delivered  to
->>>>        the application.  The remaining operations are range operations.  These
->>>>        operations enable the calling application to resolve page-fault  events
->>>>        in a consistent way.
->>>>
->>>>
->>>>        ┌─────────────────────────────────────────────────────┐
->>>>        │FIXME                                                │
->>>>        ├─────────────────────────────────────────────────────┤
->>>>        │Above: What does "consistent" mean?                  │
->>>>        │                                                     │
->>>>        └─────────────────────────────────────────────────────┘
->>>
->>> Andrea, can you please help with this one?
->>
->> Let's see what Andrea has to say.
-> 
-> Actually, I though I've copied this text from Andrea's docs, but now I've
-> found out it was my wording and I really don't remember now what was my
-> intention for "consistent" :)
-> My guess is that I was thinking about atomicity of UFFDIO_COPY, or the fact
-> that from the faulting thread perspective the page fault handling is the
-> same whether it's done in kernel or via userfaultfd...
-> That said, maybe it'd be better just to drop "in a consistent way".
+> Could you take a look at the statx manpage in the attached patch?
 
-Okay. Dropped.
-
->>>>    UFFDIO_API
->>>>        (Since Linux 4.3.)  Enable operation of the userfaultfd and perform API
->>>>        handshake.  The argp argument is a pointer to a  uffdio_api  structure,
->>>>        defined as:
->>>>
->>>>            struct uffdio_api {
->>>>                __u64 api;        /* Requested API version (input) */
->>>>                __u64 features;   /* Must be zero */
->>>>                __u64 ioctls;     /* Available ioctl() operations (output) */
->>>>            };
->>>>
->>>>        The  api  field  denotes  the API version requested by the application.
->>>>        Before the call, the features field must be initialized to zero.
->>>>
->>>>
->>>>        ┌─────────────────────────────────────────────────────┐
->>>>        │FIXME                                                │
->>>>        ├─────────────────────────────────────────────────────┤
->>>>        │Above: Why must the 'features' field be  initialized │
->>>>        │to zero?                                             │
->>>>        └─────────────────────────────────────────────────────┘
->>>
->>> Until 4.11 the only supported feature is delegation of missing page fault
->>> and the UFFDIO_FEATURES bitmask is 0.
->>
->> So, the thing that was not clear, but now I think I understand:
->> 'features' is an input field where one can ask about supported features
->> (but none are supported, before Linux 4.11). Is that correct?
-> 
-> Yes.
-
-Thanks.
-
->> I've changed the text here to read:
->>
->>        Before the call, the features field must be  initialized
->>        to  zero.  In the future, it is intended that this field can be
->>        used to ask whether particular features are supported.
->>
->> Seem okay?
-> 
-> Yes.
-> Just the future is only a week or two from today as we are at 4.11-rc7 :)
-
-Yes, I understand :-). So of course there's a *lot* more
-new stuff to document, right?
-
-[...]
-
->>>>    UFFDIO_REGISTER
-
-[...]
-
->>>>        EINVAL There as an incompatible mapping in the specified address range.
->>>>
->>>>
->>>>               ┌─────────────────────────────────────────────────────┐
->>>>               │FIXME                                                │
->>>>               ├─────────────────────────────────────────────────────┤
->>>>               │Above: What does "incompatible" mean?                │
->>>>               │                                                     │
->>>>               └─────────────────────────────────────────────────────┘
->>>
->>> Up to 4.10 userfault context may be registered only for MAP_ANONYMOUS |
->>> MAP_PRIVATE mappings.
->>
->> Hmmm -- this restriction is not actually mentioned in the description
->> of UFFDIO_REGISTER. So, at the start of the description of that operation, 
->> I've made the text as follows:
->>
->> [[
->> .SS UFFDIO_REGISTER
->> (Since Linux 4.3.)
->> Register a memory address range with the userfaultfd object.
->> The pages in the range must be "compatible".
->> In the current implementation,
->> .\" According to Mike Rapoport, this will change in Linux 4.11.
->> only private anonymous ranges are compatible for registering with
->> .BR UFFDIO_REGISTER .
->> ]]
->>
->> Okay?
-> 
-> Yes.
-
-Thanks for checking it.
-
->>>>    UFFDIO_UNREGISTER
-
-[...]
-
->>>>        EINVAL There as an incompatible mapping in the specified address range.
->>>>
->>>>
->>>>               ┌─────────────────────────────────────────────────────┐
->>>>               │FIXME                                                │
->>>>               ├─────────────────────────────────────────────────────┤
->>>>               │Above: What does "incompatible" mean?                │
->>>>               └─────────────────────────────────────────────────────┘
->>>
->>> The same comments as for UFFDIO_REGISTER apply here as well.
->>
->> Okay. I changed the introductory text on UFFDIO_UNREGISTER to say:
->>
->> [[
->> .SS UFFDIO_UNREGISTER
->> (Since Linux 4.3.)
->> Unregister a memory address range from userfaultfd.
->> The pages in the range must be "compatible" (see the description of
->> .BR  UFFDIO_REGISTER .)
->> ]]
->>
->> Okay?
-> 
-> Yes.
-
-Thanks.
-
-[...]
-
-The current version of the two pages has been pushed to 
-https://git.kernel.org/pub/scm/docs/man-pages/man-pages.git/log/?h=draft_userfaultfd
+I've merged this into a local branch, and will do some hacking
+on it, and ask you some questions later (next week, probably).
 
 Cheers,
 
 Michael
 
 
+> In particular, a couple of questions:
+> 
+>  (1) I've started off the description section by describing the statx struct.
+>      I find that it helps to have this specified before getting on to
+>      describing the arguments, among which is a mask of flags that describes
+>      what fields have been filled in struct statx.
+> 
+>      Should I move the struct definition to the synopsis section?
+> 
+>  (2) I've enumerated some things by writing:
+> 
+> 	[*] By absolute path.
+> 		<... description ...>
+> 
+> 	[*] By cwd-relative path
+> 		<... description ...>
+> 
+>         ...
+> 
+>      in the text.  Is there a better way of doing this?
+> 
+> Thanks,
+> David
+> ---
+> commit 0e08bb64dbbc106449cf6db08805f77db0681154
+> Author: David Howells <dhowells-H+wXaHxf7aLQT0dZR+AlfA@public.gmane.org>
+> Date:   Tue Mar 7 08:18:24 2017 +0000
+> 
+>     Man page for statx() syscall
+> 
+> diff --git a/man2/stat.2 b/man2/stat.2
+> index a567178..c4fd9a1 100644
+> --- a/man2/stat.2
+> +++ b/man2/stat.2
+> @@ -583,7 +583,7 @@ A component of
+>  .I pathname
+>  does not exist, or
+>  .I pathname
+> -is an empty string.
+> +is an empty string and AT_EMPTY_PATH was not specified.
+>  .TP
+>  .B ENOMEM
+>  Out of memory (i.e., kernel memory).
+> diff --git a/man2/statx.2 b/man2/statx.2
+> new file mode 100644
+> index 0000000..f372862
+> --- /dev/null
+> +++ b/man2/statx.2
+> @@ -0,0 +1,659 @@
+> +'\" t
+> +.\" Copyright (c) 2017 David Howells <dhowells-H+wXaHxf7aLQT0dZR+AlfA@public.gmane.org>
+> +.\"
+> +.\" Derived from the stat.2 manual page:
+> +.\"   Copyright (c) 1992 Drew Eckhardt (drew-8MTm7EM7wxev0IrbefU98A@public.gmane.org), March 28, 1992
+> +.\"   Parts Copyright (c) 1995 Nicolai Langfeldt (janl-6miFZF/5cTBuMpJDpNschA@public.gmane.org), 1/1/95
+> +.\"   and Copyright (c) 2006, 2007, 2014 Michael Kerrisk <mtk.manpages-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org>
+> +.\"
+> +.\" %%%LICENSE_START(VERBATIM)
+> +.\" Permission is granted to make and distribute verbatim copies of this
+> +.\" manual provided the copyright notice and this permission notice are
+> +.\" preserved on all copies.
+> +.\"
+> +.\" Permission is granted to copy and distribute modified versions of this
+> +.\" manual under the conditions for verbatim copying, provided that the
+> +.\" entire resulting derived work is distributed under the terms of a
+> +.\" permission notice identical to this one.
+> +.\"
+> +.\" Since the Linux kernel and libraries are constantly changing, this
+> +.\" manual page may be incorrect or out-of-date.  The author(s) assume no
+> +.\" responsibility for errors or omissions, or for damages resulting from
+> +.\" the use of the information contained herein.  The author(s) may not
+> +.\" have taken the same level of care in the production of this manual,
+> +.\" which is licensed free of charge, as they might when working
+> +.\" professionally.
+> +.\"
+> +.\" Formatted or processed versions of this manual, if unaccompanied by
+> +.\" the source, must acknowledge the copyright and authors of this work.
+> +.\" %%%LICENSE_END
+> +.\"
+> +.TH STATX 2 2017-03-07 "Linux" "Linux Programmer's Manual"
+> +.SH NAME
+> +statx \- Get file status (extended)
+> +.SH SYNOPSIS
+> +.nf
+> +.B #include <sys/types.h>
+> +.br
+> +.B #include <sys/stat.h>
+> +.br
+> +.B #include <unistd.h>
+> +.br
+> +.BR "#include <fcntl.h>           " "/* Definition of AT_* constants */"
+> +.sp
+> +.BI "int statx(int " dirfd ", const char *" pathname ", int " flags ","
+> +.BI "          unsigned int " mask ", struct statx *" buf );
+> +.fi
+> +.sp
+> +.in -4n
+> +Feature Test Macro Requirements for glibc (see
+> +.BR feature_test_macros (7)):
+> +.in
+> +.ad l
+> +.PD 0
+> +.sp
+> +.RS 4
+> +<unknown as yet>
+> +.RE
+> +.PD
+> +.ad
+> +.SH DESCRIPTION
+> +.PP
+> +This function returns information about a file, storing it in the buffer
+> +pointed to by
+> +.IR buf .
+> +The buffer is filled in according to the following type:
+> +.PP
+> +.in +4n
+> +.nf
+> +struct statx {
+> +    __u32 stx_mask;          -- Mask of bits indicating filled fields
+> +    __u32 stx_blksize;       -- Block size for filesystem I/O
+> +    __u64 stx_attributes;    -- Extra file attribute indicators
+> +    __u32 stx_nlink;         -- Number of hard links
+> +    __u32 stx_uid;           -- User ID of owner
+> +    __u32 stx_gid;           -- Group ID of owner
+> +    __u16 stx_mode;          -- File type and mode
+> +    __u64 stx_ino;           -- Inode number
+> +    __u64 stx_size;          -- Total size in bytes
+> +    __u64 stx_blocks;        -- Number of 512B blocks allocated
+> +    struct statx_timestamp stx_atime;  -- Time of last access
+> +    struct statx_timestamp stx_btime;  -- Time of creation
+> +    struct statx_timestamp stx_ctime;  -- Time of last status change
+> +    struct statx_timestamp stx_mtime;  -- Time of last modification
+> +    __u32 stx_rdev_major;    } Device number if device file
+> +    __u32 stx_rdev_minor;    }
+> +    __u32 stx_dev_major;      } Device number of containing file
+> +    __u32 stx_dev_minor;      }
+> +};
+> +.fi
+> +.in
+> +.PP
+> +Where the timestamps are defined as:
+> +.PP
+> +.in +4n
+> +.nf
+> +struct statx_timestamp {
+> +    __s64 tv_sec;    -- Number of seconds (UNIX time)
+> +    __s32 tv_nsec;   -- Number of nanoseconds before or since tv_sec
+> +};
+> +.fi
+> +.in
+> +.PP
+> +(Note that reserved space and padding is omitted)
+> +.SS
+> +Invoking \fBstatx\fR():
+> +.PP
+> +To access a file's status, no permissions are required on the file itself, but
+> +in the case of
+> +.BR statx ()
+> +with a path, execute (search) permission is required on all of the directories
+> +in
+> +.I pathname
+> +that lead to the file.
+> +.PP
+> +.BR statx ()
+> +uses
+> +.IR pathname ", " dirfd " and " flags
+> +to locate the target file in one of a variety of ways:
+> +.TP
+> +[*] By absolute path.
+> +.I pathname
+> +points to an absolute path and
+> +.I dirfd
+> +is ignored.  The file is looked up by name, starting from the root of the
+> +filesystem as seen by the calling process.
+> +.TP
+> +[*] By cwd-relative path.
+> +.I pathname
+> +points to a relative path and
+> +.IR dirfd " is " AT_FDCWD .
+> +The file is looked up by name, starting from the current working directory.
+> +.TP
+> +[*] By dir-relative path.
+> +.I pathname
+> +points to relative path and
+> +.I dirfd
+> +indicates a file descriptor pointing to a directory.  The file is looked up by
+> +name, starting from the directory specified by
+> +.IR dirfd .
+> +.TP
+> +[*] By file descriptor.
+> +.IR pathname " is " NULL " and " dirfd
+> +indicates a file descriptor.  The file attached to the file descriptor is
+> +queried directly.  The file descriptor may point to any type of file, not just
+> +a directory.
+> +.PP
+> +.I flags
+> +can be used to influence a path-based lookup.  A value for
+> +.I flags
+> +is constructed by OR'ing together zero or more of the following constants:
+> +.TP
+> +.BR AT_EMPTY_PATH
+> +.\" commit 65cfc6722361570bfe255698d9cd4dccaf47570d
+> +If
+> +.I pathname
+> +is an empty string, operate on the file referred to by
+> +.IR dirfd
+> +(which may have been obtained using the
+> +.BR open (2)
+> +.B O_PATH
+> +flag).
+> +If
+> +.I dirfd
+> +is
+> +.BR AT_FDCWD ,
+> +the call operates on the current working directory.
+> +In this case,
+> +.I dirfd
+> +can refer to any type of file, not just a directory.
+> +This flag is Linux-specific; define
+> +.B _GNU_SOURCE
+> +.\" Before glibc 2.16, defining _ATFILE_SOURCE sufficed
+> +to obtain its definition.
+> +.TP
+> +.BR AT_NO_AUTOMOUNT
+> +Don't automount the terminal ("basename") component of
+> +.I pathname
+> +if it is a directory that is an automount point.
+> +This allows the caller to gather attributes of an automount point
+> +(rather than the location it would mount).
+> +This flag can be used in tools that scan directories
+> +to prevent mass-automounting of a directory of automount points.
+> +The
+> +.B AT_NO_AUTOMOUNT
+> +flag has no effect if the mount point has already been mounted over.
+> +This flag is Linux-specific; define
+> +.B _GNU_SOURCE
+> +.\" Before glibc 2.16, defining _ATFILE_SOURCE sufficed
+> +to obtain its definition.
+> +.TP
+> +.B AT_SYMLINK_NOFOLLOW
+> +If
+> +.I pathname
+> +is a symbolic link, do not dereference it:
+> +instead return information about the link itself, like
+> +.BR lstat ().
+> +.PP
+> +.I flags
+> +can also be used to control what sort of synchronisation the kernel will do
+> +when querying a file on a remote filesystem.  This is done by OR'ing in one of
+> +the following values:
+> +.TP
+> +AT_STATX_SYNC_AS_STAT
+> +Do whatever
+> +.BR stat ()
+> +does.  This is the default and is very much filesystem specific.
+> +.TP
+> +AT_STATX_FORCE_SYNC
+> +Force the attributes to be synchronised with the server.  This may require that
+> +a network filesystem perform a data writeback to get the timestamps correct.
+> +.TP
+> +AT_STATX_DONT_SYNC
+> +Don't synchronise anything, but rather just take whatever the system has cached
+> +if possible.  This may mean that the information returned is approximate, but,
+> +on a network filesystem, it may not involve a round trip to the server - even
+> +if no lease is held.
+> +.PP
+> +The
+> +.I mask
+> +argument to
+> +.BR statx ()
+> +is used to tell the kernel which fields the caller is interested in.
+> +.I mask
+> +is an OR'ed combination of the following constants:
+> +.PP
+> +.in +4n
+> +.TS
+> +lB l.
+> +STATX_TYPE	Want stx_mode & S_IFMT
+> +STATX_MODE	Want stx_mode & ~S_IFMT
+> +STATX_NLINK	Want stx_nlink
+> +STATX_UID	Want stx_uid
+> +STATX_GID	Want stx_gid
+> +STATX_ATIME	Want stx_atime{,_ns}
+> +STATX_MTIME	Want stx_mtime{,_ns}
+> +STATX_CTIME	Want stx_ctime{,_ns}
+> +STATX_INO	Want stx_ino
+> +STATX_SIZE	Want stx_size
+> +STATX_BLOCKS	Want stx_blocks
+> +STATX_BASIC_STATS	[All of the above]
+> +STATX_BTIME	Want stx_btime{,_ns}
+> +STATX_ALL	[All currently available fields]
+> +.TE
+> +.in
+> +.PP
+> +.B "Do not"
+> +simply set
+> +.I mask
+> +to UINT_MAX as one or more bits may, in the future, be used to specify an
+> +extension to the buffer.
+> +.SS
+> +The returned information
+> +.PP
+> +The status information for the target file is returned in the
+> +.I statx
+> +structure pointed to by
+> +.IR buf .
+> +Included in this is
+> +.I stx_mask
+> +which indicates what other information has been returned.
+> +.I stx_mask
+> +has the same format as the mask argument and bits are set in it to indicate
+> +which fields have been filled in.
+> +.PP
+> +It should be noted that the kernel may return fields that weren't requested and
+> +may fail to return fields that were requested, depending on what the backing
+> +filesystem supports.  In either case,
+> +.I stx_mask
+> +will not be equal
+> +.IR mask .
+> +.PP
+> +If a filesystem does not support a field or if it has an unrepresentable value
+> +(for instance, a file with an exotic type), then the mask bit corresponding to
+> +that field will be cleared in
+> +.I stx_mask
+> +even if the user asked for it and a dummy value will be filled in for
+> +compatibility purposes if one is available (e.g. a dummy uid and gid may be
+> +specified to mount under some circumstances).
+> +.PP
+> +A filesystem may also fill in fields that the caller didn't ask for if it has
+> +values for them available at no extra cost.  If this happens, the corresponding
+> +bits will be set in
+> +.IR stx_mask .
+> +.PP
+> +
+> +.\" Background: inode attributes are modified with i_mutex held, but
+> +.\" read by stat() without taking the mutex.
+> +.I Note:
+> +For performance and simplicity reasons, different fields in the
+> +.I statx
+> +structure may contain state information from different moments
+> +during the execution of the system call.
+> +For example, if
+> +.IR stx_mode
+> +or
+> +.IR stx_uid
+> +is changed by another process by calling
+> +.BR chmod (2)
+> +or
+> +.BR chown (2),
+> +.BR stat ()
+> +might return the old
+> +.I stx_mode
+> +together with the new
+> +.IR stx_uid ,
+> +or the old
+> +.I stx_uid
+> +together with the new
+> +.IR stx_mode .
+> +.PP
+> +Apart from stx_mask (which is described above), the fields in the
+> +.I statx
+> +structure are:
+> +.TP
+> +.I stx_mode
+> +The file type and mode.  This is described in more detail below.
+> +.TP
+> +.I stx_size
+> +The size of the file (if it is a regular file or a symbolic link) in bytes.
+> +The size of a symbolic link is the length of the pathname it contains, without
+> +a terminating null byte.
+> +.TP
+> +.I stx_blocks
+> +The number of blocks allocated to the file on the medium, in 512-byte units.
+> +(This may be smaller than
+> +.IR stx_size /512
+> +when the file has holes.)
+> +.TP
+> +.I stx_blksize
+> +The "preferred" blocksize for efficient filesystem I/O.  (Writing to a file in
+> +smaller chunks may cause an inefficient read-modify-rewrite.)
+> +.TP
+> +.I stx_nlink
+> +The number of hard links on a file.
+> +.TP
+> +.I stx_uid
+> +The user ID of the file's owner.
+> +.TP
+> +.I stx_gid
+> +The ID of the group that may access the file.
+> +.TP
+> +.IR stx_dev_major " and "  stx_dev_minor
+> +The device on which this file (inode) resides.
+> +.TP
+> +.IR stx_rdev_major " and "  stx_rdev_minor
+> +The device that this file (inode) represents if the file is of block or
+> +character device type.
+> +.TP
+> +.I stx_attributes
+> +Further status information about the file (see below for more information).
+> +.TP
+> +.I stx_atime
+> +The file's last access timestamp.
+> +This field is changed by file accesses, for example, by
+> +.BR execve (2),
+> +.BR mknod (2),
+> +.BR pipe (2),
+> +.BR utime (2),
+> +and
+> +.BR read (2)
+> +(of more than zero bytes).
+> +Other routines, such as
+> +.BR mmap (2),
+> +may or may not update it.
+> +.TP
+> +.I stx_btime
+> +The file's creation timestamp.  This is set on file creation and not changed
+> +subsequently.
+> +.TP
+> +.I stx_ctime
+> +The file's last status change timestamp.  This field is changed by writing or
+> +by setting inode information (i.e., owner, group, link count, mode, etc.).
+> +.TP
+> +.I stx_mtime
+> +The file's last modification timestamp.  This is changed by file modifications,
+> +for example, by
+> +.BR mknod (2),
+> +.BR truncate (2),
+> +.BR utime (2),
+> +and
+> +.BR write (2)
+> +(of more than zero bytes).  Moreover, the modification time of a directory is
+> +changed by the creation or deletion of files in that directory.  This field is
+> +.I not
+> +changed for changes in owner, group, hard link count, or mode.
+> +
+> +
+> +
+> +.PP
+> +Not all of the Linux filesystems implement all of the timestamp fields.  Some
+> +filesystems allow mounting in such a way that file and/or directory accesses do
+> +not cause an update of the
+> +.I stx_atime
+> +field.
+> +(See
+> +.IR noatime ,
+> +.IR nodiratime ,
+> +and
+> +.I relatime
+> +in
+> +.BR mount (8),
+> +and related information in
+> +.BR mount (2).)
+> +In addition,
+> +.I stx_atime
+> +is not updated if a file is opened with the
+> +.BR O_NOATIME ;
+> +see
+> +.BR open (2).
+> +
+> +.SS File attributes
+> +.PP
+> +The
+> +.I stx_attributes
+> +field contains a set of OR'ed flags that indicate additional attributes of the
+> +file:
+> +.TP
+> +STATX_ATTR_COMPRESSED
+> +The file is compressed by the fs and may take extra resources to access.
+> +.TP
+> +STATX_ATTR_IMMUTABLE
+> +The file cannot be modified: it cannot be deleted or renamed, no hard links can
+> +be created to this file and no data can be written to it.  See chattr(1).
+> +.TP
+> +STATX_ATTR_APPEND
+> +The file can only be opened in append mode for writing.  Random access writing
+> +is not permitted.  See chattr(1).
+> +.TP
+> +STATX_ATTR_NODUMP
+> +File is not a candidate for backup when a backup program such as dump(8) is
+> +run.  See chattr(1).
+> +.TP
+> +STATX_ATTR_ENCRYPTED
+> +A key is required for the file to be encrypted by the filesystem.
+> +.SS File type and mode
+> +.PP
+> +The
+> +.I stx_mode
+> +field contains the combined file type and mode.  POSIX refers to the bits in
+> +this field corresponding to the mask
+> +.B S_IFMT
+> +(see below) as the
+> +.IR "file type" ,
+> +the 12 bits corresponding to the mask 07777 as the
+> +.IR "file mode bits"
+> +and the least significant 9 bits (0777) as the
+> +.IR "file permission bits" .
+> +.IP
+> +The following mask values are defined for the file type of the
+> +.I stx_mode
+> +field:
+> +.in +4n
+> +.TS
+> +lB l l.
+> +S_IFMT	0170000	bit mask for the file type bit field
+> +
+> +S_IFSOCK	0140000	socket
+> +S_IFLNK	0120000	symbolic link
+> +S_IFREG	0100000	regular file
+> +S_IFBLK	0060000	block device
+> +S_IFDIR	0040000	directory
+> +S_IFCHR	0020000	character device
+> +S_IFIFO	0010000	FIFO
+> +.TE
+> +.in
+> +.IP
+> +Note that
+> +.I stx_mode
+> +has two mask flags covering it: one for the type and one for the mode bits.
+> +.PP
+> +To test for a regular file (for example), one could write:
+> +.nf
+> +.in +4n
+> +statx(AT_FDCWD, pathname, 0, STATX_TYPE, &sb);
+> +if ((sb.stx_mask & STATX_TYPE) && (sb.stx_mode & S_IFMT) == S_IFREG) {
+> +    /* Handle regular file */
+> +}
+> +.in
+> +.fi
+> +.PP
+> +Because tests of the above form are common, additional macros are defined by
+> +POSIX to allow the test of the file type in
+> +.I stx_mode
+> +to be written more concisely:
+> +.RS 4
+> +.TS
+> +lB l.
+> +\fBS_ISREG\fR(m)	Is it a regular file?
+> +\fBS_ISDIR\fR(m)	Is it a directory?
+> +\fBS_ISCHR\fR(m)	Is it a character device?
+> +\fBS_ISBLK\fR(m)	Is it a block device?
+> +\fBS_ISFIFO\fR(m)	Is it a FIFO (named pipe)?
+> +\fBS_ISLNK\fR(m)	Is it a symbolic link?  (Not in POSIX.1-1996.)
+> +\fBS_ISSOCK\fR(m)	Is it a socket?  (Not in POSIX.1-1996.)
+> +.TE
+> +.RE
+> +.PP
+> +The preceding code snippet could thus be rewritten as:
+> +
+> +.nf
+> +.in +4n
+> +statx(AT_FDCWD, pathname, 0, STATX_TYPE, &sb);
+> +if ((sb.stx_mask & STATX_TYPE) && S_ISREG(sb.stx_mode)) {
+> +    /* Handle regular file */
+> +}
+> +.in
+> +.fi
+> +.PP
+> +The definitions of most of the above file type test macros
+> +are provided if any of the following feature test macros is defined:
+> +.BR _BSD_SOURCE
+> +(in glibc 2.19 and earlier),
+> +.BR _SVID_SOURCE
+> +(in glibc 2.19 and earlier),
+> +or
+> +.BR _DEFAULT_SOURCE
+> +(in glibc 2.20 and later).
+> +In addition, definitions of all of the above macros except
+> +.BR S_IFSOCK
+> +and
+> +.BR S_ISSOCK ()
+> +are provided if
+> +.BR _XOPEN_SOURCE
+> +is defined.
+> +The definition of
+> +.BR S_IFSOCK
+> +can also be exposed by defining
+> +.BR _XOPEN_SOURCE
+> +with a value of 500 or greater.
+> +
+> +The definition of
+> +.BR S_ISSOCK ()
+> +is exposed if any of the following feature test macros is defined:
+> +.BR _BSD_SOURCE
+> +(in glibc 2.19 and earlier),
+> +.BR _DEFAULT_SOURCE
+> +(in glibc 2.20 and later),
+> +.BR _XOPEN_SOURCE
+> +with a value of 500 or greater, or
+> +.BR _POSIX_C_SOURCE
+> +with a value of 200112L or greater.
+> +.PP
+> +The following mask values are defined for
+> +the file mode component of the
+> +.I stx_mode
+> +field:
+> +.in +4n
+> +.TS
+> +lB l l.
+> +S_ISUID	  04000	set-user-ID bit
+> +S_ISGID	  02000	set-group-ID bit (see below)
+> +S_ISVTX	  01000	sticky bit (see below)
+> +
+> +S_IRWXU	  00700	owner has read, write, and execute permission
+> +S_IRUSR	  00400	owner has read permission
+> +S_IWUSR	  00200	owner has write permission
+> +S_IXUSR	  00100	owner has execute permission
+> +
+> +S_IRWXG	  00070	group has read, write, and execute permission
+> +S_IRGRP	  00040	group has read permission
+> +S_IWGRP	  00020	group has write permission
+> +S_IXGRP	  00010	group has execute permission
+> +
+> +S_IRWXO	  00007	T{
+> +others (not in group) have read, write, and execute permission
+> +T}
+> +S_IROTH	  00004	others have read permission
+> +S_IWOTH	  00002	others have write permission
+> +S_IXOTH	  00001	others have execute permission
+> +.TE
+> +.in
+> +.P
+> +The set-group-ID bit
+> +.RB ( S_ISGID )
+> +has several special uses.
+> +For a directory, it indicates that BSD semantics is to be used
+> +for that directory: files created there inherit their group ID from
+> +the directory, not from the effective group ID of the creating process,
+> +and directories created there will also get the
+> +.B S_ISGID
+> +bit set.
+> +For a file that does not have the group execution bit
+> +.RB ( S_IXGRP )
+> +set,
+> +the set-group-ID bit indicates mandatory file/record locking.
+> +.P
+> +The sticky bit
+> +.RB ( S_ISVTX )
+> +on a directory means that a file
+> +in that directory can be renamed or deleted only by the owner
+> +of the file, by the owner of the directory, and by a privileged
+> +process.
+> +
+> +
+> +.SH RETURN VALUE
+> +On success, zero is returned.
+> +On error, \-1 is returned, and
+> +.I errno
+> +is set appropriately.
+> +.SH ERRORS
+> +.TP
+> +.B EINVAL
+> +Invalid flag specified in
+> +.IR flags .
+> +.TP
+> +.B EACCES
+> +Search permission is denied for one of the directories
+> +in the path prefix of
+> +.IR pathname .
+> +(See also
+> +.BR path_resolution (7).)
+> +.TP
+> +.B EBADF
+> +.I dirfd
+> +is not a valid open file descriptor.
+> +.TP
+> +.B EFAULT
+> +Bad address.
+> +.TP
+> +.B ELOOP
+> +Too many symbolic links encountered while traversing the path.
+> +.TP
+> +.B ENAMETOOLONG
+> +.I pathname
+> +is too long.
+> +.TP
+> +.B ENOENT
+> +A component of
+> +.I pathname
+> +does not exist, or
+> +.I pathname
+> +is an empty string and AT_EMPTY_PATH was not specified.
+> +.TP
+> +.B ENOMEM
+> +Out of memory (i.e., kernel memory).
+> +.TP
+> +.B ENOTDIR
+> +A component of the path prefix of
+> +.I pathname
+> +is not a directory or
+> +.I pathname
+> +is relative and
+> +.I dirfd
+> +is a file descriptor referring to a file other than a directory.
+> +.SH VERSIONS
+> +.BR statx ()
+> +was added to Linux in kernel 4.11;
+> +library support is not yet added to glibc.
+> +.SH SEE ALSO
+> +.BR ls (1),
+> +.BR stat (1),
+> +.BR access (2),
+> +.BR chmod (2),
+> +.BR chown (2),
+> +.BR stat (2),
+> +.BR readlink (2),
+> +.BR utime (2),
+> +.BR capabilities (7),
+> +.BR symlink (7)
+> 
+
+
 -- 
 Michael Kerrisk
 Linux man-pages maintainer; http://www.kernel.org/doc/man-pages/
 Linux/UNIX System Programming Training: http://man7.org/training/
-
 --
-To unsubscribe, send a message with 'unsubscribe linux-mm' in
-the body to majordomo@kvack.org.  For more info on Linux MM,
-see: http://www.linux-mm.org/ .
-Don't email: <a href=mailto:"dont@kvack.org"> email@kvack.org </a>
+To unsubscribe from this list: send the line "unsubscribe linux-man" in
+the body of a message to majordomo-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
+More majordomo info at  http://vger.kernel.org/majordomo-info.html
