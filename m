@@ -1,123 +1,196 @@
-From: "Michael Kerrisk (man-pages)" <mtk.manpages@gmail.com>
-Subject: Re: [patch] socket.7: Document SO_INCOMING_CPU
-Date: Thu, 20 Apr 2017 16:43:14 +0200
-Message-ID: <1d21aa72-ab2a-0a02-b8d3-dc8b4dd49333@gmail.com>
-References: <CABNn7+rHfUTjMtm3Biqfx83G6Rr7pY-LuHXY=JqA6N3H_SstZg@mail.gmail.com>
- <63815aac-9c8f-c599-9422-5c312cefc9e8@gmail.com>
- <9c754f31-8ace-03f2-97f3-81e29eb6d997@gmail.com>
- <1492621535.22296.8.camel@edumazet-glaptop3.roam.corp.google.com>
- <326b99c3-cc86-3abd-1069-2b3a52d9ba47@gmail.com>
- <1492632801.22296.11.camel@edumazet-glaptop3.roam.corp.google.com>
+From: "Michael Kerrisk (man-pages)" <mtk.manpages-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org>
+Subject: Re: Review request: draft userfaultfd(2) manual page
+Date: Fri, 21 Apr 2017 08:30:55 +0200
+Message-ID: <8269f5a9-a30e-f6dd-edc7-8da9a087bebe@gmail.com>
+References: <487b2c79-f99b-6d0f-2412-aa75cde65569@gmail.com>
+ <20170321140118.GA6471@rapoport-lnx>
 Mime-Version: 1.0
 Content-Type: text/plain; charset=utf-8
-Content-Transfer-Encoding: 7bit
-Return-path: <netdev-owner@vger.kernel.org>
-In-Reply-To: <1492632801.22296.11.camel@edumazet-glaptop3.roam.corp.google.com>
-Sender: netdev-owner@vger.kernel.org
-To: Eric Dumazet <eric.dumazet@gmail.com>
-Cc: mtk.manpages@gmail.com, Francois Saint-Jacques <fsaintjacques@gmail.com>, linux-man@vger.kernel.org, netdev@vger.kernel.org, Eric Dumazet <edumazet@google.com>
+Content-Transfer-Encoding: 8bit
+Return-path: <linux-man-owner-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>
+In-Reply-To: <20170321140118.GA6471@rapoport-lnx>
+Sender: linux-man-owner-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
+To: Mike Rapoport <rppt-23VcF4HTsmIX0ybBhKVfKdBPR1lH4CV8@public.gmane.org>
+Cc: mtk.manpages-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org, Andrea Arcangeli <aarcange-H+wXaHxf7aLQT0dZR+AlfA@public.gmane.org>, lkml <linux-kernel-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>, "linux-mm-Bw31MaZKKs3YtjvyW6yDsg@public.gmane.org" <linux-mm-Bw31MaZKKs3YtjvyW6yDsg@public.gmane.org>, linux-man <linux-man-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>
 List-Id: linux-man@vger.kernel.org
 
-On 04/19/2017 10:13 PM, Eric Dumazet wrote:
-> On Wed, 2017-04-19 at 20:48 +0200, Michael Kerrisk (man-pages) wrote:
->> Hi Eric,
->>
->> [reodering for clarity]
->>
->>>> On 02/19/2017 09:55 PM, Michael Kerrisk (man-pages) wrote:
->>>>> [CC += Eric, so that he might review]
->>>>>
->>>>> Hello Francois,
->>>>>
->>>>> On 02/18/2017 05:06 AM, Francois Saint-Jacques wrote:
->>>>>> This socket option is undocumented. Applies on the latest version
->>>>>> (man-pages-4.09-511).
->>>>>>
->>>>>> diff --git a/man7/socket.7 b/man7/socket.7
->>>>>> index 3efd7a5d8..1a3ffa253 100644
->>>>>> --- a/man7/socket.7
->>>>>> +++ b/man7/socket.7
->>>>>> @@ -490,6 +490,26 @@ flag on a socket
->>>>>>  operation.
->>>>>>  Expects an integer boolean flag.
->>>>>>  .TP
->>>>>> +.BR SO_INCOMING_CPU " (getsockopt since Linux 3.19, setsockopt since
->>>>>> Linux 4.4)"
->>>>>> +.\" getsocktop 2c8c56e15df3d4c2af3d656e44feb18789f75837
->>>>>> +.\" setsocktop 70da268b569d32a9fddeea85dc18043de9d89f89
->>>>>> +Sets or gets the cpu affinity of a socket. Expects an integer flag.
->>>>>> +.sp
->>>>>> +.in +4n
->>>>>> +.nf
->>>>>> +int cpu = 1;
->>>>>> +socklen_t len = sizeof(cpu);
->>>>>> +setsockopt(fd, SOL_SOCKET, SO_INCOMING_CPU, &cpu, &len);
->>>>>> +.fi
->>>>>> +.in
->>>>>> +.sp
->>>>>> +The typical use case is one listener per RX queue, as the associated listener
->>>>>> +should only accept flows handled in softirq by the same cpu.  This provides
->>>>>> +optimal NUMA behavior and keep cpu caches hot.
->>>>>> +.TP
->>>>>>  .B SO_KEEPALIVE
->>>>>>  Enable sending of keep-alive messages on connection-oriented sockets.
->>>>>>  Expects an integer boolean flag.
->>>>>
->>>>> Thank you! Patch applied.
->>>>>
->>>>> I have tried to enhance the description somewhat. I'm not sure whether
->>>>> what I've written is quite correct (or whether it should be further
->>>>> extended). Eric, could you please take a look at the following, and let 
->>>>> me know if anything needs fixing:
->>>>>
->>>>>        SO_INCOMING_CPU  (gettable  since Linux 3.19, settable since Linux
->>>>>        4.4)
->>>>>               Sets or gets the CPU affinity  of  a  socket.   Expects  an
->>>>>               integer flag.
->>>>>
->>>>>                   int cpu = 1;
->>>>>                   socklen_t len = sizeof(cpu);
->>>>>                   setsockopt(fd, SOL_SOCKET, SO_INCOMING_CPU, &cpu, &len);
->>>>>
->>>>>               Because  all  of the packets for a single stream (i.e., all
->>>>>               packets for the same 4-tuple) arrive on the single RX queue
->>>>>               that  is  associated with a particular CPU, the typical use
->>>>>               case is to employ one listening process per RX queue,  with
->>>>>               the  incoming  flow being handled by a listener on the same
->>>>>               CPU that is handling the RX queue.  This  provides  optimal
->>>>>               NUMA behavior and keeps CPU caches hot.
->>
->>> Hi Michael
->>>
->>> Sorry for the delay.
->>
->> Thanks for the reply, but I think you are assuming I know more than 
->> I do. I'd like you to elaborate a little please. See below.
->>
->>> Note that setting the option is not supported if SO_REUSEPORT is used.
->>
->> Please define "not supported". Does this yield an API diagnostic?
->> If so, what is it?
->>
->>> Socket will be selected from an array, either by a hash or BPF program
->>> that has no access to this information.
->>
->> Sorry -- I'm lost here. How does this comment relate to the proposed
->> man page text above?
-> 
-> Simply that :
-> 
-> If an application uses both SO_INCOMING_CPU and SO_REUSEPORT, then
-> SO_REUSEPORT logic, selecting the socket to receive the packet, ignores
-> SO_INCOMING_CPU setting.
-> 
-> This does not need to be documented, because it is an implementation
-> detail/bug that could be changed, if someone cares enough.
+Hello Mike,
 
-Okay, thanks, Eric. I'll just merge the page text as it currently 
-is then.
+On 03/21/2017 03:01 PM, Mike Rapoport wrote:
+> Hello Michael,
+> 
+> On Mon, Mar 20, 2017 at 09:08:05PM +0100, Michael Kerrisk (man-pages) wrote:
+>> Hello Andrea, Mike, and all,
+>>
+>> Mike: thanks for the page that you sent. I've reworked it
+>> a bit, and also added a lot of further information,
+>> and an example program. In the process, I split the page
+>> into two pieces, with one piece describing the userfaultfd()
+>> system call and the other describing the ioctl() operations.
+>>
+>> I'd like to get review input, especially from you and
+>> Andrea, but also anyone else, for the current version
+>> of this page, which includes a few FIXMEs to be sorted.
+> 
+> Thanks for the update. I'm adressing the FIXME points you've mentioned
+> below.
 
-Cheers,
+Thanks!
+
+> Otherwise, everything seems the right description of the current upstream.
+> 4.11 will have quite a few updates to userfault and we'll need to udpate
+> this page and ioctl_userfaultfd(2) to address those updates. I am planning
+> to work on the man update in the next few weeks. 
+>  
+>> I've shown the rendered version of the page below. 
+>> The groff source is attached, and can also be found
+>> at the branch here:
+>  
+>> https://git.kernel.org/pub/scm/docs/man-pages/man-pages.git/log/?h=draft_userfaultfd
+>>
+>> The new ioctl_userfaultfd(2) page follows this mail.
+>>
+>> Cheers,
+>>
+>> Michael
+>  
+> --
+> Sincerely yours,
+> Mike. 
+>  
+> 
+>> USERFAULTFD(2)         Linux Programmer's Manual        USERFAULTFD(2)
+>>
+>> ┌─────────────────────────────────────────────────────┐
+>> │FIXME                                                │
+>> ├─────────────────────────────────────────────────────┤
+>> │Need  to  describe close(2) semantics for userfaulfd │
+>> │file descriptor: what happens when  the  userfaultfd │
+>> │FD is closed?                                        │
+>> │                                                     │
+>> └─────────────────────────────────────────────────────┘
+>  
+> When userfaultfd is closed, it unregisters all memory ranges that were
+> previously registered with it and flushes the outstanding page fault
+> events.
+
+Presumably, this is more precisely stated as, "when the last
+file descriptor referring to a userfaultfd object is closed..."?
+
+I've made the text:
+
+       When the last file descriptor referring to a userfaultfd object
+       is  closed,  all  memory  ranges  that were registered with the
+       object  are  unregistered  and  unread  page-fault  events  are
+       flushed.
+
+[...]
+
+>>    Reading from the userfaultfd structure
+>>        ┌─────────────────────────────────────────────────────┐
+>>        │FIXME                                                │
+>>        ├─────────────────────────────────────────────────────┤
+>>        │are the details below correct?                       │
+>>        └─────────────────────────────────────────────────────┘
+> 
+> Yes, at least for the current upstream version. 4.11 will have quite a few
+> updates to userfaultfd.
+
+Okay.
+
+>>        Each read(2) from the userfaultfd file descriptor  returns  one
+>>        or  more  uffd_msg  structures, each of which describes a page-
+>>        fault event:
+>>
+>>            struct uffd_msg {
+>>                __u8  event;                /* Type of event */
+>>                ...
+>>                union {
+>>                    struct {
+>>                        __u64 flags;        /* Flags describing fault */
+>>                        __u64 address;      /* Faulting address */
+>>                    } pagefault;
+>>                    ...
+>>                } arg;
+>>
+>>                /* Padding fields omitted */
+>>            } __packed;
+>>
+>>        If multiple events are available and  the  supplied  buffer  is
+>>        large enough, read(2) returns as many events as will fit in the
+>>        supplied buffer.  If the buffer supplied to read(2) is  smaller
+>>        than the size of the uffd_msg structure, the read(2) fails with
+>>        the error EINVAL.
+>>
+>>        The fields set in the uffd_msg structure are as follows:
+>>
+>>        event  The type of event.  Currently, only one value can appear
+>>               in  this  field: UFFD_EVENT_PAGEFAULT, which indicates a
+>>               page-fault event.
+>>
+>>        address
+>>               The address that triggered the page fault.
+>>
+>>        flags  A bit mask  of  flags  that  describe  the  event.   For
+>>               UFFD_EVENT_PAGEFAULT, the following flag may appear:
+>>
+>>               UFFD_PAGEFAULT_FLAG_WRITE
+>>                      If  the address is in a range that was registered
+>>                      with the UFFDIO_REGISTER_MODE_MISSING  flag  (see
+>>                      ioctl_userfaultfd(2))  and this flag is set, this
+>>                      a write fault; otherwise it is a read fault.
+>>
+>>        A read(2) on a userfaultfd file descriptor can  fail  with  the
+>>        following errors:
+>>
+>>        EINVAL The  userfaultfd  object  has not yet been enabled using
+>>               the UFFDIO_API ioctl(2) operation
+>>
+>>        The userfaultfd file descriptor can be monitored with  poll(2),
+>>        select(2),  and  epoll(7).  When events are available, the file
+>>        descriptor indicates as readable.
+>>
+>>
+>>        ┌─────────────────────────────────────────────────────┐
+>>        │FIXME                                                │
+>>        ├─────────────────────────────────────────────────────┤
+>>        │But, it seems,  the  object  must  be  created  with │
+>>        │O_NONBLOCK.  What is the rationale for this require‐ │
+>>        │ment? Something needs to  be  said  in  this  manual │
+>>        │page.                                                │
+>>        └─────────────────────────────────────────────────────┘
+> 
+> The object can be created without O_NONBLOCK, so probably the above
+> sentence can be rephrased as:
+> 
+> When the userfaultfd file descriptor is opened in non-blocking mode, it can
+> be monitored with ...
+
+Yes, but why is there this requirement for poll() etc. with the
+O_NONBLOCK flag? I think something about that needs to be said in the 
+man page. Sorry, my FIXME was not clear enough. I've reworded the text 
+and the FIXME:
+
+       If the O_NONBLOCK flag is enabled in the associated  open  file
+       description,  the  userfaultfd file descriptor can be monitored
+       with poll(2), select(2), and epoll(7).  When events are  avail‐
+       able, the file descriptor indicates as readable.  If the O_NON‐
+       BLOCK flag is not enabled, then poll(2) (always) indicates  the
+       file as having a POLLERR condition, and select(2) indicates the
+       file descriptor as both readable and writable.
+
+       ┌─────────────────────────────────────────────────────┐
+       │FIXME                                                │
+       ├─────────────────────────────────────────────────────┤
+       │What is the reason for this seemingly  odd  behavior │
+       │with  respect  to  the  O_NONBLOCK  flag? (see user‐ │
+       │faultfd_poll()  in   fs/userfaultfd.c).    Something │
+       │needs to be said about this.                         │
+       └─────────────────────────────────────────────────────┘
+
+[...]
+
+Thanks,
 
 Michael
 
@@ -125,3 +198,7 @@ Michael
 Michael Kerrisk
 Linux man-pages maintainer; http://www.kernel.org/doc/man-pages/
 Linux/UNIX System Programming Training: http://man7.org/training/
+--
+To unsubscribe from this list: send the line "unsubscribe linux-man" in
+the body of a message to majordomo-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
+More majordomo info at  http://vger.kernel.org/majordomo-info.html
