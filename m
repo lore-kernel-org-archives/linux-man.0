@@ -1,54 +1,36 @@
-From: "Michael Kerrisk (man-pages)" <mtk.manpages-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org>
-Subject: Re: [PATCH] bpf.2: tfix
-Date: Mon, 24 Apr 2017 13:18:08 +0200
-Message-ID: <b4d4973c-29c0-de27-880d-172ea1d6e77c@gmail.com>
-References: <20170424092055.26140-1-alexander@alemayhu.com>
+From: "Ms. Katherine" <ulia-lr1Dud67lTSvSplVBqRQBQ@public.gmane.org>
+Subject: EXTREMELY IMPORTANT
+Date: Mon, 24 Apr 2017 19:52:13 +0100
+Message-ID: <20170424185219.099CD51B334F__14193.7355082066$1493062583$gmane$org@mail.distral.ro>
+Reply-To: kathrynnmison-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org
 Mime-Version: 1.0
-Content-Type: text/plain; charset=windows-1252
-Content-Transfer-Encoding: 7bit
+Content-Type: text/plain; charset="iso-8859-1"
+Content-Transfer-Encoding: 8BIT
 Return-path: <linux-man-owner-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>
-In-Reply-To: <20170424092055.26140-1-alexander-lyk0faqGNUlWk0Htik3J/w@public.gmane.org>
+Content-Description: Mail message body
 Sender: linux-man-owner-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
-To: Alexander Alemayhu <alexander-lyk0faqGNUlWk0Htik3J/w@public.gmane.org>
-Cc: mtk.manpages-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org, linux-man-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
+To: Recipients <ulia-lr1Dud67lTSvSplVBqRQBQ@public.gmane.org>
 List-Id: linux-man@vger.kernel.org
 
-On 04/24/2017 11:20 AM, Alexander Alemayhu wrote:
-> o s/log_bug/log_buf
-> 
-> Signed-off-by: Alexander Alemayhu <alexander-lyk0faqGNUlWk0Htik3J/w@public.gmane.org>
+Dear Beloved, Sorry for the inconvenience, I am getting in touch with you regarding an extremely important and urgent matter, Please I need your urgent assistance and idea to finish up a project (Orphanage Home) Due to my health condition, Everything is available to finish up the project, All I need is your idea and trust.
 
-Thanks, Alexander. Applied.
+Sehr geehrte Geliebte, traurig für die Unannehmlichkeiten, ich bin in Kontakt mit Ihnen über eine äußerst wichtige und dringende Angelegenheit, Bitte brauche ich Ihre dringende Hilfe und Idee, um ein Projekt zu beenden (Orphanage Home) Wegen meines Gesundheitszustandes ist alles verfügbar Beenden Sie das Projekt, Alles was ich brauche ist Ihre Idee und Vertrauen.
 
-Cheers,
+Please contact me for more details.
+Contact Email: kathrynnmison-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org
 
-Michael
+Thanks
 
-
-> ---
->  man2/bpf.2 | 2 +-
->  1 file changed, 1 insertion(+), 1 deletion(-)
-> 
-> diff --git a/man2/bpf.2 b/man2/bpf.2
-> index 5339495769d0..544a3993ef2f 100644
-> --- a/man2/bpf.2
-> +++ b/man2/bpf.2
-> @@ -778,7 +778,7 @@ The format of the output can change at any time as the verifier evolves.
->  .IP *
->  .I log_size
->  size of the buffer pointed to by
-> -.IR log_bug .
-> +.IR log_buf .
->  If the size of the buffer is not large enough to store all
->  verifier messages, \-1 is returned and
->  .I errno
-> 
+---
+This email has been checked for viruses by Avast antivirus software.
+https://www.avast.com/antivirus
 
 
 -- 
-Michael Kerrisk
-Linux man-pages maintainer; http://www.kernel.org/doc/man-pages/
-Linux/UNIX System Programming Training: http://man7.org/training/
+This message has been scanned for viruses and
+dangerous content by MailScanner, and is
+believed to be clean.
+
 --
 To unsubscribe from this list: send the line "unsubscribe linux-man" in
 the body of a message to majordomo-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
