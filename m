@@ -1,23 +1,22 @@
 From: "Michael Kerrisk (man-pages)" <mtk.manpages-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org>
-Subject: Re: [PATCH 2/2] statx.2: tfix
-Date: Tue, 25 Apr 2017 14:47:59 +0200
-Message-ID: <eb9779e8-f248-457e-6c91-f097e7d51112@gmail.com>
-References: <1493122695-8001-1-git-send-email-andrew@digital-domain.net>
- <1493122695-8001-3-git-send-email-andrew@digital-domain.net>
+Subject: Re: [PATCH] Use lower case for hostname example
+Date: Tue, 25 Apr 2017 15:36:25 +0200
+Message-ID: <1d02cae1-f4d0-6e9a-fd72-330b9430e67d@gmail.com>
+References: <142de45e-6ca5-bfea-60ab-9d634740a709@redhat.com>
 Mime-Version: 1.0
-Content-Type: text/plain; charset=windows-1252
+Content-Type: text/plain; charset=utf-8
 Content-Transfer-Encoding: 7bit
 Return-path: <linux-man-owner-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>
-In-Reply-To: <1493122695-8001-3-git-send-email-andrew-gyMb1R/nBgN3uBD2Ct+Y/qxOck334EZe@public.gmane.org>
+In-Reply-To: <142de45e-6ca5-bfea-60ab-9d634740a709-H+wXaHxf7aLQT0dZR+AlfA@public.gmane.org>
 Sender: linux-man-owner-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
-To: Andrew Clayton <andrew-gyMb1R/nBgN3uBD2Ct+Y/qxOck334EZe@public.gmane.org>
-Cc: mtk.manpages-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org, linux-man-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
+To: Marko Myllynen <myllynen-H+wXaHxf7aLQT0dZR+AlfA@public.gmane.org>
+Cc: mtk.manpages-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org, linux-man <linux-man-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>
 List-Id: linux-man@vger.kernel.org
 
-On 04/25/2017 02:18 PM, Andrew Clayton wrote:
-> Signed-off-by: Andrew Clayton <andrew-gyMb1R/nBgN3uBD2Ct+Y/qxOck334EZe@public.gmane.org>
+On 04/18/2017 12:54 PM, Marko Myllynen wrote:
+> I think upper-casing hostnames was a thing of the 90s, is this ok?
 
-Thanks, Andrew. Applied.
+Thanks, Marko. Applied.
 
 Cheers,
 
@@ -25,22 +24,39 @@ Michael
 
 
 > ---
->  man2/statx.2 | 2 +-
->  1 file changed, 1 insertion(+), 1 deletion(-)
+>  man7/hostname.7 | 10 +++++-----
+>  1 file changed, 5 insertions(+), 5 deletions(-)
 > 
-> diff --git a/man2/statx.2 b/man2/statx.2
-> index 12e0846..b2ff1ed 100644
-> --- a/man2/statx.2
-> +++ b/man2/statx.2
-> @@ -44,7 +44,7 @@ statx \- get file status (extended)
->  
->  .IR Note :
->  There is no glibc wrapper for
-> -.BR renameat2 ();
-> +.BR statx ();
->  see NOTES.
+> diff --git a/man7/hostname.7 b/man7/hostname.7
+> index 23c35e9..bc181a9 100644
+> --- a/man7/hostname.7
+> +++ b/man7/hostname.7
+> @@ -41,8 +41,8 @@
+>  hostname \- hostname resolution description
 >  .SH DESCRIPTION
->  .PP
+>  Hostnames are domains, where a domain is a hierarchical, dot-separated
+> -list of subdomains; for example, the machine monet, in the Berkeley
+> -subdomain of the EDU domain would be represented as "monet.Berkeley.EDU".
+> +list of subdomains; for example, the machine "monet", in the "berkeley"
+> +subdomain of the "edu" domain would be represented as "monet.berkeley.edu".
+>  
+>  Hostnames are often used with network client and server programs,
+>  which must generally translate the name to an address for use.
+> @@ -75,9 +75,9 @@ by searching through a list of domains until a match is found.
+>  The default search list includes first the local domain,
+>  then its parent domains with at least 2 name components (longest first).
+>  For example,
+> -in the domain CS.Berkeley.EDU, the name lithium.CChem will be checked first
+> -as lithium.CChem.CS.Berkeley.EDU and then as lithium.CChem.Berkeley.EDU.
+> -Lithium.CChem.EDU will not be tried, as there is only one component
+> +in the domain cs.berkeley.edu, the name lithium.cchem will be checked first
+> +as lithium.cchem.cs.berkeley.edu and then as lithium.cchem.berkeley.edu.
+> +lithium.cchem.edu will not be tried, as there is only one component
+>  remaining from the local domain.
+>  The search path can be changed from the default
+>  by a system-wide configuration file (see
+> 
+> Thanks,
 > 
 
 
