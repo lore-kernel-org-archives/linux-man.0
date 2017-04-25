@@ -1,7 +1,7 @@
 From: Mike Rapoport <rppt@linux.vnet.ibm.com>
-Subject: [PATCH 3/5] ioctl_userfaultfd.2: update UFFDIO_API description
-Date: Tue, 25 Apr 2017 19:29:06 +0300
-Message-ID: <1493137748-32452-4-git-send-email-rppt@linux.vnet.ibm.com>
+Subject: [PATCH 5/5] usefaultfd.2: add brief description of "non-cooperative" mode
+Date: Tue, 25 Apr 2017 19:29:08 +0300
+Message-ID: <1493137748-32452-6-git-send-email-rppt@linux.vnet.ibm.com>
 References: <1493137748-32452-1-git-send-email-rppt@linux.vnet.ibm.com>
 Return-path: <owner-linux-mm@kvack.org>
 In-Reply-To: <1493137748-32452-1-git-send-email-rppt@linux.vnet.ibm.com>
@@ -12,67 +12,34 @@ List-Id: linux-man@vger.kernel.org
 
 Signed-off-by: Mike Rapoport <rppt@linux.vnet.ibm.com>
 ---
- man2/ioctl_userfaultfd.2 | 38 ++++++++++++++++++++++++++++++++------
- 1 file changed, 32 insertions(+), 6 deletions(-)
+ man2/userfaultfd.2 | 14 ++++++++++++++
+ 1 file changed, 14 insertions(+)
 
-diff --git a/man2/ioctl_userfaultfd.2 b/man2/ioctl_userfaultfd.2
-index 78abc4d..dade631 100644
---- a/man2/ioctl_userfaultfd.2
-+++ b/man2/ioctl_userfaultfd.2
-@@ -95,11 +95,6 @@ struct uffdio_api {
- The
- .I api
- field denotes the API version requested by the application.
--Before the call, the
--.I features
--field must be initialized to zero.
--In the future, it is intended that this field can be used to ask
--whether particular features are supported.
- 
- The kernel verifies that it can support the requested API version,
- and sets the
-@@ -109,9 +104,40 @@ and
- fields to bit masks representing all the available features and the generic
- .BR ioctl (2)
- operations available.
--Currently, zero (i.e., no feature bits) is placed in the
+diff --git a/man2/userfaultfd.2 b/man2/userfaultfd.2
+index dc37319..291dd10 100644
+--- a/man2/userfaultfd.2
++++ b/man2/userfaultfd.2
+@@ -89,6 +89,20 @@ them using the operations described in
+ .BR ioctl_userfaultfd (2).
+ When servicing the page fault events,
+ the fault-handling thread can trigger a wake-up for the sleeping thread.
 +
-+For Linux kernel versions before 4.11, the
-+.I features
-+field must be initialized to zero before the call to
-+.I UFFDIO_API
-+, and zero (i.e., no feature bits) is placed in the
-+.I features
-+field by the kernel upon return from
-+.BR ioctl (2).
-+
-+Starting from Linux 4.11, the
-+.I features
-+field can be used to to ask whether particular features are supported
-+and explicitly enable userfaultfd features that are disabled by default.
-+The kernel always reports all the available features in the
- .I features
- field.
-+.\" FIXME add more details about feature negotiation and enablement
-+
-+Since Linux 4.11, the following feature bits may be set:
-+.TP
-+.B UFFD_FEATURE_EVENT_FORK
-+.TP
-+.B UFFD_FEATURE_EVENT_REMAP
-+.TP
-+.B UFFD_FEATURE_EVENT_REMOVE
-+.TP
-+.B UFFD_FEATURE_EVENT_UNMAP
-+.TP
-+.B UFFD_FEATURE_MISSING_HUGETLBFS
-+.TP
-+.B UFFD_FEATURE_MISSING_SHMEM
-+.\" FIXME add feature description
-+
- The returned
- .I ioctls
- field can contain the following bits:
++It is possible for the faulting threads and the fault-handling threads
++to run in the context of different processes.
++In this case, these threads may belong to different programs,
++and the program that executes the faulting threads
++will not necessarily cooperate with the program that handles the page faults.
++In such non-cooperative mode,
++the process that monitors userfaultfd and handles page faults,
++needs to be aware of the changes in the virtual memory layout
++of the faulting process to avoid memory corruption.
++.\" FIXME elaborate about non-cooperating mode, describe its limitations
++.\" for kerneles before 4.11, features added in 4.11
++.\" and limitations remaining in 4.11
++.\" Maybe it's worth adding a dedicated sub-section...
+ .\"
+ .SS Userfaultfd operation
+ After the userfaultfd object is created with
 -- 
 1.9.1
 
