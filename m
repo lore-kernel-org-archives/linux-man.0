@@ -1,7 +1,7 @@
 From: Mike Rapoport <rppt@linux.vnet.ibm.com>
-Subject: [PATCH 2/5] ioctl_userfaultfd.2: describe memory types that can be used from 4.11
-Date: Tue, 25 Apr 2017 19:29:05 +0300
-Message-ID: <1493137748-32452-3-git-send-email-rppt@linux.vnet.ibm.com>
+Subject: [PATCH 4/5] userfaultfd.2: add Linux container migration use-case to NOTES
+Date: Tue, 25 Apr 2017 19:29:07 +0300
+Message-ID: <1493137748-32452-5-git-send-email-rppt@linux.vnet.ibm.com>
 References: <1493137748-32452-1-git-send-email-rppt@linux.vnet.ibm.com>
 Return-path: <owner-linux-mm@kvack.org>
 In-Reply-To: <1493137748-32452-1-git-send-email-rppt@linux.vnet.ibm.com>
@@ -12,31 +12,23 @@ List-Id: linux-man@vger.kernel.org
 
 Signed-off-by: Mike Rapoport <rppt@linux.vnet.ibm.com>
 ---
- man2/ioctl_userfaultfd.2 | 8 ++++++--
- 1 file changed, 6 insertions(+), 2 deletions(-)
+ man2/userfaultfd.2 | 3 ++-
+ 1 file changed, 2 insertions(+), 1 deletion(-)
 
-diff --git a/man2/ioctl_userfaultfd.2 b/man2/ioctl_userfaultfd.2
-index 66fbfdc..78abc4d 100644
---- a/man2/ioctl_userfaultfd.2
-+++ b/man2/ioctl_userfaultfd.2
-@@ -169,11 +169,15 @@ field was not zero.
- (Since Linux 4.3.)
- Register a memory address range with the userfaultfd object.
- The pages in the range must be "compatible".
--In the current implementation,
--.\" According to Mike Rapoport, this will change in Linux 4.11.
-+
-+Up to Linux kernel 4.11,
- only private anonymous ranges are compatible for registering with
- .BR UFFDIO_REGISTER .
- 
-+Since Linux 4.11,
-+hugetlbfs and shared memory ranges are also compatible with
-+.BR UFFDIO_REGISTER .
-+
- The
- .I argp
- argument is a pointer to a
+diff --git a/man2/userfaultfd.2 b/man2/userfaultfd.2
+index c89484f..dc37319 100644
+--- a/man2/userfaultfd.2
++++ b/man2/userfaultfd.2
+@@ -279,7 +279,8 @@ signal and
+ It can also be used to implement lazy restore
+ for checkpoint/restore mechanisms,
+ as well as post-copy migration to allow (nearly) uninterrupted execution
+-when transferring virtual machines from one host to another.
++when transferring virtual machines and Linux containers
++from one host to another.
+ .SH EXAMPLE
+ The program below demonstrates the use of the userfaultfd mechanism.
+ The program creates two threads, one of which acts as the
 -- 
 1.9.1
 
