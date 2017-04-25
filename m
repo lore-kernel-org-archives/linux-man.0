@@ -1,7 +1,7 @@
 From: Mike Rapoport <rppt@linux.vnet.ibm.com>
-Subject: [PATCH 1/5] userfaultfd.2: describe memory types that can be used from 4.11
-Date: Tue, 25 Apr 2017 19:29:04 +0300
-Message-ID: <1493137748-32452-2-git-send-email-rppt@linux.vnet.ibm.com>
+Subject: [PATCH 2/5] ioctl_userfaultfd.2: describe memory types that can be used from 4.11
+Date: Tue, 25 Apr 2017 19:29:05 +0300
+Message-ID: <1493137748-32452-3-git-send-email-rppt@linux.vnet.ibm.com>
 References: <1493137748-32452-1-git-send-email-rppt@linux.vnet.ibm.com>
 Return-path: <owner-linux-mm@kvack.org>
 In-Reply-To: <1493137748-32452-1-git-send-email-rppt@linux.vnet.ibm.com>
@@ -12,28 +12,31 @@ List-Id: linux-man@vger.kernel.org
 
 Signed-off-by: Mike Rapoport <rppt@linux.vnet.ibm.com>
 ---
- man2/userfaultfd.2 | 8 ++++++--
+ man2/ioctl_userfaultfd.2 | 8 ++++++--
  1 file changed, 6 insertions(+), 2 deletions(-)
 
-diff --git a/man2/userfaultfd.2 b/man2/userfaultfd.2
-index 1603c20..c89484f 100644
---- a/man2/userfaultfd.2
-+++ b/man2/userfaultfd.2
-@@ -130,8 +130,12 @@ Details of the various
- operations can be found in
- .BR ioctl_userfaultfd (2).
+diff --git a/man2/ioctl_userfaultfd.2 b/man2/ioctl_userfaultfd.2
+index 66fbfdc..78abc4d 100644
+--- a/man2/ioctl_userfaultfd.2
++++ b/man2/ioctl_userfaultfd.2
+@@ -169,11 +169,15 @@ field was not zero.
+ (Since Linux 4.3.)
+ Register a memory address range with the userfaultfd object.
+ The pages in the range must be "compatible".
+-In the current implementation,
+-.\" According to Mike Rapoport, this will change in Linux 4.11.
++
++Up to Linux kernel 4.11,
+ only private anonymous ranges are compatible for registering with
+ .BR UFFDIO_REGISTER .
  
--Currently, userfaultfd can be used only with anonymous private memory
--mappings.
-+Up to Linux 4.11,
-+userfaultfd can be used only with anonymous private memory mappings.
-+
 +Since Linux 4.11,
-+userfaultfd can be also used with hugetlbfs and shared memory mappings.
++hugetlbfs and shared memory ranges are also compatible with
++.BR UFFDIO_REGISTER .
 +
- .\"
- .SS Reading from the userfaultfd structure
- Each
+ The
+ .I argp
+ argument is a pointer to a
 -- 
 1.9.1
 
