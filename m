@@ -1,124 +1,201 @@
-From: "Michael Kerrisk (man-pages)" <mtk.manpages@gmail.com>
-Subject: Re: [PATCH 0/5] {ioctl_}userfaultfd.2: initial updates for 4.11
-Date: Wed, 26 Apr 2017 10:43:44 +0200
-Message-ID: <4c00c7d5-4636-f425-9bdf-8f744b8bdd63@gmail.com>
-References: <1493137748-32452-1-git-send-email-rppt@linux.vnet.ibm.com>
- <428a9209-e712-7067-ab11-9c35cddcd89e@gmail.com>
- <20170426074339.GE16837@rapoport-lnx>
+From: Marko Myllynen <myllynen-H+wXaHxf7aLQT0dZR+AlfA@public.gmane.org>
+Subject: Re: [PATCH] Use lower case for hostname example
+Date: Wed, 26 Apr 2017 13:07:41 +0300
+Message-ID: <9c83498f-bb57-4263-bfb0-fb12ac5cf8d6@redhat.com>
+References: <142de45e-6ca5-bfea-60ab-9d634740a709@redhat.com>
+ <dc80bc0c-97ed-c06b-a9f8-328f7e9c07f0@redhat.com>
+Reply-To: Marko Myllynen <myllynen-H+wXaHxf7aLQT0dZR+AlfA@public.gmane.org>
 Mime-Version: 1.0
-Content-Type: text/plain; charset=windows-1252
+Content-Type: text/plain; charset=utf-8
 Content-Transfer-Encoding: 7bit
-Return-path: <owner-linux-mm@kvack.org>
-In-Reply-To: <20170426074339.GE16837@rapoport-lnx>
-Sender: owner-linux-mm@kvack.org
-To: Mike Rapoport <rppt@linux.vnet.ibm.com>
-Cc: mtk.manpages@gmail.com, Andrea Arcangeli <aarcange@redhat.com>, linux-kernel@vger.kernel.org, linux-mm@kvack.org, linux-man@vger.kernel.org
+Return-path: <linux-man-owner-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>
+In-Reply-To: <dc80bc0c-97ed-c06b-a9f8-328f7e9c07f0-H+wXaHxf7aLQT0dZR+AlfA@public.gmane.org>
+Sender: linux-man-owner-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
+To: Florian Weimer <fweimer-H+wXaHxf7aLQT0dZR+AlfA@public.gmane.org>, "Michael Kerrisk (man-pages)" <mtk.manpages-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org>
+Cc: linux-man <linux-man-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>
 List-Id: linux-man@vger.kernel.org
 
-Hello Mike,
+Hi,
 
-On 04/26/2017 09:43 AM, Mike Rapoport wrote:
-> On Wed, Apr 26, 2017 at 09:23:45AM +0200, Michael Kerrisk (man-pages) wrote:
->> Hello Mike,
->>
->> On 04/25/2017 06:29 PM, Mike Rapoport wrote:
->>> Hello Michael,
->>>
->>> These patches are some kind of brief highlights of the changes to the
->>> userfaultfd pages.
->>
->> Thanks for the patches. All merged. A few tweaks made,
->> and pushed to Git.
->>
->>> The changes to userfaultfd functionality are also described at update to
->>> Documentation/vm/userfaultfd.txt [1].
->>>
->>> In general, there were three major additions:
->>> * hugetlbfs support
->>> * shmem support
->>> * non-page fault events
->>>
->>> I think we should add some details about using userfaultfd with different
->>> memory types, describe meaning of each feature bits and add some text about
->>> the new events.
->>
->> Agreed.
->>
->>> I haven't updated 'struct uffd_msg' yet, and I hesitate whether it's
->>> description belongs to userfaultfd.2 or ioctl_userfaultfd.2
->>
->> My guess is userfaultfd.2. But, maybe I missed something.
->> What suggests to you that it could be ioctl_userfaultfd.2 instead?
+On 2017-04-18 23:00, Florian Weimer wrote:
+> On 04/18/2017 12:54 PM, Marko Myllynen wrote:
+>> I think upper-casing hostnames was a thing of the 90s, is this ok?
 > 
-> I've started to add relatively elaborate descriptions of UFFD_EVENT_* to
-> ioctl_userfaultfd.2 and I've found that I write a lot about struct uffd_msg
-> fields, but the structure itself is described at userfaultfd.2.
-> Now, when I'm thinking about it, maybe it would be better to put the
-> detailed descriptions of the events in userfaultfd.2 and only brief notes
-> in ioctl_userfaultfd.2.
+> I think the expectation today is to use example (the TLD) or
+> example.com/example.net/example.org in documentation.
 
-Okay -- we can tune as we go along.
+Good point, below are two patches, the first updated hostname.7 to use
+example.com and the second one does the same for mailaddr.7, switches
+the example name to John Doe, and cleans up the page a bit.
 
->>> As for the userfaultfd.7 we've discussed earlier, I believe it would
->>> repeat Documentation/vm/userfaultfd.txt in way, so I'm not really sure it
->>> is required.
->>
->> The thing about kernel Doc files is they are a lot less visible.
->> It would be best I think to have the user-space visible
->> API fully described in man pages...
-> 
-> I agree with the point about the visibility, I just don't know if
-> userfaultfd.7 would be required or we'll have all the necessary bits in
-> {ioctl_}userfaultfd.2. I'm going to add more content to the man2 pages and
-> then we'll see if we need man7 as well.
+Michael, I see mailaddr.7 references to forward.5 which is not
+available, perhaps you can consider could that be imported from FreeBSD
+as well as these pages have been imported in the past?
 
-Okay.
+---
+ man7/hostname.7 | 10 +++++-----
+ 1 file changed, 5 insertions(+), 5 deletions(-)
 
-Cheers,
+diff --git a/man7/hostname.7 b/man7/hostname.7
+index 5c9916c..42981d9 100644
+--- a/man7/hostname.7
++++ b/man7/hostname.7
+@@ -41,8 +41,8 @@
+ hostname \- hostname resolution description
+ .SH DESCRIPTION
+ Hostnames are domains, where a domain is a hierarchical, dot-separated
+-list of subdomains; for example, the machine "monet", in the "berkeley"
+-subdomain of the "edu" domain would be represented as "monet.berkeley.edu".
++list of subdomains; for example, the machine "monet", in the "example"
++subdomain of the "com" domain would be represented as "monet.example.com".
+ 
+ Each element of the hostname must be from 1 to 63 characters long and the
+ entire hostname, including the dots, can be at most 253 characters long.
+@@ -90,9 +90,9 @@ by searching through a list of domains until a match is found.
+ The default search list includes first the local domain,
+ then its parent domains with at least 2 name components (longest first).
+ For example,
+-in the domain cs.berkeley.edu, the name lithium.cchem will be checked first
+-as lithium.cchem.cs.berkeley.edu and then as lithium.cchem.berkeley.edu.
+-lithium.cchem.edu will not be tried, as there is only one component
++in the domain cs.example.com, the name lithium.cchem will be checked first
++as lithium.cchem.cs.example and then as lithium.cchem.example.com.
++lithium.cchem.com will not be tried, as there is only one component
+ remaining from the local domain.
+ The search path can be changed from the default
+ by a system-wide configuration file (see
 
-Michael
 
 
->> Cheers,
->>
->> Michael
->>
->>
->>> [1] https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git/commit/?id=5a02026d390ea1bb0c16a0e214e45613a3e3d885
->>>
->>> Mike Rapoport (5):
->>>   userfaultfd.2: describe memory types that can be used from 4.11
->>>   ioctl_userfaultfd.2: describe memory types that can be used from 4.11
->>>   ioctl_userfaultfd.2: update UFFDIO_API description
->>>   userfaultfd.2: add Linux container migration use-case to NOTES
->>>   usefaultfd.2: add brief description of "non-cooperative" mode
->>>
->>>  man2/ioctl_userfaultfd.2 | 46 ++++++++++++++++++++++++++++++++++++++--------
->>>  man2/userfaultfd.2       | 25 ++++++++++++++++++++++---
->>>  2 files changed, 60 insertions(+), 11 deletions(-)
->>>
->>
->>
->> -- 
->> Michael Kerrisk
->> Linux man-pages maintainer; http://www.kernel.org/doc/man-pages/
->> Linux/UNIX System Programming Training: http://man7.org/training/
->>
-> 
-> --
-> To unsubscribe from this list: send the line "unsubscribe linux-man" in
-> the body of a message to majordomo@vger.kernel.org
-> More majordomo info at  http://vger.kernel.org/majordomo-info.html
-> 
+---
+ man7/mailaddr.7 | 58 +++++++++++++++++++++++++++------------------------------
+ 1 file changed, 27 insertions(+), 31 deletions(-)
 
+diff --git a/man7/mailaddr.7 b/man7/mailaddr.7
+index b8d6221..efee900 100644
+--- a/man7/mailaddr.7
++++ b/man7/mailaddr.7
+@@ -30,8 +30,8 @@
+ mailaddr \- mail addressing description
+ .SH DESCRIPTION
+ .nh
+-This manual page gives a brief introduction to SMTP mail addresses, as
+-used on the Internet.
++This manual page gives a brief introduction to SMTP mail addresses,
++as used on the Internet.
+ These addresses are in the general format
+ .PP
+ 	user@domain
+@@ -39,22 +39,22 @@ These addresses are in the general format
+ where a domain is a hierarchical dot-separated list of subdomains.
+ These examples are valid forms of the same address:
+ .PP
+-	eric-KsCkCVd8X07GMufIjQWhmTe48wsgrGvP@public.gmane.org
++	john.doe-+jUuUzO5CxSkmABc3PwzPQC/G2K4zDHf@public.gmane.org
+ .br
+-	Eric Allman <eric-KsCkCVd8X07GMufIjQWhmTe48wsgrGvP@public.gmane.org>
++	John Doe <john.doe-+jUuUzO5CxSkmABc3PwzPQC/G2K4zDHf@public.gmane.org>
+ .br
+-        eric-KsCkCVd8X07GMufIjQWhmTe48wsgrGvP@public.gmane.org (Eric Allman)
++	john.doe-+jUuUzO5CxSkmABc3PwzPQC/G2K4zDHf@public.gmane.org (John Doe)
+ .PP
+-The domain part ("monet.berkeley.edu") is a mail-accepting domain.
++The domain part ("monet.example.com") is a mail-accepting domain.
+ It can be a host and in the past it usually was, but it doesn't have to be.
+ The domain part is not case sensitive.
+ .PP
+-The local part ("eric") is often a username, but its meaning is
+-defined by the local software.
++The local part ("john.doe") is often a username,
++but its meaning is defined by the local software.
+ Sometimes it is case sensitive,
+ although that is unusual.
+-If you see a local-part that looks like
+-garbage, it is usually because of a gateway between an internal e-mail
++If you see a local-part that looks like garbage,
++it is usually because of a gateway between an internal e-mail
+ system and the net, here are some examples:
+ .PP
+ 	"surname/admd=telemail/c=us/o=hp/prmd=hp"@some.where
+@@ -69,42 +69,39 @@ system and the net, here are some examples:
+ internal mail system that lacks proper internet support, an UUCP
+ gateway, and the last one is just boring username policy.)
+ .PP
+-The real-name part ("Eric Allman") can either be placed before
++The real-name part ("John Doe") can either be placed before
+ <>, or in () at the end.
+ (Strictly speaking the two aren't the same,
+ but the difference is beyond the scope of this page.)
+ The name may have to be quoted using "", for example, if it contains ".":
+ .PP
+-	"Eric P. Allman" <eric-KsCkCVd8X07GMufIjQWhmTe48wsgrGvP@public.gmane.org>
+-.SS Abbreviation.
++	"John Q. Doe" <john.doe-+jUuUzO5CxSkmABc3PwzPQC/G2K4zDHf@public.gmane.org>
++.SS Abbreviation
+ .PP
+-Many mail systems let users abbreviate the domain name.
++Some mail systems let users abbreviate the domain name.
+ For instance,
+-users at berkeley.edu may get away with "eric@monet" to send mail to
+-Eric Allman.
++users at example.com may get away with "john.doe@monet" to
++send mail to John Doe.
+ .I "This behavior is deprecated."
+ Sometimes it works, but you should not depend on it.
+-.SS Route-addrs.
++.SS Route-addrs
+ .PP
+ In the past, sometimes one had to route a message through
+ several hosts to get it to its final destination.
+-Addresses which
+-show these relays are termed "route-addrs".
++Addresses which show these relays are termed "route-addrs".
+ These use the syntax:
+ .PP
+ 	<@hosta,@hostb:user@hostc>
+ .PP
+-This specifies that the message should be sent to hosta, from there
+-to hostb, and finally to hostc.
+-Many hosts disregard route-addrs
+-and send directly to hostc.
++This specifies that the message should be sent to hosta,
++from there to hostb, and finally to hostc.
++Many hosts disregard route-addrs and send directly to hostc.
+ .PP
+ Route-addrs are very unusual now.
+-They occur sometimes in old mail
+-archives.
++They occur sometimes in old mail archives.
+ It is generally possible to ignore all but the "user@hostc"
+ part of the address to determine the actual address.
+-.SS Postmaster.
++.SS Postmaster
+ .PP
+ Every site is required to have a user or user alias designated
+ "postmaster" to which problems with the mail system may be
+@@ -115,12 +112,11 @@ The "postmaster" address is not case sensitive.
+ .br
+ .I ~/.forward
+ .SH SEE ALSO
+-.BR binmail (1),
+ .BR mail (1),
+-.BR mconnect (1),
+ .BR aliases (5),
+ .BR forward (5),
+-.BR sendmail (8),
+-.BR vrfy (8)
++.BR sendmail (8)
+ 
+-RFC\ 2822 (Internet Message Format)
++.UR http://www.ietf.org\:/rfc\:/rfc5322.txt
++IETF RFC\ 5322
++.UE
+
+Thanks,
 
 -- 
-Michael Kerrisk
-Linux man-pages maintainer; http://www.kernel.org/doc/man-pages/
-Linux/UNIX System Programming Training: http://man7.org/training/
-
+Marko Myllynen
 --
-To unsubscribe, send a message with 'unsubscribe linux-mm' in
-the body to majordomo@kvack.org.  For more info on Linux MM,
-see: http://www.linux-mm.org/ .
-Don't email: <a href=mailto:"dont@kvack.org"> email@kvack.org </a>
+To unsubscribe from this list: send the line "unsubscribe linux-man" in
+the body of a message to majordomo-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
+More majordomo info at  http://vger.kernel.org/majordomo-info.html
