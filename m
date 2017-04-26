@@ -1,15 +1,15 @@
 From: "Michael Kerrisk (man-pages)" <mtk.manpages-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org>
-Subject: Re: [PATCH 2/5] ioctl_userfaultfd.2: describe memory types that can
- be used from 4.11
-Date: Wed, 26 Apr 2017 08:52:50 +0200
-Message-ID: <d22cd916-d9fc-71f7-d451-e4cbd818874c@gmail.com>
+Subject: Re: [PATCH 4/5] userfaultfd.2: add Linux container migration use-case
+ to NOTES
+Date: Wed, 26 Apr 2017 09:16:15 +0200
+Message-ID: <2ca614a1-bd71-3bd0-83e7-7628b7221a6c@gmail.com>
 References: <1493137748-32452-1-git-send-email-rppt@linux.vnet.ibm.com>
- <1493137748-32452-3-git-send-email-rppt@linux.vnet.ibm.com>
+ <1493137748-32452-5-git-send-email-rppt@linux.vnet.ibm.com>
 Mime-Version: 1.0
 Content-Type: text/plain; charset=windows-1252
 Content-Transfer-Encoding: 7bit
 Return-path: <linux-man-owner-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>
-In-Reply-To: <1493137748-32452-3-git-send-email-rppt-23VcF4HTsmIX0ybBhKVfKdBPR1lH4CV8@public.gmane.org>
+In-Reply-To: <1493137748-32452-5-git-send-email-rppt-23VcF4HTsmIX0ybBhKVfKdBPR1lH4CV8@public.gmane.org>
 Sender: linux-man-owner-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
 To: Mike Rapoport <rppt-23VcF4HTsmIX0ybBhKVfKdBPR1lH4CV8@public.gmane.org>
 Cc: mtk.manpages-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org, Andrea Arcangeli <aarcange-H+wXaHxf7aLQT0dZR+AlfA@public.gmane.org>, linux-kernel-u79uwXL29TY76Z2rM5mHXA@public.gmane.org, linux-mm-Bw31MaZKKs3YtjvyW6yDsg@public.gmane.org, linux-man-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
@@ -25,31 +25,23 @@ Cheers,
 Michael
 
 > ---
->  man2/ioctl_userfaultfd.2 | 8 ++++++--
->  1 file changed, 6 insertions(+), 2 deletions(-)
+>  man2/userfaultfd.2 | 3 ++-
+>  1 file changed, 2 insertions(+), 1 deletion(-)
 > 
-> diff --git a/man2/ioctl_userfaultfd.2 b/man2/ioctl_userfaultfd.2
-> index 66fbfdc..78abc4d 100644
-> --- a/man2/ioctl_userfaultfd.2
-> +++ b/man2/ioctl_userfaultfd.2
-> @@ -169,11 +169,15 @@ field was not zero.
->  (Since Linux 4.3.)
->  Register a memory address range with the userfaultfd object.
->  The pages in the range must be "compatible".
-> -In the current implementation,
-> -.\" According to Mike Rapoport, this will change in Linux 4.11.
-> +
-> +Up to Linux kernel 4.11,
->  only private anonymous ranges are compatible for registering with
->  .BR UFFDIO_REGISTER .
->  
-> +Since Linux 4.11,
-> +hugetlbfs and shared memory ranges are also compatible with
-> +.BR UFFDIO_REGISTER .
-> +
->  The
->  .I argp
->  argument is a pointer to a
+> diff --git a/man2/userfaultfd.2 b/man2/userfaultfd.2
+> index c89484f..dc37319 100644
+> --- a/man2/userfaultfd.2
+> +++ b/man2/userfaultfd.2
+> @@ -279,7 +279,8 @@ signal and
+>  It can also be used to implement lazy restore
+>  for checkpoint/restore mechanisms,
+>  as well as post-copy migration to allow (nearly) uninterrupted execution
+> -when transferring virtual machines from one host to another.
+> +when transferring virtual machines and Linux containers
+> +from one host to another.
+>  .SH EXAMPLE
+>  The program below demonstrates the use of the userfaultfd mechanism.
+>  The program creates two threads, one of which acts as the
 > 
 
 
