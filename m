@@ -1,107 +1,124 @@
-From: David Howells <dhowells-H+wXaHxf7aLQT0dZR+AlfA@public.gmane.org>
-Subject: [PATCH] uapi: change the type of struct statx_timestamp.tv_nsec to
- unsigned
-Date: Wed, 26 Apr 2017 14:50:00 +0100
-Message-ID: <149321460018.18277.7857539856722003605.stgit@warthog.procyon.org.uk>
+From: David Howells <dhowells@redhat.com>
+Subject: Re: Revised statx(2) man page for review [and AT_EMPTY_PATH question]
+Date: Wed, 26 Apr 2017 16:10:35 +0100
+Message-ID: <20166.1493219435@warthog.procyon.org.uk>
+References: <95977e2e-ac02-9960-4ed3-d9b988bed46a@gmail.com> <f3ef2be8-dfa5-e1dd-2315-d787a2a2acc3@gmail.com> <14390.1493206508@warthog.procyon.org.uk>
 Mime-Version: 1.0
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: 7bit
-Return-path: <linux-man-owner-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>
-Sender: linux-man-owner-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
-To: viro-RmSDqhL/yNMiFSDQTTA3OLVCufUGDwFn@public.gmane.org
-Cc: linux-man-u79uwXL29TY76Z2rM5mHXA@public.gmane.org, linux-api-u79uwXL29TY76Z2rM5mHXA@public.gmane.org, linux-kernel-u79uwXL29TY76Z2rM5mHXA@public.gmane.org, "Dmitry V. Levin" <ldv-u2l5PoMzF/Vg9hUCZPvPmw@public.gmane.org>, dhowells-H+wXaHxf7aLQT0dZR+AlfA@public.gmane.org, mtk.manpages-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org, linux-fsdevel-u79uwXL29TY76Z2rM5mHXA@public.gmane.org, torvalds-de/tnXTf+JLsfHDXvbKv3WD2FQJk+8+b@public.gmane.org
+Content-Type: text/plain; charset=utf-8
+Content-Transfer-Encoding: 8BIT
+Return-path: <linux-kernel-owner@vger.kernel.org>
+In-Reply-To: <95977e2e-ac02-9960-4ed3-d9b988bed46a@gmail.com>
+Sender: linux-kernel-owner@vger.kernel.org
+To: "Michael Kerrisk (man-pages)" <mtk.manpages@gmail.com>
+Cc: dhowells@redhat.com, Alexander Viro <viro@zeniv.linux.org.uk>, Jeff Layton <jlayton@redhat.com>, lkml <linux-kernel@vger.kernel.org>, Linux API <linux-api@vger.kernel.org>, linux-man <linux-man@vger.kernel.org>, "Dmitry V. Levin" <ldv@altlinux.org>
 List-Id: linux-man@vger.kernel.org
 
-From: Dmitry V. Levin <ldv-u2l5PoMzF/Vg9hUCZPvPmw@public.gmane.org>
+Michael Kerrisk (man-pages) <mtk.manpages@gmail.com> wrote:
 
-The comment asserting that the value of struct statx_timestamp.tv_nsec
-must be negative when statx_timestamp.tv_sec is negative, is wrong, as
-could be seen from the following example:
+> > This indicates what stx_attributes the VFS and filesystem actually support.
+> > 
+> >>                __s32 tv_nsec;   /* Nanoseconds before or since tv_sec */
+> > 
+> > If you're going to do Dmitry's suggestion, then this needs to be __u32 and you
+> > should remove "before or".
+> 
+> I think the question is rather: what is going to be done to the API?
+> Will it be changed as Dmitry suggests?
 
-	#define _FILE_OFFSET_BITS 64
-	#include <assert.h>
-	#include <fcntl.h>
-	#include <stdio.h>
-	#include <sys/stat.h>
-	#include <unistd.h>
-	#include <asm/unistd.h>
-	#include <linux/stat.h>
+I've forwarded Dmitry's patch to this effect.
 
-	int main(void)
-	{
-		static const struct timespec ts[2] = {
-			{ .tv_nsec = UTIME_OMIT },
-			{ .tv_sec = -2, .tv_nsec = 42 }
-		};
-		assert(utimensat(AT_FDCWD, ".", ts, 0) == 0);
+> Having two ways to do something is odd, and redundant. Note
+> of the other APIs that provide this functionality do so
+> in both ways, AFAIK. It's not a big problem, but certainly
+> strange. If you settle on having just one, then I'd say
+> choose AT_EMPTY_PATH.
 
-		struct stat st;
-		assert(stat(".", &st) == 0);
-		printf("st_mtim.tv_sec = %lld, st_mtim.tv_nsec = %lu\n",
-		       (long long) st.st_mtim.tv_sec,
-		       (unsigned long) st.st_mtim.tv_nsec);
+If I choose that, I presume I would have to give EINVAL if the path is NULL or
+anything other than ""?
 
-		struct statx stx;
-		assert(syscall(__NR_statx, AT_FDCWD, ".", 0, 0, &stx) == 0);
-		printf("stx_mtime.tv_sec = %lld, stx_mtime.tv_nsec = %lu\n",
-		       (long long) stx.stx_mtime.tv_sec,
-		       (unsigned long) stx.stx_mtime.tv_nsec);
+> Under ERRORS I added:
+> 
+> .TP
+> .B EINVAL
+> Reserved flag specified in
+> .IR mask .
+> 
+> Okay?
 
-		return 0;
-	}
+That's fine.
 
-It expectedly prints:
-st_mtim.tv_sec = -2, st_mtim.tv_nsec = 42
-stx_mtime.tv_sec = -2, stx_mtime.tv_nsec = 42
+> >>        It should be noted that  the  kernel  may  return  fields  that
+> >>        weren't  requested  and  may  fail  to  return fields that were
+> >>        requested, depending on what the backing  filesystem  supports.
+> > 
+> > Maybe add "and can be safely ignored" in there somewhere since this seems to
+> > be upsetting people.
+> 
+> You say "in there somewhere", but it's not quite clear to me which piece 
+> this applies to. Could you propose a wording please.
 
-The more generic comment asserting that the value of struct
-statx_timestamp.tv_nsec might be negative is confusing to say the least.
+Can you do footnotes in roff?
 
-It contradicts both the struct stat.st_[acm]time_nsec tradition and
-struct timespec.tv_nsec requirements in utimensat syscall.
-If statx syscall ever returns a stx_[acm]time containing a negative
-tv_nsec that cannot be passed unmodified to utimensat syscall,
-it will cause an immense confusion.
+	It should be noted that  the  kernel  may  return  fields  that
+	weren't  requested[*]  and  may  fail  to  return fields that were
+	requested, depending on what the backing  filesystem  supports.
 
-Fix this source of confusion by changing the type of struct
-statx_timestamp.tv_nsec from __s32 to __u32.
+	[*] These can be safely ignored.
 
-Fixes: a528d35e8bfc ("statx: Add a system call to make enhanced file info available")
-Signed-off-by: Dmitry V. Levin <ldv-u2l5PoMzF/Vg9hUCZPvPmw@public.gmane.org>
-Signed-off-by: David Howells <dhowells-H+wXaHxf7aLQT0dZR+AlfA@public.gmane.org>
-cc: linux-api-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
-cc: mtk.manpages-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org
----
+Or maybe:
 
- include/uapi/linux/stat.h |    8 ++------
- 1 file changed, 2 insertions(+), 6 deletions(-)
+	It should be noted that  the  kernel  may  return  fields  that
+	weren't  requested  and  may  fail  to  return fields that were
+	requested, depending on what the backing  filesystem  supports.
+	Fields that are given values despite being unrequested can just
+	be ignored.
 
-diff --git a/include/uapi/linux/stat.h b/include/uapi/linux/stat.h
-index d538897b8e08..17b10304c393 100644
---- a/include/uapi/linux/stat.h
-+++ b/include/uapi/linux/stat.h
-@@ -48,17 +48,13 @@
-  * tv_sec holds the number of seconds before (negative) or after (positive)
-  * 00:00:00 1st January 1970 UTC.
-  *
-- * tv_nsec holds a number of nanoseconds before (0..-999,999,999 if tv_sec is
-- * negative) or after (0..999,999,999 if tv_sec is positive) the tv_sec time.
-- *
-- * Note that if both tv_sec and tv_nsec are non-zero, then the two values must
-- * either be both positive or both negative.
-+ * tv_nsec holds a number of nanoseconds (0..999,999,999) after the tv_sec time.
-  *
-  * __reserved is held in case we need a yet finer resolution.
-  */
- struct statx_timestamp {
- 	__s64	tv_sec;
--	__s32	tv_nsec;
-+	__u32	tv_nsec;
- 	__s32	__reserved;
- };
- 
+> >>        If a filesystem does not support a field or if it has an unrep‐
+> >>        resentable value (for instance, a file with  an  exotic  type),
+> >>        then  the  mask bit corresponding to that field will be cleared
+> >>        in stx_mask even if the user asked for it  and  a  dummy  value
+> >>        will  be  filled in for compatibility purposes if one is avail‐
+> >>        able (e.g., a dummy UID and GID may be specified to mount under
+> >>        some circumstances).
+> > 
+> > I don't promise a dummy value for any "extended" field other than zero.
+> 
+> I don't know what you mean to say here. Do you mean some
+> text in the page should change?
 
---
-To unsubscribe from this list: send the line "unsubscribe linux-man" in
-the body of a message to majordomo-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
-More majordomo info at  http://vger.kernel.org/majordomo-info.html
+The paragraph promises a "dummy value will be filled in for compatibility
+purposes if one is available", but doesn't place any restriction on the fields
+towhich this applies.  This is only true of the basic stat fields; all other
+fields will be cleared if not set.
+
+Maybe we can just leave this as is.  We're not promising a dummy field will
+*always* be emplaced.  We can always say that they're just not available for
+extended fields if someone asks.
+
+Maybe the best thing to do is to simply add "and cleared otherwise." to the
+end of the paragraph.
+
+> > Should this list either be in alphabetical order or offset-in-struct order?
+> 
+> Probably the same order as the struct.
+
+Sounds good.
+
+> Added. But, what does "no usable value here" mean? (The relationship
+> between stx_attributes_mask and stx_attributes still isn't
+> so clear to me.
+
+It's not so obvious with the bits that are currently defined.  But I have a
+patch that adds Windows attribute bits also (for cifs, ntfs, fat, ...).  What
+does it mean, say, if the archive bit is clear?  Does it mean that archive
+isn't set in the fs or that the fs doesn't support it?
+
+Further, I have plans to add a 'setattrx' syscall that takes a statx struct
+and calls notify_change() with its contents in the kernel.  If I do that, I
+need to indicate to notify_change() what changes should be effected.  stx_mask
+covers most of the fields, but not stx_attributes.  Some of these attributes
+would be alterable.
+
+Would you prefer it to be reverted for the moment?
+
+David
