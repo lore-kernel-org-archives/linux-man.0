@@ -1,75 +1,58 @@
-From: Christoph Hellwig <hch-wEGCiKHe2LqWVfeAwA7xHQ@public.gmane.org>
-Subject: Re: [PATCH] uapi: change the type of struct statx_timestamp.tv_nsec
- to unsigned
-Date: Wed, 26 Apr 2017 23:46:36 -0700
-Message-ID: <20170427064636.GA7956@infradead.org>
-References: <149321460018.18277.7857539856722003605.stgit@warthog.procyon.org.uk>
+From: walter harms <wharms-fPG8STNUNVg@public.gmane.org>
+Subject: RFC: syscall(2), annotation
+Date: Thu, 27 Apr 2017 12:55:05 +0200
+Message-ID: <5901CE09.5010301@bfs.de>
+References: <f3ef2be8-dfa5-e1dd-2315-d787a2a2acc3@gmail.com> <14390.1493206508@warthog.procyon.org.uk> <20170426155259.GY29622@ZenIV.linux.org.uk>
+Reply-To: wharms-fPG8STNUNVg@public.gmane.org
 Mime-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
+Content-Type: text/plain; charset=ISO-8859-1
+Content-Transfer-Encoding: 7bit
 Return-path: <linux-man-owner-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>
-Content-Disposition: inline
-In-Reply-To: <149321460018.18277.7857539856722003605.stgit-S6HVgzuS8uM4Awkfq6JHfwNdhmdF6hFW@public.gmane.org>
+In-Reply-To: <20170426155259.GY29622-3bDd1+5oDREiFSDQTTA3OLVCufUGDwFn@public.gmane.org>
 Sender: linux-man-owner-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
-To: David Howells <dhowells-H+wXaHxf7aLQT0dZR+AlfA@public.gmane.org>
-Cc: viro-RmSDqhL/yNMiFSDQTTA3OLVCufUGDwFn@public.gmane.org, linux-man-u79uwXL29TY76Z2rM5mHXA@public.gmane.org, linux-api-u79uwXL29TY76Z2rM5mHXA@public.gmane.org, linux-kernel-u79uwXL29TY76Z2rM5mHXA@public.gmane.org, "Dmitry V. Levin" <ldv-u2l5PoMzF/Vg9hUCZPvPmw@public.gmane.org>, mtk.manpages-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org, linux-fsdevel-u79uwXL29TY76Z2rM5mHXA@public.gmane.org, torvalds-de/tnXTf+JLsfHDXvbKv3WD2FQJk+8+b@public.gmane.org
+To: Al Viro <viro-3bDd1+5oDREiFSDQTTA3OLVCufUGDwFn@public.gmane.org>
+Cc: "Michael Kerrisk (man-pages)" <mtk.manpages-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org>, linux-man <linux-man-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>
 List-Id: linux-man@vger.kernel.org
 
-I think this is the right thing to do, but we'd really need to get this
-in before 4.11 is release and the syscall is out in the wild..
 
-On Wed, Apr 26, 2017 at 02:50:00PM +0100, David Howells wrote:
-> The more generic comment asserting that the value of struct
-> statx_timestamp.tv_nsec might be negative is confusing to say the least.
+
+Am 26.04.2017 17:53, schrieb Al Viro:
+> On Wed, Apr 26, 2017 at 12:35:08PM +0100, David Howells wrote:
 > 
-> It contradicts both the struct stat.st_[acm]time_nsec tradition and
-> struct timespec.tv_nsec requirements in utimensat syscall.
-> If statx syscall ever returns a stx_[acm]time containing a negative
-> tv_nsec that cannot be passed unmodified to utimensat syscall,
-> it will cause an immense confusion.
+>> AT_EMPTY_PATH wasn't there back in 2010.  I could eliminate the:
+>>
+>> 	statx(fd, NULL, 0, ...);
+>>
+>> option in favour of:
+>>
+>> 	statx(fd, "", AT_EMPTY_PATH, ...);
+>>
+>> Any thoughts either way, Al?
+>>
+>> It would seem that AT_EMPTY_PATH should be redundant, though, since you can
+>> just set the pathname pointer to NULL.
 > 
-> Fix this source of confusion by changing the type of struct
-> statx_timestamp.tv_nsec from __s32 to __u32.
+> NULL pathname pointer means an error for a lot of existing syscalls, so
+> if you want to turn them into wrappers for ...at() ones at libc level,
+> you'd need to do special-casing of NULL both kernel-side and in libc wrappers.
 > 
-> Fixes: a528d35e8bfc ("statx: Add a system call to make enhanced file info available")
-> Signed-off-by: Dmitry V. Levin <ldv-u2l5PoMzF/Vg9hUCZPvPmw@public.gmane.org>
-> Signed-off-by: David Howells <dhowells-H+wXaHxf7aLQT0dZR+AlfA@public.gmane.org>
-> cc: linux-api-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
-> cc: mtk.manpages-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org
-> ---
-> 
->  include/uapi/linux/stat.h |    8 ++------
->  1 file changed, 2 insertions(+), 6 deletions(-)
-> 
-> diff --git a/include/uapi/linux/stat.h b/include/uapi/linux/stat.h
-> index d538897b8e08..17b10304c393 100644
-> --- a/include/uapi/linux/stat.h
-> +++ b/include/uapi/linux/stat.h
-> @@ -48,17 +48,13 @@
->   * tv_sec holds the number of seconds before (negative) or after (positive)
->   * 00:00:00 1st January 1970 UTC.
->   *
-> - * tv_nsec holds a number of nanoseconds before (0..-999,999,999 if tv_sec is
-> - * negative) or after (0..999,999,999 if tv_sec is positive) the tv_sec time.
-> - *
-> - * Note that if both tv_sec and tv_nsec are non-zero, then the two values must
-> - * either be both positive or both negative.
-> + * tv_nsec holds a number of nanoseconds (0..999,999,999) after the tv_sec time.
->   *
->   * __reserved is held in case we need a yet finer resolution.
->   */
->  struct statx_timestamp {
->  	__s64	tv_sec;
-> -	__s32	tv_nsec;
-> +	__u32	tv_nsec;
->  	__s32	__reserved;
->  };
->  
-> 
-> --
-> To unsubscribe from this list: send the line "unsubscribe linux-api" in
-> the body of a message to majordomo-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
-> More majordomo info at  http://vger.kernel.org/majordomo-info.html
----end quoted text---
+> Requiring "" + AT_EMPTY_PATH means a single dereference of userland pointer.  
+> OTOH, that's not a terrible burden...
+
+
+perhaps this is something the manpage should mention ?
+lately we had some changes in syscall:
+Re: [PATCH] syscall(2): note parisc handling of aligned register pairs
+
+I have no clue about NULL pointers in syscalls() but when we write that
+"General: pathname" (i assume: char *) "NULLpointer mean an error for
+existing syscalls".
+
+This sounds right,
+
+
+
+
 --
 To unsubscribe from this list: send the line "unsubscribe linux-man" in
 the body of a message to majordomo-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
