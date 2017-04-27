@@ -1,34 +1,30 @@
 From: Jakub Wilk <jwilk-tXgOlIzOKNReoWH0uzbU5w@public.gmane.org>
-Subject: [PATCH 3/4] slabinfo.5: tfix
-Date: Thu, 27 Apr 2017 20:49:31 +0200
-Message-ID: <20170427184932.9877-3-jwilk@jwilk.net>
-References: <20170427184932.9877-1-jwilk@jwilk.net>
+Subject: Re: [PATCH 1/2] Changes.old: tfix
+Date: Thu, 27 Apr 2017 20:59:32 +0200
+Message-ID: <20170427185932.2yky6zil64zjmb7s@jwilk.net>
+References: <20170316233101.1343-1-jwilk@jwilk.net>
+ <912d29ad-7940-b414-5c30-192697104065@gmail.com>
+Mime-Version: 1.0
+Content-Type: text/plain; charset=us-ascii; format=flowed
 Return-path: <linux-man-owner-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>
-In-Reply-To: <20170427184932.9877-1-jwilk-tXgOlIzOKNReoWH0uzbU5w@public.gmane.org>
+Content-Disposition: inline
+In-Reply-To: <912d29ad-7940-b414-5c30-192697104065-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org>
 Sender: linux-man-owner-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
 To: Michael Kerrisk <mtk.manpages-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org>
 Cc: linux-man-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
 List-Id: linux-man@vger.kernel.org
 
-Signed-off-by: Jakub Wilk <jwilk-tXgOlIzOKNReoWH0uzbU5w@public.gmane.org>
----
- man5/slabinfo.5 | 2 +-
- 1 file changed, 1 insertion(+), 1 deletion(-)
+* Michael Kerrisk <mtk.manpages-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org>, 2017-03-17, 21:38:
+>By chance I had already fixed this, but hadn't pushed the change yet (sorry!). 
+>Thanks for the patch though.
 
-diff --git a/man5/slabinfo.5 b/man5/slabinfo.5
-index 99a572890..b0c333d52 100644
---- a/man5/slabinfo.5
-+++ b/man5/slabinfo.5
-@@ -1,5 +1,5 @@
- .\" Copyright (c) 2001 Andreas Dilger (adilger-Qbad7dcHD6ajGiRLkfLokA@public.gmane.org)
--.\" and Copyright (c) 2017 Michael kerrisk <mtk.manpages-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org>
-+.\" and Copyright (c) 2017 Michael Kerrisk <mtk.manpages-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org>
- .\"
- .\" %%%LICENSE_START(VERBATIM)
- .\" Permission is granted to make and distribute verbatim copies of this
+AFAICS, you fixed one typo, but not the other:
+
+>>-        Migrated signal-safety discussion to new signal-safet(7) page
+>>+        Migrated signal-safety discussion to new signal-safety(7) page
+
 -- 
-2.13.0.rc0.306.g87b477812d
-
+Jakub Wilk
 --
 To unsubscribe from this list: send the line "unsubscribe linux-man" in
 the body of a message to majordomo-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
