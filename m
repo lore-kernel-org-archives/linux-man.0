@@ -1,245 +1,76 @@
-From: Mike Rapoprt <rppt-23VcF4HTsmIX0ybBhKVfKdBPR1lH4CV8@public.gmane.org>
-Subject: Re: [PATCH man-pages 1/2] userfaultfd.2: start documenting non-cooperative events
-Date: Fri, 28 Apr 2017 12:45:16 +0300
-Message-ID: <190E3CFC-492F-4672-9385-9C3D8F57F26C@linux.vnet.ibm.com>
-References: <1493302474-4701-1-git-send-email-rppt@linux.vnet.ibm.com> <1493302474-4701-2-git-send-email-rppt@linux.vnet.ibm.com> <a95f9ae6-f7db-1ed9-6e25-99ced1fd37a3@gmail.com>
+From: Florian Weimer <fweimer-H+wXaHxf7aLQT0dZR+AlfA@public.gmane.org>
+Subject: Re: Documenting the (dynamic) linking rules for symbol versioning
+Date: Fri, 28 Apr 2017 16:19:28 +0200
+Message-ID: <99f89c1c-86e4-2415-37d5-865a5ba81da2@redhat.com>
+References: <b3a962de-6703-d8b9-18f7-138185171475@gmail.com>
+ <ee5e8057-7afa-c919-8ccb-9c8e6d0833c4@redhat.com>
+ <517c3e75-93b5-0762-d6a4-7a17d196654e@gmail.com>
+ <3edb27c6-c9b6-df95-3810-a8b5abc740fb@redhat.com>
+ <23c0ee0f-3abe-d411-b8fc-821d91b75fa7@gmail.com>
+ <5093fc5e-2f99-edff-b657-5f93f978ce1e@redhat.com>
+ <0409f767-3ae3-48f0-4836-8694361c755c@gmail.com>
 Mime-Version: 1.0
-Content-Type: text/plain;
- charset=utf-8
-Content-Transfer-Encoding: 8BIT
+Content-Type: text/plain; charset=utf-8; format=flowed
+Content-Transfer-Encoding: 7bit
 Return-path: <linux-man-owner-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>
-In-Reply-To: <a95f9ae6-f7db-1ed9-6e25-99ced1fd37a3-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org>
+In-Reply-To: <0409f767-3ae3-48f0-4836-8694361c755c-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org>
+Content-Language: en-US
 Sender: linux-man-owner-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
-Cc: mtk.manpages-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org, Andrea Arcangeli <aarcange-H+wXaHxf7aLQT0dZR+AlfA@public.gmane.org>, linux-kernel-u79uwXL29TY76Z2rM5mHXA@public.gmane.org, linux-mm-Bw31MaZKKs3YtjvyW6yDsg@public.gmane.org, linux-man-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
+To: "Michael Kerrisk (man-pages)" <mtk.manpages-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org>, "libc-alpha-9JcytcrH/bA+uJoB2kUjGw@public.gmane.org" <libc-alpha-9JcytcrH/bA+uJoB2kUjGw@public.gmane.org>
+Cc: linux-man <linux-man-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>, Siddhesh Poyarekar <siddhesh-9JcytcrH/bA+uJoB2kUjGw@public.gmane.org>, Carlos O'Donell <carlos-H+wXaHxf7aLQT0dZR+AlfA@public.gmane.org>, Rich Felker <dalias-/miJ2pyFWUyWIDz0JBNUog@public.gmane.org>, "H.J. Lu" <hjl.tools-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org>
 List-Id: linux-man@vger.kernel.org
 
+On 04/20/2017 04:07 PM, Michael Kerrisk (man-pages) wrote:
 
+> Suppose we have a version script:
+> 
+> [[
+> VER_1 {
+>      global: xyz;
+>      local: *;
+> };
+> 
+> VER_2 {
+>      ...
+> } VER_1;
+> 
+> VER_3 {
+>      ...
+> } VER_2;
+> ]]
+> 
+> And we have a C file that defines xyz@VER_1, xyz@VER_2, and xyz@VER_3.
+> 
+> Now suppose that we want to add a VER_4 tag to the map, and a new
+> function, abc(), to our C source file (so that we will end up with
+> a symbol abc@VER_4).
+> 
+> Suppose also that in programs that link against the new library (built
+> with the VER_4 map), we want the symbol xyz() to no longer be accessible
+> to ld(1). There appears  to be two ways to do this:
+> 
+> * Don't define an xyz@VER_4 (or, of course, xyz@@VER_4) in our
+>    C source file.
+> * Define an xyz@VER_4.
 
-On April 27, 2017 8:26:16 PM GMT+03:00, "Michael Kerrisk (man-pages)" <mtk.manpages-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org> wrote:
->Hi Mike,
->
->I've applied this, but have some questions/points I think 
->further clarification.
->
->On 04/27/2017 04:14 PM, Mike Rapoport wrote:
->> Signed-off-by: Mike Rapoport <rppt-23VcF4HTsmIX0ybBhKVfKdBPR1lH4CV8@public.gmane.org>
->> ---
->>  man2/userfaultfd.2 | 135
->++++++++++++++++++++++++++++++++++++++++++++++++++---
->>  1 file changed, 128 insertions(+), 7 deletions(-)
->> 
->> diff --git a/man2/userfaultfd.2 b/man2/userfaultfd.2
->> index cfea5cb..44af3e4 100644
->> --- a/man2/userfaultfd.2
->> +++ b/man2/userfaultfd.2
->> @@ -75,7 +75,7 @@ flag in
->>  .PP
->>  When the last file descriptor referring to a userfaultfd object is
->closed,
->>  all memory ranges that were registered with the object are
->unregistered
->> -and unread page-fault events are flushed.
->> +and unread events are flushed.
->>  .\"
->>  .SS Usage
->>  The userfaultfd mechanism is designed to allow a thread in a
->multithreaded
->> @@ -99,6 +99,20 @@ In such non-cooperative mode,
->>  the process that monitors userfaultfd and handles page faults
->>  needs to be aware of the changes in the virtual memory layout
->>  of the faulting process to avoid memory corruption.
->> +
->> +Starting from Linux 4.11,
->> +userfaultfd may notify the fault-handling threads about changes
->> +in the virtual memory layout of the faulting process.
->> +In addition, if the faulting process invokes
->> +.BR fork (2)
->> +system call,
->> +the userfaultfd objects associated with the parent may be duplicated
->> +into the child process and the userfaultfd monitor will be notified
->> +about the file descriptor associated with the userfault objects
->
->What does "notified about the file descriptor" mean?
+Okay, I think I'm getting our misunderstanding now.
 
-Well, seems that I've made this one really awkward :)
-When the monitored process forks, all the userfault objects associated​ with it are duplicated into the child process. For each duplicated object, userfault generates event of type UFFD_EVENT_FORK and the uffdio_msg for this event contains the file descriptor that should be used to manipulate the duplicated userfault object.
-Hope this clarifies.
+If xyz was previously part of the public API, then one of the versions 
+xyz@VER_1, xyz@VER2, xyz@VER_3 must have been a default version, so 
+probably xyz@@VER_3.
 
->> +created for the child process,
->> +which allows userfaultfd monitor to perform user-space paging
->> +for the child process.
->> +
->>  .\" FIXME elaborate about non-cooperating mode, describe its
->limitations
->>  .\" for kernels before 4.11, features added in 4.11
->>  .\" and limitations remaining in 4.11
->> @@ -144,6 +158,10 @@ Details of the various
->>  operations can be found in
->>  .BR ioctl_userfaultfd (2).
->>  
->> +Since Linux 4.11, events other than page-fault may enabled during
->> +.B UFFDIO_API
->> +operation.
->> +
->>  Up to Linux 4.11,
->>  userfaultfd can be used only with anonymous private memory mappings.
->>  
->> @@ -156,7 +174,8 @@ Each
->>  .BR read (2)
->>  from the userfaultfd file descriptor returns one or more
->>  .I uffd_msg
->> -structures, each of which describes a page-fault event:
->> +structures, each of which describes a page-fault event
->> +or an event required for the non-cooperative userfaultfd usage:
->>  
->>  .nf
->>  .in +4n
->> @@ -168,6 +187,23 @@ struct uffd_msg {
->>              __u64 flags;        /* Flags describing fault */
->>              __u64 address;      /* Faulting address */
->>          } pagefault;
->> +        struct {
->> +            __u32 ufd;          /* userfault file descriptor
->> +                                   of the child process */
->> +        } fork;                 /* since Linux 4.11 */
->> +        struct {
->> +            __u64 from;         /* old address of the
->> +                                   remapped area */
->> +            __u64 to;           /* new address of the
->> +                                   remapped area */
->> +            __u64 len;          /* original mapping length */
->> +        } remap;                /* since Linux 4.11 */
->> +        struct {
->> +            __u64 start;        /* start address of the
->> +                                   removed area */
->> +            __u64 end;          /* end address of the
->> +                                   removed area */
->> +        } remove;               /* since Linux 4.11 */
->>          ...
->>      } arg;
->>  
->> @@ -194,14 +230,73 @@ structure are as follows:
->>  .TP
->>  .I event
->>  The type of event.
->> -Currently, only one value can appear in this field:
->> -.BR UFFD_EVENT_PAGEFAULT ,
->> -which indicates a page-fault event.
->> +Depending of the event type,
->> +different fields of the
->> +.I arg
->> +union represent details required for the event processing.
->> +The non-page-fault events are generated only when appropriate
->feature
->> +is enabled during API handshake with
->> +.B UFFDIO_API
->> +.BR ioctl (2).
->> +
->> +The following values can appear in the
->> +.I event
->> +field:
->> +.RS
->> +.TP
->> +.B UFFD_EVENT_PAGEFAULT
->> +A page-fault event.
->> +The page-fault details are available in the
->> +.I pagefault
->> +field.
->>  .TP
->> -.I address
->> +.B UFFD_EVENT_FORK
->> +Generated when the faulting process invokes
->> +.BR fork (2)
->> +system call.
->> +The event details are available in the
->> +.I fork
->> +field.
->> +.\" FIXME descirbe duplication of userfault file descriptor during
->fork
->> +.TP
->> +.B UFFD_EVENT_REMAP
->> +Generated when the faulting process invokes
->> +.BR mremap (2)
->> +system call.
->> +The event details are available in the
->> +.I remap
->> +field.
->> +.TP
->> +.B UFFD_EVENT_REMOVE
->> +Generated when the faulting process invokes
->> +.BR madvise (2)
->> +system call with
->> +.BR MADV_DONTNEED
->> +or
->> +.BR MADV_REMOVE
->> +advice.
->> +The event details are available in the
->> +.I remove
->> +field.
->> +.TP
->> +.B UFFD_EVENT_UNMAP
->> +Generated when the faulting process unmaps a memory range,
->> +either explicitly using
->> +.BR munmap (2)
->> +system call or implicitly during
->> +.BR mmap (2)
->> +or
->> +.BR mremap (2)
->> +system calls.
->> +The event details are available in the
->> +.I remove
->> +field.
->> +.RE
->> +.TP
->> +.I pagefault.address
->>  The address that triggered the page fault.
->>  .TP
->> -.I flags
->> +.I pagefault.flags
->>  A bit mask of flags that describe the event.
->>  For
->>  .BR UFFD_EVENT_PAGEFAULT ,
->> @@ -218,6 +313,32 @@ otherwise it is a read fault.
->>  .\"
->>  .\" UFFD_PAGEFAULT_FLAG_WP is not yet supported.
->>  .RE
->> +.TP
->> +.I fork.ufd
->> +The file descriptor associated with the userfault object
->> +created for the child process
->> +.TP
->> +.I remap.from
->> +The original address of the memory range that was remapped using
->> +.BR mremap (2).
->> +.TP
->> +.I remap.to
->> +The new address of the memory range that was remapped using
->> +.BR mremap (2).
->> +.TP
->> +.I remap.len
->> +The original length of the the memory range that was remapped using
->> +.BR mremap (2).
->> +.TP
->> +.I remove.start
->> +The start address of the memory range that was freed using
->> +.BR madvise (2)
->> +or unmapped
->> +.TP
->> +.I remove.end
->> +The end address of the memory range that was freed using
->> +.BR madvise (2)
->> +or unmapped
->>  .PP
->>  A
->>  .BR read (2)
->
->Cheers,
->
->Michael
+If I understand you correctly, you want to remove xyz from the API.  So 
+we need to get rid of the default version.  In this case, I think most 
+people just use a .symver directive with a non-default versions, in this 
+example xyz@VER_3.  This overrides the version script as far as this 
+particular symbol is concerned.
 
--- 
-Sent from my Android device with K-9 Mail. Please excuse my brevity.
+There is no need to introduce VER_4 for this symbol, default or not.
 
+Does this clarify matters?
+
+Thanks,
+Florian
 --
 To unsubscribe from this list: send the line "unsubscribe linux-man" in
 the body of a message to majordomo-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
