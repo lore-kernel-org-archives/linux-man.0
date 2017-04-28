@@ -1,35 +1,61 @@
 From: "Michael Kerrisk (man-pages)" <mtk.manpages-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org>
-Subject: Re: [PATCH 1/2] Changes.old: tfix
-Date: Fri, 28 Apr 2017 10:01:42 +0200
-Message-ID: <06ae15e4-6a30-7cd8-eea1-3aabd76e86be@gmail.com>
-References: <20170316233101.1343-1-jwilk@jwilk.net>
- <912d29ad-7940-b414-5c30-192697104065@gmail.com>
- <20170427185932.2yky6zil64zjmb7s@jwilk.net>
+Subject: Re: [PATCH 2/2] ldconfig.8: ffix
+Date: Fri, 28 Apr 2017 10:03:27 +0200
+Message-ID: <c3024244-0d73-40fe-6f04-296408f3e53b@gmail.com>
+References: <20170324200024.1239-1-jwilk@jwilk.net>
+ <20170324200024.1239-2-jwilk@jwilk.net>
 Mime-Version: 1.0
-Content-Type: text/plain; charset=windows-1252
+Content-Type: text/plain; charset=utf-8
 Content-Transfer-Encoding: 7bit
 Return-path: <linux-man-owner-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>
-In-Reply-To: <20170427185932.2yky6zil64zjmb7s-tXgOlIzOKNReoWH0uzbU5w@public.gmane.org>
+In-Reply-To: <20170324200024.1239-2-jwilk-tXgOlIzOKNReoWH0uzbU5w@public.gmane.org>
 Sender: linux-man-owner-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
 To: Jakub Wilk <jwilk-tXgOlIzOKNReoWH0uzbU5w@public.gmane.org>
 Cc: mtk.manpages-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org, linux-man-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
 List-Id: linux-man@vger.kernel.org
 
-On 04/27/2017 08:59 PM, Jakub Wilk wrote:
-> * Michael Kerrisk <mtk.manpages-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org>, 2017-03-17, 21:38:
->> By chance I had already fixed this, but hadn't pushed the change yet (sorry!). 
->> Thanks for the patch though.
+On 03/24/2017 09:00 PM, Jakub Wilk wrote:
+> Use italics for metavariables.
 > 
-> AFAICS, you fixed one typo, but not the other:
-> 
->>> -        Migrated signal-safety discussion to new signal-safet(7) page
->>> +        Migrated signal-safety discussion to new signal-safety(7) page
+> Signed-off-by: Jakub Wilk <jwilk-tXgOlIzOKNReoWH0uzbU5w@public.gmane.org>
 
-Thanks for checking. Fixed now.
+Really applied this time :-}. (Sorry, must have got confused 
+while processing the last stream of patches, and *thought*
+I'd applied this one.)
 
 Cheers,
 
 Michael
+
+> ---
+>  man8/ldconfig.8 | 8 ++++----
+>  1 file changed, 4 insertions(+), 4 deletions(-)
+> 
+> diff --git a/man8/ldconfig.8 b/man8/ldconfig.8
+> index c06212ebc..822a885cc 100644
+> --- a/man8/ldconfig.8
+> +++ b/man8/ldconfig.8
+> @@ -118,15 +118,15 @@ or
+>  .IR compat
+>  (default).
+>  .TP
+> -.B \-C cache
+> +.BI "\-C " cache
+>  Use
+> -.B cache
+> +.I cache
+>  instead of
+>  .IR /etc/ld.so.cache .
+>  .TP
+> -.B \-f conf
+> +.BI "\-f " conf
+>  Use
+> -.B conf
+> +.I conf
+>  instead of
+>  .IR /etc/ld.so.conf .
+>  .\" FIXME glibc 2.7 added -i
+> 
 
 
 -- 
