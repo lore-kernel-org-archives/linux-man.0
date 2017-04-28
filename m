@@ -1,14 +1,14 @@
 From: "Michael Kerrisk (man-pages)" <mtk.manpages-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org>
-Subject: Re: [PATCH 3/4] slabinfo.5: tfix
-Date: Fri, 28 Apr 2017 10:05:06 +0200
-Message-ID: <3142bcd9-2373-566c-92f1-7c42bae03f53@gmail.com>
+Subject: Re: [PATCH 4/4] inode.7: tfix
+Date: Fri, 28 Apr 2017 10:05:46 +0200
+Message-ID: <1ecde91d-72c0-56d5-5ab9-35de1e1c78d4@gmail.com>
 References: <20170427184932.9877-1-jwilk@jwilk.net>
- <20170427184932.9877-3-jwilk@jwilk.net>
+ <20170427184932.9877-4-jwilk@jwilk.net>
 Mime-Version: 1.0
 Content-Type: text/plain; charset=windows-1252
 Content-Transfer-Encoding: 7bit
 Return-path: <linux-man-owner-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>
-In-Reply-To: <20170427184932.9877-3-jwilk-tXgOlIzOKNReoWH0uzbU5w@public.gmane.org>
+In-Reply-To: <20170427184932.9877-4-jwilk-tXgOlIzOKNReoWH0uzbU5w@public.gmane.org>
 Sender: linux-man-owner-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
 To: Jakub Wilk <jwilk-tXgOlIzOKNReoWH0uzbU5w@public.gmane.org>
 Cc: mtk.manpages-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org, linux-man-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
@@ -17,8 +17,6 @@ List-Id: linux-man@vger.kernel.org
 On 04/27/2017 08:49 PM, Jakub Wilk wrote:
 > Signed-off-by: Jakub Wilk <jwilk-tXgOlIzOKNReoWH0uzbU5w@public.gmane.org>
 
-D'oh!
-
 Applied. Thanks, Jakub.
 
 Cheers,
@@ -26,22 +24,32 @@ Cheers,
 Michael
 
 
-
 > ---
->  man5/slabinfo.5 | 2 +-
->  1 file changed, 1 insertion(+), 1 deletion(-)
+>  man7/inode.7 | 4 ++--
+>  1 file changed, 2 insertions(+), 2 deletions(-)
 > 
-> diff --git a/man5/slabinfo.5 b/man5/slabinfo.5
-> index 99a572890..b0c333d52 100644
-> --- a/man5/slabinfo.5
-> +++ b/man5/slabinfo.5
-> @@ -1,5 +1,5 @@
->  .\" Copyright (c) 2001 Andreas Dilger (adilger-Qbad7dcHD6ajGiRLkfLokA@public.gmane.org)
-> -.\" and Copyright (c) 2017 Michael kerrisk <mtk.manpages-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org>
-> +.\" and Copyright (c) 2017 Michael Kerrisk <mtk.manpages-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org>
->  .\"
->  .\" %%%LICENSE_START(VERBATIM)
->  .\" Permission is granted to make and distribute verbatim copies of this
+> diff --git a/man7/inode.7 b/man7/inode.7
+> index 931dda9a4..d58391f93 100644
+> --- a/man7/inode.7
+> +++ b/man7/inode.7
+> @@ -92,7 +92,7 @@ The inode records the ID of the group owner of the file.
+>  For newly created files,
+>  the file group ID is either the group ID of the parent directory or
+>  the effective group ID of the creating process,
+> -dependeng on whether or not the set-group-ID bit
+> +depending on whether or not the set-group-ID bit
+>  is set on the parent directory (see below).
+>  The group ID of a file can be changed using
+>  .BR chown (2).
+> @@ -177,7 +177,7 @@ File creation (birth) timestamp (btime)
+>  The file's creation timestamp.
+>  This is set on file creation and not changed subsequently.
+>  
+> -The btime timestamp was not historically present on UNIX syystems
+> +The btime timestamp was not historically present on UNIX systems
+>  and is not currently supported by most Linux filesystems.
+>  .\" FIXME Is it supported on ext4 and XFS?
+>  .TP
 > 
 
 
