@@ -1,105 +1,98 @@
 From: "Michael Kerrisk (man-pages)" <mtk.manpages@gmail.com>
-Subject: Re: [PATCH man-pages 1/2] userfaultfd.2: start documenting
- non-cooperative events
-Date: Mon, 1 May 2017 20:34:16 +0200
-Message-ID: <3cff5638-cb15-50e6-f5a4-d9a0fce643c5@gmail.com>
-References: <1493302474-4701-1-git-send-email-rppt@linux.vnet.ibm.com>
- <1493302474-4701-2-git-send-email-rppt@linux.vnet.ibm.com>
- <a95f9ae6-f7db-1ed9-6e25-99ced1fd37a3@gmail.com>
- <190E3CFC-492F-4672-9385-9C3D8F57F26C@linux.vnet.ibm.com>
+Subject: Re: Documenting the (dynamic) linking rules for symbol versioning
+Date: Mon, 1 May 2017 20:34:23 +0200
+Message-ID: <9a6cfd88-9461-eb1c-0f6b-e3b65279bb45@gmail.com>
+References: <b3a962de-6703-d8b9-18f7-138185171475@gmail.com>
+ <ee5e8057-7afa-c919-8ccb-9c8e6d0833c4@redhat.com>
+ <517c3e75-93b5-0762-d6a4-7a17d196654e@gmail.com>
+ <3edb27c6-c9b6-df95-3810-a8b5abc740fb@redhat.com>
+ <23c0ee0f-3abe-d411-b8fc-821d91b75fa7@gmail.com>
+ <5093fc5e-2f99-edff-b657-5f93f978ce1e@redhat.com>
+ <0409f767-3ae3-48f0-4836-8694361c755c@gmail.com>
+ <99f89c1c-86e4-2415-37d5-865a5ba81da2@redhat.com>
 Mime-Version: 1.0
 Content-Type: text/plain; charset=utf-8
-Content-Transfer-Encoding: 8bit
-Return-path: <owner-linux-mm@kvack.org>
-In-Reply-To: <190E3CFC-492F-4672-9385-9C3D8F57F26C@linux.vnet.ibm.com>
-Sender: owner-linux-mm@kvack.org
-To: Mike Rapoprt <rppt@linux.vnet.ibm.com>
-Cc: mtk.manpages@gmail.com, Andrea Arcangeli <aarcange@redhat.com>, linux-kernel@vger.kernel.org, linux-mm@kvack.org, linux-man@vger.kernel.org
+Content-Transfer-Encoding: 7bit
+Return-path: <libc-alpha-return-78988-glibc-alpha=m.gmane.org@sourceware.org>
+List-Unsubscribe: <mailto:libc-alpha-unsubscribe-glibc-alpha=m.gmane.org@sourceware.org>
+List-Subscribe: <mailto:libc-alpha-subscribe@sourceware.org>
+List-Archive: <http://sourceware.org/ml/libc-alpha/>
+List-Post: <mailto:libc-alpha@sourceware.org>
+List-Help: <mailto:libc-alpha-help@sourceware.org>, <http://sourceware.org/ml/#faqs>
+Sender: libc-alpha-owner@sourceware.org
+In-Reply-To: <99f89c1c-86e4-2415-37d5-865a5ba81da2@redhat.com>
+To: Florian Weimer <fweimer@redhat.com>, "libc-alpha@sourceware.org" <libc-alpha@sourceware.org>
+Cc: mtk.manpages@gmail.com, linux-man <linux-man@vger.kernel.org>, Siddhesh Poyarekar <siddhesh@sourceware.org>, Carlos O'Donell <carlos@redhat.com>, Rich Felker <dalias@aerifal.cx>, "H.J. Lu" <hjl.tools@gmail.com>
 List-Id: linux-man@vger.kernel.org
 
-Hi Mike,
+Hi Florian,
 
-On 04/28/2017 11:45 AM, Mike Rapoprt wrote:
+On 04/28/2017 04:19 PM, Florian Weimer wrote:
+> On 04/20/2017 04:07 PM, Michael Kerrisk (man-pages) wrote:
 > 
+>> Suppose we have a version script:
+>>
+>> [[
+>> VER_1 {
+>>      global: xyz;
+>>      local: *;
+>> };
+>>
+>> VER_2 {
+>>      ...
+>> } VER_1;
+>>
+>> VER_3 {
+>>      ...
+>> } VER_2;
+>> ]]
+>>
+>> And we have a C file that defines xyz@VER_1, xyz@VER_2, and xyz@VER_3.
+>>
+>> Now suppose that we want to add a VER_4 tag to the map, and a new
+>> function, abc(), to our C source file (so that we will end up with
+>> a symbol abc@VER_4).
+>>
+>> Suppose also that in programs that link against the new library (built
+>> with the VER_4 map), we want the symbol xyz() to no longer be accessible
+>> to ld(1). There appears  to be two ways to do this:
+>>
+>> * Don't define an xyz@VER_4 (or, of course, xyz@@VER_4) in our
+>>    C source file.
+>> * Define an xyz@VER_4.
 > 
-> On April 27, 2017 8:26:16 PM GMT+03:00, "Michael Kerrisk (man-pages)" <mtk.manpages@gmail.com> wrote:
->> Hi Mike,
->>
->> I've applied this, but have some questions/points I think 
->> further clarification.
->>
->> On 04/27/2017 04:14 PM, Mike Rapoport wrote:
->>> Signed-off-by: Mike Rapoport <rppt@linux.vnet.ibm.com>
->>> ---
->>>  man2/userfaultfd.2 | 135
->> ++++++++++++++++++++++++++++++++++++++++++++++++++---
->>>  1 file changed, 128 insertions(+), 7 deletions(-)
->>>
->>> diff --git a/man2/userfaultfd.2 b/man2/userfaultfd.2
->>> index cfea5cb..44af3e4 100644
->>> --- a/man2/userfaultfd.2
->>> +++ b/man2/userfaultfd.2
->>> @@ -75,7 +75,7 @@ flag in
->>>  .PP
->>>  When the last file descriptor referring to a userfaultfd object is
->> closed,
->>>  all memory ranges that were registered with the object are
->> unregistered
->>> -and unread page-fault events are flushed.
->>> +and unread events are flushed.
->>>  .\"
->>>  .SS Usage
->>>  The userfaultfd mechanism is designed to allow a thread in a
->> multithreaded
->>> @@ -99,6 +99,20 @@ In such non-cooperative mode,
->>>  the process that monitors userfaultfd and handles page faults
->>>  needs to be aware of the changes in the virtual memory layout
->>>  of the faulting process to avoid memory corruption.
->>> +
->>> +Starting from Linux 4.11,
->>> +userfaultfd may notify the fault-handling threads about changes
->>> +in the virtual memory layout of the faulting process.
->>> +In addition, if the faulting process invokes
->>> +.BR fork (2)
->>> +system call,
->>> +the userfaultfd objects associated with the parent may be duplicated
->>> +into the child process and the userfaultfd monitor will be notified
->>> +about the file descriptor associated with the userfault objects
->>
->> What does "notified about the file descriptor" mean?
+> Okay, I think I'm getting our misunderstanding now.
 > 
-> Well, seems that I've made this one really awkward :)
-> When the monitored process forks, all the userfault objects
-> associated​ with it are duplicated into the child process. For each
-> duplicated object, userfault generates event of type UFFD_EVENT_FORK
-> and the uffdio_msg for this event contains the file descriptor that
-> should be used to manipulate the duplicated userfault object.
-> Hope this clarifies.
+> If xyz was previously part of the public API, then one of the versions 
+> xyz@VER_1, xyz@VER2, xyz@VER_3 must have been a default version, so 
+> probably xyz@@VER_3.
 
-Yes, it's clearer now.
+Yep, that's what I mean...
 
-Mostly what was needed here was a forward reference that mentions
-UFFD_EVENT_FORK explicitly. I added that, and also enhanced the
-text on UFFD_EVENT_FORK a little.
+> If I understand you correctly, you want to remove xyz from the API.  
 
-Also, it's not just fork(2) for which UFFD_EVENT_FORK is generated,
-right? It can also be a clone(2) cal that does not specify
-CLONE_VM, right?
+Yep.
 
-Could you review my changes in commit 522ab2ff6fc9010432a
-to make sure they are okay.
+> So 
+> we need to get rid of the default version.  In this case, I think most 
+> people just use a .symver directive with a non-default versions, in this 
+> example xyz@VER_3.  This overrides the version script as far as this 
+> particular symbol is concerned.
+> 
+> There is no need to introduce VER_4 for this symbol, default or not.
+> 
+> Does this clarify matters?
+
+Yes. I think we understood the same thing just from slightly different
+perspectives. I wasn't sure though, because I'm not completely secure in
+my knowledge of the details.
 
 Cheers,
 
 Michael
 
+
 -- 
 Michael Kerrisk
 Linux man-pages maintainer; http://www.kernel.org/doc/man-pages/
 Linux/UNIX System Programming Training: http://man7.org/training/
-
---
-To unsubscribe, send a message with 'unsubscribe linux-mm' in
-the body to majordomo@kvack.org.  For more info on Linux MM,
-see: http://www.linux-mm.org/ .
-Don't email: <a href=mailto:"dont@kvack.org"> email@kvack.org </a>
