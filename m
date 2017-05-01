@@ -1,62 +1,59 @@
 From: "Michael Kerrisk (man-pages)" <mtk.manpages@gmail.com>
-Subject: Re: [PATCH man-pages 1/5] ioctl_userfaultfd.2: update description of
- shared memory areas
-Date: Mon, 1 May 2017 20:33:31 +0200
-Message-ID: <7ec5dfc0-9d84-e142-bfaa-d96383acbee9@gmail.com>
+Subject: Re: [PATCH man-pages 2/5] ioctl_userfaultfd.2: UFFDIO_COPY: add
+ ENOENT and ENOSPC description
+Date: Mon, 1 May 2017 20:33:36 +0200
+Message-ID: <d621f4e3-01bb-5213-be64-8253d84bddb5@gmail.com>
 References: <1493617399-20897-1-git-send-email-rppt@linux.vnet.ibm.com>
- <1493617399-20897-2-git-send-email-rppt@linux.vnet.ibm.com>
+ <1493617399-20897-3-git-send-email-rppt@linux.vnet.ibm.com>
 Mime-Version: 1.0
 Content-Type: text/plain; charset=windows-1252
 Content-Transfer-Encoding: 7bit
 Return-path: <owner-linux-mm@kvack.org>
-In-Reply-To: <1493617399-20897-2-git-send-email-rppt@linux.vnet.ibm.com>
+In-Reply-To: <1493617399-20897-3-git-send-email-rppt@linux.vnet.ibm.com>
 Sender: owner-linux-mm@kvack.org
 To: Mike Rapoport <rppt@linux.vnet.ibm.com>
 Cc: mtk.manpages@gmail.com, Andrea Arcangeli <aarcange@redhat.com>, linux-kernel@vger.kernel.org, linux-mm@kvack.org, linux-man@vger.kernel.org
 List-Id: linux-man@vger.kernel.org
 
-Hello Mike,
-
-I've applied this patch, but  have a question.
-
 On 05/01/2017 07:43 AM, Mike Rapoport wrote:
 > Signed-off-by: Mike Rapoport <rppt@linux.vnet.ibm.com>
-> ---
->  man2/ioctl_userfaultfd.2 | 13 +++++++++++--
->  1 file changed, 11 insertions(+), 2 deletions(-)
-> 
-> diff --git a/man2/ioctl_userfaultfd.2 b/man2/ioctl_userfaultfd.2
-> index 889feb9..6edd396 100644
-> --- a/man2/ioctl_userfaultfd.2
-> +++ b/man2/ioctl_userfaultfd.2
-> @@ -181,8 +181,17 @@ virtual memory areas
->  .TP
->  .B UFFD_FEATURE_MISSING_SHMEM
->  If this feature bit is set,
-> -the kernel supports registering userfaultfd ranges on tmpfs
-> -virtual memory areas
-> +the kernel supports registering userfaultfd ranges on shared memory areas.
-> +This includes all kernel shared memory APIs:
-> +System V shared memory,
-> +tmpfs,
-> +/dev/zero,
-> +.BR mmap(2)
-> +with
-> +.I MAP_SHARED
-> +flag set,
-> +.BR memfd_create (2),
-> +etc.
->  
->  The returned
->  .I ioctls
 
-Does the change in this patch represent a change that occurred in
-Linux 4.11? If so, I think this needs to be said explicitly in the text.
+Thanks, Mike. Applied.
 
 Cheers,
 
 Michael
 
+
+> ---
+>  man2/ioctl_userfaultfd.2 | 13 +++++++++++++
+>  1 file changed, 13 insertions(+)
+> 
+> diff --git a/man2/ioctl_userfaultfd.2 b/man2/ioctl_userfaultfd.2
+> index 6edd396..e12b9de 100644
+> --- a/man2/ioctl_userfaultfd.2
+> +++ b/man2/ioctl_userfaultfd.2
+> @@ -481,6 +481,19 @@ was invalid.
+>  An invalid bit was specified in the
+>  .IR mode
+>  field.
+> +.TP
+> +.B ENOENT
+> +(Since Linux 4.11)
+> +The faulting process has changed
+> +its virtual memory layout simultaneously with outstanding
+> +.I UFFDIO_COPY
+> +operation.
+> +.TP
+> +.B ENOSPC
+> +(Since Linux 4.11)
+> +The faulting process has exited at the time of
+> +.I UFFDIO_COPY
+> +operation.
+>  .\"
+>  .SS UFFDIO_ZEROPAGE
+>  (Since Linux 4.3.)
+> 
 
 
 -- 
