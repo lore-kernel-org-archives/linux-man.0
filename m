@@ -1,7 +1,7 @@
 From: Mike Rapoport <rppt@linux.vnet.ibm.com>
-Subject: [PATCH man-pages 2/5] ioctl_userfaultfd.2: UFFDIO_COPY: add ENOENT and ENOSPC description
-Date: Mon,  1 May 2017 08:43:16 +0300
-Message-ID: <1493617399-20897-3-git-send-email-rppt@linux.vnet.ibm.com>
+Subject: [PATCH man-pages 1/5] ioctl_userfaultfd.2: update description of shared memory areas
+Date: Mon,  1 May 2017 08:43:15 +0300
+Message-ID: <1493617399-20897-2-git-send-email-rppt@linux.vnet.ibm.com>
 References: <1493617399-20897-1-git-send-email-rppt@linux.vnet.ibm.com>
 Return-path: <owner-linux-mm@kvack.org>
 In-Reply-To: <1493617399-20897-1-git-send-email-rppt@linux.vnet.ibm.com>
@@ -12,33 +12,33 @@ List-Id: linux-man@vger.kernel.org
 
 Signed-off-by: Mike Rapoport <rppt@linux.vnet.ibm.com>
 ---
- man2/ioctl_userfaultfd.2 | 13 +++++++++++++
- 1 file changed, 13 insertions(+)
+ man2/ioctl_userfaultfd.2 | 13 +++++++++++--
+ 1 file changed, 11 insertions(+), 2 deletions(-)
 
 diff --git a/man2/ioctl_userfaultfd.2 b/man2/ioctl_userfaultfd.2
-index 6edd396..e12b9de 100644
+index 889feb9..6edd396 100644
 --- a/man2/ioctl_userfaultfd.2
 +++ b/man2/ioctl_userfaultfd.2
-@@ -481,6 +481,19 @@ was invalid.
- An invalid bit was specified in the
- .IR mode
- field.
-+.TP
-+.B ENOENT
-+(Since Linux 4.11)
-+The faulting process has changed
-+its virtual memory layout simultaneously with outstanding
-+.I UFFDIO_COPY
-+operation.
-+.TP
-+.B ENOSPC
-+(Since Linux 4.11)
-+The faulting process has exited at the time of
-+.I UFFDIO_COPY
-+operation.
- .\"
- .SS UFFDIO_ZEROPAGE
- (Since Linux 4.3.)
+@@ -181,8 +181,17 @@ virtual memory areas
+ .TP
+ .B UFFD_FEATURE_MISSING_SHMEM
+ If this feature bit is set,
+-the kernel supports registering userfaultfd ranges on tmpfs
+-virtual memory areas
++the kernel supports registering userfaultfd ranges on shared memory areas.
++This includes all kernel shared memory APIs:
++System V shared memory,
++tmpfs,
++/dev/zero,
++.BR mmap(2)
++with
++.I MAP_SHARED
++flag set,
++.BR memfd_create (2),
++etc.
+ 
+ The returned
+ .I ioctls
 -- 
 1.9.1
 
