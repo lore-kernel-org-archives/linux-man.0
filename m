@@ -1,7 +1,7 @@
 From: Mike Rapoport <rppt@linux.vnet.ibm.com>
-Subject: [PATCH man-pages 4/5] userfaultfd.2: add note about asynchronios events delivery
-Date: Mon,  1 May 2017 08:43:18 +0300
-Message-ID: <1493617399-20897-5-git-send-email-rppt@linux.vnet.ibm.com>
+Subject: [PATCH man-pages 5/5] userfaultfd.2: update VERSIONS section with 4.11 chanegs
+Date: Mon,  1 May 2017 08:43:19 +0300
+Message-ID: <1493617399-20897-6-git-send-email-rppt@linux.vnet.ibm.com>
 References: <1493617399-20897-1-git-send-email-rppt@linux.vnet.ibm.com>
 Return-path: <owner-linux-mm@kvack.org>
 In-Reply-To: <1493617399-20897-1-git-send-email-rppt@linux.vnet.ibm.com>
@@ -12,32 +12,23 @@ List-Id: linux-man@vger.kernel.org
 
 Signed-off-by: Mike Rapoport <rppt@linux.vnet.ibm.com>
 ---
- man2/userfaultfd.2 | 12 ++++++++++++
- 1 file changed, 12 insertions(+)
+ man2/userfaultfd.2 | 3 +++
+ 1 file changed, 3 insertions(+)
 
 diff --git a/man2/userfaultfd.2 b/man2/userfaultfd.2
-index 8b89162..f177bba 100644
+index f177bba..07a69f1 100644
 --- a/man2/userfaultfd.2
 +++ b/man2/userfaultfd.2
-@@ -112,6 +112,18 @@ created for the child process,
- which allows userfaultfd monitor to perform user-space paging
- for the child process.
- 
-+Unlike page faults which have to be synchronous and require
-+explicit or implicit wakeup,
-+all other events are delivered asynchronously and
-+the non-cooperative process resumes execution as
-+soon as manager executes
-+.BR read(2).
-+The userfaultfd manager should carefully synchronize calls
-+to UFFDIO_COPY with the events processing.
+@@ -404,6 +404,9 @@ Insufficient kernel memory was available.
+ The
+ .BR userfaultfd ()
+ system call first appeared in Linux 4.3.
 +
-+The current asynchronous model of the event delivery is optimal for
-+single threaded non-cooperative userfaultfd manager implementations.
-+
- .\" FIXME elaborate about non-cooperating mode, describe its limitations
- .\" for kernels before 4.11, features added in 4.11
- .\" and limitations remaining in 4.11
++The support for hugetlbfs and shared memory areas and
++non-page-fault events was added in Linux 4.11
+ .SH CONFORMING TO
+ .BR userfaultfd ()
+ is Linux-specific and should not be used in programs intended to be
 -- 
 1.9.1
 
