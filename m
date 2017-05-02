@@ -1,64 +1,62 @@
 From: Mike Rapoport <rppt-23VcF4HTsmIX0ybBhKVfKdBPR1lH4CV8@public.gmane.org>
-Subject: Re: [PATCH man-pages 1/5] ioctl_userfaultfd.2: update description of
- shared memory areas
-Date: Tue, 2 May 2017 12:31:11 +0300
-Message-ID: <20170502093110.GA5910@rapoport-lnx>
+Subject: Re: [PATCH man-pages 3/5] ioctl_userfaultfd.2: add BUGS section
+Date: Tue, 2 May 2017 12:32:59 +0300
+Message-ID: <20170502093252.GB5910@rapoport-lnx>
 References: <1493617399-20897-1-git-send-email-rppt@linux.vnet.ibm.com>
- <1493617399-20897-2-git-send-email-rppt@linux.vnet.ibm.com>
- <7ec5dfc0-9d84-e142-bfaa-d96383acbee9@gmail.com>
+ <1493617399-20897-4-git-send-email-rppt@linux.vnet.ibm.com>
+ <345c064d-83fe-3e40-c5cb-5d4b6e5cdff4@gmail.com>
 Mime-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Return-path: <linux-man-owner-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>
 Content-Disposition: inline
-In-Reply-To: <7ec5dfc0-9d84-e142-bfaa-d96383acbee9-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org>
+In-Reply-To: <345c064d-83fe-3e40-c5cb-5d4b6e5cdff4-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org>
 Sender: linux-man-owner-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
 To: "Michael Kerrisk (man-pages)" <mtk.manpages-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org>
 Cc: Andrea Arcangeli <aarcange-H+wXaHxf7aLQT0dZR+AlfA@public.gmane.org>, linux-kernel-u79uwXL29TY76Z2rM5mHXA@public.gmane.org, linux-mm-Bw31MaZKKs3YtjvyW6yDsg@public.gmane.org, linux-man-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
 List-Id: linux-man@vger.kernel.org
 
-On Mon, May 01, 2017 at 08:33:31PM +0200, Michael Kerrisk (man-pages) wrote:
-> Hello Mike,
+On Mon, May 01, 2017 at 08:33:50PM +0200, Michael Kerrisk (man-pages) wrote:
+> Hi Mike,
 > 
-> I've applied this patch, but  have a question.
+> I've applied this, but have a question.
 > 
 > On 05/01/2017 07:43 AM, Mike Rapoport wrote:
+> > The features handshake is not quite convenient.
+> > Elaborate about it in the BUGS section.
+> > 
 > > Signed-off-by: Mike Rapoport <rppt-23VcF4HTsmIX0ybBhKVfKdBPR1lH4CV8@public.gmane.org>
 > > ---
-> >  man2/ioctl_userfaultfd.2 | 13 +++++++++++--
-> >  1 file changed, 11 insertions(+), 2 deletions(-)
+> >  man2/ioctl_userfaultfd.2 | 9 +++++++++
+> >  1 file changed, 9 insertions(+)
 > > 
 > > diff --git a/man2/ioctl_userfaultfd.2 b/man2/ioctl_userfaultfd.2
-> > index 889feb9..6edd396 100644
+> > index e12b9de..50316de 100644
 > > --- a/man2/ioctl_userfaultfd.2
 > > +++ b/man2/ioctl_userfaultfd.2
-> > @@ -181,8 +181,17 @@ virtual memory areas
-> >  .TP
-> >  .B UFFD_FEATURE_MISSING_SHMEM
-> >  If this feature bit is set,
-> > -the kernel supports registering userfaultfd ranges on tmpfs
-> > -virtual memory areas
-> > +the kernel supports registering userfaultfd ranges on shared memory areas.
-> > +This includes all kernel shared memory APIs:
-> > +System V shared memory,
-> > +tmpfs,
-> > +/dev/zero,
-> > +.BR mmap(2)
-> > +with
-> > +.I MAP_SHARED
-> > +flag set,
-> > +.BR memfd_create (2),
-> > +etc.
-> >  
-> >  The returned
-> >  .I ioctls
+> > @@ -650,6 +650,15 @@ operations are Linux-specific.
+> >  .SH EXAMPLE
+> >  See
+> >  .BR userfaultfd (2).
+> > +.SH BUGS
+> > +In order to detect available userfault features and
+> > +enable certain subset of those features
 > 
-> Does the change in this patch represent a change that occurred in
-> Linux 4.11? If so, I think this needs to be said explicitly in the text.
-
-The patch only extends the description of UFFD_FEATURE_MISSING_SHMEM. The
-feature is indeed available from 4.11, but that is said a few lives above
-(line 136 in ioctl_userfaultfd.2)
+> I changed "certain" to "some". ("certain subset" here also
+> would sound like "some particular subset" of those features.)
+> Okay?
  
+Yes, sure.
+
+> > +the usefault file descriptor must be closed after the first
+> > +.BR UFFDIO_API
+> > +operation that queries features availability and re-opened before
+> > +the second
+> > +.BR UFFDIO_API
+> > +call that actually enables the desired features.
+> >  .SH SEE ALSO
+> >  .BR ioctl (2),
+> >  .BR mmap (2),
+> 
 > Cheers,
 > 
 > Michael
