@@ -1,56 +1,90 @@
-From: "Michael Kerrisk (man-pages)" <mtk.manpages-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org>
-Subject: Re: [PATCH man-pages] tcp.7: tcp_abc was removed in 3.9
-Date: Wed, 3 May 2017 06:45:41 +0200
-Message-ID: <85266ab8-7738-de94-b138-c3f68f87ad21@gmail.com>
-References: <20170503012538.11867-1-chema@google.com>
+From: Stephan Bergmann <sbergman-H+wXaHxf7aLQT0dZR+AlfA@public.gmane.org>
+Subject: [patch] user_namespaces(7) userns_child_exec
+Date: Wed, 3 May 2017 17:25:52 +0200
+Message-ID: <e3c66e88-de0b-4fb6-fc8b-a050902fdc94@redhat.com>
 Mime-Version: 1.0
-Content-Type: text/plain; charset=windows-1252
+Content-Type: text/plain; charset=utf-8; format=flowed
 Content-Transfer-Encoding: 7bit
 Return-path: <linux-man-owner-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>
-In-Reply-To: <20170503012538.11867-1-chema-hpIqsD4AKlfQT0dZR+AlfA@public.gmane.org>
+Content-Language: en-MW
 Sender: linux-man-owner-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
-To: Chema Gonzalez <chema-hpIqsD4AKlfQT0dZR+AlfA@public.gmane.org>
-Cc: mtk.manpages-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org, linux-man-u79uwXL29TY76Z2rM5mHXA@public.gmane.org, chemag-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org
+To: Michael Kerrisk <mtk.manpages-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org>
+Cc: linux-man-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
 List-Id: linux-man@vger.kernel.org
 
-On 05/03/2017 03:25 AM, Chema Gonzalez wrote:
-> From: Chema Gonzalez <chemag-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org>
+[following instructions at 
+<https://www.kernel.org/doc/man-pages/patches.html>:]
 
-Thanks, Chema. Applied.
+While toying around with the userns_child_exec example program on the 
+user_namespaces(7) man page, I noticed two things:
 
-Cheers,
+* In the EXAMPLE section, we need to mount the new /proc before looking 
+at /proc/$$/status, otherwise the latter will print information about 
+the outer namespace's PID 1 (i.e., the real init).  So the two 
+paragraphs need to be swapped.
 
-Michael
+* In the program source, make sure to close pipe_fd[0] in the child 
+before exec'ing.
 
+The below patch is against current git master 
+(0708cba1d9072df6666ae2df949c24fbb87e3c11):
 
-> 
-> Signed-off-by: Chema Gonzalez <chema-hpIqsD4AKlfQT0dZR+AlfA@public.gmane.org>
-> ---
->  man7/tcp.7 | 4 +++-
->  1 file changed, 3 insertions(+), 1 deletion(-)
-> 
-> diff --git a/man7/tcp.7 b/man7/tcp.7
-> index fe3a30710..38e0d022e 100644
-> --- a/man7/tcp.7
-> +++ b/man7/tcp.7
-> @@ -257,7 +257,9 @@ take an integer value, with a nonzero value ("true") meaning that
->  the corresponding option is enabled, and a zero value ("false")
->  meaning that the option is disabled.
->  .TP
-> -.IR tcp_abc " (Integer; default: 0; since Linux 2.6.15)"
-> +.IR tcp_abc " (Integer; default: 0; Linux 2.6.15 to Linux 3.8)"
-> +.\" Since 2.6.15; removed in 3.8
-> +.\" commit ca2eb5679f8ddffff60156af42595df44a315ef0
->  .\" The following is from 2.6.28-rc4: Documentation/networking/ip-sysctl.txt
->  Control the Appropriate Byte Count (ABC), defined in RFC 3465.
->  ABC is a way of increasing the congestion window
-> 
-
-
--- 
-Michael Kerrisk
-Linux man-pages maintainer; http://www.kernel.org/doc/man-pages/
-Linux/UNIX System Programming Training: http://man7.org/training/
+> diff --git a/man7/user_namespaces.7 b/man7/user_namespaces.7
+> index a7a8924..2abfbe5 100644
+> --- a/man7/user_namespaces.7
+> +++ b/man7/user_namespaces.7
+> @@ -971,21 +971,6 @@ bash$ \fBecho $$\fP
+>  .fi
+>  .in
+>  
+> -Inside the user namespace, the shell has user and group ID 0,
+> -and a full set of permitted and effective capabilities:
+> -
+> -.in +4n
+> -.nf
+> -bash$ \fBcat /proc/$$/status | egrep '^[UG]id'\fP
+> -Uid:   0       0       0       0
+> -Gid:   0       0       0       0
+> -bash$ \fBcat /proc/$$/status | egrep '^Cap(Prm|Inh|Eff)'\fP
+> -CapInh:        0000000000000000
+> -CapPrm:        0000001fffffffff
+> -CapEff:        0000001fffffffff
+> -.fi
+> -.in
+> -
+>  Mounting a new
+>  .I /proc
+>  filesystem and listing all of the processes visible
+> @@ -1001,6 +986,21 @@ bash$ \fBps ax\fP
+>     22 pts/3    R+     0:00 ps ax
+>  .fi
+>  .in
+> +
+> +Inside the user namespace, the shell has user and group ID 0,
+> +and a full set of permitted and effective capabilities:
+> +
+> +.in +4n
+> +.nf
+> +bash$ \fBcat /proc/$$/status | egrep '^[UG]id'\fP
+> +Uid:   0       0       0       0
+> +Gid:   0       0       0       0
+> +bash$ \fBcat /proc/$$/status | egrep '^Cap(Prm|Inh|Eff)'\fP
+> +CapInh:        0000000000000000
+> +CapPrm:        0000001fffffffff
+> +CapEff:        0000001fffffffff
+> +.fi
+> +.in
+>  .SS Program source
+>  \&
+>  .nf
+> @@ -1177,6 +1177,7 @@ childFunc(void *arg)
+>                  "Failure in child: read from pipe returned != 0\\n");
+>          exit(EXIT_FAILURE);
+>      }
+> +    close(args\->pipe_fd[0]);
+>  
+>      /* Execute a shell command */
+>  
 --
 To unsubscribe from this list: send the line "unsubscribe linux-man" in
 the body of a message to majordomo-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
