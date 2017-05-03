@@ -1,103 +1,615 @@
 From: "Michael Kerrisk (man-pages)" <mtk.manpages-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org>
-Subject: Re: [patch] user_namespaces(7) userns_child_exec
-Date: Wed, 3 May 2017 19:44:56 +0200
-Message-ID: <dff4ffff-3378-6766-3b87-e875711a8e49@gmail.com>
-References: <e3c66e88-de0b-4fb6-fc8b-a050902fdc94@redhat.com>
+Subject: man-pages-4.11 released
+Date: Wed, 3 May 2017 22:38:06 +0200
+Message-ID: <15a641f8-193c-acba-2e6a-539314480f60@gmail.com>
 Mime-Version: 1.0
 Content-Type: text/plain; charset=utf-8
-Content-Transfer-Encoding: 7bit
+Content-Transfer-Encoding: 8bit
 Return-path: <linux-man-owner-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>
-In-Reply-To: <e3c66e88-de0b-4fb6-fc8b-a050902fdc94-H+wXaHxf7aLQT0dZR+AlfA@public.gmane.org>
 Sender: linux-man-owner-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
-To: Stephan Bergmann <sbergman-H+wXaHxf7aLQT0dZR+AlfA@public.gmane.org>
-Cc: mtk.manpages-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org, linux-man-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
+To: linux-man <linux-man-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>, "libc-alpha-9JcytcrH/bA+uJoB2kUjGw@public.gmane.org" <libc-alpha-9JcytcrH/bA+uJoB2kUjGw@public.gmane.org>
+Cc: mtk.manpages-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org
 List-Id: linux-man@vger.kernel.org
 
-Hello Stephan
+The Linux man-pages maintainer proudly announces:
 
-On 05/03/2017 05:25 PM, Stephan Bergmann wrote:
-> [following instructions at 
-> <https://www.kernel.org/doc/man-pages/patches.html>:]
-> 
-> While toying around with the userns_child_exec example program on the 
-> user_namespaces(7) man page, I noticed two things:
-> 
-> * In the EXAMPLE section, we need to mount the new /proc before looking 
-> at /proc/$$/status, otherwise the latter will print information about 
-> the outer namespace's PID 1 (i.e., the real init).  So the two 
-> paragraphs need to be swapped.
-> 
-> * In the program source, make sure to close pipe_fd[0] in the child 
-> before exec'ing.
-> 
-> The below patch is against current git master 
-> (0708cba1d9072df6666ae2df949c24fbb87e3c11):
+    man-pages-4.11 - man pages for Linux
 
-Thanks for the patch! Unfortunately, it was broken (quoted),
-so I applied the changed manually.
+This release resulted from patches, bug reports, reviews, and comments
+from over 30 contributors. The release sees a large number of changes:
+over 300 commits changing more than 100 pages. The changes include the
+addition of 5 pages, significant rewriting of 1 page, and enhancements
+to many other pages.
+
+Tarball download:
+    http://www.kernel.org/doc/man-pages/download.html
+Git repository:
+    https://git.kernel.org/cgit/docs/man-pages/man-pages.git/
+Online changelog:
+    http://man7.org/linux/man-pages/changelog.html#release_4.11
+
+A short summary of the release is blogged at:
+http://linux-man-pages.blogspot.com/2017/05/man-pages-411-is-released.html
+
+The current version of the pages is browsable at:
+http://man7.org/linux/man-pages/
+
+You are receiving this message either because:
+
+a) You contributed to the content of this release.
+
+b) You are subscribed to linux-man-u79uwXL29TY76Z2rM5mHXA@public.gmane.org or
+libc-alpha-9JcytcrH/bBqeNgBaj97IQ@public.gmane.org
+
+c) I have information (possibly inaccurate) that you are the maintainer
+of a translation of the manual pages, or are the maintainer of the
+manual pages set in a particular distribution, or have expressed
+interest in helping with man-pages maintenance, or have otherwise
+expressed interest in being notified about man-pages releases.
+If you don't want to receive such messages from me, or you know of
+some other translator or maintainer who may want to receive such
+notifications, send me a message.
 
 Cheers,
 
 Michael
 
->> diff --git a/man7/user_namespaces.7 b/man7/user_namespaces.7
->> index a7a8924..2abfbe5 100644
->> --- a/man7/user_namespaces.7
->> +++ b/man7/user_namespaces.7
->> @@ -971,21 +971,6 @@ bash$ \fBecho $$\fP
->>  .fi
->>  .in
->>  
->> -Inside the user namespace, the shell has user and group ID 0,
->> -and a full set of permitted and effective capabilities:
->> -
->> -.in +4n
->> -.nf
->> -bash$ \fBcat /proc/$$/status | egrep '^[UG]id'\fP
->> -Uid:   0       0       0       0
->> -Gid:   0       0       0       0
->> -bash$ \fBcat /proc/$$/status | egrep '^Cap(Prm|Inh|Eff)'\fP
->> -CapInh:        0000000000000000
->> -CapPrm:        0000001fffffffff
->> -CapEff:        0000001fffffffff
->> -.fi
->> -.in
->> -
->>  Mounting a new
->>  .I /proc
->>  filesystem and listing all of the processes visible
->> @@ -1001,6 +986,21 @@ bash$ \fBps ax\fP
->>     22 pts/3    R+     0:00 ps ax
->>  .fi
->>  .in
->> +
->> +Inside the user namespace, the shell has user and group ID 0,
->> +and a full set of permitted and effective capabilities:
->> +
->> +.in +4n
->> +.nf
->> +bash$ \fBcat /proc/$$/status | egrep '^[UG]id'\fP
->> +Uid:   0       0       0       0
->> +Gid:   0       0       0       0
->> +bash$ \fBcat /proc/$$/status | egrep '^Cap(Prm|Inh|Eff)'\fP
->> +CapInh:        0000000000000000
->> +CapPrm:        0000001fffffffff
->> +CapEff:        0000001fffffffff
->> +.fi
->> +.in
->>  .SS Program source
->>  \&
->>  .nf
->> @@ -1177,6 +1177,7 @@ childFunc(void *arg)
->>                  "Failure in child: read from pipe returned != 0\\n");
->>          exit(EXIT_FAILURE);
->>      }
->> +    close(args\->pipe_fd[0]);
->>  
->>      /* Execute a shell command */
->>  
-> 
+==================== Changes in man-pages-4.11 ====================
 
+Released: 2017-05-03, Baden, Switzerland
+
+
+Contributors
+------------
+
+The following people contributed patches/fixes or (noted in brackets
+in the changelog below) reports, notes, and ideas that have been
+incorporated in changes in this release:
+
+Alexander Alemayhu <alexander-lyk0faqGNUlWk0Htik3J/w@public.gmane.org>
+Alexander Miller <alex.miller-Mmb7MZpHnFY@public.gmane.org>
+Andrea Arcangeli <aarcange-H+wXaHxf7aLQT0dZR+AlfA@public.gmane.org>
+Andreas Dilger <adilger-m1MBpc4rdrD3fQ9qLvQP4Q@public.gmane.org>
+Andrew Clayton <andrew-gyMb1R/nBgN3uBD2Ct+Y/qxOck334EZe@public.gmane.org>
+Arnd Bergmann <arnd-r2nGTMty4D4@public.gmane.org>
+Ben Dog <wsy2220-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org>
+Carlos O'Donell <carlos-H+wXaHxf7aLQT0dZR+AlfA@public.gmane.org>
+Chema Gonzalez <chema-hpIqsD4AKlfQT0dZR+AlfA@public.gmane.org>
+Christian Brauner <christian.brauner-GeWIH/nMZzLQT0dZR+AlfA@public.gmane.org>
+Cyril Hrubis <chrubis-AlSwsSmVLrQ@public.gmane.org>
+David Howells <dhowells-H+wXaHxf7aLQT0dZR+AlfA@public.gmane.org>
+Dmitry V. Levin <ldv-u2l5PoMzF/Vg9hUCZPvPmw@public.gmane.org>
+Florian Weimer <fweimer-H+wXaHxf7aLQT0dZR+AlfA@public.gmane.org>
+Francois Saint-Jacques <fsaintjacques-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org>
+Frank Theile
+Georg Sauthoff <mail-vzQcyvifq/Y@public.gmane.org>
+Ian Abbott <abbotti-GUHe90Wt2aFaa/9Udqfwiw@public.gmane.org>
+Jakub Wilk <jwilk-tXgOlIzOKNReoWH0uzbU5w@public.gmane.org>
+Jan Heberer <jangc-zqRNUXuvxA0b1SvskN2V4Q@public.gmane.org>
+Marcin Ślusarz <marcin.slusarz-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org>
+Marko Myllynen <myllynen-H+wXaHxf7aLQT0dZR+AlfA@public.gmane.org>
+Matthew Wilcox <willy-wEGCiKHe2LqWVfeAwA7xHQ@public.gmane.org>
+Michael Kerrisk <mtk.manpages-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org>
+Mike Frysinger <vapier-aBrp7R+bbdUdnm+yROfE0A@public.gmane.org>
+Mike Rapoport <rppt-23VcF4HTsmIX0ybBhKVfKdBPR1lH4CV8@public.gmane.org>
+Nicolas Biscos <nicolas.biscos+man7-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org>
+Nicolas Iooss <Nicolas.Iooss-D9rjmswh09VWj0EZb7rXcA@public.gmane.org>
+Nikos Mavrogiannopoulos <nmav-H+wXaHxf7aLQT0dZR+AlfA@public.gmane.org>
+Nominal Animal <question-y7mAKc89ibWx1QWIPv/iqaxOck334EZe@public.gmane.org>
+Silvan Jegen <s.jegen-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org>
+Stephan Bergmann <sbergman-H+wXaHxf7aLQT0dZR+AlfA@public.gmane.org>
+Walter Harms <wharms-fPG8STNUNVg@public.gmane.org>
+Zack Weinberg <zackw-VmQCmMdMyN0AvxtiuMwx3w@public.gmane.org>
+丁贵强<dingguiqiang-H32Fclmsjq1BDgjK7y7TUQ@public.gmane.org>
+
+Apologies if I missed anyone!
+
+
+New and rewritten pages
+-----------------------
+
+ioctl_userfaultfd.2
+    Michael Kerrisk, Mike Rapoport
+        New page describing ioctl(2) operations for userfaultfd
+
+statx.2
+    David Howells, Michael Kerrisk  [Andreas Dilger]
+        New page describing statx(2) system call added in Linux 4.11
+
+userfaultfd.2
+    Mike Rapoport, Michael Kerrisk  [Andrea Arcangeli]
+        New page describing userfaultfd(2) system call.
+
+pthread_atfork.3
+    Michael Kerrisk
+        New page describing pthread_atfork(3)
+
+slabinfo.5
+    Michael Kerrisk
+        Rewrite to try to bring the content close to current reality
+            There's still gaps to fill in, but the existing page
+            was in any case hugely out of date.
+
+inode.7
+    Michael Kerrisk
+        New page with information about inodes
+            David Howells provided a statx(2) page that duplicated much of
+            the information from stat(2). Avoid such duplication
+            by moving the common information in stat(2) and statx(2)
+            to a new page.
+
+
+Renamed pages
+--------------
+
+ioctl_console.2
+    Michael Kerrisk
+        Renamed from console_ioctl.4
+            Most ioctl() man pages are in section 2, so move this one there
+            for consistency.
+    Michael Kerrisk
+        Note type of 'argp' for a various operations
+            For some commands, there was no clear statement about the type
+            of the 'argp' argument.
+
+ioctl_tty.2
+    Michael Kerrisk
+        Renamed from tty_ioctl(4)
+            All other ioctl(2) pages are in section 2. Make this
+            page consistent.
+    Michael Kerrisk
+        Packet mode state change events give POLLPRI events for poll(2)
+
+
+Newly documented interfaces in existing pages
+---------------------------------------------
+
+ioctl_ns.2
+    Michael Kerrisk
+        Document the NS_GET_NSTYPE operation added in Linux 4.11
+    Michael Kerrisk
+        Document the NS_GET_OWNER_UID operation added in Linux 4.11
+
+proc.5
+    Michael Kerrisk
+        Document /proc/sys/kernel/sched_child_runs_first
+
+namespaces.7
+    Michael Kerrisk
+        Document the /proc/sys/user/* files added in Linux 4.9
+
+socket.7
+    Francois Saint-Jacques, Michael Kerrisk
+        Document SO_INCOMING_CPU
+
+
+New and changed links
+---------------------
+
+console_ioctl.4
+    Michael Kerrisk
+        Link for old name of ioctl_console(2) page
+
+tty_ioctl.4
+    Michael Kerrisk
+        Link for old name of ioctl_tty(2) page
+
+
+Global changes
+--------------
+
+Various pages
+    Michael Kerrisk
+        Change page cross-references from tty_ioctl(4) to ioctl_tty(2)
+    Michael Kerrisk
+        Change page cross-references for console_ioctl(4) to ioctl_console(2)
+
+
+Changes to individual pages
+---------------------------
+
+alarm.2
+    Michael Kerrisk
+        SEE ALSO: add timer_create(2) and timerfd_create(2)
+
+chmod.2
+fsync.2
+mkdir.2
+mknod.2
+open.2
+truncate.2
+umask.2
+utime.2
+utimensat.2
+    Michael Kerrisk
+        Add/replace references to inode(7)
+
+clone.2
+    Michael Kerrisk
+        CLONE_NEWCGROUP by an unprivileged process also causes an EPERM error
+
+clone.2
+unshare.2
+    Michael Kerrisk
+        Exceeding one of the limits in /proc/sys/user/* can cause ENOSPC
+    Michael Kerrisk
+        CLONE_NEWPID yields ENOSPC if nesting limit of PID namespaces is reached
+    Michael Kerrisk
+        Exceeding the maximum nested user namespace limit now gives ENOSPC
+            Formerly, if the limit of 32 nested user namespaces was exceeded,
+            the error EUSERS resulted. Starting with Linux 4.9, the error
+            is ENOSPC.
+
+epoll_ctl.2
+    Michael Kerrisk
+        Defer to poll(2) for an explanation of EPOLLIN
+    Michael Kerrisk  [Nicolas Biscos]
+        EPOLLERR is also set on write end of a pipe when the read end is closed
+    Michael Kerrisk  [Nicolas Biscos]
+        Give the reader a clue that the 'events' field can be zero
+            'events' specified as zero still allows EPOLLHUP and
+            EPOLLERR to be reported.
+
+_exit.2
+    Michael Kerrisk
+        On exit, child processes may be inherited by a "subreaper"
+            It is no longer necessarily true that orphaned processes
+            are inherited by PID 1.
+    Michael Kerrisk
+        Only the least significant byte of exit status is passed to the parent
+
+fcntl.2
+    Michael Kerrisk
+        Mention memfd_create() in the discussion of file seals
+            Give the reader a clue about what kinds of objects can
+            be employed with file seals.
+    Michael Kerrisk
+        File seals are not generally applicable to tmpfs(5) files
+            As far as I can see, file seals can be applied only to
+            memfd_create(2) file descriptors. This was checked by experiment
+            and by reading mm/shmem.c::shmem_get_inode((), where one finds
+            the following line that applies to all new shmem files:
+
+                            info->seals = F_SEAL_SEAL;
+
+            Only in the code of the memfd_create() system call is this
+            setting reversed (in mm/shmem.c::memfd_create):
+
+                    if (flags & MFD_ALLOW_SEALING)
+                            info->seals &= ~F_SEAL_SEAL;
+
+fork.2
+    Michael Kerrisk
+        SEE ALSO: add pthread_atfork(3)
+
+getdents.2
+open.2
+stat.2
+statx.2
+    Michael Kerrisk
+        SEE ALSO: add inode(7)
+
+getdtablesize.2
+attr.5
+    Alexander Miller
+        Move .so directive to first line
+            Improves compatibility with the man and other dumb tools
+            that process man page files.
+
+getpid.2
+    Michael Kerrisk
+        Mention init(1) and "subreapers" in discussion of parent PID
+
+ioctl_list.2
+    Cyril Hrubis  [Arnd Bergmann]
+        BLKRASET/BLKRAGET take unsigned long
+
+ioctl_ns.2
+    Michael Kerrisk
+        ERRORS: document ENOTTY
+
+kexec_load.2
+sched_setaffinity.2
+bootparam.7
+    Michael Kerrisk
+        Documentation/kernel-parameters.txt is now in Documentation/admin-guide/
+
+lseek.2
+    Michael Kerrisk
+        SEE ALSO: add fallocate(2)
+            Both of these pages discuss file holes.
+
+mincore.2
+    Michael Kerrisk
+        SEE ALSO: add fincore(1)
+
+mmap.2
+    Michael Kerrisk
+        Remove ancient reference to flags that appear on some other systems
+            MAP_AUTOGROW, MAP_AUTORESRV, MAP_COPY, and MAP_LOCAL may have
+            appeared on some systems many years ago, but  the discussion here
+            mentions no details and the systems and flags probably ceased to
+            be relevant long ago. So, remove this text.
+    Michael Kerrisk
+        SEE ALSO: add userfaultfd(2)
+
+open.2
+    Michael Kerrisk
+        Add statx() to list of "at" calls in rationale discussion
+
+poll.2
+    Michael Kerrisk
+        Expand discussion of POLLPRI
+    Michael Kerrisk  [Nicolas Biscos]
+        POLLERR is also set on write end of a pipe when the read end is closed
+
+posix_fadvise.2
+    Michael Kerrisk
+        SEE ALSO: add fincore(1)
+
+prctl.2
+    Mike Frysinger
+        PR_SET_MM: Refine CONFIG_CHECKPOINT_RESTORE requirement
+            The Linux 3.10 release dropped the c/r requirement and opened it
+            up to all users.
+    Mike Frysinger
+        PR_SET_MM: Document new PR_SET_MM_MAP{,_SIZE} helpers
+    Mike Frysinger
+        PR_SET_MM: Document arg4/arg5 zero behavior
+            The kernel will immediately reject calls where arg4/arg5 are not
+            zero.  See kernel/sys.c:prctl_set_mm().
+    Michael Kerrisk
+        Explain rationale for use of subreaper processes
+    Michael Kerrisk
+        Note semantics of child_subreaper setting on fork() and exec()
+    Michael Kerrisk
+        Improve description of PR_SET_CHILD_SUBREAPER
+
+rename.2
+    Michael Kerrisk  [Georg Sauthoff]
+        Note that there is no glibc wrapper for renameat2()
+
+sched_setaffinity.2
+    Michael Kerrisk
+        SEE ALSO: add get_nprocs(3)
+
+select.2
+    Michael Kerrisk  [Matthew Wilcox, Carlos O'Donell]
+        Linux select() is buggy wrt POSIX in its check for EBADF errors
+    Michael Kerrisk
+        Show correspondence between select() and poll() readiness notifications
+    Michael Kerrisk
+        Give a hint that sets must be reinitialized if using select() in a loop
+    Michael Kerrisk
+        Refer to POLLPRI in poll(2) for info on exceptional conditions
+    Michael Kerrisk
+        Move mislocated text describing the self-pipe text from BUGS to NOTES
+
+sigaction.2
+    Michael Kerrisk
+        Show the prototype of an SA_SIGINFO signal handler
+
+signalfd.2
+    Michael Kerrisk
+        SIGKILL and SIGSTOP are silently ignored in 'mask'
+
+sigprocmask.2
+    Dmitry V. Levin
+        Do not specify an exact value of rt_sigprocmask's 4th argument
+            As sizeof(kernel_sigset_t) is not the same for all architectures,
+            it would be better not to mention any numbers as its value.
+    Michael Kerrisk
+        'set' and 'oldset' can both be NULL
+
+sigwaitinfo.2
+    Michael Kerrisk
+        sigwaitinfo() can't be used to accept synchronous signals
+
+socketcall.2
+    Mike Frysinger
+       Document call argument
+
+stat.2
+    Michael Kerrisk
+        Remove information migrated to inode(7) page
+    Michael Kerrisk
+        Restructure field descriptions as a hanging list
+    Michael Kerrisk
+        Remove "Other systems" subsection
+            These details about other systems were added in 1999,
+            and were probably of limited use then, and even less today.
+            However, they do clutter the page, so remove them.
+    Michael Kerrisk
+        DESCRIPTION: add list entries for 'st_uid' and 'st_gid'
+    Michael Kerrisk
+        Add some subsection headings to ease readability
+    David Howells
+        ERRORS: correct description of ENOENT
+    Michael Kerrisk
+        Give 'struct stat' argument a more meaningful name ('statbuf')
+    Marcin Ślusarz
+        Tweak description of AT_EMPTY_PATH
+            Currently it says when dirfd is AT_FDCWD it can be something
+            other than directory, which doesn't make much sense. Just swap
+            the order of sentences.
+    Michael Kerrisk
+        Add slightly expanded description oif 'st_ino' field
+    Michael Kerrisk
+        DESCRIPTION: add a list entry for 'st_ino'
+    Michael Kerrisk
+        DESCRIPTION: add a list entry for 'st_nlinks' field
+
+syscalls.2
+    Michael Kerrisk
+        Add membarrier(2)
+    Michael Kerrisk
+        Fix kernel version for userfaultfd(2)
+    Michael Kerrisk
+        Linux 4.11 added statx()
+    Michael Kerrisk
+        Include deprecated getunwind(2) in list
+
+wait.2
+    Michael Kerrisk
+        Orphaned children may be adopted by a "subreaper", rather by than PD 1
+
+bzero.3
+    Michael Kerrisk  [Zack Weinberg]
+        Add correct header file for exlicit_bzero()
+
+cfree.3
+    Michael Kerrisk
+        cfree() is removed from glibc in version 2.26
+
+exit.3
+    Michael Kerrisk
+        Improve discussion of zombie processes
+
+getentropy.3
+    Nikos Mavrogiannopoulos  [Michael Kerrisk, Florian Weimer]
+        Correct header file
+    Michael Kerrisk  [Frank Theile]
+        SYNOPSIS: add missing return type for getentropy() declaration
+
+grantpt.3
+    Michael Kerrisk
+        Tell a more nuanced story about what grantpt() does or does not do
+
+insque.3
+    Michael Kerrisk
+        SEE ALSO: add queue(3)
+
+queue.3
+    Michael Kerrisk
+        SEE ALSO: add insque(3)
+
+shm_open.3
+    Michael Kerrisk
+        Clarify that POSIX shared memory uses tmpfs(5)
+
+syslog.3
+    Michael Kerrisk  [Ian Abbott, Walter Harms]
+        Reorganize page text for easier parsing and better readability
+    Michael Kerrisk
+        Various rewordings and improvements
+    Michael Kerrisk
+        Note default value for 'facility' when calling openlog()
+    Michael Kerrisk
+        SEE ALSO: add journalctl(1)
+
+ttyname.3
+    Dmitry V. Levin
+        Document ENODEV error code
+    Christian Brauner
+        NOTES: warn about a confusing case that may occur with mount namespaces
+
+
+wcsdup.3
+    Jan Heberer
+        RETURN VALUE: fix error in return value description
+            Return value for failure was accidentally changed from NULL to
+            -1 in man-pages commit 572acb41c48b6b8e690d50edff367d8b8b01702a.
+
+elf.5
+    Michael Kerrisk
+        SEE ALSO: add elfedit(1), nm(1), size(1), strings(1), and strip(1)
+
+nsswitch.conf.5
+    Florian Weimer
+        Mention sudoers
+            It turns out that sudo drops things into nsswitch.conf, too.
+
+proc.5
+    Michael Kerrisk
+        Refer to namespaces(7) for discussion of /proc/sys/user/* files
+    Michael Kerrisk
+        Simplify /proc/slabinfo entry
+            Don't repeat (out-of-date) info from slabinfo(5); just defer to
+            that page.
+
+tmpfs.5
+    Michael Kerrisk
+        tmpfs supports extended attributes, but not 'user' extended attributes
+
+environ.7
+    Jakub Wilk
+        Fix name of function that honors TMPDIR
+            tempnam() takes the TMPDIR environment variable into account, unlike
+            tmpnam(), which always creates pathnames within /tmp.
+
+hostname.7
+    Marko Myllynen
+        Use lower case for hostname example
+    Marko Myllynen
+        Use generic names in examples
+    Marko Myllynen
+        Describe accepted characters for hostname
+
+inotify.7
+    Michael Kerrisk  [Nicolas Iooss]
+        Mounting a filesystem on top of a monitored directory causes no event
+
+man-pages.7
+    Michael Kerrisk
+        Note preferred approach for 'duplicate' errors
+
+pid_namespaces.7
+    Michael Kerrisk
+        The maximum nesting depth for PID namespaces is 32
+
+user_namespaces.7
+    Stephan Bergmann
+        Fixes to example
+            While toying around with the userns_child_exec example program on the
+            user_namespaces(7) man page, I noticed two things:
+
+            * In the EXAMPLE section, we need to mount the new /proc before
+              looking at /proc/$$/status, otherwise the latter will print
+              information about the outer namespace's PID 1 (i.e., the real
+              init).  So the two paragraphs need to be swapped.
+
+            * In the program source, make sure to close pipe_fd[0] in the
+              child before exec'ing.
+
+pthreads.7
+    Michael Kerrisk
+        SEE ALSO: add pthread_rwlockattr_setkind_np(3)
+
+pty.7
+    Michael Kerrisk
+        Mention a couple of other applications of pseudoterminals
+
+sem_overview.7
+    Michael Kerrisk
+        SEE ALSO: add shm_overview(7)
+
+signal.7
+    Michael Kerrisk
+        SEE ALSO: add sigreturn(2)
+
+tcp.7
+    Michael Kerrisk
+        Note indications for OOB data given by select(2) and poll(2)
+    Chema Gonzalez
+        tcp_abc was removed in 3.9
+
+xattr.7
+    Michael Kerrisk
+        SEE ALSO: add ioctl_iflags(2)
+            People sometimes confuse xattrs and inode flags. Provide a link
+            to the page that describes inode flags to give them a tip.
+
+ld.so.8
+    Michael Kerrisk
+        Mention quoting when using "Rpath tokens" in LD_AUDIT and LD_PRELOAD
+    Michael Kerrisk
+        Expand description of /etc/ld.so.preload
+    Michael Kerrisk
+        Mention ldconfig(8) in discussion of /etc/ld.so.cache
+
+zdump.8
+    Jakub Wilk
+        Add OPTIONS section heading
 
 -- 
 Michael Kerrisk
