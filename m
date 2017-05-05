@@ -1,57 +1,38 @@
-From: Florian Weimer <fweimer-H+wXaHxf7aLQT0dZR+AlfA@public.gmane.org>
-Subject: Re: Documenting the (dynamic) linking rules for symbol versioning
-Date: Fri, 5 May 2017 16:10:47 +0200
-Message-ID: <377fb71a-3634-0809-e827-04dab4b7155f@redhat.com>
-References: <b3a962de-6703-d8b9-18f7-138185171475@gmail.com>
- <22f26755-f7f0-898a-ac74-3f6df92a22d7@sourceware.org>
- <c6736794-60bb-517e-0bcf-2e80331f0f72@gmail.com>
- <eb5bea0c-1f54-1b20-dc78-999160738ed3@sourceware.org>
- <2fab9588-2fa6-8c87-da25-be9376c085ea@redhat.com>
- <c31e55fb-25af-bfe9-09db-83e622ec5e3f@sourceware.org>
- <89907506-fddb-2429-7e18-b00b8a560070@redhat.com>
- <c1b5fd84-22ec-56de-b169-502d8072d188@gmail.com>
-Mime-Version: 1.0
-Content-Type: text/plain; charset=utf-8; format=flowed
-Content-Transfer-Encoding: 7bit
+From: Heinrich Schuchardt <xypron.glpk-Mmb7MZpHnFY@public.gmane.org>
+Subject: [PATCH 1/1] strtol.3: mention 0X prefix
+Date: Fri,  5 May 2017 18:05:28 +0200
+Message-ID: <20170505160528.3673-1-xypron.glpk@gmx.de>
 Return-path: <linux-man-owner-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>
-In-Reply-To: <c1b5fd84-22ec-56de-b169-502d8072d188-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org>
-Content-Language: en-US
 Sender: linux-man-owner-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
-To: "Michael Kerrisk (man-pages)" <mtk.manpages-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org>, siddhesh-9JcytcrH/bA+uJoB2kUjGw@public.gmane.org, "libc-alpha-9JcytcrH/bA+uJoB2kUjGw@public.gmane.org" <libc-alpha-9JcytcrH/bA+uJoB2kUjGw@public.gmane.org>
-Cc: linux-man <linux-man-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>, Carlos O'Donell <carlos-H+wXaHxf7aLQT0dZR+AlfA@public.gmane.org>, Rich Felker <dalias-/miJ2pyFWUyWIDz0JBNUog@public.gmane.org>, "H.J. Lu" <hjl.tools-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org>
+To: Michael Kerrisk <mtk.manpages-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org>
+Cc: linux-man-u79uwXL29TY76Z2rM5mHXA@public.gmane.org, Heinrich Schuchardt <xypron.glpk-Mmb7MZpHnFY@public.gmane.org>
 List-Id: linux-man@vger.kernel.org
 
-On 04/20/2017 04:09 PM, Michael Kerrisk (man-pages) wrote:
-> On 04/20/2017 03:45 PM, Florian Weimer wrote:
->> On 04/20/2017 03:15 PM, Siddhesh Poyarekar wrote:
->>> On Thursday 20 April 2017 06:31 PM, Florian Weimer wrote:
->>>>> Hmm interesting, I thought 'latest' would imply the last version in the
->>>>> sequence of versions in the map, but I guess it kinda makes sense that
->>>>> it is the @@ default, similar to how a static linker would pick it up.
->>>>
->>>> It might be another instance of bug 12977.  At least its fix will
->>>> involve preferring the default version in this case.  I don't know what
->>>
->>>   From Michael's test case it seems like it already is preferring the
->>> default version.  The fix would have to be to the comment that says
->>> prefer the oldest version for regular unversioned lookups and the
->>> *latest* for the dlsym lookups.
->>>
->>> That or I misunderstood what you said.
->>
->> I think it picked the default version by accident because of the way the
->> linker ordered the list.  But I could be mistaken.
-> 
-> How could I test your hypothesis? Just a longer chain of versions,
-> maybe? Or oddly named version tags?
+The prefix 0x may be capitalized as 0X.
 
-I'm no longer sure what I actually saw during testing.  May be the 
-results also depend on the binutils version.  Based on source code 
-inspection in glibc, I think there actually is a problem here, but I 
-can't reproduce it with stock binaries.
+See ISO/IEC 9899:1999.
 
-Thanks,
-Florian
+Signed-off-by: Heinrich Schuchardt <xypron.glpk-Mmb7MZpHnFY@public.gmane.org>
+---
+ man3/strtol.3 | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
+
+diff --git a/man3/strtol.3 b/man3/strtol.3
+index 3b2a10126..a236e7671 100644
+--- a/man3/strtol.3
++++ b/man3/strtol.3
+@@ -70,7 +70,7 @@ followed by a single optional \(aq+\(aq or \(aq\-\(aq sign.
+ If
+ .I base
+ is zero or 16, the string may then include a
+-"0x" prefix, and the number will be read in base 16; otherwise, a
++"0x" or "0X" prefix, and the number will be read in base 16; otherwise, a
+ zero
+ .I base
+ is taken as 10 (decimal) unless the next character
+-- 
+2.11.0
+
 --
 To unsubscribe from this list: send the line "unsubscribe linux-man" in
 the body of a message to majordomo-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
