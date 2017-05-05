@@ -1,38 +1,40 @@
-From: Heinrich Schuchardt <xypron.glpk-Mmb7MZpHnFY@public.gmane.org>
-Subject: [PATCH 1/1] strtol.3: mention 0X prefix
-Date: Fri,  5 May 2017 18:05:28 +0200
-Message-ID: <20170505160528.3673-1-xypron.glpk@gmx.de>
+From: Carlos O'Donell <carlos-H+wXaHxf7aLQT0dZR+AlfA@public.gmane.org>
+Subject: Re: Documenting the (dynamic) linking rules for symbol versioning
+Date: Fri, 5 May 2017 15:51:31 -0400
+Message-ID: <66c61101-f44f-2bbb-5ed2-b43c5d764e76@redhat.com>
+References: <b3a962de-6703-d8b9-18f7-138185171475@gmail.com>
+Mime-Version: 1.0
+Content-Type: text/plain; charset=utf-8
+Content-Transfer-Encoding: 7bit
 Return-path: <linux-man-owner-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>
+In-Reply-To: <b3a962de-6703-d8b9-18f7-138185171475-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org>
+Content-Language: en-US
 Sender: linux-man-owner-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
-To: Michael Kerrisk <mtk.manpages-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org>
-Cc: linux-man-u79uwXL29TY76Z2rM5mHXA@public.gmane.org, Heinrich Schuchardt <xypron.glpk-Mmb7MZpHnFY@public.gmane.org>
+To: "Michael Kerrisk (man-pages)" <mtk.manpages-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org>, "libc-alpha-9JcytcrH/bA+uJoB2kUjGw@public.gmane.org" <libc-alpha-9JcytcrH/bA+uJoB2kUjGw@public.gmane.org>
+Cc: linux-man <linux-man-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>, Siddhesh Poyarekar <siddhesh-9JcytcrH/bA+uJoB2kUjGw@public.gmane.org>, Rich Felker <dalias-/miJ2pyFWUyWIDz0JBNUog@public.gmane.org>, "H.J. Lu" <hjl.tools-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org>
 List-Id: linux-man@vger.kernel.org
 
-The prefix 0x may be capitalized as 0X.
+On 04/19/2017 11:07 AM, Michael Kerrisk (man-pages) wrote:
+> The documentation around symbol versioning as used by the glibc dynamic
+> linker (DL) is currently rather weak, and I'd like to add some pieces to
+> various man pages (ld.so(8), dlsym(3), and possibly others) to improve
+> this situation. Before that though, I'd rather like to check my
+> understanding of the rules.
 
-See ISO/IEC 9899:1999.
+This is great!
 
-Signed-off-by: Heinrich Schuchardt <xypron.glpk-Mmb7MZpHnFY@public.gmane.org>
----
- man3/strtol.3 | 2 +-
- 1 file changed, 1 insertion(+), 1 deletion(-)
+Can I make one simple request?
 
-diff --git a/man3/strtol.3 b/man3/strtol.3
-index 3b2a10126..a236e7671 100644
---- a/man3/strtol.3
-+++ b/man3/strtol.3
-@@ -70,7 +70,7 @@ followed by a single optional \(aq+\(aq or \(aq\-\(aq sign.
- If
- .I base
- is zero or 16, the string may then include a
--"0x" prefix, and the number will be read in base 16; otherwise, a
-+"0x" or "0X" prefix, and the number will be read in base 16; otherwise, a
- zero
- .I base
- is taken as 10 (decimal) unless the next character
+Please post all of your test case and we help you get them checked into
+glibc's regression testsuite so we don't change any of the behaviour you
+have documented without noticing it.
+
+I'd like us to agree to ensure we cover everything you mention in a
+regression test.
+
 -- 
-2.11.0
-
+Cheers,
+Carlos.
 --
 To unsubscribe from this list: send the line "unsubscribe linux-man" in
 the body of a message to majordomo-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
