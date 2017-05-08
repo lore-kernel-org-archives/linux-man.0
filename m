@@ -1,57 +1,48 @@
-From: "Michael Kerrisk (man-pages)" <mtk.manpages-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org>
-Subject: Re: [PATCH 1/1] strtol.3: mention 0X prefix
-Date: Mon, 8 May 2017 11:00:51 +0200
-Message-ID: <2ecc493d-638d-57b7-cdb5-f77a61218d42@gmail.com>
-References: <20170505160528.3673-1-xypron.glpk@gmx.de>
+From: "Darrick J. Wong" <darrick.wong-QHcLZuEGTsvQT0dZR+AlfA@public.gmane.org>
+Subject: Re: [PATCH] ioctl_getfsmap.2: document the GETFSMAP ioctl
+Date: Mon, 8 May 2017 11:41:12 -0700
+Message-ID: <20170508184112.GJ5973@birch.djwong.org>
+References: <20170507155855.GD5970@birch.djwong.org>
+ <CAG48ez1AWewJRg8gySgihn0y15jRhC6C+5DNwGsDpAhtokB=Lw@mail.gmail.com>
 Mime-Version: 1.0
-Content-Type: text/plain; charset=windows-1252
-Content-Transfer-Encoding: 7bit
+Content-Type: text/plain; charset=us-ascii
 Return-path: <linux-man-owner-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>
-In-Reply-To: <20170505160528.3673-1-xypron.glpk-Mmb7MZpHnFY@public.gmane.org>
+Content-Disposition: inline
+In-Reply-To: <CAG48ez1AWewJRg8gySgihn0y15jRhC6C+5DNwGsDpAhtokB=Lw-JsoAwUIsXosN+BqQ9rBEUg@public.gmane.org>
 Sender: linux-man-owner-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
-To: Heinrich Schuchardt <xypron.glpk-Mmb7MZpHnFY@public.gmane.org>
-Cc: mtk.manpages-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org, linux-man-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
+To: Jann Horn <jannh-hpIqsD4AKlfQT0dZR+AlfA@public.gmane.org>
+Cc: Michael Kerrisk-manpages <mtk.manpages-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org>, linux-xfs-u79uwXL29TY76Z2rM5mHXA@public.gmane.org, linux-fsdevel-u79uwXL29TY76Z2rM5mHXA@public.gmane.org, linux-ext4-u79uwXL29TY76Z2rM5mHXA@public.gmane.org, Linux API <linux-api-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>, linux-man-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
 List-Id: linux-man@vger.kernel.org
 
-Hello Heinrich.
-
-On 05/05/2017 06:05 PM, Heinrich Schuchardt wrote:
-> The prefix 0x may be capitalized as 0X.
+On Mon, May 08, 2017 at 12:17:53AM +0200, Jann Horn wrote:
+> On Sun, May 7, 2017 at 5:58 PM, Darrick J. Wong <darrick.wong-QHcLZuEGTsvQT0dZR+AlfA@public.gmane.org> wrote:
+> > Document the new GETFSMAP ioctl that returns the physical layout of a
+> > (disk-based) filesystem.
+> [...]
+> > +.B EPERM
+> > +This query is not allowed.
 > 
-> See ISO/IEC 9899:1999.
+> Please document the circumstances under which a query is allowed.
 
-Thanks. Applied!
+For the two current implementations, queries are always allowed.
 
-Cheers,
+(The doc could be more explicit about this decision being left to the
+implementation.)
 
-Michael
+> Also: From a quick glance at the XFS implementation, I don't see any
+> privilege checks. Am I missing something, or does this API permit an
+> unprivileged user to determine the number of physical blocks allocated
+> for any inode, even for inodes the user can't ordinarily see in any
+> way?
 
+Correct.
 
-> Signed-off-by: Heinrich Schuchardt <xypron.glpk-Mmb7MZpHnFY@public.gmane.org>
-> ---
->  man3/strtol.3 | 2 +-
->  1 file changed, 1 insertion(+), 1 deletion(-)
-> 
-> diff --git a/man3/strtol.3 b/man3/strtol.3
-> index 3b2a10126..a236e7671 100644
-> --- a/man3/strtol.3
-> +++ b/man3/strtol.3
-> @@ -70,7 +70,7 @@ followed by a single optional \(aq+\(aq or \(aq\-\(aq sign.
->  If
->  .I base
->  is zero or 16, the string may then include a
-> -"0x" prefix, and the number will be read in base 16; otherwise, a
-> +"0x" or "0X" prefix, and the number will be read in base 16; otherwise, a
->  zero
->  .I base
->  is taken as 10 (decimal) unless the next character
-> 
+--D
 
-
--- 
-Michael Kerrisk
-Linux man-pages maintainer; http://www.kernel.org/doc/man-pages/
-Linux/UNIX System Programming Training: http://man7.org/training/
+> --
+> To unsubscribe from this list: send the line "unsubscribe linux-xfs" in
+> the body of a message to majordomo-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
+> More majordomo info at  http://vger.kernel.org/majordomo-info.html
 --
 To unsubscribe from this list: send the line "unsubscribe linux-man" in
 the body of a message to majordomo-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
