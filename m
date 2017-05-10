@@ -1,57 +1,75 @@
-From: Theodore Ts'o <tytso@mit.edu>
-Subject: Re: [PATCH] ioctl_getfsmap.2: document the GETFSMAP ioctl
-Date: Wed, 10 May 2017 12:38:18 -0400
-Message-ID: <20170510163818.7bleiykxgnx3pkds@thunk.org>
-References: <20170507155855.GD5970@birch.djwong.org>
- <CAG48ez1AWewJRg8gySgihn0y15jRhC6C+5DNwGsDpAhtokB=Lw@mail.gmail.com>
- <20170508184112.GJ5973@birch.djwong.org>
- <CAG48ez3e+2VuvjtEfJuMujEo6PWBO3z8oM-otN2juq96jKdjCw@mail.gmail.com>
- <20170508204738.GL5973@birch.djwong.org>
- <CAG48ez0iLRazKvXty9CG8ENXvkG6b1xjO0Q75p+16HKNptFnow@mail.gmail.com>
- <20170509015324.GM5973@birch.djwong.org>
- <20170509211746.GA87747@gmail.com>
+From: "G. Branden Robinson" <g.branden.robinson-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org>
+Subject: Re: [PATCH] ld.so.8: update and expand
+Date: Wed, 10 May 2017 12:58:14 -0400
+Message-ID: <20170510165812.m7dts3gs2m6ze7lp@crack.deadbeast.net>
+References: <20170510044742.ntq2g5vdnb7q3lf7@crack.deadbeast.net>
 Mime-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Return-path: <linux-ext4-owner@vger.kernel.org>
+Content-Type: multipart/signed; micalg=pgp-sha256;
+        protocol="application/pgp-signature"; boundary="6rghp4py452y3zem"
+Return-path: <linux-man-owner-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>
 Content-Disposition: inline
-In-Reply-To: <20170509211746.GA87747@gmail.com>
-Sender: linux-ext4-owner@vger.kernel.org
-To: Eric Biggers <ebiggers3@gmail.com>
-Cc: "Darrick J. Wong" <darrick.wong@oracle.com>, Jann Horn <jannh@google.com>, Michael Kerrisk-manpages <mtk.manpages@gmail.com>, linux-xfs@vger.kernel.org, linux-fsdevel@vger.kernel.org, linux-ext4@vger.kernel.org, Linux API <linux-api@vger.kernel.org>, linux-man@vger.kernel.org
+In-Reply-To: <20170510044742.ntq2g5vdnb7q3lf7-Z0uaYDh/Ni4SozaZsD9aTtHuzzzSOjJt@public.gmane.org>
+Sender: linux-man-owner-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
+To: linux-man-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
 List-Id: linux-man@vger.kernel.org
 
-On Tue, May 09, 2017 at 02:17:46PM -0700, Eric Biggers wrote:
-> 1.) Privacy implications.  Say the filesystem is being shared between multiple
->     users, and one user unpacks foo.tar.gz into their home directory, which
->     they've set to mode 700 to hide from other users.  Because of this new
->     ioctl, all users will be able to see every (inode number, size in blocks)
->     pair that was added to the filesystem, as well as the exact layout of the
->     physical block allocations which might hint at how the files were created.
->     If there is a known "fingerprint" for the unpacked foo.tar.gz in this
->     regard, its presence on the filesystem will be revealed to all users.  And
->     if any filesystems happen to prefer allocating blocks near the containing
->     directory, the directory the files are in would likely be revealed too.
 
-Unix/Linux has historically not been terribly concerned about trying
-to protect this kind of privacy between users.  So for example, in
-order to do this, you would have to call GETFSMAP continously to track
-this sort of thing.  Someone who wanted to do this could probably get
-this information (and much, much more) by continuously running "ps" to
-see what processes are running.
+--6rghp4py452y3zem
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+Content-Transfer-Encoding: quoted-printable
 
-(I will note. wryly, that in the bad old days, when dozens of users
-were sharing a one MIPS Vax/780, it was considered a *good* thing
-that social pressure could be applied when it was found that someone
-was running a CPU or memory hogger on a time sharing system.  The
-privacy right of someone running "xtrek" to be able to hide this from
-other users on the system was never considered important at all.  :-)
+Er, I neglected to number my patches to ld.so.8 in their Subject lines.
 
-Fortunately, the days of timesharing seem to well behind us.  For
-those people who think that containers are as secure as VM's (hah,
-hah, hah), it might be that best way to handle this is to have a mount
-option that requires root access to this functionality.  For those
-people who really care about this, they can disable access.
+This one is intended to follow "ld.so.8: ffix, tfix, wfix".
 
-Cheers,
+I apologize for the oversight.
 
-					- Ted
+At 2017-05-10T00:47:43-0400, G. Branden Robinson wrote:
+>     ld.so.8: update and expand
+>=20
+>     * Discuss possible observable effects of running on a multiarch-capab=
+le
+>       system (the linker may be in a different directory under a different
+>       name, for instance).
+>=20
+>     * Add some basic background material for the novice reader.
+>=20
+>     * Call out use of shell glob in filenames, particularly in the topic =
+of
+>       the man page itself since this is a little unusual.
+>=20
+>     * Connect discussion of --audit option and LD_AUDIT environment
+>       variable.
+>=20
+>     * Explain where shared object dependencies are declared and connec to
+>       elf(5) (already mentioned in See Also section).
+
+Regards,
+Branden
+
+--6rghp4py452y3zem
+Content-Type: application/pgp-signature; name="signature.asc"
+
+-----BEGIN PGP SIGNATURE-----
+
+iQIzBAABCAAdFiEEh3PWHWjjDgcrENwa0Z6cfXEmbc4FAlkTRp0ACgkQ0Z6cfXEm
+bc6EDxAAhpYm5+bnfr7XwluLVRIFAwIrEI+8l6s5xVVcRtdIdpXCUGKy9YU6MFsf
+o2eG9MTTvhbTYtXlDMzP5LHzhjL70kgPg3tNaKezRTsCv8UE4c2WlgybFlQN6lpH
+ocRweShEI0oFDS7cWB9TFDyNtNpRrr+ddxwRYZBPhtYIb1h4y1D4t9Y4h4bPYeM3
+vDlf03QvVakOV/pVYMUgNDKoSfnU5wq36ds0EDdAhL2Gz45x51+i71YRHvbTBAj4
+6lwjBjFm8oqutIrRKwAKEhAd1c1Uk37WpZB0kL8Zpd3x4lMJTY2KrHStbNoZ8ip1
+55JYmBvsZaMALYK+qNx4k7/9Tnqzoa+L9f93rZEeSF+nl24XM0mei2RV4P3iqMqj
+3oySbiRkSSwftk1BHa4aqtwROof+gX0aSS+7jQ0Sx5Kek/mJgxNpCGvq9Tp9Ad6N
+Bd0E843+Makp+fOvu0nJJ9mDNqrm8h0znldUZqwFcMB2ZUYIfUIJqG9G6/UTDuri
+JI0t3//4kyve7L1tyFmb4vI7GRSVUBAzLu5zNO8cLNEvmpyfmGn1VW7VJLkfHk9l
+TUdk6JeXtZSzjsxdC4on6+HD2MUk7lftRqnPUrMq7Jp4H/7ZFjciuU/leR87mC1a
+hTFJX0qbEyON8oFbU9/aquCb1r/VKTWrJHx4inxIpHFYT3nW248=
+=D+be
+-----END PGP SIGNATURE-----
+
+--6rghp4py452y3zem--
+--
+To unsubscribe from this list: send the line "unsubscribe linux-man" in
+the body of a message to majordomo-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
+More majordomo info at  http://vger.kernel.org/majordomo-info.html
