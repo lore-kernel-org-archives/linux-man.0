@@ -1,142 +1,57 @@
-From: "G. Branden Robinson" <g.branden.robinson-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org>
-Subject: [PATCH] ld.so.8: update and expand
-Date: Wed, 10 May 2017 00:47:45 -0400
-Message-ID: <20170510044742.ntq2g5vdnb7q3lf7@crack.deadbeast.net>
+From: Theodore Ts'o <tytso@mit.edu>
+Subject: Re: [PATCH] ioctl_getfsmap.2: document the GETFSMAP ioctl
+Date: Wed, 10 May 2017 12:38:18 -0400
+Message-ID: <20170510163818.7bleiykxgnx3pkds@thunk.org>
+References: <20170507155855.GD5970@birch.djwong.org>
+ <CAG48ez1AWewJRg8gySgihn0y15jRhC6C+5DNwGsDpAhtokB=Lw@mail.gmail.com>
+ <20170508184112.GJ5973@birch.djwong.org>
+ <CAG48ez3e+2VuvjtEfJuMujEo6PWBO3z8oM-otN2juq96jKdjCw@mail.gmail.com>
+ <20170508204738.GL5973@birch.djwong.org>
+ <CAG48ez0iLRazKvXty9CG8ENXvkG6b1xjO0Q75p+16HKNptFnow@mail.gmail.com>
+ <20170509015324.GM5973@birch.djwong.org>
+ <20170509211746.GA87747@gmail.com>
 Mime-Version: 1.0
-Content-Type: multipart/signed; micalg=pgp-sha256;
-        protocol="application/pgp-signature"; boundary="7phvn5wmeqgfpwjj"
-Return-path: <linux-man-owner-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>
+Content-Type: text/plain; charset=us-ascii
+Return-path: <linux-ext4-owner@vger.kernel.org>
 Content-Disposition: inline
-Sender: linux-man-owner-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
-To: linux-man-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
+In-Reply-To: <20170509211746.GA87747@gmail.com>
+Sender: linux-ext4-owner@vger.kernel.org
+To: Eric Biggers <ebiggers3@gmail.com>
+Cc: "Darrick J. Wong" <darrick.wong@oracle.com>, Jann Horn <jannh@google.com>, Michael Kerrisk-manpages <mtk.manpages@gmail.com>, linux-xfs@vger.kernel.org, linux-fsdevel@vger.kernel.org, linux-ext4@vger.kernel.org, Linux API <linux-api@vger.kernel.org>, linux-man@vger.kernel.org
 List-Id: linux-man@vger.kernel.org
 
+On Tue, May 09, 2017 at 02:17:46PM -0700, Eric Biggers wrote:
+> 1.) Privacy implications.  Say the filesystem is being shared between multiple
+>     users, and one user unpacks foo.tar.gz into their home directory, which
+>     they've set to mode 700 to hide from other users.  Because of this new
+>     ioctl, all users will be able to see every (inode number, size in blocks)
+>     pair that was added to the filesystem, as well as the exact layout of the
+>     physical block allocations which might hint at how the files were created.
+>     If there is a known "fingerprint" for the unpacked foo.tar.gz in this
+>     regard, its presence on the filesystem will be revealed to all users.  And
+>     if any filesystems happen to prefer allocating blocks near the containing
+>     directory, the directory the files are in would likely be revealed too.
 
---7phvn5wmeqgfpwjj
-Content-Type: multipart/mixed; boundary="nrk3sb7fh32spzqw"
-Content-Disposition: inline
+Unix/Linux has historically not been terribly concerned about trying
+to protect this kind of privacy between users.  So for example, in
+order to do this, you would have to call GETFSMAP continously to track
+this sort of thing.  Someone who wanted to do this could probably get
+this information (and much, much more) by continuously running "ps" to
+see what processes are running.
 
+(I will note. wryly, that in the bad old days, when dozens of users
+were sharing a one MIPS Vax/780, it was considered a *good* thing
+that social pressure could be applied when it was found that someone
+was running a CPU or memory hogger on a time sharing system.  The
+privacy right of someone running "xtrek" to be able to hide this from
+other users on the system was never considered important at all.  :-)
 
---nrk3sb7fh32spzqw
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-Content-Transfer-Encoding: quoted-printable
+Fortunately, the days of timesharing seem to well behind us.  For
+those people who think that containers are as secure as VM's (hah,
+hah, hah), it might be that best way to handle this is to have a mount
+option that requires root access to this functionality.  For those
+people who really care about this, they can disable access.
 
-    ld.so.8: update and expand
+Cheers,
 
-    * Discuss possible observable effects of running on a multiarch-capable
-      system (the linker may be in a different directory under a different
-      name, for instance).
-
-    * Add some basic background material for the novice reader.
-
-    * Call out use of shell glob in filenames, particularly in the topic of
-      the man page itself since this is a little unusual.
-
-    * Connect discussion of --audit option and LD_AUDIT environment
-      variable.
-
-    * Explain where shared object dependencies are declared and connec to
-      elf(5) (already mentioned in See Also section).
-
---=20
-Regards,
-Branden
-
---nrk3sb7fh32spzqw
-Content-Type: text/x-diff; charset=us-ascii
-Content-Disposition: attachment; filename="ld.so.8-expansion.diff"
-
-diff --git a/man8/ld.so.8 b/man8/ld.so.8
-index a4b405bb7..eb261a008 100644
---- a/man8/ld.so.8
-+++ b/man8/ld.so.8
-@@ -23,8 +23,22 @@ The programs
- .B ld.so
- and
- .BR ld-linux * .so *
-+(where * indicates a shell wild card)
- find and load the shared objects (shared libraries) needed by a program,
- prepare the program to run, and then run it.
-+The tool is called a loader because it loads object files into memory, and a
-+linker because it resolves symbolic references like
-+.I printf
-+into machine addresses in the memory map of a running program.
-+In this discussion, we refer to these programs simply as the \(lqdynamic
-+linker\(rq even though both functions are essential.
-+.PP
-+The dynamic linker's name and location may vary to indicate the machine
-+architecture and operating system it supports, and to permit linkers for
-+different configurations to exist on the same system.
-+For example, the dynamic linker for an x86-64-based GNU/Linux host with support
-+for multiple architectures might be located at
-+.IR /lib/x86_64\-linux\-gnu/ld\-linux\-x86\-64.so.2 .
- .PP
- Linux binaries require dynamic linking (linking at run time)
- unless the
-@@ -52,6 +66,11 @@ support files and programs
- and
- .IR /etc/ld.so.conf .
- .PP
-+Each dynamically-linked object lists its shared object dependencies in an
-+ELF section called
-+.IR .dynamic ;
-+see
-+.BR elf (5).
- When resolving shared object dependencies,
- the dynamic linker first inspects each dependency
- string to see if it contains a slash (this can occur if
-@@ -193,6 +212,9 @@ This option is ignored when running in secure-execution mode (see below).
- Use objects named in
- .I list
- as auditors.
-+See the discussion of the
-+.BR LD_AUDIT
-+environment variable, below.
- .SH ENVIRONMENT
- Various environment variables influence the operation of the dynamic linker.
- .\"
-@@ -636,7 +658,14 @@ is always disabled in secure-execution mode.
- a.out dynamic linker/loader
- .TP
- .IR /lib/ld\-linux.so. { 1 , 2 }
--ELF dynamic linker/loader
-+ELF dynamic linker/loader (traditional location)
-+.TP
-+.IR /lib/ gnu-target-triplet /ld\-linux\- machine .so.2
-+ELF dynamic linker/loader (multi-architecture location), where
-+.I gnu-target-triplet
-+is a string like \(lqx86_64\-linux\-gnu\(rq and
-+.I machine
-+is \(lqx86\-64\(rq, for example.
- .TP
- .I /etc/ld.so.cache
- File containing a compiled list of directories in which to search for
-
---nrk3sb7fh32spzqw--
-
---7phvn5wmeqgfpwjj
-Content-Type: application/pgp-signature; name="signature.asc"
-
------BEGIN PGP SIGNATURE-----
-
-iQIzBAABCAAdFiEEh3PWHWjjDgcrENwa0Z6cfXEmbc4FAlkSm14ACgkQ0Z6cfXEm
-bc5ZeRAAl3XxdpXf4gzlRNuGnOpVwmWOEGRQu/zo+rlXRb8MQ/zygGHKIO42UEto
-yeDTBJn6+Ny8S9g4mRKpT6g7BJoczZr/xyC+ukrtvCjeodPQxbT3EUCITWpsmCmy
-UDTU/d6EXIPiphNqsvgNYzEU2jfnwtV4YjJz2H+m3RRLrP+DzyTRFwmKo9RYEU4H
-wj+scf+jfEO9xesfE6VzW0FuxR1no0CtzHcODx6GCn3wV5ipyWhJYiKdPSx5yg89
-edxPEX6vOAa6sfS8sAtUXW1K7ZlBIr713URX4ZVx/gxX7XjeEt8T1oM6dSz4Fa26
-nFHmlGOXSgNXMaH4Krm+cYHlicqUyB7tirFhpEkDQ1odlIXlR86hqAK1Af8dwek1
-q75jzEud2lnuFza2xBEyFsYlmpflF0GTG6vRBUB1weJMSIoJHmCMkqJRKNrN3xza
-VAdMWRsG8etDWznropnhnTkdlqOcM/8BhgCTZqm2w8OKGRhIfbVEzkBp6VAyC6qd
-V72vmFWqM8aYdr/aZI8K7fidrrAiz2bIOWbJcIybRM8QkhsFN3xnwiE3dEvR+hdJ
-Sip/gX0GZ6XGjJGMMOJqx678Dn3hp+klw4gLSEbQcwG4eFe623PL0rr6Lqu9/EEC
-EF7W9D3aJazTfOHAWkfEGj6hZ8PrT0u4D8PwEwQUH2Reya3VKlU=
-=Hmgc
------END PGP SIGNATURE-----
-
---7phvn5wmeqgfpwjj--
---
-To unsubscribe from this list: send the line "unsubscribe linux-man" in
-the body of a message to majordomo-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
-More majordomo info at  http://vger.kernel.org/majordomo-info.html
+					- Ted
