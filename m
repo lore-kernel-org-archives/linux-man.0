@@ -1,152 +1,123 @@
-From: "G. Branden Robinson" <g.branden.robinson-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org>
-Subject: [PATCH] README: Update generally.
-Date: Wed, 10 May 2017 18:39:58 -0400
-Message-ID: <20170510223955.ehlr4xueethyulyw@crack.deadbeast.net>
+From: Eric Biggers <ebiggers3-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org>
+Subject: Re: [PATCH] ioctl_getfsmap.2: document the GETFSMAP ioctl
+Date: Wed, 10 May 2017 22:10:51 -0700
+Message-ID: <20170511051051.GA7533@zzz>
+References: <CAG48ez1AWewJRg8gySgihn0y15jRhC6C+5DNwGsDpAhtokB=Lw@mail.gmail.com>
+ <20170508184112.GJ5973@birch.djwong.org>
+ <CAG48ez3e+2VuvjtEfJuMujEo6PWBO3z8oM-otN2juq96jKdjCw@mail.gmail.com>
+ <20170508204738.GL5973@birch.djwong.org>
+ <CAG48ez0iLRazKvXty9CG8ENXvkG6b1xjO0Q75p+16HKNptFnow@mail.gmail.com>
+ <20170509015324.GM5973@birch.djwong.org>
+ <20170509211746.GA87747@gmail.com>
+ <20170510163818.7bleiykxgnx3pkds@thunk.org>
+ <87mvakpl5m.fsf@xmission.com>
+ <20170510201437.GA9854@birch.djwong.org>
 Mime-Version: 1.0
-Content-Type: multipart/signed; micalg=pgp-sha256;
-        protocol="application/pgp-signature"; boundary="3bplwjl4fcq2y4y3"
+Content-Type: text/plain; charset=us-ascii
 Return-path: <linux-man-owner-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>
 Content-Disposition: inline
+In-Reply-To: <20170510201437.GA9854-PTl6brltDGh4DFYR7WNSRA@public.gmane.org>
 Sender: linux-man-owner-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
-To: linux-man-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
+To: "Darrick J. Wong" <darrick.wong-QHcLZuEGTsvQT0dZR+AlfA@public.gmane.org>
+Cc: "Eric W. Biederman" <ebiederm-aS9lmoZGLiVWk0Htik3J/w@public.gmane.org>, Theodore Ts'o <tytso-3s7WtUTddSA@public.gmane.org>, Jann Horn <jannh-hpIqsD4AKlfQT0dZR+AlfA@public.gmane.org>, Michael Kerrisk-manpages <mtk.manpages-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org>, linux-xfs-u79uwXL29TY76Z2rM5mHXA@public.gmane.org, linux-fsdevel-u79uwXL29TY76Z2rM5mHXA@public.gmane.org, linux-ext4-u79uwXL29TY76Z2rM5mHXA@public.gmane.org, Linux API <linux-api-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>, linux-man-u79uwXL29TY76Z2rM5mHXA@public.gmane.org, linux-btrfs <linux-btrfs-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>
 List-Id: linux-man@vger.kernel.org
 
+On Wed, May 10, 2017 at 01:14:37PM -0700, Darrick J. Wong wrote:
+> [cc btrfs, since afaict that's where most of the dedupe tool authors hang out]
+> 
+> On Wed, May 10, 2017 at 02:27:33PM -0500, Eric W. Biederman wrote:
+> > Theodore Ts'o <tytso-3s7WtUTddSA@public.gmane.org> writes:
+> > 
+> > > On Tue, May 09, 2017 at 02:17:46PM -0700, Eric Biggers wrote:
+> > >> 1.) Privacy implications.  Say the filesystem is being shared between multiple
+> > >>     users, and one user unpacks foo.tar.gz into their home directory, which
+> > >>     they've set to mode 700 to hide from other users.  Because of this new
+> > >>     ioctl, all users will be able to see every (inode number, size in blocks)
+> > >>     pair that was added to the filesystem, as well as the exact layout of the
+> > >>     physical block allocations which might hint at how the files were created.
+> > >>     If there is a known "fingerprint" for the unpacked foo.tar.gz in this
+> > >>     regard, its presence on the filesystem will be revealed to all users.  And
+> > >>     if any filesystems happen to prefer allocating blocks near the containing
+> > >>     directory, the directory the files are in would likely be revealed too.
+> 
+> Frankly, why are container users even allowed to make unrestricted ioctl
+> calls?  I thought we had a bunch of security infrastructure to constrain
+> what userspace can do to a system, so why don't ioctls fall under these
+> same protections?  If your containers are really that adversarial, you
+> ought to be blacklisting as much as you can.
+> 
 
---3bplwjl4fcq2y4y3
-Content-Type: multipart/mixed; boundary="snmmeq62yxuphfrp"
-Content-Disposition: inline
+Personally I don't find the presence of sandboxing features to be a very good
+excuse for introducing random insecure ioctls.  Not everyone has everything
+perfectly "sandboxed" all the time, for obvious reasons.  It's easy to forget
+about the filesystem ioctls, too, since they can be executed on any regular
+file, without having to open some device node in /dev.
 
+(And this actually does happen; the SELinux policy in Android, for example,
+still allows apps to call any ioctl on their data files, despite all the effort
+that has gone into whitelisting other types of ioctls.  Which should be fixed,
+of course, but it shows that this kind of mistake is very easy to make.)
 
---snmmeq62yxuphfrp
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
+> > > Unix/Linux has historically not been terribly concerned about trying
+> > > to protect this kind of privacy between users.  So for example, in
+> > > order to do this, you would have to call GETFSMAP continously to track
+> > > this sort of thing.  Someone who wanted to do this could probably get
+> > > this information (and much, much more) by continuously running "ps" to
+> > > see what processes are running.
+> > >
+> > > (I will note. wryly, that in the bad old days, when dozens of users
+> > > were sharing a one MIPS Vax/780, it was considered a *good* thing
+> > > that social pressure could be applied when it was found that someone
+> > > was running a CPU or memory hogger on a time sharing system.  The
+> > > privacy right of someone running "xtrek" to be able to hide this from
+> > > other users on the system was never considered important at all.  :-)
+> 
+> Not to mention someone running GETFSMAP in a loop will be pretty obvious
+> both from the high kernel cpu usage and the huge number of metadata
+> operations.
 
-    README: Update generally.
+Well, only if that someone running GETFSMAP actually wants to watch things in
+real-time (it's not necessary for all scenarios that have been mentioned), *and*
+there is monitoring in place which actually detects it and can do something
+about it.
 
-    * Reflect fact that project ships pages in sections 1-8.
+Yes, PIDs have traditionally been global, but today we have PID namespaces, and
+many other isolation features such as mount namespaces.  Nothing is perfect, of
+course, and containers are a lot worse than VMs, but it seems weird to use that
+as an excuse to knowingly make things worse...
 
-    * Resync documentation of the basic Makefile targets with what they
-      actually do at present.  Slighly simplify discussion.
+> 
+> > > Fortunately, the days of timesharing seem to well behind us.  For
+> > > those people who think that containers are as secure as VM's (hah,
+> > > hah, hah), it might be that best way to handle this is to have a mount
+> > > option that requires root access to this functionality.  For those
+> > > people who really care about this, they can disable access.
+> 
+> Or use separate filesystems for each container so that exploitable bugs
+> that shut down the filesystem can't be used to kill the other
+> containers.  You could use a torrent of metadata-heavy operations
+> (fallocate a huge file, punch every block, truncate file, repeat) to DoS
+> the other containers.
+> 
+> > What would be the reason for not putting this behind
+> > capable(CAP_SYS_ADMIN)?
+> > 
+> > What possible legitimate function could this functionality serve to
+> > users who don't own your filesystem?
+> 
+> As I've said before, it's to enable dedupe tools to decide, given a set
+> of files with shareable blocks, roughly how many other times each of
+> those shareable blocks are shared so that they can make better decisions
+> about which file keeps its shareable blocks, and which file gets
+> remapped.  Dedupe is not a privileged operation, nor are any of the
+> tools.
+> 
 
-    * Put the man page overlaps into a table.
-      + Drop references to overlaps with the old a.out ld.so, long dead.
+So why does the ioctl need to return all extent mappings for the entire
+filesystem, instead of just the share count of each block in the file that the
+ioctl is called on?
 
-    * Update reference to Announce file to use current naming convention.
-      + Send people looking for copyright information there rather than
-        duplicating some of it here.
-
-    * Direct reader to the top-level homepage instead of more deeply to the
-      "Contributing" page.
-
-    * Reflow paragraphs to 72 columns.
-
-Regards,
-Branden
-
---snmmeq62yxuphfrp
-Content-Type: text/x-diff; charset=us-ascii
-Content-Disposition: attachment; filename="man-pages-README-update.diff"
-Content-Transfer-Encoding: quoted-printable
-
-diff --git a/README b/README
-index 0ec038fed..b24099f23 100644
---- a/README
-+++ b/README
-@@ -1,33 +1,37 @@
--This package contains Linux man pages for sections
--2, 3, 4, 5, and 7. Some more information is given in the
--`Announce' file.
-+This package contains Linux man pages for sections 1 through 8.  Some
-+more information is given in the 'man-pages-x.y.Announce' file.
-=20
--Install by copying to your favourite location.
--"make install" will just copy them to /usr/share/man/man[1-8].
--To install to a path different from /usr use
-+Installing and uninstalling
-+=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=
-=3D=3D=3D
-+"make install" will copy these man pages to /usr/share/man/man[1-8].
-+
-+To install to a path different from /usr, use
- "make install prefix=3D/install/path".
--"make" will move the pages from this package that are older than
--the already installed ones to a subdirectory `not_installed',
--then remove old versions (compressed or not),
--compress the pages, and copy them to /usr/share/man/man[1-8].
--
--
--Note that you may have to remove preformatted pages.
--
--Note that sometimes these pages are duplicates of pages
--also distributed in other packages. This has been reported
--about dlclose.3, dlerror.3, dlopen.3, dlsym.3 (found in ld.so),
--about resolver.3, resolv.conf.5 (found in bind-utils),
--and about passwd.5, and mailaddr.7. Be careful not to
--overwrite more up-to-date versions.
--Reports on further duplicates are welcome.
--Formerly present and now removed duplicates:
-- exports.5 (found in nfs-server-2.2*),
-- fstab.5, nfs.5 (found in util-linux-2.12*),
-- lilo.8, lilo.conf.5 (found in lilo-21.6*).
--
--Copyrights: These man pages come under various copyrights.
--All pages are freely distributable when the nroff source is included.
--
--If you have corrections and additions to suggest, see
--http://www.kernel.org/doc/man-pages/contributing.html
-+
-+"make remove" or "make uninstall" will remove any man page in this
-+distribution from its destination.  Use with caution, and remember to
-+use "prefix" if desired, as with the "install" target.
-+
-+"make" or "make all" will perform "make uninstall" followed by "make
-+install".
-+
-+Man page overlap and duplication
-+=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=
-=3D=3D=3D=3D=3D=3D=3D=3D
-+Note that sometimes these pages are duplicates of pages also distributed
-+in other packages.  This has been reported about:
-+
-+man page                also found in
-+-------------------------------------
-+resolver.3              bind-utils, bind9utils
-+resolv.conf.5           "
-+passwd.5                shadow, passwd
-+mailaddr.7              ?
-+
-+Copyrights
-+=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D
-+See the 'man-pages-x.y.Announce' file.
-+
-+Homepage
-+=3D=3D=3D=3D=3D=3D=3D=3D
-+For much more about the Linux man-pages project, see
-+< http://www.kernel.org/doc/man-pages/index.html >.
-
---snmmeq62yxuphfrp--
-
---3bplwjl4fcq2y4y3
-Content-Type: application/pgp-signature; name="signature.asc"
-
------BEGIN PGP SIGNATURE-----
-
-iQIzBAABCAAdFiEEh3PWHWjjDgcrENwa0Z6cfXEmbc4FAlkTlrQACgkQ0Z6cfXEm
-bc6gjQ//cau17YD27wtv5ORUhgzTOzxQ0dtUUPbf8XwveGTuM9yqmh/T0KUmWvOC
-k7wQyFHuzeedzs9yBne1FZMS1YctXjgTVa8NgGMaGbvcHvs7vRjPWGa4fpB5oHhM
-1urr409wSmcpGa1HEey2ElL6ccKnM2A19at50wCAIK81GZ0+5iDn7l1QxHBGTAhc
-8iJ8Exeh20X8h/Bx0UM5fZ38VdG2DV1t5o0e3U4o0dsth+ChJ82+QyObPCu9Cffw
-JE4rni5wc48cyv/y60InxaW1SXFgfK5+ZQe13JXeQSNubF5uGROUyaZxfODroeoq
-pdadYge8NabDPJfmcGdQxnPykbL1ubTolsZc0amH6CMpURPfeRkGPE2gO9Kso6B2
-AIVNUIFGlgmh+vm5/ELIj69r/MUowk0UwO0ThoppjVOcZt/t5fYk8Cv+3iJTLrOw
-gt3kbBM2MkHP321QHlS605tb4ebV8YouHYhpaT1NvxlRiIe0jZJjIOeAVFMDb8us
-wf8DKjfdMmINE8jCRFFBVnLvIgUt0FfBgwyqg7p1nGRQOf3EehBbxx4B5a7wcOXX
-UDwnIHzprYoN5k+KTntwKUF9HuOsHwXcQ9Vd6QlBAEh4bmJ8qG22FgGPD5UTxxrQ
-8QQ4Q8p3KbBpKyiO6s4WWL5+QGiiaJlxF5biDUKjNYJcZ0GcJTw=
-=qqzL
------END PGP SIGNATURE-----
-
---3bplwjl4fcq2y4y3--
+- Eric
 --
 To unsubscribe from this list: send the line "unsubscribe linux-man" in
 the body of a message to majordomo-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
