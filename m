@@ -1,28 +1,32 @@
-From: Marko M <locodog-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org>
-Subject: Typing error in man for whois
-Date: Fri, 12 May 2017 00:02:02 +0200
-Message-ID: <CANwjvEdhCvKwTkK8vDf5RY=aoNHy9_f7XWC4xAsPf344zj-ESg@mail.gmail.com>
+From: "Thomas Credit Firm" <miorellana-vi5+Lki80Kb3na0VFQiK3Q@public.gmane.org>
+Subject: APPLY FOR YOUR URGENT LOAN AT 2%
+Date: Fri, 12 May 2017 11:53:45 +0100
+Message-ID: <20170512105359.BD18E4807243__18728.3458690674$1494587125$gmane$org@mail.salud.gob.sv>
+Reply-To: thomascreditfirm-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org
 Mime-Version: 1.0
-Content-Type: text/plain; charset="UTF-8"
+Content-Type: text/plain; charset="iso-8859-1"
+Content-Transfer-Encoding: quoted-printable
 Return-path: <linux-man-owner-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>
+Content-Description: Mail message body
 Sender: linux-man-owner-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
-To: mtk.manpages-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org
-Cc: linux-man-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
+To: receipt <miorellana-vi5+Lki80Kb3na0VFQiK3Q@public.gmane.org>
 List-Id: linux-man@vger.kernel.org
 
-Hi,
+* Do you need an urgent loan? We offer all kinds of loan
+* Very fast and urgent transfer to your bank account. 
+* Payment begins (6) months after you get the money in your bank account 
+* Low interest rates 2% 
+* Payment of long-term (1-30 years) duration 
+For more information and loan application form through the Contact now 
 
-I've found mistype in man page for whois
+E-mail:  Thomascreditfirm-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org 
+Thomas B. Dawson 
+THOMAS CREDIT FIRM
 
-in this line you will see "protocoll"
+---
+This email has been checked for viruses by Avast antivirus software.
+https://www.avast.com/antivirus
 
--r --rwhois
-              force  the  query to use the rwhois protocoll instead of HTTP or
-              whois.
-
-
-Kind regards,
-Marko
 --
 To unsubscribe from this list: send the line "unsubscribe linux-man" in
 the body of a message to majordomo-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
