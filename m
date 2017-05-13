@@ -1,21 +1,21 @@
 From: "Michael Kerrisk (man-pages)" <mtk.manpages-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org>
-Subject: Re: [PATCH 1/3] Changes.old: tfix
-Date: Sat, 13 May 2017 13:13:55 +0200
-Message-ID: <bce1936e-df80-4372-ec2d-6cdc53fc8c00@gmail.com>
+Subject: Re: [PATCH 2/3] sched_setaffinity.2: tfix
+Date: Sat, 13 May 2017 13:14:04 +0200
+Message-ID: <8bead30f-6ff4-a23a-54e1-b3478dd844d6@gmail.com>
 References: <20170513103747.1341-1-jwilk@jwilk.net>
+ <20170513103747.1341-2-jwilk@jwilk.net>
 Mime-Version: 1.0
 Content-Type: text/plain; charset=windows-1252
 Content-Transfer-Encoding: 7bit
 Return-path: <linux-man-owner-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>
-In-Reply-To: <20170513103747.1341-1-jwilk-tXgOlIzOKNReoWH0uzbU5w@public.gmane.org>
+In-Reply-To: <20170513103747.1341-2-jwilk-tXgOlIzOKNReoWH0uzbU5w@public.gmane.org>
 Sender: linux-man-owner-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
 To: Jakub Wilk <jwilk-tXgOlIzOKNReoWH0uzbU5w@public.gmane.org>
 Cc: mtk.manpages-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org, linux-man-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
 List-Id: linux-man@vger.kernel.org
 
 On 05/13/2017 12:37 PM, Jakub Wilk wrote:
-
-> Signed-off-by: Jakub Wilk <jwilk-tXgOlIzOKNReoWH0uzbU5w@public.gmane.org>
+> Remove duplicated word.
 
 Thanks, Jakub. Applied.
 
@@ -24,32 +24,25 @@ Cheers,
 Michael
 
 
+
+> Signed-off-by: Jakub Wilk <jwilk-tXgOlIzOKNReoWH0uzbU5w@public.gmane.org>
 > ---
->  Changes.old | 4 ++--
->  1 file changed, 2 insertions(+), 2 deletions(-)
+>  man2/sched_setaffinity.2 | 2 +-
+>  1 file changed, 1 insertion(+), 1 deletion(-)
 > 
-> diff --git a/Changes.old b/Changes.old
-> index 8e7195996..75df562cb 100644
-> --- a/Changes.old
-> +++ b/Changes.old
-> @@ -45224,7 +45224,7 @@ stat.2
->              other than directory, which doesn't make much sense. Just swap
->              the order of sentences.
->      Michael Kerrisk
-> -        Add slightly expanded description oif 'st_ino' field
-> +        Add slightly expanded description of 'st_ino' field
->      Michael Kerrisk
->          DESCRIPTION: add a list entry for 'st_ino'
->      Michael Kerrisk
-> @@ -45246,7 +45246,7 @@ wait.2
->  
->  bzero.3
->      Michael Kerrisk  [Zack Weinberg]
-> -        Add correct header file for exlicit_bzero()
-> +        Add correct header file for explicit_bzero()
->  
->  cfree.3
->      Michael Kerrisk
+> diff --git a/man2/sched_setaffinity.2 b/man2/sched_setaffinity.2
+> index 93b6090b9..71d9512dc 100644
+> --- a/man2/sched_setaffinity.2
+> +++ b/man2/sched_setaffinity.2
+> @@ -125,7 +125,7 @@ contains no processors that are currently physically on the system
+>  and permitted to the thread according to any restrictions that
+>  may be imposed by
+>  .I cpuset
+> -cgroups or the the "cpuset" mechanism described in
+> +cgroups or the "cpuset" mechanism described in
+>  .BR cpuset (7).
+>  .TP
+>  .B EINVAL
 > 
 
 
