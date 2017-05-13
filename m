@@ -1,32 +1,62 @@
-From: "Thomas Credit Firm" <miorellana-vi5+Lki80Kb3na0VFQiK3Q@public.gmane.org>
-Subject: APPLY FOR YOUR URGENT LOAN AT 2%
-Date: Fri, 12 May 2017 11:53:45 +0100
-Message-ID: <20170512105359.BD18E4807243__18728.3458690674$1494587125$gmane$org@mail.salud.gob.sv>
-Reply-To: thomascreditfirm-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org
+From: "Michael Kerrisk (man-pages)" <mtk.manpages-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org>
+Subject: Re: [PATCH 1/3] Changes.old: tfix
+Date: Sat, 13 May 2017 13:13:55 +0200
+Message-ID: <bce1936e-df80-4372-ec2d-6cdc53fc8c00@gmail.com>
+References: <20170513103747.1341-1-jwilk@jwilk.net>
 Mime-Version: 1.0
-Content-Type: text/plain; charset="iso-8859-1"
-Content-Transfer-Encoding: quoted-printable
+Content-Type: text/plain; charset=windows-1252
+Content-Transfer-Encoding: 7bit
 Return-path: <linux-man-owner-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>
-Content-Description: Mail message body
+In-Reply-To: <20170513103747.1341-1-jwilk-tXgOlIzOKNReoWH0uzbU5w@public.gmane.org>
 Sender: linux-man-owner-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
-To: receipt <miorellana-vi5+Lki80Kb3na0VFQiK3Q@public.gmane.org>
+To: Jakub Wilk <jwilk-tXgOlIzOKNReoWH0uzbU5w@public.gmane.org>
+Cc: mtk.manpages-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org, linux-man-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
 List-Id: linux-man@vger.kernel.org
 
-* Do you need an urgent loan? We offer all kinds of loan
-* Very fast and urgent transfer to your bank account. 
-* Payment begins (6) months after you get the money in your bank account 
-* Low interest rates 2% 
-* Payment of long-term (1-30 years) duration 
-For more information and loan application form through the Contact now 
+On 05/13/2017 12:37 PM, Jakub Wilk wrote:
 
-E-mail:  Thomascreditfirm-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org 
-Thomas B. Dawson 
-THOMAS CREDIT FIRM
+> Signed-off-by: Jakub Wilk <jwilk-tXgOlIzOKNReoWH0uzbU5w@public.gmane.org>
 
----
-This email has been checked for viruses by Avast antivirus software.
-https://www.avast.com/antivirus
+Thanks, Jakub. Applied.
 
+Cheers,
+
+Michael
+
+
+> ---
+>  Changes.old | 4 ++--
+>  1 file changed, 2 insertions(+), 2 deletions(-)
+> 
+> diff --git a/Changes.old b/Changes.old
+> index 8e7195996..75df562cb 100644
+> --- a/Changes.old
+> +++ b/Changes.old
+> @@ -45224,7 +45224,7 @@ stat.2
+>              other than directory, which doesn't make much sense. Just swap
+>              the order of sentences.
+>      Michael Kerrisk
+> -        Add slightly expanded description oif 'st_ino' field
+> +        Add slightly expanded description of 'st_ino' field
+>      Michael Kerrisk
+>          DESCRIPTION: add a list entry for 'st_ino'
+>      Michael Kerrisk
+> @@ -45246,7 +45246,7 @@ wait.2
+>  
+>  bzero.3
+>      Michael Kerrisk  [Zack Weinberg]
+> -        Add correct header file for exlicit_bzero()
+> +        Add correct header file for explicit_bzero()
+>  
+>  cfree.3
+>      Michael Kerrisk
+> 
+
+
+-- 
+Michael Kerrisk
+Linux man-pages maintainer; http://www.kernel.org/doc/man-pages/
+Linux/UNIX System Programming Training: http://man7.org/training/
 --
 To unsubscribe from this list: send the line "unsubscribe linux-man" in
 the body of a message to majordomo-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
