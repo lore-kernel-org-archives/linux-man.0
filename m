@@ -1,39 +1,59 @@
-From: Stas Sergeev <stsp-cmBhpYW9OiY@public.gmane.org>
-Subject: Re: Documenting sigaltstack SS_AUTODISRM
-Date: Thu, 25 May 2017 12:17:07 +0300
-Message-ID: <3a4f9f3e-fc33-cf98-2322-27087664813f@list.ru>
-References: <CAKgNAkjw_OBxcL627V9xMrKUei69hwjVCr6sbHbG2riBe7VVYw@mail.gmail.com>
- <08467ae1-7187-3b2a-9a78-8af0c10bf816@list.ru>
- <3907bc2a-0645-8d93-6ee5-3f99874e7022@gmail.com>
- <32d95303-5839-9279-a1d3-a06f34e3484e@list.ru>
- <CAKgNAkgw6P5RAsA2RSFJX57b=DHM=eNZ+ZOoagcO3ydSHzBcQA@mail.gmail.com>
- <50de8f3b-8a1e-df50-b5dd-d1b74cb77fad@list.ru>
- <026308b5-4e92-4439-1eb2-82b67584d548@gmail.com>
-Mime-Version: 1.0
-Content-Type: text/plain; charset=utf-8; format=flowed
-Content-Transfer-Encoding: 8bit
-Return-path: <linux-man-owner-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>
-In-Reply-To: <026308b5-4e92-4439-1eb2-82b67584d548-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org>
-Content-Language: en-MW
-Sender: linux-man-owner-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
-To: "Michael Kerrisk (man-pages)" <mtk.manpages-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org>
-Cc: linux-man <linux-man-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>, Andy Lutomirski <luto-kltTT9wpgjJwATOyAt5JVQ@public.gmane.org>, Oleg Nesterov <oleg-H+wXaHxf7aLQT0dZR+AlfA@public.gmane.org>, lkml <linux-kernel-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>
+From: Manfred Spraul <manfred@colorfullife.com>
+Subject: [PATCH 03/20] include/linux/sem.h: Correctly document sem_ctime
+Date: Thu, 25 May 2017 20:50:50 +0200
+Message-ID: <20170525185107.12869-4-manfred@colorfullife.com>
+References: <20170508222345.GA52073@beast>
+ <20170525185107.12869-1-manfred@colorfullife.com>
+Return-path: <linux-kernel-owner@vger.kernel.org>
+In-Reply-To: <20170525185107.12869-1-manfred@colorfullife.com>
+Sender: linux-kernel-owner@vger.kernel.org
+To: mtk.manpages@gmail.com, Andrew Morton <akpm@linux-foundation.org>, Kees Cook <keescook@chromium.org>
+Cc: LKML <linux-kernel@vger.kernel.org>, 1vier1@web.de, Davidlohr Bueso <dave@stgolabs.net>, mingo@kernel.org, peterz@infradead.org, fabf@skynet.be, Manfred Spraul <manfred@colorfullife.com>, linux-man@vger.kernel.org
 List-Id: linux-man@vger.kernel.org
 
-24.05.2017 14:09, Michael Kerrisk (man-pages) пишет:
-> One could do this I suppose, but I read POSIX differently from
-> you and, more importantly, SS_ONSTACK breaks portability on
-> numerous other systems and is a no-op on Linux. So, the Linux man
-> page really should warn against its use in the strongest terms.
-So how about instead of the strongest terms towards
-the code's author, just explain that SS_ONSTACK is a
-bit-value on some/many OSes, and as such, 0 is a
-valid value to enable sas on them, plus all the other
-values would give EINVAL?
-No strongest terms will help w/o an explanation,
-because people will keep looking for something that
-suits as a missing SS_ENABLE.
---
-To unsubscribe from this list: send the line "unsubscribe linux-man" in
-the body of a message to majordomo-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
-More majordomo info at  http://vger.kernel.org/majordomo-info.html
+sem_ctime is initialized to the semget() time and then updated at every
+semctl() that changes the array.
+Thus it does not represent the time of the last change.
+
+Especially, semop() calls are only stored in sem_otime, not in sem_ctime.
+
+This is already described in ipc/sem.c, I just overlooked that there is
+a comment in include/linux/sem.h and man semctl(2) as well.
+
+So: Correct wrong comments.
+
+Signed-off-by: Manfred Spraul <manfred@colorfullife.com>
+Cc: linux-man@vger.kernel.org
+---
+ include/linux/sem.h      | 2 +-
+ include/uapi/linux/sem.h | 2 +-
+ 2 files changed, 2 insertions(+), 2 deletions(-)
+
+diff --git a/include/linux/sem.h b/include/linux/sem.h
+index 9db1409..be5cf2e 100644
+--- a/include/linux/sem.h
++++ b/include/linux/sem.h
+@@ -30,7 +30,7 @@ struct sem {
+ /* One sem_array data structure for each set of semaphores in the system. */
+ struct sem_array {
+ 	struct kern_ipc_perm	sem_perm;	/* permissions .. see ipc.h */
+-	time_t			sem_ctime;	/* last change time */
++	time_t			sem_ctime;	/* create/last semctl() time */
+ 	struct list_head	pending_alter;	/* pending operations */
+ 						/* that alter the array */
+ 	struct list_head	pending_const;	/* pending complex operations */
+diff --git a/include/uapi/linux/sem.h b/include/uapi/linux/sem.h
+index dd73b90..67eb903 100644
+--- a/include/uapi/linux/sem.h
++++ b/include/uapi/linux/sem.h
+@@ -23,7 +23,7 @@
+ struct semid_ds {
+ 	struct ipc_perm	sem_perm;		/* permissions .. see ipc.h */
+ 	__kernel_time_t	sem_otime;		/* last semop time */
+-	__kernel_time_t	sem_ctime;		/* last change time */
++	__kernel_time_t	sem_ctime;		/* create/last semctl() time */
+ 	struct sem	*sem_base;		/* ptr to first semaphore in array */
+ 	struct sem_queue *sem_pending;		/* pending operations to be processed */
+ 	struct sem_queue **sem_pending_last;	/* last pending operation */
+-- 
+2.9.3
