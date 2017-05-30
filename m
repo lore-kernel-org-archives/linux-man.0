@@ -1,89 +1,103 @@
-From: Linus Torvalds <torvalds-de/tnXTf+JLsfHDXvbKv3WD2FQJk+8+b@public.gmane.org>
+From: Thomas Gleixner <tglx-hfZtesqFncYOwBW4kG4KsQ@public.gmane.org>
 Subject: Re: signals: Bug or manpage inconsistency?
-Date: Tue, 30 May 2017 12:58:53 -0700
-Message-ID: <CA+55aFxhMrsBWCqw--s9defz257ruwBED5NHWzkJqpU3jGJhCw@mail.gmail.com>
-References: <alpine.DEB.2.20.1705301402270.1950@nanos> <CA+55aFwC_8RWygnZWtgT+COY8mGY_RnDSW_vrD=+1x_NyPxChw@mail.gmail.com>
- <alpine.DEB.2.20.1705302105190.2356@nanos>
+Date: Tue, 30 May 2017 22:54:38 +0200 (CEST)
+Message-ID: <alpine.DEB.2.20.1705302241040.2356@nanos>
+References: <alpine.DEB.2.20.1705301402270.1950@nanos> <alpine.DEB.2.20.1705301750390.1950@nanos> <20170530170414.GA22463@redhat.com> <CA+55aFygrsUhzQzEOX7YLzxMWE_GbKhJjQZ7nSDXnFFbRAWCJA@mail.gmail.com>
 Mime-Version: 1.0
-Content-Type: text/plain; charset="UTF-8"
+Content-Type: text/plain; charset=US-ASCII
 Return-path: <linux-man-owner-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>
-In-Reply-To: <alpine.DEB.2.20.1705302105190.2356@nanos>
+In-Reply-To: <CA+55aFygrsUhzQzEOX7YLzxMWE_GbKhJjQZ7nSDXnFFbRAWCJA-JsoAwUIsXosN+BqQ9rBEUg@public.gmane.org>
 Sender: linux-man-owner-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
-To: Thomas Gleixner <tglx-hfZtesqFncYOwBW4kG4KsQ@public.gmane.org>
-Cc: LKML <linux-kernel-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>, Oleg Nesterov <oleg-H+wXaHxf7aLQT0dZR+AlfA@public.gmane.org>, Peter Zijlstra <peterz-wEGCiKHe2LqWVfeAwA7xHQ@public.gmane.org>, Ingo Molnar <mingo-DgEjT+Ai2ygdnm+yROfE0A@public.gmane.org>, Michael Kerrisk <mtk.manpages-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org>, linux-man-u79uwXL29TY76Z2rM5mHXA@public.gmane.org, libc-alpha <libc-alpha-9JcytcrH/bA+uJoB2kUjGw@public.gmane.org>
+To: Linus Torvalds <torvalds-de/tnXTf+JLsfHDXvbKv3WD2FQJk+8+b@public.gmane.org>
+Cc: Oleg Nesterov <oleg-H+wXaHxf7aLQT0dZR+AlfA@public.gmane.org>, LKML <linux-kernel-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>, Peter Zijlstra <peterz-wEGCiKHe2LqWVfeAwA7xHQ@public.gmane.org>, Ingo Molnar <mingo-DgEjT+Ai2ygdnm+yROfE0A@public.gmane.org>, Michael Kerrisk <mtk.manpages-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org>, linux-man-u79uwXL29TY76Z2rM5mHXA@public.gmane.org, libc-alpha <libc-alpha-9JcytcrH/bA+uJoB2kUjGw@public.gmane.org>
 List-Id: linux-man@vger.kernel.org
 
-On Tue, May 30, 2017 at 12:35 PM, Thomas Gleixner <tglx-hfZtesqFncYOwBW4kG4KsQ@public.gmane.org> wrote:
-> Right, blocking signals which are not set to SIG_IGN makes perfectly sense. The
-> SIG_IGN case is what bothers me.
+On Tue, 30 May 2017, Linus Torvalds wrote:
+> On Tue, May 30, 2017 at 10:04 AM, Oleg Nesterov <oleg-H+wXaHxf7aLQT0dZR+AlfA@public.gmane.org> wrote:
+> > Obviously this is a user-visible change and it can break something. Say, an
+> > application does sigwaitinfo(SIGCHLD) and SIGCHLD is ignored (SIG_IGN), this
+> > will no longer work.
+> 
+> That's an interesting special case. Yes, SIG_IGN actually has magical
+> properties wrt SIGCHLD. It basically means the opposite of ignoring
+> it, it's an "implicit signal handler".  So I could imagine people
+> using SIG_IGN to avoid the signal handler, but then block SIG_CHLD and
+> using sigwait() for it.
+> 
+> That sounds nonportable as hell, but I could imagine people doing it
+> because it happens to work.
 
-The thing is, the SIG_IGN may not *remain* a SIG_IGN.
+Just that it does not work. See do_notify_parent()
 
-Put another way, let's say that you are a process that uses signals
-for some event thing. You have a signal handler for handling the
-event, but it may be that you also have a mode in which you are in
-some kind of "don't care" phase, and you don't want to be woken up or
-have that signal handler even be invoked, so you set the signal to
-SIG_IGN.
+	if (!tsk->ptrace && sig == SIGCHLD &&
+	    (psig->action[SIGCHLD-1].sa.sa_handler == SIG_IGN ||
+	     (psig->action[SIGCHLD-1].sa.sa_flags & SA_NOCLDWAIT))) {
+		/*
+		 * We are exiting and our parent doesn't care.  POSIX.1
+		 * defines special semantics for setting SIGCHLD to SIG_IGN
+		 * or setting the SA_NOCLDWAIT flag: we should be reaped
+		 * automatically and not left for our parent's wait4 call.
+		 * Rather than having the parent do it as a magic kind of
+		 * signal handler, we just set this to tell do_exit that we
+		 * can be cleaned up without becoming a zombie.  Note that
+		 * we still call __wake_up_parent in this case, because a
+		 * blocked sys_wait4 might now return -ECHILD.
+		 *
+		 * Whether we send SIGCHLD or not for SA_NOCLDWAIT
+		 * is implementation-defined: we do (if you don't want
+		 * it, just use SIG_IGN instead).
+		 */
+		autoreap = true;
+		if (psig->action[SIGCHLD-1].sa.sa_handler == SIG_IGN)
+			sig = 0;
+	}
+        if (valid_signal(sig) && sig)
+                __group_send_sig_info(sig, &info, tsk->parent);
 
-But then when you want to start listening to the event again, you
-might need to set up data structures for the signal handler, and what
-you do is
+So if the oarent has SIG_IGN we do not send a signal at all. So it's not a
+really interesting special case and the magic properties are not that magic
+either. Test case below. The parent waits forever.
 
- - block the signal to avoid all race conditions with things that
-might come in before you're ready
+Thanks,
 
- - set up your data structures
+	tglx
+---
 
- - set the new signal handler
+#include <unistd.h>
+#include <signal.h>
+#include <stdio.h>
+#include <stdlib.h>
+#include <string.h>
+#include <sys/wait.h>
 
- - unblock the signal to make it all "live".
+int main(void)
+{
+	struct sigaction action;
+	sigset_t set;
+	int signum;
 
-and notice that there's a race condition there: you need to set up
-your data structures in order to take the signal sanely, but maybe
-because of how you structured things, the act of setting up your data
-structures is also what may make the signal start happening!
+	sigemptyset(&set);
+	sigaddset (&set, SIGCHLD);
 
-And when your data structures are set up, you do *not* want to drop
-new signals that are starting to come in!
+	memset(&action, 0, sizeof(action));
+	action.sa_handler = SIG_IGN;
+	sigaction(SIGCHLD, &action, NULL);
 
-Note how you could not set the new signal handler before your data
-structures were ready (because then you'd crash or not be able to
-handle them), but also note how you can not just ignore signals.
+	sigprocmask(SIG_BLOCK, &set, NULL);
 
-That's what I meant by the nice "atomic" behavior of blocking the
-signal.  With the signal blocked, it now doesn't matter if a signal
-happens during that "not completely ready phase" or not.
+	if (fork() == 0) {
+		sleep(1);
+		printf("Child exiting\n");
+		exit(0);
+	}
 
-And notice how SIG_IGN is just one _part_ of that "not completely ready" phase.
+	sigwait(&set, &signum);
+	printf("Parent exiting\n");
+	return 0;
+}
 
-Does anybody do this? I really don't know. Maybe not.
 
-But our current code _allows_ you to do it, and actually feels like a
-much better model than the one you are trying to argue for.
 
-So I literally think that what we do now is objectively better than
-something that ignores the blocking, and just always ignores a signal.
-
-Exactly because that can fundamentally race with the whole "we're now
-going to unblock the signal" phase.
-
-With the "signal is blocked means that it gets queued" model, you can
-handle that race cleanly.
-
-> The reason why I'm looking into that is the silly case with posix interval
-> timers dealing with ignored signals. We have to keep these timers self
-> rearming because nothing rearms them when SIG_IGN is lifted.
-
-Why not do SIG_IGN specially at signal generation time, the way
-SIGCHLD does. If SIG_IGN is set, you re-arm immediately but do not
-actually deliver the signal. It will automatically be re-delivered
-next time around (assuming people have by then installed a real signal
-handler).
-
-That sounds very much like the SIGCHLD case.
-
-            Linus
 --
 To unsubscribe from this list: send the line "unsubscribe linux-man" in
 the body of a message to majordomo-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
