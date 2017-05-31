@@ -1,96 +1,97 @@
-From: Thomas Gleixner <tglx-hfZtesqFncYOwBW4kG4KsQ@public.gmane.org>
+From: ebiederm-aS9lmoZGLiVWk0Htik3J/w@public.gmane.org (Eric W. Biederman)
 Subject: Re: signals: Bug or manpage inconsistency?
-Date: Tue, 30 May 2017 23:00:38 +0200 (CEST)
-Message-ID: <alpine.DEB.2.20.1705302211450.2356@nanos>
-References: <alpine.DEB.2.20.1705301402270.1950@nanos> <CA+55aFwC_8RWygnZWtgT+COY8mGY_RnDSW_vrD=+1x_NyPxChw@mail.gmail.com> <alpine.DEB.2.20.1705302105190.2356@nanos> <CA+55aFxhMrsBWCqw--s9defz257ruwBED5NHWzkJqpU3jGJhCw@mail.gmail.com>
+Date: Tue, 30 May 2017 19:48:10 -0500
+Message-ID: <87wp8xn96d.fsf@xmission.com>
+References: <alpine.DEB.2.20.1705301402270.1950@nanos>
+        <alpine.DEB.2.20.1705301750390.1950@nanos>
+        <20170530170414.GA22463@redhat.com>
+        <CA+55aFygrsUhzQzEOX7YLzxMWE_GbKhJjQZ7nSDXnFFbRAWCJA@mail.gmail.com>
+        <alpine.DEB.2.20.1705302241040.2356@nanos>
 Mime-Version: 1.0
-Content-Type: text/plain; charset=US-ASCII
+Content-Type: text/plain
 Return-path: <linux-man-owner-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>
-In-Reply-To: <CA+55aFxhMrsBWCqw--s9defz257ruwBED5NHWzkJqpU3jGJhCw-JsoAwUIsXosN+BqQ9rBEUg@public.gmane.org>
+In-Reply-To: <alpine.DEB.2.20.1705302241040.2356@nanos> (Thomas Gleixner's
+        message of "Tue, 30 May 2017 22:54:38 +0200 (CEST)")
 Sender: linux-man-owner-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
-To: Linus Torvalds <torvalds-de/tnXTf+JLsfHDXvbKv3WD2FQJk+8+b@public.gmane.org>
-Cc: LKML <linux-kernel-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>, Oleg Nesterov <oleg-H+wXaHxf7aLQT0dZR+AlfA@public.gmane.org>, Peter Zijlstra <peterz-wEGCiKHe2LqWVfeAwA7xHQ@public.gmane.org>, Ingo Molnar <mingo-DgEjT+Ai2ygdnm+yROfE0A@public.gmane.org>, Michael Kerrisk <mtk.manpages-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org>, linux-man-u79uwXL29TY76Z2rM5mHXA@public.gmane.org, libc-alpha <libc-alpha-9JcytcrH/bA+uJoB2kUjGw@public.gmane.org>
+To: Thomas Gleixner <tglx-hfZtesqFncYOwBW4kG4KsQ@public.gmane.org>
+Cc: Linus Torvalds <torvalds-de/tnXTf+JLsfHDXvbKv3WD2FQJk+8+b@public.gmane.org>, Oleg Nesterov <oleg-H+wXaHxf7aLQT0dZR+AlfA@public.gmane.org>, LKML <linux-kernel-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>, Peter Zijlstra <peterz-wEGCiKHe2LqWVfeAwA7xHQ@public.gmane.org>, Ingo Molnar <mingo-DgEjT+Ai2ygdnm+yROfE0A@public.gmane.org>, Michael Kerrisk <mtk.manpages-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org>, linux-man-u79uwXL29TY76Z2rM5mHXA@public.gmane.org, libc-alpha <libc-alpha-9JcytcrH/bA+uJoB2kUjGw@public.gmane.org>
 List-Id: linux-man@vger.kernel.org
 
-On Tue, 30 May 2017, Linus Torvalds wrote:
-> On Tue, May 30, 2017 at 12:35 PM, Thomas Gleixner <tglx-hfZtesqFncYOwBW4kG4KsQ@public.gmane.org> wrote:
-> > The reason why I'm looking into that is the silly case with posix interval
-> > timers dealing with ignored signals. We have to keep these timers self
-> > rearming because nothing rearms them when SIG_IGN is lifted.
-> 
-> Why not do SIG_IGN specially at signal generation time, the way
-> SIGCHLD does. If SIG_IGN is set, you re-arm immediately but do not
-> actually deliver the signal. It will automatically be re-delivered
-> next time around (assuming people have by then installed a real signal
-> handler).
+Thomas Gleixner <tglx-hfZtesqFncYOwBW4kG4KsQ@public.gmane.org> writes:
 
-The rearming is exactly the issue. Assume the following:
+> On Tue, 30 May 2017, Linus Torvalds wrote:
+>> On Tue, May 30, 2017 at 10:04 AM, Oleg Nesterov <oleg-H+wXaHxf7aLQT0dZR+AlfA@public.gmane.org> wrote:
+>> > Obviously this is a user-visible change and it can break something. Say, an
+>> > application does sigwaitinfo(SIGCHLD) and SIGCHLD is ignored (SIG_IGN), this
+>> > will no longer work.
+>> 
+>> That's an interesting special case. Yes, SIG_IGN actually has magical
+>> properties wrt SIGCHLD. It basically means the opposite of ignoring
+>> it, it's an "implicit signal handler".  So I could imagine people
+>> using SIG_IGN to avoid the signal handler, but then block SIG_CHLD and
+>> using sigwait() for it.
+>> 
+>> That sounds nonportable as hell, but I could imagine people doing it
+>> because it happens to work.
+>
+> Just that it does not work. See do_notify_parent()
+>
+> 	if (!tsk->ptrace && sig == SIGCHLD &&
+> 	    (psig->action[SIGCHLD-1].sa.sa_handler == SIG_IGN ||
+> 	     (psig->action[SIGCHLD-1].sa.sa_flags & SA_NOCLDWAIT))) {
+> 		/*
+> 		 * We are exiting and our parent doesn't care.  POSIX.1
+> 		 * defines special semantics for setting SIGCHLD to SIG_IGN
+> 		 * or setting the SA_NOCLDWAIT flag: we should be reaped
+> 		 * automatically and not left for our parent's wait4 call.
+> 		 * Rather than having the parent do it as a magic kind of
+> 		 * signal handler, we just set this to tell do_exit that we
+> 		 * can be cleaned up without becoming a zombie.  Note that
+> 		 * we still call __wake_up_parent in this case, because a
+> 		 * blocked sys_wait4 might now return -ECHILD.
+> 		 *
+> 		 * Whether we send SIGCHLD or not for SA_NOCLDWAIT
+> 		 * is implementation-defined: we do (if you don't want
+> 		 * it, just use SIG_IGN instead).
+> 		 */
+> 		autoreap = true;
+> 		if (psig->action[SIGCHLD-1].sa.sa_handler == SIG_IGN)
+> 			sig = 0;
+> 	}
+>         if (valid_signal(sig) && sig)
+>                 __group_send_sig_info(sig, &info, tsk->parent);
+>
+> So if the oarent has SIG_IGN we do not send a signal at all. So it's not a
+> really interesting special case and the magic properties are not that magic
+> either. Test case below. The parent waits forever.
 
-	t.interval.tv_nsec = 1;
-	t.interval.tv_sec = 0;
+Which would suggests that to be consistent we should ignore
+blocks for other signals on send when the signal handler is SIG_IGN.
 
-	timer_set(timerid, 0, &t, NULL);
+Hmm.
 
-This creates a 1 nanosecond periodic timer, which is silly to begin with,
-but allowed. In the normal case this is automatically rate limited by:
+For blocked signals because there is only one siginfo ever allocated
+as I read it the code naturally blocks the signal until it is
+dequeued and rearmed.
 
-  expire -> queue signal -> wakeup task -> dequeue signal -> rearm
+I suspect what you want to do is a little more in the magic
+dequeue_signal for timers and look if the signal handler
+is SIG_IGN.  I think the clean solution would be to
+treat timers whose signal handler is SIG_IGN as blocked
+signals and simply not dequeue them.
 
-So the scheduler controls how much CPU this task gets because the signal
-must be dequeued to rearm the timer. If it's the only task on the system it
-will still hog the CPU, but that's the same as if you do while(1).
+If they are not dequeued they won't reschedule and won't restart.
+Then when the signal handler finally changes you immediately get
+one pending signal and then the timers fire normally.
 
-In the SIG_IGN case it is not, because we need to rearm automatically. So
-with that 1 nsec interval you created a DOS attack because the system is
-busy expiring and rearming the timer.
+That gets tricky though because the signal numbers are not dedicated
+to posix timers.
 
-The mitigation we have in place is to rate limit that rearming to one
-jiffie, so the DOS won't happen.
+It might instead require noting that the handler is SIG_IGN when
+dequeued and simply disabled the timer.  With an enable that kicks
+in when someone calls sigaction and changes the handler.
 
-But that's just a stupid hack. The proper solution would be to rearm the
-timer at the point where the SIG_IGN is replaced or for that matter the
-ignored signal is blocked.
-
-I'm fine with the current behaviour vs. blocking the ignored signal, I
-still think it's inconsistent, but that could be debated forever.
-
-Though it needs to be documented somewhere proper and the man page of
-sigpending() needs to be fixed so the next person looking into this starts
-scratching his head and asks the same questions again.
-
-So with the existing blocking ignored signal semantics the DOS is mitigated
-as well, because the signal is queued and the rearming happens when the
-signal is dequeued as in the normal case above, through unblocking or
-sigwait().
-
-Now there is a subtle issue with this. The following code sequence will
-stop the timer forever:
-
-     block(sig);
-
-	timer expires -> signal is queued -> timer is stopped
-
-     ignore(sig);
-
-	pending signal is discarded
-
-     install_handler(sig);
-     unblock(sig);
-
-     Neither the handler install nor the unblocking will restart the timer.
-
-I think I have an idea how to handle both cases proper but I certainly
-wanted to have clarity about the semantics before starting.
-
-Thanks,
-
-	tglx
-
-
-
-
-
-
+Eric
 --
 To unsubscribe from this list: send the line "unsubscribe linux-man" in
 the body of a message to majordomo-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
