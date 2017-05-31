@@ -1,95 +1,124 @@
 From: ebiederm-aS9lmoZGLiVWk0Htik3J/w@public.gmane.org (Eric W. Biederman)
 Subject: Re: signals: Bug or manpage inconsistency?
-Date: Tue, 30 May 2017 19:48:10 -0500
-Message-ID: <87wp8xn96d.fsf@xmission.com>
+Date: Tue, 30 May 2017 20:10:36 -0500
+Message-ID: <87lgpdltkj.fsf@xmission.com>
 References: <alpine.DEB.2.20.1705301402270.1950@nanos>
         <alpine.DEB.2.20.1705301750390.1950@nanos>
         <20170530170414.GA22463@redhat.com>
         <CA+55aFygrsUhzQzEOX7YLzxMWE_GbKhJjQZ7nSDXnFFbRAWCJA@mail.gmail.com>
         <alpine.DEB.2.20.1705302241040.2356@nanos>
+        <87wp8xn96d.fsf@xmission.com>
 Mime-Version: 1.0
 Content-Type: text/plain
 Return-path: <linux-man-owner-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>
-In-Reply-To: <alpine.DEB.2.20.1705302241040.2356@nanos> (Thomas Gleixner's
-        message of "Tue, 30 May 2017 22:54:38 +0200 (CEST)")
+In-Reply-To: <87wp8xn96d.fsf-aS9lmoZGLiVWk0Htik3J/w@public.gmane.org> (Eric W. Biederman's message of
+        "Tue, 30 May 2017 19:48:10 -0500")
 Sender: linux-man-owner-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
 To: Thomas Gleixner <tglx-hfZtesqFncYOwBW4kG4KsQ@public.gmane.org>
 Cc: Linus Torvalds <torvalds-de/tnXTf+JLsfHDXvbKv3WD2FQJk+8+b@public.gmane.org>, Oleg Nesterov <oleg-H+wXaHxf7aLQT0dZR+AlfA@public.gmane.org>, LKML <linux-kernel-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>, Peter Zijlstra <peterz-wEGCiKHe2LqWVfeAwA7xHQ@public.gmane.org>, Ingo Molnar <mingo-DgEjT+Ai2ygdnm+yROfE0A@public.gmane.org>, Michael Kerrisk <mtk.manpages-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org>, linux-man-u79uwXL29TY76Z2rM5mHXA@public.gmane.org, libc-alpha <libc-alpha-9JcytcrH/bA+uJoB2kUjGw@public.gmane.org>
 List-Id: linux-man@vger.kernel.org
 
-Thomas Gleixner <tglx-hfZtesqFncYOwBW4kG4KsQ@public.gmane.org> writes:
+ebiederm-aS9lmoZGLiVWk0Htik3J/w@public.gmane.org (Eric W. Biederman) writes:
 
-> On Tue, 30 May 2017, Linus Torvalds wrote:
->> On Tue, May 30, 2017 at 10:04 AM, Oleg Nesterov <oleg-H+wXaHxf7aLQT0dZR+AlfA@public.gmane.org> wrote:
->> > Obviously this is a user-visible change and it can break something. Say, an
->> > application does sigwaitinfo(SIGCHLD) and SIGCHLD is ignored (SIG_IGN), this
->> > will no longer work.
->> 
->> That's an interesting special case. Yes, SIG_IGN actually has magical
->> properties wrt SIGCHLD. It basically means the opposite of ignoring
->> it, it's an "implicit signal handler".  So I could imagine people
->> using SIG_IGN to avoid the signal handler, but then block SIG_CHLD and
->> using sigwait() for it.
->> 
->> That sounds nonportable as hell, but I could imagine people doing it
->> because it happens to work.
+> Thomas Gleixner <tglx-hfZtesqFncYOwBW4kG4KsQ@public.gmane.org> writes:
 >
-> Just that it does not work. See do_notify_parent()
+>> On Tue, 30 May 2017, Linus Torvalds wrote:
+>>> On Tue, May 30, 2017 at 10:04 AM, Oleg Nesterov <oleg-H+wXaHxf7aLQT0dZR+AlfA@public.gmane.org> wrote:
+>>> > Obviously this is a user-visible change and it can break something. Say, an
+>>> > application does sigwaitinfo(SIGCHLD) and SIGCHLD is ignored (SIG_IGN), this
+>>> > will no longer work.
+>>> 
+>>> That's an interesting special case. Yes, SIG_IGN actually has magical
+>>> properties wrt SIGCHLD. It basically means the opposite of ignoring
+>>> it, it's an "implicit signal handler".  So I could imagine people
+>>> using SIG_IGN to avoid the signal handler, but then block SIG_CHLD and
+>>> using sigwait() for it.
+>>> 
+>>> That sounds nonportable as hell, but I could imagine people doing it
+>>> because it happens to work.
+>>
+>> Just that it does not work. See do_notify_parent()
+>>
+>> 	if (!tsk->ptrace && sig == SIGCHLD &&
+>> 	    (psig->action[SIGCHLD-1].sa.sa_handler == SIG_IGN ||
+>> 	     (psig->action[SIGCHLD-1].sa.sa_flags & SA_NOCLDWAIT))) {
+>> 		/*
+>> 		 * We are exiting and our parent doesn't care.  POSIX.1
+>> 		 * defines special semantics for setting SIGCHLD to SIG_IGN
+>> 		 * or setting the SA_NOCLDWAIT flag: we should be reaped
+>> 		 * automatically and not left for our parent's wait4 call.
+>> 		 * Rather than having the parent do it as a magic kind of
+>> 		 * signal handler, we just set this to tell do_exit that we
+>> 		 * can be cleaned up without becoming a zombie.  Note that
+>> 		 * we still call __wake_up_parent in this case, because a
+>> 		 * blocked sys_wait4 might now return -ECHILD.
+>> 		 *
+>> 		 * Whether we send SIGCHLD or not for SA_NOCLDWAIT
+>> 		 * is implementation-defined: we do (if you don't want
+>> 		 * it, just use SIG_IGN instead).
+>> 		 */
+>> 		autoreap = true;
+>> 		if (psig->action[SIGCHLD-1].sa.sa_handler == SIG_IGN)
+>> 			sig = 0;
+>> 	}
+>>         if (valid_signal(sig) && sig)
+>>                 __group_send_sig_info(sig, &info, tsk->parent);
+>>
+>> So if the oarent has SIG_IGN we do not send a signal at all. So it's not a
+>> really interesting special case and the magic properties are not that magic
+>> either. Test case below. The parent waits forever.
 >
-> 	if (!tsk->ptrace && sig == SIGCHLD &&
-> 	    (psig->action[SIGCHLD-1].sa.sa_handler == SIG_IGN ||
-> 	     (psig->action[SIGCHLD-1].sa.sa_flags & SA_NOCLDWAIT))) {
-> 		/*
-> 		 * We are exiting and our parent doesn't care.  POSIX.1
-> 		 * defines special semantics for setting SIGCHLD to SIG_IGN
-> 		 * or setting the SA_NOCLDWAIT flag: we should be reaped
-> 		 * automatically and not left for our parent's wait4 call.
-> 		 * Rather than having the parent do it as a magic kind of
-> 		 * signal handler, we just set this to tell do_exit that we
-> 		 * can be cleaned up without becoming a zombie.  Note that
-> 		 * we still call __wake_up_parent in this case, because a
-> 		 * blocked sys_wait4 might now return -ECHILD.
-> 		 *
-> 		 * Whether we send SIGCHLD or not for SA_NOCLDWAIT
-> 		 * is implementation-defined: we do (if you don't want
-> 		 * it, just use SIG_IGN instead).
-> 		 */
-> 		autoreap = true;
-> 		if (psig->action[SIGCHLD-1].sa.sa_handler == SIG_IGN)
-> 			sig = 0;
-> 	}
->         if (valid_signal(sig) && sig)
->                 __group_send_sig_info(sig, &info, tsk->parent);
+> Which would suggests that to be consistent we should ignore
+> blocks for other signals on send when the signal handler is SIG_IGN.
 >
-> So if the oarent has SIG_IGN we do not send a signal at all. So it's not a
-> really interesting special case and the magic properties are not that magic
-> either. Test case below. The parent waits forever.
+> Hmm.
+>
+> For blocked signals because there is only one siginfo ever allocated
+> as I read it the code naturally blocks the signal until it is
+> dequeued and rearmed.
+>
+> I suspect what you want to do is a little more in the magic
+> dequeue_signal for timers and look if the signal handler
+> is SIG_IGN.  I think the clean solution would be to
+> treat timers whose signal handler is SIG_IGN as blocked
+> signals and simply not dequeue them.
+>
+> If they are not dequeued they won't reschedule and won't restart.
+> Then when the signal handler finally changes you immediately get
+> one pending signal and then the timers fire normally.
+>
+> That gets tricky though because the signal numbers are not dedicated
+> to posix timers.
+>
+> It might instead require noting that the handler is SIG_IGN when
+> dequeued and simply disabled the timer.  With an enable that kicks
+> in when someone calls sigaction and changes the handler.
 
-Which would suggests that to be consistent we should ignore
-blocks for other signals on send when the signal handler is SIG_IGN.
+The point my tired brain is making is that I don't think you actually
+care about SIG_IGN vs blocked signals.
 
-Hmm.
+Sigh.  But then again you have two places to worry about blocked
+signals.  From send_siqueue telling you the signals are ignored
+and from signals being dequeued and ignored with dequeue_signal
+in get_signal, do_sigtimedwait, and signalfd_dequeue.
 
-For blocked signals because there is only one siginfo ever allocated
-as I read it the code naturally blocks the signal until it is
-dequeued and rearmed.
+Now I see why you are asking about semantics.  If send_siqueue could
+always look at SIG_IGN you would only have one spot to worry about.
 
-I suspect what you want to do is a little more in the magic
-dequeue_signal for timers and look if the signal handler
-is SIG_IGN.  I think the clean solution would be to
-treat timers whose signal handler is SIG_IGN as blocked
-signals and simply not dequeue them.
+However the big practical question is if you can block those signals
+and pick them up with sigtimedwait or with signalfd.  It looks like
+you can today as neither sigtimedwait or signalfd care if the signal
+handler can be set to SIG_IGN.
 
-If they are not dequeued they won't reschedule and won't restart.
-Then when the signal handler finally changes you immediately get
-one pending signal and then the timers fire normally.
+Which means you wind up having 4 places you need to deal with ignored
+signals.  send_sigque, get_signal, do_sigtimedwait, and
+signalfd_dequeue.  It feels like it would be nice to move the timer
+requeue out of dequeue_signal and into it's callers, with an appropriate
+set of helpers.
 
-That gets tricky though because the signal numbers are not dedicated
-to posix timers.
+Sigh.
 
-It might instead require noting that the handler is SIG_IGN when
-dequeued and simply disabled the timer.  With an enable that kicks
-in when someone calls sigaction and changes the handler.
+I hope that helps a little.
 
 Eric
 --
