@@ -1,46 +1,62 @@
-From: "Sarah.Edward" <mrs.sarahjohnsonn-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org>
-Subject: Re: Charity Foundation.~
-Date: Mon, 5 Jun 2017 09:53:45 +0100
-Message-ID: <CAF6A2BpvvvPxvA9h_2tBALb7UW6MMAoS9jdj=iDn1qpsZe=C=w@mail.gmail.com>
-References: <CAF6A2BqGy9Nnk9iLSjY_o71ssnqDuYyOmTwkkc+Q_ntqWzHR-Q@mail.gmail.com>
- <CAF6A2BoLGjeXwRjds_Bk1_kzB1E=A4coZHqUOBGRbX5hZV0=tg@mail.gmail.com> <CAF6A2BoNPCPmTNyqtM+u+m+27BZPefASuuYzFJa7C7r+j25_tA@mail.gmail.com>
-Reply-To: sarh.edward-PkbjNfxxIARBDgjK7y7TUQ@public.gmane.org
-Mime-Version: 1.0
-Content-Type: text/plain; charset="UTF-8"
-Return-path: <linux-man-owner-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>
-In-Reply-To: <CAF6A2BoNPCPmTNyqtM+u+m+27BZPefASuuYzFJa7C7r+j25_tA-JsoAwUIsXosN+BqQ9rBEUg@public.gmane.org>
-Sender: linux-man-owner-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
+From: Goldwyn Rodrigues <rgoldwyn-l3A5Bk7waGM@public.gmane.org>
+Subject: [PATCH] utimensat: immutable flag returns -EPERM
+Date: Mon,  5 Jun 2017 09:18:27 -0500
+Message-ID: <20170605141827.21420-1-rgoldwyn@suse.de>
+Return-path: <linux-api-owner-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>
+Sender: linux-api-owner-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
+To: linux-man-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
+Cc: jstancek-H+wXaHxf7aLQT0dZR+AlfA@public.gmane.org, mszeredi-H+wXaHxf7aLQT0dZR+AlfA@public.gmane.org, linux-api-u79uwXL29TY76Z2rM5mHXA@public.gmane.org, mtk.manpages-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org, chrubis-AlSwsSmVLrQ@public.gmane.org, tytso-3s7WtUTddSA@public.gmane.org, bfields-uC3wQj2KruNg9hUCZPvPmw@public.gmane.org, pgajdos-IBi9RG/b67k@public.gmane.org, Goldwyn Rodrigues <rgoldwyn-IBi9RG/b67k@public.gmane.org>
 List-Id: linux-man@vger.kernel.org
 
-`._..
+From: Goldwyn Rodrigues <rgoldwyn-IBi9RG/b67k@public.gmane.org>
 
-Peace be with you,
+Linux kernel commit 337684a1746f "fs: return EPERM on immutable inode"
+changed (nd unified the return value of the utimensat(2) from -EACCES
+to -EPERM in case of an immutable flag. Modify the man page to
+reflect the same.
 
-Glad to write to you this message,
+The entire discussion of returning the correct return value is at:
+http://lists.linux.it/pipermail/ltp/2017-January/003424.html
 
-I seek for your kind help in setting up a charitable organization to
-help the less privileged  people and also the elderly people under
-your care,
+Signed-off-by: Goldwyn Rodrigues <rgoldwyn-IBi9RG/b67k@public.gmane.org>
+---
+ man2/utimensat.2 | 10 ++--------
+ 1 file changed, 2 insertions(+), 8 deletions(-)
 
-I want to use my late husband wealth of $3,000,000.00 to set up a
-charity foundation to help the needy and the less privileged ones in
-your country under your care, Can you help to build this project in
-your country?
-
-All i need from you is your sincerity to use this funds to do this
-project as i desired to use it for less privileged ones and orphanage
-homes,
-
-We are the one who will make the world a better place when we help the
-needy sincerely,
-
-Reply and let me know your opinion in doing this noble work for the
-help of mankind,
-
-Be blessed,
-
-Mrs Sarah Edward J.
---
-To unsubscribe from this list: send the line "unsubscribe linux-man" in
-the body of a message to majordomo-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
-More majordomo info at  http://vger.kernel.org/majordomo-info.html
+diff --git a/man2/utimensat.2 b/man2/utimensat.2
+index f77d0b42a..c0bdf8808 100644
+--- a/man2/utimensat.2
++++ b/man2/utimensat.2
+@@ -238,10 +238,7 @@ or both
+ .I tv_nsec
+ values are
+ .BR UTIME_NOW ,
+-and either:
+-.RS
+-.IP * 3
+-the effective user ID of the caller does not match
++and the effective user ID of the caller does not match
+ the owner of the file,
+ the caller does not have write access to the file,
+ and the caller is not privileged
+@@ -249,7 +246,7 @@ and the caller is not privileged
+ .B CAP_FOWNER
+ or the
+ .B CAP_DAC_OVERRIDE
+-capability); or,
++capability).
+ .\" But Linux 2.6.22 was broken here.
+ .\" Traditionally, utime()/utimes() gives the error EACCES for the case
+ .\" where the timestamp pointer argument is NULL (i.e., set both timestamps
+@@ -271,9 +268,6 @@ capability); or,
+ .\" and the permissions of the directory to which
+ .\" .I fd
+ .\" refers do not allow searches.
+-.IP *
+-the file is marked immutable (see
+-.BR chattr (1)).
+ .\" EXT2_IMMUTABLE_FL and similar flags for other filesystems.
+ .RE
+ .TP
+-- 
+2.12.3
