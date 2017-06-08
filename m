@@ -1,57 +1,47 @@
-From: Mike Frysinger <vapier-aBrp7R+bbdUdnm+yROfE0A@public.gmane.org>
-Subject: [PATCH] seccomp(2): expand SECCOMP_RET_KILL documentation
-Date: Tue,  6 Jun 2017 17:53:50 -0400
-Message-ID: <20170606215350.23062-1-vapier@gentoo.org>
+From: Arjun Shankar <arjun.is-xDe9EDckjEKzQB+pC5nmwQ@public.gmane.org>
+Subject: [PATCH] ptsname.3: ERRORS: remove EINVAL
+Date: Thu, 8 Jun 2017 12:52:18 +0000
+Message-ID: <20170608125218.GA80475@aloka.lostca.se>
+Mime-Version: 1.0
+Content-Type: text/plain; charset=us-ascii
 Return-path: <linux-man-owner-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>
+Content-Disposition: inline
 Sender: linux-man-owner-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
-To: Michael Kerrisk <mtk.manpages-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org>
-Cc: linux-man-u79uwXL29TY76Z2rM5mHXA@public.gmane.org, Mike Frysinger <vapier-F7+t8E8rja9g9hUCZPvPmw@public.gmane.org>
+To: mtk.manpages-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org
+Cc: linux-man-u79uwXL29TY76Z2rM5mHXA@public.gmane.org, Zack Weinberg <zackw-VmQCmMdMyN0AvxtiuMwx3w@public.gmane.org>, Joseph Myers <joseph-qD8j1LwMmJjtCj0u4l0SBw@public.gmane.org>, Florian Weimer <fweimer-H+wXaHxf7aLQT0dZR+AlfA@public.gmane.org>
 List-Id: linux-man@vger.kernel.org
 
-From: Mike Frysinger <vapier-F7+t8E8rja9g9hUCZPvPmw@public.gmane.org>
+The glibc implementation of 'ptsname_r' no longer checks if it has
+been called with a NULL 'buf' [1], and therefore cannot return an
+EINVAL error.
 
-First clarify that the process cannot catch this SIGSYS signal.  While
-the text currently says that, it's easy (imo) to read ambiguously and
-that it's referring to default behavior (no handler -> process exits).
+[1] https://sourceware.org/git/?p=glibc.git;a=commitdiff;h=8f0a947
+    (prior to the release of glibc 2.26)
 
-Then add details regarding coredump behavior.  Before Linux 4.11, there
-was no way to get coredumps from such crashes.  Now we can at least get
-crashes from single threaded processes.
-
-Signed-off-by: Mike Frysinger <vapier-F7+t8E8rja9g9hUCZPvPmw@public.gmane.org>
+Signed-off-by: Arjun Shankar <arjun.is-xDe9EDckjEKzQB+pC5nmwQ@public.gmane.org>
 ---
- man2/seccomp.2 | 16 ++++++++++++++++
- 1 file changed, 16 insertions(+)
+ man3/ptsname.3 | 6 ------
+ 1 file changed, 6 deletions(-)
 
-diff --git a/man2/seccomp.2 b/man2/seccomp.2
-index 7d0e721894b4..ec1df0c9efca 100644
---- a/man2/seccomp.2
-+++ b/man2/seccomp.2
-@@ -378,6 +378,22 @@ The process terminates as though killed by a
- signal
- .RI ( not
- .BR SIGKILL ).
-+Even if a signal handler has been registered and otherwise catches
-+.BR SIGSYS ,
-+the handler will be ignored in this case and the process always terminates.
-+
-+.\" See these commits:
-+.\" seccomp: dump core when using SECCOMP_RET_KILL (b25e67161c295c98acda92123b2dd1e7d8642901)
-+.\" seccomp: Only dump core when single-threaded (d7276e321ff8a53106a59c85ca46d03e34288893)
-+Before Linux 4.11, any process terminated this way would not trigger a coredump
-+(even though
-+.B SIGSYS
-+is documented in
-+.BR signal (7)
-+as having a default core action).
-+Since Linux 4.11, single threaded processes follow standard coredump behavior,
-+but multithreaded processes still do not.
-+There is no workaround currently for multithreaded processes.
+diff --git a/man3/ptsname.3 b/man3/ptsname.3
+index 90133fe..fd98b6b 100644
+--- a/man3/ptsname.3
++++ b/man3/ptsname.3
+@@ -58,12 +58,6 @@ is set to indicate the error.
+ .\" result -- MTK, Dec 04
+ .SH ERRORS
  .TP
- .BR SECCOMP_RET_TRAP
- This value results in the kernel sending a
+-.B EINVAL
+-.RB ( ptsname_r ()
+-only)
+-.I buf
+-is NULL.
+-.TP
+ .B ENOTTY
+ .I fd
+ does not refer to a pseudoterminal master device.
 -- 
-2.12.0
+2.9.4
 
 --
 To unsubscribe from this list: send the line "unsubscribe linux-man" in
