@@ -1,31 +1,37 @@
-From: Greg Kroah-Hartman <gregkh-hQyY1W1yCW8ekmWlsbkhG0B+6BGkLq7r@public.gmane.org>
-Subject: Re: [PATCH] ioctl_tty.2: add TIOCGPTPEER documentation
-Date: Fri, 9 Jun 2017 20:10:38 +0200
-Message-ID: <20170609181038.GB18740@kroah.com>
-References: <20170609170147.32311-1-asarai@suse.de>
+From: Quentin Rameau <quinq-UlqG2OPX9a0ue8ZPuPpd/Q@public.gmane.org>
+Subject: [PATCH] getaddrinfo.3: Fix _POSIX_C_SOURCE value for getaddrinfo()
+Date: Sat, 10 Jun 2017 01:00:20 +0200
+Message-ID: <20170609230020.GA62868@alpha.fifth.space>
 Mime-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
+Content-Type: text/plain; charset=utf-8
 Return-path: <linux-man-owner-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>
 Content-Disposition: inline
-In-Reply-To: <20170609170147.32311-1-asarai-l3A5Bk7waGM@public.gmane.org>
 Sender: linux-man-owner-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
-To: Aleksa Sarai <asarai-l3A5Bk7waGM@public.gmane.org>
-Cc: mtk.manpages-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org, linux-man-u79uwXL29TY76Z2rM5mHXA@public.gmane.org, linux-kernel-u79uwXL29TY76Z2rM5mHXA@public.gmane.org, Christian Brauner <christian.brauner-GeWIH/nMZzLQT0dZR+AlfA@public.gmane.org>, Valentin Rothberg <vrothberg-IBi9RG/b67k@public.gmane.org>, Jiri Slaby <jslaby-IBi9RG/b67k@public.gmane.org>, containers-cunTk1MwBs9QetFLy7KEm3xJsTq8ys+cHZ5vskTnxNA@public.gmane.org
+To: mtk.manpages-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org
+Cc: linux-man-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
 List-Id: linux-man@vger.kernel.org
 
-On Sat, Jun 10, 2017 at 03:01:47AM +1000, Aleksa Sarai wrote:
-> The feature this patch references has currently only been accepted into
-> tty-testing, but Greg told me to kick this down to man-pages. As a
-> result, I can't reference upstream commit id's because the code isn't in
-> Linus' tree yet -- should I resend this once it lands in tty-next or
-> Linus' tree?
+The correct _POSIX_C_SOURCE value is 200112L, not 201112L in features.h.
+---
+ man3/getaddrinfo.3 | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
 
-It's now merged to tty-next, and will show up in the next linux-next
-release, and is planned to be merged into 4.13-rc1 when that happens.
+diff --git a/man3/getaddrinfo.3 b/man3/getaddrinfo.3
+index f058e5a80..2f89c099b 100644
+--- a/man3/getaddrinfo.3
++++ b/man3/getaddrinfo.3
+@@ -69,7 +69,7 @@ Feature Test Macro Requirements for glibc (see
+ .BR getaddrinfo (),
+ .BR freeaddrinfo (),
+ .BR gai_strerror ():
+-    Since glibc 2.22: _POSIX_C_SOURCE >= 201112L
++    Since glibc 2.22: _POSIX_C_SOURCE >= 200112L
+     Glibc 2.21 and earlier: _POSIX_C_SOURCE
+ .ad b
+ .SH DESCRIPTION
+-- 
+2.13.1
 
-thanks,
-
-greg k-h
 --
 To unsubscribe from this list: send the line "unsubscribe linux-man" in
 the body of a message to majordomo-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
