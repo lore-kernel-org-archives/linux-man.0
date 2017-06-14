@@ -1,18 +1,57 @@
-From: "Dave Dawes" <dmoore32-oe7qfRrRQff1ikKbInQQOjcbuqLmMDG7h13vi7wywA4@public.gmane.org>
-Subject: I Would love to discuse something with you.
-Date: Mon, 12 Jun 2017 07:52:10 -0700
-Message-ID: <BN3PR0101MB1220D6583EAC3E00ADFD126A83CD0@BN3PR0101MB1220.prod.exchangelabs.com>
-Reply-To: ddawes231-9uewiaClKEY@public.gmane.org
-Mime-Version: 1.0
-Content-Type: text/plain; charset="iso-8859-1"
-Content-Transfer-Encoding: quoted-printable
+From: "Jason A. Donenfeld" <Jason-OnJsPKxuuEcAvxtiuMwx3w@public.gmane.org>
+Subject: [PATCH] xcrypt.3: warn folks not to use these functions
+Date: Wed, 14 Jun 2017 18:37:46 +0200
+Message-ID: <20170614163746.7005-1-Jason@zx2c4.com>
 Return-path: <linux-man-owner-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>
-Content-Description: Mail message body
 Sender: linux-man-owner-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
-To: Recipients <dmoore32-oe7qfRrRQff1ikKbInQQOjcbuqLmMDG7h13vi7wywA4@public.gmane.org>
+To: linux-man-u79uwXL29TY76Z2rM5mHXA@public.gmane.org, linux-api-u79uwXL29TY76Z2rM5mHXA@public.gmane.org, jann-XZ1E9jl8jIdeoWH0uzbU5w@public.gmane.org
+Cc: "Jason A. Donenfeld" <Jason-OnJsPKxuuEcAvxtiuMwx3w@public.gmane.org>
 List-Id: linux-man@vger.kernel.org
 
-=20
+There is not an acceptable reason to use these functions ever in new code.
+For example, just observe the implementation of the KDF:
+
+	/*
+	 * Turn password into DES key
+	 */
+	void
+	passwd2des_internal (char *pw, char *key)
+	{
+	  int i;
+
+	  memset (key, 0, 8);
+	  for (i = 0; *pw && i < 8; ++i)
+	    key[i] ^= *pw++ << 1;
+
+	  des_setparity (key);
+	}
+
+This kind of nonsense isn't okay in the year 2017. Therefore, we
+enlighten our poor users.
+
+Signed-off-by: Jason A. Donenfeld <Jason-OnJsPKxuuEcAvxtiuMwx3w@public.gmane.org>
+---
+ man3/xcrypt.3 | 4 ++++
+ 1 file changed, 4 insertions(+)
+
+diff --git a/man3/xcrypt.3 b/man3/xcrypt.3
+index 956df55ba..6bc882549 100644
+--- a/man3/xcrypt.3
++++ b/man3/xcrypt.3
+@@ -22,6 +22,10 @@ xencrypt, xdecrypt, passwd2des \- RFS password encryption
+ .sp
+ .BI "int xdecrypt(char *" secret ", char *" passwd ");"
+ .SH DESCRIPTION
++.BR WARNING :
++Do not use these functions in new code. They do not achieve
++any type of acceptable cryptographic security guarantees.
++.LP
+ The function
+ .BR passwd2des ()
+ takes a character string
+-- 
+2.13.1
+
 --
 To unsubscribe from this list: send the line "unsubscribe linux-man" in
 the body of a message to majordomo-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
