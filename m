@@ -1,11 +1,11 @@
 From: "Jason A. Donenfeld" <Jason-OnJsPKxuuEcAvxtiuMwx3w@public.gmane.org>
 Subject: [PATCH] xcrypt.3: warn folks not to use these functions
-Date: Wed, 14 Jun 2017 18:37:46 +0200
-Message-ID: <20170614163746.7005-1-Jason@zx2c4.com>
+Date: Wed, 14 Jun 2017 19:03:51 +0200
+Message-ID: <20170614170351.19509-1-Jason@zx2c4.com>
 Return-path: <linux-man-owner-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>
 Sender: linux-man-owner-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
-To: linux-man-u79uwXL29TY76Z2rM5mHXA@public.gmane.org, linux-api-u79uwXL29TY76Z2rM5mHXA@public.gmane.org, jann-XZ1E9jl8jIdeoWH0uzbU5w@public.gmane.org
-Cc: "Jason A. Donenfeld" <Jason-OnJsPKxuuEcAvxtiuMwx3w@public.gmane.org>
+To: mtk.manpages-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org
+Cc: linux-man-u79uwXL29TY76Z2rM5mHXA@public.gmane.org, "Jason A. Donenfeld" <Jason-OnJsPKxuuEcAvxtiuMwx3w@public.gmane.org>
 List-Id: linux-man@vger.kernel.org
 
 There is not an acceptable reason to use these functions ever in new code.
