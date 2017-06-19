@@ -1,55 +1,37 @@
-From: Michal Hocko <mhocko-DgEjT+Ai2ygdnm+yROfE0A@public.gmane.org>
-Subject: Re: [PATCH] mmap.2: mmap with address NULL and MAP_FIXED results in
- EPERM
-Date: Fri, 16 Jun 2017 17:25:47 +0200
-Message-ID: <20170616152546.GA31298@dhcp22.suse.cz>
-References: <20170615190901.30119-1-tblodt@icloud.com>
+From: INFO <mguerrero-GNjpPIGPYwWIwRZHo2/mJg@public.gmane.org>
+Subject: Re: Reply Urgent
+Date: Mon, 19 Jun 2017 14:39:18 -0500
+Message-ID: <20170619143918.2132176qvnaamicm__4200.89906915582$1497917332$gmane$org@correo.huv.gov.co>
 Mime-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
+Content-Type: text/plain;
+ charset=ISO-8859-1;
+ DelSp="Yes";
+ format="flowed"
+Content-Transfer-Encoding: 7bit
 Return-path: <linux-man-owner-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>
 Content-Disposition: inline
-In-Reply-To: <20170615190901.30119-1-tblodt-mVuRI66OGLPQT0dZR+AlfA@public.gmane.org>
 Sender: linux-man-owner-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
-To: Theodore Dubois <tblodt-mVuRI66OGLPQT0dZR+AlfA@public.gmane.org>
-Cc: mtk.manpages-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org, linux-man-u79uwXL29TY76Z2rM5mHXA@public.gmane.org, linux-kernel-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
 List-Id: linux-man@vger.kernel.org
 
-On Thu 15-06-17 12:09:01, Theodore Dubois wrote:
-> This can be verified with a simple test program. I'm not sure if this is
-> a kernel bug or a documentation bug, though...
+Hello,
 
-THis is not a bug. You are not allowed to mmap anything below
-/proc/sys/vm/mmap_min_addr. So your patch to update documentation would
-have to mention this sysctl to be correct.
+How are you doing? I have been sent to inform you that, We have an  
+inheritance of a deceased client with your surname. Contact Mr Andrew  
+Bailey Reply Email To: myinfand-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org with your "Full Names" for  
+more info.  Thanks for your understanding.
 
-> ---
->  man2/mmap.2 | 7 +++++++
->  1 file changed, 7 insertions(+)
-> 
-> diff --git a/man2/mmap.2 b/man2/mmap.2
-> index d1942b52a..58361c837 100644
-> --- a/man2/mmap.2
-> +++ b/man2/mmap.2
-> @@ -515,6 +515,13 @@ was mounted no-exec.
->  .\" (Since 2.4.25 / 2.6.0.)
->  .TP
->  .B EPERM
-> +The
-> +.I addr
-> +argument is 0 and
-> +.B MAP_FIXED
-> +is specified.
-> +.TP
-> +.B EPERM
->  The operation was prevented by a file seal; see
->  .BR fcntl (2).
->  .TP
-> -- 
-> 2.13.1
+Reply ASAP thank you.
 
--- 
-Michal Hocko
-SUSE Labs
+Melissa.
+----------------------------------
+Correo Corporativo Hospital Universitario del Valle E.S.E
+*******************************************************************************
+
+"Estamos re-dimensionandonos para crecer!"
+
+******************************************************************************
+
+
 --
 To unsubscribe from this list: send the line "unsubscribe linux-man" in
 the body of a message to majordomo-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
