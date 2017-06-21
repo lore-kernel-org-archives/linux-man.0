@@ -1,45 +1,20 @@
-From: Eric Biggers <ebiggers3-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org>
-Subject: [PATCH] execve.2: fix a couple typos
-Date: Wed, 21 Jun 2017 19:15:27 -0700
-Message-ID: <20170622021527.24281-1-ebiggers3@gmail.com>
+From: "CELINE" <vendce-pUH59sF1I7pGWvitb5QawA@public.gmane.org>
+Subject: let me know
+Date: Wed, 21 Jun 2017 14:58:15 +0100
+Message-ID: <201706211359.v5LDf0Aq028492@www.brfliseberg.se>
+Reply-To: celineroullier200-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org
+Mime-Version: 1.0
+Content-Type: text/plain; charset="iso-8859-1"
+Content-Transfer-Encoding: 8BIT
 Return-path: <linux-man-owner-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>
+Content-Description: Mail message body
 Sender: linux-man-owner-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
-To: linux-man-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
-Cc: Eric Biggers <ebiggers-hpIqsD4AKlfQT0dZR+AlfA@public.gmane.org>
+To: Recipients <vendce-pUH59sF1I7pGWvitb5QawA@public.gmane.org>
 List-Id: linux-man@vger.kernel.org
 
-From: Eric Biggers <ebiggers-hpIqsD4AKlfQT0dZR+AlfA@public.gmane.org>
-
-Signed-off-by: Eric Biggers <ebiggers-hpIqsD4AKlfQT0dZR+AlfA@public.gmane.org>
----
- man2/execve.2 | 4 ++--
- 1 file changed, 2 insertions(+), 2 deletions(-)
-
-diff --git a/man2/execve.2 b/man2/execve.2
-index 029f8ea8b..694457b80 100644
---- a/man2/execve.2
-+++ b/man2/execve.2
-@@ -127,7 +127,7 @@ similarly, the effective group ID is copied to the saved set-group-ID.
- This copying takes place after any effective ID changes that occur
- because of the set-user-ID and set-group-ID mode bits.
- 
--The process's read UID and real GID, as well its supplementary group IDs,
-+The process's real UID and real GID, as well its supplementary group IDs,
- are unchanged by a call to
- .BR execve ().
- 
-@@ -590,7 +590,7 @@ signal.
- .\"
- .SS Interpreter scripts
- A maximum line length of 127 characters is allowed for the first line in
--an interpreter scripts.
-+an interpreter script.
- 
- The semantics of the
- .I optional-arg
--- 
-2.13.1
-
+Hello, important charity foundation proposal to discuss with you, if you are interested please reply urgently for details. 
+with love,
+CELINE
 --
 To unsubscribe from this list: send the line "unsubscribe linux-man" in
 the body of a message to majordomo-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
