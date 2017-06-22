@@ -1,36 +1,44 @@
-From: INFO <mguerrero-GNjpPIGPYwWIwRZHo2/mJg@public.gmane.org>
-Subject: Re: Reply Urgent
-Date: Mon, 19 Jun 2017 14:39:18 -0500
-Message-ID: <20170619143918.2132176qvnaamicm__4200.89906915582$1497917332$gmane$org@correo.huv.gov.co>
-Mime-Version: 1.0
-Content-Type: text/plain;
- charset=ISO-8859-1;
- DelSp="Yes";
- format="flowed"
-Content-Transfer-Encoding: 7bit
+From: Eric Biggers <ebiggers3-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org>
+Subject: [PATCH] execve.2: fix a couple typos
+Date: Wed, 21 Jun 2017 19:15:27 -0700
+Message-ID: <20170622021527.24281-1-ebiggers3@gmail.com>
 Return-path: <linux-man-owner-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>
-Content-Disposition: inline
 Sender: linux-man-owner-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
+To: linux-man-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
+Cc: Eric Biggers <ebiggers-hpIqsD4AKlfQT0dZR+AlfA@public.gmane.org>
 List-Id: linux-man@vger.kernel.org
 
-Hello,
+From: Eric Biggers <ebiggers-hpIqsD4AKlfQT0dZR+AlfA@public.gmane.org>
 
-How are you doing? I have been sent to inform you that, We have an  
-inheritance of a deceased client with your surname. Contact Mr Andrew  
-Bailey Reply Email To: myinfand-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org with your "Full Names" for  
-more info.  Thanks for your understanding.
+Signed-off-by: Eric Biggers <ebiggers-hpIqsD4AKlfQT0dZR+AlfA@public.gmane.org>
+---
+ man2/execve.2 | 4 ++--
+ 1 file changed, 2 insertions(+), 2 deletions(-)
 
-Reply ASAP thank you.
-
-Melissa.
-----------------------------------
-Correo Corporativo Hospital Universitario del Valle E.S.E
-*******************************************************************************
-
-"Estamos re-dimensionandonos para crecer!"
-
-******************************************************************************
-
+diff --git a/man2/execve.2 b/man2/execve.2
+index 029f8ea8b..694457b80 100644
+--- a/man2/execve.2
++++ b/man2/execve.2
+@@ -127,7 +127,7 @@ similarly, the effective group ID is copied to the saved set-group-ID.
+ This copying takes place after any effective ID changes that occur
+ because of the set-user-ID and set-group-ID mode bits.
+ 
+-The process's read UID and real GID, as well its supplementary group IDs,
++The process's real UID and real GID, as well its supplementary group IDs,
+ are unchanged by a call to
+ .BR execve ().
+ 
+@@ -590,7 +590,7 @@ signal.
+ .\"
+ .SS Interpreter scripts
+ A maximum line length of 127 characters is allowed for the first line in
+-an interpreter scripts.
++an interpreter script.
+ 
+ The semantics of the
+ .I optional-arg
+-- 
+2.13.1
 
 --
 To unsubscribe from this list: send the line "unsubscribe linux-man" in
