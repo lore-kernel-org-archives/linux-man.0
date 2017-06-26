@@ -1,103 +1,26 @@
-From: David Lewis <davlewi3-FYB4Gu1CFyUAvxtiuMwx3w@public.gmane.org>
-Subject: Error on capabilities(7) man page
-Date: Thu, 22 Jun 2017 13:01:08 -0400
-Message-ID: <3d3618d0-8bbc-e5d2-9c56-8fdf43cf3f64@cisco.com>
+From: Christoph Hellwig <hch-wEGCiKHe2LqWVfeAwA7xHQ@public.gmane.org>
+Subject: Re: [PATCH 1/9] fs: add fcntl() interface for setting/getting write
+ life time hints
+Date: Mon, 26 Jun 2017 02:51:48 -0700
+Message-ID: <20170626095148.GB14057@infradead.org>
+References: <1498004526-4543-1-git-send-email-axboe@kernel.dk>
+ <1498004526-4543-2-git-send-email-axboe@kernel.dk>
 Mime-Version: 1.0
-Content-Type: multipart/signed; protocol="application/pkcs7-signature"; micalg=sha-256; boundary="------------ms020408020507010700080509"
+Content-Type: text/plain; charset=us-ascii
 Return-path: <linux-man-owner-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>
+Content-Disposition: inline
+In-Reply-To: <1498004526-4543-2-git-send-email-axboe-tSWWG44O7X1aa/9Udqfwiw@public.gmane.org>
 Sender: linux-man-owner-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
-To: mtk.manpages-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org
-Cc: linux-man-u79uwXL29TY76Z2rM5mHXA@public.gmane.org, davidlewis4-HInyCGIudOg@public.gmane.org
+To: Jens Axboe <axboe-tSWWG44O7X1aa/9Udqfwiw@public.gmane.org>
+Cc: linux-fsdevel-u79uwXL29TY76Z2rM5mHXA@public.gmane.org, linux-block-u79uwXL29TY76Z2rM5mHXA@public.gmane.org, adilger-m1MBpc4rdrD3fQ9qLvQP4Q@public.gmane.org, hch-wEGCiKHe2LqWVfeAwA7xHQ@public.gmane.org, martin.petersen-QHcLZuEGTsvQT0dZR+AlfA@public.gmane.org, linux-nvme-IAPFreCvJWM7uuMidbF8XUB+6BGkLq7r@public.gmane.org, linux-api-u79uwXL29TY76Z2rM5mHXA@public.gmane.org, linux-man-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
 List-Id: linux-man@vger.kernel.org
 
-This is a cryptographically signed message in MIME format.
+Please document the userspace API (added linux-api and linux-man
+to CC for sugestions), especially including the odd effects of the
+per-inode settings.
 
---------------ms020408020507010700080509
-Content-Type: text/plain; charset=utf-8
-Content-Language: en-US
-Content-Transfer-Encoding: quoted-printable
-
-Michael,
-
-It appears the descriptions for CAP_MAC_ADMIN and CAP_MAC_OVERRIDE have b=
-een swapped.
-
-Regards,
-David
-
-
---------------ms020408020507010700080509
-Content-Type: application/pkcs7-signature; name="smime.p7s"
-Content-Transfer-Encoding: base64
-Content-Disposition: attachment; filename="smime.p7s"
-Content-Description: S/MIME Cryptographic Signature
-
-MIAGCSqGSIb3DQEHAqCAMIACAQExDzANBglghkgBZQMEAgEFADCABgkqhkiG9w0BBwEAAKCC
-CpIwggRuMIIDVqADAgECAgphEIBtAAAAAAAOMA0GCSqGSIb3DQEBBQUAMDUxFjAUBgNVBAoT
-DUNpc2NvIFN5c3RlbXMxGzAZBgNVBAMTEkNpc2NvIFJvb3QgQ0EgMjA0ODAeFw0xNDA0MDQy
-MDI0MThaFw0yOTA1MTQyMDI1NDJaMCwxDjAMBgNVBAoTBUNpc2NvMRowGAYDVQQDExFDaXNj
-byBFbXBsb3llZSBDQTCCASIwDQYJKoZIhvcNAQEBBQADggEPADCCAQoCggEBAMrffhZMUxX7
-I1bNxrllCgSV5d5MRWeMDMcG4KsfbV83Knvn7aOtgH8RyPOC6+6fUNnJvz2hL7s8EQc177il
-2VFO2bD3U6CUgCwskmWtEG+hhmtfQAqZpVBEGpBNz+ZM+0YGjUjjB9fhrWPX1egnABW/bgey
-Q7tlBi999lldmxLFLH2960SwUuHC/B7tnVn3HZOnqzGmQkI5J9OBYsZULCaM2z0U0KiOFeoo
-pBv+vaw8nk3W1UyvjMv/S58FbA9xgTIkYe0Zq77qcbRojLvI9OSLP3dTon4VnnML41d0XoPS
-6JPGzDSRDAKXndcHk3VUtF+DLAIXqLCQZXfZUuTuIncCAwEAAaOCAYcwggGDMBAGCSsGAQQB
-gjcVAQQDAgEAMB0GA1UdDgQWBBSflTa0jl3VS8MKwacpk0NRBv2JUTAZBgkrBgEEAYI3FAIE
-DB4KAFMAdQBiAEMAQTALBgNVHQ8EBAMCAYYwEgYDVR0TAQH/BAgwBgEB/wIBADAfBgNVHSME
-GDAWgBQn88gVHm6aAgkWrSugiWBf2nsvqjBDBgNVHR8EPDA6MDigNqA0hjJodHRwOi8vd3d3
-LmNpc2NvLmNvbS9zZWN1cml0eS9wa2kvY3JsL2NyY2EyMDQ4LmNybDBQBggrBgEFBQcBAQRE
-MEIwQAYIKwYBBQUHMAKGNGh0dHA6Ly93d3cuY2lzY28uY29tL3NlY3VyaXR5L3BraS9jZXJ0
-cy9jcmNhMjA0OC5jZXIwXAYDVR0gBFUwUzBRBgorBgEEAQkVARUAMEMwQQYIKwYBBQUHAgEW
-NWh0dHA6Ly93d3cuY2lzY28uY29tL3NlY3VyaXR5L3BraS9wb2xpY2llcy9pbmRleC5odG1s
-MA0GCSqGSIb3DQEBBQUAA4IBAQA+Tr4jGkYCjV5r24oCNAtjm+UBPCZdjHCyJOtgXuyKhGQu
-G1kVo2ca4Rbj/eBNfUSaIyjS7bb3oh/nRM3tbeqGIVQorGxhvPvIZVAEQIoqi/yfbhie9cU+
-paKpHACucaYXu0kyS0pYE5NMNun3Lw3ogOs4XVR5yoVSpKTiVnfTDQchTpwkMgzivqXDcS1O
-iDfU8C9WaEZHRWtdUIgl9zoppPGIQa1TflcxhirW4GeH2FOrgaN1d77bIcg6R7RpJ9Xu3/f0
-1nGNunrRcy993c2meJQoZcOJd15C6ugHwhAxeXY6QXYgkY8KQVCCGwkpshEgbwPrC+I/Itb6
-P7hGq7awMIIGHDCCBQSgAwIBAgIKETzV/AAAAAAMQTANBgkqhkiG9w0BAQsFADAsMQ4wDAYD
-VQQKEwVDaXNjbzEaMBgGA1UEAxMRQ2lzY28gRW1wbG95ZWUgQ0EwHhcNMTcwMzE0MjA1OTE5
-WhcNMTkwMzE0MjA1OTE5WjBwMRwwGgYDVQQKExNDaXNjbyBTeXN0ZW1zLCBJbmMuMRcwFQYD
-VQQLEw5Tb2Z0d2FyZSBFbWFpbDEUMBIGA1UEAxMLREFWSUQgTEVXSVMxITAfBgkqhkiG9w0B
-CQEWEmRhdmxld2kzQGNpc2NvLmNvbTCCASIwDQYJKoZIhvcNAQEBBQADggEPADCCAQoCggEB
-AK7zjk7a9d/wkrwx0BccUlbkoFcrRl2OX+huUYePUaw8bcH2JgI8siMT31dWU2YLPdZrlEpE
-FGOGWEir49JNg6FzTAnRp2r3Us6NXQEZSiHuj7CikZTQs3ob3+jlhd9cRZsMz6J0YPGfu3xR
-vEVyudOMoxZ7coScnvoMF2moZA2cVwznsv3kRPi9uSi+LLEIncvXUjXBKHX4/Hz0JoxM6ilJ
-lNFToow9eGclGUVmRJ3ElmGEGPvt0z8KED5EX4XglN6jS5Id5WZXIXOJAvBw1DsIUHl5wkio
-pFDGOa/WpejSNPRHCXDsoWpuj8nJYzgR0wVVuR3mEDgShCQ3tUSaaTkCAwEAAaOCAvowggL2
-MB0GA1UdEQQWMBSBEmRhdmxld2kzQGNpc2NvLmNvbTAdBgNVHQ4EFgQUNmd9SOZxvxxwk8nc
-tux/IyRaVJUwHwYDVR0jBBgwFoAUn5U2tI5d1UvDCsGnKZNDUQb9iVEwgewGA1UdHwSB5DCB
-4TCB3qCB26CB2IYpaHR0cDovL2Npc2NvY2VydHMuY2lzY28uY29tL2ZpbGUvY2VjYS5jcmyG
-gapsZGFwOi8vL0NOPUNFQ0EuY3JsLENOPUNFQ0EsQ049Q0RQLENOPVB1YmxpYyUyMEtleSUy
-MFNlcnZpY2VzLENOPVNlcnZpY2VzLENOPUNvbmZpZ3VyYXRpb24sREM9Y2lzY28sREM9Y29t
-P2NlcnRpZmljYXRlUmV2b2NhdGlvbkxpc3Q/YmFzZT9vYmplY3RDbGFzcz1jUkxEaXN0cmli
-dXRpb25Qb2ludDB6BggrBgEFBQcBAQRuMGwwPAYIKwYBBQUHMAKGMGh0dHA6Ly93d3cuY2lz
-Y28uY29tL3NlY3VyaXR5L3BraS9jZXJ0cy9jZWNhLmNlcjAsBggrBgEFBQcwAYYgaHR0cDov
-L3BraWN2cy5jaXNjby5jb20vcGtpL29jc3AwDgYDVR0PAQH/BAQDAgTwMDwGCSsGAQQBgjcV
-BwQvMC0GJSsGAQQBgjcVCO6PJILOrE2ChYUUkcZEgfaeXYE2g/mTZYa++DQCAWQCAQ8wNwYD
-VR0lBDAwLgYKKwYBBAGCNwoFAQYKKwYBBAGCNwoDDAYKKwYBBAGCNwoDBAYIKwYBBQUHAwQw
-XAYDVR0gBFUwUzBRBgorBgEEAQkVARUAMEMwQQYIKwYBBQUHAgEWNWh0dHA6Ly93d3cuY2lz
-Y28uY29tL3NlY3VyaXR5L3BraS9wb2xpY2llcy9pbmRleC5odG1sMEUGCSsGAQQBgjcVCgQ4
-MDYwDAYKKwYBBAGCNwoFATAMBgorBgEEAYI3CgMMMAwGCisGAQQBgjcKAwQwCgYIKwYBBQUH
-AwQwDQYJKoZIhvcNAQELBQADggEBAIl+1+jKfTMbZWobNo8th+jiuoj2UcjDdn7qETdFb7Yw
-Hb4mklXz0WvGJqWnvK7fLfhJ/AWYW7n2loROEV/avDNs9ykMUH5tyNbtZQD4PPG8KdFK1ahK
-Yi6vLeUQlfw+4Mc7kc15ofnyOLIWpJz8liPlv5naS9Z/FrfbnzHlfZ9U0LBSHZTTZlKYwP9M
-hOYOiDzQUJ1e2V12Eb8rm2GlMv5OyiqeZJgbWy1GDkznBnsvdZbte0//jb6vDSvjtO9sqxAA
-J7DmIIFXJgHuspieWfNkJiBGYz0mqeRYm1mR7uEx9mgL/+LGY3xS9rFFHeB3HlwufflZG1M8
-4SW7eK+3/HwxggLYMIIC1AIBATA6MCwxDjAMBgNVBAoTBUNpc2NvMRowGAYDVQQDExFDaXNj
-byBFbXBsb3llZSBDQQIKETzV/AAAAAAMQTANBglghkgBZQMEAgEFAKCCAW8wGAYJKoZIhvcN
-AQkDMQsGCSqGSIb3DQEHATAcBgkqhkiG9w0BCQUxDxcNMTcwNjIyMTcwMTA4WjAvBgkqhkiG
-9w0BCQQxIgQgEZc+2mZtDZ6y0JjfwNZLKAjJOj6MjLbrRlrwII+9lUkwSQYJKwYBBAGCNxAE
-MTwwOjAsMQ4wDAYDVQQKEwVDaXNjbzEaMBgGA1UEAxMRQ2lzY28gRW1wbG95ZWUgQ0ECChE8
-1fwAAAAADEEwSwYLKoZIhvcNAQkQAgsxPKA6MCwxDjAMBgNVBAoTBUNpc2NvMRowGAYDVQQD
-ExFDaXNjbyBFbXBsb3llZSBDQQIKETzV/AAAAAAMQTBsBgkqhkiG9w0BCQ8xXzBdMAsGCWCG
-SAFlAwQBKjALBglghkgBZQMEAQIwCgYIKoZIhvcNAwcwDgYIKoZIhvcNAwICAgCAMA0GCCqG
-SIb3DQMCAgFAMAcGBSsOAwIHMA0GCCqGSIb3DQMCAgEoMA0GCSqGSIb3DQEBAQUABIIBAAdV
-WWHWaTEwDB+BpaPooqkp8N/VAkX+1OK30YcrUI1DoOEo6ACyHg8L/SLtZPxKClfMmuz87s++
-LJQmHC1+vt+zLiVJW8xKqmtaYDWe2Ap4R4zoDz9gbJ7kVrjf4x0xjfiXdBH746LamBjyB/6W
-xbgbWTYzsfJXgawgXUn8QIGmBqT8/+FJFtyrEvndh9wowO1qTLAi9Y13l+UucCOiAtGz3+5+
-0xRj2NFvlD5NTiE/u0mLs5UyAujguUOKpsvkCxOOCD1opDVQNXSGc6SFUGzEsGvVBVBdu+oo
-/Zw/K4IdSKkNABX3/uR7r09SmqD2nETTUtkuSEWN2wtYyUCbZ+kAAAAAAAA=
---------------ms020408020507010700080509--
+Also I would highly recommend to use different fcntl commands
+for the file vs inode hints to avoid any strange behavior.
 --
 To unsubscribe from this list: send the line "unsubscribe linux-man" in
 the body of a message to majordomo-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
