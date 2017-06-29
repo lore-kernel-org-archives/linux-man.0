@@ -1,60 +1,47 @@
 From: Carlos O'Donell <carlos-H+wXaHxf7aLQT0dZR+AlfA@public.gmane.org>
-Subject: [patch] getcontext.3: Exemplar structure should use 'ucontext_t'.
-Date: Thu, 29 Jun 2017 12:17:15 -0400
-Message-ID: <41ce95e3-7d93-a5e7-b186-e4335ee09921@redhat.com>
+Subject: [patch] ld.so.8: Expand DT_RUNPATH details.
+Date: Thu, 29 Jun 2017 12:21:36 -0400
+Message-ID: <b61939ec-ab27-59d0-bd6c-570b4055aea3@redhat.com>
 Mime-Version: 1.0
 Content-Type: text/plain; charset=utf-8
 Content-Transfer-Encoding: 7bit
 Return-path: <linux-man-owner-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>
 Content-Language: en-US
 Sender: linux-man-owner-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
-To: Michael Kerrisk <mtk.manpages-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org>
-Cc: "linux-man-u79uwXL29TY76Z2rM5mHXA@public.gmane.org" <linux-man-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>
+To: Michael Kerrisk <mtk.manpages-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org>, "linux-man-u79uwXL29TY76Z2rM5mHXA@public.gmane.org" <linux-man-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>
 List-Id: linux-man@vger.kernel.org
 
-getcontext.3: Exemplar structure should use 'ucontext_t'.
+ld.so.8: Expand DT_RUNPATH details.
 
-In glibc we just finished a round of purging 'struct ucontext' which
-is not in the POSIX reserved namespace of *_t tags. This has some
-consequences to applications using the non-standard struct ucontext:
-https://sourceware.org/glibc/wiki/Release/2.26#Removal_of_.27struct_ucontext.27
-but it also fixes a namespace conformance issue which is always a longterm
-pain for large portable programs.
+Every 3 years we get asked why DT_RUNPATH doesn't work like DT_RPATH.
+The most recent question was here:
+https://www.sourceware.org/ml/libc-help/2017-06/msg00013.html
 
-It was noted by Peter Maydell (https://sourceware.org/bugzilla/show_bug.cgi?id=21457)
-that the linux man pages still had references to 'struct ucontext' but only in
-the form of an exemplar structure.
-
-The following patch fixes the exemplar to match what is in glibc and therefore
-it won't ever suggest users can use 'struct ucontext'.
+We need to expand the description of DT_RUNPATH to cover this situation
+and explain that the DT_RUNPATH entries apply only to the immediate
+DT_NEEDED, not that of another, say dlopen'd child object.
 
 Applies to master.
 
-Please apply.
-
 Signed-off-by: Carlos O'Donell <carlos-H+wXaHxf7aLQT0dZR+AlfA@public.gmane.org>
 ---
-diff --git a/man3/getcontext.3 b/man3/getcontext.3
-index c31a46b..de54d12 100644
---- a/man3/getcontext.3
-+++ b/man3/getcontext.3
-@@ -57,11 +57,11 @@ the following fields:
- .in +4
- .nf
- 
--typedef struct ucontext {
--    struct ucontext *uc_link;
--    sigset_t         uc_sigmask;
--    stack_t          uc_stack;
--    mcontext_t       uc_mcontext;
-+typedef struct ucontext_t {
-+    struct ucontext_t *uc_link;
-+    sigset_t          uc_sigmask;
-+    stack_t           uc_stack;
-+    mcontext_t        uc_mcontext;
-     ...
- } ucontext_t;
- 
+diff --git a/man8/ld.so.8 b/man8/ld.so.8
+index 89965a1..e9e320d 100644
+--- a/man8/ld.so.8
++++ b/man8/ld.so.8
+@@ -68,7 +68,11 @@ in which case it is ignored.
+ .IP o
+ Using the directories specified in the
+ DT_RUNPATH dynamic section attribute
+-of the binary if present.
++of the binary if present. Such directories are only searched to
++find those objects required by DT_NEEDED (direct dependencies) entries
++and do not apply to those object's children who must themselves have
++their own DT_RUNPATH entries. This is unlike DT_RPATH which is applied
++to searches for all children in the dependency tree.
+ .IP o
+ From the cache file
+ .IR /etc/ld.so.cache ,
 -- 
 Cheers,
 Carlos.
