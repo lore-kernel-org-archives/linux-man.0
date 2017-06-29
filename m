@@ -1,72 +1,52 @@
-From: Andrea Arcangeli <aarcange-H+wXaHxf7aLQT0dZR+AlfA@public.gmane.org>
-Subject: Re: [PATCH] ioctl_userfaultfd.2: update uffdio_api.features
- description
-Date: Wed, 28 Jun 2017 16:11:12 +0200
-Message-ID: <20170628141112.GI7050@redhat.com>
-References: <1498653003-25227-1-git-send-email-rppt@linux.vnet.ibm.com>
+From: Miss Victoria <michaelrita404-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org>
+Subject: I need you help pls
+Date: Thu, 29 Jun 2017 09:28:19 +0000
+Message-ID: <CAKne=NF6c2bt=18dPNa=NLbx-0aeG77+b70Zx9J+KxEmhjdAGg@mail.gmail.com>
+Reply-To: victoria1162-/E1597aS9LQAvxtiuMwx3w@public.gmane.org
 Mime-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
+Content-Type: text/plain; charset="UTF-8"
 Return-path: <linux-man-owner-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>
-Content-Disposition: inline
-In-Reply-To: <1498653003-25227-1-git-send-email-rppt-23VcF4HTsmIX0ybBhKVfKdBPR1lH4CV8@public.gmane.org>
 Sender: linux-man-owner-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
-To: Mike Rapoport <rppt-23VcF4HTsmIX0ybBhKVfKdBPR1lH4CV8@public.gmane.org>
-Cc: Michael Kerrisk <mtk.manpages-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org>, linux-man <linux-man-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>, "Dr. David Alan Gilbert" <dgilbert-H+wXaHxf7aLQT0dZR+AlfA@public.gmane.org>
 List-Id: linux-man@vger.kernel.org
 
-On Wed, Jun 28, 2017 at 03:30:03PM +0300, Mike Rapoport wrote:
-> There is no requirement that uffdio_api.features must be zero for newer
-> kernels. This field actually defines what features user space would like to
-> enable.
-> 
-> Signed-off-by: Mike Rapoport <rppt-23VcF4HTsmIX0ybBhKVfKdBPR1lH4CV8@public.gmane.org>
-> ---
->  man2/ioctl_userfaultfd.2 | 2 +-
->  1 file changed, 1 insertion(+), 1 deletion(-)
-> 
-> diff --git a/man2/ioctl_userfaultfd.2 b/man2/ioctl_userfaultfd.2
-> index 1797052..66d25ad 100644
-> --- a/man2/ioctl_userfaultfd.2
-> +++ b/man2/ioctl_userfaultfd.2
-> @@ -86,7 +86,7 @@ structure, defined as:
->  
->  struct uffdio_api {
->      __u64 api;        /* Requested API version (input) */
-> -    __u64 features;   /* Currently must be zero (input) */
-> +    __u64 features;   /* Requested features (input) */
->      __u64 ioctls;     /* Available ioctl() operations (output) */
->  };
+HELP ME PLEASE
 
-Agreed.
+My name is Miss Victoria Jenny looking for a trustworthy, sincere and
+honest someone like you who can help me in this time of needs.
 
-Just one small nitpick: "features" primarily an input, but at times is
-also an output. The kernel will receive in input the feature to be
-enabled on the activated uffd, but it'll output with all features
-potentially available so that "features" as output, can be used for
-probing the kernel support too.
+My father is Rufus Okana, during the civil and political crisis in our
+country, my parents together with my three sisters was poisoned by
+heartless elements that called themselves his brother and wicked
+relatives. Fortunately for me, I was in the school when this tragedy
+took place to my family. I was in coma for almost two weeks. But I
+thank the almighty God because I never knew that I could support the
+shock of losing almost my whole family. That is by the way.  Right now
+I am still here in Cote d'Ivoire with but very unsafe for me. I'm
+living in great fear and bondage. I intend leaving this country as
+soon as possible but only one thing kept me back. My late father has
+deposited with one of the prime institution in Europe the sum of
+money, $5.5Million USD, for onward transfer to any bank abroad
 
-For probing the current kernel support available in userfaultfd in a
-backwards compatible fashion, userland has two options: it can either
-set all features it needs enabled immediately and then abort if the
-UFFDIO_API ioctl returns -EINVAL, or it can set "features" to zero and
-do a run a dummy call of UFFDIO_API and check which features are set
-in output in the "features" field after UFFDIO_API succeeds (then it
-can throw away the "probing" uffd and open a new one or fail
-gracefully with fingrained info of which userfaultfd features it needs
-are missing in the running kernel).
+But unfortunately he did not complete the transaction before he died.
+I have all the documents concerns this money in the security company
+in Holland   and receipt of deposit with which my late father made the
+deposit, I have mapped out 25% out of the total money for your help
+and assistances because it looks stupid for me trying to confide in a
+total stranger I never met before . By instinct I am convinced you are
+an honest person and you have the capacity to handle this transaction
+with me.  As soon as it is done, I will come over to meet you and
+spend the rest of my live in your country. I wish to invest the money
+into estate business and other good business you may propose. I
+promise to greatly compensate you for any assistance you may offer me.
+I do not know how you may feel about this but I want you to take this
+very serious and confidential. Down here, I am living in fear because
+enemies, uncles and wicked relatives of my parents are hunting for us.
+Please let me know your mind concerning my proposal to you, please
+contact me with this email
 
-The first option is probably the normal one to use and simpler to
-code, but userland can provide a more meaningful error to userland
-having the second option too.
+With her loving arms
 
-On a side note, as mentioned some time ago, if UFFDIO_API returns
--EINVAL the uffdio_api userland structure gets clobbered with zeros by
-the kernel purely for robustness. So the "features" field is to be
-considered a meaningful output, only if UFFDIO_API ioctl succeeds and
-returns 0.
-
-Thanks,
-Andrea
+Miss Victoria
 --
 To unsubscribe from this list: send the line "unsubscribe linux-man" in
 the body of a message to majordomo-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
