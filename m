@@ -1,42 +1,63 @@
-From: Mike Rapoport <rppt-23VcF4HTsmIX0ybBhKVfKdBPR1lH4CV8@public.gmane.org>
-Subject: Re: [PATCH] ioctl_userfaultfd.2: update uffdio_api.features
- description
-Date: Thu, 29 Jun 2017 14:16:22 +0300
-Message-ID: <20170629111621.GC24911@rapoport-lnx>
-References: <1498653003-25227-1-git-send-email-rppt@linux.vnet.ibm.com>
- <20170628141112.GI7050@redhat.com>
+From: Carlos O'Donell <carlos-H+wXaHxf7aLQT0dZR+AlfA@public.gmane.org>
+Subject: [patch] getcontext.3: Exemplar structure should use 'ucontext_t'.
+Date: Thu, 29 Jun 2017 12:17:15 -0400
+Message-ID: <41ce95e3-7d93-a5e7-b186-e4335ee09921@redhat.com>
 Mime-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
+Content-Type: text/plain; charset=utf-8
+Content-Transfer-Encoding: 7bit
 Return-path: <linux-man-owner-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>
-Content-Disposition: inline
-In-Reply-To: <20170628141112.GI7050-H+wXaHxf7aLQT0dZR+AlfA@public.gmane.org>
+Content-Language: en-US
 Sender: linux-man-owner-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
-To: Andrea Arcangeli <aarcange-H+wXaHxf7aLQT0dZR+AlfA@public.gmane.org>
-Cc: Michael Kerrisk <mtk.manpages-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org>, linux-man <linux-man-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>, "Dr. David Alan Gilbert" <dgilbert-H+wXaHxf7aLQT0dZR+AlfA@public.gmane.org>
+To: Michael Kerrisk <mtk.manpages-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org>
+Cc: "linux-man-u79uwXL29TY76Z2rM5mHXA@public.gmane.org" <linux-man-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>
 List-Id: linux-man@vger.kernel.org
 
-On Wed, Jun 28, 2017 at 04:11:12PM +0200, Andrea Arcangeli wrote:
-> On Wed, Jun 28, 2017 at 03:30:03PM +0300, Mike Rapoport wrote:
-> 
-> On a side note, as mentioned some time ago, if UFFDIO_API returns
-> -EINVAL the uffdio_api userland structure gets clobbered with zeros by
-> the kernel purely for robustness. So the "features" field is to be
-> considered a meaningful output, only if UFFDIO_API ioctl succeeds and
-> returns 0.
+getcontext.3: Exemplar structure should use 'ucontext_t'.
 
-That reminded me that there was a bunch of comments from Andrea a while
-ago [1]...
+In glibc we just finished a round of purging 'struct ucontext' which
+is not in the POSIX reserved namespace of *_t tags. This has some
+consequences to applications using the non-standard struct ucontext:
+https://sourceware.org/glibc/wiki/Release/2.26#Removal_of_.27struct_ucontext.27
+but it also fixes a namespace conformance issue which is always a longterm
+pain for large portable programs.
 
-Michael, can you please review that thread?
+It was noted by Peter Maydell (https://sourceware.org/bugzilla/show_bug.cgi?id=21457)
+that the linux man pages still had references to 'struct ucontext' but only in
+the form of an exemplar structure.
 
-If you need any help from my side, don't hesitate to ping me.
+The following patch fixes the exemplar to match what is in glibc and therefore
+it won't ever suggest users can use 'struct ucontext'.
+
+Applies to master.
+
+Please apply.
+
+Signed-off-by: Carlos O'Donell <carlos-H+wXaHxf7aLQT0dZR+AlfA@public.gmane.org>
+---
+diff --git a/man3/getcontext.3 b/man3/getcontext.3
+index c31a46b..de54d12 100644
+--- a/man3/getcontext.3
++++ b/man3/getcontext.3
+@@ -57,11 +57,11 @@ the following fields:
+ .in +4
+ .nf
  
-> Thanks,
-> Andrea
-> 
-
-[1] https://lkml.org/lkml/2017/5/3/594
-
+-typedef struct ucontext {
+-    struct ucontext *uc_link;
+-    sigset_t         uc_sigmask;
+-    stack_t          uc_stack;
+-    mcontext_t       uc_mcontext;
++typedef struct ucontext_t {
++    struct ucontext_t *uc_link;
++    sigset_t          uc_sigmask;
++    stack_t           uc_stack;
++    mcontext_t        uc_mcontext;
+     ...
+ } ucontext_t;
+ 
+-- 
+Cheers,
+Carlos.
 --
 To unsubscribe from this list: send the line "unsubscribe linux-man" in
 the body of a message to majordomo-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
