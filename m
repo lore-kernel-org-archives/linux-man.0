@@ -1,44 +1,39 @@
 From: "Michael Kerrisk (man-pages)" <mtk.manpages-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org>
-Subject: Re: [PATCH] ttyslot.3: tfix
-Date: Wed, 5 Jul 2017 10:19:33 +0200
-Message-ID: <bb2b16ab-de87-0455-eabe-a01d3b2feb58@gmail.com>
-References: <20170626162254.2762-1-jwilk@jwilk.net>
+Subject: Re: [patch] getrandom.2: tfix
+Date: Wed, 5 Jul 2017 10:20:17 +0200
+Message-ID: <7c355f2f-fe4d-ce21-2367-7358175cc443@gmail.com>
+References: <248f9a13-139b-9605-bac2-e083f2880aa9@epipe.com>
 Mime-Version: 1.0
-Content-Type: text/plain; charset=windows-1252
+Content-Type: text/plain; charset=utf-8
 Content-Transfer-Encoding: 7bit
 Return-path: <linux-man-owner-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>
-In-Reply-To: <20170626162254.2762-1-jwilk-tXgOlIzOKNReoWH0uzbU5w@public.gmane.org>
+In-Reply-To: <248f9a13-139b-9605-bac2-e083f2880aa9-wN/OigK0MJ0AvxtiuMwx3w@public.gmane.org>
 Sender: linux-man-owner-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
-To: Jakub Wilk <jwilk-tXgOlIzOKNReoWH0uzbU5w@public.gmane.org>
+To: Janne Snabb <snabb-wN/OigK0MJ0AvxtiuMwx3w@public.gmane.org>
 Cc: mtk.manpages-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org, linux-man-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
 List-Id: linux-man@vger.kernel.org
 
-On 06/26/2017 06:22 PM, Jakub Wilk wrote:
-> Signed-off-by: Jakub Wilk <jwilk-tXgOlIzOKNReoWH0uzbU5w@public.gmane.org>
+On 06/27/2017 07:42 PM, Janne Snabb wrote:
 
-Thanks, Jakub. Applied.
+Thanks, Janne. Applied.
 
 Cheers,
 
 Michael
 
-> ---
->  man3/ttyslot.3 | 2 +-
->  1 file changed, 1 insertion(+), 1 deletion(-)
-> 
-> diff --git a/man3/ttyslot.3 b/man3/ttyslot.3
-> index d82bb718e..a73349a02 100644
-> --- a/man3/ttyslot.3
-> +++ b/man3/ttyslot.3
-> @@ -159,7 +159,7 @@ On BSD-like systems and Linux, the declaration of
->  .BR ttyslot ()
->  is provided by
->  .IR <unistd.h> .
-> -On Systsem V-like systems, the declaration is provided by
-> +On System V-like systems, the declaration is provided by
->  .IR <stdlib.h> .
->  Since glibc 2.24,
->  .IR <stdlib.h>
+> diff --git a/man2/getrandom.2 b/man2/getrandom.2
+> index a550fa5ad..86302759e 100644
+> --- a/man2/getrandom.2
+> +++ b/man2/getrandom.2
+> @@ -178,7 +178,7 @@ can be used to obtain randomness, see
+>  Unlike
+>  .IR /dev/random
+>  and
+> -.IR /dev/random ,
+> +.IR /dev/urandom ,
+>  .BR getrandom ()
+>  does not involve the use of pathnames or file descriptors.
+>  Thus,
 > 
 
 
