@@ -1,58 +1,33 @@
 From: "Michael Kerrisk (man-pages)" <mtk.manpages-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org>
-Subject: Re: [patch] ld.so.8: Expand DT_RUNPATH details.
-Date: Wed, 5 Jul 2017 10:36:03 +0200
-Message-ID: <190afcfe-974f-5cd2-8a5f-bc50c0f78547@gmail.com>
-References: <b61939ec-ab27-59d0-bd6c-570b4055aea3@redhat.com>
+Subject: Re: [patch] getaddrinfo.3: wsfix
+Date: Wed, 5 Jul 2017 10:39:59 +0200
+Message-ID: <60f5b08d-58bb-fb06-21cd-5d4176c9370b@gmail.com>
+References: <CY4PR10MB19103A84445159C1FF84FBFBDBDF0@CY4PR10MB1910.namprd10.prod.outlook.com>
 Mime-Version: 1.0
-Content-Type: text/plain; charset=utf-8
+Content-Type: text/plain; charset=windows-1252
 Content-Transfer-Encoding: 7bit
 Return-path: <linux-man-owner-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>
-In-Reply-To: <b61939ec-ab27-59d0-bd6c-570b4055aea3-H+wXaHxf7aLQT0dZR+AlfA@public.gmane.org>
+In-Reply-To: <CY4PR10MB19103A84445159C1FF84FBFBDBDF0-871WlKnvxle4D7FTNMuS84Ca9M1JiERdvxpqHgZTriW3zl9H0oFU5g@public.gmane.org>
 Sender: linux-man-owner-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
-To: Carlos O'Donell <carlos-H+wXaHxf7aLQT0dZR+AlfA@public.gmane.org>, "linux-man-u79uwXL29TY76Z2rM5mHXA@public.gmane.org" <linux-man-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>
-Cc: mtk.manpages-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org
+To: Joe Brown <joe.brown.89-1ViLX0X+lBJBDgjK7y7TUQ@public.gmane.org>
+Cc: mtk.manpages-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org, "linux-man-u79uwXL29TY76Z2rM5mHXA@public.gmane.org" <linux-man-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>
 List-Id: linux-man@vger.kernel.org
 
-On 06/29/2017 06:21 PM, Carlos O'Donell wrote:
-> ld.so.8: Expand DT_RUNPATH details.
+On 06/26/2017 04:08 AM, Joe Brown wrote:
+> Hello,
 > 
-> Every 3 years we get asked why DT_RUNPATH doesn't work like DT_RPATH.
-> The most recent question was here:
-> https://www.sourceware.org/ml/libc-help/2017-06/msg00013.html
-> 
-> We need to expand the description of DT_RUNPATH to cover this situation
-> and explain that the DT_RUNPATH entries apply only to the immediate
-> DT_NEEDED, not that of another, say dlopen'd child object.
-> 
-> Applies to master.
+> The if statement in the EXAMPLE section (specifically the server
+> part) is not aligned with the rest of the code.  First patch, so please
+> advise if I'm screwing up this process.
 
-Thanks, Carlos. Applied.
+Hello Joe,
 
-Cheers,
+the patch is fine, but would be even better inline (rather than as 
+an attachment). Patch applied.
+
+Thanks!
 
 Michael
-
-
-> Signed-off-by: Carlos O'Donell <carlos-H+wXaHxf7aLQT0dZR+AlfA@public.gmane.org>
-> ---
-> diff --git a/man8/ld.so.8 b/man8/ld.so.8
-> index 89965a1..e9e320d 100644
-> --- a/man8/ld.so.8
-> +++ b/man8/ld.so.8
-> @@ -68,7 +68,11 @@ in which case it is ignored.
->  .IP o
->  Using the directories specified in the
->  DT_RUNPATH dynamic section attribute
-> -of the binary if present.
-> +of the binary if present. Such directories are only searched to
-> +find those objects required by DT_NEEDED (direct dependencies) entries
-> +and do not apply to those object's children who must themselves have
-> +their own DT_RUNPATH entries. This is unlike DT_RPATH which is applied
-> +to searches for all children in the dependency tree.
->  .IP o
->  From the cache file
->  .IR /etc/ld.so.cache ,
-> 
 
 
 -- 
