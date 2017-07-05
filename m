@@ -1,39 +1,52 @@
 From: "Michael Kerrisk (man-pages)" <mtk.manpages-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org>
-Subject: Re: [patch] getrandom.2: tfix
-Date: Wed, 5 Jul 2017 10:20:17 +0200
-Message-ID: <7c355f2f-fe4d-ce21-2367-7358175cc443@gmail.com>
-References: <248f9a13-139b-9605-bac2-e083f2880aa9@epipe.com>
+Subject: Re: [PATCH] posix_madvise.3: Remove paragraph about
+ POSIX_FADV_NOREUSE
+Date: Wed, 5 Jul 2017 10:28:34 +0200
+Message-ID: <e65afbbd-a422-aa02-1e5a-2332e8b95221@gmail.com>
+References: <20170626150208.2754-1-toddy@debian.org>
 Mime-Version: 1.0
-Content-Type: text/plain; charset=utf-8
+Content-Type: text/plain; charset=windows-1252
 Content-Transfer-Encoding: 7bit
 Return-path: <linux-man-owner-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>
-In-Reply-To: <248f9a13-139b-9605-bac2-e083f2880aa9-wN/OigK0MJ0AvxtiuMwx3w@public.gmane.org>
+In-Reply-To: <20170626150208.2754-1-toddy-8fiUuRrzOP0dnm+yROfE0A@public.gmane.org>
 Sender: linux-man-owner-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
-To: Janne Snabb <snabb-wN/OigK0MJ0AvxtiuMwx3w@public.gmane.org>
+To: "Dr. Tobias Quathamer" <toddy-8fiUuRrzOP0dnm+yROfE0A@public.gmane.org>
 Cc: mtk.manpages-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org, linux-man-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
 List-Id: linux-man@vger.kernel.org
 
-On 06/27/2017 07:42 PM, Janne Snabb wrote:
+On 06/26/2017 05:02 PM, Dr. Tobias Quathamer wrote:
+> POSIX_FADV_NOREUSE is documented for posix_fadvise, and a
+> corresponding POSIX_MADV_NOREUSE flag is not specified by POSIX.
 
-Thanks, Janne. Applied.
+Thanks, Tobias. Applied.
 
 Cheers,
 
 Michael
 
-> diff --git a/man2/getrandom.2 b/man2/getrandom.2
-> index a550fa5ad..86302759e 100644
-> --- a/man2/getrandom.2
-> +++ b/man2/getrandom.2
-> @@ -178,7 +178,7 @@ can be used to obtain randomness, see
->  Unlike
->  .IR /dev/random
->  and
-> -.IR /dev/random ,
-> +.IR /dev/urandom ,
->  .BR getrandom ()
->  does not involve the use of pathnames or file descriptors.
->  Thus,
+> Thanks to Marc Lehmann <debian-reportbug-zsXavz5zCAg@public.gmane.org>
+> See https://bugs.debian.org/865699
+> ---
+>  man3/posix_madvise.3 | 6 ------
+>  1 file changed, 6 deletions(-)
+> 
+> diff --git a/man3/posix_madvise.3 b/man3/posix_madvise.3
+> index d97d37b6e..18743b0f0 100644
+> --- a/man3/posix_madvise.3
+> +++ b/man3/posix_madvise.3
+> @@ -106,12 +106,6 @@ Support for
+>  first appeared in glibc version 2.2.
+>  .SH CONFORMING TO
+>  POSIX.1-2001.
+> -
+> -POSIX.1-2008 specifies a further value for
+> -.IR advice ,
+> -.BR POSIX_FADV_NOREUSE ,
+> -meaning that the specified data will be accessed only once.
+> -This value is not currently supported.
+>  .SH NOTES
+>  POSIX.1 permits an implementation to generate an error if
+>  .I len
 > 
 
 
