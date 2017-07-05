@@ -1,54 +1,67 @@
 From: "Michael Kerrisk (man-pages)" <mtk.manpages-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org>
-Subject: Re: [PATCH] execve.2: fix a couple typos
-Date: Wed, 5 Jul 2017 10:40:51 +0200
-Message-ID: <efe75ccd-8d65-612f-82f7-2fc7977ce056@gmail.com>
-References: <20170622021527.24281-1-ebiggers3@gmail.com>
+Subject: Re: [PATCH] seccomp(2): expand SECCOMP_RET_KILL documentation
+Date: Wed, 5 Jul 2017 10:47:24 +0200
+Message-ID: <567cea14-bd18-f839-8aef-4a0837132e8c@gmail.com>
+References: <20170606215350.23062-1-vapier@gentoo.org>
 Mime-Version: 1.0
 Content-Type: text/plain; charset=windows-1252
 Content-Transfer-Encoding: 7bit
 Return-path: <linux-man-owner-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>
-In-Reply-To: <20170622021527.24281-1-ebiggers3-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org>
+In-Reply-To: <20170606215350.23062-1-vapier-aBrp7R+bbdUdnm+yROfE0A@public.gmane.org>
 Sender: linux-man-owner-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
-To: Eric Biggers <ebiggers3-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org>, linux-man-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
-Cc: mtk.manpages-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org, Eric Biggers <ebiggers-hpIqsD4AKlfQT0dZR+AlfA@public.gmane.org>
+To: Mike Frysinger <vapier-aBrp7R+bbdUdnm+yROfE0A@public.gmane.org>
+Cc: mtk.manpages-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org, linux-man-u79uwXL29TY76Z2rM5mHXA@public.gmane.org, Mike Frysinger <vapier-F7+t8E8rja9g9hUCZPvPmw@public.gmane.org>
 List-Id: linux-man@vger.kernel.org
 
-On 06/22/2017 04:15 AM, Eric Biggers wrote:
-> From: Eric Biggers <ebiggers-hpIqsD4AKlfQT0dZR+AlfA@public.gmane.org>
+On 06/06/2017 11:53 PM, Mike Frysinger wrote:
+> From: Mike Frysinger <vapier-F7+t8E8rja9g9hUCZPvPmw@public.gmane.org>
+> 
+> First clarify that the process cannot catch this SIGSYS signal.  While
+> the text currently says that, it's easy (imo) to read ambiguously and
+> that it's referring to default behavior (no handler -> process exits).
+> 
+> Then add details regarding coredump behavior.  Before Linux 4.11, there
+> was no way to get coredumps from such crashes.  Now we can at least get
+> crashes from single threaded processes.
 
-Thanks, Eric. Applied.
+Thanks, Mike. Patch applied.
 
 Cheers,
 
 Michael
 
-> Signed-off-by: Eric Biggers <ebiggers-hpIqsD4AKlfQT0dZR+AlfA@public.gmane.org>
+> Signed-off-by: Mike Frysinger <vapier-F7+t8E8rja9g9hUCZPvPmw@public.gmane.org>
 > ---
->  man2/execve.2 | 4 ++--
->  1 file changed, 2 insertions(+), 2 deletions(-)
+>  man2/seccomp.2 | 16 ++++++++++++++++
+>  1 file changed, 16 insertions(+)
 > 
-> diff --git a/man2/execve.2 b/man2/execve.2
-> index 029f8ea8b..694457b80 100644
-> --- a/man2/execve.2
-> +++ b/man2/execve.2
-> @@ -127,7 +127,7 @@ similarly, the effective group ID is copied to the saved set-group-ID.
->  This copying takes place after any effective ID changes that occur
->  because of the set-user-ID and set-group-ID mode bits.
->  
-> -The process's read UID and real GID, as well its supplementary group IDs,
-> +The process's real UID and real GID, as well its supplementary group IDs,
->  are unchanged by a call to
->  .BR execve ().
->  
-> @@ -590,7 +590,7 @@ signal.
->  .\"
->  .SS Interpreter scripts
->  A maximum line length of 127 characters is allowed for the first line in
-> -an interpreter scripts.
-> +an interpreter script.
->  
->  The semantics of the
->  .I optional-arg
+> diff --git a/man2/seccomp.2 b/man2/seccomp.2
+> index 7d0e721894b4..ec1df0c9efca 100644
+> --- a/man2/seccomp.2
+> +++ b/man2/seccomp.2
+> @@ -378,6 +378,22 @@ The process terminates as though killed by a
+>  signal
+>  .RI ( not
+>  .BR SIGKILL ).
+> +Even if a signal handler has been registered and otherwise catches
+> +.BR SIGSYS ,
+> +the handler will be ignored in this case and the process always terminates.
+> +
+> +.\" See these commits:
+> +.\" seccomp: dump core when using SECCOMP_RET_KILL (b25e67161c295c98acda92123b2dd1e7d8642901)
+> +.\" seccomp: Only dump core when single-threaded (d7276e321ff8a53106a59c85ca46d03e34288893)
+> +Before Linux 4.11, any process terminated this way would not trigger a coredump
+> +(even though
+> +.B SIGSYS
+> +is documented in
+> +.BR signal (7)
+> +as having a default core action).
+> +Since Linux 4.11, single threaded processes follow standard coredump behavior,
+> +but multithreaded processes still do not.
+> +There is no workaround currently for multithreaded processes.
+>  .TP
+>  .BR SECCOMP_RET_TRAP
+>  This value results in the kernel sending a
 > 
 
 
