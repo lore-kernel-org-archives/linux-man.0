@@ -1,19 +1,19 @@
 From: "Michael Kerrisk (man-pages)" <mtk.manpages-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org>
-Subject: Re: [PATCH] tmpfs.5: ffix
-Date: Wed, 5 Jul 2017 10:18:58 +0200
-Message-ID: <7c43fbda-4885-edcb-bc7c-be03389903ab@gmail.com>
-References: <20170704230201.6413-1-jwilk@jwilk.net>
+Subject: Re: [PATCH] ttyslot.3: tfix
+Date: Wed, 5 Jul 2017 10:19:33 +0200
+Message-ID: <bb2b16ab-de87-0455-eabe-a01d3b2feb58@gmail.com>
+References: <20170626162254.2762-1-jwilk@jwilk.net>
 Mime-Version: 1.0
 Content-Type: text/plain; charset=windows-1252
 Content-Transfer-Encoding: 7bit
 Return-path: <linux-man-owner-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>
-In-Reply-To: <20170704230201.6413-1-jwilk-tXgOlIzOKNReoWH0uzbU5w@public.gmane.org>
+In-Reply-To: <20170626162254.2762-1-jwilk-tXgOlIzOKNReoWH0uzbU5w@public.gmane.org>
 Sender: linux-man-owner-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
 To: Jakub Wilk <jwilk-tXgOlIzOKNReoWH0uzbU5w@public.gmane.org>
 Cc: mtk.manpages-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org, linux-man-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
 List-Id: linux-man@vger.kernel.org
 
-On 07/05/2017 01:02 AM, Jakub Wilk wrote:
+On 06/26/2017 06:22 PM, Jakub Wilk wrote:
 > Signed-off-by: Jakub Wilk <jwilk-tXgOlIzOKNReoWH0uzbU5w@public.gmane.org>
 
 Thanks, Jakub. Applied.
@@ -22,24 +22,23 @@ Cheers,
 
 Michael
 
-
 > ---
->  man5/tmpfs.5 | 2 +-
+>  man3/ttyslot.3 | 2 +-
 >  1 file changed, 1 insertion(+), 1 deletion(-)
 > 
-> diff --git a/man5/tmpfs.5 b/man5/tmpfs.5
-> index 00bb02085..7063cde01 100644
-> --- a/man5/tmpfs.5
-> +++ b/man5/tmpfs.5
-> @@ -91,7 +91,7 @@ extended attributes are not permitted.
->  
->  An internal shared memory filesystem is used for
->  System V shared memory
-> -.BR (shmget (2))
-> +.RB ( shmget (2))
->  and shared anonymous mappings
->  .RB ( mmap (2)
->  with the
+> diff --git a/man3/ttyslot.3 b/man3/ttyslot.3
+> index d82bb718e..a73349a02 100644
+> --- a/man3/ttyslot.3
+> +++ b/man3/ttyslot.3
+> @@ -159,7 +159,7 @@ On BSD-like systems and Linux, the declaration of
+>  .BR ttyslot ()
+>  is provided by
+>  .IR <unistd.h> .
+> -On Systsem V-like systems, the declaration is provided by
+> +On System V-like systems, the declaration is provided by
+>  .IR <stdlib.h> .
+>  Since glibc 2.24,
+>  .IR <stdlib.h>
 > 
 
 
