@@ -1,57 +1,44 @@
-From: Kees Cook <keescook-F7+t8E8rja9g9hUCZPvPmw@public.gmane.org>
-Subject: [PATCH] seccomp.2: Clarify SECCOMP_RET_KILL kills tasks not processes
-Date: Thu, 6 Jul 2017 12:23:07 -0700
-Message-ID: <20170706192307.GA38040@beast>
+From: Jonny Grant <jg-hus3n9K41k0@public.gmane.org>
+Subject: null byte ('\0')
+Date: Fri, 7 Jul 2017 14:49:14 -0700
+Message-ID: <54ce3cae-59aa-50be-8698-813c194175d7@jguk.org>
 Mime-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
+Content-Type: text/plain; charset=utf-8; format=flowed
+Content-Transfer-Encoding: 7bit
 Return-path: <linux-man-owner-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>
-Content-Disposition: inline
+Content-Language: en-GB
 Sender: linux-man-owner-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
-To: mtk.manpages-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org
-Cc: linux-man-u79uwXL29TY76Z2rM5mHXA@public.gmane.org, Zach Reizner <zachr-hpIqsD4AKlfQT0dZR+AlfA@public.gmane.org>, Jorge Lucangeli Obes <jorgelo-hpIqsD4AKlfQT0dZR+AlfA@public.gmane.org>
+To: Michael Kerrisk <mtk.manpages-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org>, linux-man <linux-man-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>
 List-Id: linux-man@vger.kernel.org
 
-Zach Reizner pointed out a mismatch between kernel behavior and the
-man-page documentation of SECCOMP_RET_KILL which kills tasks not
-processes.
+Hello Michael
 
-Signed-off-by: Kees Cook <keescook-F7+t8E8rja9g9hUCZPvPmw@public.gmane.org>
----
- man2/seccomp.2 | 6 +++---
- 1 file changed, 3 insertions(+), 3 deletions(-)
+Could I ask to take a look at into this please.
 
-diff --git a/man2/seccomp.2 b/man2/seccomp.2
-index 7d0e721..b805154 100644
---- a/man2/seccomp.2
-+++ b/man2/seccomp.2
-@@ -371,9 +371,9 @@ In decreasing order of precedence,
- the values that may be returned by a seccomp filter are:
- .TP
- .BR SECCOMP_RET_KILL
--This value results in the process exiting immediately
-+This value results in the task exiting immediately
- without executing the system call.
--The process terminates as though killed by a
-+The task terminates as though killed by a
- .B SIGSYS
- signal
- .RI ( not
-@@ -769,7 +769,7 @@ install_filter(int syscall_nr, int t_arch, int f_errno)
-                system calls */
-         BPF_STMT(BPF_RET | BPF_K, SECCOMP_RET_ALLOW),
- 
--        /* [7] Destination of architecture mismatch: kill process */
-+        /* [7] Destination of architecture mismatch: kill task */
-         BPF_STMT(BPF_RET | BPF_K, SECCOMP_RET_KILL),
-     };
- 
--- 
-2.7.4
+http://man7.org/linux/man-pages/man3/printf.3.html
 
 
--- 
-Kees Cook
-Pixel Security
+I saw there is a mix though the text:
+
+null byte ('\0')
+null byte
+
+
+My opinion: probably the first form should be used consistent, to make 
+it clear. Although it's called NUL in the ASCII set
+https://en.wikipedia.org/wiki/Null_character
+
+
+
+BUGS         top
+
+        Because sprintf() and vsprintf()
+
+^ Better to not use "Because" as first word of a sentence, "As" is 
+suitable in this instance.
+
+
+Regards, Jonny
 --
 To unsubscribe from this list: send the line "unsubscribe linux-man" in
 the body of a message to majordomo-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
