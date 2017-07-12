@@ -1,79 +1,51 @@
-From: Carlos O'Donell <carlos-H+wXaHxf7aLQT0dZR+AlfA@public.gmane.org>
-Subject: [patch] getpid.2: Note that caching is removed as of glibc 2.25.
-Date: Wed, 12 Jul 2017 12:57:01 -0400
-Message-ID: <f944b6ee-b279-3775-bcd1-200bf88e9af0@redhat.com>
+From: "Michael Kerrisk (man-pages)" <mtk.manpages-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org>
+Subject: Re: [PATCH] getline.3: wfix
+Date: Wed, 12 Jul 2017 19:36:59 +0200
+Message-ID: <97ac1c71-ae24-666f-5ca0-a2589f008d2b@gmail.com>
+References: <1499847001-83794-1-git-send-email-w@laoqinren.net>
 Mime-Version: 1.0
-Content-Type: text/plain; charset=utf-8
+Content-Type: text/plain; charset=windows-1252
 Content-Transfer-Encoding: 7bit
 Return-path: <linux-man-owner-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>
-Content-Language: en-US
+In-Reply-To: <1499847001-83794-1-git-send-email-w-m92B/FuLcaEcWVvVuXF20w@public.gmane.org>
 Sender: linux-man-owner-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
-To: Michael Kerrisk <mtk.manpages-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org>
-Cc: "linux-man-u79uwXL29TY76Z2rM5mHXA@public.gmane.org" <linux-man-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>
+To: Long Wang <w@laoqinren.net>
+Cc: mtk.manpages-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org, linux-man-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
 List-Id: linux-man@vger.kernel.org
 
-Since glibc 2.25 the PID cache is removed.
+On 07/12/2017 10:10 AM, Long Wang wrote:
+> Signed-off-by: Long Wang <w@laoqinren.net>
 
-Rationale given in the release notes:
-https://sourceware.org/glibc/wiki/Release/2.25#pid_cache_removal
-~~~
-3.2.3. Calls to getpid are no longer cached
+Thanks, Long. Patch applied.
 
-The PID cache used by glibc has been removed. In certain scenarios
- the cache was not 100% reliable and because of that it was deemed
- safer to remove the cache than to potentially return a wrong answer.
-
-Applications performing getpid() calls in a loop will see the worst
- case performance degradation as the library call will perform a 
-system call at each invocation. Such application uses were known 
-to exist at least in OpenSSL (fork()-based PRNG invalidation), 
-but supporting the performance of that specific invalidation 
-mechanism was not judged to have sufficient value against 
-immediate and long-term benefits of removing the cache.
-
-Functional reasons exist for the PID cache removal including 
-problems with PID namespaces, interoperability with raw system 
-calls (BZ#17214, Chrome: Issue 800183004), and improvements to 
-spawn (BZ#19957). Performance is actually increased in 
-pthread_create() with the removal of the cache since the 
-implementation no longer needs to perform an invalidation step.
-
-Applications performing getpid() in a loop that need to do 
-some level of fork()-based invalidation can instead use 
-pthread_atfork() to register handlers to handle the invalidation. 
-There is work-in-progress to make pthread_atfork() available 
-to applications that do not link against libpthread.so 
-(Provide pthread_atfork() without libpthread.so).
-
-Other kinds of invalidation are not supported and the glibc 
-community will actively look at a kernel assisted mechanism 
-for state management across fork(), vfork(), clone() and other 
-interfaces which can benefit from such semantics. It is the 
-same type of solution required for crypto PRNG reset across 
-such API calls. 
-~~~
-
-Signed-off-by: Carlos O'Donell <carlos-H+wXaHxf7aLQT0dZR+AlfA@public.gmane.org>
-
-diff --git a/man2/getpid.2 b/man2/getpid.2
-index 1927607..45d71a6 100644
---- a/man2/getpid.2
-+++ b/man2/getpid.2
-@@ -112,6 +112,11 @@ for discussion of a case where
- may return the wrong value even when invoking
- .BR clone (2)
- via the glibc wrapper function.
-+
-+Since glibc version 2.25, the PID cache is removed, and calls to
-+.BR getpid ()
-+will not be cached.
-+
- .SH SEE ALSO
- .BR clone (2),
- .BR fork (2),
--- 
 Cheers,
-Carlos.
+
+Michael
+
+> ---
+>  man3/getline.3 | 2 +-
+>  1 file changed, 1 insertion(+), 1 deletion(-)
+> 
+> diff --git a/man3/getline.3 b/man3/getline.3
+> index 7483afd..9bc4d8e 100644
+> --- a/man3/getline.3
+> +++ b/man3/getline.3
+> @@ -173,7 +173,7 @@ main(int argc, char *argv[])
+>      ssize_t nread;
+>  
+>      if (argc != 2) {
+> -        fprintf(stderr, "Usage: %s <file>\en", argv[1]);
+> +        fprintf(stderr, "Usage: %s <file>\en", argv[0]);
+>          exit(EXIT_FAILURE);
+>      }
+>  
+> 
+
+
+-- 
+Michael Kerrisk
+Linux man-pages maintainer; http://www.kernel.org/doc/man-pages/
+Linux/UNIX System Programming Training: http://man7.org/training/
 --
 To unsubscribe from this list: send the line "unsubscribe linux-man" in
 the body of a message to majordomo-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
