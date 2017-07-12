@@ -1,30 +1,36 @@
-From: Alex Henrie <alexhenrie24-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org>
-Subject: Re: [PATCH] acosh.3, asinh.3, atanh.3: Remove C89 designation.
-Date: Tue, 11 Jul 2017 08:59:33 -0600
-Message-ID: <CAMMLpeT-Dx+9eb7wuNwiV_jvnBKdkSWO56PFAorUMfOQjz2vJg@mail.gmail.com>
-References: <20170711053106.4113-1-alexhenrie24@gmail.com> <181d2cb7-a074-0bdd-f861-ae2618c24139@gmail.com>
-Mime-Version: 1.0
-Content-Type: text/plain; charset="UTF-8"
+From: Long Wang <w@laoqinren.net>
+Subject: [PATCH] getline.3: wfix
+Date: Wed, 12 Jul 2017 16:10:01 +0800
+Message-ID: <1499847001-83794-1-git-send-email-w@laoqinren.net>
 Return-path: <linux-man-owner-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>
-In-Reply-To: <181d2cb7-a074-0bdd-f861-ae2618c24139-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org>
 Sender: linux-man-owner-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
-To: "Michael Kerrisk (man-pages)" <mtk.manpages-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org>
-Cc: linux-man-u79uwXL29TY76Z2rM5mHXA@public.gmane.org, Piotr Caban <piotr.caban-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org>, Henri Verbeet <hverbeet-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org>
+To: mtk.manpages-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org
+Cc: linux-man-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
 List-Id: linux-man@vger.kernel.org
 
-2017-07-11 2:01 GMT-06:00 Michael Kerrisk (man-pages) <mtk.manpages-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org>:
-> Hello Alex,
->
-> On 07/11/2017 07:31 AM, Alex Henrie wrote:
->> See https://bugzilla.kernel.org/show_bug.cgi?id=196319
->
-> I confirmed by reading a C90 draft. Patch applied.
->
-> Thanks!
+Signed-off-by: Long Wang <w@laoqinren.net>
+---
+ man3/getline.3 | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
 
-Thank you for the quick fix!
+diff --git a/man3/getline.3 b/man3/getline.3
+index 7483afd..9bc4d8e 100644
+--- a/man3/getline.3
++++ b/man3/getline.3
+@@ -173,7 +173,7 @@ main(int argc, char *argv[])
+     ssize_t nread;
+ 
+     if (argc != 2) {
+-        fprintf(stderr, "Usage: %s <file>\en", argv[1]);
++        fprintf(stderr, "Usage: %s <file>\en", argv[0]);
+         exit(EXIT_FAILURE);
+     }
+ 
+-- 
+2.7.4
 
--Alex
+
+
 --
 To unsubscribe from this list: send the line "unsubscribe linux-man" in
 the body of a message to majordomo-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
