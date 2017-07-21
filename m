@@ -1,8 +1,8 @@
 From: rpjday-L09J2beyid0N/H6P543EQg@public.gmane.org
-Subject: "See Also" references to all i2c-tools programs seem to need
- updating
-Date: Fri, 21 Jul 2017 08:59:37 -0400
-Message-ID: <20170721085937.Horde.Rgdc7qw4kZ7Xv_iWiS6Jf8Z@crashcourse.ca>
+Subject: Possible clarification in man pages for i2cget, i2cset (i2c-tools
+ package)
+Date: Fri, 21 Jul 2017 08:31:33 -0400
+Message-ID: <20170721083133.Horde.ccOniaKYyb7HDLXYIHKarIm@crashcourse.ca>
 Mime-Version: 1.0
 Content-Type: text/plain; charset=utf-8; format=flowed; DelSp=Yes
 Return-path: <linux-man-owner-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>
@@ -12,25 +12,21 @@ To: mtk.manpages-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org
 Cc: linux-man-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
 List-Id: linux-man@vger.kernel.org
 
-   Just noticed that the "See Also" references to all of the programs in the
-i2c-tools package could use some updating. Currently, i2c-tools (on Fedora,
-at least) installs the utilities:
 
-  * i2cset
-  * i2cget
-  * i2cdump
-  * i2cdetect
+   Not sure if this represents a trivial error appropriate for this  
+list, but in
+the current man page for "i2cget" (and "i2cset" as well), the valid values for
+an I2C device address are given as 0x03->0x77.
 
-which suggests that each of those man pages should refer to *all* of the
-other three utilities.
+   Actually, I2C device addresses of the form 0x00001XX (0x04->0x07)  
+are reserved
+to identify high-speed master code:
 
-   In addition, "man i2cset" currently has a "See Also" reference to
-"isaset(8)", which seems a bit odd but maybe that's for historical purposes.
+   https://www.i2c-bus.org/highspeed/
 
-   Finally, "man i2cdetect" has a reference to "sensors-detect(8)", but
-I'm not sure this is necessary since i2c-tools was extracted from the
-sensors-detect package a while ago, so I don't think any of the I2C
-tools need refer to sensors-detect any longer.
+so *regular* I2C device addresses fall in the range 0x08->0x77. I  
+don't know if
+it's worth clarifying that pedantic detail.
 
 rday
 
