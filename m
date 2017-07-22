@@ -1,47 +1,44 @@
 From: "Michael Kerrisk (man-pages)" <mtk.manpages-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org>
-Subject: Re: [PATCH] bpf.2: ffix
-Date: Sat, 22 Jul 2017 09:20:15 +0200
-Message-ID: <6cd40010-5d2c-1c53-70be-e0883bad5230@gmail.com>
-References: <dffbb176-7a87-4c08-bbc8-cfcf3f9f68d4@taghos.com.br>
+Subject: Re: [PATCH] exp2.3: Remove C89 designation
+Date: Sat, 22 Jul 2017 09:23:59 +0200
+Message-ID: <755f1dd6-cc5a-c4cc-e43d-e5c955087a1f@gmail.com>
+References: <20170720032532.1451-1-alexhenrie24@gmail.com>
 Mime-Version: 1.0
-Content-Type: text/plain; charset=utf-8
+Content-Type: text/plain; charset=windows-1252
 Content-Transfer-Encoding: 7bit
 Return-path: <linux-man-owner-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>
-In-Reply-To: <dffbb176-7a87-4c08-bbc8-cfcf3f9f68d4-6ANAkuZINJhwFqzsTH5u/w@public.gmane.org>
+In-Reply-To: <20170720032532.1451-1-alexhenrie24-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org>
 Sender: linux-man-owner-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
-To: Douglas Caetano dos Santos <douglascs-6ANAkuZINJhwFqzsTH5u/w@public.gmane.org>
-Cc: mtk.manpages-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org, linux-man-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
+To: Alex Henrie <alexhenrie24-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org>, linux-man-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
+Cc: mtk.manpages-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org
 List-Id: linux-man@vger.kernel.org
 
-On 07/21/2017 03:55 PM, Douglas Caetano dos Santos wrote:
-> '\' must be escaped.
+On 07/20/2017 05:25 AM, Alex Henrie wrote:
+> Signed-off-by: Alex Henrie <alexhenrie24-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org>
 
-Thanks, Douglas. Applied.
+Thanks, Alex. Applied.
 
 Cheers,
 
 Michael
 
-
-> 
-> Signed-off-by: Douglas Caetano dos Santos <douglascs-6ANAkuZINJhwFqzsTH5u/w@public.gmane.org>
 > ---
->  man2/bpf.2 | 2 +-
+>  man3/exp2.3 | 2 +-
 >  1 file changed, 1 insertion(+), 1 deletion(-)
 > 
-> diff --git a/man2/bpf.2 b/man2/bpf.2
-> index d4fca8245..2360c11b6 100644
-> --- a/man2/bpf.2
-> +++ b/man2/bpf.2
-> @@ -986,7 +986,7 @@ main(int argc, char **argv)
->          assert(bpf_lookup_elem(map_fd, &key, &tcp_cnt) == 0);
->          key = IPPROTO_UDP;
->          assert(bpf_lookup_elem(map_fd, &key, &udp_cnt) == 0);
-> -        printf("TCP %lld UDP %lld packets\n", tcp_cnt, udp_cnt);
-> +        printf("TCP %lld UDP %lld packets\\n", tcp_cnt, udp_cnt);
->          sleep(1);
->      }
->  
+> diff --git a/man3/exp2.3 b/man3/exp2.3
+> index a09915f34..e942a2281 100644
+> --- a/man3/exp2.3
+> +++ b/man3/exp2.3
+> @@ -102,7 +102,7 @@ C99, POSIX.1-2001, POSIX.1-2008.
+>  The variant returning
+>  .I double
+>  also conforms to
+> -SVr4, 4.3BSD, C89.
+> +SVr4, 4.3BSD.
+>  .SH SEE ALSO
+>  .BR cbrt (3),
+>  .BR cexp2 (3),
 > 
 
 
