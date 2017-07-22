@@ -1,45 +1,47 @@
 From: "Michael Kerrisk (man-pages)" <mtk.manpages-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org>
-Subject: Re: [PATCH] Changes.old: tfix
-Date: Sat, 22 Jul 2017 09:19:17 +0200
-Message-ID: <87a2b875-9ee3-87bf-f39f-0398b9c8abe6@gmail.com>
-References: <20170721190406.2658-1-jwilk@jwilk.net>
+Subject: Re: [PATCH] bpf.2: ffix
+Date: Sat, 22 Jul 2017 09:20:15 +0200
+Message-ID: <6cd40010-5d2c-1c53-70be-e0883bad5230@gmail.com>
+References: <dffbb176-7a87-4c08-bbc8-cfcf3f9f68d4@taghos.com.br>
 Mime-Version: 1.0
-Content-Type: text/plain; charset=windows-1252
+Content-Type: text/plain; charset=utf-8
 Content-Transfer-Encoding: 7bit
 Return-path: <linux-man-owner-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>
-In-Reply-To: <20170721190406.2658-1-jwilk-tXgOlIzOKNReoWH0uzbU5w@public.gmane.org>
+In-Reply-To: <dffbb176-7a87-4c08-bbc8-cfcf3f9f68d4-6ANAkuZINJhwFqzsTH5u/w@public.gmane.org>
 Sender: linux-man-owner-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
-To: Jakub Wilk <jwilk-tXgOlIzOKNReoWH0uzbU5w@public.gmane.org>
+To: Douglas Caetano dos Santos <douglascs-6ANAkuZINJhwFqzsTH5u/w@public.gmane.org>
 Cc: mtk.manpages-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org, linux-man-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
 List-Id: linux-man@vger.kernel.org
 
-On 07/21/2017 09:04 PM, Jakub Wilk wrote:
-> Signed-off-by: Jakub Wilk <jwilk-tXgOlIzOKNReoWH0uzbU5w@public.gmane.org>
+On 07/21/2017 03:55 PM, Douglas Caetano dos Santos wrote:
+> '\' must be escaped.
 
-Thanks, Jakub. Applied.
+Thanks, Douglas. Applied.
 
 Cheers,
 
 Michael
 
 
+> 
+> Signed-off-by: Douglas Caetano dos Santos <douglascs-6ANAkuZINJhwFqzsTH5u/w@public.gmane.org>
 > ---
->  Changes.old | 2 +-
+>  man2/bpf.2 | 2 +-
 >  1 file changed, 1 insertion(+), 1 deletion(-)
 > 
-> diff --git a/Changes.old b/Changes.old
-> index 45b5dbafc..445ccf6ab 100644
-> --- a/Changes.old
-> +++ b/Changes.old
-> @@ -45584,7 +45584,7 @@ sigaltstack.2
->      Michael Kerrisk
->          Note buggy addition of ss.ss_flags==SS_ONSTACK
->              Note buggy addition of ss.ss_flags==SS_ONSTACK as a synonym
-> -            for ss_flags==0. No other implemenation does this, AFAIK.
-> +            for ss_flags==0. No other implementation does this, AFAIK.
->              And it was not needed :-(.
->      Michael Kerrisk
->          Specifying 'ss' returns the current settings without changing them
+> diff --git a/man2/bpf.2 b/man2/bpf.2
+> index d4fca8245..2360c11b6 100644
+> --- a/man2/bpf.2
+> +++ b/man2/bpf.2
+> @@ -986,7 +986,7 @@ main(int argc, char **argv)
+>          assert(bpf_lookup_elem(map_fd, &key, &tcp_cnt) == 0);
+>          key = IPPROTO_UDP;
+>          assert(bpf_lookup_elem(map_fd, &key, &udp_cnt) == 0);
+> -        printf("TCP %lld UDP %lld packets\n", tcp_cnt, udp_cnt);
+> +        printf("TCP %lld UDP %lld packets\\n", tcp_cnt, udp_cnt);
+>          sleep(1);
+>      }
+>  
 > 
 
 
