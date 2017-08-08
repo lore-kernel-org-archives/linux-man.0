@@ -1,52 +1,114 @@
-From: enh <enh-hpIqsD4AKlfQT0dZR+AlfA@public.gmane.org>
-Subject: [PATCH] Note that there's no glibc wrapper for set_tid_address.
-Date: Mon, 7 Aug 2017 08:53:10 -0700
-Message-ID: <CAJgzZoqVFhcEU_Fmrbteq7YSCgpxendHk9aePUvFazgNd=KZmA@mail.gmail.com>
+From: NeilBrown <neilb@suse.com>
+Subject: [PATCH manpages] umount.2: revise MNT_FORCE
+	description.
+Date: Tue, 08 Aug 2017 15:49:58 +1000
+Message-ID: <87mv7asj5l.fsf@notabene.neil.brown.name>
 Mime-Version: 1.0
-Content-Type: multipart/mixed; boundary="001a114477dc31943f05562bd9f9"
-Return-path: <linux-man-owner-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>
-Sender: linux-man-owner-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
-To: "Michael Kerrisk (man-pages)" <mtk.manpages-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org>
-Cc: linux-man-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
+Content-Type: multipart/mixed; boundary="===============1010185718=="
+Return-path: <systemd-devel-bounces@lists.freedesktop.org>
+List-Unsubscribe: <https://lists.freedesktop.org/mailman/options/systemd-devel>,
+ <mailto:systemd-devel-request@lists.freedesktop.org?subject=unsubscribe>
+List-Archive: <https://lists.freedesktop.org/archives/systemd-devel>
+List-Post: <mailto:systemd-devel@lists.freedesktop.org>
+List-Help: <mailto:systemd-devel-request@lists.freedesktop.org?subject=help>
+List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/systemd-devel>,
+ <mailto:systemd-devel-request@lists.freedesktop.org?subject=subscribe>
+Errors-To: systemd-devel-bounces@lists.freedesktop.org
+Sender: "systemd-devel" <systemd-devel-bounces@lists.freedesktop.org>
+To: mtk.manpages@gmail.com
+Cc: linux-fsdevel@vger.kernel.org, linux-man@vger.kernel.org, systemd-devel@freedesktop.org
 List-Id: linux-man@vger.kernel.org
 
---001a114477dc31943f05562bd9f9
-Content-Type: text/plain; charset="UTF-8"
+--===============1010185718==
+Content-Type: multipart/signed; boundary="=-=-=";
+	micalg=pgp-sha256; protocol="application/pgp-signature"
 
----
- man2/set_tid_address.2 | 6 ++++++
- 1 file changed, 6 insertions(+)
+--=-=-=
+Content-Type: text/plain
+Content-Transfer-Encoding: quoted-printable
 
---001a114477dc31943f05562bd9f9
-Content-Type: text/x-patch; charset="US-ASCII";
-	name="0001-Note-that-there-s-no-glibc-wrapper-for-set_tid_addre.patch"
-Content-Disposition: attachment;
-	filename="0001-Note-that-there-s-no-glibc-wrapper-for-set_tid_addre.patch"
+
+MNT_FORCE does not allow a busy filesystem to be unmounted.  Only
+MNT_DETACH allows that.
+MNT_FORCE only tries to abort pending transactions, in the hope that
+might help umount not to block,
+
+Also, other filesystems than NFS support MNT_FORCE.
+
+Signed-off-by: NeilBrown <neilb@suse.com>
+=2D--
+
+Explanation derived from examination of source code.
+Cc to systemd devel in relation to comment I just posted:
+
+https://github.com/systemd/systemd/commit/0c08f5cde749bd2818475e487109cd0d4=
+13452df
+
+You may want to move the "linux version when support was added" to a
+comment, or discard it.
+
+ man2/umount.2 | 14 +++++++++++---
+ 1 file changed, 11 insertions(+), 3 deletions(-)
+
+diff --git a/man2/umount.2 b/man2/umount.2
+index 68f76b7c6352..ccd1d07afe88 100644
+=2D-- a/man2/umount.2
++++ b/man2/umount.2
+@@ -61,9 +61,17 @@ unmounts a target, but allows additional
+ controlling the behavior of the operation:
+ .TP
+ .BR MNT_FORCE " (since Linux 2.1.116)"
+=2DForce unmount even if busy.
+=2DThis can cause data loss.
+=2D(Only for NFS mounts.)
++Ask the filesystem to abort pending requests before attempting the
++unmount.  This may allow the unmount to complete without waiting
++for an inaccessible server.  If, after aborting requests, some
++processes still have active references to the filesystem, the
++unmount will still fail. In Linux 4.12, only the filesystems
++9p (2.6.16),
++ceph (2.6.34),
++cifs (2.6.12),
++fuse (2.6.16),
++lustre (3.11),
++and NFS (2.1.116) respond to MNT_FORCE.
+ .TP
+ .BR MNT_DETACH " (since Linux 2.4.11)"
+ Perform a lazy unmount: make the mount point unavailable for new
+=2D-=20
+2.14.0.rc0.dirty
+
+
+--=-=-=
+Content-Type: application/pgp-signature; name="signature.asc"
+
+-----BEGIN PGP SIGNATURE-----
+
+iQIzBAEBCAAdFiEEG8Yp69OQ2HB7X0l6Oeye3VZigbkFAlmJUQgACgkQOeye3VZi
+gbn0OBAAkSSZnbLZZ+ZFGjqUKtva2sXR7VIY0Enf/d0KDrzFRFfpMD3NCyv+xQfJ
+9KJZxEDBcQfdyQNtGUC99MSpBK1zvhKglZ+KA/fJNBcR07AQeDks8BbFvtp/eMka
+xb3i1Rp/98IknH6pmZP7wg/zPomGMgWVl2AOFP3n0T/ZTiUo7TkqCJ5TLESp/C5S
+n3cnXjaun62vxHRyGwn2LMy0dMsO2wziAsvq6/kTai0aCLO04dyu3ylJ+Y8HzkJc
+hY/tEQV/9Ws1yG6p42JuWHRhz4WsZfHtWrzPT/kLtGAkMj3CTzlOYRc/TILsrhFJ
+Hsgsd9ZBNX5DXPCiFq+cviGXjtWNGjEKhJWykmVewAtv5MKjgFQ0ApElXUQOmfMG
+jJeQaFPGHCe2DRInL4xg4hH5gTHNuTrk2Ef4zsxoNvn+tGTMvJSQhY5FEiuEHu4G
+BiBTcR2mA2uZKFyT07pR0SkBiqCuizzBoTUefjlbN6s13vQyxHQL9nw0YzirpTQR
+yvHk+UC7+NE74DpLp9FL6W3G4IZ+4E16gRYZiTkbHDl2f8iSFKhZ1GiVVnAXOStA
+ry2hlqV6qZexG4qq2ekkTXDs0PsNSIQ8LuVxWxhByi1LgMi7UudcokwTc9TQRov1
+SC/vi8rMCa1cFp6VT2+PybFH1qmpNZcz7SlBv7/19DVPi3Db0ZM=
+=C+YH
+-----END PGP SIGNATURE-----
+--=-=-=--
+
+--===============1010185718==
+Content-Type: text/plain; charset="utf-8"
+MIME-Version: 1.0
 Content-Transfer-Encoding: base64
-X-Attachment-Id: f_j62c615k0
+Content-Disposition: inline
 
-RnJvbSA0Y2NmMWJhMjQ2YzFkYTQ4ODkzODY1YmQzZGM5ZTAyOWRiZjdmZDNhIE1vbiBTZXAgMTcg
-MDA6MDA6MDAgMjAwMQpGcm9tOiBFbGxpb3R0IEh1Z2hlcyA8ZW5oQGdvb2dsZS5jb20+CkRhdGU6
-IE1vbiwgNyBBdWcgMjAxNyAwODo1MToyOCAtMDcwMApTdWJqZWN0OiBbUEFUQ0hdIE5vdGUgdGhh
-dCB0aGVyZSdzIG5vIGdsaWJjIHdyYXBwZXIgZm9yIHNldF90aWRfYWRkcmVzcy4KCi0tLQogbWFu
-Mi9zZXRfdGlkX2FkZHJlc3MuMiB8IDYgKysrKysrCiAxIGZpbGUgY2hhbmdlZCwgNiBpbnNlcnRp
-b25zKCspCgpkaWZmIC0tZ2l0IGEvbWFuMi9zZXRfdGlkX2FkZHJlc3MuMiBiL21hbjIvc2V0X3Rp
-ZF9hZGRyZXNzLjIKaW5kZXggNDQ2YjkwMDlhLi5iMTljYjA4MjMgMTAwNjQ0Ci0tLSBhL21hbjIv
-c2V0X3RpZF9hZGRyZXNzLjIKKysrIGIvbWFuMi9zZXRfdGlkX2FkZHJlc3MuMgpAQCAtMzEsNiAr
-MzEsOSBAQCBzZXRfdGlkX2FkZHJlc3MgXC0gc2V0IHBvaW50ZXIgdG8gdGhyZWFkIElECiAuc3AK
-IC5CSSAibG9uZyBzZXRfdGlkX2FkZHJlc3MoaW50ICoiIHRpZHB0ciApOwogLmZpCisKKy5JUiBO
-b3RlIDoKK1RoZXJlIGlzIG5vIGdsaWJjIHdyYXBwZXIgZm9yIHRoaXMgc3lzdGVtIGNhbGw7IHNl
-ZSBOT1RFUy4KIC5TSCBERVNDUklQVElPTgogRm9yIGVhY2ggdGhyZWFkLCB0aGUga2VybmVsIG1h
-aW50YWlucyB0d28gYXR0cmlidXRlcyAoYWRkcmVzc2VzKSBjYWxsZWQKIC5JIHNldF9jaGlsZF90
-aWQKQEAgLTk2LDYgKzk5LDkgQEAgVGhpcyBjYWxsIGlzIHByZXNlbnQgc2luY2UgTGludXggMi41
-LjQ4LgogRGV0YWlscyBhcyBnaXZlbiBoZXJlIGFyZSB2YWxpZCBzaW5jZSBMaW51eCAyLjUuNDku
-CiAuU0ggQ09ORk9STUlORyBUTwogVGhpcyBzeXN0ZW0gY2FsbCBpcyBMaW51eC1zcGVjaWZpYy4K
-Ky5TSCBOT1RFUworR2xpYmMgZG9lcyBub3QgcHJvdmlkZSBhIHdyYXBwZXIgZm9yIHRoaXMgc3lz
-dGVtIGNhbGw7IGNhbGwgaXQgdXNpbmcKKy5CUiBzeXNjYWxsICgyKS4KIC5TSCBTRUUgQUxTTwog
-LkJSIGNsb25lICgyKSwKIC5CUiBmdXRleCAoMiksCi0tIAoyLjE0LjAucmMxLjM4My5nZDFjZTM5
-NGZlMi1nb29nCgo=
---001a114477dc31943f05562bd9f9--
---
-To unsubscribe from this list: send the line "unsubscribe linux-man" in
-the body of a message to majordomo-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
-More majordomo info at  http://vger.kernel.org/majordomo-info.html
+X19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX18Kc3lzdGVtZC1k
+ZXZlbCBtYWlsaW5nIGxpc3QKc3lzdGVtZC1kZXZlbEBsaXN0cy5mcmVlZGVza3RvcC5vcmcKaHR0
+cHM6Ly9saXN0cy5mcmVlZGVza3RvcC5vcmcvbWFpbG1hbi9saXN0aW5mby9zeXN0ZW1kLWRldmVs
+Cg==
+
+--===============1010185718==--
