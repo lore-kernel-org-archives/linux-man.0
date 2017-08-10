@@ -1,15 +1,14 @@
-From: NeilBrown <neilb@suse.com>
-Subject: [PATCH manpages] umount.2: restore mention of data loss with MNT_FORCE
-Date: Thu, 10 Aug 2017 13:23:38 +1000
-Message-ID: <8760dwrtqd.fsf@notabene.neil.brown.name>
-References: <87mv7asj5l.fsf@notabene.neil.brown.name> <508034ae-e254-d0bd-5ca9-c3f1959f8fe5@gmail.com>
+From: NeilBrown <neilb-IBi9RG/b67k@public.gmane.org>
+Subject: [PATCH man-pages] open.2: improve O_PATH documentation.
+Date: Thu, 10 Aug 2017 13:25:21 +1000
+Message-ID: <873790rtni.fsf@notabene.neil.brown.name>
 Mime-Version: 1.0
 Content-Type: multipart/signed; boundary="=-=-=";
         micalg=pgp-sha256; protocol="application/pgp-signature"
-Return-path: <linux-fsdevel-owner@vger.kernel.org>
-In-Reply-To: <508034ae-e254-d0bd-5ca9-c3f1959f8fe5@gmail.com>
-Sender: linux-fsdevel-owner@vger.kernel.org
-Cc: mtk.manpages@gmail.com, linux-man@vger.kernel.org, linux-fsdevel@vger.kernel.org
+Return-path: <linux-man-owner-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>
+Sender: linux-man-owner-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
+To: "Michael Kerrisk (man-pages)" <mtk.manpages-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org>
+Cc: linux-man-u79uwXL29TY76Z2rM5mHXA@public.gmane.org, Lennart Poettering <lennart-mdGvqq1h2p+GdvJs77BJ7Q@public.gmane.org>, linux-fsdevel-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
 List-Id: linux-man@vger.kernel.org
 
 --=-=-=
@@ -17,39 +16,61 @@ Content-Type: text/plain
 Content-Transfer-Encoding: quoted-printable
 
 
-Recent patch to description of MNT_FORCE incorrectly
-dropped the mention of possible data loss.  Restore it.
+=2D fstatfs is now permitted.
+=2D ioctl isn't, and is worth listing explicitly
+=2D O_PATH allows an automount point to be opened with
+  triggering the mount.
 
-Signed-off-by: NeilBrown <neilb@suse.com>
+All tested
+
+Signed-off-by: NeilBrown <neilb-IBi9RG/b67k@public.gmane.org>
 =2D--
+ man2/open.2 | 16 +++++++++++++++-
+ 1 file changed, 15 insertions(+), 1 deletion(-)
 
-Sorry, I thought I had put the mention of data loss back it, but clearly
-not.
-
-NeilBrown
-
-
- man2/umount.2 | 7 ++++---
- 1 file changed, 4 insertions(+), 3 deletions(-)
-
-diff --git a/man2/umount.2 b/man2/umount.2
-index ccd1d07afe88..01f42710ee9d 100644
-=2D-- a/man2/umount.2
-+++ b/man2/umount.2
-@@ -63,9 +63,10 @@ controlling the behavior of the operation:
- .BR MNT_FORCE " (since Linux 2.1.116)"
- Ask the filesystem to abort pending requests before attempting the
- unmount.  This may allow the unmount to complete without waiting
-=2Dfor an inaccessible server.  If, after aborting requests, some
-=2Dprocesses still have active references to the filesystem, the
-=2Dunmount will still fail. In Linux 4.12, only the filesystems
-+for an inaccessible server, but could cause data loss.  If, after
-+aborting requests, some processes still have active references to the
-+filesystem, the unmount will still fail. In Linux 4.12, only the
-+filesystems
- 9p (2.6.16),
- ceph (2.6.34),
- cifs (2.6.12),
+diff --git a/man2/open.2 b/man2/open.2
+index e3b00939790c..38d532397b02 100644
+=2D-- a/man2/open.2
++++ b/man2/open.2
+@@ -585,6 +585,7 @@ The file itself is not opened, and other file operation=
+s (e.g.,
+ .BR fchmod (2),
+ .BR fchown (2),
+ .BR fgetxattr (2),
++.BR ioctl (2),
+ .BR mmap (2))
+ fail with the error
+ .BR EBADF .
+@@ -599,8 +600,11 @@ be performed on the resulting file descriptor:
+ (since Linux 3.5);
+ .\" commit 332a2e1244bd08b9e3ecd378028513396a004a24
+ .BR fstat (2)
+=2D(since Linux 3.6).
++(since Linux 3.6);
+ .\" fstat(): commit 55815f70147dcfa3ead5738fd56d3574e2e3c1c2
++.BR fstatfs (2)
++(since Linux 3.12).
++.\" fstatfs(): commit 9d05746e7b16d8565dddbe3200faa1e669d23bbf
+ .IP *
+ Duplicating the file descriptor
+ .RB ( dup (2),
+@@ -666,6 +670,16 @@ argument in calls to
+ and
+ .BR readlinkat (2)
+ with an empty pathname to have the calls operate on the symbolic link.
++
++If
++.I pathname
++refers to an automount point that has not yet been triggered, so no
++other filesystem is mounted on it, then the call returns a file
++descriptor referring to the automount directory without triggering a mount.
++.BR fstatfs (2)
++can then be used to determine if it is, in fact, an untriggered
++automount point
++.RB ( ".f_type =3D=3D AUTOFS_SUPER_MAGIC" ).
+ .TP
+ .B O_SYNC
+ Write operations on the file will complete according to the requirements of
 =2D-=20
 2.14.0.rc0.dirty
 
@@ -59,18 +80,22 @@ Content-Type: application/pgp-signature; name="signature.asc"
 
 -----BEGIN PGP SIGNATURE-----
 
-iQIzBAEBCAAdFiEEG8Yp69OQ2HB7X0l6Oeye3VZigbkFAlmL0bwACgkQOeye3VZi
-gbnwsQ//drRg5xAw6Zys1gG1o9Km/x56TjUxCGw38zwyw0/Hjuh9ZgAxiT3szlyx
-ffuQ7Upm2KcaAuoN7ki1n9LnzMafm5GU0Po7x2wY2HRfk67RtYW//V36zHuMmy8M
-dtbZ0EuQhmnOb207wcFg4qvUms4wrtdDA7GeNO9ptgh5VrIGNJwcR+5oEOtzcf50
-nRNUj4tAIkcFkfZQGEkdEhlZ08HMs8o92THaZfDBfM6veXUWxwBJa09RISBLK8VD
-Z+DXKAxI5BH0ejg66P96KUYm1OiEwASkUI+NNYoY0wF7LqKEvxF7O8Rcd6AtDbjE
-GoSdhflm2fcbr4/sw2PK28aCzrGy+6ZgriERSDovkNMa2sx8FAU84fWCBEpmS0nz
-MO6d8M2a9CXP7/OLZ+4NFFHpfJXfNB/r/F4qOTGQ3yq7zX5jaMotu229OI+smEY+
-+AJYYbgIk6lIw0InM9qyx64sjcOdFbFyVxPXPOO/t1nTFh9zqUI3LVCqkSSLPlp6
-7ogU4uun7b1yEk2dPwN3GgLE8nHEULEd1NbWZjn0F81QMZai77LePf0McmDTheM+
-KZ55uirXKiyUk+5QUcFe+RPsq1J7E3FB7mix8qY2zQs6odYIsLNwri4jx7loW/bS
-xWY0zXLN0OIpjG+h2RtE54E5SG+JN2OHG4oc5kM1EwFKW05GA/0=
-=FgtK
+iQIzBAEBCAAdFiEEG8Yp69OQ2HB7X0l6Oeye3VZigbkFAlmL0iIACgkQOeye3VZi
+gblVHw//VVGmPhVA0RA4Z5QPgCnHAObREULvwi7E7ZHugGrkynH1dvp9rw0SZziP
++pm5DBu3f6RGHRRM2GwOhuoZVyaYrZNdfYIHk/BnipHl8M/Aw2atu0Kyys0P3qY6
+J0tTOykz+WprIe2LMcTixtTIi7l++mHrTndcMtzKf/54/tFth+9rmoRwjTYL1qvn
+5/ZOqHMNSgKSE41FHusplrTWZr3eGi8qYE3CLYW/tjQfNCFrdWXOBEwTg8AgTZVs
+R8Hy4phRVrGjMZan3qcIMxt8GoJlPsW9ZWZ8FkN/m8+f+ONZHInUzaKs0+7Nb7jz
+W7hDAp62pL0KyJMr4kZn+n20KkVc1UhmOom5EFU/cMPkbgU6g/4KOXaCOJk5T8Lw
+Grhvj0hXGqR+rIyjtWjQoUVlR9/tqO5zZipBbRH7izVn5Am2gUozyVWxP28xbH7v
+oozvy6IkYu8UZoJyZFzR41kBRd8NZfuLmHqtvUqLQu173kBgtUAqCLuTyzJsqfS1
+9uXJ43Y8CtBYbxBWuhG4K9mC+w/m1Meb/JR7+kUdKCOEEP5aldnz0r8YqAzyYyBr
+tGPmfVnP2cvG4UherDg+xADmJUP0QaIERVz8zUvIoMObmD2i3bNJuTQVj/2QQafL
+s+xrI0inUrnwuyIr8blYd4fDO9Kp8dlTrcIW9IJykAqGZtun3ls=
+=8h0U
 -----END PGP SIGNATURE-----
 --=-=-=--
+--
+To unsubscribe from this list: send the line "unsubscribe linux-man" in
+the body of a message to majordomo-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
+More majordomo info at  http://vger.kernel.org/majordomo-info.html
