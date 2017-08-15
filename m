@@ -1,61 +1,48 @@
 From: "Michael Kerrisk (man-pages)" <mtk.manpages-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org>
-Subject: Re: [PATCH] seccomp.2: Clarify SECCOMP_RET_KILL kills tasks not
- processes
-Date: Tue, 15 Aug 2017 20:49:57 +0200
-Message-ID: <b99509c5-bd70-ab4a-0aba-b12df4107671@gmail.com>
-References: <20170706192307.GA38040@beast>
+Subject: Re: [PATCH] proc.5: fix path to binfmt_misc docs
+Date: Tue, 15 Aug 2017 21:01:18 +0200
+Message-ID: <d07b89ee-6a2c-1e09-ec69-eb23143e7089@gmail.com>
+References: <20170611182137.6350-1-bp@benjamin.pe>
 Mime-Version: 1.0
 Content-Type: text/plain; charset=utf-8
 Content-Transfer-Encoding: 7bit
 Return-path: <linux-man-owner-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>
-In-Reply-To: <20170706192307.GA38040@beast>
+In-Reply-To: <20170611182137.6350-1-bp-FdlSlcb4kYoEmBOxnfisBw@public.gmane.org>
 Content-Language: en-US
 Sender: linux-man-owner-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
-To: Kees Cook <keescook-F7+t8E8rja9g9hUCZPvPmw@public.gmane.org>
-Cc: mtk.manpages-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org, linux-man-u79uwXL29TY76Z2rM5mHXA@public.gmane.org, Zach Reizner <zachr-hpIqsD4AKlfQT0dZR+AlfA@public.gmane.org>, Jorge Lucangeli Obes <jorgelo-hpIqsD4AKlfQT0dZR+AlfA@public.gmane.org>
+To: Benjamin Peterson <bp-FdlSlcb4kYoEmBOxnfisBw@public.gmane.org>
+Cc: mtk.manpages-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org, linux-man-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
 List-Id: linux-man@vger.kernel.org
 
-On 07/06/2017 09:23 PM, Kees Cook wrote:
-> Zach Reizner pointed out a mismatch between kernel behavior and the
-> man-page documentation of SECCOMP_RET_KILL which kills tasks not
-> processes.
+On 06/11/2017 08:21 PM, Benjamin Peterson wrote:
+> The documentation moved in linux commit 9d85025b0418163fae079c9ba8f8445212de8568
+> ("docs-rst: create an user's manual book").
+> 
+> Signed-off-by: Benjamin Peterson <bp-FdlSlcb4kYoEmBOxnfisBw@public.gmane.org>
 
-Thanks, Kees. Applied.
+Thanks, Benjamin. Applied.
 
 Cheers,
 
 Michael
 
-> Signed-off-by: Kees Cook <keescook-F7+t8E8rja9g9hUCZPvPmw@public.gmane.org>
 > ---
->  man2/seccomp.2 | 6 +++---
->  1 file changed, 3 insertions(+), 3 deletions(-)
+>  man5/proc.5 | 2 +-
+>  1 file changed, 1 insertion(+), 1 deletion(-)
 > 
-> diff --git a/man2/seccomp.2 b/man2/seccomp.2
-> index 7d0e721..b805154 100644
-> --- a/man2/seccomp.2
-> +++ b/man2/seccomp.2
-> @@ -371,9 +371,9 @@ In decreasing order of precedence,
->  the values that may be returned by a seccomp filter are:
+> diff --git a/man5/proc.5 b/man5/proc.5
+> index d6032e185..bcc342bcc 100644
+> --- a/man5/proc.5
+> +++ b/man5/proc.5
+> @@ -3854,7 +3854,7 @@ related to filesystems.
+>  .I /proc/sys/fs/binfmt_misc
+>  Documentation for files in this directory can be found
+>  in the Linux kernel sources in
+> -.IR Documentation/binfmt_misc.txt .
+> +.IR Documentation/admin-guide/binfmt-misc.rst .
 >  .TP
->  .BR SECCOMP_RET_KILL
-> -This value results in the process exiting immediately
-> +This value results in the task exiting immediately
->  without executing the system call.
-> -The process terminates as though killed by a
-> +The task terminates as though killed by a
->  .B SIGSYS
->  signal
->  .RI ( not
-> @@ -769,7 +769,7 @@ install_filter(int syscall_nr, int t_arch, int f_errno)
->                 system calls */
->          BPF_STMT(BPF_RET | BPF_K, SECCOMP_RET_ALLOW),
->  
-> -        /* [7] Destination of architecture mismatch: kill process */
-> +        /* [7] Destination of architecture mismatch: kill task */
->          BPF_STMT(BPF_RET | BPF_K, SECCOMP_RET_KILL),
->      };
->  
+>  .IR /proc/sys/fs/dentry-state " (since Linux 2.2)"
+>  This file contains information about the status of the
 > 
 
 
