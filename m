@@ -1,38 +1,103 @@
-From: Mike Rapoport <rppt-23VcF4HTsmIX0ybBhKVfKdBPR1lH4CV8@public.gmane.org>
-Subject: [PATCH 1/2] ioctl_userfaultfd.2: update uffdio_api.features description
-Date: Mon, 14 Aug 2017 17:51:18 +0300
-Message-ID: <1502722279-13861-2-git-send-email-rppt@linux.vnet.ibm.com>
-References: <1502722279-13861-1-git-send-email-rppt@linux.vnet.ibm.com>
+From: "Michael Kerrisk (man-pages)" <mtk.manpages-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org>
+Subject: Re: [PATCH] log1p.3: Document fixes to give EDOM or ERANGE on error
+Date: Tue, 15 Aug 2017 20:45:42 +0200
+Message-ID: <e908d126-a00f-3dad-4b67-da1777b56996@gmail.com>
+References: <20170715052348.801-1-alexhenrie24@gmail.com>
+Mime-Version: 1.0
+Content-Type: text/plain; charset=utf-8
+Content-Transfer-Encoding: 7bit
 Return-path: <linux-man-owner-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>
-In-Reply-To: <1502722279-13861-1-git-send-email-rppt-23VcF4HTsmIX0ybBhKVfKdBPR1lH4CV8@public.gmane.org>
+In-Reply-To: <20170715052348.801-1-alexhenrie24-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org>
+Content-Language: en-US
 Sender: linux-man-owner-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
-To: Michael Kerrisk <mtk.manpages-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org>
-Cc: Andrea Arcangeli <aarcange-H+wXaHxf7aLQT0dZR+AlfA@public.gmane.org>, Michal Hocko <mhocko-IBi9RG/b67k@public.gmane.org>, linux-man <linux-man-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>, Mike Rapoport <rppt-23VcF4HTsmIX0ybBhKVfKdBPR1lH4CV8@public.gmane.org>
+To: Alex Henrie <alexhenrie24-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org>, linux-man-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
+Cc: mtk.manpages-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org
 List-Id: linux-man@vger.kernel.org
 
-There is no requirement that uffdio_api.features must be zero for newer
-kernels. This field actually defines what features user space would like to
-enable.
+On 07/15/2017 07:23 AM, Alex Henrie wrote:
+> The bug https://www.sourceware.org/bugzilla/show_bug.cgi?id=6792
+> was fixed in glibc 2.22.
 
-Signed-off-by: Mike Rapoport <rppt-23VcF4HTsmIX0ybBhKVfKdBPR1lH4CV8@public.gmane.org>
----
- man2/ioctl_userfaultfd.2 | 3 +--
- 1 file changed, 1 insertion(+), 2 deletions(-)
+Thanks, Alex. Applied.
 
-diff --git a/man2/ioctl_userfaultfd.2 b/man2/ioctl_userfaultfd.2
-index f97b3ef..14260fc 100644
---- a/man2/ioctl_userfaultfd.2
-+++ b/man2/ioctl_userfaultfd.2
-@@ -86,7 +86,7 @@ structure, defined as:
- 
- struct uffdio_api {
-     __u64 api;        /* Requested API version (input) */
--    __u64 features;   /* Currently must be zero (input) */
-+    __u64 features;   /* Requested features (input/output) */
-     __u64 ioctls;     /* Available ioctl() operations (output) */
- };
- 
-@@ -665,4 +665,3 @@ operation that actually enables the desired features.
- 
- .IR Documentation/vm/userfaultfd.txt
- in the Linux kernel source tree
+Cheers,
+
+Michael
+
+
+> Signed-off-by: Alex Henrie <alexhenrie24-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org>
+> ---
+>  man3/log1p.3 | 34 ++++++++++++++++++++++------------
+>  1 file changed, 22 insertions(+), 12 deletions(-)
+> 
+> diff --git a/man3/log1p.3 b/man3/log1p.3
+> index ae647a0d2..a303007be 100644
+> --- a/man3/log1p.3
+> +++ b/man3/log1p.3
+> @@ -115,26 +115,22 @@ when calling these functions.
+>  The following errors can occur:
+>  .TP
+>  Domain error: \fIx\fP is less than \-1
+> -.\" .I errno
+> -.\" is set to
+> -.\" .BR EDOM .
+> +.I errno
+> +is set to
+> +.BR EDOM
+> +(but see BUGS).
+>  An invalid floating-point exception
+>  .RB ( FE_INVALID )
+>  is raised.
+>  .TP
+>  Pole error: \fIx\fP is \-1
+> -.\" .I errno
+> -.\" is set to
+> -.\" .BR ERANGE .
+> +.I errno
+> +is set to
+> +.BR ERANGE
+> +(but see BUGS).
+>  A divide-by-zero floating-point exception
+>  .RB ( FE_DIVBYZERO )
+>  is raised.
+> -.PP
+> -These functions do not set
+> -.IR errno .
+> -.\" FIXME . Is it intentional that these functions do not set errno?
+> -.\" log(), log2(), log10() do set errno
+> -.\" Bug raised: http://sources.redhat.com/bugzilla/show_bug.cgi?id=6792
+>  .SH ATTRIBUTES
+>  For an explanation of the terms used in this section, see
+>  .BR attributes (7).
+> @@ -152,6 +148,20 @@ T}	Thread safety	MT-Safe
+>  .SH CONFORMING TO
+>  C99, POSIX.1-2001, POSIX.1-2008.
+>  .\" BSD
+> +.SH BUGS
+> +Before version 2.22, the glibc implementation did not set
+> +.\" https://www.sourceware.org/bugzilla/show_bug.cgi?id=6792
+> +.I errno
+> +to
+> +.B EDOM
+> +when a domain error occurred.
+> +
+> +Before version 2.22, the glibc implementation did not set
+> +.\" https://www.sourceware.org/bugzilla/show_bug.cgi?id=6792
+> +.I errno
+> +to
+> +.B ERANGE
+> +when a range error occurred.
+>  .SH SEE ALSO
+>  .BR exp (3),
+>  .BR expm1 (3),
+> 
+
+
+-- 
+Michael Kerrisk
+Linux man-pages maintainer; http://www.kernel.org/doc/man-pages/
+Linux/UNIX System Programming Training: http://man7.org/training/
+--
+To unsubscribe from this list: send the line "unsubscribe linux-man" in
+the body of a message to majordomo-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
+More majordomo info at  http://vger.kernel.org/majordomo-info.html
