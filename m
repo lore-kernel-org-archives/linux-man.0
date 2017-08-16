@@ -1,78 +1,63 @@
 From: "Michael Kerrisk (man-pages)" <mtk.manpages-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org>
-Subject: Re: [PATCH 1/1] cmsg.3: Add a scatter/gather buffer to sample code
-Date: Wed, 16 Aug 2017 02:30:11 +0200
-Message-ID: <138c6d98-8c4b-72a2-28da-e7f472b3836c@gmail.com>
-References: <20170719234955.GA24570@us.ibm.com>
+Subject: Re: [patch] netlink.7: srcfix Change buffer size in example code
+ about reading netlink message.
+Date: Wed, 16 Aug 2017 02:37:50 +0200
+Message-ID: <86910c29-c68c-dc7d-d5b9-3f20128d5af1@gmail.com>
+References: <e9409957290af5249750afa0f10de3a6@linux.vnet.ibm.com>
 Mime-Version: 1.0
 Content-Type: text/plain; charset=utf-8
 Content-Transfer-Encoding: 7bit
 Return-path: <linux-man-owner-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>
-In-Reply-To: <20170719234955.GA24570-r/Jw6+rmf7HQT0dZR+AlfA@public.gmane.org>
+In-Reply-To: <e9409957290af5249750afa0f10de3a6-23VcF4HTsmIX0ybBhKVfKdBPR1lH4CV8@public.gmane.org>
 Content-Language: en-US
 Sender: linux-man-owner-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
-To: Sukadev Bhattiprolu <sukadev-23VcF4HTsmIX0ybBhKVfKdBPR1lH4CV8@public.gmane.org>
-Cc: mtk.manpages-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org, linux-man-u79uwXL29TY76Z2rM5mHXA@public.gmane.org, pradeeps-23VcF4HTsmIX0ybBhKVfKdBPR1lH4CV8@public.gmane.org
+To: dwilder <dwilder-r/Jw6+rmf7HQT0dZR+AlfA@public.gmane.org>
+Cc: mtk.manpages-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org, linux-man-u79uwXL29TY76Z2rM5mHXA@public.gmane.org, netdev-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
 List-Id: linux-man@vger.kernel.org
 
-On 07/20/2017 01:49 AM, Sukadev Bhattiprolu wrote:
+On 11/14/2016 11:20 PM, dwilder wrote:
+> The example code in netlink(7) (for reading netlink message) suggests 
+> using
+> a 4k read buffer with recvmsg.  This can cause truncated messages on 
+> systems
+> using a page size is >4096.  Please see:
+> linux/include/linux/netlink.h (in the kernel source)
 > 
->>From b2800c8d5dcd8ede89ebccb25f1a9b087dc2684b Mon Sep 17 00:00:00 2001
-> From: Sukadev Bhattiprolu <sukadev-23VcF4HTsmIX0ybBhKVfKdBPR1lH4CV8@public.gmane.org>
-> Date: Wed, 19 Jul 2017 22:47:14 -0400
-> Subject: [PATCH 1/1] cmsg.3: Add a scatter/gather buffer to sample code
+> <snip>
+> /*
+>   *      skb should fit one page. This choice is good for headerless 
+> malloc.
+>   *      But we should limit to 8K so that userspace does not have to
+>   *      use enormous buffer sizes on recvmsg() calls just to avoid
+>   *      MSG_TRUNC when PAGE_SIZE is very large.
+>   */
+> #if PAGE_SIZE < 8192UL
+> #define NLMSG_GOODSIZE  SKB_WITH_OVERHEAD(PAGE_SIZE)
+> #else
+> #define NLMSG_GOODSIZE  SKB_WITH_OVERHEAD(8192UL)
+> #endif
 > 
-> Add a simple scatter/gather buffer to the cmsg sample code.
+> #define NLMSG_DEFAULT_SIZE (NLMSG_GOODSIZE - NLMSG_HDRLEN)
+> <snip>
 > 
-> It appears that the scatter/gather buffer is required even though it
-> may not be used. In my testing (on Fedora 24 4.8.7-200.fc24.x86_64 as
-> well as a 4.11 based kernel) return value of sendmsg() was the number
-> of bytes in the scatter/gather buffer (1 with the patch below).
+> I was troubleshooting some up-stream code on a ppc64le system
+> (page:size of 64k) This code had duplicated the example from netlink(7) 
+> and
+> was using a 4k buffer.  On x86-64 with a 4k page size this is not a 
+> problem,
+> however on the 64k page system some messages were truncated.  Using an 
+> 8k buffer
+> as implied in netlink.h prevents problems with any page size.
 > 
-> Without the iovec buffer, sendmsg() returns 0 which means no bytes
-> were transferred and the corresponding recvmsg() blocks indefinitely.
+> Lets change the example so others don't propagate the problem further.
+> 
+> Signed-off-by David Wilder <dwilder-r/Jw6+rmf7HQT0dZR+AlfA@public.gmane.org>
 
-Thanks, Sukadev. Applied.
+Thanks, David. Patch applied.
 
 Cheers,
 
 Michael
-
-
-> 
-> Signed-off-by: Sukadev Bhattiprolu <sukadev-23VcF4HTsmIX0ybBhKVfKdBPR1lH4CV8@public.gmane.org>
-> ---
->  A sample test case is at:
->      https://github.com/sukadev/linux-tests/blob/master/share-fds/share-fds.c
-> 
->  man3/cmsg.3 | 7 +++++++
->  1 file changed, 7 insertions(+)
-> 
-> 
-> diff --git a/man3/cmsg.3 b/man3/cmsg.3
-> index 69af571..2ec87ad 100644
-> --- a/man3/cmsg.3
-> +++ b/man3/cmsg.3
-> @@ -200,12 +200,19 @@ struct msghdr msg = { 0 };
->  struct cmsghdr *cmsg;
->  int myfds[NUM_FD];  /* Contains the file descriptors to pass */
->  int *fdptr;
-> +char iobuf[1];
-> +struct iovec io = {
-> +    .iov_base = iobuf,
-> +    .iov_len = sizeof(iobuf)
-> +};
->  union {         /* Ancillary data buffer, wrapped in a union
->                     in order to ensure it is suitably aligned */
->      char buf[CMSG_SPACE(sizeof(myfds))];
->      struct cmsghdr align;
->  } u;
->  
-> +msg.msg_iov = &io;
-> +msg.msg_iovlen = 1;
->  msg.msg_control = u.buf;
->  msg.msg_controllen = sizeof(u.buf);
->  cmsg = CMSG_FIRSTHDR(&msg);
-> 
 
 
 -- 
