@@ -1,97 +1,77 @@
 From: "Michael Kerrisk (man-pages)" <mtk.manpages-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org>
-Subject: Re: [PATCH] ioctl_tty.2: add TIOCGPTPEER documentation
-Date: Tue, 15 Aug 2017 21:27:33 +0200
-Message-ID: <11706e49-8271-ed8c-3747-19b3e8f2850d@gmail.com>
-References: <20170609170147.32311-1-asarai@suse.de>
+Subject: Re: [PATCH 1/1] cmsg.3: Add a scatter/gather buffer to sample code
+Date: Wed, 16 Aug 2017 02:30:11 +0200
+Message-ID: <138c6d98-8c4b-72a2-28da-e7f472b3836c@gmail.com>
+References: <20170719234955.GA24570@us.ibm.com>
 Mime-Version: 1.0
 Content-Type: text/plain; charset=utf-8
-Content-Transfer-Encoding: 8bit
+Content-Transfer-Encoding: 7bit
 Return-path: <linux-man-owner-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>
-In-Reply-To: <20170609170147.32311-1-asarai-l3A5Bk7waGM@public.gmane.org>
+In-Reply-To: <20170719234955.GA24570-r/Jw6+rmf7HQT0dZR+AlfA@public.gmane.org>
 Content-Language: en-US
 Sender: linux-man-owner-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
-To: Aleksa Sarai <asarai-l3A5Bk7waGM@public.gmane.org>
-Cc: mtk.manpages-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org, linux-man-u79uwXL29TY76Z2rM5mHXA@public.gmane.org, linux-kernel-u79uwXL29TY76Z2rM5mHXA@public.gmane.org, Greg Kroah-Hartman <gregkh-hQyY1W1yCW8ekmWlsbkhG0B+6BGkLq7r@public.gmane.org>, Christian Brauner <christian.brauner-GeWIH/nMZzLQT0dZR+AlfA@public.gmane.org>, Valentin Rothberg <vrothberg-IBi9RG/b67k@public.gmane.org>, Jiri Slaby <jslaby-IBi9RG/b67k@public.gmane.org>, containers-cunTk1MwBs9QetFLy7KEm3xJsTq8ys+cHZ5vskTnxNA@public.gmane.org
+To: Sukadev Bhattiprolu <sukadev-23VcF4HTsmIX0ybBhKVfKdBPR1lH4CV8@public.gmane.org>
+Cc: mtk.manpages-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org, linux-man-u79uwXL29TY76Z2rM5mHXA@public.gmane.org, pradeeps-23VcF4HTsmIX0ybBhKVfKdBPR1lH4CV8@public.gmane.org
 List-Id: linux-man@vger.kernel.org
 
-On 06/09/2017 07:01 PM, Aleksa Sarai wrote:
-> The feature this patch references has currently only been accepted into
-> tty-testing, but Greg told me to kick this down to man-pages. As a
-> result, I can't reference upstream commit id's because the code isn't in
-> Linus' tree yet -- should I resend this once it lands in tty-next or
-> Linus' tree?
+On 07/20/2017 01:49 AM, Sukadev Bhattiprolu wrote:
 > 
-> Also obviously the release version is a bit of a lie.
+>>From b2800c8d5dcd8ede89ebccb25f1a9b087dc2684b Mon Sep 17 00:00:00 2001
+> From: Sukadev Bhattiprolu <sukadev-23VcF4HTsmIX0ybBhKVfKdBPR1lH4CV8@public.gmane.org>
+> Date: Wed, 19 Jul 2017 22:47:14 -0400
+> Subject: [PATCH 1/1] cmsg.3: Add a scatter/gather buffer to sample code
+> 
+> Add a simple scatter/gather buffer to the cmsg sample code.
+> 
+> It appears that the scatter/gather buffer is required even though it
+> may not be used. In my testing (on Fedora 24 4.8.7-200.fc24.x86_64 as
+> well as a 4.11 based kernel) return value of sendmsg() was the number
+> of bytes in the scatter/gather buffer (1 with the patch below).
+> 
+> Without the iovec buffer, sendmsg() returns 0 which means no bytes
+> were transferred and the corresponding recvmsg() blocks indefinitely.
 
-Hello Aleksa,
-
-I've applied this patch, and then tweaked the wording a little. Could
-you please check the following text:
-
-       TIOCGPTPEER    int flags
-              (since Linux 4.13) Given  a  file  descriptor  in  fd  that
-              refers  to  a  pseudoterminal  master, open (with the given
-              open(2)-style flags) and return a new file descriptor  that
-              refers to the peer pseudoterminal slave device.  This oper‐
-              ation can be performed regardless of whether  the  pathname
-              of  the  slave  device  is  accessible  through the calling
-              process's mount namespaces.
-
-              Security-conscious programs interacting with namespaces may
-              wish  to  use  this  operation rather than open(2) with the
-              pathname returned by ptsname(3), and similar library  func‐
-              tions that have insecure APIs.
-
-I also have a question on the last sentence: what are the "similar library
-functions that have insecure APIs"? It's not clear to me what you are 
-referring to here.
+Thanks, Sukadev. Applied.
 
 Cheers,
 
 Michael
 
+
 > 
-> 8<-----------------------------------------------------------------------
-> 
-> This is an ioctl(2) recently added by myself, to allow for container
-> runtimes and other programs that interact with (potentially hostile)
-> Linux namespaces to safely create {master,slave} pseudoterminal pairs
-> without needing to open potentially unsafe /dev/pts/... filenames that
-> may be malicious mountpoints or similar in an untrusted namespace
-> (avoiding the endless issues with ptsname(3) and similar approaches).
-> 
-> Cc: <containers-cunTk1MwBs9QetFLy7KEm3xJsTq8ys+cHZ5vskTnxNA@public.gmane.org>
-> Signed-off-by: Aleksa Sarai <asarai-l3A5Bk7waGM@public.gmane.org>
+> Signed-off-by: Sukadev Bhattiprolu <sukadev-23VcF4HTsmIX0ybBhKVfKdBPR1lH4CV8@public.gmane.org>
 > ---
->  man2/ioctl_tty.2 | 15 +++++++++++++++
->  1 file changed, 15 insertions(+)
+>  A sample test case is at:
+>      https://github.com/sukadev/linux-tests/blob/master/share-fds/share-fds.c
 > 
-> diff --git a/man2/ioctl_tty.2 b/man2/ioctl_tty.2
-> index d280beacf..61e147d99 100644
-> --- a/man2/ioctl_tty.2
-> +++ b/man2/ioctl_tty.2
-> @@ -380,6 +380,21 @@ Place the current lock state of the pseudoterminal slave device
->  in the location pointed to by
->  .IR argp
->  (since Linux 3.8).
-> +.TP
-> +.BI "TIOCGPTPEER	int " flags
-> +Opens and returns a new file handle to the pseudoterminal slave
-> +device with the given
-> +.BR open (2)-style
-> +.IR flags ,
-> +regardless of whether the path is accessible through the calling process's
-> +mount namespaces.
-> +
-> +Security-conscious programs interacting with namespaces may wish to use this
-> +over
-> +.BR open (2)
-> +with the path provided by
-> +.BR ptsname (3),
-> +and similar library methods that have insecure APIs (since Linux 4.13).
->  .PP
->  The BSD ioctls
->  .BR TIOCSTOP ,
+>  man3/cmsg.3 | 7 +++++++
+>  1 file changed, 7 insertions(+)
+> 
+> 
+> diff --git a/man3/cmsg.3 b/man3/cmsg.3
+> index 69af571..2ec87ad 100644
+> --- a/man3/cmsg.3
+> +++ b/man3/cmsg.3
+> @@ -200,12 +200,19 @@ struct msghdr msg = { 0 };
+>  struct cmsghdr *cmsg;
+>  int myfds[NUM_FD];  /* Contains the file descriptors to pass */
+>  int *fdptr;
+> +char iobuf[1];
+> +struct iovec io = {
+> +    .iov_base = iobuf,
+> +    .iov_len = sizeof(iobuf)
+> +};
+>  union {         /* Ancillary data buffer, wrapped in a union
+>                     in order to ensure it is suitably aligned */
+>      char buf[CMSG_SPACE(sizeof(myfds))];
+>      struct cmsghdr align;
+>  } u;
+>  
+> +msg.msg_iov = &io;
+> +msg.msg_iovlen = 1;
+>  msg.msg_control = u.buf;
+>  msg.msg_controllen = sizeof(u.buf);
+>  cmsg = CMSG_FIRSTHDR(&msg);
 > 
 
 
