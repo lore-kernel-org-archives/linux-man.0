@@ -1,76 +1,83 @@
-From: "Michael Kerrisk (man-pages)" <mtk.manpages-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org>
-Subject: Re: [PATCH 2/2] ioctl_userfaultfd.2: document replacement of ENOSPC
- with ESRCH
-Date: Wed, 16 Aug 2017 09:20:19 +0200
-Message-ID: <eadd92f6-b4a3-7633-0dd5-16498b5c0621@gmail.com>
-References: <1502722279-13861-1-git-send-email-rppt@linux.vnet.ibm.com>
- <1502722279-13861-3-git-send-email-rppt@linux.vnet.ibm.com>
+From: ebiederm-aS9lmoZGLiVWk0Htik3J/w@public.gmane.org (Eric W. Biederman)
+Subject: Re: [PATCH] ioctl_tty.2: add TIOCGPTPEER documentation
+Date: Wed, 16 Aug 2017 11:43:39 -0500
+Message-ID: <878tijwjic.fsf@xmission.com>
+References: <20170609170147.32311-1-asarai@suse.de>
+	<11706e49-8271-ed8c-3747-19b3e8f2850d@gmail.com>
 Mime-Version: 1.0
-Content-Type: text/plain; charset=utf-8
-Content-Transfer-Encoding: 7bit
-Return-path: <linux-man-owner-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>
-In-Reply-To: <1502722279-13861-3-git-send-email-rppt-23VcF4HTsmIX0ybBhKVfKdBPR1lH4CV8@public.gmane.org>
-Content-Language: en-US
-Sender: linux-man-owner-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
-To: Mike Rapoport <rppt-23VcF4HTsmIX0ybBhKVfKdBPR1lH4CV8@public.gmane.org>
-Cc: mtk.manpages-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org, Andrea Arcangeli <aarcange-H+wXaHxf7aLQT0dZR+AlfA@public.gmane.org>, Michal Hocko <mhocko-IBi9RG/b67k@public.gmane.org>, linux-man <linux-man-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: base64
+Return-path: <containers-bounces-cunTk1MwBs9QetFLy7KEm3xJsTq8ys+cHZ5vskTnxNA@public.gmane.org>
+In-Reply-To: <11706e49-8271-ed8c-3747-19b3e8f2850d-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org> (Michael
+	Kerrisk's message of "Tue, 15 Aug 2017 21:27:33 +0200")
+List-Unsubscribe: <https://lists.linuxfoundation.org/mailman/options/containers>,
+	<mailto:containers-request-cunTk1MwBs9QetFLy7KEm3xJsTq8ys+cHZ5vskTnxNA@public.gmane.org?subject=unsubscribe>
+List-Archive: <http://lists.linuxfoundation.org/pipermail/containers/>
+List-Post: <mailto:containers-cunTk1MwBs9QetFLy7KEm3xJsTq8ys+cHZ5vskTnxNA@public.gmane.org>
+List-Help: <mailto:containers-request-cunTk1MwBs9QetFLy7KEm3xJsTq8ys+cHZ5vskTnxNA@public.gmane.org?subject=help>
+List-Subscribe: <https://lists.linuxfoundation.org/mailman/listinfo/containers>,
+	<mailto:containers-request-cunTk1MwBs9QetFLy7KEm3xJsTq8ys+cHZ5vskTnxNA@public.gmane.org?subject=subscribe>
+Sender: containers-bounces-cunTk1MwBs9QetFLy7KEm3xJsTq8ys+cHZ5vskTnxNA@public.gmane.org
+Errors-To: containers-bounces-cunTk1MwBs9QetFLy7KEm3xJsTq8ys+cHZ5vskTnxNA@public.gmane.org
+To: "Michael Kerrisk (man-pages)" <mtk.manpages-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org>
+Cc: linux-man-u79uwXL29TY76Z2rM5mHXA@public.gmane.org, Greg Kroah-Hartman <gregkh-hQyY1W1yCW8ekmWlsbkhG0B+6BGkLq7r@public.gmane.org>, containers-cunTk1MwBs9QetFLy7KEm3xJsTq8ys+cHZ5vskTnxNA@public.gmane.org, linux-kernel-u79uwXL29TY76Z2rM5mHXA@public.gmane.org, Jiri Slaby <jslaby-IBi9RG/b67k@public.gmane.org>, Christian Brauner <christian.brauner-GeWIH/nMZzLQT0dZR+AlfA@public.gmane.org>
 List-Id: linux-man@vger.kernel.org
 
-On 08/14/2017 04:51 PM, Mike Rapoport wrote:
-> Since Linux 4.13 we return ESRCH instead of ENOSPC when the faulting
-> process exits during UFFDIO_{COPY/ZEROPAGE} operation.
-
-
-Thanks, Mike. Applied.
-
-Cheers,
-
-Michael
-
-
-> Signed-off-by: Mike Rapoport <rppt-23VcF4HTsmIX0ybBhKVfKdBPR1lH4CV8@public.gmane.org>
-> ---
->  man2/ioctl_userfaultfd.2 | 12 +++++++++++-
->  1 file changed, 11 insertions(+), 1 deletion(-)
-> 
-> diff --git a/man2/ioctl_userfaultfd.2 b/man2/ioctl_userfaultfd.2
-> index 14260fc..f83ef65 100644
-> --- a/man2/ioctl_userfaultfd.2
-> +++ b/man2/ioctl_userfaultfd.2
-> @@ -489,7 +489,12 @@ its virtual memory layout simultaneously with an outstanding
->  .I UFFDIO_COPY
->  operation.
->  .TP
-> -.BR ENOSPC " (since Linux 4.11)"
-> +.BR ENOSPC " (since Linux 4.11 till Linux 4.13)"
-> +The faulting process has exited at the time of a
-> +.I UFFDIO_COPY
-> +operation.
-> +.TP
-> +.BR ESRCH " (since Linux 4.13)"
->  The faulting process has exited at the time of a
->  .I UFFDIO_COPY
->  operation.
-> @@ -575,6 +580,11 @@ was zero; or the range specified was invalid.
->  An invalid bit was specified in the
->  .IR mode
->  field.
-> +.TP
-> +.BR ESRCH " (since Linux 4.13)"
-> +The faulting process has exited at the time of a
-> +.I UFFDIO_ZEROPAGE
-> +operation.
->  .\"
->  .SS UFFDIO_WAKE
->  (Since Linux 4.3.)
-> 
-
-
--- 
-Michael Kerrisk
-Linux man-pages maintainer; http://www.kernel.org/doc/man-pages/
-Linux/UNIX System Programming Training: http://man7.org/training/
---
-To unsubscribe from this list: send the line "unsubscribe linux-man" in
-the body of a message to majordomo-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
-More majordomo info at  http://vger.kernel.org/majordomo-info.html
+Ik1pY2hhZWwgS2VycmlzayAobWFuLXBhZ2VzKSIgPG10ay5tYW5wYWdlc0BnbWFpbC5jb20+IHdy
+aXRlczoKCj4gT24gMDYvMDkvMjAxNyAwNzowMSBQTSwgQWxla3NhIFNhcmFpIHdyb3RlOgo+PiBU
+aGUgZmVhdHVyZSB0aGlzIHBhdGNoIHJlZmVyZW5jZXMgaGFzIGN1cnJlbnRseSBvbmx5IGJlZW4g
+YWNjZXB0ZWQgaW50bwo+PiB0dHktdGVzdGluZywgYnV0IEdyZWcgdG9sZCBtZSB0byBraWNrIHRo
+aXMgZG93biB0byBtYW4tcGFnZXMuIEFzIGEKPj4gcmVzdWx0LCBJIGNhbid0IHJlZmVyZW5jZSB1
+cHN0cmVhbSBjb21taXQgaWQncyBiZWNhdXNlIHRoZSBjb2RlIGlzbid0IGluCj4+IExpbnVzJyB0
+cmVlIHlldCAtLSBzaG91bGQgSSByZXNlbmQgdGhpcyBvbmNlIGl0IGxhbmRzIGluIHR0eS1uZXh0
+IG9yCj4+IExpbnVzJyB0cmVlPwo+PiAKPj4gQWxzbyBvYnZpb3VzbHkgdGhlIHJlbGVhc2UgdmVy
+c2lvbiBpcyBhIGJpdCBvZiBhIGxpZS4KPgo+IEhlbGxvIEFsZWtzYSwKPgo+IEkndmUgYXBwbGll
+ZCB0aGlzIHBhdGNoLCBhbmQgdGhlbiB0d2Vha2VkIHRoZSB3b3JkaW5nIGEgbGl0dGxlLiBDb3Vs
+ZAo+IHlvdSBwbGVhc2UgY2hlY2sgdGhlIGZvbGxvd2luZyB0ZXh0Ogo+Cj4gICAgICAgIFRJT0NH
+UFRQRUVSICAgIGludCBmbGFncwo+ICAgICAgICAgICAgICAgKHNpbmNlIExpbnV4IDQuMTMpIEdp
+dmVuICBhICBmaWxlICBkZXNjcmlwdG9yICBpbiAgZmQgIHRoYXQKPiAgICAgICAgICAgICAgIHJl
+ZmVycyAgdG8gIGEgIHBzZXVkb3Rlcm1pbmFsICBtYXN0ZXIsIG9wZW4gKHdpdGggdGhlIGdpdmVu
+Cj4gICAgICAgICAgICAgICBvcGVuKDIpLXN0eWxlIGZsYWdzKSBhbmQgcmV0dXJuIGEgbmV3IGZp
+bGUgZGVzY3JpcHRvciAgdGhhdAo+ICAgICAgICAgICAgICAgcmVmZXJzIHRvIHRoZSBwZWVyIHBz
+ZXVkb3Rlcm1pbmFsIHNsYXZlIGRldmljZS4gIFRoaXMgb3BlcuKAkAo+ICAgICAgICAgICAgICAg
+YXRpb24gY2FuIGJlIHBlcmZvcm1lZCByZWdhcmRsZXNzIG9mIHdoZXRoZXIgIHRoZSAgcGF0aG5h
+bWUKPiAgICAgICAgICAgICAgIG9mICB0aGUgIHNsYXZlICBkZXZpY2UgIGlzICBhY2Nlc3NpYmxl
+ICB0aHJvdWdoIHRoZSBjYWxsaW5nCj4gICAgICAgICAgICAgICBwcm9jZXNzJ3MgbW91bnQgbmFt
+ZXNwYWNlcy4KPgo+ICAgICAgICAgICAgICAgU2VjdXJpdHktY29uc2Npb3VzIHByb2dyYW1zIGlu
+dGVyYWN0aW5nIHdpdGggbmFtZXNwYWNlcyBtYXkKPiAgICAgICAgICAgICAgIHdpc2ggIHRvICB1
+c2UgIHRoaXMgIG9wZXJhdGlvbiByYXRoZXIgdGhhbiBvcGVuKDIpIHdpdGggdGhlCj4gICAgICAg
+ICAgICAgICBwYXRobmFtZSByZXR1cm5lZCBieSBwdHNuYW1lKDMpLCBhbmQgc2ltaWxhciBsaWJy
+YXJ5ICBmdW5j4oCQCj4gICAgICAgICAgICAgICB0aW9ucyB0aGF0IGhhdmUgaW5zZWN1cmUgQVBJ
+cy4KPgo+IEkgYWxzbyBoYXZlIGEgcXVlc3Rpb24gb24gdGhlIGxhc3Qgc2VudGVuY2U6IHdoYXQg
+YXJlIHRoZSAic2ltaWxhciBsaWJyYXJ5Cj4gZnVuY3Rpb25zIHRoYXQgaGF2ZSBpbnNlY3VyZSBB
+UElzIj8gSXQncyBub3QgY2xlYXIgdG8gbWUgd2hhdCB5b3UgYXJlIAo+IHJlZmVycmluZyB0byBo
+ZXJlLgoKQSBjb3VwbGUgb2YgdGhpbmdzIHRvIG5vdGUgb24gdGhlIGJpZ2dlciBwaWN0dXJlLgoK
+VGhlIGdsaWJjIGxpYnJhcnkgb24gYWxsIGRpc3RyaWJ1dGlvbnMgaGFzIGJlZW4gY2hhbmdlZCB0
+byBub3QgaGF2ZSBhCnNldHVpZCBiaW5hcnkgcHRfY2hvd24sIHRoYXQgdXNlcyBwdHNuYW1lLiAg
+VGhpcyB3YXMgdGhlIHByaW1hcnkgZml4CmZvciB0aGUgc2VjdXJpdHkgaXNzdWUuCgpUaGUgYmVo
+YXZpb3Igb2Ygb3BlbmluZyAvZGV2L3B0bXggaGFzIGJlZW4gY2hhbmdlZCB0byBwZXJmb3JtIGEg
+cGF0aApsb29rdXAgcmVsYXRpdmUgdG8gdGhlIGxvY2F0aW9uIG9mIC9kZXYvcHRteCBvZiAgLi9w
+dHMvcHRteCBhbmQgb3BlbgppdCBpdCBpcyBhIGRldnB0cyBmaWxlc3lzdGVtIGFuZCB0byBmYWls
+IG90aGVyd2lzZS4gICAgVGhpcyBmdXJ0aGVyCm1ha2VzIGl0IGhhcmQgdG8gY29uZnVzZSB1c2Vy
+c3BhY2UgdGhpcyB3YXkgYXMgL2Rldi9wdG14IGFsd2F5cwpjb3JyZXNwb25kcyB0byAvZGV2L3B0
+cy9wdG14LiAgRXZlbiBpbiBjaHJvb3RzIGFuZCBpbiBvdGhlciBtb3VudApuYW1lc3BhY2VzLgoK
+Qm90aCBvZiB0aGVzZSBjaGFuZ2VzIGxhcmdlbHkgbWFrZXMgZ2xpYmMncyB1c2Ugb2YgdGhlc2Ug
+ZmVhdHVyZXMKc2VjdXJlLiAgL2Rldi9wdG14IGFsd2F5cyBjb3JyZXNwb25kcyB0byAvZGV2L3B0
+cyBhbmQgdGhlcmUgbm8gcmVhZGlseQphdmFpbGFibGUgc3VpZCByb290IGFwcGxpY2F0aW9ucyB0
+b28gZm9vbC4KClRoYXQgbWFrZXMgVElPQ0dQVFBFRVIgYSB2ZXJ5IG5pY2UgYWRkaXRpb24sIGJ1
+dCBub3Qgc29tZXRoaW5nIHBlb3BsZQpoYXZlIHRvIHNjcmFtYmxlIHRvIHVzZSB0byBlbnN1cmUg
+dGhlaXIgc3lzdGVtIGlzIHNlY3VyZS4gIEFzIGEgaG9zdGlsZQplbnZpcm9ubWVudCBub3cgaGFz
+IHRvIHdvcmsgdmVyeSBoYXJkIHRvIGNvbmZ1c2UgdGhlIGV4aXN0aW5nIG1lY2hhbmlzbXMuCgo+
+PiBUaGlzIGlzIGFuIGlvY3RsKDIpIHJlY2VudGx5IGFkZGVkIGJ5IG15c2VsZiwgdG8gYWxsb3cg
+Zm9yIGNvbnRhaW5lcgo+PiBydW50aW1lcyBhbmQgb3RoZXIgcHJvZ3JhbXMgdGhhdCBpbnRlcmFj
+dCB3aXRoIChwb3RlbnRpYWxseSBob3N0aWxlKQo+PiBMaW51eCBuYW1lc3BhY2VzIHRvIHNhZmVs
+eSBjcmVhdGUge21hc3RlcixzbGF2ZX0gcHNldWRvdGVybWluYWwgcGFpcnMKPj4gd2l0aG91dCBu
+ZWVkaW5nIHRvIG9wZW4gcG90ZW50aWFsbHkgdW5zYWZlIC9kZXYvcHRzLy4uLiBmaWxlbmFtZXMg
+dGhhdAo+PiBtYXkgYmUgbWFsaWNpb3VzIG1vdW50cG9pbnRzIG9yIHNpbWlsYXIgaW4gYW4gdW50
+cnVzdGVkIG5hbWVzcGFjZQo+PiAoYXZvaWRpbmcgdGhlIGVuZGxlc3MgaXNzdWVzIHdpdGggcHRz
+bmFtZSgzKSBhbmQgc2ltaWxhciBhcHByb2FjaGVzKS4KPj4gCj4+IENjOiA8Y29udGFpbmVyc0Bs
+aXN0cy5saW51eC1mb3VuZGF0aW9uLm9yZz4KPj4gU2lnbmVkLW9mZi1ieTogQWxla3NhIFNhcmFp
+IDxhc2FyYWlAc3VzZS5kZT4KCkVyaWMKX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19f
+X19fX19fX19fX19fX18KQ29udGFpbmVycyBtYWlsaW5nIGxpc3QKQ29udGFpbmVyc0BsaXN0cy5s
+aW51eC1mb3VuZGF0aW9uLm9yZwpodHRwczovL2xpc3RzLmxpbnV4Zm91bmRhdGlvbi5vcmcvbWFp
+bG1hbi9saXN0aW5mby9jb250YWluZXJz
