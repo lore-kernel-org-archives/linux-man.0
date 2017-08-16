@@ -1,53 +1,55 @@
-From: "Michael Kerrisk (man-pages)" <mtk.manpages@gmail.com>
-Subject: Re: [patch] netlink.7: srcfix Change buffer size in example code
- about reading netlink message.
-Date: Wed, 16 Aug 2017 02:40:09 +0200
-Message-ID: <30f1a7e1-707a-b8b1-7414-2f97a79ac372@gmail.com>
-References: <e9409957290af5249750afa0f10de3a6@linux.vnet.ibm.com>
- <7f6d8b0b-6f29-37af-9b25-47a2e78a31fd@hpe.com>
+From: Aleksa Sarai <asarai-l3A5Bk7waGM@public.gmane.org>
+Subject: Re: [PATCH] ioctl_tty.2: add TIOCGPTPEER documentation
+Date: Wed, 16 Aug 2017 14:43:29 +1000
+Message-ID: <c3ecdc80-15f8-344f-214e-97fa43f3e650@suse.de>
+References: <20170609170147.32311-1-asarai@suse.de>
+	<11706e49-8271-ed8c-3747-19b3e8f2850d@gmail.com>
 Mime-Version: 1.0
-Content-Type: text/plain; charset=windows-1252
-Content-Transfer-Encoding: 7bit
-Return-path: <netdev-owner@vger.kernel.org>
-In-Reply-To: <7f6d8b0b-6f29-37af-9b25-47a2e78a31fd@hpe.com>
+Content-Type: text/plain; charset="utf-8"; Format="flowed"
+Content-Transfer-Encoding: base64
+Return-path: <containers-bounces-cunTk1MwBs9QetFLy7KEm3xJsTq8ys+cHZ5vskTnxNA@public.gmane.org>
+In-Reply-To: <11706e49-8271-ed8c-3747-19b3e8f2850d-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org>
 Content-Language: en-US
-Sender: netdev-owner@vger.kernel.org
-To: Rick Jones <rick.jones2@hpe.com>, dwilder <dwilder@us.ibm.com>
-Cc: mtk.manpages@gmail.com, linux-man@vger.kernel.org, netdev@vger.kernel.org
+List-Unsubscribe: <https://lists.linuxfoundation.org/mailman/options/containers>,
+	<mailto:containers-request-cunTk1MwBs9QetFLy7KEm3xJsTq8ys+cHZ5vskTnxNA@public.gmane.org?subject=unsubscribe>
+List-Archive: <http://lists.linuxfoundation.org/pipermail/containers/>
+List-Post: <mailto:containers-cunTk1MwBs9QetFLy7KEm3xJsTq8ys+cHZ5vskTnxNA@public.gmane.org>
+List-Help: <mailto:containers-request-cunTk1MwBs9QetFLy7KEm3xJsTq8ys+cHZ5vskTnxNA@public.gmane.org?subject=help>
+List-Subscribe: <https://lists.linuxfoundation.org/mailman/listinfo/containers>,
+	<mailto:containers-request-cunTk1MwBs9QetFLy7KEm3xJsTq8ys+cHZ5vskTnxNA@public.gmane.org?subject=subscribe>
+Sender: containers-bounces-cunTk1MwBs9QetFLy7KEm3xJsTq8ys+cHZ5vskTnxNA@public.gmane.org
+Errors-To: containers-bounces-cunTk1MwBs9QetFLy7KEm3xJsTq8ys+cHZ5vskTnxNA@public.gmane.org
+To: "Michael Kerrisk (man-pages)" <mtk.manpages-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org>
+Cc: linux-man-u79uwXL29TY76Z2rM5mHXA@public.gmane.org, Greg Kroah-Hartman <gregkh-hQyY1W1yCW8ekmWlsbkhG0B+6BGkLq7r@public.gmane.org>, containers-cunTk1MwBs9QetFLy7KEm3xJsTq8ys+cHZ5vskTnxNA@public.gmane.org, linux-kernel-u79uwXL29TY76Z2rM5mHXA@public.gmane.org, Jiri Slaby <jslaby-IBi9RG/b67k@public.gmane.org>, Christian Brauner <christian.brauner-GeWIH/nMZzLQT0dZR+AlfA@public.gmane.org>
 List-Id: linux-man@vger.kernel.org
 
-On 11/14/2016 11:36 PM, Rick Jones wrote:
->> Lets change the example so others don't propagate the problem further.
->>
->> Signed-off-by David Wilder <dwilder@us.ibm.com>
->>
->> --- man7/netlink.7.orig 2016-11-14 13:30:36.522101156 -0800
->> +++ man7/netlink.7      2016-11-14 13:30:51.002086354 -0800
->> @@ -511,7 +511,7 @@
->>  .in +4n
->>  .nf
->>  int len;
->> -char buf[4096];
->> +char buf[8192];
-> 
-> Since there doesn't seem to be a define one could use in the user space 
-> linux/netlink.h (?), but there are comments in the example code in the 
-> manpage, how about also including a brief comment to the effect that 
-> using 8192 bytes will avoid message truncation problems on platforms 
-> with a large PAGE_SIZE?
-> 
-> /* avoid msg truncation on > 4096 byte PAGE_SIZE platforms */
-> 
-> or something like that.
-
-Thanks for the suggestion, Rick. Done!
-
-Cheers,
-
-Michael
-
-
--- 
-Michael Kerrisk
-Linux man-pages maintainer; http://www.kernel.org/doc/man-pages/
-Linux/UNIX System Programming Training: http://man7.org/training/
+PiBJJ3ZlIGFwcGxpZWQgdGhpcyBwYXRjaCwgYW5kIHRoZW4gdHdlYWtlZCB0aGUgd29yZGluZyBh
+IGxpdHRsZS4gQ291bGQKPiB5b3UgcGxlYXNlIGNoZWNrIHRoZSBmb2xsb3dpbmcgdGV4dDoKPiAK
+PiAgICAgICAgIFRJT0NHUFRQRUVSICAgIGludCBmbGFncwo+ICAgICAgICAgICAgICAgIChzaW5j
+ZSBMaW51eCA0LjEzKSBHaXZlbiAgYSAgZmlsZSAgZGVzY3JpcHRvciAgaW4gIGZkICB0aGF0Cj4g
+ICAgICAgICAgICAgICAgcmVmZXJzICB0byAgYSAgcHNldWRvdGVybWluYWwgIG1hc3Rlciwgb3Bl
+biAod2l0aCB0aGUgZ2l2ZW4KPiAgICAgICAgICAgICAgICBvcGVuKDIpLXN0eWxlIGZsYWdzKSBh
+bmQgcmV0dXJuIGEgbmV3IGZpbGUgZGVzY3JpcHRvciAgdGhhdAo+ICAgICAgICAgICAgICAgIHJl
+ZmVycyB0byB0aGUgcGVlciBwc2V1ZG90ZXJtaW5hbCBzbGF2ZSBkZXZpY2UuICBUaGlzIG9wZXLi
+gJAKPiAgICAgICAgICAgICAgICBhdGlvbiBjYW4gYmUgcGVyZm9ybWVkIHJlZ2FyZGxlc3Mgb2Yg
+d2hldGhlciAgdGhlICBwYXRobmFtZQo+ICAgICAgICAgICAgICAgIG9mICB0aGUgIHNsYXZlICBk
+ZXZpY2UgIGlzICBhY2Nlc3NpYmxlICB0aHJvdWdoIHRoZSBjYWxsaW5nCj4gICAgICAgICAgICAg
+ICAgcHJvY2VzcydzIG1vdW50IG5hbWVzcGFjZXMuCj4gCj4gICAgICAgICAgICAgICAgU2VjdXJp
+dHktY29uc2Npb3VzIHByb2dyYW1zIGludGVyYWN0aW5nIHdpdGggbmFtZXNwYWNlcyBtYXkKPiAg
+ICAgICAgICAgICAgICB3aXNoICB0byAgdXNlICB0aGlzICBvcGVyYXRpb24gcmF0aGVyIHRoYW4g
+b3BlbigyKSB3aXRoIHRoZQo+ICAgICAgICAgICAgICAgIHBhdGhuYW1lIHJldHVybmVkIGJ5IHB0
+c25hbWUoMyksIGFuZCBzaW1pbGFyIGxpYnJhcnkgIGZ1bmPigJAKPiAgICAgICAgICAgICAgICB0
+aW9ucyB0aGF0IGhhdmUgaW5zZWN1cmUgQVBJcy4KCll1cCwgdGhhdCBzb3VuZHMgZ29vZC4KCj4g
+SSBhbHNvIGhhdmUgYSBxdWVzdGlvbiBvbiB0aGUgbGFzdCBzZW50ZW5jZTogd2hhdCBhcmUgdGhl
+ICJzaW1pbGFyIGxpYnJhcnkKPiBmdW5jdGlvbnMgdGhhdCBoYXZlIGluc2VjdXJlIEFQSXMiPyBJ
+dCdzIG5vdCBjbGVhciB0byBtZSB3aGF0IHlvdSBhcmUKPiByZWZlcnJpbmcgdG8gaGVyZS4KClRo
+ZXJlIGFyZSBhIGZldyBwb3NpeF8tc3R5bGUgZnVuY3Rpb25zIHByb3ZpZGVkIGJ5IGdsaWJjIHRo
+YXQgYXJlIGp1c3QgCndyYXBwZXJzIGFyb3VuZCB0aGUgb3BlbitwdHNuYW1lIGNvbWJvIHRoYXQg
+SSBtZW50aW9uIGVhcmxpZXIgaW4gdGhlIApzZW50ZW5jZSAoYW5kIHRodXMgYXJlIHZ1bG5lcmFi
+bGUgdG8gdGhlIHNhbWUgaXNzdWUpLiBCdXQgaWYgeW91IGZlZWwgCml0J3MgY29uZnVzaW5nIHlv
+dSBjYW4gZmVlbCBmcmVlIHRvIGRyb3AgaXQuCgpUaGFua3MuCgotLSAKQWxla3NhIFNhcmFpClNv
+ZnR3YXJlIEVuZ2luZWVyIChDb250YWluZXJzKQpTVVNFIExpbnV4IEdtYkgKaHR0cHM6Ly93d3cu
+Y3lwaGFyLmNvbS8KX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19f
+X18KQ29udGFpbmVycyBtYWlsaW5nIGxpc3QKQ29udGFpbmVyc0BsaXN0cy5saW51eC1mb3VuZGF0
+aW9uLm9yZwpodHRwczovL2xpc3RzLmxpbnV4Zm91bmRhdGlvbi5vcmcvbWFpbG1hbi9saXN0aW5m
+by9jb250YWluZXJz
