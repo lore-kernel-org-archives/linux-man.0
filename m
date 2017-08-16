@@ -1,55 +1,64 @@
-From: Aleksa Sarai <asarai-l3A5Bk7waGM@public.gmane.org>
-Subject: Re: [PATCH] ioctl_tty.2: add TIOCGPTPEER documentation
-Date: Wed, 16 Aug 2017 14:43:29 +1000
-Message-ID: <c3ecdc80-15f8-344f-214e-97fa43f3e650@suse.de>
-References: <20170609170147.32311-1-asarai@suse.de>
-	<11706e49-8271-ed8c-3747-19b3e8f2850d@gmail.com>
+From: "Michael Kerrisk (man-pages)" <mtk.manpages-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org>
+Subject: Re: [PATCH 1/2] ioctl_userfaultfd.2: update uffdio_api.features
+ description
+Date: Wed, 16 Aug 2017 09:20:07 +0200
+Message-ID: <f72443b7-2cc8-7a74-26d0-3f0d20f9b89d@gmail.com>
+References: <1502722279-13861-1-git-send-email-rppt@linux.vnet.ibm.com>
+ <1502722279-13861-2-git-send-email-rppt@linux.vnet.ibm.com>
 Mime-Version: 1.0
-Content-Type: text/plain; charset="utf-8"; Format="flowed"
-Content-Transfer-Encoding: base64
-Return-path: <containers-bounces-cunTk1MwBs9QetFLy7KEm3xJsTq8ys+cHZ5vskTnxNA@public.gmane.org>
-In-Reply-To: <11706e49-8271-ed8c-3747-19b3e8f2850d-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org>
+Content-Type: text/plain; charset=utf-8
+Content-Transfer-Encoding: 7bit
+Return-path: <linux-man-owner-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>
+In-Reply-To: <1502722279-13861-2-git-send-email-rppt-23VcF4HTsmIX0ybBhKVfKdBPR1lH4CV8@public.gmane.org>
 Content-Language: en-US
-List-Unsubscribe: <https://lists.linuxfoundation.org/mailman/options/containers>,
-	<mailto:containers-request-cunTk1MwBs9QetFLy7KEm3xJsTq8ys+cHZ5vskTnxNA@public.gmane.org?subject=unsubscribe>
-List-Archive: <http://lists.linuxfoundation.org/pipermail/containers/>
-List-Post: <mailto:containers-cunTk1MwBs9QetFLy7KEm3xJsTq8ys+cHZ5vskTnxNA@public.gmane.org>
-List-Help: <mailto:containers-request-cunTk1MwBs9QetFLy7KEm3xJsTq8ys+cHZ5vskTnxNA@public.gmane.org?subject=help>
-List-Subscribe: <https://lists.linuxfoundation.org/mailman/listinfo/containers>,
-	<mailto:containers-request-cunTk1MwBs9QetFLy7KEm3xJsTq8ys+cHZ5vskTnxNA@public.gmane.org?subject=subscribe>
-Sender: containers-bounces-cunTk1MwBs9QetFLy7KEm3xJsTq8ys+cHZ5vskTnxNA@public.gmane.org
-Errors-To: containers-bounces-cunTk1MwBs9QetFLy7KEm3xJsTq8ys+cHZ5vskTnxNA@public.gmane.org
-To: "Michael Kerrisk (man-pages)" <mtk.manpages-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org>
-Cc: linux-man-u79uwXL29TY76Z2rM5mHXA@public.gmane.org, Greg Kroah-Hartman <gregkh-hQyY1W1yCW8ekmWlsbkhG0B+6BGkLq7r@public.gmane.org>, containers-cunTk1MwBs9QetFLy7KEm3xJsTq8ys+cHZ5vskTnxNA@public.gmane.org, linux-kernel-u79uwXL29TY76Z2rM5mHXA@public.gmane.org, Jiri Slaby <jslaby-IBi9RG/b67k@public.gmane.org>, Christian Brauner <christian.brauner-GeWIH/nMZzLQT0dZR+AlfA@public.gmane.org>
+Sender: linux-man-owner-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
+To: Mike Rapoport <rppt-23VcF4HTsmIX0ybBhKVfKdBPR1lH4CV8@public.gmane.org>
+Cc: mtk.manpages-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org, Andrea Arcangeli <aarcange-H+wXaHxf7aLQT0dZR+AlfA@public.gmane.org>, Michal Hocko <mhocko-IBi9RG/b67k@public.gmane.org>, linux-man <linux-man-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>
 List-Id: linux-man@vger.kernel.org
 
-PiBJJ3ZlIGFwcGxpZWQgdGhpcyBwYXRjaCwgYW5kIHRoZW4gdHdlYWtlZCB0aGUgd29yZGluZyBh
-IGxpdHRsZS4gQ291bGQKPiB5b3UgcGxlYXNlIGNoZWNrIHRoZSBmb2xsb3dpbmcgdGV4dDoKPiAK
-PiAgICAgICAgIFRJT0NHUFRQRUVSICAgIGludCBmbGFncwo+ICAgICAgICAgICAgICAgIChzaW5j
-ZSBMaW51eCA0LjEzKSBHaXZlbiAgYSAgZmlsZSAgZGVzY3JpcHRvciAgaW4gIGZkICB0aGF0Cj4g
-ICAgICAgICAgICAgICAgcmVmZXJzICB0byAgYSAgcHNldWRvdGVybWluYWwgIG1hc3Rlciwgb3Bl
-biAod2l0aCB0aGUgZ2l2ZW4KPiAgICAgICAgICAgICAgICBvcGVuKDIpLXN0eWxlIGZsYWdzKSBh
-bmQgcmV0dXJuIGEgbmV3IGZpbGUgZGVzY3JpcHRvciAgdGhhdAo+ICAgICAgICAgICAgICAgIHJl
-ZmVycyB0byB0aGUgcGVlciBwc2V1ZG90ZXJtaW5hbCBzbGF2ZSBkZXZpY2UuICBUaGlzIG9wZXLi
-gJAKPiAgICAgICAgICAgICAgICBhdGlvbiBjYW4gYmUgcGVyZm9ybWVkIHJlZ2FyZGxlc3Mgb2Yg
-d2hldGhlciAgdGhlICBwYXRobmFtZQo+ICAgICAgICAgICAgICAgIG9mICB0aGUgIHNsYXZlICBk
-ZXZpY2UgIGlzICBhY2Nlc3NpYmxlICB0aHJvdWdoIHRoZSBjYWxsaW5nCj4gICAgICAgICAgICAg
-ICAgcHJvY2VzcydzIG1vdW50IG5hbWVzcGFjZXMuCj4gCj4gICAgICAgICAgICAgICAgU2VjdXJp
-dHktY29uc2Npb3VzIHByb2dyYW1zIGludGVyYWN0aW5nIHdpdGggbmFtZXNwYWNlcyBtYXkKPiAg
-ICAgICAgICAgICAgICB3aXNoICB0byAgdXNlICB0aGlzICBvcGVyYXRpb24gcmF0aGVyIHRoYW4g
-b3BlbigyKSB3aXRoIHRoZQo+ICAgICAgICAgICAgICAgIHBhdGhuYW1lIHJldHVybmVkIGJ5IHB0
-c25hbWUoMyksIGFuZCBzaW1pbGFyIGxpYnJhcnkgIGZ1bmPigJAKPiAgICAgICAgICAgICAgICB0
-aW9ucyB0aGF0IGhhdmUgaW5zZWN1cmUgQVBJcy4KCll1cCwgdGhhdCBzb3VuZHMgZ29vZC4KCj4g
-SSBhbHNvIGhhdmUgYSBxdWVzdGlvbiBvbiB0aGUgbGFzdCBzZW50ZW5jZTogd2hhdCBhcmUgdGhl
-ICJzaW1pbGFyIGxpYnJhcnkKPiBmdW5jdGlvbnMgdGhhdCBoYXZlIGluc2VjdXJlIEFQSXMiPyBJ
-dCdzIG5vdCBjbGVhciB0byBtZSB3aGF0IHlvdSBhcmUKPiByZWZlcnJpbmcgdG8gaGVyZS4KClRo
-ZXJlIGFyZSBhIGZldyBwb3NpeF8tc3R5bGUgZnVuY3Rpb25zIHByb3ZpZGVkIGJ5IGdsaWJjIHRo
-YXQgYXJlIGp1c3QgCndyYXBwZXJzIGFyb3VuZCB0aGUgb3BlbitwdHNuYW1lIGNvbWJvIHRoYXQg
-SSBtZW50aW9uIGVhcmxpZXIgaW4gdGhlIApzZW50ZW5jZSAoYW5kIHRodXMgYXJlIHZ1bG5lcmFi
-bGUgdG8gdGhlIHNhbWUgaXNzdWUpLiBCdXQgaWYgeW91IGZlZWwgCml0J3MgY29uZnVzaW5nIHlv
-dSBjYW4gZmVlbCBmcmVlIHRvIGRyb3AgaXQuCgpUaGFua3MuCgotLSAKQWxla3NhIFNhcmFpClNv
-ZnR3YXJlIEVuZ2luZWVyIChDb250YWluZXJzKQpTVVNFIExpbnV4IEdtYkgKaHR0cHM6Ly93d3cu
-Y3lwaGFyLmNvbS8KX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19f
-X18KQ29udGFpbmVycyBtYWlsaW5nIGxpc3QKQ29udGFpbmVyc0BsaXN0cy5saW51eC1mb3VuZGF0
-aW9uLm9yZwpodHRwczovL2xpc3RzLmxpbnV4Zm91bmRhdGlvbi5vcmcvbWFpbG1hbi9saXN0aW5m
-by9jb250YWluZXJz
+On 08/14/2017 04:51 PM, Mike Rapoport wrote:
+> There is no requirement that uffdio_api.features must be zero for newer
+> kernels. This field actually defines what features user space would like to
+> enable.
+
+Thanks, Mike. Applied.
+
+Cheers,
+
+Michael
+
+
+> Signed-off-by: Mike Rapoport <rppt-23VcF4HTsmIX0ybBhKVfKdBPR1lH4CV8@public.gmane.org>
+> ---
+>  man2/ioctl_userfaultfd.2 | 3 +--
+>  1 file changed, 1 insertion(+), 2 deletions(-)
+> 
+> diff --git a/man2/ioctl_userfaultfd.2 b/man2/ioctl_userfaultfd.2
+> index f97b3ef..14260fc 100644
+> --- a/man2/ioctl_userfaultfd.2
+> +++ b/man2/ioctl_userfaultfd.2
+> @@ -86,7 +86,7 @@ structure, defined as:
+>  
+>  struct uffdio_api {
+>      __u64 api;        /* Requested API version (input) */
+> -    __u64 features;   /* Currently must be zero (input) */
+> +    __u64 features;   /* Requested features (input/output) */
+>      __u64 ioctls;     /* Available ioctl() operations (output) */
+>  };
+>  
+> @@ -665,4 +665,3 @@ operation that actually enables the desired features.
+>  
+>  .IR Documentation/vm/userfaultfd.txt
+>  in the Linux kernel source tree
+> -
+> 
+
+
+-- 
+Michael Kerrisk
+Linux man-pages maintainer; http://www.kernel.org/doc/man-pages/
+Linux/UNIX System Programming Training: http://man7.org/training/
+--
+To unsubscribe from this list: send the line "unsubscribe linux-man" in
+the body of a message to majordomo-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
+More majordomo info at  http://vger.kernel.org/majordomo-info.html
