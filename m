@@ -1,53 +1,51 @@
 From: "Michael Kerrisk (man-pages)" <mtk.manpages-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org>
-Subject: Re: [PATCH] man-pages: ffix: Use an en-dash for ranges, numeric and
- alphabetic
-Date: Tue, 22 Aug 2017 01:54:51 +0200
-Message-ID: <14a1658d-1a6c-280a-4f49-74248f70e321@gmail.com>
-References: <1502968702-32042-1-git-send-email-bjarniig@rhi.hi.is>
- <1664c5ff-5639-b5dc-0ebe-95e6defec4db@gmail.com>
- <20170821233238.GA3333@rhi.hi.is>
+Subject: Re: [PATCTH 0/2] pthread_mutexattr_setrobust() and
+ pthread_mutex_consistent()
+Date: Tue, 22 Aug 2017 02:33:34 +0200
+Message-ID: <36ab9ec0-b496-c007-c12f-065fd618e7fd@gmail.com>
+References: <CAJYFCiMZN09HaHpvKgxz3mqzmcaXAWmkz=BmgOW9WVdRKOhDsg@mail.gmail.com>
 Mime-Version: 1.0
 Content-Type: text/plain; charset=utf-8
 Content-Transfer-Encoding: 7bit
 Return-path: <linux-man-owner-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>
-In-Reply-To: <20170821233238.GA3333-2945IVfuVpf1P9xLtpHBDw@public.gmane.org>
+In-Reply-To: <CAJYFCiMZN09HaHpvKgxz3mqzmcaXAWmkz=BmgOW9WVdRKOhDsg-JsoAwUIsXosN+BqQ9rBEUg@public.gmane.org>
 Content-Language: en-US
 Sender: linux-man-owner-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
-To: Bjarni Ingi Gislason <bjarniig-2945IVfuVpf1P9xLtpHBDw@public.gmane.org>
-Cc: mtk.manpages-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org, linux-man-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
+To: Yubin Ruan <ablacktshirt-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org>
+Cc: mtk.manpages-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org, linux-man-u79uwXL29TY76Z2rM5mHXA@public.gmane.org, libc-alpha-9JcytcrH/bA+uJoB2kUjGw@public.gmane.org
 List-Id: linux-man@vger.kernel.org
 
-On 08/22/2017 01:32 AM, Bjarni Ingi Gislason wrote:
-> On Sat, Aug 19, 2017 at 10:06:40PM +0200, Michael Kerrisk (man-pages) wrote:
-> [...]
->> I applied most of the changes here manually, since there were conflicts
->> with parallel changes I was making.
->>
->> Thanks for the patch. For future large patches, it would be good
->> to get some advance warning of the proposed changes, to prevent the
->> possibility of conflicts.
->>
+Hello Yubin
+
+On 08/20/2017 11:42 AM, Yubin Ruan wrote:
+> Hi Michael,
+> This patch series introduce three pthread functions for linux-man:
+>     * pthread_mutexattr_setrobust()
+>     * pthread_mutexattr_getrobust()
+>     * pthread_mutex_consistent()
 > 
->   Yes.  I did not check the repository nor the mailing list, but do now.
+> I put pthread_mutexattr_setrobust() and pthread_mutexattr_getrobust()
+> altogether since they are related.
+> 
+> I obtain my information about these functions mainly from reading the
+> glibc source code and do some testing. There might be some mistake,
+> but they are mostly correct (95% or so).
+> 
+> Following this email would be those man pages in plain text and nroff
+> format. I have tested those nroff file on my Linux box using man, and
+> it look pretty well. Please point out if there are any mistake in
+> formatting.
 
-Thanks.
+Thanks for the drafts. Could I ask you to review the man-pages(7)
+page. There's a number of details described in that page
+which should be fixed in the drafts. Also, please try rendering
+your pages with "man -l <page>". This will show problems with 
+the example code. See the chown(2) man page example for
+the required escape sequences for "\n" and the single quote.
 
->   I could have redone the patches after you where finished with your current
-> changes.
-
-I attempted to save you the trouble.
-
->   You have made some bad changes, used a minus (\-) (or an em-dash (typing
-> error?) instead of the typographically correct en-dash, '\(en'.
-
-Thanks for checking. I have fixed the em-dash cases now. The cases using \-
-all occur in code (C or shell), and the convention there has long been to
-use \-. In fact, I think \- and \(en might be exactly the same.
-
-Cheers,
+Thanks,
 
 Michael
-
 
 -- 
 Michael Kerrisk
