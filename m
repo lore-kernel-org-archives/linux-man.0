@@ -1,79 +1,61 @@
 From: "Michael Kerrisk (man-pages)" <mtk.manpages-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org>
-Subject: Re: [patch] Update move_pages(2) manpage to match kernel change
-Date: Wed, 23 Aug 2017 00:58:44 +0200
-Message-ID: <CAKgNAkh8mcyVuvMYqitB1OO3eo3_fy3gg_fakGmQ+34sYjz1GQ@mail.gmail.com>
-References: <e6c853bb0a1dd5f96133a754024f230c@github.mail.kapsi.fi>
- <2646ef81-62da-13d5-2793-18149df3659b@gmail.com> <94ae97965e44ee23301c31a114577315@github.mail.kapsi.fi>
+Subject: Re: dlopen man page example fails for x86_64 (release 4.12), OK for
+ 32-bit target
+Date: Wed, 23 Aug 2017 01:11:47 +0200
+Message-ID: <CAKgNAkid9StEr3LGhZ6xWMxMKKu+8E_a8n37vLPOUsFq=hv2yw@mail.gmail.com>
+References: <c6443ac5-b115-e53f-1a5e-cd3568263f32@suddenlinkmail.com>
 Reply-To: mtk.manpages-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org
 Mime-Version: 1.0
 Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
 Return-path: <linux-man-owner-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>
-In-Reply-To: <94ae97965e44ee23301c31a114577315-YEAOTlfEoH7f77WrBdCPMDwVj7d+iGoU@public.gmane.org>
+In-Reply-To: <c6443ac5-b115-e53f-1a5e-cd3568263f32-hPWwJ4didUaz5mO2DORSKdBPR1lH4CV8@public.gmane.org>
 Sender: linux-man-owner-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
-To: Otto Ebeling <oebeling-YEAOTlfEoH7f77WrBdCPMDwVj7d+iGoU@public.gmane.org>
+To: "David C. Rankin" <drankinatty-hPWwJ4didUaz5mO2DORSKdBPR1lH4CV8@public.gmane.org>
 Cc: linux-man <linux-man-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>
 List-Id: linux-man@vger.kernel.org
 
-Hello Otto,
+David,
 
-On 22 August 2017 at 10:14, Otto Ebeling <oebeling-YEAOTlfEoH7f77WrBdCPMDwVj7d+iGoU@public.gmane.org> wr=
-ote:
-> Hi,
+On 22 August 2017 at 04:53, David C. Rankin
+<drankinatty-hPWwJ4didUaz5mO2DORSKdBPR1lH4CV8@public.gmane.org> wrote:
+> All,
 >
->>
->>        To  move  pages  in  another process requires the following privi=
-=E2=80=90
->>        leges:
->>
->>        *  In kernels up to and including Linux 4.12: the caller  must  b=
-e
->>           privileged  (CAP_SYS_NICE)  or the real or effective user ID o=
-f
->>           the calling process must match the real or saved-set user ID o=
-f
->>           the target process.
->>
->>        *  The  older rules allowed the caller to discover various virtua=
-l
->>           address choices made by the  kernel  that  could  lead  to  th=
-e
->>           defeat  of  address-space-layout  randomization  for  a proces=
-s
->>           owned by the same UID as the caller,  the  rules  were  change=
-d
->>           starting with Linux 4.13.  Since Linux 4.13, permission is gov=
-=E2=80=90
->>           erned by a ptrace access mode PTRACE_MODE_READ_REALCREDS  chec=
-k
->>           with respect to the target process; see ptrace(2).
->>
->> Look okay?
+>   The man 3 dlopen example needs updating to run on x86_64. It will run fine
+> as a 32-bit compile (with -m32), but fails without it, e.g.
 >
+> $ gcc -Wall -Wextra -pedantic -Wshadow -std=gnu11 -Ofast -ldl -o
+> bin/dlopen_man_ex dlopen_man_ex.c
 >
-> Thanks for fixing that up, makes sense to document the historical behavio=
-r!
-> Regarding the references to "Linux 4.13", I wanted to point out I got ema=
-ils
-> that indicate the patch was/will be merged to "3.18-stable tree, 4.12-sta=
-ble
-> tree, 4.4-stable tree, 4.9-stable". See e.g.
-> https://git.kernel.org/pub/scm/linux/kernel/git/stable/stable-queue.git/c=
-ommit/?id=3Db52c5821b05b33af36b77ba5cfee54818828508f
+> $ ./bin/dlopen_man_ex
+> /usr/lib/libm.so: invalid ELF header
 >
-> Not sure how to word this in a man page - maybe something like "4.13, and
-> updated versions of 3.18, 4.12, 4.4, and 4.9". What do you think?
+>   While limiting the target to 32-bit works as advertised:
+>
+> $ gcc -Wall -Wextra -pedantic -Wshadow -m32 -std=gnu11 -Ofast -ldl -o
+> bin/dlopen_man_ex dlopen_man_ex.c
+>
+> $ ./bin/dlopen_man_ex
+> -0.416147
+>
+>   This behavior is confirmed both on openSuSE and Archlinux with
+>
+> gcc (GCC) 7.1.1 20170630 (on Archlinux with multilib support)
+>
+>   I'm not exactly sure where in the compile and library search the problem
+> with the example is, but explicitly specifying /usr/lib64/libm.so doesn't
+> change the error on x86_64. Whether this is a libdl problem? It may be
+> something simple I'm just being dense about, but I thought I would pass this
+> along for verification and correction, if required.
 
-The cross-product if individual patches that hit stable and the
-various stable versions is just too complex too track in man pages, so
-I do not even try...
+Can you show the source code of the example that you are using that
+doesn't work. I wonder if you may be looking at an old version of the
+manual page.
 
 Cheers,
 
 Michael
 
-
---=20
+-- 
 Michael Kerrisk
 Linux man-pages maintainer; http://www.kernel.org/doc/man-pages/
 Linux/UNIX System Programming Training: http://man7.org/training/
