@@ -1,50 +1,62 @@
-From: Yubin Ruan <ablacktshirt-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org>
-Subject: Re: [PATCTH 0/2] pthread_mutexattr_setrobust() and pthread_mutex_consistent()
-Date: Tue, 22 Aug 2017 10:19:48 +0800
-Message-ID: <CAJYFCiPM6Hy1cPF2mUBu5bVqxNX+5kvKnJZLhYzMMwuMiHCKeg@mail.gmail.com>
-References: <CAJYFCiMZN09HaHpvKgxz3mqzmcaXAWmkz=BmgOW9WVdRKOhDsg@mail.gmail.com>
- <36ab9ec0-b496-c007-c12f-065fd618e7fd@gmail.com>
+From: Otto Ebeling <oebeling-YEAOTlfEoH7f77WrBdCPMDwVj7d+iGoU@public.gmane.org>
+Subject: Re: [patch] Update move_pages(2) manpage to match kernel change
+Date: Tue, 22 Aug 2017 09:14:58 +0100
+Message-ID: <94ae97965e44ee23301c31a114577315@github.mail.kapsi.fi>
+References: <e6c853bb0a1dd5f96133a754024f230c@github.mail.kapsi.fi>
+ <2646ef81-62da-13d5-2793-18149df3659b@gmail.com>
 Mime-Version: 1.0
-Content-Type: text/plain; charset="UTF-8"
+Content-Type: text/plain; charset=UTF-8;
+ format=flowed
+Content-Transfer-Encoding: 8bit
 Return-path: <linux-man-owner-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>
-In-Reply-To: <36ab9ec0-b496-c007-c12f-065fd618e7fd-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org>
+In-Reply-To: <2646ef81-62da-13d5-2793-18149df3659b-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org>
 Sender: linux-man-owner-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
 To: "Michael Kerrisk (man-pages)" <mtk.manpages-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org>
-Cc: linux-man-u79uwXL29TY76Z2rM5mHXA@public.gmane.org, libc-alpha-9JcytcrH/bA+uJoB2kUjGw@public.gmane.org
+Cc: linux-man-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
 List-Id: linux-man@vger.kernel.org
 
-2017-08-22 8:33 GMT+08:00 Michael Kerrisk (man-pages) <mtk.manpages-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org>:
-> Hello Yubin
->
-> On 08/20/2017 11:42 AM, Yubin Ruan wrote:
->> Hi Michael,
->> This patch series introduce three pthread functions for linux-man:
->>     * pthread_mutexattr_setrobust()
->>     * pthread_mutexattr_getrobust()
->>     * pthread_mutex_consistent()
->>
->> I put pthread_mutexattr_setrobust() and pthread_mutexattr_getrobust()
->> altogether since they are related.
->>
->> I obtain my information about these functions mainly from reading the
->> glibc source code and do some testing. There might be some mistake,
->> but they are mostly correct (95% or so).
->>
->> Following this email would be those man pages in plain text and nroff
->> format. I have tested those nroff file on my Linux box using man, and
->> it look pretty well. Please point out if there are any mistake in
->> formatting.
->
-> Thanks for the drafts. Could I ask you to review the man-pages(7)
-> page. There's a number of details described in that page
-> which should be fixed in the drafts. Also, please try rendering
-> your pages with "man -l <page>". This will show problems with
-> the example code. See the chown(2) man page example for
-> the required escape sequences for "\n" and the single quote.
+Hi,
 
-No problem. I would fix the formatting issues.
+> 
+>        To  move  pages  in  another process requires the following 
+> privi‐
+>        leges:
+> 
+>        *  In kernels up to and including Linux 4.12: the caller  must  
+> be
+>           privileged  (CAP_SYS_NICE)  or the real or effective user ID 
+> of
+>           the calling process must match the real or saved-set user ID 
+> of
+>           the target process.
+> 
+>        *  The  older rules allowed the caller to discover various 
+> virtual
+>           address choices made by the  kernel  that  could  lead  to  
+> the
+>           defeat  of  address-space-layout  randomization  for  a 
+> process
+>           owned by the same UID as the caller,  the  rules  were  
+> changed
+>           starting with Linux 4.13.  Since Linux 4.13, permission is 
+> gov‐
+>           erned by a ptrace access mode PTRACE_MODE_READ_REALCREDS  
+> check
+>           with respect to the target process; see ptrace(2).
+> 
+> Look okay?
 
-Yubin
+Thanks for fixing that up, makes sense to document the historical 
+behavior! Regarding the references to "Linux 4.13", I wanted to point 
+out I got emails that indicate the patch was/will be merged to 
+"3.18-stable tree, 4.12-stable tree, 4.4-stable tree, 4.9-stable". See 
+e.g. 
+https://git.kernel.org/pub/scm/linux/kernel/git/stable/stable-queue.git/commit/?id=b52c5821b05b33af36b77ba5cfee54818828508f
+
+Not sure how to word this in a man page - maybe something like "4.13, 
+and updated versions of 3.18, 4.12, 4.4, and 4.9". What do you think?
+
+Otto
 --
 To unsubscribe from this list: send the line "unsubscribe linux-man" in
 the body of a message to majordomo-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
