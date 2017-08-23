@@ -1,51 +1,52 @@
 From: "Michael Kerrisk (man-pages)" <mtk.manpages-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org>
-Subject: Re: dlopen man page example fails for x86_64 (release 4.12), OK for
- 32-bit target
-Date: Wed, 23 Aug 2017 23:40:54 +0200
-Message-ID: <CAKgNAkjYaPB4AW2g4LMf=0979NbwxTqXyR-_gWhEA8xyF+XROQ@mail.gmail.com>
-References: <c6443ac5-b115-e53f-1a5e-cd3568263f32@suddenlinkmail.com>
- <CAKgNAkid9StEr3LGhZ6xWMxMKKu+8E_a8n37vLPOUsFq=hv2yw@mail.gmail.com> <4aba2028-8b1a-535b-4762-3464ace8276c@wichmann.us>
-Reply-To: mtk.manpages-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org
+Subject: Re: [PATCH] ioctl_getfsmap.2: correct semantics of FMR_OF_LAST flag
+Date: Thu, 24 Aug 2017 00:33:48 +0200
+Message-ID: <613388f9-3e18-f99c-5f80-07d196138f60@gmail.com>
+References: <20170823195225.GF4794@magnolia>
 Mime-Version: 1.0
-Content-Type: text/plain; charset="UTF-8"
+Content-Type: text/plain; charset=utf-8
+Content-Transfer-Encoding: 7bit
 Return-path: <linux-man-owner-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>
-In-Reply-To: <4aba2028-8b1a-535b-4762-3464ace8276c-mBRmNHn34rVzbRFIqnYvSA@public.gmane.org>
+In-Reply-To: <20170823195225.GF4794@magnolia>
+Content-Language: en-US
 Sender: linux-man-owner-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
-To: Mats Wichmann <mats-mBRmNHn34rVzbRFIqnYvSA@public.gmane.org>
-Cc: "David C. Rankin" <drankinatty-hPWwJ4didUaz5mO2DORSKdBPR1lH4CV8@public.gmane.org>, linux-man <linux-man-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>
+To: "Darrick J. Wong" <darrick.wong-QHcLZuEGTsvQT0dZR+AlfA@public.gmane.org>
+Cc: mtk.manpages-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org, linux-api-u79uwXL29TY76Z2rM5mHXA@public.gmane.org, linux-man-u79uwXL29TY76Z2rM5mHXA@public.gmane.org, xfs <linux-xfs-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>
 List-Id: linux-man@vger.kernel.org
 
-Hi Mats,
+On 08/23/2017 09:52 PM, Darrick J. Wong wrote:
+> The FMR_OF_LAST flag is applied to the last record in the returned
+> dataset, which is not necessarily the last record in the filesystem.
+> Correct the documentation to reflect the actual behavior of both
+> getfsmap implementations.
 
-On 23 August 2017 at 16:11, Mats Wichmann <mats-mBRmNHn34rVzbRFIqnYvSA@public.gmane.org> wrote:
-> On 08/22/2017 05:11 PM, Michael Kerrisk (man-pages) wrote:
->> David,
->>
->> On 22 August 2017 at 04:53, David C. Rankin
->> <drankinatty-hPWwJ4didUaz5mO2DORSKdBPR1lH4CV8@public.gmane.org> wrote:
->>> All,
->>>
->>>   The man 3 dlopen example needs updating to run on x86_64. It will run fine
->>> as a 32-bit compile (with -m32), but fails without it, e.g.
->>>
->>> $ gcc -Wall -Wextra -pedantic -Wshadow -std=gnu11 -Ofast -ldl -o
->>> bin/dlopen_man_ex dlopen_man_ex.c
->>>
->>> $ ./bin/dlopen_man_ex
->>> /usr/lib/libm.so: invalid ELF header
->
-> This sounds like you're picking up the linker script, which is not an
-> ELF file, but rather link-time instructions - you can't dlopen that.  If
-> the "magic" in /usr/include/gnu is working, you should be getting an
-> soname line "libc.so.6" plugged in, not "libc.so".
-
-Yes, that's my guess too. But a fix went into the page about 18 months
-back to address that issue, which is why I'm wondering which version
-of the page David is looking at.
+Thanks, Darrick. Applied.
 
 Cheers,
 
 Michael
+
+
+> 
+> Signed-off-by: Darrick J. Wong <darrick.wong-QHcLZuEGTsvQT0dZR+AlfA@public.gmane.org>
+> ---
+>  man2/ioctl_getfsmap.2 |    2 +-
+>  1 file changed, 1 insertion(+), 1 deletion(-)
+> 
+> diff --git a/man2/ioctl_getfsmap.2 b/man2/ioctl_getfsmap.2
+> index 2a3cf06..047a624 100644
+> --- a/man2/ioctl_getfsmap.2
+> +++ b/man2/ioctl_getfsmap.2
+> @@ -225,7 +225,7 @@ The
+>  field contains a special value instead of an inode number.
+>  .TP
+>  .B FMR_OF_LAST
+> -This is the last record in the filesystem.
+> +This is the last record in the data set.
+>  .RE
+>  .PP
+>  The
+> 
 
 
 -- 
