@@ -1,94 +1,43 @@
-From: Jonas Grabber <jobegrabber-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org>
-Subject: [PATCH] RLIMIT_DATA affects mmap (2) since 4.7
-Date: Mon, 28 Aug 2017 16:10:40 +0200
-Message-ID: <CA+Y64xNppz0LDR1UoK48mnP2DcTPLefpD4U6LBZ4qQYvifSHcQ@mail.gmail.com>
+From: Jens Axboe <axboe-tSWWG44O7X1aa/9Udqfwiw@public.gmane.org>
+Subject: Re: man page update (fcntl(2) new set/get write hints)
+Date: Mon, 28 Aug 2017 10:13:50 -0600
+Message-ID: <25656812-990c-3427-9110-89a9163b3e12@kernel.dk>
+References: <25b8e025-d49b-e033-5ba3-f6967a6a970f@kernel.dk>
+ <feffa54b-d1b4-02e3-5a24-0a8e51f96762@gmail.com>
+ <02cf5c20-bb36-29e3-01e2-3a90e8272c70@redhat.com>
 Mime-Version: 1.0
-Content-Type: text/plain; charset="UTF-8"
+Content-Type: text/plain; charset=utf-8
+Content-Transfer-Encoding: 7bit
 Return-path: <linux-man-owner-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>
+In-Reply-To: <02cf5c20-bb36-29e3-01e2-3a90e8272c70-H+wXaHxf7aLQT0dZR+AlfA@public.gmane.org>
+Content-Language: en-US
 Sender: linux-man-owner-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
-To: mtk.manpages-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org
-Cc: linux-man-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
+To: Florian Weimer <fweimer-H+wXaHxf7aLQT0dZR+AlfA@public.gmane.org>, "Michael Kerrisk (man-pages)" <mtk.manpages-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org>
+Cc: linux-man <linux-man-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>
 List-Id: linux-man@vger.kernel.org
 
->From 9e3c8ac6f7ac8a490e020eea5dc68fca5244b354 Mon Sep 17 00:00:00 2001
-From: Jonas Grabber <jobegrabber-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org>
-Date: Mon, 28 Aug 2017 16:08:15 +0200
-Subject: [PATCH] RLIMIT_DATA affects mmap (2) since 4.7
+On 08/28/2017 03:07 AM, Florian Weimer wrote:
+> On 08/24/2017 12:41 AM, Michael Kerrisk (man-pages) wrote:
+>> +.TP
+>> +.BR F_GET_RW_HINT " (\fIuint64_t\fP; since Linux 4.13)"
+>> +Returns the value of the read/write hint associated with the underlying inode
+>> +for the file descriptor.
+>> +.TP
+>> +.BR F_SET_RW_HINT " (\fIuint64_t\fP; since Linux 4.13)"
+>> +Sets the read/write hint value associated with the underlying inode for the
+>> +file descriptor.
+> 
+> Surely the arguments are of pointer type for reads *and* writes?
+> 
+> There is no convenient way 32-bit userspace can pass a 64-bit integer
+> through are variadic dispatcher interface such as ioctl/fcntl/futex.
 
-Starting with Linux kernel 4.5 and 84638335900f1995495838fe1bd4870c43ec1f67
-(mm: rework virtual memory accounting) RLIMIT_DATA affects mmap (2).
-With d977d56ce5b3e8842236f2f9e7483d4914c9592e (mm: warn about VmData
-over RLIMIT_DATA) only warnings are emmitted when going over the
-specified RLIMIT_DATA in 4.5.
+Yes, they are pointers to a u64 for both the get/set side. The return type
+is 0/Exxxx.
 
-As of 4.7 and f4fcd55841fc9e46daac553b39361572453c2b88 (mm: enable
-RLIMIT_DATA by default with workaround for valgrind) going over
-RLIMIT_DATA through mmap (2) is forbidden.
-
-This updates man-pages 4.13 to reflect these changes.
----
- man2/getrlimit.2 | 11 ++++++++---
- man2/mmap.2      |  8 ++++++++
- man3/malloc.3    |  2 +-
- 3 files changed, 17 insertions(+), 4 deletions(-)
-
-diff --git a/man2/getrlimit.2 b/man2/getrlimit.2
-index 84f04d695..fd414fc54 100644
---- a/man2/getrlimit.2
-+++ b/man2/getrlimit.2
-@@ -179,9 +179,14 @@ perform an orderly termination upon first receipt of
- This is the maximum size of the process's data segment (initialized data,
- uninitialized data, and heap).
- This limit affects calls to
--.BR brk (2)
--and
--.BR sbrk (2),
-+.BR brk (2),
-+.BR sbrk (2)
-+and as of Linux 4.7 also
-+.BR mmap (2)
-+.\" commits 84638335900f1995495838fe1bd4870c43ec1f67
-+.\" ("mm: rework virtual memory accounting"),
-+.\" f4fcd55841fc9e46daac553b39361572453c2b88
-+.\" (mm: enable RLIMIT_DATA by default with workaround for valgrind).
- which fail with the error
- .B ENOMEM
- upon encountering the soft limit of this resource.
-diff --git a/man2/mmap.2 b/man2/mmap.2
-index df527809e..e5f134e4f 100644
---- a/man2/mmap.2
-+++ b/man2/mmap.2
-@@ -493,6 +493,14 @@ when unmapping a region in the middle of an
-existing mapping,
- since this results in two smaller mappings on either side of
- the region being unmapped.
- .TP
-+.B ENOMEM
-+(since Linux 4.7)
-+The process's
-+.B RLIMIT_DATA
-+limit, described in
-+.BR getrlimit (2),
-+would have been exceeded.
-+.TP
- .B EOVERFLOW
- On 32-bit architecture together with the large file extension
- (i.e., using 64-bit
-diff --git a/man3/malloc.3 b/man3/malloc.3
-index d0e12fcfc..ac78662f7 100644
---- a/man3/malloc.3
-+++ b/man3/malloc.3
-@@ -292,7 +292,7 @@ Allocations performed using
- .BR mmap (2)
- are unaffected by the
- .B RLIMIT_DATA
--resource limit (see
-+resource limit only prior to Linux kernel 4.7 (see
- .BR getrlimit (2)).
- .PP
- To avoid corruption in multithreaded applications,
 -- 
-2.13.5
+Jens Axboe
+
 --
 To unsubscribe from this list: send the line "unsubscribe linux-man" in
 the body of a message to majordomo-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
