@@ -1,7 +1,7 @@
 From: Eugene Syromyatnikov <evgsyr-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org>
-Subject: [RFC PATCH 1/5] keyctl.2: change "is" to "was" in error descriptions
-Date: Thu, 31 Aug 2017 17:58:22 +0200
-Message-ID: <20170831155822.GA4825@asgard.redhat.com>
+Subject: [RFC PATCH 0/5] keyctl.2 updates
+Date: Thu, 31 Aug 2017 17:58:16 +0200
+Message-ID: <20170831155816.GA606@asgard.redhat.com>
 Mime-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Return-path: <linux-man-owner-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>
@@ -11,68 +11,30 @@ To: mtk.manpages-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org
 Cc: linux-man-u79uwXL29TY76Z2rM5mHXA@public.gmane.org, David Howells <dhowells-H+wXaHxf7aLQT0dZR+AlfA@public.gmane.org>, Mat Martineau <mathew.j.martineau-VuQAYsv1563Yd54FQh9/CA@public.gmane.org>, Stephan Mueller <smueller-T9tCv8IpfcWELgA04lAiVw@public.gmane.org>, keyrings-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
 List-Id: linux-man@vger.kernel.org
 
-Since half of items used "was" and another half used "is".
----
- man2/keyctl.2 | 12 ++++++------
- 1 file changed, 6 insertions(+), 6 deletions(-)
+Hello.
 
-diff --git a/man2/keyctl.2 b/man2/keyctl.2
-index 63109f9..3469947 100644
---- a/man2/keyctl.2
-+++ b/man2/keyctl.2
-@@ -1537,7 +1537,7 @@ The requested operation wasn't permitted.
- .TP
- .B EDEADLK
- .I operation
--is
-+was
- .BR KEYCTL_LINK
- and the requested link would result in a cycle.
- .TP
-@@ -1585,14 +1585,14 @@ A revoked key was found or specified.
- .TP
- .B ELOOP
- .I operation
--is
-+was
- .BR KEYCTL_LINK
- and the requested link would cause the maximum nesting depth
- for keyrings to be exceeded.
- .TP
- .BR ENFILE " (Linux kernels before 3.13)"
- .IR operation
--is
-+was
- .BR KEYCTL_LINK
- and the keyring is full.
- (Before Linux 3.13,
-@@ -1602,7 +1602,7 @@ a single page of memory; since Linux 3.13, there is no fixed limit.)
- .TP
- .B ENOENT
- .I operation
--is
-+was
- .B KEYCTL_UNLINK
- and the key to be unlinked isn't linked to the keyring.
- .TP
-@@ -1626,7 +1626,7 @@ a different type was provided.
- .TP
- .B EOPNOTSUPP
- .I operation
--is
-+was
- .B KEYCTL_READ
- and the key type does not support reading
- (e.g., the type is
-@@ -1634,7 +1634,7 @@ and the key type does not support reading
- .TP
- .B EOPNOTSUPP
- .I operation
--is
-+was
- .B KEYCTL_UPDATE
- and the key type does not support updating.
- .TP
+While trying to add support for the new keyctl features (ability to
+provide KDF and ability to restrict addition to the keyring) decoding
+to strace, I've noticed that these are not documented, so here is
+my initial attempt to document these things. Unfortunately, keys/crypto
+infrastructure is quite foreign to me, so these patches definitely need
+some improvement.
+
+For the one part is definitely omitted yet is the documentation for the
+"asymmetric" key type, which should be a part of keyrings.7, I think.
+
+Eugene Syromyatnikov (5):
+  keyctl.2: change "is" to "was" in error descriptions
+  keyctl.2: update kernel documentation path reference
+  keyrings.7: add pointers to kernel's documentation
+  keyctl.2: document the ability to provide KDF parameters in
+    KEYCTL_DH_COMPUTE
+  keyctl.2: document KEYCTL_RESTRICT_KEYRING operation
+
+ man2/keyctl.2   | 216 ++++++++++++++++++++++++++++++++++++++++++++++++++++----
+ man7/keyrings.7 |   5 ++
+ 2 files changed, 209 insertions(+), 12 deletions(-)
+
 -- 
 2.1.4
 
