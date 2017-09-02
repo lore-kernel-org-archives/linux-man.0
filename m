@@ -1,28 +1,32 @@
-From: Stephan =?ISO-8859-1?Q?M=FCller?= <smueller-T9tCv8IpfcWELgA04lAiVw@public.gmane.org>
-Subject: Re: [PATCH v2 4/6] keyctl.2: document the ability to provide KDF parameters in KEYCTL_DH_COMPUTE
-Date: Sat, 02 Sep 2017 13:40:24 +0200
-Message-ID: <3253683.gvt4qLEdkK@positron.chronox.de>
-References: <20170902044020.GA7600@asgard.redhat.com>
+From: Eugene Syromyatnikov <evgsyr-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org>
+Subject: [PATCH 0/3] Minor proc.5 fixes
+Date: Sat, 2 Sep 2017 15:58:42 +0200
+Message-ID: <20170902135836.GA27008@asgard.redhat.com>
 Mime-Version: 1.0
-Content-Type: text/plain; charset="iso-8859-1"
-Content-Transfer-Encoding: 8BIT
+Content-Type: text/plain; charset=us-ascii
 Return-path: <linux-man-owner-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>
-In-Reply-To: <20170902044020.GA7600-ZbobWygYI+YXGNroddHbYwC/G2K4zDHf@public.gmane.org>
+Content-Disposition: inline
 Sender: linux-man-owner-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
-To: Eugene Syromyatnikov <evgsyr-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org>
-Cc: mtk.manpages-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org, linux-man-u79uwXL29TY76Z2rM5mHXA@public.gmane.org, David Howells <dhowells-H+wXaHxf7aLQT0dZR+AlfA@public.gmane.org>, Mat Martineau <mathew.j.martineau-VuQAYsv1563Yd54FQh9/CA@public.gmane.org>, keyrings-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
+To: mtk.manpages-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org
+Cc: linux-man-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
 List-Id: linux-man@vger.kernel.org
 
-Am Samstag, 2. September 2017, 06:40:20 CEST schrieb Eugene Syromyatnikov:
+Hello.
 
-Hi Eugene,
+Here are some minor formatting fixes and additions to /proc/stat file
+description.
 
-For the KDF parts:
+Eugene Syromyatnikov (3):
+  proc.5: ffix
+  proc.5: add description for cpuN lines in /pro/stat
+  proc.5: add description for softirq line in /proc/stat
 
-Acked-by: Stephan Müller <smueller-T9tCv8IpfcWELgA04lAiVw@public.gmane.org>
+ man5/proc.5 | 22 ++++++++++++++++------
+ 1 file changed, 16 insertions(+), 6 deletions(-)
 
-Ciao
-Stephan
+-- 
+2.1.4
+
 --
 To unsubscribe from this list: send the line "unsubscribe linux-man" in
 the body of a message to majordomo-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
