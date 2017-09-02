@@ -1,40 +1,28 @@
-From: Eugene Syromyatnikov <evgsyr-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org>
-Subject: [PATCH v2 6/6] keyctl.2: mention ENOMEM in ERRORS
-Date: Sat, 2 Sep 2017 06:40:32 +0200
-Message-ID: <20170902044032.GA7817@asgard.redhat.com>
+From: Stephan =?ISO-8859-1?Q?M=FCller?= <smueller-T9tCv8IpfcWELgA04lAiVw@public.gmane.org>
+Subject: Re: [PATCH v2 4/6] keyctl.2: document the ability to provide KDF parameters in KEYCTL_DH_COMPUTE
+Date: Sat, 02 Sep 2017 13:40:24 +0200
+Message-ID: <3253683.gvt4qLEdkK@positron.chronox.de>
+References: <20170902044020.GA7600@asgard.redhat.com>
 Mime-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
+Content-Type: text/plain; charset="iso-8859-1"
+Content-Transfer-Encoding: 8BIT
 Return-path: <linux-man-owner-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>
-Content-Disposition: inline
+In-Reply-To: <20170902044020.GA7600-ZbobWygYI+YXGNroddHbYwC/G2K4zDHf@public.gmane.org>
 Sender: linux-man-owner-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
-To: mtk.manpages-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org
-Cc: linux-man-u79uwXL29TY76Z2rM5mHXA@public.gmane.org, David Howells <dhowells-H+wXaHxf7aLQT0dZR+AlfA@public.gmane.org>, Mat Martineau <mathew.j.martineau-VuQAYsv1563Yd54FQh9/CA@public.gmane.org>, Stephan Mueller <smueller-T9tCv8IpfcWELgA04lAiVw@public.gmane.org>, keyrings-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
+To: Eugene Syromyatnikov <evgsyr-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org>
+Cc: mtk.manpages-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org, linux-man-u79uwXL29TY76Z2rM5mHXA@public.gmane.org, David Howells <dhowells-H+wXaHxf7aLQT0dZR+AlfA@public.gmane.org>, Mat Martineau <mathew.j.martineau-VuQAYsv1563Yd54FQh9/CA@public.gmane.org>, keyrings-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
 List-Id: linux-man@vger.kernel.org
 
-This one is not very specific, as memory allocations are scattered across
-the code, so let's put some generic description here.
----
- man2/keyctl.2 | 4 ++++
- 1 file changed, 4 insertions(+)
+Am Samstag, 2. September 2017, 06:40:20 CEST schrieb Eugene Syromyatnikov:
 
-diff --git a/man2/keyctl.2 b/man2/keyctl.2
-index bbd85ce..fe17b1e 100644
---- a/man2/keyctl.2
-+++ b/man2/keyctl.2
-@@ -1866,6 +1866,10 @@ did not exist, and
- .I arg3
- was zero (meaning don't create the key if it didn't exist).
- .TP
-+.B ENOMEM
-+One of kernel memory allocation routines failed during the execution of the
-+syscall.
-+.TP
- .B ENOTDIR
- A key of keyring type was expected but the ID of a key with
- a different type was provided.
--- 
-2.1.4
+Hi Eugene,
 
+For the KDF parts:
+
+Acked-by: Stephan Müller <smueller-T9tCv8IpfcWELgA04lAiVw@public.gmane.org>
+
+Ciao
+Stephan
 --
 To unsubscribe from this list: send the line "unsubscribe linux-man" in
 the body of a message to majordomo-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
