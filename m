@@ -1,7 +1,7 @@
 From: Eugene Syromyatnikov <evgsyr-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org>
-Subject: [PATCH 0/3] Minor proc.5 fixes
-Date: Sat, 2 Sep 2017 15:58:42 +0200
-Message-ID: <20170902135836.GA27008@asgard.redhat.com>
+Subject: [PATCH 1/3] proc.5: ffix
+Date: Sat, 2 Sep 2017 15:58:47 +0200
+Message-ID: <20170902135847.GA27734@asgard.redhat.com>
 Mime-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Return-path: <linux-man-owner-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>
@@ -11,19 +11,50 @@ To: mtk.manpages-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org
 Cc: linux-man-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
 List-Id: linux-man@vger.kernel.org
 
-Hello.
+---
+ man5/proc.5 | 8 ++++----
+ 1 file changed, 4 insertions(+), 4 deletions(-)
 
-Here are some minor formatting fixes and additions to /proc/stat file
-description.
-
-Eugene Syromyatnikov (3):
-  proc.5: ffix
-  proc.5: add description for cpuN lines in /pro/stat
-  proc.5: add description for softirq line in /proc/stat
-
- man5/proc.5 | 22 ++++++++++++++++------
- 1 file changed, 16 insertions(+), 6 deletions(-)
-
+diff --git a/man5/proc.5 b/man5/proc.5
+index cc1c470..a669406 100644
+--- a/man5/proc.5
++++ b/man5/proc.5
+@@ -1311,8 +1311,7 @@ information via this field.
+ .IP
+ This file is readable only by the owner of the process.
+ .TP
+-.IR
+-/proc/[pid]/net " (since Linux 2.6.25)"
++.IR /proc/[pid]/net " (since Linux 2.6.25)"
+ See the description of
+ .IR /proc/net .
+ .TP
+@@ -1669,7 +1668,7 @@ ProtectionKey:         0
+ VmFlags: rd ex mr mw me dw
+ .EE
+ .in
+-.PP
++.IP
+ The first of these lines shows the same information as is displayed
+ for the mapping in
+ .IR /proc/[pid]/maps .
+@@ -3752,6 +3751,7 @@ so the iowait of each CPU is difficult to calculate.
+ The value in this field may
+ .I decrease
+ in certain conditions.
++.RE
+ .TP
+ .IR irq " (since Linux 2.6.0-test4)"
+ (6) Time servicing interrupts.
+@@ -4890,7 +4890,7 @@ Explanations for some of the files under this directory can be found in
+ and
+ .BR ip (7).
+ .TP
+-.B /proc/sys/net/core/bpf_jit_enable
++.I /proc/sys/net/core/bpf_jit_enable
+ See
+ .BR bpf (2).
+ .TP
 -- 
 2.1.4
 
