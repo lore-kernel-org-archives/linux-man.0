@@ -1,47 +1,30 @@
-From: Thiago Jung Bauermann <bauerman-23VcF4HTsmIX0ybBhKVfKdBPR1lH4CV8@public.gmane.org>
-Subject: [PATCH] getrlimit.2: Mention unit used by RLIMIT_CORE and RLIMIT_FSIZE
-Date: Fri,  1 Sep 2017 17:27:43 -0300
-Message-ID: <20170901202743.9678-1-bauerman@linux.vnet.ibm.com>
+From: Eugene Syromyatnikov <evgsyr-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org>
+Subject: [PATCH] Minor formatting fix in keyrings.7
+Date: Sat, 2 Sep 2017 03:35:34 +0200
+Message-ID: <20170902013031.GA17201@asgard.redhat.com>
+Mime-Version: 1.0
+Content-Type: text/plain; charset=us-ascii
 Return-path: <linux-man-owner-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>
+Content-Disposition: inline
 Sender: linux-man-owner-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
 To: mtk.manpages-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org
-Cc: linux-man-u79uwXL29TY76Z2rM5mHXA@public.gmane.org, Thiago Jung Bauermann <bauerman-23VcF4HTsmIX0ybBhKVfKdBPR1lH4CV8@public.gmane.org>
+Cc: linux-man-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
 List-Id: linux-man@vger.kernel.org
 
-It would have been obvious that these limits are in bytes, except that
-"ulimit -a" in at least bash, dash and zsh says that they're in blocks.
-This confused me, so I had to check the kernel source code.
+Hello.
 
-My understanding is that they are indeed in bytes, so mention this
-information in the man page.
+I'm not quite sure that providing absolute indentation there was
+intentional, but I assume it didn't, as the output doesn't exceed 80
+character width and the resulting rendering does look a bit ugly.
 
-Signed-off-by: Thiago Jung Bauermann <bauerman-23VcF4HTsmIX0ybBhKVfKdBPR1lH4CV8@public.gmane.org>
----
- man2/getrlimit.2 | 4 ++--
- 1 file changed, 2 insertions(+), 2 deletions(-)
+Eugene Syromyatnikov (1):
+  ffix: keyrings.7: indentation for key list example
 
-diff --git a/man2/getrlimit.2 b/man2/getrlimit.2
-index 84f04d695ea2..f2c5297526d7 100644
---- a/man2/getrlimit.2
-+++ b/man2/getrlimit.2
-@@ -150,7 +150,7 @@ This is the maximum size of a
- .I core
- file (see
- .BR core (5))
--that the process may dump.
-+in bytes that the process may dump.
- When 0 no core dump files are created.
- When nonzero, larger dumps are truncated to this size.
- .TP
-@@ -187,7 +187,7 @@ which fail with the error
- upon encountering the soft limit of this resource.
- .TP
- .B RLIMIT_FSIZE
--This is the maximum size of files that the process may create.
-+This is the maximum size in bytes of files that the process may create.
- Attempts to extend a file beyond this limit result in delivery of a
- .B SIGXFSZ
- signal.
+ man7/keyrings.7 | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
+
+-- 
+2.1.4
 
 --
 To unsubscribe from this list: send the line "unsubscribe linux-man" in
