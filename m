@@ -1,75 +1,176 @@
 From: "Michael Kerrisk (man-pages)" <mtk.manpages-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org>
-Subject: Re: [RFC PATCH 4/5] keyctl.2: document the ability to provide KDF
- parameters in KEYCTL_DH_COMPUTE
-Date: Sun, 3 Sep 2017 02:43:57 +0200
-Message-ID: <82a9a90c-86b9-9c90-f873-c679b9f77791@gmail.com>
-References: <20170831155836.GA5257@asgard.redhat.com>
- <1638688.g8nhH00jlV@tauon.chronox.de>
- <CACGkJdveSTUSYXEWzRCAXPF1nwhbtUeH2LsaoYpDGJ_FfyesTQ@mail.gmail.com>
- <3012446.sSctSvPOAs@tauon.chronox.de>
- <CACGkJduHdKeJApsmCP-GC0BhvyqHn49EztZZxGY5LOdTwRMYtg@mail.gmail.com>
+Subject: Re: man page update (fcntl(2) new set/get write hints)
+Date: Sun, 3 Sep 2017 02:45:13 +0200
+Message-ID: <e281652b-44d7-1c59-35ea-63836d6532dd@gmail.com>
+References: <25b8e025-d49b-e033-5ba3-f6967a6a970f@kernel.dk>
+ <feffa54b-d1b4-02e3-5a24-0a8e51f96762@gmail.com>
+ <39f20b08-9a35-652e-4ae9-96f3cb8e5679@kernel.dk>
+ <CAKgNAkizCBiky9QM0-oyP3taGKCDTjAP--SCgqZ3pC8Kz=PnPw@mail.gmail.com>
+ <580f238c-4c3d-eddc-5330-19f8a971bce1@kernel.dk>
+ <CAKgNAkhJysMFycC8xxjQ8s=+ABryEmWTFUopTWoan04icGibAw@mail.gmail.com>
+ <6d17003b-87a1-43c8-87bf-80842b4fabf7@kernel.dk>
+ <68b812bd-a861-2ed0-e207-fb0a9bbce923@gmail.com>
+ <6ad54bed-75fa-5153-004e-c4a8a1c87a35@kernel.dk>
+ <778a45d3-8bee-aa8b-86bd-c7e6cd7e5c60@gmail.com>
 Mime-Version: 1.0
 Content-Type: text/plain; charset=utf-8
 Content-Transfer-Encoding: 8bit
 Return-path: <linux-man-owner-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>
-In-Reply-To: <CACGkJduHdKeJApsmCP-GC0BhvyqHn49EztZZxGY5LOdTwRMYtg-JsoAwUIsXosN+BqQ9rBEUg@public.gmane.org>
+In-Reply-To: <778a45d3-8bee-aa8b-86bd-c7e6cd7e5c60-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org>
 Content-Language: en-US
 Sender: linux-man-owner-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
-To: Eugene Syromyatnikov <evgsyr-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org>, Stephan Mueller <smueller-T9tCv8IpfcWELgA04lAiVw@public.gmane.org>
-Cc: mtk.manpages-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org, linux-man <linux-man-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>, David Howells <dhowells-H+wXaHxf7aLQT0dZR+AlfA@public.gmane.org>, Mat Martineau <mathew.j.martineau-VuQAYsv1563Yd54FQh9/CA@public.gmane.org>, keyrings-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
+To: Jens Axboe <axboe-tSWWG44O7X1aa/9Udqfwiw@public.gmane.org>
+Cc: mtk.manpages-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org, linux-man <linux-man-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>, Florian Weimer <fweimer-H+wXaHxf7aLQT0dZR+AlfA@public.gmane.org>
 List-Id: linux-man@vger.kernel.org
 
-On 08/31/2017 06:32 PM, Eugene Syromyatnikov wrote:
-> On Thu, Aug 31, 2017 at 4:21 PM, Stephan Mueller <smueller-T9tCv8IpfcWELgA04lAiVw@public.gmane.org> wrote:
->> Am Donnerstag, 31. August 2017, 18:17:09 CEST schrieb Eugene Syromyatnikov:
->>
->> Hi Eugene,
->>
->>> On Thu, Aug 31, 2017 at 6:07 PM, Stephan Mueller <smueller-T9tCv8IpfcWELgA04lAiVw@public.gmane.org>
->> wrote:
->>>> Am Donnerstag, 31. August 2017, 17:58:36 CEST schrieb Eugene
->>>> Syromyatnikov:
->>>>
->>>> Hi Eugene,
->>>>
->>>>> +field is a null-terminated string no longer than
->>>>> +.B CRYPTO_MAX_ALG_NAME
->>>>> +(128 bytes as of this writing) which specifies hash name
->>>>
->>>> Is it necessary to specify that size? Note, up to 4.11 it was 64 bytes.
->>>> Also, it must be a valid cipher name as mentioned. Thus, I do not think
->>>> the size is relevant here considering the requirement to use a proper
->>>> name.
->>>
->>> Right, it's probably more important for syscall decoding, but not for
->>> the documentation. However, my understanding is that cipher template
->>> can be specified (like "rfc4106(gcm(aes))"), and I'm not sure how deep
->>> this nesting can be and whether it is possible to reach algorithm name
->>> limit this way (by employing the usage of driver name instead of
->>> common name, for example—as I understood, it is also possible). It
->>> probably makes more sense to just mention this limit in the ERRORS
->>> section instead.
->>
->> CRYPTO_MAX_ALG_NAME is given a size that all allowed cipher names can be
->> represented.
->>
->> Somehow in the 4.12 release cycle, somebody found a very obscure yet valid
->> name for a symmetric cipher that exceeded the 64 byte limit causing the bump
->> to 128 bytes.
->>
->> Though, that obscure name is no SHASH. All SHASH keyed digest cipher names are
->> below 64 bytes.
-> 
-> I see. Thanks for the clarification!
+Hi Jens,
 
-Hi Eugene,
-
-So, should I expect a new version of this patch?
+Ping!
 
 Cheers,
 
 Michael
 
+
+On 08/28/2017 11:16 PM, Michael Kerrisk (man-pages) wrote:
+> On 08/28/2017 10:15 PM, Jens Axboe wrote:
+>> On 08/28/2017 01:19 PM, Michael Kerrisk (man-pages) wrote:
+>>> Hi Jens,
+>>>
+>>> On 08/25/2017 10:55 PM, Jens Axboe wrote:
+>>>> On 08/25/2017 02:51 PM, Michael Kerrisk (man-pages) wrote:
+>>>>>>>>> Do you mean here "file descriptor" or "file description (i.e., the
+>>>>>>>>> open file handle)? Maybe you mean the former, but I want to confirm.
+>>>>>>>>
+>>>>>>>> I do mean file descriptor.
+>>>>>>>
+>>>>>>> So, what are the semantics if a file descriptor is duplicated using
+>>>>>>> dup(2) or similar? If I understand correctly, then the write lifetime
+>>>>>>> hint has no effect for the new file descriptor, right?
+>>>>>>
+>>>>>> If it's dup(2)'ed, then the new file descriptor will refer to the same
+>>>>>> hints as the previous. See attached test file.
+>>>>>
+>>>>> But then isn't this exactly the point I asked about: are the hints
+>>>>> private to a file descriptor or are they associated with the open file
+>>>>> description (open file table entry, "struct file")? You said "I do
+>>>>> mean file descriptor", but actually I understand what you just said
+>>>>> now as "hints are associated with the open file description, which may
+>>>>> be referred to by multiple duplicated file descriptors". Can you
+>>>>> clarify?
+>>>>
+>>>> You are right, I misunderstood your original question. They do follow
+>>>> the file description. So the dup'ed one will return the same as the
+>>>> original, even if the hints on the original fd get modified. That is the
+>>>> expected behavior.
+>>>
+>>> So, I am still confused. I was wondering whether the hints are 
+>>> associated with the open file description (OFD), rather than the 
+>>> file descriptor. You said yes, then say that the dup'ed file 
+>>> descriptor will have the same hints even if the hints on the
+>>> original file descriptor are modified. To me that sounds like:
+>>> the hints are associated with the file descriptor, and not the
+>>> OFD, and during dup(2) the hints are *copied* to the the new
+>>> file descriptor, with the result that after the dup(2) the hints
+>>> can be modified independently for the two file descriptors.
+>>>
+>>> Can you clarify please?
+>>
+>> No, that's not how it behaves. If you dup(2) the file descriptor, then
+>> the dup'ed descriptor will return the same hint as was set on the
+>> original.  If you change/clear the hint on the original, the dup'ed
+>> descriptor will now return the new hint.
+> 
+> Okay -- thanks. I'd misunderstood your earlier words. Okay, I've
+> hacked this text to arrive at new text below. Could you please check
+> it? Also, there are some details that are still missing. Could you take 
+> a look at the questions below please.
+> 
+> [[[
+>     File read/write hints
+>        Write lifetime hints can be used to inform the  kernel  about  the
+>        relative  expected  lifetime  of  writes on a given inode or via a
+>        particular open file description.  (See open(2) for an explanation
+>        of open file desriptions.)  In this context, the term "write life‐
+>        time" means the expected time the data will live on media,  before
+>        being overwritten or erased.
+> 
+>        An  application  may use the different hint values specified below
+>        to separate writes into different write classes, so that  multiple
+>        users  or  applications  running  on a single storage back-end can
+>        aggregate their I/O patterns in  a  consistent  manner.   However,
+>        there are no functional semantics implied by these flags, and dif‐
+>        ferent I/O classes can use the write lifetime hints  in  arbitrary
+>        ways, so long as the hints are used consistently.
+> 
+> QUESTIONS:
+> * What are write classes?
+> * What are I/O classes?
+> * What is the purpose of using read/write hints? I assume it's a
+>   performance point, but the text is not explicit about that.
+> * You variously wrote "read/write hints" and "write hints". Let's make 
+>   it consistent. Which is the preferred term?
+> 
+>        The  following  operations  can be applied to the file descriptor,
+>        fd:
+> 
+>        F_GET_RW_HINT (uint64_t *; since Linux 4.13)
+>               Returns the value of the read/write  hint  associated  with
+>               the underlying inode referred to by fd.
+> 
+>        F_SET_RW_HINT (uint64_t *; since Linux 4.13)
+>               Sets the read/write hint value associated with the underly‐
+>               ing inode referred to by fd.
+> 
+>        F_GET_FILE_RW_HINT (uint64_t *; since Linux 4.13)
+>               Returns the value of the read/write  hint  associated  with
+>               the open file description referred to by fd.
+> 
+>        F_SET_FILE_RW_HINT (uint64_t *; since Linux 4.13)
+>               Sets  the  read/write  hint  value associated with the open
+>               file description referred to by fd.
+> 
+>        If an open file description has not  been  assigned  a  read/write
+>        hint, then it shall use the value assigned to the inode, if any.
+> 
+>        The following read/write hints are valid since Linux 4.13:
+> 
+>        RWH_WRITE_LIFE_NOT_SET
+>               No specific hint has been set.  This is the default value.
+> 
+>        RWH_WRITE_LIFE_NONE
+>               No  specific write lifetime is associated with this file or
+>               inode.
+> 
+>        RWH_WRITE_LIFE_SHORT
+>               Data written to this inode or via this open  file  descrip‐
+>               tion is expected to have a short lifetime.
+> 
+>        RWH_WRITE_LIFE_MEDIUM
+>               Data  written  to this inode or via this open file descrip‐
+>               tion is expected to have a lifetime longer than data  writ‐
+>               ten with RWH_WRITE_LIFE_SHORT.
+> 
+>        RWH_WRITE_LIFE_LONG
+>               Data  written  to this inode or via this open file descrip‐
+>               tion is expected to have a lifetime longer than data  writ‐
+>               ten with RWH_WRITE_LIFE_MEDIUM.
+> 
+>        RWH_WRITE_LIFE_EXTREME
+>               Data  written  to this inode or via this open file descrip‐
+>               tion is expected to have a lifetime longer than data  writ‐
+>               ten with RWH_WRITE_LIFE_LONG.
+> 
+>        All  the  write-specific  hints are relative to each other, and no
+>        individual absolute meaning should be attributed to them.
+> ]]]
+> 
+> Cheers,
+> 
+> Michael
+> 
+> 
+> 
 
 
 -- 
