@@ -1,73 +1,49 @@
 From: "Michael Kerrisk (man-pages)" <mtk.manpages-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org>
-Subject: Re: [PATCH v2 0/6] keyctl.2 updates
-Date: Sun, 3 Sep 2017 13:31:35 +0200
-Message-ID: <4e885d00-bc47-5be2-f206-1de2947875b7@gmail.com>
-References: <20170902043958.GA27412@asgard.redhat.com>
+Subject: Re: [PATCH] getrlimit.2: Mention unit used by RLIMIT_CORE and
+ RLIMIT_FSIZE
+Date: Sun, 3 Sep 2017 13:32:59 +0200
+Message-ID: <dd17fde2-80cf-096a-3c74-2cdbb375a217@gmail.com>
+References: <20170901202743.9678-1-bauerman@linux.vnet.ibm.com>
+ <07aa1031-91b5-f1ca-b23f-858c06c3a9f8@gmail.com>
+ <87fuc4semh.fsf@linux.vnet.ibm.com>
 Mime-Version: 1.0
 Content-Type: text/plain; charset=utf-8
 Content-Transfer-Encoding: 7bit
 Return-path: <linux-man-owner-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>
-In-Reply-To: <20170902043958.GA27412-ZbobWygYI+YXGNroddHbYwC/G2K4zDHf@public.gmane.org>
+In-Reply-To: <87fuc4semh.fsf-23VcF4HTsmIX0ybBhKVfKdBPR1lH4CV8@public.gmane.org>
 Content-Language: en-US
 Sender: linux-man-owner-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
-To: Eugene Syromyatnikov <evgsyr-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org>
-Cc: mtk.manpages-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org, linux-man-u79uwXL29TY76Z2rM5mHXA@public.gmane.org, David Howells <dhowells-H+wXaHxf7aLQT0dZR+AlfA@public.gmane.org>, Mat Martineau <mathew.j.martineau-VuQAYsv1563Yd54FQh9/CA@public.gmane.org>, Stephan Mueller <smueller-T9tCv8IpfcWELgA04lAiVw@public.gmane.org>, keyrings-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
+To: Thiago Jung Bauermann <bauerman-23VcF4HTsmIX0ybBhKVfKdBPR1lH4CV8@public.gmane.org>
+Cc: mtk.manpages-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org, linux-man-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
 List-Id: linux-man@vger.kernel.org
 
-Hi Eugene,
-
-On 09/02/2017 06:39 AM, Eugene Syromyatnikov wrote:
-> Hello.
+On 09/03/2017 04:24 AM, Thiago Jung Bauermann wrote:
 > 
-> While trying to add support for the new keyctl features (ability to
-> provide KDF and ability to restrict addition to the keyring) decoding
-> to strace, I've noticed that these are not documented, so here is
-> my initial attempt to document these things. Unfortunately, keys/crypto
-> infrastructure is quite foreign to me, so these patches definitely need
-> some improvement.
-
-I've applied the all patches. If someone has further improvements,
-hopefully they send comments/fixes.
-
-> For the one part is definitely omitted yet is the documentation for the
-> "asymmetric" key type, which should be a part of keyrings.7, I think.
-
-That makes sense. Might you prepare a patch for that?
-
-> Thanks for all the feedback regarding the original version, I've tried to
-> incorporate it in this version of the patchset.
+> Michael Kerrisk (man-pages) <mtk.manpages-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org> writes:
 > 
-> Changes since v1:
->  * Added additional information about causes of EAGAIN, ENOENT, and
->    ETIMEDOUT for the KEYCTL_DH_COMPUTE operation.
->  * Information about internal limit on hashname moved to the description
->    of yet another cause of EINVAL for the KEYCTL_DH_COMPUTE.
->  * The description of possible restriction specification for asymmetric
->    key type has been corrected.
->  * Added information about causes of ENOENT and EOPNOTSUPP for the
->    KEYCTL_RESTRICT_KEYRING operation.
->  * Added wildcard mention of the ENOMEM error code.
+>> Hello Thiago,
+>>
+>> On 09/01/2017 10:27 PM, Thiago Jung Bauermann wrote:
+>>> It would have been obvious that these limits are in bytes, except that
+>>> "ulimit -a" in at least bash, dash and zsh says that they're in blocks.
+>>> This confused me, so I had to check the kernel source code.
+>>>
+>>> My understanding is that they are indeed in bytes, so mention this
+>>> information in the man page.
+>>
+>> Thanks. That was a silly deficiency on the man page. Patch applied.
 > 
-> Eugene Syromyatnikov (6):
->   keyctl.2: change "is" to "was" in error descriptions
->   keyctl.2: update kernel documentation path reference
->   keyrings.7: add pointers to kernel's documentation
->   keyctl.2: document the ability to provide KDF parameters in
->     KEYCTL_DH_COMPUTE
->   keyctl.2: document KEYCTL_RESTRICT_KEYRING operation
->   keyctl.2: mention ENOMEM in ERRORS
+> Thanks!
 > 
->  man2/keyctl.2   | 289 +++++++++++++++++++++++++++++++++++++++++++++++++++++---
->  man7/keyrings.7 |   5 +
->  2 files changed, 282 insertions(+), 12 deletions(-)
+>> I also fixed a similar problem with RLIMIT_DATA.
+> 
+> I didn't occur to me to check the other resources. Thanks for doing that.
 
-So, I think everything that you sent has now been applied. Let me know if
-I mussed anything.
+No worries. 
 
 Cheers,
 
 Michael
-
 
 -- 
 Michael Kerrisk
