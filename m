@@ -1,14 +1,13 @@
 From: "Michael Kerrisk (man-pages)" <mtk.manpages-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org>
-Subject: Re: [PATCH v2 5/6] keyctl.2: document KEYCTL_RESTRICT_KEYRING
- operation
-Date: Sun, 3 Sep 2017 13:29:18 +0200
-Message-ID: <ddd34b77-c433-971f-08d3-bd6f699012a6@gmail.com>
-References: <20170902044026.GA7710@asgard.redhat.com>
+Subject: Re: [PATCH v2 0/6] keyctl.2 updates
+Date: Sun, 3 Sep 2017 13:31:35 +0200
+Message-ID: <4e885d00-bc47-5be2-f206-1de2947875b7@gmail.com>
+References: <20170902043958.GA27412@asgard.redhat.com>
 Mime-Version: 1.0
 Content-Type: text/plain; charset=utf-8
 Content-Transfer-Encoding: 7bit
 Return-path: <linux-man-owner-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>
-In-Reply-To: <20170902044026.GA7710-ZbobWygYI+YXGNroddHbYwC/G2K4zDHf@public.gmane.org>
+In-Reply-To: <20170902043958.GA27412-ZbobWygYI+YXGNroddHbYwC/G2K4zDHf@public.gmane.org>
 Content-Language: en-US
 Sender: linux-man-owner-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
 To: Eugene Syromyatnikov <evgsyr-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org>
@@ -17,145 +16,57 @@ List-Id: linux-man@vger.kernel.org
 
 Hi Eugene,
 
-On 09/02/2017 06:40 AM, Eugene Syromyatnikov wrote:
-> ---
->  man2/keyctl.2 | 87 +++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
->  1 file changed, 87 insertions(+)
+On 09/02/2017 06:39 AM, Eugene Syromyatnikov wrote:
+> Hello.
+> 
+> While trying to add support for the new keyctl features (ability to
+> provide KDF and ability to restrict addition to the keyring) decoding
+> to strace, I've noticed that these are not documented, so here is
+> my initial attempt to document these things. Unfortunately, keys/crypto
+> infrastructure is quite foreign to me, so these patches definitely need
+> some improvement.
 
-Thanks!
+I've applied the all patches. If someone has further improvements,
+hopefully they send comments/fixes.
 
-I've applied this patch, and tweaked the text a little. I'd be happy if you
-would double-check the result.
+> For the one part is definitely omitted yet is the documentation for the
+> "asymmetric" key type, which should be a part of keyrings.7, I think.
 
-Thanks,
+That makes sense. Might you prepare a patch for that?
+
+> Thanks for all the feedback regarding the original version, I've tried to
+> incorporate it in this version of the patchset.
+> 
+> Changes since v1:
+>  * Added additional information about causes of EAGAIN, ENOENT, and
+>    ETIMEDOUT for the KEYCTL_DH_COMPUTE operation.
+>  * Information about internal limit on hashname moved to the description
+>    of yet another cause of EINVAL for the KEYCTL_DH_COMPUTE.
+>  * The description of possible restriction specification for asymmetric
+>    key type has been corrected.
+>  * Added information about causes of ENOENT and EOPNOTSUPP for the
+>    KEYCTL_RESTRICT_KEYRING operation.
+>  * Added wildcard mention of the ENOMEM error code.
+> 
+> Eugene Syromyatnikov (6):
+>   keyctl.2: change "is" to "was" in error descriptions
+>   keyctl.2: update kernel documentation path reference
+>   keyrings.7: add pointers to kernel's documentation
+>   keyctl.2: document the ability to provide KDF parameters in
+>     KEYCTL_DH_COMPUTE
+>   keyctl.2: document KEYCTL_RESTRICT_KEYRING operation
+>   keyctl.2: mention ENOMEM in ERRORS
+> 
+>  man2/keyctl.2   | 289 +++++++++++++++++++++++++++++++++++++++++++++++++++++---
+>  man7/keyrings.7 |   5 +
+>  2 files changed, 282 insertions(+), 12 deletions(-)
+
+So, I think everything that you sent has now been applied. Let me know if
+I mussed anything.
+
+Cheers,
 
 Michael
-
-
-> diff --git a/man2/keyctl.2 b/man2/keyctl.2
-> index 28d15a3..bbd85ce 100644
-> --- a/man2/keyctl.2
-> +++ b/man2/keyctl.2
-> @@ -1537,6 +1537,60 @@ and should contain zeroes since Linux 4.13.
->  .IP
->  The KDF implementation complies with SP800-56A as well
->  as with SP800-108 (the counter KDF).
-> +.TP
-> +.BR KEYCTL_RESTRICT_KEYRING " (since Linux 4.12)"
-> +.\" commit 6563c91fd645556c7801748f15bc727c77fcd311
-> +.\" commit 7228b66aaf723a623e578aa4db7d083bb39546c9
-> +Apply a key linking restriction to a keyring with the ID provided in
-> +.IR arg2 .
-> +(cast to
-> +.IR key_serial_t ).
-> +The caller must have
-> +.IR setattr
-> +permission on the key.
-> +If
-> +.I arg3
-> +is NULL, any attempt to add a key to the keyring is blocked;
-> +otherwise it contains a pointer to a string with a key type name and
-> +.I arg4
-> +contains a pointer to string that describes the type-specific restriction.
-> +As of Linux 4.12, only type "asymmetric" has the restrictions defined:
-> +.RS
-> +.TP
-> +.B builtin_trusted
-> +Allows only keys that are signed by a key linked to the builtin keyring
-> +(".builtin_trusted_keys").
-> +.TP
-> +.B builtin_and_secondary_trusted
-> +Allows only keys that are signed by a key linked to the secondary keyring
-> +(".secondary_trusted_keys") or, by extension, a key in builtin keyring,
-> +as the latter is linked to the former.
-> +.TP
-> +.BI key_or_keyring: key
-> +.TQ
-> +.BI key_or_keyring: key :chain
-> +If
-> +.I key
-> +specifies ID of a key of type "asymmetric", then only keys that are signed
-> +by this key are allowed.
-> +.IP
-> +If
-> +.I key
-> +specifies ID of a keyring, then only keys that are signed by a key linked
-> +to this keyring are allowed.
-> +.IP
-> +If ":chain" is specified, keys that are signed by a keys linked to the
-> +destination keyring (that is, the keyring with ID specified in the
-> +.I arg2
-> +argument) are also allowed.
-> +.RE
-> +.IP
-> +Note that a restriction can be configured only once for the specific keyring;
-> +once it is set, it can't be overridden.
-> +.IP
-> +The argument
-> +.I arg5
-> +is ignored.
->  .SH RETURN VALUE
->  For a successful call, the return value depends on the operation:
->  .TP
-> @@ -1604,10 +1658,24 @@ was
->  .BR KEYCTL_LINK
->  and the requested link would result in a cycle.
->  .TP
-> +.B EDEADLK
-> +.I operation
-> +was
-> +.BR KEYCTL_RESTRICT_KEYRING
-> +and the requested keyring restriction would result in a cycle.
-> +.TP
->  .B EDQUOT
->  The key quota for the caller's user would be exceeded by creating a key or
->  linking it to the keyring.
->  .TP
-> +.B EEXIST
-> +.I operation
-> +was
-> +.BR KEYCTL_RESTRICT_KEYRING
-> +and keyring provided in
-> +.I arg2
-> +argument already has a restriction set.
-> +.TP
->  .B EFAULT
->  .I operation
->  was
-> @@ -1776,6 +1844,14 @@ pointed by
->  .I arg5
->  argument hasn't been found.
->  .TP
-> +.B ENOENT
-> +.I operation
-> +was
-> +.B KEYCTL_RESTRICT_KEYRING
-> +and the type provided in
-> +.I arg3
-> +argument doesn't support setting key linking restrictions.
-> +.TP
->  .B ENOKEY
->  No matching key was found or an invalid key was specified.
->  .TP
-> @@ -1808,6 +1884,17 @@ was
->  .B KEYCTL_UPDATE
->  and the key type does not support updating.
->  .TP
-> +.B EOPNOTSUPP
-> +.I operation
-> +was
-> +.BR KEYCTL_RESTRICT_KEYRING ,
-> +the type provided in
-> +.I arg3
-> +argument was "asymmetric", and the key specified in the restriction specification
-> +provided in
-> +.I arg4
-> +has type other than "asymmetric" or "keyring".
-> +.TP
->  .B EPERM
->  .I operation
->  was
-> 
 
 
 -- 
