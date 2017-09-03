@@ -1,44 +1,167 @@
 From: "Michael Kerrisk (man-pages)" <mtk.manpages-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org>
-Subject: Re: [RFC PATCH 4/5] keyctl.2: document the ability to provide KDF
- parameters in KEYCTL_DH_COMPUTE
-Date: Sun, 3 Sep 2017 13:17:25 +0200
-Message-ID: <CAKgNAkhaBpcuws+EHzZT6R+PZ1xC8Vp4vxKPCWXE6TsMiq-bRQ@mail.gmail.com>
-References: <20170831155836.GA5257@asgard.redhat.com> <1638688.g8nhH00jlV@tauon.chronox.de>
- <CACGkJdveSTUSYXEWzRCAXPF1nwhbtUeH2LsaoYpDGJ_FfyesTQ@mail.gmail.com>
- <3012446.sSctSvPOAs@tauon.chronox.de> <CACGkJduHdKeJApsmCP-GC0BhvyqHn49EztZZxGY5LOdTwRMYtg@mail.gmail.com>
- <82a9a90c-86b9-9c90-f873-c679b9f77791@gmail.com> <CACGkJdtNaU8t1_9nm-MnEq850jV1hHKEwpKY2ud+XNAdG1ejhQ@mail.gmail.com>
-Reply-To: mtk.manpages-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org
+Subject: Re: [PATCH v2 5/6] keyctl.2: document KEYCTL_RESTRICT_KEYRING
+ operation
+Date: Sun, 3 Sep 2017 13:29:18 +0200
+Message-ID: <ddd34b77-c433-971f-08d3-bd6f699012a6@gmail.com>
+References: <20170902044026.GA7710@asgard.redhat.com>
 Mime-Version: 1.0
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+Content-Type: text/plain; charset=utf-8
+Content-Transfer-Encoding: 7bit
 Return-path: <linux-man-owner-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>
-In-Reply-To: <CACGkJdtNaU8t1_9nm-MnEq850jV1hHKEwpKY2ud+XNAdG1ejhQ-JsoAwUIsXosN+BqQ9rBEUg@public.gmane.org>
+In-Reply-To: <20170902044026.GA7710-ZbobWygYI+YXGNroddHbYwC/G2K4zDHf@public.gmane.org>
+Content-Language: en-US
 Sender: linux-man-owner-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
 To: Eugene Syromyatnikov <evgsyr-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org>
-Cc: Stephan Mueller <smueller-T9tCv8IpfcWELgA04lAiVw@public.gmane.org>, linux-man <linux-man-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>, David Howells <dhowells-H+wXaHxf7aLQT0dZR+AlfA@public.gmane.org>, Mat Martineau <mathew.j.martineau-VuQAYsv1563Yd54FQh9/CA@public.gmane.org>, keyrings-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
+Cc: mtk.manpages-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org, linux-man-u79uwXL29TY76Z2rM5mHXA@public.gmane.org, David Howells <dhowells-H+wXaHxf7aLQT0dZR+AlfA@public.gmane.org>, Mat Martineau <mathew.j.martineau-VuQAYsv1563Yd54FQh9/CA@public.gmane.org>, Stephan Mueller <smueller-T9tCv8IpfcWELgA04lAiVw@public.gmane.org>, keyrings-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
 List-Id: linux-man@vger.kernel.org
 
 Hi Eugene,
 
-On 3 September 2017 at 03:41, Eugene Syromyatnikov <evgsyr-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org> wrote=
-:
-> On Sun, Sep 3, 2017 at 2:43 AM, Michael Kerrisk (man-pages)
-> <mtk.manpages-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org> wrote:
+On 09/02/2017 06:40 AM, Eugene Syromyatnikov wrote:
+> ---
+>  man2/keyctl.2 | 87 +++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
+>  1 file changed, 87 insertions(+)
 
-[...]
+Thanks!
 
->> So, should I expect a new version of this patch?
-> Well, this change is incorporated in v2=E2=80=94I decided just to mention=
- that
-> in case syscall failed due to exceed in hashname size, syscall fails
-> with EINVAL (and no with ENOENT, for example, when no algorithm with
-> the provided name found):
+I've applied this patch, and tweaked the text a little. I'd be happy if you
+would double-check the result.
 
-Ahhh -- yes, sorry. I confused the patch series.
-
-Cheers,
+Thanks,
 
 Michael
+
+
+> diff --git a/man2/keyctl.2 b/man2/keyctl.2
+> index 28d15a3..bbd85ce 100644
+> --- a/man2/keyctl.2
+> +++ b/man2/keyctl.2
+> @@ -1537,6 +1537,60 @@ and should contain zeroes since Linux 4.13.
+>  .IP
+>  The KDF implementation complies with SP800-56A as well
+>  as with SP800-108 (the counter KDF).
+> +.TP
+> +.BR KEYCTL_RESTRICT_KEYRING " (since Linux 4.12)"
+> +.\" commit 6563c91fd645556c7801748f15bc727c77fcd311
+> +.\" commit 7228b66aaf723a623e578aa4db7d083bb39546c9
+> +Apply a key linking restriction to a keyring with the ID provided in
+> +.IR arg2 .
+> +(cast to
+> +.IR key_serial_t ).
+> +The caller must have
+> +.IR setattr
+> +permission on the key.
+> +If
+> +.I arg3
+> +is NULL, any attempt to add a key to the keyring is blocked;
+> +otherwise it contains a pointer to a string with a key type name and
+> +.I arg4
+> +contains a pointer to string that describes the type-specific restriction.
+> +As of Linux 4.12, only type "asymmetric" has the restrictions defined:
+> +.RS
+> +.TP
+> +.B builtin_trusted
+> +Allows only keys that are signed by a key linked to the builtin keyring
+> +(".builtin_trusted_keys").
+> +.TP
+> +.B builtin_and_secondary_trusted
+> +Allows only keys that are signed by a key linked to the secondary keyring
+> +(".secondary_trusted_keys") or, by extension, a key in builtin keyring,
+> +as the latter is linked to the former.
+> +.TP
+> +.BI key_or_keyring: key
+> +.TQ
+> +.BI key_or_keyring: key :chain
+> +If
+> +.I key
+> +specifies ID of a key of type "asymmetric", then only keys that are signed
+> +by this key are allowed.
+> +.IP
+> +If
+> +.I key
+> +specifies ID of a keyring, then only keys that are signed by a key linked
+> +to this keyring are allowed.
+> +.IP
+> +If ":chain" is specified, keys that are signed by a keys linked to the
+> +destination keyring (that is, the keyring with ID specified in the
+> +.I arg2
+> +argument) are also allowed.
+> +.RE
+> +.IP
+> +Note that a restriction can be configured only once for the specific keyring;
+> +once it is set, it can't be overridden.
+> +.IP
+> +The argument
+> +.I arg5
+> +is ignored.
+>  .SH RETURN VALUE
+>  For a successful call, the return value depends on the operation:
+>  .TP
+> @@ -1604,10 +1658,24 @@ was
+>  .BR KEYCTL_LINK
+>  and the requested link would result in a cycle.
+>  .TP
+> +.B EDEADLK
+> +.I operation
+> +was
+> +.BR KEYCTL_RESTRICT_KEYRING
+> +and the requested keyring restriction would result in a cycle.
+> +.TP
+>  .B EDQUOT
+>  The key quota for the caller's user would be exceeded by creating a key or
+>  linking it to the keyring.
+>  .TP
+> +.B EEXIST
+> +.I operation
+> +was
+> +.BR KEYCTL_RESTRICT_KEYRING
+> +and keyring provided in
+> +.I arg2
+> +argument already has a restriction set.
+> +.TP
+>  .B EFAULT
+>  .I operation
+>  was
+> @@ -1776,6 +1844,14 @@ pointed by
+>  .I arg5
+>  argument hasn't been found.
+>  .TP
+> +.B ENOENT
+> +.I operation
+> +was
+> +.B KEYCTL_RESTRICT_KEYRING
+> +and the type provided in
+> +.I arg3
+> +argument doesn't support setting key linking restrictions.
+> +.TP
+>  .B ENOKEY
+>  No matching key was found or an invalid key was specified.
+>  .TP
+> @@ -1808,6 +1884,17 @@ was
+>  .B KEYCTL_UPDATE
+>  and the key type does not support updating.
+>  .TP
+> +.B EOPNOTSUPP
+> +.I operation
+> +was
+> +.BR KEYCTL_RESTRICT_KEYRING ,
+> +the type provided in
+> +.I arg3
+> +argument was "asymmetric", and the key specified in the restriction specification
+> +provided in
+> +.I arg4
+> +has type other than "asymmetric" or "keyring".
+> +.TP
+>  .B EPERM
+>  .I operation
+>  was
+> 
+
+
+-- 
+Michael Kerrisk
+Linux man-pages maintainer; http://www.kernel.org/doc/man-pages/
+Linux/UNIX System Programming Training: http://man7.org/training/
 --
 To unsubscribe from this list: send the line "unsubscribe linux-man" in
 the body of a message to majordomo-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
