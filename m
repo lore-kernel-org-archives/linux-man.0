@@ -1,46 +1,33 @@
 From: Konstantin Shemyak <konstantin-gSWgoXPz5bhBDgjK7y7TUQ@public.gmane.org>
-Subject: [PATCH 4/4] crypt.3: Added description of previously undocumented 'rounds' parameter
-Date: Sun,  3 Sep 2017 19:16:36 +0300
-Message-ID: <1504455396-760-5-git-send-email-konstantin@shemyak.com>
-References: <1504455396-760-1-git-send-email-konstantin@shemyak.com>
+Subject: [PATCH 0/4] crypt.3: documented "rounds" parameter for SHA-* algorithms
+Date: Sun,  3 Sep 2017 19:16:32 +0300
+Message-ID: <1504455396-760-1-git-send-email-konstantin@shemyak.com>
 Return-path: <linux-man-owner-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>
-In-Reply-To: <1504455396-760-1-git-send-email-konstantin-gSWgoXPz5bhBDgjK7y7TUQ@public.gmane.org>
 Sender: linux-man-owner-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
 To: mtk.manpages-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org
 Cc: linux-man-u79uwXL29TY76Z2rM5mHXA@public.gmane.org, Konstantin Shemyak <konstantin-gSWgoXPz5bhBDgjK7y7TUQ@public.gmane.org>
 List-Id: linux-man@vger.kernel.org
 
-Signed-off-by: Konstantin Shemyak <konstantin-gSWgoXPz5bhBDgjK7y7TUQ@public.gmane.org>
----
- man3/crypt.3 | 15 +++++++++++++++
- 1 file changed, 15 insertions(+)
+SHA-256 and SHA-512 based encryption algorithms support passing number of hashing rounds in the salt string, like:
 
-diff --git a/man3/crypt.3 b/man3/crypt.3
-index 375ef93..b9cf973 100644
---- a/man3/crypt.3
-+++ b/man3/crypt.3
-@@ -249,6 +249,21 @@ In the MD5 and SHA implementations the entire
- .I key
- is significant (instead of only the first
- 8 bytes in DES).
-+.PP
-+SHA-256 and SHA-512 implementations support user-supplied number of
-+hashing rounds, defaulting to 5000.
-+If the "$\fIid\fP$" characters in the salt are
-+followed by "rounds=\fIxxx\fP$" and \fIxxx\fP is an integer, then the
-+result has the form
-+.RS
-+.PP
-+$\fIid\fP$\fIrounds=yyy\fP$\fIsalt\fP$\fIencrypted\fP
-+.PP
-+.RE
-+where \fIyyy\fP is the actual number of hashing rounds used.
-+This actual number is 1000 if the supplied number is less than 1000,
-+999999999 if the supplied number is greater than 999999999, and
-+equal to the supplied number otherwise.
- .SH SEE ALSO
- .BR login (1),
- .BR passwd (1),
+crypt("password", "$5$rounds=100000$saltsaltsalt")
+
+This was present since introduction of SHA-*-based algorithms in the glibc commit c3266dc0d85ed519ff40d1738aadf7b1280af3ba.
+
+The parameter is explained. Minor wording and formatting fixes done.
+
+Konstantin Shemyak (4):
+  crypt.3: wfix: encryption is not done with SHA-xxx, but with a
+    function based on SHA-xxx.
+  crypt.3: ffix: added missing formatting
+  crypt.3: wfix: clarified that ending of the salt string with '$' is
+    optional
+  crypt.3: Added description of previously undocumented 'rounds'
+    parameter
+
+ man3/crypt.3 | 30 +++++++++++++++++++++++-------
+ 1 file changed, 23 insertions(+), 7 deletions(-)
+
 -- 
 2.7.4
 
