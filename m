@@ -1,7 +1,7 @@
 From: Konstantin Shemyak <konstantin-gSWgoXPz5bhBDgjK7y7TUQ@public.gmane.org>
-Subject: [PATCH 2/4] crypt.3: ffix: added missing formatting
-Date: Sun,  3 Sep 2017 19:16:34 +0300
-Message-ID: <1504455396-760-3-git-send-email-konstantin@shemyak.com>
+Subject: [PATCH 4/4] crypt.3: Added description of previously undocumented 'rounds' parameter
+Date: Sun,  3 Sep 2017 19:16:36 +0300
+Message-ID: <1504455396-760-5-git-send-email-konstantin@shemyak.com>
 References: <1504455396-760-1-git-send-email-konstantin@shemyak.com>
 Return-path: <linux-man-owner-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>
 In-Reply-To: <1504455396-760-1-git-send-email-konstantin-gSWgoXPz5bhBDgjK7y7TUQ@public.gmane.org>
@@ -12,23 +12,35 @@ List-Id: linux-man@vger.kernel.org
 
 Signed-off-by: Konstantin Shemyak <konstantin-gSWgoXPz5bhBDgjK7y7TUQ@public.gmane.org>
 ---
- man3/crypt.3 | 3 ++-
- 1 file changed, 2 insertions(+), 1 deletion(-)
+ man3/crypt.3 | 15 +++++++++++++++
+ 1 file changed, 15 insertions(+)
 
 diff --git a/man3/crypt.3 b/man3/crypt.3
-index 749a636..1bd8509 100644
+index 375ef93..b9cf973 100644
 --- a/man3/crypt.3
 +++ b/man3/crypt.3
-@@ -233,7 +233,8 @@ based on SHA-256 and SHA-512.
- .PP
- "\fIsalt\fP" stands for the up to 16 characters
- following "$\fIid\fP$" in the salt.
--The encrypted part of the password string is the actual computed password.
-+The "\fIencrypted\fP"
-+part of the password string is the actual computed password.
- The size of this string is fixed:
- .TS
- l l.
+@@ -249,6 +249,21 @@ In the MD5 and SHA implementations the entire
+ .I key
+ is significant (instead of only the first
+ 8 bytes in DES).
++.PP
++SHA-256 and SHA-512 implementations support user-supplied number of
++hashing rounds, defaulting to 5000.
++If the "$\fIid\fP$" characters in the salt are
++followed by "rounds=\fIxxx\fP$" and \fIxxx\fP is an integer, then the
++result has the form
++.RS
++.PP
++$\fIid\fP$\fIrounds=yyy\fP$\fIsalt\fP$\fIencrypted\fP
++.PP
++.RE
++where \fIyyy\fP is the actual number of hashing rounds used.
++This actual number is 1000 if the supplied number is less than 1000,
++999999999 if the supplied number is greater than 999999999, and
++equal to the supplied number otherwise.
+ .SH SEE ALSO
+ .BR login (1),
+ .BR passwd (1),
 -- 
 2.7.4
 
