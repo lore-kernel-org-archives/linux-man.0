@@ -1,27 +1,26 @@
 From: "Michael Kerrisk (man-pages)" <mtk.manpages-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org>
-Subject: Re: [PATCH 3/3] proc.5: add description for softirq line in
- /proc/stat
-Date: Sun, 3 Sep 2017 02:12:41 +0200
-Message-ID: <d18e9194-0e1d-d30d-a904-6050a0abead9@gmail.com>
-References: <20170902135856.GA27895@asgard.redhat.com>
+Subject: Re: [PATCH v2 1/6] keyctl.2: change "is" to "was" in error
+ descriptions
+Date: Sun, 3 Sep 2017 02:14:32 +0200
+Message-ID: <875faf26-5b3e-6afd-3c82-822be382efce@gmail.com>
+References: <20170902044003.GA7303@asgard.redhat.com>
 Mime-Version: 1.0
 Content-Type: text/plain; charset=utf-8
 Content-Transfer-Encoding: 7bit
 Return-path: <linux-man-owner-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>
-In-Reply-To: <20170902135856.GA27895-ZbobWygYI+YXGNroddHbYwC/G2K4zDHf@public.gmane.org>
+In-Reply-To: <20170902044003.GA7303-ZbobWygYI+YXGNroddHbYwC/G2K4zDHf@public.gmane.org>
 Content-Language: en-US
 Sender: linux-man-owner-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
 To: Eugene Syromyatnikov <evgsyr-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org>
-Cc: mtk.manpages-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org, linux-man-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
+Cc: mtk.manpages-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org, linux-man-u79uwXL29TY76Z2rM5mHXA@public.gmane.org, David Howells <dhowells-H+wXaHxf7aLQT0dZR+AlfA@public.gmane.org>, Mat Martineau <mathew.j.martineau-VuQAYsv1563Yd54FQh9/CA@public.gmane.org>, Stephan Mueller <smueller-T9tCv8IpfcWELgA04lAiVw@public.gmane.org>, keyrings-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
 List-Id: linux-man@vger.kernel.org
 
-On 09/02/2017 03:58 PM, Eugene Syromyatnikov wrote:
-> ---
->  man5/proc.5 | 7 +++++++
->  1 file changed, 7 insertions(+)
+Hi Eugene,
 
+On 09/02/2017 06:40 AM, Eugene Syromyatnikov wrote:
+> Since half of items used "was" and another half used "is".
 
-Thanks, Eugene! Applied
+Yes, that makes sense. Applied
 
 Cheers,
 
@@ -29,24 +28,67 @@ Michael
 
 
 
-> diff --git a/man5/proc.5 b/man5/proc.5
-> index 077bde2..d308b32 100644
-> --- a/man5/proc.5
-> +++ b/man5/proc.5
-> @@ -3815,6 +3815,13 @@ Number of processes in runnable state.
->  \fIprocs_blocked 2\fP
->  Number of processes blocked waiting for I/O to complete.
->  (Linux 2.5.45 onward.)
-> +.TP
-> +.I softirq 229245889 94 60001584 13619 5175704 2471304 28 51212741 59130143 0 51240672
-> +.\" commit d3d64df21d3d0de675a0d3ffa7c10514f3644b30
-> +This line shows the number of softirq for all CPUs.
-> +The first column is the total of all softirqs and
-> +each subsequent column is the total for particular softirq.
-> +(since Linux 2.6.31)
->  .RE
+> ---
+>  man2/keyctl.2 | 12 ++++++------
+>  1 file changed, 6 insertions(+), 6 deletions(-)
+> 
+> diff --git a/man2/keyctl.2 b/man2/keyctl.2
+> index 63109f9..3469947 100644
+> --- a/man2/keyctl.2
+> +++ b/man2/keyctl.2
+> @@ -1537,7 +1537,7 @@ The requested operation wasn't permitted.
 >  .TP
->  .I /proc/swaps
+>  .B EDEADLK
+>  .I operation
+> -is
+> +was
+>  .BR KEYCTL_LINK
+>  and the requested link would result in a cycle.
+>  .TP
+> @@ -1585,14 +1585,14 @@ A revoked key was found or specified.
+>  .TP
+>  .B ELOOP
+>  .I operation
+> -is
+> +was
+>  .BR KEYCTL_LINK
+>  and the requested link would cause the maximum nesting depth
+>  for keyrings to be exceeded.
+>  .TP
+>  .BR ENFILE " (Linux kernels before 3.13)"
+>  .IR operation
+> -is
+> +was
+>  .BR KEYCTL_LINK
+>  and the keyring is full.
+>  (Before Linux 3.13,
+> @@ -1602,7 +1602,7 @@ a single page of memory; since Linux 3.13, there is no fixed limit.)
+>  .TP
+>  .B ENOENT
+>  .I operation
+> -is
+> +was
+>  .B KEYCTL_UNLINK
+>  and the key to be unlinked isn't linked to the keyring.
+>  .TP
+> @@ -1626,7 +1626,7 @@ a different type was provided.
+>  .TP
+>  .B EOPNOTSUPP
+>  .I operation
+> -is
+> +was
+>  .B KEYCTL_READ
+>  and the key type does not support reading
+>  (e.g., the type is
+> @@ -1634,7 +1634,7 @@ and the key type does not support reading
+>  .TP
+>  .B EOPNOTSUPP
+>  .I operation
+> -is
+> +was
+>  .B KEYCTL_UPDATE
+>  and the key type does not support updating.
+>  .TP
 > 
 
 
