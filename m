@@ -1,84 +1,40 @@
-From: "Michael Kerrisk (man-pages)" <mtk.manpages-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org>
-Subject: Re: [PATCH 4/4] crypt.3: Added description of previously undocumented
- 'rounds' parameter
-Date: Mon, 4 Sep 2017 01:43:51 +0200
-Message-ID: <40dd8935-bd18-8705-55ea-0c04036667d8@gmail.com>
+From: Konstantin Shemyak <konstantin-gSWgoXPz5bhBDgjK7y7TUQ@public.gmane.org>
+Subject: [PATCH 1/4] crypt.3: wfix: encryption is not done with SHA-xxx, but with a function based on SHA-xxx.
+Date: Sun,  3 Sep 2017 19:16:33 +0300
+Message-ID: <1504455396-760-2-git-send-email-konstantin@shemyak.com>
 References: <1504455396-760-1-git-send-email-konstantin@shemyak.com>
- <1504455396-760-5-git-send-email-konstantin@shemyak.com>
-Mime-Version: 1.0
-Content-Type: text/plain; charset=utf-8
-Content-Transfer-Encoding: 7bit
 Return-path: <linux-man-owner-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>
-In-Reply-To: <1504455396-760-5-git-send-email-konstantin-gSWgoXPz5bhBDgjK7y7TUQ@public.gmane.org>
-Content-Language: en-US
+In-Reply-To: <1504455396-760-1-git-send-email-konstantin-gSWgoXPz5bhBDgjK7y7TUQ@public.gmane.org>
 Sender: linux-man-owner-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
-To: Konstantin Shemyak <konstantin-gSWgoXPz5bhBDgjK7y7TUQ@public.gmane.org>
-Cc: mtk.manpages-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org, linux-man-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
+To: mtk.manpages-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org
+Cc: linux-man-u79uwXL29TY76Z2rM5mHXA@public.gmane.org, Konstantin Shemyak <konstantin-gSWgoXPz5bhBDgjK7y7TUQ@public.gmane.org>
 List-Id: linux-man@vger.kernel.org
 
-Hi Konstantin
+Signed-off-by: Konstantin Shemyak <konstantin-gSWgoXPz5bhBDgjK7y7TUQ@public.gmane.org>
+---
+ man3/crypt.3 | 6 +++---
+ 1 file changed, 3 insertions(+), 3 deletions(-)
 
-On 09/03/2017 06:16 PM, Konstantin Shemyak wrote:
-> Signed-off-by: Konstantin Shemyak <konstantin-gSWgoXPz5bhBDgjK7y7TUQ@public.gmane.org>
-
-So, this man page change should mention the glibc version where this
-parameter was introduced. It looks like glibc 2.7. Can you confirm
-and update the patch?
-
-Also, in the commit message, it would be good to note how the various
-details were discovered/can be verified from source code. For example,
-mention the following from crypt/sha512-crypt.c:
-
-/* Default number of rounds if not explicitly specified.  */
-#define ROUNDS_DEFAULT 5000
-/* Minimum number of rounds.  */
-#define ROUNDS_MIN 1000
-/* Maximum number of rounds.  */
-#define ROUNDS_MAX 999999999
-
-> ---
->  man3/crypt.3 | 15 +++++++++++++++
->  1 file changed, 15 insertions(+)
-> 
-> diff --git a/man3/crypt.3 b/man3/crypt.3
-> index 375ef93..b9cf973 100644
-> --- a/man3/crypt.3
-> +++ b/man3/crypt.3
-> @@ -249,6 +249,21 @@ In the MD5 and SHA implementations the entire
->  .I key
->  is significant (instead of only the first
->  8 bytes in DES).
-> +.PP
-> +SHA-256 and SHA-512 implementations support user-supplied number of
-> +hashing rounds, defaulting to 5000.
-> +If the "$\fIid\fP$" characters in the salt are
-> +followed by "rounds=\fIxxx\fP$" and \fIxxx\fP is an integer, then the
-> +result has the form
-> +.RS
-> +.PP
-> +$\fIid\fP$\fIrounds=yyy\fP$\fIsalt\fP$\fIencrypted\fP
-> +.PP
-> +.RE
-> +where \fIyyy\fP is the actual number of hashing rounds used.
-> +This actual number is 1000 if the supplied number is less than 1000,
-
-Change first part to" The number actually used is 1000..."
-
-> +999999999 if the supplied number is greater than 999999999, and
-> +equal to the supplied number otherwise.
->  .SH SEE ALSO
->  .BR login (1),
->  .BR passwd (1),
-
-Thanks,
-
-Michael
-
-
+diff --git a/man3/crypt.3 b/man3/crypt.3
+index 9edd63a..749a636 100644
+--- a/man3/crypt.3
++++ b/man3/crypt.3
+@@ -227,9 +227,9 @@ _
+ .TE
+ .RE
+ .PP
+-So $5$\fIsalt\fP$\fIencrypted\fP is an SHA-256 encoded
+-password and $6$\fIsalt\fP$\fIencrypted\fP is an
+-SHA-512 encoded one.
++So $5$\fIsalt\fP$\fIencrypted\fP and $6$\fIsalt\fP$\fIencrypted\fP
++contain the password encrypted correspondingly with a function
++based on SHA-256 and SHA-512.
+ .PP
+ "\fIsalt\fP" stands for the up to 16 characters
+ following "$\fIid\fP$" in the salt.
 -- 
-Michael Kerrisk
-Linux man-pages maintainer; http://www.kernel.org/doc/man-pages/
-Linux/UNIX System Programming Training: http://man7.org/training/
+2.7.4
+
 --
 To unsubscribe from this list: send the line "unsubscribe linux-man" in
 the body of a message to majordomo-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
