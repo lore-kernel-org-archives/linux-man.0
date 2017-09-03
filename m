@@ -1,7 +1,7 @@
 From: Konstantin Shemyak <konstantin-gSWgoXPz5bhBDgjK7y7TUQ@public.gmane.org>
-Subject: [PATCH 1/4] crypt.3: wfix: encryption is not done with SHA-xxx, but with a function based on SHA-xxx.
-Date: Sun,  3 Sep 2017 19:16:33 +0300
-Message-ID: <1504455396-760-2-git-send-email-konstantin@shemyak.com>
+Subject: [PATCH 2/4] crypt.3: ffix: added missing formatting
+Date: Sun,  3 Sep 2017 19:16:34 +0300
+Message-ID: <1504455396-760-3-git-send-email-konstantin@shemyak.com>
 References: <1504455396-760-1-git-send-email-konstantin@shemyak.com>
 Return-path: <linux-man-owner-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>
 In-Reply-To: <1504455396-760-1-git-send-email-konstantin-gSWgoXPz5bhBDgjK7y7TUQ@public.gmane.org>
@@ -12,26 +12,23 @@ List-Id: linux-man@vger.kernel.org
 
 Signed-off-by: Konstantin Shemyak <konstantin-gSWgoXPz5bhBDgjK7y7TUQ@public.gmane.org>
 ---
- man3/crypt.3 | 6 +++---
- 1 file changed, 3 insertions(+), 3 deletions(-)
+ man3/crypt.3 | 3 ++-
+ 1 file changed, 2 insertions(+), 1 deletion(-)
 
 diff --git a/man3/crypt.3 b/man3/crypt.3
-index 9edd63a..749a636 100644
+index 749a636..1bd8509 100644
 --- a/man3/crypt.3
 +++ b/man3/crypt.3
-@@ -227,9 +227,9 @@ _
- .TE
- .RE
- .PP
--So $5$\fIsalt\fP$\fIencrypted\fP is an SHA-256 encoded
--password and $6$\fIsalt\fP$\fIencrypted\fP is an
--SHA-512 encoded one.
-+So $5$\fIsalt\fP$\fIencrypted\fP and $6$\fIsalt\fP$\fIencrypted\fP
-+contain the password encrypted correspondingly with a function
-+based on SHA-256 and SHA-512.
+@@ -233,7 +233,8 @@ based on SHA-256 and SHA-512.
  .PP
  "\fIsalt\fP" stands for the up to 16 characters
  following "$\fIid\fP$" in the salt.
+-The encrypted part of the password string is the actual computed password.
++The "\fIencrypted\fP"
++part of the password string is the actual computed password.
+ The size of this string is fixed:
+ .TS
+ l l.
 -- 
 2.7.4
 
