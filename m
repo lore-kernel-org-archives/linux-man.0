@@ -1,67 +1,88 @@
 From: "Michael Kerrisk (man-pages)" <mtk.manpages-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org>
-Subject: Re: [PATCH v2 2/3] crypt.3: clarified that ending of the salt string
- with '$' is optional
-Date: Tue, 5 Sep 2017 20:16:27 +0200
-Message-ID: <69244957-d1ac-5ce3-86da-d2acd1c5392f@gmail.com>
+Subject: Re: [PATCH v2 3/3] crypt.3: added description of previously
+ undocumented 'rounds' parameter
+Date: Tue, 5 Sep 2017 20:18:18 +0200
+Message-ID: <35337a4a-ac45-f66a-7476-1732c45ffd6a@gmail.com>
 References: <1504551233-26383-1-git-send-email-konstantin@shemyak.com>
- <1504551233-26383-3-git-send-email-konstantin@shemyak.com>
+ <1504551233-26383-4-git-send-email-konstantin@shemyak.com>
 Mime-Version: 1.0
 Content-Type: text/plain; charset=utf-8
 Content-Transfer-Encoding: 7bit
 Return-path: <linux-man-owner-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>
-In-Reply-To: <1504551233-26383-3-git-send-email-konstantin-gSWgoXPz5bhBDgjK7y7TUQ@public.gmane.org>
+In-Reply-To: <1504551233-26383-4-git-send-email-konstantin-gSWgoXPz5bhBDgjK7y7TUQ@public.gmane.org>
 Content-Language: en-US
 Sender: linux-man-owner-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
 To: Konstantin Shemyak <konstantin-gSWgoXPz5bhBDgjK7y7TUQ@public.gmane.org>
 Cc: mtk.manpages-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org, linux-man-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
 List-Id: linux-man@vger.kernel.org
 
-On 09/04/2017 08:53 PM, Konstantin Shemyak wrote:
-> In crypt/sha512-crypt.c::__sha512_crypt_r() and the similar sha256 function,
-> the length of the actually used salt is calculated as:
-> 
->   salt_len = MIN (strcspn (salt, "$"), SALT_LEN_MAX);
-> 
-> Thus the trailing '$' is optional in the salt string. One can check that
-> crypt("key", "$5$salt")
-> yields the same result as
-> crypt("key", "$5$salt$").
+Hi Konstantin,
 
-Thanks, Konstantin. Applied.
+On 09/04/2017 08:53 PM, Konstantin Shemyak wrote:
+> Files crypt/sha{256,512}-crypt.c in the glibc source define macros:
+> 
+> /* Default number of rounds if not explicitly specified.  */
+> #define ROUNDS_DEFAULT 5000
+> /* Minimum number of rounds.  */
+> #define ROUNDS_MIN 1000
+> /* Maximum number of rounds.  */
+> #define ROUNDS_MAX 999999999
+> 
+> And the main encryption function __sha512_crypt_r() sets:
+> 
+> rounds = MAX (ROUNDS_MIN, MIN (srounds, ROUNDS_MAX));
+> 
+> One can check that for example
+> 
+> crypt("key", "$5$rounds=1$salt")
+> 
+> returns string
+> 
+> $5$rounds=1000$salt$PWLKU7MTJ0s5M/mjBPcqnMsorm3qKyoBctxmZ1mNwn2
+
+Thanks for all of the detail. I've applied the patch.
+
+> This parameter has been introduced in glibc 2.7.
+
+This detail should also be in the text. I've added it.
 
 Cheers,
 
 Michael
 
 
+> 
 > Signed-off-by: Konstantin Shemyak <konstantin-gSWgoXPz5bhBDgjK7y7TUQ@public.gmane.org>
 > ---
->  man3/crypt.3 | 6 +++---
->  1 file changed, 3 insertions(+), 3 deletions(-)
+>  man3/crypt.3 | 15 +++++++++++++++
+>  1 file changed, 15 insertions(+)
 > 
 > diff --git a/man3/crypt.3 b/man3/crypt.3
-> index 749a636..58fd33f 100644
+> index 58fd33f..bfdac22 100644
 > --- a/man3/crypt.3
 > +++ b/man3/crypt.3
-> @@ -195,15 +195,15 @@ encryption algorithms.
->  If
->  .I salt
->  is a character string starting with the characters "$\fIid\fP$"
-> -followed by a string terminated by "$":
-> +followed by a string optionally terminated by "$",
-> +then the result has the form:
->  .RS
->  .PP
->  $\fIid\fP$\fIsalt\fP$\fIencrypted\fP
->  .PP
->  .RE
-> -then instead of using the DES machine,
->  .I id
-> -identifies the encryption method used and this then determines how the rest
-> +identifies the encryption method used instead of DES and this then determines how the rest
->  of the password string is interpreted.
->  The following values of
->  .I id
+> @@ -248,6 +248,21 @@ In the MD5 and SHA implementations the entire
+>  .I key
+>  is significant (instead of only the first
+>  8 bytes in DES).
+> +.PP
+> +SHA-256 and SHA-512 implementations support user-supplied number of
+> +hashing rounds, defaulting to 5000.
+> +If the "$\fIid\fP$" characters in the salt are
+> +followed by "rounds=\fIxxx\fP$" and \fIxxx\fP is an integer, then the
+> +result has the form
+> +.RS
+> +.PP
+> +$\fIid\fP$\fIrounds=yyy\fP$\fIsalt\fP$\fIencrypted\fP
+> +.PP
+> +.RE
+> +where \fIyyy\fP is the actual number of hashing rounds used.
+> +The number actually used is 1000 if the supplied number is less than
+> +1000, 999999999 if the supplied number is greater than 999999999, and
+> +equal to the supplied number otherwise.
+>  .SH SEE ALSO
+>  .BR login (1),
+>  .BR passwd (1),
 > 
 
 
