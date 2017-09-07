@@ -1,27 +1,37 @@
-From: "=?utf-8?Q?Saif=20Asmat=20Hashim?=" <pbearzotti-/1Rj0zDCqbBfyO9Q7EP/yw@public.gmane.org>
-Subject: =?utf-8?Q?Discussions=20for=20an=20investment=20plan?=
-Date: Thu, 07 Sep 2017 20:16:21 +0800
-Message-ID: <DESKTOP2A6JVMI1f3168b936d6445f8fa5fdb9aabc4407@DESKTOP2A6JVMI>
-Reply-To: saiasmhas-1ViLX0X+lBJBDgjK7y7TUQ@public.gmane.org
-Mime-Version: 1.0
-Content-Type: text/plain; charset=utf-8
-Content-Transfer-Encoding: 8BIT
+From: Sage Weil <sage-H+wXaHxf7aLQT0dZR+AlfA@public.gmane.org>
+Subject: [PATCH] io_submit.2: acknowledge possibility of short return
+Date: Thu,  7 Sep 2017 16:44:28 -0400
+Message-ID: <20170907204428.8344-1-sage@redhat.com>
 Return-path: <linux-man-owner-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>
 Sender: linux-man-owner-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
-To: "linux-man-u79uwXL29TY76Z2rM5mHXA@public.gmane.org" <linux-man-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>
+To: mtk.manpages-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org
+Cc: linux-man-u79uwXL29TY76Z2rM5mHXA@public.gmane.org, Sage Weil <sage-H+wXaHxf7aLQT0dZR+AlfA@public.gmane.org>
 List-Id: linux-man@vger.kernel.org
 
-Hello dear,
+Note that the return value may be a value less than nr
+if not all iocbs were queued at once.  This would have saved
+me an embarrassing amount of time.
 
+Signed-off-by: Sage Weil <sage-H+wXaHxf7aLQT0dZR+AlfA@public.gmane.org>
+---
+ man2/io_submit.2 | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
 
-
-How are you? I know my email may come to you as a surprise but I have contacted you for discussions for an investment plan which I want to be established in your country. I need your urgent response for further discussion on the subject.
-
-
-
-Yours sincerely,
-
-Mr Saif Asmat Hashim
+diff --git a/man2/io_submit.2 b/man2/io_submit.2
+index 36465b64b..77ba34671 100644
+--- a/man2/io_submit.2
++++ b/man2/io_submit.2
+@@ -32,7 +32,7 @@ which will be submitted to context \fIctx_id\fP.
+ On success,
+ .BR io_submit ()
+ returns the number of \fIiocb\fPs submitted (which may be
+-0 if \fInr\fP is zero).
++less than \fInr\fP, or 0 if \fInr\fP is zero).
+ For the failure return, see NOTES.
+ .SH ERRORS
+ .TP
+-- 
+2.13.3
 
 --
 To unsubscribe from this list: send the line "unsubscribe linux-man" in
