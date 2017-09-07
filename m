@@ -1,53 +1,50 @@
-From: "Michael Kerrisk (man-pages)" <mtk.manpages-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org>
-Subject: Re: [PATCH] request_key.2: wfix: /etc/request-keys.conf ->
- /etc/request-key.conf
-Date: Wed, 6 Sep 2017 09:37:14 +0200
-Message-ID: <f15ed895-d06f-fcb2-17b0-422680018f9c@gmail.com>
-References: <1504668568-17246-1-git-send-email-lizhijian@cn.fujitsu.com>
-Mime-Version: 1.0
-Content-Type: text/plain; charset=utf-8
-Content-Transfer-Encoding: 7bit
+From: Vincent Bernat <vincent-5wNQGcxKXm8AvxtiuMwx3w@public.gmane.org>
+Subject: [PATCH] tcp.7: tcp_tw_recycle is removed from Linux 4.12
+Date: Thu,  7 Sep 2017 07:32:43 +0200
+Message-ID: <20170907053243.20052-1-vincent@bernat.im>
 Return-path: <linux-man-owner-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>
-In-Reply-To: <1504668568-17246-1-git-send-email-lizhijian-BthXqXjhjHXQFUHtdCDX3A@public.gmane.org>
-Content-Language: en-US
 Sender: linux-man-owner-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
-To: Li Zhijian <lizhijian-BthXqXjhjHXQFUHtdCDX3A@public.gmane.org>
-Cc: mtk.manpages-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org, linux-man-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
+To: mtk.manpages-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org, linux-man-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
+Cc: Vincent Bernat <vincent-5wNQGcxKXm8AvxtiuMwx3w@public.gmane.org>
 List-Id: linux-man@vger.kernel.org
 
-On 09/06/2017 05:29 AM, Li Zhijian wrote:
-> Signed-off-by: Li Zhijian <lizhijian-BthXqXjhjHXQFUHtdCDX3A@public.gmane.org>
+And it is completely broken.
 
-Thank you, Li Zhijian. Patch applied.
+Signed-off-by: Vincent Bernat <vincent-5wNQGcxKXm8AvxtiuMwx3w@public.gmane.org>
+---
+ man7/tcp.7 | 16 ++++++----------
+ 1 file changed, 6 insertions(+), 10 deletions(-)
 
-Cheers,
-
-Michael
-
-> ---
->  man2/request_key.2 | 2 +-
->  1 file changed, 1 insertion(+), 1 deletion(-)
-> 
-> diff --git a/man2/request_key.2 b/man2/request_key.2
-> index ce987e3..1f998ef 100644
-> --- a/man2/request_key.2
-> +++ b/man2/request_key.2
-> @@ -464,7 +464,7 @@ we first create a suitable entry in the file
->  .EX
->  $ sudo sh
->  # \fBecho 'create user mtk:* *   /bin/keyctl instantiate %k %c %S' \\\fP
-> -          \fB> /etc/request-keys.conf\fP
-> +          \fB> /etc/request-key.conf\fP
->  # \fBexit\fP
->  .EE
->  .in
-> 
-
-
+diff --git a/man7/tcp.7 b/man7/tcp.7
+index 415c7690d5a2..c7d2fcb5362e 100644
+--- a/man7/tcp.7
++++ b/man7/tcp.7
+@@ -864,16 +864,12 @@ can be consumed by a single TCP Segmentation Offload (TSO) frame.
+ The setting of this parameter is a tradeoff between burstiness and
+ building larger TSO frames.
+ .TP
+-.IR tcp_tw_recycle " (Boolean; default: disabled; since Linux 2.4)"
+-.\" Since 2.3.15
+-Enable fast recycling of TIME_WAIT sockets.
+-Enabling this option is
+-not recommended for devices communicating with the general Internet
+-or using NAT (Network Address Translation).
+-Since some NAT gateways
+-pass through IP timestamp values, one IP can appear to have
+-non-increasing timestamps.
+-See RFC 1323 (PAWS), RFC 6191.
++.IR tcp_tw_recycle " (Boolean; default: disabled; Linux 2.4 to 4.12)"
++.\" Since 2.3.15; removed in 4.12; commit 4396e46187ca5070219b81773c4e65088dac50cc
++Enable fast recycling of TIME_WAIT sockets.  Enabling this option is
++not recommended as the remote IP may not use monotonically increasing
++timestamps (devices behind NAT, devices with per-connection timestamp
++offsets).  See RFC 1323 (PAWS), RFC 6191.
+ .\"
+ .\" The following is from 2.6.12: Documentation/networking/ip-sysctl.txt
+ .TP
 -- 
-Michael Kerrisk
-Linux man-pages maintainer; http://www.kernel.org/doc/man-pages/
-Linux/UNIX System Programming Training: http://man7.org/training/
+2.14.1
+
 --
 To unsubscribe from this list: send the line "unsubscribe linux-man" in
 the body of a message to majordomo-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
