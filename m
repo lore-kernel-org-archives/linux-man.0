@@ -1,55 +1,35 @@
-From: "Michael Kerrisk (man-pages)" <mtk.manpages-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org>
-Subject: Re: socket(2) guarantee to return the lowest-available file descriptor
-Date: Wed, 13 Sep 2017 14:40:03 +0200
-Message-ID: <CAKgNAkjiXEEMVTVAudn0PD1v-TsRPWjjCex9uQV9+q=J5HNwbw@mail.gmail.com>
-References: <CAJYFCiNrUL-Z2R2GsXy_rG-iS_hLWEL-y8wdpw65hdw41T0YWQ@mail.gmail.com>
-Reply-To: mtk.manpages-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org
+From: Tej Chajed <tchajed-3s7WtUTddSA@public.gmane.org>
+Subject: [patch] fsync.2: wfix
+Date: Sat, 9 Sep 2017 14:41:01 -0400
+Message-ID: <CAFCzHYbqE17Zoo0TSffgQ3hkZYQaEjVi0cc63s-_UpaZp=7CmA@mail.gmail.com>
 Mime-Version: 1.0
 Content-Type: text/plain; charset="UTF-8"
 Return-path: <linux-man-owner-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>
-In-Reply-To: <CAJYFCiNrUL-Z2R2GsXy_rG-iS_hLWEL-y8wdpw65hdw41T0YWQ-JsoAwUIsXosN+BqQ9rBEUg@public.gmane.org>
 Sender: linux-man-owner-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
-To: Yubin Ruan <ablacktshirt-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org>
-Cc: linux-man <linux-man-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>
+To: mtk.manpages-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org
+Cc: linux-man-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
 List-Id: linux-man@vger.kernel.org
 
-Hello Yubin
+There's some awkward wording in the fsync(2) manpage where a sentence
+switches to past tense for a hypothetical and reads "after the system
+crashed or was rebooted". This is in man-pages version 4.13. Here's a
+proposed fix:
 
-On 11 September 2017 at 04:56, Yubin Ruan <ablacktshirt-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org> wrote:
-> Hi,
-> Is there any guarantee that socket(2) will return the lowest-available
-> file descriptor?
->
-> I note in the man page that open(2) has that guarantee, conforming to
-> POSIX, but nothing about that has been add to socket(2). As socket(2)
-> is said to be conforming to POSIX in the main page, which implies that
-> guarantee, should we add that to the man page?
-
-Yes, I've added the same text to socket(2). Thanks for the report.
-
-Cheers,
-
-Michael
-
-POSIX.1:
-2.14
-File Descriptor Allocation
-All functions that open one or more file descriptors shall, unless
-specified otherwise, atomically
-allocate the lowest numbered available (that is, not already open in
-the calling process) file
-descriptor at the time of each allocation. Where a single function
-allocates two file descriptors
-(for example, pipe( ) or socketpair( )), the allocations may be
-independent and therefore
-applications should not expect them to have adjacent values or depend
-on which has the higher
-value.
-
--- 
-Michael Kerrisk
-Linux man-pages maintainer; http://www.kernel.org/doc/man-pages/
-Linux/UNIX System Programming Training: http://man7.org/training/
+diff --git a/man2/fsync.2 b/man2/fsync.2
+index 8b4bc0019..4fbe2cfc8 100644
+--- a/man2/fsync.2
++++ b/man2/fsync.2
+@@ -66,8 +66,8 @@ transfers ("flushes") all modified in-core data of
+ file referred to by the file descriptor
+ .I fd
+ to the disk device (or other permanent storage device) so that all
+-changed information can be retrieved even after the system crashed or
+-was rebooted.
++changed information can be retrieved even if the system crashes or
++is rebooted.
+ This includes writing through or flushing a disk cache if present.
+ The call blocks until the device reports that the transfer has completed.
+ It also flushes metadata information associated with the file (see
 --
 To unsubscribe from this list: send the line "unsubscribe linux-man" in
 the body of a message to majordomo-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
