@@ -1,8 +1,8 @@
 From: Eugene Syromyatnikov <evgsyr-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org>
-Subject: [PATCH 11/15] proc.5: update reference to kernel's crypto API
+Subject: [PATCH 05/15] unshare.2: update pointer to in-kernel unshare
  documentation
-Date: Mon, 11 Sep 2017 05:04:11 +0200
-Message-ID: <20170911030411.GA30162@asgard.redhat.com>
+Date: Mon, 11 Sep 2017 05:03:58 +0200
+Message-ID: <20170911030358.GA29935@asgard.redhat.com>
 Mime-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Return-path: <linux-man-owner-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>
@@ -12,42 +12,35 @@ To: mtk.manpages-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org
 Cc: linux-man-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
 List-Id: linux-man@vger.kernel.org
 
-DocBook documentation has been removed in commit v4.13-rc1~34^2~21^2~11.
-Crypto API has been converted to ReStructured format during the Linux
-4.10 development cycle (see commits v4.10-rc1~40^2~8 and
-v4.10-rc1~40^2~7).
+Linux commit v4.12-rc1~137^2~33^2 converted unshare documentation
+(previously resided in Documentation/unshare.txt) to ReStructured
+format, along with relocating it to
+Documentation/userspace-api/unshare.rst.
 
-* man5/proc.5 (.SS Files and directories) <.TP .I /proc/crypto>: Amend
-the reference to the kernel's crypto API documentation with the new
-location, effective since Linux 4.10.
+* man2/unshare.2 (.SH SEE ALSO): Amend pointer to
+Documentation/unshare.txt with change introduced in Linux 4.14 (move to
+Documentation/userspace_api/unshare.rst).
 
 Signed-off-by: Eugene Syromyatnikov <evgsyr-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org>
 ---
- man5/proc.5 | 10 +++++++---
- 1 file changed, 7 insertions(+), 3 deletions(-)
+ man2/unshare.2 | 6 +++++-
+ 1 file changed, 5 insertions(+), 1 deletion(-)
 
-diff --git a/man5/proc.5 b/man5/proc.5
-index 82f6ec4..9c62ee2 100644
---- a/man5/proc.5
-+++ b/man5/proc.5
-@@ -2757,10 +2757,14 @@ A list of the ciphers provided by the kernel crypto API.
- For details, see the kernel
- .I "Linux Kernel Crypto API"
- documentation available under the kernel source directory
--.IR Documentation/DocBook .
--(That documentation can be built using a command such as
-+.I Documentation/crypto/
-+.\" commit 3b72c814a8e8cd638e1ba0da4dfce501e9dff5af
+diff --git a/man2/unshare.2 b/man2/unshare.2
+index 8bf6487..9f0afab 100644
+--- a/man2/unshare.2
++++ b/man2/unshare.2
+@@ -489,5 +489,9 @@ main(int argc, char *argv[])
+ .BR vfork (2),
+ .BR namespaces (7)
+ .PP
+-.I Documentation/unshare.txt
++.I Documentation/userspace-api/unshare.rst
+ in the Linux kernel source tree
++.\" commit f504d47be5e8fa7ecf2bf660b18b42e6960c0eb2
 +(or
-+.I Documentation/DocBook
-+before 4.10;
-+the documentation can be built using a command such as
- .IR "make htmldocs"
--in the root directory of the kernel source tree.)
-+in the root directory of the kernel source tree).
- .TP
- .I /proc/cpuinfo
- This is a collection of CPU and system architecture dependent items,
++.I Documentation/unshare.txt
++before Linux 4.12)
 -- 
 2.1.4
 
