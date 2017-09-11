@@ -1,8 +1,7 @@
 From: Eugene Syromyatnikov <evgsyr-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org>
-Subject: [PATCH 4/4] keyctl.2: remove parentheses from the crypto API URL
- description
-Date: Mon, 11 Sep 2017 05:11:14 +0200
-Message-ID: <20170911031114.GA5337@asgard.redhat.com>
+Subject: [PATCH 0/4] Minor changes to keyctl-related files
+Date: Mon, 11 Sep 2017 05:11:04 +0200
+Message-ID: <20170911031104.GA555@asgard.redhat.com>
 Mime-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Return-path: <linux-man-owner-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>
@@ -12,29 +11,23 @@ To: mtk.manpages-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org
 Cc: linux-man-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
 List-Id: linux-man@vger.kernel.org
 
-Those look unnecessary when rendered either as text or HTML.
+Hello.
 
-* man2/keyctl.2 (.SH DESCRIPTION) <.TP .BR KEYCTL_DH_COMPUTE>: Remove
-parentheses around "Kernel Crypto API Architecture".
+While working on documenting asymmetric key type (which, in turn,
+turned into documenting all of the undocumented key types) some minor
+fixes to keyctl/keyrings man pages have been accumulated, so I decided
+to send them earlier (before 4.13 release, at least).
 
-Signed-off-by: Eugene Syromyatnikov <evgsyr-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org>
----
- man2/keyctl.2 | 2 +-
- 1 file changed, 1 insertion(+), 1 deletion(-)
+Eugene Syromyatnikov (4):
+  keyctl.2: remove www.tmac inclusion
+  keyctl.2: mention keyctl_dh_compute/keyctl_dh_compute_alloc
+  keyrings.7: document description restriction for logon keys
+  keyctl.2: remove parentheses from the crypto API URL description
 
-diff --git a/man2/keyctl.2 b/man2/keyctl.2
-index 1975602..8a05087 100644
---- a/man2/keyctl.2
-+++ b/man2/keyctl.2
-@@ -1508,7 +1508,7 @@ field is a null-terminated string which specifies a hash name
- (available in the kernel's crypto API; the list of the hashes available
- is rather tricky to observe; please refer to the
- .UR https://www.kernel.org/doc/html/latest/crypto/architecture.html
--("Kernel Crypto API Architecture")
-+"Kernel Crypto API Architecture"
- .UE
- documentation for the information regarding how hash names are constructed and
- your kernel's source and configuration regarding what ciphers
+ man2/keyctl.2   | 14 ++++++++++++--
+ man7/keyrings.7 |  5 +++++
+ 2 files changed, 17 insertions(+), 2 deletions(-)
+
 -- 
 2.1.4
 
