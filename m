@@ -1,61 +1,115 @@
-From: "Michael Kerrisk (man-opages)" <mtk.manpages-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org>
-Subject: Re: [PATCH 15/15] unicode.7: update pointer to in-kernel Unicode
- terminal support documentation
-Date: Mon, 11 Sep 2017 16:00:22 +0200
-Message-ID: <e3ffc91a-fbc7-c35f-7fe9-354cc58f2134@gmail.com>
-References: <20170911030420.GA30328@asgard.redhat.com>
+From: Don Brace <don.brace@microsemi.com>
+Subject: RE: [man-pages PATCH v2] cciss.4, hpsa.4: mention cciss removal in
+ Linux 4.14
+Date: Mon, 11 Sep 2017 14:04:04 +0000
+Message-ID: <4993A297653ECB4581FA5C3C31323D195BD93DB4@avsrvexchmbx2.microsemi.net>
+References: <20170911124734.GA31941@asgard.redhat.com>
 Mime-Version: 1.0
-Content-Type: text/plain; charset=utf-8; format=flowed
-Content-Transfer-Encoding: 7bit
-Return-path: <linux-man-owner-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>
-In-Reply-To: <20170911030420.GA30328-ZbobWygYI+YXGNroddHbYwC/G2K4zDHf@public.gmane.org>
+Content-Type: text/plain; charset="us-ascii"
+Content-Transfer-Encoding: quoted-printable
+Return-path: <linux-scsi-owner@vger.kernel.org>
+In-Reply-To: <20170911124734.GA31941@asgard.redhat.com>
 Content-Language: en-US
-Sender: linux-man-owner-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
-To: Eugene Syromyatnikov <evgsyr-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org>
-Cc: linux-man-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
+Sender: linux-scsi-owner@vger.kernel.org
+To: Eugene Syromyatnikov <evgsyr@gmail.com>, "mtk.manpages@gmail.com" <mtk.manpages@gmail.com>
+Cc: "linux-man@vger.kernel.org" <linux-man@vger.kernel.org>, Hannes Reinecke <hare@suse.de>, "Martin K. Petersen" <martin.petersen@oracle.com>, Christoph Hellwig <hch@lst.de>, James Bottomley <james.bottomley@hansenpartnership.com>, Meelis Roos <mroos@linux.ee>, "linux-scsi@vger.kernel.org" <linux-scsi@vger.kernel.org>
 List-Id: linux-man@vger.kernel.org
 
-On 09/11/2017 05:04 AM, Eugene Syromyatnikov wrote:
-> The location has been changed in Linux commit v4.10-rc1~40^2~86^2~4.
-
-
-Applied. Thanks!
-
-Cheers,
-
-Michael
-
-
-
-> * man7/unicode.7 (.SS Private Use Areas (PUA)): Amend pointer to
-> Documentation/unicode.txt with change introduced in Linux 4.10
-> (move to Documentation/admin-guide/unicode.rst).
-> 
-> Signed-off-by: Eugene Syromyatnikov <evgsyr-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org>
+> -----Original Message-----
+> From: Eugene Syromyatnikov [mailto:evgsyr@gmail.com]
+> Sent: Monday, September 11, 2017 7:48 AM
+> To: mtk.manpages@gmail.com
+> Cc: linux-man@vger.kernel.org; Hannes Reinecke <hare@suse.de>; Martin
+> K. Petersen <martin.petersen@oracle.com>; Christoph Hellwig
+> <hch@lst.de>; James Bottomley
+> <james.bottomley@hansenpartnership.com>; Don Brace
+> <don.brace@microsemi.com>; Meelis Roos <mroos@linux.ee>; linux-
+> scsi@vger.kernel.org
+> Subject: [man-pages PATCH v2] cciss.4, hpsa.4: mention cciss removal in
+> Linux 4.14
+>=20
+> EXTERNAL EMAIL
+>=20
+>=20
+> During the Linux 4.14 development cycle, cciss driver has been removed
+> in flavor to hpsa driver that has been amended with some legacy board
+> support.
+>=20
+> * man4/cciss.4 (.SH DESCRIPTION): Mention driver removal.
+> * man4/hpsa.4 (.SH DESCRIPTION): Mention list of boards that recognised
+> since Linux 4.14.
+>=20
+> Signed-off-by: Eugene Syromyatnikov <evgsyr@gmail.com>
 > ---
->   man7/unicode.7 | 6 +++++-
->   1 file changed, 5 insertions(+), 1 deletion(-)
-> 
-> diff --git a/man7/unicode.7 b/man7/unicode.7
-> index 934f8ae..a5741ae 100644
-> --- a/man7/unicode.7
-> +++ b/man7/unicode.7
-> @@ -203,8 +203,12 @@ coordinated among all Linux users.
->   The registry of the characters
->   assigned to the Linux zone is maintained by LANANA and the registry
->   itself is
-> +.I Documentation/admin\-guide/unicode.rst
-> +in the Linux kernel sources
-> +.\" commit 9d85025b0418163fae079c9ba8f8445212de8568
-> +(or
->   .I Documentation/unicode.txt
-> -in the Linux kernel sources.
-> +before Linux 4.10).
->   .PP
->   Two other planes are reserved for private usage, plane 15
->   (Supplementary Private Use Area-A, range 0xf0000 to 0xffffd)
-> 
---
-To unsubscribe from this list: send the line "unsubscribe linux-man" in
-the body of a message to majordomo-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
-More majordomo info at  http://vger.kernel.org/majordomo-info.html
+>  man4/cciss.4 |  7 +++++++
+>  man4/hpsa.4  | 26 ++++++++++++++++++++++++++
+>  2 files changed, 33 insertions(+)
+
+Acked-by: Don Brace <don.brace@microsemi.com>
+Nice find.
+Thanks for the patch.
+
+Thanks,
+Don Brace
+ESC - Smart Storage
+Microsemi Corporation
+
+
+>=20
+> diff --git a/man4/cciss.4 b/man4/cciss.4
+> index e6ba93d..4b543ba 100644
+> --- a/man4/cciss.4
+> +++ b/man4/cciss.4
+> @@ -15,6 +15,13 @@ cciss \- HP Smart Array block driver
+>  modprobe cciss [ cciss_allow_hpsa=3D1 ]
+>  .fi
+>  .SH DESCRIPTION
+> +.\" commit 253d2464df446456c0bba5ed4137a7be0b278aa8
+> +.BR Note :
+> +This obsolete driver was removed from the kernel in version 4.14,
+> +as it is superseded by
+> +.BR hpsa (4)
+> +driver in newer kernels.
+> +.PP
+>  .B cciss
+>  is a block driver for older HP Smart Array RAID controllers.
+>  .SS Options
+> diff --git a/man4/hpsa.4 b/man4/hpsa.4
+> index 63000bf..64f4536 100644
+> --- a/man4/hpsa.4
+> +++ b/man4/hpsa.4
+> @@ -52,6 +52,32 @@ driver supports the following Smart Array boards:
+>      Smart Array P711m
+>      StorageWorks P1210m
+>  .fi
+> +.PP
+> +.\" commit 135ae6edeb51979d0998daf1357f149a7d6ebb08
+> +Since Linux 4.14, the following Smart Array boards are also supported:
+> +.PP
+> +.nf
+> +    Smart Array 5300
+> +    Smart Array 5312
+> +    Smart Array 532
+> +    Smart Array 5i
+> +    Smart Array 6400
+> +    Smart Array 6400 EM
+> +    Smart Array 641
+> +    Smart Array 642
+> +    Smart Array 6i
+> +    Smart Array E200
+> +    Smart Array E200i
+> +    Smart Array E200i
+> +    Smart Array E200i
+> +    Smart Array E200i
+> +    Smart Array E500
+> +    Smart Array P400
+> +    Smart Array P400i
+> +    Smart Array P600
+> +    Smart Array P700m
+> +    Smart Array P800
+> +.fi
+>  .SS Configuration details
+>  To configure HP Smart Array controllers,
+>  use the HP Array Configuration Utility (either
+> --
+> 2.1.4
