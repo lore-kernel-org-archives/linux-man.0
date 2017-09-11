@@ -1,8 +1,8 @@
 From: Eugene Syromyatnikov <evgsyr-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org>
-Subject: [PATCH 10/15] proc.5: update pointer to in-kernel security keys
+Subject: [PATCH 03/15] prctl.2: update pointer to in-kernel no_new_privs flag
  documentation
-Date: Mon, 11 Sep 2017 05:04:09 +0200
-Message-ID: <20170911030409.GA30122@asgard.redhat.com>
+Date: Mon, 11 Sep 2017 05:03:54 +0200
+Message-ID: <20170911030354.GA29844@asgard.redhat.com>
 Mime-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Return-path: <linux-man-owner-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>
@@ -12,43 +12,37 @@ To: mtk.manpages-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org
 Cc: linux-man-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
 List-Id: linux-man@vger.kernel.org
 
-The file has been moved twice since its mention on the man page.
+Linux commit v4.13-rc1~34^2~39 converted no_new_privs flag documentation
+(previously resided in Documentation/prctl/no_new_privs.txt)
+to ReStructured, along with relocating it to
+Documentation/userspace-api/no_new_privs.rst.
 
-* man5/proc.5 (.SS Files and directories)
-<.TP .IR /proc/[pid]/attr/keycreate>: Amend security keys documentation
-reference with the locations in different versions of Linux kernel tree.
+* man2/prctl.2 (.SH DESCRIPTION) <.TP .BR PR_SET_NO_NEW_PRIVS>: Amend
+pointer to Documentation/prctl/no_new_privs.txt with change introduced
+in Linux 4.13 (move to Documentation/userspace-api/no_new_privs.rst).
 
 Signed-off-by: Eugene Syromyatnikov <evgsyr-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org>
 ---
- man5/proc.5 | 10 ++++++++--
- 1 file changed, 8 insertions(+), 2 deletions(-)
+ man2/prctl.2 | 6 +++++-
+ 1 file changed, 5 insertions(+), 1 deletion(-)
 
-diff --git a/man5/proc.5 b/man5/proc.5
-index 7af4e02..82f6ec4 100644
---- a/man5/proc.5
-+++ b/man5/proc.5
-@@ -275,13 +275,19 @@ attribute.
+diff --git a/man2/prctl.2 b/man2/prctl.2
+index 046dbcb..95c00ab 100644
+--- a/man2/prctl.2
++++ b/man2/prctl.2
+@@ -818,7 +818,11 @@ field in the
+ file.
+ .IP
+ For more information, see the kernel source file
+-.IR Documentation/prctl/no_new_privs.txt .
++.IR Documentation/userspace\-api/no_new_privs.rst
++.\" commit 40fde647ccb0ae8c11d256d271e24d385eed595b
++(or
++.IR Documentation/prctl/no_new_privs.txt
++before Linux 4.13).
+ See also
+ .BR seccomp (2).
  .TP
- .IR /proc/[pid]/attr/keycreate " (since Linux 2.6.18)"
- .\" commit 4eb582cf1fbd7b9e5f466e3718a59c957e75254e
--.\" /Documentation/keys.txt
- If a process writes a security context into this file,
- all subsequently created keys
- .RB ( add_key (2))
- will be labeled with this context.
- For further information, see the kernel source file
--.IR Documentation/keys.txt .
-+.I Documentation/security/keys/core.rst
-+(or file
-+.\" commit b68101a1e8f0263dbc7b8375d2a7c57c6216fb76
-+.I Documentation/security/keys.txt
-+on Linux between 3.0 and 4.13, or
-+.\" commit d410fa4ef99112386de5f218dd7df7b4fca910b4
-+.I Documentation/keys.txt
-+before Linux 3.0).
- .TP
- .IR /proc/[pid]/attr/prev " (since Linux 2.6.0)"
- This file contains the security context of the process before the last
 -- 
 2.1.4
 
