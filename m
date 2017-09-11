@@ -1,228 +1,364 @@
 From: "Michael Kerrisk (man-pages)" <mtk.manpages-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org>
-Subject: Re: man page update (fcntl(2) new set/get write hints)
-Date: Mon, 11 Sep 2017 16:31:16 +0200
-Message-ID: <CAKgNAkge+OG4FoMu-c-Q7b3P8EUqFzbmmhVNiaeDFHWWA6XWcA@mail.gmail.com>
-References: <25b8e025-d49b-e033-5ba3-f6967a6a970f@kernel.dk>
- <feffa54b-d1b4-02e3-5a24-0a8e51f96762@gmail.com> <39f20b08-9a35-652e-4ae9-96f3cb8e5679@kernel.dk>
- <CAKgNAkizCBiky9QM0-oyP3taGKCDTjAP--SCgqZ3pC8Kz=PnPw@mail.gmail.com>
- <580f238c-4c3d-eddc-5330-19f8a971bce1@kernel.dk> <CAKgNAkhJysMFycC8xxjQ8s=+ABryEmWTFUopTWoan04icGibAw@mail.gmail.com>
- <6d17003b-87a1-43c8-87bf-80842b4fabf7@kernel.dk> <68b812bd-a861-2ed0-e207-fb0a9bbce923@gmail.com>
- <6ad54bed-75fa-5153-004e-c4a8a1c87a35@kernel.dk> <778a45d3-8bee-aa8b-86bd-c7e6cd7e5c60@gmail.com>
- <e281652b-44d7-1c59-35ea-63836d6532dd@gmail.com>
+Subject: Re: [PATCTH 0/2] pthread_mutexattr_setrobust() and pthread_mutex_consistent()
+Date: Mon, 11 Sep 2017 22:34:50 +0200
+Message-ID: <CAKgNAkj42OzjR0iqeR5LbS=uuLLpv2GXTXRnSw3_grxCQi3+7g@mail.gmail.com>
+References: <CAJYFCiMZN09HaHpvKgxz3mqzmcaXAWmkz=BmgOW9WVdRKOhDsg@mail.gmail.com>
+ <36ab9ec0-b496-c007-c12f-065fd618e7fd@gmail.com> <CAJYFCiPM6Hy1cPF2mUBu5bVqxNX+5kvKnJZLhYzMMwuMiHCKeg@mail.gmail.com>
+ <20170826210528.GA32472@HP.internal.baidu.com> <CAJYFCiN-g+GjD8StCLue60i6pOw7jZnRGn2=2znPFkFw_FDyqQ@mail.gmail.com>
 Reply-To: mtk.manpages-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org
 Mime-Version: 1.0
 Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
 Return-path: <linux-man-owner-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>
-In-Reply-To: <e281652b-44d7-1c59-35ea-63836d6532dd-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org>
+In-Reply-To: <CAJYFCiN-g+GjD8StCLue60i6pOw7jZnRGn2=2znPFkFw_FDyqQ-JsoAwUIsXosN+BqQ9rBEUg@public.gmane.org>
 Sender: linux-man-owner-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
-To: Jens Axboe <axboe-tSWWG44O7X1aa/9Udqfwiw@public.gmane.org>
-Cc: Michael Kerrisk <mtk.manpages-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org>, linux-man <linux-man-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>, Florian Weimer <fweimer-H+wXaHxf7aLQT0dZR+AlfA@public.gmane.org>
+To: Yubin Ruan <ablacktshirt-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org>
+Cc: linux-man <linux-man-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>, "libc-alpha-9JcytcrH/bA+uJoB2kUjGw@public.gmane.org" <libc-alpha-9JcytcrH/bA+uJoB2kUjGw@public.gmane.org>
 List-Id: linux-man@vger.kernel.org
 
-Hi Jens,
+Hi Yubin
 
-Ping^2!
+On 11 September 2017 at 03:50, Yubin Ruan <ablacktshirt-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org> wrote:
+> just re-sending this to see whether anybody is still interested.
+
+Sorry for the slow response. I'm working on these pages. Give me a few days.
 
 Cheers,
 
 Michael
 
-
-On 3 September 2017 at 02:45, Michael Kerrisk (man-pages)
-<mtk.manpages-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org> wrote:
-> Hi Jens,
+> Yubin
 >
-> Ping!
->
-> Cheers,
->
-> Michael
->
->
-> On 08/28/2017 11:16 PM, Michael Kerrisk (man-pages) wrote:
->> On 08/28/2017 10:15 PM, Jens Axboe wrote:
->>> On 08/28/2017 01:19 PM, Michael Kerrisk (man-pages) wrote:
->>>> Hi Jens,
->>>>
->>>> On 08/25/2017 10:55 PM, Jens Axboe wrote:
->>>>> On 08/25/2017 02:51 PM, Michael Kerrisk (man-pages) wrote:
->>>>>>>>>> Do you mean here "file descriptor" or "file description (i.e., t=
-he
->>>>>>>>>> open file handle)? Maybe you mean the former, but I want to conf=
-irm.
->>>>>>>>>
->>>>>>>>> I do mean file descriptor.
->>>>>>>>
->>>>>>>> So, what are the semantics if a file descriptor is duplicated usin=
-g
->>>>>>>> dup(2) or similar? If I understand correctly, then the write lifet=
-ime
->>>>>>>> hint has no effect for the new file descriptor, right?
->>>>>>>
->>>>>>> If it's dup(2)'ed, then the new file descriptor will refer to the s=
-ame
->>>>>>> hints as the previous. See attached test file.
->>>>>>
->>>>>> But then isn't this exactly the point I asked about: are the hints
->>>>>> private to a file descriptor or are they associated with the open fi=
-le
->>>>>> description (open file table entry, "struct file")? You said "I do
->>>>>> mean file descriptor", but actually I understand what you just said
->>>>>> now as "hints are associated with the open file description, which m=
-ay
->>>>>> be referred to by multiple duplicated file descriptors". Can you
->>>>>> clarify?
->>>>>
->>>>> You are right, I misunderstood your original question. They do follow
->>>>> the file description. So the dup'ed one will return the same as the
->>>>> original, even if the hints on the original fd get modified. That is =
-the
->>>>> expected behavior.
->>>>
->>>> So, I am still confused. I was wondering whether the hints are
->>>> associated with the open file description (OFD), rather than the
->>>> file descriptor. You said yes, then say that the dup'ed file
->>>> descriptor will have the same hints even if the hints on the
->>>> original file descriptor are modified. To me that sounds like:
->>>> the hints are associated with the file descriptor, and not the
->>>> OFD, and during dup(2) the hints are *copied* to the the new
->>>> file descriptor, with the result that after the dup(2) the hints
->>>> can be modified independently for the two file descriptors.
->>>>
->>>> Can you clarify please?
+> 2017-08-27 5:05 GMT+08:00 Yubin Ruan <ablacktshirt-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org>:
+>> On Tue, Aug 22, 2017 at 10:19:48AM +0800, Yubin Ruan wrote:
+>>> 2017-08-22 8:33 GMT+08:00 Michael Kerrisk (man-pages) <mtk.manpages-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org>:
+>>> > Hello Yubin
+>>> >
+>>> > On 08/20/2017 11:42 AM, Yubin Ruan wrote:
+>>> >> Hi Michael,
+>>> >> This patch series introduce three pthread functions for linux-man:
+>>> >>     * pthread_mutexattr_setrobust()
+>>> >>     * pthread_mutexattr_getrobust()
+>>> >>     * pthread_mutex_consistent()
+>>> >>
+>>> >> I put pthread_mutexattr_setrobust() and pthread_mutexattr_getrobust()
+>>> >> altogether since they are related.
+>>> >>
+>>> >> I obtain my information about these functions mainly from reading the
+>>> >> glibc source code and do some testing. There might be some mistake,
+>>> >> but they are mostly correct (95% or so).
+>>> >>
+>>> >> Following this email would be those man pages in plain text and nroff
+>>> >> format. I have tested those nroff file on my Linux box using man, and
+>>> >> it look pretty well. Please point out if there are any mistake in
+>>> >> formatting.
+>>> >
+>>> > Thanks for the drafts. Could I ask you to review the man-pages(7)
+>>> > page. There's a number of details described in that page
+>>> > which should be fixed in the drafts. Also, please try rendering
+>>> > your pages with "man -l <page>". This will show problems with
+>>> > the example code. See the chown(2) man page example for
+>>> > the required escape sequences for "\n" and the single quote.
 >>>
->>> No, that's not how it behaves. If you dup(2) the file descriptor, then
->>> the dup'ed descriptor will return the same hint as was set on the
->>> original.  If you change/clear the hint on the original, the dup'ed
->>> descriptor will now return the new hint.
+>>> No problem. I would fix the formatting issues.
 >>
->> Okay -- thanks. I'd misunderstood your earlier words. Okay, I've
->> hacked this text to arrive at new text below. Could you please check
->> it? Also, there are some details that are still missing. Could you take
->> a look at the questions below please.
+>> Hi Michael,
 >>
->> [[[
->>     File read/write hints
->>        Write lifetime hints can be used to inform the  kernel  about  th=
-e
->>        relative  expected  lifetime  of  writes on a given inode or via =
-a
->>        particular open file description.  (See open(2) for an explanatio=
-n
->>        of open file desriptions.)  In this context, the term "write life=
-=E2=80=90
->>        time" means the expected time the data will live on media,  befor=
-e
->>        being overwritten or erased.
+>> Sorry that it took so long.
 >>
->>        An  application  may use the different hint values specified belo=
-w
->>        to separate writes into different write classes, so that  multipl=
-e
->>        users  or  applications  running  on a single storage back-end ca=
-n
->>        aggregate their I/O patterns in  a  consistent  manner.   However=
-,
->>        there are no functional semantics implied by these flags, and dif=
-=E2=80=90
->>        ferent I/O classes can use the write lifetime hints  in  arbitrar=
-y
->>        ways, so long as the hints are used consistently.
+>> Following is the renew patch. I have corrected several formatting issues (i.e.,
+>> \n , - , but I can't find anything wrong with ' ) and some typos. The only
+>> issue I cannot solve is that the new `pthread_mutex_consistent(3)` page is too
+>> short that it shows at the very bottom... please help with this.
 >>
->> QUESTIONS:
->> * What are write classes?
->> * What are I/O classes?
->> * What is the purpose of using read/write hints? I assume it's a
->>   performance point, but the text is not explicit about that.
->> * You variously wrote "read/write hints" and "write hints". Let's make
->>   it consistent. Which is the preferred term?
->>
->>        The  following  operations  can be applied to the file descriptor=
-,
->>        fd:
->>
->>        F_GET_RW_HINT (uint64_t *; since Linux 4.13)
->>               Returns the value of the read/write  hint  associated  wit=
-h
->>               the underlying inode referred to by fd.
->>
->>        F_SET_RW_HINT (uint64_t *; since Linux 4.13)
->>               Sets the read/write hint value associated with the underly=
-=E2=80=90
->>               ing inode referred to by fd.
->>
->>        F_GET_FILE_RW_HINT (uint64_t *; since Linux 4.13)
->>               Returns the value of the read/write  hint  associated  wit=
-h
->>               the open file description referred to by fd.
->>
->>        F_SET_FILE_RW_HINT (uint64_t *; since Linux 4.13)
->>               Sets  the  read/write  hint  value associated with the ope=
-n
->>               file description referred to by fd.
->>
->>        If an open file description has not  been  assigned  a  read/writ=
-e
->>        hint, then it shall use the value assigned to the inode, if any.
->>
->>        The following read/write hints are valid since Linux 4.13:
->>
->>        RWH_WRITE_LIFE_NOT_SET
->>               No specific hint has been set.  This is the default value.
->>
->>        RWH_WRITE_LIFE_NONE
->>               No  specific write lifetime is associated with this file o=
-r
->>               inode.
->>
->>        RWH_WRITE_LIFE_SHORT
->>               Data written to this inode or via this open  file  descrip=
-=E2=80=90
->>               tion is expected to have a short lifetime.
->>
->>        RWH_WRITE_LIFE_MEDIUM
->>               Data  written  to this inode or via this open file descrip=
-=E2=80=90
->>               tion is expected to have a lifetime longer than data  writ=
-=E2=80=90
->>               ten with RWH_WRITE_LIFE_SHORT.
->>
->>        RWH_WRITE_LIFE_LONG
->>               Data  written  to this inode or via this open file descrip=
-=E2=80=90
->>               tion is expected to have a lifetime longer than data  writ=
-=E2=80=90
->>               ten with RWH_WRITE_LIFE_MEDIUM.
->>
->>        RWH_WRITE_LIFE_EXTREME
->>               Data  written  to this inode or via this open file descrip=
-=E2=80=90
->>               tion is expected to have a lifetime longer than data  writ=
-=E2=80=90
->>               ten with RWH_WRITE_LIFE_LONG.
->>
->>        All  the  write-specific  hints are relative to each other, and n=
-o
->>        individual absolute meaning should be attributed to them.
->> ]]]
->>
->> Cheers,
->>
->> Michael
+>> Also, please find attached three verification snippets.
 >>
 >>
+>> Signed-off-by: Yubin Ruan <ablacktshirt-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org>
+>> ---
+>>  man3/pthread_mutex_consistent.3    |  60 +++++++++++
+>>  man3/pthread_mutexattr_setrobust.3 | 199 +++++++++++++++++++++++++++++++++++++
+>>  2 files changed, 259 insertions(+)
+>>  create mode 100644 man3/pthread_mutex_consistent.3
+>>  create mode 100644 man3/pthread_mutexattr_setrobust.3
 >>
->
->
-> --
-> Michael Kerrisk
-> Linux man-pages maintainer; http://www.kernel.org/doc/man-pages/
-> Linux/UNIX System Programming Training: http://man7.org/training/
+>> diff --git a/man3/pthread_mutex_consistent.3 b/man3/pthread_mutex_consistent.3
+>> new file mode 100644
+>> index 0000000..6d5bc81
+>> --- /dev/null
+>> +++ b/man3/pthread_mutex_consistent.3
+>> @@ -0,0 +1,60 @@
+>> +.\" Copyright (c) 2017, Yubin Ruan <ablacktshirt-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org>
+>> +.\"
+>> +.\" %%%LICENSE_START(VERBATIM)
+>> +.\" Permission is granted to make and distribute verbatim copies of this
+>> +.\" manual provided the copyright notice and this permission notice are
+>> +.\" preserved on all copies.
+>> +.\"
+>> +.\" Permission is granted to copy and distribute modified versions of this
+>> +.\" manual under the conditions for verbatim copying, provided that the
+>> +.\" entire resulting derived work is distributed under the terms of a
+>> +.\" permission notice identical to this one.
+>> +.\"
+>> +.\" Since the Linux kernel and libraries are constantly changing, this
+>> +.\" manual page may be incorrect or out-of-date.  The author(s) assume no
+>> +.\" responsibility for errors or omissions, or for damages resulting from
+>> +.\" the use of the information contained herein.  The author(s) may not
+>> +.\" have taken the same level of care in the production of this manual,
+>> +.\" which is licensed free of charge, as they might when working
+>> +.\" professionally.
+>> +.\"
+>> +.\" Formatted or processed versions of this manual, if unaccompanied by
+>> +.\" the source, must acknowledge the copyright and authors of this work.
+>> +.\" %%%LICENSE_END
+>> +.\"
+>> +.TH PTHREAD_MUTEXATTR_SETROBUST 3 2017-08-20 "Linux" "Linux Programmer's Manual"
+>> +.SH NAME
+>> +pthread_mutex_consistent \- make the robust mutex consistent
+>> +.SH SYNOPSIS
+>> +.nf
+>> +.B #include <pthread.h>
+>> +.PP
+>> +.BI "int pthread_mute_consistent(pthread_mute_t *" mutex ");"
+>> +.fi
+>> +.PP
+>> +Compile and link with \fI\-pthread\fP.
+>> +.SH DESCRIPTION
+>> +This function make a robust mutex consistent if it is in a inconsistent
+>> +state. A mutex can be left in a inconsistent state if its owner terminate
+>> +while holding the mutex, in which situation the next owner who acquire the
+>> +mutex will succeed and be notified by the return value of
+>> +.B EOWNERDEAD.
+>> +
+>> +.SH RETURN VALUE
+>> +On success,
+>> +.IR pthread_mutex_consistent()
+>> +return 0. Otherwise an error value is returned to indicate the error.
+>> +
+>> +.SH ERRORS
+>> +.TP
+>> +.B EINVAL
+>> +The mutex is either not robust or it is not in a inconsistent state.
+>> +
+>> +.SH SEE ALSO
+>> +.ad l
+>> +.nh
+>> +.BR pthread_mutexattr_init (3),
+>> +.BR pthread_mutex_lock (3),
+>> +.BR pthread_mutexattr_setrobust (3),
+>> +.BR pthread_mutexattr_getrobust (3),
+>> +.BR pthreads (7)
+>> diff --git a/man3/pthread_mutexattr_setrobust.3 b/man3/pthread_mutexattr_setrobust.3
+>> new file mode 100644
+>> index 0000000..3add496
+>> --- /dev/null
+>> +++ b/man3/pthread_mutexattr_setrobust.3
+>> @@ -0,0 +1,199 @@
+>> +.\" Copyright (c) 2017, Yubin Ruan <ablacktshirt-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org>
+>> +.\"
+>> +.\" %%%LICENSE_START(VERBATIM)
+>> +.\" Permission is granted to make and distribute verbatim copies of this
+>> +.\" manual provided the copyright notice and this permission notice are
+>> +.\" preserved on all copies.
+>> +.\"
+>> +.\" Permission is granted to copy and distribute modified versions of this
+>> +.\" manual under the conditions for verbatim copying, provided that the
+>> +.\" entire resulting derived work is distributed under the terms of a
+>> +.\" permission notice identical to this one.
+>> +.\"
+>> +.\" Since the Linux kernel and libraries are constantly changing, this
+>> +.\" manual page may be incorrect or out-of-date.  The author(s) assume no
+>> +.\" responsibility for errors or omissions, or for damages resulting from
+>> +.\" the use of the information contained herein.  The author(s) may not
+>> +.\" have taken the same level of care in the production of this manual,
+>> +.\" which is licensed free of charge, as they might when working
+>> +.\" professionally.
+>> +.\"
+>> +.\" Formatted or processed versions of this manual, if unaccompanied by
+>> +.\" the source, must acknowledge the copyright and authors of this work.
+>> +.\" %%%LICENSE_END
+>> +.\"
+>> +.TH PTHREAD_MUTEXATTR_SETROBUST 3 2017-08-20 "Linux" "Linux Programmer's Manual"
+>> +.SH NAME
+>> +pthread_mutexattr_getrobust, pthread_mutexattr_setrobust,
+>> +pthread_mutexattr_getrobust_np, pthread_mutexattr_setrobust_np
+>> +\- get and set the robustness attribute of a mutex attribute object
+>> +.SH SYNOPSIS
+>> +.nf
+>> +.B #include <pthread.h>
+>> +.PP
+>> +.BI "int pthread_mutexattr_getrobust(const pthread_mutexattr_t *" attr, "int *" robustness ");"
+>> +.BI "int pthread_mutexattr_setrobust(const pthread_mutexattr_t *" attr, "int *" robustness ");"
+>> +.BI "int pthread_mutexattr_getrobust_np(const pthread_mutexattr_t *" attr, "int *" robustness ");"
+>> +.BI "int pthread_mutexattr_setrobust_np(const pthread_mutexattr_t *" attr, "int *" robustness ");"
+>> +.fi
+>> +.PP
+>> +Compile and link with \fI\-pthread\fP.
+>> +.SH DESCRIPTION
+>> +The
+>> +.BR pthread_mutexattr_getrobust()
+>> +and
+>> +.BR pthread_mutexattr_setrobust()
+>> +functions get and set the robustness attribute of a
+>> +initialized mutex attribute object, respectively.
+>> +The robustness attribute specifies the behavior of the mutex
+>> +when its owner dies without unlocking it. These two
+>> +functions are specified in POSIX. Glibc's NPTL has
+>> +.BR pthread_mutexattr_getrobust_np (3)
+>> +and
+>> +.BR pthread_mutexattr_setrobust_np (3)
+>> +respectively but they are just aliases, with the "np" standing for "Native Posix".
+>> +See
+>> +.BR NPTL (7).
+>> +.PP
+>> +Currently there are only two possible values for the
+>> +.IR robustness
+>> +attribute:
+>> +.TP
+>> +.BR PTHREAD_MUTEX_STALLED
+>> +is the default value for a mutex attribute object. If a mutex is initialized
+>> +with a
+>> +.BR PTHREAD_MUTEX_STALLED
+>> +attribute object and its owner dies without unlocking it, it is kept locked
+>> +afterwards and any future attempts to call
+>> +.IR pthread_mutex_lock (3)
+>> +on this mutex will block indefinitely.
+>> +.TP
+>> +.B PTHREAD_MUTEX_ROBUST
+>> +can be set on a mutex attribute object so that when the owner of the mutex
+>> +dies or when the process containing such a locked mutex performs
+>> +.IR execve (2)
+>> +, any future attempts to call
+>> +.IR pthread_mutex_lock (3)
+>> +on this mutex will suceed and return
+>> +.B EOWNERDEAD
+>> +to indicate that the original owner no longer exists and the mutex is left in
+>> +an inconsistent state. Usually after
+>> +.B EOWNERDEAD
+>> +is returned, the next owner should call
+>> +.IR pthread_mutex_consistent (3)
+>> +on the acquired mutex to make it consistent again before using it any further.
+>> +If the next owner unlock it using
+>> +.IR pthread_mutex_unlock (3)
+>> +before making it consistent, the mutex will be unusable permanently and any
+>> +subsequent attempts to lock it using
+>> +.IR pthread_mutex_lock (3)
+>> +will return
+>> +.B ENOTRECOVERABLE.
+>> +If the next owner terminates before calling
+>> +.IR pthread_mutex_consistent (3)
+>> +, furture
+>> +.IR pthread_mutex_lock (3)
+>> +on this mutex will still return
+>> +.B EOWNERDEAD.
+>> +
+>> +
+>> +Glibc defines
+>> +.B PTHREAD_MUTEX_STALLED_NP
+>> +and
+>> +.B PTHREAD_MUTEX_ROBUST_NP
+>> +as aliases of
+>> +.B PTHREAD_MUTEX_STALLED
+>> +and
+>> +.B PTHREAD_MUTEX_ROBUST
+>> +respectively.
+>> +
+>> +Note that the
+>> +.IR attr
+>> +argument of
+>> +.IR pthread_mutexattr_getrobust()
+>> +and
+>> +.IR pthread_mutexattr_setrobust()
+>> +should refer to a mutex attribute object that was initialized by
+>> +.IR pthread_mutexattr_init (3)
+>> +, otherwise the behavior is undefined.
+>> +.SH RETURN VALUE
+>> +On success, zero is returned by
+>> +.IR pthread_mutexattr_getrobust()
+>> +and the value pointed to by the
+>> +.IR robustness
+>> +parameter is set to the robustness attribute of
+>> +.IR attr.
+>> +Otherwise, an error number shall be returned. On success
+>> +.IR pthread_mutexattr_setrobust()
+>> +set the robustness attribute into the mutex attribute object
+>> +.IR attr
+>> +and return zero, otherwise a error number is returned to indicate the error.
+>> +.SS Glibc\-specificed features
+>> +In glibc's implementation,
+>> +.IR pthread_mutexattr_getrobust()
+>> +always return zero.
+>> +.SH ERRORS
+>> +.TP
+>> +.B EINVAL
+>> +A value other than
+>> +.B PTHREAD_MUTEX_STALLED
+>> +or
+>> +.B PTHREAD_MUTEX_ROBUST
+>> +is passed into
+>> +.IR pthread_mutexattr_setrobust().
+>> +
+>> +.SH EXAMPLE
+>> +.PP
+>> +The program demonstrate a simple usecase of the robustness attribute of a
+>> +pthread mutex attribute object. In this program, a thread holding the mutex
+>> +dies prematurely withough unlocking the mutex. Another thread acquires it
+>> +successfully and get EOWNERDEAD.
+>> +
+>> +.SS Program source
+>> +.EX
+>> +#include <stdio.h>
+>> +#include <unistd.h>
+>> +#include <pthread.h>
+>> +#include <errno.h>
+>> +
+>> +pthread_mutex_t lock;
+>> +
+>> +void *original_owner_thread(void *ptr)
+>> +{
+>> +    printf("[original owner] Setting lock...\\n");
+>> +    pthread_mutex_lock(&lock);
+>> +    printf("[original owner] Locked. Now exiting without unlocking.\\n");
+>> +    pthread_exit(NULL);
+>> +}
+>> +
+>> +int main(int argc, char *argv[])
+>> +{
+>> +    pthread_t lock_getter;
+>> +    pthread_mutexattr_t attr;
+>> +    pthread_mutexattr_init(&attr);   /* initialize the attribute object */
+>> +    pthread_mutexattr_setrobust(&attr, PTHREAD_MUTEX_ROBUST); /* set robustness */
+>> +
+>> +    pthread_mutex_init(&lock, &attr);   /* initialize the lock */
+>> +
+>> +    pthread_create(&lock_getter, NULL, original_owner_thread, NULL);
+>> +    sleep(2);   /* original_owner_thread should have exited now */
+>> +
+>> +    printf("Attempting to acquire the unlocked robust mutex.\\n");
+>> +    int ret_code = pthread_mutex_lock(&lock);
+>> +    if(EOWNERDEAD == ret_code) {
+>> +        printf("EOWNERDEAD returned. Make the mutex consistent now\\n");
+>> +        pthread_mutex_consistent(&lock);
+>> +    }
+>> +
+>> +    pthread_mutex_unlock(&lock);
+>> +
+>> +    return 0;
+>> +}
+>> +.EE
+>> +.SH SEE ALSO
+>> +.ad l
+>> +.nh
+>> +.BR pthread_mutex_init (3),
+>> +.BR pthread_mutex_consistent (3),
+>> +.BR pthread_mutex_lock (3)
+>> +.BR pthreads (7)
+>> --
+>> 2.7.4
+>>
 
 
 
---=20
+-- 
 Michael Kerrisk
 Linux man-pages maintainer; http://www.kernel.org/doc/man-pages/
 Linux/UNIX System Programming Training: http://man7.org/training/
