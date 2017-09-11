@@ -1,14 +1,14 @@
 From: "Michael Kerrisk (man-opages)" <mtk.manpages-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org>
-Subject: Re: [PATCH 07/15] initrd.4, proc.5, bootparam.7: update pointer to
- in-kernel initrd documentation
-Date: Mon, 11 Sep 2017 15:57:30 +0200
-Message-ID: <39a101df-7f3a-d2ef-ca29-21242ffab429@gmail.com>
-References: <20170911030403.GA30008@asgard.redhat.com>
+Subject: Re: [PATCH 08/15] proc.5: document removal of htab-reclaim sysctl
+ file
+Date: Mon, 11 Sep 2017 15:57:52 +0200
+Message-ID: <5f1976fb-cdf0-90fd-6aa3-a023bdddc927@gmail.com>
+References: <20170911030405.GA30045@asgard.redhat.com>
 Mime-Version: 1.0
 Content-Type: text/plain; charset=utf-8; format=flowed
 Content-Transfer-Encoding: 7bit
 Return-path: <linux-man-owner-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>
-In-Reply-To: <20170911030403.GA30008-ZbobWygYI+YXGNroddHbYwC/G2K4zDHf@public.gmane.org>
+In-Reply-To: <20170911030405.GA30045-ZbobWygYI+YXGNroddHbYwC/G2K4zDHf@public.gmane.org>
 Content-Language: en-US
 Sender: linux-man-owner-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
 To: Eugene Syromyatnikov <evgsyr-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org>
@@ -16,11 +16,11 @@ Cc: linux-man-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
 List-Id: linux-man@vger.kernel.org
 
 On 09/11/2017 05:04 AM, Eugene Syromyatnikov wrote:
-> Linux commit v4.10-rc1~40^2~86^2~4 moves initrd documentation from
-> Documentation/initrd.txt to Documentation/admin-quide/initrd.rst.
+> This PPC-specific sysctl option has been removed in Linux 2.4.9.2,
+> according to historic Linux repository commit log.
 
 
-Applied. Thanks!
+Applied. Thanks for the archaeology!
 
 Cheers,
 
@@ -28,82 +28,32 @@ Michael
 
 
 
-> * man4/initrd.4 (.SS Changing the normal root filesystem, .SH SEE ALSO):
-> Amend pointer to in-kernel initrd documentation with change introduced
-> in Linux 4.10 (move to Documentation/admin-guide/initrd.rst).
 > * man5/proc.5 (.SS Files and directories)
-> <.TP .I /proc/sys/kernel/real-root-dev>: Likewise.
-> * man7/bootparam.7 (.SS Boot arguments for ramdisk use)
-> <.TP .B 'noinitrd'>: Likewise.
+> <.TP .I /proc/sys/kernel/htab-reclaim>: Mention the last Linux version
+> where the option was available.
 > 
 > Signed-off-by: Eugene Syromyatnikov <evgsyr-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org>
 > ---
->   man4/initrd.4    | 8 ++++++++
->   man5/proc.5      | 6 +++++-
->   man7/bootparam.7 | 6 +++++-
->   3 files changed, 18 insertions(+), 2 deletions(-)
+>   man5/proc.5 | 4 +++-
+>   1 file changed, 3 insertions(+), 1 deletion(-)
 > 
-> diff --git a/man4/initrd.4 b/man4/initrd.4
-> index 70ef9d3..76b5bbf 100644
-> --- a/man4/initrd.4
-> +++ b/man4/initrd.4
-> @@ -312,7 +312,11 @@ The use of
->   .I /proc/sys/kernel/real-root-dev
->   to change the root filesystem is obsolete.
->   See the Linux kernel source file
-> +.I Documentation/admin\-guide/initrd.rst
-> +.\" commit 9d85025b0418163fae079c9ba8f8445212de8568
-> +(or
->   .I Documentation/initrd.txt
-> +before Linux 4.10)
->   as well as
->   .BR pivot_root (2)
->   and
-> @@ -486,6 +490,10 @@ The behavior may change in future versions of the Linux kernel.
->   .BR freeramdisk (8),
->   .BR rdev (8)
->   .PP
-> +.I Documentation/admin\-guide/initrd.rst
-> +.\" commit 9d85025b0418163fae079c9ba8f8445212de8568
-> +(or
->   .I Documentation/initrd.txt
-> +before Linux 4.10)
->   in the Linux kernel source tree, the LILO documentation,
->   the LOADLIN documentation, the SYSLINUX documentation
 > diff --git a/man5/proc.5 b/man5/proc.5
-> index c710926..136a2fb 100644
+> index 136a2fb..71486cc 100644
 > --- a/man5/proc.5
 > +++ b/man5/proc.5
-> @@ -4615,7 +4615,11 @@ This value is the default if the kernel was not configured with
+> @@ -4399,9 +4399,11 @@ contains the path for the hotplug policy agent.
+>   The default value in this file is
+>   .IR /sbin/hotplug .
 >   .TP
->   .I /proc/sys/kernel/real-root-dev
->   This file is documented in the Linux kernel source file
-> -.IR Documentation/initrd.txt .
-> +.I Documentation/admin\-guide/initrd.rst
-> +.\" commit 9d85025b0418163fae079c9ba8f8445212de8568
-> +(or
-> +.I Documentation/initrd.txt
-> +before Linux 4.10).
->   .TP
->   .IR /proc/sys/kernel/reboot-cmd " (Sparc only) "
->   This file seems to be a way to give an argument to the SPARC
-> diff --git a/man7/bootparam.7 b/man7/bootparam.7
-> index 92c9441..c6f8735 100644
-> --- a/man7/bootparam.7
-> +++ b/man7/bootparam.7
-> @@ -378,7 +378,11 @@ the usual boot sequence (e.g., invocation of
->   is performed.
->   .IP
->   For a detailed description of the initrd feature, see the kernel source file
-> -.IR Documentation/initrd.txt .
-> +.I Documentation/admin\-guide/initrd.rst
-> +.\" commit 9d85025b0418163fae079c9ba8f8445212de8568
-> +(or
-> +.I Documentation/initrd.txt
-> +before Linux 4.10).
->   .IP
->   The 'noinitrd' option tells the kernel that although it was compiled for
->   operation with initrd, it should not go through the above steps, but
+> -.I /proc/sys/kernel/htab-reclaim
+> +.\" Removed in commit 87f504e5c78b910b0c1d6ffb89bc95e492322c84 (tglx/history.git)
+> +.IR /proc/sys/kernel/htab-reclaim " (before Linux 2.4.9.2)"
+>   (PowerPC only) If this file is set to a nonzero value,
+>   the PowerPC htab
+> +.\" removed in commit 1b483a6a7b2998e9c98ad985d7494b9b725bd228, before 2.6.28
+>   (see kernel file
+>   .IR Documentation/powerpc/ppc_htab.txt )
+>   is pruned
 > 
 --
 To unsubscribe from this list: send the line "unsubscribe linux-man" in
