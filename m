@@ -1,7 +1,8 @@
 From: Eugene Syromyatnikov <evgsyr-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org>
-Subject: [PATCH 00/15] Updates of in-kernel documentation pointers
-Date: Mon, 11 Sep 2017 05:03:47 +0200
-Message-ID: <20170911030347.GA24854@asgard.redhat.com>
+Subject: [PATCH 01/15] add_key.2, request_key.2, keyrings.7: update Linux
+ documentation pointers
+Date: Mon, 11 Sep 2017 05:03:50 +0200
+Message-ID: <20170911030350.GA29734@asgard.redhat.com>
 Mime-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Return-path: <linux-man-owner-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>
@@ -11,51 +12,73 @@ To: mtk.manpages-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org
 Cc: linux-man-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
 List-Id: linux-man@vger.kernel.org
 
-Hello.
+In 4.13 release cycle, key management documentation has been reformatted
+to ReStructured text and moved to a separate "keys" directory.
 
-I've noticed that some of Linux kernel in-tree documentation pointers
-are no longer valid and decided to check the validity for the rest of
-them with some one-liner. As it turned out, there are quite a few of
-them, in part due to latest ReST conversion effort. This patch set aims
-at amending documentation pointers that are no longer valid with the
-information about current location. I'm not quite sure about
-wording/formatting, and do not guarantee that I haven't miss anything,
-so I hope that this could be at least useful as a starting point.
+Relevant kernel commits: v4.13-rc1~34^2~27, v4.13-rc1~34^2~25
 
-Eugene Syromyatnikov (15):
-  add_key.2, request_key.2, keyrings.7: update Linux documentation
-    pointers
-  prctl.2, ptrace.2: update pointer to in-kernel Yama documentation
-  prctl.2: update pointer to in-kernel no_new_privs flag documentation
-  prctl.2, seccomp.2: update pointer to in-kernel seccomp documentation
-  unshare.2: update pointer to in-kernel unshare documentation
-  initrd.4: update pointer to in-kernel root over NFS documentation
-  initrd.4, proc.5, bootparam.7: update pointer to in-kernel initrd
-    documentation
-  proc.5: document removal of htab-reclaim sysctl file
-  proc.5: document removal of timer_stats file
-  proc.5: update pointer to in-kernel security keys documentation
-  proc.5: update reference to kernel's crypto API documentation
-  proc.5: update pointer to in-kernel MTRR documentation
-  proc.5: update pointer to in-kernel SysRq documentation
-  cpuset.7: update pointer to in-kernel cpusets documentation
-  unicode.7: update pointer to in-kernel Unicode terminal support
-    documentation
+* man2/add_key.2 (.SH SEE ALSO): Amend pointers to
+Documentation/security/keys.txt and Documentation/keys-request-key.txt
+with changes introduced in Linux 4.13 (Documentation/keys/core.rst and
+Documentation/keys/request-key.rst).
+* man2/request_key.2 (.SH SEE ALSO): Likewise.
+* man7/keyrings.7 (.SH SEE ALSO): Likewise.
 
- man2/add_key.2     |  8 +++++++-
- man2/prctl.2       | 18 +++++++++++++++---
- man2/ptrace.2      |  4 ++++
- man2/request_key.2 |  8 +++++++-
- man2/seccomp.2     |  6 +++++-
- man2/unshare.2     |  6 +++++-
- man4/initrd.4      | 14 +++++++++++++-
- man5/proc.5        | 54 ++++++++++++++++++++++++++++++++++++++++++++----------
- man7/bootparam.7   |  6 +++++-
- man7/cpuset.7      |  6 +++++-
- man7/keyrings.7    |  4 +++-
- man7/unicode.7     |  6 +++++-
- 12 files changed, 118 insertions(+), 22 deletions(-)
+Signed-off-by: Eugene Syromyatnikov <evgsyr-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org>
+---
+ man2/add_key.2     | 8 +++++++-
+ man2/request_key.2 | 8 +++++++-
+ man7/keyrings.7    | 4 +++-
+ 3 files changed, 17 insertions(+), 3 deletions(-)
 
+diff --git a/man2/add_key.2 b/man2/add_key.2
+index 2e67362..6417334 100644
+--- a/man2/add_key.2
++++ b/man2/add_key.2
+@@ -284,6 +284,12 @@ main(int argc, char *argv[])
+ .BR user\-session\-keyring (7)
+ .PP
+ The kernel source files
++.IR Documentation/security/keys/core.rst
++and
++.IR Documentation/keys/request\-key.rst
++(or, before Linux 4.13, in the files
++.\" commit b68101a1e8f0263dbc7b8375d2a7c57c6216fb76
+ .IR Documentation/security/keys.txt
+ and
+-.IR Documentation/security/keys\-request\-key.txt .
++.\" commit 3db38ed76890565772fcca3279cc8d454ea6176b
++.IR Documentation/security/keys\-request\-key.txt ).
+diff --git a/man2/request_key.2 b/man2/request_key.2
+index ce987e3..e6a5c7d 100644
+--- a/man2/request_key.2
++++ b/man2/request_key.2
+@@ -561,6 +561,12 @@ main(int argc, char *argv[])
+ .BR request\-key (8)
+ .PP
+ The kernel source files
++.IR Documentation/security/keys/core.rst
++and
++.IR Documentation/keys/request\-key.rst
++(or, before Linux 4.13, in the files
++.\" commit b68101a1e8f0263dbc7b8375d2a7c57c6216fb76
+ .IR Documentation/security/keys.txt
+ and
+-.IR Documentation/security/keys\-request\-key.txt .
++.\" commit 3db38ed76890565772fcca3279cc8d454ea6176b
++.IR Documentation/security/keys\-request\-key.txt ).
+diff --git a/man7/keyrings.7 b/man7/keyrings.7
+index 0cb1190..6f2581c 100644
+--- a/man7/keyrings.7
++++ b/man7/keyrings.7
+@@ -870,4 +870,6 @@ scripts can use them.
+ The kernel source files
+ .IR Documentation/crypto/asymmetric-keys.txt
+ and under
+-.IR Documentation/security/keys .
++.IR Documentation/security/keys
++(or, before Linux 4.13, in the file
++.IR Documentation/security/keys.txt ).
 -- 
 2.1.4
 
