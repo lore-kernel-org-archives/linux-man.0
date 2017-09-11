@@ -1,8 +1,8 @@
 From: Eugene Syromyatnikov <evgsyr-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org>
-Subject: [PATCH 01/15] add_key.2, request_key.2, keyrings.7: update Linux
- documentation pointers
-Date: Mon, 11 Sep 2017 05:03:50 +0200
-Message-ID: <20170911030350.GA29734@asgard.redhat.com>
+Subject: [PATCH 10/15] proc.5: update pointer to in-kernel security keys
+ documentation
+Date: Mon, 11 Sep 2017 05:04:09 +0200
+Message-ID: <20170911030409.GA30122@asgard.redhat.com>
 Mime-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Return-path: <linux-man-owner-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>
@@ -12,73 +12,43 @@ To: mtk.manpages-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org
 Cc: linux-man-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
 List-Id: linux-man@vger.kernel.org
 
-In 4.13 release cycle, key management documentation has been reformatted
-to ReStructured text and moved to a separate "keys" directory.
+The file has been moved twice since its mention on the man page.
 
-Relevant kernel commits: v4.13-rc1~34^2~27, v4.13-rc1~34^2~25
-
-* man2/add_key.2 (.SH SEE ALSO): Amend pointers to
-Documentation/security/keys.txt and Documentation/keys-request-key.txt
-with changes introduced in Linux 4.13 (Documentation/keys/core.rst and
-Documentation/keys/request-key.rst).
-* man2/request_key.2 (.SH SEE ALSO): Likewise.
-* man7/keyrings.7 (.SH SEE ALSO): Likewise.
+* man5/proc.5 (.SS Files and directories)
+<.TP .IR /proc/[pid]/attr/keycreate>: Amend security keys documentation
+reference with the locations in different versions of Linux kernel tree.
 
 Signed-off-by: Eugene Syromyatnikov <evgsyr-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org>
 ---
- man2/add_key.2     | 8 +++++++-
- man2/request_key.2 | 8 +++++++-
- man7/keyrings.7    | 4 +++-
- 3 files changed, 17 insertions(+), 3 deletions(-)
+ man5/proc.5 | 10 ++++++++--
+ 1 file changed, 8 insertions(+), 2 deletions(-)
 
-diff --git a/man2/add_key.2 b/man2/add_key.2
-index 2e67362..6417334 100644
---- a/man2/add_key.2
-+++ b/man2/add_key.2
-@@ -284,6 +284,12 @@ main(int argc, char *argv[])
- .BR user\-session\-keyring (7)
- .PP
- The kernel source files
-+.IR Documentation/security/keys/core.rst
-+and
-+.IR Documentation/keys/request\-key.rst
-+(or, before Linux 4.13, in the files
+diff --git a/man5/proc.5 b/man5/proc.5
+index 7af4e02..82f6ec4 100644
+--- a/man5/proc.5
++++ b/man5/proc.5
+@@ -275,13 +275,19 @@ attribute.
+ .TP
+ .IR /proc/[pid]/attr/keycreate " (since Linux 2.6.18)"
+ .\" commit 4eb582cf1fbd7b9e5f466e3718a59c957e75254e
+-.\" /Documentation/keys.txt
+ If a process writes a security context into this file,
+ all subsequently created keys
+ .RB ( add_key (2))
+ will be labeled with this context.
+ For further information, see the kernel source file
+-.IR Documentation/keys.txt .
++.I Documentation/security/keys/core.rst
++(or file
 +.\" commit b68101a1e8f0263dbc7b8375d2a7c57c6216fb76
- .IR Documentation/security/keys.txt
- and
--.IR Documentation/security/keys\-request\-key.txt .
-+.\" commit 3db38ed76890565772fcca3279cc8d454ea6176b
-+.IR Documentation/security/keys\-request\-key.txt ).
-diff --git a/man2/request_key.2 b/man2/request_key.2
-index ce987e3..e6a5c7d 100644
---- a/man2/request_key.2
-+++ b/man2/request_key.2
-@@ -561,6 +561,12 @@ main(int argc, char *argv[])
- .BR request\-key (8)
- .PP
- The kernel source files
-+.IR Documentation/security/keys/core.rst
-+and
-+.IR Documentation/keys/request\-key.rst
-+(or, before Linux 4.13, in the files
-+.\" commit b68101a1e8f0263dbc7b8375d2a7c57c6216fb76
- .IR Documentation/security/keys.txt
- and
--.IR Documentation/security/keys\-request\-key.txt .
-+.\" commit 3db38ed76890565772fcca3279cc8d454ea6176b
-+.IR Documentation/security/keys\-request\-key.txt ).
-diff --git a/man7/keyrings.7 b/man7/keyrings.7
-index 0cb1190..6f2581c 100644
---- a/man7/keyrings.7
-+++ b/man7/keyrings.7
-@@ -870,4 +870,6 @@ scripts can use them.
- The kernel source files
- .IR Documentation/crypto/asymmetric-keys.txt
- and under
--.IR Documentation/security/keys .
-+.IR Documentation/security/keys
-+(or, before Linux 4.13, in the file
-+.IR Documentation/security/keys.txt ).
++.I Documentation/security/keys.txt
++on Linux between 3.0 and 4.13, or
++.\" commit d410fa4ef99112386de5f218dd7df7b4fca910b4
++.I Documentation/keys.txt
++before Linux 3.0).
+ .TP
+ .IR /proc/[pid]/attr/prev " (since Linux 2.6.0)"
+ This file contains the security context of the process before the last
 -- 
 2.1.4
 
