@@ -1,57 +1,51 @@
 From: "Michael Kerrisk (man-opages)" <mtk.manpages-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org>
-Subject: Re: [PATCH 3/4] keyrings.7: document description restriction for
- logon keys
-Date: Mon, 11 Sep 2017 16:25:31 +0200
-Message-ID: <3b871036-4960-91dc-dc3b-d5e4648e3de5@gmail.com>
-References: <20170911031112.GA5300@asgard.redhat.com>
+Subject: Re: [PATCH 4/4] keyctl.2: remove parentheses from the crypto API URL
+ description
+Date: Mon, 11 Sep 2017 16:25:48 +0200
+Message-ID: <954fd991-2469-c7c1-89a3-d0d7756dec03@gmail.com>
+References: <20170911031114.GA5337@asgard.redhat.com>
 Mime-Version: 1.0
 Content-Type: text/plain; charset=utf-8; format=flowed
 Content-Transfer-Encoding: 7bit
 Return-path: <linux-man-owner-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>
-In-Reply-To: <20170911031112.GA5300-ZbobWygYI+YXGNroddHbYwC/G2K4zDHf@public.gmane.org>
+In-Reply-To: <20170911031114.GA5337-ZbobWygYI+YXGNroddHbYwC/G2K4zDHf@public.gmane.org>
 Content-Language: en-US
 Sender: linux-man-owner-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
 To: Eugene Syromyatnikov <evgsyr-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org>
 Cc: linux-man-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
 List-Id: linux-man@vger.kernel.org
 
-Hi Eugene
-
 On 09/11/2017 05:11 AM, Eugene Syromyatnikov wrote:
-> "logon" type has additional check that enforces colon-separated prefix in key
-> descriptions.
+> Those look unnecessary when rendered either as text or HTML.
 
-Thanks. Patch applied, with some tweaks.
+Thanks. Patch applied.
 
 Cheers,
 
 Michael
 
 
-> * man7/keyrings.7 (.SS Key types) <.TP .IR """logon""">: Document
-> restriction imposed on logon key descriptions.
+> * man2/keyctl.2 (.SH DESCRIPTION) <.TP .BR KEYCTL_DH_COMPUTE>: Remove
+> parentheses around "Kernel Crypto API Architecture".
 > 
 > Signed-off-by: Eugene Syromyatnikov <evgsyr-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org>
 > ---
->   man7/keyrings.7 | 5 +++++
->   1 file changed, 5 insertions(+)
+>   man2/keyctl.2 | 2 +-
+>   1 file changed, 1 insertion(+), 1 deletion(-)
 > 
-> diff --git a/man7/keyrings.7 b/man7/keyrings.7
-> index 6f2581c..9a4478e 100644
-> --- a/man7/keyrings.7
-> +++ b/man7/keyrings.7
-> @@ -142,6 +142,11 @@ operation),
->   meaning that the key payload is never visible from user space.
->   This is suitable for storing username-password pairs
->   that should not be readable from user space.
-> +.IP
-> +Key description of a logon key must start with non-empty colon-delimited
-> +prefix with the purpose to identify the service to which it belongs.
-> +(contrary to keys of the "user" type, where this practice is recommended
-> +but is not enforced).
->   .TP
->   .IR """big_key""" " (since Linux 3.13)"
->   .\" commit ab3c3587f8cda9083209a61dbe3a4407d3cada10
+> diff --git a/man2/keyctl.2 b/man2/keyctl.2
+> index 1975602..8a05087 100644
+> --- a/man2/keyctl.2
+> +++ b/man2/keyctl.2
+> @@ -1508,7 +1508,7 @@ field is a null-terminated string which specifies a hash name
+>   (available in the kernel's crypto API; the list of the hashes available
+>   is rather tricky to observe; please refer to the
+>   .UR https://www.kernel.org/doc/html/latest/crypto/architecture.html
+> -("Kernel Crypto API Architecture")
+> +"Kernel Crypto API Architecture"
+>   .UE
+>   documentation for the information regarding how hash names are constructed and
+>   your kernel's source and configuration regarding what ciphers
 > 
 --
 To unsubscribe from this list: send the line "unsubscribe linux-man" in
