@@ -1,14 +1,13 @@
 From: "Michael Kerrisk (man-opages)" <mtk.manpages-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org>
-Subject: Re: [PATCH 10/15] proc.5: update pointer to in-kernel security keys
- documentation
-Date: Mon, 11 Sep 2017 15:58:25 +0200
-Message-ID: <37a2919e-e5a5-447c-60ca-34a75087106d@gmail.com>
-References: <20170911030409.GA30122@asgard.redhat.com>
+Subject: Re: [PATCH 09/15] proc.5: document removal of timer_stats file
+Date: Mon, 11 Sep 2017 15:58:14 +0200
+Message-ID: <8d3bafa9-11b1-c270-3652-708ddb621d2f@gmail.com>
+References: <20170911030407.GA30085@asgard.redhat.com>
 Mime-Version: 1.0
 Content-Type: text/plain; charset=utf-8; format=flowed
 Content-Transfer-Encoding: 7bit
 Return-path: <linux-man-owner-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>
-In-Reply-To: <20170911030409.GA30122-ZbobWygYI+YXGNroddHbYwC/G2K4zDHf@public.gmane.org>
+In-Reply-To: <20170911030407.GA30085-ZbobWygYI+YXGNroddHbYwC/G2K4zDHf@public.gmane.org>
 Content-Language: en-US
 Sender: linux-man-owner-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
 To: Eugene Syromyatnikov <evgsyr-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org>
@@ -16,50 +15,56 @@ Cc: linux-man-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
 List-Id: linux-man@vger.kernel.org
 
 On 09/11/2017 05:04 AM, Eugene Syromyatnikov wrote:
-> The file has been moved twice since its mention on the man page.
+> timer_stats was removed in Linux commit commit v4.11-rc1~177^2~5 citing
+> security concerns.
 
-Applied. Thanks!
+
+Applied, with some tweaks. Thanks!
 
 Cheers,
 
 Michael
 
 
-> * man5/proc.5 (.SS Files and directories)
-> <.TP .IR /proc/[pid]/attr/keycreate>: Amend security keys documentation
-> reference with the locations in different versions of Linux kernel tree.
+
+> * man5/proc.5 (.SS Files and directories) <.TP .I /proc/timer_stats>:
+> Mention the last Linux version where the file was available along with
+> the reasons of removal.
 > 
 > Signed-off-by: Eugene Syromyatnikov <evgsyr-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org>
 > ---
->   man5/proc.5 | 10 ++++++++--
->   1 file changed, 8 insertions(+), 2 deletions(-)
+>   man5/proc.5 | 8 +++++++-
+>   1 file changed, 7 insertions(+), 1 deletion(-)
 > 
 > diff --git a/man5/proc.5 b/man5/proc.5
-> index 7af4e02..82f6ec4 100644
+> index 71486cc..7af4e02 100644
 > --- a/man5/proc.5
 > +++ b/man5/proc.5
-> @@ -275,13 +275,19 @@ attribute.
+> @@ -5326,10 +5326,12 @@ This read-only file exposes a list of all currently pending
+>   (high-resolution) timers,
+>   all clock-event sources, and their parameters in a human-readable form.
 >   .TP
->   .IR /proc/[pid]/attr/keycreate " (since Linux 2.6.18)"
->   .\" commit 4eb582cf1fbd7b9e5f466e3718a59c957e75254e
-> -.\" /Documentation/keys.txt
->   If a process writes a security context into this file,
->   all subsequently created keys
->   .RB ( add_key (2))
->   will be labeled with this context.
->   For further information, see the kernel source file
-> -.IR Documentation/keys.txt .
-> +.I Documentation/security/keys/core.rst
-> +(or file
-> +.\" commit b68101a1e8f0263dbc7b8375d2a7c57c6216fb76
-> +.I Documentation/security/keys.txt
-> +on Linux between 3.0 and 4.13, or
-> +.\" commit d410fa4ef99112386de5f218dd7df7b4fca910b4
-> +.I Documentation/keys.txt
-> +before Linux 3.0).
+> -.IR /proc/timer_stats " (since Linux 2.6.21)"
+> +.IR /proc/timer_stats " (since Linux 2.6.21, before Linux 4.11)"
+>   .\" commit 82f67cd9fca8c8762c15ba7ed0d5747588c1e221
+>   .\"	Date:   Fri Feb 16 01:28:13 2007 -0800
+>   .\" Text largely derived from Documentation/timers/timer_stats.txt
+> +.\" removed in commit dfb4357da6ddbdf57d583ba64361c9d792b0e0b1
+> +.\"     Date:   Wed Feb 8 11:26:59 2017 -0800
+>   This is a debugging facility to make timer (ab)use in a Linux
+>   system visible to kernel and user-space developers.
+>   It can be used by kernel and user-space developers to verify that
+> @@ -5423,6 +5425,10 @@ the function where the timer was initialized; and
+>   (in parentheses)
+>   the callback function that is associated with the timer.
+>   .RE
+> +.IP
+> +During the Linux 4.11 development cycle this functionality has been removed,
+> +as it exposes information across namespaces, and there is possibility to obtain
+> +the same information via in-kernel tracing facilities such as ftrace.
 >   .TP
->   .IR /proc/[pid]/attr/prev " (since Linux 2.6.0)"
->   This file contains the security context of the process before the last
+>   .I /proc/tty
+>   Subdirectory containing the pseudo-files and subdirectories for
 > 
 --
 To unsubscribe from this list: send the line "unsubscribe linux-man" in
