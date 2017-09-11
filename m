@@ -1,73 +1,57 @@
 From: "Michael Kerrisk (man-opages)" <mtk.manpages-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org>
-Subject: Re: [PATCH 2/4] keyctl.2: mention
- keyctl_dh_compute/keyctl_dh_compute_alloc
-Date: Mon, 11 Sep 2017 16:25:04 +0200
-Message-ID: <2c7230ef-c0fc-0324-48f0-fa55dda77818@gmail.com>
-References: <20170911031109.GA5260@asgard.redhat.com>
+Subject: Re: [PATCH 3/4] keyrings.7: document description restriction for
+ logon keys
+Date: Mon, 11 Sep 2017 16:25:31 +0200
+Message-ID: <3b871036-4960-91dc-dc3b-d5e4648e3de5@gmail.com>
+References: <20170911031112.GA5300@asgard.redhat.com>
 Mime-Version: 1.0
 Content-Type: text/plain; charset=utf-8; format=flowed
 Content-Transfer-Encoding: 7bit
 Return-path: <linux-man-owner-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>
-In-Reply-To: <20170911031109.GA5260-ZbobWygYI+YXGNroddHbYwC/G2K4zDHf@public.gmane.org>
+In-Reply-To: <20170911031112.GA5300-ZbobWygYI+YXGNroddHbYwC/G2K4zDHf@public.gmane.org>
 Content-Language: en-US
 Sender: linux-man-owner-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
 To: Eugene Syromyatnikov <evgsyr-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org>
 Cc: linux-man-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
 List-Id: linux-man@vger.kernel.org
 
-Hi Eugene,
+Hi Eugene
 
 On 09/11/2017 05:11 AM, Eugene Syromyatnikov wrote:
-> Those have been added in keyutils 1.5.10 (see commits v1.5.10~11 and
-> v1.5.10~10).
+> "logon" type has additional check that enforces colon-separated prefix in key
+> descriptions.
 
-Thanks. Patch applied.
+Thanks. Patch applied, with some tweaks.
 
 Cheers,
 
 Michael
 
 
-> * man2/keyctl.2 (.SH DESCRIPTION) <.TP .BR KEYCTL_DH_COMPUTE>: Mention
-> the keyctl_dh_compute/keyctl_dh_compute_alloc are provided in keyutils
-> library for the operation.
-> (.SH SEE ALSO): Add references to keyctl_dh_compute(3) and
-> keyctl_dh_compute_alloc(3).
+> * man7/keyrings.7 (.SS Key types) <.TP .IR """logon""">: Document
+> restriction imposed on logon key descriptions.
 > 
 > Signed-off-by: Eugene Syromyatnikov <evgsyr-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org>
 > ---
->   man2/keyctl.2 | 11 +++++++++++
->   1 file changed, 11 insertions(+)
+>   man7/keyrings.7 | 5 +++++
+>   1 file changed, 5 insertions(+)
 > 
-> diff --git a/man2/keyctl.2 b/man2/keyctl.2
-> index ed132e5..1975602 100644
-> --- a/man2/keyctl.2
-> +++ b/man2/keyctl.2
-> @@ -1542,6 +1542,15 @@ and should contain zeroes since Linux 4.13.
->   .IP
->   The KDF implementation complies with SP800-56A as well
->   as with SP800-108 (the counter KDF).
+> diff --git a/man7/keyrings.7 b/man7/keyrings.7
+> index 6f2581c..9a4478e 100644
+> --- a/man7/keyrings.7
+> +++ b/man7/keyrings.7
+> @@ -142,6 +142,11 @@ operation),
+>   meaning that the key payload is never visible from user space.
+>   This is suitable for storing username-password pairs
+>   that should not be readable from user space.
 > +.IP
-> +.\" keyutils commit 742c9d7b94051d3b21f9f61a73ed6b5f3544cb82
-> +.\" keyutils commit d68a981e5db41d059ac782071c35d1e8f3aaf61c
-> +This operation is exposed by
-> +.I libkeyutils
-> +(from version 1.5.10 onwards) via the functions
-> +.BR keyctl_dh_compute (3)
-> +and
-> +.BR keyctl_dh_compute_alloc (3).
+> +Key description of a logon key must start with non-empty colon-delimited
+> +prefix with the purpose to identify the service to which it belongs.
+> +(contrary to keys of the "user" type, where this practice is recommended
+> +but is not enforced).
 >   .TP
->   .BR KEYCTL_RESTRICT_KEYRING " (since Linux 4.12)"
->   .\" commit 6563c91fd645556c7801748f15bc727c77fcd311
-> @@ -2228,6 +2237,8 @@ main(int argc, char *argv[])
->   .BR keyctl_clear (3),
->   .BR keyctl_describe (3),
->   .BR keyctl_describe_alloc (3),
-> +.BR keyctl_dh_compute (3),
-> +.BR keyctl_dh_compute_alloc (3),
->   .BR keyctl_get_keyring_ID (3),
->   .BR keyctl_get_persistent (3),
->   .BR keyctl_get_security (3),
+>   .IR """big_key""" " (since Linux 3.13)"
+>   .\" commit ab3c3587f8cda9083209a61dbe3a4407d3cada10
 > 
 --
 To unsubscribe from this list: send the line "unsubscribe linux-man" in
