@@ -1,8 +1,7 @@
 From: Eugene Syromyatnikov <evgsyr-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org>
-Subject: [PATCH 02/15] prctl.2, ptrace.2: update pointer to in-kernel Yama
- documentation
-Date: Mon, 11 Sep 2017 05:03:52 +0200
-Message-ID: <20170911030352.GA29790@asgard.redhat.com>
+Subject: [PATCH 12/15] proc.5: update pointer to in-kernel MTRR documentation
+Date: Mon, 11 Sep 2017 05:04:14 +0200
+Message-ID: <20170911030414.GA30199@asgard.redhat.com>
 Mime-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Return-path: <linux-man-owner-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>
@@ -12,54 +11,34 @@ To: mtk.manpages-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org
 Cc: linux-man-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
 List-Id: linux-man@vger.kernel.org
 
-Linux commit v4.13-rc1~34^2~30 converted yama documentation (previously
-resided in Documentation/security/Yama.txt) to ReStructured, along with
-relocating it to Documentation/amdin-guide/LSM/Yama.rst.
+The location of the file has been changed in Linux commit
+v2.6.28-rc1~734^2^8~3.
 
-* man2/prctl.2 (.SH DESCRIPTION) <.TP .BR PR_SET_PTRACER>: Amend pointer
-to Documentation/security/Yama.txt with change introduced in Linux
-4.13 (Documentation/admin-guide/LSM/Yama.rst).
-* man2/ptrace.2 (.SS /proc/sys/kernel/yama/ptrace_scope): Likewise.
+* man5/proc.5 (.SS Files and directories) <.TP .I /proc/mtrr>: Amend
+pointer to in-kernel MTRR documentation with the location change
+happened in Linux 2.6.28.
 
 Signed-off-by: Eugene Syromyatnikov <evgsyr-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org>
 ---
- man2/prctl.2  | 6 +++++-
- man2/ptrace.2 | 4 ++++
- 2 files changed, 9 insertions(+), 1 deletion(-)
+ man5/proc.5 | 4 ++++
+ 1 file changed, 4 insertions(+)
 
-diff --git a/man2/prctl.2 b/man2/prctl.2
-index 88c67a3..046dbcb 100644
---- a/man2/prctl.2
-+++ b/man2/prctl.2
-@@ -889,7 +889,11 @@ the ptrace restrictions introduced by Yama are effectively disabled for the
- calling process.
- .IP
- For further information, see the kernel source file
--.IR Documentation/security/Yama.txt .
-+.IR Documentation/admin\-guide/LSM/Yama.rst
-+.\" commit 90bb766440f2147486a2acc3e793d7b8348b0c22
+diff --git a/man5/proc.5 b/man5/proc.5
+index 9c62ee2..f469d1c 100644
+--- a/man5/proc.5
++++ b/man5/proc.5
+@@ -3319,7 +3319,11 @@ The format of this file is documented in
+ .I /proc/mtrr
+ Memory Type Range Registers.
+ See the Linux kernel source file
++.I Documentation/x86/mtrr.txt
++.\" commit 7225e75144b9718cbbe1820d9c011c809d5773fd
 +(or
-+.IR Documentation/security/Yama.txt
-+before Linux 4.13).
+ .I Documentation/mtrr.txt
++before Linux 2.6.28)
+ for details.
  .TP
- .BR PR_SET_SECCOMP " (since Linux 2.6.23)"
- .\" See http://thread.gmane.org/gmane.linux.kernel/542632
-diff --git a/man2/ptrace.2 b/man2/ptrace.2
-index dc84d41..cdf503a 100644
---- a/man2/ptrace.2
-+++ b/man2/ptrace.2
-@@ -2595,7 +2595,11 @@ operation to declare an additional PID that is allowed to perform
- .BR PTRACE_MODE_ATTACH
- operations on the target.
- See the kernel source file
-+.IR Documentation/admin\-guide/LSM/Yama.rst
-+.\" commit 90bb766440f2147486a2acc3e793d7b8348b0c22
-+(or
- .IR Documentation/security/Yama.txt
-+before Linux 4.13)
- for further details.
- .IP
- The use of
+ .I /proc/net
 -- 
 2.1.4
 
