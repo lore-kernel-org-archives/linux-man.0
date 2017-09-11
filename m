@@ -1,7 +1,8 @@
 From: Eugene Syromyatnikov <evgsyr-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org>
-Subject: [PATCH 0/4] Minor changes to keyctl-related files
-Date: Mon, 11 Sep 2017 05:11:04 +0200
-Message-ID: <20170911031104.GA555@asgard.redhat.com>
+Subject: [PATCH 2/4] keyctl.2: mention
+ keyctl_dh_compute/keyctl_dh_compute_alloc
+Date: Mon, 11 Sep 2017 05:11:09 +0200
+Message-ID: <20170911031109.GA5260@asgard.redhat.com>
 Mime-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Return-path: <linux-man-owner-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>
@@ -11,23 +12,49 @@ To: mtk.manpages-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org
 Cc: linux-man-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
 List-Id: linux-man@vger.kernel.org
 
-Hello.
+Those have been added in keyutils 1.5.10 (see commits v1.5.10~11 and
+v1.5.10~10).
 
-While working on documenting asymmetric key type (which, in turn,
-turned into documenting all of the undocumented key types) some minor
-fixes to keyctl/keyrings man pages have been accumulated, so I decided
-to send them earlier (before 4.13 release, at least).
+* man2/keyctl.2 (.SH DESCRIPTION) <.TP .BR KEYCTL_DH_COMPUTE>: Mention
+the keyctl_dh_compute/keyctl_dh_compute_alloc are provided in keyutils
+library for the operation.
+(.SH SEE ALSO): Add references to keyctl_dh_compute(3) and
+keyctl_dh_compute_alloc(3).
 
-Eugene Syromyatnikov (4):
-  keyctl.2: remove www.tmac inclusion
-  keyctl.2: mention keyctl_dh_compute/keyctl_dh_compute_alloc
-  keyrings.7: document description restriction for logon keys
-  keyctl.2: remove parentheses from the crypto API URL description
+Signed-off-by: Eugene Syromyatnikov <evgsyr-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org>
+---
+ man2/keyctl.2 | 11 +++++++++++
+ 1 file changed, 11 insertions(+)
 
- man2/keyctl.2   | 14 ++++++++++++--
- man7/keyrings.7 |  5 +++++
- 2 files changed, 17 insertions(+), 2 deletions(-)
-
+diff --git a/man2/keyctl.2 b/man2/keyctl.2
+index ed132e5..1975602 100644
+--- a/man2/keyctl.2
++++ b/man2/keyctl.2
+@@ -1542,6 +1542,15 @@ and should contain zeroes since Linux 4.13.
+ .IP
+ The KDF implementation complies with SP800-56A as well
+ as with SP800-108 (the counter KDF).
++.IP
++.\" keyutils commit 742c9d7b94051d3b21f9f61a73ed6b5f3544cb82
++.\" keyutils commit d68a981e5db41d059ac782071c35d1e8f3aaf61c
++This operation is exposed by
++.I libkeyutils
++(from version 1.5.10 onwards) via the functions
++.BR keyctl_dh_compute (3)
++and
++.BR keyctl_dh_compute_alloc (3).
+ .TP
+ .BR KEYCTL_RESTRICT_KEYRING " (since Linux 4.12)"
+ .\" commit 6563c91fd645556c7801748f15bc727c77fcd311
+@@ -2228,6 +2237,8 @@ main(int argc, char *argv[])
+ .BR keyctl_clear (3),
+ .BR keyctl_describe (3),
+ .BR keyctl_describe_alloc (3),
++.BR keyctl_dh_compute (3),
++.BR keyctl_dh_compute_alloc (3),
+ .BR keyctl_get_keyring_ID (3),
+ .BR keyctl_get_persistent (3),
+ .BR keyctl_get_security (3),
 -- 
 2.1.4
 
