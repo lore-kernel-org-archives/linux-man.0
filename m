@@ -1,14 +1,14 @@
 From: "Michael Kerrisk (man-opages)" <mtk.manpages-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org>
-Subject: Re: [PATCH 11/15] proc.5: update reference to kernel's crypto API
+Subject: Re: [PATCH 10/15] proc.5: update pointer to in-kernel security keys
  documentation
-Date: Mon, 11 Sep 2017 15:58:37 +0200
-Message-ID: <43545d9f-e6ef-c672-2eee-c257984b6210@gmail.com>
-References: <20170911030411.GA30162@asgard.redhat.com>
+Date: Mon, 11 Sep 2017 15:58:25 +0200
+Message-ID: <37a2919e-e5a5-447c-60ca-34a75087106d@gmail.com>
+References: <20170911030409.GA30122@asgard.redhat.com>
 Mime-Version: 1.0
 Content-Type: text/plain; charset=utf-8; format=flowed
 Content-Transfer-Encoding: 7bit
 Return-path: <linux-man-owner-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>
-In-Reply-To: <20170911030411.GA30162-ZbobWygYI+YXGNroddHbYwC/G2K4zDHf@public.gmane.org>
+In-Reply-To: <20170911030409.GA30122-ZbobWygYI+YXGNroddHbYwC/G2K4zDHf@public.gmane.org>
 Content-Language: en-US
 Sender: linux-man-owner-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
 To: Eugene Syromyatnikov <evgsyr-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org>
@@ -16,10 +16,7 @@ Cc: linux-man-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
 List-Id: linux-man@vger.kernel.org
 
 On 09/11/2017 05:04 AM, Eugene Syromyatnikov wrote:
-> DocBook documentation has been removed in commit v4.13-rc1~34^2~21^2~11.
-> Crypto API has been converted to ReStructured format during the Linux
-> 4.10 development cycle (see commits v4.10-rc1~40^2~8 and
-> v4.10-rc1~40^2~7).
+> The file has been moved twice since its mention on the man page.
 
 Applied. Thanks!
 
@@ -28,38 +25,41 @@ Cheers,
 Michael
 
 
-
-> * man5/proc.5 (.SS Files and directories) <.TP .I /proc/crypto>: Amend
-> the reference to the kernel's crypto API documentation with the new
-> location, effective since Linux 4.10.
+> * man5/proc.5 (.SS Files and directories)
+> <.TP .IR /proc/[pid]/attr/keycreate>: Amend security keys documentation
+> reference with the locations in different versions of Linux kernel tree.
 > 
 > Signed-off-by: Eugene Syromyatnikov <evgsyr-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org>
 > ---
->   man5/proc.5 | 10 +++++++---
->   1 file changed, 7 insertions(+), 3 deletions(-)
+>   man5/proc.5 | 10 ++++++++--
+>   1 file changed, 8 insertions(+), 2 deletions(-)
 > 
 > diff --git a/man5/proc.5 b/man5/proc.5
-> index 82f6ec4..9c62ee2 100644
+> index 7af4e02..82f6ec4 100644
 > --- a/man5/proc.5
 > +++ b/man5/proc.5
-> @@ -2757,10 +2757,14 @@ A list of the ciphers provided by the kernel crypto API.
->   For details, see the kernel
->   .I "Linux Kernel Crypto API"
->   documentation available under the kernel source directory
-> -.IR Documentation/DocBook .
-> -(That documentation can be built using a command such as
-> +.I Documentation/crypto/
-> +.\" commit 3b72c814a8e8cd638e1ba0da4dfce501e9dff5af
-> +(or
-> +.I Documentation/DocBook
-> +before 4.10;
-> +the documentation can be built using a command such as
->   .IR "make htmldocs"
-> -in the root directory of the kernel source tree.)
-> +in the root directory of the kernel source tree).
+> @@ -275,13 +275,19 @@ attribute.
 >   .TP
->   .I /proc/cpuinfo
->   This is a collection of CPU and system architecture dependent items,
+>   .IR /proc/[pid]/attr/keycreate " (since Linux 2.6.18)"
+>   .\" commit 4eb582cf1fbd7b9e5f466e3718a59c957e75254e
+> -.\" /Documentation/keys.txt
+>   If a process writes a security context into this file,
+>   all subsequently created keys
+>   .RB ( add_key (2))
+>   will be labeled with this context.
+>   For further information, see the kernel source file
+> -.IR Documentation/keys.txt .
+> +.I Documentation/security/keys/core.rst
+> +(or file
+> +.\" commit b68101a1e8f0263dbc7b8375d2a7c57c6216fb76
+> +.I Documentation/security/keys.txt
+> +on Linux between 3.0 and 4.13, or
+> +.\" commit d410fa4ef99112386de5f218dd7df7b4fca910b4
+> +.I Documentation/keys.txt
+> +before Linux 3.0).
+>   .TP
+>   .IR /proc/[pid]/attr/prev " (since Linux 2.6.0)"
+>   This file contains the security context of the process before the last
 > 
 --
 To unsubscribe from this list: send the line "unsubscribe linux-man" in
