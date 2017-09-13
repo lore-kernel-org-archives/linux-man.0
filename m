@@ -1,153 +1,55 @@
 From: "Michael Kerrisk (man-pages)" <mtk.manpages-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org>
-Subject: Re: [PATCTH 0/2] pthread_mutexattr_setrobust() and pthread_mutex_consistent()
-Date: Wed, 13 Sep 2017 14:28:10 +0200
-Message-ID: <CAKgNAkh4iAkz8oL70S3dzztF_oZy+fXohS4OZ2nyySAaAMGX3w@mail.gmail.com>
-References: <CAJYFCiMZN09HaHpvKgxz3mqzmcaXAWmkz=BmgOW9WVdRKOhDsg@mail.gmail.com>
- <36ab9ec0-b496-c007-c12f-065fd618e7fd@gmail.com> <CAJYFCiPM6Hy1cPF2mUBu5bVqxNX+5kvKnJZLhYzMMwuMiHCKeg@mail.gmail.com>
- <20170826210528.GA32472@HP.internal.baidu.com> <f56e1439-7a5f-3b7a-2ec4-0970fc6ad0ad@gmail.com>
- <20170913083446.GA16265@HP.internal.baidu.com>
+Subject: Re: socket(2) guarantee to return the lowest-available file descriptor
+Date: Wed, 13 Sep 2017 14:40:03 +0200
+Message-ID: <CAKgNAkjiXEEMVTVAudn0PD1v-TsRPWjjCex9uQV9+q=J5HNwbw@mail.gmail.com>
+References: <CAJYFCiNrUL-Z2R2GsXy_rG-iS_hLWEL-y8wdpw65hdw41T0YWQ@mail.gmail.com>
 Reply-To: mtk.manpages-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org
 Mime-Version: 1.0
 Content-Type: text/plain; charset="UTF-8"
 Return-path: <linux-man-owner-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>
-In-Reply-To: <20170913083446.GA16265-BUpDV9vzqx74NUO8LpiZZi+1pv2Z1Xu3@public.gmane.org>
+In-Reply-To: <CAJYFCiNrUL-Z2R2GsXy_rG-iS_hLWEL-y8wdpw65hdw41T0YWQ-JsoAwUIsXosN+BqQ9rBEUg@public.gmane.org>
 Sender: linux-man-owner-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
 To: Yubin Ruan <ablacktshirt-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org>
-Cc: linux-man <linux-man-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>, "libc-alpha-9JcytcrH/bA+uJoB2kUjGw@public.gmane.org" <libc-alpha-9JcytcrH/bA+uJoB2kUjGw@public.gmane.org>
+Cc: linux-man <linux-man-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>
 List-Id: linux-man@vger.kernel.org
 
-Hello Yubin,
+Hello Yubin
 
-On 13 September 2017 at 10:34, Yubin Ruan <ablacktshirt-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org> wrote:
-> On Tue, Sep 12, 2017 at 02:41:29PM +0200, Michael Kerrisk (man-pages) wrote:
->> Hello Yubin,
->>
->> [...]
->> > +.B PTHREAD_MUTEX_ROBUST
->> > +can be set on a mutex attribute object so that when the owner of the mutex
->> > +dies or when the process containing such a locked mutex performs
->> > +.IR execve (2)
->> > +, any future attempts to call
->> > +.IR pthread_mutex_lock (3)
->> > +on this mutex will suceed and return
->> > +.B EOWNERDEAD
->> > +to indicate that the original owner no longer exists and the mutex is left in
->> > +an inconsistent state.
->> How did you verify the point regarding execve(2)? I don't see this
->> detailed mentioned in the standards or in the glibc source.
+On 11 September 2017 at 04:56, Yubin Ruan <ablacktshirt-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org> wrote:
+> Hi,
+> Is there any guarantee that socket(2) will return the lowest-available
+> file descriptor?
 >
-> Please see below the program I used to verify that. I haven't go into too much
-> detail in the POSIX standard, though. I think I must have read it at [1] or
-> somewhere else (don't remember...).
+> I note in the man page that open(2) has that guarantee, conforming to
+> POSIX, but nothing about that has been add to socket(2). As socket(2)
+> is said to be conforming to POSIX in the main page, which implies that
+> guarantee, should we add that to the man page?
 
-Thanks for the details and example program.
-
-So, I see the kernel code that deals with this now: in
-fs/exec.c::exec_mmap(), there is a call to mm_release() which in turn
-calls exit_robust_list()
-
-So, this detail isn't in POSIX. I think what I will do is move
-discussion of that point into the NOTES.
-
-> And also, it is mentioned at [1] that when the process containing such a locked
-> mutex unmaps the memory containing the mutex, the mutex is unlocked... I think
-> this is trivial so I don't add it.
-
-It also appears not to be true on Linux, at least in some short tests
-I just did.[1] See my modified version of your program, below. Also
-when looking at the kernel code, I can see no call to mm_release()
-that would lead to this behavior.
+Yes, I've added the same text to socket(2). Thanks for the report.
 
 Cheers,
 
 Michael
 
-[1] And I wonder if the Solaris documentation is even correct, since,
-if we are talking about a shared anonymous mapping, the memory would
-not be released until *all* processes have unmapped the memory
+POSIX.1:
+2.14
+File Descriptor Allocation
+All functions that open one or more file descriptors shall, unless
+specified otherwise, atomically
+allocate the lowest numbered available (that is, not already open in
+the calling process) file
+descriptor at the time of each allocation. Where a single function
+allocates two file descriptors
+(for example, pipe( ) or socketpair( )), the allocations may be
+independent and therefore
+applications should not expect them to have adjacent values or depend
+on which has the higher
+value.
 
-/************ verify-execve.c *****************/
-#define _POSIX_C_SOURCE 200809L
-#define _GNU_SOURCE
-#include <errno.h>
-#include <pthread.h>
-#include <stdio.h>
-#include <stdlib.h>
-#include <string.h>
-#include <sys/ipc.h>
-#include <sys/mman.h>
-#include <sys/stat.h>
-#include <sys/types.h>
-#include <unistd.h>
-
-#define MEMSIZE 4096
-
-#define ERROR_ON(func_name) \
-    fprintf(stderr, "error: " #func_name ": line[%d]: %s\n", __LINE__,
-strerror(errno));
-
-int main(int argc, char *argv[]) {
-    struct shm *shm = NULL;
-    int ret_code = 0;
-    pthread_mutex_t *mutexp = NULL;
-    pthread_mutexattr_t attr;
-    pid_t pid = 0;
-
-    shm = mmap(NULL, MEMSIZE, PROT_READ | PROT_WRITE,
-               MAP_ANONYMOUS | MAP_SHARED,-1, 0);
-    if ((void *)-1 == shm) {
-        ERROR_ON(shmat);
-        return -1;
-    }
-    memset(shm, 0, sizeof(pthread_mutex_t));
-
-    printf("Successfully attached shared memory, trying to lock\n");
-
-    //initialize the lock
-    mutexp = (pthread_mutex_t *)shm;
-    pthread_mutexattr_init(&attr);
-    pthread_mutexattr_setrobust(&attr, PTHREAD_MUTEX_ROBUST);
-    pthread_mutexattr_setpshared(&attr, PTHREAD_PROCESS_SHARED);
-    pthread_mutex_init(mutexp, &attr);
-
-    pid = fork();
-    if (0 == pid) {
-        sleep(1);
-        printf("Child about to call pthread_mutex-Lock()\n");
-        ret_code = pthread_mutex_lock(mutexp);
-        if (EOWNERDEAD == ret_code) {
-            printf("child see EOWNERDEAD returned. Verification completed\n");
-            pthread_mutex_consistent(mutexp);
-            pthread_mutex_unlock(mutexp);
-            exit(0);
-        } else {
-            printf("child see [%d] returned\n", ret_code);
-            exit(1);
-        }
-    } else {
-        ret_code = pthread_mutex_lock(mutexp);
-        if (0 == ret_code) {
-            printf("parent successfully acquired the lock\n");
-        } else {
-            ERROR_ON(pthread_mutex_lock);
-            return -1;
-        }
-
-        printf("Parent sleeping 3 seconds\n");
-        sleep(3);
-        if (munmap(shm, MEMSIZE) == -1)
-            ERROR_ON(munmap);
-        printf("Parent has unmapped the memory\n");
-        sleep(1);
-        printf("Parent about to exit\n");
-        exit(0);
-/*
-        printf("parent going to execve(/bin/true)\n");
-        execl("/bin/true", "true", (char *) NULL);
-*/
-    }
-    return 0;
-}
+-- 
+Michael Kerrisk
+Linux man-pages maintainer; http://www.kernel.org/doc/man-pages/
+Linux/UNIX System Programming Training: http://man7.org/training/
 --
 To unsubscribe from this list: send the line "unsubscribe linux-man" in
 the body of a message to majordomo-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
