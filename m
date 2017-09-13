@@ -1,49 +1,32 @@
-From: Eugene Syromyatnikov <evgsyr-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org>
-Subject: [PATCH 05/15] unshare.2: update pointer to in-kernel unshare
- documentation
-Date: Mon, 11 Sep 2017 05:03:58 +0200
-Message-ID: <20170911030358.GA29935@asgard.redhat.com>
+From: Tej Chajed <tchajed-3s7WtUTddSA@public.gmane.org>
+Subject: [patch] fsync.2: tfix
+Date: Wed, 13 Sep 2017 15:29:25 -0400
+Message-ID: <CAFCzHYbB-jxdQ52gndMsQAqNuJbyYc82xkbHDeYjAjgTQcT2Hg@mail.gmail.com>
 Mime-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
+Content-Type: text/plain; charset="UTF-8"
 Return-path: <linux-man-owner-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>
-Content-Disposition: inline
 Sender: linux-man-owner-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
-To: mtk.manpages-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org
+To: Michael Kerrisk-manpages <mtk.manpages-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org>
 Cc: linux-man-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
 List-Id: linux-man@vger.kernel.org
 
-Linux commit v4.12-rc1~137^2~33^2 converted unshare documentation
-(previously resided in Documentation/unshare.txt) to ReStructured
-format, along with relocating it to
-Documentation/userspace-api/unshare.rst.
+man-pages version 4.13 as found on GitHub has an accidental deletion
+introduced in 2021d0b3be72d80decc0c869324e822a823d322f. Here's a patch
+to add it back:
 
-* man2/unshare.2 (.SH SEE ALSO): Amend pointer to
-Documentation/unshare.txt with change introduced in Linux 4.14 (move to
-Documentation/userspace_api/unshare.rst).
-
-Signed-off-by: Eugene Syromyatnikov <evgsyr-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org>
----
- man2/unshare.2 | 6 +++++-
- 1 file changed, 5 insertions(+), 1 deletion(-)
-
-diff --git a/man2/unshare.2 b/man2/unshare.2
-index 8bf6487..9f0afab 100644
---- a/man2/unshare.2
-+++ b/man2/unshare.2
-@@ -489,5 +489,9 @@ main(int argc, char *argv[])
- .BR vfork (2),
- .BR namespaces (7)
+diff --git a/man2/fsync.2 b/man2/fsync.2
+index f1a01301d..c02d880a8 100644
+--- a/man2/fsync.2
++++ b/man2/fsync.2
+@@ -74,6 +74,7 @@ The call blocks until the device reports that the
+transfer has completed.
+ As well as flushing the file data,
+ .BR fsync ()
+ also flushes the metadata information associated with the file (see
++.BR inode (7)).
  .PP
--.I Documentation/unshare.txt
-+.I Documentation/userspace-api/unshare.rst
- in the Linux kernel source tree
-+.\" commit f504d47be5e8fa7ecf2bf660b18b42e6960c0eb2
-+(or
-+.I Documentation/unshare.txt
-+before Linux 4.12)
--- 
-2.1.4
-
+ Calling
+ .BR fsync ()
 --
 To unsubscribe from this list: send the line "unsubscribe linux-man" in
 the body of a message to majordomo-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
