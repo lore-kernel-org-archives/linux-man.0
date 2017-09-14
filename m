@@ -1,39 +1,41 @@
-From: walter harms <wharms-fPG8STNUNVg@public.gmane.org>
-Subject: Re: [RFC PATCH manpages] write.2, fsync.2, close.2: update description
- of error codes
-Date: Thu, 14 Sep 2017 09:59:01 +0200
-Message-ID: <59BA36C5.9000506@bfs.de>
-References: <20170720194227.7830-1-jlayton@kernel.org> <1503683981.22608.0.camel@redhat.com> <87h8wsiog4.fsf@notabene.neil.brown.name> <1503920855.4563.12.camel@redhat.com> <87pobfgo9q.fsf@notabene.neil.brown.name> <1504004058.4679.7.camel@redhat.com> <87efrjb2mn.fsf@notabene.neil.brown.name> <1504784132.4954.12.camel@redhat.com> <1504796087.3561.7.camel@primarydata.com> <874ls9diij.fsf@notabene.neil.brown.name> <1505126785.4916.7.camel@redhat.com> <87poawc390.fsf@notabene.neil.brown.name> <1505229616.28831.26.camel@redhat.com> <87efrbbne1.fsf@notabene.neil.brown.name> <1505305391.4822.13.camel@redhat.com> <87ingm9n04.fsf@notabene.neil.brown.name>
-Reply-To: wharms-fPG8STNUNVg@public.gmane.org
+From: Jeff Layton <jlayton-H+wXaHxf7aLQT0dZR+AlfA@public.gmane.org>
+Subject: Re: [RFC PATCH manpages] write.2, fsync.2, close.2: update
+ description of error codes
+Date: Thu, 14 Sep 2017 06:48:59 -0400
+Message-ID: <1505386139.4870.10.camel@redhat.com>
+References: <20170720194227.7830-1-jlayton@kernel.org>
+         <1503683981.22608.0.camel@redhat.com>
+         <87h8wsiog4.fsf@notabene.neil.brown.name>
+         <1503920855.4563.12.camel@redhat.com>
+         <87pobfgo9q.fsf@notabene.neil.brown.name>
+         <1504004058.4679.7.camel@redhat.com>
+         <87efrjb2mn.fsf@notabene.neil.brown.name>
+         <1504784132.4954.12.camel@redhat.com>
+         <1504796087.3561.7.camel@primarydata.com>
+         <874ls9diij.fsf@notabene.neil.brown.name>
+         <1505126785.4916.7.camel@redhat.com>
+         <87poawc390.fsf@notabene.neil.brown.name>
+         <1505229616.28831.26.camel@redhat.com>
+         <87efrbbne1.fsf@notabene.neil.brown.name>
+         <1505305391.4822.13.camel@redhat.com>
+         <87ingm9n04.fsf@notabene.neil.brown.name>
 Mime-Version: 1.0
-Content-Type: text/plain; charset=UTF-8
+Content-Type: text/plain; charset="UTF-8"
 Content-Transfer-Encoding: 7bit
 Return-path: <linux-man-owner-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>
 In-Reply-To: <87ingm9n04.fsf-wvvUuzkyo1HefUI2i7LXDhCRmIWqnp/j@public.gmane.org>
 Sender: linux-man-owner-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
-To: NeilBrown <neilb-IBi9RG/b67k@public.gmane.org>
-Cc: linux-man-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
+To: NeilBrown <neilb-IBi9RG/b67k@public.gmane.org>, "Michael Kerrisk (man-pages)" <mtk.manpages-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org>, Trond Myklebust <trondmy-7I+n7zu2hftEKMMhf/gKZA@public.gmane.org>, "anna.schumaker-HgOvQuBEEgTQT0dZR+AlfA@public.gmane.org" <anna.schumaker-HgOvQuBEEgTQT0dZR+AlfA@public.gmane.org>, "jlayton-DgEjT+Ai2ygdnm+yROfE0A@public.gmane.org" <jlayton-DgEjT+Ai2ygdnm+yROfE0A@public.gmane.org>
+Cc: linux-man-u79uwXL29TY76Z2rM5mHXA@public.gmane.org, "linux-nfs-u79uwXL29TY76Z2rM5mHXA@public.gmane.org" <linux-nfs-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>, "linux-fsdevel-u79uwXL29TY76Z2rM5mHXA@public.gmane.org" <linux-fsdevel-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>
 List-Id: linux-man@vger.kernel.org
 
-
-
-Am 14.09.2017 01:50, schrieb NeilBrown:
-> 
+On Thu, 2017-09-14 at 09:50 +1000, NeilBrown wrote:
 > Since 4.13, errors from writeback are more reliably reported
 > to all file descriptors that might be relevant.
 > 
 > Add notes to this effect, and also add details about ENOSPC and EDQUOT
 > which can be delayed in a similar manner to EIO - for NFS in particular.
 > 
-
-I never read EDQUOT  before but it is real:
-
-see:
-http://elixir.free-electrons.com/linux/latest/source/security/keys/request_key.c
-
--EDQUOT
- * if insufficient key quota was available to create a new key
-
 > Signed-off-by: NeilBrown <neilb-IBi9RG/b67k@public.gmane.org>
 > ---
 > 
@@ -48,6 +50,9 @@ http://elixir.free-electrons.com/linux/latest/source/security/keys/request_key.c
 > Thanks,
 > NeilBronw
 > 
+
+Many thanks for doing this! It was on my to-do list. Comments below:
+
 > 
 >  man2/close.2 |  9 +++++++++
 >  man2/fsync.2 | 19 ++++++++++++++++++-
@@ -88,7 +93,15 @@ http://elixir.free-electrons.com/linux/latest/source/security/keys/request_key.c
 > +.\" commit 088737f44bbf6378745f5b57b035e57ee3dc4750
 > +Since Linux 4.13 errors from write-back will be reported to
 > +all file descriptors that might have written the data which triggered
-> +the error, and which are still open.  Some filesystems (e.g. NFS)
+> +the error, and which are still open.
+
+This is a little awkward. How could we report to a fd that was no longer
+open? How about:
+
+"Since Linux 4.13, errors from write-back will be reported to all file
+descriptors that were open at the time that the error was recorded."
+
+>   Some filesystems (e.g. NFS)
 > +keep close track of which data came through which file descriptor,
 > +and give more precise reporting.  Other filesystems (e.g. most local
 > +filesystems) will report errors to all file descriptors on the same
@@ -133,6 +146,17 @@ http://elixir.free-electrons.com/linux/latest/source/security/keys/request_key.c
 > +be reported to all file descriptors that might have
 > +written the data which triggered the error, and which are still
 > +open.
+
+
+This is where things get a little more vague.
+
+Some filesystems will return errors on a subsequent write(2) when
+previous writeback has failed -- some don't. In either case though,
+write(2) should never advance your errseq_t cursor, so only an fsync
+will "clear" an earlier error.
+
+I'm not sure how best to convey that in the manpages though.
+
 > +.\" commit 088737f44bbf6378745f5b57b035e57ee3dc4750
 >  .TP
 >  .B ENOSPC
@@ -154,6 +178,9 @@ http://elixir.free-electrons.com/linux/latest/source/security/keys/request_key.c
 >  The only way to be sure is to call
 >  .BR fsync (2)
 >  after you are done writing all your data.
+
+-- 
+Jeff Layton <jlayton-H+wXaHxf7aLQT0dZR+AlfA@public.gmane.org>
 --
 To unsubscribe from this list: send the line "unsubscribe linux-man" in
 the body of a message to majordomo-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
