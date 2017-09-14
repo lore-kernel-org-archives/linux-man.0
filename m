@@ -1,48 +1,51 @@
 From: "Michael Kerrisk (man-opages)" <mtk.manpages-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org>
-Subject: Re: [patch] fsync.2: tfix
-Date: Thu, 14 Sep 2017 14:34:05 +0200
-Message-ID: <14859e86-0ecd-5aa0-2314-718b526f6583@gmail.com>
-References: <CAFCzHYbB-jxdQ52gndMsQAqNuJbyYc82xkbHDeYjAjgTQcT2Hg@mail.gmail.com>
+Subject: Re: [PATCH] io_submit.2: acknowledge possibility of short return
+Date: Thu, 14 Sep 2017 14:42:31 +0200
+Message-ID: <e2ff5561-9bb3-2b7e-06e8-691451679193@gmail.com>
+References: <20170907204428.8344-1-sage@redhat.com>
 Mime-Version: 1.0
 Content-Type: text/plain; charset=utf-8; format=flowed
 Content-Transfer-Encoding: 7bit
 Return-path: <linux-man-owner-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>
-In-Reply-To: <CAFCzHYbB-jxdQ52gndMsQAqNuJbyYc82xkbHDeYjAjgTQcT2Hg-JsoAwUIsXosN+BqQ9rBEUg@public.gmane.org>
+In-Reply-To: <20170907204428.8344-1-sage-H+wXaHxf7aLQT0dZR+AlfA@public.gmane.org>
 Content-Language: en-US
 Sender: linux-man-owner-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
-To: Tej Chajed <tchajed-3s7WtUTddSA@public.gmane.org>
+To: Sage Weil <sage-H+wXaHxf7aLQT0dZR+AlfA@public.gmane.org>
 Cc: mtk.manpages-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org, linux-man-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
 List-Id: linux-man@vger.kernel.org
 
-On 09/13/2017 09:29 PM, Tej Chajed wrote:
-> man-pages version 4.13 as found on GitHub has an accidental deletion
-> introduced in 2021d0b3be72d80decc0c869324e822a823d322f. Here's a patch
-> to add it back:
+Hello Sage,
 
-Thanks, Tej. Applied.
+On 09/07/2017 10:44 PM, Sage Weil wrote:
+> Note that the return value may be a value less than nr
+> if not all iocbs were queued at once.  This would have saved
+> me an embarrassing amount of time.
+
+Thanks. Applied!
 
 Cheers,
 
 Michael
 
 
-> diff --git a/man2/fsync.2 b/man2/fsync.2
-> index f1a01301d..c02d880a8 100644
-> --- a/man2/fsync.2
-> +++ b/man2/fsync.2
-> @@ -74,6 +74,7 @@ The call blocks until the device reports that the
-> transfer has completed.
->   As well as flushing the file data,
->   .BR fsync ()
->   also flushes the metadata information associated with the file (see
-> +.BR inode (7)).
->   .PP
->   Calling
->   .BR fsync ()
-> --
-> To unsubscribe from this list: send the line "unsubscribe linux-man" in
-> the body of a message to majordomo-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
-> More majordomo info at  http://vger.kernel.org/majordomo-info.html
+> Signed-off-by: Sage Weil <sage-H+wXaHxf7aLQT0dZR+AlfA@public.gmane.org>
+> ---
+>   man2/io_submit.2 | 2 +-
+>   1 file changed, 1 insertion(+), 1 deletion(-)
+> 
+> diff --git a/man2/io_submit.2 b/man2/io_submit.2
+> index 36465b64b..77ba34671 100644
+> --- a/man2/io_submit.2
+> +++ b/man2/io_submit.2
+> @@ -32,7 +32,7 @@ which will be submitted to context \fIctx_id\fP.
+>   On success,
+>   .BR io_submit ()
+>   returns the number of \fIiocb\fPs submitted (which may be
+> -0 if \fInr\fP is zero).
+> +less than \fInr\fP, or 0 if \fInr\fP is zero).
+>   For the failure return, see NOTES.
+>   .SH ERRORS
+>   .TP
 > 
 --
 To unsubscribe from this list: send the line "unsubscribe linux-man" in
