@@ -1,66 +1,107 @@
 From: "Michael Kerrisk (man-opages)" <mtk.manpages-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org>
-Subject: Re: [PATCH] tcp.7: tcp_tw_recycle is removed from Linux 4.12
-Date: Thu, 14 Sep 2017 14:50:37 +0200
-Message-ID: <115d2e9f-9a13-19df-a611-afe3c314832a@gmail.com>
-References: <20170907053243.20052-1-vincent@bernat.im>
+Subject: Re: [PATCH] RLIMIT_DATA affects mmap (2) since 4.7
+Date: Thu, 14 Sep 2017 17:54:33 +0200
+Message-ID: <98888eaa-82a0-70fc-4867-f1933d74795c@gmail.com>
+References: <CA+Y64xNppz0LDR1UoK48mnP2DcTPLefpD4U6LBZ4qQYvifSHcQ@mail.gmail.com>
 Mime-Version: 1.0
 Content-Type: text/plain; charset=utf-8; format=flowed
 Content-Transfer-Encoding: 7bit
 Return-path: <linux-man-owner-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>
-In-Reply-To: <20170907053243.20052-1-vincent-5wNQGcxKXm8AvxtiuMwx3w@public.gmane.org>
+In-Reply-To: <CA+Y64xNppz0LDR1UoK48mnP2DcTPLefpD4U6LBZ4qQYvifSHcQ-JsoAwUIsXosN+BqQ9rBEUg@public.gmane.org>
 Content-Language: en-US
 Sender: linux-man-owner-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
-To: Vincent Bernat <vincent-5wNQGcxKXm8AvxtiuMwx3w@public.gmane.org>, linux-man-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
-Cc: mtk.manpages-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org
+To: Jonas Grabber <jobegrabber-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org>
+Cc: mtk.manpages-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org, linux-man-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
 List-Id: linux-man@vger.kernel.org
 
-Hello Bernat,
+Hello Jonas,
 
-On 09/07/2017 07:32 AM, Vincent Bernat wrote:
-> And it is completely broken.
+On 08/28/2017 04:10 PM, Jonas Grabber wrote:
+>  From 9e3c8ac6f7ac8a490e020eea5dc68fca5244b354 Mon Sep 17 00:00:00 2001
+> From: Jonas Grabber <jobegrabber-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org>
+> Date: Mon, 28 Aug 2017 16:08:15 +0200
+> Subject: [PATCH] RLIMIT_DATA affects mmap (2) since 4.7
+> 
+> Starting with Linux kernel 4.5 and 84638335900f1995495838fe1bd4870c43ec1f67
+> (mm: rework virtual memory accounting) RLIMIT_DATA affects mmap (2).
+> With d977d56ce5b3e8842236f2f9e7483d4914c9592e (mm: warn about VmData
+> over RLIMIT_DATA) only warnings are emmitted when going over the
+> specified RLIMIT_DATA in 4.5.
+> 
+> As of 4.7 and f4fcd55841fc9e46daac553b39361572453c2b88 (mm: enable
+> RLIMIT_DATA by default with workaround for valgrind) going over
+> RLIMIT_DATA through mmap (2) is forbidden.
+> 
+> This updates man-pages 4.13 to reflect these changes.
 
-Thanks. Patch applied. I changed "4.12" to "4.11", since that is the 
-last version that had this file.
+Thanks for the patch! Applied.
 
 Cheers,
 
 Michael
 
 
-
-
-> Signed-off-by: Vincent Bernat <vincent-5wNQGcxKXm8AvxtiuMwx3w@public.gmane.org>
 > ---
->   man7/tcp.7 | 16 ++++++----------
->   1 file changed, 6 insertions(+), 10 deletions(-)
+>   man2/getrlimit.2 | 11 ++++++++---
+>   man2/mmap.2      |  8 ++++++++
+>   man3/malloc.3    |  2 +-
+>   3 files changed, 17 insertions(+), 4 deletions(-)
 > 
-> diff --git a/man7/tcp.7 b/man7/tcp.7
-> index 415c7690d5a2..c7d2fcb5362e 100644
-> --- a/man7/tcp.7
-> +++ b/man7/tcp.7
-> @@ -864,16 +864,12 @@ can be consumed by a single TCP Segmentation Offload (TSO) frame.
->   The setting of this parameter is a tradeoff between burstiness and
->   building larger TSO frames.
+> diff --git a/man2/getrlimit.2 b/man2/getrlimit.2
+> index 84f04d695..fd414fc54 100644
+> --- a/man2/getrlimit.2
+> +++ b/man2/getrlimit.2
+> @@ -179,9 +179,14 @@ perform an orderly termination upon first receipt of
+>   This is the maximum size of the process's data segment (initialized data,
+>   uninitialized data, and heap).
+>   This limit affects calls to
+> -.BR brk (2)
+> -and
+> -.BR sbrk (2),
+> +.BR brk (2),
+> +.BR sbrk (2)
+> +and as of Linux 4.7 also
+> +.BR mmap (2)
+> +.\" commits 84638335900f1995495838fe1bd4870c43ec1f67
+> +.\" ("mm: rework virtual memory accounting"),
+> +.\" f4fcd55841fc9e46daac553b39361572453c2b88
+> +.\" (mm: enable RLIMIT_DATA by default with workaround for valgrind).
+>   which fail with the error
+>   .B ENOMEM
+>   upon encountering the soft limit of this resource.
+> diff --git a/man2/mmap.2 b/man2/mmap.2
+> index df527809e..e5f134e4f 100644
+> --- a/man2/mmap.2
+> +++ b/man2/mmap.2
+> @@ -493,6 +493,14 @@ when unmapping a region in the middle of an
+> existing mapping,
+>   since this results in two smaller mappings on either side of
+>   the region being unmapped.
 >   .TP
-> -.IR tcp_tw_recycle " (Boolean; default: disabled; since Linux 2.4)"
-> -.\" Since 2.3.15
-> -Enable fast recycling of TIME_WAIT sockets.
-> -Enabling this option is
-> -not recommended for devices communicating with the general Internet
-> -or using NAT (Network Address Translation).
-> -Since some NAT gateways
-> -pass through IP timestamp values, one IP can appear to have
-> -non-increasing timestamps.
-> -See RFC 1323 (PAWS), RFC 6191.
-> +.IR tcp_tw_recycle " (Boolean; default: disabled; Linux 2.4 to 4.12)"
-> +.\" Since 2.3.15; removed in 4.12; commit 4396e46187ca5070219b81773c4e65088dac50cc
-> +Enable fast recycling of TIME_WAIT sockets.  Enabling this option is
-> +not recommended as the remote IP may not use monotonically increasing
-> +timestamps (devices behind NAT, devices with per-connection timestamp
-> +offsets).  See RFC 1323 (PAWS), RFC 6191.
->   .\"
->   .\" The following is from 2.6.12: Documentation/networking/ip-sysctl.txt
->   .TP
+> +.B ENOMEM
+> +(since Linux 4.7)
+> +The process's
+> +.B RLIMIT_DATA
+> +limit, described in
+> +.BR getrlimit (2),
+> +would have been exceeded.
+> +.TP
+>   .B EOVERFLOW
+>   On 32-bit architecture together with the large file extension
+>   (i.e., using 64-bit
+> diff --git a/man3/malloc.3 b/man3/malloc.3
+> index d0e12fcfc..ac78662f7 100644
+> --- a/man3/malloc.3
+> +++ b/man3/malloc.3
+> @@ -292,7 +292,7 @@ Allocations performed using
+>   .BR mmap (2)
+>   are unaffected by the
+>   .B RLIMIT_DATA
+> -resource limit (see
+> +resource limit only prior to Linux kernel 4.7 (see
+>   .BR getrlimit (2)).
+>   .PP
+>   To avoid corruption in multithreaded applications,
 > 
 --
 To unsubscribe from this list: send the line "unsubscribe linux-man" in
