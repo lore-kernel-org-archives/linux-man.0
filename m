@@ -1,8 +1,10 @@
 From: Jakub Wilk <jwilk-tXgOlIzOKNReoWH0uzbU5w@public.gmane.org>
-Subject: [PATCH 1/5] Changes.old: tfix
-Date: Fri, 15 Sep 2017 18:41:34 +0200
-Message-ID: <20170915164138.2621-1-jwilk@jwilk.net>
+Subject: [PATCH 5/5] seccomp.2: tfix
+Date: Fri, 15 Sep 2017 18:41:38 +0200
+Message-ID: <20170915164138.2621-5-jwilk@jwilk.net>
+References: <20170915164138.2621-1-jwilk@jwilk.net>
 Return-path: <linux-man-owner-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>
+In-Reply-To: <20170915164138.2621-1-jwilk-tXgOlIzOKNReoWH0uzbU5w@public.gmane.org>
 Sender: linux-man-owner-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
 To: Michael Kerrisk <mtk.manpages-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org>
 Cc: linux-man-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
@@ -10,40 +12,22 @@ List-Id: linux-man@vger.kernel.org
 
 Signed-off-by: Jakub Wilk <jwilk-tXgOlIzOKNReoWH0uzbU5w@public.gmane.org>
 ---
- Changes.old | 6 +++---
- 1 file changed, 3 insertions(+), 3 deletions(-)
+ man2/seccomp.2 | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
 
-diff --git a/Changes.old b/Changes.old
-index 43fd50a74..8fb8c93fa 100644
---- a/Changes.old
-+++ b/Changes.old
-@@ -46341,7 +46341,7 @@ tzfile.5
-             The new version documents version 3 format, among other things.
-             Also, it removes the "Summary of the timezone information file
-             format" section, which should no longer be needed due to
--            improvements in the the part of the man page.
-+            improvements in the part of the man page.
- 
- capabilities.7
-     Michael Kerrisk
-@@ -46349,7 +46349,7 @@ capabilities.7
-             Note semantics for a program that is both set-user-ID-root and has
-             file capabilities.
-     Michael Kerrisk  [Dennis Knorr]
--        Note that a set-UID-root program may have an empty file capabilite set
-+        Note that a set-UID-root program may have an empty file capability set
- 
- cgroups.7
-     Michael Kerrisk
-@@ -46366,7 +46366,7 @@ keyrings.7
-             prefix in key descriptions.
-     Eugene Syromyatnikov
-         Add pointers to kernel's documentation
--            Mostly because of assymmetric-keys.txt, which is outside
-+            Mostly because of asymmetric-keys.txt, which is outside
-             security/keys for some reason.
- 
- man-pages.7
+diff --git a/man2/seccomp.2 b/man2/seccomp.2
+index 2219d60be..6b851c479 100644
+--- a/man2/seccomp.2
++++ b/man2/seccomp.2
+@@ -242,7 +242,7 @@ addressing mode) as a (read-only)
+ .\" Quoting Kees Cook:
+ .\"     If BPF even allows changing the data, it's not copied back to
+ .\"     the syscall when it runs. Anything wanting to do things like
+-.\"     that would need to use ptrace to catch the call an directly
++.\"     that would need to use ptrace to catch the call and directly
+ .\"     modify the registers before continuing with the call.
+ buffer of the following form:
+ .PP
 -- 
 2.14.1
 
