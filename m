@@ -1,38 +1,36 @@
-From: "Michael Kerrisk (man-pages)" <mtk.manpages-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org>
-Subject: Re: getrandom(2): return type mismatch for getrandom()
-Date: Fri, 15 Sep 2017 17:00:22 +0200
-Message-ID: <CAKgNAkjm8+9LVCVaYhYyRJe1eG4sFaNeo-dAL6UU9Js_FkVfbA@mail.gmail.com>
-References: <a1b295b6-1e5d-6e5b-20db-fb5f3b09a72c@esse.ch> <CAKgNAkhU-eC+ns99H0sqHpgOOSbwSMi+Vb=Sw1ufBTYoOrmy7A@mail.gmail.com>
- <38409769-c82a-594d-a58e-401e86891c67@esse.ch>
-Reply-To: mtk.manpages-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org
-Mime-Version: 1.0
-Content-Type: text/plain; charset="UTF-8"
+From: Jakub Wilk <jwilk-tXgOlIzOKNReoWH0uzbU5w@public.gmane.org>
+Subject: [PATCH 4/5] fallocate.2: tfix
+Date: Fri, 15 Sep 2017 18:41:37 +0200
+Message-ID: <20170915164138.2621-4-jwilk@jwilk.net>
+References: <20170915164138.2621-1-jwilk@jwilk.net>
 Return-path: <linux-man-owner-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>
-In-Reply-To: <38409769-c82a-594d-a58e-401e86891c67-VLnxIkhT3pI@public.gmane.org>
+In-Reply-To: <20170915164138.2621-1-jwilk-tXgOlIzOKNReoWH0uzbU5w@public.gmane.org>
 Sender: linux-man-owner-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
-To: Fabio Scotoni <fabio-VLnxIkhT3pI@public.gmane.org>
-Cc: linux-man <linux-man-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>
+To: Michael Kerrisk <mtk.manpages-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org>
+Cc: linux-man-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
 List-Id: linux-man@vger.kernel.org
 
-Hello Fabio,
+Signed-off-by: Jakub Wilk <jwilk-tXgOlIzOKNReoWH0uzbU5w@public.gmane.org>
+---
+ man2/fallocate.2 | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
 
-On 15 September 2017 at 16:00, Fabio Scotoni <fabio-VLnxIkhT3pI@public.gmane.org> wrote:
-> Dear Michael,
->
-> I'm sorry for the late response, I didn't notice when the commit made it
-> in.  It seems like your fix just introduced another, though more minor
-> issue unless I misunderstand something.
->
-> The man page now says the return type is "ssize" instead of "ssize_t".
-> Is that really what you meant to write?
->
-> I apologize for any confusion I may have caused.
+diff --git a/man2/fallocate.2 b/man2/fallocate.2
+index 9314a128c..d3d310dee 100644
+--- a/man2/fallocate.2
++++ b/man2/fallocate.2
+@@ -382,7 +382,7 @@ or
+ but the file referred to by
+ .I fd
+ is not a regular file.
+-.\" There was a inconsistency in 3.15-rc1, that should be resolved so that all
++.\" There was an inconsistency in 3.15-rc1, that should be resolved so that all
+ .\" filesystems use this error for this case. (Tytso says ex4 will change.)
+ .\" http://thread.gmane.org/gmane.comp.file-systems.xfs.general/60485/focus=5521
+ .\" From: Michael Kerrisk (man-pages <mtk.manpages@...>
+-- 
+2.14.1
 
-Thanks for spotting that. I've fixed that for the next man-pages release.
-
-Cheers,
-
-Michael
 --
 To unsubscribe from this list: send the line "unsubscribe linux-man" in
 the body of a message to majordomo-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
