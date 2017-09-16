@@ -1,64 +1,45 @@
 From: "Michael Kerrisk (man-pages)" <mtk.manpages-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org>
-Subject: Re: [PATCH 1/5] Changes.old: tfix
-Date: Sat, 16 Sep 2017 15:13:35 +0200
-Message-ID: <6b9658c9-90b0-7c96-7989-9388db04c0c9@gmail.com>
-References: <20170915164138.2621-1-jwilk@jwilk.net>
+Subject: Re: [PATCH] ldconfig.8: ffix
+Date: Sat, 16 Sep 2017 15:14:11 +0200
+Message-ID: <9821e837-5a96-061c-5764-47ba2770823d@gmail.com>
+References: <20170915164553.3911-1-jwilk@jwilk.net>
 Mime-Version: 1.0
 Content-Type: text/plain; charset=utf-8
 Content-Transfer-Encoding: 7bit
 Return-path: <linux-man-owner-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>
-In-Reply-To: <20170915164138.2621-1-jwilk-tXgOlIzOKNReoWH0uzbU5w@public.gmane.org>
+In-Reply-To: <20170915164553.3911-1-jwilk-tXgOlIzOKNReoWH0uzbU5w@public.gmane.org>
 Content-Language: en-US
 Sender: linux-man-owner-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
 To: Jakub Wilk <jwilk-tXgOlIzOKNReoWH0uzbU5w@public.gmane.org>
 Cc: mtk.manpages-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org, linux-man-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
 List-Id: linux-man@vger.kernel.org
 
-On 09/15/2017 06:41 PM, Jakub Wilk wrote:
+On 09/15/2017 06:45 PM, Jakub Wilk wrote:
 > Signed-off-by: Jakub Wilk <jwilk-tXgOlIzOKNReoWH0uzbU5w@public.gmane.org>
 
-Thanks, Jakub. All 5 patches in this series have been
-applied.
+Thanks. Applied.
 
 Cheers,
 
 Michael
 
 > ---
->  Changes.old | 6 +++---
->  1 file changed, 3 insertions(+), 3 deletions(-)
+>  man8/ldconfig.8 | 2 +-
+>  1 file changed, 1 insertion(+), 1 deletion(-)
 > 
-> diff --git a/Changes.old b/Changes.old
-> index 43fd50a74..8fb8c93fa 100644
-> --- a/Changes.old
-> +++ b/Changes.old
-> @@ -46341,7 +46341,7 @@ tzfile.5
->              The new version documents version 3 format, among other things.
->              Also, it removes the "Summary of the timezone information file
->              format" section, which should no longer be needed due to
-> -            improvements in the the part of the man page.
-> +            improvements in the part of the man page.
->  
->  capabilities.7
->      Michael Kerrisk
-> @@ -46349,7 +46349,7 @@ capabilities.7
->              Note semantics for a program that is both set-user-ID-root and has
->              file capabilities.
->      Michael Kerrisk  [Dennis Knorr]
-> -        Note that a set-UID-root program may have an empty file capabilite set
-> +        Note that a set-UID-root program may have an empty file capability set
->  
->  cgroups.7
->      Michael Kerrisk
-> @@ -46366,7 +46366,7 @@ keyrings.7
->              prefix in key descriptions.
->      Eugene Syromyatnikov
->          Add pointers to kernel's documentation
-> -            Mostly because of assymmetric-keys.txt, which is outside
-> +            Mostly because of asymmetric-keys.txt, which is outside
->              security/keys for some reason.
->  
->  man-pages.7
+> diff --git a/man8/ldconfig.8 b/man8/ldconfig.8
+> index d4e240282..9d9f5d2e3 100644
+> --- a/man8/ldconfig.8
+> +++ b/man8/ldconfig.8
+> @@ -146,7 +146,7 @@ is also specified, links are still updated.
+>  Print the lists of directories and candidate libraries stored in
+>  the current cache.
+>  .TP
+> -.BI "\-r  " root
+> +.BI "\-r " root
+>  Change to and use
+>  .I root
+>  as the root directory.
 > 
 
 
