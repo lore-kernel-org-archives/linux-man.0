@@ -1,117 +1,146 @@
-From: Florian Weimer <fweimer-H+wXaHxf7aLQT0dZR+AlfA@public.gmane.org>
-Subject: Re: [patch] mremap.2: Add description of old_size == 0 functionality
-Date: Tue, 19 Sep 2017 14:11:19 +0200
-Message-ID: <a5d279cb-a015-f74c-2e40-a231aa7f7a8c@redhat.com>
-References: <20170915213745.6821-1-mike.kravetz@oracle.com>
- <a6e59a7f-fd15-9e49-356e-ed439f17e9df@oracle.com>
- <fb013ae6-6f47-248b-db8b-a0abae530377@redhat.com>
- <ee87215d-9704-7269-4ec1-226f2e32a751@oracle.com>
+From: "Michael Kerrisk (man-pages)" <mtk.manpages-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org>
+Subject: Re: [patch v2] madvise.2: Add MADV_WIPEONFORK documentation
+Date: Tue, 19 Sep 2017 21:07:56 +0200
+Message-ID: <a1715d1d-7a03-d2db-7a8a-8a2edceae5d1@gmail.com>
+References: <20170914130040.6faabb18@cuia.usersys.redhat.com>
+ <CAAF6GDdnY2AmzKx+t4ffCFxJ+RZS++4tmWvoazdVNVSYjra_WA@mail.gmail.com>
+ <20170914150546.74ad3a9a@cuia.usersys.redhat.com>
 Mime-Version: 1.0
-Content-Type: text/plain; charset=utf-8; format=flowed
-Content-Transfer-Encoding: 7bit
-Return-path: <linux-api-owner-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>
-In-Reply-To: <ee87215d-9704-7269-4ec1-226f2e32a751-QHcLZuEGTsvQT0dZR+AlfA@public.gmane.org>
+Content-Type: text/plain; charset=utf-8
+Content-Transfer-Encoding: 8bit
+Return-path: <linux-man-owner-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>
+In-Reply-To: <20170914150546.74ad3a9a-3y8d1Ellc6BvD/m4c++uL6fLeoKvNuZc@public.gmane.org>
 Content-Language: en-US
-Sender: linux-api-owner-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
-To: Mike Kravetz <mike.kravetz-QHcLZuEGTsvQT0dZR+AlfA@public.gmane.org>, mtk.manpages-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org
-Cc: linux-man-u79uwXL29TY76Z2rM5mHXA@public.gmane.org, linux-kernel-u79uwXL29TY76Z2rM5mHXA@public.gmane.org, linux-api-u79uwXL29TY76Z2rM5mHXA@public.gmane.org, Michal Hocko <mhocko-IBi9RG/b67k@public.gmane.org>, Andrea Arcangeli <aarcange-H+wXaHxf7aLQT0dZR+AlfA@public.gmane.org>, "Kirill A . Shutemov" <kirill.shutemov-VuQAYsv1563Yd54FQh9/CA@public.gmane.org>, Vlastimil Babka <vbabka-AlSwsSmVLrQ@public.gmane.org>, Anshuman Khandual <khandual-23VcF4HTsmIX0ybBhKVfKdBPR1lH4CV8@public.gmane.org>, linux-mm-Bw31MaZKKs3YtjvyW6yDsg@public.gmane.org
+Sender: linux-man-owner-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
+To: Rik van Riel <riel-H+wXaHxf7aLQT0dZR+AlfA@public.gmane.org>, =?UTF-8?Q?Colm_MacC=c3=a1rthaigh?= <colm-ZXBCfW2eEe/k1uMJSBkQmQ@public.gmane.org>
+Cc: mtk.manpages-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org, linux-man-u79uwXL29TY76Z2rM5mHXA@public.gmane.org, linux-kernel-u79uwXL29TY76Z2rM5mHXA@public.gmane.org, linux-mm-Bw31MaZKKs3YtjvyW6yDsg@public.gmane.org, linux-api-u79uwXL29TY76Z2rM5mHXA@public.gmane.org, nilal-H+wXaHxf7aLQT0dZR+AlfA@public.gmane.org, Florian Weimer <fweimer-H+wXaHxf7aLQT0dZR+AlfA@public.gmane.org>, Mike Kravetz <mike.kravetz-QHcLZuEGTsvQT0dZR+AlfA@public.gmane.org>
 List-Id: linux-man@vger.kernel.org
 
-On 09/18/2017 07:11 PM, Mike Kravetz wrote:
-> On 09/18/2017 06:45 AM, Florian Weimer wrote:
->> On 09/15/2017 11:53 PM, Mike Kravetz wrote:
->>> +If the value of \fIold_size\fP is zero, and \fIold_address\fP refers to
->>> +a private anonymous mapping, then
->>> +.BR mremap ()
->>> +will create a new mapping of the same pages. \fInew_size\fP
->>> +will be the size of the new mapping and the location of the new mapping
->>> +may be specified with \fInew_address\fP, see the description of
->>> +.B MREMAP_FIXED
->>> +below.  If a new mapping is requested via this method, then the
->>> +.B MREMAP_MAYMOVE
->>> +flag must also be specified.  This functionality is deprecated, and no
->>> +new code should be written to use this feature.  A better method of
->>> +obtaining multiple mappings of the same private anonymous memory is via the
->>> +.BR memfd_create()
->>> +system call.
->>
->> Is there any particular reason to deprecate this?
->>
->> In glibc, we cannot use memfd_create and keep the file descriptor around because the application can close descriptors beneath us.
->>
->> (We might want to use alias mappings to avoid run-time code generation for PLT-less LD_AUDIT interceptors.)
->>
+Hello Rik, (and Colm)
+
+On 09/14/2017 09:05 PM, Rik van Riel wrote:
+> v2: implement the improvements suggested by Colm, and add
+>     Colm's text to the fork.2 man page
+>     (Colm, I have added a signed-off-by in your name - is that ok?)
 > 
-> Hi Florian,
+> Add MADV_WIPEONFORK and MADV_KEEPONFORK documentation to
+> madvise.2.  The new functionality was recently merged by
+> Linus, and should be in the 4.14 kernel.
 > 
-> When I brought up this mremap 'duplicate mapping' functionality on the mm
-> mail list, most developers were surprised.  It seems this functionality exists
-> mostly 'by chance', and it was not really designed.  It certainly was never
-> documented.  There were suggestions to remove the functionality, which led
-> to my claim that it was being deprecated.  However, in hindsight that may
-> have been too strong.
+> While documenting what EINVAL means for MADV_WIPEONFORK,
+> I realized that MADV_FREE has the same thing going on,
+> so I documented EINVAL for both in the ERRORS section.
+> 
+> This patch documents the following kernel commit:
+> 
+> commit d2cd9ede6e193dd7d88b6d27399e96229a551b19
+> Author: Rik van Riel <riel-H+wXaHxf7aLQT0dZR+AlfA@public.gmane.org>
+> Date:   Wed Sep 6 16:25:15 2017 -0700
+> 
+>     mm,fork: introduce MADV_WIPEONFORK
 
-This history is certainly a bit odd.
+Thanks. I applied this, and tweaked the madvise.2 text a little, to
+read as follows (please let me know if I messed anything up):
 
-> I can drop this wording, but would still like to suggest memfd_create as
-> the preferred method of creating duplicate mappings.  It would be good if
-> others on Cc: could comment as well.
+       MADV_WIPEONFORK (since Linux 4.14)
+              Present the child process with zero-filled memory  in  this
+              range  after  a fork(2).  This is useful in forking servers
+              in order to ensure that  sensitive  per-process  data  (for
+              example,  PRNG  seeds, cryptographic secrets, and so on) is
+              not handed to child processes.
 
-mremap seems to work with non-anonymous mappings, too:
-
-#include <err.h>
-#include <stddef.h>
-#include <stdint.h>
-#include <stdio.h>
-#include <string.h>
-#include <sys/mman.h>
-#include <unistd.h>
-
-/* Hopefully large enough to prevent crossing of a page boundary in
-    the implementation.  */
-__attribute__ ((aligned (256), noclone, noinline, weak))
-int
-callback (void)
-{
-   return 17;
-}
-
-int
-main (void)
-{
-   long pagesize = sysconf (_SC_PAGESIZE);
-   if (pagesize < 0)
-     err (1, "sysconf");
-   uintptr_t addr = (uintptr_t) &callback;
-   addr = addr / pagesize * pagesize;
-   printf ("old function address: %p\n", &callback);
-   ptrdiff_t page_offset = (uintptr_t) &callback - addr;
-   void *newaddr = mremap ((void *) addr, 0, pagesize, MREMAP_MAYMOVE);
-   if (newaddr == MAP_FAILED)
-     err (1, "mremap");
-   if (memcmp ((void *) addr, newaddr, pagesize) != 0)
-     errx (1, "page contents differs");
-   int (*newfunc) (void) = newaddr + page_offset;
-   printf ("new function address: %p\n", newfunc);
-   if (newfunc () != 17)
-     errx (1, "invalid return value from newfunc");
-   if (callback () != 17)
-     errx (1, "invalid return value from callback");
-   return 0;
-}
-
-(The code needs adjustment for architectures where function pointers 
-point to a descriptor and not the actual code.)
-
-This looks very useful for generating arbitrary callback wrappers 
-without actual run-time code generation.  memfd_create would not work 
-for that.
-
-> Just curious, does glibc make use of this today?  Or, is this just something
-> that you think may be useful.
-
-To my knowledge, we do not use this today.  But it certainly looks very 
-useful.
+              The MADV_WIPEONFORK operation can be applied only  to  pri‐
+              vate anonymous pages (see mmap(2)).
 
 Thanks,
-Florian
+
+Michael
+
+
+> Signed-off-by: Rik van Riel <riel-H+wXaHxf7aLQT0dZR+AlfA@public.gmane.org>
+> Signed-off-by: Colm MacCárthaigh <colm-ZXBCfW2eEe/k1uMJSBkQmQ@public.gmane.org>
+> 
+> diff --git a/man2/fork.2 b/man2/fork.2
+> index b5af58ca08c0..b11e750e3876 100644
+> --- a/man2/fork.2
+> +++ b/man2/fork.2
+> @@ -140,6 +140,12 @@ Memory mappings that have been marked with the
+>  flag are not inherited across a
+>  .BR fork ().
+>  .IP *
+> +Memory in mappings that have been marked with the
+> +.BR madvise (2)
+> +.B MADV_WIPEONFORK
+> +flag is zeroed in the child after a
+> +.BR fork ().
+> +.IP *
+>  The termination signal of the child is always
+>  .B SIGCHLD
+>  (see
+> diff --git a/man2/madvise.2 b/man2/madvise.2
+> index dfb31b63dba3..bb0ac469c509 100644
+> --- a/man2/madvise.2
+> +++ b/man2/madvise.2
+> @@ -31,6 +31,9 @@
+>  .\" 2010-06-19, Andi Kleen, Add documentation of MADV_SOFT_OFFLINE.
+>  .\" 2011-09-18, Doug Goldstein <cardoe-VPKZcK2rSRzQT0dZR+AlfA@public.gmane.org>
+>  .\"     Document MADV_HUGEPAGE and MADV_NOHUGEPAGE
+> +.\" 2017-09-14, Rik van Riel <riel-H+wXaHxf7aLQT0dZR+AlfA@public.gmane.org>
+> +.\"     Document MADV_WIPEONFORK and MADV_KEEPONFORK
+> +.\" commit d2cd9ede6e193dd7d88b6d27399e96229a551b19
+>  .\"
+>  .TH MADVISE 2 2017-07-13 "Linux" "Linux Programmer's Manual"
+>  .SH NAME
+> @@ -405,6 +408,22 @@ can be applied only to private anonymous pages (see
+>  .BR mmap (2)).
+>  On a swapless system, freeing pages in a given range happens instantly,
+>  regardless of memory pressure.
+> +.TP
+> +.BR MADV_WIPEONFORK " (since Linux 4.14)"
+> +Present the child process with zero-filled memory in this range after a
+> +.BR fork (2).
+> +This is useful for per-process data in forking servers that should be
+> +re-initialized in the child process after a fork, for example PRNG seeds,
+> +cryptographic secrets, etc.
+> +.IP
+> +The
+> +.B MADV_WIPEONFORK
+> +operation can only be applied to private anonymous pages (see
+> +.BR mmap (2)).
+> +.TP
+> +.BR MADV_KEEPONFORK " (since Linux 4.14)"
+> +Undo the effect of an earlier
+> +.BR MADV_WIPEONFORK .
+>  .SH RETURN VALUE
+>  On success,
+>  .BR madvise ()
+> @@ -457,6 +476,18 @@ or
+>  but the kernel was not configured with
+>  .BR CONFIG_KSM .
+>  .TP
+> +.B EINVAL
+> +.I advice
+> +is
+> +.BR MADV_FREE
+> +or
+> +.BR MADV_WIPEONFORK
+> +but the specified address range includes file, Huge TLB,
+> +.BR MAP_SHARED ,
+> +or
+> +.BR VM_PFNMAP
+> +ranges.
+> +.TP
+>  .B EIO
+>  (for
+>  .BR MADV_WILLNEED )
+> 
+
+
+-- 
+Michael Kerrisk
+Linux man-pages maintainer; http://www.kernel.org/doc/man-pages/
+Linux/UNIX System Programming Training: http://man7.org/training/
+--
+To unsubscribe from this list: send the line "unsubscribe linux-man" in
+the body of a message to majordomo-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
+More majordomo info at  http://vger.kernel.org/majordomo-info.html
