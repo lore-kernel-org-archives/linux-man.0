@@ -1,110 +1,95 @@
-From: "Michael Kerrisk (man-pages)" <mtk.manpages-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org>
-Subject: Re: [patch v2] mremap.2: Add description of old_size == 0
- functionality
-Date: Wed, 20 Sep 2017 09:25:42 +0200
-Message-ID: <6fafdae8-4fea-c967-f5cd-d22c205608fa@gmail.com>
-References: <a5d279cb-a015-f74c-2e40-a231aa7f7a8c@redhat.com>
- <20170919214224.19561-1-mike.kravetz@oracle.com>
+From: "Michael Kerrisk (man-pages)" <mtk.manpages@gmail.com>
+Subject: Re: [patch] memfd_create.2: Add description of MFD_HUGETLB
+ (hugetlbfs) support
+Date: Thu, 21 Sep 2017 15:03:35 +0200
+Message-ID: <fd171d77-7ded-722d-ed3a-4e09d44fb358@gmail.com>
+References: <20170915214305.7148-1-mike.kravetz@oracle.com>
 Mime-Version: 1.0
 Content-Type: text/plain; charset=utf-8
 Content-Transfer-Encoding: 7bit
-Return-path: <linux-api-owner-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>
-In-Reply-To: <20170919214224.19561-1-mike.kravetz-QHcLZuEGTsvQT0dZR+AlfA@public.gmane.org>
+Return-path: <owner-linux-mm@kvack.org>
+In-Reply-To: <20170915214305.7148-1-mike.kravetz@oracle.com>
 Content-Language: en-US
-Sender: linux-api-owner-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
-To: Mike Kravetz <mike.kravetz-QHcLZuEGTsvQT0dZR+AlfA@public.gmane.org>
-Cc: mtk.manpages-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org, linux-man-u79uwXL29TY76Z2rM5mHXA@public.gmane.org, linux-mm-Bw31MaZKKs3YtjvyW6yDsg@public.gmane.org, linux-kernel-u79uwXL29TY76Z2rM5mHXA@public.gmane.org, linux-api-u79uwXL29TY76Z2rM5mHXA@public.gmane.org, Jann Horn <jannh-hpIqsD4AKlfQT0dZR+AlfA@public.gmane.org>, Florian Weimer <fweimer-H+wXaHxf7aLQT0dZR+AlfA@public.gmane.org>, Michal Hocko <mhocko-IBi9RG/b67k@public.gmane.org>, Andrea Arcangeli <aarcange-H+wXaHxf7aLQT0dZR+AlfA@public.gmane.org>, "Kirill A . Shutemov" <kirill.shutemov-VuQAYsv1563Yd54FQh9/CA@public.gmane.org>, Vlastimil Babka <vbabka-AlSwsSmVLrQ@public.gmane.org>, Anshuman Khandual <khandual-23VcF4HTsmIX0ybBhKVfKdBPR1lH4CV8@public.gmane.org>
+Sender: owner-linux-mm@kvack.org
+To: Mike Kravetz <mike.kravetz@oracle.com>
+Cc: mtk.manpages@gmail.com, linux-man@vger.kernel.org, linux-kernel@vger.kernel.org, linux-api@vger.kernel.org, Michal Hocko <mhocko@suse.com>, Hugh Dickins <hughd@google.com>, Andrea Arcangeli <aarcange@redhat.com>, "Kirill A . Shutemov" <kirill.shutemov@linux.intel.com>, "linux-mm@kvack.org" <linux-mm@kvack.org>
 List-Id: linux-man@vger.kernel.org
 
-Hello Mike,
+Hi Mike,
 
-On 09/19/2017 11:42 PM, Mike Kravetz wrote:
-> v2: Fix incorrect wording noticed by Jann Horn.
->     Remove deprecated and memfd_create discussion as suggested
->     by Florian Weimer.
+On 09/15/2017 11:43 PM, Mike Kravetz wrote:
+> hugetlbfs support for memfd_create was recently merged by Linus and
+> should be in the Linux 4.14 release.  To request hugetlbfs support
+> a new memfd_create flag (MFD_HUGETLB) was added.
 > 
-> Since at least the 2.6 time frame, mremap would create a new mapping
-> of the same pages if 'old_size == 0'.  It would also leave the original
-> mapping.  This was used to create a 'duplicate mapping'.
+> This patch documents the following commit:
 > 
-> A recent change was made to mremap so that an attempt to create a
-> duplicate a private mapping will fail.
+> commit 749df87bd7bee5a79cef073f5d032ddb2b211de8
+> Author: Mike Kravetz <mike.kravetz@oracle.com>
+> Date:   Wed Sep 6 16:24:16 2017 -0700
 > 
-> Document the 'old_size == 0' behavior and new return code from
-> below commit.
-> 
-> commit dba58d3b8c5045ad89c1c95d33d01451e3964db7
-> Author: Mike Kravetz <mike.kravetz-QHcLZuEGTsvQT0dZR+AlfA@public.gmane.org>
-> Date:   Wed Sep 6 16:20:55 2017 -0700
-> 
->     mm/mremap: fail map duplication attempts for private mappings
-> 
-> Signed-off-by: Mike Kravetz <mike.kravetz-QHcLZuEGTsvQT0dZR+AlfA@public.gmane.org>
-> ---
->  man2/mremap.2 | 21 ++++++++++++++++++++-
->  1 file changed, 20 insertions(+), 1 deletion(-)
-> 
-> diff --git a/man2/mremap.2 b/man2/mremap.2
-> index 98643c640..235984a96 100644
-> --- a/man2/mremap.2
-> +++ b/man2/mremap.2
-> @@ -58,6 +58,20 @@ may be provided; see the description of
->  .B MREMAP_FIXED
->  below.
->  .PP
-> +If the value of \fIold_size\fP is zero, and \fIold_address\fP refers to
-> +a shareable mapping (see
-> +.BR mmap (2)
-> +.BR MAP_SHARED )
-> +, then
-> +.BR mremap ()
-> +will create a new mapping of the same pages. \fInew_size\fP
-> +will be the size of the new mapping and the location of the new mapping
-> +may be specified with \fInew_address\fP, see the description of
-> +.B MREMAP_FIXED
-> +below.  If a new mapping is requested via this method, then the
-> +.B MREMAP_MAYMOVE
-> +flag must also be specified.
-> +.PP
->  In Linux the memory is divided into pages.
->  A user process has (one or)
->  several linear virtual memory segments.
-> @@ -174,7 +188,12 @@ and
->  or
->  .B MREMAP_FIXED
->  was specified without also specifying
-> -.BR MREMAP_MAYMOVE .
-> +.BR MREMAP_MAYMOVE ;
-> +or \fIold_size\fP was zero and \fIold_address\fP does not refer to a
-> +shareable mapping;
-> +or \fIold_size\fP was zero and the
-> +.BR MREMAP_MAYMOVE
-> +flag was not specified.
->  .TP
->  .B ENOMEM
->  The memory area cannot be expanded at the current virtual address, and the
+>     mm/shmem: add hugetlbfs support to memfd_create()
 
-I've applied this, and added Reviewed-by tags for Florian and Jann.
-But, I think it's also worth noting the older, now disallowed, behavior,
-and why the behavior was changed. So I added a note in BUGS:
-
-    BUGS
-       Before Linux 4.14, if old_size was zero and the  mapping  referred
-       to  by  old_address  was  a private mapping (mmap(2) MAP_PRIVATE),
-       mremap() created a new private mapping unrelated to  the  original
-       mapping.   This behavior was unintended and probably unexpected in
-       user-space applications (since the intention  of  mremap()  is  to
-       create  a new mapping based on the original mapping).  Since Linux
-       4.14, mremap() fails with the error EINVAL in this scenario.
-
-Does that seem okay?
+Thanks! I've applied this patch.
 
 Cheers,
 
 Michael
+
+> 
+> Signed-off-by: Mike Kravetz <mike.kravetz@oracle.com>
+> ---
+>  man2/memfd_create.2 | 27 +++++++++++++++++++++++++++
+>  1 file changed, 27 insertions(+)
+> 
+> diff --git a/man2/memfd_create.2 b/man2/memfd_create.2
+> index 4dfd1bb2d..b61254bb8 100644
+> --- a/man2/memfd_create.2
+> +++ b/man2/memfd_create.2
+> @@ -100,6 +100,33 @@ If this flag is not set, the initial set of seals will be
+>  meaning that no other seals can be set on the file.
+>  .\" FIXME Why is the MFD_ALLOW_SEALING behavior not simply the default?
+>  .\" Is it worth adding some text explaining this?
+> +.TP
+> +.BR MFD_HUGETLB " (since Linux 4.14)"
+> +The anonymous file will be created in the hugetlbfs filesystem using
+> +huge pages.  See the Linux kernel source file
+> +.I Documentation/vm/hugetlbpage.txt
+> +for more information about hugetlbfs.  The hugetlbfs filesystem does
+> +not support file sealing operations.  Therefore, specifying both
+> +.B MFD_HUGETLB
+> +and
+> +.B MFD_ALLOW_SEALING
+> +will result in an error
+> +.RB (EINVAL)
+> +being returned.
+> +
+> +.TP
+> +.BR MFD_HUGE_2MB ", " MFD_HUGE_1GB ", " "..."
+> +Used in conjunction with
+> +.B MFD_HUGETLB
+> +to select alternative hugetlb page sizes (respectively, 2 MB, 1 GB, ...)
+> +on systems that support multiple hugetlb page sizes.  Definitions for known
+> +huge page sizes are included in the header file
+> +.I <sys/memfd.h>.
+> +
+> +For details on encoding huge page sizes not included in the header file,
+> +see the discussion of the similarly named constants in
+> +.BR mmap (2).
+> +
+>  .PP
+>  Unused bits in
+>  .I flags
+> 
 
 
 -- 
 Michael Kerrisk
 Linux man-pages maintainer; http://www.kernel.org/doc/man-pages/
 Linux/UNIX System Programming Training: http://man7.org/training/
+
+--
+To unsubscribe, send a message with 'unsubscribe linux-mm' in
+the body to majordomo@kvack.org.  For more info on Linux MM,
+see: http://www.linux-mm.org/ .
+Don't email: <a href=mailto:"dont@kvack.org"> email@kvack.org </a>
