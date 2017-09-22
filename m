@@ -1,34 +1,17 @@
-From: rachaelhamadi-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org
-Subject: GOOD MORNING
-Date: Fri, 22 Sep 2017 10:04:58 -0300 (ART)
-Message-ID: <1f87e8cae921cf85f7110f31e415ebec.squirrel@webmail.lrq.com.ar>
-Reply-To: rachaelhamadi-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org
+From: John Michael <davidingram513-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org>
+Subject: (unknown)
+Date: Fri, 22 Sep 2017 07:34:14 -1200
+Message-ID: <CABFEizoy=Y5gSt_sSbqod-_JTs31Oq2UML6o8gscxCgCn_P6SQ@mail.gmail.com>
+Reply-To: michael.un-/E1597aS9LQAvxtiuMwx3w@public.gmane.org
 Mime-Version: 1.0
-Content-Type: text/plain;charset=iso-8859-1
-Content-Transfer-Encoding: 8bit
+Content-Type: text/plain; charset="UTF-8"
 Return-path: <linux-man-owner-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>
+Subject: 
 Sender: linux-man-owner-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
 List-Id: linux-man@vger.kernel.org
 
-
--- 
-Dear sir
-i hope this is your direct email address for easy communicaton, i will be
-glad if you could comfirm it in acknowledgement. i have important matter
-to discuss with you.
-
-yours Sincerely
-Rachael
-----------------------------------------------
-Lieber Herr
-Ich hoffe das ist Ihre direkte E-Mail-Adresse für eine einfache
-Kommunikation, ich werde mich freuen, wenn Sie es in Bestätigung
-bestätigen könnten. Ich habe wichtige Materie, mit Ihnen zu diskutieren.
-
-Dein
-Rachael
-
-
+how are you doing,is me John Michael i have a personal reason of
+writing you now.write to me ok.
 --
 To unsubscribe from this list: send the line "unsubscribe linux-man" in
 the body of a message to majordomo-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
