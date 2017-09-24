@@ -1,30 +1,33 @@
 From: Oliver Ebert <oe-h0GdYU6q0jndfRFfCFeH3g@public.gmane.org>
-Subject: [PATCH 0/4] proc.5: Update pagemap and related documentation
-Date: Sun, 24 Sep 2017 23:41:34 +0200
-Message-ID: <20170924214138.4852-1-oe@outputenable.net>
+Subject: [PATCH 1/4] proc.5: tfix
+Date: Sun, 24 Sep 2017 23:41:35 +0200
+Message-ID: <20170924214138.4852-2-oe@outputenable.net>
+References: <20170924214138.4852-1-oe@outputenable.net>
 Return-path: <linux-man-owner-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>
+In-Reply-To: <20170924214138.4852-1-oe-h0GdYU6q0jndfRFfCFeH3g@public.gmane.org>
 Sender: linux-man-owner-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
 To: mtk.manpages-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org
 Cc: linux-man-u79uwXL29TY76Z2rM5mHXA@public.gmane.org, Oliver Ebert <oe-h0GdYU6q0jndfRFfCFeH3g@public.gmane.org>
 List-Id: linux-man@vger.kernel.org
 
-Hello,
+see linux 63f8e8d2a575ef62e5b705516b491a98a60517ff
+---
+ man5/proc.5 | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
 
-while debugging some memory mapping issues I noticed that the
-/proc/[pid]/pagemap and related documentation in proc.5 is not
-up-to-date with the kernel's Documentation/vm/pagemap.txt file.
-This series of patches adds the missing pieces.
-
-Oliver Ebert (4):
-  proc.5: tfix
-  proc.5: Add KPF_BALLOON, KPF_ZERO_PAGE and KPF_IDLE for
-    /proc/kpageflags
-  proc.5: Add mmap-exclusive bit for /proc/[pid]/pagemap
-  proc.5: Document /proc/kpagecgroup
-
- man5/proc.5 | 22 ++++++++++++++++++++--
- 1 file changed, 20 insertions(+), 2 deletions(-)
-
+diff --git a/man5/proc.5 b/man5/proc.5
+index 4d482d3a4..73b51eaca 100644
+--- a/man5/proc.5
++++ b/man5/proc.5
+@@ -2959,7 +2959,7 @@ The bits are as follows:
+     14 - KPF_SWAPBACKED     (since Linux 2.6.31)
+     15 - KPF_COMPOUND_HEAD  (since Linux 2.6.31)
+     16 - KPF_COMPOUND_TAIL  (since Linux 2.6.31)
+-    16 - KPF_HUGE           (since Linux 2.6.31)
++    17 - KPF_HUGE           (since Linux 2.6.31)
+     18 - KPF_UNEVICTABLE    (since Linux 2.6.31)
+     19 - KPF_HWPOISON       (since Linux 2.6.31)
+     20 - KPF_NOPAGE         (since Linux 2.6.31)
 -- 
 2.13.5
 
