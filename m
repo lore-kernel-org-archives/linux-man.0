@@ -1,7 +1,7 @@
 From: Oliver Ebert <oe-h0GdYU6q0jndfRFfCFeH3g@public.gmane.org>
-Subject: [PATCH 4/4] proc.5: Document /proc/kpagecgroup
-Date: Sun, 24 Sep 2017 23:41:38 +0200
-Message-ID: <20170924214138.4852-5-oe@outputenable.net>
+Subject: [PATCH 3/4] proc.5: Add mmap-exclusive bit for /proc/[pid]/pagemap
+Date: Sun, 24 Sep 2017 23:41:37 +0200
+Message-ID: <20170924214138.4852-4-oe@outputenable.net>
 References: <20170924214138.4852-1-oe@outputenable.net>
 Return-path: <linux-man-owner-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>
 In-Reply-To: <20170924214138.4852-1-oe-h0GdYU6q0jndfRFfCFeH3g@public.gmane.org>
@@ -10,34 +10,31 @@ To: mtk.manpages-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org
 Cc: linux-man-u79uwXL29TY76Z2rM5mHXA@public.gmane.org, Oliver Ebert <oe-h0GdYU6q0jndfRFfCFeH3g@public.gmane.org>
 List-Id: linux-man@vger.kernel.org
 
-see linux 80ae2fdceba8313b0433f899bdd9c6c463291a17
+see linux 77bb499bb60f4b79cca7d139c8041662860fcf87
+and linux 83b4b0bb635eee2b8e075062e4e008d1bc110ed7
 ---
- man5/proc.5 | 12 ++++++++++++
- 1 file changed, 12 insertions(+)
+ man5/proc.5 | 5 ++++-
+ 1 file changed, 4 insertions(+), 1 deletion(-)
 
 diff --git a/man5/proc.5 b/man5/proc.5
-index 0b31dad2f..dd7764d0f 100644
+index f0b84d503..0b31dad2f 100644
 --- a/man5/proc.5
 +++ b/man5/proc.5
-@@ -2927,6 +2927,18 @@ Information in this file is retrieved with the
- .BR dmesg (1)
- program.
+@@ -1490,10 +1490,13 @@ If set, the page is in swap space
+ 61 (since Linux 3.5)
+ The page is a file-mapped page or a shared anonymous page.
  .TP
-+.IR /proc/kpagecgroup " (since Linux 4.3)"
-+This file contains a 64-bit inode number of
-+the memory cgroup each page is charged to,
-+indexed by page frame number (see the discussion of
-+.IR /proc/[pid]/pagemap ).
-+.IP
-+The
-+.IR /proc/kpagecgroup
-+file is present only if the
-+.B CONFIG_MEMCG
-+kernel configuration option is enabled.
+-60\(en56 (since Linux 3.11)
++60\(en57 (since Linux 3.11)
+ Zero
+ .\" Not quite true; see commit 541c237c0923f567c9c4cabb8a81635baadc713f
+ .TP
++56 (since Linux 4.2)
++The page is exclusively mapped.
 +.TP
- .IR /proc/kpagecount " (since Linux 2.6.25)"
- This file contains a 64-bit count of the number of
- times each physical page frame is mapped,
+ 55 (since Linux 3.11)
+ PTE is soft-dirty
+ (see the kernel source file
 -- 
 2.13.5
 
