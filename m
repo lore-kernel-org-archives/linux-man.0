@@ -1,38 +1,44 @@
-From: Oliver Ebert <oe-h0GdYU6q0jndfRFfCFeH3g@public.gmane.org>
-Subject: [PATCH 2/4] proc.5: Add KPF_BALLOON, KPF_ZERO_PAGE and KPF_IDLE for /proc/kpageflags
-Date: Sun, 24 Sep 2017 23:41:36 +0200
-Message-ID: <20170924214138.4852-3-oe@outputenable.net>
-References: <20170924214138.4852-1-oe@outputenable.net>
+From: "Michael Kerrisk (man-pages)" <mtk.manpages-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org>
+Subject: Re: useradd -M "correction"
+Date: Mon, 25 Sep 2017 08:05:48 +0200
+Message-ID: <b8f7b868-69ff-ed7a-1152-00850eb379dc@gmail.com>
+References: <CAKHVwWRW=zKWHjj8P25Ud3BgkjaWMMQTRuEh+A58Us2KsR3x1g@mail.gmail.com>
+Mime-Version: 1.0
+Content-Type: text/plain; charset=utf-8
+Content-Transfer-Encoding: 8bit
 Return-path: <linux-man-owner-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>
-In-Reply-To: <20170924214138.4852-1-oe-h0GdYU6q0jndfRFfCFeH3g@public.gmane.org>
+In-Reply-To: <CAKHVwWRW=zKWHjj8P25Ud3BgkjaWMMQTRuEh+A58Us2KsR3x1g-JsoAwUIsXosN+BqQ9rBEUg@public.gmane.org>
+Content-Language: en-US
 Sender: linux-man-owner-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
-To: mtk.manpages-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org
-Cc: linux-man-u79uwXL29TY76Z2rM5mHXA@public.gmane.org, Oliver Ebert <oe-h0GdYU6q0jndfRFfCFeH3g@public.gmane.org>
+To: =?UTF-8?B?4pmeIE1pY2hhZWwgS25pZ2h0IOKZmA==?= <mckdragon29464-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org>
+Cc: mtk.manpages-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org, linux-man-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
 List-Id: linux-man@vger.kernel.org
 
-see linux 56873f43abdcd574b25105867a990f067747b2f4
-and linux f074a8f49eb87cde95ac9d040ad5e7ea4f029738
----
- man5/proc.5 | 3 +++
- 1 file changed, 3 insertions(+)
+Hello Michael,
 
-diff --git a/man5/proc.5 b/man5/proc.5
-index 73b51eaca..f0b84d503 100644
---- a/man5/proc.5
-+++ b/man5/proc.5
-@@ -2965,6 +2965,9 @@ The bits are as follows:
-     20 - KPF_NOPAGE         (since Linux 2.6.31)
-     21 - KPF_KSM            (since Linux 2.6.32)
-     22 - KPF_THP            (since Linux 3.4)
-+    23 - KPF_BALLOON        (since Linux 4.0)
-+    24 - KPF_ZERO_PAGE      (since Linux 4.0)
-+    25 - KPF_IDLE           (since Linux 4.3)
- .IP
- For further details on the meanings of these bits,
- see the kernel source file
+On 09/25/2017 05:03 AM, ♞ Michael Knight ♘ wrote:
+> Command: man useradd
+> 
+> Section: -M (under options)
+> 
+> The page reads:
+> "Do no create the user's home directory, ..."
+> 
+> Should probably read:
+> "Do not create the user's home directory, ..."
+
+You'll need to report this to the upstream project.
+Please see 
+http://man7.org/linux/man-pages/man8/useradd.8.html#COLOPHON
+
+Cheers,
+
+Michael
+
 -- 
-2.13.5
-
+Michael Kerrisk
+Linux man-pages maintainer; http://www.kernel.org/doc/man-pages/
+Linux/UNIX System Programming Training: http://man7.org/training/
 --
 To unsubscribe from this list: send the line "unsubscribe linux-man" in
 the body of a message to majordomo-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
