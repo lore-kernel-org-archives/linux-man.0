@@ -1,44 +1,112 @@
-From: Florian Weimer <fweimer@redhat.com>
-Subject: Re: [patch] mremap.2: Add description of old_size == 0 functionality
-Date: Mon, 25 Sep 2017 16:54:39 +0200
-Message-ID: <d06a26f1-5509-bd85-74bc-b08c3db0cb0d@redhat.com>
-References: <20170915213745.6821-1-mike.kravetz@oracle.com>
- <a6e59a7f-fd15-9e49-356e-ed439f17e9df@oracle.com>
- <fb013ae6-6f47-248b-db8b-a0abae530377@redhat.com>
- <ee87215d-9704-7269-4ec1-226f2e32a751@oracle.com>
- <a5d279cb-a015-f74c-2e40-a231aa7f7a8c@redhat.com>
- <20170925123508.pzjbe7wgwagnr5li@dhcp22.suse.cz>
- <e301609c-b2ac-24d1-c349-8d25e5123258@redhat.com>
- <20170925125207.4tu24sbpnihljknu@dhcp22.suse.cz>
- <765cd0cb-aa35-187c-456d-05d8752caa04@redhat.com>
- <20170925145238.gic2n37ffc6ytyvx@dhcp22.suse.cz>
+From: Mike Kravetz <mike.kravetz@oracle.com>
+Subject: Re: [patch v2] mremap.2: Add description of old_size == 0
+ functionality
+Date: Mon, 25 Sep 2017 09:33:52 -0700
+Message-ID: <83b023da-e9f5-2957-981e-5b0e71e9bf1b@oracle.com>
+References: <a5d279cb-a015-f74c-2e40-a231aa7f7a8c@redhat.com>
+ <20170919214224.19561-1-mike.kravetz@oracle.com>
+ <6fafdae8-4fea-c967-f5cd-d22c205608fa@gmail.com>
 Mime-Version: 1.0
-Content-Type: text/plain; charset=utf-8; format=flowed
+Content-Type: text/plain; charset=utf-8
 Content-Transfer-Encoding: 7bit
 Return-path: <owner-linux-mm@kvack.org>
-In-Reply-To: <20170925145238.gic2n37ffc6ytyvx@dhcp22.suse.cz>
+In-Reply-To: <6fafdae8-4fea-c967-f5cd-d22c205608fa@gmail.com>
 Content-Language: en-US
 Sender: owner-linux-mm@kvack.org
-To: Michal Hocko <mhocko@kernel.org>
-Cc: Mike Kravetz <mike.kravetz@oracle.com>, mtk.manpages@gmail.com, linux-man@vger.kernel.org, linux-kernel@vger.kernel.org, linux-api@vger.kernel.org, Andrea Arcangeli <aarcange@redhat.com>, "Kirill A . Shutemov" <kirill.shutemov@linux.intel.com>, Vlastimil Babka <vbabka@suse.cz>, Anshuman Khandual <khandual@linux.vnet.ibm.com>, linux-mm@kvack.org
+To: "Michael Kerrisk (man-pages)" <mtk.manpages@gmail.com>
+Cc: linux-man@vger.kernel.org, linux-mm@kvack.org, linux-kernel@vger.kernel.org, linux-api@vger.kernel.org, Jann Horn <jannh@google.com>, Florian Weimer <fweimer@redhat.com>, Michal Hocko <mhocko@suse.com>, Andrea Arcangeli <aarcange@redhat.com>, "Kirill A . Shutemov" <kirill.shutemov@linux.intel.com>, Vlastimil Babka <vbabka@suse.cz>, Anshuman Khandual <khandual@linux.vnet.ibm.com>
 List-Id: linux-man@vger.kernel.org
 
-On 09/25/2017 04:52 PM, Michal Hocko wrote:
-> On Mon 25-09-17 15:16:09, Florian Weimer wrote:
->> On 09/25/2017 02:52 PM, Michal Hocko wrote:
->>> So, how are you going to deal with the CoW and the implementation which
->>> basically means that the newm mmap content is not the same as the
->>> original one?
->>
->> I don't understand why CoW would kick in.
+On 09/20/2017 12:25 AM, Michael Kerrisk (man-pages) wrote:
+> Hello Mike,
 > 
-> So you can guarantee nobody is going to write to that memory?
+> On 09/19/2017 11:42 PM, Mike Kravetz wrote:
+>> v2: Fix incorrect wording noticed by Jann Horn.
+>>     Remove deprecated and memfd_create discussion as suggested
+>>     by Florian Weimer.
+>>
+>> Since at least the 2.6 time frame, mremap would create a new mapping
+>> of the same pages if 'old_size == 0'.  It would also leave the original
+>> mapping.  This was used to create a 'duplicate mapping'.
+>>
+>> A recent change was made to mremap so that an attempt to create a
+>> duplicate a private mapping will fail.
+>>
+>> Document the 'old_size == 0' behavior and new return code from
+>> below commit.
+>>
+>> commit dba58d3b8c5045ad89c1c95d33d01451e3964db7
+>> Author: Mike Kravetz <mike.kravetz@oracle.com>
+>> Date:   Wed Sep 6 16:20:55 2017 -0700
+>>
+>>     mm/mremap: fail map duplication attempts for private mappings
+>>
+>> Signed-off-by: Mike Kravetz <mike.kravetz@oracle.com>
+>> ---
+>>  man2/mremap.2 | 21 ++++++++++++++++++++-
+>>  1 file changed, 20 insertions(+), 1 deletion(-)
+>>
+>> diff --git a/man2/mremap.2 b/man2/mremap.2
+>> index 98643c640..235984a96 100644
+>> --- a/man2/mremap.2
+>> +++ b/man2/mremap.2
+>> @@ -58,6 +58,20 @@ may be provided; see the description of
+>>  .B MREMAP_FIXED
+>>  below.
+>>  .PP
+>> +If the value of \fIold_size\fP is zero, and \fIold_address\fP refers to
+>> +a shareable mapping (see
+>> +.BR mmap (2)
+>> +.BR MAP_SHARED )
+>> +, then
+>> +.BR mremap ()
+>> +will create a new mapping of the same pages. \fInew_size\fP
+>> +will be the size of the new mapping and the location of the new mapping
+>> +may be specified with \fInew_address\fP, see the description of
+>> +.B MREMAP_FIXED
+>> +below.  If a new mapping is requested via this method, then the
+>> +.B MREMAP_MAYMOVE
+>> +flag must also be specified.
+>> +.PP
+>>  In Linux the memory is divided into pages.
+>>  A user process has (one or)
+>>  several linear virtual memory segments.
+>> @@ -174,7 +188,12 @@ and
+>>  or
+>>  .B MREMAP_FIXED
+>>  was specified without also specifying
+>> -.BR MREMAP_MAYMOVE .
+>> +.BR MREMAP_MAYMOVE ;
+>> +or \fIold_size\fP was zero and \fIold_address\fP does not refer to a
+>> +shareable mapping;
+>> +or \fIold_size\fP was zero and the
+>> +.BR MREMAP_MAYMOVE
+>> +flag was not specified.
+>>  .TP
+>>  .B ENOMEM
+>>  The memory area cannot be expanded at the current virtual address, and the
+> 
+> I've applied this, and added Reviewed-by tags for Florian and Jann.
+> But, I think it's also worth noting the older, now disallowed, behavior,
+> and why the behavior was changed. So I added a note in BUGS:
+> 
+>     BUGS
+>        Before Linux 4.14, if old_size was zero and the  mapping  referred
+>        to  by  old_address  was  a private mapping (mmap(2) MAP_PRIVATE),
+>        mremap() created a new private mapping unrelated to  the  original
+>        mapping.   This behavior was unintended and probably unexpected in
+>        user-space applications (since the intention  of  mremap()  is  to
+>        create  a new mapping based on the original mapping).  Since Linux
+>        4.14, mremap() fails with the error EINVAL in this scenario.
+> 
+> Does that seem okay?
 
-It's mapped readable and executable, but not writable.  So the only 
-thing that could interfere would be a debugger.
+Sorry for the late reply Michael,  I've been away for a few days.
 
-Thanks,
-Florian
+Yes, the above seems okay.  Thanks for your help with this.
+
+-- 
+Mike Kravetz
 
 --
 To unsubscribe, send a message with 'unsubscribe linux-mm' in
