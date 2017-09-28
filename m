@@ -1,259 +1,71 @@
-From: NeilBrown <neilb-IBi9RG/b67k@public.gmane.org>
-Subject: Re: [RFC PATCH manpages] write.2, fsync.2, close.2: update description of error codes
-Date: Thu, 28 Sep 2017 13:01:04 +1000
-Message-ID: <87fub75xxr.fsf@notabene.neil.brown.name>
-References: <20170720194227.7830-1-jlayton@kernel.org> <1503683981.22608.0.camel@redhat.com> <87h8wsiog4.fsf@notabene.neil.brown.name> <1503920855.4563.12.camel@redhat.com> <87pobfgo9q.fsf@notabene.neil.brown.name> <1504004058.4679.7.camel@redhat.com> <87efrjb2mn.fsf@notabene.neil.brown.name> <1504784132.4954.12.camel@redhat.com> <1504796087.3561.7.camel@primarydata.com> <874ls9diij.fsf@notabene.neil.brown.name> <1505126785.4916.7.camel@redhat.com> <87poawc390.fsf@notabene.neil.brown.name> <1505229616.28831.26.camel@redhat.com> <87efrbbne1.fsf@notabene.neil.brown.name> <1505305391.4822.13.camel@redhat.com> <87ingm9n04.fsf@notabene.neil.brown.name> <1505386139.4870.10.camel@redhat.com>
+From: "Michael Kerrisk (man-opages)" <mtk.manpages-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org>
+Subject: Re: [patch] getpid.2: Add a NOTE concerning the RETURN VALUE of
+ getpid(2)
+Date: Thu, 28 Sep 2017 09:20:57 +0200
+Message-ID: <6571ff78-5138-36a9-b8f0-2a68185fa12d@gmail.com>
+References: <CAF+p1HsmP6FSO7FTuuzAWtHW_kk75iy9M43oxcJD-ZMiFazOvQ@mail.gmail.com>
 Mime-Version: 1.0
-Content-Type: multipart/signed; boundary="=-=-=";
-        micalg=pgp-sha256; protocol="application/pgp-signature"
-Return-path: <linux-nfs-owner-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>
-In-Reply-To: <1505386139.4870.10.camel-H+wXaHxf7aLQT0dZR+AlfA@public.gmane.org>
-Sender: linux-nfs-owner-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
-To: Jeff Layton <jlayton-H+wXaHxf7aLQT0dZR+AlfA@public.gmane.org>, "Michael Kerrisk (man-pages)" <mtk.manpages-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org>, Trond Myklebust <trondmy-7I+n7zu2hftEKMMhf/gKZA@public.gmane.org>, "anna.schumaker@netapp.com" <anna.schumaker-HgOvQuBEEgTQT0dZR+AlfA@public.gmane.org>, "jlayton@kernel.org" <jlayton-DgEjT+Ai2ygdnm+yROfE0A@public.gmane.org>
-Cc: linux-man-u79uwXL29TY76Z2rM5mHXA@public.gmane.org, "linux-nfs@vger.kernel.org" <linux-nfs-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>, "linux-fsdevel@vger.kernel.org" <linux-fsdevel-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>
+Content-Type: text/plain; charset=utf-8; format=flowed
+Content-Transfer-Encoding: 8bit
+Return-path: <linux-man-owner-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>
+In-Reply-To: <CAF+p1HsmP6FSO7FTuuzAWtHW_kk75iy9M43oxcJD-ZMiFazOvQ-JsoAwUIsXosN+BqQ9rBEUg@public.gmane.org>
+Content-Language: en-US
+Sender: linux-man-owner-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
+To: Shivansh Rai <shivansh-h+KGxgPPiopAfugRpC6u6w@public.gmane.org>
+Cc: mtk.manpages-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org, linux-man-u79uwXL29TY76Z2rM5mHXA@public.gmane.org, Stephen Rothwell <sfr-3FnU+UHB4dNDw9hX6IcOSA@public.gmane.org>
 List-Id: linux-man@vger.kernel.org
 
---=-=-=
-Content-Type: text/plain
-Content-Transfer-Encoding: quoted-printable
+Hello Shivansh
 
-On Thu, Sep 14 2017, Jeff Layton wrote:
+On 09/27/2017 01:28 PM, Shivansh Rai wrote:
+> The following information is not available in the latest version of the 
+> man-page (man-pages-4.13) for getpid(2) (quoting from "kernel/sys.c#L829") -
+> 
+> sys_getpid - return the thread group id of the current process
+> Note, despite the name, this returns the tgid not the pid.  The tgid and
+> the pid are identical unless CLONE_THREAD was specified on clone() in
+> which case the tgid is the same in all threads of the same group.
+> 
+> This patch applies against: man-pages-4.13
+> Relevant commit: 4a22f16636259f503847b0805e04824171b270fc  (cc'd Stephen 
+> Rothwell)
+> 
+> @@ -59,6 +59,14 @@
+>   .BR pid_namespaces (7)),
+>   .BR getppid ()
+>   returns 0.
+> +Despite the name
+> +.BR getpid ()
+> +returns the thread group ID of the current process. The TGID and the
+> +PID are identical unless
+> +.BR CLONE_THREAD
+> +was specified on
+> +.BR clone (2)
+> +in which case the TGID is same in all threads of the same group.
+>   .\"
+>   .SS C library/kernel differences
+>   From glibc version 2.3.4 up to and including version 2.24,
 
->>  .TP
->>  .B EIO
->> -An error occurred during synchronization.
->> +An error occurred during synchronization.  This error may relate
->> +to data written to some other file descriptor on the same file.
->> +.\" commit 088737f44bbf6378745f5b57b035e57ee3dc4750
->> +Since Linux 4.13 errors from write-back will be reported to
->> +all file descriptors that might have written the data which triggered
->> +the error, and which are still open.
->
-> This is a little awkward. How could we report to a fd that was no longer
-> open? How about:
->
-> "Since Linux 4.13, errors from write-back will be reported to all file
-> descriptors that were open at the time that the error was recorded."
+I'm not sure I understand the intent of your patch. This is how
+things are on Linux:
 
-That might be simpler, but it is less correct.  As I go on to say, NFS
-*doesn't* report on all file descriptors that were open at that time.
+In a multithreaded process (created at the kernel level using 
+clone(V+CLONE_NEWTHREAD), each thread has a unique (kernel)
+thread ID (TID).
 
-I've changed it to
+All of those threads have the same thread group ID (TGID).
 
-=2D------------------
-Since Linux 4.13, errors from write-back will be reported to
-all file descriptors that might have written the data which triggered
-the error.  Some filesystems (e.g. NFS) keep close track of which data
-came through which file descriptor, and give precise reporting.
-Other filesystems (e.g. most local filesystems) will report errors to
-all file descriptors that where open on the file when the error was recorde=
-d.
-=2D-----------------
+ From the user-space perspective, the TGID is the same thing as the PID
+(i.e., TID is not the same as PID).
 
-which includes some of your text, and removes the "that are still open"
-which probably doesn't help.
-
->>  .TP
->>  .B EIO
->>  A low-level I/O error occurred while modifying the inode.
->> +This error may relate to data written by an earlier
->> +.BR write (2),
->> +which may have been issued to a different file descriptor on
->> +the same file.  Since Linux 4.13 errors from write-back will
->> +be reported to all file descriptors that might have
->> +written the data which triggered the error, and which are still
->> +open.
->
->
-> This is where things get a little more vague.
->
-> Some filesystems will return errors on a subsequent write(2) when
-> previous writeback has failed -- some don't. In either case though,
-> write(2) should never advance your errseq_t cursor, so only an fsync
-> will "clear" an earlier error.
->
-> I'm not sure how best to convey that in the manpages though.
-
-How about:
-
-=2D------------
-This error may relate to the write-back of data written by an
-earlier
-.BR write (2),
-which may have been issued to a different file descriptor on
-the same file.  Since Linux 4.13, errors from write-back come
-with a promise that they
-.I may
-be reported by subsequent.
-.BR write (2)
-requests, and
-.I will
-be reported by a subsequent
-.BR fsync (2)
-(whether or not they were also reported by
-.BR write (2)).
-=2D-----------
-??
-
-Those changes are included in the following.
+In this sense, the text you propose to add seems rather confusing for
+user space. But, maybe I have misunderstood your point. If so, let
+me know.
 
 Thanks,
-NeilBrown
 
-From: NeilBrown <neilb-IBi9RG/b67k@public.gmane.org>
-Date: Thu, 14 Sep 2017 09:44:43 +1000
-Subject: [PATCH] write.2, fsync.2, close.2: update description of error cod=
-es
-
-Since 4.13, errors from writeback are more reliably reported
-to all file descriptors that might be relevant.
-
-Add notes to this effect, and also add detail about ENOSPC and EDQUOT
-which can be delayed in a similar many to EIO - for NFS in particular.
-
-Signed-off-by: NeilBrown <neilb-IBi9RG/b67k@public.gmane.org>
-=2D--
- man2/close.2 |  9 +++++++++
- man2/fsync.2 | 18 +++++++++++++++++-
- man2/write.2 | 28 +++++++++++++++++++++++++---
- 3 files changed, 51 insertions(+), 4 deletions(-)
-
-diff --git a/man2/close.2 b/man2/close.2
-index 55d89ed3dbc7..136bd0be3f67 100644
-=2D-- a/man2/close.2
-+++ b/man2/close.2
-@@ -82,6 +82,15 @@ call was interrupted by a signal; see
- .TP
- .B EIO
- An I/O error occurred.
-+.TP
-+.BR ENOSPC ", " EDQUOT
-+On NFS, these errors are not normally reported against the first write
-+which exceeds the available storage space, but instead against a
-+subsequent
-+.BR write (2),
-+.BR fsync (2),
-+or
-+.BR close (2).
- .PP
- See NOTES for a discussion of why
- .BR close ()
-diff --git a/man2/fsync.2 b/man2/fsync.2
-index eed3c460bea9..c7878bf3496f 100644
-=2D-- a/man2/fsync.2
-+++ b/man2/fsync.2
-@@ -121,7 +121,15 @@ is set appropriately.
- is not a valid open file descriptor.
- .TP
- .B EIO
-=2DAn error occurred during synchronization.
-+An error occurred during synchronization.  This error may relate
-+to data written to some other file descriptor on the same file.
-+.\" commit 088737f44bbf6378745f5b57b035e57ee3dc4750
-+Since Linux 4.13, errors from write-back will be reported to
-+all file descriptors that might have written the data which triggered
-+the error.  Some filesystems (e.g. NFS) keep close track of which data
-+came through which file descriptor, and give more precise reporting.
-+Other filesystems (e.g. most local filesystems) will report errors to
-+all file descriptors that where open on the file when the error was record=
-ed.
- .TP
- .B ENOSPC
- Disk space was exhausted while synchronizing.
-@@ -130,6 +138,14 @@ Disk space was exhausted while synchronizing.
- .I fd
- is bound to a special file (e.g., a pipe, FIFO, or socket)
- which does not support synchronization.
-+.TP
-+.BR ENOSPC ", " EDQUOT
-+.I fd
-+is bound to a file on NFS or another filesystem which does not allocate
-+space at the time of a
-+.BR write (2)
-+system call, and some previous write failed due to insufficient
-+storage space.
- .SH CONFORMING TO
- POSIX.1-2001, POSIX.1-2008, 4.3BSD.
- .SH AVAILABILITY
-diff --git a/man2/write.2 b/man2/write.2
-index 061aa70cf590..b1cc3a2cfb17 100644
-=2D-- a/man2/write.2
-+++ b/man2/write.2
-@@ -47,7 +47,7 @@ write \- write to a file descriptor
- .BR write ()
- writes up to
- .I count
-=2Dbytes from the buffer pointed
-+bytes from the buffer starting at
- .I buf
- to the file referred to by the file descriptor
- .IR fd .
-@@ -181,6 +181,22 @@ or the file offset is not suitably aligned.
- .TP
- .B EIO
- A low-level I/O error occurred while modifying the inode.
-+This error may relate to the write-back of data written by an
-+earlier
-+.BR write (2),
-+which may have been issued to a different file descriptor on
-+the same file.  Since Linux 4.13, errors from write-back come
-+with a promise that they
-+.I may
-+be reported by subsequent.
-+.BR write (2)
-+requests, and
-+.I will
-+be reported by a subsequent
-+.BR fsync (2)
-+(whether or not they were also reported by
-+.BR write (2)).
-+.\" commit 088737f44bbf6378745f5b57b035e57ee3dc4750
- .TP
- .B ENOSPC
- The device containing the file referred to by
-@@ -222,8 +238,14 @@ unsigned and signed integer data types specified by PO=
-SIX.1.
- A successful return from
- .BR write ()
- does not make any guarantee that data has been committed to disk.
-=2DIn fact, on some buggy implementations, it does not even guarantee
-=2Dthat space has successfully been reserved for the data.
-+On some filesystems, including NFS, it does not even guarantee
-+that space has successfully been reserved for the data.  In the case,
-+some errors might be delayed to a future
-+.BR write (2)
-+or to
-+.BR fsync (2)
-+or even
-+.BR close (2).
- The only way to be sure is to call
- .BR fsync (2)
- after you are done writing all your data.
-=2D-=20
-2.14.0.rc0.dirty
-
-
---=-=-=
-Content-Type: application/pgp-signature; name="signature.asc"
-
------BEGIN PGP SIGNATURE-----
-
-iQIzBAEBCAAdFiEEG8Yp69OQ2HB7X0l6Oeye3VZigbkFAlnMZfIACgkQOeye3VZi
-gbnOWw//WkAgS5vPMU4k/eeY+84G/RmjkWFbQ3ogk4FyCBjDrGm9mh2awSRZge83
-KngZ5QJZwePHEM/4jFeM/7AylExxUr3apI57TPVRqhZ+yQXy5tJJiQRsflI4g7dd
-ZRiX6sOl+4CQbV9xSMNAGvyYzOICXTRHEb6pgSnkZfd9Vef1vbwOYX0tiyyxO7ss
-2AmwIuomrTSlbmRK7OZkY2wS+bP6w78TYs99Lj1xKqsC8gse2PbzXPSM2CA/hGwC
-yWrMVpvMsRo9uqYqPL43sX5L33zoH7vD4J4RGxguhc2znNUf02Z2CqriMvDdbDvD
-cNfCBt/n2aR4eKZsZJuUmy3DxNr4tYCZwJDTOkf3/svEcRlRmTR1i59+CetlkdP0
-GByF1Fr5W9UTnARvNJmhrHjl65Iiz+3BoMu47/XDoU9o+iU1OVuz0uAeV0mnUfzO
-lPoY5V3XmwdqiU60FitAwjtruZZrSz3UTkjPoKSCBd0DdLXuGKegolb5KCYeJ27l
-q+VS7CIfNyWCLfjsAfNF41moQOqfcI698n4xGSm2Q8Nt6M4V6FyseDk5c8JckMlE
-9PYor4B3HeK8gPDp3ZzIVCLxNLq1BCYHrqH6P3H94i/m2W80cC10ZOTqPgznxVTI
-sS6+8hLVHG5Bw016pi6GjR5Im3USE1D9TBUREdton31+Og7DgNg=
-=/DBv
------END PGP SIGNATURE-----
---=-=-=--
+Michael
 --
-To unsubscribe from this list: send the line "unsubscribe linux-nfs" in
+To unsubscribe from this list: send the line "unsubscribe linux-man" in
 the body of a message to majordomo-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
 More majordomo info at  http://vger.kernel.org/majordomo-info.html
