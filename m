@@ -1,81 +1,91 @@
-From: "Michael Kerrisk (man-pages)" <mtk.manpages-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org>
-Subject: Re: [RFC PATCH 1/1] pthread_detach.3: remove invalid and confusing statement
-Date: Fri, 29 Sep 2017 18:25:26 +0200
-Message-ID: <CAKgNAkhK=dS=dREBdoo3ROwwQ3GXRH5C+dhtAW6GgdyA4mfUNQ@mail.gmail.com>
-References: <1443247457-3507-1-git-send-email-rahulbedarkar89@gmail.com>
- <5616DBB4.7060903@gmail.com> <CA+NV+Vmh7SHoqyToYbznHeO6qgr=c0dfw=4hnT5d0=VSNP5eNQ@mail.gmail.com>
-Reply-To: mtk.manpages-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org
+From: "Michael Kerrisk (man-opages)" <mtk.manpages-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org>
+Subject: Re: backtrace_symbols_fd() can trigger a call to malloc()
+Date: Fri, 29 Sep 2017 20:39:27 +0200
+Message-ID: <0084cc28-af58-141f-ca61-dcd431a3bd9e@gmail.com>
+References: <CACKs7VD8DcgDBOU85uxq6R2n5sC4cAEH7cdE90Zt9EN3Of7e=g@mail.gmail.com>
+ <5481CCC3.3020405@bfs.de>
+ <CACKs7VDrN+oz2Yi8UqFf=Zw2JufpUMFVinO3aVorPTBA6yuXyw@mail.gmail.com>
 Mime-Version: 1.0
-Content-Type: text/plain; charset="UTF-8"
+Content-Type: text/plain; charset=utf-8; format=flowed
+Content-Transfer-Encoding: 7bit
 Return-path: <linux-man-owner-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>
-In-Reply-To: <CA+NV+Vmh7SHoqyToYbznHeO6qgr=c0dfw=4hnT5d0=VSNP5eNQ-JsoAwUIsXosN+BqQ9rBEUg@public.gmane.org>
+In-Reply-To: <CACKs7VDrN+oz2Yi8UqFf=Zw2JufpUMFVinO3aVorPTBA6yuXyw-JsoAwUIsXosN+BqQ9rBEUg@public.gmane.org>
+Content-Language: en-US
 Sender: linux-man-owner-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
-To: Rahul Bedarkar <rpal143-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org>
-Cc: linux-man <linux-man-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>
+To: Stefan Puiu <stefan.puiu-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org>, wharms-fPG8STNUNVg@public.gmane.org
+Cc: mtk.manpages-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org, lnx-man <linux-man-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>
 List-Id: linux-man@vger.kernel.org
 
-Hello Rahul,
+Hello Stefan
 
-A> very late follow-up...
+Long after the fact... sorry!
 
-On 13 October 2015 at 05:48, Rahul Bedarkar <rpal143-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org> wrote:
-> On Fri, Oct 9, 2015 at 2:40 AM, Michael Kerrisk (man-pages)
-> <mtk.manpages-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org> wrote:
->> Rahul,
+On 12/05/2014 06:04 PM, Stefan Puiu wrote:
+> Hi Walter,
+> 
+> On Fri, Dec 5, 2014 at 5:18 PM, walter harms <wharms-fPG8STNUNVg@public.gmane.org> wrote:
+> 
+>>> +So you need to call
+>>> +.BR backtrace ()
+>>> +or some other libgcc function early in your program to trigger loading
+>>> +of libgcc in order to make sure that later calls don't trigger the
+>>> +indirect memory allocation (for instance when called from a signal
+>>> +handler).
 >>
->> On 09/26/2015 07:04 AM, Rahul Bedarkar wrote:
->>> In notes section, statement
->>>
->>> "(But note that the resources of all threads are freed when the
->>> process terminates.)"
->>>
->>> is confusing and invalid. In Linux, we don't really need to wait
->>> until application termination for system resources to be freed unless
->>> there is bug in application logic.
+>> I would drop that part. there are several way to load libgcc (e.g.LD_PRELOAD).
 >>
->> While I'm not sure that that sentence is essential, it does serve
->> to remind the reader that all resources are freed on process
->> termination, regardless of whether pthread_detach() and pthread_join()
->> are used.
+>> what about "make sure that libgcc is already loaded at the begining" ?
+>> something like that.
 >>
->> It's not clear to me why you find it confusing or invalid.
->> Can you say more?
->
-> Hi Michael,
->
-> Why it should be a special case about pthread that we should mention
-> that all resources are freed on process termination which is feature
-> of an Operating system.
->
-> When we don't mention it in open.2 or free.3, I thought it should not
-> be mentioned in pthread case, as it is something not related to it.
->
-> The sentence in bracket looks more confusing if we read previous one.
->
-> "Either pthread_join(3) or pthread_detach() should be called for each
-> thread that an application creates, so that  system  resources for the
-> thread can be released.  (But note that the resources of all threads
-> are freed when the process terminates.)"
->
-> I think above sentences convey that you should call either
-> pthread_join() or pthread_detach() so that resources are can be freed.
-> But note that those won't get freed until process is terminated.
->
-> That's why it looks confusing to me and looks invalid because note in
-> bracket conveys different meaning than intended.
+>>
+> 
+> Yep, makes sense, thanks. New version below:
 
-So, I changed that last sentence to try to eliminate such an ambiguity:
-
-       Either  pthread_join(3)  or  pthread_detach()  should  be
-       called for each thread that an  application  creates,  so
-       that  system  resources  for  the thread can be released.
-       (But note that the resources of any threads for which one
-       of these actions has not been done will be freed when the
-       process terminates.)
+Thanks; patch applied, with Reviewed-by: tag added for Walter's input.
 
 Cheers,
 
 Michael
+
+
+> diff --git a/man3/backtrace.3 b/man3/backtrace.3
+> index 1b21794..0b2c6ba 100644
+> --- a/man3/backtrace.3
+> +++ b/man3/backtrace.3
+> @@ -114,7 +114,8 @@ it writes the strings, one per line, to the file descriptor
+>   .BR backtrace_symbols_fd ()
+>   does not call
+>   .BR malloc (3),
+> -and so can be employed in situations where the latter function might fail.
+> +and so can be employed in situations where the latter function might
+> +fail, but see NOTES.
+>   .SH RETURN VALUE
+>   .BR backtrace ()
+>   returns the number of addresses returned in
+> @@ -156,6 +157,18 @@ violated.
+>   Inlined functions do not have stack frames.
+>   .IP *
+>   Tail-call optimization causes one stack frame to replace another.
+> +.IP *
+> +.BR backtrace ()
+> +and
+> +.BR backtrace_symbols_fd ()
+> +don't call
+> +.BR malloc ()
+> +explicitly, but they are part of libgcc, which gets loaded dynamically
+> +when first used. Dynamic loading usually triggers a call to
+> +.BR malloc ().
+> +If you need certain calls to the 2 functions to not allocate memory
+> +(in signal handlers, for example), you need to make sure libgcc is
+> +loaded beforehand.
+>   .PP
+>   The symbol names may be unavailable without the use of special linker
+>   options.
+> --
+> To unsubscribe from this list: send the line "unsubscribe linux-man" in
+> the body of a message to majordomo-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
+> More majordomo info at  http://vger.kernel.org/majordomo-info.html
+> 
 --
 To unsubscribe from this list: send the line "unsubscribe linux-man" in
 the body of a message to majordomo-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
