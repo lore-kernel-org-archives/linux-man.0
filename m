@@ -1,31 +1,71 @@
 From: Jakub Wilk <jwilk-tXgOlIzOKNReoWH0uzbU5w@public.gmane.org>
-Subject: [PATCH 1/2] statfs.2: tfix
-Date: Tue,  3 Oct 2017 17:45:11 +0200
-Message-ID: <20171003154512.9245-1-jwilk@jwilk.net>
+Subject: [PATCH] mallinfo.3: Fix the example
+Date: Tue,  3 Oct 2017 18:06:22 +0200
+Message-ID: <20171003160622.6157-1-jwilk@jwilk.net>
 Return-path: <linux-man-owner-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>
 Sender: linux-man-owner-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
 To: Michael Kerrisk <mtk.manpages-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org>
 Cc: linux-man-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
 List-Id: linux-man@vger.kernel.org
 
+Remove reference to non-standard "tlpi_hdr.h" and replace calls to
+functions that were declared in this header.
+
 Signed-off-by: Jakub Wilk <jwilk-tXgOlIzOKNReoWH0uzbU5w@public.gmane.org>
 ---
- man2/statfs.2 | 2 +-
- 1 file changed, 1 insertion(+), 1 deletion(-)
+ man3/mallinfo.3 | 23 +++++++++++++++--------
+ 1 file changed, 15 insertions(+), 8 deletions(-)
 
-diff --git a/man2/statfs.2 b/man2/statfs.2
-index f3f01f0cd..276ce2061 100644
---- a/man2/statfs.2
-+++ b/man2/statfs.2
-@@ -118,7 +118,7 @@ MINIX_SUPER_MAGIC2    0x138f     /* 30 char minix FS */
- MINIX2_SUPER_MAGIC    0x2468     /* minix V2 FS */
- MINIX2_SUPER_MAGIC2   0x2478     /* minix V2 FS, 30 char names */
- MINIX3_SUPER_MAGIC    0x4d5a     /* minix V3 FS, 60 char names */
--MQUEUE_MAGIC          0x19800202 /* POSIX messge queue FS */
-+MQUEUE_MAGIC          0x19800202 /* POSIX message queue FS */
- MSDOS_SUPER_MAGIC     0x4d44
- MTD_INODE_FS_MAGIC    0x11307854
- NCP_SUPER_MAGIC       0x564c
+diff --git a/man3/mallinfo.3 b/man3/mallinfo.3
+index 64d40e62c..628373a16 100644
+--- a/man3/mallinfo.3
++++ b/man3/mallinfo.3
+@@ -230,7 +230,8 @@ Topmost releasable block (keepcost):   31168
+ \&
+ .EX
+ #include <malloc.h>
+-#include "tlpi_hdr.h"
++#include <stdlib.h>
++#include <string.h>
+ 
+ static void
+ display_mallinfo(void)
+@@ -259,9 +260,11 @@ main(int argc, char *argv[])
+     int numBlocks, j, freeBegin, freeEnd, freeStep;
+     size_t blockSize;
+ 
+-    if (argc < 3 || strcmp(argv[1], "\-\-help") == 0)
+-        usageErr("%s num\-blocks block\-size [free\-step [start\-free "
+-                "[end\-free]]]\\n", argv[0]);
++    if (argc < 3 || strcmp(argv[1], "\-\-help") == 0) {
++        fprintf(stderr, "%s num\-blocks block\-size [free\-step "
++                "[start\-free [end\-free]]]\\n", argv[0]);
++        exit(EXIT_FAILURE);
++    }
+ 
+     numBlocks = atoi(argv[1]);
+     blockSize = atoi(argv[2]);
+@@ -273,12 +276,16 @@ main(int argc, char *argv[])
+     display_mallinfo();
+ 
+     for (j = 0; j < numBlocks; j++) {
+-        if (numBlocks >= MAX_ALLOCS)
+-            fatal("Too many allocations");
++        if (numBlocks >= MAX_ALLOCS) {
++            fprintf(stderr, "Too many allocations\\n");
++            exit(EXIT_FAILURE);
++        }
+ 
+         alloc[j] = malloc(blockSize);
+-        if (alloc[j] == NULL)
+-            errExit("malloc");
++        if (alloc[j] == NULL) {
++            perror("malloc");
++            exit(EXIT_FAILURE);
++        }
+     }
+ 
+     printf("\\n============== After allocating blocks ==============\\n");
 -- 
 2.14.2
 
