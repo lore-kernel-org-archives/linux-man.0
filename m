@@ -1,79 +1,84 @@
-From: joeyli <jlee-IBi9RG/b67k@public.gmane.org>
-Subject: Re: Draft manpage explaining kernel lockdown
-Date: Fri, 6 Oct 2017 15:46:49 +0800
-Message-ID: <20171006074649.GB3789@linux-l9pv.suse>
-References: <7969.1507201224@warthog.procyon.org.uk>
-Mime-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Return-path: <linux-man-owner-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>
-Content-Disposition: inline
-In-Reply-To: <7969.1507201224-S6HVgzuS8uM4Awkfq6JHfwNdhmdF6hFW@public.gmane.org>
-Sender: linux-man-owner-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
-To: David Howells <dhowells-H+wXaHxf7aLQT0dZR+AlfA@public.gmane.org>
-Cc: Ard Biesheuvel <ard.biesheuvel-QSEj5FYQhm4dnm+yROfE0A@public.gmane.org>, mtk.manpages-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org, mcgrof-DgEjT+Ai2ygdnm+yROfE0A@public.gmane.org, johannes-cdvu00un1VgdHxzADdlk8Q@public.gmane.org, linux-man-u79uwXL29TY76Z2rM5mHXA@public.gmane.org, keyrings-u79uwXL29TY76Z2rM5mHXA@public.gmane.org, linux-security-module-u79uwXL29TY76Z2rM5mHXA@public.gmane.org, linux-efi-u79uwXL29TY76Z2rM5mHXA@public.gmane.org, linux-kernel-u79uwXL29TY76Z2rM5mHXA@public.gmane.org, Gary Lin <GLin-IBi9RG/b67k@public.gmane.org>, Jann Horn <jann-XZ1E9jl8jIdeoWH0uzbU5w@public.gmane.org>
+From: Prakash Sangappa <prakash.sangappa@oracle.com>
+Subject: [PATCH] Userfaultfd: Add description for UFFD_FEATURE_SIGBUS
+Date: Fri,  6 Oct 2017 19:52:20 -0700
+Message-ID: <1507344740-21993-1-git-send-email-prakash.sangappa@oracle.com>
+Return-path: <owner-linux-mm@kvack.org>
+Sender: owner-linux-mm@kvack.org
+To: mtk.manpages@gmail.com
+Cc: linux-man@vger.kernel.org, linux-kernel@vger.kernel.org, linux-api@vger.kernel.org, linux-mm@kvack.org, arcange@redhat.com, rppt@linux.vnet.ibm.com, mhocko@suse.com, prakash.sangappa@oracle.com
 List-Id: linux-man@vger.kernel.org
 
-Hi David,
+Userfaultfd feature UFFD_FEATURE_SIGBUS was merged recently and should
+be available in Linux 4.14 release. This patch is for the manpage
+changes documenting this API.
 
-On Thu, Oct 05, 2017 at 12:00:24PM +0100, David Howells wrote:
-> Hi Ard, Michael,
-> 
-> Attached is a draft for a manual page (kernel_lockdown.7) that I intend to
-> point at from messages emitted when the kernel prohibits something because the
-> kernel is in 'lockdown' mode, typically triggered by EFI secure boot.
-> 
-> Let me know what you think.
-> 
-> David
-> ---
-[...snip]
-> When lockdown is in effect, a number of things are disabled or restricted in
-> use.  This includes special device files and kernel services that allow direct
-> access of the kernel image:
-> .P
-> .RS
-> /dev/mem
-> .br
-> /dev/kmem
-> .br
-> /dev/kcore
-> .br
-> /dev/ioports
-> .br
-> BPF memory access functions
+Documents the following commit:
 
-Some information for note...
+commit 2d6d6f5a09a96cc1fec7ed992b825e05f64cb50e
+Author: Prakash Sangappa <prakash.sangappa@oracle.com>
+Date: Wed Sep 6 16:23:39 2017 -0700
 
-The BPF functions bpf_probe_read(), bpf_trace_printk() and
-bpf_probe_write_user() need to be lockdown to avoid accessing
-arbitrary addess.
+    mm: userfaultfd: add feature to request for a signal delivery
 
-Our original idea is trying to filter out senstivie data address
-at runtime by eBPF verifier. But it can not be success. Gary Lin has
-investigated and comment:
+Signed-off-by: Prakash Sangappa <prakash.sangappa@oracle.com>
+---
+ man2/ioctl_userfaultfd.2 |  9 +++++++++
+ man2/userfaultfd.2       | 17 +++++++++++++++++
+ 2 files changed, 26 insertions(+)
 
-  Although eBPF verifier can stop the reading from the hard-coded address, 
-  it's not able to stop reading arguments in the probed functions. So if 
-  the malicious user attaches a eBPF program to a function that is used to 
-  process the sensitive data, the eBPF program can print those arguments 
-  easily and this might leak the passwords or private keys.
+diff --git a/man2/ioctl_userfaultfd.2 b/man2/ioctl_userfaultfd.2
+index 60fd29b..cfc65ae 100644
+--- a/man2/ioctl_userfaultfd.2
++++ b/man2/ioctl_userfaultfd.2
+@@ -196,6 +196,15 @@ with the
+ flag set,
+ .BR memfd_create (2),
+ and so on.
++.TP
++.B UFFD_FEATURE_SIGBUS
++Since Linux 4.14, If this feature bit is set, no page-fault events(
++.B UFFD_EVENT_PAGEFAULT
++) will be delivered, instead a
++.B SIGBUS
++signal will be sent to the faulting process. Applications using this
++feature will not require the use of a userfaultfd monitor for handling
++page-fault events.
+ .IP
+ The returned
+ .I ioctls
+diff --git a/man2/userfaultfd.2 b/man2/userfaultfd.2
+index 1741ee3..a033742 100644
+--- a/man2/userfaultfd.2
++++ b/man2/userfaultfd.2
+@@ -172,6 +172,23 @@ or
+ .BR ioctl (2)
+ operations to resolve the page fault.
+ .PP
++Starting from Linux 4.14, if application sets
++.B UFFD_FEATURE_SIGBUS
++feature bit using
++.B UFFDIO_API
++.BR ioctl (2)
++, no page fault notification will be forwarded to
++the user-space, instead a
++.B SIGBUS
++signal is delivered to the faulting process. With this feature,
++userfaultfd can be used for robustness purpose to simply catch
++any access to areas within the registered address range that do not
++have pages allocated, without having to deal with page-fault events.
++No userfaultd monitor will be required for handling page faults. For
++example, this feature can be useful for applications that want to
++prevent the kernel from automatically allocating pages and filling
++holes in sparse files when the hole is accessed thru mapped address.
++.PP
+ Details of the various
+ .BR ioctl (2)
+ operations can be found in
+-- 
+2.7.4
 
-If we readlly want to allow eBPF code to access memory, then I think that the
-bpf bytecode should be signed by trused key in system keyring.
-
-> .RE
-> .P
-
-Another function may needs to be restrictred:
-
-- The perf_event_open() with PERF_SAMPLE_REGS_INTR
-
-  Jann Horn raised this concern. The tool can be used to grab register
-  to peep sensitive data. We may need to block this tracing function.
-
-Regards
-Joey Lee
 --
-To unsubscribe from this list: send the line "unsubscribe linux-man" in
-the body of a message to majordomo-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
-More majordomo info at  http://vger.kernel.org/majordomo-info.html
+To unsubscribe, send a message with 'unsubscribe linux-mm' in
+the body to majordomo@kvack.org.  For more info on Linux MM,
+see: http://www.linux-mm.org/ .
+Don't email: <a href=mailto:"dont@kvack.org"> email@kvack.org </a>
