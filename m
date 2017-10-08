@@ -1,46 +1,46 @@
-From: "Michael Kerrisk (man-opages)" <mtk.manpages-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org>
-Subject: Re: [patch] pow10.3: tfix
-Date: Sun, 8 Oct 2017 10:53:18 +0200
-Message-ID: <5fcf2ab5-7fce-8a06-e547-8c8888407062@gmail.com>
-References: <59d9c1f2.97f5620a.1ea0a.78a7@mx.google.com>
+From: Yubin Ruan <ablacktshirt-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org>
+Subject: shmat(2) returns page size aligned memory address
+Date: Sun, 8 Oct 2017 23:37:05 +0800
+Message-ID: <CAJYFCiPhNVCMRVD-QpwsZk0wAKRXzFWcwVZDqLXxsxYfhFcVpg@mail.gmail.com>
 Mime-Version: 1.0
-Content-Type: text/plain; charset=utf-8; format=flowed
-Content-Transfer-Encoding: 7bit
+Content-Type: text/plain; charset="UTF-8"
 Return-path: <linux-man-owner-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>
-In-Reply-To: <59d9c1f2.97f5620a.1ea0a.78a7-ATjtLOhZ0NVl57MIdRCFDg@public.gmane.org>
-Content-Language: en-US
 Sender: linux-man-owner-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
-To: Fangrui Song <i@maskray.me>
-Cc: mtk.manpages-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org, linux-man-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
+To: linux-man <linux-man-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>, "Michael Kerrisk (man-pages)" <mtk.manpages-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org>, linux-mm-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
 List-Id: linux-man@vger.kernel.org
 
-On 10/08/2017 08:03 AM, Fangrui Song wrote:
-> Signed-off-by: Fangrui Song <i@maskray.me>
+Hi Michael,
+At the current man page for shmat(2)[1], there is no mentioning
+whether the returned memory address of shmat(2) will be page size
+aligned or not. As that is quite important to many applications(e.g.,
+those that use locks heavily and would like to avoid some locks by
+some atomic guarantees provided by the CPU), it would be great to
+specify that for Linux.
 
-Thank you, Fangrui Song! Applied.
+I walked down the current implementation of shmat(2) in the latest
+kernel src and found that shmat(2) does return a page size aligned
+memory address:
 
-Cheers,
+SYSCALL_DEFINE3(shmat, int, shmid, char __user *, shmaddr, int, shmflg)
+ -> do_shmat(...)
+ -> do_mmap_pgoff(...)
+ -> do_mmap(...)
+ -> get_unmapped_area(...)
+ -> get_area(...) -> offset_in_page(addr)
 
-Michael
+there is a `offset_in_page(addr)' assertion at the end and if that is
+true a -EINVAL would be returned, by which we can be sure that
+shmat(2) will return a page size aligned memory address on success[2].
 
-> ---
->   man3/pow10.3 | 2 +-
->   1 file changed, 1 insertion(+), 1 deletion(-)
-> 
-> diff --git a/man3/pow10.3 b/man3/pow10.3
-> index bd2a5601c..58feb5b43 100644
-> --- a/man3/pow10.3
-> +++ b/man3/pow10.3
-> @@ -44,7 +44,7 @@ These functions return the value of 10 raised to the power
->   These functions perform exactly the same task as the functions described in
->   .BR exp10 (3),
->   with the difference that the latter functions are now standardized
-> -in TS\ 1866104.
-> +in TS\ 18661-4:2015.
->   Those latter functions should be used in preference
->   to the functions described in this page.
->   .SH VERSIONS
-> 
+I will create a patch later if that is acceptable.
+
+Thanks,
+Yubin
+
+[1]: http://man7.org/linux/man-pages/man2/shmat.2.html
+[2]: there is also a `offset_in_page(2)' in get_unmapped_area(...),
+but that doesn't lead to -EINVAL...I am not sure whether the logic of
+that code is right.
 --
 To unsubscribe from this list: send the line "unsubscribe linux-man" in
 the body of a message to majordomo-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
