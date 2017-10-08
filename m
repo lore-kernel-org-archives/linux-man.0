@@ -1,7 +1,7 @@
-From: Andrea Arcangeli <aarcange-H+wXaHxf7aLQT0dZR+AlfA@public.gmane.org>
+From: Mike Rapoport <rppt-23VcF4HTsmIX0ybBhKVfKdBPR1lH4CV8@public.gmane.org>
 Subject: Re: [PATCH] Userfaultfd: Add description for UFFD_FEATURE_SIGBUS
-Date: Sat, 7 Oct 2017 16:44:15 +0200
-Message-ID: <20171007144415.GG16918@redhat.com>
+Date: Sun, 8 Oct 2017 09:04:59 +0300
+Message-ID: <20171008060459.GA3370@rapoport-lnx>
 References: <1507344740-21993-1-git-send-email-prakash.sangappa@oracle.com>
 Mime-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
@@ -10,7 +10,7 @@ Content-Disposition: inline
 In-Reply-To: <1507344740-21993-1-git-send-email-prakash.sangappa-QHcLZuEGTsvQT0dZR+AlfA@public.gmane.org>
 Sender: linux-man-owner-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
 To: Prakash Sangappa <prakash.sangappa-QHcLZuEGTsvQT0dZR+AlfA@public.gmane.org>
-Cc: mtk.manpages-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org, linux-man-u79uwXL29TY76Z2rM5mHXA@public.gmane.org, linux-kernel-u79uwXL29TY76Z2rM5mHXA@public.gmane.org, linux-api-u79uwXL29TY76Z2rM5mHXA@public.gmane.org, linux-mm-Bw31MaZKKs3YtjvyW6yDsg@public.gmane.org, rppt-23VcF4HTsmIX0ybBhKVfKdBPR1lH4CV8@public.gmane.org, mhocko-IBi9RG/b67k@public.gmane.org
+Cc: mtk.manpages-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org, linux-man-u79uwXL29TY76Z2rM5mHXA@public.gmane.org, linux-kernel-u79uwXL29TY76Z2rM5mHXA@public.gmane.org, linux-api-u79uwXL29TY76Z2rM5mHXA@public.gmane.org, linux-mm-Bw31MaZKKs3YtjvyW6yDsg@public.gmane.org, arcange-H+wXaHxf7aLQT0dZR+AlfA@public.gmane.org, mhocko-IBi9RG/b67k@public.gmane.org
 List-Id: linux-man@vger.kernel.org
 
 Hello Prakash,
@@ -45,15 +45,18 @@ On Fri, Oct 06, 2017 at 07:52:20PM -0700, Prakash Sangappa wrote:
 > +.TP
 > +.B UFFD_FEATURE_SIGBUS
 > +Since Linux 4.14, If this feature bit is set, no page-fault events(
-
-space after events?
-
 > +.B UFFD_EVENT_PAGEFAULT
 > +) will be delivered, instead a
 > +.B SIGBUS
 > +signal will be sent to the faulting process. Applications using this
 > +feature will not require the use of a userfaultfd monitor for handling
 > +page-fault events.
+
+This sounds to me a bit misleading: "no page-fault events" and "handling
+page-fault events"
+Maybe "processing memory accesses to the regions registered with
+userfaultfd"?
+
 >  .IP
 >  The returned
 >  .I ioctls
@@ -77,21 +80,26 @@ space after events?
 > +userfaultfd can be used for robustness purpose to simply catch
 > +any access to areas within the registered address range that do not
 > +have pages allocated, without having to deal with page-fault events.
-
-",without having to listen to userfaultfd events." may be more clear.
-
 > +No userfaultd monitor will be required for handling page faults. For
-               ^
-typo: userfaultfd
+
+Since we do not get page fault events, maybe better would be to say
+"dealing with such memory accesses" or something like that.
 
 > +example, this feature can be useful for applications that want to
 > +prevent the kernel from automatically allocating pages and filling
 > +holes in sparse files when the hole is accessed thru mapped address.
 > +.PP
+>  Details of the various
+>  .BR ioctl (2)
+>  operations can be found in
+> -- 
+> 2.7.4
+> 
 
-Maybe also mention that "The UFFD_FEATURE_SIGBUS feature is implicitly
-inherited through fork() if used in combination with
-UFFD_FEATURE_FORK."
+-- 
+Sincerely yours,
+Mike.
+
 --
 To unsubscribe from this list: send the line "unsubscribe linux-man" in
 the body of a message to majordomo-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
