@@ -1,53 +1,46 @@
-From: "Michael Kerrisk (man-pages)" <mtk.manpages-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org>
-Subject: Re: [PATCH] proc.5: tfix
-Date: Sun, 8 Oct 2017 20:50:13 +0200
-Message-ID: <06218f19-f173-8983-77e1-1c767e1fe51a@gmail.com>
-References: <20171008155334.6909-1-jwilk@jwilk.net>
+From: Yubin Ruan <ablacktshirt-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org>
+Subject: Re: dl_iterate_phdr(3) needs clarification
+Date: Mon, 9 Oct 2017 17:13:27 +0800
+Message-ID: <20171009091325.GB5758@HP>
+References: <20170915084423.GB317@HP.internal.baidu.com>
+ <CAKgNAkhRo04hCoYX+SCKEr7Ai0zT9HcV_z-aZhCio+CQqO+eHw@mail.gmail.com>
+ <20170916150053.GD13267@HP.internal.baidu.com>
+ <480b07c2-b897-b175-036a-e304b2bba2d1@redhat.com>
+ <20170916152842.GG13267@HP.internal.baidu.com>
+ <45f4e59c-3be5-6edd-12a8-f158002dafc7@redhat.com>
 Mime-Version: 1.0
-Content-Type: text/plain; charset=utf-8
-Content-Transfer-Encoding: 7bit
+Content-Type: text/plain; charset=us-ascii
 Return-path: <linux-man-owner-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>
-In-Reply-To: <20171008155334.6909-1-jwilk-tXgOlIzOKNReoWH0uzbU5w@public.gmane.org>
-Content-Language: en-US
+Content-Disposition: inline
+In-Reply-To: <45f4e59c-3be5-6edd-12a8-f158002dafc7-H+wXaHxf7aLQT0dZR+AlfA@public.gmane.org>
 Sender: linux-man-owner-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
-To: Jakub Wilk <jwilk-tXgOlIzOKNReoWH0uzbU5w@public.gmane.org>
-Cc: mtk.manpages-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org, linux-man-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
+To: Florian Weimer <fweimer-H+wXaHxf7aLQT0dZR+AlfA@public.gmane.org>
+Cc: "Michael Kerrisk (man-pages)" <mtk.manpages-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org>, linux-man <linux-man-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>, vivek-ZGY8ohtN/8qB+jHODAdFcQ@public.gmane.org
 List-Id: linux-man@vger.kernel.org
 
-On 10/08/2017 05:53 PM, Jakub Wilk wrote:
-> Remove duplicated word.
+Hi Florian,
+sorry for the late reply. This mail got hidden in some secret mailbox and I
+didn't discover it. sorry ;-(
 
-Thanks, Jakub. Applied.
-
-Cheers,
-
-Michael
-
-> Signed-off-by: Jakub Wilk <jwilk-tXgOlIzOKNReoWH0uzbU5w@public.gmane.org>
-> ---
->  man5/proc.5 | 2 +-
->  1 file changed, 1 insertion(+), 1 deletion(-)
+On Sat, Sep 16, 2017 at 10:38:44AM +0200, Florian Weimer wrote:
+> On 09/16/2017 05:28 PM, Yubin Ruan wrote:
 > 
-> diff --git a/man5/proc.5 b/man5/proc.5
-> index d23c0588a..cf4f35025 100644
-> --- a/man5/proc.5
-> +++ b/man5/proc.5
-> @@ -4992,7 +4992,7 @@ cache management.
->  .IR /proc/sys/vm/admin_reserve_kbytes " (since Linux 3.10)"
->  .\" commit 4eeab4f5580d11bffedc697684b91b0bca0d5009
->  This file defines the amount of free memory (in KiB) on the system that
-> -that should be reserved for users with the capability
-> +should be reserved for users with the capability
->  .BR CAP_SYS_ADMIN .
->  .IP
->  The default value in this file is the minimum of [3% of free pages, 8MiB]
+> > > The part about executables is not true.  The most common case probably is
+> > > PIE executables.  You see this if you compile the modified test program with
+> > > -fpie -pie on a recent enough toolchain.
+> > 
+> > -fpie only affect address of PT_LOAD. The one inidcated by `dlpi_addr' is
+> > always 0 for an executable. Yes there is indeed some confusion, see [1].
 > 
+> I get this with your patched example:
+> 
+> Address: 0x156927e000, name: "" (9 segments)
 
+Indeed, this still needs to be investigated some more. I will come back for
+this late. Do you have any idea about the wording? I would like to hear your
+understanding.
 
--- 
-Michael Kerrisk
-Linux man-pages maintainer; http://www.kernel.org/doc/man-pages/
-Linux/UNIX System Programming Training: http://man7.org/training/
+Yubin
 --
 To unsubscribe from this list: send the line "unsubscribe linux-man" in
 the body of a message to majordomo-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
