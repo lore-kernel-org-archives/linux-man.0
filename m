@@ -1,60 +1,44 @@
 From: "Michael Kerrisk (man-pages)" <mtk.manpages-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org>
-Subject: Re: [patch v2] madvise.2: Add MADV_WIPEONFORK documentation
-Date: Mon, 9 Oct 2017 21:11:24 +0200
-Message-ID: <CAKgNAkjGX5BanVCB=fauy9tYt+eAOb990LDOd73dvUp-bm03KA@mail.gmail.com>
-References: <20170914130040.6faabb18@cuia.usersys.redhat.com>
- <CAAF6GDdnY2AmzKx+t4ffCFxJ+RZS++4tmWvoazdVNVSYjra_WA@mail.gmail.com>
- <20170914150546.74ad3a9a@cuia.usersys.redhat.com> <a1715d1d-7a03-d2db-7a8a-8a2edceae5d1@gmail.com>
- <1505848907.5486.9.camel@redhat.com> <CAKgNAkg8QJHfPfdfYXBU2-eW=_FWY99UYi_6hQejE=q5+66u1g@mail.gmail.com>
- <1507576124.21121.168.camel@redhat.com>
-Reply-To: mtk.manpages-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org
+Subject: Re: man5/core.5 Piping core dumps to a program: ulimit -c
+ restrictions does not apply when using pipe
+Date: Mon, 9 Oct 2017 22:29:01 +0200
+Message-ID: <0790cbcd-3275-409b-7077-3d3157ca4b53@gmail.com>
+References: <d0d944e3f79246c28100f1d7fe042d7e@zenterio.com>
 Mime-Version: 1.0
-Content-Type: text/plain; charset="UTF-8"
-Return-path: <linux-api-owner-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>
-In-Reply-To: <1507576124.21121.168.camel-H+wXaHxf7aLQT0dZR+AlfA@public.gmane.org>
-Sender: linux-api-owner-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
-To: Rik van Riel <riel-H+wXaHxf7aLQT0dZR+AlfA@public.gmane.org>
-Cc: =?UTF-8?Q?Colm_MacC=C3=A1rthaigh?= <colm-ZXBCfW2eEe/k1uMJSBkQmQ@public.gmane.org>, linux-man <linux-man-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>, lkml <linux-kernel-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>, "linux-mm-Bw31MaZKKs3YtjvyW6yDsg@public.gmane.org" <linux-mm-Bw31MaZKKs3YtjvyW6yDsg@public.gmane.org>, Linux API <linux-api-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>, nilal-H+wXaHxf7aLQT0dZR+AlfA@public.gmane.org, Florian Weimer <fweimer-H+wXaHxf7aLQT0dZR+AlfA@public.gmane.org>, Mike Kravetz <mike.kravetz-QHcLZuEGTsvQT0dZR+AlfA@public.gmane.org>
+Content-Type: text/plain; charset=utf-8
+Content-Transfer-Encoding: 8bit
+Return-path: <linux-man-owner-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>
+In-Reply-To: <d0d944e3f79246c28100f1d7fe042d7e-MFMeSrSslgZWk0Htik3J/w@public.gmane.org>
+Content-Language: en-US
+Sender: linux-man-owner-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
+To: =?UTF-8?Q?Per_B=c3=b6hlin?= <Per.Bohlin-MFMeSrSslgZWk0Htik3J/w@public.gmane.org>
+Cc: mtk.manpages-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org, "linux-man-u79uwXL29TY76Z2rM5mHXA@public.gmane.org" <linux-man-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>
 List-Id: linux-man@vger.kernel.org
 
-Hi Rik,
+Hello Per,
 
-Thanks for the blazingly fast response :-)
+On 10/09/2017 05:22 PM, Per Böhlin wrote:
+> The man page for coredumps:
+> http://man7.org/linux/man-pages/man5/core.5.html
+> 
+> In section: Piping core dumps to a program
+> should probably have a bullet explaining that the size limit > imposed by ulimit -c does not apply when using the> pipe-mechanism.
 
-On 9 October 2017 at 21:08, Rik van Riel <riel-H+wXaHxf7aLQT0dZR+AlfA@public.gmane.org> wrote:
-> On Mon, 2017-10-09 at 21:06 +0200, Michael Kerrisk (man-pages) wrote:
->> Hi Rik,
->>
->> I have a follow-up question re wipe-on-fork. What are the semantics
->> for this setting with respect to fork() and exec()? That is, in the
->> child of a fork(), does the flag remain set for the specified address
->> range? (My quick read of the source suggests yes, but I have not
->> tested.) And, when we do an exec(), my assumption is that the flag is
->> cleared for the address range, but it would be good to have
->> confirmation.
->
-> Indeed, on exec() the flag is cleared, because all
-> memory regions get replaced on exec().
+Thanks. From my reading of the kernel source, I agree.
+I added the following text to the page:
 
-Thanks.
-
-> The flag remains across a fork(), so if a child task
-> were to fork, the memory would be empty of contents
-> again in its child. This seems to most closely match
-> the use case of discarding things like cryptographic
-> secrets at fork time.
-
-Thanks!
-
-I'll add this info to the madvise(2) page.
+       *  The RLIMIT_CORE limit is not enforced for core dumps  that  are
+          piped to a program via this mechanism.
 
 Cheers,
 
 Michael
 
-
-
 -- 
 Michael Kerrisk
 Linux man-pages maintainer; http://www.kernel.org/doc/man-pages/
 Linux/UNIX System Programming Training: http://man7.org/training/
+--
+To unsubscribe from this list: send the line "unsubscribe linux-man" in
+the body of a message to majordomo-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
+More majordomo info at  http://vger.kernel.org/majordomo-info.html
