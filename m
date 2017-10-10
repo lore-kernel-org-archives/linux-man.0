@@ -1,100 +1,85 @@
-From: Mike Rapoport <rppt@linux.vnet.ibm.com>
-Subject: Re: [PATCH v2] Userfaultfd: Add description for UFFD_FEATURE_SIGBUS
-Date: Tue, 10 Oct 2017 07:25:49 +0300
-Message-ID: <20171010042549.GA32311@rapoport-lnx>
-References: <1507589151-27430-1-git-send-email-prakash.sangappa@oracle.com>
+From: Rahul Bedarkar <rahulbedarkar89-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org>
+Subject: Re: [RFC PATCH 1/1] pthread_detach.3: remove invalid and confusing statement
+Date: Tue, 10 Oct 2017 19:00:41 +0530
+Message-ID: <CA+NV+Vn1q7aRhtjnpy_ug9L9M572ppeBUpNK7i38-RmcTkeCxA@mail.gmail.com>
+References: <1443247457-3507-1-git-send-email-rahulbedarkar89@gmail.com>
+ <5616DBB4.7060903@gmail.com> <CA+NV+Vmh7SHoqyToYbznHeO6qgr=c0dfw=4hnT5d0=VSNP5eNQ@mail.gmail.com>
+ <CAKgNAkhK=dS=dREBdoo3ROwwQ3GXRH5C+dhtAW6GgdyA4mfUNQ@mail.gmail.com>
 Mime-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Return-path: <linux-kernel-owner@vger.kernel.org>
-Content-Disposition: inline
-In-Reply-To: <1507589151-27430-1-git-send-email-prakash.sangappa@oracle.com>
-Sender: linux-kernel-owner@vger.kernel.org
-To: Prakash Sangappa <prakash.sangappa@oracle.com>
-Cc: mtk.manpages@gmail.com, linux-man@vger.kernel.org, linux-kernel@vger.kernel.org, linux-api@vger.kernel.org, linux-mm@kvack.org, aarcange@redhat.com, mhocko@suse.com
+Content-Type: text/plain; charset="UTF-8"
+Return-path: <linux-man-owner-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>
+In-Reply-To: <CAKgNAkhK=dS=dREBdoo3ROwwQ3GXRH5C+dhtAW6GgdyA4mfUNQ-JsoAwUIsXosN+BqQ9rBEUg@public.gmane.org>
+Sender: linux-man-owner-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
+To: "Michael Kerrisk (man-pages)" <mtk.manpages-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org>
+Cc: linux-man <linux-man-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>
 List-Id: linux-man@vger.kernel.org
 
-On Mon, Oct 09, 2017 at 03:45:51PM -0700, Prakash Sangappa wrote:
-> Userfaultfd feature UFFD_FEATURE_SIGBUS was merged recently and should
-> be available in Linux 4.14 release. This patch is for the manpage
-> changes documenting this API.
-> 
-> Documents the following commit:
-> 
-> commit 2d6d6f5a09a96cc1fec7ed992b825e05f64cb50e
-> Author: Prakash Sangappa <prakash.sangappa@oracle.com>
-> Date: Wed Sep 6 16:23:39 2017 -0700
-> 
->      mm: userfaultfd: add feature to request for a signal delivery
-> 
-> Signed-off-by: Prakash Sangappa <prakash.sangappa@oracle.com>
+On Fri, Sep 29, 2017 at 9:55 PM, Michael Kerrisk (man-pages)
+<mtk.manpages-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org> wrote:
+> Hello Rahul,
+>
+> A> very late follow-up...
+>
+> On 13 October 2015 at 05:48, Rahul Bedarkar <rpal143-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org> wrote:
+>> On Fri, Oct 9, 2015 at 2:40 AM, Michael Kerrisk (man-pages)
+>> <mtk.manpages-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org> wrote:
+>>> Rahul,
+>>>
+>>> On 09/26/2015 07:04 AM, Rahul Bedarkar wrote:
+>>>> In notes section, statement
+>>>>
+>>>> "(But note that the resources of all threads are freed when the
+>>>> process terminates.)"
+>>>>
+>>>> is confusing and invalid. In Linux, we don't really need to wait
+>>>> until application termination for system resources to be freed unless
+>>>> there is bug in application logic.
+>>>
+>>> While I'm not sure that that sentence is essential, it does serve
+>>> to remind the reader that all resources are freed on process
+>>> termination, regardless of whether pthread_detach() and pthread_join()
+>>> are used.
+>>>
+>>> It's not clear to me why you find it confusing or invalid.
+>>> Can you say more?
+>>
+>> Hi Michael,
+>>
+>> Why it should be a special case about pthread that we should mention
+>> that all resources are freed on process termination which is feature
+>> of an Operating system.
+>>
+>> When we don't mention it in open.2 or free.3, I thought it should not
+>> be mentioned in pthread case, as it is something not related to it.
+>>
+>> The sentence in bracket looks more confusing if we read previous one.
+>>
+>> "Either pthread_join(3) or pthread_detach() should be called for each
+>> thread that an application creates, so that  system  resources for the
+>> thread can be released.  (But note that the resources of all threads
+>> are freed when the process terminates.)"
+>>
+>> I think above sentences convey that you should call either
+>> pthread_join() or pthread_detach() so that resources are can be freed.
+>> But note that those won't get freed until process is terminated.
+>>
+>> That's why it looks confusing to me and looks invalid because note in
+>> bracket conveys different meaning than intended.
+>
+> So, I changed that last sentence to try to eliminate such an ambiguity:
+>
+>        Either  pthread_join(3)  or  pthread_detach()  should  be
+>        called for each thread that an  application  creates,  so
+>        that  system  resources  for  the thread can be released.
+>        (But note that the resources of any threads for which one
+>        of these actions has not been done will be freed when the
+>        process terminates.)
 
-Reviewed-by: Mike Rapoport <rppt@linux.vnet.ibm.com>
+Thanks for fixing this. It is indeed very clear now.
 
-> ---
-> v2: Incorporated review feedback changes.
-> ---
->  man2/ioctl_userfaultfd.2 |  9 +++++++++
->  man2/userfaultfd.2       | 23 +++++++++++++++++++++++
->  2 files changed, 32 insertions(+)
-> 
-> diff --git a/man2/ioctl_userfaultfd.2 b/man2/ioctl_userfaultfd.2
-> index 60fd29b..32f0744 100644
-> --- a/man2/ioctl_userfaultfd.2
-> +++ b/man2/ioctl_userfaultfd.2
-> @@ -196,6 +196,15 @@ with the
->  flag set,
->  .BR memfd_create (2),
->  and so on.
-> +.TP
-> +.B UFFD_FEATURE_SIGBUS
-> +Since Linux 4.14, If this feature bit is set, no page-fault events
-> +.B (UFFD_EVENT_PAGEFAULT)
-> +will be delivered, instead a
-> +.B SIGBUS
-> +signal will be sent to the faulting process. Applications using this
-> +feature will not require the use of a userfaultfd monitor for processing
-> +memory accesses to the regions registered with userfaultfd.
->  .IP
->  The returned
->  .I ioctls
-> diff --git a/man2/userfaultfd.2 b/man2/userfaultfd.2
-> index 1741ee3..3c5b9c0 100644
-> --- a/man2/userfaultfd.2
-> +++ b/man2/userfaultfd.2
-> @@ -172,6 +172,29 @@ or
->  .BR ioctl (2)
->  operations to resolve the page fault.
->  .PP
-> +Starting from Linux 4.14, if application sets
-> +.B UFFD_FEATURE_SIGBUS
-> +feature bit using
-> +.B UFFDIO_API
-> +.BR ioctl (2),
-> +no page fault notification will be forwarded to
-> +the user-space, instead a
-> +.B SIGBUS
-> +signal is delivered to the faulting process. With this feature,
-> +userfaultfd can be used for robustness purpose to simply catch
-> +any access to areas within the registered address range that do not
-> +have pages allocated, without having to listen to userfaultfd events.
-> +No userfaultfd monitor will be required for dealing with such memory
-> +accesses. For example, this feature can be useful for applications that
-> +want to prevent the kernel from automatically allocating pages and filling
-> +holes in sparse files when the hole is accessed thru mapped address.
-> +.PP
-> +The
-> +.B UFFD_FEATURE_SIGBUS
-> +feature is implicitly inherited through fork() if used in combination with
-> +.BR UFFD_FEATURE_FORK .
-> +
-> +.PP
->  Details of the various
->  .BR ioctl (2)
->  operations can be found in
-> -- 
-> 2.7.4
-> 
-
--- 
-Sincerely yours,
-Mike.
+Regards,
+Rahul
+--
+To unsubscribe from this list: send the line "unsubscribe linux-man" in
+the body of a message to majordomo-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
+More majordomo info at  http://vger.kernel.org/majordomo-info.html
