@@ -1,16 +1,16 @@
-From: Andrea Arcangeli <aarcange@redhat.com>
+From: Mike Rapoport <rppt@linux.vnet.ibm.com>
 Subject: Re: [PATCH v2] Userfaultfd: Add description for UFFD_FEATURE_SIGBUS
-Date: Tue, 10 Oct 2017 00:54:22 +0200
-Message-ID: <20171009225422.GF18175@redhat.com>
+Date: Tue, 10 Oct 2017 07:25:49 +0300
+Message-ID: <20171010042549.GA32311@rapoport-lnx>
 References: <1507589151-27430-1-git-send-email-prakash.sangappa@oracle.com>
 Mime-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
-Return-path: <owner-linux-mm@kvack.org>
+Return-path: <linux-kernel-owner@vger.kernel.org>
 Content-Disposition: inline
 In-Reply-To: <1507589151-27430-1-git-send-email-prakash.sangappa@oracle.com>
-Sender: owner-linux-mm@kvack.org
+Sender: linux-kernel-owner@vger.kernel.org
 To: Prakash Sangappa <prakash.sangappa@oracle.com>
-Cc: mtk.manpages@gmail.com, linux-man@vger.kernel.org, linux-kernel@vger.kernel.org, linux-api@vger.kernel.org, linux-mm@kvack.org, rppt@linux.vnet.ibm.com, mhocko@suse.com
+Cc: mtk.manpages@gmail.com, linux-man@vger.kernel.org, linux-kernel@vger.kernel.org, linux-api@vger.kernel.org, linux-mm@kvack.org, aarcange@redhat.com, mhocko@suse.com
 List-Id: linux-man@vger.kernel.org
 
 On Mon, Oct 09, 2017 at 03:45:51PM -0700, Prakash Sangappa wrote:
@@ -28,10 +28,73 @@ On Mon, Oct 09, 2017 at 03:45:51PM -0700, Prakash Sangappa wrote:
 > 
 > Signed-off-by: Prakash Sangappa <prakash.sangappa@oracle.com>
 
-Reviewed-by: Andrea Arcangeli <aarcange@redhat.com>
+Reviewed-by: Mike Rapoport <rppt@linux.vnet.ibm.com>
 
---
-To unsubscribe, send a message with 'unsubscribe linux-mm' in
-the body to majordomo@kvack.org.  For more info on Linux MM,
-see: http://www.linux-mm.org/ .
-Don't email: <a href=mailto:"dont@kvack.org"> email@kvack.org </a>
+> ---
+> v2: Incorporated review feedback changes.
+> ---
+>  man2/ioctl_userfaultfd.2 |  9 +++++++++
+>  man2/userfaultfd.2       | 23 +++++++++++++++++++++++
+>  2 files changed, 32 insertions(+)
+> 
+> diff --git a/man2/ioctl_userfaultfd.2 b/man2/ioctl_userfaultfd.2
+> index 60fd29b..32f0744 100644
+> --- a/man2/ioctl_userfaultfd.2
+> +++ b/man2/ioctl_userfaultfd.2
+> @@ -196,6 +196,15 @@ with the
+>  flag set,
+>  .BR memfd_create (2),
+>  and so on.
+> +.TP
+> +.B UFFD_FEATURE_SIGBUS
+> +Since Linux 4.14, If this feature bit is set, no page-fault events
+> +.B (UFFD_EVENT_PAGEFAULT)
+> +will be delivered, instead a
+> +.B SIGBUS
+> +signal will be sent to the faulting process. Applications using this
+> +feature will not require the use of a userfaultfd monitor for processing
+> +memory accesses to the regions registered with userfaultfd.
+>  .IP
+>  The returned
+>  .I ioctls
+> diff --git a/man2/userfaultfd.2 b/man2/userfaultfd.2
+> index 1741ee3..3c5b9c0 100644
+> --- a/man2/userfaultfd.2
+> +++ b/man2/userfaultfd.2
+> @@ -172,6 +172,29 @@ or
+>  .BR ioctl (2)
+>  operations to resolve the page fault.
+>  .PP
+> +Starting from Linux 4.14, if application sets
+> +.B UFFD_FEATURE_SIGBUS
+> +feature bit using
+> +.B UFFDIO_API
+> +.BR ioctl (2),
+> +no page fault notification will be forwarded to
+> +the user-space, instead a
+> +.B SIGBUS
+> +signal is delivered to the faulting process. With this feature,
+> +userfaultfd can be used for robustness purpose to simply catch
+> +any access to areas within the registered address range that do not
+> +have pages allocated, without having to listen to userfaultfd events.
+> +No userfaultfd monitor will be required for dealing with such memory
+> +accesses. For example, this feature can be useful for applications that
+> +want to prevent the kernel from automatically allocating pages and filling
+> +holes in sparse files when the hole is accessed thru mapped address.
+> +.PP
+> +The
+> +.B UFFD_FEATURE_SIGBUS
+> +feature is implicitly inherited through fork() if used in combination with
+> +.BR UFFD_FEATURE_FORK .
+> +
+> +.PP
+>  Details of the various
+>  .BR ioctl (2)
+>  operations can be found in
+> -- 
+> 2.7.4
+> 
+
+-- 
+Sincerely yours,
+Mike.
