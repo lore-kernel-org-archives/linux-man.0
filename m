@@ -1,110 +1,48 @@
-From: "Michael Kerrisk (man-pages)" <mtk.manpages@gmail.com>
-Subject: Re: [PATCH v2] Userfaultfd: Add description for UFFD_FEATURE_SIGBUS
-Date: Wed, 18 Oct 2017 10:42:43 +0200
-Message-ID: <08376364-8110-3003-bc37-46cd0147263d@gmail.com>
-References: <1507589151-27430-1-git-send-email-prakash.sangappa@oracle.com>
+From: Florian Weimer <fweimer-H+wXaHxf7aLQT0dZR+AlfA@public.gmane.org>
+Subject: Re: Draft pthread_spin_init(2) manual page
+Date: Wed, 18 Oct 2017 11:09:11 +0200
+Message-ID: <8eebbb75-39ae-3e32-de9a-33068f08d9cb@redhat.com>
+References: <CAKgNAkh+wT26bTkWzyWg7K6S8CAcbbGoDx5Tha4QzP5sYKC7RA@mail.gmail.com>
 Mime-Version: 1.0
-Content-Type: text/plain; charset=utf-8
-Content-Transfer-Encoding: 7bit
-Return-path: <linux-kernel-owner@vger.kernel.org>
-In-Reply-To: <1507589151-27430-1-git-send-email-prakash.sangappa@oracle.com>
+Content-Type: text/plain; charset=utf-8; format=flowed
+Content-Transfer-Encoding: 8bit
+Return-path: <linux-man-owner-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>
+In-Reply-To: <CAKgNAkh+wT26bTkWzyWg7K6S8CAcbbGoDx5Tha4QzP5sYKC7RA-JsoAwUIsXosN+BqQ9rBEUg@public.gmane.org>
 Content-Language: en-US
-Sender: linux-kernel-owner@vger.kernel.org
-To: Prakash Sangappa <prakash.sangappa@oracle.com>
-Cc: mtk.manpages@gmail.com, linux-man@vger.kernel.org, linux-kernel@vger.kernel.org, linux-api@vger.kernel.org, linux-mm@kvack.org, aarcange@redhat.com, rppt@linux.vnet.ibm.com, mhocko@suse.com
+Sender: linux-man-owner-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
+To: mtk.manpages-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org, linux-man <linux-man-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>, "libc-alpha-9JcytcrH/bA+uJoB2kUjGw@public.gmane.org" <libc-alpha-9JcytcrH/bA+uJoB2kUjGw@public.gmane.org>
+Cc: Thomas Gleixner <tglx-hfZtesqFncYOwBW4kG4KsQ@public.gmane.org>, Peter Zijlstra <peterz-wEGCiKHe2LqWVfeAwA7xHQ@public.gmane.org>, Ingo Molnar <mingo-H+wXaHxf7aLQT0dZR+AlfA@public.gmane.org>
 List-Id: linux-man@vger.kernel.org
 
-Hello Prakash,
+On 10/18/2017 10:10 AM, Michael Kerrisk (man-pages) wrote:
 
-On 10/10/2017 12:45 AM, Prakash Sangappa wrote:
-> Userfaultfd feature UFFD_FEATURE_SIGBUS was merged recently and should
-> be available in Linux 4.14 release. This patch is for the manpage
-> changes documenting this API.
-> 
-> Documents the following commit:
-> 
-> commit 2d6d6f5a09a96cc1fec7ed992b825e05f64cb50e
-> Author: Prakash Sangappa <prakash.sangappa@oracle.com>
-> Date: Wed Sep 6 16:23:39 2017 -0700
-> 
->      mm: userfaultfd: add feature to request for a signal delivery
+> DESCRIPTION
+>         The  pthread_spin_init() function allocates any resources required
+>         for the use of the spin lock referred to by lock  and  initializes
+>         the  lock  to be in the unlocked state.  The pshared argument must
+>         have one of the following values:
 
-Thanks for the patch. I've applied it, and polished it a little.
-The results are already visible in Git.
+I think somewhere this should say that it is not possible to change the 
+address of a spinlock after initialization (you can't memcpy it 
+somewhere else and expect that it will keep working).  Other pthread 
+objects have the same problem, of course.
 
-Thanks, Mike and Andrea, for the reviews!
+> NOTES
+>         Spin locks should be employed in conjunction with real-time sched‐
+>         uling policies (SCHED_FIFO, or possibly SCHED_RR).   Use  of  spin
+>         locks   with   nondeterministic   scheduling   policies   such  as
+>         SCHED_OTHER probably indicates a design mistake.  The  problem  is
+>         that  if  a  thread operating under such a policy is scheduled off
+>         the CPU while it holds a spin lock, then other threads will  waste
+>         time  spinning  on  the  lock  until  the lock holder is once more
+>         rescheduled and releases the lock.
 
-Cheers,
+Isn't the more important concern whether there are sufficient resources 
+to run all the threads that block on spinlocks?
 
-Michael
-
-
-> Signed-off-by: Prakash Sangappa <prakash.sangappa@oracle.com>
-> ---
-> v2: Incorporated review feedback changes.
-> ---
->  man2/ioctl_userfaultfd.2 |  9 +++++++++
->  man2/userfaultfd.2       | 23 +++++++++++++++++++++++
->  2 files changed, 32 insertions(+)
-> 
-> diff --git a/man2/ioctl_userfaultfd.2 b/man2/ioctl_userfaultfd.2
-> index 60fd29b..32f0744 100644
-> --- a/man2/ioctl_userfaultfd.2
-> +++ b/man2/ioctl_userfaultfd.2
-> @@ -196,6 +196,15 @@ with the
->  flag set,
->  .BR memfd_create (2),
->  and so on.
-> +.TP
-> +.B UFFD_FEATURE_SIGBUS
-> +Since Linux 4.14, If this feature bit is set, no page-fault events
-> +.B (UFFD_EVENT_PAGEFAULT)
-> +will be delivered, instead a
-> +.B SIGBUS
-> +signal will be sent to the faulting process. Applications using this
-> +feature will not require the use of a userfaultfd monitor for processing
-> +memory accesses to the regions registered with userfaultfd.
->  .IP
->  The returned
->  .I ioctls
-> diff --git a/man2/userfaultfd.2 b/man2/userfaultfd.2
-> index 1741ee3..3c5b9c0 100644
-> --- a/man2/userfaultfd.2
-> +++ b/man2/userfaultfd.2
-> @@ -172,6 +172,29 @@ or
->  .BR ioctl (2)
->  operations to resolve the page fault.
->  .PP
-> +Starting from Linux 4.14, if application sets
-> +.B UFFD_FEATURE_SIGBUS
-> +feature bit using
-> +.B UFFDIO_API
-> +.BR ioctl (2),
-> +no page fault notification will be forwarded to
-> +the user-space, instead a
-> +.B SIGBUS
-> +signal is delivered to the faulting process. With this feature,
-> +userfaultfd can be used for robustness purpose to simply catch
-> +any access to areas within the registered address range that do not
-> +have pages allocated, without having to listen to userfaultfd events.
-> +No userfaultfd monitor will be required for dealing with such memory
-> +accesses. For example, this feature can be useful for applications that
-> +want to prevent the kernel from automatically allocating pages and filling
-> +holes in sparse files when the hole is accessed thru mapped address.
-> +.PP
-> +The
-> +.B UFFD_FEATURE_SIGBUS
-> +feature is implicitly inherited through fork() if used in combination with
-> +.BR UFFD_FEATURE_FORK .
-> +
-> +.PP
->  Details of the various
->  .BR ioctl (2)
->  operations can be found in
-> 
-
-
--- 
-Michael Kerrisk
-Linux man-pages maintainer; http://www.kernel.org/doc/man-pages/
-Linux/UNIX System Programming Training: http://man7.org/training/
+Thanks,
+Florian
+--
+To unsubscribe from this list: send the line "unsubscribe linux-man" in
+the body of a message to majordomo-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
+More majordomo info at  http://vger.kernel.org/majordomo-info.html
