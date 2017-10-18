@@ -1,228 +1,53 @@
-From: Don Brace <don.brace-dzo6w/eZyo2tG0bUXCXiUA@public.gmane.org>
-Subject: [PATCH] smartpqi: initial submit of smartpqi man page
-Date: Wed, 18 Oct 2017 10:10:39 -0500
-Message-ID: <150833943926.13185.7883447908516236321.stgit@brunhilda>
+From: Zack Weinberg <zackw@panix.com>
+Subject: Re: Draft pthread_spin_init(2) manual page
+Date: Wed, 18 Oct 2017 13:44:22 -0400
+Message-ID: <CAKCAbMgPJTiv_fPGz-k6myjb-Q=y5+ZPC-Tz_H3OQ_3__UzbTQ@mail.gmail.com>
+References: <CAKgNAkh+wT26bTkWzyWg7K6S8CAcbbGoDx5Tha4QzP5sYKC7RA@mail.gmail.com>
 Mime-Version: 1.0
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: 7bit
-Return-path: <linux-man-owner-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>
-Sender: linux-man-owner-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
-To: mtk.manpages-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org
-Cc: linux-man-u79uwXL29TY76Z2rM5mHXA@public.gmane.org, gerry.morong-dzo6w/eZyo2tG0bUXCXiUA@public.gmane.org, john.hall-dzo6w/eZyo2tG0bUXCXiUA@public.gmane.org, Kevin.Barnett-dzo6w/eZyo2tG0bUXCXiUA@public.gmane.org, bader.alisaleh-dzo6w/eZyo2tG0bUXCXiUA@public.gmane.org, scott.teel-dzo6w/eZyo2tG0bUXCXiUA@public.gmane.org, Justin.Lindley-dzo6w/eZyo2tG0bUXCXiUA@public.gmane.org, scott.benesh-dzo6w/eZyo2tG0bUXCXiUA@public.gmane.org
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
+Return-path: <libc-alpha-return-86049-glibc-alpha=m.gmane.org@sourceware.org>
+List-Unsubscribe: <mailto:libc-alpha-unsubscribe-glibc-alpha=m.gmane.org@sourceware.org>
+List-Subscribe: <mailto:libc-alpha-subscribe@sourceware.org>
+List-Archive: <http://sourceware.org/ml/libc-alpha/>
+List-Post: <mailto:libc-alpha@sourceware.org>
+List-Help: <mailto:libc-alpha-help@sourceware.org>, <http://sourceware.org/ml/#faqs>
+Sender: libc-alpha-owner@sourceware.org
+In-Reply-To: <CAKgNAkh+wT26bTkWzyWg7K6S8CAcbbGoDx5Tha4QzP5sYKC7RA@mail.gmail.com>
+To: "Michael Kerrisk (man-pages)" <mtk.manpages@gmail.com>
+Cc: linux-man <linux-man@vger.kernel.org>, "libc-alpha@sourceware.org" <libc-alpha@sourceware.org>, Thomas Gleixner <tglx@linutronix.de>, Peter Zijlstra <peterz@infradead.org>, Ingo Molnar <mingo@redhat.com>
 List-Id: linux-man@vger.kernel.org
 
-This patch contains the initial submission of the
-smartpqi man page.
+On Wed, Oct 18, 2017 at 4:10 AM, Michael Kerrisk (man-pages)
+<mtk.manpages@gmail.com> wrote:
+> Hello all,
+>
+> I recently drafted a manual page for the pthread_spin_init() and
+> pthread_spin_destroy() APIs. Comments and suggestions for improvements
+> would be most welcome.
 
-Signed-off-by: Don Brace <don.brace-dzo6w/eZyo2tG0bUXCXiUA@public.gmane.org>
----
- man4/smartpqi.4 |  195 +++++++++++++++++++++++++++++++++++++++++++++++++++++++
- 1 file changed, 195 insertions(+)
- create mode 100644 man4/smartpqi.4
+This should probably cross-reference the pthread_mutex_* manpages and
+say when it is appropriate to use which.  I see you already have some
+of that...
 
-diff --git a/man4/smartpqi.4 b/man4/smartpqi.4
-new file mode 100644
-index 0000000..dafdfe4
---- /dev/null
-+++ b/man4/smartpqi.4
-@@ -0,0 +1,195 @@
-+.\" Copyright (C) 2016-2017, Microsemi Corporation
-+.\" Copyright (C) 2016, PMC-Sierra, Inc.
-+.\" Written by Kevin Barnett <kevin.barnett-dzo6w/eZyo2tG0bUXCXiUA@public.gmane.org>
-+.\"
-+.\" %%%LICENSE_START(GPLv2_ONELINE)
-+.\" Licensed under GNU General Public License version 2 (GPLv2)
-+.\" %%%LICENSE_END
-+.\"
-+.\" shorthand for double quote that works everywhere.
-+.ds q \N'34'
-+.TH SMARTPQI 4 "smartpqi"
-+.SH NAME
-+smartpqi \- Microsemi Smart Family SCSI driver
-+.SH SYNOPSIS
-+.nf
-+modprobe smartpqi [ disable_device_id_wildcards=1 ] [ disable_heartbeat=1 ] [ disable_ctrl_shutdown=1 ] [ lockup_action=none | reboot | panic ]
-+.fi
-+.SH DESCRIPTION
-+.B smartpqi
-+is a SCSI driver for Microsemi Smart Family controllers.
-+.SH OPTIONS
-+.PP
-+disable_device_id_wildcards=1
-+.RS 4
-+This option disables support for device ID wildcards.
-+The default value is 0.
-+.RE
-+.PP
-+disable_heartbeat=1
-+.RS 4
-+This option disables support for the controller's heartbeat check. This parameter is used for debug purposes.
-+The default value is 0, do not disable the heartbeat check.
-+.RE
-+.PP
-+disable_ctrl_shutdown=1
-+.RS 4
-+This option disables support for shutting down the controller in the event of a controller lockup.
-+The default value is 0.
-+.RE
-+.PP
-+lockup_action=none | reboot | panic
-+.RS 4
-+This option specifies the action the driver takes when a controller lockup is detected.
-+The default action is none.
-+.PP
-+.RE
-+.RS 4
-+.nf
-+parameter          action
-+---------          ----------------------------
-+.br
-+none               take controller offline only
-+.br
-+reboot             reboot the system
-+.br
-+panic              panic the system
-+.fi
-+.RE
-+.SH CONFIGURATION DETAILS
-+To configure Microsemi Smart Family controllers, please refer to the controller's User Guide documentation.
-+.RE
-+.SH FILES
-+.SS DEVICE NODES
-+Logical drives are accessed via the SCSI disk driver (sd),
-+tape drives via the SCSI tape driver (st), and
-+the RAID controller via the SCSI generic driver (sg), with
-+device nodes named /dev/sd*, /dev/st*, and /dev/sg*, respectively.
-+.SS SMARTPQI SPECIFIC HOST ATTRIBUTE FILES IN /sys
-+
-+.PP
-+.I /sys/class/scsi_host/host*/rescan
-+.RS 4
-+The host "rescan" attribute is a write-only attribute.  Writing to
-+this attribute will cause the driver to scan for new, changed, or
-+removed devices (e.g. hot-plugged tape drives, or newly configured
-+or deleted logical drives, etc.) and notify the SCSI mid-layer of
-+any changes detected.  Normally this is triggered automatically by
-+configuration changes, so the user should not normally have to use
-+this. It may be useful when hot plugging devices like tape drives,
-+or entire storage boxes containing pre-configured logical drives.
-+.RE
-+.PP
-+.I /sys/class/scsi_host/host*/version
-+.RS 4
-+The host "version" attribute is a read-only attribute. This attribute
-+contains the driver version and the controller firmware version.
-+.nf
-+.PP
-+For example:
-+.RS 4
-+
-+cat /sys/class/scsi_host/host1/version
-+driver: 1.1.2-126
-+firmware: 1.29-112
-+.RE
-+.fi
-+.RE
-+.PP
-+.I /sys/class/scsi_host/host*/lockup_action
-+.RS 4
-+The host "lockup_action" attribute is a read-write attribute. This attribute
-+will cause the driver to perform a specific action in the unlikely event that
-+a controller lockup has been detected. See
-+.B OPTIONS
-+section for an explanation
-+of the lockup_action values.
-+.RE
-+
-+.SS SMARTPQI SPECIFIC DISK ATTRIBUTE FILES IN /sys
-+.PP
-+.I /sys/class/scsi_disk/c:b:t:l/device/raid_level
-+.RS 4
-+The "raid_level" attribute is read-only.
-+This attribute contains the RAID level of each logical drive.
-+.P
-+.nf
-+For example:
-+.RS 4
-+cat /sys/class/scsi_disk/4:0:0:0/device/raid_level
-+RAID 0
-+.RE
-+.fi
-+.RE
-+.PP
-+.I /sys/class/scsi_disk/c:b:t:l/device/sas_address
-+.RS 4
-+The "sas_address" attribute is read-only.
-+This attribute contains the unique identifier of the disk.
-+.P
-+.nf
-+For example:
-+.RS 4
-+cat /sys/class/scsi_disk/1:0:3:0/device/sas_address
-+0x5001173d028543a2
-+.RE
-+.fi
-+.RE
-+.PP
-+.I /sys/class/scsi_disk/c:b:t:l/device/ssd_smart_path_enabled
-+.RS 4
-+The "ssd_smart_path_enabled" attribute is read-only.
-+This attribute is for ioaccel enabled volumes.
-+Contains 1 if ioaccel is enabled for the volume, 0 otherwise.
-+.P
-+.nf
-+For example:
-+.RS 4
-+cat /sys/class/scsi_disk/1:0:3:0/device/ssd_smart_path_enabled
-+0
-+.RE
-+.fi
-+.RE
-+.SH SUPPORTED IOCTLS
-+For compatibility with applications written for the hpsa driver, many, but
-+not all of the ioctls supported by the hpsa driver are also supported by the
-+smartpqi driver.  The data structures used by these are described in
-+include/linux/cciss_ioctl.h
-+.PP
-+CCISS_DEREGDISK,
-+CCISS_REGNEWDISK,
-+and CCISS_REGNEWD
-+.RS 4
-+The above three ioctls all do exactly the same thing, which is to cause the driver
-+to rescan for new devices.  This does exactly the same thing as writing to the
-+smartpqi specific host "rescan" attribute.
-+.RE
-+.PP
-+CCISS_GETPCIINFO
-+.RS 4
-+Returns PCI domain, bus, device and function and "board ID" (PCI subsystem ID).
-+.RE
-+.PP
-+CCISS_GETDRIVVER
-+.RS 4
-+Returns driver version in four bytes encoded as:
-+(major_version << 28) | (minor_version << 24) | (release << 16) | revision
-+.RE
-+.PP
-+CCISS_PASSTHRU
-+.RS 4
-+Allows "BMIC" and "CISS" commands to be passed through to the controller.
-+.RE
-+.SH "SEE ALSO"
-+hpsa(4), sd(4), st(4), and from the linux kernel source tree:
-+.br
-+Documentation/ABI/testing/sysfs-bus-pci-devices-cciss
-+
-+.SH AUTHORS
-+smartpqi was written by Kevin Barnett <kevin.barnett-dzo6w/eZyo2tG0bUXCXiUA@public.gmane.org>
-+.br
-+.nf
-+This man page was written by Kevin Barnett <kevin.barnett-dzo6w/eZyo2tG0bUXCXiUA@public.gmane.org> and
-+.br
-+Don Brace <don.brace-dzo6w/eZyo2tG0bUXCXiUA@public.gmane.org>
-+.fi
+> NOTES
+>        Spin locks should be employed in conjunction with real-time sched=
+=E2=80=90
+>        uling policies (SCHED_FIFO, or possibly SCHED_RR).   Use  of  spin
+>        locks   with   nondeterministic   scheduling   policies   such  as
+>        SCHED_OTHER probably indicates a design mistake.  The  problem  is
+>        that  if  a  thread operating under such a policy is scheduled off
+>        the CPU while it holds a spin lock, then other threads will  waste
+>        time  spinning  on  the  lock  until  the lock holder is once more
+>        rescheduled and releases the lock.
+>
+>        Warning: if threads create a deadlock  situation  while  employing
+>        spin locks, those threads will spin forever consuming CPU time.
 
---
-To unsubscribe from this list: send the line "unsubscribe linux-man" in
-the body of a message to majordomo-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
-More majordomo info at  http://vger.kernel.org/majordomo-info.html
+but you might want to begin with something like "Most programs should
+use mutexes (pthread_mutex_init(3)) instead of spin locks.  Spin locks
+are primarily useful in conjunction with real-time scheduling ..."
+
+Also, this is important enough that I'd put it in the DESCRIPTION.
+
+zw
