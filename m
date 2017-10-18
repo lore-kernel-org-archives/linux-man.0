@@ -1,148 +1,106 @@
 From: "Michael Kerrisk (man-pages)" <mtk.manpages@gmail.com>
-Subject: Re: Draft manpage explaining kernel lockdown
-Date: Wed, 18 Oct 2017 10:21:35 +0200
-Message-ID: <95c53500-eae9-6c03-8bc5-f1ba62475711@gmail.com>
-References: <7969.1507201224@warthog.procyon.org.uk>
+Subject: Re: [PATCH v2] Userfaultfd: Add description for UFFD_FEATURE_SIGBUS
+Date: Wed, 18 Oct 2017 10:42:43 +0200
+Message-ID: <08376364-8110-3003-bc37-46cd0147263d@gmail.com>
+References: <1507589151-27430-1-git-send-email-prakash.sangappa@oracle.com>
 Mime-Version: 1.0
 Content-Type: text/plain; charset=utf-8
 Content-Transfer-Encoding: 7bit
-Return-path: <linux-security-module-owner@vger.kernel.org>
-In-Reply-To: <7969.1507201224@warthog.procyon.org.uk>
+Return-path: <linux-kernel-owner@vger.kernel.org>
+In-Reply-To: <1507589151-27430-1-git-send-email-prakash.sangappa@oracle.com>
 Content-Language: en-US
-Sender: owner-linux-security-module@vger.kernel.org
-To: David Howells <dhowells@redhat.com>, Ard Biesheuvel <ard.biesheuvel@linaro.org>
-Cc: mtk.manpages@gmail.com, mcgrof@kernel.org, johannes@sipsolutions.net, linux-man@vger.kernel.org, keyrings@vger.kernel.org, linux-security-module@vger.kernel.org, linux-efi@vger.kernel.org, linux-kernel@vger.kernel.org
+Sender: linux-kernel-owner@vger.kernel.org
+To: Prakash Sangappa <prakash.sangappa@oracle.com>
+Cc: mtk.manpages@gmail.com, linux-man@vger.kernel.org, linux-kernel@vger.kernel.org, linux-api@vger.kernel.org, linux-mm@kvack.org, aarcange@redhat.com, rppt@linux.vnet.ibm.com, mhocko@suse.com
 List-Id: linux-man@vger.kernel.org
 
-Hi David,
+Hello Prakash,
 
-On 10/05/2017 01:00 PM, David Howells wrote:
-> Hi Ard, Michael,
+On 10/10/2017 12:45 AM, Prakash Sangappa wrote:
+> Userfaultfd feature UFFD_FEATURE_SIGBUS was merged recently and should
+> be available in Linux 4.14 release. This patch is for the manpage
+> changes documenting this API.
 > 
-> Attached is a draft for a manual page (kernel_lockdown.7) that I intend to
-> point at from messages emitted when the kernel prohibits something because the
-> kernel is in 'lockdown' mode, typically triggered by EFI secure boot.
+> Documents the following commit:
 > 
-> Let me know what you think.
+> commit 2d6d6f5a09a96cc1fec7ed992b825e05f64cb50e
+> Author: Prakash Sangappa <prakash.sangappa@oracle.com>
+> Date: Wed Sep 6 16:23:39 2017 -0700
+> 
+>      mm: userfaultfd: add feature to request for a signal delivery
 
-Thanks for the page proposal. Several people sent feedback. Will you
-revise the draft?
+Thanks for the patch. I've applied it, and polished it a little.
+The results are already visible in Git.
 
-Thanks,
+Thanks, Mike and Andrea, for the reviews!
+
+Cheers,
 
 Michael
 
 
-> David
+> Signed-off-by: Prakash Sangappa <prakash.sangappa@oracle.com>
 > ---
-> .\"
-> .\" Copyright (C) 2017 Red Hat, Inc. All Rights Reserved.
-> .\" Written by David Howells (dhowells@redhat.com)
-> .\"
-> .\" %%%LICENSE_START(GPLv2+_SW_ONEPARA)
-> .\" This program is free software; you can redistribute it and/or
-> .\" modify it under the terms of the GNU General Public License
-> .\" as published by the Free Software Foundation; either version
-> .\" 2 of the License, or (at your option) any later version.
-> .\" %%%LICENSE_END
-> .\"
-> .TH "KERNEL LOCKDOWN" 7 2017-10-05 Linux "Linux Programmer's Manual"
-> .SH NAME
-> Kernel Lockdown \- Kernel image access prevention feature
-> .SH DESCRIPTION
-> The Kernel Lockdown feature is designed to prevent both direct and indirect
-> access to a running kernel image, attempting to protect against unauthorised
-> modification of the kernel image and to prevent access to security and
-> cryptographic data located in kernel memory, whilst still permitting driver
-> modules to be loaded.
-> .P
-> Lockdown is typically enabled during boot and may be terminated, if configured,
-> by typing a special key combination on a directly attached physical keyboard.
-> .P
-> If a prohibited or restricted feature is accessed or used, the kernel will emit
-> a message that looks like:
-> .P
-> .RS
-> 	Lockdown: X is restricted, see man kernel_lockdown(7)
-> .RE
-> .P
-> where X indicates what is restricted.
-> .P
-> On an EFI-enabled x86 or arm64 machine, lockdown will be automatically enabled
-> if the system boots in EFI Secure Boot mode.
-> .P
-> If the kernel is appropriately configured, lockdown may be lifted by typing the
-> appropriate sequence on a directly attached physical keyboard.  For x86
-> machines, this is
-> .IR SysRq+x .
-> .\"""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
-> .SH COVERAGE
-> When lockdown is in effect, a number of things are disabled or restricted in
-> use.  This includes special device files and kernel services that allow direct
-> access of the kernel image:
-> .P
-> .RS
-> /dev/mem
-> .br
-> /dev/kmem
-> .br
-> /dev/kcore
-> .br
-> /dev/ioports
-> .br
-> BPF memory access functions
-> .RE
-> .P
-> and the ability to directly configure and control devices, so as to prevent the
-> use of a device to access or modify a kernel image:
-> .P
-> .RS
-> The use of module parameters that directly specify hardware parameters to
-> drivers through the kernel command line or when loading a module.
-> .P
-> The use of direct PCI BAR access.
-> .P
-> The use of the ioperm and iopl instructions on x86.
-> .P
-> The use of the KD*IO console ioctls.
-> .P
-> The use of the TIOCSSERIAL serial ioctl.
-> .P
-> The alteration of MSR registers on x86.
-> .P
-> The replacement of the PCMCIA CIS.
-> .P
-> The overriding of ACPI tables.
-> .P
-> The use of ACPI error injection.
-> .P
-> The specification of the ACPI RDSP address.
-> .P
-> The use of ACPI custom methods.
-> .RE
-> .P
-> The following facilities are restricted:
-> .P
-> .RS
-> Only validly signed modules may be loaded.
-> .P
-> Only validly signed binaries may be kexec'd.
-> .P
-> Only validly signed device firmware may be loaded.
-> .P
-> Only validly signed wifi databases may be use.
-> .P
-> Unencrypted hibernation/suspend to swap are disallowed as the kernel image is
-> saved to a medium that can then be accessed.
-> .P
-> Use of debugfs is not permitted as this allows a whole range of actions
-> including direct configuration of, access to and driving of hardware.
-> .RE
-> .\"""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
-> .SH SEE ALSO
-> .ad l
-> .nh
+> v2: Incorporated review feedback changes.
+> ---
+>  man2/ioctl_userfaultfd.2 |  9 +++++++++
+>  man2/userfaultfd.2       | 23 +++++++++++++++++++++++
+>  2 files changed, 32 insertions(+)
 > 
+> diff --git a/man2/ioctl_userfaultfd.2 b/man2/ioctl_userfaultfd.2
+> index 60fd29b..32f0744 100644
+> --- a/man2/ioctl_userfaultfd.2
+> +++ b/man2/ioctl_userfaultfd.2
+> @@ -196,6 +196,15 @@ with the
+>  flag set,
+>  .BR memfd_create (2),
+>  and so on.
+> +.TP
+> +.B UFFD_FEATURE_SIGBUS
+> +Since Linux 4.14, If this feature bit is set, no page-fault events
+> +.B (UFFD_EVENT_PAGEFAULT)
+> +will be delivered, instead a
+> +.B SIGBUS
+> +signal will be sent to the faulting process. Applications using this
+> +feature will not require the use of a userfaultfd monitor for processing
+> +memory accesses to the regions registered with userfaultfd.
+>  .IP
+>  The returned
+>  .I ioctls
+> diff --git a/man2/userfaultfd.2 b/man2/userfaultfd.2
+> index 1741ee3..3c5b9c0 100644
+> --- a/man2/userfaultfd.2
+> +++ b/man2/userfaultfd.2
+> @@ -172,6 +172,29 @@ or
+>  .BR ioctl (2)
+>  operations to resolve the page fault.
+>  .PP
+> +Starting from Linux 4.14, if application sets
+> +.B UFFD_FEATURE_SIGBUS
+> +feature bit using
+> +.B UFFDIO_API
+> +.BR ioctl (2),
+> +no page fault notification will be forwarded to
+> +the user-space, instead a
+> +.B SIGBUS
+> +signal is delivered to the faulting process. With this feature,
+> +userfaultfd can be used for robustness purpose to simply catch
+> +any access to areas within the registered address range that do not
+> +have pages allocated, without having to listen to userfaultfd events.
+> +No userfaultfd monitor will be required for dealing with such memory
+> +accesses. For example, this feature can be useful for applications that
+> +want to prevent the kernel from automatically allocating pages and filling
+> +holes in sparse files when the hole is accessed thru mapped address.
+> +.PP
+> +The
+> +.B UFFD_FEATURE_SIGBUS
+> +feature is implicitly inherited through fork() if used in combination with
+> +.BR UFFD_FEATURE_FORK .
+> +
+> +.PP
+>  Details of the various
+>  .BR ioctl (2)
+>  operations can be found in
 > 
 
 
