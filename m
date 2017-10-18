@@ -1,112 +1,152 @@
-From: "Michael Kerrisk (man-pages)" <mtk.manpages-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org>
-Subject: Draft pthread_spin_lock(3) manual page
-Date: Wed, 18 Oct 2017 10:11:42 +0200
-Message-ID: <CAKgNAkigca=v31L0hDMR7PdNEHgS8mhB6KWR0qZew-jhYD8dwg@mail.gmail.com>
-Reply-To: mtk.manpages-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org
+From: "Michael Kerrisk (man-pages)" <mtk.manpages@gmail.com>
+Subject: Re: Draft manpage explaining kernel lockdown
+Date: Wed, 18 Oct 2017 10:21:35 +0200
+Message-ID: <95c53500-eae9-6c03-8bc5-f1ba62475711@gmail.com>
+References: <7969.1507201224@warthog.procyon.org.uk>
 Mime-Version: 1.0
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
-Return-path: <linux-man-owner-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>
-Sender: linux-man-owner-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
-To: linux-man <linux-man-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>, "libc-alpha-9JcytcrH/bA+uJoB2kUjGw@public.gmane.org" <libc-alpha-9JcytcrH/bA+uJoB2kUjGw@public.gmane.org>
-Cc: Thomas Gleixner <tglx-hfZtesqFncYOwBW4kG4KsQ@public.gmane.org>, Peter Zijlstra <peterz-wEGCiKHe2LqWVfeAwA7xHQ@public.gmane.org>, Ingo Molnar <mingo-DgEjT+Ai2ygdnm+yROfE0A@public.gmane.org>, Michael Kerrisk <mtk.manpages-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org>
+Content-Type: text/plain; charset=utf-8
+Content-Transfer-Encoding: 7bit
+Return-path: <linux-security-module-owner@vger.kernel.org>
+In-Reply-To: <7969.1507201224@warthog.procyon.org.uk>
+Content-Language: en-US
+Sender: owner-linux-security-module@vger.kernel.org
+To: David Howells <dhowells@redhat.com>, Ard Biesheuvel <ard.biesheuvel@linaro.org>
+Cc: mtk.manpages@gmail.com, mcgrof@kernel.org, johannes@sipsolutions.net, linux-man@vger.kernel.org, keyrings@vger.kernel.org, linux-security-module@vger.kernel.org, linux-efi@vger.kernel.org, linux-kernel@vger.kernel.org
 List-Id: linux-man@vger.kernel.org
 
-Hello all,
+Hi David,
 
-Following on from the pthread_spin_init(3) page, I also recently
-drafted a manual page for the pthread_spin_lock() and
-pthread_spin_unlock() APIs. Again, comments and suggestions for
-improvements would be most welcome.
+On 10/05/2017 01:00 PM, David Howells wrote:
+> Hi Ard, Michael,
+> 
+> Attached is a draft for a manual page (kernel_lockdown.7) that I intend to
+> point at from messages emitted when the kernel prohibits something because the
+> kernel is in 'lockdown' mode, typically triggered by EFI secure boot.
+> 
+> Let me know what you think.
+
+Thanks for the page proposal. Several people sent feedback. Will you
+revise the draft?
 
 Thanks,
 
 Michael
 
-PTHREAD_SPIN_LOCK(3)    Linux Programmer's Manual    PTHREAD_SPIN_LOCK(3)
 
-NAME
-       pthread_spin_lock,   pthread_spin_trylock,  pthread_spin_unlock  -
-       lock and unlock a spin lock
+> David
+> ---
+> .\"
+> .\" Copyright (C) 2017 Red Hat, Inc. All Rights Reserved.
+> .\" Written by David Howells (dhowells@redhat.com)
+> .\"
+> .\" %%%LICENSE_START(GPLv2+_SW_ONEPARA)
+> .\" This program is free software; you can redistribute it and/or
+> .\" modify it under the terms of the GNU General Public License
+> .\" as published by the Free Software Foundation; either version
+> .\" 2 of the License, or (at your option) any later version.
+> .\" %%%LICENSE_END
+> .\"
+> .TH "KERNEL LOCKDOWN" 7 2017-10-05 Linux "Linux Programmer's Manual"
+> .SH NAME
+> Kernel Lockdown \- Kernel image access prevention feature
+> .SH DESCRIPTION
+> The Kernel Lockdown feature is designed to prevent both direct and indirect
+> access to a running kernel image, attempting to protect against unauthorised
+> modification of the kernel image and to prevent access to security and
+> cryptographic data located in kernel memory, whilst still permitting driver
+> modules to be loaded.
+> .P
+> Lockdown is typically enabled during boot and may be terminated, if configured,
+> by typing a special key combination on a directly attached physical keyboard.
+> .P
+> If a prohibited or restricted feature is accessed or used, the kernel will emit
+> a message that looks like:
+> .P
+> .RS
+> 	Lockdown: X is restricted, see man kernel_lockdown(7)
+> .RE
+> .P
+> where X indicates what is restricted.
+> .P
+> On an EFI-enabled x86 or arm64 machine, lockdown will be automatically enabled
+> if the system boots in EFI Secure Boot mode.
+> .P
+> If the kernel is appropriately configured, lockdown may be lifted by typing the
+> appropriate sequence on a directly attached physical keyboard.  For x86
+> machines, this is
+> .IR SysRq+x .
+> .\"""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
+> .SH COVERAGE
+> When lockdown is in effect, a number of things are disabled or restricted in
+> use.  This includes special device files and kernel services that allow direct
+> access of the kernel image:
+> .P
+> .RS
+> /dev/mem
+> .br
+> /dev/kmem
+> .br
+> /dev/kcore
+> .br
+> /dev/ioports
+> .br
+> BPF memory access functions
+> .RE
+> .P
+> and the ability to directly configure and control devices, so as to prevent the
+> use of a device to access or modify a kernel image:
+> .P
+> .RS
+> The use of module parameters that directly specify hardware parameters to
+> drivers through the kernel command line or when loading a module.
+> .P
+> The use of direct PCI BAR access.
+> .P
+> The use of the ioperm and iopl instructions on x86.
+> .P
+> The use of the KD*IO console ioctls.
+> .P
+> The use of the TIOCSSERIAL serial ioctl.
+> .P
+> The alteration of MSR registers on x86.
+> .P
+> The replacement of the PCMCIA CIS.
+> .P
+> The overriding of ACPI tables.
+> .P
+> The use of ACPI error injection.
+> .P
+> The specification of the ACPI RDSP address.
+> .P
+> The use of ACPI custom methods.
+> .RE
+> .P
+> The following facilities are restricted:
+> .P
+> .RS
+> Only validly signed modules may be loaded.
+> .P
+> Only validly signed binaries may be kexec'd.
+> .P
+> Only validly signed device firmware may be loaded.
+> .P
+> Only validly signed wifi databases may be use.
+> .P
+> Unencrypted hibernation/suspend to swap are disallowed as the kernel image is
+> saved to a medium that can then be accessed.
+> .P
+> Use of debugfs is not permitted as this allows a whole range of actions
+> including direct configuration of, access to and driving of hardware.
+> .RE
+> .\"""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
+> .SH SEE ALSO
+> .ad l
+> .nh
+> 
+> 
 
-SYNOPSIS
-       #include <pthread.h>
 
-       int pthread_spin_lock(pthread_spinlock_t *lock);
-       int pthread_spin_trylock(pthread_spinlock_t *lock);
-       int pthread_spin_unlock(pthread_spinlock_t *lock);
-
-       Compile and link with -pthread.
-
-   Feature   Test   Macro    Requirements    for    glibc    (see    fea=E2=
-=80=90
-   ture_test_macros(7)):
-
-       pthread_spin_lock(), pthread_spin_trylock():
-           _POSIX_C_SOURCE >=3D 200112L
-
-DESCRIPTION
-       The  pthread_spin_lock()  function locks the spin lock referred to
-       by lock.  If the spin lock  is  currently  unlocked,  the  calling
-       thread  acquires  the  lock immediately.  If the spin lock is cur=E2=
-=80=90
-       rently locked by another thread, the calling thread spins, testing
-       the  lock  until  it becomes available, at which point the calling
-       thread acquires the lock.
-
-       Calling pthread_spin_lock() on a lock that is already held by  the
-       caller results in undefined behavior.
-
-       The  pthread_spin_trylock()  function is like pthread_spin_lock(),
-       except that if the spin lock referred  to  by  lock  is  currently
-       locked,  then,  instead  of spinning, the call returns immediately
-       with the error EBUSY.
-
-       The pthread_spin_unlock() function unlocks the spin lock  referred
-       to  lock.   If  any threads are spinning on the lock, one of those
-       threads will then acquire the lock.
-
-       Calling pthread_spin_unlock() on a lock that is not  held  by  the
-       caller results in undefined behavior.
-
-RETURN VALUE
-       On  success, there functions return zero.  On failure, they return
-       an error number.
-
-ERRORS
-       pthread_spin_lock() may fail with the following errors:
-
-       EDEADLOCK
-              The system detected a deadlock condition.
-
-       pthread_spin_trylock() can fail with the following errors:
-
-       EBUSY  The spin lock is currently locked by another thread.
-
-VERSIONS
-       These functions first appeared in glibc in version 2.2.
-
-CONFORMING TO
-       POSIX.1-2001.
-
-NOTES
-       Applying any of the functions described on this page to an  unini=E2=
-=80=90
-       tialized spin lock results in undefined behavior.
-
-       Carefully read NOTES in pthread_spin_init(3).
-
-SEE ALSO
-       pthread_spin_destroy(3), pthread_spin_init(3), pthreads(7)
-
-Linux                           2017-09-30           PTHREAD_SPIN_LOCK(3)
-
-
---=20
+-- 
 Michael Kerrisk
 Linux man-pages maintainer; http://www.kernel.org/doc/man-pages/
 Linux/UNIX System Programming Training: http://man7.org/training/
---
-To unsubscribe from this list: send the line "unsubscribe linux-man" in
-the body of a message to majordomo-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
-More majordomo info at  http://vger.kernel.org/majordomo-info.html
