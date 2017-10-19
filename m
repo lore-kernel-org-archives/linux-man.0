@@ -1,115 +1,170 @@
 From: "Michael Kerrisk (man-pages)" <mtk.manpages-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org>
-Subject: Re: veth(4) draft manual page
-Date: Thu, 19 Oct 2017 19:12:22 +0200
-Message-ID: <CAKgNAkj3sZMpr23FxTj9Nq-d5sFCLvVSZdixPAz6-HWv8tqcQA@mail.gmail.com>
-References: <CAKgNAkgWyh_dv=2a2c2poCbwcBmBx+z69Sr7mYiX6EbkwQA7+A@mail.gmail.com>
- <alpine.DEB.2.11.1710191201510.30436@hier>
+Subject: Re: Draft pthread_spin_lock(3) manual page
+Date: Thu, 19 Oct 2017 19:46:07 +0200
+Message-ID: <CAKgNAkjTZZWQpAwgg-m7Z-W=CQfS39CU5F+rr1B3msgf4SEBww@mail.gmail.com>
+References: <CAKgNAkigca=v31L0hDMR7PdNEHgS8mhB6KWR0qZew-jhYD8dwg@mail.gmail.com>
+ <fe6d752e-60a1-c8de-698c-ddd19d432110@redhat.com>
 Reply-To: mtk.manpages-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org
 Mime-Version: 1.0
 Content-Type: text/plain; charset="UTF-8"
 Content-Transfer-Encoding: quoted-printable
 Return-path: <linux-man-owner-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>
-In-Reply-To: <alpine.DEB.2.11.1710191201510.30436@hier>
+In-Reply-To: <fe6d752e-60a1-c8de-698c-ddd19d432110-H+wXaHxf7aLQT0dZR+AlfA@public.gmane.org>
 Sender: linux-man-owner-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
-To: Tomas Pospisek <tpo-UQchlGytWBLoPl2ZpcX+cw@public.gmane.org>
-Cc: "Eric W. Biederman" <ebiederm-aS9lmoZGLiVWk0Htik3J/w@public.gmane.org>, linux-man <linux-man-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>, Pavel Emelyanov <xemul-5HdwGun5lf+gSpxsJD1C4w@public.gmane.org>
+To: Carlos O'Donell <carlos-H+wXaHxf7aLQT0dZR+AlfA@public.gmane.org>
+Cc: linux-man <linux-man-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>, "libc-alpha-9JcytcrH/bA+uJoB2kUjGw@public.gmane.org" <libc-alpha-9JcytcrH/bA+uJoB2kUjGw@public.gmane.org>, Thomas Gleixner <tglx-hfZtesqFncYOwBW4kG4KsQ@public.gmane.org>, Peter Zijlstra <peterz-wEGCiKHe2LqWVfeAwA7xHQ@public.gmane.org>, Ingo Molnar <mingo-DgEjT+Ai2ygdnm+yROfE0A@public.gmane.org>
 List-Id: linux-man@vger.kernel.org
 
-Hi Tom=C3=A1=C5=A1,
+Hi Carlos,
 
-On 19 October 2017 at 12:17, Tomas Pospisek <tpo-UQchlGytWBLoPl2ZpcX+cw@public.gmane.org> wrote:
-> Hello all,
->
-> On Wed, 18 Oct 2017, Michael Kerrisk (man-pages) wrote:
->
+Thanks for looking the page over.
+
+On 18 October 2017 at 17:07, Carlos O'Donell <carlos-H+wXaHxf7aLQT0dZR+AlfA@public.gmane.org> wrote:
+> On 10/18/2017 01:11 AM, Michael Kerrisk (man-pages) wrote:
 >> Hello all,
 >>
->> Long ago (http://www.spinics.net/lists/linux-man/msg03193.html), Tom=C3=
-=A1=C5=A1
->> started work on a veth.4 page, and Eric through in some comments as
->> well, but the effort to complete the page petered out. I decided to
->> take a shot at picking up what was said so far completing it.
+>> Following on from the pthread_spin_init(3) page, I also recently
+>> drafted a manual page for the pthread_spin_lock() and
+>> pthread_spin_unlock() APIs. Again, comments and suggestions for
+>> improvements would be most welcome.
 >
-> Very nice, thanks!
+> Overall looks good, just a few nits.
 >
->> Are there any comments on the page below?
->
-> Based on the principle that I prefer useful to mathematically orthogonal =
-man
-> pages, I'd suggest to document how you actually do create a veth in a
-> different network namespace:
-
-Agreed.
-
->> Cheers,
+>> Thanks,
 >>
 >> Michael
 >>
->> veth(4)                 Linux Programmer's Manual                 veth(4=
+>> PTHREAD_SPIN_LOCK(3)    Linux Programmer's Manual    PTHREAD_SPIN_LOCK(3=
 )
 >>
 >> NAME
->>       veth - Virtual Ethernet Device
+>>        pthread_spin_lock,   pthread_spin_trylock,  pthread_spin_unlock  =
+-
+>>        lock and unlock a spin lock
+>>
+>> SYNOPSIS
+>>        #include <pthread.h>
+>>
+>>        int pthread_spin_lock(pthread_spinlock_t *lock);
+>>        int pthread_spin_trylock(pthread_spinlock_t *lock);
+>>        int pthread_spin_unlock(pthread_spinlock_t *lock);
+>>
+>>        Compile and link with -pthread.
+>>
+>>    Feature   Test   Macro    Requirements    for    glibc    (see    fea=
+=E2=80=90
+>>    ture_test_macros(7)):
+>>
+>>        pthread_spin_lock(), pthread_spin_trylock():
+>>            _POSIX_C_SOURCE >=3D 200112L
 >>
 >> DESCRIPTION
->>       The  veth  devices  are virtual Ethernet devices.  They can act as
->>       tunnels between network namespaces to create a bridge to a  physi=
+>>        The  pthread_spin_lock()  function locks the spin lock referred t=
+o
+>>        by lock.  If the spin lock  is  currently  unlocked,  the  callin=
+g
+>>        thread  acquires  the  lock immediately.  If the spin lock is cur=
 =E2=80=90
->>       cal  network  device in another namespace, but can also be used as
->>       standalone network devices.
+>>        rently locked by another thread, the calling thread spins, testin=
+g
+>>        the  lock  until  it becomes available, at which point the callin=
+g
+>>        thread acquires the lock.
 >>
->>       veth devices are always created in interconnected pairs.   A  pair
->>       can be created using the command:
->>
->>           # ip link add <p1-name> type veth peer name <p2-name>
->>
->>       In  the  above,  p1-name and p2-name are the names assigned to the
->>       two connected end points.
->>
->>       Packets transmitted on one device  in  the  pair  are  immediately
->>       received  on  the  other  device.  When either devices is down the
->>       link state of the pair is down.
->>
->>       veth device pairs are useful for combining the network  facilities
->>       of the kernel together in interesting ways.  A particularly inter=
-=E2=80=90
->>       esting use case is to place one end of a veth pair in one  network
->>       namespace  and  the  other  end in another network namespace, thus
->>       allowing communication between network namespaces:
+>>        Calling pthread_spin_lock() on a lock that is already held by  th=
+e
+>>        caller results in undefined behavior.
 >
->
->         First you create the veth as above and then you move one side of
->         the pair to the other namespace:
->
->             # ip link set <p2-name> netns <p2-namespace>
+> Similarly if you call pthread_spin_lock on an uninitilized lock you get
+> undefined behaviour (see EINVAL below). We don't detect this in glibc rig=
+ht
 
-Thanks. I added that.
+I added the uninitialized lock case to the text.
 
->>       ethtool(8) can be used to find the peer of a veth  network  inter=
-=E2=80=90
->>       face, using commands something like:
->>
->>           # ip link add ve_A type veth peer name ve_B   # Create veth pa=
-ir
->>           # ethtool -S ve_A         # Discover interface index of peer
->>           NIC statistics:
->>                peer_ifindex: 16
->>           # ip link | grep '^16:'   # Look up interface
->>           16: ve_B@ve_A: <BROADCAST,MULTICAST,M-DOWN> mtu 1500 qdisc ...
->>
->> SEE ALSO
->>       clone(2), ip(8), ip-link(8), ip-netns(8)
+> now because it's a waste of time, but we might some day for some reason I
+> can't know today (say we robustify spin locks). Even if you talk about
+> this case in pthread_spin_init(), it bears repeating again here.
 >
+>>        The  pthread_spin_trylock()  function is like pthread_spin_lock()=
+,
+>>        except that if the spin lock referred  to  by  lock  is  currentl=
+y
+>>        locked,  then,  instead  of spinning, the call returns immediatel=
+y
+>>        with the error EBUSY.
+>>
+>>        The pthread_spin_unlock() function unlocks the spin lock  referre=
+d
+>>        to  lock.   If  any threads are spinning on the lock, one of thos=
+e
+>>        threads will then acquire the lock.
+>>
+>>        Calling pthread_spin_unlock() on a lock that is not  held  by  th=
+e
+>>        caller results in undefined behavior.
+>>
+>> RETURN VALUE
+>>        On  success, there functions return zero.  On failure, they retur=
+n
+>>        an error number.
+>>
+>> ERRORS
+>>        pthread_spin_lock() may fail with the following errors:
+>>
+>>        EDEADLOCK
+>>               The system detected a deadlock condition.
 >
-> Thanks a lot Michael & best greetings!
+> In practice we might have EINVAL some day here to indicate the lock
+> was not initialized, and that can be returned for all functions if
+> the cost of detection is low.
 
-Cheers,
+Okay. (I presume you did not mean any text needs to be added to the page.)
+
+>>        pthread_spin_trylock() can fail with the following errors:
+>>
+>>        EBUSY  The spin lock is currently locked by another thread.
+>
+> I always find the 'can fail' wording a bit wishy-washy for my tastes
+> and prefer: 'shall fail', along with a statement that defines the
+> conditions for failure. I say this only because English is not as
+> precise as I'd like so using 'shall' instead of 'can' makes this
+> failure mode clearer, indicating to the reader that it will happen
+> (here it's a bit obvious from the semantics of the function, since
+> otherwise trylock would be useless).
+
+Changed to "shall fail" (but this is not the only page with that problem :-=
+} ).
+
+Thanks,
 
 Michael
 
-PS Maybe catch up with you someday again in Bern? I'm there now and then.
 
-
+>> VERSIONS
+>>        These functions first appeared in glibc in version 2.2.
+>>
+>> CONFORMING TO
+>>        POSIX.1-2001.
+>>
+>> NOTES
+>>        Applying any of the functions described on this page to an  unini=
+=E2=80=90
+>>        tialized spin lock results in undefined behavior.
+>>
+>>        Carefully read NOTES in pthread_spin_init(3).
+>>
+>> SEE ALSO
+>>        pthread_spin_destroy(3), pthread_spin_init(3), pthreads(7)
+>>
+>> Linux                           2017-09-30           PTHREAD_SPIN_LOCK(3=
+)
+>>
+>>
+>
+>
+> --
+> Cheers,
+> Carlos.
 
 
 
