@@ -1,50 +1,60 @@
 From: "Michael Kerrisk (man-pages)" <mtk.manpages-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org>
-Subject: Re: Draft pthread_spin_lock(3) manual page
-Date: Thu, 19 Oct 2017 21:27:20 +0200
-Message-ID: <CAKgNAkh3hp621PnK=obtbrbpp=+rWfAxVWXboymEOO3znD2rkA@mail.gmail.com>
-References: <CAKgNAkigca=v31L0hDMR7PdNEHgS8mhB6KWR0qZew-jhYD8dwg@mail.gmail.com>
- <fe6d752e-60a1-c8de-698c-ddd19d432110@redhat.com> <CAKgNAkjTZZWQpAwgg-m7Z-W=CQfS39CU5F+rr1B3msgf4SEBww@mail.gmail.com>
- <CAKCAbMjZK6BwJeh37TyJkwogD05GdvQod6LkJmvy4R+ad1w7fw@mail.gmail.com>
-Reply-To: mtk.manpages-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org
+Subject: Re: Draft pthread_spin_init(2) manual page
+Date: Thu, 19 Oct 2017 21:51:42 +0200
+Message-ID: <5d33ec57-6441-0315-c5d2-43b93a5efacb@gmail.com>
+References: <CAKgNAkh+wT26bTkWzyWg7K6S8CAcbbGoDx5Tha4QzP5sYKC7RA@mail.gmail.com>
+ <8eebbb75-39ae-3e32-de9a-33068f08d9cb@redhat.com>
 Mime-Version: 1.0
-Content-Type: text/plain; charset="UTF-8"
+Content-Type: text/plain; charset=utf-8
+Content-Transfer-Encoding: 8bit
 Return-path: <linux-man-owner-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>
-In-Reply-To: <CAKCAbMjZK6BwJeh37TyJkwogD05GdvQod6LkJmvy4R+ad1w7fw-JsoAwUIsXosN+BqQ9rBEUg@public.gmane.org>
+In-Reply-To: <8eebbb75-39ae-3e32-de9a-33068f08d9cb-H+wXaHxf7aLQT0dZR+AlfA@public.gmane.org>
+Content-Language: en-US
 Sender: linux-man-owner-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
-To: Zack Weinberg <zackw-VmQCmMdMyN0AvxtiuMwx3w@public.gmane.org>
-Cc: Carlos O'Donell <carlos-H+wXaHxf7aLQT0dZR+AlfA@public.gmane.org>, linux-man <linux-man-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>, "libc-alpha-9JcytcrH/bA+uJoB2kUjGw@public.gmane.org" <libc-alpha-9JcytcrH/bA+uJoB2kUjGw@public.gmane.org>, Thomas Gleixner <tglx-hfZtesqFncYOwBW4kG4KsQ@public.gmane.org>, Peter Zijlstra <peterz-wEGCiKHe2LqWVfeAwA7xHQ@public.gmane.org>, Ingo Molnar <mingo-DgEjT+Ai2ygdnm+yROfE0A@public.gmane.org>
+To: Florian Weimer <fweimer-H+wXaHxf7aLQT0dZR+AlfA@public.gmane.org>, linux-man <linux-man-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>, "libc-alpha-9JcytcrH/bA+uJoB2kUjGw@public.gmane.org" <libc-alpha-9JcytcrH/bA+uJoB2kUjGw@public.gmane.org>
+Cc: mtk.manpages-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org, Thomas Gleixner <tglx-hfZtesqFncYOwBW4kG4KsQ@public.gmane.org>, Peter Zijlstra <peterz-wEGCiKHe2LqWVfeAwA7xHQ@public.gmane.org>, Ingo Molnar <mingo-H+wXaHxf7aLQT0dZR+AlfA@public.gmane.org>
 List-Id: linux-man@vger.kernel.org
 
-Hello Zack,
+Hi Florian,
 
-On 19 October 2017 at 20:06, Zack Weinberg <zackw-VmQCmMdMyN0AvxtiuMwx3w@public.gmane.org> wrote:
-> On Thu, Oct 19, 2017 at 1:46 PM, Michael Kerrisk (man-pages)
-> <mtk.manpages-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org> wrote:
->> On 18 October 2017 at 17:07, Carlos O'Donell <carlos-H+wXaHxf7aLQT0dZR+AlfA@public.gmane.org> wrote:
->>
->>>>        pthread_spin_trylock() can fail with the following errors:
->>>>
->>>>        EBUSY  The spin lock is currently locked by another thread.
->>>
->>> I always find the 'can fail' wording a bit wishy-washy for my tastes
->>> and prefer: 'shall fail', along with a statement that defines the
->>> conditions for failure. I say this only because English is not as
->>> precise as I'd like so using 'shall' instead of 'can' makes this
->>> failure mode clearer, indicating to the reader that it will happen
->>> (here it's a bit obvious from the semantics of the function, since
->>> otherwise trylock would be useless).
->>
->> Changed to "shall fail" (but this is not the only page with that problem :-} ).
->
-> I meant to reply earlier.  This is a pet English grammar peeve of
-> mine: "shall" is a _directive_.  Specifications use it because they
-> are directing the implementors to make things happen, but in
-> documentation aimed at people _using_ an interface, the appropriate
-> word is "will".  The function _will_ fail and set errno under the
-> following conditions yada yada.  That's what it does.  You, the reader
-> of this manpage, do not have to do anything to make that happen.
 
-Yes, it's true. s/shall/will/. Done.
+Thanks for looking at the page!
+
+On 10/18/2017 11:09 AM, Florian Weimer wrote:
+> On 10/18/2017 10:10 AM, Michael Kerrisk (man-pages) wrote:
+> 
+>> DESCRIPTION
+>>         The  pthread_spin_init() function allocates any resources required
+>>         for the use of the spin lock referred to by lock  and  initializes
+>>         the  lock  to be in the unlocked state.  The pshared argument must
+>>         have one of the following values:
+> 
+> I think somewhere this should say that it is not possible to change the 
+> address of a spinlock after initialization (you can't memcpy it 
+> somewhere else and expect that it will keep working).  Other pthread 
+> objects have the same problem, of course.
+
+Yes. I added this:
+
+       The  result of performing operations such as pthread_spin_lock(3),
+       pthread_spin_unlock(3), and pthread_spin_destroy(3) on  copies  of
+       the object referred to by lock is undefined.
+
+
+>> NOTES
+>>         Spin locks should be employed in conjunction with real-time sched‐
+>>         uling policies (SCHED_FIFO, or possibly SCHED_RR).   Use  of  spin
+>>         locks   with   nondeterministic   scheduling   policies   such  as
+>>         SCHED_OTHER probably indicates a design mistake.  The  problem  is
+>>         that  if  a  thread operating under such a policy is scheduled off
+>>         the CPU while it holds a spin lock, then other threads will  waste
+>>         time  spinning  on  the  lock  until  the lock holder is once more
+>>         rescheduled and releases the lock.
+> 
+> Isn't the more important concern whether there are sufficient resources 
+> to run all the threads that block on spinlocks?
+
+See my later replies.
 
 Cheers,
 
