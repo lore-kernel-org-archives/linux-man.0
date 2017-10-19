@@ -1,23 +1,23 @@
-From: Carlos O'Donell <carlos-H+wXaHxf7aLQT0dZR+AlfA@public.gmane.org>
+From: "Michael Kerrisk (man-pages)" <mtk.manpages-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org>
 Subject: Re: Draft pthread_spin_lock(3) manual page
-Date: Thu, 19 Oct 2017 11:43:44 -0700
-Message-ID: <4f0960c6-9c1d-5604-301d-ba62f9e2a15b@redhat.com>
+Date: Thu, 19 Oct 2017 21:27:20 +0200
+Message-ID: <CAKgNAkh3hp621PnK=obtbrbpp=+rWfAxVWXboymEOO3znD2rkA@mail.gmail.com>
 References: <CAKgNAkigca=v31L0hDMR7PdNEHgS8mhB6KWR0qZew-jhYD8dwg@mail.gmail.com>
- <fe6d752e-60a1-c8de-698c-ddd19d432110@redhat.com>
- <CAKgNAkjTZZWQpAwgg-m7Z-W=CQfS39CU5F+rr1B3msgf4SEBww@mail.gmail.com>
+ <fe6d752e-60a1-c8de-698c-ddd19d432110@redhat.com> <CAKgNAkjTZZWQpAwgg-m7Z-W=CQfS39CU5F+rr1B3msgf4SEBww@mail.gmail.com>
  <CAKCAbMjZK6BwJeh37TyJkwogD05GdvQod6LkJmvy4R+ad1w7fw@mail.gmail.com>
+Reply-To: mtk.manpages-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org
 Mime-Version: 1.0
-Content-Type: text/plain; charset=utf-8
-Content-Transfer-Encoding: 7bit
+Content-Type: text/plain; charset="UTF-8"
 Return-path: <linux-man-owner-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>
 In-Reply-To: <CAKCAbMjZK6BwJeh37TyJkwogD05GdvQod6LkJmvy4R+ad1w7fw-JsoAwUIsXosN+BqQ9rBEUg@public.gmane.org>
-Content-Language: en-US
 Sender: linux-man-owner-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
-To: Zack Weinberg <zackw-VmQCmMdMyN0AvxtiuMwx3w@public.gmane.org>, "Michael Kerrisk (man-pages)" <mtk.manpages-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org>
-Cc: linux-man <linux-man-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>, "libc-alpha-9JcytcrH/bA+uJoB2kUjGw@public.gmane.org" <libc-alpha-9JcytcrH/bA+uJoB2kUjGw@public.gmane.org>, Thomas Gleixner <tglx-hfZtesqFncYOwBW4kG4KsQ@public.gmane.org>, Peter Zijlstra <peterz-wEGCiKHe2LqWVfeAwA7xHQ@public.gmane.org>, Ingo Molnar <mingo-DgEjT+Ai2ygdnm+yROfE0A@public.gmane.org>
+To: Zack Weinberg <zackw-VmQCmMdMyN0AvxtiuMwx3w@public.gmane.org>
+Cc: Carlos O'Donell <carlos-H+wXaHxf7aLQT0dZR+AlfA@public.gmane.org>, linux-man <linux-man-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>, "libc-alpha-9JcytcrH/bA+uJoB2kUjGw@public.gmane.org" <libc-alpha-9JcytcrH/bA+uJoB2kUjGw@public.gmane.org>, Thomas Gleixner <tglx-hfZtesqFncYOwBW4kG4KsQ@public.gmane.org>, Peter Zijlstra <peterz-wEGCiKHe2LqWVfeAwA7xHQ@public.gmane.org>, Ingo Molnar <mingo-DgEjT+Ai2ygdnm+yROfE0A@public.gmane.org>
 List-Id: linux-man@vger.kernel.org
 
-On 10/19/2017 11:06 AM, Zack Weinberg wrote:
+Hello Zack,
+
+On 19 October 2017 at 20:06, Zack Weinberg <zackw-VmQCmMdMyN0AvxtiuMwx3w@public.gmane.org> wrote:
 > On Thu, Oct 19, 2017 at 1:46 PM, Michael Kerrisk (man-pages)
 > <mtk.manpages-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org> wrote:
 >> On 18 October 2017 at 17:07, Carlos O'Donell <carlos-H+wXaHxf7aLQT0dZR+AlfA@public.gmane.org> wrote:
@@ -35,7 +35,7 @@ On 10/19/2017 11:06 AM, Zack Weinberg wrote:
 >>> otherwise trylock would be useless).
 >>
 >> Changed to "shall fail" (but this is not the only page with that problem :-} ).
-> 
+>
 > I meant to reply earlier.  This is a pet English grammar peeve of
 > mine: "shall" is a _directive_.  Specifications use it because they
 > are directing the implementors to make things happen, but in
@@ -44,12 +44,17 @@ On 10/19/2017 11:06 AM, Zack Weinberg wrote:
 > following conditions yada yada.  That's what it does.  You, the reader
 > of this manpage, do not have to do anything to make that happen.
 
-I will endeavour to adopt such a distinction in my future writing.
-I appreciate that feedback :-)
+Yes, it's true. s/shall/will/. Done.
+
+Cheers,
+
+Michael
+
 
 -- 
-Cheers,
-Carlos.
+Michael Kerrisk
+Linux man-pages maintainer; http://www.kernel.org/doc/man-pages/
+Linux/UNIX System Programming Training: http://man7.org/training/
 --
 To unsubscribe from this list: send the line "unsubscribe linux-man" in
 the body of a message to majordomo-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
