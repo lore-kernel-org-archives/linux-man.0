@@ -1,68 +1,106 @@
-From: "Michael Kerrisk (man-pages)" <mtk.manpages-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org>
-Subject: Re: Draft pthread_spin_lock(3) manual page
-Date: Fri, 20 Oct 2017 16:55:55 +0200
-Message-ID: <CAKgNAkhP_1By3_VjrMZ5qN5yp7BfX1G=9txEOgFkJ9H-wCj90Q@mail.gmail.com>
-References: <CAKgNAkigca=v31L0hDMR7PdNEHgS8mhB6KWR0qZew-jhYD8dwg@mail.gmail.com>
- <fe6d752e-60a1-c8de-698c-ddd19d432110@redhat.com> <CAKgNAkjTZZWQpAwgg-m7Z-W=CQfS39CU5F+rr1B3msgf4SEBww@mail.gmail.com>
- <CAKCAbMjZK6BwJeh37TyJkwogD05GdvQod6LkJmvy4R+ad1w7fw@mail.gmail.com> <2d177560-7725-066a-7fff-bac06b9d153a@redhat.com>
-Reply-To: mtk.manpages-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org
+From: Don Brace <don.brace-dzo6w/eZyo2tG0bUXCXiUA@public.gmane.org>
+Subject: RE: [PATCH] smartpqi: initial submit of smartpqi man page
+Date: Fri, 20 Oct 2017 22:10:55 +0000
+Message-ID: <4993A297653ECB4581FA5C3C31323D196721BE80@avsrvexchmbx2.microsemi.net>
+References: <150833943926.13185.7883447908516236321.stgit@brunhilda>
+ <20171019213558.aelneujzgyucrye3@crack.deadbeast.net>
 Mime-Version: 1.0
-Content-Type: text/plain; charset="UTF-8"
+Content-Type: text/plain; charset="us-ascii"
+Content-Transfer-Encoding: quoted-printable
 Return-path: <linux-man-owner-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>
-In-Reply-To: <2d177560-7725-066a-7fff-bac06b9d153a-H+wXaHxf7aLQT0dZR+AlfA@public.gmane.org>
+In-Reply-To: <20171019213558.aelneujzgyucrye3-Z0uaYDh/Ni4SozaZsD9aTtHuzzzSOjJt@public.gmane.org>
+Content-Language: en-US
 Sender: linux-man-owner-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
-To: Pedro Alves <palves-H+wXaHxf7aLQT0dZR+AlfA@public.gmane.org>
-Cc: Zack Weinberg <zackw-VmQCmMdMyN0AvxtiuMwx3w@public.gmane.org>, Carlos O'Donell <carlos-H+wXaHxf7aLQT0dZR+AlfA@public.gmane.org>, linux-man <linux-man-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>, "libc-alpha-9JcytcrH/bA+uJoB2kUjGw@public.gmane.org" <libc-alpha-9JcytcrH/bA+uJoB2kUjGw@public.gmane.org>, Thomas Gleixner <tglx-hfZtesqFncYOwBW4kG4KsQ@public.gmane.org>, Peter Zijlstra <peterz-wEGCiKHe2LqWVfeAwA7xHQ@public.gmane.org>, Ingo Molnar <mingo-DgEjT+Ai2ygdnm+yROfE0A@public.gmane.org>
+To: "G. Branden Robinson" <g.branden.robinson-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org>
+Cc: "mtk.manpages-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org" <mtk.manpages-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org>, "linux-man-u79uwXL29TY76Z2rM5mHXA@public.gmane.org" <linux-man-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>, Gerry Morong <gerry.morong-dzo6w/eZyo2tG0bUXCXiUA@public.gmane.org>, John Hall <John.Hall-dzo6w/eZyo2tG0bUXCXiUA@public.gmane.org>, Kevin Barnett <kevin.barnett-dzo6w/eZyo2tG0bUXCXiUA@public.gmane.org>, Bader Ali - Saleh <bader.alisaleh-dzo6w/eZyo2tG0bUXCXiUA@public.gmane.org>, Scott Teel <scott.teel-dzo6w/eZyo2tG0bUXCXiUA@public.gmane.org>, Justin Lindley <justin.lindley-dzo6w/eZyo2tG0bUXCXiUA@public.gmane.org>, Scott Benesh <scott.benesh-dzo6w/eZyo2tG0bUXCXiUA@public.gmane.org>
 List-Id: linux-man@vger.kernel.org
 
-Hello Pedro,
+> -----Original Message-----
+> From: G. Branden Robinson [mailto:g.branden.robinson-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org]
+> Sent: Thursday, October 19, 2017 4:36 PM
+> To: Don Brace <don.brace-dzo6w/eZyo2tG0bUXCXiUA@public.gmane.org>
+> Cc: mtk.manpages-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org; linux-man-u79uwXL29TY76Z2rM5mHXA@public.gmane.org; Gerry Morong
+> <gerry.morong-dzo6w/eZyo2tG0bUXCXiUA@public.gmane.org>; John Hall <John.Hall-dzo6w/eZyo2tG0bUXCXiUA@public.gmane.org>;
+> Kevin Barnett <kevin.barnett-dzo6w/eZyo2tG0bUXCXiUA@public.gmane.org>; Bader Ali - Saleh
+> <bader.alisaleh-dzo6w/eZyo2tG0bUXCXiUA@public.gmane.org>; Scott Teel <scott.teel-dzo6w/eZyo2tG0bUXCXiUA@public.gmane.org>;
+> Justin Lindley <justin.lindley-dzo6w/eZyo2tG0bUXCXiUA@public.gmane.org>; Scott Benesh
+> <scott.benesh-dzo6w/eZyo2tG0bUXCXiUA@public.gmane.org>
+> Subject: Re: [PATCH] smartpqi: initial submit of smartpqi man page
+>=20
+> At 2017-10-18T10:10:39-0500, Don Brace wrote:
+> > This patch contains the initial submission of the
+> > smartpqi man page.
+>=20
+> Hi Don,
+>=20
+> Please find attached my recommended changes.
+>=20
+> I made many changes, most of them formatting-related.
 
-On 20 October 2017 at 12:12, Pedro Alves <palves-H+wXaHxf7aLQT0dZR+AlfA@public.gmane.org> wrote:
-> On 10/19/2017 07:06 PM, Zack Weinberg wrote:
->> On Thu, Oct 19, 2017 at 1:46 PM, Michael Kerrisk (man-pages)
->
->> I meant to reply earlier.  This is a pet English grammar peeve of
->> mine: "shall" is a _directive_.  Specifications use it because they
->> are directing the implementors to make things happen, but in
->> documentation aimed at people _using_ an interface, the appropriate
->> word is "will".  The function _will_ fail and set errno under the
->> following conditions yada yada.  That's what it does.  You, the reader
->> of this manpage, do not have to do anything to make that happen.
->
-> Technical writing guidelines usually suggest staying in the
-> present tense, and avoid future tense though, because with "will"
-> it's not clear whether you're describing how things behave as
-> currently implemented or whether you're talking about how things
-> will be implemented in the future.
->
-> I.e.:
->   ... foo fails and sets errno if/when ...
-> instead of:
->   ... foo will fail and set errno if/when ...
->
-> Here's an example:
->
->
-> http://www.datacenterjournal.com/technically-write-advice-technical-writing/
->
-> And here's Sandra applying that same rule throughout GCC's manual:
->
->  [[doc] extend.texi copy-editing, 1/N (verb tenses)]
->  https://gcc.gnu.org/ml/gcc-patches/2012-10/msg02688.html
->
-> (I recalled that whole series of Sandra's as I found
-> it quite instructive back then.)
+Really appreciate your effort!
 
-Fair enough, I've fixed "will fail" in a number of pages!
+>=20
+> There are some issues I was unsure about; I left them in comments:
+>=20
+> To configure Microsemi Smart Family controllers, please refer to the
+> controller's User Guide documentation.
+> .\" Does this manual have a title?  Is it freely available online?
+> .\" Does it have a stable URL?  Can this information be moved to the SEE
+> .\" ALSO section?
 
-Cheers,
+There is currently no User Guide available on-line. The guide should be pac=
+kaged with
+the controller. There is a Documentation/scsi/smartpqi.txt  entry.
 
-Michael
+>=20
+> .\" What is "ioaccel"?  This string appears nowhere in man-pages HEAD.
+This is a term for RAID volumes. When an I/O request can go directly to a p=
+hysical disk
+bypassing the RAID engine in the controller. This results in a performance =
+gain.
 
--- 
-Michael Kerrisk
-Linux man-pages maintainer; http://www.kernel.org/doc/man-pages/
-Linux/UNIX System Programming Training: http://man7.org/training/
+>=20
+> .\" This example line is too wide for an 80-column TTY.
+> .B cat /sys/class/scsi_disk/1:0:3:0/device/ssd_smart_path_enabled
+How about:
+cd /sys/class/scsi_disk/1:0:3:0/device/
+cat ssd_smart_path_enabled
+>=20
+> .SS Supported \f[BI]ioctl\fP\/() operations
+> .\" Does this subsection belong here, under .SH FILES ?
+I see your point. This should be in a different section. We saw that hpsa.4=
+ had
+done the same thing.
+
+Should this be under NOTES?
+
+>=20
+> And here's one more I just thought of (forest, trees...).
+>=20
+> Is "SmartPQI" the correct casing when referring to the product rather
+> than the kernel module?
+
+The driver name is smartpqi, perhaps omitting the SmartPQI or SMARTPQI woul=
+d be best
+for these sections.
+>=20
+> I checked the output on 80- and 191-column terminals and with a
+> PostScript viewer.
+>=20
+> [1] And which doesn't "work everywhere", anyway, for instance on EBCDIC
+> systems.  IIRC, the groff guys discourage defining a string escape this
+> way.
+> [2] I don't know of another term for this.  "In subsection ("SS")
+>     headings, capitalize the first word in the heading, but otherwise
+>     use lowercase, except where English usage (e.g., proper nouns) or
+>     programming language requirements (e.g., identifier names) dictate
+>     otherwise."
+> [3] MTK: Is this a candidate for the "Preferred terms" subsection of
+>     man-pages(7)?
+>=20
+> --
+> Regards,
+> Branden
 --
 To unsubscribe from this list: send the line "unsubscribe linux-man" in
 the body of a message to majordomo-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
