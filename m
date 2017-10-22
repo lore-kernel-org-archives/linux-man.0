@@ -1,10 +1,10 @@
 From: "G. Branden Robinson" <g.branden.robinson-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org>
-Subject: open.2: tfix
-Date: Sun, 22 Oct 2017 05:52:00 -0400
-Message-ID: <20171022095158.77nf4r7hjhodt5zn@crack.deadbeast.net>
+Subject: connect.2, ioprio_set.2, ...: tfix
+Date: Sun, 22 Oct 2017 06:04:54 -0400
+Message-ID: <20171022100452.vexn5fvln5cdjhoh@crack.deadbeast.net>
 Mime-Version: 1.0
 Content-Type: multipart/signed; micalg=pgp-sha256;
-        protocol="application/pgp-signature"; boundary="artrth3nxfy4yipu"
+        protocol="application/pgp-signature"; boundary="sar2hzu7hrhipex4"
 Return-path: <linux-man-owner-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>
 Content-Disposition: inline
 Sender: linux-man-owner-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
@@ -12,54 +12,105 @@ To: linux-man-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
 List-Id: linux-man@vger.kernel.org
 
 
---artrth3nxfy4yipu
+--sar2hzu7hrhipex4
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
 Content-Transfer-Encoding: quoted-printable
 
-This one crept in during the first bit of the "will fail" -> "fails"
-migration.
+Fix nonstandard usage.
 
-diff --git a/man2/open.2 b/man2/open.2
-index 02a62a255..44bf3d1cb 100644
---- a/man2/open.2
-+++ b/man2/open.2
-@@ -1636,7 +1636,7 @@ a flag of the same name, but without alignment restri=
-ctions.
- .B O_DIRECT
- support was added under Linux in kernel version 2.4.10.
- Older Linux kernels simply ignore this flag.
--Some filesystems may not implement the flagC, in which case
-+Some filesystems may not implement the flag, in which case
- .BR open ()
- fails with the error
- .B EINVAL
+diff --git a/man2/connect.2 b/man2/connect.2
+index e7d35f4d6..d55d69bec 100644
+--- a/man2/connect.2
++++ b/man2/connect.2
+@@ -179,7 +179,7 @@ been completed.
+ is not a valid open file descriptor.
+ .TP
+ .B ECONNREFUSED
+-No-one listening on the remote address.
++No one listening on the remote address.
+ .TP
+ .B EFAULT
+ The socket structure address is outside the user's address space.
+diff --git a/man2/ioprio_set.2 b/man2/ioprio_set.2
+index 0e86d6ca3..6e53687b4 100644
+--- a/man2/ioprio_set.2
++++ b/man2/ioprio_set.2
+@@ -314,7 +314,7 @@ Priority levels range from 0 (highest) to 7 (lowest).
+ .BR IOPRIO_CLASS_IDLE " (3)"
+ This is the idle scheduling class.
+ Processes running at this level get I/O
+-time only when no-one else needs the disk.
++time only when no one else needs the disk.
+ The idle class has no class data.
+ Attention is required when assigning this priority class to a process,
+ since it may become starved if higher priority processes are
+diff --git a/man3/dbopen.3 b/man3/dbopen.3
+index f48658fb6..d76ee3e6a 100644
+--- a/man3/dbopen.3
++++ b/man3/dbopen.3
+@@ -544,7 +544,7 @@ for any of the errors specified for the library routine
+ The typedef
+ .I DBT
+ is a mnemonic for "data base thang", and was used
+-because no-one could think of a reasonable name that wasn't already used.
++because no one could think of a reasonable name that wasn't already used.
+ .PP
+ The file descriptor interface is a kludge and will be deleted in a
+ future version of the interface.
+diff --git a/man5/group.5 b/man5/group.5
+index 704ba48fd..0475764da 100644
+--- a/man5/group.5
++++ b/man5/group.5
+@@ -57,7 +57,7 @@ a list of the usernames that are members of this group, s=
+eparated by commas.
+ .SH BUGS
+ As the 4.2BSD
+ .BR initgroups (3)
+-man page says: no-one seems to keep
++man page says: no one seems to keep
+ .I /etc/group
+ up-to-date.
+ .SH SEE ALSO
+diff --git a/man7/fifo.7 b/man7/fifo.7
+index aa73f9dd6..b17eb9f66 100644
+--- a/man7/fifo.7
++++ b/man7/fifo.7
+@@ -34,7 +34,7 @@ until the other end is opened also.
+ .PP
+ A process can open a FIFO in nonblocking mode.
+ In this
+-case, opening for read-only succeeds even if no-one has
++case, opening for read-only succeeds even if no one has
+ opened on the write side yet and opening for write-only
+ fails with
+ .B ENXIO
 
 --=20
 Regards,
 Branden
 
---artrth3nxfy4yipu
+--sar2hzu7hrhipex4
 Content-Type: application/pgp-signature; name="signature.asc"
 
 -----BEGIN PGP SIGNATURE-----
 
-iQIzBAABCAAdFiEEh3PWHWjjDgcrENwa0Z6cfXEmbc4FAlnsajUACgkQ0Z6cfXEm
-bc7v5g/+Mck+FabKW96/FZnXX4FLrCjrBCE+9ILrMJwhnh08mqw9AVBgRqUUfjSd
-/FgnP1KOkYAzkCklDvXLSKnEfSDlSe2UhnXaXM880RpSLbrztXEledmTJuLeqYBT
-KSbEInvDSdY/kEkgYLUQ0mB/OEaO0UH4/IDrai6u1lamBnbH4UdVzbk9ur3FpoJH
-cy7WIOvMx+dRlhUJFq5+Cy+p2Aoi431L0cwMrKvln6AQ8oM2jaJ/uZCFbwFj9tPP
-gSXFi6WlT7WaitY5RsCk2y8Mj2xPTiB8m1hbUy05sy/HyueWnlhddS+cyreFIe+N
-8m8mXhiQ3lOWPa4iW5swQOO1/DCB6fGOvu6+h6bHAKEqK9ypukmZ4572vfhPL9mo
-7mhuX9/CNyzCEsGaNYVRvjYt8sqfZ9AViOPc/osNVeMJPlXQmSoyhfEHQEJOYwuP
-NkRwnC5yj60c7vGtLu5xrIk00gnz2OhzhmHHo+ugFT5MoLeYsn3pyTFF+UQSaMc/
-/NzGWLVsdH6fMqP2jIR6sOQg2FGcuTR6ASOlZk+oVpuIJaIfhJIzEGjr++JwhYPQ
-57KJ7/t4Gm+uKqWrMtrovcdihVgCtcF5CxHdJBWBeJrlb/C+3qesI5072Iji2Tcc
-fFCVZ/L/X5oUHyW9dD7NTz6UGi/aboldP/kIvFh4SRKn97ywDjE=
-=uln5
+iQIzBAABCAAdFiEEh3PWHWjjDgcrENwa0Z6cfXEmbc4FAlnsbTsACgkQ0Z6cfXEm
+bc5SKQ//aFCpC71p376ftm126+s03dXdMWFVvGtKLohzedBVj6ArvJGoTRuZmyho
+QWChrY8yQBVQuLK0ETJzzejaMbhkZ78qv7ZjisvIreiZCr/9IEz/9RXdpY+c0Hwq
+9xn7jxpr0iXaB2bwX/GZ5mKviTObtaTxHtBpx58uNScC37fShrwHmPqDfvoadynm
+UWJ0d8anaxVQsfosZGTvs4I/GEfJNtZswBIdBuTSD7PQPgleyCWCGlHYtqx24O3S
+y4jvinSjOuB+KDn+bmr3Mst+Ck4ysI778+x60fFL684LvFwycHtN+Z7CGMpXi168
+Z55PXcUppP9MK8aBdN8xQjuxRVeUIi/UziavovWZH5GZxEWp02m/pb63I6YYwrra
+OBGpayaAz63rrqCAxCr91BP9lf9SJwgqlYhwBdTd8lJxVmfx/MYhqFhHeqGQM4yw
+IDSoHP5m0x4pdzjhEGaTQjc7DHR2rPWzNvA+LPPQ2ad7Bn6kZg61hgmZPu9qujA9
+IPWaBTPRZyvuSjzjS3XYee6XMwP22T99xGGfjEKBYu1Lf++YUn3eaWPiLvlX5lVe
+c48cigR0M+cwU6bx779zv26HbyvmRcihvmv/mxj2Z5FTJMjZBcsClD0T23ys1syM
+6VjCU2MpaJR5X8ce2i5YI2daky8G96ETeAQMJwNNG2t1DPxvh4c=
+=Bdvf
 -----END PGP SIGNATURE-----
 
---artrth3nxfy4yipu--
+--sar2hzu7hrhipex4--
 --
 To unsubscribe from this list: send the line "unsubscribe linux-man" in
 the body of a message to majordomo-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
