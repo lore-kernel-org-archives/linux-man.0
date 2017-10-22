@@ -1,10 +1,10 @@
 From: "G. Branden Robinson" <g.branden.robinson-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org>
-Subject: ipv6.7: tfix
-Date: Sun, 22 Oct 2017 06:06:52 -0400
-Message-ID: <20171022100650.az4as6es7s5oqh7y@crack.deadbeast.net>
+Subject: hier.7: tfix
+Date: Sun, 22 Oct 2017 06:08:33 -0400
+Message-ID: <20171022100831.vxwhm47j5ylrvukb@crack.deadbeast.net>
 Mime-Version: 1.0
 Content-Type: multipart/signed; micalg=pgp-sha256;
-        protocol="application/pgp-signature"; boundary="f3vcbxvgts4nflhy"
+        protocol="application/pgp-signature"; boundary="j2mkoey3rpu75v6r"
 Return-path: <linux-man-owner-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>
 Content-Disposition: inline
 Sender: linux-man-owner-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
@@ -12,62 +12,52 @@ To: linux-man-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
 List-Id: linux-man@vger.kernel.org
 
 
---f3vcbxvgts4nflhy
+--j2mkoey3rpu75v6r
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
 Content-Transfer-Encoding: quoted-printable
 
-Use correct indefinite article before noun beginning with vowel sound.
+Escape hyphen in man page cross reference.
 
-diff --git a/man7/ipv6.7 b/man7/ipv6.7
-index 4fb274f76..2f502923a 100644
---- a/man7/ipv6.7
-+++ b/man7/ipv6.7
-@@ -137,7 +137,7 @@ handling functions in the C library.
+diff --git a/man7/hier.7 b/man7/hier.7
+index 519debb1f..23a891162 100644
+--- a/man7/hier.7
++++ b/man7/hier.7
+@@ -645,7 +645,7 @@ differently.
+ .BR find (1),
+ .BR ln (1),
+ .BR proc (5),
+-.BR file-hierarchy (7),
++.BR file\-hierarchy (7),
+ .BR mount (8)
  .PP
- IPv4 and IPv6 share the local port space.
- When you get an IPv4 connection
--or packet to a IPv6 socket, its source address will be mapped
-+or packet to an IPv6 socket, its source address will be mapped
- to v6 and it will be mapped to v6.
- .SS Address format
- .in +4n
-@@ -180,7 +180,7 @@ IPv6 supports several address types: unicast to address=
- a single
- host, multicast to address a group of hosts,
- anycast to address the nearest member of a group of hosts
- (not implemented in Linux), IPv4-on-IPv6 to
--address a IPv4 host, and other reserved address types.
-+address an IPv4 host, and other reserved address types.
- .PP
- The address notation for IPv6 is a group of 8 4-digit hexadecimal
- numbers, separated with a \(aq:\(aq.
+ The Filesystem Hierarchy Standard
 
 --=20
 Regards,
 Branden
 
---f3vcbxvgts4nflhy
+--j2mkoey3rpu75v6r
 Content-Type: application/pgp-signature; name="signature.asc"
 
 -----BEGIN PGP SIGNATURE-----
 
-iQIzBAABCAAdFiEEh3PWHWjjDgcrENwa0Z6cfXEmbc4FAlnsbboACgkQ0Z6cfXEm
-bc5vYA/+IxumhMcs5vpYVWNJ5X0KcwX8E+05Wh63qDoVo0BmoDLkdr8y9v3lAY61
-aiPdyl/mLDdTuQD3p3le7ksFonNMeCahO2UCKpOLY6Ey06HxfAO8T7hnzs3yn2nv
-M9FUTZ3ylY6CFhlsYJ378BnggqPeqqZ3W5OCw2S1Na+yLSsvsw+JNNzHeo1iOlNj
-u9PHdlE0a5iII41q3ktt8CdBCkX0tDqaelLxkVi1N9RK5lNFNfNE6l8dI6EV2Yiy
-ktl+lbNwHibGqPEFGhEkv56ydnWCGVJAInkNETJJhVytYJkxwlyNr/Vkjo8PZ5a8
-2TorTRUjuT+/liFuxuvXd/zF8auwiawVLyQKp0jIxbliIHxXb2wtCOv+4xQeiV14
-wKnBQk0lqWXVESEgBHYoMBPlqtgNDI6Oc7WyUuuHNN6qFK6WMpGc3Qxmpn8OpbQk
-0kfhZOThmVt6JWa6L42pm8cMUa9D01oZvRVsa97Ve0BE7mFdb16btjWZA7X5n6/N
-pWTL3eL3PqrcEM5f/LTfkvkKZ4v70d9h0UFfUEgFYWwUN/P1JEbor8DtbCEZqVFG
-BW4dUHGWfjRw9MFpykNGpJWt+G4JfIs9mMOvNpj9+0OrpQGfCM3kTwnQrM+aho4h
-MzlGvLbHPg7xe9AW3zoxrmdkTnEn2ywDplhzHUih53oZ60Obbio=
-=lwng
+iQIzBAABCAAdFiEEh3PWHWjjDgcrENwa0Z6cfXEmbc4FAlnsbh8ACgkQ0Z6cfXEm
+bc7BFw//W70I5+QrmbCkJQcosdavzJJH91pPtWpU/iQjZZ2q9hj4wl5pcNXwJSld
+Ak2RCF+/O/Dov4tQmlk/6G71MFJvvo60tds2+C8H0D1Xb+46AcRXo6NPTYlaC2d4
+DaVz6Tsk5i1z48pjJ25oOncHPINmCvXZ9mjN6CbG6kwL5EpQxKocmyQqbmJdIsD+
+Zzj97NYEfLjZx0hIgbqqzfAfncedEOFKE+v9cIOTNSe5n+G6peceaUSyCKOy2GWS
+v4rR3nI1ili3uT5aSVWWm3Mhv5kwx/slGFrNO0R8e5ypXLWYJJ121nahw3h32jv3
+LcJKNPTL0F7NPTPdpFwXZm6GV/L5AKEv3bZfL3LVMXNsapi9DMUkPn2XpciJ2F3c
+TqTrr8K+MZws5EOV3W0BJzetu53oxppp/EPhWwGIEOZFubfDMC0l5DH0WUHHfSdG
+RRvxXgnxsVJ337axAATJ/gu0U2IjsDiwlxRFUcN6XRzwLu7eafHoaL0JwoNYlbC9
+JTpbeEHN9DfsXu4uyw7MAe2zqphb2q70gxm65eC3dpzerjROQA9fCIIHKSlqFcMv
+v5NuD3WGDFu8zNCnlN+fABgNtvtISYugp3lUYAAd7bVU8N+3wAskaHhGBUZzZbMB
+eubpxxcJv8pKQKtFYyez7EuV6SiHwu9kV/smYw9LAE1QFabUC00=
+=F1QN
 -----END PGP SIGNATURE-----
 
---f3vcbxvgts4nflhy--
+--j2mkoey3rpu75v6r--
 --
 To unsubscribe from this list: send the line "unsubscribe linux-man" in
 the body of a message to majordomo-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
