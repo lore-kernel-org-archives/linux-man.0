@@ -1,10 +1,10 @@
 From: "G. Branden Robinson" <g.branden.robinson-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org>
-Subject: hier.7: tfix
-Date: Sun, 22 Oct 2017 06:08:33 -0400
-Message-ID: <20171022100831.vxwhm47j5ylrvukb@crack.deadbeast.net>
+Subject: man-pages.7: add use case for real minus character
+Date: Sun, 22 Oct 2017 06:11:28 -0400
+Message-ID: <20171022101127.lxygv747m6ignifk@crack.deadbeast.net>
 Mime-Version: 1.0
 Content-Type: multipart/signed; micalg=pgp-sha256;
-        protocol="application/pgp-signature"; boundary="j2mkoey3rpu75v6r"
+        protocol="application/pgp-signature"; boundary="jiahrevu2w6lgpca"
 Return-path: <linux-man-owner-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>
 Content-Disposition: inline
 Sender: linux-man-owner-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
@@ -12,52 +12,51 @@ To: linux-man-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
 List-Id: linux-man@vger.kernel.org
 
 
---j2mkoey3rpu75v6r
+--jiahrevu2w6lgpca
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
 Content-Transfer-Encoding: quoted-printable
 
-Escape hyphen in man page cross reference.
-
-diff --git a/man7/hier.7 b/man7/hier.7
-index 519debb1f..23a891162 100644
---- a/man7/hier.7
-+++ b/man7/hier.7
-@@ -645,7 +645,7 @@ differently.
- .BR find (1),
- .BR ln (1),
- .BR proc (5),
--.BR file-hierarchy (7),
-+.BR file\-hierarchy (7),
- .BR mount (8)
- .PP
- The Filesystem Hierarchy Standard
+diff --git a/man7/man-pages.7 b/man7/man-pages.7
+index 674762723..0b4647a79 100644
+--- a/man7/man-pages.7
++++ b/man7/man-pages.7
+@@ -868,6 +868,8 @@ Finally, note that "re-create" and "recreate" are two d=
+ifferent verbs,
+ and the former is probably what you want.
+ .SS Real minus character
+ Where a real minus character is required (e.g., for numbers such as \-1,
++for man page cross references such as
++.BR utf\-8 (7),
+ or when writing options that have a leading dash, such as in
+ .IR "ls\ \-l"),
+ use the following form in the man page source:
 
 --=20
 Regards,
 Branden
 
---j2mkoey3rpu75v6r
+--jiahrevu2w6lgpca
 Content-Type: application/pgp-signature; name="signature.asc"
 
 -----BEGIN PGP SIGNATURE-----
 
-iQIzBAABCAAdFiEEh3PWHWjjDgcrENwa0Z6cfXEmbc4FAlnsbh8ACgkQ0Z6cfXEm
-bc7BFw//W70I5+QrmbCkJQcosdavzJJH91pPtWpU/iQjZZ2q9hj4wl5pcNXwJSld
-Ak2RCF+/O/Dov4tQmlk/6G71MFJvvo60tds2+C8H0D1Xb+46AcRXo6NPTYlaC2d4
-DaVz6Tsk5i1z48pjJ25oOncHPINmCvXZ9mjN6CbG6kwL5EpQxKocmyQqbmJdIsD+
-Zzj97NYEfLjZx0hIgbqqzfAfncedEOFKE+v9cIOTNSe5n+G6peceaUSyCKOy2GWS
-v4rR3nI1ili3uT5aSVWWm3Mhv5kwx/slGFrNO0R8e5ypXLWYJJ121nahw3h32jv3
-LcJKNPTL0F7NPTPdpFwXZm6GV/L5AKEv3bZfL3LVMXNsapi9DMUkPn2XpciJ2F3c
-TqTrr8K+MZws5EOV3W0BJzetu53oxppp/EPhWwGIEOZFubfDMC0l5DH0WUHHfSdG
-RRvxXgnxsVJ337axAATJ/gu0U2IjsDiwlxRFUcN6XRzwLu7eafHoaL0JwoNYlbC9
-JTpbeEHN9DfsXu4uyw7MAe2zqphb2q70gxm65eC3dpzerjROQA9fCIIHKSlqFcMv
-v5NuD3WGDFu8zNCnlN+fABgNtvtISYugp3lUYAAd7bVU8N+3wAskaHhGBUZzZbMB
-eubpxxcJv8pKQKtFYyez7EuV6SiHwu9kV/smYw9LAE1QFabUC00=
-=F1QN
+iQIzBAABCAAdFiEEh3PWHWjjDgcrENwa0Z6cfXEmbc4FAlnsbs8ACgkQ0Z6cfXEm
+bc65Vg/9Ge/ZJ80tQGwzUs5F/YZd60b4u+kQItm6lJK5UCP8gKH0ID/jj3c2Rl4M
+7eekI+bifAkNxRaed4Aj9t1bP1gt+NiWBwA/5z0Nogf8eKjF/rILucMuXIIkmcGX
+jdCEUNw53giIeZUXwgK6GXS2uab0UUUYIkc7CduL3cKdRwsnviBeHAV1UWwfJV22
+SCAPBbfzFPz0vcftiv5789H8hBsp4ujOjOaLDOaAYpB8ZFMzGQWxSLcwdAAgitxr
+KT1kCiHct4hK6j+xULa2ebTddtX9pBqqQFFUJ5/VlFvYOOlKLr5yrRZLrz/ThY9p
+Q4frQ+2ocoFhn05XStfgIvbewL+ibdnmQW2jFHhI/PoJFaxmmPyAvwN+BNJ56LpZ
+5W6b7urAiujQ2q6aZgAQhaH3J4OCxmL2/H1n850cEIX24vuXOxTny3BsbkwMuN7Y
+FbUoiPFsMJ0+hY93h12W6PCs9StPha1wGXg/AYvqq5EGTFwtXphaVylN5v6idc+6
+5KH4IAmefC/TPhreFTioCdrV6eoH0fbhF7WLIP2lwAhNw9adiIAB6+lmYRyS+y8O
+cET4jo1IuGqD6kHBWGzpWDSYRIB/aA0UwfEGwtDwkDDYAtUDcK5DEXq8vJYXuymB
+t9Dd5M25VjJhkwcef5WwXkaCB51KFe/r+1WXd0Uwcij0mRiFztY=
+=sEVS
 -----END PGP SIGNATURE-----
 
---j2mkoey3rpu75v6r--
+--jiahrevu2w6lgpca--
 --
 To unsubscribe from this list: send the line "unsubscribe linux-man" in
 the body of a message to majordomo-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
