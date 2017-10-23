@@ -1,39 +1,34 @@
-From: "Michael Kerrisk (man-pages)" <mtk.manpages-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org>
-Subject: Re: mount: /etc/fstab
-Date: Mon, 23 Oct 2017 07:47:28 +0200
-Message-ID: <CAKgNAkjcL1daPE+hCcHF2gHcqvj4O9bgXxuUgLuxrBjGGGM60A@mail.gmail.com>
-References: <a131e54b-3b51-35d5-52b7-2908a01c4d1f@projektwerkstatt.de>
-Reply-To: mtk.manpages-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org
+From: Eric Hopper <hopper-mHNs42olblhbd4swqxETsg@public.gmane.org>
+Subject: A problem with prctl(2) and proc(5)
+Date: Mon, 23 Oct 2017 15:26:42 -0700
+Message-ID: <CAJWcbJEJDZS34g8v3dG-RAe=W0T-9ti_LUQ=GM9LJiEcetVphA@mail.gmail.com>
 Mime-Version: 1.0
 Content-Type: text/plain; charset="UTF-8"
 Return-path: <linux-man-owner-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>
-In-Reply-To: <a131e54b-3b51-35d5-52b7-2908a01c4d1f-hsXoOLftXaMrK3VXJnZBaRvVK+yQ3ZXh@public.gmane.org>
 Sender: linux-man-owner-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
-To: kalle <kalle-hsXoOLftXaMrK3VXJnZBaRvVK+yQ3ZXh@public.gmane.org>
-Cc: linux-man <linux-man-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>
+To: mtk.manpages-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org
+Cc: linux-man-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
 List-Id: linux-man@vger.kernel.org
 
-Hi,
+These two manual pages both imply that a setuid process can call
+prctl(PR_SET_DUMPABLE, 1, 0, 0, 0); to set this flag back to 1 and
+restore the ownership of /proc files back to being the real user id of
+the process.  This is not exactly true.
 
-On 22 October 2017 at 10:17, kalle <kalle-hsXoOLftXaMrK3VXJnZBaRvVK+yQ3ZXh@public.gmane.org> wrote:
-> In the sentence "then mount looks for a mountpoint and if not found then
-> for a device in the /etc/fstab file" it should be made clear that the
-> mountpoint refers to the /etc/fstab-file, e.g. "then mount looks in the
-> /etc/fstab file firstly for a mountpoint and if not found then secondly
-> for a device". I did not understand the sentence until now and wondered,
-> what was meant by 'mountpoint'.
+Empirical testing reveals that this flag is ignored in favor of the
+value in /proc/sys/fs/suid_dumpable if either the real group or user id
+fail to match the effective group or user id. You can use prctl to set
+it to 1, and then prctl(PR_GET_DUMPABLE, 0, 0, 0, 0); to fetch it, and
+it will report as '1', but the ownership of files in /proc/self will
+remain as root:root until the effective and real ids match.
 
-Wrong project. Please see
-http://man7.org/linux/man-pages/man8/mount.8.html#COLOPHON
+This should be mentioned in the manual as it prescribes a very specific
+sequence of events that must happen to restore the ownership of these
+files that the current manual does not make clear.
 
-Thanks,
-
-Michael
-
+Thank you,
 -- 
-Michael Kerrisk
-Linux man-pages maintainer; http://www.kernel.org/doc/man-pages/
-Linux/UNIX System Programming Training: http://man7.org/training/
+Eric Hopper -- http://www.omnifarious.org/~hopper/
 --
 To unsubscribe from this list: send the line "unsubscribe linux-man" in
 the body of a message to majordomo-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
