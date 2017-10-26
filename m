@@ -1,7 +1,7 @@
 From: Tyler Hicks <tyhicks-Z7WLFzj8eWMS+FvcfC7Uqw@public.gmane.org>
-Subject: [PATCH 4/4] seccomp.2: SECCOMP_RET_LOG action
-Date: Thu, 26 Oct 2017 04:11:42 +0000
-Message-ID: <1508991102-13686-5-git-send-email-tyhicks@canonical.com>
+Subject: [PATCH 2/4] seccomp.2: SECCOMP_GET_ACTION_AVAIL operation
+Date: Thu, 26 Oct 2017 04:11:40 +0000
+Message-ID: <1508991102-13686-3-git-send-email-tyhicks@canonical.com>
 References: <1508991102-13686-1-git-send-email-tyhicks@canonical.com>
 Return-path: <linux-man-owner-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>
 In-Reply-To: <1508991102-13686-1-git-send-email-tyhicks-Z7WLFzj8eWMS+FvcfC7Uqw@public.gmane.org>
@@ -10,33 +10,50 @@ To: Michael Kerrisk <mtk.manpages-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org>
 Cc: Kees Cook <keescook-F7+t8E8rja9g9hUCZPvPmw@public.gmane.org>, linux-man-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
 List-Id: linux-man@vger.kernel.org
 
-Document the SECCOMP_RET_LOG seccomp(2) action added in Linux commit
-v4.14-rc2~15^2~5.
+Document the SECCOMP_GET_ACTION_AVAIL seccomp(2) operation added in
+Linux commit v4.14-rc2~15^2~9.
 
 Signed-off-by: Tyler Hicks <tyhicks-Z7WLFzj8eWMS+FvcfC7Uqw@public.gmane.org>
 ---
- man2/seccomp.2 | 8 ++++++++
- 1 file changed, 8 insertions(+)
+ man2/seccomp.2 | 18 ++++++++++++++++++
+ 1 file changed, 18 insertions(+)
 
 diff --git a/man2/seccomp.2 b/man2/seccomp.2
-index c85c289..8c91a47 100644
+index 5cd28b7..a356f22 100644
 --- a/man2/seccomp.2
 +++ b/man2/seccomp.2
-@@ -507,6 +507,14 @@ of other
- sandboxed processes\(emwithout extreme care;
- ptracers can use this mechanism to escape from the seccomp sandbox.)
- .TP
-+.BR SECCOMP_RET_LOG " (since Linux 4.14)"
-+.\" commit 59f5cf44a38284eb9e76270c786fb6cc62ef8ac4
-+This value results in the system call being executed after the filter return
-+action is logged. An administrator may override the logging of this action via
-+the
-+.IR /proc/sys/kernel/seccomp/actions_logged
-+file.
+@@ -206,6 +206,17 @@ Synchronization will fail if another thread in the same process is in
+ or if it has attached new seccomp filters to itself,
+ diverging from the calling thread's filter tree.
+ .RE
 +.TP
- .BR SECCOMP_RET_ALLOW
- This value results in the system call being executed.
- .SS /proc interfaces
++.BR SECCOMP_GET_ACTION_AVAIL " (since Linux 4.14)"
++.\" commit d612b1fd8010d0d67b5287fe146b8b55bcbb8655
++Test to see if an action is supported by the kernel. This operation is helpful to confirm that the kernel knows of a more recently added filter return action since the kernel treats all unknown actions as
++.BR SECCOMP_RET_KILL .
++.IP
++The value of
++.IR flags
++must be 0, and
++.IR args
++must be a pointer to an unsigned 32-bit filter return action.
+ .SS Filters
+ When adding filters via
+ .BR SECCOMP_SET_MODE_FILTER ,
+@@ -610,6 +621,13 @@ Note that for the purposes of calculating this limit,
+ each already existing filter program incurs an
+ overhead penalty of 4 instructions.
+ .TP
++.BR EOPNOTSUPP
++.I operation
++specified
++.BR SECCOMP_GET_ACTION_AVAIL ,
++but the kernel does not support the filter return action specified by
++.IR args .
++.TP
+ .BR ESRCH
+ Another thread caused a failure during thread sync, but its ID could not
+ be determined.
 -- 
 2.7.4
 
