@@ -1,252 +1,121 @@
-From: "Michael Kerrisk (man-pages)" <mtk.manpages-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org>
+From: walter harms <wharms@bfs.de>
 Subject: Re: Documenting sigaltstack SS_AUTODISRM
-Date: Mon, 30 Oct 2017 13:38:17 +0100
-Message-ID: <b87af49f-230b-30d6-fa9b-adaa75ebab52@gmail.com>
-References: <CAKgNAkjw_OBxcL627V9xMrKUei69hwjVCr6sbHbG2riBe7VVYw@mail.gmail.com>
- <08467ae1-7187-3b2a-9a78-8af0c10bf816@list.ru>
- <3907bc2a-0645-8d93-6ee5-3f99874e7022@gmail.com>
- <32d95303-5839-9279-a1d3-a06f34e3484e@list.ru>
- <CAKgNAkgw6P5RAsA2RSFJX57b=DHM=eNZ+ZOoagcO3ydSHzBcQA@mail.gmail.com>
- <50de8f3b-8a1e-df50-b5dd-d1b74cb77fad@list.ru>
- <026308b5-4e92-4439-1eb2-82b67584d548@gmail.com>
- <6f622987-9517-ee7c-2016-ea8c43645e39@list.ru>
+Date: Mon, 30 Oct 2017 13:54:53 +0100
+Message-ID: <59F7211D.8080500@bfs.de>
+References: <CAKgNAkjw_OBxcL627V9xMrKUei69hwjVCr6sbHbG2riBe7VVYw@mail.gmail.com> <08467ae1-7187-3b2a-9a78-8af0c10bf816@list.ru> <3907bc2a-0645-8d93-6ee5-3f99874e7022@gmail.com> <32d95303-5839-9279-a1d3-a06f34e3484e@list.ru> <CAKgNAkgw6P5RAsA2RSFJX57b=DHM=eNZ+ZOoagcO3ydSHzBcQA@mail.gmail.com> <50de8f3b-8a1e-df50-b5dd-d1b74cb77fad@list.ru> <026308b5-4e92-4439-1eb2-82b67584d548@gmail.com> <3a4f9f3e-fc33-cf98-2322-27087664813f@list.ru> <a5565692-7f23-d236-3b01-142088310741@gmail.com> <59F6FD39.40502@bfs.de> <a8ae5fc2-055c-2939-a692-2339398bf653@gmail.com>
+Reply-To: wharms@bfs.de
 Mime-Version: 1.0
-Content-Type: text/plain; charset=utf-8
+Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
-Return-path: <linux-man-owner-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>
-In-Reply-To: <6f622987-9517-ee7c-2016-ea8c43645e39-cmBhpYW9OiY@public.gmane.org>
-Content-Language: en-US
-Sender: linux-man-owner-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
-To: Stas Sergeev <stsp-cmBhpYW9OiY@public.gmane.org>
-Cc: mtk.manpages-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org, linux-man <linux-man-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>, Andy Lutomirski <luto-kltTT9wpgjJwATOyAt5JVQ@public.gmane.org>, Oleg Nesterov <oleg-H+wXaHxf7aLQT0dZR+AlfA@public.gmane.org>, lkml <linux-kernel-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>
+Return-path: <linux-kernel-owner@vger.kernel.org>
+In-Reply-To: <a8ae5fc2-055c-2939-a692-2339398bf653@gmail.com>
+Sender: linux-kernel-owner@vger.kernel.org
+To: "Michael Kerrisk (man-pages)" <mtk.manpages@gmail.com>
+Cc: Stas Sergeev <stsp@list.ru>, linux-man <linux-man@vger.kernel.org>, Andy Lutomirski <luto@amacapital.net>, Oleg Nesterov <oleg@redhat.com>, lkml <linux-kernel@vger.kernel.org>
 List-Id: linux-man@vger.kernel.org
 
-On 05/24/2017 10:12 PM, Stas Sergeev wrote:
-> Hello,
+
+
+Am 30.10.2017 11:50, schrieb Michael Kerrisk (man-pages):
+> Hi Walter,
 > 
-> 24.05.2017 14:09, Michael Kerrisk (man-pages) пишет:
->>> Could you please point and cite the spec that says
->>> exactly this?
->> I take your point: the text of the spec could be more precise. It
->> does not provide a complete support for my assertion.
+> On 10/30/2017 11:21 AM, walter harms wrote:
 >>
->> But, I do think the interpretation I suggest is the more natural one,
->> for many reasons:
-> Note: below I am not arguing to whether it is
-> good or bad to use SS_ONSTACK. This question
-> is closed as soon as you pointed to EINVAL in
-> other OSes (it doesn't make it bad immediately,
-> but at least the outcome of its usage is now
-> pretty clear for me).
-> What I still want to point out is the fact that the
-> implementation in linux was very unlikely caused
-> by a confusion. It was the decision made in agreement
-> with the most straight-forward reading of the posix
-> spec, just maybe without knowing about this EINVAL
-> problem. And it can't create a compatibility problem
-> by itself because no one have explicitly promoted its
-> use: 0 is still accepted.
-> Why it could create a compatibility problem is only
-> because people suddenly started to use it, and for
-> the very simple reason (judging by myself): I was
-> absolutely confused with this '0' in the example, and
-> after many attempts to find even a slightest hint in
-> the same doc why it is safe (why SS_DISABLE can't
-> be 0), I resorted to looking into the kernel and the
-> code of other projects. And SS_ONSTACK looked
-> like a perfectly valid solution, fully agreeing with
-> the text (i.e. SS_ONSTACK != SS_DISABLE).
-> So what really creates a compatibility problem here,
-> is only a misleading text (or a misleading implementation
-> of it in other OSes). And as such, stating that "someone
-> was confused" looks more like an unjustified insult to me. :)
-
-See previous mail :-).
-
-Just by the bye, the correct (according to my definition)
-way of doing things (ss.ss_flags == 0 to establish an
-alternate signal stack) has been documented in the manual
-page since 2001. (That page documented the Linux 2.2
-behavior.)
-
->> 1. The field is named '*flags', which commonly means a bit mask.
-> Indeed, but the value suggests otherwise.
-> The name for a flag could be "SS_DISABLED"
-> (with D at the end), while "SS_DISABLE" suggests
-> an action. And indeed, it doesn't change a property
-> of a performing action the way SS_AUTODISARM
-> does. Instead it changes the action itself: the sas
-> get cleared instead of being set, and all the other
-> arguments are ignored. Eg I would be very surprised
-> seeing the "MAP_UNMAP" flag to mmap() that turns
-> it into munmap(). This more resembles the "action"
-> argument of the sigprocmask() call.
+>>
+>> Am 30.10.2017 11:04, schrieb Michael Kerrisk (man-pages):
+>>> [So, things fell on the floor, a while back.]
+>>>
+>>> On 05/25/2017 11:17 AM, Stas Sergeev wrote:
+>>>> 24.05.2017 14:09, Michael Kerrisk (man-pages) пишет:
+>>>>> One could do this I suppose, but I read POSIX differently from
+>>>>> you and, more importantly, SS_ONSTACK breaks portability on
+>>>>> numerous other systems and is a no-op on Linux. So, the Linux man
+>>>>> page really should warn against its use in the strongest terms.
+>>>> So how about instead of the strongest terms towards
+>>>> the code's author, just explain that SS_ONSTACK is a
+>>>> bit-value on some/many OSes, and as such, 0 is a
+>>>> valid value to enable sas on them, plus all the other
+>>>> values would give EINVAL?
+>>>> No strongest terms will help w/o an explanation,
+>>>> because people will keep looking for something that
+>>>> suits as a missing SS_ENABLE.
+>>>
+>>> Fair enough. I've removed the statement in the manual page
+>>> about "confusion". By now the page says:
+>>>
+>>>     BUGS
+>>>        In the lead up to the release of the Linux 2.4  kernel,  a  change
+>>>        was   made   to   allow  sigaltstack()  to  accept  SS_ONSTACK  in
+>>>        ss.ss_flags, which results in behavior that is the  same  as  when
+>>>        ss_flags is 0 (i.e., the inclusion of SS_ONSTACK in ss.ss_flags is
+>>>        a no-op).  On other implementations,  and  according  to  POSIX.1,
+>>
+>> i am confused, i understand that:
+>>            ss.ss_sp = malloc(SIGSTKSZ);
+>>
+>>            ss.ss_size = SIGSTKSZ;
+>>            ss.ss_flags = 0;
+>>            if (sigaltstack(&ss, NULL) == -1)
+>>
+>> is equivalent to:
+>>            ss.ss_sp = malloc(SIGSTKSZ);
+>>
+>>            ss.ss_size = SIGSTKSZ;
+>>            ss.ss_flags = SS_ONSTACK ;
+>>            if (sigaltstack(&ss, NULL) == -1)
+>>
+>> but also to
+>>            ss.ss_sp = malloc(SIGSTKSZ);
+>>
+>>            ss.ss_size = SIGSTKSZ;
+>>            ss.ss_flags = SS_ONSTACK | SOMETHING_FLAG ;
+>>            if (sigaltstack(&ss, NULL) == -1)
+>>
+>> so the use of SS_ONSTACK would result in ss.ss_flags = 0 no matter what.
+>> OR
+>> SS_ONSTACK is a no-op in Linux
 > 
->> 2. The example in that you mention that is in the spec is part of
->>     the spec. It illustrates the understanding of the developers
->>     of the spec about the interface they were specifying.
->> 3. Various existing implementations treat the field as a bit mask
->>     for which there is only one valid bit (SS_DISABLE), doing
->>     tests of the form (ss.ss_flags & SS_DISABLE).
->> 4. Some implementations (including *all* the ones that I looked at
->>     the source code for, that is Illumos, FreeBSD, OpenBSD)
->>     explicitly error if ss.ss_flags has bits other than SS_DISABLE set.
-> Well, yes, those are the practical arguments that
-> can't be ignored... Of course the one can try to
-> submit the patch to these projects that nullifies
-> this argument. :)
+> I see what you mean. The point is back then that SS_ONSTACK was
+> the only flag that could (on Linux) be specified in ss.ss_flags,
+> so that "SS_ONSTACK | SOMETHING_FLAG" was a nonexistent case.
+> These days, it's possible to specify the new SS_AUTODISARM
+> flag in ss.ss_flags, which I think is why you are doubtful
+> about the new page text. How about this, as a tightened-up 
+> version:
 > 
->> 6. Before kernel 2.4 (Jan 2001), Linux also used to do 3 & 4!
-> Is there a discussion about this change somewhere?
+>     BUGS
+>        In Linux 2.2 and earlier, the only flag that could be specified in
+>        ss.sa_flags  was SS_DISABLE.  In the lead up to the release of the
+>        Linux 2.4 kernel, a change was  made  to  allow  sigaltstack()  to
+>        allow   ss.ss_flags==SS_ONSTACK   with   the   same   meaning   as
+>        ss.ss_flags==0 (i.e., the inclusion of SS_ONSTACK  in  ss.ss_flags
+>        is  a no-op).  On other implementations, and according to POSIX.1,
+>        SS_ONSTACK appears only as a reported flag in old_ss.ss_flags.  On
+>        Linux, there is no need ever to specify SS_ONSTACK in ss.ss_flags,
+>        and indeed doing so should be avoided on portability grounds: var‐
+>        ious  other  systems  give  an error if SS_ONSTACK is specified in
+>        ss.ss_flags.
 > 
->> 8. The standard explicitly mentions that SS_ONSTACK may be returned
->>     in old_ss.ss_flags, but makes no mention of the use of SS_ONSTACK
->>     in ss.ss_flags. That fact should, IMO, be taken as a strong hint
->>     that the standard developers did not believe that SS_ONSTACK was
->>     to be used with ss.ss_flags.
-> But this doesn't matter as they "seemingly" allow
-> any other value than SS_DISABLE, and this one is
-> the most reasonable value of all (unless you know
-> this is a bitmask, of course).
+> ?
+
+what about the other way around (general to special) ....
+
+ the inclusion of SS_ONSTACK in ss.ss_flags is a no-op (setting ss.ss_flags=SS_ONSTACK
+ will result in ss.ss_flags=0).
+
+The details about older release will be helpful for upgrading pruposes.
+So we can say:
+
+Since Linux 2.4 the inclusion ....
+
+does this help ?
+
+re,
+ wh
+
+
 > 
-> So to make it clear: I am not arguing to what is
-> better or more portable. I am just not satisfied
-> with the statement that whoever implemented
-> it that way (and whoever uses it, too, obviously),
-> was confused or read the standard badly. It is
-> not the case. Also I don't agree that this implementation
-> can create any (portability or any other) kind of
-> problem: it still accepts 0, and its author didn't
-> advice anyone to use SS_ONSTACK. So in my eyes
-> the implementation is perfectly valid, no ifs no
-> buts. :) Man page can warn people to not use
-> SS_ONSTACK, but it shouldn't blame the author
-> of the kernel code in question IMHO.
+> Thanks,
 > 
->>>>>> API history is littered with stories where users found out that
->>>>>> something unforeseen "worked", and so they used it. The question
->>>>>> is: what can go wrong if people do try using this "feature"?
->>>>> It will disappear at the exit from SIGA.
->>>>> To me this is "wrong enough" to not suggest doing so.
->>>> See my comment above. It's weird because it will disappear at exit
->>>> from SIGA, but not "wrong".
->>> What do you mean?
->>> There was no any notion of the "sigaltstack scope",
->>> so with the existing semantic it is wrong, because
->>> currently sigaltstack has no scope and can't change
->> I'm not sure what you mean by "currently" here. I'm pointing
->> out that whereas before one could not change the signal stack
->> while executing a handler that is using a signal stack, now it
->> seems to be possible. But, it's not random: the programmer must
->> explicitly make this happen (and be lucky in the timing of signals).
-> By "random points" I meant that sas swaps back
-> to the previous one on a sighandler return. This
-> sighandler return is just a random point for anyone
-> who assumes the global scope of the sas. And the
-> scope of sas was always global, so from that POV
-> it doesn't work reliably. If you invent some notion
-> of the scoped sigaltstacks, then you will turn that
-> into a working functionality with new semantic.
-> But I don't think you can call this "working" without
-> first inventing an adequate semantic for it.
+> Michael
 > 
->>> at random moments. You can make it "not wrong"
->>> by inventing a new semantic with some notion of
->>> the "sigaltstack scope" though. Whether it worth the
->>> troubles, is what we will see. :)
->> I don't think I'm inventing a new semantic. I think you already
->> did that :-). The question is what we should say about it in the
->> man page. I don't think being silent on this detail is the way to
->> go. Perhaps noting a few details and warning the reader strongly
->> against relying on this "feature" in any way is appropriate?
-> This is entirely up to you. My point is just that it is
-> not a "few details", but really a new semantic with
-> a notion of a sas's scope. I.e. when the control goes
-> out of current scope (sighandler return), sas reverts
-> to the one of the parent scope. Since this was not
-> envisioned and is unlikely needed to anyone, I was
-> just suggesting to not do this, but if you want to spec
-> this all - why not. :)
-> 
->>>>> The kernel already has the sigaltstack test-case,
->>>>> so maybe you can add some checks to it from your
->>>>> test-case.
->>>> I must admit I'm still trying to grasp some details of what's
->>>> possible. What tests do you think could be usefully added?
->>> If you are going to add the scoped/nested sigaltstacks,
->>> then perhaps you should add the test that nesting works
->>> correctly (you have that already in your test-case), and
->>> maybe also the direct manipulations to uc_stack, as this
->>> is the only _reliable_ way to set the new sas inside the
->>> sighandler, that I can think of.
->> See above. I'm not sure that we want to specify things to this
->> level. But my point is that in the lack of any text in the man
->> page on the topic, some user-space programmers will discover the
->> feature and perhaps try to use it. The question is what the man
->> page should say to those programmers. Do you see what I mean?
-> Yes, but I don't see what the man page should say
-> to those programmers. :) Or if I do, the description
-> would became too lengthy and complex.
-
-So, the man page text currently says:
-
-       If old_ss is not NULL, then it is used to return information about
-       the  alternate  signal stack which was in effect prior to the call
-       to sigaltstack().   The  old_ss.ss_sp  and  old_ss.ss_size  fields
-       return   the  starting  address  and  size  of  that  stack.   The
-       old_ss.ss_flags may return either of the following values:
-
-       SS_ONSTACK
-              The process is currently executing on the alternate  signal
-              stack.   (Note that it is not possible to change the alter‐
-              nate signal stack if the process is currently executing  on
-              it.)
-
-       SS_DISABLE
-              The alternate signal stack is currently disabled.
-
-              Alternatively,  this  value  is  returned if the process is
-              currently executing on an alternate signal stack  that  was
-              established using the SS_AUTODISARM flag.  In this case, it
-              is safe to switch away from the signal handler  with  swap‐
-              context(3).   It  is  also  possible  to set up a different
-              alternative signal stack using a further  call  to  sigalt‐
-              stack().
-
-So, given the discussion so far, I think that last sentence needs to 
-be changed. A simple change would be to just remove the sentence.
-However, as I've tried to bring out, I think that *not* documenting
-something is generally not a winning strategy. Eventually, people
-figure out what's possible, and someone may try using the feature.
-So, as well as removing that sentence, how about some text something 
-like the following in NOTES:
-
-    When old_ss.ss_flags returns SS_DISABLE, meaning the
-    process is currently executing a signal handler ("X")
-    on an alternate signal stack that was established
-    using the SS_AUTODISARM flag, then it is
-    possible inside that handler to set up a new
-    alternative signal stack using a further call to
-    sigaltstack(). However, this is not recommended. Taking
-    advantage of this possibility is inherently racy, since
-    the new alternate signal stack settings will be removed
-    when signal handler "X" returns.
-
-?
-
-Thanks,
-
-Michael
-
-
-
-
-
--- 
-Michael Kerrisk
-Linux man-pages maintainer; http://www.kernel.org/doc/man-pages/
-Linux/UNIX System Programming Training: http://man7.org/training/
---
-To unsubscribe from this list: send the line "unsubscribe linux-man" in
-the body of a message to majordomo-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
-More majordomo info at  http://vger.kernel.org/majordomo-info.html
