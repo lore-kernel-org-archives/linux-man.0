@@ -1,121 +1,66 @@
-From: walter harms <wharms@bfs.de>
-Subject: Re: Documenting sigaltstack SS_AUTODISRM
-Date: Mon, 30 Oct 2017 13:54:53 +0100
-Message-ID: <59F7211D.8080500@bfs.de>
-References: <CAKgNAkjw_OBxcL627V9xMrKUei69hwjVCr6sbHbG2riBe7VVYw@mail.gmail.com> <08467ae1-7187-3b2a-9a78-8af0c10bf816@list.ru> <3907bc2a-0645-8d93-6ee5-3f99874e7022@gmail.com> <32d95303-5839-9279-a1d3-a06f34e3484e@list.ru> <CAKgNAkgw6P5RAsA2RSFJX57b=DHM=eNZ+ZOoagcO3ydSHzBcQA@mail.gmail.com> <50de8f3b-8a1e-df50-b5dd-d1b74cb77fad@list.ru> <026308b5-4e92-4439-1eb2-82b67584d548@gmail.com> <3a4f9f3e-fc33-cf98-2322-27087664813f@list.ru> <a5565692-7f23-d236-3b01-142088310741@gmail.com> <59F6FD39.40502@bfs.de> <a8ae5fc2-055c-2939-a692-2339398bf653@gmail.com>
-Reply-To: wharms@bfs.de
+From: "Michael Kerrisk (man-opages)" <mtk.manpages-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org>
+Subject: Re: [PATCH] smartpqi: initial submit of smartpqi man page
+Date: Tue, 31 Oct 2017 08:10:47 +0100
+Message-ID: <588a2c6e-f01c-f1e8-9fd0-cdcd414dc973@gmail.com>
+References: <150833943926.13185.7883447908516236321.stgit@brunhilda>
+ <20171019213558.aelneujzgyucrye3@crack.deadbeast.net>
+ <4993A297653ECB4581FA5C3C31323D196721BE80@avsrvexchmbx2.microsemi.net>
 Mime-Version: 1.0
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 8bit
-Return-path: <linux-kernel-owner@vger.kernel.org>
-In-Reply-To: <a8ae5fc2-055c-2939-a692-2339398bf653@gmail.com>
-Sender: linux-kernel-owner@vger.kernel.org
-To: "Michael Kerrisk (man-pages)" <mtk.manpages@gmail.com>
-Cc: Stas Sergeev <stsp@list.ru>, linux-man <linux-man@vger.kernel.org>, Andy Lutomirski <luto@amacapital.net>, Oleg Nesterov <oleg@redhat.com>, lkml <linux-kernel@vger.kernel.org>
+Content-Type: text/plain; charset=utf-8; format=flowed
+Content-Transfer-Encoding: 7bit
+Return-path: <linux-man-owner-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>
+In-Reply-To: <4993A297653ECB4581FA5C3C31323D196721BE80-d/0VHx0KLVy29+vl7/RAAEujk09f5ZhB0e7PPNI6Mm0@public.gmane.org>
+Content-Language: en-US
+Sender: linux-man-owner-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
+To: Don Brace <don.brace-dzo6w/eZyo2tG0bUXCXiUA@public.gmane.org>, "G. Branden Robinson" <g.branden.robinson-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org>
+Cc: mtk.manpages-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org, "linux-man-u79uwXL29TY76Z2rM5mHXA@public.gmane.org" <linux-man-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>, Gerry Morong <gerry.morong-dzo6w/eZyo2tG0bUXCXiUA@public.gmane.org>, John Hall <John.Hall-dzo6w/eZyo2tG0bUXCXiUA@public.gmane.org>, Kevin Barnett <kevin.barnett-dzo6w/eZyo2tG0bUXCXiUA@public.gmane.org>, Bader Ali - Saleh <bader.alisaleh-dzo6w/eZyo2tG0bUXCXiUA@public.gmane.org>, Scott Teel <scott.teel-dzo6w/eZyo2tG0bUXCXiUA@public.gmane.org>, Justin Lindley <justin.lindley-dzo6w/eZyo2tG0bUXCXiUA@public.gmane.org>, Scott Benesh <scott.benesh-dzo6w/eZyo2tG0bUXCXiUA@public.gmane.org>
 List-Id: linux-man@vger.kernel.org
 
+Hello Don,
 
-
-Am 30.10.2017 11:50, schrieb Michael Kerrisk (man-pages):
-> Hi Walter,
+On 10/21/2017 12:10 AM, Don Brace wrote:
+>> -----Original Message-----
+>> From: G. Branden Robinson [mailto:g.branden.robinson-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org]
+>> Sent: Thursday, October 19, 2017 4:36 PM
+>> To: Don Brace <don.brace-dzo6w/eZyo2tG0bUXCXiUA@public.gmane.org>
+>> Cc: mtk.manpages-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org; linux-man-u79uwXL29TY76Z2rM5mHXA@public.gmane.org; Gerry Morong
+>> <gerry.morong-dzo6w/eZyo2tG0bUXCXiUA@public.gmane.org>; John Hall <John.Hall-dzo6w/eZyo2tG0bUXCXiUA@public.gmane.org>;
+>> Kevin Barnett <kevin.barnett-dzo6w/eZyo2tG0bUXCXiUA@public.gmane.org>; Bader Ali - Saleh
+>> <bader.alisaleh-dzo6w/eZyo2tG0bUXCXiUA@public.gmane.org>; Scott Teel <scott.teel-dzo6w/eZyo2tG0bUXCXiUA@public.gmane.org>;
+>> Justin Lindley <justin.lindley-dzo6w/eZyo2tG0bUXCXiUA@public.gmane.org>; Scott Benesh
+>> <scott.benesh-dzo6w/eZyo2tG0bUXCXiUA@public.gmane.org>
+>> Subject: Re: [PATCH] smartpqi: initial submit of smartpqi man page
+>>
+>> At 2017-10-18T10:10:39-0500, Don Brace wrote:
+>>> This patch contains the initial submission of the
+>>> smartpqi man page.
+>>
+>> Hi Don,
+>>
+>> Please find attached my recommended changes.
+>>
+>> I made many changes, most of them formatting-related.
 > 
-> On 10/30/2017 11:21 AM, walter harms wrote:
->>
->>
->> Am 30.10.2017 11:04, schrieb Michael Kerrisk (man-pages):
->>> [So, things fell on the floor, a while back.]
->>>
->>> On 05/25/2017 11:17 AM, Stas Sergeev wrote:
->>>> 24.05.2017 14:09, Michael Kerrisk (man-pages) пишет:
->>>>> One could do this I suppose, but I read POSIX differently from
->>>>> you and, more importantly, SS_ONSTACK breaks portability on
->>>>> numerous other systems and is a no-op on Linux. So, the Linux man
->>>>> page really should warn against its use in the strongest terms.
->>>> So how about instead of the strongest terms towards
->>>> the code's author, just explain that SS_ONSTACK is a
->>>> bit-value on some/many OSes, and as such, 0 is a
->>>> valid value to enable sas on them, plus all the other
->>>> values would give EINVAL?
->>>> No strongest terms will help w/o an explanation,
->>>> because people will keep looking for something that
->>>> suits as a missing SS_ENABLE.
->>>
->>> Fair enough. I've removed the statement in the manual page
->>> about "confusion". By now the page says:
->>>
->>>     BUGS
->>>        In the lead up to the release of the Linux 2.4  kernel,  a  change
->>>        was   made   to   allow  sigaltstack()  to  accept  SS_ONSTACK  in
->>>        ss.ss_flags, which results in behavior that is the  same  as  when
->>>        ss_flags is 0 (i.e., the inclusion of SS_ONSTACK in ss.ss_flags is
->>>        a no-op).  On other implementations,  and  according  to  POSIX.1,
->>
->> i am confused, i understand that:
->>            ss.ss_sp = malloc(SIGSTKSZ);
->>
->>            ss.ss_size = SIGSTKSZ;
->>            ss.ss_flags = 0;
->>            if (sigaltstack(&ss, NULL) == -1)
->>
->> is equivalent to:
->>            ss.ss_sp = malloc(SIGSTKSZ);
->>
->>            ss.ss_size = SIGSTKSZ;
->>            ss.ss_flags = SS_ONSTACK ;
->>            if (sigaltstack(&ss, NULL) == -1)
->>
->> but also to
->>            ss.ss_sp = malloc(SIGSTKSZ);
->>
->>            ss.ss_size = SIGSTKSZ;
->>            ss.ss_flags = SS_ONSTACK | SOMETHING_FLAG ;
->>            if (sigaltstack(&ss, NULL) == -1)
->>
->> so the use of SS_ONSTACK would result in ss.ss_flags = 0 no matter what.
->> OR
->> SS_ONSTACK is a no-op in Linux
-> 
-> I see what you mean. The point is back then that SS_ONSTACK was
-> the only flag that could (on Linux) be specified in ss.ss_flags,
-> so that "SS_ONSTACK | SOMETHING_FLAG" was a nonexistent case.
-> These days, it's possible to specify the new SS_AUTODISARM
-> flag in ss.ss_flags, which I think is why you are doubtful
-> about the new page text. How about this, as a tightened-up 
-> version:
-> 
->     BUGS
->        In Linux 2.2 and earlier, the only flag that could be specified in
->        ss.sa_flags  was SS_DISABLE.  In the lead up to the release of the
->        Linux 2.4 kernel, a change was  made  to  allow  sigaltstack()  to
->        allow   ss.ss_flags==SS_ONSTACK   with   the   same   meaning   as
->        ss.ss_flags==0 (i.e., the inclusion of SS_ONSTACK  in  ss.ss_flags
->        is  a no-op).  On other implementations, and according to POSIX.1,
->        SS_ONSTACK appears only as a reported flag in old_ss.ss_flags.  On
->        Linux, there is no need ever to specify SS_ONSTACK in ss.ss_flags,
->        and indeed doing so should be avoided on portability grounds: var‐
->        ious  other  systems  give  an error if SS_ONSTACK is specified in
->        ss.ss_flags.
-> 
-> ?
+> Really appreciate your effort!
 
-what about the other way around (general to special) ....
+My apologies for not weighing in sooner. I see you got a lot of input 
+from Branden! (Thanks, Branden!) How shall we move forward? Possibilities:
 
- the inclusion of SS_ONSTACK in ss.ss_flags is a no-op (setting ss.ss_flags=SS_ONSTACK
- will result in ss.ss_flags=0).
+1. I apply your original patch as is.
+2. You rework your patch incorporating those changes from Branden
+    that seem uncontroversial to you, and I apply, and then we
+    discuss any further changes that may be needed.
+3. If all changes from Branden seem uncontroversial, I apply\
+    your patch, his patch, and then we  discuss any further changes
+    that may be needed.
 
-The details about older release will be helpful for upgrading pruposes.
-So we can say:
+I suspect 2 or 3 is the way to go, but I await your input.
 
-Since Linux 2.4 the inclusion ....
+Thanks,
 
-does this help ?
+Michael
 
-re,
- wh
-
-
-> 
-> Thanks,
-> 
-> Michael
-> 
+--
+To unsubscribe from this list: send the line "unsubscribe linux-man" in
+the body of a message to majordomo-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
+More majordomo info at  http://vger.kernel.org/majordomo-info.html
