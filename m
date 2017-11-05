@@ -1,49 +1,60 @@
-From: Florian Weimer <fweimer-H+wXaHxf7aLQT0dZR+AlfA@public.gmane.org>
-Subject: pkey_alloc/pkey_free semantics
-Date: Sun, 5 Nov 2017 12:39:05 +0100
-Message-ID: <53ca4117-3694-45ac-3433-c9d3456e096b@redhat.com>
+From: David Herrmann <dh.herrmann-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org>
+Subject: Re: <sys/memfd.h> header
+Date: Sun, 5 Nov 2017 13:06:37 +0100
+Message-ID: <CANq1E4T6=t1AfX8uVBMGXpY=GBgb+R21Zf5Ac8D7gM5D9D9U8w@mail.gmail.com>
+References: <a989051a-3dcd-9fe6-ab23-5d9fd5d3442b@redhat.com>
+ <CAKgNAkjeMPPReMa+-_QpL1xZUtBy7yspBkPepG1F4LW6WO9H+w@mail.gmail.com> <c37978b1-0fa3-fa3b-9d11-db2d8a22e7a3@redhat.com>
 Mime-Version: 1.0
-Content-Type: text/plain; charset=utf-8; format=flowed
-Content-Transfer-Encoding: 7bit
+Content-Type: text/plain; charset="UTF-8"
 Return-path: <linux-man-owner-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>
-Content-Language: en-US
+In-Reply-To: <c37978b1-0fa3-fa3b-9d11-db2d8a22e7a3-H+wXaHxf7aLQT0dZR+AlfA@public.gmane.org>
 Sender: linux-man-owner-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
-To: linux-man-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
+To: Florian Weimer <fweimer-H+wXaHxf7aLQT0dZR+AlfA@public.gmane.org>
+Cc: "Michael Kerrisk (man-pages)" <mtk.manpages-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org>, linux-man <linux-man-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>
 List-Id: linux-man@vger.kernel.org
 
-I'm implementing the memory protection key interfaces for glibc and 
-noticed that the pkey_alloc manpage in particular is a bit removed from 
-reality.
+Hi
 
-Here's what I found:
+On Fri, Nov 3, 2017 at 9:04 PM, Florian Weimer <fweimer-H+wXaHxf7aLQT0dZR+AlfA@public.gmane.org> wrote:
+> On 11/03/2017 09:01 PM, Michael Kerrisk (man-pages) wrote:
+>>
+>> [CC += David Herrmann]
+>>
+>> Hi Florian,
+>>
+>> On 3 November 2017 at 20:22, Florian Weimer <fweimer-H+wXaHxf7aLQT0dZR+AlfA@public.gmane.org> wrote:
+>>>
+>>> memfd_create(2) mentions a <sys/memfd.h>.  Is this a typo for
+>>> <linux/memfd.h>?
+>>
+>>
+>> Offhand, I do not know. This header file was listed in the original
+>> draft of the page that I received from David Herrmann. (I did much
+>> reworking of the page, but overlooked this detail.) Perhaps it was a
+>> typo, or perhaps it was David's estimation that there would eventually
+>> be such a glibc header.
+>>
+>>> I want to implement the system call wrapper, but we're probably going to
+>>> put
+>>> it into <sys/mman.h> and have it include <linux/memfd.h> for _GNU_SOURCE.
+>>
+>>
+>> I'm agnostic about it. Maybe David will have some thoughts.
+>
+>
+> Thanks.
+>
+> My <sys/mman.h> approach is probably not such a great idea because we can't
+> include <linux/memfd.h> because the kernel headers may not have it.  So if
+> we put memfd_create into <sys/mman.h>, then we'd have to duplicate the
+> constants.  In contrast, a new header could indeed include <linux/memfd.h>.
 
-The flags argument is reserved and currently must be zero.
+Yeah, the sys/memfd.h reference is stale. I don't remember whether it
+is just a typo or whether I intended to refer to my glibc-patch back
+then. Regardless, the file never existed.
 
-The access_rights argument instructs the kernel to set the access rights 
-for the new key for the current thread only (!).  It's a bitmask with 
-bits PKEY_DISABLE_ACCESS and PKEY_DISABLE_WRITE.
-
-So in essence, both arguments are not needed right now because the 
-access rights of the current thread for the new key could easily be 
-changed in user space.
-
-To repeat, pkey_alloc affects the access rights of the current thread. 
-Other threads retain their existing access rights.  The default rights 
-for the process apparently can be set with the init_pkru parameter on 
-recent kernels (I have not tried that).
-
-The manpage mentions only the key leak related to pkey_mprotect 
-(pkey_free while a page still is still associated with that key).  There 
-is another one which affects a pkey_alloc/pthread_create/pkey_free 
-sequence, where any created threads retain their access rights.  I 
-raised this issue of key reuse in a recent thread (MPK: pkey_free and 
-key reuse), so perhaps there will be a way
-
-Anyway, the important manpage fix for now would be to fix the 
-description of the flags and access_rights parameters.
-
-Thanks,
-Florian
+Thanks
+David
 --
 To unsubscribe from this list: send the line "unsubscribe linux-man" in
 the body of a message to majordomo-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
