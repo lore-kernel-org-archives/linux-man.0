@@ -1,72 +1,45 @@
-From: walter harms <wharms-fPG8STNUNVg@public.gmane.org>
-Subject: Re: FILESYSTEMS(5) SMB and VFAT feedback
-Date: Sun, 05 Nov 2017 20:31:10 +0100
-Message-ID: <59FF66FE.2050905@bfs.de>
-References: <c94369a9-102f-1c4f-19b4-2b7bc029a321@jguk.org>
-Reply-To: wharms-fPG8STNUNVg@public.gmane.org
+From: Jiri Olsa <jolsa@redhat.com>
+Subject: Re: [PATCH] perf/core: fast breakpoint modification via
+ _IOC_MODIFY_BREAKPOINT
+Date: Mon, 6 Nov 2017 10:23:05 +0100
+Message-ID: <20171106092305.GA16382@krava>
+References: <CAMmz+Y=Py0dw63tuww+Oa4rWi_Hghhs3DHmNX=Tf1Yt_JH4O+Q@mail.gmail.com>
 Mime-Version: 1.0
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 8bit
-Return-path: <linux-man-owner-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>
-In-Reply-To: <c94369a9-102f-1c4f-19b4-2b7bc029a321-hus3n9K41k0@public.gmane.org>
-Sender: linux-man-owner-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
-To: linux-man <linux-man-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>
+Content-Type: text/plain; charset=us-ascii
+Return-path: <linux-kernel-owner@vger.kernel.org>
+Content-Disposition: inline
+In-Reply-To: <CAMmz+Y=Py0dw63tuww+Oa4rWi_Hghhs3DHmNX=Tf1Yt_JH4O+Q@mail.gmail.com>
+Sender: linux-kernel-owner@vger.kernel.org
+To: Milind Chabbi <chabbi.milind@gmail.com>
+Cc: peterz@infradead.org, mingo@redhat.com, acme@kernel.org, alexander.shishkin@linux.intel.com, namhyung@kernel.org, linux-kernel@vger.kernel.org, mtk.manpages@gmail.com, linux-man@vger.kernel.org, mpe@ellerman.id.au, ak@linux.intel.com, kan.liang@intel.com, hbathini@linux.vnet.ibm.com, sukadev@linux.vnet.ibm.com, yao.jin@linux.intel.com
 List-Id: linux-man@vger.kernel.org
 
+On Sun, Nov 05, 2017 at 02:35:34PM -0800, Milind Chabbi wrote:
 
+SNIP
 
-Am 05.11.2017 13:19, schrieb Jonny Grant:
-> Hello Michael
-> 
-> Two pieces of feedback about this page:
-> 
-> 1) I expect this sunsite should be a link to
-> https://www.samba.org/samba/smbfs/  ?
-> 
-> 
-> http://man7.org/linux/man-pages/man5/filesystems.5.html
-> 
-> 
-> smb       is a network filesystem that supports the SMB protocol,
->                  used by Windows for Workgroups, Windows NT, and Lan Man‐
->                  ager.
-> 
->                  To use smb fs, you need a special mount program, which can
->                  be found in the ksmbfs package, found at
-> 
-> ⟨ftp://sunsite.unc.edu/pub/Linux/system/Filesystems/smbfs⟩.
-> 
-> 
-> BTW, could "smbmount" to kernel man pages?
-> 
-> 
-> 2)   vfat      is an extended DOS filesystem used by Microsoft Windows95
->                  and Windows NT.  vfat adds the capability to use long
-> file‐
->                  names under the MSDOS filesystem.
-> 
-> 
-> 
-> I'd be inclined to call it an "extended FAT filesystem", can that be
-> changed? No one refers to it as DOS for around 22 years. Everyone calls
-> it FAT.
-> 
+> +static int _perf_event_modify_breakpoint(struct perf_event *bp,
+> + struct perf_event_attr *attr)
+> +{
+> + u64 old_addr = bp->attr.bp_addr;
+> + u64 old_len = bp->attr.bp_len;
+> + int old_type = bp->attr.bp_type;
+> + int err = 0;
+> +
+> + _perf_event_disable(bp);
+> +
+> + bp->attr.bp_addr = attr->bp_addr;
+> + bp->attr.bp_type = attr->bp_type;
+> + bp->attr.bp_len = attr->bp_len;
+> +
+> + if (attr->disabled)
+> + goto end;
+> +
+> + err = validate_hw_breakpoint(bp);
 
-I thing that is more correct, it is an "extended FAT filesystem". But a
-lot of people still call is DOS filesystem.
+thre patch is mangled.. seems like you've lost all your tabs somehow
 
-re,
- wh
+anyway, should you also do the release_bp_slot/reserve_bp_slot
+magic to keep the slot accounting corrent?
 
-
-> ie
-> 
-> "is an extended FAT filesystem supported since Microsoft Windows95 and
-> Windows NT 3.5.  vfat adds the capability to use long file‐names under
-> the FAT filesystem."
-> 
-> 
---
-To unsubscribe from this list: send the line "unsubscribe linux-man" in
-the body of a message to majordomo-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
-More majordomo info at  http://vger.kernel.org/majordomo-info.html
+jirka
