@@ -1,43 +1,50 @@
-From: Don Brace <don.brace-dzo6w/eZyo2tG0bUXCXiUA@public.gmane.org>
-Subject: RE: [PATCH] smartpqi: initial submit of smartpqi man page
-Date: Mon, 6 Nov 2017 15:26:14 +0000
-Message-ID: <4993A297653ECB4581FA5C3C31323D19698EAC78@avsrvexchmbx1.microsemi.net>
-References: <150833943926.13185.7883447908516236321.stgit@brunhilda>
- <20171019213558.aelneujzgyucrye3@crack.deadbeast.net>
- <4993A297653ECB4581FA5C3C31323D196721BE80@avsrvexchmbx2.microsemi.net>
- <588a2c6e-f01c-f1e8-9fd0-cdcd414dc973@gmail.com>
- <20171101013656.urhyeq7h2ccclxzu@crack.deadbeast.net>
+From: "Michael Kerrisk (man-pages)" <mtk.manpages-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org>
+Subject: Re: [PATCH 1/2] proc.5: ffix
+Date: Mon, 6 Nov 2017 22:23:59 +0100
+Message-ID: <e99d57a1-58dc-f4ad-4753-07a82badd372@gmail.com>
+References: <20171105190451.16059-1-mail@lucaswerkmeister.de>
 Mime-Version: 1.0
-Content-Type: text/plain; charset="us-ascii"
-Content-Transfer-Encoding: quoted-printable
+Content-Type: text/plain; charset=utf-8
+Content-Transfer-Encoding: 7bit
 Return-path: <linux-man-owner-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>
-In-Reply-To: <20171101013656.urhyeq7h2ccclxzu-Z0uaYDh/Ni4SozaZsD9aTtHuzzzSOjJt@public.gmane.org>
+In-Reply-To: <20171105190451.16059-1-mail-rm2KDkFaiJZ2qFAiU50y3BvVK+yQ3ZXh@public.gmane.org>
 Content-Language: en-US
 Sender: linux-man-owner-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
-To: "G. Branden Robinson" <g.branden.robinson-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org>, "Michael Kerrisk (man-opages)" <mtk.manpages-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org>
-Cc: "linux-man-u79uwXL29TY76Z2rM5mHXA@public.gmane.org" <linux-man-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>, Gerry Morong <gerry.morong-dzo6w/eZyo2tG0bUXCXiUA@public.gmane.org>, John Hall <John.Hall-dzo6w/eZyo2tG0bUXCXiUA@public.gmane.org>, Kevin Barnett <kevin.barnett-dzo6w/eZyo2tG0bUXCXiUA@public.gmane.org>, Bader Ali - Saleh <bader.alisaleh-dzo6w/eZyo2tG0bUXCXiUA@public.gmane.org>, Scott Teel <scott.teel-dzo6w/eZyo2tG0bUXCXiUA@public.gmane.org>, Justin Lindley <justin.lindley-dzo6w/eZyo2tG0bUXCXiUA@public.gmane.org>, Scott Benesh <scott.benesh-dzo6w/eZyo2tG0bUXCXiUA@public.gmane.org>
+To: Lucas Werkmeister <mail-rm2KDkFaiJZ2qFAiU50y3BvVK+yQ3ZXh@public.gmane.org>
+Cc: mtk.manpages-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org, linux-man-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
 List-Id: linux-man@vger.kernel.org
 
+On 11/05/2017 08:04 PM, Lucas Werkmeister wrote:
+> ---
+>  man5/proc.5 | 2 +-
+>  1 file changed, 1 insertion(+), 1 deletion(-)
 
-> -----Original Message-----
-> From: G. Branden Robinson [mailto:g.branden.robinson-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org]
-> Sent: Tuesday, October 31, 2017 8:37 PM
-> To: Michael Kerrisk (man-opages) <mtk.manpages-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org>
-> Cc: Don Brace <don.brace-dzo6w/eZyo2tG0bUXCXiUA@public.gmane.org>; linux-man-u79uwXL29TY76Z2rM5mHXA@public.gmane.org; Gerry
-> Morong <gerry.morong-dzo6w/eZyo2tG0bUXCXiUA@public.gmane.org>; John Hall
-> <John.Hall-dzo6w/eZyo2tG0bUXCXiUA@public.gmane.org>; Kevin Barnett <kevin.barnett-dzo6w/eZyo2tG0bUXCXiUA@public.gmane.org>;
-> Bader Ali - Saleh <bader.alisaleh-dzo6w/eZyo2tG0bUXCXiUA@public.gmane.org>; Scott Teel
-> <scott.teel-dzo6w/eZyo2tG0bUXCXiUA@public.gmane.org>; Justin Lindley <justin.lindley-dzo6w/eZyo2tG0bUXCXiUA@public.gmane.org>=
-;
-> Scott Benesh <scott.benesh-dzo6w/eZyo2tG0bUXCXiUA@public.gmane.org>
-> Subject: Re: [PATCH] smartpqi: initial submit of smartpqi man page
->=20
-> EXTERNAL EMAIL
+Thanks, Lucas. Patch applied.
 
-I Ack your proposed changes.
+Cheers,
 
-Acked-by: Don Brace <don.brace-dzo6w/eZyo2tG0bUXCXiUA@public.gmane.org>
+Michael
 
+> diff --git a/man5/proc.5 b/man5/proc.5
+> index eeba1cfe6..01be63417 100644
+> --- a/man5/proc.5
+> +++ b/man5/proc.5
+> @@ -671,7 +671,7 @@ and
+>  in
+>  .IR /proc/self/fd .
+>  Thus the example command above could be written as:
+> -.PP
+> +.IP
+>  .in +4n
+>  .EX
+>  .RB "$" " foobar \-i /dev/stdin \-o /dev/stdout ..."
+> 
+
+
+-- 
+Michael Kerrisk
+Linux man-pages maintainer; http://www.kernel.org/doc/man-pages/
+Linux/UNIX System Programming Training: http://man7.org/training/
 --
 To unsubscribe from this list: send the line "unsubscribe linux-man" in
 the body of a message to majordomo-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
