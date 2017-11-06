@@ -1,80 +1,65 @@
-From: "Michael Kerrisk (man-pages)" <mtk.manpages-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org>
-Subject: Re: FILESYSTEMS(5) SMB and VFAT feedback
-Date: Mon, 6 Nov 2017 23:24:21 +0100
-Message-ID: <5c090966-ba7b-a70c-e723-bcee26c100b4@gmail.com>
-References: <c94369a9-102f-1c4f-19b4-2b7bc029a321@jguk.org>
+From: Don Brace <don.brace-dzo6w/eZyo2tG0bUXCXiUA@public.gmane.org>
+Subject: RE: [PATCH] smartpqi: initial submit of smartpqi man page
+Date: Mon, 6 Nov 2017 22:25:16 +0000
+Message-ID: <4993A297653ECB4581FA5C3C31323D19698F062C@avsrvexchmbx2.microsemi.net>
+References: <150833943926.13185.7883447908516236321.stgit@brunhilda>
+ <20171019213558.aelneujzgyucrye3@crack.deadbeast.net>
+ <4993A297653ECB4581FA5C3C31323D196721BE80@avsrvexchmbx2.microsemi.net>
+ <588a2c6e-f01c-f1e8-9fd0-cdcd414dc973@gmail.com>
 Mime-Version: 1.0
-Content-Type: text/plain; charset=utf-8
-Content-Transfer-Encoding: 8bit
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: base64
 Return-path: <linux-man-owner-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>
-In-Reply-To: <c94369a9-102f-1c4f-19b4-2b7bc029a321-hus3n9K41k0@public.gmane.org>
+In-Reply-To: <588a2c6e-f01c-f1e8-9fd0-cdcd414dc973-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org>
 Content-Language: en-US
 Sender: linux-man-owner-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
-To: Jonny Grant <jg-hus3n9K41k0@public.gmane.org>
-Cc: mtk.manpages-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org, linux-man <linux-man-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>
+To: "Michael Kerrisk (man-opages)" <mtk.manpages-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org>, "G. Branden Robinson" <g.branden.robinson-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org>
+Cc: "linux-man-u79uwXL29TY76Z2rM5mHXA@public.gmane.org" <linux-man-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>, Gerry Morong <gerry.morong-dzo6w/eZyo2tG0bUXCXiUA@public.gmane.org>, John Hall <John.Hall-dzo6w/eZyo2tG0bUXCXiUA@public.gmane.org>, Kevin Barnett <kevin.barnett-dzo6w/eZyo2tG0bUXCXiUA@public.gmane.org>, Bader Ali - Saleh <bader.alisaleh-dzo6w/eZyo2tG0bUXCXiUA@public.gmane.org>, Scott Teel <scott.teel-dzo6w/eZyo2tG0bUXCXiUA@public.gmane.org>, Justin Lindley <justin.lindley-dzo6w/eZyo2tG0bUXCXiUA@public.gmane.org>, Scott Benesh <scott.benesh-dzo6w/eZyo2tG0bUXCXiUA@public.gmane.org>
 List-Id: linux-man@vger.kernel.org
 
-On 11/05/2017 01:19 PM, Jonny Grant wrote:
-> Hello Michael
-> 
-> Two pieces of feedback about this page:
-
-Hello Johnny,
-
-I've pushed some changes in response to this.
-Please see Git.
-
-Cheers,
-
-Michael
-
-> 1) I expect this sunsite should be a link to 
-> https://www.samba.org/samba/smbfs/  ?
-> 
-> 
-> http://man7.org/linux/man-pages/man5/filesystems.5.html
-> 
-> 
-> smb       is a network filesystem that supports the SMB protocol,
->                   used by Windows for Workgroups, Windows NT, and Lan Man‐
->                   ager.
-> 
->                   To use smb fs, you need a special mount program, which can
->                   be found in the ksmbfs package, found at
->  
-> ⟨ftp://sunsite.unc.edu/pub/Linux/system/Filesystems/smbfs⟩.
-> 
-> 
-> BTW, could "smbmount" to kernel man pages?
-> 
-> 
-> 2)   vfat      is an extended DOS filesystem used by Microsoft Windows95
->                   and Windows NT.  vfat adds the capability to use long 
-> file‐
->                   names under the MSDOS filesystem.
-> 
-> 
-> 
-> I'd be inclined to call it an "extended FAT filesystem", can that be 
-> changed? No one refers to it as DOS for around 22 years. Everyone calls 
-> it FAT.
-> 
-> ie
-> 
-> "is an extended FAT filesystem supported since Microsoft Windows95 and 
-> Windows NT 3.5.  vfat adds the capability to use long file‐names under 
-> the FAT filesystem."
-> 
-> 
-> Cheers
-> Jonny
-> 
-
-
--- 
-Michael Kerrisk
-Linux man-pages maintainer; http://www.kernel.org/doc/man-pages/
-Linux/UNIX System Programming Training: http://man7.org/training/
+DQo+IC0tLS0tT3JpZ2luYWwgTWVzc2FnZS0tLS0tDQo+IEZyb206IE1pY2hhZWwgS2VycmlzayAo
+bWFuLW9wYWdlcykgW21haWx0bzptdGsubWFucGFnZXNAZ21haWwuY29tXQ0KPiBTZW50OiBUdWVz
+ZGF5LCBPY3RvYmVyIDMxLCAyMDE3IDI6MTEgQU0NCj4gVG86IERvbiBCcmFjZSA8ZG9uLmJyYWNl
+QG1pY3Jvc2VtaS5jb20+OyBHLiBCcmFuZGVuIFJvYmluc29uDQo+IDxnLmJyYW5kZW4ucm9iaW5z
+b25AZ21haWwuY29tPg0KPiBDYzogbXRrLm1hbnBhZ2VzQGdtYWlsLmNvbTsgbGludXgtbWFuQHZn
+ZXIua2VybmVsLm9yZzsgR2VycnkgTW9yb25nDQo+IDxnZXJyeS5tb3JvbmdAbWljcm9zZW1pLmNv
+bT47IEpvaG4gSGFsbCA8Sm9obi5IYWxsQG1pY3Jvc2VtaS5jb20+Ow0KPiBLZXZpbiBCYXJuZXR0
+IDxrZXZpbi5iYXJuZXR0QG1pY3Jvc2VtaS5jb20+OyBCYWRlciBBbGkgLSBTYWxlaA0KPiA8YmFk
+ZXIuYWxpc2FsZWhAbWljcm9zZW1pLmNvbT47IFNjb3R0IFRlZWwgPHNjb3R0LnRlZWxAbWljcm9z
+ZW1pLmNvbT47DQo+IEp1c3RpbiBMaW5kbGV5IDxqdXN0aW4ubGluZGxleUBtaWNyb3NlbWkuY29t
+PjsgU2NvdHQgQmVuZXNoDQo+IDxzY290dC5iZW5lc2hAbWljcm9zZW1pLmNvbT4NCj4gU3ViamVj
+dDogUmU6IFtQQVRDSF0gc21hcnRwcWk6IGluaXRpYWwgc3VibWl0IG9mIHNtYXJ0cHFpIG1hbiBw
+YWdlDQo+IA0KPiBFWFRFUk5BTCBFTUFJTA0KPiANCj4gDQo+IEhlbGxvIERvbiwNCj4gDQo+IE9u
+IDEwLzIxLzIwMTcgMTI6MTAgQU0sIERvbiBCcmFjZSB3cm90ZToNCj4gPj4gLS0tLS1PcmlnaW5h
+bCBNZXNzYWdlLS0tLS0NCj4gPj4gRnJvbTogRy4gQnJhbmRlbiBSb2JpbnNvbiBbbWFpbHRvOmcu
+YnJhbmRlbi5yb2JpbnNvbkBnbWFpbC5jb21dDQo+ID4+IFNlbnQ6IFRodXJzZGF5LCBPY3RvYmVy
+IDE5LCAyMDE3IDQ6MzYgUE0NCj4gPj4gVG86IERvbiBCcmFjZSA8ZG9uLmJyYWNlQG1pY3Jvc2Vt
+aS5jb20+DQo+ID4+IENjOiBtdGsubWFucGFnZXNAZ21haWwuY29tOyBsaW51eC1tYW5Admdlci5r
+ZXJuZWwub3JnOyBHZXJyeSBNb3JvbmcNCj4gPj4gPGdlcnJ5Lm1vcm9uZ0BtaWNyb3NlbWkuY29t
+PjsgSm9obiBIYWxsIDxKb2huLkhhbGxAbWljcm9zZW1pLmNvbT47DQo+ID4+IEtldmluIEJhcm5l
+dHQgPGtldmluLmJhcm5ldHRAbWljcm9zZW1pLmNvbT47IEJhZGVyIEFsaSAtIFNhbGVoDQo+ID4+
+IDxiYWRlci5hbGlzYWxlaEBtaWNyb3NlbWkuY29tPjsgU2NvdHQgVGVlbCA8c2NvdHQudGVlbEBt
+aWNyb3NlbWkuY29tPjsNCj4gPj4gSnVzdGluIExpbmRsZXkgPGp1c3Rpbi5saW5kbGV5QG1pY3Jv
+c2VtaS5jb20+OyBTY290dCBCZW5lc2gNCj4gPj4gPHNjb3R0LmJlbmVzaEBtaWNyb3NlbWkuY29t
+Pg0KPiA+PiBTdWJqZWN0OiBSZTogW1BBVENIXSBzbWFydHBxaTogaW5pdGlhbCBzdWJtaXQgb2Yg
+c21hcnRwcWkgbWFuIHBhZ2UNCj4gPj4NCj4gPj4gQXQgMjAxNy0xMC0xOFQxMDoxMDozOS0wNTAw
+LCBEb24gQnJhY2Ugd3JvdGU6DQo+ID4+PiBUaGlzIHBhdGNoIGNvbnRhaW5zIHRoZSBpbml0aWFs
+IHN1Ym1pc3Npb24gb2YgdGhlDQo+ID4+PiBzbWFydHBxaSBtYW4gcGFnZS4NCj4gPj4NCj4gPj4g
+SGkgRG9uLA0KPiA+Pg0KPiA+PiBQbGVhc2UgZmluZCBhdHRhY2hlZCBteSByZWNvbW1lbmRlZCBj
+aGFuZ2VzLg0KPiA+Pg0KPiA+PiBJIG1hZGUgbWFueSBjaGFuZ2VzLCBtb3N0IG9mIHRoZW0gZm9y
+bWF0dGluZy1yZWxhdGVkLg0KPiA+DQo+ID4gUmVhbGx5IGFwcHJlY2lhdGUgeW91ciBlZmZvcnQh
+DQo+IA0KPiBNeSBhcG9sb2dpZXMgZm9yIG5vdCB3ZWlnaGluZyBpbiBzb29uZXIuIEkgc2VlIHlv
+dSBnb3QgYSBsb3Qgb2YgaW5wdXQNCj4gZnJvbSBCcmFuZGVuISAoVGhhbmtzLCBCcmFuZGVuISkg
+SG93IHNoYWxsIHdlIG1vdmUgZm9yd2FyZD8gUG9zc2liaWxpdGllczoNCj4gDQo+IDEuIEkgYXBw
+bHkgeW91ciBvcmlnaW5hbCBwYXRjaCBhcyBpcy4NCj4gMi4gWW91IHJld29yayB5b3VyIHBhdGNo
+IGluY29ycG9yYXRpbmcgdGhvc2UgY2hhbmdlcyBmcm9tIEJyYW5kZW4NCj4gICAgIHRoYXQgc2Vl
+bSB1bmNvbnRyb3ZlcnNpYWwgdG8geW91LCBhbmQgSSBhcHBseSwgYW5kIHRoZW4gd2UNCj4gICAg
+IGRpc2N1c3MgYW55IGZ1cnRoZXIgY2hhbmdlcyB0aGF0IG1heSBiZSBuZWVkZWQuDQo+IDMuIElm
+IGFsbCBjaGFuZ2VzIGZyb20gQnJhbmRlbiBzZWVtIHVuY29udHJvdmVyc2lhbCwgSSBhcHBseVwN
+Cj4gICAgIHlvdXIgcGF0Y2gsIGhpcyBwYXRjaCwgYW5kIHRoZW4gd2UgIGRpc2N1c3MgYW55IGZ1
+cnRoZXIgY2hhbmdlcw0KPiAgICAgdGhhdCBtYXkgYmUgbmVlZGVkLg0KPiANCj4gSSBzdXNwZWN0
+IDIgb3IgMyBpcyB0aGUgd2F5IHRvIGdvLCBidXQgSSBhd2FpdCB5b3VyIGlucHV0Lg0KPiANCj4g
+VGhhbmtzLA0KPiANCj4gTWljaGFlbA0KDQpJIGxpa2Ugb3B0aW9uICMzLg0KDQo=
 --
 To unsubscribe from this list: send the line "unsubscribe linux-man" in
 the body of a message to majordomo-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
