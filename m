@@ -1,66 +1,44 @@
-From: Arnaldo Carvalho de Melo <acme@kernel.org>
-Subject: Re: [PATCH] perf/core: fast breakpoint modification via
- _IOC_MODIFY_BREAKPOINT
-Date: Mon, 6 Nov 2017 12:03:50 -0300
-Message-ID: <20171106150350.GD2692@kernel.org>
-References: <CAMmz+YnaoN3-7DN5WysQvhWNyGhM7_WDz5AQAnvP6FO_GMnMgw@mail.gmail.com>
+From: Don Brace <don.brace-dzo6w/eZyo2tG0bUXCXiUA@public.gmane.org>
+Subject: RE: [PATCH] smartpqi: initial submit of smartpqi man page
+Date: Mon, 6 Nov 2017 15:26:14 +0000
+Message-ID: <4993A297653ECB4581FA5C3C31323D19698EAC78@avsrvexchmbx1.microsemi.net>
+References: <150833943926.13185.7883447908516236321.stgit@brunhilda>
+ <20171019213558.aelneujzgyucrye3@crack.deadbeast.net>
+ <4993A297653ECB4581FA5C3C31323D196721BE80@avsrvexchmbx2.microsemi.net>
+ <588a2c6e-f01c-f1e8-9fd0-cdcd414dc973@gmail.com>
+ <20171101013656.urhyeq7h2ccclxzu@crack.deadbeast.net>
 Mime-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Return-path: <linux-kernel-owner@vger.kernel.org>
-Content-Disposition: inline
-In-Reply-To: <CAMmz+YnaoN3-7DN5WysQvhWNyGhM7_WDz5AQAnvP6FO_GMnMgw@mail.gmail.com>
-Sender: linux-kernel-owner@vger.kernel.org
-To: Milind Chabbi <chabbi.milind@gmail.com>
-Cc: Jiri Olsa <jolsa@redhat.com>, peterz@infradead.org, mingo@redhat.com, alexander.shishkin@linux.intel.com, namhyung@kernel.org, linux-kernel@vger.kernel.org, Michael Kerrisk-manpages <mtk.manpages@gmail.com>, linux-man@vger.kernel.org, mpe@ellerman.id.au, ak@linux.intel.com, kan.liang@intel.com, hbathini@linux.vnet.ibm.com, sukadev@linux.vnet.ibm.com, yao.jin@linux.intel.com
+Content-Type: text/plain; charset="us-ascii"
+Content-Transfer-Encoding: quoted-printable
+Return-path: <linux-man-owner-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>
+In-Reply-To: <20171101013656.urhyeq7h2ccclxzu-Z0uaYDh/Ni4SozaZsD9aTtHuzzzSOjJt@public.gmane.org>
+Content-Language: en-US
+Sender: linux-man-owner-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
+To: "G. Branden Robinson" <g.branden.robinson-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org>, "Michael Kerrisk (man-opages)" <mtk.manpages-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org>
+Cc: "linux-man-u79uwXL29TY76Z2rM5mHXA@public.gmane.org" <linux-man-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>, Gerry Morong <gerry.morong-dzo6w/eZyo2tG0bUXCXiUA@public.gmane.org>, John Hall <John.Hall-dzo6w/eZyo2tG0bUXCXiUA@public.gmane.org>, Kevin Barnett <kevin.barnett-dzo6w/eZyo2tG0bUXCXiUA@public.gmane.org>, Bader Ali - Saleh <bader.alisaleh-dzo6w/eZyo2tG0bUXCXiUA@public.gmane.org>, Scott Teel <scott.teel-dzo6w/eZyo2tG0bUXCXiUA@public.gmane.org>, Justin Lindley <justin.lindley-dzo6w/eZyo2tG0bUXCXiUA@public.gmane.org>, Scott Benesh <scott.benesh-dzo6w/eZyo2tG0bUXCXiUA@public.gmane.org>
 List-Id: linux-man@vger.kernel.org
 
-Em Mon, Nov 06, 2017 at 07:00:29AM -0800, Milind Chabbi escreveu:
-> Hi Jirka,
-> 
-> I see the tabs in my sent email, do you have suggestions on how best to
-> send this patch so that the tabs are preserved by the email client?
 
-Documentation/process/email-clients.rst
+> -----Original Message-----
+> From: G. Branden Robinson [mailto:g.branden.robinson-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org]
+> Sent: Tuesday, October 31, 2017 8:37 PM
+> To: Michael Kerrisk (man-opages) <mtk.manpages-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org>
+> Cc: Don Brace <don.brace-dzo6w/eZyo2tG0bUXCXiUA@public.gmane.org>; linux-man-u79uwXL29TY76Z2rM5mHXA@public.gmane.org; Gerry
+> Morong <gerry.morong-dzo6w/eZyo2tG0bUXCXiUA@public.gmane.org>; John Hall
+> <John.Hall-dzo6w/eZyo2tG0bUXCXiUA@public.gmane.org>; Kevin Barnett <kevin.barnett-dzo6w/eZyo2tG0bUXCXiUA@public.gmane.org>;
+> Bader Ali - Saleh <bader.alisaleh-dzo6w/eZyo2tG0bUXCXiUA@public.gmane.org>; Scott Teel
+> <scott.teel-dzo6w/eZyo2tG0bUXCXiUA@public.gmane.org>; Justin Lindley <justin.lindley-dzo6w/eZyo2tG0bUXCXiUA@public.gmane.org>=
+;
+> Scott Benesh <scott.benesh-dzo6w/eZyo2tG0bUXCXiUA@public.gmane.org>
+> Subject: Re: [PATCH] smartpqi: initial submit of smartpqi man page
+>=20
+> EXTERNAL EMAIL
 
-- Arnaldo
- 
-> Can anybody else also check if they received with/without tabs?
-> 
-> release_bp_slot/reserve_bp_slot majic is not necessary since
-> _IOC_MODIFY_BREAKPOINT ioctl modifies an already registered breakpoint
-> without affecting the count of breakpoints active.
-> 
-> -Milind
-> 
-> On Mon, Nov 6, 2017 at 1:23 AM, Jiri Olsa <jolsa@redhat.com> wrote:
-> 
-> > On Sun, Nov 05, 2017 at 02:35:34PM -0800, Milind Chabbi wrote:
-> >
-> > SNIP
-> >
-> > > +static int _perf_event_modify_breakpoint(struct perf_event *bp,
-> > > + struct perf_event_attr *attr)
-> > > +{
-> > > + u64 old_addr = bp->attr.bp_addr;
-> > > + u64 old_len = bp->attr.bp_len;
-> > > + int old_type = bp->attr.bp_type;
-> > > + int err = 0;
-> > > +
-> > > + _perf_event_disable(bp);
-> > > +
-> > > + bp->attr.bp_addr = attr->bp_addr;
-> > > + bp->attr.bp_type = attr->bp_type;
-> > > + bp->attr.bp_len = attr->bp_len;
-> > > +
-> > > + if (attr->disabled)
-> > > + goto end;
-> > > +
-> > > + err = validate_hw_breakpoint(bp);
-> >
-> > thre patch is mangled.. seems like you've lost all your tabs somehow
-> >
-> > anyway, should you also do the release_bp_slot/reserve_bp_slot
-> > magic to keep the slot accounting corrent?
-> >
-> > jirka
-> >
+I Ack your proposed changes.
+
+Acked-by: Don Brace <don.brace-dzo6w/eZyo2tG0bUXCXiUA@public.gmane.org>
+
+--
+To unsubscribe from this list: send the line "unsubscribe linux-man" in
+the body of a message to majordomo-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
+More majordomo info at  http://vger.kernel.org/majordomo-info.html
