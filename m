@@ -1,65 +1,263 @@
-From: Don Brace <don.brace-dzo6w/eZyo2tG0bUXCXiUA@public.gmane.org>
-Subject: RE: [PATCH] smartpqi: initial submit of smartpqi man page
-Date: Mon, 6 Nov 2017 22:25:16 +0000
-Message-ID: <4993A297653ECB4581FA5C3C31323D19698F062C@avsrvexchmbx2.microsemi.net>
-References: <150833943926.13185.7883447908516236321.stgit@brunhilda>
- <20171019213558.aelneujzgyucrye3@crack.deadbeast.net>
- <4993A297653ECB4581FA5C3C31323D196721BE80@avsrvexchmbx2.microsemi.net>
- <588a2c6e-f01c-f1e8-9fd0-cdcd414dc973@gmail.com>
+From: "Michael Kerrisk (man-pages)" <mtk.manpages-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org>
+Subject: Re: Documenting sigaltstack SS_AUTODISRM
+Date: Mon, 6 Nov 2017 23:26:20 +0100
+Message-ID: <be8a3232-f90e-1bf6-794c-d4a29541c437@gmail.com>
+References: <CAKgNAkjw_OBxcL627V9xMrKUei69hwjVCr6sbHbG2riBe7VVYw@mail.gmail.com>
+ <08467ae1-7187-3b2a-9a78-8af0c10bf816@list.ru>
+ <3907bc2a-0645-8d93-6ee5-3f99874e7022@gmail.com>
+ <32d95303-5839-9279-a1d3-a06f34e3484e@list.ru>
+ <CAKgNAkgw6P5RAsA2RSFJX57b=DHM=eNZ+ZOoagcO3ydSHzBcQA@mail.gmail.com>
+ <50de8f3b-8a1e-df50-b5dd-d1b74cb77fad@list.ru>
+ <026308b5-4e92-4439-1eb2-82b67584d548@gmail.com>
+ <6f622987-9517-ee7c-2016-ea8c43645e39@list.ru>
+ <b87af49f-230b-30d6-fa9b-adaa75ebab52@gmail.com>
 Mime-Version: 1.0
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: base64
+Content-Type: text/plain; charset=utf-8
+Content-Transfer-Encoding: 8bit
 Return-path: <linux-man-owner-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>
-In-Reply-To: <588a2c6e-f01c-f1e8-9fd0-cdcd414dc973-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org>
+In-Reply-To: <b87af49f-230b-30d6-fa9b-adaa75ebab52-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org>
 Content-Language: en-US
 Sender: linux-man-owner-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
-To: "Michael Kerrisk (man-opages)" <mtk.manpages-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org>, "G. Branden Robinson" <g.branden.robinson-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org>
-Cc: "linux-man-u79uwXL29TY76Z2rM5mHXA@public.gmane.org" <linux-man-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>, Gerry Morong <gerry.morong-dzo6w/eZyo2tG0bUXCXiUA@public.gmane.org>, John Hall <John.Hall-dzo6w/eZyo2tG0bUXCXiUA@public.gmane.org>, Kevin Barnett <kevin.barnett-dzo6w/eZyo2tG0bUXCXiUA@public.gmane.org>, Bader Ali - Saleh <bader.alisaleh-dzo6w/eZyo2tG0bUXCXiUA@public.gmane.org>, Scott Teel <scott.teel-dzo6w/eZyo2tG0bUXCXiUA@public.gmane.org>, Justin Lindley <justin.lindley-dzo6w/eZyo2tG0bUXCXiUA@public.gmane.org>, Scott Benesh <scott.benesh-dzo6w/eZyo2tG0bUXCXiUA@public.gmane.org>
+To: Stas Sergeev <stsp-cmBhpYW9OiY@public.gmane.org>
+Cc: mtk.manpages-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org, linux-man <linux-man-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>, Andy Lutomirski <luto-kltTT9wpgjJwATOyAt5JVQ@public.gmane.org>, Oleg Nesterov <oleg-H+wXaHxf7aLQT0dZR+AlfA@public.gmane.org>, lkml <linux-kernel-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>
 List-Id: linux-man@vger.kernel.org
 
-DQo+IC0tLS0tT3JpZ2luYWwgTWVzc2FnZS0tLS0tDQo+IEZyb206IE1pY2hhZWwgS2VycmlzayAo
-bWFuLW9wYWdlcykgW21haWx0bzptdGsubWFucGFnZXNAZ21haWwuY29tXQ0KPiBTZW50OiBUdWVz
-ZGF5LCBPY3RvYmVyIDMxLCAyMDE3IDI6MTEgQU0NCj4gVG86IERvbiBCcmFjZSA8ZG9uLmJyYWNl
-QG1pY3Jvc2VtaS5jb20+OyBHLiBCcmFuZGVuIFJvYmluc29uDQo+IDxnLmJyYW5kZW4ucm9iaW5z
-b25AZ21haWwuY29tPg0KPiBDYzogbXRrLm1hbnBhZ2VzQGdtYWlsLmNvbTsgbGludXgtbWFuQHZn
-ZXIua2VybmVsLm9yZzsgR2VycnkgTW9yb25nDQo+IDxnZXJyeS5tb3JvbmdAbWljcm9zZW1pLmNv
-bT47IEpvaG4gSGFsbCA8Sm9obi5IYWxsQG1pY3Jvc2VtaS5jb20+Ow0KPiBLZXZpbiBCYXJuZXR0
-IDxrZXZpbi5iYXJuZXR0QG1pY3Jvc2VtaS5jb20+OyBCYWRlciBBbGkgLSBTYWxlaA0KPiA8YmFk
-ZXIuYWxpc2FsZWhAbWljcm9zZW1pLmNvbT47IFNjb3R0IFRlZWwgPHNjb3R0LnRlZWxAbWljcm9z
-ZW1pLmNvbT47DQo+IEp1c3RpbiBMaW5kbGV5IDxqdXN0aW4ubGluZGxleUBtaWNyb3NlbWkuY29t
-PjsgU2NvdHQgQmVuZXNoDQo+IDxzY290dC5iZW5lc2hAbWljcm9zZW1pLmNvbT4NCj4gU3ViamVj
-dDogUmU6IFtQQVRDSF0gc21hcnRwcWk6IGluaXRpYWwgc3VibWl0IG9mIHNtYXJ0cHFpIG1hbiBw
-YWdlDQo+IA0KPiBFWFRFUk5BTCBFTUFJTA0KPiANCj4gDQo+IEhlbGxvIERvbiwNCj4gDQo+IE9u
-IDEwLzIxLzIwMTcgMTI6MTAgQU0sIERvbiBCcmFjZSB3cm90ZToNCj4gPj4gLS0tLS1PcmlnaW5h
-bCBNZXNzYWdlLS0tLS0NCj4gPj4gRnJvbTogRy4gQnJhbmRlbiBSb2JpbnNvbiBbbWFpbHRvOmcu
-YnJhbmRlbi5yb2JpbnNvbkBnbWFpbC5jb21dDQo+ID4+IFNlbnQ6IFRodXJzZGF5LCBPY3RvYmVy
-IDE5LCAyMDE3IDQ6MzYgUE0NCj4gPj4gVG86IERvbiBCcmFjZSA8ZG9uLmJyYWNlQG1pY3Jvc2Vt
-aS5jb20+DQo+ID4+IENjOiBtdGsubWFucGFnZXNAZ21haWwuY29tOyBsaW51eC1tYW5Admdlci5r
-ZXJuZWwub3JnOyBHZXJyeSBNb3JvbmcNCj4gPj4gPGdlcnJ5Lm1vcm9uZ0BtaWNyb3NlbWkuY29t
-PjsgSm9obiBIYWxsIDxKb2huLkhhbGxAbWljcm9zZW1pLmNvbT47DQo+ID4+IEtldmluIEJhcm5l
-dHQgPGtldmluLmJhcm5ldHRAbWljcm9zZW1pLmNvbT47IEJhZGVyIEFsaSAtIFNhbGVoDQo+ID4+
-IDxiYWRlci5hbGlzYWxlaEBtaWNyb3NlbWkuY29tPjsgU2NvdHQgVGVlbCA8c2NvdHQudGVlbEBt
-aWNyb3NlbWkuY29tPjsNCj4gPj4gSnVzdGluIExpbmRsZXkgPGp1c3Rpbi5saW5kbGV5QG1pY3Jv
-c2VtaS5jb20+OyBTY290dCBCZW5lc2gNCj4gPj4gPHNjb3R0LmJlbmVzaEBtaWNyb3NlbWkuY29t
-Pg0KPiA+PiBTdWJqZWN0OiBSZTogW1BBVENIXSBzbWFydHBxaTogaW5pdGlhbCBzdWJtaXQgb2Yg
-c21hcnRwcWkgbWFuIHBhZ2UNCj4gPj4NCj4gPj4gQXQgMjAxNy0xMC0xOFQxMDoxMDozOS0wNTAw
-LCBEb24gQnJhY2Ugd3JvdGU6DQo+ID4+PiBUaGlzIHBhdGNoIGNvbnRhaW5zIHRoZSBpbml0aWFs
-IHN1Ym1pc3Npb24gb2YgdGhlDQo+ID4+PiBzbWFydHBxaSBtYW4gcGFnZS4NCj4gPj4NCj4gPj4g
-SGkgRG9uLA0KPiA+Pg0KPiA+PiBQbGVhc2UgZmluZCBhdHRhY2hlZCBteSByZWNvbW1lbmRlZCBj
-aGFuZ2VzLg0KPiA+Pg0KPiA+PiBJIG1hZGUgbWFueSBjaGFuZ2VzLCBtb3N0IG9mIHRoZW0gZm9y
-bWF0dGluZy1yZWxhdGVkLg0KPiA+DQo+ID4gUmVhbGx5IGFwcHJlY2lhdGUgeW91ciBlZmZvcnQh
-DQo+IA0KPiBNeSBhcG9sb2dpZXMgZm9yIG5vdCB3ZWlnaGluZyBpbiBzb29uZXIuIEkgc2VlIHlv
-dSBnb3QgYSBsb3Qgb2YgaW5wdXQNCj4gZnJvbSBCcmFuZGVuISAoVGhhbmtzLCBCcmFuZGVuISkg
-SG93IHNoYWxsIHdlIG1vdmUgZm9yd2FyZD8gUG9zc2liaWxpdGllczoNCj4gDQo+IDEuIEkgYXBw
-bHkgeW91ciBvcmlnaW5hbCBwYXRjaCBhcyBpcy4NCj4gMi4gWW91IHJld29yayB5b3VyIHBhdGNo
-IGluY29ycG9yYXRpbmcgdGhvc2UgY2hhbmdlcyBmcm9tIEJyYW5kZW4NCj4gICAgIHRoYXQgc2Vl
-bSB1bmNvbnRyb3ZlcnNpYWwgdG8geW91LCBhbmQgSSBhcHBseSwgYW5kIHRoZW4gd2UNCj4gICAg
-IGRpc2N1c3MgYW55IGZ1cnRoZXIgY2hhbmdlcyB0aGF0IG1heSBiZSBuZWVkZWQuDQo+IDMuIElm
-IGFsbCBjaGFuZ2VzIGZyb20gQnJhbmRlbiBzZWVtIHVuY29udHJvdmVyc2lhbCwgSSBhcHBseVwN
-Cj4gICAgIHlvdXIgcGF0Y2gsIGhpcyBwYXRjaCwgYW5kIHRoZW4gd2UgIGRpc2N1c3MgYW55IGZ1
-cnRoZXIgY2hhbmdlcw0KPiAgICAgdGhhdCBtYXkgYmUgbmVlZGVkLg0KPiANCj4gSSBzdXNwZWN0
-IDIgb3IgMyBpcyB0aGUgd2F5IHRvIGdvLCBidXQgSSBhd2FpdCB5b3VyIGlucHV0Lg0KPiANCj4g
-VGhhbmtzLA0KPiANCj4gTWljaGFlbA0KDQpJIGxpa2Ugb3B0aW9uICMzLg0KDQo=
+Hello Stas,
+
+Ping on the below?
+
+Cheers,
+
+Michael
+
+On 10/30/2017 01:38 PM, Michael Kerrisk (man-pages) wrote:
+> On 05/24/2017 10:12 PM, Stas Sergeev wrote:
+>> Hello,
+>>
+>> 24.05.2017 14:09, Michael Kerrisk (man-pages) пишет:
+>>>> Could you please point and cite the spec that says
+>>>> exactly this?
+>>> I take your point: the text of the spec could be more precise. It
+>>> does not provide a complete support for my assertion.
+>>>
+>>> But, I do think the interpretation I suggest is the more natural one,
+>>> for many reasons:
+>> Note: below I am not arguing to whether it is
+>> good or bad to use SS_ONSTACK. This question
+>> is closed as soon as you pointed to EINVAL in
+>> other OSes (it doesn't make it bad immediately,
+>> but at least the outcome of its usage is now
+>> pretty clear for me).
+>> What I still want to point out is the fact that the
+>> implementation in linux was very unlikely caused
+>> by a confusion. It was the decision made in agreement
+>> with the most straight-forward reading of the posix
+>> spec, just maybe without knowing about this EINVAL
+>> problem. And it can't create a compatibility problem
+>> by itself because no one have explicitly promoted its
+>> use: 0 is still accepted.
+>> Why it could create a compatibility problem is only
+>> because people suddenly started to use it, and for
+>> the very simple reason (judging by myself): I was
+>> absolutely confused with this '0' in the example, and
+>> after many attempts to find even a slightest hint in
+>> the same doc why it is safe (why SS_DISABLE can't
+>> be 0), I resorted to looking into the kernel and the
+>> code of other projects. And SS_ONSTACK looked
+>> like a perfectly valid solution, fully agreeing with
+>> the text (i.e. SS_ONSTACK != SS_DISABLE).
+>> So what really creates a compatibility problem here,
+>> is only a misleading text (or a misleading implementation
+>> of it in other OSes). And as such, stating that "someone
+>> was confused" looks more like an unjustified insult to me. :)
+> 
+> See previous mail :-).
+> 
+> Just by the bye, the correct (according to my definition)
+> way of doing things (ss.ss_flags == 0 to establish an
+> alternate signal stack) has been documented in the manual
+> page since 2001. (That page documented the Linux 2.2
+> behavior.)
+> 
+>>> 1. The field is named '*flags', which commonly means a bit mask.
+>> Indeed, but the value suggests otherwise.
+>> The name for a flag could be "SS_DISABLED"
+>> (with D at the end), while "SS_DISABLE" suggests
+>> an action. And indeed, it doesn't change a property
+>> of a performing action the way SS_AUTODISARM
+>> does. Instead it changes the action itself: the sas
+>> get cleared instead of being set, and all the other
+>> arguments are ignored. Eg I would be very surprised
+>> seeing the "MAP_UNMAP" flag to mmap() that turns
+>> it into munmap(). This more resembles the "action"
+>> argument of the sigprocmask() call.
+>>
+>>> 2. The example in that you mention that is in the spec is part of
+>>>     the spec. It illustrates the understanding of the developers
+>>>     of the spec about the interface they were specifying.
+>>> 3. Various existing implementations treat the field as a bit mask
+>>>     for which there is only one valid bit (SS_DISABLE), doing
+>>>     tests of the form (ss.ss_flags & SS_DISABLE).
+>>> 4. Some implementations (including *all* the ones that I looked at
+>>>     the source code for, that is Illumos, FreeBSD, OpenBSD)
+>>>     explicitly error if ss.ss_flags has bits other than SS_DISABLE set.
+>> Well, yes, those are the practical arguments that
+>> can't be ignored... Of course the one can try to
+>> submit the patch to these projects that nullifies
+>> this argument. :)
+>>
+>>> 6. Before kernel 2.4 (Jan 2001), Linux also used to do 3 & 4!
+>> Is there a discussion about this change somewhere?
+>>
+>>> 8. The standard explicitly mentions that SS_ONSTACK may be returned
+>>>     in old_ss.ss_flags, but makes no mention of the use of SS_ONSTACK
+>>>     in ss.ss_flags. That fact should, IMO, be taken as a strong hint
+>>>     that the standard developers did not believe that SS_ONSTACK was
+>>>     to be used with ss.ss_flags.
+>> But this doesn't matter as they "seemingly" allow
+>> any other value than SS_DISABLE, and this one is
+>> the most reasonable value of all (unless you know
+>> this is a bitmask, of course).
+>>
+>> So to make it clear: I am not arguing to what is
+>> better or more portable. I am just not satisfied
+>> with the statement that whoever implemented
+>> it that way (and whoever uses it, too, obviously),
+>> was confused or read the standard badly. It is
+>> not the case. Also I don't agree that this implementation
+>> can create any (portability or any other) kind of
+>> problem: it still accepts 0, and its author didn't
+>> advice anyone to use SS_ONSTACK. So in my eyes
+>> the implementation is perfectly valid, no ifs no
+>> buts. :) Man page can warn people to not use
+>> SS_ONSTACK, but it shouldn't blame the author
+>> of the kernel code in question IMHO.
+>>
+>>>>>>> API history is littered with stories where users found out that
+>>>>>>> something unforeseen "worked", and so they used it. The question
+>>>>>>> is: what can go wrong if people do try using this "feature"?
+>>>>>> It will disappear at the exit from SIGA.
+>>>>>> To me this is "wrong enough" to not suggest doing so.
+>>>>> See my comment above. It's weird because it will disappear at exit
+>>>>> from SIGA, but not "wrong".
+>>>> What do you mean?
+>>>> There was no any notion of the "sigaltstack scope",
+>>>> so with the existing semantic it is wrong, because
+>>>> currently sigaltstack has no scope and can't change
+>>> I'm not sure what you mean by "currently" here. I'm pointing
+>>> out that whereas before one could not change the signal stack
+>>> while executing a handler that is using a signal stack, now it
+>>> seems to be possible. But, it's not random: the programmer must
+>>> explicitly make this happen (and be lucky in the timing of signals).
+>> By "random points" I meant that sas swaps back
+>> to the previous one on a sighandler return. This
+>> sighandler return is just a random point for anyone
+>> who assumes the global scope of the sas. And the
+>> scope of sas was always global, so from that POV
+>> it doesn't work reliably. If you invent some notion
+>> of the scoped sigaltstacks, then you will turn that
+>> into a working functionality with new semantic.
+>> But I don't think you can call this "working" without
+>> first inventing an adequate semantic for it.
+>>
+>>>> at random moments. You can make it "not wrong"
+>>>> by inventing a new semantic with some notion of
+>>>> the "sigaltstack scope" though. Whether it worth the
+>>>> troubles, is what we will see. :)
+>>> I don't think I'm inventing a new semantic. I think you already
+>>> did that :-). The question is what we should say about it in the
+>>> man page. I don't think being silent on this detail is the way to
+>>> go. Perhaps noting a few details and warning the reader strongly
+>>> against relying on this "feature" in any way is appropriate?
+>> This is entirely up to you. My point is just that it is
+>> not a "few details", but really a new semantic with
+>> a notion of a sas's scope. I.e. when the control goes
+>> out of current scope (sighandler return), sas reverts
+>> to the one of the parent scope. Since this was not
+>> envisioned and is unlikely needed to anyone, I was
+>> just suggesting to not do this, but if you want to spec
+>> this all - why not. :)
+>>
+>>>>>> The kernel already has the sigaltstack test-case,
+>>>>>> so maybe you can add some checks to it from your
+>>>>>> test-case.
+>>>>> I must admit I'm still trying to grasp some details of what's
+>>>>> possible. What tests do you think could be usefully added?
+>>>> If you are going to add the scoped/nested sigaltstacks,
+>>>> then perhaps you should add the test that nesting works
+>>>> correctly (you have that already in your test-case), and
+>>>> maybe also the direct manipulations to uc_stack, as this
+>>>> is the only _reliable_ way to set the new sas inside the
+>>>> sighandler, that I can think of.
+>>> See above. I'm not sure that we want to specify things to this
+>>> level. But my point is that in the lack of any text in the man
+>>> page on the topic, some user-space programmers will discover the
+>>> feature and perhaps try to use it. The question is what the man
+>>> page should say to those programmers. Do you see what I mean?
+>> Yes, but I don't see what the man page should say
+>> to those programmers. :) Or if I do, the description
+>> would became too lengthy and complex.
+> 
+> So, the man page text currently says:
+> 
+>        If old_ss is not NULL, then it is used to return information about
+>        the  alternate  signal stack which was in effect prior to the call
+>        to sigaltstack().   The  old_ss.ss_sp  and  old_ss.ss_size  fields
+>        return   the  starting  address  and  size  of  that  stack.   The
+>        old_ss.ss_flags may return either of the following values:
+> 
+>        SS_ONSTACK
+>               The process is currently executing on the alternate  signal
+>               stack.   (Note that it is not possible to change the alter‐
+>               nate signal stack if the process is currently executing  on
+>               it.)
+> 
+>        SS_DISABLE
+>               The alternate signal stack is currently disabled.
+> 
+>               Alternatively,  this  value  is  returned if the process is
+>               currently executing on an alternate signal stack  that  was
+>               established using the SS_AUTODISARM flag.  In this case, it
+>               is safe to switch away from the signal handler  with  swap‐
+>               context(3).   It  is  also  possible  to set up a different
+>               alternative signal stack using a further  call  to  sigalt‐
+>               stack().
+> 
+> So, given the discussion so far, I think that last sentence needs to 
+> be changed. A simple change would be to just remove the sentence.
+> However, as I've tried to bring out, I think that *not* documenting
+> something is generally not a winning strategy. Eventually, people
+> figure out what's possible, and someone may try using the feature.
+> So, as well as removing that sentence, how about some text something 
+> like the following in NOTES:
+> 
+>     When old_ss.ss_flags returns SS_DISABLE, meaning the
+>     process is currently executing a signal handler ("X")
+>     on an alternate signal stack that was established
+>     using the SS_AUTODISARM flag, then it is
+>     possible inside that handler to set up a new
+>     alternative signal stack using a further call to
+>     sigaltstack(). However, this is not recommended. Taking
+>     advantage of this possibility is inherently racy, since
+>     the new alternate signal stack settings will be removed
+>     when signal handler "X" returns.
+> 
+> ?
+> 
+> Thanks,
+> 
+> Michael
+> 
+> 
+> 
+> 
+> 
+
+
+-- 
+Michael Kerrisk
+Linux man-pages maintainer; http://www.kernel.org/doc/man-pages/
+Linux/UNIX System Programming Training: http://man7.org/training/
 --
 To unsubscribe from this list: send the line "unsubscribe linux-man" in
 the body of a message to majordomo-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
