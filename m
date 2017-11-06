@@ -1,87 +1,38 @@
-From: "Michael Kerrisk (man-pages)" <mtk.manpages-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org>
-Subject: Re: [PATCH 2/2] proc.5: Clarify permissions in /proc/[pid]/fd/
-Date: Mon, 6 Nov 2017 22:27:11 +0100
-Message-ID: <3dae1129-425e-f5b7-d27d-f5de35b45035@gmail.com>
-References: <20171105190451.16059-1-mail@lucaswerkmeister.de>
- <20171105190451.16059-2-mail@lucaswerkmeister.de>
+From: David Herrmann <dh.herrmann-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org>
+Subject: Re: <sys/memfd.h> header
+Date: Mon, 6 Nov 2017 23:19:24 +0100
+Message-ID: <CANq1E4Rg2wgb7OLkRbHsNSQSUQXB6xmWPv22iVhhOdNBQwA9yQ@mail.gmail.com>
+References: <a989051a-3dcd-9fe6-ab23-5d9fd5d3442b@redhat.com>
+ <CAKgNAkjeMPPReMa+-_QpL1xZUtBy7yspBkPepG1F4LW6WO9H+w@mail.gmail.com>
+ <c37978b1-0fa3-fa3b-9d11-db2d8a22e7a3@redhat.com> <CANq1E4T6=t1AfX8uVBMGXpY=GBgb+R21Zf5Ac8D7gM5D9D9U8w@mail.gmail.com>
+ <3ca56cf9-5a80-6d20-f5a6-1b1b15131634@redhat.com>
 Mime-Version: 1.0
-Content-Type: text/plain; charset=utf-8
-Content-Transfer-Encoding: 8bit
+Content-Type: text/plain; charset="UTF-8"
 Return-path: <linux-man-owner-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>
-In-Reply-To: <20171105190451.16059-2-mail-rm2KDkFaiJZ2qFAiU50y3BvVK+yQ3ZXh@public.gmane.org>
-Content-Language: en-US
+In-Reply-To: <3ca56cf9-5a80-6d20-f5a6-1b1b15131634-H+wXaHxf7aLQT0dZR+AlfA@public.gmane.org>
 Sender: linux-man-owner-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
-To: Lucas Werkmeister <mail-rm2KDkFaiJZ2qFAiU50y3BvVK+yQ3ZXh@public.gmane.org>
-Cc: mtk.manpages-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org, linux-man-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
+To: Florian Weimer <fweimer-H+wXaHxf7aLQT0dZR+AlfA@public.gmane.org>
+Cc: "Michael Kerrisk (man-pages)" <mtk.manpages-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org>, linux-man <linux-man-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>
 List-Id: linux-man@vger.kernel.org
 
-Hello Lucas,
+Hi
 
-On 11/05/2017 08:04 PM, Lucas Werkmeister wrote:
-> Since the symbolic links for pipes and sockets do not refer to real
-> files in the file system tree, it can be hard to discover that they
-> still have mode and ownership information (revealed e.g. by `stat -L`),
-> so let's point this out in the manpage.
-> 
-> ---
-> 
-> I’m not sure if this is too much text spent on a fairly rare problem –
-> feel free to cut it down (or let me know that I should do so) :)
+On Sun, Nov 5, 2017 at 3:55 PM, Florian Weimer <fweimer-H+wXaHxf7aLQT0dZR+AlfA@public.gmane.org> wrote:
+> On 11/05/2017 01:06 PM, David Herrmann wrote:
+>>
+>> Yeah, the sys/memfd.h reference is stale. I don't remember whether it
+>> is just a typo or whether I intended to refer to my glibc-patch back
+>> then. Regardless, the file never existed.
+>
+>
+> Thanks.  Any objections to creating this header?
+>
+> <https://sourceware.org/ml/libc-alpha/2017-11/msg00128.html>
 
-Seems okay to me. Patch applied. Thanks for this!
+Looks all good to me!
 
-Cheers,
-
-Michael
-
-
-> ---
->  man5/proc.5 | 25 +++++++++++++++++++++++++
->  1 file changed, 25 insertions(+)
-> 
-> diff --git a/man5/proc.5 b/man5/proc.5
-> index 01be63417..14beedd11 100644
-> --- a/man5/proc.5
-> +++ b/man5/proc.5
-> @@ -684,6 +684,31 @@ the symbolic links in this directory is governed by a ptrace access mode
->  .B PTRACE_MODE_READ_FSCREDS
->  check; see
->  .BR ptrace (2).
-> +.IP
-> +Note that for file descriptors referring to inodes (pipes and sockets, see above),
-> +those inodes still have permission bits and ownership information
-> +distinct from those of the
-> +.I /proc/[pid]/fd
-> +entry,
-> +and that the owner may differ from the user and group IDs of the process.
-> +An unprivileged process may lack permissions to open them, as in this example:
-> +.IP
-> +.in +4n
-> +.EX
-> +.RB "$" " echo test | sudo -u nobody cat"
-> +test
-> +.RB "$" " echo test | sudo -u nobody cat /proc/self/fd/0"
-> +cat: /proc/self/fd/0: Permission denied
-> +.EE
-> +.in
-> +.IP
-> +File descriptor 0 refers to the pipe created by the shell
-> +and owned by that shell's user, which is not
-> +.IR nobody ,
-> +so
-> +.B cat
-> +does not have permission to create a new file descriptor to read from that inode,
-> +even though it can still read from its existing file descriptor 0.
->  .TP
->  .IR /proc/[pid]/fdinfo/ " (since Linux 2.6.22)"
->  This is a subdirectory containing one entry for each file which the
-> 
-
-
--- 
-Michael Kerrisk
-Linux man-pages maintainer; http://www.kernel.org/doc/man-pages/
-Linux/UNIX System Programming Training: http://man7.org/training/
+Thanks
+David
 --
 To unsubscribe from this list: send the line "unsubscribe linux-man" in
 the body of a message to majordomo-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
