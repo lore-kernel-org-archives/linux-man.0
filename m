@@ -1,59 +1,31 @@
-From: Breno Leitao <leitao-8fiUuRrzOP0dnm+yROfE0A@public.gmane.org>
-Subject: [PATCH] pkey_alloc.2: Fix argument order
-Date: Tue,  7 Nov 2017 10:23:15 -0200
-Message-ID: <1510057395-2297-1-git-send-email-leitao@debian.org>
+From: Florian Weimer <fweimer-H+wXaHxf7aLQT0dZR+AlfA@public.gmane.org>
+Subject: Re: pkey_alloc/pkey_free semantics
+Date: Tue, 7 Nov 2017 15:04:23 +0100
+Message-ID: <1fb796d8-84dd-db82-2951-86d7e103a7c9@redhat.com>
+References: <53ca4117-3694-45ac-3433-c9d3456e096b@redhat.com>
+Mime-Version: 1.0
+Content-Type: text/plain; charset=utf-8; format=flowed
+Content-Transfer-Encoding: 7bit
 Return-path: <linux-man-owner-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>
+In-Reply-To: <53ca4117-3694-45ac-3433-c9d3456e096b-H+wXaHxf7aLQT0dZR+AlfA@public.gmane.org>
+Content-Language: en-US
 Sender: linux-man-owner-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
-To: mtk.manpages-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org
-Cc: linux-man-u79uwXL29TY76Z2rM5mHXA@public.gmane.org, Breno Leitao <leitao-8fiUuRrzOP0dnm+yROfE0A@public.gmane.org>
+To: linux-man-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
 List-Id: linux-man@vger.kernel.org
 
-Currently pkey_alloc() syscall has two arguments, and the very first
-argument is still not supported as in kernel 4.14-rc8 and should be set
-to zero, as showed in the following syscall implementation:
+On 11/05/2017 12:39 PM, Florian Weimer wrote:
 
-	SYSCALL_DEFINE2(pkey_alloc, unsigned long, flags, ...)
-	{
-		int pkey;
-		int ret;
+> Anyway, the important manpage fix for now would be to fix the 
+> description of the flags and access_rights parameters.
 
-		/* No flags supported yet. */
-		if (flags)
-			return -EINVAL;
+One more thing:
 
-This behaviour is also documented correctly in the kernel documentation
-as Documentation/x86/protection-keys.txt
+The pkey_alloc system call returns EINVAL, not ENOSPC, if the system 
+does not support memory protection keys (at least in the Intel 
+implementation, have not checked POWER).
 
-The second argument is the one that should specify the page access
-rights.
-
-This patch fixes the manpage to describe how the code behaves.
-
-Signed-off-by: Breno Leitao <leitao-8fiUuRrzOP0dnm+yROfE0A@public.gmane.org>
----
- man2/pkey_alloc.2 | 6 ++++++
- 1 file changed, 6 insertions(+)
-
-diff --git a/man2/pkey_alloc.2 b/man2/pkey_alloc.2
-index 8e701961c..858f64ce6 100644
---- a/man2/pkey_alloc.2
-+++ b/man2/pkey_alloc.2
-@@ -40,6 +40,12 @@ allocates a protection key (pkey) and allows it to be passed to
- The
- .BR pkey_alloc ()
- .I flags
-+argument is still not supported and should be set to "0".
-+.PP
-+The
-+.BR pkey_alloc ()
-+.I access_rights
-+.BR
- argument may contain zero or more disable operations:
- .TP
- .B PKEY_DISABLE_ACCESS
--- 
-2.14.2
-
+Thanks,
+Florian
 --
 To unsubscribe from this list: send the line "unsubscribe linux-man" in
 the body of a message to majordomo-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
