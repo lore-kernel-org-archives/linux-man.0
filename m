@@ -1,49 +1,68 @@
-From: "Michael Kerrisk (man-pages)" <mtk.manpages-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org>
-Subject: Re: Documenting sigaltstack SS_AUTODISRM
-Date: Wed, 8 Nov 2017 08:41:39 +0100
-Message-ID: <CAKgNAkjArvWvbHLt34bmrss-a1vTaJbfZDOP0bmjRY4d5xfCbQ@mail.gmail.com>
-References: <CAKgNAkjw_OBxcL627V9xMrKUei69hwjVCr6sbHbG2riBe7VVYw@mail.gmail.com>
- <08467ae1-7187-3b2a-9a78-8af0c10bf816@list.ru> <3907bc2a-0645-8d93-6ee5-3f99874e7022@gmail.com>
- <32d95303-5839-9279-a1d3-a06f34e3484e@list.ru> <CAKgNAkgw6P5RAsA2RSFJX57b=DHM=eNZ+ZOoagcO3ydSHzBcQA@mail.gmail.com>
- <50de8f3b-8a1e-df50-b5dd-d1b74cb77fad@list.ru> <026308b5-4e92-4439-1eb2-82b67584d548@gmail.com>
- <6f622987-9517-ee7c-2016-ea8c43645e39@list.ru> <b87af49f-230b-30d6-fa9b-adaa75ebab52@gmail.com>
- <be8a3232-f90e-1bf6-794c-d4a29541c437@gmail.com> <22a30d19-3ecb-3d7d-8a86-59b35e057554@list.ru>
-Reply-To: mtk.manpages-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org
+From: "G. Branden Robinson" <g.branden.robinson-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org>
+Subject: Re: [patch] clock_getres.2: ffix
+Date: Wed, 8 Nov 2017 06:58:29 -0500
+Message-ID: <20171108115827.rachl42whbklzlpi@crack.deadbeast.net>
+References: <55b5b761-3b19-6578-a83d-a2a9f7452459@gmail.com>
 Mime-Version: 1.0
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+Content-Type: multipart/signed; micalg=pgp-sha256;
+        protocol="application/pgp-signature"; boundary="46auuh67u7ioewis"
 Return-path: <linux-man-owner-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>
-In-Reply-To: <22a30d19-3ecb-3d7d-8a86-59b35e057554-cmBhpYW9OiY@public.gmane.org>
+Content-Disposition: inline
+In-Reply-To: <55b5b761-3b19-6578-a83d-a2a9f7452459-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org>
 Sender: linux-man-owner-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
-To: Stas Sergeev <stsp-cmBhpYW9OiY@public.gmane.org>
-Cc: linux-man <linux-man-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>, Andy Lutomirski <luto-kltTT9wpgjJwATOyAt5JVQ@public.gmane.org>, Oleg Nesterov <oleg-H+wXaHxf7aLQT0dZR+AlfA@public.gmane.org>, lkml <linux-kernel-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>
+To: Seonghun Lim <wariua-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org>
+Cc: mtk.manpages-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org, linux-man-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
 List-Id: linux-man@vger.kernel.org
 
-Hello Stas,
 
-On 6 November 2017 at 23:28, Stas Sergeev <stsp-cmBhpYW9OiY@public.gmane.org> wrote:
-> 07.11.2017 01:26, Michael Kerrisk (man-pages) =D0=BF=D0=B8=D1=88=D0=B5=D1=
-=82:
->>
->> Hello Stas,
->>
->> Ping on the below?
->
-> Hi, the change with the "not recommended" warning
-> looks good to me.
-> Acked-by: Stas Sergeev <stsp-cmBhpYW9OiY@public.gmane.org>
+--46auuh67u7ioewis
+Content-Type: text/plain; charset=iso-8859-1
+Content-Disposition: inline
+Content-Transfer-Encoding: quoted-printable
 
-Thanks. I've pushed these changes into the master branch on Git.
+At 2017-11-08T16:25:04+0900, Seonghun Lim wrote:
+> --- a/man2/clock_getres.2
+> +++ b/man2/clock_getres.2
+> @@ -275,7 +275,7 @@ If the CPUs in an SMP system have different clock sou=
+rces, then
+> =A0there is no way to maintain a correlation between the timer registers =
+since
+> =A0each CPU will run at a slightly different frequency.
+> =A0If that is the case, then
+> -.I clock_getcpuclockid(0)
+> +.BR clock_getcpuclockid(3)
 
-Cheers,
+That's not a man page cross reference, it's an example of a function
+call.
 
-Michael
-
+Even if it were a man page cross reference, you would need a space
+between "clock_getcpuclockid" and "(3)".
 
 --=20
-Michael Kerrisk
-Linux man-pages maintainer; http://www.kernel.org/doc/man-pages/
-Linux/UNIX System Programming Training: http://man7.org/training/
+Regards,
+Branden
+
+--46auuh67u7ioewis
+Content-Type: application/pgp-signature; name="signature.asc"
+
+-----BEGIN PGP SIGNATURE-----
+
+iQIzBAABCAAdFiEEh3PWHWjjDgcrENwa0Z6cfXEmbc4FAloC8VkACgkQ0Z6cfXEm
+bc7fsg//aCoCa/g+lpalIWJ4wToX3BeMsv7q1TLn57YcWO9UJhh6LDtgvWguYxCD
+DKG/gyzFS0l1oup5LkZMr6VH+EY1/WpCArVTEsyCCZUK1vJ93E6/KUgDflFGtZz1
+QzJjerqK2R4XnQIBRpK2Z3Qde0Cnj9ZTeuIWSHHc98QLczro5pB8JqMvj+EFU6rJ
+WgKqA4bze+fQMyJ2+yu1HPRLLi9g3zy7FHEWSU2BZ310ckHE3cWewbUUbSO8jbxA
+h9XZyCkzC7sAv2RjcuVa4RpvADoy6dX6KNHY3cRSjoaPV1iosr5s66EtT9GzrztK
+mkGFyeMIaUG1GhKv4TfQi2OmDlvYOvMqF9hhkI56Cd3RHDCJVUqGLgJ03VUNazqR
+7vV2kN+fHVtilEk0mvcwe3wf1phB2UqPSj/zFakRbvvmHaczWplkc5MXG3Hu/TBL
+zk9RMBxOeIN3E2aMBSFKwZu5RN1JX1NtZuBRbIr9rtZwoOnSd9GOFDONUybIy4DH
+wyxknrPKH9zbYECjlviP8a8sb61zP1h3MYLaAoojlzfTay0mGXm651iibi6SiQrx
+cTEEMVaMhq7+TwHBH44lMT4C70Cz8KBZym4MOJA5orKqJRR9rawsWpJPntzhQ0Yk
+BgVs3e9ZoAA5bRwgRi2p7Ey39+3lBOZ0iouOcnagGRmxHx25PXU=
+=0P38
+-----END PGP SIGNATURE-----
+
+--46auuh67u7ioewis--
 --
 To unsubscribe from this list: send the line "unsubscribe linux-man" in
 the body of a message to majordomo-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
