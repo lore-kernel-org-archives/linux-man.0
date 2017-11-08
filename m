@@ -1,44 +1,37 @@
-From: Mike Rapoport <rppt@linux.vnet.ibm.com>
-Subject: [PATCH] userfaultfd.2: document spurious UFFD_EVENT_FORK
-Date: Wed,  8 Nov 2017 08:54:08 +0200
-Message-ID: <1510124048-7991-1-git-send-email-rppt@linux.vnet.ibm.com>
-Return-path: <owner-linux-mm@kvack.org>
-Sender: owner-linux-mm@kvack.org
-To: Michael Kerrisk <mtk.manpages@gmail.com>
-Cc: Andrea Arcangeli <aarcange@redhat.com>, linux-man@vger.kernel.org, linux-mm <linux-mm@kvack.org>, Mike Rapoport <rppt@linux.vnet.ibm.com>
+From: Seonghun Lim <wariua-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org>
+Subject: [patch] acct.2: wfix
+Date: Wed, 8 Nov 2017 16:00:12 +0900
+Message-ID: <9bbfbda5-b614-314d-dad9-ad2ea789d4d1@gmail.com>
+Mime-Version: 1.0
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: quoted-printable
+Return-path: <linux-man-owner-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>
+Content-Language: en-GB
+Sender: linux-man-owner-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
+To: mtk.manpages-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org
+Cc: linux-man-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
 List-Id: linux-man@vger.kernel.org
 
-Signed-off-by: Mike Rapoport <rppt@linux.vnet.ibm.com>
----
- man2/userfaultfd.2 | 10 ++++++++++
- 1 file changed, 10 insertions(+)
+=C2=A0man2/acct.2 | 2 +-
+=C2=A01 file changed, 1 insertion(+), 1 deletion(-)
 
-diff --git a/man2/userfaultfd.2 b/man2/userfaultfd.2
-index 1c9e64b..08c41e1 100644
---- a/man2/userfaultfd.2
-+++ b/man2/userfaultfd.2
-@@ -465,6 +465,16 @@ for checkpoint/restore mechanisms,
- as well as post-copy migration to allow (nearly) uninterrupted execution
- when transferring virtual machines and Linux containers
- from one host to another.
-+.SH BUGS
-+If the
-+.B UFFD_FEATURE_EVENT_FORK
-+is enabled and a system call from the
-+.BR fork (2)
-+family is interrupted by a signal or failed,q a stale userfaultfd descriptor
-+might be created.
-+In this case a spurious
-+.B UFFD_EVENT_FORK
-+will be delivered to the userfaultfd monitor.
- .SH EXAMPLE
- The program below demonstrates the use of the userfaultfd mechanism.
- The program creates two threads, one of which acts as the
--- 
-2.7.4
+diff --git a/man2/acct.2 b/man2/acct.2
+index 27b0c5cf4..f9efe437f 100644
+--- a/man2/acct.2
++++ b/man2/acct.2
+@@ -107,7 +107,7 @@ was too long.
+=C2=A0The system-wide limit on the total number of open files has been re=
+ached.
+=C2=A0.TP
+=C2=A0.B ENOENT
+-The specified filename does not exist.
++The specified file does not exist.
+=C2=A0.TP
+=C2=A0.B ENOMEM
+=C2=A0Out of memory.
+
 
 --
-To unsubscribe, send a message with 'unsubscribe linux-mm' in
-the body to majordomo@kvack.org.  For more info on Linux MM,
-see: http://www.linux-mm.org/ .
-Don't email: <a href=mailto:"dont@kvack.org"> email@kvack.org </a>
+To unsubscribe from this list: send the line "unsubscribe linux-man" in
+the body of a message to majordomo-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
+More majordomo info at  http://vger.kernel.org/majordomo-info.html
