@@ -1,7 +1,7 @@
 From: Seonghun Lim <wariua-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org>
-Subject: [patch] random.4: tfix
-Date: Wed, 8 Nov 2017 16:11:01 +0900
-Message-ID: <7be0a29b-ca12-01e1-804b-58dfe93f3f48@gmail.com>
+Subject: [patch] random_r.3: wfix
+Date: Wed, 8 Nov 2017 16:13:57 +0900
+Message-ID: <a43524f9-1e1e-11cb-c12b-46d387606919@gmail.com>
 Mime-Version: 1.0
 Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
@@ -12,22 +12,26 @@ To: mtk.manpages-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org
 Cc: linux-man-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
 List-Id: linux-man@vger.kernel.org
 
- man4/random.4 | 2 +-
+buf.state is a field of struct random_data - not a file.
+
+---
+
+man3/random_r.3 | 2 +-
  1 file changed, 1 insertion(+), 1 deletion(-)
 
-diff --git a/man4/random.4 b/man4/random.4
-index 0b54f5309..0c597ca5d 100644
---- a/man4/random.4
-+++ b/man4/random.4
-@@ -235,7 +235,7 @@ Normally, this file will have the value 512, but it is writable,
- and can be changed to any value for which an algorithm is available.
- The choices are 32, 64, 128, 256, 512, 1024, or 2048.
- .TP
--Linux 2.6 and later
-+Linux 2.6 and later:
- This file is read-only, and gives the size of the entropy pool in
- .IR bits .
- It contains the value 4096.
+diff --git a/man3/random_r.3 b/man3/random_r.3
+index d3561aa0d..1406cf0e8 100644
+--- a/man3/random_r.3
++++ b/man3/random_r.3
+@@ -185,7 +185,7 @@ It appears that the
+ type is intended to be opaque,
+ but the implementation requires the user to either initialize the
+ .I buf.state
+-file to NULL or zero out the entire structure before the call.
++field to NULL or zero out the entire structure before the call.
+ .SH SEE ALSO
+ .BR drand48 (3),
+ .BR rand (3),
 -- 
 
 --
