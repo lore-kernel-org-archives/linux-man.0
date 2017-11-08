@@ -1,7 +1,7 @@
 From: Seonghun Lim <wariua-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org>
-Subject: [patch] random_r.3: wfix
-Date: Wed, 8 Nov 2017 16:13:57 +0900
-Message-ID: <a43524f9-1e1e-11cb-c12b-46d387606919@gmail.com>
+Subject: [patch] sigaltstack.2: tfix
+Date: Wed, 8 Nov 2017 16:17:16 +0900
+Message-ID: <1ff0f184-9625-4cc2-9cc9-49a8a11be3d9@gmail.com>
 Mime-Version: 1.0
 Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
@@ -12,26 +12,24 @@ To: mtk.manpages-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org
 Cc: linux-man-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
 List-Id: linux-man@vger.kernel.org
 
-buf.state is a field of struct random_data - not a file.
-
+Changes.old also contains a reference to the nonexistent POSIX.1-2009. ;-)
 ---
-
-man3/random_r.3 | 2 +-
+ man2/sigaltstack.2 | 2 +-
  1 file changed, 1 insertion(+), 1 deletion(-)
 
-diff --git a/man3/random_r.3 b/man3/random_r.3
-index d3561aa0d..1406cf0e8 100644
---- a/man3/random_r.3
-+++ b/man3/random_r.3
-@@ -185,7 +185,7 @@ It appears that the
- type is intended to be opaque,
- but the implementation requires the user to either initialize the
- .I buf.state
--file to NULL or zero out the entire structure before the call.
-+field to NULL or zero out the entire structure before the call.
- .SH SEE ALSO
- .BR drand48 (3),
- .BR rand (3),
+diff --git a/man2/sigaltstack.2 b/man2/sigaltstack.2
+index 0a21eb7b4..69d8126a7 100644
+--- a/man2/sigaltstack.2
++++ b/man2/sigaltstack.2
+@@ -183,7 +183,7 @@ T{
+ T}    Thread safety    MT-Safe
+ .TE
+ .SH CONFORMING TO
+-POSIX.1-2001, POSIX.1-2009, SUSv2, SVr4.
++POSIX.1-2001, POSIX.1-2008, SUSv2, SVr4.
+ .SH NOTES
+ The most common usage of an alternate signal stack is to handle the
+ .B SIGSEGV
 -- 
 
 --
