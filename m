@@ -1,52 +1,44 @@
-From: "Michael Kerrisk (man-pages)" <mtk.manpages-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org>
-Subject: Re: [PATCH] system.3: wfix
-Date: Tue, 7 Nov 2017 23:14:56 +0100
-Message-ID: <c1f317f1-e441-677d-1b92-75fae5ad103e@gmail.com>
-References: <20171107220948.13675-1-mail@lucaswerkmeister.de>
-Mime-Version: 1.0
-Content-Type: text/plain; charset=utf-8
-Content-Transfer-Encoding: 7bit
-Return-path: <linux-man-owner-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>
-In-Reply-To: <20171107220948.13675-1-mail-rm2KDkFaiJZ2qFAiU50y3BvVK+yQ3ZXh@public.gmane.org>
-Content-Language: en-US
-Sender: linux-man-owner-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
-To: Lucas Werkmeister <mail-rm2KDkFaiJZ2qFAiU50y3BvVK+yQ3ZXh@public.gmane.org>
-Cc: mtk.manpages-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org, linux-man-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
+From: Mike Rapoport <rppt@linux.vnet.ibm.com>
+Subject: [PATCH] userfaultfd.2: document spurious UFFD_EVENT_FORK
+Date: Wed,  8 Nov 2017 08:54:08 +0200
+Message-ID: <1510124048-7991-1-git-send-email-rppt@linux.vnet.ibm.com>
+Return-path: <owner-linux-mm@kvack.org>
+Sender: owner-linux-mm@kvack.org
+To: Michael Kerrisk <mtk.manpages@gmail.com>
+Cc: Andrea Arcangeli <aarcange@redhat.com>, linux-man@vger.kernel.org, linux-mm <linux-mm@kvack.org>, Mike Rapoport <rppt@linux.vnet.ibm.com>
 List-Id: linux-man@vger.kernel.org
 
-On 11/07/2017 11:09 PM, Lucas Werkmeister wrote:
-> ---
->  man3/system.3 | 2 +-
->  1 file changed, 1 insertion(+), 1 deletion(-)
+Signed-off-by: Mike Rapoport <rppt@linux.vnet.ibm.com>
+---
+ man2/userfaultfd.2 | 10 ++++++++++
+ 1 file changed, 10 insertions(+)
 
-Thanks, Lukas. Applied.
-
-Cheers,
-
-Michael
-
-
-> diff --git a/man3/system.3 b/man3/system.3
-> index 07d0d92bd..9c66242f9 100644
-> --- a/man3/system.3
-> +++ b/man3/system.3
-> @@ -69,7 +69,7 @@ If
->  .I command
->  is NULL, then
->  .BR system ()
-> -returns a status indicating whether a shell is available on the system
-> +returns a status indicating whether a shell is available on the system.
->  .SH RETURN VALUE
->  The return value of
->  .BR system ()
-> 
-
-
+diff --git a/man2/userfaultfd.2 b/man2/userfaultfd.2
+index 1c9e64b..08c41e1 100644
+--- a/man2/userfaultfd.2
++++ b/man2/userfaultfd.2
+@@ -465,6 +465,16 @@ for checkpoint/restore mechanisms,
+ as well as post-copy migration to allow (nearly) uninterrupted execution
+ when transferring virtual machines and Linux containers
+ from one host to another.
++.SH BUGS
++If the
++.B UFFD_FEATURE_EVENT_FORK
++is enabled and a system call from the
++.BR fork (2)
++family is interrupted by a signal or failed,q a stale userfaultfd descriptor
++might be created.
++In this case a spurious
++.B UFFD_EVENT_FORK
++will be delivered to the userfaultfd monitor.
+ .SH EXAMPLE
+ The program below demonstrates the use of the userfaultfd mechanism.
+ The program creates two threads, one of which acts as the
 -- 
-Michael Kerrisk
-Linux man-pages maintainer; http://www.kernel.org/doc/man-pages/
-Linux/UNIX System Programming Training: http://man7.org/training/
+2.7.4
+
 --
-To unsubscribe from this list: send the line "unsubscribe linux-man" in
-the body of a message to majordomo-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
-More majordomo info at  http://vger.kernel.org/majordomo-info.html
+To unsubscribe, send a message with 'unsubscribe linux-mm' in
+the body to majordomo@kvack.org.  For more info on Linux MM,
+see: http://www.linux-mm.org/ .
+Don't email: <a href=mailto:"dont@kvack.org"> email@kvack.org </a>
