@@ -1,7 +1,7 @@
 From: Seonghun Lim <wariua-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org>
-Subject: [patch] timerfd_create.2: wfix
-Date: Wed, 8 Nov 2017 16:23:49 +0900
-Message-ID: <35ea4d16-3a86-0ce2-9cd3-3f83fae9cf88@gmail.com>
+Subject: [patch] clock_getres.2: ffix
+Date: Wed, 8 Nov 2017 16:25:04 +0900
+Message-ID: <55b5b761-3b19-6578-a83d-a2a9f7452459@gmail.com>
 Mime-Version: 1.0
 Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
@@ -12,25 +12,23 @@ To: mtk.manpages-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org
 Cc: linux-man-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
 List-Id: linux-man@vger.kernel.org
 
-There's no itimer structure.
-
 ---
- man2/timerfd_create.2 | 2 +-
+ man2/clock_getres.2 | 2 +-
  1 file changed, 1 insertion(+), 1 deletion(-)
 
-diff --git a/man2/timerfd_create.2 b/man2/timerfd_create.2
-index 31ee21f31..b550c7cb9 100644
---- a/man2/timerfd_create.2
-+++ b/man2/timerfd_create.2
-@@ -148,7 +148,7 @@ The
- .I new_value
- argument specifies the initial expiration and interval for the timer.
- The
--.I itimer
-+.I itimerspec
- structure used for this argument contains two fields,
- each of which is in turn a structure of type
- .IR timespec :
+diff --git a/man2/clock_getres.2 b/man2/clock_getres.2
+index e5349439e..48c259632 100644
+--- a/man2/clock_getres.2
++++ b/man2/clock_getres.2
+@@ -275,7 +275,7 @@ If the CPUs in an SMP system have different clock sources, then
+ there is no way to maintain a correlation between the timer registers since
+ each CPU will run at a slightly different frequency.
+ If that is the case, then
+-.I clock_getcpuclockid(0)
++.BR clock_getcpuclockid(3)
+ will return
+ .B ENOENT
+ to signify this condition.
 -- 
 
 --
