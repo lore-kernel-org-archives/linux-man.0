@@ -1,7 +1,7 @@
 From: Seonghun Lim <wariua-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org>
-Subject: [patch] atexit.3: wfix
-Date: Wed, 8 Nov 2017 16:06:00 +0900
-Message-ID: <cb3296c2-bba3-0197-fb1a-e8eeed7d3921@gmail.com>
+Subject: [patch] stdin.3: tfix
+Date: Wed, 8 Nov 2017 16:07:57 +0900
+Message-ID: <af7f4589-ac90-c0e9-e6b7-2e1f323f48cf@gmail.com>
 Mime-Version: 1.0
 Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
@@ -12,22 +12,25 @@ To: mtk.manpages-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org
 Cc: linux-man-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
 List-Id: linux-man@vger.kernel.org
 
- man3/atexit.3 | 2 +-
+Added missing parenthesis.
+
+---
+ man3/stdin.3 | 2 +-
  1 file changed, 1 insertion(+), 1 deletion(-)
 
-diff --git a/man3/atexit.3 b/man3/atexit.3
-index b52e71bb8..edf6f74c6 100644
---- a/man3/atexit.3
-+++ b/man3/atexit.3
-@@ -133,7 +133,7 @@ of their registration by these two functions.
- .PP
- According to POSIX.1, the result is undefined if
- .BR longjmp (3)
--is used to terminate execution of one of the functions registered
-+is used to terminate execution of one of the functions registered using
- .BR atexit ().
- .\" In glibc, things seem to be handled okay
- .SS Linux notes
+diff --git a/man3/stdin.3 b/man3/stdin.3
+index bc4d1b01d..1d5f44815 100644
+--- a/man3/stdin.3
++++ b/man3/stdin.3
+@@ -27,7 +27,7 @@ for it when it starts up, one for input, one for output, and one for
+ printing diagnostic or error messages.
+ These are typically attached to
+ the user's terminal (see
+-.BR tty (4)
++.BR tty (4))
+ but might instead refer to files or other devices, depending on what
+ the parent process chose to set up.
+ (See also the "Redirection" section of
 -- 
 
 --
