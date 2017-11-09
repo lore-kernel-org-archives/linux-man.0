@@ -1,52 +1,39 @@
-From: "Michael Kerrisk (man-pages)" <mtk.manpages-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org>
-Subject: Re: [PATCH 0/4] Document new seccomp interfaces in Linux 4.14
-Date: Thu, 9 Nov 2017 15:25:25 +0100
-Message-ID: <f49ff3da-c53a-e185-d994-00bc89b6a126@gmail.com>
-References: <1508991102-13686-1-git-send-email-tyhicks@canonical.com>
+From: Christoph Hellwig <hch@lst.de>
+Subject: Re: [PATCH] readv.2: document RWF_NOWAIT
+Date: Thu, 9 Nov 2017 16:01:34 +0100
+Message-ID: <20171109150133.GA25025@lst.de>
+References: <20171029084023.8463-1-hch@lst.de> <20171029094106.GA15945@bombadil.infradead.org> <CAKgNAkhbNxpKLcO8aGS0rid2iZSUi76NY7e5WTh1BmY7NNcKWA@mail.gmail.com>
 Mime-Version: 1.0
-Content-Type: text/plain; charset=utf-8
-Content-Transfer-Encoding: 7bit
-Return-path: <linux-man-owner-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>
-In-Reply-To: <1508991102-13686-1-git-send-email-tyhicks-Z7WLFzj8eWMS+FvcfC7Uqw@public.gmane.org>
-Content-Language: en-US
-Sender: linux-man-owner-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
-To: Tyler Hicks <tyhicks-Z7WLFzj8eWMS+FvcfC7Uqw@public.gmane.org>
-Cc: mtk.manpages-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org, Kees Cook <keescook-F7+t8E8rja9g9hUCZPvPmw@public.gmane.org>, linux-man-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
+Content-Type: text/plain; charset=us-ascii
+Return-path: <linux-fsdevel-owner@vger.kernel.org>
+Content-Disposition: inline
+In-Reply-To: <CAKgNAkhbNxpKLcO8aGS0rid2iZSUi76NY7e5WTh1BmY7NNcKWA@mail.gmail.com>
+Sender: linux-fsdevel-owner@vger.kernel.org
+To: "Michael Kerrisk (man-pages)" <mtk.manpages@gmail.com>
+Cc: Matthew Wilcox <willy@infradead.org>, Christoph Hellwig <hch@lst.de>, linux-man <linux-man@vger.kernel.org>, "linux-fsdevel@vger.kernel.org" <linux-fsdevel@vger.kernel.org>, Milosz Tanski <milosz@adfin.com>
 List-Id: linux-man@vger.kernel.org
 
-Hello Tyler,
+On Thu, Nov 09, 2017 at 02:40:38PM +0100, Michael Kerrisk (man-pages) wrote:
+> > The phrasing is a bit tortured ... try this:
+> >
+> > .TP
+> > .BR RWF_NOWAIT " (since Linux 4.14)"
+> > Do not wait for data which is not immediately available.
+> > If this flag is specified the
+> > .BR preadv2 ()
+> > system call will return instantly if it would have to read data from
+> > the backing storage or wait for a lock.
+> > If some data was successfully read, it will return the number of bytes read.
+> > If no bytes were read, it will return -1 and set
+> > .IR errno to
+> > .BR EAGAIN .
+> > This flag is meaningful only for
+> > .BR preadv2 ()
+> > at the moment.
+> > .\" commit 3239d834847627b6634a4139cf1dc58f6f137a46
+> > .\" commit 91f9943e1c7b6638f27312d03fe71fcc67b23571
+> 
+> What are your thoughts on Matthew's proposed rewording?
 
-On 10/26/2017 06:11 AM, Tyler Hicks wrote:
-> This patchset adds documentation for most of the new user-facing features
-> (/proc interfaces, SECCOMP_GET_ACTION_AVAIL operation, SECCOMP_FILTER_FLAG_LOG
-> flag, SECCOMP_RET_LOG action) merged into Linux 4.14 (commit
-> c0a3a64e723324ae6dda53214061a71de63808c3). All of these features have something
-> to do with providing more flexible seccomp logging configuration except for the
-> SECCOMP_GET_ACTION_AVAIL operation. 
-
-Thanks for this set! I've applied all of the patches, made a few very minor
-tweaks, and pushed to Git.
-
-But, I realize there's some pieces missing about audit logging.
-Would you be able/willing to write a patch for the seccomp(2)
-page describing the audit details?
-
-> The remaining undocumented changes in 4.14 involve SECCOMP_RET_KILL being
-> renamed to SECCOMP_RET_KILL_THREAD and the new SECCOMP_RET_KILL_PROCESS action.
-> As I understand it, Kees Cook will be documenting those changes.
-
-Kees, are you there ? ;-)
-
-Cheers,
-
-Michael
-
-
--- 
-Michael Kerrisk
-Linux man-pages maintainer; http://www.kernel.org/doc/man-pages/
-Linux/UNIX System Programming Training: http://man7.org/training/
---
-To unsubscribe from this list: send the line "unsubscribe linux-man" in
-the body of a message to majordomo-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
-More majordomo info at  http://vger.kernel.org/majordomo-info.html
+The look good to me.  I'll try to find some time to respin the patch
+with them incorporated.
