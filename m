@@ -1,73 +1,64 @@
-From: Milind Chabbi <chabbi.milind-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org>
-Subject: Re: [PATCH] perf/core: fast breakpoint modification via _IOC_MODIFY_BREAKPOINT
-Date: Thu, 9 Nov 2017 10:59:49 -0800
-Message-ID: <CAMmz+Ykdf+bpA=ARSAYd3xp7U+BDWVmf1iW3SKW=ZVDBSmUSEg@mail.gmail.com>
-References: <CAMmz+Y=Py0dw63tuww+Oa4rWi_Hghhs3DHmNX=Tf1Yt_JH4O+Q@mail.gmail.com>
- <20171106092305.GA16382@krava> <CAMmz+YkB955Na6wOMmgqZX_TxqsBh86FiLi8EXmOrg1vwm-fGA@mail.gmail.com>
- <20171108141522.GA6320@krava> <CAMmz+Ym4yyAAYw02EtxSG7Duv_Pkg3Z+cYrgmW5Esm8Mgdx4-w@mail.gmail.com>
- <20171108151218.GA11018@krava> <CAMmz+Y=PJ2kFf9mqoQDJY32VjpCQBCCuWOiHNXR3mSEzotSS_w@mail.gmail.com>
- <20171108155741.GA12627@krava> <CAMmz+Y=eq=S+gZaRefVUrfB7LDRVfD5UdpkfQXS0zvnHdNt0XA@mail.gmail.com>
- <20171109074658.GC14419@krava> <20171109131233.GA2942@krava>
+From: "Michael Kerrisk (man-pages)" <mtk.manpages-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org>
+Subject: Re: [PATCH 0/4] Document new seccomp interfaces in Linux 4.14
+Date: Thu, 9 Nov 2017 20:18:28 +0100
+Message-ID: <f3ddf68c-75f2-387b-b80c-057b2df9d5f0@gmail.com>
+References: <1508991102-13686-1-git-send-email-tyhicks@canonical.com>
+ <f49ff3da-c53a-e185-d994-00bc89b6a126@gmail.com>
+ <CAGXu5j+qU4mwkMXkvgpKqWDxWga18EvN1T_8uieWnOOcKnd1+A@mail.gmail.com>
 Mime-Version: 1.0
-Content-Type: text/plain; charset="UTF-8"
+Content-Type: text/plain; charset=utf-8
+Content-Transfer-Encoding: 7bit
 Return-path: <linux-man-owner-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>
-In-Reply-To: <20171109131233.GA2942@krava>
+In-Reply-To: <CAGXu5j+qU4mwkMXkvgpKqWDxWga18EvN1T_8uieWnOOcKnd1+A-JsoAwUIsXosN+BqQ9rBEUg@public.gmane.org>
+Content-Language: en-US
 Sender: linux-man-owner-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
-To: Jiri Olsa <jolsa-H+wXaHxf7aLQT0dZR+AlfA@public.gmane.org>
-Cc: Milind Chabbi <chabbi.milind-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org>, Peter Zijlstra <peterz-wEGCiKHe2LqWVfeAwA7xHQ@public.gmane.org>, Ingo Molnar <mingo-H+wXaHxf7aLQT0dZR+AlfA@public.gmane.org>, Arnaldo Carvalho de Melo <acme-DgEjT+Ai2ygdnm+yROfE0A@public.gmane.org>, Alexander Shishkin <alexander.shishkin-VuQAYsv1563Yd54FQh9/CA@public.gmane.org>, Namhyung Kim <namhyung-DgEjT+Ai2ygdnm+yROfE0A@public.gmane.org>, linux-kernel-u79uwXL29TY76Z2rM5mHXA@public.gmane.org, Michael Kerrisk-manpages <mtk.manpages-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org>, linux-man-u79uwXL29TY76Z2rM5mHXA@public.gmane.org, Michael Ellerman <mpe-Gsx/Oe8HsFggBc27wqDAHg@public.gmane.org>, Andi Kleen <ak-VuQAYsv1563Yd54FQh9/CA@public.gmane.org>, Kan Liang <kan.liang-ral2JQCrhuEAvxtiuMwx3w@public.gmane.org>, Hari Bathini <hbathini-23VcF4HTsmIX0ybBhKVfKdBPR1lH4CV8@public.gmane.org>, Sukadev Bhattiprolu <sukadev-23VcF4HTsmIX0ybBhKVfKdBPR1lH4CV8@public.gmane.org>, Jin Yao <yao.jin-VuQAYsv1563Yd54FQh9/CA@public.gmane.org>
+To: Kees Cook <keescook-F7+t8E8rja9g9hUCZPvPmw@public.gmane.org>
+Cc: mtk.manpages-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org, Tyler Hicks <tyhicks-Z7WLFzj8eWMS+FvcfC7Uqw@public.gmane.org>, linux-man <linux-man-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>
 List-Id: linux-man@vger.kernel.org
 
-SNIP
+Hi Kees,
 
-On Thu, Nov 9, 2017 at 5:12 AM, Jiri Olsa <jolsa-H+wXaHxf7aLQT0dZR+AlfA@public.gmane.org> wrote:
->
->
-> how about something like below (untested)
->
-> looks like there's no irq caller for modify_user_hw_breakpoint,
-> so we should be fine with locking nr_bp_mutex
->
-> jirka
->
->
-> ---
-> diff --git a/kernel/events/hw_breakpoint.c b/kernel/events/hw_breakpoint.c
-> index 3f8cb1e14588..f062b68399ea 100644
-> --- a/kernel/events/hw_breakpoint.c
-> +++ b/kernel/events/hw_breakpoint.c
-> @@ -448,6 +448,8 @@ int modify_user_hw_breakpoint(struct perf_event *bp, struct perf_event_attr *att
->         else
->                 perf_event_disable(bp);
->
-> +       release_bp_slot(bp);
-> +
->         bp->attr.bp_addr = attr->bp_addr;
->         bp->attr.bp_type = attr->bp_type;
->         bp->attr.bp_len = attr->bp_len;
-> @@ -455,9 +457,9 @@ int modify_user_hw_breakpoint(struct perf_event *bp, struct perf_event_attr *att
->         if (attr->disabled)
->                 goto end;
->
-> -       err = validate_hw_breakpoint(bp);
-> +       err = reserve_bp_slot(bp);
->         if (!err)
-> -               perf_event_enable(bp);
-> +               err = validate_hw_breakpoint(bp);
->
->         if (err) {
->                 bp->attr.bp_addr = old_addr;
-> @@ -469,6 +471,7 @@ int modify_user_hw_breakpoint(struct perf_event *bp, struct perf_event_attr *att
->                 return err;
->         }
->
-> +       perf_event_enable(bp);
->  end:
->         bp->attr.disabled = attr->disabled;
->
+On 11/09/2017 07:10 PM, Kees Cook wrote:
+> On Thu, Nov 9, 2017 at 6:25 AM, Michael Kerrisk (man-pages)
+> <mtk.manpages-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org> wrote:
+>> Hello Tyler,
+>>
+>> On 10/26/2017 06:11 AM, Tyler Hicks wrote:
+>>> This patchset adds documentation for most of the new user-facing features
+>>> (/proc interfaces, SECCOMP_GET_ACTION_AVAIL operation, SECCOMP_FILTER_FLAG_LOG
+>>> flag, SECCOMP_RET_LOG action) merged into Linux 4.14 (commit
+>>> c0a3a64e723324ae6dda53214061a71de63808c3). All of these features have something
+>>> to do with providing more flexible seccomp logging configuration except for the
+>>> SECCOMP_GET_ACTION_AVAIL operation.
+>>
+>> Thanks for this set! I've applied all of the patches, made a few very minor
+>> tweaks, and pushed to Git.
+>>
+>> But, I realize there's some pieces missing about audit logging.
+>> Would you be able/willing to write a patch for the seccomp(2)
+>> page describing the audit details?
+>>
+>>> The remaining undocumented changes in 4.14 involve SECCOMP_RET_KILL being
+>>> renamed to SECCOMP_RET_KILL_THREAD and the new SECCOMP_RET_KILL_PROCESS action.
+>>> As I understand it, Kees Cook will be documenting those changes.
+>>
+>> Kees, are you there ? ;-)
+> 
+> I am, I am. :) I'm drowning in other work, but this is still on my
+> list. Do you have a set schedule for the next man-pages release?
 
-We can do this accounting only if bp->attr.bp_type != attr->bp_type.
+It'll probably happen in 10-14 days or so. But, I understand
+if you won't have time before then. In that case, it'll go into
+the next release.
 
--Milind
+Cheers,
+
+Michael
+
+-- 
+Michael Kerrisk
+Linux man-pages maintainer; http://www.kernel.org/doc/man-pages/
+Linux/UNIX System Programming Training: http://man7.org/training/
 --
 To unsubscribe from this list: send the line "unsubscribe linux-man" in
 the body of a message to majordomo-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
