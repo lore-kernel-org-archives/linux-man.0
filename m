@@ -1,61 +1,94 @@
-From: "Michael Kerrisk (man-pages)" <mtk.manpages-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org>
-Subject: Re: [PATCH] userfaultfd.2: document spurious UFFD_EVENT_FORK
-Date: Thu, 9 Nov 2017 08:44:47 +0100
-Message-ID: <1b812837-b368-5e6e-ff9d-7d570354437a@gmail.com>
-References: <1510124048-7991-1-git-send-email-rppt@linux.vnet.ibm.com>
+From: Jiri Olsa <jolsa-H+wXaHxf7aLQT0dZR+AlfA@public.gmane.org>
+Subject: Re: [PATCH] perf/core: fast breakpoint modification via
+ _IOC_MODIFY_BREAKPOINT
+Date: Thu, 9 Nov 2017 08:52:41 +0100
+Message-ID: <20171109074658.GC14419@krava>
+References: <CAMmz+Y=Py0dw63tuww+Oa4rWi_Hghhs3DHmNX=Tf1Yt_JH4O+Q@mail.gmail.com>
+ <20171106092305.GA16382@krava>
+ <CAMmz+YkB955Na6wOMmgqZX_TxqsBh86FiLi8EXmOrg1vwm-fGA@mail.gmail.com>
+ <20171108141522.GA6320@krava>
+ <CAMmz+Ym4yyAAYw02EtxSG7Duv_Pkg3Z+cYrgmW5Esm8Mgdx4-w@mail.gmail.com>
+ <20171108151218.GA11018@krava>
+ <CAMmz+Y=PJ2kFf9mqoQDJY32VjpCQBCCuWOiHNXR3mSEzotSS_w@mail.gmail.com>
+ <20171108155741.GA12627@krava>
+ <CAMmz+Y=eq=S+gZaRefVUrfB7LDRVfD5UdpkfQXS0zvnHdNt0XA@mail.gmail.com>
 Mime-Version: 1.0
-Content-Type: text/plain; charset=utf-8
-Content-Transfer-Encoding: 7bit
+Content-Type: text/plain; charset=us-ascii
 Return-path: <linux-man-owner-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>
-In-Reply-To: <1510124048-7991-1-git-send-email-rppt-23VcF4HTsmIX0ybBhKVfKdBPR1lH4CV8@public.gmane.org>
-Content-Language: en-US
+Content-Disposition: inline
+In-Reply-To: <CAMmz+Y=eq=S+gZaRefVUrfB7LDRVfD5UdpkfQXS0zvnHdNt0XA-JsoAwUIsXosN+BqQ9rBEUg@public.gmane.org>
 Sender: linux-man-owner-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
-To: Mike Rapoport <rppt-23VcF4HTsmIX0ybBhKVfKdBPR1lH4CV8@public.gmane.org>
-Cc: mtk.manpages-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org, Andrea Arcangeli <aarcange-H+wXaHxf7aLQT0dZR+AlfA@public.gmane.org>, linux-man-u79uwXL29TY76Z2rM5mHXA@public.gmane.org, linux-mm <linux-mm-Bw31MaZKKs3YtjvyW6yDsg@public.gmane.org>
+To: Milind Chabbi <chabbi.milind-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org>
+Cc: Peter Zijlstra <peterz-wEGCiKHe2LqWVfeAwA7xHQ@public.gmane.org>, Ingo Molnar <mingo-H+wXaHxf7aLQT0dZR+AlfA@public.gmane.org>, Arnaldo Carvalho de Melo <acme-DgEjT+Ai2ygdnm+yROfE0A@public.gmane.org>, Alexander Shishkin <alexander.shishkin-VuQAYsv1563Yd54FQh9/CA@public.gmane.org>, Namhyung Kim <namhyung-DgEjT+Ai2ygdnm+yROfE0A@public.gmane.org>, linux-kernel-u79uwXL29TY76Z2rM5mHXA@public.gmane.org, Michael Kerrisk-manpages <mtk.manpages-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org>, linux-man-u79uwXL29TY76Z2rM5mHXA@public.gmane.org, Michael Ellerman <mpe-Gsx/Oe8HsFggBc27wqDAHg@public.gmane.org>, Andi Kleen <ak-VuQAYsv1563Yd54FQh9/CA@public.gmane.org>, Kan Liang <kan.liang-ral2JQCrhuEAvxtiuMwx3w@public.gmane.org>, Hari Bathini <hbathini-23VcF4HTsmIX0ybBhKVfKdBPR1lH4CV8@public.gmane.org>, Sukadev Bhattiprolu <sukadev-23VcF4HTsmIX0ybBhKVfKdBPR1lH4CV8@public.gmane.org>, Jin Yao <yao.jin-VuQAYsv1563Yd54FQh9/CA@public.gmane.org>
 List-Id: linux-man@vger.kernel.org
 
-On 11/08/2017 07:54 AM, Mike Rapoport wrote:
-> Signed-off-by: Mike Rapoport <rppt-23VcF4HTsmIX0ybBhKVfKdBPR1lH4CV8@public.gmane.org>
-
-Thanks, Mike. Applied.
-
-Cheers,
-
-Michael
-
-
-> ---
->  man2/userfaultfd.2 | 10 ++++++++++
->  1 file changed, 10 insertions(+)
+On Wed, Nov 08, 2017 at 08:59:22AM -0800, Milind Chabbi wrote:
+> On Wed, Nov 8, 2017 at 7:57 AM, Jiri Olsa <jolsa-H+wXaHxf7aLQT0dZR+AlfA@public.gmane.org> wrote:
+> > On Wed, Nov 08, 2017 at 07:51:10AM -0800, Milind Chabbi wrote:
+> >> On Wed, Nov 8, 2017 at 7:12 AM, Jiri Olsa <jolsa-H+wXaHxf7aLQT0dZR+AlfA@public.gmane.org> wrote:
+> >>
+> >> > > I am not able to fully understand your concern.
+> >> > > Can you point to a code file and line related to your observation?
+> >> > > The patch is modeled after the existing modify_user_hw_breakpoint() function
+> >> > > present in events/hw_breakpoint.c; don't you see this problem in that code?
+> >> >
+> >> > the reserve_bp_slot/release_bp_slot functions manage
+> >> > counts for current breakpoints based on its type
+> >> >
+> >> > those counts are cumulated in here:
+> >> >   static DEFINE_PER_CPU(struct bp_cpuinfo, bp_cpuinfo[TYPE_MAX]);
+> >> >
+> >> > you allow to change the breakpoint type, so I'd expect
+> >> > to see some code that release slot count for old type
+> >> > and take new one (if it's available)
+> >> >
+> >> > jirka
+> >>
+> >>
+> >> Why is this not a concern for modify_user_hw_breakpoint() function?
+> >
+> > I don't know ;-)
+> >
+> > jirka
 > 
-> diff --git a/man2/userfaultfd.2 b/man2/userfaultfd.2
-> index 1c9e64b..08c41e1 100644
-> --- a/man2/userfaultfd.2
-> +++ b/man2/userfaultfd.2
-> @@ -465,6 +465,16 @@ for checkpoint/restore mechanisms,
->  as well as post-copy migration to allow (nearly) uninterrupted execution
->  when transferring virtual machines and Linux containers
->  from one host to another.
-> +.SH BUGS
-> +If the
-> +.B UFFD_FEATURE_EVENT_FORK
-> +is enabled and a system call from the
-> +.BR fork (2)
-> +family is interrupted by a signal or failed,q a stale userfaultfd descriptor
-> +might be created.
-> +In this case a spurious
-> +.B UFFD_EVENT_FORK
-> +will be delivered to the userfaultfd monitor.
->  .SH EXAMPLE
->  The program below demonstrates the use of the userfaultfd mechanism.
->  The program creates two threads, one of which acts as the
 > 
+> Jirka,
+> 
+> I carefully looked at bp_cpuinfo[] and nr_slots[] data structures.
+> nr_slots[] is an array of length two (one slot of TYPE_INST and
+> another for TYPE_DATA).
+> The accounting "thinks" that there is one limit on the number of
+> instruction breakpoints and another limit on the number of data
+> breakpoints.
+> The assumption is clearly broken; for example, on x86 there exists a
+> limit on the *total* number of all breakpoints disregarding their kind
+> and the code has failed to capture this aspect.
 
+there's the CONFIG_HAVE_MIXED_BREAKPOINTS_REGS that puts DATA and INST
+under one count on x86.. but that seems to be the enabled only for:
 
--- 
-Michael Kerrisk
-Linux man-pages maintainer; http://www.kernel.org/doc/man-pages/
-Linux/UNIX System Programming Training: http://man7.org/training/
+	arch/sh/Kconfig:        select HAVE_MIXED_BREAKPOINTS_REGS
+	arch/x86/Kconfig:       select HAVE_MIXED_BREAKPOINTS_REGS
+
+> 
+> As such, modify_user_hw_breakpoint() makes no attempt to keep the
+> counts correct. Instead, it simply tries to change and install a new
+> breakpoint and fails if the hardware disallows.
+> This can lead to a situation where, say on x86, someone creates 4
+> TYPE_DATA breakpoints, then changes one of them to TYPE_INS via
+> modify_user_hw_breakpoint() and then releases the TYPE_INS breakpoint.
+> Since the accounting still thinks that there are four TYPE_DATA
+> breakpoints, it will disallow creating a new TYPE_DATA breakpoint,
+> although there is place for one TYPE_DATA breakpoint.
+> 
+> This convinces me that the problem and the solution are outside of
+> this current patch.
+> Do you agree?
+
+I'll leave this decision to maintainer ;-) but seems better to fix
+the interface before we add any new dependent function calls
+
+jirka
 --
 To unsubscribe from this list: send the line "unsubscribe linux-man" in
 the body of a message to majordomo-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
