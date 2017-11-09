@@ -1,42 +1,51 @@
 From: "Michael Kerrisk (man-pages)" <mtk.manpages-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org>
-Subject: Re: [patch] clock_getres.2: ffix
-Date: Thu, 9 Nov 2017 08:55:16 +0100
-Message-ID: <76dbe2de-3460-a268-d54c-93bfb429c335@gmail.com>
-References: <55b5b761-3b19-6578-a83d-a2a9f7452459@gmail.com>
- <20171108115827.rachl42whbklzlpi@crack.deadbeast.net>
+Subject: Re: [patch] acct.2: wfix
+Date: Thu, 9 Nov 2017 09:06:51 +0100
+Message-ID: <a843da9a-b6a3-b698-9fbf-460ad5b1e361@gmail.com>
+References: <9bbfbda5-b614-314d-dad9-ad2ea789d4d1@gmail.com>
 Mime-Version: 1.0
-Content-Type: text/plain; charset=windows-1252
+Content-Type: text/plain; charset=utf-8
 Content-Transfer-Encoding: 8bit
 Return-path: <linux-man-owner-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>
-In-Reply-To: <20171108115827.rachl42whbklzlpi-Z0uaYDh/Ni4SozaZsD9aTtHuzzzSOjJt@public.gmane.org>
+In-Reply-To: <9bbfbda5-b614-314d-dad9-ad2ea789d4d1-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org>
 Content-Language: en-US
 Sender: linux-man-owner-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
-To: "G. Branden Robinson" <g.branden.robinson-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org>, Seonghun Lim <wariua-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org>
+To: Seonghun Lim <wariua-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org>
 Cc: mtk.manpages-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org, linux-man-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
 List-Id: linux-man@vger.kernel.org
 
-On 11/08/2017 12:58 PM, G. Branden Robinson wrote:
-> At 2017-11-08T16:25:04+0900, Seonghun Lim wrote:
->> --- a/man2/clock_getres.2
->> +++ b/man2/clock_getres.2
->> @@ -275,7 +275,7 @@ If the CPUs in an SMP system have different clock sources, then
->> �there is no way to maintain a correlation between the timer registers since
->> �each CPU will run at a slightly different frequency.
->> �If that is the case, then
->> -.I clock_getcpuclockid(0)
->> +.BR clock_getcpuclockid(3)
-> 
-> That's not a man page cross reference, it's an example of a function
-> call.
+Hello Seonghun Lim,
 
-Right. Thanks for checking that Branden.
+This is a nice series of patches that you've sent. But none
+of the patches applies against upstream. Looking at the source
+of the mail messages, there are some strange character sequences
+at the start of various lines. Could you fix up
+and resubmit the patch series please?
 
 Cheers,
 
 Michael
 
-> Even if it were a man page cross reference, you would need a space
-> between "clock_getcpuclockid" and "(3)".
+
+On 11/08/2017 08:00 AM, Seonghun Lim wrote:
+>  man2/acct.2 | 2 +-
+>  1 file changed, 1 insertion(+), 1 deletion(-)
+> 
+> diff --git a/man2/acct.2 b/man2/acct.2
+> index 27b0c5cf4..f9efe437f 100644
+> --- a/man2/acct.2
+> +++ b/man2/acct.2
+> @@ -107,7 +107,7 @@ was too long.
+>  The system-wide limit on the total number of open files has been reached.
+>  .TP
+>  .B ENOENT
+> -The specified filename does not exist.
+> +The specified file does not exist.
+>  .TP
+>  .B ENOMEM
+>  Out of memory.
+> 
+> 
 > 
 
 
