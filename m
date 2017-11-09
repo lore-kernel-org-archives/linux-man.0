@@ -1,111 +1,80 @@
-From: Jiri Olsa <jolsa-H+wXaHxf7aLQT0dZR+AlfA@public.gmane.org>
-Subject: Re: [PATCH] perf/core: fast breakpoint modification via
- _IOC_MODIFY_BREAKPOINT
-Date: Thu, 9 Nov 2017 14:12:33 +0100
-Message-ID: <20171109131233.GA2942@krava>
-References: <CAMmz+Y=Py0dw63tuww+Oa4rWi_Hghhs3DHmNX=Tf1Yt_JH4O+Q@mail.gmail.com>
- <20171106092305.GA16382@krava>
- <CAMmz+YkB955Na6wOMmgqZX_TxqsBh86FiLi8EXmOrg1vwm-fGA@mail.gmail.com>
- <20171108141522.GA6320@krava>
- <CAMmz+Ym4yyAAYw02EtxSG7Duv_Pkg3Z+cYrgmW5Esm8Mgdx4-w@mail.gmail.com>
- <20171108151218.GA11018@krava>
- <CAMmz+Y=PJ2kFf9mqoQDJY32VjpCQBCCuWOiHNXR3mSEzotSS_w@mail.gmail.com>
- <20171108155741.GA12627@krava>
- <CAMmz+Y=eq=S+gZaRefVUrfB7LDRVfD5UdpkfQXS0zvnHdNt0XA@mail.gmail.com>
- <20171109074658.GC14419@krava>
+From: "Michael Kerrisk (man-pages)" <mtk.manpages@gmail.com>
+Subject: Re: [PATCH] readv.2: document RWF_NOWAIT
+Date: Thu, 9 Nov 2017 14:40:38 +0100
+Message-ID: <CAKgNAkhbNxpKLcO8aGS0rid2iZSUi76NY7e5WTh1BmY7NNcKWA@mail.gmail.com>
+References: <20171029084023.8463-1-hch@lst.de> <20171029094106.GA15945@bombadil.infradead.org>
+Reply-To: mtk.manpages@gmail.com
 Mime-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Return-path: <linux-man-owner-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>
-Content-Disposition: inline
-In-Reply-To: <20171109074658.GC14419@krava>
-Sender: linux-man-owner-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
-To: Milind Chabbi <chabbi.milind-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org>
-Cc: Peter Zijlstra <peterz-wEGCiKHe2LqWVfeAwA7xHQ@public.gmane.org>, Ingo Molnar <mingo-H+wXaHxf7aLQT0dZR+AlfA@public.gmane.org>, Arnaldo Carvalho de Melo <acme-DgEjT+Ai2ygdnm+yROfE0A@public.gmane.org>, Alexander Shishkin <alexander.shishkin-VuQAYsv1563Yd54FQh9/CA@public.gmane.org>, Namhyung Kim <namhyung-DgEjT+Ai2ygdnm+yROfE0A@public.gmane.org>, linux-kernel-u79uwXL29TY76Z2rM5mHXA@public.gmane.org, Michael Kerrisk-manpages <mtk.manpages-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org>, linux-man-u79uwXL29TY76Z2rM5mHXA@public.gmane.org, Michael Ellerman <mpe-Gsx/Oe8HsFggBc27wqDAHg@public.gmane.org>, Andi Kleen <ak-VuQAYsv1563Yd54FQh9/CA@public.gmane.org>, Kan Liang <kan.liang-ral2JQCrhuEAvxtiuMwx3w@public.gmane.org>, Hari Bathini <hbathini-23VcF4HTsmIX0ybBhKVfKdBPR1lH4CV8@public.gmane.org>, Sukadev Bhattiprolu <sukadev-23VcF4HTsmIX0ybBhKVfKdBPR1lH4CV8@public.gmane.org>, Jin Yao <yao.jin-VuQAYsv1563Yd54FQh9/CA@public.gmane.org>
+Content-Type: text/plain; charset="UTF-8"
+Return-path: <linux-fsdevel-owner@vger.kernel.org>
+In-Reply-To: <20171029094106.GA15945@bombadil.infradead.org>
+Sender: linux-fsdevel-owner@vger.kernel.org
+To: Matthew Wilcox <willy@infradead.org>
+Cc: Christoph Hellwig <hch@lst.de>, linux-man <linux-man@vger.kernel.org>, "linux-fsdevel@vger.kernel.org" <linux-fsdevel@vger.kernel.org>, Milosz Tanski <milosz@adfin.com>
 List-Id: linux-man@vger.kernel.org
 
-On Thu, Nov 09, 2017 at 08:46:58AM +0100, Jiri Olsa wrote:
-
-SNIP
-
-> > Jirka,
-> > 
-> > I carefully looked at bp_cpuinfo[] and nr_slots[] data structures.
-> > nr_slots[] is an array of length two (one slot of TYPE_INST and
-> > another for TYPE_DATA).
-> > The accounting "thinks" that there is one limit on the number of
-> > instruction breakpoints and another limit on the number of data
-> > breakpoints.
-> > The assumption is clearly broken; for example, on x86 there exists a
-> > limit on the *total* number of all breakpoints disregarding their kind
-> > and the code has failed to capture this aspect.
-> 
-> there's the CONFIG_HAVE_MIXED_BREAKPOINTS_REGS that puts DATA and INST
-> under one count on x86.. but that seems to be the enabled only for:
-> 
-> 	arch/sh/Kconfig:        select HAVE_MIXED_BREAKPOINTS_REGS
-> 	arch/x86/Kconfig:       select HAVE_MIXED_BREAKPOINTS_REGS
-> 
-> > 
-> > As such, modify_user_hw_breakpoint() makes no attempt to keep the
-> > counts correct. Instead, it simply tries to change and install a new
-> > breakpoint and fails if the hardware disallows.
-> > This can lead to a situation where, say on x86, someone creates 4
-> > TYPE_DATA breakpoints, then changes one of them to TYPE_INS via
-> > modify_user_hw_breakpoint() and then releases the TYPE_INS breakpoint.
-> > Since the accounting still thinks that there are four TYPE_DATA
-> > breakpoints, it will disallow creating a new TYPE_DATA breakpoint,
-> > although there is place for one TYPE_DATA breakpoint.
-> > 
-> > This convinces me that the problem and the solution are outside of
-> > this current patch.
-> > Do you agree?
-> 
-> I'll leave this decision to maintainer ;-) but seems better to fix
-> the interface before we add any new dependent function calls
-
-how about something like below (untested)
-
-looks like there's no irq caller for modify_user_hw_breakpoint,
-so we should be fine with locking nr_bp_mutex
-
-jirka
+Hi Christoph,
 
 
----
-diff --git a/kernel/events/hw_breakpoint.c b/kernel/events/hw_breakpoint.c
-index 3f8cb1e14588..f062b68399ea 100644
---- a/kernel/events/hw_breakpoint.c
-+++ b/kernel/events/hw_breakpoint.c
-@@ -448,6 +448,8 @@ int modify_user_hw_breakpoint(struct perf_event *bp, struct perf_event_attr *att
- 	else
- 		perf_event_disable(bp);
- 
-+	release_bp_slot(bp);
-+
- 	bp->attr.bp_addr = attr->bp_addr;
- 	bp->attr.bp_type = attr->bp_type;
- 	bp->attr.bp_len = attr->bp_len;
-@@ -455,9 +457,9 @@ int modify_user_hw_breakpoint(struct perf_event *bp, struct perf_event_attr *att
- 	if (attr->disabled)
- 		goto end;
- 
--	err = validate_hw_breakpoint(bp);
-+	err = reserve_bp_slot(bp);
- 	if (!err)
--		perf_event_enable(bp);
-+		err = validate_hw_breakpoint(bp);
- 
- 	if (err) {
- 		bp->attr.bp_addr = old_addr;
-@@ -469,6 +471,7 @@ int modify_user_hw_breakpoint(struct perf_event *bp, struct perf_event_attr *att
- 		return err;
- 	}
- 
-+	perf_event_enable(bp);
- end:
- 	bp->attr.disabled = attr->disabled;
- 
---
-To unsubscribe from this list: send the line "unsubscribe linux-man" in
-the body of a message to majordomo-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
-More majordomo info at  http://vger.kernel.org/majordomo-info.html
+On 29 October 2017 at 10:41, Matthew Wilcox <willy@infradead.org> wrote:
+> On Sun, Oct 29, 2017 at 10:40:23AM +0200, Christoph Hellwig wrote:
+>> Signed-off-by: Christoph Hellwig <hch@lst.de>
+>> ---
+>>  man2/readv.2 | 19 +++++++++++++++++++
+>>  1 file changed, 19 insertions(+)
+>>
+>> diff --git a/man2/readv.2 b/man2/readv.2
+>> index 831cf6260..21d82849e 100644
+>> --- a/man2/readv.2
+>> +++ b/man2/readv.2
+>> @@ -232,6 +232,25 @@ This flag is meaningful only for
+>>  .BR pwritev2 (),
+>>  and its effect applies only to the data range written by the system call.
+>>  .\" commit e864f39569f4092c2b2bc72c773b6e486c7e3bd9
+>> +.TP
+>> +.BR RWF_NOWAIT " (since Linux 4.14)"
+>> +Dot not wait for data when it cannot be instantly retreived.  If this flag
+>> +is specified the
+>> +.BR preadv2 ()
+>> +system call will return instantly when it would have to read data from
+>> +the backing storage or wait for a lock.  Instead it will return -1 and set
+>> +.I errno
+>> +to
+>> +.BR EAGAIN
+>> +if no data could be read, or return less bytes than requested if some data
+>> +could be read.
+>> +This flag is meaningful only for
+>> +.BR preadv2 ()
+>> +at the moment.
+>> +.\" commit 3239d834847627b6634a4139cf1dc58f6f137a46
+>> +.\" commit 91f9943e1c7b6638f27312d03fe71fcc67b23571
+>
+> The phrasing is a bit tortured ... try this:
+>
+> .TP
+> .BR RWF_NOWAIT " (since Linux 4.14)"
+> Do not wait for data which is not immediately available.
+> If this flag is specified the
+> .BR preadv2 ()
+> system call will return instantly if it would have to read data from
+> the backing storage or wait for a lock.
+> If some data was successfully read, it will return the number of bytes read.
+> If no bytes were read, it will return -1 and set
+> .IR errno to
+> .BR EAGAIN .
+> This flag is meaningful only for
+> .BR preadv2 ()
+> at the moment.
+> .\" commit 3239d834847627b6634a4139cf1dc58f6f137a46
+> .\" commit 91f9943e1c7b6638f27312d03fe71fcc67b23571
+
+What are your thoughts on Matthew's proposed rewording?
+
+Thanks,
+
+Michael
+
+-- 
+Michael Kerrisk
+Linux man-pages maintainer; http://www.kernel.org/doc/man-pages/
+Linux/UNIX System Programming Training: http://man7.org/training/
