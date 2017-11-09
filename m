@@ -1,86 +1,110 @@
-From: "Michael Kerrisk (man-pages)" <mtk.manpages-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org>
-Subject: Re: [patch] acct.2: wfix
-Date: Thu, 9 Nov 2017 09:41:30 +0100
-Message-ID: <0510c60a-5818-86e5-5dde-c0ad3e307bb0@gmail.com>
-References: <9bbfbda5-b614-314d-dad9-ad2ea789d4d1@gmail.com>
- <a843da9a-b6a3-b698-9fbf-460ad5b1e361@gmail.com>
- <51b60a7e-8f3b-379a-cd4f-c2a8c55f3af7@gmail.com>
- <b4fe25b7-8ef8-a5aa-f5d3-e84d483d4233@gmail.com>
+From: Jiri Olsa <jolsa-H+wXaHxf7aLQT0dZR+AlfA@public.gmane.org>
+Subject: Re: [PATCH] perf/core: fast breakpoint modification via
+ _IOC_MODIFY_BREAKPOINT
+Date: Thu, 9 Nov 2017 14:12:33 +0100
+Message-ID: <20171109131233.GA2942@krava>
+References: <CAMmz+Y=Py0dw63tuww+Oa4rWi_Hghhs3DHmNX=Tf1Yt_JH4O+Q@mail.gmail.com>
+ <20171106092305.GA16382@krava>
+ <CAMmz+YkB955Na6wOMmgqZX_TxqsBh86FiLi8EXmOrg1vwm-fGA@mail.gmail.com>
+ <20171108141522.GA6320@krava>
+ <CAMmz+Ym4yyAAYw02EtxSG7Duv_Pkg3Z+cYrgmW5Esm8Mgdx4-w@mail.gmail.com>
+ <20171108151218.GA11018@krava>
+ <CAMmz+Y=PJ2kFf9mqoQDJY32VjpCQBCCuWOiHNXR3mSEzotSS_w@mail.gmail.com>
+ <20171108155741.GA12627@krava>
+ <CAMmz+Y=eq=S+gZaRefVUrfB7LDRVfD5UdpkfQXS0zvnHdNt0XA@mail.gmail.com>
+ <20171109074658.GC14419@krava>
 Mime-Version: 1.0
-Content-Type: text/plain; charset=utf-8
-Content-Transfer-Encoding: 8bit
+Content-Type: text/plain; charset=us-ascii
 Return-path: <linux-man-owner-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>
-In-Reply-To: <b4fe25b7-8ef8-a5aa-f5d3-e84d483d4233-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org>
-Content-Language: en-US
+Content-Disposition: inline
+In-Reply-To: <20171109074658.GC14419@krava>
 Sender: linux-man-owner-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
-To: Seonghun Lim <wariua-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org>
-Cc: mtk.manpages-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org, linux-man-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
+To: Milind Chabbi <chabbi.milind-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org>
+Cc: Peter Zijlstra <peterz-wEGCiKHe2LqWVfeAwA7xHQ@public.gmane.org>, Ingo Molnar <mingo-H+wXaHxf7aLQT0dZR+AlfA@public.gmane.org>, Arnaldo Carvalho de Melo <acme-DgEjT+Ai2ygdnm+yROfE0A@public.gmane.org>, Alexander Shishkin <alexander.shishkin-VuQAYsv1563Yd54FQh9/CA@public.gmane.org>, Namhyung Kim <namhyung-DgEjT+Ai2ygdnm+yROfE0A@public.gmane.org>, linux-kernel-u79uwXL29TY76Z2rM5mHXA@public.gmane.org, Michael Kerrisk-manpages <mtk.manpages-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org>, linux-man-u79uwXL29TY76Z2rM5mHXA@public.gmane.org, Michael Ellerman <mpe-Gsx/Oe8HsFggBc27wqDAHg@public.gmane.org>, Andi Kleen <ak-VuQAYsv1563Yd54FQh9/CA@public.gmane.org>, Kan Liang <kan.liang-ral2JQCrhuEAvxtiuMwx3w@public.gmane.org>, Hari Bathini <hbathini-23VcF4HTsmIX0ybBhKVfKdBPR1lH4CV8@public.gmane.org>, Sukadev Bhattiprolu <sukadev-23VcF4HTsmIX0ybBhKVfKdBPR1lH4CV8@public.gmane.org>, Jin Yao <yao.jin-VuQAYsv1563Yd54FQh9/CA@public.gmane.org>
 List-Id: linux-man@vger.kernel.org
 
-On 11/09/2017 09:39 AM, Michael Kerrisk (man-pages) wrote:
-> Hello Seonghun Lim
+On Thu, Nov 09, 2017 at 08:46:58AM +0100, Jiri Olsa wrote:
+
+SNIP
+
+> > Jirka,
+> > 
+> > I carefully looked at bp_cpuinfo[] and nr_slots[] data structures.
+> > nr_slots[] is an array of length two (one slot of TYPE_INST and
+> > another for TYPE_DATA).
+> > The accounting "thinks" that there is one limit on the number of
+> > instruction breakpoints and another limit on the number of data
+> > breakpoints.
+> > The assumption is clearly broken; for example, on x86 there exists a
+> > limit on the *total* number of all breakpoints disregarding their kind
+> > and the code has failed to capture this aspect.
 > 
-> I have applied all of your recent patches.
-
-Sorry, I forgot to say: thank you for the many nice
-little cleanups!
-
-Cheers,
-
-Michael
-
-> On 11/09/2017 09:24 AM, Michael Kerrisk (man-pages) wrote:
->> Hello Seonghun Lim,
->>
->> On 11/09/2017 09:06 AM, Michael Kerrisk (man-pages) wrote:
->>> Hello Seonghun Lim,
->>>
->>> This is a nice series of patches that you've sent. But none
->>> of the patches applies against upstream. Looking at the source
->>> of the mail messages, there are some strange character sequences
->>> at the start of various lines. Could you fix up
->>> and resubmit the patch series please?
->>
->> Okay -- I've found a way to manually fix the patches that is not too 
->> burdensome. But there's definitely some character set problem with
->> your patches... No need to resubmit these patches though.
->>
->> Cheers,
->>
->> Michael
->>
->>> On 11/08/2017 08:00 AM, Seonghun Lim wrote:
->>>>  man2/acct.2 | 2 +-
->>>>  1 file changed, 1 insertion(+), 1 deletion(-)
->>>>
->>>> diff --git a/man2/acct.2 b/man2/acct.2
->>>> index 27b0c5cf4..f9efe437f 100644
->>>> --- a/man2/acct.2
->>>> +++ b/man2/acct.2
->>>> @@ -107,7 +107,7 @@ was too long.
->>>>  The system-wide limit on the total number of open files has been reached.
->>>>  .TP
->>>>  .B ENOENT
->>>> -The specified filename does not exist.
->>>> +The specified file does not exist.
->>>>  .TP
->>>>  .B ENOMEM
->>>>  Out of memory.
->>>>
->>>>
->>>>
->>>
->>>
->>
->>
+> there's the CONFIG_HAVE_MIXED_BREAKPOINTS_REGS that puts DATA and INST
+> under one count on x86.. but that seems to be the enabled only for:
 > 
+> 	arch/sh/Kconfig:        select HAVE_MIXED_BREAKPOINTS_REGS
+> 	arch/x86/Kconfig:       select HAVE_MIXED_BREAKPOINTS_REGS
 > 
+> > 
+> > As such, modify_user_hw_breakpoint() makes no attempt to keep the
+> > counts correct. Instead, it simply tries to change and install a new
+> > breakpoint and fails if the hardware disallows.
+> > This can lead to a situation where, say on x86, someone creates 4
+> > TYPE_DATA breakpoints, then changes one of them to TYPE_INS via
+> > modify_user_hw_breakpoint() and then releases the TYPE_INS breakpoint.
+> > Since the accounting still thinks that there are four TYPE_DATA
+> > breakpoints, it will disallow creating a new TYPE_DATA breakpoint,
+> > although there is place for one TYPE_DATA breakpoint.
+> > 
+> > This convinces me that the problem and the solution are outside of
+> > this current patch.
+> > Do you agree?
+> 
+> I'll leave this decision to maintainer ;-) but seems better to fix
+> the interface before we add any new dependent function calls
+
+how about something like below (untested)
+
+looks like there's no irq caller for modify_user_hw_breakpoint,
+so we should be fine with locking nr_bp_mutex
+
+jirka
 
 
--- 
-Michael Kerrisk
-Linux man-pages maintainer; http://www.kernel.org/doc/man-pages/
-Linux/UNIX System Programming Training: http://man7.org/training/
+---
+diff --git a/kernel/events/hw_breakpoint.c b/kernel/events/hw_breakpoint.c
+index 3f8cb1e14588..f062b68399ea 100644
+--- a/kernel/events/hw_breakpoint.c
++++ b/kernel/events/hw_breakpoint.c
+@@ -448,6 +448,8 @@ int modify_user_hw_breakpoint(struct perf_event *bp, struct perf_event_attr *att
+ 	else
+ 		perf_event_disable(bp);
+ 
++	release_bp_slot(bp);
++
+ 	bp->attr.bp_addr = attr->bp_addr;
+ 	bp->attr.bp_type = attr->bp_type;
+ 	bp->attr.bp_len = attr->bp_len;
+@@ -455,9 +457,9 @@ int modify_user_hw_breakpoint(struct perf_event *bp, struct perf_event_attr *att
+ 	if (attr->disabled)
+ 		goto end;
+ 
+-	err = validate_hw_breakpoint(bp);
++	err = reserve_bp_slot(bp);
+ 	if (!err)
+-		perf_event_enable(bp);
++		err = validate_hw_breakpoint(bp);
+ 
+ 	if (err) {
+ 		bp->attr.bp_addr = old_addr;
+@@ -469,6 +471,7 @@ int modify_user_hw_breakpoint(struct perf_event *bp, struct perf_event_attr *att
+ 		return err;
+ 	}
+ 
++	perf_event_enable(bp);
+ end:
+ 	bp->attr.disabled = attr->disabled;
+ 
 --
 To unsubscribe from this list: send the line "unsubscribe linux-man" in
 the body of a message to majordomo-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
