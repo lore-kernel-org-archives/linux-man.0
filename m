@@ -1,64 +1,68 @@
-From: "Michael Kerrisk (man-pages)" <mtk.manpages-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org>
-Subject: Re: [PATCH 0/4] Document new seccomp interfaces in Linux 4.14
-Date: Thu, 9 Nov 2017 20:18:28 +0100
-Message-ID: <f3ddf68c-75f2-387b-b80c-057b2df9d5f0@gmail.com>
-References: <1508991102-13686-1-git-send-email-tyhicks@canonical.com>
- <f49ff3da-c53a-e185-d994-00bc89b6a126@gmail.com>
- <CAGXu5j+qU4mwkMXkvgpKqWDxWga18EvN1T_8uieWnOOcKnd1+A@mail.gmail.com>
+From: Ricardo Biehl <rbpoficial-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org>
+Subject: BUG: ip(7): INADDR_* values cannot be assigned directly to s_addr
+Date: Thu, 9 Nov 2017 19:29:30 -0200
+Message-ID: <CAAu8Fsc+Dk7KGSRb+qg9eHW0k2Meui2Covwxv-08QXhrp02a1g@mail.gmail.com>
 Mime-Version: 1.0
-Content-Type: text/plain; charset=utf-8
-Content-Transfer-Encoding: 7bit
+Content-Type: text/plain; charset="UTF-8"
 Return-path: <linux-man-owner-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>
-In-Reply-To: <CAGXu5j+qU4mwkMXkvgpKqWDxWga18EvN1T_8uieWnOOcKnd1+A-JsoAwUIsXosN+BqQ9rBEUg@public.gmane.org>
-Content-Language: en-US
 Sender: linux-man-owner-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
-To: Kees Cook <keescook-F7+t8E8rja9g9hUCZPvPmw@public.gmane.org>
-Cc: mtk.manpages-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org, Tyler Hicks <tyhicks-Z7WLFzj8eWMS+FvcfC7Uqw@public.gmane.org>, linux-man <linux-man-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>
+To: mtk.manpages-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org
+Cc: linux-man-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
 List-Id: linux-man@vger.kernel.org
 
-Hi Kees,
+Doing a search for "INADDR" in ip(7) manual page should be sufficient to find
+occurrences.
 
-On 11/09/2017 07:10 PM, Kees Cook wrote:
-> On Thu, Nov 9, 2017 at 6:25 AM, Michael Kerrisk (man-pages)
-> <mtk.manpages-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org> wrote:
->> Hello Tyler,
->>
->> On 10/26/2017 06:11 AM, Tyler Hicks wrote:
->>> This patchset adds documentation for most of the new user-facing features
->>> (/proc interfaces, SECCOMP_GET_ACTION_AVAIL operation, SECCOMP_FILTER_FLAG_LOG
->>> flag, SECCOMP_RET_LOG action) merged into Linux 4.14 (commit
->>> c0a3a64e723324ae6dda53214061a71de63808c3). All of these features have something
->>> to do with providing more flexible seccomp logging configuration except for the
->>> SECCOMP_GET_ACTION_AVAIL operation.
->>
->> Thanks for this set! I've applied all of the patches, made a few very minor
->> tweaks, and pushed to Git.
->>
->> But, I realize there's some pieces missing about audit logging.
->> Would you be able/willing to write a patch for the seccomp(2)
->> page describing the audit details?
->>
->>> The remaining undocumented changes in 4.14 involve SECCOMP_RET_KILL being
->>> renamed to SECCOMP_RET_KILL_THREAD and the new SECCOMP_RET_KILL_PROCESS action.
->>> As I understand it, Kees Cook will be documenting those changes.
->>
->> Kees, are you there ? ;-)
-> 
-> I am, I am. :) I'm drowning in other work, but this is still on my
-> list. Do you have a set schedule for the next man-pages release?
+Below follows kinda a C file. It contains a description and the code which shows
+the BUG.
 
-It'll probably happen in 10-14 days or so. But, I understand
-if you won't have time before then. In that case, it'll go into
-the next release.
+ip7_manpage_bug.c
+/*
+ * 09/11/2017
+ * confirms the BUG in ip(7) manual page
+ *
+ * Description: A BUG in ip(7) man page that says INADDR_* values can be
+ * assigned directly, whereas they must be assigned with htonl()
+ *   htonl = host to network long, or host byte order to network byte order
+ *   conversion on uint32_t type
+ *
+ * An excerpt of what is wrong: "The s_addr member of struct in_addr contains
+ * the host interface address in network byte order.  in_addr should be assigned
+ * one of the INADDR_* values [...]"
+ *
+ * See RATIONALE section of reference #0 for the note from the standard
+ *
+ * references
+ * #0:
+ * http://pubs.opengroup.org/onlinepubs/9699919799/basedefs/netinet_in.h.html
+ */
 
-Cheers,
+#include <arpa/inet.h> /* inet_addr() htonl() */
+#include <inttypes.h> /* PRIu32 */
+#include <netinet/in.h> /* INADDR_* */
+#include <stdio.h> /* printf() :-) */
 
-Michael
+#define LOOPBACK_ADDRESS  "127.0.0.1"
+
+int
+main(void)
+{
+	/* uint32_t as defined in reference #0 */
+	uint32_t addr;
+
+	addr = inet_addr(LOOPBACK_ADDRESS);
+
+	printf("inet_addr:              %" PRIu32 "\n"
+	       "htonl(INADDR_LOOPBACK): %" PRIu32 "\n"
+	       "INADDR_LOOPBACK:        %" PRIu32 "\n",
+	       addr, htonl(INADDR_LOOPBACK), INADDR_LOOPBACK);
+
+	return 0;
+}
+
 
 -- 
-Michael Kerrisk
-Linux man-pages maintainer; http://www.kernel.org/doc/man-pages/
-Linux/UNIX System Programming Training: http://man7.org/training/
+Ricardo Biehl Pasquali
 --
 To unsubscribe from this list: send the line "unsubscribe linux-man" in
 the body of a message to majordomo-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
