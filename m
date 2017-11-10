@@ -1,68 +1,55 @@
-From: Ricardo Biehl <rbpoficial-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org>
-Subject: BUG: ip(7): INADDR_* values cannot be assigned directly to s_addr
-Date: Thu, 9 Nov 2017 19:29:30 -0200
-Message-ID: <CAAu8Fsc+Dk7KGSRb+qg9eHW0k2Meui2Covwxv-08QXhrp02a1g@mail.gmail.com>
-Mime-Version: 1.0
-Content-Type: text/plain; charset="UTF-8"
+From: Christoph Hellwig <hch-jcswGhMUV9g@public.gmane.org>
+Subject: [PATCH v2] readv.2: document RWF_NOWAIT
+Date: Fri, 10 Nov 2017 22:54:10 +0100
+Message-ID: <20171110215410.9943-1-hch@lst.de>
 Return-path: <linux-man-owner-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>
 Sender: linux-man-owner-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
-To: mtk.manpages-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org
-Cc: linux-man-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
+To: linux-man-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
+Cc: milosz-B5zB6C1i6pkAvxtiuMwx3w@public.gmane.org, willy-wEGCiKHe2LqWVfeAwA7xHQ@public.gmane.org, linux-fsdevel-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
 List-Id: linux-man@vger.kernel.org
 
-Doing a search for "INADDR" in ip(7) manual page should be sufficient to find
-occurrences.
+Signed-off-by: Christoph Hellwig <hch-jcswGhMUV9g@public.gmane.org>
+---
 
-Below follows kinda a C file. It contains a description and the code which shows
-the BUG.
+Changes since V1:
+ - better wording provided by Matthew Wilcox
 
-ip7_manpage_bug.c
-/*
- * 09/11/2017
- * confirms the BUG in ip(7) manual page
- *
- * Description: A BUG in ip(7) man page that says INADDR_* values can be
- * assigned directly, whereas they must be assigned with htonl()
- *   htonl = host to network long, or host byte order to network byte order
- *   conversion on uint32_t type
- *
- * An excerpt of what is wrong: "The s_addr member of struct in_addr contains
- * the host interface address in network byte order.  in_addr should be assigned
- * one of the INADDR_* values [...]"
- *
- * See RATIONALE section of reference #0 for the note from the standard
- *
- * references
- * #0:
- * http://pubs.opengroup.org/onlinepubs/9699919799/basedefs/netinet_in.h.html
- */
+ man2/readv.2 | 19 +++++++++++++++++++
+ 1 file changed, 19 insertions(+)
 
-#include <arpa/inet.h> /* inet_addr() htonl() */
-#include <inttypes.h> /* PRIu32 */
-#include <netinet/in.h> /* INADDR_* */
-#include <stdio.h> /* printf() :-) */
-
-#define LOOPBACK_ADDRESS  "127.0.0.1"
-
-int
-main(void)
-{
-	/* uint32_t as defined in reference #0 */
-	uint32_t addr;
-
-	addr = inet_addr(LOOPBACK_ADDRESS);
-
-	printf("inet_addr:              %" PRIu32 "\n"
-	       "htonl(INADDR_LOOPBACK): %" PRIu32 "\n"
-	       "INADDR_LOOPBACK:        %" PRIu32 "\n",
-	       addr, htonl(INADDR_LOOPBACK), INADDR_LOOPBACK);
-
-	return 0;
-}
-
-
+diff --git a/man2/readv.2 b/man2/readv.2
+index 831cf6260..880435edf 100644
+--- a/man2/readv.2
++++ b/man2/readv.2
+@@ -232,6 +232,25 @@ This flag is meaningful only for
+ .BR pwritev2 (),
+ and its effect applies only to the data range written by the system call.
+ .\" commit e864f39569f4092c2b2bc72c773b6e486c7e3bd9
++.TP
++.BR RWF_NOWAIT " (since Linux 4.14)"
++Do not wait for data which is not immediately available.
++If this flag is specified the
++.BR preadv2 ()
++system call will return instantly if it would have to read data from
++the backing storage or wait for a lock.
++If some data was successfully read, it will return the number of bytes read.
++If no bytes were read, it will return -1 and set
++.IR errno
++to 
++.BR EAGAIN .
++This flag is meaningful only for
++.BR preadv2 ()
++at the moment.
++.\" commit 3239d834847627b6634a4139cf1dc58f6f137a46
++.\" commit 91f9943e1c7b6638f27312d03fe71fcc67b23571
++
++
+ .SH RETURN VALUE
+ On success,
+ .BR readv (),
 -- 
-Ricardo Biehl Pasquali
+2.14.2
+
 --
 To unsubscribe from this list: send the line "unsubscribe linux-man" in
 the body of a message to majordomo-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
