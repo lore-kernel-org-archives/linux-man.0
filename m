@@ -1,109 +1,38 @@
-From: Miklos Szeredi <mszeredi@redhat.com>
-Subject: Re: Improving documentation of parent-ID field in /proc/PID/mountinfo
-Date: Mon, 13 Nov 2017 09:11:16 +0100
-Message-ID: <CAOssrKeOcuQqEksvc_hgiZiLHHCHCJ_kt+__4BvQvLMDqGcqpw@mail.gmail.com>
-References: <CAKgNAkhz8TWY5DpS4SHiapxC2903KdtBydNAG476_edun2oeLw@mail.gmail.com>
- <20171113075537.GG5546@ram.oc3035372033.ibm.com>
+From: Ralph Corderoy <ralph-LZ+9dIjwmAmSaWcfd5glvw@public.gmane.org>
+Subject: Mid-Sentence Exclamation Mark Has Large Gap.
+Date: Mon, 13 Nov 2017 12:06:02 +0000
+Message-ID: <20171113120602.7DBD02040B@orac.inputplus.co.uk>
 Mime-Version: 1.0
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: 8BIT
-Return-path: <linux-fsdevel-owner@vger.kernel.org>
-In-Reply-To: <20171113075537.GG5546@ram.oc3035372033.ibm.com>
-Sender: linux-fsdevel-owner@vger.kernel.org
-To: Ram Pai <linuxram@us.ibm.com>
-Cc: "Michael Kerrisk (man-pages)" <mtk.manpages@gmail.com>, lkml <linux-kernel@vger.kernel.org>, linux-man <linux-man@vger.kernel.org>, Alexander Eder <alexander.eder@harman.com>, "linux-fsdevel@vger.kernel.org" <linux-fsdevel@vger.kernel.org>
+Content-Type: text/plain; charset=utf-8
+Content-Transfer-Encoding: 8bit
+Return-path: <linux-man-owner-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>
+Sender: linux-man-owner-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
+To: mtk.manpages-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org
+Cc: linux-man-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
 List-Id: linux-man@vger.kernel.org
 
-On Mon, Nov 13, 2017 at 8:55 AM, Ram Pai <linuxram@us.ibm.com> wrote:
-> On Mon, Nov 13, 2017 at 07:02:21AM +0100, Michael Kerrisk (man-pages) wrote:
->> Hello Ram,
->>
->> Long ago (2.6.29) you added the /proc/PID/mountinfo file and
->> associated documentation in Documentation/filesystems/proc.txt. Later,
->> I pasted much of that documentation into the proc(5) manual page.
->>
->> That documentation says of the second field in the file:
->>
->> [[
->> This file contains lines of the form:
->>
->> 36 35 98:0 /mnt1 /mnt2 rw,noatime master:1 - ext3 /dev/root rw,errors=continue
->> (1)(2)(3)   (4)   (5)      (6)      (7)   (8) (9)   (10)         (11)
->>
->> (1) mount ID:  unique identifier of the mount (may be reused after umount)
->> (2) parent ID:  ID of parent (or of self for the top of the mount tree)
->> ...
->> ]]
->>
->> The last piece of the description of field (2) doesn't seem to be
->> correct, or is at least rather unclear. I take this to be saying that
->> that for the root mount point, /, field (2) will have the same value
->> as field (1). I never actually looked at this detail closely, but
->> Alexander pointed out that this is obviously not so, as one can
->> immediately verify:
->>
->> $ grep '/ / ' /proc/$$/mountinfo
->> 65 0 8:2 / / rw,relatime shared:1 - ext4 /dev/sda2 rw,seclabel,data=order
->>
->> I dug around in the kernel source for a bit. I do not have an exact
->> handle on the details, but I can see roughly what is going on.
->> Internally, there seems to be one ("hidden") mount ID reserved to each
->> mount namespace, and that ID is the parent of the root mount point.
->>
->> Looking through the (4.14) kernel source, mount IDs are allocated by
->> mnt_alloc_id() (in fs/namespace.c), which is in turn called by
->> alloc_vfsmnt() which is in turn called by clone_mnt().
->>
->> A new mount namespace is created by the kernel function copy_mnt_ns()
->> (in fs/namespace.c, called by create_new_namespaces() in
->> kernel/nsproxy.c). The copy_mnt_ns() function calls copy_tree() (in
->> fs/namespace.c), and copy_tree() calls clone_mnt() in *two* places.
->> The first of these is the call that creates the "hidden" mount ID that
->> becomes the parent of the root mount point. (I verified this by
->> instrumenting the kernel with a few printk() calls to display the
->> IDs.)  The second place where copy_tree() calls clone_mnt() is in a
->> loop that replicates each of the mount points (including the root
->> mount point) in the source mount namespace.
->
-> We used to report that mount, ones upon a time.  Something has changed
-> the behavior since then and its not reported any more, thus making it
-> hidden.
+Hi,
 
-The hidden one is the initramfs, I believe.  That's the root of the
-mount namespace, and the when a namespace is cloned, the tree is
-copied from the namespace root.
+Arch Linux's man-pages 4.13-1 has ex(1p) that formats poorly because
+end-of-sentence characters aren't being followed by the zero-width
+escape, `\&', to avoid the end-of-sentence spacing that follows.
 
-It is "hidden" because no process has its root there.  Note the
-difference between namespace root and process root: the first is the
-real root of the mount tree and is unchangeable, the second is
-pointing to some place in a mount tree and can be changed (chroot).
+    $ zcat /usr/share/man/man1/ex.1p.gz | grep -B2 'which must'
+    except for the
+    .BR !
+    argument, which must follow the command name without intervening
+    $
+    $ curl -sS http://man7.org/linux/man-pages/man1/ex.1p.html |
+    > grep 'which must'
+	   &lt;blank&gt;-sensitive, except for the <b>!  </b>argument, which must follow the
+    $
 
-So there's nothing special in this rootfs, it is just hidden because
-it's not the root of any task.
+The same probably applies to other characters, e.g. `?', and man pages.
 
-The description of  field (2) is correct, it just does not make it
-clear what it means by "root".
-
-Thanks,
-Miklos
-
->
->>
->> With these details in mind, I propose to patch the man page to read as
->> below. Perhaps you have some corrections or improvements to suggest
->> for this text?
->>
->> [[
->>               (2)  parent ID: the ID of the parent mount.  For  the  root
->>                    mount  point,  the  ID shown here is a hidden mount ID
->>                    associated with the mount namespace.  That ID is  dis‐
->>                    tinct  from  any  of the IDs shown in field (1) of the
->>                    records shown in the  mountinfo  file,  and  does  not
->>                    appear in field (1) in the mountinfo file in any other
->>                    mount namespace.  (In  the  initial  mount  namespace,
->>                    this hidden ID has the value 0.)
->
-> It captures the current semantics correctly.
->
-> RP
->
+-- 
+Cheers, Ralph.
+https://plus.google.com/+RalphCorderoy
+--
+To unsubscribe from this list: send the line "unsubscribe linux-man" in
+the body of a message to majordomo-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
+More majordomo info at  http://vger.kernel.org/majordomo-info.html
