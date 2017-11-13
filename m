@@ -1,41 +1,109 @@
-From: Milind Chabbi <chabbi.milind@gmail.com>
-Subject: Re: [PATCH] perf/core: fast breakpoint modification via _IOC_MODIFY_BREAKPOINT
-Date: Mon, 13 Nov 2017 00:02:56 -0800
-Message-ID: <CAMmz+Y=95ffwgSbLSXoAPOrdQXVQftZNJFjoH=kjpGkZ2u2LYw@mail.gmail.com>
-References: <20171108141522.GA6320@krava> <CAMmz+Ym4yyAAYw02EtxSG7Duv_Pkg3Z+cYrgmW5Esm8Mgdx4-w@mail.gmail.com>
- <20171108151218.GA11018@krava> <CAMmz+Y=PJ2kFf9mqoQDJY32VjpCQBCCuWOiHNXR3mSEzotSS_w@mail.gmail.com>
- <20171108155741.GA12627@krava> <CAMmz+Y=eq=S+gZaRefVUrfB7LDRVfD5UdpkfQXS0zvnHdNt0XA@mail.gmail.com>
- <20171109074658.GC14419@krava> <20171109131233.GA2942@krava>
- <CAMmz+Ykdf+bpA=ARSAYd3xp7U+BDWVmf1iW3SKW=ZVDBSmUSEg@mail.gmail.com>
- <CAMmz+YmhGXPQ_KydpPTLbPDQW-6G_wxrnAz2UYqSwqQJHBN_5Q@mail.gmail.com> <20171113074644.GA18733@krava>
+From: Miklos Szeredi <mszeredi@redhat.com>
+Subject: Re: Improving documentation of parent-ID field in /proc/PID/mountinfo
+Date: Mon, 13 Nov 2017 09:11:16 +0100
+Message-ID: <CAOssrKeOcuQqEksvc_hgiZiLHHCHCJ_kt+__4BvQvLMDqGcqpw@mail.gmail.com>
+References: <CAKgNAkhz8TWY5DpS4SHiapxC2903KdtBydNAG476_edun2oeLw@mail.gmail.com>
+ <20171113075537.GG5546@ram.oc3035372033.ibm.com>
 Mime-Version: 1.0
 Content-Type: text/plain; charset="UTF-8"
-Return-path: <linux-kernel-owner@vger.kernel.org>
-In-Reply-To: <20171113074644.GA18733@krava>
-Sender: linux-kernel-owner@vger.kernel.org
-To: Jiri Olsa <jolsa@redhat.com>
-Cc: Milind Chabbi <chabbi.milind@gmail.com>, Peter Zijlstra <peterz@infradead.org>, Ingo Molnar <mingo@redhat.com>, Arnaldo Carvalho de Melo <acme@kernel.org>, Alexander Shishkin <alexander.shishkin@linux.intel.com>, Namhyung Kim <namhyung@kernel.org>, linux-kernel@vger.kernel.org, Michael Kerrisk-manpages <mtk.manpages@gmail.com>, linux-man@vger.kernel.org, Michael Ellerman <mpe@ellerman.id.au>, Andi Kleen <ak@linux.intel.com>, Kan Liang <kan.liang@intel.com>, Hari Bathini <hbathini@linux.vnet.ibm.com>, Sukadev Bhattiprolu <sukadev@linux.vnet.ibm.com>, Jin Yao <yao.jin@linux.intel.com>
+Content-Transfer-Encoding: 8BIT
+Return-path: <linux-fsdevel-owner@vger.kernel.org>
+In-Reply-To: <20171113075537.GG5546@ram.oc3035372033.ibm.com>
+Sender: linux-fsdevel-owner@vger.kernel.org
+To: Ram Pai <linuxram@us.ibm.com>
+Cc: "Michael Kerrisk (man-pages)" <mtk.manpages@gmail.com>, lkml <linux-kernel@vger.kernel.org>, linux-man <linux-man@vger.kernel.org>, Alexander Eder <alexander.eder@harman.com>, "linux-fsdevel@vger.kernel.org" <linux-fsdevel@vger.kernel.org>
 List-Id: linux-man@vger.kernel.org
 
-SNIP
+On Mon, Nov 13, 2017 at 8:55 AM, Ram Pai <linuxram@us.ibm.com> wrote:
+> On Mon, Nov 13, 2017 at 07:02:21AM +0100, Michael Kerrisk (man-pages) wrote:
+>> Hello Ram,
+>>
+>> Long ago (2.6.29) you added the /proc/PID/mountinfo file and
+>> associated documentation in Documentation/filesystems/proc.txt. Later,
+>> I pasted much of that documentation into the proc(5) manual page.
+>>
+>> That documentation says of the second field in the file:
+>>
+>> [[
+>> This file contains lines of the form:
+>>
+>> 36 35 98:0 /mnt1 /mnt2 rw,noatime master:1 - ext3 /dev/root rw,errors=continue
+>> (1)(2)(3)   (4)   (5)      (6)      (7)   (8) (9)   (10)         (11)
+>>
+>> (1) mount ID:  unique identifier of the mount (may be reused after umount)
+>> (2) parent ID:  ID of parent (or of self for the top of the mount tree)
+>> ...
+>> ]]
+>>
+>> The last piece of the description of field (2) doesn't seem to be
+>> correct, or is at least rather unclear. I take this to be saying that
+>> that for the root mount point, /, field (2) will have the same value
+>> as field (1). I never actually looked at this detail closely, but
+>> Alexander pointed out that this is obviously not so, as one can
+>> immediately verify:
+>>
+>> $ grep '/ / ' /proc/$$/mountinfo
+>> 65 0 8:2 / / rw,relatime shared:1 - ext4 /dev/sda2 rw,seclabel,data=order
+>>
+>> I dug around in the kernel source for a bit. I do not have an exact
+>> handle on the details, but I can see roughly what is going on.
+>> Internally, there seems to be one ("hidden") mount ID reserved to each
+>> mount namespace, and that ID is the parent of the root mount point.
+>>
+>> Looking through the (4.14) kernel source, mount IDs are allocated by
+>> mnt_alloc_id() (in fs/namespace.c), which is in turn called by
+>> alloc_vfsmnt() which is in turn called by clone_mnt().
+>>
+>> A new mount namespace is created by the kernel function copy_mnt_ns()
+>> (in fs/namespace.c, called by create_new_namespaces() in
+>> kernel/nsproxy.c). The copy_mnt_ns() function calls copy_tree() (in
+>> fs/namespace.c), and copy_tree() calls clone_mnt() in *two* places.
+>> The first of these is the call that creates the "hidden" mount ID that
+>> becomes the parent of the root mount point. (I verified this by
+>> instrumenting the kernel with a few printk() calls to display the
+>> IDs.)  The second place where copy_tree() calls clone_mnt() is in a
+>> loop that replicates each of the mount points (including the root
+>> mount point) in the source mount namespace.
+>
+> We used to report that mount, ones upon a time.  Something has changed
+> the behavior since then and its not reported any more, thus making it
+> hidden.
 
-On Sun, Nov 12, 2017 at 11:46 PM, Jiri Olsa <jolsa@redhat.com> wrote:
+The hidden one is the initramfs, I believe.  That's the root of the
+mount namespace, and the when a namespace is cloned, the tree is
+copied from the namespace root.
 
-> but you closed fd4 before openning fd5..?
+It is "hidden" because no process has its root there.  Note the
+difference between namespace root and process root: the first is the
+real root of the mount tree and is unchangeable, the second is
+pointing to some place in a mount tree and can be changed (chroot).
 
-Yes, that is correct. I closed fd4. The reason is by closing fd4, we
-are having a total of 3 hardware breakpoints active, but we are making
-the software counting in the kernel think that four TYPE_DATA
-breakpoints active. The counting should have disallowed us from
-creating fd5 as per the following logic in the kernel:
+So there's nothing special in this rootfs, it is just hidden because
+it's not the root of any task.
 
-static int __reserve_bp_slot(struct perf_event *bp)
+The description of  field (2) is correct, it just does not make it
+clear what it means by "root".
 
-{
- ....
+Thanks,
+Miklos
 
-        /* Flexible counters need to keep at least one slot */
-        if (slots.pinned + (!!slots.flexible) > nr_slots[type])
-                return -ENOSPC;
-....
-}
+>
+>>
+>> With these details in mind, I propose to patch the man page to read as
+>> below. Perhaps you have some corrections or improvements to suggest
+>> for this text?
+>>
+>> [[
+>>               (2)  parent ID: the ID of the parent mount.  For  the  root
+>>                    mount  point,  the  ID shown here is a hidden mount ID
+>>                    associated with the mount namespace.  That ID is  dis‐
+>>                    tinct  from  any  of the IDs shown in field (1) of the
+>>                    records shown in the  mountinfo  file,  and  does  not
+>>                    appear in field (1) in the mountinfo file in any other
+>>                    mount namespace.  (In  the  initial  mount  namespace,
+>>                    this hidden ID has the value 0.)
+>
+> It captures the current semantics correctly.
+>
+> RP
+>
