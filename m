@@ -1,131 +1,141 @@
 From: "Michael Kerrisk (man-pages)" <mtk.manpages-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org>
-Subject: Re: [PATCH] Include <sys/types.h> in SYNOPSIS for pid_t
-Date: Mon, 13 Nov 2017 18:06:52 +0100
-Message-ID: <CAKgNAkhRSjX-NDc_Y4bJTuNhyw6rzy1FFEaPBx74n-iQ78ih=g@mail.gmail.com>
-References: <20171112132921.78840-1-ahmad@a3f.at> <CAKgNAkivPv2499L7zOt7iPnG9n6aoRGq+DtAXHuM1sZrN9m0aw@mail.gmail.com>
- <6B5BB556-4D50-43CA-8565-930F2E50616E@a3f.at>
+Subject: Re: Improving documentation of parent-ID field in /proc/PID/mountinfo
+Date: Tue, 14 Nov 2017 08:08:36 +0100
+Message-ID: <CAKgNAki_8xKG0Ky2phAHbKi=Ta7QYZRW4hr3hgu3rZ=gG-AHvA@mail.gmail.com>
+References: <CAKgNAkhz8TWY5DpS4SHiapxC2903KdtBydNAG476_edun2oeLw@mail.gmail.com>
+ <20171113075537.GG5546@ram.oc3035372033.ibm.com> <CAOssrKeOcuQqEksvc_hgiZiLHHCHCJ_kt+__4BvQvLMDqGcqpw@mail.gmail.com>
 Reply-To: mtk.manpages-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org
 Mime-Version: 1.0
 Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 Return-path: <linux-man-owner-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>
-In-Reply-To: <6B5BB556-4D50-43CA-8565-930F2E50616E-WDeAlZut61o@public.gmane.org>
+In-Reply-To: <CAOssrKeOcuQqEksvc_hgiZiLHHCHCJ_kt+__4BvQvLMDqGcqpw-JsoAwUIsXosN+BqQ9rBEUg@public.gmane.org>
 Sender: linux-man-owner-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
-To: Ahmad Fatoum <ahmad-WDeAlZut61o@public.gmane.org>
-Cc: linux-man <linux-man-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>
+To: Miklos Szeredi <mszeredi-H+wXaHxf7aLQT0dZR+AlfA@public.gmane.org>
+Cc: Ram Pai <linuxram-r/Jw6+rmf7HQT0dZR+AlfA@public.gmane.org>, lkml <linux-kernel-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>, linux-man <linux-man-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>, Alexander Eder <alexander.eder-dasnjmbS2urQT0dZR+AlfA@public.gmane.org>, "linux-fsdevel-u79uwXL29TY76Z2rM5mHXA@public.gmane.org" <linux-fsdevel-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>
 List-Id: linux-man@vger.kernel.org
 
-Hello Ahmad
+Hi Miklos, Ram
 
-On 13 November 2017 at 17:48, Ahmad Fatoum <ahmad-WDeAlZut61o@public.gmane.org> wrote:
-> Hello Michael,
+Thanks for your comments. A question below.
+
+On 13 November 2017 at 09:11, Miklos Szeredi <mszeredi-H+wXaHxf7aLQT0dZR+AlfA@public.gmane.org> wrote:
+> On Mon, Nov 13, 2017 at 8:55 AM, Ram Pai <linuxram-r/Jw6+rmf7HQT0dZR+AlfA@public.gmane.org> wrote:
+>> On Mon, Nov 13, 2017 at 07:02:21AM +0100, Michael Kerrisk (man-pages) wr=
+ote:
+>>> Hello Ram,
+>>>
+>>> Long ago (2.6.29) you added the /proc/PID/mountinfo file and
+>>> associated documentation in Documentation/filesystems/proc.txt. Later,
+>>> I pasted much of that documentation into the proc(5) manual page.
+>>>
+>>> That documentation says of the second field in the file:
+>>>
+>>> [[
+>>> This file contains lines of the form:
+>>>
+>>> 36 35 98:0 /mnt1 /mnt2 rw,noatime master:1 - ext3 /dev/root rw,errors=
+=3Dcontinue
+>>> (1)(2)(3)   (4)   (5)      (6)      (7)   (8) (9)   (10)         (11)
+>>>
+>>> (1) mount ID:  unique identifier of the mount (may be reused after umou=
+nt)
+>>> (2) parent ID:  ID of parent (or of self for the top of the mount tree)
+>>> ...
+>>> ]]
+>>>
+>>> The last piece of the description of field (2) doesn't seem to be
+>>> correct, or is at least rather unclear. I take this to be saying that
+>>> that for the root mount point, /, field (2) will have the same value
+>>> as field (1). I never actually looked at this detail closely, but
+>>> Alexander pointed out that this is obviously not so, as one can
+>>> immediately verify:
+>>>
+>>> $ grep '/ / ' /proc/$$/mountinfo
+>>> 65 0 8:2 / / rw,relatime shared:1 - ext4 /dev/sda2 rw,seclabel,data=3Do=
+rder
+>>>
+>>> I dug around in the kernel source for a bit. I do not have an exact
+>>> handle on the details, but I can see roughly what is going on.
+>>> Internally, there seems to be one ("hidden") mount ID reserved to each
+>>> mount namespace, and that ID is the parent of the root mount point.
+>>>
+>>> Looking through the (4.14) kernel source, mount IDs are allocated by
+>>> mnt_alloc_id() (in fs/namespace.c), which is in turn called by
+>>> alloc_vfsmnt() which is in turn called by clone_mnt().
+>>>
+>>> A new mount namespace is created by the kernel function copy_mnt_ns()
+>>> (in fs/namespace.c, called by create_new_namespaces() in
+>>> kernel/nsproxy.c). The copy_mnt_ns() function calls copy_tree() (in
+>>> fs/namespace.c), and copy_tree() calls clone_mnt() in *two* places.
+>>> The first of these is the call that creates the "hidden" mount ID that
+>>> becomes the parent of the root mount point. (I verified this by
+>>> instrumenting the kernel with a few printk() calls to display the
+>>> IDs.)  The second place where copy_tree() calls clone_mnt() is in a
+>>> loop that replicates each of the mount points (including the root
+>>> mount point) in the source mount namespace.
+>>
+>> We used to report that mount, ones upon a time.  Something has changed
+>> the behavior since then and its not reported any more, thus making it
+>> hidden.
 >
-> whether <unistd.h> defines pid_t is dependent on feature macros
-> (_GNU_SOURCE or _POSIX_C_SOURCE >= 200112L).
-> If the user compiles with -std=c11 for example, neither of those are set.
-> I think it would be better to have the man pages SYNOPSIS
-> not assume the user code uses a particular version of POSIX
-> and be as widely applicable as possible.
+> The hidden one is the initramfs, I believe.  That's the root of the
+> mount namespace, and the when a namespace is cloned, the tree is
+> copied from the namespace root.
+>
+> It is "hidden" because no process has its root there.  Note the
+> difference between namespace root and process root: the first is the
+> real root of the mount tree and is unchangeable, the second is
+> pointing to some place in a mount tree and can be changed (chroot).
+>
+> So there's nothing special in this rootfs, it is just hidden because
+> it's not the root of any task.
+>
+> The description of  field (2) is correct, it just does not make it
+> clear what it means by "root".
 
-Good point! Thanks for spotting that. I reverted my change, and
-applied your patch. Thanks!
+Sorry -- do you mean the old description is correct, or my new
+description (below)?
 
 Cheers,
 
 Michael
 
->> On 13Nov 2017, at 17:39, Michael Kerrisk (man-pages) <mtk.manpages-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org> wrote:
->>
->> Hello Ahmad
->>
->> On 12 November 2017 at 14:29, Ahmad Fatoum <ahmad-WDeAlZut61o@public.gmane.org> wrote:
->>> vfork(2), getpid(2) and others which return pid_t already do this.
->>
->> Thanks for the patch. But the fix should go the other way: POSIX says
->> that <unistd.h> should also define 'pid_t', so that vfork() and
->> getpid() do *not* need <sys/types.h>. So, I've updates those two pages
->> accordingly.
->>
->> Thanks
->>
->> Michael
->>
->>
->>> Cc: linux-man-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
->>> Signed-off-by: Ahmad Fatoum <ahmad-WDeAlZut61o@public.gmane.org>
->>> ---
->>> man2/fork.2    | 2 ++
->>> man2/getsid.2  | 2 ++
->>> man2/setpgid.2 | 2 ++
->>> man2/setsid.2  | 2 ++
->>> 4 files changed, 8 insertions(+)
->>>
->>> diff --git a/man2/fork.2 b/man2/fork.2
->>> index 931e8f76f..235a88e50 100644
->>> --- a/man2/fork.2
->>> +++ b/man2/fork.2
->>> @@ -40,6 +40,8 @@
->>> .SH NAME
->>> fork \- create a child process
->>> .SH SYNOPSIS
->>> +.B #include <sys/types.h>
->>> +.br
->>> .B #include <unistd.h>
->>> .PP
->>> .B pid_t fork(void);
->>> diff --git a/man2/getsid.2 b/man2/getsid.2
->>> index 9f2bf9f8d..a912b651f 100644
->>> --- a/man2/getsid.2
->>> +++ b/man2/getsid.2
->>> @@ -28,6 +28,8 @@
->>> .SH NAME
->>> getsid \- get session ID
->>> .SH SYNOPSIS
->>> +.B #include <sys/types.h>
->>> +.br
->>> .B #include <unistd.h>
->>> .PP
->>> .BI "pid_t getsid(pid_t" " pid" );
->>> diff --git a/man2/setpgid.2 b/man2/setpgid.2
->>> index 03a83a845..be451e765 100644
->>> --- a/man2/setpgid.2
->>> +++ b/man2/setpgid.2
->>> @@ -49,6 +49,8 @@
->>> .SH NAME
->>> setpgid, getpgid, setpgrp, getpgrp \- set/get process group
->>> .SH SYNOPSIS
->>> +.B #include <sys/types.h>
->>> +.br
->>> .B #include <unistd.h>
->>> .PP
->>> .BI "int setpgid(pid_t " pid ", pid_t " pgid );
->>> diff --git a/man2/setsid.2 b/man2/setsid.2
->>> index 91150da77..d2f4cc3b2 100644
->>> --- a/man2/setsid.2
->>> +++ b/man2/setsid.2
->>> @@ -33,6 +33,8 @@
->>> setsid \- creates a session and sets the process group ID
->>> .SH SYNOPSIS
->>> .ad l
->>> +.B #include <sys/types.h>
->>> +.br
->>> .B #include <unistd.h>
->>> .PP
->>> .B pid_t setsid(void);
->>> --
->>> 2.14.3
->>>
->>
->>
->>
->> --
->> Michael Kerrisk
->> Linux man-pages maintainer; http://www.kernel.org/doc/man-pages/
->> Linux/UNIX System Programming Training: http://man7.org/training/
+
+> Thanks,
+> Miklos
 >
+>>
+>>>
+>>> With these details in mind, I propose to patch the man page to read as
+>>> below. Perhaps you have some corrections or improvements to suggest
+>>> for this text?
+>>>
+>>> [[
+>>>               (2)  parent ID: the ID of the parent mount.  For  the  ro=
+ot
+>>>                    mount  point,  the  ID shown here is a hidden mount =
+ID
+>>>                    associated with the mount namespace.  That ID is  di=
+s=E2=80=90
+>>>                    tinct  from  any  of the IDs shown in field (1) of t=
+he
+>>>                    records shown in the  mountinfo  file,  and  does  n=
+ot
+>>>                    appear in field (1) in the mountinfo file in any oth=
+er
+>>>                    mount namespace.  (In  the  initial  mount  namespac=
+e,
+>>>                    this hidden ID has the value 0.)
+>>
+>> It captures the current semantics correctly.
+>>
+>> RP
+>>
 
 
 
--- 
+--=20
 Michael Kerrisk
 Linux man-pages maintainer; http://www.kernel.org/doc/man-pages/
 Linux/UNIX System Programming Training: http://man7.org/training/
