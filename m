@@ -1,23 +1,20 @@
-From: Wang Jianlin <info-JS7dhR0+aXAadOK0mv3dhgC/G2K4zDHf@public.gmane.org>
-Subject: Hello Friend
-Date: Thu, 16 Nov 2017 09:53:00 +0200
-Message-ID: <944af60e9e758055a46ba9c1f41a68c7@neomontana-bg.com>
-Reply-To: 3045626170-9uewiaClKEY@public.gmane.org
+From: kalle <kalle-hsXoOLftXaMrK3VXJnZBaRvVK+yQ3ZXh@public.gmane.org>
+Subject: man fs
+Date: Thu, 16 Nov 2017 13:12:18 +0100
+Message-ID: <5A0D80A2.7050201@projektwerkstatt.de>
 Mime-Version: 1.0
-Content-Type: text/plain; charset=US-ASCII;
- format=flowed
+Content-Type: text/plain; charset=utf-8
 Content-Transfer-Encoding: 7bit
 Return-path: <linux-man-owner-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>
 Sender: linux-man-owner-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
+To: linux-man-u79uwXL29TY76Z2rM5mHXA@public.gmane.org, mtk.manpages-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org
 List-Id: linux-man@vger.kernel.org
 
+hello,
+wouldn't it make sense, to add a short description or reference,what a
+filesystem is and which properties can exist (journaling for example)?
 
-
--- 
-I intend to give you a portion of my wealth as a free-will financial 
-donation to you, Respond to partake.
-Wang Jianlin
-Wanda Group
+kalle
 --
 To unsubscribe from this list: send the line "unsubscribe linux-man" in
 the body of a message to majordomo-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
