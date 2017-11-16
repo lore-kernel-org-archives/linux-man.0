@@ -1,53 +1,24 @@
-From: Pavel Machek <pavel-+ZI9xUNit7I@public.gmane.org>
-Subject: Re: Draft manpage explaining kernel lockdown
-Date: Wed, 15 Nov 2017 22:12:46 +0100
-Message-ID: <20171115211246.GF6183@amd>
-References: <7969.1507201224@warthog.procyon.org.uk>
+From: Wang Jianlin <info-JS7dhR0+aXAadOK0mv3dhgC/G2K4zDHf@public.gmane.org>
+Subject: Hello Friend
+Date: Thu, 16 Nov 2017 09:53:00 +0200
+Message-ID: <944af60e9e758055a46ba9c1f41a68c7@neomontana-bg.com>
+Reply-To: 3045626170-9uewiaClKEY@public.gmane.org
 Mime-Version: 1.0
-Content-Type: multipart/signed; micalg=pgp-sha1;
-        protocol="application/pgp-signature"; boundary="BzCohdixPhurzSK4"
-Return-path: <linux-efi-owner-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>
-Content-Disposition: inline
-In-Reply-To: <7969.1507201224-S6HVgzuS8uM4Awkfq6JHfwNdhmdF6hFW@public.gmane.org>
-Sender: linux-efi-owner-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
-To: David Howells <dhowells-H+wXaHxf7aLQT0dZR+AlfA@public.gmane.org>
-Cc: Ard Biesheuvel <ard.biesheuvel-QSEj5FYQhm4dnm+yROfE0A@public.gmane.org>, mtk.manpages-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org, mcgrof-DgEjT+Ai2ygdnm+yROfE0A@public.gmane.org, johannes-cdvu00un1VgdHxzADdlk8Q@public.gmane.org, linux-man-u79uwXL29TY76Z2rM5mHXA@public.gmane.org, keyrings-u79uwXL29TY76Z2rM5mHXA@public.gmane.org, linux-security-module-u79uwXL29TY76Z2rM5mHXA@public.gmane.org, linux-efi-u79uwXL29TY76Z2rM5mHXA@public.gmane.org, linux-kernel-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
+Content-Type: text/plain; charset=US-ASCII;
+ format=flowed
+Content-Transfer-Encoding: 7bit
+Return-path: <linux-man-owner-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>
+Sender: linux-man-owner-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
 List-Id: linux-man@vger.kernel.org
 
 
---BzCohdixPhurzSK4
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-Content-Transfer-Encoding: quoted-printable
 
-Hi!
-
-> Attached is a draft for a manual page (kernel_lockdown.7) that I intend to
-> point at from messages emitted when the kernel prohibits something becaus=
-e the
-> kernel is in 'lockdown' mode, typically triggered by EFI secure
-> boot.
-
-What about livepatching? It allows kernel modifications.. and it has
-some interestlingly insecure /sys controls being merged just now...
-
-								Pavel
-							=09
---=20
-(english) http://www.livejournal.com/~pavelmachek
-(cesky, pictures) http://atrey.karlin.mff.cuni.cz/~pavel/picture/horses/blo=
-g.html
-
---BzCohdixPhurzSK4
-Content-Type: application/pgp-signature; name="signature.asc"
-Content-Description: Digital signature
-
------BEGIN PGP SIGNATURE-----
-Version: GnuPG v1
-
-iEYEARECAAYFAloMrc4ACgkQMOfwapXb+vKKUwCdEPbzuQ1Vu/ZnRIJJ/5GYsCxR
-71oAn1YjfT8qBEhk2vvdlalbdg40uxkc
-=mAAp
------END PGP SIGNATURE-----
-
---BzCohdixPhurzSK4--
+-- 
+I intend to give you a portion of my wealth as a free-will financial 
+donation to you, Respond to partake.
+Wang Jianlin
+Wanda Group
+--
+To unsubscribe from this list: send the line "unsubscribe linux-man" in
+the body of a message to majordomo-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
+More majordomo info at  http://vger.kernel.org/majordomo-info.html
