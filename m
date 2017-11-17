@@ -1,71 +1,42 @@
-From: Marcus Folkesson <marcus.folkesson-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org>
-Subject: [PATCH] proc.5: update description of /proc/<pid>/oom_score
-Date: Fri, 17 Nov 2017 13:09:44 +0100
-Message-ID: <20171117120944.14300-1-marcus.folkesson@gmail.com>
+From: Don Brace <don.brace-dzo6w/eZyo2tG0bUXCXiUA@public.gmane.org>
+Subject: RE: [PATCH] smartpqi: initial submit of smartpqi man page
+Date: Fri, 17 Nov 2017 16:56:28 +0000
+Message-ID: <4993A297653ECB4581FA5C3C31323D19698FBDFC@avsrvexchmbx2.microsemi.net>
+References: <150833943926.13185.7883447908516236321.stgit@brunhilda>
+ <20171019213558.aelneujzgyucrye3@crack.deadbeast.net>
+ <4993A297653ECB4581FA5C3C31323D196721BE80@avsrvexchmbx2.microsemi.net>
+ <588a2c6e-f01c-f1e8-9fd0-cdcd414dc973@gmail.com>
+ <20171101013656.urhyeq7h2ccclxzu@crack.deadbeast.net>
+ <4993A297653ECB4581FA5C3C31323D19698EAC78@avsrvexchmbx1.microsemi.net>
+ <CAKgNAkiPn1aiBBwDOdds-WBbQY+NAfnh6QXhp9hBTU_3hhOBKQ@mail.gmail.com>
+ <4993A297653ECB4581FA5C3C31323D19698FB27C@avsrvexchmbx2.microsemi.net>
+ <CAKgNAkgjsOA2CO5VUF-bYjuyBgr2aiBMZT2V0nvHwzm1sker8Q@mail.gmail.com>
+Mime-Version: 1.0
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: base64
 Return-path: <linux-man-owner-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>
+In-Reply-To: <CAKgNAkgjsOA2CO5VUF-bYjuyBgr2aiBMZT2V0nvHwzm1sker8Q-JsoAwUIsXosN+BqQ9rBEUg@public.gmane.org>
+Content-Language: en-US
 Sender: linux-man-owner-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
-To: mtk.manpages-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org
-Cc: linux-man-u79uwXL29TY76Z2rM5mHXA@public.gmane.org, marcus.folkesson-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org
+To: "mtk.manpages-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org" <mtk.manpages-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org>
+Cc: "G. Branden Robinson" <g.branden.robinson-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org>, "linux-man-u79uwXL29TY76Z2rM5mHXA@public.gmane.org" <linux-man-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>, Gerry Morong <gerry.morong-dzo6w/eZyo2tG0bUXCXiUA@public.gmane.org>, John Hall <John.Hall-dzo6w/eZyo2tG0bUXCXiUA@public.gmane.org>, Kevin Barnett <kevin.barnett-dzo6w/eZyo2tG0bUXCXiUA@public.gmane.org>, Bader Ali - Saleh <bader.alisaleh-dzo6w/eZyo2tG0bUXCXiUA@public.gmane.org>, Scott Teel <scott.teel-dzo6w/eZyo2tG0bUXCXiUA@public.gmane.org>, Justin Lindley <justin.lindley-dzo6w/eZyo2tG0bUXCXiUA@public.gmane.org>, Scott Benesh <scott.benesh-dzo6w/eZyo2tG0bUXCXiUA@public.gmane.org>
 List-Id: linux-man@vger.kernel.org
 
-After Linux 2.6.36, the heuristic calculation of oom_score has changed
-to only consider used memory and CAP_SYS_ADMIN.
-
-See commit a63d83f427fbce97a6cea0db2e64b0eb8435cd10 in kernel tree.
-
-Signed-off-by: Marcus Folkesson <marcus.folkesson-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org>
----
- man5/proc.5 | 20 ++++++++++++++------
- 1 file changed, 14 insertions(+), 6 deletions(-)
-
-diff --git a/man5/proc.5 b/man5/proc.5
-index 82d4a0646..4e44b8fba 100644
---- a/man5/proc.5
-+++ b/man5/proc.5
-@@ -1395,7 +1395,9 @@ Since Linux 2.6.36, use of this file is deprecated in favor of
- .IR /proc/[pid]/oom_score_adj .
- .TP
- .IR /proc/[pid]/oom_score " (since Linux 2.6.11)"
--.\" See mm/oom_kill.c::badness() in the 2.6.25 sources
-+.\" See mm/oom_kill.c::badness() in pre 2.6.36 sources
-+.\" See mm/oom_kill.c::oom_badness() after 2.6.36
-+.\" commit a63d83f427fbce97a6cea0db2e64b0eb8435cd10
- This file displays the current score that the kernel gives to
- this process for the purpose of selecting a process
- for the OOM-killer.
-@@ -1403,7 +1405,16 @@ A higher score means that the process is more likely to be
- selected by the OOM-killer.
- The basis for this score is the amount of memory used by the process,
- with increases (+) or decreases (\-) for factors including:
--.\" See mm/oom_kill.c::badness() in the 2.6.25 sources
-+.\" See mm/oom_kill.c::badness() in pre 2.6.36 sources
-+.\" See mm/oom_kill.c::oom_badness() after 2.6.36
-+.\" commit a63d83f427fbce97a6cea0db2e64b0eb8435cd10
-+.RS
-+.IP * 2
-+whether the process is privileged (\-);
-+.\" More precisely, if it has CAP_SYS_ADMIN or (pre 2.6.36) CAP_SYS_RESOURCE
-+.RE
-+.IP
-+Before kernel 2.6.36 the following factors were also used in the calculation of oom_score:
- .RS
- .IP * 2
- whether the process creates a lot of children using
-@@ -1413,10 +1424,7 @@ whether the process creates a lot of children using
- whether the process has been running a long time,
- or has used a lot of CPU time (\-);
- .IP *
--whether the process has a low nice value (i.e., > 0) (+);
--.IP *
--whether the process is privileged (\-); and
--.\" More precisely, if it has CAP_SYS_ADMIN or CAP_SYS_RESOURCE
-+whether the process has a low nice value (i.e., > 0) (+); and
- .IP *
- whether the process is making direct hardware access (\-).
- .\" More precisely, if it has CAP_SYS_RAWIO
--- 
-2.13.1
-
+DQo+ID4gVG8gY29uZmlndXJlIE1pY3Jvc2VtaSBTbWFydCBGYW1pbHkgY29udHJvbGxlcnMsIHBs
+ZWFzZSByZWZlciB0byB0aGUNCj4gPiBjb250cm9sbGVy4oCZcyBJbnN0YWxsYXRpb24gYW5kIFVz
+ZXLigJlzIEd1aWRlIGRvY3VtZW50YXRpb24gd2hpY2ggY2FuIGJlIGZvdW5kDQo+IGJ5DQo+ID4g
+c2VhcmNoaW5nIGZvciB0aGUgY29udHJvbGxlciBhdCBodHRwczovL3N0b3JhZ2UubWljcm9zZW1p
+LmNvbS8NCj4gDQo+IFdoYXQgZXhhY3RseSBkb2VzIG9uZSBzZWFyY2ggZm9yPyBJIGNvdWxkIG5v
+dCBlYXNpbHkgZmluZCB0aGUgVXNlcidzIEd1aWRlLg0KPiANCj4gQ2hlZXJzLA0KPiANCj4gTWlj
+aGFlbA0KPiAtLQ0KDQpJIHNlYXJjaGVkIHRoZSBNaWNyb3NlbWkgc2l0ZSBmb3IgdGhlIGNvbnRy
+b2xsZXIgKGV4YW1wbGUgMjEwMC04aSkNCg0KQW5kIGNhbWUgdG8gdGhpcyBwYWdlOg0KaHR0cHM6
+Ly9zdG9yYWdlLm1pY3Jvc2VtaS5jb20vZW4tdXMvc3VwcG9ydC9zYXMvc2FzL2FoYS0yMTAwLThp
+Lw0KDQpZaWVsZHMgdGhpcyBkb2N1bWVudDoNCmh0dHA6Ly9kb3dubG9hZC5hZGFwdGVjLmNvbS9w
+ZGZzL3VzZXJfZ3VpZGVzL21pY3Jvc2VtaV9zbWFydGhiYV9zbWFydHJhaWRfaXVnXzEwXzIwMTcu
+cGRmDQoNCg0KDQo+IFRvIHVuc3Vic2NyaWJlIGZyb20gdGhpcyBsaXN0OiBzZW5kIHRoZSBsaW5l
+ICJ1bnN1YnNjcmliZSBsaW51eC1tYW4iIGluDQo+IHRoZSBib2R5IG9mIGEgbWVzc2FnZSB0byBt
+YWpvcmRvbW9Admdlci5rZXJuZWwub3JnDQo+IE1vcmUgbWFqb3Jkb21vIGluZm8gYXQgIGh0dHA6
+Ly92Z2VyLmtlcm5lbC5vcmcvbWFqb3Jkb21vLWluZm8uaHRtbA0K
 --
 To unsubscribe from this list: send the line "unsubscribe linux-man" in
 the body of a message to majordomo-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
