@@ -1,110 +1,62 @@
-From: "Michael Kerrisk (man-pages)" <mtk.manpages-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org>
-Subject: Re: seccomp() SECCOMP_RET_KILL_PROCESS text for man page
-Date: Sat, 18 Nov 2017 23:28:31 +0100
-Message-ID: <CAKgNAkj2Gdx64Wom333+w6S5XCvtpgXyACp0uKTM0h3okj4Otw@mail.gmail.com>
-References: <a11b9a7a-1411-34d7-71aa-a29609729f21@gmail.com> <CAGXu5jKz_v3pEK3OsRBqxwJMHpgTJi=WE_3_GXgkZ-HnQ5RY0A@mail.gmail.com>
-Reply-To: mtk.manpages-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org
-Mime-Version: 1.0
-Content-Type: text/plain; charset="UTF-8"
+From: Christian Brauner <christian.brauner-GeWIH/nMZzLQT0dZR+AlfA@public.gmane.org>
+Subject: [PATCH] user_namespaces.7: Record new 340 line idmap limit
+Date: Sun, 19 Nov 2017 02:25:05 +0100
+Message-ID: <20171119012505.1925-1-christian.brauner@ubuntu.com>
 Return-path: <linux-man-owner-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>
-In-Reply-To: <CAGXu5jKz_v3pEK3OsRBqxwJMHpgTJi=WE_3_GXgkZ-HnQ5RY0A-JsoAwUIsXosN+BqQ9rBEUg@public.gmane.org>
 Sender: linux-man-owner-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
-To: Kees Cook <keescook-F7+t8E8rja9g9hUCZPvPmw@public.gmane.org>
-Cc: Tyler Hicks <tyhicks-Z7WLFzj8eWMS+FvcfC7Uqw@public.gmane.org>, linux-man <linux-man-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>, lkml <linux-kernel-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>
+To: mtk.manpages-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org
+Cc: containers-cunTk1MwBs9QetFLy7KEm3xJsTq8ys+cHZ5vskTnxNA@public.gmane.org, linux-man-u79uwXL29TY76Z2rM5mHXA@public.gmane.org, serge-A9i7LUbDfNHQT0dZR+AlfA@public.gmane.org, ebiederm-aS9lmoZGLiVWk0Htik3J/w@public.gmane.org, Christian Brauner <christian.brauner-GeWIH/nMZzLQT0dZR+AlfA@public.gmane.org>
 List-Id: linux-man@vger.kernel.org
 
-Hi Kees!
+This patch documents the following commit:
 
-On 18 November 2017 at 21:52, Kees Cook <keescook-F7+t8E8rja9g9hUCZPvPmw@public.gmane.org> wrote:
-> On Sat, Nov 18, 2017 at 12:04 PM, Michael Kerrisk (man-pages)
-> <mtk.manpages-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org> wrote:
->> Hi Kees,
->>
->> I came up with the following text (patch below) to describe the
->> SECCOMP_RET_KILL_PROCESS action that you added in 4.14. Does it
->> look okay?
->>
->>        SECCOMP_RET_KILL_PROCESS (since Linux 4.14)
->>               This value results in immediate termination of the process,
->>               with a core dump.  The system call  is  not  executed.   By
->>               contrast with SECCOMP_RET_KILL_THREAD below, all threads in
->>               the thread group are  terminated.   (For  a  discussion  of
->>               thread groups, see the description of the CLONE_THREAD flag
->>               in clone(2).)
->>
->>               The process terminates as though killed by a SIGSYS signal.
->>               Even  if  a  signal handler has been registered for SIGSYS,
->>               the handler will be ignored in this case  and  the  process
->>               always  terminates.  To a parent process that is waiting on
->>               this process (using waitpid(2) or  similar),  the  returned
->>               wstatus  will  indicate  that  its  child was terminated as
->>               though by a SIGSYS signal.
->>
->> Cheers,
->>
->> Michael
->>
->>
->> diff --git a/man2/seccomp.2 b/man2/seccomp.2
->> index 2e912940e..1b6bb2e51 100644
->> --- a/man2/seccomp.2
->> +++ b/man2/seccomp.2
->> @@ -399,6 +399,36 @@ returned by execution of all of the filters.
->>  In decreasing order of precedence,
->>  the values that may be returned by a seccomp filter are:
->>  .TP
->> +.BR SECCOMP_RET_KILL_PROCESS " (since Linux 4.14)"
->> +.\" commit 4d3b0b05aae9ee9ce0970dc4cc0fb3fad5e85945
->> +.\" commit 0466bdb99e8744bc9befa8d62a317f0fd7fd7421
->> +This value results in immediate termination of the process,
->> +with a core dump.
->> +The system call is not executed.
->> +By contrast with
->> +.BR SECCOMP_RET_KILL_THREAD
->> +below, all threads in the thread group are terminated.
->> +(For a discussion of thread groups, see the description of the
->> +.BR CLONE_THREAD
->> +flag in
->> +.BR clone (2).)
->> +.IP
->> +The process terminates
->> +.I "as though"
->> +killed by a
->> +.B SIGSYS
->> +signal.
->> +Even if a signal handler has been registered for
->> +.BR SIGSYS ,
->> +the handler will be ignored in this case and the process always terminates.
->> +To a parent process that is waiting on this process (using
->> +.BR waitpid (2)
->> +or similar), the returned
->> +.I wstatus
->> +will indicate that its child was terminated as though by a
->> +.BR SIGSYS
->> +signal.
->> +.TP
->>  .BR SECCOMP_RET_KILL_THREAD " (or " SECCOMP_RET_KILL )
->>  This value results in immediate termination of the thread
->>  that made the system call.
->
-> This is perfect, thank you!
+commit 6397fac4915ab3002dc15aae751455da1a852f25
+Author: Christian Brauner <christian.brauner-GeWIH/nMZzLQT0dZR+AlfA@public.gmane.org>
+Date:   Wed Oct 25 00:04:41 2017 +0200
 
-Good. Thanks for checking it.
+    userns: bump idmap limits to 340
 
-> One thing to adjust elsewhere would be to rename SECCOMP_RET_ACTION to
-> SECCOMP_RET_ACTION_FULL (the new mask covers the bits used by
-> SECCOMP_RET_KILL_PROCESS).
+Since Linux 4.15 the number of idmap lines has been bumped to 340.
+The patch also removes the "(arbitrary)" in "There is an (arbitrary) limit on
+the number of lines in the file." since the 340 line limit is well-explained by
+the current implementation. The struct recording the idmaps is 12 bytes and
+quite some proc files only allow writes the size of a single page size which is
+4096kB. This leaves room for 340 idmappings (340 * 12 = 4080 bytes).
+The struct layout itself has been chosen very carefully to allow for an
+implementation that limits the time-complexity for the idmap codepaths to
+O(log n). However, I think it's unnecessary to expose this much implementation
+detail to users in the man page. So only mention this in the commit message.
+Furthermore, the comment about the page size restriction is misleading. The
+kernel sources show that >= page size is considered an error.
 
-Thanks. I missed that detail. I've made that change in the manual page.
+Signed-off-by: Christian Brauner <christian.brauner-GeWIH/nMZzLQT0dZR+AlfA@public.gmane.org>
+---
+ man7/user_namespaces.7 | 7 ++-----
+ 1 file changed, 2 insertions(+), 5 deletions(-)
 
-Cheers,
-
-Michael
-
+diff --git a/man7/user_namespaces.7 b/man7/user_namespaces.7
+index 11ca41162..5968c09cc 100644
+--- a/man7/user_namespaces.7
++++ b/man7/user_namespaces.7
+@@ -510,13 +510,10 @@ and the last field must be greater than 0.
+ .IP *
+ Lines are terminated by newline characters.
+ .IP *
+-There is an (arbitrary) limit on the number of lines in the file.
+-As at Linux 3.18, the limit is five lines.
++There is a limit on the number of lines in the file.
++As of Linux 4.15, the limit is 340 lines.
+ In addition, the number of bytes written to
+ the file must be less than the system page size,
+-.\" FIXME(Eric): the restriction "less than" rather than "less than or equal"
+-.\" seems strangely arbitrary. Furthermore, the comment does not agree
+-.\" with the code in kernel/user_namespace.c. Which is correct?
+ and the write must be performed at the start of the file (i.e.,
+ .BR lseek (2)
+ and
 -- 
-Michael Kerrisk
-Linux man-pages maintainer; http://www.kernel.org/doc/man-pages/
-Linux/UNIX System Programming Training: http://man7.org/training/
+2.14.1
+
 --
 To unsubscribe from this list: send the line "unsubscribe linux-man" in
 the body of a message to majordomo-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
