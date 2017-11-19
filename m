@@ -1,88 +1,88 @@
-From: Christian Brauner <christian.brauner-Z7WLFzj8eWMS+FvcfC7Uqw@public.gmane.org>
-Subject: Re: [PATCH] user_namespaces.7: Record new 340 line idmap limit
-Date: Sun, 19 Nov 2017 10:48:44 +0100
-Message-ID: <20171119094843.axqozve4trhbdvug@gmail.com>
-References: <20171119012505.1925-1-christian.brauner@ubuntu.com>
- <0b3acf79-dd24-5845-b4f4-6d2f9222a5a6@gmail.com>
+From: "Michael Kerrisk (man-pages)" <mtk.manpages-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org>
+Subject: Re: [PATCH] proc.5: update description of /proc/<pid>/oom_score
+Date: Sun, 19 Nov 2017 20:24:59 +0100
+Message-ID: <1151a6ac-3e87-9aad-9e2e-b0757484586a@gmail.com>
+References: <20171117120944.14300-1-marcus.folkesson@gmail.com>
 Mime-Version: 1.0
-Content-Type: multipart/signed; micalg=pgp-sha512;
-        protocol="application/pgp-signature"; boundary="omt6r5hzorz6soif"
+Content-Type: text/plain; charset=utf-8
+Content-Transfer-Encoding: 7bit
 Return-path: <linux-man-owner-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>
-Content-Disposition: inline
-In-Reply-To: <0b3acf79-dd24-5845-b4f4-6d2f9222a5a6-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org>
+In-Reply-To: <20171117120944.14300-1-marcus.folkesson-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org>
+Content-Language: en-US
 Sender: linux-man-owner-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
-To: "Michael Kerrisk (man-pages)" <mtk.manpages-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org>
-Cc: Christian Brauner <christian.brauner-GeWIH/nMZzLQT0dZR+AlfA@public.gmane.org>, containers-cunTk1MwBs9QetFLy7KEm3xJsTq8ys+cHZ5vskTnxNA@public.gmane.org, linux-man-u79uwXL29TY76Z2rM5mHXA@public.gmane.org, serge-A9i7LUbDfNHQT0dZR+AlfA@public.gmane.org, ebiederm-aS9lmoZGLiVWk0Htik3J/w@public.gmane.org
+To: Marcus Folkesson <marcus.folkesson-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org>
+Cc: mtk.manpages-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org, linux-man-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
 List-Id: linux-man@vger.kernel.org
 
+On 11/17/2017 01:09 PM, Marcus Folkesson wrote:
+> After Linux 2.6.36, the heuristic calculation of oom_score has changed
+> to only consider used memory and CAP_SYS_ADMIN.
+> 
+> See commit a63d83f427fbce97a6cea0db2e64b0eb8435cd10 in kernel tree.
 
---omt6r5hzorz6soif
-Content-Type: text/plain; charset=utf-8
-Content-Disposition: inline
-Content-Transfer-Encoding: quoted-printable
+Thanks, Marcus. Patch applied!
 
-On Sun, Nov 19, 2017 at 10:00:39AM +0100, Michael Kerrisk (man-pages) wrote:
-> Hello Christian,
->=20
->=20
-> On 11/19/2017 02:25 AM, Christian Brauner wrote:
-> > This patch documents the following commit:
-> >=20
-> > commit 6397fac4915ab3002dc15aae751455da1a852f25
-> > Author: Christian Brauner <christian.brauner-GeWIH/nMZzLQT0dZR+AlfA@public.gmane.org>
-> > Date:   Wed Oct 25 00:04:41 2017 +0200
-> >=20
-> >     userns: bump idmap limits to 340
-> >=20
-> > Since Linux 4.15 the number of idmap lines has been bumped to 340.
-> > The patch also removes the "(arbitrary)" in "There is an (arbitrary) li=
-mit on
-> > the number of lines in the file." since the 340 line limit is well-expl=
-ained by
-> > the current implementation. The struct recording the idmaps is 12 bytes=
- and
-> > quite some proc files only allow writes the size of a single page size =
-which is
-> > 4096kB. This leaves room for 340 idmappings (340 * 12 =3D 4080 bytes).
-> > The struct layout itself has been chosen very carefully to allow for an
-> > implementation that limits the time-complexity for the idmap codepaths =
-to
-> > O(log n). However, I think it's unnecessary to expose this much impleme=
-ntation
-> > detail to users in the man page. So only mention this in the commit mes=
-sage.
-> > Furthermore, the comment about the page size restriction is misleading.=
- The
-> > kernel sources show that >=3D page size is considered an error.
->=20
-> Thanks for the patch and the detailed commit message.
-> I've applied the patch, but restored the historical details,
-> since users need also to now about older kernel behavior.
+Cheers,
 
-Thanks Michael!
-Christian
+Michael
 
---omt6r5hzorz6soif
-Content-Type: application/pgp-signature; name="signature.asc"
+> Signed-off-by: Marcus Folkesson <marcus.folkesson-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org>
+> ---
+>  man5/proc.5 | 20 ++++++++++++++------
+>  1 file changed, 14 insertions(+), 6 deletions(-)
+> 
+> diff --git a/man5/proc.5 b/man5/proc.5
+> index 82d4a0646..4e44b8fba 100644
+> --- a/man5/proc.5
+> +++ b/man5/proc.5
+> @@ -1395,7 +1395,9 @@ Since Linux 2.6.36, use of this file is deprecated in favor of
+>  .IR /proc/[pid]/oom_score_adj .
+>  .TP
+>  .IR /proc/[pid]/oom_score " (since Linux 2.6.11)"
+> -.\" See mm/oom_kill.c::badness() in the 2.6.25 sources
+> +.\" See mm/oom_kill.c::badness() in pre 2.6.36 sources
+> +.\" See mm/oom_kill.c::oom_badness() after 2.6.36
+> +.\" commit a63d83f427fbce97a6cea0db2e64b0eb8435cd10
+>  This file displays the current score that the kernel gives to
+>  this process for the purpose of selecting a process
+>  for the OOM-killer.
+> @@ -1403,7 +1405,16 @@ A higher score means that the process is more likely to be
+>  selected by the OOM-killer.
+>  The basis for this score is the amount of memory used by the process,
+>  with increases (+) or decreases (\-) for factors including:
+> -.\" See mm/oom_kill.c::badness() in the 2.6.25 sources
+> +.\" See mm/oom_kill.c::badness() in pre 2.6.36 sources
+> +.\" See mm/oom_kill.c::oom_badness() after 2.6.36
+> +.\" commit a63d83f427fbce97a6cea0db2e64b0eb8435cd10
+> +.RS
+> +.IP * 2
+> +whether the process is privileged (\-);
+> +.\" More precisely, if it has CAP_SYS_ADMIN or (pre 2.6.36) CAP_SYS_RESOURCE
+> +.RE
+> +.IP
+> +Before kernel 2.6.36 the following factors were also used in the calculation of oom_score:
+>  .RS
+>  .IP * 2
+>  whether the process creates a lot of children using
+> @@ -1413,10 +1424,7 @@ whether the process creates a lot of children using
+>  whether the process has been running a long time,
+>  or has used a lot of CPU time (\-);
+>  .IP *
+> -whether the process has a low nice value (i.e., > 0) (+);
+> -.IP *
+> -whether the process is privileged (\-); and
+> -.\" More precisely, if it has CAP_SYS_ADMIN or CAP_SYS_RESOURCE
+> +whether the process has a low nice value (i.e., > 0) (+); and
+>  .IP *
+>  whether the process is making direct hardware access (\-).
+>  .\" More precisely, if it has CAP_SYS_RAWIO
+> 
 
------BEGIN PGP SIGNATURE-----
 
-iQIcBAABCgAGBQJaEVN6AAoJEHs8OR7+qTYkkUcP/3jDPLBjl6D9K9nBL4BvVDdf
-Mnhxl1BF8vEdgqOD73//fzFrbdq+jSoMGu2VzD5KLY2qT/betklxe479tmnktZkx
-FU9EJhCwZzeL0Tyc7w3HQgcjfHYHL871v1Gn3PEqtndtjeyieFkKXi4M8gPtz5oL
-8OfArrjEFmEfC/uXXq3appK/BehROyoZTpgi6fDB1rjWGcy2rjIztYj9RsfO9mn8
-wdb82nNl7tiS39xf9rqgTwKzvmyt1skeGc4L3uDWU8zED3XbxrKyt1FweDyX88Sf
-0siZRO97skiahhfKerCJEezAk/wTccNJr2h95ktdS3WaJbDJbFOyXHJwdBTLNfoB
-/X9oyeYFKqnH6wIKYBNdY3L987qYgxU3HDk2KBBI6b+lY/oUCydNvrwIjPsIO1hM
-zJo3G0ID0wiaw1duDTyFp2s//t/x7LlvdDjbYDeSneYWCn+rqA4CV3jPjg0f6ngU
-5mEYOhWXqwvmijc2xx8s69Ax3m501H6I3nvILToRI26LcjrYRafx4UQxpZG/7Gpx
-AYEJJwM9tOoX4S0R1v9lUneiPzw9Tl6dKtFc66bUShfistmze3nHnbUIjBkgaE9k
-Q397VpId9HynXxkxq4LhDJkpDgwmbybtO+oBF/G3x3ypzecaJ+0g/iHPpiL+ux1h
-cy2JKkuzSR8exnVbCOmt
-=MtvO
------END PGP SIGNATURE-----
-
---omt6r5hzorz6soif--
+-- 
+Michael Kerrisk
+Linux man-pages maintainer; http://www.kernel.org/doc/man-pages/
+Linux/UNIX System Programming Training: http://man7.org/training/
 --
 To unsubscribe from this list: send the line "unsubscribe linux-man" in
 the body of a message to majordomo-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
