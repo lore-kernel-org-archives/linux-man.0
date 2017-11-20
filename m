@@ -1,170 +1,143 @@
-From: Christian Brauner <christian.brauner-cl+VPiYnx/1AfugRpC6u6w@public.gmane.org>
-Subject: Re: [PATCH] ioctl_tty.2: add TIOCGPTPEER documentation
-Date: Mon, 20 Nov 2017 13:15:57 +0100
-Message-ID: <20171120121556.ck2jrr5nk6sqqene@mailbox.org>
-References: <20170609170147.32311-1-asarai@suse.de>
- <11706e49-8271-ed8c-3747-19b3e8f2850d@gmail.com>
- <878tijwjic.fsf@xmission.com>
- <a7175aad-645c-8f86-d7cf-51f24f0bc281@suse.de>
- <87ziaztoxu.fsf@xmission.com>
- <c702b5c6-0098-4a61-f51c-c28ed085534f@gmail.com>
-Mime-Version: 1.0
-Content-Type: multipart/signed; micalg=pgp-sha512;
-        protocol="application/pgp-signature"; boundary="htugecgnqe2zoyg2"
+From: QingFeng Hao <haoqf-23VcF4HTsmIX0ybBhKVfKdBPR1lH4CV8@public.gmane.org>
+Subject: [PATCH 1/1] s390_sthyi.2: New page for s390-specific s390_sthyi(2)
+Date: Mon, 20 Nov 2017 14:34:20 +0100
+Message-ID: <20171120133420.4700-1-haoqf@linux.vnet.ibm.com>
 Return-path: <linux-man-owner-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>
-Content-Disposition: inline
-In-Reply-To: <c702b5c6-0098-4a61-f51c-c28ed085534f-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org>
 Sender: linux-man-owner-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
-To: "Michael Kerrisk (man-pages)" <mtk.manpages-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org>
-Cc: "Eric W. Biederman" <ebiederm-aS9lmoZGLiVWk0Htik3J/w@public.gmane.org>, Aleksa Sarai <asarai-l3A5Bk7waGM@public.gmane.org>, linux-man-u79uwXL29TY76Z2rM5mHXA@public.gmane.org, Greg Kroah-Hartman <gregkh-hQyY1W1yCW8ekmWlsbkhG0B+6BGkLq7r@public.gmane.org>, containers-cunTk1MwBs9QetFLy7KEm3xJsTq8ys+cHZ5vskTnxNA@public.gmane.org, linux-kernel-u79uwXL29TY76Z2rM5mHXA@public.gmane.org, Jiri Slaby <jslaby-IBi9RG/b67k@public.gmane.org>, Christian Brauner <christian.brauner-GeWIH/nMZzLQT0dZR+AlfA@public.gmane.org>
+To: mtk.manpages-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org
+Cc: linux-man-u79uwXL29TY76Z2rM5mHXA@public.gmane.org, heiko.carstens-tA70FqPdS9bQT0dZR+AlfA@public.gmane.org, borntraeger-tA70FqPdS9bQT0dZR+AlfA@public.gmane.org, QingFeng Hao <haoqf-23VcF4HTsmIX0ybBhKVfKdBPR1lH4CV8@public.gmane.org>
 List-Id: linux-man@vger.kernel.org
 
+Signed-off-by: QingFeng Hao <haoqf-23VcF4HTsmIX0ybBhKVfKdBPR1lH4CV8@public.gmane.org>
+---
+ man2/s390_sthyi.2 | 115 ++++++++++++++++++++++++++++++++++++++++++++++++++++++
+ 1 file changed, 115 insertions(+)
+ create mode 100644 man2/s390_sthyi.2
 
---htugecgnqe2zoyg2
-Content-Type: text/plain; charset=utf-8
-Content-Disposition: inline
-Content-Transfer-Encoding: quoted-printable
+diff --git a/man2/s390_sthyi.2 b/man2/s390_sthyi.2
+new file mode 100644
+index 0000000..c8797b7
+--- /dev/null
++++ b/man2/s390_sthyi.2
+@@ -0,0 +1,115 @@
++.\" Copyright IBM Corp. 2017
++.\" Author: QingFeng Hao <haoqf-23VcF4HTsmIX0ybBhKVfKdBPR1lH4CV8@public.gmane.org>
++.\"
++.\" %%%LICENSE_START(GPLv2+_DOC_FULL)
++.\" This is free documentation; you can redistribute it and/or
++.\" modify it under the terms of the GNU General Public License as
++.\" published by the Free Software Foundation; either version 2 of
++.\" the License, or (at your option) any later version.
++.\"
++.\" The GNU General Public License's references to "object code"
++.\" and "executables" are to be interpreted as the output of any
++.\" document formatting or typesetting system, including
++.\" intermediate and printed output.
++.\"
++.\" This manual is distributed in the hope that it will be useful,
++.\" but WITHOUT ANY WARRANTY; without even the implied warranty of
++.\" MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
++.\" GNU General Public License for more details.
++.\"
++.\" You should have received a copy of the GNU General Public
++.\" License along with this manual; if not, see
++.\" <http://www.gnu.org/licenses/>.
++.\" %%%LICENSE_END
++.\"
++.TH S390_STHYI 2 2017-09-21 "Linux Programmer's Manual"
++.SH NAME
++s390_sthyi \- emulate STHYI instruction
++.SH SYNOPSIS
++.nf
++.B #include <asm/unistd.h>
++.PP
++.BI "int s390_sthyi(unsigned long " function_code ", void *" buffer ", uint64_t *" return_code ", unsigned long " flags ");
++.fi
++.SH DESCRIPTION
++The
++.BR s390_sthyi ()
++system call emulates the STHYI (Store Hypervisor Information) instruction.
++It provides hardware resource information for the machine and its virtualization
++levels. This includes CPU type and capacity, as well as the machine model and
++other metrics.
++.PP
++The
++.I function_code
++argument indicates which function to perform.
++The following code(s) are supported:
++.RB ( 0 )
++CP and IFL capacity information.
++.PP
++The
++.I buffer 
++argument specifies the address of response buffer. If the system
++call returns 0, the response buffer will be filled with CPU capacity
++information. Otherwise, the response buffer's content is unchanged.
++.PP
++The
++.I return_code
++argument stores the return code of the STHYI instruction, success
++.RB ( 0 )
++or unsupported function code
++.RB ( 4 ).
++For details about this and function_code, buffer argument, please reference the link in
++.IR "CONFORMING TO"
++below.
++.PP
++The
++.I flags
++argument is provided to allow for future extensions and currently
++must be set to "0".
++.SH RETURN VALUE
++On success,
++.BR s390_sthyi ()
++returns 0 and stores CPU capacity information to
++.I buffer.
++.PP
++On error, -1 is returned, and
++.IR errno
++is set appropriately.
++.PP
++On other cases, the value of condition code is returned, which currently
++is only 3 indicating "unsupported function code".
++.SH ERRORS
++.TP
++.B EINVAL
++The value specified in
++.I flags
++is non-zero.
++.TP
++.B EOPNOTSUPP
++The value specified in
++.I function_code 
++is not a valid value.
++.TP
++.B EFAULT
++The value specified in
++.I buffer 
++or
++.I return_code
++is not a valid address.
++.TP
++.B ENOMEM
++Allocating memory for handling the CPU capacity information failed.
++.IR "CONFORMING TO"
++below.
++.SH VERSIONS
++This system call is available since Linux 4.15.
++.SH CONFORMING TO
++This Linux-specific system call is available only on the s390 architecture.
++For details about the STHYI instruction, please reference the link:
++https://www.ibm.com/support/knowledgecenter/SSB27U_6.3.0/com.ibm.zvm.v630.hcpb4/hcpb4sth.htm#hcpb4-sth__headsec
++.SH NOTES
++Glibc does not provide a wrapper for this system call, use
++.BR syscall (2)
++to call it.
++.SH SEE ALSO
++.BR syscall (2)
+-- 
+1.8.3.1
 
-On Mon, Nov 20, 2017 at 11:20:13AM +0100, Michael Kerrisk (man-pages) wrote:
-> On 08/16/2017 07:14 PM, Eric W. Biederman wrote:
-> > Aleksa Sarai <asarai-l3A5Bk7waGM@public.gmane.org> writes:
-> >=20
-> >>> A couple of things to note on the bigger picture.
-> >>>
-> >>> The glibc library on all distributions has been changed to not have a
-> >>> setuid binary pt_chown, that uses ptsname.  This was the primary fix
-> >>> for the security issue.
-> >>>
-> >>> The behavior of opening /dev/ptmx has been changed to perform a path
-> >>> lookup relative to the location of /dev/ptmx of  ./pts/ptmx and open
-> >>> it it is a devpts filesystem and to fail otherwise.    This further
-> >>> makes it hard to confuse userspace this way as /dev/ptmx always
-> >>> corresponds to /dev/pts/ptmx.  Even in chroots and in other mount
-> >>> namespaces.
-> >>
-> >> I have a feeling that there might be a way to trick glibc if you use
-> >> FUSE, but I haven't actually tried to create a PoC for it. Fair point
-> >> though.
-> >=20
-> > To trick glibc fuse would have to be mounted somewhere on /dev.
-> >=20
-> >>> That makes TIOCGPTPEER a very nice addition, but not something people
-> >>> have to scramble to use to ensure their system is secure.  As a hosti=
-le
-> >>> environment now has to work very hard to confuse the existing mechani=
-sms.
-> >>
-> >> There are usecases where you simply need TIOCGPTPEER, and no other
-> >> userspace alternative will do, but maybe if we modified the paragraph
-> >> to read (as suggested):
-> >>
-> >>   Security-conscious programs interacting with namespaces may
-> >>   wish  to  use  this  operation rather than open(2) with the
-> >>   pathname returned by ptsname(3).
-> >>
-> >> This would clarify that there are usecases where you need this
-> >> particular feature, without saying causing people to panic over
-> >> inaccurate claims of glibc being broken. Does that sound better?
-> >=20
-> > I think your original words sounded fine.  I would even go for new
-> > programs may want to use the new ioctl as it fundamentally less racy
-> > and more of what is actually trying to be implemented with the userspace
-> > pieces.
-> >=20
-> > I just wanted to point out that TIOCGPTPEER while being the interface
-> > that it would have been nice had we had since the beginning (and would
-> > have avoided all of the problems) is actually not something we need to
-> > scramble and use it is just a very nice to have.  As the immediate
-> > issues have been fixed in other ways.    It was not clear to me from the
-> > other discussions if you and Michael Kerrisk were aware of the
-> > mitigations that had been made to address the security issue.
->=20
-> So, my takeaway is that we leave this text:
->=20
->               Security-conscious programs interacting with namespaces may
->               wish  to  use  this  operation rather than open(2) with the
->               pathname returned by ptsname(3), and similar library  func=
-=E2=80=90
->               tions that have insecure APIs.  (For example, confusion can
->               occur in some cases using ptsname(3) with a pathname  where
->               a  devpts  filesystem has been mounted in a different mount
->               namespace.)
-
-This sounds fine to me. I probably should point out that I wrote a patch for
-glibc to use TIOCGPTPEER based slave fd allocation when supported and only =
-use
-the insecure way as a fallback. I've pushed this to glibc master on 8 Octob=
-er.
-That means it is still in our current glibc development cycle and will thus=
- be
-available in glibc 2.27. The relevant commit hash is
-645ac9aaf89e3311949828546df6334322f48933 and the link to the diff
-https://sourceware.org/git/?p=3Dglibc.git;a=3Dcommitdiff;h=3D645ac9aaf89e33=
-11949828546df6334322f48933;hp=3D98e0742024d4c13c08a6076b3d119c250e7d0118
-
-At least for us at glibc this should mean that *most* insecure
-path-based-operations have been eliminated since other path-based bits in t=
-hese
-codepaths are basically no-ops by now. That being said glibc needs to be
-backward compatible and so will (see comment above) execute path-based fall=
-back
-code if the new ioctl() fails. So if you really^2 care about using TIOCGPTP=
-EER
-you should do the ioctl() dance yourself.
-
-(Fwiw, I'm not directly involved with Musl I've written a patch for them as=
- well
-but Rich had some reservations and I haven't been able to pick that patch b=
-ack
-up yet.)
-
-Christian
-
->=20
-> as is?
->=20
-> > The change to the behavior of /dev/ptmx may need to be documented
-> > somewhere.   I am not certain if anything has been documented since
-> > devpts has started allowing multiple mounts.
->=20
-> Eric can you say more about this. When did this change occur?
-> What is the model: mount devpts once in each mount namespace?
->=20
-> Cheers,
->=20
-> Michael
->=20
->=20
-> --=20
-> Michael Kerrisk
-> Linux man-pages maintainer; http://www.kernel.org/doc/man-pages/
-> Linux/UNIX System Programming Training: http://man7.org/training/
-> _______________________________________________
-> Containers mailing list
-> Containers-cunTk1MwBs9QetFLy7KEm3xJsTq8ys+cHZ5vskTnxNA@public.gmane.org
-> https://lists.linuxfoundation.org/mailman/listinfo/containers
-
---htugecgnqe2zoyg2
-Content-Type: application/pgp-signature; name="signature.asc"
-
------BEGIN PGP SIGNATURE-----
-
-iQIcBAABCgAGBQJaEsd5AAoJEHs8OR7+qTYkvFcQAOIhNyEd5/CIiG0xYRk1AUTr
-mv18W62NeN6vUeECVs/B7oSB5guBDr4XIbwkPcsOHsPAcaYdLKgj6RpND8kvUrps
-MJVYf42rm5ZEzb1XNq6JBNZiet+kpWq0KWC7fkJZVJ7e6XzaIJMEXpB/cwGndntA
-U77hGaVyti0DMxmQHg9e3rTwYx9+8w9XRFD6XWNedz71HRIb+gmMcwaynTDxKwPs
-ZKWzr9A7PI+g6Byr0S/oNqgHsbLdUqtmTW4X4TmB808bA+ZKJS0f+suQwQM3HIFM
-36hGvuUDVnWV6Tovj8uMuOz7Q4WMl0t/CF/3lbnL2ogyMKi/tKI5TCbuljNYDn3y
-l6M2OX4CJRkV0bc6c9/G/JBsRAc80HqRCzau1/fYnHCvKSZixt3SoRZseeC4Mb6g
-QXO39bS9rNz+m9SVn9OlCh7nFoXXYl1jFayi10Im6aAiGDlq8XzFWfmqHRaXSCyh
-RSP3wrKznriAEwyv72OIZXV9dXc6NEDu0v15L06KlQMZk1lIBGiIjID1auGwjIon
-I+3+IRLGQHQ8q2B1O2nNK4EFDvmQsAT5+cYLmY8NO1xUvNUcLofgh3dF3M7mPxsK
-NU2DCvpsmmMOKEQad1DNqynnBpoyPrJo8yBEH8s9u58rrQwqgc+owmfzElHLH7Sj
-ZTkHSFkt9sI0I2s2u/hS
-=wMU6
------END PGP SIGNATURE-----
-
---htugecgnqe2zoyg2--
 --
 To unsubscribe from this list: send the line "unsubscribe linux-man" in
 the body of a message to majordomo-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
