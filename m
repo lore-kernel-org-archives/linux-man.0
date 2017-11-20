@@ -1,164 +1,169 @@
 From: "Michael Kerrisk (man-pages)" <mtk.manpages-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org>
-Subject: Re: Incorrect behaviour or documentation problem of SO_RXQ_OVFL
-Date: Mon, 20 Nov 2017 12:34:04 +0100
-Message-ID: <CAKgNAkif7LAhJXif7DvzNJctAJKOTBO-BU5F-5ND+S3GOsRWmg@mail.gmail.com>
-References: <20171115151415.GA22906@bordel.klfree.net>
-Reply-To: mtk.manpages-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org
+Subject: Re: [PATCH] Add iocb details to io_submit
+Date: Mon, 20 Nov 2017 13:05:10 +0100
+Message-ID: <dfd50e81-aa72-33a6-42f6-283f0cb0b918@gmail.com>
+References: <20170605055152.11262-1-rgoldwyn@suse.de>
 Mime-Version: 1.0
-Content-Type: text/plain; charset="UTF-8"
+Content-Type: text/plain; charset=utf-8
+Content-Transfer-Encoding: 7bit
 Return-path: <linux-man-owner-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>
-In-Reply-To: <20171115151415.GA22906-D9B+/Xy6VmVJc+xitdX5216hYfS7NtTn@public.gmane.org>
+In-Reply-To: <20170605055152.11262-1-rgoldwyn-l3A5Bk7waGM@public.gmane.org>
+Content-Language: en-US
 Sender: linux-man-owner-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
-To: Petr Malat <oss-uyNjkDRvLzClVyrhU4qvOw@public.gmane.org>
-Cc: netdev <netdev-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>, linux-man <linux-man-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>, Tobias Klausmann <klausman-MzPq5hiN5PY4ErOGf3VzIA@public.gmane.org>, Neil Horman <nhorman-2XuSBdqkA4R54TAoqtyWWQ@public.gmane.org>
+To: Goldwyn Rodrigues <rgoldwyn-l3A5Bk7waGM@public.gmane.org>, linux-man-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
+Cc: mtk.manpages-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org, jack-IBi9RG/b67k@public.gmane.org, hch-wEGCiKHe2LqWVfeAwA7xHQ@public.gmane.org, Goldwyn Rodrigues <rgoldwyn-IBi9RG/b67k@public.gmane.org>
 List-Id: linux-man@vger.kernel.org
 
-[Adding Neil, who wrote the original text. Maybe he has also some
-suggested improvement.]
+Hello Goldwyn,
 
-Hello Petr and Tobias,
+On 06/05/2017 07:51 AM, Goldwyn Rodrigues wrote:
+> From: Goldwyn Rodrigues <rgoldwyn-IBi9RG/b67k@public.gmane.org>
+> 
+> Add more information about the iocb structure. It explains the fields
+> of the I/O control block structure which is passed to the io_submit
+> call.
+> 
+> The work also includes the nowait feature flags which is currently
+> posted at http://marc.info/?l=linux-fsdevel&m=149664103900715&w=2
 
-Thank you both for your reports about the incorrect documentation. See below.
-
-On 15 November 2017 at 16:14, Petr Malat <oss-uyNjkDRvLzClVyrhU4qvOw@public.gmane.org> wrote:
-> Hi!
-> Generic SO_RXQ_OVFL helpers sock_skb_set_dropcount() and sock_recv_drops()
-> implements returning of sk->sk_drops (the total number of dropped packets),
-> although the documentation says the number of dropped packets since the
-> last received one should be returned (quoting the current socket.7):
->   SO_RXQ_OVFL (since Linux 2.6.33)
->   Indicates that an unsigned 32-bit value ancillary message (cmsg)
->   should be attached to received skbs indicating the number of packets
->   dropped by the socket between the last received packet and this
->   received packet.
->
-> I assume the documentation needs to be updated, as fixing this in the
-> code could break programs depending on the current behavior, although
-> the formerly planned functionality seems to be more usefull.
->
-> The problem can be revealed with the following program:
->
-> #include <netinet/in.h>
-> #include <netinet/ip.h>
-> #include <sys/socket.h>
-> #include <arpa/inet.h>
-> #include <sys/types.h>
-> #include <unistd.h>
-> #include <string.h>
-> #include <stdio.h>
->
-> int extract_drop(struct msghdr *msg)
-> {
->         struct cmsghdr *cmsg;
->         int rtn;
->
->         for (cmsg = CMSG_FIRSTHDR(msg); cmsg; cmsg = CMSG_NXTHDR(msg,cmsg)) {
->                 if (cmsg->cmsg_level == SOL_SOCKET &&
->                     cmsg->cmsg_type == SO_RXQ_OVFL) {
->                         memcpy(&rtn, CMSG_DATA(cmsg), sizeof rtn);
->                         return rtn;
->                 }
->         }
->         return -1;
-> }
->
-> int main(int argc, char *argv[])
-> {
->         struct sockaddr_in addr = { .sin_family = AF_INET };
->         char msg[48*1024], cmsgbuf[256];
->         struct iovec iov = { .iov_base = msg, .iov_len = sizeof msg };
->         int sk1, sk2, i, one = 1;
->
->         sk1 = socket(PF_INET, SOCK_DGRAM, IPPROTO_UDP);
->         sk2 = socket(PF_INET, SOCK_DGRAM, IPPROTO_UDP);
->
->         inet_pton(AF_INET, "127.0.0.1", &addr.sin_addr);
->         addr.sin_port = htons(53333);
->
->         bind(sk1, (struct sockaddr*)&addr, sizeof addr);
->         connect(sk2, (struct sockaddr*)&addr, sizeof addr);
->
->         // Kernel doubles this limit, but it accounts also the SKB overhead,
->         // but it receives as long as there is at least 1 byte free.
->         i = sizeof msg;
->         setsockopt(sk1, SOL_SOCKET, SO_RCVBUF, &i, sizeof i);
->         setsockopt(sk1, SOL_SOCKET, SO_RXQ_OVFL, &one, sizeof one);
->
->         for (i = 0; i < 4; i++) {
->                 int rtn;
->
->                 send(sk2, msg, sizeof msg, 0);
->                 send(sk2, msg, sizeof msg, 0);
->                 send(sk2, msg, sizeof msg, 0);
->
->                 do {
->                         struct msghdr msghdr = {
->                                         .msg_iov = &iov, .msg_iovlen = 1,
->                                         .msg_control = &cmsgbuf,
->                                         .msg_controllen = sizeof cmsgbuf };
->                         rtn = recvmsg(sk1, &msghdr, MSG_DONTWAIT);
->                         if (rtn > 0) {
->                                 printf("rtn: %d drop %d\n", rtn,
->                                                 extract_drop(&msghdr));
->                         } else {
->                                 printf("rtn: %d\n", rtn);
->                         }
->                 } while (rtn > 0);
->         }
->
->         return 0;
-> }
->
-> which prints
->   rtn: 49152 drop -1
->   rtn: 49152 drop -1
->   rtn: -1
->   rtn: 49152 drop 1
->   rtn: 49152 drop 1
->   rtn: -1
->   rtn: 49152 drop 2
->   rtn: 49152 drop 2
->   rtn: -1
->   rtn: 49152 drop 3
->   rtn: 49152 drop 3
->   rtn: -1
-> although it should print (according to the documentation):
->   rtn: 49152 drop 0
->   rtn: 49152 drop 0
->   rtn: -1
->   rtn: 49152 drop 1
->   rtn: 49152 drop 0
->   rtn: -1
->   rtn: 49152 drop 1
->   rtn: 49152 drop 0
->   rtn: -1
->   rtn: 49152 drop 1
->   rtn: 49152 drop 0
->   rtn: -1
->
-> Please keep me on To:/CC: as I'm not on the list.
-
-Thanks for the test program. Tobias reported the same issue, and I've
-applied his suggested change to the page. (See below.)
+Thanks for the patch. I've applied, and made a few small tweaks.
 
 Cheers,
 
 Michael
 
-diff --git a/man7/socket.7 b/man7/socket.7
-index 79966a6fd..1a2cfe9cc 100644
---- a/man7/socket.7
-+++ b/man7/socket.7
-@@ -881,8 +881,7 @@ compete to receive datagrams on the same socket.
- .\" commit 3b885787ea4112eaa80945999ea0901bf742707f
- Indicates that an unsigned 32-bit value ancillary message (cmsg)
- should be attached to received skbs indicating
--the number of packets dropped by the socket between
--the last received packet and this received packet.
-+the number of packets dropped by the socket since its creation.
- .TP
- .B SO_SNDBUF
- Sets or gets the maximum socket send buffer in bytes.
+
+> Signed-off-by: Goldwyn Rodrigues <rgoldwyn-IBi9RG/b67k@public.gmane.org>
+> ---
+>  man2/io_submit.2 | 114 +++++++++++++++++++++++++++++++++++++++++++++++++++++++
+>  1 file changed, 114 insertions(+)
+> 
+> diff --git a/man2/io_submit.2 b/man2/io_submit.2
+> index 6aae4efff..fc1290da9 100644
+> --- a/man2/io_submit.2
+> +++ b/man2/io_submit.2
+> @@ -28,6 +28,120 @@ The
+>  .I iocbpp
+>  argument should be an array of \fInr\fP AIO control blocks,
+>  which will be submitted to context \fIctx_id\fP.
+> +The
+> +.I iocb
+> +(I/O control block) structure defined in linux/aio_abi.h
+> +defines the parameters that control the I/O operation.
+> +.PP
+> +.in +4n
+> +.nf
+> +
+> +#include <linux/aio_abi.h>
+> +
+> +struct iocb {
+> +	__u64   aio_data;
+> +	__u32   PADDED(aio_key, aio_rw_flags);
+> +
+> +	__u16   aio_lio_opcode;
+> +	__s16   aio_reqprio;
+> +	__u32   aio_fildes;
+> +
+> +	__u64   aio_buf;
+> +	__u64   aio_nbytes;
+> +	__s64   aio_offset;
+> +
+> +	__u64   aio_reserved2;
+> +
+> +	__u32   aio_flags;
+> +	__u32   aio_resfd;
+> +};
+> +
+> +.fi
+> +.in
+> +The fields of this structure are as follows:
+> +.TP
+> +.I aio_data
+> +This is a internal field used by the kernel. Do not modify this field after an
+> +.B io_submit (2)
+> +call.
+> +.TP
+> +.I aio_key
+> +This is a internal field used by the kernel. Do not modify this field after an
+> +.B io_submit (2)
+> +call.
+> +.TP
+> +.I aio_rw_flags
+> +This defines the R/W flags passed with structure. The valid values are:
+> +.RS
+> +.TP
+> +.I RWF_HIPRI
+> +High priority request, poll if possible
+> +.TP
+> +.I RWF_DSYNC
+> +Write operation complete according to requirement of synchronized I/O data integrity. Similar to a file passed
+> +.B O_DSYNC
+> +parameter to
+> +.B open(2)
+> +.TP
+> +.I RWF_SYNC
+> +Write operation complete according to requirement of synchronized I/O file integrity. Similar to a file passed
+> +.B .O_SYNC
+> +parameter to
+> +.B open(2)
+> +.TP
+> +.I RWF_NOWAIT
+> +Don't wait if the I/O will block for operations such as file block allocations,
+> +dirty page flush, mutex locks, or a congested block device inside the kernel.
+> +If any of these conditions are met, the control block is returned immediately
+> +with a return value of
+> +.B -EAGAIN
+> +in the res field of the io_event structure.
+> +.RE
+> +.TP
+> +.I aio_lio_opcode
+> +This defines the type of I/O to be performed by the iocb structure. The
+> +valid values are defined by the enum defined in linux/aio_abi.h:
+> +.in +4
+> +.nf
+> +enum {
+> +        IOCB_CMD_PREAD = 0,
+> +        IOCB_CMD_PWRITE = 1,
+> +        IOCB_CMD_FSYNC = 2,
+> +        IOCB_CMD_FDSYNC = 3,
+> +        IOCB_CMD_NOOP = 6,
+> +        IOCB_CMD_PREADV = 7,
+> +        IOCB_CMD_PWRITEV = 8,
+> +};
+> +.fi
+> +.in
+> +.TP
+> +.I aio_reqprio
+> +This defines the requests priority.
+> +.TP
+> +.I aio_filedes
+> +The file descriptor on which the I/O operation is to be performed.
+> +.TP
+> +.I aio_buf
+> +This is the buffer used to transfer data for a read or write operation.
+> +.TP
+> +.I aio_nbytes
+> +This is the size of the buffer pointed to by
+> +.IR aio_buf .
+> +.TP
+> +.I aio_offset
+> +This is the file offset at which the I/O operation is to be performed.
+> +.TP
+> +.I aio_flags
+> +This is the flag to be passed iocb structure. The only valid value is
+> +.I IOCB_FLAG_RESFD
+> +, which indicates that the asynchronous I/O control must signal the file
+> +descriptor mentioned in
+> +.I aio_resfd
+> +upon completion.
+> +.TP
+> +.I aio_resfd
+> +The file descriptor to signal in the event of asynchronous I/O completion.
+> +
+>  .SH RETURN VALUE
+>  On success,
+>  .BR io_submit ()
+> 
 
 
 -- 
