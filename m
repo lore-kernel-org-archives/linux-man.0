@@ -1,111 +1,162 @@
-From: Philipp Gesang <phg-seE3WNHshEcXhy9q4Lf3Ug@public.gmane.org>
-Subject: [patch] strptime(3) ISO 8601 compliance
-Date: Sun, 19 Nov 2017 20:58:55 +0100
-Message-ID: <20171119195855.GA20953@lethe>
+From: "Michael Kerrisk (man-pages)" <mtk.manpages@gmail.com>
+Subject: Re: Improving documentation of parent-ID field in /proc/PID/mountinfo
+Date: Mon, 20 Nov 2017 10:07:29 +0100
+Message-ID: <CAKgNAkjX20TbvvVEcqK+TqG995f4T6eYKp0ujGpJgh_Z7fQsRQ@mail.gmail.com>
+References: <CAKgNAkhz8TWY5DpS4SHiapxC2903KdtBydNAG476_edun2oeLw@mail.gmail.com>
+ <20171113075537.GG5546@ram.oc3035372033.ibm.com> <CAOssrKeOcuQqEksvc_hgiZiLHHCHCJ_kt+__4BvQvLMDqGcqpw@mail.gmail.com>
+ <CAKgNAki_8xKG0Ky2phAHbKi=Ta7QYZRW4hr3hgu3rZ=gG-AHvA@mail.gmail.com> <CAOssrKfW3yTEa7Wq0MeGkQd+sSpZft+PRjH6ymQEoFHFVpuk-w@mail.gmail.com>
+Reply-To: mtk.manpages@gmail.com
 Mime-Version: 1.0
-Content-Type: multipart/signed; micalg=pgp-sha512;
-        protocol="application/pgp-signature"; boundary="eHhjakXzOLJAF9wJ"
-Return-path: <linux-man-owner-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>
-Content-Disposition: inline
-Sender: linux-man-owner-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
-To: mtk.manpages-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org
-Cc: linux-man-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
+Return-path: <linux-fsdevel-owner@vger.kernel.org>
+In-Reply-To: <CAOssrKfW3yTEa7Wq0MeGkQd+sSpZft+PRjH6ymQEoFHFVpuk-w@mail.gmail.com>
+Sender: linux-fsdevel-owner@vger.kernel.org
+To: Miklos Szeredi <mszeredi@redhat.com>
+Cc: Ram Pai <linuxram@us.ibm.com>, lkml <linux-kernel@vger.kernel.org>, linux-man <linux-man@vger.kernel.org>, Alexander Eder <alexander.eder@harman.com>, "linux-fsdevel@vger.kernel.org" <linux-fsdevel@vger.kernel.org>
 List-Id: linux-man@vger.kernel.org
 
+Hi Miklos,
 
---eHhjakXzOLJAF9wJ
-Content-Type: multipart/mixed; boundary="mojUlQ0s9EVzWg2t"
-Content-Disposition: inline
+Sorry for the slow follow-up.
 
+On 14 November 2017 at 17:16, Miklos Szeredi <mszeredi@redhat.com> wrote:
+> On Tue, Nov 14, 2017 at 8:08 AM, Michael Kerrisk (man-pages)
+> <mtk.manpages@gmail.com> wrote:
+>> Hi Miklos, Ram
+>>
+>> Thanks for your comments. A question below.
+>>
+>> On 13 November 2017 at 09:11, Miklos Szeredi <mszeredi@redhat.com> wrote=
+:
+>>> On Mon, Nov 13, 2017 at 8:55 AM, Ram Pai <linuxram@us.ibm.com> wrote:
+>>>> On Mon, Nov 13, 2017 at 07:02:21AM +0100, Michael Kerrisk (man-pages) =
+wrote:
+>>>>> Hello Ram,
+>>>>>
+>>>>> Long ago (2.6.29) you added the /proc/PID/mountinfo file and
+>>>>> associated documentation in Documentation/filesystems/proc.txt. Later=
+,
+>>>>> I pasted much of that documentation into the proc(5) manual page.
+>>>>>
+>>>>> That documentation says of the second field in the file:
+>>>>>
+>>>>> [[
+>>>>> This file contains lines of the form:
+>>>>>
+>>>>> 36 35 98:0 /mnt1 /mnt2 rw,noatime master:1 - ext3 /dev/root rw,errors=
+=3Dcontinue
+>>>>> (1)(2)(3)   (4)   (5)      (6)      (7)   (8) (9)   (10)         (11)
+>>>>>
+>>>>> (1) mount ID:  unique identifier of the mount (may be reused after um=
+ount)
+>>>>> (2) parent ID:  ID of parent (or of self for the top of the mount tre=
+e)
+>>>>> ...
+>>>>> ]]
+>>>>>
+>>>>> The last piece of the description of field (2) doesn't seem to be
+>>>>> correct, or is at least rather unclear. I take this to be saying that
+>>>>> that for the root mount point, /, field (2) will have the same value
+>>>>> as field (1). I never actually looked at this detail closely, but
+>>>>> Alexander pointed out that this is obviously not so, as one can
+>>>>> immediately verify:
+>>>>>
+>>>>> $ grep '/ / ' /proc/$$/mountinfo
+>>>>> 65 0 8:2 / / rw,relatime shared:1 - ext4 /dev/sda2 rw,seclabel,data=
+=3Dorder
+>>>>>
+>>>>> I dug around in the kernel source for a bit. I do not have an exact
+>>>>> handle on the details, but I can see roughly what is going on.
+>>>>> Internally, there seems to be one ("hidden") mount ID reserved to eac=
+h
+>>>>> mount namespace, and that ID is the parent of the root mount point.
+>>>>>
+>>>>> Looking through the (4.14) kernel source, mount IDs are allocated by
+>>>>> mnt_alloc_id() (in fs/namespace.c), which is in turn called by
+>>>>> alloc_vfsmnt() which is in turn called by clone_mnt().
+>>>>>
+>>>>> A new mount namespace is created by the kernel function copy_mnt_ns()
+>>>>> (in fs/namespace.c, called by create_new_namespaces() in
+>>>>> kernel/nsproxy.c). The copy_mnt_ns() function calls copy_tree() (in
+>>>>> fs/namespace.c), and copy_tree() calls clone_mnt() in *two* places.
+>>>>> The first of these is the call that creates the "hidden" mount ID tha=
+t
+>>>>> becomes the parent of the root mount point. (I verified this by
+>>>>> instrumenting the kernel with a few printk() calls to display the
+>>>>> IDs.)  The second place where copy_tree() calls clone_mnt() is in a
+>>>>> loop that replicates each of the mount points (including the root
+>>>>> mount point) in the source mount namespace.
+>>>>
+>>>> We used to report that mount, ones upon a time.  Something has changed
+>>>> the behavior since then and its not reported any more, thus making it
+>>>> hidden.
+>>>
+>>> The hidden one is the initramfs, I believe.  That's the root of the
+>>> mount namespace, and the when a namespace is cloned, the tree is
+>>> copied from the namespace root.
+>>>
+>>> It is "hidden" because no process has its root there.  Note the
+>>> difference between namespace root and process root: the first is the
+>>> real root of the mount tree and is unchangeable, the second is
+>>> pointing to some place in a mount tree and can be changed (chroot).
+>>>
+>>> So there's nothing special in this rootfs, it is just hidden because
+>>> it's not the root of any task.
+>>>
+>>> The description of  field (2) is correct, it just does not make it
+>>> clear what it means by "root".
+>>
+>> Sorry -- do you mean the old description is correct, or my new
+>> description (below)?
+>
+> Well, both are correct, yours just describes the same thing at the
+> higher level.  But I think rootfs is an implementation detail, so is
+> the fact that it gets a zero mount ID, so I think the original
+> description better captures the essence of the interface.  Except it
+> needs to clarify what "top of the mount tree" means.  It doesn't mean
+> current process's root, rather it means the root of the mount tree in
+> the current mount namespace.
 
---mojUlQ0s9EVzWg2t
-Content-Type: text/plain; charset=utf-8
-Content-Disposition: inline
-Content-Transfer-Encoding: quoted-printable
+Thanks for the further info.
 
-Hi,
+But, the problem is that the existing description is at best misleading:
 
-strptime.3 claims %F is both ISO 8601 compliant and equivalent to
-%Y-%m-%d. Since the standard permits a leading dash character to
-indicate negative years [0], this can=E2=80=99t be both true.
+              (2)  parent  ID: the ID of the parent mount (or of self for
+                   the top of the mount tree).
 
-%F with strftime prints negative years just fine though. Hence
-I=E2=80=99m not sure if this is a bug in the docs or glibc.
+That implies that we'll find one line in the list where field 1 and
+field 2 are the same. But we don't, because the mountns rootfs entry
+is not shown in mountinfo. On top of that, the reader is left
+confused, because when they look at mountinfo, they see one entry
+where the parent-ID doesn't exist in the list. So, something more than
+the current text is required. After digging around in the kernel
+source and noticing that chroot() will also cause this scenario, and
+taking into account your comments, I revised the text to:
 
-Best,
-Philipp
+              (2)  parent ID: the ID of the parent mount (or of self  for
+                   the root of this mount namespace's mount tree).
 
-[0] http://www.loc.gov/standards/datetime/iso-tc154-wg5_n0039_iso_wd_8601-2=
-_2016-02-16.pdf
+                   If  the  parent mount point lies outside the process's
+                   root directory (see  chroot(2)),  the  ID  shown  here
+                   won't  have  a corresponding record in mountinfo whose
+                   mount ID  (field  1)  matches  this  parent  mount  ID
+                   (because  mount  points that lie outside the process's
+                   root directory are not shown in mountinfo).  As a spe=E2=
+=80=90
+                   cial  case  of  this  point,  the process's root mount
+                   point may have  a  parent  mount  (for  the  initramfs
+                   filesystem)  that  lies  outside  the  process's  root
+                   directory, and an entry for that mount point will  not
+                   appear in mountinfo.
 
+How does that seem?
 
---mojUlQ0s9EVzWg2t
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: attachment; filename="0001-strptime.3-clarify-behavior-of-F-with-negative-years.patch"
-Content-Transfer-Encoding: quoted-printable
+Cheers,
 
-=46rom 57818307dc9ad8ecebc9517c26f800d3ae0cb0de Mon Sep 17 00:00:00 2001
-=46rom: Philipp Gesang <phg-seE3WNHshEcXhy9q4Lf3Ug@public.gmane.org>
-Date: Sun, 19 Nov 2017 20:34:59 +0100
-Subject: [PATCH] strptime.3: clarify behavior of %F with negative years
+Michael
 
-ISO 8601 explicitly allows for negative years:
-
-    year =3D positiveYear | negativeYear | "0000" ;
-    positiveYear =3D positiveDigit, digit, digit, digit
-                   | ...
-    negativeYear =3D "-", positiveYear ;
-
-Thus for strptime, "%F" isn't strictly equivalent to the ISO 8601 year
-format since it fails to handle the sign. (strftime "%F" has no problem
-with negative years.)
-
-Signed-off-by: Philipp Gesang <phg-seE3WNHshEcXhy9q4Lf3Ug@public.gmane.org>
----
- man3/strptime.3 | 2 +-
- 1 file changed, 1 insertion(+), 1 deletion(-)
-
-diff --git a/man3/strptime.3 b/man3/strptime.3
-index 6a82b04f4..b261e0736 100644
---- a/man3/strptime.3
-+++ b/man3/strptime.3
-@@ -363,7 +363,7 @@ This leads to
- .B %F
- Equivalent to
- .BR %Y-%m-%d ,
--the ISO 8601 date format.
-+the ISO 8601 date format. (Parses only nonnegative year numbers.)
- .TP
- .B %g
- The year corresponding to the ISO week number, but without the century
 --=20
-2.15.0
-
-
---mojUlQ0s9EVzWg2t--
-
---eHhjakXzOLJAF9wJ
-Content-Type: application/pgp-signature; name="signature.asc"
-
------BEGIN PGP SIGNATURE-----
-
-iQIzBAEBCgAdFiEES333rrYLmJt7KIF3Oc0IoluWAywFAloR4n4ACgkQOc0IoluW
-AyzzvQ/9EQ7f5AhVpbzw7MrrQz8l1zAZGJPhh022yhH/ouXktIBE0Paec5rG/gsp
-l9QcQPM6DScJQcq6mHiy7fJneX3K+RlwMElYiOyji5nXBuvJKoriZn/zWZO3uwZY
-fccz6FT/OPoW54Yq5OFURtEmxtqYEjUGAxI2AvUzbS/NKL19t6iEU+bAh9dkmeIw
-+BBPOfiHxUbRBhmU7V5Pd4Spi2CY51wfGCcfaRskK6dsj82x3HU10XaV7rEgvCZw
-BesorwbF1/vUgpzJeRtaEjsmM7dIh1M134z4iQeKNfTVRqoq7AOhdcjw/EtEbUBq
-8FC1hc3IoYCxU3XbkVDT+EywQdcabPSOsnUtfMOuyg4IEPSBEfvqUQsrJkxbSEjf
-nAqpZgFOgyrTzBHwE45VPSvjDNG24zmEZozCp4mixdmoNZUvE+60KHfDC0jvMMy4
-wUXGybJfRberfZ0QcbBLKORERi0H++KtAFj6K9x9LS+piXu4OMVfs++XnZMRRJlR
-eBN+2vgq+uf3OdLK/x7r+q1AUD1RFlQ8c3YJjZffNvx5isP00fBI6O3y7IQbVzL2
-JYqokYCIh5d2tu5msHxQwKI/dyLGOjGey3xSJT+o5iaDL9ByVi8i9qLhicqlF9B9
-J5jV4uuzVYH94o8r8QFrvDypaREM1Rwscrohe2mZ6o3/zTKxHIg=
-=f6tq
------END PGP SIGNATURE-----
-
---eHhjakXzOLJAF9wJ--
---
-To unsubscribe from this list: send the line "unsubscribe linux-man" in
-the body of a message to majordomo-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
-More majordomo info at  http://vger.kernel.org/majordomo-info.html
+Michael Kerrisk
+Linux man-pages maintainer; http://www.kernel.org/doc/man-pages/
+Linux/UNIX System Programming Training: http://man7.org/training/
