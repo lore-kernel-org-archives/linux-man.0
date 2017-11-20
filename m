@@ -1,33 +1,40 @@
 From: Jakub Wilk <jwilk-tXgOlIzOKNReoWH0uzbU5w@public.gmane.org>
-Subject: [PATCH 1/2] proc.5: tfix
-Date: Mon, 20 Nov 2017 23:44:08 +0100
-Message-ID: <20171120224409.5568-1-jwilk@jwilk.net>
+Subject: [PATCH 2/2] io_submit.2: tfix
+Date: Mon, 20 Nov 2017 23:44:09 +0100
+Message-ID: <20171120224409.5568-2-jwilk@jwilk.net>
+References: <20171120224409.5568-1-jwilk@jwilk.net>
 Return-path: <linux-man-owner-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>
+In-Reply-To: <20171120224409.5568-1-jwilk-tXgOlIzOKNReoWH0uzbU5w@public.gmane.org>
 Sender: linux-man-owner-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
 To: Michael Kerrisk <mtk.manpages-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org>
 Cc: linux-man-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
 List-Id: linux-man@vger.kernel.org
 
-Remove duplicated word.
-
 Signed-off-by: Jakub Wilk <jwilk-tXgOlIzOKNReoWH0uzbU5w@public.gmane.org>
 ---
- man5/proc.5 | 2 +-
- 1 file changed, 1 insertion(+), 1 deletion(-)
+ man2/io_submit.2 | 4 ++--
+ 1 file changed, 2 insertions(+), 2 deletions(-)
 
-diff --git a/man5/proc.5 b/man5/proc.5
-index ab8d915cb..2de23b77b 100644
---- a/man5/proc.5
-+++ b/man5/proc.5
-@@ -3177,7 +3177,7 @@ namespace (see
- for which the
- .I /proc
- filesystem was mounted.
--(In the the initial PID namespace,
-+(In the initial PID namespace,
- there is no filtering of the records shown in this file.)
- .IP
- The
+diff --git a/man2/io_submit.2 b/man2/io_submit.2
+index 25c152d46..397fd0b75 100644
+--- a/man2/io_submit.2
++++ b/man2/io_submit.2
+@@ -59,13 +59,13 @@ struct iocb {
+ The fields of this structure are as follows:
+ .TP
+ .I aio_data
+-This is a internal field used by the kernel.
++This is an internal field used by the kernel.
+ Do not modify this field after an
+ .BR io_submit (2)
+ call.
+ .TP
+ .I aio_key
+-This is a internal field used by the kernel.
++This is an internal field used by the kernel.
+ Do not modify this field after an
+ .BR io_submit (2)
+ call.
 -- 
 2.15.0
 
