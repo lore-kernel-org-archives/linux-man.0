@@ -1,178 +1,179 @@
-From: "Michael Kerrisk (man-pages)" <mtk.manpages-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org>
-Subject: Re: [PATCH 1/1] s390_sthyi.2: New page for s390-specific
- s390_sthyi(2)
-Date: Mon, 20 Nov 2017 16:37:49 +0100
-Message-ID: <8b4188fa-bdda-c3eb-5184-cecf78267f0f@gmail.com>
-References: <20171120133420.4700-1-haoqf@linux.vnet.ibm.com>
+From: ebiederm-aS9lmoZGLiVWk0Htik3J/w@public.gmane.org (Eric W. Biederman)
+Subject: Re: [PATCH] ioctl_tty.2: add TIOCGPTPEER documentation
+Date: Mon, 20 Nov 2017 11:06:28 -0600
+Message-ID: <87zi7gq3qj.fsf@xmission.com>
+References: <20170609170147.32311-1-asarai@suse.de>
+        <11706e49-8271-ed8c-3747-19b3e8f2850d@gmail.com>
+        <878tijwjic.fsf@xmission.com>
+        <a7175aad-645c-8f86-d7cf-51f24f0bc281@suse.de>
+        <87ziaztoxu.fsf@xmission.com>
+        <c702b5c6-0098-4a61-f51c-c28ed085534f@gmail.com>
 Mime-Version: 1.0
 Content-Type: text/plain; charset=utf-8
-Content-Transfer-Encoding: 7bit
+Content-Transfer-Encoding: 8BIT
 Return-path: <linux-man-owner-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>
-In-Reply-To: <20171120133420.4700-1-haoqf-23VcF4HTsmIX0ybBhKVfKdBPR1lH4CV8@public.gmane.org>
-Content-Language: en-US
+In-Reply-To: <c702b5c6-0098-4a61-f51c-c28ed085534f-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org> (Michael
+        Kerrisk's message of "Mon, 20 Nov 2017 11:20:13 +0100")
 Sender: linux-man-owner-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
-To: QingFeng Hao <haoqf-23VcF4HTsmIX0ybBhKVfKdBPR1lH4CV8@public.gmane.org>
-Cc: mtk.manpages-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org, linux-man-u79uwXL29TY76Z2rM5mHXA@public.gmane.org, heiko.carstens-tA70FqPdS9bQT0dZR+AlfA@public.gmane.org, borntraeger-tA70FqPdS9bQT0dZR+AlfA@public.gmane.org
+To: "Michael Kerrisk (man-pages)" <mtk.manpages-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org>
+Cc: Aleksa Sarai <asarai-l3A5Bk7waGM@public.gmane.org>, linux-man-u79uwXL29TY76Z2rM5mHXA@public.gmane.org, Greg Kroah-Hartman <gregkh-hQyY1W1yCW8ekmWlsbkhG0B+6BGkLq7r@public.gmane.org>, containers-cunTk1MwBs9QetFLy7KEm3xJsTq8ys+cHZ5vskTnxNA@public.gmane.org, linux-kernel-u79uwXL29TY76Z2rM5mHXA@public.gmane.org, Jiri Slaby <jslaby-IBi9RG/b67k@public.gmane.org>, Christian Brauner <christian.brauner-GeWIH/nMZzLQT0dZR+AlfA@public.gmane.org>
 List-Id: linux-man@vger.kernel.org
 
-Hello QingFeng
+"Michael Kerrisk (man-pages)" <mtk.manpages-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org> writes:
 
-Thank you for this manual page! Could I ask that you 
-address some points below please.
+> On 08/16/2017 07:14 PM, Eric W. Biederman wrote:
+>> Aleksa Sarai <asarai-l3A5Bk7waGM@public.gmane.org> writes:
+>> 
+>>>> A couple of things to note on the bigger picture.
+>>>>
+>>>> The glibc library on all distributions has been changed to not have a
+>>>> setuid binary pt_chown, that uses ptsname.  This was the primary fix
+>>>> for the security issue.
+>>>>
+>>>> The behavior of opening /dev/ptmx has been changed to perform a path
+>>>> lookup relative to the location of /dev/ptmx of  ./pts/ptmx and open
+>>>> it it is a devpts filesystem and to fail otherwise.    This further
+>>>> makes it hard to confuse userspace this way as /dev/ptmx always
+>>>> corresponds to /dev/pts/ptmx.  Even in chroots and in other mount
+>>>> namespaces.
+>>>
+>>> I have a feeling that there might be a way to trick glibc if you use
+>>> FUSE, but I haven't actually tried to create a PoC for it. Fair point
+>>> though.
+>> 
+>> To trick glibc fuse would have to be mounted somewhere on /dev.
+>> 
+>>>> That makes TIOCGPTPEER a very nice addition, but not something people
+>>>> have to scramble to use to ensure their system is secure.  As a hostile
+>>>> environment now has to work very hard to confuse the existing mechanisms.
+>>>
+>>> There are usecases where you simply need TIOCGPTPEER, and no other
+>>> userspace alternative will do, but maybe if we modified the paragraph
+>>> to read (as suggested):
+>>>
+>>>   Security-conscious programs interacting with namespaces may
+>>>   wish  to  use  this  operation rather than open(2) with the
+>>>   pathname returned by ptsname(3).
+>>>
+>>> This would clarify that there are usecases where you need this
+>>> particular feature, without saying causing people to panic over
+>>> inaccurate claims of glibc being broken. Does that sound better?
+>> 
+>> I think your original words sounded fine.  I would even go for new
+>> programs may want to use the new ioctl as it fundamentally less racy
+>> and more of what is actually trying to be implemented with the userspace
+>> pieces.
+>> 
+>> I just wanted to point out that TIOCGPTPEER while being the interface
+>> that it would have been nice had we had since the beginning (and would
+>> have avoided all of the problems) is actually not something we need to
+>> scramble and use it is just a very nice to have.  As the immediate
+>> issues have been fixed in other ways.    It was not clear to me from the
+>> other discussions if you and Michael Kerrisk were aware of the
+>> mitigations that had been made to address the security issue.
+>
+> So, my takeaway is that we leave this text:
+>
+>               Security-conscious programs interacting with namespaces may
+>               wish  to  use  this  operation rather than open(2) with the
+>               pathname returned by ptsname(3), and similar library  func‐
+>               tions that have insecure APIs.  (For example, confusion can
+>               occur in some cases using ptsname(3) with a pathname  where
+>               a  devpts  filesystem has been mounted in a different mount
+>               namespace.)
+>
+> as is?
+>
+>> The change to the behavior of /dev/ptmx may need to be documented
+>> somewhere.   I am not certain if anything has been documented since
+>> devpts has started allowing multiple mounts.
+>
+> Eric can you say more about this. When did this change occur?
+> What is the model: mount devpts once in each mount namespace?
 
-On 11/20/2017 02:34 PM, QingFeng Hao wrote:
-> Signed-off-by: QingFeng Hao <haoqf-23VcF4HTsmIX0ybBhKVfKdBPR1lH4CV8@public.gmane.org>
-> ---
->  man2/s390_sthyi.2 | 115 ++++++++++++++++++++++++++++++++++++++++++++++++++++++
->  1 file changed, 115 insertions(+)
->  create mode 100644 man2/s390_sthyi.2
-> 
-> diff --git a/man2/s390_sthyi.2 b/man2/s390_sthyi.2
-> new file mode 100644
-> index 0000000..c8797b7
-> --- /dev/null
-> +++ b/man2/s390_sthyi.2
-> @@ -0,0 +1,115 @@
-> +.\" Copyright IBM Corp. 2017
-> +.\" Author: QingFeng Hao <haoqf-23VcF4HTsmIX0ybBhKVfKdBPR1lH4CV8@public.gmane.org>
-> +.\"
-> +.\" %%%LICENSE_START(GPLv2+_DOC_FULL)
-> +.\" This is free documentation; you can redistribute it and/or
-> +.\" modify it under the terms of the GNU General Public License as
-> +.\" published by the Free Software Foundation; either version 2 of
-> +.\" the License, or (at your option) any later version.
-> +.\"
-> +.\" The GNU General Public License's references to "object code"
-> +.\" and "executables" are to be interpreted as the output of any
-> +.\" document formatting or typesetting system, including
-> +.\" intermediate and printed output.
-> +.\"
-> +.\" This manual is distributed in the hope that it will be useful,
-> +.\" but WITHOUT ANY WARRANTY; without even the implied warranty of
-> +.\" MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
-> +.\" GNU General Public License for more details.
-> +.\"
-> +.\" You should have received a copy of the GNU General Public
-> +.\" License along with this manual; if not, see
-> +.\" <http://www.gnu.org/licenses/>.
-> +.\" %%%LICENSE_END
-> +.\"
-> +.TH S390_STHYI 2 2017-09-21 "Linux Programmer's Manual"
-> +.SH NAME
-> +s390_sthyi \- emulate STHYI instruction
-> +.SH SYNOPSIS
-> +.nf
-> +.B #include <asm/unistd.h>
-> +.PP
-> +.BI "int s390_sthyi(unsigned long " function_code ", void *" buffer ", uint64_t *" return_code ", unsigned long " flags ");
-> +.fi
-> +.SH DESCRIPTION
-> +The
-> +.BR s390_sthyi ()
-> +system call emulates the STHYI (Store Hypervisor Information) instruction.
-> +It provides hardware resource information for the machine and its virtualization
-> +levels. This includes CPU type and capacity, as well as the machine model and
-> +other metrics.
-> +.PP
-> +The
-> +.I function_code
-> +argument indicates which function to perform.
-> +The following code(s) are supported:
-> +.RB ( 0 )
-> +CP and IFL capacity information.
 
-The line above is hard to understand. It needs a verb.
-What is done with the CP and IFL capacity information?
+Let me replay things as best I can remember them.
 
-It may also be helpful to explain what the abbreviations "CP"
-and "IFL" stand for.
+Once upon a time pty's were ordinary dev entries, and posix_openpt
+scoured around and found a pair of master/slave devices that were not
+used and return those.  With a suid helper (pt_chown) grantpt changes the
+permissions on the slave side.
 
-> +.PP
-> +The
-> +.I buffer 
-> +argument specifies the address of response buffer. If the system
-> +call returns 0, the response buffer will be filled with CPU capacity
-> +information. Otherwise, the response buffer's content is unchanged.
-> +.PP
-> +The
-> +.I return_code
-> +argument stores the return code of the STHYI instruction, success
-> +.RB ( 0 )
-> +or unsupported function code
-> +.RB ( 4 ).
-> +For details about this and function_code, buffer argument, please reference the link in
-> +.IR "CONFORMING TO"
-> +below.
-> +.PP
-> +The
-> +.I flags
-> +argument is provided to allow for future extensions and currently
-> +must be set to "0".
-> +.SH RETURN VALUE
-> +On success,
-> +.BR s390_sthyi ()
-> +returns 0 and stores CPU capacity information to
-> +.I buffer.
-> +.PP
-> +On error, -1 is returned, and
-> +.IR errno
-> +is set appropriately.
-> +.PP
-> +On other cases, the value of condition code is returned, which currently
 
-What does "On other cases" mean? When do those cases happen?
-Could you reword please.
+This was in the days before udev and hotplug support in the kernel
+and so had the disadvantage of having requiring someone to call mknod
+in /dev for all possible ptys to be used before a pty could be created.
 
-> +is only 3 indicating "unsupported function code".
-> +.SH ERRORS
-> +.TP
-> +.B EINVAL
-> +The value specified in
-> +.I flags
-> +is non-zero.
-> +.TP
-> +.B EOPNOTSUPP
-> +The value specified in
-> +.I function_code 
-> +is not a valid value.
-> +.TP
-> +.B EFAULT
-> +The value specified in
-> +.I buffer 
-> +or
-> +.I return_code
-> +is not a valid address.
-> +.TP
-> +.B ENOMEM
-> +Allocating memory for handling the CPU capacity information failed.
-> +.IR "CONFORMING TO"
-> +below.
+Following a posix draft /dev/ptmx and the devpts filesystem (expected to
+be mounted at /dev/pts) were added.  The opening of /dev/ptmx creates a
+slave entry in the devpts filesystem.  The devpts filesystem options
+"uid", "gid", and "mode" existed since the beginning (2.1.93 ish) to
+ensure that the newly created slave tty has the correct mode.
 
-The last two lines do not make a complete sentence. What do
-you want to say here?
+At which point the setuid granpt helper (pt_chown) should have begun the
+process of retirement.
 
-> +.SH VERSIONS
-> +This system call is available since Linux 4.15.
-> +.SH CONFORMING TO
-> +This Linux-specific system call is available only on the s390 architecture.
-> +For details about the STHYI instruction, please reference the link:
-> +https://www.ibm.com/support/knowledgecenter/SSB27U_6.3.0/com.ibm.zvm.v630.hcpb4/hcpb4sth.htm#hcpb4-sth__headsec
-> +.SH NOTES
-> +Glibc does not provide a wrapper for this system call, use
-> +.BR syscall (2)
-> +to call it.
-> +.SH SEE ALSO
-> +.BR syscall (2)
-> 
+The weird quirk with devpts is that if it was mounted a secound
+time you would get the same filesytem you mounted the first time, but
+would have the opportunity to change the mount options.
 
-Thank you,
+As some uncareful scripts would mount devpts in a chroot without the
+proper mount options in some distributions the pt_chown binary was kept
+on not just for backwards compability but to keep the system working
+after these weird scripts ran.  I believe one of them is
+xen-image-builder.
 
-Michael
+Meanwhile in the land of containers and checkpoint/restart we wanted the
+ability to migrate open ptys.  To do that we felt it was necessary to
+preserve the major/minor numbers of the open ptys, so the migrated ptys
+would have the same numbers.  Which resulted in devpts gaining the
+"newinstance" mount option and a ptmx device node in 2.6.29.
 
--- 
-Michael Kerrisk
-Linux man-pages maintainer; http://www.kernel.org/doc/man-pages/
-Linux/UNIX System Programming Training: http://man7.org/training/
+To create a new slave in a mount of devpts mounted with "newinstance" it
+was necessary to open /dev/pts/ptmx which in practice was bind mounted
+or symlinked to /dev/ptmx to create a new pty.  This solved things
+for containers.
+
+Lurking in the background was setuid helper for grantpt (pt_chown) which
+would not go away because of silly chrooted scripts that do things
+wrong.
+
+The addition of "newinstance" and user namespaces made it possible for
+an mischievous person to mount devpts without privilege and open a pty
+and pass that back to glibc and ask it to call granpt on it.  At which
+point glibc would be confused and ask pt_chown to chown the same
+numbered pty in the local instance of devpts.  As the attacker could
+completely control the pty number this had the potential for a lot of
+mischief.
+
+At the end of the day this wound up with 3 fixes.
+- Distributions stopped shipping pt_chown.
+- The devpts "newinstance" mount option was made to always apply in 4.7,
+  ensuring the mount options of devpts would not affect other mounts,
+  and thus removing the need for pt_chown.
+- The TIOCGPTPEER ioctl was added which if used carefully makes it
+  impossible to confused glibc.
+
+To make "newinstance" always apply to devpts without breaking any
+existing distribution was interesting.  The problem was the /dev/ptmx
+device node, which was fine when there was only one instance of devpts.
+
+When the "newinstance" mount option was added a specific devpts instance
+was mounted kernel internal and was used for /dev/ptmx for backwards
+compatiblity.  Which worked at the time.   With "newinstance" always
+creating a new instance of devpts that definition did not work.
+
+We examined just having /dev/ptmx point to the first mount of devpts but
+that fails on distributions like CentOS6 that mount devpts in the initrd
+and then again from fstab.  We examined having devtmpfs create ptmx as a
+symlink to pts/ptmx, but that fails on distributions like slackware that
+don't mount devtmpfs.  What did work was to have /dev/ptmx perform a
+relative path based lookup of "pts" in the same directory as the "ptmx"
+device node.  That works for the weird distros like CentOS6 and the
+weird chroot images that call mknod /dev/ptmx and mount devpts
+themselves.  Plus it works for all of the normal cases.
+
+Eric
 --
 To unsubscribe from this list: send the line "unsubscribe linux-man" in
 the body of a message to majordomo-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
