@@ -1,59 +1,151 @@
-From: OL Isaac <oliverlydiaisaac-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org>
-Subject: chmod man page bug - clear setuid/setgid with numerical value
-Date: Mon, 20 Nov 2017 20:08:05 -0600
-Message-ID: <6559B723-A745-4A07-B220-C8AB5124466C@gmail.com>
-References: <CABg1buvB_EDoUup48ahPG=ELKd3BppugRLzBFYm9QHfC-dODOg@mail.gmail.com>
- <CABg1busG-pck5g_M-OuH7uAN0UgKpA5SJdxu5XbmrGn_4x4iuQ@mail.gmail.com>
- <CABg1butR8+BtGWVUsurSAyHuSzLU8TRG5cndyumMCrv+aAtjrA@mail.gmail.com>
- <CABg1buvriaHyseFHReO9bV3kLcMJXUqBFzpJqS5PDTssriVA5A@mail.gmail.com>
- <CABg1buvbngN2RvQVNbUL1kKue9-pfNboyPAKPeu9-1nRt+F1-g@mail.gmail.com>
- <CABg1butFQC6MqWpPB-WESo5ZzqzUQdHOABahy_89DUjcGSO98g@mail.gmail.com>
- <CABg1buu3KAgnKFcqf1OSdVk4+LvBJMj+RJEXJ4A6Hy7pMNaNFA@mail.gmail.com>
- <CABg1buvF+8ZhZPkH1QzQGXGhgjkBBSdvpGCV2Oi3cAuC2eLYHQ@mail.gmail.com>
- <CABg1busi0br1yXbyED3zG1pgCYfBfryACQ2dT49VRiG_Etwk8w@mail.gmail.com>
- <CABg1busWnOnmGt9ZLmdBxO-mtwUEj4ZuyJdQwxAcHqi_jQMfVg@mail.gmail.com>
- <CABg1butajSr09323zdB11Sso=iu9P8-pmJfb8DPafgjsbQ_iQg@mail.gmail.com>
- <CABg1buv5zt6aqFPa0Zem3ik4vzstk_HZ7Q-ZmwFsfkYSW_cqcQ@mail.gmail.com>
- <CABg1buv_us-MguXVTtPm8g+2K-ujbDbfsLVN7+Ya02iZVNG4Bg@mail.gmail.com>
- <CABg1buuMwZziktOxTZ-ighFYNeN2LjzWSnK4uJ_4F=RMzuHKEQ@mail.gmail.com>
-Mime-Version: 1.0 (Mac OS X Mail 10.3 \(3273\))
-Content-Type: text/plain; charset=us-ascii
-Content-Transfer-Encoding: quoted-printable
-Return-path: <linux-man-owner-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>
-In-Reply-To: <CABg1buuMwZziktOxTZ-ighFYNeN2LjzWSnK4uJ_4F=RMzuHKEQ-JsoAwUIsXosN+BqQ9rBEUg@public.gmane.org>
-Sender: linux-man-owner-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
-To: mtk.manpages-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org
-Cc: linux-man-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
+From: Ram Pai <linuxram@us.ibm.com>
+Subject: Re: Improving documentation of parent-ID field in /proc/PID/mountinfo
+Date: Mon, 20 Nov 2017 19:19:47 -0800
+Message-ID: <20171121031947.GA5698@ram.oc3035372033.ibm.com>
+References: <CAKgNAkhz8TWY5DpS4SHiapxC2903KdtBydNAG476_edun2oeLw@mail.gmail.com>
+ <20171113075537.GG5546@ram.oc3035372033.ibm.com>
+ <CAOssrKeOcuQqEksvc_hgiZiLHHCHCJ_kt+__4BvQvLMDqGcqpw@mail.gmail.com>
+ <CAKgNAki_8xKG0Ky2phAHbKi=Ta7QYZRW4hr3hgu3rZ=gG-AHvA@mail.gmail.com>
+ <CAOssrKfW3yTEa7Wq0MeGkQd+sSpZft+PRjH6ymQEoFHFVpuk-w@mail.gmail.com>
+ <CAKgNAkjX20TbvvVEcqK+TqG995f4T6eYKp0ujGpJgh_Z7fQsRQ@mail.gmail.com>
+Reply-To: Ram Pai <linuxram@us.ibm.com>
+Mime-Version: 1.0
+Content-Type: text/plain; charset=utf-8
+Content-Transfer-Encoding: 8bit
+Return-path: <linux-kernel-owner@vger.kernel.org>
+Content-Disposition: inline
+In-Reply-To: <CAKgNAkjX20TbvvVEcqK+TqG995f4T6eYKp0ujGpJgh_Z7fQsRQ@mail.gmail.com>
+Sender: linux-kernel-owner@vger.kernel.org
+To: "Michael Kerrisk (man-pages)" <mtk.manpages@gmail.com>
+Cc: Miklos Szeredi <mszeredi@redhat.com>, lkml <linux-kernel@vger.kernel.org>, linux-man <linux-man@vger.kernel.org>, Alexander Eder <alexander.eder@harman.com>, "linux-fsdevel@vger.kernel.org" <linux-fsdevel@vger.kernel.org>
 List-Id: linux-man@vger.kernel.org
 
-Hello,
+On Mon, Nov 20, 2017 at 10:07:29AM +0100, Michael Kerrisk (man-pages) wrote:
+> Hi Miklos,
+> 
+> Sorry for the slow follow-up.
+> 
+> On 14 November 2017 at 17:16, Miklos Szeredi <mszeredi@redhat.com> wrote:
+> > On Tue, Nov 14, 2017 at 8:08 AM, Michael Kerrisk (man-pages)
+> > <mtk.manpages@gmail.com> wrote:
+> >> Hi Miklos, Ram
+> >>
+> >> Thanks for your comments. A question below.
+> >>
+> >> On 13 November 2017 at 09:11, Miklos Szeredi <mszeredi@redhat.com> wrote:
+> >>> On Mon, Nov 13, 2017 at 8:55 AM, Ram Pai <linuxram@us.ibm.com> wrote:
+> >>>> On Mon, Nov 13, 2017 at 07:02:21AM +0100, Michael Kerrisk (man-pages) wrote:
+> >>>>> Hello Ram,
+> >>>>>
+> >>>>> Long ago (2.6.29) you added the /proc/PID/mountinfo file and
+> >>>>> associated documentation in Documentation/filesystems/proc.txt. Later,
+> >>>>> I pasted much of that documentation into the proc(5) manual page.
+> >>>>>
+> >>>>> That documentation says of the second field in the file:
+> >>>>>
+> >>>>> [[
+> >>>>> This file contains lines of the form:
+> >>>>>
+> >>>>> 36 35 98:0 /mnt1 /mnt2 rw,noatime master:1 - ext3 /dev/root rw,errors=continue
+> >>>>> (1)(2)(3)   (4)   (5)      (6)      (7)   (8) (9)   (10)         (11)
+> >>>>>
+> >>>>> (1) mount ID:  unique identifier of the mount (may be reused after umount)
+> >>>>> (2) parent ID:  ID of parent (or of self for the top of the mount tree)
+> >>>>> ...
+> >>>>> ]]
+> >>>>>
+> >>>>> The last piece of the description of field (2) doesn't seem to be
+> >>>>> correct, or is at least rather unclear. I take this to be saying that
+> >>>>> that for the root mount point, /, field (2) will have the same value
+> >>>>> as field (1). I never actually looked at this detail closely, but
+> >>>>> Alexander pointed out that this is obviously not so, as one can
+> >>>>> immediately verify:
+> >>>>>
+> >>>>> $ grep '/ / ' /proc/$$/mountinfo
+> >>>>> 65 0 8:2 / / rw,relatime shared:1 - ext4 /dev/sda2 rw,seclabel,data=order
+> >>>>>
+> >>>>> I dug around in the kernel source for a bit. I do not have an exact
+> >>>>> handle on the details, but I can see roughly what is going on.
+> >>>>> Internally, there seems to be one ("hidden") mount ID reserved to each
+> >>>>> mount namespace, and that ID is the parent of the root mount point.
+> >>>>>
+> >>>>> Looking through the (4.14) kernel source, mount IDs are allocated by
+> >>>>> mnt_alloc_id() (in fs/namespace.c), which is in turn called by
+> >>>>> alloc_vfsmnt() which is in turn called by clone_mnt().
+> >>>>>
+> >>>>> A new mount namespace is created by the kernel function copy_mnt_ns()
+> >>>>> (in fs/namespace.c, called by create_new_namespaces() in
+> >>>>> kernel/nsproxy.c). The copy_mnt_ns() function calls copy_tree() (in
+> >>>>> fs/namespace.c), and copy_tree() calls clone_mnt() in *two* places.
+> >>>>> The first of these is the call that creates the "hidden" mount ID that
+> >>>>> becomes the parent of the root mount point. (I verified this by
+> >>>>> instrumenting the kernel with a few printk() calls to display the
+> >>>>> IDs.)  The second place where copy_tree() calls clone_mnt() is in a
+> >>>>> loop that replicates each of the mount points (including the root
+> >>>>> mount point) in the source mount namespace.
+> >>>>
+> >>>> We used to report that mount, ones upon a time.  Something has changed
+> >>>> the behavior since then and its not reported any more, thus making it
+> >>>> hidden.
+> >>>
+> >>> The hidden one is the initramfs, I believe.  That's the root of the
+> >>> mount namespace, and the when a namespace is cloned, the tree is
+> >>> copied from the namespace root.
+> >>>
+> >>> It is "hidden" because no process has its root there.  Note the
+> >>> difference between namespace root and process root: the first is the
+> >>> real root of the mount tree and is unchangeable, the second is
+> >>> pointing to some place in a mount tree and can be changed (chroot).
+> >>>
+> >>> So there's nothing special in this rootfs, it is just hidden because
+> >>> it's not the root of any task.
+> >>>
+> >>> The description of  field (2) is correct, it just does not make it
+> >>> clear what it means by "root".
+> >>
+> >> Sorry -- do you mean the old description is correct, or my new
+> >> description (below)?
+> >
+> > Well, both are correct, yours just describes the same thing at the
+> > higher level.  But I think rootfs is an implementation detail, so is
+> > the fact that it gets a zero mount ID, so I think the original
+> > description better captures the essence of the interface.  Except it
+> > needs to clarify what "top of the mount tree" means.  It doesn't mean
+> > current process's root, rather it means the root of the mount tree in
+> > the current mount namespace.
+> 
+> Thanks for the further info.
+> 
+> But, the problem is that the existing description is at best misleading:
+> 
+>               (2)  parent  ID: the ID of the parent mount (or of self for
+>                    the top of the mount tree).
+> 
+> That implies that we'll find one line in the list where field 1 and
+> field 2 are the same. But we don't, because the mountns rootfs entry
+> is not shown in mountinfo. On top of that, the reader is left
+> confused, because when they look at mountinfo, they see one entry
+> where the parent-ID doesn't exist in the list. So, something more than
+> the current text is required. After digging around in the kernel
+> source and noticing that chroot() will also cause this scenario, and
+> taking into account your comments, I revised the text to:
+> 
+>               (2)  parent ID: the ID of the parent mount (or of self  for
+>                    the root of this mount namespace's mount tree).
+> 
+>                    If  the  parent mount point lies outside the process's
+>                    root directory (see  chroot(2)),  the  ID  shown  here
+>                    won't  have  a corresponding record in mountinfo whose
+>                    mount ID  (field  1)  matches  this  parent  mount  ID
+>                    (because  mount  points that lie outside the process's
+>                    root directory are not shown in mountinfo).  As a spe‐
+>                    cial  case  of  this  point,  the process's root mount
+>                    point may have  a  parent  mount  (for  the  initramfs
+>                    filesystem)  that  lies  outside  the  process's  root
+>                    directory, and an entry for that mount point will  not
+>                    appear in mountinfo.
+> 
+> How does that seem?
 
-There is an incorrect assertion made in the chmod man page:
-
-Under the setuid/setgid header it says, "you can set (but not clear) the =
-bits with a numeric mode"
-
-This is not entirely true. If you prefix your numeric mode with a 0 then =
-it will work:
-
-e.g.
-touch myfile
-chmod 644 myfile
-ls -l myfile
-chmod g+s myfile
-Is -l myfile
-chmod 00644 myfile
-is -l myfile
-
-
-This simple test shows that you can clear the uid/gid bits with numeric =
-mode which is especially useful in scripts.
-
-An update to the man page to clarify this would be helpful.=20
-
-Thanks,
-Oliver=20=
---
-To unsubscribe from this list: send the line "unsubscribe linux-man" in
-the body of a message to majordomo-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
-More majordomo info at  http://vger.kernel.org/majordomo-info.html
+yes. captures it well.
+RP
