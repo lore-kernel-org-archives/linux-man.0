@@ -1,151 +1,191 @@
-From: Ram Pai <linuxram@us.ibm.com>
-Subject: Re: Improving documentation of parent-ID field in /proc/PID/mountinfo
-Date: Mon, 20 Nov 2017 19:19:47 -0800
-Message-ID: <20171121031947.GA5698@ram.oc3035372033.ibm.com>
-References: <CAKgNAkhz8TWY5DpS4SHiapxC2903KdtBydNAG476_edun2oeLw@mail.gmail.com>
- <20171113075537.GG5546@ram.oc3035372033.ibm.com>
- <CAOssrKeOcuQqEksvc_hgiZiLHHCHCJ_kt+__4BvQvLMDqGcqpw@mail.gmail.com>
- <CAKgNAki_8xKG0Ky2phAHbKi=Ta7QYZRW4hr3hgu3rZ=gG-AHvA@mail.gmail.com>
- <CAOssrKfW3yTEa7Wq0MeGkQd+sSpZft+PRjH6ymQEoFHFVpuk-w@mail.gmail.com>
- <CAKgNAkjX20TbvvVEcqK+TqG995f4T6eYKp0ujGpJgh_Z7fQsRQ@mail.gmail.com>
-Reply-To: Ram Pai <linuxram@us.ibm.com>
+From: QingFeng Hao <haoqf-23VcF4HTsmIX0ybBhKVfKdBPR1lH4CV8@public.gmane.org>
+Subject: Re: [PATCH 1/1] s390_sthyi.2: New page for s390-specific
+ s390_sthyi(2)
+Date: Tue, 21 Nov 2017 16:26:59 +0800
+Message-ID: <10afe17f-9874-06c6-acd3-7da8fe14af55@linux.vnet.ibm.com>
+References: <20171120133420.4700-1-haoqf@linux.vnet.ibm.com>
+ <8b4188fa-bdda-c3eb-5184-cecf78267f0f@gmail.com>
 Mime-Version: 1.0
-Content-Type: text/plain; charset=utf-8
+Content-Type: text/plain; charset=utf-8; format=flowed
 Content-Transfer-Encoding: 8bit
-Return-path: <linux-kernel-owner@vger.kernel.org>
-Content-Disposition: inline
-In-Reply-To: <CAKgNAkjX20TbvvVEcqK+TqG995f4T6eYKp0ujGpJgh_Z7fQsRQ@mail.gmail.com>
-Sender: linux-kernel-owner@vger.kernel.org
-To: "Michael Kerrisk (man-pages)" <mtk.manpages@gmail.com>
-Cc: Miklos Szeredi <mszeredi@redhat.com>, lkml <linux-kernel@vger.kernel.org>, linux-man <linux-man@vger.kernel.org>, Alexander Eder <alexander.eder@harman.com>, "linux-fsdevel@vger.kernel.org" <linux-fsdevel@vger.kernel.org>
+Return-path: <linux-man-owner-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>
+In-Reply-To: <8b4188fa-bdda-c3eb-5184-cecf78267f0f-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org>
+Sender: linux-man-owner-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
+To: "Michael Kerrisk (man-pages)" <mtk.manpages-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org>
+Cc: linux-man-u79uwXL29TY76Z2rM5mHXA@public.gmane.org, heiko.carstens-tA70FqPdS9bQT0dZR+AlfA@public.gmane.org, borntraeger-tA70FqPdS9bQT0dZR+AlfA@public.gmane.org
 List-Id: linux-man@vger.kernel.org
 
-On Mon, Nov 20, 2017 at 10:07:29AM +0100, Michael Kerrisk (man-pages) wrote:
-> Hi Miklos,
-> 
-> Sorry for the slow follow-up.
-> 
-> On 14 November 2017 at 17:16, Miklos Szeredi <mszeredi@redhat.com> wrote:
-> > On Tue, Nov 14, 2017 at 8:08 AM, Michael Kerrisk (man-pages)
-> > <mtk.manpages@gmail.com> wrote:
-> >> Hi Miklos, Ram
-> >>
-> >> Thanks for your comments. A question below.
-> >>
-> >> On 13 November 2017 at 09:11, Miklos Szeredi <mszeredi@redhat.com> wrote:
-> >>> On Mon, Nov 13, 2017 at 8:55 AM, Ram Pai <linuxram@us.ibm.com> wrote:
-> >>>> On Mon, Nov 13, 2017 at 07:02:21AM +0100, Michael Kerrisk (man-pages) wrote:
-> >>>>> Hello Ram,
-> >>>>>
-> >>>>> Long ago (2.6.29) you added the /proc/PID/mountinfo file and
-> >>>>> associated documentation in Documentation/filesystems/proc.txt. Later,
-> >>>>> I pasted much of that documentation into the proc(5) manual page.
-> >>>>>
-> >>>>> That documentation says of the second field in the file:
-> >>>>>
-> >>>>> [[
-> >>>>> This file contains lines of the form:
-> >>>>>
-> >>>>> 36 35 98:0 /mnt1 /mnt2 rw,noatime master:1 - ext3 /dev/root rw,errors=continue
-> >>>>> (1)(2)(3)   (4)   (5)      (6)      (7)   (8) (9)   (10)         (11)
-> >>>>>
-> >>>>> (1) mount ID:  unique identifier of the mount (may be reused after umount)
-> >>>>> (2) parent ID:  ID of parent (or of self for the top of the mount tree)
-> >>>>> ...
-> >>>>> ]]
-> >>>>>
-> >>>>> The last piece of the description of field (2) doesn't seem to be
-> >>>>> correct, or is at least rather unclear. I take this to be saying that
-> >>>>> that for the root mount point, /, field (2) will have the same value
-> >>>>> as field (1). I never actually looked at this detail closely, but
-> >>>>> Alexander pointed out that this is obviously not so, as one can
-> >>>>> immediately verify:
-> >>>>>
-> >>>>> $ grep '/ / ' /proc/$$/mountinfo
-> >>>>> 65 0 8:2 / / rw,relatime shared:1 - ext4 /dev/sda2 rw,seclabel,data=order
-> >>>>>
-> >>>>> I dug around in the kernel source for a bit. I do not have an exact
-> >>>>> handle on the details, but I can see roughly what is going on.
-> >>>>> Internally, there seems to be one ("hidden") mount ID reserved to each
-> >>>>> mount namespace, and that ID is the parent of the root mount point.
-> >>>>>
-> >>>>> Looking through the (4.14) kernel source, mount IDs are allocated by
-> >>>>> mnt_alloc_id() (in fs/namespace.c), which is in turn called by
-> >>>>> alloc_vfsmnt() which is in turn called by clone_mnt().
-> >>>>>
-> >>>>> A new mount namespace is created by the kernel function copy_mnt_ns()
-> >>>>> (in fs/namespace.c, called by create_new_namespaces() in
-> >>>>> kernel/nsproxy.c). The copy_mnt_ns() function calls copy_tree() (in
-> >>>>> fs/namespace.c), and copy_tree() calls clone_mnt() in *two* places.
-> >>>>> The first of these is the call that creates the "hidden" mount ID that
-> >>>>> becomes the parent of the root mount point. (I verified this by
-> >>>>> instrumenting the kernel with a few printk() calls to display the
-> >>>>> IDs.)  The second place where copy_tree() calls clone_mnt() is in a
-> >>>>> loop that replicates each of the mount points (including the root
-> >>>>> mount point) in the source mount namespace.
-> >>>>
-> >>>> We used to report that mount, ones upon a time.  Something has changed
-> >>>> the behavior since then and its not reported any more, thus making it
-> >>>> hidden.
-> >>>
-> >>> The hidden one is the initramfs, I believe.  That's the root of the
-> >>> mount namespace, and the when a namespace is cloned, the tree is
-> >>> copied from the namespace root.
-> >>>
-> >>> It is "hidden" because no process has its root there.  Note the
-> >>> difference between namespace root and process root: the first is the
-> >>> real root of the mount tree and is unchangeable, the second is
-> >>> pointing to some place in a mount tree and can be changed (chroot).
-> >>>
-> >>> So there's nothing special in this rootfs, it is just hidden because
-> >>> it's not the root of any task.
-> >>>
-> >>> The description of  field (2) is correct, it just does not make it
-> >>> clear what it means by "root".
-> >>
-> >> Sorry -- do you mean the old description is correct, or my new
-> >> description (below)?
-> >
-> > Well, both are correct, yours just describes the same thing at the
-> > higher level.  But I think rootfs is an implementation detail, so is
-> > the fact that it gets a zero mount ID, so I think the original
-> > description better captures the essence of the interface.  Except it
-> > needs to clarify what "top of the mount tree" means.  It doesn't mean
-> > current process's root, rather it means the root of the mount tree in
-> > the current mount namespace.
-> 
-> Thanks for the further info.
-> 
-> But, the problem is that the existing description is at best misleading:
-> 
->               (2)  parent  ID: the ID of the parent mount (or of self for
->                    the top of the mount tree).
-> 
-> That implies that we'll find one line in the list where field 1 and
-> field 2 are the same. But we don't, because the mountns rootfs entry
-> is not shown in mountinfo. On top of that, the reader is left
-> confused, because when they look at mountinfo, they see one entry
-> where the parent-ID doesn't exist in the list. So, something more than
-> the current text is required. After digging around in the kernel
-> source and noticing that chroot() will also cause this scenario, and
-> taking into account your comments, I revised the text to:
-> 
->               (2)  parent ID: the ID of the parent mount (or of self  for
->                    the root of this mount namespace's mount tree).
-> 
->                    If  the  parent mount point lies outside the process's
->                    root directory (see  chroot(2)),  the  ID  shown  here
->                    won't  have  a corresponding record in mountinfo whose
->                    mount ID  (field  1)  matches  this  parent  mount  ID
->                    (because  mount  points that lie outside the process's
->                    root directory are not shown in mountinfo).  As a spe‐
->                    cial  case  of  this  point,  the process's root mount
->                    point may have  a  parent  mount  (for  the  initramfs
->                    filesystem)  that  lies  outside  the  process's  root
->                    directory, and an entry for that mount point will  not
->                    appear in mountinfo.
-> 
-> How does that seem?
 
-yes. captures it well.
-RP
+
+在 2017/11/20 23:37, Michael Kerrisk (man-pages) 写道:
+> Hello QingFeng
+>
+> Thank you for this manual page! Could I ask that you
+> address some points below please.
+Hello Michael,
+Thanks a lot and please see my comments below.
+>
+> On 11/20/2017 02:34 PM, QingFeng Hao wrote:
+>> Signed-off-by: QingFeng Hao <haoqf-23VcF4HTsmIX0ybBhKVfKdBPR1lH4CV8@public.gmane.org>
+>> ---
+>>   man2/s390_sthyi.2 | 115 ++++++++++++++++++++++++++++++++++++++++++++++++++++++
+>>   1 file changed, 115 insertions(+)
+>>   create mode 100644 man2/s390_sthyi.2
+>>
+>> diff --git a/man2/s390_sthyi.2 b/man2/s390_sthyi.2
+>> new file mode 100644
+>> index 0000000..c8797b7
+>> --- /dev/null
+>> +++ b/man2/s390_sthyi.2
+>> @@ -0,0 +1,115 @@
+>> +.\" Copyright IBM Corp. 2017
+>> +.\" Author: QingFeng Hao <haoqf-23VcF4HTsmIX0ybBhKVfKdBPR1lH4CV8@public.gmane.org>
+>> +.\"
+>> +.\" %%%LICENSE_START(GPLv2+_DOC_FULL)
+>> +.\" This is free documentation; you can redistribute it and/or
+>> +.\" modify it under the terms of the GNU General Public License as
+>> +.\" published by the Free Software Foundation; either version 2 of
+>> +.\" the License, or (at your option) any later version.
+>> +.\"
+>> +.\" The GNU General Public License's references to "object code"
+>> +.\" and "executables" are to be interpreted as the output of any
+>> +.\" document formatting or typesetting system, including
+>> +.\" intermediate and printed output.
+>> +.\"
+>> +.\" This manual is distributed in the hope that it will be useful,
+>> +.\" but WITHOUT ANY WARRANTY; without even the implied warranty of
+>> +.\" MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+>> +.\" GNU General Public License for more details.
+>> +.\"
+>> +.\" You should have received a copy of the GNU General Public
+>> +.\" License along with this manual; if not, see
+>> +.\" <http://www.gnu.org/licenses/>.
+>> +.\" %%%LICENSE_END
+>> +.\"
+>> +.TH S390_STHYI 2 2017-09-21 "Linux Programmer's Manual"
+>> +.SH NAME
+>> +s390_sthyi \- emulate STHYI instruction
+>> +.SH SYNOPSIS
+>> +.nf
+>> +.B #include <asm/unistd.h>
+>> +.PP
+>> +.BI "int s390_sthyi(unsigned long " function_code ", void *" buffer ", uint64_t *" return_code ", unsigned long " flags ");
+>> +.fi
+>> +.SH DESCRIPTION
+>> +The
+>> +.BR s390_sthyi ()
+>> +system call emulates the STHYI (Store Hypervisor Information) instruction.
+>> +It provides hardware resource information for the machine and its virtualization
+>> +levels. This includes CPU type and capacity, as well as the machine model and
+>> +other metrics.
+>> +.PP
+>> +The
+>> +.I function_code
+>> +argument indicates which function to perform.
+>> +The following code(s) are supported:
+>> +.RB ( 0 )
+>> +CP and IFL capacity information.
+> The line above is hard to understand. It needs a verb.
+> What is done with the CP and IFL capacity information?
+>
+> It may also be helpful to explain what the abbreviations "CP"
+> and "IFL" stand for.
+Return CP (Central Processor) and IFL (Integrated Facity for Linux) 
+capacity information
+>
+>> +.PP
+>> +The
+>> +.I buffer
+>> +argument specifies the address of response buffer. If the system
+>> +call returns 0, the response buffer will be filled with CPU capacity
+>> +information. Otherwise, the response buffer's content is unchanged.
+>> +.PP
+>> +The
+>> +.I return_code
+>> +argument stores the return code of the STHYI instruction, success
+>> +.RB ( 0 )
+>> +or unsupported function code
+>> +.RB ( 4 ).
+>> +For details about this and function_code, buffer argument, please reference the link in
+>> +.IR "CONFORMING TO"
+>> +below.
+>> +.PP
+>> +The
+>> +.I flags
+>> +argument is provided to allow for future extensions and currently
+>> +must be set to "0".
+>> +.SH RETURN VALUE
+>> +On success,
+>> +.BR s390_sthyi ()
+>> +returns 0 and stores CPU capacity information to
+>> +.I buffer.
+>> +.PP
+>> +On error, -1 is returned, and
+>> +.IR errno
+>> +is set appropriately.
+>> +.PP
+>> +On other cases, the value of condition code is returned, which currently
+> What does "On other cases" mean? When do those cases happen?
+> Could you reword please.
+The case is:
+If the STHYI facility is enabled and the system call fails to execute 
+the underlying
+STHYI instruction, the value of condition code is returned, which 
+currently is only
+3 indicating "unsupported function code".
+Is this OK to put it here?
+>
+>> +is only 3 indicating "unsupported function code".
+>> +.SH ERRORS
+>> +.TP
+>> +.B EINVAL
+>> +The value specified in
+>> +.I flags
+>> +is non-zero.
+>> +.TP
+>> +.B EOPNOTSUPP
+>> +The value specified in
+>> +.I function_code
+>> +is not a valid value.
+>> +.TP
+>> +.B EFAULT
+>> +The value specified in
+>> +.I buffer
+>> +or
+>> +.I return_code
+>> +is not a valid address.
+>> +.TP
+>> +.B ENOMEM
+>> +Allocating memory for handling the CPU capacity information failed.
+>> +.IR "CONFORMING TO"
+>> +below.
+> The last two lines do not make a complete sentence. What do
+> you want to say here?
+Sorry, it's a mistake and I'll remove them.
+
+>> +.SH VERSIONS
+>> +This system call is available since Linux 4.15.
+>> +.SH CONFORMING TO
+>> +This Linux-specific system call is available only on the s390 architecture.
+>> +For details about the STHYI instruction, please reference the link:
+>> +https://www.ibm.com/support/knowledgecenter/SSB27U_6.3.0/com.ibm.zvm.v630.hcpb4/hcpb4sth.htm#hcpb4-sth__headsec
+>> +.SH NOTES
+>> +Glibc does not provide a wrapper for this system call, use
+>> +.BR syscall (2)
+>> +to call it.
+>> +.SH SEE ALSO
+>> +.BR syscall (2)
+>>
+> Thank you,
+>
+> Michael
+>
+
+-- 
+Regards
+QingFeng Hao
+
+--
+To unsubscribe from this list: send the line "unsubscribe linux-man" in
+the body of a message to majordomo-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
+More majordomo info at  http://vger.kernel.org/majordomo-info.html
