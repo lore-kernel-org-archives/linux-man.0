@@ -1,54 +1,67 @@
 From: "Michael Kerrisk (man-pages)" <mtk.manpages-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org>
-Subject: Re: [PATCH 2/2] io_submit.2: tfix
-Date: Tue, 21 Nov 2017 09:30:02 +0100
-Message-ID: <b3625872-9bee-fb20-f737-8e595b02d1e8@gmail.com>
-References: <20171120224409.5568-1-jwilk@jwilk.net>
- <20171120224409.5568-2-jwilk@jwilk.net>
+Subject: Re: chmod man page bug - clear setuid/setgid with numerical value
+Date: Tue, 21 Nov 2017 09:32:15 +0100
+Message-ID: <c2002580-ec4b-5380-53be-728cb3ba852b@gmail.com>
+References: <CABg1buvB_EDoUup48ahPG=ELKd3BppugRLzBFYm9QHfC-dODOg@mail.gmail.com>
+ <CABg1butR8+BtGWVUsurSAyHuSzLU8TRG5cndyumMCrv+aAtjrA@mail.gmail.com>
+ <CABg1buvriaHyseFHReO9bV3kLcMJXUqBFzpJqS5PDTssriVA5A@mail.gmail.com>
+ <CABg1buvbngN2RvQVNbUL1kKue9-pfNboyPAKPeu9-1nRt+F1-g@mail.gmail.com>
+ <CABg1butFQC6MqWpPB-WESo5ZzqzUQdHOABahy_89DUjcGSO98g@mail.gmail.com>
+ <CABg1buu3KAgnKFcqf1OSdVk4+LvBJMj+RJEXJ4A6Hy7pMNaNFA@mail.gmail.com>
+ <CABg1buvF+8ZhZPkH1QzQGXGhgjkBBSdvpGCV2Oi3cAuC2eLYHQ@mail.gmail.com>
+ <CABg1busi0br1yXbyED3zG1pgCYfBfryACQ2dT49VRiG_Etwk8w@mail.gmail.com>
+ <CABg1busWnOnmGt9ZLmdBxO-mtwUEj4ZuyJdQwxAcHqi_jQMfVg@mail.gmail.com>
+ <CABg1butajSr09323zdB11Sso=iu9P8-pmJfb8DPafgjsbQ_iQg@mail.gmail.com>
+ <CABg1buv5zt6aqFPa0Zem3ik4vzstk_HZ7Q-ZmwFsfkYSW_cqcQ@mail.gmail.com>
+ <CABg1buv_us-MguXVTtPm8g+2K-ujbDbfsLVN7+Ya02iZVNG4Bg@mail.gmail.com>
+ <CABg1buuMwZziktOxTZ-ighFYNeN2LjzWSnK4uJ_4F=RMzuHKEQ@mail.gmail.com>
+ <CABg1butFxNrv28NY5+kEGso0vaV7V+YX+WZyn1ujDVKKKvwTkw@mail.gmail.com>
 Mime-Version: 1.0
 Content-Type: text/plain; charset=utf-8
 Content-Transfer-Encoding: 7bit
 Return-path: <linux-man-owner-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>
-In-Reply-To: <20171120224409.5568-2-jwilk-tXgOlIzOKNReoWH0uzbU5w@public.gmane.org>
+In-Reply-To: <CABg1butFxNrv28NY5+kEGso0vaV7V+YX+WZyn1ujDVKKKvwTkw-JsoAwUIsXosN+BqQ9rBEUg@public.gmane.org>
 Content-Language: en-US
 Sender: linux-man-owner-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
-To: Jakub Wilk <jwilk-tXgOlIzOKNReoWH0uzbU5w@public.gmane.org>
+To: Ol Isaac <oliverlydiaisaac-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org>
 Cc: mtk.manpages-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org, linux-man-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
 List-Id: linux-man@vger.kernel.org
 
-On 11/20/2017 11:44 PM, Jakub Wilk wrote:
-> Signed-off-by: Jakub Wilk <jwilk-tXgOlIzOKNReoWH0uzbU5w@public.gmane.org>
+On 11/20/2017 07:55 PM, Ol Isaac wrote:
+> Hello,
+> 
+> There is an incorrect assertion made in the chmod man page:
+> 
+> Under the setuid/setgid header it says, "you can set (but not clear) the
+> bits with a numeric mode"
+> 
+> This is not entirely true. If you prefix your numeric mode with a 0 then it
+> will work:
+> 
+> e.g.
+> touch myfile
+> chmod 644 myfile
+> ls -l myfile
+> chmod g+s myfile
+> Is -l myfile
+> chmod 00644 myfile
+> is -l myfile
+> 
+> 
+> This simple test shows that you can clear the uid/gid bits with numeric
+> mode which is especially useful in scripts.
+> 
+> An update to the man page to clarify this would be helpful.
 
-Thanks, Jakub. Patch applied.
+Hi Oliver,
+
+This page is from a different project. Please see
+http://man7.org/linux/man-pages/man1/chmod.1.html#COLOPHON
+for info on reporting bugs there.
 
 Cheers,
 
 Michael
-
-> ---
->  man2/io_submit.2 | 4 ++--
->  1 file changed, 2 insertions(+), 2 deletions(-)
-> 
-> diff --git a/man2/io_submit.2 b/man2/io_submit.2
-> index 25c152d46..397fd0b75 100644
-> --- a/man2/io_submit.2
-> +++ b/man2/io_submit.2
-> @@ -59,13 +59,13 @@ struct iocb {
->  The fields of this structure are as follows:
->  .TP
->  .I aio_data
-> -This is a internal field used by the kernel.
-> +This is an internal field used by the kernel.
->  Do not modify this field after an
->  .BR io_submit (2)
->  call.
->  .TP
->  .I aio_key
-> -This is a internal field used by the kernel.
-> +This is an internal field used by the kernel.
->  Do not modify this field after an
->  .BR io_submit (2)
->  call.
-> 
 
 
 -- 
