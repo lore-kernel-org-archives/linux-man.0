@@ -1,37 +1,23 @@
-From: "Michael Kerrisk (man-pages)" <mtk.manpages-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org>
-Subject: Re: [PATCH v2 1/1] s390_sthyi.2: New page for s390-specific s390_sthyi(2)
-Date: Wed, 22 Nov 2017 15:19:47 +0100
-Message-ID: <CAKgNAkgNAO3u-JLU3e9qipRNSYyDMF39sJTPZ39dHrhRyYtvnw@mail.gmail.com>
-References: <20171122065408.40841-1-haoqf@linux.vnet.ibm.com>
-Reply-To: mtk.manpages-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org
+From: Asana Hajraf <asanahajraf-Y8qEzhMunLyT9ig0jae3mg@public.gmane.org>
+Subject: Dearest
+Date: Wed, 22 Nov 2017 16:23:08 +0000 (UTC)
+Message-ID: <736925423.816262.1511367788083@mail.yahoo.com>
+References: <736925423.816262.1511367788083.ref@mail.yahoo.com>
+Reply-To: Asana Hajraf <asana.hajraf-/E1597aS9LQAvxtiuMwx3w@public.gmane.org>
 Mime-Version: 1.0
-Content-Type: text/plain; charset="UTF-8"
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 7bit
 Return-path: <linux-man-owner-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>
-In-Reply-To: <20171122065408.40841-1-haoqf-23VcF4HTsmIX0ybBhKVfKdBPR1lH4CV8@public.gmane.org>
 Sender: linux-man-owner-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
-To: QingFeng Hao <haoqf-23VcF4HTsmIX0ybBhKVfKdBPR1lH4CV8@public.gmane.org>
-Cc: linux-man <linux-man-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>, Heiko Carstens <heiko.carstens-tA70FqPdS9bQT0dZR+AlfA@public.gmane.org>, Christian Borntraeger <borntraeger-tA70FqPdS9bQT0dZR+AlfA@public.gmane.org>
 List-Id: linux-man@vger.kernel.org
 
-Hello QingFeng,
 
-> +.SH RETURN VALUE
-> +On success, the return value of
-> +.BR s390_sthyi ()
-> +matches the condition code of the STHYI instructions, which is a value
-> +between 0-3 (that is: emulation succeeded).
-> +Return value of 0 indicates that CPU capacity information is stored to
-> +.I buffer.
-> +Return value of 3 indicates "unsupported function code" and buffer's
-> +content is unchanged.
 
-Another question. What about the return values 1 and 2? Can they
-occur? If yes, we should explain them. If they are reserved for future
-use, we should say that.
-
-Cheers,
-
-Michael
+Dearest,
+I am Mrs. Asana Hajraf and I am married to Mr. Hassan Hajraf from kuwait for 19 years without a child and my husband died in 2014. I am contacting you to let you know my desire to donate the sum of $4.5 million to charities in your country which I inherited from my late husband. Due to my illness of cancer were confirmed out of just eight months, so it is my desire to see that this money is invested to any organization of your choice and distributed each year among the charity organizations, motherless babies home, schools and support for the men and women homeless or what you may consider to be the benefit of those less fortunate. I do not want this fund to be invested in a manner without God. As soon as I receive your reply confirming your acceptance of the work I tell you, I will give a
+ ll relevant information to authorize the release and transfer the money to you as my duly appointed representative.
+Thanks,
+Mrs Asana Hajraf.
 --
 To unsubscribe from this list: send the line "unsubscribe linux-man" in
 the body of a message to majordomo-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
