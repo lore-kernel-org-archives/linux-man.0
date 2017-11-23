@@ -1,39 +1,111 @@
-From: Eugene Syromyatnikov <evgsyr-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org>
+From: "Michael Kerrisk (man-pages)" <mtk.manpages-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org>
 Subject: Re: [PATCH] errno.3: Add values for all errors
-Date: Thu, 23 Nov 2017 09:46:45 +0000
-Message-ID: <CACGkJduG6oTqnGa4=COV2o+S2AtpGTVTPcV1Uz6J=M9+fZR1Nw@mail.gmail.com>
+Date: Thu, 23 Nov 2017 10:47:19 +0100
+Message-ID: <CAKgNAkiRdXxXWznvwOneU9uQqPYHs-JM0thiFEjveSPpt8GdNg@mail.gmail.com>
 References: <20171123001545.dp55g3pkdm5bzah3@prism.localdomain>
  <20171123083109.GA25458@infradead.org> <f033a61a-f305-689d-b69a-72267ef767c1@gmail.com>
- <20171123091247.GA7460@infradead.org>
+ <5A169376.90002@bfs.de>
+Reply-To: mtk.manpages-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org
 Mime-Version: 1.0
 Content-Type: text/plain; charset="UTF-8"
 Return-path: <linux-man-owner-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>
-In-Reply-To: <20171123091247.GA7460-wEGCiKHe2LqWVfeAwA7xHQ@public.gmane.org>
+In-Reply-To: <5A169376.90002-fPG8STNUNVg@public.gmane.org>
 Sender: linux-man-owner-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
-To: Christoph Hellwig <hch-wEGCiKHe2LqWVfeAwA7xHQ@public.gmane.org>
-Cc: "Michael Kerrisk (man-pages)" <mtk.manpages-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org>, Wesley Aptekar-Cassels <w.aptekar-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org>, linux-man <linux-man-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>
+To: Walter Harms <wharms-fPG8STNUNVg@public.gmane.org>
+Cc: Christoph Hellwig <hch-wEGCiKHe2LqWVfeAwA7xHQ@public.gmane.org>, Wesley Aptekar-Cassels <w.aptekar-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org>, linux-man <linux-man-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>
 List-Id: linux-man@vger.kernel.org
 
-On Thu, Nov 23, 2017 at 9:12 AM, Christoph Hellwig <hch-wEGCiKHe2LqWVfeAwA7xHQ@public.gmane.org> wrote:
-> On Thu, Nov 23, 2017 at 10:07:13AM +0100, Michael Kerrisk (man-pages) wrote:
+Hi Walter,
+
+On 23 November 2017 at 10:23, walter harms <wharms-fPG8STNUNVg@public.gmane.org> wrote:
+>
+>
+> Am 23.11.2017 10:07, schrieb Michael Kerrisk (man-pages):
+>> On 11/23/2017 09:31 AM, Christoph Hellwig wrote:
+>>> On Wed, Nov 22, 2017 at 07:15:45PM -0500, Wesley Aptekar-Cassels wrote:
+>>>> This patch documents the values of error numbers on linux. This is
+>>>> something that is in the OpenBSD errno man page, which I find quite
+>>>> useful.
+>>>
+>>> Error numbers are different for different architectures.
+>>
+>> I was just about to say the same.
+>>
+>> Someone else recently proposed the same change, and I should have
+>> thought then to add the text that I have added just now to errno(3).
+>> Hopefully this goes someway to addressing your requirements, Wesley.
+>>
+>> New text:
+>>
 >>        On  Linux, the error numbers that correspond to each symbolic name
 >>        vary somewhat across architectures.  Therefore, numeric values are
 >>        not  included in the list of error names below.  On any particular
 >>        system, one can obtain a list of all symbolic error names and  the
 >>        corresponding error numbers using the errno(1) command:
->
-> What package does the errno command come with?  It would have been very
-> useful for me multuple times, but doesn't come by default at least on my
-> Debian stretch system, and a simple apt-cache search didn't find it
-> either.
+>>
+> If i read this that would mean the values differ between the linux architectures only.
+> I do not ting that was intended.
 
-% apt-file search /usr/bin/errno
-moreutils: /usr/bin/errno
+Indeed. So, I changed the text to:
+
+       The  error  numbers  that  correspond  to  each symbolic name vary
+       across UNIX systems, and even across  different  architectures  on
+       Linux.   Therefore, numeric values are not included in the list of
+       error names below.  Portable applications should use the  symbolic
+       error  names  (rather than explicit error numbers).  The perror(3)
+       and strerror(3) functions can be used to convert  these  names  to
+       corresponding textual error messages.
+
+> What about that:
+>
+>
+> Portability:
+>  Programmers should use always the symbolic names as that the value of errno may vary
+>  across different systems. Always use strerror (3) (or compareable) to translate
+>  the errno code into a human readable string.
+>
+> note: errno (1) is a nice programm and it could be mentioned but a propper programm
+>       simply should not say things like "Error: 13".
+
+I'm not sure what you are referring to with the preceding line.
+
+Thanks for the input, Walter.
+
+Cheers,
+
+Michael
+
+> re,
+>  wh
+>
+>
+>>            $ errno -l
+>>            EPERM 1 Operation not permitted
+>>            ENOENT 2 No such file or directory
+>>            ESRCH 3 No such process
+>>            EINTR 4 Interrupted system call
+>>            EIO 5 Input/output error
+>>            ...
+>>
+>>        The  errno(1) command can also be used to look up individual error
+>>        numbers and names as in the following examples:
+>>
+>>            $ errno 2
+>>            ENOENT 2 No such file or directory
+>>            $ errno ESRCH
+>>            ESRCH 3 No such process
+>>
+>> Cheers,
+>>
+>> Michael
+>>
+
+
 
 -- 
-Eugene Syromyatnikov
-mailto:evgsyr-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org
-xmpp:esyr@jabber.{ru|org}
+Michael Kerrisk
+Linux man-pages maintainer; http://www.kernel.org/doc/man-pages/
+Linux/UNIX System Programming Training: http://man7.org/training/
 --
 To unsubscribe from this list: send the line "unsubscribe linux-man" in
 the body of a message to majordomo-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
