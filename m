@@ -1,111 +1,76 @@
-From: "Michael Kerrisk (man-pages)" <mtk.manpages-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org>
-Subject: Re: [PATCH] errno.3: Add values for all errors
-Date: Thu, 23 Nov 2017 21:34:38 +0100
-Message-ID: <a4fce689-60e8-38d2-6310-d90103532a0c@gmail.com>
-References: <20171123001545.dp55g3pkdm5bzah3@prism.localdomain>
- <20171123083109.GA25458@infradead.org>
- <f033a61a-f305-689d-b69a-72267ef767c1@gmail.com> <5A169376.90002@bfs.de>
- <CAKgNAkiRdXxXWznvwOneU9uQqPYHs-JM0thiFEjveSPpt8GdNg@mail.gmail.com>
- <5A16A9A0.30605@bfs.de>
+From: NeilBrown <neilb-IBi9RG/b67k@public.gmane.org>
+Subject: [manpages PATCH] open_by_handle_at.2: clarify MAX_HANDLE_SZ
+Date: Fri, 24 Nov 2017 10:53:36 +1100
+Message-ID: <873754zh4v.fsf@notabene.neil.brown.name>
+References: <87wp2j1ggu.fsf@notabene.neil.brown.name> <52c5800b-150a-7ec9-133b-6c32e97249f4@gmail.com>
 Mime-Version: 1.0
-Content-Type: text/plain; charset=utf-8
-Content-Transfer-Encoding: 7bit
+Content-Type: multipart/signed; boundary="=-=-=";
+        micalg=pgp-sha256; protocol="application/pgp-signature"
 Return-path: <linux-man-owner-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>
-In-Reply-To: <5A16A9A0.30605-fPG8STNUNVg@public.gmane.org>
-Content-Language: en-US
+In-Reply-To: <52c5800b-150a-7ec9-133b-6c32e97249f4-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org>
 Sender: linux-man-owner-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
-To: wharms-fPG8STNUNVg@public.gmane.org
-Cc: mtk.manpages-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org, linux-man <linux-man-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>
+Cc: mtk.manpages-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org, linux-man-u79uwXL29TY76Z2rM5mHXA@public.gmane.org, "linux-nfs@vger.kernel.org" <linux-nfs-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>, "linux-fsdevel@vger.kernel.org" <linux-fsdevel-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>, Lennart Poettering <lennart-mdGvqq1h2p+GdvJs77BJ7Q@public.gmane.org>
 List-Id: linux-man@vger.kernel.org
 
-On 11/23/2017 11:57 AM, walter harms wrote:
-> 
-> 
-> Am 23.11.2017 10:47, schrieb Michael Kerrisk (man-pages):
->> Hi Walter,
->>
->> On 23 November 2017 at 10:23, walter harms <wharms-fPG8STNUNVg@public.gmane.org> wrote:
->>>
->>>
->>> Am 23.11.2017 10:07, schrieb Michael Kerrisk (man-pages):
->>>> On 11/23/2017 09:31 AM, Christoph Hellwig wrote:
->>>>> On Wed, Nov 22, 2017 at 07:15:45PM -0500, Wesley Aptekar-Cassels wrote:
->>>>>> This patch documents the values of error numbers on linux. This is
->>>>>> something that is in the OpenBSD errno man page, which I find quite
->>>>>> useful.
->>>>>
->>>>> Error numbers are different for different architectures.
->>>>
->>>> I was just about to say the same.
->>>>
->>>> Someone else recently proposed the same change, and I should have
->>>> thought then to add the text that I have added just now to errno(3).
->>>> Hopefully this goes someway to addressing your requirements, Wesley.
->>>>
->>>> New text:
->>>>
->>>>        On  Linux, the error numbers that correspond to each symbolic name
->>>>        vary somewhat across architectures.  Therefore, numeric values are
->>>>        not  included in the list of error names below.  On any particular
->>>>        system, one can obtain a list of all symbolic error names and  the
->>>>        corresponding error numbers using the errno(1) command:
->>>>
->>> If i read this that would mean the values differ between the linux architectures only.
->>> I do not ting that was intended.
->>
->> Indeed. So, I changed the text to:
->>
->>        The  error  numbers  that  correspond  to  each symbolic name vary
->>        across UNIX systems, and even across  different  architectures  on
->>        Linux.   Therefore, numeric values are not included in the list of
->>        error names below.  Portable applications should use the  symbolic
->>        error  names  (rather than explicit error numbers).  The perror(3)
->>        and strerror(3) functions can be used to convert  these  names  to
->>        corresponding textual error messages.
->>
->>> What about that:
->>>
->>>
->>> Portability:
->>>  Programmers should use always the symbolic names as that the value of errno may vary
->>>  across different systems. Always use strerror (3) (or compareable) to translate
->>>  the errno code into a human readable string.
->>>
->>> note: errno (1) is a nice programm and it could be mentioned but a propper programm
->>>       simply should not say things like "Error: 13".
->>
->> I'm not sure what you are referring to with the preceding line.
->>
-> 
-> I would move the bulk of the text to a portability section or like because this is
-> the section where i would expect that information.
+--=-=-=
+Content-Type: text/plain
+Content-Transfer-Encoding: quoted-printable
 
-Moving this off into a separate section doesn't really fit with the
-overall structure of the page, I think. (All changes are pushed to Git
-now, so you can take a look.) So, I'll leave things as they 
-are for now.
 
-> NTL i was not aware that different linux versions have different code for the same
-> error that should be changed.
-> Also i would drop "Portable" simply write "applications should use ..." there
-> is no reason to write programms that require the numeric value. Corner cases may exists
-> but a man page is no law, so i see no problem.
+As hinted in the kernel source, MAX_HANDLE_SZ is a hint
+rather than a promise:
 
-So, I think what this convinces me to do is just drop this sentence:
+    /* limit the handle size to NFSv4 handle size now */
+    #define MAX_HANDLE_SZ 128
 
-    Portable applications should use the symbolic error names
-    (rather than explicit error numbers).
+Note the "now" (probably should be "for now").
+So change the description to make this clear.
 
-I think you're right that it does not add much to the discussion.
+Reported-by: Lennart Poettering <lennart-mdGvqq1h2p+GdvJs77BJ7Q@public.gmane.org>
+Signed-off-by: NeilBrown <neilb-IBi9RG/b67k@public.gmane.org>
+=2D--
+ man2/open_by_handle_at.2 | 3 ++-
+ 1 file changed, 2 insertions(+), 1 deletion(-)
 
-Thanks,
+diff --git a/man2/open_by_handle_at.2 b/man2/open_by_handle_at.2
+index 79987308bf3e..f3473d24fa50 100644
+=2D-- a/man2/open_by_handle_at.2
++++ b/man2/open_by_handle_at.2
+@@ -91,7 +91,8 @@ field should be initialized to contain the allocated size=
+ for
+ .BR MAX_HANDLE_SZ ,
+ defined in
+ .IR <fcntl.h> ,
+=2Dspecifies the maximum possible size for a file handle.)
++specifies the maximum expected size for a file handle. It is not a
++guaranteed upper limit as future filesystems may require more space.)
+ Upon successful return, the
+ .IR handle_bytes
+ field is updated to contain the number of bytes actually written to
+=2D-=20
+2.14.0.rc0.dirty
 
-Michael
 
--- 
-Michael Kerrisk
-Linux man-pages maintainer; http://www.kernel.org/doc/man-pages/
-Linux/UNIX System Programming Training: http://man7.org/training/
+--=-=-=
+Content-Type: application/pgp-signature; name="signature.asc"
+
+-----BEGIN PGP SIGNATURE-----
+
+iQIzBAEBCAAdFiEEG8Yp69OQ2HB7X0l6Oeye3VZigbkFAloXX4EACgkQOeye3VZi
+gblV4g/8CACmiSHDeuI94g21paKs7WOMe+ww1TxBwPhQHrHnwkvQdPl7YXkGrN2n
+FynRWU4mpk3pz5RoYvkzW/fbQmL/fCnejy8E8+J/8PjpR12s/mWW3LmbMZCWndc9
+8xjG2AlcP/gzGwPBqx3aelFEVwS8TXjm7opTLixjUdu+YFITOsJ9frG8uIfCm/1w
+e/58RX7mjY25CwAg2rj3bPLx+l4WbxUnxvkPjJYmhgyEfPi6UrKbmTjll9GeZGpV
+MiAQnHAjGgUMTgbZLiL44P+KpSv4eXBCsBzzwN1oCzs3k0aEuYo/RJQhHcckg7oy
+/ygugljwiEksz/Vj1Sbnfh/atUKXOt5xUvkFLy6aCXWSyocsHZKOpS9c4CfAvLVk
+tDMbNbI0UGsRXXjhe0nUULdo9wlaPjdCbCiOWfeo1Sbc0rlJ3vN/1QsvE/fYqI40
+BzlcQz/fohVSaGYypcZ4mHh5xy5XpDKveOjMQiDKsM3qIw3xIXFTYuQsJKkZPc2B
+xXyJmxXFHD3cy2CZPqXegRna7P/pDdK4PFYLODB6jccVCe6EGv1l5Bnb8hksOt/x
+xR8UwvSnpw2dV8bz5XFmXz9xzwTIqgGDOTNQrmIZn+HVOueIGng+0Pu4c62V1yiA
+nqtedz5ps3V4nFY/5Ii64Uy08AKTsPYGXhECUnd8IMsVI51qGgo=
+=CLuE
+-----END PGP SIGNATURE-----
+--=-=-=--
 --
 To unsubscribe from this list: send the line "unsubscribe linux-man" in
 the body of a message to majordomo-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
