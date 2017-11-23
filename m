@@ -1,156 +1,111 @@
-From: QingFeng Hao <haoqf-23VcF4HTsmIX0ybBhKVfKdBPR1lH4CV8@public.gmane.org>
-Subject: [PATCH v3 1/1] s390_sthyi.2: New page for s390-specific s390_sthyi(2)
-Date: Thu, 23 Nov 2017 14:45:27 +0100
-Message-ID: <20171123134527.23505-1-haoqf@linux.vnet.ibm.com>
+From: "Michael Kerrisk (man-pages)" <mtk.manpages-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org>
+Subject: Re: [PATCH] errno.3: Add values for all errors
+Date: Thu, 23 Nov 2017 21:34:38 +0100
+Message-ID: <a4fce689-60e8-38d2-6310-d90103532a0c@gmail.com>
+References: <20171123001545.dp55g3pkdm5bzah3@prism.localdomain>
+ <20171123083109.GA25458@infradead.org>
+ <f033a61a-f305-689d-b69a-72267ef767c1@gmail.com> <5A169376.90002@bfs.de>
+ <CAKgNAkiRdXxXWznvwOneU9uQqPYHs-JM0thiFEjveSPpt8GdNg@mail.gmail.com>
+ <5A16A9A0.30605@bfs.de>
+Mime-Version: 1.0
+Content-Type: text/plain; charset=utf-8
+Content-Transfer-Encoding: 7bit
 Return-path: <linux-man-owner-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>
+In-Reply-To: <5A16A9A0.30605-fPG8STNUNVg@public.gmane.org>
+Content-Language: en-US
 Sender: linux-man-owner-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
-To: mtk.manpages-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org
-Cc: linux-man-u79uwXL29TY76Z2rM5mHXA@public.gmane.org, heiko.carstens-tA70FqPdS9bQT0dZR+AlfA@public.gmane.org, borntraeger-tA70FqPdS9bQT0dZR+AlfA@public.gmane.org, raspl-23VcF4HTsmIX0ybBhKVfKdBPR1lH4CV8@public.gmane.org
+To: wharms-fPG8STNUNVg@public.gmane.org
+Cc: mtk.manpages-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org, linux-man <linux-man-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>
 List-Id: linux-man@vger.kernel.org
 
-Signed-off-by: QingFeng Hao <haoqf-23VcF4HTsmIX0ybBhKVfKdBPR1lH4CV8@public.gmane.org>
----
+On 11/23/2017 11:57 AM, walter harms wrote:
+> 
+> 
+> Am 23.11.2017 10:47, schrieb Michael Kerrisk (man-pages):
+>> Hi Walter,
+>>
+>> On 23 November 2017 at 10:23, walter harms <wharms-fPG8STNUNVg@public.gmane.org> wrote:
+>>>
+>>>
+>>> Am 23.11.2017 10:07, schrieb Michael Kerrisk (man-pages):
+>>>> On 11/23/2017 09:31 AM, Christoph Hellwig wrote:
+>>>>> On Wed, Nov 22, 2017 at 07:15:45PM -0500, Wesley Aptekar-Cassels wrote:
+>>>>>> This patch documents the values of error numbers on linux. This is
+>>>>>> something that is in the OpenBSD errno man page, which I find quite
+>>>>>> useful.
+>>>>>
+>>>>> Error numbers are different for different architectures.
+>>>>
+>>>> I was just about to say the same.
+>>>>
+>>>> Someone else recently proposed the same change, and I should have
+>>>> thought then to add the text that I have added just now to errno(3).
+>>>> Hopefully this goes someway to addressing your requirements, Wesley.
+>>>>
+>>>> New text:
+>>>>
+>>>>        On  Linux, the error numbers that correspond to each symbolic name
+>>>>        vary somewhat across architectures.  Therefore, numeric values are
+>>>>        not  included in the list of error names below.  On any particular
+>>>>        system, one can obtain a list of all symbolic error names and  the
+>>>>        corresponding error numbers using the errno(1) command:
+>>>>
+>>> If i read this that would mean the values differ between the linux architectures only.
+>>> I do not ting that was intended.
+>>
+>> Indeed. So, I changed the text to:
+>>
+>>        The  error  numbers  that  correspond  to  each symbolic name vary
+>>        across UNIX systems, and even across  different  architectures  on
+>>        Linux.   Therefore, numeric values are not included in the list of
+>>        error names below.  Portable applications should use the  symbolic
+>>        error  names  (rather than explicit error numbers).  The perror(3)
+>>        and strerror(3) functions can be used to convert  these  names  to
+>>        corresponding textual error messages.
+>>
+>>> What about that:
+>>>
+>>>
+>>> Portability:
+>>>  Programmers should use always the symbolic names as that the value of errno may vary
+>>>  across different systems. Always use strerror (3) (or compareable) to translate
+>>>  the errno code into a human readable string.
+>>>
+>>> note: errno (1) is a nice programm and it could be mentioned but a propper programm
+>>>       simply should not say things like "Error: 13".
+>>
+>> I'm not sure what you are referring to with the preceding line.
+>>
+> 
+> I would move the bulk of the text to a portability section or like because this is
+> the section where i would expect that information.
 
-Changes since v2:
- - Add explanation for return value 1 and 2 provided by Michael Kerrisk.
- - Some other tiny decorations.
+Moving this off into a separate section doesn't really fit with the
+overall structure of the page, I think. (All changes are pushed to Git
+now, so you can take a look.) So, I'll leave things as they 
+are for now.
 
-Changes since v1:
- - better wording and explanations provided by Michael Kerrisk
-   and Heiko Carstens.
- - remove 2 error lines detected by Michael Kerrisk
+> NTL i was not aware that different linux versions have different code for the same
+> error that should be changed.
+> Also i would drop "Portable" simply write "applications should use ..." there
+> is no reason to write programms that require the numeric value. Corner cases may exists
+> but a man page is no law, so i see no problem.
 
- man2/s390_sthyi.2 | 118 ++++++++++++++++++++++++++++++++++++++++++++++++++++++
- 1 file changed, 118 insertions(+)
- create mode 100644 man2/s390_sthyi.2
+So, I think what this convinces me to do is just drop this sentence:
 
-diff --git a/man2/s390_sthyi.2 b/man2/s390_sthyi.2
-new file mode 100644
-index 0000000..4b36758
---- /dev/null
-+++ b/man2/s390_sthyi.2
-@@ -0,0 +1,118 @@
-+.\" Copyright IBM Corp. 2017
-+.\" Author: QingFeng Hao <haoqf-23VcF4HTsmIX0ybBhKVfKdBPR1lH4CV8@public.gmane.org>
-+.\"
-+.\" %%%LICENSE_START(GPLv2+_DOC_FULL)
-+.\" This is free documentation; you can redistribute it and/or
-+.\" modify it under the terms of the GNU General Public License as
-+.\" published by the Free Software Foundation; either version 2 of
-+.\" the License, or (at your option) any later version.
-+.\"
-+.\" The GNU General Public License's references to "object code"
-+.\" and "executables" are to be interpreted as the output of any
-+.\" document formatting or typesetting system, including
-+.\" intermediate and printed output.
-+.\"
-+.\" This manual is distributed in the hope that it will be useful,
-+.\" but WITHOUT ANY WARRANTY; without even the implied warranty of
-+.\" MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
-+.\" GNU General Public License for more details.
-+.\"
-+.\" You should have received a copy of the GNU General Public
-+.\" License along with this manual; if not, see
-+.\" <http://www.gnu.org/licenses/>.
-+.\" %%%LICENSE_END
-+.\"
-+.TH S390_STHYI 2 2017-09-21 "Linux Programmer's Manual"
-+.SH NAME
-+s390_sthyi \- emulate STHYI instruction
-+.SH SYNOPSIS
-+.nf
-+.B #include <asm/unistd.h>
-+.PP
-+.BI "int s390_sthyi(unsigned long " function_code ", void *" buffer ",
-+.BI "               uint64_t *" return_code ", unsigned long " flags ");
-+.fi
-+.SH DESCRIPTION
-+The
-+.BR s390_sthyi ()
-+system call emulates the STHYI (Store Hypervisor Information) instruction.
-+It provides hardware resource information for the machine and its virtualization
-+levels. This includes CPU type and capacity, as well as the machine model and
-+other metrics.
-+.PP
-+The
-+.I function_code
-+argument indicates which function to perform.
-+The following code(s) are supported:
-+.RB ( 0 )
-+Return CP (Central Processor) and IFL (Integrated Facility for Linux)
-+capacity information.
-+.PP
-+The
-+.I buffer 
-+argument specifies the address of response buffer. If the system
-+call returns 0, the response buffer will be filled with CPU capacity
-+information. Otherwise, the response buffer's content is unchanged.
-+.PP
-+The
-+.I return_code
-+argument stores the return code of the STHYI instruction, success
-+.RB ( 0 )
-+or unsupported function code
-+.RB ( 4 ).
-+For details about return code, function_code, and buffer argument,
-+please see section
-+.IR "CONFORMING TO"
-+below.
-+.PP
-+The
-+.I flags
-+argument is provided to allow for future extensions and currently
-+must be set to "0".
-+.SH RETURN VALUE
-+On success, the return value of
-+.BR s390_sthyi ()
-+matches the condition code of the STHYI instructions, which is a value
-+between 0-3 (that is: emulation succeeded).
-+Return value of 0 indicates that CPU capacity information is stored to
-+.I buffer.
-+Return value of 3 indicates "unsupported function code" and buffer's
-+content is unchanged.
-+Return value of 1 and 2 are reserved.
-+.PP
-+On error, -1 is returned, and
-+.IR errno
-+is set appropriately.
-+.SH ERRORS
-+.TP
-+.B EINVAL
-+The value specified in
-+.I flags
-+is non-zero.
-+.TP
-+.B EOPNOTSUPP
-+The value specified in
-+.I function_code 
-+is not a valid value.
-+.TP
-+.B EFAULT
-+The value specified in
-+.I buffer 
-+or
-+.I return_code
-+is not a valid address.
-+.TP
-+.B ENOMEM
-+Allocating memory for handling the CPU capacity information failed.
-+.SH VERSIONS
-+This system call is available since Linux 4.15.
-+.SH CONFORMING TO
-+This Linux-specific system call is available only on the s390 architecture.
-+For details about the STHYI instruction, see
-+https://www.ibm.com/support/knowledgecenter/SSB27U_6.3.0/com.ibm.zvm.v630.hcpb4/hcpb4sth.htm
-+.SH NOTES
-+Glibc does not provide a wrapper for this system call, use
-+.BR syscall (2)
-+to call it.
-+.SH SEE ALSO
-+.BR syscall (2)
+    Portable applications should use the symbolic error names
+    (rather than explicit error numbers).
+
+I think you're right that it does not add much to the discussion.
+
+Thanks,
+
+Michael
+
 -- 
-1.8.3.1
-
+Michael Kerrisk
+Linux man-pages maintainer; http://www.kernel.org/doc/man-pages/
+Linux/UNIX System Programming Training: http://man7.org/training/
 --
 To unsubscribe from this list: send the line "unsubscribe linux-man" in
 the body of a message to majordomo-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
