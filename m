@@ -1,42 +1,48 @@
-From: "Mrs. Serita Miner" <raymondridge1-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org>
-Subject: From Mrs. Serita Miner
-Date: Sat, 25 Nov 2017 01:29:35 +0000
-Message-ID: <CA+7i3xrKm6rcmrug4f8xcMst7sSH6N1Z=e4n8-QnqFOJFaRXXw@mail.gmail.com>
-Reply-To: minerm44-/E1597aS9LQAvxtiuMwx3w@public.gmane.org
-Mime-Version: 1.0
-Content-Type: text/plain; charset="UTF-8"
+From: Adrian Bunk <bunk-DgEjT+Ai2ygdnm+yROfE0A@public.gmane.org>
+Subject: [PATCH] makedev.3: glibc has deprecated exposing the definitions via <sys/types.h>
+Date: Sat, 25 Nov 2017 12:12:07 +0200
+Message-ID: <20171125101207.27932-1-bunk@kernel.org>
 Return-path: <linux-man-owner-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>
 Sender: linux-man-owner-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
+To: linux-man-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
 List-Id: linux-man@vger.kernel.org
 
-My name is Mrs. Serita Miner is 53years old, I wish to make a donation
-of 3.5million dollars to you. As my doctor just confirmed to me that I
-have limited days to live due to the cancer problems I am suffering
-from.
-I have asked the lord to forgive me all my sins and I believe he has,
-because He is merciful. I will be going in for 3rd operation, and I
-pray that I survive the operation this third time I have decided to
-WILL/Donate this fund to charity through you for the good work of the
-lord, and to help the motherless, less privileged and also for the
-assistance of the widows genuinely.
-At the moment I cannot take any telephone calls, I have been
-restricted by my doctor, from taking telephone calls because I deserve
-all the rest I can get. And I need is from you please
-Full name: ___________________________
-Full Address: _________________________
-Nationality: ____________________
-Mobile Number: ____________________
-E-mail address: _______________________
-Occupation: __________________________
-Country   : __________________________
-Any form of Identification either Drivers license or International
-Passport: __________________________
- If you can assure me of being able to handle my offer please get back
-to me for more details by e-mailing me. ( seritaminer222-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org )
-minerm44-/E1597aS9LQAvxtiuMwx3w@public.gmane.org
-Thank you,
-Expecting to hear from you soon,
-Mrs. Serita Miner.
+Compile warning with glibc 2.25:
+
+warning: In the GNU C Library, "makedev" is defined
+ by <sys/sysmacros.h>. For historical compatibility, it is
+ currently defined by <sys/types.h> as well, but we plan to
+ remove this soon. To use "makedev", include <sys/sysmacros.h>
+ directly. If you did not intend to use a system-defined macro
+ "makedev", you should undefine it after including <sys/types.h>.
+
+Background:
+https://sourceware.org/git/?p=glibc.git;a=commit;h=dbab6577c6684c62bd2521c1c29dc25c3cac966f
+---
+ man3/makedev.3 | 7 ++++---
+ 1 file changed, 4 insertions(+), 3 deletions(-)
+
+diff --git a/man3/makedev.3 b/man3/makedev.3
+index 3398bbb0b..75c191be7 100644
+--- a/man3/makedev.3
++++ b/man3/makedev.3
+@@ -94,9 +94,10 @@ and
+ The latter names are exported, but the traditional names are more portable.
+ .PP
+ The BSDs expose the definitions for these macros via
+-.IR <sys/types.h> ,
+-and glibc also exposes definitions for these macros from that
+-header file if suitable feature test macros are defined.
++.IR <sys/types.h> .
++glibc also exposes definitions for these macros from that
++header file if suitable feature test macros are defined,
++but this is deprecated and will be removed in the future.
+ .SH SEE ALSO
+ .BR mknod (2),
+ .BR stat (2)
+-- 
+2.11.0
+
 --
 To unsubscribe from this list: send the line "unsubscribe linux-man" in
 the body of a message to majordomo-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
