@@ -1,97 +1,107 @@
-From: Jiri Olsa <jolsa-H+wXaHxf7aLQT0dZR+AlfA@public.gmane.org>
-Subject: Re: [PATCH] perf/core: fast breakpoint modification via
- _IOC_MODIFY_BREAKPOINT
-Date: Sun, 26 Nov 2017 20:31:33 +0100
-Message-ID: <20171126193132.GA7595@krava>
-References: <20171108151218.GA11018@krava>
- <CAMmz+Y=PJ2kFf9mqoQDJY32VjpCQBCCuWOiHNXR3mSEzotSS_w@mail.gmail.com>
- <20171108155741.GA12627@krava>
- <CAMmz+Y=eq=S+gZaRefVUrfB7LDRVfD5UdpkfQXS0zvnHdNt0XA@mail.gmail.com>
- <20171109074658.GC14419@krava>
- <20171109131233.GA2942@krava>
- <CAMmz+Ykdf+bpA=ARSAYd3xp7U+BDWVmf1iW3SKW=ZVDBSmUSEg@mail.gmail.com>
- <CAMmz+YmhGXPQ_KydpPTLbPDQW-6G_wxrnAz2UYqSwqQJHBN_5Q@mail.gmail.com>
- <20171113074644.GA18733@krava>
- <CAMmz+Y=95ffwgSbLSXoAPOrdQXVQftZNJFjoH=kjpGkZ2u2LYw@mail.gmail.com>
+From: Yubin Ruan <ablacktshirt-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org>
+Subject: Re: Why can GDB mask tracee's SIGKILL after attaching
+Date: Mon, 27 Nov 2017 10:23:51 +0800
+Message-ID: <CAJYFCiNR3fyhmuAO5+mU-O=KH+TnVj=fXBr5ZQB_RQjvMdS+bg@mail.gmail.com>
+References: <CAJYFCiMdQ73QscVHbDBVMpU70enkPA=zNMxBwV39B2aWuOedRA@mail.gmail.com>
 Mime-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
+Content-Type: text/plain; charset="UTF-8"
 Return-path: <linux-man-owner-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>
-Content-Disposition: inline
-In-Reply-To: <CAMmz+Y=95ffwgSbLSXoAPOrdQXVQftZNJFjoH=kjpGkZ2u2LYw-JsoAwUIsXosN+BqQ9rBEUg@public.gmane.org>
+In-Reply-To: <CAJYFCiMdQ73QscVHbDBVMpU70enkPA=zNMxBwV39B2aWuOedRA-JsoAwUIsXosN+BqQ9rBEUg@public.gmane.org>
 Sender: linux-man-owner-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
-To: Milind Chabbi <chabbi.milind-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org>
-Cc: Peter Zijlstra <peterz-wEGCiKHe2LqWVfeAwA7xHQ@public.gmane.org>, Ingo Molnar <mingo-H+wXaHxf7aLQT0dZR+AlfA@public.gmane.org>, Arnaldo Carvalho de Melo <acme-DgEjT+Ai2ygdnm+yROfE0A@public.gmane.org>, Alexander Shishkin <alexander.shishkin-VuQAYsv1563Yd54FQh9/CA@public.gmane.org>, Namhyung Kim <namhyung-DgEjT+Ai2ygdnm+yROfE0A@public.gmane.org>, linux-kernel-u79uwXL29TY76Z2rM5mHXA@public.gmane.org, Michael Kerrisk-manpages <mtk.manpages-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org>, linux-man-u79uwXL29TY76Z2rM5mHXA@public.gmane.org, Michael Ellerman <mpe-Gsx/Oe8HsFggBc27wqDAHg@public.gmane.org>, Andi Kleen <ak-VuQAYsv1563Yd54FQh9/CA@public.gmane.org>, Kan Liang <kan.liang-ral2JQCrhuEAvxtiuMwx3w@public.gmane.org>, Hari Bathini <hbathini-23VcF4HTsmIX0ybBhKVfKdBPR1lH4CV8@public.gmane.org>, Sukadev Bhattiprolu <sukadev-23VcF4HTsmIX0ybBhKVfKdBPR1lH4CV8@public.gmane.org>, Jin Yao <yao.jin-VuQAYsv1563Yd54FQh9/CA@public.gmane.org>
+To: linux-man <linux-man-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>
+Cc: gdb-9JcytcrH/bA+uJoB2kUjGw@public.gmane.org
 List-Id: linux-man@vger.kernel.org
 
-On Mon, Nov 13, 2017 at 12:02:56AM -0800, Milind Chabbi wrote:
-> SNIP
-> 
-> On Sun, Nov 12, 2017 at 11:46 PM, Jiri Olsa <jolsa-H+wXaHxf7aLQT0dZR+AlfA@public.gmane.org> wrote:
-> 
-> > but you closed fd4 before openning fd5..?
-> 
-> Yes, that is correct. I closed fd4. The reason is by closing fd4, we
-> are having a total of 3 hardware breakpoints active, but we are making
-> the software counting in the kernel think that four TYPE_DATA
-> breakpoints active. The counting should have disallowed us from
-> creating fd5 as per the following logic in the kernel:
-> 
-> static int __reserve_bp_slot(struct perf_event *bp)
-> 
-> {
->  ....
-> 
->         /* Flexible counters need to keep at least one slot */
->         if (slots.pinned + (!!slots.flexible) > nr_slots[type])
->                 return -ENOSPC;
-> ....
-> }
+2017-11-26 17:07 GMT+08:00 Yubin Ruan <ablacktshirt-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org>:
+> The signal(7) man page says that **SIGKILL** cannot be caught,
+> blocked, or ignored. But I just observed that after attaching to a
+> process with GDB, I can no longer send **SIGKILL** to that process
+> (similarly, other signal cannot be delivered either). But after I
+> detached and quit GDB, **SIGKILL** is delivered as usual (and the
+> process get killed, eventually).
+>
+> It seems to me that GDB has blocked that signal (on behalf of the
+> tracee) when attaching, and unblocked it when detaching. However, the
+> ptrace(2) man page says:
+>
+>     While being traced, the tracee will stop each time a signal is delivered,
+>     even if the signal is being ignored.  (An exception is **SIGKILL**, which
+>     has its usual effect.)
+>
+> So why does it behave this way? Is there anything wrong with the man
+> page or is GDB using any kernel trick?
+>
+> Here is an trivial example for demonstration:
+>
+>     #include <pthread.h>
+>     #include <stdio.h>
+>     #include <stdlib.h>
+>     #include <unistd.h>
+>     #include <signal.h>
+>     #include <errno.h>
+>     #include <string.h>
+>
+>     /* Simple error handling functions */
+>
+>     #define handle_error_en(en, msg) \
+>         do { errno = en; perror(msg); exit(EXIT_FAILURE); } while (0)
+>
+>     struct sigaction act;
+>
+>     void sighandler(int signum, siginfo_t *info, void *ptr) {
+>         printf("Received signal: %d\n", signum);
+>         printf("signal originate from pid[%d]\n", info->si_pid);
+>     }
+>
+>     int
+>     main(int argc, char *argv[])
+>     {
+>         printf("Pid of the current process: %d\n", getpid());
+>
+>         memset(&act, 0, sizeof(act));
+>
+>         act.sa_sigaction = sighandler;
+>         act.sa_flags = SA_SIGINFO;
+>
+>         sigaction(SIGQUIT, &act, NULL);
+>
+>         while(1) {
+>             ;
+>         }
+>
+>         return 0;
+>     }
+>
+> If you try to kill this program using **SIGKILL** (i.e., using "kill
+> -KILL ${pid}"), it will die as expected. If you try to send it
+> **SIGQUIT** (i.e., using "kill -QUIT ${pid}"), those "printf"
+> statements get executed, as expected. However, if you have attached it
+> with GDB before sending it signal, nothing will happen:
+>
+>     $ ##### in shell 1 #####
+>     $ gdb
+>     (gdb) attach ${pid}
+>     (gdb)
+>
+> /* now that gdb has attached successfully, in another shell: */
+>
+>     $ #### in shell 2 ####
+>     $ kill -QUIT ${pid}    # nothing happen
+>     $ kill -KILL ${pid}    # again, nothing happen!
+>
+> /* now gdb detached */
+>
+>     ##### in shell 1 ####
+>     (gdb) quit
+>
+> /* the process will receive **SIGKILL** */
+>
+>     ##### in shell 2 ####
+>     $ Killed    # the tracee receive **SIGKILL** eventually...
 
-So the issue is with the cpu pinned breakpoints, because we keep
-their slot counts for both breakpoint types. For task breakpoints
-we dont keep the slot count, we just count it every time we need it.
+It seems that a process cannot receive any signal when stopped...
 
-The issue will not expose on x86, because both breakpoint types
-share same slot count (CONFIG_HAVE_MIXED_BREAKPOINTS_REGS).
-
-I'm seeing the issue on arm machine (with 4 watchpoints and 6 breakpoints)
-
-creating 4 watchpoints:
-	2028  perf_event_open(0xffffdb232bd0, -1, 0, -1, PERF_FLAG_FD_CLOEXEC) = 3
-	2028  perf_event_open(0xffffdb232c40, -1, 0, -1, PERF_FLAG_FD_CLOEXEC) = 4
-	2028  perf_event_open(0xffffdb232cb0, -1, 0, -1, PERF_FLAG_FD_CLOEXEC) = 5
-	2028  perf_event_open(0xffffdb232d20, -1, 0, -1, PERF_FLAG_FD_CLOEXEC) = 6
-
-changing last one to breakpoint:
-	2028  ioctl(6, _IOC(_IOC_WRITE, 0x24, 0x0a, 0x08), 0xffffdb232e08) = 0
-
-and trying to create one more watchpoint:
-	2028  perf_event_open(0xffffdb232d90, -1, 0, -1, PERF_FLAG_FD_CLOEXEC) = -1 ENOSPC (No space left on device)
-
-after this, we have slot counts:
-	get_bp_info(0, TYPE_DATA)->cpu_pinned = 4
-	get_bp_info(0, TYPE_INST)->cpu_pinned = 0
-
-now when we close all of it:
-	close(3)
-	close(4)
-	close(5)
-	close(6)
-
-we get the slot counts messed up, because fd 6 has different type now:
-	get_bp_info(0, TYPE_DATA)->cpu_pinned = 1
-	get_bp_info(0, TYPE_INST)->cpu_pinned = -1
-
-
-I put together some fix and put it in here:
-  https://git.kernel.org/pub/scm/linux/kernel/git/jolsa/perf.git
-  perf/bp
-
-if you could please run your tests on it, and if it's all
-good I'll post it
-
-thanks,
-jirka
+Yubin
 --
 To unsubscribe from this list: send the line "unsubscribe linux-man" in
 the body of a message to majordomo-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
