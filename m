@@ -1,107 +1,60 @@
-From: Yubin Ruan <ablacktshirt-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org>
-Subject: Re: Why can GDB mask tracee's SIGKILL after attaching
-Date: Mon, 27 Nov 2017 10:23:51 +0800
-Message-ID: <CAJYFCiNR3fyhmuAO5+mU-O=KH+TnVj=fXBr5ZQB_RQjvMdS+bg@mail.gmail.com>
-References: <CAJYFCiMdQ73QscVHbDBVMpU70enkPA=zNMxBwV39B2aWuOedRA@mail.gmail.com>
+From: Keno Fischer <keno-9DCaDmOhoh+8M3too/+dENBPR1lH4CV8@public.gmane.org>
+Subject: [PATCH] mount.2: Add EINVAL error condition when MS_BINDing
+ MNT_LOCKED submounts
+Date: Mon, 27 Nov 2017 17:44:17 -0500
+Message-ID: <20171127224417.GA5122@juliacomputing.com>
 Mime-Version: 1.0
-Content-Type: text/plain; charset="UTF-8"
+Content-Type: text/plain; charset=us-ascii
 Return-path: <linux-man-owner-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>
-In-Reply-To: <CAJYFCiMdQ73QscVHbDBVMpU70enkPA=zNMxBwV39B2aWuOedRA-JsoAwUIsXosN+BqQ9rBEUg@public.gmane.org>
+Content-Disposition: inline
 Sender: linux-man-owner-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
-To: linux-man <linux-man-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>
-Cc: gdb-9JcytcrH/bA+uJoB2kUjGw@public.gmane.org
+To: mtk.manpages-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org
+Cc: linux-man-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
 List-Id: linux-man@vger.kernel.org
 
-2017-11-26 17:07 GMT+08:00 Yubin Ruan <ablacktshirt-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org>:
-> The signal(7) man page says that **SIGKILL** cannot be caught,
-> blocked, or ignored. But I just observed that after attaching to a
-> process with GDB, I can no longer send **SIGKILL** to that process
-> (similarly, other signal cannot be delivered either). But after I
-> detached and quit GDB, **SIGKILL** is delivered as usual (and the
-> process get killed, eventually).
->
-> It seems to me that GDB has blocked that signal (on behalf of the
-> tracee) when attaching, and unblocked it when detaching. However, the
-> ptrace(2) man page says:
->
->     While being traced, the tracee will stop each time a signal is delivered,
->     even if the signal is being ignored.  (An exception is **SIGKILL**, which
->     has its usual effect.)
->
-> So why does it behave this way? Is there anything wrong with the man
-> page or is GDB using any kernel trick?
->
-> Here is an trivial example for demonstration:
->
->     #include <pthread.h>
->     #include <stdio.h>
->     #include <stdlib.h>
->     #include <unistd.h>
->     #include <signal.h>
->     #include <errno.h>
->     #include <string.h>
->
->     /* Simple error handling functions */
->
->     #define handle_error_en(en, msg) \
->         do { errno = en; perror(msg); exit(EXIT_FAILURE); } while (0)
->
->     struct sigaction act;
->
->     void sighandler(int signum, siginfo_t *info, void *ptr) {
->         printf("Received signal: %d\n", signum);
->         printf("signal originate from pid[%d]\n", info->si_pid);
->     }
->
->     int
->     main(int argc, char *argv[])
->     {
->         printf("Pid of the current process: %d\n", getpid());
->
->         memset(&act, 0, sizeof(act));
->
->         act.sa_sigaction = sighandler;
->         act.sa_flags = SA_SIGINFO;
->
->         sigaction(SIGQUIT, &act, NULL);
->
->         while(1) {
->             ;
->         }
->
->         return 0;
->     }
->
-> If you try to kill this program using **SIGKILL** (i.e., using "kill
-> -KILL ${pid}"), it will die as expected. If you try to send it
-> **SIGQUIT** (i.e., using "kill -QUIT ${pid}"), those "printf"
-> statements get executed, as expected. However, if you have attached it
-> with GDB before sending it signal, nothing will happen:
->
->     $ ##### in shell 1 #####
->     $ gdb
->     (gdb) attach ${pid}
->     (gdb)
->
-> /* now that gdb has attached successfully, in another shell: */
->
->     $ #### in shell 2 ####
->     $ kill -QUIT ${pid}    # nothing happen
->     $ kill -KILL ${pid}    # again, nothing happen!
->
-> /* now gdb detached */
->
->     ##### in shell 1 ####
->     (gdb) quit
->
-> /* the process will receive **SIGKILL** */
->
->     ##### in shell 2 ####
->     $ Killed    # the tracee receive **SIGKILL** eventually...
+When the user creates an unpriviledged mount namespace, the linux
+kernel sets the MNT_LOCKED flag [1] on any submounts to prevent
+such mounts from being unmounted inside the mount namespace. Such
+an unmount would reveal the filesystem tree behind the mount, which
+is not otherwise possible from an unpriviledge vantage point.
 
-It seems that a process cannot receive any signal when stopped...
+Attempting to unmount such a mount will fail with EINVAL. However,
+less obvious implication is that attempting a bind mount without
+MS_REC, where the tree being bound contains locked sub-mounts,
+will also fail with EINVAL, because, without MS_REC, such submounts
+are effectively being unmounted.
 
-Yubin
+Cursory googling shows several instances of people running into this
+problem, so I felt it advantageous to have it documented in the man
+page.
+
+[1] https://github.com/torvalds/linux/blob/4fbd8d194f06c8a3fd2af1ce560ddb31f7ec8323/fs/namespace.c#L1110-L1113
+---
+ man2/mount.2 | 8 ++++++++
+ 1 file changed, 8 insertions(+)
+
+diff --git a/man2/mount.2 b/man2/mount.2
+index 87cb1a9..8d2a347 100644
+--- a/man2/mount.2
++++ b/man2/mount.2
+@@ -650,6 +650,14 @@ or
+ .BR EINVAL
+ An attempt was made to bind mount an unbindable mount.
+ .TP
++.BR EINVAL
++In an unpriviledged mount namespace, a bind operation
++.RB ( MS_BIND )
++was attempted without specifying
++.RB ( MS_REC ),
++which would have revealed the filesytem tree underneath one of
++the submounts of the directory being bound.
++.TP
+ .B ELOOP
+ Too many links encountered during pathname resolution.
+ .TP
+-- 
+2.8.1
+
 --
 To unsubscribe from this list: send the line "unsubscribe linux-man" in
 the body of a message to majordomo-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
