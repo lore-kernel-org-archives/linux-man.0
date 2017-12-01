@@ -1,61 +1,86 @@
-From: Jonny Grant <jg-hus3n9K41k0@public.gmane.org>
-Subject: FILESYSTEMS(5) SMB and VFAT feedback
-Date: Sun, 5 Nov 2017 12:19:30 +0000
-Message-ID: <c94369a9-102f-1c4f-19b4-2b7bc029a321@jguk.org>
+From: Stefan Hajnoczi <stefanha-H+wXaHxf7aLQT0dZR+AlfA@public.gmane.org>
+Subject: Re: [PATCH] vsock.7: document VSOCK socket address family
+Date: Fri, 1 Dec 2017 13:09:01 +0000
+Message-ID: <20171201130901.GA12803@stefanha-x1.localdomain>
+References: <20171130112153.13885-1-stefanha@redhat.com>
+ <33989114-7BC7-455A-BE36-9EEC989DBDF1@vmware.com>
 Mime-Version: 1.0
-Content-Type: text/plain; charset=utf-8; format=flowed
-Content-Transfer-Encoding: 8bit
+Content-Type: multipart/signed; micalg=pgp-sha1;
+        protocol="application/pgp-signature"; boundary="5vNYLRcllDrimb99"
 Return-path: <linux-man-owner-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>
-Content-Language: en-GB
+Content-Disposition: inline
+In-Reply-To: <33989114-7BC7-455A-BE36-9EEC989DBDF1-pghWNbHTmq7QT0dZR+AlfA@public.gmane.org>
 Sender: linux-man-owner-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
-To: Michael Kerrisk <mtk.manpages-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org>
-Cc: linux-man <linux-man-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>
+To: "Jorgen S. Hansen" <jhansen-pghWNbHTmq7QT0dZR+AlfA@public.gmane.org>
+Cc: "linux-man-u79uwXL29TY76Z2rM5mHXA@public.gmane.org" <linux-man-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>, "netdev-u79uwXL29TY76Z2rM5mHXA@public.gmane.org" <netdev-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>, Dexuan Cui <decui-0li6OtcxBFHby3iVrkZq2A@public.gmane.org>
 List-Id: linux-man@vger.kernel.org
 
-Hello Michael
 
-Two pieces of feedback about this page:
+--5vNYLRcllDrimb99
+Content-Type: text/plain; charset=utf-8
+Content-Disposition: inline
+Content-Transfer-Encoding: quoted-printable
 
-1) I expect this sunsite should be a link to 
-https://www.samba.org/samba/smbfs/  ?
+On Thu, Nov 30, 2017 at 01:21:26PM +0000, Jorgen S. Hansen wrote:
+> > On Nov 30, 2017, at 12:21 PM, Stefan Hajnoczi <stefanha-H+wXaHxf7aLQT0dZR+AlfA@public.gmane.org> wro=
+te:
 
+Thanks for the quick review!
 
-http://man7.org/linux/man-pages/man5/filesystems.5.html
+I forgot to ask you: Is SOCK_DGRAM reliable and in-order over VMCI?
 
+> > +.PP
+> > +Valid socket types are
+> > +.B SOCK_STREAM
+> > +and
+> > +.B SOCK_DGRAM .
+>=20
+> The space here results in a space between SOCK_DGRAM and the =E2=80=9C.=
+=E2=80=9D in the formatted text. Is that intentional?
 
-smb       is a network filesystem that supports the SMB protocol,
-                  used by Windows for Workgroups, Windows NT, and Lan Man‐
-                  ager.
+I haven't figured out the groff syntax to avoid the space :(.  Any
+ideas?
 
-                  To use smb fs, you need a special mount program, which can
-                  be found in the ksmbfs package, found at
- 
-⟨ftp://sunsite.unc.edu/pub/Linux/system/Filesystems/smbfs⟩.
+> > +.PP
+> > +There are several special addresses:
+> > +.B VMADDR_CID_ANY
+> > +(-1U)
+> > +means any address for binding;
+> > +.B VMADDR_CID_HYPERVISOR
+>=20
+> We use VMADDR_CID_HYPERVISOR for communicating with services in the hyper=
+visor, so you could describe this as =E2=80=9Can address reserved for servi=
+ces built into the hypervisor=E2=80=9D.
 
+Will fix.
 
-BTW, could "smbmount" to kernel man pages?
+> > +.SH VERSIONS
+> > +Support for VMware has been available since Linux 3.9.  KVM (virtio) is
+>=20
+> VMware (VMCI) for clarity.
 
+Will fix.
 
-2)   vfat      is an extended DOS filesystem used by Microsoft Windows95
-                  and Windows NT.  vfat adds the capability to use long 
-file‐
-                  names under the MSDOS filesystem.
+> Apart from the nits, this looks great.
 
+Please let me know if there are any other topics that we should cover in
+the man page.
 
+--5vNYLRcllDrimb99
+Content-Type: application/pgp-signature; name="signature.asc"
 
-I'd be inclined to call it an "extended FAT filesystem", can that be 
-changed? No one refers to it as DOS for around 22 years. Everyone calls 
-it FAT.
+-----BEGIN PGP SIGNATURE-----
 
-ie
+iQEcBAEBAgAGBQJaIVRtAAoJEJykq7OBq3PIzycIAMXsJvs4hL0pp6dZoEKFhQLn
+Z0O++aBm+cAISPs8jD6t4FgDiOcVn2yqXTfVUUIzt5xHx5JLvvgmbcIdLahO+Lz1
+B7T7LtUXvUmdWedmFRGsBB9NaXbeQjGIYC4V8S0AqeGhbf/QkqNGSoJKFI7z12WM
+k09xfqz9Xjr6ucnxIdmSgW+UQwhittOar1C5KgJ+1pkKMfektmusVUJtx5QLnvC5
+unPTYcPGoPhkNmSyK8Nl36Ki10vELxIo11mK/7gmluibiJ5NX3lvUpIdbZWKEPM/
+cNO/EWdRZvvWtj3VyKazuUM3tn/JnlqwKz7J1tFyZUp/m9WZnCWlC7vN5Kq4ThQ=
+=/C2G
+-----END PGP SIGNATURE-----
 
-"is an extended FAT filesystem supported since Microsoft Windows95 and 
-Windows NT 3.5.  vfat adds the capability to use long file‐names under 
-the FAT filesystem."
-
-
-Cheers
-Jonny
+--5vNYLRcllDrimb99--
 --
 To unsubscribe from this list: send the line "unsubscribe linux-man" in
 the body of a message to majordomo-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
