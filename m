@@ -1,82 +1,52 @@
-From: "G. Branden Robinson" <g.branden.robinson-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org>
-Subject: Re: [PATCH] vsock.7: document VSOCK socket address family
-Date: Fri, 1 Dec 2017 09:57:04 -0500
-Message-ID: <20171201145702.saqodo5qqh4ucbaq@crack.deadbeast.net>
-References: <20171130112153.13885-1-stefanha@redhat.com>
- <33989114-7BC7-455A-BE36-9EEC989DBDF1@vmware.com>
- <20171201130901.GA12803@stefanha-x1.localdomain>
-Mime-Version: 1.0
-Content-Type: multipart/signed; micalg=pgp-sha256;
-        protocol="application/pgp-signature"; boundary="37jfnr6zfuvwgkor"
+From: john.hubbard-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org
+Subject: [PATCH] mmap.2: MAP_FIXED is no longer discouraged
+Date: Fri,  1 Dec 2017 18:16:26 -0800
+Message-ID: <20171202021626.26478-1-jhubbard@nvidia.com>
 Return-path: <linux-man-owner-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>
-Content-Disposition: inline
-In-Reply-To: <20171201130901.GA12803-lxVrvc10SDRcolVlb+j0YCZi+YwRKgec@public.gmane.org>
 Sender: linux-man-owner-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
-To: Stefan Hajnoczi <stefanha-H+wXaHxf7aLQT0dZR+AlfA@public.gmane.org>
-Cc: "Jorgen S. Hansen" <jhansen-pghWNbHTmq7QT0dZR+AlfA@public.gmane.org>, "linux-man-u79uwXL29TY76Z2rM5mHXA@public.gmane.org" <linux-man-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>, "netdev-u79uwXL29TY76Z2rM5mHXA@public.gmane.org" <netdev-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>, Dexuan Cui <decui-0li6OtcxBFHby3iVrkZq2A@public.gmane.org>
+To: Michael Kerrisk <mtk.manpages-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org>
+Cc: linux-man <linux-man-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>, linux-api-u79uwXL29TY76Z2rM5mHXA@public.gmane.org, Michael Ellerman <mpe-Gsx/Oe8HsFggBc27wqDAHg@public.gmane.org>, linux-mm-Bw31MaZKKs3YtjvyW6yDsg@public.gmane.org, LKML <linux-kernel-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>, linux-arch-u79uwXL29TY76Z2rM5mHXA@public.gmane.org, Michal Hocko <mhocko-IBi9RG/b67k@public.gmane.org>, John Hubbard <jhubbard-DDmLM1+adcrQT0dZR+AlfA@public.gmane.org>
 List-Id: linux-man@vger.kernel.org
 
+From: John Hubbard <jhubbard-DDmLM1+adcrQT0dZR+AlfA@public.gmane.org>
 
---37jfnr6zfuvwgkor
-Content-Type: text/plain; charset=utf-8
-Content-Disposition: inline
-Content-Transfer-Encoding: quoted-printable
+MAP_FIXED has been widely used for a very long time, yet the man
+page still claims that "the use of this option is discouraged".
 
-At 2017-12-01T13:09:01+0000, Stefan Hajnoczi wrote:
-> On Thu, Nov 30, 2017 at 01:21:26PM +0000, Jorgen S. Hansen wrote:
-> > > On Nov 30, 2017, at 12:21 PM, Stefan Hajnoczi <stefanha-H+wXaHxf7aLQT0dZR+AlfA@public.gmane.org> w=
-rote:
->=20
-> Thanks for the quick review!
->=20
-> I forgot to ask you: Is SOCK_DGRAM reliable and in-order over VMCI?
->=20
-> > > +.PP
-> > > +Valid socket types are
-> > > +.B SOCK_STREAM
-> > > +and
-> > > +.B SOCK_DGRAM .
-> >=20
-> > The space here results in a space between SOCK_DGRAM and the =E2=80=9C.=
-=E2=80=9D in the formatted text. Is that intentional?
->=20
-> I haven't figured out the groff syntax to avoid the space :(.  Any
-> ideas?
+The documentation assumes that "less portable" == "must be discouraged".
 
-What you want is the .BR macro.
+Instead of discouraging something that is so useful and widely used,
+change the documentation to explain its limitations better.
 
-=2EBR SOCK_DGRAM .
+Signed-off-by: John Hubbard <jhubbard-DDmLM1+adcrQT0dZR+AlfA@public.gmane.org>
+---
+While reviewing Michal Hocko's man page update for MAP_FIXED_SAFE,
+I noticed that MAP_FIXED was no longer reflecting the current
+situation, so here is a patch to bring it into the year 2017.
 
-The man macro package defines six "two-font" macros for switching
-between roman, bold, and italic faces without intervening space.
+ man2/mmap.2 | 6 ++++--
+ 1 file changed, 4 insertions(+), 2 deletions(-)
 
-See man(7) and groff_man(7).
+diff --git a/man2/mmap.2 b/man2/mmap.2
+index 385f3bfd5..a5a8eb47a 100644
+--- a/man2/mmap.2
++++ b/man2/mmap.2
+@@ -222,8 +222,10 @@ part of the existing mapping(s) will be discarded.
+ If the specified address cannot be used,
+ .BR mmap ()
+ will fail.
+-Because requiring a fixed address for a mapping is less portable,
+-the use of this option is discouraged.
++Software that aspires to be portable should use this option with care, keeping
++in mind that the exact layout of a process' memory map is allowed to change
++significantly between kernel versions, C library versions, and operating system
++releases.
+ .TP
+ .B MAP_GROWSDOWN
+ This flag is used for stacks.
+-- 
+2.15.1
 
---=20
-Regards,
-Branden
-
---37jfnr6zfuvwgkor
-Content-Type: application/pgp-signature; name="signature.asc"
-
------BEGIN PGP SIGNATURE-----
-
-iQIzBAABCAAdFiEEh3PWHWjjDgcrENwa0Z6cfXEmbc4FAlohbbYACgkQ0Z6cfXEm
-bc4orRAAoBpkmaxXOCQ9vOhwhfqtvMpR6T+yiOIMXn/xVR5X+REuIGWk6ipci3MX
-VJ8DxCSWX1JTOAZ+AJ5tafAtvjfe6Sq6iqimtVpMT1+qt7jxaVGLra7BkDj5NLRL
-hPpxDZdzuJ+XwxNVwkjFZnBE11q+k29jXrgatgNSkqpBHlAZjdbDa86yu4v9zIYA
-opDWwbLLRuC1R/XlUiBmuokF8x0j/tGdjt7g1qbn65ER9ZbE6bNcMtSjJXbTi+er
-9E3loqBu0KJjD33K0ZMx5Ydf5pkveOfRU2LFDUUABl7P8760cfFhvmDxtS7G7h9N
-RdLXhIgxWipb83Ahh4+WNWahoqUwc2uArrslnxWINkMxI6oo7WMYBOu7fQxhpDrB
-spWiD8p+Lwd+W8he/7i6yMWON3rSqFUorig1orrkkbXezsYuMipug35eNt8ysphP
-7UO7A+ZAAKHBdIJmeQepbDHftTGxImO1OuFTwOpcHnwImzfZ0miCHQv/HknoZSQZ
-cxL6rEtQo+vHeIKodJD32ouRf085jPch9fY1ks4VirmWZwsQzq8G0mvNo5LgCKgo
-k61okIdzgfFr39fTgNHEyVDC8Jn1Dk2/J8UiqIIffUirDhvJwsXOG1VPdJj3cPPO
-8UlXFoSWNPZKcSmq+IAXg3CawMQMkhMXP6w0zawDwoo6X+uX6P8=
-=j7fQ
------END PGP SIGNATURE-----
-
---37jfnr6zfuvwgkor--
 --
 To unsubscribe from this list: send the line "unsubscribe linux-man" in
 the body of a message to majordomo-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
