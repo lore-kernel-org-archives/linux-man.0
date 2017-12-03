@@ -1,62 +1,85 @@
-From: Keno Fischer <keno@juliacomputing.com>
-Subject: Re: [PATCH RFC] stat.2: Document that stat can fail with EINTR
-Date: Sat, 2 Dec 2017 22:15:33 -0500
-Message-ID: <CABV8kRwbsjW1XbybDx12HmC9Gd1_5_C-KDhdtEz12KSZf-84_Q@mail.gmail.com>
-References: <20171203002359.GA17037@juliacomputing.com> <20171203022504.GA14505@bombadil.infradead.org>
+From: John Hubbard <jhubbard-DDmLM1+adcrQT0dZR+AlfA@public.gmane.org>
+Subject: Re: [PATCH] mmap.2: MAP_FIXED is no longer discouraged
+Date: Sat, 2 Dec 2017 20:06:17 -0800
+Message-ID: <d654b75e-e20b-b8ed-4564-abb1d210a921@nvidia.com>
+References: <20171202021626.26478-1-jhubbard@nvidia.com>
+ <20171202150554.GA30203@bombadil.infradead.org>
+ <CAG48ez2u3fjBDCMH4x3EUhG6ZD6VUa=A1p441P9fg=wUdzwHNQ@mail.gmail.com>
+ <20171202221910.GA8228@bombadil.infradead.org>
 Mime-Version: 1.0
-Content-Type: text/plain; charset="UTF-8"
-Return-path: <linux-kernel-owner@vger.kernel.org>
-In-Reply-To: <20171203022504.GA14505@bombadil.infradead.org>
-Sender: linux-kernel-owner@vger.kernel.org
-To: Matthew Wilcox <willy@infradead.org>
-Cc: linux-man@vger.kernel.org, linux-fsdevel@vger.kernel.org, Linux Kernel Mailing List <linux-kernel@vger.kernel.org>, viro@zeniv.linux.org.uk, Michael Kerrisk-manpages <mtk.manpages@gmail.com>, tuomas@tuxera.com
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: 8BIT
+Return-path: <linux-api-owner-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>
+In-Reply-To: <20171202221910.GA8228-PfSpb0PWhxZc2C7mugBRk2EX/6BAtgUQ@public.gmane.org>
+Content-Language: en-US
+Sender: linux-api-owner-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
+To: Matthew Wilcox <willy-wEGCiKHe2LqWVfeAwA7xHQ@public.gmane.org>, Jann Horn <jannh-hpIqsD4AKlfQT0dZR+AlfA@public.gmane.org>
+Cc: Michael Kerrisk <mtk.manpages-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org>, linux-man <linux-man-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>, Linux API <linux-api-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>, Michael Ellerman <mpe-Gsx/Oe8HsFggBc27wqDAHg@public.gmane.org>, linux-mm-Bw31MaZKKs3YtjvyW6yDsg@public.gmane.org, LKML <linux-kernel-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>, linux-arch <linux-arch-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>, Michal Hocko <mhocko-IBi9RG/b67k@public.gmane.org>
 List-Id: linux-man@vger.kernel.org
 
-Resending as plain text (apologies for those receiving it twice, and
-those that got
-an HTML copy, I'm used to my mail client switching that over
-automatically, which
-for some reason didn't happen here).
+On 12/02/2017 02:19 PM, Matthew Wilcox wrote:
+> On Sat, Dec 02, 2017 at 07:49:20PM +0100, Jann Horn wrote:
+>> On Sat, Dec 2, 2017 at 4:05 PM, Matthew Wilcox <willy-wEGCiKHe2LqWVfeAwA7xHQ@public.gmane.org> wrote:
+>>> On Fri, Dec 01, 2017 at 06:16:26PM -0800, john.hubbard-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org wrote:
+[...]
+> 
+> Maybe that should be up front rather than buried at the end of the sentence.
+> 
+> "In a multi-threaded process, the address space can change in response to
+> virtually any library call.  This is because almost any library call may be
+> implemented by using dlopen(3) to load another shared library, which will be
+> mapped into the process's address space.  The PAM libraries are an excellent
+> example, as well as more obvious examples like brk(2), malloc(3) and even
+> pthread_create(3)."
+> 
+> What do you think?
+> 
+
+Hi Matthew,
+
+Here is a new version, based on your and Jann's comments. I also added a
+reference to MAP_FIXED_SAFE. If it looks close, I'll send a v2 with proper
+formatting applied.
+
+I did wonder briefly if your ATM reference was a oblique commentary about
+security, but then realized...you probably just needed some cash. :)
+
+-----
+
+This option is extremely hazardous (when used on its own) and moderately
+non-portable.
+
+On portability: a process's memory map may change significantly from one
+run to the next, depending on library versions, kernel versions and ran‐
+dom numbers.
+
+On hazards: this option forcibly removes pre-existing  mappings,  making
+it easy for a multi-threaded process to corrupt its own address space.
+
+For  example,  thread  A  looks  through /proc/<pid>/maps and locates an
+available address range, while thread B simultaneously acquires part  or
+all  of  that  same  address range. Thread A then calls mmap(MAP_FIXED),
+effectively overwriting thread B's mapping.
+
+Thread B need not create a mapping directly;  simply  making  a  library
+call that, internally, uses dlopen(3) to load some other shared library,
+will suffice. The dlopen(3) call will map the library into the process's
+address  space.  Furthermore, almost any library call may be implemented
+using this technique.  Examples include brk(2), malloc(3),  pthread_cre‐
+ate(3), and the PAM libraries (http://www.linux-pam.org).
+
+Given the above limitations, one of the very few ways to use this option
+safely is: mmap() a region, without specifying MAP_FIXED.  Then,  within
+that  region,  call  mmap(MAP_FIXED) to suballocate regions. This avoids
+both the portability problem (because the first mmap call lets the  ker‐
+nel pick the address), and the address space corruption problem (because
+the region being overwritten is already owned by the calling thread).
+
+Newer kernels (Linux 4.16 and later) have a MAP_FIXED_SAFE  option  that
+avoids  the  corruption  problem; if available, MAP_FIXED_SAFE should be
+preferred over MAP_FIXED.
 
 
-This is exactly the discussion I want to generate, so thank you.
-I should point out that I'm not advocating for anything other
-than clarity of what kernel behavior user space may assume.
-
-
-On Sat, Dec 2, 2017 at 9:25 PM, Matthew Wilcox <willy@infradead.org> wrote:
-> On Sat, Dec 02, 2017 at 07:23:59PM -0500, Keno Fischer wrote:
->> The catalyst for this patch was me experiencing EINTR errors when
->> using the 9p file system. In linux commit 9523feac, the 9p file
->> system was changed to use wait_event_killable instead of
->> wait_event_interruptible, which does indeed address my problem,
->> but also makes me a bit unhappy, because uninterruptable waits
->> prevents things like ^C'ing the execution and some debugging
->> tools which depend on being able to cancel long-running operations
->> by sending signals.
->
-> Wait, wait, wait.  killable is not uninterruptible.  It's "can accept
-> a signal if the signal is fatal".  ie userspace will never see it.
-> So, no, it doesn't prevent ^C.  It does prevent the debugging tool you're
-> talking about from working, because it's handling the signal, so it's not
-> fatal.
-
-This probably shows that I've been in REPL based environments too long,
-that catch SIGINT ;). You are of course correct that a fatal SIGINT would
-still be delivered.
-
->> I realize I'm probably 20 years too late here, but it feels like
->> clarificaion on what to expect from the kernel would still go a long
->> way here.
->
-> A change to user-visible behaviour has to be opt-in.
-
-I agree. However, it was my impression that stat() can return EINTR
-depending on the file system. Prior to the referenced commit,
-this was certainly true on 9p and I suspect it's not the only network file
-system for which this is true (though prior to my experiencing this
-with 9p, the only
-time I've ever experienced it was on HPC clusters with who knows what
-code providing the network filesystem). If it is indeed the case that
-an EINTR return from stat() and similar is illegal and should be considered
-a kernel bug, a statement to that extent all I'm looking for here.
+thanks,
+John Hubbard
+NVIDIA
