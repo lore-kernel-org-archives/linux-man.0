@@ -1,85 +1,66 @@
-From: John Hubbard <jhubbard-DDmLM1+adcrQT0dZR+AlfA@public.gmane.org>
-Subject: Re: [PATCH] mmap.2: MAP_FIXED is no longer discouraged
-Date: Sat, 2 Dec 2017 20:06:17 -0800
-Message-ID: <d654b75e-e20b-b8ed-4564-abb1d210a921@nvidia.com>
-References: <20171202021626.26478-1-jhubbard@nvidia.com>
- <20171202150554.GA30203@bombadil.infradead.org>
- <CAG48ez2u3fjBDCMH4x3EUhG6ZD6VUa=A1p441P9fg=wUdzwHNQ@mail.gmail.com>
- <20171202221910.GA8228@bombadil.infradead.org>
+From: "Nico R." <nico-hByViTdnw2w@public.gmane.org>
+Subject: minus signs instead of hyphen-minuses in man-pages-posix-2013-a
+ (was: man 1 getopts example code - wrong dash)
+Date: Sun, 3 Dec 2017 16:25:41 +0100
+Message-ID: <20171203152541.GB8608@imap.roeserundroeser.de>
+References: <20170313033145.GR31094@vapier>
 Mime-Version: 1.0
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: 8BIT
-Return-path: <linux-api-owner-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>
-In-Reply-To: <20171202221910.GA8228-PfSpb0PWhxZc2C7mugBRk2EX/6BAtgUQ@public.gmane.org>
-Content-Language: en-US
-Sender: linux-api-owner-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
-To: Matthew Wilcox <willy-wEGCiKHe2LqWVfeAwA7xHQ@public.gmane.org>, Jann Horn <jannh-hpIqsD4AKlfQT0dZR+AlfA@public.gmane.org>
-Cc: Michael Kerrisk <mtk.manpages-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org>, linux-man <linux-man-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>, Linux API <linux-api-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>, Michael Ellerman <mpe-Gsx/Oe8HsFggBc27wqDAHg@public.gmane.org>, linux-mm-Bw31MaZKKs3YtjvyW6yDsg@public.gmane.org, LKML <linux-kernel-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>, linux-arch <linux-arch-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>, Michal Hocko <mhocko-IBi9RG/b67k@public.gmane.org>
+Content-Type: text/plain; charset=utf-8
+Content-Transfer-Encoding: 8bit
+Return-path: <linux-man-owner-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>
+Content-Disposition: inline
+In-Reply-To: <20170313033145.GR31094@vapier>
+Sender: linux-man-owner-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
+To: mtk.manpages-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org
+Cc: linux-man-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
 List-Id: linux-man@vger.kernel.org
 
-On 12/02/2017 02:19 PM, Matthew Wilcox wrote:
-> On Sat, Dec 02, 2017 at 07:49:20PM +0100, Jann Horn wrote:
->> On Sat, Dec 2, 2017 at 4:05 PM, Matthew Wilcox <willy-wEGCiKHe2LqWVfeAwA7xHQ@public.gmane.org> wrote:
->>> On Fri, Dec 01, 2017 at 06:16:26PM -0800, john.hubbard-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org wrote:
-[...]
+On 2017-03-13T03:31:45, Mike Frysinger <vapier-aBrp7R+bbdUdnm+yROfE0A@public.gmane.org> wrote:
+> On 27 Feb 2017 15:16, Marcus Geiger wrote:
+> > in the examples section of `man 1 getopts`, every dash/minus used in the
+> > example code cannot be parsed by bash. vi claims it's 0x2212 instead of 0x2d.
+> > 
+> > I'm on Ubuntu 16.04 with bash 4.3.46(1)-release. Unfortunately I couldn't find
+> > the source code for this man page, but the current online pages entry also has
+> > this problem: http://man7.org/linux/man-pages/man1/getopts.1p.html
+> > 
+> > The containing package is:
+> > 
+> >    $ dpkg -S $(man -w 1 getopts)
+> >    manpages-posix: /usr/share/man/man1/getopts.1posix.gz
 > 
-> Maybe that should be up front rather than buried at the end of the sentence.
-> 
-> "In a multi-threaded process, the address space can change in response to
-> virtually any library call.  This is because almost any library call may be
-> implemented by using dlopen(3) to load another shared library, which will be
-> mapped into the process's address space.  The PAM libraries are an excellent
-> example, as well as more obvious examples like brk(2), malloc(3) and even
-> pthread_create(3)."
-> 
-> What do you think?
-> 
+> looks like a bug in the man page itself.  it uses \(mi instead of \- in
+> the example code.  might be an artifact of the conversion process though
+> as iirc, the posix pages are generated.
 
-Hi Matthew,
+I agree. As the matter seems not to have been handled yet, I’m bringing this up again.
 
-Here is a new version, based on your and Jann's comments. I also added a
-reference to MAP_FIXED_SAFE. If it looks close, I'll send a v2 with proper
-formatting applied.
+Some more detail: it seems that all POSIX man pages are affected, more or less.
 
-I did wonder briefly if your ATM reference was a oblique commentary about
-security, but then realized...you probably just needed some cash. :)
+For example, look at man1p/awk.1p in man-pages-posix-2013-a: it says
+|        −F sepstring
+|                  Define the input field separator. This option shall be equivalent to:
+| 
+|                      -v FS=sepstring
 
------
+Note that the first occurrence is a MINUS SIGN (U+2212), whereas the second is a HYPHEN-MINUS (U+002D).
 
-This option is extremely hazardous (when used on its own) and moderately
-non-portable.
+The MINUS SIGN is wrong for options. Options start with a HYPHEN-MINUS.
 
-On portability: a process's memory map may change significantly from one
-run to the next, depending on library versions, kernel versions and ran‐
-dom numbers.
-
-On hazards: this option forcibly removes pre-existing  mappings,  making
-it easy for a multi-threaded process to corrupt its own address space.
-
-For  example,  thread  A  looks  through /proc/<pid>/maps and locates an
-available address range, while thread B simultaneously acquires part  or
-all  of  that  same  address range. Thread A then calls mmap(MAP_FIXED),
-effectively overwriting thread B's mapping.
-
-Thread B need not create a mapping directly;  simply  making  a  library
-call that, internally, uses dlopen(3) to load some other shared library,
-will suffice. The dlopen(3) call will map the library into the process's
-address  space.  Furthermore, almost any library call may be implemented
-using this technique.  Examples include brk(2), malloc(3),  pthread_cre‐
-ate(3), and the PAM libraries (http://www.linux-pam.org).
-
-Given the above limitations, one of the very few ways to use this option
-safely is: mmap() a region, without specifying MAP_FIXED.  Then,  within
-that  region,  call  mmap(MAP_FIXED) to suballocate regions. This avoids
-both the portability problem (because the first mmap call lets the  ker‐
-nel pick the address), and the address space corruption problem (because
-the region being overwritten is already owned by the calling thread).
-
-Newer kernels (Linux 4.16 and later) have a MAP_FIXED_SAFE  option  that
-avoids  the  corruption  problem; if available, MAP_FIXED_SAFE should be
-preferred over MAP_FIXED.
+Due to the bug, searching for options in POSIX man pages becomes a real pain.
 
 
-thanks,
-John Hubbard
-NVIDIA
+Some people may not see this behavior, this is most probably a result of their locale. You can run
+
+  $ env LC_CTYPE=POSIX /usr/bin/man 1p awk
+
+and you will see a HYPHEN-MINUS everywhere, but this is due to the limited character set, and character translations in place. Setting LC_CTYPE is just a workaround, and you’ll also lose other characters!
+
+
+I would have tried to help a bit more with this issue, but I do not know what/where the sources for the POSIX man pages are, I do not know how the POSIX man pages are generated from their sources, and I could not find any conversion scripts. Can anyone explain the process, please?
+-- 
+Nico
+--
+To unsubscribe from this list: send the line "unsubscribe linux-man" in
+the body of a message to majordomo-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
+More majordomo info at  http://vger.kernel.org/majordomo-info.html
