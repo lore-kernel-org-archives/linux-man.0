@@ -1,68 +1,61 @@
-From: John Hubbard <jhubbard-DDmLM1+adcrQT0dZR+AlfA@public.gmane.org>
-Subject: Re: [PATCH] mmap.2: MAP_FIXED is no longer discouraged
-Date: Sat, 2 Dec 2017 16:22:30 -0800
-Message-ID: <f44bf239-6ef1-3d3f-a1b8-97ff0bc0afbe@nvidia.com>
-References: <20171202021626.26478-1-jhubbard@nvidia.com>
- <20171202150554.GA30203@bombadil.infradead.org>
- <CAG48ez2u3fjBDCMH4x3EUhG6ZD6VUa=A1p441P9fg=wUdzwHNQ@mail.gmail.com>
- <20171202221910.GA8228@bombadil.infradead.org>
+From: Keno Fischer <keno@juliacomputing.com>
+Subject: [PATCH RFC] stat.2: Document that stat can fail with EINTR
+Date: Sat, 2 Dec 2017 19:23:59 -0500
+Message-ID: <20171203002359.GA17037@juliacomputing.com>
 Mime-Version: 1.0
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: 7bit
-Return-path: <linux-api-owner-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>
-In-Reply-To: <20171202221910.GA8228-PfSpb0PWhxZc2C7mugBRk2EX/6BAtgUQ@public.gmane.org>
-Content-Language: en-US
-Sender: linux-api-owner-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
-To: Matthew Wilcox <willy-wEGCiKHe2LqWVfeAwA7xHQ@public.gmane.org>, Jann Horn <jannh-hpIqsD4AKlfQT0dZR+AlfA@public.gmane.org>
-Cc: Michael Kerrisk <mtk.manpages-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org>, linux-man <linux-man-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>, Linux API <linux-api-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>, Michael Ellerman <mpe-Gsx/Oe8HsFggBc27wqDAHg@public.gmane.org>, linux-mm-Bw31MaZKKs3YtjvyW6yDsg@public.gmane.org, LKML <linux-kernel-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>, linux-arch <linux-arch-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>, Michal Hocko <mhocko-IBi9RG/b67k@public.gmane.org>
+Content-Type: text/plain; charset=us-ascii
+Return-path: <linux-kernel-owner@vger.kernel.org>
+Content-Disposition: inline
+Sender: linux-kernel-owner@vger.kernel.org
+To: linux-man@vger.kernel.org
+Cc: linux-fsdevel@vger.kernel.org, linux-kernel@vger.kernel.org, viro@zeniv.linux.org.uk, mtk.manpages@gmail.com, tuomas@tuxera.com
 List-Id: linux-man@vger.kernel.org
 
-On 12/02/2017 02:19 PM, Matthew Wilcox wrote:
-> On Sat, Dec 02, 2017 at 07:49:20PM +0100, Jann Horn wrote:
->> On Sat, Dec 2, 2017 at 4:05 PM, Matthew Wilcox <willy-wEGCiKHe2LqWVfeAwA7xHQ@public.gmane.org> wrote:
->>> On Fri, Dec 01, 2017 at 06:16:26PM -0800, john.hubbard-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org wrote:
->>>> MAP_FIXED has been widely used for a very long time, yet the man
->>>> page still claims that "the use of this option is discouraged".
->>>
->>> I think we should continue to discourage the use of this option, but
->>> I'm going to include some of your text in my replacement paragraph ...
->>>
->>> -Because requiring a fixed address for a mapping is less portable,
->>> -the use of this option is discouraged.
->>> +The use of this option is discouraged because it forcibly unmaps any
->>> +existing mapping at that address.  Programs which use this option need
->>> +to be aware that their memory map may change significantly from one run to
->>> +the next, depending on library versions, kernel versions and random numbers.
->>
->> How about adding something explicit about when it's okay to use MAP_FIXED?
->> "This option should only be used to displace an existing mapping that is
->> controlled by the caller, or part of such a mapping." or something like that?
->>
->>> +In a threaded process, checking the existing mappings can race against
->>> +a new dynamic library being loaded
->>
->> malloc() and its various callers can also cause mmap() calls, which is probably
->> more relevant than library loading.
-> 
-> That's a bit more expected though.  "I called malloc and my address
-> space changed".  Well, yeah.  But "I called getpwnam and my address
-> space changed" is a bit more surprising.  Don't you think?
-> 
-> Maybe that should be up front rather than buried at the end of the sentence.
-> 
-> "In a multi-threaded process, the address space can change in response to
-> virtually any library call.  This is because almost any library call may be
-> implemented by using dlopen(3) to load another shared library, which will be
-> mapped into the process's address space.  The PAM libraries are an excellent
-> example, as well as more obvious examples like brk(2), malloc(3) and even
-> pthread_create(3)."
-> 
-> What do you think?
-> 
+Particularly on network file systems, a stat call may require
+submitting a message over the network and waiting interruptably
+for a reply.
 
-I'm working on some updated wording to capture these points. I'm even slower
-at writing than I am at coding, so there will be a somewhat-brief pause here... :)
+Signed-off-by: Keno Fischer <keno@juliacomputing.com>
+---
 
-thanks,
-John Hubbard
-NVIDIA
+The catalyst for this patch was me experiencing EINTR errors when
+using the 9p file system. In linux commit 9523feac, the 9p file
+system was changed to use wait_event_killable instead of
+wait_event_interruptible, which does indeed address my problem,
+but also makes me a bit unhappy, because uninterruptable waits
+prevents things like ^C'ing the execution and some debugging
+tools which depend on being able to cancel long-running operations
+by sending signals. I'd like to ask the user space applications I
+care about to properly handle such situations (either by using
+SA_RESTART or by explicitly handling EINTR), but it's a bit of a
+hard sell if EINTR isn't documented to be a possibility. I'm hoping
+this doc PATCH will generate a discussion of whether EINTR is an
+appropriate thing for stat (as a stand in for a file system call that's
+not read/write) to return. If so, I'd be happy to submit
+patches to other file system-related syscalls along these same lines.
+
+I realize I'm probably 20 years too late here, but it feels like
+clarificaion on what to expect from the kernel would still go a long
+way here.  
+
+ man2/stat.2 | 5 +++++
+ 1 file changed, 5 insertions(+)
+
+diff --git a/man2/stat.2 b/man2/stat.2
+index dad9a01..f10235a 100644
+--- a/man2/stat.2
++++ b/man2/stat.2
+@@ -452,6 +452,11 @@ Invalid flag specified in
+ is relative and
+ .I dirfd
+ is a file descriptor referring to a file other than a directory.
++.TP
++.B EINTR
++The call was interrupted by delivery of a signal caught by a handler; see
++.BR signal (7).
++The possibility of this error is file-system dependent.
+ .SH VERSIONS
+ .BR fstatat ()
+ was added to Linux in kernel 2.6.16;
+-- 
+2.8.1
