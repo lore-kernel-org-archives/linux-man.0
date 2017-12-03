@@ -1,65 +1,83 @@
-From: "Nico R." <nico-hByViTdnw2w@public.gmane.org>
-Subject: minus signs instead of hyphen-minuses in man-pages-posix-2013-a
- (was: man 1 getopts example code - wrong dash)
-Date: Sun, 3 Dec 2017 16:25:41 +0100
-Message-ID: <20171203152541.GB8608@imap.roeserundroeser.de>
-References: <20170313033145.GR31094@vapier>
+From: walter harms <wharms-fPG8STNUNVg@public.gmane.org>
+Subject: Re: [PATCH RFC] stat.2: Document that stat can fail with EINTR
+Date: Sun, 03 Dec 2017 17:09:03 +0100
+Message-ID: <5A24219F.4010802@bfs.de>
+References: <20171203002359.GA17037@juliacomputing.com>
+Reply-To: wharms-fPG8STNUNVg@public.gmane.org
 Mime-Version: 1.0
-Content-Type: text/plain; charset=utf-8
-Content-Transfer-Encoding: 8bit
+Content-Type: text/plain; charset=ISO-8859-1
+Content-Transfer-Encoding: 7bit
 Return-path: <linux-man-owner-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>
-Content-Disposition: inline
-In-Reply-To: <20170313033145.GR31094@vapier>
+In-Reply-To: <20171203002359.GA17037-9DCaDmOhoh+8M3too/+dENBPR1lH4CV8@public.gmane.org>
 Sender: linux-man-owner-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
-To: mtk.manpages-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org
-Cc: linux-man-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
+To: Keno Fischer <keno-9DCaDmOhoh+8M3too/+dENBPR1lH4CV8@public.gmane.org>
+Cc: linux-man-u79uwXL29TY76Z2rM5mHXA@public.gmane.org, linux-fsdevel-u79uwXL29TY76Z2rM5mHXA@public.gmane.org, linux-kernel-u79uwXL29TY76Z2rM5mHXA@public.gmane.org, viro-RmSDqhL/yNMiFSDQTTA3OLVCufUGDwFn@public.gmane.org, mtk.manpages-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org, tuomas-yrGDUoBaLx3QT0dZR+AlfA@public.gmane.org
 List-Id: linux-man@vger.kernel.org
 
-On 2017-03-13T03:31:45, Mike Frysinger <vapier-aBrp7R+bbdUdnm+yROfE0A@public.gmane.org> wrote:
-> On 27 Feb 2017 15:16, Marcus Geiger wrote:
-> > in the examples section of `man 1 getopts`, every dash/minus used in the
-> > example code cannot be parsed by bash. vi claims it's 0x2212 instead of 0x2d.
-> > 
-> > I'm on Ubuntu 16.04 with bash 4.3.46(1)-release. Unfortunately I couldn't find
-> > the source code for this man page, but the current online pages entry also has
-> > this problem: http://man7.org/linux/man-pages/man1/getopts.1p.html
-> > 
-> > The containing package is:
-> > 
-> >    $ dpkg -S $(man -w 1 getopts)
-> >    manpages-posix: /usr/share/man/man1/getopts.1posix.gz
+
+
+Am 03.12.2017 01:23, schrieb Keno Fischer:
+> Particularly on network file systems, a stat call may require
+> submitting a message over the network and waiting interruptably
+> for a reply.
 > 
-> looks like a bug in the man page itself.  it uses \(mi instead of \- in
-> the example code.  might be an artifact of the conversion process though
-> as iirc, the posix pages are generated.
+> Signed-off-by: Keno Fischer <keno-9DCaDmOhoh+8M3too/+dENBPR1lH4CV8@public.gmane.org>
+> ---
+> 
+> The catalyst for this patch was me experiencing EINTR errors when
+> using the 9p file system. In linux commit 9523feac, the 9p file
+> system was changed to use wait_event_killable instead of
+> wait_event_interruptible, which does indeed address my problem,
+> but also makes me a bit unhappy, because uninterruptable waits
+> prevents things like ^C'ing the execution and some debugging
+> tools which depend on being able to cancel long-running operations
+> by sending signals. I'd like to ask the user space applications I
+> care about to properly handle such situations (either by using
+> SA_RESTART or by explicitly handling EINTR), but it's a bit of a
+> hard sell if EINTR isn't documented to be a possibility. I'm hoping
+> this doc PATCH will generate a discussion of whether EINTR is an
+> appropriate thing for stat (as a stand in for a file system call that's
+> not read/write) to return. If so, I'd be happy to submit
+> patches to other file system-related syscalls along these same lines.
+> 
+> I realize I'm probably 20 years too late here, but it feels like
+> clarificaion on what to expect from the kernel would still go a long
+> way here.  
+> 
 
-I agree. As the matter seems not to have been handled yet, I’m bringing this up again.
-
-Some more detail: it seems that all POSIX man pages are affected, more or less.
-
-For example, look at man1p/awk.1p in man-pages-posix-2013-a: it says
-|        −F sepstring
-|                  Define the input field separator. This option shall be equivalent to:
-| 
-|                      -v FS=sepstring
-
-Note that the first occurrence is a MINUS SIGN (U+2212), whereas the second is a HYPHEN-MINUS (U+002D).
-
-The MINUS SIGN is wrong for options. Options start with a HYPHEN-MINUS.
-
-Due to the bug, searching for options in POSIX man pages becomes a real pain.
+no matter, if it can happen it should be document.
+Nothing is more anoying that triggering an undocumented error.
 
 
-Some people may not see this behavior, this is most probably a result of their locale. You can run
+>  man2/stat.2 | 5 +++++
+>  1 file changed, 5 insertions(+)
+> 
+> diff --git a/man2/stat.2 b/man2/stat.2
+> index dad9a01..f10235a 100644
+> --- a/man2/stat.2
+> +++ b/man2/stat.2
+> @@ -452,6 +452,11 @@ Invalid flag specified in
+>  is relative and
+>  .I dirfd
+>  is a file descriptor referring to a file other than a directory.
+> +.TP
+> +.B EINTR
+> +The call was interrupted by delivery of a signal caught by a handler; see
+What is about:
+  The call was interrupted by a
+.BR signal (7).
+> +.BR signal (7).
+> +The possibility of this error is file-system dependent.
+You mean:
+  This error is file-system dependent.
 
-  $ env LC_CTYPE=POSIX /usr/bin/man 1p awk
+just my 2 cents,
+re,
+ wh
 
-and you will see a HYPHEN-MINUS everywhere, but this is due to the limited character set, and character translations in place. Setting LC_CTYPE is just a workaround, and you’ll also lose other characters!
-
-
-I would have tried to help a bit more with this issue, but I do not know what/where the sources for the POSIX man pages are, I do not know how the POSIX man pages are generated from their sources, and I could not find any conversion scripts. Can anyone explain the process, please?
--- 
-Nico
+>  .SH VERSIONS
+>  .BR fstatat ()
+>  was added to Linux in kernel 2.6.16;
 --
 To unsubscribe from this list: send the line "unsubscribe linux-man" in
 the body of a message to majordomo-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
