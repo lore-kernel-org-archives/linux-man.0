@@ -1,40 +1,101 @@
-From: roblabla <man-pages-KoZcQ+CXkXj3fQ9qLvQP4Q@public.gmane.org>
-Subject: [PATCH] pthread_mutexattr_init.3: Wrong function name fix
-Date: Mon, 04 Dec 2017 00:04:09 +0100
-Message-ID: <e9cac1a2e616d0f6a5ca6c26eb99380f@roblab.la>
-Mime-Version: 1.0
-Content-Type: text/plain; charset=US-ASCII;
- format=flowed
-Content-Transfer-Encoding: 7bit
-Return-path: <linux-man-owner-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>
-Sender: linux-man-owner-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
-To: mtk.manpages-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org
-Cc: linux-man-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
+From: john.hubbard@gmail.com
+Subject: [PATCH v2] mmap.2: MAP_FIXED updated documentation
+Date: Sun,  3 Dec 2017 18:14:11 -0800
+Message-ID: <20171204021411.4786-1-jhubbard@nvidia.com>
+Return-path: <owner-linux-mm@kvack.org>
+Sender: owner-linux-mm@kvack.org
+To: Michael Kerrisk <mtk.manpages@gmail.com>
+Cc: linux-man <linux-man@vger.kernel.org>, linux-api@vger.kernel.org, Michael Ellerman <mpe@ellerman.id.au>, linux-mm@kvack.org, LKML <linux-kernel@vger.kernel.org>, linux-arch@vger.kernel.org, Jann Horn <jannh@google.com>, Matthew Wilcox <willy@infradead.org>, Michal Hocko <mhocko@suse.com>, John Hubbard <jhubbard@nvidia.com>
 List-Id: linux-man@vger.kernel.org
 
----
-  man3/pthread_mutexattr_init.3 | 4 ++--
-  1 file changed, 2 insertions(+), 2 deletions(-)
+From: John Hubbard <jhubbard@nvidia.com>
 
-diff --git a/man3/pthread_mutexattr_init.3 
-b/man3/pthread_mutexattr_init.3
-index 9d27a15da..b37f32bc4 100644
---- a/man3/pthread_mutexattr_init.3
-+++ b/man3/pthread_mutexattr_init.3
-@@ -30,8 +30,8 @@ destroy a mutex attributes object
-  .nf
-  .B #include <pthread.h>
-  .PP
--.BI "int pthread_mutex_init(pthread_mutexattr_t *" attr ");"
--.BI "int pthread_mutex_destroy(pthread_mutexattr_t *" attr ");"
-+.BI "int pthread_mutexattr_init(pthread_mutexattr_t *" attr ");"
-+.BI "int pthread_mutexattr_destroy(pthread_mutexattr_t *" attr ");"
-  .fi
-  .PP
-  Compile and link with \fI\-pthread\fP.
+Previously, MAP_FIXED was "discouraged", due to portability
+issues with the fixed address. In fact, there are other, more
+serious issues. Also, in some limited cases, this option can
+be used safely.
+
+Expand the documentation to discuss both the hazards, and how
+to use it safely.
+
+The "Portability issues" wording is lifted directly from
+Matthew Wilcox's review. The notes about other libraries
+creating mappings is also from Matthew (lightly edited).
+
+The suggestion to explain how to use MAP_FIXED safely is
+from Jann Horn.
+
+Suggested-by: Matthew Wilcox <willy@infradead.org>
+Suggested-by: Jann Horn <jannh@google.com>
+Signed-off-by: John Hubbard <jhubbard@nvidia.com>
+---
+
+Changed from v1:
+
+    -- Covered topics recommended by Matthew Wilcox
+       and Jann Horn, in their recent review: the hazards
+       of overwriting pre-exising mappings, and some notes
+       about how to use MAP_FIXED safely.
+
+    -- Rewrote the commit description accordingly.
+
+ man2/mmap.2 | 38 ++++++++++++++++++++++++++++++++++++--
+ 1 file changed, 36 insertions(+), 2 deletions(-)
+
+diff --git a/man2/mmap.2 b/man2/mmap.2
+index 385f3bfd5..9038256d4 100644
+--- a/man2/mmap.2
++++ b/man2/mmap.2
+@@ -222,8 +222,42 @@ part of the existing mapping(s) will be discarded.
+ If the specified address cannot be used,
+ .BR mmap ()
+ will fail.
+-Because requiring a fixed address for a mapping is less portable,
+-the use of this option is discouraged.
++.IP
++This option is extremely hazardous (when used on its own) and moderately
++non-portable.
++.IP
++Portability issues: a process's memory map may change significantly from one
++run to the next, depending on library versions, kernel versions and random
++numbers.
++.IP
++Hazards: this option forcibly removes pre-existing mappings, making it easy
++for a multi-threaded process to corrupt its own address space.
++.IP
++For example, thread A looks through /proc/<pid>/maps and locates an available
++address range, while thread B simultaneously acquires part or all of that same
++address range. Thread A then calls mmap(MAP_FIXED), effectively overwriting
++thread B's mapping.
++.IP
++Thread B need not create a mapping directly; simply making a library call
++that, internally, uses dlopen(3) to load some other shared library, will
++suffice. The dlopen(3) call will map the library into the process's address
++space. Furthermore, almost any library call may be implemented using this
++technique.
++Examples include brk(2), malloc(3), pthread_create(3), and the PAM libraries
++(http://www.linux-pam.org).
++.IP
++Given the above limitations, one of the very few ways to use this option
++safely is: mmap() a region, without specifying MAP_FIXED. Then, within that
++region, call mmap(MAP_FIXED) to suballocate regions. This avoids both the
++portability problem (because the first mmap call lets the kernel pick the
++address), and the address space corruption problem (because the region being
++overwritten is already owned by the calling thread).
++.IP
++Newer kernels
++(Linux 4.16 and later) have a
++.B MAP_FIXED_SAFE
++option that avoids the corruption problem; if available, MAP_FIXED_SAFE
++should be preferred over MAP_FIXED.
+ .TP
+ .B MAP_GROWSDOWN
+ This flag is used for stacks.
+-- 
+2.15.1
+
 --
-2.15.0
---
-To unsubscribe from this list: send the line "unsubscribe linux-man" in
-the body of a message to majordomo-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
-More majordomo info at  http://vger.kernel.org/majordomo-info.html
+To unsubscribe, send a message with 'unsubscribe linux-mm' in
+the body to majordomo@kvack.org.  For more info on Linux MM,
+see: http://www.linux-mm.org/ .
+Don't email: <a href=mailto:"dont@kvack.org"> email@kvack.org </a>
