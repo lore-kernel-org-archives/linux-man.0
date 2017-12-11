@@ -1,64 +1,178 @@
-From: Michal Hocko <mhocko-DgEjT+Ai2ygdnm+yROfE0A@public.gmane.org>
-Subject: Re: [PATCH v4] mmap.2: MAP_FIXED updated documentation
-Date: Mon, 11 Dec 2017 10:03:03 +0100
-Message-ID: <20171211090303.GG20234@dhcp22.suse.cz>
-References: <20171206031434.29087-1-jhubbard@nvidia.com>
- <20171210103147.GC20234@dhcp22.suse.cz>
- <fba147b0-06b6-fbf9-8194-171a3e146a63@nvidia.com>
+From: "Michael Kerrisk (man-pages)" <mtk.manpages-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org>
+Subject: Re: [PATCH v3 1/1] s390_sthyi.2: New page for s390-specific
+ s390_sthyi(2)
+Date: Mon, 11 Dec 2017 20:00:30 +0100
+Message-ID: <8c6f1263-8797-4065-250c-45ef0b74ebfb@gmail.com>
+References: <20171123134527.23505-1-haoqf@linux.vnet.ibm.com>
 Mime-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
+Content-Type: text/plain; charset=utf-8
+Content-Transfer-Encoding: 7bit
 Return-path: <linux-man-owner-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>
-Content-Disposition: inline
-In-Reply-To: <fba147b0-06b6-fbf9-8194-171a3e146a63-DDmLM1+adcrQT0dZR+AlfA@public.gmane.org>
+In-Reply-To: <20171123134527.23505-1-haoqf-23VcF4HTsmIX0ybBhKVfKdBPR1lH4CV8@public.gmane.org>
+Content-Language: en-US
 Sender: linux-man-owner-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
-To: John Hubbard <jhubbard-DDmLM1+adcrQT0dZR+AlfA@public.gmane.org>
-Cc: Michael Kerrisk <mtk.manpages-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org>, linux-man <linux-man-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>, linux-api-u79uwXL29TY76Z2rM5mHXA@public.gmane.org, Michael Ellerman <mpe-Gsx/Oe8HsFggBc27wqDAHg@public.gmane.org>, linux-mm-Bw31MaZKKs3YtjvyW6yDsg@public.gmane.org, LKML <linux-kernel-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>, linux-arch-u79uwXL29TY76Z2rM5mHXA@public.gmane.org, Jann Horn <jannh-hpIqsD4AKlfQT0dZR+AlfA@public.gmane.org>, Matthew Wilcox <willy-wEGCiKHe2LqWVfeAwA7xHQ@public.gmane.org>, Mike Rapoport <rppt-23VcF4HTsmIX0ybBhKVfKdBPR1lH4CV8@public.gmane.org>, Cyril Hrubis <chrubis-AlSwsSmVLrQ@public.gmane.org>
+To: QingFeng Hao <haoqf-23VcF4HTsmIX0ybBhKVfKdBPR1lH4CV8@public.gmane.org>
+Cc: mtk.manpages-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org, linux-man-u79uwXL29TY76Z2rM5mHXA@public.gmane.org, heiko.carstens-tA70FqPdS9bQT0dZR+AlfA@public.gmane.org, borntraeger-tA70FqPdS9bQT0dZR+AlfA@public.gmane.org, raspl-23VcF4HTsmIX0ybBhKVfKdBPR1lH4CV8@public.gmane.org
 List-Id: linux-man@vger.kernel.org
 
-On Sun 10-12-17 18:22:05, John Hubbard wrote:
-> On 12/10/2017 02:31 AM, Michal Hocko wrote:
-> > On Tue 05-12-17 19:14:34, john.hubbard-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org wrote:
-> >> From: John Hubbard <jhubbard-DDmLM1+adcrQT0dZR+AlfA@public.gmane.org>
-> >>
-> >> Previously, MAP_FIXED was "discouraged", due to portability
-> >> issues with the fixed address. In fact, there are other, more
-> >> serious issues. Also, alignment requirements were a bit vague.
-> >> So:
-> >>
-> >>     -- Expand the documentation to discuss the hazards in
-> >>        enough detail to allow avoiding them.
-> >>
-> >>     -- Mention the upcoming MAP_FIXED_SAFE flag.
-> >>
-> >>     -- Enhance the alignment requirement slightly.
-> >>
-> >> Some of the wording is lifted from Matthew Wilcox's review
-> >> (the "Portability issues" section). The alignment requirements
-> >> section uses Cyril Hrubis' wording, with light editing applied.
-> >>
-> >> Suggested-by: Matthew Wilcox <willy-wEGCiKHe2LqWVfeAwA7xHQ@public.gmane.org>
-> >> Suggested-by: Cyril Hrubis <chrubis-AlSwsSmVLrQ@public.gmane.org>
-> >> Signed-off-by: John Hubbard <jhubbard-DDmLM1+adcrQT0dZR+AlfA@public.gmane.org>
-> > 
-> > Would you mind if I take this patch and resubmit it along with my
-> > MAP_FIXED_SAFE (or whatever name I will end up with) next week?
-> > 
-> > Acked-by: Michal Hocko <mhocko-IBi9RG/b67k@public.gmane.org>
-> 
-> Sure, that works for me. A tiny complication: I see that Michael
-> Kerrisk has already applied the much smaller v2 of this patch (the
-> one that "no longer discourages" the option, but that's all), as:
-> 
->    ffa518803e14 mmap.2: MAP_FIXED is no longer discouraged
-> 
-> so this one here will need to be adjusted slightly to merge
-> gracefully. Let me know if you want me to respin, or if you
-> want to handle the merge.
+On 11/23/2017 02:45 PM, QingFeng Hao wrote:
+> Signed-off-by: QingFeng Hao <haoqf-23VcF4HTsmIX0ybBhKVfKdBPR1lH4CV8@public.gmane.org>
+> ---
 
-Yes, please respin.
+Thank you for this page, QingFeng! 
+
+I've applied your patch, and made a few tweaks. You may want to look
+at the revised version in Git.
+
+Thanks,
+
+Michael
+
+
+> Changes since v2:
+>  - Add explanation for return value 1 and 2 provided by Michael Kerrisk.
+>  - Some other tiny decorations.
+> 
+> Changes since v1:
+>  - better wording and explanations provided by Michael Kerrisk
+>    and Heiko Carstens.
+>  - remove 2 error lines detected by Michael Kerrisk
+> 
+>  man2/s390_sthyi.2 | 118 ++++++++++++++++++++++++++++++++++++++++++++++++++++++
+>  1 file changed, 118 insertions(+)
+>  create mode 100644 man2/s390_sthyi.2
+> 
+> diff --git a/man2/s390_sthyi.2 b/man2/s390_sthyi.2
+> new file mode 100644
+> index 0000000..4b36758
+> --- /dev/null
+> +++ b/man2/s390_sthyi.2
+> @@ -0,0 +1,118 @@
+> +.\" Copyright IBM Corp. 2017
+> +.\" Author: QingFeng Hao <haoqf-23VcF4HTsmIX0ybBhKVfKdBPR1lH4CV8@public.gmane.org>
+> +.\"
+> +.\" %%%LICENSE_START(GPLv2+_DOC_FULL)
+> +.\" This is free documentation; you can redistribute it and/or
+> +.\" modify it under the terms of the GNU General Public License as
+> +.\" published by the Free Software Foundation; either version 2 of
+> +.\" the License, or (at your option) any later version.
+> +.\"
+> +.\" The GNU General Public License's references to "object code"
+> +.\" and "executables" are to be interpreted as the output of any
+> +.\" document formatting or typesetting system, including
+> +.\" intermediate and printed output.
+> +.\"
+> +.\" This manual is distributed in the hope that it will be useful,
+> +.\" but WITHOUT ANY WARRANTY; without even the implied warranty of
+> +.\" MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+> +.\" GNU General Public License for more details.
+> +.\"
+> +.\" You should have received a copy of the GNU General Public
+> +.\" License along with this manual; if not, see
+> +.\" <http://www.gnu.org/licenses/>.
+> +.\" %%%LICENSE_END
+> +.\"
+> +.TH S390_STHYI 2 2017-09-21 "Linux Programmer's Manual"
+> +.SH NAME
+> +s390_sthyi \- emulate STHYI instruction
+> +.SH SYNOPSIS
+> +.nf
+> +.B #include <asm/unistd.h>
+> +.PP
+> +.BI "int s390_sthyi(unsigned long " function_code ", void *" buffer ",
+> +.BI "               uint64_t *" return_code ", unsigned long " flags ");
+> +.fi
+> +.SH DESCRIPTION
+> +The
+> +.BR s390_sthyi ()
+> +system call emulates the STHYI (Store Hypervisor Information) instruction.
+> +It provides hardware resource information for the machine and its virtualization
+> +levels. This includes CPU type and capacity, as well as the machine model and
+> +other metrics.
+> +.PP
+> +The
+> +.I function_code
+> +argument indicates which function to perform.
+> +The following code(s) are supported:
+> +.RB ( 0 )
+> +Return CP (Central Processor) and IFL (Integrated Facility for Linux)
+> +capacity information.
+> +.PP
+> +The
+> +.I buffer 
+> +argument specifies the address of response buffer. If the system
+> +call returns 0, the response buffer will be filled with CPU capacity
+> +information. Otherwise, the response buffer's content is unchanged.
+> +.PP
+> +The
+> +.I return_code
+> +argument stores the return code of the STHYI instruction, success
+> +.RB ( 0 )
+> +or unsupported function code
+> +.RB ( 4 ).
+> +For details about return code, function_code, and buffer argument,
+> +please see section
+> +.IR "CONFORMING TO"
+> +below.
+> +.PP
+> +The
+> +.I flags
+> +argument is provided to allow for future extensions and currently
+> +must be set to "0".
+> +.SH RETURN VALUE
+> +On success, the return value of
+> +.BR s390_sthyi ()
+> +matches the condition code of the STHYI instructions, which is a value
+> +between 0-3 (that is: emulation succeeded).
+> +Return value of 0 indicates that CPU capacity information is stored to
+> +.I buffer.
+> +Return value of 3 indicates "unsupported function code" and buffer's
+> +content is unchanged.
+> +Return value of 1 and 2 are reserved.
+> +.PP
+> +On error, -1 is returned, and
+> +.IR errno
+> +is set appropriately.
+> +.SH ERRORS
+> +.TP
+> +.B EINVAL
+> +The value specified in
+> +.I flags
+> +is non-zero.
+> +.TP
+> +.B EOPNOTSUPP
+> +The value specified in
+> +.I function_code 
+> +is not a valid value.
+> +.TP
+> +.B EFAULT
+> +The value specified in
+> +.I buffer 
+> +or
+> +.I return_code
+> +is not a valid address.
+> +.TP
+> +.B ENOMEM
+> +Allocating memory for handling the CPU capacity information failed.
+> +.SH VERSIONS
+> +This system call is available since Linux 4.15.
+> +.SH CONFORMING TO
+> +This Linux-specific system call is available only on the s390 architecture.
+> +For details about the STHYI instruction, see
+> +https://www.ibm.com/support/knowledgecenter/SSB27U_6.3.0/com.ibm.zvm.v630.hcpb4/hcpb4sth.htm
+> +.SH NOTES
+> +Glibc does not provide a wrapper for this system call, use
+> +.BR syscall (2)
+> +to call it.
+> +.SH SEE ALSO
+> +.BR syscall (2)
+> 
+
+
 -- 
-Michal Hocko
-SUSE Labs
+Michael Kerrisk
+Linux man-pages maintainer; http://www.kernel.org/doc/man-pages/
+Linux/UNIX System Programming Training: http://man7.org/training/
 --
 To unsubscribe from this list: send the line "unsubscribe linux-man" in
 the body of a message to majordomo-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
