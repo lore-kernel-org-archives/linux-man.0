@@ -1,79 +1,69 @@
 From: Stefan Hajnoczi <stefanha-H+wXaHxf7aLQT0dZR+AlfA@public.gmane.org>
-Subject: Re: [PATCH v2] vsock.7: document VSOCK socket address family
-Date: Tue, 12 Dec 2017 09:23:10 +0000
-Message-ID: <20171212092310.GA6985@stefanha-x1.localdomain>
-References: <20171205105618.30049-1-stefanha@redhat.com>
- <cce43383-f42d-3c46-a34a-26e1c6a82af9@gmail.com>
-Mime-Version: 1.0
-Content-Type: multipart/signed; micalg=pgp-sha1;
-        protocol="application/pgp-signature"; boundary="8t9RHnE3ZwKMSgU+"
+Subject: [PATCH] vsock.7: clarify send(2)/recv(2) families of system calls
+Date: Tue, 12 Dec 2017 09:34:48 +0000
+Message-ID: <20171212093448.8192-1-stefanha@redhat.com>
 Return-path: <linux-man-owner-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>
-Content-Disposition: inline
-In-Reply-To: <cce43383-f42d-3c46-a34a-26e1c6a82af9-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org>
 Sender: linux-man-owner-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
-To: "Michael Kerrisk (man-pages)" <mtk.manpages-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org>
-Cc: linux-man-u79uwXL29TY76Z2rM5mHXA@public.gmane.org, netdev-u79uwXL29TY76Z2rM5mHXA@public.gmane.org, Jorgen Hansen <jhansen-pghWNbHTmq7QT0dZR+AlfA@public.gmane.org>, "G. Branden Robinson" <g.branden.robinson-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org>, Dexuan Cui <decui-0li6OtcxBFHby3iVrkZq2A@public.gmane.org>
+To: linux-man-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
+Cc: Dexuan Cui <decui-0li6OtcxBFHby3iVrkZq2A@public.gmane.org>, Michael Kerrisk <mtk.manpages-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org>, Jorgen Hansen <jhansen-pghWNbHTmq7QT0dZR+AlfA@public.gmane.org>, Stefan Hajnoczi <stefanha-H+wXaHxf7aLQT0dZR+AlfA@public.gmane.org>
 List-Id: linux-man@vger.kernel.org
 
+Sockets support both read(2)/write(2) and send(2)/recv(2) system calls.
+Each of these is actually a family of multiple system calls such as
+send(2), sendfile(2), sendmsg(2), sendmmsg(2), and sendto(2).
 
---8t9RHnE3ZwKMSgU+
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-Content-Transfer-Encoding: quoted-printable
+This patch claries which families of system calls can be used.
 
-On Mon, Dec 11, 2017 at 08:32:20PM +0100, Michael Kerrisk (man-pages) wrote:
-> On 12/05/2017 11:56 AM, Stefan Hajnoczi wrote:
-> > +Data is transferred using the usual
-> > +.BR send (2)
-> > +and
-> > +.BR recv (2)
->=20
-> Or equally, write(2) and read(2), right? By failing to mention those, the
-> text subtly implies that send(2) and recv(2) are preferred, but I don't
-> suppose that is true.
->=20
-> > +family of socket system calls.
+Signed-off-by: Stefan Hajnoczi <stefanha-H+wXaHxf7aLQT0dZR+AlfA@public.gmane.org>
+---
+ man7/vsock.7 | 21 +++++++++++++--------
+ 1 file changed, 13 insertions(+), 8 deletions(-)
 
-Yes, this file descriptor is a socket so write(2) and read(2) work.
+diff --git a/man7/vsock.7 b/man7/vsock.7
+index b6c394302..628200aa8 100644
+--- a/man7/vsock.7
++++ b/man7/vsock.7
+@@ -47,11 +47,15 @@ address using
+ and then calling
+ .BR listen (2).
+ .PP
+-Data is transferred using the usual
++Data is transmitted using the
+ .BR send (2)
+-and
++or
++.BR write (2)
++families of system calls and data is received using the
+ .BR recv (2)
+-family of socket system calls.
++or
++.BR read (2)
++families of system calls.
+ .SS Address format
+ A socket address is defined as a combination of a 32-bit Context Identifier
+ (CID) and a 32-bit port number.
+@@ -163,12 +167,13 @@ Operation not supported.
+ This includes:
+ the
+ .B MSG_OOB
+-flag that is not implemented for
+-.BR sendmsg (2)
+-and
++flag that is not implemented for the
++.BR send (2)
++family of syscalls and
+ .B MSG_PEEK
+-for
+-.BR recvmsg (2).
++for the
++.BR recv (2)
++family of syscalls.
+ .TP
+ .B EPROTONOSUPPORT
+ Invalid socket protocol number.
+-- 
+2.14.3
 
-I said "family of socket system calls" to avoid listing all the
-variations of send(2), sendmsg(2), sendfile(2), sendmmsg(2), etc but I
-guess that doesn't include the read(2)/write(2) family of syscalls
-(readv(2)/writev(2)).
-
-Will send a follow-up patch to clarify this.
-
-> > +.B EOPNOTSUPP
-> > +Operation not supported.  This includes:
-> > +the
-> > +.B MSG_OOB
-> > +flag that is not implemented for
-> > +.BR sendmsg (2)
-> > +and
-> > +.B MSG_PEEK
-> > +for
-> > +.BR recvmsg (2).
->=20
-> So these errors might also occur for send() and recv(), right?
-
-Yes, I'll change this to "the send(2) family of syscalls" and "recv(2)
-family of syscalls", respectively.
-
---8t9RHnE3ZwKMSgU+
-Content-Type: application/pgp-signature; name="signature.asc"
-
------BEGIN PGP SIGNATURE-----
-
-iQEcBAEBAgAGBQJaL5/+AAoJEJykq7OBq3PI3F4H/ibKA82QuqJnX9333umdki/i
-TtD2at/nIXXN/id1jLQ0uuVzny7GfEJnNXfBXEhDPfrfjRRmfAZRJGhvTV5uoJGv
-FQeXT+tKVuHtPXuqXbuSxB3ZP0V2/PNtJzLvPznPIdBSWJakz5Az6OnbvMH5rOdi
-icc10L57YTnWoE0TEYLpPyaZbXLt8qn1eHTIxSbqflyCYAY0AGWFsdSmrC4h1Ttr
-p1qA537h9YvQuyJzZo3gpsJ5vQ6LiwjrJhfr0/psf+lwhgdAXqq8xDwdkmJUKA6f
-rkJf1sy3kv70Q8yxyL4oqHXGpLh778W59poOnW3FO0xpg/Ss9crXyrRQwvigRTU=
-=outN
------END PGP SIGNATURE-----
-
---8t9RHnE3ZwKMSgU+--
 --
 To unsubscribe from this list: send the line "unsubscribe linux-man" in
 the body of a message to majordomo-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
