@@ -1,109 +1,121 @@
-From: "Michael Kerrisk (man-pages)" <mtk.manpages-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org>
-Subject: Re: [PATCH] ip.7: INADDR_* values cannot be assigned directly to
- s_addr
-Date: Mon, 18 Dec 2017 17:42:40 +0100
-Message-ID: <0f994a1a-a6af-c795-735d-ab07107d41bc@gmail.com>
-References: <20171214211815.GA4844@localhost.localdomain>
+From: "Michael Kerrisk (man-pages)" <mtk.manpages@gmail.com>
+Subject: Re: [PATCH] fcntl.2, read.2, write.2: document "Lost locks" as cause
+ for EIO.
+Date: Mon, 18 Dec 2017 17:46:52 +0100
+Message-ID: <df9a18ce-c412-44aa-d475-77521a7252c5@gmail.com>
+References: <87lgi7nttp.fsf@notabene.neil.brown.name>
 Mime-Version: 1.0
 Content-Type: text/plain; charset=utf-8
 Content-Transfer-Encoding: 7bit
-Return-path: <linux-man-owner-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>
-In-Reply-To: <20171214211815.GA4844-bi+AKbBUZKY6gyzm1THtWbp2dZbC/Bob@public.gmane.org>
+Return-path: <linux-fsdevel-owner@vger.kernel.org>
+In-Reply-To: <87lgi7nttp.fsf@notabene.neil.brown.name>
 Content-Language: en-US
-Sender: linux-man-owner-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
-To: Ricardo Biehl Pasquali <pasqualirb-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org>
-Cc: mtk.manpages-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org, linux-man-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
+Sender: linux-fsdevel-owner@vger.kernel.org
+To: NeilBrown <neilb@suse.com>
+Cc: mtk.manpages@gmail.com, linux-man@vger.kernel.org, linux-nfs@vger.kernel.org, linux-fsdevel@vger.kernel.org
 List-Id: linux-man@vger.kernel.org
 
-Hello Ricardo,
+Hello Neil
 
-On 12/14/2017 10:18 PM, Ricardo Biehl Pasquali wrote:
-> Signed-off-by: Ricardo Biehl Pasquali <pasqualirb-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org>
+There's a piece of your patch I don't understand. Please see below.
 
-Thanks. I applid you patch, but then also did 
-s/INADDR_ANY/INADDR_LOOPBACK/ in the first sentence that you
-changed. INADDR_LOOPBACK is a better example, since it is not
-byte-order neutral.
+On 12/13/2017 05:19 AM, NeilBrown wrote:
+> 
+> If an advisory lock is lost, then read/write requests on any
+> affected file descriptor can return EIO - for NFSv4 at least.
+> 
+> Signed-off-by: NeilBrown <neilb@suse.com>
+> ---
+>  man2/fcntl.2 | 24 ++++++++++++++++++++++++
+>  man2/read.2  |  9 +++++++++
+>  man2/write.2 |  9 +++++++++
+>  3 files changed, 42 insertions(+)
+> 
+> diff --git a/man2/fcntl.2 b/man2/fcntl.2
+> index 67642384154c..6e6e26f66aa0 100644
+> --- a/man2/fcntl.2
+> +++ b/man2/fcntl.2
+> @@ -669,6 +669,30 @@ and
+>  Mandatory locking is not specified by POSIX.
+>  Some other systems also support mandatory locking,
+>  although the details of how to enable it vary across systems.
+> +.SS Lost locks
+> +When an advisory lock is obtained on a networked filesystem such as
+> +NFS it is possible that the lock might get lost.
+> +This may happen due to administrative action on the server, or due to a
+> +network partition which lasts long enough for the server to assume
+
+What does "network partition which lasts long enough" mean?
+I think this perhaps needs to be clarified a little. At least,
+I don't understand it.
 
 Cheers,
 
 Michael
 
 
-> ---
-> 
-> According to The Open Group Base Specifications Issue 7, RATIONALE
-> section of <http://pubs.opengroup.org/onlinepubs/9699919799/
-> basedefs/netinet_in.h.html> some INADDR_* values must be converted
-> using htonl().
-> 
-> INADDR_ANY and INADDR_BROADCAST are byte-order-neutral so they do
-> not require htonl(), however I only comment this fact in NOTES.
-> On the text I recommend to use htonl(), "even if for some subset
-> it's not necessary".
-> 
-> Proof code:
-> 	#include <arpa/inet.h> /* inet_addr() htonl() */
-> 	#include <inttypes.h> /* PRIu32 */
-> 	#include <netinet/in.h> /* INADDR_* */
-> 	#include <stdio.h> /* printf() */
-> 
-> 	#define LOOPBACK_ADDRESS  "127.0.0.1"
-> 
-> 	int
-> 	main(void)
-> 	{
-> 		/* uint32_t as defined in the former
-> 		 * specification */
-> 		uint32_t addr;
-> 
-> 		addr = inet_addr(LOOPBACK_ADDRESS);
-> 
-> 		printf("inet_addr:              %" PRIu32 "\n"
-> 		       "htonl(INADDR_LOOPBACK): %" PRIu32 "\n"
-> 		       "INADDR_LOOPBACK:        %" PRIu32 "\n",
-> 		       addr, htonl(INADDR_LOOPBACK),
-> 		       INADDR_LOOPBACK);
-> 
-> 		return 0;
-> 	}
-> 
-> 		Ricardo Biehl Pasquali
-> 
->  man7/ip.7 | 12 +++++++++++-
->  1 file changed, 11 insertions(+), 1 deletion(-)
-> 
-> diff --git a/man7/ip.7 b/man7/ip.7
-> index d05d211..d7481e2 100644
-> --- a/man7/ip.7
-> +++ b/man7/ip.7
-> @@ -193,8 +193,11 @@ contains the host interface address in network byte order.
->  .I in_addr
->  should be assigned one of the
->  .BR INADDR_*
-> -values (e.g.,
-> +values
-> +(e.g.,
->  .BR INADDR_ANY )
-> +using
-> +.BR htonl (3)
->  or set using the
->  .BR inet_aton (3),
->  .BR inet_addr (3),
-> @@ -1267,6 +1270,13 @@ Using the
->  socket options level isn't portable; BSD-based stacks use the
->  .B IPPROTO_IP
->  level.
+> +that the client is no longer functioning.
 > +.PP
-> +.B INADDR_ANY
-> +(0.0.0.0) and
-> +.B INADDR_BROADCAST
-> +(255.255.255.255) are byte-order-neutral. That means
-> +.BR htonl (3)
-> +has no effect on them.
->  .SS Compatibility
->  For compatibility with Linux 2.0, the obsolete
->  .BI "socket(AF_INET, SOCK_PACKET, " protocol )
+> +When the filesystem determines that a lock has been lost, future
+> +.BR read (2)
+> +or
+> +.BR write (2)
+> +requests may fail with the error
+> +.BR EIO .
+> +This error will persist until the lock is removed or the file
+> +descriptor is closed.
+> +Since Linux 3.12,
+> +.\" commit ef1820f9be27b6ad158f433ab38002ab8131db4d
+> +this happens at least for NFSv4 including all minor versions.
+> +.PP
+> +Some versions of Unix send a signal
+> +.RB ( SIGLOST )
+> +in this circumstance.
+> +Linux does not define this signal, and does not provide any
+> +asynchronous notification of lost locks.
+>  .SS Managing signals
+>  .BR F_GETOWN ,
+>  .BR F_SETOWN ,
+> diff --git a/man2/read.2 b/man2/read.2
+> index f2e1379865df..0fea86e523a5 100644
+> --- a/man2/read.2
+> +++ b/man2/read.2
+> @@ -163,6 +163,15 @@ or its process group
+>  is orphaned.
+>  It may also occur when there is a low-level I/O error
+>  while reading from a disk or tape.
+> +A further possible cause of
+> +.B EIO
+> +on networked filesystems is when an advisory lock had been taken
+> +out on the file descriptor and this lock has been lost.
+> +See the
+> +.I "Lost locks"
+> +section of
+> +.BR fcntl (2)
+> +for further details.
+>  .TP
+>  .B EISDIR
+>  .I fd
+> diff --git a/man2/write.2 b/man2/write.2
+> index 796cae8ba221..621a484dc3a2 100644
+> --- a/man2/write.2
+> +++ b/man2/write.2
+> @@ -197,6 +197,15 @@ be reported by a subsequent
+>  (whether or not they were also reported by
+>  .BR write (2)).
+>  .\" commit 088737f44bbf6378745f5b57b035e57ee3dc4750
+> +An alternate cause of
+> +.B EIO
+> +on networked filesystems is when an advisory lock had been taken out
+> +on the file descriptor and this lock has been lost.
+> +See the
+> +.I "Lost locks"
+> +section of
+> +.BR fcntl (2)
+> +for further details.
+>  .TP
+>  .B ENOSPC
+>  The device containing the file referred to by
 > 
 
 
@@ -111,7 +123,3 @@ Michael
 Michael Kerrisk
 Linux man-pages maintainer; http://www.kernel.org/doc/man-pages/
 Linux/UNIX System Programming Training: http://man7.org/training/
---
-To unsubscribe from this list: send the line "unsubscribe linux-man" in
-the body of a message to majordomo-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
-More majordomo info at  http://vger.kernel.org/majordomo-info.html
