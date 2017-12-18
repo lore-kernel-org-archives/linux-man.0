@@ -1,188 +1,168 @@
-From: John Hubbard <jhubbard@nvidia.com>
-Subject: Re: [PATCH v5] mmap.2: MAP_FIXED updated documentation
-Date: Mon, 18 Dec 2017 13:27:10 -0800
-Message-ID: <fb49f293-2048-e64f-51da-ff039929c7ac@nvidia.com>
-References: <20171212002331.6838-1-jhubbard@nvidia.com>
- <3a07ef4d-7435-7b8d-d5c7-3bce80042577@gmail.com>
+From: NeilBrown <neilb-IBi9RG/b67k@public.gmane.org>
+Subject: Re: [PATCH] fcntl.2, read.2, write.2: document "Lost locks" as cause for EIO.
+Date: Tue, 19 Dec 2017 08:45:59 +1100
+Message-ID: <87shc7lnfs.fsf@notabene.neil.brown.name>
+References: <87lgi7nttp.fsf@notabene.neil.brown.name> <df9a18ce-c412-44aa-d475-77521a7252c5@gmail.com>
 Mime-Version: 1.0
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: 7bit
-Return-path: <owner-linux-mm@kvack.org>
-In-Reply-To: <3a07ef4d-7435-7b8d-d5c7-3bce80042577@gmail.com>
-Content-Language: en-US
-Sender: owner-linux-mm@kvack.org
-To: "Michael Kerrisk (man-pages)" <mtk.manpages@gmail.com>
-Cc: linux-man <linux-man@vger.kernel.org>, linux-api@vger.kernel.org, Michael Ellerman <mpe@ellerman.id.au>, linux-mm@kvack.org, LKML <linux-kernel@vger.kernel.org>, linux-arch@vger.kernel.org, Jann Horn <jannh@google.com>, Matthew Wilcox <willy@infradead.org>, Michal Hocko <mhocko@kernel.org>, Mike Rapoport <rppt@linux.vnet.ibm.com>, Cyril Hrubis <chrubis@suse.cz>, Michal Hocko <mhocko@suse.com>, Pavel Machek <pavel@ucw.cz>
+Content-Type: multipart/signed; boundary="=-=-=";
+        micalg=pgp-sha256; protocol="application/pgp-signature"
+Return-path: <linux-nfs-owner-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>
+In-Reply-To: <df9a18ce-c412-44aa-d475-77521a7252c5-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org>
+Sender: linux-nfs-owner-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
+Cc: mtk.manpages-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org, linux-man-u79uwXL29TY76Z2rM5mHXA@public.gmane.org, linux-nfs-u79uwXL29TY76Z2rM5mHXA@public.gmane.org, linux-fsdevel-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
 List-Id: linux-man@vger.kernel.org
 
-On 12/18/2017 11:15 AM, Michael Kerrisk (man-pages) wrote:
-> On 12/12/2017 01:23 AM, john.hubbard@gmail.com wrote:
->> From: John Hubbard <jhubbard@nvidia.com>
->>
->>     -- Expand the documentation to discuss the hazards in
->>        enough detail to allow avoiding them.
->>
->>     -- Mention the upcoming MAP_FIXED_SAFE flag.
->>
->>     -- Enhance the alignment requirement slightly.
->>
->> CC: Michael Ellerman <mpe@ellerman.id.au>
->> CC: Jann Horn <jannh@google.com>
->> CC: Matthew Wilcox <willy@infradead.org>
->> CC: Michal Hocko <mhocko@kernel.org>
->> CC: Mike Rapoport <rppt@linux.vnet.ibm.com>
->> CC: Cyril Hrubis <chrubis@suse.cz>
->> CC: Michal Hocko <mhocko@suse.com>
->> CC: Pavel Machek <pavel@ucw.cz>
->> Signed-off-by: John Hubbard <jhubbard@nvidia.com>
-> 
-> John,
-> 
-> Thanks for the patch. I think you win the prize for the 
-> most iterations ever on a man-pages patch! (And Michal,
-> thanks for helping out.) I've applied your patch, made 
-> some minor tweaks, and removed the mention of 
-> MAP_FIXED_SAFE, since I don't like to document stuff
-> that hasn't yet been merged. (I only later noticed the
-> fuss about the naming...)
-> 
+--=-=-=
+Content-Type: text/plain
+Content-Transfer-Encoding: quoted-printable
 
-Hi Michael,
+On Mon, Dec 18 2017, Michael Kerrisk (man-pages) wrote:
 
-The final result looks nice, thanks for all the editing fixes.
-
-One last thing: reading through this, I think it might need a wording
-fix (this is my fault), in order to avoid implying that brk() or
-malloc() use dlopen().
-
-Something approximately like this:
-
-diff --git a/man2/mmap.2 b/man2/mmap.2
-index 79681b31e..1c0bd80de 100644
---- a/man2/mmap.2
-+++ b/man2/mmap.2
-@@ -250,8 +250,9 @@ suffice.
- The
- .BR dlopen (3)
- call will map the library into the process's address space.
--Furthermore, almost any library call may be implemented using this technique.
--Examples include
-+Furthermore, almost any library call may be implemented in a way that
-+adds memory mappings to the address space, either with this technique,
-+or by simply allocating memory. Examples include
- .BR brk (2),
- .BR malloc (3),
- .BR pthread_create (3),
-
-
-...or does the current version seem OK to other people?
-
-thanks,
--- 
-John Hubbard
-NVIDIA
-
-> Cheers,
-> 
-> Michael
-> 
+> Hello Neil
+>
+> There's a piece of your patch I don't understand. Please see below.
+>
+> On 12/13/2017 05:19 AM, NeilBrown wrote:
+>>=20
+>> If an advisory lock is lost, then read/write requests on any
+>> affected file descriptor can return EIO - for NFSv4 at least.
+>>=20
+>> Signed-off-by: NeilBrown <neilb-IBi9RG/b67k@public.gmane.org>
 >> ---
->>
->> Changes since v4:
->>
->>     -- v2 ("mmap.2: MAP_FIXED is no longer discouraged") was applied already,
->>        so v5 is a merge, including rewording of the paragraph transitions.
->>
->>     -- We seem to have consensus about what to say about alignment
->>        now, and this includes that new wording.
->>
->> Changes since v3:
->>
->>     -- Removed the "how to use this safely" part, and
->>        the SHMLBA part, both as a result of Michal Hocko's
->>        review.
->>
->>     -- A few tiny wording fixes, at the not-quite-typo level.
->>
->> Changes since v2:
->>
->>     -- Fixed up the "how to use safely" example, in response
->>        to Mike Rapoport's review.
->>
->>     -- Changed the alignment requirement from system page
->>        size, to SHMLBA. This was inspired by (but not yet
->>        recommended by) Cyril Hrubis' review.
->>
->>     -- Formatting: underlined /proc/<pid>/maps
->>
->> Changes since v1:
->>
->>     -- Covered topics recommended by Matthew Wilcox
->>        and Jann Horn, in their recent review: the hazards
->>        of overwriting pre-exising mappings, and some notes
->>        about how to use MAP_FIXED safely.
->>
->>     -- Rewrote the commit description accordingly.
->>
->>  man2/mmap.2 | 32 ++++++++++++++++++++++++++++++--
->>  1 file changed, 30 insertions(+), 2 deletions(-)
->>
->> diff --git a/man2/mmap.2 b/man2/mmap.2
->> index a5a8eb47a..400cfda2d 100644
->> --- a/man2/mmap.2
->> +++ b/man2/mmap.2
->> @@ -212,8 +212,9 @@ Don't interpret
->>  .I addr
->>  as a hint: place the mapping at exactly that address.
->>  .I addr
->> -must be a multiple of the page size.
->> -If the memory region specified by
->> +must be suitably aligned: for most architectures a multiple of page
->> +size is sufficient; however, some architectures may impose additional
->> +restrictions. If the memory region specified by
->>  .I addr
->>  and
->>  .I len
->> @@ -226,6 +227,33 @@ Software that aspires to be portable should use this option with care, keeping
->>  in mind that the exact layout of a process' memory map is allowed to change
->>  significantly between kernel versions, C library versions, and operating system
->>  releases.
->> +.IP
->> +Furthermore, this option is extremely hazardous (when used on its own), because
->> +it forcibly removes pre-existing mappings, making it easy for a multi-threaded
->> +process to corrupt its own address space.
->> +.IP
->> +For example, thread A looks through
->> +.I /proc/<pid>/maps
->> +and locates an available
->> +address range, while thread B simultaneously acquires part or all of that same
->> +address range. Thread A then calls mmap(MAP_FIXED), effectively overwriting
->> +the mapping that thread B created.
->> +.IP
->> +Thread B need not create a mapping directly; simply making a library call
->> +that, internally, uses
->> +.I dlopen(3)
->> +to load some other shared library, will
->> +suffice. The dlopen(3) call will map the library into the process's address
->> +space. Furthermore, almost any library call may be implemented using this
->> +technique.
->> +Examples include brk(2), malloc(3), pthread_create(3), and the PAM libraries
->> +(http://www.linux-pam.org).
->> +.IP
->> +Newer kernels
->> +(Linux 4.16 and later) have a
->> +.B MAP_FIXED_SAFE
->> +option that avoids the corruption problem; if available, MAP_FIXED_SAFE
->> +should be preferred over MAP_FIXED.
->>  .TP
->>  .B MAP_GROWSDOWN
->>  This flag is used for stacks.
->>
-> 
-> 
+>>  man2/fcntl.2 | 24 ++++++++++++++++++++++++
+>>  man2/read.2  |  9 +++++++++
+>>  man2/write.2 |  9 +++++++++
+>>  3 files changed, 42 insertions(+)
+>>=20
+>> diff --git a/man2/fcntl.2 b/man2/fcntl.2
+>> index 67642384154c..6e6e26f66aa0 100644
+>> --- a/man2/fcntl.2
+>> +++ b/man2/fcntl.2
+>> @@ -669,6 +669,30 @@ and
+>>  Mandatory locking is not specified by POSIX.
+>>  Some other systems also support mandatory locking,
+>>  although the details of how to enable it vary across systems.
+>> +.SS Lost locks
+>> +When an advisory lock is obtained on a networked filesystem such as
+>> +NFS it is possible that the lock might get lost.
+>> +This may happen due to administrative action on the server, or due to a
+>> +network partition which lasts long enough for the server to assume
+>
+> What does "network partition which lasts long enough" mean?
+> I think this perhaps needs to be clarified a little. At least,
+> I don't understand it.
 
+"network partition" is a term using the NFS RFCs for any situation that
+that results in the server and client not being able to communicate
+(that are partitioned, one from the other?  There is partition (wall)
+between them?  They are in separate partitions?).
+I can see how the meaning might not be obvious if you hadn't come across
+it before.
+
+If we change "network partition" to "loss of connectivity", would that
+make it clear.  Is "loss of network connectivity with the server" too
+verbose?
+
+Thanks,
+NeilBrown
+
+>
+> Cheers,
+>
+> Michael
+>
+>
+>> +that the client is no longer functioning.
+>> +.PP
+>> +When the filesystem determines that a lock has been lost, future
+>> +.BR read (2)
+>> +or
+>> +.BR write (2)
+>> +requests may fail with the error
+>> +.BR EIO .
+>> +This error will persist until the lock is removed or the file
+>> +descriptor is closed.
+>> +Since Linux 3.12,
+>> +.\" commit ef1820f9be27b6ad158f433ab38002ab8131db4d
+>> +this happens at least for NFSv4 including all minor versions.
+>> +.PP
+>> +Some versions of Unix send a signal
+>> +.RB ( SIGLOST )
+>> +in this circumstance.
+>> +Linux does not define this signal, and does not provide any
+>> +asynchronous notification of lost locks.
+>>  .SS Managing signals
+>>  .BR F_GETOWN ,
+>>  .BR F_SETOWN ,
+>> diff --git a/man2/read.2 b/man2/read.2
+>> index f2e1379865df..0fea86e523a5 100644
+>> --- a/man2/read.2
+>> +++ b/man2/read.2
+>> @@ -163,6 +163,15 @@ or its process group
+>>  is orphaned.
+>>  It may also occur when there is a low-level I/O error
+>>  while reading from a disk or tape.
+>> +A further possible cause of
+>> +.B EIO
+>> +on networked filesystems is when an advisory lock had been taken
+>> +out on the file descriptor and this lock has been lost.
+>> +See the
+>> +.I "Lost locks"
+>> +section of
+>> +.BR fcntl (2)
+>> +for further details.
+>>  .TP
+>>  .B EISDIR
+>>  .I fd
+>> diff --git a/man2/write.2 b/man2/write.2
+>> index 796cae8ba221..621a484dc3a2 100644
+>> --- a/man2/write.2
+>> +++ b/man2/write.2
+>> @@ -197,6 +197,15 @@ be reported by a subsequent
+>>  (whether or not they were also reported by
+>>  .BR write (2)).
+>>  .\" commit 088737f44bbf6378745f5b57b035e57ee3dc4750
+>> +An alternate cause of
+>> +.B EIO
+>> +on networked filesystems is when an advisory lock had been taken out
+>> +on the file descriptor and this lock has been lost.
+>> +See the
+>> +.I "Lost locks"
+>> +section of
+>> +.BR fcntl (2)
+>> +for further details.
+>>  .TP
+>>  .B ENOSPC
+>>  The device containing the file referred to by
+>>=20
+>
+>
+> --=20
+> Michael Kerrisk
+> Linux man-pages maintainer; http://www.kernel.org/doc/man-pages/
+> Linux/UNIX System Programming Training: http://man7.org/training/
+
+--=-=-=
+Content-Type: application/pgp-signature; name="signature.asc"
+
+-----BEGIN PGP SIGNATURE-----
+
+iQIzBAEBCAAdFiEEG8Yp69OQ2HB7X0l6Oeye3VZigbkFAlo4NxcACgkQOeye3VZi
+gblTABAAsCSQd3Yml2FtxISav9clRMPDo67Cbfp852NXPomXa332Ct1D1SDDESdc
+lwlnyxC+BdMp6zOeq1hFd+DfFtbBpVtCYOgOEzGdJvZgqCuNlflwM3GrwpjCtNja
+cCEbzkXj5eEaraB7kB4Tq+XzA7BxSBoMymbXSFhNIJGUZjCZC7jwQhdxdwWnALgQ
+fxpW42PlCtMeJHsbjchKCclCdVRsWB6IZKVRLoO4ApCL7hQanQiOnE6X6r3W0E8V
+tBfYgHK/OELYuKDljPmkYMfDHmNoYN4BZGoxcT54VeW1xItYldLZqS4JpRPTPQme
+4NJYZTnWZ0f5WU1XWBn27YL6B/D3EBKva6NoAQ00dyopTPyxxCQzMoOYo3+iWuQf
+b55yus+Zav1ndGGJQ6XDHrvDVE7A/JlWUi1c2iuZ5iF/fwyikEubBDM6zP2sRO8P
+eSCvzL7pEpTwy0Bj0AfPdw1Jj20cr4PZPiWJvrFhQguqUj/mrYUHHQwnMHxQfBMd
+YLtz4+zf9R9e1oPAkVIhyXESbJ+2qhfSvl1Q1uhasbCpE2l3wwFdMP79jMm4QHvl
+b/u+6gw7IoD0T2gdBge4jSEHaticq/ORe9tJ71wIvZMWZvlqj5aj+KGeJ74gXrQK
+JlPg/DHQms0qTAv9kijMK5WX5qPIAWQJhAHPsJVZHj6wJCfgsks=
+=WeK4
+-----END PGP SIGNATURE-----
+--=-=-=--
 --
-To unsubscribe, send a message with 'unsubscribe linux-mm' in
-the body to majordomo@kvack.org.  For more info on Linux MM,
-see: http://www.linux-mm.org/ .
-Don't email: <a href=mailto:"dont@kvack.org"> email@kvack.org </a>
+To unsubscribe from this list: send the line "unsubscribe linux-nfs" in
+the body of a message to majordomo-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
+More majordomo info at  http://vger.kernel.org/majordomo-info.html
