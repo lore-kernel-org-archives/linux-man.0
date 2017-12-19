@@ -1,146 +1,96 @@
-From: "Michael Kerrisk (man-pages)" <mtk.manpages@gmail.com>
-Subject: Re: [PATCH RFC] stat.2: Document that stat can fail with EINTR
-Date: Tue, 19 Dec 2017 20:28:28 +0100
-Message-ID: <CAKgNAkgNh4-=eda90GNpLiMZuv8XLtXwgqr56xNbg=5+dXKg9g@mail.gmail.com>
-References: <20171203002359.GA17037@juliacomputing.com> <20171203022504.GA14505@bombadil.infradead.org>
- <CABV8kRwbsjW1XbybDx12HmC9Gd1_5_C-KDhdtEz12KSZf-84_Q@mail.gmail.com>
- <24ffa267-4d45-e6e8-2441-f82ce47ad725@gmail.com> <CABV8kRyFqU8K_7=rEpbLKE73n6sdsP2ATbNmtLMrRMvSG_fTYA@mail.gmail.com>
- <02dadf3a-d027-1734-e76c-1db7bac8ce1c@gmail.com> <CABV8kRxw97+YCWuZHvcFPsUA7HbtKXjYL+0UVMqa0mC7q2RssA@mail.gmail.com>
-Reply-To: mtk.manpages@gmail.com
+From: NeilBrown <neilb@suse.com>
+Subject: Re: [PATCH] fcntl.2, read.2, write.2: document "Lost locks" as cause for EIO.
+Date: Wed, 20 Dec 2017 07:30:06 +1100
+Message-ID: <87h8smlaup.fsf@notabene.neil.brown.name>
+References: <87lgi7nttp.fsf@notabene.neil.brown.name> <df9a18ce-c412-44aa-d475-77521a7252c5@gmail.com> <87shc7lnfs.fsf@notabene.neil.brown.name> <130530e8-83bc-35d3-b84c-9bee85ddee12@gmail.com>
 Mime-Version: 1.0
-Content-Type: text/plain; charset="UTF-8"
+Content-Type: multipart/signed; boundary="=-=-=";
+        micalg=pgp-sha256; protocol="application/pgp-signature"
 Return-path: <linux-fsdevel-owner@vger.kernel.org>
-In-Reply-To: <CABV8kRxw97+YCWuZHvcFPsUA7HbtKXjYL+0UVMqa0mC7q2RssA@mail.gmail.com>
+In-Reply-To: <130530e8-83bc-35d3-b84c-9bee85ddee12@gmail.com>
 Sender: linux-fsdevel-owner@vger.kernel.org
-To: Keno Fischer <keno@juliacomputing.com>
-Cc: Matthew Wilcox <willy@infradead.org>, linux-man <linux-man@vger.kernel.org>, "linux-fsdevel@vger.kernel.org" <linux-fsdevel@vger.kernel.org>, Linux Kernel Mailing List <linux-kernel@vger.kernel.org>, Alexander Viro <viro@zeniv.linux.org.uk>, tuomas@tuxera.com
+Cc: mtk.manpages@gmail.com, linux-man@vger.kernel.org, linux-nfs@vger.kernel.org, linux-fsdevel@vger.kernel.org
 List-Id: linux-man@vger.kernel.org
 
-On 19 December 2017 at 18:52, Keno Fischer <keno@juliacomputing.com> wrote:
-> Yes it seems like an EINTR return should be considered a bug, so please drop
-> this from your patch queue. Thanks for the follow up.
+--=-=-=
+Content-Type: text/plain
+Content-Transfer-Encoding: quoted-printable
 
-Okay -- thanks for the info.
+On Tue, Dec 19 2017, Michael Kerrisk (man-pages) wrote:
 
-Cheers,
+> On 12/18/2017 10:45 PM, NeilBrown wrote:
+>> On Mon, Dec 18 2017, Michael Kerrisk (man-pages) wrote:
+>>=20
+>>> Hello Neil
+>>>
+>>> There's a piece of your patch I don't understand. Please see below.
+>>>
+>>> On 12/13/2017 05:19 AM, NeilBrown wrote:
+>>>>
+>>>> If an advisory lock is lost, then read/write requests on any
+>>>> affected file descriptor can return EIO - for NFSv4 at least.
+>>>>
+>>>> Signed-off-by: NeilBrown <neilb@suse.com>
+>>>> ---
+>>>>  man2/fcntl.2 | 24 ++++++++++++++++++++++++
+>>>>  man2/read.2  |  9 +++++++++
+>>>>  man2/write.2 |  9 +++++++++
+>>>>  3 files changed, 42 insertions(+)
+>>>>
+>>>> diff --git a/man2/fcntl.2 b/man2/fcntl.2
+>>>> index 67642384154c..6e6e26f66aa0 100644
+>>>> --- a/man2/fcntl.2
+>>>> +++ b/man2/fcntl.2
+>>>> @@ -669,6 +669,30 @@ and
+>>>>  Mandatory locking is not specified by POSIX.
+>>>>  Some other systems also support mandatory locking,
+>>>>  although the details of how to enable it vary across systems.
+>>>> +.SS Lost locks
+>>>> +When an advisory lock is obtained on a networked filesystem such as
+>>>> +NFS it is possible that the lock might get lost.
+>>>> +This may happen due to administrative action on the server, or due to=
+ a
+>>>> +network partition which lasts long enough for the server to assume
+>>>
+>>> What does "network partition which lasts long enough" mean?
+>>> I think this perhaps needs to be clarified a little. At least,
+>>> I don't understand it.
+>>=20
+>> "network partition" is a term using the NFS RFCs for any situation that
+>> that results in the server and client not being able to communicate
+>> (that are partitioned, one from the other?  There is partition (wall)
+>> between them?  They are in separate partitions?).
+>> I can see how the meaning might not be obvious if you hadn't come across
+>> it before.
+>>=20
+>> If we change "network partition" to "loss of connectivity", would that
+>> make it clear.  Is "loss of network connectivity with the server" too
+>> verbose?
+>
+> Thanks, Neil. I've applied your patch and added the words "loss of network
+> connectivity with the server".
 
-Michael
+Looks good.  Thanks!
 
+NeilBrown
 
-> On Dec 19, 2017 14:57, "Michael Kerrisk (man-pages)"
-> <mtk.manpages@gmail.com> wrote:
->>
->>
->> Hi Keno,
->>
->> On 12/04/2017 10:03 PM, Keno Fischer wrote:
->> > Hi Michael,
->> >
->> > I was hoping to get a clear statement one way or another from the kernel
->> > maintainers as to whether an EINTR from stat() is supposed to be allowed
->> > kernel behavior (hence the RFC in the subject). If it's not, then I
->> > don't think
->> > it should be documented, even if there is buggy filesystems that do at
->> > the moment.
->> > So I'd say let's hold off on applying this until more people have had a
->> > chance
->> > to comment. If it would be more convenient for you, feel free to drop
->> > this from your
->> > patch queue and if appropriate, I'll resend a non-RFC version of this
->> > patch for you
->> > to apply, once a conclusion has been reached.
->>
->> So, was there any further conclusion on this?
->>
->> Cheers,
->>
->> Michael
->>
->> > On Mon, Dec 4, 2017 at 3:58 PM, Michael Kerrisk (man-pages)
->> > <mtk.manpages@gmail.com> wrote:
->> >> Hello Keno
->> >>
->> >> On 12/03/2017 04:15 AM, Keno Fischer wrote:
->> >>> Resending as plain text (apologies for those receiving it twice, and
->> >>> those that got
->> >>> an HTML copy, I'm used to my mail client switching that over
->> >>> automatically, which
->> >>> for some reason didn't happen here).
->> >>>
->> >>>
->> >>> This is exactly the discussion I want to generate, so thank you.
->> >>> I should point out that I'm not advocating for anything other
->> >>> than clarity of what kernel behavior user space may assume.
->> >>
->> >> So, should the documentation patch be applied at this point, or
->> >> dropped?
->> >>
->> >> Thanks,
->> >>
->> >> Michael
->> >>
->> >>
->> >>> On Sat, Dec 2, 2017 at 9:25 PM, Matthew Wilcox <willy@infradead.org>
->> >>> wrote:
->> >>>> On Sat, Dec 02, 2017 at 07:23:59PM -0500, Keno Fischer wrote:
->> >>>>> The catalyst for this patch was me experiencing EINTR errors when
->> >>>>> using the 9p file system. In linux commit 9523feac, the 9p file
->> >>>>> system was changed to use wait_event_killable instead of
->> >>>>> wait_event_interruptible, which does indeed address my problem,
->> >>>>> but also makes me a bit unhappy, because uninterruptable waits
->> >>>>> prevents things like ^C'ing the execution and some debugging
->> >>>>> tools which depend on being able to cancel long-running operations
->> >>>>> by sending signals.
->> >>>>
->> >>>> Wait, wait, wait.  killable is not uninterruptible.  It's "can accept
->> >>>> a signal if the signal is fatal".  ie userspace will never see it.
->> >>>> So, no, it doesn't prevent ^C.  It does prevent the debugging tool
->> >>>> you're
->> >>>> talking about from working, because it's handling the signal, so it's
->> >>>> not
->> >>>> fatal.
->> >>>
->> >>> This probably shows that I've been in REPL based environments too
->> >>> long,
->> >>> that catch SIGINT ;). You are of course correct that a fatal SIGINT
->> >>> would
->> >>> still be delivered.
->> >>>
->> >>>>> I realize I'm probably 20 years too late here, but it feels like
->> >>>>> clarificaion on what to expect from the kernel would still go a long
->> >>>>> way here.
->> >>>>
->> >>>> A change to user-visible behaviour has to be opt-in.
->> >>>
->> >>> I agree. However, it was my impression that stat() can return EINTR
->> >>> depending on the file system. Prior to the referenced commit,
->> >>> this was certainly true on 9p and I suspect it's not the only network
->> >>> file
->> >>> system for which this is true (though prior to my experiencing this
->> >>> with 9p, the only
->> >>> time I've ever experienced it was on HPC clusters with who knows what
->> >>> code providing the network filesystem). If it is indeed the case that
->> >>> an EINTR return from stat() and similar is illegal and should be
->> >>> considered
->> >>> a kernel bug, a statement to that extent all I'm looking for here.
->> >>>
->> >>
->> >>
->> >> --
->> >> Michael Kerrisk
->> >> Linux man-pages maintainer; http://www.kernel.org/doc/man-pages/
->> >> Linux/UNIX System Programming Training: http://man7.org/training/
->> >
->>
->>
->> --
->> Michael Kerrisk
->> Linux man-pages maintainer; http://www.kernel.org/doc/man-pages/
->> Linux/UNIX System Programming Training: http://man7.org/training/
+--=-=-=
+Content-Type: application/pgp-signature; name="signature.asc"
 
+-----BEGIN PGP SIGNATURE-----
 
-
--- 
-Michael Kerrisk
-Linux man-pages maintainer; http://www.kernel.org/doc/man-pages/
-Linux/UNIX System Programming Training: http://man7.org/training/
+iQIzBAEBCAAdFiEEG8Yp69OQ2HB7X0l6Oeye3VZigbkFAlo5ds8ACgkQOeye3VZi
+gblXmg//bcDS7DOWR4rCid9hd+F6z28fL5I5FqOCglnEgUINPwTPfI08GHVpikw5
+3gV8s7+L95apaGCe9HB5m1YJ27hFAAPs1j65L2Fn53GklJPUyQKZkv1ttqytVkG3
+hxrONOc/S499y4fyu14qaFTu53OV1I2j0w5kM6N9l36pKNnO+yuO7NJ3t80mi/j3
+0zRu6n3GHRoTTgwU29cNXEVEE6kcDm6Fm6/zsmBvISc4SLAPawVi4jCKDe/6yxaO
+oaFHM2SKyT7REtiyLBLuclohnlyTmqhIWy4+T1zw4nXZo/af5wPs5c5rQ4VmRVWa
+9DvcZ4Au+fR8NRnCzm2RVdlo+77NhTINcr1ZqjRG9tmxkhxUL/TmDSwlnUQFN7J5
+Amu7UYAamVjQmSapuoz3eC418hiQ1WruOHKR/j16BKy8Nxv5bBSxgW1I/1FY5o8Y
+htsZWdxSRgOg0QeIJ2WnNj+b02ap3UZpiwSbFGYfCt3CiHm4Rddg4G5Zd+6Qjx3A
+dObEBa0z+d7FGeOABIcZ4PKDGxWkEbYJR9ixIZtarq4/ONX8feXgK3eyLeCOb5HC
+LVrL3DLE5Jz4G7NXpt6mSoLMoubLMX+t6bGWFsv4sovHi4FHCm7gXou6Y0qxk5MX
+cC6E1wa3LMNLC6LeTV8IcaVf1FI6IPKvB8gl+1s773Z8VMHn9/k=
+=ij3v
+-----END PGP SIGNATURE-----
+--=-=-=--
