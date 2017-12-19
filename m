@@ -1,34 +1,101 @@
-From: "Sandra Younes" <mamg7610885-FCtXpw6BxjFdvEbG9P4ZtA@public.gmane.org>
-Subject: Re: Distress Call Please don't ignore
-Date: Mon, 18 Dec 2017 23:44:52 +0200
-Message-ID: <201712182144.vBILifkb018467__11422.7764345289$1513633997$gmane$org@mf-smf-ucb016.ocn.ad.jp>
-Reply-To: <tdavalvse-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org>
+From: "Michael Kerrisk (man-pages)" <mtk.manpages@gmail.com>
+Subject: Re: [PATCH v5] mmap.2: MAP_FIXED updated documentation
+Date: Tue, 19 Dec 2017 06:35:12 +0100
+Message-ID: <fb834f23-bbae-ea1b-1a55-a20e1cc88c0f@gmail.com>
+References: <20171212002331.6838-1-jhubbard@nvidia.com>
+ <3a07ef4d-7435-7b8d-d5c7-3bce80042577@gmail.com>
+ <fb49f293-2048-e64f-51da-ff039929c7ac@nvidia.com>
 Mime-Version: 1.0
-Content-Type: text/plain;
-        charset="Windows-1251"
+Content-Type: text/plain; charset=utf-8
 Content-Transfer-Encoding: 7bit
-Return-path: <linux-man-owner-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>
-Sender: linux-man-owner-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
+Return-path: <owner-linux-mm@kvack.org>
+In-Reply-To: <fb49f293-2048-e64f-51da-ff039929c7ac@nvidia.com>
+Content-Language: en-US
+Sender: owner-linux-mm@kvack.org
+To: John Hubbard <jhubbard@nvidia.com>
+Cc: mtk.manpages@gmail.com, linux-man <linux-man@vger.kernel.org>, linux-api@vger.kernel.org, Michael Ellerman <mpe@ellerman.id.au>, linux-mm@kvack.org, LKML <linux-kernel@vger.kernel.org>, linux-arch@vger.kernel.org, Jann Horn <jannh@google.com>, Matthew Wilcox <willy@infradead.org>, Michal Hocko <mhocko@kernel.org>, Mike Rapoport <rppt@linux.vnet.ibm.com>, Cyril Hrubis <chrubis@suse.cz>, Michal Hocko <mhocko@suse.com>, Pavel Machek <pavel@ucw.cz>
 List-Id: linux-man@vger.kernel.org
 
-Good Day,
+Hi John,
 
-Forgive my indignation if this message comes to you as a surprise and may offend your personality for contacting you without your prior consent and writing through this channel.
+On 12/18/2017 10:27 PM, John Hubbard wrote:
+> On 12/18/2017 11:15 AM, Michael Kerrisk (man-pages) wrote:
+>> On 12/12/2017 01:23 AM, john.hubbard@gmail.com wrote:
+>>> From: John Hubbard <jhubbard@nvidia.com>
+>>>
+>>>     -- Expand the documentation to discuss the hazards in
+>>>        enough detail to allow avoiding them.
+>>>
+>>>     -- Mention the upcoming MAP_FIXED_SAFE flag.
+>>>
+>>>     -- Enhance the alignment requirement slightly.
+>>>
+>>> CC: Michael Ellerman <mpe@ellerman.id.au>
+>>> CC: Jann Horn <jannh@google.com>
+>>> CC: Matthew Wilcox <willy@infradead.org>
+>>> CC: Michal Hocko <mhocko@kernel.org>
+>>> CC: Mike Rapoport <rppt@linux.vnet.ibm.com>
+>>> CC: Cyril Hrubis <chrubis@suse.cz>
+>>> CC: Michal Hocko <mhocko@suse.com>
+>>> CC: Pavel Machek <pavel@ucw.cz>
+>>> Signed-off-by: John Hubbard <jhubbard@nvidia.com>
+>>
+>> John,
+>>
+>> Thanks for the patch. I think you win the prize for the 
+>> most iterations ever on a man-pages patch! (And Michal,
+>> thanks for helping out.) I've applied your patch, made 
+>> some minor tweaks, and removed the mention of 
+>> MAP_FIXED_SAFE, since I don't like to document stuff
+>> that hasn't yet been merged. (I only later noticed the
+>> fuss about the naming...)
+>>
+> 
+> Hi Michael,
+> 
+> The final result looks nice, thanks for all the editing fixes.
+> 
+> One last thing: reading through this, I think it might need a wording
+> fix (this is my fault), in order to avoid implying that brk() or
+> malloc() use dlopen().
+> 
+> Something approximately like this:
+> 
+> diff --git a/man2/mmap.2 b/man2/mmap.2
+> index 79681b31e..1c0bd80de 100644
+> --- a/man2/mmap.2
+> +++ b/man2/mmap.2
+> @@ -250,8 +250,9 @@ suffice.
+>  The
+>  .BR dlopen (3)
+>  call will map the library into the process's address space.
+> -Furthermore, almost any library call may be implemented using this technique.
+> -Examples include
+> +Furthermore, almost any library call may be implemented in a way that
+> +adds memory mappings to the address space, either with this technique,
+> +or by simply allocating memory. Examples include
+>  .BR brk (2),
+>  .BR malloc (3),
+>  .BR pthread_create (3),
+> 
+> 
+> ...or does the current version seem OK to other people?
 
-I came across your name and contact on the course of my personal searching when i was searching for a foreign reliable partner. I was assured of your capability and reliability after going true your profile.
+Thanks. Looks good to me. Applied.
 
-I'm (Miss. Sandra) from Benghazi libya, My father of blessed memory by name late General Abdel Fattah Younes who was shot death by Islamist-linked militia within the anti-Gaddafi forces on 28th July, 2011 and after two days later my mother with my two brothers was killed one early morning by the rebels as result of civil war that is going on in my country Libya, then after the burial of my parents, my uncles conspired and sold my father's properties and left nothing for me. On a faithful morning, I opened my father's briefcase and discover a document which he has deposited ($6.250M USD) in a bank in a Turkish Bank which has a small branch in Canada with my name as the legitimate/next of kin. Meanwhile i have located the bank,and have also discussed the possiblity of transfering the fund. M
- y father left a clause to the bank that i must introduce a trusted foreign partner who would be my trustee to help me invest this fund; hence the need for your assistance,i request that you be my t
-rustee and assist me in e
+Cheers,
 
-You will also be responsible for the investment and management of the fund for me and also you will help me get a good school where i will further my education.
-I agreed to give you 40% of the $6.250M once the transfer is done. this is my true life story, I will be glad to receive your respond soonest for more details to enable us start and champion the transfer less than 14 banking days as i was informed by the bank manager.
+Michael
 
-Thanks for giving me your attention,
 
-Yours sincerely,
-Miss. Sandra Younes
+
+-- 
+Michael Kerrisk
+Linux man-pages maintainer; http://www.kernel.org/doc/man-pages/
+Linux/UNIX System Programming Training: http://man7.org/training/
+
 --
-To unsubscribe from this list: send the line "unsubscribe linux-man" in
-the body of a message to majordomo-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
-More majordomo info at  http://vger.kernel.org/majordomo-info.html
+To unsubscribe, send a message with 'unsubscribe linux-mm' in
+the body to majordomo@kvack.org.  For more info on Linux MM,
+see: http://www.linux-mm.org/ .
+Don't email: <a href=mailto:"dont@kvack.org"> email@kvack.org </a>
