@@ -1,96 +1,70 @@
-From: NeilBrown <neilb@suse.com>
-Subject: Re: [PATCH] fcntl.2, read.2, write.2: document "Lost locks" as cause for EIO.
-Date: Wed, 20 Dec 2017 07:30:06 +1100
-Message-ID: <87h8smlaup.fsf@notabene.neil.brown.name>
-References: <87lgi7nttp.fsf@notabene.neil.brown.name> <df9a18ce-c412-44aa-d475-77521a7252c5@gmail.com> <87shc7lnfs.fsf@notabene.neil.brown.name> <130530e8-83bc-35d3-b84c-9bee85ddee12@gmail.com>
+From: Mrs Ruth Michael <direttore-hhQODRqO4v/gtiww/hk4M86lKVaFqYRN@public.gmane.org>
+Subject: Frau Ruth Michael
+Date: Wed, 20 Dec 2017 10:41:57 +0000 (UTC)
+Message-ID: <1771731293.2094793.1513766517314@mail.yahoo.com>
+References: <1771731293.2094793.1513766517314.ref@mail.yahoo.com>
+Reply-To: Mrs Ruth Michael <mrsruthmichael225-/E1597aS9LR3+QwDJ9on6Q@public.gmane.org>
 Mime-Version: 1.0
-Content-Type: multipart/signed; boundary="=-=-=";
-        micalg=pgp-sha256; protocol="application/pgp-signature"
-Return-path: <linux-fsdevel-owner@vger.kernel.org>
-In-Reply-To: <130530e8-83bc-35d3-b84c-9bee85ddee12@gmail.com>
-Sender: linux-fsdevel-owner@vger.kernel.org
-Cc: mtk.manpages@gmail.com, linux-man@vger.kernel.org, linux-nfs@vger.kernel.org, linux-fsdevel@vger.kernel.org
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: quoted-printable
+Return-path: <linux-man-owner-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>
+Sender: linux-man-owner-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
 List-Id: linux-man@vger.kernel.org
 
---=-=-=
-Content-Type: text/plain
-Content-Transfer-Encoding: quoted-printable
+Mein Liebster im Herrn,
 
-On Tue, Dec 19 2017, Michael Kerrisk (man-pages) wrote:
+Gr=C3=BC=C3=9Fe an Sie im Namen unseres Herrn Jesus Christus. Es war nach d=
+em Durchlaufen Ihres Profils. Ich bin bewegt, Sie mit diesem wichtigen Them=
+a in Kontakt zu bringen, mit dem Glauben und der Zuversicht, dass Sie ein g=
+uter Assistent dieses Werkes Gottes sein werden. Zun=C3=A4chst m=C3=B6chte =
+ich mich Ihnen vorstellen. Ich bin Mrs. Ruth Michael aus Kuwait. Ich war mi=
+t dir verheiratet, Peter Michael. Wer hat 15 Jahre lang mit der kuwaitische=
+n Botschaft in C=C3=B4te d'Ivoire gearbeitet, bevor er 2010 starb?
 
-> On 12/18/2017 10:45 PM, NeilBrown wrote:
->> On Mon, Dec 18 2017, Michael Kerrisk (man-pages) wrote:
->>=20
->>> Hello Neil
->>>
->>> There's a piece of your patch I don't understand. Please see below.
->>>
->>> On 12/13/2017 05:19 AM, NeilBrown wrote:
->>>>
->>>> If an advisory lock is lost, then read/write requests on any
->>>> affected file descriptor can return EIO - for NFSv4 at least.
->>>>
->>>> Signed-off-by: NeilBrown <neilb@suse.com>
->>>> ---
->>>>  man2/fcntl.2 | 24 ++++++++++++++++++++++++
->>>>  man2/read.2  |  9 +++++++++
->>>>  man2/write.2 |  9 +++++++++
->>>>  3 files changed, 42 insertions(+)
->>>>
->>>> diff --git a/man2/fcntl.2 b/man2/fcntl.2
->>>> index 67642384154c..6e6e26f66aa0 100644
->>>> --- a/man2/fcntl.2
->>>> +++ b/man2/fcntl.2
->>>> @@ -669,6 +669,30 @@ and
->>>>  Mandatory locking is not specified by POSIX.
->>>>  Some other systems also support mandatory locking,
->>>>  although the details of how to enable it vary across systems.
->>>> +.SS Lost locks
->>>> +When an advisory lock is obtained on a networked filesystem such as
->>>> +NFS it is possible that the lock might get lost.
->>>> +This may happen due to administrative action on the server, or due to=
- a
->>>> +network partition which lasts long enough for the server to assume
->>>
->>> What does "network partition which lasts long enough" mean?
->>> I think this perhaps needs to be clarified a little. At least,
->>> I don't understand it.
->>=20
->> "network partition" is a term using the NFS RFCs for any situation that
->> that results in the server and client not being able to communicate
->> (that are partitioned, one from the other?  There is partition (wall)
->> between them?  They are in separate partitions?).
->> I can see how the meaning might not be obvious if you hadn't come across
->> it before.
->>=20
->> If we change "network partition" to "loss of connectivity", would that
->> make it clear.  Is "loss of network connectivity with the server" too
->> verbose?
->
-> Thanks, Neil. I've applied your patch and added the words "loss of network
-> connectivity with the server".
+Wir waren 13 Jahre ohne Kind verheiratet. Er starb nach einer kurzen Krankh=
+eit, die nur vier Tage dauerte. Bevor wir starben, waren wir beide stark gl=
+=C3=A4ubig. Seit seinem Tod habe ich beschlossen, nicht wieder zu heiraten =
+oder ein Kind aus meiner Heirat zu bekommen, gegen das die Bibel ist. Als m=
+ein verstorbener Ehemann noch lebte, hinterlegte er den Betrag von 10,5 Mil=
+lionen Dollar in einer Bank hier in Abidjan, dem =C3=B6konomischen Kapital =
+der Elfenbeink=C3=BCste f=C3=BCr das Sorgerecht. Derzeit hat mein Arzt best=
+=C3=A4tigt, dass ich eine schwere Krankheit habe, die Krebserkrankung ist.
 
-Looks good.  Thanks!
+Was mich am meisten st=C3=B6rt, ist mein Schlaganfall. Haven hat meine Bedi=
+ngung erf=C3=BCllt. Ich habe beschlossen, diesen Fonds an eine Gemeinde ode=
+r Einzelperson zu spenden, die dieses Geld in der Art und Weise verwenden w=
+ird, wie ich es hier unterrichten werde. Ich m=C3=B6chte eine Kirche, die d=
+iesen Fonds f=C3=BCr Waisenh=C3=A4user nutzt, den Witwen hilft, das Wort Go=
+ttes verbreitet und sich bem=C3=BCht, das Haus Gottes aufrechtzuerhalten. D=
+ie Bibel hat uns verst=C3=A4ndlich gemacht, dass die Hand, die gibt, gesegn=
+et ist, ich habe diese Entscheidung getroffen, weil ich keinen Sohn habe, d=
+er dieses Geld erben wird, und die Verwandten meines Mannes sind keine Chri=
+sten und ich m=C3=B6chte nicht, dass die Bem=C3=BChungen meines Mannes von =
+Ungl=C3=A4ubigen benutzt werden.
 
-NeilBrown
+Ich will keine Situation, in der dieses Geld gottlos eingesetzt wird. Darum=
+ treffe ich diese Entscheidung. Ich habe keine Angst vor dem Tod, also wei=
+=C3=9F ich, wohin ich gehe. Ich wei=C3=9F, dass ich im Herzen des Herrn sei=
+n werde. Exodus 14 VS 14 besagt, dass Sie meinen Fall bek=C3=A4mpfen werden=
+ und ich werde meinen Frieden behalten. Sobald ich Ihre Antwort erhalten ha=
+be, werde ich Ihnen hier in Abidjan den Kontakt zur Sicherheitsfirma geben.=
+ Ich m=C3=B6chte, dass du und die Kirche immer f=C3=BCr mich beten, weil du=
+ mein Pastor bist. Mein Gl=C3=BCck ist, dass ich ein Leben eines w=C3=BCrdi=
+gen Christen gelebt habe. Wer dem Herrn dienen will, muss ihm im Geist und =
+in der Wahrheit dienen.
 
---=-=-=
-Content-Type: application/pgp-signature; name="signature.asc"
+Sei bitte immer dein Leben lang fromm. Jede Verz=C3=B6gerung in Ihrer Antwo=
+rt wird mir Raum geben, eine andere Kirche oder Einzelperson f=C3=BCr diese=
+n gleichen Zweck zu beschaffen. Bitte versichere mir, dass du nach dem hand=
+eln wirst, was ich hier gesagt habe.
 
------BEGIN PGP SIGNATURE-----
+Warten auf Ihre Antwort.
 
-iQIzBAEBCAAdFiEEG8Yp69OQ2HB7X0l6Oeye3VZigbkFAlo5ds8ACgkQOeye3VZi
-gblXmg//bcDS7DOWR4rCid9hd+F6z28fL5I5FqOCglnEgUINPwTPfI08GHVpikw5
-3gV8s7+L95apaGCe9HB5m1YJ27hFAAPs1j65L2Fn53GklJPUyQKZkv1ttqytVkG3
-hxrONOc/S499y4fyu14qaFTu53OV1I2j0w5kM6N9l36pKNnO+yuO7NJ3t80mi/j3
-0zRu6n3GHRoTTgwU29cNXEVEE6kcDm6Fm6/zsmBvISc4SLAPawVi4jCKDe/6yxaO
-oaFHM2SKyT7REtiyLBLuclohnlyTmqhIWy4+T1zw4nXZo/af5wPs5c5rQ4VmRVWa
-9DvcZ4Au+fR8NRnCzm2RVdlo+77NhTINcr1ZqjRG9tmxkhxUL/TmDSwlnUQFN7J5
-Amu7UYAamVjQmSapuoz3eC418hiQ1WruOHKR/j16BKy8Nxv5bBSxgW1I/1FY5o8Y
-htsZWdxSRgOg0QeIJ2WnNj+b02ap3UZpiwSbFGYfCt3CiHm4Rddg4G5Zd+6Qjx3A
-dObEBa0z+d7FGeOABIcZ4PKDGxWkEbYJR9ixIZtarq4/ONX8feXgK3eyLeCOb5HC
-LVrL3DLE5Jz4G7NXpt6mSoLMoubLMX+t6bGWFsv4sovHi4FHCm7gXou6Y0qxk5MX
-cC6E1wa3LMNLC6LeTV8IcaVf1FI6IPKvB8gl+1s773Z8VMHn9/k=
-=ij3v
------END PGP SIGNATURE-----
---=-=-=--
+Bleibe gesegnet im Herrn.
+
+Dein in Christus,
+Frau Ruth Michael
+--
+To unsubscribe from this list: send the line "unsubscribe linux-man" in
+the body of a message to majordomo-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
+More majordomo info at  http://vger.kernel.org/majordomo-info.html
