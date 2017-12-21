@@ -1,44 +1,42 @@
-From: "Michael Kerrisk (man-pages)" <mtk.manpages-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org>
-Subject: Cgroups v2 thread mode "domain invalid" state
-Date: Wed, 20 Dec 2017 21:32:04 +0100
-Message-ID: <CAKgNAkg2u=zt87tKk35vR+tQ7DnkJp9vbj+8n88=_MCcvmH9oQ@mail.gmail.com>
-Reply-To: mtk.manpages-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org
-Mime-Version: 1.0
-Content-Type: text/plain; charset="UTF-8"
+From: Ahmad Fatoum <ahmad-WDeAlZut61o@public.gmane.org>
+Subject: [PATCH] List ENOMSG as possible errno for recvmsg(2)
+Date: Thu, 21 Dec 2017 19:40:33 +0100
+Message-ID: <20171221184033.46656-1-ahmad@a3f.at>
 Return-path: <linux-man-owner-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>
 Sender: linux-man-owner-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
-To: Tejun Heo <tj-DgEjT+Ai2ygdnm+yROfE0A@public.gmane.org>
-Cc: Peter Zijlstra <peterz-wEGCiKHe2LqWVfeAwA7xHQ@public.gmane.org>, longman-H+wXaHxf7aLQT0dZR+AlfA@public.gmane.org, lkml <linux-kernel-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>, Michael Kerrisk <mtk.manpages-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org>, linux-man <linux-man-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>, "open list:CONTROL GROUP (CGROUP)" <cgroups-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>
+To: mtk.manpages-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org
+Cc: Ahmad Fatoum <ahmad-WDeAlZut61o@public.gmane.org>, linux-man-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
 List-Id: linux-man@vger.kernel.org
 
-Hello Tejun,
+See kernel's Documentation/networking/timestamping.txt
+2.1.1 Transmit timestamps with MSG_ERRQUEUE
 
-At some point, I'd like to add some details about cgroups v2 "thread
-mode" to the cgroup(7) manual page. I think I understand most of the
-details by now, but there's one question I still can't work out an
-answer to: why does the "domain invalid" cgroup type exist?
+Cc: linux-man-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
+Signed-off-by: Ahmad Fatoum <ahmad-WDeAlZut61o@public.gmane.org>
+---
+ man2/recv.2 | 6 ++++++
+ 1 file changed, 6 insertions(+)
 
-I did find the July 2017 mail thread
-"[PATCH 5/6] cgroup: implement cgroup v2 thread support"
-(https://marc.info/?t=150025735500001&r=1&w=2)
-where this cgroup type was discussed, but I must admit that I still
-don't get it. Instead of converting cgroups under a threaded subtree
-to "domain invalid" type, why can't they just be turned straight into
-"threaded" type?
-
-I guess another way of asking this question is: what possibilities
-does manually switching each "domain invalid" cgroup to "threaded"
-allow that wouldn't be allowed by immediately making all of the
-cgroups in a threaded subtree "threaded"?
-
-Cheers,
-
-Michael
-
+diff --git a/man2/recv.2 b/man2/recv.2
+index 85074abe2..da1cc2f79 100644
+--- a/man2/recv.2
++++ b/man2/recv.2
+@@ -495,6 +495,12 @@ and
+ The file descriptor
+ .I sockfd
+ does not refer to a socket.
++.PP
++Following additional error can occur for
++.BR recvmsg ():
++.TP
++.B ENOMSG
++A packet was looped back to the error queue along with its transmit timestamp.
+ .SH CONFORMING TO
+ POSIX.1-2001, POSIX.1-2008,
+ 4.4BSD (these interfaces first appeared in 4.2BSD).
 -- 
-Michael Kerrisk
-Linux man-pages maintainer; http://www.kernel.org/doc/man-pages/
-Linux/UNIX System Programming Training: http://man7.org/training/
+2.15.1
+
 --
 To unsubscribe from this list: send the line "unsubscribe linux-man" in
 the body of a message to majordomo-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
