@@ -1,55 +1,41 @@
-From: Tejun Heo <tj-DgEjT+Ai2ygdnm+yROfE0A@public.gmane.org>
-Subject: Re: Cgroups v2 thread mode "domain invalid" state
-Date: Thu, 21 Dec 2017 16:15:54 -0800
-Message-ID: <20171222001554.GH1084507@devbig577.frc2.facebook.com>
-References: <CAKgNAkg2u=zt87tKk35vR+tQ7DnkJp9vbj+8n88=_MCcvmH9oQ@mail.gmail.com>
-Mime-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
+From: Santosh Sivaraj <santosh-b8Fn+pY0OfAdnm+yROfE0A@public.gmane.org>
+Subject: [PATCH] vdso.7: __kernel_clock_gettime *_COARSE clock support in PPC64
+Date: Fri, 22 Dec 2017 05:56:59 +0530
+Message-ID: <20171222002659.1930-1-santosh@fossix.org>
 Return-path: <linux-man-owner-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>
-Content-Disposition: inline
-In-Reply-To: <CAKgNAkg2u=zt87tKk35vR+tQ7DnkJp9vbj+8n88=_MCcvmH9oQ-JsoAwUIsXosN+BqQ9rBEUg@public.gmane.org>
 Sender: linux-man-owner-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
-To: "Michael Kerrisk (man-pages)" <mtk.manpages-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org>
-Cc: Peter Zijlstra <peterz-wEGCiKHe2LqWVfeAwA7xHQ@public.gmane.org>, longman-H+wXaHxf7aLQT0dZR+AlfA@public.gmane.org, lkml <linux-kernel-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>, linux-man <linux-man-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>, "open list:CONTROL GROUP (CGROUP)" <cgroups-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>
+To: mtk.manpages-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org
+Cc: linux-man-u79uwXL29TY76Z2rM5mHXA@public.gmane.org, Michael Ellerman <mpe-Gsx/Oe8HsFggBc27wqDAHg@public.gmane.org>
 List-Id: linux-man@vger.kernel.org
 
-Hello,
+*_COARSE clocks are now supported in the __kernel_clock_gettime interface in
+PPC64. No longer falls back to the real system call.
 
-On Wed, Dec 20, 2017 at 09:32:04PM +0100, Michael Kerrisk (man-pages) wrote:
-> I did find the July 2017 mail thread
-> "[PATCH 5/6] cgroup: implement cgroup v2 thread support"
-> (https://marc.info/?t=150025735500001&r=1&w=2)
-> where this cgroup type was discussed, but I must admit that I still
-> don't get it. Instead of converting cgroups under a threaded subtree
-> to "domain invalid" type, why can't they just be turned straight into
-> "threaded" type?
-> 
-> I guess another way of asking this question is: what possibilities
-> does manually switching each "domain invalid" cgroup to "threaded"
-> allow that wouldn't be allowed by immediately making all of the
-> cgroups in a threaded subtree "threaded"?
+CC: Michael Kerrisk <mtk.manpages-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org>
+CC: Michael Ellerman <mpe-Gsx/Oe8HsFggBc27wqDAHg@public.gmane.org>
+Signed-off-by: Santosh Sivaraj <santosh-b8Fn+pY0OfAdnm+yROfE0A@public.gmane.org>
+---
+ man7/vdso.7 | 4 +---
+ 1 file changed, 1 insertion(+), 3 deletions(-)
 
-IIRC, there were two reasons.  (Writing from memory, so I might not be
-completely accurate.)
-
-* Consistency w/ the cgroups right under the root cgroup.  Because
-  they can be both domains and threadroots, we can't switch the
-  children over to thread mode automatically.  Doing that for cgroups
-  further down in the hierarchy would be really inconsistent.
-
-* Possible extension to threadmode.  If we figure out how to do mixed
-  mode further down in the hierarchy (and if there are actual use
-  cases which require that), automatically switching would be really
-  confusing.
-
-The invalid state while not the most convenient is straight forward
-(only the operations which are explicitly asked are performed) and
-keeps the door open for future changes.
-
-Thanks.
-
+diff --git a/man7/vdso.7 b/man7/vdso.7
+index 9af02a8aa..c7399939c 100644
+--- a/man7/vdso.7
++++ b/man7/vdso.7
+@@ -438,9 +438,7 @@ clocks are
+ .I not
+ supported by the
+ .I __kernel_clock_getres
+-and
+-.I __kernel_clock_gettime
+-interfaces;
++interface;
+ the kernel falls back to the real system call.
+ .SS s390 functions
+ .\" See linux/arch/s390/kernel/vdso32/vdso32.lds.S
 -- 
-tejun
+2.14.3
+
 --
 To unsubscribe from this list: send the line "unsubscribe linux-man" in
 the body of a message to majordomo-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
