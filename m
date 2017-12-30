@@ -1,29 +1,26 @@
-From: "Sra. Angel Rania" <sra.angelrania83-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org>
-Subject: Re: You will definetely be interested...
-Date: Wed, 27 Dec 2017 10:17:06 +0000
-Message-ID: <CAKx+QTtL6hVN3Sv0baZHHBnMxgEeMprK=PALd6GuhxU+MNPauw__14090.0102946491$1514369770$gmane$org@mail.gmail.com>
+From: Loretta Robles <Loretta.Robles-xpE/FmUf0Yn2fBVCVOL8/A@public.gmane.org>
+Subject: RE: ATTENTION!!!
+Date: Sat, 30 Dec 2017 00:28:56 +0000
+Message-ID: <35D4F79A8B8138489F38DE5CF6200454E572AB2F__13200.9733621546$1514594401$gmane$org@HCI-EX-MB2.hci.utah.edu>
+References: <35D4F79A8B8138489F38DE5CF6200454E570015C@HCI-EX-MB2.hci.utah.edu>
 Mime-Version: 1.0
-Content-Type: text/plain; charset="UTF-8"
+Content-Type: text/plain; charset="iso-8859-1"
+Content-Transfer-Encoding: 8BIT
 Return-path: <linux-man-owner-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>
+In-Reply-To: <35D4F79A8B8138489F38DE5CF6200454E570015C-5fXONaLnKRxw+r+IgH0Pw2XJiZ3QOr4E@public.gmane.org>
+Content-Language: en-US
 Sender: linux-man-owner-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
+To: Loretta Robles <Loretta.Robles-xpE/FmUf0Yn2fBVCVOL8/A@public.gmane.org>
 List-Id: linux-man@vger.kernel.org
 
-Hi Dear,
 
-Reading your profile has given me courage in search of a reasponsable
-and trust worthy Fellow. The past has treated me so awfully but now I
-am ready to move on despite of my health condition. I will like to
-have a sincere and important discussion with you that will be in your
-favor likewise to you and your environment especially to your close
-family. Endeavor to reply me and I have attached my picture in case
-you long to know who emailed you. I will be waiting to hear from you
-as soon as possble.
-Thanks for paying attention to my mail and will appreciate so much if
-I receive a reply from you for understable details.
+________________________________
+From: Loretta Robles
+Sent: Friday, December 29, 2017 1:01 PM
+To: Loretta Robles
+Subject: ATTENTION!!!
 
-Thanks,
-
-Mrs. Rania Hassan
+You have been randomly selected for a donation. Contact soriz4040-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org for claims.
 --
 To unsubscribe from this list: send the line "unsubscribe linux-man" in
 the body of a message to majordomo-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
