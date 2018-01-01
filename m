@@ -1,43 +1,51 @@
-From: Tobias Deiminger <haxtibal-1KBjaw7Xf1+zQB+pC5nmwQ@public.gmane.org>
-Subject: SCM credentials in netlink packets
-Date: Sat, 30 Dec 2017 16:11:57 +0100
-Message-ID: <10305795.8iTnX5OQzp@deepthought>
-Mime-Version: 1.0
-Content-Type: text/plain; charset="us-ascii"
-Content-Transfer-Encoding: 7Bit
+From: Shawn Landden <slandden-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org>
+Subject: [PATCH] copy_file_range: update for glibc compatibility
+Date: Sun, 31 Dec 2017 20:12:59 -0800
+Message-ID: <20180101041259.642-1-slandden@gmail.com>
 Return-path: <linux-man-owner-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>
 Sender: linux-man-owner-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
-To: linux-man-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
+To: mtk.manpages-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org
+Cc: linux-man-u79uwXL29TY76Z2rM5mHXA@public.gmane.org, Shawn Landden <slandden-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org>
 List-Id: linux-man@vger.kernel.org
 
-Hi!
+Signed-off-by: Shawn Landden <slandden-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org>
+---
+ man2/copy_file_range.2 | 9 +++++----
+ 1 file changed, 5 insertions(+), 4 deletions(-)
 
-I'd like to ask about SCM credentials for netlink, and the meaning of pid == 0 
-in particular. SCM credentials are documented for AF_UNIX in unix(7), see 
-"Ancillary messages". It says "they are AF_UNIX specific". However, the Linux 
-kernel supports them for AF_NETLINK too. Would it be reasonable to mention SCM 
-credentials in netlink(7) as it is done in unix(7)?
+diff --git a/man2/copy_file_range.2 b/man2/copy_file_range.2
+index 6e50ea6ec..3a3a6aa9f 100644
+--- a/man2/copy_file_range.2
++++ b/man2/copy_file_range.2
+@@ -27,7 +27,7 @@
+ copy_file_range \- Copy a range of data from one file to another
+ .SH SYNOPSIS
+ .nf
+-.B #include <sys/syscall.h>
++.B #define _GNU_SOURCE
+ .B #include <unistd.h>
+ .PP
+ .BI "ssize_t copy_file_range(int " fd_in ", loff_t *" off_in ,
+@@ -124,12 +124,13 @@ are not on the same mounted filesystem.
+ .SH VERSIONS
+ The
+ .BR copy_file_range ()
+-system call first appeared in Linux 4.5.
+-Library support was added in glibc 2.27.
++system call first appeared in Linux 4.5, but glibc 2.27 provides a user-space
++emulation when it is not available.
++.\" https://sourceware.org/git/?p=glibc.git;a=commit;f=posix/unistd.h;h=bad7a0c81f501fbbcc79af9eaa4b8254441c4a1f
+ .SH CONFORMING TO
+ The
+ .BR copy_file_range ()
+-system call is a nonstandard Linux extension.
++system call is a nonstandard Linux and GNU extension.
+ .SH NOTES
+ If
+ .I file_in
+-- 
+2.14.1
 
-The next part is about the meaning of nl_pid (netlink port id) == 0 versus 
-credentials pid == 0 in netlink packets. There was a mail [1] from Eric 
-Biederman saying "If in the senders address nl_pid == 0 then the message is 
-from the kernel. [...] Looking anywhere else at anything else is bogus." Some 
-user space tools ([2], [3]) assert SCM credentials pid == 0 instead of 
-checking nl_pid. So I'm curious if using SCM credentials for this purpose is 
-bogus, and why?
-
-AFAICT credentials pid == 0 means a netlink packet is from kernel:
--there was a kernel patch "Force passing credentials if none given", to
-guarantee credentials are always included in netlink packets [4]
--task_tgid(current) is assigned to pid, which is 0 for all kernel threads
--it works within user and network namespaces
-
-Tobias
-
-[1] https://lists.linuxfoundation.org/pipermail/containers/2015-May/036032.html
-[2] https://github.com/lathiat/avahi/blob/6242e5f0fe001b7de2ccaa9431db279b2ee76b83/avahi-core/netlink.c#L83-L86
-[3] https://github.com/NetworkManager/NetworkManager/blob/4650a4e1a1ff7ee03e2fb0b3dc6f31b911c2583d/src/platform/nm-linux-platform.c#L6666-L6673
-[4] git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git/commit/?id=e0e3cea46d31d23dc40df0a49a7a2c04fe8edfea
 --
 To unsubscribe from this list: send the line "unsubscribe linux-man" in
 the body of a message to majordomo-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
