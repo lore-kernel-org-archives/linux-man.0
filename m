@@ -1,111 +1,76 @@
 From: "Michael Kerrisk (man-pages)" <mtk.manpages-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org>
-Subject: Re: cgroups(7): documenting cgroup.stat
-Date: Wed, 3 Jan 2018 01:38:18 +0100
-Message-ID: <7cfbf94e-71c8-b49e-7483-79c3fa363191@gmail.com>
-References: <196c0cca-b573-8c65-2b5f-66376f79a836@gmail.com>
- <20180102215726.GA2606@castle>
+Subject: Re: [PATCH] cgroups.7: tfix
+Date: Wed, 3 Jan 2018 01:40:56 +0100
+Message-ID: <f8b17c89-f048-a9ec-419f-37084c5b0229@gmail.com>
+References: <20180102225532.894-1-jwilk@jwilk.net>
 Mime-Version: 1.0
 Content-Type: text/plain; charset=utf-8
-Content-Transfer-Encoding: 8bit
-Return-path: <cgroups-owner-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>
-In-Reply-To: <20180102215726.GA2606@castle>
+Content-Transfer-Encoding: 7bit
+Return-path: <linux-man-owner-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>
+In-Reply-To: <20180102225532.894-1-jwilk-tXgOlIzOKNReoWH0uzbU5w@public.gmane.org>
 Content-Language: en-US
-Sender: cgroups-owner-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
-To: Roman Gushchin <guro-b10kYP2dOMg@public.gmane.org>
-Cc: mtk.manpages-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org, Tejun Heo <tj-DgEjT+Ai2ygdnm+yROfE0A@public.gmane.org>, "Serge E. Hallyn" <serge-A9i7LUbDfNHQT0dZR+AlfA@public.gmane.org>, lkml <linux-kernel-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>, cgroups-u79uwXL29TY76Z2rM5mHXA@public.gmane.org, linux-man <linux-man-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>
+Sender: linux-man-owner-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
+To: Jakub Wilk <jwilk-tXgOlIzOKNReoWH0uzbU5w@public.gmane.org>
+Cc: mtk.manpages-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org, linux-man-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
 List-Id: linux-man@vger.kernel.org
 
-Hello Roman,
+Hi Jakub,
 
-On 01/02/2018 10:57 PM, Roman Gushchin wrote:
-> Hello, Michael!
-> 
-> Thank you for working on this!
+On 01/02/2018 11:55 PM, Jakub Wilk wrote:
+> Remove duplicated words.
 
-You're welcome. Thanks for reviewing the text!
+Thanks for the patch. As it happens, I've already fixed this in a branch
+that has not yet been merged into 'master'.
 
-> Please, find my comments below.
-> 
-> On Tue, Jan 02, 2018 at 07:22:33PM +0100, Michael Kerrisk (man-pages) wrote:
->> Hello Roman,
->>
->> I wish to add documentation to cgroups(7) for the cgroup.stat file
->> that you added in Linux 4.14. I wrote some text based on your text
->> added to the cgroup-v2.txt file, but added some pieces, and also have
->> a question (see below). The plain-text version for (easy review)
->> is shown below. Could you please review this text? (Please note 
->> the FIXME!)
->>
->> The branch containing the pending cgroups(7) changes can be found at :
->> https://git.kernel.org/pub/scm/docs/man-pages/man-pages.git/log/?h=draft_cgroup_updates
->>
->> [[
->>    Cgroups v2 cgroup.stat file
->>        Each   cgroup   in   the  v2  hierarchy  contains  a  read-only
->>        cgroup.stat file (first introduced in Linux 4.14) that consists
->>        of  lines  containing key-value pairs.  The following keys cur‐
->>        rently appear in this file:
->>
->>        nr_descendants
->>               This is the  total  number  of  visible  (i.e.,  living)
->>               descendant cgroups underneath this cgroup.
->>
->>               ┌─────────────────────────────────────────────────────┐
->>               │FIXME                                                │
->>               ├─────────────────────────────────────────────────────┤
->>               │For  the  following text on nr_dying_descendants, it │
->>               │would I think be  helpful  to  describe  a  condrete │
->>               │example of when one might see nr_dying_descendants a │
->>               │nonzero value for this  key.  Ideally,  the  example │
->>               │would be one that the reader could easily reproduce. │
->>               │Is there such an example?                            │
->>               └─────────────────────────────────────────────────────┘
-> 
-> Hm, basically any cgroup which had some pagecache, associated during the
-> lifetime, will spend some time in the dying state. This means that for
-> most cgroups this number will be non-zero for some amount of time,
-> which depends on global memory pressure.
-> It's also very implementation-defined, and will be likely changed
-> in the following kernel versions.
-> 
-> So, I'm not sure, that such an example will be useful for a user.
-> Until this number is huge and constantly growing, it shouldn't be
-> interesting for an user at all.
-
-Fair enough. I added some vague text about resources needing to be freed
-before the cgroup is destroyed. See below.
-
-
->>        nr_dying_descendants
->>               This is the total number  of  dying  descendant  cgroups
->>               underneath this cgroup.  A cgroup enters the dying state
->>               after being deleted.  It remains in that  state  for  an
->>               undefined  period  (which  will  depend  on system load)
->>               before being destroyed.
->>
->>               A process can't be made a member of a dying cgroup,  and
->>               a dying cgroup can't be brought back to life.
-> 
-> So, maybe it worth it to add a statement, that some amount of dying cgroups
-> is normal and it's not a signal of any problem?
-
-Okay, I added some text along those lines. The first paragraph now reads:
-
-       nr_dying_descendants
-              This is the total number  of  dying  descendant  cgroups
-              underneath this cgroup.  A cgroup enters the dying state
-              after being deleted.  It remains in that  state  for  an
-              undefined  period  (which  will  depend  on system load)
-              while  resources  are  freed  before   the   cgroup   is
-              destroyed.   Note  that  the presence of some cgroups in
-              the dying state is normal, and is not indicative of  any
-              problem.
-
-Thanks,
+Cheers,
 
 Michael
+
+
+> Signed-off-by: Jakub Wilk <jwilk-tXgOlIzOKNReoWH0uzbU5w@public.gmane.org>
+> ---
+>  man7/cgroups.7 | 6 +++---
+>  1 file changed, 3 insertions(+), 3 deletions(-)
+> 
+> diff --git a/man7/cgroups.7 b/man7/cgroups.7
+> index 9d402d1c7..662e3ac33 100644
+> --- a/man7/cgroups.7
+> +++ b/man7/cgroups.7
+> @@ -603,7 +603,7 @@ This is the same as the version 1
+>  controller.
+>  .TP
+>  .IR perf_event " (since Linux 4.11)"
+> -This is the same as the the version 1
+> +This is the same as the version 1
+>  .I perf_event
+>  controller.
+>  .TP
+> @@ -813,7 +813,7 @@ can move processes into the root of the delegated subtree.
+>  .TP
+>  .IR /grp1/cgroup.subtree_control
+>  Making this file owned by the delegatee is optional.
+> -Doing so means that that the delegatee can enable controllers
+> +Doing so means that the delegatee can enable controllers
+>  (that are present in
+>  .IR /grp1/cgroup.controllers )
+>  in order to further redistribute resources at lower levels in the subtree.
+> @@ -838,7 +838,7 @@ and move processes between cgroups in the subtree.
+>  If some controllers are present in
+>  .IR grp1/cgroup.subtree_control ,
+>  or the ownership of that file was passed to the delegatee,
+> -the the delegatee can also control the further redistribution
+> +the delegatee can also control the further redistribution
+>  of the corresponding resources into the delegated subtree.
+>  .PP
+>  Some delegation
+> 
+
 
 -- 
 Michael Kerrisk
 Linux man-pages maintainer; http://www.kernel.org/doc/man-pages/
 Linux/UNIX System Programming Training: http://man7.org/training/
+--
+To unsubscribe from this list: send the line "unsubscribe linux-man" in
+the body of a message to majordomo-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
+More majordomo info at  http://vger.kernel.org/majordomo-info.html
