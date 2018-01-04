@@ -1,67 +1,101 @@
-From: Roman Gushchin <guro-b10kYP2dOMg@public.gmane.org>
-Subject: Re: cgroups(7): documenting cgroup.stat
-Date: Wed, 3 Jan 2018 13:59:04 +0000
-Message-ID: <20180103135858.GA15200@castle.DHCP.thefacebook.com>
-References: <196c0cca-b573-8c65-2b5f-66376f79a836@gmail.com>
- <20180102215726.GA2606@castle>
- <7cfbf94e-71c8-b49e-7483-79c3fa363191@gmail.com>
+From: Nikola =?ISO-8859-1?Q?Forr=F3?= <nforro-H+wXaHxf7aLQT0dZR+AlfA@public.gmane.org>
+Subject: Re: [PATCH] recvmmsg.2, sendmmsg.2: point out that error handling
+ is unreliable
+Date: Thu, 04 Jan 2018 12:49:09 +0100
+Message-ID: <1515066549.3719.14.camel@redhat.com>
+References: <1509023167.2859.2.camel@redhat.com>
+Reply-To: nforro-H+wXaHxf7aLQT0dZR+AlfA@public.gmane.org
 Mime-Version: 1.0
-Content-Type: text/plain; charset="us-ascii"
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: 8bit
 Return-path: <linux-man-owner-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>
-Content-Disposition: inline
-In-Reply-To: <7cfbf94e-71c8-b49e-7483-79c3fa363191-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org>
+In-Reply-To: <1509023167.2859.2.camel-H+wXaHxf7aLQT0dZR+AlfA@public.gmane.org>
 Sender: linux-man-owner-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
-To: "Michael Kerrisk (man-pages)" <mtk.manpages-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org>
-Cc: Tejun Heo <tj-DgEjT+Ai2ygdnm+yROfE0A@public.gmane.org>, "Serge E. Hallyn" <serge-A9i7LUbDfNHQT0dZR+AlfA@public.gmane.org>, lkml <linux-kernel-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>, cgroups-u79uwXL29TY76Z2rM5mHXA@public.gmane.org, linux-man <linux-man-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>
+To: Michael Kerrisk <mtk.manpages-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org>
+Cc: linux-man-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
 List-Id: linux-man@vger.kernel.org
 
-Hello, Michael!
+Hello,
 
-> > Hm, basically any cgroup which had some pagecache, associated during the
-> > lifetime, will spend some time in the dying state. This means that for
-> > most cgroups this number will be non-zero for some amount of time,
-> > which depends on global memory pressure.
-> > It's also very implementation-defined, and will be likely changed
-> > in the following kernel versions.
-> > 
-> > So, I'm not sure, that such an example will be useful for a user.
-> > Until this number is huge and constantly growing, it shouldn't be
-> > interesting for an user at all.
-> 
-> Fair enough. I added some vague text about resources needing to be freed
-> before the cgroup is destroyed. See below.
-> 
-> 
-> >>        nr_dying_descendants
-> >>               This is the total number  of  dying  descendant  cgroups
-> >>               underneath this cgroup.  A cgroup enters the dying state
-> >>               after being deleted.  It remains in that  state  for  an
-> >>               undefined  period  (which  will  depend  on system load)
-> >>               before being destroyed.
-> >>
-> >>               A process can't be made a member of a dying cgroup,  and
-> >>               a dying cgroup can't be brought back to life.
-> > 
-> > So, maybe it worth it to add a statement, that some amount of dying cgroups
-> > is normal and it's not a signal of any problem?
-> 
-> Okay, I added some text along those lines. The first paragraph now reads:
-> 
->        nr_dying_descendants
->               This is the total number  of  dying  descendant  cgroups
->               underneath this cgroup.  A cgroup enters the dying state
->               after being deleted.  It remains in that  state  for  an
->               undefined  period  (which  will  depend  on system load)
->               while  resources  are  freed  before   the   cgroup   is
->               destroyed.   Note  that  the presence of some cgroups in
->               the dying state is normal, and is not indicative of  any
->               problem.
+any objections against the patch?
 
-Looks good to me!
-
-Reviewed-by: Roman Gushchin <guro-b10kYP2dOMg@public.gmane.org>
-
-Thank you!
+On Thu, 2017-10-26 at 15:06 +0200, Nikola Forró wrote:
+> When an underlying recvmsg call fails after at least one message has
+> been received, recvmmsg stores the error code into sock->sk->sk_err,
+> and returns it on a subsequent call. But it doesn't take into account
+> that the error can be owerwritten in the meantime, for example in ICMP
+> error handler when an ICMP packet arrives.
+> 
+> When an underlying sendmsg call fails after at least one message has
+> been sent, sendmmsg discards the error code and expects the caller to
+> retry at first failed message. But the error code returned from the
+> subsqeuent call can be different from the previously discarded one.
+> 
+> Reference:
+> https://git.kernel.org/pub/scm/linux/kernel/git/stable/linux-stable.git/tree/net/socket.c
+> 
+> Signed-off-by: Nikola Forró <nforro-H+wXaHxf7aLQT0dZR+AlfA@public.gmane.org>
+> ---
+>  man2/recvmmsg.2 | 12 ++++++++++++
+>  man2/sendmmsg.2 |  8 ++++++++
+>  2 files changed, 20 insertions(+)
+> 
+> diff --git a/man2/recvmmsg.2 b/man2/recvmmsg.2
+> index 3ff1b63a3..ca05b1d3a 100644
+> --- a/man2/recvmmsg.2
+> +++ b/man2/recvmmsg.2
+> @@ -160,6 +160,8 @@ In addition, the following error can occur:
+>  .B EINVAL
+>  .I timeout
+>  is invalid.
+> +.PP
+> +See also BUGS.
+>  .SH VERSIONS
+>  The
+>  .BR recvmmsg ()
+> @@ -179,6 +181,16 @@ so that if up to
+>  .I vlen\-1
+>  datagrams are received before the timeout expires,
+>  but then no further datagrams are received, the call will block forever.
+> +.PP
+> +If an error occurs on an underlying
+> +.BR recvmsg (2)
+> +call after at least one message has been received, the call succeeds,
+> +and returns the number of messages received. The error code is expected
+> +to be returned on a subsequent call to
+> +.BR recvmmsq ().
+> +However, in the current implementation the error code can be overwritten
+> +in the meantime by an unrelated network event on a socket,
+> +for example an incoming ICMP packet.
+>  .SH EXAMPLE
+>  .PP
+>  The following program uses
+> diff --git a/man2/sendmmsg.2 b/man2/sendmmsg.2
+> index e61ed0b4e..2f4bbeb01 100644
+> --- a/man2/sendmmsg.2
+> +++ b/man2/sendmmsg.2
+> @@ -134,6 +134,7 @@ is set to indicate the error.
+>  Errors are as for
+>  .BR sendmsg (2).
+>  An error is returned only if no datagrams could be sent.
+> +See also BUGS.
+>  .\" commit 728ffb86f10873aaf4abd26dde691ee40ae731fe
+>  .\"     ... only return an error if no datagrams could be sent.
+>  .\"     If less than the requested number of messages were sent, the application
+> @@ -165,6 +166,13 @@ is capped to
+>  .\"     For error handling an application using sendmmsg needs to retry at
+>  .\"     the first unsent message, so capping is simpler and requires less
+>  .\"     application logic than returning EINVAL.
+> +.SH BUGS
+> +If an error occurs on an underlying
+> +.BR sendmsg (2)
+> +call after at least one message has been sent, the call succeeds,
+> +and returns the number of messages sent. The error code is lost.
+> +The caller can retry starting at first failed message, but there is
+> +no guarantee that the error returned will be the same as the previous one.
+>  .SH EXAMPLE
+>  The example below uses
+>  .BR sendmmsg ()
 --
 To unsubscribe from this list: send the line "unsubscribe linux-man" in
 the body of a message to majordomo-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
