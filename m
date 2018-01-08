@@ -1,50 +1,75 @@
 From: "Michael Kerrisk (man-pages)" <mtk.manpages-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org>
-Subject: cgroups(7): documenting /sys/kernel/cgroup files
-Date: Mon, 8 Jan 2018 22:11:43 +0100
-Message-ID: <ff431fd8-f1c1-ed8d-2d69-64ea83a8a505@gmail.com>
+Subject: Re: cgroups(7): documenting the nsdelegate mount option
+Date: Tue, 9 Jan 2018 00:26:28 +0100
+Message-ID: <4768da37-ba3e-7d0c-841a-1b026c558bdd@gmail.com>
 Mime-Version: 1.0
 Content-Type: text/plain; charset=utf-8
-Content-Transfer-Encoding: 7bit
+Content-Transfer-Encoding: 8bit
 Return-path: <cgroups-owner-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>
 Content-Language: en-US
 Sender: cgroups-owner-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
-To: Roman Gushchin <guro-b10kYP2dOMg@public.gmane.org>
-Cc: mtk.manpages-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org, "Serge E. Hallyn" <serge-A9i7LUbDfNHQT0dZR+AlfA@public.gmane.org>, Tejun Heo <tj-DgEjT+Ai2ygdnm+yROfE0A@public.gmane.org>, linux-man <linux-man-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>, lkml <linux-kernel-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>, cgroups-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
+To: Tejun Heo <tj-DgEjT+Ai2ygdnm+yROfE0A@public.gmane.org>
+Cc: mtk.manpages-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org, "Serge E. Hallyn" <serge-A9i7LUbDfNHQT0dZR+AlfA@public.gmane.org>, lkml <linux-kernel-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>, linux-man <linux-man-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>, cgroups-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
 List-Id: linux-man@vger.kernel.org
 
-Hello Roman,
+Hello Tejun,
 
-I wrote cgroups(7) text below to document the files added by you in
-Linux 4.15. Could you let me know if the following text is okay please:
+Here is my attempt to document dgroup v2 delegation using 'nsdelegate'.
+Could you please take a look at the text and let me know if anything 
+needs fixing:
 
-   /sys/kernel/cgroup files
-       /sys/kernel/cgroup/delegate (since Linux 4.15)
-              This file exports a list of the cgroups v2 files  (one  per
-              line) that are delegatable (i.e., whose ownership should be
-              changed to the user ID of the delegatee).  In  the  future,
-              the  set  of delegatable files may change or grow, and this
-              file provides a way for the  kernel  to  inform  user-space
-              applications of which files must be delegated.  As at Linux
-              4.15, one sees the following when inspecting this file:
+   Cgroups v2 delegation: nsdelegate and cgroup namespaces
+       Starting with Linux 4.13, there is a second way to perform  cgroup
+       delegation.   This  is  done  by mounting the cgroup v2 filesystem
+       with the nsdelegate mount option:
 
-                  $ cat /sys/kernel/cgroup/delegate
-                  cgroup.procs
-                  cgroup.subtree_control
+           $ mount -t cgroup2 -o nsdelegate none /sys/fs/cgroup/unified
 
-       /sys/kernel/cgroup/features (since Linux 4.15)
-              Over time, the set of cgroups v2 features that are provided
-              by  the kernel may change or grow, or some features may not
-              be enabled by default.  This file provides a way for  user-
-              space  applications  to  discover what features the running
-              kernel supports or has enabled.  Features  are  listed  one
-              per line:
+       The effect of this option is to cause cgroup namespaces  to  auto‐
+       matically  become  delegation  boundaries.  More specifically, the
+       following restrictions  apply  for  processes  inside  the  cgroup
+       namespace:
 
-                  $ cat /sys/kernel/cgroup/features nsdelegate
+       *  Writes to controller interface files in the root directory will
+          fail with the error EPERM.  Processes inside the cgroup  names‐
+          pace  can still write to delegatable files such as cgroup.procs
+          and cgroup.subtree_control, and can create subhierarchy  under‐
+          neath the root directory of the cgroup namespace.
 
-              The entries that can appear in this file are:
+       *  Attempts to migrate processes across the namespace boundary are
+          denied (with the error ENOENT).  Processes  inside  the  cgroup
+          namespace can still (subject to the containment rules described
+          below) move processes between cgroups within  the  subhierarchy
+          under the namespace root.
 
-              nsdelegate (since Linux 4.15)
-                     The kernel supports the nsdelegate mount option.
+       The  ability  to define cgroup namespaces as delegation boundaries
+       makes cgroup namespaces more useful.  To understand  why,  suppose
+       that  we already have one cgroup hierarchy that has been delegated
+       to a nonprivileged user, cecilia, using the older delegation tech‐
+       nique  described  above.   Suppose  further that cecilia wanted to
+       further delegate a subhierarchy under the existing delegated hier‐
+       archy.   (For example, the delegated hierarchy might be associated
+       with an unprivileged container run by cecilia.)  Even if a  cgroup
+       namespace  was employed, because both hierarchies are owned by the
+       unprivileged user  cecilia,  the  following  illegitimate  actions
+       could be performed:
+
+       *  A  process  in the inferior hierarchy could change the resource
+          controller settings in the root directory of the  that  hierar‐
+          chy.  (These resource controller settings are intended to allow
+          control to be exercised  from  the  parent  cgroup;  a  process
+          inside the child cgroup should not be allowed to modify them.)
+
+       *  A  process  inside  the inferior hierarchy could move processes
+          into and out of the inferior hierarchy if the  cgroups  in  the
+          superior hierarchy were somehow visible.
+
+       Employing  the nsdelegate mount option prevents both of these pos‐
+       sibilities.
+
+       The nsdelegate mount option only has an effect when  performed  in
+       the initial mount namespace; in other mount namespaces, the option
+       is silently ignored.
 
 Cheers,
 
