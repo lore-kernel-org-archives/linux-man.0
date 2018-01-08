@@ -1,123 +1,54 @@
 From: "Michael Kerrisk (man-pages)" <mtk.manpages-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org>
-Subject: Re: [PATCH] recvmmsg.2, sendmmsg.2: point out that error handling is
- unreliable
-Date: Tue, 9 Jan 2018 00:39:54 +0100
-Message-ID: <69ba335d-c0d4-d032-6d92-1467214653cb@gmail.com>
-References: <1509023167.2859.2.camel@redhat.com>
+Subject: Re: [PATCH] copy_file_ranges can file with EFBIG
+Date: Tue, 9 Jan 2018 00:42:28 +0100
+Message-ID: <59239304-d3e5-cc4d-a955-309ba69ccfeb@gmail.com>
+References: <026501d5-2def-769f-ae52-36d7d60e533c@redhat.com>
 Mime-Version: 1.0
 Content-Type: text/plain; charset=utf-8
-Content-Transfer-Encoding: 8bit
+Content-Transfer-Encoding: 7bit
 Return-path: <linux-man-owner-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>
-In-Reply-To: <1509023167.2859.2.camel-H+wXaHxf7aLQT0dZR+AlfA@public.gmane.org>
+In-Reply-To: <026501d5-2def-769f-ae52-36d7d60e533c-H+wXaHxf7aLQT0dZR+AlfA@public.gmane.org>
 Content-Language: en-US
 Sender: linux-man-owner-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
-To: nforro-H+wXaHxf7aLQT0dZR+AlfA@public.gmane.org
-Cc: mtk.manpages-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org, linux-man-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
+To: Florian Weimer <fweimer-H+wXaHxf7aLQT0dZR+AlfA@public.gmane.org>, linux-man-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
+Cc: mtk.manpages-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org
 List-Id: linux-man@vger.kernel.org
 
-Hello Nicolas,
-
-My apologies for the slow follow-up. See some comments below.
-
-On 10/26/2017 03:06 PM, Nikola Forró wrote:
-> When an underlying recvmsg call fails after at least one message has
-> been received, recvmmsg stores the error code into sock->sk->sk_err,
-> and returns it on a subsequent call. But it doesn't take into account
-> that the error can be owerwritten in the meantime, for example in ICMP
-> error handler when an ICMP packet arrives.
+On 01/03/2018 02:02 PM, Florian Weimer wrote:
+>>From f668acc7396854f2d4c264c92ea233f37b2bbbfb Mon Sep 17 00:00:00 2001
+> From: Florian Weimer <fweimer-H+wXaHxf7aLQT0dZR+AlfA@public.gmane.org>
+> Date: Wed, 3 Jan 2018 14:00:35 +0100
+> Subject: [PATCH] copy_file_range.2: EFBIG errors are possible, similar to
+>  write(2)
 > 
-> When an underlying sendmsg call fails after at least one message has
-> been sent, sendmmsg discards the error code and expects the caller to
-> retry at first failed message. But the error code returned from the
-> subsqeuent call can be different from the previously discarded one.
-> 
-> Reference:
-> https://git.kernel.org/pub/scm/linux/kernel/git/stable/linux-stable.git/tree/net/socket.c
-> 
-> Signed-off-by: Nikola Forró <nforro-H+wXaHxf7aLQT0dZR+AlfA@public.gmane.org>
-> ---
->  man2/recvmmsg.2 | 12 ++++++++++++
->  man2/sendmmsg.2 |  8 ++++++++
->  2 files changed, 20 insertions(+)
-> 
-> diff --git a/man2/recvmmsg.2 b/man2/recvmmsg.2
-> index 3ff1b63a3..ca05b1d3a 100644
-> --- a/man2/recvmmsg.2
-> +++ b/man2/recvmmsg.2
-> @@ -160,6 +160,8 @@ In addition, the following error can occur:
->  .B EINVAL
->  .I timeout
->  is invalid.
-> +.PP
-> +See also BUGS.
->  .SH VERSIONS
->  The
->  .BR recvmmsg ()
-> @@ -179,6 +181,16 @@ so that if up to
->  .I vlen\-1
->  datagrams are received before the timeout expires,
->  but then no further datagrams are received, the call will block forever.
-> +.PP
-> +If an error occurs on an underlying
-> +.BR recvmsg (2)
-> +call after at least one message has been received, the call succeeds,
+> Signed-off-by: Florian Weimer <fweimer-H+wXaHxf7aLQT0dZR+AlfA@public.gmane.org>
 
-There is not an underlying system call as such. (I mean: one system 
-call is not calling another system call.) Therefore, I think it would
-be better to write the preceding as:
+Thanks, Florian. Patch applied.
 
-    If an error occurs after at least one message has been
-    received, the call succeeds,
-
-
-> +and returns the number of messages received. The error code is expected
-> +to be returned on a subsequent call to
-> +.BR recvmmsq ().
-> +However, in the current implementation the error code can be overwritten
-> +in the meantime by an unrelated network event on a socket,
-> +for example an incoming ICMP packet.
->  .SH EXAMPLE
->  .PP
->  The following program uses
-> diff --git a/man2/sendmmsg.2 b/man2/sendmmsg.2
-> index e61ed0b4e..2f4bbeb01 100644
-> --- a/man2/sendmmsg.2
-> +++ b/man2/sendmmsg.2
-> @@ -134,6 +134,7 @@ is set to indicate the error.
->  Errors are as for
->  .BR sendmsg (2).
->  An error is returned only if no datagrams could be sent.
-> +See also BUGS.
->  .\" commit 728ffb86f10873aaf4abd26dde691ee40ae731fe
->  .\"     ... only return an error if no datagrams could be sent.
->  .\"     If less than the requested number of messages were sent, the application
-> @@ -165,6 +166,13 @@ is capped to
->  .\"     For error handling an application using sendmmsg needs to retry at
->  .\"     the first unsent message, so capping is simpler and requires less
->  .\"     application logic than returning EINVAL.
-> +.SH BUGS
-> +If an error occurs on an underlying
-> +.BR sendmsg (2)
-> +call after at least one message has been sent, the call succeeds,
-
-See my previous comment.
-
-> +and returns the number of messages sent. The error code is lost.
-> +The caller can retry starting at first failed message, but there is
-> +no guarantee that the error returned will be the same as the previous one.
-
-I am not sure that I understand that last sentence. Do you mean something
-like:
-
-    The caller can retry the transmission, starting at first failed message,
-    but there is no guarantee that, if an error is returned, it will be the
-    same error as the one that was lost on the previous call.
-
-?
-
-Thanks,
+Cheers,
 
 Michael
+
+> ---
+>  man2/copy_file_range.2 | 5 +++++
+>  1 file changed, 5 insertions(+)
+> 
+> diff --git a/man2/copy_file_range.2 b/man2/copy_file_range.2
+> index 6e50ea6ec..31c31cd81 100644
+> --- a/man2/copy_file_range.2
+> +++ b/man2/copy_file_range.2
+> @@ -108,6 +108,11 @@ Requested range extends beyond the end of the source file; or the
+>  .I flags
+>  argument is not 0.
+>  .TP
+> +.B EFBIG
+> +An attempt was made to write a file that exceeds the implementation-defined
+> +maximum file size or the process's file size limit,
+> +or to write at a position past the maximum allowed offset.
+> +.TP
+>  .B EIO
+>  A low-level I/O error occurred while copying.
+>  .TP
 
 
 -- 
