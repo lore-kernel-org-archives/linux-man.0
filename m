@@ -1,54 +1,39 @@
-From: Roman Gushchin <guro@fb.com>
-Subject: Re: cgroups(7): documenting /sys/kernel/cgroup files
-Date: Tue, 9 Jan 2018 11:28:18 +0000
-Message-ID: <20180109112811.GA31373@castle.DHCP.thefacebook.com>
-References: <ff431fd8-f1c1-ed8d-2d69-64ea83a8a505@gmail.com>
+From: Nikola =?ISO-8859-1?Q?Forr=F3?= <nforro-H+wXaHxf7aLQT0dZR+AlfA@public.gmane.org>
+Subject: Re: [PATCH] recvmmsg.2, sendmmsg.2: point out that error handling
+ is unreliable
+Date: Tue, 09 Jan 2018 14:10:41 +0100
+Message-ID: <1515503441.3260.37.camel@redhat.com>
+References: <1509023167.2859.2.camel@redhat.com>
+         <69ba335d-c0d4-d032-6d92-1467214653cb@gmail.com>
+Reply-To: nforro-H+wXaHxf7aLQT0dZR+AlfA@public.gmane.org
 Mime-Version: 1.0
-Content-Type: text/plain; charset="us-ascii"
-Return-path: <linux-kernel-owner@vger.kernel.org>
-Content-Disposition: inline
-In-Reply-To: <ff431fd8-f1c1-ed8d-2d69-64ea83a8a505@gmail.com>
-Sender: linux-kernel-owner@vger.kernel.org
-To: "Michael Kerrisk (man-pages)" <mtk.manpages@gmail.com>
-Cc: "Serge E. Hallyn" <serge@hallyn.com>, Tejun Heo <tj@kernel.org>, linux-man <linux-man@vger.kernel.org>, lkml <linux-kernel@vger.kernel.org>, cgroups@vger.kernel.org
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: 7bit
+Return-path: <linux-man-owner-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>
+In-Reply-To: <69ba335d-c0d4-d032-6d92-1467214653cb-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org>
+Sender: linux-man-owner-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
+To: "Michael Kerrisk (man-pages)" <mtk.manpages-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org>
+Cc: linux-man-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
 List-Id: linux-man@vger.kernel.org
 
-Hello, Michael!
-
-Overall looks good to me, one small nit below.
-
-On Mon, Jan 08, 2018 at 10:11:43PM +0100, Michael Kerrisk (man-pages) wrote:
-> Hello Roman,
+On Tue, 2018-01-09 at 00:39 +0100, Michael Kerrisk (man-pages) wrote:
+> I am not sure that I understand that last sentence. Do you mean something
+> like:
 > 
-> I wrote cgroups(7) text below to document the files added by you in
-> Linux 4.15. Could you let me know if the following text is okay please:
+>     The caller can retry the transmission, starting at first failed message,
+>     but there is no guarantee that, if an error is returned, it will be the
+>     same error as the one that was lost on the previous call.
 > 
->    /sys/kernel/cgroup files
->        /sys/kernel/cgroup/delegate (since Linux 4.15)
->               This file exports a list of the cgroups v2 files  (one  per
->               line) that are delegatable (i.e., whose ownership should be
->               changed to the user ID of the delegatee).  In  the  future,
->               the  set  of delegatable files may change or grow, and this
->               file provides a way for the  kernel  to  inform  user-space
->               applications of which files must be delegated.  As at Linux
->               4.15, one sees the following when inspecting this file:
+> ?
 > 
->                   $ cat /sys/kernel/cgroup/delegate
->                   cgroup.procs
->                   cgroup.subtree_control
-> 
->        /sys/kernel/cgroup/features (since Linux 4.15)
->               Over time, the set of cgroups v2 features that are provided
->               by  the kernel may change or grow, or some features may not
->               be enabled by default.  This file provides a way for  user-
->               space  applications  to  discover what features the running
->               kernel supports or has enabled.  Features  are  listed  one
-                                ^^
-I would replace "or" with "and" here.
 
-Please, feel free to add
-Reviewed-by: Roman Gushchin <guro@fb.com>
+Hello Michael,
 
-Thank you!
+yes, that's exactly what I meant. I'll update and re-send the patch.
 
-Roman
+Thanks,
+Nikola
+--
+To unsubscribe from this list: send the line "unsubscribe linux-man" in
+the body of a message to majordomo-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
+More majordomo info at  http://vger.kernel.org/majordomo-info.html
