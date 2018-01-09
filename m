@@ -1,116 +1,87 @@
-From: "Michael Kerrisk (man-pages)" <mtk.manpages-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org>
-Subject: Re: [PATCH v2] recvmmsg.2, sendmmsg.2: point out that error handling
- is unreliable
-Date: Tue, 9 Jan 2018 19:45:55 +0100
-Message-ID: <76e6d114-54ea-9a34-ce52-1029cf834e33@gmail.com>
-References: <1515506049.3260.40.camel@redhat.com>
+From: "Serge E. Hallyn" <serge-A9i7LUbDfNHQT0dZR+AlfA@public.gmane.org>
+Subject: [manpages PATCH] capabilities.7: describe namespaced file
+ capabilities
+Date: Tue, 9 Jan 2018 12:52:18 -0600
+Message-ID: <20180109185218.GA21753@mail.hallyn.com>
 Mime-Version: 1.0
-Content-Type: text/plain; charset=utf-8
-Content-Transfer-Encoding: 8bit
-Return-path: <linux-man-owner-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>
-In-Reply-To: <1515506049.3260.40.camel-H+wXaHxf7aLQT0dZR+AlfA@public.gmane.org>
-Content-Language: en-US
-Sender: linux-man-owner-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
-To: nforro-H+wXaHxf7aLQT0dZR+AlfA@public.gmane.org
-Cc: mtk.manpages-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org, linux-man-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
+Content-Type: text/plain; charset=us-ascii
+Return-path: <linux-api-owner-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>
+Content-Disposition: inline
+Sender: linux-api-owner-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
+To: mtk.manpages-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org, "Eric W. Biederman" <ebiederm-aS9lmoZGLiVWk0Htik3J/w@public.gmane.org>
+Cc: linux-man-u79uwXL29TY76Z2rM5mHXA@public.gmane.org, Seth Forshee <seth.forshee-Z7WLFzj8eWMS+FvcfC7Uqw@public.gmane.org>, linux-api-u79uwXL29TY76Z2rM5mHXA@public.gmane.org, linux-security-module-u79uwXL29TY76Z2rM5mHXA@public.gmane.org, Kees Cook <keescook-F7+t8E8rja9g9hUCZPvPmw@public.gmane.org>, Andreas Gruenbacher <agruenba-H+wXaHxf7aLQT0dZR+AlfA@public.gmane.org>, Andy Lutomirski <luto-DgEjT+Ai2ygdnm+yROfE0A@public.gmane.org>, "Andrew G. Morgan" <morgan-DgEjT+Ai2ygdnm+yROfE0A@public.gmane.org>
 List-Id: linux-man@vger.kernel.org
 
-Hello Nikola,
+Update the capabilities(7)  manpage with a description of the
+new-ish namespaced file capability support.
 
-On 01/09/2018 02:54 PM, Nikola Forró wrote:
-> If an error occurs after at least one message has been received,
-> recvmmsg() call succeeds, and returns the number of messages received.
-> The error code is expected to be returned on a subsequent call.
-> In the current implementation, however, the error code can be overwritten
-> in the meantime by an unrelated network event on a socket, for example
-> an incoming ICMP packet.
-> 
-> If an error occurs after at least one message has been sent,
-> sendmmsg() call succeeds, and returns the number of messages sent.
-> The error code is lost. The caller can retry the transmission,
-> starting at first failed message, but there is no guarantee that,
-> if an error is returned, it will be the same as the one that was lost
-> on the previous call.
+A note on userspace tools:  since the kernel will automatically
+convert between v2 and v3 xattrs, and translate nsroot between
+v3 xattrs, we can make do with the current getcap(8) and setcap(8)
+tools. I.e. a user on the host can create a transient user namespace
+with the appropriate mappings and run setcap(8) there.  The kernel
+will automatically write a v3 xattr with the transient namespace's
+root user as nsroot.
 
-Thanks. Patch applied. (And thanks for your persistence.)
+Signed-off-by: Serge Hallyn <shallyn-FYB4Gu1CFyUAvxtiuMwx3w@public.gmane.org>
+---
+ man7/capabilities.7 | 44 ++++++++++++++++++++++++++++++++++++++++++++
+ 1 file changed, 44 insertions(+)
 
-Cheers,
-
-Michael
-
-
-
-> Reference:
-> https://git.kernel.org/pub/scm/linux/kernel/git/stable/linux-stable.git/tree/net/socket.c
-> 
-> Signed-off-by: Nikola Forró <nforro-H+wXaHxf7aLQT0dZR+AlfA@public.gmane.org>
-> ---
->  man2/recvmmsg.2 | 10 ++++++++++
->  man2/sendmmsg.2 |  8 ++++++++
->  2 files changed, 18 insertions(+)
-> 
-> diff --git a/man2/recvmmsg.2 b/man2/recvmmsg.2
-> index e7dfe848a..7a1be5787 100644
-> --- a/man2/recvmmsg.2
-> +++ b/man2/recvmmsg.2
-> @@ -160,6 +160,8 @@ In addition, the following error can occur:
->  .B EINVAL
->  .I timeout
->  is invalid.
-> +.PP
-> +See also BUGS.
->  .SH VERSIONS
->  The
->  .BR recvmmsg ()
-> @@ -179,6 +181,14 @@ so that if up to
->  .I vlen\-1
->  datagrams are received before the timeout expires,
->  but then no further datagrams are received, the call will block forever.
-> +.PP
-> +If an error occurs after at least one message has been received,
-> +the call succeeds, and returns the number of messages received.
-> +The error code is expected to be returned on a subsequent call to
-> +.BR recvmmsq ().
-> +In the current implementation, however, the error code can be overwritten
-> +in the meantime by an unrelated network event on a socket,
-> +for example an incoming ICMP packet.
->  .SH EXAMPLE
->  .PP
->  The following program uses
-> diff --git a/man2/sendmmsg.2 b/man2/sendmmsg.2
-> index a4895c1ac..ab08162bd 100644
-> --- a/man2/sendmmsg.2
-> +++ b/man2/sendmmsg.2
-> @@ -134,6 +134,7 @@ is set to indicate the error.
->  Errors are as for
->  .BR sendmsg (2).
->  An error is returned only if no datagrams could be sent.
-> +See also BUGS.
->  .\" commit 728ffb86f10873aaf4abd26dde691ee40ae731fe
->  .\"     ... only return an error if no datagrams could be sent.
->  .\"     If less than the requested number of messages were sent, the application
-> @@ -165,6 +166,13 @@ is capped to
->  .\"     For error handling an application using sendmmsg needs to retry at
->  .\"     the first unsent message, so capping is simpler and requires less
->  .\"     application logic than returning EINVAL.
-> +.SH BUGS
-> +If an error occurs after at least one message has been sent,
-> +the call succeeds, and returns the number of messages sent.
-> +The error code is lost. The caller can retry the transmission,
-> +starting at first failed message, but there is no guarantee that,
-> +if an error is returned, it will be the same as the one that was lost
-> +on the previous call.
->  .SH EXAMPLE
->  The example below uses
->  .BR sendmmsg ()
-> 
-
-
+diff --git a/man7/capabilities.7 b/man7/capabilities.7
+index 166eaaf..76e7e02 100644
+--- a/man7/capabilities.7
++++ b/man7/capabilities.7
+@@ -936,6 +936,50 @@ if we specify the effective flag as being enabled for any capability,
+ then the effective flag must also be specified as enabled
+ for all other capabilities for which the corresponding permitted or
+ inheritable flags is enabled.
++.PP
++Until 4.13, only VFS_CAP_REVISION_2 xattrs were supported.  These store only
++the capabilities to be applied to the file, with no record of the writer's
++credentials.  Therefore only privileged users can be trusted to write them, and
++.BR CAP_SETFCAP
++over the user namespace which mounted the filesystem (usually the initial user
++namespace) is required.  This makes it impossible to write file capabilities
++from a user namespaced container, which causes some package updates to fail.
++.PP
++In order to support setting file capabilities in containers, the
++kernel must be able to identify whether the task executing the
++file will be constrained to a subset of the resources over which
++the writer of the file capabilities has privilege.  To this end,
++since 4.13, VFS_CAP_REVISION_3 capabilities store the user ID
++of the root user in the writer's namespace ("nsroot").  Hence the writer only
++requires
++.IP 1.
++.BR CAP_SETFCAP
++over the file inode, meaning the writing task must have
++.BR CAP_SETFCAP
++over a user namespace into which the inode's owning user ID is mapped.
++.PP
++and
++.IP 2.
++.BR CAP_SETFCAP
++over the writer's own user namespace.
++.PP
++A VFS_CAP_REVISION_3 file capability will take effect only when run in a user namespace
++whose UID 0 maps to the saved "nsroot", or a descendant of such a namespace.
++.PP
++Users with the required privilege may use
++.BR setxattr(2)
++to request either a VFS_CAP_REVISION_2 or VFS_CAP_REVISION_3 write.
++The kernel will automatically convert a VFS_CAP_REVISION_2 to a
++VFS_CAP_REVISION_3 extended attribute with the "nsroot"
++set to the root user in the writer's user namespace, or, if a VFS_CAP_REVISION_3
++extended attribute is specified, then the kernel will map the
++specified root user ID (which must be a valid user ID mapped in the caller's
++user namespace) into the initial user namespace.  Likewise,
++.BR getxattr(2)
++results will be converted and simplified to show a VFS_CAP_REVISION_2
++extended attribute, if a VFS_CAP_REVISION_3 applies to the caller's
++namespace, or to map the VFS_CAP_REVISION_3 root user ID into the
++caller's namespace.
+ .\"
+ .SS Transformation of capabilities during execve()
+ .PP
 -- 
-Michael Kerrisk
-Linux man-pages maintainer; http://www.kernel.org/doc/man-pages/
-Linux/UNIX System Programming Training: http://man7.org/training/
---
-To unsubscribe from this list: send the line "unsubscribe linux-man" in
-the body of a message to majordomo-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
-More majordomo info at  http://vger.kernel.org/majordomo-info.html
+1.9.1
