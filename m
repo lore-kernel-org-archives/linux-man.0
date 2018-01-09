@@ -1,18 +1,18 @@
-From: "Michael Kerrisk (man-pages)" <mtk.manpages-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org>
+From: "Michael Kerrisk (man-pages)" <mtk.manpages@gmail.com>
 Subject: Re: cgroups(7): documenting cgroups v2 thread mode
-Date: Tue, 9 Jan 2018 23:52:57 +0100
-Message-ID: <79c80f45-1290-c096-c384-6379b56d9239@gmail.com>
+Date: Tue, 9 Jan 2018 23:54:03 +0100
+Message-ID: <5c9ea5dd-12dc-99d6-7905-40fdbc34e6ae@gmail.com>
 References: <b2d54ae2-62db-7402-ed99-7a0e72f90ff4@gmail.com>
  <20180109211000.GT3668920@devbig577.frc2.facebook.com>
 Mime-Version: 1.0
 Content-Type: text/plain; charset=utf-8
 Content-Transfer-Encoding: 8bit
-Return-path: <linux-man-owner-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>
-In-Reply-To: <20180109211000.GT3668920-4dN5La/x3IkLX0oZNxdnEQ2O0Ztt9esIQQ4Iyu8u01E@public.gmane.org>
+Return-path: <linux-kernel-owner@vger.kernel.org>
+In-Reply-To: <20180109211000.GT3668920@devbig577.frc2.facebook.com>
 Content-Language: en-US
-Sender: linux-man-owner-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
-To: Tejun Heo <tj-DgEjT+Ai2ygdnm+yROfE0A@public.gmane.org>
-Cc: mtk.manpages-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org, Peter Zijlstra <peterz-wEGCiKHe2LqWVfeAwA7xHQ@public.gmane.org>, cgroups-u79uwXL29TY76Z2rM5mHXA@public.gmane.org, lkml <linux-kernel-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>, linux-man <linux-man-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>, "Serge E. Hallyn" <serge-A9i7LUbDfNHQT0dZR+AlfA@public.gmane.org>, Mike Galbraith <efault-Mmb7MZpHnFY@public.gmane.org>, Li Zefan <lizefan-hv44wF8Li93QT0dZR+AlfA@public.gmane.org>, Ingo Molnar <mingo-H+wXaHxf7aLQT0dZR+AlfA@public.gmane.org>, Paul Turner <pjt-hpIqsD4AKlfQT0dZR+AlfA@public.gmane.org>, kernel-team-b10kYP2dOMg@public.gmane.org, Andy Lutomirski <luto-kltTT9wpgjJwATOyAt5JVQ@public.gmane.org>, Johannes Weiner <hannes-druUgvl0LCNAfugRpC6u6w@public.gmane.org>, Lauro Venancio <lvenanci-H+wXaHxf7aLQT0dZR+AlfA@public.gmane.org>, Waiman Long <longman-H+wXaHxf7aLQT0dZR+AlfA@public.gmane.org>
+Sender: linux-kernel-owner@vger.kernel.org
+To: Tejun Heo <tj@kernel.org>
+Cc: mtk.manpages@gmail.com, Peter Zijlstra <peterz@infradead.org>, cgroups@vger.kernel.org, lkml <linux-kernel@vger.kernel.org>, linux-man <linux-man@vger.kernel.org>, "Serge E. Hallyn" <serge@hallyn.com>, Mike Galbraith <efault@gmx.de>, Li Zefan <lizefan@huawei.com>, Ingo Molnar <mingo@redhat.com>, Paul Turner <pjt@google.com>, kernel-team@fb.com, Andy Lutomirski <luto@amacapital.net>, Johannes Weiner <hannes@cmpxchg.org>, Lauro Venancio <lvenanci@redhat.com>, Waiman Long <longman@redhat.com>
 List-Id: linux-man@vger.kernel.org
 
 On 01/09/2018 10:10 PM, Tejun Heo wrote:
@@ -55,12 +55,15 @@ On 01/09/2018 10:10 PM, Tejun Heo wrote:
 > threaded domains instead of threaded roots.  It's mostly about future
 > extensibility (especially as Waiman was proposing related changes
 > there) and not doing things automatically / recursively if possible.
-
-Okay.
-
+> 
 > Looks good to me.
 
-Thanks for the review.
+One more thing. I added the following sentence to the text:
+
+       The  cgroup.threads file is writable only for the cgroups inside a
+       threaded subtree.
+
+Can you confirm that that is correct, please.
 
 Cheers,
 
@@ -72,7 +75,3 @@ Michael
 Michael Kerrisk
 Linux man-pages maintainer; http://www.kernel.org/doc/man-pages/
 Linux/UNIX System Programming Training: http://man7.org/training/
---
-To unsubscribe from this list: send the line "unsubscribe linux-man" in
-the body of a message to majordomo-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
-More majordomo info at  http://vger.kernel.org/majordomo-info.html
