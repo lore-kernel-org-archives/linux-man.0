@@ -1,85 +1,34 @@
-From: Roman Gushchin <guro@fb.com>
+From: Tejun Heo <tj-DgEjT+Ai2ygdnm+yROfE0A@public.gmane.org>
 Subject: Re: cgroups(7): documenting /sys/kernel/cgroup files
-Date: Wed, 10 Jan 2018 04:44:14 -0800
-Message-ID: <20180110124407.GA26913@castle.DHCP.thefacebook.com>
+Date: Wed, 10 Jan 2018 06:02:39 -0800
+Message-ID: <20180110140239.GX3668920@devbig577.frc2.facebook.com>
 References: <ff431fd8-f1c1-ed8d-2d69-64ea83a8a505@gmail.com>
  <CAKgNAkhk-527Rh6tGYJO-U3UXgwBC1+t5nB+5JEq62nTO2p15A@mail.gmail.com>
+ <20180110124407.GA26913@castle.DHCP.thefacebook.com>
 Mime-Version: 1.0
-Content-Type: text/plain; charset="us-ascii"
-Return-path: <linux-kernel-owner@vger.kernel.org>
+Content-Type: text/plain; charset=us-ascii
+Return-path: <cgroups-owner-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>
 Content-Disposition: inline
-In-Reply-To: <CAKgNAkhk-527Rh6tGYJO-U3UXgwBC1+t5nB+5JEq62nTO2p15A@mail.gmail.com>
-Sender: linux-kernel-owner@vger.kernel.org
-To: "Michael Kerrisk (man-pages)" <mtk.manpages@gmail.com>
-Cc: "Serge E. Hallyn" <serge@hallyn.com>, Tejun Heo <tj@kernel.org>, linux-man <linux-man@vger.kernel.org>, lkml <linux-kernel@vger.kernel.org>, "open list:CONTROL GROUP (CGROUP)" <cgroups@vger.kernel.org>
+In-Reply-To: <20180110124407.GA26913-B3w7+ongkCiLfgCeKHXN1g2O0Ztt9esIQQ4Iyu8u01E@public.gmane.org>
+Sender: cgroups-owner-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
+To: Roman Gushchin <guro-b10kYP2dOMg@public.gmane.org>
+Cc: "Michael Kerrisk (man-pages)" <mtk.manpages-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org>, "Serge E. Hallyn" <serge-A9i7LUbDfNHQT0dZR+AlfA@public.gmane.org>, linux-man <linux-man-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>, lkml <linux-kernel-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>, "open list:CONTROL GROUP (CGROUP)" <cgroups-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>
 List-Id: linux-man@vger.kernel.org
 
-Hello Michael,
+Hello,
 
-On Wed, Jan 10, 2018 at 05:23:32AM +0100, Michael Kerrisk (man-pages) wrote:
-> Hello Roman,
-> 
-> On 8 January 2018 at 22:11, Michael Kerrisk (man-pages)
-> <mtk.manpages@gmail.com> wrote:
-> > Hello Roman,
-> >
-> > I wrote cgroups(7) text below to document the files added by you in
-> > Linux 4.15. Could you let me know if the following text is okay please:
-> >
-> >    /sys/kernel/cgroup files
-> >        /sys/kernel/cgroup/delegate (since Linux 4.15)
-> >               This file exports a list of the cgroups v2 files  (one  per
-> >               line) that are delegatable (i.e., whose ownership should be
-> >               changed to the user ID of the delegatee).  In  the  future,
-> >               the  set  of delegatable files may change or grow, and this
-> >               file provides a way for the  kernel  to  inform  user-space
-> >               applications of which files must be delegated.  As at Linux
-> >               4.15, one sees the following when inspecting this file:
-> >
-> >                   $ cat /sys/kernel/cgroup/delegate
-> >                   cgroup.procs
-> >                   cgroup.subtree_control
-> 
-> I have a question about /sys/kernel/cgroup/delegate: why does this
-> file not list cgroup.threads, since that is also a file that
-> (potentially) should be delegated?
+On Wed, Jan 10, 2018 at 04:44:14AM -0800, Roman Gushchin wrote:
+> cgroup.threads is not listed because it's not delegatable (doesn't have
+> CFTYPE_NS_DELEGATABLE flag set). I don't know if it was intended or just
+> an accident (I believe the latter).
 
-cc Tejun
+So, thread mode isn't delegatble.  Marking a cgroup as threaded turns
+that subtree threaded and join the parent's domain, so we can't allow
+delegation roots to be turned threaded - just like we can't mark the
+root cgroup threaded, and I'm not really not sure what it means to
+delegate a portion of threaded subtree.
 
-cgroup.threads is not listed because it's not delegatable (doesn't have
-CFTYPE_NS_DELEGATABLE flag set). I don't know if it was intended or just
-an accident (I believe the latter).
+Thanks.
 
-Thanks!
-
-PS In the latter case the following patch should fix it:
-
->From fdf19edb6e9594e48e89d4510767b9eb6ca2d9dd Mon Sep 17 00:00:00 2001
-From: Roman Gushchin <guro@fb.com>
-Date: Wed, 10 Jan 2018 04:35:12 -0800
-Subject: [PATCH] cgroup: make cgroup.threads delegatable
-
-Make cgroup.threads file delegatable.
-The behavior of cgroup.threads should follow the behavior of cgroup.procs.
-
-Signed-off-by: Roman Gushchin <guro@fb.com>
-Discovered-by: Michael Kerrisk <mtk.manpages@gmail.com>
-Cc: Tejun Heo <tj@kernel.org>
----
- kernel/cgroup/cgroup.c | 1 +
- 1 file changed, 1 insertion(+)
-
-diff --git a/kernel/cgroup/cgroup.c b/kernel/cgroup/cgroup.c
-index 0b1ffe147f24..b74d9ee1425c 100644
---- a/kernel/cgroup/cgroup.c
-+++ b/kernel/cgroup/cgroup.c
-@@ -4449,6 +4449,7 @@ static struct cftype cgroup_base_files[] = {
- 	},
- 	{
- 		.name = "cgroup.threads",
-+		.flags = CFTYPE_NS_DELEGATABLE,
- 		.release = cgroup_procs_release,
- 		.seq_start = cgroup_threads_start,
- 		.seq_next = cgroup_procs_next,
 -- 
-2.14.3
+tejun
