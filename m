@@ -1,9 +1,8 @@
-From: "Michael Kerrisk (man-pages)" <mtk.manpages-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org>
+From: Tejun Heo <tj-DgEjT+Ai2ygdnm+yROfE0A@public.gmane.org>
 Subject: Re: cgroups(7): documenting cgroups v2 delegation
-Date: Wed, 10 Jan 2018 23:24:05 +0100
-Message-ID: <5207cfc8-5525-b932-baee-6b0160886178@gmail.com>
-References: <1ce0a885-94fb-7480-7180-7b873c95b1bb@gmail.com>
- <20180108141450.GP3668920@devbig577.frc2.facebook.com>
+Date: Wed, 10 Jan 2018 14:27:26 -0800
+Message-ID: <20180110222726.GG3460072@devbig577.frc2.facebook.com>
+References: <20180108141450.GP3668920@devbig577.frc2.facebook.com>
  <6c9fdaee-739f-164d-d04e-fb3a7319db90@gmail.com>
  <20180109210722.GS3668920@devbig577.frc2.facebook.com>
  <672cd179-31be-e03a-f9ff-ce59b76e23e2@gmail.com>
@@ -12,60 +11,37 @@ References: <1ce0a885-94fb-7480-7180-7b873c95b1bb@gmail.com>
  <20180110193907.GC3460072@devbig577.frc2.facebook.com>
  <fdfc4c27-f87c-fab8-894c-f9f21374bab2@gmail.com>
  <20180110221418.GF3460072@devbig577.frc2.facebook.com>
+ <5207cfc8-5525-b932-baee-6b0160886178@gmail.com>
 Mime-Version: 1.0
-Content-Type: text/plain; charset=utf-8
-Content-Transfer-Encoding: 7bit
-Return-path: <cgroups-owner-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>
-In-Reply-To: <20180110221418.GF3460072-4dN5La/x3IkLX0oZNxdnEQ2O0Ztt9esIQQ4Iyu8u01E@public.gmane.org>
-Content-Language: en-US
-Sender: cgroups-owner-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
-To: Tejun Heo <tj-DgEjT+Ai2ygdnm+yROfE0A@public.gmane.org>
-Cc: mtk.manpages-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org, "Serge E. Hallyn" <serge-A9i7LUbDfNHQT0dZR+AlfA@public.gmane.org>, linux-man <linux-man-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>, lkml <linux-kernel-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>, cgroups-u79uwXL29TY76Z2rM5mHXA@public.gmane.org, Roman Gushchin <guro-b10kYP2dOMg@public.gmane.org>
+Content-Type: text/plain; charset=us-ascii
+Return-path: <linux-man-owner-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>
+Content-Disposition: inline
+In-Reply-To: <5207cfc8-5525-b932-baee-6b0160886178-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org>
+Sender: linux-man-owner-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
+To: "Michael Kerrisk (man-pages)" <mtk.manpages-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org>
+Cc: "Serge E. Hallyn" <serge-A9i7LUbDfNHQT0dZR+AlfA@public.gmane.org>, linux-man <linux-man-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>, lkml <linux-kernel-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>, cgroups-u79uwXL29TY76Z2rM5mHXA@public.gmane.org, Roman Gushchin <guro-b10kYP2dOMg@public.gmane.org>
 List-Id: linux-man@vger.kernel.org
 
-Hello Tejun,
+Hello,
 
-On 01/10/2018 11:14 PM, Tejun Heo wrote:
-> Hello, Michael.
+On Wed, Jan 10, 2018 at 11:24:05PM +0100, Michael Kerrisk (man-pages) wrote:
+> > Oh, I'm probably mixing up two things.
+> > 
+> > 1. When delegating, cgroup.threads should be delegated.  Doing that
+> >    selectively doesn't achieve anything meaningful.
 > 
-> On Wed, Jan 10, 2018 at 11:01:11PM +0100, Michael Kerrisk (man-pages) wrote:
->>>>>> Can you please confirm that it's only necessary to delegate this file
->>>>>> if we are delegating a threaded subtree?
->>>>>
->>>>> Replied on the other thread.  The file isn't delegatable as far as I
->>>>> can tell.
->>>>
->>>> So, following on from the discussion in the other thread, my
->>>> question above still stands.
->>>
->>> Oh, I frankly haven't thought about delegating a threaded subtree.
->>
->> I'm still confused. cgroup-v2.txt documents the possibility. You
->> wrote that text. We just had a conversation in another thread about the
->> fact that cgroup.threads is delegatable. You must have thought at 
->> least a little about this?
-> 
-> Oh, I'm probably mixing up two things.
-> 
-> 1. When delegating, cgroup.threads should be delegated.  Doing that
->    selectively doesn't achieve anything meaningful.
+> Understood. But surely delegating cgroup.threads is effectively
+> meaningless when delegating a "domain" cgroup tree? (Obviously it's
+> not harmful to delegate the the cgroup.threads file in this case;
+> it's just not useful to do so.)
 
-Understood. But surely delegating cgroup.threads is effectively
-meaningless when delegating a "domain" cgroup tree? (Obviously it's
-not harmful to delegate the the cgroup.threads file in this case;
-it's just not useful to do so.)
+Yeap, unless we can somehow support non-root mixed domains.
 
-> 2. I haven't thought much about delegating a sub-protion of a threaded
->    subtree.  Everything works the same way.  I just can't think of a
->    use case.
-
-Ahhh -- now I see what you meant before.
-
-Cheers,
-
-Michael
+Thanks.
 
 -- 
-Michael Kerrisk
-Linux man-pages maintainer; http://www.kernel.org/doc/man-pages/
-Linux/UNIX System Programming Training: http://man7.org/training/
+tejun
+--
+To unsubscribe from this list: send the line "unsubscribe linux-man" in
+the body of a message to majordomo-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
+More majordomo info at  http://vger.kernel.org/majordomo-info.html
