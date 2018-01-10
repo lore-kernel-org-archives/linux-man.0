@@ -1,151 +1,45 @@
-From: Song Liu <songliubraving-b10kYP2dOMg@public.gmane.org>
-Subject: Re: [PATCH v2] perf_event_open.2: add type kprobe and uprobe
-Date: Tue, 9 Jan 2018 23:36:33 +0000
-Message-ID: <09731E8D-1290-4B9B-90B3-E15F64401429@fb.com>
-References: <20180109193926.2098429-1-songliubraving@fb.com>
- <20180109193926.2098429-2-songliubraving@fb.com>
- <a669691e-faa8-bad3-d2ad-e8e57a1ae96d@gmail.com>
+From: "Michael Kerrisk (man-pages)" <mtk.manpages-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org>
+Subject: Re: cgroups(7): documenting /sys/kernel/cgroup files
+Date: Wed, 10 Jan 2018 05:23:32 +0100
+Message-ID: <CAKgNAkhk-527Rh6tGYJO-U3UXgwBC1+t5nB+5JEq62nTO2p15A@mail.gmail.com>
+References: <ff431fd8-f1c1-ed8d-2d69-64ea83a8a505@gmail.com>
+Reply-To: mtk.manpages-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org
 Mime-Version: 1.0
-Content-Type: text/plain; charset="us-ascii"
-Content-Transfer-Encoding: quoted-printable
-Return-path: <linux-man-owner-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>
-In-Reply-To: <a669691e-faa8-bad3-d2ad-e8e57a1ae96d-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org>
-Content-Language: en-US
-Content-ID: <72441E516F2B774DBE59D14FFEA89BAC-JGF9Izt3QrScE4WynfumptQqCkab/8FMAL8bYrjMMd8@public.gmane.org>
-Sender: linux-man-owner-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
-To: "Michael Kerrisk (man-pages)" <mtk.manpages-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org>
-Cc: "linux-man-u79uwXL29TY76Z2rM5mHXA@public.gmane.org" <linux-man-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>, Kernel Team <Kernel-team-b10kYP2dOMg@public.gmane.org>, "peterz-wEGCiKHe2LqWVfeAwA7xHQ@public.gmane.org" <peterz-wEGCiKHe2LqWVfeAwA7xHQ@public.gmane.org>
+Content-Type: text/plain; charset="UTF-8"
+Return-path: <cgroups-owner-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>
+In-Reply-To: <ff431fd8-f1c1-ed8d-2d69-64ea83a8a505-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org>
+Sender: cgroups-owner-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
+To: Roman Gushchin <guro-b10kYP2dOMg@public.gmane.org>
+Cc: Michael Kerrisk <mtk.manpages-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org>, "Serge E. Hallyn" <serge-A9i7LUbDfNHQT0dZR+AlfA@public.gmane.org>, Tejun Heo <tj-DgEjT+Ai2ygdnm+yROfE0A@public.gmane.org>, linux-man <linux-man-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>, lkml <linux-kernel-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>, "open list:CONTROL GROUP (CGROUP)" <cgroups-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>
 List-Id: linux-man@vger.kernel.org
 
+Hello Roman,
 
-> On Jan 9, 2018, at 3:31 PM, Michael Kerrisk (man-pages) <mtk.manpages@gma=
-il.com> wrote:
->=20
-> On 01/09/2018 08:39 PM, Song Liu wrote:
->> Two new types kprobe and uprobe are being added to perf_event_open,
->> which allow creating kprobe or uprobe with perf_event_open. This
->> patch adds information about these types.
->=20
-> Hello Song Liu,
->=20
-> Thank you for the quick revision. I've merged this patch into
-> a local branch, and made a few trivial edits. If the change is
-> merged in 4.16, I'll merge the man-pages changes. Would
-> you be so kind as to remind me when the patch is merged in 4.16.
->=20
-> Thanks,
->=20
-> Michael
+On 8 January 2018 at 22:11, Michael Kerrisk (man-pages)
+<mtk.manpages-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org> wrote:
+> Hello Roman,
+>
+> I wrote cgroups(7) text below to document the files added by you in
+> Linux 4.15. Could you let me know if the following text is okay please:
+>
+>    /sys/kernel/cgroup files
+>        /sys/kernel/cgroup/delegate (since Linux 4.15)
+>               This file exports a list of the cgroups v2 files  (one  per
+>               line) that are delegatable (i.e., whose ownership should be
+>               changed to the user ID of the delegatee).  In  the  future,
+>               the  set  of delegatable files may change or grow, and this
+>               file provides a way for the  kernel  to  inform  user-space
+>               applications of which files must be delegated.  As at Linux
+>               4.15, one sees the following when inspecting this file:
+>
+>                   $ cat /sys/kernel/cgroup/delegate
+>                   cgroup.procs
+>                   cgroup.subtree_control
 
-Thanks Michael!
+I have a question about /sys/kernel/cgroup/delegate: why does this
+file not list cgroup.threads, since that is also a file that
+(potentially) should be delegated?
 
-I will definitely  send reminder when the kernel patches get merged.=20
+Cheers,
 
-Best,
-Song
-
->=20
->>=20
->> Signed-off-by: Song Liu <songliubraving-b10kYP2dOMg@public.gmane.org>
->> ---
->> man2/perf_event_open.2 | 51 ++++++++++++++++++++++++++++++++++++++++++++=
-++++++
->> 1 file changed, 51 insertions(+)
->>=20
->> diff --git a/man2/perf_event_open.2 b/man2/perf_event_open.2
->> index c91da3f..b5f2596 100644
->> --- a/man2/perf_event_open.2
->> +++ b/man2/perf_event_open.2
->> @@ -256,11 +256,15 @@ struct perf_event_attr {
->>=20
->>     union {
->>         __u64 bp_addr;          /* breakpoint address */
->> +        __u64 kprobe_func;      /* for perf_kprobe */
->> +        __u64 uprobe_path;      /* for perf_uprobe */
->>         __u64 config1;          /* extension of config */
->>     };
->>=20
->>     union {
->>         __u64 bp_len;           /* breakpoint length */
->> +        __u64 kprobe_addr;      /* with kprobe_func =3D=3D NULL */
->> +        __u64 probe_offset;     /* for perf_[k,u]probe */
->>         __u64 config2;          /* extension of config1 */
->>     };
->>     __u64 branch_sample_type;   /* enum perf_branch_sample_type */
->> @@ -336,6 +340,14 @@ field.
->> For instance,
->> .I /sys/bus/event_source/devices/cpu/type
->> contains the value for the core CPU PMU, which is usually 4.
->> +.TP
->> +.BR kprobe " and " uprobe " (since Linux 4.16)"
->> +These two dynamic PMUs create a kprobe/uprobe and attach it to the
->> +file descriptor generated by perf_event_open. The kprobe/uprobe
->> +will be destroyed on the destruction of the file descriptor.
->> +See fields
->> +.IR kprobe_func ", " uprobe_path ", " kprobe_addr ", and " probe_offset
->> +for more details.
->> .RE
->> .TP
->> .I "size"
->> @@ -627,6 +639,45 @@ then leave
->> .I config
->> set to zero.
->> Its parameters are set in other places.
->> +.PP
->> +If
->> +.I type
->> +is
->> +.BR kprobe
->> +or
->> +.BR uprobe ,
->> +set
->> +.IR retprobe
->> +(bit 0 of
->> +.IR config ,
->> +see /sys/bus/event_source/devices/[k,u]probe/format/retprobe)
->> +for kretprobe/uretprobe. See fields
->> +.IR kprobe_func ", " uprobe_path ", " kprobe_addr ", and " probe_offset
->> +for more details.
->> +.RE
->> +.TP
->> +.IR kprobe_func ", " uprobe_path ", " kprobe_addr ", and " probe_offset
->> +.EE
->> +These fields describes the kprobe/uprobe for dynamic PMU
->> +.BR kprobe
->> +and
->> +.BR uprobe .
->> +For
->> +.BR kprobe ": "
->> +use
->> +.I kprobe_func
->> +and
->> +.IR probe_offset ,
->> +or use
->> +.I kprobe_addr
->> +and leave
->> +.I kprobe_func
->> +as NULL. For
->> +.BR uprobe ": "
->> +use
->> +.I uprobe_path
->> +and
->> +.IR probe_offset .
->> .RE
->> .TP
->> .IR sample_period ", " sample_freq
->>=20
->=20
->=20
-> --=20
-> Michael Kerrisk
-> Linux man-pages maintainer; http://www.kernel.org/doc/man-pages/
-> Linux/UNIX System Programming Training: https://urldefense.proofpoint.com=
-/v2/url?u=3Dhttp-3A__man7.org_training_&d=3DDwICaQ&c=3D5VD0RTtNlTh3ycd41b3M=
-Uw&r=3DdR8692q0_uaizy0jkrBJQM5k2hfm4CiFxYT8KaysFrg&m=3D-QUclEjc2UtlNesnYHjW=
-UeEPT5j6l14tJ6oxqre3KOg&s=3Dy2SbV6TEeVSyhAfscexcyKtxB0not7EOezM0CNZeVVY&e=
-=3D
-
---
-To unsubscribe from this list: send the line "unsubscribe linux-man" in
-the body of a message to majordomo-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
-More majordomo info at  http://vger.kernel.org/majordomo-info.html
+Michael
