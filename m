@@ -1,8 +1,8 @@
 From: Eugene Syromyatnikov <evgsyr-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org>
-Subject: [man-pages PATCH 2/5] s390_runtime_instr.2: document the removal of
- the second argument
-Date: Sun, 14 Jan 2018 19:56:27 +0100
-Message-ID: <20180114185627.GA23602@asgard.redhat.com>
+Subject: [man-pages PATCH 5/5] man2: describe s390_guarded_storage
+ s390-specific system call
+Date: Sun, 14 Jan 2018 19:56:43 +0100
+Message-ID: <20180114185643.GA23919@asgard.redhat.com>
 Mime-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Return-path: <linux-man-owner-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>
@@ -12,77 +12,167 @@ To: mtk.manpages-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org
 Cc: linux-man-u79uwXL29TY76Z2rM5mHXA@public.gmane.org, Martin Schwidefsky <schwidefsky-tA70FqPdS9bQT0dZR+AlfA@public.gmane.org>, linux-s390-u79uwXL29TY76Z2rM5mHXA@public.gmane.org, QingFeng Hao <haoqf-23VcF4HTsmIX0ybBhKVfKdBPR1lH4CV8@public.gmane.org>, Jan Glauber <jang-23VcF4HTsmIX0ybBhKVfKdBPR1lH4CV8@public.gmane.org>, Alexey Ishchuk <aishchuk-23VcF4HTsmIX0ybBhKVfKdBPR1lH4CV8@public.gmane.org>
 List-Id: linux-man@vger.kernel.org
 
-Kernel's commit b38feccd663b55ab07116208b68e1ffc7c3c7e78 removed the
-second argument from the system call.
-
-* man2/s390_runtime_instr.2 (.SH SYNOPSIS): Add the prototype for the
-version syscall available in Linux 4.4 onward.
-(.SH DESCRIPTION): Change the description of the signum parameter to
-the past tense, note that it is ignored since Linux 4.4.
-(.SH VERSIONS): Note that syscall has changed its prototype along with
-the reason of change.
-(.SH NOTES): Note that it's impossible to judge whether the signal
-delivery functionality has been successfully enabled by the
-successfulness of the return code.
 ---
- man2/s390_runtime_instr.2 | 20 ++++++++++++++++++--
- 1 file changed, 18 insertions(+), 2 deletions(-)
+ man2/s390_guarded_storage.2 | 150 ++++++++++++++++++++++++++++++++++++++++++++
+ 1 file changed, 150 insertions(+)
+ create mode 100644 man2/s390_guarded_storage.2
 
-diff --git a/man2/s390_runtime_instr.2 b/man2/s390_runtime_instr.2
-index f979692..178237f 100644
---- a/man2/s390_runtime_instr.2
-+++ b/man2/s390_runtime_instr.2
-@@ -30,7 +30,12 @@ s390_runtime_instr \- enable/disable s390 CPU run-time instrumentation
- .\" This heder never had been a part of uapi as of 4.15
- .\" .B #include <asm/runtime_instr.h>
- .\" .PP
-+.\" The signum argument has been removed in v4.4-rc1~138^2
-+/* From Linux 3.7 to Linux 4.3 */
- .BI "int s390_runtime_instr(int " command ", int " signum ");
+diff --git a/man2/s390_guarded_storage.2 b/man2/s390_guarded_storage.2
+new file mode 100644
+index 0000000..4d72713
+--- /dev/null
++++ b/man2/s390_guarded_storage.2
+@@ -0,0 +1,150 @@
++.TH S390_GUARDED_STORAGE 2 2018-01-14 "Linux Programmer's Manual"
++.SH NAME
++s390_guarded_storage \- operations with z/Architecture guarded storage facility
++.SH SYNOPSIS
++.nf
++.B #include <asm/guarded_storage.h>
 +.PP
-+/* Since Linux 4.4 */
-+.BI "int s390_runtime_instr(int " command ");"
- .fi
- .SH DESCRIPTION
- The
-@@ -48,10 +53,12 @@ argument controls whether run-time instrumentation is started
- .PP
- The
- .IR signum
--argument specifies the number of a real-time signal.
--The real-time signal is sent to the thread if the run-time instrumentation
-+argument was available up to Linux 4.3 and allowed specifying the number
-+of a real-time signal.
-+The real-time signal was sent to the thread if the run-time instrumentation
- buffer is full or if the run-time-instrumentation-halted interrupt
- occurred.
-+The argument is ignored from Linux 4.4 onwards and no signal is sent.
- .SH RETURN VALUE
- On success,
- .BR s390_runtime_instr ()
-@@ -79,6 +86,10 @@ Allocating memory for the run-time instrumentation control block failed.
- The run-time instrumentation facility is not available.
- .SH VERSIONS
- This system call is available since Linux 3.7.
++.BI "int s390_guarded_storage(int " command ", stuct gs_cb *" gs_cb ");"
++.fi
++.SH DESCRIPTION
++The
++.BR s390_guarded_storage ()
++system calls enables the use of guarded storage facility (specific to the s390
++architecture) for user space processes.
 +.PP
-+Starting with Linux 4.4, the system call has its second argument removed,
-+since "[t]he external interrupts for runtime instrumentation buffer-full
-+and runtime instrumentation halted are unused and have no current user."
- .SH CONFORMING TO
- This Linux-specific system call is available only on the s390 architecture.
- The run-time instrumentation facility is available beginning with System z EC12.
-@@ -92,6 +103,11 @@ Kernel's header
- contains the necessary declarations for using run-time instrumentation.
- Unfortunately, it hasn't been included as a part of Linux's UAPI
- as of Linux 4.15.
++.\" The description is based on
++.\" http://www-05.ibm.com/de/linux-on-z-ws-us/agenda/pdfs/8_-_Linux_Whats_New_-_Stefan_Raspl.pdf
++.\" and "z/Architecture Principles of Operation" obtained from
++.\" http://publibfi.boulder.ibm.com/epubs/pdf/dz9zr011.pdf
++The guarded storage facility is a hardware feature that allows marking up to
++64 memory regions (as of z14) as guarded;
++reading a pointed with a newly introduced "Load Guarded" (LGG) or "Load Logical
++and Shift Guarded" (LLGFSG) instructions will do a range check on the loaded
++value and invoke a (previously set up) user space handler if one of the guarded
++regions is affected.
 +.PP
-+Beware that since the second argument ignored since Linux 4.4, and no error
-+is returned in case it is specified on these newer kernels, application
-+can't rely on the availability of the signal delivery functionality
-+(or at least check it by setting erroneous value in the second argument).
- .SH SEE ALSO
- .BR syscall (2),
- .BR signal (7)
++The
++.\" The command description is copied from v4.12-rc1~139^2~56^2 commit message
++.I command
++argument indicates which function to perform.
++The following commands are supported:
++.TP
++.B GS_ENABLE
++Enable the guarded storage facility for the current task.
++The initial content of the guarded storage control block will be all zeros.
++After the enalement, the user space code can use the "Load Guarded Storage
++Controls" (LGSC) instruction (or the
++.BR load_gs_cb ()
++function wrapper provided in the
++.B asm/guarded_storage.h
++header) to load an arbitrary control block.
++While a task is enabled, the kernel will save and restore the current content
++of the guarded storage registers on context switch.
++.TP
++.B GS_DISABLE
++Disables the use of the guarded storage facility for the current task.
++The kernel will cease to save and restore the content of the guarded storage
++registers, the task specific content of these registers is lost.
++.TP
++.B GS_SET_BC_CB
++Set a broadcast guarded storage control block to the one provided in the
++.I gs_cb
++argument.
++This is called per thread and associates a specific guarded storage control
++block with the current task.
++This control block will be used in the broadcast command
++.BR GS_BROADCAST .
++.TP
++.B GS_CLEAR_BC_CB
++Clears the broadcast guarded storage control block.
++The guarded storage control block no longer has the association established
++by the
++.B GS_SET_BC_CB
++command.
++.TP
++.B GS_BROADCAST
++Sends a broadcast to all thread siblings of the current task.
++Every sibling that has established a broadcast guarded storage control block
++will load this control block and will be enabled for guarded storage.
++The broadcast guarded storage control block is used up, a second broadcast
++without a refresh of the stored control block with
++.B GS_SET_BC_CB
++will not have any effect.
++.PP
++The
++.I gs_cb
++argument specifies the address of a guarded storage control block structure and
++is currently used only by the
++.B GS_SET_BC_CB
++command; all other aforementioned commands ignore this argument.
++.SH RETURN VALUE
++On success, the return value of
++.BR s390_guarded_storage ()
++returns 0.
++.PP
++On error, \-1 is returned, and
++.IR errno
++is set appropriately.
++.SH ERRORS
++.TP
++.B EFAULT
++.I command
++was
++.BR GS_SET_BC_CB
++and the copying of the guarded storage control block structure pointed by the
++.I gs_cb
++argument has failed.
++.TP
++.B EINVAL
++The value of
++.I command
++is not recognised.
++.TP
++.B ENOMEM
++.I command
++was one of
++.BR GS_ENABLE " or " GS_SET_BC_CB ,
++and the allocation of a new guarded storage control block has failed.
++.TP
++.B EOPNOTSUPP
++The guarded storage is not supported by the hardware.
++.SH VERSIONS
++.\" 916cda1aa1b412d7cf2991c3af7479544942d121, v4.12-rc1~139^2~56^2
++This system call is available since Linux 4.12.
++.SH CONFORMING TO
++This Linux-specific system call is available only on the s390 architecture.
++.PP
++The guarded storage facility is available beginning with System z14.
++.SH NOTES
++Glibc does not provide a wrapper for this system call, use
++.BR syscall (2)
++to call it.
++.PP
++The description of the guarded storage facility along with related instructions
++and Guarded Storage Control Block and Guarded Storage Event Parameter List
++structure layouts is available in "z/Architecture Principles of Operations"
++starting from the twelfth edition.
++.PP
++The
++.B gs_cb
++structure has a field
++.B gsepla
++(Guarded Storage Event Parameter List Address), which is a user space pointer to
++Guarded Storage Event Parameter List structure (that contains the address of the
++aforementioned event handler in the
++.B gseha
++field), and its layout is available as a
++.B gs_epl
++structure type definition in the
++.B asm/guarded_storage.h
++header.
++.\" .PP
++.\" For the example of using the guarded storage facility, see
++.\" .UR https://developer.ibm.com/javasdk/2017/09/25/concurrent-scavenge-using-guarded-storage-facility-works/
++.\" the article with the description of its usage in the Java Garbage Collection
++.\" .UE
++.PP
++.PP
++.SH SEE ALSO
++.BR syscall (2)
 -- 
 2.1.4
 
