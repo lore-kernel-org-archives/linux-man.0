@@ -1,122 +1,67 @@
-From: "Michael Kerrisk (man-pages)" <mtk.manpages-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org>
-Subject: Re: [manpages PATCH] capabilities.7: describe namespaced file capabilities
-Date: Thu, 18 Jan 2018 00:44:17 +0100
-Message-ID: <CAKgNAkhP4d8en-XDXkOqEzy1XpOhuXva6nGxD41URPkiAY0uKw@mail.gmail.com>
-References: <20180109185218.GA21753@mail.hallyn.com> <CAG48ez39UyiqE539rS6RSayj4tPBfQPHPiQ=48Roi55qFJLT7g@mail.gmail.com>
- <20180116173803.GA15538@mail.hallyn.com>
-Reply-To: mtk.manpages-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org
+From: Mike Frysinger <vapier-aBrp7R+bbdUdnm+yROfE0A@public.gmane.org>
+Subject: moving filesystem mount options from util-linux to man-pages
+Date: Thu, 18 Jan 2018 21:36:37 -0500
+Message-ID: <20180119023637.GI7217@vapier>
 Mime-Version: 1.0
-Content-Type: text/plain; charset="UTF-8"
+Content-Type: multipart/signed; micalg=pgp-sha256;
+        protocol="application/pgp-signature"; boundary="WHz+neNWvhIGAO8A"
 Return-path: <linux-man-owner-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>
-In-Reply-To: <20180116173803.GA15538-7LNsyQBKDXoIagZqoN9o3w@public.gmane.org>
+Content-Disposition: inline
 Sender: linux-man-owner-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
-To: "Serge E. Hallyn" <serge-A9i7LUbDfNHQT0dZR+AlfA@public.gmane.org>
-Cc: Jann Horn <jannh-hpIqsD4AKlfQT0dZR+AlfA@public.gmane.org>, "Eric W. Biederman" <ebiederm-aS9lmoZGLiVWk0Htik3J/w@public.gmane.org>, linux-man <linux-man-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>, Seth Forshee <seth.forshee-Z7WLFzj8eWMS+FvcfC7Uqw@public.gmane.org>, Linux API <linux-api-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>, linux-security-module-u79uwXL29TY76Z2rM5mHXA@public.gmane.org, Kees Cook <keescook-F7+t8E8rja9g9hUCZPvPmw@public.gmane.org>, Andreas Gruenbacher <agruenba-H+wXaHxf7aLQT0dZR+AlfA@public.gmane.org>, Andy Lutomirski <luto-DgEjT+Ai2ygdnm+yROfE0A@public.gmane.org>, "Andrew G. Morgan" <morgan-DgEjT+Ai2ygdnm+yROfE0A@public.gmane.org>
+To: util-linux-u79uwXL29TY76Z2rM5mHXA@public.gmane.org, linux-man-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
 List-Id: linux-man@vger.kernel.org
 
-On 16 January 2018 at 18:38, Serge E. Hallyn <serge-A9i7LUbDfNHQT0dZR+AlfA@public.gmane.org> wrote:
-> Quoting Jann Horn (jannh-hpIqsD4AKlfQT0dZR+AlfA@public.gmane.org):
->> On Tue, Jan 9, 2018 at 7:52 PM, Serge E. Hallyn <serge-A9i7LUbDfNHQT0dZR+AlfA@public.gmane.org> wrote:
->> > Update the capabilities(7)  manpage with a description of the
->> > new-ish namespaced file capability support.
->> >
->> > A note on userspace tools:  since the kernel will automatically
->> > convert between v2 and v3 xattrs, and translate nsroot between
->> > v3 xattrs, we can make do with the current getcap(8) and setcap(8)
->> > tools. I.e. a user on the host can create a transient user namespace
->> > with the appropriate mappings and run setcap(8) there.  The kernel
->> > will automatically write a v3 xattr with the transient namespace's
->> > root user as nsroot.
->> >
->> > Signed-off-by: Serge Hallyn <shallyn-FYB4Gu1CFyUAvxtiuMwx3w@public.gmane.org>
->> > ---
->> >  man7/capabilities.7 | 44 ++++++++++++++++++++++++++++++++++++++++++++
->> >  1 file changed, 44 insertions(+)
->> >
->> > diff --git a/man7/capabilities.7 b/man7/capabilities.7
->> > index 166eaaf..76e7e02 100644
->> > --- a/man7/capabilities.7
->> > +++ b/man7/capabilities.7
->> > @@ -936,6 +936,50 @@ if we specify the effective flag as being enabled for any capability,
->> >  then the effective flag must also be specified as enabled
->> >  for all other capabilities for which the corresponding permitted or
->> >  inheritable flags is enabled.
->> > +.PP
->> > +Until 4.13, only VFS_CAP_REVISION_2 xattrs were supported.  These store only
->> > +the capabilities to be applied to the file, with no record of the writer's
->> > +credentials.  Therefore only privileged users can be trusted to write them, and
->> > +.BR CAP_SETFCAP
->> > +over the user namespace which mounted the filesystem (usually the initial user
->> > +namespace) is required.  This makes it impossible to write file capabilities
->> > +from a user namespaced container, which causes some package updates to fail.
->> > +.PP
->> > +In order to support setting file capabilities in containers, the
->> > +kernel must be able to identify whether the task executing the
->> > +file will be constrained to a subset of the resources over which
->> > +the writer of the file capabilities has privilege.  To this end,
->> > +since 4.13, VFS_CAP_REVISION_3 capabilities store the user ID
->> > +of the root user in the writer's namespace ("nsroot").  Hence the writer only
->> > +requires
->> > +.IP 1.
->> > +.BR CAP_SETFCAP
->> > +over the file inode, meaning the writing task must have
->> > +.BR CAP_SETFCAP
->> > +over a user namespace into which the inode's owning user ID is mapped.
->> > +.PP
->> > +and
->> > +.IP 2.
->> > +.BR CAP_SETFCAP
->> > +over the writer's own user namespace.
->>
->> I think that the following would be clearer (but technically
->> equivalent): "Hence the writer only requires CAP_SETFCAP over the file
->> inode, meaning that the writing task must have CAP_SETFCAP in its own
->> user namespace and the UID and GID of the file inode must be mapped in
->> the writing task's user namespace.".
->
-> Looks good to me.
->
->> > +A VFS_CAP_REVISION_3 file capability will take effect only when run in a user namespace
->> > +whose UID 0 maps to the saved "nsroot", or a descendant of such a namespace.
->> > +.PP
->> > +Users with the required privilege may use
->> > +.BR setxattr(2)
->> > +to request either a VFS_CAP_REVISION_2 or VFS_CAP_REVISION_3 write.
->> > +The kernel will automatically convert a VFS_CAP_REVISION_2 to a
->> > +VFS_CAP_REVISION_3 extended attribute with the "nsroot"
->> > +set to the root user in the writer's user namespace, or, if a VFS_CAP_REVISION_3
->> > +extended attribute is specified, then the kernel will map the
->> > +specified root user ID (which must be a valid user ID mapped in the caller's
->> > +user namespace) into the initial user namespace.
->>
->> Really, "into the initial user namespace"? That may be true for the
->> kernel-internal representation, but the on-disk representation is the
->> mapping into the user namespace that contains the mount namespace into
->> which the file system was mounted, right?
->
-> Ah, yes, it is.
->
->>  This would become observable
->> when a file system is mounted in a different namespace than before, or
->> when working with FUSE in a namespace.
->
-> Yes it would.
->
-> Michael, you said you were reworking it, do you mind working this into
-> it as well?
 
-Yes, I'll do that. It may be a couple of weeks before I get some more
-cycles for this, however.
+--WHz+neNWvhIGAO8A
+Content-Type: text/plain; charset=utf-8
+Content-Disposition: inline
 
-Thanks,
+the mount(8) man page covers not only the mount command, but also the
+various file system options that come from the kernel.  it seems like
+the communities have settled on the man-pages project for holding all
+the userland-facing documentation, it has good practices for tracking
+features across versions, and updating it is a lot easier/safer (than
+util-linux) and up-to-date on the web (via man7.org).  while looking
+up some proc/ramfs options, i noticed util-linux was out of date by
+over 6 years :/.
 
-Michael
+imo, it seems like we should move all kernel-specific documentation
+out of the util-linux project and into man-pages.  obviously all the
+mount command line options and such should remain.
 
+specifically i'm looking at "FILESYSTEM-SPECIFIC MOUNT OPTIONS":
+http://man7.org/linux/man-pages/man8/mount.8.html#FILESYSTEM-SPECIFIC_MOUNT_OPTIONS
 
--- 
-Michael Kerrisk
-Linux man-pages maintainer; http://www.kernel.org/doc/man-pages/
-Linux/UNIX System Programming Training: http://man7.org/training/
+we probably want to leave "FILESYSTEM-INDEPENDENT MOUNT OPTIONS"
+in util-linux since those are all parsed by util-linux's mount
+and turned into the MS_xxx bits.
+
+thoughts ?  mount(2) doesn't seem like the best place, but these
+are the fields that go in the "data" string to that syscall.
+-mike
+
+--WHz+neNWvhIGAO8A
+Content-Type: application/pgp-signature; name="signature.asc"
+Content-Description: Digital signature
+
+-----BEGIN PGP SIGNATURE-----
+
+iQIzBAEBCAAdFiEEuQK1JxMl+JKsJRrUQWM7n+g39YEFAlphWbUACgkQQWM7n+g3
+9YFoAQ//bwKRBddT8fnAYkZq7DjbbxZQtt3H3VUCoKAoJp8/36MadFWkbL3c9tlJ
++Xt74ihPrNfKlFMmiqmJP1XvpMfnwBQJrmhSLdPHidc0WIvvVjgbBtG4fUIF+Co+
+hXTahZxyY6vx15mYiMnwoj49xGY0w6CD4o5OiILaktA/6Iy+Kn+jurvvxyrsbKBg
+WmxRHukqywkOTpn142zadJ1jlOHE1QVzd062aU+hQCq3EmYwEiaob8kWYyp4k1dh
+GbAXom1ruElwQDwbCdKV0g2wlt1FZxlcQsp5KrmRSrGnsFkn2Uxe1IjMJ3DPqInu
+M2N01Lom7ZPNQ0zNLhyOeM0Rn6l8dyqN5yBYmZeKJKUk2iHV+A9Ih47XcPVOb9YE
+GivQfPIW7kNCLZDbMB4xXqhHy/zFKm9n5VPyv7g3YOhj46v6fecZbal+5wnWd697
+Jd0KPKcEICVSyJoUBNxM8a2APahdP8EOb5Oth+e1Sc3tO/teaZjj1TdF9jDi1D1Z
+A4H/Q3da9LJZNETGX/nwWgrI/0EjYX6uyFGz++sPppAlC2+wGpLKMuLAZACM6coo
+0hDDDZOEkozwZHkzAdbKrSWPItXzyJgqgsfC427QlbBivoSlb/NJ6wllQ4IH8Y4m
+JU7rgeRBGxugYfYeG/ZjGCFfn/sIO1bARxFWEKXlnKV0sdDWob8=
+=gNTl
+-----END PGP SIGNATURE-----
+
+--WHz+neNWvhIGAO8A--
 --
 To unsubscribe from this list: send the line "unsubscribe linux-man" in
 the body of a message to majordomo-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
