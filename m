@@ -1,46 +1,56 @@
 From: Heiko Carstens <heiko.carstens-tA70FqPdS9bQT0dZR+AlfA@public.gmane.org>
-Subject: Re: [man-pages PATCH 4/5] s390_sthyi.2: some minor additions
-Date: Sat, 20 Jan 2018 13:01:21 +0100
-Message-ID: <20180120120121.GD6287@osiris>
-References: <20180114185639.GA23817@asgard.redhat.com>
+Subject: Re: [man-pages PATCH 5/5] man2: describe s390_guarded_storage
+ s390-specific system call
+Date: Sat, 20 Jan 2018 13:23:49 +0100
+Message-ID: <20180120122349.GE6287@osiris>
+References: <20180114185643.GA23919@asgard.redhat.com>
 Mime-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Return-path: <linux-man-owner-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>
 Content-Disposition: inline
-In-Reply-To: <20180114185639.GA23817-ZbobWygYI+YXGNroddHbYwC/G2K4zDHf@public.gmane.org>
+In-Reply-To: <20180114185643.GA23919-ZbobWygYI+YXGNroddHbYwC/G2K4zDHf@public.gmane.org>
 Sender: linux-man-owner-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
 To: Eugene Syromyatnikov <evgsyr-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org>
 Cc: mtk.manpages-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org, linux-man-u79uwXL29TY76Z2rM5mHXA@public.gmane.org, Martin Schwidefsky <schwidefsky-tA70FqPdS9bQT0dZR+AlfA@public.gmane.org>, linux-s390-u79uwXL29TY76Z2rM5mHXA@public.gmane.org, QingFeng Hao <haoqf-23VcF4HTsmIX0ybBhKVfKdBPR1lH4CV8@public.gmane.org>, Jan Glauber <jang-23VcF4HTsmIX0ybBhKVfKdBPR1lH4CV8@public.gmane.org>, Alexey Ishchuk <aishchuk-23VcF4HTsmIX0ybBhKVfKdBPR1lH4CV8@public.gmane.org>
 List-Id: linux-man@vger.kernel.org
 
-On Sun, Jan 14, 2018 at 07:56:39PM +0100, Eugene Syromyatnikov wrote:
-> * man2/s390_sthyi.2 (.SH DESCRIPTION): Document the size of the
-> resp_buffer when function_code is 0.
-> (.SH NOTES): Document various aspects of the current implementation (the
-> lifted requirement for the response buffer alignment, the usage of
-> hardware STHYI instruction whether available, the presence of in-kernel
-> cache), add description for the documentation URL.
+On Sun, Jan 14, 2018 at 07:56:43PM +0100, Eugene Syromyatnikov wrote:
 > ---
-> +The in-kernel implementation of the function code 0 doesn't require the response
-> +buffer to be aligned to a page boundary (in contrast to the STHYI instruction
-> +requirement).
+>  man2/s390_guarded_storage.2 | 150 ++++++++++++++++++++++++++++++++++++++++++++
+>  1 file changed, 150 insertions(+)
+>  create mode 100644 man2/s390_guarded_storage.2
+> 
+> diff --git a/man2/s390_guarded_storage.2 b/man2/s390_guarded_storage.2
+> +.B GS_ENABLE
+> +Enable the guarded storage facility for the current task.
+> +The initial content of the guarded storage control block will be all zeros.
+> +After the enalement, the user space code can use the "Load Guarded Storage
 
-Maybe: "When using the system call interface the response buffer doesn't
-have to fulfill alignment requirements as described in the STHYI
-instruction defintion." ?
+enablement
 
-> +.PP
-> +The in-kernel implementation uses STHYI function whether available.
-> +.PP
+> +.SH ERRORS
+> +.TP
+> +.B EFAULT
+> +.I command
+> +was
+> +.BR GS_SET_BC_CB
+> +and the copying of the guarded storage control block structure pointed by the
+> +.I gs_cb
+> +argument has failed.
+> +.TP
+> +.B EINVAL
+> +The value of
+> +.I command
+> +is not recognised.
 
-I don't think this should be described in the man page. This is an
-implementation detail that can change at any time.
+Maybe: "The value specified for command is not a valid command." ?
 
-> +The kernel caches the response (for one second, currently), so the subsequent
-> +calls to the system call within may return previously cached values instead.
+> +.B EOPNOTSUPP
+> +The guarded storage is not supported by the hardware.
 
-"The kernel caches the response up to one second. Subsequent system call
-invocations may return the cached response." ?
+"The guarded storage facility is not available."
+
+Thanks for providing the man page!
 
 --
 To unsubscribe from this list: send the line "unsubscribe linux-man" in
