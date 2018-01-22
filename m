@@ -1,33 +1,53 @@
 From: Eugene Syromyatnikov <evgsyr-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org>
-Subject: Re: [man-pages PATCH 2/5] s390_runtime_instr.2: document the removal
- of the second argument
-Date: Mon, 22 Jan 2018 13:16:25 +0000
-Message-ID: <CACGkJduq-h=RdranSq_jbg3g65dKPLa5+P-85kR4Z+nFyfYe0w@mail.gmail.com>
-References: <20180114185627.GA23602@asgard.redhat.com> <20180120114126.GC6287@osiris>
+Subject: Re: [man-pages PATCH 4/5] s390_sthyi.2: some minor additions
+Date: Mon, 22 Jan 2018 13:19:20 +0000
+Message-ID: <CACGkJdto1aTDRr78F4CY6M_4b94ZYu28mBMnDc+-u=9xP8_P_Q@mail.gmail.com>
+References: <20180114185639.GA23817@asgard.redhat.com> <20180120120121.GD6287@osiris>
 Mime-Version: 1.0
 Content-Type: text/plain; charset="UTF-8"
 Return-path: <linux-man-owner-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>
-In-Reply-To: <20180120114126.GC6287@osiris>
+In-Reply-To: <20180120120121.GD6287@osiris>
 Sender: linux-man-owner-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
 To: Heiko Carstens <heiko.carstens-tA70FqPdS9bQT0dZR+AlfA@public.gmane.org>
 Cc: Michael Kerrisk-manpages <mtk.manpages-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org>, linux-man <linux-man-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>, Martin Schwidefsky <schwidefsky-tA70FqPdS9bQT0dZR+AlfA@public.gmane.org>, linux-s390-u79uwXL29TY76Z2rM5mHXA@public.gmane.org, QingFeng Hao <haoqf-23VcF4HTsmIX0ybBhKVfKdBPR1lH4CV8@public.gmane.org>
 List-Id: linux-man@vger.kernel.org
 
-On Sat, Jan 20, 2018 at 11:41 AM, Heiko Carstens
+On Sat, Jan 20, 2018 at 12:01 PM, Heiko Carstens
 <heiko.carstens-tA70FqPdS9bQT0dZR+AlfA@public.gmane.org> wrote:
-> If you now document the above people will start using the system call with
-> only one parameter which isn't backwards compatible.
+> On Sun, Jan 14, 2018 at 07:56:39PM +0100, Eugene Syromyatnikov wrote:
+>> * man2/s390_sthyi.2 (.SH DESCRIPTION): Document the size of the
+>> resp_buffer when function_code is 0.
+>> (.SH NOTES): Document various aspects of the current implementation (the
+>> lifted requirement for the response buffer alignment, the usage of
+>> hardware STHYI instruction whether available, the presence of in-kernel
+>> cache), add description for the documentation URL.
+>> ---
+>> +The in-kernel implementation of the function code 0 doesn't require the response
+>> +buffer to be aligned to a page boundary (in contrast to the STHYI instruction
+>> +requirement).
 >
-> I'd rather add the second parameter again to the system call so that code
-> stays backwards compatible.
+> Maybe: "When using the system call interface the response buffer doesn't
+> have to fulfill alignment requirements as described in the STHYI
+> instruction defintion." ?
 
-Well, it ought to be documented somehow, especially if the syscall
-parameter will be added back, as there could be situation where
-application gets successful return code for the call non-zero value of
-the second argument and gets no signals as it is the one of the kernel
-releases where this parameter was removed. I can update the patch to
-reflect this once the patch that returns the second argument reaches
-the kernel tree.
+Yes, that sounds better.
+
+>> +.PP
+>> +The in-kernel implementation uses STHYI function whether available.
+>> +.PP
+>
+> I don't think this should be described in the man page. This is an
+> implementation detail that can change at any time.
+
+Agreed.
+
+>> +The kernel caches the response (for one second, currently), so the subsequent
+>> +calls to the system call within may return previously cached values instead.
+>
+> "The kernel caches the response up to one second. Subsequent system call
+> invocations may return the cached response." ?
+
+Yep, that's definitely phrased better.
 
 -- 
 Eugene Syromyatnikov
