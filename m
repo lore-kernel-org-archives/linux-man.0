@@ -1,28 +1,38 @@
-From: Fihlman Emil <emil.fihlman-uOixanVlb7U@public.gmane.org>
-Subject: write(2) and write(3) ERRORS section and equivalent calls
-Date: Mon, 22 Jan 2018 01:50:01 +0000
-Message-ID: <a6ff3cdc013043a79202cb80a106002c@aalto.fi>
+From: Eugene Syromyatnikov <evgsyr-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org>
+Subject: Re: [man-pages PATCH 1/5] s390_runtime_instr.2: note that
+ runtime_instr.h is not a public header
+Date: Mon, 22 Jan 2018 13:11:19 +0000
+Message-ID: <CACGkJduJ2SyWVZ7b-obLC_sB5TwHRfdpdfY5qDGrpzGgTC-H+A@mail.gmail.com>
+References: <20180114185622.GA23506@asgard.redhat.com> <20180120112839.GB6287@osiris>
 Mime-Version: 1.0
-Content-Type: text/plain; charset="iso-8859-1"
-Content-Transfer-Encoding: 8BIT
+Content-Type: text/plain; charset="UTF-8"
 Return-path: <linux-man-owner-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>
-Content-Language: fi-FI
+In-Reply-To: <20180120112839.GB6287@osiris>
 Sender: linux-man-owner-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
-To: "mtk.manpages-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org" <mtk.manpages-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org>
-Cc: "linux-man-u79uwXL29TY76Z2rM5mHXA@public.gmane.org" <linux-man-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>
+To: Heiko Carstens <heiko.carstens-tA70FqPdS9bQT0dZR+AlfA@public.gmane.org>
+Cc: Michael Kerrisk-manpages <mtk.manpages-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org>, linux-man <linux-man-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>, Martin Schwidefsky <schwidefsky-tA70FqPdS9bQT0dZR+AlfA@public.gmane.org>, linux-s390-u79uwXL29TY76Z2rM5mHXA@public.gmane.org, QingFeng Hao <haoqf-23VcF4HTsmIX0ybBhKVfKdBPR1lH4CV8@public.gmane.org>
 List-Id: linux-man@vger.kernel.org
 
-Man pages for write(2) and write(3) should, in ERRORS section, clearly state that the errors for an equivalent calls apply and errno is set according to those equivalent calls.
+On Sat, Jan 20, 2018 at 11:28 AM, Heiko Carstens
+<heiko.carstens-tA70FqPdS9bQT0dZR+AlfA@public.gmane.org> wrote:
+> IMHO we shouldn't document the file name of a kernel header that is not
+> exported. It's name and location can change anytime. I will move the kernel
+> header file to the uapi directory where it should have been since a long
+> time.
 
-Right now write(3) says in DESCRIPTION section among a sea of text:
-"If fildes refers to a socket, write() shall be equivalent to send() with no flags set."
+In that case, I think it could be rephrased to something like "the
+header asm/runtime_instr.h is available for the userspace programs
+since Linux 4.15, before that it was located in
+arch/s390/include/asm/runtime_instr.h in the kernel's source tree", as
+man-pages project (as I understood) tends to reference places in
+kernel's source tree if it is deemed useful; it is usually applied to
+documentation files, however, although they also have tendency to
+migrate over time.
 
-And write(2) in ERRORS section:
-"Other errors may occur, depending on the object connected to fd."
-
-As an example, if fildes is a socket and write errors with EMSGSIZE (as is possible by default in Linux, man 7 udp) documentation is unclear what happens since in write(3) equivalent calls and errno is not mentioned in the ERRORS section and in write(2) other errors are undocumented.
-
-Emil Fihlman
+-- 
+Eugene Syromyatnikov
+mailto:evgsyr-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org
+xmpp:esyr@jabber.{ru|org}
 --
 To unsubscribe from this list: send the line "unsubscribe linux-man" in
 the body of a message to majordomo-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
