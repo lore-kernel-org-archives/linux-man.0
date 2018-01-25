@@ -1,41 +1,50 @@
-From: Heiko Carstens <heiko.carstens-tA70FqPdS9bQT0dZR+AlfA@public.gmane.org>
-Subject: Re: [man-pages PATCH 1/5] s390_runtime_instr.2: note that
- runtime_instr.h is not a public header
-Date: Mon, 22 Jan 2018 16:11:05 +0100
-Message-ID: <20180122151105.GF4806@osiris>
-References: <20180114185622.GA23506@asgard.redhat.com>
- <20180120112839.GB6287@osiris>
- <CACGkJduJ2SyWVZ7b-obLC_sB5TwHRfdpdfY5qDGrpzGgTC-H+A@mail.gmail.com>
+From: Carsten Grohmann <carstengrohmann-Mmb7MZpHnFY@public.gmane.org>
+Subject: [patch] shutdown(2): Add backlink to close(2)
+Date: Thu, 25 Jan 2018 14:38:42 +0100
+Message-ID: <20180125143842.03800061@max.localdomain>
 Mime-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
+Content-Type: multipart/mixed; boundary="MP_/81h/_8nXdCLD7M.E3t+37C5"
 Return-path: <linux-man-owner-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>
-Content-Disposition: inline
-In-Reply-To: <CACGkJduJ2SyWVZ7b-obLC_sB5TwHRfdpdfY5qDGrpzGgTC-H+A-JsoAwUIsXosN+BqQ9rBEUg@public.gmane.org>
 Sender: linux-man-owner-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
-To: Eugene Syromyatnikov <evgsyr-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org>
-Cc: Michael Kerrisk-manpages <mtk.manpages-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org>, linux-man <linux-man-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>, Martin Schwidefsky <schwidefsky-tA70FqPdS9bQT0dZR+AlfA@public.gmane.org>, linux-s390-u79uwXL29TY76Z2rM5mHXA@public.gmane.org, QingFeng Hao <haoqf-23VcF4HTsmIX0ybBhKVfKdBPR1lH4CV8@public.gmane.org>
+To: mtk.manpages-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org
+Cc: linux-man-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
 List-Id: linux-man@vger.kernel.org
 
-On Mon, Jan 22, 2018 at 01:11:19PM +0000, Eugene Syromyatnikov wrote:
-> On Sat, Jan 20, 2018 at 11:28 AM, Heiko Carstens
-> <heiko.carstens-tA70FqPdS9bQT0dZR+AlfA@public.gmane.org> wrote:
-> > IMHO we shouldn't document the file name of a kernel header that is not
-> > exported. It's name and location can change anytime. I will move the kernel
-> > header file to the uapi directory where it should have been since a long
-> > time.
-> 
-> In that case, I think it could be rephrased to something like "the
-> header asm/runtime_instr.h is available for the userspace programs
-> since Linux 4.15, before that it was located in
-> arch/s390/include/asm/runtime_instr.h in the kernel's source tree", as
-> man-pages project (as I understood) tends to reference places in
-> kernel's source tree if it is deemed useful; it is usually applied to
-> documentation files, however, although they also have tendency to
-> migrate over time.
+--MP_/81h/_8nXdCLD7M.E3t+37C5
+Content-Type: text/plain; charset=US-ASCII
+Content-Transfer-Encoding: 7bit
+Content-Disposition: inline
 
-Yes, that's ok. However moving the header file to uapi is not going to
-happen before kernel version 4.16.
+Hi Michael,
 
+The close(2) man page contains in the "SEE ALSO" section a reference to
+shutdown(2). But shutdown(2) doesn't have the back reference.
+
+I think the backlink is useful, because both calls can be used to close
+sockets.
+
+The attached patch adds the backlink.
+
+Kind regards,
+Carsten
+
+--MP_/81h/_8nXdCLD7M.E3t+37C5
+Content-Type: text/x-patch
+Content-Transfer-Encoding: 7bit
+Content-Disposition: attachment; filename=shutdown.2.diff
+
+--- shutdown.2.orig	2018-01-23 21:37:50.000000000 +0100
++++ shutdown.2	2018-01-23 21:37:35.382169253 +0100
+@@ -114,6 +114,7 @@
+ .\" and for DECnet sockets in commit 46b66d7077b89fb4917ceef19b3f7dd86055c94a
+ in Linux 3.7.
+ .SH SEE ALSO
++.BR close (2),
+ .BR connect (2),
+ .BR socket (2),
+ .BR socket (7)
+
+--MP_/81h/_8nXdCLD7M.E3t+37C5--
 --
 To unsubscribe from this list: send the line "unsubscribe linux-man" in
 the body of a message to majordomo-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
