@@ -1,50 +1,41 @@
-From: Carsten Grohmann <carstengrohmann-Mmb7MZpHnFY@public.gmane.org>
-Subject: [patch] shutdown(2): Add backlink to close(2)
-Date: Thu, 25 Jan 2018 14:38:42 +0100
-Message-ID: <20180125143842.03800061@max.localdomain>
+From: Peter Schuster <femi.ageuh-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org>
+Subject: =?UTF-8?Q?Darlehen_Geld_f=C3=BCr_Einzelpersonen_und_Fachleute_in_w?=
+        =?UTF-8?Q?eniger_als_72_Stunden?=
+Date: Fri, 26 Jan 2018 08:22:47 +0100
+Message-ID: <CACKcKZ-YTVoO8xO=VcRR-F_91T=fQ=MZa2wBTk_EaRT7GRz52Q__15688.0402741537$1516951326$gmane$org@mail.gmail.com>
+Reply-To: klaus.peterschuster-1ViLX0X+lBKELgA04lAiVw@public.gmane.org
 Mime-Version: 1.0
-Content-Type: multipart/mixed; boundary="MP_/81h/_8nXdCLD7M.E3t+37C5"
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 Return-path: <linux-man-owner-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>
 Sender: linux-man-owner-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
-To: mtk.manpages-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org
-Cc: linux-man-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
 List-Id: linux-man@vger.kernel.org
 
---MP_/81h/_8nXdCLD7M.E3t+37C5
-Content-Type: text/plain; charset=US-ASCII
-Content-Transfer-Encoding: 7bit
-Content-Disposition: inline
+Hallo,
 
-Hi Michael,
+Sind Sie in einer schwierigen Situation, f=C3=BCr die Sie sich f=C3=BCr ein
+Darlehen suchen? Ben=C3=B6tigen Sie eine Finanzierung, um eine Schuld zu
+begleichen oder eine Aktivit=C3=A4t zu finanzieren? Haben Sie einen
+Verbraucherkredit, eine Hypothek, einen pers=C3=B6nlichen Kredit, eine
+Hypothek, Investition Darlehen, Schuldenkonsolidierung Darlehen oder
+andere braucht?
 
-The close(2) man page contains in the "SEE ALSO" section a reference to
-shutdown(2). But shutdown(2) doesn't have the back reference.
+Ich bin ein einzelner Investor. I zur Verf=C3=BCgung stellen die Kredit
+kurz-, mittel- und langfristige. Ihr Finanzierungsbedingungen sind
+sehr einfach und meine Zinssatz betr=C3=A4gt 3% pro Jahr.
 
-I think the backlink is useful, because both calls can be used to close
-sockets.
+F=C3=BCr alle Anfragen, bleibe ich zur Verf=C3=BCgung, um Ihre Fragen zu be=
+antworten.
 
-The attached patch adds the backlink.
+Danke, dass Sie mir per E-Mail an Sie von  :   klaus.peterschuster@outlook.=
+de
 
-Kind regards,
-Carsten
+Mit freundlichen Gr=C3=BC=C3=9Fen.
 
---MP_/81h/_8nXdCLD7M.E3t+37C5
-Content-Type: text/x-patch
-Content-Transfer-Encoding: 7bit
-Content-Disposition: attachment; filename=shutdown.2.diff
+Peter Schuster
 
---- shutdown.2.orig	2018-01-23 21:37:50.000000000 +0100
-+++ shutdown.2	2018-01-23 21:37:35.382169253 +0100
-@@ -114,6 +114,7 @@
- .\" and for DECnet sockets in commit 46b66d7077b89fb4917ceef19b3f7dd86055c94a
- in Linux 3.7.
- .SH SEE ALSO
-+.BR close (2),
- .BR connect (2),
- .BR socket (2),
- .BR socket (7)
-
---MP_/81h/_8nXdCLD7M.E3t+37C5--
+Financial Bank
+https://firstfinancialsa.com/de
 --
 To unsubscribe from this list: send the line "unsubscribe linux-man" in
 the body of a message to majordomo-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
