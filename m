@@ -1,50 +1,255 @@
 From: "Michael Kerrisk (man-pages)" <mtk.manpages-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org>
-Subject: Re: [PATCH] cgroups.7: tfix
-Date: Fri, 26 Jan 2018 19:59:05 +0100
-Message-ID: <1a8caea7-5728-189f-37b8-17b515664f3d@gmail.com>
-References: <20180126134026.2960-1-jwilk@jwilk.net>
+Subject: Re: [PATCH] vsock.7: document VSOCK socket address family
+Date: Fri, 26 Jan 2018 22:47:47 +0100
+Message-ID: <CAKgNAkj=SvKSgg+hp3MXBpQF9PqJLGrEmiJuxJb3b-N=NfFYSQ@mail.gmail.com>
+References: <20171130112153.13885-1-stefanha@redhat.com>
+Reply-To: mtk.manpages-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org
 Mime-Version: 1.0
-Content-Type: text/plain; charset=utf-8
-Content-Transfer-Encoding: 7bit
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 Return-path: <linux-man-owner-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>
-In-Reply-To: <20180126134026.2960-1-jwilk-tXgOlIzOKNReoWH0uzbU5w@public.gmane.org>
-Content-Language: en-US
+In-Reply-To: <20171130112153.13885-1-stefanha-H+wXaHxf7aLQT0dZR+AlfA@public.gmane.org>
 Sender: linux-man-owner-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
-To: Jakub Wilk <jwilk-tXgOlIzOKNReoWH0uzbU5w@public.gmane.org>
-Cc: mtk.manpages-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org, linux-man-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
+To: Stefan Hajnoczi <stefanha-H+wXaHxf7aLQT0dZR+AlfA@public.gmane.org>
+Cc: linux-man <linux-man-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>, netdev <netdev-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>, Dexuan Cui <decui-0li6OtcxBFHby3iVrkZq2A@public.gmane.org>, Jorgen Hansen <jhansen-pghWNbHTmq7QT0dZR+AlfA@public.gmane.org>
 List-Id: linux-man@vger.kernel.org
 
-On 01/26/2018 02:40 PM, Jakub Wilk wrote:
-> Signed-off-by: Jakub Wilk <jwilk-tXgOlIzOKNReoWH0uzbU5w@public.gmane.org>
+Stefan,
 
-Thanks, Jakub. Applied.
+I've just now noted that your page came with no license. What license
+do you want to use Please see
+https://www.kernel.org/doc/man-pages/licenses.html
 
-Cheers,
+Thanks,
 
 Michael
 
 
+On 30 November 2017 at 12:21, Stefan Hajnoczi <stefanha-H+wXaHxf7aLQT0dZR+AlfA@public.gmane.org> wrote:
+> The AF_VSOCK address family has been available since Linux 3.9 without a
+> corresponding man page.
+>
+> This patch adds vsock.7 and describes its use along the same lines as
+> existing ip.7, unix.7, and netlink.7 man pages.
+>
+> CC: Jorgen Hansen <jhansen-pghWNbHTmq7QT0dZR+AlfA@public.gmane.org>
+> CC: Dexuan Cui <decui-0li6OtcxBFHby3iVrkZq2A@public.gmane.org>
+> Signed-off-by: Stefan Hajnoczi <stefanha-H+wXaHxf7aLQT0dZR+AlfA@public.gmane.org>
 > ---
->  man7/cgroups.7 | 2 +-
->  1 file changed, 1 insertion(+), 1 deletion(-)
-> 
-> diff --git a/man7/cgroups.7 b/man7/cgroups.7
-> index 1d7edd6e5..bf32aa958 100644
-> --- a/man7/cgroups.7
-> +++ b/man7/cgroups.7
-> @@ -1286,7 +1286,7 @@ becomes
->  .IP *
->  All of the descendant cgroups of
->  .I x
-> -that are were not already of type
-> +that were not already of type
->  .IR threaded
->  are converted to type
->  .IR "domain invalid" .
-> 
+>  man7/vsock.7 | 175 +++++++++++++++++++++++++++++++++++++++++++++++++++++=
+++++++
+>  1 file changed, 175 insertions(+)
+>  create mode 100644 man7/vsock.7
+>
+> diff --git a/man7/vsock.7 b/man7/vsock.7
+> new file mode 100644
+> index 000000000..48c6c2e1e
+> --- /dev/null
+> +++ b/man7/vsock.7
+> @@ -0,0 +1,175 @@
+> +.TH VSOCK 7 2017-11-30 "Linux" "Linux Programmer's Manual"
+> +.SH NAME
+> +vsock \- Linux VSOCK address family
+> +.SH SYNOPSIS
+> +.B #include <sys/socket.h>
+> +.br
+> +.B #include <linux/vm_sockets.h>
+> +.PP
+> +.IB stream_socket " =3D socket(AF_VSOCK, SOCK_STREAM, 0);"
+> +.br
+> +.IB datagram_socket " =3D socket(AF_VSOCK, SOCK_DGRAM, 0);"
+> +.SH DESCRIPTION
+> +The VSOCK address family facilitates communication between virtual machi=
+nes and
+> +the host they are running on.  This address family is used by guest agen=
+ts and
+> +hypervisor services that need a communications channel that is independe=
+nt of
+> +virtual machine network configuration.
+> +.PP
+> +Valid socket types are
+> +.B SOCK_STREAM
+> +and
+> +.B SOCK_DGRAM .
+> +.B SOCK_STREAM
+> +provides connection-oriented byte streams with guaranteed, in-order deli=
+very.
+> +.B SOCK_DGRAM
+> +provides a connectionless datagram packet service.  Availability of thes=
+e
+> +socket types is dependent on the underlying hypervisor.
+> +.PP
+> +A new socket is created with
+> +.PP
+> +    socket(AF_VSOCK, socket_type, 0);
+> +.PP
+> +When a process wants to establish a connection it calls
+> +.BR connect (2)
+> +with a given destination socket address.  The socket is automatically bo=
+und to
+> +a free port if unbound.
+> +.PP
+> +A process can listen for incoming connections by first binding to a sock=
+et address using
+> +.BR bind (2)
+> +and then calling
+> +.BR listen (2).
+> +.PP
+> +Data is transferred using the usual
+> +.BR send (2)
+> +and
+> +.BR recv (2)
+> +family of socket system calls.
+> +.SS Address format
+> +A socket address is defined as a combination of a 32-bit Context Identif=
+ier (CID) and a 32-bit port number.  The CID identifies the source or desti=
+nation, which is either a virtual machine or the host.  The port number dif=
+ferentiates between multiple services running on a single machine.
+> +.PP
+> +.in +4n
+> +.EX
+> +struct sockaddr_vm {
+> +    sa_family_t     svm_family;     /* address family: AF_VSOCK */
+> +    unsigned short  svm_reserved1;
+> +    unsigned int    svm_port;       /* port in native byte order */
+> +    unsigned int    svm_cid;        /* address in native byte order */
+> +};
+> +.EE
+> +.in
+> +.PP
+> +.I svm_family
+> +is always set to
+> +.BR AF_VSOCK .
+> +.I svm_reserved1
+> +is always set to 0.
+> +.I svm_port
+> +contains the port in native byte order.
+> +The port numbers below 1024 are called
+> +.IR "privileged ports" .
+> +Only a process with
+> +.B CAP_NET_BIND_SERVER
+> +capability may
+> +.BR bind (2)
+> +to these port numbers.
+> +.PP
+> +There are several special addresses:
+> +.B VMADDR_CID_ANY
+> +(-1U)
+> +means any address for binding;
+> +.B VMADDR_CID_HYPERVISOR
+> +(0) and
+> +.B VMADDR_CID_RESERVED
+> +(1) are unused addresses;
+> +.B VMADDR_CID_HOST
+> +(2)
+> +is the well-known address of the host.
+> +.PP
+> +The special constant
+> +.B VMADDR_PORT_ANY
+> +(-1U)
+> +means any port number for binding.
+> +.SS Live migration
+> +Sockets are affected by live migration of virtual machines.  Connected
+> +.B SOCK_STREAM
+> +sockets become disconnected when the virtual machine migrates to a new h=
+ost.
+> +Applications must reconnect when this happens.
+> +.PP
+> +The local CID may change across live migration if the old CID is not ava=
+ilable
+> +on the new host.  Bound sockets are automatically updated to the new CID=
+.
+> +.SS Ioctls
+> +.TP
+> +.B IOCTL_VM_SOCKETS_GET_LOCAL_CID
+> +Get the CID of the local machine.  The argument is a pointer to an unsig=
+ned int.
+> +.IP
+> +.in +4n
+> +.EX
+> +.IB error " =3D ioctl(" socket ", " IOCTL_VM_SOCKETS_GET_LOCAL_CID ", " =
+&cid ");"
+> +.EE
+> +.in
+> +.IP
+> +Consider using
+> +.B VMADDR_CID_ANY
+> +when binding instead of getting the local CID with
+> +.B IOCTL_VM_SOCKETS_GET_LOCAL_CID .
+> +.SH ERRORS
+> +.TP
+> +.B EACCES
+> +Unable to bind to a privileged port without the
+> +.B CAP_NET_BIND_SERVICE
+> +capability.
+> +.TP
+> +.B EINVAL
+> +Invalid parameters.  This includes:
+> +attempting to bind a socket that is already bound, providing an invalid =
+struct
+> +.B sockaddr_vm ,
+> +and other input validation errors.
+> +.TP
+> +.B EOPNOTSUPP
+> +Operation not supported.  This includes:
+> +the
+> +.B MSG_OOB
+> +flag that is not implemented for
+> +.B sendmsg (2)
+> +and
+> +.B MSG_PEEK
+> +for
+> +.B recvmsg (2).
+> +.TP
+> +.B EADDRINUSE
+> +Unable to bind to a port that is already in use.
+> +.TP
+> +.B EADDRNOTAVAIL
+> +Unable to find a free port for binding or unable to bind to a non-local =
+CID.
+> +.TP
+> +.B ENOTCONN
+> +Unable to perform operation on an unconnected socket.
+> +.TP
+> +.B ENOPROTOOPT
+> +Invalid socket option in
+> +.B setsockopt (2)
+> +or
+> +.B getsockopt (2).
+> +.TP
+> +.B EPROTONOSUPPORT
+> +Invalid socket protocol number.  Protocol should always be 0.
+> +.TP
+> +.B ESOCKTNOSUPPORT
+> +Unsupported socket type in
+> +.B socket (2).
+> +Only
+> +.B SOCK_STREAM
+> +and
+> +.B SOCK_DGRAM
+> +are valid.
+> +.SH VERSIONS
+> +Support for VMware has been available since Linux 3.9.  KVM (virtio) is
+> +supported since Linux 4.8.  Hyper-V is supported since 4.14.
+> +.SH SEE ALSO
+> +.BR socket (2),
+> +.BR bind (2),
+> +.BR connect (2),
+> +.BR listen (2),
+> +.BR send (2),
+> +.BR recv (2),
+> +.BR capabilities (7)
+> --
+> 2.14.3
+>
+> --
+> To unsubscribe from this list: send the line "unsubscribe linux-man" in
+> the body of a message to majordomo-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
+> More majordomo info at  http://vger.kernel.org/majordomo-info.html
 
 
--- 
+
+--=20
 Michael Kerrisk
 Linux man-pages maintainer; http://www.kernel.org/doc/man-pages/
 Linux/UNIX System Programming Training: http://man7.org/training/
