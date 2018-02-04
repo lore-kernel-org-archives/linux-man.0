@@ -1,38 +1,42 @@
-From: Unknown <unknown@unknown.invalid>
-Subject: New Order
-Date: Fri, 02 Feb 2018 13:02:40 -0800
-Message-ID: <201802022103.w12KNxNb078007@mkdc.co.kr>
-Reply-To: info-cRGeKIMHdO4yCEK5ukvo25YMw5pvChx+@public.gmane.org
+From: "Michael Kerrisk (man-opages)" <mtk.manpages-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org>
+Subject: Re: abort(3) and flushing
+Date: Sun, 4 Feb 2018 07:28:25 +0100
+Message-ID: <49619cde-e40a-bba1-7f2c-b64468d5fa45@gmail.com>
+References: <CAGWcZkL5By_n8Z7Oa9jzLf75id1kK+cbOBbe84kkMsmEAqEd+Q@mail.gmail.com>
 Mime-Version: 1.0
-Content-Type: text/plain; charset="iso-8859-1"
-Content-Transfer-Encoding: 8BIT
+Content-Type: text/plain; charset=utf-8; format=flowed
+Content-Transfer-Encoding: 7bit
 Return-path: <linux-man-owner-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>
-Content-Description: Mail message body
-From: "Lin." <>
+In-Reply-To: <CAGWcZkL5By_n8Z7Oa9jzLf75id1kK+cbOBbe84kkMsmEAqEd+Q-JsoAwUIsXosN+BqQ9rBEUg@public.gmane.org>
+Content-Language: en-US
 Sender: linux-man-owner-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
-To: linux-man-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
+To: Egmont Koblinger <egmont-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org>
+Cc: mtk.manpages-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org, linux-man <linux-man-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>
 List-Id: linux-man@vger.kernel.org
 
-Dear linux-man-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
+Hello Egmont,
 
-How are you? We are in need of your products,
+On 01/28/2018 10:35 PM, Egmont Koblinger wrote:
+> Hi,
+> 
+> I accidentally came across this:
+> 
+> The abort(3) man page says "[...] all open streams are closed and flushed"
+> 
+> With glibc-2.27, to be released pretty soon now, file descriptors will
+> no longer be flushed. See near the bottom of
+> https://sourceware.org/glibc/wiki/Release/2.27 .
 
-Kindly send us your FOB
-and MOQ so that we can place our order.
-The order will deliver in Taiwain branch
+Thanks for the note.
 
-Looking forward to your respond asap.
+I actually caught this a while back, and it got documented with 
+man-pages commit 46dc471b8d34fbc83cfde440069dbe2ebec8cd3f
+(8 Oct 2017), and that fix has now been released in the latest man-pages 
+release.
 
-Best Regards,
-Lin Tou
+Cheers,
 
-Prime Success Co. Ltd
-
-Address: Av. Praia Grande,
-No.367-371,
-Keng Ou Commercial Building, 
-17th Fl. C, Macau
-Tel: 853-2843-7903
+Michael
 --
 To unsubscribe from this list: send the line "unsubscribe linux-man" in
 the body of a message to majordomo-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
