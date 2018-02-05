@@ -1,50 +1,70 @@
-From: walter harms <wharms-fPG8STNUNVg@public.gmane.org>
-Subject: Re: [PATCH] ld.so(8): make lack of separator escaping explicit
-Date: Mon, 05 Feb 2018 17:19:58 +0100
-Message-ID: <5A78842E.2060402@bfs.de>
-References: <20180205161357.8131-1-vapier@gentoo.org>
-Reply-To: wharms-fPG8STNUNVg@public.gmane.org
+From: Carlos O'Donell <carlos-H+wXaHxf7aLQT0dZR+AlfA@public.gmane.org>
+Subject: [PATCH] getcwd.3: Mention that "(unreachable)" is no longer returned
+ for glibc > 2.27.
+Date: Mon, 5 Feb 2018 12:34:49 -0800
+Message-ID: <94a3f8a3-5c0e-9fa5-ce2c-3f7e4b097a97@redhat.com>
 Mime-Version: 1.0
-Content-Type: text/plain; charset=UTF-8
+Content-Type: text/plain; charset=utf-8
 Content-Transfer-Encoding: 7bit
 Return-path: <linux-man-owner-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>
-In-Reply-To: <20180205161357.8131-1-vapier-aBrp7R+bbdUdnm+yROfE0A@public.gmane.org>
+Content-Language: en-US
 Sender: linux-man-owner-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
-To: Mike Frysinger <vapier-aBrp7R+bbdUdnm+yROfE0A@public.gmane.org>
-Cc: linux-man-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
+To: Michael Kerrisk <mtk.manpages-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org>, "linux-man-u79uwXL29TY76Z2rM5mHXA@public.gmane.org" <linux-man-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>, GNU C Library <libc-alpha-9JcytcrH/bA+uJoB2kUjGw@public.gmane.org>
+Cc: Florian Weimer <fweimer-H+wXaHxf7aLQT0dZR+AlfA@public.gmane.org>
 List-Id: linux-man@vger.kernel.org
 
+Michael,
 
+With glibc fix 52a713fdd0a30e1bd79818e2e3c4ab44ddca1a94 for
+CVE-2018-1000001 (Sourceware BZ #22679) the implementation in the
+just released glibc 2.27 has been changed such that instead of
+returning "(unreachable)" the implementation now returns ENOENT
+as it would have if the current directory had been unlinked.
 
-Am 05.02.2018 17:13, schrieb Mike Frysinger:
-> Make it clear that the delimiters in LD_LIBRARY_PATH cannot be escaped
-> so people don't try various methods (like \:) to workaround it.
-> 
-> Signed-off-by: Mike Frysinger <vapier-aBrp7R+bbdUdnm+yROfE0A@public.gmane.org>
-> ---
->  man8/ld.so.8 | 3 ++-
->  1 file changed, 2 insertions(+), 1 deletion(-)
-> 
-> diff --git a/man8/ld.so.8 b/man8/ld.so.8
-> index 64e1fb2afdc3..fb568ef8721a 100644
-> --- a/man8/ld.so.8
-> +++ b/man8/ld.so.8
-> @@ -271,7 +271,8 @@ This is useful when using a debugger.
->  .B LD_LIBRARY_PATH
->  A list of directories in which to search for
->  ELF libraries at execution time.
-> -The items in the list are separated by either colons or semicolons.
-> +The items in the list are separated by either colons or semicolons,
-> +and there is no support for escaping either separator.
->  Similar to the
->  .B PATH
->  environment variable.
+I see that in 2015 the quirk was documented in commit
+a2ac97c78bf05a55f8f616fc39a4724372dcfa95, and this is no longer
+true with glibc 2.27, but may continue to be true in other C libraries,
+so I reference NOTES from the paragraph in the central text.
 
-I am not sure that i understand that. You say that a libname like
-libfoo.1.2:3 is unparseable ?
+Signed-off-by: Carlos O'Donell <carlos-H+wXaHxf7aLQT0dZR+AlfA@public.gmane.org>
 
-re,
- wh
+diff --git a/man3/getcwd.3 b/man3/getcwd.3
+index ff953a7d0..3c41736c9 100644
+--- a/man3/getcwd.3
++++ b/man3/getcwd.3
+@@ -91,7 +91,9 @@ the current directory into another mount namespace.
+ When dealing with paths from untrusted sources, callers of these
+ functions should consider checking whether the returned path starts
+ with '/' or '(' to avoid misinterpreting an unreachable path
+-as a relative path.
++as a relative path. This is no longer true under some C libraries,
++see
++.BR NOTES .
+ .PP
+ The
+ .BR getcwd ()
+@@ -270,6 +272,16 @@ generic implementation is called.
+ Only in that case can
+ these calls fail under Linux with
+ .BR EACCES .
++.PP
++Since Linux commit v2.6.36 which added "(unreachable)" the glibc
++.BR getcwd ()
++has failed to conform to POSIX and returned a relative path when the API
++contract requires an absolute path. With glibc 2.27 onwards this is corrected;
++calling
++.BR getcwd ()
++from such a path will now result in failure with
++.BR ENOENT .
++
+ .PP
+ These functions are often used to save the location of the current working
+ directory for the purpose of returning to it later.
+---
+
+-- 
+Cheers,
+Carlos.
 --
 To unsubscribe from this list: send the line "unsubscribe linux-man" in
 the body of a message to majordomo-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
