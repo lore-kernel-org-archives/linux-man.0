@@ -1,143 +1,154 @@
-From: "Michael Kerrisk (man-pages)" <mtk.manpages-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org>
-Subject: Re: [PATCH] tmpfs(5): document current mount options
-Date: Sun, 4 Feb 2018 10:03:28 +0100
-Message-ID: <d92fae63-5d6a-56ea-1a69-973bee77395c@gmail.com>
-References: <20180127095928.6294-1-vapier@gentoo.org>
+From: Santosh Sivaraj <santosh-b8Fn+pY0OfAdnm+yROfE0A@public.gmane.org>
+Subject: Re: [PATCH] vdso.7: __kernel_clock_gettime *_COARSE clock support in
+ PPC64
+Date: Mon, 5 Feb 2018 11:52:31 +0530
+Message-ID: <20180205062229.ksm5ivju4wtmg6pu@santosiv.in.ibm.com>
+References: <20171222002659.1930-1-santosh@fossix.org>
+ <31d5abc7-d314-d4da-175f-b402e14678f0@gmail.com>
+ <20171223031312.k5x4hbytlm7wwfzn@santosiv.in.ibm.com>
+ <afd1b494-57f2-8e83-a0e5-f8b1a304f9c0@gmail.com>
 Mime-Version: 1.0
-Content-Type: text/plain; charset=utf-8
-Content-Transfer-Encoding: 7bit
+Content-Type: multipart/signed; micalg=pgp-sha256;
+        protocol="application/pgp-signature"; boundary="65z34rx2345dwjmz"
 Return-path: <linux-man-owner-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>
-In-Reply-To: <20180127095928.6294-1-vapier-aBrp7R+bbdUdnm+yROfE0A@public.gmane.org>
-Content-Language: en-US
+Content-Disposition: inline
+In-Reply-To: <afd1b494-57f2-8e83-a0e5-f8b1a304f9c0-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org>
 Sender: linux-man-owner-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
-To: Mike Frysinger <vapier-aBrp7R+bbdUdnm+yROfE0A@public.gmane.org>
-Cc: mtk.manpages-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org, kzak-H+wXaHxf7aLQT0dZR+AlfA@public.gmane.org, linux-man-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
+To: "Michael Kerrisk (man-pages)" <mtk.manpages-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org>
+Cc: linux-man-u79uwXL29TY76Z2rM5mHXA@public.gmane.org, Michael Ellerman <mpe-Gsx/Oe8HsFggBc27wqDAHg@public.gmane.org>
 List-Id: linux-man@vger.kernel.org
 
-Hello Mike,
 
-On 01/27/2018 10:59 AM, Mike Frysinger wrote:
-> Some of this content is moved from the mount(8) man page.
-> Style was based on proc(5) sections.
+--65z34rx2345dwjmz
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+Content-Transfer-Encoding: quoted-printable
 
-Thanks. I've applied this. I also added some further details for the
-'mpol' and 'huge' options, largely drawn from kernel Documentation
-files. Could you take a quick look at that new content?
+* Michael Kerrisk (man-pages) <mtk.manpages-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org> wrote (on 2017-12-30=
+ 09:47:16 +0100):
 
-Is there any other text for mount(8) that should be imported to
-tmpfs(5)?
+> Hello Santosh,
+>=20
+> On 12/23/2017 04:13 AM, Santosh Sivaraj wrote:
+> > * Michael Kerrisk (man-pages) <mtk.manpages-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org> wrote (on 2017-1=
+2-22 10:36:53 +0100):
+> >=20
+> > Hi Michael,
+> >=20
+> >> Hi Santosh
+> >>
+> >> On 12/22/2017 01:26 AM, Santosh Sivaraj wrote:
+> >>> *_COARSE clocks are now supported in the __kernel_clock_gettime inter=
+face in
+> >>> PPC64. No longer falls back to the real system call.
+> >>
+> >> Can you tell me the kernel version where this change was=20
+> >> made? It would be useful to include that in the text, I think.
+> >> In fact, if you knew the kernel commit that made the change,
+> >> that would also be of interest.
+> >=20
+> > The commit is currently in the PPC next tree. It should go to the mainl=
+ine in
+> > the 3.16 merge timeframe.
+>=20
+> Ahhh -- that info would have saved me quite some time hunting through sou=
+rce
+> code in order to try to verify the statements in the patch!
+>=20
+> So, would you be able to remind me about this when (if) the patch actuall=
+y=20
+> goes into 3.16?
+>
 
-Cheers,
+Hi Michael,
 
-Michael
- 
-> Signed-off-by: Mike Frysinger <vapier-aBrp7R+bbdUdnm+yROfE0A@public.gmane.org>
-> ---
->  man5/tmpfs.5 | 77 ++++++++++++++++++++++++++++++++++++++++++++++++++++++++----
->  1 file changed, 73 insertions(+), 4 deletions(-)
-> 
-> diff --git a/man5/tmpfs.5 b/man5/tmpfs.5
-> index 5bdc8939c7f7..85f7ab5f26d1 100644
-> --- a/man5/tmpfs.5
-> +++ b/man5/tmpfs.5
-> @@ -51,10 +51,6 @@ filesystem has the following properties:
->  The filesystem can employ swap space when physical memory pressure
->  demands it.
->  .IP *
-> -The
-> -.I size
-> -option can be used to specify an upper limit on the size of the filesystem.
-> -(The default size is half of the available RAM size.)
->  The filesystem consumes only as much physical memory and swap space
->  as is required to store the current contents of the filesystem.
->  .IP *
-> @@ -66,6 +62,79 @@ the filesystem size can be changed
->  If a
->  .B tmpfs
->  filesystem is unmounted, its contents are discarded (lost).
-> +.\" See mm/shmem.c:shmem_parse_options for options it supports.
-> +.SS Mount options
-> +The
-> +.B tmpfs
-> +filesystem supports the following mount options:
-> +.TP
-> +.BR size "=\fIbytes\fP"
-> +Specify an upper limit on the size of the filesystem.
-> +The size is given in bytes, and rounded up to entire pages.
-> +
-> +The size may have a
-> +.BR k ,
-> +.BR m ,
-> +or
-> +.B g
-> +suffix for Ki, Mi, Gi (binary kilo (kibi), binary mega (mebi) and binary giga
-> +(gibi)).
-> +
-> +The size may also have a % suffix to limit this instance to a percentage of
-> +physical RAM.
-> +
-> +The default, when neither size nor nr_blocks is specified, is size=50%.
-> +.TP
-> +.BR nr_blocks "=\fIblocks\fP"
-> +The same as
-> +.BR size ,
-> +but in blocks of PAGE_CACHE_SIZE.
-> +
-> +Blocks may be specified with
-> +.BR k ,
-> +.BR m ,
-> +or
-> +.B g
-> +suffixes like
-> +.BR size ,
-> +but not a % suffix.
-> +.TP
-> +.BR nr_inodes "=\fIinodes\fP"
-> +The maximum number of inodes for this instance.
-> +The default is half of the number of your physical RAM pages, or (on a
-> +machine with highmem) the number of lowmem RAM pages, whichever is smaller.
-> +
-> +Inodes may be specified with
-> +.BR k ,
-> +.BR m ,
-> +or
-> +.B g
-> +suffixes like
-> +.BR size ,
-> +but not a % suffix.
-> +.TP
-> +.BR mode "=\fImode\fP"
-> +Set initial permissions of the root directory.
-> +.TP
-> +.BR gid "=\fIgid\fP (since Linux 2.5.7)"
-> +.\" Technically this is also in some version of Linux 2.4.
-> +.\" commit 099445b489625b80b1d6687c9b6072dbeaca4096
-> +Set the initial group ID of the root directory.
-> +.TP
-> +.BR uid "=\fIuid\fP (since Linux 2.5.7)"
-> +.\" Technically this is also in some version of Linux 2.4.
-> +.\" commit 099445b489625b80b1d6687c9b6072dbeaca4096
-> +Set the initial user ID of the root directory.
-> +.TP
-> +.BR huge "=\fI[never|always|within_size|advise|deny|force]\fR (since Linux 4.7.0)"
-> +.\" commit 5a6e75f8110c97e2a5488894d4e922187e6cb343
-> +Set the huge table memory allocation policy for all files in this instance (if
-> +CONFIG_TRANSPARENT_HUGE_PAGECACHE is enabled).
-> +.TP
-> +.BR mpol "=\fI[default|prefer:Node|bind:NodeList|interleave|interleave:NodeList]\fR (since Linux 2.6.15)"
-> +.\" commit 7339ff8302fd70aabf5f1ae26e0c4905fa74a495
-> +Set the NUMA memory allocation policy for all files in this instance (if
-> +CONFIG_NUMA is enabled).
->  .SH VERSIONS
->  The
->  .B tmpfs
-> 
+The vdso COARSE clock patch is currently merged in the mainline. The commit=
+ is
+5c929885f1bb4b77f85b1769c49405a0e0f154a1. You want me to include the commit=
+ in
+the patch too?
 
+Thanks,
+Santosh
 
--- 
-Michael Kerrisk
-Linux man-pages maintainer; http://www.kernel.org/doc/man-pages/
-Linux/UNIX System Programming Training: http://man7.org/training/
+> Thanks,
+>=20
+> Michael
+>=20
+>=20
+> > git://git.kernel.org/pub/scm/linux/kernel/git/powerpc/linux.git
+> >=20
+> > The commit ID in next tree is: 5c929885f1bb4b77f85b1769c49405a0e0f154a1
+> >=20
+> > https://git.kernel.org/pub/scm/linux/kernel/git/powerpc/linux.git/commi=
+t/?h=3Dnext&id=3D5c929885f1bb4b77f85b1769c49405a0e0f154a1
+> >=20
+> > If needed I can mention the commit once its merged into the mainline and
+> > resend the patch.
+> >=20
+> >>
+> >> Also, your patch changes just the entry for ppc/64. Does
+> >> the same statement hold true for ppc/32?
+> >=20
+> > No, changes are made only for vdso64.
+> >=20
+> > Thanks,
+> > Santosh
+> >>
+> >> Thanks,
+> >>
+> >> Michael
+> >>
+> >>
+> >>> CC: Michael Kerrisk <mtk.manpages-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org>
+> >>> CC: Michael Ellerman <mpe-Gsx/Oe8HsFggBc27wqDAHg@public.gmane.org>
+> >>> Signed-off-by: Santosh Sivaraj <santosh-b8Fn+pY0OfAdnm+yROfE0A@public.gmane.org>
+> >>> ---
+> >>>  man7/vdso.7 | 4 +---
+> >>>  1 file changed, 1 insertion(+), 3 deletions(-)
+> >>>
+> >>> diff --git a/man7/vdso.7 b/man7/vdso.7
+> >>> index 9af02a8aa..c7399939c 100644
+> >>> --- a/man7/vdso.7
+> >>> +++ b/man7/vdso.7
+> >>> @@ -438,9 +438,7 @@ clocks are
+> >>>  .I not
+> >>>  supported by the
+> >>>  .I __kernel_clock_getres
+> >>> -and
+> >>> -.I __kernel_clock_gettime
+> >>> -interfaces;
+> >>> +interface;
+> >>>  the kernel falls back to the real system call.
+> >>>  .SS s390 functions
+> >>>  .\" See linux/arch/s390/kernel/vdso32/vdso32.lds.S
+> >>>
+> >=20
+
+--=20
+
+--65z34rx2345dwjmz
+Content-Type: application/pgp-signature; name="signature.asc"
+
+-----BEGIN PGP SIGNATURE-----
+
+iQJHBAEBCAAxFiEEEPhI2K1zm+w17KotztxEnntb8vcFAlp3+CUTHHNhbnRvc2hA
+Zm9zc2l4Lm9yZwAKCRDO3ESee1vy91npD/9D3kL0Yfb4ctYQsoYJwq1l3p09V8Ut
+2QX3U1Ydg3YOU9kdlsUo0WjI+3duOEnGqeuXAXxafa2sdWp8ZzB1l46CdUl4DfSP
+hp5YkEx/Uvdamop7BOR61ohWiGQINbVFcAd6dgEEqYeXqMHzT+Vh9VyaYGp6H/A6
+qZhzR7vGZ9MQlYw0c/kOoTHAcepA71mdp+tmh11inBgq6vNrjZuxayBH0oGABRYb
+JXeN9WCSriZYrzdukuzijISzQkSNKtCQ1b5lY+UjomZwpqFz4auQC6uXc0pDQ8ul
+K3qXtAjRUsIlYbFoNPAXUoUGDBSzbNwt6qrm8TURmaTqLKLEgDWP2WoNyFeGMua+
+58mdeROwhLRztUCD0batFGWyqIA8Oa/4n9Z6/WoczmB3I7cRuFwtc53uWaC2SiUx
+9jiq5MJJ8eHwlM5j+RMqwfeb0GncYCY4k1shYS+ejUsIntX+T12llR2sGrluaJuP
+OVnOMx6eFCAO+eqHcSxFTj0dZ/wwYi3DUFoJ8WXmumeSp9Q6mfcoj8oCp/toNRRj
+5/hSHLjhcuX3x2JEc5ulNvEDE80tCuPzLVd6dbC+t2/PdoWBJK5aEq7T61KRq6GA
+i+oPyZvHLGQSORCev5MTGZCknEuO3BOJp16zZ2+bxqvJVqlkq27tQP0mcoh5huN4
+ELNoMAbt55xplQ==
+=FbLb
+-----END PGP SIGNATURE-----
+
+--65z34rx2345dwjmz--
 --
 To unsubscribe from this list: send the line "unsubscribe linux-man" in
 the body of a message to majordomo-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
