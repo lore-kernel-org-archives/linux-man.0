@@ -1,44 +1,38 @@
-From: Karel Zak <kzak-H+wXaHxf7aLQT0dZR+AlfA@public.gmane.org>
-Subject: Re: [PATCH] tmpfs(5): document current mount options
-Date: Mon, 5 Feb 2018 10:43:52 +0100
-Message-ID: <20180205094352.tphbanrjsf5zp5jn@ws.net.home>
-References: <20180127095928.6294-1-vapier@gentoo.org>
- <d92fae63-5d6a-56ea-1a69-973bee77395c@gmail.com>
-Mime-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
+From: Mike Frysinger <vapier-aBrp7R+bbdUdnm+yROfE0A@public.gmane.org>
+Subject: [PATCH] ld.so(8): make lack of separator escaping explicit
+Date: Mon,  5 Feb 2018 11:13:57 -0500
+Message-ID: <20180205161357.8131-1-vapier@gentoo.org>
 Return-path: <linux-man-owner-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>
-Content-Disposition: inline
-In-Reply-To: <d92fae63-5d6a-56ea-1a69-973bee77395c-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org>
 Sender: linux-man-owner-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
-To: "Michael Kerrisk (man-pages)" <mtk.manpages-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org>
-Cc: Mike Frysinger <vapier-aBrp7R+bbdUdnm+yROfE0A@public.gmane.org>, linux-man-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
+To: Michael Kerrisk <mtk.manpages-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org>
+Cc: linux-man-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
 List-Id: linux-man@vger.kernel.org
 
-On Sun, Feb 04, 2018 at 10:03:28AM +0100, Michael Kerrisk (man-pages) wrote:
-> On 01/27/2018 10:59 AM, Mike Frysinger wrote:
-> > Some of this content is moved from the mount(8) man page.
-> > Style was based on proc(5) sections.
-> 
-> Thanks. I've applied this. I also added some further details for the
-> 'mpol' and 'huge' options, largely drawn from kernel Documentation
-> files. Could you take a quick look at that new content?
-> 
-> Is there any other text for mount(8) that should be imported to
-> tmpfs(5)?
+Make it clear that the delimiters in LD_LIBRARY_PATH cannot be escaped
+so people don't try various methods (like \:) to workaround it.
 
-It would be nice to completely remove filesystem specific stuff from
-mount(8). It's already done for filesystems with active community
-(like extN, XFS, etc), but the rest... ;-)
+Signed-off-by: Mike Frysinger <vapier-aBrp7R+bbdUdnm+yROfE0A@public.gmane.org>
+---
+ man8/ld.so.8 | 3 ++-
+ 1 file changed, 2 insertions(+), 1 deletion(-)
 
-And another idea... what about to add a generic filesystem(5) (or
-section 7) man page to explain why we have filesystems, relation with
-mkfs programs, block devices, mount(8) ?
-
-    Karel
-
+diff --git a/man8/ld.so.8 b/man8/ld.so.8
+index 64e1fb2afdc3..fb568ef8721a 100644
+--- a/man8/ld.so.8
++++ b/man8/ld.so.8
+@@ -271,7 +271,8 @@ This is useful when using a debugger.
+ .B LD_LIBRARY_PATH
+ A list of directories in which to search for
+ ELF libraries at execution time.
+-The items in the list are separated by either colons or semicolons.
++The items in the list are separated by either colons or semicolons,
++and there is no support for escaping either separator.
+ Similar to the
+ .B PATH
+ environment variable.
 -- 
- Karel Zak  <kzak-H+wXaHxf7aLQT0dZR+AlfA@public.gmane.org>
- http://karelzak.blogspot.com
+2.16.1
+
 --
 To unsubscribe from this list: send the line "unsubscribe linux-man" in
 the body of a message to majordomo-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
