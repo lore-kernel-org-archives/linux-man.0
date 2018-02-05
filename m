@@ -1,71 +1,50 @@
-From: Mike Frysinger <vapier-aBrp7R+bbdUdnm+yROfE0A@public.gmane.org>
-Subject: Re: [PATCH] tmpfs(5): document current mount options
-Date: Mon, 5 Feb 2018 11:18:17 -0500
-Message-ID: <20180205161817.GD9138@vapier>
-References: <20180127095928.6294-1-vapier@gentoo.org>
- <d92fae63-5d6a-56ea-1a69-973bee77395c@gmail.com>
+From: walter harms <wharms-fPG8STNUNVg@public.gmane.org>
+Subject: Re: [PATCH] ld.so(8): make lack of separator escaping explicit
+Date: Mon, 05 Feb 2018 17:19:58 +0100
+Message-ID: <5A78842E.2060402@bfs.de>
+References: <20180205161357.8131-1-vapier@gentoo.org>
+Reply-To: wharms-fPG8STNUNVg@public.gmane.org
 Mime-Version: 1.0
-Content-Type: multipart/signed; micalg=pgp-sha256;
-        protocol="application/pgp-signature"; boundary="U+BazGySraz5kW0T"
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 7bit
 Return-path: <linux-man-owner-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>
-Content-Disposition: inline
-In-Reply-To: <d92fae63-5d6a-56ea-1a69-973bee77395c-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org>
+In-Reply-To: <20180205161357.8131-1-vapier-aBrp7R+bbdUdnm+yROfE0A@public.gmane.org>
 Sender: linux-man-owner-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
-To: "Michael Kerrisk (man-pages)" <mtk.manpages-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org>
-Cc: kzak-H+wXaHxf7aLQT0dZR+AlfA@public.gmane.org, linux-man-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
+To: Mike Frysinger <vapier-aBrp7R+bbdUdnm+yROfE0A@public.gmane.org>
+Cc: linux-man-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
 List-Id: linux-man@vger.kernel.org
 
 
---U+BazGySraz5kW0T
-Content-Type: text/plain; charset=utf-8
-Content-Disposition: inline
-Content-Transfer-Encoding: quoted-printable
 
-On 04 Feb 2018 10:03, Michael Kerrisk (man-pages) wrote:
-> On 01/27/2018 10:59 AM, Mike Frysinger wrote:
-> > Some of this content is moved from the mount(8) man page.
-> > Style was based on proc(5) sections.
->=20
-> Thanks. I've applied this.
+Am 05.02.2018 17:13, schrieb Mike Frysinger:
+> Make it clear that the delimiters in LD_LIBRARY_PATH cannot be escaped
+> so people don't try various methods (like \:) to workaround it.
+> 
+> Signed-off-by: Mike Frysinger <vapier-aBrp7R+bbdUdnm+yROfE0A@public.gmane.org>
+> ---
+>  man8/ld.so.8 | 3 ++-
+>  1 file changed, 2 insertions(+), 1 deletion(-)
+> 
+> diff --git a/man8/ld.so.8 b/man8/ld.so.8
+> index 64e1fb2afdc3..fb568ef8721a 100644
+> --- a/man8/ld.so.8
+> +++ b/man8/ld.so.8
+> @@ -271,7 +271,8 @@ This is useful when using a debugger.
+>  .B LD_LIBRARY_PATH
+>  A list of directories in which to search for
+>  ELF libraries at execution time.
+> -The items in the list are separated by either colons or semicolons.
+> +The items in the list are separated by either colons or semicolons,
+> +and there is no support for escaping either separator.
+>  Similar to the
+>  .B PATH
+>  environment variable.
 
-you meant commit 462a385e9a239ac58e0db188d1d7ed94f36c2d6f ?  was the
-author change a typo ?  am i more than person and didn't realize ?
+I am not sure that i understand that. You say that a libname like
+libfoo.1.2:3 is unparseable ?
 
-> I also added some further details for the
-> 'mpol' and 'huge' options, largely drawn from kernel Documentation
-> files. Could you take a quick look at that new content?
-
-seems fine
-
-> Is there any other text for mount(8) that should be imported to
-> tmpfs(5)?
-
-i slurped all the tmpfs specific stuff out here.  there's room for
-moving more stuff out, but into new pages.  that'll take more effort.
--mike
-
---U+BazGySraz5kW0T
-Content-Type: application/pgp-signature; name="signature.asc"
-Content-Description: Digital signature
-
------BEGIN PGP SIGNATURE-----
-
-iQIzBAEBCAAdFiEEuQK1JxMl+JKsJRrUQWM7n+g39YEFAlp4g8kACgkQQWM7n+g3
-9YGt/RAAzzmUKLrY2bqLHNA2KLG6dx++Kex0M1cIajxP/pG1vB3gzPZ2ue33ShfY
-6I6xA3uAHLdH+mY3rhP/YE7ga8rmkgeXestU+Yd2n71J+0yGmTneZDrQ/2iJiISM
-cB+89EROxIzFCGCKeVZKmx3UiPWlbL7I3BPbt8ZWulJZrZRNeELKVIEYl2xm+Ikj
-h5MgfmMg5q2gHqxW3XFsMVGmpDEyZ3DviCs1h9jvnD1yTD/FW1a9TkPpo+XKs8og
-ZiUnG78tlTFsnBRtA9qA1lWSlvq8oMVnfIx0xKm4Fl/XseTisW+k6qcatU/4z8fQ
-0bxM3n1HlvCbp1ngJxnqQz9L1+PwfVGI9Mi9bNVH+zd5COqgPblTCByvL2aF4qO3
-DlGAavzZJTm31P1SCmgOVoU4GphFectV9AK2Z93hnt+wllYk5hT/u/5ul+3QDGBr
-FrNYi8m8msZ90bDFJSYSAJD7NSxbPW8v+GFTlKjJRqjURSFqTnX8FiH1elUfIvgw
-dSsq8VCawDbHJlUfbEUzDIdWMZvywsG2HwfIzjEIxcJpS93INs5TRGQsGsIyqqG3
-eskHucTb8gLfXC2bWmJZ8BD1iOLHJe60iaFd72Et9piv48VaInhKPiZJG3sVr9Pw
-XdnvNDkmyWJiVhjQmqVbxt0zPjBo+lK4XPLw+USLcSbw3FPhkgY=
-=sQdF
------END PGP SIGNATURE-----
-
---U+BazGySraz5kW0T--
+re,
+ wh
 --
 To unsubscribe from this list: send the line "unsubscribe linux-man" in
 the body of a message to majordomo-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
