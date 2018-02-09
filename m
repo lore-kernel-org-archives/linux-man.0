@@ -1,40 +1,49 @@
 From: "Michael Kerrisk (man-pages)" <mtk.manpages-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org>
-Subject: Re: Man Page Typo (atexit.3)?
-Date: Fri, 9 Feb 2018 07:01:02 +0100
-Message-ID: <eea3087d-f292-654a-cfdb-3af4628d16cc@gmail.com>
-References: <CAAztzVHNHz_NDK8-V9vuhHDsf1efP5Ngndj5NwqzErkgVSx89g@mail.gmail.com>
- <CAAztzVFn+X8-gN5-k=Pb9oZ-vzVXTgnM1kJmv2PXNLraavJx3Q@mail.gmail.com>
+Subject: Re: [PATCH] ptrace.2: ffix
+Date: Fri, 9 Feb 2018 07:02:53 +0100
+Message-ID: <ad853aec-522e-cb6c-68d5-61dc57e87712@gmail.com>
+References: <20180206005357.2407-1-lineprinter@altlinux.org>
 Mime-Version: 1.0
 Content-Type: text/plain; charset=utf-8
 Content-Transfer-Encoding: 7bit
 Return-path: <linux-man-owner-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>
-In-Reply-To: <CAAztzVFn+X8-gN5-k=Pb9oZ-vzVXTgnM1kJmv2PXNLraavJx3Q-JsoAwUIsXosN+BqQ9rBEUg@public.gmane.org>
+In-Reply-To: <20180206005357.2407-1-lineprinter-u2l5PoMzF/Vg9hUCZPvPmw@public.gmane.org>
 Content-Language: en-US
 Sender: linux-man-owner-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
-To: Robin Kuzmin <kuzmin.robin-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org>, linux-man-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
-Cc: mtk.manpages-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org
+To: Elvira Khabirova <lineprinter-u2l5PoMzF/Vg9hUCZPvPmw@public.gmane.org>
+Cc: mtk.manpages-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org, linux-man-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
 List-Id: linux-man@vger.kernel.org
 
-Hello Robin,
+Hello Elvira,
 
-On 02/08/2018 12:01 AM, Robin Kuzmin wrote:
-> (Trying again as plain text, sorry)
-> See the previous e-mail below.
-> Robin Kuzmin
-> kuzmin.robin-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org
-> 
-> 
-> On Wed, Feb 7, 2018 at 2:49 PM, Robin Kuzmin <kuzmin.robin-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org> wrote:
->> http://man7.org/linux/man-pages/man3/atexit.3.html
->> I see: "If one of the functions registered functions".
->> I expect: "If one of the registered functions".
+On 02/06/2018 01:53 AM, Elvira Khabirova wrote:
+> Signed-off-by: Elvira Khabirova <lineprinter-u2l5PoMzF/Vg9hUCZPvPmw@public.gmane.org>
 
-Thanks. Fixed!
+Thanks. Patch applied.
 
 Cheers,
 
 Michael
 
+
+> ---
+>  man2/ptrace.2 | 2 +-
+>  1 file changed, 1 insertion(+), 1 deletion(-)
+> 
+> diff --git a/man2/ptrace.2 b/man2/ptrace.2
+> index e1c3eec46..bf59c09f8 100644
+> --- a/man2/ptrace.2
+> +++ b/man2/ptrace.2
+> @@ -1136,7 +1136,7 @@ be further subdivided into
+>  .IR signal-delivery-stop ,
+>  .IR group-stop ,
+>  .IR syscall-stop ,
+> -.IR PTRACE_EVENT stops,
+> +.IR "PTRACE_EVENT stops" ,
+>  and so on.
+>  These stopped states are described in detail below.
+>  .PP
+> 
 
 
 -- 
