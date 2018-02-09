@@ -1,66 +1,56 @@
-From: Daniel Lublin <daniel-oWHhe339MlyzQB+pC5nmwQ@public.gmane.org>
-Subject: Re: minus signs instead of hyphen-minuses in man-pages-posix-2013-a
- (was: man 1 getopts example code - w
-Date: Fri, 9 Feb 2018 08:22:36 +0100
-Message-ID: <20180209072236.GA7877@ot.lublin.se>
-References: <20171203152541.GB8608@imap.roeserundroeser.de>
+From: Karel Zak <kzak-H+wXaHxf7aLQT0dZR+AlfA@public.gmane.org>
+Subject: Re: [PATCH] tmpfs(5): document current mount options
+Date: Fri, 9 Feb 2018 12:32:22 +0100
+Message-ID: <20180209113222.yjwlv43acapuiejg@ws.net.home>
+References: <20180127095928.6294-1-vapier@gentoo.org>
+ <d92fae63-5d6a-56ea-1a69-973bee77395c@gmail.com>
+ <20180205094352.tphbanrjsf5zp5jn@ws.net.home>
+ <9a82d629-6731-7dc2-4b14-4833f7b180ea@gmail.com>
 Mime-Version: 1.0
-Content-Type: text/plain; charset=utf-8
-Content-Transfer-Encoding: 8bit
+Content-Type: text/plain; charset=us-ascii
 Return-path: <linux-man-owner-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>
 Content-Disposition: inline
-In-Reply-To: <20171203152541.GB8608-apn8OiFnwzd6HCqoLBzdJtgH40HQ1Lc/@public.gmane.org>
+In-Reply-To: <9a82d629-6731-7dc2-4b14-4833f7b180ea-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org>
 Sender: linux-man-owner-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
-To: linux-man-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
-Cc: nico-hByViTdnw2w@public.gmane.org, sir-ADJa8SdUZZIAvxtiuMwx3w@public.gmane.org
+To: "Michael Kerrisk (man-pages)" <mtk.manpages-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org>
+Cc: Mike Frysinger <vapier-aBrp7R+bbdUdnm+yROfE0A@public.gmane.org>, linux-man-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
 List-Id: linux-man@vger.kernel.org
 
-Trying to pick up on this again -- dashes in the POSIX man-pages are mostly
-of the wrong sort, and makes it difficult to search for options in the
-pages. (Cc Drew DeVault, yes I came across this from your blog post)
-
-On 2017-12-03 15:25:41, Nico R <nico-hByViTdnw2w@public.gmane.org> wrote:
-> On 2017-03-13T03:31:45, Mike Frysinger <vapier-aBrp7R+bbdUdnm+yROfE0A@public.gmane.org> wrote:
-> > On 27 Feb 2017 15:16, Marcus Geiger wrote:
-> > > in the examples section of `man 1 getopts`, every dash/minus used in the
-> > > example code cannot be parsed by bash. vi claims it's 0x2212 instead of 0x2d.
-> > > 
-> > > I'm on Ubuntu 16.04 with bash 4.3.46(1)-release. Unfortunately I couldn't find
-> > > the source code for this man page, but the current online pages entry also has
-> > > this problem: http://man7.org/linux/man-pages/man1/getopts.1p.html
-> > > 
-> > > The containing package is:
-> > > 
-> > >    $ dpkg -S $(man -w 1 getopts)
-> > >    manpages-posix: /usr/share/man/man1/getopts.1posix.gz
+On Fri, Feb 09, 2018 at 07:13:49AM +0100, Michael Kerrisk (man-pages) wrote:
+> Hello Karel,
+> 
+> On 02/05/2018 10:43 AM, Karel Zak wrote:
+> > On Sun, Feb 04, 2018 at 10:03:28AM +0100, Michael Kerrisk (man-pages) wrote:
+> >> On 01/27/2018 10:59 AM, Mike Frysinger wrote:
+> >>> Some of this content is moved from the mount(8) man page.
+> >>> Style was based on proc(5) sections.
+> >>
+> >> Thanks. I've applied this. I also added some further details for the
+> >> 'mpol' and 'huge' options, largely drawn from kernel Documentation
+> >> files. Could you take a quick look at that new content?
+> >>
+> >> Is there any other text for mount(8) that should be imported to
+> >> tmpfs(5)?
 > > 
-> > looks like a bug in the man page itself.  it uses \(mi instead of \- in
-> > the example code.  might be an artifact of the conversion process though
-> > as iirc, the posix pages are generated.
+> > It would be nice to completely remove filesystem specific stuff from
+> > mount(8). It's already done for filesystems with active community
+> > (like extN, XFS, etc), but the rest... ;-)
+> > 
+> > And another idea... what about to add a generic filesystem(5) (or
+> > section 7) man page to explain why we have filesystems, relation with
+> > mkfs programs, block devices, mount(8) ?
 > 
-> I agree. As the matter seems not to have been handled yet, I’m bringing this
-> up again.
-> 
-> Some more detail: it seems that all POSIX man pages are affected, more or
-> less.
+> Well there is already this:
+> http://man7.org/linux/man-pages/man5/filesystems.5.html
 
-[...]
+Ah sorry, I see it on upgraded system now (f27).
 
-> I would have tried to help a bit more with this issue, but I do not know
-> what/where the sources for the POSIX man pages are, I do not know how the
-> POSIX man pages are generated from their sources, and I could not find any
-> conversion scripts. Can anyone explain the process, please?
+    Karel
 
-I found https://www.kernel.org/doc/man-pages/todo.html which states:
 
-  Status: completed in January 2014 (publication of the POSIX.1-2013 pages).
-
-And looking in the man-pages website repo, Michael Kerrisk committed this.
-So if you Michael also did the actual update of the POSIX man-pages, do you
-have pointers to the sources for them, and any scripts which where used to
-process them (according to todo.html) to produce the man-files?
-
-/Daniel
+-- 
+ Karel Zak  <kzak-H+wXaHxf7aLQT0dZR+AlfA@public.gmane.org>
+ http://karelzak.blogspot.com
 --
 To unsubscribe from this list: send the line "unsubscribe linux-man" in
 the body of a message to majordomo-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
