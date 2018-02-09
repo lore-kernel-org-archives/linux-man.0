@@ -1,46 +1,59 @@
 From: "Michael Kerrisk (man-pages)" <mtk.manpages-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org>
-Subject: Re: word missing in "find"
-Date: Fri, 9 Feb 2018 06:53:05 +0100
-Message-ID: <0a898dff-5cb2-b516-78dd-ba682f32ad37@gmail.com>
-References: <1cde0ddd-1b56-f7e3-1dea-f294b164b993@posteo.net>
+Subject: Re: [PATCH] ptrace.2: copy retval info for SECCOMP_GET_FILTER to
+ right section
+Date: Fri, 9 Feb 2018 06:59:31 +0100
+Message-ID: <1df4137b-0ad8-d80b-45d0-c193ad1c164f@gmail.com>
+References: <20180208224600.257982-1-jannh@google.com>
 Mime-Version: 1.0
 Content-Type: text/plain; charset=utf-8
 Content-Transfer-Encoding: 7bit
 Return-path: <linux-man-owner-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>
-In-Reply-To: <1cde0ddd-1b56-f7e3-1dea-f294b164b993-VwIFZPTo/vqsTnJN9+BGXg@public.gmane.org>
+In-Reply-To: <20180208224600.257982-1-jannh-hpIqsD4AKlfQT0dZR+AlfA@public.gmane.org>
 Content-Language: en-US
 Sender: linux-man-owner-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
-To: Florian Elleringmann <comenius-VwIFZPTo/vqsTnJN9+BGXg@public.gmane.org>
+To: Jann Horn <jannh-hpIqsD4AKlfQT0dZR+AlfA@public.gmane.org>
 Cc: mtk.manpages-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org, linux-man-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
 List-Id: linux-man@vger.kernel.org
 
-Hello Florian,
+Hello Jann,
 
+On 02/08/2018 11:46 PM, Jann Horn wrote:
+> The "RETURN VALUE" section made a claim that was incorrect for
+> PTRACE_SECCOMP_GET_FILTER. Explicitly describe the behavior of
+> PTRACE_SECCOMP_GET_FILTER in the "RETURN VALUE" section (as usual), but
+> leave the now duplicate description in the section describing
+> PTRACE_SECCOMP_GET_FILTER, since the PTRACE_SECCOMP_GET_FILTER section
+> would otherwise probably become harder to understand.
 
-On 02/06/2018 08:39 PM, Florian Elleringmann wrote:
-> Hey :)
-> 
-> There's a "be" missing in the *Global Options* section of the *find*
-> entry. I use Arch Linux which I just updated (/man-pages 4.15-1/) and
-> have checked the online pages.
-> 
-> Cheers and thanks for your work :)
-> 
-> 
-> *GLOBAL OPTIONS*
->        Global options always return true.  Global options take effect even
->        for tests which occur earlier on the command line.  To prevent
->        confusion, global options should [be] specified on the command-line after
->        the list of start points, just before the first test, positional
->        option or action.
+Thanks! Patch applied.
 
-Please see here on where to report this:
-
-http://man7.org/linux/man-pages/man1/find.1.html#COLOPHON
-
-Thanks,
+Cheers,
 
 Michael
+
+> Signed-off-by: Jann Horn <jannh-hpIqsD4AKlfQT0dZR+AlfA@public.gmane.org>
+> ---
+>  man2/ptrace.2 | 5 ++++-
+>  1 file changed, 4 insertions(+), 1 deletion(-)
+> 
+> diff --git a/man2/ptrace.2 b/man2/ptrace.2
+> index e1c3eec46..d78b8db2d 100644
+> --- a/man2/ptrace.2
+> +++ b/man2/ptrace.2
+> @@ -2206,7 +2206,10 @@ the report is sent only once.
+>  On success, the
+>  .B PTRACE_PEEK*
+>  requests return the requested data (but see NOTES),
+> -while other requests return zero.
+> +the
+> +.B PTRACE_SECCOMP_GET_FILTER
+> +request returns the number of instructions in the BPF program, and
+> +other requests return zero.
+>  .PP
+>  On error, all requests return \-1, and
+>  .I errno
+> 
+
 
 -- 
 Michael Kerrisk
