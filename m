@@ -1,67 +1,50 @@
 From: "Michael Kerrisk (man-pages)" <mtk.manpages-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org>
 Subject: Re: [PATCH] tmpfs(5): document current mount options
-Date: Fri, 9 Feb 2018 07:13:03 +0100
-Message-ID: <529bc7c4-9ff2-25f9-5956-cb85f012d6cb@gmail.com>
+Date: Fri, 9 Feb 2018 07:13:49 +0100
+Message-ID: <9a82d629-6731-7dc2-4b14-4833f7b180ea@gmail.com>
 References: <20180127095928.6294-1-vapier@gentoo.org>
  <d92fae63-5d6a-56ea-1a69-973bee77395c@gmail.com>
- <20180205161817.GD9138@vapier>
+ <20180205094352.tphbanrjsf5zp5jn@ws.net.home>
 Mime-Version: 1.0
 Content-Type: text/plain; charset=utf-8
 Content-Transfer-Encoding: 7bit
 Return-path: <linux-man-owner-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>
-In-Reply-To: <20180205161817.GD9138@vapier>
+In-Reply-To: <20180205094352.tphbanrjsf5zp5jn-xkT7n84Rsxv/9pzu0YdTqQ@public.gmane.org>
 Content-Language: en-US
 Sender: linux-man-owner-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
-To: kzak-H+wXaHxf7aLQT0dZR+AlfA@public.gmane.org, linux-man-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
-Cc: mtk.manpages-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org
+To: Karel Zak <kzak-H+wXaHxf7aLQT0dZR+AlfA@public.gmane.org>
+Cc: mtk.manpages-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org, Mike Frysinger <vapier-aBrp7R+bbdUdnm+yROfE0A@public.gmane.org>, linux-man-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
 List-Id: linux-man@vger.kernel.org
 
-Hello Mike,
+Hello Karel,
 
-On 02/05/2018 05:18 PM, Mike Frysinger wrote:
-> On 04 Feb 2018 10:03, Michael Kerrisk (man-pages) wrote:
+On 02/05/2018 10:43 AM, Karel Zak wrote:
+> On Sun, Feb 04, 2018 at 10:03:28AM +0100, Michael Kerrisk (man-pages) wrote:
 >> On 01/27/2018 10:59 AM, Mike Frysinger wrote:
 >>> Some of this content is moved from the mount(8) man page.
 >>> Style was based on proc(5) sections.
 >>
->> Thanks. I've applied this.
-> 
-> you meant commit 462a385e9a239ac58e0db188d1d7ed94f36c2d6f ?  was the
-> author change a typo ?  am i more than person and didn't realize ?
-
-Yes, I messed up while amending a commit :-(. I'll fix that for the
-manually produced changelog.
-
->> I also added some further details for the
+>> Thanks. I've applied this. I also added some further details for the
 >> 'mpol' and 'huge' options, largely drawn from kernel Documentation
 >> files. Could you take a quick look at that new content?
-> 
-> seems fine
-
-Thanks for checking.
- 
+>>
 >> Is there any other text for mount(8) that should be imported to
 >> tmpfs(5)?
 > 
-> i slurped all the tmpfs specific stuff out here.  there's room for
-> moving more stuff out, but into new pages.  that'll take more effort.
+> It would be nice to completely remove filesystem specific stuff from
+> mount(8). It's already done for filesystems with active community
+> (like extN, XFS, etc), but the rest... ;-)
+> 
+> And another idea... what about to add a generic filesystem(5) (or
+> section 7) man page to explain why we have filesystems, relation with
+> mkfs programs, block devices, mount(8) ?
 
-So, I see there is this text in mount(8):
+Well there is already this:
+http://man7.org/linux/man-pages/man5/filesystems.5.html
 
-              Note that trying to mount a tmpfs with an mpol option  will
-              fail  if the running kernel does not support NUMA; and will
-              fail if its nodelist specifies a node which is not  online.
-              If your system relies on that tmpfs being mounted, but from
-              time to time runs a kernel built  without  NUMA  capability
-              (perhaps  a  safe  recovery  kernel),  or  with fewer nodes
-              online, then it is advisable to omit the mpol  option  from
-              automatic  mount  options.  It can be added later, when the
-              tmpfs is  already  mounted  on  MountPoint,  by  'mount  -o
-              remount,mpol=Policy:NodeList MountPoint'.
+Obviously, more pieces could be added to it though.
 
-Will that stay there, or should it move to tmpfs(5)?
-
-Thanks,
+Cheers,
 
 Michael
 
