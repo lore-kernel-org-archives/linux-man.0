@@ -1,75 +1,31 @@
-From: Bjarni Ingi Gislason <bjarniig-2945IVfuVpf1P9xLtpHBDw@public.gmane.org>
-Subject: [PATCH] mtrace.1: srcfix; some cleaning of the manual
-Date: Tue, 13 Feb 2018 14:33:06 +0000
-Message-ID: <20180213143306.GA29232@rhi.hi.is>
+From: Heinrich Schuchardt <xypron.glpk-Mmb7MZpHnFY@public.gmane.org>
+Subject: mmap.2: clarify alignment of mapping
+Date: Tue, 13 Feb 2018 17:47:30 +0100
+Message-ID: <646d9eb8-8592-97df-a17c-57cb96445262@gmx.de>
 Mime-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
+Content-Type: text/plain; charset=utf-8
+Content-Transfer-Encoding: 8bit
 Return-path: <linux-man-owner-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>
-Content-Disposition: inline
+Content-Language: en-US
 Sender: linux-man-owner-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
-To: mtk.manpages-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org
-Cc: linux-man-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
+To: Michael Kerrisk <mtk.manpages-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org>
+Cc: linux-man <linux-man-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>
 List-Id: linux-man@vger.kernel.org
 
-Test nr. 2: Fix warning from "groff"
+Hello Michael,
 
-<standard input>:53 (macro BI): only 1 argument, but more are expected
-<standard input>:56 (macro BI): only 1 argument, but more are expected
+according to mmap.2 on Linux the mapping will be created at a page
+boundary if addr is not NULL.
 
-chk_manuals: Output is from: test-groff -Tutf8 -b -e -mandoc -rF0 -t -w w -z
+It remains unclear if this holds true for addr == NULL, too.
+I have not checked the coding.
 
-#####
+Maybe only the punctuation is wrong:
+%s/mapping; on Linux,/mapping. On Linux,/
 
-NO PATCH PROVIDED FOR THIS
+Best regards
 
-Test nr. 29: Surround a block of comments with the macros ".ig" and "..".
-The .\" at the beginning of each line is then not needed.
-
-  Lines 1-22
-
-#####
-
-  Additionally use font macros instead of font escapes.
-
-27:.BR mtrace " [\fIoption\fR]... [\fIbinary\fR] \fImtracedata\fR"
-
-Signed-off-by: Bjarni Ingi Gislason <bjarniig-2945IVfuVpf1P9xLtpHBDw@public.gmane.org>
----
- man1/mtrace.1 | 7 ++++---
- 1 file changed, 4 insertions(+), 3 deletions(-)
-
-diff --git a/man1/mtrace.1 b/man1/mtrace.1
-index c3f24ce42..7944574ed 100644
---- a/man1/mtrace.1
-+++ b/man1/mtrace.1
-@@ -24,7 +24,8 @@
- .SH NAME
- mtrace \- interpret the malloc trace log
- .SH SYNOPSIS
--.BR mtrace " [\fIoption\fR]... [\fIbinary\fR] \fImtracedata\fR"
-+.B mtrace
-+.RI [ option "]... [" binary ] \ mtracedata
- .SH DESCRIPTION
- .B mtrace
- is a Perl script used to interpret and provide human readable output
-@@ -50,10 +51,10 @@ script usage, see
- .BR mtrace (3).
- .SH OPTIONS
- .TP
--.BI \fB\-\-help
-+.B \-\-help
- Print help and exit.
- .TP
--.BI \fB\-\-version
-+.B \-\-version
- Print version information and exit.
- .SH BUGS
- For bug reporting instructions, please see:
--- 
-2.15.1
-
--- 
-Bjarni I. Gislason
+Heinrich
 --
 To unsubscribe from this list: send the line "unsubscribe linux-man" in
 the body of a message to majordomo-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
