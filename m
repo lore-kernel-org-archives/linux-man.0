@@ -1,31 +1,36 @@
-From: Heinrich Schuchardt <xypron.glpk-Mmb7MZpHnFY@public.gmane.org>
-Subject: mmap.2: clarify alignment of mapping
-Date: Tue, 13 Feb 2018 17:47:30 +0100
-Message-ID: <646d9eb8-8592-97df-a17c-57cb96445262@gmx.de>
+From: Unknown <unknown@unknown.invalid>
+Subject: F.LLI PISTOLESI Snc
+Date: Wed, 14 Feb 2018 08:37:55 +0700
+Message-ID: <201802140138.w1E1EGCV110335@mkdc.co.kr>
+Reply-To: tm6428726-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org
 Mime-Version: 1.0
-Content-Type: text/plain; charset=utf-8
-Content-Transfer-Encoding: 8bit
+Content-Type: text/plain; charset="iso-8859-1"
+Content-Transfer-Encoding: 8BIT
 Return-path: <linux-man-owner-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>
-Content-Language: en-US
+Content-Description: Mail message body
+From: ".F.LLI PISTOLESI Snc" <>
 Sender: linux-man-owner-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
-To: Michael Kerrisk <mtk.manpages-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org>
-Cc: linux-man <linux-man-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>
+To: linux-man-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
 List-Id: linux-man@vger.kernel.org
 
-Hello Michael,
+Hello ,
 
-according to mmap.2 on Linux the mapping will be created at a page
-boundary if addr is not NULL.
+I am looking for a reliable supplier /manufacturer of products for sell in Europe.
 
-It remains unclear if this holds true for addr == NULL, too.
-I have not checked the coding.
+I came across your listing and wanted to get some information regarding minimum Order Quantities, FOB pricing and also the possibility of packaging including payments terms.
 
-Maybe only the punctuation is wrong:
-%s/mapping; on Linux,/mapping. On Linux,/
+So could you please get back to be with the above informations as soon as possible .
 
-Best regards
+My email is :tm6428726-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org
 
-Heinrich
+Many thanks and i looking forward to hearing from you and hopefully placing an order with you company.
+
+Best Regards
+Lorenzo Delleani.
+
+F.LLI PISTOLESI Snc Company P.O. box 205
+2740 AE Waddinxveen
+The Netherlands
 --
 To unsubscribe from this list: send the line "unsubscribe linux-man" in
 the body of a message to majordomo-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
