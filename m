@@ -1,36 +1,39 @@
-From: Unknown <unknown@unknown.invalid>
-Subject: F.LLI PISTOLESI Snc
-Date: Wed, 14 Feb 2018 08:37:55 +0700
-Message-ID: <201802140138.w1E1EGCV110335@mkdc.co.kr>
-Reply-To: tm6428726-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org
+From: =?UTF-8?q?Mattias=20Andr=C3=A9e?= <maandree-UNjuZkX4dYU@public.gmane.org>
+Subject: [PATCH] recvmmsg.2: tfix
+Date: Wed, 14 Feb 2018 13:35:56 +0100
+Message-ID: <20180214123556.13033-1-maandree@kth.se>
 Mime-Version: 1.0
-Content-Type: text/plain; charset="iso-8859-1"
-Content-Transfer-Encoding: 8BIT
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 8bit
 Return-path: <linux-man-owner-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>
-Content-Description: Mail message body
-From: ".F.LLI PISTOLESI Snc" <>
 Sender: linux-man-owner-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
-To: linux-man-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
+To: mtk.manpages-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org
+Cc: linux-man-u79uwXL29TY76Z2rM5mHXA@public.gmane.org, =?UTF-8?q?Mattias=20Andr=C3=A9e?= <maandree-UNjuZkX4dYU@public.gmane.org>
 List-Id: linux-man@vger.kernel.org
 
-Hello ,
+recvmmsq -> recvmmsg
 
-I am looking for a reliable supplier /manufacturer of products for sell in Europe.
+Signed-off-by: Mattias Andrée <maandree-UNjuZkX4dYU@public.gmane.org>
+---
+ man2/recvmmsg.2 | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
 
-I came across your listing and wanted to get some information regarding minimum Order Quantities, FOB pricing and also the possibility of packaging including payments terms.
+diff --git a/man2/recvmmsg.2 b/man2/recvmmsg.2
+index f20ce00a8..4aee1dc11 100644
+--- a/man2/recvmmsg.2
++++ b/man2/recvmmsg.2
+@@ -185,7 +185,7 @@ but then no further datagrams are received, the call will block forever.
+ If an error occurs after at least one message has been received,
+ the call succeeds, and returns the number of messages received.
+ The error code is expected to be returned on a subsequent call to
+-.BR recvmmsq ().
++.BR recvmmsg ().
+ In the current implementation, however, the error code can be overwritten
+ in the meantime by an unrelated network event on a socket,
+ for example an incoming ICMP packet.
+-- 
+2.11.1
 
-So could you please get back to be with the above informations as soon as possible .
-
-My email is :tm6428726-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org
-
-Many thanks and i looking forward to hearing from you and hopefully placing an order with you company.
-
-Best Regards
-Lorenzo Delleani.
-
-F.LLI PISTOLESI Snc Company P.O. box 205
-2740 AE Waddinxveen
-The Netherlands
 --
 To unsubscribe from this list: send the line "unsubscribe linux-man" in
 the body of a message to majordomo-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
