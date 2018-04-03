@@ -1,93 +1,60 @@
-From: David Howells <dhowells@redhat.com>
+From: Ard Biesheuvel <ard.biesheuvel@linaro.org>
 Subject: Re: [GIT PULL] Kernel lockdown for secure boot
-Date: Tue, 03 Apr 2018 08:06:59 +0100
-Message-ID: <30459.1522739219@warthog.procyon.org.uk>
-References: <186aeb7e-1225-4bb8-3ff5-863a1cde86de@kernel.org> <4136.1522452584@warthog.procyon.org.uk> <alpine.LRH.2.21.1803311145180.7769@namei.org>
+Date: Tue, 3 Apr 2018 15:25:56 +0200
+Message-ID: <CAKv+Gu9Na0j=T4syinQhPNZTnbhvnpDXR+Za73EmH3FFXV6KHA@mail.gmail.com>
+References: <4136.1522452584@warthog.procyon.org.uk> <alpine.LRH.2.21.1803311145180.7769@namei.org>
+ <17792.1522491600@warthog.procyon.org.uk>
 Mime-Version: 1.0
-Content-Type: text/plain; charset="us-ascii"
-Content-Transfer-Encoding: 8BIT
+Content-Type: text/plain; charset="UTF-8"
 Return-path: <linux-kernel-owner@vger.kernel.org>
-In-Reply-To: <186aeb7e-1225-4bb8-3ff5-863a1cde86de@kernel.org>
-Content-ID: <30458.1522739219.1@warthog.procyon.org.uk>
+In-Reply-To: <17792.1522491600@warthog.procyon.org.uk>
 Sender: linux-kernel-owner@vger.kernel.org
-To: Andy Lutomirski <luto@kernel.org>
-Cc: dhowells@redhat.com, James Morris <jmorris@namei.org>, gnomes@lxorguk.ukuu.org.uk, Linus Torvalds <torvalds@linux-foundation.org>, mjg59@google.com, gregkh@linuxfoundation.org, linux-kernel@vger.kernel.org, jforbes@redhat.com, linux-man@vger.kernel.org, jlee@suse.com, linux-security-module@vger.kernel.org, Linux API <linux-api@vger.kernel.org>, Kees Cook <keescook@chromium.org>
+To: David Howells <dhowells@redhat.com>, Andy Lutomirski <luto@kernel.org>, Kees Cook <keescook@chromium.org>
+Cc: James Morris <jmorris@namei.org>, One Thousand Gnomes <gnomes@lxorguk.ukuu.org.uk>, linux-efi@vger.kernel.org, Matthew Garrett <mjg59@google.com>, Greg Kroah-Hartman <gregkh@linuxfoundation.org>, Linux Kernel Mailing List <linux-kernel@vger.kernel.org>, jforbes@redhat.com, linux-man@vger.kernel.org, joeyli <jlee@suse.com>, linux-security-module <linux-security-module@vger.kernel.org>
 List-Id: linux-man@vger.kernel.org
 
-Andy Lutomirski <luto@kernel.org> wrote:
+(+ Andy and Kees so they can respond to the thread)
 
-> This is an attempt at a review.  I'm replying here because I can't find the
-> actual relevant patch emails.
+On 31 March 2018 at 12:20, David Howells <dhowells@redhat.com> wrote:
+> James Morris <jmorris@namei.org> wrote:
+>
+>> Are there any known coverage gaps now?
+>
+> I've covered all the ones I know about.
+>
 
-This was the latest post:
+Andy (and Kees) responded to this without keeping all the cc's. Given
+that I share Andy's concern wrt the general nature of these patches, I
+will reiterate them here.
 
-	https://lkml.org/lkml/2017/11/9/660
+First of all, in my experience, when introducing any kind of 'secure'
+mode, people will immediately assume that everything they use the
+system for will be more secure going forward, and so they are more
+likely to let their guard down, resulting in a less secure situation
+than we started out with. So I already argued for calling this a
+'lockdown policy' which is a clearly communicated as a best effort
+attempt to make the system more robust against inadvertent
+modifications, and documenting/logging clearly what it actually
+*means*. The latter is especially important because many of these
+things are arch specific, and need to be implemented for each arch
+individually in order to take effect on them. Also, v4.17 lockdown
+will most likely be different from v4.18 lockdown.
 
-and they were posted multiple times before that, plus distributions, such as
-Fedora, have been carrying them for a long while.
+Furthermore, there is a fundamental deviation from common security
+sense here, where things like command line parameters and other
+lockdown specific tunables are blacklisted rather than whitelisted,
+and so rather than locking everything down and re-enabling only once
+what needs to be re-enabled for the system to work, we are now forever
+going to have to track a moving target, where it is someone's job to
+ensure that incoming changes don't regress lockdown mode on any of the
+architectures it supports.
 
-> For the rest of this review, I'm going to pretend that you actually want two
-> features: "try-prevent-root-from-corrupting-the-kernel" and
-> "try-to-prevent-root-from-reading-kernel-memory".
+If the distros are shipping their kernels with these patches applied
+to adhere to some kind of requirements imposed by MicroSoft in order
+for them to be willing to sign shim images, can we please involve
+those into the discussion as well? It seems to me that this is a
+solution without a problem statement, and I would like to fully
+understand the problem before reasoning about the solution.
 
-It theoretically boils down into those two, but the line is blurrier than you
-think.
-
-Further, some of the vectors that can be used to do one can potentially do the
-other also and it starts getting to be a lot of extra work to distinguish the
-two.
-
-> I do *not* see why the mere act of using Secure Boot should have this
-> effect.
-
-To be able to pass secure boot mode over kexec, you have to make sure that the
-kernel image doesn't get corrupted, lest someone blacklist your signing key in
-the bootloader.
-
-> In particular, UEFI Secure Boot should *not* enable
-> "try-to-prevent-root-from-reading-kernel-memory", which means that, unless
-> you actually implement the split, you should drop a bunch of the patches.
-
-Yes it should.  If someone can read your kernel image, they can steal the
-crypto keys you use to encrypt your filesystem.
-
-> "Restrict /dev/{mem,kmem,port} when the kernel is locked down": this should
-> probably split into one restriction for read and one for write.
-
-Not so for /dev/port.  Read & Write here are _not_ the same as Read & Write
-on, say, /dev/mem.  In fact, if /dev/mem gives you access to mmio ports, then
-the same applies there.  Btw, Fedora hasn't even provided /dev/kmem for a
-while.
-
-> "bpf: Restrict kernel image access functions when the kernel is locked down":
-> This patch just sucks in general.
-
-Yes - but that's what Alexei Starovoitov specified.  bpf kind of sucks since
-it gives you unrestricted access to the kernel.
-
-> "debugfs: Restrict debugfs when the kernel is locked down": The logic is IMO
-> nutty.  Why the 0444 restriction?  I see no reason that reading a 0644 file
-> should be treated any differently from reading a 0444 file.
-
-Yes.  IMO it should be locked down entirely.  However, it's been abused and
-there are things in there that are apparently needed (ie. it's not
-debugging-only now); unfortunately, it *also* contains files that directly map
-hardware.
-
-> "efi: Lock down the kernel if booted in secure boot mode": you have a stray
-> change in fs/debugfs/inode.c in here.
-
-Good catch, thanks.
-
-> Also, as above, I really dislike this patch.
-
-You dislike everything, but you didn't say so any of the times these patches
-were posted...
-
-> "lockdown: Print current->comm in restriction messages": Shouldn't this be
-> folded in with whatever patch added that code in the first place?
-
-Perhaps, but at the time I added it, I didn't want to go back and change the
-existing patches again.  If I have to do so, I'll fold it in then.
-
-David
+-- 
+Ard.
