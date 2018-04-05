@@ -1,95 +1,26 @@
-From: "Michael Kerrisk (man-pages)" <mtk.manpages@gmail.com>
-Subject: Re: [PATCH] readv.2, io_submit.2: Document RWF_APPEND added in Linux
- 4.16
-Date: Thu, 5 Apr 2018 19:49:14 +0200
-Message-ID: <1f559be3-93df-ccdd-02dc-39c83c83a8c9@gmail.com>
-References: <20180328194911.49632-1-j@bitron.ch>
+From: Alan Cox <gnomes@lxorguk.ukuu.org.uk>
+Subject: Re: [GIT PULL] Kernel lockdown for secure boot
+Date: Thu, 5 Apr 2018 18:53:47 +0100
+Message-ID: <20180405185347.2785eb8a@alans-desktop>
+References: <4136.1522452584@warthog.procyon.org.uk>
+        <alpine.LRH.2.21.1803311145180.7769@namei.org>
+        <17792.1522491600@warthog.procyon.org.uk>
+        <CAKv+Gu9Na0j=T4syinQhPNZTnbhvnpDXR+Za73EmH3FFXV6KHA@mail.gmail.com>
 Mime-Version: 1.0
-Content-Type: text/plain; charset=utf-8
-Content-Transfer-Encoding: 8bit
+Content-Type: text/plain; charset=US-ASCII
+Content-Transfer-Encoding: 7bit
 Return-path: <linux-kernel-owner@vger.kernel.org>
-In-Reply-To: <20180328194911.49632-1-j@bitron.ch>
-Content-Language: en-US
+In-Reply-To: <CAKv+Gu9Na0j=T4syinQhPNZTnbhvnpDXR+Za73EmH3FFXV6KHA@mail.gmail.com>
 Sender: linux-kernel-owner@vger.kernel.org
-To: =?UTF-8?Q?J=c3=bcrg_Billeter?= <j@bitron.ch>
-Cc: mtk.manpages@gmail.com, linux-man@vger.kernel.org, linux-kernel@vger.kernel.org
+To: Ard Biesheuvel <ard.biesheuvel@linaro.org>
+Cc: David Howells <dhowells@redhat.com>, Andy Lutomirski <luto@kernel.org>, Kees Cook <keescook@chromium.org>, James Morris <jmorris@namei.org>, linux-efi@vger.kernel.org, Matthew Garrett <mjg59@google.com>, Greg Kroah-Hartman <gregkh@linuxfoundation.org>, Linux Kernel Mailing List <linux-kernel@vger.kernel.org>, jforbes@redhat.com, linux-man@vger.kernel.org, joeyli <jlee@suse.com>, linux-security-module <linux-security-module@vger.kernel.org>
 List-Id: linux-man@vger.kernel.org
 
-Hello Jürg
+> Furthermore, there is a fundamental deviation from common security
+> sense here, where things like command line parameters and other
+> lockdown specific tunables are blacklisted rather than whitelisted,
 
-Thanks for the patch, but there are some details that are
-unexplained in the text and in the kernel commit message.
+I've been complaining about this from the start but it appears to be a
+write only authorship process going on.
 
-Does the use of these flags change the file offset? The text
-should make this point explicit.
-
-Presumably, when using this flag for pwritev2(), the
-'offset' argument of the call is ignored. Presumably, the
-same is true for the 'aio_offset' field of the 'iocb'
-structure when using io_submit(). This point should be
-also be made explicit in the patch.
-
-Would you be willing to revise the patch to include the
-answers to these questions?
-
-Cheers,
-
-Michael
-
-
-On 03/28/2018 09:49 PM, Jürg Billeter wrote:
-> Signed-off-by: Jürg Billeter <j@bitron.ch>
-> ---
->  man2/io_submit.2 | 10 ++++++++++
->  man2/readv.2     | 10 ++++++++++
->  2 files changed, 20 insertions(+)
-> 
-> diff --git a/man2/io_submit.2 b/man2/io_submit.2
-> index 397fd0b75..79fcdfee4 100644
-> --- a/man2/io_submit.2
-> +++ b/man2/io_submit.2
-> @@ -111,6 +111,16 @@ field of the
->  .I io_event
->  structure (see
->  .BR io_getevents (2)).
-> +.TP
-> +.BR RWF_APPEND " (since Linux 4.16)"
-> +.\" commit e1fc742e14e01d84d9693c4aca4ab23da65811fb
-> +Append data to the end of the file.
-> +See the description of the flag of the same name in
-> +.BR pwritev2 (2)
-> +as well as the description of
-> +.B O_APPEND
-> +in
-> +.BR open (2).
->  .RE
->  .TP
->  .I aio_lio_opcode
-> diff --git a/man2/readv.2 b/man2/readv.2
-> index b3b7b9658..668fba576 100644
-> --- a/man2/readv.2
-> +++ b/man2/readv.2
-> @@ -248,6 +248,16 @@ to
->  .BR EAGAIN .
->  Currently, this flag is meaningful only for
->  .BR preadv2 ().
-> +.TP
-> +.BR RWF_APPEND " (since Linux 4.16)"
-> +.\" commit e1fc742e14e01d84d9693c4aca4ab23da65811fb
-> +Provide a per-write equivalent of the
-> +.B O_APPEND
-> +.BR open (2)
-> +flag.
-> +This flag is meaningful only for
-> +.BR pwritev2 (),
-> +and its effect applies only to the data range written by the system call.
->  .SH RETURN VALUE
->  On success,
->  .BR readv (),
-> 
-
-
--- 
-Michael Kerrisk
-Linux man-pages maintainer; http://www.kernel.org/doc/man-pages/
-Linux/UNIX System Programming Training: http://man7.org/training/
+Alan
