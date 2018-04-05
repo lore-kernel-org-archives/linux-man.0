@@ -1,84 +1,95 @@
-From: jlee@suse.com
-Subject: Re: An actual suggestion (Re: [GIT PULL] Kernel lockdown for secure
- boot)
-Date: Fri, 6 Apr 2018 00:11:24 +0800
-Message-ID: <20180405161124.y5jfe76lfqog7iiv@linux-rasp2>
-References: <CALCETrUVQLDC6_VEvuAbdCOuGrmcxohqTB6P8eyNojm9AryNkg@mail.gmail.com>
- <1119.1522858644@warthog.procyon.org.uk>
- <20180405021650.GC7362@linux-l9pv.suse>
- <1522936869.16421.63.camel@linux.vnet.ibm.com>
+From: "Michael Kerrisk (man-pages)" <mtk.manpages@gmail.com>
+Subject: Re: [PATCH] readv.2, io_submit.2: Document RWF_APPEND added in Linux
+ 4.16
+Date: Thu, 5 Apr 2018 19:49:14 +0200
+Message-ID: <1f559be3-93df-ccdd-02dc-39c83c83a8c9@gmail.com>
+References: <20180328194911.49632-1-j@bitron.ch>
 Mime-Version: 1.0
-Content-Type: text/plain; charset=iso-8859-1
+Content-Type: text/plain; charset=utf-8
 Content-Transfer-Encoding: 8bit
 Return-path: <linux-kernel-owner@vger.kernel.org>
-Content-Disposition: inline
-In-Reply-To: <1522936869.16421.63.camel@linux.vnet.ibm.com>
+In-Reply-To: <20180328194911.49632-1-j@bitron.ch>
+Content-Language: en-US
 Sender: linux-kernel-owner@vger.kernel.org
-To: Mimi Zohar <zohar@linux.vnet.ibm.com>
-Cc: David Howells <dhowells@redhat.com>, Andy Lutomirski <luto@kernel.org>, Greg Kroah-Hartman <gregkh@linuxfoundation.org>, "Theodore Y. Ts'o" <tytso@mit.edu>, Matthew Garrett <mjg59@google.com>, Linus Torvalds <torvalds@linux-foundation.org>, Ard Biesheuvel <ard.biesheuvel@linaro.org>, James Morris <jmorris@namei.org>, Alan Cox <gnomes@lxorguk.ukuu.org.uk>, Linux Kernel Mailing List <linux-kernel@vger.kernel.org>, Justin Forbes <jforbes@redhat.com>, linux-man <linux-man@vger.kernel.org>, LSM List <linux-security-module@vger.kernel.org>, Linux API <linux-api@vger.kernel.org>, Kees Cook <keescook@chromium.org>, linux-efi <linux-efi@vger.kernel.org>
+To: =?UTF-8?Q?J=c3=bcrg_Billeter?= <j@bitron.ch>
+Cc: mtk.manpages@gmail.com, linux-man@vger.kernel.org, linux-kernel@vger.kernel.org
 List-Id: linux-man@vger.kernel.org
 
-Hi Mimi,
+Hello JÃ¼rg
 
-On Thu, Apr 05, 2018 at 10:01:09AM -0400, Mimi Zohar wrote:
-> On Thu, 2018-04-05 at 10:16 +0800, joeyli wrote:
-> > Hi David, 
-> > 
-> > On Wed, Apr 04, 2018 at 05:17:24PM +0100, David Howells wrote:
-> > > Andy Lutomirski <luto@kernel.org> wrote:
-> > > 
-> > > > Since this thread has devolved horribly, I'm going to propose a solution.
-> > > > 
-> > > > 1. Split the "lockdown" state into three levels:  (please don't
-> > > > bikeshed about the names right now.)
-> > > > 
-> > > > LOCKDOWN_NONE: normal behavior
-> > > > 
-> > > > LOCKDOWN_PROTECT_INTEGREITY: kernel tries to keep root from writing to
-> > > > kernel memory
-> > > > 
-> > > > LOCKDOWN_PROTECT_INTEGRITY_AND_SECRECY: kernel tries to keep root from
-> > > > reading or writing kernel memory.
-> > > 
-> > > In theory, it's good idea, but in practice it's not as easy to implement as I
-> > > think you think.
-> > > 
-> > > Let me list here the things that currently get restricted by lockdown:
-> > > 
-> > [...snip]
-> > >  (5) Kexec.
-> > >
-> > 
-> > About IMA with kernel module signing and kexec(not on x86_64 yet)...
-> 
-> Only carrying the measurement list across kexec is architecture
-> specific, but everything else should work.  
-> 
-> > Because IMA can be used to verify the integrity of kernel module or even
-> > the image for kexec. I think that the
-> > IMA_KEYRINGS_PERMIT_SIGNED_BY_BUILTIN_OR_SECONDARY must be enabled at runtime
-> > when kernel is locked-down.
-> 
-> I think we need to understand the problem a bit better.  Is the
-> problem that you're using the secondary keyring and loading the UEFI
-> keys onto the secondary keyring?
->
+Thanks for the patch, but there are some details that are
+unexplained in the text and in the kernel commit message.
 
-Sorry for my mistake. I want to write INTEGRITY_TRUSTED_KEYRING in
-above but not IMA_KEYRINGS_PERMIT_SIGNED_BY_BUILTIN_OR_SECONDARY.
+Does the use of these flags change the file offset? The text
+should make this point explicit.
 
-My brain is not clear when writing the mail.
- 
-> > Because the root can enroll master key to keyring then IMA trusts the ima key
-> > derived from master key. It causes that the arbitrary signed module can be loaded
-> > when the root compromised.
+Presumably, when using this flag for pwritev2(), the
+'offset' argument of the call is ignored. Presumably, the
+same is true for the 'aio_offset' field of the 'iocb'
+structure when using io_submit(). This point should be
+also be made explicit in the patch.
+
+Would you be willing to revise the patch to include the
+answers to these questions?
+
+Cheers,
+
+Michael
+
+
+On 03/28/2018 09:49 PM, JÃ¼rg Billeter wrote:
+> Signed-off-by: JÃ¼rg Billeter <j@bitron.ch>
+> ---
+>  man2/io_submit.2 | 10 ++++++++++
+>  man2/readv.2     | 10 ++++++++++
+>  2 files changed, 20 insertions(+)
 > 
-> With only the builtin keyring, only keys signed by a builtin key can
-> be added to the IMA keyring.
+> diff --git a/man2/io_submit.2 b/man2/io_submit.2
+> index 397fd0b75..79fcdfee4 100644
+> --- a/man2/io_submit.2
+> +++ b/man2/io_submit.2
+> @@ -111,6 +111,16 @@ field of the
+>  .I io_event
+>  structure (see
+>  .BR io_getevents (2)).
+> +.TP
+> +.BR RWF_APPEND " (since Linux 4.16)"
+> +.\" commit e1fc742e14e01d84d9693c4aca4ab23da65811fb
+> +Append data to the end of the file.
+> +See the description of the flag of the same name in
+> +.BR pwritev2 (2)
+> +as well as the description of
+> +.B O_APPEND
+> +in
+> +.BR open (2).
+>  .RE
+>  .TP
+>  .I aio_lio_opcode
+> diff --git a/man2/readv.2 b/man2/readv.2
+> index b3b7b9658..668fba576 100644
+> --- a/man2/readv.2
+> +++ b/man2/readv.2
+> @@ -248,6 +248,16 @@ to
+>  .BR EAGAIN .
+>  Currently, this flag is meaningful only for
+>  .BR preadv2 ().
+> +.TP
+> +.BR RWF_APPEND " (since Linux 4.16)"
+> +.\" commit e1fc742e14e01d84d9693c4aca4ab23da65811fb
+> +Provide a per-write equivalent of the
+> +.B O_APPEND
+> +.BR open (2)
+> +flag.
+> +This flag is meaningful only for
+> +.BR pwritev2 (),
+> +and its effect applies only to the data range written by the system call.
+>  .SH RETURN VALUE
+>  On success,
+>  .BR readv (),
 > 
 
-Thanks for your description. I saw that the IMA_LOAD_X509 already depends
-on IMA_TRUSTED_KEYRING (INTEGRITY_TRUSTED_KEYRING). Please ignore my concern.
 
-Thanks a lot!
-Joey Lee
+-- 
+Michael Kerrisk
+Linux man-pages maintainer; http://www.kernel.org/doc/man-pages/
+Linux/UNIX System Programming Training: http://man7.org/training/
