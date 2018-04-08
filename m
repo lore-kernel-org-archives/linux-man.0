@@ -1,78 +1,54 @@
-From: =?UTF-8?q?J=C3=BCrg=20Billeter?= <j@bitron.ch>
-Subject: [PATCH v2] readv.2, io_submit.2: Document RWF_APPEND added in Linux 4.16
-Date: Fri,  6 Apr 2018 15:51:06 +0200
-Message-ID: <20180406135106.30342-1-j@bitron.ch>
-References: <1f559be3-93df-ccdd-02dc-39c83c83a8c9@gmail.com>
+From: joeyli <jlee@suse.com>
+Subject: Re: [GIT PULL] Kernel lockdown for secure boot
+Date: Sun, 8 Apr 2018 15:44:09 +0800
+Message-ID: <20180408074409.GD7362@linux-l9pv.suse>
+References: <CAADnVQLu5EZLJ1C9-dd4=K+sed6+38oy047+nqCMfuPFB=wttw@mail.gmail.com>
+ <CACdnJuv8t3kS5BCowWQ7rMjL2K73913wX2-bb5HF0ddY3iaBHg@mail.gmail.com>
 Mime-Version: 1.0
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 8bit
+Content-Type: text/plain; charset=us-ascii
 Return-path: <linux-kernel-owner@vger.kernel.org>
-In-Reply-To: <1f559be3-93df-ccdd-02dc-39c83c83a8c9@gmail.com>
+Content-Disposition: inline
+In-Reply-To: <CACdnJuv8t3kS5BCowWQ7rMjL2K73913wX2-bb5HF0ddY3iaBHg@mail.gmail.com>
 Sender: linux-kernel-owner@vger.kernel.org
-To: mtk.manpages@gmail.com
-Cc: linux-man@vger.kernel.org, linux-kernel@vger.kernel.org, =?UTF-8?q?J=C3=BCrg=20Billeter?= <j@bitron.ch>
+To: Matthew Garrett <mjg59@google.com>
+Cc: alexei.starovoitov@gmail.com, luto@kernel.org, David Howells <dhowells@redhat.com>, Ard Biesheuvel <ard.biesheuvel@linaro.org>, jmorris@namei.org, Alan Cox <gnomes@lxorguk.ukuu.org.uk>, Linus Torvalds <torvalds@linux-foundation.org>, Greg Kroah-Hartman <gregkh@linuxfoundation.org>, Linux Kernel Mailing List <linux-kernel@vger.kernel.org>, jforbes@redhat.com, linux-man@vger.kernel.org, LSM List <linux-security-module@vger.kernel.org>, linux-api@vger.kernel.org, Kees Cook <keescook@chromium.org>, linux-efi <linux-efi@vger.kernel.org>
 List-Id: linux-man@vger.kernel.org
 
-Signed-off-by: Jürg Billeter <j@bitron.ch>
----
-Changes since version 1:
-- Explain offset handling
+On Wed, Apr 04, 2018 at 04:31:46AM +0000, Matthew Garrett wrote:
+> On Tue, Apr 3, 2018 at 7:34 PM Alexei Starovoitov <
+> alexei.starovoitov@gmail.com> wrote:
+> > If the only thing that folks are paranoid about is reading
+> > arbitrary kernel memory with bpf_probe_read() helper
+> > then preferred patch would be to disable it during verification
+> > when in lockdown mode.
+> > No run-time overhead and android folks will be happy
+> > that lockdown doesn't break their work.
+> > They converted out-of-tree networking accounting
+> > module and corresponding user daemon to use bpf:
+> 
+> https://www.linuxplumbersconf.org/2017/ocw/system/presentations/4791/original/eBPF%20cgroup%20filters%20for%20data%20usage%20accounting%20on%20Android.pdf
+> 
+> An alternative would be to only disable kernel reads if the kernel contains
+> secrets that aren't supposed to be readable by root. If the keyring is
+> configured such that root can read everything, it seems like less of a
+> concern?
 
- man2/io_submit.2 | 13 +++++++++++++
- man2/readv.2     | 17 +++++++++++++++++
- 2 files changed, 30 insertions(+)
+Currently the KMK (kernel master key) can be a trusted key (TPM sealed) or a
+user key (plaintext). The EVM keeps a key (plaintext) in memory that
+it is decrypted from a KMK encrypted key. Those kernel reads functions should
+be disabled when the KMK be loaded to keyring.
 
-diff --git a/man2/io_submit.2 b/man2/io_submit.2
-index 397fd0b75..25961138a 100644
---- a/man2/io_submit.2
-+++ b/man2/io_submit.2
-@@ -111,6 +111,19 @@ field of the
- .I io_event
- structure (see
- .BR io_getevents (2)).
-+.TP
-+.BR RWF_APPEND " (since Linux 4.16)"
-+.\" commit e1fc742e14e01d84d9693c4aca4ab23da65811fb
-+Append data to the end of the file.
-+See the description of the flag of the same name in
-+.BR pwritev2 (2)
-+as well as the description of
-+.B O_APPEND
-+in
-+.BR open (2).
-+The
-+.I aio_offset
-+field is ignored. The file offset is not changed.
- .RE
- .TP
- .I aio_lio_opcode
-diff --git a/man2/readv.2 b/man2/readv.2
-index b3b7b9658..9ef250e11 100644
---- a/man2/readv.2
-+++ b/man2/readv.2
-@@ -248,6 +248,23 @@ to
- .BR EAGAIN .
- Currently, this flag is meaningful only for
- .BR preadv2 ().
-+.TP
-+.BR RWF_APPEND " (since Linux 4.16)"
-+.\" commit e1fc742e14e01d84d9693c4aca4ab23da65811fb
-+Provide a per-write equivalent of the
-+.B O_APPEND
-+.BR open (2)
-+flag.
-+This flag is meaningful only for
-+.BR pwritev2 (),
-+and its effect applies only to the data range written by the system call.
-+The
-+.I offset
-+argument does not affect the write operation, the data is always appended
-+to the end of the file. However, if the
-+.I offset
-+argument is \-1, the current file offset is updated.
-+This matches the behavior when the file is opened in append mode.
- .SH RETURN VALUE
- On success,
- .BR readv (),
--- 
-2.16.3
+You idea is good that kernel can keep those reads functions enabled until KMK
+be loaded. Which means those functions are still available before user enables
+KMK and EVM.
+
+There have another idea is using a tree to register all sensitive data
+then blanking them when reading. Here is a very early developing version:
+
+https://github.com/joeyli/linux-sensitive_data/commits/sensitive-data-tree-v0.1-v4.15
+
+But this approach causes runtime overhead and all sensitive data address must
+be found and registered (e.g. plaintext in encryption module)
+
+Thanks a lot!
+Joey Lee 
