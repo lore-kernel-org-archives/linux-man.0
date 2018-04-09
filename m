@@ -1,56 +1,39 @@
-From: Quentin Monnet <quentin.monnet@netronome.com>
-Subject: Re: [RFC bpf-next] bpf: document eBPF helpers and add a script to
- generate man page
-Date: Mon, 9 Apr 2018 14:33:02 +0100
-Message-ID: <c8715de7-674e-64e0-1e3b-4b4e884e80ad@netronome.com>
-References: <20180406111122.11038-1-quentin.monnet@netronome.com>
- <05d2d03a-0b39-9d0c-9ba0-3461afc45fac@iogearbox.net>
- <AB89F6E2-DE8A-4259-B361-BE96AD32E84E@darmarit.de>
- <81150b4e-79d5-f837-72bc-d988e87f842a@iogearbox.net>
- <C6491E01-3FC2-4AC4-8190-7B17CFAC01AD@darmarit.de>
- <b2fbd09d-7ba2-9884-e18d-eac586af1665@iogearbox.net>
- <550CD0C6-10B5-4C8C-9C1E-70AA61ABDC34@darmarit.de>
+From: joeyli <jlee@suse.com>
+Subject: Re: [GIT PULL] Kernel lockdown for secure boot
+Date: Mon, 9 Apr 2018 21:55:47 +0800
+Message-ID: <20180409135547.GD17840@linux-l9pv.suse>
+References: <CAADnVQLu5EZLJ1C9-dd4=K+sed6+38oy047+nqCMfuPFB=wttw@mail.gmail.com>
+ <20180408080742.GE7362@linux-l9pv.suse>
+ <20180409034008.dyte7k5kgkbjh5is@ast-mbp.dhcp.thefacebook.com>
 Mime-Version: 1.0
-Content-Type: text/plain; charset=utf-8
-Content-Transfer-Encoding: 7bit
-Return-path: <netdev-owner@vger.kernel.org>
-In-Reply-To: <550CD0C6-10B5-4C8C-9C1E-70AA61ABDC34@darmarit.de>
-Content-Language: en-US
-Sender: netdev-owner@vger.kernel.org
-To: Markus Heiser <markus.heiser@darmarit.de>, Daniel Borkmann <daniel@iogearbox.net>
-Cc: Jonathan Corbet <corbet@lwn.net>, ast@kernel.org, netdev@vger.kernel.org, oss-drivers@netronome.com, Linux Doc Mailing List <linux-doc@vger.kernel.org>, linux-man@vger.kernel.org
+Content-Type: text/plain; charset=us-ascii
+Return-path: <linux-kernel-owner@vger.kernel.org>
+Content-Disposition: inline
+In-Reply-To: <20180409034008.dyte7k5kgkbjh5is@ast-mbp.dhcp.thefacebook.com>
+Sender: linux-kernel-owner@vger.kernel.org
+To: Alexei Starovoitov <alexei.starovoitov@gmail.com>
+Cc: Andy Lutomirski <luto@kernel.org>, David Howells <dhowells@redhat.com>, Ard Biesheuvel <ard.biesheuvel@linaro.org>, James Morris <jmorris@namei.org>, One Thousand Gnomes <gnomes@lxorguk.ukuu.org.uk>, Linus Torvalds <torvalds@linux-foundation.org>, Matthew Garrett <mjg59@google.com>, Greg KH <gregkh@linuxfoundation.org>, LKML <linux-kernel@vger.kernel.org>, Justin Forbes <jforbes@redhat.com>, linux-man <linux-man@vger.kernel.org>, LSM List <linux-security-module@vger.kernel.org>, Linux API <linux-api@vger.kernel.org>, Kees Cook <keescook@chromium.org>, linux-efi <linux-efi@vger.kernel.org>, Daniel Borkmann <daniel@iogearbox.net>
 List-Id: linux-man@vger.kernel.org
 
-2018-04-09 12:52 UTC+0200 ~ Markus Heiser <markus.heiser@darmarit.de>
+On Sun, Apr 08, 2018 at 08:40:10PM -0700, Alexei Starovoitov wrote:
+> On Sun, Apr 08, 2018 at 04:07:42PM +0800, joeyli wrote:
+> > 
+> > > If the only thing that folks are paranoid about is reading
+> > > arbitrary kernel memory with bpf_probe_read() helper
+> > > then preferred patch would be to disable it during verification
+> > > when in lockdown mode
+> > 
+> > Sorry for I didn't fully understand your idea...
+> > Do you mean that using bpf verifier to filter out bpf program that
+> > uses bpf_probe_read()?
 > 
->> Am 09.04.2018 um 12:08 schrieb Daniel Borkmann <daniel@iogearbox.net>:
-> [...]
+> Take a look bpf_get_trace_printk_proto().
+> Similarly we can add bpf_get_probe_read_proto() that
+> will return NULL if lockdown is on.
+> Then programs with bpf_probe_read() will be rejected by the verifier.
 > 
->>> May I completely misunderstood you, so correct my if I'am wrong:
->>>
->>> - ./scripts/bpf_helpers_doc.py : produces reST markup from C-comments
->>> - ./scripts/kerne-doc          : produces reST markup from C-comments
->>>
->>> IMO: both are doing the same job, so why not using kernel-doc?
->>
->> They are not really doing the same job, in bpf_helpers_doc.py case you don't
->> want the whole header rendered, but just a fraction of it, that is, the
->> single big comment which describes all BPF helper functions that a BPF
->> program developer has available to use in user space - aka the entries in
->> the __BPF_FUNC_MAPPER() macro;
-> 
-> 
->> I also doubt the latter would actually qualify
->> in kdoc context as some sort of a function description.
-> 
-> latter .. ah, OK .. thanks for clarifying. 
-> 
-> -- Markus --
 
-As Daniel explained, kernel-doc does not apply in this case, we do not
-have the full function prototype for eBPF helpers in the header file.
-But to be honest, I didn't even realise kernel-doc was available and
-could do something close to what I was looking for, so thanks for your
-feedback! :)
+OK, I saw check_helper_call(). Thank you for point it out.
+it's good idea!
 
-Quentin
+Joey Lee
