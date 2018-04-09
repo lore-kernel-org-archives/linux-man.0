@@ -1,73 +1,249 @@
 From: Daniel Borkmann <daniel@iogearbox.net>
-Subject: Re: [GIT PULL] Kernel lockdown for secure boot
-Date: Mon, 9 Apr 2018 10:14:15 +0200
-Message-ID: <9040da29-2803-5c00-d47c-ae676a86b65c@iogearbox.net>
-References: <CAADnVQLu5EZLJ1C9-dd4=K+sed6+38oy047+nqCMfuPFB=wttw@mail.gmail.com>
- <20180408080742.GE7362@linux-l9pv.suse>
- <20180409034008.dyte7k5kgkbjh5is@ast-mbp.dhcp.thefacebook.com>
+Subject: Re: [RFC bpf-next] bpf: document eBPF helpers and add a script to
+ generate man page
+Date: Mon, 9 Apr 2018 11:01:07 +0200
+Message-ID: <05d2d03a-0b39-9d0c-9ba0-3461afc45fac@iogearbox.net>
+References: <20180406111122.11038-1-quentin.monnet@netronome.com>
 Mime-Version: 1.0
 Content-Type: text/plain; charset=utf-8
 Content-Transfer-Encoding: 7bit
-Return-path: <linux-kernel-owner@vger.kernel.org>
-In-Reply-To: <20180409034008.dyte7k5kgkbjh5is@ast-mbp.dhcp.thefacebook.com>
+Return-path: <netdev-owner@vger.kernel.org>
+In-Reply-To: <20180406111122.11038-1-quentin.monnet@netronome.com>
 Content-Language: en-US
-Sender: linux-kernel-owner@vger.kernel.org
-To: Alexei Starovoitov <alexei.starovoitov@gmail.com>, joeyli <jlee@suse.com>
-Cc: Andy Lutomirski <luto@kernel.org>, David Howells <dhowells@redhat.com>, Ard Biesheuvel <ard.biesheuvel@linaro.org>, James Morris <jmorris@namei.org>, One Thousand Gnomes <gnomes@lxorguk.ukuu.org.uk>, Linus Torvalds <torvalds@linux-foundation.org>, Matthew Garrett <mjg59@google.com>, Greg KH <gregkh@linuxfoundation.org>, LKML <linux-kernel@vger.kernel.org>, Justin Forbes <jforbes@redhat.com>, linux-man <linux-man@vger.kernel.org>, LSM List <linux-security-module@vger.kernel.org>, Linux API <linux-api@vger.kernel.org>, Kees Cook <keescook@chromium.org>, linux-efi <linux-efi@vger.kernel.org>
+Sender: netdev-owner@vger.kernel.org
+To: Quentin Monnet <quentin.monnet@netronome.com>, ast@kernel.org
+Cc: netdev@vger.kernel.org, oss-drivers@netronome.com, linux-doc@vger.kernel.org, linux-man@vger.kernel.org
 List-Id: linux-man@vger.kernel.org
 
-On 04/09/2018 05:40 AM, Alexei Starovoitov wrote:
-> On Sun, Apr 08, 2018 at 04:07:42PM +0800, joeyli wrote:
-[...]
->>> If the only thing that folks are paranoid about is reading
->>> arbitrary kernel memory with bpf_probe_read() helper
->>> then preferred patch would be to disable it during verification
->>> when in lockdown mode
->>
->> Sorry for I didn't fully understand your idea...
->> Do you mean that using bpf verifier to filter out bpf program that
->> uses bpf_probe_read()?
+On 04/06/2018 01:11 PM, Quentin Monnet wrote:
+> eBPF helper functions can be called from within eBPF programs to perform
+> a variety of tasks that would be otherwise hard or impossible to do with
+> eBPF itself. There is a growing number of such helper functions in the
+> kernel, but documentation is scarce. The main user space header file
+> does contain a short commented description of most helpers, but it is
+> somewhat outdated and not complete. It is more a "cheat sheet" than a
+> real documentation accessible to new eBPF developers.
 > 
-> Take a look bpf_get_trace_printk_proto().
-> Similarly we can add bpf_get_probe_read_proto() that
-> will return NULL if lockdown is on.
-> Then programs with bpf_probe_read() will be rejected by the verifier.
+> This commit attempts to improve the situation by replacing the existing
+> overview for the helpers with a more developed description. Furthermore,
+> a Python script is added to generate a manual page for eBPF helpers. The
+> workflow is the following, and requires the rst2man utility:
+> 
+>     $ ./scripts/bpf_helpers_doc.py \
+>             --filename include/uapi/linux/bpf.h > /tmp/bpf-helpers.rst
+>     $ rst2man /tmp/bpf-helpers.rst > /tmp/bpf-helpers.7
+>     $ man /tmp/bpf-helpers.7
+> 
+> The objective is to keep all documentation related to the helpers in a
+> single place, and to be able to generate from here a manual page that
+> could be packaged in the man-pages repository and shipped with most
+> distributions [1].
+> 
+> Additionally, parsing the prototypes of the helper functions could
+> hopefully be reused, with a different Printer object, to generate
+> header files needed in some eBPF-related projects.
+> 
+> Regarding the description of each helper, it comprises several items:
+> 
+> - The function prototype.
+> - A description of the function and of its arguments (except for a
+>   couple of cases, when there are no arguments and the return value
+>   makes the function usage really obvious).
+> - A description of return values (if not void).
+> - A listing of eBPF program types (if relevant, map types) compatible
+>   with the helper.
+> - Information about the helper being restricted to GPL programs, or not.
+> - The kernel version in which the helper was introduced.
+> - The commit that introduced the helper (this is mostly to have it in
+>   the source of the man page, as it can be used to track changes and
+>   update the page).
+> 
+> For several helpers, descriptions are inspired (at times, nearly copied)
+> from the commit logs introducing them in the kernel--Many thanks to
+> their respective authors! They were completed as much as possible, the
+> objective being to have something easily accessible even for people just
+> starting with eBPF. There is probably a bit more work to do in this
+> direction for some helpers.
+> 
+> Some RST formatting is used in the descriptions (not in function
+> prototypes, to keep them readable, but the Python script provided in
+> order to generate the RST for the manual page does add formatting to
+> prototypes, to produce something pretty) to get "bold" and "italics" in
+> manual pages. Hopefully, the descriptions in bpf.h file remains
+> perfectly readable. Note that the few trailing white spaces are
+> intentional, removing them would break paragraphs for rst2man.
+> 
+> The descriptions should ideally be updated each time someone adds a new
+> helper, or updates the behaviour (compatibility extended to new program
+> types, new socket option supported...) or the interface (new flags
+> available, ...) of existing ones.
+> 
+> [1] I have not contacted people from the man-pages project prior to
+>     sending this RFC, so I can offer no guaranty at this time that they
+>     would accept to take the generated man page.
+> 
+> Cc: linux-doc@vger.kernel.org
+> Cc: linux-man@vger.kernel.org
+> Signed-off-by: Quentin Monnet <quentin.monnet@netronome.com>
 
-Fully agree with the above. For the two helpers, something like the below
-would be sufficient to reject progs at verification time.
+Great work, thanks a lot for doing this!
 
-diff --git a/kernel/trace/bpf_trace.c b/kernel/trace/bpf_trace.c
-index d88e96d..51a6c2e 100644
---- a/kernel/trace/bpf_trace.c
-+++ b/kernel/trace/bpf_trace.c
-@@ -117,6 +117,11 @@ static const struct bpf_func_proto bpf_probe_read_proto = {
- 	.arg3_type	= ARG_ANYTHING,
- };
+[...]
+> + * int bpf_probe_read(void *dst, u32 size, const void *src)
+> + * 	Description
+> + * 		For tracing programs, safely attempt to read *size* bytes from
+> + * 		address *src* and store the data in *dst*.
+> + * 	Return
+> + * 		0 on success, or a negative error in case of failure.
+> + * 	For
+> + * 		*Tracing programs*.
+> + * 	GPL only
+> + * 		Yes
+> + * 	Since
+> + * 		Linux 4.1
+> + *
+> + * .. commit 2541517c32be
+>   *
+>   * u64 bpf_ktime_get_ns(void)
+> - *     Return: current ktime
+> - *
+> - * int bpf_trace_printk(const char *fmt, int fmt_size, ...)
+> - *     Return: length of buffer written or negative error
+> + * 	Description
+> + * 		Return the time elapsed since system boot, in nanoseconds.
+> + * 	Return
+> + * 		Current *ktime*.
+> + * 	For
+> + * 		All program types, except
+> + * 		**BPF_PROG_TYPE_CGROUP_DEVICE**.
 
-+static const struct bpf_func_proto *bpf_get_probe_read_proto(void)
-+{
-+	return kernel_is_locked_down("BPF") ? NULL : &bpf_probe_read_proto;
-+}
-+
- BPF_CALL_3(bpf_probe_write_user, void *, unsafe_ptr, const void *, src,
- 	   u32, size)
- {
-@@ -282,6 +287,9 @@ static const struct bpf_func_proto bpf_trace_printk_proto = {
+I think we should probably always just list the actual program types instead,
+since when new types get added to the kernel not supporting bpf_ktime_get_ns()
+helper in this example, the above statement would be misleading (potentially
+more misleading than the other way around when it's not yet mentioned to be
+supported).
 
- const struct bpf_func_proto *bpf_get_trace_printk_proto(void)
- {
-+	if (kernel_is_locked_down("BPF"))
-+		return NULL;
-+
- 	/*
- 	 * this program might be calling bpf_trace_printk,
- 	 * so allocate per-cpu printk buffers
-@@ -535,7 +543,7 @@ tracing_func_proto(enum bpf_func_id func_id, const struct bpf_prog *prog)
- 	case BPF_FUNC_map_delete_elem:
- 		return &bpf_map_delete_elem_proto;
- 	case BPF_FUNC_probe_read:
--		return &bpf_probe_read_proto;
-+		return bpf_get_probe_read_proto();
- 	case BPF_FUNC_ktime_get_ns:
- 		return &bpf_ktime_get_ns_proto;
- 	case BPF_FUNC_tail_call:
+> + * 	GPL only
+> + * 		Yes
+> + * 	Since
+> + * 		Linux 4.1
+> + *
+> + * .. commit d9847d310ab4
+> + *
+> + * int bpf_trace_printk(const char *fmt, u32 fmt_size, ...)
+> + * 	Description
+> + * 		This helper is a "printk()-like" facility for debugging. It
+> + * 		prints a message defined by format *fmt* (of size *fmt_size*)
+> + * 		to file *\/sys/kernel/debug/tracing/trace* from DebugFS, if
+> + * 		available. It can take up to three additional **u64**
+> + * 		arguments (as an eBPF helpers, the total number of arguments is
+> + * 		limited to five). Each time the helper is called, it appends a
+> + * 		line that looks like the following:
+> + *
+> + * 		::
+> + *
+> + * 			telnet-470   [001] .N.. 419421.045894: 0x00000001: BPF command: 2
+> + *
+> + * 		In the above:
+> + *
+> + * 			* ``telnet`` is the name of the current task.
+> + * 			* ``470`` is the PID of the current task.
+> + * 			* ``001`` is the CPU number on which the task is
+> + * 			  running.
+> + * 			* In ``.N..``, each character refers to a set of
+> + * 			  options (whether irqs are enabled, scheduling
+> + * 			  options, whether hard/softirqs are running, level of
+> + * 			  preempt_disabled respectively). **N** means that
+> + * 			  **TIF_NEED_RESCHED** and **PREEMPT_NEED_RESCHED**
+> + * 			  are set.
+> + * 			* ``419421.045894`` is a timestamp.
+> + * 			* ``0x00000001`` is a fake value used by BPF for the
+> + * 			  instruction pointer register.
+> + * 			* ``BPF command: 2`` is the message formatted with
+> + * 			  *fmt*.
+> + *
+> + * 		The conversion specifiers supported by *fmt* are similar, but
+> + * 		more limited than for printk(). They are **%d**, **%i**,
+> + * 		**%u**, **%x**, **%ld**, **%li**, **%lu**, **%lx**, **%lld**,
+> + * 		**%lli**, **%llu**, **%llx**, **%p**, **%s**. No modifier (size
+> + * 		of field, padding with zeroes, etc.) is available, and the
+> + * 		helper will silently fail if it encounters an unknown
+> + * 		specifier.
+> + *
+> + * 		Also, note that **bpf_trace_printk**\ () is slow, and should
+> + * 		only be used for debugging purposes. For passing values to user
+> + * 		space, perf events should be preferred.
+> + * 	Return
+> + * 		The number of bytes written to the buffer, or a negative error
+> + * 		in case of failure.
+> + * 	For
+> + * 		All types of programs.
+
+Ditto, and various other places.
+
+> + * 	GPL only
+> + * 		Yes
+> + * 	Since
+> + * 		Linux 4.1
+> + *
+> + * .. commit 9c959c863f82
+>   *
+>   * u32 bpf_prandom_u32(void)
+> - *     Return: random value
+> - *
+> - * u32 bpf_raw_smp_processor_id(void)
+> - *     Return: SMP processor ID
+> - *
+[...]
+> + * u32 bpf_get_smp_processor_id(void)
+> + * 	Return
+> + * 		The SMP (Symmetric multiprocessing) processor id.
+> + * 	For
+> + * 		*Networking programs*.
+
+Ditto plus above is actually not correct. See tracing_func_proto():
+
+        [...]
+        case BPF_FUNC_get_smp_processor_id:
+                return &bpf_get_smp_processor_id_proto;
+        [...]
+
+> + * 	GPL only
+> + * 		No
+> + * 	Since
+> + * 		Linux 4.1
+> + *
+> + * .. commit c04167ce2ca0
+> + *
+> + * int bpf_skb_store_bytes(struct sk_buff *skb, u32 offset, const void *from, u32 len, u64 flags)
+> + * 	Description
+> + * 		Store *len* bytes from address *from* into the packet
+> + * 		associated to *skb*, at *offset*. *flags* are a combination of
+> + * 		**BPF_F_RECOMPUTE_CSUM** (automatically recompute the
+> + * 		checksum for the packet after storing the bytes) and
+> + * 		**BPF_F_INVALIDATE_HASH** (set *skb*\ **->hash**, *skb*\
+> + * 		**->swhash** and *skb*\ **->l4hash** to 0).
+> + *
+> + * 		A call to this helper is susceptible to change data from the
+> + * 		packet. Therefore, at load time, all checks on pointers
+> + * 		previously done by the verifier are invalidated and must be
+> + * 		performed again.
+> + * 	Return
+[...]
+
+Agree with Alexei that 'Description' but also 'Return' is the most useful
+(the latter we can still improve a bit wrt errors). 'For' gets indeed quickly
+out of hand but I do think that for BPF program developers 'Since' has good
+value to quickly check when a helper could be available, but then again
+this is actually tied to an individual kconfig and/or program type, and could
+potentially require to add or (worst case) remove the info in a second commit
+e.g. after the merge window similar with the commit sha. Probably best indeed
+to stick to the signature, 'Description' and 'Return' initially.
+
+We should probably also have the bpf_helpers_doc.py workflow in a separate
+comment above this one such that developers don't have to look up the original
+commit message, but have the required steps to render the rst/man page available
+right where they need it.
+
+Thanks,
+Daniel
