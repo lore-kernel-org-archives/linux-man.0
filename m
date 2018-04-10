@@ -1,39 +1,34 @@
-From: joeyli <jlee@suse.com>
-Subject: Re: [GIT PULL] Kernel lockdown for secure boot
-Date: Mon, 9 Apr 2018 21:55:47 +0800
-Message-ID: <20180409135547.GD17840@linux-l9pv.suse>
-References: <CAADnVQLu5EZLJ1C9-dd4=K+sed6+38oy047+nqCMfuPFB=wttw@mail.gmail.com>
- <20180408080742.GE7362@linux-l9pv.suse>
- <20180409034008.dyte7k5kgkbjh5is@ast-mbp.dhcp.thefacebook.com>
+From: Alexei Starovoitov <alexei.starovoitov@gmail.com>
+Subject: Re: [RFC bpf-next] bpf: document eBPF helpers and add a script to
+ generate man page
+Date: Mon, 9 Apr 2018 18:47:53 -0700
+Message-ID: <20180410014751.mqwqdyujvybir6g5@ast-mbp.dhcp.thefacebook.com>
+References: <20180406111122.11038-1-quentin.monnet@netronome.com>
+ <05d2d03a-0b39-9d0c-9ba0-3461afc45fac@iogearbox.net>
+ <16d4d67a-ab36-3e58-1082-52f0898546e5@netronome.com>
 Mime-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
-Return-path: <linux-kernel-owner@vger.kernel.org>
+Return-path: <netdev-owner@vger.kernel.org>
 Content-Disposition: inline
-In-Reply-To: <20180409034008.dyte7k5kgkbjh5is@ast-mbp.dhcp.thefacebook.com>
-Sender: linux-kernel-owner@vger.kernel.org
-To: Alexei Starovoitov <alexei.starovoitov@gmail.com>
-Cc: Andy Lutomirski <luto@kernel.org>, David Howells <dhowells@redhat.com>, Ard Biesheuvel <ard.biesheuvel@linaro.org>, James Morris <jmorris@namei.org>, One Thousand Gnomes <gnomes@lxorguk.ukuu.org.uk>, Linus Torvalds <torvalds@linux-foundation.org>, Matthew Garrett <mjg59@google.com>, Greg KH <gregkh@linuxfoundation.org>, LKML <linux-kernel@vger.kernel.org>, Justin Forbes <jforbes@redhat.com>, linux-man <linux-man@vger.kernel.org>, LSM List <linux-security-module@vger.kernel.org>, Linux API <linux-api@vger.kernel.org>, Kees Cook <keescook@chromium.org>, linux-efi <linux-efi@vger.kernel.org>, Daniel Borkmann <daniel@iogearbox.net>
+In-Reply-To: <16d4d67a-ab36-3e58-1082-52f0898546e5@netronome.com>
+Sender: netdev-owner@vger.kernel.org
+To: Quentin Monnet <quentin.monnet@netronome.com>
+Cc: Daniel Borkmann <daniel@iogearbox.net>, ast@kernel.org, netdev@vger.kernel.org, oss-drivers@netronome.com, linux-doc@vger.kernel.org, linux-man@vger.kernel.org
 List-Id: linux-man@vger.kernel.org
 
-On Sun, Apr 08, 2018 at 08:40:10PM -0700, Alexei Starovoitov wrote:
-> On Sun, Apr 08, 2018 at 04:07:42PM +0800, joeyli wrote:
-> > 
-> > > If the only thing that folks are paranoid about is reading
-> > > arbitrary kernel memory with bpf_probe_read() helper
-> > > then preferred patch would be to disable it during verification
-> > > when in lockdown mode
-> > 
-> > Sorry for I didn't fully understand your idea...
-> > Do you mean that using bpf verifier to filter out bpf program that
-> > uses bpf_probe_read()?
+On Mon, Apr 09, 2018 at 02:25:26PM +0100, Quentin Monnet wrote:
 > 
-> Take a look bpf_get_trace_printk_proto().
-> Similarly we can add bpf_get_probe_read_proto() that
-> will return NULL if lockdown is on.
-> Then programs with bpf_probe_read() will be rejected by the verifier.
-> 
+> Anyway, I am fine with keeping just signatures, descriptions and return
+> values for now. I will submit a new version with only those items.
 
-OK, I saw check_helper_call(). Thank you for point it out.
-it's good idea!
+Thank you.
 
-Joey Lee
+Could you also split it into few patches?
+ include/uapi/linux/bpf.h   | 2237 ++++++++++++++++++++++++++++++++++++--------
+ scripts/bpf_helpers_doc.py |  568 +++++++++++
+ 2 files changed, 2429 insertions(+), 376 deletions(-)
+
+replying back and forth on a single patch of such size will be tedious
+for others to follow.
+May be document ~10 helpers at a time ? Total of ~7 patches and extra
+patch for .py ?
