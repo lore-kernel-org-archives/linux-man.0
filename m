@@ -1,13 +1,13 @@
 From: Quentin Monnet <quentin.monnet@netronome.com>
-Subject: [RFC bpf-next v2 8/8] bpf: add documentation for eBPF helpers (58-64)
-Date: Tue, 10 Apr 2018 15:41:57 +0100
-Message-ID: <20180410144157.4831-9-quentin.monnet@netronome.com>
+Subject: [RFC bpf-next v2 4/8] bpf: add documentation for eBPF helpers (23-32)
+Date: Tue, 10 Apr 2018 15:41:53 +0100
+Message-ID: <20180410144157.4831-5-quentin.monnet@netronome.com>
 References: <20180410144157.4831-1-quentin.monnet@netronome.com>
 Return-path: <netdev-owner@vger.kernel.org>
 In-Reply-To: <20180410144157.4831-1-quentin.monnet@netronome.com>
 Sender: netdev-owner@vger.kernel.org
 To: daniel@iogearbox.net, ast@kernel.org
-Cc: netdev@vger.kernel.org, oss-drivers@netronome.com, quentin.monnet@netronome.com, linux-doc@vger.kernel.org, linux-man@vger.kernel.org, John Fastabend <john.fastabend@gmail.com>
+Cc: netdev@vger.kernel.org, oss-drivers@netronome.com, quentin.monnet@netronome.com, linux-doc@vger.kernel.org, linux-man@vger.kernel.org
 List-Id: linux-man@vger.kernel.org
 
 Add documentation for eBPF helper functions to bpf.h user header file.
@@ -19,179 +19,188 @@ The objective is to make the documentation easily understandable and
 accessible to all eBPF developers, including beginners.
 
 This patch contains descriptions for the following helper functions, all
-written by John:
+written by Daniel:
 
-- bpf_redirect_map()
-- bpf_sk_redirect_map()
-- bpf_sock_map_update()
-- bpf_msg_redirect_map()
-- bpf_msg_apply_bytes()
-- bpf_msg_cork_bytes()
-- bpf_msg_pull_data()
+- bpf_get_prandom_u32()
+- bpf_get_smp_processor_id()
+- bpf_get_cgroup_classid()
+- bpf_get_route_realm()
+- bpf_skb_load_bytes()
+- bpf_csum_diff()
+- bpf_skb_get_tunnel_opt()
+- bpf_skb_set_tunnel_opt()
+- bpf_skb_change_proto()
+- bpf_skb_change_type()
 
-Cc: John Fastabend <john.fastabend@gmail.com>
+Cc: Daniel Borkmann <daniel@iogearbox.net>
 Signed-off-by: Quentin Monnet <quentin.monnet@netronome.com>
 ---
- include/uapi/linux/bpf.h | 140 +++++++++++++++++++++++++++++++++++++++++++++++
- 1 file changed, 140 insertions(+)
+ include/uapi/linux/bpf.h | 125 +++++++++++++++++++++++++++++++++++++++++++++++
+ 1 file changed, 125 insertions(+)
 
 diff --git a/include/uapi/linux/bpf.h b/include/uapi/linux/bpf.h
-index 7343af4196c8..db090ad03626 100644
+index f3ea8824efbc..d147d9dd6a83 100644
 --- a/include/uapi/linux/bpf.h
 +++ b/include/uapi/linux/bpf.h
-@@ -1250,6 +1250,51 @@ union bpf_attr {
+@@ -473,6 +473,14 @@ union bpf_attr {
+  * 		The number of bytes written to the buffer, or a negative error
+  * 		in case of failure.
+  *
++ * u32 bpf_prandom_u32(void)
++ * 	Return
++ * 		A random 32-bit unsigned value.
++ *
++ * u32 bpf_get_smp_processor_id(void)
++ * 	Return
++ * 		The SMP (Symmetric multiprocessing) processor id.
++ *
+  * int bpf_skb_store_bytes(struct sk_buff *skb, u32 offset, const void *from, u32 len, u64 flags)
+  * 	Description
+  * 		Store *len* bytes from address *from* into the packet
+@@ -604,6 +612,13 @@ union bpf_attr {
   * 	Return
   * 		0 on success, or a negative error in case of failure.
   *
-+ * int bpf_redirect_map(struct bpf_map *map, u32 key, u64 flags)
++ * u32 bpf_get_cgroup_classid(struct sk_buff *skb)
 + * 	Description
-+ * 		Redirect the packet to the endpoint referenced by *map* at
-+ * 		index *key*. Depending on its type, his *map* can contain
-+ * 		references to net devices (for forwarding packets through other
-+ * 		ports), or to CPUs (for redirecting XDP frames to another CPU;
-+ * 		but this is not fully implemented as of this writing).
-+ *
-+ * 		All values for *flags* are reserved for future usage, and must
-+ * 		be left at zero.
++ * 		Retrieve the classid for the current task, i.e. for the
++ * 		net_cls (network classifier) cgroup to which *skb* belongs.
 + * 	Return
-+ * 		**XDP_REDIRECT** on success, or **XDP_ABORT** on error.
++ * 		The classid, or 0 for the default unconfigured classid.
 + *
-+ * int bpf_sk_redirect_map(struct bpf_map *map, u32 key, u64 flags)
+  * int bpf_skb_vlan_push(struct sk_buff *skb, __be16 vlan_proto, u16 vlan_tci)
+  * 	Description
+  * 		Push a *vlan_tci* (VLAN tag control information) of protocol
+@@ -703,6 +718,14 @@ union bpf_attr {
+  * 		are **TC_ACT_REDIRECT** on success or **TC_ACT_SHOT** on
+  * 		error.
+  *
++ * u32 bpf_get_route_realm(struct sk_buff *skb)
 + * 	Description
-+ * 		Redirect the packet to the socket referenced by *map* (of type
-+ * 		**BPF_MAP_TYPE_SOCKMAP**) at index *key*. The only flag
-+ * 		supported for now is **BPF_F_INGRESS**, which indicates the
-+ * 		packet is to be redirected to the ingress side of the socket
-+ * 		instead of (by default) egress.
-+ *
-+ * 		All values for *flags* are reserved for future usage, and must
-+ * 		be left at zero.
++ * 		Retrieve the realm or the route, that is to say the
++ * 		**tclassid** field of the destination for the *skb*.
 + * 	Return
-+ * 		**SK_PASS** on success, or **SK_DROP** on error.
++ * 		The realm of the route for the packet associated to *sdb*, or 0
++ * 		if none was found.
 + *
-+ * int bpf_sock_map_update(struct bpf_sock_ops_kern *skops, struct bpf_map *map, void *key, u64 flags)
+  * int bpf_perf_event_output(struct pt_reg *ctx, struct bpf_map *map, u64 flags, void *data, u64 size)
+  * 	Description
+  * 		Write perf raw sample into a perf event held by *map* of type
+@@ -779,6 +802,21 @@ union bpf_attr {
+  * 	Return
+  * 		0 on success, or a negative error in case of failure.
+  *
++ * int bpf_skb_load_bytes(const struct sk_buff *skb, u32 offset, void *to, u32 len)
 + * 	Description
-+ * 		Add an entry to, or update a *map* referencing sockets. The
-+ * 		*skops* is used as a new value for the entry associated to
-+ * 		*key*. *flags* is one of:
++ * 		This helper was provided as an easy way to load data from a
++ * 		packet. It can be used to load *len* bytes from *offset* from
++ * 		the packet associated to *skb*, into the buffer pointed by
++ * 		*to*.
 + *
-+ * 		**BPF_NOEXIST**
-+ * 			The entry for *key* must not exist in the map.
-+ * 		**BPF_EXIST**
-+ * 			The entry for *key* must already exist in the map.
-+ * 		**BPF_ANY**
-+ * 			No condition on the existence of the entry for *key*.
-+ *
-+ * 		If the *map* has eBPF programs (parser and verdict), those will
-+ * 		be inherited by the socket being added. If the socket is
-+ * 		already attached to eBPF programs, this results in an error.
++ * 		Since Linux 4.7, this helper is deprecated in favor of
++ * 		"direct packet access", enabling packet data to be manipulated
++ * 		with *skb*\ **->data** and *skb*\ **->data_end** pointing
++ * 		respectively to the first byte of packet data and to the byte
++ * 		after the last byte of packet data.
 + * 	Return
 + * 		0 on success, or a negative error in case of failure.
 + *
-  * int bpf_xdp_adjust_meta(struct xdp_buff *xdp_md, int delta)
+  * int bpf_get_stackid(struct pt_reg *ctx, struct bpf_map *map, u64 flags)
   * 	Description
-  * 		Adjust the address pointed by *xdp_md*\ **->data_meta** by
-@@ -1417,6 +1462,101 @@ union bpf_attr {
-  * 		be set is returned (which comes down to 0 if all bits were set
-  * 		as required).
+  * 		Walk a user or a kernel stack and return its id. To achieve
+@@ -814,6 +852,93 @@ union bpf_attr {
+  * 		The positive or null stack id on success, or a negative error
+  * 		in case of failure.
   *
-+ * int bpf_msg_redirect_map(struct sk_msg_buff *msg, struct bpf_map *map, u32 key, u64 flags)
++ * s64 bpf_csum_diff(__be32 *from, u32 from_size, __be32 *to, u32 to_size, __wsum seed)
 + * 	Description
-+ * 		This helper is used in programs implementing policies at the
-+ * 		socket level. If the message *msg* is allowed to pass (i.e. if
-+ * 		the verdict eBPF program returns **SK_PASS**), redirect it to
-+ * 		the socket referenced by *map* (of type
-+ * 		**BPF_MAP_TYPE_SOCKMAP**) at index *key*. The only flag
-+ * 		supported for now is **BPF_F_INGRESS**, which indicates the
-+ * 		packet is to be redirected to the ingress side of the socket
-+ * 		instead of (by default) egress.
++ * 		Compute a checksum difference, from the raw buffer pointed by
++ * 		*from*, of length *from_size* (that must be a multiple of 4),
++ * 		towards the raw buffer pointed by *to*, of size *to_size*
++ * 		(same remark). An optional *seed* can be added to the value.
++ *
++ * 		This is flexible enough to be used in several ways:
++ *
++ * 		* With *from_size* == 0, *to_size* > 0 and *seed* set to
++ * 		  checksum, it can be used when pushing new data.
++ * 		* With *from_size* > 0, *to_size* == 0 and *seed* set to
++ * 		  checksum, it can be used when removing data from a packet.
++ * 		* With *from_size* > 0, *to_size* > 0 and *seed* set to 0, it
++ * 		  can be used to compute a diff. Note that *from_size* and
++ * 		  *to_size* do not need to be equal.
 + * 	Return
-+ * 		**SK_PASS** on success, or **SK_DROP** on error.
++ * 		The checksum result, or a negative error code in case of
++ * 		failure.
 + *
-+ * int bpf_msg_apply_bytes(struct sk_msg_buff *msg, u32 bytes)
++ * int bpf_skb_get_tunnel_opt(struct sk_buff *skb, u8 *opt, u32 size)
 + * 	Description
-+ * 		For socket policies, apply the verdict of the eBPF program to
-+ * 		the next *bytes* (number of bytes) of message *msg*.
-+ *
-+ * 		For example, this helper can be used in the following cases:
-+ *
-+ * 		* A single **sendmsg**\ () or **sendfile**\ () system call
-+ * 		  contains multiple logical messages that the eBPF program is
-+ * 		  supposed to read and for which it should apply a verdict.
-+ * 		* An eBPF program only cares to read the first *bytes* of a
-+ * 		  *msg*. If the message has a large payload, then setting up
-+ * 		  and calling the eBPF program repeatedly for all bytes, even
-+ * 		  though the verdict is already known, would create unnecessary
-+ * 		  overhead.
-+ *
-+ * 		When called from within an eBPF program, the helper sets a
-+ * 		counter internal to the BPF infrastructure, that is used to
-+ * 		apply the last verdict to the next *bytes*. If *bytes* is
-+ * 		smaller than the current data being processed from a
-+ * 		**sendmsg**\ () or **sendfile**\ () system call, the first
-+ * 		*bytes* will be sent and the eBPF program will be re-run with
-+ * 		the pointer for start of data pointing to byte number *bytes*
-+ * 		**+ 1**. If *bytes* is larger than the current data being
-+ * 		processed, then the eBPF verdict will be applied to multiple
-+ * 		**sendmsg**\ () or **sendfile**\ () calls until *bytes* are
-+ * 		consumed.
-+ *
-+ * 		Note that if a socket closes with the internal counter holding
-+ * 		a non-zero value, this is not a problem because data is not
-+ * 		being buffered for *bytes* and is sent as it is received.
++ * 		Retrieve tunnel options metadata for the packet associated to
++ * 		*skb*, and store the raw tunnel option data to the buffer *opt*
++ * 		of *size*.
 + * 	Return
-+ * 		0
++ * 		The size of the option data retrieved.
 + *
-+ * int bpf_msg_cork_bytes(struct sk_msg_buff *msg, u32 bytes)
++ * int bpf_skb_set_tunnel_opt(struct sk_buff *skb, u8 *opt, u32 size)
 + * 	Description
-+ * 		For socket policies, prevent the execution of the verdict eBPF
-+ * 		program for message *msg* until *bytes* (byte number) have been
-+ * 		accumulated.
-+ *
-+ * 		This can be used when one needs a specific number of bytes
-+ * 		before a verdict can be assigned, even if the data spans
-+ * 		multiple **sendmsg**\ () or **sendfile**\ () calls. The extreme
-+ * 		case would be a user calling **sendmsg**\ () repeatedly with
-+ * 		1-byte long message segments. Obviously, this is bad for
-+ * 		performance, but it is still valid. If the eBPF program needs
-+ * 		*bytes* bytes to validate a header, this helper can be used to
-+ * 		prevent the eBPF program to be called again until *bytes* have
-+ * 		been accumulated.
++ * 		Set tunnel options metadata for the packet associated to *skb*
++ * 		to the option data contained in the raw buffer *opt* of *size*.
 + * 	Return
-+ * 		0
++ * 		0 on success, or a negative error in case of failure.
 + *
-+ * int bpf_msg_pull_data(struct sk_msg_buff *msg, u32 start, u32 end, u64 flags)
++ * int bpf_skb_change_proto(struct sk_buff *skb, __be16 proto, u64 flags)
 + * 	Description
-+ * 		For socket policies, pull in non-linear data from user space
-+ * 		for *msg* and set pointers *msg*\ **->data** and *msg*\
-+ * 		**->data_end** to *start* and *end* bytes offsets into *msg*,
-+ * 		respectively.
++ * 		Change the protocol of the *skb* to *proto*. Currently
++ * 		supported are transition from IPv4 to IPv6, and from IPv6 to
++ * 		IPv4. The helper takes care of the groundwork for the
++ * 		transition, including resizing the socket buffer. The eBPF
++ * 		program is expected to fill the new headers, if any, via
++ * 		**skb_store_bytes**\ () and to recompute the checksums with
++ * 		**bpf_l3_csum_replace**\ () and **bpf_l4_csum_replace**\
++ * 		().
 + *
-+ * 		If a program of type **BPF_PROG_TYPE_SK_MSG** is run on a
-+ * 		*msg* it can only parse data that the (**data**, **data_end**)
-+ * 		pointers have already consumed. For **sendmsg**\ () hooks this
-+ * 		is likely the first scatterlist element. But for calls relying
-+ * 		on the **sendpage** handler (e.g. **sendfile**\ ()) this will
-+ * 		be the range (**0**, **0**) because the data is shared with
-+ * 		user space and by default the objective is to avoid allowing
-+ * 		user space to modify data while (or after) eBPF verdict is
-+ * 		being decided. This helper can be used to pull in data and to
-+ * 		set the start and end pointer to given values. Data will be
-+ * 		copied if necessary (i.e. if data was not linear and if start
-+ * 		and end pointers do not point to the same chunk).
++ * 		Internally, the GSO type is marked as dodgy so that headers are
++ * 		checked and segments are recalculated by the GSO/GRO engine.
++ * 		The size for GSO target is adapted as well.
++ *
++ * 		All values for *flags* are reserved for future usage, and must
++ * 		be left at zero.
 + *
 + * 		A call to this helper is susceptible to change data from the
 + * 		packet. Therefore, at load time, all checks on pointers
 + * 		previously done by the verifier are invalidated and must be
 + * 		performed again.
-+ *
-+ * 		All values for *flags* are reserved for future usage, and must
-+ * 		be left at zero.
 + * 	Return
 + * 		0 on success, or a negative error in case of failure.
 + *
-  * int bpf_bind(struct bpf_sock_addr_kern *ctx, struct sockaddr *addr, int addr_len)
-  * 	Description
-  * 		Bind the socket associated to *ctx* to the address pointed by
++ * int bpf_skb_change_type(struct sk_buff *skb, u32 type)
++ * 	Description
++ * 		Change the packet type for the packet associated to *skb*. This
++ * 		comes down to setting *skb*\ **->pkt_type** to *type*, except
++ * 		the eBPF program does not have a write access to *skb*\
++ * 		**->pkt_type** beside this helper. Using a helper here allows
++ * 		for graceful handling of errors.
++ *
++ * 		The major use case is to change incoming *skb*s to
++ * 		**PACKET_HOST** in a programmatic way instead of having to
++ * 		recirculate via **redirect**\ (..., **BPF_F_INGRESS**), for
++ * 		example.
++ *
++ * 		Note that *type* only allows certain values. At this time, they
++ * 		are:
++ *
++ * 		**PACKET_HOST**
++ * 			Packet is for us.
++ * 		**PACKET_BROADCAST**
++ * 			Send packet to all.
++ * 		**PACKET_MULTICAST**
++ * 			Send packet to group.
++ * 		**PACKET_OTHERHOST**
++ * 			Send packet to someone else.
++ * 	Return
++ * 		0 on success, or a negative error in case of failure.
++ *
+  * u64 bpf_get_current_task(void)
+  * 	Return
+  * 		A pointer to the current task struct.
 -- 
 2.14.1
