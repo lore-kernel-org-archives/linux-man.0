@@ -1,49 +1,50 @@
 From: Quentin Monnet <quentin.monnet@netronome.com>
-Subject: [RFC bpf-next v2 7/8] bpf: add documentation for eBPF helpers (51-57)
-Date: Wed, 11 Apr 2018 16:45:12 +0100
-Message-ID: <ae82c204-71cb-f575-c4b0-61e15cf94f7b@netronome.com>
+Subject: [RFC bpf-next v2 8/8] bpf: add documentation for eBPF helpers (58-64)
+Date: Wed, 11 Apr 2018 16:45:50 +0100
+Message-ID: <61abf6b0-854d-af3c-c2a3-b356f54ab84c@netronome.com>
 References: <20180410144157.4831-1-quentin.monnet@netronome.com>
- <20180410144157.4831-8-quentin.monnet@netronome.com>
- <20180410175015.GA6762@rdna-mbp.dhcp.thefacebook.com>
+ <20180410144157.4831-9-quentin.monnet@netronome.com>
+ <20180411121759.4191e267@redhat.com>
 Mime-Version: 1.0
 Content-Type: text/plain; charset=utf-8
 Content-Transfer-Encoding: 7bit
 Return-path: <netdev-owner@vger.kernel.org>
-In-Reply-To: <20180410175015.GA6762@rdna-mbp.dhcp.thefacebook.com>
+In-Reply-To: <20180411121759.4191e267@redhat.com>
 Content-Language: en-US
 Sender: netdev-owner@vger.kernel.org
-To: Andrey Ignatov <rdna@fb.com>
-Cc: daniel@iogearbox.net, ast@kernel.org, netdev@vger.kernel.org, oss-drivers@netronome.com, linux-doc@vger.kernel.org, linux-man@vger.kernel.org, Lawrence Brakmo <brakmo@fb.com>, Yonghong Song <yhs@fb.com>, Josef Bacik <jbacik@fb.com>
+To: Jesper Dangaard Brouer <brouer@redhat.com>
+Cc: daniel@iogearbox.net, ast@kernel.org, netdev@vger.kernel.org, oss-drivers@netronome.com, linux-doc@vger.kernel.org, linux-man@vger.kernel.org, John Fastabend <john.fastabend@gmail.com>
 List-Id: linux-man@vger.kernel.org
 
-2018-04-10 10:50 UTC-0700 ~ Andrey Ignatov <rdna@fb.com>
-> Quentin Monnet <quentin.monnet@netronome.com> [Tue, 2018-04-10 07:43 -0700]:
->> + * int bpf_bind(struct bpf_sock_addr_kern *ctx, struct sockaddr *addr, int addr_len)
->> + * 	Description
->> + * 		Bind the socket associated to *ctx* to the address pointed by
->> + * 		*addr*, of length *addr_len*. This allows for making outgoing
->> + * 		connection from the desired IP address, which can be useful for
->> + * 		example when all processes inside a cgroup should use one
->> + * 		single IP address on a host that has multiple IP configured.
->> + *
->> + * 		This helper works for IPv4 and IPv6, TCP and UDP sockets. The
->> + * 		domain (*addr*\ **->sa_family**) must be **AF_INET** (or
->> + * 		**AF_INET6**). Looking for a free port to bind to can be
->> + * 		expensive, therefore binding to port is not permitted by the
->> + * 		helper: *addr*\ **->sin_port** (or **sin6_port**, respectively)
->> + * 		must be set to zero.
->> + *
->> + * 		As for the remote end, both parts of it can be overridden,
->> + * 		remote IP and remote port. This can be useful if an application
->> + * 		inside a cgroup wants to connect to another application inside
->> + * 		the same cgroup or to itself, but knows nothing about the IP
->> + * 		address assigned to the cgroup.
+2018-04-11 12:17 UTC+0200 ~ Jesper Dangaard Brouer <brouer@redhat.com>
+> On Tue, 10 Apr 2018 15:41:57 +0100
+> Quentin Monnet <quentin.monnet@netronome.com> wrote:
 > 
-> The last paragraph ("As for the remote end ...") is not relevant to
-> bpf_bind() and should be removed. It's about sys_connect hook itself
-> that can call to bpf_bind() but also has other functionality (and that
-> other functionality is described by this paragraph).
+>> diff --git a/include/uapi/linux/bpf.h b/include/uapi/linux/bpf.h
+>> index 7343af4196c8..db090ad03626 100644
+>> --- a/include/uapi/linux/bpf.h
+>> +++ b/include/uapi/linux/bpf.h
+>> @@ -1250,6 +1250,51 @@ union bpf_attr {
+>>   * 	Return
+>>   * 		0 on success, or a negative error in case of failure.
+>>   *
+>> + * int bpf_redirect_map(struct bpf_map *map, u32 key, u64 flags)
+>> + * 	Description
+>> + * 		Redirect the packet to the endpoint referenced by *map* at
+>> + * 		index *key*. Depending on its type, his *map* can contain
+>> + * 		references to net devices (for forwarding packets through other
+>> + * 		ports), or to CPUs (for redirecting XDP frames to another CPU;
+>> + * 		but this is not fully implemented as of this writing).
+> 
+> Stating that CPUMAP redirect "is not fully implemented" is confusing.
+> The issue is that CPUMAP only works for "native" XDP.
+> 
+> What about saying:
+> 
+> "[...] or to CPUs (for redirecting XDP frames to another CPU;
+>  but this is only implemented for native XDP as of this writing)"
+> 
 
-Thanks Andrey, I will remove this paragraph.
+Fine by me, I will change it. Thank you Jesper for the review!
 
 Quentin
