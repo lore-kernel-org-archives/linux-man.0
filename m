@@ -1,337 +1,284 @@
-From: Alexei Starovoitov <alexei.starovoitov@gmail.com>
-Subject: Re: [RFC bpf-next v2 3/8] bpf: add documentation for eBPF helpers
- (12-22)
-Date: Tue, 10 Apr 2018 15:43:01 -0700
-Message-ID: <20180410224259.v5p2t2dc5s27mw3z@ast-mbp.dhcp.thefacebook.com>
+From: Quentin Monnet <quentin.monnet@netronome.com>
+Subject: [RFC bpf-next v2 1/8] bpf: add script and prepare bpf.h for new
+ helpers documentation
+Date: Wed, 11 Apr 2018 16:41:04 +0100
+Message-ID: <8f999e0a-1c75-6443-ee1e-2913e3cf313e@netronome.com>
 References: <20180410144157.4831-1-quentin.monnet@netronome.com>
- <20180410144157.4831-4-quentin.monnet@netronome.com>
+ <20180410144157.4831-2-quentin.monnet@netronome.com>
+ <20180410181620.axzpwh2iawg2kgh3@ast-mbp.dhcp.thefacebook.com>
 Mime-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
+Content-Type: text/plain; charset=utf-8
+Content-Transfer-Encoding: 7bit
 Return-path: <netdev-owner@vger.kernel.org>
-Content-Disposition: inline
-In-Reply-To: <20180410144157.4831-4-quentin.monnet@netronome.com>
+In-Reply-To: <20180410181620.axzpwh2iawg2kgh3@ast-mbp.dhcp.thefacebook.com>
+Content-Language: en-US
 Sender: netdev-owner@vger.kernel.org
-To: Quentin Monnet <quentin.monnet@netronome.com>
+To: Alexei Starovoitov <alexei.starovoitov@gmail.com>
 Cc: daniel@iogearbox.net, ast@kernel.org, netdev@vger.kernel.org, oss-drivers@netronome.com, linux-doc@vger.kernel.org, linux-man@vger.kernel.org
 List-Id: linux-man@vger.kernel.org
 
-On Tue, Apr 10, 2018 at 03:41:52PM +0100, Quentin Monnet wrote:
-> Add documentation for eBPF helper functions to bpf.h user header file.
-> This documentation can be parsed with the Python script provided in
-> another commit of the patch series, in order to provide a RST document
-> that can later be converted into a man page.
+2018-04-10 11:16 UTC-0700 ~ Alexei Starovoitov
+<alexei.starovoitov@gmail.com>
+> On Tue, Apr 10, 2018 at 03:41:50PM +0100, Quentin Monnet wrote:
+>> Remove previous "overview" of eBPF helpers from user bpf.h header.
+>> Replace it by a comment explaining how to process the new documentation
+>> (to come in following patches) with a Python script to produce RST, then
+>> man page documentation.
+>>
+>> Also add the aforementioned Python script under scripts/. It is used to
+>> process include/uapi/linux/bpf.h and to extract helper descriptions, to
+>> turn it into a RST document that can further be processed with rst2man
+>> to produce a man page. The script takes one "--filename <path/to/file>"
+>> option. If the script is launched from scripts/ in the kernel root
+>> directory, it should be able to find the location of the header to
+>> parse, and "--filename <path/to/file>" is then optional. If it cannot
+>> find the file, then the option becomes mandatory. RST-formatted
+>> documentation is printed to standard output.
+>>
+>> Typical workflow for producing the final man page would be:
+>>
+>>     $ ./scripts/bpf_helpers_doc.py \
+>>             --filename include/uapi/linux/bpf.h > /tmp/bpf-helpers.rst
+>>     $ rst2man /tmp/bpf-helpers.rst > /tmp/bpf-helpers.7
+>>     $ man /tmp/bpf-helpers.7
+>>
+>> Note that the tool kernel-doc cannot be used to document eBPF helpers,
+>> whose signatures are not available directly in the header files
+>> (pre-processor directives are used to produce them at the beginning of
+>> the compilation process).
+>>
+>> Signed-off-by: Quentin Monnet <quentin.monnet@netronome.com>
+>> ---
+>>  include/uapi/linux/bpf.h   | 406 ++------------------------------------------
+>>  scripts/bpf_helpers_doc.py | 414 +++++++++++++++++++++++++++++++++++++++++++++
+>>  2 files changed, 430 insertions(+), 390 deletions(-)
+>>  create mode 100755 scripts/bpf_helpers_doc.py
+>>
+
+[...]
+
+>> diff --git a/scripts/bpf_helpers_doc.py b/scripts/bpf_helpers_doc.py
+>> new file mode 100755
+>> index 000000000000..3a15ba3f0a83
+>> --- /dev/null
+>> +++ b/scripts/bpf_helpers_doc.py
+>> @@ -0,0 +1,414 @@
+>> +#!/usr/bin/python3
+>> +#
+>> +# Copyright (C) 2018 Netronome Systems, Inc.
+>> +#
+>> +# This software is licensed under the GNU General License Version 2,
+>> +# June 1991 as shown in the file COPYING in the top-level directory of this
+>> +# source tree.
 > 
-> The objective is to make the documentation easily understandable and
-> accessible to all eBPF developers, including beginners.
+> please use SPDX instead.
 > 
-> This patch contains descriptions for the following helper functions, all
-> writter by Alexei:
+
+Same as for bpftool, our layers remain a bit cautious about it. I'd be
+happy to change it for SPDX as a follow-up when I get the green light.
+
+>> +#
+>> +# THE COPYRIGHT HOLDERS AND/OR OTHER PARTIES PROVIDE THE PROGRAM "AS IS"
+>> +# WITHOUT WARRANTY OF ANY KIND, EITHER EXPRESSED OR IMPLIED, INCLUDING,
+>> +# BUT NOT LIMITED TO, THE IMPLIED WARRANTIES OF MERCHANTABILITY AND FITNESS
+>> +# FOR A PARTICULAR PURPOSE. THE ENTIRE RISK AS TO THE QUALITY AND PERFORMANCE
+>> +# OF THE PROGRAM IS WITH YOU. SHOULD THE PROGRAM PROVE DEFECTIVE, YOU ASSUME
+>> +# THE COST OF ALL NECESSARY SERVICING, REPAIR OR CORRECTION.
+>> +
+
+[...]
+
+>> +class PrinterRST(Printer):
+>> +    """
+>> +    A printer for dumping collected information about helpers as a ReStructured
+>> +    Text page compatible with the rst2man program, which can be used to
+>> +    generate a manual page for the helpers.
+>> +    @helpers: array of Helper objects to print to standard output
+>> +    """
+>> +    def print_header(self):
+>> +        header = '''\
+>> +.. Copyright (C) 2018 Netronome Systems, Inc.
 > 
-> - bpf_get_current_pid_tgid()
-> - bpf_get_current_uid_gid()
-> - bpf_get_current_comm()
-> - bpf_skb_vlan_push()
-> - bpf_skb_vlan_pop()
-> - bpf_skb_get_tunnel_key()
-> - bpf_skb_set_tunnel_key()
-> - bpf_redirect()
-> - bpf_perf_event_output()
-> - bpf_get_stackid()
-> - bpf_get_current_task()
+> I think would be good to capture copyrights of all authors that added
+> the helpers being documented. Since a lot of text was copied from commit
+> logs it's only fair to preserve the copyrights.
+> Such man page file is automatically generated by the python script
+> and script itself is copyrighted by Netronome. That's fine, but the text
+> of man page is not netronome only.
+> I'm not sure what would be the solution. May be something like:
+> "
+> Copyright (C) All BPF authors and contributors from 2011 to present
+> See git log include/uapi/linux/bpf.h for details
+> "
+> ?
+
+Seems fair indeed. I do not have a better suggestion myself, so I will
+stick to yours.
+
+Out of curiosity, why 2011 for the year? I thought you introduced eBPF
+in the kernel in 2014 (bd4cf0ed331a), and I do not believe helpers have
+any link with cBPF?
+
+>> +.. 
+>> +.. %%%LICENSE_START(VERBATIM)
+>> +.. Permission is granted to make and distribute verbatim copies of this
+>> +.. manual provided the copyright notice and this permission notice are
+>> +.. preserved on all copies.
+>> +.. 
+>> +.. Permission is granted to copy and distribute modified versions of this
+>> +.. manual under the conditions for verbatim copying, provided that the
+>> +.. entire resulting derived work is distributed under the terms of a
+>> +.. permission notice identical to this one.
+>> +.. 
+>> +.. Since the Linux kernel and libraries are constantly changing, this
+>> +.. manual page may be incorrect or out-of-date.  The author(s) assume no
+>> +.. responsibility for errors or omissions, or for damages resulting from
+>> +.. the use of the information contained herein.  The author(s) may not
+>> +.. have taken the same level of care in the production of this manual,
+>> +.. which is licensed free of charge, as they might when working
+>> +.. professionally.
+>> +.. 
+>> +.. Formatted or processed versions of this manual, if unaccompanied by
+>> +.. the source, must acknowledge the copyright and authors of this work.
+>> +.. %%%LICENSE_END
+>> +.. 
+>> +.. Please do not edit this file. It was generated from the documentation
+>> +.. located in file include/uapi/linux/bpf.h of the Linux kernel sources
+>> +.. (helpers description), and from scripts/bpf_helpers_doc.py in the same
+>> +.. repository (header and footer).
+>> +
+>> +===========
+>> +BPF-HELPERS
+>> +===========
+>> +-------------------------------------------------------------------------------
+>> +list of eBPF helper functions
+>> +-------------------------------------------------------------------------------
+>> +
+>> +:Manual section: 7
+>> +
+>> +DESCRIPTION
+>> +===========
+>> +
+>> +The extended Berkeley Packet Filter (eBPF) subsystem consists in programs
+>> +written in a pseudo-assembly language, then attached to one of the several
+>> +kernel hooks and run in reaction of specific events. This framework differs
+>> +from the older, "classic" BPF (or "cBPF") in several aspects, one of them being
+>> +the ability to call special functions (or "helpers") from within a program. For
+>> +security reasons, these functions are restricted to a white-list of helpers
+>> +defined in the kernel.
 > 
-> Cc: Alexei Starovoitov <ast@kernel.org>
-> Signed-off-by: Quentin Monnet <quentin.monnet@netronome.com>
-> ---
->  include/uapi/linux/bpf.h | 237 +++++++++++++++++++++++++++++++++++++++++++++++
->  1 file changed, 237 insertions(+)
+> 'for security reasons' sounds a bit odd. May be 'for safety reasons' ?
+> Or drop that part.
+
+I'll drop it and keep "These functions are restricted to a white-list of
+helpers defined in the kernel."
+
+>> +
+>> +These helpers are used by eBPF programs to interact with the system, or with
+>> +the context in which they work. For instance, they can be used to print
+>> +debugging messages, to get the time since the system was booted, to interact
+>> +with eBPF maps, or to manipulate network packets metadata. Since there are
 > 
-> diff --git a/include/uapi/linux/bpf.h b/include/uapi/linux/bpf.h
-> index 2bc653a3a20f..f3ea8824efbc 100644
-> --- a/include/uapi/linux/bpf.h
-> +++ b/include/uapi/linux/bpf.h
-> @@ -580,6 +580,243 @@ union bpf_attr {
->   * 		performed again.
->   * 	Return
->   * 		0 on success, or a negative error in case of failure.
-> + *
-> + * u64 bpf_get_current_pid_tgid(void)
-> + * 	Return
-> + * 		A 64-bit integer containing the current tgid and pid, and
-> + * 		created as such:
-> + * 		*current_task*\ **->tgid << 32 \|**
-> + * 		*current_task*\ **->pid**.
-> + *
-> + * u64 bpf_get_current_uid_gid(void)
-> + * 	Return
-> + * 		A 64-bit integer containing the current GID and UID, and
-> + * 		created as such: *current_gid* **<< 32 \|** *current_uid*.
-> + *
-> + * int bpf_get_current_comm(char *buf, u32 size_of_buf)
-> + * 	Description
-> + * 		Copy the **comm** attribute of the current task into *buf* of
-> + * 		*size_of_buf*. The **comm** attribute contains the name of
-> + * 		the executable (excluding the path) for the current task. The
-> + * 		*size_of_buf* must be strictly positive. On success, the
+> s/packets metadata/packets/
 
-that reminds me that we probably should relax it to ARG_CONST_SIZE_OR_ZERO.
-The programs won't be passing an actual zero into it, but it helps
-a lot to tell verifier that zero is also valid, since programs
-become much simpler.
+Ok.
 
-> + * 		helper makes sure that the *buf* is NUL-terminated. On failure,
-> + * 		it is filled with zeroes.
-> + * 	Return
-> + * 		0 on success, or a negative error in case of failure.
-> + *
-> + * int bpf_skb_vlan_push(struct sk_buff *skb, __be16 vlan_proto, u16 vlan_tci)
-> + * 	Description
-> + * 		Push a *vlan_tci* (VLAN tag control information) of protocol
-> + * 		*vlan_proto* to the packet associated to *skb*, then update
-> + * 		the checksum. Note that if *vlan_proto* is different from
-> + * 		**ETH_P_8021Q** and **ETH_P_8021AD**, it is considered to
-> + * 		be **ETH_P_8021Q**.
-> + *
-> + * 		A call to this helper is susceptible to change data from the
-> + * 		packet. Therefore, at load time, all checks on pointers
-> + * 		previously done by the verifier are invalidated and must be
-> + * 		performed again.
-> + * 	Return
-> + * 		0 on success, or a negative error in case of failure.
-> + *
-> + * int bpf_skb_vlan_pop(struct sk_buff *skb)
-> + * 	Description
-> + * 		Pop a VLAN header from the packet associated to *skb*.
-> + *
-> + * 		A call to this helper is susceptible to change data from the
-> + * 		packet. Therefore, at load time, all checks on pointers
-> + * 		previously done by the verifier are invalidated and must be
-> + * 		performed again.
-> + * 	Return
-> + * 		0 on success, or a negative error in case of failure.
-> + *
-> + * int bpf_skb_get_tunnel_key(struct sk_buff *skb, struct bpf_tunnel_key *key, u32 size, u64 flags)
-> + * 	Description
-> + * 		Get tunnel metadata. This helper takes a pointer *key* to an
-> + * 		empty **struct bpf_tunnel_key** of **size**, that will be
-> + * 		filled with tunnel metadata for the packet associated to *skb*.
-> + * 		The *flags* can be set to **BPF_F_TUNINFO_IPV6**, which
-> + * 		indicates that the tunnel is based on IPv6 protocol instead of
-> + * 		IPv4.
-> + *
-> + * 		This is typically used on the receive path to perform a lookup
-> + * 		or a packet redirection based on the value of *key*:
-
-above is correct, but feels a bit cryptic.
-May be give more concrete example for particular tunneling protocol like gre
-and say that tunnel_key.remote_ip[46] is essential part of the encap and
-bpf prog will make decisions based on the contents of the encap header
-where bpf_tunnel_key is a single structure that generalizes parameters of
-various tunneling protocols into one struct.
-
-> + *
-> + * 		::
-> + *
-> + * 			struct bpf_tunnel_key key = {};
-> + * 			bpf_skb_get_tunnel_key(skb, &key, sizeof(key), 0);
-> + * 			     lookup or redirect based on key ...
-> + *
-> + * 	Return
-> + * 		0 on success, or a negative error in case of failure.
-> + *
-> + * int bpf_skb_set_tunnel_key(struct sk_buff *skb, struct bpf_tunnel_key *key, u32 size, u64 flags)
-> + * 	Description
-> + * 		Populate tunnel metadata for packet associated to *skb.* The
-> + * 		tunnel metadata is set to the contents of *key*, of *size*. The
-> + * 		*flags* can be set to a combination of the following values:
-> + *
-> + * 		**BPF_F_TUNINFO_IPV6**
-> + * 			Indicate that the tunnel is based on IPv6 protocol
-> + * 			instead of IPv4.
-> + * 		**BPF_F_ZERO_CSUM_TX**
-> + * 			For IPv4 packets, add a flag to tunnel metadata
-> + * 			indicating that checksum computation should be skipped
-> + * 			and checksum set to zeroes.
-> + * 		**BPF_F_DONT_FRAGMENT**
-> + * 			Add a flag to tunnel metadata indicating that the
-> + * 			packet should not be fragmented.
-> + * 		**BPF_F_SEQ_NUMBER**
-> + * 			Add a flag to tunnel metadata indicating that a
-> + * 			sequence number should be added to tunnel header before
-> + * 			sending the packet. This flag was added for GRE
-> + * 			encapsulation, but might be used with other protocols
-> + * 			as well in the future.
-> + *
-> + * 		Here is a typical usage on the transmit path:
-> + *
-> + * 		::
-> + *
-> + * 			struct bpf_tunnel_key key;
-> + * 			     populate key ...
-> + * 			bpf_skb_set_tunnel_key(skb, &key, sizeof(key), 0);
-> + * 			bpf_clone_redirect(skb, vxlan_dev_ifindex, 0);
-> + *
-> + * 	Return
-> + * 		0 on success, or a negative error in case of failure.
-> + *
-> + * int bpf_redirect(u32 ifindex, u64 flags)
-> + * 	Description
-> + * 		Redirect the packet to another net device of index *ifindex*.
-> + * 		This helper is somewhat similar to **bpf_clone_redirect**\
-> + * 		(), except that the packet is not cloned, which provides
-> + * 		increased performance.
-> + *
-> + * 		For hooks other than XDP, *flags* can be set to
-> + * 		**BPF_F_INGRESS**, which indicates the packet is to be
-> + * 		redirected to the ingress interface instead of (by default)
-> + * 		egress. Currently, XDP does not support any flag.
-> + * 	Return
-> + * 		For XDP, the helper returns **XDP_REDIRECT** on success or
-> + * 		**XDP_ABORT** on error. For other program types, the values
-> + * 		are **TC_ACT_REDIRECT** on success or **TC_ACT_SHOT** on
-> + * 		error.
-> + *
-> + * int bpf_perf_event_output(struct pt_reg *ctx, struct bpf_map *map, u64 flags, void *data, u64 size)
-> + * 	Description
-> + * 		Write perf raw sample into a perf event held by *map* of type
-
-I'd say:
-Write raw *data* blob into special bpf perf event held by ...
-
-> + * 		**BPF_MAP_TYPE_PERF_EVENT_ARRAY**. This perf event must
-> + * 		have the following attributes: **PERF_SAMPLE_RAW** as
-> + * 		**sample_type**, **PERF_TYPE_SOFTWARE** as **type**, and
-> + * 		**PERF_COUNT_SW_BPF_OUTPUT** as **config**.
-> + *
-> + * 		The *flags* are used to indicate the index in *map* for which
-> + * 		the value must be put, masked with **BPF_F_INDEX_MASK**.
-> + * 		Alternatively, *flags* can be set to **BPF_F_CURRENT_CPU**
-> + * 		to indicate that the index of the current CPU core should be
-> + * 		used.
-> + *
-> + * 		The value to write, of *size*, is passed through eBPF stack and
-> + * 		pointed by *data*.
-> + *
-> + * 		The context of the program *ctx* needs also be passed to the
-> + * 		helper, and will get interpreted as a pointer to a **struct
-> + * 		pt_reg**.
-
-Not quite correct.
-Initially bpf_perf_event_output() was only used with 'struct pt_reg *ctx',
-but then later it was generalized for all other tracing prog types,
-for clsact and even for XDP.
-So 'ctx' can be any of the context used by these program types.
-
-> + *
-> + * 		On user space, a program willing to read the values needs to
-> + * 		call **perf_event_open**\ () on the perf event (either for
-> + * 		one or for all CPUs) and to store the file descriptor into the
-> + * 		*map*. This must be done before the eBPF program can send data
-> + * 		into it. An example is available in file
-> + * 		*samples/bpf/trace_output_user.c* in the Linux kernel source
-> + * 		tree (the eBPF program counterpart is in
-> + * 		*samples/bpf/trace_output_kern.c*). It looks like the
-> + * 		following snippet:
-> + *
-> + * 		::
-> + *
-> + * 			volatile struct perf_event_mmap_page *header;
-> + * 			struct perf_event_attr attr = {
-> + * 			        .sample_type = PERF_SAMPLE_RAW,
-> + * 			        .type = PERF_TYPE_SOFTWARE,
-> + * 			        .config = PERF_COUNT_SW_BPF_OUTPUT,
-> + * 			};
-> + * 			int page_size;
-> + * 			int mmap_size;
-> + * 			int key = 0;
-> + * 			int pmu_fd;
-> + * 			void *base;
-> + * 			
-> + * 			if (load_bpf_file(filename))
-> + * 			        return -1;
-> + * 			
-> + * 			pmu_fd = sys_perf_event_open(&attr,
-> + * 			                             -1, // pid
-> + * 			                              0, // cpu
-> + * 			                             -1, // group_fd
-> + * 			                              0);
-> + * 			
-> + * 			assert(pmu_fd >= 0);
-> + * 			assert(bpf_map_update_elem(map_fd[0], &key,
-> + * 			                           &pmu_fd, BPF_ANY) == 0);
-> + * 			assert(ioctl(pmu_fd, PERF_EVENT_IOC_ENABLE, 0) == 0);
-> + * 			
-> + * 			page_size = getpagesize();
-> + * 			mmap_size = page_size * (page_cnt + 1);
-> + * 			
-> + * 			base = mmap(NULL, mmap_size, PROT_READ | PROT_WRITE,
-> + * 			            MAP_SHARED, fd, 0);
-> + * 			if (base == MAP_FAILED)
-> + * 			        return -1;
-> + * 			
-> + * 			header = base;
-
-I think that is too much for the man page, especially above is far from
-complete example.
-
-> + *
-> + * 		**bpf_perf_event_output**\ () achieves better performance
-> + * 		than **bpf_trace_printk**\ () for sharing data with user
-> + * 		space, and is much better suitable for streaming data from eBPF
-> + * 		programs.
-> + * 	Return
-> + * 		0 on success, or a negative error in case of failure.
-> + *
-> + * int bpf_get_stackid(struct pt_reg *ctx, struct bpf_map *map, u64 flags)
-> + * 	Description
-> + * 		Walk a user or a kernel stack and return its id. To achieve
-> + * 		this, the helper needs *ctx*, which is a pointer to the context
-> + * 		on which the tracing program is executed, and a pointer to a
-> + * 		*map* of type **BPF_MAP_TYPE_STACK_TRACE**.
-> + *
-> + * 		The last argument, *flags*, holds the number of stack frames to
-> + * 		skip (from 0 to 255), masked with
-> + * 		**BPF_F_SKIP_FIELD_MASK**. The next bits can be used to set
-> + * 		a combination of the following flags:
-> + *
-> + * 		**BPF_F_USER_STACK**
-> + * 			Collect a user space stack instead of a kernel stack.
-> + * 		**BPF_F_FAST_STACK_CMP**
-> + * 			Compare stacks by hash only.
-> + * 		**BPF_F_REUSE_STACKID**
-> + * 			If two different stacks hash into the same *stackid*,
-> + * 			discard the old one.
-
-we have an annoying bug here that we will be sending a patch to fix soon,
-since right now there is no way for the program to know that stackid
-got replaced.
-
-> + *
-> + * 		The stack id retrieved is a 32 bit long integer handle which
-> + * 		can be further combined with other data (including other stack
-> + * 		ids) and used as a key into maps. This can be useful for
-> + * 		generating a variety of graphs (such as flame graphs or off-cpu
-> + * 		graphs).
-> + *
-> + * 		For walking a stack, this helper is an improvement over
-> + * 		**bpf_probe_read**\ (), which can be used with unrolled loops
-> + * 		but is not efficient and consumes a lot of eBPF instructions.
-> + * 		Instead, **bpf_get_stackid**\ () can collect up to
-> + * 		**PERF_MAX_STACK_DEPTH** both kernel and user frames.
-
-PERF_MAX_STACK_DEPTH is now controlled by sysctl knob.
-Would be good to mention that this limit can and should be increased
-for profiling long user stacks like java.
-
-> + * 	Return
-> + * 		The positive or null stack id on success, or a negative error
-> + * 		in case of failure.
-> + *
-> + * u64 bpf_get_current_task(void)
-> + * 	Return
-> + * 		A pointer to the current task struct.
->   */
->  #define __BPF_FUNC_MAPPER(FN)		\
->  	FN(unspec),			\
-> -- 
-> 2.14.1
+>> +several eBPF program types, and that they do not run in the same context, each
+>> +program type can only call a subset of those helpers.
+>> +
+>> +Due to eBPF conventions, a helper can not have more than five arguments.
+>> +
+>> +This document is an attempt to list and document the helpers available to eBPF
+>> +developers. They are sorted by chronological order (the oldest helpers in the
+>> +kernel at the top).
+>> +
+>> +HELPERS
+>> +=======
+>> +'''
+>> +        print(header)
+>> +
+>> +    def print_footer(self):
+>> +        footer = '''
+>> +NOTES
+>> +=====
+>> +
+>> +On the performance side, eBPF programs move to the stack all arguments to pass
+>> +to the helpers, and call directly into the compiled helper functions without
 > 
+> "move to the stack all arguments" ?! I'm not sure what you're trying to say.
+> The arguments stay in registers for the call.
+> 
+>> +requiring any foreign-function interface. As a result, calling helpers
+>> +introduce very little overhead.
+> 
+> not true. it's zero overhead. Literally. Very little is not the same as zero.
+
+Not the same indeed :). I will fix with "no overhead".
+
+I'm not too sure either what I meant when I wrote the thing about moving
+arguments to the stack... In fact this "NOTES" section is short and not
+really relevant. I will probably delete it and add a line in page header
+about helpers being called with no overhead.
+
+>> +
+>> +EXAMPLES
+>> +========
+>> +
+>> +Example usage for most of the eBPF helpers listed in this manual page are
+>> +available within the Linux kernel sources, at the following locations:
+>> +
+>> +* *samples/bpf/*
+>> +* *tools/testing/selftests/bpf/*
+>> +
+>> +IMPLEMENTATION
+>> +==============
+>> +
+>> +This manual page is an effort to document the existing eBPF helper functions.
+>> +But as of this writing, the BPF sub-system is under heavy development. New eBPF
+>> +program or map types are added, along with new helper functions. Some helpers
+>> +are occasionally made available for additional program types. So in spite of
+>> +the efforts of the community, this page might not be up-to-date. If you want to
+>> +check by yourself what helper functions exist in your kernel, or what types of
+>> +programs they can support, here are some files among the kernel tree that you
+>> +may be interested in:
+>> +
+>> +* *include/uapi/linux/bpf.h* contains the full list of all helper functions.
+>> +* *net/core/filter.c* contains the definition of most network-related helper
+>> +  functions, and the list of program types from which they can be used.
+>> +* *kernel/trace/bpf_trace.c* is the equivalent for most tracing program-related
+>> +  helpers.
+>> +* *kernel/bpf/verifier.c* contains the functions used to check that valid types
+>> +  of eBPF maps are used with a given helper function.
+>> +* *kernel/bpf/* directory contains other files in which additional helpers are
+>> +  defined (for cgroups, sockmaps, etc.).
+>> +
+>> +Compatibility between helper functions and program types can generally be found
+>> +in the files where helper functions are defined. Look for the **struct
+>> +bpf_func_proto** objects and for functions returning them: these functions
+>> +contain a list of helpers that a given program type can call. Note that the
+>> +**default:** label of the **switch ... case** used to filter helpers can call
+>> +other functions, themselves allowing access to additional helpers. The
+>> +requirement for GPL license is also in those **struct bpf_func_proto**.
+> 
+> I think here would be good to add that most networking helpers are non-GPL
+> because they operate on packets which are abstract bytes on the wire,
+> whereas most tracing helpers are GPL, since they inspect the guts of
+> the linux kernel which is GPL itself.
+> That's the main reason why adding extra 'gpl=yes/no' for each helper
+> description is redundant.
+> 
+
+I removed information from the page header about licensing since v1, I
+may reintroduce some of it and tell about the difference between
+networking and tracing programs, as you suggest.
+
+I understand this difference and I see that specifying GPL requirement
+for each individual helper is redundant. And yet I still believe that
+for newcomers, it remains easier to have the indication for the specific
+helper they are reading about in the man page rather than to take a
+guess ("Is this helper for networking only?"). But I do not intend to
+add it back to this set anyway, so let's keep this for future
+discussions :).
+
+Thanks for the review!
+Quentin
