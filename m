@@ -1,172 +1,76 @@
-From: David Howells <dhowells@redhat.com>
-Subject: [PATCH 24/24] debugfs: Restrict debugfs when the kernel is locked
- down
-Date: Wed, 11 Apr 2018 17:27:16 +0100
-Message-ID: <152346403637.4030.15247096217928429102.stgit@warthog.procyon.org.uk>
+From: Jann Horn <jannh@google.com>
+Subject: Re: [PATCH 01/24] Add the ability to lock down access to the running
+ kernel image
+Date: Wed, 11 Apr 2018 18:44:54 +0200
+Message-ID: <CAG48ez3U3pf4O8Yc1y-+T=Dcc-N-KP0Zd_1GS44p--zxockJ1Q@mail.gmail.com>
 References: <152346387861.4030.4408662483445703127.stgit@warthog.procyon.org.uk>
+ <152346388583.4030.15146667041427303547.stgit@warthog.procyon.org.uk>
 Mime-Version: 1.0
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: 7bit
+Content-Type: text/plain; charset="UTF-8"
 Return-path: <linux-kernel-owner@vger.kernel.org>
-In-Reply-To: <152346387861.4030.4408662483445703127.stgit@warthog.procyon.org.uk>
+In-Reply-To: <152346388583.4030.15146667041427303547.stgit@warthog.procyon.org.uk>
 Sender: linux-kernel-owner@vger.kernel.org
-To: torvalds@linux-foundation.org
-Cc: linux-man@vger.kernel.org, linux-api@vger.kernel.org, jmorris@namei.org, linux-kernel@vger.kernel.org, dhowells@redhat.com, linux-security-module@vger.kernel.org
+To: David Howells <dhowells@redhat.com>
+Cc: Linus Torvalds <torvalds@linux-foundation.org>, linux-man <linux-man@vger.kernel.org>, Linux API <linux-api@vger.kernel.org>, James Morris <jmorris@namei.org>, kernel list <linux-kernel@vger.kernel.org>, linux-security-module <linux-security-module@vger.kernel.org>
 List-Id: linux-man@vger.kernel.org
 
-Disallow opening of debugfs files that might be used to muck around when
-the kernel is locked down as various drivers give raw access to hardware
-through debugfs.  Given the effort of auditing all 2000 or so files and
-manually fixing each one as necessary, I've chosen to apply a heuristic
-instead.  The following changes are made:
+On Wed, Apr 11, 2018 at 6:24 PM, David Howells <dhowells@redhat.com> wrote:
+> Provide a single call to allow kernel code to determine whether the system
+> should be locked down, thereby disallowing various accesses that might
+> allow the running kernel image to be changed, including:
+>
+>  - /dev/mem and similar
+>  - Loading of unauthorised modules
+>  - Fiddling with MSR registers
+>  - Suspend to disk managed by the kernel
+>  - Use of device DMA
+>
+> Two kernel configuration options are provided:
+>
+>  (*) CONFIG_LOCK_DOWN_KERNEL
+>
+>      This makes lockdown available and applies it to all the points that
+>      need to be locked down if the mode is set.  Lockdown mode can be
+>      enabled by providing:
+>
+>         lockdown=1
+>
+>      on the command line.
+>
+>  (*) CONFIG_LOCK_DOWN_MANDATORY
+>
+>      This forces lockdown on at compile time, overriding the command line
+>      option.
+>
+> init_lockdown() is used as a hook from which lockdown can be managed in
+> future.  It has to be called from arch setup code before things like ACPI
+> are enabled.
+>
+> Note that, with the other changes in this series, if lockdown mode is
+> enabled, the kernel will not be able to use certain drivers as the ability
+> to manually configure hardware parameters would then be prohibited.  This
+> primarily applies to ISA hardware devices.
+>
+> Signed-off-by: David Howells <dhowells@redhat.com>
+> ---
+[...]
+> diff --git a/security/lock_down.c b/security/lock_down.c
+> new file mode 100644
+> index 000000000000..f35ffdd096ad
+> --- /dev/null
+> +++ b/security/lock_down.c
+[...]
+> +/*
+> + * Lock the kernel down from very early in the arch setup.  This must happen
+> + * prior to things like ACPI being initialised.
+> + */
 
- (1) chmod and chown are disallowed on debugfs objects (though the root dir
-     can be modified by mount and remount, but I'm not worried about that).
+Pedantic nit: I think this comment is wrong now? This function
+actually just prints stuff.
 
- (2) When the kernel is locked down, only files with the following criteria
-     are permitted to be opened:
-
-	- The file must have mode 00444
-	- The file must not have ioctl methods
-	- The file must not have mmap
-
- (3) When the kernel is locked down, files may only be opened for reading.
-
-Normal device interaction should be done through configfs, sysfs or a
-miscdev, not debugfs.
-
-Note that this makes it unnecessary to specifically lock down show_dsts(),
-show_devs() and show_call() in the asus-wmi driver.
-
-I would actually prefer to lock down all files by default and have the
-the files unlocked by the creator.  This is tricky to manage correctly,
-though, as there are 19 creation functions and ~1600 call sites (some of
-them in loops scanning tables).
-
-Signed-off-by: David Howells <dhowells@redhat.com>
-cc: Andy Shevchenko <andy.shevchenko@gmail.com>
-cc: acpi4asus-user@lists.sourceforge.net
-cc: platform-driver-x86@vger.kernel.org
-cc: Matthew Garrett <mjg59@srcf.ucam.org>
-cc: Thomas Gleixner <tglx@linutronix.de>
----
-
- fs/debugfs/file.c  |   28 ++++++++++++++++++++++++++++
- fs/debugfs/inode.c |   30 ++++++++++++++++++++++++++++--
- 2 files changed, 56 insertions(+), 2 deletions(-)
-
-diff --git a/fs/debugfs/file.c b/fs/debugfs/file.c
-index 1f99678ff5d3..51cb894c21f2 100644
---- a/fs/debugfs/file.c
-+++ b/fs/debugfs/file.c
-@@ -136,6 +136,25 @@ void debugfs_file_put(struct dentry *dentry)
- }
- EXPORT_SYMBOL_GPL(debugfs_file_put);
- 
-+/*
-+ * Only permit access to world-readable files when the kernel is locked down.
-+ * We also need to exclude any file that has ways to write or alter it as root
-+ * can bypass the permissions check.
-+ */
-+static bool debugfs_is_locked_down(struct inode *inode,
-+				   struct file *filp,
-+				   const struct file_operations *real_fops)
-+{
-+	if ((inode->i_mode & 07777) == 0444 &&
-+	    !(filp->f_mode & FMODE_WRITE) &&
-+	    !real_fops->unlocked_ioctl &&
-+	    !real_fops->compat_ioctl &&
-+	    !real_fops->mmap)
-+		return false;
-+
-+	return kernel_is_locked_down("debugfs");
-+}
-+
- static int open_proxy_open(struct inode *inode, struct file *filp)
- {
- 	struct dentry *dentry = F_DENTRY(filp);
-@@ -147,6 +166,11 @@ static int open_proxy_open(struct inode *inode, struct file *filp)
- 		return r == -EIO ? -ENOENT : r;
- 
- 	real_fops = debugfs_real_fops(filp);
-+
-+	r = -EPERM;
-+	if (debugfs_is_locked_down(inode, filp, real_fops))
-+		goto out;
-+
- 	real_fops = fops_get(real_fops);
- 	if (!real_fops) {
- 		/* Huh? Module did not clean up after itself at exit? */
-@@ -272,6 +296,10 @@ static int full_proxy_open(struct inode *inode, struct file *filp)
- 		return r == -EIO ? -ENOENT : r;
- 
- 	real_fops = debugfs_real_fops(filp);
-+	r = -EPERM;
-+	if (debugfs_is_locked_down(inode, filp, real_fops))
-+		goto out;
-+
- 	real_fops = fops_get(real_fops);
- 	if (!real_fops) {
- 		/* Huh? Module did not cleanup after itself at exit? */
-diff --git a/fs/debugfs/inode.c b/fs/debugfs/inode.c
-index 13b01351dd1c..4daec17b8215 100644
---- a/fs/debugfs/inode.c
-+++ b/fs/debugfs/inode.c
-@@ -32,6 +32,31 @@ static struct vfsmount *debugfs_mount;
- static int debugfs_mount_count;
- static bool debugfs_registered;
- 
-+/*
-+ * Don't allow access attributes to be changed whilst the kernel is locked down
-+ * so that we can use the file mode as part of a heuristic to determine whether
-+ * to lock down individual files.
-+ */
-+static int debugfs_setattr(struct dentry *dentry, struct iattr *ia)
-+{
-+	if ((ia->ia_valid & (ATTR_MODE | ATTR_UID | ATTR_GID)) &&
-+	    kernel_is_locked_down("debugfs"))
-+		return -EPERM;
-+	return simple_setattr(dentry, ia);
-+}
-+
-+static const struct inode_operations debugfs_file_inode_operations = {
-+	.setattr	= debugfs_setattr,
-+};
-+static const struct inode_operations debugfs_dir_inode_operations = {
-+	.lookup		= simple_lookup,
-+	.setattr	= debugfs_setattr,
-+};
-+static const struct inode_operations debugfs_symlink_inode_operations = {
-+	.get_link	= simple_get_link,
-+	.setattr	= debugfs_setattr,
-+};
-+
- static struct inode *debugfs_get_inode(struct super_block *sb)
- {
- 	struct inode *inode = new_inode(sb);
-@@ -356,6 +381,7 @@ static struct dentry *__debugfs_create_file(const char *name, umode_t mode,
- 	inode->i_mode = mode;
- 	inode->i_private = data;
- 
-+	inode->i_op = &debugfs_file_inode_operations;
- 	inode->i_fop = proxy_fops;
- 	dentry->d_fsdata = (void *)((unsigned long)real_fops |
- 				DEBUGFS_FSDATA_IS_REAL_FOPS_BIT);
-@@ -513,7 +539,7 @@ struct dentry *debugfs_create_dir(const char *name, struct dentry *parent)
- 		return failed_creating(dentry);
- 
- 	inode->i_mode = S_IFDIR | S_IRWXU | S_IRUGO | S_IXUGO;
--	inode->i_op = &simple_dir_inode_operations;
-+	inode->i_op = &debugfs_dir_inode_operations;
- 	inode->i_fop = &simple_dir_operations;
- 
- 	/* directory inodes start off with i_nlink == 2 (for "." entry) */
-@@ -608,7 +634,7 @@ struct dentry *debugfs_create_symlink(const char *name, struct dentry *parent,
- 		return failed_creating(dentry);
- 	}
- 	inode->i_mode = S_IFLNK | S_IRWXUGO;
--	inode->i_op = &simple_symlink_inode_operations;
-+	inode->i_op = &debugfs_symlink_inode_operations;
- 	inode->i_link = link;
- 	d_instantiate(dentry, inode);
- 	return end_creating(dentry);
+> +void __init init_lockdown(void)
+> +{
+> +#ifdef CONFIG_LOCK_DOWN_MANDATORY
+> +       pr_notice("Kernel is locked down from config; see man kernel_lockdown.7\n");
+> +#endif
+> +}
