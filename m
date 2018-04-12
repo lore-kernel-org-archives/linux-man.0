@@ -1,57 +1,95 @@
-From: Greg KH <greg@kroah.com>
-Subject: Re: [PATCH 24/24] debugfs: Restrict debugfs when the kernel is
- locked down
-Date: Thu, 12 Apr 2018 10:23:13 +0200
-Message-ID: <20180412082313.GA6054@kroah.com>
-References: <20180411195436.GA7126@kroah.com>
- <152346387861.4030.4408662483445703127.stgit@warthog.procyon.org.uk>
- <152346403637.4030.15247096217928429102.stgit@warthog.procyon.org.uk>
- <12769.1523477356@warthog.procyon.org.uk>
- <20180411203308.GA10167@kroah.com>
- <CALCETrWynogzZcaKMLWKce1rMvAC_sViReBDyiEWL-rm21HvAg@mail.gmail.com>
+From: "Michael Kerrisk (man-pages)" <mtk.manpages@gmail.com>
+Subject: Re: [PATCH v2] readv.2, io_submit.2: Document RWF_APPEND added in
+ Linux 4.16
+Date: Thu, 12 Apr 2018 11:11:20 +0200
+Message-ID: <e81fe2fe-1fa0-f348-7811-e5bc6235e903@gmail.com>
+References: <1f559be3-93df-ccdd-02dc-39c83c83a8c9@gmail.com>
+ <20180406135106.30342-1-j@bitron.ch>
 Mime-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
+Content-Type: text/plain; charset=utf-8
+Content-Transfer-Encoding: 8bit
 Return-path: <linux-kernel-owner@vger.kernel.org>
-Content-Disposition: inline
-In-Reply-To: <CALCETrWynogzZcaKMLWKce1rMvAC_sViReBDyiEWL-rm21HvAg@mail.gmail.com>
+In-Reply-To: <20180406135106.30342-1-j@bitron.ch>
+Content-Language: en-US
 Sender: linux-kernel-owner@vger.kernel.org
-To: Andy Lutomirski <luto@kernel.org>
-Cc: David Howells <dhowells@redhat.com>, Linus Torvalds <torvalds@linux-foundation.org>, linux-man <linux-man@vger.kernel.org>, Linux API <linux-api@vger.kernel.org>, James Morris <jmorris@namei.org>, LKML <linux-kernel@vger.kernel.org>, LSM List <linux-security-module@vger.kernel.org>
+To: =?UTF-8?Q?J=c3=bcrg_Billeter?= <j@bitron.ch>
+Cc: mtk.manpages@gmail.com, linux-man@vger.kernel.org, linux-kernel@vger.kernel.org
 List-Id: linux-man@vger.kernel.org
 
-On Wed, Apr 11, 2018 at 07:54:12PM -0700, Andy Lutomirski wrote:
-> On Wed, Apr 11, 2018 at 1:33 PM, Greg KH <greg@kroah.com> wrote:
-> > On Wed, Apr 11, 2018 at 09:09:16PM +0100, David Howells wrote:
-> >> Greg KH <greg@kroah.com> wrote:
-> >>
-> >> > Why not just disable debugfs entirely?  This half-hearted way to sorta
-> >> > lock it down is odd, it is meant to not be there at all, nothing in your
-> >> > normal system should ever depend on it.
-> >> >
-> >> > So again just don't allow it to be mounted at all, much simpler and more
-> >> > obvious as to what is going on.
-> >>
-> >> Yeah, I agree - and then I got complaints because it seems that it's been
-> >> abused to allow drivers and userspace components to communicate.
-> >
-> > With in-kernel code?  Please let me know and I'll go fix it up to not
-> > allow that, as that is not ok.
-> >
-> > I do know of some bad examples of out-of-tree code abusing debugfs to do
-> > crazy things (battery level monitoring?), but that's their own fault...
-> >
-> > debugfs is for DEBUGGING!  For anything you all feel should be "secure",
-> > then just disable it entirely.
-> >
+On 04/06/2018 03:51 PM, Jürg Billeter wrote:
+> Signed-off-by: Jürg Billeter <j@bitron.ch>
+
+Thanks, Jürg. Patch applied.
+
+Cheers,
+
+Michael
+
+
+> ---
+> Changes since version 1:
+> - Explain offset handling
 > 
-> Debugfs is very, very useful for, ahem, debugging.  I really think
-> this is an example of why we should split lockdown into the read and
-> write varieties and allow mounting and reading debugfs when only write
-> is locked down.
+>  man2/io_submit.2 | 13 +++++++++++++
+>  man2/readv.2     | 17 +++++++++++++++++
+>  2 files changed, 30 insertions(+)
+> 
+> diff --git a/man2/io_submit.2 b/man2/io_submit.2
+> index 397fd0b75..25961138a 100644
+> --- a/man2/io_submit.2
+> +++ b/man2/io_submit.2
+> @@ -111,6 +111,19 @@ field of the
+>  .I io_event
+>  structure (see
+>  .BR io_getevents (2)).
+> +.TP
+> +.BR RWF_APPEND " (since Linux 4.16)"
+> +.\" commit e1fc742e14e01d84d9693c4aca4ab23da65811fb
+> +Append data to the end of the file.
+> +See the description of the flag of the same name in
+> +.BR pwritev2 (2)
+> +as well as the description of
+> +.B O_APPEND
+> +in
+> +.BR open (2).
+> +The
+> +.I aio_offset
+> +field is ignored. The file offset is not changed.
+>  .RE
+>  .TP
+>  .I aio_lio_opcode
+> diff --git a/man2/readv.2 b/man2/readv.2
+> index b3b7b9658..9ef250e11 100644
+> --- a/man2/readv.2
+> +++ b/man2/readv.2
+> @@ -248,6 +248,23 @@ to
+>  .BR EAGAIN .
+>  Currently, this flag is meaningful only for
+>  .BR preadv2 ().
+> +.TP
+> +.BR RWF_APPEND " (since Linux 4.16)"
+> +.\" commit e1fc742e14e01d84d9693c4aca4ab23da65811fb
+> +Provide a per-write equivalent of the
+> +.B O_APPEND
+> +.BR open (2)
+> +flag.
+> +This flag is meaningful only for
+> +.BR pwritev2 (),
+> +and its effect applies only to the data range written by the system call.
+> +The
+> +.I offset
+> +argument does not affect the write operation, the data is always appended
+> +to the end of the file. However, if the
+> +.I offset
+> +argument is \-1, the current file offset is updated.
+> +This matches the behavior when the file is opened in append mode.
+>  .SH RETURN VALUE
+>  On success,
+>  .BR readv (),
+> 
 
-Ok, but be sure that there are no "secrets" in those debugging files if
-you really buy into the whole "lock down" mess...
 
-Really, it's easier to just disable the whole thing.
-
-greg k-h
+-- 
+Michael Kerrisk
+Linux man-pages maintainer; http://www.kernel.org/doc/man-pages/
+Linux/UNIX System Programming Training: http://man7.org/training/
