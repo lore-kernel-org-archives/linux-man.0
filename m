@@ -1,72 +1,78 @@
-From: Justin Forbes <jmforbes@linuxtx.org>
-Subject: Re: [PATCH 01/24] Add the ability to lock down access to the running
- kernel image
-Date: Thu, 12 Apr 2018 08:09:10 -0500
-Message-ID: <CAFxkdAr5c_bKEKqV2t-PKAo3iSvEkpqO1p+RPg9t-sW4yEUOnw@mail.gmail.com>
-References: <152346387861.4030.4408662483445703127.stgit@warthog.procyon.org.uk>
- <152346388583.4030.15146667041427303547.stgit@warthog.procyon.org.uk>
- <CA+55aFzPo-dip8dgyo0U+g5qai9SAJU+D1c+AFJ0zV9_PBAB8Q@mail.gmail.com>
- <8z0aRQyD-6Krqntk8UD9WQjK5JSqEai2Pt5oeFU2EplgxoWiHlX5nlJXwCDHQ1WcS1oIprXimgz7UvwHCWDB9Z3dYFrEmZmtkEJSqaYMel8=@protonmail.ch>
- <CA+55aFzvnf=4OeBy5vQQ6HQoCsgCkAJw1LhSBOTkDWm3ck1pZA@mail.gmail.com>
+From: Andy Lutomirski <luto@kernel.org>
+Subject: Re: [PATCH 24/24] debugfs: Restrict debugfs when the kernel is locked down
+Date: Thu, 12 Apr 2018 07:19:35 -0700
+Message-ID: <CALCETrVm8c0dN=kymg=5-TQEWbL_zk9yCr4Bv4PKJXNC=6j=Fw@mail.gmail.com>
+References: <20180411195436.GA7126@kroah.com> <152346387861.4030.4408662483445703127.stgit@warthog.procyon.org.uk>
+ <152346403637.4030.15247096217928429102.stgit@warthog.procyon.org.uk>
+ <12769.1523477356@warthog.procyon.org.uk> <20180411203308.GA10167@kroah.com>
+ <CALCETrWynogzZcaKMLWKce1rMvAC_sViReBDyiEWL-rm21HvAg@mail.gmail.com> <20180412082313.GA6054@kroah.com>
 Mime-Version: 1.0
 Content-Type: text/plain; charset="UTF-8"
 Return-path: <linux-kernel-owner@vger.kernel.org>
-In-Reply-To: <CA+55aFzvnf=4OeBy5vQQ6HQoCsgCkAJw1LhSBOTkDWm3ck1pZA@mail.gmail.com>
+In-Reply-To: <20180412082313.GA6054@kroah.com>
 Sender: linux-kernel-owner@vger.kernel.org
-To: Linus Torvalds <torvalds@linux-foundation.org>
-Cc: Jordan Glover <Golden_Miller83@protonmail.ch>, David Howells <dhowells@redhat.com>, linux-man <linux-man@vger.kernel.org>, Linux API <linux-api@vger.kernel.org>, James Morris <jmorris@namei.org>, Linux Kernel Mailing List <linux-kernel@vger.kernel.org>, LSM List <linux-security-module@vger.kernel.org>
+To: Greg KH <greg@kroah.com>
+Cc: Andy Lutomirski <luto@kernel.org>, David Howells <dhowells@redhat.com>, Linus Torvalds <torvalds@linux-foundation.org>, linux-man <linux-man@vger.kernel.org>, Linux API <linux-api@vger.kernel.org>, James Morris <jmorris@namei.org>, LKML <linux-kernel@vger.kernel.org>, LSM List <linux-security-module@vger.kernel.org>
 List-Id: linux-man@vger.kernel.org
 
-On Wed, Apr 11, 2018, 5:38 PM Linus Torvalds
-<torvalds@linux-foundation.org> wrote:
+On Thu, Apr 12, 2018 at 1:23 AM, Greg KH <greg@kroah.com> wrote:
+> On Wed, Apr 11, 2018 at 07:54:12PM -0700, Andy Lutomirski wrote:
+>> On Wed, Apr 11, 2018 at 1:33 PM, Greg KH <greg@kroah.com> wrote:
+>> > On Wed, Apr 11, 2018 at 09:09:16PM +0100, David Howells wrote:
+>> >> Greg KH <greg@kroah.com> wrote:
+>> >>
+>> >> > Why not just disable debugfs entirely?  This half-hearted way to sorta
+>> >> > lock it down is odd, it is meant to not be there at all, nothing in your
+>> >> > normal system should ever depend on it.
+>> >> >
+>> >> > So again just don't allow it to be mounted at all, much simpler and more
+>> >> > obvious as to what is going on.
+>> >>
+>> >> Yeah, I agree - and then I got complaints because it seems that it's been
+>> >> abused to allow drivers and userspace components to communicate.
+>> >
+>> > With in-kernel code?  Please let me know and I'll go fix it up to not
+>> > allow that, as that is not ok.
+>> >
+>> > I do know of some bad examples of out-of-tree code abusing debugfs to do
+>> > crazy things (battery level monitoring?), but that's their own fault...
+>> >
+>> > debugfs is for DEBUGGING!  For anything you all feel should be "secure",
+>> > then just disable it entirely.
+>> >
+>>
+>> Debugfs is very, very useful for, ahem, debugging.  I really think
+>> this is an example of why we should split lockdown into the read and
+>> write varieties and allow mounting and reading debugfs when only write
+>> is locked down.
 >
-> On Wed, Apr 11, 2018 at 2:05 PM, Jordan Glover
-> <Golden_Miller83@protonmail.ch> wrote:
-> >>
-> >> If that /dev/mem access prevention was just instead done as an even
-> >> stricter mode of the existing CONFIG_STRICT_DEVMEM, it could just be
-> >> enabled unconditionally.
-> >
-> > CONFIG_DEVMEM=n
+> Ok, but be sure that there are no "secrets" in those debugging files if
+> you really buy into the whole "lock down" mess...
 >
-> It's actually CONFIG_DEVMEM, CONFIG_DEVKMEM and CONFIG_DEVPORT, it's
-> just not obvious from the patch.
+> Really, it's easier to just disable the whole thing.
 >
-> But the important part is this part:
->
-> >> So I would seriously ask that the distros that have been using these
-> >> patches look at which parts of lockdown they could make unconditional
-> >> (because it doesn't break machines), and which ones need that escape
-> >> clause.
->
-> .. because I get the feeling that not a lot of people have actually
-> been testing this, because "turn off secure boot" is such a universal
-> thing when people boot Linux.
->
-> So it's really the whole claim that distributions have been running
-> for this for the last five years that I wonder about, and how often
-> people end up being told: "just disable secure boot":.
 
-Very rarely in my experience. And the one time that we sent a kernel
-to updates-testing that was signed with the test key instead of the
-real key, we had a surprisingly high number of reports from users that
-it was broken before the update even got synched to mirrors.  So we
-don't have actual numbers of users running active secure boot with
-Fedora, but we do know it is more than we expected.  The majority of
-people who do run into issues are those running out of tree modules,
-who haven't imported any sort of key for local signing.  This isn't
-like SELinux was at launch where it was so invasive that a large
-number of users instinctively turned it off with every installation, I
-would guess even people who turned it off in the past, don't even
-think about it when they get a new machine and leave it on.
+I mostly agree with your sentiment.  I'm saying that, for most uses, I
+*don't* buy into the idea that a normal secure-boot-supporting distro
+should block debugfs.  I sometimes like to ask people who report
+problems to send me the contents of such-and-such file in debugfs, and
+I think it should keep working.  Blocking write access to debugfs is
+mostly sensible for a lockdown system, but blocking read only makes
+sense if you're worried about straight-up bugs or if you think that
+debugfs contains protection-worthy secrets.
 
-> But if people really don't need DEVMEM/DEVKMEM/DEVPORT, maybe we
-> should just disable them in the default configs, and consider them
-> legacy.
->
-> I'm just surprised. I suspect a lot of people end up actually using
-> devmem as a fallback for dmidecode etc. Maybe those people don't boot
-> with EFI secure mode, but if so that just shows that this whole
-> "hardening" is just security theater.
->
->               Linus
+What I want to see is:
+
+lockdown=protect_integrity: debugfs is read-only, bpf and perf are
+unrestricted, iopl and ioperm are disabled, etc.
+
+lockdown=protect_integrity_and_secrecy: debugfs is gone, bpf and perf
+are restricted, plus all the restrictions from
+lockdown=protect_integrity
+
+Distros should strongly prefer lockdown=protect_integrity (or
+lockdown=off) by default.  lockdown=protect_integrity_and_secrecy is
+for custom setups, embedded applications, etc.
+
+
+--Andy
