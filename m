@@ -1,95 +1,49 @@
-From: "Michael Kerrisk (man-pages)" <mtk.manpages@gmail.com>
-Subject: Re: [PATCH v2] readv.2, io_submit.2: Document RWF_APPEND added in
- Linux 4.16
-Date: Thu, 12 Apr 2018 11:11:20 +0200
-Message-ID: <e81fe2fe-1fa0-f348-7811-e5bc6235e903@gmail.com>
-References: <1f559be3-93df-ccdd-02dc-39c83c83a8c9@gmail.com>
- <20180406135106.30342-1-j@bitron.ch>
+From: Mimi Zohar <zohar@linux.vnet.ibm.com>
+Subject: Re: [PATCH 06/24] kexec_load: Disable at runtime if the kernel is
+ locked down
+Date: Thu, 12 Apr 2018 07:38:17 -0400
+Message-ID: <1523533097.31852.11.camel@linux.vnet.ibm.com>
+References: <152346387861.4030.4408662483445703127.stgit@warthog.procyon.org.uk>
+         <152346391877.4030.6270466586590461223.stgit@warthog.procyon.org.uk>
+         <87po35k1q6.fsf@xmission.com> <1523477375.5268.78.camel@linux.vnet.ibm.com>
 Mime-Version: 1.0
-Content-Type: text/plain; charset=utf-8
+Content-Type: text/plain; charset="UTF-8"
 Content-Transfer-Encoding: 8bit
 Return-path: <linux-kernel-owner@vger.kernel.org>
-In-Reply-To: <20180406135106.30342-1-j@bitron.ch>
-Content-Language: en-US
+In-Reply-To: <1523477375.5268.78.camel@linux.vnet.ibm.com>
 Sender: linux-kernel-owner@vger.kernel.org
-To: =?UTF-8?Q?J=c3=bcrg_Billeter?= <j@bitron.ch>
-Cc: mtk.manpages@gmail.com, linux-man@vger.kernel.org, linux-kernel@vger.kernel.org
+To: "Eric W. Biederman" <ebiederm@xmission.com>, David Howells <dhowells@redhat.com>
+Cc: torvalds@linux-foundation.org, linux-man@vger.kernel.org, linux-api@vger.kernel.org, jmorris@namei.org, linux-kernel@vger.kernel.org, linux-security-module@vger.kernel.org
 List-Id: linux-man@vger.kernel.org
 
-On 04/06/2018 03:51 PM, Jürg Billeter wrote:
-> Signed-off-by: Jürg Billeter <j@bitron.ch>
-
-Thanks, Jürg. Patch applied.
-
-Cheers,
-
-Michael
-
-
-> ---
-> Changes since version 1:
-> - Explain offset handling
+On Wed, 2018-04-11 at 16:09 -0400, Mimi Zohar wrote:
+> On Wed, 2018-04-11 at 14:00 -0500, Eric W. Biederman wrote:
+> > David Howells <dhowells@redhat.com> writes:
+> > 
+> > > From: Matthew Garrett <mjg59@srcf.ucam.org>
+> > >
+> > > The kexec_load() syscall permits the loading and execution of arbitrary
+> > > code in ring 0, which is something that lock-down is meant to prevent. It
+> > > makes sense to disable kexec_load() in this situation.
+> > >
+> > > This does not affect kexec_file_load() syscall which can check for a
+> > > signature on the image to be booted.
+> > 
+> > Maybing I am missing it but I am not seeing anything that would require
+> > kexec_file_load be configured such that it checks the loaded kernel.
+> > 
+> > Without that I don't see the point of disabling kexec_load.
+> > 
+> > Nacked-by: "Eric W. Biederman" <ebiederm@xmission.com>
 > 
->  man2/io_submit.2 | 13 +++++++++++++
->  man2/readv.2     | 17 +++++++++++++++++
->  2 files changed, 30 insertions(+)
+> The IMA "secure boot" policy requires the kexec image to be signed.
+>  This call to kernel_is_locked_down() could be replaced with a call
+> to security_kernel_read_file(NULL, READING_KEXEC_IMAGE).
 > 
-> diff --git a/man2/io_submit.2 b/man2/io_submit.2
-> index 397fd0b75..25961138a 100644
-> --- a/man2/io_submit.2
-> +++ b/man2/io_submit.2
-> @@ -111,6 +111,19 @@ field of the
->  .I io_event
->  structure (see
->  .BR io_getevents (2)).
-> +.TP
-> +.BR RWF_APPEND " (since Linux 4.16)"
-> +.\" commit e1fc742e14e01d84d9693c4aca4ab23da65811fb
-> +Append data to the end of the file.
-> +See the description of the flag of the same name in
-> +.BR pwritev2 (2)
-> +as well as the description of
-> +.B O_APPEND
-> +in
-> +.BR open (2).
-> +The
-> +.I aio_offset
-> +field is ignored. The file offset is not changed.
->  .RE
->  .TP
->  .I aio_lio_opcode
-> diff --git a/man2/readv.2 b/man2/readv.2
-> index b3b7b9658..9ef250e11 100644
-> --- a/man2/readv.2
-> +++ b/man2/readv.2
-> @@ -248,6 +248,23 @@ to
->  .BR EAGAIN .
->  Currently, this flag is meaningful only for
->  .BR preadv2 ().
-> +.TP
-> +.BR RWF_APPEND " (since Linux 4.16)"
-> +.\" commit e1fc742e14e01d84d9693c4aca4ab23da65811fb
-> +Provide a per-write equivalent of the
-> +.B O_APPEND
-> +.BR open (2)
-> +flag.
-> +This flag is meaningful only for
-> +.BR pwritev2 (),
-> +and its effect applies only to the data range written by the system call.
-> +The
-> +.I offset
-> +argument does not affect the write operation, the data is always appended
-> +to the end of the file. However, if the
-> +.I offset
-> +argument is \-1, the current file offset is updated.
-> +This matches the behavior when the file is opened in append mode.
->  .SH RETURN VALUE
->  On success,
->  .BR readv (),
-> 
+> It would be similar to the existing init_module syscall calling
+> security_kernel_read_file().
 
+David, enabling the IMA-appraisal "secure boot" policy should probably
+not be dependent on lockdown either.
 
--- 
-Michael Kerrisk
-Linux man-pages maintainer; http://www.kernel.org/doc/man-pages/
-Linux/UNIX System Programming Training: http://man7.org/training/
+Mimi
