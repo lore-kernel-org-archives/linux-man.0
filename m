@@ -1,64 +1,99 @@
-From: Jann Horn <jannh@google.com>
-Subject: Re: [PATCH] mmap.2: MAP_FIXED is okay if the address range has been reserved
-Date: Fri, 13 Apr 2018 18:17:36 +0200
-Message-ID: <CAG48ez1PdzMs8hkatbzSLBWYucjTc75o8ovSmeC66+e9mLvSfA@mail.gmail.com>
-References: <20180412153941.170849-1-jannh@google.com> <b617740b-fd07-e248-2ba0-9e99b0240594@nvidia.com>
- <CAKgNAkgcJ2kCTff0=7=D3zPFwpJt-9EM8yis6-4qDjfvvb8ukw@mail.gmail.com>
- <CAG48ez2NtCr8+HqnKJTFBcLW+kCKUa=2pz=7HD9p9u1p-MfJqw@mail.gmail.com>
- <13801e2a-c44d-e940-f872-890a0612a483@nvidia.com> <CAG48ez085cASur3kZTRkdJY20dFZ4Yqc1KVOHxnCAn58_NtW8w@mail.gmail.com>
- <cfbbbe06-5e63-e43c-fb28-c5afef9e1e1d@nvidia.com> <9c714917-fc29-4d12-b5e8-cff28761a2c1@gmail.com>
- <20180413064917.GC17484@dhcp22.suse.cz> <CAG48ez2w+3FDh9LM3+P2EHowicjM2Xw6giR6uq=26JfWHYsTAQ@mail.gmail.com>
- <20180413160435.GA17484@dhcp22.suse.cz> <CAG48ez3-xtmAt2EpRFR8GNKKPcsDsyg7XdwQ=D5w3Ym6w4Krjw@mail.gmail.com>
+From: Quentin Monnet <quentin.monnet@netronome.com>
+Subject: Re: [RFC bpf-next v2 4/8] bpf: add documentation for eBPF helpers
+ (23-32)
+Date: Fri, 13 Apr 2018 19:18:38 +0100
+Message-ID: <866e9593-0247-87e6-35d8-6fde1f8e382b@netronome.com>
+References: <20180410144157.4831-1-quentin.monnet@netronome.com>
+ <20180410144157.4831-5-quentin.monnet@netronome.com>
+ <20180413002838.atu7shp5cuubx32p@ast-mbp.dhcp.thefacebook.com>
 Mime-Version: 1.0
-Content-Type: text/plain; charset="UTF-8"
-Return-path: <linux-kernel-owner@vger.kernel.org>
-In-Reply-To: <CAG48ez3-xtmAt2EpRFR8GNKKPcsDsyg7XdwQ=D5w3Ym6w4Krjw@mail.gmail.com>
-Sender: linux-kernel-owner@vger.kernel.org
-To: Michal Hocko <mhocko@kernel.org>
-Cc: "Michael Kerrisk (man-pages)" <mtk.manpages@gmail.com>, John Hubbard <jhubbard@nvidia.com>, linux-man <linux-man@vger.kernel.org>, Andrew Morton <akpm@linux-foundation.org>, Linux-MM <linux-mm@kvack.org>, lkml <linux-kernel@vger.kernel.org>, Linux API <linux-api@vger.kernel.org>
+Content-Type: text/plain; charset=utf-8
+Content-Transfer-Encoding: 8bit
+Return-path: <netdev-owner@vger.kernel.org>
+In-Reply-To: <20180413002838.atu7shp5cuubx32p@ast-mbp.dhcp.thefacebook.com>
+Content-Language: en-US
+Sender: netdev-owner@vger.kernel.org
+To: Alexei Starovoitov <alexei.starovoitov@gmail.com>
+Cc: daniel@iogearbox.net, ast@kernel.org, netdev@vger.kernel.org, oss-drivers@netronome.com, linux-doc@vger.kernel.org, linux-man@vger.kernel.org
 List-Id: linux-man@vger.kernel.org
 
-On Fri, Apr 13, 2018 at 6:05 PM, Jann Horn <jannh@google.com> wrote:
-> On Fri, Apr 13, 2018 at 6:04 PM, Michal Hocko <mhocko@kernel.org> wrote:
->> On Fri 13-04-18 17:04:09, Jann Horn wrote:
->>> On Fri, Apr 13, 2018 at 8:49 AM, Michal Hocko <mhocko@kernel.org> wrote:
->>> > On Fri 13-04-18 08:43:27, Michael Kerrisk wrote:
->>> > [...]
->>> >> So, you mean remove this entire paragraph:
->>> >>
->>> >>               For cases in which the specified memory region has not been
->>> >>               reserved using an existing mapping,  newer  kernels  (Linux
->>> >>               4.17  and later) provide an option MAP_FIXED_NOREPLACE that
->>> >>               should be used instead; older kernels require the caller to
->>> >>               use addr as a hint (without MAP_FIXED) and take appropriate
->>> >>               action if the kernel places the new mapping at a  different
->>> >>               address.
->>> >>
->>> >> It seems like some version of the first half of the paragraph is worth
->>> >> keeping, though, so as to point the reader in the direction of a remedy.
->>> >> How about replacing that text with the following:
->>> >>
->>> >>               Since  Linux 4.17, the MAP_FIXED_NOREPLACE flag can be used
->>> >>               in a multithreaded program to avoid  the  hazard  described
->>> >>               above.
->>> >
->>> > Yes, that sounds reasonable to me.
->>>
->>> But that kind of sounds as if you can't avoid it before Linux 4.17,
->>> when actually, you just have to call mmap() with the address as hint,
->>> and if mmap() returns a different address, munmap() it and go on your
->>> normal error path.
+2018-04-12 17:28 UTC-0700 ~ Alexei Starovoitov
+<alexei.starovoitov@gmail.com>
+> On Tue, Apr 10, 2018 at 03:41:53PM +0100, Quentin Monnet wrote:
+>> Add documentation for eBPF helper functions to bpf.h user header file.
+>> This documentation can be parsed with the Python script provided in
+>> another commit of the patch series, in order to provide a RST document
+>> that can later be converted into a man page.
 >>
->> This is still racy in multithreaded application which is the main point
->> of the whole section, no?
->
-> No, it isn't.
+>> The objective is to make the documentation easily understandable and
+>> accessible to all eBPF developers, including beginners.
+>>
+>> This patch contains descriptions for the following helper functions, all
+>> written by Daniel:
+>>
+>> - bpf_get_prandom_u32()
+>> - bpf_get_smp_processor_id()
+>> - bpf_get_cgroup_classid()
+>> - bpf_get_route_realm()
+>> - bpf_skb_load_bytes()
+>> - bpf_csum_diff()
+>> - bpf_skb_get_tunnel_opt()
+>> - bpf_skb_set_tunnel_opt()
+>> - bpf_skb_change_proto()
+>> - bpf_skb_change_type()
+>>
+>> Cc: Daniel Borkmann <daniel@iogearbox.net>
+>> Signed-off-by: Quentin Monnet <quentin.monnet@netronome.com>
+>> ---
+>>  include/uapi/linux/bpf.h | 125 +++++++++++++++++++++++++++++++++++++++++++++++
+>>  1 file changed, 125 insertions(+)
+>>
+>> diff --git a/include/uapi/linux/bpf.h b/include/uapi/linux/bpf.h
+>> index f3ea8824efbc..d147d9dd6a83 100644
+>> --- a/include/uapi/linux/bpf.h
+>> +++ b/include/uapi/linux/bpf.h
 
-mmap() with a hint (without MAP_FIXED) will always non-racily allocate
-a memory region for you or return an error code. If it does allocate a
-memory region, it belongs to you until you deallocate it. It might be
-at a different address than you requested - in that case you can
-emulate MAP_FIXED_NOREPLACE by calling munmap() and treating it as an
-error; or you can do something else with it.
+[...]
 
-MAP_FIXED_NOREPLACE is just a performance optimization.
+>> @@ -604,6 +612,13 @@ union bpf_attr {
+>>   * 	Return
+>>   * 		0 on success, or a negative error in case of failure.
+>>   *
+>> + * u32 bpf_get_cgroup_classid(struct sk_buff *skb)
+>> + * 	Description
+>> + * 		Retrieve the classid for the current task, i.e. for the
+>> + * 		net_cls (network classifier) cgroup to which *skb* belongs.
+> 
+> please add that kernel should be configured with CONFIG_NET_CLS_CGROUP=y|m
+> and mention Documentation/cgroup-v1/net_cls.txt
+
+Ok.
+
+> Otherwise 'network classifier' is way too generic.
+
+I am not so familiar with cgroups. What would you suggest instead?
+
+> I'd also mention that placing a task into net_cls controller
+> disables all of cgroup-bpf.
+
+Could you please explain a bit more? Placing a task into the controller
+is using:
+
+	echo <task_pid>  >  /sys/fs/cgroup/<my_cgroup_name>/tasks
+
+correct? Then if I do this, it disables all of cgroup-bpf. Does this
+mean that I loose the possibility to use or add BPF programs to all
+cgroup-related attach points for this cgroup? I think I missed something
+here.
+
+>> + * 	Return
+>> + * 		The classid, or 0 for the default unconfigured classid.
+>> + *
+>>   * int bpf_skb_vlan_push(struct sk_buff *skb, __be16 vlan_proto, u16 vlan_tci)
+>>   * 	Description
+>>   * 		Push a *vlan_tci* (VLAN tag control information) of protocol
+
+I have no particular comments on the other items you reported on this
+patch, I will fix them. Thanks!
+
+Quentin
