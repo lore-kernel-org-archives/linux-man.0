@@ -1,53 +1,46 @@
-From: Carlos O'Donell <carlos@redhat.com>
-Subject: Re: [PATCH 2/2] crypt.3, encrypt.3: Add notes about _XOPEN_CRYPT.
-Date: Fri, 13 Apr 2018 08:22:59 -0500
-Message-ID: <45d88eea-463c-ae07-1fe0-48c000954cc7@redhat.com>
-References: <6d9a7e45-5d31-efbd-78ad-2808d492eb21@redhat.com>
- <adb4d22e-f0b9-584d-5a61-c4290038b03b@gmail.com>
+From: Jann Horn <jannh@google.com>
+Subject: Re: [PATCH] mmap.2: MAP_FIXED is okay if the address range has been reserved
+Date: Fri, 13 Apr 2018 17:04:09 +0200
+Message-ID: <CAG48ez2w+3FDh9LM3+P2EHowicjM2Xw6giR6uq=26JfWHYsTAQ@mail.gmail.com>
+References: <20180412153941.170849-1-jannh@google.com> <b617740b-fd07-e248-2ba0-9e99b0240594@nvidia.com>
+ <CAKgNAkgcJ2kCTff0=7=D3zPFwpJt-9EM8yis6-4qDjfvvb8ukw@mail.gmail.com>
+ <CAG48ez2NtCr8+HqnKJTFBcLW+kCKUa=2pz=7HD9p9u1p-MfJqw@mail.gmail.com>
+ <13801e2a-c44d-e940-f872-890a0612a483@nvidia.com> <CAG48ez085cASur3kZTRkdJY20dFZ4Yqc1KVOHxnCAn58_NtW8w@mail.gmail.com>
+ <cfbbbe06-5e63-e43c-fb28-c5afef9e1e1d@nvidia.com> <9c714917-fc29-4d12-b5e8-cff28761a2c1@gmail.com>
+ <20180413064917.GC17484@dhcp22.suse.cz>
 Mime-Version: 1.0
-Content-Type: text/plain; charset=utf-8
-Content-Transfer-Encoding: 7bit
-Return-path: <libc-alpha-return-91537-glibc-alpha=m.gmane.org@sourceware.org>
-List-Unsubscribe: <mailto:libc-alpha-unsubscribe-glibc-alpha=m.gmane.org@sourceware.org>
-List-Subscribe: <mailto:libc-alpha-subscribe@sourceware.org>
-List-Archive: <http://sourceware.org/ml/libc-alpha/>
-List-Post: <mailto:libc-alpha@sourceware.org>
-List-Help: <mailto:libc-alpha-help@sourceware.org>, <http://sourceware.org/ml/#faqs>
-Sender: libc-alpha-owner@sourceware.org
-In-Reply-To: <adb4d22e-f0b9-584d-5a61-c4290038b03b@gmail.com>
-To: "Michael Kerrisk (man-pages)" <mtk.manpages@gmail.com>, "linux-man@vger.kernel.org" <linux-man@vger.kernel.org>
-Cc: Florian Weimer <fweimer@redhat.com>, Zack Weinberg <zackw@panix.com>, Rical Jasan <rj@2c3t.io>, GNU C Library <libc-alpha@sourceware.org>
+Content-Type: text/plain; charset="UTF-8"
+Return-path: <linux-kernel-owner@vger.kernel.org>
+In-Reply-To: <20180413064917.GC17484@dhcp22.suse.cz>
+Sender: linux-kernel-owner@vger.kernel.org
+To: Michal Hocko <mhocko@kernel.org>
+Cc: "Michael Kerrisk (man-pages)" <mtk.manpages@gmail.com>, John Hubbard <jhubbard@nvidia.com>, linux-man <linux-man@vger.kernel.org>, Andrew Morton <akpm@linux-foundation.org>, Linux-MM <linux-mm@kvack.org>, lkml <linux-kernel@vger.kernel.org>, Linux API <linux-api@vger.kernel.org>
 List-Id: linux-man@vger.kernel.org
 
-On 04/13/2018 04:34 AM, Michael Kerrisk (man-pages) wrote:
-> On 04/12/2018 09:05 PM, Carlos O'Donell wrote:
->> The distribution may choose not to support _XOPEN_CRYPT in the
->> case that the distribution has transitioned from glibc crypt to
->> libxcrypt.
+On Fri, Apr 13, 2018 at 8:49 AM, Michal Hocko <mhocko@kernel.org> wrote:
+> On Fri 13-04-18 08:43:27, Michael Kerrisk wrote:
+> [...]
+>> So, you mean remove this entire paragraph:
 >>
->> Signed-off-by: Carlos O'Donell <carlos@redhat.com>
-> 
-> Thanks, Carlos. I applied the patch, but rather than having the
-> exact same text in both pages, I simply added a cross reference 
-> in encrypt(3).
+>>               For cases in which the specified memory region has not been
+>>               reserved using an existing mapping,  newer  kernels  (Linux
+>>               4.17  and later) provide an option MAP_FIXED_NOREPLACE that
+>>               should be used instead; older kernels require the caller to
+>>               use addr as a hint (without MAP_FIXED) and take appropriate
+>>               action if the kernel places the new mapping at a  different
+>>               address.
+>>
+>> It seems like some version of the first half of the paragraph is worth
+>> keeping, though, so as to point the reader in the direction of a remedy.
+>> How about replacing that text with the following:
+>>
+>>               Since  Linux 4.17, the MAP_FIXED_NOREPLACE flag can be used
+>>               in a multithreaded program to avoid  the  hazard  described
+>>               above.
+>
+> Yes, that sounds reasonable to me.
 
-That makes sense. I thought about exactly the same thing, but
-decided that I'd let you use your liberty as editor to make that
-decision upon review.
-
-Thanks for applying the fixes.
-
-Consider my fixes to posixoptions.7 as penance for complicating
-encrypt.3. We have users going through that transition now for
-us in Fedora (libcrypt -> libxcrypt), and we wanted to provide
-some kind of note about the APIs moving. The changes are not
-yet in upstream glibc, but may eventually go there, at which
-point the note will still be valid.
-
-We will need similar notes I think for our SunRPC -> TIRPC
-transition, touching the various RPC man pages and explaining
-any differences.
-
--- 
-Cheers,
-Carlos.
+But that kind of sounds as if you can't avoid it before Linux 4.17,
+when actually, you just have to call mmap() with the address as hint,
+and if mmap() returns a different address, munmap() it and go on your
+normal error path.
