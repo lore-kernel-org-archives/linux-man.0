@@ -1,69 +1,64 @@
-From: Pavel Machek <pavel@ucw.cz>
-Subject: Re: [PATCH 24/24] debugfs: Restrict debugfs when the kernel is
- locked down
-Date: Fri, 13 Apr 2018 22:22:41 +0200
-Message-ID: <20180413202241.GB4484@amd>
-References: <152346387861.4030.4408662483445703127.stgit@warthog.procyon.org.uk>
- <152346403637.4030.15247096217928429102.stgit@warthog.procyon.org.uk>
+From: Rical Jasan <rj@2c3t.io>
+Subject: Re: [PATCH 2/2] crypt.3, encrypt.3: Add notes about _XOPEN_CRYPT.
+Date: Fri, 13 Apr 2018 21:43:16 -0700
+Message-ID: <67f35157-514b-a996-5fd5-78d70eb87395@2c3t.io>
+References: <6d9a7e45-5d31-efbd-78ad-2808d492eb21@redhat.com>
 Mime-Version: 1.0
-Content-Type: multipart/signed; micalg=pgp-sha1;
-        protocol="application/pgp-signature"; boundary="dTy3Mrz/UPE2dbVg"
-Return-path: <linux-kernel-owner@vger.kernel.org>
-Content-Disposition: inline
-In-Reply-To: <152346403637.4030.15247096217928429102.stgit@warthog.procyon.org.uk>
-Sender: linux-kernel-owner@vger.kernel.org
-To: David Howells <dhowells@redhat.com>
-Cc: torvalds@linux-foundation.org, linux-man@vger.kernel.org, linux-api@vger.kernel.org, jmorris@namei.org, linux-kernel@vger.kernel.org, linux-security-module@vger.kernel.org
+Content-Type: text/plain; charset=utf-8
+Content-Transfer-Encoding: 7bit
+Return-path: <libc-alpha-return-91548-glibc-alpha=m.gmane.org@sourceware.org>
+List-Unsubscribe: <mailto:libc-alpha-unsubscribe-glibc-alpha=m.gmane.org@sourceware.org>
+List-Subscribe: <mailto:libc-alpha-subscribe@sourceware.org>
+List-Archive: <http://sourceware.org/ml/libc-alpha/>
+List-Post: <mailto:libc-alpha@sourceware.org>
+List-Help: <mailto:libc-alpha-help@sourceware.org>, <http://sourceware.org/ml/#faqs>
+Sender: libc-alpha-owner@sourceware.org
+In-Reply-To: <6d9a7e45-5d31-efbd-78ad-2808d492eb21@redhat.com>
+To: Carlos O'Donell <carlos@redhat.com>, "linux-man@vger.kernel.org" <linux-man@vger.kernel.org>, Michael Kerrisk <mtk.manpages@gmail.com>
+Cc: Florian Weimer <fweimer@redhat.com>, Zack Weinberg <zackw@panix.com>, GNU C Library <libc-alpha@sourceware.org>
 List-Id: linux-man@vger.kernel.org
 
+On 04/12/2018 12:05 PM, Carlos O'Donell wrote:
+> diff --git a/man3/crypt.3 b/man3/crypt.3
+> index 3e6552ad8..58c62d93d 100644
+> --- a/man3/crypt.3
+> +++ b/man3/crypt.3
+> @@ -188,8 +188,26 @@ POSIX.1-2001, POSIX.1-2008, SVr4, 4.3BSD.
+>  .BR crypt_r ()
+>  is a GNU extension.
+>  .SH NOTES
+> -.SS Glibc notes
+> -The glibc2 version of this function supports additional
+> +.SS Availability in glibc
+> +The
+> +.BR crypt (),
+> +.BR encrypt (),
+> +and
+> +.BR setkey ()
+> +functions are part of the POSIX.1-2008 XSI Options Group for Encryption
+> +and are optional. If the interfaces are not available then the symbolic
+> +constant
+> +.BR _XOPEN_CRYPT
+> +is either not defined or defined to -1, and can be checked at runtime with
+> +.BR sysconf ().
+> +This may be the case if the downstream distribution has switched from glibc
+> +crypt to libxcrypt.  When recompiling applications in such distributions the
+> +user must detect if
+> +.BR _XOPEN_CRPYT
 
---dTy3Mrz/UPE2dbVg
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-Content-Transfer-Encoding: quoted-printable
+"CRYPT"
 
-On Wed 2018-04-11 17:27:16, David Howells wrote:
-> Disallow opening of debugfs files that might be used to muck around when
-> the kernel is locked down as various drivers give raw access to hardware
-> through debugfs.  Given the effort of auditing all 2000 or so files and
-> manually fixing each one as necessary, I've chosen to apply a heuristic
-> instead.  The following changes are made:
->=20
->  (1) chmod and chown are disallowed on debugfs objects (though the root d=
-ir
->      can be modified by mount and remount, but I'm not worried about that=
-).
+(Looks like this was caught already.)
 
-This has nothing to do with the lockdown goals, right? I find chown of
-such files quite nice, to allow debugging without doing sudo all the time.
+> +is not available and include crypt.h for the function prototypes; otherwise
+> +libxcrypt is a ABI compatible drop-in replacement.
 
->  (2) When the kernel is locked down, only files with the following criter=
-ia
->      are permitted to be opened:
->=20
-> 	- The file must have mode 00444
-> 	- The file must not have ioctl methods
-> 	- The file must not have mmap
+"an ABI"
 
-Dunno. Would not it be nicer to go through the debugfs files and split
-them into safe/unsafe varieties?
+I would also hyphenate "ABI-compatible".
 
-									Pavel
---=20
-(english) http://www.livejournal.com/~pavelmachek
-(cesky, pictures) http://atrey.karlin.mff.cuni.cz/~pavel/picture/horses/blo=
-g.html
+(The same issues were also in encrypt.3 but it sounds like the content
+was deduplicated already.)
 
---dTy3Mrz/UPE2dbVg
-Content-Type: application/pgp-signature; name="signature.asc"
-Content-Description: Digital signature
 
------BEGIN PGP SIGNATURE-----
-Version: GnuPG v1
-
-iEYEARECAAYFAlrREZEACgkQMOfwapXb+vJzCACfSnkCF/54N13G7pz0zGeDo6ze
-e6sAn1h0VTYzTyRfA28tZ4D7RyjjUYJU
-=ESt0
------END PGP SIGNATURE-----
-
---dTy3Mrz/UPE2dbVg--
+Rical
