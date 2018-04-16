@@ -1,86 +1,85 @@
-From: Zack Weinberg <zackw@panix.com>
-Subject: Re: [PATCH 2/2] crypt.3, encrypt.3: Add notes about _XOPEN_CRYPT.
-Date: Sun, 15 Apr 2018 21:35:19 -0400
-Message-ID: <CAKCAbMinGS4rOe_jAF-x9izNtWenYCCYxkv8dtXavUfsygJvwA@mail.gmail.com>
-References: <6d9a7e45-5d31-efbd-78ad-2808d492eb21@redhat.com>
- <baa666d2-b369-c472-2bde-c3b94312341a@redhat.com> <640a98e3-ab5f-472b-adfe-db0b0ae5cfc7@gmail.com>
- <CADh2w8SLYdUqLGak6tcpeO2=nMsDGE10BMDMb4q+2Py9tHaOdw@mail.gmail.com> <6ef320c1-1c58-e5c2-f2ca-c857389b0366@redhat.com>
+From: Michal Hocko <mhocko@kernel.org>
+Subject: Re: [PATCH] mmap.2: MAP_FIXED is okay if the address range has been
+ reserved
+Date: Mon, 16 Apr 2018 12:07:36 +0200
+Message-ID: <20180416100736.GG17484@dhcp22.suse.cz>
+References: <CAG48ez2NtCr8+HqnKJTFBcLW+kCKUa=2pz=7HD9p9u1p-MfJqw@mail.gmail.com>
+ <13801e2a-c44d-e940-f872-890a0612a483@nvidia.com>
+ <CAG48ez085cASur3kZTRkdJY20dFZ4Yqc1KVOHxnCAn58_NtW8w@mail.gmail.com>
+ <cfbbbe06-5e63-e43c-fb28-c5afef9e1e1d@nvidia.com>
+ <9c714917-fc29-4d12-b5e8-cff28761a2c1@gmail.com>
+ <20180413064917.GC17484@dhcp22.suse.cz>
+ <CAG48ez2w+3FDh9LM3+P2EHowicjM2Xw6giR6uq=26JfWHYsTAQ@mail.gmail.com>
+ <20180413160435.GA17484@dhcp22.suse.cz>
+ <CAG48ez3-xtmAt2EpRFR8GNKKPcsDsyg7XdwQ=D5w3Ym6w4Krjw@mail.gmail.com>
+ <CAG48ez1PdzMs8hkatbzSLBWYucjTc75o8ovSmeC66+e9mLvSfA@mail.gmail.com>
 Mime-Version: 1.0
-Content-Type: text/plain; charset="UTF-8"
-Return-path: <libc-alpha-return-91562-glibc-alpha=m.gmane.org@sourceware.org>
-List-Unsubscribe: <mailto:libc-alpha-unsubscribe-glibc-alpha=m.gmane.org@sourceware.org>
-List-Subscribe: <mailto:libc-alpha-subscribe@sourceware.org>
-List-Archive: <http://sourceware.org/ml/libc-alpha/>
-List-Post: <mailto:libc-alpha@sourceware.org>
-List-Help: <mailto:libc-alpha-help@sourceware.org>, <http://sourceware.org/ml/#faqs>
-Sender: libc-alpha-owner@sourceware.org
-In-Reply-To: <6ef320c1-1c58-e5c2-f2ca-c857389b0366@redhat.com>
-To: Florian Weimer <fweimer@redhat.com>
-Cc: Nikos Mavrogiannopoulos <nmav@redhat.com>, "Michael Kerrisk (man-pages)" <mtk.manpages@gmail.com>, Carlos O'Donell <carlos@redhat.com>, "linux-man@vger.kernel.org" <linux-man@vger.kernel.org>, Rical Jasan <rj@2c3t.io>, GNU C Library <libc-alpha@sourceware.org>
+Content-Type: text/plain; charset=us-ascii
+Return-path: <linux-kernel-owner@vger.kernel.org>
+Content-Disposition: inline
+In-Reply-To: <CAG48ez1PdzMs8hkatbzSLBWYucjTc75o8ovSmeC66+e9mLvSfA@mail.gmail.com>
+Sender: linux-kernel-owner@vger.kernel.org
+To: Jann Horn <jannh@google.com>
+Cc: "Michael Kerrisk (man-pages)" <mtk.manpages@gmail.com>, John Hubbard <jhubbard@nvidia.com>, linux-man <linux-man@vger.kernel.org>, Andrew Morton <akpm@linux-foundation.org>, Linux-MM <linux-mm@kvack.org>, lkml <linux-kernel@vger.kernel.org>, Linux API <linux-api@vger.kernel.org>
 List-Id: linux-man@vger.kernel.org
 
-On Sat, Apr 14, 2018 at 3:56 PM, Florian Weimer <fweimer@redhat.com> wrote:
-> On 04/14/2018 09:11 PM, Nikos Mavrogiannopoulos wrote:
->>
->>   What about the second part of the suggestion. The crypt.3 manpage
->> currently suggests including <unistd.h>, with _XOPEN_SOURCE defined,
->> and that does not work with current glibc.
->
-> Current Fedora glibc.  We need to align the Fedora behavior with upstream
-> again, either by lobbying for an upstream change, or changing Fedora back to
-> how things were before.
+On Fri 13-04-18 18:17:36, Jann Horn wrote:
+> On Fri, Apr 13, 2018 at 6:05 PM, Jann Horn <jannh@google.com> wrote:
+> > On Fri, Apr 13, 2018 at 6:04 PM, Michal Hocko <mhocko@kernel.org> wrote:
+> >> On Fri 13-04-18 17:04:09, Jann Horn wrote:
+> >>> On Fri, Apr 13, 2018 at 8:49 AM, Michal Hocko <mhocko@kernel.org> wrote:
+> >>> > On Fri 13-04-18 08:43:27, Michael Kerrisk wrote:
+> >>> > [...]
+> >>> >> So, you mean remove this entire paragraph:
+> >>> >>
+> >>> >>               For cases in which the specified memory region has not been
+> >>> >>               reserved using an existing mapping,  newer  kernels  (Linux
+> >>> >>               4.17  and later) provide an option MAP_FIXED_NOREPLACE that
+> >>> >>               should be used instead; older kernels require the caller to
+> >>> >>               use addr as a hint (without MAP_FIXED) and take appropriate
+> >>> >>               action if the kernel places the new mapping at a  different
+> >>> >>               address.
+> >>> >>
+> >>> >> It seems like some version of the first half of the paragraph is worth
+> >>> >> keeping, though, so as to point the reader in the direction of a remedy.
+> >>> >> How about replacing that text with the following:
+> >>> >>
+> >>> >>               Since  Linux 4.17, the MAP_FIXED_NOREPLACE flag can be used
+> >>> >>               in a multithreaded program to avoid  the  hazard  described
+> >>> >>               above.
+> >>> >
+> >>> > Yes, that sounds reasonable to me.
+> >>>
+> >>> But that kind of sounds as if you can't avoid it before Linux 4.17,
+> >>> when actually, you just have to call mmap() with the address as hint,
+> >>> and if mmap() returns a different address, munmap() it and go on your
+> >>> normal error path.
+> >>
+> >> This is still racy in multithreaded application which is the main point
+> >> of the whole section, no?
+> >
+> > No, it isn't.
 
-Portable code has always needed to cope with the possibility of
-crypt() not being declared by unistd.h -- that goes all the way back
-to the old export control policy in the 1990s.  This is what I wrote
-for the new crypt(3) manpage shipped with libxcrypt:
+I could have been more specific, sorry.
 
-SYNOPSIS
-       #include <crypt.h>
+> mmap() with a hint (without MAP_FIXED) will always non-racily allocate
+> a memory region for you or return an error code. If it does allocate a
+> memory region, it belongs to you until you deallocate it. It might be
+> at a different address than you requested -
 
-       char *crypt(const char *phrase, const char *setting);
-       char *crypt_r(const char *phrase, const char *setting, struct
-               crypt_data *data);
-       char *crypt_rn(const char *phrase, const char *setting, void *data, int
-               size);
-       char *crypt_ra(const char *phrase, const char *setting, void **data,
-               int *size);
+Yes, this all is true. Except the atomicity is guaranteed only for the
+syscall. Once you return to the userspace any error handling is error
+prone and racy because your mapping might change under you feet. So...
 
-       Link with -lcrypt.
+> in that case you can
+> emulate MAP_FIXED_NOREPLACE by calling munmap() and treating it as an
+> error; or you can do something else with it.
+> 
+> MAP_FIXED_NOREPLACE is just a performance optimization.
 
-[...]
-PORTABILITY NOTES
-       crypt is included in POSIX, but crypt_r, crypt_rn, and crypt_ra are not
-       part of any standard.
-[...]
-       Due to historical restrictions on the export of cryptographic  software
-       from  the  USA,  crypt  is  an  optional POSIX component.  Applications
-       should therefore be prepared for crypt  not  to  be  available,  or  to
-       always fail (setting errno to ENOSYS) at runtime.
+This is not quite true because you get _your_ area or _an error_
+atomically which is not possible with 2 syscalls.
 
-       POSIX  specifies  that  crypt  is declared in unistd.h, but only if the
-       macro _XOPEN_CRYPT is defined and has a value greater than or equal  to
-       zero.   Since  libcrypt  does  not provide unistd.h, it declares crypt,
-       crypt_r, crypt_rn, and crypt_ra in crypt.h instead.
-
-I think this would be a good tack to take in the Linux manpages'
-crypt(3) as well, minus explicit mentions of lib(x)crypt.
-
-Incidentally, libxcrypt doesn't prototype encrypt or setkey in public
-headers, nor does it allow new programs to link against them. Please
-consider dropping encrypt(3) or at least declaring it to be obsolete
-at the top of the manpage. Nobody should be using single DES for
-anything anymore.
-
-I'm a little surprised to hear Fedora has taken the plunge on
-switching to libxcrypt.  I did put in a whole lot of work last year on
-making it an ABI-compatible replacement, but I still have a long list
-of things that need changing before I consider it *done*, and I
-believe so does Bjoern.  But I do look forward to the bug reports from
-more extensive testing :-)
-
-I'll send a patch shortly that adds a --disable-libcrypt configure
-switch to glibc, hopefully that can work for Fedora and you don't have
-to be carrying patches around.
-
-zw
+-- 
+Michal Hocko
+SUSE Labs
