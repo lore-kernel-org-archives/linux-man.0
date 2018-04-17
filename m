@@ -1,76 +1,41 @@
-From: Michal Hocko <mhocko@kernel.org>
-Subject: Re: [PATCH] mmap.2: MAP_FIXED is okay if the address range has been
- reserved
-Date: Tue, 17 Apr 2018 08:23:10 +0200
-Message-ID: <20180417062310.GW17484@dhcp22.suse.cz>
-References: <CAG48ez3-xtmAt2EpRFR8GNKKPcsDsyg7XdwQ=D5w3Ym6w4Krjw@mail.gmail.com>
- <CAG48ez1PdzMs8hkatbzSLBWYucjTc75o8ovSmeC66+e9mLvSfA@mail.gmail.com>
- <20180416100736.GG17484@dhcp22.suse.cz>
- <CAG48ez3DwRXMtiinUWKnan6hAppLYLdx-w+VzXG6ubioZUacQg@mail.gmail.com>
- <20180416191805.GS17484@dhcp22.suse.cz>
- <CAG48ez1nf96nHj8a+aZy22RwqYTUZBGrsGFcz=ZhZBUWzaEZ9w@mail.gmail.com>
- <20180416195726.GT17484@dhcp22.suse.cz>
- <CAG48ez1bV_zZP3Y2ioDndP+H8mLCcxOtU1vCbWe7Q8myEGfXQQ@mail.gmail.com>
- <20180416211115.GU17484@dhcp22.suse.cz>
- <CAG48ez2fXcQS7sw_aCC6_wBKjYphOxFRN4rrRzSk2+-T_mFaxw@mail.gmail.com>
+From: Nikos Mavrogiannopoulos <nmav@redhat.com>
+Subject: Re: [PATCH 2/2] crypt.3, encrypt.3: Add notes about _XOPEN_CRYPT.
+Date: Tue, 17 Apr 2018 15:25:30 +0200
+Message-ID: <CADh2w8R_k+vAqr=KZ5M3zq_rujFfcqXCb=DBm7Jw-njw9mFesA@mail.gmail.com>
+References: <6d9a7e45-5d31-efbd-78ad-2808d492eb21@redhat.com>
+ <baa666d2-b369-c472-2bde-c3b94312341a@redhat.com> <640a98e3-ab5f-472b-adfe-db0b0ae5cfc7@gmail.com>
+ <CADh2w8SLYdUqLGak6tcpeO2=nMsDGE10BMDMb4q+2Py9tHaOdw@mail.gmail.com> <6ef320c1-1c58-e5c2-f2ca-c857389b0366@redhat.com>
 Mime-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Return-path: <linux-kernel-owner@vger.kernel.org>
-Content-Disposition: inline
-In-Reply-To: <CAG48ez2fXcQS7sw_aCC6_wBKjYphOxFRN4rrRzSk2+-T_mFaxw@mail.gmail.com>
-Sender: linux-kernel-owner@vger.kernel.org
-To: Jann Horn <jannh@google.com>
-Cc: "Michael Kerrisk (man-pages)" <mtk.manpages@gmail.com>, John Hubbard <jhubbard@nvidia.com>, linux-man <linux-man@vger.kernel.org>, Andrew Morton <akpm@linux-foundation.org>, Linux-MM <linux-mm@kvack.org>, lkml <linux-kernel@vger.kernel.org>, Linux API <linux-api@vger.kernel.org>
+Content-Type: text/plain; charset="UTF-8"
+Return-path: <libc-alpha-return-91580-glibc-alpha=m.gmane.org@sourceware.org>
+List-Unsubscribe: <mailto:libc-alpha-unsubscribe-glibc-alpha=m.gmane.org@sourceware.org>
+List-Subscribe: <mailto:libc-alpha-subscribe@sourceware.org>
+List-Archive: <http://sourceware.org/ml/libc-alpha/>
+List-Post: <mailto:libc-alpha@sourceware.org>
+List-Help: <mailto:libc-alpha-help@sourceware.org>, <http://sourceware.org/ml/#faqs>
+Sender: libc-alpha-owner@sourceware.org
+In-Reply-To: <6ef320c1-1c58-e5c2-f2ca-c857389b0366@redhat.com>
+To: Florian Weimer <fweimer@redhat.com>
+Cc: "Michael Kerrisk (man-pages)" <mtk.manpages@gmail.com>, Carlos O'Donell <carlos@redhat.com>, "linux-man@vger.kernel.org" <linux-man@vger.kernel.org>, Zack Weinberg <zackw@panix.com>, Rical Jasan <rj@2c3t.io>, GNU C Library <libc-alpha@sourceware.org>
 List-Id: linux-man@vger.kernel.org
 
-On Mon 16-04-18 23:12:48, Jann Horn wrote:
-> On Mon, Apr 16, 2018 at 11:11 PM, Michal Hocko <mhocko@kernel.org> wrote:
-> > On Mon 16-04-18 22:17:40, Jann Horn wrote:
-> >> On Mon, Apr 16, 2018 at 9:57 PM, Michal Hocko <mhocko@kernel.org> wrote:
-> >> > On Mon 16-04-18 21:30:09, Jann Horn wrote:
-> >> >> On Mon, Apr 16, 2018 at 9:18 PM, Michal Hocko <mhocko@kernel.org> wrote:
-> >> > [...]
-> >> >> > Yes, reasonably well written application will not have this problem.
-> >> >> > That, however, requires an external synchronization and that's why
-> >> >> > called it error prone and racy. I guess that was the main motivation for
-> >> >> > that part of the man page.
-> >> >>
-> >> >> What requires external synchronization? I still don't understand at
-> >> >> all what you're talking about.
-> >> >>
-> >> >> The following code:
-> >> >>
-> >> >> void *try_to_alloc_addr(void *hint, size_t len) {
-> >> >>   char *x = mmap(hint, len, ...);
-> >> >>   if (x == MAP_FAILED) return NULL;
-> >> >>   if (x == hint) return x;
-> >> >
-> >> > Any other thread can modify the address space at this moment.
-> >>
-> >> But not parts of the address space that were returned by this mmap() call.
-> > ?
-> >> > Just
-> >> > consider that another thread would does mmap(x, MAP_FIXED) (or any other
-> >> > address overlapping [x, x+len] range)
-> >>
-> >> If the other thread does that without previously having created a
-> >> mapping covering the area in question, that would be a bug in the
-> >> other thread.
-> >
-> > MAP_FIXED is sometimes used without preallocated address ranges.
-> 
-> Wow, really? Can you point to an example?
+On Sat, Apr 14, 2018 at 9:56 PM, Florian Weimer <fweimer@redhat.com> wrote:
+> On 04/14/2018 09:11 PM, Nikos Mavrogiannopoulos wrote:
+>>
+>>   What about the second part of the suggestion. The crypt.3 manpage
+>> currently suggests including <unistd.h>, with _XOPEN_SOURCE defined,
+>> and that does not work with current glibc.
+>
+>
+> Current Fedora glibc.  We need to align the Fedora behavior with upstream
+> again, either by lobbying for an upstream change, or changing Fedora back to
+> how things were before.
 
-Just from top of my head.
+Zack mentions reasons that crypt.h is already in use, and glibc itself
+is already documenting the use of crypt.h instead of unistd.h [0].
+uclibc also provides crypt.h [1]. Wouldn't that be a sufficient reason
+to make the manpage document crypt.h as primary?
 
-Some of that is for historical reasons because the hint address used to
-be ignored on some operating systems so MAP_FIXED had to be used.
 
-Currently not user I guess but MAP_FIXED for addresses above 47b address
-space AFAIR.
-
-And I am pretty sure there would be much more if you actually browsed
-code search.
--- 
-Michal Hocko
-SUSE Labs
+[0]. https://www.gnu.org/software/libc/manual/html_node/crypt.html
+[1]. https://git.busybox.net/uClibc/tree/include/crypt.h
