@@ -1,87 +1,71 @@
-From: Andrey Ignatov <rdna@fb.com>
-Subject: Re: [PATCH bpf-next v3 7/8] bpf: add documentation for eBPF helpers
- (51-57)
-Date: Tue, 17 Apr 2018 10:55:29 -0700
-Message-ID: <20180417175529.GA68667@rdna-mbp.dhcp.thefacebook.com>
-References: <20180417143438.7018-1-quentin.monnet@netronome.com>
- <20180417143438.7018-8-quentin.monnet@netronome.com>
+From: Yang Shi <yang.shi@linux.alibaba.com>
+Subject: Re: [RFC PATCH] fs: introduce ST_HUGE flag and set it to tmpfs and
+ hugetlbfs
+Date: Tue, 17 Apr 2018 14:51:17 -0700
+Message-ID: <8f01845c-51dd-20a6-1d75-64f9de0ccb0b@linux.alibaba.com>
+References: <1523999293-94152-1-git-send-email-yang.shi@linux.alibaba.com>
+ <20180417143144.b7ffb07fad28875bad546247@linux-foundation.org>
 Mime-Version: 1.0
-Content-Type: text/plain; charset="utf-8"
-Return-path: <netdev-owner@vger.kernel.org>
-Content-Disposition: inline
-In-Reply-To: <20180417143438.7018-8-quentin.monnet@netronome.com>
-Sender: netdev-owner@vger.kernel.org
-To: Quentin Monnet <quentin.monnet@netronome.com>
-Cc: daniel@iogearbox.net, ast@kernel.org, netdev@vger.kernel.org, oss-drivers@netronome.com, linux-doc@vger.kernel.org, linux-man@vger.kernel.org, Lawrence Brakmo <brakmo@fb.com>, Yonghong Song <yhs@fb.com>, Josef Bacik <jbacik@fb.com>
+Content-Type: text/plain; charset=utf-8; format=flowed
+Content-Transfer-Encoding: 7bit
+Return-path: <linux-kernel-owner@vger.kernel.org>
+In-Reply-To: <20180417143144.b7ffb07fad28875bad546247@linux-foundation.org>
+Content-Language: en-US
+Sender: linux-kernel-owner@vger.kernel.org
+To: Andrew Morton <akpm@linux-foundation.org>
+Cc: viro@zeniv.linux.org.uk, nyc@holomorphy.com, mike.kravetz@oracle.com, kirill.shutemov@linux.intel.com, hughd@google.com, linux-fsdevel@vger.kernel.org, linux-mm@kvack.org, linux-kernel@vger.kernel.org, linux-man@vger.kernel.org, mtk.manpages@gmail.com, linux-api@vger.kernel.org
 List-Id: linux-man@vger.kernel.org
 
-Quentin Monnet <quentin.monnet@netronome.com> [Tue, 2018-04-17 07:36 -0700]:
-> Add documentation for eBPF helper functions to bpf.h user header file.
-> This documentation can be parsed with the Python script provided in
-> another commit of the patch series, in order to provide a RST document
-> that can later be converted into a man page.
-> 
-> The objective is to make the documentation easily understandable and
-> accessible to all eBPF developers, including beginners.
-> 
-> This patch contains descriptions for the following helper functions:
-> 
-> Helpers from Lawrence:
-> - bpf_setsockopt()
-> - bpf_getsockopt()
-> - bpf_sock_ops_cb_flags_set()
-> 
-> Helpers from Yonghong:
-> - bpf_perf_event_read_value()
-> - bpf_perf_prog_read_value()
-> 
-> Helper from Josef:
-> - bpf_override_return()
-> 
-> Helper from Andrey:
-> - bpf_bind()
-> 
-> v3:
-> - bpf_perf_event_read_value(): Fix time of selection for perf event type
->   in description. Remove occurences of "cores" to avoid confusion with
->   "CPU".
-> - bpf_bind(): Remove last paragraph of description, which was off topic.
-> 
-> Cc: Lawrence Brakmo <brakmo@fb.com>
-> Cc: Yonghong Song <yhs@fb.com>
-> Cc: Josef Bacik <jbacik@fb.com>
-> Cc: Andrey Ignatov <rdna@fb.com>
-> Signed-off-by: Quentin Monnet <quentin.monnet@netronome.com>
-> 
-> fix patch 7: Yonghong and Andrey
-> ---
->  include/uapi/linux/bpf.h | 178 +++++++++++++++++++++++++++++++++++++++++++++++
->  1 file changed, 178 insertions(+)
-> 
-> diff --git a/include/uapi/linux/bpf.h b/include/uapi/linux/bpf.h
-> index dd79a1c82adf..350459c583de 100644
-> --- a/include/uapi/linux/bpf.h
-> +++ b/include/uapi/linux/bpf.h
-> + *
-> + * int bpf_bind(struct bpf_sock_addr_kern *ctx, struct sockaddr *addr, int addr_len)
-> + * 	Description
-> + * 		Bind the socket associated to *ctx* to the address pointed by
-> + * 		*addr*, of length *addr_len*. This allows for making outgoing
-> + * 		connection from the desired IP address, which can be useful for
-> + * 		example when all processes inside a cgroup should use one
-> + * 		single IP address on a host that has multiple IP configured.
-> + *
-> + * 		This helper works for IPv4 and IPv6, TCP and UDP sockets. The
-> + * 		domain (*addr*\ **->sa_family**) must be **AF_INET** (or
-> + * 		**AF_INET6**). Looking for a free port to bind to can be
-> + * 		expensive, therefore binding to port is not permitted by the
-> + * 		helper: *addr*\ **->sin_port** (or **sin6_port**, respectively)
-> + * 		must be set to zero.
-> + * 	Return
-> + * 		0 on success, or a negative error in case of failure.
 
-Acked-by: Andrey Ignatov <rdna@fb.com>
-for bpf_bind() helper.
 
--- 
-Andrey Ignatov
+On 4/17/18 2:31 PM, Andrew Morton wrote:
+> On Wed, 18 Apr 2018 05:08:13 +0800 Yang Shi <yang.shi@linux.alibaba.com> wrote:
+>
+>> Since tmpfs THP was supported in 4.8, hugetlbfs is not the only
+>> filesystem with huge page support anymore. tmpfs can use huge page via
+>> THP when mounting by "huge=" mount option.
+>>
+>> When applications use huge page on hugetlbfs, it just need check the
+>> filesystem magic number, but it is not enough for tmpfs. So, introduce
+>> ST_HUGE flag to statfs if super block has SB_HUGE set which indicates
+>> huge page is supported on the specific filesystem.
+>>
+>> Some applications could benefit from this change, for example QEMU.
+>> When use mmap file as guest VM backend memory, QEMU typically mmap the
+>> file size plus one extra page. If the file is on hugetlbfs the extra
+>> page is huge page size (i.e. 2MB), but it is still 4KB on tmpfs even
+>> though THP is enabled. tmpfs THP requires VMA is huge page aligned, so
+>> if 4KB page is used THP will not be used at all. The below /proc/meminfo
+>> fragment shows the THP use of QEMU with 4K page:
+>>
+>> ShmemHugePages:   679936 kB
+>> ShmemPmdMapped:        0 kB
+>>
+>> With ST_HUGE flag, QEMU can get huge page, then /proc/meminfo looks
+>> like:
+>>
+>> ShmemHugePages:    77824 kB
+>> ShmemPmdMapped:     6144 kB
+>>
+>> With this flag, the applications can know if huge page is supported on
+>> the filesystem then optimize the behavior of the applications
+>> accordingly. Although the similar function can be implemented in
+>> applications by traversing the mount options, it looks more convenient
+>> if kernel can provide such flag.
+>>
+>> Even though ST_HUGE is set, f_bsize still returns 4KB for tmpfs since
+>> THP could be split, and it also my fallback to 4KB page silently if
+>> there is not enough huge page.
+>>
+>> And, set the flag for hugetlbfs as well to keep the consistency, and the
+>> applications don't have to know what filesystem is used to use huge
+>> page, just need to check ST_HUGE flag.
+>>
+> Patch is simple enough, although I'm having trouble forming an opinion
+> about it ;)
+>
+> It will call for an update to the statfs(2) manpage.  I'm not sure
+> which of linux-man@vger.kernel.org, mtk.manpages@gmail.com and
+> linux-api@vger.kernel.org is best for that, so I'd cc all three...
+
+Thanks, Andrew. Added cc to those 3 lists.
