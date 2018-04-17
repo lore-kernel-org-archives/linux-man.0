@@ -1,13 +1,13 @@
 From: Quentin Monnet <quentin.monnet@netronome.com>
-Subject: [PATCH bpf-next v3 7/8] bpf: add documentation for eBPF helpers (51-57)
-Date: Tue, 17 Apr 2018 15:34:37 +0100
-Message-ID: <20180417143438.7018-8-quentin.monnet@netronome.com>
+Subject: [PATCH bpf-next v3 6/8] bpf: add documentation for eBPF helpers (42-50)
+Date: Tue, 17 Apr 2018 15:34:36 +0100
+Message-ID: <20180417143438.7018-7-quentin.monnet@netronome.com>
 References: <20180417143438.7018-1-quentin.monnet@netronome.com>
 Return-path: <netdev-owner@vger.kernel.org>
 In-Reply-To: <20180417143438.7018-1-quentin.monnet@netronome.com>
 Sender: netdev-owner@vger.kernel.org
 To: daniel@iogearbox.net, ast@kernel.org
-Cc: netdev@vger.kernel.org, oss-drivers@netronome.com, quentin.monnet@netronome.com, linux-doc@vger.kernel.org, linux-man@vger.kernel.org, Lawrence Brakmo <brakmo@fb.com>, Yonghong Song <yhs@fb.com>, Josef Bacik <jbacik@fb.com>, Andrey Ignatov <rdna@fb.com>
+Cc: netdev@vger.kernel.org, oss-drivers@netronome.com, quentin.monnet@netronome.com, linux-doc@vger.kernel.org, linux-man@vger.kernel.org, Kaixu Xia <xiakaixu@huawei.com>, Martin KaFai Lau <kafai@fb.com>, Sargun Dhillon <sargun@sargun.me>, Thomas Graf <tgraf@suug.ch>, Gianluca Borello <g.borello@gmail.com>, Chenbo Feng <fengc@google.com>
 List-Id: linux-man@vger.kernel.org
 
 Add documentation for eBPF helper functions to bpf.h user header file.
@@ -20,233 +20,232 @@ accessible to all eBPF developers, including beginners.
 
 This patch contains descriptions for the following helper functions:
 
-Helpers from Lawrence:
-- bpf_setsockopt()
-- bpf_getsockopt()
-- bpf_sock_ops_cb_flags_set()
+Helper from Kaixu:
+- bpf_perf_event_read()
 
-Helpers from Yonghong:
-- bpf_perf_event_read_value()
-- bpf_perf_prog_read_value()
+Helpers from Martin:
+- bpf_skb_under_cgroup()
+- bpf_xdp_adjust_head()
 
-Helper from Josef:
-- bpf_override_return()
+Helpers from Sargun:
+- bpf_probe_write_user()
+- bpf_current_task_under_cgroup()
 
-Helper from Andrey:
-- bpf_bind()
+Helper from Thomas:
+- bpf_skb_change_head()
+
+Helper from Gianluca:
+- bpf_probe_read_str()
+
+Helpers from Chenbo:
+- bpf_get_socket_cookie()
+- bpf_get_socket_uid()
 
 v3:
-- bpf_perf_event_read_value(): Fix time of selection for perf event type
-  in description. Remove occurences of "cores" to avoid confusion with
+- bpf_perf_event_read(): Fix time of selection for perf event type in
+  description. Remove occurences of "cores" to avoid confusion with
   "CPU".
-- bpf_bind(): Remove last paragraph of description, which was off topic.
 
-Cc: Lawrence Brakmo <brakmo@fb.com>
-Cc: Yonghong Song <yhs@fb.com>
-Cc: Josef Bacik <jbacik@fb.com>
-Cc: Andrey Ignatov <rdna@fb.com>
+Cc: Kaixu Xia <xiakaixu@huawei.com>
+Cc: Martin KaFai Lau <kafai@fb.com>
+Cc: Sargun Dhillon <sargun@sargun.me>
+Cc: Thomas Graf <tgraf@suug.ch>
+Cc: Gianluca Borello <g.borello@gmail.com>
+Cc: Chenbo Feng <fengc@google.com>
 Signed-off-by: Quentin Monnet <quentin.monnet@netronome.com>
-
-fix patch 7: Yonghong and Andrey
 ---
- include/uapi/linux/bpf.h | 178 +++++++++++++++++++++++++++++++++++++++++++++++
- 1 file changed, 178 insertions(+)
+ include/uapi/linux/bpf.h | 158 +++++++++++++++++++++++++++++++++++++++++++++++
+ 1 file changed, 158 insertions(+)
 
 diff --git a/include/uapi/linux/bpf.h b/include/uapi/linux/bpf.h
-index dd79a1c82adf..350459c583de 100644
+index 3a40f5debac2..dd79a1c82adf 100644
 --- a/include/uapi/linux/bpf.h
 +++ b/include/uapi/linux/bpf.h
-@@ -1234,6 +1234,28 @@ union bpf_attr {
-  * 	Return
-  * 		0
-  *
-+ * int bpf_setsockopt(struct bpf_sock_ops_kern *bpf_socket, int level, int optname, char *optval, int optlen)
-+ * 	Description
-+ * 		Emulate a call to **setsockopt()** on the socket associated to
-+ * 		*bpf_socket*, which must be a full socket. The *level* at
-+ * 		which the option resides and the name *optname* of the option
-+ * 		must be specified, see **setsockopt(2)** for more information.
-+ * 		The option value of length *optlen* is pointed by *optval*.
-+ *
-+ * 		This helper actually implements a subset of **setsockopt()**.
-+ * 		It supports the following *level*\ s:
-+ *
-+ * 		* **SOL_SOCKET**, which supports the following *optname*\ s:
-+ * 		  **SO_RCVBUF**, **SO_SNDBUF**, **SO_MAX_PACING_RATE**,
-+ * 		  **SO_PRIORITY**, **SO_RCVLOWAT**, **SO_MARK**.
-+ * 		* **IPPROTO_TCP**, which supports the following *optname*\ s:
-+ * 		  **TCP_CONGESTION**, **TCP_BPF_IW**,
-+ * 		  **TCP_BPF_SNDCWND_CLAMP**.
-+ * 		* **IPPROTO_IP**, which supports *optname* **IP_TOS**.
-+ * 		* **IPPROTO_IPV6**, which supports *optname* **IPV6_TCLASS**.
-+ * 	Return
-+ * 		0 on success, or a negative error in case of failure.
-+ *
-  * int bpf_skb_adjust_room(struct sk_buff *skb, u32 len_diff, u32 mode, u64 flags)
-  * 	Description
-  * 		Grow or shrink the room for data in the packet associated to
-@@ -1281,6 +1303,162 @@ union bpf_attr {
-  * 		performed again.
+@@ -753,6 +753,25 @@ union bpf_attr {
   * 	Return
   * 		0 on success, or a negative error in case of failure.
-+ *
-+ * int bpf_perf_event_read_value(struct bpf_map *map, u64 flags, struct bpf_perf_event_value *buf, u32 buf_size)
+  *
++ * u64 bpf_perf_event_read(struct bpf_map *map, u64 flags)
 + * 	Description
-+ * 		Read the value of a perf event counter, and store it into *buf*
-+ * 		of size *buf_size*. This helper relies on a *map* of type
-+ * 		**BPF_MAP_TYPE_PERF_EVENT_ARRAY**. The nature of the perf event
-+ * 		counter is selected when *map* is updated with perf event file
-+ * 		descriptors. The *map* is an array whose size is the number of
-+ * 		available CPUs, and each cell contains a value relative to one
-+ * 		CPU. The value to retrieve is indicated by *flags*, that
-+ * 		contains the index of the CPU to look up, masked with
-+ * 		**BPF_F_INDEX_MASK**. Alternatively, *flags* can be set to
++ * 		Read the value of a perf event counter. This helper relies on a
++ * 		*map* of type **BPF_MAP_TYPE_PERF_EVENT_ARRAY**. The nature of
++ * 		the perf event counter is selected when *map* is updated with
++ * 		perf event file descriptors. The *map* is an array whose size
++ * 		is the number of available CPUs, and each cell contains a value
++ * 		relative to one CPU. The value to retrieve is indicated by
++ * 		*flags*, that contains the index of the CPU to look up, masked
++ * 		with **BPF_F_INDEX_MASK**. Alternatively, *flags* can be set to
 + * 		**BPF_F_CURRENT_CPU** to indicate that the value for the
 + * 		current CPU should be retrieved.
 + *
-+ * 		This helper behaves in a way close to
-+ * 		**bpf_perf_event_read**\ () helper, save that instead of
-+ * 		just returning the value observed, it fills the *buf*
-+ * 		structure. This allows for additional data to be retrieved: in
-+ * 		particular, the enabled and running times (in *buf*\
-+ * 		**->enabled** and *buf*\ **->running**, respectively) are
-+ * 		copied.
++ * 		Note that before Linux 4.13, only hardware perf event can be
++ * 		retrieved.
++ * 	Return
++ * 		The value of the perf event counter read from the map, or a
++ * 		negative error code in case of failure.
 + *
-+ * 		These values are interesting, because hardware PMU (Performance
-+ * 		Monitoring Unit) counters are limited resources. When there are
-+ * 		more PMU based perf events opened than available counters,
-+ * 		kernel will multiplex these events so each event gets certain
-+ * 		percentage (but not all) of the PMU time. In case that
-+ * 		multiplexing happens, the number of samples or counter value
-+ * 		will not reflect the case compared to when no multiplexing
-+ * 		occurs. This makes comparison between different runs difficult.
-+ * 		Typically, the counter value should be normalized before
-+ * 		comparing to other experiments. The usual normalization is done
-+ * 		as follows.
+  * int bpf_redirect(u32 ifindex, u64 flags)
+  * 	Description
+  * 		Redirect the packet to another net device of index *ifindex*.
+@@ -965,6 +984,17 @@ union bpf_attr {
+  * 	Return
+  * 		0 on success, or a negative error in case of failure.
+  *
++ * int bpf_skb_under_cgroup(struct sk_buff *skb, struct bpf_map *map, u32 index)
++ * 	Description
++ * 		Check whether *skb* is a descendant of the cgroup2 held by
++ * 		*map* of type **BPF_MAP_TYPE_CGROUP_ARRAY**, at *index*.
++ * 	Return
++ * 		The return value depends on the result of the test, and can be:
++ *
++ * 		* 0, if the *skb* failed the cgroup2 descendant test.
++ * 		* 1, if the *skb* succeeded the cgroup2 descendant test.
++ * 		* A negative error code, if an error occurred.
++ *
+  * u32 bpf_get_hash_recalc(struct sk_buff *skb)
+  * 	Description
+  * 		Retrieve the hash of the packet, *skb*\ **->hash**. If it is
+@@ -985,6 +1015,37 @@ union bpf_attr {
+  * 	Return
+  * 		A pointer to the current task struct.
+  *
++ * int bpf_probe_write_user(void *dst, const void *src, u32 len)
++ * 	Description
++ * 		Attempt in a safe way to write *len* bytes from the buffer
++ * 		*src* to *dst* in memory. It only works for threads that are in
++ * 		user context.
++ *
++ * 		This helper should not be used to implement any kind of
++ * 		security mechanism because of TOC-TOU attacks, but rather to
++ * 		debug, divert, and manipulate execution of semi-cooperative
++ * 		processes.
++ *
++ * 		Keep in mind that this feature is meant for experiments, and it
++ * 		has a risk of crashing the system and running programs.
++ * 		Therefore, when an eBPF program using this helper is attached,
++ * 		a warning including PID and process name is printed to kernel
++ * 		logs.
++ * 	Return
++ * 		0 on success, or a negative error in case of failure.
++ *
++ * int bpf_current_task_under_cgroup(struct bpf_map *map, u32 index)
++ * 	Description
++ * 		Check whether the probe is being run is the context of a given
++ * 		subset of the cgroup2 hierarchy. The cgroup2 to test is held by
++ * 		*map* of type **BPF_MAP_TYPE_CGROUP_ARRAY**, at *index*.
++ * 	Return
++ * 		The return value depends on the result of the test, and can be:
++ *
++ * 		* 0, if the *skb* task belongs to the cgroup2.
++ * 		* 1, if the *skb* task does not belong to the cgroup2.
++ * 		* A negative error code, if an error occurred.
++ *
+  * int bpf_skb_change_tail(struct sk_buff *skb, u32 len, u64 flags)
+  * 	Description
+  * 		Resize (trim or grow) the packet associated to *skb* to the
+@@ -1069,6 +1130,103 @@ union bpf_attr {
+  * 	Return
+  * 		The id of current NUMA node.
+  *
++ * int bpf_skb_change_head(struct sk_buff *skb, u32 len, u64 flags)
++ * 	Description
++ * 		Grows headroom of packet associated to *skb* and adjusts the
++ * 		offset of the MAC header accordingly, adding *len* bytes of
++ * 		space. It automatically extends and reallocates memory as
++ * 		required.
++ *
++ * 		This helper can be used on a layer 3 *skb* to push a MAC header
++ * 		for redirection into a layer 2 device.
++ *
++ * 		All values for *flags* are reserved for future usage, and must
++ * 		be left at zero.
++ *
++ * 		A call to this helper is susceptible to change data from the
++ * 		packet. Therefore, at load time, all checks on pointers
++ * 		previously done by the verifier are invalidated and must be
++ * 		performed again.
++ * 	Return
++ * 		0 on success, or a negative error in case of failure.
++ *
++ * int bpf_xdp_adjust_head(struct xdp_buff *xdp_md, int delta)
++ * 	Description
++ * 		Adjust (move) *xdp_md*\ **->data** by *delta* bytes. Note that
++ * 		it is possible to use a negative value for *delta*. This helper
++ * 		can be used to prepare the packet for pushing or popping
++ * 		headers.
++ *
++ * 		A call to this helper is susceptible to change data from the
++ * 		packet. Therefore, at load time, all checks on pointers
++ * 		previously done by the verifier are invalidated and must be
++ * 		performed again.
++ * 	Return
++ * 		0 on success, or a negative error in case of failure.
++ *
++ * int bpf_probe_read_str(void *dst, int size, const void *unsafe_ptr)
++ * 	Description
++ * 		Copy a NUL terminated string from an unsafe address
++ * 		*unsafe_ptr* to *dst*. The *size* should include the
++ * 		terminating NUL byte. In case the string length is smaller than
++ * 		*size*, the target is not padded with further NUL bytes. If the
++ * 		string length is larger than *size*, just *size*-1 bytes are
++ * 		copied and the last byte is set to NUL.
++ *
++ * 		On success, the length of the copied string is returned. This
++ * 		makes this helper useful in tracing programs for reading
++ * 		strings, and more importantly to get its length at runtime. See
++ * 		the following snippet:
 + *
 + * 		::
 + *
-+ * 			normalized_counter = counter * t_enabled / t_running
++ * 			SEC("kprobe/sys_open")
++ * 			void bpf_sys_open(struct pt_regs *ctx)
++ * 			{
++ * 			        char buf[PATHLEN]; // PATHLEN is defined to 256
++ * 			        int res = bpf_probe_read_str(buf, sizeof(buf),
++ * 				                             ctx->di);
 + *
-+ * 		Where t_enabled is the time enabled for event and t_running is
-+ * 		the time running for event since last normalization. The
-+ * 		enabled and running times are accumulated since the perf event
-+ * 		open. To achieve scaling factor between two invocations of an
-+ * 		eBPF program, users can can use CPU id as the key (which is
-+ * 		typical for perf array usage model) to remember the previous
-+ * 		value and do the calculation inside the eBPF program.
++ * 				// Consume buf, for example push it to
++ * 				// userspace via bpf_perf_event_output(); we
++ * 				// can use res (the string length) as event
++ * 				// size, after checking its boundaries.
++ * 			}
++ *
++ * 		In comparison, using **bpf_probe_read()** helper here instead
++ * 		to read the string would require to estimate the length at
++ * 		compile time, and would often result in copying more memory
++ * 		than necessary.
++ *
++ * 		Another useful use case is when parsing individual process
++ * 		arguments or individual environment variables navigating
++ * 		*current*\ **->mm->arg_start** and *current*\
++ * 		**->mm->env_start**: using this helper and the return value,
++ * 		one can quickly iterate at the right offset of the memory area.
 + * 	Return
-+ * 		0 on success, or a negative error in case of failure.
-+ *
-+ * int bpf_perf_prog_read_value(struct bpf_perf_event_data_kern *ctx, struct bpf_perf_event_value *buf, u32 buf_size)
-+ * 	Description
-+ * 		For en eBPF program attached to a perf event, retrieve the
-+ * 		value of the event counter associated to *ctx* and store it in
-+ * 		the structure pointed by *buf* and of size *buf_size*. Enabled
-+ * 		and running times are also stored in the structure (see
-+ * 		description of helper **bpf_perf_event_read_value**\ () for
-+ * 		more details).
-+ * 	Return
-+ * 		0 on success, or a negative error in case of failure.
-+ *
-+ * int bpf_getsockopt(struct bpf_sock_ops_kern *bpf_socket, int level, int optname, char *optval, int optlen)
-+ * 	Description
-+ * 		Emulate a call to **getsockopt()** on the socket associated to
-+ * 		*bpf_socket*, which must be a full socket. The *level* at
-+ * 		which the option resides and the name *optname* of the option
-+ * 		must be specified, see **getsockopt(2)** for more information.
-+ * 		The retrieved value is stored in the structure pointed by
-+ * 		*opval* and of length *optlen*.
-+ *
-+ * 		This helper actually implements a subset of **getsockopt()**.
-+ * 		It supports the following *level*\ s:
-+ *
-+ * 		* **IPPROTO_TCP**, which supports *optname*
-+ * 		  **TCP_CONGESTION**.
-+ * 		* **IPPROTO_IP**, which supports *optname* **IP_TOS**.
-+ * 		* **IPPROTO_IPV6**, which supports *optname* **IPV6_TCLASS**.
-+ * 	Return
-+ * 		0 on success, or a negative error in case of failure.
-+ *
-+ * int bpf_override_return(struct pt_reg *regs, u64 rc)
-+ * 	Description
-+ * 		Used for error injection, this helper uses kprobes to override
-+ * 		the return value of the probed function, and to set it to *rc*.
-+ * 		The first argument is the context *regs* on which the kprobe
-+ * 		works.
-+ *
-+ * 		This helper works by setting setting the PC (program counter)
-+ * 		to an override function which is run in place of the original
-+ * 		probed function. This means the probed function is not run at
-+ * 		all. The replacement function just returns with the required
++ * 		On success, the strictly positive length of the string,
++ * 		including the trailing NUL character. On error, a negative
 + * 		value.
 + *
-+ * 		This helper has security implications, and thus is subject to
-+ * 		restrictions. It is only available if the kernel was compiled
-+ * 		with the **CONFIG_BPF_KPROBE_OVERRIDE** configuration
-+ * 		option, and in this case it only works on functions tagged with
-+ * 		**ALLOW_ERROR_INJECTION** in the kernel code.
-+ *
-+ * 		Also, the helper is only available for the architectures having
-+ * 		the CONFIG_FUNCTION_ERROR_INJECTION option. As of this writing,
-+ * 		x86 architecture is the only one to support this feature.
-+ * 	Return
-+ * 		0
-+ *
-+ * int bpf_sock_ops_cb_flags_set(struct bpf_sock_ops_kern *bpf_sock, int argval)
++ * u64 bpf_get_socket_cookie(struct sk_buff *skb)
 + * 	Description
-+ * 		Attempt to set the value of the **bpf_sock_ops_cb_flags** field
-+ * 		for the full TCP socket associated to *bpf_sock_ops* to
-+ * 		*argval*.
-+ *
-+ * 		The primary use of this field is to determine if there should
-+ * 		be calls to eBPF programs of type
-+ * 		**BPF_PROG_TYPE_SOCK_OPS** at various points in the TCP
-+ * 		code. A program of the same type can change its value, per
-+ * 		connection and as necessary, when the connection is
-+ * 		established. This field is directly accessible for reading, but
-+ * 		this helper must be used for updates in order to return an
-+ * 		error if an eBPF program tries to set a callback that is not
-+ * 		supported in the current kernel.
-+ *
-+ * 		The supported callback values that *argval* can combine are:
-+ *
-+ * 		* **BPF_SOCK_OPS_RTO_CB_FLAG** (retransmission time out)
-+ * 		* **BPF_SOCK_OPS_RETRANS_CB_FLAG** (retransmission)
-+ * 		* **BPF_SOCK_OPS_STATE_CB_FLAG** (TCP state change)
-+ *
-+ * 		Here are some examples of where one could call such eBPF
-+ * 		program:
-+ *
-+ * 		* When RTO fires.
-+ * 		* When a packet is retransmitted.
-+ * 		* When the connection terminates.
-+ * 		* When a packet is sent.
-+ * 		* When a packet is received.
++ * 		Retrieve the socket cookie generated by the kernel from a
++ * 		**struct sk_buff** with a known socket. If none has been set
++ * 		yet, generate a new cookie. This helper can be useful for
++ * 		monitoring per socket networking traffic statistics as it
++ * 		provides a unique socket identifier per namespace.
 + * 	Return
-+ * 		Code **-EINVAL** if the socket is not a full TCP socket;
-+ * 		otherwise, a positive number containing the bits that could not
-+ * 		be set is returned (which comes down to 0 if all bits were set
-+ * 		as required).
++ * 		A 8-byte long non-decreasing number on success, or 0 if the
++ * 		socket field is missing inside *skb*.
 + *
-+ * int bpf_bind(struct bpf_sock_addr_kern *ctx, struct sockaddr *addr, int addr_len)
-+ * 	Description
-+ * 		Bind the socket associated to *ctx* to the address pointed by
-+ * 		*addr*, of length *addr_len*. This allows for making outgoing
-+ * 		connection from the desired IP address, which can be useful for
-+ * 		example when all processes inside a cgroup should use one
-+ * 		single IP address on a host that has multiple IP configured.
-+ *
-+ * 		This helper works for IPv4 and IPv6, TCP and UDP sockets. The
-+ * 		domain (*addr*\ **->sa_family**) must be **AF_INET** (or
-+ * 		**AF_INET6**). Looking for a free port to bind to can be
-+ * 		expensive, therefore binding to port is not permitted by the
-+ * 		helper: *addr*\ **->sin_port** (or **sin6_port**, respectively)
-+ * 		must be set to zero.
++ * u32 bpf_get_socket_uid(struct sk_buff *skb)
 + * 	Return
-+ * 		0 on success, or a negative error in case of failure.
-  */
- #define __BPF_FUNC_MAPPER(FN)		\
- 	FN(unspec),			\
++ * 		The owner UID of the socket associated to *skb*. If the socket
++ * 		is **NULL**, or if it is not a full socket (i.e. if it is a
++ * 		time-wait or a request socket instead), **overflowuid** value
++ * 		is returned (note that **overflowuid** might also be the actual
++ * 		UID value for the socket).
++ *
+  * u32 bpf_set_hash(struct sk_buff *skb, u32 hash)
+  * 	Description
+  * 		Set the full hash for *skb* (set the field *skb*\ **->hash**)
 -- 
 2.14.1
