@@ -1,49 +1,107 @@
-From: Florian Weimer <fweimer@redhat.com>
-Subject: Re: [PATCH 2/2] crypt.3, encrypt.3: Add notes about _XOPEN_CRYPT.
-Date: Tue, 17 Apr 2018 15:31:44 +0200
-Message-ID: <7084e046-aa0d-82e7-73c2-f9ad7c0eb00f@redhat.com>
-References: <6d9a7e45-5d31-efbd-78ad-2808d492eb21@redhat.com>
- <baa666d2-b369-c472-2bde-c3b94312341a@redhat.com>
- <640a98e3-ab5f-472b-adfe-db0b0ae5cfc7@gmail.com>
- <CADh2w8SLYdUqLGak6tcpeO2=nMsDGE10BMDMb4q+2Py9tHaOdw@mail.gmail.com>
- <6ef320c1-1c58-e5c2-f2ca-c857389b0366@redhat.com>
- <CADh2w8R_k+vAqr=KZ5M3zq_rujFfcqXCb=DBm7Jw-njw9mFesA@mail.gmail.com>
-Mime-Version: 1.0
-Content-Type: text/plain; charset=utf-8; format=flowed
-Content-Transfer-Encoding: 7bit
-Return-path: <libc-alpha-return-91581-glibc-alpha=m.gmane.org@sourceware.org>
-List-Unsubscribe: <mailto:libc-alpha-unsubscribe-glibc-alpha=m.gmane.org@sourceware.org>
-List-Subscribe: <mailto:libc-alpha-subscribe@sourceware.org>
-List-Archive: <http://sourceware.org/ml/libc-alpha/>
-List-Post: <mailto:libc-alpha@sourceware.org>
-List-Help: <mailto:libc-alpha-help@sourceware.org>, <http://sourceware.org/ml/#faqs>
-Sender: libc-alpha-owner@sourceware.org
-In-Reply-To: <CADh2w8R_k+vAqr=KZ5M3zq_rujFfcqXCb=DBm7Jw-njw9mFesA@mail.gmail.com>
-To: Nikos Mavrogiannopoulos <nmav@redhat.com>
-Cc: "Michael Kerrisk (man-pages)" <mtk.manpages@gmail.com>, Carlos O'Donell <carlos@redhat.com>, "linux-man@vger.kernel.org" <linux-man@vger.kernel.org>, Zack Weinberg <zackw@panix.com>, Rical Jasan <rj@2c3t.io>, GNU C Library <libc-alpha@sourceware.org>
+From: Quentin Monnet <quentin.monnet@netronome.com>
+Subject: [PATCH bpf-next v3 0/8] bpf: document eBPF helpers and add a script to generate man page
+Date: Tue, 17 Apr 2018 15:34:30 +0100
+Message-ID: <20180417143438.7018-1-quentin.monnet@netronome.com>
+Return-path: <netdev-owner@vger.kernel.org>
+Sender: netdev-owner@vger.kernel.org
+To: daniel@iogearbox.net, ast@kernel.org
+Cc: netdev@vger.kernel.org, oss-drivers@netronome.com, quentin.monnet@netronome.com, linux-doc@vger.kernel.org, linux-man@vger.kernel.org
 List-Id: linux-man@vger.kernel.org
 
-On 04/17/2018 03:25 PM, Nikos Mavrogiannopoulos wrote:
-> On Sat, Apr 14, 2018 at 9:56 PM, Florian Weimer <fweimer@redhat.com> wrote:
->> On 04/14/2018 09:11 PM, Nikos Mavrogiannopoulos wrote:
->>>
->>>    What about the second part of the suggestion. The crypt.3 manpage
->>> currently suggests including <unistd.h>, with _XOPEN_SOURCE defined,
->>> and that does not work with current glibc.
->>
->>
->> Current Fedora glibc.  We need to align the Fedora behavior with upstream
->> again, either by lobbying for an upstream change, or changing Fedora back to
->> how things were before.
-> 
-> Zack mentions reasons that crypt.h is already in use, and glibc itself
-> is already documenting the use of crypt.h instead of unistd.h [0].
-> uclibc also provides crypt.h [1]. Wouldn't that be a sufficient reason
-> to make the manpage document crypt.h as primary?
+eBPF helper functions can be called from within eBPF programs to perform
+a variety of tasks that would be otherwise hard or impossible to do with
+eBPF itself. There is a growing number of such helper functions in the
+kernel, but documentation is scarce. The main user space header file
+does contain a short commented description of most helpers, but it is
+somewhat outdated and not complete. It is more a "cheat sheet" than a
+real documentation accessible to new eBPF developers.
 
-If it's just about changing the recommendation, then I'm fine with that. 
-  But we don't know yet how things will turn out upstream, so spelling 
-out *why* <crypt.h> is preferable would still be tricky.
+This commit attempts to improve the situation by replacing the existing
+overview for the helpers with a more developed description. Furthermore,
+a Python script is added to generate a manual page for eBPF helpers. The
+workflow is the following, and requires the rst2man utility:
 
-Thanks,
-Florian
+    $ ./scripts/bpf_helpers_doc.py \
+            --filename include/uapi/linux/bpf.h > /tmp/bpf-helpers.rst
+    $ rst2man /tmp/bpf-helpers.rst > /tmp/bpf-helpers.7
+    $ man /tmp/bpf-helpers.7
+
+The objective is to keep all documentation related to the helpers in a
+single place, and to be able to generate from here a manual page that
+could be packaged in the man-pages repository and shipped with most
+distributions.
+
+Additionally, parsing the prototypes of the helper functions could
+hopefully be reused, with a different Printer object, to generate
+header files needed in some eBPF-related projects.
+
+Regarding the description of each helper, it comprises several items:
+
+- The function prototype.
+- A description of the function and of its arguments (except for a
+  couple of cases, when there are no arguments and the return value
+  makes the function usage really obvious).
+- A description of return values (if not void).
+
+Additional items such as the list of compatible eBPF program and map
+types for each helper, Linux kernel version that introduced the helper,
+GPL-only restriction, and commit hash could be added in the future, but
+it was decided on the mailing list to leave them aside for now.
+
+For several helpers, descriptions are inspired (at times, nearly copied)
+from the commit logs introducing them in the kernel--Many thanks to
+their respective authors! They were completed as much as possible, the
+objective being to have something easily accessible even for people just
+starting with eBPF. There is probably a bit more work to do in this
+direction for some helpers.
+
+Some RST formatting is used in the descriptions (not in function
+prototypes, to keep them readable, but the Python script provided in
+order to generate the RST for the manual page does add formatting to
+prototypes, to produce something pretty) to get "bold" and "italics" in
+manual pages. Hopefully, the descriptions in bpf.h file remains
+perfectly readable. Note that the few trailing white spaces are
+intentional, removing them would break paragraphs for rst2man.
+
+The descriptions should ideally be updated each time someone adds a new
+helper, or updates the behaviour (new socket option supported, ...) or
+the interface (new flags available, ...) of existing ones.
+
+To ease the review process, the documentation has been split into several
+patches.
+
+RFC v2 -> PATCH v3:
+Several fixes on man page header and footer, and helpers documentation.
+Please refer to individual patches for details.
+
+RFC v1 -> RFC v2:
+- Remove "For" (compatible program and map types), "Since" (minimal
+  Linux kernel version required), "GPL only" sections and commit hashes
+  for the helpers.
+- Add comment on top of the description list to explain how this
+  documentation is supposed to be processed.
+- Update Python script accordingly (remove the same sections, and remove
+  paragraphs on program types and GPL restrictions from man page
+  header).
+- Split series into several patches.
+
+Cc: linux-doc@vger.kernel.org
+Cc: linux-man@vger.kernel.org
+
+Quentin Monnet (8):
+  bpf: add script and prepare bpf.h for new helpers documentation
+  bpf: add documentation for eBPF helpers (01-11)
+  bpf: add documentation for eBPF helpers (12-22)
+  bpf: add documentation for eBPF helpers (23-32)
+  bpf: add documentation for eBPF helpers (33-41)
+  bpf: add documentation for eBPF helpers (42-50)
+  bpf: add documentation for eBPF helpers (51-57)
+  bpf: add documentation for eBPF helpers (58-64)
+
+ include/uapi/linux/bpf.h   | 1604 +++++++++++++++++++++++++++++++++-----------
+ scripts/bpf_helpers_doc.py |  434 ++++++++++++
+ 2 files changed, 1658 insertions(+), 380 deletions(-)
+ create mode 100755 scripts/bpf_helpers_doc.py
+
+-- 
+2.14.1
