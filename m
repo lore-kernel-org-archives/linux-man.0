@@ -1,100 +1,55 @@
-From: Jesper Dangaard Brouer <brouer@redhat.com>
-Subject: Re: [PATCH bpf-next v3 8/8] bpf: add documentation for eBPF helpers
- (58-64)
-Date: Wed, 18 Apr 2018 17:43:19 +0200
-Message-ID: <20180418174319.37f6c793@redhat.com>
+From: Alexei Starovoitov <alexei.starovoitov@gmail.com>
+Subject: Re: [PATCH bpf-next v3 3/8] bpf: add documentation for eBPF helpers
+ (12-22)
+Date: Wed, 18 Apr 2018 15:10:02 -0700
+Message-ID: <20180418221000.e2gwl54kis2l4ia4@ast-mbp>
 References: <20180417143438.7018-1-quentin.monnet@netronome.com>
-        <20180417143438.7018-9-quentin.monnet@netronome.com>
-        <20180418153448.574c6814@redhat.com>
-        <67e84a95-5e7b-1c2c-e90f-7bcc0026bd10@netronome.com>
+ <20180417143438.7018-4-quentin.monnet@netronome.com>
 Mime-Version: 1.0
-Content-Type: text/plain; charset=US-ASCII
-Content-Transfer-Encoding: 7bit
+Content-Type: text/plain; charset=us-ascii
 Return-path: <netdev-owner@vger.kernel.org>
-In-Reply-To: <67e84a95-5e7b-1c2c-e90f-7bcc0026bd10@netronome.com>
+Content-Disposition: inline
+In-Reply-To: <20180417143438.7018-4-quentin.monnet@netronome.com>
 Sender: netdev-owner@vger.kernel.org
 To: Quentin Monnet <quentin.monnet@netronome.com>
-Cc: daniel@iogearbox.net, ast@kernel.org, netdev@vger.kernel.org, oss-drivers@netronome.com, linux-doc@vger.kernel.org, linux-man@vger.kernel.org, John Fastabend <john.fastabend@gmail.com>, brouer@redhat.com
+Cc: daniel@iogearbox.net, ast@kernel.org, netdev@vger.kernel.org, oss-drivers@netronome.com, linux-doc@vger.kernel.org, linux-man@vger.kernel.org
 List-Id: linux-man@vger.kernel.org
 
-On Wed, 18 Apr 2018 15:09:41 +0100
-Quentin Monnet <quentin.monnet@netronome.com> wrote:
-
-> 2018-04-18 15:34 UTC+0200 ~ Jesper Dangaard Brouer <brouer@redhat.com>
-> > On Tue, 17 Apr 2018 15:34:38 +0100
-> > Quentin Monnet <quentin.monnet@netronome.com> wrote:
-> >   
-> >> diff --git a/include/uapi/linux/bpf.h b/include/uapi/linux/bpf.h
-> >> index 350459c583de..3d329538498f 100644
-> >> --- a/include/uapi/linux/bpf.h
-> >> +++ b/include/uapi/linux/bpf.h
-> >> @@ -1276,6 +1276,50 @@ union bpf_attr {
-> >>   * 	Return
-> >>   * 		0 on success, or a negative error in case of failure.
-> >>   *
-> >> + * int bpf_redirect_map(struct bpf_map *map, u32 key, u64 flags)
-> >> + * 	Description
-> >> + * 		Redirect the packet to the endpoint referenced by *map* at
-> >> + * 		index *key*. Depending on its type, his *map* can contain  
-> >                                                     ^^^
-> > 
-> > "his" -> "this"  
+On Tue, Apr 17, 2018 at 03:34:33PM +0100, Quentin Monnet wrote:
+> Add documentation for eBPF helper functions to bpf.h user header file.
+> This documentation can be parsed with the Python script provided in
+> another commit of the patch series, in order to provide a RST document
+> that can later be converted into a man page.
 > 
-> Thanks!
+> The objective is to make the documentation easily understandable and
+> accessible to all eBPF developers, including beginners.
 > 
-> >> + * 		references to net devices (for forwarding packets through other
-> >> + * 		ports), or to CPUs (for redirecting XDP frames to another CPU;
-> >> + * 		but this is only implemented for native XDP (with driver
-> >> + * 		support) as of this writing).
-> >> + *
-> >> + * 		All values for *flags* are reserved for future usage, and must
-> >> + * 		be left at zero.
-> >> + * 	Return
-> >> + * 		**XDP_REDIRECT** on success, or **XDP_ABORT** on error.
-> >> + *  
-> > 
-> > "XDP_ABORT" -> "XDP_ABORTED"  
+> This patch contains descriptions for the following helper functions, all
+> written by Alexei:
 > 
-> Ouch. And I did the same for bpf_redirect(). Thanks for the catch.
+> - bpf_get_current_pid_tgid()
+> - bpf_get_current_uid_gid()
+> - bpf_get_current_comm()
+> - bpf_skb_vlan_push()
+> - bpf_skb_vlan_pop()
+> - bpf_skb_get_tunnel_key()
+> - bpf_skb_set_tunnel_key()
+> - bpf_redirect()
+> - bpf_perf_event_output()
+> - bpf_get_stackid()
+> - bpf_get_current_task()
 > 
-> > 
-> > I don't know if it's worth mentioning in the doc/man-page; that for XDP
-> > using bpf_redirect_map() is a HUGE performance advantage, compared to
-> > the bpf_redirect() call ?  
+> v3:
+> - bpf_skb_get_tunnel_key(): Change and improve description and example.
+> - bpf_redirect(): Improve description of BPF_F_INGRESS flag.
+> - bpf_perf_event_output(): Fix first sentence of description. Delete
+>   wrong statement on context being evaluated as a struct pt_reg. Remove
+>   the long yet incomplete example.
+> - bpf_get_stackid(): Add a note about PERF_MAX_STACK_DEPTH being
+>   configurable.
 > 
-> It seems worth to me. How would you simply explain the reason for this
-> difference?
+> Cc: Alexei Starovoitov <ast@kernel.org>
+> Signed-off-by: Quentin Monnet <quentin.monnet@netronome.com>
 
-The basic reason is "bulking effect", as devmap avoids the NIC
-tailptr/doorbell update on every packet... how to write that in a doc
-format?
-
-I wrote about why XDP_REDIRECT with maps are smart here:
- http://vger.kernel.org/netconf2017_files/XDP_devel_update_NetConf2017_Seoul.pdf
-
-Using maps for redirect, hopefully makes XDP_REDIRECT the last driver
-XDP action code we need.  As new types of redirect can be introduced
-without driver changes. See that AF_XDP also uses a map.
-
-It is more subtle, but maps also function as a sorting step. Imagine
-your XDP program need to redirect out different interfaces (or CPUs in
-cpumap case), and packets arrive intermixed.  Packets get sorted into
-the different map indexes, and the xdp_do_flush_map() will trigger the
-flush operation.
-
-
-Happened to have an i40e NIC benchmark setup, and ran a single flow pktgen test.
-
-Results with 'xdp_redirect_map'
- 13589297 pps (13,589,297) 
-
-Results with 'xdp_redirect' NOT using devmap:
-  7567575 pps (7,567,575)
-
-Just to point out the performance benefit of devmap...
-
--- 
-Best regards,
-  Jesper Dangaard Brouer
-  MSc.CS, Principal Kernel Engineer at Red Hat
-  LinkedIn: http://www.linkedin.com/in/brouer
+looks great.
+Acked-by: Alexei Starovoitov <ast@kernel.org>
