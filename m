@@ -1,119 +1,189 @@
-From: Quentin Monnet <quentin.monnet@netronome.com>
-Subject: Re: [PATCH bpf-next v3 8/8] bpf: add documentation for eBPF helpers
- (58-64)
-Date: Thu, 19 Apr 2018 13:44:41 +0100
-Message-ID: <62931080-6f69-3877-7a84-0df5be5754e6@netronome.com>
+From: Daniel Borkmann <daniel@iogearbox.net>
+Subject: Re: [PATCH bpf-next v3 7/8] bpf: add documentation for eBPF helpers
+ (51-57)
+Date: Thu, 19 Apr 2018 14:47:58 +0200
+Message-ID: <3f8a6ef6-04da-0dd8-0183-4a79383aefb3@iogearbox.net>
 References: <20180417143438.7018-1-quentin.monnet@netronome.com>
- <20180417143438.7018-9-quentin.monnet@netronome.com>
- <20180418153448.574c6814@redhat.com>
- <67e84a95-5e7b-1c2c-e90f-7bcc0026bd10@netronome.com>
- <20180418174319.37f6c793@redhat.com>
+ <20180417143438.7018-8-quentin.monnet@netronome.com>
 Mime-Version: 1.0
 Content-Type: text/plain; charset=utf-8
-Content-Transfer-Encoding: 8bit
+Content-Transfer-Encoding: 7bit
 Return-path: <netdev-owner@vger.kernel.org>
-In-Reply-To: <20180418174319.37f6c793@redhat.com>
+In-Reply-To: <20180417143438.7018-8-quentin.monnet@netronome.com>
 Content-Language: en-US
 Sender: netdev-owner@vger.kernel.org
-To: Jesper Dangaard Brouer <brouer@redhat.com>
-Cc: daniel@iogearbox.net, ast@kernel.org, netdev@vger.kernel.org, oss-drivers@netronome.com, linux-doc@vger.kernel.org, linux-man@vger.kernel.org, John Fastabend <john.fastabend@gmail.com>
+To: Quentin Monnet <quentin.monnet@netronome.com>, ast@kernel.org
+Cc: netdev@vger.kernel.org, oss-drivers@netronome.com, linux-doc@vger.kernel.org, linux-man@vger.kernel.org, Lawrence Brakmo <brakmo@fb.com>, Yonghong Song <yhs@fb.com>, Josef Bacik <jbacik@fb.com>, Andrey Ignatov <rdna@fb.com>
 List-Id: linux-man@vger.kernel.org
 
-2018-04-18 17:43 UTC+0200 ~ Jesper Dangaard Brouer <brouer@redhat.com>
-> On Wed, 18 Apr 2018 15:09:41 +0100
-> Quentin Monnet <quentin.monnet@netronome.com> wrote:
+On 04/17/2018 04:34 PM, Quentin Monnet wrote:
+> Add documentation for eBPF helper functions to bpf.h user header file.
+> This documentation can be parsed with the Python script provided in
+> another commit of the patch series, in order to provide a RST document
+> that can later be converted into a man page.
 > 
->> 2018-04-18 15:34 UTC+0200 ~ Jesper Dangaard Brouer <brouer@redhat.com>
->>> On Tue, 17 Apr 2018 15:34:38 +0100
->>> Quentin Monnet <quentin.monnet@netronome.com> wrote:
->>>   
->>>> diff --git a/include/uapi/linux/bpf.h b/include/uapi/linux/bpf.h
->>>> index 350459c583de..3d329538498f 100644
->>>> --- a/include/uapi/linux/bpf.h
->>>> +++ b/include/uapi/linux/bpf.h
->>>> @@ -1276,6 +1276,50 @@ union bpf_attr {
->>>>   * 	Return
->>>>   * 		0 on success, or a negative error in case of failure.
->>>>   *
->>>> + * int bpf_redirect_map(struct bpf_map *map, u32 key, u64 flags)
->>>> + * 	Description
->>>> + * 		Redirect the packet to the endpoint referenced by *map* at
->>>> + * 		index *key*. Depending on its type, his *map* can contain  
->>>                                                     ^^^
->>>
->>> "his" -> "this"  
->>
->> Thanks!
->>
->>>> + * 		references to net devices (for forwarding packets through other
->>>> + * 		ports), or to CPUs (for redirecting XDP frames to another CPU;
->>>> + * 		but this is only implemented for native XDP (with driver
->>>> + * 		support) as of this writing).
->>>> + *
->>>> + * 		All values for *flags* are reserved for future usage, and must
->>>> + * 		be left at zero.
->>>> + * 	Return
->>>> + * 		**XDP_REDIRECT** on success, or **XDP_ABORT** on error.
->>>> + *  
->>>
->>> "XDP_ABORT" -> "XDP_ABORTED"  
->>
->> Ouch. And I did the same for bpf_redirect(). Thanks for the catch.
->>
->>>
->>> I don't know if it's worth mentioning in the doc/man-page; that for XDP
->>> using bpf_redirect_map() is a HUGE performance advantage, compared to
->>> the bpf_redirect() call ?  
->>
->> It seems worth to me. How would you simply explain the reason for this
->> difference?
+> The objective is to make the documentation easily understandable and
+> accessible to all eBPF developers, including beginners.
 > 
-> The basic reason is "bulking effect", as devmap avoids the NIC
-> tailptr/doorbell update on every packet... how to write that in a doc
-> format?
+> This patch contains descriptions for the following helper functions:
 > 
-> I wrote about why XDP_REDIRECT with maps are smart here:
->  http://vger.kernel.org/netconf2017_files/XDP_devel_update_NetConf2017_Seoul.pdf
+> Helpers from Lawrence:
+> - bpf_setsockopt()
+> - bpf_getsockopt()
+> - bpf_sock_ops_cb_flags_set()
 > 
-> Using maps for redirect, hopefully makes XDP_REDIRECT the last driver
-> XDP action code we need.  As new types of redirect can be introduced
-> without driver changes. See that AF_XDP also uses a map.
+> Helpers from Yonghong:
+> - bpf_perf_event_read_value()
+> - bpf_perf_prog_read_value()
 > 
-> It is more subtle, but maps also function as a sorting step. Imagine
-> your XDP program need to redirect out different interfaces (or CPUs in
-> cpumap case), and packets arrive intermixed.  Packets get sorted into
-> the different map indexes, and the xdp_do_flush_map() will trigger the
-> flush operation.
+> Helper from Josef:
+> - bpf_override_return()
 > 
+> Helper from Andrey:
+> - bpf_bind()
 > 
-> Happened to have an i40e NIC benchmark setup, and ran a single flow pktgen test.
+> v3:
+> - bpf_perf_event_read_value(): Fix time of selection for perf event type
+>   in description. Remove occurences of "cores" to avoid confusion with
+>   "CPU".
+> - bpf_bind(): Remove last paragraph of description, which was off topic.
 > 
-> Results with 'xdp_redirect_map'
->  13589297 pps (13,589,297) 
+> Cc: Lawrence Brakmo <brakmo@fb.com>
+> Cc: Yonghong Song <yhs@fb.com>
+> Cc: Josef Bacik <jbacik@fb.com>
+> Cc: Andrey Ignatov <rdna@fb.com>
+> Signed-off-by: Quentin Monnet <quentin.monnet@netronome.com>
 > 
-> Results with 'xdp_redirect' NOT using devmap:
->   7567575 pps (7,567,575)
+> fix patch 7: Yonghong and Andrey
+> ---
+>  include/uapi/linux/bpf.h | 178 +++++++++++++++++++++++++++++++++++++++++++++++
+>  1 file changed, 178 insertions(+)
 > 
-> Just to point out the performance benefit of devmap...
+> diff --git a/include/uapi/linux/bpf.h b/include/uapi/linux/bpf.h
+> index dd79a1c82adf..350459c583de 100644
+> --- a/include/uapi/linux/bpf.h
+> +++ b/include/uapi/linux/bpf.h
+> @@ -1234,6 +1234,28 @@ union bpf_attr {
+>   * 	Return
+>   * 		0
+>   *
+> + * int bpf_setsockopt(struct bpf_sock_ops_kern *bpf_socket, int level, int optname, char *optval, int optlen)
+> + * 	Description
+> + * 		Emulate a call to **setsockopt()** on the socket associated to
+> + * 		*bpf_socket*, which must be a full socket. The *level* at
+> + * 		which the option resides and the name *optname* of the option
+> + * 		must be specified, see **setsockopt(2)** for more information.
+> + * 		The option value of length *optlen* is pointed by *optval*.
+> + *
+> + * 		This helper actually implements a subset of **setsockopt()**.
+> + * 		It supports the following *level*\ s:
+> + *
+> + * 		* **SOL_SOCKET**, which supports the following *optname*\ s:
+> + * 		  **SO_RCVBUF**, **SO_SNDBUF**, **SO_MAX_PACING_RATE**,
+> + * 		  **SO_PRIORITY**, **SO_RCVLOWAT**, **SO_MARK**.
+> + * 		* **IPPROTO_TCP**, which supports the following *optname*\ s:
+> + * 		  **TCP_CONGESTION**, **TCP_BPF_IW**,
+> + * 		  **TCP_BPF_SNDCWND_CLAMP**.
+> + * 		* **IPPROTO_IP**, which supports *optname* **IP_TOS**.
+> + * 		* **IPPROTO_IPV6**, which supports *optname* **IPV6_TCLASS**.
+> + * 	Return
+> + * 		0 on success, or a negative error in case of failure.
+> + *
+>   * int bpf_skb_adjust_room(struct sk_buff *skb, u32 len_diff, u32 mode, u64 flags)
+>   * 	Description
+>   * 		Grow or shrink the room for data in the packet associated to
+> @@ -1281,6 +1303,162 @@ union bpf_attr {
+>   * 		performed again.
+>   * 	Return
+>   * 		0 on success, or a negative error in case of failure.
+> + *
+> + * int bpf_perf_event_read_value(struct bpf_map *map, u64 flags, struct bpf_perf_event_value *buf, u32 buf_size)
+> + * 	Description
+> + * 		Read the value of a perf event counter, and store it into *buf*
+> + * 		of size *buf_size*. This helper relies on a *map* of type
+> + * 		**BPF_MAP_TYPE_PERF_EVENT_ARRAY**. The nature of the perf event
+> + * 		counter is selected when *map* is updated with perf event file
+> + * 		descriptors. The *map* is an array whose size is the number of
+> + * 		available CPUs, and each cell contains a value relative to one
+> + * 		CPU. The value to retrieve is indicated by *flags*, that
+> + * 		contains the index of the CPU to look up, masked with
+> + * 		**BPF_F_INDEX_MASK**. Alternatively, *flags* can be set to
+> + * 		**BPF_F_CURRENT_CPU** to indicate that the value for the
+> + * 		current CPU should be retrieved.
+> + *
+> + * 		This helper behaves in a way close to
+> + * 		**bpf_perf_event_read**\ () helper, save that instead of
+> + * 		just returning the value observed, it fills the *buf*
+> + * 		structure. This allows for additional data to be retrieved: in
+> + * 		particular, the enabled and running times (in *buf*\
+> + * 		**->enabled** and *buf*\ **->running**, respectively) are
+> + * 		copied.
 
+Since you mention bpf_perf_event_read() here, we should mention that
+bpf_perf_event_read_value() is recommended over bpf_perf_event_read()
+in general. The latter bpf_perf_event_read() has some ABI quirks where
+error and counter value are used as a return code (which is obviously
+wrong to do since ranges may overlap). bpf_perf_event_read_value()
+fixed this but also provides more features at the same time over the
+old interface.
 
-Thanks for those details! This is an impressive change in performance
-indeed.
+> + * 		These values are interesting, because hardware PMU (Performance
+> + * 		Monitoring Unit) counters are limited resources. When there are
+> + * 		more PMU based perf events opened than available counters,
+> + * 		kernel will multiplex these events so each event gets certain
+> + * 		percentage (but not all) of the PMU time. In case that
+> + * 		multiplexing happens, the number of samples or counter value
+> + * 		will not reflect the case compared to when no multiplexing
+> + * 		occurs. This makes comparison between different runs difficult.
+> + * 		Typically, the counter value should be normalized before
+> + * 		comparing to other experiments. The usual normalization is done
+> + * 		as follows.
+> + *
+> + * 		::
+> + *
+> + * 			normalized_counter = counter * t_enabled / t_running
+> + *
+> + * 		Where t_enabled is the time enabled for event and t_running is
+> + * 		the time running for event since last normalization. The
+> + * 		enabled and running times are accumulated since the perf event
+> + * 		open. To achieve scaling factor between two invocations of an
+> + * 		eBPF program, users can can use CPU id as the key (which is
+> + * 		typical for perf array usage model) to remember the previous
+> + * 		value and do the calculation inside the eBPF program.
+> + * 	Return
+> + * 		0 on success, or a negative error in case of failure.
+> + *
+> + * int bpf_perf_prog_read_value(struct bpf_perf_event_data_kern *ctx, struct bpf_perf_event_value *buf, u32 buf_size)
+> + * 	Description
+> + * 		For en eBPF program attached to a perf event, retrieve the
+> + * 		value of the event counter associated to *ctx* and store it in
+> + * 		the structure pointed by *buf* and of size *buf_size*. Enabled
+> + * 		and running times are also stored in the structure (see
+> + * 		description of helper **bpf_perf_event_read_value**\ () for
+> + * 		more details).
 
-I think I will just keep it simple for the documentation. I will add the
-following for bpf_redirect_map():
+Ditto, mentioning here that bpf_perf_event_read_value() should be used instead.
 
-    When used to redirect packets to net devices, this helper
-    provides a high performance increase over **bpf_redirect**\ ().
-    This is due to various implementation details of the underlying
-    mechanisms, one of which is the fact that **bpf_redirect_map**\ ()
-    tries to send packet as a "bulk" to the device.
-
-And also append the following to bpf_redirect():
-
-    The same effect can be attained with the more generic
-    **bpf_redirect_map**\ (), which requires specific maps
-    to be used but offers better performance.
-
-Best,
-Quentin
+> + * 	Return
+> + * 		0 on success, or a negative error in case of failure.
+> + *
+> + * int bpf_getsockopt(struct bpf_sock_ops_kern *bpf_socket, int level, int optname, char *optval, int optlen)
+> + * 	Description
+> + * 		Emulate a call to **getsockopt()** on the socket associated to
+> + * 		*bpf_socket*, which must be a full socket. The *level* at
+> + * 		which the option resides and the name *optname* of the option
+> + * 		must be specified, see **getsockopt(2)** for more information.
+> + * 		The retrieved value is stored in the structure pointed by
+> + * 		*opval* and of length *optlen*.
+> + *
+> + * 		This helper actually implements a subset of **getsockopt()**.
+> + * 		It supports the following *level*\ s:
+> + *
+> + * 		* **IPPROTO_TCP**, which supports *optname*
+> + * 		  **TCP_CONGESTION**.
+> + * 		* **IPPROTO_IP**, which supports *optname* **IP_TOS**.
+> + * 		* **IPPROTO_IPV6**, which supports *optname* **IPV6_TCLASS**.
+> + * 	Return
+> + * 		0 on success, or a negative error in case of failure.
+> + *
+[...]
