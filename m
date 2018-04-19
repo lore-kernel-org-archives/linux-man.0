@@ -1,127 +1,60 @@
-From: Jesper Dangaard Brouer <brouer@redhat.com>
-Subject: Re: [PATCH bpf-next v3 8/8] bpf: add documentation for eBPF helpers
- (58-64)
-Date: Thu, 19 Apr 2018 14:58:04 +0200
-Message-ID: <20180419145804.4cf56574@redhat.com>
-References: <20180417143438.7018-1-quentin.monnet@netronome.com>
-        <20180417143438.7018-9-quentin.monnet@netronome.com>
-        <20180418153448.574c6814@redhat.com>
-        <67e84a95-5e7b-1c2c-e90f-7bcc0026bd10@netronome.com>
-        <20180418174319.37f6c793@redhat.com>
-        <62931080-6f69-3877-7a84-0df5be5754e6@netronome.com>
+From: David Howells <dhowells@redhat.com>
+Subject: Re: [PATCH 24/24] debugfs: Restrict debugfs when the kernel is locked down
+Date: Thu, 19 Apr 2018 15:35:47 +0100
+Message-ID: <27818.1524148547@warthog.procyon.org.uk>
+References: <20180413202241.GB4484@amd> <152346387861.4030.4408662483445703127.stgit@warthog.procyon.org.uk> <152346403637.4030.15247096217928429102.stgit@warthog.procyon.org.uk>
 Mime-Version: 1.0
-Content-Type: text/plain; charset=US-ASCII
-Content-Transfer-Encoding: 7bit
-Return-path: <netdev-owner@vger.kernel.org>
-In-Reply-To: <62931080-6f69-3877-7a84-0df5be5754e6@netronome.com>
-Sender: netdev-owner@vger.kernel.org
-To: Quentin Monnet <quentin.monnet@netronome.com>
-Cc: daniel@iogearbox.net, ast@kernel.org, netdev@vger.kernel.org, oss-drivers@netronome.com, linux-doc@vger.kernel.org, linux-man@vger.kernel.org, John Fastabend <john.fastabend@gmail.com>, brouer@redhat.com
+Content-Type: text/plain; charset="us-ascii"
+Content-Transfer-Encoding: 8BIT
+Return-path: <linux-kernel-owner@vger.kernel.org>
+In-Reply-To: <20180413202241.GB4484@amd>
+Content-ID: <27817.1524148547.1@warthog.procyon.org.uk>
+Sender: linux-kernel-owner@vger.kernel.org
+To: Pavel Machek <pavel@ucw.cz>
+Cc: dhowells@redhat.com, torvalds@linux-foundation.org, linux-man@vger.kernel.org, linux-api@vger.kernel.org, jmorris@namei.org, linux-kernel@vger.kernel.org, linux-security-module@vger.kernel.org
 List-Id: linux-man@vger.kernel.org
 
-On Thu, 19 Apr 2018 13:44:41 +0100
-Quentin Monnet <quentin.monnet@netronome.com> wrote:
+Pavel Machek <pavel@ucw.cz> wrote:
 
-> 2018-04-18 17:43 UTC+0200 ~ Jesper Dangaard Brouer <brouer@redhat.com>
-> > On Wed, 18 Apr 2018 15:09:41 +0100
-> > Quentin Monnet <quentin.monnet@netronome.com> wrote:
-> >   
-> >> 2018-04-18 15:34 UTC+0200 ~ Jesper Dangaard Brouer <brouer@redhat.com>  
-> >>> On Tue, 17 Apr 2018 15:34:38 +0100
-> >>> Quentin Monnet <quentin.monnet@netronome.com> wrote:
-> >>>     
-> >>>> diff --git a/include/uapi/linux/bpf.h b/include/uapi/linux/bpf.h
-> >>>> index 350459c583de..3d329538498f 100644
-> >>>> --- a/include/uapi/linux/bpf.h
-> >>>> +++ b/include/uapi/linux/bpf.h
-> >>>> @@ -1276,6 +1276,50 @@ union bpf_attr {
-> >>>>   * 	Return
-> >>>>   * 		0 on success, or a negative error in case of failure.
-> >>>>   *
-> >>>> + * int bpf_redirect_map(struct bpf_map *map, u32 key, u64 flags)
-> >>>> + * 	Description
-> >>>> + * 		Redirect the packet to the endpoint referenced by *map* at
-> >>>> + * 		index *key*. Depending on its type, his *map* can contain    
-> >>>                                                     ^^^
-> >>>
-> >>> "his" -> "this"    
-> >>
-> >> Thanks!
-> >>  
-> >>>> + * 		references to net devices (for forwarding packets through other
-> >>>> + * 		ports), or to CPUs (for redirecting XDP frames to another CPU;
-> >>>> + * 		but this is only implemented for native XDP (with driver
-> >>>> + * 		support) as of this writing).
-> >>>> + *
-> >>>> + * 		All values for *flags* are reserved for future usage, and must
-> >>>> + * 		be left at zero.
-> >>>> + * 	Return
-> >>>> + * 		**XDP_REDIRECT** on success, or **XDP_ABORT** on error.
-> >>>> + *    
-> >>>
-> >>> "XDP_ABORT" -> "XDP_ABORTED"    
-> >>
-> >> Ouch. And I did the same for bpf_redirect(). Thanks for the catch.
-> >>  
-> >>>
-> >>> I don't know if it's worth mentioning in the doc/man-page; that for XDP
-> >>> using bpf_redirect_map() is a HUGE performance advantage, compared to
-> >>> the bpf_redirect() call ?    
-> >>
-> >> It seems worth to me. How would you simply explain the reason for this
-> >> difference?  
-> > 
-> > The basic reason is "bulking effect", as devmap avoids the NIC
-> > tailptr/doorbell update on every packet... how to write that in a doc
-> > format?
-> > 
-> > I wrote about why XDP_REDIRECT with maps are smart here:
-> >  http://vger.kernel.org/netconf2017_files/XDP_devel_update_NetConf2017_Seoul.pdf
-> > 
-> > Using maps for redirect, hopefully makes XDP_REDIRECT the last driver
-> > XDP action code we need.  As new types of redirect can be introduced
-> > without driver changes. See that AF_XDP also uses a map.
-> > 
-> > It is more subtle, but maps also function as a sorting step. Imagine
-> > your XDP program need to redirect out different interfaces (or CPUs in
-> > cpumap case), and packets arrive intermixed.  Packets get sorted into
-> > the different map indexes, and the xdp_do_flush_map() will trigger the
-> > flush operation.
-> > 
-> > 
-> > Happened to have an i40e NIC benchmark setup, and ran a single flow pktgen test.
-> > 
-> > Results with 'xdp_redirect_map'
-> >  13589297 pps (13,589,297) 
-> > 
-> > Results with 'xdp_redirect' NOT using devmap:
-> >   7567575 pps (7,567,575)
-> > 
-> > Just to point out the performance benefit of devmap...  
+> >  (1) chmod and chown are disallowed on debugfs objects (though the root dir
+> >      can be modified by mount and remount, but I'm not worried about that).
 > 
-> 
-> Thanks for those details! This is an impressive change in performance
-> indeed.
-> 
-> I think I will just keep it simple for the documentation. I will add the
-> following for bpf_redirect_map():
-> 
->     When used to redirect packets to net devices, this helper
->     provides a high performance increase over **bpf_redirect**\ ().
->     This is due to various implementation details of the underlying
->     mechanisms, one of which is the fact that **bpf_redirect_map**\ ()
->     tries to send packet as a "bulk" to the device.
-> 
-> And also append the following to bpf_redirect():
-> 
->     The same effect can be attained with the more generic
->     **bpf_redirect_map**\ (), which requires specific maps
->     to be used but offers better performance.
+> This has nothing to do with the lockdown goals, right? I find chown of
+> such files quite nice, to allow debugging without doing sudo all the time.
 
-This sounds good to me! :-)
+It allows someone to give everyone access to files that should perhaps only be
+accessible by root.  Besides, if you disable lockdown then you can do this if
+you want.
 
--- 
-Best regards,
-  Jesper Dangaard Brouer
-  MSc.CS, Principal Kernel Engineer at Red Hat
-  LinkedIn: http://www.linkedin.com/in/brouer
+> >  (2) When the kernel is locked down, only files with the following criteria
+> >      are permitted to be opened:
+> > 
+> > 	- The file must have mode 00444
+> > 	- The file must not have ioctl methods
+> > 	- The file must not have mmap
+> 
+> Dunno. Would not it be nicer to go through the debugfs files and split
+> them into safe/unsafe varieties?
+
+Whilst that is a laudable idea, there are at least a couple of thousand files
+to analyse, some of them doing weird stuff in drivers that aren't easy to
+understand, and some of them with lists of files, some of which might be safe
+and some of which aren't safe.  Even some reads that look like they ought to
+be safe have side effects (such as read-and-reset counters).
+
+Besides, define 'safe'.  Is reading a particular reg on a device and returning
+the value through a debugfs read safe, for example?  What about files where
+reading is harmless, but writing needs to be disallowed?
+
+I did try initially passing in a flag to say whether something was safe or
+not, abusing an inode flag to store it since debugfs uses a plain inode
+struct, but then I realised just how many ways there are to create debugfs
+files and it started to get out of hand.  My initial idea also included
+locking everything down by default and marking things unlocked on an as-needed
+basis.
+
+If you have the time to audit all these files, then that would be great.
+
+I lean more towards the lock debugfs down entirely side.
+
+David
