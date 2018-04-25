@@ -1,175 +1,118 @@
-From: Daniel Borkmann <daniel@iogearbox.net>
-Subject: Re: [PATCH bpf-next v3 4/8] bpf: add documentation for eBPF helpers
- (23-32)
-Date: Mon, 23 Apr 2018 11:11:08 +0200
-Message-ID: <c287e127-fa51-0e43-21d0-8fed1f944077@iogearbox.net>
-References: <20180417143438.7018-1-quentin.monnet@netronome.com>
- <20180417143438.7018-5-quentin.monnet@netronome.com>
- <6f1b43c7-5d79-7419-1053-d0b29c1e2bb9@iogearbox.net>
- <b7ef2bc0-90f7-8bd9-2dd2-3b5ba2a6d4b0@netronome.com>
-Mime-Version: 1.0
-Content-Type: text/plain; charset=utf-8
-Content-Transfer-Encoding: 7bit
+From: Quentin Monnet <quentin.monnet@netronome.com>
+Subject: [PATCH bpf-next v4 00/10] bpf: document eBPF helpers and add a script to generate man page
+Date: Wed, 25 Apr 2018 18:16:51 +0100
+Message-ID: <20180425171701.11048-1-quentin.monnet@netronome.com>
 Return-path: <netdev-owner@vger.kernel.org>
-In-Reply-To: <b7ef2bc0-90f7-8bd9-2dd2-3b5ba2a6d4b0@netronome.com>
-Content-Language: en-US
 Sender: netdev-owner@vger.kernel.org
-To: Quentin Monnet <quentin.monnet@netronome.com>, ast@kernel.org
-Cc: netdev@vger.kernel.org, oss-drivers@netronome.com, linux-doc@vger.kernel.org, linux-man@vger.kernel.org
+To: daniel@iogearbox.net, ast@kernel.org
+Cc: netdev@vger.kernel.org, oss-drivers@netronome.com, quentin.monnet@netronome.com, linux-doc@vger.kernel.org, linux-man@vger.kernel.org
 List-Id: linux-man@vger.kernel.org
 
-On 04/20/2018 08:54 PM, Quentin Monnet wrote:
-> 2018-04-19 13:16 UTC+0200 ~ Daniel Borkmann <daniel@iogearbox.net>
->> On 04/17/2018 04:34 PM, Quentin Monnet wrote:
->>> Add documentation for eBPF helper functions to bpf.h user header file.
->>> This documentation can be parsed with the Python script provided in
->>> another commit of the patch series, in order to provide a RST document
->>> that can later be converted into a man page.
->>>
->>> The objective is to make the documentation easily understandable and
->>> accessible to all eBPF developers, including beginners.
->>>
->>> This patch contains descriptions for the following helper functions, all
->>> written by Daniel:
->>>
->>> - bpf_get_prandom_u32()
->>> - bpf_get_smp_processor_id()
->>> - bpf_get_cgroup_classid()
->>> - bpf_get_route_realm()
->>> - bpf_skb_load_bytes()
->>> - bpf_csum_diff()
->>> - bpf_skb_get_tunnel_opt()
->>> - bpf_skb_set_tunnel_opt()
->>> - bpf_skb_change_proto()
->>> - bpf_skb_change_type()
->>>
->>> v3:
->>> - bpf_get_prandom_u32(): Fix helper name :(. Add description, including
->>>   a note on the internal random state.
->>> - bpf_get_smp_processor_id(): Add description, including a note on the
->>>   processor id remaining stable during program run.
->>> - bpf_get_cgroup_classid(): State that CONFIG_CGROUP_NET_CLASSID is
->>>   required to use the helper. Add a reference to related documentation.
->>>   State that placing a task in net_cls controller disables cgroup-bpf.
->>> - bpf_get_route_realm(): State that CONFIG_CGROUP_NET_CLASSID is
->>>   required to use this helper.
->>> - bpf_skb_load_bytes(): Fix comment on current use cases for the helper.
->>>
->>> Cc: Daniel Borkmann <daniel@iogearbox.net>
->>> Signed-off-by: Quentin Monnet <quentin.monnet@netronome.com>
->>> ---
->>>  include/uapi/linux/bpf.h | 152 +++++++++++++++++++++++++++++++++++++++++++++++
->>>  1 file changed, 152 insertions(+)
->>>
->>> diff --git a/include/uapi/linux/bpf.h b/include/uapi/linux/bpf.h
->>> index c59bf5b28164..d748f65a8f58 100644
->>> --- a/include/uapi/linux/bpf.h
->>> +++ b/include/uapi/linux/bpf.h
-> 
-> [...]
-> 
->>> @@ -615,6 +632,27 @@ union bpf_attr {
->>>   * 	Return
->>>   * 		0 on success, or a negative error in case of failure.
->>>   *
->>> + * u32 bpf_get_cgroup_classid(struct sk_buff *skb)
->>> + * 	Description
->>> + * 		Retrieve the classid for the current task, i.e. for the
->>> + * 		net_cls (network classifier) cgroup to which *skb* belongs.
->>> + *
->>> + * 		This helper is only available is the kernel was compiled with
->>> + * 		the **CONFIG_CGROUP_NET_CLASSID** configuration option set to
->>> + * 		"**y**" or to "**m**".
->>> + *
->>> + * 		Note that placing a task into the net_cls controller completely
->>> + * 		disables the execution of eBPF programs with the cgroup.
->>
->> I'm not sure I follow the above sentence, what do you mean by that?
-> 
-> Please see comment below.
-> 
->> I would definitely also add here that this helper is limited to cgroups v1
->> only, and that it works on clsact TC egress hook but not the ingress one.
->>
->>> + * 		Also note that, in the above description, the "network
->>> + * 		classifier" cgroup does not designate a generic classifier, but
->>> + * 		a particular mechanism that provides an interface to tag
->>> + * 		network packets with a specific class identifier. See also the
->>
->> The "generic classifier" part is a bit strange to parse. I would probably
->> leave the first part out and explain that this provides a means to tag
->> packets based on a user-provided ID for all traffic coming from the tasks
->> belonging to the related cgroup.
-> 
-> In this paragraph and in the one above, I am trying to address Alexei
-> comments to the RFC v2:
-> 
->     please add that kernel should be configured with
->     CONFIG_NET_CLS_CGROUP=y|m
->     and mention Documentation/cgroup-v1/net_cls.txt
->     Otherwise 'network classifier' is way too generic.
->     I'd also mention that placing a task into net_cls controller
->     disables all of cgroup-bpf.
-> 
-> But I must admit I am struggling a bit on this helper. If I understand
-> correctly, "network classifier" is too generic and could be confused
-> with TC classifiers? Hence the attempt to avoid that in the second
+eBPF helper functions can be called from within eBPF programs to perform
+a variety of tasks that would be otherwise hard or impossible to do with
+eBPF itself. There is a growing number of such helper functions in the
+kernel, but documentation is scarce. The main user space header file
+does contain a short commented description of most helpers, but it is
+somewhat outdated and not complete. It is more a "cheat sheet" than a
+real documentation accessible to new eBPF developers.
 
-I think if you just name it "net_cls cgroup" it should be good enough in case
-the concern is that "network classifier" name would be misunderstood.
+This commit attempts to improve the situation by replacing the existing
+overview for the helpers with a more developed description. Furthermore,
+a Python script is added to generate a manual page for eBPF helpers. The
+workflow is the following, and requires the rst2man utility:
 
-> paragraph... As for "placing a task into net_cls controller disables all
-> of cgroup-bpf", again if I understand correctly, I think it refers to
-> cgroup_sk_alloc_disable() being called in write_classid() in file
-> net/core/netclassid_cgroup.c. But I am not familiar with it and cannot
-> find a nice way to explain that in the doc :/.
+    $ ./scripts/bpf_helpers_doc.py \
+            --filename include/uapi/linux/bpf.h > /tmp/bpf-helpers.rst
+    $ rst2man /tmp/bpf-helpers.rst > /tmp/bpf-helpers.7
+    $ man /tmp/bpf-helpers.7
 
-Point here should be that there's cgroups v1 and v2 infra. Both are available
-and you can use a mixture of them, but net_cls is v1 only whereas bpf progs on
-cgroups is v2 only feature. And if you look at struct sock_cgroup_data, it's
-a union for the socket, so you can only use one of them with regards to sockets.
+The objective is to keep all documentation related to the helpers in a
+single place, and to be able to generate from here a manual page that
+could be packaged in the man-pages repository and shipped with most
+distributions.
 
->>> + * 		related kernel documentation, available from the Linux sources
->>> + * 		in file *Documentation/cgroup-v1/net_cls.txt*.
->>> + * 	Return
->>> + * 		The classid, or 0 for the default unconfigured classid.
->>> + *
->>>   * int bpf_skb_vlan_push(struct sk_buff *skb, __be16 vlan_proto, u16 vlan_tci)
->>>   * 	Description
->>>   * 		Push a *vlan_tci* (VLAN tag control information) of protocol
->>> @@ -734,6 +772,16 @@ union bpf_attr {
->>>   * 		are **TC_ACT_REDIRECT** on success or **TC_ACT_SHOT** on
->>>   * 		error.
->>>   *
->>> + * u32 bpf_get_route_realm(struct sk_buff *skb)
->>> + * 	Description
->>> + * 		Retrieve the realm or the route, that is to say the
->>> + * 		**tclassid** field of the destination for the *skb*. This
->>> + * 		helper is available only if the kernel was compiled with
->>> + * 		**CONFIG_IP_ROUTE_CLASSID** configuration option.
->>
->> Could mention that this is a similar user provided tag like in the net_cls
->> case with cgroups only that this applies to routes here (dst entries) which
->> hold this tag.
->>
->> Also, should say that this works with clsact TC egress hook or alternatively
->> conventional classful egress qdiscs, but not on TC ingress. In case of clsact
->> TC egress hook this has the advantage that the dst entry has not been dropped
->> yet in the xmit path. Therefore, the dst entry does not need to be artificially
->> held via netif_keep_dst() for a classful qdisc until the skb is freed.
-> 
-> Here I am not sure to follow, the advantage is for clsact, but this is
-> only for a classful qdisc that we can avoid holding the dst entry? How
+Additionally, parsing the prototypes of the helper functions could
+hopefully be reused, with a different Printer object, to generate
+header files needed in some eBPF-related projects.
 
-No, it's only for sch_clsact where we don't need to hold it. Take a look at
-__dev_queue_xmit(), and where sch_handle_egress() is called. It's right before
-the dev->priv_flags & IFF_XMIT_DST_RELEASE check where we either hold or drop
-the dst from skb.
+Regarding the description of each helper, it comprises several items:
 
-In cls_bpf_prog_from_efd() the tcf_block_netif_keep_dst() will handle this.
-If you call cls_bpf e.g. out of htb via htb_classify() -> tcf_classify()
-then you would have to hold it and thus call netif_keep_dst() so that the
-test in __dev_queue_xmit() results in holding the dst via skb_dst_force().
+- The function prototype.
+- A description of the function and of its arguments (except for a
+  couple of cases, when there are no arguments and the return value
+  makes the function usage really obvious).
+- A description of return values (if not void).
 
-Cheers,
-Daniel
+Additional items such as the list of compatible eBPF program and map
+types for each helper, Linux kernel version that introduced the helper,
+GPL-only restriction, and commit hash could be added in the future, but
+it was decided on the mailing list to leave them aside for now.
+
+For several helpers, descriptions are inspired (at times, nearly copied)
+from the commit logs introducing them in the kernel--Many thanks to
+their respective authors! Some sentences were also adapted from comments
+from the reviews, thanks to the reviewers as well. Descriptions were
+completed as much as possible, the objective being to have something easily
+accessible even for people just starting with eBPF. There is probably a bit
+more work to do in this direction for some helpers.
+
+Some RST formatting is used in the descriptions (not in function
+prototypes, to keep them readable, but the Python script provided in
+order to generate the RST for the manual page does add formatting to
+prototypes, to produce something pretty) to get "bold" and "italics" in
+manual pages. Hopefully, the descriptions in bpf.h file remains
+perfectly readable. Note that the few trailing white spaces are
+intentional, removing them would break paragraphs for rst2man.
+
+The descriptions should ideally be updated each time someone adds a new
+helper, or updates the behaviour (new socket option supported, ...) or
+the interface (new flags available, ...) of existing ones.
+
+To ease the review process, the documentation has been split into several
+patches.
+
+v3 -> v4:
+- Add a patch (#9) for newly added BPF helpers.
+- Add a patch (#10) to update UAPI bpf.h version under tools/.
+- Use SPDX tag in Python script.
+- Several fixes on man page header and footer, and helpers documentation.
+  Please refer to individual patches for details.
+
+RFC v2 -> PATCH v3:
+Several fixes on man page header and footer, and helpers documentation.
+Please refer to individual patches for details.
+
+RFC v1 -> RFC v2:
+- Remove "For" (compatible program and map types), "Since" (minimal
+  Linux kernel version required), "GPL only" sections and commit hashes
+  for the helpers.
+- Add comment on top of the description list to explain how this
+  documentation is supposed to be processed.
+- Update Python script accordingly (remove the same sections, and remove
+  paragraphs on program types and GPL restrictions from man page
+  header).
+- Split series into several patches.
+
+Cc: linux-doc@vger.kernel.org
+Cc: linux-man@vger.kernel.org
+
+Quentin Monnet (10):
+  bpf: add script and prepare bpf.h for new helpers documentation
+  bpf: add documentation for eBPF helpers (01-11)
+  bpf: add documentation for eBPF helpers (12-22)
+  bpf: add documentation for eBPF helpers (23-32)
+  bpf: add documentation for eBPF helpers (33-41)
+  bpf: add documentation for eBPF helpers (42-50)
+  bpf: add documentation for eBPF helpers (51-57)
+  bpf: add documentation for eBPF helpers (58-64)
+  bpf: add documentation for eBPF helpers (65-66)
+  bpf: update bpf.h uapi header for tools
+
+ include/uapi/linux/bpf.h       | 1776 +++++++++++++++++++++++++++++++---------
+ scripts/bpf_helpers_doc.py     |  421 ++++++++++
+ tools/include/uapi/linux/bpf.h | 1776 +++++++++++++++++++++++++++++++---------
+ 3 files changed, 3181 insertions(+), 792 deletions(-)
+ create mode 100755 scripts/bpf_helpers_doc.py
+
+-- 
+2.14.1
