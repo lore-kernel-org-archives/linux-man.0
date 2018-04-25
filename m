@@ -1,13 +1,13 @@
 From: Quentin Monnet <quentin.monnet@netronome.com>
-Subject: [PATCH bpf-next v4 09/10] bpf: add documentation for eBPF helpers (65-66)
-Date: Wed, 25 Apr 2018 18:17:00 +0100
-Message-ID: <20180425171701.11048-10-quentin.monnet@netronome.com>
+Subject: [PATCH bpf-next v4 05/10] bpf: add documentation for eBPF helpers (33-41)
+Date: Wed, 25 Apr 2018 18:16:56 +0100
+Message-ID: <20180425171701.11048-6-quentin.monnet@netronome.com>
 References: <20180425171701.11048-1-quentin.monnet@netronome.com>
 Return-path: <netdev-owner@vger.kernel.org>
 In-Reply-To: <20180425171701.11048-1-quentin.monnet@netronome.com>
 Sender: netdev-owner@vger.kernel.org
 To: daniel@iogearbox.net, ast@kernel.org
-Cc: netdev@vger.kernel.org, oss-drivers@netronome.com, quentin.monnet@netronome.com, linux-doc@vger.kernel.org, linux-man@vger.kernel.org, "Nikita V . Shirokov" <tehnerd@tehnerd.com>, Eyal Birger <eyal.birger@gmail.com>
+Cc: netdev@vger.kernel.org, oss-drivers@netronome.com, quentin.monnet@netronome.com, linux-doc@vger.kernel.org, linux-man@vger.kernel.org
 List-Id: linux-man@vger.kernel.org
 
 Add documentation for eBPF helper functions to bpf.h user header file.
@@ -18,38 +18,85 @@ that can later be converted into a man page.
 The objective is to make the documentation easily understandable and
 accessible to all eBPF developers, including beginners.
 
-This patch contains descriptions for the following helper functions:
+This patch contains descriptions for the following helper functions, all
+written by Daniel:
 
-Helper from Nikita:
-- bpf_xdp_adjust_tail()
-
-Helper from Eyal:
-- bpf_skb_get_xfrm_state()
+- bpf_get_hash_recalc()
+- bpf_skb_change_tail()
+- bpf_skb_pull_data()
+- bpf_csum_update()
+- bpf_set_hash_invalid()
+- bpf_get_numa_node_id()
+- bpf_set_hash()
+- bpf_skb_adjust_room()
+- bpf_xdp_adjust_meta()
 
 v4:
-- New patch (helpers did not exist yet for previous versions).
+- bpf_skb_change_tail(): Clarify comment about invalidated verifier
+  checks.
+- bpf_skb_pull_data(): Clarify the motivation for using this helper or
+  bpf_skb_load_bytes(), on non-linear buffers. Fix RST formatting for
+  *skb*. Clarify comment about invalidated verifier checks.
+- bpf_csum_update(): Fix description of checksum (entire packet, not IP
+  checksum). Fix a typo: "header" instead of "helper".
+- bpf_set_hash_invalid(): Mention bpf_get_hash_recalc().
+- bpf_get_numa_node_id(): State that the helper is not restricted to
+  programs attached to sockets.
+- bpf_skb_adjust_room(): Clarify comment about invalidated verifier
+  checks.
+- bpf_xdp_adjust_meta(): Clarify comment about invalidated verifier
+  checks.
 
-Cc: Nikita V. Shirokov <tehnerd@tehnerd.com>
-Cc: Eyal Birger <eyal.birger@gmail.com>
+Cc: Daniel Borkmann <daniel@iogearbox.net>
 Signed-off-by: Quentin Monnet <quentin.monnet@netronome.com>
+Acked-by: Alexei Starovoitov <ast@kernel.org>
 ---
- include/uapi/linux/bpf.h | 30 ++++++++++++++++++++++++++++++
- 1 file changed, 30 insertions(+)
+ include/uapi/linux/bpf.h | 164 +++++++++++++++++++++++++++++++++++++++++++++++
+ 1 file changed, 164 insertions(+)
 
 diff --git a/include/uapi/linux/bpf.h b/include/uapi/linux/bpf.h
-index 335ac427d43b..3b91e22f68c1 100644
+index 28681cef14d4..d1207ba39280 100644
 --- a/include/uapi/linux/bpf.h
 +++ b/include/uapi/linux/bpf.h
-@@ -1737,6 +1737,36 @@ union bpf_attr {
-  * 		must be set to zero.
+@@ -1071,9 +1071,173 @@ union bpf_attr {
   * 	Return
   * 		0 on success, or a negative error in case of failure.
-+ *
-+ * int bpf_xdp_adjust_tail(struct xdp_buff *xdp_md, int delta)
+  *
++ * u32 bpf_get_hash_recalc(struct sk_buff *skb)
 + * 	Description
-+ * 		Adjust (move) *xdp_md*\ **->data_end** by *delta* bytes. It is
-+ * 		only possible to shrink the packet as of this writing,
-+ * 		therefore *delta* must be a negative integer.
++ * 		Retrieve the hash of the packet, *skb*\ **->hash**. If it is
++ * 		not set, in particular if the hash was cleared due to mangling,
++ * 		recompute this hash. Later accesses to the hash can be done
++ * 		directly with *skb*\ **->hash**.
++ *
++ * 		Calling **bpf_set_hash_invalid**\ (), changing a packet
++ * 		prototype with **bpf_skb_change_proto**\ (), or calling
++ * 		**bpf_skb_store_bytes**\ () with the
++ * 		**BPF_F_INVALIDATE_HASH** are actions susceptible to clear
++ * 		the hash and to trigger a new computation for the next call to
++ * 		**bpf_get_hash_recalc**\ ().
++ * 	Return
++ * 		The 32-bit hash.
++ *
+  * u64 bpf_get_current_task(void)
+  * 	Return
+  * 		A pointer to the current task struct.
++ *
++ * int bpf_skb_change_tail(struct sk_buff *skb, u32 len, u64 flags)
++ * 	Description
++ * 		Resize (trim or grow) the packet associated to *skb* to the
++ * 		new *len*. The *flags* are reserved for future usage, and must
++ * 		be left at zero.
++ *
++ * 		The basic idea is that the helper performs the needed work to
++ * 		change the size of the packet, then the eBPF program rewrites
++ * 		the rest via helpers like **bpf_skb_store_bytes**\ (),
++ * 		**bpf_l3_csum_replace**\ (), **bpf_l3_csum_replace**\ ()
++ * 		and others. This helper is a slow path utility intended for
++ * 		replies with control messages. And because it is targeted for
++ * 		slow path, the helper itself can afford to be slow: it
++ * 		implicitly linearizes, unclones and drops offloads from the
++ * 		*skb*.
 + *
 + * 		A call to this helper is susceptible to change the underlaying
 + * 		packet buffer. Therefore, at load time, all checks on pointers
@@ -59,19 +106,127 @@ index 335ac427d43b..3b91e22f68c1 100644
 + * 	Return
 + * 		0 on success, or a negative error in case of failure.
 + *
-+ * int bpf_skb_get_xfrm_state(struct sk_buff *skb, u32 index, struct bpf_xfrm_state *xfrm_state, u32 size, u64 flags)
++ * int bpf_skb_pull_data(struct sk_buff *skb, u32 len)
 + * 	Description
-+ * 		Retrieve the XFRM state (IP transform framework, see also
-+ * 		**ip-xfrm(8)**) at *index* in XFRM "security path" for *skb*.
++ * 		Pull in non-linear data in case the *skb* is non-linear and not
++ * 		all of *len* are part of the linear section. Make *len* bytes
++ * 		from *skb* readable and writable. If a zero value is passed for
++ * 		*len*, then the whole length of the *skb* is pulled.
 + *
-+ * 		The retrieved value is stored in the **struct bpf_xfrm_state**
-+ * 		pointed by *xfrm_state* and of length *size*.
++ * 		This helper is only needed for reading and writing with direct
++ * 		packet access.
++ *
++ * 		For direct packet access, testing that offsets to access
++ * 		are within packet boundaries (test on *skb*\ **->data_end**) is
++ * 		susceptible to fail if offsets are invalid, or if the requested
++ * 		data is in non-linear parts of the *skb*. On failure the
++ * 		program can just bail out, or in the case of a non-linear
++ * 		buffer, use a helper to make the data available. The
++ * 		**bpf_skb_load_bytes**\ () helper is a first solution to access
++ * 		the data. Another one consists in using **bpf_skb_pull_data**
++ * 		to pull in once the non-linear parts, then retesting and
++ * 		eventually access the data.
++ *
++ * 		At the same time, this also makes sure the *skb* is uncloned,
++ * 		which is a necessary condition for direct write. As this needs
++ * 		to be an invariant for the write part only, the verifier
++ * 		detects writes and adds a prologue that is calling
++ * 		**bpf_skb_pull_data()** to effectively unclone the *skb* from
++ * 		the very beginning in case it is indeed cloned.
++ *
++ * 		A call to this helper is susceptible to change the underlaying
++ * 		packet buffer. Therefore, at load time, all checks on pointers
++ * 		previously done by the verifier are invalidated and must be
++ * 		performed again, if the helper is used in combination with
++ * 		direct packet access.
++ * 	Return
++ * 		0 on success, or a negative error in case of failure.
++ *
++ * s64 bpf_csum_update(struct sk_buff *skb, __wsum csum)
++ * 	Description
++ * 		Add the checksum *csum* into *skb*\ **->csum** in case the
++ * 		driver has supplied a checksum for the entire packet into that
++ * 		field. Return an error otherwise. This helper is intended to be
++ * 		used in combination with **bpf_csum_diff**\ (), in particular
++ * 		when the checksum needs to be updated after data has been
++ * 		written into the packet through direct packet access.
++ * 	Return
++ * 		The checksum on success, or a negative error code in case of
++ * 		failure.
++ *
++ * void bpf_set_hash_invalid(struct sk_buff *skb)
++ * 	Description
++ * 		Invalidate the current *skb*\ **->hash**. It can be used after
++ * 		mangling on headers through direct packet access, in order to
++ * 		indicate that the hash is outdated and to trigger a
++ * 		recalculation the next time the kernel tries to access this
++ * 		hash or when the **bpf_get_hash_recalc**\ () helper is called.
++ *
++ * int bpf_get_numa_node_id(void)
++ * 	Description
++ * 		Return the id of the current NUMA node. The primary use case
++ * 		for this helper is the selection of sockets for the local NUMA
++ * 		node, when the program is attached to sockets using the
++ * 		**SO_ATTACH_REUSEPORT_EBPF** option (see also **socket(7)**),
++ * 		but the helper is also available to other eBPF program types,
++ * 		similarly to **bpf_get_smp_processor_id**\ ().
++ * 	Return
++ * 		The id of current NUMA node.
++ *
++ * u32 bpf_set_hash(struct sk_buff *skb, u32 hash)
++ * 	Description
++ * 		Set the full hash for *skb* (set the field *skb*\ **->hash**)
++ * 		to value *hash*.
++ * 	Return
++ * 		0
++ *
++ * int bpf_skb_adjust_room(struct sk_buff *skb, u32 len_diff, u32 mode, u64 flags)
++ * 	Description
++ * 		Grow or shrink the room for data in the packet associated to
++ * 		*skb* by *len_diff*, and according to the selected *mode*.
++ *
++ * 		There is a single supported mode at this time:
++ *
++ * 		* **BPF_ADJ_ROOM_NET**: Adjust room at the network layer
++ * 		  (room space is added or removed below the layer 3 header).
 + *
 + * 		All values for *flags* are reserved for future usage, and must
 + * 		be left at zero.
 + *
-+ * 		This helper is available only if the kernel was compiled with
-+ * 		**CONFIG_XFRM** configuration option.
++ * 		A call to this helper is susceptible to change the underlaying
++ * 		packet buffer. Therefore, at load time, all checks on pointers
++ * 		previously done by the verifier are invalidated and must be
++ * 		performed again, if the helper is used in combination with
++ * 		direct packet access.
++ * 	Return
++ * 		0 on success, or a negative error in case of failure.
++ *
++ * int bpf_xdp_adjust_meta(struct xdp_buff *xdp_md, int delta)
++ * 	Description
++ * 		Adjust the address pointed by *xdp_md*\ **->data_meta** by
++ * 		*delta* (which can be positive or negative). Note that this
++ * 		operation modifies the address stored in *xdp_md*\ **->data**,
++ * 		so the latter must be loaded only after the helper has been
++ * 		called.
++ *
++ * 		The use of *xdp_md*\ **->data_meta** is optional and programs
++ * 		are not required to use it. The rationale is that when the
++ * 		packet is processed with XDP (e.g. as DoS filter), it is
++ * 		possible to push further meta data along with it before passing
++ * 		to the stack, and to give the guarantee that an ingress eBPF
++ * 		program attached as a TC classifier on the same device can pick
++ * 		this up for further post-processing. Since TC works with socket
++ * 		buffers, it remains possible to set from XDP the **mark** or
++ * 		**priority** pointers, or other pointers for the socket buffer.
++ * 		Having this scratch space generic and programmable allows for
++ * 		more flexibility as the user is free to store whatever meta
++ * 		data they need.
++ *
++ * 		A call to this helper is susceptible to change the underlaying
++ * 		packet buffer. Therefore, at load time, all checks on pointers
++ * 		previously done by the verifier are invalidated and must be
++ * 		performed again, if the helper is used in combination with
++ * 		direct packet access.
 + * 	Return
 + * 		0 on success, or a negative error in case of failure.
   */
