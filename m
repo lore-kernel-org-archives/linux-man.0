@@ -1,68 +1,109 @@
-From: Daniel Borkmann <daniel@iogearbox.net>
-Subject: Re: [PATCH bpf-next v4 00/10] bpf: document eBPF helpers and add a
- script to generate man page
-Date: Fri, 27 Apr 2018 11:08:34 +0200
-Message-ID: <37a883ea-a714-6a6e-58df-d67fa9aa106c@iogearbox.net>
-References: <20180425171701.11048-1-quentin.monnet@netronome.com>
+From: "Michael Kerrisk (man-pages)" <mtk.manpages@gmail.com>
+Subject: Re: [PATCH] mmap.2: MAP_FIXED is okay if the address range has been
+ reserved
+Date: Wed, 2 May 2018 15:06:34 +0200
+Message-ID: <43db1d63-fa64-4b4a-f3c3-edc73892bd23@gmail.com>
+References: <CAG48ez2w+3FDh9LM3+P2EHowicjM2Xw6giR6uq=26JfWHYsTAQ@mail.gmail.com>
+ <20180413160435.GA17484@dhcp22.suse.cz>
+ <CAG48ez3-xtmAt2EpRFR8GNKKPcsDsyg7XdwQ=D5w3Ym6w4Krjw@mail.gmail.com>
+ <CAG48ez1PdzMs8hkatbzSLBWYucjTc75o8ovSmeC66+e9mLvSfA@mail.gmail.com>
+ <20180416100736.GG17484@dhcp22.suse.cz>
+ <CAG48ez3DwRXMtiinUWKnan6hAppLYLdx-w+VzXG6ubioZUacQg@mail.gmail.com>
+ <20180416191805.GS17484@dhcp22.suse.cz>
+ <CAG48ez1nf96nHj8a+aZy22RwqYTUZBGrsGFcz=ZhZBUWzaEZ9w@mail.gmail.com>
+ <20180416195726.GT17484@dhcp22.suse.cz>
+ <CAG48ez1bV_zZP3Y2ioDndP+H8mLCcxOtU1vCbWe7Q8myEGfXQQ@mail.gmail.com>
+ <20180416211115.GU17484@dhcp22.suse.cz>
 Mime-Version: 1.0
 Content-Type: text/plain; charset=utf-8
 Content-Transfer-Encoding: 7bit
-Return-path: <netdev-owner@vger.kernel.org>
-In-Reply-To: <20180425171701.11048-1-quentin.monnet@netronome.com>
+Return-path: <linux-kernel-owner@vger.kernel.org>
+In-Reply-To: <20180416211115.GU17484@dhcp22.suse.cz>
 Content-Language: en-US
-Sender: netdev-owner@vger.kernel.org
-To: Quentin Monnet <quentin.monnet@netronome.com>, ast@kernel.org
-Cc: netdev@vger.kernel.org, oss-drivers@netronome.com, linux-doc@vger.kernel.org, linux-man@vger.kernel.org
+Sender: linux-kernel-owner@vger.kernel.org
+To: Michal Hocko <mhocko@kernel.org>, Jann Horn <jannh@google.com>
+Cc: mtk.manpages@gmail.com, John Hubbard <jhubbard@nvidia.com>, linux-man <linux-man@vger.kernel.org>, Andrew Morton <akpm@linux-foundation.org>, Linux-MM <linux-mm@kvack.org>, lkml <linux-kernel@vger.kernel.org>, Linux API <linux-api@vger.kernel.org>
 List-Id: linux-man@vger.kernel.org
 
-On 04/25/2018 07:16 PM, Quentin Monnet wrote:
-> eBPF helper functions can be called from within eBPF programs to perform
-> a variety of tasks that would be otherwise hard or impossible to do with
-> eBPF itself. There is a growing number of such helper functions in the
-> kernel, but documentation is scarce. The main user space header file
-> does contain a short commented description of most helpers, but it is
-> somewhat outdated and not complete. It is more a "cheat sheet" than a
-> real documentation accessible to new eBPF developers.
-> 
-> This commit attempts to improve the situation by replacing the existing
-> overview for the helpers with a more developed description. Furthermore,
-> a Python script is added to generate a manual page for eBPF helpers. The
-> workflow is the following, and requires the rst2man utility:
-> 
->     $ ./scripts/bpf_helpers_doc.py \
->             --filename include/uapi/linux/bpf.h > /tmp/bpf-helpers.rst
->     $ rst2man /tmp/bpf-helpers.rst > /tmp/bpf-helpers.7
->     $ man /tmp/bpf-helpers.7
-> 
-> The objective is to keep all documentation related to the helpers in a
-> single place, and to be able to generate from here a manual page that
-> could be packaged in the man-pages repository and shipped with most
-> distributions.
-> 
-> Additionally, parsing the prototypes of the helper functions could
-> hopefully be reused, with a different Printer object, to generate
-> header files needed in some eBPF-related projects.
-> 
-> Regarding the description of each helper, it comprises several items:
-> 
-> - The function prototype.
-> - A description of the function and of its arguments (except for a
->   couple of cases, when there are no arguments and the return value
->   makes the function usage really obvious).
-> - A description of return values (if not void).
-> 
-> Additional items such as the list of compatible eBPF program and map
-> types for each helper, Linux kernel version that introduced the helper,
-> GPL-only restriction, and commit hash could be added in the future, but
-> it was decided on the mailing list to leave them aside for now.
-> 
-> For several helpers, descriptions are inspired (at times, nearly copied)
-> from the commit logs introducing them in the kernel--Many thanks to
-> their respective authors! Some sentences were also adapted from comments
-> from the reviews, thanks to the reviewers as well. Descriptions were
-> completed as much as possible, the objective being to have something easily
-> accessible even for people just starting with eBPF. There is probably a bit
-> more work to do in this direction for some helpers.
-[...]
+Jann, Micha,
 
-Applied yesterday night to bpf-next (and now in net-next), thanks Quentin!
+On 04/16/2018 11:11 PM, Michal Hocko wrote:
+> On Mon 16-04-18 22:17:40, Jann Horn wrote:
+>> On Mon, Apr 16, 2018 at 9:57 PM, Michal Hocko <mhocko@kernel.org> wrote:
+>>> On Mon 16-04-18 21:30:09, Jann Horn wrote:
+>>>> On Mon, Apr 16, 2018 at 9:18 PM, Michal Hocko <mhocko@kernel.org> wrote:
+>>> [...]
+>>>>> Yes, reasonably well written application will not have this problem.
+>>>>> That, however, requires an external synchronization and that's why
+>>>>> called it error prone and racy. I guess that was the main motivation for
+>>>>> that part of the man page.
+>>>>
+>>>> What requires external synchronization? I still don't understand at
+>>>> all what you're talking about.
+>>>>
+>>>> The following code:
+>>>>
+>>>> void *try_to_alloc_addr(void *hint, size_t len) {
+>>>>   char *x = mmap(hint, len, ...);
+>>>>   if (x == MAP_FAILED) return NULL;
+>>>>   if (x == hint) return x;
+>>>
+>>> Any other thread can modify the address space at this moment.
+>>
+>> But not parts of the address space that were returned by this mmap() call.
+> ?
+>>> Just
+>>> consider that another thread would does mmap(x, MAP_FIXED) (or any other
+>>> address overlapping [x, x+len] range)
+>>
+>> If the other thread does that without previously having created a
+>> mapping covering the area in question, that would be a bug in the
+>> other thread.
+> 
+> MAP_FIXED is sometimes used without preallocated address ranges.
+> 
+>> MAP_FIXED on an unmapped address is almost always a bug
+>> (excluding single-threaded cases with no library code, and even then
+>> it's quite weird) - for example, any malloc() call could also cause
+>> libc to start using the memory range you're trying to map with
+>> MAP_FIXED.
+> 
+> Yeah and that's why we there is such a large paragraph in the man page
+> ;)
+> 
+>>> becaus it is seemingly safe as x
+>>> != hint.
+>>
+>> I don't understand this part. Are you talking about a hypothetical
+>> scenario in which a programmer attempts to segment the virtual memory
+>> space into areas that are exclusively used by threads without creating
+>> memory mappings for those areas?
+> 
+> Yeah, that doesn't sound all that over-exaggerated, right? And yes,
+> such a code would be subtle and most probably buggy. I am not trying to
+> argue for those hypothetical cases. All I am saying is that MAP_FIXED is
+> subtle.
+> 
+> I _do_ agree that using it solely on the preallocated and _properly_
+> managed address ranges is safe. I still maintain my position on error
+> prone though. And besides that there are usecases which do not operate
+> on preallocated address ranges so people really have to be careful.
+> 
+> I do not really care what is the form. I find the current wording quite
+> informative and showing examples of how things might be broken. I do
+> agree with your remark that "MAP_FIXED on preallocated ranges is safe"
+> should be added. But MAP_FIXED is dangerous API and should have few big
+> fat warnings.
+
+So, at this stage, is any further patch needed to the text describing
+MAP_FIXED/MAP_FIXED_REPLACE?
+
+Cheers,
+
+Michael
+
+
+-- 
+Michael Kerrisk
+Linux man-pages maintainer; http://www.kernel.org/doc/man-pages/
+Linux/UNIX System Programming Training: http://man7.org/training/
