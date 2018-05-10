@@ -1,444 +1,66 @@
-From: "Michael Kerrisk (man-pages)" <mtk.manpages@gmail.com>
-Subject: man-pages-4.16 released
-Date: Fri, 4 May 2018 09:42:30 +0200
-Message-ID: <59c946ed-b082-4aa5-e970-59a0fb0e7669@gmail.com>
+From: Pavel Machek <pavel@ucw.cz>
+Subject: Re: [PATCH 24/24] debugfs: Restrict debugfs when the kernel is
+ locked down
+Date: Thu, 10 May 2018 13:01:13 +0200
+Message-ID: <20180510110113.GA6977@amd>
+References: <20180413202241.GB4484@amd>
+ <152346387861.4030.4408662483445703127.stgit@warthog.procyon.org.uk>
+ <152346403637.4030.15247096217928429102.stgit@warthog.procyon.org.uk>
+ <27818.1524148547@warthog.procyon.org.uk>
 Mime-Version: 1.0
-Content-Type: text/plain; charset=utf-8
-Content-Transfer-Encoding: 8bit
-Return-path: <libc-alpha-return-92032-glibc-alpha=m.gmane.org@sourceware.org>
-List-Unsubscribe: <mailto:libc-alpha-unsubscribe-glibc-alpha=m.gmane.org@sourceware.org>
-List-Subscribe: <mailto:libc-alpha-subscribe@sourceware.org>
-List-Archive: <http://sourceware.org/ml/libc-alpha/>
-List-Post: <mailto:libc-alpha@sourceware.org>
-List-Help: <mailto:libc-alpha-help@sourceware.org>, <http://sourceware.org/ml/#faqs>
-Sender: libc-alpha-owner@sourceware.org
-To: linux-man <linux-man@vger.kernel.org>, "libc-alpha@sourceware.org" <libc-alpha@sourceware.org>
-Cc: mtk.manpages@gmail.com
+Content-Type: multipart/signed; micalg=pgp-sha1;
+        protocol="application/pgp-signature"; boundary="KsGdsel6WgEHnImy"
+Return-path: <linux-kernel-owner@vger.kernel.org>
+Content-Disposition: inline
+In-Reply-To: <27818.1524148547@warthog.procyon.org.uk>
+Sender: linux-kernel-owner@vger.kernel.org
+To: David Howells <dhowells@redhat.com>
+Cc: torvalds@linux-foundation.org, linux-man@vger.kernel.org, linux-api@vger.kernel.org, jmorris@namei.org, linux-kernel@vger.kernel.org, linux-security-module@vger.kernel.org
 List-Id: linux-man@vger.kernel.org
 
-Gidday,
 
-The Linux man-pages maintainer proudly announces:
-
-    man-pages-4.16 - man pages for Linux
-
-This release resulted from patches, bug reports, reviews, and comments
-from 29 contributors. Around 160 commits changed 62 pages.
-
-Tarball download:
-    http://www.kernel.org/doc/man-pages/download.html
-Git repository:
-    https://git.kernel.org/cgit/docs/man-pages/man-pages.git/
-Online changelog:
-    http://man7.org/linux/man-pages/changelog.html#release_4.16
-
-A short summary of the release is blogged at:
-http://linux-man-pages.blogspot.com/2018/04/man-pages-416-is-released.html
-
-The current version of the pages is browsable at:
-http://man7.org/linux/man-pages/
-
-You are receiving this message either because:
-
-a) You contributed to the content of this release.
-
-b) You are subscribed to linux-man@vger.kernel.org or
-libc-alpha@sourceware.org.
-
-c) I have information (possibly inaccurate) that you are the maintainer
-of a translation of the manual pages, or are the maintainer of the
-manual pages set in a particular distribution, or have expressed
-interest in helping with man-pages maintenance, or have otherwise
-expressed interest in being notified about man-pages releases.
-If you don't want to receive such messages from me, or you know of
-some other translator or maintainer who may want to receive such
-notifications, send me a message.
-
-Cheers,
-
-Michael
-
-==================== Changes in man-pages-4.16 ====================
-
-Released: 2018-04-30, Munich
-
-
-Contributors
-------------
-
-The following people contributed patches/fixes or (noted in brackets
-in the changelog below) reports, notes, and ideas that have been
-incorporated in changes in this release:
-
-Adam Borowski <kilobyte@angband.pl>
-Andy Owen <andrew.owen@dolby.com>
-Carlos O'Donell <carlos@redhat.com>
-Carsten Grohmann <carstengrohmann@gmx.de>
-Elvira Khabirova <lineprinter@altlinux.org>
-Enrique Garcia <cquike@arcor.de>
-Frederic Brault <fbrault@xyalis.com>
-Heinrich Schuchardt <xypron.glpk@gmx.de>
-Howard Johnson <hwj@BridgeportContractor.com>
-Jakub Wilk <jwilk@jwilk.net>
-Jan Kara <jack@suse.cz>
-Jann Horn <jannh@google.com>
-John Hubbard <jhubbard@nvidia.com>
-Jürg Billeter <j@bitron.ch>
-Konstantin Grinemayer <cdlscpmv@gmail.com>
-Konstantin Khlebnikov <khlebnikov@yandex-team.ru>
-Martin Mares <mj@ucw.cz>
-Mathieu Desnoyers <mathieu.desnoyers@efficios.com>
-Mattias Andrée <maandree@kth.se>
-Michael Kerrisk <mtk.manpages@gmail.com>
-Michal Hocko <mhocko@suse.com>
-Mike Frysinger <vapier@gentoo.org>
-Nikos Mavrogiannopoulos <nmavrogi@redhat.com>
-Robin Kuzmin <kuzmin.robin@gmail.com>
-Ross Zwisler <ross.zwisler@linux.intel.com>
-Rusty Russell <rusty@rustcorp.com.au>
-Serge E. Hallyn <serge@hallyn.com>
-Song Liu <songliubraving@fb.com>
-Tomi Salminen <tsalminen@forcepoint.com>
-
-Apologies if I missed anyone!
-
-
-Newly documented interfaces in existing pages
----------------------------------------------
-
-membarrier.2
-    Mathieu Desnoyers  [Michael Kerrisk]
-        Document new membarrier commands introduced in Linux 4.16
-            Document the following membarrier commands introduced in
-            Linux 4.16:
-
-                MEMBARRIER_CMD_GLOBAL_EXPEDITED
-                    (the old enum label MEMBARRIER_CMD_SHARED is now an
-                    alias to preserve header backward compatibility)
-                MEMBARRIER_CMD_REGISTER_GLOBAL_EXPEDITED
-                MEMBARRIER_CMD_PRIVATE_EXPEDITED_SYNC_CORE
-                MEMBARRIER_CMD_REGISTER_PRIVATE_EXPEDITED_SYNC_CORE
-
-mmap.2
-    Jan Kara  [Ross Zwisler, Michael Kerrisk]
-        Add description of MAP_SHARED_VALIDATE and MAP_SYNC
-    Michal Hocko  [John Hubbard, Michael Kerrisk, Jann Horn]
-        Document new MAP_FIXED_NOREPLACE flag
-            4.17+ kernels offer a new MAP_FIXED_NOREPLACE flag which allows
-            the caller to atomically probe for a given address range.
-
-readv.2
-io_submit.2
-    Jürg Billeter
-        Document RWF_APPEND added in Linux 4.16
-
-capabilities.7
-    Michael Kerrisk
-        Describe file capability versioning
-    Michael Kerrisk  [Serge E. Hallyn]
-        Document namespaced-file capabilities
-        [There's still more work to be done on this new text]
-
-
-Changes to individual pages
----------------------------
-
-bpf.2
-    Michael Kerrisk
-        Update list of architectures that support JITed eBPF
-            And note kernel version numbers where support is added.
-    Michael Kerrisk
-        Kernel 4.15 added CONFIG_BPF_JIT_ALWAYS_ON
-            This causes the JIT compiler to be always on and
-            forces bpf_jit_enable to 1.
-
-execve.2
-    Michael Kerrisk
-        Note that describing execve as "executing a new process" is misleading
-            This misdescription is so common that it's worth calling it out
-            explicitly.
-    Michael Kerrisk
-        More explicitly describe effect of execve() in the opening paragraph
-
-fallocate.2
-    Michael Kerrisk
-        Since Linux 4.16, Btrfs supports FALLOC_FL_ZERO_RANGE
-
-getrlimit.2
-    Michael Kerrisk
-        CAP_SYS_RESOURCE capability is required in *initial user namespace*
-
-io_submit.2
-    Michael Kerrisk
-        Add kernel version numbers for various 'aio_rw_flags' flags
-    Michael Kerrisk
-        Place 'aio_rw_flags' in alphabetical order
-
-mmap.2
-    Jann Horn
-        MAP_FIXED is okay if the address range has been reserved
-            Clarify that MAP_FIXED is appropriate if the specified address
-            range has been reserved using an existing mapping, but shouldn't
-            be used otherwise.
-    Michael Kerrisk
-        Move the text on MAP_FIXED to NOTES
-            This text has become rather long, making it it somewhat
-            unwieldy in the discussion of the mmap() flags. Therefore,
-            move it to NOTES, with a pointer in DESCRIPTION referring
-            the reader to NOTES.
-    Michael Kerrisk  [Heinrich Schuchardt]
-        Clarify that when addr==NULL, address chosen by kernel is page-aligned
-    Michael Kerrisk
-        Add a little historical detail on the obsolete MAP_DENYWRITE
-
-mount.2
-    Michael Kerrisk
-        ERRORS: add EBUSY for the case of trying to stack same mount twice
-    Michael Kerrisk
-        Remove a couple of obsolete EBUSY errors
-            As far as I can tell, these EBUSY errors disappeared
-            with the addition of stackable mounts in Linux 2.4.
-
-msgget.2
-semget.2
-shmget.2
-    Michael Kerrisk
-        The purpose of "flags" == 0 is to obtain ID of an existing IPC object
-            This was implied in these pages, but the meaning of "flags" == 0
-            could be more explicit, as indicated by questions such as
-            https://stackoverflow.com/questions/49833569/flag-value-of-semget-function
-
-open.2
-    Jann Horn
-        Document more -ETXTBSY conditions
-    Jakub Wilk
-        Add missing argument for snprintf() in example code
-
-perf_event_open.2
-    Song Liu
-        Add type kprobe and uprobe
-            Two new types kprobe and uprobe are being added to
-            perf_event_open(), which allow creating kprobe or
-            uprobe with perf_event_open. This patch adds
-            information about these types.
-
-ptrace.2
-    Jann Horn
-        Copy retval info for SECCOMP_GET_FILTER to right section
-            The "RETURN VALUE" section made a claim that was incorrect for
-            PTRACE_SECCOMP_GET_FILTER. Explicitly describe the behavior of
-            PTRACE_SECCOMP_GET_FILTER in the "RETURN VALUE" section (as
-            usual), but leave the now duplicate description in the section
-            describing PTRACE_SECCOMP_GET_FILTER, since the
-            PTRACE_SECCOMP_GET_FILTER section would otherwise probably become
-            harder to understand.
-
-readv.2
-    Michael Kerrisk
-        Remove redundant sentence
-
-seccomp.2
-    Michael Kerrisk
-        Note that execve() may change syscall numbers during life of process
-            On a multiarch/multi-ABI platform such as modern x86, each
-            architecture/ABI (x86-64, x32, i386)has its own syscall numbers,
-            which means a seccomp() filter may see different syscall numbers
-            over the life of the process if that process uses execve() to
-            execute programs that has a different architectures/ABIs.
-    Michael Kerrisk
-        Note which architectures support seccomp BPF
-    Michael Kerrisk
-        In EXAMPLE, clearly note that x32 syscalls are >= X32_SYSCALL_BIT
-
-shutdown.2
-    Carsten Grohmann
-        SEE ALSO: add close(2)
-
-syscall.2
-    Adam Borowski
-        Add riscv
-
-wait.2
-    Michael Kerrisk  [Robin Kuzmin]
-        wait() and waitpid() block the calling thread (not process)
-
-wait4.2
-    Michael Kerrisk  [Martin Mares]
-        Soften the warning against the use of wait3()/wait4()
-            These functions are nonstandard, but there is no replacement.
-
-            See https://bugzilla.kernel.org/show_bug.cgi?id=199215
-
-crypt.3
-encrypt.3
-    Carlos O'Donell  [Michael Kerrisk]
-        Add notes about _XOPEN_CRYPT
-            The distribution may choose not to support _XOPEN_CRYPT in the
-            case that the distribution has transitioned from glibc crypt to
-            libxcrypt.
-
-fseek.3
-    Michael Kerrisk  [Andy Owen]
-        ERRORS: EBADF should be ESPIPE
-    Michael Kerrisk
-        Improve EPIPE error text
-
-getcwd.3
-    Carlos O'Donell
-        Mention that "(unreachable)" is no longer returned for glibc >= 2.27.
-
-makedev.3
-    Michael Kerrisk
-        Since glibc 2.28, <sys/types.h> no longer defines these macros
-
-pthread_create.3
-    Frederic Brault
-        Note default thread stack size for several architectures
-
-tsearch.3
-    Jann Horn
-        Clarify items vs nodes
-            The manpage claimed that tsearch() returns a pointer to a data
-            item. This is incorrect; tsearch() returns a pointer to the
-            corresponding tree node, which can also be interpreted as a
-            pointer to a pointer to the data item.
-
-            Since this API is quite unintuitive, also add a clarifying
-            sentence.
-    Jann Horn
-        tdelete() can return dangling pointers
-            POSIX says that deleting the root node must cause tdelete() to
-            return some unspecified non-NULL pointer. Glibc implements it by
-            returning a dangling pointer to the (freed) root node.
-            Therefore, explicitly note that tdelete() may return bad pointers
-            that must not be accessed.
-
-elf.5
-    Michael Kerrisk
-        SEE ALSO: add patchelf(1)
-
-filesystems.5
-    Michael Kerrisk
-        Add an entry for tmpfs(5)
-
-group.5
-    Michael Kerrisk
-        SEE ALSO: add vigr(8)
-
-passwd.5
-    Michael Kerrisk
-        SEE ALSO: add vipw(8)
-
-sysfs.5
-    Michael Kerrisk
-        Add brief note on /sys/fs/smackfs
-
-tmpfs.5
-    Mike Frysinger
-        Document current mount options
-            Some of this content is moved from the mount(8) man page.
-            Style was based on proc(5) sections.
-    Michael Kerrisk
-        Remove reference to mount(8) for discussion of mount options
-            The mount options are now described in this page.
-    Michael Kerrisk
-        SEE ALSO: add Documentation/vm/transhuge.txt
-    Michael Kerrisk
-        Reformat 'huge' and 'mpol' mount option values as lists
-    Michael Kerrisk
-        Describe 'mpol' mount options
-            Based on text from Documentation/filesystems/tmpfs.txt.
-    Michael Kerrisk
-        Document 'huge' mount options
-            Based on text from Documentation/vm/transhuge.txt.
-    Michael Kerrisk
-        SEE ALSO: add set_mempolicy(2)
-    Michael Kerrisk
-        Document mpol=local mount option
-
-capabilities.7
-    Michael Kerrisk
-        Remove redundant mention of PTRACE_SECCOMP_GET_FILTER
-
-cgroups.7
-    Michael Kerrisk
-        cgroup.events transitions generate POLLERR as well as POLLPRI
-
-mount_namespaces.7
-    Michael Kerrisk
-        Note another case where shared "peer groups" are formed
-
-namespaces.7
-    Michael Kerrisk  [Konstantin Khlebnikov]
-        Mention that device ID should also be checked when comparing NS symlinks
-            When comparing two namespaces symlinks to see if they refer to
-            the same namespace, both the inode number and the device ID
-            should be compared. This point was already made clear in
-            ioctl_ns(2), but was missing from this page.
-    Michael Kerrisk
-        Note an idiosyncrasy of /proc/[pid]/ns/pid_for_children
-            /proc/[pid]/ns/pid_for_children has a value only after first
-            child is created in PID namespace. Verified by experiment.
-
-network_namespaces.7
-    Michael Kerrisk
-        Network namespaces isolate the UNIX domain abstract socket namespace
-    Michael Kerrisk
-        Add cross reference to unix(7)
-            For further information on UNIX domain abstract sockets.
-
-posixoptions.7
-    Carlos O'Donell
-        Expand XSI Options groups
-            We define in detail the X/Open System Interfaces i.e. _XOPEN_UNIX
-            and all of the X/Open System Interfaces (XSI) Options Groups.
-
-            The XSI options groups include encryption, realtime, advanced
-            realtime, realtime threads, advanced realtime threads, tracing,
-            streams, and legacy interfaces.
-    Michael Kerrisk
-        Use a more consistent, less cluttered layout for option lists
-    Michael Kerrisk
-        Make function lists more consistent and less cluttered
-            Use more consistent layout for lists of functions, and
-            remove punctuation from the lists to make them less cluttered.
-
-socket.7
-    Michael Kerrisk  [Tomi Salminen]
-        Fix error in SO_INCOMING_CPU code snippet
-            The last argument is passed by value, not reference.
-
-time.7
-    Michael Kerrisk  [Enrique Garcia]
-        Mention clock_gettime()/clock_settime() rather than [gs]ettimeofday()
-            gettimeofday() is declared obsolete by POSIX. Mention instead
-            the modern APIs for working with the realtime clock.
-
-            See https://bugzilla.kernel.org/show_bug.cgi?id=199049
-
-unix.7
-    Michael Kerrisk  [Rusty Russell]
-        ERRORS: add EBADF for sending closed file descriptor with SCM_RIGHTS
-
-vdso.7
-    Michael Kerrisk
-        VDSO symbols (system calls) are not visible to seccomp(2) filters
-
-xattr.7
-    Michael Kerrisk
-        SEE ALSO: add selinux(8)
-
-ld.so.8
-    Mike Frysinger
-        Make lack of separator escaping explicit
-            Make it clear that the delimiters in LD_PRELOAD, LD_LIBRARY_PATH,
-            and LD_AUDIT cannot be escaped so people don't try various methods
-            (such as \:) to workaround it.
-    Michael Kerrisk
-        Remove unneeded mention of PATH in discussion of LD_LIBRARY_PATH
-            This brief sentence doesn't add value to the text.
-
--- 
-Michael Kerrisk
-Linux man-pages maintainer; http://www.kernel.org/doc/man-pages/
-Linux/UNIX System Programming Training: http://man7.org/training/
+--KsGdsel6WgEHnImy
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+Content-Transfer-Encoding: quoted-printable
+
+On Thu 2018-04-19 15:35:47, David Howells wrote:
+> Pavel Machek <pavel@ucw.cz> wrote:
+>=20
+> > >  (1) chmod and chown are disallowed on debugfs objects (though the ro=
+ot dir
+> > >      can be modified by mount and remount, but I'm not worried about =
+that).
+> >=20
+> > This has nothing to do with the lockdown goals, right? I find chown of
+> > such files quite nice, to allow debugging without doing sudo all the ti=
+me.
+>=20
+> It allows someone to give everyone access to files that should perhaps on=
+ly be
+> accessible by root.  Besides, if you disable lockdown then you can do thi=
+s if
+> you want.
+
+As I said this has nothing to do with lockdown, so does not belong in
+this series. (And besides, it is bad idea.)
+
+									Pavel
+--=20
+(english) http://www.livejournal.com/~pavelmachek
+(cesky, pictures) http://atrey.karlin.mff.cuni.cz/~pavel/picture/horses/blo=
+g.html
+
+--KsGdsel6WgEHnImy
+Content-Type: application/pgp-signature; name="signature.asc"
+Content-Description: Digital signature
+
+-----BEGIN PGP SIGNATURE-----
+Version: GnuPG v1
+
+iEYEARECAAYFAlr0JnkACgkQMOfwapXb+vKsZwCfVdFRRD0vggdq5dy87grncAKq
+zooAn1UP9zxiDCMEYTDHNkNjszBUVend
+=+dt4
+-----END PGP SIGNATURE-----
+
+--KsGdsel6WgEHnImy--
