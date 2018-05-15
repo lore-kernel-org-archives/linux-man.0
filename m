@@ -1,46 +1,62 @@
-From: Alexei Starovoitov <alexei.starovoitov@gmail.com>
-Subject: Re: [bpf-next PATCH 0/5] bpf, doc: convert Documentation/bpf to
- RST-formatting
-Date: Mon, 14 May 2018 23:05:11 -0700
-Message-ID: <20180515060510.ut264galu3poyskc@ast-mbp>
-References: <152630528901.29210.9018565600000101307.stgit@firesoul>
- <CAH3MdRV_f+gN+pHDQOviM9th6i1Evaa_Vh6dKSJcXE9ymqSd1Q@mail.gmail.com>
+From: Andres Freund <andres@anarazel.de>
+Subject: SCM_RIGHTS and file descriptor limits
+Date: Tue, 15 May 2018 10:52:02 -0700
+Message-ID: <20180515175202.glz4e4gxtarefna5@alap3.anarazel.de>
 Mime-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
-Return-path: <netdev-owner@vger.kernel.org>
+Return-path: <linux-kernel-owner@vger.kernel.org>
 Content-Disposition: inline
-In-Reply-To: <CAH3MdRV_f+gN+pHDQOviM9th6i1Evaa_Vh6dKSJcXE9ymqSd1Q@mail.gmail.com>
-Sender: netdev-owner@vger.kernel.org
-To: Y Song <ys114321@gmail.com>
-Cc: Jesper Dangaard Brouer <brouer@redhat.com>, Daniel Borkmann <borkmann@iogearbox.net>, netdev <netdev@vger.kernel.org>, Quentin Monnet <quentin.monnet@netronome.com>, linux-man@vger.kernel.org, linux-doc@vger.kernel.org
+Sender: linux-kernel-owner@vger.kernel.org
+To: "David S. Miller" <davem@davemloft.net>, mtk.manpages@gmail.com, Kees Cook <keescook@chromium.org>, David Windsor <dwindsor@gmail.com>, Hans Liljestrand <ishkamiel@gmail.com>, "Reshetova, Elena" <elena.reshetova@intel.com>, Al Viro <viro@zeniv.linux.org.uk>
+Cc: linux-man@vger.kernel.org, netdev@vger.kernel.org, linux-kernel@vger.kernel.org
 List-Id: linux-man@vger.kernel.org
 
-On Mon, May 14, 2018 at 10:57:25PM -0700, Y Song wrote:
-> On Mon, May 14, 2018 at 6:42 AM, Jesper Dangaard Brouer
-> <brouer@redhat.com> wrote:
-> > The kernel is moving files under Documentation to use the RST
-> > (reStructuredText) format and Sphinx [1].  This patchset converts the
-> > files under Documentation/bpf/ into RST format.  The Sphinx
-> > integration is left as followup work.
-> >
-> > [1] https://www.kernel.org/doc/html/latest/doc-guide/sphinx.html
-> >
-> > This patchset have been uploaded as branch bpf_doc10 on github[2], so
-> > reviewers can see how GitHub renders this.
-> >
-> > [2] https://github.com/netoptimizer/linux/tree/bpf_doc10/Documentation/bpf
-> >
-> > ---
-> >
-> > Jesper Dangaard Brouer (5):
-> >       bpf, doc: add basic README.rst file
-> >       bpf, doc: rename txt files to rst files
-> >       bpf, doc: convert bpf_design_QA.rst to use RST formatting
-> >       bpf, doc: convert bpf_devel_QA.rst to use RST formatting
-> >       bpf, doc: howto use/run the BPF selftests
-> 
-> This initial conversion from .txt to .rst files look good to me. Ack
-> for the whole series.
-> Acked-by: Yonghong Song <yhs@fb.com>
+Hi,
 
-Applied, Thanks
+I'm not sure if this is a documentation omission, kernel code bug,
+missing understanding on my part, or all of the above.
+
+I'm looking at recvmsg()'s behaviour for AF_UNIX, where the sender has
+sent an fd using SCM_RIGHTS, and the receiving process has already
+exceeded RLIMIT_NOFILE.
+
+By my reading of scm_detach_fds() (called from
+unix_stream_read_generic() / unix_dgram_recvmsg(), via scm_recv()), the
+error appears to just be thrown away, with no notification given to
+userland at all:
+
+void scm_detach_fds(struct msghdr *msg, struct scm_cookie *scm)
+{
+...
+	for (i=0, cmfptr=(__force int __user *)CMSG_DATA(cm); i<fdmax;
+	     i++, cmfptr++)
+	{
+		struct socket *sock;
+		int new_fd;
+		err = security_file_receive(fp[i]);
+		if (err)
+			break;
+		err = get_unused_fd_flags(MSG_CMSG_CLOEXEC & msg->msg_flags
+					  ? O_CLOEXEC : 0);
+		if (err < 0)
+			break;
+
+If I understand correctly no error is reported to the user (function
+returns void, no put_user() calls for the unsuccessful fds/i), but all
+the scm data is "consumed" via scm_destroy().
+
+Silently consuming data without reporting an error doesn't strike me as
+nice. Now admittedly scm is one of the more kludgey interfaces, and it's
+not entirely obvious how one would do much better without significant
+added complication - the correct behaviour seems to be to return EMFILE,
+but that'd need to somehow rewind the received data, which seems
+complicated...  On the other hand it's not generally knowable how many
+file descriptors the other side sent, so one really needs to duplicate
+all scm information on the data level to make sure nothing gets lost.
+
+In case this is something that won't be fixed, it seems appropriate to
+add a section to the man pages (hence CCing linux man-pages list)
+
+Greetings,
+
+Andres Freund
