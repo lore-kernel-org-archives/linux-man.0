@@ -1,68 +1,54 @@
-From: "Dmitry V. Levin" <ldv@altlinux.org>
+From: Szabolcs Nagy <szabolcs.nagy@arm.com>
 Subject: Re: glibc and linux-man disagrees about pkey_alloc
-Date: Wed, 16 May 2018 14:19:10 +0300
-Message-ID: <20180516111910.GB19883@altlinux.org>
+Date: Wed, 16 May 2018 12:33:37 +0100
+Message-ID: <c3d942a9-ebb7-492f-7c73-af713aed9ac7@arm.com>
 References: <adae131e-c782-9508-808f-9cbea92ef694@arm.com>
+ <20180516111910.GB19883@altlinux.org>
 Mime-Version: 1.0
-Content-Type: multipart/signed; micalg=pgp-sha256;
-	protocol="application/pgp-signature"; boundary="+pHx0qQiF2pBVqBT"
-Return-path: <libc-alpha-return-92553-glibc-alpha=m.gmane.org@sourceware.org>
+Content-Type: text/plain; charset=windows-1252; format=flowed
+Content-Transfer-Encoding: 7bit
+Return-path: <libc-alpha-return-92554-glibc-alpha=m.gmane.org@sourceware.org>
 List-Unsubscribe: <mailto:libc-alpha-unsubscribe-glibc-alpha=m.gmane.org@sourceware.org>
 List-Subscribe: <mailto:libc-alpha-subscribe@sourceware.org>
 List-Archive: <http://sourceware.org/ml/libc-alpha/>
 List-Post: <mailto:libc-alpha@sourceware.org>
 List-Help: <mailto:libc-alpha-help@sourceware.org>, <http://sourceware.org/ml/#faqs>
 Sender: libc-alpha-owner@sourceware.org
-Content-Disposition: inline
-In-Reply-To: <adae131e-c782-9508-808f-9cbea92ef694@arm.com>
-To: Szabolcs Nagy <szabolcs.nagy@arm.com>
-Cc: mtk.manpages@gmail.com, nd@arm.com, linux-man@vger.kernel.org, GNU C Library <libc-alpha@sourceware.org>, Rich Felker <dalias@libc.org>
+In-Reply-To: <20180516111910.GB19883@altlinux.org>
+To: mtk.manpages@gmail.com, linux-man@vger.kernel.org, GNU C Library <libc-alpha@sourceware.org>, Rich Felker <dalias@libc.org>
+Cc: nd@arm.com
 List-Id: linux-man@vger.kernel.org
 
+On 16/05/18 12:19, Dmitry V. Levin wrote:
+> On Wed, May 16, 2018 at 12:10:40PM +0100, Szabolcs Nagy wrote:
+>> glibc sysdeps/unix/sysv/linux/bits/mman-shared.h:
+>>
+>> int pkey_alloc (unsigned int __flags, unsigned int __access_rights) __THROW;
+>>
+>> linux-man http://man7.org/linux/man-pages/man2/pkey_alloc.2.html :
+>>
+>> int pkey_alloc(unsigned long flags, unsigned long access_rights);
+>>
+>> i assume the documentation should be fixed (as the glibc
+>> code is already in use)
+> 
+> Note that pkey_alloc syscall takes arguments of type "unsigned long"
+> and explicitly tests them for unsupported bits.
+> 
+> 
 
---+pHx0qQiF2pBVqBT
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-Content-Transfer-Encoding: quoted-printable
+i see, but this is a general bug in the way the syscalls are
+documented: a syscall is not a c function, so a c declaration
+is not the right way to document it (the pcs does not even
+work for syscalls and the linux uapi headers do not provide
+magic inline wrappers usable from freestanding c code).
 
-On Wed, May 16, 2018 at 12:10:40PM +0100, Szabolcs Nagy wrote:
-> glibc sysdeps/unix/sysv/linux/bits/mman-shared.h:
->=20
-> int pkey_alloc (unsigned int __flags, unsigned int __access_rights) __THR=
-OW;
->=20
-> linux-man http://man7.org/linux/man-pages/man2/pkey_alloc.2.html :
->=20
-> int pkey_alloc(unsigned long flags, unsigned long access_rights);
->=20
-> i assume the documentation should be fixed (as the glibc
-> code is already in use)
+the libc api is in c so that is reasonable to document using
+the c language (using c/posix types).
 
-Note that pkey_alloc syscall takes arguments of type "unsigned long"
-and explicitly tests them for unsupported bits.
+so i recommend making the distinction between kernel uapi,
+syscall abi and libc api clear when they disagree about types.
 
-
---=20
-ldv
-
---+pHx0qQiF2pBVqBT
-Content-Type: application/pgp-signature; name="signature.asc"
-
------BEGIN PGP SIGNATURE-----
-
-iQIcBAEBCAAGBQJa/BOuAAoJEAVFT+BVnCUIjQMQAOKlOwE/uzOVapmR6KRN1d71
-9YxDufiABxnZ7NnCU5JfT/dDvuYiGXuWHd0dHi60q35x2/a8lCt92ukURiT3NWYV
-M/AoitkRKKAmknyFfIrssYyecR1Q61fc+HIF60kcR0H5o47S6ubZCXYYresMzOd1
-6aReEPXI6GbMa4+bjTREYpZWsImLd7UaG1OdlCexZDy4LnN/LToCmaCYCyuFWQ1F
-i7omYOsHs9b/X0dV9ydiB+8hEYlJpST2kcBqVnL64BV7SI4EeyZdlgwpBC932uun
-DaTYAVDbzvZgcFgXlNS3TDwkbpnNYwqdnMpzyJEjWkhHlTJY1M5+3Vo1PzHhWM1g
-wK+AFznWyqjaHLUW3MlUSGmUEDcAlWKTneUzJqaObzhVczjL4m+WTfXEG4s6u5ZJ
-z7p967lBJKouf5tcbJ5bfWswnXAoCAHSGXNRY09hVJBZEWWqzr73CVWhVZAXXoNK
-5EEGkNx+Xm+pjv+2CkyVUOYNu64cVTMYBA4BpJzaHl4J7WNJ95IJ0oHLiugV8eQM
-/aPHr6KQgtIKmfs5vjUcP4+g3PrK/m/jwmvhkcuQ+ylHV7DxE2NJh2xASW+6ZaTO
-mR+OGwXD+cJe4OxCN3pOx6Gee0D9L3FQOHF3+M5pNFTxIQksXWDBQgVO+XT1uNPI
-cDenedn8rjn6R8nvlbI9
-=PYUA
------END PGP SIGNATURE-----
-
---+pHx0qQiF2pBVqBT--
+in this case the man says '#include <sys/mman.h>' which is
+a libc header, so the declaration has to match whatever is
+in there otherwise it's misleading.
