@@ -1,50 +1,73 @@
-From: Rich Felker <dalias@libc.org>
+From: "Michael Kerrisk (man-pages)" <mtk.manpages@gmail.com>
 Subject: Re: glibc and linux-man disagrees about pkey_alloc
-Date: Wed, 16 May 2018 11:18:44 -0400
-Message-ID: <20180516151844.GX1392@brightrain.aerifal.cx>
+Date: Fri, 18 May 2018 17:26:35 +0200
+Message-ID: <ea88be38-f98a-f081-a836-836bbc0a4ea5@gmail.com>
 References: <adae131e-c782-9508-808f-9cbea92ef694@arm.com>
- <1f2551f3-3d6d-3905-433e-967af2c3be87@redhat.com>
+ <20180516111910.GB19883@altlinux.org>
+ <c3d942a9-ebb7-492f-7c73-af713aed9ac7@arm.com>
 Mime-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Return-path: <libc-alpha-return-92567-glibc-alpha=m.gmane.org@sourceware.org>
+Content-Type: text/plain; charset=windows-1252
+Content-Transfer-Encoding: 7bit
+Return-path: <libc-alpha-return-92605-glibc-alpha=m.gmane.org@sourceware.org>
 List-Unsubscribe: <mailto:libc-alpha-unsubscribe-glibc-alpha=m.gmane.org@sourceware.org>
 List-Subscribe: <mailto:libc-alpha-subscribe@sourceware.org>
 List-Archive: <http://sourceware.org/ml/libc-alpha/>
 List-Post: <mailto:libc-alpha@sourceware.org>
 List-Help: <mailto:libc-alpha-help@sourceware.org>, <http://sourceware.org/ml/#faqs>
 Sender: libc-alpha-owner@sourceware.org
-Content-Disposition: inline
-In-Reply-To: <1f2551f3-3d6d-3905-433e-967af2c3be87@redhat.com>
-To: Florian Weimer <fweimer@redhat.com>
-Cc: Szabolcs Nagy <szabolcs.nagy@arm.com>, mtk.manpages@gmail.com, nd@arm.com, linux-man@vger.kernel.org, GNU C Library <libc-alpha@sourceware.org>
+In-Reply-To: <c3d942a9-ebb7-492f-7c73-af713aed9ac7@arm.com>
+To: Szabolcs Nagy <szabolcs.nagy@arm.com>, linux-man@vger.kernel.org, GNU C Library <libc-alpha@sourceware.org>, Rich Felker <dalias@libc.org>
+Cc: mtk.manpages@gmail.com, nd@arm.com
 List-Id: linux-man@vger.kernel.org
 
-On Wed, May 16, 2018 at 04:36:03PM +0200, Florian Weimer wrote:
-> On 05/16/2018 01:10 PM, Szabolcs Nagy wrote:
-> >glibc sysdeps/unix/sysv/linux/bits/mman-shared.h:
-> >
-> >int pkey_alloc (unsigned int __flags, unsigned int
-> >__access_rights) __THROW;
-> >
-> >linux-man http://man7.org/linux/man-pages/man2/pkey_alloc.2.html :
-> >
-> >int pkey_alloc(unsigned long flags, unsigned long access_rights);
-> >
-> >i assume the documentation should be fixed (as the glibc
-> >code is already in use)
+On 05/16/2018 01:33 PM, Szabolcs Nagy wrote:
+> On 16/05/18 12:19, Dmitry V. Levin wrote:
+>> On Wed, May 16, 2018 at 12:10:40PM +0100, Szabolcs Nagy wrote:
+>>> glibc sysdeps/unix/sysv/linux/bits/mman-shared.h:
+>>>
+>>> int pkey_alloc (unsigned int __flags, unsigned int __access_rights) __THROW;
+>>>
+>>> linux-man http://man7.org/linux/man-pages/man2/pkey_alloc.2.html :
+>>>
+>>> int pkey_alloc(unsigned long flags, unsigned long access_rights);
+>>>
+>>> i assume the documentation should be fixed (as the glibc
+>>> code is already in use)
+>>
+>> Note that pkey_alloc syscall takes arguments of type "unsigned long"
+>> and explicitly tests them for unsupported bits.
+>>
+>>
 > 
-> unsigned long on the kernel side is unsigned long long in userspace
-> for the x32 variant of x86-64, so the kernel types aren't that
-> helpful for describing the user-space interface in an
-> architecture-independent fashion.  I expect the flags to be
-> consistent across architectures, so there can only be 32 of them
-> anyway, and access rights currently use two bits on x86 (and three
-> on POWER, I think).
+> i see, but this is a general bug in the way the syscalls are
+> documented: a syscall is not a c function, so a c declaration
+> is not the right way to document it (the pcs does not even
+> work for syscalls and the linux uapi headers do not provide
+> magic inline wrappers usable from freestanding c code).
+> 
+> the libc api is in c so that is reasonable to document using
+> the c language (using c/posix types).
+> 
+> so i recommend making the distinction between kernel uapi,
+> syscall abi and libc api clear when they disagree about types.
+> 
+> in this case the man says '#include <sys/mman.h>' which is
+> a libc header, so the declaration has to match whatever is
+> in there otherwise it's misleading.
 
-There's possibly some argument to be made that by the time 32 bits are
-filled, 32-bit archs will be legacy-only and won't be getting new pkey
-hardware features, in which case having the full 64 bits available
-would be nice... But I don't really care what decision is made as long
-as it's consistent.
+In cases like these, the section 2 man pages tend to document
+the libc interface. The reason that "unsigned long" was shown
+was that until now there was no libc interface. I've amended
+the manual page to use "unsigned int" for both arguments.
+Thanks for CCing linux-man@
 
-Rich
+Cheers,
+
+Michael
+
+
+
+-- 
+Michael Kerrisk
+Linux man-pages maintainer; http://www.kernel.org/doc/man-pages/
+Linux/UNIX System Programming Training: http://man7.org/training/
