@@ -1,29 +1,47 @@
-From: Michal Hocko <mhocko@kernel.org>
-Subject: Re: mlock() confusing 1 half of system RAM limit
-Date: Fri, 1 Jun 2018 15:41:54 +0200
-Message-ID: <20180601134154.GD15278@dhcp22.suse.cz>
-References: <c43ad840-dcab-b86f-bf15-ffb26b66d37b@gblabs.co.uk>
- <20180601114425.GA15686@dhcp22.suse.cz>
- <3e33edd7-89dd-1c09-77df-a2ae23c208f1@gblabs.co.uk>
- <20180601130524.GB15278@dhcp22.suse.cz>
- <1ae5c450-1ffe-cf15-e878-b40f30c0acc3@gblabs.co.uk>
-Mime-Version: 1.0
-Content-Type: text/plain; charset=iso-8859-1
-Content-Transfer-Encoding: 8bit
-Return-path: <linux-kernel-owner@vger.kernel.org>
-Content-Disposition: inline
-In-Reply-To: <1ae5c450-1ffe-cf15-e878-b40f30c0acc3@gblabs.co.uk>
-Sender: linux-kernel-owner@vger.kernel.org
-To: Alex Richman <alex.r@gblabs.co.uk>
-Cc: linux-man@vger.kernel.org, linux-kernel@vger.kernel.org
+From: Anmol Sarma <me@anmolsarma.in>
+Subject: [PATCH] socket.7: Clarify that poll() and select() are affected by SO_RCVLOWAT
+Date: Fri, 15 Jun 2018 23:08:59 +0530
+Message-ID: <20180615173859.8357-1-me@anmolsarma.in>
+Return-path: <netdev-owner@vger.kernel.org>
+Sender: netdev-owner@vger.kernel.org
+To: mtk.manpages@gmail.com
+Cc: netdev@vger.kernel.org, davem@davemloft.net, linux-man@vger.kernel.org, Anmol Sarma <me@anmolsarma.in>
 List-Id: linux-man@vger.kernel.org
 
-On Fri 01-06-18 14:24:23, Alex Richman wrote:
-> Ah, that's it.  Increased the limit on the mount and it works fine now.
+Signed-off-by: Anmol Sarma <me@anmolsarma.in>
+---
+ man7/socket.7 | 13 ++++++++-----
+ 1 file changed, 8 insertions(+), 5 deletions(-)
 
-Well, it is hidden very well. It is not until the page fault time (or
-get_user_pages aka __mm_populate) when the operation fails and remasks
-ENOSPC -> VM_FAULT_SIGBUS -> EFAULT -> ENOMEM on the way.
+diff --git a/man7/socket.7 b/man7/socket.7
+index b1aebfae2..65532bc49 100644
+--- a/man7/socket.7
++++ b/man7/socket.7
+@@ -777,17 +777,20 @@ fails with the error
+ .B SO_RCVLOWAT
+ is changeable
+ only since Linux 2.4.
+-The
++In versions of Linux prior to 2.6.28, the
+ .BR select (2)
+ and
+ .BR poll (2)
+-system calls currently do not respect the
++system calls did not respect the
+ .B SO_RCVLOWAT
+-setting on Linux,
+-and mark a socket readable when even a single byte of data is available.
+-A subsequent read from the socket will block until
++setting. Since Linux 2.6.28,
++.BR select (2)
++and
++.BR poll (2)
++will not mark a socket readable until
+ .B SO_RCVLOWAT
+ bytes are available.
++.\" Commit c7004482e8dcb7c3c72666395cfa98a216a4fb70
+ .\" See http://marc.theaimsgroup.com/?l=linux-kernel&m=111049368106984&w=2
+ .\" Tested on kernel 2.6.14 -- mtk, 30 Nov 05
+ .TP
 -- 
-Michal Hocko
-SUSE Labs
+2.17.1
