@@ -1,145 +1,85 @@
-From: Quentin Monnet <quentin.monnet@netronome.com>
-Subject: [PATCH bpf-next 3/3] tools: bpf: build and install man page for eBPF helpers from bpftool/
-Date: Thu, 12 Jul 2018 12:52:24 +0100
-Message-ID: <20180712115224.17364-4-quentin.monnet@netronome.com>
-References: <20180712115224.17364-1-quentin.monnet@netronome.com>
-Return-path: <netdev-owner@vger.kernel.org>
-In-Reply-To: <20180712115224.17364-1-quentin.monnet@netronome.com>
-Sender: netdev-owner@vger.kernel.org
-To: daniel@iogearbox.net, ast@kernel.org
-Cc: netdev@vger.kernel.org, oss-drivers@netronome.com, quentin.monnet@netronome.com, linux-man@vger.kernel.org
+From: adam.manzanares@wdc.com
+Subject: [PATCH] io_submit.2: Add IOCB_FLAG_IOPRIO
+Date: Fri, 13 Jul 2018 13:58:31 -0700
+Message-ID: <20180713205831.8134-1-adam.manzanares@wdc.com>
+Return-path: <linux-kernel-owner@vger.kernel.org>
+Sender: linux-kernel-owner@vger.kernel.org
+To: mtk.manpages@gmail.com
+Cc: jmoyer@redhat.com, rgoldwyn@suse.com, linux-man@vger.kernel.org, linux-kernel@vger.kernel.org, Adam Manzanares <adam.manzanares@wdc.com>
 List-Id: linux-man@vger.kernel.org
 
-Provide a new Makefile.helpers in tools/bpf, in order to build and
-install the man page for eBPF helpers. This Makefile is also included in
-the one used to build bpftool documentation, so that it can be called
-either on its own (cd tools/bpf && make -f Makefile.helpers) or from
-bpftool directory (cd tools/bpf/bpftool && make doc, or
-cd tools/bpf/bpftool/Documentation && make helpers).
+From: Adam Manzanares <adam.manzanares@wdc.com>
 
-Makefile.helpers is not added directly to bpftool to avoid changing its
-Makefile too much (helpers are not 100% directly related with bpftool).
-But the possibility to build the page from bpftool directory makes us
-able to package the helpers man page with bpftool, and to install it
-along with bpftool documentation, so that the doc for helpers becomes
-easily available to developers through the "man" program.
+The newly added IOCB_FLAG_IOPRIO aio_flag introduces
+new behaviors and return values.
 
-Cc: linux-man@vger.kernel.org
-Suggested-by: Daniel Borkmann <daniel@iogearbox.net>
-Signed-off-by: Quentin Monnet <quentin.monnet@netronome.com>
-Reviewed-by: Jakub Kicinski <jakub.kicinski@netronome.com>
+The details of this new feature are posted here:
+https://lkml.org/lkml/2018/5/22/809
+
+Signed-off-by: Adam Manzanares <adam.manzanares@wdc.com>
 ---
- tools/bpf/Makefile.helpers               | 59 ++++++++++++++++++++++++++++++++
- tools/bpf/bpftool/Documentation/Makefile | 13 ++++---
- 2 files changed, 67 insertions(+), 5 deletions(-)
- create mode 100644 tools/bpf/Makefile.helpers
+ man2/io_submit.2 | 34 +++++++++++++++++++++++++++-------
+ 1 file changed, 27 insertions(+), 7 deletions(-)
 
-diff --git a/tools/bpf/Makefile.helpers b/tools/bpf/Makefile.helpers
-new file mode 100644
-index 000000000000..c34fea77f39f
---- /dev/null
-+++ b/tools/bpf/Makefile.helpers
-@@ -0,0 +1,59 @@
-+ifndef allow-override
-+  include ../scripts/Makefile.include
-+  include ../scripts/utilities.mak
-+else
-+  # Assume Makefile.helpers is being run from bpftool/Documentation
-+  # subdirectory. Go up two more directories to fetch bpf.h header and
-+  # associated script.
-+  UP2DIR := ../../
-+endif
-+
-+INSTALL ?= install
-+RM ?= rm -f
-+RMDIR ?= rmdir --ignore-fail-on-non-empty
-+
-+ifeq ($(V),1)
-+  Q =
-+else
-+  Q = @
-+endif
-+
-+prefix ?= /usr/local
-+mandir ?= $(prefix)/man
-+man7dir = $(mandir)/man7
-+
-+HELPERS_RST = bpf-helpers.rst
-+MAN7_RST = $(HELPERS_RST)
-+
-+_DOC_MAN7 = $(patsubst %.rst,%.7,$(MAN7_RST))
-+DOC_MAN7 = $(addprefix $(OUTPUT),$(_DOC_MAN7))
-+
-+helpers: man7
-+man7: $(DOC_MAN7)
-+
-+RST2MAN_DEP := $(shell command -v rst2man 2>/dev/null)
-+
-+$(OUTPUT)$(HELPERS_RST): $(UP2DIR)../../include/uapi/linux/bpf.h
-+	$(QUIET_GEN)$(UP2DIR)../../scripts/bpf_helpers_doc.py --filename $< > $@
-+
-+$(OUTPUT)%.7: $(OUTPUT)%.rst
-+ifndef RST2MAN_DEP
-+	$(error "rst2man not found, but required to generate man pages")
-+endif
-+	$(QUIET_GEN)rst2man $< > $@
-+
-+helpers-clean:
-+	$(call QUIET_CLEAN, eBPF_helpers-manpage)
-+	$(Q)$(RM) $(DOC_MAN7) $(OUTPUT)$(HELPERS_RST)
-+
-+helpers-install: helpers
-+	$(call QUIET_INSTALL, eBPF_helpers-manpage)
-+	$(Q)$(INSTALL) -d -m 755 $(DESTDIR)$(man7dir)
-+	$(Q)$(INSTALL) -m 644 $(DOC_MAN7) $(DESTDIR)$(man7dir)
-+
-+helpers-uninstall:
-+	$(call QUIET_UNINST, eBPF_helpers-manpage)
-+	$(Q)$(RM) $(addprefix $(DESTDIR)$(man7dir)/,$(_DOC_MAN7))
-+	$(Q)$(RMDIR) $(DESTDIR)$(man7dir)
-+
-+.PHONY: helpers helpers-clean helpers-install helpers-uninstall
-diff --git a/tools/bpf/bpftool/Documentation/Makefile b/tools/bpf/bpftool/Documentation/Makefile
-index a9d47c1558bb..f7663a3e60c9 100644
---- a/tools/bpf/bpftool/Documentation/Makefile
-+++ b/tools/bpf/bpftool/Documentation/Makefile
-@@ -15,12 +15,15 @@ prefix ?= /usr/local
- mandir ?= $(prefix)/man
- man8dir = $(mandir)/man8
- 
--MAN8_RST = $(wildcard *.rst)
-+# Load targets for building eBPF helpers man page.
-+include ../../Makefile.helpers
-+
-+MAN8_RST = $(filter-out $(HELPERS_RST),$(wildcard *.rst))
- 
- _DOC_MAN8 = $(patsubst %.rst,%.8,$(MAN8_RST))
- DOC_MAN8 = $(addprefix $(OUTPUT),$(_DOC_MAN8))
- 
--man: man8
-+man: man8 helpers
- man8: $(DOC_MAN8)
- 
- RST2MAN_DEP := $(shell command -v rst2man 2>/dev/null)
-@@ -31,16 +34,16 @@ ifndef RST2MAN_DEP
- endif
- 	$(QUIET_GEN)rst2man $< > $@
- 
--clean:
-+clean: helpers-clean
- 	$(call QUIET_CLEAN, Documentation)
- 	$(Q)$(RM) $(DOC_MAN8)
- 
--install: man
-+install: man helpers-install
- 	$(call QUIET_INSTALL, Documentation-man)
- 	$(Q)$(INSTALL) -d -m 755 $(DESTDIR)$(man8dir)
- 	$(Q)$(INSTALL) -m 644 $(DOC_MAN8) $(DESTDIR)$(man8dir)
- 
--uninstall:
-+uninstall: helpers-uninstall
- 	$(call QUIET_UNINST, Documentation-man)
- 	$(Q)$(RM) $(addprefix $(DESTDIR)$(man8dir)/,$(_DOC_MAN8))
- 	$(Q)$(RMDIR) $(DESTDIR)$(man8dir)
+diff --git a/man2/io_submit.2 b/man2/io_submit.2
+index d17e3122a..15e1ecdea 100644
+--- a/man2/io_submit.2
++++ b/man2/io_submit.2
+@@ -164,14 +164,26 @@ This is the size of the buffer pointed to by
+ This is the file offset at which the I/O operation is to be performed.
+ .TP
+ .I aio_flags
+-This is the flag to be passed iocb structure.
+-The only valid value is
+-.BR IOCB_FLAG_RESFD ,
+-which indicates that the asynchronous I/O control must signal the file
++This is the set of flags associated with the iocb structure.
++The valid values are:
++.RS
++.TP
++.BR IOCB_FLAG_RESFD
++Asynchronous I/O control must signal the file
+ descriptor mentioned in
+ .I aio_resfd
+ upon completion.
+ .TP
++.BR IOCB_FLAG_IOPRIO " (since Linux 4.18)"
++.\" commit d9a08a9e616beeccdbd0e7262b7225ffdfa49e92
++Interpret the
++.I aio_reqprio
++field as an
++.B IOPRIO_VALUE
++as defined by
++.IR linux/ioprio.h.
++.RE
++.TP
+ .I aio_resfd
+ The file descriptor to signal in the event of asynchronous I/O completion.
+ .SH RETURN VALUE
+@@ -196,13 +208,21 @@ The AIO context specified by \fIctx_id\fP is invalid.
+ \fInr\fP is less than 0.
+ The \fIiocb\fP at
+ .I *iocbpp[0]
+-is not properly initialized,
+-or the operation specified is invalid for the file descriptor
+-in the \fIiocb\fP.
++is not properly initialized, the operation specified is invalid for the file
++descriptor in the \fIiocb\fP, or the value in the
++.I aio_reqprio
++field is invalid.
+ .TP
+ .B ENOSYS
+ .BR io_submit ()
+ is not implemented on this architecture.
++.TP
++.B EPERM
++The aio_reqprio field is set with the class
++.B IOPRIO_CLASS_RT
++, but the submitting context does not have the
++.B CAP_SYS_ADMIN
++privilege.
+ .SH VERSIONS
+ .PP
+ The asynchronous I/O system calls first appeared in Linux 2.5.
 -- 
-2.14.1
+2.17.1
