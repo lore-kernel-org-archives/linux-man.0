@@ -1,69 +1,75 @@
-From: Rich Felker <dalias@libc.org>
-Subject: Re: futex_cmpxchg_enabled breakage
-Date: Mon, 17 Sep 2018 12:51:05 -0400
-Message-ID: <20180917165105.GO17995@brightrain.aerifal.cx>
-References: <20180829222221.GA22017@brightrain.aerifal.cx>
- <87fty9hc2u.fsf@mid.deneb.enyo.de>
- <20180916131637.GA17995@brightrain.aerifal.cx>
- <877ejlh89n.fsf@mid.deneb.enyo.de>
+From: Jann Horn <jannh@google.com>
+Subject: BPF: RCU use-after-reallocation of hash table elements?
+Date: Wed, 3 Oct 2018 18:15:08 +0200
+Message-ID: <CAG48ez0Q3BaFsA_FUs1ZCAMRZtXkq5o_VCbU8CgTEVwa2HRZfQ@mail.gmail.com>
 Mime-Version: 1.0
-Content-Type: text/plain; charset=utf-8
-Content-Transfer-Encoding: 8bit
-Return-path: <linux-kernel-owner@vger.kernel.org>
-Content-Disposition: inline
-In-Reply-To: <877ejlh89n.fsf@mid.deneb.enyo.de>
-Sender: linux-kernel-owner@vger.kernel.org
-To: Florian Weimer <fw@deneb.enyo.de>
-Cc: Thomas Gleixner <tglx@linutronix.de>, linux-kernel@vger.kernel.org, Peter Zijlstra <peterz@infradead.org>, Ingo Molnar <mingo@kernel.org>, linux-man@vger.kernel.org, "Michael Kerrisk (man-pages)" <mtk.manpages@gmail.com>
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
+Return-path: <netdev-owner@vger.kernel.org>
+Sender: netdev-owner@vger.kernel.org
+To: Alexei Starovoitov <ast@kernel.org>, Daniel Borkmann <daniel@iogearbox.net>
+Cc: Network Development <netdev@vger.kernel.org>, kernel list <linux-kernel@vger.kernel.org>, Michael Kerrisk-manpages <mtk.manpages@gmail.com>, linux-man <linux-man@vger.kernel.org>
 List-Id: linux-man@vger.kernel.org
 
-On Sun, Sep 16, 2018 at 03:38:44PM +0200, Florian Weimer wrote:
-> * Rich Felker:
-> 
-> >> I believe the expected userspace interface is that you probe support
-> >> with set_robust_list first, and then start using the relevant futex
-> >> interfaces only if that call succeeded.
-> >
-> > In order for it to work, set_robust_list needs to succeed for all
-> > threads, present and future, so there's an implicit contract needed
-> > here that, if it succeeds once, it needs to always succeed. This is
-> > satisfied by the kernel implementation.
-> 
-> It certainly makes simpler if set_robust_list cannot fail due to
-> resource allocation issues.
-> 
-> > Presumably a similar probing should happen in
-> > pthread_mutexattr_setprotocol for PI mutex support. Does glibc do
-> > this? musl still lacks PI mutex support so I'll save this as a note
-> > for when it's added.
-> 
-> glibc currently implements checking for support in pthread_mutex_init,
-> presumably due to the fact that some invalid attribute/flag
-> combinations can only reasonably detected at that point.  It makes
-> probing for support slightly more difficult, of course.
-> 
-> >> If you do that, most parts of
-> >> a typical system will work as expected even if the kernel support is
-> >> not there, which is a bit surprising.  It definitely makes the root
-> >> cause harder to spot.
-> >
-> > I don't follow here. "most parts of a typical system will work as
-> > expected" seems to be the case whether you do or don't correctly
-> > probe. The only difference is whether a program that carefully checks
-> > for errors will see and report that pthread_mutexattr_setrobust
-> > failed.
-> 
-> This may be the case.  We only ever had the glibc test failures as
-> evidence that something was quite wrong, despite ongoing validation of
-> the system.  But this could have been accident due to an invalid test
-> environment.  (The product in question is only supposed to support the
-> radix MMU, but when running under KVM, the kernel switches to the hash
-> MMU instead, which masks the presence of the bug—set_robust_list is
-> magically available again.)
+Hi!
 
-BTW here's a horrible thought: can the availability of set_robust_list
-change across checkpoint/restore? If so that's fundamental breakage in
-the checkpoint/restore functionality, and a good reason to make it so
-this functionality is not runtime-variable for a given kernel.
+Note: I haven't tested any of this; feel free to tell me that I've
+completely misunderstood how all this works.
 
-Rich
+The BPF manpage, at the moment, states about BPF hash tables:
+
+       BPF_MAP_TYPE_HASH
+              Hash-table maps have the following characteristics:
+
+              *  Maps are created and destroyed by user-space programs.
+                 Both user-space and eBPF programs can perform lookup,
+                 update, and delete operations.
+
+              *  The kernel takes care of allocating and freeing key/value
+                 pairs.
+
+              *  The map_update_elem() helper will fail to insert new ele=
+=E2=80=90
+                 ment when the max_entries limit is reached.  (This ensures
+                 that eBPF programs cannot exhaust memory.)
+
+              *  map_update_elem() replaces existing elements atomically.
+
+              Hash-table maps are optimized for speed of lookup.
+
+This documentation claims that elements are replaced "atomically", and
+that the kernel "takes care of allocating and freeing key/value
+pairs". But as far as I can tell, that's not quite the whole story
+least since commit 6c90598174322b8888029e40dd84a4eb01f56afe (first in
+4.6).
+
+Unless a BPF hash table is created with the (undocumented) flag
+BPF_F_NO_PREALLOC, the kernel now actually pre-allocates the hash
+table elements. Hash table elements can be freed and reused for new
+allocations (!) without waiting for an RCU grace period: Freed
+elements are immediately pushed on the percpu freelist, and can be
+immediately reused from there. The most obvious consequence of this is
+that if a BPF program looks up a hash table entry and then reads the
+value, the value can be replaced with a new value in between. A more
+subtle consequence is that BPF map lookups can return false-positive
+results: If the first half of the lookup key matches the old key, and
+the second half of the lookup key matches the new key, then a BPF map
+lookup can return a false-positive result, as far as I can tell.
+
+If what I'm saying is correct, I'm not sure what the best fix is.
+
+Add a grace period when freeing hash map entries, and add a new -EBUSY
+return value for attempts to create hash map entries when all free
+entries are waiting for the end of an RCU grace period?
+
+Add a grace period when freeing hash map entries, and use
+rcu_synchronize() when inserting BPF hashmap entries from userspace
+and all free entries are waiting for RCU? But that still leaves the
+bpf_map_update_elem_proto helper that can be called from BPF.
+Deprecate that helper for access to hash maps?
+
+Document the race, and advise people who use BPF for
+non-performance-tracing purposes (where occasional false positives
+actually matter) to use BPF_F_NO_PREALLOC?
+
+Add some sort of sequence lock to BPF (yuck)?
