@@ -1,59 +1,29 @@
-From: "G. Branden Robinson" <g.branden.robinson@gmail.com>
-Subject: Re: [patch] pthread_rwlockattr_setkind_np.3: Remove bug notes.
-Date: Thu, 15 Nov 2018 20:13:56 -0500
-Message-ID: <20181116011353.4vpsbh3aeto7ngrr@crack.deadbeast.net>
-References: <b6d241af-1d89-f6f2-e19b-239cc9c6d98f@redhat.com>
- <20181115152114.7amsm43s4gxxtxvd@crack.deadbeast.net>
- <d2253870-7c94-b9f8-9108-df2ef955058c@redhat.com>
+From: Alan Cox <gnomes@lxorguk.ukuu.org.uk>
+Subject: Re: [PATCH 2/2] exec: increase BINPRM_BUF_SIZE to 256
+Date: Fri, 16 Nov 2018 17:49:11 +0000
+Message-ID: <20181116174911.6fcff580@alans-desktop>
+References: <20181112160931.GA28463@redhat.com>
+        <20181112160956.GA28472@redhat.com>
 Mime-Version: 1.0
-Content-Type: multipart/signed; micalg=pgp-sha256;
-	protocol="application/pgp-signature"; boundary="3v3tfvgfmqfu5llb"
-Return-path: <libc-alpha-return-97297-glibc-alpha=m.gmane.org@sourceware.org>
-List-Unsubscribe: <mailto:libc-alpha-unsubscribe-glibc-alpha=m.gmane.org@sourceware.org>
-List-Subscribe: <mailto:libc-alpha-subscribe@sourceware.org>
-List-Archive: <http://sourceware.org/ml/libc-alpha/>
-List-Post: <mailto:libc-alpha@sourceware.org>
-List-Help: <mailto:libc-alpha-help@sourceware.org>, <http://sourceware.org/ml/#faqs>
-Sender: libc-alpha-owner@sourceware.org
-Content-Disposition: inline
-In-Reply-To: <d2253870-7c94-b9f8-9108-df2ef955058c@redhat.com>
-To: Carlos O'Donell <carlos@redhat.com>
-Cc: "linux-man@vger.kernel.org" <linux-man@vger.kernel.org>, Michael Kerrisk <mtk.manpages@gmail.com>, GNU C Library <libc-alpha@sourceware.org>
+Content-Type: text/plain; charset=US-ASCII
+Content-Transfer-Encoding: 7bit
+Return-path: <linux-kernel-owner@vger.kernel.org>
+In-Reply-To: <20181112160956.GA28472@redhat.com>
+Sender: linux-kernel-owner@vger.kernel.org
+To: Oleg Nesterov <oleg@redhat.com>
+Cc: Andrew Morton <akpm@linux-foundation.org>, Ben Woodard <woodard@redhat.com>, "Eric W. Biederman" <ebiederm@xmission.com>, Kees Cook <keescook@chromium.org>, Michal Hocko <mhocko@suse.com>, linux-kernel@vger.kernel.org, linux-man@vger.kernel.org
 List-Id: linux-man@vger.kernel.org
 
+On Mon, 12 Nov 2018 17:09:56 +0100
+Oleg Nesterov <oleg@redhat.com> wrote:
 
---3v3tfvgfmqfu5llb
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
+> Large enterprise clients often times run applications out of networked
+> file systems where the IT mandated layout of project volumes can end up
+> leading to paths that are longer than 128 characters. Bumping this up to
+> the next order of two solves this problem in all but the most egregious
+> case while still fitting into a 512b slab.
 
-At 2018-11-15T16:57:15-0500, Carlos O'Donell wrote:
-> In a sense this isn't an Austin Group issue.
-[...]
-> Does that answer your question?
+You also need to update the execve manual page as it explicitly documents
+the 128 byte limit.
 
-Eminently so!  Thank you.
-
-Regards,
-Branden
-
---3v3tfvgfmqfu5llb
-Content-Type: application/pgp-signature; name="signature.asc"
-
------BEGIN PGP SIGNATURE-----
-
-iQIzBAEBCAAdFiEEh3PWHWjjDgcrENwa0Z6cfXEmbc4FAlvuGccACgkQ0Z6cfXEm
-bc4MRA/9F1OvWyjcPDEKBApWWtfbvNStXrr4IRUpyF8abSSe23l51UH4RgwbC0KB
-XQVeQVwpJK/lKX6L30soZzKcHP9lYq51vgqx9bJacgwmFUMCBAO6nquE8vwlRM5R
-YvG0HxFnpk62pJPighYSecvDq6Kd+3SqN5lneEM4fSonYuLdTnKI3ZznCfkf0BsJ
-j/hB8Fve8qhxKsfE7vx+v48lyGJMIITES1exlkpkWvcAouFNqY9+cj6P7VPuwa/r
-un+eLlNqK1RFqL7KNLqspmh8Eq7NxUiFlJCn479Urz1ZGpnHi5qpveT59FM6s9iZ
-fLunSuQI3ZEyf+GK/vhDVvPiQ1Ok5wbsYRsfx8EcPYP7jtWWmYGyG3fo8r6tOEH0
-CluHfVeIW6jKpsu8suxlKtjwyFn+ZhqVdxmvEv03bWFBqjSPnZeanRwT7Xl/5lix
-dNrsGzsialbSLM6ayVAa26nsJCtaCko7udNiEpWHGGIU31Qo9PGnB7LbQUssB44q
-Sq1uyoTxUzLd0InP01HRsUU8Yews5SWwXzAmdbIRbH7XQ10xsHk8tFkL45U9Acp1
-IAUa4ahB9ZFkRjefy16UiKT9iQMdONDZa2LHq5IVy/Si73nUmgz+QPHpa9aj0lPv
-MjrigcbaZEBBJnyIdSYLmn2H4LN/bYoYVETc33OT+coWuAgmCQs=
-=DJ9X
------END PGP SIGNATURE-----
-
---3v3tfvgfmqfu5llb--
+Alan
