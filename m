@@ -1,57 +1,79 @@
-From: Daniel Colascione <dancol@google.com>
+From: Aleksa Sarai <cyphar@cyphar.com>
 Subject: Re: [PATCH v1 2/2] signal: add procfd_signal() syscall
-Date: Mon, 19 Nov 2018 11:39:53 -0800
-Message-ID: <CAKOZuethLLUEf-ZFVpm7u1msyYUJ1ArP2vemMUzrct7K0sv_WA@mail.gmail.com>
-References: <20181119103241.5229-1-christian@brauner.io> <20181119103241.5229-3-christian@brauner.io>
- <CAKOZueshQ2DAwUYp+dLpmfYG6FtvCqeRQxH41SjNS+WqY3e0Fw@mail.gmail.com>
- <20181119182902.fadw6qiu3eepndm3@brauner.io> <87o9ak28nl.fsf@xmission.com> <20181119193128.hv7z4j52ajrue2jr@brauner.io>
+Date: Tue, 20 Nov 2018 07:28:57 +1100
+Message-ID: <20181119202857.k5zw742xjfrw677j@yavin>
+References: <20181119103241.5229-1-christian@brauner.io>
+ <20181119103241.5229-3-christian@brauner.io>
 Mime-Version: 1.0
-Content-Type: text/plain; charset="UTF-8"
+Content-Type: multipart/signed; micalg=pgp-sha256;
+        protocol="application/pgp-signature"; boundary="gtgc45ynebhhjwty"
 Return-path: <linux-kernel-owner@vger.kernel.org>
-In-Reply-To: <20181119193128.hv7z4j52ajrue2jr@brauner.io>
+Content-Disposition: inline
+In-Reply-To: <20181119103241.5229-3-christian@brauner.io>
 Sender: linux-kernel-owner@vger.kernel.org
 To: Christian Brauner <christian@brauner.io>
-Cc: "Eric W. Biederman" <ebiederm@xmission.com>, linux-kernel <linux-kernel@vger.kernel.org>, "Serge E. Hallyn" <serge@hallyn.com>, Jann Horn <jannh@google.com>, Andy Lutomirski <luto@kernel.org>, Andrew Morton <akpm@linux-foundation.org>, Oleg Nesterov <oleg@redhat.com>, Aleksa Sarai <cyphar@cyphar.com>, Al Viro <viro@zeniv.linux.org.uk>, Linux FS Devel <linux-fsdevel@vger.kernel.org>, Linux API <linux-api@vger.kernel.org>, Tim Murray <timmurray@google.com>, linux-man <linux-man@vger.kernel.org>, Kees Cook <keescook@chromium.org>
+Cc: ebiederm@xmission.com, linux-kernel@vger.kernel.org, serge@hallyn.com, jannh@google.com, luto@kernel.org, akpm@linux-foundation.org, oleg@redhat.com, viro@zeniv.linux.org.uk, linux-fsdevel@vger.kernel.org, linux-api@vger.kernel.org, dancol@google.com, timmurray@google.com, linux-man@vger.kernel.org, Kees Cook <keescook@chromium.org>
 List-Id: linux-man@vger.kernel.org
 
-Yep. That's also what I was talking about, FWIW.
 
-On Mon, Nov 19, 2018 at 11:31 AM, Christian Brauner
-<christian@brauner.io> wrote:
-> On Mon, Nov 19, 2018 at 01:02:06PM -0600, Eric W. Biederman wrote:
->> Christian Brauner <christian@brauner.io> writes:
->>
->> > On Mon, Nov 19, 2018 at 07:59:24AM -0800, Daniel Colascione wrote:
->> >> You never addressed my comment on the previous patch about your use of
->> >
->> > Sorry, that thread exploded so quickly that I might have missed it.
->> >
->> >> private_data here. Why can't you use the struct pid reference that's
->> >> already in the inode?
->> >
->> > If that's what people prefer we can probably use that. There was
->> > precedent for stashing away such data in fs/proc/base.c already for
->> > various other things including user namespaces and struct mm so I
->> > followed this model. A prior version of my patch (I didn't send out) did
->> > retrive the inode via proc_pid() in .open() took an additional reference
->> > via get_pid() and dropped it in .release(). Do we prefer that?
->>
->> If you are using proc/<pid>/ directories as your file descriptors, you
->> don't need to add an open or a release method at all.  The existing file
->> descriptors hold a reference to the inode which holds a reference the
->> the struct pid.
->>
->> The only time you need to get a reference is when you need a task
->> and kill_pid_info already performs that work for you.
->
-> Oh, I see what you and Andy are saying now. Sweet, that means we can
-> trim down the patch even more. Less code, less headache.
->
-> Thanks!
->
->>
->> So using proc_pid is all you need to do to get the pid from the existing
->> file descriptors.
->>
->> Eric
->>
+--gtgc45ynebhhjwty
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+Content-Transfer-Encoding: quoted-printable
+
+On 2018-11-19, Christian Brauner <christian@brauner.io> wrote:
+> +	if (info) {
+> +		ret =3D __copy_siginfo_from_user(sig, &kinfo, info);
+> +		if (unlikely(ret))
+> +			goto err;
+> +		/*
+> +		 * Not even root can pretend to send signals from the kernel.
+> +		 * Nor can they impersonate a kill()/tgkill(), which adds
+> +		 * source info.
+> +		 */
+> +		ret =3D -EPERM;
+> +		if ((kinfo.si_code >=3D 0 || kinfo.si_code =3D=3D SI_TKILL) &&
+> +		    (task_pid(current) !=3D pid))
+> +			goto err;
+> +	} else {
+> +		prepare_kill_siginfo(sig, &kinfo);
+> +	}
+
+I wonder whether we should also have a pidns restriction here, since
+currently it isn't possible for a container process using a pidns to
+signal processes outside its pidns. AFAICS, this isn't done through an
+explicit check -- it's a side-effect of processes in a pidns not being
+able to address non-descendant-pidns processes.
+
+But maybe it's reasonable to allow sending a procfd to a different pidns
+and the same operations working on it? If we extend the procfd API to
+allow process creation this would allow a container to create a process
+outside its pidns.
+
+--=20
+Aleksa Sarai
+Senior Software Engineer (Containers)
+SUSE Linux GmbH
+<https://www.cyphar.com/>
+
+--gtgc45ynebhhjwty
+Content-Type: application/pgp-signature; name="signature.asc"
+
+-----BEGIN PGP SIGNATURE-----
+
+iQIzBAABCAAdFiEEb6Gz4/mhjNy+aiz1Snvnv3Dem58FAlvzHQkACgkQSnvnv3De
+m58IwBAAgHKh2abQgnpam0GUxYiHi88rnCgkNIbQ9UCsmfE565c+gUSS9jmJxDmJ
+pbd3pdWcS1zZdRWC3mD75W6bYbnu0OEyKcJbjXXwR2+aK4Z98UJNtWtFPtFpny2T
+U38WVhtyJafQ8GgAQB7WN5SAloUIv8vbMoIlZw5FJzehmks8528fJq4L6zDdc+Cv
+xaB8Cn6MeWAyry5HM5534QTW4uAEdw0MQ8Q+n8H0tjbXPoJ9kLS7JsIbAm+VFTZJ
+Lc4jfnm5VUHkHfCnpurJHBYJTtl6EsumWDAeQPG6hcQ3aBDFRGoWQ3GbrmfRwtqi
+KQgy8SyVZ3RCxK9xJtW2keGMnLPxMaPNL1QWV9rlSPNhSzhbUupyYUKXnnjX9SD8
+KG7V1bNv7CScO34o8gTCIv2wX1PVHRczZdbHTmx5aU78EFKFJmml+DdTR7QYUNb/
+4GvnRCMRSrsewabQKfOroLVkg0lmicPh6SMvGujsfd2QDEenzRWHU9QxHzecXfYl
+qH2Q/+LMa32WRLgG3/sVZLf4Pjy/UHHm/W4I9EkqWLrXjo/87wrMfWjxWCRdLDry
+ongYz/FLqY56phw1ZkCPICh2UF9sCdQ3fOowyGfTDmOlphSsMIuZWfeITOproXS1
+OBL5DWnAtBVP/ZIye1ctHRFF98bak0hIAgvx0YphLHrX9lt5w9g=
+=Euc9
+-----END PGP SIGNATURE-----
+
+--gtgc45ynebhhjwty--
