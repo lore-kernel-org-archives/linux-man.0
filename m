@@ -1,111 +1,42 @@
-From: Christian Brauner <christian@brauner.io>
+From: Andy Lutomirski <luto@kernel.org>
 Subject: Re: [PATCH v1 2/2] signal: add procfd_signal() syscall
-Date: Tue, 20 Nov 2018 00:45:18 +0100
-Message-ID: <20181119234515.o5dg5s2wtu6wl6m3@brauner.io>
-References: <20181119103241.5229-3-christian@brauner.io>
- <201811200755.avfmktKQ%fengguang.wu@intel.com>
+Date: Mon, 19 Nov 2018 16:27:49 -0800
+Message-ID: <CALCETrWyuQvTtksN1J1XbCFPka_rLOaFqa5W==EvGQvoaf9f3Q@mail.gmail.com>
+References: <20181119103241.5229-1-christian@brauner.io> <20181119103241.5229-3-christian@brauner.io>
+ <20181119223954.GA4992@cisco> <CAKOZuetQDziWeRLydHbDNv1abGM3LyF=WohLFvbzmtdT_+nBdg@mail.gmail.com>
+ <20181119230709.GB4992@cisco>
 Mime-Version: 1.0
-Content-Type: text/plain; charset=utf-8
+Content-Type: text/plain; charset="UTF-8"
 Return-path: <linux-kernel-owner@vger.kernel.org>
-Content-Disposition: inline
-In-Reply-To: <201811200755.avfmktKQ%fengguang.wu@intel.com>
+In-Reply-To: <20181119230709.GB4992@cisco>
 Sender: linux-kernel-owner@vger.kernel.org
-To: kbuild test robot <lkp@intel.com>
-Cc: kbuild-all@01.org, ebiederm@xmission.com, linux-kernel@vger.kernel.org, serge@hallyn.com, jannh@google.com, luto@kernel.org, akpm@linux-foundation.org, oleg@redhat.com, cyphar@cyphar.com, viro@zeniv.linux.org.uk, linux-fsdevel@vger.kernel.org, linux-api@vger.kernel.org, dancol@google.com, timmurray@google.com, linux-man@vger.kernel.org, Kees Cook <keescook@chromium.org>
+To: Tycho Andersen <tycho@tycho.ws>
+Cc: Daniel Colascione <dancol@google.com>, Christian Brauner <christian@brauner.io>, "Eric W. Biederman" <ebiederm@xmission.com>, LKML <linux-kernel@vger.kernel.org>, "Serge E. Hallyn" <serge@hallyn.com>, Jann Horn <jannh@google.com>, Andrew Lutomirski <luto@kernel.org>, Andrew Morton <akpm@linux-foundation.org>, Oleg Nesterov <oleg@redhat.com>, Aleksa Sarai <cyphar@cyphar.com>, Al Viro <viro@zeniv.linux.org.uk>, Linux FS Devel <linux-fsdevel@vger.kernel.org>, Linux API <linux-api@vger.kernel.org>, Tim Murray <timmurray@google.com>, linux-man <linux-man@vger.kernel.org>, Kees Cook <keescook@chromium.org>
 List-Id: linux-man@vger.kernel.org
 
-On Tue, Nov 20, 2018 at 07:37:58AM +0800, kbuild test robot wrote:
-> Hi Christian,
-> 
-> Thank you for the patch! Yet something to improve:
-> 
-> [auto build test ERROR on linus/master]
-> [also build test ERROR on v4.20-rc3]
-> [cannot apply to next-20181119]
-> [if your patch is applied to the wrong git tree, please drop us a note to help improve the system]
-> 
-> url:    https://github.com/0day-ci/linux/commits/Christian-Brauner/proc-allow-signaling-processes-via-file-descriptors/20181120-063836
-> config: riscv-tinyconfig (attached as .config)
-> compiler: riscv64-linux-gcc (GCC) 8.1.0
-> reproduce:
->         wget https://raw.githubusercontent.com/intel/lkp-tests/master/sbin/make.cross -O ~/bin/make.cross
->         chmod +x ~/bin/make.cross
->         # save the attached .config to linux build tree
->         GCC_VERSION=8.1.0 make.cross ARCH=riscv 
-> 
-> All errors (new ones prefixed by >>):
-> 
->    kernel/signal.c: In function '__do_sys_procfd_signal':
-> >> kernel/signal.c:3341:7: error: implicit declaration of function 'proc_is_procfd'; did you mean 'clockid_to_fd'? [-Werror=implicit-function-declaration]
->      if (!proc_is_procfd(f.file))
->           ^~~~~~~~~~~~~~
+On Mon, Nov 19, 2018 at 3:07 PM Tycho Andersen <tycho@tycho.ws> wrote:
+> > These tools also care about ioctls. Adding a system call is a pain,
+> > but the solution is to make adding system calls less of a pain, not to
+> > permanently make the Linux ABI worse.
+>
+> For user-defined values of "worse" :)
+>
 
-On my radar and fixed. This happens when CONFIG_PROC_FS unset.
+I tend to agree with Tycho here.  But I'm wondering if it might be
+worth considering a better ioctl.
 
->           clockid_to_fd
->    cc1: some warnings being treated as errors
-> 
-> vim +3341 kernel/signal.c
-> 
->   3314	
->   3315	/**
->   3316	 *  sys_procfd_signal - send a signal to a process through a process file
->   3317	 *                      descriptor
->   3318	 *  @fd: the file descriptor of the process
->   3319	 *  @sig: signal to be sent
->   3320	 *  @info: the signal info
->   3321	 *  @flags: future flags to be passed
->   3322	 */
->   3323	SYSCALL_DEFINE4(procfd_signal, int, fd, int, sig, siginfo_t __user *, info,
->   3324			int, flags)
->   3325	{
->   3326		int ret;
->   3327		struct pid *pid;
->   3328		kernel_siginfo_t kinfo;
->   3329		struct fd f;
->   3330	
->   3331		/* Enforce flags be set to 0 until we add an extension. */
->   3332		if (flags)
->   3333			return -EINVAL;
->   3334	
->   3335		f = fdget_raw(fd);
->   3336		if (!f.file)
->   3337			return -EBADF;
->   3338	
->   3339		ret = -EINVAL;
->   3340		/* Is this a process file descriptor? */
-> > 3341		if (!proc_is_procfd(f.file))
->   3342			goto err;
->   3343	
->   3344		pid = f.file->private_data;
->   3345		if (!pid)
->   3346			goto err;
->   3347	
->   3348		if (info) {
->   3349			ret = __copy_siginfo_from_user(sig, &kinfo, info);
->   3350			if (unlikely(ret))
->   3351				goto err;
->   3352			/*
->   3353			 * Not even root can pretend to send signals from the kernel.
->   3354			 * Nor can they impersonate a kill()/tgkill(), which adds
->   3355			 * source info.
->   3356			 */
->   3357			ret = -EPERM;
->   3358			if ((kinfo.si_code >= 0 || kinfo.si_code == SI_TKILL) &&
->   3359			    (task_pid(current) != pid))
->   3360				goto err;
->   3361		} else {
->   3362			prepare_kill_siginfo(sig, &kinfo);
->   3363		}
->   3364	
->   3365		ret = kill_pid_info(sig, &kinfo, pid);
->   3366	
->   3367	err:
->   3368		fdput(f);
->   3369		return ret;
->   3370	}
->   3371	
-> 
-> ---
-> 0-DAY kernel test infrastructure                Open Source Technology Center
-> https://lists.01.org/pipermail/kbuild-all                   Intel Corporation
+/me dons flame-proof hat
+
+We could do:
+
+long better_ioctl(int fd, u32 nr, const void *inbuf, size_t inlen,
+const void *outbuf, size_t outlen);
+
+and have a central table in the kernel listing all possible nr values
+along with which driver they belong to.  We could have a sane
+signature and get rid of the nr collision problem.
+
+The major problem I see is that u32 isn't really enough to have a sane
+way to allow out-of-tree drivers to use this, and that we can't
+readily use anything bigger than u32 without indirection because we're
+out of syscall argument space.
