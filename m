@@ -1,129 +1,396 @@
 From: Christian Brauner <christian@brauner.io>
-Subject: Re: [PATCH v1 2/2] signal: add procfd_signal() syscall
-Date: Tue, 20 Nov 2018 11:31:13 +0100
-Message-ID: <20181120103111.etlqp7zop34v6nv4@brauner.io>
-References: <20181119103241.5229-1-christian@brauner.io>
- <20181119103241.5229-3-christian@brauner.io>
- <20181119202857.k5zw742xjfrw677j@yavin>
- <20181119205518.btew3vxwgva4w3zh@brauner.io>
- <20181119211810.73ptfhnwdmkngfi4@yavin>
- <20181119212126.u2nkijmula6wcfqi@brauner.io>
- <CAKOZuevEx6CbcxrR8eVZrUXDcN5y1GPsXdSoHfQteSQKypx0qw@mail.gmail.com>
- <20181119213722.z54huio5g4kuldxk@brauner.io>
- <CAKOZueup5L9Fd=tTK5g1415x0muLP_cPkxf4o26-kCPtH_caqw@mail.gmail.com>
- <87muq4xs2n.fsf@xmission.com>
+Subject: [PATCH v2] signal: add procfd_signal() syscall
+Date: Tue, 20 Nov 2018 11:51:23 +0100
+Message-ID: <20181120105124.14733-1-christian@brauner.io>
 Mime-Version: 1.0
-Content-Type: text/plain; charset=utf-8
+Content-Transfer-Encoding: 8bit
 Return-path: <linux-kernel-owner@vger.kernel.org>
-Content-Disposition: inline
-In-Reply-To: <87muq4xs2n.fsf@xmission.com>
 Sender: linux-kernel-owner@vger.kernel.org
-To: "Eric W. Biederman" <ebiederm@xmission.com>
-Cc: Daniel Colascione <dancol@google.com>, Aleksa Sarai <cyphar@cyphar.com>, linux-kernel <linux-kernel@vger.kernel.org>, "Serge E. Hallyn" <serge@hallyn.com>, Jann Horn <jannh@google.com>, Andy Lutomirski <luto@kernel.org>, Andrew Morton <akpm@linux-foundation.org>, Oleg Nesterov <oleg@redhat.com>, Al Viro <viro@zeniv.linux.org.uk>, Linux FS Devel <linux-fsdevel@vger.kernel.org>, Linux API <linux-api@vger.kernel.org>, Tim Murray <timmurray@google.com>, linux-man <linux-man@vger.kernel.org>, Kees Cook <keescook@chromium.org>
+To: ebiederm@xmission.com, linux-kernel@vger.kernel.org
+Cc: serge@hallyn.com, jannh@google.com, luto@kernel.org, akpm@linux-foundation.org, oleg@redhat.com, cyphar@cyphar.com, viro@zeniv.linux.org.uk, linux-fsdevel@vger.kernel.org, linux-api@vger.kernel.org, dancol@google.com, timmurray@google.com, linux-man@vger.kernel.org, Christian Brauner <christian@brauner.io>, Kees Cook <keescook@chromium.org>
 List-Id: linux-man@vger.kernel.org
 
-On Mon, Nov 19, 2018 at 10:59:12PM -0600, Eric W. Biederman wrote:
-> Daniel Colascione <dancol@google.com> writes:
-> 
-> > On Mon, Nov 19, 2018 at 1:37 PM Christian Brauner <christian@brauner.io> wrote:
-> >>
-> >> On Mon, Nov 19, 2018 at 01:26:22PM -0800, Daniel Colascione wrote:
-> >> > On Mon, Nov 19, 2018 at 1:21 PM, Christian Brauner <christian@brauner.io> wrote:
-> >> > > That can be done without a loop by comparing the level counter for the
-> >> > > two pid namespaces.
-> >> > >
-> >> > >>
-> >> > >> And you can rewrite pidns_get_parent to use it. So you would instead be
-> >> > >> doing:
-> >> > >>
-> >> > >>     if (pidns_is_descendant(proc_pid_ns, task_active_pid_ns(current)))
-> >> > >>         return -EPERM;
-> >> > >>
-> >> > >> (Or you can just copy the 5-line loop into procfd_signal -- though I
-> >> > >> imagine we'll need this for all of the procfd_* APIs.)
-> >> >
-> >> > Why is any of this even necessary? Why does the child namespace we're
-> >> > considering even have a file descriptor to its ancestor's procfs? If
-> >>
-> >> Because you can send file descriptors between processes and container
-> >> runtimes tend to do that.
-> >
-> > Right. But why *would* a container runtime send one of these procfs
-> > FDs to a container?
-> >
-> >> > it has one of these FDs, it can already *read* all sorts of
-> >> > information it really shouldn't be able to acquire, so the additional
-> >> > ability to send a signal (subject to the usual permission checks)
-> >> > feels like sticking a finger in a dike that's already well-perforated.
-> >> > IMHO, we shouldn't bother with this check. The patch would be simpler
-> >> > without it.
-> >>
-> >> We will definitely not allow signaling processes in an ancestor pid
-> >> namespace! That is a security issue! I can imagine container runtimes
-> >> killing their monitoring process etc. pp. Not happening, unless someone
-> >> with deep expertise in signals can convince me otherwise.
-> >
-> > If parent namespace procfs FDs or mounts really can leak into child
-> > namespaces as easily as Aleksa says, then I don't mind adding the
-> > check. I was under the impression that if you find yourself in this
-> > situation, you already have a big problem.
-> 
-> There is one big reason to have the check, and I have not seen it
-> mentioned yet in this thread.
-> 
-> When SI_USER is set we report the pid of the sender of the signal in
-> si_pid.  When the signal comes from the kernel si_pid == 0.  When signal
-> is sent from an ancestor pid namespace si_pid also equals 0 (which is
-> reasonable).
-> 
-> A signal out to a process in a parent pid namespace such as SIGCHLD is
-> reasonable as we can map the pid.  I really don't see the point of
-> forbidding that.  From the perspective of the process in the parent pid
-> namespace it is just another process in it's pid namespace.  So it
-> should pose no problem from the perspective of the receiving process.
-> 
-> A signal to a process in a pid namespace that is neither a parent nor a
-> descendent pid namespace would be a problem, as there is no well defined
-> notion of what si_pid should be set to.  So for that case perhaps we
-> should have something like a noprocess pid that we can set.  Perhaps we
-> could set si_pid to 0xffffffff.  That would take a small extension to
-> pid_nr_ns.
-> 
-> File descriptors are not namespaced.  It is completely legitimate to use
-> file descriptors to get around limitations of namespaces.
+The kill() syscall operates on process identifiers. After a process has
+exited its pid can be reused by another process. If a caller sends a signal
+to a reused pid it will end up signaling the wrong process. This issue has
+often surfaced and there has been a push [1] to address this problem.
 
-Frankly, I don't see a good argument for why we would allow that even if
-safe. I have not heard a legitimate use-case or need for this.
-At this point I care about very simple semantics. Being able to signal
-into ancestor pid namespaces and cousin namespaces is interesting but
-makes the syscall more brittle and harder to understand.
-Changing pid_nr_ns() might be the solution but this function is called
-all over the place in the kernel and I'm not going to risk breaking
-something by changing it for a feature that no one so far has ever
-asked for.
-If you are ok with this then we should hold off on this. We can always
-add this feature later by removing the check when someone has a use-case
-for it.
-I'll send a v2 of the patch that keeps the restriction for now. If you
-insist on it being removed we can make the change in a follow-up
-iteration.
+This patch uses file descriptors from proc/<pid> as stable handles on
+struct pid. Even if a pid is recycled the handle will not change. The file
+descriptor can be used to send signals to the referenced process.
+Thus, the  new syscall procfd_signal() is introduced to solve this problem.
+It operates on a process file descriptor.
+The syscall takes an additional siginfo_t and flags argument. If siginfo_t
+is NULL then procfd_signal() behaves like kill() if it is not NULL it
+behaves like rt_sigqueueinfo.
+The flags argument is added to allow for future extensions of this syscall.
+It currently needs to be passed as 0.
 
-Christian
+With this patch a process can be killed via:
 
-> 
-> Adding limitations to a file descriptor based api because someone else
-> can't set up their processes in such a way as to get the restrictions
-> they are looking for seems very sad.
-> 
-> Frankly I think it is one of the better features of namespaces that we
-> have to carefully handle and define these cases so that when the
-> inevitable leaks happen you are not immediately in a world of hurt.  All
-> of the other permission checks etc continue to do their job.  Plus you
-> are prepared for the case when someone wants their containers to have an
-> interesting communication primitive.
-> 
-> Eric
-> 
-> 
-> 
-> 
+ #define _GNU_SOURCE
+ #include <errno.h>
+ #include <fcntl.h>
+ #include <stdio.h>
+ #include <stdlib.h>
+ #include <string.h>
+ #include <signal.h>
+ #include <sys/stat.h>
+ #include <sys/syscall.h>
+ #include <sys/types.h>
+ #include <unistd.h>
+
+ int main(int argc, char *argv[])
+ {
+         int ret;
+         char buf[1000];
+
+         if (argc < 2)
+                 exit(EXIT_FAILURE);
+
+         ret = snprintf(buf, sizeof(buf), "/proc/%s", argv[1]);
+         if (ret < 0)
+                 exit(EXIT_FAILURE);
+
+         int fd = open(buf, O_DIRECTORY | O_CLOEXEC);
+         if (fd < 0) {
+                 printf("%s - Failed to open \"%s\"\n", strerror(errno), buf);
+                 exit(EXIT_FAILURE);
+         }
+
+         ret = syscall(__NR_procfd_signal, fd, SIGKILL, NULL, 0);
+         if (ret < 0) {
+                 printf("Failed to send SIGKILL \"%s\"\n", strerror(errno));
+                 close(fd);
+                 exit(EXIT_FAILURE);
+         }
+
+         close(fd);
+
+         exit(EXIT_SUCCESS);
+ }
+
+[1]: https://lkml.org/lkml/2018/11/18/130
+
+Cc: "Eric W. Biederman" <ebiederm@xmission.com>
+Cc: Serge Hallyn <serge@hallyn.com>
+Cc: Jann Horn <jannh@google.com>
+Cc: Kees Cook <keescook@chromium.org>
+Cc: Andy Lutomirsky <luto@kernel.org>
+Cc: Andrew Morton <akpm@linux-foundation.org>
+Cc: Oleg Nesterov <oleg@redhat.com>
+Cc: Aleksa Sarai <cyphar@cyphar.com>
+Cc: Al Viro <viro@zeniv.linux.org.uk>
+Signed-off-by: Christian Brauner <christian@brauner.io>
+---
+Changelog:
+v2:
+- define __NR_procfd_signal in unistd.h
+- wire up compat syscall
+- s/proc_is_procfd/proc_is_tgid_procfd/g
+- provide stubs when CONFIG_PROC_FS=n
+- move proc_pid() to linux/proc_fs.h header
+- use proc_pid() to grab struct pid from /proc/<pid> fd
+v1:
+- patch introduced
+---
+ arch/x86/entry/syscalls/syscall_32.tbl |   1 +
+ arch/x86/entry/syscalls/syscall_64.tbl |   2 +
+ fs/proc/base.c                         |  11 ++-
+ fs/proc/internal.h                     |   5 -
+ include/linux/proc_fs.h                |  12 +++
+ include/linux/syscalls.h               |   2 +
+ include/uapi/asm-generic/unistd.h      |   4 +-
+ kernel/signal.c                        | 127 +++++++++++++++++++++++--
+ 8 files changed, 151 insertions(+), 13 deletions(-)
+
+diff --git a/arch/x86/entry/syscalls/syscall_32.tbl b/arch/x86/entry/syscalls/syscall_32.tbl
+index 3cf7b533b3d1..3f27ffd8ae87 100644
+--- a/arch/x86/entry/syscalls/syscall_32.tbl
++++ b/arch/x86/entry/syscalls/syscall_32.tbl
+@@ -398,3 +398,4 @@
+ 384	i386	arch_prctl		sys_arch_prctl			__ia32_compat_sys_arch_prctl
+ 385	i386	io_pgetevents		sys_io_pgetevents		__ia32_compat_sys_io_pgetevents
+ 386	i386	rseq			sys_rseq			__ia32_sys_rseq
++387	i386	procfd_signal		sys_procfd_signal		__ia32_compat_sys_procfd_signal
+diff --git a/arch/x86/entry/syscalls/syscall_64.tbl b/arch/x86/entry/syscalls/syscall_64.tbl
+index f0b1709a5ffb..8a30cde82450 100644
+--- a/arch/x86/entry/syscalls/syscall_64.tbl
++++ b/arch/x86/entry/syscalls/syscall_64.tbl
+@@ -343,6 +343,7 @@
+ 332	common	statx			__x64_sys_statx
+ 333	common	io_pgetevents		__x64_sys_io_pgetevents
+ 334	common	rseq			__x64_sys_rseq
++335	64	procfd_signal		__x64_sys_procfd_signal
+ 
+ #
+ # x32-specific system call numbers start at 512 to avoid cache impact
+@@ -386,3 +387,4 @@
+ 545	x32	execveat		__x32_compat_sys_execveat/ptregs
+ 546	x32	preadv2			__x32_compat_sys_preadv64v2
+ 547	x32	pwritev2		__x32_compat_sys_pwritev64v2
++548	x32	procfd_signal		__x32_compat_sys_procfd_signal
+diff --git a/fs/proc/base.c b/fs/proc/base.c
+index ce3465479447..771c6bd1cac6 100644
+--- a/fs/proc/base.c
++++ b/fs/proc/base.c
+@@ -716,7 +716,10 @@ static int proc_pid_permission(struct inode *inode, int mask)
+ 	return generic_permission(inode, mask);
+ }
+ 
+-
++struct pid *proc_pid(const struct inode *inode)
++{
++       return PROC_I(inode)->pid;
++}
+ 
+ static const struct inode_operations proc_def_inode_operations = {
+ 	.setattr	= proc_setattr,
+@@ -3038,6 +3041,12 @@ static const struct file_operations proc_tgid_base_operations = {
+ 	.llseek		= generic_file_llseek,
+ };
+ 
++bool proc_is_tgid_procfd(const struct file *file)
++{
++	return d_is_dir(file->f_path.dentry) &&
++	       (file->f_op == &proc_tgid_base_operations);
++}
++
+ static struct dentry *proc_tgid_base_lookup(struct inode *dir, struct dentry *dentry, unsigned int flags)
+ {
+ 	return proc_pident_lookup(dir, dentry,
+diff --git a/fs/proc/internal.h b/fs/proc/internal.h
+index 5185d7f6a51e..eb69afba83f3 100644
+--- a/fs/proc/internal.h
++++ b/fs/proc/internal.h
+@@ -113,11 +113,6 @@ static inline void *__PDE_DATA(const struct inode *inode)
+ 	return PDE(inode)->data;
+ }
+ 
+-static inline struct pid *proc_pid(const struct inode *inode)
+-{
+-	return PROC_I(inode)->pid;
+-}
+-
+ static inline struct task_struct *get_proc_task(const struct inode *inode)
+ {
+ 	return get_pid_task(proc_pid(inode), PIDTYPE_PID);
+diff --git a/include/linux/proc_fs.h b/include/linux/proc_fs.h
+index d0e1f1522a78..96df2fe6311d 100644
+--- a/include/linux/proc_fs.h
++++ b/include/linux/proc_fs.h
+@@ -73,6 +73,8 @@ struct proc_dir_entry *proc_create_net_single_write(const char *name, umode_t mo
+ 						    int (*show)(struct seq_file *, void *),
+ 						    proc_write_t write,
+ 						    void *data);
++extern bool proc_is_tgid_procfd(const struct file *file);
++extern struct pid *proc_pid(const struct inode *inode);
+ 
+ #else /* CONFIG_PROC_FS */
+ 
+@@ -114,6 +116,16 @@ static inline int remove_proc_subtree(const char *name, struct proc_dir_entry *p
+ #define proc_create_net(name, mode, parent, state_size, ops) ({NULL;})
+ #define proc_create_net_single(name, mode, parent, show, data) ({NULL;})
+ 
++static inline bool proc_is_tgid_procfd(const struct file *file)
++{
++	return false;
++}
++
++static inline struct pid *proc_pid(const struct inode *inode)
++{
++	return NULL;
++}
++
+ #endif /* CONFIG_PROC_FS */
+ 
+ struct net;
+diff --git a/include/linux/syscalls.h b/include/linux/syscalls.h
+index 2ac3d13a915b..a5ca8cb84566 100644
+--- a/include/linux/syscalls.h
++++ b/include/linux/syscalls.h
+@@ -907,6 +907,8 @@ asmlinkage long sys_statx(int dfd, const char __user *path, unsigned flags,
+ 			  unsigned mask, struct statx __user *buffer);
+ asmlinkage long sys_rseq(struct rseq __user *rseq, uint32_t rseq_len,
+ 			 int flags, uint32_t sig);
++asmlinkage long sys_procfd_signal(int fd, int sig, siginfo_t __user *info,
++				  int flags);
+ 
+ /*
+  * Architecture-specific system calls
+diff --git a/include/uapi/asm-generic/unistd.h b/include/uapi/asm-generic/unistd.h
+index 538546edbfbd..4dc81a994ad1 100644
+--- a/include/uapi/asm-generic/unistd.h
++++ b/include/uapi/asm-generic/unistd.h
+@@ -738,9 +738,11 @@ __SYSCALL(__NR_statx,     sys_statx)
+ __SC_COMP(__NR_io_pgetevents, sys_io_pgetevents, compat_sys_io_pgetevents)
+ #define __NR_rseq 293
+ __SYSCALL(__NR_rseq, sys_rseq)
++#define __NR_procfd_signal 294
++__SC_COMP(__NR_procfd_signal, sys_procfd_signal, compat_sys_procfd_signal)
+ 
+ #undef __NR_syscalls
+-#define __NR_syscalls 294
++#define __NR_syscalls 295
+ 
+ /*
+  * 32 bit systems traditionally used different
+diff --git a/kernel/signal.c b/kernel/signal.c
+index 9a32bc2088c9..13695342f150 100644
+--- a/kernel/signal.c
++++ b/kernel/signal.c
+@@ -19,7 +19,9 @@
+ #include <linux/sched/task.h>
+ #include <linux/sched/task_stack.h>
+ #include <linux/sched/cputime.h>
++#include <linux/file.h>
+ #include <linux/fs.h>
++#include <linux/proc_fs.h>
+ #include <linux/tty.h>
+ #include <linux/binfmts.h>
+ #include <linux/coredump.h>
+@@ -3286,6 +3288,16 @@ COMPAT_SYSCALL_DEFINE4(rt_sigtimedwait, compat_sigset_t __user *, uthese,
+ }
+ #endif
+ 
++static inline void prepare_kill_siginfo(int sig, struct kernel_siginfo *info)
++{
++	clear_siginfo(info);
++	info->si_signo = sig;
++	info->si_errno = 0;
++	info->si_code = SI_USER;
++	info->si_pid = task_tgid_vnr(current);
++	info->si_uid = from_kuid_munged(current_user_ns(), current_uid());
++}
++
+ /**
+  *  sys_kill - send a signal to a process
+  *  @pid: the PID of the process
+@@ -3295,16 +3307,119 @@ SYSCALL_DEFINE2(kill, pid_t, pid, int, sig)
+ {
+ 	struct kernel_siginfo info;
+ 
+-	clear_siginfo(&info);
+-	info.si_signo = sig;
+-	info.si_errno = 0;
+-	info.si_code = SI_USER;
+-	info.si_pid = task_tgid_vnr(current);
+-	info.si_uid = from_kuid_munged(current_user_ns(), current_uid());
++	prepare_kill_siginfo(sig, &info);
+ 
+ 	return kill_something_info(sig, &info, pid);
+ }
+ 
++/*
++ * Verify that the signaler and signalee either are in the same pid namespace
++ * or that the signaler's pid namespace is an ancestor of the signalee's pid
++ * namespace.
++ */
++static bool may_signal_procfd(struct pid *pid)
++{
++	struct pid_namespace *active = task_active_pid_ns(current);
++	struct pid_namespace *p = ns_of_pid(pid);
++
++	for (;;) {
++		if (!p)
++			return false;
++		if (p == active)
++			break;
++		p = p->parent;
++	}
++
++	return true;
++}
++
++static int do_procfd_signal(int fd, int sig, kernel_siginfo_t *kinfo, int flags,
++			    bool had_siginfo)
++{
++	int ret;
++	struct fd f;
++	struct pid *pid;
++
++	/* Enforce flags be set to 0 until we add an extension. */
++	if (flags)
++		return -EINVAL;
++
++	f = fdget_raw(fd);
++	if (!f.file)
++		return -EBADF;
++
++	/* Is this a process file descriptor? */
++	ret = -EINVAL;
++	if (!proc_is_tgid_procfd(f.file))
++		goto err;
++
++	/* Without CONFIG_PROC_FS proc_pid() returns NULL. */
++	pid = proc_pid(file_inode(f.file));
++	if (!pid)
++		goto err;
++
++	if (!may_signal_procfd(pid))
++		goto err;
++
++	if (had_siginfo) {
++		/*
++		 * Not even root can pretend to send signals from the kernel.
++		 * Nor can they impersonate a kill()/tgkill(), which adds
++		 * source info.
++		 */
++		ret = -EPERM;
++		if ((kinfo->si_code >= 0 || kinfo->si_code == SI_TKILL) &&
++		    (task_pid(current) != pid))
++			goto err;
++	} else {
++		prepare_kill_siginfo(sig, kinfo);
++	}
++
++	ret = kill_pid_info(sig, kinfo, pid);
++
++err:
++	fdput(f);
++	return ret;
++}
++
++/**
++ *  sys_procfd_signal - send a signal to a process through a process file
++ *                      descriptor
++ *  @fd: the file descriptor of the process
++ *  @sig: signal to be sent
++ *  @info: the signal info
++ *  @flags: future flags to be passed
++ */
++SYSCALL_DEFINE4(procfd_signal, int, fd, int, sig, siginfo_t __user *, info,
++		int, flags)
++{
++	kernel_siginfo_t kinfo;
++
++	if (info) {
++		int ret = __copy_siginfo_from_user(sig, &kinfo, info);
++		if (unlikely(ret))
++			return ret;
++	}
++
++	return do_procfd_signal(fd, sig, &kinfo, flags, !!info);
++}
++
++#ifdef CONFIG_COMPAT
++COMPAT_SYSCALL_DEFINE4(procfd_signal, int, fd, int, sig,
++		       struct compat_siginfo __user *, info, int, flags)
++{
++	kernel_siginfo_t kinfo;
++
++	if (info) {
++		int ret = __copy_siginfo_from_user32(sig, &kinfo, info);
++		if (unlikely(ret))
++			return ret;
++	}
++
++	return do_procfd_signal(fd, sig, &kinfo, flags, !!info);
++}
++#endif
++
+ static int
+ do_send_specific(pid_t tgid, pid_t pid, int sig, struct kernel_siginfo *info)
+ {
+-- 
+2.19.1
