@@ -1,251 +1,134 @@
-From: "Michael Kerrisk (man-pages)" <mtk.manpages@gmail.com>
-Subject: Re: [PATCH] procfd_signal.2: document procfd_signal syscall
-Date: Tue, 20 Nov 2018 14:29:32 +0100
-Message-ID: <adf719cc-856e-e3cb-8435-f1d9dac7c40f@gmail.com>
-References: <20181119103241.5229-1-christian@brauner.io>
- <20181119103241.5229-4-christian@brauner.io>
+From: "Serge E. Hallyn" <serge@hallyn.com>
+Subject: Re: [PATCH v1 2/2] signal: add procfd_signal() syscall
+Date: Wed, 21 Nov 2018 15:39:46 -0600
+Message-ID: <20181121213946.GA10795@mail.hallyn.com>
+References: <20181119103241.5229-3-christian@brauner.io>
+ <20181119202857.k5zw742xjfrw677j@yavin>
+ <20181119205518.btew3vxwgva4w3zh@brauner.io>
+ <20181119211810.73ptfhnwdmkngfi4@yavin>
+ <20181119212126.u2nkijmula6wcfqi@brauner.io>
+ <CAKOZuevEx6CbcxrR8eVZrUXDcN5y1GPsXdSoHfQteSQKypx0qw@mail.gmail.com>
+ <20181119213722.z54huio5g4kuldxk@brauner.io>
+ <CAKOZueup5L9Fd=tTK5g1415x0muLP_cPkxf4o26-kCPtH_caqw@mail.gmail.com>
+ <87muq4xs2n.fsf@xmission.com>
+ <20181120103111.etlqp7zop34v6nv4@brauner.io>
 Mime-Version: 1.0
-Content-Type: text/plain; charset=utf-8
-Content-Transfer-Encoding: 8bit
+Content-Type: text/plain; charset=us-ascii
 Return-path: <linux-kernel-owner@vger.kernel.org>
-In-Reply-To: <20181119103241.5229-4-christian@brauner.io>
-Content-Language: en-US
+Content-Disposition: inline
+In-Reply-To: <20181120103111.etlqp7zop34v6nv4@brauner.io>
 Sender: linux-kernel-owner@vger.kernel.org
-To: Christian Brauner <christian@brauner.io>, ebiederm@xmission.com, linux-kernel@vger.kernel.org
-Cc: mtk.manpages@gmail.com, serge@hallyn.com, jannh@google.com, luto@kernel.org, akpm@linux-foundation.org, oleg@redhat.com, cyphar@cyphar.com, viro@zeniv.linux.org.uk, linux-fsdevel@vger.kernel.org, linux-api@vger.kernel.org, dancol@google.com, timmurray@google.com, linux-man@vger.kernel.org
+To: Christian Brauner <christian@brauner.io>
+Cc: "Eric W. Biederman" <ebiederm@xmission.com>, Daniel Colascione <dancol@google.com>, Aleksa Sarai <cyphar@cyphar.com>, linux-kernel <linux-kernel@vger.kernel.org>, "Serge E. Hallyn" <serge@hallyn.com>, Jann Horn <jannh@google.com>, Andy Lutomirski <luto@kernel.org>, Andrew Morton <akpm@linux-foundation.org>, Oleg Nesterov <oleg@redhat.com>, Al Viro <viro@zeniv.linux.org.uk>, Linux FS Devel <linux-fsdevel@vger.kernel.org>, Linux API <linux-api@vger.kernel.org>, Tim Murray <timmurray@google.com>, linux-man <linux-man@vger.kernel.org>, Kees Cook <keescook@chromium.org>
 List-Id: linux-man@vger.kernel.org
 
-Hello Christian,
-
-On 11/19/18 11:32 AM, Christian Brauner wrote:
-> Signed-off-by: Christian Brauner <christian@brauner.io>
-> ---
-> Changelog:
-> v1:
-> - patch introduced
-> ---
->  man2/procfd_signal.2 | 147 +++++++++++++++++++++++++++++++++++++++++++
->  1 file changed, 147 insertions(+)
->  create mode 100644 man2/procfd_signal.2
+On Tue, Nov 20, 2018 at 11:31:13AM +0100, Christian Brauner wrote:
+> On Mon, Nov 19, 2018 at 10:59:12PM -0600, Eric W. Biederman wrote:
+> > Daniel Colascione <dancol@google.com> writes:
+> > 
+> > > On Mon, Nov 19, 2018 at 1:37 PM Christian Brauner <christian@brauner.io> wrote:
+> > >>
+> > >> On Mon, Nov 19, 2018 at 01:26:22PM -0800, Daniel Colascione wrote:
+> > >> > On Mon, Nov 19, 2018 at 1:21 PM, Christian Brauner <christian@brauner.io> wrote:
+> > >> > > That can be done without a loop by comparing the level counter for the
+> > >> > > two pid namespaces.
+> > >> > >
+> > >> > >>
+> > >> > >> And you can rewrite pidns_get_parent to use it. So you would instead be
+> > >> > >> doing:
+> > >> > >>
+> > >> > >>     if (pidns_is_descendant(proc_pid_ns, task_active_pid_ns(current)))
+> > >> > >>         return -EPERM;
+> > >> > >>
+> > >> > >> (Or you can just copy the 5-line loop into procfd_signal -- though I
+> > >> > >> imagine we'll need this for all of the procfd_* APIs.)
+> > >> >
+> > >> > Why is any of this even necessary? Why does the child namespace we're
+> > >> > considering even have a file descriptor to its ancestor's procfs? If
+> > >>
+> > >> Because you can send file descriptors between processes and container
+> > >> runtimes tend to do that.
+> > >
+> > > Right. But why *would* a container runtime send one of these procfs
+> > > FDs to a container?
+> > >
+> > >> > it has one of these FDs, it can already *read* all sorts of
+> > >> > information it really shouldn't be able to acquire, so the additional
+> > >> > ability to send a signal (subject to the usual permission checks)
+> > >> > feels like sticking a finger in a dike that's already well-perforated.
+> > >> > IMHO, we shouldn't bother with this check. The patch would be simpler
+> > >> > without it.
+> > >>
+> > >> We will definitely not allow signaling processes in an ancestor pid
+> > >> namespace! That is a security issue! I can imagine container runtimes
+> > >> killing their monitoring process etc. pp. Not happening, unless someone
+> > >> with deep expertise in signals can convince me otherwise.
+> > >
+> > > If parent namespace procfs FDs or mounts really can leak into child
+> > > namespaces as easily as Aleksa says, then I don't mind adding the
+> > > check. I was under the impression that if you find yourself in this
+> > > situation, you already have a big problem.
+> > 
+> > There is one big reason to have the check, and I have not seen it
+> > mentioned yet in this thread.
+> > 
+> > When SI_USER is set we report the pid of the sender of the signal in
+> > si_pid.  When the signal comes from the kernel si_pid == 0.  When signal
+> > is sent from an ancestor pid namespace si_pid also equals 0 (which is
+> > reasonable).
+> > 
+> > A signal out to a process in a parent pid namespace such as SIGCHLD is
+> > reasonable as we can map the pid.  I really don't see the point of
+> > forbidding that.  From the perspective of the process in the parent pid
+> > namespace it is just another process in it's pid namespace.  So it
+> > should pose no problem from the perspective of the receiving process.
+> > 
+> > A signal to a process in a pid namespace that is neither a parent nor a
+> > descendent pid namespace would be a problem, as there is no well defined
+> > notion of what si_pid should be set to.  So for that case perhaps we
+> > should have something like a noprocess pid that we can set.  Perhaps we
+> > could set si_pid to 0xffffffff.  That would take a small extension to
+> > pid_nr_ns.
+> > 
+> > File descriptors are not namespaced.  It is completely legitimate to use
+> > file descriptors to get around limitations of namespaces.
 > 
-> diff --git a/man2/procfd_signal.2 b/man2/procfd_signal.2
-> new file mode 100644
-> index 000000000..6af0b74f4
-> --- /dev/null
-> +++ b/man2/procfd_signal.2
-> @@ -0,0 +1,147 @@
-> +.\" Copyright (C) 2018 Christian Brauner <christian@brauner.io>
-> +.\"
-> +.\" %%%LICENSE_START(VERBATIM)
-> +.\" Permission is granted to make and distribute verbatim copies of this
-> +.\" manual provided the copyright notice and this permission notice are
-> +.\" preserved on all copies.
-> +.\"
-> +.\" Permission is granted to copy and distribute modified versions of this
-> +.\" manual under the conditions for verbatim copying, provided that the
-> +.\" entire resulting derived work is distributed under the terms of a
-> +.\" permission notice identical to this one.
-> +.\"
-> +.\" Since the Linux kernel and libraries are constantly changing, this
-> +.\" manual page may be incorrect or out-of-date.  The author(s) assume no
-> +.\" responsibility for errors or omissions, or for damages resulting from
-> +.\" the use of the information contained herein.  The author(s) may not
-> +.\" have taken the same level of care in the production of this manual,
-> +.\" which is licensed free of charge, as they might when working
-> +.\" professionally.
-> +.\"
-> +.\" Formatted or processed versions of this manual, if unaccompanied by
-> +.\" the source, must acknowledge the copyright and authors of this work.
-> +.\" %%%LICENSE_END
-> +.\"
-> +.TH PROCFD_SIGNAL 2 2017-09-15 "Linux" "Linux Programmer's Manual"
+> Frankly, I don't see a good argument for why we would allow that even if
+> safe. I have not heard a legitimate use-case or need for this.
+> At this point I care about very simple semantics. Being able to signal
+> into ancestor pid namespaces and cousin namespaces is interesting but
+> makes the syscall more brittle and harder to understand.
 
-Bad timestamp :-)
+Yeah, I'm with you on that.  We can always open that door later if a good
+use case comes up, but I prefer simple at first.
 
-> +.SH NAME
-> +procfd_signal \- send signal to a process through a process descriptor
-
-s/through/via/
-
-> +.SH SYNOPSIS
-> +.nf
-> +.B #include <sys/types.h>
-> +.B #include <signal.h>
-> +.PP
-> +.BI "int procfd_signal(int " fd ", int " sig ", siginfo_t *" info ", int " flags );
-> +.fi
-> +.SH DESCRIPTION
-> +.BR procfd_signal ()
-> +sends the signal specified in
-> +.I sig
-> +to the process identified by the file descriptor
-> +.IR fd .
-
-Here, I think we need some words about how one obtains that 
-file descriptor.
-
-> +The permissions required to send a signal are the same as for
-> +.BR kill (2).
-> +As with
-> +.BR kill (2),
-> +the null signal (0) can be used to check if a process with a given
-> +PID exists.
-
-But there is no PID mentioned on this page?
-
-I suppose:
-
-As with
-.BR kill (2),
-the null signal (0) can be used to check if the process referred to by
-.I fd
-exists.
-
-?
-
-> +.PP
-> +The optional
-> +.I info
-> +argument specifies the data to accompany the signal.
-> +This argument is a pointer to a structure of type
-> +.IR siginfo_t ,
-> +described in
-> +.BR sigaction (2)
-> +(and defined by including
-> +.IR <sigaction.h> ).
-> +The caller should set the following fields in this structure:
-> +.TP
-> +.I si_code
-> +This must be one of the
-> +.B SI_*
-> +codes in the Linux kernel source file
-> +.IR include/asm-generic/siginfo.h ,
-> +with the restriction that the code must be negative
-> +(i.e., cannot be
-> +.BR SI_USER ,
-> +which is used by the kernel to indicate a signal sent by
-> +.BR kill (2))
-> +and cannot (since Linux 2.6.39) be
-> +.BR SI_TKILL
-> +(which is used by the kernel to indicate a signal sent using
-> +.\" tkill(2) or
-> +.BR tgkill (2)).
-> +.TP
-> +.I si_pid
-> +This should be set to a process ID,
-> +typically the process ID of the sender.
-> +.TP
-> +.I si_uid
-> +This should be set to a user ID,
-> +typically the real user ID of the sender.
-> +.TP
-> +.I si_value
-> +This field contains the user data to accompany the signal.
-> +For more information, see the description of the last
-> +.RI ( "union sigval" )
-> +argument of
-> +.BR sigqueue (3).
-
-With sigqueue(3), one sends only a signal plus accompanying
-data. It is of course based on the lower level rt_sigqueueinfo(2).
-The man page for that system call says:
-
-    These system calls are not intended for  direct  application  use;
-    they  are  provided to allow the implementation of sigqueue(3) and
-    pthread_sigqueue(3).
-
-Is procfd_signal() intended to be the API directly used from
-user space? If it is, then I think there should be some
-explanation of why there is a 'siginfo_t' argument (vis-à-vis
-sigqueue(3), which makes do with just union sigval).
-If procfd_signal() is not intended to be the API used directly
-from user space, then I think there needs to be a paragraph
-similar to the one in the rt_sigqueueinfo(2) page queoted above.
-
-> +.PP
-> +Internally, the kernel sets the
-> +.I si_signo
-> +field to the value specified in
-> +.IR sig ,
-> +so that the receiver of the signal can also obtain
-> +the signal number via that field.
-> +.PP
-> +The
-> +.I flags
-> +argument is reserved for future extension and must be set to 0.
-> +.PP
-> +.SH RETURN VALUE
-> +On success, this system call returns 0.
-> +On error, it returns \-1 and
-> +.I errno
-> +is set to indicate the error.
-> +.SH ERRORS
-> +.TP
-> +.B EBADF
-> +.I fd
-> +is not a valid file descriptor.
-> +.TP
-> +.B EINVAL
-> +An invalid signal was specified.
-> +.TP
-> +.B EINVAL
-> +.I fd
-> +does not refer to a process.
-> +.TP
-> +.B EINVAL
-> +The flags argument was not 0.
-> +.TP
-> +.B EPERM
-> +The caller does not have permission to send the signal to the target.
-> +For the required permissions, see
-> +.BR kill (2).
-> +Or:
-> +.I uinfo->si_code
-> +is invalid.
-> +.TP
-> +.B ESRCH
-> +The process or process group does not exist.
-
-"or process group"? I suspect a cut and paste error here :-)
-
-The connection between the preceding sentence and the one
-that follows it is not quite clear:
-
-> +Note that an existing process might be a zombie,
-> +a process that has terminated execution, but
-> +has not yet been
-> +.BR wait (2)ed
-> +for.
-
-Is it the case that using procfd_signal() with a file
-descriptor that refers to a zombie will yield EINVAL?
-If yes, this could be made clearer with the following:
-
-.B ESRCH
-The specified process no longer exists or is a process in the
-zombie state (a process that has terminated execution, but
-has not yet been
-BR wait (2)ed
-for).
-
-> +.SH CONFORMING TO
-> +This system call is Linux-specific.
-> +.SH SEE ALSO
-> +.BR kill (2),
-> +.BR sigaction (2),
-> +.BR sigprocmask (2),
-> +.BR tgkill (2),
-> +.BR pthread_sigqueue (3),
-> +.BR rt_sigqueueinfo (2),
-> +.BR sigqueue (3),
-> +.BR signal (7)
-
-Thanks,
-
-Michael
-
-
--- 
-Michael Kerrisk
-Linux man-pages maintainer; http://www.kernel.org/doc/man-pages/
-Linux/UNIX System Programming Training: http://man7.org/training/
+> Changing pid_nr_ns() might be the solution but this function is called
+> all over the place in the kernel and I'm not going to risk breaking
+> something by changing it for a feature that no one so far has ever
+> asked for.
+> If you are ok with this then we should hold off on this. We can always
+> add this feature later by removing the check when someone has a use-case
+> for it.
+> I'll send a v2 of the patch that keeps the restriction for now. If you
+> insist on it being removed we can make the change in a follow-up
+> iteration.
+> 
+> Christian
+> 
+> > 
+> > Adding limitations to a file descriptor based api because someone else
+> > can't set up their processes in such a way as to get the restrictions
+> > they are looking for seems very sad.
+> > 
+> > Frankly I think it is one of the better features of namespaces that we
+> > have to carefully handle and define these cases so that when the
+> > inevitable leaks happen you are not immediately in a world of hurt.  All
+> > of the other permission checks etc continue to do their job.  Plus you
+> > are prepared for the case when someone wants their containers to have an
+> > interesting communication primitive.
+> > 
+> > Eric
+> > 
+> > 
+> > 
+> > 
