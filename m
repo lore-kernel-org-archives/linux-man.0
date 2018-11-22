@@ -1,134 +1,90 @@
 From: "Serge E. Hallyn" <serge@hallyn.com>
 Subject: Re: [PATCH v1 2/2] signal: add procfd_signal() syscall
-Date: Wed, 21 Nov 2018 15:39:46 -0600
-Message-ID: <20181121213946.GA10795@mail.hallyn.com>
-References: <20181119103241.5229-3-christian@brauner.io>
+Date: Thu, 22 Nov 2018 01:41:14 -0600
+Message-ID: <20181122074114.GA15484@mail.hallyn.com>
+References: <20181119103241.5229-1-christian@brauner.io>
+ <20181119103241.5229-3-christian@brauner.io>
  <20181119202857.k5zw742xjfrw677j@yavin>
  <20181119205518.btew3vxwgva4w3zh@brauner.io>
  <20181119211810.73ptfhnwdmkngfi4@yavin>
- <20181119212126.u2nkijmula6wcfqi@brauner.io>
- <CAKOZuevEx6CbcxrR8eVZrUXDcN5y1GPsXdSoHfQteSQKypx0qw@mail.gmail.com>
- <20181119213722.z54huio5g4kuldxk@brauner.io>
- <CAKOZueup5L9Fd=tTK5g1415x0muLP_cPkxf4o26-kCPtH_caqw@mail.gmail.com>
- <87muq4xs2n.fsf@xmission.com>
- <20181120103111.etlqp7zop34v6nv4@brauner.io>
+ <20181119212343.yikfoxob7f4hio7h@yavin>
 Mime-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Return-path: <linux-kernel-owner@vger.kernel.org>
 Content-Disposition: inline
-In-Reply-To: <20181120103111.etlqp7zop34v6nv4@brauner.io>
+In-Reply-To: <20181119212343.yikfoxob7f4hio7h@yavin>
 Sender: linux-kernel-owner@vger.kernel.org
-To: Christian Brauner <christian@brauner.io>
-Cc: "Eric W. Biederman" <ebiederm@xmission.com>, Daniel Colascione <dancol@google.com>, Aleksa Sarai <cyphar@cyphar.com>, linux-kernel <linux-kernel@vger.kernel.org>, "Serge E. Hallyn" <serge@hallyn.com>, Jann Horn <jannh@google.com>, Andy Lutomirski <luto@kernel.org>, Andrew Morton <akpm@linux-foundation.org>, Oleg Nesterov <oleg@redhat.com>, Al Viro <viro@zeniv.linux.org.uk>, Linux FS Devel <linux-fsdevel@vger.kernel.org>, Linux API <linux-api@vger.kernel.org>, Tim Murray <timmurray@google.com>, linux-man <linux-man@vger.kernel.org>, Kees Cook <keescook@chromium.org>
+To: Aleksa Sarai <cyphar@cyphar.com>
+Cc: Christian Brauner <christian@brauner.io>, ebiederm@xmission.com, linux-kernel@vger.kernel.org, serge@hallyn.com, jannh@google.com, luto@kernel.org, akpm@linux-foundation.org, oleg@redhat.com, viro@zeniv.linux.org.uk, linux-fsdevel@vger.kernel.org, linux-api@vger.kernel.org, dancol@google.com, timmurray@google.com, linux-man@vger.kernel.org, Kees Cook <keescook@chromium.org>
 List-Id: linux-man@vger.kernel.org
 
-On Tue, Nov 20, 2018 at 11:31:13AM +0100, Christian Brauner wrote:
-> On Mon, Nov 19, 2018 at 10:59:12PM -0600, Eric W. Biederman wrote:
-> > Daniel Colascione <dancol@google.com> writes:
+On Tue, Nov 20, 2018 at 08:23:43AM +1100, Aleksa Sarai wrote:
+> On 2018-11-20, Aleksa Sarai <cyphar@cyphar.com> wrote:
+> > On 2018-11-19, Christian Brauner <christian@brauner.io> wrote:
+> > > On Tue, Nov 20, 2018 at 07:28:57AM +1100, Aleksa Sarai wrote:
+> > > > On 2018-11-19, Christian Brauner <christian@brauner.io> wrote:
+> > > > > +	if (info) {
+> > > > > +		ret = __copy_siginfo_from_user(sig, &kinfo, info);
+> > > > > +		if (unlikely(ret))
+> > > > > +			goto err;
+> > > > > +		/*
+> > > > > +		 * Not even root can pretend to send signals from the kernel.
+> > > > > +		 * Nor can they impersonate a kill()/tgkill(), which adds
+> > > > > +		 * source info.
+> > > > > +		 */
+> > > > > +		ret = -EPERM;
+> > > > > +		if ((kinfo.si_code >= 0 || kinfo.si_code == SI_TKILL) &&
+> > > > > +		    (task_pid(current) != pid))
+> > > > > +			goto err;
+> > > > > +	} else {
+> > > > > +		prepare_kill_siginfo(sig, &kinfo);
+> > > > > +	}
+> > > > 
+> > > > I wonder whether we should also have a pidns restriction here, since
+> > > > currently it isn't possible for a container process using a pidns to
+> > > > signal processes outside its pidns. AFAICS, this isn't done through an
+> > > > explicit check -- it's a side-effect of processes in a pidns not being
+> > > > able to address non-descendant-pidns processes.
+> > > > 
+> > > > But maybe it's reasonable to allow sending a procfd to a different pidns
+> > > > and the same operations working on it? If we extend the procfd API to
+> > > 
+> > > No, I don't think so. I really don't want any fancy semantics in here.
+> > > Fancy doesn't get merged and fancy is hard to maintain. So we should do
+> > > something like:
+> > > 
+> > > if (proc_pid_ns() != current_pid_ns)
+> > > 	return EINVAL
 > > 
-> > > On Mon, Nov 19, 2018 at 1:37 PM Christian Brauner <christian@brauner.io> wrote:
-> > >>
-> > >> On Mon, Nov 19, 2018 at 01:26:22PM -0800, Daniel Colascione wrote:
-> > >> > On Mon, Nov 19, 2018 at 1:21 PM, Christian Brauner <christian@brauner.io> wrote:
-> > >> > > That can be done without a loop by comparing the level counter for the
-> > >> > > two pid namespaces.
-> > >> > >
-> > >> > >>
-> > >> > >> And you can rewrite pidns_get_parent to use it. So you would instead be
-> > >> > >> doing:
-> > >> > >>
-> > >> > >>     if (pidns_is_descendant(proc_pid_ns, task_active_pid_ns(current)))
-> > >> > >>         return -EPERM;
-> > >> > >>
-> > >> > >> (Or you can just copy the 5-line loop into procfd_signal -- though I
-> > >> > >> imagine we'll need this for all of the procfd_* APIs.)
-> > >> >
-> > >> > Why is any of this even necessary? Why does the child namespace we're
-> > >> > considering even have a file descriptor to its ancestor's procfs? If
-> > >>
-> > >> Because you can send file descriptors between processes and container
-> > >> runtimes tend to do that.
-> > >
-> > > Right. But why *would* a container runtime send one of these procfs
-> > > FDs to a container?
-> > >
-> > >> > it has one of these FDs, it can already *read* all sorts of
-> > >> > information it really shouldn't be able to acquire, so the additional
-> > >> > ability to send a signal (subject to the usual permission checks)
-> > >> > feels like sticking a finger in a dike that's already well-perforated.
-> > >> > IMHO, we shouldn't bother with this check. The patch would be simpler
-> > >> > without it.
-> > >>
-> > >> We will definitely not allow signaling processes in an ancestor pid
-> > >> namespace! That is a security issue! I can imagine container runtimes
-> > >> killing their monitoring process etc. pp. Not happening, unless someone
-> > >> with deep expertise in signals can convince me otherwise.
-> > >
-> > > If parent namespace procfs FDs or mounts really can leak into child
-> > > namespaces as easily as Aleksa says, then I don't mind adding the
-> > > check. I was under the impression that if you find yourself in this
-> > > situation, you already have a big problem.
+> > This isn't quite sufficient. The key thing is that you have to be in an
+> > *ancestor* (or same) pidns, not the *same* pidns. Ideally you can re-use
+> > the check already in pidns_get_parent, and expose it. It would be
+> > something as trivial as:
 > > 
-> > There is one big reason to have the check, and I have not seen it
-> > mentioned yet in this thread.
+> > bool pidns_is_descendant(struct pid_namespace *ns,
+> >                          struct pid_namespace *ancestor)
+> > {
+> >     for (;;) {
+> >         if (!ns)
+> >             return false;
+> >         if (ns == ancestor)
+> >             break;
+> >         ns = ns->parent;
+> >     }
+> >     return true;
+> > }
 > > 
-> > When SI_USER is set we report the pid of the sender of the signal in
-> > si_pid.  When the signal comes from the kernel si_pid == 0.  When signal
-> > is sent from an ancestor pid namespace si_pid also equals 0 (which is
-> > reasonable).
+> > And you can rewrite pidns_get_parent to use it. So you would instead be
+> > doing:
 > > 
-> > A signal out to a process in a parent pid namespace such as SIGCHLD is
-> > reasonable as we can map the pid.  I really don't see the point of
-> > forbidding that.  From the perspective of the process in the parent pid
-> > namespace it is just another process in it's pid namespace.  So it
-> > should pose no problem from the perspective of the receiving process.
-> > 
-> > A signal to a process in a pid namespace that is neither a parent nor a
-> > descendent pid namespace would be a problem, as there is no well defined
-> > notion of what si_pid should be set to.  So for that case perhaps we
-> > should have something like a noprocess pid that we can set.  Perhaps we
-> > could set si_pid to 0xffffffff.  That would take a small extension to
-> > pid_nr_ns.
-> > 
-> > File descriptors are not namespaced.  It is completely legitimate to use
-> > file descriptors to get around limitations of namespaces.
+> >     if (pidns_is_descendant(proc_pid_ns, task_active_pid_ns(current)))
+> >         return -EPERM;
 > 
-> Frankly, I don't see a good argument for why we would allow that even if
-> safe. I have not heard a legitimate use-case or need for this.
-> At this point I care about very simple semantics. Being able to signal
-> into ancestor pid namespaces and cousin namespaces is interesting but
-> makes the syscall more brittle and harder to understand.
+> Scratch the last bit, -EPERM is wrong here. I would argue that -EINVAL
+> is *somewhat* wrong because arguable the more semantically consistent
+> error (with kill(2)) would be -ESRCH -- but then you're mixing the "pid
+> is dead" and "pid is not visible to you" cases. I'm not sure what the
+> right errno would be here (I'm sure some of the LKML greybeards will
+> have a better clue.) :P
 
-Yeah, I'm with you on that.  We can always open that door later if a good
-use case comes up, but I prefer simple at first.
-
-> Changing pid_nr_ns() might be the solution but this function is called
-> all over the place in the kernel and I'm not going to risk breaking
-> something by changing it for a feature that no one so far has ever
-> asked for.
-> If you are ok with this then we should hold off on this. We can always
-> add this feature later by removing the check when someone has a use-case
-> for it.
-> I'll send a v2 of the patch that keeps the restriction for now. If you
-> insist on it being removed we can make the change in a follow-up
-> iteration.
-> 
-> Christian
-> 
-> > 
-> > Adding limitations to a file descriptor based api because someone else
-> > can't set up their processes in such a way as to get the restrictions
-> > they are looking for seems very sad.
-> > 
-> > Frankly I think it is one of the better features of namespaces that we
-> > have to carefully handle and define these cases so that when the
-> > inevitable leaks happen you are not immediately in a world of hurt.  All
-> > of the other permission checks etc continue to do their job.  Plus you
-> > are prepared for the case when someone wants their containers to have an
-> > interesting communication primitive.
-> > 
-> > Eric
-> > 
-> > 
-> > 
-> > 
+Actually I like EXDEV for this.  ERMOTE also works.
