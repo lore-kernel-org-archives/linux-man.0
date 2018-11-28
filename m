@@ -1,32 +1,68 @@
-From: Arnd Bergmann <arnd@arndb.de>
-Subject: Re: [PATCH v2] signal: add procfd_signal() syscall
-Date: Wed, 28 Nov 2018 15:05:19 +0100
-Message-ID: <CAK8P3a2eB59EQsjKH50CQV6OtvsJfG++JaF5z7Krvk2tjrMotQ@mail.gmail.com>
-References: <20181120105124.14733-1-christian@brauner.io>
+From: Florian Weimer <fweimer@redhat.com>
+Subject: Re: [PATCH] procfd_signal.2: document procfd_signal syscall
+Date: Wed, 28 Nov 2018 21:59:52 +0100
+Message-ID: <87in0g7waf.fsf@oldenburg.str.redhat.com>
+References: <20181119103241.5229-1-christian@brauner.io>
+        <20181119103241.5229-4-christian@brauner.io>
 Mime-Version: 1.0
-Content-Type: text/plain; charset="UTF-8"
+Content-Type: text/plain
 Return-path: <linux-kernel-owner@vger.kernel.org>
-In-Reply-To: <20181120105124.14733-1-christian@brauner.io>
+In-Reply-To: <20181119103241.5229-4-christian@brauner.io> (Christian Brauner's
+        message of "Mon, 19 Nov 2018 11:32:40 +0100")
 Sender: linux-kernel-owner@vger.kernel.org
-To: christian@brauner.io
-Cc: "Eric W . Biederman" <ebiederm@xmission.com>, Linux Kernel Mailing List <linux-kernel@vger.kernel.org>, "Serge E. Hallyn" <serge@hallyn.com>, Jann Horn <jannh@google.com>, Andy Lutomirski <luto@kernel.org>, Andrew Morton <akpm@linux-foundation.org>, Oleg Nesterov <oleg@redhat.com>, cyphar@cyphar.com, Al Viro <viro@zeniv.linux.org.uk>, Linux FS-devel Mailing List <linux-fsdevel@vger.kernel.org>, Linux API <linux-api@vger.kernel.org>, Daniel Colascione <dancol@google.com>, timmurray@google.com, linux-man@vger.kernel.org, Kees Cook <keescook@chromium.org>
+To: Christian Brauner <christian@brauner.io>
+Cc: ebiederm@xmission.com, linux-kernel@vger.kernel.org, serge@hallyn.com, jannh@google.com, luto@kernel.org, akpm@linux-foundation.org, oleg@redhat.com, cyphar@cyphar.com, viro@zeniv.linux.org.uk, linux-fsdevel@vger.kernel.org, linux-api@vger.kernel.org, dancol@google.com, timmurray@google.com, linux-man@vger.kernel.org
 List-Id: linux-man@vger.kernel.org
 
-On Tue, Nov 20, 2018 at 11:54 AM Christian Brauner <christian@brauner.io> wrote:
-> ---
->  arch/x86/entry/syscalls/syscall_32.tbl |   1 +
->  arch/x86/entry/syscalls/syscall_64.tbl |   2 +
->  fs/proc/base.c                         |  11 ++-
->  fs/proc/internal.h                     |   5 -
->  include/linux/proc_fs.h                |  12 +++
->  include/linux/syscalls.h               |   2 +
->  include/uapi/asm-generic/unistd.h      |   4 +-
->  kernel/signal.c                        | 127 +++++++++++++++++++++++--
->  8 files changed, 151 insertions(+), 13 deletions(-)
+* Christian Brauner:
 
-For asm-generic:
+> +.\" Copyright (C) 2018 Christian Brauner <christian@brauner.io>
 
-Acked-by: Arnd Bergmann <arnd@arndb.de>
+The text seems to be largely derived from rt_sigqueueinfo, so I'm not
+sure if this appropriate here.
 
-I checked that the system call wired up correctly in a way that
-works on all architectures using the generic syscall table.
+> +the null signal (0) can be used to check if a process with a given
+> +PID exists.
+
+What does this mean if hte process is identified by file descriptor?
+
+> +.PP
+> +The optional
+> +.I info
+> +argument specifies the data to accompany the signal.
+> +This argument is a pointer to a structure of type
+> +.IR siginfo_t ,
+> +described in
+> +.BR sigaction (2)
+> +(and defined by including
+> +.IR <sigaction.h> ).
+> +The caller should set the following fields in this structure:
+> +.TP
+> +.I si_code
+> +This must be one of the
+> +.B SI_*
+> +codes in the Linux kernel source file
+> +.IR include/asm-generic/siginfo.h ,
+> +with the restriction that the code must be negative
+> +(i.e., cannot be
+> +.BR SI_USER ,
+> +which is used by the kernel to indicate a signal sent by
+> +.BR kill (2))
+> +and cannot (since Linux 2.6.39) be
+
+Obsolete reference in this context.
+
+> +.TP
+> +.B ESRCH
+> +The process or process group does not exist.
+> +Note that an existing process might be a zombie,
+> +a process that has terminated execution, but
+> +has not yet been
+> +.BR wait (2)ed
+> +for.
+
+Again: What does this mean if the process identified by a descriptor?
+Does a process in zombie state exist in this sense or not?
+
+Thanks,
+Florian
