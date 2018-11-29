@@ -1,69 +1,97 @@
-From: Joey Pabalinas <joeypabalinas@gmail.com>
-Subject: Re: [PATCH v1 2/2] signal: add procfd_signal() syscall
-Date: Wed, 28 Nov 2018 13:02:01 -1000
-Message-ID: <20181128230201.afprnrqyvrtzghh7@gmail.com>
-References: <20181119103241.5229-1-christian@brauner.io>
- <20181119103241.5229-3-christian@brauner.io>
- <20181128214534.xxqoyy7mi5dw54kj@gmail.com>
- <20181128220545.fplqmbkfhxowx3lf@brauner.io>
+From: Florian Weimer <fweimer@redhat.com>
+Subject: Re: [PATCH v2] signal: add procfd_signal() syscall
+Date: Thu, 29 Nov 2018 13:28:15 +0100
+Message-ID: <87in0g5aqo.fsf@oldenburg.str.redhat.com>
+References: <20181120105124.14733-1-christian@brauner.io>
 Mime-Version: 1.0
-Content-Type: multipart/signed; micalg=pgp-sha512;
-        protocol="application/pgp-signature"; boundary="msgp3xujwmcofyiu"
+Content-Type: text/plain; charset=utf-8
+Content-Transfer-Encoding: 8BIT
 Return-path: <linux-kernel-owner@vger.kernel.org>
-Content-Disposition: inline
-In-Reply-To: <20181128220545.fplqmbkfhxowx3lf@brauner.io>
+In-Reply-To: <20181120105124.14733-1-christian@brauner.io> (Christian
+        Brauner's message of "Tue, 20 Nov 2018 11:51:23 +0100")
 Sender: linux-kernel-owner@vger.kernel.org
 To: Christian Brauner <christian@brauner.io>
-Cc: Joey Pabalinas <joeypabalinas@gmail.com>, ebiederm@xmission.com, linux-kernel@vger.kernel.org, serge@hallyn.com, jannh@google.com, luto@kernel.org, akpm@linux-foundation.org, oleg@redhat.com, cyphar@cyphar.com, viro@zeniv.linux.org.uk, linux-fsdevel@vger.kernel.org, linux-api@vger.kernel.org, dancol@google.com, timmurray@google.com, linux-man@vger.kernel.org, Kees Cook <keescook@chromium.org>
+Cc: ebiederm@xmission.com, linux-kernel@vger.kernel.org, serge@hallyn.com, jannh@google.com, luto@kernel.org, akpm@linux-foundation.org, oleg@redhat.com, cyphar@cyphar.com, viro@zeniv.linux.org.uk, linux-fsdevel@vger.kernel.org, linux-api@vger.kernel.org, dancol@google.com, timmurray@google.com, linux-man@vger.kernel.org, Kees Cook <keescook@chromium.org>
 List-Id: linux-man@vger.kernel.org
 
+Disclaimer: I'm looking at this patch because Christian requested it.
+I'm not a kernel developer.
 
---msgp3xujwmcofyiu
-Content-Type: text/plain; charset=utf-8
-Content-Disposition: inline
-Content-Transfer-Encoding: quoted-printable
+* Christian Brauner:
 
-On Wed, Nov 28, 2018 at 11:05:49PM +0100, Christian Brauner wrote:
-> On Wed, Nov 28, 2018 at 11:45:34AM -1000, Joey Pabalinas wrote:
-> > On Mon, Nov 19, 2018 at 11:32:39AM +0100, Christian Brauner wrote:
-> > > +	if (info) {
-> > > +		ret =3D __copy_siginfo_from_user(sig, &kinfo, info);
-> > > +		if (unlikely(ret))
-> > > +			goto err;
-> >=20
->=20
-> I think you're misreading here. It jumps to:
->=20
-> err:
->         fdput(f);
-> 	return ret;
->=20
-> and does propagate the error. This is also an old iteration of the patch.
+> diff --git a/arch/x86/entry/syscalls/syscall_32.tbl b/arch/x86/entry/syscalls/syscall_32.tbl
+> index 3cf7b533b3d1..3f27ffd8ae87 100644
+> --- a/arch/x86/entry/syscalls/syscall_32.tbl
+> +++ b/arch/x86/entry/syscalls/syscall_32.tbl
+> @@ -398,3 +398,4 @@
+>  384	i386	arch_prctl		sys_arch_prctl			__ia32_compat_sys_arch_prctl
+>  385	i386	io_pgetevents		sys_io_pgetevents		__ia32_compat_sys_io_pgetevents
+>  386	i386	rseq			sys_rseq			__ia32_sys_rseq
+> +387	i386	procfd_signal		sys_procfd_signal		__ia32_compat_sys_procfd_signal
+> diff --git a/arch/x86/entry/syscalls/syscall_64.tbl b/arch/x86/entry/syscalls/syscall_64.tbl
+> index f0b1709a5ffb..8a30cde82450 100644
+> --- a/arch/x86/entry/syscalls/syscall_64.tbl
+> +++ b/arch/x86/entry/syscalls/syscall_64.tbl
+> @@ -343,6 +343,7 @@
+>  332	common	statx			__x64_sys_statx
+>  333	common	io_pgetevents		__x64_sys_io_pgetevents
+>  334	common	rseq			__x64_sys_rseq
+> +335	64	procfd_signal		__x64_sys_procfd_signal
+>  
+>  #
+>  # x32-specific system call numbers start at 512 to avoid cache impact
+> @@ -386,3 +387,4 @@
+>  545	x32	execveat		__x32_compat_sys_execveat/ptregs
+>  546	x32	preadv2			__x32_compat_sys_preadv64v2
+>  547	x32	pwritev2		__x32_compat_sys_pwritev64v2
+> +548	x32	procfd_signal		__x32_compat_sys_procfd_signal
 
-Whoops, that I am. Sorry about that.
+Is there a reason why these numbers have to be different?
 
---=20
-Cheers,
-Joey Pabalinas
+(See the recent discussion with Andy Lutomirski.)
 
---msgp3xujwmcofyiu
-Content-Type: application/pgp-signature; name="signature.asc"
+> +static int do_procfd_signal(int fd, int sig, kernel_siginfo_t *kinfo, int flags,
+> +			    bool had_siginfo)
+> +{
+> +	int ret;
+> +	struct fd f;
+> +	struct pid *pid;
+> +
+> +	/* Enforce flags be set to 0 until we add an extension. */
+> +	if (flags)
+> +		return -EINVAL;
+> +
+> +	f = fdget_raw(fd);
+> +	if (!f.file)
+> +		return -EBADF;
+> +
+> +	/* Is this a process file descriptor? */
+> +	ret = -EINVAL;
+> +	if (!proc_is_tgid_procfd(f.file))
+> +		goto err;
+[…]
+> +	ret = kill_pid_info(sig, kinfo, pid);
 
------BEGIN PGP SIGNATURE-----
+I would like to see some comment here what happens to zombie processes.
 
-iQIzBAEBCgAdFiEENpTlWU2hUK/KMvHp2rGdfm9DtVIFAlv/HmgACgkQ2rGdfm9D
-tVLwnRAAoYNn3yu6ffNJq6EY2npo/FGJKvcOE5Oxu+fBJ6VOp5lOqfhr4ZIBohwa
-KvQOJK4qv67GLUkzk7y+Tc5eYgIYgKWXp+pqGppmVPGatKOE0sJupMPC8SKyK69v
-XEwJpfy640YsJlOyswiX3007jdOBIk1D21JECgbiCuoN2P5UxahZgUTdSBdbjHlx
-fPx+JKcC221x2ar6KseYwUbfBB60Rie0+CkIL4GefFXqUlPYcLxxlpPabn2QsNje
-lY6RtUGC7VB47vnPUVVzF9vooE9L8zpJazdQgL7HhbppXmHkFu5FYaN1aY94jgtk
-2MfC2px/+ESuuiT0YdLOH0ReZT69r83kASHW5P1nDepS6I36BSSJfHXshXkaiXVc
-HYrHAH6rCODCFkrEFCPjbBdtFIacJ6e0RpDaPddNec84jleRtZMMD4q/E8VgN3kT
-gHv4PG09wXqkq8HLplLHo4XkKetgHz1SI09LnsU1IN3IilieXiu030e/kBP1c1UP
-0gotXqxTWmyMQJPm24yXJsEwIFwLcu4paHu5oroSXrHU+pFmAoILjEqddbJMy6Mp
-IZTCz3fIW6iBNqEcTOHovZPfNJD3PfZu1GEjGEDfYDfI+MPofUgp73uZq51E2EoL
-dFHsxwcGFhhAIPwi8sLkjfSJjRSYynRU4VCOnU5X2MphsWDAptU=
-=tCf2
------END PGP SIGNATURE-----
+> +/**
+> + *  sys_procfd_signal - send a signal to a process through a process file
+> + *                      descriptor
+> + *  @fd: the file descriptor of the process
+> + *  @sig: signal to be sent
+> + *  @info: the signal info
+> + *  @flags: future flags to be passed
+> + */
+> +SYSCALL_DEFINE4(procfd_signal, int, fd, int, sig, siginfo_t __user *, info,
+> +		int, flags)
 
---msgp3xujwmcofyiu--
+Sorry, I'm quite unhappy with the name.  “signal” is for signal handler
+management.  procfd_sendsignal, procfd_sigqueueinfo or something like
+that would be fine.  Even procfd_kill would be better IMHO.
+
+Looking at the rt_tgsigqueueinfo interface, is there a way to implement
+the “tg” part with the current procfd_signal interface?  Would you use
+openat to retrieve the Tgid: line from "status"?
+
+Thanks,
+Florian
