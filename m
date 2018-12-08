@@ -1,141 +1,165 @@
-From: "Serge E. Hallyn" <serge@hallyn.com>
+From: kbuild test robot <lkp@intel.com>
 Subject: Re: [PATCH v4] signal: add taskfd_send_signal() syscall
-Date: Fri, 7 Dec 2018 10:49:28 -0600
-Message-ID: <20181207164928.GB972@mail.hallyn.com>
-References: <871s6u9z6u.fsf@xmission.com>
- <20181206213152.gvci7ijr3dokew7w@brauner.io>
- <87o99y72gi.fsf@xmission.com>
- <20181206223948.gyfdtkgbhtozmpsp@brauner.io>
- <20181206231742.xxi4ghn24z4h2qki@brauner.io>
- <20181207003124.GA11160@mail.hallyn.com>
- <CAKOZuevgF7ObKcVvu-iuNK3xLMX2Ze_S+adBEGNZCdfXRibh1A@mail.gmail.com>
- <20181207005917.GA11302@mail.hallyn.com>
- <CAKOZuesqmPvYoibx3MvVj86EMWRRW4My=7n6iiiBJa+MXo-GJA@mail.gmail.com>
- <20181207015423.4miorx43l3qhppfz@brauner.io>
+Date: Sun, 9 Dec 2018 05:46:11 +0800
+Message-ID: <201812090522.Jxt8OHn3%fengguang.wu@intel.com>
+References: <20181206121858.12215-1-christian@brauner.io>
 Mime-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
+Content-Type: multipart/mixed; boundary="huq684BweRXVnRxX"
 Return-path: <linux-kernel-owner@vger.kernel.org>
 Content-Disposition: inline
-In-Reply-To: <20181207015423.4miorx43l3qhppfz@brauner.io>
+In-Reply-To: <20181206121858.12215-1-christian@brauner.io>
 Sender: linux-kernel-owner@vger.kernel.org
-To: Christian Brauner <christian@brauner.io>
-Cc: Daniel Colascione <dancol@google.com>, "Serge E. Hallyn" <serge@hallyn.com>, "Eric W. Biederman" <ebiederm@xmission.com>, linux-kernel <linux-kernel@vger.kernel.org>, Linux API <linux-api@vger.kernel.org>, Andy Lutomirski <luto@kernel.org>, Arnd Bergmann <arnd@arndb.de>, Jann Horn <jannh@google.com>, Andrew Morton <akpm@linux-foundation.org>, Oleg Nesterov <oleg@redhat.com>, Aleksa Sarai <cyphar@cyphar.com>, Al Viro <viro@zeniv.linux.org.uk>, Linux FS Devel <linux-fsdevel@vger.kernel.org>, Tim Murray <timmurray@google.com>, linux-man <linux-man@vger.kernel.org>, Kees Cook <keescook@chromium.org>, Florian Weimer <fweimer@redhat.com>, tglx@linutronix.de, x86@kernel.org
+Cc: kbuild-all@01.org, linux-kernel@vger.kernel.org, linux-api@vger.kernel.org, luto@kernel.org, arnd@arndb.de, ebiederm@xmission.com, serge@hallyn.com, jannh@google.com, akpm@linux-foundation.org, oleg@redhat.com, cyphar@cyphar.com, viro@zeniv.linux.org.uk, linux-fsdevel@vger.kernel.org, dancol@google.com, timmurray@google.com, linux-man@vger.kernel.org, keescook@chromium.org, fweimer@redhat.com, tglx@linutronix.de, x86@kernel.org, Christian Brauner <christian@brauner.io>
 List-Id: linux-man@vger.kernel.org
 
-On Fri, Dec 07, 2018 at 02:54:25AM +0100, Christian Brauner wrote:
-> On Thu, Dec 06, 2018 at 05:39:18PM -0800, Daniel Colascione wrote:
-> > On Thu, Dec 6, 2018 at 4:59 PM Serge E. Hallyn <serge@hallyn.com> wrote:
-> > >
-> > > On Thu, Dec 06, 2018 at 04:34:54PM -0800, Daniel Colascione wrote:
-> > > > On Thu, Dec 6, 2018 at 4:31 PM Serge E. Hallyn <serge@hallyn.com> wrote:
-> > > > >
-> > > > > On Fri, Dec 07, 2018 at 12:17:45AM +0100, Christian Brauner wrote:
-> > > > > > On Thu, Dec 06, 2018 at 11:39:48PM +0100, Christian Brauner wrote:
-> > > > > > > On Thu, Dec 06, 2018 at 03:46:53PM -0600, Eric W. Biederman wrote:
-> > > > > > > > Christian Brauner <christian@brauner.io> writes:
-> > > > > > > >
-> > > > > > > > >> Your intention is to add the thread case to support pthreads once the
-> > > > > > > > >> process case is sorted out.  So this is something that needs to be made
-> > > > > > > > >> clear.  Did I miss how you plan to handle threads?
-> > > > > > > > >
-> > > > > > > > > Yeah, maybe you missed it in the commit message [2] which is based on a
-> > > > > > > > > discussion with Andy [3] and Arnd [4]:
-> > > > > > > >
-> > > > > > > > Looking at your references I haven't missed it.  You are not deciding
-> > > > > > > > anything as of yet to keep it simple.  Except you are returning
-> > > > > > > > EOPNOTSUPP.  You are very much intending to do something.
-> > > > > > >
-> > > > > > > That was clear all along and was pointed at every occassion in the
-> > > > > > > threads. I even went through the hazzle to give you all of the
-> > > > > > > references when there's lore.kernel.org.
-> > > > > > >
-> > > > > > > >
-> > > > > > > > Decide.  Do you use the flags parameter or is the width of the
-> > > > > > > > target depending on the flags.
-> > > > > >
-> > > > > > Ok, let's try to be constructive. I understand the general concern for
-> > > > > > the future so let's put a contract into the commit message stating that
-> > > > > > the width of the target aka *what is signaled* will be based on a flag
-> > > > > > parameter if we ever extend it:
-> > > > > >
-> > > > > > taskfd_send_signal(fd, SIGSTOP, NULL, TASKFD_PGID);
-> > > > > > taskfd_send_signal(fd, SIGSTOP, NULL, TASKFD_TID);
-> > > > > >
-> > > > > > with the current default being
-> > > > > >
-> > > > > > taskfd_send_signal(fd, SIGSTOP, NULL, TASKFD_PID);
-> > > > > >
-> > > > > > This seems to me the cleanest solution as we only use one type of file
-> > > > > > descriptor. Can everyone be on board with this? If so I'm going to send
-> > > > > > out a new version of the patch.
-> > > > > >
-> > > > > > Christian
-> > > > >
-> > > > > I'm on board with this, but I think you need to also clarify what exactly
-> > > > > the fd stands for.  I think that (a) userspace should not have to care
-> > > > > about the struct pid implementation, and so (b) the procfd should stand
-> > > > > for all the pids.  So when taskfd_send_signal(fd, SIGSTOP, NULL, TASKFD_PGID)
-> > > > > becomes implemented, then open(/proc/5) will pin all three pids, as will
-> > > > > open(/proc/5/task/6).
-> > > >
-> > > > This change doesn't "pin" any PID, and it makes no sense to make a
-> > > > process FD stand for all its threads. What does that even mean?
-> > >
-> > > Currently the patch relies on the procfd inode saving a copy to the PIDTYPE_PID
-> > > pid.
-> > 
-> > struct pid doesn't have a type field. The interpretation depends on
-> > the caller's use of the struct pid, and in the current path, that's
-> > PIDTYPE_PID. What, specifically, is wrong with the current approach?
-> > 
-> > > I'm not sure offhand, can it go to the PIDTYPE_PGID from that after the
-> > > task has died, or not?   I didn't think so.  If it can then great.
-> > 
-> > You're arguing that something that does, in fact, work, is somehow
-> > broken in some unspecified way. The kill_pid_info lookup works fine.
-> > What, specifically, is wrong with the semantics as implemented?
-> > 
-> > > The point is (a) these are details which should not have to bother userspace,
-> > 
-> > These details *don't* bother userspace.
-> > 
-> > You're raising concerns that are either imaginary or long-since
-> > addressed. Does the patch cause some kind of maintenance burden? No,
-> > it doesn't, not moreso than any other piece of code. Does the
-> > interface have unclear semantics? No, it clearly sends a signal to a
-> > process, just like kill. Does the patch expose kernel implementation
-> > details? No, it doesn't, because the interface is simply not defined
-> > in terms of these details. Do we need to change how signal delivery
-> > works? No, because if it's fine for kill, it's fine for this facility,
-> > and if some future signal cleanup separates the cases more, that
-> > cleanup can change this code as well.
-> > 
-> > The change is well-documented, simple, extensible, and addresses an
-> > actual problem. Every legitimate technical criticism has now been
-> > addressed. I don't understand where this opposition is coming from,
-> > since the objections refer to nothing that's actually in the patch or
-> > exposed to the user.
-> > 
-> > > and (b) how to decide who we're sending the signal to (tid/pid/pgid) should
-> > > be specified in precisely one way.  So either a flag, or comign from the type
-> > > of fd that was opened.
-> > 
-> > You can't send signals to a thread with the current patch. There's no
-> > ambiguity in providing zero ways to do something.
-> 
-> So Serge's point is not about changing the current patch. What he's
 
-Right, I'm an ack on the patch.  As is no changes are needed.
+--huq684BweRXVnRxX
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
 
-> basically saying is: If we are expected to state how we were to extend
-> this syscall in the future which Serge and I figured is currently Eric's
-> only remaining objection then:
-> - flags are a good way to go (I agree)
-> - there's a concrete way how to do this by stashing the relevent struct
->   pids for PIDTYPE_PID, PIDTYPE_TGID, PIDTYPE_PGID in file->private_data
->   which can then be retrieved in taskfd_send_signal()
-> There is not intent nor requirement to do this right now. What we have
-> right now is fine for a start, I agree! But here's how we go forward if
-> we ever need to! :)
-> 
-> Christian
+Hi Christian,
+
+Thank you for the patch! Perhaps something to improve:
+
+[auto build test WARNING on linus/master]
+[also build test WARNING on v4.20-rc5]
+[cannot apply to next-20181207]
+[if your patch is applied to the wrong git tree, please drop us a note to help improve the system]
+
+url:    https://github.com/0day-ci/linux/commits/Christian-Brauner/signal-add-taskfd_send_signal-syscall/20181209-044342
+config: ia64-allnoconfig (attached as .config)
+compiler: ia64-linux-gcc (GCC) 8.1.0
+reproduce:
+        wget https://raw.githubusercontent.com/intel/lkp-tests/master/sbin/make.cross -O ~/bin/make.cross
+        chmod +x ~/bin/make.cross
+        # save the attached .config to linux build tree
+        GCC_VERSION=8.1.0 make.cross ARCH=ia64 
+
+All warnings (new ones prefixed by >>):
+
+   <stdin>:1185:2: warning: #warning syscall perf_event_open not implemented [-Wcpp]
+   <stdin>:1239:2: warning: #warning syscall seccomp not implemented [-Wcpp]
+   <stdin>:1317:2: warning: #warning syscall pkey_mprotect not implemented [-Wcpp]
+   <stdin>:1320:2: warning: #warning syscall pkey_alloc not implemented [-Wcpp]
+   <stdin>:1323:2: warning: #warning syscall pkey_free not implemented [-Wcpp]
+   <stdin>:1326:2: warning: #warning syscall statx not implemented [-Wcpp]
+   <stdin>:1332:2: warning: #warning syscall io_pgetevents not implemented [-Wcpp]
+   <stdin>:1335:2: warning: #warning syscall rseq not implemented [-Wcpp]
+>> <stdin>:1338:2: warning: #warning syscall taskfd_send_signal not implemented [-Wcpp]
+
+---
+0-DAY kernel test infrastructure                Open Source Technology Center
+https://lists.01.org/pipermail/kbuild-all                   Intel Corporation
+
+--huq684BweRXVnRxX
+Content-Type: application/gzip
+Content-Disposition: attachment; filename=".config.gz"
+Content-Transfer-Encoding: base64
+
+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
+
+--huq684BweRXVnRxX--
