@@ -1,73 +1,173 @@
-From: Joel Fernandes <joel@joelfernandes.org>
-Subject: [PATCH -manpage 2/2] memfd_create.2: Update manpage with new memfd F_SEAL_FUTURE_WRITE seal
-Date: Sat, 12 Jan 2019 19:14:46 -0500
-Message-ID: <20190113001446.158789-3-joel@joelfernandes.org>
-References: <20190113001446.158789-1-joel@joelfernandes.org>
+From: Christoph Hellwig <hch@lst.de>
+Subject: Re: [PATCH 05/18] Add io_uring IO interface
+Date: Mon, 28 Jan 2019 15:57:01 +0100
+Message-ID: <20190128145700.GA9795@lst.de>
+References: <20190123153536.7081-1-axboe@kernel.dk> <20190123153536.7081-6-axboe@kernel.dk>
 Mime-Version: 1.0
+Content-Type: text/plain; charset=utf-8
 Content-Transfer-Encoding: 8bit
-Return-path: <linux-kernel-owner@vger.kernel.org>
-In-Reply-To: <20190113001446.158789-1-joel@joelfernandes.org>
-Sender: linux-kernel-owner@vger.kernel.org
-To: linux-kernel@vger.kernel.org, mtk.manpages@gmail.com
-Cc: "Joel Fernandes (Google)" <joel@joelfernandes.org>, Andrew Morton <akpm@linux-foundation.org>, Andy Lutomirski <luto@kernel.org>, dancol@google.com, Hugh Dickins <hughd@google.com>, Jann Horn <jannh@google.com>, John Stultz <john.stultz@linaro.org>, linux-api@vger.kernel.org, linux-man@vger.kernel.org, linux-mm@kvack.org, marcandre.lureau@redhat.com, Matthew Wilcox <willy@infradead.org>, Mike Kravetz <mike.kravetz@oracle.com>, Shuah Khan <shuah@kernel.org>, Stephen Rothwell <sfr@canb.auug.org.au>
+Return-path: <owner-linux-aio@kvack.org>
+Content-Disposition: inline
+In-Reply-To: <20190123153536.7081-6-axboe@kernel.dk>
+Sender: owner-linux-aio@kvack.org
+To: Jens Axboe <axboe@kernel.dk>
+Cc: linux-fsdevel@vger.kernel.org, linux-aio@kvack.org, linux-block@vger.kernel.org, hch@lst.de, jmoyer@redhat.com, avi@scylladb.com, linux-api@vger.kernel.org, linux-man@vger.kernel.org
 List-Id: linux-man@vger.kernel.org
 
-From: "Joel Fernandes (Google)" <joel@joelfernandes.org>
+[please make sure linux-api and linux-man are CCed on new syscalls
+so that we get API experts to review them]
 
-More details of the seal can be found in the LKML patch:
-https://lore.kernel.org/lkml/20181120052137.74317-1-joel@joelfernandes.org/T/#t
+> io_uring_enter(fd, to_submit, min_complete, flags)
+> 	Initiates IO against the rings mapped to this fd, or waits for
+> 	them to complete, or both. The behavior is controlled by the
+> 	parameters passed in. If 'to_submit' is non-zero, then we'll
+> 	try and submit new IO. If IORING_ENTER_GETEVENTS is set, the
+> 	kernel will wait for 'min_complete' events, if they aren't
+> 	already available. It's valid to set IORING_ENTER_GETEVENTS
+> 	and 'min_complete' == 0 at the same time, this allows the
+> 	kernel to return already completed events without waiting
+> 	for them. This is useful only for polling, as for IRQ
+> 	driven IO, the application can just check the CQ ring
+> 	without entering the kernel.
 
-Signed-off-by: Joel Fernandes (Google) <joel@joelfernandes.org>
----
- man2/memfd_create.2 | 15 ++++++++++++++-
- 1 file changed, 14 insertions(+), 1 deletion(-)
+Especially with poll support now in the series, don't we need a ѕigmask
+argument similar to pselect/ppoll/io_pgetevents now to deal with signal
+blocking during waiting for events?
 
-diff --git a/man2/memfd_create.2 b/man2/memfd_create.2
-index 3cd392d1b..fce2bf8d0 100644
---- a/man2/memfd_create.2
-+++ b/man2/memfd_create.2
-@@ -280,7 +280,15 @@ in order to restrict further modifications on the file.
- (If placing the seal
- .BR F_SEAL_WRITE ,
- then it will be necessary to first unmap the shared writable mapping
--created in the previous step.)
-+created in the previous step. Otherwise, behavior similar to
-+.BR F_SEAL_WRITE
-+can be achieved, by using
-+.BR F_SEAL_FUTURE_WRITE
-+which will prevent future writes via
-+.BR mmap (2)
-+and
-+.BR write (2)
-+from succeeding, while keeping existing shared writable mappings).
- .IP 4.
- A second process obtains a file descriptor for the
- .BR tmpfs (5)
-@@ -425,6 +433,7 @@ main(int argc, char *argv[])
-         fprintf(stderr, "\\t\\tg \- F_SEAL_GROW\\n");
-         fprintf(stderr, "\\t\\ts \- F_SEAL_SHRINK\\n");
-         fprintf(stderr, "\\t\\tw \- F_SEAL_WRITE\\n");
-+        fprintf(stderr, "\\t\\tW \- F_SEAL_FUTURE_WRITE\\n");
-         fprintf(stderr, "\\t\\tS \- F_SEAL_SEAL\\n");
-         exit(EXIT_FAILURE);
-     }
-@@ -463,6 +472,8 @@ main(int argc, char *argv[])
-             seals |= F_SEAL_SHRINK;
-         if (strchr(seals_arg, \(aqw\(aq) != NULL)
-             seals |= F_SEAL_WRITE;
-+        if (strchr(seals_arg, \(aqW\(aq) != NULL)
-+            seals |= F_SEAL_FUTURE_WRITE;
-         if (strchr(seals_arg, \(aqS\(aq) != NULL)
-             seals |= F_SEAL_SEAL;
- 
-@@ -518,6 +529,8 @@ main(int argc, char *argv[])
-         printf(" GROW");
-     if (seals & F_SEAL_WRITE)
-         printf(" WRITE");
-+    if (seals & F_SEAL_FUTURE_WRITE)
-+        printf(" FUTURE_WRITE");
-     if (seals & F_SEAL_SHRINK)
-         printf(" SHRINK");
-     printf("\\n");
--- 
-2.20.1.97.g81188d93c3-goog
+> +struct sqe_submit {
+> +	const struct io_uring_sqe *sqe;
+> +	unsigned index;
+> +};
+
+Can you make sure all the structs use tab indentation for their
+field names?  Maybe even the same for all structs just to be nice
+to my eyes?
+
+> +static int io_import_iovec(struct io_ring_ctx *ctx, int rw,
+> +			   const struct io_uring_sqe *sqe,
+> +			   struct iovec **iovec, struct iov_iter *iter)
+> +{
+> +	void __user *buf = u64_to_user_ptr(sqe->addr);
+> +
+> +#ifdef CONFIG_COMPAT
+> +	if (ctx->compat)
+> +		return compat_import_iovec(rw, buf, sqe->len, UIO_FASTIOV,
+> +						iovec, iter);
+> +#endif
+
+I think we can just check in_compat_syscall() here, which means we
+can kill the ->compat member, and the separate compat version of the
+setup syscall.
+
+> +/*
+> + * IORING_OP_NOP just posts a completion event, nothing else.
+> + */
+> +static int io_nop(struct io_kiocb *req, const struct io_uring_sqe *sqe)
+> +{
+> +	struct io_ring_ctx *ctx = req->ctx;
+> +
+> +	__io_cqring_add_event(ctx, sqe->user_data, 0, 0);
+
+Can you explain why not taking the completion lock is safe here?  And
+why we want to have such a somewhat dangerous special case just for the
+no-op benchmarking aid?
+
+> +static bool io_get_sqring(struct io_ring_ctx *ctx, struct sqe_submit *s)
+> +{
+> +	struct io_sq_ring *ring = ctx->sq_ring;
+> +	unsigned head;
+> +
+> +	head = ctx->cached_sq_head;
+> +	smp_rmb();
+> +	if (head == READ_ONCE(ring->r.tail))
+> +		return false;
+
+Do we really need to optimize the sq_head == tail case so much? Or
+am I missing why we are using the cached sq head case here?  Maybe
+add some more comments for a start.
+
+> +static int __io_uring_enter(struct io_ring_ctx *ctx, unsigned to_submit,
+> +			    unsigned min_complete, unsigned flags)
+> +{
+> +	int ret = 0;
+> +
+> +	if (to_submit) {
+> +		ret = io_ring_submit(ctx, to_submit);
+> +		if (ret < 0)
+> +			return ret;
+> +	}
+> +	if (flags & IORING_ENTER_GETEVENTS) {
+> +		int get_ret;
+> +
+> +		if (!ret && to_submit)
+> +			min_complete = 0;
+
+Why do we have this special case?  Does it need some documentation?
+
+> +
+> +		get_ret = io_cqring_wait(ctx, min_complete);
+> +		if (get_ret < 0 && !ret)
+> +			ret = get_ret;
+> +	}
+> +
+> +	return ret;
+
+Maybe using different names and slightly different semantics for the
+return values would clear some of this up?
+
+	if (to_submit) {
+		submitted = io_ring_submit(ctx, to_submit);
+		if (submitted < 0)
+			return submitted;
+	}
+	if (flags & IORING_ENTER_GETEVENTS) {
+		...
+		ret = io_cqring_wait(ctx, min_complete);
+	}
+
+	return submitted ? submitted : ret;
+
+> +static int io_sq_offload_start(struct io_ring_ctx *ctx)
+
+> +static void io_sq_offload_stop(struct io_ring_ctx *ctx)
+
+Can we just merge these two functions into the callers?  Currently
+the flow is a little odd with these helpers that don't seem to be
+too clear about their responsibilities.
+
+> +static void io_free_scq_urings(struct io_ring_ctx *ctx)
+> +{
+> +	if (ctx->sq_ring) {
+> +		page_frag_free(ctx->sq_ring);
+> +		ctx->sq_ring = NULL;
+> +	}
+> +	if (ctx->sq_sqes) {
+> +		page_frag_free(ctx->sq_sqes);
+> +		ctx->sq_sqes = NULL;
+> +	}
+> +	if (ctx->cq_ring) {
+> +		page_frag_free(ctx->cq_ring);
+> +		ctx->cq_ring = NULL;
+> +	}
+
+Why is this using the page_frag helpers?  Also the callers just free
+these ctx structure, so there isn't much of a point zeroing them out.
+
+Also I'd be tempted to open code the freeing in io_allocate_scq_urings
+instead of caling the helper, which would avoid the NULL checks and
+make the error handling code a little more obvious.
+
+> +	if (mutex_trylock(&ctx->uring_lock)) {
+> +		ret = __io_uring_enter(ctx, to_submit, min_complete, flags);
+
+do we even need the separate __io_uring_enter helper?
+
+> +static void io_fill_offsets(struct io_uring_params *p)
+
+Do we really need this as a separate helper?
+
+--
+To unsubscribe, send a message with 'unsubscribe linux-aio' in
+the body to majordomo@kvack.org.  For more info on Linux AIO,
+see: http://www.kvack.org/aio/
+Don't email: <a href=mailto:"aart@kvack.org">aart@kvack.org</a>
