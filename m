@@ -1,55 +1,75 @@
 From: Jens Axboe <axboe@kernel.dk>
-Subject: Re: [PATCH 05/18] Add io_uring IO interface
-Date: Mon, 28 Jan 2019 12:32:09 -0700
-Message-ID: <7a076774-f099-521c-8bf5-dc8c7c763bc4@kernel.dk>
-References: <20190123153536.7081-1-axboe@kernel.dk>
- <20190123153536.7081-6-axboe@kernel.dk> <20190128145700.GA9795@lst.de>
- <42a5b12b-8d3a-2495-ad53-6a6fdd4504c6@kernel.dk>
- <20190128163436.GA12427@lst.de>
-Mime-Version: 1.0
-Content-Type: text/plain; charset=utf-8
-Content-Transfer-Encoding: 7bit
+Subject: [PATCH 01/18] fs: add an iopoll method to struct file_operations
+Date: Mon, 28 Jan 2019 14:35:21 -0700
+Message-ID: <20190128213538.13486-2-axboe@kernel.dk>
+References: <20190128213538.13486-1-axboe@kernel.dk>
 Return-path: <owner-linux-aio@kvack.org>
-In-Reply-To: <20190128163436.GA12427@lst.de>
-Content-Language: en-US
+In-Reply-To: <20190128213538.13486-1-axboe@kernel.dk>
 Sender: owner-linux-aio@kvack.org
-To: Christoph Hellwig <hch@lst.de>
-Cc: linux-fsdevel@vger.kernel.org, linux-aio@kvack.org, linux-block@vger.kernel.org, jmoyer@redhat.com, avi@scylladb.com, linux-api@vger.kernel.org, linux-man@vger.kernel.org
+To: linux-aio@kvack.org, linux-block@vger.kernel.org, linux-man@vger.kernel.org, linux-api@vger.kernel.org
+Cc: hch@lst.de, jmoyer@redhat.com, avi@scylladb.com, Jens Axboe <axboe@kernel.dk>
 List-Id: linux-man@vger.kernel.org
 
-On 1/28/19 9:34 AM, Christoph Hellwig wrote:
-> On Mon, Jan 28, 2019 at 09:26:42AM -0700, Jens Axboe wrote:
->>>> +static void io_free_scq_urings(struct io_ring_ctx *ctx)
->>>> +{
->>>> +	if (ctx->sq_ring) {
->>>> +		page_frag_free(ctx->sq_ring);
->>>> +		ctx->sq_ring = NULL;
->>>> +	}
->>>> +	if (ctx->sq_sqes) {
->>>> +		page_frag_free(ctx->sq_sqes);
->>>> +		ctx->sq_sqes = NULL;
->>>> +	}
->>>> +	if (ctx->cq_ring) {
->>>> +		page_frag_free(ctx->cq_ring);
->>>> +		ctx->cq_ring = NULL;
->>>> +	}
->>>
->>> Why is this using the page_frag helpers?  Also the callers just free
->>> these ctx structure, so there isn't much of a point zeroing them out.
->>
->> Why not use the page frag helpers? No point in open-coding it. I can
->> kill the zeroing, double call would be a bug anyway.
-> 
-> Because they are at a different level of abstraction, and someone
-> might change the implementation, and is unlikely to catch the io_uring
-> mix of interfaces.  If you think this is really useful we should also
-> export the helpers under a different name and with documentation.
-> (and add a __get_free_pages version that returns a pointer..)
+From: Christoph Hellwig <hch@lst.de>
 
-Fair enough, I'll avoid using the page_frag_free().
+This new methods is used to explicitly poll for I/O completion for an
+iocb.  It must be called for any iocb submitted asynchronously (that
+is with a non-null ki_complete) which has the IOCB_HIPRI flag set.
 
+The method is assisted by a new ki_cookie field in struct iocb to store
+the polling cookie.
+
+Reviewed-by: Johannes Thumshirn <jthumshirn@suse.de>
+Signed-off-by: Christoph Hellwig <hch@lst.de>
+Signed-off-by: Jens Axboe <axboe@kernel.dk>
+---
+ Documentation/filesystems/vfs.txt | 3 +++
+ include/linux/fs.h                | 2 ++
+ 2 files changed, 5 insertions(+)
+
+diff --git a/Documentation/filesystems/vfs.txt b/Documentation/filesystems/vfs.txt
+index 8dc8e9c2913f..761c6fd24a53 100644
+--- a/Documentation/filesystems/vfs.txt
++++ b/Documentation/filesystems/vfs.txt
+@@ -857,6 +857,7 @@ struct file_operations {
+ 	ssize_t (*write) (struct file *, const char __user *, size_t, loff_t *);
+ 	ssize_t (*read_iter) (struct kiocb *, struct iov_iter *);
+ 	ssize_t (*write_iter) (struct kiocb *, struct iov_iter *);
++	int (*iopoll)(struct kiocb *kiocb, bool spin);
+ 	int (*iterate) (struct file *, struct dir_context *);
+ 	int (*iterate_shared) (struct file *, struct dir_context *);
+ 	__poll_t (*poll) (struct file *, struct poll_table_struct *);
+@@ -902,6 +903,8 @@ otherwise noted.
+ 
+   write_iter: possibly asynchronous write with iov_iter as source
+ 
++  iopoll: called when aio wants to poll for completions on HIPRI iocbs
++
+   iterate: called when the VFS needs to read the directory contents
+ 
+   iterate_shared: called when the VFS needs to read the directory contents
+diff --git a/include/linux/fs.h b/include/linux/fs.h
+index 811c77743dad..ccb0b7a63aa5 100644
+--- a/include/linux/fs.h
++++ b/include/linux/fs.h
+@@ -310,6 +310,7 @@ struct kiocb {
+ 	int			ki_flags;
+ 	u16			ki_hint;
+ 	u16			ki_ioprio; /* See linux/ioprio.h */
++	unsigned int		ki_cookie; /* for ->iopoll */
+ } __randomize_layout;
+ 
+ static inline bool is_sync_kiocb(struct kiocb *kiocb)
+@@ -1786,6 +1787,7 @@ struct file_operations {
+ 	ssize_t (*write) (struct file *, const char __user *, size_t, loff_t *);
+ 	ssize_t (*read_iter) (struct kiocb *, struct iov_iter *);
+ 	ssize_t (*write_iter) (struct kiocb *, struct iov_iter *);
++	int (*iopoll)(struct kiocb *kiocb, bool spin);
+ 	int (*iterate) (struct file *, struct dir_context *);
+ 	int (*iterate_shared) (struct file *, struct dir_context *);
+ 	__poll_t (*poll) (struct file *, struct poll_table_struct *);
 -- 
-Jens Axboe
+2.17.1
 
 --
 To unsubscribe, send a message with 'unsubscribe linux-aio' in
