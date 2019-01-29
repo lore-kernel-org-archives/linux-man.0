@@ -1,79 +1,53 @@
-From: Jens Axboe <axboe@kernel.dk>
+From: Jann Horn <jannh@google.com>
 Subject: Re: [PATCH 05/18] Add io_uring IO interface
-Date: Tue, 29 Jan 2019 08:20:42 -0700
-Message-ID: <4b12d149-99f7-0b2e-0c3f-9b477ce48520@kernel.dk>
-References: <20190123153536.7081-1-axboe@kernel.dk>
- <20190123153536.7081-6-axboe@kernel.dk> <20190128145700.GA9795@lst.de>
- <2729ab43-b2bf-44b0-d41d-dbb495ddffbf@kernel.dk>
- <20190129063043.GC2996@lst.de>
- <CAK8P3a1x4BsFfacxOmaDXKOKmmQ2j0ypX2+mCNCbjH3E7nC4DQ@mail.gmail.com>
+Date: Tue, 29 Jan 2019 16:56:31 +0100
+Message-ID: <CAG48ez0sNBjgW7ynpNC+sir-_AuccY1sKguiD+VAXvL9-j4iag@mail.gmail.com>
+References: <20190128213538.13486-1-axboe@kernel.dk> <20190128213538.13486-6-axboe@kernel.dk>
+ <CAG48ez1qxZLfJzK95kjh0RiQ6kvZLbQhr6Dr0EjBNQB6Fr7NXQ@mail.gmail.com>
+ <CAG48ez1Ms+NPTXPj_UiQyv=2aMaMR3akCdp5SdDL3x7x7gd_ig@mail.gmail.com> <b5902860-30a9-3dc9-b513-3d892afdc51b@kernel.dk>
 Mime-Version: 1.0
-Content-Type: text/plain; charset=utf-8
-Content-Transfer-Encoding: 8bit
+Content-Type: text/plain; charset="UTF-8"
 Return-path: <owner-linux-aio@kvack.org>
-In-Reply-To: <CAK8P3a1x4BsFfacxOmaDXKOKmmQ2j0ypX2+mCNCbjH3E7nC4DQ@mail.gmail.com>
-Content-Language: en-US
+In-Reply-To: <b5902860-30a9-3dc9-b513-3d892afdc51b@kernel.dk>
 Sender: owner-linux-aio@kvack.org
-To: Arnd Bergmann <arnd@arndb.de>, Christoph Hellwig <hch@lst.de>
-Cc: Linux FS-devel Mailing List <linux-fsdevel@vger.kernel.org>, linux-aio <linux-aio@kvack.org>, linux-block <linux-block@vger.kernel.org>, Jeff Moyer <jmoyer@redhat.com>, Avi Kivity <avi@scylladb.com>, Linux API <linux-api@vger.kernel.org>, linux-man@vger.kernel.org, Deepa Dinamani <deepa.kernel@gmail.com>
+To: Jens Axboe <axboe@kernel.dk>
+Cc: linux-aio@kvack.org, linux-block@vger.kernel.org, linux-man <linux-man@vger.kernel.org>, Linux API <linux-api@vger.kernel.org>, hch@lst.de, jmoyer@redhat.com, Avi Kivity <avi@scylladb.com>
 List-Id: linux-man@vger.kernel.org
 
-On 1/29/19 4:58 AM, Arnd Bergmann wrote:
-> On Tue, Jan 29, 2019 at 7:30 AM Christoph Hellwig <hch@lst.de> wrote:
->>
->> On Mon, Jan 28, 2019 at 11:25:12AM -0700, Jens Axboe wrote:
->>>> Especially with poll support now in the series, don't we need a ѕigmask
->>>> argument similar to pselect/ppoll/io_pgetevents now to deal with signal
->>>> blocking during waiting for events?
->>>
->>> Is there any way to avoid passing in the sigset_t size? If it's just a
->>> 32-bit/64-bit thing, surely the in_compat_syscall() could cover it? Or
->>> are there other cases that need to be catered to?
->>
->> As far as I can tell we never look at it, never looked at it and don't
->> have any plans to look at it anytime soon.  But when I tried to omit
->> it for io_pgetevents I got stong pushback and thus had to add the
->> crazy double indirection calling convention.
-> 
-> Deepa has recently reworked the handling for the sigset_t handling
-> to be more consistent. As I understand it, we only ever check the
-> size argument to ensure that user and kernel space agree on
-> the size, as it there had been some historic differences.
-> 
-> If you pass a signal mask to a syscall, you should now just use the
-> set_user_sigmask()/set_compat_user_sigmask()/restore_user_sigmask()
-> helpers. The compat version is required for the incompatible bit order
-> between 32-bit and 64-bit big-endian architectures (on little-endian, compat
-> and native signal masks are compatible), and to deal with the one
-> architecture that has an _NSIG defined to something other than 64:
-> MIPS uses 128 because of a historic accident.
-> 
-> I think Deepa originally suggested combining set_user_sigmask()
-> and set_compat_user_sigmask(), using an in_compat_syscall()
-> check. This would let us simplify a number of compat syscalls
-> (ppoll, ppoll_time32, pselect6, pselect6_time32, epoll_pwait()
-> io_pgetevents_time64, io_pgetevents_time32). I advised against
-> changing it at the time for consistency with other compat syscalls,
-> but it's something we can still do now.
+On Tue, Jan 29, 2019 at 4:46 AM Jens Axboe <axboe@kernel.dk> wrote:
+> On 1/28/19 7:21 PM, Jann Horn wrote:
+> > Please create a local copy of the request before parsing it to keep
+> > the data from changing under you. Additionally, it might make sense to
+> > annotate every pointer to shared memory with a comment, or something
+> > like that, to ensure that anyone looking at the code can immediately
+> > see for which pointers special caution is required on access.
+>
+> I took a look at the viability of NOT having to local copy the data, and
+> I don't think it's too bad. Local copy has a noticeable impact on the
+> performance, hence I'd really (REALLY) like to avoid it.
+>
+> Here's something on top of the current git branch. I think I even went a
+> bit too far in some areas, but it should hopefully catch the cases where
+> we might end up double evaluating the parts of the sqe that we depend
+> on. For most of the sqe reading we don't really care too much. For
+> instance, the sqe->user_data. If the app changes this field, then it
+> just gets whatever passed back in cqe->user_data. That's not a kernel
+> issue.
+>
+> For cases like addr/len etc validation, it should be sound. I'll double
+> check this in the morning as well, and obviously would need to be folded
+> in along the way.
+>
+> I'd appreciate your opinion on this part, if you see any major issues
+> with it, or if I missed something.
 
-That's good info. I am currently using set_user_sigmask() for it.
-I'd really like to avoid having to pass in a sigset_t size for the
-system call, however. What's the best way of achieving that? Can I get
-away with doing something like this:
-
-	if (in_compat_syscall()) {
-		const compat_sigset_t __user *compat_sig;
-
-		compat_sig = (const compat_sigset_t __user *) sig;
-		ret = set_compat_user_sigmask(compat_sig, &ksigmask,
-						&sigsaved, _NSIG_WORDS);
-	} else {
-		ret = set_user_sigmask(sig, &ksigmask, &sigsaved,
-						_NSIG_WORDS);
-	}
-
--- 
-Jens Axboe
+The io_sqe_needs_user() checks still look racy. If that helper sees a
+IORING_OP_READ_FIXED, but then __io_submit_sqe() sees a
+IORING_OP_READV - especially if this happens in io_sq_wq_submit_work()
+-, I think you could potentially end up in places like
+io_import_iovec() without having done the set_fs(USER_DS) and
+use_mm(), causing the access to potentially occur with KERNEL_DS and a
+lazy mm.
 
 --
 To unsubscribe, send a message with 'unsubscribe linux-aio' in
