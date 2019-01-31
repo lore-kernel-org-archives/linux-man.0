@@ -1,66 +1,65 @@
-From: Jens Axboe <axboe@kernel.dk>
-Subject: Re: [PATCH 07/18] io_uring: support for IO polling
-Date: Tue, 29 Jan 2019 13:37:09 -0700
-Message-ID: <79f9f2e3-7e7d-00fa-5ce6-36787d66f865@kernel.dk>
-References: <20190128213538.13486-1-axboe@kernel.dk>
- <20190128213538.13486-8-axboe@kernel.dk> <20190129172414.GA15347@lst.de>
- <f21fc281-bbaa-3af5-3d64-a55933f1cbfb@kernel.dk>
- <cd1b43b7-7116-e53c-91fa-168e6c249e63@kernel.dk>
- <x49o97zi4ml.fsf@segfault.boston.devel.redhat.com>
+From: Andy Lutomirski <luto@kernel.org>
+Subject: Re: [PATCH 05/18] Add io_uring IO interface
+Date: Wed, 30 Jan 2019 21:11:46 -0800
+Message-ID: <CALCETrVwHcWcJB4r=14=uB2NHGasW+rRRWVoun6-UY_t3+AU2A@mail.gmail.com>
+References: <20190123153536.7081-1-axboe@kernel.dk> <20190123153536.7081-6-axboe@kernel.dk>
+ <20190128145700.GA9795@lst.de> <CALCETrV30uN2qOUEf+kNGWdphBtps7K3rEk8_8+VAwdtPomRkQ@mail.gmail.com>
+ <dab3fa32-3887-3264-9fe1-bc3b7abc58b3@kernel.dk>
 Mime-Version: 1.0
-Content-Type: text/plain; charset=utf-8
-Content-Transfer-Encoding: 7bit
+Content-Type: text/plain; charset="UTF-8"
 Return-path: <owner-linux-aio@kvack.org>
-In-Reply-To: <x49o97zi4ml.fsf@segfault.boston.devel.redhat.com>
-Content-Language: en-US
+In-Reply-To: <dab3fa32-3887-3264-9fe1-bc3b7abc58b3@kernel.dk>
 Sender: owner-linux-aio@kvack.org
-To: Jeff Moyer <jmoyer@redhat.com>
-Cc: Christoph Hellwig <hch@lst.de>, linux-aio@kvack.org, linux-block@vger.kernel.org, linux-man@vger.kernel.org, linux-api@vger.kernel.org, avi@scylladb.com
+To: Jens Axboe <axboe@kernel.dk>
+Cc: Andy Lutomirski <luto@kernel.org>, Christoph Hellwig <hch@lst.de>, Linux FS Devel <linux-fsdevel@vger.kernel.org>, linux-aio@kvack.org, linux-block@vger.kernel.org, Jeff Moyer <jmoyer@redhat.com>, Avi Kivity <avi@scylladb.com>, Linux API <linux-api@vger.kernel.org>, linux-man <linux-man@vger.kernel.org>
 List-Id: linux-man@vger.kernel.org
 
-On 1/29/19 1:35 PM, Jeff Moyer wrote:
-> Jens Axboe <axboe@kernel.dk> writes:
-> 
->> On 1/29/19 11:31 AM, Jens Axboe wrote:
->>>> The code looks a little clumsy to me.  Why not:
->>>>
->>>> 	while (!list_empty(&ctx->poll_list)) {
->>>> 		int ret = io_do_iopoll(ctx, nr_events, min);
->>>> 		if (ret)
->>>> 			return ret;
->>>>
->>>> 		if (!min || *nr_events >= min)
->>>> 			return 0;
->>>> 	}
->>>>
->>>> 	return 1;
+>>> On Jan 28, 2019, at 5:20 PM, Jens Axboe <axboe@kernel.dk> wrote:
 >>>
->>> I think you messed up the 0/1 here, how about this:
+>>> On 1/28/19 5:47 PM, Andy Lutomirski wrote:
+>>> On Mon, Jan 28, 2019 at 6:57 AM Christoph Hellwig <hch@lst.de> wrote:
 >>>
->>> 	while (!list_empty(&ctx->poll_list)) {
->>> 		int ret;
->>>
->>> 		ret = io_do_iopoll(ctx, nr_events, min);
->>> 		if (ret < 0)
->>> 			return ret;
->>> 		if (!min || *nr_events >= min)
->>> 			return 1;
->>> 	}
->>>
->>> 	return 0;
+>>> [please make sure linux-api and linux-man are CCed on new syscalls
+>>> so that we get API experts to review them]
 >>
->> Or I did... I think yours is correct.
-> 
-> maybe document the return code?  ;-)
+>>>> +static int io_import_iovec(struct io_ring_ctx *ctx, int rw,
+>>>> +                        const struct io_uring_sqe *sqe,
+>>>> +                        struct iovec **iovec, struct iov_iter *iter)
+>>>> +{
+>>>> +     void __user *buf = u64_to_user_ptr(sqe->addr);
+>>>> +
+>>>> +#ifdef CONFIG_COMPAT
+>>>> +     if (ctx->compat)
+>>>> +             return compat_import_iovec(rw, buf, sqe->len, UIO_FASTIOV,
+>>>> +                                             iovec, iter);
+>>>> +#endif
+>>>
+>>> I think we can just check in_compat_syscall() here, which means we
+>>> can kill the ->compat member, and the separate compat version of the
+>>> setup syscall.
+>>
+>> Since this whole API is new, I don't suppose you could introduce a
+>> struct iovec64 or similar and just make the ABI be identical for
+>> 64-bit and 32-bit code?
+>
+> Sure, that would be straight forward. Is there a strong reason to do
+> so outside of "that would be nice"? It's not like it's a huge amount
+> of code.
 
-It is sort-of documented - <= 0 means "don't call me again", either
-because of an error (< 0) or because we have what we need. 1 means
-"I might have more".
+Here are some minor-ish benefits:
 
-But yes, maybe a comment...
+ - It avoids having a code path that is only used with 32 bit code on
+64 bit kernels and is therefore rarely tested.  (In this particular
+case, the code path doesn't diverge much, but for most compat
+syscalls, it's almost an entirely separate implementation of the main
+syscall code.)
 
--- 
-Jens Axboe
+ - It makes life easier for tools like strace.
+
+ - It minimizes the chance of making a giant mess on x32, which isn't
+really native or compat.
+
+--Andy
 
 --
 To unsubscribe, send a message with 'unsubscribe linux-aio' in
