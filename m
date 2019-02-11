@@ -1,47 +1,81 @@
-From: Al Viro <viro@zeniv.linux.org.uk>
-Subject: Re: [PATCH 05/18] Add io_uring IO interface
-Date: Fri, 1 Feb 2019 18:05:42 +0000
-Message-ID: <20190201180541.GQ2217@ZenIV.linux.org.uk>
-References: <20190128213538.13486-1-axboe@kernel.dk>
- <20190128213538.13486-6-axboe@kernel.dk>
- <CAG48ez0vDqDH4ks7q4L3F+xt-4kVQrN1yw34QwFAmwQyy27FTw@mail.gmail.com>
- <e9326a77-54c5-e2b8-d9e5-663261462597@kernel.dk>
- <CAG48ez17NW0GJVRC6dFcHZTgQifFz5og1XCUbXkHKhr6f=j74Q@mail.gmail.com>
- <05cb18f7a97a6151c305cdb7240c4abc995aed59.camel@fb.com>
- <CAG48ez09iOOnPz83b6HxktYHTfouS2GD6i3PfQEjp8WCp+3-VA@mail.gmail.com>
- <CAG48ez0sJys=M1MR3DBd1DJ21-qHd2W7sB8+EvjhScWbtQnizA@mail.gmail.com>
+From: Jann Horn <jannh@google.com>
+Subject: [PATCH] mmap.2: describe the 5level paging hack
+Date: Mon, 11 Feb 2019 17:36:53 +0100
+Message-ID: <20190211163653.97742-1-jannh@google.com>
 Mime-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Return-path: <owner-linux-aio@kvack.org>
-Content-Disposition: inline
-In-Reply-To: <CAG48ez0sJys=M1MR3DBd1DJ21-qHd2W7sB8+EvjhScWbtQnizA@mail.gmail.com>
-Sender: owner-linux-aio@kvack.org
-To: Jann Horn <jannh@google.com>
-Cc: Matt Mullins <mmullins@fb.com>, "axboe@kernel.dk" <axboe@kernel.dk>, linux-fsdevel@vger.kernel.org, "linux-aio@kvack.org" <linux-aio@kvack.org>, "linux-block@vger.kernel.org" <linux-block@vger.kernel.org>, "jmoyer@redhat.com" <jmoyer@redhat.com>, "linux-api@vger.kernel.org" <linux-api@vger.kernel.org>, "hch@lst.de" <hch@lst.de>, "linux-man@vger.kernel.org" <linux-man@vger.kernel.org>, "avi@scylladb.com" <avi@scylladb.com>
+Content-Type: text/plain; charset="us-ascii"
+Content-Transfer-Encoding: 7bit
+Return-path: <linux-arm-kernel-bounces+linux-arm-kernel=m.gmane.org@lists.infradead.org>
+List-Unsubscribe: <http://lists.infradead.org/mailman/options/linux-arm-kernel>,
+ <mailto:linux-arm-kernel-request@lists.infradead.org?subject=unsubscribe>
+List-Archive: <http://lists.infradead.org/pipermail/linux-arm-kernel/>
+List-Post: <mailto:linux-arm-kernel@lists.infradead.org>
+List-Help: <mailto:linux-arm-kernel-request@lists.infradead.org?subject=help>
+List-Subscribe: <http://lists.infradead.org/mailman/listinfo/linux-arm-kernel>,
+ <mailto:linux-arm-kernel-request@lists.infradead.org?subject=subscribe>
+Sender: "linux-arm-kernel" <linux-arm-kernel-bounces@lists.infradead.org>
+Errors-To: linux-arm-kernel-bounces+linux-arm-kernel=m.gmane.org@lists.infradead.org
+To: mtk.manpages@gmail.com, jannh@google.com
+Cc: linux-arch@vger.kernel.org, linux-man@vger.kernel.org, Catalin Marinas <catalin.marinas@arm.com>, linux-mm@kvack.org, Peter Zijlstra <peterz@infradead.org>, Benjamin Herrenschmidt <benh@kernel.crashing.org>, Will Deacon <will.deacon@arm.com>, linuxppc-dev@lists.ozlabs.org, Andy Lutomirski <luto@amacapital.net>, Dave Hansen <dave.hansen@intel.com>, Paul Mackerras <paulus@samba.org>, linux-arm-kernel@lists.infradead.org, Michael Ellerman <mpe@ellerman.id.au>, Andrew Morton <akpm@linux-foundation.org>, linux-api@vger.kernel.org, Linus Torvalds <torvalds@linux-foundation.org>, Thomas Gleixner <tglx@linutronix.de>, "Kirill A . Shutemov" <kirill.shutemov@linux.intel.com>
 List-Id: linux-man@vger.kernel.org
 
-On Fri, Feb 01, 2019 at 06:23:27PM +0100, Jann Horn wrote:
+The manpage is missing information about the compatibility hack for
+5-level paging that went in in 4.14, around commit ee00f4a32a76 ("x86/mm:
+Allow userspace have mappings above 47-bit"). Add some information about
+that.
 
-> > Oh, yuck. Uuuh... can we make "struct files_struct" doubly-refcounted,
-> > like "struct mm_struct"? One reference type to keep the contents
-> > intact (the reference type you normally use, and the type used by
-> > uring when the thread is running), and one reference type to just keep
-> > the struct itself existing, but without preserving its contents
-> > (reference held consistently by the uring thread)?
-> 
-> Something like this (completely untested); and then instead of the
-> current get_files_struct(), you'd do get_files_struct_weak(), and
-> while the thread is running, it protects the files_struct from dying
-> with tryget_weak_files_struct() / put_files_struct().
-> 
-> Al, do you have opinions on this?
+While I don't think any hardware supporting this is shipping yet (?), I
+think it's useful to try to write a manpage for this API, partly to
+figure out how usable that API actually is, and partly because when this
+hardware does ship, it'd be nice if distro manpages had information about
+how to use it.
 
-Yes, but they are not fit for polite company.  IMO the entire approach
-is FUBAR; I'll post more detailed review, but what I'd seen so far is
-a veto fodder.
+Signed-off-by: Jann Horn <jannh@google.com>
+---
+This patch goes on top of the patch "[PATCH] mmap.2: fix description of
+treatment of the hint" that I just sent, but I'm not sending them in a
+series because I want the first one to go in, and I think this one might
+be a bit more controversial.
 
---
-To unsubscribe, send a message with 'unsubscribe linux-aio' in
-the body to majordomo@kvack.org.  For more info on Linux AIO,
-see: http://www.kvack.org/aio/
-Don't email: <a href=mailto:"aart@kvack.org">aart@kvack.org</a>
+It would be nice if the architecture maintainers and mm folks could have
+a look at this and check that what I wrote is right - I only looked at
+the source for this, I haven't tried it.
+
+ man2/mmap.2 | 15 +++++++++++++++
+ 1 file changed, 15 insertions(+)
+
+diff --git a/man2/mmap.2 b/man2/mmap.2
+index 8556bbfeb..977782fa8 100644
+--- a/man2/mmap.2
++++ b/man2/mmap.2
+@@ -67,6 +67,8 @@ is NULL,
+ then the kernel chooses the (page-aligned) address
+ at which to create the mapping;
+ this is the most portable method of creating a new mapping.
++On Linux, in this case, the kernel may limit the maximum address that can be
++used for allocations to a legacy limit for compatibility reasons.
+ If
+ .I addr
+ is not NULL,
+@@ -77,6 +79,19 @@ or equal to the value specified by
+ and attempt to create the mapping there.
+ If another mapping already exists there, the kernel picks a new
+ address, independent of the hint.
++However, if a hint above the architecture's legacy address limit is provided
++(on x86-64: above 0x7ffffffff000, on arm64: above 0x1000000000000, on ppc64 with
++book3s: above 0x7fffffffffff or 0x3fffffffffff, depending on page size), the
++kernel is permitted to allocate mappings beyond the architecture's legacy
++address limit. The availability of such addresses is hardware-dependent.
++Therefore, if you want to be able to use the full virtual address space of
++hardware that supports addresses beyond the legacy range, you need to specify an
++address above that limit; however, for security reasons, you should avoid
++specifying a fixed valid address outside the compatibility range,
++since that would reduce the value of userspace address space layout
++randomization. Therefore, it is recommended to specify an address
++.I beyond
++the end of the userspace address space.
+ .\" Before Linux 2.6.24, the address was rounded up to the next page
+ .\" boundary; since 2.6.24, it is rounded down!
+ The address of the new mapping is returned as the result of the call.
+-- 
+2.20.1.791.gb4d0f1c61a-goog
