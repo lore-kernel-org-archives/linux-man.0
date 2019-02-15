@@ -1,13 +1,12 @@
-From: Will Deacon <will.deacon@arm.com>
+From: Michael Ellerman <mpe@ellerman.id.au>
 Subject: Re: [PATCH] mmap.2: describe the 5level paging hack
-Date: Wed, 13 Feb 2019 12:48:43 +0000
-Message-ID: <20190213124842.GD1912@brain-police>
+Date: Fri, 15 Feb 2019 20:13:02 +1100
+Message-ID: <87sgwpct41.fsf@concordia.ellerman.id.au>
 References: <20190211163653.97742-1-jannh@google.com>
 Mime-Version: 1.0
 Content-Type: text/plain; charset="us-ascii"
 Content-Transfer-Encoding: 7bit
 Return-path: <linux-arm-kernel-bounces+linux-arm-kernel=m.gmane.org@lists.infradead.org>
-Content-Disposition: inline
 In-Reply-To: <20190211163653.97742-1-jannh@google.com>
 List-Unsubscribe: <http://lists.infradead.org/mailman/options/linux-arm-kernel>,
  <mailto:linux-arm-kernel-request@lists.infradead.org?subject=unsubscribe>
@@ -18,38 +17,39 @@ List-Subscribe: <http://lists.infradead.org/mailman/listinfo/linux-arm-kernel>,
  <mailto:linux-arm-kernel-request@lists.infradead.org?subject=subscribe>
 Sender: "linux-arm-kernel" <linux-arm-kernel-bounces@lists.infradead.org>
 Errors-To: linux-arm-kernel-bounces+linux-arm-kernel=m.gmane.org@lists.infradead.org
-To: Jann Horn <jannh@google.com>
-Cc: linux-arch@vger.kernel.org, linux-man@vger.kernel.org, Catalin Marinas <catalin.marinas@arm.com>, Dave Hansen <dave.hansen@intel.com>, Peter Zijlstra <peterz@infradead.org>, Benjamin Herrenschmidt <benh@kernel.crashing.org>, linuxppc-dev@lists.ozlabs.org, Andy Lutomirski <luto@amacapital.net>, linux-mm@kvack.org, Paul Mackerras <paulus@samba.org>, mtk.manpages@gmail.com, Michael Ellerman <mpe@ellerman.id.au>, Andrew Morton <akpm@linux-foundation.org>, linux-api@vger.kernel.org, Linus Torvalds <torvalds@linux-foundation.org>, Thomas Gleixner <tglx@linutronix.de>, "Kirill A . Shutemov" <kirill.shutemov@linux.intel.com>, linux-arm-kernel@lists.infradead.org
+To: Jann Horn <jannh@google.com>, mtk.manpages@gmail.comjannh@google.com
+Cc: linux-arch@vger.kernel.org, linux-man@vger.kernel.org, linux-mm@kvack.org, Peter Zijlstra <peterz@infradead.org>, Benjamin Herrenschmidt <benh@kernel.crashing.org>, "Aneesh Kumar K.V" <aneesh.kumar@linux.ibm.com>, Will Deacon <will.deacon@arm.com>, linuxppc-dev@lists.ozlabs.org, Andy Lutomirski <luto@amacapital.net>, Dave Hansen <dave.hansen@intel.com>, Paul Mackerras <paulus@samba.org>, linux-arm-kernel@lists.infradead.org, Catalin Marinas <catalin.marinas@arm.com>, Andrew Morton <akpm@linux-foundation.org>, linux-api@vger.kernel.org, Linus Torvalds <torvalds@linux-foundation.org>, Thomas Gleixner <tglx@linutronix.de>, "Kirill A . Shutemov" <kirill.shutemov@linux.intel.com>
 List-Id: linux-man@vger.kernel.org
 
-Hi Jann,
+Jann Horn <jannh@google.com> writes:
 
-On Mon, Feb 11, 2019 at 05:36:53PM +0100, Jann Horn wrote:
 > The manpage is missing information about the compatibility hack for
 > 5-level paging that went in in 4.14, around commit ee00f4a32a76 ("x86/mm:
 > Allow userspace have mappings above 47-bit"). Add some information about
 > that.
-> 
+
+Thanks for doing this.
+
 > While I don't think any hardware supporting this is shipping yet (?), I
 > think it's useful to try to write a manpage for this API, partly to
 > figure out how usable that API actually is, and partly because when this
 > hardware does ship, it'd be nice if distro manpages had information about
 > how to use it.
-> 
+>
 > Signed-off-by: Jann Horn <jannh@google.com>
 > ---
 > This patch goes on top of the patch "[PATCH] mmap.2: fix description of
 > treatment of the hint" that I just sent, but I'm not sending them in a
 > series because I want the first one to go in, and I think this one might
 > be a bit more controversial.
-> 
+>
 > It would be nice if the architecture maintainers and mm folks could have
 > a look at this and check that what I wrote is right - I only looked at
 > the source for this, I haven't tried it.
-> 
+>
 >  man2/mmap.2 | 15 +++++++++++++++
 >  1 file changed, 15 insertions(+)
-> 
+>
 > diff --git a/man2/mmap.2 b/man2/mmap.2
 > index 8556bbfeb..977782fa8 100644
 > --- a/man2/mmap.2
@@ -70,22 +70,10 @@ On Mon, Feb 11, 2019 at 05:36:53PM +0100, Jann Horn wrote:
 > +However, if a hint above the architecture's legacy address limit is provided
 > +(on x86-64: above 0x7ffffffff000, on arm64: above 0x1000000000000, on ppc64 with
 > +book3s: above 0x7fffffffffff or 0x3fffffffffff, depending on page size), the
-> +kernel is permitted to allocate mappings beyond the architecture's legacy
-> +address limit.
 
-On arm64 we support 36-bit, 39-bit, 42-bit, 47-bit, 48-bit and 52-bit user
-virtual addresses, some of which also enforce a particular page size of 4k,
-16k or 64k. With the exception of 52-bit, the user virtual address size is
-fixed at compile time and mmap() can allocate up to the maximum address
-size.
+It doesn't depend on page size for ppc64(le). With 4K pages the user VM
+is always 64TB.
 
-When 52-bit virtual addressing is configured, we continue to allocate up to
-48 bits unless either a hint is passed to mmap() as you describe, or
-CONFIG_ARM64_FORCE_52BIT=y (this is really intended as a debug option and is
-hidden behind EXPERT as well as being off by default).
+So the only boundary for us is at 128T when using 64K pages.
 
-One thing that just occurred to me is that our ASLR code is probably pretty
-weak for addresses greater than 48 bits because I don't think it was updated
-when we added 52-bit support. I'll take a deeper look when I get some time.
-
-Will
+cheers
