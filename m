@@ -1,79 +1,90 @@
-From: Michael Ellerman <mpe@ellerman.id.au>
-Subject: Re: [PATCH] mmap.2: describe the 5level paging hack
-Date: Fri, 15 Feb 2019 20:13:02 +1100
-Message-ID: <87sgwpct41.fsf@concordia.ellerman.id.au>
-References: <20190211163653.97742-1-jannh@google.com>
+From: =?UTF-8?Q?Niklas_Hamb=c3=bcchen?= <mail@nh2.me>
+Subject: [PATCH] ptrace.2: Improve clarity for multi-threaded tracers
+Date: Sun, 17 Feb 2019 17:34:46 +0100
+Message-ID: <bfa474c6-5b13-652d-2fd8-16b2be7efb62@nh2.me>
+References: <48bb7c89-abb9-1e88-fee3-fb42d4032d12@nh2.me>
 Mime-Version: 1.0
-Content-Type: text/plain; charset="us-ascii"
-Content-Transfer-Encoding: 7bit
-Return-path: <linux-arm-kernel-bounces+linux-arm-kernel=m.gmane.org@lists.infradead.org>
-In-Reply-To: <20190211163653.97742-1-jannh@google.com>
-List-Unsubscribe: <http://lists.infradead.org/mailman/options/linux-arm-kernel>,
- <mailto:linux-arm-kernel-request@lists.infradead.org?subject=unsubscribe>
-List-Archive: <http://lists.infradead.org/pipermail/linux-arm-kernel/>
-List-Post: <mailto:linux-arm-kernel@lists.infradead.org>
-List-Help: <mailto:linux-arm-kernel-request@lists.infradead.org?subject=help>
-List-Subscribe: <http://lists.infradead.org/mailman/listinfo/linux-arm-kernel>,
- <mailto:linux-arm-kernel-request@lists.infradead.org?subject=subscribe>
-Sender: "linux-arm-kernel" <linux-arm-kernel-bounces@lists.infradead.org>
-Errors-To: linux-arm-kernel-bounces+linux-arm-kernel=m.gmane.org@lists.infradead.org
-To: Jann Horn <jannh@google.com>, mtk.manpages@gmail.comjannh@google.com
-Cc: linux-arch@vger.kernel.org, linux-man@vger.kernel.org, linux-mm@kvack.org, Peter Zijlstra <peterz@infradead.org>, Benjamin Herrenschmidt <benh@kernel.crashing.org>, "Aneesh Kumar K.V" <aneesh.kumar@linux.ibm.com>, Will Deacon <will.deacon@arm.com>, linuxppc-dev@lists.ozlabs.org, Andy Lutomirski <luto@amacapital.net>, Dave Hansen <dave.hansen@intel.com>, Paul Mackerras <paulus@samba.org>, linux-arm-kernel@lists.infradead.org, Catalin Marinas <catalin.marinas@arm.com>, Andrew Morton <akpm@linux-foundation.org>, linux-api@vger.kernel.org, Linus Torvalds <torvalds@linux-foundation.org>, Thomas Gleixner <tglx@linutronix.de>, "Kirill A . Shutemov" <kirill.shutemov@linux.intel.com>
+Content-Type: text/plain; charset=utf-8
+Content-Transfer-Encoding: 8bit
+Return-path: <linux-kernel-owner@vger.kernel.org>
+In-Reply-To: <48bb7c89-abb9-1e88-fee3-fb42d4032d12@nh2.me>
+Content-Language: en-US
+Sender: linux-kernel-owner@vger.kernel.org
+To: mtk.manpages@gmail.com
+Cc: linux-kernel@vger.kernel.org, cleverca22@gmail.com, linux-man@vger.kernel.org
 List-Id: linux-man@vger.kernel.org
 
-Jann Horn <jannh@google.com> writes:
+Until now, the man page said:
 
-> The manpage is missing information about the compatibility hack for
-> 5-level paging that went in in 4.14, around commit ee00f4a32a76 ("x86/mm:
-> Allow userspace have mappings above 47-bit"). Add some information about
-> that.
+    Attachment and subsequent commands are per thread:
+    in a multi‐ threaded process, every thread can be individually attached to a
+    (potentially different) tracer, or left not attached and thus not debugged.
+    Therefore, "tracee" always means "(one) thread", never "a (possibly
+    multithreaded) process".
 
-Thanks for doing this.
+While the first sentence "Attachment ... [is] per thread" might be interpreted
+as holding for both tracer and tracee, the rest talks only about the
+multi-threadedness of the *tracee*, leaving some uncertainty in the reader on
+whether the tracer may issue `ptrace()` from different threads.
 
-> While I don't think any hardware supporting this is shipping yet (?), I
-> think it's useful to try to write a manpage for this API, partly to
-> figure out how usable that API actually is, and partly because when this
-> hardware does ship, it'd be nice if distro manpages had information about
-> how to use it.
->
-> Signed-off-by: Jann Horn <jannh@google.com>
-> ---
-> This patch goes on top of the patch "[PATCH] mmap.2: fix description of
-> treatment of the hint" that I just sent, but I'm not sending them in a
-> series because I want the first one to go in, and I think this one might
-> be a bit more controversial.
->
-> It would be nice if the architecture maintainers and mm folks could have
-> a look at this and check that what I wrote is right - I only looked at
-> the source for this, I haven't tried it.
->
->  man2/mmap.2 | 15 +++++++++++++++
->  1 file changed, 15 insertions(+)
->
-> diff --git a/man2/mmap.2 b/man2/mmap.2
-> index 8556bbfeb..977782fa8 100644
-> --- a/man2/mmap.2
-> +++ b/man2/mmap.2
-> @@ -67,6 +67,8 @@ is NULL,
->  then the kernel chooses the (page-aligned) address
->  at which to create the mapping;
->  this is the most portable method of creating a new mapping.
-> +On Linux, in this case, the kernel may limit the maximum address that can be
-> +used for allocations to a legacy limit for compatibility reasons.
->  If
->  .I addr
->  is not NULL,
-> @@ -77,6 +79,19 @@ or equal to the value specified by
->  and attempt to create the mapping there.
->  If another mapping already exists there, the kernel picks a new
->  address, independent of the hint.
-> +However, if a hint above the architecture's legacy address limit is provided
-> +(on x86-64: above 0x7ffffffff000, on arm64: above 0x1000000000000, on ppc64 with
-> +book3s: above 0x7fffffffffff or 0x3fffffffffff, depending on page size), the
+This patch adds more explicitness, removing any doubt.
 
-It doesn't depend on page size for ppc64(le). With 4K pages the user VM
-is always 64TB.
+Relevant resources:
 
-So the only boundary for us is at 128T when using 64K pages.
+* LKML thread https://marc.info/?l=linux-kernel&m=155036848808748&w=2
+  "ptrace() with multithreaded tracer"
+  where I asked about this behaviour, in case anybody disagrees with my
+  understanding
+* https://stackoverflow.com/questions/18737866/can-a-thread-trace-a-process/
+  where the previous ambiguity of the man page confused some users, and where
+  and example program is given that confirms the behaviour I mention in this
+  patch
+* A program of mine, in which I have independently confirmed that using
+  `ptrace()` from a thread that's not the tracer thread (a sibling thread in
+  the process is the tracer instead) results in `ESRCH`
+* https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git/tree/kernel/ptrace.c?id=96d4f267e40f9509e8a66e2b39e8b95655617693#n207
+  where the comment on `ptrace_check_attach()` talks about `%current`, which
+  is a thread
 
-cheers
+Signed-off-by: Niklas Hambüchen <mail@nh2.me>
+---
+ man2/ptrace.2 | 14 ++++++++++----
+ 1 file changed, 10 insertions(+), 4 deletions(-)
+
+diff --git a/man2/ptrace.2 b/man2/ptrace.2
+index 3b6b6ea84..4058abe94 100644
+--- a/man2/ptrace.2
++++ b/man2/ptrace.2
+@@ -122,12 +122,18 @@ It is primarily used to implement breakpoint debugging and system
+ call tracing.
+ .PP
+ A tracee first needs to be attached to the tracer.
+-Attachment and subsequent commands are per thread:
+-in a multithreaded process,
++Attachment and subsequent commands are per thread,
++on both the tracer and tracee side.
++Issuing a tracing command from a thread that is not the tracer of the given
++.I pid
++will result in an
++.B ESRCH
++error.
++In a multithreaded process to be traced,
+ every thread can be individually attached to a
+ (potentially different) tracer,
+ or left not attached and thus not debugged.
+-Therefore, "tracee" always means "(one) thread",
++Therefore, "tracer" or "tracee" always mean "(one) thread",
+ never "a (possibly multithreaded) process".
+ Ptrace commands are always sent to
+ a specific tracee using a call of the form
+@@ -2259,7 +2265,7 @@ or (on kernels before 2.6.26) be
+ .TP
+ .B ESRCH
+ The specified process does not exist, or is not currently being traced
+-by the caller, or is not stopped
++by the calling thread, or is not stopped
+ (for requests that require a stopped tracee).
+ .SH CONFORMING TO
+ SVr4, 4.3BSD.
+--
+2.17.1
