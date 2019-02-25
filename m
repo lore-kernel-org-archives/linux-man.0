@@ -1,151 +1,100 @@
-From: "Dmitry V. Levin" <ldv@altlinux.org>
-Subject: Re: [PATCH] ptrace.2: Improve clarity for multi-threaded tracers
-Date: Mon, 18 Feb 2019 01:15:24 +0300
-Message-ID: <20190217221523.GA9233@altlinux.org>
-References: <48bb7c89-abb9-1e88-fee3-fb42d4032d12@nh2.me>
- <bfa474c6-5b13-652d-2fd8-16b2be7efb62@nh2.me>
+From: "Michael Kerrisk (man-pages)" <mtk.manpages@gmail.com>
+Subject: Re: [PATCH] mmap.2: describe the 5level paging hack
+Date: Mon, 25 Feb 2019 15:55:04 +0100
+Message-ID: <f89de711-d73b-96be-75b6-0e9054022708@gmail.com>
+References: <20190211163653.97742-1-jannh@google.com>
 Mime-Version: 1.0
-Content-Type: multipart/signed; micalg=pgp-sha256;
-        protocol="application/pgp-signature"; boundary="4Ckj6UjgE2iN1+kY"
-Return-path: <linux-kernel-owner@vger.kernel.org>
-Content-Disposition: inline
-In-Reply-To: <bfa474c6-5b13-652d-2fd8-16b2be7efb62@nh2.me>
-Sender: linux-kernel-owner@vger.kernel.org
-To: Niklas =?utf-8?Q?Hamb=C3=BCchen?= <mail@nh2.me>
-Cc: mtk.manpages@gmail.com, linux-kernel@vger.kernel.org, cleverca22@gmail.com, linux-man@vger.kernel.org
+Content-Type: text/plain; charset="us-ascii"
+Content-Transfer-Encoding: 7bit
+Return-path: <linux-arm-kernel-bounces+linux-arm-kernel=m.gmane.org@lists.infradead.org>
+In-Reply-To: <20190211163653.97742-1-jannh@google.com>
+Content-Language: en-US
+List-Unsubscribe: <http://lists.infradead.org/mailman/options/linux-arm-kernel>,
+ <mailto:linux-arm-kernel-request@lists.infradead.org?subject=unsubscribe>
+List-Archive: <http://lists.infradead.org/pipermail/linux-arm-kernel/>
+List-Post: <mailto:linux-arm-kernel@lists.infradead.org>
+List-Help: <mailto:linux-arm-kernel-request@lists.infradead.org?subject=help>
+List-Subscribe: <http://lists.infradead.org/mailman/listinfo/linux-arm-kernel>,
+ <mailto:linux-arm-kernel-request@lists.infradead.org?subject=subscribe>
+Sender: "linux-arm-kernel" <linux-arm-kernel-bounces@lists.infradead.org>
+Errors-To: linux-arm-kernel-bounces+linux-arm-kernel=m.gmane.org@lists.infradead.org
+To: Jann Horn <jannh@google.com>
+Cc: linux-arch@vger.kernel.org, linux-man@vger.kernel.org, Catalin Marinas <catalin.marinas@arm.com>, Dave Hansen <dave.hansen@intel.com>, Peter Zijlstra <peterz@infradead.org>, Benjamin Herrenschmidt <benh@kernel.crashing.org>, Will Deacon <will.deacon@arm.com>, linuxppc-dev@lists.ozlabs.org, Andy Lutomirski <luto@amacapital.net>, linux-mm@kvack.org, Paul Mackerras <paulus@samba.org>, mtk.manpages@gmail.com, Michael Ellerman <mpe@ellerman.id.au>, Andrew Morton <akpm@linux-foundation.org>, linux-api@vger.kernel.org, Linus Torvalds <torvalds@linux-foundation.org>, Thomas Gleixner <tglx@linutronix.de>, "Kirill A . Shutemov" <kirill.shutemov@linux.intel.com>, linux-arm-kernel@lists.infradead.org
 List-Id: linux-man@vger.kernel.org
 
-
---4Ckj6UjgE2iN1+kY
-Content-Type: text/plain; charset=utf-8
-Content-Disposition: inline
-Content-Transfer-Encoding: quoted-printable
-
-Hi,
-
-On Sun, Feb 17, 2019 at 05:34:46PM +0100, Niklas Hamb=C3=BCchen wrote:
-> Until now, the man page said:
->=20
->     Attachment and subsequent commands are per thread:
->     in a multi=E2=80=90 threaded process, every thread can be individuall=
-y attached to a
->     (potentially different) tracer, or left not attached and thus not deb=
-ugged.
->     Therefore, "tracee" always means "(one) thread", never "a (possibly
->     multithreaded) process".
->=20
-> While the first sentence "Attachment ... [is] per thread" might be interp=
-reted
-> as holding for both tracer and tracee, the rest talks only about the
-> multi-threadedness of the *tracee*, leaving some uncertainty in the reade=
-r on
-> whether the tracer may issue `ptrace()` from different threads.
->=20
-> This patch adds more explicitness, removing any doubt.
-
-Thanks for making an attempt to remove any doubt.
-
-Yes, ptrace'ing is per task_struct on both sides.
-
-> Relevant resources:
->=20
-> * LKML thread https://marc.info/?l=3Dlinux-kernel&m=3D155036848808748&w=
-=3D2
->   "ptrace() with multithreaded tracer"
->   where I asked about this behaviour, in case anybody disagrees with my
->   understanding
-> * https://stackoverflow.com/questions/18737866/can-a-thread-trace-a-proce=
-ss/
->   where the previous ambiguity of the man page confused some users, and w=
-here
->   and example program is given that confirms the behaviour I mention in t=
-his
->   patch
-> * A program of mine, in which I have independently confirmed that using
->   `ptrace()` from a thread that's not the tracer thread (a sibling thread=
- in
->   the process is the tracer instead) results in `ESRCH`
-> * https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git/tree=
-/kernel/ptrace.c?id=3D96d4f267e40f9509e8a66e2b39e8b95655617693#n207
->   where the comment on `ptrace_check_attach()` talks about `%current`, wh=
-ich
->   is a thread
->=20
-> Signed-off-by: Niklas Hamb=C3=BCchen <mail@nh2.me>
+On 2/11/19 5:36 PM, Jann Horn wrote:
+> The manpage is missing information about the compatibility hack for
+> 5-level paging that went in in 4.14, around commit ee00f4a32a76 ("x86/mm:
+> Allow userspace have mappings above 47-bit"). Add some information about
+> that.
+> 
+> While I don't think any hardware supporting this is shipping yet (?), I
+> think it's useful to try to write a manpage for this API, partly to
+> figure out how usable that API actually is, and partly because when this
+> hardware does ship, it'd be nice if distro manpages had information about
+> how to use it.
+> 
+> Signed-off-by: Jann Horn <jannh@google.com>
 > ---
->  man2/ptrace.2 | 14 ++++++++++----
->  1 file changed, 10 insertions(+), 4 deletions(-)
->=20
-> diff --git a/man2/ptrace.2 b/man2/ptrace.2
-> index 3b6b6ea84..4058abe94 100644
-> --- a/man2/ptrace.2
-> +++ b/man2/ptrace.2
-> @@ -122,12 +122,18 @@ It is primarily used to implement breakpoint debugg=
-ing and system
->  call tracing.
->  .PP
->  A tracee first needs to be attached to the tracer.
-> -Attachment and subsequent commands are per thread:
-> -in a multithreaded process,
-> +Attachment and subsequent commands are per thread,
-> +on both the tracer and tracee side.
-> +Issuing a tracing command from a thread that is not the tracer of the gi=
-ven
-> +.I pid
-> +will result in an
-> +.B ESRCH
-> +error.
+> This patch goes on top of the patch "[PATCH] mmap.2: fix description of
+> treatment of the hint" that I just sent, but I'm not sending them in a
+> series because I want the first one to go in, and I think this one might
+> be a bit more controversial.
+> 
+> It would be nice if the architecture maintainers and mm folks could have
+> a look at this and check that what I wrote is right - I only looked at
+> the source for this, I haven't tried it.
+> 
+>  man2/mmap.2 | 15 +++++++++++++++
+>  1 file changed, 15 insertions(+)
+> 
+> diff --git a/man2/mmap.2 b/man2/mmap.2
+> index 8556bbfeb..977782fa8 100644
+> --- a/man2/mmap.2
+> +++ b/man2/mmap.2
+> @@ -67,6 +67,8 @@ is NULL,
+>  then the kernel chooses the (page-aligned) address
+>  at which to create the mapping;
+>  this is the most portable method of creating a new mapping.
+> +On Linux, in this case, the kernel may limit the maximum address that can be
+> +used for allocations to a legacy limit for compatibility reasons.
+>  If
+>  .I addr
+>  is not NULL,
+> @@ -77,6 +79,19 @@ or equal to the value specified by
+>  and attempt to create the mapping there.
+>  If another mapping already exists there, the kernel picks a new
+>  address, independent of the hint.
+> +However, if a hint above the architecture's legacy address limit is provided
+> +(on x86-64: above 0x7ffffffff000, on arm64: above 0x1000000000000, on ppc64 with
+> +book3s: above 0x7fffffffffff or 0x3fffffffffff, depending on page size), the
+> +kernel is permitted to allocate mappings beyond the architecture's legacy
+> +address limit. The availability of such addresses is hardware-dependent.
+> +Therefore, if you want to be able to use the full virtual address space of
+> +hardware that supports addresses beyond the legacy range, you need to specify an
+> +address above that limit; however, for security reasons, you should avoid
+> +specifying a fixed valid address outside the compatibility range,
+> +since that would reduce the value of userspace address space layout
+> +randomization. Therefore, it is recommended to specify an address
+> +.I beyond
+> +the end of the userspace address space.
+>  .\" Before Linux 2.6.24, the address was rounded up to the next page
+>  .\" boundary; since 2.6.24, it is rounded down!
+>  The address of the new mapping is returned as the result of the call.
+>
 
-This is confusing.  What do you mean by a tracing command?
-Is PTRACE_TRACEME a tracing command?  PTRACE_ATTACH?  PTRACE_SEIZE?
+Hi Jann,
 
-I suggest leaving the explanation of ptrace return code to "ERRORS"
-section.
+A few comments came in on this patch. Is there anything from
+those comments that should be rolled into the text?
 
-> +In a multithreaded process to be traced,
->  every thread can be individually attached to a
->  (potentially different) tracer,
->  or left not attached and thus not debugged.
-> -Therefore, "tracee" always means "(one) thread",
-> +Therefore, "tracer" or "tracee" always mean "(one) thread",
->  never "a (possibly multithreaded) process".
->  Ptrace commands are always sent to
->  a specific tracee using a call of the form
-> @@ -2259,7 +2265,7 @@ or (on kernels before 2.6.26) be
->  .TP
->  .B ESRCH
->  The specified process does not exist, or is not currently being traced
-> -by the caller, or is not stopped
-> +by the calling thread, or is not stopped
->  (for requests that require a stopped tracee).
->  .SH CONFORMING TO
->  SVr4, 4.3BSD.
+Thanks,
 
-I agree the current text can be made more clear on the subject,
-but, unfortunately, proposed change makes the description more confusing.
+Michael
 
 
---=20
-ldv
 
---4Ckj6UjgE2iN1+kY
-Content-Type: application/pgp-signature; name="signature.asc"
-
------BEGIN PGP SIGNATURE-----
-
-iQIcBAEBCAAGBQJcadz7AAoJEAVFT+BVnCUIDrcP/3dgjqHOr3EgIUXMV6AiC12n
-Gp7OtjbDO4DDsTJC4GR/4GZEx9NZQFr712XZIGgxmOIphikJ3wzvGilnzUyg1TDe
-sE0zN1hgFHMbHDwzpPGFT/ysB1hEr2fJtK+QwbNjLjqaUljEjSzaBihz1lFN0zDj
-f0SJdHqW/R+SjUF1uixR9j19IUzyL6TxL6AqkPjBKndIr8bVXrdSn1XMROxJIejv
-0rdsnW9474N2Ki4mKiZ6eqOjSFLrIuL1IgGdOf35scQUm85UcOmO9AcChWXGaRcE
-tQuQ6yEAYYn1Q7DcGfiBunoD7/+J87stywlkmdEgTvYMsnJ3Cm5GutSEfK9GLrUT
-Puk60YfqeZH6Pfr+pA6/fcZo3nUFwzemfHUsTXcG7m2l9M8H12tAmgGuf62Kobrg
-wqs2yiVkL2I2iWir00b/pJ6ebpHyZ/dKPKhVV0dd7W3EIdSL20FM93mQAnvM7/z7
-FW0RpOn1fDTX9AqMW4gyK6DwTPw6lJ9bCkFilbqocGJTiiVyT3rZIRHqFuVDS22B
-2XI2YnGpUrEVr6+8eGk44wIMSG9tFcJeL7NIqGcLbL0XZTxoesHPRl+Ij4KE09Yq
-WDhyqaVVheU7fRiZ0vbuZejY3AHjf1jFaTOHqevkZZTZ7JJLpu6yQiNUF5L+eqF/
-wai+x8lr3iGgjtXfxMhw
-=5uSA
------END PGP SIGNATURE-----
-
---4Ckj6UjgE2iN1+kY--
+-- 
+Michael Kerrisk
+Linux man-pages maintainer; http://www.kernel.org/doc/man-pages/
+Linux/UNIX System Programming Training: http://man7.org/training/
