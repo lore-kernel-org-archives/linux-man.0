@@ -1,11 +1,13 @@
 From: Wang Shilong <wangshilong1991@gmail.com>
-Subject: [PATCH 1/2] fchownat.2: add project support updates
-Date: Fri,  1 Mar 2019 23:06:22 +0900
-Message-ID: <1551449184-7942-1-git-send-email-wshilong1991@gmail.com>
+Subject: [PATCH 2/2] statx.2: add project support update
+Date: Fri,  1 Mar 2019 23:06:24 +0900
+Message-ID: <1551449184-7942-3-git-send-email-wshilong1991@gmail.com>
+References: <1551449184-7942-1-git-send-email-wshilong1991@gmail.com>
 Mime-Version: 1.0
 Content-Type: text/plain; charset="us-ascii"
 Content-Transfer-Encoding: 7bit
 Return-path: <linux-f2fs-devel-bounces@lists.sourceforge.net>
+In-Reply-To: <1551449184-7942-1-git-send-email-wshilong1991@gmail.com>
 List-Unsubscribe: <https://lists.sourceforge.net/lists/options/linux-f2fs-devel>,
  <mailto:linux-f2fs-devel-request@lists.sourceforge.net?subject=unsubscribe>
 List-Archive: <http://sourceforge.net/mailarchive/forum.php?forum_name=linux-f2fs-devel>
@@ -20,29 +22,51 @@ List-Id: linux-man@vger.kernel.org
 
 From: Wang Shilong <wshilong@ddn.com>
 
-From: Wang Shilong <wshilong@ddn.com>
-
 Cc: linux-man@vger.kernel.org
 Signed-off-by: Wang Shilong <wshilong@ddn.com>
 ---
- man2/chown.2 | 5 +++++
- 1 file changed, 5 insertions(+)
+ man2/statx.2 | 8 ++++++++
+ 1 file changed, 8 insertions(+)
 
-diff --git a/man2/chown.2 b/man2/chown.2
-index 50db789ac..fad74df20 100644
---- a/man2/chown.2
-+++ b/man2/chown.2
-@@ -217,6 +217,11 @@ instead operate on the link itself, like
- .BR fchownat ()
- dereferences symbolic links, like
- .BR chown ().)
+diff --git a/man2/statx.2 b/man2/statx.2
+index 7265d8ace..6a9dede8b 100644
+--- a/man2/statx.2
++++ b/man2/statx.2
+@@ -82,6 +82,7 @@ struct statx {
+        containing the filesystem where the file resides */
+     __u32 stx_dev_major;   /* Major ID */
+     __u32 stx_dev_minor;   /* Minor ID */
++    __u32 stx_projid;      /* Project ID of file */
+ };
+ .EE
+ .in
+@@ -261,6 +262,7 @@ STATX_SIZE	Want stx_size
+ STATX_BLOCKS	Want stx_blocks
+ STATX_BASIC_STATS	[All of the above]
+ STATX_BTIME	Want stx_btime
++STATX_PROJID	Want stx_projid
+ STATX_ALL	[All currently available fields]
+ .TE
+ .in
+@@ -412,6 +414,9 @@ The device on which this file (inode) resides.
+ .IR stx_rdev_major " and "  stx_rdev_minor
+ The device that this file (inode) represents if the file is of block or
+ character device type.
 +.TP
-+.B AT_FCHOWN_PROJID
-+Use
-+.I group
-+to change file's project ID instead of its group ID.
++.I stx_projid
++The file's project ID.
  .PP
- See
- .BR openat (2)
+ For further information on the above fields, see
+ .BR inode (7).
+@@ -458,6 +463,9 @@ See
+ .TP
+ .B STATX_ATTR_ENCRYPTED
+ A key is required for the file to be encrypted by the filesystem.
++.TP
++.B STATX_ATTR_PROJINHERIT
++Sub directories or files will inherit parent's project ID automatically.
+ .SH RETURN VALUE
+ On success, zero is returned.
+ On error, \-1 is returned, and
 -- 
 2.19.1
