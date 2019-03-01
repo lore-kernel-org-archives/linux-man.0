@@ -1,64 +1,83 @@
-From: Tycho Andersen <tycho@tycho.ws>
-Subject: Re: [PATCH 2/2] seccomp.2: document userspace notification
-Date: Fri, 1 Mar 2019 08:19:37 -0700
-Message-ID: <20190301151937.GE7413@cisco>
-References: <20181213001106.15268-1-tycho@tycho.ws>
- <20181213001106.15268-3-tycho@tycho.ws>
- <2cea5fec-e73e-5749-18af-15c35a4bd23c@gmail.com>
- <20190301145310.GC7413@cisco>
- <052d73e2-c786-a760-f03a-a07b5772de5a@gmail.com>
+From: "Darrick J. Wong" <darrick.wong@oracle.com>
+Subject: Re: [PATCH 2/2] statx.2: add project support update
+Date: Fri, 1 Mar 2019 07:51:45 -0800
+Message-ID: <20190301155145.GO21626@magnolia>
+References: <1551449184-7942-1-git-send-email-wshilong1991@gmail.com>
+ <1551449184-7942-3-git-send-email-wshilong1991@gmail.com>
 Mime-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Return-path: <linux-kernel-owner@vger.kernel.org>
+Content-Type: text/plain; charset="us-ascii"
+Content-Transfer-Encoding: 7bit
+Return-path: <linux-f2fs-devel-bounces@lists.sourceforge.net>
 Content-Disposition: inline
-In-Reply-To: <052d73e2-c786-a760-f03a-a07b5772de5a@gmail.com>
-Sender: linux-kernel-owner@vger.kernel.org
-To: "Michael Kerrisk (man-pages)" <mtk.manpages@gmail.com>
-Cc: "Serge E. Hallyn" <serge@hallyn.com>, linux-man@vger.kernel.org, Kees Cook <keescook@chromium.org>, Linux API <linux-api@vger.kernel.org>, lkml <linux-kernel@vger.kernel.org>, Andy Lutomirski <luto@amacapital.net>, Jann Horn <jann@thejh.net>, Oleg Nesterov <oleg@redhat.com>, Christian Brauner <christian@brauner.io>, "Eric W. Biederman" <ebiederm@xmission.com>, Containers <containers@lists.linux-foundation.org>, Aleksa Sarai <asarai@suse.de>, Tyler Hicks <tyhicks@canonical.com>, Akihiro Suda <suda.akihiro@lab.ntt.co.jp>
+In-Reply-To: <1551449184-7942-3-git-send-email-wshilong1991@gmail.com>
+List-Unsubscribe: <https://lists.sourceforge.net/lists/options/linux-f2fs-devel>,
+ <mailto:linux-f2fs-devel-request@lists.sourceforge.net?subject=unsubscribe>
+List-Archive: <http://sourceforge.net/mailarchive/forum.php?forum_name=linux-f2fs-devel>
+List-Post: <mailto:linux-f2fs-devel@lists.sourceforge.net>
+List-Help: <mailto:linux-f2fs-devel-request@lists.sourceforge.net?subject=help>
+List-Subscribe: <https://lists.sourceforge.net/lists/listinfo/linux-f2fs-devel>,
+ <mailto:linux-f2fs-devel-request@lists.sourceforge.net?subject=subscribe>
+Errors-To: linux-f2fs-devel-bounces@lists.sourceforge.net
+To: Wang Shilong <wangshilong1991@gmail.com>
+Cc: adilger@dilger.ca, linux-man@vger.kernel.org, Wang Shilong <wshilong@ddn.com>, lixi@ddn.com, linux-f2fs-devel@lists.sourceforge.net, linux-xfs@vger.kernel.org, linux-fsdevel@vger.kernel.org, linux-ext4@vger.kernel.org
 List-Id: linux-man@vger.kernel.org
 
-On Fri, Mar 01, 2019 at 04:16:27PM +0100, Michael Kerrisk (man-pages) wrote:
-> Hello Tycho,
+On Fri, Mar 01, 2019 at 11:06:24PM +0900, Wang Shilong wrote:
+> From: Wang Shilong <wshilong@ddn.com>
 > 
-> On 3/1/19 3:53 PM, Tycho Andersen wrote:
-> > On Thu, Feb 28, 2019 at 01:52:19PM +0100, Michael Kerrisk (man-pages) wrote:
-> >>> +a notification will be sent to this fd. See "Userspace Notification" below for
-> >>
-> >> s/fd/file descriptor/ throughout please.
-> > 
-> > Will do.
-> > 
-> >>> +more details.
-> >>
-> >> I think the description here could be better worded as something like:
-> >>
-> >>     SECCOMP_FILTER_FLAG_NEW_LISTENER
-> >>         Register a new filter, as usual, but on success return a
-> >>         new file descriptor that provides user-space notifications.
-> >>         When the filter returns SECCOMP_RET_USER_NOTIF, a notification
-> >>         will be provided via this file descriptor. The close-on-exec
-> >>         flag is automatically set on the new file descriptor. ...
-> >>
-> >>>  .RE
-> >>>  .TP
-> >>>  .BR SECCOMP_GET_ACTION_AVAIL " (since Linux 4.14)"
-> >>> @@ -606,6 +613,17 @@ file.
-> >>>  .TP
-> >>>  .BR SECCOMP_RET_ALLOW
-> >>>  This value results in the system call being executed.
-> >>> +.TP
-> >>> +.BR SECCOMP_RET_USER_NOTIF " (since Linux 4.21)"
-> >>
-> >> Please see the start of this hanging list in the manual page.
-> >> Can you confirm that SECCOMP_RET_USER_NOTIF really is the lowest
-> >> in the precedence order of all of the filter return values?
-> > 
-> > Oh, no, I didn't realize it was in a particular order. I'll switch it.
+> Cc: linux-man@vger.kernel.org
+> Signed-off-by: Wang Shilong <wshilong@ddn.com>
+> ---
+>  man2/statx.2 | 8 ++++++++
+>  1 file changed, 8 insertions(+)
 > 
-> Just for my immediate education (I'm experimenting right now),
-> where/how does it fit in the precedence order?
+> diff --git a/man2/statx.2 b/man2/statx.2
+> index 7265d8ace..6a9dede8b 100644
+> --- a/man2/statx.2
+> +++ b/man2/statx.2
+> @@ -82,6 +82,7 @@ struct statx {
+>         containing the filesystem where the file resides */
+>      __u32 stx_dev_major;   /* Major ID */
+>      __u32 stx_dev_minor;   /* Minor ID */
+> +    __u32 stx_projid;      /* Project ID of file */
+>  };
+>  .EE
+>  .in
+> @@ -261,6 +262,7 @@ STATX_SIZE	Want stx_size
+>  STATX_BLOCKS	Want stx_blocks
+>  STATX_BASIC_STATS	[All of the above]
+>  STATX_BTIME	Want stx_btime
+> +STATX_PROJID	Want stx_projid
+>  STATX_ALL	[All currently available fields]
+>  .TE
+>  .in
+> @@ -412,6 +414,9 @@ The device on which this file (inode) resides.
+>  .IR stx_rdev_major " and "  stx_rdev_minor
+>  The device that this file (inode) represents if the file is of block or
+>  character device type.
+> +.TP
+> +.I stx_projid
+> +The file's project ID.
+>  .PP
+>  For further information on the above fields, see
+>  .BR inode (7).
+> @@ -458,6 +463,9 @@ See
+>  .TP
+>  .B STATX_ATTR_ENCRYPTED
+>  A key is required for the file to be encrypted by the filesystem.
+> +.TP
+> +.B STATX_ATTR_PROJINHERIT
+> +Sub directories or files will inherit parent's project ID automatically.
 
-In between RET_ERRNO and RET_TRACE; see include/uapi/linux/seccomp.h
-for details.
+"Newly created files and directories will inherit...", I think?
 
-Tycho
+I appreciate the manpage and fstests updates immensely. :)
+
+--D
+
+>  .SH RETURN VALUE
+>  On success, zero is returned.
+>  On error, \-1 is returned, and
+> -- 
+> 2.19.1
+> 
