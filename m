@@ -1,65 +1,63 @@
 From: "Michael Kerrisk (man-pages)" <mtk.manpages@gmail.com>
-Subject: Re: [PATCH 2/2] seccomp.2: document userspace notification
-Date: Thu, 28 Feb 2019 14:25:55 +0100
-Message-ID: <e7a5abd9-f7b7-e077-221a-4c3ef7b818df@gmail.com>
-References: <20181213001106.15268-1-tycho@tycho.ws>
- <20181213001106.15268-3-tycho@tycho.ws>
- <2cea5fec-e73e-5749-18af-15c35a4bd23c@gmail.com>
+Subject: Re: [PATCH] man7/mdoc_samples.7: srcfix: Avoid a warning
+ about a wrong section
+Date: Fri, 1 Mar 2019 10:49:41 +0100
+Message-ID: <CAKgNAkioBzcx_qGMzmorZt_+GBZ4-PBkNAcJGZshA+i1LijXCQ@mail.gmail.com>
+References: <20190216180340.GA7407@rhi.hi.is>
+	<7a5597f7-2c4e-95ca-2eb5-20369a5857cb@gmail.com>
+	<20190227094847.bkasny3d4obp2n25@crack.deadbeast.net>
+	<20190227123429.GA60888@athene.usta.de>
+	<2448e778-01df-6074-2599-97e3025f74ca@gmail.com>
+	<20190227152146.GE60888@athene.usta.de>
+Reply-To: mtk.manpages@gmail.com
 Mime-Version: 1.0
-Content-Type: text/plain; charset=utf-8
-Content-Transfer-Encoding: 7bit
-Return-path: <linux-kernel-owner@vger.kernel.org>
-In-Reply-To: <2cea5fec-e73e-5749-18af-15c35a4bd23c@gmail.com>
-Content-Language: en-US
-Sender: linux-kernel-owner@vger.kernel.org
-To: Tycho Andersen <tycho@tycho.ws>, "Serge E. Hallyn" <serge@hallyn.com>
-Cc: mtk.manpages@gmail.com, linux-man@vger.kernel.org, Kees Cook <keescook@chromium.org>, Linux API <linux-api@vger.kernel.org>, lkml <linux-kernel@vger.kernel.org>, Andy Lutomirski <luto@amacapital.net>, Jann Horn <jann@thejh.net>, Oleg Nesterov <oleg@redhat.com>, Christian Brauner <christian@brauner.io>, "Eric W. Biederman" <ebiederm@xmission.com>, Containers <containers@lists.linux-foundation.org>, Aleksa Sarai <asarai@suse.de>, Tyler Hicks <tyhicks@canonical.com>, Akihiro Suda <suda.akihiro@lab.ntt.co.jp>
+Content-Type: text/plain; charset="UTF-8"
+Return-path: <groff-bounces+gcpgg-help-groff=m.gmane.org@gnu.org>
+In-Reply-To: <20190227152146.GE60888@athene.usta.de>
+List-Unsubscribe: <https://lists.gnu.org/mailman/options/groff>,
+	<mailto:groff-request@gnu.org?subject=unsubscribe>
+List-Archive: <http://lists.gnu.org/archive/html/groff/>
+List-Post: <mailto:groff@gnu.org>
+List-Help: <mailto:groff-request@gnu.org?subject=help>
+List-Subscribe: <https://lists.gnu.org/mailman/listinfo/groff>,
+	<mailto:groff-request@gnu.org?subject=subscribe>
+Errors-To: groff-bounces+gcpgg-help-groff=m.gmane.org@gnu.org
+Sender: "groff" <groff-bounces+gcpgg-help-groff=m.gmane.org@gnu.org>
+To: Ingo Schwarze <schwarze@usta.de>
+Cc: "G. Branden Robinson" <g.branden.robinson@gmail.com>, linux-man <linux-man@vger.kernel.org>, groff@gnu.org
 List-Id: linux-man@vger.kernel.org
 
-> 7. The monitoring process can use the information in the
->    'struct seccomp_notif' to make a determination about the
->    system call being made by the target process. This
->    structure includes a 'data' field that is the same
->    'struct seccomp_data' that is passed to a BPF filter.
-> 
->    In addition, the monitoring process may make use of other 
->    information that is available from user space. For example, 
->    it may inspect the memory of the target process (whose PID
->    is provided in the 'struct seccomp_notif') using
->    /proc/PID/mem, which includes inspecting the values
->    pointed to by system call arguments (whose location is
->    available 'seccomp_notif.data.args). However, when using
->    the target process PID in this way, one must guard against
->    PID re-use race conditions using the seccomp()
->    SECCOMP_IOCTL_NOTIF_ID_VALID operation.
-> 
-> 8. Having arrived at a decision about the target process's
->    system call, the monitoring process can inform the kernel
->    of its decision using the operation
-> 
->        ioctl(listenfd, SECCOMP_IOCTL_NOTIF_SEND, respptr)
-> 
->    where the third argument is a pointer to a
->    'struct seccomp_notif_resp'. [Some more details
->    needed here, but I still don't yet understand fully
->    the semantics of the 'error' and 'val' fields.]
+> The mandoc package is also slowly becoming more popular on Linux.
+> For example, optional packages exist for Debian, Ubuntu, Gentoo,
+> Arch, Alpine, Void, Slackware, Crux, ...  So quite a few Linux users
+> may already have Kristaps' modern mdoc(7) manual page in addition
+> to the classical groff_mdoc(7).
 
-So clearly, I misunderstood these last two steps.
+[...]
 
-(7) is something like: discover information in userspace
-as required; perform userspace actions if appropriate
-(perhaps doing the system call operation "on behalf of" the
-target process).
+> I would no doubt like to see mdoc(7) used more in Linux contexts,
+> too, because Cynthia managed to reach an excellent balance between
+> simplicity, conciseness, mnemonic value, and semantic markup power -
+> the semantic search facilities mdoc(7) supports nowadays are very
+> valuable in practice, and i think the difficulty of learning it is
+> often vastly exaggerated even for casual users.  Just look at the
+> MACRO OVERVIEW in mdoc(7), there aren't really that many macros:
+>   https://man.openbsd.org/mdoc.7#MACRO_OVERVIEW
+> If you want to see something that is *really* excessively complicated,
+> try DocBook for a change...  :-/
+>
+> Anyway, that doesn't mean the Linux man-pages project has to document
+> mdoc(7) given that it is not currently using it in any significant way.
 
+Just to be clear, I'm not against mdoc in any way. (I consider it
+unfortunate that man markup isn't at all semantic.)
 
-(8) is something like:
-   set 'error' and 'val' to return info to the target process:
-    * error != 0 ==> make it look like the syscall failed,
-      with 'errno' set to that value
-    * error == 0 ==> make it look like the syscall succeeded 
-      and returned 'val'
-
-Right?
+It's just that the project that I inherited had > 95% pages in man
+format, and the existence of a handful of pages in mdoc format was
+painful when (in the early days) I was trying to do various automated
+global automated edits to get greater consistency of formatting across
+pages. I wouldn't have been unhappy if all of the pages had instead
+been in mdoc format, but that was not the history.
 
 Cheers,
 
