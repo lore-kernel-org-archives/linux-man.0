@@ -1,77 +1,65 @@
-From: "Michael Kerrisk (man-pages)" <mtk.manpages@gmail.com>
-Subject: Re: [PATCH 2/2] seccomp.2: document userspace notification
-Date: Fri, 1 Mar 2019 17:02:05 +0100
-Message-ID: <20ff6d08-d9ac-06d3-5702-d7de3cc17685@gmail.com>
-References: <20181213001106.15268-1-tycho@tycho.ws>
- <20181213001106.15268-3-tycho@tycho.ws>
- <2cea5fec-e73e-5749-18af-15c35a4bd23c@gmail.com>
- <20190301145310.GC7413@cisco>
- <052d73e2-c786-a760-f03a-a07b5772de5a@gmail.com>
- <20190301151937.GE7413@cisco>
+From: Dave Chinner <david@fromorbit.com>
+Subject: Re: [PATCH 1/2] fchownat.2: add project support updates
+Date: Mon, 4 Mar 2019 10:08:20 +1100
+Message-ID: <20190303230820.GU23020@dastard>
+References: <1551449184-7942-1-git-send-email-wshilong1991@gmail.com>
 Mime-Version: 1.0
-Content-Type: text/plain; charset=utf-8
+Content-Type: text/plain; charset="us-ascii"
 Content-Transfer-Encoding: 7bit
-Return-path: <linux-kernel-owner@vger.kernel.org>
-In-Reply-To: <20190301151937.GE7413@cisco>
-Content-Language: en-US
-Sender: linux-kernel-owner@vger.kernel.org
-To: Tycho Andersen <tycho@tycho.ws>
-Cc: mtk.manpages@gmail.com, "Serge E. Hallyn" <serge@hallyn.com>, linux-man@vger.kernel.org, Kees Cook <keescook@chromium.org>, Linux API <linux-api@vger.kernel.org>, lkml <linux-kernel@vger.kernel.org>, Andy Lutomirski <luto@amacapital.net>, Jann Horn <jann@thejh.net>, Oleg Nesterov <oleg@redhat.com>, Christian Brauner <christian@brauner.io>, "Eric W. Biederman" <ebiederm@xmission.com>, Containers <containers@lists.linux-foundation.org>, Aleksa Sarai <asarai@suse.de>, Tyler Hicks <tyhicks@canonical.com>, Akihiro Suda <suda.akihiro@lab.ntt.co.jp>
+Return-path: <linux-f2fs-devel-bounces@lists.sourceforge.net>
+Content-Disposition: inline
+In-Reply-To: <1551449184-7942-1-git-send-email-wshilong1991@gmail.com>
+List-Unsubscribe: <https://lists.sourceforge.net/lists/options/linux-f2fs-devel>,
+ <mailto:linux-f2fs-devel-request@lists.sourceforge.net?subject=unsubscribe>
+List-Archive: <http://sourceforge.net/mailarchive/forum.php?forum_name=linux-f2fs-devel>
+List-Post: <mailto:linux-f2fs-devel@lists.sourceforge.net>
+List-Help: <mailto:linux-f2fs-devel-request@lists.sourceforge.net?subject=help>
+List-Subscribe: <https://lists.sourceforge.net/lists/listinfo/linux-f2fs-devel>,
+ <mailto:linux-f2fs-devel-request@lists.sourceforge.net?subject=subscribe>
+Errors-To: linux-f2fs-devel-bounces@lists.sourceforge.net
+To: Wang Shilong <wangshilong1991@gmail.com>
+Cc: adilger@dilger.ca, linux-man@vger.kernel.org, Wang Shilong <wshilong@ddn.com>, lixi@ddn.com, linux-f2fs-devel@lists.sourceforge.net, linux-xfs@vger.kernel.org, linux-fsdevel@vger.kernel.org, linux-ext4@vger.kernel.org
 List-Id: linux-man@vger.kernel.org
 
-On 3/1/19 4:19 PM, Tycho Andersen wrote:
-> On Fri, Mar 01, 2019 at 04:16:27PM +0100, Michael Kerrisk (man-pages) wrote:
->> Hello Tycho,
->>
->> On 3/1/19 3:53 PM, Tycho Andersen wrote:
->>> On Thu, Feb 28, 2019 at 01:52:19PM +0100, Michael Kerrisk (man-pages) wrote:
->>>>> +a notification will be sent to this fd. See "Userspace Notification" below for
->>>>
->>>> s/fd/file descriptor/ throughout please.
->>>
->>> Will do.
->>>
->>>>> +more details.
->>>>
->>>> I think the description here could be better worded as something like:
->>>>
->>>>     SECCOMP_FILTER_FLAG_NEW_LISTENER
->>>>         Register a new filter, as usual, but on success return a
->>>>         new file descriptor that provides user-space notifications.
->>>>         When the filter returns SECCOMP_RET_USER_NOTIF, a notification
->>>>         will be provided via this file descriptor. The close-on-exec
->>>>         flag is automatically set on the new file descriptor. ...
->>>>
->>>>>  .RE
->>>>>  .TP
->>>>>  .BR SECCOMP_GET_ACTION_AVAIL " (since Linux 4.14)"
->>>>> @@ -606,6 +613,17 @@ file.
->>>>>  .TP
->>>>>  .BR SECCOMP_RET_ALLOW
->>>>>  This value results in the system call being executed.
->>>>> +.TP
->>>>> +.BR SECCOMP_RET_USER_NOTIF " (since Linux 4.21)"
->>>>
->>>> Please see the start of this hanging list in the manual page.
->>>> Can you confirm that SECCOMP_RET_USER_NOTIF really is the lowest
->>>> in the precedence order of all of the filter return values?
->>>
->>> Oh, no, I didn't realize it was in a particular order. I'll switch it.
->>
->> Just for my immediate education (I'm experimenting right now),
->> where/how does it fit in the precedence order?
+On Fri, Mar 01, 2019 at 11:06:22PM +0900, Wang Shilong wrote:
+> From: Wang Shilong <wshilong@ddn.com>
 > 
-> In between RET_ERRNO and RET_TRACE; see include/uapi/linux/seccomp.h
-> for details.
+> From: Wang Shilong <wshilong@ddn.com>
+> 
+> Cc: linux-man@vger.kernel.org
+> Signed-off-by: Wang Shilong <wshilong@ddn.com>
+> ---
+>  man2/chown.2 | 5 +++++
+>  1 file changed, 5 insertions(+)
+> 
+> diff --git a/man2/chown.2 b/man2/chown.2
+> index 50db789ac..fad74df20 100644
+> --- a/man2/chown.2
+> +++ b/man2/chown.2
+> @@ -217,6 +217,11 @@ instead operate on the link itself, like
+>  .BR fchownat ()
+>  dereferences symbolic links, like
+>  .BR chown ().)
+> +.TP
+> +.B AT_FCHOWN_PROJID
+> +Use
+> +.I group
+> +to change file's project ID instead of its group ID.
 
-Confirmed by experiment :-).
+Needs to document init_user_ns constraint.
+
+>  .PP
+>  See
+>  .BR openat (2)
+
+Also missing new ENOSPC error that attempting to change a project ID
+can result in. Also should document the EPERM error condition when
+changing project ID in wrong userns, and EINVAL if an invalid
+project ID is supplied.
 
 Cheers,
 
-Michael
-
-
+Dave.
 -- 
-Michael Kerrisk
-Linux man-pages maintainer; http://www.kernel.org/doc/man-pages/
-Linux/UNIX System Programming Training: http://man7.org/training/
+Dave Chinner
+david@fromorbit.com
