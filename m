@@ -1,36 +1,21 @@
-From: Slavomir Kaslev <kaslevs@vmware.com>
-Subject: [PATCH 1/2] splice.2: Note EAGAIN can occur when called on nonblocking file descriptors
-Date: Fri, 12 Apr 2019 17:02:46 +0300
-Message-ID: <20190412140247.9897-2-kaslevs@vmware.com>
-References: <20190412140247.9897-1-kaslevs@vmware.com>
+From: Paul Eggert <eggert@cs.ucla.edu>
+Subject: Re: bug#35275: spelling mistake manual pages
+Date: Sun, 14 Apr 2019 22:34:37 -0700
+Message-ID: <8970d433-8c7e-23d8-7d04-b9344adbf3ad@cs.ucla.edu>
+References: <CABCHxwFMp+vFpv8V-c0=CeXnNmymEuvm_7adGnOnUfCUH7C5+w@mail.gmail.com>
 Mime-Version: 1.0
-Content-Transfer-Encoding: 8bit
+Content-Type: text/plain; charset=utf-8; format=flowed
+Content-Transfer-Encoding: 7bit
 Return-path: <linux-kernel-owner@vger.kernel.org>
-In-Reply-To: <20190412140247.9897-1-kaslevs@vmware.com>
+In-Reply-To: <CABCHxwFMp+vFpv8V-c0=CeXnNmymEuvm_7adGnOnUfCUH7C5+w@mail.gmail.com>
+Content-Language: en-US
 Sender: linux-kernel-owner@vger.kernel.org
-To: mtk.manpages@gmail.com
-Cc: linux-man@vger.kernel.org, linux-kernel@vger.kernel.org, slavomir.kaslev@gmail.com
+To: Vikas Talan <vikas.chaudhary2608@gmail.com>, 35275-done@debbugs.gnu.org, mtk.manpages@gmail.com, majordomo@vger.kernel.org, linux-kernel@vger.kernel.org, linux-kernel-announce@vger.kernel.org, linux-api@vger.kernel.org, netdev@vger.kernel.org, libc-alpha-subscribe@sourceware.org, libc-help-subscribe@sourceware.org, manpages@packages.debian.org, listar@nl.linux.org, linux-man@vger.kernel.org
 List-Id: linux-man@vger.kernel.org
 
-Signed-off-by: Slavomir Kaslev <kaslevs@vmware.com>
----
- man2/splice.2 | 4 +++-
- 1 file changed, 3 insertions(+), 1 deletion(-)
+That report appears to be about the glibc manual. Please report glibc bugs as 
+described here:
 
-diff --git a/man2/splice.2 b/man2/splice.2
-index 57988d9d6..af3fa4e74 100644
---- a/man2/splice.2
-+++ b/man2/splice.2
-@@ -155,7 +155,9 @@ is set to indicate the error.
- .B EAGAIN
- .B SPLICE_F_NONBLOCK
- was specified in
--.IR flags ,
-+.IR flags
-+or one of the file descriptors had been marked as nonblocking
-+.RB ( O_NONBLOCK ) ,
- and the operation would block.
- .TP
- .B EBADF
--- 
-2.19.1
+https://sourceware.org/glibc/wiki/FilingBugs
+
+Also, please use plain text rather than images to describe bugs in a text file.
