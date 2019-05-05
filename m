@@ -1,27 +1,50 @@
-From: =?UTF-8?Q?Niklas_Hamb=c3=bcchen?= <mail@nh2.me>
-Subject: Re: [PATCH] ptrace.2: Improve clarity for multi-threaded tracers
-Date: Sun, 21 Apr 2019 16:58:17 +0200
-Message-ID: <ac1d22f1-72d8-a543-0e8d-23fa6da9919e@nh2.me>
-References: <48bb7c89-abb9-1e88-fee3-fb42d4032d12@nh2.me>
- <bfa474c6-5b13-652d-2fd8-16b2be7efb62@nh2.me>
- <20190217221523.GA9233@altlinux.org>
- <CAKgNAkhNCE24+QEYpQjcAjN2ktQe_JdAd7sP9rHR90iA228-yw@mail.gmail.com>
+From: "Michael Kerrisk (man-pages)" <mtk.manpages@gmail.com>
+Subject: Re: [PATCH 1/2] splice.2: Note EAGAIN can occur when called on
+ nonblocking file descriptors
+Date: Sun, 5 May 2019 05:29:20 -0500
+Message-ID: <ef394bac-705c-70ac-5ceb-adebf4cfece8@gmail.com>
+References: <20190412140247.9897-1-kaslevs@vmware.com>
+ <20190412140247.9897-2-kaslevs@vmware.com>
 Mime-Version: 1.0
-Content-Type: text/plain; charset=utf-8
+Content-Type: text/plain; charset=utf-8; format=flowed
 Content-Transfer-Encoding: 7bit
 Return-path: <linux-kernel-owner@vger.kernel.org>
-In-Reply-To: <CAKgNAkhNCE24+QEYpQjcAjN2ktQe_JdAd7sP9rHR90iA228-yw@mail.gmail.com>
+In-Reply-To: <20190412140247.9897-2-kaslevs@vmware.com>
 Content-Language: en-US
 Sender: linux-kernel-owner@vger.kernel.org
-To: mtk.manpages@gmail.com
-Cc: "Dmitry V. Levin" <ldv@altlinux.org>, lkml <linux-kernel@vger.kernel.org>, cleverca22@gmail.com, linux-man <linux-man@vger.kernel.org>
+To: Slavomir Kaslev <kaslevs@vmware.com>
+Cc: mtk.manpages@gmail.com, linux-man@vger.kernel.org, linux-kernel@vger.kernel.org, slavomir.kaslev@gmail.com
 List-Id: linux-man@vger.kernel.org
 
-Hey Michael,
+Hello Slavomir,
 
-On 2019-02-25 16:51, Michael Kerrisk (man-pages) wrote:
-> Do you plan to revise this patch in the light of Dmitry's comments?
+On 4/12/19 9:02 AM, Slavomir Kaslev wrote:
+> Signed-off-by: Slavomir Kaslev <kaslevs@vmware.com>
 
-sorry for the delay, I do intend to finish it and just replied.
+Thanks! Applied.
 
-Niklas
+Cheers,
+
+Michael
+
+
+> ---
+>   man2/splice.2 | 4 +++-
+>   1 file changed, 3 insertions(+), 1 deletion(-)
+> 
+> diff --git a/man2/splice.2 b/man2/splice.2
+> index 57988d9d6..af3fa4e74 100644
+> --- a/man2/splice.2
+> +++ b/man2/splice.2
+> @@ -155,7 +155,9 @@ is set to indicate the error.
+>   .B EAGAIN
+>   .B SPLICE_F_NONBLOCK
+>   was specified in
+> -.IR flags ,
+> +.IR flags
+> +or one of the file descriptors had been marked as nonblocking
+> +.RB ( O_NONBLOCK ) ,
+>   and the operation would block.
+>   .TP
+>   .B EBADF
+> 
