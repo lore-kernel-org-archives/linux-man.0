@@ -1,305 +1,302 @@
-From: "Michael Kerrisk (man-pages)" <mtk.manpages@gmail.com>
-Subject: man-pages-5.01 released
-Date: Thu, 9 May 2019 14:52:38 +0200
-Message-ID: <e5c4335c-71cd-9e8a-520c-e61def43255e@gmail.com>
+From: "G. Branden Robinson" <g.branden.robinson@gmail.com>
+Subject: [PATCH] pldd.1: Document glibc's unbreakage of tool.
+Date: Sat, 11 May 2019 17:20:52 +1000
+Message-ID: <20190511072049.2w7pp723iszp3gra@localhost.localdomain>
 Mime-Version: 1.0
-Content-Type: text/plain; charset=utf-8
-Content-Transfer-Encoding: 8bit
-Return-path: <libc-alpha-return-101883-glibc-alpha=m.gmane.org@sourceware.org>
+Content-Type: multipart/signed; micalg=pgp-sha256;
+	protocol="application/pgp-signature"; boundary="3jafyofmn22qvrgx"
+Return-path: <libc-alpha-return-101937-glibc-alpha=m.gmane.org@sourceware.org>
 List-Unsubscribe: <mailto:libc-alpha-unsubscribe-glibc-alpha=m.gmane.org@sourceware.org>
 List-Subscribe: <mailto:libc-alpha-subscribe@sourceware.org>
 List-Archive: <http://sourceware.org/ml/libc-alpha/>
 List-Post: <mailto:libc-alpha@sourceware.org>
 List-Help: <mailto:libc-alpha-help@sourceware.org>, <http://sourceware.org/ml/#faqs>
 Sender: libc-alpha-owner@sourceware.org
-To: "libc-alpha@sourceware.org" <libc-alpha@sourceware.org>, linux-man <linux-man@vger.kernel.org>
-Cc: mtk.manpages@gmail.com
+Content-Disposition: inline
+To: mtk.manpages@gmail.com
+Cc: linux-man@vger.kernel.org, libc-alpha@sourceware.org
 List-Id: linux-man@vger.kernel.org
 
-Gidday,
 
-The Linux man-pages maintainer proudly announces:
-
-    man-pages-5.01 - man pages for Linux
-
-This release resulted from patches, bug reports, reviews, and comments
-from just over 20 people, with just over 70 commits making changes
-to around 40 pages.
-
-Tarball download:
-    http://www.kernel.org/doc/man-pages/download.html
-Git repository:
-    https://git.kernel.org/cgit/docs/man-pages/man-pages.git/
-Online changelog:
-    http://man7.org/linux/man-pages/changelog.html#release_5.01
-
-A short summary of the release is blogged at:
-http://linux-man-pages.blogspot.com/2019/05/man-pages-501-is-released.html
-
-The current version of the pages is browsable at:
-http://man7.org/linux/man-pages/
-
-You are receiving this message either because:
-
-a) You contributed to the content of this release.
-
-b) You are subscribed to linux-man@vger.kernel.org or
-libc-alpha@sourceware.org.
-
-c) I have information (possibly inaccurate) that you are the maintainer
-of a translation of the manual pages, or are the maintainer of the
-manual pages set in a particular distribution, or have expressed
-interest in helping with man-pages maintenance, or have otherwise
-expressed interest in being notified about man-pages releases.
-If you don't want to receive such messages from me, or you know of
-some other translator or maintainer who may want to receive such
-notifications, send me a message.
-
-Cheers,
-
-Michael
-
-==================== Changes in man-pages-5.01 ====================
-
-Released: 2019-05-09, Munich
+--3jafyofmn22qvrgx
+Content-Type: multipart/mixed; boundary="rmlfq7rrptpr7inz"
+Content-Disposition: inline
 
 
-Contributors
-------------
+--rmlfq7rrptpr7inz
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
 
-The following people contributed patches/fixes or (noted in brackets
-in the changelog below) reports, notes, and ideas that have been
-incorporated in changes in this release:
+...plus a patch with some suggested wording fixes.
 
-Abhinav Upadhyay <er.abhinav.upadhyay@gmail.com>
-Andreas Korb <andreas.d.korb@gmail.com>
-Anisse Astier <anisse@astier.eu>
-Brice Goglin <Brice.Goglin@inria.fr>
-Carlos O'Donell <carlos@redhat.com>
-Dr. Jürgen Sauermann <mail@xn--jrgen-sauermann-zvb.de>
-Egmont Koblinger <egmont@gmail.com>
-Elias Benali <stackptr@users.sourceforge.net>
-Elliot Hughes <enh@google.com>
-Florian Weimer <fweimer@redhat.com>
-Hugues Evrard <hevrard@google.com>
-Jakub Nowak <jakub.jakub.nowak@gmail.com>
-Jakub Wilk <jwilk@jwilk.net>
-Keegan Saunders <keeganwsaunders@gmail.com>
-Lucas Werkmeister <mail@lucaswerkmeister.de>
-Marcus Huewe <suse-tux@gmx.de>
-Michael Kerrisk <mtk.manpages@gmail.com>
-Michael Witten <mfwitten@gmail.com>
-Seth Troisi <sethtroisi@google.com>
-Slavomir Kaslev <kaslevs@vmware.com>
-Vincent Lefevre <vincent@vinc17.net>
-Wladimir Mutel <muwlgr@gmail.com>
+...plus a patch with some suggestions on improving the formatting and
+markup.
 
-Apologies if I missed anyone!
+Regards,
+Branden
 
+--rmlfq7rrptpr7inz
+Content-Type: text/x-diff; charset=us-ascii
+Content-Disposition: attachment; filename="0001-pldd.1-Document-glibc-s-unbreakage-of-tool.patch"
+Content-Transfer-Encoding: quoted-printable
 
-Newly documented interfaces in existing pages
----------------------------------------------
+=46rom fddc56cb731f711143bad6202210d974ace7b7fe Mon Sep 17 00:00:00 2001
+=46rom: "G. Branden Robinson" <g.branden.robinson@gmail.com>
+Date: Sat, 11 May 2019 16:25:54 +1000
+Subject: [PATCH 1/3] pldd.1: Document glibc's unbreakage of tool.
 
-tsearch.3
-    Florian Weimer  [Michael Kerrisk]
-        Document the twalk_r() function added in glibc 2.30
+glibc 2.30 isn't released yet, but a fix has been committed, and Debian
+has even cherry-picked it for Debian GNU/Linux 10 ("buster").  pldd
+works nicely now.
 
+Signed-off-by: G. Branden Robinson <g.branden.robinson@gmail.com>
+---
+ man1/pldd.1 | 8 ++++----
+ 1 file changed, 4 insertions(+), 4 deletions(-)
 
-New and changed links
----------------------
-
-twalk_r.3
-    Michael Kerrisk
-        New link to twalk(3) page
-
-
-Changes to individual pages
----------------------------
-
-accept.2
-    Michael Kerrisk
-        Note that 'addrlen' is left unchanged in the event of an error
-            See http://austingroupbugs.net/view.php?id=836.
-
-bpf.2
-    Michael Kerrisk
-        Update kernel version info for JIT compiler
-
-clone.2
-    Michael Kerrisk  [Jakub Nowak]
-        CLONE_CHILD_SETTID has effect before clone() returns *in the child*
-            CLONE_CHILD_SETTID may not have had effect by the time clone()
-            returns in the parent, which could be relevant if the
-            CLONE_VM flag is employed. The relevant kernel code is in
-            schedule_tail(), which is called in ret_from_fork()
-            in the child.
-
-            See https://bugzilla.kernel.org/show_bug.cgi?id=203105
-
-execve.2
-exec.3
-    Michael Kerrisk  [Dr. Jürgen Sauermann]
-        Consistently use the term 'pathname' (not 'path')
-
-execve.2
-    Michael Kerrisk
-        Note that stack+environ size is also limited to 3/4 of _STK_LIM
-            In fs/exec.c::prepare_arg_pages(), we have:
-
-                    limit = _STK_LIM / 4 * 3;
-                    limit = min(limit, bprm->rlim_stack.rlim_cur / 4);
-    Michael Kerrisk  [Dr. Jürgen Sauermann]
-        SEE ALSO: refer to exec(3) (rather than execl(3))
-
-pipe.2
-    Michael Kerrisk
-        Note that 'pipefd' is left unchanged in the event of an error
-            See http://austingroupbugs.net/view.php?id=467.
-
-sched_setaffinity.2
-    Michael Kerrisk  [Brice Goglin]
-        Correct details of return value of sched_getaffinity() syscall
-
-setfsgid.2
-    Michael Kerrisk
-        Rewrite for improved clarity and defer to setfsuid() for details
-            Rewrite for improved clarity and defer to setfsuid(2) for the
-            rationale of the fsGID rather than repeating the same details
-            in this page.
-
-setfsuid.2
-    Michael Kerrisk
-        Rewrite for improved clarity and to hint history more explicitly
-            The current text reads somewhat clumsily. Rewrite it to introduce
-            the eUID and fsUID in parallel, and more clearly hint at the the
-            historical rationale for the fsUID, which is detailed lower in
-            the page.
-
-socketpair.2
-    Michael Kerrisk
-        Clarify that 'sv' is left unchanged in the event of an error
-            See also http://austingroupbugs.net/view.php?id=483.
-
-splice.2
-    Slavomir Kaslev
-        EAGAIN can occur when called on nonblocking file descriptors
-
-syscalls.2
-    Michael Kerrisk  [Andreas Korb]
-        Remove crufty text about i386 syscall dispatch table
-            The removed text long ago ceased to be accurate. Nowadays, the
-            dispatch table is autogenerated when building the kernel (via
-            the kernel makefile, arch/x86/entry/syscalls/Makefile).
-
-tee.2
-    Slavomir Kaslev
-        EAGAIN can occur when called on nonblocking file descriptors
-
-fopen.3
-    Elliot Hughes
-        Explain BSD vs glibc "a+" difference
-            Where is the initial read position for an "a+" stream?
-
-            POSIX leaves this unspecified. Most BSD man pages are silent, and
-            MacOS has the ambiguous "The stream is positioned at the end of
-            the file", not differentiating between reads and writes other than
-            to say that fseek(3) does not affect writes. glibc's documentation
-            explicitly specifies that the initial read position is the
-            beginning of the file.
-
-mallinfo.3
-    Elliott Hughes
-        Further discourage use of mallinfo()
-            The BUGS section already explains why you need to be cautious
-            about using mallinfo, but given the number of bug reports we see
-            on Android, it seems not many people are reading that far. Call it
-            out up front.
-
-malloc_trim.3
-    Carlos O'Donell
-        Update trimming information
-            Since glibc 2.8, commit 68631c8eb92, the malloc_trim function has
-            iterated over all arenas and free'd back to the OS all page runs
-            that were free.  This allows an application to call malloc_trim to
-            consolidate fragmented chunks and free back any pages it can to
-            potentially reduce RSS usage.
-
-posix_memalign.3
-    Elliot Hughes
-        Some functions set errno
-            True of bionic, glibc, and musl. (I didn't check elsewhere.)
-
-resolver.3
-    Michael Kerrisk  [Wladimir Mutel]
-        Mention that some functions set 'h_errno'
-
-stdarg.3
-    Michael Kerrisk  [Vincent Lefevre]
-        Remove the NOTES section describing the ancient varargs macros
-            stdarg.h is now 30 years old, and gcc long ago (2004) ceased to
-            implement <varargs.h>. There seems little value in keeping this
-            text.
-
-            See https://bugzilla.kernel.org/show_bug.cgi?id=202907
-    Michael Kerrisk  [Egmont Koblinger]
-        Add a note that "..." in function signature means a variadic function
-            Egmont suggested adding this, because the string "..." appears
-            at several other points in the page, but just to indicate that
-            some text is omitted from example code.
-
-strerror.3
-    Jakub Wilk
-        Don't discuss buffer size for strerror_l()
-            Unlike strerror_r(), strerror_l() doesn't take buffer length as an
-            argument.
-
-strtol.3
-strtoul.3
-    Jakub Wilk
-        SEE ALSO: add strtoimax(3), strtoumax(3)
-
-sysconf.3
-    Michael Kerrisk  [Hugues Evrard]
-        Clearly note that _SC_PAGESIZE and _SC_PAGE_SIZE are synonyms
-
-tsearch.3
-    Florian Weimer
-        Do not use const arguments in twalk() callback
-            The const specifier is not part of the prototype (it only applies
-            to the implementation), so showing it here confuses the reader.
-    Michael Kerrisk
-        SYNOPSIS: add missing definition of 'VISIT' type
-    Michael Kerrisk
-        Reformat twalk() and twalk_r() prototypes for easier readability
-
-console_codes.4
-    Jakub Wilk
-        Document that \e[1;n] and \e[2;n] support 16 colors
-            Source: setterm_command() in drivers/tty/vt/vt.c
-
-elf.5
-    Michael Kerrisk  [Keegan Saunders]
-        A data segment does not have PF_X
-
-proc.5
-    Michael Witten  [Anisse Astier]
-        Add missing Inode field to /proc/net/unix
-
-hostname.7
-    Florian Weimer
-        HOSTALIASES/search path processing is DNS-specific
-            Other NSS modules do not necessarily honor these settings.
-
-inode.7
-    Michael Kerrisk
-        Note that timestamp fields measure time starting at the Epoch
-    Michael Kerrisk
-        Timestamp fields are structures that include a nanosecond component
-    Michael Kerrisk
-        Add references to execve(2) to describe set-UID/set-GID behaviors
+diff --git a/man1/pldd.1 b/man1/pldd.1
+index 90e259989..dab6cb32c 100644
+--- a/man1/pldd.1
++++ b/man1/pldd.1
+@@ -97,11 +97,11 @@ $ \fBgdb \-ex "set confirm off" \-ex "set height 0" \-e=
+x "info shared" \e\fP
+ .EE
+ .in
+ .SH BUGS
+-Since glibc 2.19,
++From glibc 2.19 to 2.29,
+ .B pldd
+-is broken: it just hangs when executed.
+-.\" FIXME . https://sourceware.org/bugzilla/show_bug.cgi?id=3D18035
+-It is unclear if it will ever be fixed.
++was broken: it just hung when executed.
++.\" glibc commit 1a4c27355e146b6d8cc6487b998462c7fdd1048f
++This problem was fixed in glibc 2.30.
+ .SH EXAMPLE
+ .EX
+ $ \fBecho $$\fP               # Display PID of shell
+--=20
+2.20.1
 
 
--- 
-Michael Kerrisk
-Linux man-pages maintainer; http://www.kernel.org/doc/man-pages/
-Linux/UNIX System Programming Training: http://man7.org/training/
+--rmlfq7rrptpr7inz
+Content-Type: text/x-diff; charset=us-ascii
+Content-Disposition: attachment; filename="0002-pldd.1-wfix.patch"
+Content-Transfer-Encoding: quoted-printable
+
+=46rom d1ee216ecb3400c2f14aed4a8689b34ec9d2d3da Mon Sep 17 00:00:00 2001
+=46rom: "G. Branden Robinson" <g.branden.robinson@gmail.com>
+Date: Sat, 11 May 2019 16:30:10 +1000
+Subject: [PATCH 2/3] pldd.1: wfix
+
+* Establish the abbreviations DSO and PID in the lead paragraph since
+  they are used later.
+* Parallelize descriptions of help, usage, and version options with the
+  "and exit" language used in getent(1), iconv(1), locale(1),
+  localedef(1), memusage(1), memusagestat(1), mtrace(1), pldd(1),
+  sprof(1), time(1), iconvconfig(8), zdump(8), and zic(8).
+
+Signed-off-by: G. Branden Robinson <g.branden.robinson@gmail.com>
+---
+ man1/pldd.1 | 10 +++++-----
+ 1 file changed, 5 insertions(+), 5 deletions(-)
+
+diff --git a/man1/pldd.1 b/man1/pldd.1
+index dab6cb32c..035368e20 100644
+--- a/man1/pldd.1
++++ b/man1/pldd.1
+@@ -33,20 +33,20 @@ pldd \- display dynamic shared objects linked into a pr=
+ocess
+ .SH DESCRIPTION
+ The
+ .B pldd
+-command displays a list of the dynamic shared objects that are
+-linked into the process with the specified process ID.
++command displays a list of the dynamic shared objects (DSOs) that are
++linked into the process with the specified process ID (PID).
+ The list includes the libraries that have been dynamically loaded using
+ .BR dlopen (3).
+ .SH OPTIONS
+ .TP
+ .BR \-? ", " \-\-help
+-Display program help message.
++Display a help message and exit.
+ .TP
+ .B \-\-usage
+-Display a short usage message.
++Display a short usage message and exit.
+ .TP
+ .BR \-V ", " \-\-version
+-Display the program version.
++Display program version information and exit.
+ .SH EXIT STATUS
+ On success,
+ .B pldd
+--=20
+2.20.1
+
+
+--rmlfq7rrptpr7inz
+Content-Type: text/x-diff; charset=us-ascii
+Content-Disposition: attachment; filename="0003-pldd.1-srcfix-ffix-wfix-wsfix.patch"
+Content-Transfer-Encoding: quoted-printable
+
+=46rom 9285fe1b80cfbb52cfeff33372338a8c4728d47b Mon Sep 17 00:00:00 2001
+=46rom: "G. Branden Robinson" <g.branden.robinson@gmail.com>
+Date: Sat, 11 May 2019 16:38:39 +1000
+Subject: [PATCH 3/3] pldd.1: srcfix, ffix, wfix, wsfix
+
+* [srcfix] Migrate Synopsis section from no-fill mode to no-adjust mode.
+  This way you can break the pieces of a synopsis output line across
+  multiple input lines, use the easy one-font macros, and worry less
+  about quotation issues.  (My best recommendation would be to go ahead
+  and use groff_man's .SY/.YS extensions--but not .OP--for synopsis
+  sections, but I think this was considered and rejected a couple of
+  years ago.)
+
+* [wfix] Actually list the available options in the synopsis.  There
+  aren't many for pldd and they won't even line-wrap on an 80-column
+  terminal.  (not technically a ffix)
+
+* [srcfix] Use .RS for indentation instead of low-level .in requests.
+  It's my belief that .RS and .RE pairs require less bookkeeping.
+
+* [srcfix] Use \c (the output line continuation escape) in examples to
+  facilitate style (bold, italic) changes within a line.  The result is
+  more attractive and intuitive, particularly enabling italicization of
+  paramaters in examples.
+
+* [srcfix] Use font macros instead of font escapes in examples.  This is
+  more readable, and helped to expose the next problem.
+
+* [ffix] Consistently escape all hyphens used as option dashes in gdb
+  example.
+
+* [wsfix] Eliminate hard tab from input file, replacing it (in an
+  example) with an appropriate number of non-adjustable spaces.
+  (Whether this is a srcfix or wsfix depends on the output device and
+  user configuration, which is, I submit, why we don't want to use hard
+  tabs in the first place.)
+
+Signed-off-by: G. Branden Robinson <g.branden.robinson@gmail.com>
+---
+ man1/pldd.1 | 48 +++++++++++++++++++++++++++++++-----------------
+ 1 file changed, 31 insertions(+), 17 deletions(-)
+
+diff --git a/man1/pldd.1 b/man1/pldd.1
+index 035368e20..33245d0d5 100644
+--- a/man1/pldd.1
++++ b/man1/pldd.1
+@@ -26,10 +26,15 @@
+ .SH NAME
+ pldd \- display dynamic shared objects linked into a process
+ .SH SYNOPSIS
+-.nf
+-.BI "pldd " "pid"
+-.BI pldd " option"
+-.fi
++.na
++.B pldd
++.I pid
++.PP
++.B pldd
++.RB [ \-? | \-\-help ]
++.RB [ \-\-usage ]
++.RB [ \-V | \-\-version ]
++.ad
+ .SH DESCRIPTION
+ The
+ .B pldd
+@@ -71,14 +76,17 @@ have a similar command.
+ .SH NOTES
+ The command
+ .PP
+-.in +4n
++.RS 4n
+ .EX
+-lsof \-p PID
++$ \c
++.B lsof \-p \c
++.I pid
+ .EE
+-.in
++.RE
+ .PP
+ also shows output that includes the dynamic shared objects
+-that are linked into a process.
++that are linked into the process
++.IR pid .
+ .PP
+ The
+ .BR gdb (1)
+@@ -87,15 +95,19 @@ command also shows the shared libraries being used by a=
+ process,
+ so that one can obtain similar output to
+ .B pldd
+ using a command such as the following
+-(to monitor the process with the specified
+-.IR pid ):
++(to monitor the process with the specified PID):
+ .PP
+-.in +4n
++.RS 4n
+ .EX
+-$ \fBgdb \-ex "set confirm off" \-ex "set height 0" \-ex "info shared" \e\=
+fP
+-        \fB-ex "quit" \-p $pid | grep '^0x.*0x'\fP
++$ \c
++.B gdb \-ex "set confirm off" \-ex "set height 0" \-ex "info shared" \e
++.RS 8n
++.B \-ex quit \-p \c
++.I pid \c
++.B | grep \(aq\(ti0x.*0x\(aq
++.RE
+ .EE
+-.in
++.RE
+ .SH BUGS
+ From glibc 2.19 to 2.29,
+ .B pldd
+@@ -104,10 +116,12 @@ was broken: it just hung when executed.
+ This problem was fixed in glibc 2.30.
+ .SH EXAMPLE
+ .EX
+-$ \fBecho $$\fP               # Display PID of shell
++$ \c
++.BR "echo $$" "              # Display PID of the running shell."
+ 1143
+-$ \fBpldd $$\fP               # Display DSOs linked into the shell
+-1143:	/usr/bin/bash
++$ \c
++.BR "pldd $$" "              # Display DSOs linked into the shell."
++1143:\ \ \ /usr/bin/bash
+ linux\-vdso.so.1
+ /lib64/libtinfo.so.5
+ /lib64/libdl.so.2
+--=20
+2.20.1
+
+
+--rmlfq7rrptpr7inz--
+
+--3jafyofmn22qvrgx
+Content-Type: application/pgp-signature; name="signature.asc"
+
+-----BEGIN PGP SIGNATURE-----
+
+iQIzBAEBCAAdFiEEh3PWHWjjDgcrENwa0Z6cfXEmbc4FAlzWd8kACgkQ0Z6cfXEm
+bc75AA/+OV9U+B32lDCU69GeizOYwzVYCQkYzIXX4zlquNfAE6H6xOJqWjp7IWCX
+lOrRmrmCgupNP0G/vooZAOyj+hdcIC0RNN/gRopS6qJQHHm7EXRU84urP1Vk04I2
+OrE2fIj4yJgzZhUVx8zU6nDjp9OxAeSB75JAcPi8K1wg9E8+mjEIYROTzLE5M7EL
+v/wzagFuJjdLbL/snHlBFPFzNuJZVqW1jJZQjmpiALeJE9nAuFz+TuFg1VxyjfS+
+sV6Sf7Dzzrb0LykbjtrkdHc/2TW9yJA+4ny8ouwO1+jSJC8UPL3Uz3WxwBeDr53r
++SPkplVzZ7MHp9aEni7AJeAMlib5dREsWv0MNCe2Qj+xvUwGOV4fjw5Fz+bVAtU4
+SDVuFTrOcByHP6mGeoFmlHPufuSCn8V7dPRwbrh0HfRJkcLcBb7Vra6bcNJn3DDY
+ZJ199RiFha45YuhoFPF4a4eytjfdjroBTk5dmvRIAHufabAaoCh8+1gWLe81bWRu
+D1JwjttJoZmZW9hy2qn+GRAIpXXvLw8lSq7np/RKDG5yfZ4+nt3beEIB8evBe8Is
+M+OE977U9y2IaN1FhXNsXlOSwmhNJZFpwXXNcpZXJLMn6tqY4KmcQRR160FEITRG
++EQ4JBpa+TGL9hh2saTTYMvvHZ123tMKqpt9XHCSzyWQX861l3g=
+=8SuR
+-----END PGP SIGNATURE-----
+
+--3jafyofmn22qvrgx--
