@@ -1,53 +1,44 @@
-From: walter harms <wharms@bfs.de>
+From: Florian Weimer <fweimer@redhat.com>
 Subject: Re: [PATCH] pldd.1: Document glibc's unbreakage of tool.
-Date: Mon, 13 May 2019 16:34:07 +0200
-Message-ID: <5CD9805F.4040601@bfs.de>
-References: <20190511072049.2w7pp723iszp3gra@localhost.localdomain> <8736liit24.fsf@oldenburg2.str.redhat.com>
-Reply-To: wharms@bfs.de
+Date: Fri, 17 May 2019 17:44:41 +0200
+Message-ID: <87y335m6fq.fsf@oldenburg2.str.redhat.com>
+References: <20190511072049.2w7pp723iszp3gra@localhost.localdomain>
+	<8736liit24.fsf@oldenburg2.str.redhat.com>
+	<20190513141746.mail6ny43wh4t5oj@localhost.localdomain>
 Mime-Version: 1.0
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 7bit
-Return-path: <libc-alpha-return-101948-glibc-alpha=m.gmane.org@sourceware.org>
+Content-Type: text/plain
+Return-path: <libc-alpha-return-102087-glibc-alpha=m.gmane.org@sourceware.org>
 List-Unsubscribe: <mailto:libc-alpha-unsubscribe-glibc-alpha=m.gmane.org@sourceware.org>
 List-Subscribe: <mailto:libc-alpha-subscribe@sourceware.org>
 List-Archive: <http://sourceware.org/ml/libc-alpha/>
 List-Post: <mailto:libc-alpha@sourceware.org>
 List-Help: <mailto:libc-alpha-help@sourceware.org>, <http://sourceware.org/ml/#faqs>
 Sender: libc-alpha-owner@sourceware.org
-In-Reply-To: <8736liit24.fsf@oldenburg2.str.redhat.com>
+In-Reply-To: <20190513141746.mail6ny43wh4t5oj@localhost.localdomain>
+	(G. Branden Robinson's message of "Tue, 14 May 2019 00:17:48 +1000")
+To: "G. Branden Robinson" <g.branden.robinson@gmail.com>
 Cc: mtk.manpages@gmail.com, linux-man@vger.kernel.org, libc-alpha@sourceware.org
 List-Id: linux-man@vger.kernel.org
 
+* G. Branden Robinson:
 
+>> I'm not sure if it makes sense to document this in the manual page.
+>
+> It might not; another resonable approach might be to nuke the "Bugs"
+> section of the man page entirely.  However, see below.
+>
+>> I expect that the fix will propagate to affected distributions fairly
+>> quickly, now that it is available upstream.
+>
+> True for fast-moving distributions; as I noted in the commit message,
+> Debian 10 has already got it backported to its glibc 2.29.
 
-Am 13.05.2019 11:48, schrieb Florian Weimer:
-> * G. Branden Robinson:
-> 
->>  .SH BUGS
->> -Since glibc 2.19,
->> +From glibc 2.19 to 2.29,
->>  .B pldd
->> -is broken: it just hangs when executed.
->> -.\" FIXME . https://sourceware.org/bugzilla/show_bug.cgi?id=18035
->> -It is unclear if it will ever be fixed.
->> +was broken: it just hung when executed.
->> +.\" glibc commit 1a4c27355e146b6d8cc6487b998462c7fdd1048f
->> +This problem was fixed in glibc 2.30.
-> 
-> I'm not sure if it makes sense to document this in the manual page.  I
-> expect that the fix will propagate to affected distributions fairly
-> quickly, now that it is available upstream.  It's certainly more likely
-> that users will receive a glibc update with the fix than a manpage
-> update with this change.
-> 
+I'm pretty sure Debian 10 does not use glibc 2.28.
 
-IMHO it should be noted in the BUGS section.
-You can not rely that you have always the lastest version of libc
-(at least i do not have) but you may notice a different behavior
-and it is simply very helpful to have a hint that certain versions
-are broken. (if someone cares: my problem was with a64l. It suddenly
-changed behavior ...)
+My point is that the glibc change will get backported, but any man-pages
+change will not, so it will be quite some time until the latter shows up
+on developer workstations.  And due to glibc backporting, the version
+information there will be misleading.
 
-just my 2 cents,
-re,
- wh
+Thanks,
+Florian
