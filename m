@@ -1,31 +1,44 @@
-From: "Carlos O'Donell" <carlos@redhat.com>
+From: Joseph Myers <joseph@codesourcery.com>
 Subject: Re: [PATCH] pldd.1: Document glibc's unbreakage of tool.
-Date: Fri, 17 May 2019 11:56:34 -0400
-Message-ID: <CAEMqeSrCMFZ8GQU=kR_+KXaqnd9m-3qUSQk1PNZ2xHjZ_YVHFg@mail.gmail.com>
-References: <20190511072049.2w7pp723iszp3gra@localhost.localdomain>
- <8736liit24.fsf@oldenburg2.str.redhat.com> <20190513141746.mail6ny43wh4t5oj@localhost.localdomain>
- <87y335m6fq.fsf@oldenburg2.str.redhat.com> <20190517155057.vr5uk6hfkyp44y3t@localhost.localdomain>
+Date: Mon, 20 May 2019 16:58:50 +0000
+Message-ID: <alpine.DEB.2.21.1905201651260.2935@digraph.polyomino.org.uk>
+References: <20190511072049.2w7pp723iszp3gra@localhost.localdomain> <8736liit24.fsf@oldenburg2.str.redhat.com> <20190513141746.mail6ny43wh4t5oj@localhost.localdomain> <87y335m6fq.fsf@oldenburg2.str.redhat.com> <20190517155057.vr5uk6hfkyp44y3t@localhost.localdomain>
+ <CAEMqeSrCMFZ8GQU=kR_+KXaqnd9m-3qUSQk1PNZ2xHjZ_YVHFg@mail.gmail.com>
 Mime-Version: 1.0
-Content-Type: text/plain; charset="UTF-8"
-Return-path: <libc-alpha-return-102089-glibc-alpha=m.gmane.org@sourceware.org>
+Content-Type: text/plain; charset="US-ASCII"
+Return-path: <libc-alpha-return-102116-glibc-alpha=m.gmane.org@sourceware.org>
 List-Unsubscribe: <mailto:libc-alpha-unsubscribe-glibc-alpha=m.gmane.org@sourceware.org>
 List-Subscribe: <mailto:libc-alpha-subscribe@sourceware.org>
 List-Archive: <http://sourceware.org/ml/libc-alpha/>
 List-Post: <mailto:libc-alpha@sourceware.org>
 List-Help: <mailto:libc-alpha-help@sourceware.org>, <http://sourceware.org/ml/#faqs>
 Sender: libc-alpha-owner@sourceware.org
-In-Reply-To: <20190517155057.vr5uk6hfkyp44y3t@localhost.localdomain>
-To: "G. Branden Robinson" <g.branden.robinson@gmail.com>
-Cc: Florian Weimer <fweimer@redhat.com>, Michael Kerrisk <mtk.manpages@gmail.com>, linux-man <linux-man@vger.kernel.org>, GNU C Library <libc-alpha@sourceware.org>
+In-Reply-To: <CAEMqeSrCMFZ8GQU=kR_+KXaqnd9m-3qUSQk1PNZ2xHjZ_YVHFg@mail.gmail.com>
+To: Carlos O'Donell <carlos@redhat.com>
+Cc: "G. Branden Robinson" <g.branden.robinson@gmail.com>, Florian Weimer <fweimer@redhat.com>, Michael Kerrisk <mtk.manpages@gmail.com>, linux-man <linux-man@vger.kernel.org>, GNU C Library <libc-alpha@sourceware.org>
 List-Id: linux-man@vger.kernel.org
 
-On Fri, May 17, 2019 at 11:51 AM G. Branden Robinson
-<g.branden.robinson@gmail.com> wrote:
-> What would you prefer?  That the man page not document the bug at all?
-> Was it a mistake in your view to have added the information about the
-> bug to the man page in the first place?
+On Fri, 17 May 2019, Carlos O'Donell wrote:
 
-I think having the glibc upstream version information is useful.
+> On Fri, May 17, 2019 at 11:51 AM G. Branden Robinson
+> <g.branden.robinson@gmail.com> wrote:
+> > What would you prefer?  That the man page not document the bug at all?
+> > Was it a mistake in your view to have added the information about the
+> > bug to the man page in the first place?
+> 
+> I think having the glibc upstream version information is useful.
 
-Cheers,
-Carlos.
+Likewise - if a bug is worth documenting there I think it's unavoidable 
+that the version numbers describe when things changed in glibc upstream.
+
+What's more of an issue is when the BUGS section gets out of date or the 
+descriptions of the conditions for an issue are misleading.  pow(3) is a 
+case in point; it says "On 64-bits" meaning "on systems using the generic 
+implementation" (i.e., it's written from an assumption that x86_64 and 
+i386 are the only architectures and that i386 is the default), and that 
+issue was fixed in 2.28, while the "If x is negative" described there was 
+both i386-specific (not mentioned as such) and fixed in 2.16.
+
+-- 
+Joseph S. Myers
+joseph@codesourcery.com
