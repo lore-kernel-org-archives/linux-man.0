@@ -1,44 +1,44 @@
-From: Joseph Myers <joseph@codesourcery.com>
-Subject: Re: [PATCH] pldd.1: Document glibc's unbreakage of tool.
-Date: Mon, 20 May 2019 16:58:50 +0000
-Message-ID: <alpine.DEB.2.21.1905201651260.2935@digraph.polyomino.org.uk>
-References: <20190511072049.2w7pp723iszp3gra@localhost.localdomain> <8736liit24.fsf@oldenburg2.str.redhat.com> <20190513141746.mail6ny43wh4t5oj@localhost.localdomain> <87y335m6fq.fsf@oldenburg2.str.redhat.com> <20190517155057.vr5uk6hfkyp44y3t@localhost.localdomain>
- <CAEMqeSrCMFZ8GQU=kR_+KXaqnd9m-3qUSQk1PNZ2xHjZ_YVHFg@mail.gmail.com>
+From: Sergei Trofimovich <slyfox@gentoo.org>
+Subject: linux-headers-5.2 and proper use of SIOCGSTAMP
+Date: Sat, 20 Jul 2019 17:48:44 +0100
+Message-ID: <20190720174844.4b989d34@sf>
 Mime-Version: 1.0
-Content-Type: text/plain; charset="US-ASCII"
-Return-path: <libc-alpha-return-102116-glibc-alpha=m.gmane.org@sourceware.org>
+Content-Type: text/plain; charset=US-ASCII
+Content-Transfer-Encoding: 7bit
+Return-path: <libc-alpha-return-103843-glibc-alpha=m.gmane.org@sourceware.org>
 List-Unsubscribe: <mailto:libc-alpha-unsubscribe-glibc-alpha=m.gmane.org@sourceware.org>
 List-Subscribe: <mailto:libc-alpha-subscribe@sourceware.org>
 List-Archive: <http://sourceware.org/ml/libc-alpha/>
 List-Post: <mailto:libc-alpha@sourceware.org>
 List-Help: <mailto:libc-alpha-help@sourceware.org>, <http://sourceware.org/ml/#faqs>
 Sender: libc-alpha-owner@sourceware.org
-In-Reply-To: <CAEMqeSrCMFZ8GQU=kR_+KXaqnd9m-3qUSQk1PNZ2xHjZ_YVHFg@mail.gmail.com>
-To: Carlos O'Donell <carlos@redhat.com>
-Cc: "G. Branden Robinson" <g.branden.robinson@gmail.com>, Florian Weimer <fweimer@redhat.com>, Michael Kerrisk <mtk.manpages@gmail.com>, linux-man <linux-man@vger.kernel.org>, GNU C Library <libc-alpha@sourceware.org>
+To: netdev@vger.kernel.org, linux-kernel@vger.kernel.org, libc-alpha@sourceware.org
+Cc: Arnd Bergmann <arnd@arndb.de>, "David S. Miller" <davem@davemloft.net>, mtk.manpages@gmail.com, linux-man@vger.kernel.org
 List-Id: linux-man@vger.kernel.org
 
-On Fri, 17 May 2019, Carlos O'Donell wrote:
+Commit https://github.com/torvalds/linux/commit/0768e17073dc527ccd18ed5f96ce85f9985e9115
+("net: socket: implement 64-bit timestamps") caused a bit of userspace breakage
+for existing programs:
+- firefox: https://bugs.gentoo.org/689808
+- qemu: https://lists.sr.ht/~philmd/qemu/%3C20190604071915.288045-1-borntraeger%40de.ibm.com%3E
+- linux-atm: https://gitweb.gentoo.org/repo/gentoo.git/tree/net-dialup/linux-atm/files/linux-atm-2.5.2-linux-5.2-SIOCGSTAMP.patch?id=408621819a85bf67a73efd33a06ea371c20ea5a2
 
-> On Fri, May 17, 2019 at 11:51 AM G. Branden Robinson
-> <g.branden.robinson@gmail.com> wrote:
-> > What would you prefer?  That the man page not document the bug at all?
-> > Was it a mistake in your view to have added the information about the
-> > bug to the man page in the first place?
-> 
-> I think having the glibc upstream version information is useful.
+I have a question: how a well-behaved app should include 'SIOCGSTAMP'
+definition to keep being buildable against old and new linux-headers?
 
-Likewise - if a bug is worth documenting there I think it's unavoidable 
-that the version numbers describe when things changed in glibc upstream.
+'man 7 socket' explicitly mentions SIOCGSTAMP and mentions only
+    #include <sys/socket.h>
+as needed header.
 
-What's more of an issue is when the BUGS section gets out of date or the 
-descriptions of the conditions for an issue are misleading.  pow(3) is a 
-case in point; it says "On 64-bits" meaning "on systems using the generic 
-implementation" (i.e., it's written from an assumption that x86_64 and 
-i386 are the only architectures and that i386 is the default), and that 
-issue was fixed in 2.28, while the "If x is negative" described there was 
-both i386-specific (not mentioned as such) and fixed in 2.16.
+Should #include <linux/sockios.h> always be included by user app?
+Or should glibc tweak it's definition of '#include <sys/socket.h>'
+to make it available on both old and new version of linux headers?
+
+CCing both kernel and glibc folk as I don't understand on which
+side issue should be fixed.
+
+Thanks!
 
 -- 
-Joseph S. Myers
-joseph@codesourcery.com
+
+  Sergei
