@@ -1,34 +1,115 @@
-From: Szabolcs Nagy <Szabolcs.Nagy@arm.com>
-Subject: Re: [PATCH glibc] Linux: Include <linux/sockios.h> in <bits/socket.h>
- under __USE_MISC
-Date: Mon, 22 Jul 2019 13:47:58 +0000
-Message-ID: <086e5147-5bc7-2817-f295-357cb9a071ae@arm.com>
-References: <87ftmys3un.fsf@oldenburg2.str.redhat.com>
- <CAK8P3a0hC4wvjwCi4=DCET3C4qARMY6c58ffjwG3b1ZPM6kr-A@mail.gmail.com>
- <2431941f-3aac-d31f-e6f5-8ed2ed7b2e5c@arm.com>
- <87lfwqqj3s.fsf@oldenburg2.str.redhat.com>
+From: "Michael Kerrisk (man-pages)" <mtk.manpages@gmail.com>
+Subject: Re: Error (?) in man page for ppoll(2)
+Date: Mon, 29 Jul 2019 14:07:23 +0200
+Message-ID: <4ce02b01-f174-99a1-ac34-21a2c6414df2@gmail.com>
+References: <Pine.LNX.4.44L0.1907211104350.15063-100000@netrider.rowland.org>
 Mime-Version: 1.0
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: base64
+Content-Type: text/plain; charset=utf-8
+Content-Transfer-Encoding: 7bit
 Return-path: <linux-kernel-owner@vger.kernel.org>
-In-Reply-To: <87lfwqqj3s.fsf@oldenburg2.str.redhat.com>
+In-Reply-To: <Pine.LNX.4.44L0.1907211104350.15063-100000@netrider.rowland.org>
 Content-Language: en-US
-Content-ID: <3904A8F089A50B41BE225C167D471886@eurprd08.prod.outlook.com>
 Sender: linux-kernel-owner@vger.kernel.org
-To: Florian Weimer <fweimer@redhat.com>
-Cc: nd <nd@arm.com>, Arnd Bergmann <arnd@arndb.de>, GNU C Library <libc-alpha@sourceware.org>, Sergei Trofimovich <slyfox@gentoo.org>, Networking <netdev@vger.kernel.org>, Linux Kernel Mailing List <linux-kernel@vger.kernel.org>, "David S. Miller" <davem@davemloft.net>, Michael Kerrisk <mtk.manpages@gmail.com>, linux-man <linux-man@vger.kernel.org>
+To: Alan Stern <stern@rowland.harvard.edu>, linux-man@vger.kernel.org, Kernel development list <linux-kernel@vger.kernel.org>
+Cc: mtk.manpages@gmail.com
 List-Id: linux-man@vger.kernel.org
 
-T24gMjIvMDcvMjAxOSAxNDo0NCwgRmxvcmlhbiBXZWltZXIgd3JvdGU6DQo+ICogU3phYm9sY3Mg
-TmFneToNCj4gDQo+PiAobm90ZTogaW4gbXVzbCB0aGVzZSBpb2N0bCBtYWNyb3MgYXJlIGluIHN5
-cy9pb2N0bC5oDQo+PiB3aGljaCBpcyBub3QgYSBwb3NpeCBoZWFkZXIgc28gbmFtZXNwYWNlIHJ1
-bGVzIGFyZQ0KPj4gbGVzcyBzdHJpY3QgdGhhbiBmb3Igc3lzL3NvY2tldC5oIGFuZCB1c2VycyB0
-ZW5kIHRvDQo+PiBpbmNsdWRlIGl0IGZvciBpb2N0bCgpKQ0KPiANCj4gPHN5cy9pb2N0bC5oPiBj
-YW4gYmUgY29uZnVzaW5nIGJlY2F1c2Ugc29tZSBvZiB0aGUgY29uc3RhbnRzIG1heSBkZXBlbmQN
-Cj4gb24gdHlwZXMgdGhhdCBhcmVuJ3QgZGVjbGFyZWQgYnkgaW5jbHVkaW5nIHRoZSBoZWFkZXIu
-ICBUaGlzIG1ha2VzIHRoZWlyDQo+IG1hY3JvcyB1bnVzYWJsZS4gIERlZmluaW5nIGlvY3RsIGNv
-bnN0YW50cyBpbiBoZWFkZXJzIHdoaWNoIGFsc28gcHJvdmlkZQ0KPiB0aGUgbWF0Y2hpbmcgdHlw
-ZXMgYXZvaWRzIHRoYXQgcHJvYmxlbSBhdCBsZWFzdCwgYWxzbyBpdCBjYW4gaW50cm9kdWNlDQo+
-IG5hbWVzcGFjZSBpc3N1ZXMuDQoNCnllYWgsIHRoZSB3YXkgd2UgZGVhbCB3aXRoIHRoYXQgaXMg
-d2UgaGFyZCBjb2RlIHRoZSBudW1iZXJzDQpzaW5jZSB0aGUgc2l6ZSBvZiBzdHJ1Y3QgaXMgYWJp
-LCB0aGV5IGNhbm5vdCBjaGFuZ2UuDQo=
+Hello Alan,
+
+On 7/21/19 5:32 PM, Alan Stern wrote:
+> Here are two extracts from the man page for ppoll(2) (from the
+> man-pages 4.16 package; the 5.01 version is the same):
+> 
+>        Specifying a negative value in timeout means an infinite timeout.
+> 
+> 
+>        Other than the difference in the precision of the timeout argument, the
+>        following ppoll() call:
+> 
+>            ready = ppoll(&fds, nfds, tmo_p, &sigmask);
+> 
+>        is equivalent to atomically executing the following calls:
+> 
+>            sigset_t origmask;
+>            int timeout;
+> 
+>            timeout = (tmo_p == NULL) ? -1 :
+>                      (tmo_p->tv_sec * 1000 + tmo_p->tv_nsec / 1000000);
+>            pthread_sigmask(SIG_SETMASK, &sigmask, &origmask);
+>            ready = poll(&fds, nfds, timeout);
+>            pthread_sigmask(SIG_SETMASK, &origmask, NULL);
+> 
+> But if tmo_p->tv_sec is negative, the ppoll() call is not equivalent to 
+> the corresponding poll() call.  The kernel rejects negative values of 
+> tv_sec with an EINVAL error; it does not interpret the value as meaning 
+> an infinite timeout.
+> 
+> (Yes, the kernel interprets tmo_p == NULL as an infinite timeout, but 
+> the man page is still wrong for the case tmo_p->tv_sec < 0.)
+> 
+> Suggested fix: Following the end of the second extract above, add:
+> 
+> 	except that negative time values in tmo_p are not interpreted
+> 	as an infinite timeout.
+> 
+> Also, in the ERRORS section, change the text for EINVAL to:
+> 
+> 	EINVAL The nfds value exceeds the RLIMIT_NOFILE value or
+> 	*tmo_p contains an invalid (negative) time value.
+
+Thanks for the report, and the text change suggestions.
+I've applied the patch below.
+
+Thanks,
+
+Michael
+
+diff --git a/man2/poll.2 b/man2/poll.2
+index 0b023e0a5..3eacb88b7 100644
+--- a/man2/poll.2
++++ b/man2/poll.2
+@@ -271,7 +271,7 @@ ready = ppoll(&fds, nfds, tmo_p, &sigmask);
+ .EE
+ .in
+ .PP
+-is equivalent to
++is nearly equivalent to
+ .I atomically
+ executing the following calls:
+ .PP
+@@ -288,6 +288,17 @@ pthread_sigmask(SIG_SETMASK, &origmask, NULL);
+ .EE
+ .in
+ .PP
++The above code segment is described as
++.I nearly
++equivalent because whereas a negative
++.I timeout
++value for
++.BR poll ()
++is interpreted as an infinite timeout, a negative value expressed in
++.IR *tmo_p
++results in an error from
++.BR ppoll ().
++.PP
+ See the description of
+ .BR pselect (2)
+ for an explanation of why
+@@ -354,6 +365,12 @@ value exceeds the
+ .B RLIMIT_NOFILE
+ value.
+ .TP
++.B EINVAL
++.RB ( ppoll ())
++The timeout value expressed in
++.IR *ip
++is invalid (nragtive).
++.TP
+ .B ENOMEM
+ There was no space to allocate file descriptor tables.
+ .SH VERSIONS
+
+-- 
+Michael Kerrisk
+Linux man-pages maintainer; http://www.kernel.org/doc/man-pages/
+Linux/UNIX System Programming Training: http://man7.org/training/
