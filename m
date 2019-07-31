@@ -1,48 +1,69 @@
-From: "zhangyi (F)" <yi.zhang@huawei.com>
-Subject: [PATCH] io_getevents.2: Add EINVAL for case of timeout parameter out of range
-Date: Wed, 31 Jul 2019 11:03:13 +0800
-Message-ID: <1564542193-89171-1-git-send-email-yi.zhang@huawei.com>
+From: Finn O'Leary <finnoleary@inventati.org>
+Subject: [patch] setxattr.2: Add ERANGE to 'ERRORS' section
+Date: Wed, 31 Jul 2019 19:53:19 +0000
+Message-ID: <e7cde98960e380f638406b7ef359eb8c@inventati.org>
 Mime-Version: 1.0
-Content-Type: text/plain
-Return-path: <owner-linux-aio@kvack.org>
-Sender: owner-linux-aio@kvack.org
+Content-Type: text/plain; charset=US-ASCII;
+ format=flowed
+Content-Transfer-Encoding: 7bit
+Return-path: <linux-kernel-owner@vger.kernel.org>
+Sender: linux-kernel-owner@vger.kernel.org
 To: mtk.manpages@gmail.com
-Cc: linux-man@vger.kernel.org, linux-aio@kvack.org, linux-fsdevel@vger.kernel.org, bcrl@kvack.org, viro@zeniv.linux.org.uk, jmoyer@redhat.com, arnd@arndb.de, deepa.kernel@gmail.com, yi.zhang@huawei.com, wangkefeng.wang@huawei.com
+Cc: linux-man@vger.kernel.org, linux-kernel@vger.kernel.org
 List-Id: linux-man@vger.kernel.org
 
-io_[p]getevents syscall should return -EINVAL if timeout is out of
-range, update description of this error return value.
+Hi,
 
-Link: https://lore.kernel.org/lkml/1564451504-27906-1-git-send-email-yi.zhang@huawei.com/
-Signed-off-by: zhangyi (F) <yi.zhang@huawei.com>
-Cc: Jeff Moyer <jmoyer@redhat.com>
-Cc: Arnd Bergmann <arnd@arndb.de>
-Cc: Deepa Dinamani <deepa.kernel@gmail.com>
----
- man2/io_getevents.2 | 5 +++--
- 1 file changed, 3 insertions(+), 2 deletions(-)
+Both the Ext2 filesystem handler and the Ext4 filesystem handler will
+return the ERANGE error code. Ext2 will return it if the name or value 
+is
+too long to be able to be stored, Ext4 will return it if the name is too
+long. For reference, the relevant files/lines (with excerpts) are:
 
-diff --git a/man2/io_getevents.2 b/man2/io_getevents.2
-index 0eb4b385e..5560bb8ee 100644
---- a/man2/io_getevents.2
-+++ b/man2/io_getevents.2
-@@ -73,8 +73,9 @@ Interrupted by a signal handler; see
- .TP
- .B EINVAL
- \fIctx_id\fP is invalid.
--\fImin_nr\fP is out of range or \fInr\fP is
--out of range.
-+\fImin_nr\fP is out of range or \fInr\fP is out of range, or
-+\fItimeout\fP is out of range (\fItv_sec\fP was less than zero, or
-+\fItv_nsec\fP was not less than 1,000,000,000).
- .TP
- .B ENOSYS
- .BR io_getevents ()
+fs/ext2/xattr.c: lines 394 to 396 in ext2_xattr_set
+>  394         name_len = strlen(name);
+>  395         if (name_len > 255 || value_len > sb->s_blocksize)
+>  396                 return -ERANGE;
+
+fs/ext4/xattr.c: lines 2317 to 2318 in ext4_xattr_set_handle
+> 2317         if (strlen(name) > 255)
+> 2318                 return -ERANGE;
+
+Other filesystems also return this code:
+
+xfs/libxfs/xfs_attr.h: lines 53 to 55
+> * The maximum size (into the kernel or returned from the kernel) of an
+> * attribute value or the buffer used for an attr_list() call.  Larger
+> * sizes will result in an ERANGE return code.
+
+It's possible that more filesystem handlers do this, a cursory grep 
+shows
+that most of the filesystem xattr handler files mention ERANGE in some
+form. A suggested patch is below (I'm not 100% sure on the wording 
+through).
+
+Thanks
+
 -- 
-2.20.1
+- Finn
 
---
-To unsubscribe, send a message with 'unsubscribe linux-aio' in
-the body to majordomo@kvack.org.  For more info on Linux AIO,
-see: http://www.kvack.org/aio/
-Don't email: <a href=mailto:"aart@kvack.org">aart@kvack.org</a>
+
+diff --git a/man2/setxattr.2 b/man2/setxattr.2
+index 66272ac..f8edad0 100644
+--- a/man2/setxattr.2
++++ b/man2/setxattr.2
+@@ -138,6 +138,13 @@ The namespace prefix of
+  .I name
+  is not valid.
+  .TP
++.B ERANGE
++The given
++.I name
++or
++.I value
++is too long for the filesystem to store.
++.TP
+  .B ENOTSUP
+  Extended attributes are not supported by the filesystem, or are 
+disabled,
+  .TP
