@@ -1,67 +1,89 @@
-From: Peter Wu <peter@lekensteyn.nl>
-Subject: [PATCH] bpf.2: update enum bpf_map_type and enum bpf_prog_type
-Date: Sun,  4 Aug 2019 21:53:53 +0100
-Message-ID: <20190804205353.2956-1-peter@lekensteyn.nl>
+From: Aleksa Sarai <asarai@suse.de>
+Subject: Re: pivot_root(".", ".") and the fchdir() dance
+Date: Mon, 5 Aug 2019 20:36:30 +1000
+Message-ID: <20190805103630.tu4kytsbi5evfrhi@mikami>
+References: <CAKgNAki0bR5zZr+kp_xjq+bNUky6-F+s2ep+jnR0YrjHhNMB1g@mail.gmail.com>
 Mime-Version: 1.0
-Content-Transfer-Encoding: 8bit
+Content-Type: multipart/signed; micalg=pgp-sha256;
+        protocol="application/pgp-signature"; boundary="6qypzrljzt2mkjjn"
 Return-path: <linux-kernel-owner@vger.kernel.org>
+Content-Disposition: inline
+In-Reply-To: <CAKgNAki0bR5zZr+kp_xjq+bNUky6-F+s2ep+jnR0YrjHhNMB1g@mail.gmail.com>
 Sender: linux-kernel-owner@vger.kernel.org
-To: Michael Kerrisk <mtk.manpages@gmail.com>
-Cc: linux-man@vger.kernel.org, linux-kernel@vger.kernel.org
+To: "Michael Kerrisk (man-pages)" <mtk.manpages@gmail.com>
+Cc: "Serge E. Hallyn" <serge@hallyn.com>, linux-man <linux-man@vger.kernel.org>, Containers <containers@lists.linux-foundation.org>, lkml <linux-kernel@vger.kernel.org>, Andy Lutomirski <luto@amacapital.net>, Jordan Ogas <jogas@lanl.gov>, Al Viro <viro@ftp.linux.org.uk>
 List-Id: linux-man@vger.kernel.org
 
-Taken from Linux v5.3-rc2. Add a reference to the header file to save
-the future reader some time figuring out whether more entries exist.
 
-Signed-off-by: Peter Wu <peter@lekensteyn.nl>
----
- man2/bpf.2 | 27 +++++++++++++++++++++++++++
- 1 file changed, 27 insertions(+)
+--6qypzrljzt2mkjjn
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+Content-Transfer-Encoding: quoted-printable
 
-diff --git a/man2/bpf.2 b/man2/bpf.2
-index 5a766aaa8..51e3bd111 100644
---- a/man2/bpf.2
-+++ b/man2/bpf.2
-@@ -367,6 +367,14 @@ enum bpf_map_type {
-     BPF_MAP_TYPE_DEVMAP,
-     BPF_MAP_TYPE_SOCKMAP,
-     BPF_MAP_TYPE_CPUMAP,
-+    BPF_MAP_TYPE_XSKMAP,
-+    BPF_MAP_TYPE_SOCKHASH,
-+    BPF_MAP_TYPE_CGROUP_STORAGE,
-+    BPF_MAP_TYPE_REUSEPORT_SOCKARRAY,
-+    BPF_MAP_TYPE_PERCPU_CGROUP_STORAGE,
-+    BPF_MAP_TYPE_QUEUE,
-+    BPF_MAP_TYPE_STACK,
-+    /* See /usr/include/linux/bpf.h for the full list. */
- };
- .EE
- .in
-@@ -756,6 +764,25 @@ enum bpf_prog_type {
-     BPF_PROG_TYPE_KPROBE,
-     BPF_PROG_TYPE_SCHED_CLS,
-     BPF_PROG_TYPE_SCHED_ACT,
-+    BPF_PROG_TYPE_TRACEPOINT,
-+    BPF_PROG_TYPE_XDP,
-+    BPF_PROG_TYPE_PERF_EVENT,
-+    BPF_PROG_TYPE_CGROUP_SKB,
-+    BPF_PROG_TYPE_CGROUP_SOCK,
-+    BPF_PROG_TYPE_LWT_IN,
-+    BPF_PROG_TYPE_LWT_OUT,
-+    BPF_PROG_TYPE_LWT_XMIT,
-+    BPF_PROG_TYPE_SOCK_OPS,
-+    BPF_PROG_TYPE_SK_SKB,
-+    BPF_PROG_TYPE_CGROUP_DEVICE,
-+    BPF_PROG_TYPE_SK_MSG,
-+    BPF_PROG_TYPE_RAW_TRACEPOINT,
-+    BPF_PROG_TYPE_CGROUP_SOCK_ADDR,
-+    BPF_PROG_TYPE_LWT_SEG6LOCAL,
-+    BPF_PROG_TYPE_LIRC_MODE2,
-+    BPF_PROG_TYPE_SK_REUSEPORT,
-+    BPF_PROG_TYPE_FLOW_DISSECTOR,
-+    /* See /usr/include/linux/bpf.h for the full list. */
- };
- .EE
- .in
--- 
-2.22.0
+On 2019-08-01, Michael Kerrisk (man-pages) <mtk.manpages@gmail.com> wrote:
+> I'd like to add some documentation about the pivot_root(".", ".")
+> idea, but I have a doubt/question. In the lxc_pivot_root() code we
+> have these steps
+>=20
+>         oldroot =3D open("/", O_DIRECTORY | O_RDONLY | O_CLOEXEC);
+>         newroot =3D open(rootfs, O_DIRECTORY | O_RDONLY | O_CLOEXEC);
+>=20
+>         fchdir(newroot);
+>         pivot_root(".", ".");
+>=20
+>         fchdir(oldroot);      // ****
+
+This one is "required" because (as the pivot_root(2) man page states),
+it's technically not guaranteed by the kernel that the process's cwd
+will be the same after pivot_root(2):
+
+> pivot_root() may or may not change the current root and the current
+> working directory of any processes or threads which use the old root
+> directory.
+
+Now, if it turns out that we can rely on the current behaviour (and the
+man page you're improving is actually inaccurate on this point) then
+you're right that this fchdir(2) isn't required.
+
+>         mount("", ".", "", MS_SLAVE | MS_REC, NULL);
+>         umount2(".", MNT_DETACH);
+
+>         fchdir(newroot);      // ****
+
+And this one is required because we are in @oldroot at this point, due
+to the first fchdir(2). If we don't have the first one, then switching
+=66rom "." to "/" in the mount/umount2 calls should fix the issue.
+
+We do something very similar to this in runc as well[1] (though, as the
+commit message says, I "borrowed" the idea from LXC).
+
+[1]: https://github.com/opencontainers/runc/commit/f8e6b5af5e120ab7599885bd=
+13a932d970ccc748
+
+--=20
+Aleksa Sarai
+Senior Software Engineer (Containers)
+SUSE Linux GmbH
+<https://www.cyphar.com/>
+
+--6qypzrljzt2mkjjn
+Content-Type: application/pgp-signature; name="signature.asc"
+
+-----BEGIN PGP SIGNATURE-----
+
+iQIzBAABCAAdFiEEXzbGxhtUYBJKdfWmnhiqJn3bjbQFAl1IBqsACgkQnhiqJn3b
+jbTjfw/+Pnh6zFLbDf4UKFZiPT2tLK91Q5TuWjlmjWxJxZMtGNxvDyQiyYXaNXn7
+rskiOzCFTl2i3N5BJZCuT3LPfT9+jdHQ1lYowlGZh0AVSQrWksAUsEEumyMFxqpo
+/ltTRWeQG51pqiqW+Nutd5VH3qsaHT2WfNYHnGSuzyHn+lykwgLymnE7MzjgGPZV
+vm9IGDEQmpHMZuc6cAxKzC74Fa98QDmKS0K0R32GaLFc7Y28HNnDq/fnNbzAkVYO
+OwGDY1p97vVk6Zc0MOQuyjAYng+lnaD+wp1uEYai8hpPud5AZ6WBxFke5l83TKjk
+lJgYx+CT+/inlUcRZ7X8/8MofET/P8K65fteEL+SvoSpBakVmztMVKIvasll+eja
+81rffEeIy+3X8pRhSSN8R3yFLk29uw+oQxj5FJlr6IGX0uiRnk1m93KuphlsBg4w
+jedZ9O+LE2DbjHT43Xz7u0oeeUYVF+Hs2aZXOXbxRGeJl1HiQYlJqW1mdWGwQKKf
+1r3zSxaTfXz8svNsHA0fRlZi7S5psoUMRdNEhsQGW/GKr3KTtojUvEqeGGKhW6H4
+KgJR6OHlmfRwwgCtiaLx09736H3/m/zG5gPsGTKZGP51LnQWYjpUaUMm+55tSUg9
+waJ52wsLxsmJiJ6zYGHzih7sK6LJZMT0ZvqWUXAO5DPK5P2UPqc=
+=Ti2z
+-----END PGP SIGNATURE-----
+
+--6qypzrljzt2mkjjn--
