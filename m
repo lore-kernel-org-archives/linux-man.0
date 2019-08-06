@@ -1,72 +1,97 @@
-From: Philipp Wendler <ml@philippwendler.de>
-Subject: Re: pivot_root(".", ".") and the fchdir() dance
-Date: Tue, 6 Aug 2019 10:12:43 +0200
-Message-ID: <da747415-4c7a-f931-6f2e-2962da63c161@philippwendler.de>
-References: <CAKgNAki0bR5zZr+kp_xjq+bNUky6-F+s2ep+jnR0YrjHhNMB1g@mail.gmail.com>
- <20190805103630.tu4kytsbi5evfrhi@mikami>
- <3a96c631-6595-b75e-f6a7-db703bf89bcf@gmail.com>
+From: Vlastimil Babka <vbabka@suse.cz>
+Subject: Re: [PATCH] mm/mempolicy.c: Remove unnecessary nodemask check in
+ kernel_migrate_pages()
+Date: Tue, 6 Aug 2019 10:36:40 +0200
+Message-ID: <80f8da83-f425-1aab-f47e-8da41ec6dcbf@suse.cz>
+References: <20190806023634.55356-1-wangkefeng.wang@huawei.com>
 Mime-Version: 1.0
 Content-Type: text/plain; charset=utf-8
 Content-Transfer-Encoding: 7bit
 Return-path: <linux-kernel-owner@vger.kernel.org>
-In-Reply-To: <3a96c631-6595-b75e-f6a7-db703bf89bcf@gmail.com>
+In-Reply-To: <20190806023634.55356-1-wangkefeng.wang@huawei.com>
 Content-Language: en-US
 Sender: linux-kernel-owner@vger.kernel.org
-To: "Michael Kerrisk (man-pages)" <mtk.manpages@gmail.com>, Aleksa Sarai <asarai@suse.de>
-Cc: linux-man <linux-man@vger.kernel.org>, Containers <containers@lists.linux-foundation.org>, lkml <linux-kernel@vger.kernel.org>, Andy Lutomirski <luto@amacapital.net>, Jordan Ogas <jogas@lanl.gov>, werner@almesberger.net, Al Viro <viro@ftp.linux.org.uk>
+To: Kefeng Wang <wangkefeng.wang@huawei.com>, Andrew Morton <akpm@linux-foundation.org>, linux-kernel@vger.kernel.org
+Cc: Andrea Arcangeli <aarcange@redhat.com>, Dan Williams <dan.j.williams@intel.com>, Michal Hocko <mhocko@suse.com>, Oscar Salvador <osalvador@suse.de>, linux-mm@kvack.org, Linux API <linux-api@vger.kernel.org>, "linux-man@vger.kernel.org" <linux-man@vger.kernel.org>
 List-Id: linux-man@vger.kernel.org
 
-Hello Michael, hello Aleksa,
+On 8/6/19 4:36 AM, Kefeng Wang wrote:
+> 1) task_nodes = cpuset_mems_allowed(current);
+>    -> cpuset_mems_allowed() guaranteed to return some non-empty
+>       subset of node_states[N_MEMORY].
 
-Am 05.08.19 um 14:29 schrieb Michael Kerrisk (man-pages):
+Right, there's an explicit guarantee.
 
-> On 8/5/19 12:36 PM, Aleksa Sarai wrote:
->> On 2019-08-01, Michael Kerrisk (man-pages) <mtk.manpages@gmail.com> wrote:
->>> I'd like to add some documentation about the pivot_root(".", ".")
->>> idea, but I have a doubt/question. In the lxc_pivot_root() code we
->>> have these steps
->>>
->>>         oldroot = open("/", O_DIRECTORY | O_RDONLY | O_CLOEXEC);
->>>         newroot = open(rootfs, O_DIRECTORY | O_RDONLY | O_CLOEXEC);
->>>
->>>         fchdir(newroot);
->>>         pivot_root(".", ".");
->>>
->>>         fchdir(oldroot);      // ****
->>>
->>>         mount("", ".", "", MS_SLAVE | MS_REC, NULL);
->>>         umount2(".", MNT_DETACH);
->>
->>>         fchdir(newroot);      // ****
->>
->> And this one is required because we are in @oldroot at this point, due
->> to the first fchdir(2). If we don't have the first one, then switching
->> from "." to "/" in the mount/umount2 calls should fix the issue.
+> 2) nodes_and(*new, *new, task_nodes);
+>    -> after nodes_and(), the 'new' should be empty or appropriate
+>       nodemask(online node and with memory).
 > 
-> See my notes above for why I therefore think that the second fchdir()
-> is also not needed (and therefore why switching from "." to "/" in the
-> mount()/umount2() calls is unnecessary.
+> After 1) and 2), we could remove unnecessary check whether the 'new'
+> AND node_states[N_MEMORY] is empty.
+
+Yeah looks like the check is there due to evolution of the code, where initially
+it was added to prevent calling the syscall with bogus nodes, but now that's
+achieved by cpuset_mems_allowed().
+
+> Cc: Andrea Arcangeli <aarcange@redhat.com>
+> Cc: Andrew Morton <akpm@linux-foundation.org>
+> Cc: Dan Williams <dan.j.williams@intel.com>
+> Cc: Michal Hocko <mhocko@suse.com>
+> Cc: Oscar Salvador <osalvador@suse.de>
+> Cc: Vlastimil Babka <vbabka@suse.cz>
+> Cc: linux-mm@kvack.org
+> Signed-off-by: Kefeng Wang <wangkefeng.wang@huawei.com>
+
+Acked-by: Vlastimil Babka <vbabka@suse.cz>
+
+> ---
 > 
-> Do you agree with my analysis?
+> [QUESTION]
+> 
+> SYSCALL_DEFINE4(migrate_pages, pid_t, pid, unsigned long, maxnode,
+>                 const unsigned long __user *, old_nodes,
+>                 const unsigned long __user *, new_nodes)
+> {
+>         return kernel_migrate_pages(pid, maxnode, old_nodes, new_nodes);
+> }
+> 
+> The migrate_pages() takes pid argument, witch is the ID of the process
+> whose pages are to be moved. should the cpuset_mems_allowed(current) be
+> cpuset_mems_allowed(task)?
 
-If both the second and third fchdir are not required,
-then we do not need to bother with file descriptors at all, right?
+The check for cpuset_mems_allowed(task) is just above the code you change, so
+the new nodes have to be subset of the target task's cpuset.
+But they also have to be allowed by the calling task's cpuset. In manpage of
+migrate_pages(2), this is hinted by the NOTES "Use get_mempolicy(2) with the
+MPOL_F_MEMS_ALLOWED flag to obtain the set of nodes that are allowed by the
+calling process's cpuset..."
 
-Indeed, my tests show that the following seems to work fine:
+But perhaps the manpage should be better clarified:
 
-chdir(rootfs)
-pivot_root(".", ".")
-umount2(".", MNT_DETACH)
+- the EINVAL case includes "Or, none of the node IDs specified by new_nodes are
+on-line and allowed by the process's current cpuset context, or none of the
+specified nodes contain memory." - this should probably say "calling process" to
+disambiguate
+- the EPERM case should mention that new_nodes have to be subset of the target
+process' cpuset context. The caller should also have CAP_SYS_NICE and
+ptrace_may_access()
 
-I tested that with my own tool[1] that uses user namespaces and marks
-everything MS_PRIVATE before, so I do not need the mount(MS_SLAVE) here.
-
-And it works the same with both umount2("/") and umount2(".").
-
-Did I overlook something that makes the file descriptors required?
-If not, wouldn't the above snippet make sense as example in the man page?
-
-Greetings
-Philipp
-
-[1]: https://github.com/sosy-lab/benchexec/blob/b90aeb034b867711845a453587b73fbe8e4dca68/benchexec/container.py#L735
+>  mm/mempolicy.c | 4 ----
+>  1 file changed, 4 deletions(-)
+> 
+> diff --git a/mm/mempolicy.c b/mm/mempolicy.c
+> index f48693f75b37..fceb44066184 100644
+> --- a/mm/mempolicy.c
+> +++ b/mm/mempolicy.c
+> @@ -1467,10 +1467,6 @@ static int kernel_migrate_pages(pid_t pid, unsigned long maxnode,
+>  	if (nodes_empty(*new))
+>  		goto out_put;
+>  
+> -	nodes_and(*new, *new, node_states[N_MEMORY]);
+> -	if (nodes_empty(*new))
+> -		goto out_put;
+> -
+>  	err = security_task_movememory(task);
+>  	if (err)
+>  		goto out_put;
+> 
