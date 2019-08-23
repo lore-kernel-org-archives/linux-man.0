@@ -6,18 +6,18 @@ X-Spam-Status: No, score=-6.8 required=3.0 tests=HEADER_FROM_DIFFERENT_DOMAINS,
 	INCLUDES_PATCH,MAILING_LIST_MULTI,SIGNED_OFF_BY,SPF_HELO_NONE,SPF_PASS,
 	URIBL_BLOCKED autolearn=ham autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 8E5A7C3A5A2
-	for <linux-man@archiver.kernel.org>; Fri, 23 Aug 2019 17:09:46 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 4CC95C3A5A4
+	for <linux-man@archiver.kernel.org>; Fri, 23 Aug 2019 17:09:47 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.kernel.org (Postfix) with ESMTP id 6FC9D21019
-	for <linux-man@archiver.kernel.org>; Fri, 23 Aug 2019 17:09:46 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTP id 2C2F221019
+	for <linux-man@archiver.kernel.org>; Fri, 23 Aug 2019 17:09:47 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1732994AbfHWRJq (ORCPT <rfc822;linux-man@archiver.kernel.org>);
-        Fri, 23 Aug 2019 13:09:46 -0400
+        id S1732787AbfHWRJr (ORCPT <rfc822;linux-man@archiver.kernel.org>);
+        Fri, 23 Aug 2019 13:09:47 -0400
 Received: from esa6.microchip.iphmx.com ([216.71.154.253]:54547 "EHLO
         esa6.microchip.iphmx.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1732787AbfHWRJp (ORCPT
-        <rfc822;linux-man@vger.kernel.org>); Fri, 23 Aug 2019 13:09:45 -0400
+        with ESMTP id S1732892AbfHWRJq (ORCPT
+        <rfc822;linux-man@vger.kernel.org>); Fri, 23 Aug 2019 13:09:46 -0400
 Authentication-Results: esa6.microchip.iphmx.com; dkim=none (message not signed) header.i=none; spf=Pass smtp.mailfrom=don.brace@microsemi.com; spf=None smtp.helo=postmaster@smtp.microsemi.com
 Received-SPF: Pass (esa6.microchip.iphmx.com: domain of
   don.brace@microsemi.com designates 208.19.100.22 as permitted
@@ -37,31 +37,35 @@ Received-SPF: None (esa6.microchip.iphmx.com: no sender
   x-sender="postmaster@smtp.microsemi.com";
   x-conformance=spf_only
 X-Ironport-Dmarc-Check-Result: validskip
-IronPort-SDR: OWw5IVeIhWTSuxSJqo4oe3p9vTVDJ33xH5i2e0XuVVj5WO1mjqe4RsosInixqJS6XfW6UVpLQ0
- 1K6DLTURKsWUHuo/1dZc9nYf8qZ7792gxc41mfRBahDcVssGiyl2RjGrJ6FXROdA7VbHA2OV+T
- EegFk78p7s21X45hFCCaHDOu/dhuIQD0cQ4f6swfEAI07GON8wHw6S8oty4xlLOxfxt0b0ERsz
- dLw4Mz0Db4DhKz62sasbtfweig0ouz9OwY1+zlmq2tCKV2qN9sQUViexCcQPPZJr0AQruAzAAK
- o4Q=
+IronPort-SDR: fZMzWzCcyI3BLiOeEK6gjjClgkMGXqqP3zS4Fos9790sCBgB9BdOE0AYn9G30HgpXrGFb0FI7b
+ 66oxcrP61inOFPLs8oJZW3L9NfzRIdSZwwNlIkR93J9sfWHLZz153FPzrl0H8oHJ6FdNwTEqd8
+ a+31jO/XdXzNVriHVtTWdxNOri3G7vxa4iFQxKsBmWlDE9/fnHCG5AwjHhKxGeb6bfD3ieVojc
+ rAitBBPusOVKN361lyEWRlsvNlLLMAPpc2LywOwbS49XXRpOFRasPFAQgCho7MRx7D2kye2EPl
+ 2ZI=
 X-IronPort-AV: E=Sophos;i="5.64,422,1559545200"; 
-   d="scan'208";a="43481510"
+   d="scan'208";a="43481518"
 Received: from unknown (HELO smtp.microsemi.com) ([208.19.100.22])
-  by esa6.microchip.iphmx.com with ESMTP/TLS/AES256-SHA256; 23 Aug 2019 10:09:21 -0700
-Received: from AVMBX2.microsemi.net (10.100.34.32) by AVMBX2.microsemi.net
+  by esa6.microchip.iphmx.com with ESMTP/TLS/AES256-SHA256; 23 Aug 2019 10:09:34 -0700
+Received: from AVMBX3.microsemi.net (10.100.34.33) by AVMBX2.microsemi.net
  (10.100.34.32) with Microsoft SMTP Server (version=TLS1_2,
  cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id 15.1.1713.5; Fri, 23 Aug
- 2019 10:09:20 -0700
+ 2019 10:09:33 -0700
+Received: from AVMBX2.microsemi.net (10.100.34.32) by AVMBX3.microsemi.net
+ (10.100.34.33) with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id 15.1.1713.5; Fri, 23 Aug
+ 2019 10:09:33 -0700
 Received: from [127.0.1.1] (10.238.32.34) by avmbx2.microsemi.net
  (10.100.34.32) with Microsoft SMTP Server id 15.1.1713.5 via Frontend
- Transport; Fri, 23 Aug 2019 10:09:19 -0700
-Subject: [PATCH V2 1/6] smartpqi: fix spelling error
+ Transport; Fri, 23 Aug 2019 10:09:32 -0700
+Subject: [PATCH V2 3/6] smartpqi: add module param expose ld first
 From:   Don Brace <don.brace@microsemi.com>
 To:     <mtk.manpages@gmail.com>
 CC:     <linux-man@vger.kernel.org>, <Kevin.Barnett@microchip.com>,
         <scott.teel@microchip.com>, <Justin.Lindley@microchip.com>,
         <scott.benesh@microchip.com>, <bader.alisaleh@microchip.com>,
         <gerry.morong@microchip.com>, <mahesh.rajashekhara@microchip.com>
-Date:   Fri, 23 Aug 2019 12:09:19 -0500
-Message-ID: <156658015975.6969.1562582414549452044.stgit@brunhilda>
+Date:   Fri, 23 Aug 2019 12:09:32 -0500
+Message-ID: <156658017256.6969.6788339572032916967.stgit@brunhilda>
 In-Reply-To: <156658004701.6969.3969396310784177369.stgit@brunhilda>
 References: <156658004701.6969.3969396310784177369.stgit@brunhilda>
 User-Agent: StGit/0.19
@@ -73,27 +77,46 @@ Precedence: bulk
 List-ID: <linux-man.vger.kernel.org>
 X-Mailing-List: linux-man@vger.kernel.org
 
-- correct smarpqi to smartpqi
+From: Gilbert Wu <gilbert.wu@microsemi.com>
 
-Reviewed-by: Scott Teel <scott.teel@microsemi.com>
+Reviewed-by: Matt Perricone <matt.perricone@microsemi.com>
 Reviewed-by: Scott Benesh <scott.benesh@microsemi.com>
 Reviewed-by: Kevin Barnett <kevin.barnett@microsemi.com>
+Signed-off-by: Gilbert Wu <gilbert.wu@microsemi.com>
 Signed-off-by: Don Brace <don.brace@microsemi.com>
 ---
- man4/smartpqi.4 |    2 +-
- 1 file changed, 1 insertion(+), 1 deletion(-)
+ man4/smartpqi.4 |    6 ++++++
+ 1 file changed, 6 insertions(+)
 
 diff --git a/man4/smartpqi.4 b/man4/smartpqi.4
-index cf7c43034..704efb735 100644
+index dc9ef1020..7004f468a 100644
 --- a/man4/smartpqi.4
 +++ b/man4/smartpqi.4
-@@ -215,7 +215,7 @@ $ \c
- .in
- .SH VERSIONS
- The
--.B smarpqi
-+.B smartpqi
- driver was added in Linux 4.9.
- .SH NOTES
- .SS Configuration
+@@ -15,6 +15,7 @@ smartpqi \- Microsemi Smart Family SCSI driver
+ .RB [ disable_heartbeat= { 0 | 1 }]
+ .RB [ disable_ctrl_shutdown= { 0 | 1 }]
+ .RB [ lockup_action= { none | reboot | panic }]
++.RB [ expose_ld_first= { 0 | 1 }]
+ .YS
+ .SH DESCRIPTION
+ .B smartpqi
+@@ -82,6 +83,7 @@ Specifies the action the driver takes when a controller
+ lockup is detected.
+ The default action is
+ .BR none .
++.TP
+ .TS
+ l l
+ ---
+@@ -90,6 +92,10 @@ parameter	action
+ \fBnone\fP	take controller offline only
+ \fBreboot\fP	reboot the system
+ \fBpanic\fP	panic the system
++.TP
++.BR expose_ld_first= { 0 | 1 }
++This option enables support for exposing logical devices to OS before physical devices.
++The default value is 0.
+ .TE
+ .SH FILES
+ .SS Device nodes
 
