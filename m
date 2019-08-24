@@ -1,112 +1,134 @@
-Return-Path: <SRS0=iCZP=WT=vger.kernel.org=linux-man-owner@kernel.org>
+Return-Path: <SRS0=GIqg=WU=vger.kernel.org=linux-man-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-6.8 required=3.0 tests=HEADER_FROM_DIFFERENT_DOMAINS,
-	INCLUDES_PATCH,MAILING_LIST_MULTI,SIGNED_OFF_BY,SPF_HELO_NONE,SPF_PASS,
-	URIBL_BLOCKED autolearn=ham autolearn_force=no version=3.4.0
+X-Spam-Status: No, score=-2.1 required=3.0 tests=DKIM_SIGNED,DKIM_VALID,
+	DKIM_VALID_AU,FREEMAIL_FORGED_FROMDOMAIN,FREEMAIL_FROM,
+	HEADER_FROM_DIFFERENT_DOMAINS,MAILING_LIST_MULTI,SPF_HELO_NONE,SPF_PASS,
+	USER_AGENT_SANE_1 autolearn=no autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id B1013C3A5A2
-	for <linux-man@archiver.kernel.org>; Fri, 23 Aug 2019 17:09:55 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id AA506C3A5A2
+	for <linux-man@archiver.kernel.org>; Sat, 24 Aug 2019 01:33:41 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.kernel.org (Postfix) with ESMTP id 88FE821019
-	for <linux-man@archiver.kernel.org>; Fri, 23 Aug 2019 17:09:55 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTP id 7AA8E21670
+	for <linux-man@archiver.kernel.org>; Sat, 24 Aug 2019 01:33:41 +0000 (UTC)
+Authentication-Results: mail.kernel.org;
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="YdxETOoD"
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1733074AbfHWRJz (ORCPT <rfc822;linux-man@archiver.kernel.org>);
-        Fri, 23 Aug 2019 13:09:55 -0400
-Received: from esa6.microchip.iphmx.com ([216.71.154.253]:54569 "EHLO
-        esa6.microchip.iphmx.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1733103AbfHWRJz (ORCPT
-        <rfc822;linux-man@vger.kernel.org>); Fri, 23 Aug 2019 13:09:55 -0400
-Authentication-Results: esa6.microchip.iphmx.com; dkim=none (message not signed) header.i=none; spf=Pass smtp.mailfrom=don.brace@microsemi.com; spf=None smtp.helo=postmaster@smtp.microsemi.com
-Received-SPF: Pass (esa6.microchip.iphmx.com: domain of
-  don.brace@microsemi.com designates 208.19.100.22 as permitted
-  sender) identity=mailfrom; client-ip=208.19.100.22;
-  receiver=esa6.microchip.iphmx.com;
-  envelope-from="don.brace@microsemi.com";
-  x-sender="don.brace@microsemi.com"; x-conformance=spf_only;
-  x-record-type="v=spf1"; x-record-text="v=spf1
-  ip4:208.19.100.20 ip4:208.19.100.21 ip4:208.19.100.22
-  ip4:208.19.100.23 ip4:208.19.99.221 ip4:208.19.99.222
-  ip4:208.19.99.223 ip4:208.19.99.225 -all"
-Received-SPF: None (esa6.microchip.iphmx.com: no sender
-  authenticity information available from domain of
-  postmaster@smtp.microsemi.com) identity=helo;
-  client-ip=208.19.100.22; receiver=esa6.microchip.iphmx.com;
-  envelope-from="don.brace@microsemi.com";
-  x-sender="postmaster@smtp.microsemi.com";
-  x-conformance=spf_only
-X-Ironport-Dmarc-Check-Result: validskip
-IronPort-SDR: SFxmtIMA0XRe1bd6w+LhDkw6QGsoNwi/nDekctRJpr885YBZ2drFBpG02ZCjU0oZ2MZr1W6Tf2
- /olzwQ4fVyLluSbdS4mh4XXMtRDuzjGTKEutGd/EKUzczLcxlMbloLLIAr/6Ht1bAgZ7DdpSvt
- A4tHxpfzDudOQn9lBWTFQpdXPbMPJGPxkb9UEXht9oTI7WtFqVFRJeU5BU5qT5UHVkU9wkE6H7
- CbMDly0ot+x3BBAnHq80cCnNKxvGCB6E8/H5gqwtJrVLqD//NHrcXiqIB/5mBvBhQ1HGP/Skwe
- /yA=
-X-IronPort-AV: E=Sophos;i="5.64,422,1559545200"; 
-   d="scan'208";a="43481543"
-Received: from unknown (HELO smtp.microsemi.com) ([208.19.100.22])
-  by esa6.microchip.iphmx.com with ESMTP/TLS/AES256-SHA256; 23 Aug 2019 10:09:54 -0700
-Received: from AVMBX3.microsemi.net (10.100.34.33) by AVMBX2.microsemi.net
- (10.100.34.32) with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id 15.1.1713.5; Fri, 23 Aug
- 2019 10:09:53 -0700
-Received: from AVMBX2.microsemi.net (10.100.34.32) by AVMBX3.microsemi.net
- (10.100.34.33) with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id 15.1.1713.5; Fri, 23 Aug
- 2019 10:09:52 -0700
-Received: from [127.0.1.1] (10.238.32.34) by avmbx2.microsemi.net
- (10.100.34.32) with Microsoft SMTP Server id 15.1.1713.5 via Frontend
- Transport; Fri, 23 Aug 2019 10:09:51 -0700
-Subject: [PATCH V2 6/6] smartpqi: correct lockup action table
-From:   Don Brace <don.brace@microsemi.com>
-To:     <mtk.manpages@gmail.com>
-CC:     <linux-man@vger.kernel.org>, <Kevin.Barnett@microchip.com>,
-        <scott.teel@microchip.com>, <Justin.Lindley@microchip.com>,
-        <scott.benesh@microchip.com>, <bader.alisaleh@microchip.com>,
-        <gerry.morong@microchip.com>, <mahesh.rajashekhara@microchip.com>
-Date:   Fri, 23 Aug 2019 12:09:51 -0500
-Message-ID: <156658019169.6969.9703957231113751364.stgit@brunhilda>
-In-Reply-To: <156658004701.6969.3969396310784177369.stgit@brunhilda>
+        id S1725886AbfHXBdl (ORCPT <rfc822;linux-man@archiver.kernel.org>);
+        Fri, 23 Aug 2019 21:33:41 -0400
+Received: from mail-pf1-f195.google.com ([209.85.210.195]:32923 "EHLO
+        mail-pf1-f195.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1725857AbfHXBdk (ORCPT
+        <rfc822;linux-man@vger.kernel.org>); Fri, 23 Aug 2019 21:33:40 -0400
+Received: by mail-pf1-f195.google.com with SMTP id g2so7687087pfq.0
+        for <linux-man@vger.kernel.org>; Fri, 23 Aug 2019 18:33:40 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20161025;
+        h=date:from:to:cc:subject:message-id:references:mime-version
+         :content-disposition:in-reply-to:user-agent;
+        bh=8+nrLkzJmHJNEhNNE7A6THw7y72o3a5tt9G/fwbZUTU=;
+        b=YdxETOoDBjtKByXMNLRXfypqBAnA2ZSQz+7prBKkJGmKYtCH4SKHhRjWWvYx22YyeY
+         Uvyf1avHBnc/1h3YN5uVWufhHHYEPYNEtaz669FNaXvxBBXf0x+pAALpE8WS7yWMx5Ev
+         GXNfaLwViJ0TFcWyu98/3/16KWcEOj6TgSlWyqb+1fFqa8HfNZNgm6DuJKwFL5VXITLN
+         kwiOy7waFrqn4pRredcmaKDbcIF7dgU9F5WFSqyOPtFi+nAiKueotJXtZ0oA2jotroBF
+         JAZI2KaGhrqWge5O3qSqTP/A9EzbSH70qGdWkD0kM7ltSBRbl4QGweSf9Pea48dz141E
+         Zwcg==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20161025;
+        h=x-gm-message-state:date:from:to:cc:subject:message-id:references
+         :mime-version:content-disposition:in-reply-to:user-agent;
+        bh=8+nrLkzJmHJNEhNNE7A6THw7y72o3a5tt9G/fwbZUTU=;
+        b=HdGe+JreN7YR9ZuDcTZBAqE86eoy3Rdkuyga7uaP5u+/FJ2C8pB1yoprgAbyPfiNu2
+         D4YMEmaZ6udWYHO6/VBpfXSIZUiNcKpbHtuOdQGrAINqT5UdVjZKGPGdQY539qJRqyyZ
+         Zd/sx3aSs6VRWJhwfbB4VK7LChZXaMf7UBEgDLyMgSHjXqFT+3N+8kPCWer37+A1frvB
+         zsotSqNc3zHpsnMjzBAWsZkk/WtACDrwrKeSkZEFhPT7XA+XCv/jDWyvQ/XA6YkC8O4U
+         e8+uC+IZ5G0fABhljvAn9hidipoqYuFgoywQK1gE7895KakBFX8euc3uBCe+ysUOSX4I
+         Va1w==
+X-Gm-Message-State: APjAAAX+DQYUpwcx2VwWsEqKWpCiky1GhzukQyxndZTZMkRKprrHrc0H
+        LGTcNzmUxMTPD377l9m9ZIw=
+X-Google-Smtp-Source: APXvYqw/QL0wOhevDO5pZmAdzEQtOU+0V4PUEJ9CSSaFVWgA8EPKu0eCDEHAdB9WzT95chTi3ZH/YQ==
+X-Received: by 2002:a65:6406:: with SMTP id a6mr5150017pgv.393.1566610420075;
+        Fri, 23 Aug 2019 18:33:40 -0700 (PDT)
+Received: from localhost.localdomain ([1.144.177.123])
+        by smtp.gmail.com with ESMTPSA id j15sm4126199pfe.3.2019.08.23.18.33.34
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Fri, 23 Aug 2019 18:33:39 -0700 (PDT)
+Date:   Sat, 24 Aug 2019 11:33:32 +1000
+From:   "G. Branden Robinson" <g.branden.robinson@gmail.com>
+To:     Don Brace <don.brace@microsemi.com>
+Cc:     mtk.manpages@gmail.com, linux-man@vger.kernel.org,
+        Kevin.Barnett@microchip.com, scott.teel@microchip.com,
+        Justin.Lindley@microchip.com, scott.benesh@microchip.com,
+        bader.alisaleh@microchip.com, gerry.morong@microchip.com,
+        mahesh.rajashekhara@microchip.com
+Subject: Re: [PATCH V2 3/6] smartpqi: add module param expose ld first
+Message-ID: <20190824013329.lozyyuiv3qe57jyu@localhost.localdomain>
 References: <156658004701.6969.3969396310784177369.stgit@brunhilda>
-User-Agent: StGit/0.19
+ <156658017256.6969.6788339572032916967.stgit@brunhilda>
 MIME-Version: 1.0
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: 7bit
+Content-Type: multipart/signed; micalg=pgp-sha256;
+        protocol="application/pgp-signature"; boundary="i5nbphywkpfe4wg6"
+Content-Disposition: inline
+In-Reply-To: <156658017256.6969.6788339572032916967.stgit@brunhilda>
+User-Agent: NeoMutt/20180716
 Sender: linux-man-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-man.vger.kernel.org>
 X-Mailing-List: linux-man@vger.kernel.org
 
-Reviewed-by: Matt Perricone <matt.perricone@microsemi.com>
-Reviewed-by: Scott Benesh <scott.benesh@microsemi.com>
-Signed-off-by: Don Brace <don.brace@microsemi.com>
----
- man4/smartpqi.4 |   10 +++++-----
- 1 file changed, 5 insertions(+), 5 deletions(-)
 
-diff --git a/man4/smartpqi.4 b/man4/smartpqi.4
-index 6e2cd1328..43e1d1cb2 100644
---- a/man4/smartpqi.4
-+++ b/man4/smartpqi.4
-@@ -84,15 +84,15 @@ Specifies the action the driver takes when a controller
- lockup is detected.
- The default action is
- .BR none .
--.TP
--.TS
--l l
-----
--l l.
-+.nf
-+.ta 10n +10n
-+
- parameter	action
-+---------	----------------------------
- \fBnone\fP	take controller offline only
- \fBreboot\fP	reboot the system
- \fBpanic\fP	panic the system
-+.fi
- .TP
- .BR expose_ld_first= { 0 | 1 }
- This option enables support for exposing logical devices to OS before physical devices.
+--i5nbphywkpfe4wg6
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
 
+At 2019-08-23T12:09:32-0500, Don Brace wrote:
+> @@ -82,6 +83,7 @@ Specifies the action the driver takes when a controller
+>  lockup is detected.
+>  The default action is
+>  .BR none .
+> +.TP
+>  .TS
+>  l l
+>  ---
+
+Can you explain the purpose of the above change?
+
+Your subsequent patch to correct the table, by reformatting it using
+tabs instead of tbl(1) macros, might have been provoked by the above.
+
+The .TP macro is for tagged paragraphs.  .TP consumes the next input
+line as a tag for a tagged paragraph.  In man pages, .TP is often used
+for definition lists.
+
+However, because the page was being preprocessed by tbl, the .TS macro
+was getting substituted with something else, and that something was
+getting "eaten" by the .TP macro.
+
+Try removing the above hunk of the patch and see if the table comes back
+to life, fixed.
+
+Regards,
+Branden
+
+--i5nbphywkpfe4wg6
+Content-Type: application/pgp-signature; name="signature.asc"
+
+-----BEGIN PGP SIGNATURE-----
+
+iQIzBAEBCAAdFiEEh3PWHWjjDgcrENwa0Z6cfXEmbc4FAl1gk98ACgkQ0Z6cfXEm
+bc6bgQ//YtDBLUNsp/bQknAI9iX0m1WJ+WflKnqBVsdeQ0AlFfPFoWNZp14QIVsv
+/hioJwPtMpwfb2E6b8xJny4itCAqiYXxpujNTf3IjlsMIbae0vAfrtXJWz+9NNnN
+wR4/hPTFxsNDpx2NXeXstbZU0slCqkmt9DHDqbdjE1CeIrAxgzEaQYQlez2Vcvp7
+uFqyP4oezcWtn3fcATMDFDZDGUV7E2/I5077p6M2rSCdfyTNnn9FRAWoEJDr6j3u
+sD/Y4Rbos6tOi+56GuQjrQ27Yt27+qrDRHerm9M/HGnl/Ymusyr/zovpY8dsgQdU
+Mw7P6OaD7H/EgtMwHpybvTlgjIbjMbgklaaLIdA5swXvQRhkOgoQ2MUvVL+2MQG3
+HfEdc2ezVyEbtHBIRmvZ9jsZ/Qc5VWXvyFI0QT7/0sReAd1iAE5GfaLHt2wSPQBZ
+xBHVogWai/+wz8zSYNxt2YWgce50VSaX68RgRgrl7s/nSZsLPbTfC5aKvjvtMHfm
+WVaSYhEg8Z+ipsNV82j8MRp3MJfri0CY1Rox9tqHvXHP+8m5WtkTSFxDmME0vrVs
+JjpHTFYiBQ9WXBWxT6uqgM70gGaffS4g5BUSRmOzb1Lixap9U51D14NKoMR4IkxB
+CIzcTrnpB3KrsVBxIe5MOUYIoOtDoJH61Cwp3ogGzHttiwiibJg=
+=jkhf
+-----END PGP SIGNATURE-----
+
+--i5nbphywkpfe4wg6--
