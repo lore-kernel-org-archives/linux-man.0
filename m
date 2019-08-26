@@ -2,66 +2,68 @@ Return-Path: <SRS0=F1MC=WW=vger.kernel.org=linux-man-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-0.8 required=3.0 tests=HEADER_FROM_DIFFERENT_DOMAINS,
-	MAILING_LIST_MULTI,SPF_HELO_NONE,SPF_PASS autolearn=no autolearn_force=no
-	version=3.4.0
+X-Spam-Status: No, score=-6.8 required=3.0 tests=HEADER_FROM_DIFFERENT_DOMAINS,
+	INCLUDES_PATCH,MAILING_LIST_MULTI,SIGNED_OFF_BY,SPF_HELO_NONE,SPF_PASS
+	autolearn=ham autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 11295C3A59F
-	for <linux-man@archiver.kernel.org>; Mon, 26 Aug 2019 15:41:23 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 3628EC3A59F
+	for <linux-man@archiver.kernel.org>; Mon, 26 Aug 2019 15:41:43 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.kernel.org (Postfix) with ESMTP id E79E220874
-	for <linux-man@archiver.kernel.org>; Mon, 26 Aug 2019 15:41:22 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTP id 142D121872
+	for <linux-man@archiver.kernel.org>; Mon, 26 Aug 2019 15:41:42 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1728524AbfHZPlW (ORCPT <rfc822;linux-man@archiver.kernel.org>);
-        Mon, 26 Aug 2019 11:41:22 -0400
-Received: from esa6.microchip.iphmx.com ([216.71.154.253]:43849 "EHLO
-        esa6.microchip.iphmx.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1728221AbfHZPlW (ORCPT
-        <rfc822;linux-man@vger.kernel.org>); Mon, 26 Aug 2019 11:41:22 -0400
-Authentication-Results: esa6.microchip.iphmx.com; dkim=none (message not signed) header.i=none; spf=Pass smtp.mailfrom=don.brace@microsemi.com; spf=None smtp.helo=postmaster@smtp.microsemi.com
-Received-SPF: Pass (esa6.microchip.iphmx.com: domain of
+        id S1729105AbfHZPlm (ORCPT <rfc822;linux-man@archiver.kernel.org>);
+        Mon, 26 Aug 2019 11:41:42 -0400
+Received: from esa1.microchip.iphmx.com ([68.232.147.91]:64864 "EHLO
+        esa1.microchip.iphmx.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1728221AbfHZPlm (ORCPT
+        <rfc822;linux-man@vger.kernel.org>); Mon, 26 Aug 2019 11:41:42 -0400
+Authentication-Results: esa1.microchip.iphmx.com; dkim=none (message not signed) header.i=none; spf=Pass smtp.mailfrom=don.brace@microsemi.com; spf=None smtp.helo=postmaster@smtp.microsemi.com
+Received-SPF: Pass (esa1.microchip.iphmx.com: domain of
   don.brace@microsemi.com designates 208.19.100.22 as permitted
   sender) identity=mailfrom; client-ip=208.19.100.22;
-  receiver=esa6.microchip.iphmx.com;
+  receiver=esa1.microchip.iphmx.com;
   envelope-from="don.brace@microsemi.com";
   x-sender="don.brace@microsemi.com"; x-conformance=spf_only;
   x-record-type="v=spf1"; x-record-text="v=spf1
   ip4:208.19.100.20 ip4:208.19.100.21 ip4:208.19.100.22
   ip4:208.19.100.23 ip4:208.19.99.221 ip4:208.19.99.222
   ip4:208.19.99.223 ip4:208.19.99.225 -all"
-Received-SPF: None (esa6.microchip.iphmx.com: no sender
+Received-SPF: None (esa1.microchip.iphmx.com: no sender
   authenticity information available from domain of
   postmaster@smtp.microsemi.com) identity=helo;
-  client-ip=208.19.100.22; receiver=esa6.microchip.iphmx.com;
+  client-ip=208.19.100.22; receiver=esa1.microchip.iphmx.com;
   envelope-from="don.brace@microsemi.com";
   x-sender="postmaster@smtp.microsemi.com";
   x-conformance=spf_only
 X-Ironport-Dmarc-Check-Result: validskip
-IronPort-SDR: bFQJ6H/TowCrszkcLQSRRqhkgNANamXvv9zHz/pP2jnCWQbDwd1tE3XXUgYsjgfvU8Z5rQCBd0
- jgGG7Vdk/xpOxc/Izb+MVcAdiOt1rEZe3EK3AM7vfbxlhTKauYbKNjIczz3opcBqTd6NeI3Ad2
- 3HNMYz2wY6T5ClMkQIIosDZbFZF2xx+IU595dkoR5Td9ipoiW5YpiHHocdTp8xgGEoV70Gm/hj
- vSwzYx42cGqTQ97clkFWVfPTZvRtBdt4PJisYQJDkQrFoi81s+2KlpD2J/mKPFgx1dhx3dv2x0
- FMg=
+IronPort-SDR: dTkAa2YYmYseLPxZXpYblJ0Dfa3VzwUOu3a3F/cj2elNqsUqRLAY7i4i8t3o4OvWnHBl/tyRRt
+ WNwEGkNTZufVHsZzbQ9KhBzLVSftdFmOw54JfHGoagaaZ08IU8FMeqtWrj4nSMPLxLC1vaHQC/
+ Dp5YX0zVD2ncCTm7onUM1737F+Z6s1xYW4e9infi350OK+bFSKhkh/rbNQYuZ6jaRgo2b59hCQ
+ SrwQ95jgvv0l8RG8nVmBOfmyoM6nKw8ilVbzz1pxOMsCZCbnW8w9JmUExVS6tyC0oCrs7hoHid
+ U/0=
 X-IronPort-AV: E=Sophos;i="5.64,433,1559545200"; 
-   d="scan'208";a="43717103"
+   d="scan'208";a="47999748"
 Received: from unknown (HELO smtp.microsemi.com) ([208.19.100.22])
-  by esa6.microchip.iphmx.com with ESMTP/TLS/AES256-SHA256; 26 Aug 2019 08:41:21 -0700
-Received: from AVMBX3.microsemi.net (10.100.34.33) by AVMBX2.microsemi.net
+  by esa1.microchip.iphmx.com with ESMTP/TLS/AES256-SHA256; 26 Aug 2019 08:41:28 -0700
+Received: from AVMBX2.microsemi.net (10.100.34.32) by AVMBX2.microsemi.net
  (10.100.34.32) with Microsoft SMTP Server (version=TLS1_2,
  cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id 15.1.1713.5; Mon, 26 Aug
- 2019 08:41:20 -0700
-Received: from [127.0.1.1] (10.238.32.34) by avmbx3.microsemi.net
- (10.100.34.33) with Microsoft SMTP Server id 15.1.1713.5 via Frontend
- Transport; Mon, 26 Aug 2019 08:41:20 -0700
-Subject: [PATCH V3 0/5] smartpqi man page update
+ 2019 08:41:27 -0700
+Received: from [127.0.1.1] (10.238.32.34) by avmbx2.microsemi.net
+ (10.100.34.32) with Microsoft SMTP Server id 15.1.1713.5 via Frontend
+ Transport; Mon, 26 Aug 2019 08:41:26 -0700
+Subject: [PATCH V3 1/5] smartpqi: fix spelling error
 From:   Don Brace <don.brace@microsemi.com>
 To:     <mtk.manpages@gmail.com>
 CC:     <linux-man@vger.kernel.org>, <Kevin.Barnett@microchip.com>,
         <scott.teel@microchip.com>, <Justin.Lindley@microchip.com>,
         <scott.benesh@microchip.com>, <bader.alisaleh@microchip.com>,
         <gerry.morong@microchip.com>, <mahesh.rajashekhara@microchip.com>
-Date:   Mon, 26 Aug 2019 10:41:20 -0500
-Message-ID: <156683390892.32298.878243674084910282.stgit@brunhilda>
+Date:   Mon, 26 Aug 2019 10:41:26 -0500
+Message-ID: <156683408649.32298.6081913063642002094.stgit@brunhilda>
+In-Reply-To: <156683390892.32298.878243674084910282.stgit@brunhilda>
+References: <156683390892.32298.878243674084910282.stgit@brunhilda>
 User-Agent: StGit/0.19
 MIME-Version: 1.0
 Content-Type: text/plain; charset="utf-8"
@@ -71,35 +73,27 @@ Precedence: bulk
 List-ID: <linux-man.vger.kernel.org>
 X-Mailing-List: linux-man@vger.kernel.org
 
-These patches are based on the man pages in kernel.org
+- correct smarpqi to smartpqi
 
-Changes since V1:
- - corrected copyright.
-
-Changes since V2:
- - redacted patch to change the lockup action table
- - removed an unneeded .TP entry.
- - both changes from G. Branden Robinson's review.
- - thanks for your review input.
-
+Reviewed-by: Scott Teel <scott.teel@microsemi.com>
+Reviewed-by: Scott Benesh <scott.benesh@microsemi.com>
+Reviewed-by: Kevin Barnett <kevin.barnett@microsemi.com>
+Signed-off-by: Don Brace <don.brace@microsemi.com>
 ---
+ man4/smartpqi.4 |    2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
 
-Dave Carroll (1):
-      smartpqi: add module param to hide vsep
+diff --git a/man4/smartpqi.4 b/man4/smartpqi.4
+index cf7c43034..704efb735 100644
+--- a/man4/smartpqi.4
++++ b/man4/smartpqi.4
+@@ -215,7 +215,7 @@ $ \c
+ .in
+ .SH VERSIONS
+ The
+-.B smarpqi
++.B smartpqi
+ driver was added in Linux 4.9.
+ .SH NOTES
+ .SS Configuration
 
-Don Brace (2):
-      smartpqi: fix spelling error
-      smartpqi: update copyright
-
-Gilbert Wu (1):
-      smartpqi: add module param expose ld first
-
-Murthy Bhat (1):
-      smartpqi: add sysfs entries
-
-
- man4/smartpqi.4 |   95 ++++++++++++++++++++++++++++++++++++++++++++++++++++++-
- 1 file changed, 93 insertions(+), 2 deletions(-)
-
---
-Signature
