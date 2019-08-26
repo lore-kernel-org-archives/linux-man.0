@@ -8,65 +8,65 @@ X-Spam-Status: No, score=-8.1 required=3.0 tests=DKIM_SIGNED,DKIM_VALID,
 	SPF_HELO_NONE,SPF_PASS,USER_AGENT_SANE_1 autolearn=ham autolearn_force=no
 	version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 1C4B2C3A59F
-	for <linux-man@archiver.kernel.org>; Mon, 26 Aug 2019 20:11:28 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 15CD0C3A59F
+	for <linux-man@archiver.kernel.org>; Mon, 26 Aug 2019 21:02:27 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.kernel.org (Postfix) with ESMTP id D7907217F5
-	for <linux-man@archiver.kernel.org>; Mon, 26 Aug 2019 20:11:27 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTP id D1F5D217F5
+	for <linux-man@archiver.kernel.org>; Mon, 26 Aug 2019 21:02:26 +0000 (UTC)
 Authentication-Results: mail.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="NPO+9wkZ"
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="dv0m9Sgy"
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1730001AbfHZUL1 (ORCPT <rfc822;linux-man@archiver.kernel.org>);
-        Mon, 26 Aug 2019 16:11:27 -0400
-Received: from mail-wr1-f66.google.com ([209.85.221.66]:46184 "EHLO
-        mail-wr1-f66.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1729777AbfHZUL1 (ORCPT
-        <rfc822;linux-man@vger.kernel.org>); Mon, 26 Aug 2019 16:11:27 -0400
-Received: by mail-wr1-f66.google.com with SMTP id z1so16510633wru.13
-        for <linux-man@vger.kernel.org>; Mon, 26 Aug 2019 13:11:25 -0700 (PDT)
+        id S1726527AbfHZVC0 (ORCPT <rfc822;linux-man@archiver.kernel.org>);
+        Mon, 26 Aug 2019 17:02:26 -0400
+Received: from mail-wm1-f67.google.com ([209.85.128.67]:55446 "EHLO
+        mail-wm1-f67.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1725785AbfHZVC0 (ORCPT
+        <rfc822;linux-man@vger.kernel.org>); Mon, 26 Aug 2019 17:02:26 -0400
+Received: by mail-wm1-f67.google.com with SMTP id f72so825404wmf.5
+        for <linux-man@vger.kernel.org>; Mon, 26 Aug 2019 14:02:24 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=gmail.com; s=20161025;
         h=cc:subject:to:references:from:message-id:date:user-agent
          :mime-version:in-reply-to:content-language:content-transfer-encoding;
-        bh=5xwQUAuX46xWnuPZxy6Kf46mfNQQWkAMWlFnQy3Fn/g=;
-        b=NPO+9wkZ5fteK80aN8o4ZHS7F76I+oZAuTlxTh0pRxKIlilUuYJv7DcvTMRrxbhhDN
-         x8y4ENSTPStIAcn4WDaz2rlfiwQK1elDgYFB1Y1K+rhY78/SQfebpLtBsUrU0jYHabfr
-         YofegBviRX7htTBOSNjV9EVQA3WKPiP1WSm+nzD98Mg4y07nzAldP2s0NAG8pKhRIa8v
-         PGgPxymgJT0yCdVUkScR4RfaRKQ2w4JS1PdpTNJ+BoXuO9kVMk2N9OcMAITc7jBVds3c
-         j2xYnJWPUMKmcG5wJxdI1xAVtljGH0GjjnIMdcau0kvcQoJLkEuPP8uluT/jIBgGCXkB
-         2COQ==
+        bh=k46QnibtiJBexHQpPCgMpJsUaCteN7uXO5Tpe5JvRVM=;
+        b=dv0m9SgyJ2o/POIdQQ/KiUFnwJ36tsSLkhguNC8NAqc37UZSVyG4aEDNMHe/M3qMWM
+         vGWr8nINtR6eIVs2EowlaoPVn9Cc39tDNMnA9b2OJr0KmJvww1/WFphLFV9HZ5yQnmYe
+         vbRT/Qu0L+oCZshFTzyLB4KoGFmMOgJIeYcmiqL/DMovnSVrKVkbmuAzWR5aHN9uSsSN
+         0UuXkRaIgy5fOozmZf4CnSDnXPGqfikkBfTC7wPZOJUCe29dKQgWh8RjK0JbRt4vmmY1
+         0oHmSlxfptnVW186wF6iHK6yjLgrGq0JWQQ7q+i+QhJHdmyeZs146xYOR6kwVsQ/FmcA
+         08Zw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
         h=x-gm-message-state:cc:subject:to:references:from:message-id:date
          :user-agent:mime-version:in-reply-to:content-language
          :content-transfer-encoding;
-        bh=5xwQUAuX46xWnuPZxy6Kf46mfNQQWkAMWlFnQy3Fn/g=;
-        b=LmbYNSC3WWPk2bh/SUJyJFOkxEEWtLaJFa5nURi626PuHq67vRHyf7SLLOVwoPZPdO
-         X5POX+4vIPpH11zZ7BrHsYMdM3jg/avI9PzxokZF44cS+oHbYGLa35kJUJaf4taECYzl
-         3AZcjE4E9xFcODinrxO58TbvqsRIb0qYI8hqaHrKKwuibN45qbGzYNTnOoCo5unyA22f
-         jl9pe7d3i8f4ZGLCmcpUhAkBON6sHlOvQfTy0oBh7azjQUw4Hkss7FNFR9mgXfqRUDUn
-         +hGmABlgJXAhFwYDGIafA6PLEF2GG6Yi6lEi6yt8GTggJEBmFLE/GdW3j8OFlSY9im1j
-         eprw==
-X-Gm-Message-State: APjAAAV94l739x7CsbVdQtWzDgwXItNBULBztgz0HBacmvS9dEFB9yLD
-        7gWesxK7lLcAl+IZIFVtx7JU5ls4
-X-Google-Smtp-Source: APXvYqyDFUYQr/OnnfFlaooRi7GXJ1M2vWxnaByDbWezmAJM7ZyozSujGM2erdfNtCk4NlxunWjbbw==
-X-Received: by 2002:a5d:404d:: with SMTP id w13mr24624511wrp.253.1566850284683;
-        Mon, 26 Aug 2019 13:11:24 -0700 (PDT)
+        bh=k46QnibtiJBexHQpPCgMpJsUaCteN7uXO5Tpe5JvRVM=;
+        b=JYtf5rxAWPkqC4R18rDtbnBrj4cI0s1sygWCmjpF1norjshFasMi0S4+yE0DXaWHC7
+         JMhj6pF5xdW+to+z3d/OtZDBAQdeTTqfb+VsKAx3cZSiQwUH/DGhjeHIIm5KRP9/dsdV
+         kPjIBvbC1Uo/9kFKMCZhV+Ch7bW+S92DNCd8jvPeb67x6xZuk3r6I/cpcPa13pi5058O
+         kjXKUpED16QPpyLa5j3JF6sDd+W3IRmUomQI1WMHtcpMV+2umqSmttZb+MLTaB10RBuo
+         2IobhDY+f/WvMZgL4LoLIANNy2mx+ZWMzq6uf06r9QN79BDN6GkiJ813cEiHKWaU6QOQ
+         vAug==
+X-Gm-Message-State: APjAAAXGpa6gCBt2/aUP6tPKV8Ilmj8bm0gkt+Zy9BqlIuPqt9ckCgb+
+        ycqjCN39ogqm7xJeKxTbRGHMibey
+X-Google-Smtp-Source: APXvYqxrsLC2MVphHw6sAEK4y5ZHbP4Q3ZCKFQsBnRLno7piYhnlQGP75+BOWFzyhYZn8zjlNcDGIA==
+X-Received: by 2002:a05:600c:40f:: with SMTP id q15mr1542704wmb.88.1566853343737;
+        Mon, 26 Aug 2019 14:02:23 -0700 (PDT)
 Received: from ?IPv6:2001:a61:257e:2f01:31ee:f41e:c688:df4? ([2001:a61:257e:2f01:31ee:f41e:c688:df4])
-        by smtp.gmail.com with ESMTPSA id i30sm811041wmb.20.2019.08.26.13.11.22
+        by smtp.gmail.com with ESMTPSA id l62sm1406329wml.13.2019.08.26.14.02.22
         (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Mon, 26 Aug 2019 13:11:23 -0700 (PDT)
+        Mon, 26 Aug 2019 14:02:23 -0700 (PDT)
 Cc:     mtk.manpages@gmail.com, linux-man@vger.kernel.org
-Subject: Re: [PATCH] ld.so.8: tfix
+Subject: Re: [PATCH] gethostname.2: wfix
 To:     Jakub Wilk <jwilk@jwilk.net>
-References: <20190826161921.9860-1-jwilk@jwilk.net>
+References: <20190826111155.9223-1-jwilk@jwilk.net>
 From:   "Michael Kerrisk (man-pages)" <mtk.manpages@gmail.com>
-Message-ID: <0b142cb7-d92b-7f2b-5f54-a82fc2093d01@gmail.com>
-Date:   Mon, 26 Aug 2019 22:11:20 +0200
+Message-ID: <4aaea00b-ed32-d29c-9440-3e52decb8084@gmail.com>
+Date:   Mon, 26 Aug 2019 23:02:20 +0200
 User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:60.0) Gecko/20100101
  Thunderbird/60.6.1
 MIME-Version: 1.0
-In-Reply-To: <20190826161921.9860-1-jwilk@jwilk.net>
+In-Reply-To: <20190826111155.9223-1-jwilk@jwilk.net>
 Content-Type: text/plain; charset=utf-8
 Content-Language: en-US
 Content-Transfer-Encoding: 7bit
@@ -75,47 +75,59 @@ Precedence: bulk
 List-ID: <linux-man.vger.kernel.org>
 X-Mailing-List: linux-man@vger.kernel.org
 
-Hello Jakub,
+Hello Jakub
 
-On 8/26/19 6:19 PM, Jakub Wilk wrote:
-> Escape hyphens.
-> 
+On 8/26/19 1:11 PM, Jakub Wilk wrote:
 > Signed-off-by: Jakub Wilk <jwilk@jwilk.net>
+> ---
+>  man2/gethostname.2 | 2 +-
+>  1 file changed, 1 insertion(+), 1 deletion(-)
+> 
+> diff --git a/man2/gethostname.2 b/man2/gethostname.2
+> index 4659337cc..5d6c20b0b 100644
+> --- a/man2/gethostname.2
+> +++ b/man2/gethostname.2
+> @@ -68,7 +68,7 @@ _BSD_SOURCE || _XOPEN_SOURCE\ >=\ 500
+>  .ad
+>  .SH DESCRIPTION
+>  These system calls are used to access or to change the hostname of the
+> -current processor.
+> +current machine.
+>  .PP
+>  .BR sethostname ()
+>  sets the hostname to the value given in the character array
 
-Patch applied.
+Instead, I applied the patch below.
 
 Thanks,
 
 Michael
 
+diff --git a/man2/gethostname.2 b/man2/gethostname.2
+index 4659337cc..a07d06fa5 100644
+--- a/man2/gethostname.2
++++ b/man2/gethostname.2
+@@ -67,8 +67,9 @@ _BSD_SOURCE || _XOPEN_SOURCE\ >=\ 500
+ .PD
+ .ad
+ .SH DESCRIPTION
+-These system calls are used to access or to change the hostname of the
+-current processor.
++These system calls are used to access or to change the system hostname.
++More precisely, they operate on the hostname associated with the calling
++process's UTS namespace.
+ .PP
+ .BR sethostname ()
+ sets the hostname to the value given in the character array
+@@ -184,4 +185,5 @@ set to
+ .BR hostname (1),
+ .BR getdomainname (2),
+ .BR setdomainname (2),
+-.BR uname (2)
++.BR uname (2),
++.BR uts_namespaces (7)
 
-> ---
->  man8/ld.so.8 | 4 ++--
->  1 file changed, 2 insertions(+), 2 deletions(-)
-> 
-> diff --git a/man8/ld.so.8 b/man8/ld.so.8
-> index 3747a1ab3..2dce42a67 100644
-> --- a/man8/ld.so.8
-> +++ b/man8/ld.so.8
-> @@ -428,7 +428,7 @@ loading a new shared object, resolving a symbol,
->  or calling a symbol from another shared object\(emby
->  calling an appropriate function within the audit shared object.
->  For details, see
-> -.BR rtld-audit (7).
-> +.BR rtld\-audit (7).
->  The auditing interface is largely compatible with that provided on Solaris,
->  as described in its
->  .IR "Linker and Libraries Guide" ,
-> @@ -783,7 +783,7 @@ mtrr, pat, pbe, pge, pn, pse36, sep, ss, sse, sse2, tm
->  .BR getauxval (3),
->  .BR elf (5),
->  .BR capabilities (7),
-> -.BR rtld-audit (7),
-> +.BR rtld\-audit (7),
->  .BR ldconfig (8),
->  .BR sln (8)
->  .\" .SH AUTHORS
-> 
+
 
 
 -- 
