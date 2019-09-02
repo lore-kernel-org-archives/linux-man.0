@@ -2,82 +2,67 @@ Return-Path: <SRS0=NCxk=W5=vger.kernel.org=linux-man-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-6.7 required=3.0 tests=HEADER_FROM_DIFFERENT_DOMAINS,
-	INCLUDES_PATCH,MAILING_LIST_MULTI,SIGNED_OFF_BY,SPF_HELO_NONE,SPF_PASS,
-	URIBL_BLOCKED autolearn=ham autolearn_force=no version=3.4.0
+X-Spam-Status: No, score=-0.8 required=3.0 tests=HEADER_FROM_DIFFERENT_DOMAINS,
+	MAILING_LIST_MULTI,SPF_HELO_NONE,SPF_PASS autolearn=no autolearn_force=no
+	version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id C30FEC3A59E
-	for <linux-man@archiver.kernel.org>; Mon,  2 Sep 2019 12:39:01 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id A5F00C3A59E
+	for <linux-man@archiver.kernel.org>; Mon,  2 Sep 2019 13:44:57 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.kernel.org (Postfix) with ESMTP id 9E99A216C8
-	for <linux-man@archiver.kernel.org>; Mon,  2 Sep 2019 12:39:01 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTP id 7C26E216C8
+	for <linux-man@archiver.kernel.org>; Mon,  2 Sep 2019 13:44:57 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1729690AbfIBMjB (ORCPT <rfc822;linux-man@archiver.kernel.org>);
-        Mon, 2 Sep 2019 08:39:01 -0400
-Received: from vmicros1.altlinux.org ([194.107.17.57]:52250 "EHLO
-        vmicros1.altlinux.org" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1729658AbfIBMjB (ORCPT
-        <rfc822;linux-man@vger.kernel.org>); Mon, 2 Sep 2019 08:39:01 -0400
-Received: from mua.local.altlinux.org (mua.local.altlinux.org [192.168.1.14])
-        by vmicros1.altlinux.org (Postfix) with ESMTP id 1645C72CC6C;
-        Mon,  2 Sep 2019 15:38:59 +0300 (MSK)
-Received: by mua.local.altlinux.org (Postfix, from userid 508)
-        id E33767CC7AF; Mon,  2 Sep 2019 15:38:58 +0300 (MSK)
-Date:   Mon, 2 Sep 2019 15:38:58 +0300
-From:   "Dmitry V. Levin" <ldv@altlinux.org>
-To:     Michael Kerrisk <mtk.manpages@gmail.com>
-Cc:     Elvira Khabirova <lineprinter@altlinux.org>,
+        id S1729945AbfIBNo5 (ORCPT <rfc822;linux-man@archiver.kernel.org>);
+        Mon, 2 Sep 2019 09:44:57 -0400
+Received: from mx1.redhat.com ([209.132.183.28]:55224 "EHLO mx1.redhat.com"
+        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
+        id S1726253AbfIBNo5 (ORCPT <rfc822;linux-man@vger.kernel.org>);
+        Mon, 2 Sep 2019 09:44:57 -0400
+Received: from smtp.corp.redhat.com (int-mx05.intmail.prod.int.phx2.redhat.com [10.5.11.15])
+        (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
+        (No client certificate requested)
+        by mx1.redhat.com (Postfix) with ESMTPS id 1952F85546;
+        Mon,  2 Sep 2019 13:44:57 +0000 (UTC)
+Received: from oldenburg2.str.redhat.com (ovpn-116-55.ams2.redhat.com [10.36.116.55])
+        by smtp.corp.redhat.com (Postfix) with ESMTPS id CE7945D6B7;
+        Mon,  2 Sep 2019 13:44:55 +0000 (UTC)
+From:   Florian Weimer <fweimer@redhat.com>
+To:     "Michael Kerrisk \(man-pages\)" <mtk.manpages@gmail.com>
+Cc:     Eric Blake <eblake@redhat.com>,
+        glibc list <libc-alpha@sourceware.org>,
         linux-man@vger.kernel.org
-Subject: [PATCH] ptrace.2: document PTRACE_GET_SYSCALL_INFO
-Message-ID: <20190902123858.GA8956@altlinux.org>
+Subject: Re: f_owner_ex vs. POSIX
+References: <a6d65cee-a909-449c-484d-66cd26093958@redhat.com>
+        <bdc9527b-6595-9f4e-b35d-3796967e044c@gmail.com>
+Date:   Mon, 02 Sep 2019 15:44:53 +0200
+In-Reply-To: <bdc9527b-6595-9f4e-b35d-3796967e044c@gmail.com> (Michael
+        Kerrisk's message of "Sun, 1 Sep 2019 15:23:36 +0200")
+Message-ID: <87mufmvmlm.fsf@oldenburg2.str.redhat.com>
+User-Agent: Gnus/5.13 (Gnus v5.13) Emacs/26.2 (gnu/linux)
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
+Content-Type: text/plain
+X-Scanned-By: MIMEDefang 2.79 on 10.5.11.15
+X-Greylist: Sender IP whitelisted, not delayed by milter-greylist-4.5.16 (mx1.redhat.com [10.5.110.28]); Mon, 02 Sep 2019 13:44:57 +0000 (UTC)
 Sender: linux-man-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-man.vger.kernel.org>
 X-Mailing-List: linux-man@vger.kernel.org
 
-PTRACE_GET_SYSCALL_INFO request was introduced by Linux kernel commit
-201766a20e30f982ccfe36bebfad9602c3ff574a aka v5.3-rc1~65^2~23.
+* Michael Kerrisk:
 
-Signed-off-by: Dmitry V. Levin <ldv@altlinux.org>
----
- man2/ptrace.2 | 21 +++++++++++++++++++++
- 1 file changed, 21 insertions(+)
+> I do not know what the rationale was for the addition of the 'enum',
+> and it wouldn't surprise me if there was no public discussion about
+> it. The use of an 'enum' strikes me as a slightly odd decision (given
+> that the kernel uses 'int') but, related to your point below, there
+> is precedent in, for example, the use of an 'enum' for 'idtype_t' in
+> waitid() inside glibc, while the kernel type for the argument in
+> the underlying system call is 'int'.
 
-diff --git a/man2/ptrace.2 b/man2/ptrace.2
-index 8b8daf238..3b774f87b 100644
---- a/man2/ptrace.2
-+++ b/man2/ptrace.2
-@@ -1005,6 +1005,27 @@ of the
- .IR "struct user_desc"
- is ignored; in other words,
- this ptrace operation can't be used to allocate a free TLS entry.)
-+.TP
-+.BR PTRACE_GET_SYSCALL_INFO " (since Linux 5.3)"
-+.\" commit 201766a20e30f982ccfe36bebfad9602c3ff574a
-+Retrieve information about the syscall that caused the stop.
-+The information is placed into the buffer pointed by
-+.I data
-+argument, which should be a pointer to a buffer of type
-+.IR "struct ptrace_syscall_info" .
-+The
-+.I addr
-+argument contains the size of the buffer pointed to
-+by
-+.I data
-+argument (i.e.,
-+.IR "sizeof(struct ptrace_syscall_info)" ).
-+The return value contains the number of bytes available
-+to be written by the kernel.
-+If the size of data to be written by the kernel exceeds the size
-+specified by
-+.I addr
-+argument, the output is truncated.
- .\"
- .SS Death under ptrace
- When a (possibly multithreaded) process receives a killing signal
+There is also the issue of -fshort-enum.  Some people probably expect
+that they can use that option and still use glibc headers.
 
--- 
-ldv
+I do not have any inside knowledge why things are like they are.
+Presumably we can switch the type member to int.
+
+Thanks,
+Florian
