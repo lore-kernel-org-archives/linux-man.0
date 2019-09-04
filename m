@@ -1,67 +1,75 @@
-Return-Path: <SRS0=y5wq=W6=vger.kernel.org=linux-man-owner@kernel.org>
+Return-Path: <SRS0=jh7u=W7=vger.kernel.org=linux-man-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-2.2 required=3.0 tests=HEADER_FROM_DIFFERENT_DOMAINS,
-	MAILING_LIST_MULTI,SPF_HELO_NONE,SPF_PASS,USER_AGENT_SANE_1 autolearn=no
-	autolearn_force=no version=3.4.0
+X-Spam-Status: No, score=-9.7 required=3.0 tests=HEADER_FROM_DIFFERENT_DOMAINS,
+	INCLUDES_PATCH,MAILING_LIST_MULTI,SIGNED_OFF_BY,SPF_HELO_NONE,SPF_PASS,
+	URIBL_BLOCKED,USER_AGENT_GIT autolearn=ham autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id E3285C3A5A5
-	for <linux-man@archiver.kernel.org>; Tue,  3 Sep 2019 04:05:45 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 499BFC3A5A7
+	for <linux-man@archiver.kernel.org>; Wed,  4 Sep 2019 08:10:52 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.kernel.org (Postfix) with ESMTP id BBDA321881
-	for <linux-man@archiver.kernel.org>; Tue,  3 Sep 2019 04:05:45 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTP id 2D1C222CF7
+	for <linux-man@archiver.kernel.org>; Wed,  4 Sep 2019 08:10:52 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1725821AbfICEFp (ORCPT <rfc822;linux-man@archiver.kernel.org>);
-        Tue, 3 Sep 2019 00:05:45 -0400
-Received: from 216-12-86-13.cv.mvl.ntelos.net ([216.12.86.13]:47712 "EHLO
-        brightrain.aerifal.cx" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1725818AbfICEFp (ORCPT
-        <rfc822;linux-man@vger.kernel.org>); Tue, 3 Sep 2019 00:05:45 -0400
-X-Greylist: delayed 844 seconds by postgrey-1.27 at vger.kernel.org; Tue, 03 Sep 2019 00:05:45 EDT
-Received: from dalias by brightrain.aerifal.cx with local (Exim 3.15 #2)
-        id 1i4zqu-0003qd-00; Tue, 03 Sep 2019 03:51:32 +0000
-Date:   Mon, 2 Sep 2019 23:51:32 -0400
-From:   Rich Felker <dalias@libc.org>
-To:     Florian Weimer <fweimer@redhat.com>
-Cc:     "Michael Kerrisk (man-pages)" <mtk.manpages@gmail.com>,
-        Eric Blake <eblake@redhat.com>,
-        glibc list <libc-alpha@sourceware.org>,
-        linux-man@vger.kernel.org
-Subject: Re: f_owner_ex vs. POSIX
-Message-ID: <20190903035132.GV9017@brightrain.aerifal.cx>
-References: <a6d65cee-a909-449c-484d-66cd26093958@redhat.com>
- <bdc9527b-6595-9f4e-b35d-3796967e044c@gmail.com>
- <87mufmvmlm.fsf@oldenburg2.str.redhat.com>
+        id S1729251AbfIDIKv (ORCPT <rfc822;linux-man@archiver.kernel.org>);
+        Wed, 4 Sep 2019 04:10:51 -0400
+Received: from mail.cn.fujitsu.com ([183.91.158.132]:6579 "EHLO
+        heian.cn.fujitsu.com" rhost-flags-OK-OK-OK-FAIL) by vger.kernel.org
+        with ESMTP id S1727787AbfIDIKu (ORCPT
+        <rfc822;linux-man@vger.kernel.org>); Wed, 4 Sep 2019 04:10:50 -0400
+X-IronPort-AV: E=Sophos;i="5.64,465,1559491200"; 
+   d="scan'208";a="74817160"
+Received: from unknown (HELO cn.fujitsu.com) ([10.167.33.5])
+  by heian.cn.fujitsu.com with ESMTP; 04 Sep 2019 16:10:48 +0800
+Received: from G08CNEXCHPEKD02.g08.fujitsu.local (unknown [10.167.33.83])
+        by cn.fujitsu.com (Postfix) with ESMTP id 6802E4CE14E4;
+        Wed,  4 Sep 2019 16:10:45 +0800 (CST)
+Received: from localhost.localdomain (10.167.220.84) by
+ G08CNEXCHPEKD02.g08.fujitsu.local (10.167.33.89) with Microsoft SMTP Server
+ (TLS) id 14.3.439.0; Wed, 4 Sep 2019 16:10:43 +0800
+From:   Yang Xu <xuyang2018.jy@cn.fujitsu.com>
+To:     <mtk.manpages@gmail.com>
+CC:     <linux-man@vger.kernel.org>, Yang Xu <xuyang2018.jy@cn.fujitsu.com>
+Subject: [PATCH] move_pages.2: mark deprecated E2BIG
+Date:   Wed, 4 Sep 2019 16:10:38 +0800
+Message-ID: <1567584638-3133-1-git-send-email-xuyang2018.jy@cn.fujitsu.com>
+X-Mailer: git-send-email 1.8.3.1
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <87mufmvmlm.fsf@oldenburg2.str.redhat.com>
-User-Agent: Mutt/1.5.21 (2010-09-15)
+Content-Type: text/plain
+X-Originating-IP: [10.167.220.84]
+X-yoursite-MailScanner-ID: 6802E4CE14E4.AD6D1
+X-yoursite-MailScanner: Found to be clean
+X-yoursite-MailScanner-From: xuyang2018.jy@cn.fujitsu.com
 Sender: linux-man-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-man.vger.kernel.org>
 X-Mailing-List: linux-man@vger.kernel.org
 
-On Mon, Sep 02, 2019 at 03:44:53PM +0200, Florian Weimer wrote:
-> * Michael Kerrisk:
-> 
-> > I do not know what the rationale was for the addition of the 'enum',
-> > and it wouldn't surprise me if there was no public discussion about
-> > it. The use of an 'enum' strikes me as a slightly odd decision (given
-> > that the kernel uses 'int') but, related to your point below, there
-> > is precedent in, for example, the use of an 'enum' for 'idtype_t' in
-> > waitid() inside glibc, while the kernel type for the argument in
-> > the underlying system call is 'int'.
-> 
-> There is also the issue of -fshort-enum.  Some people probably expect
-> that they can use that option and still use glibc headers.
-> 
-> I do not have any inside knowledge why things are like they are.
-> Presumably we can switch the type member to int.
+E2BIG was removed in 2.6.29, we should mark it as
+deprecated.
 
-I'm strongly in favor of switch to int. enum types are an
-ABI/compatibility nightmare and have little purpose (unlike enum
-constants which are actually useful).
+Signed-off-by: Yang Xu <xuyang2018.jy@cn.fujitsu.com>
+---
+ man2/move_pages.2 | 3 ++-
+ 1 file changed, 2 insertions(+), 1 deletion(-)
 
-Rich
+diff --git a/man2/move_pages.2 b/man2/move_pages.2
+index dcdedf28a..3370e9e00 100644
+--- a/man2/move_pages.2
++++ b/man2/move_pages.2
+@@ -168,7 +168,8 @@ to indicate the error.
+ .SH ERRORS
+ .TP
+ .B E2BIG
+-Too many pages to move.
++Too many pages to move. It was deprecated since 2.6.29.
++.\" 3140a2273009c01c27d316f35ab76a37e105fdd8
+ .TP
+ .B EACCES
+ .\" FIXME Clarify "current cpuset" in the description of the EACCES error.
+-- 
+2.18.1
+
+
+
