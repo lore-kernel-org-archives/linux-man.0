@@ -1,217 +1,139 @@
-Return-Path: <SRS0=fI7i=XE=vger.kernel.org=linux-man-owner@kernel.org>
+Return-Path: <SRS0=p67J=XF=vger.kernel.org=linux-man-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-1.0 required=3.0 tests=HEADER_FROM_DIFFERENT_DOMAINS,
-	MAILING_LIST_MULTI,SPF_HELO_NONE,SPF_PASS,URIBL_BLOCKED autolearn=no
-	autolearn_force=no version=3.4.0
+X-Spam-Status: No, score=-2.6 required=3.0 tests=DKIM_SIGNED,DKIM_VALID,
+	DKIM_VALID_AU,FREEMAIL_FORGED_FROMDOMAIN,FREEMAIL_FROM,
+	HEADER_FROM_DIFFERENT_DOMAINS,MAILING_LIST_MULTI,SPF_HELO_NONE,SPF_PASS,
+	URIBL_BLOCKED,USER_AGENT_SANE_1 autolearn=no autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 7D775C4740A
-	for <linux-man@archiver.kernel.org>; Mon,  9 Sep 2019 23:40:56 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 06C4DC3A5A2
+	for <linux-man@archiver.kernel.org>; Tue, 10 Sep 2019 08:26:36 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.kernel.org (Postfix) with ESMTP id 4C8DA2082C
-	for <linux-man@archiver.kernel.org>; Mon,  9 Sep 2019 23:40:56 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTP id CDAF6206A5
+	for <linux-man@archiver.kernel.org>; Tue, 10 Sep 2019 08:26:35 +0000 (UTC)
+Authentication-Results: mail.kernel.org;
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="NWTPqQ30"
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1730779AbfIIXkz (ORCPT <rfc822;linux-man@archiver.kernel.org>);
-        Mon, 9 Sep 2019 19:40:55 -0400
-Received: from out01.mta.xmission.com ([166.70.13.231]:34366 "EHLO
-        out01.mta.xmission.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1729483AbfIIXkz (ORCPT
-        <rfc822;linux-man@vger.kernel.org>); Mon, 9 Sep 2019 19:40:55 -0400
-Received: from in01.mta.xmission.com ([166.70.13.51])
-        by out01.mta.xmission.com with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
-        (Exim 4.87)
-        (envelope-from <ebiederm@xmission.com>)
-        id 1i7THA-0006j5-CC; Mon, 09 Sep 2019 17:40:52 -0600
-Received: from 110.8.30.213.rev.vodafone.pt ([213.30.8.110] helo=x220.xmission.com)
-        by in01.mta.xmission.com with esmtpsa (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
-        (Exim 4.87)
-        (envelope-from <ebiederm@xmission.com>)
-        id 1i7TH7-0007xy-P4; Mon, 09 Sep 2019 17:40:52 -0600
-From:   ebiederm@xmission.com (Eric W. Biederman)
-To:     "Michael Kerrisk \(man-pages\)" <mtk.manpages@gmail.com>
-Cc:     Philipp Wendler <ml@philippwendler.de>,
-        linux-man <linux-man@vger.kernel.org>,
-        Containers <containers@lists.linux-foundation.org>,
-        lkml <linux-kernel@vger.kernel.org>,
-        Andy Lutomirski <luto@amacapital.net>,
-        Jordan Ogas <jogas@lanl.gov>, werner@almesberger.net,
-        Al Viro <viro@ftp.linux.org.uk>
-References: <CAKgNAki0bR5zZr+kp_xjq+bNUky6-F+s2ep+jnR0YrjHhNMB1g@mail.gmail.com>
-        <20190805103630.tu4kytsbi5evfrhi@mikami>
-        <3a96c631-6595-b75e-f6a7-db703bf89bcf@gmail.com>
-        <da747415-4c7a-f931-6f2e-2962da63c161@philippwendler.de>
-        <CAKgNAkjS+x7aMVUiVSgCRwgi8rnukqJv=svtTARE-tt-oxQxWw@mail.gmail.com>
-        <87r24piwhm.fsf@x220.int.ebiederm.org>
-        <CAKgNAkhK2qBbz5aVY9VdK0UzvpZ=c7c7LWQ1MK2gu-rVKUz9_g@mail.gmail.com>
-Date:   Mon, 09 Sep 2019 18:40:29 -0500
-In-Reply-To: <CAKgNAkhK2qBbz5aVY9VdK0UzvpZ=c7c7LWQ1MK2gu-rVKUz9_g@mail.gmail.com>
-        (Michael Kerrisk's message of "Mon, 9 Sep 2019 16:48:01 +0200")
-Message-ID: <87ftl5donm.fsf@x220.int.ebiederm.org>
-User-Agent: Gnus/5.13 (Gnus v5.13) Emacs/26.1 (gnu/linux)
+        id S1725981AbfIJI0f (ORCPT <rfc822;linux-man@archiver.kernel.org>);
+        Tue, 10 Sep 2019 04:26:35 -0400
+Received: from mail-wr1-f65.google.com ([209.85.221.65]:36046 "EHLO
+        mail-wr1-f65.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1725876AbfIJI0f (ORCPT
+        <rfc822;linux-man@vger.kernel.org>); Tue, 10 Sep 2019 04:26:35 -0400
+Received: by mail-wr1-f65.google.com with SMTP id y19so18271262wrd.3
+        for <linux-man@vger.kernel.org>; Tue, 10 Sep 2019 01:26:33 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20161025;
+        h=cc:subject:to:references:from:message-id:date:user-agent
+         :mime-version:in-reply-to:content-language:content-transfer-encoding;
+        bh=8wJ788b0tkaI+2WFNRYDbxCC/XixkhXQMiTq+7f+uew=;
+        b=NWTPqQ30EYIISEf83YzWqnaiXG3cB6lwZIo2KJ7LoFj9BaWlbANdWGVBx7KIpD1jMW
+         vsU1hhMoSQ3v5uggM+FkdIMxTv5Ud8aQKHQ4CBX0h75bGE/Spjr/DZLnCrplpvFI5T2N
+         zIpDajeHWQQEtetPltD4wOuq6wjOnUuGGR5bVKuN3ur+OKn9GdIKH7Rot7n5DvLxKd2m
+         e13CLFjdgo4Y/7x7lMzwAIM6BLSQbnfCK1Inh9+aherdoIkUCiA8GLMBrThDA52pWuI7
+         niH1hp/g9Chx5ag/KszS81bRglzQj0u9SuKQpuBOg/0tiMl7CQ/p0qShQcR0aSNGQPM3
+         yLgg==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20161025;
+        h=x-gm-message-state:cc:subject:to:references:from:message-id:date
+         :user-agent:mime-version:in-reply-to:content-language
+         :content-transfer-encoding;
+        bh=8wJ788b0tkaI+2WFNRYDbxCC/XixkhXQMiTq+7f+uew=;
+        b=lNYc9gaRL8GSymodMrzVQqk9nEj3c8U8dpwp+oexlDG1j/sCWl2QkayGPD4uzflGhn
+         DmZ/VzCNkloEY6OeNWaCPxYHMLiyAFBhwSnOs7eVLDZq11esNru1SK/I0lhEYO5TvYFF
+         p49dsUsccUGUg9LWpWkto6GK7D0X5yaO1S3HFWVqusn/RcVoPeFFzdgard+6xQPXWNTm
+         aet7H7AvqBcOAFAS1t5UEz4w/EOVmH/5nu721Fy8eaxG8qpgzM2NROxbac+fQl6EERhz
+         D4eF3CkkrvtmwAugJOeiZ9djCmXIh37fy7ZMpOnCIG6sByS/TPrW9+p9jMYI6YiJyi43
+         qXsA==
+X-Gm-Message-State: APjAAAVOs9CFZbg67rTBUpqAssMBQSR4HRW7xKkvDsavcN/qVmOJvdKL
+        haSf0D9X7JUMt+Goo8gDJ0u2kP3y
+X-Google-Smtp-Source: APXvYqyiZTNUyyzU3N7qSlsYGZtBY03S5hUDgkD1lAS2/deNCXjZ/8AO0apy+HKe2cgKXhgKRmYKwQ==
+X-Received: by 2002:adf:f151:: with SMTP id y17mr4529076wro.244.1568103993052;
+        Tue, 10 Sep 2019 01:26:33 -0700 (PDT)
+Received: from [10.0.20.253] ([95.157.63.22])
+        by smtp.gmail.com with ESMTPSA id f143sm2299293wme.40.2019.09.10.01.26.31
+        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+        Tue, 10 Sep 2019 01:26:31 -0700 (PDT)
+Cc:     mtk.manpages@gmail.com,
+        Florin Blanaru <florin.blanaru96@gmail.com>,
+        linux-man <linux-man@vger.kernel.org>
+Subject: Re: Quick fix for syscall man page
+To:     Adam Borowski <kilobyte@angband.pl>, walter harms <wharms@bfs.de>
+References: <CAMkHNDzkn10oZLyK9S8-UnjGn=OyMy=P8Bx7+vf0iEBwpc5p2g@mail.gmail.com>
+ <CAKgNAkhOCxB_go-+qSJBAabJxi67c=iBXfajTY09CXUMUj=hnQ@mail.gmail.com>
+ <5D761692.9090905@bfs.de> <20190909182747.GA12602@angband.pl>
+From:   "Michael Kerrisk (man-pages)" <mtk.manpages@gmail.com>
+Message-ID: <6da7ef65-c9aa-b670-7305-25c7f4e9f9f8@gmail.com>
+Date:   Tue, 10 Sep 2019 10:26:31 +0200
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:60.0) Gecko/20100101
+ Thunderbird/60.6.1
 MIME-Version: 1.0
-Content-Type: text/plain
-X-XM-SPF: eid=1i7TH7-0007xy-P4;;;mid=<87ftl5donm.fsf@x220.int.ebiederm.org>;;;hst=in01.mta.xmission.com;;;ip=213.30.8.110;;;frm=ebiederm@xmission.com;;;spf=neutral
-X-XM-AID: U2FsdGVkX19C8a+fyJKpkMOSs2F/Y2I2o2EtRmXhpeo=
-X-SA-Exim-Connect-IP: 213.30.8.110
-X-SA-Exim-Mail-From: ebiederm@xmission.com
-Subject: Re: pivot_root(".", ".") and the fchdir() dance
-X-SA-Exim-Version: 4.2.1 (built Thu, 05 May 2016 13:38:54 -0600)
-X-SA-Exim-Scanned: Yes (on in01.mta.xmission.com)
+In-Reply-To: <20190909182747.GA12602@angband.pl>
+Content-Type: text/plain; charset=utf-8
+Content-Language: en-US
+Content-Transfer-Encoding: 7bit
 Sender: linux-man-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-man.vger.kernel.org>
 X-Mailing-List: linux-man@vger.kernel.org
 
-"Michael Kerrisk (man-pages)" <mtk.manpages@gmail.com> writes:
+Hello Adam,
 
-> Hello Eric,
->
-> Thanks for chiming in; I should have thought to CC you at the start. I
-> have a question or two, below.
->
-> On Mon, 9 Sep 2019 at 12:40, Eric W. Biederman <ebiederm@xmission.com> wrote:
->>
->> "Michael Kerrisk (man-pages)" <mtk.manpages@gmail.com> writes:
->>
->> > Hello Philipp,
->> >
->> > On Tue, 6 Aug 2019 at 10:12, Philipp Wendler <ml@philippwendler.de> wrote:
->> >>
->> >> Hello Michael, hello Aleksa,
->> >>
->> >> Am 05.08.19 um 14:29 schrieb Michael Kerrisk (man-pages):
->> >>
->> >> > On 8/5/19 12:36 PM, Aleksa Sarai wrote:
->> >> >> On 2019-08-01, Michael Kerrisk (man-pages) <mtk.manpages@gmail.com> wrote:
->> >> >>> I'd like to add some documentation about the pivot_root(".", ".")
->> >> >>> idea, but I have a doubt/question. In the lxc_pivot_root() code we
->> >> >>> have these steps
->> >> >>>
->> >> >>>         oldroot = open("/", O_DIRECTORY | O_RDONLY | O_CLOEXEC);
->> >> >>>         newroot = open(rootfs, O_DIRECTORY | O_RDONLY | O_CLOEXEC);
->> >> >>>
->> >> >>>         fchdir(newroot);
->> >> >>>         pivot_root(".", ".");
->> >> >>>
->> >> >>>         fchdir(oldroot);      // ****
->> >> >>>
->> >> >>>         mount("", ".", "", MS_SLAVE | MS_REC, NULL);
->> >> >>>         umount2(".", MNT_DETACH);
->> >> >>
->> >> >>>         fchdir(newroot);      // ****
->> >> >>
->> >> >> And this one is required because we are in @oldroot at this point, due
->> >> >> to the first fchdir(2). If we don't have the first one, then switching
->> >> >> from "." to "/" in the mount/umount2 calls should fix the issue.
->> >> >
->> >> > See my notes above for why I therefore think that the second fchdir()
->> >> > is also not needed (and therefore why switching from "." to "/" in the
->> >> > mount()/umount2() calls is unnecessary.
->> >> >
->> >> > Do you agree with my analysis?
->> >>
->> >> If both the second and third fchdir are not required,
->> >> then we do not need to bother with file descriptors at all, right?
->> >
->> > Exactly.
->> >
->> >> Indeed, my tests show that the following seems to work fine:
->> >>
->> >> chdir(rootfs)
->> >> pivot_root(".", ".")
->> >> umount2(".", MNT_DETACH)
->> >
->> > Thanks for the confirmation, That's also exactly what I tested.
->> >
->> >> I tested that with my own tool[1] that uses user namespaces and marks
->> >> everything MS_PRIVATE before, so I do not need the mount(MS_SLAVE) here.
->> >>
->> >> And it works the same with both umount2("/") and umount2(".").
->> >
->> > Yes.
->> >
->> >> Did I overlook something that makes the file descriptors required?
->> >
->> > No.
->> >
->> >> If not, wouldn't the above snippet make sense as example in the man page?
->> >
->> > I have exactly that snippet in a pending change for the manual page :-).
->>
->> I have just spotted this conversation and I expect if you are going
->> to use this example it is probably good to document what is going
->> on so that people can follow along.
->
-> (Sounds reasonable.)
->
->> >> chdir(rootfs)
->> >> pivot_root(".", ".")
->>
->> At this point the mount stack should be:
->> old_root
->> new_root
->> rootfs
->
-> In this context, what is 'rootfs'? The initramfs? At least, when I
-> examine /proc/PID/mountinfo. When I look at the / mount point in
-> /proc/PID/mountinfo, I see just
->
->    old_root
->    new_root
->
-> But nothing below 'new_root'. So, I'm a little puzzled.
+Thanks for jumping in.
+On 9/9/19 8:27 PM, Adam Borowski wrote:
+> On Mon, Sep 09, 2019 at 11:08:34AM +0200, walter harms wrote:
+>> Am 09.09.2019 10:52, schrieb Michael Kerrisk (man-pages):
+>>> [Adding Adam Borowski in CC, since he wrote the riscv text back at the
+>>> start of 2018, andand he may have a comment.]
+> 
+> I don't know RISCV; I needed to learn how to issue syscalls to port
+> something -- so I've searched for relevant documentation, tested that it
+> indeed works, then submitted that line to make the man page complete.
+> 
+>>> On Thu, 5 Sep 2019 at 18:35, Florin Blanaru <florin.blanaru96@gmail.com> wrote:
+>>>> http://man7.org/linux/man-pages/man2/syscall.2.html
+>>>>
+>>>> In the first table, for the riscv Arch/ABI, the instruction should be
+>>>> ecall instead of scall.
+>>>>
+>>>> According the official manual, the instruction has been renamed.
+>>>> https://content.riscv.org/wp-content/uploads/2017/05/riscv-spec-v2.2.pdf
+> 
+> What matters for us, and the vast majority of programmers, is that the
+> rename predates merging into official releases of binutils.  Thus, there is
+> no reason to ever use the old name in actual code.
+> 
+>> Maybe it would be helpful to add a "footnote" that this is a rename only.
+>> Otherwise people may get confused.
+> 
+> I wonder, perhaps just a commit message would be enough?  The alias is
+> historic only; new documentation is supposed to use the new name.  Man pages
+> contain a lot of data that has been obsolete for decades -- it might be good
+> to avoid stuff that became obsolete before the official release.
+> 
+> But it's up to you -- you know better what's your policy about historical
+> information.
 
-I think that is because Al changed /proc/mounts to not display mounts
-that are outside of your current root.  But yes there is typically
-the initramfs of file system type rootfs on their.  Even when it isn't
-used you have one.  Just to keep everything simple I presume.
+On reflection, I agree. I'll trim this back to a note in the commit
+message only. (Nevertheless, thanks, Walter.)
 
-I haven't double checked lately to be certain it is there but I expect
-it is.
+Cheers,
 
-> By the way, why is 'old_root' stacked above 'new_root', do you know? I
-> mean, in this scenario it turns out to be useful, but it's kind of the
-> opposite from what I would have expected. (And if this was a
-> deliverate design decision in pivot_root(), it was never made
-> explicit.)
+Michael
 
-Oh.  It is absolutely explicit and part of the design and it has nothing
-to do with this case.
-
-The pivot_root system calls takes two parameters:  new_root and put_old.
-
-In this case the old root is put on put_old (which is the new_root).
-And new_root is made the current root.
-
-The pivot_root code looks everything up before it moves anything.   With
-the result it is totally immaterrial which order the moves actually
-happen in the code.  Further it is pretty much necessary to look
-everything up before things are moved because the definition of paths
-change.
-
-So it would actually be difficult to have pivot_root(.,.) to do anything
-except what it does today.
+>>> --- a/man2/syscall.2
+>>> +++ b/man2/syscall.2
+>>> @@ -196,7 +196,7 @@ mips        syscall v0      v0      v1      a3      1, 6
+>>> -riscv  scall   a7      a0      a1      -
+>>> +riscv  ecall   a7      a0      a1      -
+> 
+> 
+> Meow!
+> 
 
 
->> With "." and "/" pointing to new_root.
->>
->> >> umount2(".", MNT_DETACH)
->>
->> At this point resolving "." starts with new_root and follows up the
->> mount stack to old-root.
->
-> Okay.
->
->> Ordinarily if you unmount "/" as is happening above you then need to
->> call chroot and possibly chdir to ensure neither "/" nor "." point to
->> somewhere other than the unmounted root filesystem.  In this specific
->> case because "/" and "." resolve to new_root under the filesystem that is
->> being unmounted that all is well.
->
-> s/that/then/ ?
-
-Yes.
-
-Eric
-
+-- 
+Michael Kerrisk
+Linux man-pages maintainer; http://www.kernel.org/doc/man-pages/
+Linux/UNIX System Programming Training: http://man7.org/training/
