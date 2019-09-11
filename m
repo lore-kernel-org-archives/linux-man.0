@@ -2,68 +2,111 @@ Return-Path: <SRS0=9UJ4=XG=vger.kernel.org=linux-man-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-10.0 required=3.0
-	tests=HEADER_FROM_DIFFERENT_DOMAINS,INCLUDES_PATCH,MAILING_LIST_MULTI,
-	SIGNED_OFF_BY,SPF_HELO_NONE,SPF_PASS,URIBL_BLOCKED,USER_AGENT_GIT
+X-Spam-Status: No, score=-7.0 required=3.0 tests=HEADER_FROM_DIFFERENT_DOMAINS,
+	INCLUDES_PATCH,MAILING_LIST_MULTI,SIGNED_OFF_BY,SPF_HELO_NONE,SPF_PASS
 	autolearn=ham autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id A17ABC5ACAE
-	for <linux-man@archiver.kernel.org>; Wed, 11 Sep 2019 13:07:00 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id DF6FBC49ED6
+	for <linux-man@archiver.kernel.org>; Wed, 11 Sep 2019 17:38:11 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.kernel.org (Postfix) with ESMTP id 7EB80206A5
-	for <linux-man@archiver.kernel.org>; Wed, 11 Sep 2019 13:07:00 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTP id 965FB2084F
+	for <linux-man@archiver.kernel.org>; Wed, 11 Sep 2019 17:38:11 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1728027AbfIKNHA (ORCPT <rfc822;linux-man@archiver.kernel.org>);
-        Wed, 11 Sep 2019 09:07:00 -0400
-Received: from h2.fbrelay.privateemail.com ([131.153.2.43]:59092 "EHLO
-        h2.fbrelay.privateemail.com" rhost-flags-OK-OK-OK-OK)
-        by vger.kernel.org with ESMTP id S1728023AbfIKNG7 (ORCPT
-        <rfc822;linux-man@vger.kernel.org>); Wed, 11 Sep 2019 09:06:59 -0400
-X-Greylist: delayed 832 seconds by postgrey-1.27 at vger.kernel.org; Wed, 11 Sep 2019 09:06:59 EDT
-Received: from MTA-08-4.privateemail.com (mta-08.privateemail.com [68.65.122.18])
-        (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
-        (No client certificate requested)
-        by h1.fbrelay.privateemail.com (Postfix) with ESMTPS id 6BF3F80A35
-        for <linux-man@vger.kernel.org>; Wed, 11 Sep 2019 08:53:07 -0400 (EDT)
-Received: from MTA-08.privateemail.com (localhost [127.0.0.1])
-        by MTA-08.privateemail.com (Postfix) with ESMTP id 33DF060056;
-        Wed, 11 Sep 2019 08:53:06 -0400 (EDT)
-Received: from wrwlf0000.attlocal.net (unknown [10.20.151.209])
-        by MTA-08.privateemail.com (Postfix) with ESMTPA id D833D60051;
-        Wed, 11 Sep 2019 12:53:05 +0000 (UTC)
-From:   "Christopher M. Riedl" <cmr@informatik.wtf>
-To:     mtk.manpages@gmail.com
-Cc:     linux-man@vger.kernel.org
-Subject: [PATCH] mprotect.2: wfix
-Date:   Wed, 11 Sep 2019 07:56:39 -0500
-Message-Id: <20190911125639.2083-1-cmr@informatik.wtf>
-X-Mailer: git-send-email 2.23.0
+        id S1729349AbfIKRiL (ORCPT <rfc822;linux-man@archiver.kernel.org>);
+        Wed, 11 Sep 2019 13:38:11 -0400
+Received: from vmicros1.altlinux.org ([194.107.17.57]:53676 "EHLO
+        vmicros1.altlinux.org" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1729145AbfIKRiL (ORCPT
+        <rfc822;linux-man@vger.kernel.org>); Wed, 11 Sep 2019 13:38:11 -0400
+Received: from mua.local.altlinux.org (mua.local.altlinux.org [192.168.1.14])
+        by vmicros1.altlinux.org (Postfix) with ESMTP id 2422772CC6C;
+        Wed, 11 Sep 2019 20:38:08 +0300 (MSK)
+Received: by mua.local.altlinux.org (Postfix, from userid 508)
+        id 162357CCB47; Wed, 11 Sep 2019 20:38:08 +0300 (MSK)
+Date:   Wed, 11 Sep 2019 20:38:08 +0300
+From:   "Dmitry V. Levin" <ldv@altlinux.org>
+To:     "Michael Kerrisk (man-pages)" <mtk.manpages@gmail.com>
+Cc:     Elvira Khabirova <lineprinter@altlinux.org>,
+        linux-man@vger.kernel.org
+Subject: [PATCH] ptrace.2: document struct ptrace_syscall_info
+Message-ID: <20190911173807.GA25385@altlinux.org>
+References: <20190902123858.GA8956@altlinux.org>
+ <0eb09cbc-8035-ee82-9c75-6525d91e7138@gmail.com>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
-X-Virus-Scanned: ClamAV using ClamSMTP
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <0eb09cbc-8035-ee82-9c75-6525d91e7138@gmail.com>
 Sender: linux-man-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-man.vger.kernel.org>
 X-Mailing-List: linux-man@vger.kernel.org
 
-Signed-off-by: Christopher M. Riedl <cmr@informatik.wtf>
+Signed-off-by: Dmitry V. Levin <ldv@altlinux.org>
 ---
- man2/mprotect.2 | 2 +-
- 1 file changed, 1 insertion(+), 1 deletion(-)
+ man2/ptrace.2 | 51 ++++++++++++++++++++++++++++++++++++++++++++++++++-
+ 1 file changed, 50 insertions(+), 1 deletion(-)
 
-diff --git a/man2/mprotect.2 b/man2/mprotect.2
-index a65d80f3e..f96b41560 100644
---- a/man2/mprotect.2
-+++ b/man2/mprotect.2
-@@ -271,7 +271,7 @@ is used with
- .IR prot
- set to
- .B PROT_EXEC
--a pkey is may be allocated and set on the memory implicitly
-+a pkey may be allocated and set on the memory implicitly
- by the kernel, but only when the pkey was 0 previously.
- .PP
- On systems that do not support protection keys in hardware,
+diff --git a/man2/ptrace.2 b/man2/ptrace.2
+index ff897bb19..b030247e6 100644
+--- a/man2/ptrace.2
++++ b/man2/ptrace.2
+@@ -1026,7 +1026,56 @@ If the size of the data to be written by the kernel exceeds the size
+ specified by the
+ .I addr
+ argument, the output data is truncated.
+-.\" FIXME Document 'struct ptrace_syscall_info'
++.IP
++The
++.I ptrace_syscall_info
++structure contains the following fields:
++.IP
++.in
++.EX
++struct ptrace_syscall_info {
++    __u8 op;                    /* PTRACE_SYSCALL_INFO_* value
++                                   describing the kind
++                                   of system call stop,
++                                   see <linux/ptrace.h> */
++    __u32 arch;                 /* AUDIT_ARCH_* value,
++                                   see seccomp(2) */
++    __u64 instruction_pointer;  /* CPU instruction pointer */
++    __u64 stack_pointer;        /* CPU stack pointer */
++    union {
++        struct {
++            __u64 nr;           /* System call number */
++            __u64 args[6];      /* System call arguments */
++        } entry;                /* Information specific to
++                                   system call entry stops */
++        struct {
++            __s64 rval;         /* System call return value */
++            __u8 is_error;      /* System call error flag */
++        } exit;                 /* Information specific to
++                                   system call exit stops */
++        struct {
++            __u64 nr;           /* System call number */
++            __u64 args[6];      /* System call arguments */
++            __u32 ret_data;     /* The SECCOMP_RET_DATA portion
++                                   of SECCOMP_RET_TRACE return
++                                   value */
++        } seccomp;              /* Information specific to
++                                   PTRACE_EVENT_SECCOMP stops */
++    };
++};
++.EE
++.in
++.IP
++.IR op ,
++.IR arch ,
++.IR instruction_pointer ,
++and
++.I stack_pointer
++fields are defined for all kinds of ptrace system call stops.
++The rest of the structure is a union, one should read only those fields
++that are meaningful for the kind of system call stop specified by the
++.IR op
++field.
+ .\"
+ .SS Death under ptrace
+ When a (possibly multithreaded) process receives a killing signal
 -- 
-2.23.0
-
+ldv
