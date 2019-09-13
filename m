@@ -1,169 +1,92 @@
-Return-Path: <SRS0=FoR2=XH=vger.kernel.org=linux-man-owner@kernel.org>
+Return-Path: <SRS0=hEi4=XI=vger.kernel.org=linux-man-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-13.6 required=3.0 tests=DKIM_SIGNED,DKIM_VALID,
-	DKIM_VALID_AU,FREEMAIL_FORGED_FROMDOMAIN,FREEMAIL_FROM,
-	HEADER_FROM_DIFFERENT_DOMAINS,INCLUDES_PATCH,MAILING_LIST_MULTI,
-	MENTIONS_GIT_HOSTING,SIGNED_OFF_BY,SPF_HELO_NONE,SPF_PASS,URIBL_BLOCKED,
-	USER_AGENT_SANE_1 autolearn=ham autolearn_force=no version=3.4.0
+X-Spam-Status: No, score=-6.8 required=3.0 tests=DKIM_INVALID,DKIM_SIGNED,
+	HEADER_FROM_DIFFERENT_DOMAINS,INCLUDES_PATCH,MAILING_LIST_MULTI,SIGNED_OFF_BY,
+	SPF_HELO_NONE,SPF_PASS,URIBL_BLOCKED autolearn=ham autolearn_force=no
+	version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id E1F34C49ED9
-	for <linux-man@archiver.kernel.org>; Thu, 12 Sep 2019 09:17:57 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 1D7E1C49ED7
+	for <linux-man@archiver.kernel.org>; Fri, 13 Sep 2019 06:12:15 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.kernel.org (Postfix) with ESMTP id A430320663
-	for <linux-man@archiver.kernel.org>; Thu, 12 Sep 2019 09:17:57 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTP id E1D222089F
+	for <linux-man@archiver.kernel.org>; Fri, 13 Sep 2019 06:12:14 +0000 (UTC)
 Authentication-Results: mail.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="hD4wWx3D"
+	dkim=fail reason="signature verification failed" (2048-bit key) header.d=anastas.io header.i=@anastas.io header.b="b9CfinT1"
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1730558AbfILJR5 (ORCPT <rfc822;linux-man@archiver.kernel.org>);
-        Thu, 12 Sep 2019 05:17:57 -0400
-Received: from mail-wm1-f68.google.com ([209.85.128.68]:51066 "EHLO
-        mail-wm1-f68.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1726159AbfILJR5 (ORCPT
-        <rfc822;linux-man@vger.kernel.org>); Thu, 12 Sep 2019 05:17:57 -0400
-Received: by mail-wm1-f68.google.com with SMTP id c10so6582238wmc.0
-        for <linux-man@vger.kernel.org>; Thu, 12 Sep 2019 02:17:55 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20161025;
-        h=cc:subject:to:references:from:message-id:date:user-agent
-         :mime-version:in-reply-to:content-language:content-transfer-encoding;
-        bh=20Kj0vHML62Rk+lK94Z9Kzev3UZq00b0PoLS4HUYSGQ=;
-        b=hD4wWx3D0cxjS+SHYaF5dlqvjU+Msqh0+Q89kaYObjNTelNFADtG5UL85RmrC8x/Bi
-         XRgfcRrnRIfyXv5AoBh3bZjHrvqKnycZIK/pZhQKkXOcN8faMvrxLwQiFbnlJM3tisRv
-         y/2uau/2lVMVQo1ZEpDE+8F289GkgO8qr2DXNtMAl84VcxZ4aCughLVyFIxVA+b5HJBa
-         hIG2fbsytzR2fM8GXJHemmjIxiJshqmhVeZhAmLetuAKzn5YJ/2S6m/rJ1dlFcMNk/E9
-         VfYQGvo/HHqiTFOHgPDAk3q1l3OBrBs+aUzjJjDJjshCqmKjhYGsjBZl8a4S+2gDT9Ks
-         D4LA==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20161025;
-        h=x-gm-message-state:cc:subject:to:references:from:message-id:date
-         :user-agent:mime-version:in-reply-to:content-language
-         :content-transfer-encoding;
-        bh=20Kj0vHML62Rk+lK94Z9Kzev3UZq00b0PoLS4HUYSGQ=;
-        b=tawyXVR2LYis+wVV/IHCWsT6/4C07qnjAAgHktLn/rNRc4wuz0Yqbqla61gg7Yf2OG
-         jjX9/4y8Nt/8N+wdZ3UYlFLlP8wfXeU+nA3R4H1U172l0Th2+WztAGOVBX21i63P2chs
-         v9RiqWkRhLrnxaTSz+wvFof6oSO19Nmkisw1+KeFZ9bw3on4/9UQrsqXJbneoAgGDspo
-         0qogpkE1LmH1yUZsauKr00UKqOFAlJPuhh0FGl/8FxdBmsX9GknEcaXMMsdletYg0LSF
-         KOfqtckJgEfOzQGcRkZ65bHhqKv0ghBs2HzdXXbez4Sf1FMXNwdHxxvwmewIVODJ/WnF
-         J2lQ==
-X-Gm-Message-State: APjAAAXQOYxE0U7Qilz3Gi9NqQLy9LogpiaLxiUhmRr+5Xt7rwipMPhv
-        4vyG/vmPaem1LHjvKJPsFc9pefdU
-X-Google-Smtp-Source: APXvYqyz2qaTsrt7X9fdRi15l/cIHkqytDSAJWEzvZU/XRIKqsgngMZO6zoopQn9Y6GjZkoHanBkBg==
-X-Received: by 2002:a7b:cb93:: with SMTP id m19mr7313297wmi.157.1568279874764;
-        Thu, 12 Sep 2019 02:17:54 -0700 (PDT)
-Received: from [10.0.20.253] ([95.157.63.22])
-        by smtp.gmail.com with ESMTPSA id h2sm33021766wrb.31.2019.09.12.02.17.53
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Thu, 12 Sep 2019 02:17:53 -0700 (PDT)
-Cc:     mtk.manpages@gmail.com,
-        Elvira Khabirova <lineprinter@altlinux.org>,
-        linux-man@vger.kernel.org
-Subject: Re: [PATCH] ptrace.2: document struct ptrace_syscall_info
-To:     "Dmitry V. Levin" <ldv@altlinux.org>
-References: <20190902123858.GA8956@altlinux.org>
- <0eb09cbc-8035-ee82-9c75-6525d91e7138@gmail.com>
- <20190911173807.GA25385@altlinux.org>
-From:   "Michael Kerrisk (man-pages)" <mtk.manpages@gmail.com>
-Message-ID: <226a075d-5486-85fa-eee4-f13db6ee5448@gmail.com>
-Date:   Thu, 12 Sep 2019 11:17:52 +0200
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:60.0) Gecko/20100101
- Thunderbird/60.6.1
+        id S1726516AbfIMGMO (ORCPT <rfc822;linux-man@archiver.kernel.org>);
+        Fri, 13 Sep 2019 02:12:14 -0400
+Received: from alpha.anastas.io ([104.248.188.109]:52549 "EHLO
+        alpha.anastas.io" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1726388AbfIMGMO (ORCPT
+        <rfc822;linux-man@vger.kernel.org>); Fri, 13 Sep 2019 02:12:14 -0400
+X-Greylist: delayed 521 seconds by postgrey-1.27 at vger.kernel.org; Fri, 13 Sep 2019 02:12:14 EDT
+Received: from authenticated-user (alpha.anastas.io [104.248.188.109])
+        (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits))
+        (No client certificate requested)
+        by alpha.anastas.io (Postfix) with ESMTPSA id 87E1A7FC98
+        for <linux-man@vger.kernel.org>; Fri, 13 Sep 2019 01:03:32 -0500 (CDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=simple/simple; d=anastas.io; s=mail;
+        t=1568354612; bh=h+x81cLYXhAtXlVBOxUUj5lqeAECQmE9rZE4TaLFqWQ=;
+        h=From:To:Subject:Date:From;
+        b=b9CfinT17RAQ/KsH0HRcSJwDwiahVeNyJugvSCQeQjAeuLDtBT4DMEAlox2hkUMNO
+         S09C3r7aIes6wUvL3GgIb3le4LIyJbZZDsXzm0lyBp5uQCw8vnvkriDCFwE98ufIUN
+         N28MsX7R1Q4OlybJW0ejJDNQkUPO2lJmWwkPOPB+qFmmBLsGkQEumD/thLHkvRLy+M
+         a58Gt41dEz2JTKzFgYYGatGIWs/VZPEAHgJhXqojbvCFEDdpe5B+ntbBNPZxb26ARk
+         a30iNk2XKdgCvb0Q/uHMuqe0aV9hKMBHBLRPBfg6EXlvL1KI1lr2IPjdGzjWS1y49n
+         z11KPUOJBBfNQ==
+From:   Shawn Anastasio <shawn@anastas.io>
+To:     linux-man@vger.kernel.org
+Subject: [PATCH] syscall.2: Add information for powerpc64
+Date:   Fri, 13 Sep 2019 01:03:26 -0500
+Message-Id: <20190913060326.12808-1-shawn@anastas.io>
 MIME-Version: 1.0
-In-Reply-To: <20190911173807.GA25385@altlinux.org>
-Content-Type: text/plain; charset=utf-8
-Content-Language: en-US
-Content-Transfer-Encoding: 7bit
+Content-Transfer-Encoding: 8bit
 Sender: linux-man-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-man.vger.kernel.org>
 X-Mailing-List: linux-man@vger.kernel.org
 
-Hello Dmitry,
+Add powerpc64 to the calling convention tables.
 
-On 9/11/19 7:38 PM, Dmitry V. Levin wrote:
-> Signed-off-by: Dmitry V. Levin <ldv@altlinux.org>
-> ---
->  man2/ptrace.2 | 51 ++++++++++++++++++++++++++++++++++++++++++++++++++-
->  1 file changed, 50 insertions(+), 1 deletion(-)
-> 
-> diff --git a/man2/ptrace.2 b/man2/ptrace.2
-> index ff897bb19..b030247e6 100644
-> --- a/man2/ptrace.2
-> +++ b/man2/ptrace.2
-> @@ -1026,7 +1026,56 @@ If the size of the data to be written by the kernel exceeds the size
->  specified by the
->  .I addr
->  argument, the output data is truncated.
-> -.\" FIXME Document 'struct ptrace_syscall_info'
-> +.IP
-> +The
-> +.I ptrace_syscall_info
-> +structure contains the following fields:
-> +.IP
-> +.in
-> +.EX
-> +struct ptrace_syscall_info {
-> +    __u8 op;                    /* PTRACE_SYSCALL_INFO_* value
-> +                                   describing the kind
-> +                                   of system call stop,
-> +                                   see <linux/ptrace.h> */
-> +    __u32 arch;                 /* AUDIT_ARCH_* value,
-> +                                   see seccomp(2) */
-> +    __u64 instruction_pointer;  /* CPU instruction pointer */
-> +    __u64 stack_pointer;        /* CPU stack pointer */
-> +    union {
-> +        struct {
-> +            __u64 nr;           /* System call number */
-> +            __u64 args[6];      /* System call arguments */
-> +        } entry;                /* Information specific to
-> +                                   system call entry stops */
-> +        struct {
-> +            __s64 rval;         /* System call return value */
-> +            __u8 is_error;      /* System call error flag */
-> +        } exit;                 /* Information specific to
-> +                                   system call exit stops */
-> +        struct {
-> +            __u64 nr;           /* System call number */
-> +            __u64 args[6];      /* System call arguments */
-> +            __u32 ret_data;     /* The SECCOMP_RET_DATA portion
-> +                                   of SECCOMP_RET_TRACE return
-> +                                   value */
-> +        } seccomp;              /* Information specific to
-> +                                   PTRACE_EVENT_SECCOMP stops */
-> +    };
-> +};
-> +.EE
-> +.in
-> +.IP
-> +.IR op ,
-> +.IR arch ,
-> +.IR instruction_pointer ,
-> +and
-> +.I stack_pointer
-> +fields are defined for all kinds of ptrace system call stops.
-> +The rest of the structure is a union, one should read only those fields
-> +that are meaningful for the kind of system call stop specified by the
-> +.IR op
-> +field.
->  .\"
->  .SS Death under ptrace
->  When a (possibly multithreaded) process receives a killing signal
+Signed-off-by: Shawn Anastasio <shawn@anastas.io>
+---
+ man2/syscall.2 | 7 +++++++
+ 1 file changed, 7 insertions(+)
 
-Thanks. I've applied, and done some light editing.
-
-I also added some pieces. Could you please take a look at commits
-f04534d22c69 [1] and 227a3682312 [2] let me know if they are okay.
-
-
-Thanks,
-
-Michael
-
-[1] https://git.kernel.org/pub/scm/docs/man-pages/man-pages.git/commit/?id=f04534d22c69a947c3cfee82b9a683e772e913b4
-[2] https://git.kernel.org/pub/scm/docs/man-pages/man-pages.git/commit/?id=227a3682312212c8848e9e972a1f923c6a8ad531
-
+diff --git a/man2/syscall.2 b/man2/syscall.2
+index 33e5ea655..8db5c14e2 100644
+--- a/man2/syscall.2
++++ b/man2/syscall.2
+@@ -196,6 +196,7 @@ mips	syscall	v0	v0	v1	a3	1, 6
+ nios2	trap	r2	r2	-	r7
+ parisc	ble 0x100(%sr2, %r0)	r20	r28	-	-
+ powerpc	sc	r0	r3	-	r0	1
++powerpc64	sc	r0	r3	-	cr0.SO	1
+ riscv	ecall	a7	a0	a1	-
+ s390	svc 0	r1	r2	r3	-	3
+ s390x	svc 0	r1	r2	r3	-	3
+@@ -220,6 +221,11 @@ On sparc, the carry bit
+ in the processor status register
+ .RI ( psr )
+ is used instead of a full register.
++On powerpc64, the summary overflow bit
++.RI ( SO )
++in field 0 of the condition register
++.RI ( cr0 )
++is used.
+ .IP [2]
+ .I NR
+ is the system call number.
+@@ -322,6 +328,7 @@ mips/n32,64	a0	a1	a2	a3	a4	a5	-
+ nios2	r4	r5	r6	r7	r8	r9	-
+ parisc	r26	r25	r24	r23	r22	r21	-
+ powerpc	r3	r4	r5	r6	r7	r8	r9
++powerpc64	r3	r4	r5	r6	r7	r8	-
+ riscv	a0	a1	a2	a3	a4	a5	-
+ s390	r2	r3	r4	r5	r6	r7	-
+ s390x	r2	r3	r4	r5	r6	r7	-
 -- 
-Michael Kerrisk
-Linux man-pages maintainer; http://www.kernel.org/doc/man-pages/
-Linux/UNIX System Programming Training: http://man7.org/training/
+2.23.0
+
