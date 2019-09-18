@@ -1,127 +1,223 @@
-Return-Path: <SRS0=OEhk=XL=vger.kernel.org=linux-man-owner@kernel.org>
+Return-Path: <SRS0=HRIY=XN=vger.kernel.org=linux-man-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-9.8 required=3.0 tests=HEADER_FROM_DIFFERENT_DOMAINS,
-	INCLUDES_PATCH,MAILING_LIST_MULTI,SIGNED_OFF_BY,SPF_HELO_NONE,SPF_PASS,
-	USER_AGENT_GIT autolearn=ham autolearn_force=no version=3.4.0
+X-Spam-Status: No, score=-10.2 required=3.0 tests=DKIM_SIGNED,DKIM_VALID,
+	DKIM_VALID_AU,FREEMAIL_FORGED_FROMDOMAIN,FREEMAIL_FROM,
+	HEADER_FROM_DIFFERENT_DOMAINS,MAILING_LIST_MULTI,MENTIONS_GIT_HOSTING,
+	SIGNED_OFF_BY,SPF_HELO_NONE,SPF_PASS,URIBL_BLOCKED,USER_AGENT_SANE_1
+	autolearn=ham autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id B3B42C49ED7
-	for <linux-man@archiver.kernel.org>; Mon, 16 Sep 2019 18:43:42 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 997ACC4CEC4
+	for <linux-man@archiver.kernel.org>; Wed, 18 Sep 2019 06:50:06 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.kernel.org (Postfix) with ESMTP id 9627820665
-	for <linux-man@archiver.kernel.org>; Mon, 16 Sep 2019 18:43:42 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTP id 60C4020882
+	for <linux-man@archiver.kernel.org>; Wed, 18 Sep 2019 06:50:06 +0000 (UTC)
+Authentication-Results: mail.kernel.org;
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="HvNOS7Ud"
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1730076AbfIPSnm (ORCPT <rfc822;linux-man@archiver.kernel.org>);
-        Mon, 16 Sep 2019 14:43:42 -0400
-Received: from mx0a-001b2d01.pphosted.com ([148.163.156.1]:37500 "EHLO
-        mx0a-001b2d01.pphosted.com" rhost-flags-OK-OK-OK-OK)
-        by vger.kernel.org with ESMTP id S1730015AbfIPSnm (ORCPT
-        <rfc822;linux-man@vger.kernel.org>); Mon, 16 Sep 2019 14:43:42 -0400
-Received: from pps.filterd (m0098409.ppops.net [127.0.0.1])
-        by mx0a-001b2d01.pphosted.com (8.16.0.27/8.16.0.27) with SMTP id x8GIgds5065556;
-        Mon, 16 Sep 2019 14:43:33 -0400
-Received: from pps.reinject (localhost [127.0.0.1])
-        by mx0a-001b2d01.pphosted.com with ESMTP id 2v2fg990ge-1
-        (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
-        Mon, 16 Sep 2019 14:43:32 -0400
-Received: from m0098409.ppops.net (m0098409.ppops.net [127.0.0.1])
-        by pps.reinject (8.16.0.27/8.16.0.27) with SMTP id x8GIhQjG067818;
-        Mon, 16 Sep 2019 14:43:32 -0400
-Received: from ppma03wdc.us.ibm.com (ba.79.3fa9.ip4.static.sl-reverse.com [169.63.121.186])
-        by mx0a-001b2d01.pphosted.com with ESMTP id 2v2fg990fw-1
-        (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
-        Mon, 16 Sep 2019 14:43:32 -0400
-Received: from pps.filterd (ppma03wdc.us.ibm.com [127.0.0.1])
-        by ppma03wdc.us.ibm.com (8.16.0.27/8.16.0.27) with SMTP id x8GIYbbL027450;
-        Mon, 16 Sep 2019 18:43:31 GMT
-Received: from b01cxnp23033.gho.pok.ibm.com (b01cxnp23033.gho.pok.ibm.com [9.57.198.28])
-        by ppma03wdc.us.ibm.com with ESMTP id 2v0t3d2gef-1
-        (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
-        Mon, 16 Sep 2019 18:43:31 +0000
-Received: from b01ledav006.gho.pok.ibm.com (b01ledav006.gho.pok.ibm.com [9.57.199.111])
-        by b01cxnp23033.gho.pok.ibm.com (8.14.9/8.14.9/NCO v10.0) with ESMTP id x8GIhUg448693736
-        (version=TLSv1/SSLv3 cipher=DHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK);
-        Mon, 16 Sep 2019 18:43:30 GMT
-Received: from b01ledav006.gho.pok.ibm.com (unknown [127.0.0.1])
-        by IMSVA (Postfix) with ESMTP id D7281AC05B;
-        Mon, 16 Sep 2019 18:43:30 +0000 (GMT)
-Received: from b01ledav006.gho.pok.ibm.com (unknown [127.0.0.1])
-        by IMSVA (Postfix) with ESMTP id 9127EAC059;
-        Mon, 16 Sep 2019 18:43:30 +0000 (GMT)
-Received: from localhost (unknown [9.86.226.90])
-        by b01ledav006.gho.pok.ibm.com (Postfix) with ESMTP;
-        Mon, 16 Sep 2019 18:43:30 +0000 (GMT)
-From:   Raphael Moreira Zinsly <rzinsly@linux.vnet.ibm.com>
-To:     mtk.manpages@gmail.com
-Cc:     linux-man@vger.kernel.org, benh@kernel.crashing.org,
-        mpe@ellerman.id.au,
-        Raphael Moreira Zinsly <rzinsly@linux.vnet.ibm.com>
-Subject: [PATCH] getauxval.3: Add new cache geometry entries
-Date:   Mon, 16 Sep 2019 15:41:36 -0300
-Message-Id: <20190916184136.13621-1-rzinsly@linux.vnet.ibm.com>
-X-Mailer: git-send-email 2.21.0
+        id S1726465AbfIRGuG (ORCPT <rfc822;linux-man@archiver.kernel.org>);
+        Wed, 18 Sep 2019 02:50:06 -0400
+Received: from mail-lj1-f193.google.com ([209.85.208.193]:41402 "EHLO
+        mail-lj1-f193.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1725842AbfIRGuF (ORCPT
+        <rfc822;linux-man@vger.kernel.org>); Wed, 18 Sep 2019 02:50:05 -0400
+Received: by mail-lj1-f193.google.com with SMTP id f5so6011423ljg.8
+        for <linux-man@vger.kernel.org>; Tue, 17 Sep 2019 23:50:03 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20161025;
+        h=cc:subject:to:references:from:message-id:date:user-agent
+         :mime-version:in-reply-to:content-language:content-transfer-encoding;
+        bh=E/a6sp0hjtfiU/TtS0UK2JGqBWUfKt4BiUysZ1taoak=;
+        b=HvNOS7UdX5/5XlVUvP/Gv1R7XC5HfW5aU8hRomyzpOSBg+93U0zPojeGAHVmb43wsN
+         ktXeyDC7fBqFP+dfS9FQ5pcSlBnxT8A+op40Y0tt7vrxLwF7ItUeoxZcYOHrj/OeMcAy
+         Izl2UmcE/L8dL60kYuZANegytXrO51/KIEzc/vIXM89iS+h0A56ZN0R9nQcKVP/dmQIH
+         f55bR2FKHLSeyESWuTeMnA6AM/JyRsZCphWo+Q1/RfsozPpCSiGHyN0HbN/BF3Pt90+Q
+         gFZNG67nT9VBAfF856M7Osak6LvfJjWhoLhYi3Baac/h4twuhA+bdZHr1a6+OLHpT9KP
+         vJKw==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20161025;
+        h=x-gm-message-state:cc:subject:to:references:from:message-id:date
+         :user-agent:mime-version:in-reply-to:content-language
+         :content-transfer-encoding;
+        bh=E/a6sp0hjtfiU/TtS0UK2JGqBWUfKt4BiUysZ1taoak=;
+        b=kOFvq30Q4czKCLZwkFJdKCoeu3Q2Qrh7E+zb3/jqUJ8iGTkq3nx4HsArVu4erjhvm8
+         kknSPkSI1oQrjyzyx04Qvel+704eVAbrVUo/10c6yMGNd7/MlEIUJVGtkTgR6H4t0JQR
+         AHILWRmyhKJr6XElKXpXMmdeFgGQvAFkhzGSC1GyDjAX0FAz8J+GgBVYKGW3VvdIUY/8
+         rSp5XvITv2sloL06uVQ+rIzkj38bvlG+bUAC/acHflNOu3yQvykNqr2BYaEjaS6hzYGb
+         HR32ILlCmJB1Gacj+A5Q8bGMy7YtIRY9TkEWnc2XARor2suQcy/9CMeg+PgQyYQCANd/
+         nSow==
+X-Gm-Message-State: APjAAAWWl8UDWqqpGgfS93OJ8eAdjK+m8cLZvRc/n2JoY86iJSk88e+D
+        SIZUCQ+shKShcrN9K6OSQwM=
+X-Google-Smtp-Source: APXvYqz32PJE2/2rZPTeTTUa4FThwSDnA+7S618JwwXwjuM049+rzWOvqZVvUW2WQZr2eNKfkTXcWA==
+X-Received: by 2002:a2e:1415:: with SMTP id u21mr1299016ljd.22.1568789402840;
+        Tue, 17 Sep 2019 23:50:02 -0700 (PDT)
+Received: from [10.6.5.246] ([85.235.16.11])
+        by smtp.gmail.com with ESMTPSA id m10sm843683lfo.69.2019.09.17.23.50.01
+        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+        Tue, 17 Sep 2019 23:50:02 -0700 (PDT)
+Cc:     mtk.manpages@gmail.com, linux-man@vger.kernel.org,
+        jannh@google.com, oleg@redhat.com
+Subject: Re: [PATCH] clone.2: add CLONE_PIDFD entry
+To:     Christian Brauner <christian.brauner@ubuntu.com>
+References: <20190511064908.21956-1-christian.brauner@ubuntu.com>
+ <fdc276ee-cf28-0a3b-3fd3-6f5033dae7d6@gmail.com>
+ <20190916074012.dpsfqfwcxh2pyyt7@wittgenstein>
+From:   "Michael Kerrisk (man-pages)" <mtk.manpages@gmail.com>
+Message-ID: <7f115550-c7e6-c803-e47b-a37b7cdfb0a9@gmail.com>
+Date:   Wed, 18 Sep 2019 08:49:59 +0200
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:60.0) Gecko/20100101
+ Thunderbird/60.6.1
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
-X-TM-AS-GCONF: 00
-X-Proofpoint-Virus-Version: vendor=fsecure engine=2.50.10434:,, definitions=2019-09-16_07:,,
- signatures=0
-X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0 priorityscore=1501
- malwarescore=0 suspectscore=1 phishscore=0 bulkscore=0 spamscore=0
- clxscore=1011 lowpriorityscore=0 mlxscore=0 impostorscore=0
- mlxlogscore=889 adultscore=0 classifier=spam adjust=0 reason=mlx
- scancount=1 engine=8.0.1-1908290000 definitions=main-1909160182
+In-Reply-To: <20190916074012.dpsfqfwcxh2pyyt7@wittgenstein>
+Content-Type: text/plain; charset=utf-8
+Content-Language: en-US
+Content-Transfer-Encoding: 7bit
 Sender: linux-man-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-man.vger.kernel.org>
 X-Mailing-List: linux-man@vger.kernel.org
 
-Add entries for the new cache geometry values of the auxiliary vectors
-that got included in the kernel.
+Hello Christian,
 
-Signed-off-by: Raphael Moreira Zinsly <rzinsly@linux.vnet.ibm.com>
----
- man3/getauxval.3 | 27 +++++++++++++++++++++++++++
- 1 file changed, 27 insertions(+)
+On 9/16/19 9:40 AM, Christian Brauner wrote:
+> On Wed, Sep 11, 2019 at 10:58:57AM +0200, Michael Kerrisk (man-pages) wrote:
+>> Hello Christian,
+>>
+>> On 5/11/19 8:49 AM, Christian Brauner wrote:
+>>> From: Christian Brauner <christian@brauner.io>
+>>>
+>>> Add an entry for CLONE_PIDFD. This flag is available starting with
+>>> kernel 5.2. If specified, a process file descriptor ("pidfd") referring
+>>> to the child process will be returned in the ptid argument.
+>>
+>> I've applied this patch in a local branch, and made some minor edits
+> 
+> Thank you! :)
+> 
+>> and added a piece. And I have some questions. See below.
+>>
+>>> Signed-off-by: Christian Brauner <christian@brauner.io>
+>>> ---
 
-diff --git a/man3/getauxval.3 b/man3/getauxval.3
-index 794bc97b5..30f0757b5 100644
---- a/man3/getauxval.3
-+++ b/man3/getauxval.3
-@@ -123,6 +123,33 @@ The instruction cache block size.
- .\" .TP
- .\" .BR AT_NOTELF
- .TP
-+.\" Kernel commit 98a5f361b8625c6f4841d6ba013bbf0e80d08147
-+.BR AT_L1D_CACHEGEOMETRY
-+Geometry of the L1 data cache, that is, line size and number
-+of ways.
-+.TP
-+.BR AT_L1D_CACHESIZE
-+The L1 data cache size.
-+.TP
-+.BR AT_L1I_CACHEGEOMETRY
-+Geometry of the L1 instruction cache, that is, line size and
-+number of ways.
-+.TP
-+.BR AT_L1I_CACHESIZE
-+The L1 instruction cache size.
-+.TP
-+.BR AT_L2_CACHEGEOMETRY
-+Geometry of the L2 cache, that is, line size and number of ways.
-+.TP
-+.BR AT_L2_CACHESIZE
-+The L2 cache size.
-+.TP
-+.BR AT_L3_CACHEGEOMETRY
-+Geometry of the L3 cache, that is, line size and number of ways.
-+.TP
-+.BR AT_L3_CACHESIZE
-+The L3 cache size.
-+.TP
- .BR AT_PAGESZ
- The system page size (the same value returned by
- .IR sysconf(_SC_PAGESIZE) ).
+[...]
+
+>>> Note, that the kernel verifies that the value for
+>>> +.I ptid
+>>> +is zero. If it is not an error will be returned. This ensures that
+>>> +.I ptid
+>>> +can potentially be used to specify additional options for
+>>> +.B CLONE_PIDFD
+>>> +in the future.
+>>
+>> This piece is no longer true, right? At least I can't see such 
+> 
+> Correct.
+
+Thanks. Page amended.
+
+>> a check in the kernel code, and my testing doesn't yield an error
+>> when ptid != 0 before the call.(No need to send me a patch; if I'm
+>> correct just let me know and I'll edit out this piece.)
+>>
+>>> +.IP
+>>> +Since the
+>>> +.I ptid
+>>> +argument is used to return the pidfd,
+>>> +.B CLONE_PIDFD
+>>> +cannot be used with
+>>> +.B CLONE_PARENT_SETTID.
+>>> +.IP
+>>> +It is currently not possible to use this flag together with
+>>> +.B CLONE_THREAD.
+>>> +This means that the process identified by the pidfd will always be a
+>>> +thread-group leader.
+>>> +.IP
+>>> +For a while there was a
+>>> +.B CLONE_DETACHED
+>>> +flag. This flag is usually ignored when passed along with other flags.
+>>> +However, when passed alongside
+>>> +.B CLONE_PIDFD
+>>> +an error will be returned. This ensures that this flag can be reused
+>>> +for further pidfd features in the future.
+>>> +.TP
+>>>  .BR CLONE_PTRACE " (since Linux 2.2)"
+>>>  If
+>>>  .B CLONE_PTRACE
+>>> @@ -1122,6 +1158,21 @@ For example, on aarch64,
+>>>  .I child_stack
+>>>  must be a multiple of 16.
+>>>  .TP
+>>> +.B EINVAL
+>>> +.B CLONE_PIDFD
+>>> +was specified together with
+>>> +.B CLONE_DETACHED.
+>>> +.TP
+>>> +.B EINVAL
+>>> +.B CLONE_PIDFD
+>>> +was specified together with
+>>> +.B CLONE_PARENT_SETTID.
+>>> +.TP
+>>> +.B EINVAL
+>>> +.B CLONE_PIDFD
+>>> +was specified together with
+>>> +.B CLONE_THREAD.
+>>> +.TP
+>>>  .B ENOMEM
+>>>  Cannot allocate sufficient memory to allocate a task structure for the
+>>>  child, or to copy those parts of the caller's context that need to be
+>>
+>> One other piece seems to be missing: the returned file descriptor can
+>> be fed to poll()/select()/epoll and the FD will test as readable when
+>> the child terminates. Right? Did that functionality also land in
+>> kernel 5.2? And did it get implemented as a separate commit, or did
+>> the behavior just fall naturally out of the implementation of pidfd's?
+>> Let me know the details, and I will craft a patch.
+> 
+> It landed in 5.3. The relevant commit is:
+> https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git/commit/?id=b53b0b9d9a613c418057f6cb921c2f40a6f78c24
+> and belongs to the following merge:
+> https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git/commit/?id=5450e8a316a64cddcbc15f90733ebc78aa736545
+
+Thanks for that info. One other questions springs to mind.
+I haven't looked at the source or tried testing this,
+but can anything actually be read() from a PIDFD? Presumably,
+it might be useful to have data generated on the FD, since
+different values could (ultimately) be used to distinguish
+between terminate/stopp/continue transitions.
+
+>> Also, as far as I can see (from testing) the FD only gives pollable
+>> events on process termination, not on other process transitions such
+>> as stop and continue. Right? (Are there any plans to implement such
+> 
+> Correct.
+> 
+>> functionality for stop/contine transitions?
+> 
+> Yes, at some point we will likely want this.
+> 
+>>
+>> By the way, when do you expect the pidfd-wait functionality to land 
+>> in the kernel?
+> 
+> I've sent a PR for 5.4:
+> https://lkml.org/lkml/2019/9/10/682
+> which contains the P_PIDFD extension to waitid().
+
+Thanks for that pointer. I see that the code is
+now merged.
+
+> Thanks for the work, Michael!
+
+You're welcome!
+
+Cheers,
+
+Michael
+
+
+
 -- 
-2.21.0
-
+Michael Kerrisk
+Linux man-pages maintainer; http://www.kernel.org/doc/man-pages/
+Linux/UNIX System Programming Training: http://man7.org/training/
