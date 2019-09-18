@@ -2,164 +2,122 @@ Return-Path: <SRS0=HRIY=XN=vger.kernel.org=linux-man-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-10.2 required=3.0
-	tests=HEADER_FROM_DIFFERENT_DOMAINS,MAILING_LIST_MULTI,MENTIONS_GIT_HOSTING,
-	SIGNED_OFF_BY,SPF_HELO_NONE,SPF_PASS,URIBL_BLOCKED,USER_AGENT_SANE_1
-	autolearn=ham autolearn_force=no version=3.4.0
+X-Spam-Status: No, score=-2.2 required=3.0 tests=DKIM_SIGNED,DKIM_VALID,
+	DKIM_VALID_AU,FREEMAIL_FORGED_FROMDOMAIN,FREEMAIL_FROM,
+	HEADER_FROM_DIFFERENT_DOMAINS,MAILING_LIST_MULTI,SPF_HELO_NONE,SPF_PASS,
+	URIBL_BLOCKED,USER_AGENT_SANE_1 autolearn=no autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 7B228C4CEC4
-	for <linux-man@archiver.kernel.org>; Wed, 18 Sep 2019 07:14:20 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id B1375C4CEC9
+	for <linux-man@archiver.kernel.org>; Wed, 18 Sep 2019 21:15:15 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.kernel.org (Postfix) with ESMTP id 559452053B
-	for <linux-man@archiver.kernel.org>; Wed, 18 Sep 2019 07:14:18 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTP id 7B0A720578
+	for <linux-man@archiver.kernel.org>; Wed, 18 Sep 2019 21:15:15 +0000 (UTC)
+Authentication-Results: mail.kernel.org;
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="SGzLeNjN"
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1727574AbfIRHOS (ORCPT <rfc822;linux-man@archiver.kernel.org>);
-        Wed, 18 Sep 2019 03:14:18 -0400
-Received: from youngberry.canonical.com ([91.189.89.112]:38381 "EHLO
-        youngberry.canonical.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1726077AbfIRHOS (ORCPT
-        <rfc822;linux-man@vger.kernel.org>); Wed, 18 Sep 2019 03:14:18 -0400
-Received: from static-dcd-cqq-121001.business.bouyguestelecom.com ([212.194.121.1] helo=wittgenstein)
-        by youngberry.canonical.com with esmtpsa (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
-        (Exim 4.86_2)
-        (envelope-from <christian.brauner@ubuntu.com>)
-        id 1iAUAK-0004Wq-9q; Wed, 18 Sep 2019 07:14:16 +0000
-Date:   Wed, 18 Sep 2019 09:14:15 +0200
-From:   Christian Brauner <christian.brauner@ubuntu.com>
-To:     "Michael Kerrisk (man-pages)" <mtk.manpages@gmail.com>
-Cc:     linux-man@vger.kernel.org, jannh@google.com, oleg@redhat.com
-Subject: Re: [PATCH] clone.2: add CLONE_PIDFD entry
-Message-ID: <20190918071415.gmxvovgiwgsi62tn@wittgenstein>
-References: <20190511064908.21956-1-christian.brauner@ubuntu.com>
- <fdc276ee-cf28-0a3b-3fd3-6f5033dae7d6@gmail.com>
- <20190916074012.dpsfqfwcxh2pyyt7@wittgenstein>
- <7f115550-c7e6-c803-e47b-a37b7cdfb0a9@gmail.com>
+        id S1729986AbfIRVPP (ORCPT <rfc822;linux-man@archiver.kernel.org>);
+        Wed, 18 Sep 2019 17:15:15 -0400
+Received: from mail-wm1-f66.google.com ([209.85.128.66]:51302 "EHLO
+        mail-wm1-f66.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1725989AbfIRVPP (ORCPT
+        <rfc822;linux-man@vger.kernel.org>); Wed, 18 Sep 2019 17:15:15 -0400
+Received: by mail-wm1-f66.google.com with SMTP id 7so1779323wme.1;
+        Wed, 18 Sep 2019 14:15:13 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20161025;
+        h=date:from:to:cc:subject:message-id:references:mime-version
+         :content-disposition:in-reply-to:user-agent;
+        bh=I8yXMHibszj2VHQlt+S1+oJOQptBsYs/sYyYtWEyoDM=;
+        b=SGzLeNjN9RtxfKPfFRxKDpttLPdBNIAdVqAUW/6qBoK7Rdwr6hhG3WkSHuNaNkVqUB
+         IZDH/WrUM/EDQE4L6yrkg8G2Tu4rS/55SwYwMv692WLvgMefVjb0rX/pfh2WfTnDNLAA
+         RkhCsRxNnIVJVynwenKWP9c49eWIS2m1N8e4USectIBr6l/QVdvKcGmwpkF9YF7+nVEC
+         DFAzRLs730dJDNuL0TI6DDBc2FvJRxsoiPOop4zcGoU5zTO08ViDqGTwq+3dMt0pPNtc
+         RI1uuxwtGLRv+QZtCK4E4ZsP7l3B8i+jWh3JZJeyKZrY2CcaNCT6wvkkQqfEUq8d56/F
+         UrYQ==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20161025;
+        h=x-gm-message-state:date:from:to:cc:subject:message-id:references
+         :mime-version:content-disposition:in-reply-to:user-agent;
+        bh=I8yXMHibszj2VHQlt+S1+oJOQptBsYs/sYyYtWEyoDM=;
+        b=kjl09KWBnLJmmJrczlgbr7TywRUzEqF8eY4RAnvwREuM59lIMjdxW7gYsEWrcan9OV
+         /ZKGex+9/qCi1KJRd7nzGu8/Q++3ePULcWDf66PdnfBEuts2FHyQUYJ1kL+zwTIzFFUo
+         LYPL5GhBI41AsRY6wDdtEpjao+NW2ZFgwiuJrsfL/Sj2Z9fTeb+tFfEaYtUTSsMrZJVI
+         uVnMe7mZjpfdw4l+Kavm+QTNYP2k6lZxVsnC85eRu4xewi9b3ZX9DQnbBV0vG2Hoc0Yv
+         8YAYZ6C7W8Em5nzOg5Jj1amUAQyWoqOfh4Nc7RtSq9C99qH5UcueChkPcsoR5A2+LtVL
+         mQAA==
+X-Gm-Message-State: APjAAAUJiAFCrJ07+YW3HPJjrqaLmo7y7nh3ogu0mPq7bMjBblyXJMzk
+        36pfB/zMU5KP3Dxy5SHfx+I=
+X-Google-Smtp-Source: APXvYqywwDo5aqNswzW3Y+s7Aj3EfSnOPHWA+ei2ygDDXyzBDQhbgvA7X5b1d5z5qMXcJPQY2T5TaA==
+X-Received: by 2002:a1c:a6ca:: with SMTP id p193mr4303240wme.103.1568841312486;
+        Wed, 18 Sep 2019 14:15:12 -0700 (PDT)
+Received: from darwi-home-pc ([5.158.153.52])
+        by smtp.gmail.com with ESMTPSA id h9sm4969976wrv.30.2019.09.18.14.15.10
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Wed, 18 Sep 2019 14:15:11 -0700 (PDT)
+Date:   Wed, 18 Sep 2019 23:15:03 +0200
+From:   "Ahmed S. Darwish" <darwish.07@gmail.com>
+To:     Linus Torvalds <torvalds@linux-foundation.org>
+Cc:     Lennart Poettering <mzxreary@0pointer.de>,
+        "Theodore Y. Ts'o" <tytso@mit.edu>,
+        "Eric W. Biederman" <ebiederm@xmission.com>,
+        "Alexander E. Patrakov" <patrakov@gmail.com>,
+        Michael Kerrisk <mtk.manpages@gmail.com>,
+        lkml <linux-kernel@vger.kernel.org>, linux-ext4@vger.kernel.org,
+        linux-man@vger.kernel.org
+Subject: [PATCH RFC v4 0/1] random: WARN on large getrandom() waits and
+ introduce getrandom2()
+Message-ID: <20190918211503.GA1808@darwi-home-pc>
+References: <CAHk-=whW_AB0pZ0u6P9uVSWpqeb5t2NCX_sMpZNGy8shPDyDNg@mail.gmail.com>
+ <CAHk-=wi_yXK5KSmRhgNRSmJSD55x+2-pRdZZPOT8Fm1B8w6jUw@mail.gmail.com>
+ <20190911173624.GI2740@mit.edu>
+ <20190912034421.GA2085@darwi-home-pc>
+ <20190912082530.GA27365@mit.edu>
+ <CAHk-=wjyH910+JRBdZf_Y9G54c1M=LBF8NKXB6vJcm9XjLnRfg@mail.gmail.com>
+ <20190914122500.GA1425@darwi-home-pc>
+ <008f17bc-102b-e762-a17c-e2766d48f515@gmail.com>
+ <20190915052242.GG19710@mit.edu>
+ <CAHk-=wgg2T=3KxrO-BY3nHJgMEyApjnO3cwbQb_0vxsn9qKN8Q@mail.gmail.com>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
+Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <7f115550-c7e6-c803-e47b-a37b7cdfb0a9@gmail.com>
-User-Agent: NeoMutt/20180716
+In-Reply-To: <CAHk-=wgg2T=3KxrO-BY3nHJgMEyApjnO3cwbQb_0vxsn9qKN8Q@mail.gmail.com>
+User-Agent: Mutt/1.12.1 (2019-06-15)
 Sender: linux-man-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-man.vger.kernel.org>
 X-Mailing-List: linux-man@vger.kernel.org
 
-On Wed, Sep 18, 2019 at 08:49:59AM +0200, Michael Kerrisk (man-pages) wrote:
-> Hello Christian,
-> 
-> On 9/16/19 9:40 AM, Christian Brauner wrote:
-> > On Wed, Sep 11, 2019 at 10:58:57AM +0200, Michael Kerrisk (man-pages) wrote:
-> >> Hello Christian,
-> >>
-> >> On 5/11/19 8:49 AM, Christian Brauner wrote:
-> >>> From: Christian Brauner <christian@brauner.io>
-> >>>
-> >>> Add an entry for CLONE_PIDFD. This flag is available starting with
-> >>> kernel 5.2. If specified, a process file descriptor ("pidfd") referring
-> >>> to the child process will be returned in the ptid argument.
-> >>
-> >> I've applied this patch in a local branch, and made some minor edits
-> > 
-> > Thank you! :)
-> > 
-> >> and added a piece. And I have some questions. See below.
-> >>
-> >>> Signed-off-by: Christian Brauner <christian@brauner.io>
-> >>> ---
-> 
-> [...]
-> 
-> >>> Note, that the kernel verifies that the value for
-> >>> +.I ptid
-> >>> +is zero. If it is not an error will be returned. This ensures that
-> >>> +.I ptid
-> >>> +can potentially be used to specify additional options for
-> >>> +.B CLONE_PIDFD
-> >>> +in the future.
-> >>
-> >> This piece is no longer true, right? At least I can't see such 
-> > 
-> > Correct.
-> 
-> Thanks. Page amended.
-> 
-> >> a check in the kernel code, and my testing doesn't yield an error
-> >> when ptid != 0 before the call.(No need to send me a patch; if I'm
-> >> correct just let me know and I'll edit out this piece.)
-> >>
-> >>> +.IP
-> >>> +Since the
-> >>> +.I ptid
-> >>> +argument is used to return the pidfd,
-> >>> +.B CLONE_PIDFD
-> >>> +cannot be used with
-> >>> +.B CLONE_PARENT_SETTID.
-> >>> +.IP
-> >>> +It is currently not possible to use this flag together with
-> >>> +.B CLONE_THREAD.
-> >>> +This means that the process identified by the pidfd will always be a
-> >>> +thread-group leader.
-> >>> +.IP
-> >>> +For a while there was a
-> >>> +.B CLONE_DETACHED
-> >>> +flag. This flag is usually ignored when passed along with other flags.
-> >>> +However, when passed alongside
-> >>> +.B CLONE_PIDFD
-> >>> +an error will be returned. This ensures that this flag can be reused
-> >>> +for further pidfd features in the future.
-> >>> +.TP
-> >>>  .BR CLONE_PTRACE " (since Linux 2.2)"
-> >>>  If
-> >>>  .B CLONE_PTRACE
-> >>> @@ -1122,6 +1158,21 @@ For example, on aarch64,
-> >>>  .I child_stack
-> >>>  must be a multiple of 16.
-> >>>  .TP
-> >>> +.B EINVAL
-> >>> +.B CLONE_PIDFD
-> >>> +was specified together with
-> >>> +.B CLONE_DETACHED.
-> >>> +.TP
-> >>> +.B EINVAL
-> >>> +.B CLONE_PIDFD
-> >>> +was specified together with
-> >>> +.B CLONE_PARENT_SETTID.
-> >>> +.TP
-> >>> +.B EINVAL
-> >>> +.B CLONE_PIDFD
-> >>> +was specified together with
-> >>> +.B CLONE_THREAD.
-> >>> +.TP
-> >>>  .B ENOMEM
-> >>>  Cannot allocate sufficient memory to allocate a task structure for the
-> >>>  child, or to copy those parts of the caller's context that need to be
-> >>
-> >> One other piece seems to be missing: the returned file descriptor can
-> >> be fed to poll()/select()/epoll and the FD will test as readable when
-> >> the child terminates. Right? Did that functionality also land in
-> >> kernel 5.2? And did it get implemented as a separate commit, or did
-> >> the behavior just fall naturally out of the implementation of pidfd's?
-> >> Let me know the details, and I will craft a patch.
-> > 
-> > It landed in 5.3. The relevant commit is:
-> > https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git/commit/?id=b53b0b9d9a613c418057f6cb921c2f40a6f78c24
-> > and belongs to the following merge:
-> > https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git/commit/?id=5450e8a316a64cddcbc15f90733ebc78aa736545
-> 
-> Thanks for that info. One other questions springs to mind.
-> I haven't looked at the source or tried testing this,
-> but can anything actually be read() from a PIDFD? Presumably,
+Hi,
 
-We had discussed this but decided to not implement this right away.
-Mainly, because we did not have a clear picture what the semantics
-should be. But it is something that we will probably want in the
-future...
+This is an RFC, and it obviously needs much more testing beside the
+"it boots" smoke test I've just did.
 
-> it might be useful to have data generated on the FD, since
-> different values could (ultimately) be used to distinguish
-> between terminate/stopp/continue transitions.
+Interestingly though, on my current system, the triggered WARN()
+**reliably** makes the system get un-stuck... I know this is a very
+crude heuristic, but I would personally prefer it to the other
+proposals that were mentioned in this jumbo thread.
 
-Yes.
+If I get an OK from Linus on this, I'll send a polished v5: further
+real testing, kernel-parameters.txt docs, a new getrandom_wait(7)
+manpage as referenced in the WARN() message, and extensions to the
+getrandom(2) manpage for new getrandom2().
 
-Thanks!
-Christian
+The new getrandom2() system call is basically a summary of Linus',
+Lennart's, and Willy's proposals. Please see the patch #1 commit log,
+and the "Link:" section inside it, for a rationale.
+
+@Lennart, since you obviously represent user-space here, any further
+notes on the new system call?
+
+thanks,
+
+Ahmed S. Darwish (1):
+  random: WARN on large getrandom() waits and introduce getrandom2()
+
+ drivers/char/Kconfig        | 60 ++++++++++++++++++++++++--
+ drivers/char/random.c       | 85 ++++++++++++++++++++++++++++++++-----
+ include/uapi/linux/random.h | 20 +++++++--
+ 3 files changed, 148 insertions(+), 17 deletions(-)
+
+--
+http://darwish.chasingpointers.com
