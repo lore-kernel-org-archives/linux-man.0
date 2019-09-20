@@ -2,92 +2,132 @@ Return-Path: <SRS0=2Z1l=XP=vger.kernel.org=linux-man-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-10.1 required=3.0 tests=DKIMWL_WL_HIGH,DKIM_SIGNED,
-	DKIM_VALID,DKIM_VALID_AU,INCLUDES_PATCH,MAILING_LIST_MULTI,SIGNED_OFF_BY,
-	SPF_HELO_NONE,SPF_PASS,USER_AGENT_GIT autolearn=unavailable
-	autolearn_force=no version=3.4.0
+X-Spam-Status: No, score=-0.6 required=3.0 tests=DKIM_INVALID,DKIM_SIGNED,
+	HEADER_FROM_DIFFERENT_DOMAINS,MAILING_LIST_MULTI,SPF_HELO_NONE,SPF_PASS,
+	URIBL_BLOCKED autolearn=no autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id A05E3C49ED7
-	for <linux-man@archiver.kernel.org>; Fri, 20 Sep 2019 14:37:15 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id F0E41C3A5A2
+	for <linux-man@archiver.kernel.org>; Fri, 20 Sep 2019 14:40:22 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.kernel.org (Postfix) with ESMTP id 6DDC420B7C
-	for <linux-man@archiver.kernel.org>; Fri, 20 Sep 2019 14:37:15 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=default; t=1568990235;
-	bh=5HAhAebBZoeewPB0vmMb1b3bjdyfMmVXggFjC4H9i48=;
-	h=From:To:Cc:Subject:Date:In-Reply-To:References:List-ID:From;
-	b=u+1Jl9mgJeVAMbifEs1DqUJqQXUsNBEJN8wzJd3xk3mfWll9ptP9q3yoOBnMXVOya
-	 +CHsa+4przIhTEfSP78GPUfKNlWa1jWrKpjQTSXerhFvWYvFREXmOfzF4HYrq+BDg8
-	 GNyFtNtw3x/LasKYLmz/+iDc7YPydPRkMuOhMMrs=
+	by mail.kernel.org (Postfix) with ESMTP id BA4BA2086A
+	for <linux-man@archiver.kernel.org>; Fri, 20 Sep 2019 14:40:22 +0000 (UTC)
+Authentication-Results: mail.kernel.org;
+	dkim=fail reason="signature verification failed" (2048-bit key) header.d=rsiny.com header.i=@rsiny.com header.b="kFFS3Nus"
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S2392402AbfITOge (ORCPT <rfc822;linux-man@archiver.kernel.org>);
-        Fri, 20 Sep 2019 10:36:34 -0400
-Received: from mail.kernel.org ([198.145.29.99]:48854 "EHLO mail.kernel.org"
-        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S2392393AbfITOgd (ORCPT <rfc822;linux-man@vger.kernel.org>);
-        Fri, 20 Sep 2019 10:36:33 -0400
-Received: from localhost (c-67-180-165-146.hsd1.ca.comcast.net [67.180.165.146])
-        (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
-        (No client certificate requested)
-        by mail.kernel.org (Postfix) with ESMTPSA id 2CF1A20B7C;
-        Fri, 20 Sep 2019 14:36:33 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-        s=default; t=1568990193;
-        bh=5HAhAebBZoeewPB0vmMb1b3bjdyfMmVXggFjC4H9i48=;
-        h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
-        b=ZH3tHXmLqO1lr6eSQBTC5QZcb9FXINbLuqz8clSFgWnVtlctVx5JKUjsW0+VJyHI1
-         bYGXSDBPWSfI9s82VhPTyZXFhH7dSOWySHn2tpO7sjBTBSzyrCmpymV1Ilm32TdM5d
-         DRrYOso2oNPhSw5kzSwB6dis4b2dy1roXi3MG7CY=
-From:   Andy Lutomirski <luto@kernel.org>
-To:     Theodore Tso <tytso@google.com>
-Cc:     LKML <linux-kernel@vger.kernel.org>,
-        Linux API <linux-api@vger.kernel.org>,
-        Kees Cook <keescook@chromium.org>,
-        "Jason A. Donenfeld" <Jason@zx2c4.com>,
-        "Ahmed S. Darwish" <darwish.07@gmail.com>,
-        Lennart Poettering <mzxreary@0pointer.de>,
-        "Eric W. Biederman" <ebiederm@xmission.com>,
-        "Alexander E. Patrakov" <patrakov@gmail.com>,
-        Michael Kerrisk <mtk.manpages@gmail.com>,
-        Willy Tarreau <w@1wt.eu>,
-        Matthew Garrett <mjg59@srcf.ucam.org>,
-        Ext4 Developers List <linux-ext4@vger.kernel.org>,
-        linux-man <linux-man@vger.kernel.org>,
-        Andy Lutomirski <luto@kernel.org>
-Subject: [PATCH v2 1/7] random: Don't wake crng_init_wait when crng_init == 1
-Date:   Fri, 20 Sep 2019 07:36:23 -0700
-Message-Id: <7d54ef8512b06baf396f12584f7f48a9558ecd0f.1568990048.git.luto@kernel.org>
-X-Mailer: git-send-email 2.21.0
-In-Reply-To: <cover.1568990048.git.luto@kernel.org>
-References: <cover.1568990048.git.luto@kernel.org>
+        id S2393076AbfITOkW (ORCPT <rfc822;linux-man@archiver.kernel.org>);
+        Fri, 20 Sep 2019 10:40:22 -0400
+Received: from gateway34.websitewelcome.com ([192.185.150.107]:36433 "EHLO
+        gateway34.websitewelcome.com" rhost-flags-OK-OK-OK-OK)
+        by vger.kernel.org with ESMTP id S2393071AbfITOkV (ORCPT
+        <rfc822;linux-man@vger.kernel.org>); Fri, 20 Sep 2019 10:40:21 -0400
+X-Greylist: delayed 1266 seconds by postgrey-1.27 at vger.kernel.org; Fri, 20 Sep 2019 10:40:21 EDT
+Received: from cm11.websitewelcome.com (cm11.websitewelcome.com [100.42.49.5])
+        by gateway34.websitewelcome.com (Postfix) with ESMTP id AC9ED81549
+        for <linux-man@vger.kernel.org>; Fri, 20 Sep 2019 09:19:14 -0500 (CDT)
+Received: from gator3203.hostgator.com ([198.57.247.167])
+        by cmsmtp with SMTP
+        id BJkgiDAHUdnCeBJkgiWWNe; Fri, 20 Sep 2019 09:19:14 -0500
+X-Authority-Reason: nr=8
+DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed; d=rsiny.com;
+         s=default; h=Content-Transfer-Encoding:MIME-Version:Content-Type:Date:Cc:To:
+        Reply-To:From:Subject:Message-ID:Sender:Content-ID:Content-Description:
+        Resent-Date:Resent-From:Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:
+        In-Reply-To:References:List-Id:List-Help:List-Unsubscribe:List-Subscribe:
+        List-Post:List-Owner:List-Archive;
+        bh=Ny4Dw/aO8fgO2eBszrMSrGnJRDIEi2nJXOZJlEBo6KI=; b=kFFS3NusUBvgeUFA6gVwu890ZY
+        mOxFxRquje3rRXXaq3+F6MAc9a2Ag+UlkDrscrTBmvaSmSGpeQPCdedxMFceDhSgS19vvYFpYgCK8
+        ZOgnqEL6zaQB+m3mw6Yo8y2sc7UKziQFHSfNNwPeWVJEpRt6V8EHjzhpPSR+9ySryNyrWzmOFje+g
+        epy+GOQ7OiZ8zavi7Weo6fwEKkVNH3XMwiWFAiOIqBa6YvmVtaeob+yPRXUbBYe2Oj2IValVZk13b
+        fXwMzZLiahfZ8vZeFowcG4uWlXWeDuR6Ct50gqzPP9IUGQtClaXZqWCfMchxDwTgHA/SCppyP/1O6
+        HYhiHxnA==;
+Received: from pool-100-37-189-229.nycmny.fios.verizon.net ([100.37.189.229]:58168 helo=[192.168.1.4])
+        by gator3203.hostgator.com with esmtpsa (TLSv1.2:ECDHE-RSA-AES256-GCM-SHA384:256)
+        (Exim 4.92)
+        (envelope-from <rstanley@rsiny.com>)
+        id 1iBJkf-0023wh-US; Fri, 20 Sep 2019 09:19:14 -0500
+Message-ID: <a1683c1cc450bf969aca13d8f7a99f08cc07635d.camel@rsiny.com>
+Subject: Man page pre & post operators error
+From:   Rick Stanley <rstanley@rsiny.com>
+Reply-To: rstanley@rsiny.com
+To:     mtk.manpages@gmail.com
+Cc:     linux-man@vger.kernel.org
+Date:   Fri, 20 Sep 2019 10:19:12 -0400
+Organization: RSI
+Content-Type: text/plain; charset="UTF-8"
+User-Agent: Evolution 3.30.5-1.1 
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+Content-Transfer-Encoding: 7bit
+X-AntiAbuse: This header was added to track abuse, please include it with any abuse report
+X-AntiAbuse: Primary Hostname - gator3203.hostgator.com
+X-AntiAbuse: Original Domain - vger.kernel.org
+X-AntiAbuse: Originator/Caller UID/GID - [47 12] / [47 12]
+X-AntiAbuse: Sender Address Domain - rsiny.com
+X-BWhitelist: no
+X-Source-IP: 100.37.189.229
+X-Source-L: No
+X-Exim-ID: 1iBJkf-0023wh-US
+X-Source: 
+X-Source-Args: 
+X-Source-Dir: 
+X-Source-Sender: pool-100-37-189-229.nycmny.fios.verizon.net ([192.168.1.4]) [100.37.189.229]:58168
+X-Source-Auth: rstanley@rsiny.com
+X-Email-Count: 1
+X-Source-Cap: cnN0YW5sZXk7cnN0YW5sZXk7Z2F0b3IzMjAzLmhvc3RnYXRvci5jb20=
+X-Local-Domain: yes
 Sender: linux-man-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-man.vger.kernel.org>
 X-Mailing-List: linux-man@vger.kernel.org
 
-crng_init_wait is only used to wayt for crng_init to be set to 2, so
-there's no point to waking it when crng_init is set to 1.  Remove the
-unnecessary wake_up_interruptible() call.
+Greetings!
 
-Signed-off-by: Andy Lutomirski <luto@kernel.org>
----
- drivers/char/random.c | 1 -
- 1 file changed, 1 deletion(-)
+In the man pages, both in Linux and online in multiple sites, the pre
+and post operators are listed as equal precedence.  Two different web
+sites list them on different levels:
 
-diff --git a/drivers/char/random.c b/drivers/char/random.c
-index 5d5ea4ce1442..d152612e08fc 100644
---- a/drivers/char/random.c
-+++ b/drivers/char/random.c
-@@ -946,7 +946,6 @@ static int crng_fast_load(const char *cp, size_t len)
- 	if (crng_init_cnt >= CRNG_INIT_CNT_THRESH) {
- 		invalidate_batched_entropy();
- 		crng_init = 1;
--		wake_up_interruptible(&crng_init_wait);
- 		pr_notice("random: fast init done\n");
- 	}
- 	return 1;
+http://man7.org/linux/man-pages/man7/precedence.7.html
+	Level 1
+
+https://linux.die.net/man/7/operator
+	Level 2
+
+Linux `man operator` list them on the second level, with right to left
+associativity:
+
+       Operator                            Associativity
+       () [] -> .                          left to right
+       ! ~ ++ -- + - (type) * & sizeof     right to left
+       ...
+
+Section "A.2.1 Expressions" of both the C99 & C11 C Draft Standards,
+list them on different levels:
+
+	postfix ++ & -- on level 1, with left to right associativity
+
+	prefix ++ & -- on level 2, with right to left associativity
+
+Please review this and all the operator precedence and associativity in
+the current man page "man operator" against the official C99 & C11
+Standards documents, plus the current working draft for the next
+version of the Standard.
+
+Please correct me if I am mistaken.
+
+References:
+
+Debian Linus Testing, Debian 5.2.9-2 (2019-08-21) x86_64 GNU/Linux
+
+Thank you!
+
+Cheers!
+
+Rick Stanley
+
+
 -- 
-2.21.0
+RSI (Rick Stanley, Inc.)
+(917) 822-7771
+www.rsiny.com
+Computer Systems Consulting
+Linux & Open Source Specialists
 
