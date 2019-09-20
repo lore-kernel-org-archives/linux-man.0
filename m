@@ -2,66 +2,86 @@ Return-Path: <SRS0=2Z1l=XP=vger.kernel.org=linux-man-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-2.3 required=3.0 tests=DKIM_SIGNED,DKIM_VALID,
-	DKIM_VALID_AU,FREEMAIL_FORGED_FROMDOMAIN,FREEMAIL_FROM,
-	HEADER_FROM_DIFFERENT_DOMAINS,MAILING_LIST_MULTI,SPF_HELO_NONE,SPF_PASS,
-	USER_AGENT_SANE_1 autolearn=no autolearn_force=no version=3.4.0
+X-Spam-Status: No, score=-0.9 required=3.0 tests=DKIMWL_WL_HIGH,DKIM_SIGNED,
+	DKIM_VALID,DKIM_VALID_AU,HEADER_FROM_DIFFERENT_DOMAINS,MAILING_LIST_MULTI,
+	SPF_HELO_NONE,SPF_PASS autolearn=no autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 6EC65C49ED7
-	for <linux-man@archiver.kernel.org>; Fri, 20 Sep 2019 18:15:12 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id D6546C49ED7
+	for <linux-man@archiver.kernel.org>; Fri, 20 Sep 2019 18:16:14 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.kernel.org (Postfix) with ESMTP id 43CF72086A
-	for <linux-man@archiver.kernel.org>; Fri, 20 Sep 2019 18:15:12 +0000 (UTC)
-Authentication-Results: mail.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="d2vaQlGY"
+	by mail.kernel.org (Postfix) with ESMTP id B275620644
+	for <linux-man@archiver.kernel.org>; Fri, 20 Sep 2019 18:16:14 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+	s=default; t=1569003374;
+	bh=TOirQ/CrcJM5+kJRFG8UyA6qktTtifqcvgRKAEXmjs8=;
+	h=References:In-Reply-To:From:Date:Subject:To:Cc:List-ID:From;
+	b=YmaMEwdNUR7+Ue8+wn6Qgbk2SPEWnqp3lN1l6yrUAmO1WJVfJ6nZAStDD3lmQhnFG
+	 naUUsZhdI2iV1nox8VPQ3PVEX6WZuufayz8ohOKe/gw05ZqnhFjypqgQC+6nYNjgiQ
+	 PT7p51a4rlvrVmxqeXJqL8iJ89lBzlVyakRjlrGs=
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S2406320AbfITSPI (ORCPT <rfc822;linux-man@archiver.kernel.org>);
-        Fri, 20 Sep 2019 14:15:08 -0400
-Received: from mail-lj1-f193.google.com ([209.85.208.193]:44036 "EHLO
-        mail-lj1-f193.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S2406283AbfITSPH (ORCPT
-        <rfc822;linux-man@vger.kernel.org>); Fri, 20 Sep 2019 14:15:07 -0400
-Received: by mail-lj1-f193.google.com with SMTP id m13so7907467ljj.11;
-        Fri, 20 Sep 2019 11:15:05 -0700 (PDT)
+        id S2406324AbfITSQO (ORCPT <rfc822;linux-man@archiver.kernel.org>);
+        Fri, 20 Sep 2019 14:16:14 -0400
+Received: from mail-lf1-f68.google.com ([209.85.167.68]:43256 "EHLO
+        mail-lf1-f68.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S2404864AbfITSQO (ORCPT
+        <rfc822;linux-man@vger.kernel.org>); Fri, 20 Sep 2019 14:16:14 -0400
+Received: by mail-lf1-f68.google.com with SMTP id u3so5666666lfl.10
+        for <linux-man@vger.kernel.org>; Fri, 20 Sep 2019 11:16:12 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20161025;
-        h=subject:to:cc:references:from:message-id:date:user-agent
-         :mime-version:in-reply-to;
-        bh=k+DkVLZJV/UMPAnynSBCZ9m61LuW0KEj/zqkR+s5Www=;
-        b=d2vaQlGYRajlrbwTJvDtssQQ6AuJzvmo8JD8YMXvFri4XBTsU9jULCj/YmcH1W7/E0
-         zOQai8IeUikZCXbMjTc27f+dHRXiCYvjBg89shZCl7spcg9xkBXrCvtkefJ4qUQdJlr9
-         x/ZoKE26BkTsAIHpf6ZZ5oG++VWH11YLr2M+i3EUlBwBYaKVYzN8x7pJGEebWtBmB9xU
-         OonHV6BYjUQT/wW+knTuWrwq5PZ7xglZqD9FTTE/96Q06SWr46vm7hX0OjmlqLfF5c2X
-         FyI2SR+v5TZRqlPZhoL9DD9LbI4/neNPHUkylh6f7KcZgvaVD4tjdMk6vxRrwILpGYMS
-         fYIw==
+        d=linux-foundation.org; s=google;
+        h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+         :cc;
+        bh=rM+Onl6ZZjCImWZH5w1UTQehqPPbzrNaxCZa4cd8l/4=;
+        b=WFFZp5fgdUni5U9NnLZhbw6pO9xDM5RkYeghIYgcBWXFD7T14QJUQvBU7Cdx+lxBSa
+         bkTbGx0p3+3IzHwHnVfQ/fS6soC0P0rWIQj80S3A+ae2wmbHsBjD9Sa0XYRauaOcnE0g
+         4Ju1XgJzmbU7Wa53qZygI9UxcmISnicMfpTV4=
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
-        h=x-gm-message-state:subject:to:cc:references:from:message-id:date
-         :user-agent:mime-version:in-reply-to;
-        bh=k+DkVLZJV/UMPAnynSBCZ9m61LuW0KEj/zqkR+s5Www=;
-        b=g9IToGW53Qsr4O5CgUevLeHUJ3xQ8Snr4DGA6UTQyXTEk1eRu8gEbmx+2M1tKld7mK
-         9Cu5LIkAIOJVSmg2WmUyjr09uFJ0Mv2Z/NHXsk2jU+9FeEY97tHlPEHTVxd8suok0tBV
-         Cw5aXl1zn4ACmEufmHQZhoj38j/yQWnJvDptSx1aFrRNDpn787lruT+FEBVIwbfXvZuZ
-         iBEAPu46jiFWT9Xhja+K83WQFmT6q2/QNcYKCQr+1hMSypUxa8oCjI+VZRwQoF5oOUnI
-         CL6+qnnhxqT62MhvnbB/WGDZKMIQ5SciCbU95Q52U8yaH6SEdz1stOhz74jT2PEbBPvp
-         z36g==
-X-Gm-Message-State: APjAAAWVtW2RL31ciguYlm4Ki6ZROQE6FNMjEVqRNJHdL5dMOKM522jc
-        Yt1aNrIfYmKa0zMbVGVK/ausNqVYGUBiGQ==
-X-Google-Smtp-Source: APXvYqyFrPCVpkdLGqu4htBZq75sPwO7ybvMzMMyUn4vkwWbejazOoPJr/CQNxCrErDZ89frj1xDyQ==
-X-Received: by 2002:a2e:96d3:: with SMTP id d19mr660674ljj.165.1569003304639;
-        Fri, 20 Sep 2019 11:15:04 -0700 (PDT)
-Received: from ?IPv6:2a02:17d0:4a6:5700:d63d:7eff:fed9:a39? ([2a02:17d0:4a6:5700:d63d:7eff:fed9:a39])
-        by smtp.googlemail.com with ESMTPSA id y3sm635638lfh.97.2019.09.20.11.15.02
+        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+         :message-id:subject:to:cc;
+        bh=rM+Onl6ZZjCImWZH5w1UTQehqPPbzrNaxCZa4cd8l/4=;
+        b=ZRJnNllAET/89mYmcBYtVwIsCo/cPDCcT/CGp6pK8HYrdSyCuWRBbK4MCMgZGSCfqB
+         I+k1+rlk8gUFgawSfdLXXngoxSgiRkV2lbjaNvA1RDEjNPEdEW/zzUJaWrN9tid87zss
+         N7NKgxdWOz8QTWXU5/VXhJyzHBNC81bOxrvjTqKp3SwPXktdSunEJnHdkCNDpOi2Vy9P
+         9eAJHM6Itm67GCnLFlL75mIsIalFMK+yZBXwS7522b210Ra6U/lzXMgVoWl3yaOgJiWB
+         NGvAuqxaWi45PXX3FWrMSZZ/r90k/xvRgs9lXosc+mePhT5fw6waeZO+Vi9G3fvQ0UJ2
+         HVEQ==
+X-Gm-Message-State: APjAAAXNrEVNiDVAFkNRheSCEWDz/8cqMtM1uoL5o4t7LLNkh1L+oezp
+        mt2YV7Kef5kULpHWWXkuCY1D3nfuN+I=
+X-Google-Smtp-Source: APXvYqwinRRIpllWhL48yaMTiWPih7WGUC6XJO4bPtmmDNkbs+kOIYvQu/5M8Uqt8QFjyuq9pDw6bA==
+X-Received: by 2002:ac2:44a3:: with SMTP id c3mr8803254lfm.17.1569003370986;
+        Fri, 20 Sep 2019 11:16:10 -0700 (PDT)
+Received: from mail-lf1-f43.google.com (mail-lf1-f43.google.com. [209.85.167.43])
+        by smtp.gmail.com with ESMTPSA id t82sm643193lff.58.2019.09.20.11.16.10
+        for <linux-man@vger.kernel.org>
         (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Fri, 20 Sep 2019 11:15:03 -0700 (PDT)
+        Fri, 20 Sep 2019 11:16:10 -0700 (PDT)
+Received: by mail-lf1-f43.google.com with SMTP id r2so5675717lfn.8
+        for <linux-man@vger.kernel.org>; Fri, 20 Sep 2019 11:16:10 -0700 (PDT)
+X-Received: by 2002:ac2:50cb:: with SMTP id h11mr9479913lfm.170.1569003009866;
+ Fri, 20 Sep 2019 11:10:09 -0700 (PDT)
+MIME-Version: 1.0
+References: <20190912034421.GA2085@darwi-home-pc> <20190912082530.GA27365@mit.edu>
+ <CAHk-=wjyH910+JRBdZf_Y9G54c1M=LBF8NKXB6vJcm9XjLnRfg@mail.gmail.com>
+ <20190914122500.GA1425@darwi-home-pc> <008f17bc-102b-e762-a17c-e2766d48f515@gmail.com>
+ <20190915052242.GG19710@mit.edu> <CAHk-=wgg2T=3KxrO-BY3nHJgMEyApjnO3cwbQb_0vxsn9qKN8Q@mail.gmail.com>
+ <20190918211503.GA1808@darwi-home-pc> <20190918211713.GA2225@darwi-home-pc>
+ <CAHk-=wiCqDiU7SE3FLn2W26MS_voUAuqj5XFa1V_tiGTrrW-zQ@mail.gmail.com>
+ <20190920134609.GA2113@pc> <CALCETrWvE5es3i+to33y6jw=Yf0Tw6ZfV-6QWjZT5v0fo76tWw@mail.gmail.com>
+ <CAHk-=wgW8rN2EVL_Rdn63V9vQO0GkZ=RQFeqqsYJM==8fujpPg@mail.gmail.com> <CALCETrV=4TX2a4uV5t2xOFzv+zM_jnOtMLJna8Vb7uXz6S=wSw@mail.gmail.com>
+In-Reply-To: <CALCETrV=4TX2a4uV5t2xOFzv+zM_jnOtMLJna8Vb7uXz6S=wSw@mail.gmail.com>
+From:   Linus Torvalds <torvalds@linux-foundation.org>
+Date:   Fri, 20 Sep 2019 11:09:53 -0700
+X-Gmail-Original-Message-ID: <CAHk-=wjpTWgpo6d24pTv+ubfea_uEomX-sHjjOkdACfV-8Nmkg@mail.gmail.com>
+Message-ID: <CAHk-=wjpTWgpo6d24pTv+ubfea_uEomX-sHjjOkdACfV-8Nmkg@mail.gmail.com>
 Subject: Re: [PATCH RFC v4 1/1] random: WARN on large getrandom() waits and
  introduce getrandom2()
-To:     Andy Lutomirski <luto@kernel.org>,
-        Linus Torvalds <torvalds@linux-foundation.org>
+To:     Andy Lutomirski <luto@kernel.org>
 Cc:     "Ahmed S. Darwish" <darwish.07@gmail.com>,
         Lennart Poettering <mzxreary@0pointer.de>,
         "Theodore Y. Ts'o" <tytso@mit.edu>,
         "Eric W. Biederman" <ebiederm@xmission.com>,
+        "Alexander E. Patrakov" <patrakov@gmail.com>,
         Michael Kerrisk <mtk.manpages@gmail.com>,
         Willy Tarreau <w@1wt.eu>,
         Matthew Garrett <mjg59@srcf.ucam.org>,
@@ -69,163 +89,90 @@ Cc:     "Ahmed S. Darwish" <darwish.07@gmail.com>,
         Ext4 Developers List <linux-ext4@vger.kernel.org>,
         Linux API <linux-api@vger.kernel.org>,
         linux-man <linux-man@vger.kernel.org>
-References: <20190912034421.GA2085@darwi-home-pc>
- <20190912082530.GA27365@mit.edu>
- <CAHk-=wjyH910+JRBdZf_Y9G54c1M=LBF8NKXB6vJcm9XjLnRfg@mail.gmail.com>
- <20190914122500.GA1425@darwi-home-pc>
- <008f17bc-102b-e762-a17c-e2766d48f515@gmail.com>
- <20190915052242.GG19710@mit.edu>
- <CAHk-=wgg2T=3KxrO-BY3nHJgMEyApjnO3cwbQb_0vxsn9qKN8Q@mail.gmail.com>
- <20190918211503.GA1808@darwi-home-pc> <20190918211713.GA2225@darwi-home-pc>
- <CAHk-=wiCqDiU7SE3FLn2W26MS_voUAuqj5XFa1V_tiGTrrW-zQ@mail.gmail.com>
- <20190920134609.GA2113@pc>
- <CALCETrWvE5es3i+to33y6jw=Yf0Tw6ZfV-6QWjZT5v0fo76tWw@mail.gmail.com>
- <CAHk-=wgW8rN2EVL_Rdn63V9vQO0GkZ=RQFeqqsYJM==8fujpPg@mail.gmail.com>
- <CALCETrV=4TX2a4uV5t2xOFzv+zM_jnOtMLJna8Vb7uXz6S=wSw@mail.gmail.com>
-From:   "Alexander E. Patrakov" <patrakov@gmail.com>
-Message-ID: <78a4b774-ef6b-62cb-57db-8e1ff8d29f72@gmail.com>
-Date:   Fri, 20 Sep 2019 23:15:01 +0500
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
- Thunderbird/68.1.0
-MIME-Version: 1.0
-In-Reply-To: <CALCETrV=4TX2a4uV5t2xOFzv+zM_jnOtMLJna8Vb7uXz6S=wSw@mail.gmail.com>
-Content-Type: multipart/signed; protocol="application/pkcs7-signature"; micalg=sha-256; boundary="------------ms010706090605000308010804"
+Content-Type: text/plain; charset="UTF-8"
 Sender: linux-man-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-man.vger.kernel.org>
 X-Mailing-List: linux-man@vger.kernel.org
 
-This is a cryptographically signed message in MIME format.
+On Fri, Sep 20, 2019 at 10:52 AM Andy Lutomirski <luto@kernel.org> wrote:
+>
+> IMO, from the beginning, we should have done this:
+>
+> GRND_INSECURE: insecure.  always works.
+>
+> GRND_SECURE_BLOCKING: does exactly what it says.
+>
+> 0: -EINVAL.
 
---------------ms010706090605000308010804
-Content-Type: text/plain; charset=utf-8; format=flowed
-Content-Language: en-PH
-Content-Transfer-Encoding: quoted-printable
+Violently agreed. And that's kind of what the GRND_EXPLICIT is really
+aiming for.
 
-20.09.2019 22:52, Andy Lutomirski =D0=BF=D0=B8=D1=88=D0=B5=D1=82:
-> I think that, given existing software, we should make two or three
-> changes to fix the basic problems here:
->=20
-> 1. Add GRND_INSECURE: at least let new applications do the right thing
-> going forward.
->=20
-> 2. Fix what is arguably a straight up kernel bug, not even an ABI
-> issue: when a user program is blocking in getrandom(..., 0), the
-> kernel happily sits there doing absolutely nothing and deadlocks the
-> system as a result.  This IMO isn't an ABI issue -- it's an
-> implementation problem.  How about we make getrandom() (probably
-> actually wait_for_random_bytes()) do something useful to try to seed
-> the RNG if the system is otherwise not doing IO.
->=20
-> 3. Optionally, entirely in user code: Get glibc to add new *library*
-> functions: getentropy_secure_blocking() and getentropy_insecure() or
-> whatever they want to call them.  Deprecate getentropy().
->=20
-> I think #2 is critical.  Right now, suppose someone has a system that
-> neets to do a secure network request (a la Red Hat's Clevis).  I have
-> no idea what Clevis actually does, but it wouldn't be particularly
-> crazy to do a DH exchange or sign with an EC key to ask some network
-> server to help unlock a dm-crypt volume.  If the system does this at
-> boot, it needs to use getrandom(..., 0), GRND_EXPLICIT, or whatever,
-> because it NEEDS a secure random number.  No about of ABI fiddling
-> will change this.  The kernel should *work* in this case rather than
-> deadlocking.
+However, it's worth noting that nobody should ever use GRND_EXPLICIT
+directly. That's just the name for the bit. The actual users would use
+GRND_INSECURE or GRND_SECURE.
 
-Let me express a little bit of disagreement with the logic here.
+And yes, maybe it's worth making the name be GRND_SECURE_BLOCKING just
+to make people see what the big deal is.
 
-I do agree that #2 is critical, and the Clevis use case is a perfect=20
-example why it is important. I doubt that it is solvable without=20
-trusting jitter entropy, or without provoking a dummy read on a random=20
-block device, just for timings, or maybe some other interaction with the =
+In the meantime, we need that new bit just to be able to create the
+new semantics eventually. With a warning to nudge people in the right
+direction.
 
-external world - but Willy already said "it seems fishy". However, _if_=20
-it is solved, then we don't need GRND_INSECURE, because solving #2 is=20
-equivalent to magically making secure random numbers always available.
+We may never be able to return -EINVAL, but we can add the pr_notice()
+to discourage people from using it.
 
---=20
-Alexander E. Patrakov
+And yes, we'll have to block - at least for a time - to get some
+entropy. But at some point we either start making entropy up, or we
+say "0 means jitter-entropy for ten seconds".
 
+That will _work_, but it will also make the security-people nervous,
+which is just one more hint that they should move to
+GRND_SECURE[_BLOCKING].
 
---------------ms010706090605000308010804
-Content-Type: application/pkcs7-signature; name="smime.p7s"
-Content-Transfer-Encoding: base64
-Content-Disposition: attachment; filename="smime.p7s"
-Content-Description: Криптографическая подпись S/MIME
+> getrandom(..., GRND_EXPLICIT): just fscking give me a number.  it
+> seems to work and it shuts up the warning
+>
+> And we're back to square one.
 
-MIAGCSqGSIb3DQEHAqCAMIACAQExDzANBglghkgBZQMEAgEFADCABgkqhkiG9w0BBwEAAKCC
-C5wwggVNMIIENaADAgECAhArQ2N9hOajPiuqD20bI16wMA0GCSqGSIb3DQEBCwUAMIGCMQsw
-CQYDVQQGEwJJVDEPMA0GA1UECAwGTWlsYW5vMQ8wDQYDVQQHDAZNaWxhbm8xIzAhBgNVBAoM
-GkFjdGFsaXMgUy5wLkEuLzAzMzU4NTIwOTY3MSwwKgYDVQQDDCNBY3RhbGlzIENsaWVudCBB
-dXRoZW50aWNhdGlvbiBDQSBHMTAeFw0xOTA2MDYwODAxMzVaFw0yMDA2MDYwODAxMzVaMB0x
-GzAZBgNVBAMMEnBhdHJha292QGdtYWlsLmNvbTCCASIwDQYJKoZIhvcNAQEBBQADggEPADCC
-AQoCggEBAOA0sb1ubDnIK32rbgW3BnjBcx1pYuEFOCU6aPVJ2gU+wtKJgAo9IdVUXG6kC1fF
-hXjIcZHOgbEqzFjHK1yXlHIUWEv+N8KdmBDOK1UdKQj58d9A4hnH62iEiwQsOR5YT1UyHX4A
-pfMjsBja7254cixR4jOPzfA4YUD6JTTPioyjDwuYQlhweVyXziKswLtGWfKeDcm3fOlKYxGy
-hxjWJRamGTreNBVC9uMkF4DHszpUm07agR2U4mnWy7FsjBuRJ++iX0SvuxKWf19HQWgmgIys
-jBVrArhVzgjOOnbvlklW849wIARF4Y0WAf91DsqPtuR8hu7+9KIVj2qk9BeNXXUCAwEAAaOC
-AiEwggIdMAwGA1UdEwEB/wQCMAAwHwYDVR0jBBgwFoAUfmD8+GynPT3XrpOheQKPs3QpO/Uw
-SwYIKwYBBQUHAQEEPzA9MDsGCCsGAQUFBzAChi9odHRwOi8vY2FjZXJ0LmFjdGFsaXMuaXQv
-Y2VydHMvYWN0YWxpcy1hdXRjbGlnMTAdBgNVHREEFjAUgRJwYXRyYWtvdkBnbWFpbC5jb20w
-RwYDVR0gBEAwPjA8BgYrgR8BGAEwMjAwBggrBgEFBQcCARYkaHR0cHM6Ly93d3cuYWN0YWxp
-cy5pdC9hcmVhLWRvd25sb2FkMB0GA1UdJQQWMBQGCCsGAQUFBwMCBggrBgEFBQcDBDCB6AYD
-VR0fBIHgMIHdMIGboIGYoIGVhoGSbGRhcDovL2xkYXAwNS5hY3RhbGlzLml0L2NuJTNkQWN0
-YWxpcyUyMENsaWVudCUyMEF1dGhlbnRpY2F0aW9uJTIwQ0ElMjBHMSxvJTNkQWN0YWxpcyUy
-MFMucC5BLi8wMzM1ODUyMDk2NyxjJTNkSVQ/Y2VydGlmaWNhdGVSZXZvY2F0aW9uTGlzdDti
-aW5hcnkwPaA7oDmGN2h0dHA6Ly9jcmwwNS5hY3RhbGlzLml0L1JlcG9zaXRvcnkvQVVUSENM
-LUcxL2dldExhc3RDUkwwHQYDVR0OBBYEFEhX9pz3jwI3+erfsAVB2b4xSsM8MA4GA1UdDwEB
-/wQEAwIFoDANBgkqhkiG9w0BAQsFAAOCAQEAVbKht9PGiUsUaqiyzJb6blSMNaLwopQr3AsI
-FvthyqnSqxmSNYDeZsQYPgBnXvMCvHCn07pm1b96Y3XstBt2FWb9dpDr7y+ec3vxFHb3lKGb
-3WREB1kEATnBu2++dPcILG58gdzgYde3RAJC3/OyOZhDqKwQA5CnXTHigTzw75iezdLne5pU
-MjEQoxdqC+sgbrAueaEpMmRsGSKzgIX8eQ3DWwyIL56fYPJP3u4WZmBUKTFhhUWowG62QLtt
-ZjkiX/j+vjcSRd2app8lYDwQRornZAqrDxy+c4qQJ5FN234p36opwespDCwLN3Z6wPzLvzS+
-jAlmV3DF2xuZGMoebzCCBkcwggQvoAMCAQICCCzUitOxHg+JMA0GCSqGSIb3DQEBCwUAMGsx
-CzAJBgNVBAYTAklUMQ4wDAYDVQQHDAVNaWxhbjEjMCEGA1UECgwaQWN0YWxpcyBTLnAuQS4v
-MDMzNTg1MjA5NjcxJzAlBgNVBAMMHkFjdGFsaXMgQXV0aGVudGljYXRpb24gUm9vdCBDQTAe
-Fw0xNTA1MTQwNzE0MTVaFw0zMDA1MTQwNzE0MTVaMIGCMQswCQYDVQQGEwJJVDEPMA0GA1UE
-CAwGTWlsYW5vMQ8wDQYDVQQHDAZNaWxhbm8xIzAhBgNVBAoMGkFjdGFsaXMgUy5wLkEuLzAz
-MzU4NTIwOTY3MSwwKgYDVQQDDCNBY3RhbGlzIENsaWVudCBBdXRoZW50aWNhdGlvbiBDQSBH
-MTCCASIwDQYJKoZIhvcNAQEBBQADggEPADCCAQoCggEBAMD8wYlW2Yji9ARlv80JNasoKTD+
-DMr3J6scEe6GPV3k9WxEtgxXM5WX3oiKjS2p25Mqk8cnV2fpMaEvdO9alrGes0vqcUqly7Pk
-U753RGlseYXR2XCjVhs4cuRYjuBmbxpRSJxRImmPnThKY41r0nl6b3A6Z2MOjPQF7h6OCYYw
-tz/ziv/+UBV587U2uIlOukaS7Xjk4ArYkQsGTSsfBBXqqn06WL3xG+B/dRO5/mOtY5tHdhPH
-ydsBk2kksI3PJ0yNgKV7o6HM7pG9pB6sGhj96uVLnnVnJ0WXOuV1ISv2eit9ir60LjT99hf+
-TMZLxA5yaVJ57fYjBMbxM599cw0CAwEAAaOCAdUwggHRMEEGCCsGAQUFBwEBBDUwMzAxBggr
-BgEFBQcwAYYlaHR0cDovL29jc3AwNS5hY3RhbGlzLml0L1ZBL0FVVEgtUk9PVDAdBgNVHQ4E
-FgQUfmD8+GynPT3XrpOheQKPs3QpO/UwDwYDVR0TAQH/BAUwAwEB/zAfBgNVHSMEGDAWgBRS
-2Ig6yJ94Zu2J83s4cJTJAgI20DBFBgNVHSAEPjA8MDoGBFUdIAAwMjAwBggrBgEFBQcCARYk
-aHR0cHM6Ly93d3cuYWN0YWxpcy5pdC9hcmVhLWRvd25sb2FkMIHjBgNVHR8EgdswgdgwgZag
-gZOggZCGgY1sZGFwOi8vbGRhcDA1LmFjdGFsaXMuaXQvY24lM2RBY3RhbGlzJTIwQXV0aGVu
-dGljYXRpb24lMjBSb290JTIwQ0EsbyUzZEFjdGFsaXMlMjBTLnAuQS4lMmYwMzM1ODUyMDk2
-NyxjJTNkSVQ/Y2VydGlmaWNhdGVSZXZvY2F0aW9uTGlzdDtiaW5hcnkwPaA7oDmGN2h0dHA6
-Ly9jcmwwNS5hY3RhbGlzLml0L1JlcG9zaXRvcnkvQVVUSC1ST09UL2dldExhc3RDUkwwDgYD
-VR0PAQH/BAQDAgEGMA0GCSqGSIb3DQEBCwUAA4ICAQBNk87VJL5BG0oWWHNfZYny2Xo+WIy8
-y8QP5VsWZ7LBS6Qz8kn8zJp3c9xdOkudZbcA3vm5U8HKXc1JdzNmpSh92zq/OeZLvUa+rnnc
-mvhxkFE9Doag6NitggBPZwXHwDcYn430/F8wqAt3LX/bsd6INVrhPFk3C2SoAjLjUQZibXvQ
-uFINMN4l6j86vCrkUaGzSqnXT45NxIivkAPhBQgpGtcTi4f+3DxkyTDbWtf9LuaC4l2jgB3g
-C7f56nmdpGfpYsyvKE7+Ip+WryH93pWt6C+r68KU3Gu02cU1/dHvNOXWUDeKkVT3T26wZVrT
-aMx+0nS3i63KDfJdhFzutfdBgCWHcp03NhOhMqy1RnAylF/dVZgkka6hKaWe1tOU21kS4uvs
-D4wM5k6tl0pin2o6u47kyoJJMOxRSQcosWtDXUmaLHUG91ZC6hvBDmDmpmS6h/r+7mtPrpYO
-xTr4hW3me2EfXkTvNTvBQtbi4LrZchg9vhi44EJ7L53g7GzQFn5KK8vqqgMb1c1+T0mkKdqS
-edgGiB9TDdYtv4HkUj/N00TKxZMLiDMw4V8ShUL6bKTXNfb3E68s47cD+MatFjUuGFj0uFPv
-ZlvlNAoJ7IMfXzIiTWy35X+akm+d49wBh54yv6icz2t/cBU1y1weuPBd8NUH/Ue3mXk0SXwk
-GP3yVDGCA/YwggPyAgEBMIGXMIGCMQswCQYDVQQGEwJJVDEPMA0GA1UECAwGTWlsYW5vMQ8w
-DQYDVQQHDAZNaWxhbm8xIzAhBgNVBAoMGkFjdGFsaXMgUy5wLkEuLzAzMzU4NTIwOTY3MSww
-KgYDVQQDDCNBY3RhbGlzIENsaWVudCBBdXRoZW50aWNhdGlvbiBDQSBHMQIQK0NjfYTmoz4r
-qg9tGyNesDANBglghkgBZQMEAgEFAKCCAi8wGAYJKoZIhvcNAQkDMQsGCSqGSIb3DQEHATAc
-BgkqhkiG9w0BCQUxDxcNMTkwOTIwMTgxNTAxWjAvBgkqhkiG9w0BCQQxIgQgjZnrRbZoUPMt
-VZw2ydmANIl/K3yeDNmrkhZIhXcLvHowbAYJKoZIhvcNAQkPMV8wXTALBglghkgBZQMEASow
-CwYJYIZIAWUDBAECMAoGCCqGSIb3DQMHMA4GCCqGSIb3DQMCAgIAgDANBggqhkiG9w0DAgIB
-QDAHBgUrDgMCBzANBggqhkiG9w0DAgIBKDCBqAYJKwYBBAGCNxAEMYGaMIGXMIGCMQswCQYD
-VQQGEwJJVDEPMA0GA1UECAwGTWlsYW5vMQ8wDQYDVQQHDAZNaWxhbm8xIzAhBgNVBAoMGkFj
-dGFsaXMgUy5wLkEuLzAzMzU4NTIwOTY3MSwwKgYDVQQDDCNBY3RhbGlzIENsaWVudCBBdXRo
-ZW50aWNhdGlvbiBDQSBHMQIQK0NjfYTmoz4rqg9tGyNesDCBqgYLKoZIhvcNAQkQAgsxgZqg
-gZcwgYIxCzAJBgNVBAYTAklUMQ8wDQYDVQQIDAZNaWxhbm8xDzANBgNVBAcMBk1pbGFubzEj
-MCEGA1UECgwaQWN0YWxpcyBTLnAuQS4vMDMzNTg1MjA5NjcxLDAqBgNVBAMMI0FjdGFsaXMg
-Q2xpZW50IEF1dGhlbnRpY2F0aW9uIENBIEcxAhArQ2N9hOajPiuqD20bI16wMA0GCSqGSIb3
-DQEBAQUABIIBAE+AbLP88WZ7sRej0AwubFTVbyMYKPRMJ/14uY2km/VZPuNTnyKBevOmrmaE
-Tmr92r75SyyQPFtGd6HEHXfggOxMlD75vRq5qDBh0Tbso7sj4Sin4o6CEH9YL1O4SA5ScmCl
-qx094cTzXSHF3jIfHPQDO5v0YRGfJCnaMbmWYa6T7XFwGodVu5/Idl6zs045Tjc1TFPPIoeF
-kqijK494E9lxqs739Gn3/fbjSP8inlabs9b1bIIfacekWMd/5kqbA4IyThGF4aicKG3j8GHV
-UWy5vQX7vs9NoeDGxJKquJUWagqabGTOxZEq+NXVAl0OdwuoaBpbkkiom9SVM9EpvoIAAAAA
-AAA=
---------------ms010706090605000308010804--
+Actually, you didn't read the GRND_INSECURE patch, did you.
+
+getrandom(GRND_EXPLICIT) on its own returns -EINVAL.
+
+Because yes, I thought about it, and yes, I agree that it's the same
+as the old 0.
+
+So GRND_EXPLICIT is a bit that basically means "I am explicit about
+what behavior I want". But part of that is that you need to _state_
+the behavior too.
+
+So:
+
+ - GRND_INSECURE is (GRND_EXPLICIT | GRND_NONBLOCK)
+
+   As in "I explicitly ask you not to just not ever block": urandom
+
+ - GRND_SECURE_BLOCKING is (GRND_EXPLICIT | GRND_RANDOM)
+
+   As in "I explicitly ask you for those secure random numbers"
+
+ - GRND_SECURE_NONBLOCKING is (GRND_EXPLICIT | GRND_RANDOM | GRND_NONBLOCK)
+
+   As in "I want explicitly secure random numbers, but return -EAGAIN
+if that would block".
+
+Which are the three sane behaviors (that last one is useful for the "I
+can try to generate entropy if you don't have any" case. I'm not sure
+anybody will do it, but it definitely conceptually makes sense).
+
+And I agree that your naming is better.
+
+I had it as just "GRND_SECURE" for the blocking version, and
+"GRND_SECURE | GRND_NONBLOCK" for the "secure but return EAGAIN if you
+would need to block for entropy" version.
+
+But explicitly stating the blockingness in the name makes it clearer
+to the people who just want GRND_INSECURE, and makes them realize that
+they don't want the blocking version.
+
+             Linus
