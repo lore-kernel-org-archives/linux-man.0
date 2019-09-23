@@ -2,120 +2,92 @@ Return-Path: <SRS0=i796=XS=vger.kernel.org=linux-man-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-2.2 required=3.0 tests=HEADER_FROM_DIFFERENT_DOMAINS,
-	MAILING_LIST_MULTI,SPF_HELO_NONE,SPF_PASS,USER_AGENT_SANE_2 autolearn=no
-	autolearn_force=no version=3.4.0
+X-Spam-Status: No, score=-5.8 required=3.0 tests=HEADER_FROM_DIFFERENT_DOMAINS,
+	MAILING_LIST_MULTI,MENTIONS_GIT_HOSTING,SPF_HELO_NONE,SPF_PASS
+	autolearn=unavailable autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id A1681C432C1
-	for <linux-man@archiver.kernel.org>; Mon, 23 Sep 2019 21:24:18 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 01FF7C432C2
+	for <linux-man@archiver.kernel.org>; Mon, 23 Sep 2019 21:28:19 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.kernel.org (Postfix) with ESMTP id 7E75321E6F
-	for <linux-man@archiver.kernel.org>; Mon, 23 Sep 2019 21:24:18 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTP id D4FA220673
+	for <linux-man@archiver.kernel.org>; Mon, 23 Sep 2019 21:28:18 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S2503035AbfIWVYS convert rfc822-to-8bit (ORCPT
-        <rfc822;linux-man@archiver.kernel.org>);
-        Mon, 23 Sep 2019 17:24:18 -0400
-Received: from mu.digital-domain.net ([108.61.197.113]:33504 "EHLO
-        mu.digital-domain.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S2388395AbfIWVYR (ORCPT
-        <rfc822;linux-man@vger.kernel.org>); Mon, 23 Sep 2019 17:24:17 -0400
-Received: from kappa.digital-domain.net (kappa.digital-domain.net [IPv6:2001:8b0:36c:cc91::ac])
-        (authenticated bits=0)
-        by mu.digital-domain.net (8.14.7/8.14.7) with ESMTP id x8NLOE3o012503
-        (version=TLSv1/SSLv3 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NO);
-        Mon, 23 Sep 2019 22:24:14 +0100
-Date:   Mon, 23 Sep 2019 22:24:13 +0100
-From:   Andrew Clayton <andrew@digital-domain.net>
-To:     "Michael Kerrisk (man-pages)" <mtk.manpages@gmail.com>
-Cc:     linux-man@vger.kernel.org
-Subject: Re: [PATCH 1/1] signalfd.2: Note about interactions with epoll &
- fork
-Message-ID: <20190923222413.5c79b179@kappa.digital-domain.net>
-In-Reply-To: <99e8bcda-c6f2-18bb-d28d-56d65693f233@gmail.com>
-References: <20190920234211.57596-1-andrew@digital-domain.net>
-        <20190920234211.57596-2-andrew@digital-domain.net>
-        <99e8bcda-c6f2-18bb-d28d-56d65693f233@gmail.com>
-X-Mailer: Claws Mail 3.17.3 (GTK+ 2.24.32; x86_64-redhat-linux-gnu)
+        id S2503084AbfIWV2P (ORCPT <rfc822;linux-man@archiver.kernel.org>);
+        Mon, 23 Sep 2019 17:28:15 -0400
+Received: from out03.mta.xmission.com ([166.70.13.233]:35019 "EHLO
+        out03.mta.xmission.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1732345AbfIWV2O (ORCPT
+        <rfc822;linux-man@vger.kernel.org>); Mon, 23 Sep 2019 17:28:14 -0400
+Received: from in01.mta.xmission.com ([166.70.13.51])
+        by out03.mta.xmission.com with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
+        (Exim 4.87)
+        (envelope-from <ebiederm@xmission.com>)
+        id 1iCVsT-0001pQ-Cr; Mon, 23 Sep 2019 15:28:13 -0600
+Received: from ip68-227-160-95.om.om.cox.net ([68.227.160.95] helo=x220.xmission.com)
+        by in01.mta.xmission.com with esmtpsa (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
+        (Exim 4.87)
+        (envelope-from <ebiederm@xmission.com>)
+        id 1iCVsS-0000Vb-NH; Mon, 23 Sep 2019 15:28:13 -0600
+From:   ebiederm@xmission.com (Eric W. Biederman)
+To:     "Michael Kerrisk \(man-pages\)" <mtk.manpages@gmail.com>
+Cc:     Oleg Nesterov <oleg@redhat.com>,
+        Christian Brauner <christian@brauner.io>,
+        Jann Horn <jannh@google.com>,
+        Daniel Colascione <dancol@google.com>,
+        Joel Fernandes <joel@joelfernandes.org>,
+        linux-man <linux-man@vger.kernel.org>,
+        Linux API <linux-api@vger.kernel.org>,
+        lkml <linux-kernel@vger.kernel.org>
+References: <f21dbd73-5ef4-fb5b-003f-ff4fec34a1de@gmail.com>
+Date:   Mon, 23 Sep 2019 16:27:45 -0500
+In-Reply-To: <f21dbd73-5ef4-fb5b-003f-ff4fec34a1de@gmail.com> (Michael
+        Kerrisk's message of "Mon, 23 Sep 2019 11:12:00 +0200")
+Message-ID: <87ftkmu2i6.fsf@x220.int.ebiederm.org>
+User-Agent: Gnus/5.13 (Gnus v5.13) Emacs/26.1 (gnu/linux)
 MIME-Version: 1.0
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 8BIT
+Content-Type: text/plain
+X-XM-SPF: eid=1iCVsS-0000Vb-NH;;;mid=<87ftkmu2i6.fsf@x220.int.ebiederm.org>;;;hst=in01.mta.xmission.com;;;ip=68.227.160.95;;;frm=ebiederm@xmission.com;;;spf=neutral
+X-XM-AID: U2FsdGVkX1/SQE2thKRm/QLiTB53mCy2cfZL6O/p/LI=
+X-SA-Exim-Connect-IP: 68.227.160.95
+X-SA-Exim-Mail-From: ebiederm@xmission.com
+Subject: Re: For review: pidfd_send_signal(2) manual page
+X-SA-Exim-Version: 4.2.1 (built Thu, 05 May 2016 13:38:54 -0600)
+X-SA-Exim-Scanned: Yes (on in01.mta.xmission.com)
 Sender: linux-man-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-man.vger.kernel.org>
 X-Mailing-List: linux-man@vger.kernel.org
 
-On Mon, 23 Sep 2019 16:49:29 +0200
-"Michael Kerrisk (man-pages)" <mtk.manpages@gmail.com> wrote:
+"Michael Kerrisk (man-pages)" <mtk.manpages@gmail.com> writes:
 
-> Hello Andrew,
+> Hello Christian and all,
+>
+> Below, I have the rendered version of the current draft of
+> the pidfd_send_signal(2) manual page that I have written.
+> The page source can be found in a Git branch at:
+> https://git.kernel.org/pub/scm/docs/man-pages/man-pages.git/log/?h=draft_pidfd
+>
+> I would be pleased to receive corrections and notes on any
+> details that should be added. (For example, are there error
+> cases that I have missed?)
+>
+> Would you be able to review please?
+>
+> Thanks,
+>
+> Michael
+>
+>
+> NAME
+>        pidfd_send_signal - send a signal to a process specified by a file
+>        descriptor
+>
+> SYNOPSIS
+>        int pidfd_send_signal(int pidfd, int sig, siginfo_t info,
 
-Hi Michael,
+ This needs to be "siginfo_t *info," -----------------------^
 
-Thanks for the extensive reply!
+>                              unsigned int flags);
+>
 
-[...]
- 
-> Thanks for all of the detail in the commit message! That's funky! But I
-> suppose in the end it's not completely surprising, because of the fact
-> that epoll is really notifying events on the open file description,
-> and there may be multiple file descriptors that refer to that description
-> (as for example, after fork()). It is however, still surprising to users 
-> that you can read() from the FD, even though epoll doesn't say it's ready.
-
-Ah, I gotta remember there's a distinction between descriptors &
-descriptions ;) 
-
-[...]
-
-> Thanks for the proposed text. But I prefer to avoid mentioning 
-> daemon(3), which has a longstanding bug described in its manual
-> page). Also, I think we need to bring out the fact that the
-> signalfd still makes signals available for reading, even though
-
-Yes, true.
-
-> epoll does not say the FD is ready. Also, your text might
-> lead the reader to think that this sequence might be possible:
-> 
-> create signalfd
-> create epoll instance
-> add signalfd to epoll instance
-> fork()
->        In child: add signalfd to epoll instance
-> 
-> That last step will of course give an EEXIST error from
-> epoll_ctl(), because  that FD is already in the epoll
-> instance.
-
-Yup.
- 
-> So, I've applied your patch, but then done a fairly major rewrite,
-> so that the text now looks like:
-> 
->    epoll(7) semantics
->        If a process adds (via epoll_ctl(2)) a signalfd file descriptor to
->        an epoll(7) instance, then epoll_wait(2) returns events  only  for
->        signals  sent to that process.  In particular, if the process then
->        uses fork() to create a child process, then the child will be able
->        to  read(2)  signals  that  are sent to it using the signalfd file
->        descriptor, but epoll_wait(2) will not indicate that the  signalfd
->        file descriptor is ready.  In this scenario, a possible workaround
->        is that after the fork(2), the child process can  close  the  sig‐
->        nalfd  file  descriptor  that it inherited from the parent process
->        and then create another signalfd file descriptor and add it to the
->        epoll  instance.   Alternatively,  the  parent and the child could
->        delay creating their  (separate)  signalfd  file  descriptors  and
->        adding them to the epoll instance until after the call to fork(2).
-> 
-> Seem okay to you?
-
-Yes, looks good.
- 
-> I also verified this weirness using the program shown below:
-
-Nice example.
-
-[...]
-
-Cheers,
-Andrew
+Eric
