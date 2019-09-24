@@ -1,93 +1,146 @@
-Return-Path: <SRS0=i796=XS=vger.kernel.org=linux-man-owner@kernel.org>
+Return-Path: <SRS0=0ru1=XT=vger.kernel.org=linux-man-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-5.8 required=3.0 tests=HEADER_FROM_DIFFERENT_DOMAINS,
-	MAILING_LIST_MULTI,MENTIONS_GIT_HOSTING,SPF_HELO_NONE,SPF_PASS
-	autolearn=unavailable autolearn_force=no version=3.4.0
+X-Spam-Status: No, score=-8.2 required=3.0 tests=DKIM_SIGNED,DKIM_VALID,
+	DKIM_VALID_AU,FREEMAIL_FORGED_FROMDOMAIN,FREEMAIL_FROM,
+	HEADER_FROM_DIFFERENT_DOMAINS,INCLUDES_PATCH,MAILING_LIST_MULTI,SIGNED_OFF_BY,
+	SPF_HELO_NONE,SPF_PASS,URIBL_BLOCKED,USER_AGENT_SANE_1 autolearn=ham
+	autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 01FF7C432C2
-	for <linux-man@archiver.kernel.org>; Mon, 23 Sep 2019 21:28:19 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 66A02C432C1
+	for <linux-man@archiver.kernel.org>; Tue, 24 Sep 2019 04:27:43 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.kernel.org (Postfix) with ESMTP id D4FA220673
-	for <linux-man@archiver.kernel.org>; Mon, 23 Sep 2019 21:28:18 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTP id 31D6720872
+	for <linux-man@archiver.kernel.org>; Tue, 24 Sep 2019 04:27:43 +0000 (UTC)
+Authentication-Results: mail.kernel.org;
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="T/rqpKa0"
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S2503084AbfIWV2P (ORCPT <rfc822;linux-man@archiver.kernel.org>);
-        Mon, 23 Sep 2019 17:28:15 -0400
-Received: from out03.mta.xmission.com ([166.70.13.233]:35019 "EHLO
-        out03.mta.xmission.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1732345AbfIWV2O (ORCPT
-        <rfc822;linux-man@vger.kernel.org>); Mon, 23 Sep 2019 17:28:14 -0400
-Received: from in01.mta.xmission.com ([166.70.13.51])
-        by out03.mta.xmission.com with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
-        (Exim 4.87)
-        (envelope-from <ebiederm@xmission.com>)
-        id 1iCVsT-0001pQ-Cr; Mon, 23 Sep 2019 15:28:13 -0600
-Received: from ip68-227-160-95.om.om.cox.net ([68.227.160.95] helo=x220.xmission.com)
-        by in01.mta.xmission.com with esmtpsa (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
-        (Exim 4.87)
-        (envelope-from <ebiederm@xmission.com>)
-        id 1iCVsS-0000Vb-NH; Mon, 23 Sep 2019 15:28:13 -0600
-From:   ebiederm@xmission.com (Eric W. Biederman)
-To:     "Michael Kerrisk \(man-pages\)" <mtk.manpages@gmail.com>
-Cc:     Oleg Nesterov <oleg@redhat.com>,
-        Christian Brauner <christian@brauner.io>,
-        Jann Horn <jannh@google.com>,
-        Daniel Colascione <dancol@google.com>,
-        Joel Fernandes <joel@joelfernandes.org>,
-        linux-man <linux-man@vger.kernel.org>,
-        Linux API <linux-api@vger.kernel.org>,
-        lkml <linux-kernel@vger.kernel.org>
-References: <f21dbd73-5ef4-fb5b-003f-ff4fec34a1de@gmail.com>
-Date:   Mon, 23 Sep 2019 16:27:45 -0500
-In-Reply-To: <f21dbd73-5ef4-fb5b-003f-ff4fec34a1de@gmail.com> (Michael
-        Kerrisk's message of "Mon, 23 Sep 2019 11:12:00 +0200")
-Message-ID: <87ftkmu2i6.fsf@x220.int.ebiederm.org>
-User-Agent: Gnus/5.13 (Gnus v5.13) Emacs/26.1 (gnu/linux)
+        id S2390377AbfIXE1m (ORCPT <rfc822;linux-man@archiver.kernel.org>);
+        Tue, 24 Sep 2019 00:27:42 -0400
+Received: from mail-wm1-f66.google.com ([209.85.128.66]:56106 "EHLO
+        mail-wm1-f66.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1727043AbfIXE1m (ORCPT
+        <rfc822;linux-man@vger.kernel.org>); Tue, 24 Sep 2019 00:27:42 -0400
+Received: by mail-wm1-f66.google.com with SMTP id a6so421746wma.5
+        for <linux-man@vger.kernel.org>; Mon, 23 Sep 2019 21:27:40 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20161025;
+        h=cc:subject:to:references:from:message-id:date:user-agent
+         :mime-version:in-reply-to:content-language:content-transfer-encoding;
+        bh=c7FGu3yL/rRnLYU5tSVDPa6868uqcK//CgPC/gTR4Sc=;
+        b=T/rqpKa0ipOUxVDRkNFF5uVD1z11ZPbC3fY3zi7JbxaFVYkeI/hHy8gGjJTKIaN6NS
+         q6C/mchvyGB6k+aF1uTPpTcdOlOmFgQHLzVeB22MdVXYtTS/VyP4+veEvVHWicOfMyM/
+         UmSvO5wMJmQ2gkvtEbn14C3q+OQzjaYbor3CIWZ/FIXAWK8Uyh34zqFMQ7m782lQKKxS
+         JL+bA0PVYj74oC03TJNwIXNWEQ4i2OaGbHczSlD+V/qJHtxdGxwj3fXWU+iZUj7XsIov
+         /LTDH6u09taEdMTtVdXW/RvNyzevAUcyLovuFNiEqDnfjGntXXoMTNW2CdDxH9vdHqxA
+         0Mmg==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20161025;
+        h=x-gm-message-state:cc:subject:to:references:from:message-id:date
+         :user-agent:mime-version:in-reply-to:content-language
+         :content-transfer-encoding;
+        bh=c7FGu3yL/rRnLYU5tSVDPa6868uqcK//CgPC/gTR4Sc=;
+        b=fdh7fw0drFzLu3jQ2EedY/puE9oSrWuzv/fEl84NOzQ3uu9yAgfaHfKJg5g9ePtTrS
+         /1Ntpw+WLuezeJ9SuUZg/h49UqwquGIkV67rDlIdvE7M1LSwjPbigThvBQ6/voN7B2QH
+         j1GDt+lrYCXxABA9TEAtbKYRVOA8hzYwFb6RlNiMu/YpEoYf2j/FlApgm046aqvQbSH5
+         kpuwG0yba/YgLFoLNKz6PJ7Y7pmaqHsoiE57W6Km7PmTQzukuDYi1e/1AWNeoAEn5QkR
+         ZJL9D2oVKFh3gYn2hqTgJGf5Nv6byw0KKszb9HVQbU4bEw7Y6gTwXLY2JRnOTtPuUPKS
+         ASkA==
+X-Gm-Message-State: APjAAAWJMktKQpD5W4Kh7EuFeEriuAokWQ8pScCzKfECE0I/MWv8uUxa
+        ehDHOz7K2HlKFlX7+e0T0Ew=
+X-Google-Smtp-Source: APXvYqwUaUsM/juj7AmI0IEVybMzCN0aesVPG5Nix0f4FpGYnNqXX/3yv3N2lRBnEWm3IUm4RoxHmg==
+X-Received: by 2002:a1c:7fcc:: with SMTP id a195mr826255wmd.27.1569299260049;
+        Mon, 23 Sep 2019 21:27:40 -0700 (PDT)
+Received: from ?IPv6:2001:a61:24d6:4e01:ef75:e978:47cd:1c50? ([2001:a61:24d6:4e01:ef75:e978:47cd:1c50])
+        by smtp.gmail.com with ESMTPSA id a14sm423047wmm.44.2019.09.23.21.27.38
+        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+        Mon, 23 Sep 2019 21:27:39 -0700 (PDT)
+Cc:     mtk.manpages@gmail.com, linux-man@vger.kernel.org,
+        benh@kernel.crashing.org, mpe@ellerman.id.au
+Subject: Re: [PATCH] getauxval.3: Add new cache geometry entries
+To:     Raphael Moreira Zinsly <rzinsly@linux.vnet.ibm.com>
+References: <20190916184136.13621-1-rzinsly@linux.vnet.ibm.com>
+From:   "Michael Kerrisk (man-pages)" <mtk.manpages@gmail.com>
+Message-ID: <9f0ee256-bc65-c850-a8ae-a833ca7a124d@gmail.com>
+Date:   Tue, 24 Sep 2019 06:27:36 +0200
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:60.0) Gecko/20100101
+ Thunderbird/60.6.1
 MIME-Version: 1.0
-Content-Type: text/plain
-X-XM-SPF: eid=1iCVsS-0000Vb-NH;;;mid=<87ftkmu2i6.fsf@x220.int.ebiederm.org>;;;hst=in01.mta.xmission.com;;;ip=68.227.160.95;;;frm=ebiederm@xmission.com;;;spf=neutral
-X-XM-AID: U2FsdGVkX1/SQE2thKRm/QLiTB53mCy2cfZL6O/p/LI=
-X-SA-Exim-Connect-IP: 68.227.160.95
-X-SA-Exim-Mail-From: ebiederm@xmission.com
-Subject: Re: For review: pidfd_send_signal(2) manual page
-X-SA-Exim-Version: 4.2.1 (built Thu, 05 May 2016 13:38:54 -0600)
-X-SA-Exim-Scanned: Yes (on in01.mta.xmission.com)
+In-Reply-To: <20190916184136.13621-1-rzinsly@linux.vnet.ibm.com>
+Content-Type: text/plain; charset=utf-8
+Content-Language: en-US
+Content-Transfer-Encoding: 7bit
 Sender: linux-man-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-man.vger.kernel.org>
 X-Mailing-List: linux-man@vger.kernel.org
 
-"Michael Kerrisk (man-pages)" <mtk.manpages@gmail.com> writes:
+Hello Raphael,
 
-> Hello Christian and all,
->
-> Below, I have the rendered version of the current draft of
-> the pidfd_send_signal(2) manual page that I have written.
-> The page source can be found in a Git branch at:
-> https://git.kernel.org/pub/scm/docs/man-pages/man-pages.git/log/?h=draft_pidfd
->
-> I would be pleased to receive corrections and notes on any
-> details that should be added. (For example, are there error
-> cases that I have missed?)
->
-> Would you be able to review please?
->
-> Thanks,
->
-> Michael
->
->
-> NAME
->        pidfd_send_signal - send a signal to a process specified by a file
->        descriptor
->
-> SYNOPSIS
->        int pidfd_send_signal(int pidfd, int sig, siginfo_t info,
+On 9/16/19 8:41 PM, Raphael Moreira Zinsly wrote:
+> Add entries for the new cache geometry values of the auxiliary vectors
+> that got included in the kernel.
+> 
+> Signed-off-by: Raphael Moreira Zinsly <rzinsly@linux.vnet.ibm.com>
+> ---
+>  man3/getauxval.3 | 27 +++++++++++++++++++++++++++
+>  1 file changed, 27 insertions(+)
+> 
+> diff --git a/man3/getauxval.3 b/man3/getauxval.3
+> index 794bc97b5..30f0757b5 100644
+> --- a/man3/getauxval.3
+> +++ b/man3/getauxval.3
+> @@ -123,6 +123,33 @@ The instruction cache block size.
+>  .\" .TP
+>  .\" .BR AT_NOTELF
+>  .TP
+> +.\" Kernel commit 98a5f361b8625c6f4841d6ba013bbf0e80d08147
+> +.BR AT_L1D_CACHEGEOMETRY
+> +Geometry of the L1 data cache, that is, line size and number
+> +of ways.
 
- This needs to be "siginfo_t *info," -----------------------^
+Thanks for the clarification of "ways" in you other mail.
 
->                              unsigned int flags);
->
+So, I think what could be added here is how these two pieces
+of  information are encoded into the value. Could you add a
+sentence here? The other CACHEGEOMETRY entries could then
+just have a sentence "Encoded as for AT_L1D_CACHEGEOMETRY."
 
-Eric
+Thanks,
+
+Michael
+
+> +.TP
+> +.BR AT_L1D_CACHESIZE
+> +The L1 data cache size.
+> +.TP
+> +.BR AT_L1I_CACHEGEOMETRY
+> +Geometry of the L1 instruction cache, that is, line size and
+> +number of ways.
+> +.TP
+> +.BR AT_L1I_CACHESIZE
+> +The L1 instruction cache size.
+> +.TP
+> +.BR AT_L2_CACHEGEOMETRY
+> +Geometry of the L2 cache, that is, line size and number of ways.
+> +.TP
+> +.BR AT_L2_CACHESIZE
+> +The L2 cache size.
+> +.TP
+> +.BR AT_L3_CACHEGEOMETRY
+> +Geometry of the L3 cache, that is, line size and number of ways.
+> +.TP
+> +.BR AT_L3_CACHESIZE
+> +The L3 cache size.
+> +.TP
+>  .BR AT_PAGESZ
+>  The system page size (the same value returned by
+>  .IR sysconf(_SC_PAGESIZE) ).
+> 
+
+
+-- 
+Michael Kerrisk
+Linux man-pages maintainer; http://www.kernel.org/doc/man-pages/
+Linux/UNIX System Programming Training: http://man7.org/training/
