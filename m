@@ -1,97 +1,149 @@
-Return-Path: <SRS0=XFQd=XZ=vger.kernel.org=linux-man-owner@kernel.org>
+Return-Path: <SRS0=FjLW=X2=vger.kernel.org=linux-man-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-2.6 required=3.0 tests=DKIM_SIGNED,DKIM_VALID,
-	DKIM_VALID_AU,FREEMAIL_FORGED_FROMDOMAIN,FREEMAIL_FROM,
-	HEADER_FROM_DIFFERENT_DOMAINS,MAILING_LIST_MULTI,SPF_HELO_NONE,SPF_PASS,
-	USER_AGENT_SANE_1 autolearn=no autolearn_force=no version=3.4.0
+X-Spam-Status: No, score=-3.6 required=3.0 tests=DKIM_INVALID,DKIM_SIGNED,
+	HEADER_FROM_DIFFERENT_DOMAINS,INCLUDES_PATCH,MAILING_LIST_MULTI,SPF_HELO_NONE,
+	SPF_PASS autolearn=no autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 2328EC32792
-	for <linux-man@archiver.kernel.org>; Mon, 30 Sep 2019 21:12:21 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 4AB13C352AA
+	for <linux-man@archiver.kernel.org>; Tue,  1 Oct 2019 14:18:28 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.kernel.org (Postfix) with ESMTP id E70CB206BB
-	for <linux-man@archiver.kernel.org>; Mon, 30 Sep 2019 21:12:20 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTP id 0C21F2086A
+	for <linux-man@archiver.kernel.org>; Tue,  1 Oct 2019 14:18:28 +0000 (UTC)
 Authentication-Results: mail.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="R3rxaWp7"
+	dkim=fail reason="signature verification failed" (2048-bit key) header.d=rsiny.com header.i=@rsiny.com header.b="F6rdpJQF"
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1731991AbfI3VMU (ORCPT <rfc822;linux-man@archiver.kernel.org>);
-        Mon, 30 Sep 2019 17:12:20 -0400
-Received: from mail-wr1-f66.google.com ([209.85.221.66]:42803 "EHLO
-        mail-wr1-f66.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1731050AbfI3VMU (ORCPT
-        <rfc822;linux-man@vger.kernel.org>); Mon, 30 Sep 2019 17:12:20 -0400
-Received: by mail-wr1-f66.google.com with SMTP id n14so12911067wrw.9
-        for <linux-man@vger.kernel.org>; Mon, 30 Sep 2019 14:12:19 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20161025;
-        h=cc:subject:to:references:from:message-id:date:user-agent
-         :mime-version:in-reply-to:content-language:content-transfer-encoding;
-        bh=guG+UYqmKwQweVDX64MqXehhkwBENdrl9FLgBwZkBN4=;
-        b=R3rxaWp7s7WPDT6+fLEbHu42NQwJVifpPaDyU2eDCnsefK2EB4ycpzYXcVWsxFv4P/
-         FkBDdgZjcxuMpRcPf+qRazwYx4raEfvwF3ow/XEV9mhN59O45gHK+rirwh1BuVv/fGqe
-         dOkYUDegT3t1RDCJQiaZgod6haPwHkKajl3KksJiOCVE/WM/PgyUVXaDPcuNfYoxOJvi
-         0/GND1ciBAmv0UQjjTvIwAucaCY88VllIBOVE3l3JuSBqUCQfXokl+lYZsdjLUuXRsAr
-         TLjYV1go7isAE77u3JJociu6NJLcnGMMvDZ5fibDbVpPFetkSngYB5qIPyTRwliELQ4/
-         Ku3A==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20161025;
-        h=x-gm-message-state:cc:subject:to:references:from:message-id:date
-         :user-agent:mime-version:in-reply-to:content-language
-         :content-transfer-encoding;
-        bh=guG+UYqmKwQweVDX64MqXehhkwBENdrl9FLgBwZkBN4=;
-        b=qdF5mVXbgeUIaHlEodPeRWwhU+DLzNwKSQ0/iay3fmTHU5J8J7zIhJ0mcHeXkT7KrB
-         MEk5MzTowQNOz3U2zM4gpn2kzLhU72/CRH5Yw90kFZwU5qeARYzuxtJ7D5qIkIx8g5uU
-         aZmyH2QUDTsCs4lMbzQfwZSYdcm+nfQNyb335ZG36wfFYFv3SBxqq06SVhTZvhUsYr5i
-         sDWT+8OVElM27OjLFel5dF3e7DiFGkbRmD1Q/+Budeh/5uK/Ta3dcm8ZohYpi/oDLyEk
-         vKIs//EjQezjlhWjAngOePATikUanYmLJ1HLCYwrDfoMz8pw6DEftMHAH6R1avqvfJJX
-         eoJQ==
-X-Gm-Message-State: APjAAAUYPsMap6WaUw+mfNMQbkivOKe9orduQuGEbNYOqFoq1SAyBCQa
-        PfRjm2ygGi/nKlmA9+n1clLKFCKc
-X-Google-Smtp-Source: APXvYqzVzUWF+gYCg6vqM/Upqy7ERrrUx4V3UU4dLO9AAT2Rkm1xhTvHhzQs3hkVsfnNIs+TMeQY+Q==
-X-Received: by 2002:adf:eb42:: with SMTP id u2mr14699872wrn.307.1569877938138;
-        Mon, 30 Sep 2019 14:12:18 -0700 (PDT)
-Received: from ?IPv6:2001:a61:24d6:4e01:ef75:e978:47cd:1c50? ([2001:a61:24d6:4e01:ef75:e978:47cd:1c50])
-        by smtp.gmail.com with ESMTPSA id w12sm22749757wrg.47.2019.09.30.14.12.17
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Mon, 30 Sep 2019 14:12:17 -0700 (PDT)
-Cc:     mtk.manpages@gmail.com, linux-man@vger.kernel.org
-Subject: Re: Bug: Small typo in gnutls_x509_crq_get_pk_oid(3)
-To:     Toni Kontinen <toni.kontinen@pm.me>
-References: <db037e4d-5e89-ef11-5dce-61939326b316@pm.me>
-From:   "Michael Kerrisk (man-pages)" <mtk.manpages@gmail.com>
-Message-ID: <1b6e8acf-0ff3-67cd-b41b-789af7d9055d@gmail.com>
-Date:   Mon, 30 Sep 2019 23:12:15 +0200
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:60.0) Gecko/20100101
- Thunderbird/60.6.1
+        id S1727096AbfJAOS1 (ORCPT <rfc822;linux-man@archiver.kernel.org>);
+        Tue, 1 Oct 2019 10:18:27 -0400
+Received: from gateway20.websitewelcome.com ([192.185.53.25]:46151 "EHLO
+        gateway20.websitewelcome.com" rhost-flags-OK-OK-OK-OK)
+        by vger.kernel.org with ESMTP id S1727055AbfJAOS1 (ORCPT
+        <rfc822;linux-man@vger.kernel.org>); Tue, 1 Oct 2019 10:18:27 -0400
+X-Greylist: delayed 1484 seconds by postgrey-1.27 at vger.kernel.org; Tue, 01 Oct 2019 10:18:26 EDT
+Received: from cm12.websitewelcome.com (cm12.websitewelcome.com [100.42.49.8])
+        by gateway20.websitewelcome.com (Postfix) with ESMTP id 45024400E0C85
+        for <linux-man@vger.kernel.org>; Tue,  1 Oct 2019 07:42:00 -0500 (CDT)
+Received: from gator3203.hostgator.com ([198.57.247.167])
+        by cmsmtp with SMTP
+        id FIWCi0ZXRW4frFIWCihBWK; Tue, 01 Oct 2019 08:48:45 -0500
+X-Authority-Reason: nr=8
+DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed; d=rsiny.com;
+         s=default; h=Content-Transfer-Encoding:MIME-Version:Content-Type:In-Reply-To
+        :References:Date:Cc:To:Reply-To:From:Subject:Message-ID:Sender:Content-ID:
+        Content-Description:Resent-Date:Resent-From:Resent-Sender:Resent-To:Resent-Cc
+        :Resent-Message-ID:List-Id:List-Help:List-Unsubscribe:List-Subscribe:
+        List-Post:List-Owner:List-Archive;
+        bh=94OjpxB6wYV2KSEFYN23K7u40e+9po5XbaY5phkXX0A=; b=F6rdpJQF7uJiUj6kcDcJ7Lr3gF
+        qqDesp6JpsiiHQKTRkkUxmDQqhTXLuL6LfNoBPmUelETPFR1y/K4ItyfxP/tEiulTUMMbe1PU2o/T
+        P9wjZ6Ya6FUprZfWCS7RdeNeVX6eHBSGB/TPW4+WhluFW1qpqoLT9gQZOvIhccX0zsPljvAnXqGU8
+        e5nuTtiaYFelsCCOiNjFOz0+XalHL0oeB8hZJ2n/xTNLl01g6zAEqmCzmzyjkGb7YHbCOW4ZBo7f1
+        B3haNuBwJljyLUeOkZyPl6nluDcA6hBXcTQXJD9kc1DP/0zZkAW4RNvUXeGAGYCp958W2vR+QkuZi
+        MkaHGTcA==;
+Received: from pool-100-37-189-229.nycmny.fios.verizon.net ([100.37.189.229]:59024 helo=[192.168.1.4])
+        by gator3203.hostgator.com with esmtpsa (TLSv1.2:ECDHE-RSA-AES256-GCM-SHA384:256)
+        (Exim 4.92)
+        (envelope-from <rstanley@rsiny.com>)
+        id 1iFIWB-000zeX-PZ; Tue, 01 Oct 2019 08:48:43 -0500
+Message-ID: <b213bfc24fa025f4981655b00ea6824035858952.camel@rsiny.com>
+Subject: proposed patch to operator manpage
+From:   Rick Stanley <rstanley@rsiny.com>
+Reply-To: rstanley@rsiny.com
+To:     mtk.manpages@gmail.com, linux-man@vger.kernel.org
+Cc:     Rick Stanley <rstanley@rsiny.com>
+Date:   Tue, 01 Oct 2019 09:48:42 -0400
+References: <a1683c1cc450bf969aca13d8f7a99f08cc07635d.camel@rsiny.com>
+         <47a9114e-4e31-45fc-131a-ca0c2571066d@gmail.com>
+         <a872f7e970a7d2048243f21b9fb40ad5fa929ffe.camel@rsiny.com>
+         <65c8c525eb718aa77816f3fe0b47e33d3504e623.camel@rsiny.com>
+         <3cdbcb38-734a-2b1e-ba12-f5e85a89b805@gmail.com>
+In-Reply-To: <3cdbcb38-734a-2b1e-ba12-f5e85a89b805@gmail.com>
+Organization: RSI
+Content-Type: text/plain; charset="UTF-8"
+User-Agent: Evolution 3.30.5-1.1 
 MIME-Version: 1.0
-In-Reply-To: <db037e4d-5e89-ef11-5dce-61939326b316@pm.me>
-Content-Type: text/plain; charset=utf-8
-Content-Language: en-US
 Content-Transfer-Encoding: 7bit
+X-AntiAbuse: This header was added to track abuse, please include it with any abuse report
+X-AntiAbuse: Primary Hostname - gator3203.hostgator.com
+X-AntiAbuse: Original Domain - vger.kernel.org
+X-AntiAbuse: Originator/Caller UID/GID - [47 12] / [47 12]
+X-AntiAbuse: Sender Address Domain - rsiny.com
+X-BWhitelist: no
+X-Source-IP: 100.37.189.229
+X-Source-L: No
+X-Exim-ID: 1iFIWB-000zeX-PZ
+X-Source: 
+X-Source-Args: 
+X-Source-Dir: 
+X-Source-Sender: pool-100-37-189-229.nycmny.fios.verizon.net ([192.168.1.4]) [100.37.189.229]:59024
+X-Source-Auth: rstanley@rsiny.com
+X-Email-Count: 1
+X-Source-Cap: cnN0YW5sZXk7cnN0YW5sZXk7Z2F0b3IzMjAzLmhvc3RnYXRvci5jb20=
+X-Local-Domain: yes
 Sender: linux-man-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-man.vger.kernel.org>
 X-Mailing-List: linux-man@vger.kernel.org
 
-Hello Toni,
+Michael:
 
-On 9/30/19 1:50 PM, Toni Kontinen wrote:
-> Hey,
-> 
-> There's a small typo in the description section of 
-> "gnutls_x509_crq_get_pk_oid(3)" page. It reads "This is function is..." 
-> when it should read "This function is..."
+I have created a patch to update the current version of the operator
+table, as we have discussed.
 
-For bug reports on this page, please see:
-http://man7.org/linux/man-pages/man3/gnutls_x509_crq_get_pk_oid.3.html#COLOPHON
+The current table is the K&R, 1st edition, and has not been updated in
+30 years.
 
-Thanks,
+Three updates are proposed, The first you have already added to the
+source. Numbers are the Sections within the C Standard changed.
 
-Michael
+In C89/90 C Standard, the postfix, increment( ++ ) and decrement( -- )
+operators, have been promoted to level 1, (Section: 6.3.2) leaving the
+prefix versions in the unary operators, on  Level 2 (Section: 6.3.3).
 
+In C89/90 C Standard, the cast operator( (type) ), has been demoted to
+a new third level, (Section: 6.3.4) inserted between the unary
+operators, (Section: 6.3.3) and the multiplicative operators, (Section:
+6.3.5) expanding the table to 16 levels.
+
+In C11 C Standard, a new unary operator, _Alignof has been added to the
+unary operators (Section: 6.5.3).
+
+I have made the additional changes along with the update you have
+already made.  The proposed patch is shown below:
+
+diff --git a/man7/operator.7 b/man7/operator.7
+index f22dc5d17..2e4b92b9f 100644
+--- a/man7/operator.7
++++ b/man7/operator.7
+@@ -37,18 +37,22 @@
+ .\"
+ .\" 2007-12-08, mtk, Converted from mdoc to man macros
+ .\"
++.\" 2019-09-30, Updated for 2 changes, and 1 addition
++.\"   Rick Stanley <rstanley@rsiny.com>
+ .TH OPERATOR 7 2011-09-09 "Linux" "Linux Programmer's Manual"
+ .SH NAME
+ operator \- C operator precedence and order of evaluation
+ .SH DESCRIPTION
+ This manual page lists C operators and their precedence in evaluation.
++Updated through the C18 C Standard
+ .PP
+ .TS
+ lb lb lb
+ l l l.
+ Operator	Associativity	Notes
+ () [] \-> . ++ \-\-	left to right	[1]
+-! ~ ++ \-\- + \- (type) * & sizeof	right to left	[2]
++! ~ ++ \-\- + \- * & _Alignof sizeof	right to left	[2]
++(type)	right to left
+ * / %	left to right
+ + \-	left to right
+ << >>	left to right
 
 -- 
-Michael Kerrisk
-Linux man-pages maintainer; http://www.kernel.org/doc/man-pages/
-Linux/UNIX System Programming Training: http://man7.org/training/
+RSI (Rick Stanley, Inc.)
+(917) 822-7771
+www.rsiny.com
+Computer Systems Consulting
+Linux & Open Source Specialists
+
