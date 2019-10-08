@@ -1,122 +1,72 @@
-Return-Path: <SRS0=fLbv=YA=vger.kernel.org=linux-man-owner@kernel.org>
+Return-Path: <SRS0=7M8m=YB=vger.kernel.org=linux-man-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-8.4 required=3.0 tests=DKIMWL_WL_MED,DKIM_SIGNED,
-	DKIM_VALID,DKIM_VALID_AU,HEADER_FROM_DIFFERENT_DOMAINS,MAILING_LIST_MULTI,
-	SPF_HELO_NONE,SPF_PASS,USER_IN_DEF_DKIM_WL autolearn=no autolearn_force=no
-	version=3.4.0
+X-Spam-Status: No, score=-0.8 required=3.0 tests=DKIM_SIGNED,DKIM_VALID,
+	HEADER_FROM_DIFFERENT_DOMAINS,MAILING_LIST_MULTI,SPF_HELO_NONE,SPF_PASS
+	autolearn=no autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 3EB29ECE58C
-	for <linux-man@archiver.kernel.org>; Mon,  7 Oct 2019 16:37:12 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 43623ECE58C
+	for <linux-man@archiver.kernel.org>; Tue,  8 Oct 2019 00:19:36 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.kernel.org (Postfix) with ESMTP id 122582067B
-	for <linux-man@archiver.kernel.org>; Mon,  7 Oct 2019 16:37:12 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTP id 16ACC20867
+	for <linux-man@archiver.kernel.org>; Tue,  8 Oct 2019 00:19:35 +0000 (UTC)
 Authentication-Results: mail.kernel.org;
-	dkim=pass (2048-bit key) header.d=google.com header.i=@google.com header.b="iYigjaBz"
+	dkim=pass (2048-bit key) header.d=networkplumber-org.20150623.gappssmtp.com header.i=@networkplumber-org.20150623.gappssmtp.com header.b="WkZh7Ujd"
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1728543AbfJGQhI (ORCPT <rfc822;linux-man@archiver.kernel.org>);
-        Mon, 7 Oct 2019 12:37:08 -0400
-Received: from mail-oi1-f196.google.com ([209.85.167.196]:44501 "EHLO
-        mail-oi1-f196.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1728487AbfJGQhI (ORCPT
-        <rfc822;linux-man@vger.kernel.org>); Mon, 7 Oct 2019 12:37:08 -0400
-Received: by mail-oi1-f196.google.com with SMTP id w6so12195167oie.11
-        for <linux-man@vger.kernel.org>; Mon, 07 Oct 2019 09:37:07 -0700 (PDT)
+        id S1729575AbfJHATf (ORCPT <rfc822;linux-man@archiver.kernel.org>);
+        Mon, 7 Oct 2019 20:19:35 -0400
+Received: from mail-pg1-f179.google.com ([209.85.215.179]:39911 "EHLO
+        mail-pg1-f179.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1729285AbfJHATf (ORCPT
+        <rfc822;linux-man@vger.kernel.org>); Mon, 7 Oct 2019 20:19:35 -0400
+Received: by mail-pg1-f179.google.com with SMTP id e1so9211976pgj.6
+        for <linux-man@vger.kernel.org>; Mon, 07 Oct 2019 17:19:35 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=google.com; s=20161025;
-        h=mime-version:references:in-reply-to:from:date:message-id:subject:to
-         :cc;
-        bh=M/g+TIxP8SKNK08vLgY7W9iyDhVKXTg+mETBQIQmONM=;
-        b=iYigjaBz68RW2Bfcgp0fWz6OYG118ciQXbBGXfJhyah1zWW9HRBSERHlefrRDVzDS0
-         6EKOP9bHv9wNAkSDU1yxaWcA4ueQ4XYHxEaPwmiycXashgdG/gFXU2UkJp+lsX1IFFmp
-         q+I6gtr0azcLMCJi6zWIm8q3RUDuiZnb2sKlifzfZdfoeIrodFZLckMjcl6mCvajS7km
-         p5X6XDqcqWX+J/oi7bmVjMKIy9zapHhxfuH7GV2HAKDNmx6TKYZgruQTG+BBqU6iCM0M
-         F2CnsYGbPfpTaXjr1rP5SoMQfTt8nxtzsIhk7Ocz7T1vxsr2NG+d0gT4IVMKHO6oH8wV
-         K/cw==
+        d=networkplumber-org.20150623.gappssmtp.com; s=20150623;
+        h=date:from:to:cc:subject:message-id:mime-version
+         :content-transfer-encoding;
+        bh=JMkIKUT4WbSF5s7SBru0znxxJn7AtkbsbJ0099/wMuU=;
+        b=WkZh7UjdPvKcBz16ZGbFzRpdmFGg/AOtPvX6XoOg+5VGW//ibau95E822GfxgEKb55
+         VxrLQADRTucprv2frxMOCoXklAcHBYqqtZ4pEGDu7oBwyKc2CVWF3r7OdaC6woIdr2qZ
+         NeZ/Kihql314S/GqffQqWnWdWkGCFyx5U/HLB6mp6swO+wdq9XvW2XOsO+2KAhyFjuv0
+         fnxxnusjeXBCYaTY4aq3D+6kwl4jf3OL++LWayP8rDMrC4slZewoOMMUeRVetQ+fIvK2
+         3nQqFS0vWWCPVYDMXcFhi2jthHsQRwsKmRuSqu/XXH0irz7JBO7yMirIb8zWktM4Qw7P
+         VQMw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
-        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
-         :message-id:subject:to:cc;
-        bh=M/g+TIxP8SKNK08vLgY7W9iyDhVKXTg+mETBQIQmONM=;
-        b=REs225lrP804Ru/QqLjGStuJzFVbTBFaIgJQ3Vadojw6RmZ3Mdz1FERbjwiHPLh/8w
-         Lfya64996B0muC9Sjtm8iQe8vtSdJO2WgFptWJV5151xj/PGAslwCsxZoWWEyZRKjit4
-         khOkp7CISCaCRaeLZr9Lyy6rkr0vKFgSp5AnIAnn2E7u/MxgiNaFNZ4a8K4gH1gHBvH4
-         aHFSNgkFOPY6RDHBrXsIoojaU7b11nRyTD+MOkHvefgVFHZJ84oeQeTN1d4FPSeEAyQU
-         Dnz1dRy5+r+sOWrTwaFFW4gvwfeVgP3KKIhFt+xQnyKOY85bJqM5XgjoCLH7TpO4K5Wl
-         lfpg==
-X-Gm-Message-State: APjAAAUpRD+rWs2NatqEt9Ls4oI3BaUur+a4BlxgKN4dInbpO3DBDhHQ
-        07QH9rBA/dQjjZuKfgroTM2Adl9D4uE2NsiWY+6meg==
-X-Google-Smtp-Source: APXvYqzUhlB9PtqR7NHp3xjUlZzNM07sATiI2jyj22GcPQlMzPRghy85v1lw9NAyqiJNqoBtVLmt7pKggR/ukGEFOfw=
-X-Received: by 2002:aca:b506:: with SMTP id e6mr142694oif.39.1570466227052;
- Mon, 07 Oct 2019 09:37:07 -0700 (PDT)
+        h=x-gm-message-state:date:from:to:cc:subject:message-id:mime-version
+         :content-transfer-encoding;
+        bh=JMkIKUT4WbSF5s7SBru0znxxJn7AtkbsbJ0099/wMuU=;
+        b=ZgRzgENQjMIUYlw3NmelqKM7e9Tk0y9jl6uXz4d0Zy6s4TKMBlX+HdvuASeheuPL3h
+         2DwBk1GPHRkGwjGBN57p5scixnNxkF2wkWlRy0u+H+kEPijCte5qOk93vgpdYLh3lIIZ
+         cGC8JemAiqiJVUTEzhM7J9mzrZr/Puv/qKCuIiEoK/W0U9DPSD2obSiR+ZYsFQ0Ng14/
+         JNV22cn12HwMy8p1nX8//yejHn6vJVf/x4df+6aSS5JUd4ZObN9bcqaygQNYLWo+CELS
+         m0/c02edaX0Dk97Rkr5ngDZe1P8whpq5mO1z+A17GkOuQjvJCJL5rUcZwBIV59EBi7gH
+         Hbow==
+X-Gm-Message-State: APjAAAUXBaxApiU5WV2dUMs5X4UT2j2rpNkTu4CnPmGP3ND0xEPzfpAp
+        YMFDPVuL3zt5k1Qe4UDexE8ixj4InqEAhw==
+X-Google-Smtp-Source: APXvYqwqxfluIiiHdz5Lp+xISUR0agYui49n0sEs2mQ/osls3G/gQwjYQ+qbfiyl3gBQq+zwZzKFxg==
+X-Received: by 2002:a17:90a:380a:: with SMTP id w10mr2328208pjb.104.1570493974318;
+        Mon, 07 Oct 2019 17:19:34 -0700 (PDT)
+Received: from hermes.lan (204-195-22-127.wavecable.com. [204.195.22.127])
+        by smtp.gmail.com with ESMTPSA id u5sm19501571pfl.25.2019.10.07.17.19.33
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Mon, 07 Oct 2019 17:19:34 -0700 (PDT)
+Date:   Mon, 7 Oct 2019 17:19:26 -0700
+From:   Stephen Hemminger <stephen@networkplumber.org>
+To:     mtk.manpages@gmail.com
+Cc:     linux-man@vger.kernel.org
+Subject: leftover reference to ipfw
+Message-ID: <20191007171926.788988d2@hermes.lan>
 MIME-Version: 1.0
-References: <20191003145542.17490-1-cyphar@cyphar.com> <20191003145542.17490-2-cyphar@cyphar.com>
-In-Reply-To: <20191003145542.17490-2-cyphar@cyphar.com>
-From:   Jann Horn <jannh@google.com>
-Date:   Mon, 7 Oct 2019 18:36:40 +0200
-Message-ID: <CAG48ez2LuOGAXgKftZKfDKxhdb6xcBTdoK468-HXdcpxCW4r4w@mail.gmail.com>
-Subject: Re: [PATCH RFC 1/3] symlink.7: document magic-links more completely
-To:     Aleksa Sarai <cyphar@cyphar.com>
-Cc:     Al Viro <viro@zeniv.linux.org.uk>,
-        Michael Kerrisk <mtk.manpages@gmail.com>,
-        Christian Brauner <christian@brauner.io>,
-        Aleksa Sarai <asarai@suse.de>,
-        linux-man <linux-man@vger.kernel.org>,
-        Linux API <linux-api@vger.kernel.org>,
-        kernel list <linux-kernel@vger.kernel.org>
-Content-Type: text/plain; charset="UTF-8"
+Content-Type: text/plain; charset=US-ASCII
+Content-Transfer-Encoding: 7bit
 Sender: linux-man-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-man.vger.kernel.org>
 X-Mailing-List: linux-man@vger.kernel.org
 
-On Thu, Oct 3, 2019 at 4:56 PM Aleksa Sarai <cyphar@cyphar.com> wrote:
-> Traditionally, magic-links have not been a well-understood topic in
-> Linux. Given the new changes in their semantics (related to the link
-> mode of trailing magic-links), it seems like a good opportunity to shine
-> more light on magic-links and their semantics.
-[...]
-> +++ b/man7/symlink.7
-> @@ -84,6 +84,25 @@ as they are implemented on Linux and other systems,
->  are outlined here.
->  It is important that site-local applications also conform to these rules,
->  so that the user interface can be as consistent as possible.
-> +.SS Magic-links
-> +There is a special class of symlink-like objects known as "magic-links" which
+There is no ipfw command or api on Linux.
+Yet there is still a reference to it on the ip(7) man page.
 
-I think names like that normally aren't hypenated in english, and
-instead of "magic-links", it'd be "magic links"? Just like how you
-wouldn't write "symbolic-link", but "symbolic link". But this is
-bikeshedding, and if you disagree, feel free to ignore this comment.
-
-> +can be found in certain pseudo-filesystems such as
-> +.BR proc (5)
-> +(examples include
-> +.IR /proc/[pid]/exe " and " /proc/[pid]/fd/* .)
-> +Unlike normal symlinks, magic-links are not resolved through
-
-nit: AFAICS symlinks are always referred to as "symbolic links"
-throughout the manpages.
-
-> +pathname-expansion, but instead act as direct references to the kernel's own
-> +representation of a file handle. As such, these magic-links allow users to
-> +access files which cannot be referenced with normal paths (such as unlinked
-> +files still referenced by a running program.)
-
-Could maybe add "and files in different mount namespaces" as another
-example here; at least for me, that's the main usecases for
-/proc/*/root.
-
-[...]
-> +However, magic-links do not follow this rule. They can have a non-0777 mode,
-> +which is used for permission checks when the final
-> +component of an
-> +.BR open (2)'s
-
-Maybe leave out the "open" part, since the same restriction has to
-also apply to other syscalls operating on files, like truncate() and
-so on?
-
-> +path is a magic-link (see
-> +.BR path_resolution (7).)
