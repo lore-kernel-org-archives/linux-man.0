@@ -1,69 +1,103 @@
-Return-Path: <SRS0=6Yu2=YF=vger.kernel.org=linux-man-owner@kernel.org>
+Return-Path: <SRS0=7xLe=YG=vger.kernel.org=linux-man-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-9.8 required=3.0 tests=HEADER_FROM_DIFFERENT_DOMAINS,
-	INCLUDES_PATCH,MAILING_LIST_MULTI,SIGNED_OFF_BY,SPF_HELO_NONE,SPF_PASS,
-	URIBL_BLOCKED,USER_AGENT_GIT autolearn=ham autolearn_force=no version=3.4.0
+X-Spam-Status: No, score=-9.6 required=3.0 tests=DKIM_INVALID,DKIM_SIGNED,
+	HEADER_FROM_DIFFERENT_DOMAINS,INCLUDES_PATCH,MAILING_LIST_MULTI,SIGNED_OFF_BY,
+	SPF_HELO_NONE,SPF_PASS,USER_AGENT_GIT autolearn=ham autolearn_force=no
+	version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 6E10AC4360C
-	for <linux-man@archiver.kernel.org>; Sat, 12 Oct 2019 05:13:48 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id DD826C4360C
+	for <linux-man@archiver.kernel.org>; Sun, 13 Oct 2019 23:40:20 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.kernel.org (Postfix) with ESMTP id 4DA01206A1
-	for <linux-man@archiver.kernel.org>; Sat, 12 Oct 2019 05:13:48 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTP id 79748206A3
+	for <linux-man@archiver.kernel.org>; Sun, 13 Oct 2019 23:40:20 +0000 (UTC)
+Authentication-Results: mail.kernel.org;
+	dkim=fail reason="signature verification failed" (1024-bit key) header.d=lucaswerkmeister.de header.i=@lucaswerkmeister.de header.b="SqXD9uoo"
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1726671AbfJLFNr (ORCPT <rfc822;linux-man@archiver.kernel.org>);
-        Sat, 12 Oct 2019 01:13:47 -0400
-Received: from 3.mo5.mail-out.ovh.net ([46.105.40.108]:55807 "EHLO
-        3.mo5.mail-out.ovh.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1726177AbfJLFNr (ORCPT
-        <rfc822;linux-man@vger.kernel.org>); Sat, 12 Oct 2019 01:13:47 -0400
-X-Greylist: delayed 27602 seconds by postgrey-1.27 at vger.kernel.org; Sat, 12 Oct 2019 01:13:46 EDT
-Received: from player718.ha.ovh.net (unknown [10.108.35.131])
-        by mo5.mail-out.ovh.net (Postfix) with ESMTP id ECD172529F7
-        for <linux-man@vger.kernel.org>; Fri, 11 Oct 2019 22:58:17 +0200 (CEST)
-Received: from jwilk.net (user-5-173-40-116.play-internet.pl [5.173.40.116])
-        (Authenticated sender: jwilk@jwilk.net)
-        by player718.ha.ovh.net (Postfix) with ESMTPSA id 15F84ACE3FAF;
-        Fri, 11 Oct 2019 20:58:15 +0000 (UTC)
-From:   Jakub Wilk <jwilk@jwilk.net>
+        id S1728691AbfJMXkU (ORCPT <rfc822;linux-man@archiver.kernel.org>);
+        Sun, 13 Oct 2019 19:40:20 -0400
+Received: from lucaswerkmeister.de ([94.130.58.99]:48276 "EHLO
+        lucaswerkmeister.de" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1728413AbfJMXkU (ORCPT
+        <rfc822;linux-man@vger.kernel.org>); Sun, 13 Oct 2019 19:40:20 -0400
+X-Greylist: delayed 429 seconds by postgrey-1.27 at vger.kernel.org; Sun, 13 Oct 2019 19:40:18 EDT
+Received: from theoden.lucaswerkmeister.de.home (unknown [IPv6:2a02:8109:92c0:22bb:d412:2b0:339e:ab21])
+        (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+         key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
+        (No client certificate requested)
+        (Authenticated sender: mail@lucaswerkmeister.de)
+        by lucaswerkmeister.de (Postfix) with ESMTPSA id C5A408439A8;
+        Mon, 14 Oct 2019 01:33:05 +0200 (CEST)
+Authentication-Results: lucaswerkmeister.de; dmarc=fail (p=none dis=none) header.from=lucaswerkmeister.de
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=lucaswerkmeister.de;
+        s=mail; t=1571009585;
+        bh=NiIfwU12TER5EVUOqsovqTq7G+CyeabrSyinz+vLrlA=;
+        h=From:To:Cc:Subject:Date:Message-Id:MIME-Version:Content-Type:
+         Content-Transfer-Encoding:From:Reply-To:Subject:Date:To:Cc:
+         In-Reply-To:References:Message-Id:Sender:Content-Type:
+         Content-Transfer-Encoding:Content-Disposition:Mime-Version;
+        b=SqXD9uooJD9HRRkNusyEvV5w7JNKVtAh3PvNNouchZiT1NRDzcDzf99p06bihp78g
+         TE/WG8Tl4Ink/zbFwovmANtDdGJdbdy95HEHVwLlujulVI2E+k85aZAjtAUXyx5oCI
+         89oqpL2Y8j+/Oe9kh5N7fsiuRzOBjZ32qSZauDA0=
+From:   Lucas Werkmeister <mail@lucaswerkmeister.de>
 To:     Michael Kerrisk <mtk.manpages@gmail.com>
-Cc:     linux-man@vger.kernel.org
-Subject: [PATCH] mount_namespaces.7: tfix
-Date:   Fri, 11 Oct 2019 22:58:11 +0200
-Message-Id: <20191011205811.3214-1-jwilk@jwilk.net>
+Cc:     linux-man@vger.kernel.org,
+        Lucas Werkmeister <mail@lucaswerkmeister.de>
+Subject: [PATCH] proc.5: Add /proc/[pid]/loginuid
+Date:   Mon, 14 Oct 2019 01:32:53 +0200
+Message-Id: <20191013233253.110036-1-mail@lucaswerkmeister.de>
 X-Mailer: git-send-email 2.23.0
 MIME-Version: 1.0
+Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
-X-Ovh-Tracer-Id: 17071175864565421949
-X-VR-SPAMSTATE: OK
-X-VR-SPAMSCORE: 0
-X-VR-SPAMCAUSE: gggruggvucftvghtrhhoucdtuddrgedufedrieehgdduheejucetufdoteggodetrfdotffvucfrrhhofhhilhgvmecuqfggjfdpvefjgfevmfevgfenuceurghilhhouhhtmecuhedttdenuc
 Sender: linux-man-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-man.vger.kernel.org>
 X-Mailing-List: linux-man@vger.kernel.org
 
-Remove duplicated word.
-
-Signed-off-by: Jakub Wilk <jwilk@jwilk.net>
+Signed-off-by: Lucas Werkmeister <mail@lucaswerkmeister.de>
 ---
- man7/mount_namespaces.7 | 2 +-
- 1 file changed, 1 insertion(+), 1 deletion(-)
 
-diff --git a/man7/mount_namespaces.7 b/man7/mount_namespaces.7
-index 2447e3067..5c5d3f6c0 100644
---- a/man7/mount_namespaces.7
-+++ b/man7/mount_namespaces.7
-@@ -1097,7 +1097,7 @@ An application that creates a new mount namespace directly using
- or
- .BR unshare (2)
- may desire to prevent propagation of mount events to other mount namespaces
--(as is is done by
-+(as is done by
- .BR unshare (1)).
- This can be done by changing the propagation type of
- mount points in the new namespace to either
+Notes:
+    On my system, this file is used by logname(1), but I decided against
+    mentioning the command, since it’s an indirect relation at best (via
+    getlogin(3)) that’s not mentioned in other documentation either.
+
+ man5/proc.5 | 20 +++++++++++++++++---
+ 1 file changed, 17 insertions(+), 3 deletions(-)
+
+diff --git a/man5/proc.5 b/man5/proc.5
+index dd05db6c6..25a971afc 100644
+--- a/man5/proc.5
++++ b/man5/proc.5
+@@ -1190,9 +1190,23 @@ this file is protected to allow reading only by the real UID of the process.
+ Since Linux 2.6.36,
+ .\" commit 3036e7b490bf7878c6dae952eec5fb87b1106589
+ this file is readable by all users on the system.
+-.\" FIXME Describe /proc/[pid]/loginuid
+-.\"       Added in 2.6.11; updating requires CAP_AUDIT_CONTROL
+-.\"       CONFIG_AUDITSYSCALL
++.TP
++.IR /proc/[pid]/loginuid " (since Linux 2.6.11)"
++This file contains the login user ID of the process,
++which is typically set by
++.BR pam_loginuid (8)
++during the login process and not influenced by later user changes
++such as through commands like
++.BR su (1)
++or
++.BR sudo (8).
++A process must be privileged
++.RB ( CAP_AUDIT_CONTROL )
++to update this file.
++This file is present only if the kernel was configured with
++.BR CONFIG_AUDIT " (since Linux 5.1),"
++previously
++.BR CONFIG_AUDITSYSCALL .
+ .TP
+ .IR /proc/[pid]/map_files/ " (since kernel 3.3)
+ .\" commit 640708a2cff7f81e246243b0073c66e6ece7e53e
 -- 
 2.23.0
 
