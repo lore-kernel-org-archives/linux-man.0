@@ -2,113 +2,90 @@ Return-Path: <SRS0=7d9o=Y7=vger.kernel.org=linux-man-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-0.9 required=3.0 tests=DKIM_SIGNED,DKIM_VALID,
-	DKIM_VALID_AU,HEADER_FROM_DIFFERENT_DOMAINS,MAILING_LIST_MULTI,SPF_HELO_NONE,
-	SPF_PASS autolearn=no autolearn_force=no version=3.4.0
+X-Spam-Status: No, score=-10.1 required=3.0 tests=DKIMWL_WL_HIGH,DKIM_SIGNED,
+	DKIM_VALID,DKIM_VALID_AU,INCLUDES_PATCH,MAILING_LIST_MULTI,SIGNED_OFF_BY,
+	SPF_HELO_NONE,SPF_PASS,USER_AGENT_GIT autolearn=unavailable
+	autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 20CAFC5DF60
-	for <linux-man@archiver.kernel.org>; Thu,  7 Nov 2019 16:11:10 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 60A85C5DF61
+	for <linux-man@archiver.kernel.org>; Thu,  7 Nov 2019 22:05:40 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.kernel.org (Postfix) with ESMTP id EB70B218AE
-	for <linux-man@archiver.kernel.org>; Thu,  7 Nov 2019 16:11:09 +0000 (UTC)
-Authentication-Results: mail.kernel.org;
-	dkim=pass (1024-bit key) header.d=redhat.com header.i=@redhat.com header.b="R/DXhK0x"
+	by mail.kernel.org (Postfix) with ESMTP id 281C920869
+	for <linux-man@archiver.kernel.org>; Thu,  7 Nov 2019 22:05:40 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+	s=default; t=1573164340;
+	bh=cygUg6uzZhrE0QtmMOaogM8YgrVMvUUpNVFQTtn+FhQ=;
+	h=From:To:Cc:Subject:Date:In-Reply-To:References:List-ID:From;
+	b=XBCqObfYYei64l25GwMJoh6lgp/o7xDtf/NhBqYZTHP9ht6k8FaNqocZmNgThp7al
+	 OwwRIQEZYj5QNwlCA0bX32tLmzVJ+eZgoMM/VYLHwGQPSczEZVxCGipc8Sz+CEnl8e
+	 2CUA5o6f1CQT0KU/bknBUjLFAWNTTsHyMIwCdhj0=
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S2389041AbfKGQLH (ORCPT <rfc822;linux-man@archiver.kernel.org>);
-        Thu, 7 Nov 2019 11:11:07 -0500
-Received: from us-smtp-delivery-1.mimecast.com ([207.211.31.120]:38144 "EHLO
-        us-smtp-1.mimecast.com" rhost-flags-OK-OK-OK-FAIL) by vger.kernel.org
-        with ESMTP id S2387470AbfKGQLG (ORCPT
-        <rfc822;linux-man@vger.kernel.org>); Thu, 7 Nov 2019 11:11:06 -0500
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
-        s=mimecast20190719; t=1573143065;
-        h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
-         to:to:cc:cc:mime-version:mime-version:content-type:content-type:
-         content-transfer-encoding:content-transfer-encoding:
-         in-reply-to:in-reply-to:references:references;
-        bh=j9Yv2ADBEuYgu7K06bm3FCwi5kL7EfkBgwC6m+V6GpE=;
-        b=R/DXhK0xFWcwMuS7U1Kq0qkTX5Sz0mPlxlphtTW0RecuVyHrQHmGsyv0/iwbZC9rhmKV1r
-        3Q6woV75MjFUmg4fc8DPT5K6+PYuU4N6hHRnAA7omLr+ajNnBMmjQLPo2DKsc4NkVctKjx
-        qzipNouenVOzNEgRl2E1uNURgy6ifrI=
-Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
- [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-383-7T61eBXcOASiyFVjHgEPgA-1; Thu, 07 Nov 2019 11:11:02 -0500
-Received: from smtp.corp.redhat.com (int-mx04.intmail.prod.int.phx2.redhat.com [10.5.11.14])
-        (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
+        id S1725912AbfKGWFj (ORCPT <rfc822;linux-man@archiver.kernel.org>);
+        Thu, 7 Nov 2019 17:05:39 -0500
+Received: from mail.kernel.org ([198.145.29.99]:36220 "EHLO mail.kernel.org"
+        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
+        id S1725882AbfKGWFj (ORCPT <rfc822;linux-man@vger.kernel.org>);
+        Thu, 7 Nov 2019 17:05:39 -0500
+Received: from ebiggers-linuxstation.mtv.corp.google.com (unknown [104.132.1.77])
+        (using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
         (No client certificate requested)
-        by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 21EB41800D6B;
-        Thu,  7 Nov 2019 16:11:00 +0000 (UTC)
-Received: from oldenburg2.str.redhat.com (ovpn-117-20.ams2.redhat.com [10.36.117.20])
-        by smtp.corp.redhat.com (Postfix) with ESMTPS id 22B5B5D9E5;
-        Thu,  7 Nov 2019 16:10:52 +0000 (UTC)
-From:   Florian Weimer <fweimer@redhat.com>
-To:     Christian Brauner <christian.brauner@ubuntu.com>
-Cc:     "Michael Kerrisk \(man-pages\)" <mtk.manpages@gmail.com>,
-        Christian Brauner <christian@brauner.io>,
-        lkml <linux-kernel@vger.kernel.org>,
-        linux-man <linux-man@vger.kernel.org>,
-        Kees Cook <keescook@chromium.org>,
-        Oleg Nesterov <oleg@redhat.com>, Arnd Bergmann <arnd@arndb.de>,
-        David Howells <dhowells@redhat.com>,
-        Pavel Emelyanov <xemul@virtuozzo.com>,
-        Andrew Morton <akpm@linux-foundation.org>,
-        Adrian Reber <adrian@lisas.de>,
-        Andrei Vagin <avagin@gmail.com>,
-        Linux API <linux-api@vger.kernel.org>,
-        Jann Horn <jannh@google.com>
-Subject: Re: For review: documentation of clone3() system call
-References: <CAKgNAkjo2WHq+zESU1iuCHJJ0x-fTNrakS9-d1+BjzUuV2uf2Q@mail.gmail.com>
-        <20191107151941.dw4gtul5lrtax4se@wittgenstein>
-Date:   Thu, 07 Nov 2019 17:10:51 +0100
-In-Reply-To: <20191107151941.dw4gtul5lrtax4se@wittgenstein> (Christian
-        Brauner's message of "Thu, 7 Nov 2019 16:19:43 +0100")
-Message-ID: <87y2wrbras.fsf@oldenburg2.str.redhat.com>
-User-Agent: Gnus/5.13 (Gnus v5.13) Emacs/26.2 (gnu/linux)
+        by mail.kernel.org (Postfix) with ESMTPSA id 75F1820679;
+        Thu,  7 Nov 2019 22:05:38 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+        s=default; t=1573164338;
+        bh=cygUg6uzZhrE0QtmMOaogM8YgrVMvUUpNVFQTtn+FhQ=;
+        h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
+        b=U2ahxXJfpD62ZZyL2kWYVQCil+YiEuYvGM8qrEkDSjEVJjfGgM3GEvh0BPqaKZlR2
+         3AK1LyQIj/blgbUFME6KpJ1OgdutTDdk902RgybzDOjQPJjSSRYVTaCtNIbbKUWQO7
+         BxkzKA5F71d6dLX4jWeEJPrEmQnD9ad5nJk92Dt0=
+From:   Eric Biggers <ebiggers@kernel.org>
+To:     linux-man@vger.kernel.org
+Cc:     darrick.wong@oracle.com, dhowells@redhat.com, jaegeuk@kernel.org,
+        linux-api@vger.kernel.org, linux-ext4@vger.kernel.org,
+        linux-f2fs-devel@lists.sourceforge.net,
+        linux-fscrypt@vger.kernel.org, linux-fsdevel@vger.kernel.org,
+        tytso@mit.edu, victorhsieh@google.com
+Subject: [man-pages RFC PATCH] statx.2: document STATX_ATTR_VERITY
+Date:   Thu,  7 Nov 2019 14:02:48 -0800
+Message-Id: <20191107220248.32025-1-ebiggers@kernel.org>
+X-Mailer: git-send-email 2.24.0.rc1.363.gb1bccd3e3d-goog
+In-Reply-To: <20191107014420.GD15212@magnolia>
+References: <20191107014420.GD15212@magnolia>
 MIME-Version: 1.0
-X-Scanned-By: MIMEDefang 2.79 on 10.5.11.14
-X-MC-Unique: 7T61eBXcOASiyFVjHgEPgA-1
-X-Mimecast-Spam-Score: 0
-Content-Type: text/plain; charset=WINDOWS-1252
-Content-Transfer-Encoding: quoted-printable
+Content-Transfer-Encoding: 8bit
 Sender: linux-man-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-man.vger.kernel.org>
 X-Mailing-List: linux-man@vger.kernel.org
 
-* Christian Brauner:
+From: Eric Biggers <ebiggers@google.com>
 
-> I've always been confused by the "..." for the glibc wrapper. The glibc
-> prototype in bits/sched.h also looks like this:
->
-> extern int clone (int (*__fn) (void *__arg), void *__child_stack, int __f=
-lags, void *__arg, ...) __THROW;
->
-> The additionl args parent_tid, tls, and child_tid are present in _all_
-> clone version in the same order. In fact the glibc wrapper here give the
-> illusion that it's parent_tid, tls, child_tid. The underlying syscall
-> has a different order parent_tidptr, child_tidptr, tls.
->
-> Florian, can you advise what prototype we should mention for the glibc
-> clone() wrapper here. I'd like it to be as simple as possible and get
-> rid of the ...
-> Architectural differences are explained in detail below anyway.
+Document the verity attribute for statx().
 
-Our header has:
+Signed-off-by: Eric Biggers <ebiggers@google.com>
+---
+ man2/statx.2 | 4 ++++
+ 1 file changed, 4 insertions(+)
 
-/* Clone current process.  */
-extern int clone (int (*__fn) (void *__arg), void *__child_stack,
-                  int __flags, void *__arg, ...) __THROW;
+RFC since the kernel patches are currently under review.
+The kernel patches can be found here:
+https://lkml.kernel.org/linux-fscrypt/20191029204141.145309-1-ebiggers@kernel.org/T/#u
 
-I have not checked all assembler implementations.  In theory there could
-be one that relies on the different calling convention for variadic
-functions (e.g., the existence of a parameter save area on POWER).  Or
-that swaps arguments in some architecure-specific way. 8-(
-
-I don't have much guidance on this matter, sorry.  I expect that for
-clone3, we'll provide a same-stack variant as well (for fork/vfork-like
-usage), which will be much closer to the kernel interface.  clone/clone2
-doesn't seem very fixable to me at this point.
-
-Thanks,
-Florian
+diff --git a/man2/statx.2 b/man2/statx.2
+index d2f1b07b8..713bd1260 100644
+--- a/man2/statx.2
++++ b/man2/statx.2
+@@ -461,6 +461,10 @@ See
+ .TP
+ .B STATX_ATTR_ENCRYPTED
+ A key is required for the file to be encrypted by the filesystem.
++.TP
++.B STATX_ATTR_VERITY
++The file has fs-verity enabled.  It cannot be written to, and all reads from it
++will be verified against a Merkle tree.
+ .SH RETURN VALUE
+ On success, zero is returned.
+ On error, \-1 is returned, and
+-- 
+2.24.0.rc1.363.gb1bccd3e3d-goog
 
