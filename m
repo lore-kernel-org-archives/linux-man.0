@@ -1,100 +1,50 @@
-Return-Path: <SRS0=n0RF=ZD=vger.kernel.org=linux-man-owner@kernel.org>
+Return-Path: <SRS0=qf9s=ZE=vger.kernel.org=linux-man-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-8.4 required=3.0 tests=DKIMWL_WL_MED,DKIM_SIGNED,
-	DKIM_VALID,DKIM_VALID_AU,HEADER_FROM_DIFFERENT_DOMAINS,MAILING_LIST_MULTI,
-	SPF_HELO_NONE,SPF_PASS,USER_IN_DEF_DKIM_WL autolearn=no autolearn_force=no
-	version=3.4.0
+X-Spam-Status: No, score=-0.5 required=3.0 tests=FREEMAIL_REPLYTO_END_DIGIT,
+	HEADER_FROM_DIFFERENT_DOMAINS,MAILING_LIST_MULTI,SPF_HELO_NONE,SPF_PASS
+	autolearn=no autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 4C153C17447
-	for <linux-man@archiver.kernel.org>; Mon, 11 Nov 2019 20:25:03 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 372B1C43331
+	for <linux-man@archiver.kernel.org>; Tue, 12 Nov 2019 17:58:02 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.kernel.org (Postfix) with ESMTP id 231F4206A3
-	for <linux-man@archiver.kernel.org>; Mon, 11 Nov 2019 20:25:03 +0000 (UTC)
-Authentication-Results: mail.kernel.org;
-	dkim=pass (2048-bit key) header.d=google.com header.i=@google.com header.b="dWfGQJGb"
+	by mail.kernel.org (Postfix) with ESMTP id C59BA214E0
+	for <linux-man@archiver.kernel.org>; Tue, 12 Nov 2019 17:58:01 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1727734AbfKKUZB (ORCPT <rfc822;linux-man@archiver.kernel.org>);
-        Mon, 11 Nov 2019 15:25:01 -0500
-Received: from mail-oi1-f193.google.com ([209.85.167.193]:40995 "EHLO
-        mail-oi1-f193.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1727392AbfKKUZB (ORCPT
-        <rfc822;linux-man@vger.kernel.org>); Mon, 11 Nov 2019 15:25:01 -0500
-Received: by mail-oi1-f193.google.com with SMTP id e9so12668564oif.8
-        for <linux-man@vger.kernel.org>; Mon, 11 Nov 2019 12:25:00 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=google.com; s=20161025;
-        h=mime-version:references:in-reply-to:from:date:message-id:subject:to
-         :cc;
-        bh=vOfyNjirhZJpCYD/14r+NEmeylR+17cr7FHoRrl56Eg=;
-        b=dWfGQJGbeWaicejJBkwOAjX8oYfy6+0uZOeGW/ISyKeITlGByBW9LZD0ef0cBcubzE
-         5VowYn+IFL3EjC5xJN98eoBJ9cxZurvUFXmKGHv1gMlwUAt2IJQhnG3HCcFE4yDs3pWb
-         XLdbPgHB58v6MJSb7XzlKSm8nHqKiutilSbBjh40Ow8IDfWkiK9Zc47coLaMutfIxTpv
-         xiOAoKCAR3q6SIm1Xx6H30p83uuVTAoIrXdrC6aCa9jLbptNxGMx/X6uQA01wED4UyBo
-         ad+zy/cCPRnzazbtYB2TFdfXk0pT7JRbUbwCY3lgBPQdFIOMfyQqU8r4WxBMICIuDJ57
-         wbYw==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20161025;
-        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
-         :message-id:subject:to:cc;
-        bh=vOfyNjirhZJpCYD/14r+NEmeylR+17cr7FHoRrl56Eg=;
-        b=k4kWANlLHv9T3C8PkS6cbcbxCWzVTAN7nyAa2ngK3HU4GVXj5d/JeYzzUwvk6k0VM0
-         qaZlw8NqU3Pm+UAjI9ZKGetGw13HDp3dUrFVwWUqDD99e/TkvFOEj+kb9cGu/K8SU9g6
-         ArbXWQpF6njj9+SWmBFaWgD0Nq4Ce9glhNSEt4RYR4Ugh1RJLCGuKNUXlIgg48d59XAO
-         jFehJqFxUp6RoYhJCgcKHow1vZLFtvRd7H267MHTnd9YQGb8Aryt3JGQLHK9+TsyDtZn
-         srJcJ0NF12r2RgJsD0tR3nDvx2RhUG5rNCfxHqstxmQintSd5zvzuwuk9YYgcaAdN4NZ
-         K/tg==
-X-Gm-Message-State: APjAAAVk7hqYQ4DNpEzv13sZxPGaulGzV3S1bWAjI4mcrHiE/i7yMQAa
-        Jjv9WUhD4aowpWiEyVLYESW+7CDkNl8zTVaiDJ81qw==
-X-Google-Smtp-Source: APXvYqy1VzfjRJuVb1MDElB7+dHlzd2kffgrpg+vPM+DJzWy3J/vzxZA0hSOvGwfYP2VYVG9yRo/VcuFRjBJ95zHNq8=
-X-Received: by 2002:a05:6808:9a1:: with SMTP id e1mr689381oig.175.1573503899982;
- Mon, 11 Nov 2019 12:24:59 -0800 (PST)
+        id S1726965AbfKLR6B (ORCPT <rfc822;linux-man@archiver.kernel.org>);
+        Tue, 12 Nov 2019 12:58:01 -0500
+Received: from [211.53.128.215] ([211.53.128.215]:24668 "EHLO MAIL.isd.co.kr"
+        rhost-flags-FAIL-FAIL-OK-FAIL) by vger.kernel.org with ESMTP
+        id S1726952AbfKLR6B (ORCPT <rfc822;linux-man@vger.kernel.org>);
+        Tue, 12 Nov 2019 12:58:01 -0500
+Received: from 192.168.1.163 (217.217.179.17) by MAIL.isd.co.kr (10.10.10.22)
+ with Microsoft SMTP Server id 14.3.123.3; Wed, 13 Nov 2019 02:57:02 +0900
+Date:   Tue, 12 Nov 2019 18:57:03 +0100
+From:   Peter Wong <choimj@isd.co.kr>
+Reply-To: Peter Wong <pw178484@gmail.com>
+To:     <linux-man@vger.kernel.org>
+Message-ID: <28990998.155075.1573581425438.JavaMail.cash@webmail.isd.co.kr>
+Subject: Investment opportunity
 MIME-Version: 1.0
-References: <CAKgNAkjo2WHq+zESU1iuCHJJ0x-fTNrakS9-d1+BjzUuV2uf2Q@mail.gmail.com>
- <20191107151941.dw4gtul5lrtax4se@wittgenstein> <2eb2ab4c-b177-29aa-cdc4-420b24cfd7b3@gmail.com>
- <CAG48ez2of684J6suPZpko7JFV6hg5KQsrP0KAn8B8-C3PM9OfQ@mail.gmail.com> <20191111165800.GD7017@mit.edu>
-In-Reply-To: <20191111165800.GD7017@mit.edu>
-From:   Jann Horn <jannh@google.com>
-Date:   Mon, 11 Nov 2019 21:24:33 +0100
-Message-ID: <CAG48ez3K6g7NSFmeuw-4paqPQTDYmNkZ-nVvufk25EB+Us850w@mail.gmail.com>
-Subject: Re: For review: documentation of clone3() system call
-To:     "Theodore Y. Ts'o" <tytso@mit.edu>
-Cc:     "Michael Kerrisk (man-pages)" <mtk.manpages@gmail.com>,
-        Christian Brauner <christian.brauner@ubuntu.com>,
-        Florian Weimer <fweimer@redhat.com>,
-        Christian Brauner <christian@brauner.io>,
-        lkml <linux-kernel@vger.kernel.org>,
-        linux-man <linux-man@vger.kernel.org>,
-        Kees Cook <keescook@chromium.org>,
-        Oleg Nesterov <oleg@redhat.com>, Arnd Bergmann <arnd@arndb.de>,
-        David Howells <dhowells@redhat.com>,
-        Pavel Emelyanov <xemul@virtuozzo.com>,
-        Andrew Morton <akpm@linux-foundation.org>,
-        Adrian Reber <adrian@lisas.de>,
-        Andrei Vagin <avagin@gmail.com>,
-        Linux API <linux-api@vger.kernel.org>,
-        Ingo Molnar <mingo@elte.hu>
-Content-Type: text/plain; charset="UTF-8"
+Content-Type: text/plain; charset="us-ascii"
+Content-Transfer-Encoding: 7bit
+X-Originating-IP: [217.217.179.17]
 Sender: linux-man-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-man.vger.kernel.org>
 X-Mailing-List: linux-man@vger.kernel.org
 
-On Mon, Nov 11, 2019 at 5:58 PM Theodore Y. Ts'o <tytso@mit.edu> wrote:
-> On Mon, Nov 11, 2019 at 03:55:35PM +0100, Jann Horn wrote:
-> > Not on Linux, but on OpenBSD, they do use MAP_STACK now AFAIK; this
-> > was announced here:
-> > <http://openbsd-archive.7691.n7.nabble.com/stack-register-checking-td338238.html>.
-> > Basically they periodically check whether the userspace stack pointer
-> > points into a MAP_STACK region, and if not, they kill the process. So
-> > even if it's a no-op on Linux...
->
-> Hmm, is that something we should do in Linux?  Even if we only check
-> on syscall entry, which should be pretty inexpensive, it seems like it
-> would be very effective in protecting various ROP techniques.
+Greetings,
 
-I'm not a big fan, especially if that would only happen on syscall
-entry; at the point where you have enough control to perform syscalls,
-it probably isn't too difficult to move your ROP stack over to a
-legitimate stack.
+Find attached email very confidential. reply for more details
+
+Thanks.
+Peter Wong
+
+
+
+
+----------------------------------------------------
+This email was sent by the shareware version of Postman Professional.
+
