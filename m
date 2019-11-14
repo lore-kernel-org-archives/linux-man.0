@@ -2,63 +2,57 @@ Return-Path: <SRS0=6m/J=ZG=vger.kernel.org=linux-man-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-2.2 required=3.0 tests=HEADER_FROM_DIFFERENT_DOMAINS,
-	MAILING_LIST_MULTI,SPF_HELO_NONE,SPF_PASS,USER_AGENT_SANE_1 autolearn=no
-	autolearn_force=no version=3.4.0
+X-Spam-Status: No, score=-0.9 required=3.0 tests=DKIMWL_WL_MED,DKIM_SIGNED,
+	DKIM_VALID,DKIM_VALID_AU,HEADER_FROM_DIFFERENT_DOMAINS,MAILING_LIST_MULTI,
+	SPF_HELO_NONE,SPF_PASS autolearn=no autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 32F85C432C3
-	for <linux-man@archiver.kernel.org>; Thu, 14 Nov 2019 12:29:32 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id A2633C432C3
+	for <linux-man@archiver.kernel.org>; Thu, 14 Nov 2019 13:24:27 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.kernel.org (Postfix) with ESMTP id 131C0206F0
-	for <linux-man@archiver.kernel.org>; Thu, 14 Nov 2019 12:29:32 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTP id 740F620725
+	for <linux-man@archiver.kernel.org>; Thu, 14 Nov 2019 13:24:27 +0000 (UTC)
+Authentication-Results: mail.kernel.org;
+	dkim=pass (1024-bit key) header.d=gojumpin.com header.i=hello@gojumpin.com header.b="g1FJmBwr";
+	dkim=pass (1024-bit key) header.d=cmail2.com header.i=@cmail2.com header.b="XaA+ca4c"
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1726139AbfKNM3b (ORCPT <rfc822;linux-man@archiver.kernel.org>);
-        Thu, 14 Nov 2019 07:29:31 -0500
-Received: from youngberry.canonical.com ([91.189.89.112]:37484 "EHLO
-        youngberry.canonical.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1726057AbfKNM3b (ORCPT
-        <rfc822;linux-man@vger.kernel.org>); Thu, 14 Nov 2019 07:29:31 -0500
-Received: from [79.140.120.64] (helo=wittgenstein)
-        by youngberry.canonical.com with esmtpsa (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
-        (Exim 4.86_2)
-        (envelope-from <christian.brauner@ubuntu.com>)
-        id 1iVEFX-0001o2-F2; Thu, 14 Nov 2019 12:29:23 +0000
-Date:   Thu, 14 Nov 2019 13:29:22 +0100
-From:   Christian Brauner <christian.brauner@ubuntu.com>
-To:     "Michael Kerrisk (man-pages)" <mtk.manpages@gmail.com>
-Cc:     Jann Horn <jannh@google.com>, Florian Weimer <fweimer@redhat.com>,
-        Christian Brauner <christian@brauner.io>,
-        lkml <linux-kernel@vger.kernel.org>,
-        linux-man <linux-man@vger.kernel.org>,
-        Kees Cook <keescook@chromium.org>,
-        Oleg Nesterov <oleg@redhat.com>, Arnd Bergmann <arnd@arndb.de>,
-        David Howells <dhowells@redhat.com>,
-        Pavel Emelyanov <xemul@virtuozzo.com>,
-        Andrew Morton <akpm@linux-foundation.org>,
-        Adrian Reber <adrian@lisas.de>,
-        Andrei Vagin <avagin@gmail.com>,
-        Linux API <linux-api@vger.kernel.org>,
-        Ingo Molnar <mingo@elte.hu>
-Subject: Re: For review: documentation of clone3() system call
-Message-ID: <20191114122921.37faj6e4blsclx6g@wittgenstein>
-References: <CAKgNAkjo2WHq+zESU1iuCHJJ0x-fTNrakS9-d1+BjzUuV2uf2Q@mail.gmail.com>
- <20191107151941.dw4gtul5lrtax4se@wittgenstein>
- <2eb2ab4c-b177-29aa-cdc4-420b24cfd7b3@gmail.com>
- <CAG48ez2of684J6suPZpko7JFV6hg5KQsrP0KAn8B8-C3PM9OfQ@mail.gmail.com>
- <090860a8-e57f-d4ea-88d4-086ea32e37d9@gmail.com>
+        id S1726330AbfKNNY1 (ORCPT <rfc822;linux-man@archiver.kernel.org>);
+        Thu, 14 Nov 2019 08:24:27 -0500
+Received: from mx35.a.outbound.createsend.com ([203.55.21.35]:42118 "EHLO
+        mx35.a.outbound.createsend.com" rhost-flags-OK-OK-OK-OK)
+        by vger.kernel.org with ESMTP id S1726139AbfKNNY0 (ORCPT
+        <rfc822;linux-man@vger.kernel.org>); Thu, 14 Nov 2019 08:24:26 -0500
+X-Greylist: delayed 300 seconds by postgrey-1.27 at vger.kernel.org; Thu, 14 Nov 2019 08:24:26 EST
+DKIM-Signature: v=1; a=rsa-sha1; c=relaxed/relaxed; s=cm; d=gojumpin.com;
+ h=From:To:Date:Subject:MIME-Version:Content-Type:Content-Transfer-Encoding:Message-ID; i=hello@gojumpin.com;
+ bh=k9XaJhYaceexxH/xFFS94cS1N8E=;
+ b=g1FJmBwrwYhaup9EqnzPtWDrDhHMdJNXZ1NTMjAX9bTR1cUy46NdaHDyYS/DVxydG7oin4Z6wZzg
+   IC1Kphx8vcw0zkSKjNvs4KQSqNEBRj06ZyAZiLC6imbZkwsEWMxIpPxtvRX4NV5/C8K01Vd32pcc
+   aefnkdf6DRvla7mKtkM=
+DKIM-Signature: v=1; a=rsa-sha1; c=relaxed/relaxed; s=cs2013; d=cmail2.com;
+ h=From:To:Date:Subject:MIME-Version:Content-Type:Content-Transfer-Encoding:Message-ID;
+ bh=k9XaJhYaceexxH/xFFS94cS1N8E=;
+ b=XaA+ca4clN2wBxRRSXqZQL8GU4LGGI8Itpx1tH5On63zqAmjXFnDxeiUc25YcgU810UCHabg9i0Y
+   yE+f258ATr5Q78+U7r6ZxJsyGfRDW+7p9tkBazfaJMASao/9E0D1h6bqlo2nKUTJ/lkK9dExX0Hn
+   9LpQIThGy3sWL38XKaM=
+From:   "Go Jump In" <hello@gojumpin.com>
+To:     "Check how to Profit www.clck.ru/JvUuv" <linux-man@vger.kernel.org>
+Date:   Fri, 15 Nov 2019 00:19:25 +1100
+Subject: Jump In Latest Offers and Events
 MIME-Version: 1.0
 Content-Type: text/plain; charset=utf-8
-Content-Disposition: inline
-In-Reply-To: <090860a8-e57f-d4ea-88d4-086ea32e37d9@gmail.com>
-User-Agent: NeoMutt/20180716
+Content-Transfer-Encoding: quoted-printable
+X-Mailer: aspNetEmail ver 3.6.1.22
+X-Feedback-ID: LS2-i-vhrlli:LI1-i-vhrlli:CL1-i-tuxur:createSEND
+Message-ID: <USW1P-SVC-00914b611de6ebc43e18cb8a7698006045c@usw1p-svc-009>
 Sender: linux-man-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-man.vger.kernel.org>
 X-Mailing-List: linux-man@vger.kernel.org
 
-On Thu, Nov 14, 2019 at 01:15:58PM +0100, Michael Kerrisk (man-pages) wrote:
-> I've fixed the example code in the manual page to use
-> mmap(MAP_STACK), rather than malloc(), to allocate the stack.
+Hey=0A=0AThanks so much for joining our list, your subscription was a suc=
+cess=2E If you have any questions about our emails or have any feedback o=
+f your own, please don=27t hesitate to reply to this email=2E We=27d love=
+ to hear from you=2E=0A=0AAlso, we=27ll be including a removal link in ev=
+ery email we send you, so you can leave our list any time that suits you=2E=
+=0ASee you soon for Jumpin=27 fun=21
 
-Thank you!
-Christian
