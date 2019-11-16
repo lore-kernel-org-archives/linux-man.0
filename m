@@ -1,157 +1,113 @@
-Return-Path: <SRS0=DPSJ=ZH=vger.kernel.org=linux-man-owner@kernel.org>
+Return-Path: <SRS0=YeNC=ZI=vger.kernel.org=linux-man-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-6.7 required=3.0 tests=DKIM_SIGNED,DKIM_VALID,
-	DKIM_VALID_AU,FREEMAIL_FORGED_FROMDOMAIN,FREEMAIL_FROM,
-	HEADER_FROM_DIFFERENT_DOMAINS,INCLUDES_PATCH,MAILING_LIST_MULTI,SIGNED_OFF_BY,
-	SPF_HELO_NONE,SPF_PASS,URIBL_BLOCKED autolearn=ham autolearn_force=no
-	version=3.4.0
+X-Spam-Status: No, score=-9.8 required=3.0 tests=DKIM_SIGNED,DKIM_VALID,
+	DKIM_VALID_AU,HEADER_FROM_DIFFERENT_DOMAINS,INCLUDES_PATCH,MAILING_LIST_MULTI,
+	SIGNED_OFF_BY,SPF_HELO_NONE,SPF_PASS,URIBL_BLOCKED,USER_AGENT_GIT
+	autolearn=ham autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 0409FC432C3
-	for <linux-man@archiver.kernel.org>; Fri, 15 Nov 2019 15:33:18 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id B7B41C432C3
+	for <linux-man@archiver.kernel.org>; Sat, 16 Nov 2019 11:41:29 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.kernel.org (Postfix) with ESMTP id C18A620715
-	for <linux-man@archiver.kernel.org>; Fri, 15 Nov 2019 15:33:17 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTP id 911AC2072D
+	for <linux-man@archiver.kernel.org>; Sat, 16 Nov 2019 11:41:29 +0000 (UTC)
 Authentication-Results: mail.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="UFgi3Hae"
+	dkim=pass (2048-bit key) header.d=brauner.io header.i=@brauner.io header.b="VE4bZXsL"
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1727599AbfKOPdR (ORCPT <rfc822;linux-man@archiver.kernel.org>);
-        Fri, 15 Nov 2019 10:33:17 -0500
-Received: from mail-lf1-f67.google.com ([209.85.167.67]:45751 "EHLO
-        mail-lf1-f67.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1727566AbfKOPdR (ORCPT
-        <rfc822;linux-man@vger.kernel.org>); Fri, 15 Nov 2019 10:33:17 -0500
-Received: by mail-lf1-f67.google.com with SMTP id v8so8297814lfa.12
-        for <linux-man@vger.kernel.org>; Fri, 15 Nov 2019 07:33:15 -0800 (PST)
+        id S1727527AbfKPLl3 (ORCPT <rfc822;linux-man@archiver.kernel.org>);
+        Sat, 16 Nov 2019 06:41:29 -0500
+Received: from mail-wm1-f68.google.com ([209.85.128.68]:50374 "EHLO
+        mail-wm1-f68.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1727525AbfKPLl2 (ORCPT
+        <rfc822;linux-man@vger.kernel.org>); Sat, 16 Nov 2019 06:41:28 -0500
+Received: by mail-wm1-f68.google.com with SMTP id l17so12209148wmh.0
+        for <linux-man@vger.kernel.org>; Sat, 16 Nov 2019 03:41:27 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20161025;
-        h=date:from:to:cc:subject:references:mime-version:message-id
-         :content-transfer-encoding;
-        bh=L3Im+pvVw3C7aiYNO5AL3MuuLl3SJzqV6gtRSmU6l1E=;
-        b=UFgi3HaePpBMQbDhXFkYrzm9RiPm/sDrRjirw4XsoMVnmHY5rTsS9PWLBzB9n6Kqho
-         GgFF4tk0OMYJjfUw29CtNyboIsJvmYw79S+0uzDnI64lxg0ZfSzsDw1qgQRpy1YlY71f
-         HdFXAtRUef0ZYuexUPx1s0qrVuZt/ZQ1aj9sHZD8n4KtcgEAafJAiprwqj085YHlUNtT
-         yPLVTbT7PEis7jFtJ07Wg3Oj5w9XIlG9yts+6JtI/6o12cX9eR/+cQDedDcWECobrRAV
-         6QP+t7fz7l5rsn3OR+J0KispSfva4ZEfeVaaD0ntB2mpqnmjyvfDV7D5ed9K9uSwKjdU
-         2Lkg==
+        d=brauner.io; s=google;
+        h=from:to:cc:subject:date:message-id:in-reply-to:references
+         :mime-version:content-transfer-encoding;
+        bh=fyZmBKcSsP1bjro74AAm7I1X0iJjVg8/a1KtBSbgjHA=;
+        b=VE4bZXsLrwAphnxBM8KjcExuC86t7mBgqn2W3oJdvMspYfHJbuMtJsBh19Zl2l9joI
+         tY/8N9P/9bJiEH3MQ7IqZmSWxquqB8SlY9lq6tdjbVJQuljhktuJoUZbCdrucRtaSi7E
+         vFj7kvDcIRVg2bq4HtHZ12MrodgFND+/HKr+s2KRAHM08HNdS4TJnq8R2PiycrOtvAaL
+         niYprLwLypbHzazbpqFoPNo/PiHTKxSddYt+7BhPNRqqP5FhHHcYEAPdn0ZYE78krJkS
+         kdUNmrQzAxMt/w6p/YmKi0x9wNquzSRpQ6FXeZuCSCqhY+Y7WwzXV3aJrz5cqqBvzRUd
+         BB5A==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
-        h=x-gm-message-state:date:from:to:cc:subject:references:mime-version
-         :message-id:content-transfer-encoding;
-        bh=L3Im+pvVw3C7aiYNO5AL3MuuLl3SJzqV6gtRSmU6l1E=;
-        b=Aelwk5RGjZJusYI1/83JUm/NTvfUy0drACutTf188zMPOyU2iDHU7GDyVhAm/Ym325
-         SHuKiWnA09yMej2UJvb9jjU43QY58aefci06v+DSz+wizPauGGDL2EyNiblUCJ3YkAUL
-         vyff9rGfZ7QNvsV8vqT8oynZcgoEiN1kMwp+fd0sRLG3eDe/aS6cp9SAjMRAFEDjY0f2
-         hvW6KHYb8/H0V9nIIAaeCa70QKrLt15Cv/khOtsIpwMtlVSerRA2lflqKmIMEtsyk3Pa
-         sp1eW+VOXaZr4GsVYd32yif8u/W2BRTDoYc8Cjd40RrNXb3PqgI9DV3VYx6kR9aYOopR
-         8pqA==
-X-Gm-Message-State: APjAAAXMEEI3czVeSRcWJtRUTNy6JTfIcUkPuI4uGjfEM39DGGMca2IQ
-        NkvleUFjG9GNvbMK8qRiKjOJ6pAE
-X-Google-Smtp-Source: APXvYqzcC71EA/v4uAB0QLtKsj1tT03S04jWhzRsaYEuyV9kNY2QfFOtTLHTgs2C04Ugkl2OaGFxAQ==
-X-Received: by 2002:ac2:4c16:: with SMTP id t22mr11568033lfq.124.1573831995020;
-        Fri, 15 Nov 2019 07:33:15 -0800 (PST)
-Received: from N-20L6PF1KTYA2 ([131.228.2.20])
-        by smtp.gmail.com with ESMTPSA id n1sm4083199ljg.44.2019.11.15.07.33.12
-        (version=TLS1_2 cipher=AES128-GCM-SHA256 bits=128/128);
-        Fri, 15 Nov 2019 07:33:14 -0800 (PST)
-Date:   Fri, 15 Nov 2019 23:33:12 +0800
-From:   "lixinhai.lxh@gmail.com" <lixinhai.lxh@gmail.com>
-To:     n-horiguchi <n-horiguchi@ah.jp.nec.com>
-Cc:     "linux-mm@kvack.org" <linux-mm@kvack.org>,
-        akpm <akpm@linux-foundation.org>, mhocko <mhocko@suse.com>,
-        "Vlastimil Babka" <vbabka@suse.cz>,
-        "Hugh Dickins" <hughd@google.com>,
-        linux-man <linux-man@vger.kernel.org>
-Subject: Re: [PATCH v4 2/2] mm: Fix checking unmapped holes for mbind
-References: <1573218104-11021-1-git-send-email-lixinhai.lxh@gmail.com>, 
-        <1573218104-11021-3-git-send-email-lixinhai.lxh@gmail.com>, 
-        <20191114093018.GA2144@hori.linux.bs1.fc.nec.co.jp>
-X-Priority: 3
-X-GUID: 7AA44B45-3441-49B2-9C12-4FDB1FEA677A
-X-Has-Attach: no
-X-Mailer: Foxmail 7.2.13.365[cn]
-Mime-Version: 1.0
-Message-ID: <2019111523331059776833@gmail.com>
-Content-Type: text/plain;
-        charset="utf-8"
-Content-Transfer-Encoding: base64
+        h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
+         :references:mime-version:content-transfer-encoding;
+        bh=fyZmBKcSsP1bjro74AAm7I1X0iJjVg8/a1KtBSbgjHA=;
+        b=ZBIoArXdcjYhnFDD1jFeX90U7pgFGyX6PnFIRpHku/+vG1Acw7Et+6lNRXTxhy3hIl
+         YkSU5Dcd1fm7VmDqKOy40iBt56ooQrYIJ1QC2JBar+TCDJsYhlhdh5UTrFUaDdF04gpf
+         jZsHEwhAgNmt6wmcEkboYgD4dO1KiD/FVUgoO2ED8+eZ7S3mgGzwQw0uHzDtx1eSVP33
+         9CEtRaHiJm2zSZHXbBODh3mRDPZJFlVMQ3tr8eClnamTRa4CLW61mi1ZzjTBwJ+nbhYH
+         F1scTXwuZiz5mGLx05n9PpY+F7j4hm4XWFeWX/igyQb103rpDTF3s88T/fMbEPHDNrxp
+         TMYg==
+X-Gm-Message-State: APjAAAWrqJddrIxg9ZQ3OYb7bDQhmrKgmBeRQhosPa5yFWMdBY9CEKMF
+        KWiVaebKjrsmEztQE6pYNDxnWw==
+X-Google-Smtp-Source: APXvYqy27qRYzRac5x1AMY19+A/S4MLoXMsT8wAnfE9JRrwtPgSjJJnVX3Rh2SYvj90R1XobwU9oMw==
+X-Received: by 2002:a7b:c94e:: with SMTP id i14mr18944185wml.174.1573904486618;
+        Sat, 16 Nov 2019 03:41:26 -0800 (PST)
+Received: from localhost.localdomain ([213.220.153.21])
+        by smtp.gmail.com with ESMTPSA id x5sm12539189wmj.7.2019.11.16.03.41.25
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Sat, 16 Nov 2019 03:41:25 -0800 (PST)
+From:   Christian Brauner <christian@brauner.io>
+To:     mtk.manpages@gmail.com
+Cc:     adrian@lisas.de, akpm@linux-foundation.org, arnd@arndb.de,
+        avagin@gmail.com, christian.brauner@ubuntu.com,
+        dhowells@redhat.com, fweimer@redhat.com, jannh@google.com,
+        keescook@chromium.org, linux-api@vger.kernel.org,
+        linux-kernel@vger.kernel.org, linux-man@vger.kernel.org,
+        mingo@elte.hu, oleg@redhat.com, xemul@virtuozzo.com
+Subject: [PATCH 3/3] clone.2: Use pid_t for clone3() {child,parent}_tid
+Date:   Sat, 16 Nov 2019 12:41:14 +0100
+Message-Id: <20191116114114.7066-3-christian@brauner.io>
+X-Mailer: git-send-email 2.24.0
+In-Reply-To: <20191116114114.7066-1-christian@brauner.io>
+References: <20191116114114.7066-1-christian@brauner.io>
+MIME-Version: 1.0
+Content-Transfer-Encoding: 8bit
 Sender: linux-man-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-man.vger.kernel.org>
 X-Mailing-List: linux-man@vger.kernel.org
 
-T24gMjAxOS0xMS0xNMKgYXQgMTc6MzDCoE5hb3lhIEhvcmlndWNoacKgd3JvdGU6Cj5PbiBGcmks
-IE5vdiAwOCwgMjAxOSBhdCAwOTowMTo0NFBNICswODAwLCBMaSBYaW5oYWkgd3JvdGU6Cj4+IG1i
-aW5kKCkgaXMgcmVxdWlyZWQgdG8gcmVwb3J0IEVGQVVMVCBpZiByYW5nZSwgc3BlY2lmaWVkIGJ5
-IGFkZHIgYW5kIGxlbiwKPj4gY29udGFpbnMgdW5tYXBwZWQgaG9sZXMuIEluIGN1cnJlbnQgaW1w
-bGVtZW50YXRpb24sIGJlbG93IHJ1bGVzIGFyZSBhcHBsaWVkCj4+IGZvciB0aGlzIGNoZWNraW5n
-Ogo+PiAxIFVubWFwcGVkIGhvbGVzIGF0IGFueSBwYXJ0IG9mIHRoZSBzcGVjaWZpZWQgcmFuZ2Ug
-c2hvdWxkIGJlIHJlcG9ydGVkIGFzCj4+wqDCoCBFRkFVTFQgaWYgbWJpbmQoKSBmb3Igbm9uZSBN
-UE9MX0RFRkFVTFQgY2FzZXM7Cj4+IDIgVW5tYXBwZWQgaG9sZXMgYXQgYW55IHBhcnQgb2YgdGhl
-IHNwZWNpZmllZCByYW5nZSBzaG91bGQgYmUgaWdub3JlZCAoZG8KPj7CoMKgIG5vdCByZXByb3Qg
-RUZBVUxUKSBpZiBtYmluZCgpIGZvciBNUE9MX0RFRkFVTFQgY2FzZTsKPj4gMyBUaGUgd2hvbGUg
-cmFuZ2UgaW4gYW4gdW5tYXBwZWQgaG9sZSBzaG91bGQgYmUgcmVwb3J0ZWQgYXMgRUZBVUxUOwo+
-PiBOb3RlIHRoYXQgcnVsZSAyIGRvZXMgbm90IGZ1bGxmaWxsIHRoZSBtYmluZCgpIEFQSSBkZWZp
-bml0aW9uLCBidXQgc2luY2UKPj4gdGhhdCBiZWhhdmlvciBoYXMgZXhpc3RlZCBmb3IgbG9uZyBk
-YXlzICh0aGUgaW50ZXJuYWwgZmxhZwo+PiBNUE9MX01GX0RJU0NPTlRJR19PSyBpcyBmb3IgdGhp
-cyBwdXJwb3NlKSwgdGhpcyBwYXRjaCBkb2VzIG5vdCBwbGFuIHRvCj4+IGNoYW5nZSBpdC4KPj4K
-Pj4gSW4gY3VycmVudCBjb2RlLCBhcHBsaWNhdGlvbiBvYnNlcnZlZCBpbmNvbnNpc3RlbnQgYmVo
-YXZpb3Igb24gcnVsZSAxIGFuZAo+PiBydWxlIDIgcmVzcGVjdGl2ZWx5LiBUaGF0IGluY29uc2lz
-dGVuY3kgaXMgZml4ZWQgYXMgYmVsb3cgZGV0YWlscy4KPj4KPj4gQ2FzZXMgb2YgcnVsZSAxOgo+
-PiAxKSBIb2xlIGF0IGhlYWQgc2lkZSBvZiByYW5nZS4gQ3VycmVudCBjb2RlIHJlcHJvdCBFRkFV
-TFQsIG5vIGNoYW5nZSBieQo+PiB0aGlzIHBhdGNoLgo+PiBbwqAgdm1hwqAgXVsgaG9sZSBdW8Kg
-IHZtYcKgIF0KPj7CoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqAgW8KgIHJhbmdlwqAgXQo+PiAyKSBI
-b2xlIGF0IG1pZGRsZSBvZiByYW5nZS4gQ3VycmVudCBjb2RlIHJlcG9ydCBFRkFVTFQsIG5vIGNo
-YW5nZSBieQo+PiB0aGlzIHBhdGNoLgo+PiBbwqAgdm1hwqAgXVsgaG9sZSBdWyB2bWEgXQo+PsKg
-wqDCoCBbwqDCoMKgwqAgcmFuZ2XCoMKgwqDCoMKgIF0KPj4gMykgSG9sZSBhdCB0YWlsIHNpZGUg
-b2YgcmFuZ2UuIEN1cnJlbnQgY29kZSBkbyBub3QgcmVwb3J0IEVGQVVMVCwgdGhpcwo+PiBwYXRj
-aCBmaXggaXQuCj4+IFvCoCB2bWHCoCBdWyBob2xlIF1bIHZtYSBdCj4+wqDCoMKgIFvCoCByYW5n
-ZcKgIF0KPj4KPj4gQ2FzZXMgb2YgcnVsZSAyOgo+PiAxKSBIb2xlIGF0IGhlYWQgc2lkZSBvZiBy
-YW5nZS4gQ3VycmVudCBjb2RlIHJlcHJvdCBFRkFVTFQsIHRoaXMgcGF0Y2gKPj4gZml4IGl0Lgo+
-PiBbwqAgdm1hwqAgXVsgaG9sZSBdW8KgIHZtYcKgIF0KPj7CoMKgwqDCoMKgwqDCoMKgwqDCoMKg
-wqAgW8KgIHJhbmdlwqAgXQo+PiAyKSBIb2xlIGF0IG1pZGRsZSBvZiByYW5nZS4gQ3VycmVudCBj
-b2RlIGRvIG5vdCByZXBvcnQgRUZBVUxULCBubyBjaGFuZ2UKPj4gYnkgdGhpcyBwYXRjaC4KPj4g
-dGhpcyBwYXRjaC4KPj4gW8KgIHZtYcKgIF1bIGhvbGUgXVsgdm1hXQo+PsKgwqDCoCBbwqDCoMKg
-wqAgcmFuZ2XCoMKgwqDCoMKgIF0KPj4gMykgSG9sZSBhdCB0YWlsIHNpZGUgb2YgcmFuZ2UuIEN1
-cnJlbnQgY29kZSBkbyBub3QgcmVwb3J0IEVGQVVMVCwgbm8KPj4gY2hhbmdlIGJ5IHRoaXMgcGF0
-Y2guCj4+IFvCoCB2bWHCoCBdWyBob2xlIF1bIHZtYV0KPj7CoMKgwqAgW8KgIHJhbmdlwqAgXQo+
-Pgo+PiBUaGlzIHBhdGNoIGhhcyBubyBjaGFuZ2VzIHRvIHJ1bGUgMy4KPj4KPj4gVGhlIHVubWFw
-cGVkIGhvbGUgY2hlY2tpbmcgY2FuIGFsc28gYmUgaGFuZGxlZCBieSB1c2luZyAucHRlX2hvbGUo
-KSwKPj4gaW5zdGVhZCBvZiAudGVzdF93YWxrKCkuIEJ1dCAucHRlX2hvbGUoKSBpcyBjYWxsZWQg
-Zm9yIGhvbGVzIGluc2lkZSBhbmQKPj4gb3V0c2lkZSB2bWEsIHdoaWNoIGNhdXNlcyBtb3JlIGNv
-c3QsIHNvIHRoaXMgcGF0Y2gga2VlcHMgdGhlIG9yaWdpbmFsCj4+IGRlc2lnbiB3aXRoIC50ZXN0
-X3dhbGsoKS4KPj4KPj4gRml4ZXM6IDZmNDU3NmUzNjg3YiAoIm1lbXBvbGljeTogYXBwbHkgcGFn
-ZSB0YWJsZSB3YWxrZXIgb24gcXVldWVfcGFnZXNfcmFuZ2UoKSIpCj4+IENjOiBBbmRyZXcgTW9y
-dG9uIDxha3BtQGxpbnV4LWZvdW5kYXRpb24ub3JnPgo+PiBDYzogTmFveWEgSG9yaWd1Y2hpIDxu
-LWhvcmlndWNoaUBhaC5qcC5uZWMuY29tPgo+PiBDYzogTWljaGFsIEhvY2tvIDxtaG9ja29Ac3Vz
-ZS5jb20+Cj4+IENjOiBWbGFzdGltaWwgQmFia2EgPHZiYWJrYUBzdXNlLmN6Pgo+PiBDYzogSHVn
-aCBEaWNraW5zIDxodWdoZEBnb29nbGUuY29tPgo+PiBDYzogbGludXgtbWFuIDxsaW51eC1tYW5A
-dmdlci5rZXJuZWwub3JnPgo+PiBTaWduZWQtb2ZmLWJ5OiBMaSBYaW5oYWkgPGxpeGluaGFpLmx4
-aEBnbWFpbC5jb20+Cj4+IC0tLQo+PsKgIG1tL21lbXBvbGljeS5jIHwgNDAgKysrKysrKysrKysr
-KysrKysrKysrKysrKysrLS0tLS0tLS0tLS0tLQo+PsKgIDEgZmlsZSBjaGFuZ2VkLCAyNyBpbnNl
-cnRpb25zKCspLCAxMyBkZWxldGlvbnMoLSkKPj4KPj4gZGlmZiAtLWdpdCBhL21tL21lbXBvbGlj
-eS5jIGIvbW0vbWVtcG9saWN5LmMKPj4gaW5kZXggODA3ZjA2Zi4uYzY5N2IyOSAxMDA2NDQKPj4g
-LS0tIGEvbW0vbWVtcG9saWN5LmMKPj4gKysrIGIvbW0vbWVtcG9saWN5LmMKPj4gQEAgLTQxMCw3
-ICs0MTAsOSBAQCBzdHJ1Y3QgcXVldWVfcGFnZXMgewo+PsKgIHN0cnVjdCBsaXN0X2hlYWQgKnBh
-Z2VsaXN0Owo+PsKgIHVuc2lnbmVkIGxvbmcgZmxhZ3M7Cj4+wqAgbm9kZW1hc2tfdCAqbm1hc2s7
-Cj4+IC0Jc3RydWN0IHZtX2FyZWFfc3RydWN0ICpwcmV2Owo+PiArCXVuc2lnbmVkIGxvbmcgc3Rh
-cnQ7Cj4+ICsJdW5zaWduZWQgbG9uZyBlbmQ7Cj4+ICsJc3RydWN0IHZtX2FyZWFfc3RydWN0ICpm
-aXJzdDsKPj7CoCB9Owo+PsKgCj4+wqAgLyoKPj4gQEAgLTYxOSwxNCArNjIxLDIwIEBAIHN0YXRp
-YyBpbnQgcXVldWVfcGFnZXNfdGVzdF93YWxrKHVuc2lnbmVkIGxvbmcgc3RhcnQsIHVuc2lnbmVk
-IGxvbmcgZW5kLAo+PsKgIHVuc2lnbmVkIGxvbmcgZmxhZ3MgPSBxcC0+ZmxhZ3M7Cj4+wqAKPj7C
-oCAvKiByYW5nZSBjaGVjayBmaXJzdCAqLwo+PiAtCWlmICghKGZsYWdzICYgTVBPTF9NRl9ESVND
-T05USUdfT0spKSB7Cj4+IC0JaWYgKCF2bWEtPnZtX25leHQgJiYgdm1hLT52bV9lbmQgPCBlbmQp
-Cj4+IC0JcmV0dXJuIC1FRkFVTFQ7Cj4+IC0JaWYgKHFwLT5wcmV2ICYmIHFwLT5wcmV2LT52bV9l
-bmQgPCB2bWEtPnZtX3N0YXJ0KQo+PiArCVZNX0JVR19PTigodm1hLT52bV9zdGFydCA+IHN0YXJ0
-KSB8fCAodm1hLT52bV9lbmQgPCBlbmQpKTsKPj4gKwo+PiArCWlmICghcXAtPmZpcnN0KSB7Cj4+
-ICsJcXAtPmZpcnN0ID0gdm1hOwo+PiArCWlmICghKGZsYWdzICYgTVBPTF9NRl9ESVNDT05USUdf
-T0spICYmCj4+ICsJKHFwLT5zdGFydCA8IHZtYS0+dm1fc3RhcnQpKQo+PiArCS8qIGhvbGUgYXQg
-aGVhZCBzaWRlIG9mIHJhbmdlICovCj4+wqAgcmV0dXJuIC1FRkFVTFQ7Cj4+wqAgfQo+PiAtCj4+
-IC0JcXAtPnByZXYgPSB2bWE7Cj4+ICsJaWYgKCEoZmxhZ3MgJiBNUE9MX01GX0RJU0NPTlRJR19P
-SykgJiYKPj4gKwkoKHZtYS0+dm1fZW5kIDwgcXAtPmVuZCkgJiYKPgo+WW91IGhlcmUgaGF2ZSBh
-IHRyYWlsaW5nIHdoaXRlc3BhY2UuCj4KPk90aGVyd2lzZSwgbG9va3MgZ29vZCB0byBtZS4KPgo+
-UmV2aWV3ZWQtYnk6IE5hb3lhIEhvcmlndWNoaSA8bi1ob3JpZ3VjaGlAYWguanAubmVjLmNvbT4g
-CgpUaGFua3MgZm9yIHJldmlldywgSSd2IHNlbnQgb3V0IG5ldyBwYXRjaCB3aXRoIHNhbWUgdGl0
-bGUKLSBYaW5oYWkKCgo=
+From: Christian Brauner <christian.brauner@ubuntu.com>
+
+Advertise to userspace that they should use proper pid_t types for
+arguments returning a pid.
+The kernel-internal struct kernel_clone_args currently uses int as type
+and since POSIX mandates that pid_t is a signed integer type and glibc
+and friends use int this is not an issue. After the merge window for
+v5.5 closes we can switch struct kernel_clone_args over to using pid_t
+as well without any danger in regressing current userspace.
+Also note, that the new set tid feature which will be merged for v5.5
+uses pid_t types as well.
+
+Signed-off-by: Christian Brauner <christian.brauner@ubuntu.com>
+---
+ man2/clone.2 | 4 ++--
+ 1 file changed, 2 insertions(+), 2 deletions(-)
+
+diff --git a/man2/clone.2 b/man2/clone.2
+index faff2ada6..bf2d7c731 100644
+--- a/man2/clone.2
++++ b/man2/clone.2
+@@ -183,9 +183,9 @@ is a structure of the following form:
+ struct clone_args {
+     u64 flags;        /* Flags bit mask */
+     u64 pidfd;        /* Where to store PID file descriptor
+-                         (\fIint *\fP) */
++                         (\fIpid_t *\fP) */
+     u64 child_tid;    /* Where to store child TID,
+-                         in child's memory (\fIint *\fP) */
++                         in child's memory (\fIpid_t *\fP) */
+     u64 parent_tid;   /* Where to store child TID,
+                          in parent's memory (\fIint *\fP) */
+     u64 exit_signal;  /* Signal to deliver to parent on
+-- 
+2.24.0
 
