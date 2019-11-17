@@ -1,109 +1,130 @@
-Return-Path: <SRS0=YeNC=ZI=vger.kernel.org=linux-man-owner@kernel.org>
+Return-Path: <SRS0=OdN2=ZJ=vger.kernel.org=linux-man-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-9.8 required=3.0 tests=DKIM_SIGNED,DKIM_VALID,
-	DKIM_VALID_AU,HEADER_FROM_DIFFERENT_DOMAINS,INCLUDES_PATCH,MAILING_LIST_MULTI,
-	SIGNED_OFF_BY,SPF_HELO_NONE,SPF_PASS,URIBL_BLOCKED,USER_AGENT_GIT
-	autolearn=unavailable autolearn_force=no version=3.4.0
+X-Spam-Status: No, score=-8.1 required=3.0 tests=DKIM_SIGNED,DKIM_VALID,
+	DKIM_VALID_AU,FREEMAIL_FORGED_FROMDOMAIN,FREEMAIL_FROM,
+	HEADER_FROM_DIFFERENT_DOMAINS,INCLUDES_PATCH,MAILING_LIST_MULTI,SIGNED_OFF_BY,
+	SPF_HELO_NONE,SPF_PASS,URIBL_BLOCKED,USER_AGENT_SANE_1 autolearn=unavailable
+	autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 60CFBC432C3
-	for <linux-man@archiver.kernel.org>; Sat, 16 Nov 2019 11:41:33 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 3C513C432C0
+	for <linux-man@archiver.kernel.org>; Sun, 17 Nov 2019 18:00:35 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.kernel.org (Postfix) with ESMTP id 3AE7F2072D
-	for <linux-man@archiver.kernel.org>; Sat, 16 Nov 2019 11:41:33 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTP id 17B3D20856
+	for <linux-man@archiver.kernel.org>; Sun, 17 Nov 2019 18:00:35 +0000 (UTC)
 Authentication-Results: mail.kernel.org;
-	dkim=pass (2048-bit key) header.d=brauner.io header.i=@brauner.io header.b="FUWeFJQP"
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="e+9/o/ZW"
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1727530AbfKPLlc (ORCPT <rfc822;linux-man@archiver.kernel.org>);
-        Sat, 16 Nov 2019 06:41:32 -0500
-Received: from mail-wm1-f67.google.com ([209.85.128.67]:52985 "EHLO
-        mail-wm1-f67.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1727448AbfKPLl1 (ORCPT
-        <rfc822;linux-man@vger.kernel.org>); Sat, 16 Nov 2019 06:41:27 -0500
-Received: by mail-wm1-f67.google.com with SMTP id l1so12223846wme.2
-        for <linux-man@vger.kernel.org>; Sat, 16 Nov 2019 03:41:24 -0800 (PST)
+        id S1727106AbfKQSA2 (ORCPT <rfc822;linux-man@archiver.kernel.org>);
+        Sun, 17 Nov 2019 13:00:28 -0500
+Received: from mail-wm1-f65.google.com ([209.85.128.65]:38390 "EHLO
+        mail-wm1-f65.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1726047AbfKQSA1 (ORCPT
+        <rfc822;linux-man@vger.kernel.org>); Sun, 17 Nov 2019 13:00:27 -0500
+Received: by mail-wm1-f65.google.com with SMTP id z19so16284388wmk.3;
+        Sun, 17 Nov 2019 10:00:25 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=brauner.io; s=google;
-        h=from:to:cc:subject:date:message-id:mime-version
-         :content-transfer-encoding;
-        bh=9qrbBm1fL62NwECBN+3glE+N1as0J/NyBOFPV+RHSPg=;
-        b=FUWeFJQPe7xIzamd5joY0TZn2ICzDMAdR0UP0/kbwZecxanpjgHKCIH2HiHcTW3IrD
-         HHMsF0uOQlBekIwAo2lKkzSBGRs9meIn2OcL1EagZ4kF+ogadMnEVSnv/UMtpZKs4z58
-         06mxx/5O0wGASoSt+sxQhEfx5lGOTuHh+2/cMOsvwIRV4hw89sADsQZAWtuIPMPURJ0j
-         ErQ6DcMtJTDWnJf4cQy8qBA8ktgbmnmvoqur3vl5XWBN35DDnNtVcH3IF7iAlWkP/I6p
-         YcQTfD2GPho+PkD/38XEIbT5oQHET5Om0OqgsaWJEyAlBCUeE8zOvCUTpC4juDBHFJoZ
-         TjmA==
+        d=gmail.com; s=20161025;
+        h=cc:subject:to:references:from:message-id:date:user-agent
+         :mime-version:in-reply-to:content-language:content-transfer-encoding;
+        bh=F4NQooBVjrSqmCsMJWptKKpcPoY0ZrH3mGqS/PbNMyo=;
+        b=e+9/o/ZWKT0cU4m83XoyfZs75i6IFYMGA8WbEsk2yK8WOhCyUhqm5E0+LZ8JvuOLg/
+         G1IJAWAzudJW4i/rbJ5i/Vxpp3iTaCbfsnJLuji2a8kqJNs1zt+xqLTnzlxfErJsT57d
+         erwIUxx6HkQKIUiRqrM1hh7UJv3RkYpsaWstgVb+FsQicQPu7ViFDqySUSQ3gV+unrJe
+         DQUXj6YuP0ETMKed22McFFY2Hx/Ct/xv8IBHMYOQbvif1ENm5S1vCW4xMD4i64EfB6oB
+         sW0kVSlS2Le8ZH/d8mK/0flqlJ/ug0Etrgadasv7W5wq0g3Gd6wv4PKXvfTgZ/JpNnjf
+         LSlQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
-        h=x-gm-message-state:from:to:cc:subject:date:message-id:mime-version
+        h=x-gm-message-state:cc:subject:to:references:from:message-id:date
+         :user-agent:mime-version:in-reply-to:content-language
          :content-transfer-encoding;
-        bh=9qrbBm1fL62NwECBN+3glE+N1as0J/NyBOFPV+RHSPg=;
-        b=tBgWcbaZXtL8muA+8CTAb+eYizNK6My9AtNRmu4Xr0ysI1CUitBViW4NkoFew7gJ87
-         n1r91o8G4ayLEIcorNsy0NjmewH6YtpZV+JwL0j3hjy4LEgM1Kt6X/JVDdmTvLP3stZv
-         n9yto5/45f8wLjd4UPXIMbXTFkS0oFCR12wrh9O38O/0pyaFpZfVwrqhJzLnWUPFgZ8q
-         nkCiBQ/p3fSSgFpmm3sXEy4lxwybiYosZ+2M5M99KBAeb+O8QrqmNst3xkNctfOazHQO
-         6HAw7rQJ8lLUjSjeI3hM+daX8uZB9N3Ac40jksJ9Sm5peVWSPHKfxa6vYnoleB9rQhjQ
-         w8mg==
-X-Gm-Message-State: APjAAAW9OG5uD+AJqZc8sLjnOapRoTKi2BjXAXPfXWP2LDWtN4e3Hsc9
-        lOoJ7R352FD9LLJbokl1YM5+tw==
-X-Google-Smtp-Source: APXvYqxd3+/pvXHp+aXQvAUHFjmjZyEe3Wr02QAA/72ZOBUitdXD7hE7GEdnDudUfo1+6/HqB0HC5A==
-X-Received: by 2002:a1c:9917:: with SMTP id b23mr19488879wme.42.1573904483443;
-        Sat, 16 Nov 2019 03:41:23 -0800 (PST)
-Received: from localhost.localdomain ([213.220.153.21])
-        by smtp.gmail.com with ESMTPSA id x5sm12539189wmj.7.2019.11.16.03.41.21
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Sat, 16 Nov 2019 03:41:22 -0800 (PST)
-From:   Christian Brauner <christian@brauner.io>
-To:     mtk.manpages@gmail.com
-Cc:     adrian@lisas.de, akpm@linux-foundation.org, arnd@arndb.de,
-        avagin@gmail.com, christian.brauner@ubuntu.com,
+        bh=F4NQooBVjrSqmCsMJWptKKpcPoY0ZrH3mGqS/PbNMyo=;
+        b=JlQZ3BJy0tX5sBUPua6+2JoOYyFDr9mAqX3S/45tLqN8VJjlRVsQwSTdbhfC8P9DdM
+         5aUGc99xFAvfn+yHlOunxkV5kgTRV6EI9xaOwZHzwWtsilS4bcH2NjvOme88+uz9O+Bj
+         kBCqfU3vdZbEMmwFuwgYcJI8KjrjYfvVetdUo+7ritAfSN5sNoVad8kndJB5Qo2XP9p+
+         ICr3OrEThJWQxm8r479Ef5gmM77Vp1vMzbEEhFLRKMgYVL2OskADfypDO6B7fxjaMQLv
+         DUV6n2VuaAZsYL8clQKf/OO34kDnLv87qD3MVZbTlwW/9EOa1JS64r14PNxOptzrlGI9
+         fydA==
+X-Gm-Message-State: APjAAAWbGAkOEwe2SiK57BrcHPqMeQMFbBprCp7helY2YjtvMYgXFfHm
+        egfMAlb1Ko/9DGbPj/G2INQ=
+X-Google-Smtp-Source: APXvYqwIiM0ZFTq/2AyHVnk/4vTtfdVDSku8hzp50grw/lqRjOknUsLjUkAdU35z8Pooouy43oUkOA==
+X-Received: by 2002:a1c:28d4:: with SMTP id o203mr26025806wmo.147.1574013624416;
+        Sun, 17 Nov 2019 10:00:24 -0800 (PST)
+Received: from [192.168.178.53] (x5f752d31.dyn.telefonica.de. [95.117.45.49])
+        by smtp.gmail.com with ESMTPSA id z11sm23701517wrg.0.2019.11.17.10.00.23
+        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+        Sun, 17 Nov 2019 10:00:23 -0800 (PST)
+Cc:     mtk.manpages@gmail.com, adrian@lisas.de, akpm@linux-foundation.org,
+        arnd@arndb.de, avagin@gmail.com, christian.brauner@ubuntu.com,
         dhowells@redhat.com, fweimer@redhat.com, jannh@google.com,
         keescook@chromium.org, linux-api@vger.kernel.org,
         linux-kernel@vger.kernel.org, linux-man@vger.kernel.org,
         mingo@elte.hu, oleg@redhat.com, xemul@virtuozzo.com
-Subject: [PATCH 1/3] clone.2: Fix typos
-Date:   Sat, 16 Nov 2019 12:41:12 +0100
-Message-Id: <20191116114114.7066-1-christian@brauner.io>
-X-Mailer: git-send-email 2.24.0
+Subject: Re: [PATCH 1/3] clone.2: Fix typos
+To:     Christian Brauner <christian@brauner.io>
+References: <20191116114114.7066-1-christian@brauner.io>
+From:   "Michael Kerrisk (man-pages)" <mtk.manpages@gmail.com>
+Message-ID: <0ef00041-9952-3dea-1d6b-2d14536764d3@gmail.com>
+Date:   Sun, 17 Nov 2019 19:00:20 +0100
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:60.0) Gecko/20100101
+ Thunderbird/60.6.1
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+In-Reply-To: <20191116114114.7066-1-christian@brauner.io>
+Content-Type: text/plain; charset=utf-8
+Content-Language: en-US
+Content-Transfer-Encoding: 7bit
 Sender: linux-man-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-man.vger.kernel.org>
 X-Mailing-List: linux-man@vger.kernel.org
 
-From: Christian Brauner <christian.brauner@ubuntu.com>
+On 11/16/19 12:41 PM, Christian Brauner wrote:
+> From: Christian Brauner <christian.brauner@ubuntu.com>
 
-Fix two spelling mistakes in manpage describing the clone{2,3}()
-syscalls/syscall wrappers.
+Thanks, Christian, 
 
-Signed-off-by: Christian Brauner <christian.brauner@ubuntu.com>
----
- man2/clone.2 | 4 ++--
- 1 file changed, 2 insertions(+), 2 deletions(-)
+Patch applied.
 
-diff --git a/man2/clone.2 b/man2/clone.2
-index f67a60067..57a9eaba7 100644
---- a/man2/clone.2
-+++ b/man2/clone.2
-@@ -70,12 +70,12 @@ create a new ("child") process, in a manner similar to
- .PP
- By contrast with
- .BR fork (2),
--these system cals provide more precise control over what pieces of execution
-+these system calls provide more precise control over what pieces of execution
- context are shared between the calling process and the child process.
- For example, using these system calls, the caller can control whether
- or not the two processes share the virtual address space,
- the table of file descriptors, and the table of signal handlers.
--These system calls also allow the new child process to placed
-+These system calls also allow the new child process to be placed
- in separate
- .BR namespaces (7).
- .PP
+Cheers,
 
-base-commit: 91243dad42a7a62df73e3b1dfbb810adc1b8b654
+Michael
+
+
+> Fix two spelling mistakes in manpage describing the clone{2,3}()
+> syscalls/syscall wrappers.
+> 
+> Signed-off-by: Christian Brauner <christian.brauner@ubuntu.com>
+> ---
+>  man2/clone.2 | 4 ++--
+>  1 file changed, 2 insertions(+), 2 deletions(-)
+> 
+> diff --git a/man2/clone.2 b/man2/clone.2
+> index f67a60067..57a9eaba7 100644
+> --- a/man2/clone.2
+> +++ b/man2/clone.2
+> @@ -70,12 +70,12 @@ create a new ("child") process, in a manner similar to
+>  .PP
+>  By contrast with
+>  .BR fork (2),
+> -these system cals provide more precise control over what pieces of execution
+> +these system calls provide more precise control over what pieces of execution
+>  context are shared between the calling process and the child process.
+>  For example, using these system calls, the caller can control whether
+>  or not the two processes share the virtual address space,
+>  the table of file descriptors, and the table of signal handlers.
+> -These system calls also allow the new child process to placed
+> +These system calls also allow the new child process to be placed
+>  in separate
+>  .BR namespaces (7).
+>  .PP
+> 
+> base-commit: 91243dad42a7a62df73e3b1dfbb810adc1b8b654
+> 
+
+
 -- 
-2.24.0
-
+Michael Kerrisk
+Linux man-pages maintainer; http://www.kernel.org/doc/man-pages/
+Linux/UNIX System Programming Training: http://man7.org/training/
