@@ -2,163 +2,98 @@ Return-Path: <SRS0=cHE4=ZY=vger.kernel.org=linux-man-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-3.8 required=3.0 tests=DKIMWL_WL_HIGH,DKIM_SIGNED,
-	DKIM_VALID,HEADER_FROM_DIFFERENT_DOMAINS,MAILING_LIST_MULTI,SIGNED_OFF_BY,
-	SPF_HELO_NONE,SPF_PASS autolearn=no autolearn_force=no version=3.4.0
+X-Spam-Status: No, score=-3.9 required=3.0 tests=DKIMWL_WL_HIGH,DKIM_SIGNED,
+	DKIM_VALID,DKIM_VALID_AU,HEADER_FROM_DIFFERENT_DOMAINS,INCLUDES_PATCH,
+	MAILING_LIST_MULTI,SPF_HELO_NONE,SPF_PASS autolearn=no autolearn_force=no
+	version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id D81EFC43215
-	for <linux-man@archiver.kernel.org>; Mon,  2 Dec 2019 19:03:35 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id BCD14C432C0
+	for <linux-man@archiver.kernel.org>; Mon,  2 Dec 2019 20:32:18 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.kernel.org (Postfix) with ESMTP id A4CAD24659
-	for <linux-man@archiver.kernel.org>; Mon,  2 Dec 2019 19:03:35 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=default; t=1575313415;
-	bh=gDzD092vpAjf78mnMDwxPlhLp4NniLIvc/vXWOB+6x4=;
-	h=Date:From:To:Subject:List-ID:From;
-	b=JOmTGxLfuLbLJJMna+I90yK/9gUzvP2UBxrfHG6yM2qg4h5dctoU12gZXyuF5baPB
-	 GD0aVIwZPObNuqK5mrzyizuQRwSuqjw5MwyzPLrfJJfVMgvZvYv8vHKr8sDCv5cgQ6
-	 JzY9muifsPpZe8q6veCo/ViSXgUhCxAqsbo2/d28=
+	by mail.kernel.org (Postfix) with ESMTP id 84B3D20848
+	for <linux-man@archiver.kernel.org>; Mon,  2 Dec 2019 20:32:18 +0000 (UTC)
+Authentication-Results: mail.kernel.org;
+	dkim=pass (1024-bit key) header.d=redhat.com header.i=@redhat.com header.b="cYzxxlpE"
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1728102AbfLBTDf (ORCPT <rfc822;linux-man@archiver.kernel.org>);
-        Mon, 2 Dec 2019 14:03:35 -0500
-Received: from mail.kernel.org ([198.145.29.99]:44466 "EHLO mail.kernel.org"
-        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S1727927AbfLBTDc (ORCPT <rfc822;linux-man@vger.kernel.org>);
-        Mon, 2 Dec 2019 14:03:32 -0500
-Received: from localhost.localdomain (c-71-198-47-131.hsd1.ca.comcast.net [71.198.47.131])
-        (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+        id S1727501AbfLBUcS (ORCPT <rfc822;linux-man@archiver.kernel.org>);
+        Mon, 2 Dec 2019 15:32:18 -0500
+Received: from us-smtp-delivery-1.mimecast.com ([205.139.110.120]:21576 "EHLO
+        us-smtp-1.mimecast.com" rhost-flags-OK-OK-OK-FAIL) by vger.kernel.org
+        with ESMTP id S1726673AbfLBUcS (ORCPT
+        <rfc822;linux-man@vger.kernel.org>); Mon, 2 Dec 2019 15:32:18 -0500
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+        s=mimecast20190719; t=1575318736;
+        h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+         to:to:cc:cc:content-type:content-type:
+         content-transfer-encoding:content-transfer-encoding;
+        bh=vUrGE/y2GAVUMdC3HFrIyK0p1d4PcznkA8dtEjUo1Dc=;
+        b=cYzxxlpETdLoyrVnQNzYLEooJ/tLaxVjTkL0/LgAWVCZxf3S5U84vCLZWKjEGnSRFpuTFJ
+        eAFmIhneDGsYJU3NwIwBtE76reCWeV6RtCjxbWniiUA+YMY/FpM7apJ0bn9Xx6urol5Y7A
+        dCiHkI9y8PekXFzjHNiASW/sJPVoYVE=
+Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
+ [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
+ us-mta-346-nktp2cbrM26pgWbO36OhWw-1; Mon, 02 Dec 2019 15:32:13 -0500
+Received: from smtp.corp.redhat.com (int-mx06.intmail.prod.int.phx2.redhat.com [10.5.11.16])
+        (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
         (No client certificate requested)
-        by mail.kernel.org (Postfix) with ESMTPSA id 801F224653;
-        Mon,  2 Dec 2019 19:03:31 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-        s=default; t=1575313411;
-        bh=gDzD092vpAjf78mnMDwxPlhLp4NniLIvc/vXWOB+6x4=;
-        h=Date:From:To:Subject:From;
-        b=juUmYEZNpDHSwqmBmhCx/K0gg3pTtr1N0DmrsGJFhSiKDM0030DVyVng9qGVMIPrj
-         cL8c+rQSFsA0wshF3MoLMMi5bLAi/GoEAIlIyeM6OGC1w3V+AeXa6/oLAPKSPC0ASw
-         XOhHTd6IlXNA3Oq3Y3zQPZzehcOvscSfDM+zc9XY=
-Date:   Mon, 02 Dec 2019 11:03:31 -0800
-From:   akpm@linux-foundation.org
-To:     hughd@google.com, linux-man@vger.kernel.org,
-        lixinhai.lxh@gmail.com, mhocko@suse.com,
-        mm-commits@vger.kernel.org, n-horiguchi@ah.jp.nec.com,
-        vbabka@suse.cz
-Subject:  [merged]
- mm-check-range-first-in-queue_pages_test_walk.patch removed from -mm tree
-Message-ID: <20191202190331.xWsr6LF-x%akpm@linux-foundation.org>
-User-Agent: s-nail v14.8.16
+        by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 97FD51856A62;
+        Mon,  2 Dec 2019 20:32:12 +0000 (UTC)
+Received: from greed.delorie.com (ovpn-118-0.phx2.redhat.com [10.3.118.0])
+        by smtp.corp.redhat.com (Postfix) with ESMTPS id 516695C298;
+        Mon,  2 Dec 2019 20:32:12 +0000 (UTC)
+Received: from greed.delorie.com.redhat.com (localhost [127.0.0.1])
+        by greed.delorie.com (8.14.7/8.14.7) with ESMTP id xB2KWASi031365;
+        Mon, 2 Dec 2019 15:32:10 -0500
+Date:   Mon, 02 Dec 2019 15:32:10 -0500
+Message-Id: <xna78awjsl.fsf@greed.delorie.com>
+From:   DJ Delorie <dj@redhat.com>
+To:     mtk.manpages@gmail.com
+CC:     linux-man@vger.kernel.org, libc-alpha@sourceware.org
+Subject: [patch] ldconfig.8: Document file filter and symlink pattern expectations
+X-Scanned-By: MIMEDefang 2.79 on 10.5.11.16
+X-MC-Unique: nktp2cbrM26pgWbO36OhWw-1
+X-Mimecast-Spam-Score: 0
+Content-Type: text/plain; charset=US-ASCII
+Content-Transfer-Encoding: quoted-printable
 Sender: linux-man-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-man.vger.kernel.org>
 X-Mailing-List: linux-man@vger.kernel.org
 
 
-The patch titled
-     Subject: mm/mempolicy.c: check range first in queue_pages_test_walk
-has been removed from the -mm tree.  Its filename was
-     mm-check-range-first-in-queue_pages_test_walk.patch
+Information gleaned from comments in glibc's elf/ldconfig.c
 
-This patch was dropped because it was merged into mainline or a subsystem tree
-
-------------------------------------------------------
-From: Li Xinhai <lixinhai.lxh@gmail.com>
-Subject: mm/mempolicy.c: check range first in queue_pages_test_walk
-
-Patch series "mm: Fix checking unmapped holes for mbind", v4.
-
-This patchset fix checking unmapped holes for mbind().
-
-First patch makes sure the vma been correctly tracked in .test_walk(),
-so each time when .test_walk() is called, the neighborhood of two vma
-is correct.
-
-Current problem is that the !vma_migratable() check could cause return
-immediately without update tracking to vma.
-
-Second patch fix the inconsistent report of EFAULT when mbind() is
-called for MPOL_DEFAULT and non MPOL_DEFAULT cases, so application do
-not need to have workaround code to handle this special behavior. 
-Currently there are two problems, one is that the .test_walk() can not
-know there is hole at tail side of range, because .test_walk() only
-call for vma not for hole.  The other one is that mbind_range() checks
-for hole at head side of range but do not consider the
-MPOL_MF_DISCONTIG_OK flag as done in .test_walk().
-
-
-This patch (of 2):
-
-Checking unmapped hole and updating the previous vma must be handled
-first, otherwise the unmapped hole could be calculated from a wrong
-previous vma.
-
-Several commits were relevant to this error:
-commit 6f4576e3687b
-("mempolicy: apply page table walker on queue_pages_range()"),
-This commit was correct, the VM_PFNMAP check was after updating previous
-vma
-
-commit 48684a65b4e3
-(mm: pagewalk: fix misbehavior of walk_page_range for vma(VM_PFNMAP)),
-This commit added VM_PFNMAP check before updating previous vma. Then,
-there were two VM_PFNMAP check did same thing twice.
-
-commit acda0c334028
-(mm/mempolicy.c: get rid of duplicated check for vma(VM_PFNMAP) in queue_page
-s_range()),
-This commit tried to fix the duplicated VM_PFNMAP check, but it wrongly
-removed the one which was after updating vma.
-
-Link: http://lkml.kernel.org/r/1573218104-11021-2-git-send-email-lixinhai.lxh@gmail.com
-Fixes: acda0c334028 (mm/mempolicy.c: get rid of duplicated check for vma(VM_PFNMAP) in queue_pages_range())
-Signed-off-by: Li Xinhai <lixinhai.lxh@gmail.com>
-Reviewed-by: Naoya Horiguchi <n-horiguchi@ah.jp.nec.com>
-Cc: Michal Hocko <mhocko@suse.com>
-Cc: Vlastimil Babka <vbabka@suse.cz>
-Cc: Hugh Dickins <hughd@google.com>
-Cc: linux-man <linux-man@vger.kernel.org>
-Signed-off-by: Andrew Morton <akpm@linux-foundation.org>
----
-
- mm/mempolicy.c |   19 ++++++++++---------
- 1 file changed, 10 insertions(+), 9 deletions(-)
-
---- a/mm/mempolicy.c~mm-check-range-first-in-queue_pages_test_walk
-+++ a/mm/mempolicy.c
-@@ -618,6 +618,16 @@ static int queue_pages_test_walk(unsigne
- 	unsigned long endvma = vma->vm_end;
- 	unsigned long flags = qp->flags;
- 
-+	/* range check first */
-+	if (!(flags & MPOL_MF_DISCONTIG_OK)) {
-+		if (!vma->vm_next && vma->vm_end < end)
-+			return -EFAULT;
-+		if (qp->prev && qp->prev->vm_end < vma->vm_start)
-+			return -EFAULT;
-+	}
-+
-+	qp->prev = vma;
-+
- 	/*
- 	 * Need check MPOL_MF_STRICT to return -EIO if possible
- 	 * regardless of vma_migratable
-@@ -631,15 +641,6 @@ static int queue_pages_test_walk(unsigne
- 	if (vma->vm_start > start)
- 		start = vma->vm_start;
- 
--	if (!(flags & MPOL_MF_DISCONTIG_OK)) {
--		if (!vma->vm_next && vma->vm_end < end)
--			return -EFAULT;
--		if (qp->prev && qp->prev->vm_end < vma->vm_start)
--			return -EFAULT;
--	}
--
--	qp->prev = vma;
--
- 	if (flags & MPOL_MF_LAZY) {
- 		/* Similar to task_numa_work, skip inaccessible VMAs */
- 		if (!is_vm_hugetlb_page(vma) &&
-_
-
-Patches currently in -mm which might be from lixinhai.lxh@gmail.com are
-
+diff --git a/man8/ldconfig.8 b/man8/ldconfig.8
+index 4f799962c..15585243c 100644
+--- a/man8/ldconfig.8
++++ b/man8/ldconfig.8
+@@ -93,6 +93,28 @@ option.
+ .B ldconfig
+ should normally be run by the superuser as it may require write
+ permission on some root owned directories and files.
++.PP
++Note that
++.B ldconfig
++will only look at files that are named
++.I lib*.so*
++(for regular shared objects) or
++.I ld-*.so*
++(for the dynamic loader itsef).  Other files will be ignored.  Also,
++.B ldconfig
++expects a certain pattern to how the symlinks are set up, like this
++example, where the middle file
++.RB ( libfoo.so.1
++here) is the SONAME for the library:
++.PP
++.in +4n
++.EX
++libfoo.so -> libfoo.so.1 -> libfoo.so.1.12
++.EE
++.in
++.PP
++Failure to follow this pattern may result in compatibility issues
++after an upgrade.
+ .SH OPTIONS
+ .TP
+ .BR \-c " \fIfmt\fP, " \-\-format=3D\fIfmt\fP
 
