@@ -2,218 +2,225 @@ Return-Path: <SRS0=cHE4=ZY=vger.kernel.org=linux-man-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-6.9 required=3.0 tests=DKIMWL_WL_HIGH,DKIM_SIGNED,
-	DKIM_VALID,DKIM_VALID_AU,HEADER_FROM_DIFFERENT_DOMAINS,INCLUDES_PATCH,
-	MAILING_LIST_MULTI,SIGNED_OFF_BY,SPF_HELO_NONE,SPF_PASS autolearn=ham
-	autolearn_force=no version=3.4.0
+X-Spam-Status: No, score=-3.8 required=3.0 tests=DKIMWL_WL_HIGH,DKIM_SIGNED,
+	DKIM_VALID,HEADER_FROM_DIFFERENT_DOMAINS,MAILING_LIST_MULTI,SIGNED_OFF_BY,
+	SPF_HELO_NONE,SPF_PASS autolearn=no autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id D359EC432C3
-	for <linux-man@archiver.kernel.org>; Mon,  2 Dec 2019 14:28:20 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id A45E0C432C0
+	for <linux-man@archiver.kernel.org>; Mon,  2 Dec 2019 19:03:35 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.kernel.org (Postfix) with ESMTP id A467120748
-	for <linux-man@archiver.kernel.org>; Mon,  2 Dec 2019 14:28:20 +0000 (UTC)
-Authentication-Results: mail.kernel.org;
-	dkim=pass (1024-bit key) header.d=redhat.com header.i=@redhat.com header.b="UxF61fg7"
+	by mail.kernel.org (Postfix) with ESMTP id 79C4E24654
+	for <linux-man@archiver.kernel.org>; Mon,  2 Dec 2019 19:03:35 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+	s=default; t=1575313415;
+	bh=HWl52PsOTCwI6UwOUDjcI5lzKmHNlHTPC0ZflIkL7yg=;
+	h=Date:From:To:Subject:List-ID:From;
+	b=JZuYsUco9zKuaf54B4VuQJ8OnNWXXz6DO2P3bxxRPnzG+mvU836iUVSoFf/B2Y/U2
+	 Oxy6IGDDJPCeSgQnBsEpNniTDXK0jLlWNHfIK4nfwKgUtzELOKd1+ta3nPyMmnfr3e
+	 O5Nj+ixuCGC+8XnmA9iEjin2i7C9gjiMZx+13qh4=
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1727391AbfLBO2U (ORCPT <rfc822;linux-man@archiver.kernel.org>);
-        Mon, 2 Dec 2019 09:28:20 -0500
-Received: from us-smtp-2.mimecast.com ([207.211.31.81]:42413 "EHLO
-        us-smtp-delivery-1.mimecast.com" rhost-flags-OK-OK-OK-FAIL)
-        by vger.kernel.org with ESMTP id S1727386AbfLBO2U (ORCPT
-        <rfc822;linux-man@vger.kernel.org>); Mon, 2 Dec 2019 09:28:20 -0500
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
-        s=mimecast20190719; t=1575296899;
-        h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
-         to:to:cc:cc:mime-version:mime-version:content-type:content-type:
-         content-transfer-encoding:content-transfer-encoding;
-        bh=yvWoj2RElazfCKmcI6lWGuXQFpMc7V12T5Ez00Q/LJU=;
-        b=UxF61fg7AywImAIn0opc2Owg5SfxIXndTOl2XVYsZWQ6PQfEYnpJQ3lrKMZXY/Ip+pyd38
-        NMxnjafwwCB2N5N2Nw871Try6OgOIJ0OPs3HpG2s3ELLjbhmEPEPg0gBf5FuqhEALjS8Hz
-        IT/+g/M9z6NrABQ5NW879k3/XKjEqaw=
-Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
- [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-53-2ns8TejvMaio4gp7p3SXoA-1; Mon, 02 Dec 2019 09:28:16 -0500
-Received: from smtp.corp.redhat.com (int-mx06.intmail.prod.int.phx2.redhat.com [10.5.11.16])
-        (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
+        id S1728041AbfLBTDf (ORCPT <rfc822;linux-man@archiver.kernel.org>);
+        Mon, 2 Dec 2019 14:03:35 -0500
+Received: from mail.kernel.org ([198.145.29.99]:44526 "EHLO mail.kernel.org"
+        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
+        id S1728090AbfLBTDe (ORCPT <rfc822;linux-man@vger.kernel.org>);
+        Mon, 2 Dec 2019 14:03:34 -0500
+Received: from localhost.localdomain (c-71-198-47-131.hsd1.ca.comcast.net [71.198.47.131])
+        (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
         (No client certificate requested)
-        by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 7E9111083893;
-        Mon,  2 Dec 2019 14:28:15 +0000 (UTC)
-Received: from dcbz.redhat.com (ovpn-116-141.ams2.redhat.com [10.36.116.141])
-        by smtp.corp.redhat.com (Postfix) with ESMTP id B16785C3FD;
-        Mon,  2 Dec 2019 14:28:14 +0000 (UTC)
-From:   Adrian Reber <areber@redhat.com>
-To:     mtk.manpages@gmail.com,
-        Christian Brauner <christian.brauner@ubuntu.com>
-Cc:     linux-man@vger.kernel.org
-Subject: [PATCH v2] clone.2: added clone3() set_tid information
-Date:   Mon,  2 Dec 2019 15:27:40 +0100
-Message-Id: <20191202142740.59402-1-areber@redhat.com>
-MIME-Version: 1.0
-X-Scanned-By: MIMEDefang 2.79 on 10.5.11.16
-X-MC-Unique: 2ns8TejvMaio4gp7p3SXoA-1
-X-Mimecast-Spam-Score: 0
-Content-Type: text/plain; charset=US-ASCII
-Content-Transfer-Encoding: quoted-printable
+        by mail.kernel.org (Postfix) with ESMTPSA id 7F2AC24655;
+        Mon,  2 Dec 2019 19:03:33 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+        s=default; t=1575313413;
+        bh=HWl52PsOTCwI6UwOUDjcI5lzKmHNlHTPC0ZflIkL7yg=;
+        h=Date:From:To:Subject:From;
+        b=uGtSjfAD7PfLwrUEd277sZBClbM+fKQe/dxcWkWyzJJXg6h19DRA2R5rPm04snwbn
+         /zd/RvtFRi29bKmc832UUW0MjDqmwMyoubayAdxPDtg98+rqueTCLND57Dh3hLZAlq
+         pfrgPUtpOWFb9ROVB45E8yXRjZXqiayO6dd12qRQ=
+Date:   Mon, 02 Dec 2019 11:03:33 -0800
+From:   akpm@linux-foundation.org
+To:     hughd@google.com, linux-man@vger.kernel.org,
+        lixinhai.lxh@gmail.com, mhocko@suse.com,
+        mm-commits@vger.kernel.org, n-horiguchi@ah.jp.nec.com,
+        vbabka@suse.cz
+Subject:  [merged] mm-fix-checking-unmapped-holes-for-mbind.patch
+ removed from -mm tree
+Message-ID: <20191202190333.7e5DlUgjg%akpm@linux-foundation.org>
+User-Agent: s-nail v14.8.16
 Sender: linux-man-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-man.vger.kernel.org>
 X-Mailing-List: linux-man@vger.kernel.org
 
-Signed-off-by: Adrian Reber <areber@redhat.com>
----
- v2: applied changes from review (Michael and Christian)
----
- man2/clone.2 | 95 ++++++++++++++++++++++++++++++++++++++++++++++++++++
- 1 file changed, 95 insertions(+)
 
-diff --git a/man2/clone.2 b/man2/clone.2
-index 076b9258e..c1691dd78 100644
---- a/man2/clone.2
-+++ b/man2/clone.2
-@@ -195,6 +195,8 @@ struct clone_args {
-     u64 stack;        /* Pointer to lowest byte of stack */
-     u64 stack_size;   /* Size of stack */
-     u64 tls;          /* Location of new TLS */
-+    u64 set_tid;      /* Pointer to a \fIpid_t\fP array */
-+    u64 set_tid_size; /* Number of elements in \fIset_tid\fP */
+The patch titled
+     Subject: mm/mempolicy.c: fix checking unmapped holes for mbind
+has been removed from the -mm tree.  Its filename was
+     mm-fix-checking-unmapped-holes-for-mbind.patch
+
+This patch was dropped because it was merged into mainline or a subsystem tree
+
+------------------------------------------------------
+From: Li Xinhai <lixinhai.lxh@gmail.com>
+Subject: mm/mempolicy.c: fix checking unmapped holes for mbind
+
+mbind() is required to report EFAULT if range, specified by addr and len,
+contains unmapped holes.  In current implementation, below rules are
+applied for this checking:
+
+1: Unmapped holes at any part of the specified range should be reported
+   as EFAULT if mbind() for none MPOL_DEFAULT cases;
+
+2: Unmapped holes at any part of the specified range should be ignored
+   (do not reprot EFAULT) if mbind() for MPOL_DEFAULT case;
+
+3: The whole range in an unmapped hole should be reported as EFAULT;
+
+Note that rule 2 does not fullfill the mbind() API definition, but since
+that behavior has existed for long days (the internal flag
+MPOL_MF_DISCONTIG_OK is for this purpose), this patch does not plan to
+change it.
+
+In current code, application observed inconsistent behavior on rule 1 and
+rule 2 respectively.  That inconsistency is fixed as below details.
+
+Cases of rule 1:
+1) Hole at head side of range. Current code reprot EFAULT, no change by
+this patch.
+[  vma  ][ hole ][  vma  ]
+            [  range  ]
+2) Hole at middle of range. Current code report EFAULT, no change by
+this patch.
+[  vma  ][ hole ][ vma ]
+   [     range      ]
+3) Hole at tail side of range. Current code do not report EFAULT, this
+patch fix it.
+[  vma  ][ hole ][ vma ]
+   [  range  ]
+
+Cases of rule 2:
+1) Hole at head side of range. Current code reprot EFAULT, this patch
+fix it.
+[  vma  ][ hole ][  vma  ]
+            [  range  ]
+2) Hole at middle of range. Current code do not report EFAULT, no change
+by this patch.
+this patch.
+[  vma  ][ hole ][ vma]
+   [     range      ]
+3) Hole at tail side of range. Current code do not report EFAULT, no
+change by this patch.
+[  vma  ][ hole ][ vma]
+   [  range  ]
+
+This patch has no changes to rule 3.
+
+The unmapped hole checking can also be handled by using .pte_hole(),
+instead of .test_walk().  But .pte_hole() is called for holes inside and
+outside vma, which causes more cost, so this patch keeps the original
+design with .test_walk().
+
+Link: http://lkml.kernel.org/r/1573218104-11021-3-git-send-email-lixinhai.lxh@gmail.com
+Fixes: 6f4576e3687b ("mempolicy: apply page table walker on queue_pages_range()")
+Signed-off-by: Li Xinhai <lixinhai.lxh@gmail.com>
+Reviewed-by: Naoya Horiguchi <n-horiguchi@ah.jp.nec.com>
+Cc: Michal Hocko <mhocko@suse.com>
+Cc: Vlastimil Babka <vbabka@suse.cz>
+Cc: Hugh Dickins <hughd@google.com>
+Cc: linux-man <linux-man@vger.kernel.org>
+Signed-off-by: Andrew Morton <akpm@linux-foundation.org>
+---
+
+ mm/mempolicy.c |   40 +++++++++++++++++++++++++++-------------
+ 1 file changed, 27 insertions(+), 13 deletions(-)
+
+--- a/mm/mempolicy.c~mm-fix-checking-unmapped-holes-for-mbind
++++ a/mm/mempolicy.c
+@@ -410,7 +410,9 @@ struct queue_pages {
+ 	struct list_head *pagelist;
+ 	unsigned long flags;
+ 	nodemask_t *nmask;
+-	struct vm_area_struct *prev;
++	unsigned long start;
++	unsigned long end;
++	struct vm_area_struct *first;
  };
- .EE
- .in
-@@ -262,6 +264,8 @@ flags & 0xff=09exit_signal
- stack=09stack
- \fP---\fP=09stack_size
- tls=09tls=09See CLONE_SETTLS
-+\fP---\fP=09set_tid=09See below for details
-+\fP---\fP=09set_tid_size
- .TE
- .RE
- .\"
-@@ -285,6 +289,76 @@ options when waiting for the child with
- If no signal (i.e., zero) is specified, then the parent process is not sig=
-naled
- when the child terminates.
- .\"
-+.SS The set_tid array
-+.PP
-+By default, the kernel chooses the next sequential PID for the new
-+process in each of the PID namespaces where it is present.
-+When creating a process with
-+.BR clone3 (),
-+the
-+.I set_tid
-+array can be used to select specific PIDs for the process in some
-+or all of the PID namespaces where it is present.
-+If the PID of the newly created process should only be set for the current
-+PID namespace or in the newly created PID namespace (if
-+.I flags
-+contains
-+.BR CLONE_NEWPID )
-+then the first element in the
-+.I set_tid
-+array has to be the desired PID and
-+.I set_tid_size
-+needs to be 1.
-+.PP
-+If the PID of the newly created process should have a certain value in
-+multiple PID namespaces the
-+.I set_tid
-+array can have multiple entries. The first entry defines the PID in the mo=
-st
-+deeply nested PID namespace and all following entries contain the PID of t=
-he
-+corresponding parent PID namespace. The number of PID namespaces in which =
-a PID
-+should be set is defined by
-+.I set_tid_size
-+which cannot be larger than the number of currently nested PID namespaces.
-+.PP
-+To create a process with the following PIDs in a PID namespace hierarchy:
-+.RS
-+.TS
-+lb lb
-+l l .
-+PID NS level=09Requested PID
-+0 (host)=0931496
-+1=0942
-+2=097
-+.TE
-+.RE
-+.PP
-+Set the array to:
-+.PP
-+.EX
-+=09set_tid[0] =3D 7;
-+=09set_tid[1] =3D 42;
-+=09set_tid[2] =3D 31496;
-+=09set_tid_size =3D 3;
-+.EE
-+.PP
-+If only the PIDs in the two innermost PID namespaces
-+need to be specified, set the array to:
-+.PP
-+.EX
-+=09set_tid[0] =3D 7;
-+=09set_tid[1] =3D 42;
-+=09set_tid_size =3D 2;
-+.EE
-+.PP
-+The PID in the PID namespaces outside the two innermost PID namespaces
-+will be selected the same way as any other PID is selected.
-+.PP
-+The
-+.I set_tid
-+feature requires
-+.RB CAP_SYS_ADMIN
-+in all owning user namespaces of the target PID namespaces.
-+.\"
- .SS The flags mask
- .PP
- Both
-@@ -1201,6 +1275,11 @@ will be set appropriately.
- Too many processes are already running; see
- .BR fork (2).
- .TP
-+.BR EEXIST " (" clone3 "() only)"
-+One or more of the PIDs specified in
-+.I set_tid
-+already exists in the corresponding PID namespace.
-+.TP
- .B EINVAL
- .B CLONE_SIGHAND
- was specified in the
-@@ -1379,6 +1458,15 @@ in the
- .I flags
- mask.
- .TP
-+.BR EINVAL " (" clone3 "() only)"
-+.I set_tid_size
-+larger than current number of nested PID namespaces.
-+.TP
-+.BR EINVAL " (" clone3 "() only)"
-+If one of the PIDs specified in
-+.I set_tid
-+was an invalid PID.
-+.TP
- .B ENOMEM
- Cannot allocate sufficient memory to allocate a task structure for the
- child, or to copy those parts of the caller's context that need to be
-@@ -1450,6 +1538,13 @@ mask and the caller is in a chroot environment
- (i.e., the caller's root directory does not match the root directory
- of the mount namespace in which it resides).
- .TP
-+.BR EPERM " (" clone3 "() only)"
-+.I set_tid_size
-+was greater than zero, and the caller lacks the
-+.B CAP_SYS_ADMIN
-+capability in one or more of the user namespaces that own the
-+corresponding PID namespaces.
-+.TP
- .BR ERESTARTNOINTR " (since Linux 2.6.17)"
- .\" commit 4a2c7a7837da1b91468e50426066d988050e4d56
- System call was interrupted by a signal and will be restarted.
+ 
+ /*
+@@ -619,14 +621,20 @@ static int queue_pages_test_walk(unsigne
+ 	unsigned long flags = qp->flags;
+ 
+ 	/* range check first */
+-	if (!(flags & MPOL_MF_DISCONTIG_OK)) {
+-		if (!vma->vm_next && vma->vm_end < end)
+-			return -EFAULT;
+-		if (qp->prev && qp->prev->vm_end < vma->vm_start)
++	VM_BUG_ON((vma->vm_start > start) || (vma->vm_end < end));
++
++	if (!qp->first) {
++		qp->first = vma;
++		if (!(flags & MPOL_MF_DISCONTIG_OK) &&
++			(qp->start < vma->vm_start))
++			/* hole at head side of range */
+ 			return -EFAULT;
+ 	}
+-
+-	qp->prev = vma;
++	if (!(flags & MPOL_MF_DISCONTIG_OK) &&
++		((vma->vm_end < qp->end) &&
++		(!vma->vm_next || vma->vm_end < vma->vm_next->vm_start)))
++		/* hole at middle or tail of range */
++		return -EFAULT;
+ 
+ 	/*
+ 	 * Need check MPOL_MF_STRICT to return -EIO if possible
+@@ -638,8 +646,6 @@ static int queue_pages_test_walk(unsigne
+ 
+ 	if (endvma > end)
+ 		endvma = end;
+-	if (vma->vm_start > start)
+-		start = vma->vm_start;
+ 
+ 	if (flags & MPOL_MF_LAZY) {
+ 		/* Similar to task_numa_work, skip inaccessible VMAs */
+@@ -682,14 +688,23 @@ queue_pages_range(struct mm_struct *mm,
+ 		nodemask_t *nodes, unsigned long flags,
+ 		struct list_head *pagelist)
+ {
++	int err;
+ 	struct queue_pages qp = {
+ 		.pagelist = pagelist,
+ 		.flags = flags,
+ 		.nmask = nodes,
+-		.prev = NULL,
++		.start = start,
++		.end = end,
++		.first = NULL,
+ 	};
+ 
+-	return walk_page_range(mm, start, end, &queue_pages_walk_ops, &qp);
++	err = walk_page_range(mm, start, end, &queue_pages_walk_ops, &qp);
++
++	if (!qp.first)
++		/* whole range in hole */
++		err = -EFAULT;
++
++	return err;
+ }
+ 
+ /*
+@@ -741,8 +756,7 @@ static int mbind_range(struct mm_struct
+ 	unsigned long vmend;
+ 
+ 	vma = find_vma(mm, start);
+-	if (!vma || vma->vm_start > start)
+-		return -EFAULT;
++	VM_BUG_ON(!vma);
+ 
+ 	prev = vma->vm_prev;
+ 	if (start > vma->vm_start)
+_
 
-base-commit: daf57a6ae0d9662cadde3bd750e14253036f6fde
-prerequisite-patch-id: 517c3fcf393b318a0711f33a93c75a65feca17ca
---=20
-2.23.0
+Patches currently in -mm which might be from lixinhai.lxh@gmail.com are
+
 
