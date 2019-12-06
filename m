@@ -1,81 +1,70 @@
-Return-Path: <SRS0=GXcY=Z4=vger.kernel.org=linux-man-owner@kernel.org>
+Return-Path: <SRS0=GPWR=Z5=vger.kernel.org=linux-man-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
-X-Spam-Level: 
-X-Spam-Status: No, score=-2.2 required=3.0 tests=HEADER_FROM_DIFFERENT_DOMAINS,
-	MAILING_LIST_MULTI,SPF_HELO_NONE,SPF_PASS,USER_AGENT_SANE_1 autolearn=no
-	autolearn_force=no version=3.4.0
+X-Spam-Level: **
+X-Spam-Status: No, score=2.1 required=3.0 tests=DATE_IN_PAST_12_24,
+	DKIM_ADSP_ALL,DKIM_INVALID,DKIM_SIGNED,HEADER_FROM_DIFFERENT_DOMAINS,
+	LOCALPART_IN_SUBJECT,LOTS_OF_MONEY,MAILING_LIST_MULTI,SPF_HELO_NONE,SPF_PASS
+	autolearn=no autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id CEDF4C43603
-	for <linux-man@archiver.kernel.org>; Fri,  6 Dec 2019 18:20:00 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 57948C43603
+	for <linux-man@archiver.kernel.org>; Sat,  7 Dec 2019 09:28:33 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.kernel.org (Postfix) with ESMTP id A5AC924673
-	for <linux-man@archiver.kernel.org>; Fri,  6 Dec 2019 18:20:00 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTP id 1085F21835
+	for <linux-man@archiver.kernel.org>; Sat,  7 Dec 2019 09:28:33 +0000 (UTC)
+Authentication-Results: mail.kernel.org;
+	dkim=fail reason="signature verification failed" (1024-bit key) header.d=sigriid.xyz header.i=info@sigriid.xyz header.b="GtRmH8Yy"
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1726312AbfLFSUA (ORCPT <rfc822;linux-man@archiver.kernel.org>);
-        Fri, 6 Dec 2019 13:20:00 -0500
-Received: from gentwo.org ([3.19.106.255]:47162 "EHLO gentwo.org"
+        id S1726106AbfLGJ2c (ORCPT <rfc822;linux-man@archiver.kernel.org>);
+        Sat, 7 Dec 2019 04:28:32 -0500
+Received: from mta0.sigriid.xyz ([142.11.210.149]:37298 "EHLO mta0.sigriid.xyz"
         rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S1726298AbfLFSUA (ORCPT <rfc822;linux-man@vger.kernel.org>);
-        Fri, 6 Dec 2019 13:20:00 -0500
-Received: by gentwo.org (Postfix, from userid 1002)
-        id F0F143EE4A; Fri,  6 Dec 2019 18:19:58 +0000 (UTC)
-Received: from localhost (localhost [127.0.0.1])
-        by gentwo.org (Postfix) with ESMTP id F00093EE48;
-        Fri,  6 Dec 2019 18:19:58 +0000 (UTC)
-Date:   Fri, 6 Dec 2019 18:19:58 +0000 (UTC)
-From:   Christopher Lameter <cl@linux.com>
-X-X-Sender: cl@www.lameter.com
-To:     Qian Cai <cai@lca.pw>
-cc:     Yang Shi <yang.shi@linux.alibaba.com>,
-        Michal Hocko <mhocko@kernel.org>,
-        John Hubbard <jhubbard@nvidia.com>, mtk.manpages@gmail.com,
-        akpm@linux-foundation.org, linux-man@vger.kernel.org,
-        linux-api@vger.kernel.org, linux-mm@kvack.org,
-        linux-kernel@vger.kernel.org
-Subject: Re: [PATCH] move_pages.2: not return ENOENT if the page are already
- on the target nodes
-In-Reply-To: <BE1B9B9B-17C2-4093-A332-183DF3B6F2A3@lca.pw>
-Message-ID: <alpine.DEB.2.21.1912061815160.17787@www.lameter.com>
-References: <5384814f-c937-9622-adbe-c03e199e0267@linux.alibaba.com> <BE1B9B9B-17C2-4093-A332-183DF3B6F2A3@lca.pw>
-User-Agent: Alpine 2.21 (DEB 202 2017-01-01)
+        id S1725992AbfLGJ2c (ORCPT <rfc822;linux-man@vger.kernel.org>);
+        Sat, 7 Dec 2019 04:28:32 -0500
+X-Greylist: delayed 887 seconds by postgrey-1.27 at vger.kernel.org; Sat, 07 Dec 2019 04:28:32 EST
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; s=default; d=sigriid.xyz;
+ h=Reply-To:From:To:Subject:Date:Message-ID:MIME-Version:Content-Type:
+ Content-Transfer-Encoding; i=info@sigriid.xyz;
+ bh=/T2cPOMbLp6LVVRgc2t+Y92hvWGynWDPRZi1iFzDTfc=;
+ b=GtRmH8YyflPyunW3TmoAUS8E0deTGNvexAmPGn7nNFA4CvHfL0DGhdrioaksZFKvepwNu0ISFjfn
+   fEDsyq3hjr3uPozyJAIDatF4jYRtqzotjv2JxquFhuD7W6AW5NMDDckZVYxTd0lcGFd5v296njYK
+   zSzyXjmyl/UPmkpS790=
+Reply-To: erikssonvents@gmail.com
+From:   "Better Capital Funding Inc" <info@sigriid.xyz>
+To:     linux-man@vger.kernel.org
+Subject: linux-man
+Date:   6 Dec 2019 03:44:14 -0800
+Message-ID: <20191206034414.565CAB0C96E71446@sigriid.xyz>
 MIME-Version: 1.0
-Content-Type: multipart/mixed; boundary="531401748-481738838-1575656398=:17787"
+Content-Type: text/plain;
+        charset="utf-8"
+Content-Transfer-Encoding: quoted-printable
 Sender: linux-man-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-man.vger.kernel.org>
 X-Mailing-List: linux-man@vger.kernel.org
 
-  This message is in MIME format.  The first part should be readable text,
-  while the remaining parts are likely unreadable without MIME-aware tools.
+Hi linux-man
 
---531401748-481738838-1575656398=:17787
-Content-Type: text/plain; charset=utf-8
-Content-Transfer-Encoding: 8BIT
+12/6/2019 3:44:14 a.m.
 
-On Fri, 6 Dec 2019, Qian Cai wrote:
+Top of the Day's Greetings to you!
 
-> > On Dec 6, 2019, at 12:31 PM, Yang Shi <yang.shi@linux.alibaba.com> wrote:
-> >
-> > It looks since commit e78bbfa82624 ("mm: stop returning -ENOENT from sys_move_pages() if nothing got migrated") too, which reset err to 0 unconditionally. It seems it is on purpose by that commit the syscall caller should check status for the details according to the commit log.
->
-> I don’t read it on purpose. “There is no point in returning -ENOENT from
-> sys_move_pages() if all pages were already on the right node”, so this
-> is only taking about the pages in the desired node. Anyway, but now it
-> is probably the best time to think outside the box redesigning this
-> syscalls and nuke this whole mess.
+We offer private money lending to=20
+Companies/businesses/individuals
+Who are in need of financing, at a 6% interest rate.
+We close on all Real Estate loans including Commercial
+Deals and Business Loans.
 
-The nature of the beast is that moving pages is not a deterministic
-process. The ability to move depends on pages being pinned and locked
-by other kernel subsystem. Other system components may also move the page
-independently.
 
-If the user calls this system call and wants to move some pages then he
-has presumably figured out somehow that pages are misplaced. If no pages
-can be moved then the system call did nothing which could indicate that
-some other process is interfering with the desire to move pages to certain
-nodes.
+Minimum Funding: $50,000
+Maximum Funding: $50,000,000
 
-This could be important to know (maybe the other system components already
-moved the page indepently or another user is also migrating pages).
---531401748-481738838-1575656398=:17787--
+Duration Ranges from 1- 20Yrs
+
+Please don't hesitate to let me know if you or anyone has a=20
+project that needs funding.
+Brokers are also welcome to work with us for a 1.5-2%.
+
+Thanks!
+Best Regards.
