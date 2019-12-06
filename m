@@ -2,119 +2,157 @@ Return-Path: <SRS0=GXcY=Z4=vger.kernel.org=linux-man-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-8.6 required=3.0 tests=DKIMWL_WL_HIGH,DKIM_SIGNED,
-	DKIM_VALID,DKIM_VALID_AU,INCLUDES_PATCH,MAILING_LIST_MULTI,SIGNED_OFF_BY,
-	SPF_HELO_NONE,SPF_PASS,USER_AGENT_SANE_1 autolearn=unavailable
-	autolearn_force=no version=3.4.0
+X-Spam-Status: No, score=-6.8 required=3.0 tests=HEADER_FROM_DIFFERENT_DOMAINS,
+	INCLUDES_PATCH,MAILING_LIST_MULTI,SIGNED_OFF_BY,SPF_HELO_NONE,SPF_PASS
+	autolearn=unavailable autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 6CF50C43603
-	for <linux-man@archiver.kernel.org>; Fri,  6 Dec 2019 09:45:42 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 75FBCC2BD09
+	for <linux-man@archiver.kernel.org>; Fri,  6 Dec 2019 14:30:29 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.kernel.org (Postfix) with ESMTP id 438A62245C
-	for <linux-man@archiver.kernel.org>; Fri,  6 Dec 2019 09:45:42 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=default; t=1575625542;
-	bh=OHkhjQeo+FWv43HEQMiDwAdJHLKldnW6A09B4tAdW10=;
-	h=Date:From:To:Cc:Subject:References:In-Reply-To:List-ID:From;
-	b=xuRn2qe+82S2twUKWtMtvS/ZKKtDu5aXnkgCq2hzz6XumIz0OzOhLrJAeyYT+Ax9L
-	 AGpkbmbW8+EA+FOVAUIorcyfM0Fdlp7hD+ZPUvCPqFHgw/Uog/utxe+HcEG7KSSXdJ
-	 u7k24C5eQJilwl4UZYWtDx+zR5BRvn8m4wvDDyuc=
+	by mail.kernel.org (Postfix) with ESMTP id 5253324659
+	for <linux-man@archiver.kernel.org>; Fri,  6 Dec 2019 14:30:29 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1726128AbfLFJpi (ORCPT <rfc822;linux-man@archiver.kernel.org>);
-        Fri, 6 Dec 2019 04:45:38 -0500
-Received: from mail-wm1-f68.google.com ([209.85.128.68]:51197 "EHLO
-        mail-wm1-f68.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1726070AbfLFJpi (ORCPT
-        <rfc822;linux-man@vger.kernel.org>); Fri, 6 Dec 2019 04:45:38 -0500
-Received: by mail-wm1-f68.google.com with SMTP id p9so7129521wmg.0;
-        Fri, 06 Dec 2019 01:45:37 -0800 (PST)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20161025;
-        h=x-gm-message-state:date:from:to:cc:subject:message-id:references
-         :mime-version:content-disposition:in-reply-to:user-agent;
-        bh=VgZXkaerCaq814dwnILX7vYtRFOjbm5DfD5NkTzjaTo=;
-        b=K6sdxfwvQPjEECZJH9PvcwUtZP8upA7qjYykUbYxv/o1AeRrnwqEpAUIHj+mcGSUni
-         gxVPuZGaG/1KJfRJCfr/EQNC/z6qwV7H+APlCjxBMvCvG2nxOjyZ6mu3CZsCxzie0mv6
-         uzeEQTRSC7+HnIxalFxtv9IGHHyzVEkWENSlB02oOlWtYKs5HlIEgoHUS9wFAQ0FbWIt
-         DExQCPJ/SfnUPB5NRBf0R7/Gy6U7wM38EvQLYpIZfUGmiNCaroo6J19KMJRs2tpDKIfy
-         O4PNOwlIlvz8tIzEr3nRPoNXYcyHz0IRnYOES7E8SjoATIEwl2bI8lfzJHqGQZT6mc0B
-         j2vg==
-X-Gm-Message-State: APjAAAWAUrQn3jejbOmWy7ROlgRHdFNNE0B5V8nMig43xmtS1Z0DOfkz
-        Em0ceBax8/jSaj1NVbjE65izXCkP
-X-Google-Smtp-Source: APXvYqxzG3UZEpVj2ra8UPftUD4jNLDT9c/lbi7vIZ4Au8QKO1FCp9GXKuu0+aBLhs5BYLTfzIZ2OA==
-X-Received: by 2002:a7b:c24c:: with SMTP id b12mr9616831wmj.16.1575625536360;
-        Fri, 06 Dec 2019 01:45:36 -0800 (PST)
-Received: from localhost (prg-ext-pat.suse.com. [213.151.95.130])
-        by smtp.gmail.com with ESMTPSA id d186sm2986921wmf.7.2019.12.06.01.45.35
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Fri, 06 Dec 2019 01:45:35 -0800 (PST)
-Date:   Fri, 6 Dec 2019 10:45:34 +0100
-From:   Michal Hocko <mhocko@kernel.org>
-To:     John Hubbard <jhubbard@nvidia.com>
-Cc:     Yang Shi <yang.shi@linux.alibaba.com>, mtk.manpages@gmail.com,
-        cl@linux.com, cai@lca.pw, akpm@linux-foundation.org,
-        linux-man@vger.kernel.org, linux-api@vger.kernel.org,
-        linux-mm@kvack.org, linux-kernel@vger.kernel.org
-Subject: Re: [PATCH] move_pages.2: not return ENOENT if the page are already
- on the target nodes
-Message-ID: <20191206094534.GL28317@dhcp22.suse.cz>
-References: <1575596090-115377-1-git-send-email-yang.shi@linux.alibaba.com>
- <0dc96e40-5f2b-a2fe-6e5f-b6f3d5e9ebde@nvidia.com>
+        id S1726315AbfLFOaZ (ORCPT <rfc822;linux-man@archiver.kernel.org>);
+        Fri, 6 Dec 2019 09:30:25 -0500
+Received: from mout-p-102.mailbox.org ([80.241.56.152]:11100 "EHLO
+        mout-p-102.mailbox.org" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1726245AbfLFOaY (ORCPT
+        <rfc822;linux-man@vger.kernel.org>); Fri, 6 Dec 2019 09:30:24 -0500
+Received: from smtp1.mailbox.org (smtp1.mailbox.org [IPv6:2001:67c:2050:105:465:1:1:0])
+        (using TLSv1.2 with cipher ECDHE-RSA-CHACHA20-POLY1305 (256/256 bits))
+        (No client certificate requested)
+        by mout-p-102.mailbox.org (Postfix) with ESMTPS id 47Tw3f0MqYzKmbF;
+        Fri,  6 Dec 2019 15:30:22 +0100 (CET)
+X-Virus-Scanned: amavisd-new at heinlein-support.de
+Received: from smtp1.mailbox.org ([80.241.60.240])
+        by spamfilter04.heinlein-hosting.de (spamfilter04.heinlein-hosting.de [80.241.56.122]) (amavisd-new, port 10030)
+        with ESMTP id d-2sNcd_mFNb; Fri,  6 Dec 2019 15:30:18 +0100 (CET)
+From:   Aleksa Sarai <cyphar@cyphar.com>
+To:     Michael Kerrisk <mtk.manpages@gmail.com>
+Cc:     linux-api@vger.kernel.org, libc-alpha@sourceware.org,
+        linux-man@vger.kernel.org, linux-kernel@vger.kernel.org,
+        Aleksa Sarai <cyphar@cyphar.com>
+Subject: [PATCH man-pages 2/2] path_resolution.7: update to mention openat2(2) features
+Date:   Sat,  7 Dec 2019 01:29:31 +1100
+Message-Id: <20191206142931.28138-2-cyphar@cyphar.com>
+In-Reply-To: <20191206142931.28138-1-cyphar@cyphar.com>
+References: <20191206141338.23338-1-cyphar@cyphar.com>
+ <20191206142931.28138-1-cyphar@cyphar.com>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <0dc96e40-5f2b-a2fe-6e5f-b6f3d5e9ebde@nvidia.com>
-User-Agent: Mutt/1.10.1 (2018-07-13)
+Content-Transfer-Encoding: 8bit
 Sender: linux-man-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-man.vger.kernel.org>
 X-Mailing-List: linux-man@vger.kernel.org
 
-On Fri 06-12-19 00:25:53, John Hubbard wrote:
-> On 12/5/19 5:34 PM, Yang Shi wrote:
-> > Since commit e78bbfa82624 ("mm: stop returning -ENOENT
-> > from sys_move_pages() if nothing got migrated"), move_pages doesn't
-> > return -ENOENT anymore if the pages are already on the target nodes, but
-> > this change is never reflected in manpage.
-> > 
-> > Cc: Michael Kerrisk <mtk.manpages@gmail.com>
-> > Cc: Christoph Lameter <cl@linux.com>
-> > Cc: John Hubbard <jhubbard@nvidia.com>
-> > Cc: Michal Hocko <mhocko@suse.com>
-> > Cc: Qian Cai <cai@lca.pw>
-> > Signed-off-by: Yang Shi <yang.shi@linux.alibaba.com>
-> > ---
-> >   man2/move_pages.2 | 5 ++---
-> >   1 file changed, 2 insertions(+), 3 deletions(-)
-> > 
-> > diff --git a/man2/move_pages.2 b/man2/move_pages.2
-> > index 2d96468..2a2f3cd 100644
-> > --- a/man2/move_pages.2
-> > +++ b/man2/move_pages.2
-> > @@ -192,9 +192,8 @@ was specified or an attempt was made to migrate pages of a kernel thread.
-> >   One of the target nodes is not online.
-> >   .TP
-> >   .B ENOENT
-> > -No pages were found that require moving.
-> > -All pages are either already
-> > -on the target node, not present, had an invalid address or could not be
-> > +No pages were found.
-> > +All pages are either not present, had an invalid address or could not be
-> >   moved because they were mapped by multiple processes.
-> >   .TP
-> >   .B EPERM
-> > 
-> 
-> whoa, hold on. If I'm reading through the various error paths correctly, then this
-> code is *never* going to return ENOENT for the whole function. It can fill in that
-> value per-page, in the status array, but that's all. Did I get that right?
+Signed-off-by: Aleksa Sarai <cyphar@cyphar.com>
+---
+ man7/path_resolution.7 | 56 ++++++++++++++++++++++++++++--------------
+ 1 file changed, 38 insertions(+), 18 deletions(-)
 
-You are right. Both store_status and do_move_pages_to_node do overwrite
-the error code. So you are right that ENOENT return value is not
-possible. I haven't checked since when this is the case. This whole
-syscall is a disaster from the API and documentation POV.
-
-Btw. Page states error codes could see some refinements as well.
+diff --git a/man7/path_resolution.7 b/man7/path_resolution.7
+index 07664ed8faec..b4a65cc53120 100644
+--- a/man7/path_resolution.7
++++ b/man7/path_resolution.7
+@@ -29,30 +29,38 @@ path_resolution \- how a pathname is resolved to a file
+ Some UNIX/Linux system calls have as parameter one or more filenames.
+ A filename (or pathname) is resolved as follows.
+ .SS Step 1: start of the resolution process
+-If the pathname starts with the \(aq/\(aq character,
+-the starting lookup directory
+-is the root directory of the calling process.
+-(A process inherits its
+-root directory from its parent.
+-Usually this will be the root directory
+-of the file hierarchy.
+-A process may get a different root directory
+-by use of the
++If the pathname starts with the \(aq/\(aq character, the starting lookup
++directory is the root directory of the calling process.
++A process inherits its root directory from its parent.
++Usually this will be the root directory of the file hierarchy.
++A process may get a different root directory by use of the
+ .BR chroot (2)
+-system call.
++system call, or may temporarily use a different root directory by using
++.BR openat2 (2)
++with the
++.B RESOLVE_IN_ROOT
++flag set.
++.PP
+ A process may get an entirely private mount namespace in case
+ it\(emor one of its ancestors\(emwas started by an invocation of the
+ .BR clone (2)
+ system call that had the
+ .B CLONE_NEWNS
+-flag set.)
++flag set.
+ This handles the \(aq/\(aq part of the pathname.
+ .PP
+-If the pathname does not start with the \(aq/\(aq character, the
+-starting lookup directory of the resolution process is the current working
+-directory of the process.
+-(This is also inherited from the parent.
+-It can be changed by use of the
++If the pathname does not start with the \(aq/\(aq character, the starting
++lookup directory of the resolution process is the current working directory of
++the process \(em or in the case of
++.BR openat (2)-style
++system calls, the
++.I dfd
++argument (or the current working directory if
++.B AT_FDCWD
++is passed as the
++.I dfd
++argument). The current working directory is inherited from the parent, and can
++be changed by use of the
+ .BR chdir (2)
+ system call.)
+ .PP
+@@ -91,7 +99,7 @@ Upon error, that error is returned.
+ If the result is not a directory, an
+ .B ENOTDIR
+ error is returned.
+-If the resolution of the symlink is successful and returns a directory,
++If the resolution of the symbolic link is successful and returns a directory,
+ we set the current lookup directory to that directory, and go to
+ the next component.
+ Note that the resolution process here can involve recursion if the
+@@ -124,6 +132,12 @@ the kernel's pathname-resolution code
+ was reworked to eliminate the use of recursion,
+ so that the only limit that remains is the maximum of 40
+ resolutions for the entire pathname.
++.PP
++The resolution of symbolic links during this stage can be blocked by using
++.BR openat2 (2),
++with the
++.B RESOLVE_NO_SYMLINKS
++flag set.
+ .SS Step 3: find the final entry
+ The lookup of the final component of the pathname goes just like
+ that of all other components, as described in the previous step,
+@@ -145,7 +159,7 @@ The path resolution process will assume that these entries have
+ their conventional meanings, regardless of whether they are
+ actually present in the physical filesystem.
+ .PP
+-One cannot walk down past the root: "/.." is the same as "/".
++One cannot walk up past the root: "/.." is the same as "/".
+ .SS Mount points
+ After a "mount dev path" command, the pathname "path" refers to
+ the root of the filesystem hierarchy on the device "dev", and no
+@@ -154,6 +168,12 @@ longer to whatever it referred to earlier.
+ One can walk out of a mounted filesystem: "path/.." refers to
+ the parent directory of "path",
+ outside of the filesystem hierarchy on "dev".
++.PP
++Traversal of mount points can be blocked by using
++.BR openat2 (2),
++with the
++.B RESOLVE_NO_XDEV
++flag set (though note that this also restricts bind mount traversal).
+ .SS Trailing slashes
+ If a pathname ends in a \(aq/\(aq, that forces resolution of the preceding
+ component as in Step 2: it has to exist and resolve to a directory.
 -- 
-Michal Hocko
-SUSE Labs
+2.24.0
+
