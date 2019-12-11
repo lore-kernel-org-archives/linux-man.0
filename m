@@ -1,85 +1,81 @@
-Return-Path: <SRS0=7O1+=Z7=vger.kernel.org=linux-man-owner@kernel.org>
+Return-Path: <SRS0=vdwa=2B=vger.kernel.org=linux-man-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-6.9 required=3.0 tests=DKIMWL_WL_HIGH,DKIM_SIGNED,
-	DKIM_VALID,DKIM_VALID_AU,HEADER_FROM_DIFFERENT_DOMAINS,INCLUDES_PATCH,
-	MAILING_LIST_MULTI,SIGNED_OFF_BY,SPF_HELO_NONE,SPF_PASS autolearn=ham
-	autolearn_force=no version=3.4.0
+X-Spam-Status: No, score=-3.8 required=3.0 tests=DKIM_SIGNED,DKIM_VALID,
+	HEADER_FROM_DIFFERENT_DOMAINS,INCLUDES_PATCH,MAILING_LIST_MULTI,SPF_HELO_NONE,
+	SPF_PASS autolearn=no autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id C257AC43603
-	for <linux-man@archiver.kernel.org>; Mon,  9 Dec 2019 10:56:49 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id B1B5FC43603
+	for <linux-man@archiver.kernel.org>; Wed, 11 Dec 2019 17:14:53 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.kernel.org (Postfix) with ESMTP id 8B748207FD
-	for <linux-man@archiver.kernel.org>; Mon,  9 Dec 2019 10:56:49 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTP id 86B382054F
+	for <linux-man@archiver.kernel.org>; Wed, 11 Dec 2019 17:14:53 +0000 (UTC)
 Authentication-Results: mail.kernel.org;
-	dkim=pass (1024-bit key) header.d=redhat.com header.i=@redhat.com header.b="X0Iq0sun"
+	dkim=pass (2048-bit key) header.d=materialize-io.20150623.gappssmtp.com header.i=@materialize-io.20150623.gappssmtp.com header.b="jfbdcVcT"
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1727283AbfLIK4t (ORCPT <rfc822;linux-man@archiver.kernel.org>);
-        Mon, 9 Dec 2019 05:56:49 -0500
-Received: from us-smtp-delivery-1.mimecast.com ([207.211.31.120]:28939 "EHLO
-        us-smtp-1.mimecast.com" rhost-flags-OK-OK-OK-FAIL) by vger.kernel.org
-        with ESMTP id S1726377AbfLIK4t (ORCPT
-        <rfc822;linux-man@vger.kernel.org>); Mon, 9 Dec 2019 05:56:49 -0500
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
-        s=mimecast20190719; t=1575889008;
-        h=from:from:reply-to:reply-to:subject:subject:date:date:
-         message-id:message-id:to:to:cc:cc:mime-version:mime-version:
-         content-type:content-type:  content-transfer-encoding:content-transfer-encoding;
-        bh=pR6A5MjUyMD+6YHkIs1xroPX4+GlLCtJJAd5B3ZToSc=;
-        b=X0Iq0sunJIUt/otpa2e5UFGgOP7bdadiUVvfaBgwlPIHy6thXd3lXdbV205o2CnQ9Ebc5h
-        5l60p4qbSYzsg9x5oSZB/w8kWWMcavZNazPpzzT337qa3ERBX+MwzNcDv1s+iLhXKqknkN
-        VeGyS43VVT2LBi7yTle3qg+llXMIruM=
-Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
- [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-225-r1kw4R_LMDSi-XbrZPO_zw-1; Mon, 09 Dec 2019 05:56:45 -0500
-Received: from smtp.corp.redhat.com (int-mx06.intmail.prod.int.phx2.redhat.com [10.5.11.16])
-        (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
-        (No client certificate requested)
-        by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 2435F107ACC4;
-        Mon,  9 Dec 2019 10:56:44 +0000 (UTC)
-Received: from unused-4-132.brq.redhat.com (unknown [10.43.2.16])
-        by smtp.corp.redhat.com (Postfix) with ESMTPS id 7642F5C21B;
-        Mon,  9 Dec 2019 10:56:43 +0000 (UTC)
-Message-ID: <4c44701f852aba14f40f4b815e8ed0e080c00bea.camel@redhat.com>
-Subject: [PATCH] copy_file_range.2: tfix
-From:   Nikola =?ISO-8859-1?Q?Forr=F3?= <nforro@redhat.com>
-Reply-To: nforro@redhat.com
+        id S1729786AbfLKROx (ORCPT <rfc822;linux-man@archiver.kernel.org>);
+        Wed, 11 Dec 2019 12:14:53 -0500
+Received: from mail-il1-f174.google.com ([209.85.166.174]:45780 "EHLO
+        mail-il1-f174.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1729512AbfLKROw (ORCPT
+        <rfc822;linux-man@vger.kernel.org>); Wed, 11 Dec 2019 12:14:52 -0500
+Received: by mail-il1-f174.google.com with SMTP id p8so20066686iln.12
+        for <linux-man@vger.kernel.org>; Wed, 11 Dec 2019 09:14:52 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=materialize-io.20150623.gappssmtp.com; s=20150623;
+        h=mime-version:from:date:message-id:subject:to:cc;
+        bh=XSe2PJIftfPQSJ1nuwaghpG4B3ZopzI2OlGQWofPId8=;
+        b=jfbdcVcTcbfapdIIeBqMP2SadO0hbrIRe2gYPlToJJlmXxctKrIotf40M6Eq0e0hIG
+         7sZuFWg6RgSdxWmGg+Lsi54Qk7HQu3HBiP3e7k5Gfh3kAJItP0ClQCu3i5W9l+RLhhnA
+         H9GOm/e3DzR4fgJlXg7GSTp8eGYXoU7CmQ0dZUHUxtOj6uZ1ruqqGWHjlCrnmN53OV4s
+         x8Cu4XE1UIfGGgM9iFDenVKxbYhfy6eImdNkJo8406nBxprA9ahfRiIw8fKkkcYJCONk
+         Z8vfMUhzQgdKJmefgovsvFJ0ARspDqfHlrXnbJwc8FDa+gC20xzwSIfUgC/T6wl1nxZU
+         wPtw==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20161025;
+        h=x-gm-message-state:mime-version:from:date:message-id:subject:to:cc;
+        bh=XSe2PJIftfPQSJ1nuwaghpG4B3ZopzI2OlGQWofPId8=;
+        b=UGj7LOHIig810kOB+St6StKCPssGF+1rbUuDNRNs7Hd9Lv+4kMOW47Qgdm9H1zF4e6
+         I8F+0vAm91QCsqIfU38GEndeRnOHuZe+7im8Ri+1ugkcu9KuYOsDG/kRrJy0kxKyU/W8
+         QggspkDgZGuNmHqhwMsddb14sGhs38IsGtkSd80zc//mrfkLrsf6RBbEh1tIdEsVdERl
+         u6FENs3hrzVcrM17kP5E8JP3dl2epNR3iQ/IthQO86jQJN2pe3CHsxepS2hKfLBI/XWo
+         fSKQbyLVfe4BqbZZ/saSsb0jOr15ikak2nkqdOQ4YsY79dfgsF0MJIAa1ew9f8I6UXMU
+         sXrg==
+X-Gm-Message-State: APjAAAUhp0zve1fyVDCMNoZHe7whEQ4ohjsQsiN7jiKZU0qtsVjijUgW
+        bMEkkhsc/qKnkLRtOwHZ7NYeMRKlqEV5M/pV6VKL29ulanc4ww==
+X-Google-Smtp-Source: APXvYqxsel7xODxDc+iRPkCMyZfwJIpchzlcUEQxwDesWKooP4GXMKIw5AUwLMa7BdF4s2xbzAyDTiI4hXdI+cIPwsE=
+X-Received: by 2002:a92:3919:: with SMTP id g25mr3976467ila.221.1576084491978;
+ Wed, 11 Dec 2019 09:14:51 -0800 (PST)
+MIME-Version: 1.0
+From:   Brennan Vincent <brennan@materialize.io>
+Date:   Wed, 11 Dec 2019 12:14:41 -0500
+Message-ID: <CA+OW2AD5aENWxfPrYfcLKfny=NFxRBPD=_35wXfdreAVTQnWwg@mail.gmail.com>
+Subject: [patch] inotify.7: wfix
 To:     mtk.manpages@gmail.com
 Cc:     linux-man@vger.kernel.org
-Date:   Mon, 09 Dec 2019 11:56:41 +0100
-Organization: Red Hat
-User-Agent: Evolution 3.32.5 (3.32.5-1.fc30)
-MIME-Version: 1.0
-X-Scanned-By: MIMEDefang 2.79 on 10.5.11.16
-X-MC-Unique: r1kw4R_LMDSi-XbrZPO_zw-1
-X-Mimecast-Spam-Score: 0
 Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
 Sender: linux-man-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-man.vger.kernel.org>
 X-Mailing-List: linux-man@vger.kernel.org
 
-Signed-off-by: Nikola Forr=C3=B3 <nforro@redhat.com>
 ---
- man2/copy_file_range.2 | 2 +-
+ man7/inotify.7 | 2 +-
  1 file changed, 1 insertion(+), 1 deletion(-)
 
-diff --git a/man2/copy_file_range.2 b/man2/copy_file_range.2
-index 9ed0cc31a..4173b84a2 100644
---- a/man2/copy_file_range.2
-+++ b/man2/copy_file_range.2
-@@ -84,7 +84,7 @@ allowed to overlap.
- The
- .I flags
- argument is provided to allow for future extensions
--and currently must be to 0.
-+and currently must be set to 0.
- .SH RETURN VALUE
- Upon successful completion,
- .BR copy_file_range ()
---=20
-2.21.0
-
-
+diff --git a/man7/inotify.7 b/man7/inotify.7
+index 032d78d25..c052acfe6 100644
+--- a/man7/inotify.7
++++ b/man7/inotify.7
+@@ -145,7 +145,7 @@ The
+ .I name
+ field is present only when an event is returned
+ for a file inside a watched directory;
+-it identifies the filename within to the watched directory.
++it identifies the filename within the watched directory.
+ This filename is null-terminated,
+ and may include further null bytes (\(aq\e0\(aq) to align subsequent reads to a
+ suitable address boundary.
+--
+2.24.1
