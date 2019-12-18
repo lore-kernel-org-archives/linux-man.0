@@ -2,110 +2,124 @@ Return-Path: <SRS0=G1RI=2I=vger.kernel.org=linux-man-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-5.6 required=3.0 tests=DKIMWL_WL_HIGH,DKIM_SIGNED,
-	DKIM_VALID,DKIM_VALID_AU,INCLUDES_PATCH,MAILING_LIST_MULTI,SPF_HELO_NONE,
-	SPF_PASS,USER_AGENT_SANE_1 autolearn=unavailable autolearn_force=no
+X-Spam-Status: No, score=-0.8 required=3.0 tests=HEADER_FROM_DIFFERENT_DOMAINS,
+	MAILING_LIST_MULTI,SPF_HELO_NONE,SPF_PASS autolearn=no autolearn_force=no
 	version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 41C94C2D0C3
-	for <linux-man@archiver.kernel.org>; Wed, 18 Dec 2019 10:17:16 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 7C108C43603
+	for <linux-man@archiver.kernel.org>; Wed, 18 Dec 2019 16:22:48 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.kernel.org (Postfix) with ESMTP id 167102176D
-	for <linux-man@archiver.kernel.org>; Wed, 18 Dec 2019 10:17:16 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=default; t=1576664236;
-	bh=37E5ggPKgv8CywsbaY712oWWqlwuD1FaAyeKqK20k8k=;
-	h=Date:From:To:Cc:Subject:References:In-Reply-To:List-ID:From;
-	b=hOAJT0mphBZ9R8bQGI6C0M+UpRoIZKG6yr3PBSJIHnV3UoUGLMy2DU3VPJjwAl5y1
-	 n5Vvlky/NkHtwqZ9VvY4HP1YnEIeYZZ3sX75ir9+wbbBNk+5S4EQ8PjDwrzSHQMj9V
-	 vHXzbNeDFw3C6FFAtFHpw9igPToefRmyCMQv5kTk=
+	by mail.kernel.org (Postfix) with ESMTP id 54FD2227BF
+	for <linux-man@archiver.kernel.org>; Wed, 18 Dec 2019 16:22:48 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1726723AbfLRKRP (ORCPT <rfc822;linux-man@archiver.kernel.org>);
-        Wed, 18 Dec 2019 05:17:15 -0500
-Received: from mail-wm1-f67.google.com ([209.85.128.67]:53010 "EHLO
-        mail-wm1-f67.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1725785AbfLRKRP (ORCPT
-        <rfc822;linux-man@vger.kernel.org>); Wed, 18 Dec 2019 05:17:15 -0500
-Received: by mail-wm1-f67.google.com with SMTP id p9so1201006wmc.2;
-        Wed, 18 Dec 2019 02:17:14 -0800 (PST)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20161025;
-        h=x-gm-message-state:date:from:to:cc:subject:message-id:references
-         :mime-version:content-disposition:in-reply-to:user-agent;
-        bh=XFN+U1ADviQEf7OrflnIoN2G55vNUzSvIie0WpgXkiw=;
-        b=QrErX+meiueVQW3QytCbNDNWlw3jUt4tjOlE+JVj6hMPjAC5ohU4Gdqu62ECfEZoJ8
-         z/frPdcbh5/x+z9ycuIc4wcMyw0C8Aoxu2lyaa3eg4my1cqWdkHRBQtiniY9flFfaIZ3
-         pvNLG085H/Z7N50iep+TAuBCyPMb5RRoA3+OIDXDBaTj7MgSSze7t7aoRYGX5F6pJv6n
-         8sNqn8c0uEXGCJB5dBGvSYG2vojeq81cIXWRpP2CEUB95a0TfeyZ62pTETRgfaTHE21O
-         sbPxguWD8cJ2c3N9hk8OOh7HXiIRMqL0WXZcXspIWTiazhHu2OtHT4A0Ws9huq/5AeOE
-         18JA==
-X-Gm-Message-State: APjAAAWPLguRRriaiqrZSvHWj9wGpKV2vX+5Ey/GxvERe4Z4XIiI8ZFf
-        9/uw/Hsr28uCUimZWAKGIis=
-X-Google-Smtp-Source: APXvYqykrVcjXHG4bpSwgcJCKmDU9jRLSl37r+vkvO/nwYidCthgZg7RHxZQfFO/Sv0VN+i0ohgFvw==
-X-Received: by 2002:a05:600c:224a:: with SMTP id a10mr2316993wmm.143.1576664233380;
-        Wed, 18 Dec 2019 02:17:13 -0800 (PST)
-Received: from localhost (prg-ext-pat.suse.com. [213.151.95.130])
-        by smtp.gmail.com with ESMTPSA id x132sm5878901wmg.0.2019.12.18.02.17.12
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Wed, 18 Dec 2019 02:17:12 -0800 (PST)
-Date:   Wed, 18 Dec 2019 11:17:11 +0100
-From:   Michal Hocko <mhocko@kernel.org>
-To:     John Hubbard <jhubbard@nvidia.com>
-Cc:     "Michael Kerrisk (man-pages)" <mtk.manpages@gmail.com>,
-        Yang Shi <yang.shi@linux.alibaba.com>, cl@linux.com,
-        cai@lca.pw, akpm@linux-foundation.org, linux-man@vger.kernel.org,
-        linux-api@vger.kernel.org, linux-mm@kvack.org,
-        linux-kernel@vger.kernel.org
-Subject: Re: [PATCH] move_pages.2: not return ENOENT if the page are already
- on the target nodes
-Message-ID: <20191218101711.GB21485@dhcp22.suse.cz>
-References: <1575596090-115377-1-git-send-email-yang.shi@linux.alibaba.com>
- <0dc96e40-5f2b-a2fe-6e5f-b6f3d5e9ebde@nvidia.com>
- <95170ea5-5b62-9168-fcd9-93b43330a1b4@linux.alibaba.com>
- <092adc11-7039-9343-7067-0e0199c9dc13@gmail.com>
- <51dd767a-221f-882d-c7f6-45bd0c217a67@nvidia.com>
+        id S1726985AbfLRQWs (ORCPT <rfc822;linux-man@archiver.kernel.org>);
+        Wed, 18 Dec 2019 11:22:48 -0500
+Received: from mx0a-001b2d01.pphosted.com ([148.163.156.1]:26302 "EHLO
+        mx0a-001b2d01.pphosted.com" rhost-flags-OK-OK-OK-OK)
+        by vger.kernel.org with ESMTP id S1726955AbfLRQWr (ORCPT
+        <rfc822;linux-man@vger.kernel.org>); Wed, 18 Dec 2019 11:22:47 -0500
+Received: from pps.filterd (m0098404.ppops.net [127.0.0.1])
+        by mx0a-001b2d01.pphosted.com (8.16.0.42/8.16.0.42) with SMTP id xBIGLkPH096854;
+        Wed, 18 Dec 2019 11:22:45 -0500
+Received: from pps.reinject (localhost [127.0.0.1])
+        by mx0a-001b2d01.pphosted.com with ESMTP id 2wyq7dh0e9-1
+        (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
+        Wed, 18 Dec 2019 11:22:45 -0500
+Received: from m0098404.ppops.net (m0098404.ppops.net [127.0.0.1])
+        by pps.reinject (8.16.0.36/8.16.0.36) with SMTP id xBIGLtPE098632;
+        Wed, 18 Dec 2019 11:22:45 -0500
+Received: from ppma02dal.us.ibm.com (a.bd.3ea9.ip4.static.sl-reverse.com [169.62.189.10])
+        by mx0a-001b2d01.pphosted.com with ESMTP id 2wyq7dh0d8-1
+        (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
+        Wed, 18 Dec 2019 11:22:45 -0500
+Received: from pps.filterd (ppma02dal.us.ibm.com [127.0.0.1])
+        by ppma02dal.us.ibm.com (8.16.0.27/8.16.0.27) with SMTP id xBIGK8Kj024191;
+        Wed, 18 Dec 2019 16:22:44 GMT
+Received: from b03cxnp07028.gho.boulder.ibm.com (b03cxnp07028.gho.boulder.ibm.com [9.17.130.15])
+        by ppma02dal.us.ibm.com with ESMTP id 2wvqc70hbt-1
+        (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
+        Wed, 18 Dec 2019 16:22:44 +0000
+Received: from b03ledav004.gho.boulder.ibm.com (b03ledav004.gho.boulder.ibm.com [9.17.130.235])
+        by b03cxnp07028.gho.boulder.ibm.com (8.14.9/8.14.9/NCO v10.0) with ESMTP id xBIGMhJ421955030
+        (version=TLSv1/SSLv3 cipher=DHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK);
+        Wed, 18 Dec 2019 16:22:43 GMT
+Received: from b03ledav004.gho.boulder.ibm.com (unknown [127.0.0.1])
+        by IMSVA (Postfix) with ESMTP id E79887805E;
+        Wed, 18 Dec 2019 16:22:42 +0000 (GMT)
+Received: from b03ledav004.gho.boulder.ibm.com (unknown [127.0.0.1])
+        by IMSVA (Postfix) with ESMTP id 37F047805C;
+        Wed, 18 Dec 2019 16:22:42 +0000 (GMT)
+Received: from leobras.br.ibm.com (unknown [9.18.235.137])
+        by b03ledav004.gho.boulder.ibm.com (Postfix) with ESMTP;
+        Wed, 18 Dec 2019 16:22:41 +0000 (GMT)
+Message-ID: <4171feef2b800a453543583e39a241f734cd317a.camel@linux.ibm.com>
+Subject: Re: [PATCH] vmsplice.2: SPLICE_F_GIFT became no-op
+From:   Leonardo Bras <leonardo@linux.ibm.com>
+To:     Jens Axboe <axboe@kernel.dk>,
+        "Michael Kerrisk (man-pages)" <mtk.manpages@gmail.com>
+Cc:     linux-man@vger.kernel.org
+Date:   Wed, 18 Dec 2019 13:22:37 -0300
+In-Reply-To: <258fa69f-9eee-677b-e349-96197761dd3b@kernel.dk>
+References: <20190801222417.14413-1-leonardo@linux.ibm.com>
+         <b65e1f8f-34b4-0db6-bd7a-7b866b29af7a@gmail.com>
+         <de08861a89ca3481fe81e80e509b7572116260c0.camel@linux.ibm.com>
+         <258fa69f-9eee-677b-e349-96197761dd3b@kernel.dk>
+Content-Type: multipart/signed; micalg="pgp-sha256";
+        protocol="application/pgp-signature"; boundary="=-CgiXfzeE0R51cGGeQwTP"
+User-Agent: Evolution 3.34.1 (3.34.1-1.fc31) 
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <51dd767a-221f-882d-c7f6-45bd0c217a67@nvidia.com>
-User-Agent: Mutt/1.12.2 (2019-09-21)
+X-TM-AS-GCONF: 00
+X-Proofpoint-Virus-Version: vendor=fsecure engine=2.50.10434:6.0.95,18.0.572
+ definitions=2019-12-18_05:2019-12-17,2019-12-18 signatures=0
+X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0 priorityscore=1501
+ clxscore=1011 malwarescore=0 phishscore=0 spamscore=0 lowpriorityscore=0
+ impostorscore=0 bulkscore=0 adultscore=0 mlxlogscore=999 mlxscore=0
+ suspectscore=0 classifier=spam adjust=0 reason=mlx scancount=1
+ engine=8.12.0-1910280000 definitions=main-1912180134
 Sender: linux-man-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-man.vger.kernel.org>
 X-Mailing-List: linux-man@vger.kernel.org
 
-On Tue 17-12-19 23:36:09, John Hubbard wrote:
-[...]
-> diff --git a/man2/move_pages.2 b/man2/move_pages.2
-> index 2d96468fa..1bf1053f2 100644
-> --- a/man2/move_pages.2
-> +++ b/man2/move_pages.2
-> @@ -191,12 +191,6 @@ was specified or an attempt was made to migrate pages of a kernel thread.
->  .B ENODEV
->  One of the target nodes is not online.
->  .TP
-> -.B ENOENT
-> -No pages were found that require moving.
-> -All pages are either already
-> -on the target node, not present, had an invalid address or could not be
-> -moved because they were mapped by multiple processes.
-> -.TP
->  .B EPERM
->  The caller specified
->  .B MPOL_MF_MOVE_ALL
-> 
-> ...But I'm not sure if we should change the implementation, instead, so
-> that it *can* return ENOENT. That's the main question to resolve before
-> creating any more patches, I think.
 
-I would start by dropping any note about ENOENT first. I am not really
-sure there is a reasonable usecase for it but maybe somebody comes up
-with something and only then we should consider it.
+--=-CgiXfzeE0R51cGGeQwTP
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 
-Feel free to add
-Acked-by: Michal Hocko <mhocko@suse.com>
+On Tue, 2019-12-17 at 18:13 -0700, Jens Axboe wrote:
+> Sorry, better late than never?
 
-ideally with a kernel commit which removed the ENOENT.
--- 
-Michal Hocko
-SUSE Labs
+No problem :)
+
+> He's right, Nick Piggin removed that flag (and promised to reinstate it,
+> but a decade later I'm not holding my breath).
+
+Thanks for the feedback!
+
+Best regards,
+Leonardo Bras
+
+--=-CgiXfzeE0R51cGGeQwTP
+Content-Type: application/pgp-signature; name="signature.asc"
+Content-Description: This is a digitally signed message part
+Content-Transfer-Encoding: 7bit
+
+-----BEGIN PGP SIGNATURE-----
+
+iQIzBAABCAAdFiEEMdeUgIzgjf6YmUyOlQYWtz9SttQFAl36Uk0ACgkQlQYWtz9S
+ttQldxAAuBgzVwriy7BU7XiThWkkeJzMRNaEuZ+KNLkMXJWAzuxAouvS9svgwSND
+x6oLlAQ5YtBOMy0f83LogjHEZsR8NE0u1PBYaDh9FKn7JUQ3mrTPusvoFUmCszMQ
+l7zD06jC9cbD01UIj7y/R6xM6go9L6iekHWh/fBXz0M71Fswt2ZpjxS/xxxJlhZ/
+njslSMvfE0LN1a/ulWfMKg7RG70yv9fYONidOVjkU60CIf4a1vQT82gvVKt+7O/E
+R1yoyWWIGnqw+2xffdCS2LZqafgq4X7AVo0oiHYZlzviKQ77+zHjkbTzL+t4+qzG
+4L2Z0Vq4pO9luxokfZWwWsK/+sLHVyPyoa6b9RKbzaCP1sM4Owt3EQNe6ofQtXdv
+GB9ptlTdtDFp3VG6UO5xC6lhbBfTYJ0iNh/mOgD7Huf4Ts1qFnPxMt0LnF/P3mts
+9i/Tv/IFkM91YlGZy7oZjAnIVRX/9OF2YX4suEMZMFTXjmH3VPIscKifJ1egAx+U
+RkHpgU6UXtHDDfQ51QNWBsz4FsI6YWMQem+SzxtPk6Cl6ZTKgVB+JqyJzsGs08lG
+csQ1xvhbXxtdF89wjdkKSTsgzFXXtzhvjAWWEEs/NrIXC8jc6GWq8q2Kb/VIy3zW
+XxASJkkKYQyYpOuCeExsjQBKge9PHvejHl6iCiGb82jugRcL6H4=
+=fnUg
+-----END PGP SIGNATURE-----
+
+--=-CgiXfzeE0R51cGGeQwTP--
+
