@@ -2,87 +2,86 @@ Return-Path: <SRS0=uQ8e=2Q=vger.kernel.org=linux-man-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-0.8 required=3.0 tests=HEADER_FROM_DIFFERENT_DOMAINS,
-	MAILING_LIST_MULTI,SPF_HELO_NONE,SPF_PASS autolearn=no autolearn_force=no
-	version=3.4.0
+X-Spam-Status: No, score=-0.6 required=3.0 tests=DKIM_SIGNED,DKIM_VALID,
+	DKIM_VALID_AU,FREEMAIL_FORGED_FROMDOMAIN,FREEMAIL_FROM,
+	HEADER_FROM_DIFFERENT_DOMAINS,MAILING_LIST_MULTI,SPF_HELO_NONE,SPF_PASS
+	autolearn=no autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id D8E2FC2D0DD
-	for <linux-man@archiver.kernel.org>; Thu, 26 Dec 2019 14:05:40 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 1EB4AC2D0C0
+	for <linux-man@archiver.kernel.org>; Thu, 26 Dec 2019 21:20:32 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.kernel.org (Postfix) with ESMTP id AFB5A20838
-	for <linux-man@archiver.kernel.org>; Thu, 26 Dec 2019 14:05:40 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTP id E4DC420828
+	for <linux-man@archiver.kernel.org>; Thu, 26 Dec 2019 21:20:31 +0000 (UTC)
+Authentication-Results: mail.kernel.org;
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="QZtC3D9T"
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1726534AbfLZOFe (ORCPT <rfc822;linux-man@archiver.kernel.org>);
-        Thu, 26 Dec 2019 09:05:34 -0500
-Received: from outgoing-auth-1.mit.edu ([18.9.28.11]:36057 "EHLO
-        outgoing.mit.edu" rhost-flags-OK-OK-OK-FAIL) by vger.kernel.org
-        with ESMTP id S1727146AbfLZOFd (ORCPT
-        <rfc822;linux-man@vger.kernel.org>); Thu, 26 Dec 2019 09:05:33 -0500
-Received: from callcc.thunk.org (96-72-84-49-static.hfc.comcastbusiness.net [96.72.84.49] (may be forged))
-        (authenticated bits=0)
-        (User authenticated as tytso@ATHENA.MIT.EDU)
-        by outgoing.mit.edu (8.14.7/8.12.4) with ESMTP id xBQE4NwC001450
-        (version=TLSv1/SSLv3 cipher=DHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
-        Thu, 26 Dec 2019 09:04:25 -0500
-Received: by callcc.thunk.org (Postfix, from userid 15806)
-        id 7CE45420485; Thu, 26 Dec 2019 09:04:23 -0500 (EST)
-Date:   Thu, 26 Dec 2019 09:04:23 -0500
-From:   "Theodore Y. Ts'o" <tytso@mit.edu>
-To:     Stephan Mueller <smueller@chronox.de>
-Cc:     Andy Lutomirski <luto@amacapital.net>,
-        Andy Lutomirski <luto@kernel.org>,
-        LKML <linux-kernel@vger.kernel.org>,
-        Linux API <linux-api@vger.kernel.org>,
-        Kees Cook <keescook@chromium.org>,
-        "Jason A. Donenfeld" <Jason@zx2c4.com>,
-        "Ahmed S. Darwish" <darwish.07@gmail.com>,
-        Lennart Poettering <mzxreary@0pointer.de>,
-        "Eric W. Biederman" <ebiederm@xmission.com>,
-        "Alexander E. Patrakov" <patrakov@gmail.com>,
-        Michael Kerrisk <mtk.manpages@gmail.com>,
-        Willy Tarreau <w@1wt.eu>,
-        Matthew Garrett <mjg59@srcf.ucam.org>,
-        Ext4 Developers List <linux-ext4@vger.kernel.org>,
-        linux-man <linux-man@vger.kernel.org>
-Subject: Re: [PATCH v3 0/8] Rework random blocking
-Message-ID: <20191226140423.GB3158@mit.edu>
-References: <9872655.prSdhymlXK@positron.chronox.de>
- <888017FA-06A1-42EF-9FC0-46629138DA9E@amacapital.net>
- <4820831.xlnk3tY4r2@tauon.chronox.de>
+        id S1727145AbfLZVUb (ORCPT <rfc822;linux-man@archiver.kernel.org>);
+        Thu, 26 Dec 2019 16:20:31 -0500
+Received: from mail-oi1-f179.google.com ([209.85.167.179]:33703 "EHLO
+        mail-oi1-f179.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1727049AbfLZVUb (ORCPT
+        <rfc822;linux-man@vger.kernel.org>); Thu, 26 Dec 2019 16:20:31 -0500
+Received: by mail-oi1-f179.google.com with SMTP id v140so9088988oie.0
+        for <linux-man@vger.kernel.org>; Thu, 26 Dec 2019 13:20:31 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20161025;
+        h=mime-version:reply-to:from:date:message-id:subject:to:cc
+         :content-transfer-encoding;
+        bh=CgLdIWUvExB4Dp3LX48BTkF/jGRGRjXJv3q1vD8A49k=;
+        b=QZtC3D9TcBAQ+tlxxWeK328K2u5vgwUVy+xqvSe4WwurTWH44Z0nH0PwvuEjXryozD
+         9TtbeetZsFS5TiIWX0AWSxhIcRUJEh0YfNkFhYmF8odZUOE1T6qaSPNnI5WsQV6Nh31o
+         hRNEOVzqUMMEDnPjLD7ysOSH6c80Gx3ZCzVZKyoZSzFcvVX1UKBeihxe7Aj+1UfasmDQ
+         41P9E+uUcrw4AoSw1rANJXT7jyArlHM3U7cmxvtAk/85E86BKXs1ACLrYRvtdJ2HRFjp
+         Othd6NLoFS85GNJwvyKcN+Ak1FPqESbMLXuKBbyrLfR4MSE4VHp3Q5EovMvSDKi92ZjQ
+         +zHw==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20161025;
+        h=x-gm-message-state:mime-version:reply-to:from:date:message-id
+         :subject:to:cc:content-transfer-encoding;
+        bh=CgLdIWUvExB4Dp3LX48BTkF/jGRGRjXJv3q1vD8A49k=;
+        b=Y314LRKDNXYz6KEDuhn4r4isyK9WyemOkQJ+bnHs6107sNK+ui046e+vUPsvGysc3x
+         DHsqaIOtckeAp04ZS1sMHzOEP7JSdd35vgalJP7JqxPvB8F655pcHdAEy1IbXiQ6R3YJ
+         vfj/ZXfF4RdA5YF0jQRR0iXoxUlNfgEMiEQWVpMIpjBQCmyVedPAL5huvKeEE4TnHK2S
+         9ma2k0qb/kNKLXMObryqROa3wupB8sEbZQSPuYVd+xNDzpLXs5tCdpeT6OxP9Rb6a272
+         5Z+A0IikuEkyM3T69uBsDIPCXtvltGLMfMZFsM0X1mRxK/DeP6oVXQXmCQfhhuhSbBz1
+         qksA==
+X-Gm-Message-State: APjAAAVfkH6eY7iS9rbo8Wdmn2h7BVjv5nRFWT10d8ns/mP9D7sHaQj/
+        9FcNwIAd5l906IVgZQcTKVaG8ipGK+LFndVGkmg=
+X-Google-Smtp-Source: APXvYqyDHGV/ij6mvSh7KZNnYOrHmGLfmv6JmrUivUKO+K5Ul8wVKTl8ht8YtHLertVinBqJj8muXwpTm6RY/3B+CC4=
+X-Received: by 2002:aca:ad11:: with SMTP id w17mr3114212oie.85.1577395230618;
+ Thu, 26 Dec 2019 13:20:30 -0800 (PST)
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <4820831.xlnk3tY4r2@tauon.chronox.de>
+Reply-To: cshaiku@gmail.com
+From:   Chris Simmons <cs.haiku@gmail.com>
+Date:   Thu, 26 Dec 2019 14:19:55 -0700
+Message-ID: <CAF2=S_KmYuApdphsVAHft0QZ8qN9aUD1yC33-6-UGSUbDdDrnw@mail.gmail.com>
+Subject: ping entry has typo
+To:     mtk.manpages@gmail.com
+Cc:     linux-man@vger.kernel.org
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 Sender: linux-man-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-man.vger.kernel.org>
 X-Mailing-List: linux-man@vger.kernel.org
 
-On Thu, Dec 26, 2019 at 01:03:34PM +0100, Stephan Mueller wrote:
-> Agreed. I was just trying to outline that the removal of the blocking_pool is 
-> a good thing. Even when we decide that random.c should receive a TRNG, we do 
-> not need to re-add a blocking pool, but can easily use the existing ChaCha20 
-> DRNG (most likely with its own instance).
+This:
 
-Well, it depends on what you mean by "TRNG" --- the ChaCha20 DRNG only
-has a state of 256 bits.  So if you want to only depend on "true
-entropy" you can't extract more than 256 bits without violating that
-assumption, at least if you're using a very strict definition of TRNG.
+       -f
+           Flood ping. For every ECHO_REQUEST sent a period =E2=80=9C.=E2=
+=80=9D is
+printed, while for ever ECHO_REPLY received a backspace is
 
-By getting rid of the blocking pool, and making /dev/random work like
-getrandom with flags set to 0, we're effectively abandoning any kind
-of assertion that /dev/random is some kind of TRNG.  This is not
-insane; this is what the *BSD's have always done.
 
-But once we do this, and /dev/random takes on the semantics of "block
-until the CRNG has been initialized, and then it won't block after
-that", if we change it so that it now has some different semantics,
-such as "one you extract a 256-bit key, the read from /dev/random will
-block until we can refill it, which might take seconds, minutes or
-hours", will be considered a regression, and we can't do that.
+Should be:
 
-Of course, we can hope that people will be using getrandom() and there
-will be very few new users of the /dev/random pathname.  But nothing
-is ever guaranteed..
+       -f
+           Flood ping. For every ECHO_REQUEST sent a period =E2=80=9C.=E2=
+=80=9D is
+printed, while for every ECHO_REPLY received a backspace is
 
-						- Ted
+
+Sincerely,
+
+Chris Simmons
+Tech Guru, Fullstack Developer
