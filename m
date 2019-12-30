@@ -1,87 +1,117 @@
-Return-Path: <SRS0=TT+G=2R=vger.kernel.org=linux-man-owner@kernel.org>
+Return-Path: <SRS0=XrYY=2U=vger.kernel.org=linux-man-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-0.8 required=3.0 tests=HEADER_FROM_DIFFERENT_DOMAINS,
-	MAILING_LIST_MULTI,SPF_HELO_NONE,SPF_PASS autolearn=no autolearn_force=no
-	version=3.4.0
+X-Spam-Status: No, score=-5.2 required=3.0 tests=DKIM_SIGNED,DKIM_VALID,
+	DKIM_VALID_AU,FREEMAIL_FORGED_FROMDOMAIN,FREEMAIL_FROM,
+	HEADER_FROM_DIFFERENT_DOMAINS,INCLUDES_PATCH,MAILING_LIST_MULTI,SPF_HELO_NONE,
+	SPF_PASS,USER_AGENT_SANE_1 autolearn=ham autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 41639C2D0C6
-	for <linux-man@archiver.kernel.org>; Fri, 27 Dec 2019 18:31:05 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 06C6DC2D0C2
+	for <linux-man@archiver.kernel.org>; Mon, 30 Dec 2019 18:47:24 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.kernel.org (Postfix) with ESMTP id 11B532053B
-	for <linux-man@archiver.kernel.org>; Fri, 27 Dec 2019 18:31:05 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTP id CD1FD20722
+	for <linux-man@archiver.kernel.org>; Mon, 30 Dec 2019 18:47:23 +0000 (UTC)
+Authentication-Results: mail.kernel.org;
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="JMpUIsC7"
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1726495AbfL0SbE convert rfc822-to-8bit (ORCPT
-        <rfc822;linux-man@archiver.kernel.org>);
-        Fri, 27 Dec 2019 13:31:04 -0500
-Received: from mail-qv1-f65.google.com ([209.85.219.65]:46594 "EHLO
-        mail-qv1-f65.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1726379AbfL0SbE (ORCPT
-        <rfc822;linux-man@vger.kernel.org>); Fri, 27 Dec 2019 13:31:04 -0500
-Received: by mail-qv1-f65.google.com with SMTP id u1so9477805qvk.13
-        for <linux-man@vger.kernel.org>; Fri, 27 Dec 2019 10:31:03 -0800 (PST)
+        id S1727544AbfL3SrX (ORCPT <rfc822;linux-man@archiver.kernel.org>);
+        Mon, 30 Dec 2019 13:47:23 -0500
+Received: from mail-pj1-f67.google.com ([209.85.216.67]:54317 "EHLO
+        mail-pj1-f67.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1727537AbfL3SrX (ORCPT
+        <rfc822;linux-man@vger.kernel.org>); Mon, 30 Dec 2019 13:47:23 -0500
+Received: by mail-pj1-f67.google.com with SMTP id kx11so124860pjb.4
+        for <linux-man@vger.kernel.org>; Mon, 30 Dec 2019 10:47:22 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20161025;
+        h=cc:subject:to:references:from:message-id:date:user-agent
+         :mime-version:in-reply-to:content-language:content-transfer-encoding;
+        bh=fTS0qosFXXR/HVKKtj69quE7U5GJWVntKb6PPRIhxEU=;
+        b=JMpUIsC7VotmnDktgbFA8OvZbNtnfXmZ7UKMMRZMJBrZPyhg9eI4lr7M/ubRVwk6H3
+         Qad9Q1yZb3m4wL65+YVAmU8mqlDP4DpOJd7lpbc5PFP+KHpOyE8YLwYIiHVpL7178i7Q
+         i9hNwr9uYqFUuAEQftKemMzD71ADPhgDOp3P3c0L5dXDfD6Elrhzjnr3D3Dt/f7UkVEh
+         zCyQGyPhTpd+3arh3HvX1PVoe+vBW+qFf3ledTdH88sS7EnC1CAf3+I03vroxJju+dI6
+         ldXTgrDyupHN8tkDQr7ZeG11xl586yDA6vv0PKUk6LjPXKkCaZM6vYXc69IMXmpIc4c1
+         K7LQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
-        h=x-gm-message-state:mime-version:subject:from:in-reply-to:date:cc
-         :content-transfer-encoding:message-id:references:to;
-        bh=xh1x/yIgfj8oB2c9KFtRux9fZOLKyLns5uAfisJItgE=;
-        b=oPhwv+gSpdekspJhl7cgGu9J9suNMA2lLxt0Qce3yH5vy7FVAvuH5UOIBB7cknYQ86
-         uBP7bDy+jbXYw4L41suV9M7A1R/M6vHbjnxdDCR5U4DY7oCTcg6Uh7Kg9CqBT7xMMO6w
-         8xjHO5dhJmsGz2yxR5IWAupZzZpZvbUFMYT181vqBUmG9DAaE9Ec8mnKZggNWLzRkvQd
-         wOuydLeBcdIlKdZPyB4xiquKpjl9uVZTJfP2ZB7pKn9dcwsXrVbiXB3Pd/jEAqhU4Ozr
-         q9WD8rWohqZNDZGTk0tgtLs+9sJOANGuRXhuciLL/12pXf77gdPBxFgcwKnrPso9tR1W
-         mqZw==
-X-Gm-Message-State: APjAAAWhsUGw4JpgS8bAuH2OpWQo916UZeTFokFyirNvSiy4x4tCtZ/a
-        D/2t0np+c47zDqua4qtV+h0=
-X-Google-Smtp-Source: APXvYqxeosMoqyIrpbAWc5YMShyUbj8emJxuDbocBvjKOFgleb64m4Vzyxy+okJwTMSK+2cG8s0z+g==
-X-Received: by 2002:a05:6214:c3:: with SMTP id f3mr40677813qvs.226.1577471463369;
-        Fri, 27 Dec 2019 10:31:03 -0800 (PST)
-Received: from [10.0.1.13] ([66.92.75.42])
-        by smtp.gmail.com with ESMTPSA id n190sm10023947qke.90.2019.12.27.10.31.01
-        (version=TLS1_2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128/128);
-        Fri, 27 Dec 2019 10:31:02 -0800 (PST)
-Content-Type: text/plain;
-        charset=utf-8
-Mime-Version: 1.0 (Mac OS X Mail 11.3 \(3445.6.18\))
-Subject: Re: pic anomalies
-From:   Federico Lucifredi <flucifredi@acm.org>
-In-Reply-To: <201912271608.xBRG84Jr128687@tahoe.cs.Dartmouth.EDU>
-Date:   Fri, 27 Dec 2019 13:31:00 -0500
-Cc:     groff@gnu.org
-Content-Transfer-Encoding: 8BIT
-Message-Id: <CD458CB1-3C1D-42F5-B1BA-DAA604378D51@acm.org>
-References: <201912271608.xBRG84Jr128687@tahoe.cs.Dartmouth.EDU>
-To:     Doug McIlroy <doug@cs.dartmouth.edu>
-X-Mailer: Apple Mail (2.3445.6.18)
+        h=x-gm-message-state:cc:subject:to:references:from:message-id:date
+         :user-agent:mime-version:in-reply-to:content-language
+         :content-transfer-encoding;
+        bh=fTS0qosFXXR/HVKKtj69quE7U5GJWVntKb6PPRIhxEU=;
+        b=uPYU8N7vII3g+9SIeLfCeRxfEwdOw84N6SjjMHBWFm+dnOjse+GTMWpUnoabevmmCV
+         3RMHpr6KJhNbQkFGAy9i6fgcNld3eY5oJPnUiT0IBPHJPCg2FsOHLdVCYlQ1AArY9xZu
+         FzBPY9VA25+NYmGupUZycvu3l9MbcbaP13MOT5z1q5oHOMmWwP7OeL1ERTe53MImn5IA
+         J7tSAkJJoNsfD0aGK77EKykYCS3RCfYoO9Ml3LsQqL4j69QnYWB6hyVIv4rjZw3iesf9
+         iXIeeMEIwjVR2ELmbyErK4siHBXErdpDA4+657fKpwzJV9+uARQ3Q+VbKiXvURBFx5nS
+         nzIQ==
+X-Gm-Message-State: APjAAAUuC87psuWwIfQTyPktw+YPK0ikWEu/FT5TpJyySmKyZ73av/r6
+        U1Df5/UTGkqkBRQJt5wRaZWIYRPy
+X-Google-Smtp-Source: APXvYqxQsKZozA+kyXrtlKTD66pHbut8pMKBeXNgK75Vm26N6aPO1UgYp0ld1YyaZ5lcsghVKBkd+g==
+X-Received: by 2002:a17:90a:2763:: with SMTP id o90mr640919pje.110.1577731642233;
+        Mon, 30 Dec 2019 10:47:22 -0800 (PST)
+Received: from [192.168.178.94] ([121.98.29.40])
+        by smtp.gmail.com with ESMTPSA id h6sm48325323pgq.61.2019.12.30.10.47.19
+        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+        Mon, 30 Dec 2019 10:47:21 -0800 (PST)
+Cc:     mtk.manpages@gmail.com, linux-man@vger.kernel.org
+Subject: Re: [PATCH] rtnetlink.7: ifa_index is an unsigned int
+To:     =?UTF-8?Q?Antonin_D=c3=a9cimo?= <antonin.decimo@gmail.com>
+References: <CAC=54BJP7GrFk=0OMgAtRk6T5W4OLdQDpfC6h0xCr57BuuBaKg@mail.gmail.com>
+From:   "Michael Kerrisk (man-pages)" <mtk.manpages@gmail.com>
+Message-ID: <005b7f00-0af1-89f0-8a42-8eab4be56dcf@gmail.com>
+Date:   Mon, 30 Dec 2019 19:47:15 +0100
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
+ Thunderbird/68.3.1
+MIME-Version: 1.0
+In-Reply-To: <CAC=54BJP7GrFk=0OMgAtRk6T5W4OLdQDpfC6h0xCr57BuuBaKg@mail.gmail.com>
+Content-Type: text/plain; charset=utf-8
+Content-Language: en-US
+Content-Transfer-Encoding: 8bit
 Sender: linux-man-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-man.vger.kernel.org>
 X-Mailing-List: linux-man@vger.kernel.org
 
-Hello Doug,
-  for (1), I am CCing Michael Kerrisk — and the procedure to report issues on the man pages is tracked here https://www.kernel.org/doc/man-pages/reporting_bugs.html (In brief: email mtk.manpages@gmail.com and CC linux-man@vger.kernel.org).
+On 12/29/19 7:25 PM, Antonin Décimo wrote:
+> See include/linux/if_addr.h.
 
-   Best -Federico
+Thanks, Antonin. Patch applied.
+
+Cheers,
+
+Michael
+
+> struct ifaddrmsg {
+>     __u8        ifa_family;
+>     __u8        ifa_prefixlen;    /* The prefix length        */
+>     __u8        ifa_flags;    /* Flags            */
+>     __u8        ifa_scope;    /* Address scope        */
+>     __u32        ifa_index;    /* Link index            */
+> };
+> 
+> ---
+>  man7/rtnetlink.7 | 2 +-
+>  1 file changed, 1 insertion(+), 1 deletion(-)
+> 
+> diff --git a/man7/rtnetlink.7 b/man7/rtnetlink.7
+> index 0be59a7..6260545 100644
+> --- a/man7/rtnetlink.7
+> +++ b/man7/rtnetlink.7
+> @@ -134,7 +134,7 @@ struct ifaddrmsg {
+>      unsigned char ifa_prefixlen; /* Prefixlength of address */
+>      unsigned char ifa_flags;     /* Address flags */
+>      unsigned char ifa_scope;     /* Address scope */
+> -    int           ifa_index;     /* Interface index */
+> +    unsigned int  ifa_index;     /* Interface index */
+>  };
+>  .EE
+>  .IP
+> 
 
 
-> On Dec 27, 2019, at 11:08 AM, Doug McIlroy <doug@cs.dartmouth.edu> wrote:
-> 
-> The description of sprintf in the man page pic(1) does not
-> reveal that only a few format codes are permitted.
-> 
-> Eric Raymond's "Making Pictures With GNU PIC" says only
-> %,%e,%f,%g are  permitted. But what does a bare % mean?
-> 
-> In fact pic rejects a bare %. However it does accept
-> %%, which is supposed to print a single %. Pic,
-> however prints %%.
-> 
-> So I believe we have
-> 1. An incompleteness in pic(1)
-> 2. An error in "Making Pictures With GNU PIC"
-> 3. An error in pic itself
-> 
-> Doug
-> 
-
+-- 
+Michael Kerrisk
+Linux man-pages maintainer; http://www.kernel.org/doc/man-pages/
+Linux/UNIX System Programming Training: http://man7.org/training/
