@@ -1,105 +1,78 @@
-Return-Path: <SRS0=v8Oa=2X=vger.kernel.org=linux-man-owner@kernel.org>
+Return-Path: <SRS0=JQ/9=2Z=vger.kernel.org=linux-man-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-5.2 required=3.0 tests=HEADER_FROM_DIFFERENT_DOMAINS,
-	INCLUDES_PATCH,MAILING_LIST_MULTI,SPF_HELO_NONE,SPF_PASS,UNPARSEABLE_RELAY,
-	USER_AGENT_SANE_1 autolearn=unavailable autolearn_force=no version=3.4.0
+X-Spam-Status: No, score=-0.8 required=3.0 tests=HEADER_FROM_DIFFERENT_DOMAINS,
+	MAILING_LIST_MULTI,SPF_HELO_NONE,SPF_PASS autolearn=no autolearn_force=no
+	version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id F39B8C3276E
-	for <linux-man@archiver.kernel.org>; Thu,  2 Jan 2020 22:58:38 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id EDB5EC32771
+	for <linux-man@archiver.kernel.org>; Sat,  4 Jan 2020 21:16:35 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.kernel.org (Postfix) with ESMTP id D34CF20848
-	for <linux-man@archiver.kernel.org>; Thu,  2 Jan 2020 22:58:38 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTP id BEB28222C4
+	for <linux-man@archiver.kernel.org>; Sat,  4 Jan 2020 21:16:35 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1728767AbgABW6i (ORCPT <rfc822;linux-man@archiver.kernel.org>);
-        Thu, 2 Jan 2020 17:58:38 -0500
-Received: from out30-132.freemail.mail.aliyun.com ([115.124.30.132]:58408 "EHLO
-        out30-132.freemail.mail.aliyun.com" rhost-flags-OK-OK-OK-OK)
-        by vger.kernel.org with ESMTP id S1728065AbgABWP1 (ORCPT
-        <rfc822;linux-man@vger.kernel.org>); Thu, 2 Jan 2020 17:15:27 -0500
-X-Alimail-AntiSpam: AC=PASS;BC=-1|-1;BR=01201311R231e4;CH=green;DM=||false|;DS=||;FP=0|-1|-1|-1|0|-1|-1|-1;HT=e01e04420;MF=yang.shi@linux.alibaba.com;NM=1;PH=DS;RN=11;SR=0;TI=SMTPD_---0TmgPslx_1578003315;
-Received: from US-143344MP.local(mailfrom:yang.shi@linux.alibaba.com fp:SMTPD_---0TmgPslx_1578003315)
-          by smtp.aliyun-inc.com(127.0.0.1);
-          Fri, 03 Jan 2020 06:15:24 +0800
-Subject: Re: [PATCH] move_pages.2: not return ENOENT if the page are already
- on the target nodes
-To:     "Eric W. Biederman" <ebiederm@xmission.com>
-Cc:     Michal Hocko <mhocko@kernel.org>,
-        John Hubbard <jhubbard@nvidia.com>,
-        "Michael Kerrisk (man-pages)" <mtk.manpages@gmail.com>,
-        cl@linux.com, cai@lca.pw, akpm@linux-foundation.org,
-        linux-man@vger.kernel.org, linux-api@vger.kernel.org,
-        linux-mm@kvack.org, linux-kernel@vger.kernel.org
-References: <1575596090-115377-1-git-send-email-yang.shi@linux.alibaba.com>
- <0dc96e40-5f2b-a2fe-6e5f-b6f3d5e9ebde@nvidia.com>
- <95170ea5-5b62-9168-fcd9-93b43330a1b4@linux.alibaba.com>
- <092adc11-7039-9343-7067-0e0199c9dc13@gmail.com>
- <51dd767a-221f-882d-c7f6-45bd0c217a67@nvidia.com>
- <20191218101711.GB21485@dhcp22.suse.cz>
- <0059a598-5726-2488-cd37-b4b7f9b3353e@linux.alibaba.com>
- <87lfqtcfyo.fsf@x220.int.ebiederm.org>
-From:   Yang Shi <yang.shi@linux.alibaba.com>
-Message-ID: <d081b674-b360-4a0a-eec3-cf7434003cc5@linux.alibaba.com>
-Date:   Thu, 2 Jan 2020 14:15:12 -0800
-User-Agent: Mozilla/5.0 (Macintosh; Intel Mac OS X 10.12; rv:52.0)
- Gecko/20100101 Thunderbird/52.7.0
+        id S1726219AbgADVQf (ORCPT <rfc822;linux-man@archiver.kernel.org>);
+        Sat, 4 Jan 2020 16:16:35 -0500
+Received: from mta.tntech.edu ([149.149.2.87]:41868 "EHLO mta.tntech.edu"
+        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
+        id S1726170AbgADVQf (ORCPT <rfc822;linux-man@vger.kernel.org>);
+        Sat, 4 Jan 2020 16:16:35 -0500
+X-Greylist: delayed 323 seconds by postgrey-1.27 at vger.kernel.org; Sat, 04 Jan 2020 16:16:35 EST
+Received: from math.tntech.edu (unknown [149.149.102.6])
+        by mta.tntech.edu (Postfix) with ESMTPS id A4A933000055;
+        Sat,  4 Jan 2020 15:11:11 -0600 (CST)
+Received: from norden.tntech.edu ([149.149.102.4] helo=norden.math.tntech.edu)
+        by math.tntech.edu with esmtp (Exim 4.92)
+        (envelope-from <jeff@math.tntech.edu>)
+        id 1inqhN-0004GV-FD; Sat, 04 Jan 2020 15:11:09 -0600
+Received: by norden.math.tntech.edu (Postfix, from userid 742)
+        id 5EF9D2572B73; Sat,  4 Jan 2020 15:11:05 -0600 (CST)
+From:   Jeff Norden <jeff@math.tntech.edu>
+To:     mtk.manpages@gmail.com
+Subject: proc(5) documentation for the cmdline file
+CC:     linux-man@vger.kernel.org
+Date:   Sat, 04 Jan 2020 15:11:05 -0600
+Message-ID: <fda7733p1y.fsf@norden.tntech.edu>
 MIME-Version: 1.0
-In-Reply-To: <87lfqtcfyo.fsf@x220.int.ebiederm.org>
-Content-Type: text/plain; charset=utf-8; format=flowed
-Content-Transfer-Encoding: 7bit
-Content-Language: en-US
+Content-Type: text/plain
+X-SA-Spam-Score: 0.0
+X-SA-Spam-Report: Spam detection software, running on the system "math.tntech.edu",
+ has NOT identified this incoming email as spam.
+ If you have any questions, contact @@CONTACT_ADDRESS@@
+  pts rule name              description
+ ---- ---------------------- --------------------------------------------------
+  0.0 T_SPF_HELO_TEMPERROR   SPF: test of HELO record failed (temperror)
+  0.0 T_SPF_TEMPERROR        SPF: test of record failed (temperror)
 Sender: linux-man-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-man.vger.kernel.org>
 X-Mailing-List: linux-man@vger.kernel.org
 
+The following is from the current proc(5) man page:
+
+/proc/[pid]/cmdline
+    This read-only file holds the complete command line for the process,
+    unless the process is a zombie.  In the latter case, there is nothing in
+    this file: that is, a read on this file will return 0 characters.  The
+    command-line arguments appear in this file as a set of strings separated
+    by null bytes ('\0'), with a further null byte after the last string.
 
 
-On 12/30/19 7:49 PM, Eric W. Biederman wrote:
-> Yang Shi <yang.shi@linux.alibaba.com> writes:
->
->> On 12/18/19 2:17 AM, Michal Hocko wrote:
->>> On Tue 17-12-19 23:36:09, John Hubbard wrote:
->>> [...]
->>>> diff --git a/man2/move_pages.2 b/man2/move_pages.2
->>>> index 2d96468fa..1bf1053f2 100644
->>>> --- a/man2/move_pages.2
->>>> +++ b/man2/move_pages.2
->>>> @@ -191,12 +191,6 @@ was specified or an attempt was made to migrate pages of a kernel thread.
->>>>    .B ENODEV
->>>>    One of the target nodes is not online.
->>>>    .TP
->>>> -.B ENOENT
->>>> -No pages were found that require moving.
->>>> -All pages are either already
->>>> -on the target node, not present, had an invalid address or could not be
->>>> -moved because they were mapped by multiple processes.
->>>> -.TP
->>>>    .B EPERM
->>>>    The caller specified
->>>>    .B MPOL_MF_MOVE_ALL
->>>>
->>>> ...But I'm not sure if we should change the implementation, instead, so
->>>> that it *can* return ENOENT. That's the main question to resolve before
->>>> creating any more patches, I think.
->>> I would start by dropping any note about ENOENT first. I am not really
->>> sure there is a reasonable usecase for it but maybe somebody comes up
->>> with something and only then we should consider it.
->>>
->>> Feel free to add
->>> Acked-by: Michal Hocko <mhocko@suse.com>
->>>
->>> ideally with a kernel commit which removed the ENOENT.
->> A quick audit doesn't show kernel code or comment notes about ENOENT
->> wrongly. The status could be set as ENOENT if the page is not present
->> (follow_page() returns NULL), and man page does match what kernel
->> does.
-> Doesn't the function one layer up then consume the ENOENT?
+I believe that the end of the first sentence should say:
+   "unless the process is a kernel process or a zombie."
 
-No, it doesn't. The return value would be reset unconditionally by 
-store_status(). This is what the man page patch tries to correct.
+or maybe it would read better as:
+   "unless it is a kernel process or a zombie."
 
->
-> Eric
+You might also add something like the following at the end:
+   "When cmdline is empty, the stat or status file (below) can be used
+    to determine whether or not a process is a zombie.
 
+I'm no kernel expert, so please make sure this is correct.  It's just
+something I noticed while poking around in /proc/
+
+Thanks, and Happy New Years!
+
+  -Jeff Norden, jeff@math.tntech.edu
+   Dept of Math, Tenn Tech Univ, Cookeville TN 38505  (931)372-3441
