@@ -6,27 +6,27 @@ X-Spam-Status: No, score=-3.8 required=3.0 tests=HEADER_FROM_DIFFERENT_DOMAINS,
 	MAILING_LIST_MULTI,SIGNED_OFF_BY,SPF_HELO_NONE,SPF_PASS autolearn=no
 	autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 071BFC282DD
-	for <linux-man@archiver.kernel.org>; Tue,  7 Jan 2020 21:04:14 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 4C64FC33C9E
+	for <linux-man@archiver.kernel.org>; Tue,  7 Jan 2020 21:05:37 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.kernel.org (Postfix) with ESMTP id D9DFE222D9
-	for <linux-man@archiver.kernel.org>; Tue,  7 Jan 2020 21:04:13 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTP id 2B34A222D9
+	for <linux-man@archiver.kernel.org>; Tue,  7 Jan 2020 21:05:37 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1728859AbgAGVEN (ORCPT <rfc822;linux-man@archiver.kernel.org>);
-        Tue, 7 Jan 2020 16:04:13 -0500
-Received: from outgoing-auth-1.mit.edu ([18.9.28.11]:36392 "EHLO
+        id S1729263AbgAGVFg (ORCPT <rfc822;linux-man@archiver.kernel.org>);
+        Tue, 7 Jan 2020 16:05:36 -0500
+Received: from outgoing-auth-1.mit.edu ([18.9.28.11]:36630 "EHLO
         outgoing.mit.edu" rhost-flags-OK-OK-OK-FAIL) by vger.kernel.org
-        with ESMTP id S1728799AbgAGVEL (ORCPT
-        <rfc822;linux-man@vger.kernel.org>); Tue, 7 Jan 2020 16:04:11 -0500
+        with ESMTP id S1729256AbgAGVFg (ORCPT
+        <rfc822;linux-man@vger.kernel.org>); Tue, 7 Jan 2020 16:05:36 -0500
 Received: from callcc.thunk.org (guestnat-104-133-0-111.corp.google.com [104.133.0.111] (may be forged))
         (authenticated bits=0)
         (User authenticated as tytso@ATHENA.MIT.EDU)
-        by outgoing.mit.edu (8.14.7/8.12.4) with ESMTP id 007L2vFj024569
+        by outgoing.mit.edu (8.14.7/8.12.4) with ESMTP id 007L4V00024994
         (version=TLSv1/SSLv3 cipher=DHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
-        Tue, 7 Jan 2020 16:02:58 -0500
+        Tue, 7 Jan 2020 16:04:32 -0500
 Received: by callcc.thunk.org (Postfix, from userid 15806)
-        id 67AA74207DF; Tue,  7 Jan 2020 16:02:57 -0500 (EST)
-Date:   Tue, 7 Jan 2020 16:02:57 -0500
+        id 2BA3E4207DF; Tue,  7 Jan 2020 16:04:31 -0500 (EST)
+Date:   Tue, 7 Jan 2020 16:04:31 -0500
 From:   "Theodore Y. Ts'o" <tytso@mit.edu>
 To:     Andy Lutomirski <luto@kernel.org>
 Cc:     LKML <linux-kernel@vger.kernel.org>,
@@ -43,30 +43,25 @@ Cc:     LKML <linux-kernel@vger.kernel.org>,
         Ext4 Developers List <linux-ext4@vger.kernel.org>,
         linux-man <linux-man@vger.kernel.org>,
         Stephan Mueller <smueller@chronox.de>
-Subject: Re: [PATCH v3 5/8] random: Make /dev/random be almost like
- /dev/urandom
-Message-ID: <20200107210257.GJ3619@mit.edu>
+Subject: Re: [PATCH v3 8/8] random: Remove kernel.random.read_wakeup_threshold
+Message-ID: <20200107210431.GM3619@mit.edu>
 References: <cover.1577088521.git.luto@kernel.org>
- <5e6ac8831c6cf2e56a7a4b39616d1732b2bdd06c.1577088521.git.luto@kernel.org>
+ <a74ed2cf0b5a5451428a246a9239f5bc4e29358f.1577088521.git.luto@kernel.org>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <5e6ac8831c6cf2e56a7a4b39616d1732b2bdd06c.1577088521.git.luto@kernel.org>
+In-Reply-To: <a74ed2cf0b5a5451428a246a9239f5bc4e29358f.1577088521.git.luto@kernel.org>
 Sender: linux-man-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-man.vger.kernel.org>
 X-Mailing-List: linux-man@vger.kernel.org
 
-On Mon, Dec 23, 2019 at 12:20:48AM -0800, Andy Lutomirski wrote:
-> This patch changes the read semantics of /dev/random to be the same
-> as /dev/urandom except that reads will block until the CRNG is
-> ready.
-> 
-> None of the cleanups that this enables have been done yet.  As a
-> result, this gives a warning about an unused function.
+On Mon, Dec 23, 2019 at 12:20:51AM -0800, Andy Lutomirski wrote:
+> It has no effect any more, so remove it.  We can revert this if
+> there is some user code that expects to be able to set this sysctl.
 > 
 > Signed-off-by: Andy Lutomirski <luto@kernel.org>
 
 Applied, thanks.
 
-						- Ted
+					- Ted
