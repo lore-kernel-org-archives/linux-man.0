@@ -2,84 +2,79 @@ Return-Path: <SRS0=cK25=3A=vger.kernel.org=linux-man-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-9.8 required=3.0 tests=HEADER_FROM_DIFFERENT_DOMAINS,
-	INCLUDES_PATCH,MAILING_LIST_MULTI,SIGNED_OFF_BY,SPF_HELO_NONE,SPF_PASS,
-	USER_AGENT_GIT autolearn=ham autolearn_force=no version=3.4.0
+X-Spam-Status: No, score=-3.8 required=3.0 tests=HEADER_FROM_DIFFERENT_DOMAINS,
+	INCLUDES_PATCH,MAILING_LIST_MULTI,SPF_HELO_NONE,SPF_PASS autolearn=no
+	autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id C4D08C282DD
-	for <linux-man@archiver.kernel.org>; Sat, 11 Jan 2020 15:01:23 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 61BE4C282DD
+	for <linux-man@archiver.kernel.org>; Sat, 11 Jan 2020 15:10:52 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.kernel.org (Postfix) with ESMTP id A173D2072E
-	for <linux-man@archiver.kernel.org>; Sat, 11 Jan 2020 15:01:23 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTP id 387822082E
+	for <linux-man@archiver.kernel.org>; Sat, 11 Jan 2020 15:10:52 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1729896AbgAKPBX (ORCPT <rfc822;linux-man@archiver.kernel.org>);
-        Sat, 11 Jan 2020 10:01:23 -0500
-Received: from forward100o.mail.yandex.net ([37.140.190.180]:40972 "EHLO
-        forward100o.mail.yandex.net" rhost-flags-OK-OK-OK-OK)
-        by vger.kernel.org with ESMTP id S1729696AbgAKPBX (ORCPT
-        <rfc822;linux-man@vger.kernel.org>); Sat, 11 Jan 2020 10:01:23 -0500
-X-Greylist: delayed 331 seconds by postgrey-1.27 at vger.kernel.org; Sat, 11 Jan 2020 10:01:22 EST
-Received: from forward101q.mail.yandex.net (forward101q.mail.yandex.net [IPv6:2a02:6b8:c0e:4b:0:640:4012:bb98])
-        by forward100o.mail.yandex.net (Yandex) with ESMTP id 9EC6F4AC065A
-        for <linux-man@vger.kernel.org>; Sat, 11 Jan 2020 17:55:49 +0300 (MSK)
-Received: from mxback12q.mail.yandex.net (mxback12q.mail.yandex.net [IPv6:2a02:6b8:c0e:1b3:0:640:3818:d096])
-        by forward101q.mail.yandex.net (Yandex) with ESMTP id 9AB34CF40004
-        for <linux-man@vger.kernel.org>; Sat, 11 Jan 2020 17:55:49 +0300 (MSK)
-Received: from vla4-d1b041059520.qloud-c.yandex.net (vla4-d1b041059520.qloud-c.yandex.net [2a02:6b8:c17:914:0:640:d1b0:4105])
-        by mxback12q.mail.yandex.net (mxback/Yandex) with ESMTP id mGmpSMaAE2-tnhmvAxY;
-        Sat, 11 Jan 2020 17:55:49 +0300
-Received: by vla4-d1b041059520.qloud-c.yandex.net (smtp/Yandex) with ESMTPSA id yY0koTSVOD-tmW8jJcR;
-        Sat, 11 Jan 2020 17:55:48 +0300
-        (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits))
-        (Client certificate not present)
+        id S1729852AbgAKPKv (ORCPT <rfc822;linux-man@archiver.kernel.org>);
+        Sat, 11 Jan 2020 10:10:51 -0500
+Received: from forward501p.mail.yandex.net ([77.88.28.111]:44105 "EHLO
+        forward501p.mail.yandex.net" rhost-flags-OK-OK-OK-OK)
+        by vger.kernel.org with ESMTP id S1729839AbgAKPKv (ORCPT
+        <rfc822;linux-man@vger.kernel.org>); Sat, 11 Jan 2020 10:10:51 -0500
+X-Greylist: delayed 343 seconds by postgrey-1.27 at vger.kernel.org; Sat, 11 Jan 2020 10:10:50 EST
+Received: from mxback4g.mail.yandex.net (mxback4g.mail.yandex.net [IPv6:2a02:6b8:0:1472:2741:0:8b7:165])
+        by forward501p.mail.yandex.net (Yandex) with ESMTP id F34333500468
+        for <linux-man@vger.kernel.org>; Sat, 11 Jan 2020 18:05:36 +0300 (MSK)
+Received: from localhost (localhost [::1])
+        by mxback4g.mail.yandex.net (mxback/Yandex) with ESMTP id YaSVxxW1ks-5aaSLWPc;
+        Sat, 11 Jan 2020 18:05:36 +0300
+Received: by sas1-30406100349c.qloud-c.yandex.net with HTTP;
+        Sat, 11 Jan 2020 18:05:36 +0300
 From:   Shawn Landden <shawn@git.icu>
-Cc:     linux-man@vger.kernel.org, Shawn Landden <shawn@git.icu>
-Subject: [PATCH] bcmp: note that this function is no longer legacy due to LLVM 9
-Date:   Sat, 11 Jan 2020 18:55:44 +0400
-Message-Id: <20200111145544.5592-1-shawn@git.icu>
-X-Mailer: git-send-email 2.20.1
+To:     "linux-man@vger.kernel.org" <linux-man@vger.kernel.org>
+In-Reply-To: <20200111150216.5956-1-shawn@git.icu>
+References: <20200111150216.5956-1-shawn@git.icu>
+Subject: Re: [PATCH] memcmp.3: note about optimization to bcmp in LLVM 9
 MIME-Version: 1.0
+X-Mailer: Yamail [ http://yandex.ru ] 5.0
+Date:   Sat, 11 Jan 2020 10:05:36 -0500
+Message-Id: <20698651578755136@sas1-30406100349c.qloud-c.yandex.net>
 Content-Transfer-Encoding: 8bit
-To:     unlisted-recipients:; (no To-header on input)
+Content-Type: text/plain; charset=utf-8
 Sender: linux-man-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-man.vger.kernel.org>
 X-Mailing-List: linux-man@vger.kernel.org
 
-Signed-off-by: Shawn Landden <shawn@git.icu>
----
- man3/bcmp.3 | 12 +++++++++---
- 1 file changed, 9 insertions(+), 3 deletions(-)
 
-diff --git a/man3/bcmp.3 b/man3/bcmp.3
-index ba9838019..18d238720 100644
---- a/man3/bcmp.3
-+++ b/man3/bcmp.3
-@@ -70,15 +70,21 @@ T{
- .BR bcmp ()
- T}	Thread safety	MT-Safe
- .TE
- .SH CONFORMING TO
- 4.3BSD.
--This function is deprecated (marked as LEGACY in POSIX.1-2001): use
--.BR memcmp (3)
--in new programs.
-+This function was deprecated (marked as LEGACY) by POSIX.1-2001).
- POSIX.1-2008 removes the specification of
- .BR bcmp ().
-+LLVM 9, released in 2019, revived
-+.BR bcmp ()
-+and generates calls to it instead of
-+.BR memcmp (3)
-+as appropiate as an optimization (as
-+.BR bcmp ()
-+need not traverse memory in-order).
-+.\" http://releases.llvm.org/9.0.0/docs/ReleaseNotes.html#noteworthy-optimizations
- .SH SEE ALSO
- .BR bstring (3),
- .BR memcmp (3),
- .BR strcasecmp (3),
- .BR strcmp (3),
+11.01.2020, 10:02, "Shawn Landden" <shawn@git.icu>:
+> ---
+>  man3/memcmp.3 | 7 +++++++
+>  1 file changed, 7 insertions(+)
+>
+> diff --git a/man3/memcmp.3 b/man3/memcmp.3
+> index 247eed223..6afca5ea4 100644
+> --- a/man3/memcmp.3
+> +++ b/man3/memcmp.3
+> @@ -84,10 +84,17 @@ because the required CPU time depends on the number of equal bytes.
+>  Instead, a function that performs comparisons in constant time is required.
+>  Some operating systems provide such a function (e.g., NetBSD's
+>  .BR consttime_memequal ()),
+>  but no such function is specified in POSIX.
+>  On Linux, it may be necessary to implement such a function oneself.
+> +.PP
+> +LLVM 9, released in 2019, and later will optimize a call
+to
+> +.BR memcmp ()
+> +to a call to
+> +.BR bcmp (3)
+> +if the return value is only checked for equilivence to zero.
+> +.\" http://releases.llvm.org/9.0.0/docs/ReleaseNotes.html#noteworthy-optimizations
+>  .SH SEE ALSO
+>  .BR bcmp (3),
+>  .BR bstring (3),
+>  .BR strcasecmp (3),
+>  .BR strcmp (3),
+> --
+> 2.20.1
+
 -- 
-2.20.1
+Shawn Landden
 
