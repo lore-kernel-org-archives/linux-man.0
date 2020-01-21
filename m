@@ -2,71 +2,70 @@ Return-Path: <SRS0=d19B=3K=vger.kernel.org=linux-man-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-8.1 required=3.0 tests=DKIM_SIGNED,DKIM_VALID,
+X-Spam-Status: No, score=-5.1 required=3.0 tests=DKIM_SIGNED,DKIM_VALID,
 	DKIM_VALID_AU,FREEMAIL_FORGED_FROMDOMAIN,FREEMAIL_FROM,
-	HEADER_FROM_DIFFERENT_DOMAINS,INCLUDES_PATCH,MAILING_LIST_MULTI,SIGNED_OFF_BY,
-	SPF_HELO_NONE,SPF_PASS,USER_AGENT_SANE_1,WEIRD_QUOTING autolearn=ham
-	autolearn_force=no version=3.4.0
+	HEADER_FROM_DIFFERENT_DOMAINS,INCLUDES_PATCH,MAILING_LIST_MULTI,SPF_HELO_NONE,
+	SPF_PASS,USER_AGENT_SANE_1 autolearn=ham autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 31565C2D0DB
-	for <linux-man@archiver.kernel.org>; Tue, 21 Jan 2020 19:23:16 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id A6577C2D0CE
+	for <linux-man@archiver.kernel.org>; Tue, 21 Jan 2020 19:46:15 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.kernel.org (Postfix) with ESMTP id F416B20678
-	for <linux-man@archiver.kernel.org>; Tue, 21 Jan 2020 19:23:15 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTP id 52F8E21835
+	for <linux-man@archiver.kernel.org>; Tue, 21 Jan 2020 19:46:15 +0000 (UTC)
 Authentication-Results: mail.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="LciFYjsK"
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="Rc6fU8po"
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1728776AbgAUTXP (ORCPT <rfc822;linux-man@archiver.kernel.org>);
-        Tue, 21 Jan 2020 14:23:15 -0500
-Received: from mail-pj1-f65.google.com ([209.85.216.65]:37308 "EHLO
-        mail-pj1-f65.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1729061AbgAUTXO (ORCPT
-        <rfc822;linux-man@vger.kernel.org>); Tue, 21 Jan 2020 14:23:14 -0500
-Received: by mail-pj1-f65.google.com with SMTP id m13so2068047pjb.2
-        for <linux-man@vger.kernel.org>; Tue, 21 Jan 2020 11:23:14 -0800 (PST)
+        id S1727523AbgAUTqP (ORCPT <rfc822;linux-man@archiver.kernel.org>);
+        Tue, 21 Jan 2020 14:46:15 -0500
+Received: from mail-pg1-f196.google.com ([209.85.215.196]:44514 "EHLO
+        mail-pg1-f196.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1726229AbgAUTqO (ORCPT
+        <rfc822;linux-man@vger.kernel.org>); Tue, 21 Jan 2020 14:46:14 -0500
+Received: by mail-pg1-f196.google.com with SMTP id x7so2047697pgl.11
+        for <linux-man@vger.kernel.org>; Tue, 21 Jan 2020 11:46:14 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=gmail.com; s=20161025;
         h=cc:subject:to:references:from:message-id:date:user-agent
          :mime-version:in-reply-to:content-language:content-transfer-encoding;
-        bh=IvqsT6ONnS2NTbkwWmE1HP2ORm6VJoF9+A6npRGjKuw=;
-        b=LciFYjsKyNTYWOFZUUcHKaTEBTIa+n64KJqpGbLkVuqZ67jibZHGJH82xE0FYq6NmX
-         30hCTcYFTwdD7pAYJZ5ST9+GBX2kCM1GN3eYCJZVr2ZEuEGPQrjqxcr2R4lFDYYhY/bX
-         zS/6H7fH3zgqHlJyNihWUpm768/9jrO5CWTvqQ7HkAzlGowz8IOdO1J9eS+rGsg6CgrW
-         kAB6S02C7nmdI/e6+oC3+xdwov2hkVu3KwYDRtwy8ojmAo85DR3hio50nnRaJ1YDJ4DV
-         XeFM2EhJhlWIgkBzQ2CChCzE5bCAFQOl7GuTTKr6PcFkqNETE5hFlUhVENhtaPB0knTO
-         wabg==
+        bh=ecKxbY4QOqeGYrc8LUoDOpTBXEmvZyxpcrTcx7oRWBU=;
+        b=Rc6fU8pok8bWnNa5FA2C272o3fWkQmXMhhEX8TOr4t7DsDHK3Em3Gt5gzZt7UQFBCo
+         65IqISFlC/37+pPZs84o/L805buCXzCfz1SIwyPxo4fYdepFT10GCYfqjw0J8kM1IKoE
+         9NUHyOh6kE2e8E0Vz4bMfwtzwq7FzZ6GSWGSmn1Fy3cNNE+d67WGLaqSexcH6xET6HIn
+         epjXdJgDefacEXyGseCBtOGjB4P0M0I09U3lukgHOkBmAOEH6KPpDghwL53r9DoOgQBe
+         2Ny5ehWyPeJu2JmFo5HVIVxx+1UJDOx0TmIpDJ+AOiohk1i4o4/C18ZPsFtFCvEZq+r5
+         ex/A==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
         h=x-gm-message-state:cc:subject:to:references:from:message-id:date
          :user-agent:mime-version:in-reply-to:content-language
          :content-transfer-encoding;
-        bh=IvqsT6ONnS2NTbkwWmE1HP2ORm6VJoF9+A6npRGjKuw=;
-        b=Ni1teafF6XuVCXc44HwPh5BE4xzqLKh5aMYQBl5FrKHp/oA1YqMD5l85gtyoI1TOgs
-         3oBFYTi0YAMvQyhof81DkTGCZx0PaeuwbmCzrnz4AVMwIuLF1Rr3yi+MvByinOWknUY/
-         sgZtYQUT2hVWo19pdX1Ptnv4ivVKnZKnlcwwI93L071wdCWG16dd1x/FXltq/hLO+YXF
-         S69Vvj9qmibZRnBY6VHeAS978Y63hn4KPrXXzJggrWL+vDXP0lOk9nky8IV05/P82O/O
-         46yXRc3hr6LgDVXvm3Gepu3k5SG0oOgifZC+ljoaTlwy9r0ctefHLvuRw0APk/DMRRJE
-         QqMw==
-X-Gm-Message-State: APjAAAWaxYfkgUxu5VUcCY282b+91O9Xu7ImJ3XcFEd7iUsghDvQ9OUb
-        BlfdW4J9fyfxo+GCW1P8JMXExOEj
-X-Google-Smtp-Source: APXvYqzj1NBSoTQEnDAwyyRiVawp+wfv0EOh4XvNKz4rk0Utwj9T93kMWojJ/oarztUbNXp7CIWTlw==
-X-Received: by 2002:a17:902:788b:: with SMTP id q11mr6969165pll.21.1579634593462;
-        Tue, 21 Jan 2020 11:23:13 -0800 (PST)
+        bh=ecKxbY4QOqeGYrc8LUoDOpTBXEmvZyxpcrTcx7oRWBU=;
+        b=kensra7akAdavVCjSyMWn1Uy3390QCb4XoYebMmfk59A0klnMXugE1gTfaXsBsBb+m
+         /DwDsDDJt8tcIJ/gJkMFV5ChGBcZcgsaK5Y8LU6Dlu1OS92KAxMtr5qAc9qdJAyGBMUA
+         sfJTZlhroBMYR+UVmrWQsTlo7/EkLeNIGE99YyIgi7djwGdl32q48y1KmtxbG6CiPsfC
+         HmAiLOR5Wjl0QDBeogqMfXrRHLrbI8ADHxnMfOdt5oa9krtbwnTwY874mKIGbBxH/c3d
+         N//XPdoHvIVaueuEed1PRCa/5fNR+7nD29ApkknmQE6V2k58sDULy6zvuxb1nGveFuqO
+         iRrw==
+X-Gm-Message-State: APjAAAUnm3bzNvSohJsDfSuYVbGk96wCgnpntdTkyXNCmlKB7bORXMC4
+        2XrzdBTaxMrwDxJxHT4U08bcHukj
+X-Google-Smtp-Source: APXvYqwOgnHgcNeN/1fuY5ZJcL0q21H7WTMYM9ZKmFk7tGlS8pWy/RSFbEfGsUAogJYztfvQ4moU6Q==
+X-Received: by 2002:a65:56c6:: with SMTP id w6mr7369083pgs.167.1579635974070;
+        Tue, 21 Jan 2020 11:46:14 -0800 (PST)
 Received: from [192.168.1.72] (122-58-99-230-adsl.sparkbb.co.nz. [122.58.99.230])
-        by smtp.gmail.com with ESMTPSA id r28sm41401673pgk.39.2020.01.21.11.23.11
+        by smtp.gmail.com with ESMTPSA id b12sm43722870pfi.157.2020.01.21.11.46.11
         (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Tue, 21 Jan 2020 11:23:12 -0800 (PST)
+        Tue, 21 Jan 2020 11:46:13 -0800 (PST)
 Cc:     mtk.manpages@gmail.com, linux-man@vger.kernel.org
-Subject: Re: [PATCH] keyrings.7: ffix
-To:     Jakub Wilk <jwilk@jwilk.net>
-References: <20200121112832.9064-1-jwilk@jwilk.net>
+Subject: Re: [patch] inotify.7: Merge late perror() into fprintf()
+To:     Nick Shipp <ns@segbrk.com>
+References: <CADjEuPv0ujm9hsvrou2giOeqzZNyKN+vWuHgudvcNNs-ffwCFA@mail.gmail.com>
 From:   "Michael Kerrisk (man-pages)" <mtk.manpages@gmail.com>
-Message-ID: <3e1ba30a-6163-b036-2e0b-3be62354b70b@gmail.com>
-Date:   Tue, 21 Jan 2020 20:23:09 +0100
+Message-ID: <a2e44f8d-2e91-2fb1-e6f4-9c75f1176196@gmail.com>
+Date:   Tue, 21 Jan 2020 20:46:09 +0100
 User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
  Thunderbird/68.3.1
 MIME-Version: 1.0
-In-Reply-To: <20200121112832.9064-1-jwilk@jwilk.net>
+In-Reply-To: <CADjEuPv0ujm9hsvrou2giOeqzZNyKN+vWuHgudvcNNs-ffwCFA@mail.gmail.com>
 Content-Type: text/plain; charset=utf-8
 Content-Language: en-US
 Content-Transfer-Encoding: 7bit
@@ -75,32 +74,39 @@ Precedence: bulk
 List-ID: <linux-man.vger.kernel.org>
 X-Mailing-List: linux-man@vger.kernel.org
 
-On 1/21/20 12:28 PM, Jakub Wilk wrote:
-> Signed-off-by: Jakub Wilk <jwilk@jwilk.net>
+Hello Nick,
 
-Thanks, Jakub. Patch applied.
+On 1/20/20 5:58 PM, Nick Shipp wrote:
+> fprintf may have overridden errno before perror could print it in this
+> example.
+
+Thanks. Patch applied.
 
 Cheers,
 
 Michael
 
 > ---
->  man7/keyrings.7 | 2 +-
->  1 file changed, 1 insertion(+), 1 deletion(-)
+>  man7/inotify.7 | 4 ++--
+>  1 file changed, 2 insertions(+), 2 deletions(-)
 > 
-> diff --git a/man7/keyrings.7 b/man7/keyrings.7
-> index 4270d2e91..3367149ef 100644
-> --- a/man7/keyrings.7
-> +++ b/man7/keyrings.7
-> @@ -146,7 +146,7 @@ that should not be readable from user space.
->  The description of a
->  .IR """logon"""
->  key
-> -.I must\
-> +.I must
->  start with a non-empty colon-delimited prefix whose purpose
->  is to identify the service to which the key belongs.
->  (Note that this differs from keys of the
+> diff --git a/man7/inotify.7 b/man7/inotify.7
+> index c052acfe6..995a3116f 100644
+> --- a/man7/inotify.7
+> +++ b/man7/inotify.7
+> @@ -1045,8 +1045,8 @@ main(int argc, char* argv[])
+>          wd[i] = inotify_add_watch(fd, argv[i],
+>                                    IN_OPEN | IN_CLOSE);
+>          if (wd[i] == \-1) {
+> -            fprintf(stderr, "Cannot watch '%s'\en", argv[i]);
+> -            perror("inotify_add_watch");
+> +            fprintf(stderr, "Cannot watch '%s': %s\en",
+> +                    argv[i], strerror(errno));
+>              exit(EXIT_FAILURE);
+>          }
+>      }
+> --
+> 2.25.0
 > 
 
 
