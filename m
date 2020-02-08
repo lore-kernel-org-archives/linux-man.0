@@ -1,93 +1,134 @@
-Return-Path: <SRS0=tPTA=33=vger.kernel.org=linux-man-owner@kernel.org>
+Return-Path: <SRS0=+cR1=34=vger.kernel.org=linux-man-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-8.2 required=3.0 tests=HEADER_FROM_DIFFERENT_DOMAINS,
-	INCLUDES_PATCH,MAILING_LIST_MULTI,SIGNED_OFF_BY,SPF_HELO_NONE,SPF_PASS,
-	URIBL_BLOCKED,USER_AGENT_SANE_1 autolearn=ham autolearn_force=no version=3.4.0
+X-Spam-Status: No, score=-5.1 required=3.0 tests=DKIM_SIGNED,DKIM_VALID,
+	DKIM_VALID_AU,FREEMAIL_FORGED_FROMDOMAIN,FREEMAIL_FROM,
+	HEADER_FROM_DIFFERENT_DOMAINS,INCLUDES_PATCH,MAILING_LIST_MULTI,SPF_HELO_NONE,
+	SPF_PASS,URIBL_BLOCKED,USER_AGENT_SANE_1 autolearn=ham autolearn_force=no
+	version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 4CC01C2BA83
-	for <linux-man@archiver.kernel.org>; Fri,  7 Feb 2020 20:45:00 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 85D27C35250
+	for <linux-man@archiver.kernel.org>; Sat,  8 Feb 2020 11:01:05 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.kernel.org (Postfix) with ESMTP id 20F8620838
-	for <linux-man@archiver.kernel.org>; Fri,  7 Feb 2020 20:45:00 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTP id 5353121741
+	for <linux-man@archiver.kernel.org>; Sat,  8 Feb 2020 11:01:05 +0000 (UTC)
+Authentication-Results: mail.kernel.org;
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="sUd2Cf/v"
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1727018AbgBGUo7 (ORCPT <rfc822;linux-man@archiver.kernel.org>);
-        Fri, 7 Feb 2020 15:44:59 -0500
-Received: from tartarus.angband.pl ([54.37.238.230]:52896 "EHLO
-        tartarus.angband.pl" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1726947AbgBGUo7 (ORCPT
-        <rfc822;linux-man@vger.kernel.org>); Fri, 7 Feb 2020 15:44:59 -0500
-X-Greylist: delayed 2227 seconds by postgrey-1.27 at vger.kernel.org; Fri, 07 Feb 2020 15:44:58 EST
-Received: from kilobyte by tartarus.angband.pl with local (Exim 4.92)
-        (envelope-from <kilobyte@angband.pl>)
-        id 1j09uo-0008Ju-5u; Fri, 07 Feb 2020 21:07:50 +0100
-Date:   Fri, 7 Feb 2020 21:07:50 +0100
-From:   Adam Borowski <kilobyte@angband.pl>
-To:     "Michael Kerrisk (man-pages)" <mtk.manpages@gmail.com>
-Cc:     linux-man@vger.kernel.org
-Subject: Re: [PATCH 2/3] console_codes.4: \e[38m and \e[48m
-Message-ID: <20200207200750.GA31950@angband.pl>
-References: <20190308194059.9560-1-kilobyte@angband.pl>
- <20190308194059.9560-2-kilobyte@angband.pl>
- <89fad223-3e6c-2b65-17ce-a4e19e45ff32@gmail.com>
+        id S1726889AbgBHLBE (ORCPT <rfc822;linux-man@archiver.kernel.org>);
+        Sat, 8 Feb 2020 06:01:04 -0500
+Received: from mail-wr1-f66.google.com ([209.85.221.66]:46577 "EHLO
+        mail-wr1-f66.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1726926AbgBHLBE (ORCPT
+        <rfc822;linux-man@vger.kernel.org>); Sat, 8 Feb 2020 06:01:04 -0500
+Received: by mail-wr1-f66.google.com with SMTP id z7so1759251wrl.13
+        for <linux-man@vger.kernel.org>; Sat, 08 Feb 2020 03:01:02 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20161025;
+        h=cc:subject:to:references:from:message-id:date:user-agent
+         :mime-version:in-reply-to:content-language:content-transfer-encoding;
+        bh=IcPWbzx05OVIjgj2NUJhrsfYPzKUZz1CvM/eICZzav8=;
+        b=sUd2Cf/vpGJmjY+0rtObbidaeUbAe2XnktZAOM6IIOiwlXkRQk4nZ8y7O6py5ZehkA
+         7pxfUDr9gpJ+96GFvlK2Kuf9icb6TaojGo/k5kG3pRbGg8xeEW0GQWfP16oEJ2als7Xv
+         SF64l1R9w2vcr6b0NbHpzwzePV+1hJRTK2xU4cWaBWMOjBzjGgvvL3h6UhKGx9rOuuKg
+         CUnIlzT+WrHg17dsNz9d5K9VcBcDTKJXndWZz1bxe5sfNtYDPSfYEx+99G7RjTL2eGFv
+         CZCeA9Zq1NEJzN7qFo4RRWn15sX+LFQmXmH4b0qt8Sy3hCBeEkdbtS2OAIFJEMBegdJi
+         pzXA==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20161025;
+        h=x-gm-message-state:cc:subject:to:references:from:message-id:date
+         :user-agent:mime-version:in-reply-to:content-language
+         :content-transfer-encoding;
+        bh=IcPWbzx05OVIjgj2NUJhrsfYPzKUZz1CvM/eICZzav8=;
+        b=pYJKsSdUVNjn2bz3mQzEA4SdvuifVMYtF5wam7XSkME1Hr55/Z8RcQOlN/lLSI9/Rm
+         LsBUX3si1KOfw2WVV4T1wJCx0A4kX9ptyPVjJAzdlncNXPTzoxNmE1JUuWyWqRS7JqZG
+         USiSayBYeFTSTNU5m5KKQkZHVqxEQvcIp5bSHqZ0xDntv30SFCDBS/OyRI0Lwepblf9W
+         pU4RZhMqexv8gTfdDn0JC+21rS39nSBpTw3XHgdAxS+RQl6UbZ7ptyYo1lRIkO1gWfPD
+         6Ij4o+VoCnfruHO4p9aMrNPbrF8ydJzKVTGL4ux4ILDTHfMfVyqfg2OkI3U7UibtNFyz
+         Q45Q==
+X-Gm-Message-State: APjAAAUVX2u9Md7tLiNF2MOUG9+WV95Hjzg300jFQm9BNQTECx4ovA50
+        yaCqPkjS8B9/NFQzSsbBaWyTAnGf
+X-Google-Smtp-Source: APXvYqxY6Rsgtls3fdDuTQLQqd+8H239iQ8ACaz+5BPGpHsdea/8E8WgTsCRr/zpkuAy+Wrn1fXFcA==
+X-Received: by 2002:a5d:5381:: with SMTP id d1mr4853733wrv.259.1581159661321;
+        Sat, 08 Feb 2020 03:01:01 -0800 (PST)
+Received: from ?IPv6:2001:a61:251f:d701:c8c9:6ecf:205c:abb7? ([2001:a61:251f:d701:c8c9:6ecf:205c:abb7])
+        by smtp.gmail.com with ESMTPSA id n10sm7077117wrt.14.2020.02.08.03.01.00
+        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+        Sat, 08 Feb 2020 03:01:00 -0800 (PST)
+Cc:     mtk.manpages@gmail.com, linux-man@vger.kernel.org, jwilk@jwilk.net,
+        Mike Frysinger <vapier@gentoo.org>
+Subject: Re: [PATCH v2] exit.3: Use hex for the status mask.
+To:     Benjamin Peterson <benjamin@python.org>
+References: <1537033056.1989189.1509225696.4324DB3A@webmail.messagingengine.com>
+ <20180915173848.19733-1-benjamin@python.org>
+From:   "Michael Kerrisk (man-pages)" <mtk.manpages@gmail.com>
+Message-ID: <92a0961f-927c-703a-7d7a-16bdd98324d4@gmail.com>
+Date:   Sat, 8 Feb 2020 12:00:58 +0100
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
+ Thunderbird/68.3.1
 MIME-Version: 1.0
+In-Reply-To: <20180915173848.19733-1-benjamin@python.org>
 Content-Type: text/plain; charset=utf-8
-Content-Disposition: inline
-Content-Transfer-Encoding: 8bit
-In-Reply-To: <89fad223-3e6c-2b65-17ce-a4e19e45ff32@gmail.com>
-X-Junkbait: aaron@angband.pl, zzyx@angband.pl
-User-Agent: Mutt/1.10.1 (2018-07-13)
-X-SA-Exim-Connect-IP: <locally generated>
-X-SA-Exim-Mail-From: kilobyte@angband.pl
-X-SA-Exim-Scanned: No (on tartarus.angband.pl); SAEximRunCond expanded to false
+Content-Language: en-US
+Content-Transfer-Encoding: 7bit
 Sender: linux-man-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-man.vger.kernel.org>
 X-Mailing-List: linux-man@vger.kernel.org
 
-On Fri, Feb 07, 2020 at 05:26:09PM +0100, Michael Kerrisk (man-pages) wrote:
-> Hello Adam,
-> 
-> On 3/8/19 8:40 PM, Adam Borowski wrote:
-> > Supported since cec5b2a9 (3.16).
-> > 
-> > Signed-off-by: Adam Borowski <kilobyte@angband.pl>
-> > ---
-> >  man4/console_codes.4 | 15 +++++++++++++--
-> >  1 file changed, 13 insertions(+), 2 deletions(-)
-> > 
-> > diff --git a/man4/console_codes.4 b/man4/console_codes.4
-> > index d605b058d..4283efe45 100644
-> > --- a/man4/console_codes.4
-> > +++ b/man4/console_codes.4
-> > @@ -271,8 +271,8 @@ T}
-> >  35	set magenta foreground
-> >  36	set cyan foreground
-> >  37	set white foreground
-> > -38	set underscore on, set default foreground color
-> > -39	set underscore off, set default foreground color
-> > +38	256/24-bit foreground color follows, shoehorned into 16 basic colors
-> > +39	set default foreground color
-> 
-> So here, I think it's important to retain the historical info, so
-> I made this text:
-> 
->        38        256/24-bit foreground color follows, shoehorned  into  16
->                  basic  colors  (before Linux 3.16: set underscore on, set
->                  default foreground color)
->        39        set default foreground  color  (before  Linux  3.16:  set
->                  underscore off, set default foreground color)
-> 
-> Okay?
+Hello Ben,
 
-Sounds good.
+On 9/15/18 7:38 PM, Benjamin Peterson wrote:
+> Admittedly, the POSIX specification for exit() also uses octal. However, 0xFF
+> immediately indicates the lowest 8 bits to me whereas I had to think a bit about
+> the octal mask.
 
+Thanks. Patch applied. (Mike Frysinger provided a similar patch,
+so I've noted you both in the commit.)
 
-Meow!
+Cheers,
+
+Michael
+
+> ---
+>  man2/_exit.2 | 2 +-
+>  man3/exit.3  | 5 ++---
+>  2 files changed, 3 insertions(+), 4 deletions(-)
+> 
+> diff --git a/man2/_exit.2 b/man2/_exit.2
+> index c55d2a612..6e656c8f4 100644
+> --- a/man2/_exit.2
+> +++ b/man2/_exit.2
+> @@ -65,7 +65,7 @@ The process's parent is sent a
+>  signal.
+>  .PP
+>  The value
+> -.I "status & 0377"
+> +.I "status & 0xFF"
+>  is returned to the parent process as the process's exit status, and
+>  can be collected using one of the
+>  .BR wait (2)
+> diff --git a/man3/exit.3 b/man3/exit.3
+> index 4a30fc39f..b47ba17a1 100644
+> --- a/man3/exit.3
+> +++ b/man3/exit.3
+> @@ -38,9 +38,8 @@ exit \- cause normal process termination
+>  .SH DESCRIPTION
+>  The
+>  .BR exit ()
+> -function causes normal process termination and the
+> -value of \fIstatus & 0377\fP is returned to the parent
+> -(see
+> +function causes normal process termination and the value of \fIstatus &
+> +0xFF\fP is returned to the parent (see
+>  .BR wait (2)).
+>  .PP
+>  All functions registered with
+> 
+
 
 -- 
-⢀⣴⠾⠻⢶⣦⠀ The ill-thought conversion to time64_t will make us suffer from
-⣾⠁⢠⠒⠀⣿⡁ the Y292B problem.  So let's move the Epoch by 435451400064000000
-⢿⡄⠘⠷⠚⠋⠀ (plus a safety margin in case of bad physicists) and make it
-⠈⠳⣄⠀⠀⠀⠀ unsigned -- that'll almost double the range.
+Michael Kerrisk
+Linux man-pages maintainer; http://www.kernel.org/doc/man-pages/
+Linux/UNIX System Programming Training: http://man7.org/training/
