@@ -1,119 +1,131 @@
-Return-Path: <SRS0=talt=37=vger.kernel.org=linux-man-owner@kernel.org>
+Return-Path: <SRS0=cF4d=4A=vger.kernel.org=linux-man-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-6.8 required=3.0 tests=HEADER_FROM_DIFFERENT_DOMAINS,
-	INCLUDES_PATCH,MAILING_LIST_MULTI,SIGNED_OFF_BY,SPF_HELO_NONE,SPF_PASS
-	autolearn=ham autolearn_force=no version=3.4.0
+X-Spam-Status: No, score=-0.6 required=3.0 tests=CHARSET_FARAWAY_HEADER,
+	DKIM_SIGNED,DKIM_VALID,HEADER_FROM_DIFFERENT_DOMAINS,MAILING_LIST_MULTI,
+	SIGNED_OFF_BY,SPF_HELO_NONE,SPF_PASS autolearn=no autolearn_force=no
+	version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id A837DC352A3
-	for <linux-man@archiver.kernel.org>; Tue, 11 Feb 2020 14:17:30 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 2B627C35242
+	for <linux-man@archiver.kernel.org>; Wed, 12 Feb 2020 03:21:43 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.kernel.org (Postfix) with ESMTP id 870C62086A
-	for <linux-man@archiver.kernel.org>; Tue, 11 Feb 2020 14:17:30 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTP id D29C12082F
+	for <linux-man@archiver.kernel.org>; Wed, 12 Feb 2020 03:21:42 +0000 (UTC)
+Authentication-Results: mail.kernel.org;
+	dkim=pass (1024-bit key) header.d=necglobal.onmicrosoft.com header.i=@necglobal.onmicrosoft.com header.b="vYR7JQsG"
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1730079AbgBKORa (ORCPT <rfc822;linux-man@archiver.kernel.org>);
-        Tue, 11 Feb 2020 09:17:30 -0500
-Received: from youngberry.canonical.com ([91.189.89.112]:47721 "EHLO
-        youngberry.canonical.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1728495AbgBKOR3 (ORCPT
-        <rfc822;linux-man@vger.kernel.org>); Tue, 11 Feb 2020 09:17:29 -0500
-Received: from ip5f5bf7ec.dynamic.kabel-deutschland.de ([95.91.247.236] helo=wittgenstein)
-        by youngberry.canonical.com with esmtpsa (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
-        (Exim 4.86_2)
-        (envelope-from <christian.brauner@ubuntu.com>)
-        id 1j1WLu-0007U1-J8; Tue, 11 Feb 2020 14:17:26 +0000
-Date:   Tue, 11 Feb 2020 15:17:25 +0100
-From:   Christian Brauner <christian.brauner@ubuntu.com>
-To:     Mike Christie <mchristi@redhat.com>, mtk.manpages@gmail.com
-Cc:     linux-api@vger.kernel.org, david@fromorbit.com, mhocko@suse.com,
-        masato.suzuki@wdc.com, damien.lemoal@wdc.com,
-        darrick.wong@oracle.com, bvanassche@acm.org,
-        linux-man@vger.kernel.org
-Subject: Re: [PATCH 1/1] prctl.2: doc PR_SET/GET_IO_FLUSHER
-Message-ID: <20200211141725.4vbnh3iifbbaquec@wittgenstein>
-References: <20200210221557.8021-1-mchristi@redhat.com>
+        id S1727683AbgBLDVm (ORCPT <rfc822;linux-man@archiver.kernel.org>);
+        Tue, 11 Feb 2020 22:21:42 -0500
+Received: from mail-eopbgr1400077.outbound.protection.outlook.com ([40.107.140.77]:27776
+        "EHLO JPN01-TY1-obe.outbound.protection.outlook.com"
+        rhost-flags-OK-OK-OK-FAIL) by vger.kernel.org with ESMTP
+        id S1727641AbgBLDVm (ORCPT <rfc822;linux-man@vger.kernel.org>);
+        Tue, 11 Feb 2020 22:21:42 -0500
+ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
+ b=iclboXXV2N2ROR3MLfi2yzuncsbo2+T2YTdh0vEvx2+XPsrWKy984vHr9goAlbNpRALMsvgn8sHqNgyeBA7gOvQwWlQQoWsascEFHHxdxvmgdYAsFIIbdO1riSXNgJqDabVEJ0ONVm3/+fLRy9HHdpPnPM9uS83MJiFHMekqQJjGF6IKpCE6rSJrhEMrJbb2BSHEP6rp5lXbvAfaQj7WThBVGPg+cd/xXbidgUzMymhE6oXDB30YwFmMatKm+ProiherhblKky1io0L3AdYyB4u+nbXeqst1o49+Zgc9MWC0UO8YCKhgNrv6gImIuMzTDpcHg6ydkOII0KIJoI7rMg==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
+ s=arcselector9901;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=wACFc0oB8LvOkKjP7fELc68Ayei8LSYnZ8mQKwnuiE8=;
+ b=YdiM0QKf7J+LnF3FXj1o+0q5BDouxa3eba3FNo4mBH5mDOvLJ8xlV85z1/iYxoW+8XI+UoqqVqprfZ6zib/btk7QdNmppgQbH9ZV1vYdXcTTuZuBWeeF3i1AAgb//uAonzlsmcYLam+d8WxtUI2yY+u0Ye6FFyetW5Wk2pYjteHiYCTR6zE5NSvP2gB/0Gl9W+mLYQwbFxhPpDwFNphhmjbWSnkL3W4jEVQtNpMStIslJ+kCO82kLz9nWJiljkpU8q/bnU9n7rAaQR+RpLCumhA3jauji/GMlKwl6iUx7Az8yhqSSRLQWL97VY78Awk1Epe/uppTHNmHskHQjnE35g==
+ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
+ smtp.mailfrom=nec.com; dmarc=pass action=none header.from=nec.com; dkim=pass
+ header.d=nec.com; arc=none
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=necglobal.onmicrosoft.com; s=selector1-necglobal-onmicrosoft-com;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=wACFc0oB8LvOkKjP7fELc68Ayei8LSYnZ8mQKwnuiE8=;
+ b=vYR7JQsGRwy7NeBHC9TD96XUish+AmXjf8NP78cH/LpBB6RIRsymDYwEUXnTb7YE/xC0lLmOdxQDP86FFceW/0VQ6+kmw7Mqu47rw0+28qwo7KGHbIvW7EAmoWJtMN9CxjBPQRrqtO9gmWXttyJY8dhs+VMJjioXrGvaM8fpeiU=
+Received: from TYAPR01MB3296.jpnprd01.prod.outlook.com (20.177.105.19) by
+ TYAPR01MB2654.jpnprd01.prod.outlook.com (20.177.105.81) with Microsoft SMTP
+ Server (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ 15.20.2729.22; Wed, 12 Feb 2020 03:21:40 +0000
+Received: from TYAPR01MB3296.jpnprd01.prod.outlook.com
+ ([fe80::7474:516:14ea:c032]) by TYAPR01MB3296.jpnprd01.prod.outlook.com
+ ([fe80::7474:516:14ea:c032%6]) with mapi id 15.20.2729.021; Wed, 12 Feb 2020
+ 03:21:39 +0000
+From:   =?iso-2022-jp?B?SE9SSUdVQ0hJIE5BT1lBKBskQktZOH0hIUQ+TGkbKEIp?= 
+        <naoya.horiguchi@nec.com>
+To:     Mike Kravetz <mike.kravetz@oracle.com>,
+        Li Xinhai <lixinhai.lxh@gmail.com>
+CC:     Naoya Horiguchi <n-horiguchi@ah.jp.nec.com>,
+        "linux-mm@kvack.org" <linux-mm@kvack.org>,
+        "akpm@linux-foundation.org" <akpm@linux-foundation.org>,
+        Michal Hocko <mhocko@suse.com>,
+        linux-man <linux-man@vger.kernel.org>
+Subject: Re: [PATCH] mm/mempolicy: support MPOL_MF_STRICT for huge page
+ mapping
+Thread-Topic: [PATCH] mm/mempolicy: support MPOL_MF_STRICT for huge page
+ mapping
+Thread-Index: AQHV4DZRTsU90Qi+bEKgTRMyjU8c/6gW5qeA
+Date:   Wed, 12 Feb 2020 03:21:39 +0000
+Message-ID: <20200212032139.GA31425@hori.linux.bs1.fc.nec.co.jp>
+References: <1580434395-9962-1-git-send-email-lixinhai.lxh@gmail.com>
+ <07cd0750-d908-dd3b-dee1-bc3fcf5bf771@oracle.com>
+In-Reply-To: <07cd0750-d908-dd3b-dee1-bc3fcf5bf771@oracle.com>
+Accept-Language: ja-JP, en-US
+Content-Language: en-US
+X-MS-Has-Attach: 
+X-MS-TNEF-Correlator: 
+authentication-results: spf=none (sender IP is )
+ smtp.mailfrom=naoya.horiguchi@nec.com; 
+x-originating-ip: [165.225.110.198]
+x-ms-publictraffictype: Email
+x-ms-office365-filtering-correlation-id: bac7d58f-c993-4316-6c1b-08d7af6aacf9
+x-ms-traffictypediagnostic: TYAPR01MB2654:
+x-ms-exchange-transport-forked: True
+x-microsoft-antispam-prvs: <TYAPR01MB26545688C7CAB180E4731951E71B0@TYAPR01MB2654.jpnprd01.prod.outlook.com>
+x-ms-oob-tlc-oobclassifiers: OLM:2733;
+x-forefront-prvs: 0311124FA9
+x-forefront-antispam-report: SFV:NSPM;SFS:(10009020)(4636009)(136003)(376002)(39860400002)(346002)(366004)(396003)(199004)(189003)(8936002)(86362001)(6512007)(9686003)(85182001)(6486002)(71200400001)(6506007)(53546011)(55236004)(478600001)(110136005)(316002)(26005)(54906003)(4326008)(33656002)(1076003)(4744005)(5660300002)(186003)(2906002)(76116006)(81166006)(81156014)(8676002)(66476007)(66446008)(66946007)(64756008)(66556008)(14583001);DIR:OUT;SFP:1101;SCL:1;SRVR:TYAPR01MB2654;H:TYAPR01MB3296.jpnprd01.prod.outlook.com;FPR:;SPF:None;LANG:en;PTR:InfoNoRecords;A:1;MX:1;
+received-spf: None (protection.outlook.com: nec.com does not designate
+ permitted sender hosts)
+x-ms-exchange-senderadcheck: 1
+x-microsoft-antispam: BCL:0;
+x-microsoft-antispam-message-info: ft5lhX98DY50Gt8wZxxwKSoHffjx2DBWurfSVGY5VcloDQpy6rKNlNK+JJlxFAZw82miBJBBzTysk4nE4AG6KEGW1MNyhZ9JIWa1jcgSlWDDG9M+xsZ0gVQhc8EH29uj8Z3U6gZLn6U64+FMPSjSYQqFMf5nCj5SCGzl4sKV/zTLmy3iDMJjJE3yK1JzVcYVxgUdD+ZTjoh0UA1bUjyj0INbPNKg0UGbyhGOKy1MtH9JrOFJQOnjDA3ugg+luXjI23Gt5PClYmDMbadzR9WQwIGVQb9Gj8NVUuoSyncR/cvUETfqygU10zkhf8QZqlnyQECwPLOlFbYgffywzD60QwmKBTSJmC6HaxIjnzP3OMrTjk2fwU1dw8plkX6EDchEZOyu66n8ejKUjNdD6ILLcmkyHL9g2ICWg8QbIKb3dWg/+xQSsC2Bl/rKUsqOlgPBWfCgQ70uY1rEX0qaIfE0e1zqwxZ8Uf2yd65OQbnQLeAYguT+EIa0eqRASo0mlqSA
+x-ms-exchange-antispam-messagedata: 9ym02E5E4MtBCmr6r2SqYPlFGqTsUBBtxqsbEnVIuo8rU5JgKfnyNy5SE19aHAS6Kl3JxFmtImaUhu+ruKexa0wVICDdwuzWelSwdVVr9mhsBkNa5zDGN8UyZnW2P7L0iOLr5WjP7GHm/EpHnKLNzg==
+Content-Type: text/plain; charset="iso-2022-jp"
+Content-ID: <DB2CFED9777A7440A137B63EB0465575@jpnprd01.prod.outlook.com>
+Content-Transfer-Encoding: quoted-printable
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
-Content-Disposition: inline
-In-Reply-To: <20200210221557.8021-1-mchristi@redhat.com>
+X-OriginatorOrg: nec.com
+X-MS-Exchange-CrossTenant-Network-Message-Id: bac7d58f-c993-4316-6c1b-08d7af6aacf9
+X-MS-Exchange-CrossTenant-originalarrivaltime: 12 Feb 2020 03:21:39.8176
+ (UTC)
+X-MS-Exchange-CrossTenant-fromentityheader: Hosted
+X-MS-Exchange-CrossTenant-id: e67df547-9d0d-4f4d-9161-51c6ed1f7d11
+X-MS-Exchange-CrossTenant-mailboxtype: HOSTED
+X-MS-Exchange-CrossTenant-userprincipalname: Fr1i4GBx6QGU/+tY0XnOdvnh/haMNEZsaXEUDe+tDUdYgZChvYKnGdf+DzeQkrELuLapZq9hWn0EiTwWrZAqFw==
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: TYAPR01MB2654
 Sender: linux-man-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-man.vger.kernel.org>
 X-Mailing-List: linux-man@vger.kernel.org
 
-I think you've missed:
-mtk.manpages@gmail.com
-linux-man@vger.kernel.org
+On Mon, Feb 10, 2020 at 09:19:48AM -0800, Mike Kravetz wrote:
+> On 1/30/20 5:33 PM, Li Xinhai wrote:
+...
+> >=20
+> > Signed-off-by: Li Xinhai <lixinhai.lxh@gmail.com>
+> > Cc: Michal Hocko <mhocko@suse.com>
+> > Cc: Mike Kravetz <mike.kravetz@oracle.com>
+> > Cc: Naoya Horiguchi <n-horiguchi@ah.jp.nec.com>
+> > Cc: linux-man <linux-man@vger.kernel.org>
+>=20
+> Hello Naoya,
+>=20
+> Do you have any thoughts on this?  In previous discussions you suggested =
+this
+> approach of removing the special casing for hugetlb pages.  The code look=
+s
+> good to me and patch is fine with commmit message modification.  Just wan=
+ted
+> to get your opinion.
 
-:)
+Hi Mike, Xinhai,
 
-Christian
+The suggested change looks good to me, too.
 
-On Mon, Feb 10, 2020 at 04:15:57PM -0600, Mike Christie wrote:
-> This patch documents the PR_SET_IO_FLUSHER and PR_GET_IO_FLUSHER
-> prctl commands added to the linux kernel for 5.6 in commit:
-> 
-> commit 8d19f1c8e1937baf74e1962aae9f90fa3aeab463
-> Author: Mike Christie <mchristi@redhat.com>
-> Date:   Mon Nov 11 18:19:00 2019 -0600
-> 
->     prctl: PR_{G,S}ET_IO_FLUSHER to support controlling memory reclaim
-> 
-> Signed-off-by: Mike Christie <mchristi@redhat.com>
-> ---
-> 
-> V2:
-> - My initial patch for this was very bad. This version is almost 100%
-> taken word for word from Dave Chinner's review comments.
-> 
-> 
->  man2/prctl.2 | 25 +++++++++++++++++++++++++
->  1 file changed, 25 insertions(+)
-> 
-> diff --git a/man2/prctl.2 b/man2/prctl.2
-> index 720ec04e4..b481d186b 100644
-> --- a/man2/prctl.2
-> +++ b/man2/prctl.2
-> @@ -1381,6 +1381,30 @@ system call on Tru64).
->  for information on versions and architectures.)
->  Return unaligned access control bits, in the location pointed to by
->  .IR "(unsigned int\ *) arg2" .
-> +.TP
-> +.B PR_SET_IO_FLUSHER (Since Linux 5.6)
-> +An IO_FLUSHER is a user process that the kernel uses to issue IO
-> +that cleans dirty page cache data and/or filesystem metadata. The
-> +kernel may need to clean this memory when under memory pressure in
-> +order to free it. This means there is potential for a memory reclaim
-> +recursion deadlock if the user process attempts to allocate memory
-> +and the kernel then blocks waiting for it to clean memory before it
-> +can make reclaim progress.
-> +
-> +The kernel avoids these recursion problems internally via a special
-> +process state that prevents recursive reclaim from issuing new IO.
-> +If \fIarg2\fP is 1, the \fPPR_SET_IO_FLUSHER\fP control allows a userspace
-> +process to set up this same process state and hence avoid the memory
-> +reclaim recursion deadlocks in the same manner the kernel avoids them.
-> +If \fIarg2\fP is 0, the process will clear the IO_FLUSHER state, and the
-> +default behavior will be used.
-> +
-> +Examples of IO_FLUSHER applications are FUSE daemons, zoned disk
-> +emulation daemons, etc."
-> +.TP
-> +.B PR_GET_IO_FLUSHER (Since Linux 5.6)
-> +Return as the function result 1 if the caller is in the IO_FLUSHER state and
-> +0 if not.
->  .SH RETURN VALUE
->  On success,
->  .BR PR_GET_DUMPABLE ,
-> @@ -1395,6 +1419,7 @@ On success,
->  .BR PR_GET_SPECULATION_CTRL ,
->  .BR PR_MCE_KILL_GET ,
->  .BR PR_CAP_AMBIENT + PR_CAP_AMBIENT_IS_SET ,
-> +.BR PR_GET_IO_FLUSHER ,
->  and (if it returns)
->  .BR PR_GET_SECCOMP
->  return the nonnegative values described above.
-> -- 
-> 2.21.0
-> 
+Thanks,
+Naoya Horiguchi=
