@@ -7,46 +7,45 @@ X-Spam-Status: No, score=-8.0 required=3.0 tests=DKIM_ADSP_CUSTOM_MED,
 	INCLUDES_PATCH,MAILING_LIST_MULTI,SIGNED_OFF_BY,SPF_HELO_NONE,SPF_PASS,
 	USER_AGENT_SANE_1 autolearn=ham autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id CA66AC3B19F
-	for <linux-man@archiver.kernel.org>; Fri, 14 Feb 2020 15:28:59 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 3D4FFC3B19F
+	for <linux-man@archiver.kernel.org>; Fri, 14 Feb 2020 15:29:02 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.kernel.org (Postfix) with ESMTP id AC48D24673
-	for <linux-man@archiver.kernel.org>; Fri, 14 Feb 2020 15:28:59 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTP id 1F31924673
+	for <linux-man@archiver.kernel.org>; Fri, 14 Feb 2020 15:29:02 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S2387605AbgBNP27 convert rfc822-to-8bit (ORCPT
+        id S2387616AbgBNP3B convert rfc822-to-8bit (ORCPT
         <rfc822;linux-man@archiver.kernel.org>);
-        Fri, 14 Feb 2020 10:28:59 -0500
-Received: from us-smtp-delivery-1.mimecast.com ([207.211.31.120]:22607 "EHLO
-        us-smtp-1.mimecast.com" rhost-flags-OK-OK-OK-FAIL) by vger.kernel.org
-        with ESMTP id S2387398AbgBNP27 (ORCPT
-        <rfc822;linux-man@vger.kernel.org>); Fri, 14 Feb 2020 10:28:59 -0500
+        Fri, 14 Feb 2020 10:29:01 -0500
+Received: from us-smtp-2.mimecast.com ([205.139.110.61]:53210 "EHLO
+        us-smtp-delivery-1.mimecast.com" rhost-flags-OK-OK-OK-FAIL)
+        by vger.kernel.org with ESMTP id S2387398AbgBNP3B (ORCPT
+        <rfc822;linux-man@vger.kernel.org>); Fri, 14 Feb 2020 10:29:01 -0500
 Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
  [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-87-dI98rRfHOvWNihxRf9PbDw-1; Fri, 14 Feb 2020 10:28:48 -0500
+ us-mta-166-3eye0dwuPae6OOV-CjRT6g-1; Fri, 14 Feb 2020 10:28:58 -0500
 Received: from smtp.corp.redhat.com (int-mx04.intmail.prod.int.phx2.redhat.com [10.5.11.14])
         (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
         (No client certificate requested)
-        by mimecast-mx01.redhat.com (Postfix) with ESMTPS id EC5F2189F76D;
-        Fri, 14 Feb 2020 15:28:46 +0000 (UTC)
+        by mimecast-mx01.redhat.com (Postfix) with ESMTPS id CA29610753F4;
+        Fri, 14 Feb 2020 15:28:57 +0000 (UTC)
 Received: from asgard.redhat.com (ovpn-112-64.ams2.redhat.com [10.36.112.64])
-        by smtp.corp.redhat.com (Postfix) with ESMTPS id C1F405DA7D;
-        Fri, 14 Feb 2020 15:28:45 +0000 (UTC)
-Date:   Fri, 14 Feb 2020 16:28:43 +0100
+        by smtp.corp.redhat.com (Postfix) with ESMTPS id 9967D5DA7D;
+        Fri, 14 Feb 2020 15:28:56 +0000 (UTC)
+Date:   Fri, 14 Feb 2020 16:28:54 +0100
 From:   Eugene Syromyatnikov <evgsyr@gmail.com>
 To:     mtk.manpages@gmail.com
 Cc:     linux-man@vger.kernel.org
-Subject: [PATCH] nl_langinfo.3: mention the respective strftime conversion
- specifications
-Message-ID: <d36e8402f69fc6d8b58d5441cc767a168bb3a155.1581693625.git.evgsyr@gmail.com>
+Subject: [PATCH] strftime.3: ffix
+Message-ID: <b7ec330b0328781791b4d85962cebfd674fd652b.1581693625.git.evgsyr@gmail.com>
 References: <cover.1581693624.git.evgsyr@gmail.com>
 MIME-Version: 1.0
 In-Reply-To: <cover.1581693624.git.evgsyr@gmail.com>
 User-Agent: Mutt/1.5.23 (2014-03-12)
 X-Scanned-By: MIMEDefang 2.79 on 10.5.11.14
-X-MC-Unique: dI98rRfHOvWNihxRf9PbDw-1
+X-MC-Unique: 3eye0dwuPae6OOV-CjRT6g-1
 X-Mimecast-Spam-Score: 0
 X-Mimecast-Originator: gmail.com
-Content-Type: text/plain; charset=UTF-8
+Content-Type: text/plain; charset=WINDOWS-1252
 Content-Transfer-Encoding: 8BIT
 Content-Disposition: inline
 Sender: linux-man-owner@vger.kernel.org
@@ -54,76 +53,26 @@ Precedence: bulk
 List-ID: <linux-man.vger.kernel.org>
 X-Mailing-List: linux-man@vger.kernel.org
 
-* man3/nl_langinfo.3 (D_T_FMT, D_FMT, T_FMT, DAY_{1–7}, ABDAY_{1–7},
-MON_{1–12}, ABMON_{1–12}): Mention the respective strftime(3) conversion
-specifications.
+* man3/strftime.3 (%s): Format "mktime" with .B and not .I.
 
 Signed-off-by: Eugene Syromyatnikov <evgsyr@gmail.com>
 ---
- man3/nl_langinfo.3 | 28 +++++++++++++++++++++++++---
- 1 file changed, 25 insertions(+), 3 deletions(-)
+ man3/strftime.3 | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
 
-diff --git a/man3/nl_langinfo.3 b/man3/nl_langinfo.3
-index 8c0742f..ecc1954 100644
---- a/man3/nl_langinfo.3
-+++ b/man3/nl_langinfo.3
-@@ -78,31 +78,53 @@ try "locale \-m" (see
- .BR D_T_FMT \ (LC_TIME)
- Return a string that can be used as a format string for
- .BR strftime (3)
--to represent time and date in a locale-specific way.
-+to represent time and date in a locale-specific way
-+.RB ( %c
-+conversion specification).
+diff --git a/man3/strftime.3 b/man3/strftime.3
+index d6e6e34..62b77bf 100644
+--- a/man3/strftime.3
++++ b/man3/strftime.3
+@@ -255,7 +255,7 @@ below.
+ .B %s
+ The number of seconds since the Epoch, 1970-01-01 00:00:00 +0000 (UTC). (TZ)
+ (Calculated from
+-.IR mktime(tm) .)
++.BR mktime ( \fItm\fR ).)
  .TP
- .BR D_FMT \ (LC_TIME)
- Return a string that can be used as a format string for
- .BR strftime (3)
--to represent a date in a locale-specific way.
-+to represent a date in a locale-specific way
-+.RB ( %x
-+conversion specification).
- .TP
- .BR T_FMT \ (LC_TIME)
- Return a string that can be used as a format string for
- .BR strftime (3)
--to represent a time in a locale-specific way.
-+to represent a time in a locale-specific way
-+.RB ( %X
-+conversion specification).
- .TP
- .BR DAY_ "{1\(en7} (LC_TIME)"
- Return name of the \fIn\fP-th day of the week. [Warning: this follows
- the US convention DAY_1 = Sunday, not the international convention
- (ISO 8601) that Monday is the first day of the week.]
-+(Used in
-+.B %A
-+.BR strftime (3)
-+conversion specification.)
- .TP
- .BR ABDAY_ "{1\(en7} (LC_TIME)"
- Return abbreviated name of the \fIn\fP-th day of the week.
-+(Used in
-+.B %a
-+.BR strftime (3)
-+conversion specification.)
- .TP
- .BR MON_ "{1\(en12} (LC_TIME)"
- Return name of the \fIn\fP-th month.
-+(Used in
-+.B %B
-+.BR strftime (3)
-+conversion specification.)
- .TP
- .BR ABMON_ "{1\(en12} (LC_TIME)"
- Return abbreviated name of the \fIn\fP-th month.
-+(Used in
-+.B %b
-+.BR strftime (3)
-+conversion specification.)
- .TP
- .BR RADIXCHAR \ (LC_NUMERIC)
- Return radix character (decimal dot, decimal comma, etc.).
+ .B %S
+ The second as a decimal number (range 00 to 60).
 -- 
 2.1.4
 
