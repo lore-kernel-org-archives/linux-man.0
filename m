@@ -1,143 +1,97 @@
-Return-Path: <SRS0=kXBo=4F=vger.kernel.org=linux-man-owner@kernel.org>
+Return-Path: <SRS0=whSi=4G=vger.kernel.org=linux-man-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-9.9 required=3.0 tests=DKIMWL_WL_HIGH,DKIM_SIGNED,
-	DKIM_VALID,DKIM_VALID_AU,HEADER_FROM_DIFFERENT_DOMAINS,INCLUDES_PATCH,
-	MAILING_LIST_MULTI,SIGNED_OFF_BY,SPF_HELO_NONE,SPF_PASS,URIBL_BLOCKED,
-	USER_AGENT_GIT autolearn=unavailable autolearn_force=no version=3.4.0
+X-Spam-Status: No, score=-0.9 required=3.0 tests=DKIMWL_WL_HIGH,DKIM_SIGNED,
+	DKIM_VALID,DKIM_VALID_AU,HEADER_FROM_DIFFERENT_DOMAINS,MAILING_LIST_MULTI,
+	SPF_HELO_NONE,SPF_PASS autolearn=no autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 192B4C34024
-	for <linux-man@archiver.kernel.org>; Mon, 17 Feb 2020 17:31:30 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id EB28CC34033
+	for <linux-man@archiver.kernel.org>; Tue, 18 Feb 2020 09:52:10 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.kernel.org (Postfix) with ESMTP id E540E20718
-	for <linux-man@archiver.kernel.org>; Mon, 17 Feb 2020 17:31:29 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTP id B8D9620659
+	for <linux-man@archiver.kernel.org>; Tue, 18 Feb 2020 09:52:10 +0000 (UTC)
 Authentication-Results: mail.kernel.org;
-	dkim=pass (1024-bit key) header.d=redhat.com header.i=@redhat.com header.b="PSFsu9Bq"
+	dkim=pass (1024-bit key) header.d=redhat.com header.i=@redhat.com header.b="Lp6xEtfC"
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1728575AbgBQRb3 (ORCPT <rfc822;linux-man@archiver.kernel.org>);
-        Mon, 17 Feb 2020 12:31:29 -0500
-Received: from us-smtp-1.mimecast.com ([207.211.31.81]:29331 "EHLO
-        us-smtp-delivery-1.mimecast.com" rhost-flags-OK-OK-OK-FAIL)
-        by vger.kernel.org with ESMTP id S1728054AbgBQRb3 (ORCPT
-        <rfc822;linux-man@vger.kernel.org>); Mon, 17 Feb 2020 12:31:29 -0500
+        id S1726264AbgBRJwK (ORCPT <rfc822;linux-man@archiver.kernel.org>);
+        Tue, 18 Feb 2020 04:52:10 -0500
+Received: from us-smtp-delivery-1.mimecast.com ([207.211.31.120]:21571 "EHLO
+        us-smtp-1.mimecast.com" rhost-flags-OK-OK-OK-FAIL) by vger.kernel.org
+        with ESMTP id S1726199AbgBRJwK (ORCPT
+        <rfc822;linux-man@vger.kernel.org>); Tue, 18 Feb 2020 04:52:10 -0500
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
-        s=mimecast20190719; t=1581960687;
+        s=mimecast20190719; t=1582019529;
         h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
-         to:to:cc:cc:mime-version:mime-version:
-         content-transfer-encoding:content-transfer-encoding;
-        bh=RDNr8uSJFx59Jhf7UFuMY4MdIqV6VZNKPmJEIQeiPFg=;
-        b=PSFsu9BqksDSDC5Xsvpv34YO/dsbThoB1edttJVfTIBLFyqR98G0prdEtrW+6G1zAlH+6a
-        bZSjGPiY97UCawkgNDVUm5fZuOTXNOaamvREoyIYsJOKsvsg8IIER1KP+W1gAxl06NyxDU
-        HtxnIy4PR1MRCV3Tx0oh6CHqZWgD5Ms=
-Received: from mail-wm1-f72.google.com (mail-wm1-f72.google.com
- [209.85.128.72]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-395-yGY72TkzOg6wpjCrhVFzLA-1; Mon, 17 Feb 2020 12:31:25 -0500
-X-MC-Unique: yGY72TkzOg6wpjCrhVFzLA-1
-Received: by mail-wm1-f72.google.com with SMTP id 7so51568wmf.9
-        for <linux-man@vger.kernel.org>; Mon, 17 Feb 2020 09:31:25 -0800 (PST)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20161025;
-        h=x-gm-message-state:from:to:cc:subject:date:message-id:mime-version
-         :content-transfer-encoding;
-        bh=RDNr8uSJFx59Jhf7UFuMY4MdIqV6VZNKPmJEIQeiPFg=;
-        b=KBRnKdnwZnXBXx/s87HBO/6Co5bk0vA9kfNWzuaNdeuiJuS1TgOWU4rsSl31HiOguH
-         lGOgFzguONTE9JTPvLxaqHNywCTmXl8LE892z0alqmHw0Vj15vNf/V1/3ZMUhR7puj+9
-         QeSGD8MF51iyNZ0FuP/8wcIavW6gBQP7Bygb0aR1ZZqgPdMGgzLI7V/1q/H53/zM71+Z
-         nYamJYaUbvvtBd3/cSrfllDapDnGOoPxQI6+SuAe1g4kP758nqm8M8A+24/pFVFyyeTB
-         Q4cJ8lO+XmHEFnlUgZzLVr8ct5jdqKyxlo8SfddW6aJLkJSVKGaqjrgVb/Tiaui9yeUT
-         3Jjg==
-X-Gm-Message-State: APjAAAVYENAHvfST1/csQI0uPRYeeTzd+/SYpr3vtIN92wIbERkXZech
-        l0C7M6qJ5ORBen6BWR+KSeayJ1HZ1un9lS+ZmGE0tEmZB2Q3jS04SVU7y1mBwY/A52xYWrLo3hC
-        s8fpqTYI8ISMtUMDR/hij
-X-Received: by 2002:a1c:a9c4:: with SMTP id s187mr83154wme.97.1581960684884;
-        Mon, 17 Feb 2020 09:31:24 -0800 (PST)
-X-Google-Smtp-Source: APXvYqydEgIaLAMeg8L3wmkxuEFr+1Usg0RMHSX1PoJkBi8Zw0lHfES2eqo1OOcB+81A9ChrE+B7Jw==
-X-Received: by 2002:a1c:a9c4:: with SMTP id s187mr83076wme.97.1581960683665;
-        Mon, 17 Feb 2020 09:31:23 -0800 (PST)
-Received: from steredhat.redhat.com (host209-4-dynamic.27-79-r.retail.telecomitalia.it. [79.27.4.209])
-        by smtp.gmail.com with ESMTPSA id b13sm1924870wrq.48.2020.02.17.09.31.22
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Mon, 17 Feb 2020 09:31:23 -0800 (PST)
-From:   Stefano Garzarella <sgarzare@redhat.com>
-To:     mtk.manpages@gmail.com
-Cc:     linux-man@vger.kernel.org, Dexuan Cui <decui@microsoft.com>,
-        Stefan Hajnoczi <stefanha@redhat.com>,
-        Jorgen Hansen <jhansen@vmware.com>, netdev@vger.kernel.org
-Subject: [PATCH v3] vsock.7: add VMADDR_CID_LOCAL description
-Date:   Mon, 17 Feb 2020 18:31:21 +0100
-Message-Id: <20200217173121.159132-1-sgarzare@redhat.com>
-X-Mailer: git-send-email 2.24.1
+         to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+         in-reply-to:in-reply-to:references:references;
+        bh=zvsrL/rJ3m5DxZHCK8x3pAj/hU9zeFpWdJsILNtPNRY=;
+        b=Lp6xEtfCqy5I5zpIrKzB6U4D7UK1oHh9YqCRxmPmRnto+dPc7KDgoYrSVsoU4+UozQApeZ
+        kO2CI7Qii75rrOfbKjcI9STtk/I7oXWsNNqAgIWEUtmv3JFUqzQeI76a6PnWcHCH8dD3lp
+        kxcNHO3smHDVeNMK910fEArbQHx7/ts=
+Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
+ [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
+ us-mta-381-cOSagk7CPtOvwQsbSgY55Q-1; Tue, 18 Feb 2020 04:52:06 -0500
+X-MC-Unique: cOSagk7CPtOvwQsbSgY55Q-1
+Received: from smtp.corp.redhat.com (int-mx07.intmail.prod.int.phx2.redhat.com [10.5.11.22])
+        (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
+        (No client certificate requested)
+        by mimecast-mx01.redhat.com (Postfix) with ESMTPS id D2540107ACC4;
+        Tue, 18 Feb 2020 09:52:04 +0000 (UTC)
+Received: from localhost (unknown [10.36.118.13])
+        by smtp.corp.redhat.com (Postfix) with ESMTP id 630E51001281;
+        Tue, 18 Feb 2020 09:52:04 +0000 (UTC)
+Date:   Fri, 14 Feb 2020 19:35:52 +0000
+From:   Stefan Hajnoczi <stefanha@redhat.com>
+To:     Stefano Garzarella <sgarzare@redhat.com>
+Cc:     mtk.manpages@gmail.com, Jorgen Hansen <jhansen@vmware.com>,
+        linux-man@vger.kernel.org, Dexuan Cui <decui@microsoft.com>,
+        netdev@vger.kernel.org
+Subject: Re: [PATCH v2] vsock.7: add VMADDR_CID_LOCAL description
+Message-ID: <20200214193552.GA543933@stefanha-x1.localdomain>
+References: <20200214130749.126603-1-sgarzare@redhat.com>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+In-Reply-To: <20200214130749.126603-1-sgarzare@redhat.com>
+X-Scanned-By: MIMEDefang 2.84 on 10.5.11.22
+X-Mimecast-Spam-Score: 0
+X-Mimecast-Originator: redhat.com
+Content-Type: multipart/signed; micalg=pgp-sha256;
+        protocol="application/pgp-signature"; boundary="0OAP2g/MAC+5xKAE"
+Content-Disposition: inline
 Sender: linux-man-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-man.vger.kernel.org>
 X-Mailing-List: linux-man@vger.kernel.org
 
-Linux 5.6 added the new well-known VMADDR_CID_LOCAL for
-local communication.
+--0OAP2g/MAC+5xKAE
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
 
-This patch explains how to use it and remove the legacy
-VMADDR_CID_RESERVED no longer available.
+On Fri, Feb 14, 2020 at 02:07:49PM +0100, Stefano Garzarella wrote:
+> @@ -164,6 +164,16 @@ Consider using
+>  .B VMADDR_CID_ANY
+>  when binding instead of getting the local CID with
+>  .BR IOCTL_VM_SOCKETS_GET_LOCAL_CID .
+> +.SS Local communication
+> +The
 
-Reviewed-by: Jorgen Hansen <jhansen@vmware.com>
-Signed-off-by: Stefano Garzarella <sgarzare@redhat.com>
----
-v3:
-    * rephrased "Previous versions" part [Jorgen]
-v2:
-    * rephrased "Local communication" description [Stefan]
-    * added a mention of previous versions that supported
-      loopback only in the guest [Stefan]
----
- man7/vsock.7 | 19 +++++++++++++++++--
- 1 file changed, 17 insertions(+), 2 deletions(-)
+"The" is unnatural here, I don't think native speakers would use it.
+Simply saying "VMADDR_CID_LOCAL (1) directs packets ..." is more common.
 
-diff --git a/man7/vsock.7 b/man7/vsock.7
-index c5ffcf07d..219e3505f 100644
---- a/man7/vsock.7
-+++ b/man7/vsock.7
-@@ -127,8 +127,8 @@ There are several special addresses:
- means any address for binding;
- .B VMADDR_CID_HYPERVISOR
- (0) is reserved for services built into the hypervisor;
--.B VMADDR_CID_RESERVED
--(1) must not be used;
-+.B VMADDR_CID_LOCAL
-+(1) is the well-known address for local communication (loopback);
- .B VMADDR_CID_HOST
- (2)
- is the well-known address of the host.
-@@ -164,6 +164,16 @@ Consider using
- .B VMADDR_CID_ANY
- when binding instead of getting the local CID with
- .BR IOCTL_VM_SOCKETS_GET_LOCAL_CID .
-+.SS Local communication
-+The
-+.B VMADDR_CID_LOCAL
-+(1) directs packets to the same host that generated them. This is useful
-+for testing applications on a single host and for debugging.
-+.PP
-+The local CID obtained with
-+.BR IOCTL_VM_SOCKETS_GET_LOCAL_CID
-+can be used for the same purpose, but it is preferable to use
-+.B VMADDR_CID_LOCAL .
- .SH ERRORS
- .TP
- .B EACCES
-@@ -222,6 +232,11 @@ are valid.
- Support for VMware (VMCI) has been available since Linux 3.9.
- KVM (virtio) is supported since Linux 4.8.
- Hyper-V is supported since Linux 4.14.
-+.PP
-+VMADDR_CID_LOCAL is supported since Linux 5.6.
-+Local communication in the guest and on the host is available since Linux 5.6.
-+Previous versions only supported local communication within a guest
-+(not on the host), and only with some transports (VMCI and virtio).
- .SH SEE ALSO
- .BR bind (2),
- .BR connect (2),
--- 
-2.24.1
+--0OAP2g/MAC+5xKAE
+Content-Type: application/pgp-signature; name="signature.asc"
+
+-----BEGIN PGP SIGNATURE-----
+
+iQEzBAEBCAAdFiEEhpWov9P5fNqsNXdanKSrs4Grc8gFAl5G9pgACgkQnKSrs4Gr
+c8i82gf+K9fzbOqDceR1Nx1a6zEZywNQPaHSVFjjqMRWfewDVDNXBd6EtoAF05to
+0/eD5F3Yo2605vNKPorNsrYWjxm5bNtri/UIM9D76Eg8PzusPSiW3DoIXncQjPYk
+QPJPraRmUZBGS2+UbIN7PJ/rfSeViAF+OcG5/XUzXI9Hw1MXlI1ihm/YUNKHUEll
+RvArBvIcPLJxpUctPPecYm52FxQsK4m+xtEUrdhqeWGWEmCTnUBAqUAxa2i0Lqe+
+HzgdEZCHmeIG6/c9JQfXUK1IQmonCMr9PkMvNsUHqtfbieUv1JxLympB7+zxqkgL
+DADZU1vuLJBYPY6oF7CCDPqSOBTCsQ==
+=UpMZ
+-----END PGP SIGNATURE-----
+
+--0OAP2g/MAC+5xKAE--
 
