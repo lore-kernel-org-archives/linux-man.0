@@ -1,97 +1,280 @@
-Return-Path: <SRS0=Cqw+=4C=vger.kernel.org=linux-man-owner@kernel.org>
+Return-Path: <SRS0=kXBo=4F=vger.kernel.org=linux-man-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-9.6 required=3.0 tests=DKIM_SIGNED,DKIM_VALID,
-	DKIM_VALID_AU,FREEMAIL_FORGED_FROMDOMAIN,FREEMAIL_FROM,
-	HEADER_FROM_DIFFERENT_DOMAINS,INCLUDES_PATCH,MAILING_LIST_MULTI,SIGNED_OFF_BY,
-	SPF_HELO_NONE,SPF_PASS,USER_AGENT_GIT autolearn=ham autolearn_force=no
-	version=3.4.0
+X-Spam-Status: No, score=-7.2 required=3.0 tests=HEADER_FROM_DIFFERENT_DOMAINS,
+	MAILING_LIST_MULTI,MENTIONS_GIT_HOSTING,SPF_HELO_NONE,SPF_PASS,URIBL_BLOCKED,
+	USER_AGENT_SANE_1 autolearn=ham autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 7E45FC3B1A1
-	for <linux-man@archiver.kernel.org>; Fri, 14 Feb 2020 17:06:13 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id A30FEC7619B
+	for <linux-man@archiver.kernel.org>; Mon, 17 Feb 2020 08:02:25 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.kernel.org (Postfix) with ESMTP id 4E240217F4
-	for <linux-man@archiver.kernel.org>; Fri, 14 Feb 2020 17:06:13 +0000 (UTC)
-Authentication-Results: mail.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="YMESWuIs"
+	by mail.kernel.org (Postfix) with ESMTP id 6FEBB20718
+	for <linux-man@archiver.kernel.org>; Mon, 17 Feb 2020 08:02:25 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S2389231AbgBNRGK (ORCPT <rfc822;linux-man@archiver.kernel.org>);
-        Fri, 14 Feb 2020 12:06:10 -0500
-Received: from mail-lj1-f193.google.com ([209.85.208.193]:44335 "EHLO
-        mail-lj1-f193.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S2392462AbgBNRGJ (ORCPT
-        <rfc822;linux-man@vger.kernel.org>); Fri, 14 Feb 2020 12:06:09 -0500
-Received: by mail-lj1-f193.google.com with SMTP id q8so11468039ljj.11;
-        Fri, 14 Feb 2020 09:06:08 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20161025;
-        h=from:to:cc:subject:date:message-id;
-        bh=U+GOvbpQG5UqF/JyIXafr2HFQH54O+9fIORiMKWoN9w=;
-        b=YMESWuIsUJerFKvWLzO+dCkm5MiLYBbLAcFgQcIzq9b/M/3DRpgTeBbsCDYMZw1MTg
-         GWb1eUmS46moMBwNnYSrJcKmCMlo4IIrLg/LUME9UiZ5R2p8sc3tgmCXb9qdJKbQgkLG
-         IM4FA/eDiQ7A7yVB8bJugbDZ63nU0R63pcsUBIlOBz8je5ruhWRObh3krpKpnU92OI7J
-         K8+IauQXTno4qt0rtDp/urYROl2hi89kZiHU/HPrk+SDFfg+FNyKSp3KIg73mCYBEmBj
-         0DkI1N/bfwyAhjW5W8cV4bXWDDEYt83qN0Mu+fMZrkdxgkn8WU1EfMa2GEaBQYm4a1Wn
-         0Oqg==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20161025;
-        h=x-gm-message-state:from:to:cc:subject:date:message-id;
-        bh=U+GOvbpQG5UqF/JyIXafr2HFQH54O+9fIORiMKWoN9w=;
-        b=SzSn2LesVV+w2lSTMgaZp044DA+pVWmmch05ekiH7wHeYNIGU9oPu7twwG/arbisZG
-         V6d7BlX3zNJfepurrcPHV1k0ZhXktltA9L0Qvc1d09+oDd8H0pgxJFInu0zgSOl1KqFM
-         +8NPklkOEW8s5TvYh19ZURl42bDoh4Zj3v27Ds8pF3wXEwffFS/uHtEpX9GRntGf8l3L
-         +oQkjYUPE7/T/t2/q3KzVEXMXRlhPv6BPwYvk8YuhkxGy7x6G4QeFKQhHSfjvl0/gUOt
-         65Z1fi598w+HLg2LZLR0VheCyWnQN8gWioeQOsbacp5S9RQ6XVBCOWPcmhv+l+JUm/Hi
-         Ud4A==
-X-Gm-Message-State: APjAAAUQw8mdpW7NFT7lPFfw3EvbhDHfK1kar/wJa91Ldpqzc0QzrAQ4
-        xstEGuEW9p1sK4YqwTDIbAk=
-X-Google-Smtp-Source: APXvYqzjC8iNkYfJyuOtvpZsAh//9ILGI/ZxOKZbpipy8WkGWX6GW6NcDhuwKtP4Mxt4VBxDPawlRQ==
-X-Received: by 2002:a2e:9587:: with SMTP id w7mr2704208ljh.42.1581699967362;
-        Fri, 14 Feb 2020 09:06:07 -0800 (PST)
-Received: from localhost.localdomain.localdomain ([131.228.2.21])
-        by smtp.gmail.com with ESMTPSA id p12sm3217470lfc.43.2020.02.14.09.06.05
-        (version=TLS1_2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128/128);
-        Fri, 14 Feb 2020 09:06:06 -0800 (PST)
-From:   Li Xinhai <lixinhai.lxh@gmail.com>
-To:     mtk.manpages@gmail.com
-Cc:     linux-man@vger.kernel.org, linux-api@vger.kernel.org,
-        linux-mm@kvack.org, akpm@linux-foundation.org
-Subject: [PATCH manpage] mbind.2: remove note about MPOL_MF_STRICT been ignored
-Date:   Fri, 14 Feb 2020 17:03:58 +0000
-Message-Id: <1581699838-7483-1-git-send-email-lixinhai.lxh@gmail.com>
-X-Mailer: git-send-email 1.8.3.1
+        id S1727089AbgBQICZ (ORCPT <rfc822;linux-man@archiver.kernel.org>);
+        Mon, 17 Feb 2020 03:02:25 -0500
+Received: from mga11.intel.com ([192.55.52.93]:16991 "EHLO mga11.intel.com"
+        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
+        id S1726267AbgBQICY (ORCPT <rfc822;linux-man@vger.kernel.org>);
+        Mon, 17 Feb 2020 03:02:24 -0500
+X-Amp-Result: SKIPPED(no attachment in message)
+X-Amp-File-Uploaded: False
+Received: from fmsmga004.fm.intel.com ([10.253.24.48])
+  by fmsmga102.fm.intel.com with ESMTP/TLS/DHE-RSA-AES256-GCM-SHA384; 17 Feb 2020 00:02:23 -0800
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="5.70,451,1574150400"; 
+   d="scan'208";a="258189636"
+Received: from linux.intel.com ([10.54.29.200])
+  by fmsmga004.fm.intel.com with ESMTP; 17 Feb 2020 00:02:22 -0800
+Received: from [10.125.252.180] (abudanko-mobl.ccr.corp.intel.com [10.125.252.180])
+        by linux.intel.com (Postfix) with ESMTP id 9B7B558060A;
+        Mon, 17 Feb 2020 00:02:16 -0800 (PST)
+From:   Alexey Budankov <alexey.budankov@linux.intel.com>
+Subject: [PATCH v7 00/12] Introduce CAP_PERFMON to secure system performance
+ monitoring and observability
+To:     James Morris <jmorris@namei.org>, Serge Hallyn <serge@hallyn.com>,
+        Stephen Smalley <sds@tycho.nsa.gov>,
+        Peter Zijlstra <peterz@infradead.org>,
+        Arnaldo Carvalho de Melo <acme@kernel.org>,
+        Ingo Molnar <mingo@kernel.org>,
+        "joonas.lahtinen@linux.intel.com" <joonas.lahtinen@linux.intel.com>,
+        Alexei Starovoitov <ast@kernel.org>,
+        Will Deacon <will@kernel.org>,
+        Paul Mackerras <paulus@samba.org>,
+        Helge Deller <deller@gmx.de>,
+        Thomas Gleixner <tglx@linutronix.de>
+Cc:     Andi Kleen <ak@linux.intel.com>,
+        Stephane Eranian <eranian@google.com>,
+        Igor Lubashev <ilubashe@akamai.com>,
+        Jiri Olsa <jolsa@redhat.com>,
+        linux-kernel <linux-kernel@vger.kernel.org>,
+        "intel-gfx@lists.freedesktop.org" <intel-gfx@lists.freedesktop.org>,
+        "linux-security-module@vger.kernel.org" 
+        <linux-security-module@vger.kernel.org>,
+        "selinux@vger.kernel.org" <selinux@vger.kernel.org>,
+        linux-arm-kernel <linux-arm-kernel@lists.infradead.org>,
+        "linuxppc-dev@lists.ozlabs.org" <linuxppc-dev@lists.ozlabs.org>,
+        "linux-parisc@vger.kernel.org" <linux-parisc@vger.kernel.org>,
+        oprofile-list@lists.sf.net,
+        "linux-doc@vger.kernel.org" <linux-doc@vger.kernel.org>,
+        linux-man@vger.kernel.org
+Organization: Intel Corp.
+Message-ID: <c8de937a-0b3a-7147-f5ef-69f467e87a13@linux.intel.com>
+Date:   Mon, 17 Feb 2020 11:02:15 +0300
+User-Agent: Mozilla/5.0 (Windows NT 10.0; WOW64; rv:68.0) Gecko/20100101
+ Thunderbird/68.5.0
+MIME-Version: 1.0
+Content-Type: text/plain; charset=utf-8
+Content-Language: en-US
+Content-Transfer-Encoding: 7bit
 Sender: linux-man-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-man.vger.kernel.org>
 X-Mailing-List: linux-man@vger.kernel.org
 
-Current code ignores the MPOL_MF_STRICT when handling hugetlb mapping,
-now patch([1]) handles MPOL_MF_STRICT in same semantic as other mapping.
-So, we can remove the note about 'MPOL_MF_STRICT is ignored on huge page
-mappings', and no changes to other part of man-page.
 
-[1] https://lore.kernel.org/linux-mm/1581559627-6206-1-git-send-email-lixinhai.lxh@gmail.com/
+Currently access to perf_events, i915_perf and other performance
+monitoring and observability subsystems of the kernel is open only for
+a privileged process [1] with CAP_SYS_ADMIN capability enabled in the
+process effective set [2].
 
-Signed-off-by: Li Xinhai <lixinhai.lxh@gmail.com>
+This patch set introduces CAP_PERFMON capability designed to secure
+system performance monitoring and observability operations so that
+CAP_PERFMON would assist CAP_SYS_ADMIN capability in its governing role
+for performance monitoring and observability subsystems of the kernel.
+
+CAP_PERFMON intends to harden system security and integrity during
+performance monitoring and observability operations by decreasing attack
+surface that is available to a CAP_SYS_ADMIN privileged process [2].
+Providing the access to performance monitoring and observability
+operations under CAP_PERFMON capability singly, without the rest of
+CAP_SYS_ADMIN credentials, excludes chances to misuse the credentials
+and makes the operation more secure. Thus, CAP_PERFMON implements the
+principal of least privilege for performance monitoring and
+observability operations (POSIX IEEE 1003.1e: 2.2.2.39 principle of
+least privilege: A security design principle that states that a process
+or program be granted only those privileges (e.g., capabilities)
+necessary to accomplish its legitimate function, and only for the time
+that such privileges are actually required)
+
+CAP_PERFMON intends to meet the demand to secure system performance
+monitoring and observability operations for adoption in security
+sensitive, restricted, multiuser production environments (e.g. HPC
+clusters, cloud and virtual compute environments), where root or
+CAP_SYS_ADMIN credentials are not available to mass users of a system,
+and securely unblock accessibility of system performance monitoring and
+observability operations beyond root and CAP_SYS_ADMIN use cases.
+
+CAP_PERFMON intends to take over CAP_SYS_ADMIN credentials related to
+system performance monitoring and observability operations and balance
+amount of CAP_SYS_ADMIN credentials following the recommendations in
+the capabilities man page [2] for CAP_SYS_ADMIN: "Note: this capability
+is overloaded; see Notes to kernel developers, below." For backward
+compatibility reasons access to system performance monitoring and
+observability subsystems of the kernel remains open for CAP_SYS_ADMIN
+privileged processes but CAP_SYS_ADMIN capability usage for secure
+system performance monitoring and observability operations is
+discouraged with respect to the designed CAP_PERFMON capability.
+
+Possible alternative solution to this system security hardening,
+capabilities balancing task of making performance monitoring and
+observability operations more secure and accessible could be to use
+the existing CAP_SYS_PTRACE capability to govern system performance
+monitoring and observability subsystems. However CAP_SYS_PTRACE
+capability still provides users with more credentials than are
+required for secure performance monitoring and observability
+operations and this excess is avoided by the designed CAP_PERFMON.
+
+Although software running under CAP_PERFMON can not ensure avoidance of
+related hardware issues, the software can still mitigate those issues
+following the official hardware issues mitigation procedure [3]. The
+bugs in the software itself can be fixed following the standard kernel
+development process [4] to maintain and harden security of system
+performance monitoring and observability operations. Finally, the patch
+set is shaped in the way that simplifies backtracking procedure of
+possible induced issues [5] as much as possible.
+
+The patch set is for tip perf/core repository:
+git://git.kernel.org/pub/scm/linux/kernel/git/tip/tip perf/core
+sha1: fdb64822443ec9fb8c3a74b598a74790ae8d2e22
+
 ---
- man2/mbind.2 | 3 ---
- 1 file changed, 3 deletions(-)
+Changes in v7:
+- updated and extended kernel.rst and perf-security.rst documentation 
+  files with the information about CAP_PERFMON capability and its use cases
+- documented the case of double audit logging of CAP_PERFMON and CAP_SYS_ADMIN
+  capabilities on a SELinux enabled system
+Changes in v6:
+- avoided noaudit checks in perfmon_capable() to explicitly advertise
+  CAP_PERFMON usage thru audit logs to secure system performance
+  monitoring and observability
+Changes in v5:
+- renamed CAP_SYS_PERFMON to CAP_PERFMON
+- extended perfmon_capable() with noaudit checks
+Changes in v4:
+- converted perfmon_capable() into an inline function
+- made perf_events kprobes, uprobes, hw breakpoints and namespaces data
+  available to CAP_SYS_PERFMON privileged processes
+- applied perfmon_capable() to drivers/perf and drivers/oprofile
+- extended __cmd_ftrace() with support of CAP_SYS_PERFMON
+Changes in v3:
+- implemented perfmon_capable() macros aggregating required capabilities
+  checks
+Changes in v2:
+- made perf_events trace points available to CAP_SYS_PERFMON privileged
+  processes
+- made perf_event_paranoid_check() treat CAP_SYS_PERFMON equally to
+  CAP_SYS_ADMIN
+- applied CAP_SYS_PERFMON to i915_perf, bpf_trace, powerpc and parisc
+  system performance monitoring and observability related subsystems
 
-diff --git a/man2/mbind.2 b/man2/mbind.2
-index 16644ff..8c07270 100644
---- a/man2/mbind.2
-+++ b/man2/mbind.2
-@@ -471,9 +471,6 @@ Support for huge page policy was added with 2.6.16.
- For interleave policy to be effective on huge page mappings the
- policied memory needs to be tens of megabytes or larger.
- .PP
--.B MPOL_MF_STRICT
--is ignored on huge page mappings.
--.PP
- .B MPOL_MF_MOVE
- and
- .B MPOL_MF_MOVE_ALL
--- 
-1.8.3.1
+---
+Alexey Budankov (12):
+  capabilities: introduce CAP_PERFMON to kernel and user space
+  perf/core: open access to the core for CAP_PERFMON privileged process
+  perf/core: open access to probes for CAP_PERFMON privileged process
+  perf tool: extend Perf tool with CAP_PERFMON capability support
+  drm/i915/perf: open access for CAP_PERFMON privileged process
+  trace/bpf_trace: open access for CAP_PERFMON privileged process
+  powerpc/perf: open access for CAP_PERFMON privileged process
+  parisc/perf: open access for CAP_PERFMON privileged process
+  drivers/perf: open access for CAP_PERFMON privileged process
+  drivers/oprofile: open access for CAP_PERFMON privileged process
+  doc/admin-guide: update perf-security.rst with CAP_PERFMON information
+  doc/admin-guide: update kernel.rst with CAP_PERFMON information
 
+ Documentation/admin-guide/perf-security.rst | 65 +++++++++++++--------
+ Documentation/admin-guide/sysctl/kernel.rst | 16 +++--
+ arch/parisc/kernel/perf.c                   |  2 +-
+ arch/powerpc/perf/imc-pmu.c                 |  4 +-
+ drivers/gpu/drm/i915/i915_perf.c            | 13 ++---
+ drivers/oprofile/event_buffer.c             |  2 +-
+ drivers/perf/arm_spe_pmu.c                  |  4 +-
+ include/linux/capability.h                  |  4 ++
+ include/linux/perf_event.h                  |  6 +-
+ include/uapi/linux/capability.h             |  8 ++-
+ kernel/events/core.c                        |  6 +-
+ kernel/trace/bpf_trace.c                    |  2 +-
+ security/selinux/include/classmap.h         |  4 +-
+ tools/perf/builtin-ftrace.c                 |  5 +-
+ tools/perf/design.txt                       |  3 +-
+ tools/perf/util/cap.h                       |  4 ++
+ tools/perf/util/evsel.c                     | 10 ++--
+ tools/perf/util/util.c                      |  1 +
+ 18 files changed, 98 insertions(+), 61 deletions(-)
+
+---
+Validation (Intel Skylake, 8 cores, Fedora 29, 5.5.0-rc3+, x86_64):
+
+libcap library [6], [7], [8] and Perf tool can be used to apply
+CAP_PERFMON capability for secure system performance monitoring and
+observability beyond the scope permitted by the system wide
+perf_event_paranoid kernel setting [9] and below are the steps for
+evaluation:
+
+  - patch, build and boot the kernel
+  - patch, build Perf tool e.g. to /home/user/perf
+  ...
+  # git clone git://git.kernel.org/pub/scm/libs/libcap/libcap.git libcap
+  # pushd libcap
+  # patch libcap/include/uapi/linux/capabilities.h with [PATCH 1]
+  # make
+  # pushd progs
+  # ./setcap "cap_perfmon,cap_sys_ptrace,cap_syslog=ep" /home/user/perf
+  # ./setcap -v "cap_perfmon,cap_sys_ptrace,cap_syslog=ep" /home/user/perf
+  /home/user/perf: OK
+  # ./getcap /home/user/perf
+  /home/user/perf = cap_sys_ptrace,cap_syslog,cap_perfmon+ep
+  # echo 2 > /proc/sys/kernel/perf_event_paranoid
+  # cat /proc/sys/kernel/perf_event_paranoid 
+  2
+  ...
+  $ /home/user/perf top
+    ... works as expected ...
+  $ cat /proc/`pidof perf`/status
+  Name:	perf
+  Umask:	0002
+  State:	S (sleeping)
+  Tgid:	2958
+  Ngid:	0
+  Pid:	2958
+  PPid:	9847
+  TracerPid:	0
+  Uid:	500	500	500	500
+  Gid:	500	500	500	500
+  FDSize:	256
+  ...
+  CapInh:	0000000000000000
+  CapPrm:	0000004400080000
+  CapEff:	0000004400080000 => 01000100 00000000 00001000 00000000 00000000
+                                     cap_perfmon,cap_sys_ptrace,cap_syslog
+  CapBnd:	0000007fffffffff
+  CapAmb:	0000000000000000
+  NoNewPrivs:	0
+  Seccomp:	0
+  Speculation_Store_Bypass:	thread vulnerable
+  Cpus_allowed:	ff
+  Cpus_allowed_list:	0-7
+  ...
+
+Usage of cap_perfmon effectively avoids unused credentials excess:
+
+- with cap_sys_admin:
+  CapEff:	0000007fffffffff => 01111111 11111111 11111111 11111111 11111111
+
+- with cap_perfmon:
+  CapEff:	0000004400080000 => 01000100 00000000 00001000 00000000 00000000
+                                    38   34               19
+                               perfmon   syslog           sys_ptrace
+
+---
+[1] https://www.kernel.org/doc/html/latest/admin-guide/perf-security.html
+[2] http://man7.org/linux/man-pages/man7/capabilities.7.html
+[3] https://www.kernel.org/doc/html/latest/process/embargoed-hardware-issues.html
+[4] https://www.kernel.org/doc/html/latest/admin-guide/security-bugs.html
+[5] https://www.kernel.org/doc/html/latest/process/management-style.html#decisions
+[6] http://man7.org/linux/man-pages/man8/setcap.8.html
+[7] https://git.kernel.org/pub/scm/libs/libcap/libcap.git
+[8] https://sites.google.com/site/fullycapable/, posix_1003.1e-990310.pdf
+[9] http://man7.org/linux/man-pages/man2/perf_event_open.2.html
