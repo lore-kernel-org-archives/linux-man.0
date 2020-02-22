@@ -1,451 +1,309 @@
-Return-Path: <SRS0=pDQV=4J=vger.kernel.org=linux-man-owner@kernel.org>
+Return-Path: <SRS0=dSu4=4K=vger.kernel.org=linux-man-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-17.4 required=3.0 tests=DKIMWL_WL_MED,DKIM_SIGNED,
-	DKIM_VALID,DKIM_VALID_AU,HEADER_FROM_DIFFERENT_DOMAINS,INCLUDES_PATCH,
-	MAILING_LIST_MULTI,SIGNED_OFF_BY,SPF_HELO_NONE,SPF_PASS,USER_AGENT_GIT,
-	USER_IN_DEF_DKIM_WL autolearn=unavailable autolearn_force=no version=3.4.0
+X-Spam-Status: No, score=-2.3 required=3.0 tests=HEADER_FROM_DIFFERENT_DOMAINS,
+	MAILING_LIST_MULTI,SPF_HELO_NONE,SPF_PASS,USER_AGENT_SANE_1 autolearn=no
+	autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 360C4C35646
-	for <linux-man@archiver.kernel.org>; Fri, 21 Feb 2020 17:43:04 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 48A1AC35641
+	for <linux-man@archiver.kernel.org>; Sat, 22 Feb 2020 01:17:28 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.kernel.org (Postfix) with ESMTP id ED49D24653
-	for <linux-man@archiver.kernel.org>; Fri, 21 Feb 2020 17:43:03 +0000 (UTC)
-Authentication-Results: mail.kernel.org;
-	dkim=pass (2048-bit key) header.d=google.com header.i=@google.com header.b="vbF7GVSL"
+	by mail.kernel.org (Postfix) with ESMTP id 10E8A2071E
+	for <linux-man@archiver.kernel.org>; Sat, 22 Feb 2020 01:17:28 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1726762AbgBURnD (ORCPT <rfc822;linux-man@archiver.kernel.org>);
-        Fri, 21 Feb 2020 12:43:03 -0500
-Received: from mail-pl1-f201.google.com ([209.85.214.201]:49503 "EHLO
-        mail-pl1-f201.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1728957AbgBURm4 (ORCPT
-        <rfc822;linux-man@vger.kernel.org>); Fri, 21 Feb 2020 12:42:56 -0500
-Received: by mail-pl1-f201.google.com with SMTP id w17so1522626plq.16
-        for <linux-man@vger.kernel.org>; Fri, 21 Feb 2020 09:42:54 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=google.com; s=20161025;
-        h=date:in-reply-to:message-id:mime-version:references:subject:from:to
-         :cc;
-        bh=mMN2AJ2iVZyAfP6/cmGGBfcy1GqdY+F7I2vUH989Hak=;
-        b=vbF7GVSLa2GKvEaaLuBD1ulkJQbljqLLevyQMZ41z2dvTatk7+XWBYOdsVrYkoUXfB
-         tMxdUtlrwGB+GR+Yukyqd60lgptMIpPOuyPaYMUkELqiUOqreC8BOeC7cA38/NGrpMZB
-         uoy3kOeInfk+obXYHfcsniPTB9oj4NzW8BfqvhBdKIfr+zsNfZfsk3mxnLDitFurYfSJ
-         4XSpfobL8p3pJjgwYaHxdhMhqrHJIErNWXQchxIQtb5gtUOqXcHYbjkOsEEG8fcQQ6oi
-         ZicJYGqTrv9e0pp66CCfvWIJlA+N/UOtbAl3McnHUNCgfORT8zATiW2Oe+rchvcc43M5
-         2HkA==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20161025;
-        h=x-gm-message-state:date:in-reply-to:message-id:mime-version
-         :references:subject:from:to:cc;
-        bh=mMN2AJ2iVZyAfP6/cmGGBfcy1GqdY+F7I2vUH989Hak=;
-        b=Z5XEqtBLS8uPIH1Dep8dgB4nS/QXUVYnF9M60rr93gdR1z5mpqTzGsZ2wEdj4khq9h
-         MQr+noxgakmYKGPFfM1qLO6WEMDvwiwDdyKUH29lZl3Z/sxfKoLLyEKfyayqZ/QfYDOP
-         rF6sdbOOtou3+NA3HYBQ7lFm5exA/qOamYCVna9zUCJleeoWS2t5K5HDkBHT6k4+Hr/I
-         hyUrGd3O1jiZGOdQeQeBrFwiC8MU1dfzMzRjdMeE2ZBz2B6XUKZx+1qnjeNiAWkwdXjt
-         GBh/sh+nBDkWlD0Dt95NKPUSvO6pHO5m2rbeWU+wFn/r8wSkW7NZf+NCwn/cbLbtFtvL
-         xV0Q==
-X-Gm-Message-State: APjAAAWmPnLyUCZb2iMfK5MFFhiYxPVMZPlDfhrpuyCHq+xWnKWpKJnP
-        OKg3Yu3TZtjWgUYpK30HqE3fT02pBtI9
-X-Google-Smtp-Source: APXvYqwk3sLiB1JWwEJHOu+U1s/5JDlU6kI4s7NhCkFnx9h6ZfyvKC8HTZzgYjwIdDSUlM0AhDZzlQ48xHcg
-X-Received: by 2002:a63:d49:: with SMTP id 9mr38311175pgn.249.1582306974264;
- Fri, 21 Feb 2020 09:42:54 -0800 (PST)
-Date:   Fri, 21 Feb 2020 09:42:47 -0800
-In-Reply-To: <20200221174248.244748-1-bgeffon@google.com>
-Message-Id: <20200221174248.244748-2-bgeffon@google.com>
-Mime-Version: 1.0
-References: <20200221174248.244748-1-bgeffon@google.com>
-X-Mailer: git-send-email 2.25.0.265.gbab2e86ba0-goog
-Subject: [PATCH v7 2/2] selftest: Add MREMAP_DONTUNMAP selftest.
-From:   Brian Geffon <bgeffon@google.com>
-To:     Andrew Morton <akpm@linux-foundation.org>
-Cc:     "Michael S . Tsirkin" <mst@redhat.com>,
-        Brian Geffon <bgeffon@google.com>,
-        Arnd Bergmann <arnd@arndb.de>, linux-kernel@vger.kernel.org,
-        linux-mm@kvack.org, linux-api@vger.kernel.org,
-        Andy Lutomirski <luto@amacapital.net>,
-        Will Deacon <will@kernel.org>,
-        Andrea Arcangeli <aarcange@redhat.com>,
-        Sonny Rao <sonnyrao@google.com>,
-        Minchan Kim <minchan@kernel.org>,
-        Joel Fernandes <joel@joelfernandes.org>,
-        Yu Zhao <yuzhao@google.com>,
-        Jesse Barnes <jsbarnes@google.com>,
-        Florian Weimer <fweimer@redhat.com>,
-        "Kirill A . Shutemov" <kirill@shutemov.name>,
-        mtk.manpages@gmail.com, linux-man@vger.kernel.org
-Content-Type: text/plain; charset="UTF-8"
+        id S1727167AbgBVBR1 (ORCPT <rfc822;linux-man@archiver.kernel.org>);
+        Fri, 21 Feb 2020 20:17:27 -0500
+Received: from newman.eecs.umich.edu ([141.212.113.18]:46032 "EHLO
+        newman.eecs.umich.edu" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1726912AbgBVBR1 (ORCPT
+        <rfc822;linux-man@vger.kernel.org>); Fri, 21 Feb 2020 20:17:27 -0500
+X-Greylist: delayed 771 seconds by postgrey-1.27 at vger.kernel.org; Fri, 21 Feb 2020 20:17:27 EST
+Received: from email.eecs.umich.edu (email.eecs.umich.edu [141.212.113.60])
+        by newman.eecs.umich.edu (8.14.4/8.14.4) with ESMTP id 01M14QVH026646
+        (version=TLSv1/SSLv3 cipher=DHE-RSA-AES256-GCM-SHA384 bits=256 verify=NO);
+        Fri, 21 Feb 2020 20:04:26 -0500
+Received: from email.eecs.umich.edu (localhost [127.0.0.1])
+        by email.eecs.umich.edu (8.14.4/8.13.0) with ESMTP id 01M14PwS018358;
+        Fri, 21 Feb 2020 20:04:25 -0500
+Received: from localhost (tpkelly@localhost)
+        by email.eecs.umich.edu (8.14.4/8.14.4/Submit) with ESMTP id 01M14OVd018354;
+        Fri, 21 Feb 2020 20:04:24 -0500
+Date:   Fri, 21 Feb 2020 20:04:24 -0500 (EST)
+From:   Terence Kelly <tpkelly@eecs.umich.edu>
+To:     mtk.manpages@gmail.com
+cc:     linux-man@vger.kernel.org, Christoph Hellwig <hch@lst.de>,
+        "Michael Kerrisk (man7.org)" <mtk@man7.org>
+Subject: Re: [patch]: mmap.2: New sample code: persistent data structure
+In-Reply-To: <alpine.LRH.2.21.1911260040540.10521@email.eecs.umich.edu>
+Message-ID: <alpine.LRH.2.21.2002212002221.10400@email.eecs.umich.edu>
+References: <alpine.LRH.2.21.1911260040540.10521@email.eecs.umich.edu>
+User-Agent: Alpine 2.21 (LRH 202 2017-01-01)
+MIME-Version: 1.0
+Content-Type: text/plain; charset=US-ASCII; format=flowed
 Sender: linux-man-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-man.vger.kernel.org>
 X-Mailing-List: linux-man@vger.kernel.org
 
-Add a few simple self tests for the new flag MREMAP_DONTUNMAP,
-they are simple smoke tests which also demonstrate the behavior.
 
-Signed-off-by: Brian Geffon <bgeffon@google.com>
----
- tools/testing/selftests/vm/Makefile           |   1 +
- tools/testing/selftests/vm/mremap_dontunmap.c | 313 ++++++++++++++++++
- tools/testing/selftests/vm/run_vmtests        |  15 +
- 3 files changed, 329 insertions(+)
- create mode 100644 tools/testing/selftests/vm/mremap_dontunmap.c
 
-diff --git a/tools/testing/selftests/vm/Makefile b/tools/testing/selftests/vm/Makefile
-index 9534dc2bc929..4b2b969fc3c7 100644
---- a/tools/testing/selftests/vm/Makefile
-+++ b/tools/testing/selftests/vm/Makefile
-@@ -12,6 +12,7 @@ TEST_GEN_FILES += map_fixed_noreplace
- TEST_GEN_FILES += map_populate
- TEST_GEN_FILES += mlock-random-test
- TEST_GEN_FILES += mlock2-tests
-+TEST_GEN_FILES += mremap_dontunmap
- TEST_GEN_FILES += on-fault-limit
- TEST_GEN_FILES += thuge-gen
- TEST_GEN_FILES += transhuge-stress
-diff --git a/tools/testing/selftests/vm/mremap_dontunmap.c b/tools/testing/selftests/vm/mremap_dontunmap.c
-new file mode 100644
-index 000000000000..23240ee1e384
---- /dev/null
-+++ b/tools/testing/selftests/vm/mremap_dontunmap.c
-@@ -0,0 +1,313 @@
-+// SPDX-License-Identifier: GPL-2.0
-+
-+/*
-+ * Tests for mremap w/ MREMAP_DONTUNMAP.
-+ *
-+ * Copyright 2020, Brian Geffon <bgeffon@google.com>
-+ */
-+#define _GNU_SOURCE
-+#include <sys/mman.h>
-+#include <errno.h>
-+#include <stdio.h>
-+#include <stdlib.h>
-+#include <string.h>
-+#include <stdlib.h>
-+#include <unistd.h>
-+
-+#include "../kselftest.h"
-+
-+#ifndef MREMAP_DONTUNMAP
-+#define MREMAP_DONTUNMAP 4
-+#endif
-+
-+unsigned long page_size;
-+char *page_buffer;
-+
-+static void dump_maps(void)
-+{
-+	char cmd[32];
-+
-+	snprintf(cmd, sizeof(cmd), "cat /proc/%d/maps", getpid());
-+	system(cmd);
-+}
-+
-+#define BUG_ON(condition, description)					      \
-+	do {								      \
-+		if (condition) {					      \
-+			fprintf(stderr, "[FAIL]\t%s():%d\t%s:%s\n", __func__, \
-+				__LINE__, (description), strerror(errno));    \
-+			dump_maps();					  \
-+			exit(1);					      \
-+		} 							      \
-+	} while (0)
-+
-+// Try a simple operation for to "test" for kernel support this prevents
-+// reporting tests as failed when it's run on an older kernel.
-+static int kernel_support_for_mremap_dontunmap()
-+{
-+	int ret = 0;
-+	unsigned long num_pages = 1;
-+	void *source_mapping = mmap(NULL, num_pages * page_size, PROT_NONE,
-+				    MAP_PRIVATE | MAP_ANONYMOUS, -1, 0);
-+	BUG_ON(source_mapping == MAP_FAILED, "mmap");
-+
-+	// This simple remap should only fail if MREMAP_DONTUNMAP isn't
-+	// supported.
-+	void *dest_mapping =
-+	    mremap(source_mapping, num_pages * page_size, num_pages * page_size,
-+		   MREMAP_DONTUNMAP | MREMAP_MAYMOVE, 0);
-+	if (dest_mapping == MAP_FAILED) {
-+		ret = errno;
-+	} else {
-+		BUG_ON(munmap(dest_mapping, num_pages * page_size) == -1,
-+		       "unable to unmap destination mapping");
-+	}
-+
-+	BUG_ON(munmap(source_mapping, num_pages * page_size) == -1,
-+	       "unable to unmap source mapping");
-+	return ret;
-+}
-+
-+// This helper will just validate that an entire mapping contains the expected
-+// byte.
-+static int check_region_contains_byte(void *addr, unsigned long size, char byte)
-+{
-+	BUG_ON(size & (page_size - 1),
-+	       "check_region_contains_byte expects page multiples");
-+	BUG_ON((unsigned long)addr & (page_size - 1),
-+	       "check_region_contains_byte expects page alignment");
-+
-+	memset(page_buffer, byte, page_size);
-+
-+	unsigned long num_pages = size / page_size;
-+	unsigned long i;
-+
-+	// Compare each page checking that it contains our expected byte.
-+	for (i = 0; i < num_pages; ++i) {
-+		int ret =
-+		    memcmp(addr + (i * page_size), page_buffer, page_size);
-+		if (ret) {
-+			return ret;
-+		}
-+	}
-+
-+	return 0;
-+}
-+
-+// this test validates that MREMAP_DONTUNMAP moves the pagetables while leaving
-+// the source mapping mapped.
-+static void mremap_dontunmap_simple()
-+{
-+	unsigned long num_pages = 5;
-+
-+	void *source_mapping =
-+	    mmap(NULL, num_pages * page_size, PROT_READ | PROT_WRITE,
-+		 MAP_PRIVATE | MAP_ANONYMOUS, -1, 0);
-+	BUG_ON(source_mapping == MAP_FAILED, "mmap");
-+
-+	memset(source_mapping, 'a', num_pages * page_size);
-+
-+	// Try to just move the whole mapping anywhere (not fixed).
-+	void *dest_mapping =
-+	    mremap(source_mapping, num_pages * page_size, num_pages * page_size,
-+		   MREMAP_DONTUNMAP | MREMAP_MAYMOVE, NULL);
-+	BUG_ON(dest_mapping == MAP_FAILED, "mremap");
-+
-+	// Validate that the pages have been moved, we know they were moved if
-+	// the dest_mapping contains a's.
-+	BUG_ON(check_region_contains_byte
-+	       (dest_mapping, num_pages * page_size, 'a') != 0,
-+	       "pages did not migrate");
-+	BUG_ON(check_region_contains_byte
-+	       (source_mapping, num_pages * page_size, 0) != 0,
-+	       "source should have no ptes");
-+
-+	BUG_ON(munmap(dest_mapping, num_pages * page_size) == -1,
-+	       "unable to unmap destination mapping");
-+	BUG_ON(munmap(source_mapping, num_pages * page_size) == -1,
-+	       "unable to unmap source mapping");
-+}
-+
-+// This test validates MREMAP_DONTUNMAP will move page tables to a specific
-+// destination using MREMAP_FIXED, also while validating that the source
-+// remains intact.
-+static void mremap_dontunmap_simple_fixed()
-+{
-+	unsigned long num_pages = 5;
-+
-+	// Since we want to guarantee that we can remap to a point, we will
-+	// create a mapping up front.
-+	void *dest_mapping =
-+	    mmap(NULL, num_pages * page_size, PROT_READ | PROT_WRITE,
-+		 MAP_PRIVATE | MAP_ANONYMOUS, -1, 0);
-+	BUG_ON(dest_mapping == MAP_FAILED, "mmap");
-+	memset(dest_mapping, 'X', num_pages * page_size);
-+
-+	void *source_mapping =
-+	    mmap(NULL, num_pages * page_size, PROT_READ | PROT_WRITE,
-+		 MAP_PRIVATE | MAP_ANONYMOUS, -1, 0);
-+	BUG_ON(source_mapping == MAP_FAILED, "mmap");
-+	memset(source_mapping, 'a', num_pages * page_size);
-+
-+	void *remapped_mapping =
-+	    mremap(source_mapping, num_pages * page_size, num_pages * page_size,
-+		   MREMAP_FIXED | MREMAP_DONTUNMAP | MREMAP_MAYMOVE,
-+		   dest_mapping);
-+	BUG_ON(remapped_mapping == MAP_FAILED, "mremap");
-+	BUG_ON(remapped_mapping != dest_mapping,
-+	       "mremap should have placed the remapped mapping at dest_mapping");
-+
-+	// The dest mapping will have been unmap by mremap so we expect the Xs
-+	// to be gone and replaced with a's.
-+	BUG_ON(check_region_contains_byte
-+	       (dest_mapping, num_pages * page_size, 'a') != 0,
-+	       "pages did not migrate");
-+
-+	// And the source mapping will have had its ptes dropped.
-+	BUG_ON(check_region_contains_byte
-+	       (source_mapping, num_pages * page_size, 0) != 0,
-+	       "source should have no ptes");
-+
-+	BUG_ON(munmap(dest_mapping, num_pages * page_size) == -1,
-+	       "unable to unmap destination mapping");
-+	BUG_ON(munmap(source_mapping, num_pages * page_size) == -1,
-+	       "unable to unmap source mapping");
-+}
-+
-+// This test validates that we can MREMAP_DONTUNMAP for a portion of an
-+// existing mapping.
-+static void mremap_dontunmap_partial_mapping()
-+{
-+	/*
-+	 *  source mapping:
-+	 *  --------------
-+	 *  | aaaaaaaaaa |
-+	 *  --------------
-+	 *  to become:
-+	 *  --------------
-+	 *  | aaaaa00000 |
-+	 *  --------------
-+	 *  With the destination mapping containing 5 pages of As.
-+	 *  ---------
-+	 *  | aaaaa |
-+	 *  ---------
-+	 */
-+	unsigned long num_pages = 10;
-+	void *source_mapping =
-+	    mmap(NULL, num_pages * page_size, PROT_READ | PROT_WRITE,
-+		 MAP_PRIVATE | MAP_ANONYMOUS, -1, 0);
-+	BUG_ON(source_mapping == MAP_FAILED, "mmap");
-+	memset(source_mapping, 'a', num_pages * page_size);
-+
-+	// We will grab the last 5 pages of the source and move them.
-+	void *dest_mapping =
-+	    mremap(source_mapping + (5 * page_size), 5 * page_size,
-+		   5 * page_size,
-+		   MREMAP_DONTUNMAP | MREMAP_MAYMOVE, NULL);
-+	BUG_ON(dest_mapping == MAP_FAILED, "mremap");
-+
-+	// We expect the first 5 pages of the source to contain a's and the
-+	// final 5 pages to contain zeros.
-+	BUG_ON(check_region_contains_byte(source_mapping, 5 * page_size, 'a') !=
-+	       0, "first 5 pages of source should have original pages");
-+	BUG_ON(check_region_contains_byte
-+	       (source_mapping + (5 * page_size), 5 * page_size, 0) != 0,
-+	       "final 5 pages of source should have no ptes");
-+
-+	// Finally we expect the destination to have 5 pages worth of a's.
-+	BUG_ON(check_region_contains_byte(dest_mapping, 5 * page_size, 'a') !=
-+	       0, "dest mapping should contain ptes from the source");
-+
-+	BUG_ON(munmap(dest_mapping, 5 * page_size) == -1,
-+	       "unable to unmap destination mapping");
-+	BUG_ON(munmap(source_mapping, num_pages * page_size) == -1,
-+	       "unable to unmap source mapping");
-+}
-+
-+// This test validates that we can remap over only a portion of a mapping.
-+static void mremap_dontunmap_partial_mapping_overwrite()
-+{
-+	/*
-+	 *  source mapping:
-+	 *  ---------
-+	 *  |aaaaa|
-+	 *  ---------
-+	 *  dest mapping initially:
-+	 *  -----------
-+	 *  |XXXXXXXXXX|
-+	 *  ------------
-+	 *  Source to become:
-+	 *  ---------
-+	 *  |00000|
-+	 *  ---------
-+	 *  With the destination mapping containing 5 pages of As.
-+	 *  ------------
-+	 *  |aaaaaXXXXX|
-+	 *  ------------
-+	 */
-+	void *source_mapping =
-+	    mmap(NULL, 5 * page_size, PROT_READ | PROT_WRITE,
-+		 MAP_PRIVATE | MAP_ANONYMOUS, -1, 0);
-+	BUG_ON(source_mapping == MAP_FAILED, "mmap");
-+	memset(source_mapping, 'a', 5 * page_size);
-+
-+	void *dest_mapping =
-+	    mmap(NULL, 10 * page_size, PROT_READ | PROT_WRITE,
-+		 MAP_PRIVATE | MAP_ANONYMOUS, -1, 0);
-+	BUG_ON(dest_mapping == MAP_FAILED, "mmap");
-+	memset(dest_mapping, 'X', 10 * page_size);
-+
-+	// We will grab the last 5 pages of the source and move them.
-+	void *remapped_mapping =
-+	    mremap(source_mapping, 5 * page_size,
-+		   5 * page_size,
-+		   MREMAP_DONTUNMAP | MREMAP_MAYMOVE | MREMAP_FIXED, dest_mapping);
-+	BUG_ON(dest_mapping == MAP_FAILED, "mremap");
-+	BUG_ON(dest_mapping != remapped_mapping, "expected to remap to dest_mapping");
-+
-+	BUG_ON(check_region_contains_byte(source_mapping, 5 * page_size, 0) !=
-+	       0, "first 5 pages of source should have no ptes");
-+
-+	// Finally we expect the destination to have 5 pages worth of a's.
-+	BUG_ON(check_region_contains_byte(dest_mapping, 5 * page_size, 'a') != 0,
-+			"dest mapping should contain ptes from the source");
-+
-+	// Finally the last 5 pages shouldn't have been touched.
-+	BUG_ON(check_region_contains_byte(dest_mapping + (5 * page_size),
-+				5 * page_size, 'X') != 0,
-+			"dest mapping should have retained the last 5 pages");
-+
-+	BUG_ON(munmap(dest_mapping, 10 * page_size) == -1,
-+	       "unable to unmap destination mapping");
-+	BUG_ON(munmap(source_mapping, 5 * page_size) == -1,
-+	       "unable to unmap source mapping");
-+}
-+
-+int main(void)
-+{
-+	page_size = sysconf(_SC_PAGE_SIZE);
-+
-+	// test for kernel support for MREMAP_DONTUNMAP skipping the test if
-+	// not.
-+	if (kernel_support_for_mremap_dontunmap() != 0) {
-+		printf("No kernel support for MREMAP_DONTUNMAP\n");
-+		return KSFT_SKIP;
-+	}
-+
-+	// Keep a page sized buffer around for when we need it.
-+	page_buffer =
-+	    mmap(NULL, page_size, PROT_READ | PROT_WRITE,
-+		 MAP_PRIVATE | MAP_ANONYMOUS, -1, 0);
-+	BUG_ON(page_buffer == MAP_FAILED, "unable to mmap a page.");
-+
-+	mremap_dontunmap_simple();
-+	mremap_dontunmap_simple_fixed();
-+	mremap_dontunmap_partial_mapping();
-+	mremap_dontunmap_partial_mapping_overwrite();
-+
-+	BUG_ON(munmap(page_buffer, page_size) == -1,
-+	       "unable to unmap page buffer");
-+
-+	printf("OK\n");
-+	return 0;
-+}
-diff --git a/tools/testing/selftests/vm/run_vmtests b/tools/testing/selftests/vm/run_vmtests
-index 951c507a27f7..d380b95c5de5 100755
---- a/tools/testing/selftests/vm/run_vmtests
-+++ b/tools/testing/selftests/vm/run_vmtests
-@@ -227,4 +227,19 @@ else
- 	exitcode=1
- fi
- 
-+echo "------------------------------------"
-+echo "running MREMAP_DONTUNMAP smoke test"
-+echo "------------------------------------"
-+./mremap_dontunmap
-+ret_val=$?
-+
-+if [ $ret_val -eq 0 ]; then
-+	echo "[PASS]"
-+elif [ $ret_val -eq $ksft_skip ]; then
-+	 echo "[SKIP]"
-+	 exitcode=$ksft_skip
-+else
-+	echo "[FAIL]"
-+	exitcode=1
-+fi
- exit $exitcode
--- 
-2.25.0.265.gbab2e86ba0-goog
 
+Hi Michael,
+
+Do we have an estimate of when a decision might be made regarding my 
+suggesion for man mmap(2)?
+
+Thanks.
+
+-- Terence Kelly
+
+
+
+On Tue, 26 Nov 2019, Terence Kelly wrote:
+
+> [Verbatim re-transmission of my very recent e-mail (below), this time with 
+> the correct TO: and CC: and SUBJECT: fields.  Sorry about the confusion; I'm 
+> new at the manpage patch game.]
+>
+>
+> ---------- Forwarded message ----------
+> Date: Mon, 25 Nov 2019 23:51:53 -0500 (EST)
+> From: Terence Kelly <tpkelly@email.eecs.umich.edu>
+> To: "Michael Kerrisk (man7.org)" <mtk@man7.org>
+> Cc: Christoph Hellwig <hch@lst.de>
+> Subject: Re: suggesting an enhancement for man mmap(2)
+>
+>
+>
+> Hi Michael,
+>
+> Per our earlier conversation, attached is a patch for the mmap(2) manpage
+> (against man-pages-5.04/man2/mmap.2, which I downloaded earlier today and 
+> which
+> I believe is the latest version).  Per the online instructions, the patch is
+> also inline below (apologies if my e-mail software mangles it).
+>
+> My intent is to illustrate succinctly mmap()'s versatility and its most
+> important virtues:
+>
+> Laying out application data structures in memory-mapped files obviates the 
+> need
+> for serializing/parsing for persistence by enabling applications to 
+> manipulate
+> persistent data with CPU instructions (LOAD and STORE). Moreover mmap() 
+> offers
+> high efficiency:  Only accessed data are faulted in, and only modified data 
+> are
+> pushed back down to durability; in my example program, only the first and 
+> last
+> pages move between storage and memory.
+>
+> I've tried to strike a tasteful division of labor between shell commands and 
+> C
+> code.  My code compiles cleanly with all warnings enabled and it checks 
+> syscall
+> return values carefully.
+>
+> Regarding my qualifications on this topic:  I've been working on it for 
+> years;
+> search the ACM Digital Library for "persistent memory programming" to see a
+> recent example of my work.
+>
+> Please let me know what you think.  I'm willing to iterate with you on this. 
+> I
+> firmly believe that the full power of mmap() should be documented for 
+> developers
+> and I'll do whatever I can toward that end.
+>
+> Thanks.
+>
+> -- Terence
+>
+>
+>
+>
+> --- mmap.2_latest_from_man-pages-5.04	2019-11-25 19:00:44.908460718 -0800
+> +++ mmap.2_modified_by_Terence_Kelly	2019-11-25 20:17:13.843893947 -0800
+> @@ -36,6 +36,7 @@
+> .\" Modified 2006-12-04, mtk, various parts rewritten
+> .\" 2007-07-10, mtk, Added an example program.
+> .\" 2008-11-18, mtk, document MAP_STACK
+> +.\" 2019-11-25, Terence Kelly <tpkelly@eecs.umich.edu>, Added new example
+> program.
+> .\"
+> .TH MMAP 2 2019-10-10 "Linux" "Linux Programmer's Manual"
+> .SH NAME
+> @@ -900,7 +901,7 @@
+> .BR tmpfs (5)
+> (for example, when using the POSIX shared memory interface documented in
+> .BR shm_overview (7)).
+> -.SH EXAMPLE
+> +.SH EXAMPLES
+> .\" FIXME . Add an example here that uses an anonymous shared region for
+> .\" IPC between parent and child.
+> .PP
+> @@ -985,6 +986,100 @@
+>     exit(EXIT_SUCCESS);
+> }
+> .EE
+> +.PP
+> +The following program maintains within a memory-mapped file a
+> +.I persistent data structure
+> +that outlives invocations of the program.  Compile the program to
+> +.B a.out
+> +and use the
+> +.B truncate
+> +shell utility to create a sparse file named "pstack" that the program
+> +will populate with a persistent stack-of-integers data structure.
+> +Invoke the program with two kinds of command-line arguments:
+> +integers, which are pushed onto the persistent stack, and the string
+> +"pop," which causes the top integer on the stack to be printed and
+> +removed.  In the sample shell session below, note that values pushed
+> +onto the stack by the first invocation of the program persist beyond
+> +program exit; the second invocation of the program pops these values.
+> +.PP
+> +.in +4n
+> +.EX
+> +.B $ truncate -s `getconf PAGESIZE` pstack
+> +.B $ ./a.out 1 2 3
+> +.B $ ./a.out pop pop pop pop
+> +3
+> +2
+> +1
+> +<stack empty>
+> +.EE
+> +.in
+> +.SS Program source
+> +.EX
+> +#include <fcntl.h>
+> +#include <inttypes.h>
+> +#include <stdio.h>
+> +#include <stdlib.h>
+> +#include <string.h>
+> +#include <unistd.h>
+> +#include <sys/mman.h>
+> +#include <sys/stat.h>
+> +#include <sys/types.h>
+> +
+> +#define handle_error(msg) \\
+> +    do { perror(msg); exit(EXIT_FAILURE); } while (0)
+> +
+> +int
+> +main(int argc, char *argv[])
+> +{
+> +    int fd, a;
+> +    struct stat sb;
+> +    size_t len;
+> +    struct pstack {             /* persistent stack header */
+> +        int32_t n;              /* number of items in stack */
+> +        int32_t s[];            /* array containing stack */
+> +    } *p;                       /* ptr to mmap'd stack file */
+> +
+> +    fd = open("pstack", O_RDWR);
+> +    if (fd == \-1)
+> +        handle_error("open");
+> +
+> +    if (fstat(fd, &sb) != 0)    /* to obtain file size */
+> +        handle_error("fstat");
+> +
+> +    len = (size_t) sb.st_size;
+> +
+> +    p = (struct pstack *) mmap(NULL, len, PROT_READ | PROT_WRITE,
+> +                               MAP_SHARED, fd, 0);
+> +    if (p == MAP_FAILED)
+> +        handle_error("mmap");
+> +
+> +    for (a = 1; a < argc; a++) {
+> +        if (strcmp(argv[a], "pop") == 0) {
+> +            if (p->n <= 0) {
+> +                printf("<stack empty>\\n");
+> +                exit(EXIT_FAILURE);
+> +            } else {
+> +                printf("%" PRId32 "\\n", p->s[--p->n]);
+> +            }
+> +        } else {
+> +            if (sizeof *p + (size_t) p->n * sizeof p->n >= len) {
+> +                printf("<stack full>\\n");
+> +                exit(EXIT_FAILURE);
+> +            } else {
+> +                p->s[p->n++] = atoi(argv[a]);
+> +            }
+> +        }
+> +    }
+> +
+> +    if (close(fd) != 0)         /* implicit on exit() */
+> +        handle_error("close");
+> +
+> +    if (munmap(p, len) != 0)    /* implicit on exit() */
+> +        handle_error("munmap");
+> +
+> +    exit(EXIT_SUCCESS);
+> +}
+> +.EE
+> .SH SEE ALSO
+> .BR ftruncate (2),
+> .BR getpagesize (2),
+> @@ -1010,6 +1105,13 @@
+> .IR /proc/[pid]/smaps .
+> .PP
+> B.O. Gallmeister, POSIX.4, O'Reilly, pp. 128\(en129 and 389\(en391.
+> +.PP
+> +T. Kelly, "Persistent Memory Programming on Conventional Hardware,"
+> +ACM
+> +.I
+> +Queue
+> +magazine, Vol. 17, No. 4, July/August 2019
+> +\%https://queue.acm.org/detail.cfm?id=3358957
+> .\"
+> .\" Repeat after me: private read-only mappings are 100% equivalent to
+> .\" shared read-only mappings. No ifs, buts, or maybes. -- Linus
+>
+>
+>
+>
+> On Thu, 21 Nov 2019, Michael Kerrisk (man7.org) wrote:
+>
+>> Hello Terence,
+>> 
+>> My apologies for the slow reply. Manual page topics should really be
+>> directed as per https://www.kernel.org/doc/man-pages/contributing.html
+>> 
+>> I'm agnostic about your proposal. It could be interesting and useful,
+>> but I wonder if the example itself might be a large piece of code?
+>> 
+>> Thanks,
+>> 
+>> Michael
+>> 
+>> On Wed, 18 Sep 2019 at 05:59, Terence Kelly <tpkelly@eecs.umich.edu> wrote:
+>> > > > > Mr. Kerrisk,
+>> > > First, many thanks for your efforts to improve the Linux man pages, and
+>> > for your excellent book.  The community owes you a debt of gratitude.
+>> > > I'm writing to suggest an enhancement for man mmap(2).  My goal is to
+>> > teach readers that good old fashioned mmap(2) can support what we might
+>> > call "the persistent memory style of programming" on conventional 
+>> hardware
+>> > and OSes.  I've written an article on this subject containing simple
+>> > example programs:
+>> > > https://queue.acm.org/detail.cfm?id=3358957
+>> > > Nowadays often lost in the hype surrounding non-volatile memory 
+>> hardware
+>> > (Intel Optane) is the simple fact that mmap() alone, together with a few
+>> > very simple idioms and tricks, can support a useful software abstraction
+>> > of persistent memory on conventional hardware.
+>> > > With your permission I'd like to write a new example program for the
+>> > mmap(2) man page.  You might also consider including a pointer to the
+>> > article above if you deem it appropriate.
+>> > > If you're open to my basic suggestion, please advise how I may help.
+>> > > Thank you.
+>> > > -- Terence Kelly
+>> > > P.S.:  I notice from your Web site that you're a Kiwi.  When the
+>> > ionosphere is in a cooperative mood I often get my news from Radio New
+>> > Zealand via shortwave.
+>> > 
+>> 
+>> -- 
+>> Michael Kerrisk, man7.org Training and Consulting
+>> mtk@man7.org, http://man7.org/training/
+>> "The Linux Programming Interface" -- http://man7.org/tlpi/
