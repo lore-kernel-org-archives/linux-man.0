@@ -2,138 +2,118 @@ Return-Path: <SRS0=M0jM=4L=vger.kernel.org=linux-man-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-8.1 required=3.0 tests=DKIM_SIGNED,DKIM_VALID,
-	DKIM_VALID_AU,FREEMAIL_FORGED_FROMDOMAIN,FREEMAIL_FROM,
-	HEADER_FROM_DIFFERENT_DOMAINS,INCLUDES_PATCH,MAILING_LIST_MULTI,SIGNED_OFF_BY,
-	SPF_HELO_NONE,SPF_PASS,URIBL_BLOCKED,USER_AGENT_SANE_1 autolearn=ham
-	autolearn_force=no version=3.4.0
+X-Spam-Status: No, score=-8.2 required=3.0 tests=HEADER_FROM_DIFFERENT_DOMAINS,
+	INCLUDES_PATCH,MAILING_LIST_MULTI,SIGNED_OFF_BY,SPF_HELO_NONE,SPF_PASS,
+	URIBL_BLOCKED,USER_AGENT_SANE_1 autolearn=ham autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 895D8C35671
-	for <linux-man@archiver.kernel.org>; Sun, 23 Feb 2020 21:36:33 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 2C68FC35673
+	for <linux-man@archiver.kernel.org>; Sun, 23 Feb 2020 21:41:45 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.kernel.org (Postfix) with ESMTP id 4F9F6206E0
-	for <linux-man@archiver.kernel.org>; Sun, 23 Feb 2020 21:36:33 +0000 (UTC)
-Authentication-Results: mail.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="V9+vNbE7"
+	by mail.kernel.org (Postfix) with ESMTP id 06EDC20675
+	for <linux-man@archiver.kernel.org>; Sun, 23 Feb 2020 21:41:45 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1726678AbgBWVgd (ORCPT <rfc822;linux-man@archiver.kernel.org>);
-        Sun, 23 Feb 2020 16:36:33 -0500
-Received: from mail-wr1-f68.google.com ([209.85.221.68]:43626 "EHLO
-        mail-wr1-f68.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1726534AbgBWVgc (ORCPT
-        <rfc822;linux-man@vger.kernel.org>); Sun, 23 Feb 2020 16:36:32 -0500
-Received: by mail-wr1-f68.google.com with SMTP id r11so8069390wrq.10
-        for <linux-man@vger.kernel.org>; Sun, 23 Feb 2020 13:36:29 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20161025;
-        h=cc:subject:to:references:from:message-id:date:user-agent
-         :mime-version:in-reply-to:content-language:content-transfer-encoding;
-        bh=WUPAGd/j7HA8vMi0k1W/h+0ia0teef1V/B2V1xSW7sE=;
-        b=V9+vNbE7xS/M5QZLdIERqsS5iDlPJ0/s0ZOY3gIyR0+jRaV7NxOVsy/gwy7RSr+Djn
-         6FuclOBCciNqp9Ao4Vy+lUYPJ4sDicDh6SaQ4G/r6SJkbrmi6jV7pP2/ZsCAUnF2xvOI
-         ggRyAGY8yVzDjJL1msmWrxlXO09gzssBFWAEZRk29cWHD0j0qJkHDgbN8Ws5a9k8euzT
-         VM9BOixwvHkAVfxPGVFmMUTPj+z9R8of5GZtfI/Z/KFXWhHujkVKo17MdvpDs6k3wHI+
-         GQw0xKSzDNkm3+NVwEsDPuNR2/qAwwtxgLEAc5iV9VT5N5yvYToR80KDpVABoRWihEoA
-         7Ocg==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20161025;
-        h=x-gm-message-state:cc:subject:to:references:from:message-id:date
-         :user-agent:mime-version:in-reply-to:content-language
-         :content-transfer-encoding;
-        bh=WUPAGd/j7HA8vMi0k1W/h+0ia0teef1V/B2V1xSW7sE=;
-        b=KxcYLIY/58bjDwfasaDqFrM1s670nEahlGOfTtUUqPRrQE9aNDCS8dERAt2UkdHlTK
-         NlQrsiAT8ZLPFNra/FF/HshwEnJvizmTwKoQOoRwiHDbmLnqx6PISzyAZpJhDmI6e/Cq
-         UZO60AZPKt6iI2MQhpT4VoJP3fTpEfoNlNkRqbgwaBkrgqMhKeQLIFukSISQYH/88XSz
-         BQrf7PGBHBygV/Imv6l4pubW4EQMRzAb955kHqIiEhrLnCTo3jEVOJC+q1QueoWHppu+
-         UQ5FDRrcHkFrPcgC6MwA5K0jlq95OMcsuEsHOrptSBfuisgi8cFjbDw/Q9ioJ2F7n2M7
-         PKJA==
-X-Gm-Message-State: APjAAAUFVW1Er/zmhKr6tD64Ol6NIS1Qy6UBB4phGMXHBsiYc1zbOPeR
-        5VVFu0wQa8LE/QCYSRtz5wTN9Z0C
-X-Google-Smtp-Source: APXvYqxD2xRDk7ZEo9C5WmQ6QzprqiEba2fhdd1d5q5vnlLxUymZNI4pfkwYBBY5aDxGwrLefKuO9g==
-X-Received: by 2002:adf:ea85:: with SMTP id s5mr60929142wrm.75.1582493789057;
-        Sun, 23 Feb 2020 13:36:29 -0800 (PST)
-Received: from ?IPv6:2001:a61:3ab0:601:eabf:519f:11af:545d? ([2001:a61:3ab0:601:eabf:519f:11af:545d])
-        by smtp.gmail.com with ESMTPSA id d16sm16019010wrg.27.2020.02.23.13.36.28
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Sun, 23 Feb 2020 13:36:28 -0800 (PST)
-Cc:     mtk.manpages@gmail.com, linux-man@vger.kernel.org,
-        John Stultz <john.stultz@linaro.org>,
-        Thomas Gleixner <tglx@linutronix.de>
-Subject: Re: [PATCH][RFC] clock_getres.2: Document that consecutive calls for
- CLOCK_MONOTONIC may return same values
-To:     Helge Deller <deller@gmx.de>
-References: <20200220172441.GA12717@ls3530.fritz.box>
- <0837faa7-a8ec-12ff-e96d-8dfea3e60c50@gmail.com>
- <2c7b2576-0c5a-a40d-55c8-27cf28124767@gmx.de>
-From:   "Michael Kerrisk (man-pages)" <mtk.manpages@gmail.com>
-Message-ID: <16ec6948-6a7c-5f48-d021-e7bb88ef786a@gmail.com>
-Date:   Sun, 23 Feb 2020 22:36:27 +0100
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
- Thunderbird/68.5.0
+        id S1727159AbgBWVlo (ORCPT <rfc822;linux-man@archiver.kernel.org>);
+        Sun, 23 Feb 2020 16:41:44 -0500
+Received: from outpost.hi.is ([130.208.165.166]:35964 "EHLO outpost.hi.is"
+        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
+        id S1727156AbgBWVlo (ORCPT <rfc822;linux-man@vger.kernel.org>);
+        Sun, 23 Feb 2020 16:41:44 -0500
+Received: from inpost.hi.is (inpost.hi.is [IPv6:2a00:c88:4000:1650::165:62])
+        by outpost.hi.is (8.14.7/8.14.7) with ESMTP id 01NLSolS000942
+        (version=TLSv1/SSLv3 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK)
+        for <linux-man@vger.kernel.org>; Sun, 23 Feb 2020 21:28:50 GMT
+DKIM-Filter: OpenDKIM Filter v2.11.0 outpost.hi.is 01NLSolS000942
+Received: from hekla.rhi.hi.is (hekla.rhi.hi.is [IPv6:2a00:c88:4000:1650::165:2])
+        by inpost.hi.is (8.14.7/8.14.7) with ESMTP id 01NLSlQG022870
+        (version=TLSv1/SSLv3 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NO);
+        Sun, 23 Feb 2020 21:28:48 GMT
+DKIM-Filter: OpenDKIM Filter v2.11.0 inpost.hi.is 01NLSlQG022870
+Received: from hekla.rhi.hi.is (localhost [127.0.0.1])
+        by hekla.rhi.hi.is (8.14.4/8.14.4) with ESMTP id 01NLSlNL001978;
+        Sun, 23 Feb 2020 21:28:47 GMT
+Received: (from bjarniig@localhost)
+        by hekla.rhi.hi.is (8.14.4/8.14.4/Submit) id 01NLSl5b001977;
+        Sun, 23 Feb 2020 21:28:47 GMT
+Date:   Sun, 23 Feb 2020 21:28:47 +0000
+From:   Bjarni Ingi Gislason <bjarniig@rhi.hi.is>
+To:     mtk.manpages@gmail.com
+Cc:     linux-man@vger.kernel.org
+Subject: [PATCH] man4/*: srcfix: Correct the misuse of two-fonts macros
+Message-ID: <20200223212847.GA1956@rhi.hi.is>
 MIME-Version: 1.0
-In-Reply-To: <2c7b2576-0c5a-a40d-55c8-27cf28124767@gmx.de>
-Content-Type: text/plain; charset=utf-8
-Content-Language: en-US
-Content-Transfer-Encoding: 7bit
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+User-Agent: Mutt/1.5.20 (2009-12-10)
 Sender: linux-man-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-man.vger.kernel.org>
 X-Mailing-List: linux-man@vger.kernel.org
 
-On 2/23/20 10:26 PM, Helge Deller wrote:
-> On 23.02.20 22:09, Michael Kerrisk (man-pages) wrote:
->> Hello Helge,
->>
->> On 2/20/20 6:24 PM, Helge Deller wrote:
->>> Consecutive calls to clock_gettime(CLOCK_MONOTONIC) are guaranteed to
->>> return MONOTONIC values, which means that they either return the *SAME*
->>> time value like the last call, or a later (higher) time value.
->>>
->>> Due to high resolution counters like TSC on x86 most people see that the
->>> values returned increase, but on other less common platforms it's less
->>> likely that consecutive calls return newer values, and instead users may
->>> unexpectely get back the SAME time value.
->>>
->>> I think it makes sense to document that people should not expect to see
->>> "always-growing" time values. For example in Debian I've seen in quite
->>> some source packages where return values of consecutive calls are
->>> compared against each other and then the package build fails if they are
->>> equal (e.g.  ruby-hitimes, ...).
->>>
->>> The patch below is just for RFC. I'm open for any better wording!
->>>
->>> Signed-off-by: Helge Deller <deller@gmx.de>
->>>
->>> diff --git a/man2/clock_getres.2 b/man2/clock_getres.2
->>> index 646fa37c0..89e9f6a30 100644
->>> --- a/man2/clock_getres.2
->>> +++ b/man2/clock_getres.2
->>> @@ -151,6 +151,10 @@ but is affected by the incremental adjustments performed by
->>>  .BR adjtime (3)
->>>  and NTP.
->>>  This clock does not count time that the system is suspended.
->>> +All
->>> +.B CLOCK_MONOTONIC
->>> +variants guarantee that the time returned by consecutive calls will not go
->>> +backwards, but they may return the identical (not-increased) time value.
->>>  .TP
->>>  .BR CLOCK_MONOTONIC_COARSE " (since Linux 2.6.32; Linux-specific)"
->>>  .\" Added in commit da15cfdae03351c689736f8d142618592e3cebc3
->>
->> Thanks. I applied your patch, and then tweaked slightly, so
->> tha the change looks as below.
-> 
-> 
-> Looks good.
-> Thanks!
-Thanks for checking!
+  Changes are based on the latest (23th Februar 2020) revision of my
+local git repository.
 
-Cheers,
+  Correct the misuse of a two-font macro, which function is to
 
-Michael
+1) use the first font for each odd numbered argument and the second
+font for all others.
 
+2) join the arguments without an intervening space.
 
+  There is no change in the output.
+
+Signed-off-by: Bjarni Ingi Gislason <bjarniig@rhi.hi.is>
+---
+ man4/smartpqi.4 | 10 +++++-----
+ 1 file changed, 5 insertions(+), 5 deletions(-)
+
+diff --git a/man4/smartpqi.4 b/man4/smartpqi.4
+index a8eef9f56..4646127fa 100644
+--- a/man4/smartpqi.4
++++ b/man4/smartpqi.4
+@@ -163,7 +163,7 @@ for an explanation of the
+ .I lockup_action
+ values.
+ .TP
+-.IR /sys/class/scsi_host/host*/driver_version
++.I /sys/class/scsi_host/host*/driver_version
+ The
+ .I driver_version
+ attribute is read-only.
+@@ -179,7 +179,7 @@ $ \c
+ .EE
+ .in
+ .TP
+-.IR /sys/class/scsi_host/host*/firmware_version
++.I /sys/class/scsi_host/host*/firmware_version
+ The
+ .I firmware_version
+ attribute is read-only.
+@@ -195,7 +195,7 @@ $ \c
+ .EE
+ .in
+ .TP
+-.IR /sys/class/scsi_host/host*/model
++.I /sys/class/scsi_host/host*/model
+ The
+ .I model
+ attribute is read-only.
+@@ -211,7 +211,7 @@ $ \c
+ .EE
+ .in
+ .TP
+-.IR /sys/class/scsi_host/host*/serial_number
++.I /sys/class/scsi_host/host*/serial_number
+ The
+ .I serial_number
+ attribute is read-only.
+@@ -227,7 +227,7 @@ $ \c
+ .EE
+ .in
+ .TP
+-.IR /sys/class/scsi_host/host*/vendor
++.I /sys/class/scsi_host/host*/vendor
+ The
+ .I vendor
+ attribute is read-only.
 -- 
-Michael Kerrisk
-Linux man-pages maintainer; http://www.kernel.org/doc/man-pages/
-Linux/UNIX System Programming Training: http://man7.org/training/
+2.25.0
