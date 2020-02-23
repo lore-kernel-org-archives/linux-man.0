@@ -4,43 +4,43 @@ X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 X-Spam-Level: 
 X-Spam-Status: No, score=-8.2 required=3.0 tests=HEADER_FROM_DIFFERENT_DOMAINS,
 	INCLUDES_PATCH,MAILING_LIST_MULTI,SIGNED_OFF_BY,SPF_HELO_NONE,SPF_PASS,
-	URIBL_BLOCKED,USER_AGENT_SANE_1,WEIRD_QUOTING autolearn=ham
-	autolearn_force=no version=3.4.0
+	URIBL_BLOCKED,USER_AGENT_SANE_1 autolearn=ham autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 98134C35675
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 6F8B6C35677
 	for <linux-man@archiver.kernel.org>; Sun, 23 Feb 2020 21:41:45 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.kernel.org (Postfix) with ESMTP id 6E680206ED
+	by mail.kernel.org (Postfix) with ESMTP id 4FB5820675
 	for <linux-man@archiver.kernel.org>; Sun, 23 Feb 2020 21:41:45 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1727100AbgBWVlp (ORCPT <rfc822;linux-man@archiver.kernel.org>);
-        Sun, 23 Feb 2020 16:41:45 -0500
-Received: from outpost.hi.is ([130.208.165.166]:35966 "EHLO outpost.hi.is"
-        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S1727151AbgBWVlo (ORCPT <rfc822;linux-man@vger.kernel.org>);
+        id S1726678AbgBWVlo (ORCPT <rfc822;linux-man@archiver.kernel.org>);
         Sun, 23 Feb 2020 16:41:44 -0500
+Received: from outpost.hi.is ([130.208.165.166]:35968 "EHLO outpost.hi.is"
+        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
+        id S1727100AbgBWVlo (ORCPT <rfc822;linux-man@vger.kernel.org>);
+        Sun, 23 Feb 2020 16:41:44 -0500
+X-Greylist: delayed 856 seconds by postgrey-1.27 at vger.kernel.org; Sun, 23 Feb 2020 16:41:42 EST
 Received: from inpost.hi.is (inpost.hi.is [IPv6:2a00:c88:4000:1650::165:62])
-        by outpost.hi.is (8.14.7/8.14.7) with ESMTP id 01NLS9KH000874
+        by outpost.hi.is (8.14.7/8.14.7) with ESMTP id 01NLUwHt001119
         (version=TLSv1/SSLv3 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK)
-        for <linux-man@vger.kernel.org>; Sun, 23 Feb 2020 21:28:09 GMT
-DKIM-Filter: OpenDKIM Filter v2.11.0 outpost.hi.is 01NLS9KH000874
+        for <linux-man@vger.kernel.org>; Sun, 23 Feb 2020 21:30:58 GMT
+DKIM-Filter: OpenDKIM Filter v2.11.0 outpost.hi.is 01NLUwHt001119
 Received: from hekla.rhi.hi.is (hekla.rhi.hi.is [IPv6:2a00:c88:4000:1650::165:2])
-        by inpost.hi.is (8.14.7/8.14.7) with ESMTP id 01NLS6Jn022862
+        by inpost.hi.is (8.14.7/8.14.7) with ESMTP id 01NLUtUv022898
         (version=TLSv1/SSLv3 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NO);
-        Sun, 23 Feb 2020 21:28:06 GMT
-DKIM-Filter: OpenDKIM Filter v2.11.0 inpost.hi.is 01NLS6Jn022862
+        Sun, 23 Feb 2020 21:30:55 GMT
+DKIM-Filter: OpenDKIM Filter v2.11.0 inpost.hi.is 01NLUtUv022898
 Received: from hekla.rhi.hi.is (localhost [127.0.0.1])
-        by hekla.rhi.hi.is (8.14.4/8.14.4) with ESMTP id 01NLS6Pb001952;
-        Sun, 23 Feb 2020 21:28:06 GMT
+        by hekla.rhi.hi.is (8.14.4/8.14.4) with ESMTP id 01NLUt6K002173;
+        Sun, 23 Feb 2020 21:30:55 GMT
 Received: (from bjarniig@localhost)
-        by hekla.rhi.hi.is (8.14.4/8.14.4/Submit) id 01NLS6Sh001951;
-        Sun, 23 Feb 2020 21:28:06 GMT
-Date:   Sun, 23 Feb 2020 21:28:06 +0000
+        by hekla.rhi.hi.is (8.14.4/8.14.4/Submit) id 01NLUtjK002172;
+        Sun, 23 Feb 2020 21:30:55 GMT
+Date:   Sun, 23 Feb 2020 21:30:55 +0000
 From:   Bjarni Ingi Gislason <bjarniig@rhi.hi.is>
 To:     mtk.manpages@gmail.com
 Cc:     linux-man@vger.kernel.org
-Subject: [PATCH] man3/*: srcfix: Correct the misuse of two-fonts macros
-Message-ID: <20200223212806.GA1912@rhi.hi.is>
+Subject: [PATCH] man7/*: srcfix: Correct the misuse of two-fonts macros
+Message-ID: <20200223213055.GA2159@rhi.hi.is>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
@@ -64,110 +64,105 @@ font for all others.
 
 Signed-off-by: Bjarni Ingi Gislason <bjarniig@rhi.hi.is>
 ---
- man3/__ppc_set_ppr_med.3 |  6 +++---
- man3/__ppc_yield.3       |  2 +-
- man3/getauxval.3         | 16 ++++++++--------
- man3/malloc.3            |  4 ++--
- 4 files changed, 14 insertions(+), 14 deletions(-)
+ man7/cgroups.7          | 18 +++++++++---------
+ man7/mount_namespaces.7 |  2 +-
+ man7/uts_namespaces.7   |  2 +-
+ 3 files changed, 11 insertions(+), 11 deletions(-)
 
-diff --git a/man3/__ppc_set_ppr_med.3 b/man3/__ppc_set_ppr_med.3
-index 3d9f11868..863d8911c 100644
---- a/man3/__ppc_set_ppr_med.3
-+++ b/man3/__ppc_set_ppr_med.3
-@@ -52,7 +52,7 @@ The available unprivileged states are covered by the following functions:
+diff --git a/man7/cgroups.7 b/man7/cgroups.7
+index 493b7a10b..5173bbea4 100644
+--- a/man7/cgroups.7
++++ b/man7/cgroups.7
+@@ -788,7 +788,7 @@ frozen 0
+ .PP
+ The following keys may appear in this file:
+ .TP
+-.IR populated
++.I populated
+ The value of this key is either 1,
+ if this cgroup or any of its descendants has member processes,
+ or otherwise 0.
+@@ -799,13 +799,13 @@ The value of this key is 1 if this cgroup is currently frozen,
+ or 0 if it is not.
+ .PP
+ The
+-.IR cgroup.events
++.I cgroup.events
+ file can be monitored, in order to receive notification when the value of
+ one of its keys changes.
+ Such monitoring can be done using
+ .BR inotify (7),
+ which notifies changes as
+-.BR IN_MODIFY
++.B IN_MODIFY
+ events, or
+ .BR poll (2),
+ which notifies changes by returning the
+@@ -813,20 +813,20 @@ which notifies changes by returning the
+ and
+ .B POLLERR
+ bits in the
+-.IR revents
++.I revents
+ field.
+ .\"
+ .SS Cgroup v2 release notification
+ Cgroups v2 provides a new mechanism for obtaining notification
+ when a cgroup becomes empty.
+ The cgroups v1
+-.IR release_agent
++.I release_agent
+ and
+-.IR notify_on_release
++.I notify_on_release
+ files are removed, and replaced by the
+ .I populated
+ key in the
+-.IR cgroup.events
++.I cgroup.events
+ file.
+ This key either has the value 0,
+ meaning that the cgroup (and its descendants)
+@@ -836,12 +836,12 @@ contains member processes.
+ .PP
+ The cgroups v2 release-notification mechanism
+ offers the following advantages over the cgroups v1
+-.IR release_agent
++.I release_agent
+ mechanism:
  .IP * 3
- .BR __ppc_set_ppr_med ()
- sets the Program Priority Register value to
--.IR medium
-+.I medium
- (default).
- .IP *
- .BR __ppc_set_ppr_very_low ()
-@@ -68,7 +68,7 @@ sets the Program Priority Register value to
- .IR "medium low" .
+ It allows for cheaper notification,
+ since a single process can monitor multiple
+-.IR cgroup.events
++.I cgroup.events
+ files (using the techniques described earlier).
+ By contrast, the cgroups v1 mechanism requires the expense of creating
+ a process for each notification.
+diff --git a/man7/mount_namespaces.7 b/man7/mount_namespaces.7
+index 832d52282..584b223cd 100644
+--- a/man7/mount_namespaces.7
++++ b/man7/mount_namespaces.7
+@@ -1101,7 +1101,7 @@ may desire to prevent propagation of mount events to other mount namespaces
+ .BR unshare (1)).
+ This can be done by changing the propagation type of
+ mount points in the new namespace to either
+-.BR MS_SLAVE
++.B MS_SLAVE
+ or
+ .BR MS_PRIVATE .
+ using a call such as the following:
+diff --git a/man7/uts_namespaces.7 b/man7/uts_namespaces.7
+index 3b30b6b3f..4db8c51e2 100644
+--- a/man7/uts_namespaces.7
++++ b/man7/uts_namespaces.7
+@@ -48,7 +48,7 @@ When a process creates a new UTS namespace using
+ or
+ .BR unshare (2)
+ with the
+-.BR CLONE_NEWUTS
++.B CLONE_NEWUTS
+ flag, the hostname and domain of the new UTS namespace are copied
+ from the corresponding values in the caller's UTS namespace.
  .PP
- The privileged state
--.IR "medium high"
-+.I medium high
- may also be set during certain time intervals by problem-state (unprivileged)
- programs, with the following function:
- .IP * 3
-@@ -130,4 +130,4 @@ Availability of these functions can be tested using
- .SH SEE ALSO
- .BR __ppc_yield (3)
- .PP
--.IR "Power ISA, Book\ II - Section\ 3.1 (Program Priority Registers)"
-+.I Power ISA, Book\ II - Section\ 3.1 (Program Priority Registers)
-diff --git a/man3/__ppc_yield.3 b/man3/__ppc_yield.3
-index b9bfc739e..777792d60 100644
---- a/man3/__ppc_yield.3
-+++ b/man3/__ppc_yield.3
-@@ -81,4 +81,4 @@ These functions are nonstandard GNU extensions.
- .SH SEE ALSO
- .BR __ppc_set_ppr_med (3)
- .PP
--.IR "Power ISA, Book\ II - Section\ 3.2 (""or"" architecture)"
-+.I "Power ISA, Book\ II - Section\ 3.2 (""or"" architecture)"
-diff --git a/man3/getauxval.3 b/man3/getauxval.3
-index 55858abab..92a9066cb 100644
---- a/man3/getauxval.3
-+++ b/man3/getauxval.3
-@@ -130,31 +130,31 @@ in the bottom 16 bits and the cache associativity in the next 16 bits.
- The associativity is such that if N is the 16-bit value,
- the cache is N-way set associative.
- .TP
--.BR AT_L1D_CACHESIZE
-+.B AT_L1D_CACHESIZE
- The L1 data cache size.
- .TP
--.BR AT_L1I_CACHEGEOMETRY
-+.B AT_L1I_CACHEGEOMETRY
- Geometry of the L1 instruction cache, encoded as for
- .BR AT_L1D_CACHEGEOMETRY .
- .TP
--.BR AT_L1I_CACHESIZE
-+.B AT_L1I_CACHESIZE
- The L1 instruction cache size.
- .TP
--.BR AT_L2_CACHEGEOMETRY
-+.B AT_L2_CACHEGEOMETRY
- Geometry of the L2 cache, encoded as for
- .BR AT_L1D_CACHEGEOMETRY .
- .TP
--.BR AT_L2_CACHESIZE
-+.B AT_L2_CACHESIZE
- The L2 cache size.
- .TP
--.BR AT_L3_CACHEGEOMETRY
-+.B AT_L3_CACHEGEOMETRY
- Geometry of the L3 cache, encoded as for
- .BR AT_L1D_CACHEGEOMETRY .
- .TP
--.BR AT_L3_CACHESIZE
-+.B AT_L3_CACHESIZE
- The L3 cache size.
- .TP
--.BR AT_PAGESZ
-+.B AT_PAGESZ
- The system page size (the same value returned by
- .IR sysconf(_SC_PAGESIZE) ).
- .TP
-diff --git a/man3/malloc.3 b/man3/malloc.3
-index 6addb46f7..9a145a620 100644
---- a/man3/malloc.3
-+++ b/man3/malloc.3
-@@ -218,10 +218,10 @@ The
- function returns a pointer to the newly allocated memory, which is suitably
- aligned for any built-in type, or NULL if the request failed.
- The returned pointer may be the same as
--.IR ptr
-+.I ptr
- if the allocation was not moved
- (e.g., there was room to expand the allocation in-place), or different from
--.IR ptr
-+.I ptr
- if the allocation was moved to a new address.
- If
- .I size
 -- 
 2.25.0
