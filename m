@@ -2,72 +2,72 @@ Return-Path: <SRS0=M0jM=4L=vger.kernel.org=linux-man-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-13.1 required=3.0 tests=DKIM_SIGNED,DKIM_VALID,
+X-Spam-Status: No, score=-8.1 required=3.0 tests=DKIM_SIGNED,DKIM_VALID,
 	DKIM_VALID_AU,FREEMAIL_FORGED_FROMDOMAIN,FREEMAIL_FROM,
-	HEADER_FROM_DIFFERENT_DOMAINS,INCLUDES_PATCH,MAILING_LIST_MULTI,
-	MENTIONS_GIT_HOSTING,SIGNED_OFF_BY,SPF_HELO_NONE,SPF_PASS,URIBL_BLOCKED,
-	USER_AGENT_SANE_1 autolearn=ham autolearn_force=no version=3.4.0
+	HEADER_FROM_DIFFERENT_DOMAINS,INCLUDES_PATCH,MAILING_LIST_MULTI,SIGNED_OFF_BY,
+	SPF_HELO_NONE,SPF_PASS,URIBL_BLOCKED,USER_AGENT_SANE_1 autolearn=ham
+	autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id BF217C35673
-	for <linux-man@archiver.kernel.org>; Sun, 23 Feb 2020 21:27:52 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id F40EBC35671
+	for <linux-man@archiver.kernel.org>; Sun, 23 Feb 2020 21:32:24 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.kernel.org (Postfix) with ESMTP id 90953206E0
-	for <linux-man@archiver.kernel.org>; Sun, 23 Feb 2020 21:27:52 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTP id AFF3A206E0
+	for <linux-man@archiver.kernel.org>; Sun, 23 Feb 2020 21:32:24 +0000 (UTC)
 Authentication-Results: mail.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="Yol3DJwz"
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="Dj3K6aNV"
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1726534AbgBWV1w (ORCPT <rfc822;linux-man@archiver.kernel.org>);
-        Sun, 23 Feb 2020 16:27:52 -0500
-Received: from mail-wr1-f67.google.com ([209.85.221.67]:34694 "EHLO
+        id S1726740AbgBWVcY (ORCPT <rfc822;linux-man@archiver.kernel.org>);
+        Sun, 23 Feb 2020 16:32:24 -0500
+Received: from mail-wr1-f67.google.com ([209.85.221.67]:33123 "EHLO
         mail-wr1-f67.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1726302AbgBWV1w (ORCPT
-        <rfc822;linux-man@vger.kernel.org>); Sun, 23 Feb 2020 16:27:52 -0500
-Received: by mail-wr1-f67.google.com with SMTP id n10so8101335wrm.1
-        for <linux-man@vger.kernel.org>; Sun, 23 Feb 2020 13:27:50 -0800 (PST)
+        with ESMTP id S1726534AbgBWVcY (ORCPT
+        <rfc822;linux-man@vger.kernel.org>); Sun, 23 Feb 2020 16:32:24 -0500
+Received: by mail-wr1-f67.google.com with SMTP id u6so8102418wrt.0
+        for <linux-man@vger.kernel.org>; Sun, 23 Feb 2020 13:32:22 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=gmail.com; s=20161025;
         h=cc:subject:to:references:from:message-id:date:user-agent
          :mime-version:in-reply-to:content-language:content-transfer-encoding;
-        bh=68B0XP8x/UdMiNtmueTVAClQFkYAS3lzmwySHETMJHE=;
-        b=Yol3DJwzoViy+S0xQ3zfd58N+2TgC0Vt9lel+mEYji1GYdPvn+iVaw72l6VXMZU721
-         yCOjpC2ltE+CWe7pwN2LPlj2FXFK0JEUR9hOthqcV+LGjOjnBbJQbpOqzs/yyEwzLgUo
-         waKz+g9SB6PtFm7RrOj7Se7PGbE5UKoBb3XMJMWWKDYDeby0GabZ4ZZ5CWlTYx06tTVP
-         y1N4hc/d94bWhwULtjnrYM7JyKNg9xN5z9fMnTmJTmdBQqnvzspoKisqhDlpE5C5SrK9
-         KzSdMYPpFeW/mqc6H1b395IUnytvyoV7Q8PKoPU8DPg0WcgKUEOyG505U5Rsws5G66mb
-         IPUA==
+        bh=MnZv2VcgOMz8VVUmpdTkapIzpby/n9lDthSRYOYu73M=;
+        b=Dj3K6aNVLkyM6BBBCZlPcLUny6m5qJefKBsuMWyrTqpOXJJ8sO68YUpbTFN3wqzggk
+         bqqxyQV2s8bSOgy3gu2TxkNlnw95Wl0c3vhvJ0HNHF++ZUiGAVFxYA83gHfL22va6G56
+         vC3jF879JZ6zmrg/oPxlbkefi5Ep4qJS7f4Scn42oGV/j2rQCIm/loV1GNkk2ot2gMZB
+         vCBwdgioe0NFNFaOF+BU0ScGrkfyK9V2mE/DiYX4trUCBVW2+lSuk/gg/h/2QDwBjsml
+         cVKRX73+gJBhDTLgYKFcXakOpWjLq0+nvRCL+jonpU8MP9gnlehdXIQE5A5geu5pt7O0
+         v9dw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
         h=x-gm-message-state:cc:subject:to:references:from:message-id:date
          :user-agent:mime-version:in-reply-to:content-language
          :content-transfer-encoding;
-        bh=68B0XP8x/UdMiNtmueTVAClQFkYAS3lzmwySHETMJHE=;
-        b=mZ2ET+rKEXf8cBOkKvHexGcTIGZEscPSkAfc96lh2ymHFRf/1B7lpRqeb6NeZssTXW
-         QMNugImhrkdG2QoEMlPGDTyAGfA0fqhf698RrWUcY8bJYrsbxWIrmdT+cvS1QP6EnHc8
-         mXUHPWidcEMsBwxsP4YavIETXMaTvwMSQ6sBn7elMK+z8/9zynRxcrfbKNQxP6PC4THL
-         IQr5Ett4V5JAhq+lRJVImPZSIhbo+WZ0nSZne5Mgi2pABWYyGKHZ+EUV8v5lB6PRK85R
-         X6EWpRdPfcyq99hI2m7WBG/Oh1h3I980hrXspDCRUUxaQTFzJXqLSDyA7md4KT+mk5S1
-         +17A==
-X-Gm-Message-State: APjAAAXwj29ws4z0Z+vsAr+0Vb/+zuuvhOh0gxkH5Hby2RHPVEy/IoVG
-        3f+mAjc/c8E3K0kRywFnVQbwudb+
-X-Google-Smtp-Source: APXvYqzfWoZgzdV0MF/3uJlJL92TJuGVs8Qa05UoZTChoeWD7gd6uZnap0SclmFOAh5909YVeb1TXQ==
-X-Received: by 2002:a5d:610c:: with SMTP id v12mr59226113wrt.88.1582493269813;
-        Sun, 23 Feb 2020 13:27:49 -0800 (PST)
+        bh=MnZv2VcgOMz8VVUmpdTkapIzpby/n9lDthSRYOYu73M=;
+        b=jQ7HmmRqAjsCxssfQZ/qySkxz1bvqcs0fvnFf9B3r7heXXoIzIKd17BrCf9owl6bjJ
+         xFqVjUa+IUHTMhbICOqBV97saaXi4XAQQQTDASg8u7bSjnYlzfINr22SKAFmj/aD+21T
+         BKfTFI+LZupFIizxmj3s0+c8NCUxKByB3pEw8WYpe6XlbEkXH+JBgxTwf79MmIjoz56E
+         rOCyM0V+tQFoXJKOelvxKJHkTW/Rar53kVbKdy8tB9+CyEMnBpCJBk94TaCzHgV+wrTZ
+         EDCuzlcHgvFH9iHUIjM2DuZx+tHFmjDqVqT2x8sv0hALamjtcCwpTrr2BeSitYuSVv1w
+         HxwQ==
+X-Gm-Message-State: APjAAAX7LcCPChjiP2imP68/q/269AtLA7STNpHEj0Oxh5IwUtVA6CgJ
+        SkJK+JKJINWq3d9Dr9uhQzSAGgue
+X-Google-Smtp-Source: APXvYqwCmY5XMpCyk3xSzqkgpCaVtWSwI9ox/g/P9aiPDhiAPNpi+opv0WPpffIpSRvU8eftarL97Q==
+X-Received: by 2002:adf:ec0d:: with SMTP id x13mr61976469wrn.400.1582493541132;
+        Sun, 23 Feb 2020 13:32:21 -0800 (PST)
 Received: from ?IPv6:2001:a61:3ab0:601:eabf:519f:11af:545d? ([2001:a61:3ab0:601:eabf:519f:11af:545d])
-        by smtp.gmail.com with ESMTPSA id b16sm14338556wmj.39.2020.02.23.13.27.49
+        by smtp.gmail.com with ESMTPSA id a13sm5221091wrv.62.2020.02.23.13.32.20
         (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Sun, 23 Feb 2020 13:27:49 -0800 (PST)
+        Sun, 23 Feb 2020 13:32:20 -0800 (PST)
 Cc:     mtk.manpages@gmail.com, linux-man@vger.kernel.org
-Subject: Re: [PATCH] strftime.3: consistently document fall-back format string
+Subject: Re: [PATCH] strftime.3: refer to the relevant nl_langinfo items
 To:     Eugene Syromyatnikov <evgsyr@gmail.com>
 References: <cover.1581693624.git.evgsyr@gmail.com>
- <00f5f714c73adf931d1b331a7f3724e4a0683c18.1581693625.git.evgsyr@gmail.com>
+ <564214d230e0b42e93d938560ff61bb74c2c44b2.1581693625.git.evgsyr@gmail.com>
 From:   "Michael Kerrisk (man-pages)" <mtk.manpages@gmail.com>
-Message-ID: <5237b3fd-e5a1-d2d1-8263-920bf11bd88b@gmail.com>
-Date:   Sun, 23 Feb 2020 22:27:48 +0100
+Message-ID: <3714573f-8133-b066-260d-f32e9da73740@gmail.com>
+Date:   Sun, 23 Feb 2020 22:32:20 +0100
 User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
  Thunderbird/68.5.0
 MIME-Version: 1.0
-In-Reply-To: <00f5f714c73adf931d1b331a7f3724e4a0683c18.1581693625.git.evgsyr@gmail.com>
+In-Reply-To: <564214d230e0b42e93d938560ff61bb74c2c44b2.1581693625.git.evgsyr@gmail.com>
 Content-Type: text/plain; charset=windows-1252
 Content-Language: en-US
 Content-Transfer-Encoding: 7bit
@@ -78,8 +78,13 @@ X-Mailing-List: linux-man@vger.kernel.org
 
 Hello Eugene,
 
-On 2/14/20 4:28 PM, Eugene Syromyatnikov wrote:
-> The information is taken from POSIX[1] and the implementations[2][3][4].
+On 2/14/20 4:29 PM, Eugene Syromyatnikov wrote:
+> As it wasn't clear before where this kind of information can be
+> obtained from.
+> 
+> * man3/strftime.3 (%a, %A, %b, %B, %c, %p, %r, %x, %X): Add information
+> about the locale elements that can be used to retrieve the relevant
+> information using nl_langinfo() library call.
 
 Thanks. Patch applied.
 
@@ -87,58 +92,138 @@ Cheers,
 
 Michael
 
-> [1] https://pubs.opengroup.org/onlinepubs/9699919799/basedefs/V1_chap07.html#tag_07_03_05_03
-> [2] https://sourceware.org/git/?p=glibc.git;a=blob;f=time/strftime_l.c
-> [3] https://git.musl-libc.org/cgit/musl/tree/src/locale/langinfo.c#n15
-> [4] https://git.uclibc.org/uClibc/tree/libc/misc/locale/locale.c#n992
-> 
-> * man3/strftime.3 (%c, %x, %X): Add information about fall-back format.
-> (%r): Move it behind SU comment.
-> 
 > Signed-off-by: Eugene Syromyatnikov <evgsyr@gmail.com>
 > ---
->  man3/strftime.3 | 10 ++++++++--
->  1 file changed, 8 insertions(+), 2 deletions(-)
+>  man3/strftime.3 | 65 +++++++++++++++++++++++++++++++++++++++++++++++++++++++++
+>  1 file changed, 65 insertions(+)
 > 
 > diff --git a/man3/strftime.3 b/man3/strftime.3
-> index 62b77bf..dd7dec7 100644
+> index dd7dec7..20ba057 100644
 > --- a/man3/strftime.3
 > +++ b/man3/strftime.3
-> @@ -107,6 +107,8 @@ The full month name according to the current locale.
+> @@ -89,24 +89,55 @@ structure are also shown.
+>  The abbreviated name of the day of the week according to the current locale.
+>  (Calculated from
+>  .IR tm_wday .)
+> +(The specific names used in the current locale can be obtained by calling
+> +.BR nl_langinfo (3)
+> +library call with
+> +.BR ABDAY_ { 1 \(en 7 }
+> +as an argument.)
+>  .TP
+>  .B %A
+>  The full name of the day of the week according to the current locale.
+>  (Calculated from
+>  .IR tm_wday .)
+> +(The specific names used in the current locale can be obtained by calling
+> +.BR nl_langinfo (3)
+> +library call with
+> +.BR DAY_ { 1 \(en 7 }
+> +as an argument.)
+>  .TP
+>  .B %b
+>  The abbreviated month name according to the current locale.
+>  (Calculated from
+>  .IR tm_mon .)
+> +(The specific names used in the current locale can be obtained by calling
+> +.BR nl_langinfo (3)
+> +library call with
+> +.BR ABMON_ { 1 \(en 12 }
+> +as an argument.)
+>  .TP
+>  .B %B
+>  The full month name according to the current locale.
+>  (Calculated from
+>  .IR tm_mon .)
+> +(The specific names used in the current locale can be obtained by calling
+> +.BR nl_langinfo (3)
+> +library call with
+> +.BR MON_ { 1 \(en 12 }
+> +as an argument.)
 >  .TP
 >  .B %c
 >  The preferred date and time representation for the current locale.
-> +(In the POSIX locale this is equivalent to
-> +.BR "%a %b %e %H:%M:%S %Y" .)
+> +(The specific format used in the current locale can be obtained by calling
+> +.BR nl_langinfo (3)
+> +library call with
+> +.B D_T_FMT
+> +as an argument for the
+> +.B %c
+> +conversion specification, and with
+> +.B ERA_D_T_FMT
+> +for the
+> +.B %Ec
+> +conversion specification.)
+>  (In the POSIX locale this is equivalent to
+>  .BR "%a %b %e %H:%M:%S %Y" .)
 >  .TP
->  .B %C
->  The century number (year/100) as a 2-digit integer. (SU)
-> @@ -240,9 +242,9 @@ string for the current locale.
+> @@ -230,6 +261,12 @@ corresponding strings for the current locale.
+>  Noon is treated as "PM" and midnight as "AM".
+>  (Calculated from
+>  .IR tm_hour .)
+> +(The specific string representations used for "AM" and "PM"
+> +in the current locale can be obtained by calling
+> +.BR nl_langinfo (3)
+> +library call with
+> +.BR AM_STR " and " PM_STR ,
+> +respectively.)
 >  .TP
+>  .B %P
+>  Like
+> @@ -243,6 +280,11 @@ string for the current locale.
 >  .B %r
 >  The time in a.m. or p.m. notation.
-> -In the POSIX locale this is equivalent to
-> -.BR "%I:%M:%S %p" .
 >  (SU)
-> +(In the POSIX locale this is equivalent to
-> +.BR "%I:%M:%S %p" .)
+> +(The specific format used in the current locale can be obtained by calling
+> +.BR nl_langinfo (3)
+> +library call with
+> +.B T_FMT_AMPM
+> +as an argument.)
+>  (In the POSIX locale this is equivalent to
+>  .BR "%I:%M:%S %p" .)
 >  .TP
->  .B %R
->  The time in 24-hour notation
-> @@ -324,9 +326,13 @@ and
+> @@ -326,11 +368,33 @@ and
 >  .TP
 >  .B %x
 >  The preferred date representation for the current locale without the time.
-> +(In the POSIX locale this is equivalent to
-> +.BR %m/%d/%y .)
+> +(The specific format used in the current locale can be obtained by calling
+> +.BR nl_langinfo (3)
+> +library call with
+> +.B D_FMT
+> +as an argument for the
+> +.B %x
+> +conversion specification, and with
+> +.B ERA_D_FMT
+> +for the
+> +.B %Ex
+> +conversion specification.)
+>  (In the POSIX locale this is equivalent to
+>  .BR %m/%d/%y .)
 >  .TP
 >  .B %X
 >  The preferred time representation for the current locale without the date.
-> +(In the POSIX locale this is equivalent to
-> +.BR %H:%M:%S .)
+> +(The specific format used in the current locale can be obtained by calling
+> +.BR nl_langinfo (3)
+> +library call with
+> +.B T_FMT
+> +as an argument for the
+> +.B %X
+> +conversion specification, and with
+> +.B ERA_T_FMT
+> +for the
+> +.B %EX
+> +conversion specification.)
+>  (In the POSIX locale this is equivalent to
+>  .BR %H:%M:%S .)
 >  .TP
->  .B %y
->  The year as a decimal number without a century (range 00 to 99).
+> @@ -657,6 +721,7 @@ main(int argc, char *argv[])
+>  .BR date (1),
+>  .BR time (2),
+>  .BR ctime (3),
+> +.BR nl_langinfo (3),
+>  .BR setlocale (3),
+>  .BR sprintf (3),
+>  .BR strptime (3)
 > 
 
 
