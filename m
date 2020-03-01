@@ -1,78 +1,51 @@
-Return-Path: <SRS0=WsCT=4Q=vger.kernel.org=linux-man-owner@kernel.org>
+Return-Path: <SRS0=8zgO=4S=vger.kernel.org=linux-man-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
-X-Spam-Level: 
-X-Spam-Status: No, score=-0.8 required=3.0 tests=DKIM_SIGNED,DKIM_VALID,
-	HEADER_FROM_DIFFERENT_DOMAINS,MAILING_LIST_MULTI,SPF_HELO_NONE,SPF_PASS
-	autolearn=no autolearn_force=no version=3.4.0
+X-Spam-Level: *
+X-Spam-Status: No, score=1.5 required=3.0 tests=FREEMAIL_REPLYTO_END_DIGIT,
+	HEADER_FROM_DIFFERENT_DOMAINS,HK_SCAM,MAILING_LIST_MULTI,SPF_HELO_NONE,
+	SPF_PASS autolearn=no autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 33DDCC3F2D3
-	for <linux-man@archiver.kernel.org>; Fri, 28 Feb 2020 15:34:07 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 63429C3F2CE
+	for <linux-man@archiver.kernel.org>; Sun,  1 Mar 2020 13:31:45 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.kernel.org (Postfix) with ESMTP id 07CB0246AC
-	for <linux-man@archiver.kernel.org>; Fri, 28 Feb 2020 15:34:07 +0000 (UTC)
-Authentication-Results: mail.kernel.org;
-	dkim=pass (2048-bit key) header.d=galassi-us.20150623.gappssmtp.com header.i=@galassi-us.20150623.gappssmtp.com header.b="RA0aCRM2"
+	by mail.kernel.org (Postfix) with ESMTP id 32F2E21D56
+	for <linux-man@archiver.kernel.org>; Sun,  1 Mar 2020 13:31:45 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1726971AbgB1PeG (ORCPT <rfc822;linux-man@archiver.kernel.org>);
-        Fri, 28 Feb 2020 10:34:06 -0500
-Received: from mail-yw1-f45.google.com ([209.85.161.45]:32879 "EHLO
-        mail-yw1-f45.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1726956AbgB1PeG (ORCPT
-        <rfc822;linux-man@vger.kernel.org>); Fri, 28 Feb 2020 10:34:06 -0500
-Received: by mail-yw1-f45.google.com with SMTP id j186so3692976ywe.0
-        for <linux-man@vger.kernel.org>; Fri, 28 Feb 2020 07:34:05 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=galassi-us.20150623.gappssmtp.com; s=20150623;
-        h=mime-version:from:date:message-id:subject:to:cc;
-        bh=1CRF6bVr8eKyISt/8ogq7nxdl3UcM4+OIXqqebS68u4=;
-        b=RA0aCRM2ZbN/gdjPkyd8OZW/TwtWlZrEKk6E/9/99spLJhq8f8UoHVcjy4wgSD9gg7
-         KcOMB/+esrpRE/w+vUWuwBXx145OjfIHdyyOj7X6yYztXA9697k22UfQlYAf4ZMCPFBs
-         TbxHGfyIa5qqVYpf4BIF2S/W62HSLp2XyhSx9VJWEas/zSWx5B8KJM+HGC6ekRfIGyck
-         iGQsRBYKS4EFaD6RESQn1XI2gzBnmhmkuh4UaX4etZBsLd7iMgFofhV1gf/eobq3EAMC
-         WnM+HRnBAnl8unX6v/3Ig0i6bcnNMv+otxDntKIwCDuj93a9OzqwzCS38zYC967jRuMk
-         4VIQ==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20161025;
-        h=x-gm-message-state:mime-version:from:date:message-id:subject:to:cc;
-        bh=1CRF6bVr8eKyISt/8ogq7nxdl3UcM4+OIXqqebS68u4=;
-        b=gSgDODIsNjU4bT6/Z8l0eEO1PY3CrEU00oIRpu/nU+1B1jXnO9ZaR1xITfsC/BHKK8
-         om8H6tzWZGpcW86GdnBbY/LJUC6iz5RS8ugjNdNDR28ItY4QXjRs8BzpCPzLuGMVQbKb
-         pYWqW+Q25uZM7sQEBAJWrsV914WLqEtV9hkA86eekdJj4/NBWb22LwBExYZI2tKrvPg+
-         d8Lm5HjE97ZCb8k9rLcSYryehIDy3HdWelUPO7tBGC4EJkT5zmbyjzGnseKnq3NEMFjF
-         dWiWwsnUSyimLE9jNDkehCU6I0zZFTFJqA25e8amG9BqBbSRdX9aAnT2hAINlxP8VYOo
-         CJFg==
-X-Gm-Message-State: APjAAAUzGk/ne8ulf87T750KmrJ7GAIRWwQbIAHfVOXrox8A/pyjT7+/
-        b55mPoO4wKhX72uOw+HxSUPoxmJYmOzppH1RfP8COg==
-X-Google-Smtp-Source: APXvYqzHJ31QNd9JfIGxqDI3a0hiGNMasRMBtlFBRnTUl0uB6cWhGCWXbfS8wrDfJ07KUOfppvptAOaYNKtGBVnGCws=
-X-Received: by 2002:a81:9213:: with SMTP id j19mr3420097ywg.187.1582904045153;
- Fri, 28 Feb 2020 07:34:05 -0800 (PST)
+        id S1725887AbgCANbo convert rfc822-to-8bit (ORCPT
+        <rfc822;linux-man@archiver.kernel.org>);
+        Sun, 1 Mar 2020 08:31:44 -0500
+Received: from reverse.rezaxess.fr ([212.84.63.23]:52742 "EHLO azmont.com"
+        rhost-flags-OK-FAIL-OK-FAIL) by vger.kernel.org with ESMTP
+        id S1725812AbgCANbo (ORCPT <rfc822;linux-man@vger.kernel.org>);
+        Sun, 1 Mar 2020 08:31:44 -0500
+Reply-To: grahammiller19699@gmail.com
+From:   "Graham Miller" <info@azmont.com>
+To:     linux-man@vger.kernel.org
+Subject: Business Partnership
+Date:   1 Mar 2020 14:31:42 +0100
+Message-ID: <20200301143142.CFBF6EFFED22D886@azmont.com>
 MIME-Version: 1.0
-From:   Michael Galassi <michael@galassi.us>
-Date:   Fri, 28 Feb 2020 07:33:54 -0800
-Message-ID: <CADFiD2+vbh-rhbj3G8z5F46R6cP1BSOVfpFiJju=EM00Q15-Ug@mail.gmail.com>
-Subject: small issue in getifaddrs(3) man page
-To:     mtk.manpages@gmail.com
-Cc:     linux-man@vger.kernel.org
-Content-Type: text/plain; charset="UTF-8"
+Content-Type: text/plain;
+        charset="utf-8"
+Content-Transfer-Encoding: 8BIT
 Sender: linux-man-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-man.vger.kernel.org>
 X-Mailing-List: linux-man@vger.kernel.org
 
-Hi,
+A very good day to you,  
 
-The getifaddrs(3) man page has some sample code which includes a for
-loop wich initializes and increments an in named "n" which is never
-used.  This is slightly confusing (but in no way wrong).  The page
-would be clearer if this variable declaration, initialization, and
-increment were removed.
+How are you doing today? My name is Graham Miller and I am glad 
+to be connected with you, I have a business proposal I would like 
+to discuss with you in private, it involves a business 
+opportunity that will be of huge benefit to both of us. Further 
+details will be shared after I receive your reponse.
 
-The two lines in question are:
-           int family, s, n;
-...
-           for (ifa = ifaddr, n = 0; ifa != NULL; ifa = ifa->ifa_next, n++) {
+Kindly reply me through this private email address:  
+grahammiller19699@gmail.com
+Thank you in anticipation for prompt response.
 
-Thanks.
-
--michael
+Yours truly,
+Mr. Graham Miller
+Private email: (grahammiller19699@gmail.com)
