@@ -1,175 +1,97 @@
-Return-Path: <SRS0=AS3v=4T=vger.kernel.org=linux-man-owner@kernel.org>
+Return-Path: <SRS0=B7Z6=4W=vger.kernel.org=linux-man-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-3.8 required=3.0 tests=DKIMWL_WL_HIGH,DKIM_SIGNED,
-	DKIM_VALID,HEADER_FROM_DIFFERENT_DOMAINS,MAILING_LIST_MULTI,SIGNED_OFF_BY,
-	SPF_HELO_NONE,SPF_PASS autolearn=no autolearn_force=no version=3.4.0
+X-Spam-Status: No, score=-9.8 required=3.0 tests=DKIM_SIGNED,DKIM_VALID,
+	DKIM_VALID_AU,FREEMAIL_FORGED_FROMDOMAIN,FREEMAIL_FROM,
+	HEADER_FROM_DIFFERENT_DOMAINS,INCLUDES_PATCH,MAILING_LIST_MULTI,SIGNED_OFF_BY,
+	SPF_HELO_NONE,SPF_PASS,USER_AGENT_GIT autolearn=ham autolearn_force=no
+	version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 084B7C3F2CD
-	for <linux-man@archiver.kernel.org>; Mon,  2 Mar 2020 21:16:54 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 503B5C3F2D2
+	for <linux-man@archiver.kernel.org>; Thu,  5 Mar 2020 21:35:23 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.kernel.org (Postfix) with ESMTP id CDE0122B48
-	for <linux-man@archiver.kernel.org>; Mon,  2 Mar 2020 21:16:53 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=default; t=1583183813;
-	bh=AmcgR0L68UQrsf01FBsdUlkw3hy/bPVrmnWudTAk5x8=;
-	h=Date:From:To:Subject:List-ID:From;
-	b=um5BhtjbWk4jLait1lcMDTx5UjmudplUF9+fXxyO5AfBYWMWDMlC1MD3iPB/gMCKQ
-	 HwcS1N6bjjCKk/ekc3SBnxuyRvEONGrkgsxwn7wmgH9g17XOfKL9LkMuWoyLbYcPMy
-	 pi7Q8tgfAO3Km0Pxxd1PIA1EjZaexP68BJ6mcwf4=
+	by mail.kernel.org (Postfix) with ESMTP id 21C2320728
+	for <linux-man@archiver.kernel.org>; Thu,  5 Mar 2020 21:35:23 +0000 (UTC)
+Authentication-Results: mail.kernel.org;
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="DwWn6sKf"
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1726925AbgCBVQx (ORCPT <rfc822;linux-man@archiver.kernel.org>);
-        Mon, 2 Mar 2020 16:16:53 -0500
-Received: from mail.kernel.org ([198.145.29.99]:52746 "EHLO mail.kernel.org"
-        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S1725911AbgCBVQx (ORCPT <rfc822;linux-man@vger.kernel.org>);
-        Mon, 2 Mar 2020 16:16:53 -0500
-Received: from localhost.localdomain (c-73-231-172-41.hsd1.ca.comcast.net [73.231.172.41])
-        (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
-        (No client certificate requested)
-        by mail.kernel.org (Postfix) with ESMTPSA id 1066820873;
-        Mon,  2 Mar 2020 21:16:51 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-        s=default; t=1583183811;
-        bh=AmcgR0L68UQrsf01FBsdUlkw3hy/bPVrmnWudTAk5x8=;
-        h=Date:From:To:Subject:From;
-        b=KlLVHvCRU+kk79v1xHdG7cOR1juvDs7U4dXCH8OziBWYXAXJyAhpofn/zDlUMx33N
-         tqKW8btmQGwdFCJkPXD9QcYq7dUxjfhE+pTlSBMyj1rhocU6ZbVBGVGDn58HGfXK7Y
-         rIy1Xb29cyxLhfN6IE+7RMBkNZbOXvHT8HJfxVDk=
-Date:   Mon, 02 Mar 2020 13:16:50 -0800
-From:   akpm@linux-foundation.org
-To:     alexander.h.duyck@linux.intel.com, axboe@kernel.dk,
-        bgeffon@google.com, christian@brauner.io, dancol@google.com,
-        hannes@cmpxchg.org, jannh@google.com, joaodias@google.com,
-        joel@joelfernandes.org, ktkhai@virtuozzo.com,
-        linux-man@vger.kernel.org, mhocko@suse.com, minchan@kernel.org,
-        mm-commits@vger.kernel.org, oleksandr@redhat.com,
-        shakeelb@google.com, sj38.park@gmail.com, sjpark@amazon.de,
-        sonnyrao@google.com, sspatil@google.com, surenb@google.com,
-        timmurray@google.com
-Subject:  + mm-madvise-allow-ksm-hints-for-remote-api.patch added
- to -mm tree
-Message-ID: <20200302211650.NHXDF6iT1%akpm@linux-foundation.org>
-User-Agent: s-nail v14.8.16
+        id S1726080AbgCEVfW (ORCPT <rfc822;linux-man@archiver.kernel.org>);
+        Thu, 5 Mar 2020 16:35:22 -0500
+Received: from mail-wr1-f67.google.com ([209.85.221.67]:45482 "EHLO
+        mail-wr1-f67.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1725991AbgCEVfW (ORCPT
+        <rfc822;linux-man@vger.kernel.org>); Thu, 5 Mar 2020 16:35:22 -0500
+Received: by mail-wr1-f67.google.com with SMTP id v2so8807267wrp.12
+        for <linux-man@vger.kernel.org>; Thu, 05 Mar 2020 13:35:20 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20161025;
+        h=from:to:cc:subject:date:message-id:mime-version
+         :content-transfer-encoding;
+        bh=sYUt/IC2si6psKgtZ8ob7X/NEcp3yqPQSfHqJWHJXoU=;
+        b=DwWn6sKfJ77qESdl5lkoR9ZAcTdkrfemwmlszMrPv9nPPCfCXll4DndkGSst5AMw7y
+         wzI9Q6yOqf7fmQXPkrC95/N/u47BIruBg9Ih2+ZKYXTRn2VjZwiGK3pZmkEtbVjLARe2
+         pYU24ceLcAWAUM4+NjmiuAmwSaAm6o50PoEhHuo4ZPUCM8yvygWMQyQFxCdIHPBZtTtu
+         VtwYxVnBI8tzJn79BeVHVcdll/+jOFf4PPBcAxx5kHnznZXl1+etCeCyEaC2aMVMHF9q
+         9kDT3QroCr0STnFDOntASL0No7HnqsqZaOLx/Dko7IrxcsxbH+CmQTrON7JwjT5ZeoWn
+         PMKw==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20161025;
+        h=x-gm-message-state:from:to:cc:subject:date:message-id:mime-version
+         :content-transfer-encoding;
+        bh=sYUt/IC2si6psKgtZ8ob7X/NEcp3yqPQSfHqJWHJXoU=;
+        b=QybPWUC08bixWZAsUUJKJNz2eEBUTc22XkPGz9j97VREZXHNkrn8pGe3pR2Ey85Yvi
+         TrlDHYbIYddnoHgeTTJidKBadWy1QxbI4gCtdTqRHhSsJDrXltLPM1oHDxVB7gCiqYV9
+         B+RxEzcQUneKrrXFRhvK0sZ9SnLIYIXC4Ont4yry5Uu980jpiSbCbgKv1nHc24Z25wxp
+         7+FFU53m6W25I4kvaoO3r3etzQotRRaSAyEvgTSyLnN2zkS83NrLXyqfGZzvGFLxXz61
+         nJ36FyK7KOiYCq81HO9gEx3rXVW7mJhPagwyX3spnJtpeh3YRPErnJ6mHjzeWvl9rbID
+         dBYg==
+X-Gm-Message-State: ANhLgQ2mw/Y7fHLvW4F8YZEq0MGC0tjQc7rwEMNv0Rv/wpDI/BuSTuZL
+        oZqv8t0IvVrLMSKN91hkLZM=
+X-Google-Smtp-Source: ADFU+vsv7foJdWt9nDSqXjjH130WxaHbWDNo/O4yzJfY8HCL/dzk1vwgDIxZmVedNDy40+N4dFF9Cg==
+X-Received: by 2002:a5d:4b82:: with SMTP id b2mr882467wrt.102.1583444119679;
+        Thu, 05 Mar 2020 13:35:19 -0800 (PST)
+Received: from localhost.localdomain (public-gprs389870.centertel.pl. [37.47.154.47])
+        by smtp.googlemail.com with ESMTPSA id n11sm12576022wrw.11.2020.03.05.13.35.18
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Thu, 05 Mar 2020 13:35:19 -0800 (PST)
+From:   =?UTF-8?q?Krzysztof=20Ma=C5=82ysa?= <varqox@gmail.com>
+To:     mtk.manpages@gmail.com
+Cc:     linux-man@vger.kernel.org,
+        =?UTF-8?q?Krzysztof=20Ma=C5=82ysa?= <varqox@gmail.com>
+Subject: [PATCH] clone.2: tfix
+Date:   Thu,  5 Mar 2020 22:35:37 +0100
+Message-Id: <20200305213537.35763-1-varqox@gmail.com>
+X-Mailer: git-send-email 2.25.1
+MIME-Version: 1.0
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 8bit
 Sender: linux-man-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-man.vger.kernel.org>
 X-Mailing-List: linux-man@vger.kernel.org
 
+Fix clone3() syscall description for CLONE_PARENT_SETTID: kernel uses
+cl_args.parent_tid instead of the specified cl_args.child_tid.
 
-The patch titled
-     Subject: mm/madvise: allow KSM hints for remote API
-has been added to the -mm tree.  Its filename is
-     mm-madvise-allow-ksm-hints-for-remote-api.patch
-
-This patch should soon appear at
-    http://ozlabs.org/~akpm/mmots/broken-out/mm-madvise-allow-ksm-hints-for-remote-api.patch
-and later at
-    http://ozlabs.org/~akpm/mmotm/broken-out/mm-madvise-allow-ksm-hints-for-remote-api.patch
-
-Before you just go and hit "reply", please:
-   a) Consider who else should be cc'ed
-   b) Prefer to cc a suitable mailing list as well
-   c) Ideally: find the original patch on the mailing list and do a
-      reply-to-all to that, adding suitable additional cc's
-
-*** Remember to use Documentation/process/submit-checklist.rst when testing your code ***
-
-The -mm tree is included into linux-next and is updated
-there every 3-4 working days
-
-------------------------------------------------------
-From: Oleksandr Natalenko <oleksandr@redhat.com>
-Subject: mm/madvise: allow KSM hints for remote API
-
-It all began with the fact that KSM works only on memory that is marked by
-madvise().  And the only way to get around that is to either:
-
-  * use LD_PRELOAD; or
-  * patch the kernel with something like UKSM or PKSM.
-
-(i skip ptrace can of worms here intentionally)
-
-To overcome this restriction, lets employ a new remote madvise API.  This
-can be used by some small userspace helper daemon that will do auto-KSM
-job for us.
-
-I think of two major consumers of remote KSM hints:
-
-  * hosts, that run containers, especially similar ones and especially in
-    a trusted environment, sharing the same runtime like Node.js;
-
-  * heavy applications, that can be run in multiple instances, not
-    limited to opensource ones like Firefox, but also those that cannot be
-    modified since they are binary-only and, maybe, statically linked.
-
-Speaking of statistics, more numbers can be found in the very first
-submission, that is related to this one [1].  For my current setup with
-two Firefox instances I get 100 to 200 MiB saved for the second instance
-depending on the amount of tabs.
-
-1 FF instance with 15 tabs:
-
-   $ echo "$(cat /sys/kernel/mm/ksm/pages_sharing) * 4 / 1024" | bc
-   410
-
-2 FF instances, second one has 12 tabs (all the tabs are different):
-
-   $ echo "$(cat /sys/kernel/mm/ksm/pages_sharing) * 4 / 1024" | bc
-   592
-
-At the very moment I do not have specific numbers for containerised
-workload, but those should be comparable in case the containers share
-similar/same runtime.
-
-[1] https://lore.kernel.org/patchwork/patch/1012142/
-
-Link: http://lkml.kernel.org/r/20200302193630.68771-8-minchan@kernel.org
-Signed-off-by: Oleksandr Natalenko <oleksandr@redhat.com>
-Signed-off-by: Minchan Kim <minchan@kernel.org>
-Reviewed-by: SeongJae Park <sjpark@amazon.de>
-Cc: Alexander Duyck <alexander.h.duyck@linux.intel.com>
-Cc: Brian Geffon <bgeffon@google.com>
-Cc: Christian Brauner <christian@brauner.io>
-Cc: Daniel Colascione <dancol@google.com>
-Cc: Jann Horn <jannh@google.com>
-Cc: Jens Axboe <axboe@kernel.dk>
-Cc: Joel Fernandes <joel@joelfernandes.org>
-Cc: Johannes Weiner <hannes@cmpxchg.org>
-Cc: John Dias <joaodias@google.com>
-Cc: Kirill Tkhai <ktkhai@virtuozzo.com>
-Cc: Michal Hocko <mhocko@suse.com>
-Cc: Sandeep Patil <sspatil@google.com>
-Cc: SeongJae Park <sj38.park@gmail.com>
-Cc: Shakeel Butt <shakeelb@google.com>
-Cc: Sonny Rao <sonnyrao@google.com>
-Cc: Suren Baghdasaryan <surenb@google.com>
-Cc: Tim Murray <timmurray@google.com>
-Cc: <linux-man@vger.kernel.org>
-Signed-off-by: Andrew Morton <akpm@linux-foundation.org>
+Signed-off-by: Krzysztof Małysa <varqox@gmail.com>
 ---
+ man2/clone.2 | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
 
- mm/madvise.c |    4 ++++
- 1 file changed, 4 insertions(+)
-
---- a/mm/madvise.c~mm-madvise-allow-ksm-hints-for-remote-api
-+++ a/mm/madvise.c
-@@ -1005,6 +1005,10 @@ process_madvise_behavior_valid(int behav
- 	switch (behavior) {
- 	case MADV_COLD:
- 	case MADV_PAGEOUT:
-+#ifdef CONFIG_KSM
-+	case MADV_MERGEABLE:
-+	case MADV_UNMERGEABLE:
-+#endif
- 		return true;
- 	default:
- 		return false;
-_
-
-Patches currently in -mm which might be from oleksandr@redhat.com are
-
-mm-madvise-employ-mmget_still_valid-for-write-lock.patch
-mm-madvise-allow-ksm-hints-for-remote-api.patch
+diff --git a/man2/clone.2 b/man2/clone.2
+index f9920ee66..39cec4c86 100644
+--- a/man2/clone.2
++++ b/man2/clone.2
+@@ -765,7 +765,7 @@ Store the child thread ID at the location pointed to by
+ .I parent_tid
+ .RB ( clone ())
+ or
+-.I cl_args.child_tid
++.I cl_args.parent_tid
+ .RB ( clone3 ())
+ in the parent's memory.
+ (In Linux 2.5.32-2.5.48 there was a flag
+-- 
+2.25.1
 
