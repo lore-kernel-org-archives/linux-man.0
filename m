@@ -1,127 +1,167 @@
-Return-Path: <SRS0=eBsw=4Z=vger.kernel.org=linux-man-owner@kernel.org>
+Return-Path: <SRS0=2MUX=43=vger.kernel.org=linux-man-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-2.3 required=3.0 tests=DKIM_SIGNED,DKIM_VALID,
+X-Spam-Status: No, score=-6.8 required=3.0 tests=DKIM_SIGNED,DKIM_VALID,
 	DKIM_VALID_AU,FREEMAIL_FORGED_FROMDOMAIN,FREEMAIL_FROM,
-	HEADER_FROM_DIFFERENT_DOMAINS,MAILING_LIST_MULTI,SPF_HELO_NONE,SPF_PASS,
-	USER_AGENT_SANE_1 autolearn=no autolearn_force=no version=3.4.0
+	HEADER_FROM_DIFFERENT_DOMAINS,INCLUDES_PATCH,MAILING_LIST_MULTI,SIGNED_OFF_BY,
+	SPF_HELO_NONE,SPF_PASS,URIBL_BLOCKED autolearn=ham autolearn_force=no
+	version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 37B36C10DCE
-	for <linux-man@archiver.kernel.org>; Sun,  8 Mar 2020 22:09:01 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 41F7DC10F27
+	for <linux-man@archiver.kernel.org>; Tue, 10 Mar 2020 18:24:39 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.kernel.org (Postfix) with ESMTP id 021E4206D5
-	for <linux-man@archiver.kernel.org>; Sun,  8 Mar 2020 22:09:00 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTP id 0B70F20727
+	for <linux-man@archiver.kernel.org>; Tue, 10 Mar 2020 18:24:39 +0000 (UTC)
 Authentication-Results: mail.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="CsMWFTqy"
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="Y4Mv/RG7"
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1726352AbgCHWJA (ORCPT <rfc822;linux-man@archiver.kernel.org>);
-        Sun, 8 Mar 2020 18:09:00 -0400
-Received: from mail-pg1-f193.google.com ([209.85.215.193]:36665 "EHLO
-        mail-pg1-f193.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1726346AbgCHWJA (ORCPT
-        <rfc822;linux-man@vger.kernel.org>); Sun, 8 Mar 2020 18:09:00 -0400
-Received: by mail-pg1-f193.google.com with SMTP id d9so3812951pgu.3
-        for <linux-man@vger.kernel.org>; Sun, 08 Mar 2020 15:08:59 -0700 (PDT)
+        id S1726445AbgCJSYi (ORCPT <rfc822;linux-man@archiver.kernel.org>);
+        Tue, 10 Mar 2020 14:24:38 -0400
+Received: from mail-ed1-f67.google.com ([209.85.208.67]:35756 "EHLO
+        mail-ed1-f67.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1726269AbgCJSYi (ORCPT
+        <rfc822;linux-man@vger.kernel.org>); Tue, 10 Mar 2020 14:24:38 -0400
+Received: by mail-ed1-f67.google.com with SMTP id a20so11597344edj.2;
+        Tue, 10 Mar 2020 11:24:35 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=gmail.com; s=20161025;
-        h=date:from:to:cc:subject:message-id:references:mime-version
-         :content-disposition:in-reply-to:user-agent;
-        bh=vHz5UyZQdXWUEewk+d8c44xCFKsCF2Q4bGFwniuQ4WE=;
-        b=CsMWFTqyYlj/SSN7ULScZYrLAERiTitUBLeue7MvIl5v0aNelhaPYe+3310NhaZ6en
-         1vGL8TIznXISHIfISvLrFJOlADontdWZZXXLj4xiWjZouX/3/NpgYSaTYoUk3R2T1r0T
-         CLx4qKJOA9m4DoklMSoqBeF7XzL83fWoSesIqIdhnEKb4yzhdam7qe2DSqZDJfDqjrks
-         mulpvF3nZIWQ7y7tzQpSx3OjurnO2xcYVGyr4q/W0k964CCGNume9RcMU+maVAI9yEDF
-         IB0rxAE4kBU1HHZWzxFfkCIx0KKqh3LmMXntXO7Ggif0g4o5ELD0YTG1OhQ7ztXD2C8f
-         4dIQ==
+        h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+         :cc;
+        bh=N/geXS1ktRmdQ+oZIMa1IAHtn3QcVn0X1vL0uiDn3J4=;
+        b=Y4Mv/RG7zokLOwUODFO2Sv/EsmnAk1VZ6R2I1es12dgvA3dk4X/FWJFZtNRWBjxX1c
+         tVE1ZflhW3Kp4bjtPKBmvvGeMQBcsZJGTmkv7NDsC+94yefejDo+krJ0mZ6z+rCw29Im
+         w5SvEhrJQa6CY2pe6OGXV9OZku2qIrPt4tm7ZbL1pJBuSrlEpdEFvJnaweYP7JX7wsu6
+         3EBT1W+V8D13FVYcMyWH69qIrnuH7bI3DBm1p+PPNdmJhjYQ4GyexONkrlvMCfGAsbbb
+         1WD62Oo0SFgxKGpMJph4XgLJKb+hluMBN5swYQF3UNmoZ6eQ1R28PSpsdXiZMQLAQm6s
+         /hbg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
-        h=x-gm-message-state:date:from:to:cc:subject:message-id:references
-         :mime-version:content-disposition:in-reply-to:user-agent;
-        bh=vHz5UyZQdXWUEewk+d8c44xCFKsCF2Q4bGFwniuQ4WE=;
-        b=N+lA11CW6lFZnbzqfOsKs27ztA/LAw1kppQQn8Hw+KzN30eljR3GJ9GxP0qoPALmG3
-         lHmPPD/ukQhYC3wOsjNJOFUfMIpskREOylEVImUOsY9lfc84Nz8PwRSOSOL6uQkRbv7e
-         Z3T34IJNXqbVZoVlV90lcU1fa+2OO1FKLFxA6gD4EqBTJEKI8UuNI2kiIyHRH6jRi6T7
-         z2ApBBmi0BnDMFU+dNtbKvCNLUTCngmNuA7uJihvT80/ZLq9UTCsyxKPqCfz/QBoyuHS
-         ydThVXoruGPHlkKVfdKtq9p0seA2t7hbtKoGH94xSaiFhQwCmSBK9tM1U3fmxmYHmkJ7
-         PvVg==
-X-Gm-Message-State: ANhLgQ1nskgXCJOM4cTvqcxOG8YPcLzhASsA6c5NT9CP7A3UYQ56xJqV
-        19JKYBS0YWrMPvMJlrEVvXbpoQ9n
-X-Google-Smtp-Source: ADFU+vu6bTSC/DytBDYiX/AmXz+YuLRYf56MbaNx9SGEyShfayRF0btz45527Vg0d7s9PG2Qdm7OGQ==
-X-Received: by 2002:a63:f74a:: with SMTP id f10mr13352495pgk.360.1583705338945;
-        Sun, 08 Mar 2020 15:08:58 -0700 (PDT)
-Received: from localhost.localdomain ([1.144.139.129])
-        by smtp.gmail.com with ESMTPSA id d5sm36891073pga.36.2020.03.08.15.08.56
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Sun, 08 Mar 2020 15:08:58 -0700 (PDT)
-Date:   Mon, 9 Mar 2020 09:08:43 +1100
-From:   "G. Branden Robinson" <g.branden.robinson@gmail.com>
-To:     Colin Brough <colinbrough73@gmail.com>
-Cc:     mtk.manpages@gmail.com, linux-man@vger.kernel.org
-Subject: Re: Typo in 'stat(2)' manpage
-Message-ID: <20200308220839.z7nd76ug5b7erdsg@localhost.localdomain>
-References: <3ce3c571-9700-9b02-621b-5b07accf99f7@gmail.com>
+        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+         :message-id:subject:to:cc;
+        bh=N/geXS1ktRmdQ+oZIMa1IAHtn3QcVn0X1vL0uiDn3J4=;
+        b=E9t7CmoRRUkjL/avxO9OWBHHsCwvdJWdxksp0IK7zp02LoKnMp/E8EzuCYp/JUylrf
+         ZfseErQYHrJqmVjwoKnuFqJn10nVvY4SyLcT2BSubfHdL6li8i8VtExtvysrdx35EywC
+         qyUClegLQQwaR5l+G5nmQlucZkplg7xhlhdhYJgoppi7tUNRE/cKZ9Y3gtVbRW1CiuT8
+         FyPCRgE4k1YmO13jwQ9amBHYAJZ5TwTa7TFqxmqPIa7tfpuQ+qnzsBFZEtledoXa3ymJ
+         Gl4Zk+qLf0oIf7LPmQf8amCbCBKqTo63AHuD8aSwbjJUCP/fI6MaB2Itz7zgP8vCWnlx
+         jPBg==
+X-Gm-Message-State: ANhLgQ3L+mSK6ibVwPU/+yWj4bXLb/lSPpjpFm+xqb+qrkYJ7q0ht6Sx
+        b6EIyPCQmKMytSxalR7XfcUkgduPiUhIolPLhIgrYA==
+X-Google-Smtp-Source: ADFU+vs6jC86jhNiQ9dqBIBIQR+hMKRBT5ajUKABb3eFRrfB1usVWKKbkTyQo55pqkLEuvp3Hn5ZneyFnY3BCe2a92I=
+X-Received: by 2002:a17:906:3e0c:: with SMTP id k12mr5881975eji.309.1583864674852;
+ Tue, 10 Mar 2020 11:24:34 -0700 (PDT)
 MIME-Version: 1.0
-Content-Type: multipart/signed; micalg=pgp-sha256;
-        protocol="application/pgp-signature"; boundary="kyrrjkd4jag7gpqo"
-Content-Disposition: inline
-In-Reply-To: <3ce3c571-9700-9b02-621b-5b07accf99f7@gmail.com>
-User-Agent: NeoMutt/20180716
+References: <1580757507-120233-1-git-send-email-yang.shi@linux.alibaba.com>
+ <20200210093635.GC10636@dhcp22.suse.cz> <92f30e24-7b77-b21a-ed3a-efc55bc500c6@linux.alibaba.com>
+In-Reply-To: <92f30e24-7b77-b21a-ed3a-efc55bc500c6@linux.alibaba.com>
+From:   Yang Shi <shy828301@gmail.com>
+Date:   Tue, 10 Mar 2020 11:24:21 -0700
+Message-ID: <CAHbLzkpc4huH2J8xT0PCSGJba_WkWX-e3dtWQO7-Xi9aMTEV5w@mail.gmail.com>
+Subject: Re: [v3 PATCH] move_pages.2: Returning positive value is a new error case
+To:     mtk.manpages@gmail.com
+Cc:     Yang Shi <yang.shi@linux.alibaba.com>,
+        Michal Hocko <mhocko@kernel.org>, david@redhat.com,
+        Andrew Morton <akpm@linux-foundation.org>,
+        linux-man@vger.kernel.org, linux-api@vger.kernel.org,
+        Linux MM <linux-mm@kvack.org>,
+        Linux Kernel Mailing List <linux-kernel@vger.kernel.org>
+Content-Type: text/plain; charset="UTF-8"
 Sender: linux-man-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-man.vger.kernel.org>
 X-Mailing-List: linux-man@vger.kernel.org
 
+On Thu, Feb 20, 2020 at 9:07 AM Yang Shi <yang.shi@linux.alibaba.com> wrote:
+>
+>
+>
+> On 2/10/20 1:36 AM, Michal Hocko wrote:
+> > On Tue 04-02-20 03:18:27, Yang Shi wrote:
+> >> Since commit a49bd4d71637 ("mm, numa: rework do_pages_move"),
+> >> the semantic of move_pages() has changed to return the number of
+> >> non-migrated pages if they were result of a non-fatal reasons (usually a
+> >> busy page).  This was an unintentional change that hasn't been noticed
+> >> except for LTP tests which checked for the documented behavior.
+> >>
+> >> There are two ways to go around this change.  We can even get back to the
+> >> original behavior and return -EAGAIN whenever migrate_pages is not able
+> >> to migrate pages due to non-fatal reasons.  Another option would be to
+> >> simply continue with the changed semantic and extend move_pages
+> >> documentation to clarify that -errno is returned on an invalid input or
+> >> when migration simply cannot succeed (e.g. -ENOMEM, -EBUSY) or the
+> >> number of pages that couldn't have been migrated due to ephemeral
+> >> reasons (e.g. page is pinned or locked for other reasons).
+> >>
+> >> We decided to keep the second option in kernel because this behavior is in
+> >> place for some time without anybody complaining and possibly new users
+> >> depending on it.  Also it allows to have a slightly easier error handling
+> >> as the caller knows that it is worth to retry when err > 0.
+> >>
+> >> Update man pages to reflect the new semantic.
+> >>
+> >> Cc: Michal Hocko <mhocko@suse.com>
+> >> Cc: Michael Kerrisk <mtk.manpages@gmail.com>
+> >> Signed-off-by: Yang Shi <yang.shi@linux.alibaba.com>
+>
 
---kyrrjkd4jag7gpqo
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-Content-Transfer-Encoding: quoted-printable
+Hi Michale,
 
-At 2020-03-08T21:59:13+0000, Colin Brough wrote:
-> Reporting an error on 'stat(2)' manpage, present on
-> http://man7.org/linux/man-pages/man2/stat.2.html, as well as on my
-> Ubuntu derived distro.
->=20
-> Name of the first of the list of ERRORS is spelled wrong:
->=20
->  - on manpage listed as 'EACCES' (single S at the end)
->=20
->  - should be 'EACCESS' (double S on the end)
+Maybe my work email went to your spam folder. So, ping with my
+personal email. Would you please consider take this patch?
 
-This is not an error,  EACCES is not only the correct spelling, but it
-is standardized.
+Thanks,
+Yang
 
-https://pubs.opengroup.org/onlinepubs/9699919799/functions/stat.html
-
-Like creat(), it a legacy of the pathological obsesstion with
-abbreviation that afflicted early Unix developers.
-
-(This one at least has the excuse that externally-visible symbols were
-limited to six characters for compatibility with Fortran linkers.
-creat() has no such defense.)
-
-Regards,
-Branden
-
---kyrrjkd4jag7gpqo
-Content-Type: application/pgp-signature; name="signature.asc"
-
------BEGIN PGP SIGNATURE-----
-
-iQIzBAEBCAAdFiEEh3PWHWjjDgcrENwa0Z6cfXEmbc4FAl5lbN0ACgkQ0Z6cfXEm
-bc5plQ/+IOYa8Ukxsyn9odyQrAVVg40CvDMsqDFFsRpzraONmUnMEuffbPoKfEnI
-DHdDYeD1GqzldVJFTNQa7SYVd21ViiPIZIZsRFY7dyeBn60niXoBoszTTmPvPXPj
-3yqd/gCH7MEMBir4EFpHJSsbLWIHBshOgNZBlNJJdiglSLW7GMH32H7yPzMTrc4J
-POgUxERTMTuyPx6Y2rf8et4cGOnVp7FtiX0FbyydIUPFUutFAqOyOtCDOis8qOKo
-t1mMwAA2Nv00LEBLhiNaun6Zo7E20ecddtnTS+T9jX2UIsBikJh626HK9V1dOKbC
-QN1mVyPKqDkHPLoqwzlp7+AFBzT4IrsWSGuDDmDQ2fin4nvNmLFfQlMRufxzyVda
-cOIYgmjmatsnyGnDUsWrdqSbqjo0MUTk0TLtwA9Pb4wNMVML/sbXIlf2zLJyxFsm
-FdoqqFkuxMtKeXKI4I7th+2iDazAb1O5EGU8xwH86fXAm5+GddoggCPW2hpluo7w
-AvBrYInDFjg4VZRQ73tXBndzCqZscZz0gAztaWOVvfqfqVSF82IJWZsCscg7sEWv
-zCE5VgCDcpfN4CklJfvUvIyCOl6w9dMyd0rbFyEXfYUlbEx3hjt9RdPzp1iW730D
-axMpzcKMfeiMmLI9IM4HiDIHabLYKWltDBklsEbjOJukSHo6J3Y=
-=DBJe
------END PGP SIGNATURE-----
-
---kyrrjkd4jag7gpqo--
+> Hi Michael,
+>
+> Would you please consider take this patch? The kernel change has been
+> upstreamed.
+>
+> Thanks,
+> Yang
+>
+> > Acked-by: Michal Hocko <mhocko@suse.com>
+> >
+> >> ---
+> >> v3: * Fixed the comments from David Hildenbrand.
+> >>      * Fixed the inaccuracy about pre-initialized status array values.
+> >> v2: * Added notes about status array per Michal.
+> >>      * Added Michal's Acked-by.
+> >>
+> >>   man2/move_pages.2 | 10 ++++++++--
+> >>   1 file changed, 8 insertions(+), 2 deletions(-)
+> >>
+> >> diff --git a/man2/move_pages.2 b/man2/move_pages.2
+> >> index 1bf1053..50c83a4 100644
+> >> --- a/man2/move_pages.2
+> >> +++ b/man2/move_pages.2
+> >> @@ -104,7 +104,9 @@ pages that need to be moved.
+> >>   is an array of integers that return the status of each page.
+> >>   The array contains valid values only if
+> >>   .BR move_pages ()
+> >> -did not return an error.
+> >> +did not return an error.  Pre-initialization of the array to the value
+> >> +which cannot represent a real numa node or valid error of status array
+> >> +could help to identify pages that have been migrated
+> >>   .PP
+> >>   .I flags
+> >>   specify what types of pages to move.
+> >> @@ -164,9 +166,13 @@ returns zero.
+> >>   .\" do the right thing?
+> >>   On error, it returns \-1, and sets
+> >>   .I errno
+> >> -to indicate the error.
+> >> +to indicate the error. If positive value is returned, it is the number of
+> >> +non-migrated pages.
+> >>   .SH ERRORS
+> >>   .TP
+> >> +.B Positive value
+> >> +The number of non-migrated pages if they were the result of non-fatal
+> >> +reasons (since version 4.17).
+> >>   .B E2BIG
+> >>   Too many pages to move.
+> >>   Since Linux 2.6.29,
+> >> --
+> >> 1.8.3.1
+>
