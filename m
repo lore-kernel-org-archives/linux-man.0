@@ -1,109 +1,93 @@
-Return-Path: <SRS0=uXKY=5H=vger.kernel.org=linux-man-owner@kernel.org>
+Return-Path: <SRS0=b07c=5I=vger.kernel.org=linux-man-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-14.6 required=3.0 tests=DKIM_INVALID,DKIM_SIGNED,
-	HEADER_FROM_DIFFERENT_DOMAINS,INCLUDES_PATCH,MAILING_LIST_MULTI,
-	MENTIONS_GIT_HOSTING,SIGNED_OFF_BY,SPF_HELO_NONE,SPF_PASS,USER_AGENT_GIT
-	autolearn=ham autolearn_force=no version=3.4.0
+X-Spam-Status: No, score=-7.0 required=3.0 tests=HEADER_FROM_DIFFERENT_DOMAINS,
+	INCLUDES_PATCH,MAILING_LIST_MULTI,SIGNED_OFF_BY,SPF_HELO_NONE,SPF_PASS,
+	UNWANTED_LANGUAGE_BODY,USER_AGENT_GIT autolearn=ham autolearn_force=no
+	version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 136D4C54EEB
-	for <linux-man@archiver.kernel.org>; Sun, 22 Mar 2020 09:55:39 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id D02D0C4332B
+	for <linux-man@archiver.kernel.org>; Mon, 23 Mar 2020 09:04:34 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.kernel.org (Postfix) with ESMTP id CAAC620719
-	for <linux-man@archiver.kernel.org>; Sun, 22 Mar 2020 09:55:38 +0000 (UTC)
-Authentication-Results: mail.kernel.org;
-	dkim=fail reason="signature verification failed" (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="pqI0/sUy"
+	by mail.kernel.org (Postfix) with ESMTP id A81632072D
+	for <linux-man@archiver.kernel.org>; Mon, 23 Mar 2020 09:04:34 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1726871AbgCVJzi (ORCPT <rfc822;linux-man@archiver.kernel.org>);
-        Sun, 22 Mar 2020 05:55:38 -0400
-Received: from mail-pl1-f195.google.com ([209.85.214.195]:44330 "EHLO
-        mail-pl1-f195.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1726866AbgCVJzi (ORCPT
-        <rfc822;linux-man@vger.kernel.org>); Sun, 22 Mar 2020 05:55:38 -0400
-Received: by mail-pl1-f195.google.com with SMTP id h11so4528243plr.11;
-        Sun, 22 Mar 2020 02:55:36 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20161025;
-        h=sender:from:to:cc:subject:date:message-id:mime-version
-         :content-transfer-encoding;
-        bh=/2MzkSElXxPR2YxyIoEkVcfa13iFyx9aLxRmU5HJX8k=;
-        b=pqI0/sUylZqVpvTeukqO0MzSGLGwLVzv687iis5NqUEJLloAtRMa2uReoeRAoSoOXl
-         oI6RBN9HGFt8mkmepYg/DAn7nd1uaabCpTukKQN9ejdclf447xWqf2bEUrfieAn31ahG
-         VALfXlGCcWmEL+M0sTYxXJg6V3xTKAda5OZ1qcmfnPtOoV2rnScCd32Tl383fqtmZRlP
-         PmrlVPYXv0T+VHymnjBH9b4P7Vch5pIlmpegQmivHi5DSoerHGZsKVDE3zcdsJtQ1aiy
-         ptvmBG0E1MHra4CnVFIND/pI4CNPVMQZrUAYfbPFfQcggSgRNSM14oBg2/770GOk4A5v
-         z8kQ==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20161025;
-        h=x-gm-message-state:sender:from:to:cc:subject:date:message-id
-         :mime-version:content-transfer-encoding;
-        bh=/2MzkSElXxPR2YxyIoEkVcfa13iFyx9aLxRmU5HJX8k=;
-        b=qGUCgw/uu70TsOAz04GS5kP5/M4SkvRyPORx+Tsd2RDA3pCIpNFU/S/OW8O+5PWY4g
-         n9EHXJifMiDXVWYv2WkrMERC2YkbL/xJwvjBTBYrd/YW5nLEY+62AVzdkB9zROIVqjiL
-         xeslPhVj/O7PGeSY9bhlkmwNQ2Qcy51XiOQBlujUXykfp39JozP34cI1RLX3nLMarMnc
-         aWf8fb1BoeiUiEIiuhsMTaZhavubdimLeIKbAOf0SVA2I6D8776/cXeiJpHRJyka99Pi
-         8h8t5UG+CeNivnAa2lr5XbcVmxdAP90Je294tl69sqnfmOg57N4fI+bO9lvDLz6WdRVZ
-         Kv2A==
-X-Gm-Message-State: ANhLgQ3gP5QvSf6Kh4ZV0JVZLsPpGE5XLr10BJ8ip4R7VCjrwxsI1AD7
-        5IM7gqnzuWLV1fXmhpVZ02k=
-X-Google-Smtp-Source: ADFU+vsDvnqFFrCKd23CR7w6aEcbIIYEkQgr2wGogrhdgAHGqQr3/iW0p0pGdWv6MEAc0U9JBji8DQ==
-X-Received: by 2002:a17:90b:300c:: with SMTP id hg12mr17559132pjb.96.1584870936422;
-        Sun, 22 Mar 2020 02:55:36 -0700 (PDT)
-Received: from xps.vpn2.bfsu.edu.cn ([103.125.232.133])
-        by smtp.gmail.com with ESMTPSA id h64sm9963548pfg.191.2020.03.22.02.55.34
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Sun, 22 Mar 2020 02:55:35 -0700 (PDT)
-From:   YunQiang Su <syq@debian.org>
-To:     mtk.manpages@gmail.com
-Cc:     linux-mips@vger.kernel.org, linux-man@vger.kernel.org,
-        linux-kernel@vger.kernel.org, YunQiang Su <syq@debian.org>
-Subject: [PATCH v2] getauxval.3: MIPS, AT_BASE_PLATFORM passes ISA level
-Date:   Sun, 22 Mar 2020 17:55:27 +0800
-Message-Id: <20200322095527.397716-1-syq@debian.org>
+        id S1727647AbgCWJEe (ORCPT <rfc822;linux-man@archiver.kernel.org>);
+        Mon, 23 Mar 2020 05:04:34 -0400
+Received: from smtpout1.mo804.mail-out.ovh.net ([79.137.123.220]:59231 "EHLO
+        smtpout1.mo804.mail-out.ovh.net" rhost-flags-OK-OK-OK-OK)
+        by vger.kernel.org with ESMTP id S1727587AbgCWJEe (ORCPT
+        <rfc822;linux-man@vger.kernel.org>); Mon, 23 Mar 2020 05:04:34 -0400
+X-Greylist: delayed 385 seconds by postgrey-1.27 at vger.kernel.org; Mon, 23 Mar 2020 05:04:33 EDT
+Received: from mxplan6.mail.ovh.net (unknown [10.108.16.172])
+        by mo804.mail-out.ovh.net (Postfix) with ESMTPS id 883FB2F857BF;
+        Mon, 23 Mar 2020 09:58:06 +0100 (CET)
+Received: from jwilk.net (37.59.142.98) by DAG4EX2.mxp6.local (172.16.2.32)
+ with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id 15.1.1779.2; Mon, 23 Mar
+ 2020 09:58:05 +0100
+From:   Jakub Wilk <jwilk@jwilk.net>
+To:     Michael Kerrisk <mtk.manpages@gmail.com>
+CC:     <linux-man@vger.kernel.org>
+Subject: [PATCH] units.7: tfix
+Date:   Mon, 23 Mar 2020 09:57:50 +0100
+Message-ID: <20200323085750.5833-1-jwilk@jwilk.net>
 X-Mailer: git-send-email 2.26.0.rc2
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+Content-Transfer-Encoding: 7BIT
+Content-Type:   text/plain; charset=US-ASCII
+X-Originating-IP: [37.59.142.98]
+X-ClientProxiedBy: DAG4EX2.mxp6.local (172.16.2.32) To DAG4EX2.mxp6.local
+ (172.16.2.32)
+X-Ovh-Tracer-GUID: 45a5f1d4-503f-4bd4-9360-bc675b7aaa66
+X-Ovh-Tracer-Id: 8799470725828368349
+X-VR-SPAMSTATE: OK
+X-VR-SPAMSCORE: 0
+X-VR-SPAMCAUSE: gggruggvucftvghtrhhoucdtuddrgedugedrudegjedgudduhecutefuodetggdotefrodftvfcurfhrohhfihhlvgemucfqggfjpdevjffgvefmvefgnecuuegrihhlohhuthemucehtddtnecunecujfgurhephffvufffkffoggfgtghisehtkeertdertddtnecuhfhrohhmpeflrghkuhgsucghihhlkhcuoehjfihilhhksehjfihilhhkrdhnvghtqeenucfkpheptddrtddrtddrtddpfeejrdehledrudegvddrleeknecuvehluhhsthgvrhfuihiivgeptdenucfrrghrrghmpehmohguvgepshhmthhpqdhouhhtpdhhvghlohepmhigphhlrghniedrmhgrihhlrdhovhhhrdhnvghtpdhinhgvtheptddrtddrtddrtddpmhgrihhlfhhrohhmpehjfihilhhksehjfihilhhkrdhnvghtpdhrtghpthhtoheplhhinhhugidqmhgrnhesvhhgvghrrdhkvghrnhgvlhdrohhrgh
 Sender: linux-man-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-man.vger.kernel.org>
 X-Mailing-List: linux-man@vger.kernel.org
 
-Since Linux 5.7, on MIPS, we use AT_BASE_PLATFORM to pass ISA level.
-The values may be:
-  mips2, mips3, mips4, mips5,
-  mips32, mips32r2, mips32r6,
-  mips64, mips64r2, mips64r6.
+Escape hyphens.
 
-This behavior is different with PowerPC.
-
-https://git.kernel.org/pub/scm/linux/kernel/git/next/linux-next.git/commit/?id=e585b768da111f2c2d413de6214e83bbdfee8f22
-Signed-off-by: YunQiang Su <syq@debian.org>
-
-----
-v1 -> v2: fix typo
+Signed-off-by: Jakub Wilk <jwilk@jwilk.net>
 ---
- man3/getauxval.3 | 7 ++++---
- 1 file changed, 4 insertions(+), 3 deletions(-)
+ man7/units.7 | 20 ++++++++++----------
+ 1 file changed, 10 insertions(+), 10 deletions(-)
 
-diff --git a/man3/getauxval.3 b/man3/getauxval.3
-index 456371c6a..bcc116dd2 100644
---- a/man3/getauxval.3
-+++ b/man3/getauxval.3
-@@ -60,9 +60,10 @@ values are present on all architectures.
- The base address of the program interpreter (usually, the dynamic linker).
- .TP
- .BR AT_BASE_PLATFORM
--A pointer to a string identifying the real platform; may differ from
--.BR AT_PLATFORM
--(PowerPC only).
-+A pointer to a string (PowerPC and MIPS only).
-+On PowerPC, this identifies the real platform; may differ from
-+.BR AT_PLATFORM "."
-+On MIPS, this identifies the ISA level (Since 5.7).
- .TP
- .BR AT_CLKTCK
- The frequency with which
+diff --git a/man7/units.7 b/man7/units.7
+index 3df0f28c8..e2191a310 100644
+--- a/man7/units.7
++++ b/man7/units.7
+@@ -35,16 +35,16 @@ Below the standard prefixes.
+ .TS
+ l l l.
+ Prefix	Name	Value
+-y	yocto	10^-24 = 0.000000000000000000000001
+-z	zepto	10^-21 = 0.000000000000000000001
+-a	atto	10^-18 = 0.000000000000000001
+-f	femto	10^-15 = 0.000000000000001
+-p	pico	10^-12 = 0.000000000001
+-n	nano	10^-9  = 0.000000001
+-\(mc	micro	10^-6  = 0.000001
+-m	milli	10^-3  = 0.001
+-c	centi	10^-2  = 0.01
+-d	deci	10^-1  = 0.1
++y	yocto	10^\-24 = 0.000000000000000000000001
++z	zepto	10^\-21 = 0.000000000000000000001
++a	atto	10^\-18 = 0.000000000000000001
++f	femto	10^\-15 = 0.000000000000001
++p	pico	10^\-12 = 0.000000000001
++n	nano	10^\-9  = 0.000000001
++\(mc	micro	10^\-6  = 0.000001
++m	milli	10^\-3  = 0.001
++c	centi	10^\-2  = 0.01
++d	deci	10^\-1  = 0.1
+ da	deka	10^ 1  = 10
+ h	hecto	10^ 2  = 100
+ k	kilo	10^ 3  = 1000
 -- 
 2.26.0.rc2
 
