@@ -1,71 +1,123 @@
-Return-Path: <SRS0=b07c=5I=vger.kernel.org=linux-man-owner@kernel.org>
+Return-Path: <SRS0=PF+p=5L=vger.kernel.org=linux-man-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-9.8 required=3.0 tests=HEADER_FROM_DIFFERENT_DOMAINS,
-	INCLUDES_PATCH,MAILING_LIST_MULTI,SIGNED_OFF_BY,SPF_HELO_NONE,SPF_PASS,
-	USER_AGENT_GIT autolearn=ham autolearn_force=no version=3.4.0
+X-Spam-Status: No, score=-8.3 required=3.0 tests=DKIM_SIGNED,DKIM_VALID,
+	DKIM_VALID_AU,FREEMAIL_FORGED_FROMDOMAIN,FREEMAIL_FROM,
+	HEADER_FROM_DIFFERENT_DOMAINS,INCLUDES_PATCH,MAILING_LIST_MULTI,SIGNED_OFF_BY,
+	SPF_HELO_NONE,SPF_PASS,URIBL_BLOCKED,USER_AGENT_SANE_1 autolearn=ham
+	autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 900D2C4332B
-	for <linux-man@archiver.kernel.org>; Mon, 23 Mar 2020 09:10:32 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id E5A1BC43331
+	for <linux-man@archiver.kernel.org>; Thu, 26 Mar 2020 07:48:13 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.kernel.org (Postfix) with ESMTP id 5F9132072D
-	for <linux-man@archiver.kernel.org>; Mon, 23 Mar 2020 09:10:32 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTP id 7FBE220719
+	for <linux-man@archiver.kernel.org>; Thu, 26 Mar 2020 07:48:13 +0000 (UTC)
+Authentication-Results: mail.kernel.org;
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="ihoUme1I"
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1727639AbgCWJKc (ORCPT <rfc822;linux-man@archiver.kernel.org>);
-        Mon, 23 Mar 2020 05:10:32 -0400
-Received: from smtpout1.mo804.mail-out.ovh.net ([79.137.123.220]:53455 "EHLO
-        smtpout1.mo804.mail-out.ovh.net" rhost-flags-OK-OK-OK-OK)
-        by vger.kernel.org with ESMTP id S1727637AbgCWJKc (ORCPT
-        <rfc822;linux-man@vger.kernel.org>); Mon, 23 Mar 2020 05:10:32 -0400
-Received: from mxplan6.mail.ovh.net (unknown [10.109.138.233])
-        by mo804.mail-out.ovh.net (Postfix) with ESMTPS id E726D2F85CF5;
-        Mon, 23 Mar 2020 10:00:41 +0100 (CET)
-Received: from jwilk.net (37.59.142.106) by DAG4EX2.mxp6.local (172.16.2.32)
- with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id 15.1.1779.2; Mon, 23 Mar
- 2020 10:00:41 +0100
-From:   Jakub Wilk <jwilk@jwilk.net>
-To:     Michael Kerrisk <mtk.manpages@gmail.com>
-CC:     <linux-man@vger.kernel.org>
-Subject: [PATCH] printf.3: ffix
-Date:   Mon, 23 Mar 2020 10:00:38 +0100
-Message-ID: <20200323090038.6129-1-jwilk@jwilk.net>
-X-Mailer: git-send-email 2.26.0.rc2
+        id S1726318AbgCZHsN (ORCPT <rfc822;linux-man@archiver.kernel.org>);
+        Thu, 26 Mar 2020 03:48:13 -0400
+Received: from mail-wm1-f66.google.com ([209.85.128.66]:52387 "EHLO
+        mail-wm1-f66.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1726138AbgCZHsM (ORCPT
+        <rfc822;linux-man@vger.kernel.org>); Thu, 26 Mar 2020 03:48:12 -0400
+Received: by mail-wm1-f66.google.com with SMTP id z18so5398003wmk.2
+        for <linux-man@vger.kernel.org>; Thu, 26 Mar 2020 00:48:11 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20161025;
+        h=cc:subject:to:references:from:message-id:date:user-agent
+         :mime-version:in-reply-to:content-language:content-transfer-encoding;
+        bh=X+UcwmMFYFr4npqLjAMxr18AqWVcBdG9tBrLfEFdVdo=;
+        b=ihoUme1I02+fgz4rMzcW5v4BOBo2Dgog5rvsbe4/quFVxt5/83zMCx85fUbLwhiAj3
+         /magHttXgHgegr2qO/cnZJGJ7ZrPRrMaif9u86tkcuQKi3kZJrHWFZAqVHuKWHOf2H74
+         QhggpQbBTtkIusGfRyrXMng5R5kZbhyQW8EHB7A0hvFfcklG57JZfpkrtWmjgD9sown1
+         sPSykWbksfSZL7vWvV20zJKFP7EwPTI/u0mR1DkFIGEmocTtfpyEswFKnotT2vatkiNx
+         JcoVpidwmhucfoTEPVIuY6WNaE9MfPqhsRBh2t/y1YV6X9NY88Lpg8ZxW6ETLiAq2pEa
+         en4g==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20161025;
+        h=x-gm-message-state:cc:subject:to:references:from:message-id:date
+         :user-agent:mime-version:in-reply-to:content-language
+         :content-transfer-encoding;
+        bh=X+UcwmMFYFr4npqLjAMxr18AqWVcBdG9tBrLfEFdVdo=;
+        b=G0HqcLft/fjLtyr5FDiQvZbTsgnd/vzCrWirzarXNl1CndQ6WEntuIirKJ0yrtNBaq
+         6MhnGhSHhZug3NjJlGSUX/KIQ5PiYAluaP9sQt59JpF7MVddL1ePUWasKe3plLSntuyb
+         IUlxI81lv0sSj6dKv0VSLRMPxznvAicJB9ZOuXINUuYNlrp5Dq2p/209iL1Iut4Hnvxw
+         swcSQVrOnqoAfLXc0vGvbhLLjym/XS/HsLoubGyoAY6ad1rxZDFqfk4q497p2aOzU/OV
+         aJ/OL1/aoPGwS3S+YNbnQMiOufEMWEgLkaHdDBTb9FyoP7yXzIym/vxKlUwaX03iSZjh
+         sq7w==
+X-Gm-Message-State: ANhLgQ0pYoOu9kzpWnRrybAG/ti+bYKL6iVKEuvpYBg8CO/aJXUBGawm
+        anE1XjHZvIkdQdGpwhp7c2XzOIzX
+X-Google-Smtp-Source: ADFU+vvk4C5oguy8q6t5wsO24IQ5tHIvcL1/eEfUXZusN8fKtvH5JtVN9d/jA63oUILLsEmDMNpVWw==
+X-Received: by 2002:a05:600c:20a:: with SMTP id 10mr1782764wmi.135.1585208891066;
+        Thu, 26 Mar 2020 00:48:11 -0700 (PDT)
+Received: from ?IPv6:2001:a61:2482:101:3351:6160:8173:cc31? ([2001:a61:2482:101:3351:6160:8173:cc31])
+        by smtp.gmail.com with ESMTPSA id h29sm2577244wrc.64.2020.03.26.00.48.09
+        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+        Thu, 26 Mar 2020 00:48:10 -0700 (PDT)
+Cc:     mtk.manpages@gmail.com, linux-man@vger.kernel.org
+Subject: Re: [PATCH] clock_getres.2: Document CLOCK_TAI
+To:     Benjamin Peterson <benjamin@python.org>
+References: <20200321040358.19119-1-benjamin@python.org>
+ <20200321220809.3430-1-benjamin@python.org>
+From:   "Michael Kerrisk (man-pages)" <mtk.manpages@gmail.com>
+Message-ID: <de3c5180-9bd9-a0c6-849d-37538990184d@gmail.com>
+Date:   Thu, 26 Mar 2020 08:48:07 +0100
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
+ Thunderbird/68.6.0
 MIME-Version: 1.0
-Content-Transfer-Encoding: 7BIT
-Content-Type:   text/plain; charset=US-ASCII
-X-Originating-IP: [37.59.142.106]
-X-ClientProxiedBy: DAG7EX2.mxp6.local (172.16.2.62) To DAG4EX2.mxp6.local
- (172.16.2.32)
-X-Ovh-Tracer-GUID: fc172006-bddd-4c60-a5fb-8a8967ffc536
-X-Ovh-Tracer-Id: 8843099345677572061
-X-VR-SPAMSTATE: OK
-X-VR-SPAMSCORE: 0
-X-VR-SPAMCAUSE: gggruggvucftvghtrhhoucdtuddrgedugedrudegjedgudduhecutefuodetggdotefrodftvfcurfhrohhfihhlvgemucfqggfjpdevjffgvefmvefgnecuuegrihhlohhuthemucehtddtnecunecujfgurhephffvufffkffoggfgtghisehtkeertdertddtnecuhfhrohhmpeflrghkuhgsucghihhlkhcuoehjfihilhhksehjfihilhhkrdhnvghtqeenucfkpheptddrtddrtddrtddpfeejrdehledrudegvddruddtieenucevlhhushhtvghrufhiiigvpedtnecurfgrrhgrmhepmhhouggvpehsmhhtphdqohhuthdphhgvlhhopehmgihplhgrnheirdhmrghilhdrohhvhhdrnhgvthdpihhnvghtpedtrddtrddtrddtpdhmrghilhhfrhhomhepjhifihhlkhesjhifihhlkhdrnhgvthdprhgtphhtthhopehlihhnuhigqdhmrghnsehvghgvrhdrkhgvrhhnvghlrdhorhhg
+In-Reply-To: <20200321220809.3430-1-benjamin@python.org>
+Content-Type: text/plain; charset=utf-8
+Content-Language: en-US
+Content-Transfer-Encoding: 7bit
 Sender: linux-man-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-man.vger.kernel.org>
 X-Mailing-List: linux-man@vger.kernel.org
 
-Signed-off-by: Jakub Wilk <jwilk@jwilk.net>
----
- man3/printf.3 | 2 +-
- 1 file changed, 1 insertion(+), 1 deletion(-)
+Hello Benjamin,
 
-diff --git a/man3/printf.3 b/man3/printf.3
-index c99c796ce..50e136ba6 100644
---- a/man3/printf.3
-+++ b/man3/printf.3
-@@ -605,7 +605,7 @@ and
- as synonyms, so that one can, for example, write
- .BR llg
- (as a synonym for the standards-compliant
--.RB Lg )
-+.BR Lg )
- and
- .BR Ld
- (as a synonym for the standards compliant
+Thanks! Patch applied. (Just for the future, when you send a second
+version of a patch, it make life a little easier for me if you note
+what has changed.)
+
+Cheers,
+
+Michael
+
+
+On 3/21/20 11:08 PM, Benjamin Peterson wrote:
+> Signed-off-by: Benjamin Peterson <benjamin@python.org>
+> ---
+>  man2/clock_getres.2 | 10 ++++++++++
+>  1 file changed, 10 insertions(+)
+> 
+> diff --git a/man2/clock_getres.2 b/man2/clock_getres.2
+> index 3fb0ac61c..7b25b8f65 100644
+> --- a/man2/clock_getres.2
+> +++ b/man2/clock_getres.2
+> @@ -137,6 +137,16 @@ Requires per-architecture support,
+>  and probably also architecture support for this flag in the
+>  .BR vdso (7).
+>  .TP
+> +.BR CLOCK_TAI " (since Linux 3.10; Linux-specific)"
+> +.\" Added in commit 1ff3c9677bff7e468e0c487d0ffefe4e901d33f4
+> +System-wide clock derived from wall time but ignoring leap seconds. This clock does
+> +not experience discontinuities and backwards jumps caused by NTP inserting leap
+> +seconds as
+> +.BR CLOCK_REALTIME
+> +does.
+> +.IP
+> +The acronym TAI refers to International Atomic Time.
+> +.TP
+>  .B CLOCK_MONOTONIC
+>  Clock that cannot be set and represents monotonic time since\(emas described
+>  by POSIX\(em"some unspecified point in the past".
+> 
+
+
 -- 
-2.26.0.rc2
-
+Michael Kerrisk
+Linux man-pages maintainer; http://www.kernel.org/doc/man-pages/
+Linux/UNIX System Programming Training: http://man7.org/training/
