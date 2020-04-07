@@ -2,163 +2,117 @@ Return-Path: <SRS0=DmgO=5X=vger.kernel.org=linux-man-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-0.6 required=3.0 tests=DKIM_SIGNED,DKIM_VALID,
-	DKIM_VALID_AU,FREEMAIL_FORGED_FROMDOMAIN,FREEMAIL_FROM,FSL_HELO_FAKE,
-	HEADER_FROM_DIFFERENT_DOMAINS,MAILING_LIST_MULTI,SPF_HELO_NONE,SPF_PASS
-	autolearn=no autolearn_force=no version=3.4.0
+X-Spam-Status: No, score=-0.8 required=3.0 tests=HEADER_FROM_DIFFERENT_DOMAINS,
+	MAILING_LIST_MULTI,SPF_HELO_NONE,SPF_PASS autolearn=no autolearn_force=no
+	version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id D73B9C2BA80
-	for <linux-man@archiver.kernel.org>; Tue,  7 Apr 2020 03:23:28 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 71D1EC2BA16
+	for <linux-man@archiver.kernel.org>; Tue,  7 Apr 2020 07:07:55 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.kernel.org (Postfix) with ESMTP id A3D8320716
-	for <linux-man@archiver.kernel.org>; Tue,  7 Apr 2020 03:23:28 +0000 (UTC)
-Authentication-Results: mail.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="ZLrLmWOo"
+	by mail.kernel.org (Postfix) with ESMTP id 4B57C20678
+	for <linux-man@archiver.kernel.org>; Tue,  7 Apr 2020 07:07:55 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1726332AbgDGDXZ (ORCPT <rfc822;linux-man@archiver.kernel.org>);
-        Mon, 6 Apr 2020 23:23:25 -0400
-Received: from mail-pl1-f171.google.com ([209.85.214.171]:32989 "EHLO
-        mail-pl1-f171.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1726303AbgDGDXZ (ORCPT
-        <rfc822;linux-man@vger.kernel.org>); Mon, 6 Apr 2020 23:23:25 -0400
-Received: by mail-pl1-f171.google.com with SMTP id ay1so719746plb.0;
-        Mon, 06 Apr 2020 20:23:24 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20161025;
-        h=date:from:to:cc:subject:message-id:references:mime-version
-         :content-disposition:content-transfer-encoding:in-reply-to;
-        bh=W7125HS8Id/3oQMqySFzZfNl7860dmUpNDHGZUrZd8E=;
-        b=ZLrLmWOolQ4v2jsFDi511mfo7jtzwuArxj3LFtcxoZsfJC0ppypz8Udu4pBguFvd/R
-         6Y8zYdtmeT4jNVd+6NdCrwZZ2OjND9+f2cQHmq6pPd6KMkvchSHUhl9GbfIrjMIGsbSi
-         A52Ow3R4opR8fVN9M4xaTOwC0hCOy4iOD6txSsYcV0PwdhTMstPMXKr2Tlk0yPzyB1+r
-         QqLV4XU/Bzi1gY+DfgB6ej7t79t/05R9kOvNHw8Ft24wWgaqQFPpW8od61EaBNYPvOJP
-         tmpa4bXJvXUAJtUBFzjtY+yznFuvjzuCE5mebsP841dN1k5phJ5cGDKK0OtDsW0FVmL8
-         IFUg==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20161025;
-        h=x-gm-message-state:date:from:to:cc:subject:message-id:references
-         :mime-version:content-disposition:content-transfer-encoding
-         :in-reply-to;
-        bh=W7125HS8Id/3oQMqySFzZfNl7860dmUpNDHGZUrZd8E=;
-        b=OzL7NLfGe5z7VCVa+sBJlaFklU38XU/va3TLJcFXT0m3YQ9tUzjUWDBFiztUHt8R2f
-         PmjtDjh/deCPqEdWPmASwEUDvKieFdf0uhG+jbXWzIY4el4fpbtPiLHDRoyTvSgiDW1A
-         27p6zLfgMbSbYc2CA2RDHDAyQrjZeTAaikULPwzzhE0czjSlnsFmInMKBIRepAGfFz3s
-         YPs2jFDyomIRuHyXDbYps42CPqAexIGphovmZh88u5H1H+J7zOsu17xR3kwagKz35y2Q
-         IH5DOolbIQY3QSojL1e3+9R1qPy3pv3sMDRbydEsha5nC39JGvSE1kWb6R3rNdaJm/kL
-         WxcQ==
-X-Gm-Message-State: AGi0PuZO9m+A1ef6AogsvpRgKUnKt3JDFz1V2D6x5qMHaGtsU3YcfV22
-        Hb8CDbU09rHk166bVEtsVuA=
-X-Google-Smtp-Source: APiQypI8C/2qgTt/umSrw/tHBivbozx0fL4YiImQ/Ho7/ufHrAhZsVtQoC3bYuGjKF1rM+Zxq4W7Gg==
-X-Received: by 2002:a17:90a:378b:: with SMTP id v11mr205147pjb.46.1586229804007;
-        Mon, 06 Apr 2020 20:23:24 -0700 (PDT)
-Received: from gmail.com ([2601:600:817f:a132:df3e:521d:99d5:710d])
-        by smtp.gmail.com with ESMTPSA id u41sm12297721pgn.8.2020.04.06.20.23.23
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Mon, 06 Apr 2020 20:23:23 -0700 (PDT)
-Date:   Mon, 6 Apr 2020 20:23:18 -0700
-From:   Andrei Vagin <avagin@gmail.com>
-To:     "Michael Kerrisk (man-pages)" <mtk.manpages@gmail.com>
-Cc:     Andrei Vagin <avagin@openvz.org>, Dmitry Safonov <dima@arista.com>,
-        linux-man <linux-man@vger.kernel.org>,
-        Vincenzo Frascino <vincenzo.frascino@arm.com>,
-        Linux API <linux-api@vger.kernel.org>,
-        Containers <containers@lists.linux-foundation.org>,
-        Dmitry Safonov <0x7f454c46@gmail.com>,
-        lkml <linux-kernel@vger.kernel.org>,
-        Cyrill Gorcunov <gorcunov@gmail.com>,
-        "Eric W. Biederman" <ebiederm@xmission.com>,
-        Andy Lutomirski <luto@kernel.org>,
-        Thomas Gleixner <tglx@linutronix.de>,
-        Adrian Reber <adrian@lisas.de>
-Subject: Re: RFC: time_namespaces(7) manual page
-Message-ID: <20200407032318.GA494464@gmail.com>
-References: <7221df0a-435b-f8bc-ff91-c188af535e73@gmail.com>
+        id S1726692AbgDGHHy convert rfc822-to-8bit (ORCPT
+        <rfc822;linux-man@archiver.kernel.org>);
+        Tue, 7 Apr 2020 03:07:54 -0400
+Received: from mail-dm6nam12olkn2083.outbound.protection.outlook.com ([40.92.22.83]:14813
+        "EHLO NAM12-DM6-obe.outbound.protection.outlook.com"
+        rhost-flags-OK-OK-OK-FAIL) by vger.kernel.org with ESMTP
+        id S1726393AbgDGHHy (ORCPT <rfc822;linux-man@vger.kernel.org>);
+        Tue, 7 Apr 2020 03:07:54 -0400
+ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
+ b=h8e+YKSxUTQ32Gupr9iOFv2oOTioFr/neymWSry2iXE4HdkAjNaJR3ja8s/6i2Q6Yi7uOnB44ZLf6f9FO9c1LrrWIvZizKj0YEE6Bdf/S0IVx1rY1TPaLZRi6SiGqRXdiSEU5S5ugLNqjassECjSgZdN6yn0HX4NlJSX+W3kOwJT0ju00QRubGNv6SQXfgxtudYQSl6zTAIDJOaciauwBkaw0YhDp2ILyYVSgmIKVLbRKhGPeHudrcLgL2rRlSZ/yg+YqIDpYAstxRMyQXc+pM+oTTLu++zbjpIklkzGdFjNpqN93F9IB7p0u94y21+433DFSmsDxwh9TNRL6Fq6GA==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
+ s=arcselector9901;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=u7pSlqSLNbisDUyDrijXwMEIztmYZiK8+5dcyDYTWGs=;
+ b=c2ckUn/aSOTSIKja/71NZKjYOx0ytxOusHLexNvXGdzigWvlvvhdZQoPb0sAZk01wYEvkkoWhfmbhDPWOFTJooE0nHkmm07E80hRzHTEqQjtdeUkcyNQFO9449F2NS+74x8O6boFdGAmyvmKnypvEBWWWqRtDvqZ6LKo3fiF3+NEw2mnntFLbLdwncAs6A/i5sPZHnXOSIb/lwSEytA7I8aDVvaJmxPSHaKxB+m9xR+VFAKgQ5xj6LvchLmGS4qiZsMcVdzKo4ekIOGrdmVXAoWOUl2ZFTvro1eXjkByWz78AdhxtAqrliHRjyOqK338y6DjajQNI3F2hPRDrA3krg==
+ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=none; dmarc=none;
+ dkim=none; arc=none
+Received: from DM6NAM12FT026.eop-nam12.prod.protection.outlook.com
+ (2a01:111:e400:fc64::47) by
+ DM6NAM12HT197.eop-nam12.prod.protection.outlook.com (2a01:111:e400:fc64::91)
+ with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.2878.9; Tue, 7 Apr
+ 2020 07:07:50 +0000
+Received: from MN2PR04MB6157.namprd04.prod.outlook.com
+ (2a01:111:e400:fc64::44) by DM6NAM12FT026.mail.protection.outlook.com
+ (2a01:111:e400:fc64::475) with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.2878.9 via Frontend
+ Transport; Tue, 7 Apr 2020 07:07:50 +0000
+Received: from MN2PR04MB6157.namprd04.prod.outlook.com
+ ([fe80::2192:c79:168f:ff2]) by MN2PR04MB6157.namprd04.prod.outlook.com
+ ([fe80::2192:c79:168f:ff2%7]) with mapi id 15.20.2878.018; Tue, 7 Apr 2020
+ 07:07:50 +0000
+From:   Andrew Micallef <andrew.micallef@live.com.au>
+To:     "linux-man@vger.kernel.org" <linux-man@vger.kernel.org>
+Subject: Fw: Suggestion for edit
+Thread-Topic: Suggestion for edit
+Thread-Index: AQHWDI/Fyl47qCQDb0ilEbBf8oBdT6htPR5y
+Date:   Tue, 7 Apr 2020 07:07:50 +0000
+Message-ID: <MN2PR04MB61571362350C94A82F545152B9C30@MN2PR04MB6157.namprd04.prod.outlook.com>
+References: <MN2PR04MB6157E89BBF15AD9D70DDEA48B9C30@MN2PR04MB6157.namprd04.prod.outlook.com>
+In-Reply-To: <MN2PR04MB6157E89BBF15AD9D70DDEA48B9C30@MN2PR04MB6157.namprd04.prod.outlook.com>
+Accept-Language: en-AU, en-US
+Content-Language: en-AU
+X-MS-Has-Attach: 
+X-MS-TNEF-Correlator: 
+x-incomingtopheadermarker: OriginalChecksum:BEF1BFE32124B7F5365A41595E6549838D74D2703DF1450C2F9D7E6397CE15B8;UpperCasedChecksum:1A15405B5BF49D33A1DAB43D467F0E46517368358133191296946EBF80BD3D79;SizeAsReceived:6900;Count:45
+x-ms-exchange-messagesentrepresentingtype: 1
+x-tmn:  [7/7HFzKtk8D/SN0n67eyiAG1Jy9ZVEfT]
+x-ms-publictraffictype: Email
+x-incomingheadercount: 45
+x-eopattributedmessage: 0
+x-ms-office365-filtering-correlation-id: cdc84c48-0a22-4d76-eefe-08d7dac26244
+x-ms-traffictypediagnostic: DM6NAM12HT197:
+x-microsoft-antispam: BCL:0;
+x-microsoft-antispam-message-info: 8JadZiikGklb2i8e8pA+6oeuCGVok/H7RHPt/ki1luiab5Si3MdHLJ5FYzMSsNyGo+yJdHz0XXMwVi+wW7Y34Z6gboxT94Fk9Ncs/9qEUWvfkSqoYteBZZeq/0mgsBaik3X4EgzOB54dTL+PfQvkwtiaxZnXHfq0CowqmC4CdM/XmyG3vnH+1b2ecwn14tQO
+x-forefront-antispam-report: CIP:255.255.255.255;CTRY:;LANG:en;SCL:0;SRV:;IPV:NLI;SFV:NSPM;H:MN2PR04MB6157.namprd04.prod.outlook.com;PTR:;CAT:NONE;SFTY:;SFS:;DIR:OUT;SFP:1901;
+x-ms-exchange-antispam-messagedata: IXd8VDqZlVrieHKYUvqnkZGPJ9wJskQiWtDjQiin2ImGhDqEmWT0+eYyTIINuQSP88OhmOkmLKH+xBEmO4tNq45hXpUFvEdS+EftcOnu2cONcLJG71plI3JWuALCFt5L4aafd5fvFCrU/8bM9HQpnw==
+x-ms-exchange-transport-forked: True
+Content-Type: text/plain; charset="iso-8859-1"
+Content-Transfer-Encoding: 8BIT
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
-Content-Disposition: inline
-Content-Transfer-Encoding: 8bit
-In-Reply-To: <7221df0a-435b-f8bc-ff91-c188af535e73@gmail.com>
+X-OriginatorOrg: outlook.com
+X-MS-Exchange-CrossTenant-RMS-PersistedConsumerOrg: 00000000-0000-0000-0000-000000000000
+X-MS-Exchange-CrossTenant-Network-Message-Id: cdc84c48-0a22-4d76-eefe-08d7dac26244
+X-MS-Exchange-CrossTenant-rms-persistedconsumerorg: 00000000-0000-0000-0000-000000000000
+X-MS-Exchange-CrossTenant-originalarrivaltime: 07 Apr 2020 07:07:50.2540
+ (UTC)
+X-MS-Exchange-CrossTenant-fromentityheader: Internet
+X-MS-Exchange-CrossTenant-id: 84df9e7f-e9f6-40af-b435-aaaaaaaaaaaa
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: DM6NAM12HT197
 Sender: linux-man-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-man.vger.kernel.org>
 X-Mailing-List: linux-man@vger.kernel.org
 
-Hi Michael,
+Hi,
 
-The man page looks good to me. A few comments are inline.
 
-On Sat, Apr 04, 2020 at 01:08:50PM +0200, Michael Kerrisk (man-pages) wrote:
-> Hello Dmitry, Andrei, et al.
-> 
-> I have written a manual page to document time namespaces.
-> Could you please take a look and let me know of any
-> corrections, improvements, etc.
-> 
-> The rendered page is shown below. Th epage source is at the foot of
-> this mail.
-> 
-> Thanks,
-> 
-> Michael
-> 
-> 
-> NAME
->        time_namespaces - overview of Linux time namespaces
-> 
-> DESCRIPTION
->        Time namespaces virtualize the values of two system clocks:
-> 
->        Â· CLOCK_MONOTONIC   (and   likewise   CLOCK_MONOTONIC_COARSE   and
->          CLOCK_MONOTONIC_RAW), a nonsettable clock that represents  monoâ€
->          tonic  time   sinceâ€”as  described   by  POSIXâ€”"some  unspecified
->          point in the past".
-> 
->        Â· CLOCK_BOOTTIME (and likewise CLOCK_BOOTTIME_ALARM), a clock that
->          is  identical  to  CLOCK_MONOTONIC, except that it also includes
->          any time that the system is suspended.
-> 
->        Thus, the processes in a time namespace share per-namespace values
->        for  these clocks.  This affects various APIs that measure against
->        these   clocks,   including:   clock_nanosleep(2),   nanosleep(2),
->        clock_gettime(2), and /proc/uptime.
+I'd like to suggest an edit to the description of `strcmp` in the standard C library man page.
+I found this description to be kind of confusing, and think the language could be a bit more
+straight forward. 
 
-timer_settime, timerfd_settime
 
-> 
->        Currently,  the  only way to create a time namespace is by calling
->        unshare(2) with the CLONE_NEWTIME flag.  This call creates  a  new
->        time  namespace  but does not place the calling process in the new
->        namespace.  Instead, the calling  process's  subsequently  created
->        children  are placed in the new namespace.  This allows clock offâ€
->        sets (see below) for the new namespace to be set before the  first
->        process      is      placed     in     the     namespace.      The
->        /proc/[pid]/ns/time_for_children  symbolic  link  shows  the  time
->        namespace in which the children of a process will be created.
 
-We can mention that the current process can enter the namespace if it
-call setns on /proc/self/ns/time_for_children.
+ At present the description reads as follows:
 
-> 
->    /proc/PID/timens_offsets
->        Associated  with  each  time namespace are offsets, expressed with
->        respect to the initial time namespace, that define the  values  of
->        the  monotonic  and  boot clocks in that namespace.  These offsets
->        are exposed via the file  /proc/PID/timens_offsets.   Within  this
->        file,  the  offsets  are  expressed  as  lines consisting of three
->        space-delimited fields:
-> 
->            <clock-id> <offset-secs> <offset-nanosecs>
-> 
->        The clock-id identifies the clock whose offsets are  being  shown.
->        This field is either 1, for CLOCK_MONOTONIC, or 7, for CLOCK_BOOTâ€
->        TIME.  The remaining  fields  express  the  offset  (seconds  plus
->        nanoseconds)  for the clock in this time namespace.  These offsets
->        are expressed relative to the clock values  in  the  initial  time
->        namespace.   In  the  initial time namespace, the contents of this
->        file are as follows:
+The strcmp() function compares the two strings s1 and s2.  The locale
+       is not taken into account (for a locale-aware comparison, see
+       strcoll(3)).  It returns an integer less than, equal to, or greater
+       than zero if s1 is found, respectively, to be less than, to match, or
+       be greater than s2.
 
-I think we can mention that offset-secs can be negative, but
-offset-nanosleep has to be 0 or positive.
+I am suggesting the following edits:
 
-Thanks,
-Andrei
+The strcmp() function compares the two strings s1 and s2.  The locale
+       is not taken into account (for a locale-aware comparison, see
+       strcoll(3)).  It returns an integer, which is 0 if the strings 
+       match. Otherwise, a negative integer indicates s1 is less than s2,
+       while a positive integer indicates s1 is greater than s2.
+
+
+Regards
+Andrew
+
