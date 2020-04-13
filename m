@@ -7,37 +7,37 @@ X-Spam-Status: No, score=-10.1 required=3.0 tests=DKIMWL_WL_HIGH,DKIM_SIGNED,
 	SPF_HELO_NONE,SPF_PASS,USER_AGENT_GIT autolearn=unavailable
 	autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 6303AC38A2D
-	for <linux-man@archiver.kernel.org>; Mon, 13 Apr 2020 16:55:04 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 660E5C352BE
+	for <linux-man@archiver.kernel.org>; Mon, 13 Apr 2020 16:55:05 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.kernel.org (Postfix) with ESMTP id 3236120857
-	for <linux-man@archiver.kernel.org>; Mon, 13 Apr 2020 16:55:04 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTP id 3BCEC20857
+	for <linux-man@archiver.kernel.org>; Mon, 13 Apr 2020 16:55:05 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=default; t=1586796904;
-	bh=PXwArPyrCB+9UYBajG3cuzXYyMjKBkArgtx7/t80yDQ=;
+	s=default; t=1586796905;
+	bh=t5agIYwO6o7SWx9yh1z/HGXcrUeg1cVcDz9eOtThQ6o=;
 	h=From:To:Cc:Subject:Date:In-Reply-To:References:List-ID:From;
-	b=UXKjPIFuxZhAN4yx0IxWCe6mTdqsFQIIYd7OHc6e1tlNh5xUjVdkOczSPW0k1VcAH
-	 DEgLOKHg3iX9q+v1VtTbApWiKhAC1aS9m+8Ayid1tbsG6RBre713sZV83OG8sqUE/N
-	 fabBWAW1l+t/GHfytFvH7YbWVcUvzweRxLETUYzI=
+	b=xKllFlB30iS86WoIJed1IVgmwlE4YXUgkWhhQNa43FwHME91fEvt8xP/+Y3D78Rfp
+	 7CNS9HT1DmKDr0XY/u3chC+YBxObzfNmfo8TiBR11hKqju9uhc96bXpUZqIlmOPLAc
+	 LpCzOVkDagVO0NiDtabLUsjYWUHsqFBo6llH/HWA=
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1731961AbgDMQxT (ORCPT <rfc822;linux-man@archiver.kernel.org>);
-        Mon, 13 Apr 2020 12:53:19 -0400
-Received: from mail.kernel.org ([198.145.29.99]:45460 "EHLO mail.kernel.org"
+        id S1731890AbgDMQwp (ORCPT <rfc822;linux-man@archiver.kernel.org>);
+        Mon, 13 Apr 2020 12:52:45 -0400
+Received: from mail.kernel.org ([198.145.29.99]:44310 "EHLO mail.kernel.org"
         rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S1731956AbgDMQxQ (ORCPT <rfc822;linux-man@vger.kernel.org>);
-        Mon, 13 Apr 2020 12:53:16 -0400
+        id S1731884AbgDMQwm (ORCPT <rfc822;linux-man@vger.kernel.org>);
+        Mon, 13 Apr 2020 12:52:42 -0400
 Received: from quaco.ghostprotocols.net (unknown [179.97.37.151])
         (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
         (No client certificate requested)
-        by mail.kernel.org (Postfix) with ESMTPSA id 62EF7208E0;
-        Mon, 13 Apr 2020 16:53:10 +0000 (UTC)
+        by mail.kernel.org (Postfix) with ESMTPSA id 888FA2078B;
+        Mon, 13 Apr 2020 16:52:36 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-        s=default; t=1586796795;
-        bh=PXwArPyrCB+9UYBajG3cuzXYyMjKBkArgtx7/t80yDQ=;
+        s=default; t=1586796761;
+        bh=t5agIYwO6o7SWx9yh1z/HGXcrUeg1cVcDz9eOtThQ6o=;
         h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
-        b=0Ye3QTeaS86gUwQ6vaqghWKUPtsyPWvtMoV/T9srtDd688AuzzYOnmOfSSyvNb1NZ
-         pSnQ5WUa2265qzabJQcZ4l3PD7KRbGUKgZcmm0QHRyhkVj0NcQ8eVgFAaHIehQ83Uw
-         0LGYeTc2nhKKtj6ANWzZ4NMou+5ERcZbUKkFpZBk=
+        b=HejxPEgLATWON/Ye6GG8OVfowBCSj9U/CB6Ayq/WEvozFloDXHO09Uj7bYAm1DVpr
+         yL5HYCmY/wx7DdzGdALMYfbF77mhaLRjopvkLH6hn9fyBR0Hl7pPBcXFkDBx5r1Lmr
+         bDKZqtAcimbohq+VSzhUI3q6aFu6xET8jkT4rRnQ=
 From:   Arnaldo Carvalho de Melo <acme@kernel.org>
 To:     Ingo Molnar <mingo@kernel.org>,
         Thomas Gleixner <tglx@linutronix.de>
@@ -46,21 +46,20 @@ Cc:     Jiri Olsa <jolsa@kernel.org>, Namhyung Kim <namhyung@kernel.org>,
         linux-kernel@vger.kernel.org, linux-perf-users@vger.kernel.org,
         Alexey Budankov <alexey.budankov@linux.intel.com>,
         James Morris <jamorris@linux.microsoft.com>,
-        Helge Deller <deller@gmx.de>,
+        Arnaldo Carvalho de Melo <acme@redhat.com>,
         Alexei Starovoitov <ast@kernel.org>,
         Andi Kleen <ak@linux.intel.com>,
         Igor Lubashev <ilubashe@akamai.com>,
-        Jiri Olsa <jolsa@redhat.com>,
+        Jiri Olsa <jolsa@redhat.com>, linux-man@vger.kernel.org,
         Peter Zijlstra <peterz@infradead.org>,
         Serge Hallyn <serge@hallyn.com>,
         Song Liu <songliubraving@fb.com>,
         Stephane Eranian <eranian@google.com>,
         intel-gfx@lists.freedesktop.org, linux-doc@vger.kernel.org,
-        linux-man@vger.kernel.org, linux-security-module@vger.kernel.org,
-        selinux@vger.kernel.org, Arnaldo Carvalho de Melo <acme@redhat.com>
-Subject: [PATCH 12/26] parisc/perf: open access for CAP_PERFMON privileged process
-Date:   Mon, 13 Apr 2020 13:51:49 -0300
-Message-Id: <20200413165203.1816-13-acme@kernel.org>
+        linux-security-module@vger.kernel.org, selinux@vger.kernel.org
+Subject: [PATCH 06/26] perf/core: Open access to the core for CAP_PERFMON privileged process
+Date:   Mon, 13 Apr 2020 13:51:43 -0300
+Message-Id: <20200413165203.1816-7-acme@kernel.org>
 X-Mailer: git-send-email 2.21.1
 In-Reply-To: <20200413165203.1816-1-acme@kernel.org>
 References: <20200413165203.1816-1-acme@kernel.org>
@@ -73,8 +72,9 @@ X-Mailing-List: linux-man@vger.kernel.org
 
 From: Alexey Budankov <alexey.budankov@linux.intel.com>
 
-Open access to monitoring for CAP_PERFMON privileged process.  Providing
-the access under CAP_PERFMON capability singly, without the rest of
+Open access to monitoring of kernel code, CPUs, tracepoints and
+namespaces data for a CAP_PERFMON privileged process. Providing the
+access under CAP_PERFMON capability singly, without the rest of
 CAP_SYS_ADMIN credentials, excludes chances to misuse the credentials
 and makes operation more secure.
 
@@ -85,17 +85,19 @@ that a process or program be granted only those privileges (e.g.,
 capabilities) necessary to accomplish its legitimate function, and only
 for the time that such privileges are actually required)
 
-For backward compatibility reasons access to the monitoring remains open
-for CAP_SYS_ADMIN privileged processes but CAP_SYS_ADMIN usage for
-secure monitoring is discouraged with respect to CAP_PERFMON capability.
+For backward compatibility reasons the access to perf_events subsystem
+remains open for CAP_SYS_ADMIN privileged processes but CAP_SYS_ADMIN
+usage for secure perf_events monitoring is discouraged with respect to
+CAP_PERFMON capability.
 
 Signed-off-by: Alexey Budankov <alexey.budankov@linux.intel.com>
 Reviewed-by: James Morris <jamorris@linux.microsoft.com>
-Acked-by: Helge Deller <deller@gmx.de>
+Tested-by: Arnaldo Carvalho de Melo <acme@redhat.com>
 Cc: Alexei Starovoitov <ast@kernel.org>
 Cc: Andi Kleen <ak@linux.intel.com>
 Cc: Igor Lubashev <ilubashe@akamai.com>
 Cc: Jiri Olsa <jolsa@redhat.com>
+Cc: linux-man@vger.kernel.org
 Cc: Namhyung Kim <namhyung@kernel.org>
 Cc: Peter Zijlstra <peterz@infradead.org>
 Cc: Serge Hallyn <serge@hallyn.com>
@@ -104,28 +106,59 @@ Cc: Stephane Eranian <eranian@google.com>
 Cc: Thomas Gleixner <tglx@linutronix.de>
 Cc: intel-gfx@lists.freedesktop.org
 Cc: linux-doc@vger.kernel.org
-Cc: linux-man@vger.kernel.org
 Cc: linux-security-module@vger.kernel.org
 Cc: selinux@vger.kernel.org
-Link: http://lore.kernel.org/lkml/8cc98809-d35b-de0f-de02-4cf554f3cf62@linux.intel.com
+Link: http://lore.kernel.org/lkml/471acaef-bb8a-5ce2-923f-90606b78eef9@linux.intel.com
 Signed-off-by: Arnaldo Carvalho de Melo <acme@redhat.com>
 ---
- arch/parisc/kernel/perf.c | 2 +-
- 1 file changed, 1 insertion(+), 1 deletion(-)
+ include/linux/perf_event.h | 6 +++---
+ kernel/events/core.c       | 2 +-
+ 2 files changed, 4 insertions(+), 4 deletions(-)
 
-diff --git a/arch/parisc/kernel/perf.c b/arch/parisc/kernel/perf.c
-index e1a8fee3ad49..d46b6709ec56 100644
---- a/arch/parisc/kernel/perf.c
-+++ b/arch/parisc/kernel/perf.c
-@@ -300,7 +300,7 @@ static ssize_t perf_write(struct file *file, const char __user *buf,
- 	else
- 		return -EFAULT;
+diff --git a/include/linux/perf_event.h b/include/linux/perf_event.h
+index 9c3e7619c929..87e21681759c 100644
+--- a/include/linux/perf_event.h
++++ b/include/linux/perf_event.h
+@@ -1305,7 +1305,7 @@ static inline int perf_is_paranoid(void)
  
--	if (!capable(CAP_SYS_ADMIN))
-+	if (!perfmon_capable())
+ static inline int perf_allow_kernel(struct perf_event_attr *attr)
+ {
+-	if (sysctl_perf_event_paranoid > 1 && !capable(CAP_SYS_ADMIN))
++	if (sysctl_perf_event_paranoid > 1 && !perfmon_capable())
  		return -EACCES;
  
- 	if (count != sizeof(uint32_t))
+ 	return security_perf_event_open(attr, PERF_SECURITY_KERNEL);
+@@ -1313,7 +1313,7 @@ static inline int perf_allow_kernel(struct perf_event_attr *attr)
+ 
+ static inline int perf_allow_cpu(struct perf_event_attr *attr)
+ {
+-	if (sysctl_perf_event_paranoid > 0 && !capable(CAP_SYS_ADMIN))
++	if (sysctl_perf_event_paranoid > 0 && !perfmon_capable())
+ 		return -EACCES;
+ 
+ 	return security_perf_event_open(attr, PERF_SECURITY_CPU);
+@@ -1321,7 +1321,7 @@ static inline int perf_allow_cpu(struct perf_event_attr *attr)
+ 
+ static inline int perf_allow_tracepoint(struct perf_event_attr *attr)
+ {
+-	if (sysctl_perf_event_paranoid > -1 && !capable(CAP_SYS_ADMIN))
++	if (sysctl_perf_event_paranoid > -1 && !perfmon_capable())
+ 		return -EPERM;
+ 
+ 	return security_perf_event_open(attr, PERF_SECURITY_TRACEPOINT);
+diff --git a/kernel/events/core.c b/kernel/events/core.c
+index 1569979c8912..f9d564127e2e 100644
+--- a/kernel/events/core.c
++++ b/kernel/events/core.c
+@@ -11486,7 +11486,7 @@ SYSCALL_DEFINE5(perf_event_open,
+ 	}
+ 
+ 	if (attr.namespaces) {
+-		if (!capable(CAP_SYS_ADMIN))
++		if (!perfmon_capable())
+ 			return -EACCES;
+ 	}
+ 
 -- 
 2.21.1
 
