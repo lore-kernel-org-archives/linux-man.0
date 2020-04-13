@@ -4,40 +4,40 @@ X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 X-Spam-Level: 
 X-Spam-Status: No, score=-10.1 required=3.0 tests=DKIMWL_WL_HIGH,DKIM_SIGNED,
 	DKIM_VALID,DKIM_VALID_AU,INCLUDES_PATCH,MAILING_LIST_MULTI,SIGNED_OFF_BY,
-	SPF_HELO_NONE,SPF_PASS,USER_AGENT_GIT autolearn=ham autolearn_force=no
-	version=3.4.0
+	SPF_HELO_NONE,SPF_PASS,USER_AGENT_GIT autolearn=unavailable
+	autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 024D9C2BA19
-	for <linux-man@archiver.kernel.org>; Mon, 13 Apr 2020 16:53:30 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 2BC04C2BBFD
+	for <linux-man@archiver.kernel.org>; Mon, 13 Apr 2020 16:54:43 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.kernel.org (Postfix) with ESMTP id D061A20780
-	for <linux-man@archiver.kernel.org>; Mon, 13 Apr 2020 16:53:29 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTP id 0999B208FE
+	for <linux-man@archiver.kernel.org>; Mon, 13 Apr 2020 16:54:43 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=default; t=1586796809;
-	bh=y2LqQNgk7M38l+vhlpVjFxZa1rdjNePBdEMgUzSLdhY=;
+	s=default; t=1586796883;
+	bh=blwsC7ILMJIN/7IR1dWYCrGRlPxdNYlBnvdX5628Ph0=;
 	h=From:To:Cc:Subject:Date:In-Reply-To:References:List-ID:From;
-	b=upga0eKzoCa5c0nNRMG35tr6ur2nOrNKDUidb1W+hfP5XHop+FAM7FMiVh4WPVq8Z
-	 MI7N7AVrIGGmWjeI7cIqDoAaJ2fZsEL7qMpby4bkrsfflEpP4buW0alsOEEkgw4cCy
-	 U+WNmXas2w1iIrkFnww/zu7Evcx7KvlQaGcaJYlo=
+	b=cj/+XopAYufO5ErqO2XQUp/cwAKKSM/HZj6d+g7QQD1bbBQ8apbzIuTa/1Rv8+fSj
+	 OH3Q0wboBnb5MXsU1ztzCNvJcDoVJmbxJNTVt9V8jOf3w0CMFmGXqhAPCanN7a4RGb
+	 s4Zdpd4w0uQuAlCbd9wXBgfnvPEYONqq6wo5+8oo=
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1731985AbgDMQx0 (ORCPT <rfc822;linux-man@archiver.kernel.org>);
-        Mon, 13 Apr 2020 12:53:26 -0400
-Received: from mail.kernel.org ([198.145.29.99]:45592 "EHLO mail.kernel.org"
+        id S1732028AbgDMQxm (ORCPT <rfc822;linux-man@archiver.kernel.org>);
+        Mon, 13 Apr 2020 12:53:42 -0400
+Received: from mail.kernel.org ([198.145.29.99]:45910 "EHLO mail.kernel.org"
         rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S1731974AbgDMQxW (ORCPT <rfc822;linux-man@vger.kernel.org>);
-        Mon, 13 Apr 2020 12:53:22 -0400
+        id S1732024AbgDMQxi (ORCPT <rfc822;linux-man@vger.kernel.org>);
+        Mon, 13 Apr 2020 12:53:38 -0400
 Received: from quaco.ghostprotocols.net (unknown [179.97.37.151])
         (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
         (No client certificate requested)
-        by mail.kernel.org (Postfix) with ESMTPSA id 27DB420CC7;
-        Mon, 13 Apr 2020 16:53:15 +0000 (UTC)
+        by mail.kernel.org (Postfix) with ESMTPSA id 111E920936;
+        Mon, 13 Apr 2020 16:53:32 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-        s=default; t=1586796801;
-        bh=y2LqQNgk7M38l+vhlpVjFxZa1rdjNePBdEMgUzSLdhY=;
+        s=default; t=1586796818;
+        bh=blwsC7ILMJIN/7IR1dWYCrGRlPxdNYlBnvdX5628Ph0=;
         h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
-        b=gf00ILlPD+tw4dTCkmvmJw9cku82m25z+7AzM4+Qo9wakJ5R6VzkURmb8vBobA4iR
-         agrrFP76NA6nNYGjqOfgeQj1zM6YqvGpDe2HZcZ0mCcmIR4o2lIlNM5kfNW/SnUQRi
-         WXBK72fU+WvAcACMSNReHvnIDBZlRn25tJiXC+qI=
+        b=jac6//yEcwWpKMfxYQMdquOzQ1ZFVLVD11UhJFVlki6s4LhHNDXKWMH1NxA/wiWmq
+         yc5LAojBWQ1Rm8/b8b910aPHpVF2kbDuDjLevy9x/wXSXKRPLCQjIo6Q+F3zzQyOVj
+         kitizemhMviJEZ7eLkgsaSY3Rvp/CT07ie4uhbrk=
 From:   Arnaldo Carvalho de Melo <acme@kernel.org>
 To:     Ingo Molnar <mingo@kernel.org>,
         Thomas Gleixner <tglx@linutronix.de>
@@ -45,12 +45,10 @@ Cc:     Jiri Olsa <jolsa@kernel.org>, Namhyung Kim <namhyung@kernel.org>,
         Clark Williams <williams@redhat.com>,
         linux-kernel@vger.kernel.org, linux-perf-users@vger.kernel.org,
         Alexey Budankov <alexey.budankov@linux.intel.com>,
-        James Morris <jamorris@linux.microsoft.com>,
-        Will Deacon <will@kernel.org>,
         Alexei Starovoitov <ast@kernel.org>,
         Andi Kleen <ak@linux.intel.com>,
         Igor Lubashev <ilubashe@akamai.com>,
-        Jiri Olsa <jolsa@redhat.com>,
+        James Morris <jmorris@namei.org>, Jiri Olsa <jolsa@redhat.com>,
         Peter Zijlstra <peterz@infradead.org>,
         Serge Hallyn <serge@hallyn.com>,
         Song Liu <songliubraving@fb.com>,
@@ -58,9 +56,9 @@ Cc:     Jiri Olsa <jolsa@kernel.org>, Namhyung Kim <namhyung@kernel.org>,
         intel-gfx@lists.freedesktop.org, linux-doc@vger.kernel.org,
         linux-man@vger.kernel.org, linux-security-module@vger.kernel.org,
         selinux@vger.kernel.org, Arnaldo Carvalho de Melo <acme@redhat.com>
-Subject: [PATCH 13/26] drivers/perf: Open access for CAP_PERFMON privileged process
-Date:   Mon, 13 Apr 2020 13:51:50 -0300
-Message-Id: <20200413165203.1816-14-acme@kernel.org>
+Subject: [PATCH 16/26] doc/admin-guide: update kernel.rst with CAP_PERFMON information
+Date:   Mon, 13 Apr 2020 13:51:53 -0300
+Message-Id: <20200413165203.1816-17-acme@kernel.org>
 X-Mailer: git-send-email 2.21.1
 In-Reply-To: <20200413165203.1816-1-acme@kernel.org>
 References: <20200413165203.1816-1-acme@kernel.org>
@@ -73,28 +71,15 @@ X-Mailing-List: linux-man@vger.kernel.org
 
 From: Alexey Budankov <alexey.budankov@linux.intel.com>
 
-Open access to monitoring for CAP_PERFMON privileged process.  Providing
-the access under CAP_PERFMON capability singly, without the rest of
-CAP_SYS_ADMIN credentials, excludes chances to misuse the credentials
-and makes operation more secure.
-
-CAP_PERFMON implements the principle of least privilege for performance
-monitoring and observability operations (POSIX IEEE 1003.1e 2.2.2.39
-principle of least privilege: A security design principle that states
-that a process or program be granted only those privileges (e.g.,
-capabilities) necessary to accomplish its legitimate function, and only
-for the time that such privileges are actually required)
-
-For backward compatibility reasons access to the monitoring remains open
-for CAP_SYS_ADMIN privileged processes but CAP_SYS_ADMIN usage for
-secure monitoring is discouraged with respect to CAP_PERFMON capability.
+Update the kernel.rst documentation file with the information related to
+usage of CAP_PERFMON capability to secure performance monitoring and
+observability operations in system.
 
 Signed-off-by: Alexey Budankov <alexey.budankov@linux.intel.com>
-Reviewed-by: James Morris <jamorris@linux.microsoft.com>
-Acked-by: Will Deacon <will@kernel.org>
 Cc: Alexei Starovoitov <ast@kernel.org>
 Cc: Andi Kleen <ak@linux.intel.com>
 Cc: Igor Lubashev <ilubashe@akamai.com>
+Cc: James Morris <jmorris@namei.org>
 Cc: Jiri Olsa <jolsa@redhat.com>
 Cc: Namhyung Kim <namhyung@kernel.org>
 Cc: Peter Zijlstra <peterz@infradead.org>
@@ -107,34 +92,49 @@ Cc: linux-doc@vger.kernel.org
 Cc: linux-man@vger.kernel.org
 Cc: linux-security-module@vger.kernel.org
 Cc: selinux@vger.kernel.org
-Link: http://lore.kernel.org/lkml/4ec1d6f7-548c-8d1c-f84a-cebeb9674e4e@linux.intel.com
+Link: http://lore.kernel.org/lkml/84c32383-14a2-fa35-16b6-f9e59bd37240@linux.intel.com
 Signed-off-by: Arnaldo Carvalho de Melo <acme@redhat.com>
 ---
- drivers/perf/arm_spe_pmu.c | 4 ++--
- 1 file changed, 2 insertions(+), 2 deletions(-)
+ Documentation/admin-guide/sysctl/kernel.rst | 16 +++++++++++-----
+ 1 file changed, 11 insertions(+), 5 deletions(-)
 
-diff --git a/drivers/perf/arm_spe_pmu.c b/drivers/perf/arm_spe_pmu.c
-index b72c04852599..0e0961a2b405 100644
---- a/drivers/perf/arm_spe_pmu.c
-+++ b/drivers/perf/arm_spe_pmu.c
-@@ -274,7 +274,7 @@ static u64 arm_spe_event_to_pmscr(struct perf_event *event)
- 	if (!attr->exclude_kernel)
- 		reg |= BIT(SYS_PMSCR_EL1_E1SPE_SHIFT);
+diff --git a/Documentation/admin-guide/sysctl/kernel.rst b/Documentation/admin-guide/sysctl/kernel.rst
+index 335696d3360d..aaa5bbcd1e33 100644
+--- a/Documentation/admin-guide/sysctl/kernel.rst
++++ b/Documentation/admin-guide/sysctl/kernel.rst
+@@ -709,7 +709,13 @@ perf_event_paranoid
+ ===================
  
--	if (IS_ENABLED(CONFIG_PID_IN_CONTEXTIDR) && capable(CAP_SYS_ADMIN))
-+	if (IS_ENABLED(CONFIG_PID_IN_CONTEXTIDR) && perfmon_capable())
- 		reg |= BIT(SYS_PMSCR_EL1_CX_SHIFT);
+ Controls use of the performance events system by unprivileged
+-users (without CAP_SYS_ADMIN).  The default value is 2.
++users (without CAP_PERFMON).  The default value is 2.
++
++For backward compatibility reasons access to system performance
++monitoring and observability remains open for CAP_SYS_ADMIN
++privileged processes but CAP_SYS_ADMIN usage for secure system
++performance monitoring and observability operations is discouraged
++with respect to CAP_PERFMON use cases.
  
- 	return reg;
-@@ -700,7 +700,7 @@ static int arm_spe_pmu_event_init(struct perf_event *event)
- 		return -EOPNOTSUPP;
+ ===  ==================================================================
+  -1  Allow use of (almost) all events by all users.
+@@ -718,13 +724,13 @@ users (without CAP_SYS_ADMIN).  The default value is 2.
+      ``CAP_IPC_LOCK``.
  
- 	reg = arm_spe_event_to_pmscr(event);
--	if (!capable(CAP_SYS_ADMIN) &&
-+	if (!perfmon_capable() &&
- 	    (reg & (BIT(SYS_PMSCR_EL1_PA_SHIFT) |
- 		    BIT(SYS_PMSCR_EL1_CX_SHIFT) |
- 		    BIT(SYS_PMSCR_EL1_PCT_SHIFT))))
+ >=0  Disallow ftrace function tracepoint by users without
+-     ``CAP_SYS_ADMIN``.
++     ``CAP_PERFMON``.
+ 
+-     Disallow raw tracepoint access by users without ``CAP_SYS_ADMIN``.
++     Disallow raw tracepoint access by users without ``CAP_PERFMON``.
+ 
+->=1  Disallow CPU event access by users without ``CAP_SYS_ADMIN``.
++>=1  Disallow CPU event access by users without ``CAP_PERFMON``.
+ 
+->=2  Disallow kernel profiling by users without ``CAP_SYS_ADMIN``.
++>=2  Disallow kernel profiling by users without ``CAP_PERFMON``.
+ ===  ==================================================================
+ 
+ 
 -- 
 2.21.1
 
