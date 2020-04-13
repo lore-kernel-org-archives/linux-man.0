@@ -2,144 +2,119 @@ Return-Path: <SRS0=jm4A=55=vger.kernel.org=linux-man-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-13.1 required=3.0 tests=DKIM_SIGNED,DKIM_VALID,
+X-Spam-Status: No, score=-6.6 required=3.0 tests=DKIM_SIGNED,DKIM_VALID,
 	DKIM_VALID_AU,FREEMAIL_FORGED_FROMDOMAIN,FREEMAIL_FROM,
-	HEADER_FROM_DIFFERENT_DOMAINS,INCLUDES_PATCH,MAILING_LIST_MULTI,
-	MENTIONS_GIT_HOSTING,SIGNED_OFF_BY,SPF_HELO_NONE,SPF_PASS,USER_AGENT_SANE_1
-	autolearn=ham autolearn_force=no version=3.4.0
+	HEADER_FROM_DIFFERENT_DOMAINS,INCLUDES_PATCH,MAILING_LIST_MULTI,SIGNED_OFF_BY,
+	SPF_HELO_NONE,SPF_PASS autolearn=ham autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 7EE7EC2BA19
-	for <linux-man@archiver.kernel.org>; Mon, 13 Apr 2020 07:31:49 +0000 (UTC)
-Received: from vger.kernel.org (unknown [209.132.180.67])
-	by mail.kernel.org (Postfix) with ESMTP id 4144720735
-	for <linux-man@archiver.kernel.org>; Mon, 13 Apr 2020 07:31:49 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 6E1A3C2BA19
+	for <linux-man@archiver.kernel.org>; Mon, 13 Apr 2020 08:41:23 +0000 (UTC)
+Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
+	by mail.kernel.org (Postfix) with ESMTP id 3E55D206E9
+	for <linux-man@archiver.kernel.org>; Mon, 13 Apr 2020 08:41:23 +0000 (UTC)
 Authentication-Results: mail.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="G25zr/0m"
-DMARC-Filter: OpenDMARC Filter v1.3.2 mail.kernel.org 4144720735
-Authentication-Results: mail.kernel.org; dmarc=fail (p=none dis=none) header.from=gmail.com
-Authentication-Results: mail.kernel.org; spf=none smtp.mailfrom=linux-man-owner@vger.kernel.org
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="BayzDbB+"
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1729344AbgDMHbs (ORCPT <rfc822;linux-man@archiver.kernel.org>);
-        Mon, 13 Apr 2020 03:31:48 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.18]:33128 "EHLO
-        lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1727612AbgDMHbs (ORCPT
-        <rfc822;linux-man@vger.kernel.org>); Mon, 13 Apr 2020 03:31:48 -0400
-Received: from mail-wm1-x343.google.com (mail-wm1-x343.google.com [IPv6:2a00:1450:4864:20::343])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 34666C008651
-        for <linux-man@vger.kernel.org>; Mon, 13 Apr 2020 00:31:47 -0700 (PDT)
-Received: by mail-wm1-x343.google.com with SMTP id o81so2982878wmo.2
-        for <linux-man@vger.kernel.org>; Mon, 13 Apr 2020 00:31:47 -0700 (PDT)
+        id S1727787AbgDMIlX (ORCPT <rfc822;linux-man@archiver.kernel.org>);
+        Mon, 13 Apr 2020 04:41:23 -0400
+Received: from mail-ed1-f67.google.com ([209.85.208.67]:36327 "EHLO
+        mail-ed1-f67.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1727770AbgDMIlW (ORCPT
+        <rfc822;linux-man@vger.kernel.org>); Mon, 13 Apr 2020 04:41:22 -0400
+Received: by mail-ed1-f67.google.com with SMTP id i7so11106092edq.3
+        for <linux-man@vger.kernel.org>; Mon, 13 Apr 2020 01:41:20 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=gmail.com; s=20161025;
-        h=cc:subject:to:references:from:message-id:date:user-agent
-         :mime-version:in-reply-to:content-language:content-transfer-encoding;
-        bh=aWZi+YZXhFQpwzKyq7M6PxwCm1cz/WUQRiw+dAhqfSs=;
-        b=G25zr/0mW1zh12dxrECM+O/+aaIf9hCfdqD8lQZVxcIaUdVuVd8neyfZ1f3ifUUozR
-         L3MgC2s6y9x+/hsg2pMNw+9LQoMZrE+DdOxxzG8kfl6pOcPAXueGtDShKRthxfrn1JYC
-         N/FxefV0BrFXCU4NvMaX+1GNfvElgqMk0hHD0ZThFcmemPEQIPFLF7bVpz15KTFNlpqR
-         CLCvNFF9fB1La2BAmyxAI6Vyd2k1WobfqwcrwxQXXkrX2CzZX4yPuoUZO/pKzb1eEASu
-         6L1gL3IFmeJvD+5n6mPCp6LifqSu/Os0b9omkU0kYqZvcQEGFSexL4WBkfS77uAX1+gI
-         Cuuw==
+        h=mime-version:references:in-reply-to:reply-to:from:date:message-id
+         :subject:to;
+        bh=gdqJRJMShfNwubAwl7ncVb9NGq8ixEs4ncvwdKNl05s=;
+        b=BayzDbB+nwLLP9++dHefYttNnn0X4m/QngBZ8DO0urmZg9QprzA4GexWyKdljqBDPr
+         W0tOKQAMUHprZfDp7hvyMgASb9r6/S2l+n1Ggz2bE0WoENsvW2P8gqMDYobMsISw/Ole
+         w0ebvRwbThO800zZpLPtZq/G66gJDJ7a/Z6+BRQti1+NH4Sd9kC6VVjxd5KBmF4KKqpU
+         MH6xta6j9MJcVIHVEj+AlkKQEZVN9lWAgO7dB9MXIGLsFV/gqcEbRaV4cFY8H6z9F/L6
+         Et8dq9oB8bHeFibbHcIztdQZAeZ2Mw26WpW2aup46dlVDFnvNPrEd4Y/Ffc/2Wtnwii6
+         dMLg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
-        h=x-gm-message-state:cc:subject:to:references:from:message-id:date
-         :user-agent:mime-version:in-reply-to:content-language
-         :content-transfer-encoding;
-        bh=aWZi+YZXhFQpwzKyq7M6PxwCm1cz/WUQRiw+dAhqfSs=;
-        b=WYDg2vHJnSwjPcs1vgG+XuWSIxhNG46NRnq15WEovrA73Ah5mXJjQFzkzhTskE4Nho
-         CFnjz2riJ9YI2R/cyjr014tVG0VsR0dP4leylhZz2qAu06V63Xw7AB0IlOtMmkqNU2X8
-         O/FkMZ0tJL2O28z9uQx5dILyg/qyUI0agLMbcIezvLpvM9UDBE8Lwhf5fuuMsAN6e/os
-         kTakLgn2a7LEzI6b36kv3JsoC2gc9OY3shEm96yaDuVS8yIA4OaxilR7eHcRyPnqkmA+
-         /9cS2Kfai0TiVk5GWjE83BKRWUyk89M6WKEjW/cN+yUpgVihYMbJYGfdBsqNSvJAnpyD
-         hjYA==
-X-Gm-Message-State: AGi0Pub8MqiYVvBV/snkNHwzHFI5hmhDOovqP+ywfmi2z137DaUFaz4J
-        DFfFT5wTEe8h50VGBYKcgAXlosc1
-X-Google-Smtp-Source: APiQypJ1aWNsE7xgTVMSS7M5q3G321iHLE5r51xj7X3mWCsY36w2ZcH04B4MEHJf8EvlwmA/KzNrmQ==
-X-Received: by 2002:a1c:1d84:: with SMTP id d126mr17167841wmd.119.1586763105777;
-        Mon, 13 Apr 2020 00:31:45 -0700 (PDT)
-Received: from ?IPv6:2001:a61:2482:101:3351:6160:8173:cc31? ([2001:a61:2482:101:3351:6160:8173:cc31])
-        by smtp.gmail.com with ESMTPSA id m14sm11595414wrs.76.2020.04.13.00.31.45
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Mon, 13 Apr 2020 00:31:45 -0700 (PDT)
-Cc:     mtk.manpages@gmail.com, linux-man@vger.kernel.org
-Subject: Re: [PATCH] proc.5: Fix an outdated note about map_files
-To:     Keno Fischer <keno@juliacomputing.com>
-References: <20200412080930.GA30569@juliacomputing.com>
-From:   "Michael Kerrisk (man-pages)" <mtk.manpages@gmail.com>
-Message-ID: <93fcc787-544d-7dbc-f389-d7dc9ca3ad28@gmail.com>
-Date:   Mon, 13 Apr 2020 09:31:44 +0200
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
- Thunderbird/68.6.0
+        h=x-gm-message-state:mime-version:references:in-reply-to:reply-to
+         :from:date:message-id:subject:to;
+        bh=gdqJRJMShfNwubAwl7ncVb9NGq8ixEs4ncvwdKNl05s=;
+        b=nVpChApy+3ONH6eN9FGuHKS563h71zUisAQg7gOmTPX3QhmXzE5fxK5y+Q4YTDoBh1
+         6snap40eGlcOAz/l36D5er4EQn9YY6pPxf7+8dnTQwXZvLGfSQKb3sX6SbhfWrvwSwsV
+         O5/Ru1uWlbwQzvlA0+UO4XQ3lqqlO/0ndzoOs8fmzYShmGzb5q4vf+i3PdfC1uWw7W5A
+         5MP7jC1sF4yDFijU1dvlsJ9aa6k8EoNJDo6nVXjfGdKuOLcwJfKwWITKhBJtY/wsmV0E
+         mdwAyUhplJJ0uKtVT4rBvk/HUuTfVyu/lywy+gZDJSMRH9mqUO9xDBiNx1ifDX6z4VbS
+         hE8Q==
+X-Gm-Message-State: AGi0Pubpyg9mZ7DcBTYDTSCXH5N8TcaeAwpx5Il2n3Ibfz3x8Oua13yo
+        7KRcdjEoYOc8byVukSfiJG1qX6hCRij+C26o6uM=
+X-Google-Smtp-Source: APiQypK5OM7JLxLQiabpYrKDUKVLi3nLOyV63ZyYgFJ1H9gdmXePMCdBPjbu4W9snXSyRTqD4wrlC0e460ehZlVmM2s=
+X-Received: by 2002:a17:906:54cd:: with SMTP id c13mr14410104ejp.307.1586767279742;
+ Mon, 13 Apr 2020 01:41:19 -0700 (PDT)
 MIME-Version: 1.0
-In-Reply-To: <20200412080930.GA30569@juliacomputing.com>
-Content-Type: text/plain; charset=utf-8
-Content-Language: en-US
-Content-Transfer-Encoding: 7bit
+References: <CABpewhFEkb4wMZ=nH8HrgTQ0N_LfNVMvJbXu5eJ37EzBzz0xdw@mail.gmail.com>
+ <20180903174229.GA22027@altlinux.org>
+In-Reply-To: <20180903174229.GA22027@altlinux.org>
+Reply-To: mtk.manpages@gmail.com
+From:   "Michael Kerrisk (man-pages)" <mtk.manpages@gmail.com>
+Date:   Mon, 13 Apr 2020 10:41:08 +0200
+Message-ID: <CAKgNAkh==1hdH+UcJpn8bdY7axX_ZpX95tK-75_m2UxHEVgaKg@mail.gmail.com>
+Subject: Re: [patch] ptrace.2: Document PTRACE_SET_SYSCALL
+To:     "Joseph C. Sible" <josephcsible@gmail.com>,
+        Michael Kerrisk <mtk.manpages@gmail.com>,
+        linux-man <linux-man@vger.kernel.org>,
+        "Dmitry V. Levin" <ldv@altlinux.org>
+Content-Type: text/plain; charset="UTF-8"
 Sender: linux-man-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-man.vger.kernel.org>
 X-Mailing-List: linux-man@vger.kernel.org
 
-Hello Keno,
+Hi Dmitry,
 
-On 4/12/20 10:09 AM, Keno Fischer wrote:
-> The restriction to CAP_SYS_ADMIN was removed from map_files in 2015 [1].
-> There was a fixme that indicted this might happen, but the main text was
-> never updated when this commit landed. While we're at it, add a note about
-> the ptrace access check that is still required.>
-> [1] https://github.com/torvalds/linux/commit/bdb4d100afe9818aebd1d98ced575c5ef143456c
-> 
-> Signed-off-by: Keno Fischer <keno@juliacomputing.com>
+On Mon, 3 Sep 2018 at 19:42, Dmitry V. Levin <ldv@altlinux.org> wrote:
+>
+> On Mon, Sep 03, 2018 at 01:26:15PM -0400, Joseph C. Sible wrote:
+> > Signed-off-by: Joseph C. Sible <josephcsible@gmail.com>
+> > ---
+> >  man2/ptrace.2 | 23 ++++++++++++++++-------
+> >  1 file changed, 16 insertions(+), 7 deletions(-)
+> >
+> > diff --git a/man2/ptrace.2 b/man2/ptrace.2
+> > index aea63d2..69699cc 100644
+> > --- a/man2/ptrace.2
+> > +++ b/man2/ptrace.2
+> [...]
+> > @@ -735,6 +728,22 @@ argument is treated as for
+> >  .RI ( addr
+> >  is ignored.)
+> >  .TP
+> > +.BR PTRACE_SET_SYSCALL " (since Linux 2.6.16)"
+> > +.\" commit 3f471126ee53feb5e9b210ea2f525ed3bb9b7a7f
+> > +When in syscall-enter-stop, change the number of the syscall about to
+> > +be executed to the number specified in the
+> > +.I data
+> > +argument. The
+> > +.I addr
+> > +argument is ignored. This request is currently
+> > +.\" As of 4.19-rc2
+> > +supported only on arm (and arm64, though only for backwards compatibility),
+> > +.\" commit 27aa55c5e5123fa8b8ad0156559d34d7edff58ca
+> > +but most other architectures have other means of accomplishing this
+> > +(usually by changing the register that the userland code passed the
+> > +syscall number in).
+> > +.\" see change_syscall in tools/testing/selftests/seccomp/seccomp_bpf.c
+>
+> I suggest replacing the reference to that huge file with a reference to
+> syscall(2) manpage that contains more detailed information in a much more
+> readable form.
 
-Thank you. Such a nicely written patch!
+I'm not too worried about this, since the reference is just a comment
+in the page source, but I doiid also include your suggestion of
+strace's linux/*/set_scno.c files in comment in the page source.
 
-The FIXME was mine, bit obviously I lost the plot after I wrote it.
-Thanks for catching this.
-
-Patch applied.
-
-Cheers,
+Thanks,
 
 Michael
-
-
-> ---
->  man5/proc.5 | 18 ++++++++++--------
->  1 file changed, 10 insertions(+), 8 deletions(-)
-> 
-> diff --git a/man5/proc.5 b/man5/proc.5
-> index 34cb957dd..0d6043c8f 100644
-> --- a/man5/proc.5
-> +++ b/man5/proc.5
-> @@ -1090,16 +1090,18 @@ lrw\-\-\-\-\-\-\-. 1 root root 64 Apr 16 21:33
->  .EE
->  .in
->  .IP
-> -This directory appears only if the
-> +Permission to access this file is governed by a ptrace access mode
-> +.B PTRACE_MODE_READ_FSCREDS
-> +check; see
-> +.BR ptrace (2).
-> +.IP
-> +.\" This permissions check got removed in kernel commit bdb4d100a
-> +Until kernel version 4.3, this directory appeared only if the
->  .B CONFIG_CHECKPOINT_RESTORE
-> -kernel configuration option is enabled.
-> -Privilege
-> +kernel configuration option was enabled.
-> +Additionally, in those kernel versions, privilege
->  .RB ( CAP_SYS_ADMIN )
-> -.\" FIXME
-> -.\" This may change. See the mail thread
-> -.\" "[RFC][PATCH v2] procfs: Always expose /proc/<pid>/map_files/ and make it readable"
-> -.\" from Jan 2015
-> -is required to view the contents of this directory.
-> +was required to view the contents of this directory.
->  .TP
->  .I /proc/[pid]/maps
->  A file containing the currently mapped memory regions and their access
-> 
 
 
 -- 
