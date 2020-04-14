@@ -1,164 +1,120 @@
-Return-Path: <SRS0=jm4A=55=vger.kernel.org=linux-man-owner@kernel.org>
+Return-Path: <SRS0=WE5q=56=vger.kernel.org=linux-man-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-10.1 required=3.0 tests=DKIMWL_WL_HIGH,DKIM_SIGNED,
-	DKIM_VALID,DKIM_VALID_AU,INCLUDES_PATCH,MAILING_LIST_MULTI,SIGNED_OFF_BY,
-	SPF_HELO_NONE,SPF_PASS,USER_AGENT_GIT autolearn=unavailable
-	autolearn_force=no version=3.4.0
+X-Spam-Status: No, score=-3.6 required=3.0 tests=DKIM_SIGNED,DKIM_VALID,
+	DKIM_VALID_AU,FREEMAIL_FORGED_FROMDOMAIN,FREEMAIL_FROM,
+	HEADER_FROM_DIFFERENT_DOMAINS,INCLUDES_PATCH,MAILING_LIST_MULTI,SPF_HELO_NONE,
+	SPF_PASS,URIBL_BLOCKED autolearn=no autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 660E5C352BE
-	for <linux-man@archiver.kernel.org>; Mon, 13 Apr 2020 16:55:05 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 4E45BC2BBFD
+	for <linux-man@archiver.kernel.org>; Tue, 14 Apr 2020 07:03:23 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.kernel.org (Postfix) with ESMTP id 3BCEC20857
-	for <linux-man@archiver.kernel.org>; Mon, 13 Apr 2020 16:55:05 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=default; t=1586796905;
-	bh=t5agIYwO6o7SWx9yh1z/HGXcrUeg1cVcDz9eOtThQ6o=;
-	h=From:To:Cc:Subject:Date:In-Reply-To:References:List-ID:From;
-	b=xKllFlB30iS86WoIJed1IVgmwlE4YXUgkWhhQNa43FwHME91fEvt8xP/+Y3D78Rfp
-	 7CNS9HT1DmKDr0XY/u3chC+YBxObzfNmfo8TiBR11hKqju9uhc96bXpUZqIlmOPLAc
-	 LpCzOVkDagVO0NiDtabLUsjYWUHsqFBo6llH/HWA=
+	by mail.kernel.org (Postfix) with ESMTP id 2E95820735
+	for <linux-man@archiver.kernel.org>; Tue, 14 Apr 2020 07:03:23 +0000 (UTC)
+Authentication-Results: mail.kernel.org;
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="ZFoFcwv3"
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1731890AbgDMQwp (ORCPT <rfc822;linux-man@archiver.kernel.org>);
-        Mon, 13 Apr 2020 12:52:45 -0400
-Received: from mail.kernel.org ([198.145.29.99]:44310 "EHLO mail.kernel.org"
-        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S1731884AbgDMQwm (ORCPT <rfc822;linux-man@vger.kernel.org>);
-        Mon, 13 Apr 2020 12:52:42 -0400
-Received: from quaco.ghostprotocols.net (unknown [179.97.37.151])
-        (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
-        (No client certificate requested)
-        by mail.kernel.org (Postfix) with ESMTPSA id 888FA2078B;
-        Mon, 13 Apr 2020 16:52:36 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-        s=default; t=1586796761;
-        bh=t5agIYwO6o7SWx9yh1z/HGXcrUeg1cVcDz9eOtThQ6o=;
-        h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
-        b=HejxPEgLATWON/Ye6GG8OVfowBCSj9U/CB6Ayq/WEvozFloDXHO09Uj7bYAm1DVpr
-         yL5HYCmY/wx7DdzGdALMYfbF77mhaLRjopvkLH6hn9fyBR0Hl7pPBcXFkDBx5r1Lmr
-         bDKZqtAcimbohq+VSzhUI3q6aFu6xET8jkT4rRnQ=
-From:   Arnaldo Carvalho de Melo <acme@kernel.org>
-To:     Ingo Molnar <mingo@kernel.org>,
-        Thomas Gleixner <tglx@linutronix.de>
-Cc:     Jiri Olsa <jolsa@kernel.org>, Namhyung Kim <namhyung@kernel.org>,
-        Clark Williams <williams@redhat.com>,
-        linux-kernel@vger.kernel.org, linux-perf-users@vger.kernel.org,
-        Alexey Budankov <alexey.budankov@linux.intel.com>,
-        James Morris <jamorris@linux.microsoft.com>,
-        Arnaldo Carvalho de Melo <acme@redhat.com>,
-        Alexei Starovoitov <ast@kernel.org>,
-        Andi Kleen <ak@linux.intel.com>,
-        Igor Lubashev <ilubashe@akamai.com>,
-        Jiri Olsa <jolsa@redhat.com>, linux-man@vger.kernel.org,
-        Peter Zijlstra <peterz@infradead.org>,
-        Serge Hallyn <serge@hallyn.com>,
-        Song Liu <songliubraving@fb.com>,
-        Stephane Eranian <eranian@google.com>,
-        intel-gfx@lists.freedesktop.org, linux-doc@vger.kernel.org,
-        linux-security-module@vger.kernel.org, selinux@vger.kernel.org
-Subject: [PATCH 06/26] perf/core: Open access to the core for CAP_PERFMON privileged process
-Date:   Mon, 13 Apr 2020 13:51:43 -0300
-Message-Id: <20200413165203.1816-7-acme@kernel.org>
-X-Mailer: git-send-email 2.21.1
-In-Reply-To: <20200413165203.1816-1-acme@kernel.org>
-References: <20200413165203.1816-1-acme@kernel.org>
+        id S2406262AbgDNHDV (ORCPT <rfc822;linux-man@archiver.kernel.org>);
+        Tue, 14 Apr 2020 03:03:21 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:53830 "EHLO
+        lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S2406265AbgDNHDM (ORCPT
+        <rfc822;linux-man@vger.kernel.org>); Tue, 14 Apr 2020 03:03:12 -0400
+Received: from mail-ed1-x52c.google.com (mail-ed1-x52c.google.com [IPv6:2a00:1450:4864:20::52c])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 2C50BC0A3BDC
+        for <linux-man@vger.kernel.org>; Tue, 14 Apr 2020 00:03:09 -0700 (PDT)
+Received: by mail-ed1-x52c.google.com with SMTP id ca21so13303696edb.7
+        for <linux-man@vger.kernel.org>; Tue, 14 Apr 2020 00:03:09 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20161025;
+        h=mime-version:references:in-reply-to:reply-to:from:date:message-id
+         :subject:to:cc;
+        bh=1a2lntY+jCArMeqvlMv45ipI6CJLpxJmXEhtR1n6FD8=;
+        b=ZFoFcwv3nkinbNyA9OUS1SHk7TlgazM1g5INFl+wx4QMWdFfl7ccYMrjo1tZdfuHXZ
+         AXWF6mUA+xKKktRVeqfUZNNNl4AU7Bq6Zo2kr4BOqyrZ7EcRbDogOYQmH16GZ11l/yeN
+         XEvsFGo3RKprX0G+bT+MqjLCPd0NxLgkSPXKlbZRAoykdii7W+vKCHcs4g7PCWuTpMZe
+         sDI2gWuYHZmlBe8VWs3jm8NNSv8P5SFba7g1RHmfQ9JkhjdAlscvOyWHrVs0q987hUO9
+         vkf4kJ+1ui1fBNi2gc9ZA+9+eb9WEUd2XxIKWoMvAN23WX6REExj0ik0F77RVKOuct5g
+         OWLw==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20161025;
+        h=x-gm-message-state:mime-version:references:in-reply-to:reply-to
+         :from:date:message-id:subject:to:cc;
+        bh=1a2lntY+jCArMeqvlMv45ipI6CJLpxJmXEhtR1n6FD8=;
+        b=UJ54NR7WnJ0csin6zTOmCARRHe9hx9Mliyi12fPXMEzrixUOgWaFibqs2/iBjm3qJ9
+         v9JrtYOj6TVe72tXOnvYp1NpF+8pqyR8PPB61mTPT9XmrgT3sUcxa5cs1sX6JkIfGscO
+         qKTmjBsp9Ws2duQ8+J0xAkhWLjy0rBnFlJzHTQlZK1emsTWipoYQI+QU5zyqN1R1qySm
+         JRRR4G+L+OUIg/g+XeZLfViX4YNub3aOyQS9FnD1CjLTM9l3QycFemUyyyyEKTHNo114
+         SND9hYwI7rleWk6i6kig2gGu1S+f+byODvfv3iXauwAuEJsHWxDce7r0wDpubx1ZGG5t
+         mL+Q==
+X-Gm-Message-State: AGi0PuYFGbs0STFQ5RVXig6tf6X888be1vbfyDhQG2JwL8EIcsJfbQlN
+        s36dEha4Kx4g+gn8BHsJD2f0iYTMalS0TxahlbqBMQ==
+X-Google-Smtp-Source: APiQypLgV/nsf8/rgSg3wInQKQKAfCPvorciBFbHUqch9a74knDt+ypNhG+EYw4xzkHRg7w54Ei7xTvUJBNzqY0dbNo=
+X-Received: by 2002:a17:906:2488:: with SMTP id e8mr19071299ejb.157.1586847787844;
+ Tue, 14 Apr 2020 00:03:07 -0700 (PDT)
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+References: <ygf1vkhrmuj.fsf@janus.isnogud.escape.de>
+In-Reply-To: <ygf1vkhrmuj.fsf@janus.isnogud.escape.de>
+Reply-To: mtk.manpages@gmail.com
+From:   "Michael Kerrisk (man-pages)" <mtk.manpages@gmail.com>
+Date:   Tue, 14 Apr 2020 09:02:57 +0200
+Message-ID: <CAKgNAkiqhE51w9+8W_StW0+9eD+HD79y-Tngcnu9yBEygQbRqQ@mail.gmail.com>
+Subject: Re: [patch] strftime.3: ISO week number can be 52, add example
+To:     Urs Thuermann <urs@isnogud.escape.de>
+Cc:     linux-man <linux-man@vger.kernel.org>
+Content-Type: text/plain; charset="UTF-8"
 Sender: linux-man-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-man.vger.kernel.org>
 X-Mailing-List: linux-man@vger.kernel.org
 
-From: Alexey Budankov <alexey.budankov@linux.intel.com>
+Hello Urs,
 
-Open access to monitoring of kernel code, CPUs, tracepoints and
-namespaces data for a CAP_PERFMON privileged process. Providing the
-access under CAP_PERFMON capability singly, without the rest of
-CAP_SYS_ADMIN credentials, excludes chances to misuse the credentials
-and makes operation more secure.
+On Mon, 2 Nov 2009 at 16:05, Urs Thuermann <urs@isnogud.escape.de> wrote:
+>
+> A year cannot only begin with week number 53 of the previous year but
+> also with week number 52.  Year 2011 is an example for this case, as
+> can be easily seen with GNU date:
+>
+> $ date -d "jan 1 2011" "+%c %V %G"
+> Sat Jan  1 00:00:00 2011 52 2010
+>
+> This patch is against the current man-pages git repository.
 
-CAP_PERFMON implements the principle of least privilege for performance
-monitoring and observability operations (POSIX IEEE 1003.1e 2.2.2.39
-principle of least privilege: A security design principle that states
-that a process or program be granted only those privileges (e.g.,
-capabilities) necessary to accomplish its legitimate function, and only
-for the time that such privileges are actually required)
+Patch applied!
 
-For backward compatibility reasons the access to perf_events subsystem
-remains open for CAP_SYS_ADMIN privileged processes but CAP_SYS_ADMIN
-usage for secure perf_events monitoring is discouraged with respect to
-CAP_PERFMON capability.
+Cheers,
 
-Signed-off-by: Alexey Budankov <alexey.budankov@linux.intel.com>
-Reviewed-by: James Morris <jamorris@linux.microsoft.com>
-Tested-by: Arnaldo Carvalho de Melo <acme@redhat.com>
-Cc: Alexei Starovoitov <ast@kernel.org>
-Cc: Andi Kleen <ak@linux.intel.com>
-Cc: Igor Lubashev <ilubashe@akamai.com>
-Cc: Jiri Olsa <jolsa@redhat.com>
-Cc: linux-man@vger.kernel.org
-Cc: Namhyung Kim <namhyung@kernel.org>
-Cc: Peter Zijlstra <peterz@infradead.org>
-Cc: Serge Hallyn <serge@hallyn.com>
-Cc: Song Liu <songliubraving@fb.com>
-Cc: Stephane Eranian <eranian@google.com>
-Cc: Thomas Gleixner <tglx@linutronix.de>
-Cc: intel-gfx@lists.freedesktop.org
-Cc: linux-doc@vger.kernel.org
-Cc: linux-security-module@vger.kernel.org
-Cc: selinux@vger.kernel.org
-Link: http://lore.kernel.org/lkml/471acaef-bb8a-5ce2-923f-90606b78eef9@linux.intel.com
-Signed-off-by: Arnaldo Carvalho de Melo <acme@redhat.com>
----
- include/linux/perf_event.h | 6 +++---
- kernel/events/core.c       | 2 +-
- 2 files changed, 4 insertions(+), 4 deletions(-)
+Michael
 
-diff --git a/include/linux/perf_event.h b/include/linux/perf_event.h
-index 9c3e7619c929..87e21681759c 100644
---- a/include/linux/perf_event.h
-+++ b/include/linux/perf_event.h
-@@ -1305,7 +1305,7 @@ static inline int perf_is_paranoid(void)
- 
- static inline int perf_allow_kernel(struct perf_event_attr *attr)
- {
--	if (sysctl_perf_event_paranoid > 1 && !capable(CAP_SYS_ADMIN))
-+	if (sysctl_perf_event_paranoid > 1 && !perfmon_capable())
- 		return -EACCES;
- 
- 	return security_perf_event_open(attr, PERF_SECURITY_KERNEL);
-@@ -1313,7 +1313,7 @@ static inline int perf_allow_kernel(struct perf_event_attr *attr)
- 
- static inline int perf_allow_cpu(struct perf_event_attr *attr)
- {
--	if (sysctl_perf_event_paranoid > 0 && !capable(CAP_SYS_ADMIN))
-+	if (sysctl_perf_event_paranoid > 0 && !perfmon_capable())
- 		return -EACCES;
- 
- 	return security_perf_event_open(attr, PERF_SECURITY_CPU);
-@@ -1321,7 +1321,7 @@ static inline int perf_allow_cpu(struct perf_event_attr *attr)
- 
- static inline int perf_allow_tracepoint(struct perf_event_attr *attr)
- {
--	if (sysctl_perf_event_paranoid > -1 && !capable(CAP_SYS_ADMIN))
-+	if (sysctl_perf_event_paranoid > -1 && !perfmon_capable())
- 		return -EPERM;
- 
- 	return security_perf_event_open(attr, PERF_SECURITY_TRACEPOINT);
-diff --git a/kernel/events/core.c b/kernel/events/core.c
-index 1569979c8912..f9d564127e2e 100644
---- a/kernel/events/core.c
-+++ b/kernel/events/core.c
-@@ -11486,7 +11486,7 @@ SYSCALL_DEFINE5(perf_event_open,
- 	}
- 
- 	if (attr.namespaces) {
--		if (!capable(CAP_SYS_ADMIN))
-+		if (!perfmon_capable())
- 			return -EACCES;
- 	}
- 
+
+> diff --git a/man3/strftime.3 b/man3/strftime.3
+> index 8dfe58c..a516979 100644
+> --- a/man3/strftime.3
+> +++ b/man3/strftime.3
+> @@ -360,13 +360,15 @@ the first week of the year that contains a Thursday;
+>  or, the week that has 4 January in it).
+>  When three of fewer days of the first calendar week of the new year fall
+>  within that year,
+> -then the ISO 8601 week-based system counts those days as part of week 53
+> -of the preceding year.
+> +then the ISO 8601 week-based system counts those days as part of week 52
+> +or 53 of the preceding year.
+>  For example, 1 January 2010 is a Friday,
+>  meaning that just three days of that calendar week fall in 2010.
+>  Thus, the ISO\ 8601 week-based system considers these days to be part of
+>  week 53 (\fB%V\fP) of the year 2009 (\fB%G\fP) ;
+>  week 01 of ISO\ 8601 year 2010 starts on Monday, 4 January 2010.
+> +Similarly, the first two days of January 2011 are considered to be part
+> +of week 52 of the year 2010.
+>  .SS Glibc Notes
+>  Glibc provides some extensions for conversion specifications.
+>  (These extensions are not specified in POSIX.1-2001, but a few other
+
+
+
 -- 
-2.21.1
-
+Michael Kerrisk
+Linux man-pages maintainer; http://www.kernel.org/doc/man-pages/
+Linux/UNIX System Programming Training: http://man7.org/training/
