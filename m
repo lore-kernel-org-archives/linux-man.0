@@ -6,29 +6,29 @@ X-Spam-Status: No, score=-2.2 required=3.0 tests=HEADER_FROM_DIFFERENT_DOMAINS,
 	MAILING_LIST_MULTI,SPF_HELO_NONE,SPF_PASS,USER_AGENT_SANE_1 autolearn=no
 	autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id A6E4FC38A2F
-	for <linux-man@archiver.kernel.org>; Sun, 19 Apr 2020 06:52:54 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 2EFCBC4CC77
+	for <linux-man@archiver.kernel.org>; Sun, 19 Apr 2020 06:52:56 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.kernel.org (Postfix) with ESMTP id 8259121D82
-	for <linux-man@archiver.kernel.org>; Sun, 19 Apr 2020 06:52:54 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTP id 0C1862076A
+	for <linux-man@archiver.kernel.org>; Sun, 19 Apr 2020 06:52:56 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1725914AbgDSGwy (ORCPT <rfc822;linux-man@archiver.kernel.org>);
-        Sun, 19 Apr 2020 02:52:54 -0400
+        id S1725947AbgDSGwz (ORCPT <rfc822;linux-man@archiver.kernel.org>);
+        Sun, 19 Apr 2020 02:52:55 -0400
 Received: from luckmann.name ([213.239.213.133]:39703 "EHLO
         static.213-239-213-133.clients.your-server.de" rhost-flags-OK-OK-OK-OK)
-        by vger.kernel.org with ESMTP id S1725446AbgDSGwy (ORCPT
-        <rfc822;linux-man@vger.kernel.org>); Sun, 19 Apr 2020 02:52:54 -0400
+        by vger.kernel.org with ESMTP id S1725910AbgDSGwz (ORCPT
+        <rfc822;linux-man@vger.kernel.org>); Sun, 19 Apr 2020 02:52:55 -0400
 X-Greylist: delayed 302 seconds by postgrey-1.27 at vger.kernel.org; Sun, 19 Apr 2020 02:52:53 EDT
 Received: from localhost (localhost [127.0.0.1])
   (uid 502)
   by static.213-239-213-133.clients.your-server.de with local
-  id 0000000000E56011.000000005E9BF416.00007524; Sun, 19 Apr 2020 08:47:50 +0200
-Date:   Sun, 19 Apr 2020 08:47:50 +0200
+  id 0000000000E560F8.000000005E9BF417.0000758A; Sun, 19 Apr 2020 08:47:51 +0200
+Date:   Sun, 19 Apr 2020 08:47:51 +0200
 From:   Helge Kreutzmann <debian@helgefjell.de>
 To:     mtk.manpages@gmail.com
 Cc:     linux-man@vger.kernel.org
-Subject: Errors in man pages - here: ascii(7): SEE ALSO
-Message-ID: <20200419064750.GA29973@Debian-50-lenny-64-minimal>
+Subject: Errors in man pages, here: charmap(5): Content
+Message-ID: <20200419064751.GA30074@Debian-50-lenny-64-minimal>
 Mime-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Transfer-Encoding: 7bit
@@ -77,14 +77,10 @@ future reports should use another channel, please let me know.
 
 **
 
-The order of the entries is incorrect, see man-pages(7)
+UTF-8 in Debian Squeeze:
 
-"B<charsets>(7), B<iso_8859-1>(7), B<iso_8859-10>(7), B<iso_8859-11>(7), "
-"B<iso_8859-13>(7), B<iso_8859-14>(7), B<iso_8859-15>(7), B<iso_8859-16>(7), "
-"B<iso_8859-2>(7), B<iso_8859-3>(7), B<iso_8859-4>(7), B<iso_8859-5>(7), "
-"B<iso_8859-6>(7), B<iso_8859-7>(7), B<iso_8859-8>(7), B<iso_8859-9>(7), "
-"B<utf-8>(7)"
-
+"is followed by the maximum number of bytes for a character.  The default "
+"value is 1."
 
 -- 
       Dr. Helge Kreutzmann                     debian@helgefjell.de
