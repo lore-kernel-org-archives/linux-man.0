@@ -6,32 +6,32 @@ X-Spam-Status: No, score=-2.2 required=3.0 tests=HEADER_FROM_DIFFERENT_DOMAINS,
 	MAILING_LIST_MULTI,SPF_HELO_NONE,SPF_PASS,USER_AGENT_SANE_1 autolearn=no
 	autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 41608C2BA2B
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 878DCC38A29
 	for <linux-man@archiver.kernel.org>; Sun, 19 Apr 2020 06:52:54 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.kernel.org (Postfix) with ESMTP id 159B42076A
+	by mail.kernel.org (Postfix) with ESMTP id 64CE32076A
 	for <linux-man@archiver.kernel.org>; Sun, 19 Apr 2020 06:52:54 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1725959AbgDSGwx (ORCPT <rfc822;linux-man@archiver.kernel.org>);
-        Sun, 19 Apr 2020 02:52:53 -0400
-Received: from luckmann.name ([213.239.213.133]:55513 "EHLO
+        id S1725969AbgDSGwy (ORCPT <rfc822;linux-man@archiver.kernel.org>);
+        Sun, 19 Apr 2020 02:52:54 -0400
+Received: from luckmann.name ([213.239.213.133]:34335 "EHLO
         static.213-239-213-133.clients.your-server.de" rhost-flags-OK-OK-OK-OK)
-        by vger.kernel.org with ESMTP id S1725947AbgDSGwx (ORCPT
-        <rfc822;linux-man@vger.kernel.org>); Sun, 19 Apr 2020 02:52:53 -0400
+        by vger.kernel.org with ESMTP id S1725914AbgDSGwy (ORCPT
+        <rfc822;linux-man@vger.kernel.org>); Sun, 19 Apr 2020 02:52:54 -0400
 Received: from localhost (localhost [127.0.0.1])
   (uid 502)
   by static.213-239-213-133.clients.your-server.de with local
-  id 0000000000E560F4.000000005E9BF416.00007558; Sun, 19 Apr 2020 08:47:50 +0200
-Date:   Sun, 19 Apr 2020 08:47:50 +0200
+  id 0000000000E560F7.000000005E9BF417.00007572; Sun, 19 Apr 2020 08:47:51 +0200
+Date:   Sun, 19 Apr 2020 08:47:51 +0200
 From:   Helge Kreutzmann <debian@helgefjell.de>
 To:     mtk.manpages@gmail.com
 Cc:     linux-man@vger.kernel.org
-Subject: Errors in man pages, here: capabilities(7): Spelling
-Message-ID: <20200419064750.GA30023@Debian-50-lenny-64-minimal>
-MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
+Subject: Errors in man pages, here: carg(3): Missing word
+Message-ID: <20200419064751.GA30050@Debian-50-lenny-64-minimal>
+Mime-Version: 1.0
+Content-Type: text/plain; charset=us-ascii
+Content-Transfer-Encoding: 7bit
 Content-Disposition: inline
-Content-Transfer-Encoding: 8bit
 X-Public-Key-URL: http://www.helgefjell.de/data/debian_neu.asc
 X-homepage: http://www.helgefjell.de/debian
 User-Agent: Mutt/1.10.1 (2018-07-13)
@@ -76,18 +76,9 @@ future reports should use another channel, please let me know.
 
 **
 
-Two issues:
-  a)  s/Extended/extended/
-msgid ""
-"perform operations on I<trusted> and I<security> Extended Attributes (see "
-"B<xattr>(7));"
+s/is/is in/ 
 
-  b) user IDs → user ID
-"I<Note>: according to the rules above, if a process with nonzero user IDs "
-"performs an B<execve>(2)  then any capabilities that are present in its "
-"permitted and effective sets will be cleared.  For the treatment of "
-"capabilities when a process with a user ID of zero performs an B<execve>(2), "
-"see below under I<Capabilities and execution of programs by root>."
+msgid "The return value is the range of [-pi,pi]."
 
 -- 
       Dr. Helge Kreutzmann                     debian@helgefjell.de
