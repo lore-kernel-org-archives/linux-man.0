@@ -6,28 +6,28 @@ X-Spam-Status: No, score=-2.2 required=3.0 tests=HEADER_FROM_DIFFERENT_DOMAINS,
 	MAILING_LIST_MULTI,SPF_HELO_NONE,SPF_PASS,USER_AGENT_SANE_1 autolearn=no
 	autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 071E3C352BE
+	by smtp.lore.kernel.org (Postfix) with ESMTP id B5BA2C4CC77
 	for <linux-man@archiver.kernel.org>; Sun, 19 Apr 2020 06:52:59 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.kernel.org (Postfix) with ESMTP id D2E342076A
-	for <linux-man@archiver.kernel.org>; Sun, 19 Apr 2020 06:52:58 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTP id 82E282076A
+	for <linux-man@archiver.kernel.org>; Sun, 19 Apr 2020 06:52:59 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1726009AbgDSGw6 (ORCPT <rfc822;linux-man@archiver.kernel.org>);
-        Sun, 19 Apr 2020 02:52:58 -0400
-Received: from luckmann.name ([213.239.213.133]:55513 "EHLO
+        id S1726036AbgDSGw7 (ORCPT <rfc822;linux-man@archiver.kernel.org>);
+        Sun, 19 Apr 2020 02:52:59 -0400
+Received: from luckmann.name ([213.239.213.133]:34335 "EHLO
         static.213-239-213-133.clients.your-server.de" rhost-flags-OK-OK-OK-OK)
-        by vger.kernel.org with ESMTP id S1725994AbgDSGw6 (ORCPT
+        by vger.kernel.org with ESMTP id S1726024AbgDSGw6 (ORCPT
         <rfc822;linux-man@vger.kernel.org>); Sun, 19 Apr 2020 02:52:58 -0400
 Received: from localhost (localhost [127.0.0.1])
   (uid 502)
   by static.213-239-213-133.clients.your-server.de with local
-  id 0000000000E5610D.000000005E9BF41A.0000762C; Sun, 19 Apr 2020 08:47:54 +0200
-Date:   Sun, 19 Apr 2020 08:47:54 +0200
+  id 0000000000E56119.000000005E9BF41C.00007688; Sun, 19 Apr 2020 08:47:56 +0200
+Date:   Sun, 19 Apr 2020 08:47:56 +0200
 From:   Helge Kreutzmann <debian@helgefjell.de>
 To:     mtk.manpages@gmail.com
 Cc:     linux-man@vger.kernel.org
-Subject: Errors in man pages, here: cpuid(4): Wording
-Message-ID: <20200419064754.GA30237@Debian-50-lenny-64-minimal>
+Subject: Errors in man pages, here: dsp56k(4): Singular/Plural
+Message-ID: <20200419064756.GA30329@Debian-50-lenny-64-minimal>
 Mime-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Transfer-Encoding: 7bit
@@ -76,11 +76,13 @@ future reports should use another channel, please let me know.
 
 **
 
-The wording could be improved, make the content clear
+Can there be more than one padding byte? If yes:
+s/a null byte/null bytes/
 
-"The lower 32 bits of the file position is used as the incoming I<%eax>, and "
-"the upper 32 bits of the file position as the incoming I<%ecx>, the latter "
-"intended for \"counting\" I<eax> levels like I<eax=4>."
+"sets the receive word size.  Allowed values are in the range 1 to 4, and is "
+"the number of bytes that will be received at a time from the DSP56001.  "
+"These data quantities will either truncated, or padded with a null byte "
+"(\\(aq\\e0\\(aq) to fit the native 24-bit data format of the DSP56001."
 
 -- 
       Dr. Helge Kreutzmann                     debian@helgefjell.de
