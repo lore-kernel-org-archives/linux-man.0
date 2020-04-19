@@ -6,28 +6,28 @@ X-Spam-Status: No, score=-2.2 required=3.0 tests=HEADER_FROM_DIFFERENT_DOMAINS,
 	MAILING_LIST_MULTI,SPF_HELO_NONE,SPF_PASS,USER_AGENT_SANE_1 autolearn=no
 	autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 60778C5321D
+	by smtp.lore.kernel.org (Postfix) with ESMTP id A27AAC352BE
 	for <linux-man@archiver.kernel.org>; Sun, 19 Apr 2020 06:53:02 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.kernel.org (Postfix) with ESMTP id 40DEA2076A
+	by mail.kernel.org (Postfix) with ESMTP id 7B9192076A
 	for <linux-man@archiver.kernel.org>; Sun, 19 Apr 2020 06:53:02 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1726025AbgDSGxC (ORCPT <rfc822;linux-man@archiver.kernel.org>);
+        id S1726061AbgDSGxC (ORCPT <rfc822;linux-man@archiver.kernel.org>);
         Sun, 19 Apr 2020 02:53:02 -0400
-Received: from luckmann.name ([213.239.213.133]:55513 "EHLO
+Received: from luckmann.name ([213.239.213.133]:34335 "EHLO
         static.213-239-213-133.clients.your-server.de" rhost-flags-OK-OK-OK-OK)
-        by vger.kernel.org with ESMTP id S1726049AbgDSGxB (ORCPT
-        <rfc822;linux-man@vger.kernel.org>); Sun, 19 Apr 2020 02:53:01 -0400
+        by vger.kernel.org with ESMTP id S1726024AbgDSGxC (ORCPT
+        <rfc822;linux-man@vger.kernel.org>); Sun, 19 Apr 2020 02:53:02 -0400
 Received: from localhost (localhost [127.0.0.1])
   (uid 502)
   by static.213-239-213-133.clients.your-server.de with local
-  id 0000000000E56130.000000005E9BF41F.0000772B; Sun, 19 Apr 2020 08:47:59 +0200
-Date:   Sun, 19 Apr 2020 08:47:59 +0200
+  id 0000000000E56129.000000005E9BF41E.000076FD; Sun, 19 Apr 2020 08:47:58 +0200
+Date:   Sun, 19 Apr 2020 08:47:58 +0200
 From:   Helge Kreutzmann <debian@helgefjell.de>
 To:     mtk.manpages@gmail.com
 Cc:     linux-man@vger.kernel.org
-Subject: Errors in man pages, here: fcntl(2): Missing word?
-Message-ID: <20200419064758.GA30492@Debian-50-lenny-64-minimal>
+Subject: Errors in man pages, here: exec(3): Wording
+Message-ID: <20200419064758.GA30446@Debian-50-lenny-64-minimal>
 Mime-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Transfer-Encoding: 7bit
@@ -76,12 +76,15 @@ future reports should use another channel, please let me know.
 
 **
 
-Is there an ID after the first "process group" missing?
+The translator in charge wondered why the term "frontend" is used here 
+and not the term "wrapper", because this function calls another 
+function. He also cites the (German version of)
+https://en.wikipedia.org/wiki/Front_end_and_back_end
 
-"Return (as the function result)  the process ID or process group currently "
-"receiving B<SIGIO> and B<SIGURG> signals for events on file descriptor "
-"I<fd>.  Process IDs are returned as positive values; process group IDs are "
-"returned as negative values (but see BUGS below).  I<arg> is ignored."
+"The B<exec>()  family of functions replaces the current process image with a "
+"new process image.  The functions described in this manual page are front-"
+"ends for B<execve>(2).  (See the manual page for B<execve>(2)  for further "
+"details about the replacement of the current process image.)"
 
 -- 
       Dr. Helge Kreutzmann                     debian@helgefjell.de
