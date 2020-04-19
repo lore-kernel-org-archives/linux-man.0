@@ -6,28 +6,29 @@ X-Spam-Status: No, score=-2.2 required=3.0 tests=HEADER_FROM_DIFFERENT_DOMAINS,
 	MAILING_LIST_MULTI,SPF_HELO_NONE,SPF_PASS,USER_AGENT_SANE_1 autolearn=no
 	autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id B5BA2C4CC77
+	by smtp.lore.kernel.org (Postfix) with ESMTP id D0488C54F70
 	for <linux-man@archiver.kernel.org>; Sun, 19 Apr 2020 06:52:59 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.kernel.org (Postfix) with ESMTP id 82E282076A
+	by mail.kernel.org (Postfix) with ESMTP id ACAD721D82
 	for <linux-man@archiver.kernel.org>; Sun, 19 Apr 2020 06:52:59 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1726036AbgDSGw7 (ORCPT <rfc822;linux-man@archiver.kernel.org>);
+        id S1726048AbgDSGw7 (ORCPT <rfc822;linux-man@archiver.kernel.org>);
         Sun, 19 Apr 2020 02:52:59 -0400
-Received: from luckmann.name ([213.239.213.133]:34335 "EHLO
+Received: from luckmann.name ([213.239.213.133]:39703 "EHLO
         static.213-239-213-133.clients.your-server.de" rhost-flags-OK-OK-OK-OK)
-        by vger.kernel.org with ESMTP id S1726024AbgDSGw6 (ORCPT
-        <rfc822;linux-man@vger.kernel.org>); Sun, 19 Apr 2020 02:52:58 -0400
+        by vger.kernel.org with ESMTP id S1725994AbgDSGw7 (ORCPT
+        <rfc822;linux-man@vger.kernel.org>); Sun, 19 Apr 2020 02:52:59 -0400
+X-Greylist: delayed 302 seconds by postgrey-1.27 at vger.kernel.org; Sun, 19 Apr 2020 02:52:53 EDT
 Received: from localhost (localhost [127.0.0.1])
   (uid 502)
   by static.213-239-213-133.clients.your-server.de with local
-  id 0000000000E56119.000000005E9BF41C.00007688; Sun, 19 Apr 2020 08:47:56 +0200
+  id 0000000000E5611F.000000005E9BF41C.000076B6; Sun, 19 Apr 2020 08:47:56 +0200
 Date:   Sun, 19 Apr 2020 08:47:56 +0200
 From:   Helge Kreutzmann <debian@helgefjell.de>
 To:     mtk.manpages@gmail.com
 Cc:     linux-man@vger.kernel.org
-Subject: Errors in man pages, here: dsp56k(4): Singular/Plural
-Message-ID: <20200419064756.GA30329@Debian-50-lenny-64-minimal>
+Subject: Errors in man pages, here: erf(3): Typo
+Message-ID: <20200419064756.GA30375@Debian-50-lenny-64-minimal>
 Mime-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Transfer-Encoding: 7bit
@@ -74,15 +75,8 @@ I'm now reporting the errors for your project. As requested, each
 issue is sent in an unique mail for easier tracking on your side. If
 future reports should use another channel, please let me know.
 
-**
-
-Can there be more than one padding byte? If yes:
-s/a null byte/null bytes/
-
-"sets the receive word size.  Allowed values are in the range 1 to 4, and is "
-"the number of bytes that will be received at a time from the DSP56001.  "
-"These data quantities will either truncated, or padded with a null byte "
-"(\\(aq\\e0\\(aq) to fit the native 24-bit data format of the DSP56001."
+Typo  Missing space before *
+msgid "    erf(x) = 2/sqrt(pi)* integral from 0 to x of exp(-t*t) dt"
 
 -- 
       Dr. Helge Kreutzmann                     debian@helgefjell.de
