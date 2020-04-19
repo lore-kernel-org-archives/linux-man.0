@@ -6,29 +6,28 @@ X-Spam-Status: No, score=-2.2 required=3.0 tests=HEADER_FROM_DIFFERENT_DOMAINS,
 	MAILING_LIST_MULTI,SPF_HELO_NONE,SPF_PASS,USER_AGENT_SANE_1 autolearn=no
 	autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 4ECCFC352BE
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 61A04C38A29
 	for <linux-man@archiver.kernel.org>; Sun, 19 Apr 2020 06:53:18 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.kernel.org (Postfix) with ESMTP id 2DB722076A
+	by mail.kernel.org (Postfix) with ESMTP id 4AE9121D82
 	for <linux-man@archiver.kernel.org>; Sun, 19 Apr 2020 06:53:18 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1726207AbgDSGxS (ORCPT <rfc822;linux-man@archiver.kernel.org>);
+        id S1726195AbgDSGxS (ORCPT <rfc822;linux-man@archiver.kernel.org>);
         Sun, 19 Apr 2020 02:53:18 -0400
-Received: from luckmann.name ([213.239.213.133]:39703 "EHLO
+Received: from luckmann.name ([213.239.213.133]:34335 "EHLO
         static.213-239-213-133.clients.your-server.de" rhost-flags-OK-OK-OK-OK)
-        by vger.kernel.org with ESMTP id S1726195AbgDSGxR (ORCPT
+        by vger.kernel.org with ESMTP id S1726173AbgDSGxR (ORCPT
         <rfc822;linux-man@vger.kernel.org>); Sun, 19 Apr 2020 02:53:17 -0400
-X-Greylist: delayed 302 seconds by postgrey-1.27 at vger.kernel.org; Sun, 19 Apr 2020 02:52:53 EDT
 Received: from localhost (localhost [127.0.0.1])
   (uid 502)
   by static.213-239-213-133.clients.your-server.de with local
-  id 0000000000E5618D.000000005E9BF42E.00007A83; Sun, 19 Apr 2020 08:48:14 +0200
-Date:   Sun, 19 Apr 2020 08:48:14 +0200
+  id 0000000000E56196.000000005E9BF42F.00007AC9; Sun, 19 Apr 2020 08:48:15 +0200
+Date:   Sun, 19 Apr 2020 08:48:15 +0200
 From:   Helge Kreutzmann <debian@helgefjell.de>
 To:     mtk.manpages@gmail.com
 Cc:     linux-man@vger.kernel.org
-Subject: Errors in man pages, here: personality(2): Missing article
-Message-ID: <20200419064814.GA31348@Debian-50-lenny-64-minimal>
+Subject: Errors in man pages, here: proc(5): Incorrect reference?
+Message-ID: <20200419064815.GA31417@Debian-50-lenny-64-minimal>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=utf-8
 Content-Disposition: inline
@@ -77,14 +76,12 @@ future reports should use another channel, please let me know.
 
 **
 
-is value → is a value
+pkeys(5) → pkeys(7) ?
 
-"A list of the available execution domains can be found in I<E<lt>sys/"
-"personality.hE<gt>>.  The execution domain is a 32-bit value in which the "
-"top three bytes are set aside for flags that cause the kernel to modify the "
-"behavior of certain system calls so as to emulate historical or "
-"architectural quirks.  The least significant byte is value defining the "
-"personality the kernel should assume.  The flag values are as follows:"
+"\"ProtectionKey\" field contains the memory protection key (see "
+"B<pkeys>(5))  associated with the virtual memory area.  Present only if the "
+"kernel was built with the B<CONFIG_X86_INTEL_MEMORY_PROTECTION_KEYS> "
+"configuration option. (since Linux 4.6)"
 
 -- 
       Dr. Helge Kreutzmann                     debian@helgefjell.de
