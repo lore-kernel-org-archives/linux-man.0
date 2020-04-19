@@ -6,32 +6,33 @@ X-Spam-Status: No, score=-2.2 required=3.0 tests=HEADER_FROM_DIFFERENT_DOMAINS,
 	MAILING_LIST_MULTI,SPF_HELO_NONE,SPF_PASS,USER_AGENT_SANE_1 autolearn=no
 	autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 9A9EBC54FC9
-	for <linux-man@archiver.kernel.org>; Sun, 19 Apr 2020 06:53:41 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 2AE17C352BE
+	for <linux-man@archiver.kernel.org>; Sun, 19 Apr 2020 06:53:42 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.kernel.org (Postfix) with ESMTP id 7D605206D5
-	for <linux-man@archiver.kernel.org>; Sun, 19 Apr 2020 06:53:41 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTP id 0BB2E206D5
+	for <linux-man@archiver.kernel.org>; Sun, 19 Apr 2020 06:53:42 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1726389AbgDSGxl (ORCPT <rfc822;linux-man@archiver.kernel.org>);
+        id S1726387AbgDSGxl (ORCPT <rfc822;linux-man@archiver.kernel.org>);
         Sun, 19 Apr 2020 02:53:41 -0400
-Received: from luckmann.name ([213.239.213.133]:55513 "EHLO
+Received: from luckmann.name ([213.239.213.133]:39703 "EHLO
         static.213-239-213-133.clients.your-server.de" rhost-flags-OK-OK-OK-OK)
-        by vger.kernel.org with ESMTP id S1726386AbgDSGxl (ORCPT
+        by vger.kernel.org with ESMTP id S1726378AbgDSGxl (ORCPT
         <rfc822;linux-man@vger.kernel.org>); Sun, 19 Apr 2020 02:53:41 -0400
+X-Greylist: delayed 302 seconds by postgrey-1.27 at vger.kernel.org; Sun, 19 Apr 2020 02:52:53 EDT
 Received: from localhost (localhost [127.0.0.1])
   (uid 502)
   by static.213-239-213-133.clients.your-server.de with local
-  id 0000000000E56209.000000005E9BF444.00007F9E; Sun, 19 Apr 2020 08:48:36 +0200
-Date:   Sun, 19 Apr 2020 08:48:36 +0200
+  id 0000000000E56210.000000005E9BF446.00007FFB; Sun, 19 Apr 2020 08:48:38 +0200
+Date:   Sun, 19 Apr 2020 08:48:38 +0200
 From:   Helge Kreutzmann <debian@helgefjell.de>
 To:     mtk.manpages@gmail.com
 Cc:     linux-man@vger.kernel.org
-Subject: Errors in man pages, here: wavelan(4): Typo
-Message-ID: <20200419064836.GA32655@Debian-50-lenny-64-minimal>
-MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
+Subject: Errors in man pages, here: x25(7): Superfluous full stop
+Message-ID: <20200419064838.GA32748@Debian-50-lenny-64-minimal>
+Mime-Version: 1.0
+Content-Type: text/plain; charset=us-ascii
+Content-Transfer-Encoding: 7bit
 Content-Disposition: inline
-Content-Transfer-Encoding: 8bit
 X-Public-Key-URL: http://www.helgefjell.de/data/debian_neu.asc
 X-homepage: http://www.helgefjell.de/debian
 User-Agent: Mutt/1.10.1 (2018-07-13)
@@ -74,13 +75,12 @@ I'm now reporting the errors for your project. As requested, each
 issue is sent in an unique mail for easier tracking on your side. If
 future reports should use another channel, please let me know.
 
+
 **
 
-reuse → reused
+Superfluous full stop
 
-"Set the network ID [I<0> to I<FFFF>] or disable it [I<off>].  As the NWID is "
-"stored in the card Permanent Storage Area, it will be reuse at any further "
-"invocation of the driver."
+msgid "x25 - ITU-T X.25 / ISO-8208 protocol interface."
 
 -- 
       Dr. Helge Kreutzmann                     debian@helgefjell.de
