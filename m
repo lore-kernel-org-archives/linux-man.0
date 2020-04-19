@@ -6,28 +6,28 @@ X-Spam-Status: No, score=-2.2 required=3.0 tests=HEADER_FROM_DIFFERENT_DOMAINS,
 	MAILING_LIST_MULTI,SPF_HELO_NONE,SPF_PASS,USER_AGENT_SANE_1 autolearn=no
 	autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 96FE3C54F70
-	for <linux-man@archiver.kernel.org>; Sun, 19 Apr 2020 06:53:25 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 3C547C38A2F
+	for <linux-man@archiver.kernel.org>; Sun, 19 Apr 2020 06:53:26 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.kernel.org (Postfix) with ESMTP id 7801C2076A
-	for <linux-man@archiver.kernel.org>; Sun, 19 Apr 2020 06:53:25 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTP id 1B3F72076A
+	for <linux-man@archiver.kernel.org>; Sun, 19 Apr 2020 06:53:26 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1726262AbgDSGxZ (ORCPT <rfc822;linux-man@archiver.kernel.org>);
+        id S1726284AbgDSGxZ (ORCPT <rfc822;linux-man@archiver.kernel.org>);
         Sun, 19 Apr 2020 02:53:25 -0400
-Received: from luckmann.name ([213.239.213.133]:48637 "EHLO
+Received: from luckmann.name ([213.239.213.133]:55513 "EHLO
         static.213-239-213-133.clients.your-server.de" rhost-flags-OK-OK-OK-OK)
-        by vger.kernel.org with ESMTP id S1726224AbgDSGxZ (ORCPT
+        by vger.kernel.org with ESMTP id S1725914AbgDSGxZ (ORCPT
         <rfc822;linux-man@vger.kernel.org>); Sun, 19 Apr 2020 02:53:25 -0400
 Received: from localhost (localhost [127.0.0.1])
   (uid 502)
   by static.213-239-213-133.clients.your-server.de with local
-  id 0000000000E561AE.000000005E9BF434.00007BCD; Sun, 19 Apr 2020 08:48:20 +0200
-Date:   Sun, 19 Apr 2020 08:48:20 +0200
+  id 0000000000E561BA.000000005E9BF436.00007C59; Sun, 19 Apr 2020 08:48:22 +0200
+Date:   Sun, 19 Apr 2020 08:48:22 +0200
 From:   Helge Kreutzmann <debian@helgefjell.de>
 To:     mtk.manpages@gmail.com
 Cc:     linux-man@vger.kernel.org
-Subject: Errors in man pages, here: readdir(3): Wording
-Message-ID: <20200419064819.GA31677@Debian-50-lenny-64-minimal>
+Subject: Errors in man pages, here: scanf(3): Missing bracket
+Message-ID: <20200419064822.GA31818@Debian-50-lenny-64-minimal>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=utf-8
 Content-Disposition: inline
@@ -76,13 +76,10 @@ future reports should use another channel, please let me know.
 
 **
 
-"and from an errror" → "from an error"
+Missing »)«
 
-"If the end of the directory stream is reached, NULL is returned and I<errno> "
-"is not changed.  If an error occurs, NULL is returned and I<errno> is set "
-"appropriately.  To distinguish end of stream and from an error, set I<errno> "
-"to zero before calling B<readdir>()  and then check the value of I<errno> if "
-"NULL is returned."
+"Matches a pointer value (as printed by B<%p> in B<printf>(3); the next "
+"pointer must be a pointer to a pointer to I<void>."
 
 -- 
       Dr. Helge Kreutzmann                     debian@helgefjell.de
