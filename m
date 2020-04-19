@@ -6,28 +6,28 @@ X-Spam-Status: No, score=-2.2 required=3.0 tests=HEADER_FROM_DIFFERENT_DOMAINS,
 	MAILING_LIST_MULTI,SPF_HELO_NONE,SPF_PASS,USER_AGENT_SANE_1 autolearn=no
 	autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 078EFC5321D
-	for <linux-man@archiver.kernel.org>; Sun, 19 Apr 2020 06:52:56 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id C170AC352BE
+	for <linux-man@archiver.kernel.org>; Sun, 19 Apr 2020 06:52:54 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.kernel.org (Postfix) with ESMTP id D88332076A
-	for <linux-man@archiver.kernel.org>; Sun, 19 Apr 2020 06:52:55 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTP id 9FBE82076A
+	for <linux-man@archiver.kernel.org>; Sun, 19 Apr 2020 06:52:54 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1725990AbgDSGwz (ORCPT <rfc822;linux-man@archiver.kernel.org>);
-        Sun, 19 Apr 2020 02:52:55 -0400
-Received: from luckmann.name ([213.239.213.133]:55513 "EHLO
+        id S1725987AbgDSGwy (ORCPT <rfc822;linux-man@archiver.kernel.org>);
+        Sun, 19 Apr 2020 02:52:54 -0400
+Received: from luckmann.name ([213.239.213.133]:48637 "EHLO
         static.213-239-213-133.clients.your-server.de" rhost-flags-OK-OK-OK-OK)
-        by vger.kernel.org with ESMTP id S1725947AbgDSGwz (ORCPT
-        <rfc822;linux-man@vger.kernel.org>); Sun, 19 Apr 2020 02:52:55 -0400
+        by vger.kernel.org with ESMTP id S1725910AbgDSGwy (ORCPT
+        <rfc822;linux-man@vger.kernel.org>); Sun, 19 Apr 2020 02:52:54 -0400
 Received: from localhost (localhost [127.0.0.1])
   (uid 502)
   by static.213-239-213-133.clients.your-server.de with local
-  id 0000000000E56101.000000005E9BF418.000075D0; Sun, 19 Apr 2020 08:47:52 +0200
-Date:   Sun, 19 Apr 2020 08:47:52 +0200
+  id 0000000000E5602F.000000005E9BF416.0000753D; Sun, 19 Apr 2020 08:47:50 +0200
+Date:   Sun, 19 Apr 2020 08:47:50 +0200
 From:   Helge Kreutzmann <debian@helgefjell.de>
 To:     mtk.manpages@gmail.com
 Cc:     linux-man@vger.kernel.org
-Subject: Errors in man pages, here: clone(2): Missing closing brackets
-Message-ID: <20200419064752.GA30145@Debian-50-lenny-64-minimal>
+Subject: Errors in man pages, here: capabilities(7): Punctuation
+Message-ID: <20200419064750.GA29996@Debian-50-lenny-64-minimal>
 Mime-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Transfer-Encoding: 7bit
@@ -76,11 +76,15 @@ future reports should use another channel, please let me know.
 
 **
 
-Missing closing bracket in the following strings:
+The following strings have wrong or missing punctuation:
+a) FIXME: Missing semi colon (in English?)
+msgid "set type-of-service (TOS)"
 
-msgid "B<EINVAL> (B<clone3>() only"
+b) Semicolon instead of full stop necessary
+msgid ""
+"override the I</proc/sys/fs/pipe-size-max> limit when setting the capacity "
+"of a pipe using the B<F_SETPIPE_SZ> B<fcntl>(2)  command."
 
-msgid "B<EINVAL> (B<clone>() only"
 
 -- 
       Dr. Helge Kreutzmann                     debian@helgefjell.de
