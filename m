@@ -6,33 +6,32 @@ X-Spam-Status: No, score=-2.2 required=3.0 tests=HEADER_FROM_DIFFERENT_DOMAINS,
 	MAILING_LIST_MULTI,SPF_HELO_NONE,SPF_PASS,USER_AGENT_SANE_1 autolearn=no
 	autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 4C345C2BA2B
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 3C19CC38A29
 	for <linux-man@archiver.kernel.org>; Sun, 19 Apr 2020 06:53:34 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.kernel.org (Postfix) with ESMTP id 35D3D206D6
+	by mail.kernel.org (Postfix) with ESMTP id 1A77F206D5
 	for <linux-man@archiver.kernel.org>; Sun, 19 Apr 2020 06:53:34 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1725914AbgDSGxe (ORCPT <rfc822;linux-man@archiver.kernel.org>);
-        Sun, 19 Apr 2020 02:53:34 -0400
-Received: from luckmann.name ([213.239.213.133]:39703 "EHLO
+        id S1726337AbgDSGxd (ORCPT <rfc822;linux-man@archiver.kernel.org>);
+        Sun, 19 Apr 2020 02:53:33 -0400
+Received: from luckmann.name ([213.239.213.133]:55513 "EHLO
         static.213-239-213-133.clients.your-server.de" rhost-flags-OK-OK-OK-OK)
-        by vger.kernel.org with ESMTP id S1726328AbgDSGxd (ORCPT
+        by vger.kernel.org with ESMTP id S1725914AbgDSGxd (ORCPT
         <rfc822;linux-man@vger.kernel.org>); Sun, 19 Apr 2020 02:53:33 -0400
-X-Greylist: delayed 302 seconds by postgrey-1.27 at vger.kernel.org; Sun, 19 Apr 2020 02:52:53 EDT
 Received: from localhost (localhost [127.0.0.1])
   (uid 502)
   by static.213-239-213-133.clients.your-server.de with local
-  id 0000000000E561E5.000000005E9BF43E.00007E12; Sun, 19 Apr 2020 08:48:30 +0200
-Date:   Sun, 19 Apr 2020 08:48:30 +0200
+  id 0000000000E561E0.000000005E9BF43D.00007DCA; Sun, 19 Apr 2020 08:48:29 +0200
+Date:   Sun, 19 Apr 2020 08:48:28 +0200
 From:   Helge Kreutzmann <debian@helgefjell.de>
 To:     mtk.manpages@gmail.com
 Cc:     linux-man@vger.kernel.org
-Subject: Errors in man pages: here: strcat(3): Clarification
-Message-ID: <20200419064830.GA32259@Debian-50-lenny-64-minimal>
-Mime-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Transfer-Encoding: 7bit
+Subject: Errors in man pages,here: st(4): Wording?
+Message-ID: <20200419064828.GA32187@Debian-50-lenny-64-minimal>
+MIME-Version: 1.0
+Content-Type: text/plain; charset=utf-8
 Content-Disposition: inline
+Content-Transfer-Encoding: 8bit
 X-Public-Key-URL: http://www.helgefjell.de/data/debian_neu.asc
 X-homepage: http://www.helgefjell.de/debian
 User-Agent: Mutt/1.10.1 (2018-07-13)
@@ -77,11 +76,11 @@ future reports should use another channel, please let me know.
 
 **
 
-Is the size of dest correct?
+report → support?
 
-"If I<src> contains I<n> or more bytes, B<strncat>()  writes I<n+1> bytes to "
-"I<dest> (I<n> from I<src> plus the terminating null byte).  Therefore, the "
-"size of I<dest> must be at least I<strlen(dest)+n+1>."
+"The header file defines many values for I<mt_type>, but the current driver "
+"reports only the generic types B<MT_ISSCSI1> (Generic SCSI-1 tape)  and "
+"B<MT_ISSCSI2> (Generic SCSI-2 tape)."
 
 -- 
       Dr. Helge Kreutzmann                     debian@helgefjell.de
