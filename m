@@ -6,28 +6,28 @@ X-Spam-Status: No, score=-2.2 required=3.0 tests=HEADER_FROM_DIFFERENT_DOMAINS,
 	MAILING_LIST_MULTI,SPF_HELO_NONE,SPF_PASS,USER_AGENT_SANE_1 autolearn=no
 	autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 6DB7BC54FC9
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 88A14C38A29
 	for <linux-man@archiver.kernel.org>; Sun, 19 Apr 2020 06:53:37 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.kernel.org (Postfix) with ESMTP id 53964206D5
+	by mail.kernel.org (Postfix) with ESMTP id 72A17206D5
 	for <linux-man@archiver.kernel.org>; Sun, 19 Apr 2020 06:53:37 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1726362AbgDSGxh (ORCPT <rfc822;linux-man@archiver.kernel.org>);
+        id S1726341AbgDSGxh (ORCPT <rfc822;linux-man@archiver.kernel.org>);
         Sun, 19 Apr 2020 02:53:37 -0400
-Received: from luckmann.name ([213.239.213.133]:55513 "EHLO
+Received: from luckmann.name ([213.239.213.133]:48637 "EHLO
         static.213-239-213-133.clients.your-server.de" rhost-flags-OK-OK-OK-OK)
-        by vger.kernel.org with ESMTP id S1726341AbgDSGxg (ORCPT
+        by vger.kernel.org with ESMTP id S1726325AbgDSGxg (ORCPT
         <rfc822;linux-man@vger.kernel.org>); Sun, 19 Apr 2020 02:53:36 -0400
 Received: from localhost (localhost [127.0.0.1])
   (uid 502)
   by static.213-239-213-133.clients.your-server.de with local
-  id 0000000000E561F8.000000005E9BF441.00007EE6; Sun, 19 Apr 2020 08:48:33 +0200
+  id 0000000000E561F6.000000005E9BF441.00007ECF; Sun, 19 Apr 2020 08:48:33 +0200
 Date:   Sun, 19 Apr 2020 08:48:33 +0200
 From:   Helge Kreutzmann <debian@helgefjell.de>
 To:     mtk.manpages@gmail.com
 Cc:     linux-man@vger.kernel.org
-Subject: Errors in man pages, here: times(2): Content
-Message-ID: <20200419064833.GA32471@Debian-50-lenny-64-minimal>
+Subject: Errors in man pages, here: termio(7): Formatting
+Message-ID: <20200419064833.GA32448@Debian-50-lenny-64-minimal>
 Mime-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Transfer-Encoding: 7bit
@@ -76,12 +76,11 @@ future reports should use another channel, please let me know.
 
 **
 
-The sentence is not logical, a = b + a?
+Formatting/Markup termio?
 
-"The I<tms_cutime> field contains the sum of the I<tms_utime> and "
-"I<tms_cutime> values for all waited-for terminated children.  The "
-"I<tms_cstime> field contains the sum of the I<tms_stime> and I<tms_cstime> "
-"values for all waited-for terminated children."
+"If you're looking for a page called \"termio\", then you can probably find "
+"most of the information that you seek in either B<termios>(3)  or "
+"B<ioctl_tty>(2)."
 
 -- 
       Dr. Helge Kreutzmann                     debian@helgefjell.de
