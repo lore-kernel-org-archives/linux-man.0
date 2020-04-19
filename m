@@ -6,28 +6,29 @@ X-Spam-Status: No, score=-2.2 required=3.0 tests=HEADER_FROM_DIFFERENT_DOMAINS,
 	MAILING_LIST_MULTI,SPF_HELO_NONE,SPF_PASS,USER_AGENT_SANE_1 autolearn=no
 	autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 33A3FC38A2F
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 486F9C2BA2B
 	for <linux-man@archiver.kernel.org>; Sun, 19 Apr 2020 06:53:02 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.kernel.org (Postfix) with ESMTP id 0FE9D2076A
+	by mail.kernel.org (Postfix) with ESMTP id 2D1A121D82
 	for <linux-man@archiver.kernel.org>; Sun, 19 Apr 2020 06:53:02 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1726054AbgDSGxB (ORCPT <rfc822;linux-man@archiver.kernel.org>);
+        id S1726039AbgDSGxB (ORCPT <rfc822;linux-man@archiver.kernel.org>);
         Sun, 19 Apr 2020 02:53:01 -0400
-Received: from luckmann.name ([213.239.213.133]:48637 "EHLO
+Received: from luckmann.name ([213.239.213.133]:39703 "EHLO
         static.213-239-213-133.clients.your-server.de" rhost-flags-OK-OK-OK-OK)
-        by vger.kernel.org with ESMTP id S1726039AbgDSGxA (ORCPT
-        <rfc822;linux-man@vger.kernel.org>); Sun, 19 Apr 2020 02:53:00 -0400
+        by vger.kernel.org with ESMTP id S1726025AbgDSGxB (ORCPT
+        <rfc822;linux-man@vger.kernel.org>); Sun, 19 Apr 2020 02:53:01 -0400
+X-Greylist: delayed 302 seconds by postgrey-1.27 at vger.kernel.org; Sun, 19 Apr 2020 02:52:53 EDT
 Received: from localhost (localhost [127.0.0.1])
   (uid 502)
   by static.213-239-213-133.clients.your-server.de with local
-  id 0000000000E56122.000000005E9BF41D.000076CF; Sun, 19 Apr 2020 08:47:57 +0200
-Date:   Sun, 19 Apr 2020 08:47:57 +0200
+  id 0000000000E5612D.000000005E9BF41E.00007714; Sun, 19 Apr 2020 08:47:58 +0200
+Date:   Sun, 19 Apr 2020 08:47:58 +0200
 From:   Helge Kreutzmann <debian@helgefjell.de>
 To:     mtk.manpages@gmail.com
 Cc:     linux-man@vger.kernel.org
-Subject: Errors in man pages, here: erf(3): Missing words
-Message-ID: <20200419064757.GA30398@Debian-50-lenny-64-minimal>
+Subject: Errors in man pages, here: execve(2): typo
+Message-ID: <20200419064758.GA30469@Debian-50-lenny-64-minimal>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=utf-8
 Content-Disposition: inline
@@ -76,10 +77,19 @@ future reports should use another channel, please let me know.
 
 **
 
-return the error function → return the value of the error function
+set-group_ID → set-group-ID
 
-"On success, these functions return the error function of I<x>, a value in "
-"the range [-1,\\ 1]."
+"By default, file descriptors remain open across an B<execve>().  File "
+"descriptors that are marked close-on-exec are closed; see the description of "
+"B<FD_CLOEXEC> in B<fcntl>(2).  (If a file descriptor is closed, this will "
+"cause the release of all record locks obtained on the underlying file by "
+"this process.  See B<fcntl>(2)  for details.)  POSIX.1 says that if file "
+"descriptors 0, 1, and 2 would otherwise be closed after a successful "
+"B<execve>(), and the process would gain privilege because the set-user-ID or "
+"set-group_ID mode bit was set on the executed file, then the system may open "
+"an unspecified file for each of these file descriptors.  As a general "
+"principle, no portable program, whether privileged or not, can assume that "
+"these three file descriptors will remain closed across an B<execve>()."
 
 -- 
       Dr. Helge Kreutzmann                     debian@helgefjell.de
