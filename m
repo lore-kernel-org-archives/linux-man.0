@@ -6,33 +6,32 @@ X-Spam-Status: No, score=-2.2 required=3.0 tests=HEADER_FROM_DIFFERENT_DOMAINS,
 	MAILING_LIST_MULTI,SPF_HELO_NONE,SPF_PASS,USER_AGENT_SANE_1 autolearn=no
 	autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id CD489C4CC77
-	for <linux-man@archiver.kernel.org>; Sun, 19 Apr 2020 06:53:23 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 95F88C352BE
+	for <linux-man@archiver.kernel.org>; Sun, 19 Apr 2020 06:53:22 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.kernel.org (Postfix) with ESMTP id AEA092076A
-	for <linux-man@archiver.kernel.org>; Sun, 19 Apr 2020 06:53:23 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTP id 7F83B2076A
+	for <linux-man@archiver.kernel.org>; Sun, 19 Apr 2020 06:53:22 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1726232AbgDSGxX (ORCPT <rfc822;linux-man@archiver.kernel.org>);
-        Sun, 19 Apr 2020 02:53:23 -0400
-Received: from luckmann.name ([213.239.213.133]:39703 "EHLO
+        id S1726208AbgDSGxW (ORCPT <rfc822;linux-man@archiver.kernel.org>);
+        Sun, 19 Apr 2020 02:53:22 -0400
+Received: from luckmann.name ([213.239.213.133]:34335 "EHLO
         static.213-239-213-133.clients.your-server.de" rhost-flags-OK-OK-OK-OK)
-        by vger.kernel.org with ESMTP id S1725959AbgDSGxX (ORCPT
-        <rfc822;linux-man@vger.kernel.org>); Sun, 19 Apr 2020 02:53:23 -0400
-X-Greylist: delayed 302 seconds by postgrey-1.27 at vger.kernel.org; Sun, 19 Apr 2020 02:52:53 EDT
+        by vger.kernel.org with ESMTP id S1726224AbgDSGxV (ORCPT
+        <rfc822;linux-man@vger.kernel.org>); Sun, 19 Apr 2020 02:53:21 -0400
 Received: from localhost (localhost [127.0.0.1])
   (uid 502)
   by static.213-239-213-133.clients.your-server.de with local
-  id 0000000000E561A7.000000005E9BF432.00007B85; Sun, 19 Apr 2020 08:48:18 +0200
-Date:   Sun, 19 Apr 2020 08:48:18 +0200
+  id 0000000000E5619F.000000005E9BF431.00007B29; Sun, 19 Apr 2020 08:48:17 +0200
+Date:   Sun, 19 Apr 2020 08:48:17 +0200
 From:   Helge Kreutzmann <debian@helgefjell.de>
 To:     mtk.manpages@gmail.com
 Cc:     linux-man@vger.kernel.org
-Subject: Errors in man pages, here: psignal(3): Terminoology
-Message-ID: <20200419064818.GA31606@Debian-50-lenny-64-minimal>
-Mime-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Transfer-Encoding: 7bit
+Subject: Errors in man pages, here: proc(5): Punctuation/Spacing
+Message-ID: <20200419064817.GA31514@Debian-50-lenny-64-minimal>
+MIME-Version: 1.0
+Content-Type: text/plain; charset=utf-8
 Content-Disposition: inline
+Content-Transfer-Encoding: 8bit
 X-Public-Key-URL: http://www.helgefjell.de/data/debian_neu.asc
 X-homepage: http://www.helgefjell.de/debian
 User-Agent: Mutt/1.10.1 (2018-07-13)
@@ -40,7 +39,6 @@ Sender: linux-man-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-man.vger.kernel.org>
 X-Mailing-List: linux-man@vger.kernel.org
-
 
 Dear manpages maintainers.
 the manpage-l10n project maintains a large number of translations of
@@ -78,10 +76,43 @@ future reports should use another channel, please let me know.
 
 **
 
-The "message" is rather a description - change terms?
+Full stop at end?
 
-msgid "psignal, psiginfo - print signal message"
+"(B<CONFIG_TRANSPARENT_HUGEPAGE> is required.)  Memory used by shared memory "
+"(shmem) and B<tmpfs>(5)  allocated with huge pages"
 
+--
+Missing closing bracket
+
+msgid "I<softirq> (since Linux 2.6.0"
+
+--
+Missing space 1GB → 1 GB
+
+"This file can be used to query and set the run-time limit on the maximum "
+"(System V IPC) shared memory segment size that can be created.  Shared "
+"memory segments up to 1GB are now supported in the kernel.  This value "
+"defaults to B<SHMMAX>."
+
+--
+Missing full stop
+
+msgid "Enable memory failure recovery (when supported by the platform)"
+
+--
+s/processes, This/processes. This/
+
+"Specifies an amount of memory (in KiB) to reserve for user processes, This "
+"is intended to prevent a user from starting a single memory hogging process, "
+"such that they cannot recover (kill the hog).  The value in this file has an "
+"effect only when I</proc/sys/vm/overcommit_memory> is set to 2 (\"overcommit "
+"never\" mode).  In this case, the system reserves an amount of memory that "
+"is the minimum of [3% of current process size, I<user_reserve_kbytes>]."
+--
+display → displays
+
+"This file display information about memory zones.  This is useful for "
+"analyzing virtual memory behavior."
 
 -- 
       Dr. Helge Kreutzmann                     debian@helgefjell.de
