@@ -6,32 +6,32 @@ X-Spam-Status: No, score=-2.2 required=3.0 tests=HEADER_FROM_DIFFERENT_DOMAINS,
 	MAILING_LIST_MULTI,SPF_HELO_NONE,SPF_PASS,USER_AGENT_SANE_1 autolearn=no
 	autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 8F6E0C54FCB
-	for <linux-man@archiver.kernel.org>; Sun, 19 Apr 2020 06:53:09 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 31A3AC5321D
+	for <linux-man@archiver.kernel.org>; Sun, 19 Apr 2020 06:53:10 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.kernel.org (Postfix) with ESMTP id 70D3F21D82
-	for <linux-man@archiver.kernel.org>; Sun, 19 Apr 2020 06:53:09 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTP id 177A92076A
+	for <linux-man@archiver.kernel.org>; Sun, 19 Apr 2020 06:53:10 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1726121AbgDSGxJ (ORCPT <rfc822;linux-man@archiver.kernel.org>);
+        id S1726136AbgDSGxJ (ORCPT <rfc822;linux-man@archiver.kernel.org>);
         Sun, 19 Apr 2020 02:53:09 -0400
-Received: from luckmann.name ([213.239.213.133]:48637 "EHLO
+Received: from luckmann.name ([213.239.213.133]:55513 "EHLO
         static.213-239-213-133.clients.your-server.de" rhost-flags-OK-OK-OK-OK)
-        by vger.kernel.org with ESMTP id S1726055AbgDSGxI (ORCPT
-        <rfc822;linux-man@vger.kernel.org>); Sun, 19 Apr 2020 02:53:08 -0400
+        by vger.kernel.org with ESMTP id S1726105AbgDSGxJ (ORCPT
+        <rfc822;linux-man@vger.kernel.org>); Sun, 19 Apr 2020 02:53:09 -0400
 Received: from localhost (localhost [127.0.0.1])
   (uid 502)
   by static.213-239-213-133.clients.your-server.de with local
-  id 0000000000E56161.000000005E9BF426.000078B5; Sun, 19 Apr 2020 08:48:06 +0200
+  id 0000000000E56166.000000005E9BF426.000078E3; Sun, 19 Apr 2020 08:48:06 +0200
 Date:   Sun, 19 Apr 2020 08:48:06 +0200
 From:   Helge Kreutzmann <debian@helgefjell.de>
 To:     mtk.manpages@gmail.com
 Cc:     linux-man@vger.kernel.org
-Subject: Errors in man pages, here: initrd(4): Markup
-Message-ID: <20200419064805.GA30886@Debian-50-lenny-64-minimal>
-Mime-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Transfer-Encoding: 7bit
+Subject: Errors in man pages, here: initrd(4): Typo
+Message-ID: <20200419064806.GA30932@Debian-50-lenny-64-minimal>
+MIME-Version: 1.0
+Content-Type: text/plain; charset=utf-8
 Content-Disposition: inline
+Content-Transfer-Encoding: 8bit
 X-Public-Key-URL: http://www.helgefjell.de/data/debian_neu.asc
 X-homepage: http://www.helgefjell.de/debian
 User-Agent: Mutt/1.10.1 (2018-07-13)
@@ -76,44 +76,11 @@ future reports should use another channel, please let me know.
 
 **
 
-Markup B
+unmount → unmounts
 
-msgid "I<noinitrd>"
---
-Markup "linuxrc"
-
-"It is also possible for the I</linuxrc> executable to change the normal root "
-"device.  For I</linuxrc> to change the normal root device, I</proc> must be "
-"mounted.  After mounting I</proc>, I</linuxrc> changes the normal root "
-"device by writing into the proc files I</proc/sys/kernel/real-root-dev>, I</"
-"proc/sys/kernel/nfs-root-name>, and I</proc/sys/kernel/nfs-root-addrs>.  For "
-"a physical root device, the root device is changed by having I</linuxrc> "
-"write the new root filesystem device number into I</proc/sys/kernel/real-"
-"root-dev>.  For an NFS root filesystem, the root device is changed by having "
-"I</linuxrc> write the NFS setting into files I</proc/sys/kernel/nfs-root-"
-"name> and I</proc/sys/kernel/nfs-root-addrs> and then writing 0xff (e.g., "
-"the pseudo-NFS-device number) into file I</proc/sys/kernel/real-root-dev>.  "
-"For example, the following shell command line would change the normal root "
-"device to I</dev/hdb1>:"
---
-Markup "linuxrc"
-
-"The main motivation for implementing B<initrd> was to allow for modular "
-"kernel configuration at system installation."
---
-Markup "linuxrc"
-
-"The executable I</linuxrc> loads the necessary modules from the initial root "
-"filesystem."
---
-Markup "initrd"
-
-"Last but not least, Linux distributions on CD-ROM may use B<initrd> for easy "
-"installation from the CD-ROM.  The distribution can use B<LOADLIN> to "
-"directly load I</dev/initrd> from CD-ROM without the need of any floppies.  "
-"The distribution could also use a B<LILO> boot floppy and then bootstrap a "
-"bigger RAM disk via I</dev/initrd> from the CD-ROM."
-
+"The executable I</linuxrc> sets I</proc/sys/kernel/real-root-dev>, unmount "
+"I</proc>, the normal root filesystem and any other filesystems it has "
+"mounted, and then terminates."
 
 -- 
       Dr. Helge Kreutzmann                     debian@helgefjell.de
