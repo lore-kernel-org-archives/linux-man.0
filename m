@@ -6,29 +6,28 @@ X-Spam-Status: No, score=-2.2 required=3.0 tests=HEADER_FROM_DIFFERENT_DOMAINS,
 	MAILING_LIST_MULTI,SPF_HELO_NONE,SPF_PASS,USER_AGENT_SANE_1 autolearn=no
 	autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 2EFCBC4CC77
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 4A233C54F70
 	for <linux-man@archiver.kernel.org>; Sun, 19 Apr 2020 06:52:56 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.kernel.org (Postfix) with ESMTP id 0C1862076A
+	by mail.kernel.org (Postfix) with ESMTP id 280A021D82
 	for <linux-man@archiver.kernel.org>; Sun, 19 Apr 2020 06:52:56 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1725947AbgDSGwz (ORCPT <rfc822;linux-man@archiver.kernel.org>);
+        id S1726011AbgDSGwz (ORCPT <rfc822;linux-man@archiver.kernel.org>);
         Sun, 19 Apr 2020 02:52:55 -0400
-Received: from luckmann.name ([213.239.213.133]:39703 "EHLO
+Received: from luckmann.name ([213.239.213.133]:34335 "EHLO
         static.213-239-213-133.clients.your-server.de" rhost-flags-OK-OK-OK-OK)
-        by vger.kernel.org with ESMTP id S1725910AbgDSGwz (ORCPT
+        by vger.kernel.org with ESMTP id S1725446AbgDSGwz (ORCPT
         <rfc822;linux-man@vger.kernel.org>); Sun, 19 Apr 2020 02:52:55 -0400
-X-Greylist: delayed 302 seconds by postgrey-1.27 at vger.kernel.org; Sun, 19 Apr 2020 02:52:53 EDT
 Received: from localhost (localhost [127.0.0.1])
   (uid 502)
   by static.213-239-213-133.clients.your-server.de with local
-  id 0000000000E560F8.000000005E9BF417.0000758A; Sun, 19 Apr 2020 08:47:51 +0200
-Date:   Sun, 19 Apr 2020 08:47:51 +0200
+  id 0000000000E560FC.000000005E9BF418.000075A2; Sun, 19 Apr 2020 08:47:52 +0200
+Date:   Sun, 19 Apr 2020 08:47:52 +0200
 From:   Helge Kreutzmann <debian@helgefjell.de>
 To:     mtk.manpages@gmail.com
 Cc:     linux-man@vger.kernel.org
-Subject: Errors in man pages, here: charmap(5): Content
-Message-ID: <20200419064751.GA30074@Debian-50-lenny-64-minimal>
+Subject: Errors in man pages, here: charmap(5): Consistency
+Message-ID: <20200419064751.GA30098@Debian-50-lenny-64-minimal>
 Mime-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Transfer-Encoding: 7bit
@@ -77,10 +76,14 @@ future reports should use another channel, please let me know.
 
 **
 
-UTF-8 in Debian Squeeze:
+How do the following strings align with 
+zless /usr/share/i18n/charmaps/ISO-8859-1.gz
 
-"is followed by the maximum number of bytes for a character.  The default "
-"value is 1."
+"The following lines may have one of the two following forms to define the "
+"character set:"
+
+"The following lines may have one of the two following forms to define the "
+"widths of the characters:"
 
 -- 
       Dr. Helge Kreutzmann                     debian@helgefjell.de
