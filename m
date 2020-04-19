@@ -6,33 +6,32 @@ X-Spam-Status: No, score=-2.2 required=3.0 tests=HEADER_FROM_DIFFERENT_DOMAINS,
 	MAILING_LIST_MULTI,SPF_HELO_NONE,SPF_PASS,USER_AGENT_SANE_1 autolearn=no
 	autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id CFDF6C38A2F
-	for <linux-man@archiver.kernel.org>; Sun, 19 Apr 2020 06:53:40 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 1E292C2BA2B
+	for <linux-man@archiver.kernel.org>; Sun, 19 Apr 2020 06:53:41 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.kernel.org (Postfix) with ESMTP id B08DB206D5
+	by mail.kernel.org (Postfix) with ESMTP id F33B4206D5
 	for <linux-man@archiver.kernel.org>; Sun, 19 Apr 2020 06:53:40 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1726328AbgDSGxk (ORCPT <rfc822;linux-man@archiver.kernel.org>);
+        id S1726325AbgDSGxk (ORCPT <rfc822;linux-man@archiver.kernel.org>);
         Sun, 19 Apr 2020 02:53:40 -0400
-Received: from luckmann.name ([213.239.213.133]:39703 "EHLO
+Received: from luckmann.name ([213.239.213.133]:34335 "EHLO
         static.213-239-213-133.clients.your-server.de" rhost-flags-OK-OK-OK-OK)
-        by vger.kernel.org with ESMTP id S1726378AbgDSGxk (ORCPT
+        by vger.kernel.org with ESMTP id S1726373AbgDSGxk (ORCPT
         <rfc822;linux-man@vger.kernel.org>); Sun, 19 Apr 2020 02:53:40 -0400
-X-Greylist: delayed 302 seconds by postgrey-1.27 at vger.kernel.org; Sun, 19 Apr 2020 02:52:53 EDT
 Received: from localhost (localhost [127.0.0.1])
   (uid 502)
   by static.213-239-213-133.clients.your-server.de with local
-  id 0000000000E56205.000000005E9BF444.00007F70; Sun, 19 Apr 2020 08:48:36 +0200
-Date:   Sun, 19 Apr 2020 08:48:36 +0200
+  id 0000000000E5620C.000000005E9BF445.00007FCD; Sun, 19 Apr 2020 08:48:37 +0200
+Date:   Sun, 19 Apr 2020 08:48:37 +0200
 From:   Helge Kreutzmann <debian@helgefjell.de>
 To:     mtk.manpages@gmail.com
 Cc:     linux-man@vger.kernel.org
-Subject: Errors in man pages, here: wavelan(4): Markup/Formatting
-Message-ID: <20200419064836.GA32609@Debian-50-lenny-64-minimal>
-Mime-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Transfer-Encoding: 7bit
+Subject: Errors in man pages, here: wavelan(4): Wording
+Message-ID: <20200419064837.GA32702@Debian-50-lenny-64-minimal>
+MIME-Version: 1.0
+Content-Type: text/plain; charset=utf-8
 Content-Disposition: inline
+Content-Transfer-Encoding: 8bit
 X-Public-Key-URL: http://www.helgefjell.de/data/debian_neu.asc
 X-homepage: http://www.helgefjell.de/debian
 User-Agent: Mutt/1.10.1 (2018-07-13)
@@ -77,16 +76,10 @@ future reports should use another channel, please let me know.
 
 **
 
-Why is wavelan marked up here? It is not marked up in other places.
+Enable you the → Enables you to
 
-"I<wavelan> is the low-level device driver for the NCR / AT&T / Lucent "
-"B<WaveLAN ISA> and Digital (DEC)  B<RoamAbout DS> wireless ethernet "
-"adapter.  This driver is available as a module or might be compiled in the "
-"kernel.  This driver supports multiple cards in both forms (up to 4) and "
-"allocates the next available ethernet device (eth0..eth#) for each card "
-"found, unless a device name is explicitly specified (see below).  This "
-"device name will be reported in the kernel log file with the MAC address, "
-"NWID and frequency used by the card."
+"Enable you the define the quality and level threshold used by the modem "
+"(packet below that level are discarded)."
 
 -- 
       Dr. Helge Kreutzmann                     debian@helgefjell.de
