@@ -6,28 +6,29 @@ X-Spam-Status: No, score=-2.2 required=3.0 tests=HEADER_FROM_DIFFERENT_DOMAINS,
 	MAILING_LIST_MULTI,SPF_HELO_NONE,SPF_PASS,USER_AGENT_SANE_1 autolearn=no
 	autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 36487C352BE
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 49577C38A2F
 	for <linux-man@archiver.kernel.org>; Sun, 19 Apr 2020 06:53:33 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.kernel.org (Postfix) with ESMTP id 17797206D5
+	by mail.kernel.org (Postfix) with ESMTP id 34211206D6
 	for <linux-man@archiver.kernel.org>; Sun, 19 Apr 2020 06:53:33 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1726327AbgDSGxc (ORCPT <rfc822;linux-man@archiver.kernel.org>);
-        Sun, 19 Apr 2020 02:53:32 -0400
-Received: from luckmann.name ([213.239.213.133]:34335 "EHLO
+        id S1726318AbgDSGxd (ORCPT <rfc822;linux-man@archiver.kernel.org>);
+        Sun, 19 Apr 2020 02:53:33 -0400
+Received: from luckmann.name ([213.239.213.133]:39703 "EHLO
         static.213-239-213-133.clients.your-server.de" rhost-flags-OK-OK-OK-OK)
-        by vger.kernel.org with ESMTP id S1726318AbgDSGxc (ORCPT
+        by vger.kernel.org with ESMTP id S1726325AbgDSGxc (ORCPT
         <rfc822;linux-man@vger.kernel.org>); Sun, 19 Apr 2020 02:53:32 -0400
+X-Greylist: delayed 302 seconds by postgrey-1.27 at vger.kernel.org; Sun, 19 Apr 2020 02:52:53 EDT
 Received: from localhost (localhost [127.0.0.1])
   (uid 502)
   by static.213-239-213-133.clients.your-server.de with local
-  id 0000000000E561DB.000000005E9BF43C.00007D9C; Sun, 19 Apr 2020 08:48:28 +0200
-Date:   Sun, 19 Apr 2020 08:48:28 +0200
+  id 0000000000E561E3.000000005E9BF43D.00007DFA; Sun, 19 Apr 2020 08:48:29 +0200
+Date:   Sun, 19 Apr 2020 08:48:29 +0200
 From:   Helge Kreutzmann <debian@helgefjell.de>
 To:     mtk.manpages@gmail.com
 Cc:     linux-man@vger.kernel.org
-Subject: Errors in man pages, here: st(4): Content
-Message-ID: <20200419064828.GA32141@Debian-50-lenny-64-minimal>
+Subject: Errors in man pages, here: statfs(2): Typo?
+Message-ID: <20200419064829.GA32234@Debian-50-lenny-64-minimal>
 Mime-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Transfer-Encoding: 7bit
@@ -74,12 +75,24 @@ I'm now reporting the errors for your project. As requested, each
 issue is sent in an unique mail for easier tracking on your side. If
 future reports should use another channel, please let me know.
 
-**
-
-Is the statement true or is it swapped (locked when closed)?
-
-"When this option is true, the drive door is locked when the device is opened "
-"and unlocked when it is closed."
+ s/node/inode/ ?
+"struct statfs {\n"
+"    __fsword_t f_type;    /* Type of filesystem (see below) */\n"
+"    __fsword_t f_bsize;   /* Optimal transfer block size */\n"
+"    fsblkcnt_t f_blocks;  /* Total data blocks in filesystem */\n"
+"    fsblkcnt_t f_bfree;   /* Free blocks in filesystem */\n"
+"    fsblkcnt_t f_bavail;  /* Free blocks available to\n"
+"                             unprivileged user */\n"
+"    fsfilcnt_t f_files;   /* Total file nodes in filesystem */\n"
+"    fsfilcnt_t f_ffree;   /* Free file nodes in filesystem */\n"
+"    fsid_t     f_fsid;    /* Filesystem ID */\n"
+"    __fsword_t f_namelen; /* Maximum length of filenames */\n"
+"    __fsword_t f_frsize;  /* Fragment size (since Linux 2.6) */\n"
+"    __fsword_t f_flags;   /* Mount flags of filesystem\n"
+"                             (since Linux 2.6.36) */\n"
+"    __fsword_t f_spare[xxx];\n"
+"                    /* Padding bytes reserved for future use */\n"
+"};\n"
 
 -- 
       Dr. Helge Kreutzmann                     debian@helgefjell.de
