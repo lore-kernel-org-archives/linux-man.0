@@ -6,29 +6,28 @@ X-Spam-Status: No, score=-2.2 required=3.0 tests=HEADER_FROM_DIFFERENT_DOMAINS,
 	MAILING_LIST_MULTI,SPF_HELO_NONE,SPF_PASS,USER_AGENT_SANE_1 autolearn=no
 	autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 8B4A2C5321D
-	for <linux-man@archiver.kernel.org>; Sun, 19 Apr 2020 06:52:58 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 74BDFC38A2F
+	for <linux-man@archiver.kernel.org>; Sun, 19 Apr 2020 06:52:59 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.kernel.org (Postfix) with ESMTP id 5D71F2076A
-	for <linux-man@archiver.kernel.org>; Sun, 19 Apr 2020 06:52:58 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTP id 595BF2076A
+	for <linux-man@archiver.kernel.org>; Sun, 19 Apr 2020 06:52:59 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1725988AbgDSGw6 (ORCPT <rfc822;linux-man@archiver.kernel.org>);
-        Sun, 19 Apr 2020 02:52:58 -0400
-Received: from luckmann.name ([213.239.213.133]:39703 "EHLO
+        id S1726026AbgDSGw7 (ORCPT <rfc822;linux-man@archiver.kernel.org>);
+        Sun, 19 Apr 2020 02:52:59 -0400
+Received: from luckmann.name ([213.239.213.133]:48637 "EHLO
         static.213-239-213-133.clients.your-server.de" rhost-flags-OK-OK-OK-OK)
-        by vger.kernel.org with ESMTP id S1726009AbgDSGw6 (ORCPT
+        by vger.kernel.org with ESMTP id S1726048AbgDSGw6 (ORCPT
         <rfc822;linux-man@vger.kernel.org>); Sun, 19 Apr 2020 02:52:58 -0400
-X-Greylist: delayed 302 seconds by postgrey-1.27 at vger.kernel.org; Sun, 19 Apr 2020 02:52:53 EDT
 Received: from localhost (localhost [127.0.0.1])
   (uid 502)
   by static.213-239-213-133.clients.your-server.de with local
-  id 0000000000E5610E.000000005E9BF41B.00007643; Sun, 19 Apr 2020 08:47:54 +0200
-Date:   Sun, 19 Apr 2020 08:47:54 +0200
+  id 0000000000E56116.000000005E9BF41B.00007671; Sun, 19 Apr 2020 08:47:55 +0200
+Date:   Sun, 19 Apr 2020 08:47:55 +0200
 From:   Helge Kreutzmann <debian@helgefjell.de>
 To:     mtk.manpages@gmail.com
 Cc:     linux-man@vger.kernel.org
-Subject: Errors in man pages, here: dsp56k(4): Formatting
-Message-ID: <20200419064754.GA30260@Debian-50-lenny-64-minimal>
+Subject: Errors in man pages, dsp56k(4): Unclear meaning
+Message-ID: <20200419064755.GA30306@Debian-50-lenny-64-minimal>
 Mime-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Transfer-Encoding: 7bit
@@ -77,21 +76,12 @@ future reports should use another channel, please let me know.
 
 **
 
-The formatting is inconsistent and incomplete:
+zero bytes: Bytes which are zero, a zero number of bytes (?)
 
-a) Formatting bold?
-
-msgid "#include E<lt>asm/dsp56k.hE<gt>\n"
-
-
-b) In this string the formatting for dspk56k seems missing:
-"The dsp56k device is a character device with major number 55 and minor "
-"number 0."
-
-
-c) No formatting, italic?
-msgid "/dev/dsp56k"
-
+"sets the transmit word size.  Allowed values are in the range 1 to 4, and is "
+"the number of bytes that will be sent at a time to the DSP56001.  These data "
+"quantities will either be padded with zero bytes, or truncated to fit the "
+"native 24-bit data format of the DSP56001."
 
 -- 
       Dr. Helge Kreutzmann                     debian@helgefjell.de
