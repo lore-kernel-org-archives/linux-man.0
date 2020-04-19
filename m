@@ -6,32 +6,32 @@ X-Spam-Status: No, score=-2.2 required=3.0 tests=HEADER_FROM_DIFFERENT_DOMAINS,
 	MAILING_LIST_MULTI,SPF_HELO_NONE,SPF_PASS,USER_AGENT_SANE_1 autolearn=no
 	autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 1D89EC54FC9
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 02C5EC5321D
 	for <linux-man@archiver.kernel.org>; Sun, 19 Apr 2020 06:53:24 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.kernel.org (Postfix) with ESMTP id 04A2221D82
-	for <linux-man@archiver.kernel.org>; Sun, 19 Apr 2020 06:53:24 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTP id DFADF2076A
+	for <linux-man@archiver.kernel.org>; Sun, 19 Apr 2020 06:53:23 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1726214AbgDSGxX (ORCPT <rfc822;linux-man@archiver.kernel.org>);
+        id S1726234AbgDSGxX (ORCPT <rfc822;linux-man@archiver.kernel.org>);
         Sun, 19 Apr 2020 02:53:23 -0400
-Received: from luckmann.name ([213.239.213.133]:34335 "EHLO
+Received: from luckmann.name ([213.239.213.133]:48637 "EHLO
         static.213-239-213-133.clients.your-server.de" rhost-flags-OK-OK-OK-OK)
-        by vger.kernel.org with ESMTP id S1726224AbgDSGxX (ORCPT
+        by vger.kernel.org with ESMTP id S1726214AbgDSGxX (ORCPT
         <rfc822;linux-man@vger.kernel.org>); Sun, 19 Apr 2020 02:53:23 -0400
 Received: from localhost (localhost [127.0.0.1])
   (uid 502)
   by static.213-239-213-133.clients.your-server.de with local
-  id 0000000000E561AB.000000005E9BF433.00007BB5; Sun, 19 Apr 2020 08:48:19 +0200
+  id 0000000000E561A9.000000005E9BF433.00007B9D; Sun, 19 Apr 2020 08:48:19 +0200
 Date:   Sun, 19 Apr 2020 08:48:19 +0200
 From:   Helge Kreutzmann <debian@helgefjell.de>
 To:     mtk.manpages@gmail.com
 Cc:     linux-man@vger.kernel.org
-Subject: Errors in man pages, here: random(4): Singular/Plural
-Message-ID: <20200419064819.GA31654@Debian-50-lenny-64-minimal>
-MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
+Subject: Errors in man pages, here: random.4.po: Wording
+Message-ID: <20200419064819.GA31629@Debian-50-lenny-64-minimal>
+Mime-Version: 1.0
+Content-Type: text/plain; charset=us-ascii
+Content-Transfer-Encoding: 7bit
 Content-Disposition: inline
-Content-Transfer-Encoding: 8bit
 X-Public-Key-URL: http://www.helgefjell.de/data/debian_neu.asc
 X-homepage: http://www.helgefjell.de/debian
 User-Agent: Mutt/1.10.1 (2018-07-13)
@@ -76,10 +76,17 @@ future reports should use another channel, please let me know.
 
 **
 
-vary → varies ?
+The first sentence is very hard to read and should be reworded, maybe
+into two sentences.
 
-"This file gives the size of the entropy pool.  The semantics of this file "
-"vary across kernel versions:"
+"If a seed file is saved across reboots as recommended below (all major Linux "
+"distributions have done this since 2000 at least), the output is "
+"cryptographically secure against attackers without local root access as soon "
+"as it is reloaded in the boot sequence, and perfectly adequate for network "
+"encryption session keys.  Since reads from I</dev/random> may block, users "
+"will usually want to open it in nonblocking mode (or perform a read with "
+"timeout), and provide some sort of user notification if the desired entropy "
+"is not immediately available."
 
 -- 
       Dr. Helge Kreutzmann                     debian@helgefjell.de
