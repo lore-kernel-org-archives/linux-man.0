@@ -6,32 +6,32 @@ X-Spam-Status: No, score=-2.2 required=3.0 tests=HEADER_FROM_DIFFERENT_DOMAINS,
 	MAILING_LIST_MULTI,SPF_HELO_NONE,SPF_PASS,USER_AGENT_SANE_1 autolearn=no
 	autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 61A04C38A29
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 83355C2BA2B
 	for <linux-man@archiver.kernel.org>; Sun, 19 Apr 2020 06:53:18 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.kernel.org (Postfix) with ESMTP id 4AE9121D82
+	by mail.kernel.org (Postfix) with ESMTP id 676192076A
 	for <linux-man@archiver.kernel.org>; Sun, 19 Apr 2020 06:53:18 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1726195AbgDSGxS (ORCPT <rfc822;linux-man@archiver.kernel.org>);
+        id S1726173AbgDSGxS (ORCPT <rfc822;linux-man@archiver.kernel.org>);
         Sun, 19 Apr 2020 02:53:18 -0400
-Received: from luckmann.name ([213.239.213.133]:34335 "EHLO
+Received: from luckmann.name ([213.239.213.133]:55513 "EHLO
         static.213-239-213-133.clients.your-server.de" rhost-flags-OK-OK-OK-OK)
-        by vger.kernel.org with ESMTP id S1726173AbgDSGxR (ORCPT
+        by vger.kernel.org with ESMTP id S1726200AbgDSGxR (ORCPT
         <rfc822;linux-man@vger.kernel.org>); Sun, 19 Apr 2020 02:53:17 -0400
 Received: from localhost (localhost [127.0.0.1])
   (uid 502)
   by static.213-239-213-133.clients.your-server.de with local
-  id 0000000000E56196.000000005E9BF42F.00007AC9; Sun, 19 Apr 2020 08:48:15 +0200
-Date:   Sun, 19 Apr 2020 08:48:15 +0200
+  id 0000000000E56192.000000005E9BF42E.00007AB1; Sun, 19 Apr 2020 08:48:14 +0200
+Date:   Sun, 19 Apr 2020 08:48:14 +0200
 From:   Helge Kreutzmann <debian@helgefjell.de>
 To:     mtk.manpages@gmail.com
 Cc:     linux-man@vger.kernel.org
-Subject: Errors in man pages, here: proc(5): Incorrect reference?
-Message-ID: <20200419064815.GA31417@Debian-50-lenny-64-minimal>
-MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
+Subject: Errors in man pages, here: proc(5): Alignment
+Message-ID: <20200419064814.GA31394@Debian-50-lenny-64-minimal>
+Mime-Version: 1.0
+Content-Type: text/plain; charset=us-ascii
+Content-Transfer-Encoding: 7bit
 Content-Disposition: inline
-Content-Transfer-Encoding: 8bit
 X-Public-Key-URL: http://www.helgefjell.de/data/debian_neu.asc
 X-homepage: http://www.helgefjell.de/debian
 User-Agent: Mutt/1.10.1 (2018-07-13)
@@ -39,6 +39,7 @@ Sender: linux-man-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-man.vger.kernel.org>
 X-Mailing-List: linux-man@vger.kernel.org
+
 
 Dear manpages maintainers.
 the manpage-l10n project maintains a large number of translations of
@@ -76,12 +77,10 @@ future reports should use another channel, please let me know.
 
 **
 
-pkeys(5) → pkeys(7) ?
+(4) is not properly aligned
 
-"\"ProtectionKey\" field contains the memory protection key (see "
-"B<pkeys>(5))  associated with the virtual memory area.  Present only if the "
-"kernel was built with the B<CONFIG_X86_INTEL_MEMORY_PROTECTION_KEYS> "
-"configuration option. (since Linux 4.6)"
+"device /dev/sda7 mounted on /home with fstype ext3 [statistics]\n"
+"(       1      )            ( 2 )             (3 ) (4)\n"
 
 -- 
       Dr. Helge Kreutzmann                     debian@helgefjell.de
