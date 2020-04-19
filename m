@@ -6,28 +6,28 @@ X-Spam-Status: No, score=-2.2 required=3.0 tests=HEADER_FROM_DIFFERENT_DOMAINS,
 	MAILING_LIST_MULTI,SPF_HELO_NONE,SPF_PASS,USER_AGENT_SANE_1 autolearn=no
 	autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 31D29C38A2F
+	by smtp.lore.kernel.org (Postfix) with ESMTP id F17FCC4CC77
 	for <linux-man@archiver.kernel.org>; Sun, 19 Apr 2020 06:53:19 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.kernel.org (Postfix) with ESMTP id 1839A2076A
+	by mail.kernel.org (Postfix) with ESMTP id D1E2B2076A
 	for <linux-man@archiver.kernel.org>; Sun, 19 Apr 2020 06:53:19 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1726209AbgDSGxS (ORCPT <rfc822;linux-man@archiver.kernel.org>);
-        Sun, 19 Apr 2020 02:53:18 -0400
-Received: from luckmann.name ([213.239.213.133]:48637 "EHLO
+        id S1726160AbgDSGxT (ORCPT <rfc822;linux-man@archiver.kernel.org>);
+        Sun, 19 Apr 2020 02:53:19 -0400
+Received: from luckmann.name ([213.239.213.133]:34335 "EHLO
         static.213-239-213-133.clients.your-server.de" rhost-flags-OK-OK-OK-OK)
-        by vger.kernel.org with ESMTP id S1726160AbgDSGxS (ORCPT
-        <rfc822;linux-man@vger.kernel.org>); Sun, 19 Apr 2020 02:53:18 -0400
+        by vger.kernel.org with ESMTP id S1726200AbgDSGxT (ORCPT
+        <rfc822;linux-man@vger.kernel.org>); Sun, 19 Apr 2020 02:53:19 -0400
 Received: from localhost (localhost [127.0.0.1])
   (uid 502)
   by static.213-239-213-133.clients.your-server.de with local
-  id 0000000000E5619B.000000005E9BF430.00007AF8; Sun, 19 Apr 2020 08:48:16 +0200
-Date:   Sun, 19 Apr 2020 08:48:16 +0200
+  id 0000000000E56199.000000005E9BF42F.00007AE0; Sun, 19 Apr 2020 08:48:15 +0200
+Date:   Sun, 19 Apr 2020 08:48:15 +0200
 From:   Helge Kreutzmann <debian@helgefjell.de>
 To:     mtk.manpages@gmail.com
 Cc:     linux-man@vger.kernel.org
-Subject: Errors in man pages, here: proc(5): Missing full stop
-Message-ID: <20200419064816.GA31464@Debian-50-lenny-64-minimal>
+Subject: Errors in man pages, here: proc(5): Content
+Message-ID: <20200419064815.GA31441@Debian-50-lenny-64-minimal>
 Mime-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Transfer-Encoding: 7bit
@@ -76,14 +76,11 @@ future reports should use another channel, please let me know.
 
 **
 
-Missing full stop after "region"
+T twice, i.e. for both stopped and tracing stop?
 
-"This file contains information which is used for diagnosing memory "
-"fragmentation issues.  Each line starts with the identification of the node "
-"and the name of the zone which together identify a memory region This is "
-"then followed by the count of available chunks of a certain order in which "
-"these zones are split.  The size in bytes of a certain order is given by the "
-"formula:"
+"I<State>: Current state of the process.  One of \"R (running)\", \"S "
+"(sleeping)\", \"D (disk sleep)\", \"T (stopped)\", \"T (tracing stop)\", \"Z "
+"(zombie)\", or \"X (dead)\"."
 
 -- 
       Dr. Helge Kreutzmann                     debian@helgefjell.de
