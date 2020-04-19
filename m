@@ -6,28 +6,28 @@ X-Spam-Status: No, score=-2.2 required=3.0 tests=HEADER_FROM_DIFFERENT_DOMAINS,
 	MAILING_LIST_MULTI,SPF_HELO_NONE,SPF_PASS,USER_AGENT_SANE_1 autolearn=no
 	autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 7EBFDC2BA2B
+	by smtp.lore.kernel.org (Postfix) with ESMTP id A56B0C4CC77
 	for <linux-man@archiver.kernel.org>; Sun, 19 Apr 2020 06:53:36 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.kernel.org (Postfix) with ESMTP id 67703206D5
+	by mail.kernel.org (Postfix) with ESMTP id 8D7FD206D5
 	for <linux-man@archiver.kernel.org>; Sun, 19 Apr 2020 06:53:36 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1726365AbgDSGxg (ORCPT <rfc822;linux-man@archiver.kernel.org>);
+        id S1726372AbgDSGxg (ORCPT <rfc822;linux-man@archiver.kernel.org>);
         Sun, 19 Apr 2020 02:53:36 -0400
-Received: from luckmann.name ([213.239.213.133]:34335 "EHLO
+Received: from luckmann.name ([213.239.213.133]:48637 "EHLO
         static.213-239-213-133.clients.your-server.de" rhost-flags-OK-OK-OK-OK)
-        by vger.kernel.org with ESMTP id S1726325AbgDSGxf (ORCPT
+        by vger.kernel.org with ESMTP id S1725990AbgDSGxf (ORCPT
         <rfc822;linux-man@vger.kernel.org>); Sun, 19 Apr 2020 02:53:35 -0400
 Received: from localhost (localhost [127.0.0.1])
   (uid 502)
   by static.213-239-213-133.clients.your-server.de with local
-  id 0000000000E561F4.000000005E9BF440.00007EB7; Sun, 19 Apr 2020 08:48:32 +0200
+  id 0000000000E561F2.000000005E9BF440.00007EA0; Sun, 19 Apr 2020 08:48:32 +0200
 Date:   Sun, 19 Apr 2020 08:48:32 +0200
 From:   Helge Kreutzmann <debian@helgefjell.de>
 To:     mtk.manpages@gmail.com
 Cc:     linux-man@vger.kernel.org
-Subject: Errors in man pages, here: termcap(5): Typo?
-Message-ID: <20200419064832.GA32424@Debian-50-lenny-64-minimal>
+Subject: Errors in man pages, here: sysconf(3): Typo
+Message-ID: <20200419064832.GA32401@Debian-50-lenny-64-minimal>
 Mime-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Transfer-Encoding: 7bit
@@ -76,12 +76,10 @@ future reports should use another channel, please let me know.
 
 **
 
-s/capability/compability/
+s/locates/locales/
 
-"The termcap database is an obsolete facility for describing the capabilities "
-"of character-cell terminals and printers.  It is retained only for "
-"capability with old programs; new programs should use the B<terminfo>(5)  "
-"database and associated libraries."
+"indicates whether the POSIX.2 creation of locates via B<localedef>(1)  is "
+"supported."
 
 -- 
       Dr. Helge Kreutzmann                     debian@helgefjell.de
