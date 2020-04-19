@@ -6,28 +6,29 @@ X-Spam-Status: No, score=-2.2 required=3.0 tests=HEADER_FROM_DIFFERENT_DOMAINS,
 	MAILING_LIST_MULTI,SPF_HELO_NONE,SPF_PASS,USER_AGENT_SANE_1 autolearn=no
 	autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id C2707C4CC77
+	by smtp.lore.kernel.org (Postfix) with ESMTP id F218DC38A2F
 	for <linux-man@archiver.kernel.org>; Sun, 19 Apr 2020 06:53:29 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.kernel.org (Postfix) with ESMTP id A2FEB2076A
+	by mail.kernel.org (Postfix) with ESMTP id C7B082076A
 	for <linux-man@archiver.kernel.org>; Sun, 19 Apr 2020 06:53:29 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1726316AbgDSGx3 (ORCPT <rfc822;linux-man@archiver.kernel.org>);
+        id S1725959AbgDSGx3 (ORCPT <rfc822;linux-man@archiver.kernel.org>);
         Sun, 19 Apr 2020 02:53:29 -0400
-Received: from luckmann.name ([213.239.213.133]:34335 "EHLO
+Received: from luckmann.name ([213.239.213.133]:39703 "EHLO
         static.213-239-213-133.clients.your-server.de" rhost-flags-OK-OK-OK-OK)
-        by vger.kernel.org with ESMTP id S1725959AbgDSGx3 (ORCPT
+        by vger.kernel.org with ESMTP id S1726303AbgDSGx3 (ORCPT
         <rfc822;linux-man@vger.kernel.org>); Sun, 19 Apr 2020 02:53:29 -0400
+X-Greylist: delayed 302 seconds by postgrey-1.27 at vger.kernel.org; Sun, 19 Apr 2020 02:52:53 EDT
 Received: from localhost (localhost [127.0.0.1])
   (uid 502)
   by static.213-239-213-133.clients.your-server.de with local
-  id 0000000000E561CB.000000005E9BF439.00007CFA; Sun, 19 Apr 2020 08:48:25 +0200
-Date:   Sun, 19 Apr 2020 08:48:25 +0200
+  id 0000000000E561CA.000000005E9BF438.00007CE3; Sun, 19 Apr 2020 08:48:24 +0200
+Date:   Sun, 19 Apr 2020 08:48:24 +0200
 From:   Helge Kreutzmann <debian@helgefjell.de>
 To:     mtk.manpages@gmail.com
 Cc:     linux-man@vger.kernel.org
-Subject: Errors in man pages, here: signal(7): Strange word
-Message-ID: <20200419064825.GA31979@Debian-50-lenny-64-minimal>
+Subject: Errors in man pages, here: signal(7): Wording
+Message-ID: <20200419064824.GA31956@Debian-50-lenny-64-minimal>
 Mime-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Transfer-Encoding: 7bit
@@ -76,12 +77,19 @@ future reports should use another channel, please let me know.
 
 **
 
-other word for sanction?
+Current wording hard to read:
 
-"On Linux, even in the absence of signal handlers, certain blocking "
-"interfaces can fail with the error B<EINTR> after the process is stopped by "
-"one of the stop signals and then resumed via B<SIGCONT>.  This behavior is "
-"not sanctioned by POSIX.1, and doesn't occur on other systems."
+a)
+"\"Input\" socket interfaces, when a timeout (B<SO_RCVTIMEO>)  has been set "
+"on the socket using B<setsockopt>(2): B<accept>(2), B<recv>(2), "
+"B<recvfrom>(2), B<recvmmsg>(2)  (also with a non-NULL I<timeout> argument), "
+"and B<recvmsg>(2)."
+
+b)
+"\"Output\" socket interfaces, when a timeout (B<SO_RCVTIMEO>)  has been set "
+"on the socket using B<setsockopt>(2): B<connect>(2), B<send>(2), "
+"B<sendto>(2), and B<sendmsg>(2), if a send timeout (B<SO_SNDTIMEO>)  has "
+"been set."
 
 -- 
       Dr. Helge Kreutzmann                     debian@helgefjell.de
