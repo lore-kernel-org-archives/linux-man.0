@@ -6,28 +6,28 @@ X-Spam-Status: No, score=-2.2 required=3.0 tests=HEADER_FROM_DIFFERENT_DOMAINS,
 	MAILING_LIST_MULTI,SPF_HELO_NONE,SPF_PASS,USER_AGENT_SANE_1 autolearn=no
 	autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 31A3AC5321D
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 92C20C54F70
 	for <linux-man@archiver.kernel.org>; Sun, 19 Apr 2020 06:53:10 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.kernel.org (Postfix) with ESMTP id 177A92076A
+	by mail.kernel.org (Postfix) with ESMTP id 6FF992076A
 	for <linux-man@archiver.kernel.org>; Sun, 19 Apr 2020 06:53:10 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1726136AbgDSGxJ (ORCPT <rfc822;linux-man@archiver.kernel.org>);
-        Sun, 19 Apr 2020 02:53:09 -0400
-Received: from luckmann.name ([213.239.213.133]:55513 "EHLO
+        id S1726138AbgDSGxK (ORCPT <rfc822;linux-man@archiver.kernel.org>);
+        Sun, 19 Apr 2020 02:53:10 -0400
+Received: from luckmann.name ([213.239.213.133]:34335 "EHLO
         static.213-239-213-133.clients.your-server.de" rhost-flags-OK-OK-OK-OK)
-        by vger.kernel.org with ESMTP id S1726105AbgDSGxJ (ORCPT
+        by vger.kernel.org with ESMTP id S1726112AbgDSGxJ (ORCPT
         <rfc822;linux-man@vger.kernel.org>); Sun, 19 Apr 2020 02:53:09 -0400
 Received: from localhost (localhost [127.0.0.1])
   (uid 502)
   by static.213-239-213-133.clients.your-server.de with local
-  id 0000000000E56166.000000005E9BF426.000078E3; Sun, 19 Apr 2020 08:48:06 +0200
-Date:   Sun, 19 Apr 2020 08:48:06 +0200
+  id 0000000000E56168.000000005E9BF427.000078FA; Sun, 19 Apr 2020 08:48:07 +0200
+Date:   Sun, 19 Apr 2020 08:48:07 +0200
 From:   Helge Kreutzmann <debian@helgefjell.de>
 To:     mtk.manpages@gmail.com
 Cc:     linux-man@vger.kernel.org
-Subject: Errors in man pages, here: initrd(4): Typo
-Message-ID: <20200419064806.GA30932@Debian-50-lenny-64-minimal>
+Subject: Errors in man pages, here: initrd(4): Capitalization
+Message-ID: <20200419064807.GA30955@Debian-50-lenny-64-minimal>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=utf-8
 Content-Disposition: inline
@@ -76,11 +76,12 @@ future reports should use another channel, please let me know.
 
 **
 
-unmount → unmounts
+Device → device
 
-"The executable I</linuxrc> sets I</proc/sys/kernel/real-root-dev>, unmount "
-"I</proc>, the normal root filesystem and any other filesystems it has "
-"mounted, and then terminates."
+"The boot loader is configured to load into I</dev/initrd> a filesystem with "
+"the set of modules that was used to bring up the system.  (e.g., Device I</"
+"dev/ram0> can be modified, then unmounted, and finally, the image is written "
+"from I</dev/ram0> to a file.)"
 
 -- 
       Dr. Helge Kreutzmann                     debian@helgefjell.de
