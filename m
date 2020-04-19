@@ -6,28 +6,28 @@ X-Spam-Status: No, score=-2.2 required=3.0 tests=HEADER_FROM_DIFFERENT_DOMAINS,
 	MAILING_LIST_MULTI,SPF_HELO_NONE,SPF_PASS,USER_AGENT_SANE_1 autolearn=no
 	autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 2DA24C54F70
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 47847C5321D
 	for <linux-man@archiver.kernel.org>; Sun, 19 Apr 2020 06:53:07 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.kernel.org (Postfix) with ESMTP id 0BAF32076A
+	by mail.kernel.org (Postfix) with ESMTP id 2B0E621D82
 	for <linux-man@archiver.kernel.org>; Sun, 19 Apr 2020 06:53:07 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1726100AbgDSGxG (ORCPT <rfc822;linux-man@archiver.kernel.org>);
-        Sun, 19 Apr 2020 02:53:06 -0400
-Received: from luckmann.name ([213.239.213.133]:34335 "EHLO
+        id S1726089AbgDSGxH (ORCPT <rfc822;linux-man@archiver.kernel.org>);
+        Sun, 19 Apr 2020 02:53:07 -0400
+Received: from luckmann.name ([213.239.213.133]:48637 "EHLO
         static.213-239-213-133.clients.your-server.de" rhost-flags-OK-OK-OK-OK)
-        by vger.kernel.org with ESMTP id S1726089AbgDSGxG (ORCPT
+        by vger.kernel.org with ESMTP id S1726024AbgDSGxG (ORCPT
         <rfc822;linux-man@vger.kernel.org>); Sun, 19 Apr 2020 02:53:06 -0400
 Received: from localhost (localhost [127.0.0.1])
   (uid 502)
   by static.213-239-213-133.clients.your-server.de with local
-  id 0000000000E56157.000000005E9BF424.00007859; Sun, 19 Apr 2020 08:48:04 +0200
-Date:   Sun, 19 Apr 2020 08:48:04 +0200
+  id 0000000000E56154.000000005E9BF423.00007841; Sun, 19 Apr 2020 08:48:03 +0200
+Date:   Sun, 19 Apr 2020 08:48:03 +0200
 From:   Helge Kreutzmann <debian@helgefjell.de>
 To:     mtk.manpages@gmail.com
 Cc:     linux-man@vger.kernel.org
-Subject: Errors in man pages, here: hosts.equiv(5): missing markup?
-Message-ID: <20200419064804.GA30794@Debian-50-lenny-64-minimal>
+Subject: Errors in man pages, here: getopt(3): Colloquialness
+Message-ID: <20200419064803.GA30770@Debian-50-lenny-64-minimal>
 Mime-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Transfer-Encoding: 7bit
@@ -76,10 +76,12 @@ future reports should use another channel, please let me know.
 
 **
 
-Markup in NAME possible?
+use of we
 
-"hosts.equiv - list of hosts and users that are granted \"trusted\" B<r> "
-"command access to your system"
+"POSIX.1-2001, POSIX.1-2008, and POSIX.2, provided the environment variable "
+"B<POSIXLY_CORRECT> is set.  Otherwise, the elements of I<argv> aren't really "
+"I<const>, because we permute them.  We pretend they're I<const> in the "
+"prototype to be compatible with other systems."
 
 -- 
       Dr. Helge Kreutzmann                     debian@helgefjell.de
