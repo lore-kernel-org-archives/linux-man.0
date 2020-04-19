@@ -6,28 +6,28 @@ X-Spam-Status: No, score=-2.2 required=3.0 tests=HEADER_FROM_DIFFERENT_DOMAINS,
 	MAILING_LIST_MULTI,SPF_HELO_NONE,SPF_PASS,USER_AGENT_SANE_1 autolearn=no
 	autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 24392C5321D
-	for <linux-man@archiver.kernel.org>; Sun, 19 Apr 2020 06:53:20 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 799A1C38A29
+	for <linux-man@archiver.kernel.org>; Sun, 19 Apr 2020 06:53:22 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.kernel.org (Postfix) with ESMTP id 032252076A
-	for <linux-man@archiver.kernel.org>; Sun, 19 Apr 2020 06:53:20 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTP id 63E5921D82
+	for <linux-man@archiver.kernel.org>; Sun, 19 Apr 2020 06:53:22 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1726200AbgDSGxT (ORCPT <rfc822;linux-man@archiver.kernel.org>);
-        Sun, 19 Apr 2020 02:53:19 -0400
-Received: from luckmann.name ([213.239.213.133]:55513 "EHLO
+        id S1725987AbgDSGxW (ORCPT <rfc822;linux-man@archiver.kernel.org>);
+        Sun, 19 Apr 2020 02:53:22 -0400
+Received: from luckmann.name ([213.239.213.133]:48637 "EHLO
         static.213-239-213-133.clients.your-server.de" rhost-flags-OK-OK-OK-OK)
-        by vger.kernel.org with ESMTP id S1726208AbgDSGxT (ORCPT
-        <rfc822;linux-man@vger.kernel.org>); Sun, 19 Apr 2020 02:53:19 -0400
+        by vger.kernel.org with ESMTP id S1726214AbgDSGxV (ORCPT
+        <rfc822;linux-man@vger.kernel.org>); Sun, 19 Apr 2020 02:53:21 -0400
 Received: from localhost (localhost [127.0.0.1])
   (uid 502)
   by static.213-239-213-133.clients.your-server.de with local
-  id 0000000000E5619D.000000005E9BF430.00007B10; Sun, 19 Apr 2020 08:48:16 +0200
-Date:   Sun, 19 Apr 2020 08:48:16 +0200
+  id 0000000000E561A2.000000005E9BF431.00007B40; Sun, 19 Apr 2020 08:48:17 +0200
+Date:   Sun, 19 Apr 2020 08:48:17 +0200
 From:   Helge Kreutzmann <debian@helgefjell.de>
 To:     mtk.manpages@gmail.com
 Cc:     linux-man@vger.kernel.org
-Subject: Errors in man pages, here: proc(5): Explanation
-Message-ID: <20200419064816.GA31488@Debian-50-lenny-64-minimal>
+Subject: Errors in man pages, here: proc(5): Content
+Message-ID: <20200419064817.GA31537@Debian-50-lenny-64-minimal>
 Mime-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Transfer-Encoding: 7bit
@@ -76,20 +76,12 @@ future reports should use another channel, please let me know.
 
 **
 
-The last two entries (smart_*) don't have an explantion and are not 
-easy to derive from the name
+Translator: Has more fields on my machine
 
-"cache              buffer size in KB\n"
-"capacity           number of sectors\n"
-"driver             driver version\n"
-"geometry           physical and logical geometry\n"
-"identify           in hexadecimal\n"
-"media              media type\n"
-"model              manufacturer's model number\n"
-"settings           drive settings\n"
-"smart_thresholds   in hexadecimal\n"
-"smart_values       in hexadecimal\n"
-
+"sl  local_address rem_address   st tx_queue rx_queue tr rexmits  tm-E<gt>when uid\n"
+" 1: 01642C89:0201 0C642C89:03FF 01 00000000:00000001 01:000071BA 00000000 0\n"
+" 1: 00000000:0801 00000000:0000 0A 00000000:00000000 00:00000000 6F000100 0\n"
+" 1: 00000000:0201 00000000:0000 0A 00000000:00000000 00:00000000 00000000 0\n"
 
 -- 
       Dr. Helge Kreutzmann                     debian@helgefjell.de
