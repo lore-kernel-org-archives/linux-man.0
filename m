@@ -6,32 +6,32 @@ X-Spam-Status: No, score=-2.2 required=3.0 tests=HEADER_FROM_DIFFERENT_DOMAINS,
 	MAILING_LIST_MULTI,SPF_HELO_NONE,SPF_PASS,USER_AGENT_SANE_1 autolearn=no
 	autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 8DE2CC2BA2B
+	by smtp.lore.kernel.org (Postfix) with ESMTP id CD1BEC38A2F
 	for <linux-man@archiver.kernel.org>; Sun, 19 Apr 2020 06:53:13 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.kernel.org (Postfix) with ESMTP id 753122076A
+	by mail.kernel.org (Postfix) with ESMTP id B4DBD2076A
 	for <linux-man@archiver.kernel.org>; Sun, 19 Apr 2020 06:53:13 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1726123AbgDSGxN (ORCPT <rfc822;linux-man@archiver.kernel.org>);
+        id S1726164AbgDSGxN (ORCPT <rfc822;linux-man@archiver.kernel.org>);
         Sun, 19 Apr 2020 02:53:13 -0400
-Received: from luckmann.name ([213.239.213.133]:55513 "EHLO
+Received: from luckmann.name ([213.239.213.133]:48637 "EHLO
         static.213-239-213-133.clients.your-server.de" rhost-flags-OK-OK-OK-OK)
-        by vger.kernel.org with ESMTP id S1726105AbgDSGxN (ORCPT
+        by vger.kernel.org with ESMTP id S1726161AbgDSGxN (ORCPT
         <rfc822;linux-man@vger.kernel.org>); Sun, 19 Apr 2020 02:53:13 -0400
 Received: from localhost (localhost [127.0.0.1])
   (uid 502)
   by static.213-239-213-133.clients.your-server.de with local
-  id 0000000000E5617B.000000005E9BF42A.000079C9; Sun, 19 Apr 2020 08:48:10 +0200
-Date:   Sun, 19 Apr 2020 08:48:10 +0200
+  id 0000000000E56180.000000005E9BF42B.000079F9; Sun, 19 Apr 2020 08:48:11 +0200
+Date:   Sun, 19 Apr 2020 08:48:11 +0200
 From:   Helge Kreutzmann <debian@helgefjell.de>
 To:     mtk.manpages@gmail.com
 Cc:     linux-man@vger.kernel.org
-Subject: Errors in man pages, here: mlock(2): Missing full stop
-Message-ID: <20200419064810.GA31162@Debian-50-lenny-64-minimal>
-Mime-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Transfer-Encoding: 7bit
+Subject: Errors in man pages, here: mremap(2): Plural?
+Message-ID: <20200419064811.GA31208@Debian-50-lenny-64-minimal>
+MIME-Version: 1.0
+Content-Type: text/plain; charset=utf-8
 Content-Disposition: inline
+Content-Transfer-Encoding: 8bit
 X-Public-Key-URL: http://www.helgefjell.de/data/debian_neu.asc
 X-homepage: http://www.helgefjell.de/debian
 User-Agent: Mutt/1.10.1 (2018-07-13)
@@ -76,17 +76,9 @@ future reports should use another channel, please let me know.
 
 **
 
-Missing final stop
+flag → flag(s) ?
 
-"In Linux 4.8 and earlier, a bug in the kernel's accounting of locked memory "
-"for unprivileged processes (i.e., without B<CAP_IPC_LOCK>)  meant that if "
-"the region specified by I<addr> and I<len> overlapped an existing lock, then "
-"the already locked bytes in the overlapping region were counted twice when "
-"checking against the limit.  Such double accounting could incorrectly "
-"calculate a \"total locked memory\" value for the process that exceeded the "
-"B<RLIMIT_MEMLOCK> limit, with the result that B<mlock>()  and B<mlock2>()  "
-"would fail on requests that should have succeeded.  This bug was fixed in "
-"Linux 4.9"
+msgid "The I<flags> bit-mask argument may be 0, or include the following flag:"
 
 -- 
       Dr. Helge Kreutzmann                     debian@helgefjell.de
