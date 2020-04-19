@@ -6,28 +6,28 @@ X-Spam-Status: No, score=-2.2 required=3.0 tests=HEADER_FROM_DIFFERENT_DOMAINS,
 	MAILING_LIST_MULTI,SPF_HELO_NONE,SPF_PASS,USER_AGENT_SANE_1 autolearn=no
 	autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 07D9EC54F70
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 7EBFDC2BA2B
 	for <linux-man@archiver.kernel.org>; Sun, 19 Apr 2020 06:53:36 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.kernel.org (Postfix) with ESMTP id D6BF2206D5
-	for <linux-man@archiver.kernel.org>; Sun, 19 Apr 2020 06:53:35 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTP id 67703206D5
+	for <linux-man@archiver.kernel.org>; Sun, 19 Apr 2020 06:53:36 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1726359AbgDSGxf (ORCPT <rfc822;linux-man@archiver.kernel.org>);
-        Sun, 19 Apr 2020 02:53:35 -0400
-Received: from luckmann.name ([213.239.213.133]:55513 "EHLO
+        id S1726365AbgDSGxg (ORCPT <rfc822;linux-man@archiver.kernel.org>);
+        Sun, 19 Apr 2020 02:53:36 -0400
+Received: from luckmann.name ([213.239.213.133]:34335 "EHLO
         static.213-239-213-133.clients.your-server.de" rhost-flags-OK-OK-OK-OK)
-        by vger.kernel.org with ESMTP id S1726341AbgDSGxf (ORCPT
+        by vger.kernel.org with ESMTP id S1726325AbgDSGxf (ORCPT
         <rfc822;linux-man@vger.kernel.org>); Sun, 19 Apr 2020 02:53:35 -0400
 Received: from localhost (localhost [127.0.0.1])
   (uid 502)
   by static.213-239-213-133.clients.your-server.de with local
-  id 0000000000E561EC.000000005E9BF43F.00007E5A; Sun, 19 Apr 2020 08:48:31 +0200
-Date:   Sun, 19 Apr 2020 08:48:31 +0200
+  id 0000000000E561F4.000000005E9BF440.00007EB7; Sun, 19 Apr 2020 08:48:32 +0200
+Date:   Sun, 19 Apr 2020 08:48:32 +0200
 From:   Helge Kreutzmann <debian@helgefjell.de>
 To:     mtk.manpages@gmail.com
 Cc:     linux-man@vger.kernel.org
-Subject: Errors in man pages, here: suffixes(7): Clarification
-Message-ID: <20200419064831.GA32331@Debian-50-lenny-64-minimal>
+Subject: Errors in man pages, here: termcap(5): Typo?
+Message-ID: <20200419064832.GA32424@Debian-50-lenny-64-minimal>
 Mime-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Transfer-Encoding: 7bit
@@ -76,14 +76,12 @@ future reports should use another channel, please let me know.
 
 **
 
-The man page claims that suffixes are separated by a dot from the filename
-and contain one or more letters.
+s/capability/compability/
 
-However, for RCS this does not hold, the separation is done by a comma
-and the suffix may contain characters besides letters, so the first
-concrete examples contradicts the general rule.
-
-msgid "files for RCS (Revision Control System)"
+"The termcap database is an obsolete facility for describing the capabilities "
+"of character-cell terminals and printers.  It is retained only for "
+"capability with old programs; new programs should use the B<terminfo>(5)  "
+"database and associated libraries."
 
 -- 
       Dr. Helge Kreutzmann                     debian@helgefjell.de
