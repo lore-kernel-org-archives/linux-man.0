@@ -6,28 +6,28 @@ X-Spam-Status: No, score=-2.2 required=3.0 tests=HEADER_FROM_DIFFERENT_DOMAINS,
 	MAILING_LIST_MULTI,SPF_HELO_NONE,SPF_PASS,USER_AGENT_SANE_1 autolearn=no
 	autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id EE1DCC38A29
-	for <linux-man@archiver.kernel.org>; Sun, 19 Apr 2020 06:53:39 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 120B2C5321D
+	for <linux-man@archiver.kernel.org>; Sun, 19 Apr 2020 06:53:40 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.kernel.org (Postfix) with ESMTP id D8978206D5
+	by mail.kernel.org (Postfix) with ESMTP id F0203206D6
 	for <linux-man@archiver.kernel.org>; Sun, 19 Apr 2020 06:53:39 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1726381AbgDSGxj (ORCPT <rfc822;linux-man@archiver.kernel.org>);
+        id S1726385AbgDSGxj (ORCPT <rfc822;linux-man@archiver.kernel.org>);
         Sun, 19 Apr 2020 02:53:39 -0400
-Received: from luckmann.name ([213.239.213.133]:48637 "EHLO
+Received: from luckmann.name ([213.239.213.133]:55513 "EHLO
         static.213-239-213-133.clients.your-server.de" rhost-flags-OK-OK-OK-OK)
-        by vger.kernel.org with ESMTP id S1726325AbgDSGxj (ORCPT
+        by vger.kernel.org with ESMTP id S1726328AbgDSGxj (ORCPT
         <rfc822;linux-man@vger.kernel.org>); Sun, 19 Apr 2020 02:53:39 -0400
 Received: from localhost (localhost [127.0.0.1])
   (uid 502)
   by static.213-239-213-133.clients.your-server.de with local
-  id 0000000000E56203.000000005E9BF443.00007F59; Sun, 19 Apr 2020 08:48:35 +0200
-Date:   Sun, 19 Apr 2020 08:48:35 +0200
+  id 0000000000E56206.000000005E9BF444.00007F87; Sun, 19 Apr 2020 08:48:36 +0200
+Date:   Sun, 19 Apr 2020 08:48:36 +0200
 From:   Helge Kreutzmann <debian@helgefjell.de>
 To:     mtk.manpages@gmail.com
 Cc:     linux-man@vger.kernel.org
-Subject: Errors in man pages, here: utmp(5): Missing closing bracket
-Message-ID: <20200419064835.GA32586@Debian-50-lenny-64-minimal>
+Subject: Errors in man pages, here: wavelan(4): Plural forms
+Message-ID: <20200419064836.GA32632@Debian-50-lenny-64-minimal>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=utf-8
 Content-Disposition: inline
@@ -76,36 +76,23 @@ future reports should use another channel, please let me know.
 
 **
 
-Mining closing bracket at init(1), i.e. init (1 → init(1)
+apply → applys
 
-"struct utmp {\n"
-"    short   ut_type;              /* Type of record */\n"
-"    pid_t   ut_pid;               /* PID of login process */\n"
-"    char    ut_line[UT_LINESIZE]; /* Device name of tty - \"/dev/\" */\n"
-"    char    ut_id[4];             /* Terminal name suffix,\n"
-"                                     or inittab(5) ID */\n"
-"    char    ut_user[UT_NAMESIZE]; /* Username */\n"
-"    char    ut_host[UT_HOSTSIZE]; /* Hostname for remote login, or\n"
-"                                     kernel version for run-level\n"
-"                                     messages */\n"
-"    struct  exit_status ut_exit;  /* Exit status of a process\n"
-"                                     marked as DEAD_PROCESS; not\n"
-"                                     used by Linux init (1 */\n"
-"    /* The ut_session and ut_tv fields must be the same size when\n"
-"       compiled 32- and 64-bit.  This allows data files and shared\n"
-"       memory to be shared between 32- and 64-bit applications. */\n"
-"#if __WORDSIZE == 64 && defined __WORDSIZE_COMPAT32\n"
-"    int32_t ut_session;           /* Session ID (B<getsid>(2)),\n"
-"                                     used for windowing */\n"
-"    struct {\n"
-"        int32_t tv_sec;           /* Seconds */\n"
-"        int32_t tv_usec;          /* Microseconds */\n"
-"    } ut_tv;                      /* Time entry was made */\n"
-"#else\n"
-"     long   ut_session;           /* Session ID */\n"
-"     struct timeval ut_tv;        /* Time entry was made */\n"
-"#endif\n"
+"This section apply to the module form (parameters passed on the "
+"B<insmod>(8)  command line).  If the driver is included in the kernel, use "
+"the I<ether=IRQ,IO,NAME> syntax on the kernel command line."
+--
+address → addresses
 
+"Specify the list of base address where to search for wavelan cards (setting "
+"by dip switch on the card).  If you don't specify any io address, the driver "
+"will scan 0x390 and 0x3E0 addresses, which might conflict with other "
+"hardware..."
+--
+name → names
+
+"Set the list of name to be used for each wavelan cards device (name used by "
+"B<ifconfig>(8))."
 
 -- 
       Dr. Helge Kreutzmann                     debian@helgefjell.de
