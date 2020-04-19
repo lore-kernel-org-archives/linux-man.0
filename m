@@ -6,29 +6,28 @@ X-Spam-Status: No, score=-2.2 required=3.0 tests=HEADER_FROM_DIFFERENT_DOMAINS,
 	MAILING_LIST_MULTI,SPF_HELO_NONE,SPF_PASS,USER_AGENT_SANE_1 autolearn=no
 	autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 3F914C2BA2B
-	for <linux-man@archiver.kernel.org>; Sun, 19 Apr 2020 06:53:25 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id C28F7C38A29
+	for <linux-man@archiver.kernel.org>; Sun, 19 Apr 2020 06:53:24 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.kernel.org (Postfix) with ESMTP id 1EED82076A
-	for <linux-man@archiver.kernel.org>; Sun, 19 Apr 2020 06:53:25 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTP id A13F52076A
+	for <linux-man@archiver.kernel.org>; Sun, 19 Apr 2020 06:53:24 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1726261AbgDSGxY (ORCPT <rfc822;linux-man@archiver.kernel.org>);
+        id S1726245AbgDSGxY (ORCPT <rfc822;linux-man@archiver.kernel.org>);
         Sun, 19 Apr 2020 02:53:24 -0400
-Received: from luckmann.name ([213.239.213.133]:39703 "EHLO
+Received: from luckmann.name ([213.239.213.133]:55513 "EHLO
         static.213-239-213-133.clients.your-server.de" rhost-flags-OK-OK-OK-OK)
-        by vger.kernel.org with ESMTP id S1725959AbgDSGxY (ORCPT
+        by vger.kernel.org with ESMTP id S1725914AbgDSGxY (ORCPT
         <rfc822;linux-man@vger.kernel.org>); Sun, 19 Apr 2020 02:53:24 -0400
-X-Greylist: delayed 302 seconds by postgrey-1.27 at vger.kernel.org; Sun, 19 Apr 2020 02:52:53 EDT
 Received: from localhost (localhost [127.0.0.1])
   (uid 502)
   by static.213-239-213-133.clients.your-server.de with local
-  id 0000000000E561B3.000000005E9BF435.00007C13; Sun, 19 Apr 2020 08:48:21 +0200
-Date:   Sun, 19 Apr 2020 08:48:21 +0200
+  id 0000000000E561B1.000000005E9BF434.00007BFC; Sun, 19 Apr 2020 08:48:20 +0200
+Date:   Sun, 19 Apr 2020 08:48:20 +0200
 From:   Helge Kreutzmann <debian@helgefjell.de>
 To:     mtk.manpages@gmail.com
 Cc:     linux-man@vger.kernel.org
-Subject: Errors in man pages, here: rename(2): Incorrect punctuation
-Message-ID: <20200419064821.GA31748@Debian-50-lenny-64-minimal>
+Subject: Errors in man pages, here: rename(2): Typo
+Message-ID: <20200419064820.GA31725@Debian-50-lenny-64-minimal>
 Mime-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Transfer-Encoding: 7bit
@@ -77,12 +76,10 @@ future reports should use another channel, please let me know.
 
 **
 
-Incorrect full stop after f2fs
+etx2 -> ext2
 
-"B<RENAME_WHITEOUT> requires support from the underlying filesystem.  Among "
-"the filesystems that provide that support are tmpfs (since Linux 3.18), ext4 "
-"(since Linux 3.18), XFS (since Linux 4.1), f2fs (since Linux 4.2).  btrfs "
-"(since Linux 4.7), and ubifs (since Linux 4.9)."
+"Support for many other filesystems was added in Linux 4.9, including etx2, "
+"minix, reiserfs, jfs, vfat, and bpf."
 
 -- 
       Dr. Helge Kreutzmann                     debian@helgefjell.de
