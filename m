@@ -2,100 +2,94 @@ Return-Path: <SRS0=zzzS=6E=vger.kernel.org=linux-man-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-0.6 required=3.0 tests=DKIM_SIGNED,DKIM_VALID,
-	DKIM_VALID_AU,FREEMAIL_FORGED_FROMDOMAIN,FREEMAIL_FROM,
-	HEADER_FROM_DIFFERENT_DOMAINS,MAILING_LIST_MULTI,SPF_HELO_NONE,SPF_PASS
-	autolearn=no autolearn_force=no version=3.4.0
+X-Spam-Status: No, score=-0.8 required=3.0 tests=HEADER_FROM_DIFFERENT_DOMAINS,
+	MAILING_LIST_MULTI,SPF_HELO_NONE,SPF_PASS autolearn=no autolearn_force=no
+	version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id AE4EDC3815B
-	for <linux-man@archiver.kernel.org>; Mon, 20 Apr 2020 15:30:05 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 5A6B0C3815B
+	for <linux-man@archiver.kernel.org>; Mon, 20 Apr 2020 15:42:09 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.kernel.org (Postfix) with ESMTP id 7E556206F6
-	for <linux-man@archiver.kernel.org>; Mon, 20 Apr 2020 15:30:05 +0000 (UTC)
-Authentication-Results: mail.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="Op6PlwSi"
+	by mail.kernel.org (Postfix) with ESMTP id 404BE206F6
+	for <linux-man@archiver.kernel.org>; Mon, 20 Apr 2020 15:42:09 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1726806AbgDTPaF (ORCPT <rfc822;linux-man@archiver.kernel.org>);
-        Mon, 20 Apr 2020 11:30:05 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:58896 "EHLO
-        lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1725989AbgDTPaE (ORCPT
-        <rfc822;linux-man@vger.kernel.org>); Mon, 20 Apr 2020 11:30:04 -0400
-Received: from mail-ej1-x641.google.com (mail-ej1-x641.google.com [IPv6:2a00:1450:4864:20::641])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 9923AC061A0C;
-        Mon, 20 Apr 2020 08:30:04 -0700 (PDT)
-Received: by mail-ej1-x641.google.com with SMTP id e2so5936582eje.13;
-        Mon, 20 Apr 2020 08:30:04 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20161025;
-        h=mime-version:references:in-reply-to:reply-to:from:date:message-id
-         :subject:to:cc;
-        bh=ChXiBeTRT71CMVBklbLHXRzN05QgvLFbh2UfLNf6JWo=;
-        b=Op6PlwSikOrFSwZSehUg2o6jvp1i/1WueqJOXSSs/4PVE1Jw9eSQqjoLFNn6x9qkBB
-         1kyuAb49gBdd7fEahkje+H4WO1uSIQJvlc0dH1qjGRnz5AjlsSvJpwjoid9pR+2q4Eyj
-         yw8dfh5VqmTfoSvcyLAA+syQstgBPxsUVT7ROfba2ATLVhd6b0XUgevwP+2+PQHxsCTg
-         l1DZe397fJdnyYhffZrGKuO7M4Z6D7qhZEczvAU18701P/05Xq1OMZGdiYJbe2FYdfsM
-         gRQqt2AtM7X/CJ/vAC8XzH8S58pxTPov53k5TUW1c1VGBjGH+3Km5TW3zSE8ISsm4a0b
-         ssUw==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20161025;
-        h=x-gm-message-state:mime-version:references:in-reply-to:reply-to
-         :from:date:message-id:subject:to:cc;
-        bh=ChXiBeTRT71CMVBklbLHXRzN05QgvLFbh2UfLNf6JWo=;
-        b=eU0mOOUqjWi/0OMEkCdAc9VR59ajnB6kYZJuAqkbDSR+BnWN7hFgA4Hh6sZyvYghdY
-         3xRoWGi0wZZKTADzearpFAu/JhE0RQRf34XtlNFYXgwqXlx97mDJPLRoLyQyh9yJfHCI
-         H+Rjq1oDiCUzd84dCzSO3jWeZ7GHXL3D+Ug/QtYuO1fpnGS3FJSs+Ai0pLKFu66LgnEa
-         1OkD6S3NC5LJCOchd9CP6Q44/tV8w/NuboSv/d/JUUYiYD+Um4bzTnFab7r1FSUephdu
-         oVuksp0KTq+fCoCvMMkY9mPe9MSFGsXOoZt9POQ3G6TUth/RwtNWxyClkgIpKLqJF9nA
-         w94A==
-X-Gm-Message-State: AGi0Puasef8q9SFBQlyr9HBmyKn4JUKXkTem8ut5UosqT2oBRmCJww+G
-        rIWAwPacngMu6xBv4ZzxEI3qIlagBTFXv58Dvho=
-X-Google-Smtp-Source: APiQypJMwhr3wlwtMc54euX25ix6n9SXlmaPFdhhbHX1PnRX5XFLSIquayw7L8P2fXf8kXZT1SmtaqmokGiQx3I9d4o=
-X-Received: by 2002:a17:906:54cd:: with SMTP id c13mr16047470ejp.307.1587396603272;
- Mon, 20 Apr 2020 08:30:03 -0700 (PDT)
-MIME-Version: 1.0
-References: <d2979d75-5e45-b145-9ca5-2c315d8ead9c@redhat.com>
- <708b8e2a-2bc2-df38-ec9c-c605203052b5@sandeen.net> <7d74cc3b-52cc-be60-0a69-1a5ee1499f47@sandeen.net>
- <CAKgNAkgLekaA6jBtUYTD2F=7u_GgBbXDvq-jc8RCBswYvvZmtg@mail.gmail.com> <5ac17186-4463-4f61-4733-125f2af9b73d@redhat.com>
-In-Reply-To: <5ac17186-4463-4f61-4733-125f2af9b73d@redhat.com>
-Reply-To: mtk.manpages@gmail.com
-From:   "Michael Kerrisk (man-pages)" <mtk.manpages@gmail.com>
-Date:   Mon, 20 Apr 2020 17:29:51 +0200
-Message-ID: <CAKgNAkhcAM78ihiW=R1xkVBpFzfNaRhXQJ2x5TnSnLwzVVRH0g@mail.gmail.com>
-Subject: Re: [PATCH 2/2 V2] man2: New page documenting filesystem get/set
- label ioctls
-To:     Eric Sandeen <sandeen@redhat.com>
-Cc:     Eric Sandeen <sandeen@sandeen.net>,
-        fsdevel <linux-fsdevel@vger.kernel.org>,
-        "linux-btrfs@vger.kernel.org" <linux-btrfs@vger.kernel.org>,
-        Linux API <linux-api@vger.kernel.org>,
-        linux-man <linux-man@vger.kernel.org>
-Content-Type: text/plain; charset="UTF-8"
+        id S1726415AbgDTPmJ convert rfc822-to-8bit (ORCPT
+        <rfc822;linux-man@archiver.kernel.org>);
+        Mon, 20 Apr 2020 11:42:09 -0400
+Received: from vs21.mail.saunalahti.fi ([193.64.193.197]:43242 "EHLO
+        vs21.mail.saunalahti.fi" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1725937AbgDTPmI (ORCPT
+        <rfc822;linux-man@vger.kernel.org>); Mon, 20 Apr 2020 11:42:08 -0400
+X-Greylist: delayed 359 seconds by postgrey-1.27 at vger.kernel.org; Mon, 20 Apr 2020 11:42:07 EDT
+Received: from vs21.mail.saunalahti.fi (localhost [127.0.0.1])
+        by vs21.mail.saunalahti.fi (Postfix) with ESMTP id 00DAC212D1;
+        Mon, 20 Apr 2020 18:42:06 +0300 (EEST)
+Received: from gw03.mail.saunalahti.fi (gw03.mail.saunalahti.fi [195.197.172.111])
+        by vs21.mail.saunalahti.fi (Postfix) with ESMTP id F303F21025;
+        Mon, 20 Apr 2020 18:42:05 +0300 (EEST)
+Received: from [192.168.1.20] (87-100-216-152.bb.dnainternet.fi [87.100.216.152])
+        (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+        (No client certificate requested)
+        (Authenticated sender: kh8831)
+        by gw03.mail.saunalahti.fi (Postfix) with ESMTPSA id E95D720005;
+        Mon, 20 Apr 2020 18:42:02 +0300 (EEST)
+Content-Type: text/plain;
+        charset=utf-8
+Mime-Version: 1.0 (Mac OS X Mail 13.0 \(3608.60.0.2.5\))
+Subject: Re: Errors in man pages, here: st(4): Content
+From:   =?utf-8?B?IkthaSBNw6RraXNhcmEgKEtvbHVtYnVzKSI=?= 
+        <kai.makisara@kolumbus.fi>
+In-Reply-To: <532e2c98-09ca-ee0c-be4b-0c51d4b42eef@gmail.com>
+Date:   Mon, 20 Apr 2020 18:42:02 +0300
+Cc:     Helge Kreutzmann <debian@helgefjell.de>, linux-man@vger.kernel.org
+Content-Transfer-Encoding: 8BIT
+Message-Id: <C47149A4-47DA-4E85-A9D0-E9A4229B58C4@kolumbus.fi>
+References: <20200419064828.GA32141@Debian-50-lenny-64-minimal>
+ <532e2c98-09ca-ee0c-be4b-0c51d4b42eef@gmail.com>
+To:     "Michael Kerrisk (man-pages)" <mtk.manpages@gmail.com>
+X-Mailer: Apple Mail (2.3608.60.0.2.5)
 Sender: linux-man-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-man.vger.kernel.org>
 X-Mailing-List: linux-man@vger.kernel.org
 
-Hello Eric,
-
-On Mon, 20 Apr 2020 at 15:48, Eric Sandeen <sandeen@redhat.com> wrote:
->
-> On 4/20/20 7:04 AM, Michael Kerrisk (man-pages) wrote:
-> > Hello Eric,
-> >
-> > So it seems like this feature eventually got merged in Linux 4.18. Is
-> > this page up to date with what went into the kernel?
->
-> Yes, I believe that it's all still accurate.
-
-Thanks. I've merged the page.
-
-Cheers,
-
-Michael
 
 
--- 
-Michael Kerrisk
-Linux man-pages maintainer; http://www.kernel.org/doc/man-pages/
-Linux/UNIX System Programming Training: http://man7.org/training/
+> On 20. Apr 2020, at 11.11, Michael Kerrisk (man-pages) <mtk.manpages@gmail.com> wrote:
+> 
+> [CC += Kai]
+> 
+> On 4/19/20 8:48 AM, Helge Kreutzmann wrote:
+>> Dear manpages maintainers.
+>> the manpage-l10n project maintains a large number of translations of
+...
+> 
+> I do not know. Perhaps Kai can help.
+> 
+> Kai, the text in question is
+> 
+>              MT_ST_AUTO_LOCK (Default: false)
+>                     When this option is true, the drive door  is  locked
+>                     when  the  device  is opened and unlocked when it is
+>                     closed.
+> 
+> I believe Helge asks whether the text should read:
+> 
+>              MT_ST_AUTO_LOCK (Default: false)
+>                     When this option is true, the drive door  is  locked
+>                     when  the  device  is CLOSED and unlocked when it is
+>                     OPEN.
+> 
+The orginal text is correct. This is section 4 man page meaning that it
+describes the programming interface, Opening the device means
+opening the device file, i.e., starting to use the device from the
+computer and the drive should be closed when the drive is operating.
+It can be opened when the device file is closed and the device is
+not in use.
+
+This might be clearer if the text would say “when the device file is
+opened”? I admit that the original text, while correct, may not be
+obvious to non-programmers.
+
+Thanks,
+Kai
+
