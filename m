@@ -2,73 +2,73 @@ Return-Path: <SRS0=zzzS=6E=vger.kernel.org=linux-man-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-5.1 required=3.0 tests=DKIM_SIGNED,DKIM_VALID,
+X-Spam-Status: No, score=-2.1 required=3.0 tests=DKIM_SIGNED,DKIM_VALID,
 	DKIM_VALID_AU,FREEMAIL_FORGED_FROMDOMAIN,FREEMAIL_FROM,
-	HEADER_FROM_DIFFERENT_DOMAINS,INCLUDES_PATCH,MAILING_LIST_MULTI,SPF_HELO_NONE,
-	SPF_PASS,USER_AGENT_SANE_1 autolearn=ham autolearn_force=no version=3.4.0
+	HEADER_FROM_DIFFERENT_DOMAINS,MAILING_LIST_MULTI,SPF_HELO_NONE,SPF_PASS,
+	USER_AGENT_SANE_1 autolearn=no autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 0DFB7C3815B
-	for <linux-man@archiver.kernel.org>; Mon, 20 Apr 2020 09:51:16 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 55F41C3815B
+	for <linux-man@archiver.kernel.org>; Mon, 20 Apr 2020 09:55:43 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.kernel.org (Postfix) with ESMTP id DE39C20CC7
-	for <linux-man@archiver.kernel.org>; Mon, 20 Apr 2020 09:51:15 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTP id 0879320CC7
+	for <linux-man@archiver.kernel.org>; Mon, 20 Apr 2020 09:55:43 +0000 (UTC)
 Authentication-Results: mail.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="Om1Q8xMR"
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="oeUGCZkg"
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1725865AbgDTJvP (ORCPT <rfc822;linux-man@archiver.kernel.org>);
-        Mon, 20 Apr 2020 05:51:15 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:34612 "EHLO
+        id S1725865AbgDTJzm (ORCPT <rfc822;linux-man@archiver.kernel.org>);
+        Mon, 20 Apr 2020 05:55:42 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:35304 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-FAIL-OK-FAIL)
-        by vger.kernel.org with ESMTP id S1725773AbgDTJvO (ORCPT
-        <rfc822;linux-man@vger.kernel.org>); Mon, 20 Apr 2020 05:51:14 -0400
+        by vger.kernel.org with ESMTP id S1725775AbgDTJzm (ORCPT
+        <rfc822;linux-man@vger.kernel.org>); Mon, 20 Apr 2020 05:55:42 -0400
 Received: from mail-wr1-x444.google.com (mail-wr1-x444.google.com [IPv6:2a00:1450:4864:20::444])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 48208C061A0C
-        for <linux-man@vger.kernel.org>; Mon, 20 Apr 2020 02:51:13 -0700 (PDT)
-Received: by mail-wr1-x444.google.com with SMTP id k11so11308338wrp.5
-        for <linux-man@vger.kernel.org>; Mon, 20 Apr 2020 02:51:13 -0700 (PDT)
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id F19E8C061A0C
+        for <linux-man@vger.kernel.org>; Mon, 20 Apr 2020 02:55:40 -0700 (PDT)
+Received: by mail-wr1-x444.google.com with SMTP id i10so11286557wrv.10
+        for <linux-man@vger.kernel.org>; Mon, 20 Apr 2020 02:55:40 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=gmail.com; s=20161025;
         h=cc:subject:to:references:from:message-id:date:user-agent
          :mime-version:in-reply-to:content-language:content-transfer-encoding;
-        bh=tjX832PZ9D4PO1PjlYLZizbfnplXdkBWxEbM2IXzuI0=;
-        b=Om1Q8xMRNt+etzKzakfPo7cWQLTPRW9FNQXL28gkh6W+CraDYzV3Ps+QloRq29heRD
-         AF6IplsTNHR9yYiKBCr/XuAHN4ya6wKx6p3p+FEf+M/l8iK45wUh4ea775lD1dpSoFE1
-         6tWh1zrzLu70kX3gb5LQP/aoW/DDzUrWfkNynDk4hOKqOU3x3jMR2DwTKEkpq4mThUHl
-         VRAVg8gYnvz+1Ko4zLrXc2u7DrwHf6z73KvnoQ3MaPFIX3q9XT/UbSzmFSALkSNXC0xQ
-         S9mtBlAM0QlBEDCBTsm2J6h/Koj0v77hk5qK9KDf2PdrGzymqrv+4FPcv05JO7BQHyQo
-         1qdg==
+        bh=irS4hIZ6Fu1xx5YlGPRY3daCBJM0QT/O/EdUhLahk40=;
+        b=oeUGCZkgbvVJvKdFaIsCEgPievXfLjPztDpadYrXJJaLydMVOON7dsRoya4YMSnyQp
+         sPGHJr5zUeL+b2WJe4604pqugNEG6o1OAdD1qRZ2bHJd56Q84AMGA+s5ROURp6bx27Cg
+         cTu5pEFSJgp08MmGRv+L2eZpC6MnWWs5ErgH2xtWlHVOqCGGu+c832WowI1s3pxPzwAp
+         VJu27uL546NFi0Ls6yJCUcwN58+F+MAnhlYfxT14pgZx9qDrspviq7zQb7k3XJegxHp9
+         z2jJ9+7cZEh9Mina9MDA4vD9Tzc0vP14iLcv+1Y+mSPpu4QvZMrk0FYjgRnxxhdCK1Nd
+         xwBA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
         h=x-gm-message-state:cc:subject:to:references:from:message-id:date
          :user-agent:mime-version:in-reply-to:content-language
          :content-transfer-encoding;
-        bh=tjX832PZ9D4PO1PjlYLZizbfnplXdkBWxEbM2IXzuI0=;
-        b=mvTnBVqQSPrzlyTvexDrkaqz6t9lz2HhuVQ47gD8BSLpruc6jBNe8WMB4BU4+cm8vo
-         N+JQ0z9TLkgcHg+9gd9n3jLYYPCvJ6+Y8+hGQs+2wREcRRUrEmHI3JsdIcRF2sh+Phua
-         I0knlme8Vpnf5w4uC1jGpabUBnQhLwmSKrrwAaMWPQnT+qsRFyw8eU7jKl3L1MecOjYC
-         CvjQr0xQtYkLzdtaLKMbjRS1KJRvTDFE6m0dHSDuFG79CU0R3hQ9/Kxwdd5y3aYzC5/q
-         zG29lQDEjA2edtgUwD0Dr/ZEIbzXklFqEmjwBp2BvH1Zsif+b+2MjbXCdbKukYXE+ow5
-         IqwQ==
-X-Gm-Message-State: AGi0PuYWrtHGTymkiX0rquW1D2/Eg0z/51apQtcGyBFWmufsBJ+z7/Vo
-        NaH+RHtTaa5DjJGvdfc07k/UG+4t
-X-Google-Smtp-Source: APiQypIAsEs+grSHgRBfgf9QQuF3p95JCs5TwxjV2WQK9QSqEyWl1/4ueeQDO++vBBoN/V0C/ZIBvg==
-X-Received: by 2002:adf:f54c:: with SMTP id j12mr16827967wrp.183.1587376271757;
-        Mon, 20 Apr 2020 02:51:11 -0700 (PDT)
+        bh=irS4hIZ6Fu1xx5YlGPRY3daCBJM0QT/O/EdUhLahk40=;
+        b=LuquxOgTkvkPNXuaQggqQ7IHc1zsEgI7MSuQtEuSZfOlblvjj28oVctoLzxs5e7Xzp
+         MyqxpVYIOf7kRs7mK/7N2hXvWmmWrL4UjvHIAydXFM2dubFUZxRSZgD1lXpCiKwTyX86
+         4JcW/4eJwH1G2p03JxtZ+k5eUCN8bXIgPtOxpELl7U//sa28gnHshutnbagZbYHGiX9v
+         5WBnNnqNaMo5UMG0mGZ8E0bFGxQE9EADGv4XVx+rkqznmzqh/bxpO27TwveEY708WC3u
+         3P0JdJJJqsT5hbULO6PSlzvl4gTd++UvOGPGkz0/UXe7UWSft5sr/JFIHZ4uMpIhjJdk
+         DG8Q==
+X-Gm-Message-State: AGi0PuaqshFcvpgDUFzT+vWcN6Mb2xWBkr7FfCwbjXE78czFUnaKVL+R
+        ctQU7HnvQgPXHCgIOt5XNAK6CSTZ
+X-Google-Smtp-Source: APiQypJLQBIemmpTQRwiMf2CZOXJUAECM/1V+ASNRzC+eymev6BNvT//T5Iel6SKiYpvTv/tQW3Svw==
+X-Received: by 2002:adf:c402:: with SMTP id v2mr16742436wrf.281.1587376539530;
+        Mon, 20 Apr 2020 02:55:39 -0700 (PDT)
 Received: from ?IPv6:2001:a61:2482:101:3351:6160:8173:cc31? ([2001:a61:2482:101:3351:6160:8173:cc31])
-        by smtp.gmail.com with ESMTPSA id s14sm633564wmh.18.2020.04.20.02.51.09
+        by smtp.gmail.com with ESMTPSA id t63sm699999wmt.37.2020.04.20.02.54.57
         (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Mon, 20 Apr 2020 02:51:10 -0700 (PDT)
+        Mon, 20 Apr 2020 02:55:02 -0700 (PDT)
 Cc:     mtk.manpages@gmail.com, linux-man@vger.kernel.org
-Subject: Re: Errors in man pages, here: random.4.po: Wording
+Subject: Re: Errors in man pages, here: getgrent(3): Understanding
 To:     Helge Kreutzmann <debian@helgefjell.de>
-References: <20200419064819.GA31629@Debian-50-lenny-64-minimal>
+References: <20200419064802.GA30678@Debian-50-lenny-64-minimal>
 From:   "Michael Kerrisk (man-pages)" <mtk.manpages@gmail.com>
-Message-ID: <1cebb9e2-d08f-301c-c216-2c5c65981d66@gmail.com>
-Date:   Mon, 20 Apr 2020 11:51:08 +0200
+Message-ID: <e4a94746-86b5-de7c-73cb-3c939910a404@gmail.com>
+Date:   Mon, 20 Apr 2020 11:54:57 +0200
 User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
  Thunderbird/68.6.0
 MIME-Version: 1.0
-In-Reply-To: <20200419064819.GA31629@Debian-50-lenny-64-minimal>
+In-Reply-To: <20200419064802.GA30678@Debian-50-lenny-64-minimal>
 Content-Type: text/plain; charset=utf-8
 Content-Language: en-US
 Content-Transfer-Encoding: 7bit
@@ -114,44 +114,21 @@ On 4/19/20 8:48 AM, Helge Kreutzmann wrote:
 > 
 > **
 > 
-> The first sentence is very hard to read and should be reworded, maybe
-> into two sentences.
+> explain|reword "broken-out" or skip it
 > 
-> "If a seed file is saved across reboots as recommended below (all major Linux "
-> "distributions have done this since 2000 at least), the output is "
-> "cryptographically secure against attackers without local root access as soon "
-> "as it is reloaded in the boot sequence, and perfectly adequate for network "
-> "encryption session keys.  Since reads from I</dev/random> may block, users "
-> "will usually want to open it in nonblocking mode (or perform a read with "
-> "timeout), and provide some sort of user notification if the desired entropy "
-> "is not immediately available."
+> "The B<getgrent>()  function returns a pointer to a structure containing the "
+> "broken-out fields of a record in the group database (e.g., the local group "
+> "file I</etc/group>, NIS, and LDAP).  The first time B<getgrent>()  is "
+> "called, it returns the first entry; thereafter, it returns successive "
+> "entries."
 
-Changed as per patch below.
+I don't really see what the problem is. "broken-out" seems 
+reasonably clear to me. I'm ignoring this for now.
 
 Thanks,
 
 Michael
 
-diff --git a/man4/random.4 b/man4/random.4
-index 5f0d52472..95fee6ed0 100644
---- a/man4/random.4
-+++ b/man4/random.4
-@@ -136,11 +136,13 @@ these applications,
- must be used instead,
- because it will block until the entropy pool is initialized.
- .PP
--If a seed file is saved across reboots as recommended below (all major
--Linux distributions have done this since 2000 at least), the output is
-+If a seed file is saved across reboots as recommended below,
-+the output is
- cryptographically secure against attackers without local root access as
- soon as it is reloaded in the boot sequence, and perfectly adequate for
- network encryption session keys.
-+(All major Linux distributions have saved the seed file across reboots
-+since 2000 at least.)
- Since reads from
- .I /dev/random
- may block, users will usually want to open it in nonblocking mode
 
 
 -- 
