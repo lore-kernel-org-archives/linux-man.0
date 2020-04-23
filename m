@@ -2,154 +2,100 @@ Return-Path: <SRS0=0AyU=6H=vger.kernel.org=linux-man-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-0.6 required=3.0 tests=DKIM_SIGNED,DKIM_VALID,
-	DKIM_VALID_AU,FREEMAIL_FORGED_FROMDOMAIN,FREEMAIL_FROM,
-	HEADER_FROM_DIFFERENT_DOMAINS,MAILING_LIST_MULTI,SPF_HELO_NONE,SPF_PASS
-	autolearn=no autolearn_force=no version=3.4.0
+X-Spam-Status: No, score=-2.3 required=3.0 tests=HEADER_FROM_DIFFERENT_DOMAINS,
+	MAILING_LIST_MULTI,SPF_HELO_NONE,SPF_PASS,USER_AGENT_SANE_1 autolearn=no
+	autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 431B2C54FCB
-	for <linux-man@archiver.kernel.org>; Thu, 23 Apr 2020 16:42:46 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 2F17BC54FD0
+	for <linux-man@archiver.kernel.org>; Thu, 23 Apr 2020 19:34:41 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.kernel.org (Postfix) with ESMTP id 2034620728
-	for <linux-man@archiver.kernel.org>; Thu, 23 Apr 2020 16:42:46 +0000 (UTC)
-Authentication-Results: mail.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="rcRKr7Ar"
+	by mail.kernel.org (Postfix) with ESMTP id 180C220724
+	for <linux-man@archiver.kernel.org>; Thu, 23 Apr 2020 19:34:41 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1729605AbgDWQmp (ORCPT <rfc822;linux-man@archiver.kernel.org>);
-        Thu, 23 Apr 2020 12:42:45 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:36472 "EHLO
-        lindbergh.monkeyblade.net" rhost-flags-OK-FAIL-OK-FAIL)
-        by vger.kernel.org with ESMTP id S1729407AbgDWQmp (ORCPT
-        <rfc822;linux-man@vger.kernel.org>); Thu, 23 Apr 2020 12:42:45 -0400
-Received: from mail-il1-x142.google.com (mail-il1-x142.google.com [IPv6:2607:f8b0:4864:20::142])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 6C40AC09B041
-        for <linux-man@vger.kernel.org>; Thu, 23 Apr 2020 09:42:45 -0700 (PDT)
-Received: by mail-il1-x142.google.com with SMTP id u5so6191174ilb.5
-        for <linux-man@vger.kernel.org>; Thu, 23 Apr 2020 09:42:45 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20161025;
-        h=mime-version:references:in-reply-to:from:date:message-id:subject:to
-         :cc;
-        bh=pAtHJmBvduKsrAII/uhjcPOtE9I+7BD1eICQj09Kwy8=;
-        b=rcRKr7Arv27l5lFutnfPBrRODvBQKuDjt7JvjuHyzNgrT4KQQ4OYrCDNbrd6AT6acF
-         WM7VIkSZ2a6NshFsEUZymc+GvxgvbQZLJyaexjIVSmPxmCnTBCz+vOZPf085HPgvGE3U
-         em0PCrwGVfFnbSaqSX6g5xxxOWr5M/+h82BvGm0N8AflX6d7VMrGp43BQ7F6PXmu+k5h
-         NqkwC+HfTsJ8xcJJaIvO7aqdLo395BlL+kWgcfdyZoSGQtJEDCynREC03v+jQrOFYyXP
-         /Cx84J5psJKwdt/1Vh9zM499F2uLJY7q+zMbx7rIIodp4GN1bxcu7gwD2vMG49dYf/0E
-         TCQQ==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20161025;
-        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
-         :message-id:subject:to:cc;
-        bh=pAtHJmBvduKsrAII/uhjcPOtE9I+7BD1eICQj09Kwy8=;
-        b=kXBmLon4PTEdFbFy60WuhotqEC8TqPx4sprH8esY0R+fgOtNLR3ysxtS3HBZVmCfCi
-         mLxWPk4cK7OHw9h9QzX3cT/4zgFbolFYW/vBBHyX8EFSZSS2RVbJqoUKREyLlQsZFjV9
-         VkhLeEOAybfZi5lUByW74iebXtfN2UuMLfYdd9xjIYQItBWi57X6iFWQnmhdKxmB3e0T
-         RkAuMcBbVg29em2d1j34yugDS5hHW6W07L+cWTc/1mSzw5+H6XkZhS5/SIHajes7Pgvp
-         jaB+hJmsFdM6w/eBjoA76JJdDiBHRpMURHramFMfu67+vyHYGVDURLnYvdUsnN7XwzAr
-         /7sw==
-X-Gm-Message-State: AGi0PuYZQvThREMPkV6V+yIeQ4+6ju53AmyMFOtIvqy0Wx/af80CaAgm
-        iMlt7OuY+MMd4sSXBkqLPV3D8puNGJ9sVACqxiI=
-X-Google-Smtp-Source: APiQypLMrm1L4M0cg1j4mUoauG3tO8nKy6qWspF4IhLlyI+LazLPbzfZ63kw7XQdVqagtnK9V4tj/SARJMRAfDxgeo8=
-X-Received: by 2002:a92:9e11:: with SMTP id q17mr4394916ili.137.1587660164778;
- Thu, 23 Apr 2020 09:42:44 -0700 (PDT)
-MIME-Version: 1.0
-References: <CAKgNAkjshc5bjT2gc7wBU6nkq1BxrcV6mEs6JSuepxFjHtupOA@mail.gmail.com>
- <20200423112352.GM3737@quack2.suse.cz> <CAOQ4uxh5LXzG8j4egc8H_EMQc1AVGKLN=ghN1_5A1o4Nh=80vA@mail.gmail.com>
- <CAKgNAki3BwX3_oSQ158T=6+5uRwsBKrNkz=aaF-2_d933PZCBA@mail.gmail.com>
-In-Reply-To: <CAKgNAki3BwX3_oSQ158T=6+5uRwsBKrNkz=aaF-2_d933PZCBA@mail.gmail.com>
-From:   Amir Goldstein <amir73il@gmail.com>
-Date:   Thu, 23 Apr 2020 19:42:33 +0300
-Message-ID: <CAOQ4uxhGMLKHBLjr_1k-C0JBPOoRvwSYmfonyd9ks0m0Fn8j2Q@mail.gmail.com>
-Subject: Re: Kernel bugzilla 198569: fanotify_mark() and FAN_Q_OVERFLOW
+        id S1728800AbgDWTek (ORCPT <rfc822;linux-man@archiver.kernel.org>);
+        Thu, 23 Apr 2020 15:34:40 -0400
+Received: from luckmann.name ([213.239.213.133]:56379 "EHLO
+        static.213-239-213-133.clients.your-server.de" rhost-flags-OK-OK-OK-OK)
+        by vger.kernel.org with ESMTP id S1728700AbgDWTek (ORCPT
+        <rfc822;linux-man@vger.kernel.org>); Thu, 23 Apr 2020 15:34:40 -0400
+Received: from localhost (localhost [127.0.0.1])
+  (uid 502)
+  by static.213-239-213-133.clients.your-server.de with local
+  id 0000000000E56033.000000005EA1EDCE.00001C9D; Thu, 23 Apr 2020 21:34:38 +0200
+Date:   Thu, 23 Apr 2020 21:34:38 +0200
+From:   Helge Kreutzmann <debian@helgefjell.de>
 To:     "Michael Kerrisk (man-pages)" <mtk.manpages@gmail.com>
-Cc:     Jan Kara <jack@suse.cz>, Heinrich Schuchardt <xypron.glpk@gmx.de>,
-        linux-man <linux-man@vger.kernel.org>, alexandermv@gmail.com,
-        Matthew Bobrowski <mbobrowski@mbobrowski.org>
-Content-Type: text/plain; charset="UTF-8"
+Cc:     linux-man@vger.kernel.org
+Subject: Re: Errors in man pages, here: charmap(5): Content
+Message-ID: <20200423193437.GA6193@Debian-50-lenny-64-minimal>
+References: <20200419064751.GA30074@Debian-50-lenny-64-minimal>
+ <b0ec27f5-645d-4a1b-174d-07ff11bd24ba@gmail.com>
+Mime-Version: 1.0
+Content-Type: multipart/signed; micalg=pgp-sha256; protocol="application/pgp-signature"; boundary="=_luckmann.name-7325-1587670478-0001-2"
+Content-Disposition: inline
+In-Reply-To: <b0ec27f5-645d-4a1b-174d-07ff11bd24ba@gmail.com>
+X-Public-Key-URL: http://www.helgefjell.de/data/debian_neu.asc
+X-homepage: http://www.helgefjell.de/debian
+User-Agent: Mutt/1.10.1 (2018-07-13)
 Sender: linux-man-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-man.vger.kernel.org>
 X-Mailing-List: linux-man@vger.kernel.org
 
-On Thu, Apr 23, 2020 at 3:42 PM Michael Kerrisk (man-pages)
-<mtk.manpages@gmail.com> wrote:
->
-> Hello Amir, Jan,
->
-> On Thu, 23 Apr 2020 at 14:19, Amir Goldstein <amir73il@gmail.com> wrote:
-> >
-> > On Thu, Apr 23, 2020 at 2:23 PM Jan Kara <jack@suse.cz> wrote:
-> > >
-> > > Hi Michael!
-> > >
-> > > On Thu 23-04-20 12:36:26, Michael Kerrisk (man-pages) wrote:
-> > > > Would you be able to take a look at
-> > > > https://bugzilla.kernel.org/show_bug.cgi?id=198569
-> > > >
-> > > > It relates to some text you added to the fanotify_mark(2) manual page:
-> > > >
-> > > >        FAN_Q_OVERFLOW
-> > > >               Create an event when an overflow of the event queue occurs.
-> > > >               The size of the event queue is limited to 16384 entries  if
-> > > >               FAN_UNLIMITED_QUEUE is not set in fanotify_init(2).
-> > > >
-> > > > This was in the following commit
-> > > >
-> > > > [[
-> > > > commit 5d730f864a6603b090cd1078668cede05d02b8c4
-> > > > Author: Heinrich Schuchardt <xypron.glpk@gmx.de>
-> > > > Date:   Tue Nov 8 23:13:38 2016 +0100
-> > > >
-> > > >     fanotify_mark.2: Mention FAN_Q_OVERFLOW
-> > > >
-> > > >     To receive overflow events it is necessary to set this bit
-> > > >     in fanotify_mark().
-> > > > ]]
-> > > >
-> > > > As far as I can see, FAN_Q_OVERFLOW (test program, reading the kernel
-> > > > source) is only an output flag. But on the other hand, I know you are
-> > > > generally careful, so I wonder if something changed (though, at a
-> > > > quick glance, I could not see evidence that it has).
-> > >
-> > > Yeah, the manpage is wrong AFAICT. FAN_Q_OVERFLOW is not accepted in the
-> > > input mask. It is only output event flag.
-> > >
-> >
-> > Right.
-> >
-> > Note that fanotify.7 documents FAN_Q_OVERFLOW as part of event output mask
-> > so perhaps the FAN_Q_OVERFLOW entry for fanotify_mark.2 input mask should
-> > just be removed?
->
-> Yes, I'll just remove that piece from fanotify_mark.2.
-> >
-> > Similarly, the input only flag FAN_EVENT_ON_CHILD is documented in
-> > fanotify_mark.2, but not in fanotify.7.
-> >
-> > FAN_ONDIR has been input only until v5.1 and since then it can also be
-> > in output mask for group with FAN_REPORT_FID.
-> > This is documented in fanotify_mark.2, but not in fanotify.7.
->
-> I'm overlooking something: where is this detail documented in
-> fanotify_mark.2? (I mean, I see mention of FAN_ONDIR, but no mention
-> of a change in v5.1.)
+This is a MIME-formatted message.  If you see this text it means that your
+E-mail software does not support MIME-formatted messages.
 
-fanotify_mark.2:
-The FAN_ONDIR flag is reported in an event mask only if the fanotify_fd
-file descriptor has been initialized with the flag FAN_REPORT_FID.
+--=_luckmann.name-7325-1587670478-0001-2
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+Content-Transfer-Encoding: quoted-printable
 
-fanotify_init.2:
-FAN_REPORT_FID (since Linux 5.1)
+Hello Michael,
+On Mon, Apr 20, 2020 at 08:53:33AM +0200, Michael Kerrisk (man-pages) wrote:
+> On 4/19/20 8:47 AM, Helge Kreutzmann wrote:
+> > **
+> >=20
+> > UTF-8 in Debian Squeeze:
+> >=20
+> > "is followed by the maximum number of bytes for a character.  The defau=
+lt "
+> > "value is 1."
+>=20
+> I don't understand this report. Please elaborate.
 
->
-> And would you be willing to write a small patch for fanotify.7 :-) ?
->
+Sorry, I tried to reconstruct this report, but as the reporter is no
+longer available I failed.
 
-I guess I was asking for it ;-)
-I have some more work cut out for me on this man page for v5.7 or later.
-Adding yet another fanotify_init flag, so I'll make this change part of my
-next series.
+Please close this report.
 
-Thanks,
-Amir.
+Greetings
+
+        Helge
+--=20
+      Dr. Helge Kreutzmann                     debian@helgefjell.de
+           Dipl.-Phys.                   http://www.helgefjell.de/debian.php
+        64bit GNU powered                     gpg signed mail preferred
+           Help keep free software "libre": http://www.ffii.de/
+
+--=_luckmann.name-7325-1587670478-0001-2
+Content-Type: application/pgp-signature; name="signature.asc"
+Content-Transfer-Encoding: 7bit
+
+-----BEGIN PGP SIGNATURE-----
+
+iQIzBAABCAAdFiEEbZZfteMW0gNUynuwQbqlJmgq5nAFAl6h7ccACgkQQbqlJmgq
+5nACYA/+NdFpkoZRo6ZvIFVO5UbEXU9UogPlMmm/Im/43MaVxLCuBB130bTlqMJC
+abfExocJcDbKBV5xH3qDj+bF0d+210nB7ALnrZ1hnrozANaI0ug3GR7MmjWjO151
+gLBhdtlYa75SMOuUpUyoX+8Jjb9BNg9+qsKiGopZuBmLvAuQyHy7PVsozSRph/2j
+jSD1yhCZyndGptAKZAbq8slxzOcf/JSOa3mS9jZ6fyRlv0TzzsHLyd0jKhZB7lrD
+RnL46KzlTMmqS6YTvcK7ptyRg5vXE9JOn6dOnOCwTkI68Fzi+J2HI1uJqY543ILJ
+MmEgGbw2i9x/dcdlAjihmUAGVzlxAK9KeTEmYZQs+3afX8kI9XDxJE9Ylt8p41Ci
+0bOmAVCF/h5Wb23NIijDATkgA4IPzUrZojghfYDxauuIHLTEKIOmRi1S/Ot9Fp/y
+R0Z/XU9KuS3by3DfeWgtJp/VF+VqvvSABLKK3eCQgwnr4zhLgJ4mwNw7h87RUIHA
+EfPc1/2NaptsJToVPzGlDo6NSOOKsJEwYLO1zDOG74/8cTbwS8fGdPWm+3Ue1KM2
+qzL1aQna1lpVjqfoO/VNWJ+FVdw/6WdepgmgtmNl7N0a0spDlymfg1+57eyil/Yx
+FXU28RqRs6fJqx7OkNrYkxg31v930yTIDIGAEFLuxY7xSyWXgFE=
+=dzfV
+-----END PGP SIGNATURE-----
+
+--=_luckmann.name-7325-1587670478-0001-2--
