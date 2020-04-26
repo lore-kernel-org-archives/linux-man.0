@@ -1,131 +1,109 @@
-Return-Path: <SRS0=7FQr=6J=vger.kernel.org=linux-man-owner@kernel.org>
+Return-Path: <SRS0=Yy3Q=6K=vger.kernel.org=linux-man-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-3.8 required=3.0 tests=DKIMWL_WL_HIGH,DKIM_SIGNED,
-	DKIM_VALID,HEADER_FROM_DIFFERENT_DOMAINS,MAILING_LIST_MULTI,SIGNED_OFF_BY,
-	SPF_HELO_NONE,SPF_PASS,URIBL_BLOCKED autolearn=no autolearn_force=no
-	version=3.4.0
+X-Spam-Status: No, score=-2.3 required=3.0 tests=HEADER_FROM_DIFFERENT_DOMAINS,
+	MAILING_LIST_MULTI,SPF_HELO_NONE,SPF_PASS,USER_AGENT_SANE_1 autolearn=no
+	autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id BABE7C54FCB
-	for <linux-man@archiver.kernel.org>; Sat, 25 Apr 2020 22:58:06 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id E896FC55199
+	for <linux-man@archiver.kernel.org>; Sun, 26 Apr 2020 11:00:27 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.kernel.org (Postfix) with ESMTP id 897412072B
-	for <linux-man@archiver.kernel.org>; Sat, 25 Apr 2020 22:58:06 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=default; t=1587855486;
-	bh=HzmG73uzjdDN7/koEinr4ujhDNMtpAcSZa3xTfL6IEY=;
-	h=Date:From:To:Subject:List-ID:From;
-	b=lPi/UKCZEbkBHqcckLpyvKznEnCipVr7sh9hS6iUyzF9/0TurLT0kvr6PJFMvmlWL
-	 Ku1g0jh6dzsoxQJGxRxOgNPjv6Qwe/d6+0S1kif6oOMIpViZrrn2Xck8ziniBk2eR7
-	 5vwJqMdXTm5ly/br07GVMpY4msItgdCqCV0sIA/Q=
+	by mail.kernel.org (Postfix) with ESMTP id CF3EA20706
+	for <linux-man@archiver.kernel.org>; Sun, 26 Apr 2020 11:00:27 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1726241AbgDYW6G (ORCPT <rfc822;linux-man@archiver.kernel.org>);
-        Sat, 25 Apr 2020 18:58:06 -0400
-Received: from mail.kernel.org ([198.145.29.99]:51804 "EHLO mail.kernel.org"
-        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S1726232AbgDYW6F (ORCPT <rfc822;linux-man@vger.kernel.org>);
-        Sat, 25 Apr 2020 18:58:05 -0400
-Received: from localhost.localdomain (c-71-198-47-131.hsd1.ca.comcast.net [71.198.47.131])
-        (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
-        (No client certificate requested)
-        by mail.kernel.org (Postfix) with ESMTPSA id 1D8E32071C;
-        Sat, 25 Apr 2020 22:58:04 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-        s=default; t=1587855484;
-        bh=HzmG73uzjdDN7/koEinr4ujhDNMtpAcSZa3xTfL6IEY=;
-        h=Date:From:To:Subject:From;
-        b=ec+qrw3C8HayHqAvesyzlfc6dXvgUJoCUWr1Kz1QvA85K/5mXa0G+T/A6Sp+CPv0u
-         K7VeRvsP/OFTxjDkwndoGWvpJ8CddmfZohZmvGLFGT8aeE7fGnuDzoy0d7GxO91dmd
-         76dBxC0L6TrkrZy/3hcA600mzEWAt8wtCunKdJeY=
-Date:   Sat, 25 Apr 2020 15:58:03 -0700
-From:   akpm@linux-foundation.org
-To:     alexander.h.duyck@linux.intel.com, axboe@kernel.dk,
-        bgeffon@google.com, christian@brauner.io, dancol@google.com,
-        hannes@cmpxchg.org, jannh@google.com, joaodias@google.com,
-        joel@joelfernandes.org, ktkhai@virtuozzo.com,
-        linux-man@vger.kernel.org, mhocko@suse.com, minchan@kernel.org,
-        mm-commits@vger.kernel.org, oleksandr@redhat.com,
-        shakeelb@google.com, sj38.park@gmail.com, sjpark@amazon.de,
-        sonnyrao@google.com, sspatil@google.com, surenb@google.com,
-        timmurray@google.com, vbabka@suse.cz
-Subject:  [alternative-merged]
- mm-madvise-employ-mmget_still_valid-for-write-lock.patch removed from -mm
- tree
-Message-ID: <20200425225803.791VDzjAS%akpm@linux-foundation.org>
-User-Agent: s-nail v14.8.16
+        id S1726118AbgDZLA1 (ORCPT <rfc822;linux-man@archiver.kernel.org>);
+        Sun, 26 Apr 2020 07:00:27 -0400
+Received: from luckmann.name ([213.239.213.133]:39709 "EHLO
+        static.213-239-213-133.clients.your-server.de" rhost-flags-OK-OK-OK-OK)
+        by vger.kernel.org with ESMTP id S1726119AbgDZLA1 (ORCPT
+        <rfc822;linux-man@vger.kernel.org>); Sun, 26 Apr 2020 07:00:27 -0400
+Received: from localhost (localhost [127.0.0.1])
+  (uid 502)
+  by static.213-239-213-133.clients.your-server.de with local
+  id 0000000000E5600C.000000005EA569C9.0000158A; Sun, 26 Apr 2020 13:00:25 +0200
+Date:   Sun, 26 Apr 2020 13:00:25 +0200
+From:   Helge Kreutzmann <debian@helgefjell.de>
+To:     "Michael Kerrisk (man-pages)" <mtk.manpages@gmail.com>
+Cc:     linux-man@vger.kernel.org
+Subject: Re: Errors in man pages, here: man-pages(7): Wording
+Message-ID: <20200426110025.GB2031@Debian-50-lenny-64-minimal>
+References: <20200419064809.GA31093@Debian-50-lenny-64-minimal>
+ <8e7a241a-936f-829c-42f6-984ce82c4e20@gmail.com>
+Mime-Version: 1.0
+Content-Type: multipart/signed; micalg=pgp-sha256; protocol="application/pgp-signature"; boundary="=_luckmann.name-5514-1587898825-0001-2"
+Content-Disposition: inline
+In-Reply-To: <8e7a241a-936f-829c-42f6-984ce82c4e20@gmail.com>
+X-Public-Key-URL: http://www.helgefjell.de/data/debian_neu.asc
+X-homepage: http://www.helgefjell.de/debian
+User-Agent: Mutt/1.10.1 (2018-07-13)
 Sender: linux-man-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-man.vger.kernel.org>
 X-Mailing-List: linux-man@vger.kernel.org
 
+This is a MIME-formatted message.  If you see this text it means that your
+E-mail software does not support MIME-formatted messages.
 
-The patch titled
-     Subject: mm/madvise: employ mmget_still_valid() for write lock
-has been removed from the -mm tree.  Its filename was
-     mm-madvise-employ-mmget_still_valid-for-write-lock.patch
+--=_luckmann.name-5514-1587898825-0001-2
+Content-Type: text/plain; charset=utf-8
+Content-Disposition: inline
+Content-Transfer-Encoding: quoted-printable
 
-This patch was dropped because an alternative patch was merged
+Hello Michael,
+On Mon, Apr 20, 2020 at 11:01:27AM +0200, Michael Kerrisk (man-pages) wrote:
+> On 4/19/20 8:48 AM, Helge Kreutzmann wrote:
+> > **
+> >=20
+> > Wording:
 
-------------------------------------------------------
-From: Oleksandr Natalenko <oleksandr@redhat.com>
-Subject: mm/madvise: employ mmget_still_valid() for write lock
+=E2=80=A6
 
-Do the very same trick as we already do since 04f5866e41fb.  KSM hints
-will require locking mmap_sem for write since they modify vm_flags, so for
-remote KSM hinting this additional check is needed.
+> > b)
+> > "Overviews or descriptions of various topics, conventions and protocols=
+, "
+> > "character set standards, the standard filesystem layout, and miscellan=
+eous "
+> > "other things."
+>=20
+> I need more explanation of the problem here.
 
-Link: http://lkml.kernel.org/r/20200302193630.68771-7-minchan@kernel.org
-Signed-off-by: Oleksandr Natalenko <oleksandr@redhat.com>
-Signed-off-by: Minchan Kim <minchan@kernel.org>
-Reviewed-by: Suren Baghdasaryan <surenb@google.com>
-Cc: Alexander Duyck <alexander.h.duyck@linux.intel.com>
-Cc: Brian Geffon <bgeffon@google.com>
-Cc: Christian Brauner <christian@brauner.io>
-Cc: Daniel Colascione <dancol@google.com>
-Cc: Jann Horn <jannh@google.com>
-Cc: Jens Axboe <axboe@kernel.dk>
-Cc: Joel Fernandes <joel@joelfernandes.org>
-Cc: Johannes Weiner <hannes@cmpxchg.org>
-Cc: John Dias <joaodias@google.com>
-Cc: Kirill Tkhai <ktkhai@virtuozzo.com>
-Cc: Michal Hocko <mhocko@suse.com>
-Cc: Sandeep Patil <sspatil@google.com>
-Cc: SeongJae Park <sj38.park@gmail.com>
-Cc: SeongJae Park <sjpark@amazon.de>
-Cc: Shakeel Butt <shakeelb@google.com>
-Cc: Sonny Rao <sonnyrao@google.com>
-Cc: Tim Murray <timmurray@google.com>
-Cc: Vlastimil Babka <vbabka@suse.cz>
-Cc: <linux-man@vger.kernel.org>
-Signed-off-by: Andrew Morton <akpm@linux-foundation.org>
----
+I reread it several times. I'm lost what the previous translator, who
+is no longer active, meant.
 
- mm/madvise.c |    3 +++
- 1 file changed, 3 insertions(+)
+I apologize for not having caught this one myself before reporting.
 
---- a/mm/madvise.c~mm-madvise-employ-mmget_still_valid-for-write-lock
-+++ a/mm/madvise.c
-@@ -1124,6 +1124,8 @@ int do_madvise(struct task_struct *targe
- 	if (write) {
- 		if (down_write_killable(&mm->mmap_sem))
- 			return -EINTR;
-+		if (current->mm != mm && !mmget_still_valid(mm))
-+			goto skip_mm;
- 	} else {
- 		down_read(&mm->mmap_sem);
- 	}
-@@ -1175,6 +1177,7 @@ int do_madvise(struct task_struct *targe
- 	}
- out:
- 	blk_finish_plug(&plug);
-+skip_mm:
- 	if (write)
- 		up_write(&mm->mmap_sem);
- 	else
-_
+Please close this sub issue.
 
-Patches currently in -mm which might be from oleksandr@redhat.com are
+Greetings
 
-mm-madvise-allow-ksm-hints-for-remote-api.patch
+         Helge
 
+--=20
+      Dr. Helge Kreutzmann                     debian@helgefjell.de
+           Dipl.-Phys.                   http://www.helgefjell.de/debian.php
+        64bit GNU powered                     gpg signed mail preferred
+           Help keep free software "libre": http://www.ffii.de/
+
+--=_luckmann.name-5514-1587898825-0001-2
+Content-Type: application/pgp-signature; name="signature.asc"
+Content-Transfer-Encoding: 7bit
+
+-----BEGIN PGP SIGNATURE-----
+
+iQIzBAABCAAdFiEEbZZfteMW0gNUynuwQbqlJmgq5nAFAl6lacgACgkQQbqlJmgq
+5nAbBw//bmUY36OKKZlCWvbdwO16pl0kqW1jYTSDa5KzeL4kgDVaXb/8Uju6Z0PC
+5JXZy/vM/s1ms5DL4Xj+fTFXfenJPUusUvDyAJamHvpAvAguEU5l2phfN4UxiVyU
+TVd50dI7QINYBNUmh1YJNsLdX+S7ZLUS1GantI/VYDXj18+iQZYSmEDaqygWRwrq
+pibQLnP50CvbUKboWJQOmpACF2pZuMLish1GAPYX0SQZbrzDFzd/45RxXZq+cUQ/
+1Qp360Zv78in9gxSatyWNlurSF1ymlW+Q+lQ37Sx0l85FuBJpOIu76q1EfwBaglk
+gkoY8Afnr0fQ3iLz9JJB9SgUD0RD/YCQSd1B9XgBkRz8PmXE3oUBW1Vrq9E8DSY5
+LJ+wzH02I+ub0s1VuKkg6VovCm1dsINXndrdjPb1PjxBRqPNSII62AmWde6qoogC
+z0DbVWasAHgerGOeLp7vBI45hd44hEWGOiXA+6Fj660OT23kl0C5AAqBSVRYf/Rs
+wWfAV/PhrWePhkqTCW2JfYK8li5uCv2Ip2CF17apHS1iUbMHTOXAqy2/AWf5iwHx
+oCKQYZBgwIkLsgPMiNLh39LdJ6c13OS+BhZsaLrl3w0N0NCkxMLGnc5yF1J2pan0
+R7kbEebOdt1ooSyliE3VxOQSF3vTyzKU8b0DhJXsWoik38uEiLo=
+=udL/
+-----END PGP SIGNATURE-----
+
+--=_luckmann.name-5514-1587898825-0001-2--
