@@ -1,94 +1,156 @@
-Return-Path: <SRS0=Yy3Q=6K=vger.kernel.org=linux-man-owner@kernel.org>
+Return-Path: <SRS0=EslP=6L=vger.kernel.org=linux-man-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-2.3 required=3.0 tests=HEADER_FROM_DIFFERENT_DOMAINS,
-	MAILING_LIST_MULTI,SPF_HELO_NONE,SPF_PASS,USER_AGENT_SANE_1 autolearn=no
-	autolearn_force=no version=3.4.0
+X-Spam-Status: No, score=-0.9 required=3.0 tests=DKIM_SIGNED,DKIM_VALID,
+	DKIM_VALID_AU,HEADER_FROM_DIFFERENT_DOMAINS,MAILING_LIST_MULTI,SPF_HELO_NONE,
+	SPF_PASS autolearn=no autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id E02FEC55194
-	for <linux-man@archiver.kernel.org>; Sun, 26 Apr 2020 16:31:46 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 90D29C54FD0
+	for <linux-man@archiver.kernel.org>; Mon, 27 Apr 2020 07:31:04 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.kernel.org (Postfix) with ESMTP id CA30320700
-	for <linux-man@archiver.kernel.org>; Sun, 26 Apr 2020 16:31:46 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTP id 470872051A
+	for <linux-man@archiver.kernel.org>; Mon, 27 Apr 2020 07:31:04 +0000 (UTC)
+Authentication-Results: mail.kernel.org;
+	dkim=pass (2048-bit key) header.d=bfs.de header.i=@bfs.de header.b="xv2tKPPn"
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1726179AbgDZQbq (ORCPT <rfc822;linux-man@archiver.kernel.org>);
-        Sun, 26 Apr 2020 12:31:46 -0400
-Received: from luckmann.name ([213.239.213.133]:37671 "EHLO
-        static.213-239-213-133.clients.your-server.de" rhost-flags-OK-OK-OK-OK)
-        by vger.kernel.org with ESMTP id S1726144AbgDZQbq (ORCPT
-        <rfc822;linux-man@vger.kernel.org>); Sun, 26 Apr 2020 12:31:46 -0400
-Received: from localhost (localhost [127.0.0.1])
-  (uid 502)
-  by static.213-239-213-133.clients.your-server.de with local
-  id 0000000000E5600C.000000005EA5B770.00005D23; Sun, 26 Apr 2020 18:31:44 +0200
-Date:   Sun, 26 Apr 2020 18:31:44 +0200
-From:   Helge Kreutzmann <debian@helgefjell.de>
-To:     "Michael Kerrisk (man-pages)" <mtk.manpages@gmail.com>
-Cc:     linux-man@vger.kernel.org
-Subject: Re: Errors in man pages, here: sysconf(3): Closing markup
-Message-ID: <20200426163144.GC23062@Debian-50-lenny-64-minimal>
-References: <20200419064832.GA32377@Debian-50-lenny-64-minimal>
- <b3b6bba6-c419-402b-433d-cd7775da6005@gmail.com>
-Mime-Version: 1.0
-Content-Type: multipart/signed; micalg=pgp-sha256; protocol="application/pgp-signature"; boundary="=_luckmann.name-23843-1587918704-0001-2"
-Content-Disposition: inline
-In-Reply-To: <b3b6bba6-c419-402b-433d-cd7775da6005@gmail.com>
-X-Public-Key-URL: http://www.helgefjell.de/data/debian_neu.asc
-X-homepage: http://www.helgefjell.de/debian
-User-Agent: Mutt/1.10.1 (2018-07-13)
+        id S1726460AbgD0HbD (ORCPT <rfc822;linux-man@archiver.kernel.org>);
+        Mon, 27 Apr 2020 03:31:03 -0400
+Received: from mx01-sz.bfs.de ([194.94.69.67]:19644 "EHLO mx01-sz.bfs.de"
+        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
+        id S1726349AbgD0HbD (ORCPT <rfc822;linux-man@vger.kernel.org>);
+        Mon, 27 Apr 2020 03:31:03 -0400
+Received: from SRVEX01-SZ.bfs.intern (exchange-sz.bfs.de [10.129.90.31])
+        by mx01-sz.bfs.de (Postfix) with ESMTPS id 80EFE20309;
+        Mon, 27 Apr 2020 09:31:01 +0200 (CEST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=bfs.de; s=dkim201901;
+        t=1587972661;
+        h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+         to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+         content-transfer-encoding:content-transfer-encoding:
+         in-reply-to:in-reply-to:references:references;
+        bh=9B5f9GQOvWzuf0q7EgKBlTpkLpTlzDhu7Z/DG4VjYAk=;
+        b=xv2tKPPnV5MTBkDGEJuH4VOCuKsN1gIY2V63wcSmy9GlzMlxqqVjOEeIQ/k1yvd+ejOvRi
+        P282L4d9yDvT3QkzoEdYKBwFGundtF39L1pvcep94FpG6tGuqVPF7YWOssbYTqZZfsq8sR
+        1/+inSoHWmurGQylNE+2kejoE3PGF8Zy94jBnvZhDf5ES9pP6hJCep5AYvlcsvHemSGm1z
+        uiCN1raQ77dJu7W/FwbZODOsjm4AS3ruM3HN4vLdPeTGspvuI/Ead87n1T3UfeGGGPc6G0
+        1U9cZYIse/eUfE/7kuD/jePFDpXeE4t2Supd25slkZVMKm1AqPcelGCxDm81uw==
+Received: from SRVEX01-SZ.bfs.intern (10.129.90.31) by SRVEX01-SZ.bfs.intern
+ (10.129.90.31) with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.1.1913.5; Mon, 27 Apr
+ 2020 09:31:01 +0200
+Received: from SRVEX01-SZ.bfs.intern ([fe80::7d2d:f9cb:2761:d24a]) by
+ SRVEX01-SZ.bfs.intern ([fe80::7d2d:f9cb:2761:d24a%6]) with mapi id
+ 15.01.1913.005; Mon, 27 Apr 2020 09:31:01 +0200
+From:   Walter Harms <wharms@bfs.de>
+To:     Helge Kreutzmann <debian@helgefjell.de>,
+        "Michael Kerrisk (man-pages)" <mtk.manpages@gmail.com>
+CC:     "linux-man@vger.kernel.org" <linux-man@vger.kernel.org>
+Subject: AW: Errors in man pages, here: man-pages(7): Wording
+Thread-Topic: Errors in man pages, here: man-pages(7): Wording
+Thread-Index: AQHWFhcyy+FxKVnN60uOUacrYZFR7qiBltaAgAmPO4CAAXX5xQ==
+Date:   Mon, 27 Apr 2020 07:31:01 +0000
+Message-ID: <e382704bcfe94db69f93ea5b40648d3b@bfs.de>
+References: <20200419064809.GA31093@Debian-50-lenny-64-minimal>
+ <8e7a241a-936f-829c-42f6-984ce82c4e20@gmail.com>,<20200426110025.GB2031@Debian-50-lenny-64-minimal>
+In-Reply-To: <20200426110025.GB2031@Debian-50-lenny-64-minimal>
+Accept-Language: de-DE, en-US
+Content-Language: de-DE
+X-MS-Has-Attach: 
+X-MS-TNEF-Correlator: 
+x-originating-ip: [10.137.16.40]
+Content-Type: text/plain; charset="Windows-1252"
+Content-Transfer-Encoding: quoted-printable
+MIME-Version: 1.0
+Authentication-Results: mx01-sz.bfs.de;
+        none
+X-Spamd-Result: default: False [-2.03 / 7.00];
+         ARC_NA(0.00)[];
+         TO_DN_EQ_ADDR_SOME(0.00)[];
+         HAS_XOIP(0.00)[];
+         FROM_HAS_DN(0.00)[];
+         RCPT_COUNT_THREE(0.00)[3];
+         TO_DN_SOME(0.00)[];
+         TO_MATCH_ENVRCPT_ALL(0.00)[];
+         TAGGED_RCPT(0.00)[];
+         MIME_GOOD(-0.10)[text/plain];
+         FREEMAIL_ENVRCPT(0.00)[gmail.com];
+         DKIM_SIGNED(0.00)[];
+         NEURAL_HAM(-0.00)[-0.951];
+         FREEMAIL_TO(0.00)[helgefjell.de,gmail.com];
+         RCVD_NO_TLS_LAST(0.10)[];
+         FROM_EQ_ENVFROM(0.00)[];
+         MIME_TRACE(0.00)[0:+];
+         RCVD_COUNT_TWO(0.00)[2];
+         MID_RHS_MATCH_FROM(0.00)[];
+         BAYES_HAM(-2.03)[95.21%]
 Sender: linux-man-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-man.vger.kernel.org>
 X-Mailing-List: linux-man@vger.kernel.org
 
-This is a MIME-formatted message.  If you see this text it means that your
-E-mail software does not support MIME-formatted messages.
+> > "Overviews or descriptions of various topics, conventions and protocols=
+, "
+> > "character set standards, the standard filesystem layout, and miscellan=
+eous "
+> > "other things."
 
---=_luckmann.name-23843-1587918704-0001-2
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-Content-Transfer-Encoding: quoted-printable
+I guess the author  would like to see something like this:
+(Section 7)
+
+"Overviews or descriptions of various topics, conventions and protocols lik=
+e:
+  "character set standards, standard filesystem layout, etc."
+
+Note the "like"
+
+hope that helps,
+
+re,
+ wh
+
+
+________________________________________
+Von: linux-man-owner@vger.kernel.org <linux-man-owner@vger.kernel.org> im A=
+uftrag von Helge Kreutzmann <debian@helgefjell.de>
+Gesendet: Sonntag, 26. April 2020 13:00
+An: Michael Kerrisk (man-pages)
+Cc: linux-man@vger.kernel.org
+Betreff: Re: Errors in man pages, here: man-pages(7): Wording
 
 Hello Michael,
-On Mon, Apr 20, 2020 at 11:47:38AM +0200, Michael Kerrisk (man-pages) wrote:
+On Mon, Apr 20, 2020 at 11:01:27AM +0200, Michael Kerrisk (man-pages) wrote=
+:
 > On 4/19/20 8:48 AM, Helge Kreutzmann wrote:
 > > **
-> >=20
-> > s/ order>/> order/
->=20
-> The existing formatting is correct. ("order" is a keyword.)
+> >
+> > Wording:
 
-Thanks, corrected the translation accordingly. Please close.
+=85
+
+> > b)
+> > "Overviews or descriptions of various topics, conventions and protocols=
+, "
+> > "character set standards, the standard filesystem layout, and miscellan=
+eous "
+> > "other things."
+>
+> I need more explanation of the problem here.
+
+I reread it several times. I'm lost what the previous translator, who
+is no longer active, meant.
+
+I apologize for not having caught this one myself before reporting.
+
+Please close this sub issue.
 
 Greetings
 
-          Helge
---=20
+         Helge
+
+--
       Dr. Helge Kreutzmann                     debian@helgefjell.de
-           Dipl.-Phys.                   http://www.helgefjell.de/debian.php
+           Dipl.-Phys.                   http://www.helgefjell.de/debian.ph=
+p
         64bit GNU powered                     gpg signed mail preferred
            Help keep free software "libre": http://www.ffii.de/
-
---=_luckmann.name-23843-1587918704-0001-2
-Content-Type: application/pgp-signature; name="signature.asc"
-Content-Transfer-Encoding: 7bit
-
------BEGIN PGP SIGNATURE-----
-
-iQIzBAABCAAdFiEEbZZfteMW0gNUynuwQbqlJmgq5nAFAl6lt3AACgkQQbqlJmgq
-5nCD3RAAoK5meCjBkWZtKYg3W8UKzAv8QXe4DezycObKY9Wa6PX5YBlYxy3UHQRc
-kO9OPuohP9AHCkIOOliHZq9k1958cddj6PKb84XujmHEvZPoXUUaYuLd61/GCZZn
-iifdCSn/EqnPIsW/67sqKnsc+vuNRgqMFRwp6rIH3HI1GgMT68R17/6Cx2GNN6AG
-tyvxaIK41uhXga34obQJazJOw7htCUE+D5H3g2KwOebnIr4Gj4StkqaNf2NyQps6
-eHIeawbBSKRGIE9uRx1beNZtBriCnGBMm+JoPjYup3XMlfMOPPxspvUWacxX+eLC
-cVUZ7RtWLGmSvBBBc5yzW2eebeS7wzHzRY/Pvz9TXs3cEOz7EEQ+EkYaMMUd5LbO
-+bYwq360MiIBesMm5AEkcmYvGPy+ovKIrbmJ+Bil25NIHQj3BnnVpBEpk0DfIx1q
-dawGFcreVwCzlj6I9UfHtsq3w8TywIYTgh6uem1VSx4yDgVKxUA75SPvmNzLfaqD
-bGHyVtwPfhfk3tLWzDeln0PQnFW0ZkYbOXZroRlSgHFgqZACtwS2y8E+kTI4G6+n
-AH5pPj5MeX50mdg9TKknRzfNmU6BY/PyeZ5tgY/UToXePp8fCVMTYRjqIEo7qtt8
-p9HuX4lPm0BU4OEQgrKROuQP575+KAfCB43yHsHRE0hxGA+b1mY=
-=1DMi
------END PGP SIGNATURE-----
-
---=_luckmann.name-23843-1587918704-0001-2--
