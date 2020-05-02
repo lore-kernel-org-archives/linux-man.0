@@ -1,141 +1,77 @@
-Return-Path: <SRS0=AmuO=6P=vger.kernel.org=linux-man-owner@kernel.org>
+Return-Path: <SRS0=5510=6Q=vger.kernel.org=linux-man-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
 X-Spam-Status: No, score=-0.6 required=3.0 tests=DKIM_SIGNED,DKIM_VALID,
 	DKIM_VALID_AU,FREEMAIL_FORGED_FROMDOMAIN,FREEMAIL_FROM,
-	HEADER_FROM_DIFFERENT_DOMAINS,MAILING_LIST_MULTI,SPF_HELO_NONE,SPF_PASS
-	autolearn=no autolearn_force=no version=3.4.0
+	HEADER_FROM_DIFFERENT_DOMAINS,MAILING_LIST_MULTI,SPF_HELO_NONE,SPF_PASS,
+	URIBL_BLOCKED autolearn=no autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id B97EAC4724C
-	for <linux-man@archiver.kernel.org>; Fri,  1 May 2020 08:34:36 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 9D7DCC47256
+	for <linux-man@archiver.kernel.org>; Sat,  2 May 2020 02:08:12 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.kernel.org (Postfix) with ESMTP id 906A6206D9
-	for <linux-man@archiver.kernel.org>; Fri,  1 May 2020 08:34:36 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTP id 4DEEB208C3
+	for <linux-man@archiver.kernel.org>; Sat,  2 May 2020 02:08:12 +0000 (UTC)
 Authentication-Results: mail.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="acd7PPKh"
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="CVZBEZCg"
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1728345AbgEAIeg (ORCPT <rfc822;linux-man@archiver.kernel.org>);
-        Fri, 1 May 2020 04:34:36 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:60976 "EHLO
+        id S1726562AbgEBCIM (ORCPT <rfc822;linux-man@archiver.kernel.org>);
+        Fri, 1 May 2020 22:08:12 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:56674 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1728325AbgEAIef (ORCPT
-        <rfc822;linux-man@vger.kernel.org>); Fri, 1 May 2020 04:34:35 -0400
-Received: from mail-ej1-x62a.google.com (mail-ej1-x62a.google.com [IPv6:2a00:1450:4864:20::62a])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 59CD9C035494
-        for <linux-man@vger.kernel.org>; Fri,  1 May 2020 01:34:35 -0700 (PDT)
-Received: by mail-ej1-x62a.google.com with SMTP id q8so6989872eja.2
-        for <linux-man@vger.kernel.org>; Fri, 01 May 2020 01:34:35 -0700 (PDT)
+        with ESMTP id S1726473AbgEBCIL (ORCPT
+        <rfc822;linux-man@vger.kernel.org>); Fri, 1 May 2020 22:08:11 -0400
+Received: from mail-wr1-x42b.google.com (mail-wr1-x42b.google.com [IPv6:2a00:1450:4864:20::42b])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 4FFC7C061A0C
+        for <linux-man@vger.kernel.org>; Fri,  1 May 2020 19:08:11 -0700 (PDT)
+Received: by mail-wr1-x42b.google.com with SMTP id f13so13984364wrm.13
+        for <linux-man@vger.kernel.org>; Fri, 01 May 2020 19:08:11 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=gmail.com; s=20161025;
-        h=mime-version:references:in-reply-to:reply-to:from:date:message-id
-         :subject:to:cc;
-        bh=DF7sJTpTkqb5rtBSvOEIdbVeTWf9Al+QXPQOrN82kQg=;
-        b=acd7PPKhkHYcZIHXs6MP9UfTKTtliXUghaYB5one0E4XclNrCNCrFEte2hzjVOCuwe
-         pqoYI2kjWy5yJtXtDghgA/zCiMG//8j3NU3Ykm+9TmLjA3XPLQpi5CZUJsnSqUccwoU0
-         aO3ClYlpq1cNjacPvi6rFVZpNEivrYiXZbsjnkz0EB7kovo/M2W+Zf7d9xVAANOGuAmr
-         9f8hqwBJEO93GluoR1/LgxiGnjxEDORiPL6VI6wLxzXGFt3OHz2lbCC51jcMhlXPsJsk
-         1yOTf8LuJuF2d8n0SmxPnHg9z/w+kyvCHflcYkP4S3cWs5v5JSntQ1v6tT/9tTLI3Gmr
-         xgFw==
+        h=mime-version:from:date:message-id:subject:to:cc;
+        bh=NfdWbYEHTTlQjZgX0A0BBgcapK5t27VBkhhO41eH5RM=;
+        b=CVZBEZCgBxn+QegpcQQ1+17DoMtA+sLv4UZC3tO2qQ81LpOzJ3/XBbQj9L/a6nZ5uw
+         ZakwgRevOyz7kYGQIH8YiaMpFI0Z5R/GqBoJhv4KXwIn+dSMB8ThEgmF3ZyWSGJMjGOx
+         c5/miZO9RqDaix+kOS2oB+vg+dBw5cI5MrkX1ID0YhhRgpv3L8O+KfVqJT53WPpkyQ9B
+         5ppzQP8Xk7LI0F4nLoakyJ15J7N9tO5up5xHTqjRdanwuAreNRufFdl7vuJUAFmgtkLX
+         y52SgNr0EGjICrWocC66lnYQ9VwfOq8J/06ks5p8o94mmLOiMC3au/wAZxIJ9CinYiSG
+         +CyA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
-        h=x-gm-message-state:mime-version:references:in-reply-to:reply-to
-         :from:date:message-id:subject:to:cc;
-        bh=DF7sJTpTkqb5rtBSvOEIdbVeTWf9Al+QXPQOrN82kQg=;
-        b=f0lX7nz8oh67vdcQVEEinQ50fwt6IzQ9Ock3h638a6wm7v1BqRgdAlxhwRfHk/vPmo
-         aBZYYuFIx9mgvlgHhtdZLpoUnmZIQjuGBMAxCBl5Q/LQnvChD8o4yRWhVd8LiJdkuXTr
-         h4BUqgLeoqoYjBmJ38QTyOtLYdwFNpxS9EcUPzwK18uSJMccvzYwqUoEHLKy0uUhxIL8
-         zJ5bH0rUHkGMoRnirU9+nNby0FOoaNAqxEh5/H8pXxBuHNKOpTuKrZ2+qhH1wYxmQhe1
-         rHroIlnBxbqZkHYL1B61yh8FsfWi5iPgLHRVP2AWZ0EJ6sFM2b/rXpbQQYEM1NXV7JKx
-         sGeg==
-X-Gm-Message-State: AGi0PuZVh2MChhj9ZHeYqSBH7SHa7lNj9MJQeaTPIecM1srYjaGInZK+
-        7F9NN/i6FgX6hmnelMqubTtLCN2+n952vfJXUeo=
-X-Google-Smtp-Source: APiQypL81/DyGq9f6xgGjJMrLc5ymXHa3fDAFsnsJR7v2qZ6MErSnb76Ej/yskPoIRTirmofLAydnzpWrT6xb9STpnU=
-X-Received: by 2002:a17:906:1fd6:: with SMTP id e22mr2287448ejt.150.1588322073888;
- Fri, 01 May 2020 01:34:33 -0700 (PDT)
+        h=x-gm-message-state:mime-version:from:date:message-id:subject:to:cc;
+        bh=NfdWbYEHTTlQjZgX0A0BBgcapK5t27VBkhhO41eH5RM=;
+        b=EY6049aiUHSBGMCBzyX4ah00o0HP6wiL407uTBMNNuon6qVioIRAWThL4GfBeamENF
+         Ujg1t/cdkMcAsUs77B0s5lXD/HVjdtxKxC2VkgtJkcnk/GIDLFuXTYVOWcFBRm35Bn3w
+         cZRHPpsQ/y84UTiN+wrKFWptuZvsW3VM6z1auQfrzrBZGQaJW9RfXnCw3G7hPgxeLr9k
+         fDpWVui5ieQNgoozQAeQ0twXx4bOeZ/tiz7N56woAI5YrDMBhK7qcSBsCJVe0Aq0ACXo
+         moUgGvPzO4Izb7cvKRdpwcMPyXoJAP7ac+h3bm6UL47smEtspf0flVXAXg4PxLwyN9ss
+         q2/w==
+X-Gm-Message-State: AGi0PuYYh1P3Xod/RuG9ljzJT6HnamMJj92l73j9UzO+Elspvu/3vCVt
+        BRITM5hgSIH5DbQ6VYK7pXAHKbwdSW2WDHj3+Uw=
+X-Google-Smtp-Source: APiQypJ5t5Bts+DtBnx/ZSXbqMdgaWNQbwcmf9g5+lhYLBJHBFYkUl5NdilCTPlRENOUZC1JUpXbjIWvDc9G53HXQR4=
+X-Received: by 2002:adf:f4d1:: with SMTP id h17mr6708413wrp.69.1588385289863;
+ Fri, 01 May 2020 19:08:09 -0700 (PDT)
 MIME-Version: 1.0
-References: <20200419064811.GA31185@Debian-50-lenny-64-minimal>
- <62162aec-6dfa-18b9-b370-00d772f3e7b7@gmail.com> <20200501072055.GC938@Debian-50-lenny-64-minimal>
-In-Reply-To: <20200501072055.GC938@Debian-50-lenny-64-minimal>
-Reply-To: mtk.manpages@gmail.com
-From:   "Michael Kerrisk (man-pages)" <mtk.manpages@gmail.com>
-Date:   Fri, 1 May 2020 10:34:22 +0200
-Message-ID: <CAKgNAkhb0HGsZy2Upgn-_Qui60vo62JV_v0jdhPf54wTQh5wYA@mail.gmail.com>
-Subject: Re: On bug bombing
-To:     Helge Kreutzmann <debian@helgefjell.de>
-Cc:     linux-man <linux-man@vger.kernel.org>
+From:   Ricardo Castano <ricardo.castano.salinas@gmail.com>
+Date:   Fri, 1 May 2020 21:07:59 -0500
+Message-ID: <CAAhkZUtuvuPuzfnf74eOWB3PWGPUkXqz8nKOtjbz=Yow3JNbrg@mail.gmail.com>
+Subject: Typos in copy_file_range(2)
+To:     mtk.manpages@gmail.com
+Cc:     linux-man@vger.kernel.org
 Content-Type: text/plain; charset="UTF-8"
 Sender: linux-man-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-man.vger.kernel.org>
 X-Mailing-List: linux-man@vger.kernel.org
 
-Hello Helge,
+Hi,
 
-On Fri, 1 May 2020 at 09:20, Helge Kreutzmann <debian@helgefjell.de> wrote:
->
-> Hello Michael,
-> On Mon, Apr 20, 2020 at 12:26:41PM +0200, Michael Kerrisk (man-pages) wrote:
-> > I am torn between saying thank you for all the effort you
-> > clearly made and saying PLEASE DON'T DO THIS!
->
-> Ok.
->
-> > Submitting one hundred plus bug reports at the same time
-> > is _very_ burdensome for an upstream maintainer. Honestly,
-> > if it had not been for lockdown, I might simply have ignored
-> > the whole series of mails.
->
-> That would have been a pitty.
->
-> I would have assumed that you process them at your convenience, i.e.
-> each when you have time.
+In the man-page
+http://man7.org/linux/man-pages/man2/copy_file_range.2.html , there
+are 2 typos:
+file_in is used instead of fd_in in the ERRORS and NOTES sections.
+file_out is used instead of fd_out in the ERRORS section.
 
-Time is always in short supply :-}. And sometime, when I queue things,
-they just get lost (for ever, or for a long time).
+Best regards,
 
-> > In the future, please do not wait for  huge backlog to build up
-> > before sending me reports. (10 reports at a time is fine; 100,
-> > not so much.)
->
-> Well, in the past (i.e. 10 years) we (german) translators always said
-> "we should report this". But "we" always amounted to no one doing it.
-> We were only recording issues found. So I finally decided to proceed.
-
-I figured that the story must be something like this. So, in any case,
-thank you that you did the work. It is appreciated.
-
-> Since you are our biggest upstream, I started with your pages.
-> Intially I would have made one big bug report, but I understood this
-> is not requested from your side.
-
-Yes. Individual reports is best. That way, I can accept/reject/discuss
-each issue individually.
-
-> Since it was mostly script based (and I was working on the scripts
-> while preparing) they came in all at once. I could have added a
-> throttle, like 10 / day, of course.
->
-> I'm still learning the process(es), so the next upstream might get a
-> better experience and I apologize for all the glitches I made.
-
-I do suggest at least warnin the upstream that a lot of reports are
-about to land...
-
-> Anyhow, I hope to report more frequent (and with much lower numbers) in
-> the future.
->
-> > In any case, thank you very much for your many reports.
->
-> Thanks from my side that you accepted and processed them.
-
-You're welcome!
-
-Thanks,
-
-Michael
-
--- 
-Michael Kerrisk
-Linux man-pages maintainer; http://www.kernel.org/doc/man-pages/
-Linux/UNIX System Programming Training: http://man7.org/training/
+Ricardo Castano
