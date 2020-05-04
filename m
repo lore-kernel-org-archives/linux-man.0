@@ -1,77 +1,99 @@
-Return-Path: <SRS0=5510=6Q=vger.kernel.org=linux-man-owner@kernel.org>
+Return-Path: <SRS0=Yzcv=6S=vger.kernel.org=linux-man-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-0.6 required=3.0 tests=DKIM_SIGNED,DKIM_VALID,
+X-Spam-Status: No, score=-2.1 required=3.0 tests=DKIM_SIGNED,DKIM_VALID,
 	DKIM_VALID_AU,FREEMAIL_FORGED_FROMDOMAIN,FREEMAIL_FROM,
 	HEADER_FROM_DIFFERENT_DOMAINS,MAILING_LIST_MULTI,SPF_HELO_NONE,SPF_PASS,
-	URIBL_BLOCKED autolearn=no autolearn_force=no version=3.4.0
+	USER_AGENT_SANE_1 autolearn=no autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 9D7DCC47256
-	for <linux-man@archiver.kernel.org>; Sat,  2 May 2020 02:08:12 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 2026AC3A5A9
+	for <linux-man@archiver.kernel.org>; Mon,  4 May 2020 08:30:31 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.kernel.org (Postfix) with ESMTP id 4DEEB208C3
-	for <linux-man@archiver.kernel.org>; Sat,  2 May 2020 02:08:12 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTP id E27C8206D7
+	for <linux-man@archiver.kernel.org>; Mon,  4 May 2020 08:30:30 +0000 (UTC)
 Authentication-Results: mail.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="CVZBEZCg"
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="Jzdd19xA"
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1726562AbgEBCIM (ORCPT <rfc822;linux-man@archiver.kernel.org>);
-        Fri, 1 May 2020 22:08:12 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:56674 "EHLO
-        lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1726473AbgEBCIL (ORCPT
-        <rfc822;linux-man@vger.kernel.org>); Fri, 1 May 2020 22:08:11 -0400
-Received: from mail-wr1-x42b.google.com (mail-wr1-x42b.google.com [IPv6:2a00:1450:4864:20::42b])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 4FFC7C061A0C
-        for <linux-man@vger.kernel.org>; Fri,  1 May 2020 19:08:11 -0700 (PDT)
-Received: by mail-wr1-x42b.google.com with SMTP id f13so13984364wrm.13
-        for <linux-man@vger.kernel.org>; Fri, 01 May 2020 19:08:11 -0700 (PDT)
+        id S1727878AbgEDIaa (ORCPT <rfc822;linux-man@archiver.kernel.org>);
+        Mon, 4 May 2020 04:30:30 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:52638 "EHLO
+        lindbergh.monkeyblade.net" rhost-flags-OK-FAIL-OK-FAIL)
+        by vger.kernel.org with ESMTP id S1727786AbgEDIaa (ORCPT
+        <rfc822;linux-man@vger.kernel.org>); Mon, 4 May 2020 04:30:30 -0400
+Received: from mail-wm1-x341.google.com (mail-wm1-x341.google.com [IPv6:2a00:1450:4864:20::341])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 1504EC061A0E
+        for <linux-man@vger.kernel.org>; Mon,  4 May 2020 01:30:30 -0700 (PDT)
+Received: by mail-wm1-x341.google.com with SMTP id x4so7454320wmj.1
+        for <linux-man@vger.kernel.org>; Mon, 04 May 2020 01:30:30 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=gmail.com; s=20161025;
-        h=mime-version:from:date:message-id:subject:to:cc;
-        bh=NfdWbYEHTTlQjZgX0A0BBgcapK5t27VBkhhO41eH5RM=;
-        b=CVZBEZCgBxn+QegpcQQ1+17DoMtA+sLv4UZC3tO2qQ81LpOzJ3/XBbQj9L/a6nZ5uw
-         ZakwgRevOyz7kYGQIH8YiaMpFI0Z5R/GqBoJhv4KXwIn+dSMB8ThEgmF3ZyWSGJMjGOx
-         c5/miZO9RqDaix+kOS2oB+vg+dBw5cI5MrkX1ID0YhhRgpv3L8O+KfVqJT53WPpkyQ9B
-         5ppzQP8Xk7LI0F4nLoakyJ15J7N9tO5up5xHTqjRdanwuAreNRufFdl7vuJUAFmgtkLX
-         y52SgNr0EGjICrWocC66lnYQ9VwfOq8J/06ks5p8o94mmLOiMC3au/wAZxIJ9CinYiSG
-         +CyA==
+        h=cc:subject:to:references:from:message-id:date:user-agent
+         :mime-version:in-reply-to:content-language:content-transfer-encoding;
+        bh=57RIBvnw692SJT6abItho2Xz2hC09SPu8jnu50cOLyY=;
+        b=Jzdd19xA8dnD0sPIC4AnG3MeXHlT2bhJbJjNuKtVyI0z2DXF5QyHWLvK82xxQXOOxL
+         s+jTiFYEnaoI3u4gXvsJFEKsf+HDQ4rkrqcanLYM1IqQzGzB4gajtij6uNLk2jmbzOYx
+         Y5BwSK579uJFNXjExUZ2q9xNhTodTdCDUJ29arnODujmy1bImqPTrEhXH8eLpU59itAE
+         nVUAQ9/J38GA/YghIpb1QTr6phGFlXuwSQ5brYSsDYcWm7bWxBsyg1ePBMdHXx3aWK2v
+         3RRe7MsIgZnAOlqrh6XineC04m1VsbjnN4Qz/D0Tav232pXwfyms2PnnHvWsLhiuyque
+         suwQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
-        h=x-gm-message-state:mime-version:from:date:message-id:subject:to:cc;
-        bh=NfdWbYEHTTlQjZgX0A0BBgcapK5t27VBkhhO41eH5RM=;
-        b=EY6049aiUHSBGMCBzyX4ah00o0HP6wiL407uTBMNNuon6qVioIRAWThL4GfBeamENF
-         Ujg1t/cdkMcAsUs77B0s5lXD/HVjdtxKxC2VkgtJkcnk/GIDLFuXTYVOWcFBRm35Bn3w
-         cZRHPpsQ/y84UTiN+wrKFWptuZvsW3VM6z1auQfrzrBZGQaJW9RfXnCw3G7hPgxeLr9k
-         fDpWVui5ieQNgoozQAeQ0twXx4bOeZ/tiz7N56woAI5YrDMBhK7qcSBsCJVe0Aq0ACXo
-         moUgGvPzO4Izb7cvKRdpwcMPyXoJAP7ac+h3bm6UL47smEtspf0flVXAXg4PxLwyN9ss
-         q2/w==
-X-Gm-Message-State: AGi0PuYYh1P3Xod/RuG9ljzJT6HnamMJj92l73j9UzO+Elspvu/3vCVt
-        BRITM5hgSIH5DbQ6VYK7pXAHKbwdSW2WDHj3+Uw=
-X-Google-Smtp-Source: APiQypJ5t5Bts+DtBnx/ZSXbqMdgaWNQbwcmf9g5+lhYLBJHBFYkUl5NdilCTPlRENOUZC1JUpXbjIWvDc9G53HXQR4=
-X-Received: by 2002:adf:f4d1:: with SMTP id h17mr6708413wrp.69.1588385289863;
- Fri, 01 May 2020 19:08:09 -0700 (PDT)
+        h=x-gm-message-state:cc:subject:to:references:from:message-id:date
+         :user-agent:mime-version:in-reply-to:content-language
+         :content-transfer-encoding;
+        bh=57RIBvnw692SJT6abItho2Xz2hC09SPu8jnu50cOLyY=;
+        b=UTb2Av/xdPQCOWpllESKTNMfZT5ZIFz+QHy1WbarowVLYXdAXtrvHnBJ0RgD/QqiHw
+         rdWyTvT7MZZ8+dTXCluZXurzQI40np5R0576ec9l4zhcmlj1NTkaKOXQCxHktfyIjL7J
+         YxGbMZyocoAl3oHMk2nL9djyIaznkaHvUnVaNM85VvzGY6VDHGK77sLxYiAJ/N3gz60b
+         SE266DkThK/DNhLltNLjnVfoiP1qqkCP1+mCwQAanVD2U6qG8fFhiWie82SYacxf4/rI
+         oQ7Gv02/vbxxaH+WRkOJNfTDCF983Tvmi84RBekP20YvR/Z/5UMHBJHb1f/mXngZcK0L
+         jrPA==
+X-Gm-Message-State: AGi0Pub2JgnCj2VktnFX81VPG9BSFkm8sCUNxNPRCxgsLulMKYRaFsTF
+        1+n60tfzpy/L+YrTU5pDnwqk3TAz
+X-Google-Smtp-Source: APiQypKy5SsOOq/94Tm/0haEbCuUkGcTmClRnHdAKZONKOxRV/r8GdC/WjqtugmCTVfxhw4XFggkDQ==
+X-Received: by 2002:a1c:4304:: with SMTP id q4mr14319825wma.152.1588581028645;
+        Mon, 04 May 2020 01:30:28 -0700 (PDT)
+Received: from ?IPv6:2001:a61:2482:101:3351:6160:8173:cc31? ([2001:a61:2482:101:3351:6160:8173:cc31])
+        by smtp.gmail.com with ESMTPSA id 145sm13036245wma.1.2020.05.04.01.30.27
+        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+        Mon, 04 May 2020 01:30:27 -0700 (PDT)
+Cc:     mtk.manpages@gmail.com, linux-man@vger.kernel.org
+Subject: Re: Typos in copy_file_range(2)
+To:     Ricardo Castano <ricardo.castano.salinas@gmail.com>
+References: <CAAhkZUtuvuPuzfnf74eOWB3PWGPUkXqz8nKOtjbz=Yow3JNbrg@mail.gmail.com>
+From:   "Michael Kerrisk (man-pages)" <mtk.manpages@gmail.com>
+Message-ID: <c350ed41-d4c5-e601-d75b-099686754b7c@gmail.com>
+Date:   Mon, 4 May 2020 10:30:25 +0200
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
+ Thunderbird/68.7.0
 MIME-Version: 1.0
-From:   Ricardo Castano <ricardo.castano.salinas@gmail.com>
-Date:   Fri, 1 May 2020 21:07:59 -0500
-Message-ID: <CAAhkZUtuvuPuzfnf74eOWB3PWGPUkXqz8nKOtjbz=Yow3JNbrg@mail.gmail.com>
-Subject: Typos in copy_file_range(2)
-To:     mtk.manpages@gmail.com
-Cc:     linux-man@vger.kernel.org
-Content-Type: text/plain; charset="UTF-8"
+In-Reply-To: <CAAhkZUtuvuPuzfnf74eOWB3PWGPUkXqz8nKOtjbz=Yow3JNbrg@mail.gmail.com>
+Content-Type: text/plain; charset=utf-8
+Content-Language: en-US
+Content-Transfer-Encoding: 7bit
 Sender: linux-man-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-man.vger.kernel.org>
 X-Mailing-List: linux-man@vger.kernel.org
 
-Hi,
+On 5/2/20 4:07 AM, Ricardo Castano wrote:
+> Hi,
+> 
+> In the man-page
+> http://man7.org/linux/man-pages/man2/copy_file_range.2.html , there
+> are 2 typos:
+> file_in is used instead of fd_in in the ERRORS and NOTES sections.
+> file_out is used instead of fd_out in the ERRORS section.
 
-In the man-page
-http://man7.org/linux/man-pages/man2/copy_file_range.2.html , there
-are 2 typos:
-file_in is used instead of fd_in in the ERRORS and NOTES sections.
-file_out is used instead of fd_out in the ERRORS section.
+Thanks, Ricardo. Fixed!
 
-Best regards,
+Cheers,
 
-Ricardo Castano
+Michael
+
+
+-- 
+Michael Kerrisk
+Linux man-pages maintainer; http://www.kernel.org/doc/man-pages/
+Linux/UNIX System Programming Training: http://man7.org/training/
