@@ -2,88 +2,78 @@ Return-Path: <SRS0=vYEl=6T=vger.kernel.org=linux-man-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-8.6 required=3.0 tests=DKIMWL_WL_HIGH,DKIM_SIGNED,
-	DKIM_VALID,DKIM_VALID_AU,INCLUDES_PATCH,MAILING_LIST_MULTI,SIGNED_OFF_BY,
-	SPF_HELO_NONE,SPF_PASS,URIBL_BLOCKED,USER_AGENT_SANE_1 autolearn=ham
-	autolearn_force=no version=3.4.0
+X-Spam-Status: No, score=-8.2 required=3.0 tests=HEADER_FROM_DIFFERENT_DOMAINS,
+	INCLUDES_PATCH,MAILING_LIST_MULTI,SIGNED_OFF_BY,SPF_HELO_NONE,SPF_PASS,
+	URIBL_BLOCKED,USER_AGENT_SANE_1 autolearn=ham autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id EB677C47247
-	for <linux-man@archiver.kernel.org>; Tue,  5 May 2020 15:55:02 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id F3F29C47247
+	for <linux-man@archiver.kernel.org>; Tue,  5 May 2020 16:06:56 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.kernel.org (Postfix) with ESMTP id C8D5924956
-	for <linux-man@archiver.kernel.org>; Tue,  5 May 2020 15:55:02 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=default; t=1588694102;
-	bh=8be2lsxcesOAgyrKd3tvzwvIRN1AjWgE5EIS7dYaLUA=;
-	h=Date:From:To:Cc:Subject:References:In-Reply-To:List-ID:From;
-	b=QFZBOLepo0XgO4Rqr0EobxZIWsy4BNECtw6pDkTcE97eHGrVmRz9wAapB5PZep3/u
-	 ePFkA4kgTPPpy9K62rQXYwkjgNYL6mLTi5K3oR501DX+VNR6BWltcI/tEw4EIoOw+R
-	 aMqR/SxLS8d3PeHLunsPWgR8kSWZAPVAFOWkdjWI=
+	by mail.kernel.org (Postfix) with ESMTP id DB64A2073B
+	for <linux-man@archiver.kernel.org>; Tue,  5 May 2020 16:06:56 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1729541AbgEEPzC (ORCPT <rfc822;linux-man@archiver.kernel.org>);
-        Tue, 5 May 2020 11:55:02 -0400
-Received: from mail.kernel.org ([198.145.29.99]:41496 "EHLO mail.kernel.org"
+        id S1729171AbgEEQG4 (ORCPT <rfc822;linux-man@archiver.kernel.org>);
+        Tue, 5 May 2020 12:06:56 -0400
+Received: from foss.arm.com ([217.140.110.172]:44432 "EHLO foss.arm.com"
         rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S1729377AbgEEPzC (ORCPT <rfc822;linux-man@vger.kernel.org>);
-        Tue, 5 May 2020 11:55:02 -0400
-Received: from willie-the-truck (236.31.169.217.in-addr.arpa [217.169.31.236])
-        (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
-        (No client certificate requested)
-        by mail.kernel.org (Postfix) with ESMTPSA id E7A7B207DD;
-        Tue,  5 May 2020 15:55:00 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-        s=default; t=1588694102;
-        bh=8be2lsxcesOAgyrKd3tvzwvIRN1AjWgE5EIS7dYaLUA=;
-        h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-        b=eazZOOK9HnpQz7eVHE2lFvTkM0ELl0pD+Y/+mHz2tp6LSu2nkvVBNxFFsNsGlL8N9
-         aOpudv4mR8BeHfO32aybIFOakrFK5mdiEbIfcxcsg/0oE4n89/xj0PBXnXOqqXoTV9
-         aH0wwGhlUKmaq8f7fyrTC8fTVQBRaDzzXbbIQQ2U=
-Date:   Tue, 5 May 2020 16:54:57 +0100
-From:   Will Deacon <will@kernel.org>
-To:     Dave Martin <Dave.Martin@arm.com>
+        id S1728804AbgEEQG4 (ORCPT <rfc822;linux-man@vger.kernel.org>);
+        Tue, 5 May 2020 12:06:56 -0400
+Received: from usa-sjc-imap-foss1.foss.arm.com (unknown [10.121.207.14])
+        by usa-sjc-mx-foss1.foss.arm.com (Postfix) with ESMTP id DE2251FB;
+        Tue,  5 May 2020 09:06:55 -0700 (PDT)
+Received: from arm.com (usa-sjc-imap-foss1.foss.arm.com [10.121.207.14])
+        by usa-sjc-imap-foss1.foss.arm.com (Postfix) with ESMTPSA id 050A63F71F;
+        Tue,  5 May 2020 09:06:54 -0700 (PDT)
+Date:   Tue, 5 May 2020 17:06:52 +0100
+From:   Dave Martin <Dave.Martin@arm.com>
+To:     Will Deacon <will@kernel.org>
 Cc:     Michael Kerrisk <mtk.manpages@gmail.com>,
         Russell King <linux@armlinux.org.uk>,
         Catalin Marinas <catalin.marinas@arm.com>,
         linux-man@vger.kernel.org, linux-arm-kernel@lists.infradead.org
 Subject: Re: [PATCH 2/2] syscall.2: arm64: Fix syscall number register size
-Message-ID: <20200505155457.GE24239@willie-the-truck>
+Message-ID: <20200505160652.GP30377@arm.com>
 References: <1588692280-15878-1-git-send-email-Dave.Martin@arm.com>
  <1588692280-15878-3-git-send-email-Dave.Martin@arm.com>
+ <20200505155457.GE24239@willie-the-truck>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <1588692280-15878-3-git-send-email-Dave.Martin@arm.com>
-User-Agent: Mutt/1.10.1 (2018-07-13)
+In-Reply-To: <20200505155457.GE24239@willie-the-truck>
+User-Agent: Mutt/1.5.23 (2014-03-12)
 Sender: linux-man-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-man.vger.kernel.org>
 X-Mailing-List: linux-man@vger.kernel.org
 
-On Tue, May 05, 2020 at 04:24:40PM +0100, Dave Martin wrote:
-> arm64 is currently documented as receiving the syscall number in
-> x8.
+On Tue, May 05, 2020 at 04:54:57PM +0100, Will Deacon wrote:
+> On Tue, May 05, 2020 at 04:24:40PM +0100, Dave Martin wrote:
+> > arm64 is currently documented as receiving the syscall number in
+> > x8.
+> > 
+> > While this is the correct register, the syscall number is a 32-bit
+> > integer.  Bits [63:32] are ignored by the kernel.
+> > 
+> > So it is more correct to say "w8".
+> > 
+> > Signed-off-by: Dave Martin <Dave.Martin@arm.com>
+> > ---
+> >  man2/syscall.2 | 2 +-
+> >  1 file changed, 1 insertion(+), 1 deletion(-)
+> > 
+> > diff --git a/man2/syscall.2 b/man2/syscall.2
+> > index 53ab40e..d724651 100644
+> > --- a/man2/syscall.2
+> > +++ b/man2/syscall.2
+> > @@ -203,7 +203,7 @@ alpha	callsys	v0	v0	a4	a3	1, 6
+> >  arc	trap0	r8	r0	-	-
+> >  arm/OABI	swi NR	-	r0	-	-	2
+> >  arm/EABI	swi 0x0	r7	r0	r1	-
+> > -arm64	svc #0	x8	x0	x1	-
+> > +arm64	svc #0	w8	x0	x1	-
 > 
-> While this is the correct register, the syscall number is a 32-bit
-> integer.  Bits [63:32] are ignored by the kernel.
-> 
-> So it is more correct to say "w8".
-> 
-> Signed-off-by: Dave Martin <Dave.Martin@arm.com>
-> ---
->  man2/syscall.2 | 2 +-
->  1 file changed, 1 insertion(+), 1 deletion(-)
-> 
-> diff --git a/man2/syscall.2 b/man2/syscall.2
-> index 53ab40e..d724651 100644
-> --- a/man2/syscall.2
-> +++ b/man2/syscall.2
-> @@ -203,7 +203,7 @@ alpha	callsys	v0	v0	a4	a3	1, 6
->  arc	trap0	r8	r0	-	-
->  arm/OABI	swi NR	-	r0	-	-	2
->  arm/EABI	swi 0x0	r7	r0	r1	-
-> -arm64	svc #0	x8	x0	x1	-
-> +arm64	svc #0	w8	x0	x1	-
+> Acked-by: Will Deacon <will@kernel.org>
 
-Acked-by: Will Deacon <will@kernel.org>
+Thanks!
 
-Will
+---Dave
