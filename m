@@ -6,31 +6,33 @@ X-Spam-Status: No, score=-9.7 required=3.0 tests=HEADER_FROM_DIFFERENT_DOMAINS,
 	INCLUDES_PATCH,MAILING_LIST_MULTI,SIGNED_OFF_BY,SPF_HELO_NONE,SPF_PASS,
 	URIBL_BLOCKED,USER_AGENT_GIT autolearn=ham autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 6C59AC2D0F6
-	for <linux-man@archiver.kernel.org>; Tue, 12 May 2020 16:37:51 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 621BCC2D0F7
+	for <linux-man@archiver.kernel.org>; Tue, 12 May 2020 16:37:53 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.kernel.org (Postfix) with ESMTP id 4EADE20714
-	for <linux-man@archiver.kernel.org>; Tue, 12 May 2020 16:37:51 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTP id 4418020736
+	for <linux-man@archiver.kernel.org>; Tue, 12 May 2020 16:37:53 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1727911AbgELQhv (ORCPT <rfc822;linux-man@archiver.kernel.org>);
-        Tue, 12 May 2020 12:37:51 -0400
-Received: from foss.arm.com ([217.140.110.172]:58184 "EHLO foss.arm.com"
+        id S1727944AbgELQhw (ORCPT <rfc822;linux-man@archiver.kernel.org>);
+        Tue, 12 May 2020 12:37:52 -0400
+Received: from foss.arm.com ([217.140.110.172]:58198 "EHLO foss.arm.com"
         rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S1726922AbgELQhu (ORCPT <rfc822;linux-man@vger.kernel.org>);
-        Tue, 12 May 2020 12:37:50 -0400
+        id S1726922AbgELQhw (ORCPT <rfc822;linux-man@vger.kernel.org>);
+        Tue, 12 May 2020 12:37:52 -0400
 Received: from usa-sjc-imap-foss1.foss.arm.com (unknown [10.121.207.14])
-        by usa-sjc-mx-foss1.foss.arm.com (Postfix) with ESMTP id 0BFEED6E;
-        Tue, 12 May 2020 09:37:50 -0700 (PDT)
+        by usa-sjc-mx-foss1.foss.arm.com (Postfix) with ESMTP id 1CA6711D4;
+        Tue, 12 May 2020 09:37:52 -0700 (PDT)
 Received: from e103592.cambridge.arm.com (usa-sjc-imap-foss1.foss.arm.com [10.121.207.14])
-        by usa-sjc-imap-foss1.foss.arm.com (Postfix) with ESMTPA id 773B13F305;
-        Tue, 12 May 2020 09:37:49 -0700 (PDT)
+        by usa-sjc-imap-foss1.foss.arm.com (Postfix) with ESMTPA id 2E5883F305;
+        Tue, 12 May 2020 09:37:51 -0700 (PDT)
 From:   Dave Martin <Dave.Martin@arm.com>
 To:     mtk.manpages@gmail.com
 Cc:     linux-man@vger.kernel.org, linux-arch@vger.kernel.org,
-        linux-arm-kernel@lists.infradead.org
-Subject: [PATCH 05/14] prctl.2: tfix listing order of prctls
-Date:   Tue, 12 May 2020 17:36:50 +0100
-Message-Id: <1589301419-24459-6-git-send-email-Dave.Martin@arm.com>
+        linux-arm-kernel@lists.infradead.org,
+        Dave Hansen <dave.hansen@linux.intel.com>,
+        Thomas Gleixner <tglx@linutronix.de>
+Subject: [PATCH 07/14] prctl.2: Document removal of Intel MPX prctls
+Date:   Tue, 12 May 2020 17:36:52 +0100
+Message-Id: <1589301419-24459-8-git-send-email-Dave.Martin@arm.com>
 X-Mailer: git-send-email 2.1.4
 In-Reply-To: <1589301419-24459-1-git-send-email-Dave.Martin@arm.com>
 References: <1589301419-24459-1-git-send-email-Dave.Martin@arm.com>
@@ -39,199 +41,44 @@ Precedence: bulk
 List-ID: <linux-man.vger.kernel.org>
 X-Mailing-List: linux-man@vger.kernel.org
 
-The prctl list has historically been sorted by prctl name (ignoring
-any SET_ or GET_ prefix) to make individual prctls easier to find.
-Some noise seems to have crept in since.
+The Intel MPX API was removed from Linux 5.4.  See Linux
+commit f240652b6032 ("x86/mpx: Remove MPX APIs")
 
-Sort the list back into order.  Similarly, reorder the list of
-prctls specified to return non-zero values on success.
-
-Content movement only.  No semantic change.
+Document this change.
 
 Signed-off-by: Dave Martin <Dave.Martin@arm.com>
+Cc: Dave Hansen <dave.hansen@linux.intel.com>
+Cc: Thomas Gleixner <tglx@linutronix.de>
 ---
- man2/prctl.2 | 138 +++++++++++++++++++++++++++++------------------------------
- 1 file changed, 69 insertions(+), 69 deletions(-)
+ man2/prctl.2 | 8 +++++++-
+ 1 file changed, 7 insertions(+), 1 deletion(-)
 
 diff --git a/man2/prctl.2 b/man2/prctl.2
-index e5b2b4b..1611448 100644
+index 7a3fc5c..a84fb1d 100644
 --- a/man2/prctl.2
 +++ b/man2/prctl.2
-@@ -490,6 +490,52 @@ Pass \fBPR_FP_EXC_SW_ENABLE\fP to use FPEXC for FP exception enables,
- Return floating-point exception mode,
- in the location pointed to by
- .IR "(int\ *) arg2" .
-+.\" prctl PR_SET_IO_FLUSHER
-+.TP
-+.BR PR_SET_IO_FLUSHER " (since Linux 5.6)"
-+If a user process is involved in the block layer or filesystem I/O path,
-+and can allocate memory while processing I/O requests it must set
-+\fIarg2\fP to 1.
-+This will put the process in the IO_FLUSHER state,
-+which allows it special treatment to make progress when allocating memory.
-+If \fIarg2\fP is 0, the process will clear the IO_FLUSHER state, and
-+the default behavior will be used.
-+.IP
-+The calling process must have the
-+.BR CAP_SYS_RESOURCE
-+capability.
-+.IP
-+.IR arg3 ,
-+.IR arg4 ,
-+and
-+.IR arg5
-+must be zero.
-+.IP
-+The IO_FLUSHER state is inherited by a child process created via
-+.BR fork (2)
-+and is preserved across
-+.BR execve (2).
-+.IP
-+Examples of IO_FLUSHER applications are FUSE daemons, SCSI device
-+emulation daemons, and daemons that perform error handling like multipath
-+path recovery applications.
-+.\" prctl PR_GET_IO_FLUSHER
-+.TP
-+.B PR_GET_IO_FLUSHER (Since Linux 5.6)
-+Return (as the function result) the IO_FLUSHER state of the caller.
-+A value of 1 indicates that the caller is in the IO_FLUSHER state;
-+0 indicates that the caller is not in the IO_FLUSHER state.
-+.IP
-+The calling process must have the
-+.BR CAP_SYS_RESOURCE
-+capability.
-+.IP
-+.IR arg2 ,
-+.IR arg3 ,
-+.IR arg4 ,
-+and
-+.IR arg5
-+must be zero.
- .\" prctl PR_SET_KEEPCAPS
+@@ -784,7 +784,7 @@ option enabled.
+ .RE
+ .\" prctl PR_MPX_ENABLE_MANAGEMENT
  .TP
- .BR PR_SET_KEEPCAPS " (since Linux 2.2.18)"
-@@ -1207,23 +1253,6 @@ call failing with the error
- .BR ENXIO .
- For further details, see the kernel source file
- .IR Documentation/admin-guide/kernel-parameters.txt .
--.\" prctl PR_SET_THP_DISABLE
--.TP
--.BR PR_SET_THP_DISABLE " (since Linux 3.15)"
--.\" commit a0715cc22601e8830ace98366c0c2bd8da52af52
--Set the state of the "THP disable" flag for the calling thread.
--If
--.I arg2
--has a nonzero value, the flag is set, otherwise it is cleared.
--Setting this flag provides a method
--for disabling transparent huge pages
--for jobs where the code cannot be modified, and using a malloc hook with
--.BR madvise (2)
--is not an option (i.e., statically allocated data).
--The setting of the "THP disable" flag is inherited by a child created via
--.BR fork (2)
--and is preserved across
--.BR execve (2).
- .\"
- .\" prctl PR_TASK_PERF_EVENTS_DISABLE
+-.BR PR_MPX_ENABLE_MANAGEMENT ", " PR_MPX_DISABLE_MANAGEMENT " (since Linux 3.19) "
++.BR PR_MPX_ENABLE_MANAGEMENT ", " PR_MPX_DISABLE_MANAGEMENT " (since Linux 3.19, removed in Linux 5.4; only on x86) "
+ .\" commit fe3d197f84319d3bce379a9c0dc17b1f48ad358c
+ .\" See also http://lwn.net/Articles/582712/
+ .\" See also https://gcc.gnu.org/wiki/Intel%20MPX%20support%20in%20the%20GCC%20compiler
+@@ -859,6 +859,12 @@ had been called.
+ .IP
+ For further information on Intel MPX, see the kernel source file
+ .IR Documentation/x86/intel_mpx.txt .
++.IP
++.\" commit f240652b6032b48ad7fa35c5e701cc4c8d697c0b
++.\" See also https://lkml.kernel.org/r/20190705175321.DB42F0AD@viggo.jf.intel.com
++Due to a lack of toolchain support,
++.BR PR_MPX_ENABLE_MANAGEMENT " and " PR_MPX_DISABLE_MANAGEMENT
++are not supported by Linux 5.4 or later.
+ .\" prctl PR_SET_NAME
  .TP
-@@ -1256,6 +1285,23 @@ renamed
- .\" commit cdd6c482c9ff9c55475ee7392ec8f672eddb7be6
- in Linux 2.6.32.
- .\"
-+.\" prctl PR_SET_THP_DISABLE
-+.TP
-+.BR PR_SET_THP_DISABLE " (since Linux 3.15)"
-+.\" commit a0715cc22601e8830ace98366c0c2bd8da52af52
-+Set the state of the "THP disable" flag for the calling thread.
-+If
-+.I arg2
-+has a nonzero value, the flag is set, otherwise it is cleared.
-+Setting this flag provides a method
-+for disabling transparent huge pages
-+for jobs where the code cannot be modified, and using a malloc hook with
-+.BR madvise (2)
-+is not an option (i.e., statically allocated data).
-+The setting of the "THP disable" flag is inherited by a child created via
-+.BR fork (2)
-+and is preserved across
-+.BR execve (2).
- .\" prctl PR_GET_THP_DISABLE
- .TP
- .BR PR_GET_THP_DISABLE " (since Linux 3.15)"
-@@ -1438,67 +1484,21 @@ system call on Tru64).
- for information on versions and architectures.)
- Return unaligned access control bits, in the location pointed to by
- .IR "(unsigned int\ *) arg2" .
--.\" prctl PR_SET_IO_FLUSHER
--.TP
--.BR PR_SET_IO_FLUSHER " (since Linux 5.6)"
--If a user process is involved in the block layer or filesystem I/O path,
--and can allocate memory while processing I/O requests it must set
--\fIarg2\fP to 1.
--This will put the process in the IO_FLUSHER state,
--which allows it special treatment to make progress when allocating memory.
--If \fIarg2\fP is 0, the process will clear the IO_FLUSHER state, and
--the default behavior will be used.
--.IP
--The calling process must have the
--.BR CAP_SYS_RESOURCE
--capability.
--.IP
--.IR arg3 ,
--.IR arg4 ,
--and
--.IR arg5
--must be zero.
--.IP
--The IO_FLUSHER state is inherited by a child process created via
--.BR fork (2)
--and is preserved across
--.BR execve (2).
--.IP
--Examples of IO_FLUSHER applications are FUSE daemons, SCSI device
--emulation daemons, and daemons that perform error handling like multipath
--path recovery applications.
--.\" prctl PR_GET_IO_FLUSHER
--.TP
--.B PR_GET_IO_FLUSHER (Since Linux 5.6)
--Return (as the function result) the IO_FLUSHER state of the caller.
--A value of 1 indicates that the caller is in the IO_FLUSHER state;
--0 indicates that the caller is not in the IO_FLUSHER state.
--.IP
--The calling process must have the
--.BR CAP_SYS_RESOURCE
--capability.
--.IP
--.IR arg2 ,
--.IR arg3 ,
--.IR arg4 ,
--and
--.IR arg5
--must be zero.
- .SH RETURN VALUE
- On success,
-+.BR PR_CAP_AMBIENT + PR_CAP_AMBIENT_IS_SET ,
-+.BR PR_CAPBSET_READ ,
- .BR PR_GET_DUMPABLE ,
- .BR PR_GET_FP_MODE ,
-+.BR PR_GET_IO_FLUSHER ,
- .BR PR_GET_KEEPCAPS ,
-+.BR PR_MCE_KILL_GET ,
- .BR PR_GET_NO_NEW_PRIVS ,
-+.BR PR_GET_SECUREBITS ,
-+.BR PR_GET_SPECULATION_CTRL ,
- .BR PR_GET_THP_DISABLE ,
--.BR PR_CAPBSET_READ ,
- .BR PR_GET_TIMING ,
- .BR PR_GET_TIMERSLACK ,
--.BR PR_GET_SECUREBITS ,
--.BR PR_GET_SPECULATION_CTRL ,
--.BR PR_MCE_KILL_GET ,
--.BR PR_CAP_AMBIENT + PR_CAP_AMBIENT_IS_SET ,
--.BR PR_GET_IO_FLUSHER ,
- and (if it returns)
- .BR PR_GET_SECCOMP
- return the nonnegative values described above.
+ .BR PR_SET_NAME " (since Linux 2.6.9)"
 -- 
 2.1.4
 
