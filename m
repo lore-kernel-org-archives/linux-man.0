@@ -2,145 +2,134 @@ Return-Path: <SRS0=ln2A=63=vger.kernel.org=linux-man-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-5.8 required=3.0 tests=DKIMWL_WL_HIGH,DKIM_SIGNED,
-	DKIM_VALID,DKIM_VALID_AU,INCLUDES_PATCH,MAILING_LIST_MULTI,SPF_HELO_NONE,
-	SPF_PASS,USER_AGENT_SANE_1 autolearn=ham autolearn_force=no version=3.4.0
+X-Spam-Status: No, score=-8.1 required=3.0 tests=DKIM_SIGNED,DKIM_VALID,
+	DKIM_VALID_AU,FREEMAIL_FORGED_FROMDOMAIN,FREEMAIL_FROM,
+	HEADER_FROM_DIFFERENT_DOMAINS,INCLUDES_PATCH,MAILING_LIST_MULTI,SIGNED_OFF_BY,
+	SPF_HELO_NONE,SPF_PASS,URIBL_BLOCKED,USER_AGENT_SANE_1 autolearn=ham
+	autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 5A9ECC2D0F8
-	for <linux-man@archiver.kernel.org>; Wed, 13 May 2020 07:25:37 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 88641CA90AF
+	for <linux-man@archiver.kernel.org>; Wed, 13 May 2020 08:30:26 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.kernel.org (Postfix) with ESMTP id 32FD920769
-	for <linux-man@archiver.kernel.org>; Wed, 13 May 2020 07:25:37 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=default; t=1589354737;
-	bh=d2t7R4QJrDWoBwJ02LKHn8VL7euf7xXP4+pCOOTGAD4=;
-	h=Date:From:To:Cc:Subject:References:In-Reply-To:List-ID:From;
-	b=px6MlJ47Hucrt6WoFsHRHZzO891p3Gxc5kcxNw+yAfg1pbzN0RabslCL4ZNgfQgi+
-	 +IC779z5D2oz54VrPONzBNTwHq6szAQyXQYx4F69zys+SSe/xBJJ3m7pPe025HMmQP
-	 nllZ6hAQDuJSnTNKnz1lfdH5/7bJImhXttMDlqxE=
+	by mail.kernel.org (Postfix) with ESMTP id 6834020740
+	for <linux-man@archiver.kernel.org>; Wed, 13 May 2020 08:30:26 +0000 (UTC)
+Authentication-Results: mail.kernel.org;
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="uAEo1oCd"
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1729838AbgEMHZg (ORCPT <rfc822;linux-man@archiver.kernel.org>);
-        Wed, 13 May 2020 03:25:36 -0400
-Received: from mail.kernel.org ([198.145.29.99]:54236 "EHLO mail.kernel.org"
-        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S1728490AbgEMHZg (ORCPT <rfc822;linux-man@vger.kernel.org>);
-        Wed, 13 May 2020 03:25:36 -0400
-Received: from willie-the-truck (236.31.169.217.in-addr.arpa [217.169.31.236])
-        (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
-        (No client certificate requested)
-        by mail.kernel.org (Postfix) with ESMTPSA id AE215206D6;
-        Wed, 13 May 2020 07:25:34 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-        s=default; t=1589354736;
-        bh=d2t7R4QJrDWoBwJ02LKHn8VL7euf7xXP4+pCOOTGAD4=;
-        h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-        b=KgJHmknkg5NaSi773FegHzNdz6RQpQ4pBfqjUQqEa9SlZZwygBreOdfzhDFCQsjp6
-         GALb6nuTiK1OewBJERg2ZXQMpF8J8iM+OfjaVAuKZRSCq4tJELrrMmokzn2/DEbaqv
-         iTQDmGRFdiPADLM800Ub93PuyyaLPqJkK+aEUyLg=
-Date:   Wed, 13 May 2020 08:25:31 +0100
-From:   Will Deacon <will@kernel.org>
-To:     Dave Martin <Dave.Martin@arm.com>
+        id S1732280AbgEMIa0 (ORCPT <rfc822;linux-man@archiver.kernel.org>);
+        Wed, 13 May 2020 04:30:26 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:36812 "EHLO
+        lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1732174AbgEMIaZ (ORCPT
+        <rfc822;linux-man@vger.kernel.org>); Wed, 13 May 2020 04:30:25 -0400
+Received: from mail-wr1-x441.google.com (mail-wr1-x441.google.com [IPv6:2a00:1450:4864:20::441])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 7BB8AC061A0E;
+        Wed, 13 May 2020 01:30:25 -0700 (PDT)
+Received: by mail-wr1-x441.google.com with SMTP id j5so19764165wrq.2;
+        Wed, 13 May 2020 01:30:25 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20161025;
+        h=cc:subject:to:references:from:message-id:date:user-agent
+         :mime-version:in-reply-to:content-language:content-transfer-encoding;
+        bh=8l9HrcUFnk7kl0t2CmIVlAAJuCz/BXpTPIzI3hkWiBA=;
+        b=uAEo1oCd3RKQgeafKRTc6XK3toSohfZ6YY2sfQqvyt4dH/Li/8vuIjRhFVyOaRkb8N
+         bubv6gLtqn9Ncd4b7xp721kIvVZgOGrOq6P2h1jvK5CqCRXoj79JX6r3svZZMddLRSad
+         TNbP8ga3zem/nujg/vrQBYTjViwQiEUXfxZWVa7bSdh56BXtNYexy+3rRRFeu7O+JwRT
+         v8cGEVbxGMHCboZ0EbrKjpgKczEhIuhk8OVPSbqGqSuig6whJBXagLNzkMcifalny+2T
+         oGED0+LeRQnKI7jcrmZNrRekmAqjaq93DpVzxLo9bymt/4mHLmNnrkrEzUoSaMP4QSoF
+         gDHg==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20161025;
+        h=x-gm-message-state:cc:subject:to:references:from:message-id:date
+         :user-agent:mime-version:in-reply-to:content-language
+         :content-transfer-encoding;
+        bh=8l9HrcUFnk7kl0t2CmIVlAAJuCz/BXpTPIzI3hkWiBA=;
+        b=Ck3LEEjQv/twrJGzPzqGp00l59TIPtBd3K0s9RucIxh/db1fE4tgtwJdcvjv4G91JC
+         mEKbuagnKICL0oydkua/lKnKisY7tS7EE2RU/KS5Vcl0+Hm7LNfz/FDP7PCKrXmNGx1e
+         34N5DwpIAHge9iPI34CfbUAQ8+rThzgeIIhYUOTHWwonH/1U5YtP4J1JI06+wvx5v1pR
+         BogzBaVWqcBEg5ZmiAAIUIm2hKDqGk0Lf+lROaNpHl0PF0YSN33RrUsERHHiLMdKyFBf
+         pwSA6MHdijQuQvIg/lJ4QANfYxzVxW80KSlaGKaIS/J7DyoSxsGwtipkT2nRi4oRIWAU
+         hP8g==
+X-Gm-Message-State: AGi0PubreKWQLXY/AHFVFBScdnCyBLao+sQGPMi2OXKFy8tXig73JzLH
+        RtLcNeF4oRsaAFFLC1EoIgg=
+X-Google-Smtp-Source: APiQypKYBs2sCuo3l1m1ENhx2oY7S1cH2Eu8OgQj7ADDfIbfWFZEz+SFvHs5upX8JcAk98tGebUI8g==
+X-Received: by 2002:adf:a285:: with SMTP id s5mr32533885wra.60.1589358624147;
+        Wed, 13 May 2020 01:30:24 -0700 (PDT)
+Received: from ?IPv6:2001:a61:2482:101:a081:4793:30bf:f3d5? ([2001:a61:2482:101:a081:4793:30bf:f3d5])
+        by smtp.gmail.com with ESMTPSA id v124sm35279304wme.45.2020.05.13.01.30.23
+        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+        Wed, 13 May 2020 01:30:23 -0700 (PDT)
 Cc:     mtk.manpages@gmail.com, linux-man@vger.kernel.org,
-        linux-arch@vger.kernel.org, linux-arm-kernel@lists.infradead.org,
-        Catalin Marinas <catalin.marinas@arm.com>,
-        Amit Daniel Kachhap <amit.kachhap@arm.com>,
-        Mark Rutland <mark.rutland@arm.com>
-Subject: Re: [PATCH 14/14] prctl.2: Add PR_PAC_RESET_KEYS (arm64)
-Message-ID: <20200513072530.GA18196@willie-the-truck>
+        linux-arch@vger.kernel.org, linux-arm-kernel@lists.infradead.org
+Subject: Re: [PATCH 01/14] prctl.2: tfix clarify that prctl can apply to
+ threads
+To:     Dave Martin <Dave.Martin@arm.com>
 References: <1589301419-24459-1-git-send-email-Dave.Martin@arm.com>
- <1589301419-24459-15-git-send-email-Dave.Martin@arm.com>
+ <1589301419-24459-2-git-send-email-Dave.Martin@arm.com>
+From:   "Michael Kerrisk (man-pages)" <mtk.manpages@gmail.com>
+Message-ID: <d15dd1a7-4358-f08c-9149-4a70a7c339ee@gmail.com>
+Date:   Wed, 13 May 2020 10:30:20 +0200
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
+ Thunderbird/68.7.0
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <1589301419-24459-15-git-send-email-Dave.Martin@arm.com>
-User-Agent: Mutt/1.10.1 (2018-07-13)
+In-Reply-To: <1589301419-24459-2-git-send-email-Dave.Martin@arm.com>
+Content-Type: text/plain; charset=utf-8
+Content-Language: en-US
+Content-Transfer-Encoding: 7bit
 Sender: linux-man-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-man.vger.kernel.org>
 X-Mailing-List: linux-man@vger.kernel.org
 
-Hi Dave,
+On 5/12/20 6:36 PM, Dave Martin wrote:
+> The current synopsis for prctl(2) misleadingly claims that prctl
+> operates on a process.  Rather, some (in fact, most) prctls operate
+> on a thread.
+> 
+> The wording probably dates back to the old days when Linux didn't
+> really have threads at all.
+> 
+> Reword as appropriate.
 
-On Tue, May 12, 2020 at 05:36:59PM +0100, Dave Martin wrote:
+Thanks, Dave. Patch applied.
+
+Cheers,
+
+Michael
+
+> Signed-off-by: Dave Martin <Dave.Martin@arm.com>
+> ---
+>  man2/prctl.2 | 6 +++++-
+>  1 file changed, 5 insertions(+), 1 deletion(-)
+> 
 > diff --git a/man2/prctl.2 b/man2/prctl.2
-> index dd16227..7ea60e2 100644
+> index 7a5af76..7932ada 100644
 > --- a/man2/prctl.2
 > +++ b/man2/prctl.2
-> @@ -950,6 +950,46 @@ behavior.
->  A value of 1 indicates
->  .BR execve (2)
->  will operate in the privilege-restricting mode described above.
-> +.\" prctl PR_PAC_RESET_KEYS
-> +.\" commit ba830885656414101b2f8ca88786524d4bb5e8c1
-> +.TP
-> +.BR PR_PAC_RESET_KEYS " (since Linux 5.0, only on arm64)"
-> +Securely reset the thread's pointer authentication keys
-> +to fresh random values generated by the kernel.
-> +.IP
-> +The set of keys to be reset is specified by
-> +.IR arg2 ,
-> +which must be a logical OR of zero or more of the following:
-> +.RS
-> +.TP
-> +.B PR_PAC_APIAKEY
-> +instruction authentication key A
-> +.TP
-> +.B PR_PAC_APIBKEY
-> +instruction authentication key B
-> +.TP
-> +.B PR_PAC_APDAKEY
-> +data authentication key A
-> +.TP
-> +.B PR_PAC_APDBKEY
-> +data authentication key B
-> +.TP
-> +.B PR_PAC_APGAKEY
-> +generic authentication \(lqA\(rq key.
-> +.IP
-> +(Yes folks, there really is no generic B key.)
-> +.RE
-> +.IP
-> +As a special case, if
-> +.I arg2
-> +is zero then all the keys are reset.
-> +Since new keys could be added in future,
-> +this is the recommended way to completely wipe the existing keys
-> +when creating a new execution context.
+> @@ -53,7 +53,7 @@
+>  .\"
+>  .TH PRCTL 2 2020-04-11 "Linux" "Linux Programmer's Manual"
+>  .SH NAME
+> -prctl \- operations on a process
+> +prctl \- operations on a process or thread
+>  .SH SYNOPSIS
+>  .nf
+>  .B #include <sys/prctl.h>
+> @@ -63,6 +63,10 @@ prctl \- operations on a process
+>  .fi
+>  .SH DESCRIPTION
+>  .BR prctl ()
+> +manipulates various aspects of the behavior
+> +of the calling thread or process.
+> +.PP
+> +.BR prctl ()
+>  is called with a first argument describing what to do
+>  (with values defined in \fI<linux/prctl.h>\fP), and further
+>  arguments with a significance depending on the first one.
+> 
 
-I see what you're saying, but the keys are also reset on exec() iirc, so we
-don't want to encourage people to issue the prctl() unnecessarily
-immediately following an exec().
 
-> +.IP
-> +The remaining arguments
-> +.IR arg3 ", " arg4 " and " arg5
-> +must all be zero.
->  .\" prctl PR_SET_PDEATHSIG
->  .TP
->  .BR PR_SET_PDEATHSIG " (since Linux 2.1.57)"
-> @@ -1920,6 +1960,27 @@ are not 0.
->  .B EINVAL
->  .I option
->  was
-> +.B PR_PAC_RESET_KEYS
-> +and
-> +.I arg2
-> +contains non-zero bits other than
-> +.BR
-> +.BR PR_PAC_APIAKEY ,
-> +.BR PR_PAC_APIBKEY ,
-> +.BR PR_PAC_APDAKEY ,
-> +.B PR_PAC_APDBKEY
-> +and
-> +.BR PR_PAC_APGAKEY ;
-> +or
-> +.IR arg3 ,
-> +.I arg4
-> +and
-> +.I arg5
-> +were not all zero.
-
-Do we care about other reasons for -EINVAL, such as the system not
-supporting pointer authentication?
-
-Will
+-- 
+Michael Kerrisk
+Linux man-pages maintainer; http://www.kernel.org/doc/man-pages/
+Linux/UNIX System Programming Training: http://man7.org/training/
