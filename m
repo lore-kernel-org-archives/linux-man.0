@@ -2,238 +2,96 @@ Return-Path: <SRS0=ln2A=63=vger.kernel.org=linux-man-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-5.8 required=3.0 tests=DKIMWL_WL_HIGH,DKIM_SIGNED,
-	DKIM_VALID,DKIM_VALID_AU,INCLUDES_PATCH,MAILING_LIST_MULTI,SPF_HELO_NONE,
-	SPF_PASS,USER_AGENT_SANE_1 autolearn=ham autolearn_force=no version=3.4.0
+X-Spam-Status: No, score=-0.6 required=3.0 tests=DKIM_SIGNED,DKIM_VALID,
+	DKIM_VALID_AU,FREEMAIL_FORGED_FROMDOMAIN,FREEMAIL_FROM,
+	HEADER_FROM_DIFFERENT_DOMAINS,MAILING_LIST_MULTI,SPF_HELO_NONE,SPF_PASS
+	autolearn=no autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id D4D9BCA90AF
-	for <linux-man@archiver.kernel.org>; Wed, 13 May 2020 08:43:57 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 36A25C2D0FE
+	for <linux-man@archiver.kernel.org>; Wed, 13 May 2020 09:51:28 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.kernel.org (Postfix) with ESMTP id B473720661
-	for <linux-man@archiver.kernel.org>; Wed, 13 May 2020 08:43:57 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=default; t=1589359437;
-	bh=p0KXgMY7tpUe/IREpDNHsNSfOjdNNzhnfRPem33itzE=;
-	h=Date:From:To:Cc:Subject:References:In-Reply-To:List-ID:From;
-	b=L7yVbgIBkvaXSEJ8Sl7sMGt1Yx6rT9Xgf5KP5lcbCWkBCSQWUta137B0Xc86aeHlJ
-	 kA/+sMt3ChxKC7eHGoLyxc5CuvPjRmverjupI1A8wFA0boB3v2Ci6nj6xgm7yX1M5c
-	 xaIhD+qUayIcGjCbz21RXI/2V9H4JWjeA/XkCpJc=
+	by mail.kernel.org (Postfix) with ESMTP id F39EC2492C
+	for <linux-man@archiver.kernel.org>; Wed, 13 May 2020 09:51:27 +0000 (UTC)
+Authentication-Results: mail.kernel.org;
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="XHPhdjFt"
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1732376AbgEMIn5 (ORCPT <rfc822;linux-man@archiver.kernel.org>);
-        Wed, 13 May 2020 04:43:57 -0400
-Received: from mail.kernel.org ([198.145.29.99]:59352 "EHLO mail.kernel.org"
-        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S1732346AbgEMIn5 (ORCPT <rfc822;linux-man@vger.kernel.org>);
-        Wed, 13 May 2020 04:43:57 -0400
-Received: from willie-the-truck (236.31.169.217.in-addr.arpa [217.169.31.236])
-        (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
-        (No client certificate requested)
-        by mail.kernel.org (Postfix) with ESMTPSA id 63ABD20643;
-        Wed, 13 May 2020 08:43:55 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-        s=default; t=1589359436;
-        bh=p0KXgMY7tpUe/IREpDNHsNSfOjdNNzhnfRPem33itzE=;
-        h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-        b=LMCQf1LvsPtc5QjGIWrd/JjIw2fLDdWtR27P63pgFcamZMfBA/pwFEsHLHKbq2Uk8
-         +4+JMe5p6uI+n8UJjsuNxhgTjtXt84bBhwRsP8whqV4jqmXFyDlKw5Hhyysb1dFMgB
-         YW0sF4wHhi/Tgr19GJjXbRd88yS9rxTmaGY3oV8U=
-Date:   Wed, 13 May 2020 09:43:52 +0100
-From:   Will Deacon <will@kernel.org>
-To:     Dave Martin <Dave.Martin@arm.com>
-Cc:     mtk.manpages@gmail.com, linux-man@vger.kernel.org,
-        linux-arch@vger.kernel.org, linux-arm-kernel@lists.infradead.org,
-        Catalin Marinas <catalin.marinas@arm.com>
-Subject: Re: [PATCH 13/14] prctl.2: Add SVE prctls (arm64)
-Message-ID: <20200513084351.GB18196@willie-the-truck>
-References: <1589301419-24459-1-git-send-email-Dave.Martin@arm.com>
- <1589301419-24459-14-git-send-email-Dave.Martin@arm.com>
+        id S2387654AbgEMJv1 (ORCPT <rfc822;linux-man@archiver.kernel.org>);
+        Wed, 13 May 2020 05:51:27 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:49488 "EHLO
+        lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S2387653AbgEMJv0 (ORCPT
+        <rfc822;linux-man@vger.kernel.org>); Wed, 13 May 2020 05:51:26 -0400
+Received: from mail-ej1-x642.google.com (mail-ej1-x642.google.com [IPv6:2a00:1450:4864:20::642])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 67FDEC061A0C
+        for <linux-man@vger.kernel.org>; Wed, 13 May 2020 02:51:26 -0700 (PDT)
+Received: by mail-ej1-x642.google.com with SMTP id n17so13658807ejh.7
+        for <linux-man@vger.kernel.org>; Wed, 13 May 2020 02:51:26 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20161025;
+        h=mime-version:references:in-reply-to:reply-to:from:date:message-id
+         :subject:to:cc;
+        bh=iIdW8j0JR+MH2Ml4my0KmOnThXTMmVo7+ju19G5ewM4=;
+        b=XHPhdjFtinuHc9bvvvs27MbkE8aLF9nrwF65n9LRwkODaiVsYzD1w9uiCm3IcCz2BL
+         F5ZUP4M2/GtG+OAGoPe1hHRdbJKQKbWgSj9T7l57xRBpWRBU/2dhGdy8peeXdeIgOTNy
+         /C8THBPkiZvTKdBdgzM20vPxN4lNLIlgQV4gzVCn3oFMQMlLdAdKxTeP0DdferfEsOlg
+         5VWP1QyH5kEHLXokBiKpgB6IbwMZWsTkz5OdgPsLqw/1WNRIY1AiZGU3cg7Ql8Q3k0Gr
+         1DR3uojOhrqwQGH68HQjCKe27P3Tkcf8LCIlSdeurlho9nPOxI4fh24bw5jOOy6+dN+W
+         HdeA==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20161025;
+        h=x-gm-message-state:mime-version:references:in-reply-to:reply-to
+         :from:date:message-id:subject:to:cc;
+        bh=iIdW8j0JR+MH2Ml4my0KmOnThXTMmVo7+ju19G5ewM4=;
+        b=NZ9mxl28skPljIv8lTgQA+o2bvPoMHoyLhDGQGCiQD08ByNzn3h6ZlaLPmXvGWxdb8
+         lQjEaZdWlaPBbST8hK7qP9ZujNPqYwLP2CVCYbNChITebIiknSt+7F86JGRYrGFpY8T9
+         9I+DylrS3+Gsi9EFNV+gK3/tRsEUv1VDEVRv4MdXElgvE8rfDA+8szSaq+I0RQD7Z+sm
+         CO4PP8DxEiGZ1dgLSVzMWou7aqR3H5ucL8ScC74pVu2dIpZ6cvIpxt3bB7AikJLx1dlN
+         A589mYqG9FKoODtr/of0DviTm5XyQi/TdUHNS2l7PrBkyeQypTQT16Qv73gPwV+crO6U
+         fZzQ==
+X-Gm-Message-State: AGi0PuYVyHxmgKkoWSkl0eCFiXZSnjgcjwiOMUIoO2IhGl2o5dy5BF8m
+        q4IY3yTZQiOdqUIycE4Nn51WDByYQOa0WYWC5QfuBA==
+X-Google-Smtp-Source: APiQypIHLuG/iVrjG+MQMfPejoKWb5ED+dqxXsBZoDdTLgHhcy+0IRo8y1UYN6czVvgfL99ecM723B5Y4jG7Uos6L08=
+X-Received: by 2002:a17:906:add7:: with SMTP id lb23mr22356173ejb.6.1589363485099;
+ Wed, 13 May 2020 02:51:25 -0700 (PDT)
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <1589301419-24459-14-git-send-email-Dave.Martin@arm.com>
-User-Agent: Mutt/1.10.1 (2018-07-13)
+References: <fb7372eb-98bd-b659-bd1d-a0ecb623a4b8@deloquencia.de>
+In-Reply-To: <fb7372eb-98bd-b659-bd1d-a0ecb623a4b8@deloquencia.de>
+Reply-To: mtk.manpages@gmail.com
+From:   "Michael Kerrisk (man-pages)" <mtk.manpages@gmail.com>
+Date:   Wed, 13 May 2020 11:51:14 +0200
+Message-ID: <CAKgNAkjEyWJd4s_LZPaWFyAVS_DAQ_q=8qZcXrf=7JN=QgE=ww@mail.gmail.com>
+Subject: Re: Checking on Bug 206693 - hier is outdated
+To:     Thomas Piekarski <t.piekarski@deloquencia.de>
+Cc:     linux-man <linux-man@vger.kernel.org>
+Content-Type: text/plain; charset="UTF-8"
 Sender: linux-man-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-man.vger.kernel.org>
 X-Mailing-List: linux-man@vger.kernel.org
 
-Hi Dave,
+Hello Thomas,
 
-On Tue, May 12, 2020 at 05:36:58PM +0100, Dave Martin wrote:
-> diff --git a/man2/prctl.2 b/man2/prctl.2
-> index 7f511d2..dd16227 100644
-> --- a/man2/prctl.2
-> +++ b/man2/prctl.2
-> @@ -1291,6 +1291,104 @@ call failing with the error
->  .BR ENXIO .
->  For further details, see the kernel source file
->  .IR Documentation/admin-guide/kernel-parameters.txt .
-> +.\" prctl PR_SVE_SET_VL
-> +.\" commit 2d2123bc7c7f843aa9db87720de159a049839862
-> +.\" linux-5.6/Documentation/arm64/sve.rst
-> +.TP
-> +.BR PR_SVE_SET_VL " (since Linux 4.15, only on arm64)"
-> +Configure the thread's SVE vector length,
-> +as specified by
-> +.IR arg2 .
-> +Arguments
-> +.IR arg3 ", " arg4 " and " arg5
-> +are ignored.
+On Wed, 13 May 2020 at 11:33, Thomas Piekarski
+<t.piekarski@deloquencia.de> wrote:
 
-Bugger, did we forget to force these to zero? I guess we should write the
-man-page first next time :(
+> I happen to stumble upon "Bug 206693 - hier is outdated" [1] while
+> looking for (more) intriguing Open Source and Linux issues to look into.
+>
+> Checking lore.kernel.org [2] and GIT Repository [3] it looks there
+> haven't been provided any patches. Did anyone start to solve this issue?
 
-> +.IP
-> +The bits of
-> +.I arg2
-> +corresponding to
-> +.B SVE_VL_LEN_MASK
+Not yet.
 
-PR_SVE_LEN_MASK
+> When not I'd like to take a look, compare FHS 2.3 with 3.0 [4] and
+> provide a patch.
 
-> +must be set to the desired vector length in bytes.
-> +In addition,
-> +.I arg2
-> +may include zero or more of the following flags:
-> +.RS
-> +.TP
-> +.B PR_SVE_VL_INHERIT
-> +Inherit the configured vector length across
-> +.BR execve (2).
-> +.TP
-> +.B PR_SVE_SET_VL_ONEXEC
-> +Defer the change until the next
-> +.BR execve (2)
-> +in this thread.
+That would be great!
 
-(aside, it's weird that we didn't allocate (1<<16) for one of these flags)
+> I'll follow the page "patches for man-pages" [5] before submitting a
+> patch. Is there anything else to be considered?
 
-> +If
-> +.B PR_SVE_VL_INHERIT
-> +is also included in
-> +.IR arg2 ,
-> +it takes effect
-> +.I after
-> +this deferred change.
+I think not.
 
-I find this a bit hard to follow, since it's not clear to me whether the
-INHERIT flag is effectively set before or after the next execve(). In other
-words, if both PR_SVE_SET_VL_ONEXEC and PR_SVE_VL_INHERIT are specified,
-is the vector length preserved or reset on the next execve()?
+Cheers,
 
-> +.RE
-> +.IP
-> +On success, the vector length and flags are set as requested,
-> +and any deferred change that was pending immediately before the
-> +.B PR_SVE_SET_VL
-> +call is canceled.
-
-Huh, turns out 'canceled' is a valid US spelling. Fair enough, but it looks
-wrong to me ;)
-
-> +If
-> +.B PR_SVE_SET_VL_ONEXEC
-> +was included in
-> +.IR arg2 ,
-> +the returned value describes the configuration
-> +scheduled to take effect at the next
-> +.BR execve (2).
-
-"describes the configuration" how?
-
-> +Otherwise, the effect is immediate and
-> +the returned value describes the new configuration.
-> +The returned value is encoded in the same way as the return value of
-> +.BR PR_SVE_GET_VL .
-
-Aha. Maybe move this bit up slightly?
-
-> +.IP
-> +If neither of the above flags is included in
-
-are included
-
-> +.IR arg2 ,
-> +a subsequent
-> +.BR execve (2)
-> +resets the vector length to the default value configured in
-> +.IR /proc/sys/abi/sve_default_vector_length .
-> +.IP
-> +The actual vector length configured by this operation
-> +is the greatest vector length supported by the platform
-> +that does not exceed
-> +.I arg2
-> +&
-> +.BR PR_SVE_VL_LEN_MASK .
-> +.IP
-> +The configuration (including any pending deferred change)
-> +is inherited across
-> +.BR fork (2)
-> +and
-> +.BR clone (2).
-> +.\" prctl PR_SVE_GET_VL
-> +.TP
-> +.BR PR_SVE_GET_VL " (since Linux 4.15, only on arm64)"
-> +Get the thread's current SVE vector length configuration,
-> +as configured by
-> +.BR PR_SVE_SET_VL .
-
-It doesn't *have* to be configured by PR_SVE_SET_VL though, right?
-
-> +.IP
-> +If successful, the return value describes the
-> +.I current
-> +configuration.
-
-(aside: prctl() returns int, so we can't ever allocate past bit 30 in arg2.
-Might be worth a note somewhere in the kernel).
-
-> +The bits corresponding to
-> +.B PR_SVE_VL_LEN_MASK
-> +contain the currently configured vector length in bytes.
-> +The bit corresponding to
-> +.B PR_SVE_VL_INHERIT
-> +indicates whether the vector length will be inherited
-> +across
-> +.BR execve (2).
-> +.IP
-> +Note that there is no way determine whether there is
-
-to determine
-
-> +a pending vector length change that has not yet taken effect.
-> +.IP
-> +Providing that the kernel and platform support SVE,
-> +this operation always succeeds.
->  .\"
->  .\" prctl PR_TASK_PERF_EVENTS_DISABLE
->  .TP
-> @@ -1534,6 +1632,8 @@ On success,
->  .BR PR_GET_NO_NEW_PRIVS ,
->  .BR PR_GET_SECUREBITS ,
->  .BR PR_GET_SPECULATION_CTRL ,
-> +.BR PR_SVE_GET_VL ,
-> +.BR PR_SVE_SET_VL ,
->  .BR PR_GET_THP_DISABLE ,
->  .BR PR_GET_TIMING ,
->  .BR PR_GET_TIMERSLACK ,
-> @@ -1817,6 +1917,18 @@ and unused arguments to
->  .BR prctl ()
->  are not 0.
->  .TP
-> +.B EINVAL
-> +.I option
-> +was
-> +.B PR_SVE_SET_VL
-> +and
-> +.I arg2
-> +contains invalid flags, or
-> +.I arg2
-> +&
-> +.B SVE_VL_LEN_MASK
-> +is not a valid vector length.
-> +.TP
-
-PR_SVE_GET_VL can return -EINVAL if SVE is not supported.
-
-Will
+Michael
