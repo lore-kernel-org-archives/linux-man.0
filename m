@@ -2,81 +2,63 @@ Return-Path: <SRS0=OSNg=7A=vger.kernel.org=linux-man-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-0.9 required=3.0 tests=DKIMWL_WL_HIGH,DKIM_SIGNED,
-	DKIM_VALID,DKIM_VALID_AU,HEADER_FROM_DIFFERENT_DOMAINS,MAILING_LIST_MULTI,
-	SPF_HELO_NONE,SPF_PASS autolearn=no autolearn_force=no version=3.4.0
+X-Spam-Status: No, score=-0.8 required=3.0 tests=HEADER_FROM_DIFFERENT_DOMAINS,
+	MAILING_LIST_MULTI,SPF_HELO_NONE,SPF_PASS autolearn=no autolearn_force=no
+	version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id C4837C433E0
-	for <linux-man@archiver.kernel.org>; Mon, 18 May 2020 14:30:41 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 88153C433DF
+	for <linux-man@archiver.kernel.org>; Mon, 18 May 2020 14:42:21 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.kernel.org (Postfix) with ESMTP id 8552220671
-	for <linux-man@archiver.kernel.org>; Mon, 18 May 2020 14:30:41 +0000 (UTC)
-Authentication-Results: mail.kernel.org;
-	dkim=pass (1024-bit key) header.d=redhat.com header.i=@redhat.com header.b="EAX+Ye5r"
+	by mail.kernel.org (Postfix) with ESMTP id 6E4AE206D4
+	for <linux-man@archiver.kernel.org>; Mon, 18 May 2020 14:42:21 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1727777AbgEROal (ORCPT <rfc822;linux-man@archiver.kernel.org>);
-        Mon, 18 May 2020 10:30:41 -0400
-Received: from us-smtp-delivery-1.mimecast.com ([207.211.31.120]:43044 "EHLO
-        us-smtp-1.mimecast.com" rhost-flags-OK-OK-OK-FAIL) by vger.kernel.org
-        with ESMTP id S1727040AbgEROak (ORCPT
-        <rfc822;linux-man@vger.kernel.org>); Mon, 18 May 2020 10:30:40 -0400
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
-        s=mimecast20190719; t=1589812239;
-        h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
-         to:to:cc:cc:mime-version:mime-version:content-type:content-type:
-         in-reply-to:in-reply-to:references:references;
-        bh=/qLGWwr7pu6uwkkCaEo2q9GcnoY6Eg3hYnb4VN3qBPU=;
-        b=EAX+Ye5r4M/iQO4Igog1cqP0euM1OqUQcVHXnQ7PFtkqcLy+42QwxxdbLCut5vs8Pm+bPG
-        bOJ+nzlgK9ea9WKCQWFnYHpI8bD/wZ3H6XbLfTgiYuvPsTNVwoPbz4zWhH3405xw7T7KxU
-        0iwVAfN5N3j/H4rvfYP31AV6lXncNgs=
-Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
- [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-201-fSgEJzz0PV2LPqGaVrE7Gw-1; Mon, 18 May 2020 10:30:38 -0400
-X-MC-Unique: fSgEJzz0PV2LPqGaVrE7Gw-1
-Received: from smtp.corp.redhat.com (int-mx07.intmail.prod.int.phx2.redhat.com [10.5.11.22])
-        (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
-        (No client certificate requested)
-        by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 2166B80B71F;
-        Mon, 18 May 2020 14:30:37 +0000 (UTC)
-Received: from warthog.procyon.org.uk (ovpn-112-95.rdu2.redhat.com [10.10.112.95])
-        by smtp.corp.redhat.com (Postfix) with ESMTP id 57E311001925;
-        Mon, 18 May 2020 14:30:35 +0000 (UTC)
-Organization: Red Hat UK Ltd. Registered Address: Red Hat UK Ltd, Amberley
-        Place, 107-111 Peascod Street, Windsor, Berkshire, SI4 1TE, United
-        Kingdom.
-        Registered in England and Wales under Company Registration No. 3798903
-From:   David Howells <dhowells@redhat.com>
-In-Reply-To: <CAKgNAkioH1z-pVimHziWP=ZtyBgCOwoC7ekWGFwzaZ1FPYg-tA@mail.gmail.com>
-References: <CAKgNAkioH1z-pVimHziWP=ZtyBgCOwoC7ekWGFwzaZ1FPYg-tA@mail.gmail.com>
-To:     mtk.manpages@gmail.com
-Cc:     dhowells@redhat.com, Miklos Szeredi <mszeredi@redhat.com>,
-        Christian Brauner <christian.brauner@ubuntu.com>,
+        id S1726940AbgEROmS (ORCPT <rfc822;linux-man@archiver.kernel.org>);
+        Mon, 18 May 2020 10:42:18 -0400
+Received: from youngberry.canonical.com ([91.189.89.112]:35909 "EHLO
+        youngberry.canonical.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1726918AbgEROmR (ORCPT
+        <rfc822;linux-man@vger.kernel.org>); Mon, 18 May 2020 10:42:17 -0400
+Received: from ip5f5af183.dynamic.kabel-deutschland.de ([95.90.241.131] helo=wittgenstein)
+        by youngberry.canonical.com with esmtpsa (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
+        (Exim 4.86_2)
+        (envelope-from <christian.brauner@ubuntu.com>)
+        id 1jagy5-0006pE-JF; Mon, 18 May 2020 14:42:14 +0000
+Date:   Mon, 18 May 2020 16:42:12 +0200
+From:   Christian Brauner <christian.brauner@ubuntu.com>
+To:     David Howells <dhowells@redhat.com>
+Cc:     mtk.manpages@gmail.com, Miklos Szeredi <mszeredi@redhat.com>,
         lkml <linux-kernel@vger.kernel.org>,
         "linux-fsdevel@vger.kernel.org" <linux-fsdevel@vger.kernel.org>,
         Petr Vorel <pvorel@suse.cz>,
         linux-man <linux-man@vger.kernel.org>
 Subject: Re: Setting mount propagation type in new mount API
+Message-ID: <20200518144212.xpfjlajgwzwhlq7r@wittgenstein>
+References: <CAKgNAkioH1z-pVimHziWP=ZtyBgCOwoC7ekWGFwzaZ1FPYg-tA@mail.gmail.com>
+ <909768.1589812234@warthog.procyon.org.uk>
 MIME-Version: 1.0
-Content-Type: text/plain; charset="us-ascii"
-Content-ID: <909695.1589812234.1@warthog.procyon.org.uk>
-Date:   Mon, 18 May 2020 15:30:34 +0100
-Message-ID: <909768.1589812234@warthog.procyon.org.uk>
-X-Scanned-By: MIMEDefang 2.84 on 10.5.11.22
+Content-Type: text/plain; charset=utf-8
+Content-Disposition: inline
+In-Reply-To: <909768.1589812234@warthog.procyon.org.uk>
 Sender: linux-man-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-man.vger.kernel.org>
 X-Mailing-List: linux-man@vger.kernel.org
 
-Michael Kerrisk (man-pages) <mtk.manpages@gmail.com> wrote:
+On Mon, May 18, 2020 at 03:30:34PM +0100, David Howells wrote:
+> Michael Kerrisk (man-pages) <mtk.manpages@gmail.com> wrote:
+> 
+> > I've been looking at the new mount API (fsopen(), fsconfig(),
+> > fsmount(), move_mount(), etc.) and among the details that remain
+> > mysterious to me is this: how does one set the propagation type
+> > (private/shared/slave/unbindable) of a new mount and change the
+> > propagation type of an existing mount?
+> 
+> Christian said he was going to have a go at writing mount_setattr().  It's not
+> trivial as it has to be able to handle AT_RECURSIVE.
 
-> I've been looking at the new mount API (fsopen(), fsconfig(),
-> fsmount(), move_mount(), etc.) and among the details that remain
-> mysterious to me is this: how does one set the propagation type
-> (private/shared/slave/unbindable) of a new mount and change the
-> propagation type of an existing mount?
+Right, I've put this on my roadmap now. It's becoming more urgent for us
+too since I've already switched over a few bits to the new mount api to
+make use of detached/anonymous mounts.
+I've planned to start working on a version early next week.
 
-Christian said he was going to have a go at writing mount_setattr().  It's not
-trivial as it has to be able to handle AT_RECURSIVE.
-
-David
-
+Christian
