@@ -2,158 +2,149 @@ Return-Path: <SRS0=OSNg=7A=vger.kernel.org=linux-man-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-2.3 required=3.0 tests=HEADER_FROM_DIFFERENT_DOMAINS,
-	MAILING_LIST_MULTI,SPF_HELO_NONE,SPF_PASS,USER_AGENT_SANE_1 autolearn=no
-	autolearn_force=no version=3.4.0
+X-Spam-Status: No, score=-8.3 required=3.0 tests=HEADER_FROM_DIFFERENT_DOMAINS,
+	INCLUDES_PATCH,MAILING_LIST_MULTI,SIGNED_OFF_BY,SPF_HELO_NONE,SPF_PASS,
+	USER_AGENT_SANE_1 autolearn=ham autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id E8ADAC433DF
-	for <linux-man@archiver.kernel.org>; Mon, 18 May 2020 16:37:47 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 92DFBC433E2
+	for <linux-man@archiver.kernel.org>; Mon, 18 May 2020 18:08:38 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.kernel.org (Postfix) with ESMTP id CEC7320758
-	for <linux-man@archiver.kernel.org>; Mon, 18 May 2020 16:37:47 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTP id 7CD25207D3
+	for <linux-man@archiver.kernel.org>; Mon, 18 May 2020 18:08:38 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1727777AbgERQhr (ORCPT <rfc822;linux-man@archiver.kernel.org>);
-        Mon, 18 May 2020 12:37:47 -0400
-Received: from foss.arm.com ([217.140.110.172]:44026 "EHLO foss.arm.com"
-        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S1727006AbgERQhr (ORCPT <rfc822;linux-man@vger.kernel.org>);
-        Mon, 18 May 2020 12:37:47 -0400
-Received: from usa-sjc-imap-foss1.foss.arm.com (unknown [10.121.207.14])
-        by usa-sjc-mx-foss1.foss.arm.com (Postfix) with ESMTP id 80620106F;
-        Mon, 18 May 2020 09:37:46 -0700 (PDT)
-Received: from arm.com (usa-sjc-imap-foss1.foss.arm.com [10.121.207.14])
-        by usa-sjc-imap-foss1.foss.arm.com (Postfix) with ESMTPSA id 94B893F52E;
-        Mon, 18 May 2020 09:37:45 -0700 (PDT)
-Date:   Mon, 18 May 2020 17:37:43 +0100
-From:   Dave Martin <Dave.Martin@arm.com>
-To:     Will Deacon <will@kernel.org>
-Cc:     linux-arch@vger.kernel.org, linux-man@vger.kernel.org,
-        "Michael Kerrisk (man-pages)" <mtk.manpages@gmail.com>,
-        linux-arm-kernel@lists.infradead.org,
-        Catalin Marinas <catalin.marinas@arm.com>
-Subject: Re: [PATCH 13/14] prctl.2: Add SVE prctls (arm64)
-Message-ID: <20200518163742.GC21779@arm.com>
-References: <1589301419-24459-1-git-send-email-Dave.Martin@arm.com>
- <1589301419-24459-14-git-send-email-Dave.Martin@arm.com>
- <20200513084351.GB18196@willie-the-truck>
- <20200513104635.GD21779@arm.com>
- <a01fc572-cac8-1932-c3e5-c70184417ca3@gmail.com>
- <20200513140200.GP21779@arm.com>
- <20200513211153.GB28594@willie-the-truck>
+        id S2387431AbgERSHj (ORCPT <rfc822;linux-man@archiver.kernel.org>);
+        Mon, 18 May 2020 14:07:39 -0400
+Received: from smtprelay04.ispgateway.de ([80.67.31.38]:12404 "EHLO
+        smtprelay04.ispgateway.de" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S2387423AbgERSHi (ORCPT
+        <rfc822;linux-man@vger.kernel.org>); Mon, 18 May 2020 14:07:38 -0400
+Received: from [149.224.239.76] (helo=[192.168.178.25])
+        by smtprelay04.ispgateway.de with esmtpsa (TLSv1.2:ECDHE-RSA-AES128-GCM-SHA256:128)
+        (Exim 4.92.3)
+        (envelope-from <t.piekarski@deloquencia.de>)
+        id 1jakAo-0005uk-Bg; Mon, 18 May 2020 20:07:34 +0200
+From:   Thomas Piekarski <t.piekarski@deloquencia.de>
+Subject: [PATCH] hier.7: Updating from FHS 2.3 to 3.0
+To:     mtk.manpages@gmail.com
+Cc:     linux-man@vger.kernel.org, glperkins@lit.edu
+Message-ID: <33544f6a-5983-ed08-b2f1-a7a348c411f6@deloquencia.de>
+Date:   Mon, 18 May 2020 20:07:34 +0200
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
+ Thunderbird/68.7.0
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20200513211153.GB28594@willie-the-truck>
-User-Agent: Mutt/1.5.23 (2014-03-12)
+Content-Type: text/plain; charset=utf-8; format=flowed
+Content-Language: en-US
+Content-Transfer-Encoding: 7bit
+X-Df-Sender: dC5waWVrYXJza2lAZGVsb3F1ZW5jaWEuZGU=
 Sender: linux-man-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-man.vger.kernel.org>
 X-Mailing-List: linux-man@vger.kernel.org
 
-On Wed, May 13, 2020 at 10:11:54PM +0100, Will Deacon wrote:
-> On Wed, May 13, 2020 at 03:02:00PM +0100, Dave Martin wrote:
-> > On Wed, May 13, 2020 at 01:01:12PM +0200, Michael Kerrisk (man-pages) wrote:
-> > > On 5/13/20 12:46 PM, Dave Martin wrote:
-> > > > On Wed, May 13, 2020 at 09:43:52AM +0100, Will Deacon wrote:
-> > > >> On Tue, May 12, 2020 at 05:36:58PM +0100, Dave Martin wrote:
-> > > > glibc explicitly has
-> > > > 
-> > > > 	extern int prctl (int __option, ...);
-> > > > 
-> > > > (and nobody has to write _exit(0, 0, 0, 0, 0, 0) after all.)
-> > > > 
-> > > > Is there some agreed rationale for requiring redundant arguments to be
-> > > > supplied explicitly as zero?  For now there are likely to be few users
-> > > > of this, so we _might_ get away with changing the behaviour here if it's
-> > > > considered important enough.
-> > > 
-> > > See above.
-> > 
-> > So there is no bulletproof rationale for either approach, but the main
-> > concern is inconsistency?  Have I understood that right?
-> 
-> I think it's all just an extension of "make sure unused parameters are 0"
-> idiom which allows those bits to be safely repurposed for flags and things
-> later on without the worry of existing applications getting away with
-> passing junk.
+Adding description of new directories (/run, /usr/libexec,
+/usr/share/color,/usr/share/ppd, /var/lib/color), stating
+/usr/X11R6 as obsolete and updating URL to and version of
+FHS.
 
-I'd say that the explicit zeroing may give a false sense of safety, but
-I sympathise with the intent.
+See https://bugzilla.kernel.org/show_bug.cgi?id=206693
 
-At least, I think the explicit zeroing means that any resulting bugs are
-more likely to be fixable in userspace.
+Reported-by: Gary Perkins <glperkins@lit.edu>
+Signed-off-by: Thomas Piekarski <t.piekarski@deloquencia.de>
 
-> > I'll propose to get that written down in the kernel source somewhere
-> > if so.
-> 
-> That would be a really good idea, actually!
-> 
-> > (From my end, the pros and cons of the two approaches seem superficial
-> > but the inconsistency is indeed annoying.  For PR_SVE_SET_VL, I think
-> > the first example I looked at didn't zero the trailing arguments, so I
-> > didn't either... but it's been upstream for several releases, so most
-> > likely we're stuck with it.)
-> 
-> FWIW, I wasn't blaming you for this. Just that these oversights aren't
-> always apparent when reviewing patches, but become more clear when
-> reviewing the documentation.
+---
 
-I'll have a think, so long as nobody implies that the SVE prctls are
-"wrong" ;)
+man7/hier.7 | 28 ++++++++++++++++++++++++----
+  1 file changed, 24 insertions(+), 4 deletions(-)
 
-Adding comments in the code about how the implementation of those prctls
-can and can't safely be extended would be sensible though.  I'll try to
-address that at some point.
+diff --git a/man7/hier.7 b/man7/hier.7
+index dab9483d7..03fe61c71 100644
+--- a/man7/hier.7
++++ b/man7/hier.7
+@@ -161,6 +161,12 @@ This pseudo-filesystem is described in more detail in
+  .I /root
+  This directory is usually the home directory for the root user (optional).
+  .TP
++.I /run
++This directory contains information which describes the system since it 
+was booted.
++Once this purpose was served by
++.IR /var/run
++and programs may continue to use it.
++.TP
+  .I /sbin
+  Like
+  .IR /bin ,
+@@ -186,7 +192,7 @@ It should hold only shareable, read-only data, so 
+that it can be mounted
+  by various machines running Linux.
+  .TP
+  .I /usr/X11R6
+-The X\-Window system, version 11 release 6 (optional).
++The X\-Window system, version 11 release 6 (obsolete since FHS 3.0).
+  .TP
+  .I /usr/X11R6/bin
+  Binaries which belong to the X\-Window system; often, there is a
+@@ -296,6 +302,10 @@ which usually are not invoked directly.
+  More complicated programs may
+  have whole subdirectories there.
+  .TP
++.I /usr/libexec
++Directory contains binaries for internal use only and they are not meant
++to be executed directly by users shell or scripts.
++.TP
+  .I /usr/lib<qual>
+  These directories are variants of
+  .I /usr/lib
+@@ -385,6 +395,10 @@ or
+  or
+  .IR /usr/man .
+  .TP
++.I /usr/share/color
++Contains color management information, like International Color 
+Consortium (ICC)
++Color profiles (optional).
++.TP
+  .I /usr/share/dict
+  Contains the word lists used by spell checkers (optional).
+  .TP
+@@ -421,6 +435,9 @@ same OS.
+  .I /usr/share/nls
+  The message catalogs for native language support go here (optional).
+  .TP
++.I /usr/share/ppd
++Postscript Printer Definition (PPD) files (optional).
++.TP
+  .I /usr/share/sgml
+  Files for SGML (optional).
+  .TP
+@@ -523,6 +540,9 @@ Variable game data (optional).
+  .I /var/lib
+  Variable state information for programs.
+  .TP
++.I /var/lib/color
++Variable files containing color management information (optional).
++.TP
+  .I /var/lib/hwclock
+  State directory for hwclock (optional).
+  .TP
+@@ -635,11 +655,11 @@ this directory holds temporary files stored for an 
+unspecified duration.
+  Database files for NIS,
+  formerly known as the Sun Yellow Pages (YP).
+  .SH CONFORMING TO
+-The Filesystem Hierarchy Standard, Version 2.3
+-.UR http://www.pathname.com\:/fhs/
++The Filesystem Hierarchy Standard (FHS), Version 3.0, published March 
+19, 2015
++.UR https://refspecs.linuxfoundation.org/fhs.shtml
+  .UE .
+  .SH BUGS
+-This list is not exhaustive; different systems may be configured
++This list is not exhaustive; different distributions and systems may be 
+configured
+  differently.
+  .SH SEE ALSO
+  .BR find (1),
+-- 
+2.20.1
 
-> > > > There is no forwards compatibility problem with this prctl though,
-> > > > because there are spare bits in arg2 which can "turn on" additional
-> > > > args if needed.
-> > > > 
-> > > > Also, it's implausible that PR_SVE_GET_VL will ever want an argument.
-> > > > 
-> > > > There are still 2 billion unallocated prctl numbers, so new prctls can
-> > > > always be added if there's ever a need to work around these limitations,
-> > > > but it seems extremely unlikely.
-> 
-> Oh, there are ways out, but had I noticed this during code review it
-> would've been very easy just to enforce zero for the other args and be done
-> with it.
-
-Ack
-
-> > > >>> +If
-> > > >>> +.B PR_SVE_VL_INHERIT
-> > > >>> +is also included in
-> > > >>> +.IR arg2 ,
-> > > >>> +it takes effect
-> > > >>> +.I after
-> > > >>> +this deferred change.
-> > > >>
-> > > >> I find this a bit hard to follow, since it's not clear to me whether the
-> > > >> INHERIT flag is effectively set before or after the next execve(). In other
-> > > >> words, if both PR_SVE_SET_VL_ONEXEC and PR_SVE_VL_INHERIT are specified,
-> > > >> is the vector length preserved or reset on the next execve()?
-> > > > 
-> > > > It makes no difference, because the ONEXEC handling takes priority over
-> > > > the INHERIT handling. But either way INHERIT is never cleared by execve()
-> > > > and will apply at subsequent execs().
-> > > > 
-> > > > Explaining all this properly seems out of scope here.  Maybe this should
-> > > > be trimmed down rather than elaborated?  Or perhaps just explain it in
-> > > > terms of what the kernel does instead of futile attempts to make it
-> > > > intuitive?
-> 
-> Hmm, if we don't explain it in the man page then we should at least point
-> people to somewhere where they can get the gory details, because I think
-> they're necessary in order to use the prctl() request correctly. I'm still
-> not confident that I understand the semantics of setting both
-> PR_SVE_SET_VL_ONEXEC and PR_SVE_VL_INHERIT without reading the code, which
-> may change.
-> 
-> (I concede on all the spelling/grammar discussions ;)
-
-Ultimately I aim to add another page, but for now would it be sufficient
-to refer to Documentation/?
-
-Cheers
----Dave
