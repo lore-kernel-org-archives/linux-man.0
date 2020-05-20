@@ -2,125 +2,172 @@ Return-Path: <SRS0=xFWZ=7C=vger.kernel.org=linux-man-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-0.6 required=3.0 tests=DKIM_SIGNED,DKIM_VALID,
-	DKIM_VALID_AU,FREEMAIL_FORGED_FROMDOMAIN,FREEMAIL_FROM,
-	HEADER_FROM_DIFFERENT_DOMAINS,MAILING_LIST_MULTI,SPF_HELO_NONE,SPF_PASS,
-	URIBL_BLOCKED autolearn=no autolearn_force=no version=3.4.0
+X-Spam-Status: No, score=-2.4 required=3.0 tests=DKIM_SIGNED,DKIM_VALID,
+	DKIM_VALID_AU,HEADER_FROM_DIFFERENT_DOMAINS,MAILING_LIST_MULTI,SPF_HELO_NONE,
+	SPF_PASS,USER_AGENT_SANE_1 autolearn=no autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 57B82C433DF
-	for <linux-man@archiver.kernel.org>; Wed, 20 May 2020 10:03:51 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 292D6C433E0
+	for <linux-man@archiver.kernel.org>; Wed, 20 May 2020 13:56:51 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.kernel.org (Postfix) with ESMTP id 24FAD2075F
-	for <linux-man@archiver.kernel.org>; Wed, 20 May 2020 10:03:51 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTP id CD4AF20708
+	for <linux-man@archiver.kernel.org>; Wed, 20 May 2020 13:56:50 +0000 (UTC)
 Authentication-Results: mail.kernel.org;
-	dkim=pass (2048-bit key) header.d=googlemail.com header.i=@googlemail.com header.b="hZ+b/6GR"
+	dkim=pass (1024-bit key) header.d=firstfloor.org header.i=@firstfloor.org header.b="JNu82vP9"
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1726836AbgETKDu (ORCPT <rfc822;linux-man@archiver.kernel.org>);
-        Wed, 20 May 2020 06:03:50 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:42804 "EHLO
-        lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1726435AbgETKDu (ORCPT
-        <rfc822;linux-man@vger.kernel.org>); Wed, 20 May 2020 06:03:50 -0400
-Received: from mail-ed1-x543.google.com (mail-ed1-x543.google.com [IPv6:2a00:1450:4864:20::543])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 225B4C061A0E
-        for <linux-man@vger.kernel.org>; Wed, 20 May 2020 03:03:49 -0700 (PDT)
-Received: by mail-ed1-x543.google.com with SMTP id e10so2467502edq.0
-        for <linux-man@vger.kernel.org>; Wed, 20 May 2020 03:03:49 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=googlemail.com; s=20161025;
-        h=mime-version:references:in-reply-to:from:date:message-id:subject:to
-         :cc;
-        bh=spaqJ80GUcHxEX/QkxaIg2/TThuijD9M74IRuwM8gWQ=;
-        b=hZ+b/6GR4wPQq//Qgn4kGgb9hb6REDDuFQDgJskXzA6a6JOiwrkGxuZfPU58PU8+lc
-         WNAdE02TBicUNoWVaZlZTqoI9/ZXaBWvFEtEHMDz0OTb3Vo7URdERFvbkGPOwhv9JfWS
-         cA6tB5x4zSvn8q1MtG9PdzoGvZK9yYiT5zRtbdqzeiy1aRPcPVeTLiBJlNxm8ScB4duW
-         Di6a0F8eIMRjGLIMfSzGOROh/oF0OXpoqpGZ4wr/Iu4V9rrz6wUr8XU7bBY84V7iO21x
-         HjYYDplaOAzL7nsh7QeQjnFEGmtgXIfACSEj+2VQeMqs77Xa37RcIDHhz0AueQi2e6IU
-         PiWw==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20161025;
-        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
-         :message-id:subject:to:cc;
-        bh=spaqJ80GUcHxEX/QkxaIg2/TThuijD9M74IRuwM8gWQ=;
-        b=XJM2FHMuVcPEPcLMrFjdcFPzHputL3ftEaS/H3Huqaq3GW8iV9uCt4mwCMz4hXE5A5
-         RiiUX/ZYsWYkNr9tpOBfl+0KkGL6gQqlp5i4oHP1n6R/paaMkZSi29Ajn0RBPOsSbggu
-         grrAZ6bmVgM2Sy1vRfNkYpF6Ub2wgpVwqTvUng54vpIBQpYmqgRSJf4lArJXXVmJHIjz
-         9BYTGB2iuQwHBXnWE3Ke8mv7h5vHsAMAVi3kvga0R4Vmu7YqjvfWhWeia0AuBHyoPdWw
-         KKT380IYya39TI+d/4zoCpRZ7bvY9WfqFAtpKnT7V+3VokiJ5vG0qnEYWBQielg3xcP3
-         KMZQ==
-X-Gm-Message-State: AOAM531RdLwizZ31CZ0+54gVaQbxuqU51XKfCRk56qDYszzUWhzZBv0E
-        c12WuaR3xTEp/6PouOrVV/yReDX3Yy9iUwXQAvM=
-X-Google-Smtp-Source: ABdhPJzCB4q2hDGJPS0eu4QVpbffJPshQd60ivo8SHUmvWi/Fb5m9SFtq9bclFBkG3KOXwfxtUxNNl9hPjFZkv0J+gw=
-X-Received: by 2002:a50:e69d:: with SMTP id z29mr2742298edm.307.1589969027854;
- Wed, 20 May 2020 03:03:47 -0700 (PDT)
-MIME-Version: 1.0
-References: <20200518030053.GA72528@juliacomputing.com> <CAKgNAkiLv-uhKdXRcY=5ihfRrTVnpoti46brBb2EXcQ4n8CFbA@mail.gmail.com>
- <CAK1hOcNGn7BwNNMkZZnm-d9OepuF+3UPxjL6u_6xjxFONENMKQ@mail.gmail.com> <CABV8kRxvt0EKb3VF0JKGR43Ozaujj9PB3cMx6K7e_qLoFrqemA@mail.gmail.com>
-In-Reply-To: <CABV8kRxvt0EKb3VF0JKGR43Ozaujj9PB3cMx6K7e_qLoFrqemA@mail.gmail.com>
-From:   Denys Vlasenko <vda.linux@googlemail.com>
-Date:   Wed, 20 May 2020 12:03:35 +0200
-Message-ID: <CAK1hOcMLxkoT9i8TRZhV3gcD0BKiUxXoHHXEAqL2rG5ekyF3BA@mail.gmail.com>
-Subject: Re: [PATCH] ptrace.2: Describe PTRACE_SET/GETREGSET on NT_X86_XSTATE
+        id S1726946AbgETN4u (ORCPT <rfc822;linux-man@archiver.kernel.org>);
+        Wed, 20 May 2020 09:56:50 -0400
+Received: from one.firstfloor.org ([193.170.194.197]:60196 "EHLO
+        one.firstfloor.org" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1726944AbgETN4u (ORCPT
+        <rfc822;linux-man@vger.kernel.org>); Wed, 20 May 2020 09:56:50 -0400
+Received: by one.firstfloor.org (Postfix, from userid 503)
+        id 8895D86851; Wed, 20 May 2020 15:56:46 +0200 (CEST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=firstfloor.org;
+        s=mail; t=1589983006;
+        bh=nvuGyAFsjyjZIyRAMibsHbScTtmV6d7FBQhoIoX04CQ=;
+        h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+        b=JNu82vP9KAmqgT0U+09OXp+rV31xmzvaJLbKOECvPMv8mbkpG+0PFekwAF9pY93Ms
+         3aRQHNmNSoY7P+0dpbE6IQ7Q2OeV9L30HlqH02aL3WBhEiPJTL5DzwLaVPbY8zmfBp
+         nOjk6mtlq3odyjzm2rw8nPNzVwQhFGD6ekHlG6n4=
+Date:   Wed, 20 May 2020 06:56:46 -0700
+From:   Andi Kleen <andi@firstfloor.org>
 To:     Keno Fischer <keno@juliacomputing.com>
-Cc:     Michael Kerrisk <mtk.manpages@gmail.com>,
+Cc:     Andi Kleen <andi@firstfloor.org>,
+        Michael Kerrisk-manpages <mtk.manpages@gmail.com>,
         linux-man <linux-man@vger.kernel.org>,
         Andy Lutomirski <luto@kernel.org>,
         Dave Hansen <dave.hansen@intel.com>,
         Peter Zijlstra <peterz@infradead.org>,
         Thomas Gleixner <tglx@linutronix.de>,
-        Ingo Molnar <mingo@redhat.com>, X86 ML <x86@kernel.org>,
+        Ingo Molnar <mingo@redhat.com>,
+        "maintainer:X86 ARCHITECTURE (32-BIT AND 64-BIT)" <x86@kernel.org>,
         "H. Peter Anvin" <hpa@zytor.com>, Borislav Petkov <bp@alien8.de>,
-        Dave Hansen <dave.hansen@linux.intel.com>,
-        Andi Kleen <andi@firstfloor.org>
-Content-Type: text/plain; charset="UTF-8"
+        Dave Hansen <dave.hansen@linux.intel.com>
+Subject: Re: [PATCH] ptrace.2: Describe PTRACE_SET/GETREGSET on NT_X86_XSTATE
+Message-ID: <20200520135643.dn5h6piq7xsm7igt@two.firstfloor.org>
+References: <20200518030053.GA72528@juliacomputing.com>
+ <20200520011900.y4fgsiprg6evaxm4@two.firstfloor.org>
+ <CABV8kRy7XTSv=hJbVSyyKPbT6US7y9AgmG5r9g8AjBJCiVSntw@mail.gmail.com>
+MIME-Version: 1.0
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <CABV8kRy7XTSv=hJbVSyyKPbT6US7y9AgmG5r9g8AjBJCiVSntw@mail.gmail.com>
+User-Agent: NeoMutt/20170113 (1.7.2)
 Sender: linux-man-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-man.vger.kernel.org>
 X-Mailing-List: linux-man@vger.kernel.org
 
-On Wed, May 20, 2020 at 12:47 AM Keno Fischer <keno@juliacomputing.com> wrote:
-> > > > +Thus, to obtain an xsave area that may be set back to the tracee, all unused
-> > > > +state components must first be re-set to the correct initial state for the
-> > > > +corresponding state component, and the XSTATE_BV bitfield must subsequently
-> > > > +be adjusted to match the kernel xstate component bitmask (obtained as
-> > > > +described above).
+On Tue, May 19, 2020 at 11:30:02PM -0400, Keno Fischer wrote:
+> > > +.SS The layout and operation of the NT_X86_XSTATE regset
 > >
-> > The above paragraph needs a better wording. Are you saying the following? -
+> > Should rather have a complete table of NT_* entries first. The others
+> > can be dummies for now.
+> 
+> Oh boy, I'm not sure my man-page-formatting-fu is up to the task of
+> creating a nice looking table :).
+> Michael, can you help?
+
+
+'\" t in the first line
+
+then 
+
+.TS
+tab(:);
+c s 
+l l.
+header:header
+entry:entry
+...
+.TE
+
+
+
+> 
+> > > +Obtain the kernel xsave component bitmask from the software-reserved area of the
+> > > +xstate buffer. The software-reserved area beings at offset 464 into the xsave
 > >
-> > "If a state component is not saved (its XSTATE_BV bit is zero) but you
-> > want to modify corresponding registers in the tracee, you need to set
-> > this bit to 1 and initialize the component to the desired state."
->
-> Kind of, what I want to get across is a warning that the following pattern:
->
-> struct iov = { ... };
-> ptrace(PTRACE_GETREGSET, pid1, NT_X86_XSTATE, &iov);
-> ptrace(PTRACE_SETREGSET, pid2, NT_X86_XSTATE, &iov);
->
-> will not necessarily result in pid1 and pid2 having identical register states.
-> If a state component was in its initial state in pid1, the XSTATE_BV
-> bit will be cleared, resulting in the registers in pid2 not being modified.
+> > It would be better to put some struct defining this into the kernel uapi
+> > and then reference that instead of magic numbers.
+> 
+> We have user_xstateregs in the kernel, but that's not in the uapi.
+> I suppose we should move it, given that it is exposed here.
 
-Wanting to set the registers to initial state is a subset of the case where
-you want to set them to some state (initial or not), so my proposed
-explanation covers it too.
+Yes.
 
-But your example with two separate pids makes it clearer when you would
-need to be aware of it even if the state you are setting is the initial one:
-you need explicitly set it, can't assume just "copying" will do.
+> 
+> > > +buffer and the first 64 bits of this area contain the kernel xsave component bitmask
+> > > +.IP 2.
+> > > +Compute the offset of each state component by adding the sizes of all prior state
+> > > +components that are enabled in the kernel xsave component bitmask, aligning to 64 byte boundaries along the way. This
+> > > +format matches that of a compacted xsave area with XCOMP_BV set to the
+> >
+> > The sizes of these areas should probably also be in the uapi include
+> 
+> Yes, that seems like a good idea.
+> What's the policy on helper functions in uapi includes?
+> Can we have helper functions that given a buffer and the kernel xstate mask,
+> does this computation for you?
 
-I propose:
+Yes that sounds like a good idea. Just needs to be an inline.
 
-If a state component is not saved (its XSTATE_BV bit is zero) but you
-want to modify corresponding registers in the tracee, you need to set
-this bit to 1 and initialize the component to the desired state.
+I'm not aware of any policy against that.
 
-In particular, it means that on PTRACE_SETREGSET, not saved component
-does not cause corresponding registers to be re-initialized: a naive
-"copy registers from pid1 to pid2":
+> > > +Thus, to obtain an xsave area that may be set back to the tracee, all unused
+> > > +state components must first be re-set to the correct initial state for the
+> > > +corresponding state component, and the XSTATE_BV bitfield must subsequently
+> > > +be adjusted to match the kernel xstate component bitmask (obtained as
+> > > +described above).
+> >
+> > I wonder if we shouldn't just fix the kernel to do this properly on its
+> > own.  Presumably it won't break any existing user space.
+> >
+> > It seems more a bug than something that should be a documented ABI.
+> 
+> I'd be happy to see this interface improved, since I do think it wasn't quite
+> intended to work this way when originally conceived (i.e. originally, before
+> the init optimization and before we had flags that turn off various xstate
+> components resulting in a compressed buffer).
 
-ptrace(PTRACE_GETREGSET, pid1, NT_X86_XSTATE, &iov);
-ptrace(PTRACE_SETREGSET, pid2, NT_X86_XSTATE, &iov);
+Yes we should fix the kernel to make sure that anything copied out
+can be straight copied in again (plus probably some self tests for this)
 
-will not copy register sets which are in initial state in pid1,
-they will remain unmodified in pid2.
+> 
+> As I said in the other email thread, I think it would be reasonable to change
+> the offsets to always be non-compressed, which would at least make this
+> a normal xsave buffer. No ptracer that I looked at knows that this buffer
+> can be compressed, so changing the kernel behavior here would actually
+> make it closer to what existing userspace expects ;).
+
+Hmm, maybe. It seems a bit risky to mess with an ABI.
+I guess could add a new NT_* for this and deprecate the old one.
+
+> 
+> I'm not sure what to do about the getregset/setregset mismatch. On the one
+> hand it's pretty bad, but on the other hand, I'm not really sure what to do
+> about it, short of introducing a different NT_X86_* constant that behaves
+> differently.
+
+
+The kernel just needs to fill in the right fields on GET?
+
+Or perhaps it can be only fixed in a new NT_*
+
+> 
+> > > +
+> > > +The value of the kernel's state component bitmask is determined on boot and
+> > > +need not be equivalent to the maximal set of state components supported by the
+> > > +CPU (as enumerated through CPUID).
+> >
+> > Okay so how should someone get it? Looks like that's a hole in the
+> > kernel API that we need to fix somehow.
+> 
+> The cpuid enumerated value does still represent a maximum so that can be used
+> to size the buffer and the actual value can then be read from the software saved
+> area as described here. Is that what you were asking? Not sure I understood
+> correctly.
+
+Okay so it's already exported. Never mind.
+
+-Andi
