@@ -2,35 +2,37 @@ Return-Path: <SRS0=pZNC=7J=vger.kernel.org=linux-man-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-9.8 required=3.0 tests=HEADER_FROM_DIFFERENT_DOMAINS,
+X-Spam-Status: No, score=-9.7 required=3.0 tests=HEADER_FROM_DIFFERENT_DOMAINS,
 	INCLUDES_PATCH,MAILING_LIST_MULTI,SIGNED_OFF_BY,SPF_HELO_NONE,SPF_PASS,
-	USER_AGENT_GIT autolearn=ham autolearn_force=no version=3.4.0
+	URIBL_BLOCKED,USER_AGENT_GIT autolearn=ham autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 31F46C433E0
-	for <linux-man@archiver.kernel.org>; Wed, 27 May 2020 21:18:27 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 978B3C433DF
+	for <linux-man@archiver.kernel.org>; Wed, 27 May 2020 21:18:28 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.kernel.org (Postfix) with ESMTP id 12174207E8
-	for <linux-man@archiver.kernel.org>; Wed, 27 May 2020 21:18:27 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTP id 8091620835
+	for <linux-man@archiver.kernel.org>; Wed, 27 May 2020 21:18:28 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1726946AbgE0VS0 (ORCPT <rfc822;linux-man@archiver.kernel.org>);
-        Wed, 27 May 2020 17:18:26 -0400
-Received: from foss.arm.com ([217.140.110.172]:44758 "EHLO foss.arm.com"
+        id S1728124AbgE0VS2 (ORCPT <rfc822;linux-man@archiver.kernel.org>);
+        Wed, 27 May 2020 17:18:28 -0400
+Received: from foss.arm.com ([217.140.110.172]:44764 "EHLO foss.arm.com"
         rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S1726114AbgE0VS0 (ORCPT <rfc822;linux-man@vger.kernel.org>);
-        Wed, 27 May 2020 17:18:26 -0400
+        id S1726114AbgE0VS1 (ORCPT <rfc822;linux-man@vger.kernel.org>);
+        Wed, 27 May 2020 17:18:27 -0400
 Received: from usa-sjc-imap-foss1.foss.arm.com (unknown [10.121.207.14])
-        by usa-sjc-mx-foss1.foss.arm.com (Postfix) with ESMTP id 2F0A031B;
-        Wed, 27 May 2020 14:18:26 -0700 (PDT)
+        by usa-sjc-mx-foss1.foss.arm.com (Postfix) with ESMTP id 6A2E01042;
+        Wed, 27 May 2020 14:18:27 -0700 (PDT)
 Received: from e103592.cambridge.arm.com (usa-sjc-imap-foss1.foss.arm.com [10.121.207.14])
-        by usa-sjc-imap-foss1.foss.arm.com (Postfix) with ESMTPA id 8B2303F52E;
-        Wed, 27 May 2020 14:18:25 -0700 (PDT)
+        by usa-sjc-imap-foss1.foss.arm.com (Postfix) with ESMTPA id 6A16F3F52E;
+        Wed, 27 May 2020 14:18:26 -0700 (PDT)
 From:   Dave Martin <Dave.Martin@arm.com>
 To:     Michael Kerrisk <mtk.manpages@gmail.com>
 Cc:     linux-man@vger.kernel.org, linux-arch@vger.kernel.org,
-        linux-arm-kernel@lists.infradead.org
-Subject: [PATCH v2 1/6] prctl.2: ffix use literal hyphens when referencing kernel docs
-Date:   Wed, 27 May 2020 22:17:33 +0100
-Message-Id: <1590614258-24728-2-git-send-email-Dave.Martin@arm.com>
+        linux-arm-kernel@lists.infradead.org,
+        Tim Chen <tim.c.chen@linux.intel.com>,
+        Thomas Gleixner <tglx@linutronix.de>
+Subject: [PATCH v2 2/6] prctl.2: Add PR_SPEC_INDIRECT_BRANCH for SPECULATION_CTRL prctls
+Date:   Wed, 27 May 2020 22:17:34 +0100
+Message-Id: <1590614258-24728-3-git-send-email-Dave.Martin@arm.com>
 X-Mailer: git-send-email 2.1.4
 In-Reply-To: <1590614258-24728-1-git-send-email-Dave.Martin@arm.com>
 References: <1590614258-24728-1-git-send-email-Dave.Martin@arm.com>
@@ -39,30 +41,64 @@ Precedence: bulk
 List-ID: <linux-man.vger.kernel.org>
 X-Mailing-List: linux-man@vger.kernel.org
 
-There is one case of a cross-reference to a kernel documentation
-filename that uses unescaped hyphens.
-
-To avoid misrendering, escape these as \- similarly to other
-instances.
+Add the PR_SPEC_INDIRECT_BRANCH "misfeature" added in Linux 4.20
+for PR_SET_SPECULATION_CTRL and PR_GET_SPECULATION_CTRL.
 
 Signed-off-by: Dave Martin <Dave.Martin@arm.com>
+Cc: Tim Chen <tim.c.chen@linux.intel.com>
+Cc: Thomas Gleixner <tglx@linutronix.de>
 ---
- man2/prctl.2 | 2 +-
- 1 file changed, 1 insertion(+), 1 deletion(-)
+ man2/prctl.2 | 24 ++++++++++++++++++------
+ 1 file changed, 18 insertions(+), 6 deletions(-)
 
 diff --git a/man2/prctl.2 b/man2/prctl.2
-index 968a75a..dc99218 100644
+index dc99218..b6fb51c 100644
 --- a/man2/prctl.2
 +++ b/man2/prctl.2
-@@ -1261,7 +1261,7 @@ This parameter may enforce a read-only policy which will result in the
- call failing with the error
- .BR ENXIO .
- For further details, see the kernel source file
--.IR Documentation/admin-guide/kernel-parameters.txt .
-+.IR Documentation/admin\-guide/kernel\-parameters.txt .
- .\"
- .\" prctl PR_TASK_PERF_EVENTS_DISABLE
- .TP
+@@ -1213,11 +1213,20 @@ arguments must be specified as 0; otherwise the call fails with the error
+ .\" commit 356e4bfff2c5489e016fdb925adbf12a1e3950ee
+ Sets the state of the speculation misfeature specified in
+ .IR arg2 .
+-Currently, the only permitted value for this argument is
++Currently, this argument must be one of:
++.RS
++.TP
+ .B PR_SPEC_STORE_BYPASS
+-(otherwise the call fails with the error
++speculative store bypass control, or
++.\" commit 9137bb27e60e554dab694eafa4cca241fa3a694f
++.TP
++.BR PR_SPEC_INDIRECT_BRANCH " (since Linux 4.20)"
++indirect branch speculation control.
++.RE
++.IP
++(Otherwise the call fails with the error
+ .BR ENODEV ).
+-This setting is a per-thread attribute.
++These settings are per-thread attributes.
+ The
+ .IR arg3
+ argument is used to hand in the control value,
+@@ -1235,13 +1244,16 @@ Same as
+ .BR PR_SPEC_DISABLE ,
+ but cannot be undone.
+ A subsequent
+-.B
+-prctl(..., PR_SPEC_ENABLE)
++.BR prctl (\c
++.IR arg2 ,
++.BR PR_SPEC_ENABLE )
++with the same value for
++.I arg2
+ will fail with the error
+ .BR EPERM .
+ .RE
+ .IP
+-Any other value in
++Any unsupported value in
+ .IR arg3
+ will result in the call failing with the error
+ .BR ERANGE .
 -- 
 2.1.4
 
