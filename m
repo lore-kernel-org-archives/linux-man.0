@@ -1,109 +1,133 @@
-Return-Path: <SRS0=Uwhb=7K=vger.kernel.org=linux-man-owner@kernel.org>
+Return-Path: <SRS0=dr/B=7L=vger.kernel.org=linux-man-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-2.4 required=3.0 tests=DKIMWL_WL_HIGH,DKIM_SIGNED,
-	DKIM_VALID,DKIM_VALID_AU,HEADER_FROM_DIFFERENT_DOMAINS,MAILING_LIST_MULTI,
-	SPF_HELO_NONE,SPF_PASS,USER_AGENT_SANE_1 autolearn=no autolearn_force=no
-	version=3.4.0
+X-Spam-Status: No, score=-3.6 required=3.0 tests=DKIM_SIGNED,DKIM_VALID,
+	DKIM_VALID_AU,FREEMAIL_FORGED_FROMDOMAIN,FREEMAIL_FROM,
+	HEADER_FROM_DIFFERENT_DOMAINS,INCLUDES_PATCH,MAILING_LIST_MULTI,SPF_HELO_NONE,
+	SPF_PASS,URIBL_BLOCKED autolearn=no autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 802F8C433DF
-	for <linux-man@archiver.kernel.org>; Thu, 28 May 2020 15:05:15 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id A213AC433E0
+	for <linux-man@archiver.kernel.org>; Fri, 29 May 2020 07:12:01 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.kernel.org (Postfix) with ESMTP id 623662075F
-	for <linux-man@archiver.kernel.org>; Thu, 28 May 2020 15:05:15 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTP id 78582208A7
+	for <linux-man@archiver.kernel.org>; Fri, 29 May 2020 07:12:01 +0000 (UTC)
 Authentication-Results: mail.kernel.org;
-	dkim=pass (1024-bit key) header.d=redhat.com header.i=@redhat.com header.b="hQFzTZML"
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="r8+YSfSs"
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S2403890AbgE1PFO (ORCPT <rfc822;linux-man@archiver.kernel.org>);
-        Thu, 28 May 2020 11:05:14 -0400
-Received: from us-smtp-delivery-1.mimecast.com ([205.139.110.120]:40802 "EHLO
-        us-smtp-1.mimecast.com" rhost-flags-OK-OK-OK-FAIL) by vger.kernel.org
-        with ESMTP id S2404204AbgE1PFM (ORCPT
-        <rfc822;linux-man@vger.kernel.org>); Thu, 28 May 2020 11:05:12 -0400
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
-        s=mimecast20190719; t=1590678310;
-        h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
-         to:to:cc:cc:mime-version:mime-version:content-type:content-type:
-         content-transfer-encoding:content-transfer-encoding:
-         in-reply-to:in-reply-to:references:references;
-        bh=Sc3XfYmyMpNaVHBqOp7H7H0Kk4rgrGkiOt/d9Tvt4qc=;
-        b=hQFzTZMLUETEbrrDyMkNQOu/A5bctWSlGl3VfLMr2AI2DNgY71ODe4TkaXfrsqT7Qm1veh
-        1htDBdIPLCoUjZmGqw/tEBzywXceQi4njiTPY3tEvfPrPuiv/7KxyIEohwg6uUYPmy2xu7
-        qdUG2VgAuINt+GE3GZbqWygIL+a7JTo=
-Received: from mail-qv1-f69.google.com (mail-qv1-f69.google.com
- [209.85.219.69]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-190-rufa6WpVMvKL4cNhgNI8qA-1; Thu, 28 May 2020 11:05:05 -0400
-X-MC-Unique: rufa6WpVMvKL4cNhgNI8qA-1
-Received: by mail-qv1-f69.google.com with SMTP id v1so1743637qvx.8
-        for <linux-man@vger.kernel.org>; Thu, 28 May 2020 08:05:05 -0700 (PDT)
+        id S1725355AbgE2HMB (ORCPT <rfc822;linux-man@archiver.kernel.org>);
+        Fri, 29 May 2020 03:12:01 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:57108 "EHLO
+        lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1725601AbgE2HMA (ORCPT
+        <rfc822;linux-man@vger.kernel.org>); Fri, 29 May 2020 03:12:00 -0400
+Received: from mail-pl1-x62e.google.com (mail-pl1-x62e.google.com [IPv6:2607:f8b0:4864:20::62e])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 8F200C03E969
+        for <linux-man@vger.kernel.org>; Fri, 29 May 2020 00:12:00 -0700 (PDT)
+Received: by mail-pl1-x62e.google.com with SMTP id y11so722426plt.12
+        for <linux-man@vger.kernel.org>; Fri, 29 May 2020 00:12:00 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20161025;
+        h=mime-version:from:date:message-id:subject:to;
+        bh=cS/CqEr8g5hQYNRsGaXEsP8Qj7GN69TqfhzfwxuIhJ4=;
+        b=r8+YSfSsnHmbxj9LQtczwsMID213aw/sIlhjPs/PgP7bIveN8Nt+wiOJHN+T55gXcf
+         EQLJr+zJhkeHECUuNs2NqPT7Ua3TF8j7N4phvKTuXK7T4ru/3jL2gW9rSOwguZblKfRw
+         1QEyAzfOoxyxEV279aeg8EIRpNsq8ZhTuE8JrdMJUhkf513dT2nKulrLaknBh9r7oRaG
+         gGN2BISGd/z/uGXSYgIuZz0DlGpKCb93DLVqE9//ToZXK3FBQ3ghT/hdifD/E5mdPdji
+         IH1zaKpKFepBHBb1jFn4p8IOOGQRUWrqrmENbpTp3BsNjwXJfHVGFvqChPIEbunc+rrl
+         J24g==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
-        h=x-gm-message-state:subject:to:cc:references:from:organization
-         :message-id:date:user-agent:mime-version:in-reply-to
-         :content-language:content-transfer-encoding;
-        bh=Sc3XfYmyMpNaVHBqOp7H7H0Kk4rgrGkiOt/d9Tvt4qc=;
-        b=Zyrxf4YoevFkbYdamfL99nzI9vkedsMbwtX++Oy7o2VYFIxF5xepEBM8YcUNA+4T46
-         nrerZEU6oP+G/LTfoOhjhSXIg6I8pNFKme32ILJX/lfTIGxpMJ1H06a7+7aGE+Mp3CPv
-         YTw6GNwp0JOSe5VpJ6+CEdXwLuWyh8KoMAeaRq5OoTHXI8aN5Te7EWb6rv2PH67myx8V
-         cykQk4ITwBKEZQSLyca7FpJgRCGvPtkIYePRngGoB4/Okkv+CMAtigjrnjldGXWcLt7k
-         V5FApMql/5baxGLzTP77uNpszUSvdI+XRim47P28njeEe61/cj42AwKAvgeV2X3vN/Au
-         9cSw==
-X-Gm-Message-State: AOAM533ZwH0Pb3+KaPAxan6q1ZTiPeQG9x/ZPuEspUHEhwc4Q1xaAjh7
-        uFdUMxpeysbyD+ZxDWcDXQHVJPCIkV8N8n+G/XbodjBoAT0sGKrtvFuexnos7Nxw4TKqOLlwpOx
-        s1szrwlgNgG10PbK6Ojqs
-X-Received: by 2002:a37:9781:: with SMTP id z123mr3241617qkd.266.1590678304497;
-        Thu, 28 May 2020 08:05:04 -0700 (PDT)
-X-Google-Smtp-Source: ABdhPJzg/uZ+PRcW+KijP/W+rgy7IcnznaFPZINsbmwirZwO968VpV+LDfaphMsOByoroF0Js5sC5A==
-X-Received: by 2002:a37:9781:: with SMTP id z123mr3241571qkd.266.1590678304280;
-        Thu, 28 May 2020 08:05:04 -0700 (PDT)
-Received: from [192.168.1.4] (198-84-170-103.cpe.teksavvy.com. [198.84.170.103])
-        by smtp.gmail.com with ESMTPSA id s45sm5892933qte.26.2020.05.28.08.05.02
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Thu, 28 May 2020 08:05:03 -0700 (PDT)
-Subject: Re: [PATCH] ld.so.8: Update "Hardware capabilities" section for glibc
- 2.31.
-To:     Florian Weimer <fweimer@redhat.com>
-Cc:     "Michael Kerrisk (man-pages)" <mtk.manpages@gmail.com>,
-        linux-man <linux-man@vger.kernel.org>
-References: <57abae5e-2394-0542-9e21-10c0bb837078@redhat.com>
- <87pnaoe70h.fsf@oldenburg2.str.redhat.com>
-From:   Carlos O'Donell <carlos@redhat.com>
-Organization: Red Hat
-Message-ID: <77a78320-3d10-96b4-d385-c7a42196ccc1@redhat.com>
-Date:   Thu, 28 May 2020 11:05:01 -0400
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
- Thunderbird/68.7.0
+        h=x-gm-message-state:mime-version:from:date:message-id:subject:to;
+        bh=cS/CqEr8g5hQYNRsGaXEsP8Qj7GN69TqfhzfwxuIhJ4=;
+        b=Ei+aJPgJ0bB2a36d0dHKF1/PGXTCU8gODVTu2pg2bvnsXBo8rC+1ffguBhcS4JY2nU
+         Qp6jmqw/zyJWxfbIcmk6mhqg0HZy87d9smBX2G05SVHaQb4Gp/RWJ/xC+/w+faoSS+Xv
+         R/RxrcR9faETJ5/ZulIhbGblLML4rTortDp6O/Ek98QJyd245WIFlFN3qwhA9jFB4KFL
+         qzoQZIr+QonE23oOh+nM0x8xIvYkWiFXJcHNvdK4oJUJ4N2PqRG0sIQrRzWR1Olw4A47
+         jj/L6hCfiEDVHoU92zZ4VwBjHgXT+vRrVhhoipRt1Xiamp7tS4TpQsOW5OOoq7AYESTk
+         18/g==
+X-Gm-Message-State: AOAM532zHT7oBb51EqDZH83OPA2R9yYFlNtpEioGN17slVjuM2R7aZx2
+        95Hgy32bQdFeXQ8e0ZKV4DLpoq+BqZA/1EOrqMu3EjIktRU=
+X-Google-Smtp-Source: ABdhPJyYyb1v3wye0TkdBPSKlyKFWHHsVXs3sKiVRhNHwVQFRCGqTlG49ORUBeYIT7n2/L7axRoTeFwIYx6dRADO71E=
+X-Received: by 2002:a17:90b:1218:: with SMTP id gl24mr7906837pjb.215.1590736319406;
+ Fri, 29 May 2020 00:11:59 -0700 (PDT)
 MIME-Version: 1.0
-In-Reply-To: <87pnaoe70h.fsf@oldenburg2.str.redhat.com>
-Content-Type: text/plain; charset=utf-8
-Content-Language: en-US
-Content-Transfer-Encoding: 7bit
+From:   Stefan Puiu <stefan.puiu@gmail.com>
+Date:   Fri, 29 May 2020 10:11:48 +0300
+Message-ID: <CACKs7VBdc4_gU=oVz82soZCuukgQzD4V33VcJ81cL7gimRto-Q@mail.gmail.com>
+Subject: connect.2: can return EACCES because of SELinux
+To:     lnx-man <linux-man@vger.kernel.org>
+Content-Type: text/plain; charset="UTF-8"
 Sender: linux-man-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-man.vger.kernel.org>
 X-Mailing-List: linux-man@vger.kernel.org
 
-On 5/28/20 5:35 AM, Florian Weimer wrote:
-> * Carlos O'Donell:
-> 
->> +The following names are currently recognized as of the release of glibc 2.31:
->> +.\" This information comes from glibc's sysdeps/*/dl-procinfo.c and is
->> +.\" currently not directly documented in the glibc manual. We document
->> +.\" it here with the help of the glibc maintainers.
-> 
-> I'm not sure if this list is correct.  Did you filter the hwcap strings
-> based on HWCAP_IMPORTANT?
+Hi Michael,
 
-Oh good point, I forgot that some arches use _dl_string_hwcap() and other
-arches use _dl_string_platform().
+Hope you are well with the lockdown and all.
 
-Let me filter these quickly based on the selection, and add some more comments
-with the appropriate notes.
+Recently I had to troubleshoot a problem where a connect() call was
+returning EACCES:
 
-Wait for v2.
+17648 socket(AF_INET, SOCK_STREAM, IPPROTO_IP) = 37
+17648 connect(37, {sa_family=AF_INET, sin_port=htons(8081),
+sin_addr=inet_addr("10.12.1.201")}, 16) = -1 EACCES (Permission
+denied)
 
--- 
-Cheers,
-Carlos.
+I've traced this to SELinux policy denying the connection. This is on
+a Fedora 23 VM:
 
+$ cat /etc/redhat-release
+Fedora release 23 (Twenty Three)
+$ uname -a
+Linux mako-fedora-01 4.8.13-100.fc23.x86_64 #1 SMP Fri Dec 9 14:51:40
+UTC 2016 x86_64 x86_64 x86_64 GNU/Linux
+
+The manpage says this can happen when connecting to a broadcast
+address, or when a local firewall rule blocks the connection. However,
+the address above is unicast, and using 'wget' from another account to
+access the URL works fine.
+
+The context is that we're building an OS image, and this involves
+downloading RPMs through a proxy. The proxy (polipo) is labelled by
+SELinux, and I guess there is some sort of policy that says "proxy can
+only connect to HTTP ports". When trying to connect to a server
+listening on a port that is not labeled as an HTTP server port, I
+guess SELinux steps in. With 'setenforce 0', the build works fine. In
+the kernel sources I see connect() calls security_socket_connect()
+(see https://elixir.bootlin.com/linux/latest/source/net/socket.c#L1855),
+which calls whatever security hooks are registered. I see the SELinux
+hook getting registered at
+https://elixir.bootlin.com/linux/latest/source/security/selinux/hooks.c#L7047,
+and setting a perf probe on the call proves that the
+selinux_socket_connect function gets called (while tcp_v4_connect() is
+not).
+
+How about adding this to the manpage?
+
+diff --git a/man2/connect.2 b/man2/connect.2
+index 125ca33ef..9763739c7 100644
+--- a/man2/connect.2
++++ b/man2/connect.2
+@@ -155,6 +155,13 @@ in the path prefix.
+ The user tried to connect to a broadcast address without having the socket
+ broadcast flag enabled or the connection request failed because of a local
+ firewall rule.
++
++.B EACCES
++can also be returned if a SELinux policy denied a connection (for
++example, if there is a policy saying that an HTTP proxy can only
++connect to ports associated with HTTP servers, and the proxy tries to
++connect to a different port).
++
+ .TP
+ .B EADDRINUSE
+ Local address is already in use.
+@@ -297,4 +304,5 @@ is shown in
+ .BR getsockname (2),
+ .BR listen (2),
+ .BR socket (2),
+-.BR path_resolution (7)
++.BR path_resolution (7),
++.BR selinux (8)
