@@ -1,82 +1,117 @@
-Return-Path: <SRS0=GR0a=7N=vger.kernel.org=linux-man-owner@kernel.org>
+Return-Path: <SRS0=t4ly=7O=vger.kernel.org=linux-man-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-0.6 required=3.0 tests=DKIM_SIGNED,DKIM_VALID,
-	DKIM_VALID_AU,FREEMAIL_FORGED_FROMDOMAIN,FREEMAIL_FROM,
-	HEADER_FROM_DIFFERENT_DOMAINS,MAILING_LIST_MULTI,SPF_HELO_NONE,SPF_PASS
-	autolearn=no autolearn_force=no version=3.4.0
+X-Spam-Status: No, score=-2.4 required=3.0 tests=DKIM_SIGNED,DKIM_VALID,
+	DKIM_VALID_AU,HEADER_FROM_DIFFERENT_DOMAINS,MAILING_LIST_MULTI,SPF_HELO_NONE,
+	SPF_PASS,USER_AGENT_SANE_1 autolearn=no autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id DF976C433DF
-	for <linux-man@archiver.kernel.org>; Sun, 31 May 2020 15:27:04 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id AF740C433E0
+	for <linux-man@archiver.kernel.org>; Mon,  1 Jun 2020 10:21:13 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.kernel.org (Postfix) with ESMTP id A8D9F206DA
-	for <linux-man@archiver.kernel.org>; Sun, 31 May 2020 15:27:04 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTP id 641D0206C3
+	for <linux-man@archiver.kernel.org>; Mon,  1 Jun 2020 10:21:13 +0000 (UTC)
 Authentication-Results: mail.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="epJ65CQk"
+	dkim=pass (2048-bit key) header.d=jguk.org header.i=@jguk.org header.b="ZR8zIBAl"
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1726193AbgEaP1E (ORCPT <rfc822;linux-man@archiver.kernel.org>);
-        Sun, 31 May 2020 11:27:04 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:44146 "EHLO
+        id S1726022AbgFAKVN (ORCPT <rfc822;linux-man@archiver.kernel.org>);
+        Mon, 1 Jun 2020 06:21:13 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:48964 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1725912AbgEaP1E (ORCPT
-        <rfc822;linux-man@vger.kernel.org>); Sun, 31 May 2020 11:27:04 -0400
-Received: from mail-yb1-xb32.google.com (mail-yb1-xb32.google.com [IPv6:2607:f8b0:4864:20::b32])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id B1F29C061A0E
-        for <linux-man@vger.kernel.org>; Sun, 31 May 2020 08:27:03 -0700 (PDT)
-Received: by mail-yb1-xb32.google.com with SMTP id u17so3884262ybi.0
-        for <linux-man@vger.kernel.org>; Sun, 31 May 2020 08:27:03 -0700 (PDT)
+        with ESMTP id S1725972AbgFAKVL (ORCPT
+        <rfc822;linux-man@vger.kernel.org>); Mon, 1 Jun 2020 06:21:11 -0400
+Received: from mail-wr1-x442.google.com (mail-wr1-x442.google.com [IPv6:2a00:1450:4864:20::442])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 41F9CC061A0E
+        for <linux-man@vger.kernel.org>; Mon,  1 Jun 2020 03:21:10 -0700 (PDT)
+Received: by mail-wr1-x442.google.com with SMTP id l10so10893286wrr.10
+        for <linux-man@vger.kernel.org>; Mon, 01 Jun 2020 03:21:10 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20161025;
-        h=mime-version:from:date:message-id:subject:to:cc
-         :content-transfer-encoding;
-        bh=gkcJFL/DO0XKhZsM5V3WGFwQ2mgesqFydmQtgjHpbfI=;
-        b=epJ65CQk7jt4ZOKIxMZ4rJ9SVpyUEBTK+2MfhgIMeBNT+7eZ7f95OurlgSBBQfTRlQ
-         lWAVpPS8/U5m8jcHglVRWt1sJZGVjbwT2J5OVNUPTDE0ukHb2G2TogwdK/EQtWuatPLU
-         UsjzI0Pp6FJI8tA6yAbZbeB+EeXjS3eXGbyah+Sxz5S6aDX7O0kxDdOSi5y9IlRMcNjO
-         SCn66ttEZipb6ifmHDp2W7CG3+ZLpz3i43GGFzYGCOzHJ+wNqxZB7eEqaUn9BIZqHIz1
-         oZQVfUjuKMYRppP0kXX1B0tZE4f4HwCvS0GozbVujGAtn5wD2RFn/BFahsaDGQIWsVjJ
-         I2nQ==
+        d=jguk.org; s=google;
+        h=from:subject:to:references:message-id:date:user-agent:mime-version
+         :in-reply-to:content-language:content-transfer-encoding;
+        bh=ccJBRa2qX2AbGjtcRmB0gTU2CLQK27ZxnhzTsCY92KU=;
+        b=ZR8zIBAlR+zkrrvxV4GGBhiX+ulIxJRsSGj+MDKSQ2lN8yqDMWtPLMCB1HJuZm2Tei
+         eIqpKmFlQl4QXhIrdgQR7XioDbkrgPDuc1gHC8hIfV/JVJ1bTi86L8dGGUQ8nAib/0v7
+         DLGfHBQB0KP1AVtOfXZCfJQyJ2Chb743qfPiC44ZaEaQusELSAlZYQ8h1kYOh/Xm+ofL
+         xXyjEm1oGUyv6mUOVBD2EJ1LGwPfOq6t5GXag4fGOFIxb6m19oMZszP72IVR3c/orZp8
+         h4i1iMU2C8dGbY+GzjZXuu68W8ro8e78ftHPyh11E6BZHm0Ubjnbdv3jGybIB1JPieWZ
+         +DeA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
-        h=x-gm-message-state:mime-version:from:date:message-id:subject:to:cc
+        h=x-gm-message-state:from:subject:to:references:message-id:date
+         :user-agent:mime-version:in-reply-to:content-language
          :content-transfer-encoding;
-        bh=gkcJFL/DO0XKhZsM5V3WGFwQ2mgesqFydmQtgjHpbfI=;
-        b=ko608+S1D2Yj3h/s+apviWxD5F4LprhwlZWA/dOhsNFAcmwTo1kH7RSBDi4D8zEI93
-         ligApstXvNlKCaQvjEo1ju5E2XNN1Lwx+R+P1orMn9AQHYga2vQePKc+yDyQ07KixtQ5
-         a/iUlg7NqZH5tfCqmRfPwEsL0l4OHnnF4Nq/WDX8LuVzwUPIlZM1TtgN1ERfAaOKzm2q
-         1llodSLKNHd0lmMeXWAbpaIQB3t7NPBJKilr1Q/7HYBBn8e2lrAShGIM/POz0wn44g18
-         gyvCceh/EmFkgl2zVhgWWKcDweiiahoPsZWCrUi9uQjE+HxKS1nso1fj3nnyeQHgH1KH
-         DICg==
-X-Gm-Message-State: AOAM533vrJXQKWue7fNHMPv7waVRGEF/y2keNmR6auIuJjMW/HXCzg6c
-        oWE3vkhtIxlas1dpx+L2UXrvcGUBzgH4PORp154LE1awnUdDFg==
-X-Google-Smtp-Source: ABdhPJyQtZoaxsJ1aUhO5F+64MlUEpsszbQt3b/kg/QmtnodhNmtcg72Tmaj5FjfgrW6z4l4/2RXQqeoAcXtlelIjXs=
-X-Received: by 2002:a05:6902:4b1:: with SMTP id r17mr27082661ybs.238.1590938822027;
- Sun, 31 May 2020 08:27:02 -0700 (PDT)
+        bh=ccJBRa2qX2AbGjtcRmB0gTU2CLQK27ZxnhzTsCY92KU=;
+        b=FF2X4JNfGc4vC0KicbtggqI/NJxqbFTW1lAoUrrSldogksAb95d9sbGeRs/A+Sa1YW
+         AResAKsgegg7v2aK0nr/4GT0XVWl31CFUK/OKT11QF4o/p45GxU6w8YAllRBhYIYy/Hv
+         5OjRMTOxeiNHCNZX9V+l/3rns94IhI/QlpfFpLpkvHAmd/3j3Q8o44tRTvr8mON1b9fr
+         qyLLRL1677ZQJspJhCUcOadiWv2m91siVV0641BkHTZxmxhWwEWDgFgeuFyQ+5BYR/0R
+         aYilFSS7gXFIhIAEOCcBaQPGf/1TgtDS3ZcF31WWE+iz6E9V2nZ0s5ymJXSaYu0Lx5nG
+         ToXQ==
+X-Gm-Message-State: AOAM530pq0pi5iifpPfIIHDBJVqRPiKZM6b+XuFGrXyCdIR3tDuo/g+e
+        olbJIZAX83ccHNa06otWVNRNhleIKb8=
+X-Google-Smtp-Source: ABdhPJysyqlZA+dJMQFppPSx1MTBVehUF/KLfgXF1fySeZsYn32dQJBshGzIyL3tppt60V776l99ng==
+X-Received: by 2002:a5d:4ec3:: with SMTP id s3mr22772311wrv.103.1591006868648;
+        Mon, 01 Jun 2020 03:21:08 -0700 (PDT)
+Received: from [192.168.0.12] (cpc87281-slou4-2-0-cust47.17-4.cable.virginm.net. [92.236.12.48])
+        by smtp.gmail.com with ESMTPSA id o20sm20884793wra.29.2020.06.01.03.21.07
+        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+        Mon, 01 Jun 2020 03:21:07 -0700 (PDT)
+From:   Jonny Grant <jg@jguk.org>
+Subject: Re: core man page %e
+To:     Michael Kerrisk <mtk.manpages@gmail.com>,
+        linux-man <linux-man@vger.kernel.org>
+References: <ae5293ba-17dd-fd6d-54b0-312a008e3167@jguk.org>
+Message-ID: <99a02979-3d47-6ef8-c619-00d9115321ec@jguk.org>
+Date:   Mon, 1 Jun 2020 11:21:07 +0100
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
+ Thunderbird/68.8.0
 MIME-Version: 1.0
-From:   =?UTF-8?Q?L=C3=A9o_Stefanesco?= <leo.lveb@gmail.com>
-Date:   Sun, 31 May 2020 17:26:45 +0200
-Message-ID: <CAFy=zAx1bJXs=ShCTfUVAvbWxuAAO5xjU=2J9EVfgwKi=8om1g@mail.gmail.com>
-Subject: user_namespaces(7): obsolete comment about system time
-To:     mtk.manpages@gmail.com
-Cc:     linux-man@vger.kernel.org
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+In-Reply-To: <ae5293ba-17dd-fd6d-54b0-312a008e3167@jguk.org>
+Content-Type: text/plain; charset=utf-8; format=flowed
+Content-Language: en-GB
+Content-Transfer-Encoding: 8bit
 Sender: linux-man-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-man.vger.kernel.org>
 X-Mailing-List: linux-man@vger.kernel.org
 
-Hi,
+Hi Mtk,
 
-In the man7.org version of the man page for user_namespaces(7), it reads:
+BTW, if I add "%P-%e-%s.core" every core starts with the same
+"P1000-"
 
-there are many privileged operations that affect resources that are
-not associated with any
-namespace type, for example, changing the system time (governed by CAP_SYS_=
-TIME)
+The man page shows:
+  %P  PID of dumped process, as seen in the initial PID namespace
+                (since Linux 3.12)
 
-which is not consistent with time_namespaces(7).
+Do you see similar? I was only needing something to make the filename unique, so %t is enough.
 
-Cheers,
-L=C3=A9o
+Cheers, Jonny
+
+
+On 30/05/2020 11:39, Jonny Grant wrote:
+> Hello mtk
+> 
+> I've noticed "%e-%s.core" often gives something other than the filename and the name is truncated to 16 bytes:-
+> 
+> ThreadPoolServi-5.core
+> Chrome_InProcUt-5.core
+> 
+> This was set:
+> sysctl -w kernel.core_pattern="%e-%s.core"
+> 
+> 
+> 
+> In multithreaded applications it looks like %e is giving something other than the filename, perhaps a thread entry-point 
+> symbol name.
+> 
+> https://www.man7.org/linux/man-pages/man5/core.5.html
+> 
+>             %e  executable filename (without path prefix)
+> 
+> Could this be updated to:
+> 
+>             %e  executable filename or thread name truncated to 16 bytes
+> 
+> Cheers, Jonny
