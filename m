@@ -2,105 +2,91 @@ Return-Path: <SRS0=6uzf=7Q=vger.kernel.org=linux-man-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-0.6 required=3.0 tests=DKIM_SIGNED,DKIM_VALID,
-	DKIM_VALID_AU,FREEMAIL_FORGED_FROMDOMAIN,FREEMAIL_FROM,
-	HEADER_FROM_DIFFERENT_DOMAINS,MAILING_LIST_MULTI,SPF_HELO_NONE,SPF_PASS
-	autolearn=no autolearn_force=no version=3.4.0
+X-Spam-Status: No, score=-2.3 required=3.0 tests=DKIM_SIGNED,DKIM_VALID,
+	HEADER_FROM_DIFFERENT_DOMAINS,MAILING_LIST_MULTI,SPF_HELO_NONE,SPF_PASS,
+	USER_AGENT_SANE_1 autolearn=no autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 87CCCC433DF
-	for <linux-man@archiver.kernel.org>; Wed,  3 Jun 2020 10:26:24 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 55E09C433E0
+	for <linux-man@archiver.kernel.org>; Wed,  3 Jun 2020 23:57:33 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.kernel.org (Postfix) with ESMTP id 60AAE20679
-	for <linux-man@archiver.kernel.org>; Wed,  3 Jun 2020 10:26:24 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTP id 2AF8920658
+	for <linux-man@archiver.kernel.org>; Wed,  3 Jun 2020 23:57:33 +0000 (UTC)
 Authentication-Results: mail.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="Plt4t97f"
+	dkim=pass (2048-bit key) header.d=mbobrowski-org.20150623.gappssmtp.com header.i=@mbobrowski-org.20150623.gappssmtp.com header.b="wSuZMI0A"
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1725888AbgFCK0Y (ORCPT <rfc822;linux-man@archiver.kernel.org>);
-        Wed, 3 Jun 2020 06:26:24 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:46794 "EHLO
+        id S1726533AbgFCX5d (ORCPT <rfc822;linux-man@archiver.kernel.org>);
+        Wed, 3 Jun 2020 19:57:33 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:59542 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1725854AbgFCK0X (ORCPT
-        <rfc822;linux-man@vger.kernel.org>); Wed, 3 Jun 2020 06:26:23 -0400
-Received: from mail-ed1-x544.google.com (mail-ed1-x544.google.com [IPv6:2a00:1450:4864:20::544])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 53239C08C5C0
-        for <linux-man@vger.kernel.org>; Wed,  3 Jun 2020 03:26:23 -0700 (PDT)
-Received: by mail-ed1-x544.google.com with SMTP id p18so1286436eds.7
-        for <linux-man@vger.kernel.org>; Wed, 03 Jun 2020 03:26:23 -0700 (PDT)
+        with ESMTP id S1726170AbgFCX5c (ORCPT
+        <rfc822;linux-man@vger.kernel.org>); Wed, 3 Jun 2020 19:57:32 -0400
+Received: from mail-pj1-x1043.google.com (mail-pj1-x1043.google.com [IPv6:2607:f8b0:4864:20::1043])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 47008C08C5C0
+        for <linux-man@vger.kernel.org>; Wed,  3 Jun 2020 16:57:30 -0700 (PDT)
+Received: by mail-pj1-x1043.google.com with SMTP id nm22so280140pjb.4
+        for <linux-man@vger.kernel.org>; Wed, 03 Jun 2020 16:57:30 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20161025;
-        h=mime-version:references:in-reply-to:reply-to:from:date:message-id
-         :subject:to:cc;
-        bh=K7E07vrAOsUMYnfUPvdCjsh86G6z1tMem1U690Z96iE=;
-        b=Plt4t97fif3XtYaXvYB8ZOZVEmp07MeARF7HhW+iYaD2mBghiudeL/noB//hw1S8T3
-         75V2rtIEJJ5SA7iy1Qjm/Epybwvlr9/XG9p8HECh3n3iITv9XvKqI19mbhEhpoqzdecB
-         iOgz6Koo8T9xGpgUH99m46Yd81Cqo0VcfUV2NeiStYtGKw0F16pgMTGU2SrADShemRTF
-         cojfsm9ELIT7M5jqY/CB0bsGIGj64eU6a7JrcAIn4sRdI00Muz3l/Zh01CJHHZA9Idn5
-         D+pTNKyEurJTdMWXuR1Q13nl7GU8vppvMhrX5YCDzkwi2o7BVuHO0X01EFe/FL/CONxl
-         Ebkg==
+        d=mbobrowski-org.20150623.gappssmtp.com; s=20150623;
+        h=date:from:to:cc:subject:message-id:references:mime-version
+         :content-disposition:in-reply-to:user-agent;
+        bh=bvhGTqBjM8C9S6KRcKfgA/zPMUXxP+hfaYnmKz+3FxA=;
+        b=wSuZMI0A0EpBDSgE562AnhEGL8+5uk9Rl6RfN/ByqSmJdudmMOj7/NLXIYs7VqAVub
+         djKp33RkcUjHyoIl80FHvTexaoZmVLLHCyYtatlUwqUnIm2v9TzqU/P9pDNHIEww/Y9y
+         PEeEgqk5VpSJf+3gR7B3makMgxfH1F5D90ERF4rp7QrCip3DibD9fmy9cCbrXzbYiwPX
+         sfWkWVpFUN6N8RzYWF7nUxOYj9DG7UqqL1NxIMj0HMXSrm1o8hM3Hsyo4BlT7R9lhY2Y
+         q/FrWFANqVQunp6OwCufH5s0cCrf/J8Kx4cl/Hkh+1im1suhWE9XCYYvizlI2cvvrK3G
+         jFRg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
-        h=x-gm-message-state:mime-version:references:in-reply-to:reply-to
-         :from:date:message-id:subject:to:cc;
-        bh=K7E07vrAOsUMYnfUPvdCjsh86G6z1tMem1U690Z96iE=;
-        b=sbDGp7KY9dHWCpxTa0ddKcvYXATxtCBZ3e8XabhUdnwPoBx7nSi8mDzTkvqkGT9CKp
-         RTRoGcACPxIS821gKRLxPzwZAeFSF1io+TdzbQr6/C7KM15JO4OJGoaYGOz0+ef4svmL
-         X/3HxOwzl4aMmCfKNQ1bX186HIYPO5s3cHqG5poIkTVeial8zVT+PB+3a8MUjo/75VF8
-         9iimjVKpKgWS8zQieSUNCE++UMO0xHqhb2AX76oMbBq68YcPxWYBsvnaQRKdM318aP6h
-         hdN7KOrefb1n8+Fjnex1ahd1wan3Fjzrbe7XAOB4S4E5zC4GqC3vi4ZIlABYYnVQB73D
-         R08w==
-X-Gm-Message-State: AOAM532ZfdakUsKp9ijYol4wAR8JT3XUL/RSNDg2duaH9/JK7bOx0t32
-        DVRT/r00r8tTAq2JS+CE32wYdlcFdlp3UELe7uo=
-X-Google-Smtp-Source: ABdhPJwIwbs1HL/TYROJBrulHrPdUeh3swgxuWt1ccTXFB8LJar/3K+st9SL3QqrUnRN3o6gNzNNvOyj1QBIVLbTJGQ=
-X-Received: by 2002:aa7:c71a:: with SMTP id i26mr18007709edq.149.1591179981963;
- Wed, 03 Jun 2020 03:26:21 -0700 (PDT)
-MIME-Version: 1.0
-References: <20200529092530.25207-1-amir73il@gmail.com>
-In-Reply-To: <20200529092530.25207-1-amir73il@gmail.com>
-Reply-To: mtk.manpages@gmail.com
-From:   "Michael Kerrisk (man-pages)" <mtk.manpages@gmail.com>
-Date:   Wed, 3 Jun 2020 12:26:10 +0200
-Message-ID: <CAKgNAkgfrSbAnCV=JJWh3ELH9PDTjidn=cJ4s77gtffdj5hU-w@mail.gmail.com>
-Subject: Re: [PATCH 0/3] fanotify man page updates for final v5.7
-To:     Amir Goldstein <amir73il@gmail.com>
-Cc:     Jan Kara <jack@suse.cz>,
-        Matthew Bobrowski <mbobrowski@mbobrowski.org>,
+        h=x-gm-message-state:date:from:to:cc:subject:message-id:references
+         :mime-version:content-disposition:in-reply-to:user-agent;
+        bh=bvhGTqBjM8C9S6KRcKfgA/zPMUXxP+hfaYnmKz+3FxA=;
+        b=soOreusQJIUaPsMonVSBEbQLX7pb9St1FjwzXd58XgiG7DGT3avE/erKAQzLuvimW2
+         M1S8BfxY+MPDeBSJwJUp+cqyStfd/yY/iAHtTQVu+35AZldOPKO44ebYlC50vZojugHH
+         80u/bP6TqMRvIjj6P4fI0fGCd+s22/urWFMpEidWwW2PKmL2/4y0d0oCJ9/qj1+OqrFc
+         /3GDLeoZWoWv4+CKd+fm/wiWy3WLCfY4D5ZUFOLMWpnNtQE2hXGrqFjxIodl3Qtffsqk
+         ZC5WC5+xOdvF5ldIPa+LhlSuvTL44kU3PkfgYEb86u8JQFA5/1GGn3ZkznDXOXlEpskx
+         2A6Q==
+X-Gm-Message-State: AOAM532fvaiRhf7mPadQIW5fQZIrSylYnMiQpYiEVqsQ+KLEYyVpBUzH
+        /V8XpZom6hPYNYnbEcc1s3Bz3s8XNw==
+X-Google-Smtp-Source: ABdhPJwdow0RSb/YWmdZJJi31hWnMAlkXAXIUhnvp+VIJ82pOqYLcK0CbxZpQQ5o1JSRkoT4wht4ag==
+X-Received: by 2002:a17:902:7083:: with SMTP id z3mr2017951plk.143.1591228649671;
+        Wed, 03 Jun 2020 16:57:29 -0700 (PDT)
+Received: from mail.bobrowski.net (mail.bobrowski.net. [112.213.34.247])
+        by smtp.gmail.com with ESMTPSA id d7sm1115395pfh.78.2020.06.03.16.57.26
+        (version=TLS1_2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128/128);
+        Wed, 03 Jun 2020 16:57:28 -0700 (PDT)
+Date:   Thu, 4 Jun 2020 09:57:23 +1000
+From:   Matthew Bobrowski <mbobrowski@mbobrowski.org>
+To:     "Michael Kerrisk (man-pages)" <mtk.manpages@gmail.com>
+Cc:     Amir Goldstein <amir73il@gmail.com>, Jan Kara <jack@suse.cz>,
         linux-man <linux-man@vger.kernel.org>
-Content-Type: text/plain; charset="UTF-8"
+Subject: Re: [PATCH 0/3] fanotify man page updates for final v5.7
+Message-ID: <20200603235723.GA19624@mail.bobrowski.net>
+References: <20200529092530.25207-1-amir73il@gmail.com>
+ <CAKgNAkgfrSbAnCV=JJWh3ELH9PDTjidn=cJ4s77gtffdj5hU-w@mail.gmail.com>
+MIME-Version: 1.0
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <CAKgNAkgfrSbAnCV=JJWh3ELH9PDTjidn=cJ4s77gtffdj5hU-w@mail.gmail.com>
+User-Agent: Mutt/1.5.21 (2010-09-15)
 Sender: linux-man-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-man.vger.kernel.org>
 X-Mailing-List: linux-man@vger.kernel.org
 
-On Fri, 29 May 2020 at 11:25, Amir Goldstein <amir73il@gmail.com> wrote:
->
-> Hi Michael,
->
-> We made a last minute call to disable the FAN_DIR_MODIFY for v5.7.
-> Here is a man page update with some promissed cleanups.
+On Wed, Jun 03, 2020 at 12:26:10PM +0200, Michael Kerrisk (man-pages) wrote:
+> On Fri, 29 May 2020 at 11:25, Amir Goldstein <amir73il@gmail.com> wrote:
+> >
+> > Hi Michael,
+> >
+> > We made a last minute call to disable the FAN_DIR_MODIFY for v5.7.
+> > Here is a man page update with some promissed cleanups.
+> 
+> Thanks, Amir. I'll just hold off a little longer on processing these,
+> in case there are Acked-bys / review comments.
 
-Thanks, Amir. I'll just hold off a little longer on processing these,
-in case there are Acked-bys / review comments.
-
-Cheers,
-
-Michael
-
-> Amir Goldstein (3):
->   Revert "fanotify.7, fanotify_mark.2: Document FAN_DIR_MODIFY"
->   fanotify_init.2: move out of place entry FAN_REPORT_FID
->   fanotify.7, fanotify_mark.2: Clarify FAN_ONDIR in output mask
->
->  man2/fanotify_init.2 | 60 ++++++++++++++---------------
->  man2/fanotify_mark.2 | 50 ++----------------------
->  man7/fanotify.7      | 91 ++++++++++++++------------------------------
->  3 files changed, 61 insertions(+), 140 deletions(-)
->
-> --
-> 2.17.1
->
-
-
--- 
-Michael Kerrisk
-Linux man-pages maintainer; http://www.kernel.org/doc/man-pages/
-Linux/UNIX System Programming Training: http://man7.org/training/
+Sure, please do. I'm intending to get around to reviewing this series by the
+end of the week. 
+ 
+/M
