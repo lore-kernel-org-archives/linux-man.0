@@ -1,92 +1,131 @@
-Return-Path: <SRS0=6uzf=7Q=vger.kernel.org=linux-man-owner@kernel.org>
+Return-Path: <SRS0=EJzd=7S=vger.kernel.org=linux-man-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-2.3 required=3.0 tests=DKIM_SIGNED,DKIM_VALID,
-	HEADER_FROM_DIFFERENT_DOMAINS,MAILING_LIST_MULTI,SPF_HELO_NONE,SPF_PASS,
-	USER_AGENT_SANE_1 autolearn=no autolearn_force=no version=3.4.0
+X-Spam-Status: No, score=-0.8 required=3.0 tests=DKIM_SIGNED,DKIM_VALID,
+	HEADER_FROM_DIFFERENT_DOMAINS,MAILING_LIST_MULTI,SPF_HELO_NONE,SPF_PASS
+	autolearn=no autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 55E09C433E0
-	for <linux-man@archiver.kernel.org>; Wed,  3 Jun 2020 23:57:33 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 1A462C433E0
+	for <linux-man@archiver.kernel.org>; Fri,  5 Jun 2020 17:39:53 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.kernel.org (Postfix) with ESMTP id 2AF8920658
-	for <linux-man@archiver.kernel.org>; Wed,  3 Jun 2020 23:57:33 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTP id DE700206DB
+	for <linux-man@archiver.kernel.org>; Fri,  5 Jun 2020 17:39:52 +0000 (UTC)
 Authentication-Results: mail.kernel.org;
-	dkim=pass (2048-bit key) header.d=mbobrowski-org.20150623.gappssmtp.com header.i=@mbobrowski-org.20150623.gappssmtp.com header.b="wSuZMI0A"
+	dkim=pass (1024-bit key) header.d=gla.onmicrosoft.com header.i=@gla.onmicrosoft.com header.b="FByQ7a/Q"
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1726533AbgFCX5d (ORCPT <rfc822;linux-man@archiver.kernel.org>);
-        Wed, 3 Jun 2020 19:57:33 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:59542 "EHLO
-        lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1726170AbgFCX5c (ORCPT
-        <rfc822;linux-man@vger.kernel.org>); Wed, 3 Jun 2020 19:57:32 -0400
-Received: from mail-pj1-x1043.google.com (mail-pj1-x1043.google.com [IPv6:2607:f8b0:4864:20::1043])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 47008C08C5C0
-        for <linux-man@vger.kernel.org>; Wed,  3 Jun 2020 16:57:30 -0700 (PDT)
-Received: by mail-pj1-x1043.google.com with SMTP id nm22so280140pjb.4
-        for <linux-man@vger.kernel.org>; Wed, 03 Jun 2020 16:57:30 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=mbobrowski-org.20150623.gappssmtp.com; s=20150623;
-        h=date:from:to:cc:subject:message-id:references:mime-version
-         :content-disposition:in-reply-to:user-agent;
-        bh=bvhGTqBjM8C9S6KRcKfgA/zPMUXxP+hfaYnmKz+3FxA=;
-        b=wSuZMI0A0EpBDSgE562AnhEGL8+5uk9Rl6RfN/ByqSmJdudmMOj7/NLXIYs7VqAVub
-         djKp33RkcUjHyoIl80FHvTexaoZmVLLHCyYtatlUwqUnIm2v9TzqU/P9pDNHIEww/Y9y
-         PEeEgqk5VpSJf+3gR7B3makMgxfH1F5D90ERF4rp7QrCip3DibD9fmy9cCbrXzbYiwPX
-         sfWkWVpFUN6N8RzYWF7nUxOYj9DG7UqqL1NxIMj0HMXSrm1o8hM3Hsyo4BlT7R9lhY2Y
-         q/FrWFANqVQunp6OwCufH5s0cCrf/J8Kx4cl/Hkh+1im1suhWE9XCYYvizlI2cvvrK3G
-         jFRg==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20161025;
-        h=x-gm-message-state:date:from:to:cc:subject:message-id:references
-         :mime-version:content-disposition:in-reply-to:user-agent;
-        bh=bvhGTqBjM8C9S6KRcKfgA/zPMUXxP+hfaYnmKz+3FxA=;
-        b=soOreusQJIUaPsMonVSBEbQLX7pb9St1FjwzXd58XgiG7DGT3avE/erKAQzLuvimW2
-         M1S8BfxY+MPDeBSJwJUp+cqyStfd/yY/iAHtTQVu+35AZldOPKO44ebYlC50vZojugHH
-         80u/bP6TqMRvIjj6P4fI0fGCd+s22/urWFMpEidWwW2PKmL2/4y0d0oCJ9/qj1+OqrFc
-         /3GDLeoZWoWv4+CKd+fm/wiWy3WLCfY4D5ZUFOLMWpnNtQE2hXGrqFjxIodl3Qtffsqk
-         ZC5WC5+xOdvF5ldIPa+LhlSuvTL44kU3PkfgYEb86u8JQFA5/1GGn3ZkznDXOXlEpskx
-         2A6Q==
-X-Gm-Message-State: AOAM532fvaiRhf7mPadQIW5fQZIrSylYnMiQpYiEVqsQ+KLEYyVpBUzH
-        /V8XpZom6hPYNYnbEcc1s3Bz3s8XNw==
-X-Google-Smtp-Source: ABdhPJwdow0RSb/YWmdZJJi31hWnMAlkXAXIUhnvp+VIJ82pOqYLcK0CbxZpQQ5o1JSRkoT4wht4ag==
-X-Received: by 2002:a17:902:7083:: with SMTP id z3mr2017951plk.143.1591228649671;
-        Wed, 03 Jun 2020 16:57:29 -0700 (PDT)
-Received: from mail.bobrowski.net (mail.bobrowski.net. [112.213.34.247])
-        by smtp.gmail.com with ESMTPSA id d7sm1115395pfh.78.2020.06.03.16.57.26
-        (version=TLS1_2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128/128);
-        Wed, 03 Jun 2020 16:57:28 -0700 (PDT)
-Date:   Thu, 4 Jun 2020 09:57:23 +1000
-From:   Matthew Bobrowski <mbobrowski@mbobrowski.org>
-To:     "Michael Kerrisk (man-pages)" <mtk.manpages@gmail.com>
-Cc:     Amir Goldstein <amir73il@gmail.com>, Jan Kara <jack@suse.cz>,
-        linux-man <linux-man@vger.kernel.org>
-Subject: Re: [PATCH 0/3] fanotify man page updates for final v5.7
-Message-ID: <20200603235723.GA19624@mail.bobrowski.net>
-References: <20200529092530.25207-1-amir73il@gmail.com>
- <CAKgNAkgfrSbAnCV=JJWh3ELH9PDTjidn=cJ4s77gtffdj5hU-w@mail.gmail.com>
+        id S1726044AbgFERjw (ORCPT <rfc822;linux-man@archiver.kernel.org>);
+        Fri, 5 Jun 2020 13:39:52 -0400
+Received: from hillend.cent.gla.ac.uk ([130.209.16.102]:63624 "EHLO
+        hillend.cent.gla.ac.uk" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1726788AbgFERjw (ORCPT
+        <rfc822;linux-man@vger.kernel.org>); Fri, 5 Jun 2020 13:39:52 -0400
+X-Greylist: delayed 1000 seconds by postgrey-1.27 at vger.kernel.org; Fri, 05 Jun 2020 13:37:42 EDT
+Received: from cas08.campus.gla.ac.uk ([130.209.14.165])
+        by hillend.cent.gla.ac.uk with esmtp (Exim 4.72)
+        (envelope-from <John.W.Marshall@glasgow.ac.uk>)
+        id 1jhG1d-0003g5-7V; Fri, 05 Jun 2020 18:21:01 +0100
+Received: from cas07.campus.gla.ac.uk (130.209.14.164) by
+ cas08.campus.gla.ac.uk (130.209.14.165) with Microsoft SMTP Server (TLS) id
+ 15.0.1497.2; Fri, 5 Jun 2020 18:21:00 +0100
+Received: from GBR01-CWL-obe.outbound.protection.outlook.com (104.47.20.59) by
+ cas07.campus.gla.ac.uk (130.209.14.164) with Microsoft SMTP Server (TLS) id
+ 15.0.1497.2 via Frontend Transport; Fri, 5 Jun 2020 18:21:00 +0100
+ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
+ b=OQcHYkfMNp/Tptv2l3Ci62xLkztmzjRvfk9xSAMuTLw/LhrvBpAJW8gIlRtkO53ha/CeJWLMuOKrtw7qzACTcpb5IMJc6GpztFioa5XCQKoSqmMpusjJhVBL8Eqg8whikIf/lqMJ0BaGQtxw8uNdDnBGHZ1BAu5thiGCdDEw5z+C59iSBZN4IFkXuezsbYtYbsg/xzJHMVLJ2jqX7ixHJldkgNDq3LXdi98FIkW/LDvG8HFLwAmBrLjbZSbT3P+HitKc0GHU3gkiLJBf8m1FhGRtYA33MRSPydWZIf85/YdZ4IgiLtBGaGiFs9rA5Tri/UcrHpmoU0rAF8f7wbSiTA==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
+ s=arcselector9901;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=1W4k3lXT3Z6zxNcyB7ZAkVrVsmQ39w2maIaAHXnqc2Y=;
+ b=QHVG+QpDXfq82RAbIWQLjGyUL7BAi2+k7Q4cGt8i6v7hkXLIaWOv/vKC32sng9KnQITRUKOAfHjr/kWF/pxw8rv++suNHVIvqcX750gI/F7ZW93iVNkfmPGOHub7P+ZHzOxG7VoiYbduLfdT7D9YDhfX6qTp03bvH2BAPAgGAfXclHSf+QpUizJBCiUsmhAMBQy6TpGJ1rbrEUy3dsURKe0f6SQuyEFuCqgqZ2TqVqJzsnipvBScGhm0u6MGM/U8Joz/s2TB6d5TqeIBt1IVSqmp8157s7Y3AGJyjwe3rdbIh6YCQ7k0IkuvFshul3amk5QWaVkw2sGIn8l8oKSmwA==
+ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
+ smtp.mailfrom=glasgow.ac.uk; dmarc=pass action=none
+ header.from=glasgow.ac.uk; dkim=pass header.d=glasgow.ac.uk; arc=none
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gla.onmicrosoft.com;
+ s=selector2-gla-onmicrosoft-com;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=1W4k3lXT3Z6zxNcyB7ZAkVrVsmQ39w2maIaAHXnqc2Y=;
+ b=FByQ7a/Qysy0kAqaeDgyWGYsGi1I+Bs1eQzr+FrbEnPQD7ooNOlVox/HqBEpstkjH4WE5VTLBHraTA/B8l4tYB+RrncRS6NawqEvdSBtzrF5hFBugfJDDq6vAtJetnxc+JxHA7e8eUHC18T5kMEy7B6zTjvDECe9CO5Rl+V8ww4=
+Received: from LNXP265MB1001.GBRP265.PROD.OUTLOOK.COM (2603:10a6:600:84::12)
+ by LNXP265MB0505.GBRP265.PROD.OUTLOOK.COM (2603:10a6:600:1b::11) with
+ Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.3066.20; Fri, 5 Jun
+ 2020 17:21:00 +0000
+Received: from LNXP265MB1001.GBRP265.PROD.OUTLOOK.COM
+ ([fe80::edbd:dbdc:b744:15da]) by LNXP265MB1001.GBRP265.PROD.OUTLOOK.COM
+ ([fe80::edbd:dbdc:b744:15da%7]) with mapi id 15.20.3045.024; Fri, 5 Jun 2020
+ 17:21:00 +0000
+From:   John Marshall <John.W.Marshall@glasgow.ac.uk>
+To:     "mtk.manpages@gmail.com" <mtk.manpages@gmail.com>
+CC:     "linux-man@vger.kernel.org" <linux-man@vger.kernel.org>
+Subject: random(3) and RAND_MAX
+Thread-Topic: random(3) and RAND_MAX
+Thread-Index: AQHWO12uQc3q+9KhbEeQvdYRDsPD3A==
+Date:   Fri, 5 Jun 2020 17:21:00 +0000
+Message-ID: <02185B3C-F6E5-4674-BB34-E549E04C5B37@glasgow.ac.uk>
+Accept-Language: en-GB, en-US
+Content-Language: en-US
+X-MS-Has-Attach: 
+X-MS-TNEF-Correlator: 
+authentication-results: gmail.com; dkim=none (message not signed)
+ header.d=none;gmail.com; dmarc=none action=none header.from=glasgow.ac.uk;
+x-originating-ip: [86.178.96.176]
+x-ms-publictraffictype: Email
+x-ms-office365-filtering-correlation-id: 07bf366f-81c5-42e0-bc4e-08d80974d117
+x-ms-traffictypediagnostic: LNXP265MB0505:
+x-microsoft-antispam-prvs: <LNXP265MB0505DE8640E1B84AD8A9BB79F0860@LNXP265MB0505.GBRP265.PROD.OUTLOOK.COM>
+x-ms-oob-tlc-oobclassifiers: OLM:9508;
+x-forefront-prvs: 0425A67DEF
+x-ms-exchange-senderadcheck: 1
+x-microsoft-antispam: BCL:0;
+x-microsoft-antispam-message-info: enfjYVFxE43stpyQ0gt51zYugCoo+zyCStNo2u7MOCZf7abkC0Fh0bp/UmAdV1jDKD7Cle+41SaipFZ4VYnZwcZrxRyGrneb1q8GBJOX5JdgsqnnHxZytOqg32f6jNXAPugqZVDGP83fcXUS/eSgiS4HUFO6D1dWHlkWIQj01r1XVUtfHZ2XrzGuGppIV1fQHemWXI6IZ/GZf/f2xHvshA4ZZBy7F6OaNzHTxkKyJ+QmFstvDlAW8Y7coFF0f/GAnFETGi7pOBSe6XKa6kPqtAoCScMrwLxpRhWgC9DWnfWsaiQucgvWM8Oy/r2qEeP7rYT7QtkUBZGjTmwiCPS4vw==
+x-forefront-antispam-report: CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:LNXP265MB1001.GBRP265.PROD.OUTLOOK.COM;PTR:;CAT:NONE;SFTY:;SFS:(39860400002)(366004)(396003)(136003)(376002)(346002)(64756008)(83380400001)(478600001)(66556008)(6506007)(66446008)(66946007)(66476007)(316002)(2906002)(36756003)(6512007)(6486002)(26005)(786003)(5660300002)(71200400001)(76116006)(86362001)(2616005)(4326008)(8676002)(8936002)(33656002)(186003)(6916009);DIR:OUT;SFP:1101;
+x-ms-exchange-antispam-messagedata: d8gAlnce9dfRSx/4KxtEkwG9k+rplcqjtEB9EQAfpTo+1wUJLR7jJJZt7Ry/uA4abGY6rjvlOXb1gpQE8jYTnSH6BxvsZZCCeVRhOzxSyZ8PUNkiGJgdgMgBxeIS/W0YEf+Sc5qbchmoib2HUFqPGYd4X1ckLPVrSH5E/aEN2dSS6BTSE7CIKfHQ+tKFr8B91K3pK0TTln0Cf2CyOGXR38KhXiE7mMCIf01a94bYNsO+ou9LvMwPXBxpfMLqmAhtmj+ies58GX26zy+TnEUa92Wrz/MPFLKlvg0ZmQanUrnkN1bynOgbBte19HWlW9Lb83TWTDA5k9gnB8SduEHe5r6QpMcyNfcgLTYrfMLGMpNLQqltQYkHtr92jMifdT4L+YIUjnrW+zDG3pJYFCFOUGyy5fa6RZI8oWWmYwHhNR9WUNtN/VeyXCqsiVTI5w4iw71BZI7W9FHFiOA5X7OJqUgsR70hhq9ROYuRsM20BgE=
+x-ms-exchange-transport-forked: True
+Content-Type: text/plain; charset="us-ascii"
+Content-ID: <604B17EEEA6AAC46B17DE19BC1E0DAD7@GBRP265.PROD.OUTLOOK.COM>
+Content-Transfer-Encoding: quoted-printable
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <CAKgNAkgfrSbAnCV=JJWh3ELH9PDTjidn=cJ4s77gtffdj5hU-w@mail.gmail.com>
-User-Agent: Mutt/1.5.21 (2010-09-15)
+X-MS-Exchange-CrossTenant-Network-Message-Id: 07bf366f-81c5-42e0-bc4e-08d80974d117
+X-MS-Exchange-CrossTenant-originalarrivaltime: 05 Jun 2020 17:21:00.0665
+ (UTC)
+X-MS-Exchange-CrossTenant-fromentityheader: Hosted
+X-MS-Exchange-CrossTenant-id: 6e725c29-763a-4f50-81f2-2e254f0133c8
+X-MS-Exchange-CrossTenant-mailboxtype: HOSTED
+X-MS-Exchange-CrossTenant-userprincipalname: /5PBFSacAcVAFblTtwb0moBIcuR8RYgc/9gT4EAM6QhlApe54vGNLCiRKVBRbocXQZlOp/4paJ9Tfu8x85ouUacvAsT2l6QrfK4eH07vx+M=
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: LNXP265MB0505
+X-OriginatorOrg: glasgow.ac.uk
 Sender: linux-man-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-man.vger.kernel.org>
 X-Mailing-List: linux-man@vger.kernel.org
 
-On Wed, Jun 03, 2020 at 12:26:10PM +0200, Michael Kerrisk (man-pages) wrote:
-> On Fri, 29 May 2020 at 11:25, Amir Goldstein <amir73il@gmail.com> wrote:
-> >
-> > Hi Michael,
-> >
-> > We made a last minute call to disable the FAN_DIR_MODIFY for v5.7.
-> > Here is a man page update with some promissed cleanups.
-> 
-> Thanks, Amir. I'll just hold off a little longer on processing these,
-> in case there are Acked-bys / review comments.
+Observed in CentOS 8's man-pages-4.15-6.el8.x86_64 and also on man-pages Gi=
+t master:
 
-Sure, please do. I'm intending to get around to reviewing this series by the
-end of the week. 
- 
-/M
+Man-pages's rand.3 says rand() returns values in the range [0, RAND_MAX] an=
+d is very clear that this is inclusive. This is the same as the POSIX descr=
+iption of rand(3).
+
+Man-pages's random.3 says random() returns values "in the range from 0 to R=
+AND_MAX". However POSIX describes random() as returning values "in the rang=
+e from 0 to 2^31-1".
+
+In practice glibc and musl both fix RAND_MAX as a constant 2^31-1 so on the=
+se platforms it is the same thing. Similarly on macOS. It appears that Free=
+BSD used to have a slightly lower value of RAND_MAX but several months ago =
+raised it to 2^31-1 similarly. OTOH it appears that Windows, Cygwin, etc st=
+ill use a much smaller value for RAND_MAX (32767) but the full POSIX range =
+for random(3).
+
+So random.3 describing the range as 0..RAND_MAX is correct on Linux (unless=
+ you're using a very unusual libc) but misleading when used as a reference =
+for writing code portable to other platforms. It would be good to change ra=
+ndom.3 to refer to the hardcoded constant (2^31-1) instead of RAND_MAX (and=
+ perhaps add a note that on Linux this is the same as RAND_MAX), or at leas=
+t to add a note saying that RAND_MAX may be an unrelated value on other pla=
+tforms.
+
+Thanks,
+
+    John=
