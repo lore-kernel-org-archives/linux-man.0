@@ -1,129 +1,91 @@
-Return-Path: <SRS0=GwIw=7T=vger.kernel.org=linux-man-owner@kernel.org>
+Return-Path: <SRS0=g9g8=7U=vger.kernel.org=linux-man-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-2.4 required=3.0 tests=DKIM_SIGNED,DKIM_VALID,
-	DKIM_VALID_AU,HEADER_FROM_DIFFERENT_DOMAINS,MAILING_LIST_MULTI,SPF_HELO_NONE,
-	SPF_PASS,USER_AGENT_SANE_1 autolearn=no autolearn_force=no version=3.4.0
+X-Spam-Status: No, score=-5.2 required=3.0 tests=DKIM_SIGNED,DKIM_VALID,
+	HEADER_FROM_DIFFERENT_DOMAINS,MAILING_LIST_MULTI,SIGNED_OFF_BY,SPF_HELO_NONE,
+	SPF_PASS,USER_AGENT_SANE_1 autolearn=ham autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 71AA0C433DF
-	for <linux-man@archiver.kernel.org>; Sat,  6 Jun 2020 21:16:35 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id A23B4C433DF
+	for <linux-man@archiver.kernel.org>; Sun,  7 Jun 2020 12:15:43 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.kernel.org (Postfix) with ESMTP id 26B2B2077D
-	for <linux-man@archiver.kernel.org>; Sat,  6 Jun 2020 21:16:35 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTP id 647522064C
+	for <linux-man@archiver.kernel.org>; Sun,  7 Jun 2020 12:15:43 +0000 (UTC)
 Authentication-Results: mail.kernel.org;
-	dkim=pass (2048-bit key) header.d=jguk.org header.i=@jguk.org header.b="AIh8ZE1m"
+	dkim=pass (2048-bit key) header.d=mbobrowski-org.20150623.gappssmtp.com header.i=@mbobrowski-org.20150623.gappssmtp.com header.b="CMED8aKL"
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1728479AbgFFVQe (ORCPT <rfc822;linux-man@archiver.kernel.org>);
-        Sat, 6 Jun 2020 17:16:34 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:54974 "EHLO
+        id S1726465AbgFGMPm (ORCPT <rfc822;linux-man@archiver.kernel.org>);
+        Sun, 7 Jun 2020 08:15:42 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:51134 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1728467AbgFFVQe (ORCPT
-        <rfc822;linux-man@vger.kernel.org>); Sat, 6 Jun 2020 17:16:34 -0400
-Received: from mail-wr1-x444.google.com (mail-wr1-x444.google.com [IPv6:2a00:1450:4864:20::444])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id A9A11C03E96A
-        for <linux-man@vger.kernel.org>; Sat,  6 Jun 2020 14:16:33 -0700 (PDT)
-Received: by mail-wr1-x444.google.com with SMTP id j10so13372767wrw.8
-        for <linux-man@vger.kernel.org>; Sat, 06 Jun 2020 14:16:33 -0700 (PDT)
+        with ESMTP id S1725886AbgFGMPm (ORCPT
+        <rfc822;linux-man@vger.kernel.org>); Sun, 7 Jun 2020 08:15:42 -0400
+Received: from mail-pl1-x641.google.com (mail-pl1-x641.google.com [IPv6:2607:f8b0:4864:20::641])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 99278C08C5C2
+        for <linux-man@vger.kernel.org>; Sun,  7 Jun 2020 05:15:40 -0700 (PDT)
+Received: by mail-pl1-x641.google.com with SMTP id x11so5548791plv.9
+        for <linux-man@vger.kernel.org>; Sun, 07 Jun 2020 05:15:40 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=jguk.org; s=google;
-        h=subject:to:cc:references:from:message-id:date:user-agent
-         :mime-version:in-reply-to:content-language:content-transfer-encoding;
-        bh=RUz2PmfaMuSGYWlQK2O6OMNNPQjKy+XhLbBmvHlK+Tg=;
-        b=AIh8ZE1mpVQUmdj+yQ7Y5QFu3ojQrmg6jVZeRMT3l0ItNjSxGFN8aRrdPdWM09RU7E
-         +0tCafstKr5piNO4g2gJcXZ4SaVga3fmiAgL+Ei/5V8qMbrChTWXjQUzpf9tiXGKopnH
-         9DNQ9PBSeLxssUUg6xOm3osIp5Xz1OXGaEAPa9a7MXtM7VgzwgGguCWn1LOQiotw05J7
-         ZBLQQwOiYg1exUT/BtkBlggKQfZ+HMvuovtSwCb9g3Sdd2i+W08VIS7iVTalwIHHiApX
-         cTEy5EhHnHZZ2nqYMjMY88W3GWokv1vAvdB/6jmWmwUIWZexLocloKmxbpNrtnZX+T6v
-         sNqg==
+        d=mbobrowski-org.20150623.gappssmtp.com; s=20150623;
+        h=date:from:to:cc:subject:message-id:references:mime-version
+         :content-disposition:in-reply-to:user-agent;
+        bh=O5wfOVvwRoodX+P1Sc/gK9CZqZTldxSDml0QgHt4VPw=;
+        b=CMED8aKLOucbwMsvkXabThsxtbFnFucMhADH3Jr1KqDF7Djk8D+q4rkTRbbhJvShnT
+         iiUCDt/7bCqf2Wj94xfysKQES3OQT4tsuNBBOlLyuInGO+q8DkdHeUvyAOwrJqlUeHez
+         /R+cA20n7VCHAXlMq78HX27GkWPuU0E2OWo9EvE5y3qiR86izagQoJFuDp3TUno9qL+6
+         Kv4CXX3OABmpztug3U37FWsG5AIhtaEzq8sn0RNprrZrDnFZDqAMBlgDJU+jxA0g++JH
+         FhfFqbb+EaxfYxxzkVJTuEgEMdRMk2G1FA/2Khqr4+CfK7SMacp288jXstBJykn5vVm/
+         g9hA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
-        h=x-gm-message-state:subject:to:cc:references:from:message-id:date
-         :user-agent:mime-version:in-reply-to:content-language
-         :content-transfer-encoding;
-        bh=RUz2PmfaMuSGYWlQK2O6OMNNPQjKy+XhLbBmvHlK+Tg=;
-        b=crdHjcp7993rflOShPwrUnc8VP84fiXCZVcS5g8Krx1c56z4TWn9LCRBNPNiJA5XNU
-         4FG5FiNUoOVoZWqsOMnDd6rI6rfQI6SeoVxqmcDb2DhFfjzhI2xymVJoWbhqqYYSkwCN
-         G73So6QG5Lg0Ln5UzBgC7ZaapxgaCVEMHrc4XCFn4OT4BgiAysvk3kxNMuiIqVE05/u5
-         dle/eOTzDSam6AtHy9nDkztXWL9H9jUjQuLUlI8RHSyQ19Q2KX1cjLQaRG9Hhwb1GYcp
-         UCU8WTu+71eRu8JpOHlp/ABWjzbYyevV4sBaGDhPiSWMs2XSIdberDdchmbRxjes5h3h
-         SvLA==
-X-Gm-Message-State: AOAM533VuibU3GFw83OqCx7tiRiDPhBXoFmRhd/cQnIQ883OqyDuGgNv
-        5X3et880XUiiEge07mVoUCji2fvsvrU=
-X-Google-Smtp-Source: ABdhPJziRcpvyr5undJC/158XWcg09/jxC9fzlLmldJcooMEqwUBfmWgFU4uiaW9Bvjc+H6m4M1DbA==
-X-Received: by 2002:a5d:6cce:: with SMTP id c14mr15174882wrc.377.1591478190506;
-        Sat, 06 Jun 2020 14:16:30 -0700 (PDT)
-Received: from [192.168.0.12] (cpc87281-slou4-2-0-cust47.17-4.cable.virginm.net. [92.236.12.48])
-        by smtp.gmail.com with ESMTPSA id f71sm16160346wmf.22.2020.06.06.14.16.29
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Sat, 06 Jun 2020 14:16:29 -0700 (PDT)
-Subject: Re: core(5)
-To:     mtk.manpages@gmail.com, Jakub Wilk <jwilk@jwilk.net>
-Cc:     linux-man <linux-man@vger.kernel.org>
-References: <9000a831-9a0f-0577-5755-95b301218383@jguk.org>
- <20200606145003.x37j5hywuyn32lpf@jwilk.net>
- <e8283646-38fd-b9a8-2056-547fecaeb182@jguk.org>
- <20200606183210.2tx7rjuryxrnh7d3@jwilk.net>
- <CAKgNAkiqfE4WETiE4VBMGpnDM0twtB0B6pbMyuoMT5+WWrpKvw@mail.gmail.com>
-From:   Jonny Grant <jg@jguk.org>
-Message-ID: <a504a2ab-32d2-ad39-295f-47a1d5de2f34@jguk.org>
-Date:   Sat, 6 Jun 2020 22:16:28 +0100
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
- Thunderbird/68.8.0
+        h=x-gm-message-state:date:from:to:cc:subject:message-id:references
+         :mime-version:content-disposition:in-reply-to:user-agent;
+        bh=O5wfOVvwRoodX+P1Sc/gK9CZqZTldxSDml0QgHt4VPw=;
+        b=O1OnmA6tZ6kK2W9DKZE9Y03oqFp2Tb3U7CeIa9SXBedQxns3LCKoPz0JJJB+QNCAOc
+         C7YaC28IduRqsX0ntDaUgOS2oIIv16EkY7Qhq6fkfYGJ1l11crZXSRGm0ZAFlRpy5TrB
+         9ZlgiCo4h6l19j6TpzmHUZInvUENrSRRnulje4Ke64FKCOsZ6ChWVGDS/Gv3XM7Segbw
+         2aW4Xuux9SOCu7b0JxC5b/Lq7PcmQ8rcanzJKjzI8dDSn8a8i8bLpaeG6dRclbV8OGcp
+         QuLV6BPXXkB35dRAfBwxU5hmHhS/vl0LWlib5gpl6spJpMkxTUcgQ6uEI61r4JtUhN+c
+         kebw==
+X-Gm-Message-State: AOAM530Lmo/QJ/zapGGUC6HN438poYd6+WsPekgFICHH7XhXmx2iZC0T
+        cSML7itEekDau4MEvkbZ1Smo
+X-Google-Smtp-Source: ABdhPJyEFAx/QXC7m+UC9gKhE2nSMYwPv0b2/W87jcTJIP1jgPYl8mFBWRnK1mixqPzFzYuXCM1ArQ==
+X-Received: by 2002:a17:90a:f011:: with SMTP id bt17mr12289674pjb.179.1591532139861;
+        Sun, 07 Jun 2020 05:15:39 -0700 (PDT)
+Received: from mail.bobrowski.net (mail.bobrowski.net. [112.213.34.247])
+        by smtp.gmail.com with ESMTPSA id e12sm3705055pgk.9.2020.06.07.05.15.37
+        (version=TLS1_2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128/128);
+        Sun, 07 Jun 2020 05:15:39 -0700 (PDT)
+Date:   Sun, 7 Jun 2020 22:15:34 +1000
+From:   Matthew Bobrowski <mbobrowski@mbobrowski.org>
+To:     Amir Goldstein <amir73il@gmail.com>
+Cc:     Michael Kerrisk <mtk.manpages@gmail.com>, Jan Kara <jack@suse.cz>,
+        linux-man@vger.kernel.org
+Subject: Re: [PATCH 1/3] Revert "fanotify.7, fanotify_mark.2: Document
+ FAN_DIR_MODIFY"
+Message-ID: <20200607121534.GA4886@mail.bobrowski.net>
+References: <20200529092530.25207-1-amir73il@gmail.com>
+ <20200529092530.25207-2-amir73il@gmail.com>
 MIME-Version: 1.0
-In-Reply-To: <CAKgNAkiqfE4WETiE4VBMGpnDM0twtB0B6pbMyuoMT5+WWrpKvw@mail.gmail.com>
-Content-Type: text/plain; charset=utf-8; format=flowed
-Content-Language: en-GB
-Content-Transfer-Encoding: 7bit
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20200529092530.25207-2-amir73il@gmail.com>
+User-Agent: Mutt/1.5.21 (2010-09-15)
 Sender: linux-man-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-man.vger.kernel.org>
 X-Mailing-List: linux-man@vger.kernel.org
 
-
-
-On 06/06/2020 20:39, Michael Kerrisk (man-pages) wrote:
-> On Sat, 6 Jun 2020 at 20:32, Jakub Wilk <jwilk@jwilk.net> wrote:
->>
->> * Jonny Grant <jg@jguk.org>, 2020-06-06, 16:45:
->>>>> 3) Could i ask to clarify my understanding. For this "The binary
->>>>> being executed by the process does not have read permission enabled."
->>>>> -- is this when the binary permissions are changed after it starts
->>>>> running?
->>>> No, AFAICS the permission check is done when the process starts.
->>> How can the process start if the binary file doesn't have read
->>> permissions enabled?
->>
->> It's a bit weird, but the kernel doesn't mind:
->>
->>     $ cp /bin/ls .
->>     $ chmod a-r ls
->>     $ ./ls -l ls
->>     --wx--x--x 1 jwilk jwilk 138856 Jun  6 20:22 ls
+On Fri, May 29, 2020 at 12:25:28PM +0300, Amir Goldstein wrote:
+> This reverts commit a93e5c9593a95d09a1c9deb94dfdecbb970b8162.
 > 
-> And from core(5):
+> FAN_DIR_MODIFY was disabled for v5.7 release by kernel commit
+> f17936993af0 ("fanotify: turn off support for FAN_DIR_MODIFY").
 > 
->         There are various circumstances in which a core dump file  is  not
->         produced:
->         ...
->         *  The binary being executed by the process  does  not  have  read
->            permission enabled.
-> 
-> So, the binary can be executed, but not read, and will not do a core
-> dump (since that might be readable).
-> 
-> Thanks,
-> 
-> Michael
+> Signed-off-by: Amir Goldstein <amir73il@gmail.com>
 
-Hi Michael, Jakub,
+This looks fine to me.
 
-It sounds like a good security feature. Could that be documented on the man page as the reason?
+Reviewed-by: Matthew Bobrowski <mbobrowski@mbobrowski.org>
 
-ie something like this:
-
-*  The binary being executed by the process  does  not  have  read
-permission enabled, therefore a core file would reveal information in a readable file, so it cannot be dumped.
-
-Cheers
-Jonny
+/M
