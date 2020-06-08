@@ -1,92 +1,85 @@
-Return-Path: <SRS0=g9g8=7U=vger.kernel.org=linux-man-owner@kernel.org>
+Return-Path: <SRS0=NY7b=7V=vger.kernel.org=linux-man-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-5.2 required=3.0 tests=DKIM_SIGNED,DKIM_VALID,
-	HEADER_FROM_DIFFERENT_DOMAINS,MAILING_LIST_MULTI,SIGNED_OFF_BY,SPF_HELO_NONE,
-	SPF_PASS,USER_AGENT_SANE_1 autolearn=ham autolearn_force=no version=3.4.0
+X-Spam-Status: No, score=-3.8 required=3.0 tests=HEADER_FROM_DIFFERENT_DOMAINS,
+	INCLUDES_PATCH,MAILING_LIST_MULTI,SPF_HELO_NONE,SPF_PASS autolearn=no
+	autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 2C776C433E0
-	for <linux-man@archiver.kernel.org>; Sun,  7 Jun 2020 12:40:17 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 92DAEC433DF
+	for <linux-man@archiver.kernel.org>; Mon,  8 Jun 2020 11:04:31 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.kernel.org (Postfix) with ESMTP id E806F20663
-	for <linux-man@archiver.kernel.org>; Sun,  7 Jun 2020 12:40:16 +0000 (UTC)
-Authentication-Results: mail.kernel.org;
-	dkim=pass (2048-bit key) header.d=mbobrowski-org.20150623.gappssmtp.com header.i=@mbobrowski-org.20150623.gappssmtp.com header.b="pf2hFp8I"
+	by mail.kernel.org (Postfix) with ESMTP id 778442076A
+	for <linux-man@archiver.kernel.org>; Mon,  8 Jun 2020 11:04:31 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1726455AbgFGMkQ (ORCPT <rfc822;linux-man@archiver.kernel.org>);
-        Sun, 7 Jun 2020 08:40:16 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:54906 "EHLO
-        lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1726447AbgFGMkQ (ORCPT
-        <rfc822;linux-man@vger.kernel.org>); Sun, 7 Jun 2020 08:40:16 -0400
-Received: from mail-pf1-x444.google.com (mail-pf1-x444.google.com [IPv6:2607:f8b0:4864:20::444])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id CC88DC08C5C2
-        for <linux-man@vger.kernel.org>; Sun,  7 Jun 2020 05:40:15 -0700 (PDT)
-Received: by mail-pf1-x444.google.com with SMTP id x22so7271288pfn.3
-        for <linux-man@vger.kernel.org>; Sun, 07 Jun 2020 05:40:15 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=mbobrowski-org.20150623.gappssmtp.com; s=20150623;
-        h=date:from:to:cc:subject:message-id:references:mime-version
-         :content-disposition:in-reply-to:user-agent;
-        bh=1FUA0581zba8MACGjVmq5uYNCoTcmLnROStouCerRk0=;
-        b=pf2hFp8I0BxccgcRoEQtALVZFjDet4+SQm1v91DWWc1Wf3Fex8x3TQa6x4J5l2exSK
-         ukBcgw18pf1nJExEEv0RolKT0kl+F4hS12Uq7zOu50qeZk1B54dqMWL5JexAXsDpyx5Y
-         MLoxUXDE8BDurHNqvNVv+Q46+pz7EGxpT3ddcg6DkYrSENBMN8/RsW35jsgo6l6I7UAe
-         dHHKtRPioH1Rf+0AAA2+m5y59X6LJeFDtep83uiirGd0c2Gnoc8kOpn0Qr/J6pgFbFu4
-         twKEinFSpXUyDAuvW+2FWCB62Hx8s7Ok8nPcpZzTEvSBFLLcqfKHYJx8E6L8vRDd0Xfk
-         J9Tw==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20161025;
-        h=x-gm-message-state:date:from:to:cc:subject:message-id:references
-         :mime-version:content-disposition:in-reply-to:user-agent;
-        bh=1FUA0581zba8MACGjVmq5uYNCoTcmLnROStouCerRk0=;
-        b=ND88dP5orZAYfconT9IMh3WkJTSoTGuLDqybcGATc5RiP/mXSbNzSAKLLFPXAwcoFg
-         LwfBkO0+vgI7/fslnPWCZP2HarRESe0cqN+3WUUKK8ZsZ1QaKRwRKFdr0BIG4ya7pkK3
-         U5rd4m2e9yND5JRESuGPWkUEtFRkBUCTr2+GfxXrKr9uu76sVYBve+8Y3ZnjVRMvZzWi
-         kn/J2+b/+5Je4FJdvFzlvLqGidn8kiRljkNT4v0kLb16c/oliexTW6KdlaTTWR72wIUv
-         z8fSa9w8eY7BcCvYG07GveRLp6IZ0SQoZpmh3WCbB/FOYWIfaa26illqfTNhyYbS4+IF
-         KVzQ==
-X-Gm-Message-State: AOAM530OObnwmvs0Nx0E+Yev8PhY3qoNPA/qu2i2xVAE9NVs8grABX1E
-        kwJCovDCoFPd3un7dB6Pz8K9
-X-Google-Smtp-Source: ABdhPJxEIVU8gRdTcnv2oo2W8n6PYeGaPVYt3TIiUIBlhdOird4UGWB/4XVuvh1Qx4BIUy7n18oSxw==
-X-Received: by 2002:a63:7353:: with SMTP id d19mr17377436pgn.239.1591533615136;
-        Sun, 07 Jun 2020 05:40:15 -0700 (PDT)
-Received: from mail.bobrowski.net (mail.bobrowski.net. [112.213.34.247])
-        by smtp.gmail.com with ESMTPSA id 207sm4340905pfw.190.2020.06.07.05.40.12
-        (version=TLS1_2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128/128);
-        Sun, 07 Jun 2020 05:40:14 -0700 (PDT)
-Date:   Sun, 7 Jun 2020 22:40:09 +1000
-From:   Matthew Bobrowski <mbobrowski@mbobrowski.org>
-To:     Amir Goldstein <amir73il@gmail.com>
-Cc:     Michael Kerrisk <mtk.manpages@gmail.com>, Jan Kara <jack@suse.cz>,
-        linux-man@vger.kernel.org
-Subject: Re: [PATCH 3/3] fanotify.7, fanotify_mark.2: Clarify FAN_ONDIR in
- output mask
-Message-ID: <20200607124009.GC4886@mail.bobrowski.net>
-References: <20200529092530.25207-1-amir73il@gmail.com>
- <20200529092530.25207-4-amir73il@gmail.com>
+        id S1729371AbgFHLEa (ORCPT <rfc822;linux-man@archiver.kernel.org>);
+        Mon, 8 Jun 2020 07:04:30 -0400
+Received: from plockton.cent.gla.ac.uk ([130.209.16.75]:57799 "EHLO
+        plockton.cent.gla.ac.uk" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1726202AbgFHLE3 (ORCPT
+        <rfc822;linux-man@vger.kernel.org>); Mon, 8 Jun 2020 07:04:29 -0400
+Received: from tmpvpnr180-169.cent.gla.ac.uk ([172.20.180.169] helo=Johns-MacBook-Pro.local)
+        by plockton.cent.gla.ac.uk with smtp (Exim 4.72)
+        (envelope-from <John.W.Marshall@glasgow.ac.uk>)
+        id 1jiFZl-00076c-Mw; Mon, 08 Jun 2020 12:04:23 +0100
+Date:   Mon, 8 Jun 2020 12:04:16 +0100
+From:   John Marshall <John.W.Marshall@glasgow.ac.uk>
+To:     mtk.manpages@gmail.com
+Cc:     linux-man@vger.kernel.org
+Subject: [patch] random.3: wfix: RAND_MAX is for rand(3)
+Message-ID: <20200608110416.GA21314@Johns-MacBook-Pro.local>
+References: <02185B3C-F6E5-4674-BB34-E549E04C5B37@glasgow.ac.uk>
+ <627c601ec03b4da9b1ce98ee0e61a6ba@bfs.de>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <20200529092530.25207-4-amir73il@gmail.com>
-User-Agent: Mutt/1.5.21 (2010-09-15)
+In-Reply-To: <627c601ec03b4da9b1ce98ee0e61a6ba@bfs.de>
 Sender: linux-man-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-man.vger.kernel.org>
 X-Mailing-List: linux-man@vger.kernel.org
 
-On Fri, May 29, 2020 at 12:25:30PM +0300, Amir Goldstein wrote:
-> FAN_ONDIR has been an input only flag before introduing FAN_REPORT_FID.
-> With FAN_REPORT_FID it can also be in output mask.
-> 
-> Move the text describing its role in output mask to fanotify.7 where the
-> other output mask bits are documented.
-> 
-> Signed-off-by: Amir Goldstein <amir73il@gmail.com>
+POSIX fixes random()'s range at 2^31-1; RAND_MAX may be smaller on some
+platforms (even though with glibc or musl on Linux they are the same).
+---
 
-This also looks good to me!
+On Sat, Jun 06, 2020 at 12:45:58PM +0000, Walter Harms wrote:
+> that RAND_MAX is 2^31-1 in some cases does not matter. IMHO
+> it is wrong to mention RAND_MAX in the random page. it can
+> simply be replaced with (2**31-1)
 
-Reviewed-by: Matthew Bobrowski <mbobrowski@mbobrowski.org>
+Thanks for confirming, Walter. I forgot to mention I was happy to
+provide a patch -- suggested fix in this git-format-patch message.
 
-/M
+    John
+
+ man3/random.3 | 6 ++++--
+ 1 file changed, 4 insertions(+), 2 deletions(-)
+
+diff --git a/man3/random.3 b/man3/random.3
+index 76b076f42..e3550f802 100644
+--- a/man3/random.3
++++ b/man3/random.3
+@@ -69,7 +69,7 @@ The
+ function uses a nonlinear additive feedback random
+ number generator employing a default table of size 31 long integers to
+ return successive pseudo-random numbers in
+-the range from 0 to \fBRAND_MAX\fR.
++the range from 0 to 2^31\ \-\ 1.
+ The period of this random number generator is very large, approximately
+ .IR "16\ *\ ((2^31)\ \-\ 1)" .
+ .PP
+@@ -125,7 +125,9 @@ or be the result of a previous call of
+ The
+ .BR random ()
+ function returns a value between 0 and
+-.BR RAND_MAX .
++.BR INT32_MAX ,
++i.e.,
++.IR "(2^31)\ \-\ 1" .
+ The
+ .BR srandom ()
+ function returns no value.
+-- 
+2.18.2
+
