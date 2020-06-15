@@ -1,86 +1,91 @@
-Return-Path: <SRS0=F5ZH=72=vger.kernel.org=linux-man-owner@kernel.org>
+Return-Path: <SRS0=r743=74=vger.kernel.org=linux-man-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-0.9 required=3.0 tests=DKIMWL_WL_HIGH,DKIM_SIGNED,
-	DKIM_VALID,DKIM_VALID_AU,HEADER_FROM_DIFFERENT_DOMAINS,MAILING_LIST_MULTI,
-	SPF_HELO_NONE,SPF_PASS autolearn=no autolearn_force=no version=3.4.0
+X-Spam-Status: No, score=-0.6 required=3.0 tests=DKIM_SIGNED,DKIM_VALID,
+	DKIM_VALID_AU,FREEMAIL_FORGED_FROMDOMAIN,FREEMAIL_FROM,
+	HEADER_FROM_DIFFERENT_DOMAINS,MAILING_LIST_MULTI,SPF_HELO_NONE,SPF_PASS
+	autolearn=no autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 7E23DC433E0
-	for <linux-man@archiver.kernel.org>; Sat, 13 Jun 2020 12:01:10 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 27EEEC433DF
+	for <linux-man@archiver.kernel.org>; Mon, 15 Jun 2020 05:42:59 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.kernel.org (Postfix) with ESMTP id 46ABA2078A
-	for <linux-man@archiver.kernel.org>; Sat, 13 Jun 2020 12:01:10 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTP id E2A3820679
+	for <linux-man@archiver.kernel.org>; Mon, 15 Jun 2020 05:42:58 +0000 (UTC)
 Authentication-Results: mail.kernel.org;
-	dkim=pass (1024-bit key) header.d=redhat.com header.i=@redhat.com header.b="fc0rCfAP"
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="bMB7XyVN"
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1726100AbgFMMBK (ORCPT <rfc822;linux-man@archiver.kernel.org>);
-        Sat, 13 Jun 2020 08:01:10 -0400
-Received: from us-smtp-1.mimecast.com ([205.139.110.61]:54340 "EHLO
-        us-smtp-delivery-1.mimecast.com" rhost-flags-OK-OK-OK-FAIL)
-        by vger.kernel.org with ESMTP id S1726030AbgFMMBJ (ORCPT
-        <rfc822;linux-man@vger.kernel.org>); Sat, 13 Jun 2020 08:01:09 -0400
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
-        s=mimecast20190719; t=1592049668;
-        h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
-         to:to:cc:cc:mime-version:mime-version:content-type:content-type:
-         in-reply-to:in-reply-to:references:references;
-        bh=0otap4uEP4pLT7wy8CZPviRWo82/qmSeO+vlchp1bC8=;
-        b=fc0rCfAPhYab8cMIzaJBjsujzloXod7aliA0n7u16BzXIBgxtQn+tEn6rnYQJAVV/3S0NB
-        p5YfSGTjdk2MS9MNNoipJX9fXq+W70r2suvPEHq0ciLgCWnBtRartJrPBw1adRvhUVybwf
-        XpM3UOASfkj1LXbxdkwLiSwyviQDa+I=
-Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
- [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-440-70701-_2OZCfDrVMOV7Xwg-1; Sat, 13 Jun 2020 08:01:04 -0400
-X-MC-Unique: 70701-_2OZCfDrVMOV7Xwg-1
-Received: from smtp.corp.redhat.com (int-mx04.intmail.prod.int.phx2.redhat.com [10.5.11.14])
-        (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
-        (No client certificate requested)
-        by mimecast-mx01.redhat.com (Postfix) with ESMTPS id B6421BFC1;
-        Sat, 13 Jun 2020 12:01:03 +0000 (UTC)
-Received: from oldenburg2.str.redhat.com (ovpn-112-41.ams2.redhat.com [10.36.112.41])
-        by smtp.corp.redhat.com (Postfix) with ESMTPS id 015625D9C5;
-        Sat, 13 Jun 2020 12:00:59 +0000 (UTC)
-From:   Florian Weimer <fweimer@redhat.com>
-To:     Carlos O'Donell <carlos@redhat.com>
-Cc:     mtk.manpages@gmail.com, linux-man <linux-man@vger.kernel.org>
-Subject: Re: [PATCH v2] ld.so.8: Update "Hardware capabilities" section for glibc 2.31.
-References: <57abae5e-2394-0542-9e21-10c0bb837078@redhat.com>
-        <87pnaoe70h.fsf@oldenburg2.str.redhat.com>
-        <14751c26-4c4d-24c1-df12-429931b61780@redhat.com>
-        <87r1uy3sgb.fsf@oldenburg2.str.redhat.com>
-        <CAKgNAkjB3-LvJaTQ5cHyc-cduD6Yr0_dBrSmN_bih+YOzuBCww@mail.gmail.com>
-        <84511dbb-2c38-b928-3155-1027a6078a96@redhat.com>
-Date:   Sat, 13 Jun 2020 14:00:58 +0200
-In-Reply-To: <84511dbb-2c38-b928-3155-1027a6078a96@redhat.com> (Carlos
-        O'Donell's message of "Thu, 11 Jun 2020 16:53:09 -0400")
-Message-ID: <87ftaz41l1.fsf@oldenburg2.str.redhat.com>
-User-Agent: Gnus/5.13 (Gnus v5.13) Emacs/26.3 (gnu/linux)
+        id S1726440AbgFOFm6 (ORCPT <rfc822;linux-man@archiver.kernel.org>);
+        Mon, 15 Jun 2020 01:42:58 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:41364 "EHLO
+        lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1725648AbgFOFm6 (ORCPT
+        <rfc822;linux-man@vger.kernel.org>); Mon, 15 Jun 2020 01:42:58 -0400
+Received: from mail-pg1-x52e.google.com (mail-pg1-x52e.google.com [IPv6:2607:f8b0:4864:20::52e])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 4D3C2C061A0E
+        for <linux-man@vger.kernel.org>; Sun, 14 Jun 2020 22:42:58 -0700 (PDT)
+Received: by mail-pg1-x52e.google.com with SMTP id h10so3400748pgq.10
+        for <linux-man@vger.kernel.org>; Sun, 14 Jun 2020 22:42:58 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20161025;
+        h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+         :cc;
+        bh=oCmocoWTtWXRQ2cxihMauwC9ep2CSy/lTK3BYn7oRCI=;
+        b=bMB7XyVN2bijomDKOSQFSlwKcww2on9m/7XxzRKFeIGXpi4a78HFOFxsOpykXe7FQS
+         CFJFyQKtNQigQP88BYMBbshEJ7MwjRwTobBV57D0mU9UqJXF9A1TPbx7OT16S/9G3+RQ
+         LUOnEMg6OVyCiYdWT31yLoEDsofaWt6ivw+e09SAwhGvaQ5CKH3W+eIvlCBJxa1y2Q1/
+         86Ox14FLvmHCyDYdzHvXiOxz/YHMmcsuXr1XixkMRdho7dujQ1iScG7tRPBsnyPl3ix/
+         fedwefXdj/WG6Mpnwby4IBQ5pddJq6kw//o7AGrqg06TBGlL/XgisICtntw1ieIeE40I
+         HyVA==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20161025;
+        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+         :message-id:subject:to:cc;
+        bh=oCmocoWTtWXRQ2cxihMauwC9ep2CSy/lTK3BYn7oRCI=;
+        b=bL/6KT5FQ5k9fO20s56DNn/6NU/a9f43CMh7JKQhbCvIWI/R8q2P7iFy02Al/lszyq
+         fuw8IKhCY4m6Mgjn0Otl6LKis1Q2rvt3qHvpwqcn+Ya4o1XarXaxb42oBsNDen2s0/0p
+         trUbGePBGVhnFmXbuz844cZ+TNZYwwwz7UNCR+nH4mAIbuhgp2uzkL3otRI4afLOY7IL
+         CscM+/vzmvZMp7/FzNlLMvSFv2wVV4X5j53miCD/Lmdw91Y8+iu8Uku6JLodkEslqI/l
+         93A2gkFsXQmmOE2SsHlzW8lGgNO8sBTkkcbrf07LsiWGH4dDcaJa5HECWK1aNM9GKr3U
+         UFfA==
+X-Gm-Message-State: AOAM533qvUkBTGGH6SKoos8TX68DNReOl/bLctXM4r8d1Gn1lcgTxaHx
+        xJ0u9nmo9pSHx3dciaOfHCQzchG2BLZCsrXza/Y=
+X-Google-Smtp-Source: ABdhPJwUDLBXXabpVQKX7TD2D7cHK5YNMCP0PqZ9bJ5ghYhxNhDdnYopHzVJSVKjsqwMn31n/2AIkyZQT2W6S5RORmQ=
+X-Received: by 2002:a63:455c:: with SMTP id u28mr11029910pgk.374.1592199776990;
+ Sun, 14 Jun 2020 22:42:56 -0700 (PDT)
 MIME-Version: 1.0
-Content-Type: text/plain
-X-Scanned-By: MIMEDefang 2.79 on 10.5.11.14
+References: <CACKs7VBdc4_gU=oVz82soZCuukgQzD4V33VcJ81cL7gimRto-Q@mail.gmail.com>
+ <089aeecf-fed4-659b-5b5e-335100b3748b@gmail.com>
+In-Reply-To: <089aeecf-fed4-659b-5b5e-335100b3748b@gmail.com>
+From:   Stefan Puiu <stefan.puiu@gmail.com>
+Date:   Mon, 15 Jun 2020 08:42:47 +0300
+Message-ID: <CACKs7VB969xNR1NZbLLeYLqiMXD4Hq1ba+c41uipOy86AAcoXg@mail.gmail.com>
+Subject: Re: connect.2: can return EACCES because of SELinux
+To:     "Michael Kerrisk (man-pages)" <mtk.manpages@gmail.com>
+Cc:     lnx-man <linux-man@vger.kernel.org>
+Content-Type: text/plain; charset="UTF-8"
 Sender: linux-man-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-man.vger.kernel.org>
 X-Mailing-List: linux-man@vger.kernel.org
 
-* Carlos O'Donell:
+Hi Michael,
 
-> On 6/10/20 2:00 AM, Michael Kerrisk (man-pages) wrote:
->> Hi Carlos,
->> 
->> What's the status of this patch?
+On Fri, Jun 12, 2020 at 11:08 PM Michael Kerrisk (man-pages)
+<mtk.manpages@gmail.com> wrote:
 >
-> I'm currently rewriting the language of the section to split apart the
-> AT_PLATFORM and AT_HWCAP parts.
+> Hello Stefan,,
+[...]
+> I thought I replied to this message, but it looks like I did not.
+> As you may already have realized, I applied this patch. Thanks
+> for sending it.
+
+Yes, I did see my name mentioned in the release notes, together with
+the patch title :).
+
+Thanks!
+
 >
-> They each behave differently. AT_PLATFORM is a non-nested singular platform
-> directory that is searched with no fallback, and that needs to clarified
-> and called out. While AT_HWCAP is drastically different in behaviour.
-
-I think AT_PLATFORM behaves like any of the AT_HWCAP directories, except
-that the name is determined by information from the kernel.
-
-Thanks,
-Florian
-
+> Cheers,
+>
+> Michael
