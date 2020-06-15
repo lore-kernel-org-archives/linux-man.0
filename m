@@ -2,90 +2,105 @@ Return-Path: <SRS0=r743=74=vger.kernel.org=linux-man-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-0.6 required=3.0 tests=DKIM_SIGNED,DKIM_VALID,
-	DKIM_VALID_AU,FREEMAIL_FORGED_FROMDOMAIN,FREEMAIL_FROM,
-	HEADER_FROM_DIFFERENT_DOMAINS,MAILING_LIST_MULTI,SPF_HELO_NONE,SPF_PASS
-	autolearn=no autolearn_force=no version=3.4.0
+X-Spam-Status: No, score=-2.2 required=3.0 tests=HEADER_FROM_DIFFERENT_DOMAINS,
+	MAILING_LIST_MULTI,SPF_HELO_NONE,SPF_PASS,USER_AGENT_SANE_1 autolearn=no
+	autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 27EEEC433DF
-	for <linux-man@archiver.kernel.org>; Mon, 15 Jun 2020 05:42:59 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 7EAD2C433DF
+	for <linux-man@archiver.kernel.org>; Mon, 15 Jun 2020 14:51:23 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.kernel.org (Postfix) with ESMTP id E2A3820679
-	for <linux-man@archiver.kernel.org>; Mon, 15 Jun 2020 05:42:58 +0000 (UTC)
-Authentication-Results: mail.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="bMB7XyVN"
+	by mail.kernel.org (Postfix) with ESMTP id 6320E20644
+	for <linux-man@archiver.kernel.org>; Mon, 15 Jun 2020 14:51:23 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1726440AbgFOFm6 (ORCPT <rfc822;linux-man@archiver.kernel.org>);
-        Mon, 15 Jun 2020 01:42:58 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:41364 "EHLO
-        lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1725648AbgFOFm6 (ORCPT
-        <rfc822;linux-man@vger.kernel.org>); Mon, 15 Jun 2020 01:42:58 -0400
-Received: from mail-pg1-x52e.google.com (mail-pg1-x52e.google.com [IPv6:2607:f8b0:4864:20::52e])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 4D3C2C061A0E
-        for <linux-man@vger.kernel.org>; Sun, 14 Jun 2020 22:42:58 -0700 (PDT)
-Received: by mail-pg1-x52e.google.com with SMTP id h10so3400748pgq.10
-        for <linux-man@vger.kernel.org>; Sun, 14 Jun 2020 22:42:58 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20161025;
-        h=mime-version:references:in-reply-to:from:date:message-id:subject:to
-         :cc;
-        bh=oCmocoWTtWXRQ2cxihMauwC9ep2CSy/lTK3BYn7oRCI=;
-        b=bMB7XyVN2bijomDKOSQFSlwKcww2on9m/7XxzRKFeIGXpi4a78HFOFxsOpykXe7FQS
-         CFJFyQKtNQigQP88BYMBbshEJ7MwjRwTobBV57D0mU9UqJXF9A1TPbx7OT16S/9G3+RQ
-         LUOnEMg6OVyCiYdWT31yLoEDsofaWt6ivw+e09SAwhGvaQ5CKH3W+eIvlCBJxa1y2Q1/
-         86Ox14FLvmHCyDYdzHvXiOxz/YHMmcsuXr1XixkMRdho7dujQ1iScG7tRPBsnyPl3ix/
-         fedwefXdj/WG6Mpnwby4IBQ5pddJq6kw//o7AGrqg06TBGlL/XgisICtntw1ieIeE40I
-         HyVA==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20161025;
-        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
-         :message-id:subject:to:cc;
-        bh=oCmocoWTtWXRQ2cxihMauwC9ep2CSy/lTK3BYn7oRCI=;
-        b=bL/6KT5FQ5k9fO20s56DNn/6NU/a9f43CMh7JKQhbCvIWI/R8q2P7iFy02Al/lszyq
-         fuw8IKhCY4m6Mgjn0Otl6LKis1Q2rvt3qHvpwqcn+Ya4o1XarXaxb42oBsNDen2s0/0p
-         trUbGePBGVhnFmXbuz844cZ+TNZYwwwz7UNCR+nH4mAIbuhgp2uzkL3otRI4afLOY7IL
-         CscM+/vzmvZMp7/FzNlLMvSFv2wVV4X5j53miCD/Lmdw91Y8+iu8Uku6JLodkEslqI/l
-         93A2gkFsXQmmOE2SsHlzW8lGgNO8sBTkkcbrf07LsiWGH4dDcaJa5HECWK1aNM9GKr3U
-         UFfA==
-X-Gm-Message-State: AOAM533qvUkBTGGH6SKoos8TX68DNReOl/bLctXM4r8d1Gn1lcgTxaHx
-        xJ0u9nmo9pSHx3dciaOfHCQzchG2BLZCsrXza/Y=
-X-Google-Smtp-Source: ABdhPJwUDLBXXabpVQKX7TD2D7cHK5YNMCP0PqZ9bJ5ghYhxNhDdnYopHzVJSVKjsqwMn31n/2AIkyZQT2W6S5RORmQ=
-X-Received: by 2002:a63:455c:: with SMTP id u28mr11029910pgk.374.1592199776990;
- Sun, 14 Jun 2020 22:42:56 -0700 (PDT)
+        id S1730665AbgFOOvU (ORCPT <rfc822;linux-man@archiver.kernel.org>);
+        Mon, 15 Jun 2020 10:51:20 -0400
+Received: from foss.arm.com ([217.140.110.172]:49770 "EHLO foss.arm.com"
+        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
+        id S1728304AbgFOOvU (ORCPT <rfc822;linux-man@vger.kernel.org>);
+        Mon, 15 Jun 2020 10:51:20 -0400
+Received: from usa-sjc-imap-foss1.foss.arm.com (unknown [10.121.207.14])
+        by usa-sjc-mx-foss1.foss.arm.com (Postfix) with ESMTP id 11A7E31B;
+        Mon, 15 Jun 2020 07:51:19 -0700 (PDT)
+Received: from arm.com (usa-sjc-imap-foss1.foss.arm.com [10.121.207.14])
+        by usa-sjc-imap-foss1.foss.arm.com (Postfix) with ESMTPSA id 11A833F6CF;
+        Mon, 15 Jun 2020 07:51:17 -0700 (PDT)
+Date:   Mon, 15 Jun 2020 15:51:16 +0100
+From:   Dave Martin <Dave.Martin@arm.com>
+To:     Catalin Marinas <catalin.marinas@arm.com>
+Cc:     Michael Kerrisk <mtk.manpages@gmail.com>,
+        linux-man@vger.kernel.org, linux-arch@vger.kernel.org,
+        linux-arm-kernel@lists.infradead.org,
+        Will Deacon <will@kernel.org>,
+        Vincenzo Frascino <vincenzo.frascino@arm.com>
+Subject: Re: [RFC PATCH v2 6/6] prctl.2: Add tagged address ABI control
+ prctls (arm64)
+Message-ID: <20200615145115.GL25945@arm.com>
+References: <1590614258-24728-1-git-send-email-Dave.Martin@arm.com>
+ <1590614258-24728-7-git-send-email-Dave.Martin@arm.com>
+ <20200609172232.GA63286@C02TF0J2HF1T.local>
+ <20200610100641.GF25945@arm.com>
+ <20200610152634.GJ26099@gaia>
+ <20200610164209.GH25945@arm.com>
+ <20200610174205.GL26099@gaia>
 MIME-Version: 1.0
-References: <CACKs7VBdc4_gU=oVz82soZCuukgQzD4V33VcJ81cL7gimRto-Q@mail.gmail.com>
- <089aeecf-fed4-659b-5b5e-335100b3748b@gmail.com>
-In-Reply-To: <089aeecf-fed4-659b-5b5e-335100b3748b@gmail.com>
-From:   Stefan Puiu <stefan.puiu@gmail.com>
-Date:   Mon, 15 Jun 2020 08:42:47 +0300
-Message-ID: <CACKs7VB969xNR1NZbLLeYLqiMXD4Hq1ba+c41uipOy86AAcoXg@mail.gmail.com>
-Subject: Re: connect.2: can return EACCES because of SELinux
-To:     "Michael Kerrisk (man-pages)" <mtk.manpages@gmail.com>
-Cc:     lnx-man <linux-man@vger.kernel.org>
-Content-Type: text/plain; charset="UTF-8"
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20200610174205.GL26099@gaia>
+User-Agent: Mutt/1.5.23 (2014-03-12)
 Sender: linux-man-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-man.vger.kernel.org>
 X-Mailing-List: linux-man@vger.kernel.org
 
-Hi Michael,
+On Wed, Jun 10, 2020 at 06:42:05PM +0100, Catalin Marinas wrote:
+> On Wed, Jun 10, 2020 at 05:42:09PM +0100, Dave P Martin wrote:
+> > On Wed, Jun 10, 2020 at 04:26:34PM +0100, Catalin Marinas wrote:
+> > > On Wed, Jun 10, 2020 at 11:06:42AM +0100, Dave P Martin wrote:
+> > > > On Tue, Jun 09, 2020 at 06:22:32PM +0100, Catalin Marinas wrote:
+> > > > > On Wed, May 27, 2020 at 10:17:38PM +0100, Dave P Martin wrote:
+> > > > > > +.IP
+> > > > > > +The level of support is selected by
+> > > > > > +.IR "(unsigned int) arg2" ,
+> > > > > 
+> > > > > We use (unsigned long) for arg2.
+> > > > 
+> > > > Hmmm, not quite sure how I came up with unsigned int here.  I'll just
+> > > > drop this: the type in the prctl() prototype is unsigned long anyway.
+> > > > 
+> > > > The type is actually moot in this case, since the valid values all fit
+> > > > in an unsigned int.
+> > > 
+> > > Passing an int doesn't require that the top 32-bit of the long are
+> > > zeroed (in case anyone writes the low-level SVC by hand).
+> > 
+> > Fair point, I was forgetting that wrinkle.  Anyway, the convention in
+> > this page seems to be that if the type is unsigned long, we don't
+> > mention it, because the prctl() prototype says that already.
+> > 
+> > Question: the glibc prototype for prctl is variadic, so surely any
+> > calls that don't explicitly cast the args to unsigned long are already
+> > theoretically broken?  The #defines (and 0) are all implicitly int.
+> > This probably affects lots of prctls.
+> > 
+> > We may get away with it because the compiler is almost certainly going
+> > to favour a mov over a ldr for getting small integers into regs, and mov
+> > <Wd> fortunately zeroes the top bits for us anyway.
+> 
+> So does LDR Wd.
+> 
+> Anyway, I think glibc (or my reading of it) has something like like:
+> 
+>   register long _x1 asm ("x1") = _x1tmp;
+> 
+> before invoking the SVC. I assume this would do the right conversion to
+> long. I can't tell about other libraries but I'd say it's their
+> responsibility to convert the args to long before calling the kernel's
+> prctl().
 
-On Fri, Jun 12, 2020 at 11:08 PM Michael Kerrisk (man-pages)
-<mtk.manpages@gmail.com> wrote:
->
-> Hello Stefan,,
-[...]
-> I thought I replied to this message, but it looks like I did not.
-> As you may already have realized, I applied this patch. Thanks
-> for sending it.
+Ignore me.  I was worrying that glibc would propagate junk in the high
+bits of int arguments, due to treating them as longs.  Actually, it
+will, but it doesn't matter where we explicitly cast the argument to int
+inside the kernel (thanks as usual to -fno-strict-overflow).
 
-Yes, I did see my name mentioned in the release notes, together with
-the patch title :).
-
-Thanks!
-
->
-> Cheers,
->
-> Michael
+Cheers
+---Dave
