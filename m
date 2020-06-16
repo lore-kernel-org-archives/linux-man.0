@@ -2,62 +2,84 @@ Return-Path: <SRS0=QK8X=75=vger.kernel.org=linux-man-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-2.2 required=3.0 tests=HEADER_FROM_DIFFERENT_DOMAINS,
-	MAILING_LIST_MULTI,SPF_HELO_NONE,SPF_PASS,USER_AGENT_SANE_1 autolearn=no
-	autolearn_force=no version=3.4.0
+X-Spam-Status: No, score=-9.7 required=3.0 tests=HEADER_FROM_DIFFERENT_DOMAINS,
+	INCLUDES_PATCH,MAILING_LIST_MULTI,SIGNED_OFF_BY,SPF_HELO_NONE,SPF_PASS,
+	URIBL_BLOCKED,USER_AGENT_GIT autolearn=ham autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id B0D5AC433E0
-	for <linux-man@archiver.kernel.org>; Tue, 16 Jun 2020 19:00:25 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 64391C433DF
+	for <linux-man@archiver.kernel.org>; Tue, 16 Jun 2020 22:38:59 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.kernel.org (Postfix) with ESMTP id 90B53207C4
-	for <linux-man@archiver.kernel.org>; Tue, 16 Jun 2020 19:00:25 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTP id 479E9207E8
+	for <linux-man@archiver.kernel.org>; Tue, 16 Jun 2020 22:38:59 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1729103AbgFPTAZ (ORCPT <rfc822;linux-man@archiver.kernel.org>);
-        Tue, 16 Jun 2020 15:00:25 -0400
-Received: from smtpout1.mo529.mail-out.ovh.net ([178.32.125.2]:44771 "EHLO
-        smtpout1.mo529.mail-out.ovh.net" rhost-flags-OK-OK-OK-OK)
-        by vger.kernel.org with ESMTP id S1725911AbgFPTAZ (ORCPT
-        <rfc822;linux-man@vger.kernel.org>); Tue, 16 Jun 2020 15:00:25 -0400
-Received: from mxplan6.mail.ovh.net (unknown [10.108.4.66])
-        by mo529.mail-out.ovh.net (Postfix) with ESMTPS id 8F8823D736E4;
-        Tue, 16 Jun 2020 21:00:21 +0200 (CEST)
-Received: from jwilk.net (37.59.142.95) by DAG4EX2.mxp6.local (172.16.2.32)
- with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id 15.1.1779.2; Tue, 16 Jun
- 2020 21:00:20 +0200
-Authentication-Results: garm.ovh; auth=pass (GARM-95G0013ff4f6f6-40bf-491f-90a0-14dc57d268b9,EA4FC07D03CFA6829A52CBF0A4826B255F878F92) smtp.auth=jwilk@jwilk.net
-Date:   Tue, 16 Jun 2020 21:00:17 +0200
-From:   Jakub Wilk <jwilk@jwilk.net>
-To:     Arkadiusz Drabczyk <arkadiusz@drabczyk.org>
-CC:     Michael Kerrisk <mtk.manpages@gmail.com>,
-        <linux-man@vger.kernel.org>
-Subject: Re: [PATCH] fread.3: Explain that file position is moved after
- calling fread()/fwrite()
-Message-ID: <20200616190017.5y3pwpb22w2jeqls@jwilk.net>
-References: <20200616182659.12365-1-arkadiusz@drabczyk.org>
-MIME-Version: 1.0
-Content-Type: text/plain; charset="us-ascii"; format=flowed
-Content-Disposition: inline
-In-Reply-To: <20200616182659.12365-1-arkadiusz@drabczyk.org>
-User-Agent: NeoMutt/20180716
-X-Originating-IP: [37.59.142.95]
-X-ClientProxiedBy: DAG3EX2.mxp6.local (172.16.2.22) To DAG4EX2.mxp6.local
- (172.16.2.32)
-X-Ovh-Tracer-GUID: 61a23e65-777a-497f-9e74-94305a726a75
-X-Ovh-Tracer-Id: 1640717641196296157
-X-VR-SPAMSTATE: OK
-X-VR-SPAMSCORE: -100
-X-VR-SPAMCAUSE: gggruggvucftvghtrhhoucdtuddrgeduhedrudejtddgudefhecutefuodetggdotefrodftvfcurfhrohhfihhlvgemucfqggfjpdevjffgvefmvefgnecuuegrihhlohhuthemucehtddtnecusecvtfgvtghiphhivghnthhsucdlqddutddtmdenucfjughrpeffhffvuffkfhggtggujggfihesthdtredttdervdenucfhrhhomheplfgrkhhusgcuhghilhhkuceojhifihhlkhesjhifihhlkhdrnhgvtheqnecuggftrfgrthhtvghrnhephfefvdefheevhfekledtjeegleetfedvfedvuddvfefgudeuiedtieetvddthefgnecukfhppedtrddtrddtrddtpdefjedrheelrddugedvrdelheenucevlhhushhtvghrufhiiigvpedtnecurfgrrhgrmhepmhhouggvpehsmhhtphdqohhuthdphhgvlhhopehmgihplhgrnheirdhmrghilhdrohhvhhdrnhgvthdpihhnvghtpedtrddtrddtrddtpdhmrghilhhfrhhomhepjhifihhlkhesjhifihhlkhdrnhgvthdprhgtphhtthhopehlihhnuhigqdhmrghnsehvghgvrhdrkhgvrhhnvghlrdhorhhg
+        id S1725901AbgFPWi7 (ORCPT <rfc822;linux-man@archiver.kernel.org>);
+        Tue, 16 Jun 2020 18:38:59 -0400
+Received: from gateway32.websitewelcome.com ([192.185.145.187]:25078 "EHLO
+        gateway32.websitewelcome.com" rhost-flags-OK-OK-OK-OK)
+        by vger.kernel.org with ESMTP id S1725849AbgFPWi6 (ORCPT
+        <rfc822;linux-man@vger.kernel.org>); Tue, 16 Jun 2020 18:38:58 -0400
+X-Greylist: delayed 1391 seconds by postgrey-1.27 at vger.kernel.org; Tue, 16 Jun 2020 18:38:58 EDT
+Received: from cm10.websitewelcome.com (cm10.websitewelcome.com [100.42.49.4])
+        by gateway32.websitewelcome.com (Postfix) with ESMTP id BB7696FCA0
+        for <linux-man@vger.kernel.org>; Tue, 16 Jun 2020 17:15:46 -0500 (CDT)
+Received: from gator3278.hostgator.com ([198.57.247.242])
+        by cmsmtp with SMTP
+        id lJrujlc8gXGIklJrujIWX8; Tue, 16 Jun 2020 17:15:46 -0500
+X-Authority-Reason: nr=8
+Received: from 89-69-237-178.dynamic.chello.pl ([89.69.237.178]:44778 helo=comp.lan)
+        by gator3278.hostgator.com with esmtpa (Exim 4.93)
+        (envelope-from <arkadiusz@drabczyk.org>)
+        id 1jlJrt-003cuF-MK; Tue, 16 Jun 2020 17:15:46 -0500
+From:   Arkadiusz Drabczyk <arkadiusz@drabczyk.org>
+To:     mtk.manpages@gmail.com
+Cc:     linux-man@vger.kernel.org
+Subject: [PATCH v2] fread.3: Explain that file position is moved after calling fread()/fwrite()
+Date:   Wed, 17 Jun 2020 00:15:20 +0200
+Message-Id: <20200616221520.21741-1-arkadiusz@drabczyk.org>
+X-Mailer: git-send-email 2.9.0
+X-AntiAbuse: This header was added to track abuse, please include it with any abuse report
+X-AntiAbuse: Primary Hostname - gator3278.hostgator.com
+X-AntiAbuse: Original Domain - vger.kernel.org
+X-AntiAbuse: Originator/Caller UID/GID - [47 12] / [47 12]
+X-AntiAbuse: Sender Address Domain - drabczyk.org
+X-BWhitelist: no
+X-Source-IP: 89.69.237.178
+X-Source-L: No
+X-Exim-ID: 1jlJrt-003cuF-MK
+X-Source: 
+X-Source-Args: 
+X-Source-Dir: 
+X-Source-Sender: 89-69-237-178.dynamic.chello.pl (comp.lan) [89.69.237.178]:44778
+X-Source-Auth: arkadiusz@drabczyk.org
+X-Email-Count: 1
+X-Source-Cap: cmt1bXZicmg7cmt1bXZicmg7Z2F0b3IzMjc4Lmhvc3RnYXRvci5jb20=
+X-Local-Domain: yes
 Sender: linux-man-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-man.vger.kernel.org>
 X-Mailing-List: linux-man@vger.kernel.org
 
-* Arkadiusz Drabczyk <arkadiusz@drabczyk.org>, 2020-06-16, 20:26:
->+The file position indicator for the stream is advanced by the number
->+of characters successfully read or written.
+Corresponding manpage on FreeBSD already contains that information.
 
-s/characters/bytes/
+Signed-off-by: Arkadiusz Drabczyk <arkadiusz@drabczyk.org>
+---
+ man3/fread.3 | 3 +++
+ 1 file changed, 3 insertions(+)
 
+diff --git a/man3/fread.3 b/man3/fread.3
+index 2dd7be9..2dcca9b 100644
+--- a/man3/fread.3
++++ b/man3/fread.3
+@@ -92,6 +92,9 @@ is 1.
+ If an error occurs, or the end of the file is reached,
+ the return value is a short item count (or zero).
+ .PP
++The file position indicator for the stream is advanced by the number
++of bytes successfully read or written.
++.PP
+ .BR fread ()
+ does not distinguish between end-of-file and error, and callers must use
+ .BR feof (3)
 -- 
-Jakub Wilk
+2.9.0
+
