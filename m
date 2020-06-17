@@ -2,94 +2,102 @@ Return-Path: <SRS0=MTOS=76=vger.kernel.org=linux-man-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-2.3 required=3.0 tests=DKIM_SIGNED,DKIM_VALID,
-	DKIM_VALID_AU,HEADER_FROM_DIFFERENT_DOMAINS,MAILING_LIST_MULTI,SPF_HELO_NONE,
-	SPF_PASS,URIBL_BLOCKED,USER_AGENT_SANE_1 autolearn=no autolearn_force=no
-	version=3.4.0
+X-Spam-Status: No, score=-2.2 required=3.0 tests=HEADER_FROM_DIFFERENT_DOMAINS,
+	MAILING_LIST_MULTI,SPF_HELO_NONE,SPF_PASS,URIBL_BLOCKED,USER_AGENT_SANE_1
+	autolearn=no autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id E34E9C433DF
-	for <linux-man@archiver.kernel.org>; Wed, 17 Jun 2020 12:26:25 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id DF313C433E0
+	for <linux-man@archiver.kernel.org>; Wed, 17 Jun 2020 17:52:04 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.kernel.org (Postfix) with ESMTP id 9DC4320CC7
-	for <linux-man@archiver.kernel.org>; Wed, 17 Jun 2020 12:26:25 +0000 (UTC)
-Authentication-Results: mail.kernel.org;
-	dkim=pass (2048-bit key) header.d=jguk.org header.i=@jguk.org header.b="mbT7wH2E"
+	by mail.kernel.org (Postfix) with ESMTP id B7BC521527
+	for <linux-man@archiver.kernel.org>; Wed, 17 Jun 2020 17:52:04 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1725901AbgFQM0Z (ORCPT <rfc822;linux-man@archiver.kernel.org>);
-        Wed, 17 Jun 2020 08:26:25 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:39832 "EHLO
-        lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1725860AbgFQM0Z (ORCPT
-        <rfc822;linux-man@vger.kernel.org>); Wed, 17 Jun 2020 08:26:25 -0400
-Received: from mail-wr1-x42e.google.com (mail-wr1-x42e.google.com [IPv6:2a00:1450:4864:20::42e])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 77BB7C061573
-        for <linux-man@vger.kernel.org>; Wed, 17 Jun 2020 05:26:23 -0700 (PDT)
-Received: by mail-wr1-x42e.google.com with SMTP id r7so2150952wro.1
-        for <linux-man@vger.kernel.org>; Wed, 17 Jun 2020 05:26:23 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=jguk.org; s=google;
-        h=subject:to:cc:references:from:message-id:date:user-agent
-         :mime-version:in-reply-to:content-language:content-transfer-encoding;
-        bh=xqyfOwzU2G5TV7uvCFjzCV2McV62EnLpX6tN9Uc33HI=;
-        b=mbT7wH2EdMxQt6qoTukvKFeXt7fAX3CwXjI5YcKmaJiXvhsjz53U+q/6UdzBwg96Z9
-         ttYJYxGRYsXGdC5grffgV6eCwFjW2a2tyM5rjaQlfeBCFqNDuKEAZ31W6Fb7hnKiNgpn
-         23gDesvgXG9zKzm45K45171I8gh1/ZfhTBdwrJCxm3x91Wqk61c/fyqTeSJP2CQysvf8
-         b5qMh+SwV+v5FQoEBGltVZ18Cr/BdVWtJDUyde2s+0myqkMQbECpc6DOYSx4+RjdkHl/
-         fIL4wHgcaaA3x70GgK/vuWmzkD/sgZvQsLRvsbGK9ayUGUBnaREtUsWHonblh30rIh1f
-         kC2A==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20161025;
-        h=x-gm-message-state:subject:to:cc:references:from:message-id:date
-         :user-agent:mime-version:in-reply-to:content-language
-         :content-transfer-encoding;
-        bh=xqyfOwzU2G5TV7uvCFjzCV2McV62EnLpX6tN9Uc33HI=;
-        b=BNIV0p0uTERAzq3MYO+buTSvvDWe48be//OpvtoheSJr/iPv94djbFAX97KtHt3Q/z
-         MlXLQux0E3/uNUKYkpBDq4QYWmYEpZ9en1kqS73JBI/X/8/dkxQJ2D/9ZzoZoCcAC5hQ
-         71cUFkWARxtBxYXCPkR0mm8XaxSw6gcORheSyIZHQ7DBYBN3BhVAKrATkgI1z5+TfHrC
-         /DroVsii7RUssFo/RH4t/L10EohVIdrDn/EebfU9ASq0lugp3HWwgQrwpI/17YtGLK3U
-         EcDd5CUS9C3YOqdZrpKSN/C+FNy1vqkoZXCVPrO1y9NZdBGw7Ss1WugDxpeSiBcH243U
-         FmqQ==
-X-Gm-Message-State: AOAM533jWAkOAh/fSR3GvfYtZAOz2x7tnXemoCOuoZkGGljt/ziW9Vls
-        RwkpOcsOfV410Ju7F91ao/sExWeJrXA=
-X-Google-Smtp-Source: ABdhPJyhkJ846eT2KXAFv3By/4gr3dNLuopJ1YjEMQ5B/amLOE/ny8AKZUtNnqt1rwTUmw2RYLIo6Q==
-X-Received: by 2002:adf:fc0c:: with SMTP id i12mr8176014wrr.365.1592396781981;
-        Wed, 17 Jun 2020 05:26:21 -0700 (PDT)
-Received: from [192.168.0.12] (cpc87281-slou4-2-0-cust47.17-4.cable.virginm.net. [92.236.12.48])
-        by smtp.gmail.com with ESMTPSA id j18sm35138619wrn.59.2020.06.17.05.26.21
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Wed, 17 Jun 2020 05:26:21 -0700 (PDT)
-Subject: Re: gettid
-To:     Ponnuvel Palaniyappan <pponnuvel@gmail.com>
+        id S1726594AbgFQRwE (ORCPT <rfc822;linux-man@archiver.kernel.org>);
+        Wed, 17 Jun 2020 13:52:04 -0400
+Received: from gateway34.websitewelcome.com ([192.185.148.140]:16448 "EHLO
+        gateway34.websitewelcome.com" rhost-flags-OK-OK-OK-OK)
+        by vger.kernel.org with ESMTP id S1726558AbgFQRwE (ORCPT
+        <rfc822;linux-man@vger.kernel.org>); Wed, 17 Jun 2020 13:52:04 -0400
+X-Greylist: delayed 1302 seconds by postgrey-1.27 at vger.kernel.org; Wed, 17 Jun 2020 13:52:03 EDT
+Received: from cm13.websitewelcome.com (cm13.websitewelcome.com [100.42.49.6])
+        by gateway34.websitewelcome.com (Postfix) with ESMTP id B63588A7AEA
+        for <linux-man@vger.kernel.org>; Wed, 17 Jun 2020 12:30:18 -0500 (CDT)
+Received: from gator3278.hostgator.com ([198.57.247.242])
+        by cmsmtp with SMTP
+        id lbtCjIP8XwgQAlbtCjq7B2; Wed, 17 Jun 2020 12:30:18 -0500
+X-Authority-Reason: nr=8
+Received: from 89-69-237-178.dynamic.chello.pl ([89.69.237.178]:60364 helo=localhost)
+        by gator3278.hostgator.com with esmtpa (Exim 4.93)
+        (envelope-from <arkadiusz@drabczyk.org>)
+        id 1jlbtB-000GNW-Bo; Wed, 17 Jun 2020 12:30:17 -0500
+Date:   Wed, 17 Jun 2020 19:30:10 +0200
+From:   Arkadiusz Drabczyk <arkadiusz@drabczyk.org>
+To:     Walter Harms <wharms@bfs.de>
 Cc:     Jakub Wilk <jwilk@jwilk.net>,
         Michael Kerrisk <mtk.manpages@gmail.com>,
-        linux-man@vger.kernel.org
-References: <23ca3363-5a24-9862-4872-811678527b50@jguk.org>
- <20200617102232.7zzi2klj3onh2nur@jwilk.net>
- <cbbb7e4f-8774-c598-e9d3-6f13142dc3d3@jguk.org>
- <CAOL8xrW0O0gmVjx03ji9XEsLb_gg=zZ336P0Y=21KbKdOhM_vw@mail.gmail.com>
-From:   Jonny Grant <jg@jguk.org>
-Message-ID: <880daed8-229b-1637-7b6d-a7126433b26e@jguk.org>
-Date:   Wed, 17 Jun 2020 13:26:20 +0100
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
- Thunderbird/68.8.0
+        "linux-man@vger.kernel.org" <linux-man@vger.kernel.org>
+Subject: Re: [PATCH] fread.3: Explain that file position is moved after
+ calling fread()/fwrite()
+Message-ID: <20200617173010.vekk35vrslmtdm6r@comp.lan>
+References: <20200616182659.12365-1-arkadiusz@drabczyk.org>
+ <20200616190017.5y3pwpb22w2jeqls@jwilk.net>
+ <20200616225034.e4uzibuemo7lpmet@comp.lan>
+ <3294b2a2fae14460984e2f3162f7ec35@bfs.de>
 MIME-Version: 1.0
-In-Reply-To: <CAOL8xrW0O0gmVjx03ji9XEsLb_gg=zZ336P0Y=21KbKdOhM_vw@mail.gmail.com>
-Content-Type: text/plain; charset=utf-8
-Content-Language: en-GB
-Content-Transfer-Encoding: 7bit
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <3294b2a2fae14460984e2f3162f7ec35@bfs.de>
+User-Agent: NeoMutt/20180716
+X-AntiAbuse: This header was added to track abuse, please include it with any abuse report
+X-AntiAbuse: Primary Hostname - gator3278.hostgator.com
+X-AntiAbuse: Original Domain - vger.kernel.org
+X-AntiAbuse: Originator/Caller UID/GID - [47 12] / [47 12]
+X-AntiAbuse: Sender Address Domain - drabczyk.org
+X-BWhitelist: no
+X-Source-IP: 89.69.237.178
+X-Source-L: No
+X-Exim-ID: 1jlbtB-000GNW-Bo
+X-Source: 
+X-Source-Args: 
+X-Source-Dir: 
+X-Source-Sender: 89-69-237-178.dynamic.chello.pl (localhost) [89.69.237.178]:60364
+X-Source-Auth: arkadiusz@drabczyk.org
+X-Email-Count: 1
+X-Source-Cap: cmt1bXZicmg7cmt1bXZicmg7Z2F0b3IzMjc4Lmhvc3RnYXRvci5jb20=
+X-Local-Domain: yes
 Sender: linux-man-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-man.vger.kernel.org>
 X-Mailing-List: linux-man@vger.kernel.org
 
+On Wed, Jun 17, 2020 at 07:46:25AM +0000, Walter Harms wrote:
+> Hi,
+> i do not think character is correct it would confuse fseek() it says:
+> "The new position, measured in bytes"
 
+ok, v2 already sent.
 
-On 17/06/2020 13:10, Ponnuvel Palaniyappan wrote:
-> The default C++ mode, when no -std= is specified, for g++ 9.3.0 is
-> gnu++14 (it's the same for g++ 10.1.0, too).
+> to make things more complicated fread has a "size" and returns the
+> number of "things" read (" This number equals the number of bytes 
+> transferred only  when size  is 1.").
 > 
->> Looks like it is set by default, even when specifying the C++ standard version for g++
-> Why this happens is explained in libstd++'s faq:
-> https://gcc.gnu.org/onlinedocs/libstdc++/faq.html#faq.predefined
+> therefor i would suggest to move the success case
+> > > +The file position indicator for the stream is advanced by the number
+> > > +of characters successfully read or written.
+> into the "description section"
 
-Fair enough
+ok, let's see what Michael thinks about it.
+
+> And add a word about partial reads into the "return value" section. E.g.
+> to make clear what happens when you try to read size=10 while only 4 are left.
+> 
+
+Isn't it already covered by this fragment:
+
+"If an error occurs, or the end of the file is reached, the return
+value is a short item count (or zero)."
+
+?
+
+-- 
+Arkadiusz Drabczyk <arkadiusz@drabczyk.org>
