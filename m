@@ -2,152 +2,137 @@ Return-Path: <SRS0=j4e1=77=vger.kernel.org=linux-man-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-8.2 required=3.0 tests=HEADER_FROM_DIFFERENT_DOMAINS,
-	INCLUDES_PATCH,MAILING_LIST_MULTI,SIGNED_OFF_BY,SPF_HELO_NONE,SPF_PASS,
-	URIBL_BLOCKED,USER_AGENT_SANE_1 autolearn=ham autolearn_force=no version=3.4.0
+X-Spam-Status: No, score=-2.2 required=3.0 tests=HEADER_FROM_DIFFERENT_DOMAINS,
+	MAILING_LIST_MULTI,SPF_HELO_NONE,SPF_PASS,URIBL_BLOCKED,USER_AGENT_SANE_1
+	autolearn=no autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id ADBD7C433E0
-	for <linux-man@archiver.kernel.org>; Thu, 18 Jun 2020 18:47:05 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id D83ABC433DF
+	for <linux-man@archiver.kernel.org>; Thu, 18 Jun 2020 19:37:57 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.kernel.org (Postfix) with ESMTP id 95AF5208DB
-	for <linux-man@archiver.kernel.org>; Thu, 18 Jun 2020 18:47:05 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTP id BE6A12070A
+	for <linux-man@archiver.kernel.org>; Thu, 18 Jun 2020 19:37:57 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1727805AbgFRSrF (ORCPT <rfc822;linux-man@archiver.kernel.org>);
-        Thu, 18 Jun 2020 14:47:05 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:38526 "EHLO
-        lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1726981AbgFRSrF (ORCPT
-        <rfc822;linux-man@vger.kernel.org>); Thu, 18 Jun 2020 14:47:05 -0400
-Received: from inpost.hi.is (inpost.hi.is [IPv6:2a00:c88:4000:1650::165:62])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 7B408C06174E
-        for <linux-man@vger.kernel.org>; Thu, 18 Jun 2020 11:47:04 -0700 (PDT)
-Received: from hekla.rhi.hi.is (hekla.rhi.hi.is [IPv6:2a00:c88:4000:1650::165:2])
-        by inpost.hi.is (8.14.7/8.14.7) with ESMTP id 05IIkxVr006596
-        (version=TLSv1/SSLv3 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NO)
-        for <linux-man@vger.kernel.org>; Thu, 18 Jun 2020 18:46:59 GMT
-DKIM-Filter: OpenDKIM Filter v2.11.0 inpost.hi.is 05IIkxVr006596
-Received: from hekla.rhi.hi.is (localhost [127.0.0.1])
-        by hekla.rhi.hi.is (8.14.4/8.14.4) with ESMTP id 05IIkxlN025558
-        for <linux-man@vger.kernel.org>; Thu, 18 Jun 2020 18:46:59 GMT
-Received: (from bjarniig@localhost)
-        by hekla.rhi.hi.is (8.14.4/8.14.4/Submit) id 05IIkx9C025557
-        for linux-man@vger.kernel.org; Thu, 18 Jun 2020 18:46:59 GMT
-Date:   Thu, 18 Jun 2020 18:46:59 +0000
-From:   Bjarni Ingi Gislason <bjarniig@rhi.hi.is>
-To:     linux-man@vger.kernel.org
-Subject: [PATCH] man3/*: srcfix: use a one-font macro for one argument
-Message-ID: <20200618184659.GA25549@rhi.hi.is>
+        id S1728157AbgFRTh5 (ORCPT <rfc822;linux-man@archiver.kernel.org>);
+        Thu, 18 Jun 2020 15:37:57 -0400
+Received: from gateway33.websitewelcome.com ([192.185.146.70]:20096 "EHLO
+        gateway33.websitewelcome.com" rhost-flags-OK-OK-OK-OK)
+        by vger.kernel.org with ESMTP id S1728069AbgFRTh4 (ORCPT
+        <rfc822;linux-man@vger.kernel.org>); Thu, 18 Jun 2020 15:37:56 -0400
+X-Greylist: delayed 1262 seconds by postgrey-1.27 at vger.kernel.org; Thu, 18 Jun 2020 15:37:56 EDT
+Received: from cm11.websitewelcome.com (cm11.websitewelcome.com [100.42.49.5])
+        by gateway33.websitewelcome.com (Postfix) with ESMTP id C2FE8528D04
+        for <linux-man@vger.kernel.org>; Thu, 18 Jun 2020 14:16:52 -0500 (CDT)
+Received: from gator3278.hostgator.com ([198.57.247.242])
+        by cmsmtp with SMTP
+        id m01sjHNXehmVTm01sj9qv4; Thu, 18 Jun 2020 14:16:52 -0500
+X-Authority-Reason: nr=8
+Received: from 89-69-237-178.dynamic.chello.pl ([89.69.237.178]:49422 helo=localhost)
+        by gator3278.hostgator.com with esmtpa (Exim 4.93)
+        (envelope-from <arkadiusz@drabczyk.org>)
+        id 1jm01r-000yjh-Pu; Thu, 18 Jun 2020 14:16:52 -0500
+Date:   Thu, 18 Jun 2020 21:16:44 +0200
+From:   Arkadiusz Drabczyk <arkadiusz@drabczyk.org>
+To:     Walter Harms <wharms@bfs.de>
+Cc:     "linux-man@vger.kernel.org" <linux-man@vger.kernel.org>
+Subject: Re: [PATCH] fread.3: return value
+Message-ID: <20200618191644.v74spg2nquf4qtyv@comp.lan>
+References: <20200616182659.12365-1-arkadiusz@drabczyk.org>
+ <20200616190017.5y3pwpb22w2jeqls@jwilk.net>
+ <20200616225034.e4uzibuemo7lpmet@comp.lan>
+ <3294b2a2fae14460984e2f3162f7ec35@bfs.de>
+ <20200617173010.vekk35vrslmtdm6r@comp.lan>
+ <4d901a75517246baa6a5f82f291c0595@bfs.de>
+ <20200618114344.rsgecwlvpmesfa7a@comp.lan>
+ <726938c5daec4d5fbe7e85a121eff984@bfs.de>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-User-Agent: Mutt/1.5.20 (2009-12-10)
+In-Reply-To: <726938c5daec4d5fbe7e85a121eff984@bfs.de>
+User-Agent: NeoMutt/20180716
+X-AntiAbuse: This header was added to track abuse, please include it with any abuse report
+X-AntiAbuse: Primary Hostname - gator3278.hostgator.com
+X-AntiAbuse: Original Domain - vger.kernel.org
+X-AntiAbuse: Originator/Caller UID/GID - [47 12] / [47 12]
+X-AntiAbuse: Sender Address Domain - drabczyk.org
+X-BWhitelist: no
+X-Source-IP: 89.69.237.178
+X-Source-L: No
+X-Exim-ID: 1jm01r-000yjh-Pu
+X-Source: 
+X-Source-Args: 
+X-Source-Dir: 
+X-Source-Sender: 89-69-237-178.dynamic.chello.pl (localhost) [89.69.237.178]:49422
+X-Source-Auth: arkadiusz@drabczyk.org
+X-Email-Count: 4
+X-Source-Cap: cmt1bXZicmg7cmt1bXZicmg7Z2F0b3IzMjc4Lmhvc3RnYXRvci5jb20=
+X-Local-Domain: yes
 Sender: linux-man-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-man.vger.kernel.org>
 X-Mailing-List: linux-man@vger.kernel.org
 
-[ Only sent to the list as the maintainer (Michael Kerrisk (man pages))
-does not want these corrections.]
+On Thu, Jun 18, 2020 at 02:32:02PM +0000, Walter Harms wrote:
+> >If the requested size is 4 but there are only 3 bytes left then
+> >fread() will return 0, no matter what's the value of nmemb because
+> >it's not able to read even a single item and feof() will return
+> >non-zero. I think that this is explained clearly enough in the
+> >manpage.
+> 
+> IMHO i would be more clear to drop that "short item count". 
+> "If an error occurs, or the end of the file is reached, the  return value is zero"
 
-  Correct the misuse of a two-font macro, which function is to
+But the thing is that return value does not have to be zero, at least
+when the end of the file is reached. Check this:
 
-1) use the first font for the odd numbered arguments and the second
-font for the even numbered arguments
+#include <stdio.h>
+#include <stdlib.h>
 
-2) join the arguments without an intervening space.
+int main(void)
+{
+  FILE *fp = fopen("/bin/sh", "rb");
+  if (!fp) {
+    perror("fopen");
+    return EXIT_FAILURE;
+  }
 
-Signed-off-by: Bjarni Ingi Gislason <bjarniig@rhi.hi.is>
----
- man3/ftw.3         |  2 +-
- man3/posix_spawn.3 | 12 ++++++------
- man3/sincos.3      |  2 +-
- man3/y0.3          |  2 +-
- 4 files changed, 9 insertions(+), 9 deletions(-)
+  fseek(fp, -10, SEEK_END);
 
-diff --git a/man3/ftw.3 b/man3/ftw.3
-index a0bcab43e..72d17e3d5 100644
---- a/man3/ftw.3
-+++ b/man3/ftw.3
-@@ -418,7 +418,7 @@ For predictable results, use
- .BR nftw ().
- .SH BUGS
- According to POSIX.1-2008, when the
--.IR typeflag
-+.I typeflag
- argument passed to
- .IR fn ()
- contains
-diff --git a/man3/posix_spawn.3 b/man3/posix_spawn.3
-index 7e14e28bf..43d736c04 100644
---- a/man3/posix_spawn.3
-+++ b/man3/posix_spawn.3
-@@ -160,9 +160,9 @@ Since glibc 2.24, the
- function commences by calling
- .BR clone (2)
- with
--.BR CLONE_VM
-+.B CLONE_VM
- and
--.BR CLONE_VFORK
-+.B CLONE_VFORK
- flags.
- Older implementations use
- .BR fork (2),
-@@ -220,9 +220,9 @@ the requested file.
- .PP
- .SS pre-exec() step: housekeeping
- In between the
--.BR fork()
-+.B fork()
- and the
--.BR exec()
-+.B exec()
- steps, a child process may need to perform a set of housekeeping actions.
- The
- .BR posix_spawn ()
-@@ -386,7 +386,7 @@ flag is not set, the child inherits the parent's process group ID.
- .B POSIX_SPAWN_USEVFORK
- Since glibc 2.24, this flag has no effect.
- On older implementations, setting this flag forces the
--.BR fork()
-+.B fork()
- step to use
- .BR vfork (2)
- instead of
-@@ -493,7 +493,7 @@ place the PID of the child process in
- .IR pid ,
- and return 0.
- If there is an error during the
--.BR fork()
-+.B fork()
- step,
- then no child is created,
- the contents of
-diff --git a/man3/sincos.3 b/man3/sincos.3
-index b3149af99..7d5c29724 100644
---- a/man3/sincos.3
-+++ b/man3/sincos.3
-@@ -62,7 +62,7 @@ The following errors can occur:
- Domain error: \fIx\fP is an infinity
- .I errno
- is set to
--.BR EDOM
-+.B EDOM
- (but see BUGS).
- An invalid floating-point exception
- .RB ( FE_INVALID )
-diff --git a/man3/y0.3 b/man3/y0.3
-index b227876e0..ad39a002f 100644
---- a/man3/y0.3
-+++ b/man3/y0.3
-@@ -210,7 +210,7 @@ Range error: result overflow
- .\" e.g., yn(10, 1e-40) on glibc 2.8/x86-32
- .I errno
- is set to
--.BR ERANGE
-+.B ERANGE
- (but see BUGS).
- An overflow floating-point exception
- .RB ( FE_OVERFLOW )
+  unsigned char buffer[12];
+
+  size_t ret = fread(buffer, 4, 3, fp);
+  if (ret != 3) {
+    fprintf(stderr, "fread() failed: %zu\n", ret);
+    printf("feof: %d\n", feof(fp) ? 1 : 0);
+    exit(EXIT_FAILURE);
+  }
+
+  fclose(fp);
+
+  exit(EXIT_SUCCESS);
+}
+
+Output:
+
+fread() failed: 2
+feof: 1
+
+> >That is interesting. POSIX
+> >https://pubs.opengroup.org/onlinepubs/9699919799.2008edition/ says
+> >that "If a partial element is read, its value is unspecified.". But as
+> >fread() returns number of items it has successfully read the returned
+> >value should always be checked and it's different than requested nmemb
+> >it means an error and I guess there is no way to tell how many bytes
+> >have been partially read - for example if size == 4 and nmemb == 1 and
+> >returned value is 0 you don't know if fread() read 1, 2 or 3 bytes.
+> 
+> the GNU version fills the buffer with the remaining bytes
+
+And so does libuClibc-0.9.33.2 and musl 1.1.20-git-79-gd6c855c that I
+have at hand. It's probably the easiest implementation of fread(). 
+
+> but returns 0.
+
+That's not always the case as I showed above.
+
 -- 
-2.27.0
+Arkadiusz Drabczyk <arkadiusz@drabczyk.org>
