@@ -2,50 +2,41 @@ Return-Path: <SRS0=j4e1=77=vger.kernel.org=linux-man-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-2.2 required=3.0 tests=HEADER_FROM_DIFFERENT_DOMAINS,
-	MAILING_LIST_MULTI,SPF_HELO_NONE,SPF_PASS,USER_AGENT_SANE_1 autolearn=no
-	autolearn_force=no version=3.4.0
+X-Spam-Status: No, score=-9.7 required=3.0 tests=HEADER_FROM_DIFFERENT_DOMAINS,
+	INCLUDES_PATCH,MAILING_LIST_MULTI,SIGNED_OFF_BY,SPF_HELO_NONE,SPF_PASS,
+	URIBL_BLOCKED,USER_AGENT_GIT autolearn=ham autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id BB4C1C433DF
-	for <linux-man@archiver.kernel.org>; Thu, 18 Jun 2020 19:47:04 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 60153C433E0
+	for <linux-man@archiver.kernel.org>; Thu, 18 Jun 2020 21:08:39 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.kernel.org (Postfix) with ESMTP id 94E95207DD
-	for <linux-man@archiver.kernel.org>; Thu, 18 Jun 2020 19:47:04 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTP id 3F63A208B8
+	for <linux-man@archiver.kernel.org>; Thu, 18 Jun 2020 21:08:39 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1729416AbgFRTrE (ORCPT <rfc822;linux-man@archiver.kernel.org>);
-        Thu, 18 Jun 2020 15:47:04 -0400
-Received: from gateway36.websitewelcome.com ([192.185.188.18]:27575 "EHLO
-        gateway36.websitewelcome.com" rhost-flags-OK-OK-OK-OK)
-        by vger.kernel.org with ESMTP id S1729414AbgFRTrE (ORCPT
-        <rfc822;linux-man@vger.kernel.org>); Thu, 18 Jun 2020 15:47:04 -0400
-X-Greylist: delayed 1503 seconds by postgrey-1.27 at vger.kernel.org; Thu, 18 Jun 2020 15:47:03 EDT
-Received: from cm14.websitewelcome.com (cm14.websitewelcome.com [100.42.49.7])
-        by gateway36.websitewelcome.com (Postfix) with ESMTP id A29FA416803F4
-        for <linux-man@vger.kernel.org>; Thu, 18 Jun 2020 13:22:35 -0500 (CDT)
+        id S1728519AbgFRVIj (ORCPT <rfc822;linux-man@archiver.kernel.org>);
+        Thu, 18 Jun 2020 17:08:39 -0400
+Received: from gateway20.websitewelcome.com ([192.185.55.25]:48839 "EHLO
+        gateway20.websitewelcome.com" rhost-flags-OK-OK-OK-OK)
+        by vger.kernel.org with ESMTP id S1726478AbgFRVIi (ORCPT
+        <rfc822;linux-man@vger.kernel.org>); Thu, 18 Jun 2020 17:08:38 -0400
+X-Greylist: delayed 1344 seconds by postgrey-1.27 at vger.kernel.org; Thu, 18 Jun 2020 17:08:38 EDT
+Received: from cm11.websitewelcome.com (cm11.websitewelcome.com [100.42.49.5])
+        by gateway20.websitewelcome.com (Postfix) with ESMTP id 78C38400D18EC
+        for <linux-man@vger.kernel.org>; Thu, 18 Jun 2020 14:23:43 -0500 (CDT)
 Received: from gator3278.hostgator.com ([198.57.247.242])
         by cmsmtp with SMTP
-        id lzmwj1bgnSxZVlzmxjCgPt; Thu, 18 Jun 2020 14:01:27 -0500
+        id m1O4jJ62qhmVTm1O4jBYiL; Thu, 18 Jun 2020 15:43:52 -0500
 X-Authority-Reason: nr=8
-Received: from 89-69-237-178.dynamic.chello.pl ([89.69.237.178]:43822 helo=localhost)
+Received: from 89-69-237-178.dynamic.chello.pl ([89.69.237.178]:60428 helo=comp.lan)
         by gator3278.hostgator.com with esmtpa (Exim 4.93)
         (envelope-from <arkadiusz@drabczyk.org>)
-        id 1jlzmw-000oBC-7O; Thu, 18 Jun 2020 14:01:26 -0500
-Date:   Thu, 18 Jun 2020 21:01:17 +0200
+        id 1jm1O4-0021tY-0e; Thu, 18 Jun 2020 15:43:52 -0500
 From:   Arkadiusz Drabczyk <arkadiusz@drabczyk.org>
-To:     Walter Harms <wharms@bfs.de>
-Cc:     "mtk.manpages@gmail.com" <mtk.manpages@gmail.com>,
-        "linux-man@vger.kernel.org" <linux-man@vger.kernel.org>
-Subject: Re: [PATCH] fread.3: Add example
-Message-ID: <20200618190117.tissd5pzvif5jggp@comp.lan>
-References: <20200617184530.20811-1-arkadiusz@drabczyk.org>
- <be5391cc853c41a683069fa0c42d0a88@bfs.de>
- <20200618133647.rq2w6lanuatoweri@comp.lan>
- <80edb808679e48cc905421345c249127@bfs.de>
-MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <80edb808679e48cc905421345c249127@bfs.de>
-User-Agent: NeoMutt/20180716
+To:     mtk.manpages@gmail.com
+Cc:     linux-man@vger.kernel.org
+Subject: [PATCH] atoi.3: Explain disadvantages of atoi()
+Date:   Thu, 18 Jun 2020 22:42:41 +0200
+Message-Id: <20200618204241.14476-1-arkadiusz@drabczyk.org>
+X-Mailer: git-send-email 2.9.0
 X-AntiAbuse: This header was added to track abuse, please include it with any abuse report
 X-AntiAbuse: Primary Hostname - gator3278.hostgator.com
 X-AntiAbuse: Original Domain - vger.kernel.org
@@ -54,11 +45,11 @@ X-AntiAbuse: Sender Address Domain - drabczyk.org
 X-BWhitelist: no
 X-Source-IP: 89.69.237.178
 X-Source-L: No
-X-Exim-ID: 1jlzmw-000oBC-7O
+X-Exim-ID: 1jm1O4-0021tY-0e
 X-Source: 
 X-Source-Args: 
 X-Source-Dir: 
-X-Source-Sender: 89-69-237-178.dynamic.chello.pl (localhost) [89.69.237.178]:43822
+X-Source-Sender: 89-69-237-178.dynamic.chello.pl (comp.lan) [89.69.237.178]:60428
 X-Source-Auth: arkadiusz@drabczyk.org
 X-Email-Count: 1
 X-Source-Cap: cmt1bXZicmg7cmt1bXZicmg7Z2F0b3IzMjc4Lmhvc3RnYXRvci5jb20=
@@ -68,38 +59,45 @@ Precedence: bulk
 List-ID: <linux-man.vger.kernel.org>
 X-Mailing-List: linux-man@vger.kernel.org
 
-On Thu, Jun 18, 2020 at 02:47:54PM +0000, Walter Harms wrote:
-> 
-> ________________________________________
-> Von: Arkadiusz Drabczyk [arkadiusz@drabczyk.org]
-> Gesendet: Donnerstag, 18. Juni 2020 15:36
-> 
-> >>
-> >> +    ret = fread(buffer, 1, 1, fp);
-> >> +    if (ret != 1) {
-> >> +        fprintf(stderr, "fread() failed: %zu\en", ret);
-> >> +        exit(EXIT_FAILURE);
-> >> +    }
-> >> +
-> >> please drop a line what case you want to explain here, looks like the same as above.
-> 
-> >As said a few lines above, this retrieves ELF class. I wanted to show
-> >that file pointer moves automatically after fread() finishes.
-> 
-> ok i get the point(s).
-> 1. you show you can read an "item" a bunch of bytes
-> 
-> the second read() should demonstrate that consecutive reads return
->  consecutive blocks of data (here the magic and class id of an ELF).
+I believe new users should be discouraged from using atoi() and that
+its disadvantages should be explained.
 
-Exactly.
+I added the information that 0 is returned on error - although C
+standard and POSIX say that "If the value of the result cannot be
+represented, the behavior is undefined." there are some
+interpretations that 0 has to be returned
+https://stackoverflow.com/questions/38393162/what-can-i-assume-about-the-behaviour-of-atoi-on-error
+and this is also what happens in practice with glibc, musl and uClibc.
 
-> perhaps you can support what want to show with a
-> printf("pos=%ld\n",ftell(fp));
-> before and after read.
+Signed-off-by: Arkadiusz Drabczyk <arkadiusz@drabczyk.org>
+---
+ man3/atoi.3 | 13 ++++++++++++-
+ 1 file changed, 12 insertions(+), 1 deletion(-)
 
-Let's what Michael says. If he thinks this suggestion and the entire
-example in the first place is a good idea I will add it.
-
+diff --git a/man3/atoi.3 b/man3/atoi.3
+index c5894d3..3c6527a 100644
+--- a/man3/atoi.3
++++ b/man3/atoi.3
+@@ -81,7 +81,18 @@ functions behave the same as
+ except that they convert the initial portion of the
+ string to their return type of \fIlong\fP or \fIlong long\fP.
+ .SH RETURN VALUE
+-The converted value.
++The converted value or 0 on error.
++.SH BUGS
++.I errno
++is not set on error so there is no way to distinguish between 0 as an
++error and as the converted value.
++No checks for overflow or underflow are done.
++Only input in decimal base can be converted.
++It's recommended to use
++.BR strtol ()
++and
++.BR strtoul ()
++family of functions in new programs.
+ .SH ATTRIBUTES
+ For an explanation of the terms used in this section, see
+ .BR attributes (7).
 -- 
-Arkadiusz Drabczyk <arkadiusz@drabczyk.org>
+2.9.0
+
