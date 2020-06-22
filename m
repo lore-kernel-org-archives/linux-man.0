@@ -2,66 +2,66 @@ Return-Path: <SRS0=2nsi=AD=vger.kernel.org=linux-man-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-10.1 required=3.0 tests=DKIMWL_WL_HIGH,DKIM_SIGNED,
+X-Spam-Status: No, score=-7.3 required=3.0 tests=DKIMWL_WL_HIGH,DKIM_SIGNED,
 	DKIM_VALID,DKIM_VALID_AU,INCLUDES_PATCH,MAILING_LIST_MULTI,SIGNED_OFF_BY,
-	SPF_HELO_NONE,SPF_PASS,USER_AGENT_GIT autolearn=unavailable
-	autolearn_force=no version=3.4.0
+	SPF_HELO_NONE,SPF_PASS,UNWANTED_LANGUAGE_BODY,URIBL_BLOCKED,USER_AGENT_GIT
+	autolearn=unavailable autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 65FB7C433E6
-	for <linux-man@archiver.kernel.org>; Mon, 22 Jun 2020 19:29:31 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id F0F34C433E3
+	for <linux-man@archiver.kernel.org>; Mon, 22 Jun 2020 19:29:38 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.kernel.org (Postfix) with ESMTP id 39F812073E
-	for <linux-man@archiver.kernel.org>; Mon, 22 Jun 2020 19:29:31 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTP id C4D0D2073E
+	for <linux-man@archiver.kernel.org>; Mon, 22 Jun 2020 19:29:38 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=default; t=1592854171;
-	bh=fPP70+//+1ZxZjvaUlyovzLgIj/sHH/8XjgQWDd+UD0=;
+	s=default; t=1592854178;
+	bh=j8fdbxKsBIlHF8/hWpPNyzfI6zDwaf+bP+8TL/qPvDA=;
 	h=From:To:Cc:Subject:Date:In-Reply-To:References:List-ID:From;
-	b=kzMrASZdxlvVy/j/0cULYvcbTMJSxpU8n2gZ0/2HMbUpi4WwzqzTQ/9dlMcQyLpuE
-	 xcaYpZw7NaFM/KhbgwpfoooX2BLZdDmvwpZdAGKAQmcZ/S3knvEXlHs/jZD7Xgei0E
-	 Jl3jRhQjoHlmIBdjCnHyzswTVssOHt7ZRdPlmyDY=
+	b=UKikvXGesxjuAD4ClsvenbrnVBSVkyUgMSGyHl0vgW+GwCL7k5TunVijxQDBJxXzC
+	 z5dl1/5cnfQkKPqeZkIGwX1etDjY3O4brcO06TNhrDJByV4pL15IROoQ4BnXnYpQJ6
+	 X4KrLB5koWj4AyBpZhHRdyr7I05QuDFVDU3Sk4O0=
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1728553AbgFVT3T (ORCPT <rfc822;linux-man@archiver.kernel.org>);
-        Mon, 22 Jun 2020 15:29:19 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:47340 "EHLO
+        id S1728512AbgFVT3d (ORCPT <rfc822;linux-man@archiver.kernel.org>);
+        Mon, 22 Jun 2020 15:29:33 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:47356 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1728435AbgFVT3S (ORCPT
-        <rfc822;linux-man@vger.kernel.org>); Mon, 22 Jun 2020 15:29:18 -0400
-Received: from mail-pl1-x643.google.com (mail-pl1-x643.google.com [IPv6:2607:f8b0:4864:20::643])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 6AD40C061573;
-        Mon, 22 Jun 2020 12:29:18 -0700 (PDT)
-Received: by mail-pl1-x643.google.com with SMTP id d8so7993178plo.12;
-        Mon, 22 Jun 2020 12:29:18 -0700 (PDT)
+        with ESMTP id S1728594AbgFVT3X (ORCPT
+        <rfc822;linux-man@vger.kernel.org>); Mon, 22 Jun 2020 15:29:23 -0400
+Received: from mail-pg1-x544.google.com (mail-pg1-x544.google.com [IPv6:2607:f8b0:4864:20::544])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id A9F67C061573;
+        Mon, 22 Jun 2020 12:29:23 -0700 (PDT)
+Received: by mail-pg1-x544.google.com with SMTP id b5so8653309pgm.8;
+        Mon, 22 Jun 2020 12:29:23 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=gmail.com; s=20161025;
         h=sender:from:to:cc:subject:date:message-id:in-reply-to:references
          :mime-version:content-transfer-encoding;
-        bh=yZx/xJiu3yLYxBeu4W9X7ae9mJRIdzivgJHXdOhNnmc=;
-        b=d0aupIxhn/FLHpBpdH0gcA+xKWtWIytAq0I1cOCDzgpj3aVoyfPoYMOonaPxhXLiwD
-         yZ28ZuPwULQfqiNeE4/HS1JThab4ZmnHX8xrKEJy1f6P3yrKoyv5IfDyeVcgAvgJzTCV
-         Zs/UF0zlwmfCGyR5P9laCu5HxXQ89Uba9YUqbYyknlQJ99NeCtpftlCb8CG3kjYYNmAl
-         ooxlZ74ngTTpC95X+P7TvBWHQybJdQstLjFRMeQ4vrBy8Y+DV4J5I/sWQqwnoMLtYkg4
-         cAF7k5tPc5drdC3gE7FPbKTvq9iQiaiLhRtqoCIALzDCIAJ8YPyEswzeQEgqqEfyg69W
-         RLhA==
+        bh=8Ul/VyioCZgSyOOWRzsGy5FBJiYJTcxPpaUmWpPopUw=;
+        b=aSwM6DsYB1/dpxaO1GdMEYGz5So4Bsx1gHNxIcRQmwSHWyd2LDIyy526R7Dm3vg/U0
+         hPW8FovOHjF3ncjzSwNS49l65o4mEwt+stfbXxbXTtabuP9VzJKt5kNpsKqf8gWbm7e8
+         Jy7KLq/Oa8nWPd65hZpHq6atvB/hDkCkGB5hzYKgwST5ssIXtMTaX607CWH2DAsebuZc
+         TknY4iL3TlMu7nX6yjVZb1gWo1BmzG1feeMDspM9plW9Ecx/qLNW1DSCzw3r6Hp5ot3y
+         5HWMB02qByZbhRTIdJ8xnRPm+YzVrRE+zMT+QXXnuQNRfRXjGlzZvKk1PtjLFbK8TCW7
+         Zqcg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
         h=x-gm-message-state:sender:from:to:cc:subject:date:message-id
          :in-reply-to:references:mime-version:content-transfer-encoding;
-        bh=yZx/xJiu3yLYxBeu4W9X7ae9mJRIdzivgJHXdOhNnmc=;
-        b=luurvQftUqxLRFV6JDkDvEysCxnuhg6eK6bYbEBA2A9AZGdjWcwnUJuDxPSaKdNjbP
-         PTWLrt31MZo4bCigbWGY2fjZZEv9gY2kc1TL18kHT7sUh+FTCo/n1MDwn5UmwsJk9PFp
-         tfIVDo9Qahia36zsBBJK7832wmMQsSQZptNUlAKFCikKEauPI8Ruvap/2pnwqcA0QMGd
-         TLMvLG4l0MnpzFtVnBkn7sa/cnt+m9I3ahZ6SiUmPAfo5hpfqnVogGEjGiwxAruKuaw8
-         cY8bYZJN+nHeYDyn16O4EJ1bq8z0rlKFADndyxVtLhFmzkEfqKL3mj3bhD3yipiKjZYW
-         6BqQ==
-X-Gm-Message-State: AOAM530xdSp0JHvfY4pbN2Hdl43EWgPhIpIqAImP2FvrKsfD6VDWkLT1
-        TStrBYeQksEuKVd/EnKzRY8=
-X-Google-Smtp-Source: ABdhPJwHJM4Ndj1kL9SxsYssjyeNpOvrkStklgev1hE+d9lOsEaIWOk0EsCCmknPMMW3ePgOf2akJg==
-X-Received: by 2002:a17:90a:cf17:: with SMTP id h23mr20123616pju.139.1592854157967;
-        Mon, 22 Jun 2020 12:29:17 -0700 (PDT)
+        bh=8Ul/VyioCZgSyOOWRzsGy5FBJiYJTcxPpaUmWpPopUw=;
+        b=tizh9Qd0OK37FJWAgfKljBC95Ijjiw8oKgWCjVSfGUDJFuOpjc3nc11Lg9JxlqdTDJ
+         uoyUOFcSv1rfgC1C+n1StKCJ3807mFHHRZZVzaFJ5jiiy1QYtOZrOEw+h/VshX2Nh/Yy
+         vawH70gORfmVcS8fgGv+XclBgyC3mNg8VMIa5c97/cO8YTnHLOXpEkPXvsGgNacC+/9z
+         1++UAdzWcQlmP2dYwLdAuDJzrFXB4opxTNat3F47Jx9xDOTMXC/rMcpb0jmks3/1Bn3h
+         Fa0MPnXC7e1PKJMPNekh65GJhgugeKQLgyJSjX+77zcwFL77tVlNfbO23XkFY68jvLMc
+         pN9A==
+X-Gm-Message-State: AOAM5317J7vIKpPmmWHRdgpd1GVJ97/6iXR+2YBev1MKOBI3gFwkhUiO
+        NGgE49GND1o8GmNI0Pj3aJj0J/XD
+X-Google-Smtp-Source: ABdhPJw2WQbvHFWoo0cnD9rBNEULjMl/Sezb/fUY29hFdcN9wqV/dwQmcM+u/jI25YdJul3DpG7Ejg==
+X-Received: by 2002:a63:cd4d:: with SMTP id a13mr14285541pgj.49.1592854163147;
+        Mon, 22 Jun 2020 12:29:23 -0700 (PDT)
 Received: from bbox-1.mtv.corp.google.com ([2620:15c:211:1:3e01:2939:5992:52da])
-        by smtp.gmail.com with ESMTPSA id mu17sm264603pjb.53.2020.06.22.12.29.15
+        by smtp.gmail.com with ESMTPSA id mu17sm264603pjb.53.2020.06.22.12.29.20
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Mon, 22 Jun 2020 12:29:16 -0700 (PDT)
+        Mon, 22 Jun 2020 12:29:21 -0700 (PDT)
 From:   Minchan Kim <minchan@kernel.org>
 To:     Andrew Morton <akpm@linux-foundation.org>
 Cc:     LKML <linux-kernel@vger.kernel.org>,
@@ -82,13 +82,15 @@ Cc:     LKML <linux-kernel@vger.kernel.org>,
         David Rientjes <rientjes@google.com>,
         Arjun Roy <arjunroy@google.com>,
         Minchan Kim <minchan@kernel.org>,
-        Vlastimil Babka <vbabka@suse.cz>, Jens Axboe <axboe@kernel.dk>,
+        Vlastimil Babka <vbabka@suse.cz>,
+        Christian Brauner <christian@brauner.io>,
         Daniel Colascione <dancol@google.com>,
+        Jens Axboe <axboe@kernel.dk>,
         Kirill Tkhai <ktkhai@virtuozzo.com>,
         SeongJae Park <sjpark@amazon.de>, linux-man@vger.kernel.org
-Subject: [PATCH v8 2/4] pid: move pidfd_get_pid() to pid.c
-Date:   Mon, 22 Jun 2020 12:28:58 -0700
-Message-Id: <20200622192900.22757-3-minchan@kernel.org>
+Subject: [PATCH v8 4/4] mm/madvise: check fatal signal pending of target process
+Date:   Mon, 22 Jun 2020 12:29:00 -0700
+Message-Id: <20200622192900.22757-5-minchan@kernel.org>
 X-Mailer: git-send-email 2.27.0.111.gc72c7da667-goog
 In-Reply-To: <20200622192900.22757-1-minchan@kernel.org>
 References: <20200622192900.22757-1-minchan@kernel.org>
@@ -99,20 +101,19 @@ Precedence: bulk
 List-ID: <linux-man.vger.kernel.org>
 X-Mailing-List: linux-man@vger.kernel.org
 
-process_madvise syscall needs pidfd_get_pid function to translate pidfd to
-pid so this patch move the function to kernel/pid.c.
+Bail out to prevent unnecessary CPU overhead if target process has pending
+fatal signal during (MADV_COLD|MADV_PAGEOUT) operation.
 
-Link: http://lkml.kernel.org/r/20200302193630.68771-5-minchan@kernel.org
+Link: http://lkml.kernel.org/r/20200302193630.68771-4-minchan@kernel.org
 Signed-off-by: Minchan Kim <minchan@kernel.org>
 Reviewed-by: Suren Baghdasaryan <surenb@google.com>
-Suggested-by: Alexander Duyck <alexander.h.duyck@linux.intel.com>
-Reviewed-by: Alexander Duyck <alexander.h.duyck@linux.intel.com>
-Acked-by: Christian Brauner <christian.brauner@ubuntu.com>
 Reviewed-by: Vlastimil Babka <vbabka@suse.cz>
-Cc: Jens Axboe <axboe@kernel.dk>
-Cc: Jann Horn <jannh@google.com>
+Cc: Alexander Duyck <alexander.h.duyck@linux.intel.com>
 Cc: Brian Geffon <bgeffon@google.com>
+Cc: Christian Brauner <christian@brauner.io>
 Cc: Daniel Colascione <dancol@google.com>
+Cc: Jann Horn <jannh@google.com>
+Cc: Jens Axboe <axboe@kernel.dk>
 Cc: Joel Fernandes <joel@joelfernandes.org>
 Cc: Johannes Weiner <hannes@cmpxchg.org>
 Cc: John Dias <joaodias@google.com>
@@ -128,79 +129,131 @@ Cc: Tim Murray <timmurray@google.com>
 Cc: Christian Brauner <christian.brauner@ubuntu.com>
 Cc: <linux-man@vger.kernel.org>
 ---
- include/linux/pid.h |  1 +
- kernel/exit.c       | 17 -----------------
- kernel/pid.c        | 17 +++++++++++++++++
- 3 files changed, 18 insertions(+), 17 deletions(-)
+ mm/madvise.c | 29 +++++++++++++++++++++--------
+ 1 file changed, 21 insertions(+), 8 deletions(-)
 
-diff --git a/include/linux/pid.h b/include/linux/pid.h
-index 176d6cf80e7c..86e0e7cb7872 100644
---- a/include/linux/pid.h
-+++ b/include/linux/pid.h
-@@ -77,6 +77,7 @@ extern const struct file_operations pidfd_fops;
- struct file;
+diff --git a/mm/madvise.c b/mm/madvise.c
+index 23abca3f93fa..a16dba21cdf6 100644
+--- a/mm/madvise.c
++++ b/mm/madvise.c
+@@ -39,6 +39,7 @@
+ struct madvise_walk_private {
+ 	struct mmu_gather *tlb;
+ 	bool pageout;
++	struct task_struct *target_task;
+ };
  
- extern struct pid *pidfd_pid(const struct file *file);
-+struct pid *pidfd_get_pid(unsigned int fd);
+ /*
+@@ -319,6 +320,10 @@ static int madvise_cold_or_pageout_pte_range(pmd_t *pmd,
+ 	if (fatal_signal_pending(current))
+ 		return -EINTR;
  
- static inline struct pid *get_pid(struct pid *pid)
++	if (private->target_task &&
++			fatal_signal_pending(private->target_task))
++		return -EINTR;
++
+ #ifdef CONFIG_TRANSPARENT_HUGEPAGE
+ 	if (pmd_trans_huge(*pmd)) {
+ 		pmd_t orig_pmd;
+@@ -480,12 +485,14 @@ static const struct mm_walk_ops cold_walk_ops = {
+ };
+ 
+ static void madvise_cold_page_range(struct mmu_gather *tlb,
++			     struct task_struct *task,
+ 			     struct vm_area_struct *vma,
+ 			     unsigned long addr, unsigned long end)
  {
-diff --git a/kernel/exit.c b/kernel/exit.c
-index 00d77e5ba700..8acb702e8241 100644
---- a/kernel/exit.c
-+++ b/kernel/exit.c
-@@ -1475,23 +1475,6 @@ static long do_wait(struct wait_opts *wo)
- 	return retval;
+ 	struct madvise_walk_private walk_private = {
+ 		.pageout = false,
+ 		.tlb = tlb,
++		.target_task = task,
+ 	};
+ 
+ 	tlb_start_vma(tlb, vma);
+@@ -493,7 +500,8 @@ static void madvise_cold_page_range(struct mmu_gather *tlb,
+ 	tlb_end_vma(tlb, vma);
  }
  
--static struct pid *pidfd_get_pid(unsigned int fd)
--{
--	struct fd f;
--	struct pid *pid;
--
--	f = fdget(fd);
--	if (!f.file)
--		return ERR_PTR(-EBADF);
--
--	pid = pidfd_pid(f.file);
--	if (!IS_ERR(pid))
--		get_pid(pid);
--
--	fdput(f);
--	return pid;
--}
--
- static long kernel_waitid(int which, pid_t upid, struct waitid_info *infop,
- 			  int options, struct rusage *ru)
+-static long madvise_cold(struct vm_area_struct *vma,
++static long madvise_cold(struct task_struct *task,
++			struct vm_area_struct *vma,
+ 			struct vm_area_struct **prev,
+ 			unsigned long start_addr, unsigned long end_addr)
  {
-diff --git a/kernel/pid.c b/kernel/pid.c
-index f1496b757162..3122043fe364 100644
---- a/kernel/pid.c
-+++ b/kernel/pid.c
-@@ -518,6 +518,23 @@ struct pid *find_ge_pid(int nr, struct pid_namespace *ns)
- 	return idr_get_next(&ns->idr, &nr);
+@@ -506,19 +514,21 @@ static long madvise_cold(struct vm_area_struct *vma,
+ 
+ 	lru_add_drain();
+ 	tlb_gather_mmu(&tlb, mm, start_addr, end_addr);
+-	madvise_cold_page_range(&tlb, vma, start_addr, end_addr);
++	madvise_cold_page_range(&tlb, task, vma, start_addr, end_addr);
+ 	tlb_finish_mmu(&tlb, start_addr, end_addr);
+ 
+ 	return 0;
  }
  
-+struct pid *pidfd_get_pid(unsigned int fd)
-+{
-+	struct fd f;
-+	struct pid *pid;
-+
-+	f = fdget(fd);
-+	if (!f.file)
-+		return ERR_PTR(-EBADF);
-+
-+	pid = pidfd_pid(f.file);
-+	if (!IS_ERR(pid))
-+		get_pid(pid);
-+
-+	fdput(f);
-+	return pid;
-+}
-+
- /**
-  * pidfd_create() - Create a new pid file descriptor.
-  *
+ static void madvise_pageout_page_range(struct mmu_gather *tlb,
++			     struct task_struct *task,
+ 			     struct vm_area_struct *vma,
+ 			     unsigned long addr, unsigned long end)
+ {
+ 	struct madvise_walk_private walk_private = {
+ 		.pageout = true,
+ 		.tlb = tlb,
++		.target_task = task,
+ 	};
+ 
+ 	tlb_start_vma(tlb, vma);
+@@ -542,7 +552,8 @@ static inline bool can_do_pageout(struct vm_area_struct *vma)
+ 		inode_permission(file_inode(vma->vm_file), MAY_WRITE) == 0;
+ }
+ 
+-static long madvise_pageout(struct vm_area_struct *vma,
++static long madvise_pageout(struct task_struct *task,
++			struct vm_area_struct *vma,
+ 			struct vm_area_struct **prev,
+ 			unsigned long start_addr, unsigned long end_addr)
+ {
+@@ -558,7 +569,7 @@ static long madvise_pageout(struct vm_area_struct *vma,
+ 
+ 	lru_add_drain();
+ 	tlb_gather_mmu(&tlb, mm, start_addr, end_addr);
+-	madvise_pageout_page_range(&tlb, vma, start_addr, end_addr);
++	madvise_pageout_page_range(&tlb, task, vma, start_addr, end_addr);
+ 	tlb_finish_mmu(&tlb, start_addr, end_addr);
+ 
+ 	return 0;
+@@ -938,7 +949,8 @@ static int madvise_inject_error(int behavior,
+ #endif
+ 
+ static long
+-madvise_vma(struct vm_area_struct *vma, struct vm_area_struct **prev,
++madvise_vma(struct task_struct *task, struct vm_area_struct *vma,
++		struct vm_area_struct **prev,
+ 		unsigned long start, unsigned long end, int behavior)
+ {
+ 	switch (behavior) {
+@@ -947,9 +959,9 @@ madvise_vma(struct vm_area_struct *vma, struct vm_area_struct **prev,
+ 	case MADV_WILLNEED:
+ 		return madvise_willneed(vma, prev, start, end);
+ 	case MADV_COLD:
+-		return madvise_cold(vma, prev, start, end);
++		return madvise_cold(task, vma, prev, start, end);
+ 	case MADV_PAGEOUT:
+-		return madvise_pageout(vma, prev, start, end);
++		return madvise_pageout(task, vma, prev, start, end);
+ 	case MADV_FREE:
+ 	case MADV_DONTNEED:
+ 		return madvise_dontneed_free(vma, prev, start, end, behavior);
+@@ -1166,7 +1178,8 @@ int do_madvise(struct task_struct *target_task, struct mm_struct *mm,
+ 			tmp = end;
+ 
+ 		/* Here vma->vm_start <= start < tmp <= (end|vma->vm_end). */
+-		error = madvise_vma(vma, &prev, start, tmp, behavior);
++		error = madvise_vma(target_task, vma, &prev,
++					start, tmp, behavior);
+ 		if (error)
+ 			goto out;
+ 		start = tmp;
 -- 
 2.27.0.111.gc72c7da667-goog
 
