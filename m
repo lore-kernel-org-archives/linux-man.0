@@ -2,117 +2,291 @@ Return-Path: <SRS0=F+qq=AK=vger.kernel.org=linux-man-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-10.1 required=3.0 tests=DKIM_SIGNED,DKIM_VALID,
-	DKIM_VALID_AU,FREEMAIL_FORGED_FROMDOMAIN,FREEMAIL_FROM,
-	HEADER_FROM_DIFFERENT_DOMAINS,INCLUDES_PATCH,MAILING_LIST_MULTI,SIGNED_OFF_BY,
-	SPF_HELO_NONE,SPF_PASS,USER_AGENT_GIT autolearn=ham autolearn_force=no
-	version=3.4.0
+X-Spam-Status: No, score=-5.5 required=3.0 tests=HEADER_FROM_DIFFERENT_DOMAINS,
+	INCLUDES_PATCH,MAILING_LIST_MULTI,SPF_HELO_NONE,SPF_PASS,USER_AGENT_SANE_1
+	autolearn=ham autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id CA449C433E0
-	for <linux-man@archiver.kernel.org>; Mon, 29 Jun 2020 18:48:36 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 02CFEC433E1
+	for <linux-man@archiver.kernel.org>; Mon, 29 Jun 2020 19:28:38 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.kernel.org (Postfix) with ESMTP id ABAB8204EC
-	for <linux-man@archiver.kernel.org>; Mon, 29 Jun 2020 18:48:36 +0000 (UTC)
-Authentication-Results: mail.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="gxEyALL5"
+	by mail.kernel.org (Postfix) with ESMTP id DD6342065F
+	for <linux-man@archiver.kernel.org>; Mon, 29 Jun 2020 19:28:37 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1729342AbgF2Sro (ORCPT <rfc822;linux-man@archiver.kernel.org>);
-        Mon, 29 Jun 2020 14:47:44 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:39184 "EHLO
+        id S1730571AbgF2T2g (ORCPT <rfc822;linux-man@archiver.kernel.org>);
+        Mon, 29 Jun 2020 15:28:36 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:45974 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1728009AbgF2Srm (ORCPT
-        <rfc822;linux-man@vger.kernel.org>); Mon, 29 Jun 2020 14:47:42 -0400
-Received: from mail-wm1-x344.google.com (mail-wm1-x344.google.com [IPv6:2a00:1450:4864:20::344])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 8E850C02F03C
-        for <linux-man@vger.kernel.org>; Mon, 29 Jun 2020 08:08:47 -0700 (PDT)
-Received: by mail-wm1-x344.google.com with SMTP id o8so15729203wmh.4
-        for <linux-man@vger.kernel.org>; Mon, 29 Jun 2020 08:08:47 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20161025;
-        h=from:to:cc:subject:date:message-id;
-        bh=SHqCrKjgTZrIBenxr3G/PaJf5Hdk7bathTejrXAwG2A=;
-        b=gxEyALL5pJEhAsRuN4UZQy7CynViyDY3KwaB4kYSXzhSyZDNaXHDEH3TwWml7DKpHW
-         PU4vAwY67B5dVZSai8mXionZ0ToyarBBkNL8f+Ro7IGjonMi7nuEzhRhbTchammY1/S8
-         BfM900OcQ0f44YJdkIUV8gL/N+/C3GUJbbTB/Jx6LAqH+eyzy0yNXerSazQV2leOSx/i
-         n2l+anRZuGvQw6nm0cofKPCRDaOpj7S6Gc4NKRWzFM1FWSq8I5Cg+zoX7EFsTZYeSy2E
-         hn1pVjqp2nRYX/DOqoLzBMkGU8WT4N18aLw5mUDTyq3B3bGJsrz2/xzpAZwH56xnTZVi
-         TEGA==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20161025;
-        h=x-gm-message-state:from:to:cc:subject:date:message-id;
-        bh=SHqCrKjgTZrIBenxr3G/PaJf5Hdk7bathTejrXAwG2A=;
-        b=HWy+ZVigM3cDdDknhZdttXAGgAs7jLnmCETNjHZCnPJKiWp2Wx0eVxNqoXlkSoM8hy
-         hMx/G5dW/zKSF3em43ssVpAnp6r8MhseaxVKWCKONUqmzzIl2tTdXpF5w4rzeNUMPIfg
-         DPkyCJ4UlkvZsogR1JkH7vnNUzb0QudXt7Fqpnbxqe/eBUP60Fe1C+mFLbFiNIRPoZDj
-         wl5YM2AdVCh8ws07VjU67RqG+BFr+WnHzzTrjBXNO312LbGCP/7tV1NV9Lmdj3RJ+dlV
-         9C/TPmN+RWSlV6sDeUxHD3EwWHLiatWYw4sGyjob9CmJU6M+4Nv6Ujvl9xb+CCBrR1kb
-         /gFA==
-X-Gm-Message-State: AOAM532SQIGWfDRVItaXlSohXdlde3WTS0mv8lsOxM4blq75iSBb1+6/
-        H9aY61LCBAAkrLnmI1h4kh8=
-X-Google-Smtp-Source: ABdhPJw1hCviHrjtn3TBD5k3iwAJD1Ks3FtrA0zl4vFVp7ARiOZizTadZh26j8NAncj0QiCTtlr7hw==
-X-Received: by 2002:a1c:2049:: with SMTP id g70mr17971866wmg.90.1593443326327;
-        Mon, 29 Jun 2020 08:08:46 -0700 (PDT)
-Received: from Thomas-Laptop.fritz.box (p200300dd0f244700f94b99e16515bb46.dip0.t-ipconnect.de. [2003:dd:f24:4700:f94b:99e1:6515:bb46])
-        by smtp.gmail.com with ESMTPSA id r11sm124926wmh.1.2020.06.29.08.08.45
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Mon, 29 Jun 2020 08:08:45 -0700 (PDT)
-From:   Thomas Bartelsmeier <t.bartelsmeier@gmail.com>
+        with ESMTP id S1732744AbgF2T1n (ORCPT
+        <rfc822;linux-man@vger.kernel.org>); Mon, 29 Jun 2020 15:27:43 -0400
+Received: from buzzer.stormbind.net (buzzer.stormbind.net [IPv6:2a01:4f8:201:5373::85])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id CDBCBC02E2FE
+        for <linux-man@vger.kernel.org>; Mon, 29 Jun 2020 07:41:12 -0700 (PDT)
+Received: from digital0638.lan (unknown [IPv6:2a02:6d40:2b51:fc01:49e5:d515:df94:338c])
+        (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+         key-exchange ECDHE (P-256) server-signature RSA-PSS (2048 bits) server-digest SHA256)
+        (No client certificate requested)
+        by buzzer.stormbind.net (Postfix) with ESMTPSA id E718A600392;
+        Mon, 29 Jun 2020 16:41:10 +0200 (CEST)
+Received: from sven by digital0638.lan with local (Exim 4.92)
+        (envelope-from <sven@stormbind.net>)
+        id 1jpuy6-0000K7-9N; Mon, 29 Jun 2020 16:41:10 +0200
+Date:   Mon, 29 Jun 2020 16:41:10 +0200
+From:   Sven Hoexter <sven@stormbind.net>
 To:     mtk.manpages@gmail.com
-Cc:     linux-man@vger.kernel.org, linux-kernel@i4.cs.fau.de,
-        Thomas Bartelsmeier <t.bartelsmeier@gmail.com>
-Subject: [PATCH] hosts.5: Clarify capability for IPv6 outside of examples
-Date:   Mon, 29 Jun 2020 17:07:16 +0200
-Message-Id: <20200629150716.3086-1-t.bartelsmeier@gmail.com>
-X-Mailer: git-send-email 2.17.1
+Cc:     linux-man@vger.kernel.org
+Subject: [PATCH v2] update kernel documentation references in cgroups(7) and
+ cpuset(7)
+Message-ID: <20200629144110.GA1099@stormbind.net>
+MIME-Version: 1.0
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+User-Agent: Mutt/1.10.1 (2018-07-13)
 Sender: linux-man-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-man.vger.kernel.org>
 X-Mailing-List: linux-man@vger.kernel.org
 
-Resolves https://bugzilla.kernel.org/show_bug.cgi?id=208279
+cgroups-v1/v2 documentation got moved to the "admin-guide" subfolder
+and converted from .txt files to .rst
 
-Signed-off-by: Thomas Bartelsmeier <t.bartelsmeier@gmail.com>
 ---
+Since v1:
 
-The first addition should be relatively uncontroversial.
-As the prevalence of IPv6 continues to increase, it is about
-time to not only mention the IPv6 compatibility of the hosts
-file in the examples at the very bottom of the man page.
+* Keep references to prior versions of the documentation with matching
+  Linux versions.
+* Removed a faulty change for the location of perf-record.txt.
+* Replaced one occurrence of the .I macro with .IR to be consistent.
+---
+ man7/cgroups.7 | 93 ++++++++++++++++++++++++++++++++++++++------------
+ man7/cpuset.7  |  4 ++-
+ 2 files changed, 74 insertions(+), 23 deletions(-)
 
-The second addition is in relation to the Bugzilla report.
-It is a simple statement which is true even for the default
-version of the hosts file and its two entries for localhost.
-However, I do not consider it necessary for any casual user to
-add both IPv4 and IPv6 addresses for any hosts.
-Therefore, I cautiously did not change the wording criticized in
-the bug report in case of any possible negative interactions.
-As a result, the second addition is meant to be for completeness
-and for use by people who know they actually need this.
-
- man5/hosts.5 | 3 +++
- 1 file changed, 3 insertions(+)
-
-diff --git a/man5/hosts.5 b/man5/hosts.5
-index cb055f5f6..1230f9303 100644
---- a/man5/hosts.5
-+++ b/man5/hosts.5
-@@ -42,6 +42,7 @@ line should be present with the following information:
- IP_address canonical_hostname [aliases...]
- .RE
+diff --git a/man7/cgroups.7 b/man7/cgroups.7
+index 7a7210177..3e346b8d8 100644
+--- a/man7/cgroups.7
++++ b/man7/cgroups.7
+@@ -74,9 +74,12 @@ to allow the management of various types of resources.
+ However, the development of these controllers was largely uncoordinated,
+ with the result that many inconsistencies arose between controllers
+ and management of the cgroup hierarchies became rather complex.
+-(A longer description of these problems can be found in
+-the kernel source file
+-.IR Documentation/cgroup\-v2.txt .)
++A longer description of these problems can be found in the kernel
++source file
++.IR Documentation/admin\-guide/cgroup\-v2.rst
++(or
++.IR Documentation/cgroup\-v2.txt
++in Linux 4.17 and earlier).
  .PP
-+The IP address can conform to either IPv4 or IPv6.
- Fields of the entry are separated by any number of blanks and/or
- tab characters.
- Text from a "#" character until the end of the line is
-@@ -53,6 +54,8 @@ alphabetic character and end with an alphanumeric character.
- Optional aliases provide for name changes, alternate spellings,
- shorter hostnames, or generic hostnames (for example,
- .IR localhost ).
-+If required, a host may have two separate entries in this file;
-+one for each version of the Internet Protocol (IPv4 and IPv6).
+ Because of the problems with the initial cgroups implementation
+ (cgroups version 1),
+@@ -264,7 +267,10 @@ Cgroups can be guaranteed a minimum number of "CPU shares"
+ when a system is busy.
+ This does not limit a cgroup's CPU usage if the CPUs are not busy.
+ For further information, see
+-.IR Documentation/scheduler/sched-design-CFS.txt .
++.IR Documentation/scheduler/sched\-design\-CFS.rst
++(or
++.IR Documentation/scheduler/sched\-design\-CFS.txt
++in Linux 5.2 and earlier).
+ .IP
+ In Linux 3.2,
+ this controller was extended to provide CPU "bandwidth" control.
+@@ -275,27 +281,40 @@ then within each scheduling period
+ an upper limit on the CPU time allocated to the processes in a cgroup.
+ This upper limit applies even if there is no other competition for the CPU.
+ Further information can be found in the kernel source file
+-.IR Documentation/scheduler/sched\-bwc.txt .
++.IR Documentation/scheduler/sched\-bwc.rst
++(or
++.IR Documentation/scheduler/sched\-bwc.txt
++in Linux 5.2 and earlier).
+ .TP
+ .IR cpuacct " (since Linux 2.6.24; " \fBCONFIG_CGROUP_CPUACCT\fP )
+ This provides accounting for CPU usage by groups of processes.
+ .IP
+ Further information can be found in the kernel source file
+-.IR Documentation/cgroup\-v1/cpuacct.txt .
++.IR Documentation/admin\-guide/cgroup\-v1/cpuacct.rst
++(or
++.IR Documentation/cgroup\-v1/cpuacct.txt
++in Linux 5.2 and earlier).
+ .TP
+ .IR cpuset " (since Linux 2.6.24; " \fBCONFIG_CPUSETS\fP )
+ This cgroup can be used to bind the processes in a cgroup to
+ a specified set of CPUs and NUMA nodes.
+ .IP
+ Further information can be found in the kernel source file
+-.IR Documentation/cgroup\-v1/cpusets.txt .
++.IR Documentation/admin\-guide/cgroup\-v1/cpusets.rst
++(or
++.IR Documentation/cgroup\-v1/cpusets.txt
++in Linux 5.2 and earlier).
++.
+ .TP
+ .IR memory " (since Linux 2.6.25; " \fBCONFIG_MEMCG\fP )
+ The memory controller supports reporting and limiting of process memory, kernel
+ memory, and swap used by cgroups.
+ .IP
+ Further information can be found in the kernel source file
+-.IR Documentation/cgroup\-v1/memory.txt .
++.IR Documentation/admin\-guide/cgroup\-v1/memory.rst
++(or
++.IR Documentation/cgroup\-v1/memory.txt
++in Linux 5.2 and earlier).
+ .TP
+ .IR devices " (since Linux 2.6.26; " \fBCONFIG_CGROUP_DEVICE\fP )
+ This supports controlling which processes may create (mknod) devices as
+@@ -305,7 +324,10 @@ Hierarchy is enforced, so new rules must not
+ violate existing rules for the target or ancestor cgroups.
+ .IP
+ Further information can be found in the kernel source file
+-.IR Documentation/cgroup-v1/devices.txt .
++.IR Documentation/admin\-guide/cgroup\-v1/devices.rst
++(or
++.IR Documentation/cgroup\-v1/devices.txt
++in Linux 5.2 and earlier).
+ .TP
+ .IR freezer " (since Linux 2.6.28; " \fBCONFIG_CGROUP_FREEZER\fP )
+ The
+@@ -318,7 +340,10 @@ also causes its children, for example, processes in
+ to be frozen.
+ .IP
+ Further information can be found in the kernel source file
+-.IR Documentation/cgroup-v1/freezer-subsystem.txt .
++.IR Documentation/admin\-guide/cgroup\-v1/freezer\-subsystem.rst
++(or
++.IR Documentation/cgroup\-v1/freezer\-subsystem.txt
++in Linux 5.2 and earlier).
+ .TP
+ .IR net_cls " (since Linux 2.6.29; " \fBCONFIG_CGROUP_NET_CLASSID\fP )
+ This places a classid, specified for the cgroup, on network packets
+@@ -330,7 +355,10 @@ This applies only to packets
+ leaving the cgroup, not to traffic arriving at the cgroup.
+ .IP
+ Further information can be found in the kernel source file
+-.IR Documentation/cgroup-v1/net_cls.txt .
++.IR Documentation/admin\-guide/cgroup\-v1/net_cls.rst
++(or
++.IR Documentation/cgroup\-v1/net_cls.txt
++in Linux 5.2 and earlier).
+ .TP
+ .IR blkio " (since Linux 2.6.33; " \fBCONFIG_BLK_CGROUP\fP )
+ The
+@@ -347,41 +375,55 @@ The second is a throttling policy which specifies
+ upper I/O rate limits on a device.
+ .IP
+ Further information can be found in the kernel source file
+-.IR Documentation/cgroup-v1/blkio-controller.txt .
++.IR Documentation/admin\-guide/cgroup\-v1/blkio\-controller.rst
++(or
++.IR Documentation/cgroup\-v1/blkio\-controller.txt
++in Linux 5.2 and earlier).
+ .TP
+ .IR perf_event " (since Linux 2.6.39; " \fBCONFIG_CGROUP_PERF\fP )
+ This controller allows
+ .I perf
+ monitoring of the set of processes grouped in a cgroup.
+ .IP
+-Further information can be found in the kernel source file
+-.IR tools/perf/Documentation/perf-record.txt .
++Further information can be found in the kernel source files
+ .TP
+ .IR net_prio " (since Linux 3.3; " \fBCONFIG_CGROUP_NET_PRIO\fP )
+ This allows priorities to be specified, per network interface, for cgroups.
+ .IP
+ Further information can be found in the kernel source file
+-.IR Documentation/cgroup-v1/net_prio.txt .
++.IR Documentation/admin\-guide/cgroup\-v1/net_prio.rst
++(or
++.IR Documentation/cgroup\-v1/net_prio.txt
++in Linux 5.2 and earlier).
+ .TP
+ .IR hugetlb " (since Linux 3.5; " \fBCONFIG_CGROUP_HUGETLB\fP )
+ This supports limiting the use of huge pages by cgroups.
+ .IP
+ Further information can be found in the kernel source file
+-.IR Documentation/cgroup-v1/hugetlb.txt .
++.IR Documentation/admin\-guide/cgroup\-v1/hugetlb.rst
++(or
++.IR Documentation/cgroup\-v1/hugetlb.txt
++in Linux 5.2 and earlier).
+ .TP
+ .IR pids " (since Linux 4.3; " \fBCONFIG_CGROUP_PIDS\fP )
+ This controller permits limiting the number of process that may be created
+ in a cgroup (and its descendants).
+ .IP
+ Further information can be found in the kernel source file
+-.IR Documentation/cgroup-v1/pids.txt .
++.IR Documentation/admin\-guide/cgroup\-v1/pids.rst
++(or
++.IR Documentation/cgroup\-v1/pids.txt
++in Linux 5.2 and earlier).
+ .TP
+ .IR rdma " (since Linux 4.11; " \fBCONFIG_CGROUP_RDMA\fP )
+ The RDMA controller permits limiting the use of
+ RDMA/IB-specific resources per cgroup.
+ .IP
+ Further information can be found in the kernel source file
+-.IR Documentation/cgroup-v1/rdma.txt .
++.IR Documentation/admin\-guide/cgroup\-v1/rdma.rst
++(or
++.IR Documentation/cgroup\-v1/rdma.txt
++in Linux 5.2 and earlier).
+ .\"
+ .SS Creating cgroups and moving processes
+ A cgroup filesystem initially contains a single root cgroup, '/',
+@@ -566,8 +608,12 @@ An improved mechanism for notification of empty cgroups is provided by the
+ file.
  .PP
- The Berkeley Internet Name Domain (BIND) Server implements the
- Internet name server for UNIX systems.
+ For more changes, see the
+-.I Documentation/cgroup-v2.txt
+-file in the kernel source.
++.IR Documentation/admin\-guide/cgroup\-v2.rst
++file in the kernel source
++(or
++.IR Documentation/cgroup\-v2.txt
++in Linux 4.17 and earlier).
++.
+ .PP
+ Some of the new behaviors listed above saw subsequent modification with
+ the addition in Linux 4.14 of "thread mode" (described below).
+@@ -648,7 +694,10 @@ it is silently ignored in noninitial namespaces.
+ .\"
+ .SS Cgroups v2 controllers
+ The following controllers, documented in the kernel source file
+-.IR Documentation/cgroup-v2.txt ,
++.IR Documentation/admin\-guide/cgroup\-v2.rst
++(or
++.IR Documentation/cgroup\-v2.txt
++in Linux 4.17 and earlier),
+ are supported in cgroups version 2:
+ .TP
+ .IR cpu " (since Linux 4.15)"
+@@ -1878,4 +1927,4 @@ mount option.
+ .BR user_namespaces (7)
+ .PP
+ The kernel source file
+-.IR Documentation/admin-guide/cgroup-v2.rst .
++.IR Documentation/admin\-guide/cgroup\-v2.rst .
+diff --git a/man7/cpuset.7 b/man7/cpuset.7
+index 44e63d64f..c1b9fda79 100644
+--- a/man7/cpuset.7
++++ b/man7/cpuset.7
+@@ -1503,9 +1503,11 @@ syntax that works on any shell, but alas more obscurely, by using the
+ .BR migratepages (8),
+ .BR numactl (8)
+ .PP
+-.IR Documentation/cgroup\-v1/cpusets.txt
++.IR Documentation/admin\-guide/cgroup\-v1/cpusets.rst
+ in the Linux kernel source tree
+ .\" commit 45ce80fb6b6f9594d1396d44dd7e7c02d596fef8
+ (or
++.IR Documentation/cgroup\-v1/cpusets.txt
++before Linux 4.18, and
+ .IR Documentation/cpusets.txt
+ before Linux 2.6.29)
 -- 
-2.17.1
+2.20.1
 
