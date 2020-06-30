@@ -2,340 +2,124 @@ Return-Path: <SRS0=EHFe=AL=vger.kernel.org=linux-man-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-5.6 required=3.0 tests=DKIM_SIGNED,DKIM_VALID,
-	DKIM_VALID_AU,FREEMAIL_FORGED_FROMDOMAIN,FREEMAIL_FROM,
-	HEADER_FROM_DIFFERENT_DOMAINS,INCLUDES_PATCH,MAILING_LIST_MULTI,SPF_HELO_NONE,
-	SPF_PASS,URIBL_BLOCKED,USER_AGENT_SANE_1 autolearn=ham autolearn_force=no
+X-Spam-Status: No, score=-2.6 required=3.0 tests=DKIM_SIGNED,DKIM_VALID,
+	DKIM_VALID_AU,HEADER_FROM_DIFFERENT_DOMAINS,MAILING_LIST_MULTI,SPF_HELO_NONE,
+	SPF_PASS,URIBL_BLOCKED,USER_AGENT_SANE_1 autolearn=no autolearn_force=no
 	version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id C4C1EC433E0
-	for <linux-man@archiver.kernel.org>; Tue, 30 Jun 2020 07:43:32 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 624D8C433DF
+	for <linux-man@archiver.kernel.org>; Tue, 30 Jun 2020 10:59:55 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.kernel.org (Postfix) with ESMTP id 982AB206CB
-	for <linux-man@archiver.kernel.org>; Tue, 30 Jun 2020 07:43:32 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTP id 1EB1A2067D
+	for <linux-man@archiver.kernel.org>; Tue, 30 Jun 2020 10:59:55 +0000 (UTC)
 Authentication-Results: mail.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="fOPgSbvr"
+	dkim=pass (2048-bit key) header.d=jguk.org header.i=@jguk.org header.b="BU6OXtuF"
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1731139AbgF3Hnc (ORCPT <rfc822;linux-man@archiver.kernel.org>);
-        Tue, 30 Jun 2020 03:43:32 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:47490 "EHLO
+        id S1732604AbgF3K7y (ORCPT <rfc822;linux-man@archiver.kernel.org>);
+        Tue, 30 Jun 2020 06:59:54 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:49504 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1731092AbgF3Hnb (ORCPT
-        <rfc822;linux-man@vger.kernel.org>); Tue, 30 Jun 2020 03:43:31 -0400
-Received: from mail-ed1-x544.google.com (mail-ed1-x544.google.com [IPv6:2a00:1450:4864:20::544])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 70B53C061755
-        for <linux-man@vger.kernel.org>; Tue, 30 Jun 2020 00:43:31 -0700 (PDT)
-Received: by mail-ed1-x544.google.com with SMTP id d18so9579527edv.6
-        for <linux-man@vger.kernel.org>; Tue, 30 Jun 2020 00:43:31 -0700 (PDT)
+        with ESMTP id S1732592AbgF3K7y (ORCPT
+        <rfc822;linux-man@vger.kernel.org>); Tue, 30 Jun 2020 06:59:54 -0400
+Received: from mail-wm1-x331.google.com (mail-wm1-x331.google.com [IPv6:2a00:1450:4864:20::331])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 90D68C061755
+        for <linux-man@vger.kernel.org>; Tue, 30 Jun 2020 03:59:53 -0700 (PDT)
+Received: by mail-wm1-x331.google.com with SMTP id 22so18377260wmg.1
+        for <linux-man@vger.kernel.org>; Tue, 30 Jun 2020 03:59:53 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20161025;
-        h=cc:subject:to:references:from:message-id:date:user-agent
+        d=jguk.org; s=google;
+        h=from:subject:to:cc:references:message-id:date:user-agent
          :mime-version:in-reply-to:content-language:content-transfer-encoding;
-        bh=kcwamOe1FvRVtJSB87DhCBEdhbF1qHNrUpk4j2oq6m0=;
-        b=fOPgSbvrkL18uu0elYxDt349eCHNc+4HWQtG9ezLG6OBH3MkpQa+BkNC0SyOZO+lf+
-         ywjCvPNXhgsH3TV4mdn2wCFbl6zN/oGwqh9Bqtul7X5LHU/A+t+KtIqhw2OWCOkQ+Hm8
-         8B1Lar+x4G+ic/yir8XYfhHkH7YorhMNi/gXZ2GMJlGPs1UZHYQ+qVVAxQPYZ0inLVRx
-         VkF7bcmchyFQnMJLb0mZHXqJZiT2zUKZHJAtrLctrMmT+aTuYo7uI4kItWO1T0EhVQ9Y
-         rieq/LbaxbMY3ZOXPNoKIW183rSapRvGqXqHjZyoq3uPFwCqjKZrlV/IdPI6Cw+cPBSY
-         5zSg==
+        bh=O7CYAv3+Ec7eX0lK0Q0K1kEmqfCvxeDYY81SPhLdiRw=;
+        b=BU6OXtuFdEXbjGCRtn7nNDKX4V9x38EqrDLRyL2etTwSDbTwqXiv/IHq3YAVqWlcIX
+         jL8/dt546FOoHCNTBSohL3/GyIPvJmOtjKUaC79DRis7cz8S6D/xm6y/cTUgHZNsLsv7
+         Ixqmc/gwzp/rcauBcfKL8cuaAz+Nz7YMgG+ct8+oFll6w2q8wFfXAxq6yDLgj8g6GnaY
+         G9pIUvN6miFR2FYXX5QTw91JxsKlwD/NEX+/p2QHoZguWV9oY6ZduHNUaJ7h+gRyxOt/
+         jizhzza1AzQP1Sv5jB1fK2TNubjwC2aig+4x8HZw8Md5iy6ZaC+G3Fm+OR2nc8GNq0D2
+         dM8Q==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
-        h=x-gm-message-state:cc:subject:to:references:from:message-id:date
+        h=x-gm-message-state:from:subject:to:cc:references:message-id:date
          :user-agent:mime-version:in-reply-to:content-language
          :content-transfer-encoding;
-        bh=kcwamOe1FvRVtJSB87DhCBEdhbF1qHNrUpk4j2oq6m0=;
-        b=oX3A2Gh1j/BVfecR7ikcNcxjWRHX3I4BSw7mAmCs2lYjeVHD6DzY1b2HOfRhy2LDUm
-         ZfSiRMKc0bRB4fGhuFRprNTt6wrrwCJMlyw13PxSO5AZmF4SG59O/u8JFkcJrc+WDzvl
-         qtZI9I/OKcNatQ5tLORLHPd6c1rkSZrTNWkuS0fDdf0o87sGaAZz81oKIj52YmJmBwM0
-         xXIGrT9bmUSEvRWMLTCIQpI9o+qf38Zd/0HhJovlC0dKgBY54cHqL4Y+A0063rbsAdS9
-         +qkz5MqnmzfkT7qeUfJ77Uuqc7qRCHHlm2aWsZqC4QVsW32MTu5MXmcTLk02uVRO5BAJ
-         QKdw==
-X-Gm-Message-State: AOAM530961tviaa8WwxIcEo6Ks0BYb1E9wrC5cMMaQjdbFZdVCoh4qFI
-        BTNUH5UIogLKL71uxK2yB9BHOeZL
-X-Google-Smtp-Source: ABdhPJxsmiIHTroKHNggrSfLm3MmSn6nc29gJreA43f1ACfZpPnJiDGbscGmP4aO5zOLhg1MvIEb9g==
-X-Received: by 2002:a05:6402:128c:: with SMTP id w12mr10287648edv.65.1593503009985;
-        Tue, 30 Jun 2020 00:43:29 -0700 (PDT)
-Received: from ?IPv6:2001:a61:253c:8201:b2fb:3ef8:ca:1604? ([2001:a61:253c:8201:b2fb:3ef8:ca:1604])
-        by smtp.gmail.com with ESMTPSA id z8sm1346896eju.106.2020.06.30.00.43.29
+        bh=O7CYAv3+Ec7eX0lK0Q0K1kEmqfCvxeDYY81SPhLdiRw=;
+        b=Y2P0+37nFIIuu+Ajltkez2mseMvIDod/+Jg+YqjoD8+zqMZ1Bwdqs0yLPhlvK7gC+z
+         acQ3J18XFlCXoMQa66NiKUNFblYPyRLZOpCJeSYGlbn03NKo23Z1+SD0HhmySZ/iX6Sv
+         diq2gHLVe9mmLt7YReMgvDhb706dfk9LvnOV6PnH0rBPFR8Qpb146BLxLZ3fgvBUI63D
+         gEFhgeQSCXhQkiFQuOIDYZMim0IbuYMYlLA/IQ7+sSHKSkpDdcv3hSDFFfCOMaOmfvWM
+         uy/0OyPfdYs8mA+LV1+HyNDxrPJLes35Itg+OzJntYEPqZKMqdja5HhOiLfj46KasWNM
+         twJQ==
+X-Gm-Message-State: AOAM531RDhb0c3L2YLeS1Otkj4iMaLWoQjQ2tBi09e3XFVmYdOpwpjce
+        qDdXGdRYTtMNYtjv/nx+CfbsV47bC2E=
+X-Google-Smtp-Source: ABdhPJz2JdLVzefdHzXyV1JZDNcHNBOs0BvaWyJQjFXDmOkR01WOe2yZVIoS3UniHNee6lJgPHpiqw==
+X-Received: by 2002:a1c:7216:: with SMTP id n22mr14224252wmc.189.1593514791933;
+        Tue, 30 Jun 2020 03:59:51 -0700 (PDT)
+Received: from [192.168.0.12] (cpc87281-slou4-2-0-cust47.17-4.cable.virginm.net. [92.236.12.48])
+        by smtp.gmail.com with ESMTPSA id 26sm3099118wmj.25.2020.06.30.03.59.50
         (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Tue, 30 Jun 2020 00:43:29 -0700 (PDT)
-Cc:     mtk.manpages@gmail.com, linux-man@vger.kernel.org
-Subject: Re: [PATCH v2] update kernel documentation references in cgroups(7)
- and cpuset(7)
-To:     Sven Hoexter <sven@stormbind.net>
-References: <20200629144110.GA1099@stormbind.net>
-From:   "Michael Kerrisk (man-pages)" <mtk.manpages@gmail.com>
-Message-ID: <16bccbe5-8577-0bae-fc07-45d43982cf06@gmail.com>
-Date:   Tue, 30 Jun 2020 09:43:26 +0200
+        Tue, 30 Jun 2020 03:59:50 -0700 (PDT)
+From:   Jonny Grant <jg@jguk.org>
+Subject: Re: strcpy compared to POSIX strcpy
+To:     mtk.manpages@gmail.com
+Cc:     linux-man <linux-man@vger.kernel.org>
+References: <0608691a-6400-0a44-1031-a693f57dee52@jguk.org>
+ <CAKgNAkgH4L-_A0LqqYyk621EmRqDOqAbG80gR-bu4Fk6jcEskA@mail.gmail.com>
+Message-ID: <8b1272d9-cb76-e5a2-3731-e98c18344444@jguk.org>
+Date:   Tue, 30 Jun 2020 11:59:50 +0100
 User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
  Thunderbird/68.8.0
 MIME-Version: 1.0
-In-Reply-To: <20200629144110.GA1099@stormbind.net>
+In-Reply-To: <CAKgNAkgH4L-_A0LqqYyk621EmRqDOqAbG80gR-bu4Fk6jcEskA@mail.gmail.com>
 Content-Type: text/plain; charset=utf-8
-Content-Language: en-US
+Content-Language: en-GB
 Content-Transfer-Encoding: 7bit
 Sender: linux-man-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-man.vger.kernel.org>
 X-Mailing-List: linux-man@vger.kernel.org
 
-Hello Sven,
 
-On 6/29/20 4:41 PM, Sven Hoexter wrote:
-> cgroups-v1/v2 documentation got moved to the "admin-guide" subfolder
-> and converted from .txt files to .rst
+
+On 29/06/2020 21:30, Michael Kerrisk (man-pages) wrote:
+> Hi Jonny
 > 
-> ---
-> Since v1:
+> On Mon, 29 Jun 2020 at 15:41, Jonny Grant <jg@jguk.org> wrote:
+>>
+>> Hi Michael,
+>>
+>> Returning to an old topic, noticed strcpy man page is different from the POSIX spec with regards to "terminating NUL character" or "null-terminated" shouldn't man pages should follow POSIX style writing "NUL"?
+>>
+>> https://man7.org/linux/man-pages/man3/strcpy.3.html
+>>
+>> https://man7.org/linux/man-pages/man3/strcpy.3p.html
+>>
+>> https://pubs.opengroup.org/onlinepubs/9699919799/functions/strcpy.html
+>>
+>> Another function even has nul in the name
+>> https://man7.org/linux/man-pages/man3/strchrnul.3.html
 > 
-> * Keep references to prior versions of the documentation with matching
->   Linux versions.
-> * Removed a faulty change for the location of perf-record.txt.
-> * Replaced one occurrence of the .I macro with .IR to be consistent.
-
-(Thanks also for fixing some hyphens in the file names.)
-
-Thanks for the revised patch! I've applied it.
-
-Cheers,
-
-Michael
-
-> ---
->  man7/cgroups.7 | 93 ++++++++++++++++++++++++++++++++++++++------------
->  man7/cpuset.7  |  4 ++-
->  2 files changed, 74 insertions(+), 23 deletions(-)
+> It's not so simple. In POSIX/SUS, you will find variously:
 > 
-> diff --git a/man7/cgroups.7 b/man7/cgroups.7
-> index 7a7210177..3e346b8d8 100644
-> --- a/man7/cgroups.7
-> +++ b/man7/cgroups.7
-> @@ -74,9 +74,12 @@ to allow the management of various types of resources.
->  However, the development of these controllers was largely uncoordinated,
->  with the result that many inconsistencies arose between controllers
->  and management of the cgroup hierarchies became rather complex.
-> -(A longer description of these problems can be found in
-> -the kernel source file
-> -.IR Documentation/cgroup\-v2.txt .)
-> +A longer description of these problems can be found in the kernel
-> +source file
-> +.IR Documentation/admin\-guide/cgroup\-v2.rst
-> +(or
-> +.IR Documentation/cgroup\-v2.txt
-> +in Linux 4.17 and earlier).
->  .PP
->  Because of the problems with the initial cgroups implementation
->  (cgroups version 1),
-> @@ -264,7 +267,10 @@ Cgroups can be guaranteed a minimum number of "CPU shares"
->  when a system is busy.
->  This does not limit a cgroup's CPU usage if the CPUs are not busy.
->  For further information, see
-> -.IR Documentation/scheduler/sched-design-CFS.txt .
-> +.IR Documentation/scheduler/sched\-design\-CFS.rst
-> +(or
-> +.IR Documentation/scheduler/sched\-design\-CFS.txt
-> +in Linux 5.2 and earlier).
->  .IP
->  In Linux 3.2,
->  this controller was extended to provide CPU "bandwidth" control.
-> @@ -275,27 +281,40 @@ then within each scheduling period
->  an upper limit on the CPU time allocated to the processes in a cgroup.
->  This upper limit applies even if there is no other competition for the CPU.
->  Further information can be found in the kernel source file
-> -.IR Documentation/scheduler/sched\-bwc.txt .
-> +.IR Documentation/scheduler/sched\-bwc.rst
-> +(or
-> +.IR Documentation/scheduler/sched\-bwc.txt
-> +in Linux 5.2 and earlier).
->  .TP
->  .IR cpuacct " (since Linux 2.6.24; " \fBCONFIG_CGROUP_CPUACCT\fP )
->  This provides accounting for CPU usage by groups of processes.
->  .IP
->  Further information can be found in the kernel source file
-> -.IR Documentation/cgroup\-v1/cpuacct.txt .
-> +.IR Documentation/admin\-guide/cgroup\-v1/cpuacct.rst
-> +(or
-> +.IR Documentation/cgroup\-v1/cpuacct.txt
-> +in Linux 5.2 and earlier).
->  .TP
->  .IR cpuset " (since Linux 2.6.24; " \fBCONFIG_CPUSETS\fP )
->  This cgroup can be used to bind the processes in a cgroup to
->  a specified set of CPUs and NUMA nodes.
->  .IP
->  Further information can be found in the kernel source file
-> -.IR Documentation/cgroup\-v1/cpusets.txt .
-> +.IR Documentation/admin\-guide/cgroup\-v1/cpusets.rst
-> +(or
-> +.IR Documentation/cgroup\-v1/cpusets.txt
-> +in Linux 5.2 and earlier).
-> +.
->  .TP
->  .IR memory " (since Linux 2.6.25; " \fBCONFIG_MEMCG\fP )
->  The memory controller supports reporting and limiting of process memory, kernel
->  memory, and swap used by cgroups.
->  .IP
->  Further information can be found in the kernel source file
-> -.IR Documentation/cgroup\-v1/memory.txt .
-> +.IR Documentation/admin\-guide/cgroup\-v1/memory.rst
-> +(or
-> +.IR Documentation/cgroup\-v1/memory.txt
-> +in Linux 5.2 and earlier).
->  .TP
->  .IR devices " (since Linux 2.6.26; " \fBCONFIG_CGROUP_DEVICE\fP )
->  This supports controlling which processes may create (mknod) devices as
-> @@ -305,7 +324,10 @@ Hierarchy is enforced, so new rules must not
->  violate existing rules for the target or ancestor cgroups.
->  .IP
->  Further information can be found in the kernel source file
-> -.IR Documentation/cgroup-v1/devices.txt .
-> +.IR Documentation/admin\-guide/cgroup\-v1/devices.rst
-> +(or
-> +.IR Documentation/cgroup\-v1/devices.txt
-> +in Linux 5.2 and earlier).
->  .TP
->  .IR freezer " (since Linux 2.6.28; " \fBCONFIG_CGROUP_FREEZER\fP )
->  The
-> @@ -318,7 +340,10 @@ also causes its children, for example, processes in
->  to be frozen.
->  .IP
->  Further information can be found in the kernel source file
-> -.IR Documentation/cgroup-v1/freezer-subsystem.txt .
-> +.IR Documentation/admin\-guide/cgroup\-v1/freezer\-subsystem.rst
-> +(or
-> +.IR Documentation/cgroup\-v1/freezer\-subsystem.txt
-> +in Linux 5.2 and earlier).
->  .TP
->  .IR net_cls " (since Linux 2.6.29; " \fBCONFIG_CGROUP_NET_CLASSID\fP )
->  This places a classid, specified for the cgroup, on network packets
-> @@ -330,7 +355,10 @@ This applies only to packets
->  leaving the cgroup, not to traffic arriving at the cgroup.
->  .IP
->  Further information can be found in the kernel source file
-> -.IR Documentation/cgroup-v1/net_cls.txt .
-> +.IR Documentation/admin\-guide/cgroup\-v1/net_cls.rst
-> +(or
-> +.IR Documentation/cgroup\-v1/net_cls.txt
-> +in Linux 5.2 and earlier).
->  .TP
->  .IR blkio " (since Linux 2.6.33; " \fBCONFIG_BLK_CGROUP\fP )
->  The
-> @@ -347,41 +375,55 @@ The second is a throttling policy which specifies
->  upper I/O rate limits on a device.
->  .IP
->  Further information can be found in the kernel source file
-> -.IR Documentation/cgroup-v1/blkio-controller.txt .
-> +.IR Documentation/admin\-guide/cgroup\-v1/blkio\-controller.rst
-> +(or
-> +.IR Documentation/cgroup\-v1/blkio\-controller.txt
-> +in Linux 5.2 and earlier).
->  .TP
->  .IR perf_event " (since Linux 2.6.39; " \fBCONFIG_CGROUP_PERF\fP )
->  This controller allows
->  .I perf
->  monitoring of the set of processes grouped in a cgroup.
->  .IP
-> -Further information can be found in the kernel source file
-> -.IR tools/perf/Documentation/perf-record.txt .
-> +Further information can be found in the kernel source files
->  .TP
->  .IR net_prio " (since Linux 3.3; " \fBCONFIG_CGROUP_NET_PRIO\fP )
->  This allows priorities to be specified, per network interface, for cgroups.
->  .IP
->  Further information can be found in the kernel source file
-> -.IR Documentation/cgroup-v1/net_prio.txt .
-> +.IR Documentation/admin\-guide/cgroup\-v1/net_prio.rst
-> +(or
-> +.IR Documentation/cgroup\-v1/net_prio.txt
-> +in Linux 5.2 and earlier).
->  .TP
->  .IR hugetlb " (since Linux 3.5; " \fBCONFIG_CGROUP_HUGETLB\fP )
->  This supports limiting the use of huge pages by cgroups.
->  .IP
->  Further information can be found in the kernel source file
-> -.IR Documentation/cgroup-v1/hugetlb.txt .
-> +.IR Documentation/admin\-guide/cgroup\-v1/hugetlb.rst
-> +(or
-> +.IR Documentation/cgroup\-v1/hugetlb.txt
-> +in Linux 5.2 and earlier).
->  .TP
->  .IR pids " (since Linux 4.3; " \fBCONFIG_CGROUP_PIDS\fP )
->  This controller permits limiting the number of process that may be created
->  in a cgroup (and its descendants).
->  .IP
->  Further information can be found in the kernel source file
-> -.IR Documentation/cgroup-v1/pids.txt .
-> +.IR Documentation/admin\-guide/cgroup\-v1/pids.rst
-> +(or
-> +.IR Documentation/cgroup\-v1/pids.txt
-> +in Linux 5.2 and earlier).
->  .TP
->  .IR rdma " (since Linux 4.11; " \fBCONFIG_CGROUP_RDMA\fP )
->  The RDMA controller permits limiting the use of
->  RDMA/IB-specific resources per cgroup.
->  .IP
->  Further information can be found in the kernel source file
-> -.IR Documentation/cgroup-v1/rdma.txt .
-> +.IR Documentation/admin\-guide/cgroup\-v1/rdma.rst
-> +(or
-> +.IR Documentation/cgroup\-v1/rdma.txt
-> +in Linux 5.2 and earlier).
->  .\"
->  .SS Creating cgroups and moving processes
->  A cgroup filesystem initially contains a single root cgroup, '/',
-> @@ -566,8 +608,12 @@ An improved mechanism for notification of empty cgroups is provided by the
->  file.
->  .PP
->  For more changes, see the
-> -.I Documentation/cgroup-v2.txt
-> -file in the kernel source.
-> +.IR Documentation/admin\-guide/cgroup\-v2.rst
-> +file in the kernel source
-> +(or
-> +.IR Documentation/cgroup\-v2.txt
-> +in Linux 4.17 and earlier).
-> +.
->  .PP
->  Some of the new behaviors listed above saw subsequent modification with
->  the addition in Linux 4.14 of "thread mode" (described below).
-> @@ -648,7 +694,10 @@ it is silently ignored in noninitial namespaces.
->  .\"
->  .SS Cgroups v2 controllers
->  The following controllers, documented in the kernel source file
-> -.IR Documentation/cgroup-v2.txt ,
-> +.IR Documentation/admin\-guide/cgroup\-v2.rst
-> +(or
-> +.IR Documentation/cgroup\-v2.txt
-> +in Linux 4.17 and earlier),
->  are supported in cgroups version 2:
->  .TP
->  .IR cpu " (since Linux 4.15)"
-> @@ -1878,4 +1927,4 @@ mount option.
->  .BR user_namespaces (7)
->  .PP
->  The kernel source file
-> -.IR Documentation/admin-guide/cgroup-v2.rst .
-> +.IR Documentation/admin\-guide/cgroup\-v2.rst .
-> diff --git a/man7/cpuset.7 b/man7/cpuset.7
-> index 44e63d64f..c1b9fda79 100644
-> --- a/man7/cpuset.7
-> +++ b/man7/cpuset.7
-> @@ -1503,9 +1503,11 @@ syntax that works on any shell, but alas more obscurely, by using the
->  .BR migratepages (8),
->  .BR numactl (8)
->  .PP
-> -.IR Documentation/cgroup\-v1/cpusets.txt
-> +.IR Documentation/admin\-guide/cgroup\-v1/cpusets.rst
->  in the Linux kernel source tree
->  .\" commit 45ce80fb6b6f9594d1396d44dd7e7c02d596fef8
->  (or
-> +.IR Documentation/cgroup\-v1/cpusets.txt
-> +before Linux 4.18, and
->  .IR Documentation/cpusets.txt
->  before Linux 2.6.29)
+> terminating NUL character
+> terminating NUL
+> terminating null character
+> terminating null byte
 > 
+> There's even one instance of "terminating NULL character" (in
+> <net/if.h>; I estimate it's a bug).
+> 
+> In the C standard (C11), "terminating null character" seems to be used
+> exclusively, but as I understand the C standard [char == byte] by
+> definition.
+> 
+> I've tried to consistently use "terminating null byte" across all
+> pages in man-pages. See also the discussion in man-pages(7).
 
+Hi Michael,
 
--- 
-Michael Kerrisk
-Linux man-pages maintainer; http://www.kernel.org/doc/man-pages/
-Linux/UNIX System Programming Training: http://man7.org/training/
+It is good you have made things consistent. It sounds like you can't make the POSIX man pages the same, as that comes from the POSIX spec right?
+
+BTW,  net/if.h looks okay on my Ubuntu LTS, line 36 does have:
+    char *if_name;		/* null terminated name: "eth0", ... */
+
+Cheers, Jonny
