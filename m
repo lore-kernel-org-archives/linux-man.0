@@ -1,82 +1,76 @@
-Return-Path: <SRS0=F+qq=AK=vger.kernel.org=linux-man-owner@kernel.org>
+Return-Path: <SRS0=EHFe=AL=vger.kernel.org=linux-man-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
 X-Spam-Status: No, score=-8.6 required=3.0 tests=DKIM_SIGNED,DKIM_VALID,
 	DKIM_VALID_AU,FREEMAIL_FORGED_FROMDOMAIN,FREEMAIL_FROM,
 	HEADER_FROM_DIFFERENT_DOMAINS,INCLUDES_PATCH,MAILING_LIST_MULTI,SIGNED_OFF_BY,
-	SPF_HELO_NONE,SPF_PASS,URIBL_BLOCKED,USER_AGENT_SANE_1 autolearn=ham
-	autolearn_force=no version=3.4.0
+	SPF_HELO_NONE,SPF_PASS,USER_AGENT_SANE_1 autolearn=ham autolearn_force=no
+	version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 7DDAFC433DF
-	for <linux-man@archiver.kernel.org>; Mon, 29 Jun 2020 21:01:59 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 08888C433DF
+	for <linux-man@archiver.kernel.org>; Tue, 30 Jun 2020 07:34:30 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.kernel.org (Postfix) with ESMTP id 5DCB720720
-	for <linux-man@archiver.kernel.org>; Mon, 29 Jun 2020 21:01:59 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTP id D518020759
+	for <linux-man@archiver.kernel.org>; Tue, 30 Jun 2020 07:34:29 +0000 (UTC)
 Authentication-Results: mail.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="seraMI23"
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="n3aK8voH"
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1730935AbgF2VBu (ORCPT <rfc822;linux-man@archiver.kernel.org>);
-        Mon, 29 Jun 2020 17:01:50 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:43382 "EHLO
+        id S1731033AbgF3He3 (ORCPT <rfc822;linux-man@archiver.kernel.org>);
+        Tue, 30 Jun 2020 03:34:29 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:46082 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1730926AbgF2TM4 (ORCPT
-        <rfc822;linux-man@vger.kernel.org>); Mon, 29 Jun 2020 15:12:56 -0400
-Received: from mail-ej1-x641.google.com (mail-ej1-x641.google.com [IPv6:2a00:1450:4864:20::641])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 958BEC0005E7
-        for <linux-man@vger.kernel.org>; Mon, 29 Jun 2020 04:49:45 -0700 (PDT)
-Received: by mail-ej1-x641.google.com with SMTP id i14so16250128ejr.9
-        for <linux-man@vger.kernel.org>; Mon, 29 Jun 2020 04:49:45 -0700 (PDT)
+        with ESMTP id S1730089AbgF3He3 (ORCPT
+        <rfc822;linux-man@vger.kernel.org>); Tue, 30 Jun 2020 03:34:29 -0400
+Received: from mail-ed1-x543.google.com (mail-ed1-x543.google.com [IPv6:2a00:1450:4864:20::543])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id B53CDC061755
+        for <linux-man@vger.kernel.org>; Tue, 30 Jun 2020 00:34:28 -0700 (PDT)
+Received: by mail-ed1-x543.google.com with SMTP id n2so6183530edr.5
+        for <linux-man@vger.kernel.org>; Tue, 30 Jun 2020 00:34:28 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=gmail.com; s=20161025;
         h=cc:subject:to:references:from:message-id:date:user-agent
          :mime-version:in-reply-to:content-language:content-transfer-encoding;
-        bh=lkWpHIlQyILEeNFukmj1BINgV54G6BUVaeEdgMPAqR8=;
-        b=seraMI23AzwNQoCMneAcj/g/ZbGjTEwMTj2O0criygkrMbFLCQs9jqRJQLSI+lv0+n
-         u28Wc0x+1vKSpzPZ5j3MuBlwcpKrVSSrhk2U2IJroMJqlp3vCekqGtAogjgOZDD8o9Co
-         yM4JZXmNiYBnfufhgA+P3m5i0tfSkETSp3lNVzA6L78PB/OSssGt5gXwoRZ0OqqI9cdf
-         3cnpE8HZVH1cokJlg8/eorKoWAv++ub/F76qrZvw5mn9oBQtaaPnkXqrZhS6CWG4Pbyb
-         JEdeSlQRz3jHrAz7tgcoBGRgP4z6MFwy9BOyXnYI0qU+GHiIOlK7FhicunmVQJIlc9LG
-         V7sg==
+        bh=KQbAEvdCV3rR5co4j6NysNIn7tFccMNGMBz7xCIrj/8=;
+        b=n3aK8voHYxAb+twsT2RySkLWHRSM98duo+fGFEuSh92/UHTFs+pDgVpTZ6U5/pV4ex
+         JpkWwMTvptqEx1f79mXcbivr687OIBUSElng5r4T5xFR/XDr8UBBraCuuy/yrhRkwmfO
+         DmzcMSrQy3XTUuYIcdbsuxtElU9g6HA6oWWHM7pFcuYwE81z/ktwMDd1g7vTcknIQ0Sx
+         75M9rvKhjJkWUwwK7+2MmINBYMKMIK7j0F2qcZGGb/5xOIEvh2d3xt/+hrSUI9ivDoG4
+         n+fLDeuyWwykSpi2PiTiyXBnPm0SMOCJd4s6/pMRjdhq+iljfSozSggPmhP1+iCI6UJE
+         8S9w==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
         h=x-gm-message-state:cc:subject:to:references:from:message-id:date
          :user-agent:mime-version:in-reply-to:content-language
          :content-transfer-encoding;
-        bh=lkWpHIlQyILEeNFukmj1BINgV54G6BUVaeEdgMPAqR8=;
-        b=jxcx6QID4ZU0T3u37pVoMPhwR7lJo14h2/3yMyLAbjJG+pMhYFpZi8qM7aeNZKLvDk
-         EqwAHIpW3ypJOBqkZVZGRP/64CnveTMhw3G1JWUIlBLq8YYYI28Rf0cxBPRTkk9GpGj2
-         y8sc7/W7NCx33H62EtkuVshWBSeBC5aWw7bUqQwavuazHVlD628F5IomsePyBFglQ+8U
-         CNGnaE2BGoY3U8eXxn+niJ3gECrtiJFAtNRWIEhv//qiYwMl9OW8Azju8Zo+s1TM/tze
-         3G06jeDKJB+u/PZM2+q48E0H3WKz7wNVwt5Q7rs0jAOQ60AnOryFEdZAC5eFvX2nWyXe
-         9wYg==
-X-Gm-Message-State: AOAM530QmXqyPdhIc+gyqKaHFwYDN4Xrdkh60gMR44EdKo7ULjAtkxtx
-        O2n/Mu3F3K/YjijXHuf9ZZo=
-X-Google-Smtp-Source: ABdhPJzNwKqenx9hyjBXuEpH/OvqUbS/52tgPW42N9Kx5N92OqdyPVgVXtBx9I4LqFF34jqXFmGh9g==
-X-Received: by 2002:a17:907:405e:: with SMTP id ns22mr13137262ejb.6.1593431384277;
-        Mon, 29 Jun 2020 04:49:44 -0700 (PDT)
+        bh=KQbAEvdCV3rR5co4j6NysNIn7tFccMNGMBz7xCIrj/8=;
+        b=hbvP7FGPeoCPu8lv8zzteNSzXcj0WOMNzKIr7hXEe97LdnpMswU/VaZIHkQGfn7EJp
+         E3dTgc4aTF0wNsg/Yfb22rC4cwszIMGDOBRTd46fV/mC5rjD+lw7SdOYvctYOh32l2Sf
+         EC6OiLKvwkAao6wrZuz1Yiu9XngqeDn4GB0thWTynG9ujT1WenswB1brhxIWaJ39WMoF
+         AHBhEl5jMBvLdpJKfpENvSrUN106GMkEZaZ5w04XTjEIT3hxduLAJzjtCuGmAqw+jVvd
+         8IxJwnnE89M5gMKySHcOl/1UIux42p4IOMQ9SiLLIlyeSLqKUBVEzPyUHtp7BV5JKiO0
+         dVDg==
+X-Gm-Message-State: AOAM532YfeStGpA/3lYCCK1/KeP4DkzwECCCK7eapNsfqNHuBtaAusaD
+        sjyWbiCT+waYR7xzW4flvo8=
+X-Google-Smtp-Source: ABdhPJy+L1vVg9EyAQO+c2hWWKKkbVK7myXHhr0+KndPZiDhEzQ5+J0bWjCMuonyuuVghsIKmvf9cg==
+X-Received: by 2002:a05:6402:b57:: with SMTP id bx23mr20544272edb.304.1593502467463;
+        Tue, 30 Jun 2020 00:34:27 -0700 (PDT)
 Received: from ?IPv6:2001:a61:253c:8201:b2fb:3ef8:ca:1604? ([2001:a61:253c:8201:b2fb:3ef8:ca:1604])
-        by smtp.gmail.com with ESMTPSA id p34sm28854971edp.49.2020.06.29.04.49.43
+        by smtp.gmail.com with ESMTPSA id c4sm1364712ejb.17.2020.06.30.00.34.26
         (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Mon, 29 Jun 2020 04:49:43 -0700 (PDT)
-Cc:     mtk.manpages@gmail.com, Thomas Gleixner <tglx@linutronix.de>,
-        linux-man <linux-man@vger.kernel.org>, victorm007@yahoo.com
-Subject: Re: [PATCH-v2] iopl.2: Updating description of permissions and
- disabling interrupts
-To:     Thomas Piekarski <t.piekarski@deloquencia.de>
-References: <45693d06-c780-890f-8e5a-d22267722b29@deloquencia.de>
- <CAKgNAkhDwbBMx+2A06Y7nUnLB7vgZ42Bnh84TXaqh2dx8nKqgA@mail.gmail.com>
- <87zh9snqiu.fsf@nanos.tec.linutronix.de>
- <2103b6f3-42d1-8f92-0e97-e43ccd12c1b7@deloquencia.de>
- <CAKgNAkiNQw5DE9X5Mw2MMF+=bXHzAz45ym+=s2_C2Nz=p4zfQg@mail.gmail.com>
- <47c9d9ae-37da-6eec-1040-d1f9b85dc109@deloquencia.de>
+        Tue, 30 Jun 2020 00:34:26 -0700 (PDT)
+Cc:     mtk.manpages@gmail.com, linux-man@vger.kernel.org,
+        linux-kernel@i4.cs.fau.de
+Subject: Re: [PATCH] hosts.5: Clarify capability for IPv6 outside of examples
+To:     Thomas Bartelsmeier <t.bartelsmeier@gmail.com>
+References: <20200629150716.3086-1-t.bartelsmeier@gmail.com>
 From:   "Michael Kerrisk (man-pages)" <mtk.manpages@gmail.com>
-Message-ID: <218262ac-089b-c23e-2b7c-e10bf9b64c96@gmail.com>
-Date:   Mon, 29 Jun 2020 13:49:41 +0200
+Message-ID: <886b35b3-00da-6240-127d-6b85de3679ec@gmail.com>
+Date:   Tue, 30 Jun 2020 09:34:26 +0200
 User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
  Thunderbird/68.8.0
 MIME-Version: 1.0
-In-Reply-To: <47c9d9ae-37da-6eec-1040-d1f9b85dc109@deloquencia.de>
+In-Reply-To: <20200629150716.3086-1-t.bartelsmeier@gmail.com>
 Content-Type: text/plain; charset=utf-8
 Content-Language: en-US
 Content-Transfer-Encoding: 7bit
@@ -87,90 +81,58 @@ X-Mailing-List: linux-man@vger.kernel.org
 
 Hello Thomas,
 
-On 6/26/20 10:29 PM, Thomas Piekarski wrote:
-> Updating description of permissions for port-mapped I/O set per-thread 
-> and not per-process. Mentioning iopl can not disable interrupts since 
-> 5.5 anymore and is in general deprecated and only provided for legacy X 
-> servers.
+On 6/29/20 5:07 PM, Thomas Bartelsmeier wrote:
+> Resolves https://bugzilla.kernel.org/show_bug.cgi?id=208279
 > 
-> See https://bugzilla.kernel.org/show_bug.cgi?id=205317
-> 
-> Reported-by: victorm007@yahoo.com
-> Signed-off-by: Thomas Piekarski <t.piekarski@deloquencia.de>
+> Signed-off-by: Thomas Bartelsmeier <t.bartelsmeier@gmail.com>
 
-Thanks! I've applied this patch.
+Thanks. Patch applied.
 
 Cheers,
 
 Michael
 
 > ---
->   man2/iopl.2 | 34 ++++++++++++++--------------------
->   1 file changed, 14 insertions(+), 20 deletions(-)
 > 
-> diff --git a/man2/iopl.2 b/man2/iopl.2
-> index e5b216a14..be9acfd1e 100644
-> --- a/man2/iopl.2
-> +++ b/man2/iopl.2
-> @@ -39,29 +39,17 @@ iopl \- change I/O privilege level
->   .BI "int iopl(int " level );
->   .SH DESCRIPTION
->   .BR iopl ()
-> -changes the I/O privilege level of the calling process,
-> +changes the I/O privilege level of the calling thread,
->   as specified by the two least significant bits in
->   .IR level .
->   .PP
-> -This call is necessary to allow 8514-compatible X servers to run under
-> -Linux.
-> -Since these X servers require access to all 65536 I/O ports, the
-> -.BR ioperm (2)
-> -call is not sufficient.
-> +The I/O privilege level for a normal thread is 0.
-> +Permissions are inherited from parents to children.
->   .PP
-> -In addition to granting unrestricted I/O port access, running at a higher
-> -I/O privilege level also allows the process to disable interrupts.
-> -This will probably crash the system, and is not recommended.
-> -.PP
-> -Permissions are not inherited by the child process created by
-> -.BR fork (2)
-> -and are not preserved across
-> -.BR execve (2)
-> -(but see NOTES).
-> -.PP
-> -The I/O privilege level for a normal process is 0.
-> -.PP
-> -This call is mostly for the i386 architecture.
-> +This call is deprecated, significantly slower than
-> +.BR ioperm(2)
-> +and is only provided for older X servers which require
-> +access to all 65536 I/O ports. It is mostly for the i386 architecture.
->   On many other architectures it does not exist or will always
->   return an error.
->   .SH RETURN VALUE
-> @@ -79,7 +67,7 @@ is greater than 3.
->   This call is unimplemented.
->   .TP
->   .B EPERM
-> -The calling process has insufficient privilege to call
-> +The calling thread has insufficient privilege to call
->   .BR iopl ();
->   the
->   .B CAP_SYS_RAWIO
-> @@ -99,6 +87,12 @@ and in
->   .IR <sys/perm.h> .
->   Avoid the latter, it is available on i386 only.
->   .PP
-> +Prior to Linux 5.5
-> +.BR iopl ()
-> +allowed the thread to disable interrupts while running
-> +at a higher I/O privilege level. This will probably crash
-> +the system, and is not recommended.
-> +.PP
->   Prior to Linux 3.7,
->   on some architectures (such as i386), permissions
->   .I were
+> The first addition should be relatively uncontroversial.
+> As the prevalence of IPv6 continues to increase, it is about
+> time to not only mention the IPv6 compatibility of the hosts
+> file in the examples at the very bottom of the man page.
+> 
+> The second addition is in relation to the Bugzilla report.
+> It is a simple statement which is true even for the default
+> version of the hosts file and its two entries for localhost.
+> However, I do not consider it necessary for any casual user to
+> add both IPv4 and IPv6 addresses for any hosts.
+> Therefore, I cautiously did not change the wording criticized in
+> the bug report in case of any possible negative interactions.
+> As a result, the second addition is meant to be for completeness
+> and for use by people who know they actually need this.
+> 
+>  man5/hosts.5 | 3 +++
+>  1 file changed, 3 insertions(+)
+> 
+> diff --git a/man5/hosts.5 b/man5/hosts.5
+> index cb055f5f6..1230f9303 100644
+> --- a/man5/hosts.5
+> +++ b/man5/hosts.5
+> @@ -42,6 +42,7 @@ line should be present with the following information:
+>  IP_address canonical_hostname [aliases...]
+>  .RE
+>  .PP
+> +The IP address can conform to either IPv4 or IPv6.
+>  Fields of the entry are separated by any number of blanks and/or
+>  tab characters.
+>  Text from a "#" character until the end of the line is
+> @@ -53,6 +54,8 @@ alphabetic character and end with an alphanumeric character.
+>  Optional aliases provide for name changes, alternate spellings,
+>  shorter hostnames, or generic hostnames (for example,
+>  .IR localhost ).
+> +If required, a host may have two separate entries in this file;
+> +one for each version of the Internet Protocol (IPv4 and IPv6).
+>  .PP
+>  The Berkeley Internet Name Domain (BIND) Server implements the
+>  Internet name server for UNIX systems.
 > 
 
 
