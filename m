@@ -1,98 +1,80 @@
-Return-Path: <SRS0=nt57=AT=vger.kernel.org=linux-man-owner@kernel.org>
+Return-Path: <SRS0=3CO5=AU=vger.kernel.org=linux-man-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-9.8 required=3.0 tests=DKIM_SIGNED,DKIM_VALID,
-	DKIM_VALID_AU,FREEMAIL_FORGED_FROMDOMAIN,FREEMAIL_FROM,
-	HEADER_FROM_DIFFERENT_DOMAINS,INCLUDES_PATCH,MAILING_LIST_MULTI,SIGNED_OFF_BY,
-	SPF_HELO_NONE,SPF_PASS,USER_AGENT_GIT autolearn=ham autolearn_force=no
-	version=3.4.0
+X-Spam-Status: No, score=-6.9 required=3.0 tests=DKIMWL_WL_HIGH,DKIM_SIGNED,
+	DKIM_VALID,DKIM_VALID_AU,HEADER_FROM_DIFFERENT_DOMAINS,INCLUDES_PATCH,
+	MAILING_LIST_MULTI,SIGNED_OFF_BY,SPF_HELO_NONE,SPF_PASS autolearn=ham
+	autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 82D42C433E0
-	for <linux-man@archiver.kernel.org>; Wed,  8 Jul 2020 19:29:59 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id DAA7BC433E0
+	for <linux-man@archiver.kernel.org>; Thu,  9 Jul 2020 13:03:37 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.kernel.org (Postfix) with ESMTP id 695512065D
-	for <linux-man@archiver.kernel.org>; Wed,  8 Jul 2020 19:29:59 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTP id B72E62073A
+	for <linux-man@archiver.kernel.org>; Thu,  9 Jul 2020 13:03:37 +0000 (UTC)
 Authentication-Results: mail.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="YucinVul"
+	dkim=pass (1024-bit key) header.d=redhat.com header.i=@redhat.com header.b="LZA+fNA+"
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1726174AbgGHT37 (ORCPT <rfc822;linux-man@archiver.kernel.org>);
-        Wed, 8 Jul 2020 15:29:59 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:40292 "EHLO
-        lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1726139AbgGHT35 (ORCPT
-        <rfc822;linux-man@vger.kernel.org>); Wed, 8 Jul 2020 15:29:57 -0400
-Received: from mail-pj1-x1041.google.com (mail-pj1-x1041.google.com [IPv6:2607:f8b0:4864:20::1041])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id F3F68C061A0B
-        for <linux-man@vger.kernel.org>; Wed,  8 Jul 2020 12:29:56 -0700 (PDT)
-Received: by mail-pj1-x1041.google.com with SMTP id t15so1613177pjq.5
-        for <linux-man@vger.kernel.org>; Wed, 08 Jul 2020 12:29:56 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20161025;
-        h=from:to:cc:subject:date:message-id;
-        bh=6Puh7HkOXLJF7c2DATxGMIyEZcoXZXQIV2J/84SrIMw=;
-        b=YucinVulMNchhbIAhyLmQFBAMZeCt5gHIUZoieM3zSzBn3Raha9+HcVPlhZqBhclxL
-         CZwbVYeLCH96nRm/FREQ3FLOAtRr7f1pUaQfgYCP9E+RGFI/RfKFchd8qvxCxmuN2vAO
-         GQGXgAVCTjr01Oz0jlu/VULq0qOgnkagJSoaY7tsUmXxShtmzWX3H7Y/XcrnlHxMAhRK
-         3nSBJHhvbhM5KFYaMw7eOi13vj5HD3OJB+myMRCxKXB6E1eTYzUUxG1a6DeQWWGiJZ+A
-         cD5digBmiYdAyQZ/bMRia3nKqb1ZcwY+f4BhU2NWEr5RSD0nk5+hFX3anK7kt/xRCx7F
-         JUrA==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20161025;
-        h=x-gm-message-state:from:to:cc:subject:date:message-id;
-        bh=6Puh7HkOXLJF7c2DATxGMIyEZcoXZXQIV2J/84SrIMw=;
-        b=o9DG5gSJBhqJnxy9liO+9kbkp9lWN/giwiVaJlT8x6Qv2Qt7yymqoQ/aaHwAmqb2Kh
-         9clcl+N4g2iDS1m4X2XvKVNCCBHHLDo/xAquk6bnhTCGtyxu3NHZI/aygYnroE3Zqh3d
-         DYH3ysAizab4iw7Wrm9kUDkU/bJLNVcD5wY8tiWWAdxonq29lLUJz34v4nXvfKlPI+Au
-         NR2ySf9kock7jT2XNGt/ABERjNM/HgHHrxsYP57c45Wc0ko+GdOTO2ibpZFwCXU/vCY0
-         De0jhh7dp61VpVpIjF7ZJYKdXEa7646GiO5uch572KfMVo3yhkzpq4JdpuJ5JQFeH53p
-         pN8Q==
-X-Gm-Message-State: AOAM5322igtHl/MvwT3YSnAbei8FvHM8LX6iAr0yML5c18mew2NQ0VaW
-        pe/iaCiACVxEy+bO61zqKwQ=
-X-Google-Smtp-Source: ABdhPJyQBOnkT/Z9FdqouaF0saNVuGUn3JmdCxwulpEKrPColMyVDIj4ZmhslehAnzwf+F4+mwH5Kw==
-X-Received: by 2002:a17:90a:ff16:: with SMTP id ce22mr11620331pjb.160.1594236596628;
-        Wed, 08 Jul 2020 12:29:56 -0700 (PDT)
-Received: from skynet-desktop.skynet ([49.207.196.160])
-        by smtp.gmail.com with ESMTPSA id ml8sm299514pjb.47.2020.07.08.12.29.54
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Wed, 08 Jul 2020 12:29:56 -0700 (PDT)
-From:   Saikiran Madugula <hummerbliss@gmail.com>
+        id S1726347AbgGINDh (ORCPT <rfc822;linux-man@archiver.kernel.org>);
+        Thu, 9 Jul 2020 09:03:37 -0400
+Received: from us-smtp-1.mimecast.com ([207.211.31.81]:49811 "EHLO
+        us-smtp-delivery-1.mimecast.com" rhost-flags-OK-OK-OK-FAIL)
+        by vger.kernel.org with ESMTP id S1726320AbgGINDh (ORCPT
+        <rfc822;linux-man@vger.kernel.org>); Thu, 9 Jul 2020 09:03:37 -0400
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+        s=mimecast20190719; t=1594299816;
+        h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+         to:to:cc:cc:mime-version:mime-version:
+         content-transfer-encoding:content-transfer-encoding;
+        bh=vUBSNwmsRqGMPG0Mft+PLiQMFI3j8iZKllcslO2P0fE=;
+        b=LZA+fNA+EQR40MDXN2GNVdNJI6ftEyi7mgMySqMvo9n0RToThc6amF3Hk/opa2BdNGt67S
+        2DAsQ5eXv6xte2ocG5Y+NBcdFENrPjddVBG4hWZuZMCboyPvlY8wDa1z7CR7jTDv4jm5pL
+        W33e2okB5iFH4kzMGlQ/CRuFSfl8O3c=
+Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
+ [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
+ us-mta-51-IcAxf2ysO3Okiq33MMXTvA-1; Thu, 09 Jul 2020 09:03:32 -0400
+X-MC-Unique: IcAxf2ysO3Okiq33MMXTvA-1
+Received: from smtp.corp.redhat.com (int-mx03.intmail.prod.int.phx2.redhat.com [10.5.11.13])
+        (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
+        (No client certificate requested)
+        by mimecast-mx01.redhat.com (Postfix) with ESMTPS id EA6821081;
+        Thu,  9 Jul 2020 13:03:31 +0000 (UTC)
+Received: from cicero.redhat.com (unknown [10.33.36.5])
+        by smtp.corp.redhat.com (Postfix) with ESMTPS id C211779CE8;
+        Thu,  9 Jul 2020 13:03:23 +0000 (UTC)
+From:   Andrew Price <anprice@redhat.com>
 To:     mtk.manpages@gmail.com
-Cc:     linux-man@vger.kernel.org,
-        Saikiran Madugula <hummerbliss@gmail.com>
-Subject: [PATCH] capabilities.7: Add two more items for POSIX message queues
-Date:   Thu,  9 Jul 2020 00:59:35 +0530
-Message-Id: <20200708192935.18381-1-hummerbliss@gmail.com>
-X-Mailer: git-send-email 2.17.1
+Cc:     linux-man@vger.kernel.org, cluster-devel@redhat.com
+Subject: [PATCH] lseek.2: List gfs2 support for SEEK_HOLE/SEEK_DATA
+Date:   Thu,  9 Jul 2020 14:03:17 +0100
+Message-Id: <20200709130317.582038-1-anprice@redhat.com>
+MIME-Version: 1.0
+Content-Transfer-Encoding: 8bit
+X-Scanned-By: MIMEDefang 2.79 on 10.5.11.13
 Sender: linux-man-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-man.vger.kernel.org>
 X-Mailing-List: linux-man@vger.kernel.org
 
-/proc/sys/fs/mqueue/msg_max and /proc/sys/fs/mqueue/msgsize_max
-also require CAP_SYS_RESOURCE
-
-Signed-off-by: Saikiran Madugula <hummerbliss@gmail.com>
+Signed-off-by: Andrew Price <anprice@redhat.com>
 ---
- man7/capabilities.7 | 5 ++++-
- 1 file changed, 4 insertions(+), 1 deletion(-)
+ man2/lseek.2 | 3 +++
+ 1 file changed, 3 insertions(+)
 
-diff --git a/man7/capabilities.7 b/man7/capabilities.7
-index fd841b4f1..adb8bad5b 100644
---- a/man7/capabilities.7
-+++ b/man7/capabilities.7
-@@ -722,7 +722,10 @@ to increase the capacity of a pipe above the limit specified by
- .IR /proc/sys/fs/pipe-max-size ;
+diff --git a/man2/lseek.2 b/man2/lseek.2
+index a20b10431..22de446fc 100644
+--- a/man2/lseek.2
++++ b/man2/lseek.2
+@@ -182,6 +182,9 @@ NFS (since Linux 3.18)
  .IP *
- override
--.I /proc/sys/fs/mqueue/queues_max
-+.I /proc/sys/fs/mqueue/queues_max,
-+.I /proc/sys/fs/mqueue/msg_max,
-+and
-+.I /proc/sys/fs/mqueue/msgsize_max
- limit when creating POSIX message queues (see
- .BR mq_overview (7));
- .IP *
+ FUSE (since Linux 4.5)
+ .\" commit 0b5da8db145bfd44266ac964a2636a0cf8d7c286
++.IP *
++GFS2 (since Linux 4.15)
++.\" commit 3a27411cb4bc3ce31db228e3569ad01b462a4310
+ .SH RETURN VALUE
+ Upon successful completion,
+ .BR lseek ()
 -- 
-2.17.1
+2.26.2
 
