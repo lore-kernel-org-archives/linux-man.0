@@ -4,30 +4,30 @@ X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 X-Spam-Level: 
 X-Spam-Status: No, score=-13.0 required=3.0 tests=BAYES_00,
 	HEADER_FROM_DIFFERENT_DOMAINS,INCLUDES_PATCH,MAILING_LIST_MULTI,SIGNED_OFF_BY,
-	SPF_HELO_NONE,SPF_PASS,URIBL_BLOCKED,USER_AGENT_GIT autolearn=unavailable
-	autolearn_force=no version=3.4.0
+	SPF_HELO_NONE,SPF_PASS,URIBL_BLOCKED,USER_AGENT_GIT,WEIRD_QUOTING
+	autolearn=unavailable autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 93C75C433E4
-	for <linux-man@archiver.kernel.org>; Thu, 23 Jul 2020 21:53:43 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 732F8C433E0
+	for <linux-man@archiver.kernel.org>; Thu, 23 Jul 2020 21:53:40 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.kernel.org (Postfix) with ESMTP id 6D2C1206E3
-	for <linux-man@archiver.kernel.org>; Thu, 23 Jul 2020 21:53:43 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTP id 5AEEC206E3
+	for <linux-man@archiver.kernel.org>; Thu, 23 Jul 2020 21:53:40 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1726697AbgGWVxn (ORCPT <rfc822;linux-man@archiver.kernel.org>);
-        Thu, 23 Jul 2020 17:53:43 -0400
-Received: from smtp.gentoo.org ([140.211.166.183]:33284 "EHLO smtp.gentoo.org"
+        id S1726488AbgGWVxk (ORCPT <rfc822;linux-man@archiver.kernel.org>);
+        Thu, 23 Jul 2020 17:53:40 -0400
+Received: from smtp.gentoo.org ([140.211.166.183]:33272 "EHLO smtp.gentoo.org"
         rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S1726368AbgGWVxn (ORCPT <rfc822;linux-man@vger.kernel.org>);
-        Thu, 23 Jul 2020 17:53:43 -0400
+        id S1726368AbgGWVxj (ORCPT <rfc822;linux-man@vger.kernel.org>);
+        Thu, 23 Jul 2020 17:53:39 -0400
 Received: from vapier.lan (localhost [127.0.0.1])
-        by smtp.gentoo.org (Postfix) with ESMTP id E78CF34F1D6;
-        Thu, 23 Jul 2020 21:53:41 +0000 (UTC)
+        by smtp.gentoo.org (Postfix) with ESMTP id 9AC3434F1E0;
+        Thu, 23 Jul 2020 21:53:38 +0000 (UTC)
 From:   Mike Frysinger <vapier@gentoo.org>
 To:     Michael Kerrisk <mtk.manpages@gmail.com>
 Cc:     linux-man@vger.kernel.org
-Subject: [PATCH] trim leading blank comment line
-Date:   Thu, 23 Jul 2020 17:53:40 -0400
-Message-Id: <20200723215340.13867-1-vapier@gentoo.org>
+Subject: [PATCH] use standard .\" comment style
+Date:   Thu, 23 Jul 2020 17:53:37 -0400
+Message-Id: <20200723215337.13823-1-vapier@gentoo.org>
 X-Mailer: git-send-email 2.26.2
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
@@ -38,92 +38,133 @@ X-Mailing-List: linux-man@vger.kernel.org
 
 From: Mike Frysinger <vapier@chromium.org>
 
-Very few pages do this, so trim them.
+The \" comment produces blank lines.  Use the .\" that the vast
+majority of the codebase uses instead.
 
 Signed-off-by: Mike Frysinger <vapier@gentoo.org>
 ---
- man5/repertoiremap.5        | 1 -
- man7/keyrings.7             | 1 -
- man7/persistent-keyring.7   | 1 -
- man7/process-keyring.7      | 1 -
- man7/session-keyring.7      | 1 -
- man7/thread-keyring.7       | 1 -
- man7/user-keyring.7         | 1 -
- man7/user-session-keyring.7 | 1 -
- 8 files changed, 8 deletions(-)
+ man2/keyctl.2          |  8 ++++----
+ man2/perf_event_open.2 | 10 +++++-----
+ man3/makecontext.3     |  2 +-
+ man7/keyrings.7        |  6 +++---
+ man7/pid_namespaces.7  |  2 +-
+ 5 files changed, 14 insertions(+), 14 deletions(-)
 
-diff --git a/man5/repertoiremap.5 b/man5/repertoiremap.5
-index a76e866f8f43..06d4814d5722 100644
---- a/man5/repertoiremap.5
-+++ b/man5/repertoiremap.5
-@@ -1,4 +1,3 @@
--.\"
- .\" %%%LICENSE_START(GPLv2+_DOC_FULL)
- .\" This is free documentation; you can redistribute it and/or
- .\" modify it under the terms of the GNU General Public License as
+diff --git a/man2/keyctl.2 b/man2/keyctl.2
+index b758f331bd28..ea954d7fab85 100644
+--- a/man2/keyctl.2
++++ b/man2/keyctl.2
+@@ -592,9 +592,9 @@ Writing to the buffer is attempted only when
+ is non-NULL and the specified buffer size
+ is large enough to accept the descriptive string
+ (including the terminating null byte).
+-'\" Function commentary says it copies up to buflen bytes, but see the
+-'\" (buffer && buflen >= ret) condition in keyctl_describe_key() in
+-'\" security/keyctl.c
++.\" Function commentary says it copies up to buflen bytes, but see the
++.\" (buffer && buflen >= ret) condition in keyctl_describe_key() in
++.\" security/keyctl.c
+ In order to determine whether the buffer size was too small,
+ check to see if the return value of the operation is greater than
+ .IR arg4 .
+@@ -963,7 +963,7 @@ Use the UID-specific session keyring
+ as the new default keyring.
+ .TP
+ .BR KEY_REQKEY_DEFL_REQUESTOR_KEYRING " (since Linux 2.6.29)"
+-'\" 8bbf4976b59fc9fc2861e79cab7beb3f6d647640
++.\" 8bbf4976b59fc9fc2861e79cab7beb3f6d647640
+ Use the requestor keyring.
+ .\" FIXME The preceding explanation needs to be expanded.
+ .\" Is the following correct:
+diff --git a/man2/perf_event_open.2 b/man2/perf_event_open.2
+index eee3b887074b..2492fc75a815 100644
+--- a/man2/perf_event_open.2
++++ b/man2/perf_event_open.2
+@@ -2601,7 +2601,7 @@ is a string describing the backing of the allocated memory.
+ .RE
+ .TP
+ .BR PERF_RECORD_AUX " (since Linux 4.1)"
+-\" commit 68db7e98c3a6ebe7284b6cf14906ed7c55f3f7f0
++.\" commit 68db7e98c3a6ebe7284b6cf14906ed7c55f3f7f0
+ This record reports that new data is available in the separate
+ AUX buffer region.
+ .IP
+@@ -2638,7 +2638,7 @@ if set, then the data returned has overwritten previous data.
+ .RE
+ .TP
+ .BR PERF_RECORD_ITRACE_START " (since Linux 4.1)"
+-\" ec0d7729bbaed4b9d2d3fada693278e13a3d1368
++.\" ec0d7729bbaed4b9d2d3fada693278e13a3d1368
+ This record indicates which process has initiated an instruction
+ trace event, allowing tools to properly correlate the instruction
+ addresses in the AUX buffer with the proper executable.
+@@ -2661,7 +2661,7 @@ thread ID of the thread starting an instruction trace.
+ .RE
+ .TP
+ .BR PERF_RECORD_LOST_SAMPLES " (since Linux 4.2)"
+-\" f38b0dbb491a6987e198aa6b428db8692a6480f8
++.\" f38b0dbb491a6987e198aa6b428db8692a6480f8
+ When using hardware sampling (such as Intel PEBS) this record
+ indicates some number of samples that may have been lost.
+ .IP
+@@ -2680,7 +2680,7 @@ the number of potentially lost samples.
+ .RE
+ .TP
+ .BR PERF_RECORD_SWITCH " (since Linux 4.3)"
+-\" commit 45ac1403f564f411c6a383a2448688ba8dd705a4
++.\" commit 45ac1403f564f411c6a383a2448688ba8dd705a4
+ This record indicates a context switch has happened.
+ The
+ .B PERF_RECORD_MISC_SWITCH_OUT
+@@ -2698,7 +2698,7 @@ struct {
+ .EE
+ .TP
+ .BR PERF_RECORD_SWITCH_CPU_WIDE " (since Linux 4.3)"
+-\" commit 45ac1403f564f411c6a383a2448688ba8dd705a4
++.\" commit 45ac1403f564f411c6a383a2448688ba8dd705a4
+ As with
+ .B PERF_RECORD_SWITCH
+ this record indicates a context switch has happened,
+diff --git a/man3/makecontext.3 b/man3/makecontext.3
+index 1d8429fa45db..c311f49f9496 100644
+--- a/man3/makecontext.3
++++ b/man3/makecontext.3
+@@ -1,4 +1,4 @@
+-\" Copyright (C) 2001 Andries Brouwer (aeb@cwi.nl)
++.\" Copyright (C) 2001 Andries Brouwer (aeb@cwi.nl)
+ .\" and Copyright (C) 2006 Michael Kerrisk <mtk.manpages@gmail.com>
+ .\"
+ .\" %%%LICENSE_START(VERBATIM)
 diff --git a/man7/keyrings.7 b/man7/keyrings.7
-index 0983a4da948e..cbe8a6fb0ebd 100644
+index 0e0bd0a9514a..0983a4da948e 100644
 --- a/man7/keyrings.7
 +++ b/man7/keyrings.7
-@@ -1,4 +1,3 @@
--.\"
- .\" Copyright (C) 2014 Red Hat, Inc. All Rights Reserved.
- .\" Written by David Howells (dhowells@redhat.com)
- .\" and Copyright (C) 2016 Michael Kerrisk <mtk.manpages@gmail.com>
-diff --git a/man7/persistent-keyring.7 b/man7/persistent-keyring.7
-index 3367ec153f47..de56255c1d68 100644
---- a/man7/persistent-keyring.7
-+++ b/man7/persistent-keyring.7
-@@ -1,4 +1,3 @@
--.\"
- .\" Copyright (C) 2014 Red Hat, Inc. All Rights Reserved.
- .\" Written by David Howells (dhowells@redhat.com)
+@@ -105,9 +105,9 @@ the key is scheduled for garbage collection.
+ The kernel provides several basic types of key:
+ .TP
+ .I """keyring"""
+-'\" Note that keyrings use different fields in struct key in order to store
+-'\" their data - index_key instead of type/description and name_link/keys
+-'\" instead of payload.
++.\" Note that keyrings use different fields in struct key in order to store
++.\" their data - index_key instead of type/description and name_link/keys
++.\" instead of payload.
+ Keyrings are special keys which store a set of links
+ to other keys (including other keyrings),
+ analogous to a directory holding links to files.
+diff --git a/man7/pid_namespaces.7 b/man7/pid_namespaces.7
+index f2aa25884de3..9d893fcf26c1 100644
+--- a/man7/pid_namespaces.7
++++ b/man7/pid_namespaces.7
+@@ -262,7 +262,7 @@ namespace that is the
+ .I parent
+ of the child's PID namespace,
+ rather than the "init" process in the child's own PID namespace.
+-\" Furthermore, by definition, the parent of the "init" process
++.\" Furthermore, by definition, the parent of the "init" process
+ .\" of a PID namespace resides in the parent PID namespace.
  .\"
-diff --git a/man7/process-keyring.7 b/man7/process-keyring.7
-index c4dbd127f5a3..9f48aa9c2143 100644
---- a/man7/process-keyring.7
-+++ b/man7/process-keyring.7
-@@ -1,4 +1,3 @@
--.\"
- .\" Copyright (C) 2014 Red Hat, Inc. All Rights Reserved.
- .\" Written by David Howells (dhowells@redhat.com)
- .\"
-diff --git a/man7/session-keyring.7 b/man7/session-keyring.7
-index 0b886be5e702..829d1e975e36 100644
---- a/man7/session-keyring.7
-+++ b/man7/session-keyring.7
-@@ -1,4 +1,3 @@
--.\"
- .\" Copyright (C) 2014 Red Hat, Inc. All Rights Reserved.
- .\" Written by David Howells (dhowells@redhat.com)
- .\"
-diff --git a/man7/thread-keyring.7 b/man7/thread-keyring.7
-index a09ab4c565e9..0cc429b58c91 100644
---- a/man7/thread-keyring.7
-+++ b/man7/thread-keyring.7
-@@ -1,4 +1,3 @@
--.\"
- .\" Copyright (C) 2014 Red Hat, Inc. All Rights Reserved.
- .\" Written by David Howells (dhowells@redhat.com)
- .\"
-diff --git a/man7/user-keyring.7 b/man7/user-keyring.7
-index f13674eeeaa3..de2d7029e699 100644
---- a/man7/user-keyring.7
-+++ b/man7/user-keyring.7
-@@ -1,4 +1,3 @@
--.\"
- .\" Copyright (C) 2014 Red Hat, Inc. All Rights Reserved.
- .\" Written by David Howells (dhowells@redhat.com)
- .\"
-diff --git a/man7/user-session-keyring.7 b/man7/user-session-keyring.7
-index 91664dd50297..0934e08e2122 100644
---- a/man7/user-session-keyring.7
-+++ b/man7/user-session-keyring.7
-@@ -1,4 +1,3 @@
--.\"
- .\" Copyright (C) 2014 Red Hat, Inc. All Rights Reserved.
- .\" Written by David Howells (dhowells@redhat.com)
- .\"
+ .\" ============================================================
 -- 
 2.26.2
 
