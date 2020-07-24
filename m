@@ -1,170 +1,127 @@
-Return-Path: <SRS0=Eeob=BC=vger.kernel.org=linux-man-owner@kernel.org>
+Return-Path: <SRS0=cO9Y=BD=vger.kernel.org=linux-man-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-13.0 required=3.0 tests=BAYES_00,
-	HEADER_FROM_DIFFERENT_DOMAINS,INCLUDES_PATCH,MAILING_LIST_MULTI,SIGNED_OFF_BY,
-	SPF_HELO_NONE,SPF_PASS,URIBL_BLOCKED,USER_AGENT_GIT,WEIRD_QUOTING
-	autolearn=unavailable autolearn_force=no version=3.4.0
+X-Spam-Status: No, score=-5.6 required=3.0 tests=BAYES_00,DKIM_SIGNED,
+	DKIM_VALID,DKIM_VALID_AU,FREEMAIL_FORGED_FROMDOMAIN,FREEMAIL_FROM,
+	HEADER_FROM_DIFFERENT_DOMAINS,MAILING_LIST_MULTI,SPF_HELO_NONE,SPF_PASS,
+	USER_AGENT_SANE_1 autolearn=no autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 732F8C433E0
-	for <linux-man@archiver.kernel.org>; Thu, 23 Jul 2020 21:53:40 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id CEC57C433E0
+	for <linux-man@archiver.kernel.org>; Fri, 24 Jul 2020 00:03:25 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.kernel.org (Postfix) with ESMTP id 5AEEC206E3
-	for <linux-man@archiver.kernel.org>; Thu, 23 Jul 2020 21:53:40 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTP id A9B552064B
+	for <linux-man@archiver.kernel.org>; Fri, 24 Jul 2020 00:03:25 +0000 (UTC)
+Authentication-Results: mail.kernel.org;
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="Q62yL+C6"
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1726488AbgGWVxk (ORCPT <rfc822;linux-man@archiver.kernel.org>);
-        Thu, 23 Jul 2020 17:53:40 -0400
-Received: from smtp.gentoo.org ([140.211.166.183]:33272 "EHLO smtp.gentoo.org"
-        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S1726368AbgGWVxj (ORCPT <rfc822;linux-man@vger.kernel.org>);
-        Thu, 23 Jul 2020 17:53:39 -0400
-Received: from vapier.lan (localhost [127.0.0.1])
-        by smtp.gentoo.org (Postfix) with ESMTP id 9AC3434F1E0;
-        Thu, 23 Jul 2020 21:53:38 +0000 (UTC)
-From:   Mike Frysinger <vapier@gentoo.org>
-To:     Michael Kerrisk <mtk.manpages@gmail.com>
-Cc:     linux-man@vger.kernel.org
-Subject: [PATCH] use standard .\" comment style
-Date:   Thu, 23 Jul 2020 17:53:37 -0400
-Message-Id: <20200723215337.13823-1-vapier@gentoo.org>
-X-Mailer: git-send-email 2.26.2
+        id S1728065AbgGXADZ (ORCPT <rfc822;linux-man@archiver.kernel.org>);
+        Thu, 23 Jul 2020 20:03:25 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:53686 "EHLO
+        lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1727901AbgGXADZ (ORCPT
+        <rfc822;linux-man@vger.kernel.org>); Thu, 23 Jul 2020 20:03:25 -0400
+Received: from mail-pf1-x442.google.com (mail-pf1-x442.google.com [IPv6:2607:f8b0:4864:20::442])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id E656CC0619D3
+        for <linux-man@vger.kernel.org>; Thu, 23 Jul 2020 17:03:24 -0700 (PDT)
+Received: by mail-pf1-x442.google.com with SMTP id a14so4044903pfi.2
+        for <linux-man@vger.kernel.org>; Thu, 23 Jul 2020 17:03:24 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20161025;
+        h=date:from:to:cc:subject:message-id:references:mime-version
+         :content-disposition:in-reply-to:user-agent;
+        bh=+AwrLkl0Hy7XxNddsuwZDGlNwv0fNH7fIrCyYj9C4i4=;
+        b=Q62yL+C6Q6ZflhUBBxGFhlxDfLSgKEmx1+PHBkLsQl3X3PAWjy0yzkJLaGhvww7ybf
+         Irs9sHwTM1siS4Sie6GLaYMMDXGQEJjNL88bteN3Spj7I06+QqaFaQbDThvCz+5mn/Mu
+         AsWxfInopFWYUc1y1ZeEMGbUH0xw9wxa/o687hbOx0Yb6WQM19Q7PoPN2DB3KWIQQG+U
+         rOZ6UXlpDRnO05q0gAMB7+a2TPOO6Ea6CVTqI6lhprhjDRHttI/asB3mfOcYQ9zx7yfm
+         X48lXxoWHIImu0/WKXdFCs93cdAn7jH6fldpqvlGO2cgcv+m9HvLl+swdtl1iBhkoVQj
+         zcpA==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20161025;
+        h=x-gm-message-state:date:from:to:cc:subject:message-id:references
+         :mime-version:content-disposition:in-reply-to:user-agent;
+        bh=+AwrLkl0Hy7XxNddsuwZDGlNwv0fNH7fIrCyYj9C4i4=;
+        b=ZUkpT3Yr3L7oulMdNiWVSH7ZzwDjBaVrkGXvzr9GA4H8SW4n2aHMjE5S7GNS9CW0r2
+         pX8KiIOwVXTO/NvOaZWBOcSN8iFsQgeM48TN5O+wgpsymHmk2okgSznDBsZ4oRzCxyyw
+         VSMeWW2dzU/mMDSl1XUILKTHuVx5h+gyGIWEhiUM3ugeLXS8Dv1bvwkbOotg4IiKfyDw
+         NeHbEGMnXChozMnQdNW6/MMhgO0IOPv0V8ld/gA+lqUa0Jd8ERhzxdjOcU3Gw4k8wXUu
+         IZpndnFrgJwRDD4fb7vFvR87GB0nV/CBZrPdm4erI6OgSGGxBAMI3I3TfSi6Xhb4SvK+
+         axYA==
+X-Gm-Message-State: AOAM530NPe3WBMumVMRA3Ok8FAnuH5wQHpJALGclDegYRUluosukPPxX
+        jLCTQX5t1YZyoI3fGVFX+aKuctSn
+X-Google-Smtp-Source: ABdhPJwB3mkLYwxIvoFdRD/zyj6M/vaKb6ii5tS0zCLzCr3NDA+2tyMEdjs6nWNehixuu0UAUN3jOQ==
+X-Received: by 2002:a63:1c61:: with SMTP id c33mr6326787pgm.350.1595549003793;
+        Thu, 23 Jul 2020 17:03:23 -0700 (PDT)
+Received: from localhost.localdomain ([1.129.255.227])
+        by smtp.gmail.com with ESMTPSA id y63sm3949964pgb.49.2020.07.23.17.03.21
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Thu, 23 Jul 2020 17:03:22 -0700 (PDT)
+Date:   Fri, 24 Jul 2020 10:03:17 +1000
+From:   "G. Branden Robinson" <g.branden.robinson@gmail.com>
+To:     linux-man@vger.kernel.org
+Cc:     Michael Kerrisk <mtk.manpages@gmail.com>
+Subject: Re: [PATCH] drop spurious t comment header
+Message-ID: <20200724000315.yx5otylik6oqqy6d@localhost.localdomain>
+References: <20200723215333.13779-1-vapier@gentoo.org>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+Content-Type: multipart/signed; micalg=pgp-sha256;
+        protocol="application/pgp-signature"; boundary="rqaioz3sr5v2mn7j"
+Content-Disposition: inline
+In-Reply-To: <20200723215333.13779-1-vapier@gentoo.org>
+User-Agent: NeoMutt/20180716
 Sender: linux-man-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-man.vger.kernel.org>
 X-Mailing-List: linux-man@vger.kernel.org
 
-From: Mike Frysinger <vapier@chromium.org>
 
-The \" comment produces blank lines.  Use the .\" that the vast
-majority of the codebase uses instead.
+--rqaioz3sr5v2mn7j
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+Content-Transfer-Encoding: quoted-printable
 
-Signed-off-by: Mike Frysinger <vapier@gentoo.org>
----
- man2/keyctl.2          |  8 ++++----
- man2/perf_event_open.2 | 10 +++++-----
- man3/makecontext.3     |  2 +-
- man7/keyrings.7        |  6 +++---
- man7/pid_namespaces.7  |  2 +-
- 5 files changed, 14 insertions(+), 14 deletions(-)
+At 2020-07-23T17:53:33-0400, Mike Frysinger wrote:
+> From: Mike Frysinger <vapier@chromium.org>
+>=20
+> A bunch of pages have this random comment at the start of its header,
+> but most do not.  Just trim it everywhere.
 
-diff --git a/man2/keyctl.2 b/man2/keyctl.2
-index b758f331bd28..ea954d7fab85 100644
---- a/man2/keyctl.2
-+++ b/man2/keyctl.2
-@@ -592,9 +592,9 @@ Writing to the buffer is attempted only when
- is non-NULL and the specified buffer size
- is large enough to accept the descriptive string
- (including the terminating null byte).
--'\" Function commentary says it copies up to buflen bytes, but see the
--'\" (buffer && buflen >= ret) condition in keyctl_describe_key() in
--'\" security/keyctl.c
-+.\" Function commentary says it copies up to buflen bytes, but see the
-+.\" (buffer && buflen >= ret) condition in keyctl_describe_key() in
-+.\" security/keyctl.c
- In order to determine whether the buffer size was too small,
- check to see if the return value of the operation is greater than
- .IR arg4 .
-@@ -963,7 +963,7 @@ Use the UID-specific session keyring
- as the new default keyring.
- .TP
- .BR KEY_REQKEY_DEFL_REQUESTOR_KEYRING " (since Linux 2.6.29)"
--'\" 8bbf4976b59fc9fc2861e79cab7beb3f6d647640
-+.\" 8bbf4976b59fc9fc2861e79cab7beb3f6d647640
- Use the requestor keyring.
- .\" FIXME The preceding explanation needs to be expanded.
- .\" Is the following correct:
-diff --git a/man2/perf_event_open.2 b/man2/perf_event_open.2
-index eee3b887074b..2492fc75a815 100644
---- a/man2/perf_event_open.2
-+++ b/man2/perf_event_open.2
-@@ -2601,7 +2601,7 @@ is a string describing the backing of the allocated memory.
- .RE
- .TP
- .BR PERF_RECORD_AUX " (since Linux 4.1)"
--\" commit 68db7e98c3a6ebe7284b6cf14906ed7c55f3f7f0
-+.\" commit 68db7e98c3a6ebe7284b6cf14906ed7c55f3f7f0
- This record reports that new data is available in the separate
- AUX buffer region.
- .IP
-@@ -2638,7 +2638,7 @@ if set, then the data returned has overwritten previous data.
- .RE
- .TP
- .BR PERF_RECORD_ITRACE_START " (since Linux 4.1)"
--\" ec0d7729bbaed4b9d2d3fada693278e13a3d1368
-+.\" ec0d7729bbaed4b9d2d3fada693278e13a3d1368
- This record indicates which process has initiated an instruction
- trace event, allowing tools to properly correlate the instruction
- addresses in the AUX buffer with the proper executable.
-@@ -2661,7 +2661,7 @@ thread ID of the thread starting an instruction trace.
- .RE
- .TP
- .BR PERF_RECORD_LOST_SAMPLES " (since Linux 4.2)"
--\" f38b0dbb491a6987e198aa6b428db8692a6480f8
-+.\" f38b0dbb491a6987e198aa6b428db8692a6480f8
- When using hardware sampling (such as Intel PEBS) this record
- indicates some number of samples that may have been lost.
- .IP
-@@ -2680,7 +2680,7 @@ the number of potentially lost samples.
- .RE
- .TP
- .BR PERF_RECORD_SWITCH " (since Linux 4.3)"
--\" commit 45ac1403f564f411c6a383a2448688ba8dd705a4
-+.\" commit 45ac1403f564f411c6a383a2448688ba8dd705a4
- This record indicates a context switch has happened.
- The
- .B PERF_RECORD_MISC_SWITCH_OUT
-@@ -2698,7 +2698,7 @@ struct {
- .EE
- .TP
- .BR PERF_RECORD_SWITCH_CPU_WIDE " (since Linux 4.3)"
--\" commit 45ac1403f564f411c6a383a2448688ba8dd705a4
-+.\" commit 45ac1403f564f411c6a383a2448688ba8dd705a4
- As with
- .B PERF_RECORD_SWITCH
- this record indicates a context switch has happened,
-diff --git a/man3/makecontext.3 b/man3/makecontext.3
-index 1d8429fa45db..c311f49f9496 100644
---- a/man3/makecontext.3
-+++ b/man3/makecontext.3
-@@ -1,4 +1,4 @@
--\" Copyright (C) 2001 Andries Brouwer (aeb@cwi.nl)
-+.\" Copyright (C) 2001 Andries Brouwer (aeb@cwi.nl)
- .\" and Copyright (C) 2006 Michael Kerrisk <mtk.manpages@gmail.com>
- .\"
- .\" %%%LICENSE_START(VERBATIM)
-diff --git a/man7/keyrings.7 b/man7/keyrings.7
-index 0e0bd0a9514a..0983a4da948e 100644
---- a/man7/keyrings.7
-+++ b/man7/keyrings.7
-@@ -105,9 +105,9 @@ the key is scheduled for garbage collection.
- The kernel provides several basic types of key:
- .TP
- .I """keyring"""
--'\" Note that keyrings use different fields in struct key in order to store
--'\" their data - index_key instead of type/description and name_link/keys
--'\" instead of payload.
-+.\" Note that keyrings use different fields in struct key in order to store
-+.\" their data - index_key instead of type/description and name_link/keys
-+.\" instead of payload.
- Keyrings are special keys which store a set of links
- to other keys (including other keyrings),
- analogous to a directory holding links to files.
-diff --git a/man7/pid_namespaces.7 b/man7/pid_namespaces.7
-index f2aa25884de3..9d893fcf26c1 100644
---- a/man7/pid_namespaces.7
-+++ b/man7/pid_namespaces.7
-@@ -262,7 +262,7 @@ namespace that is the
- .I parent
- of the child's PID namespace,
- rather than the "init" process in the child's own PID namespace.
--\" Furthermore, by definition, the parent of the "init" process
-+.\" Furthermore, by definition, the parent of the "init" process
- .\" of a PID namespace resides in the parent PID namespace.
- .\"
- .\" ============================================================
--- 
-2.26.2
+It's pretty misleading to call it "random"; it is a hint to the man
+program to preprocess the man page text through tbl.
 
+This is documented in subsection "Interaction with preprocessors" of
+groff_man(5).
+
+The patch itself might be fine; the first couple of pages it alters
+indeed use no tables, according to the check I ran:
+	grep -l '^\.\s*TS' man[1-8]/*
+
+=2E..but the comment is certainly not meaningless noise, which is what
+"random" suggests, and I would not characterize the change this in a
+commit message.
+
+Regards,
+Branden
+
+--rqaioz3sr5v2mn7j
+Content-Type: application/pgp-signature; name="signature.asc"
+
+-----BEGIN PGP SIGNATURE-----
+
+iQIzBAEBCAAdFiEEh3PWHWjjDgcrENwa0Z6cfXEmbc4FAl8aJSkACgkQ0Z6cfXEm
+bc5FWg/+NwAY8q946x4tupU8W3cMs3dtly5CATZ/LT8uvvnvskIutiiuBLdnaEQu
+8+3f1n21qiM5232kOaezjfw+4C5eNCWbifDsLKxwvCCNQolzp4wazWVDJu92djQu
+tMCfxpOAh70+VyOhYH8214It0XSC6xr/xHlJOj2MJahRi+r+CDu5wo+s5uH6rWin
+PhoyXtF+1AjGqqrW1+rw1wr81XMn5aybK/HGuPYIYmLph1xRNuALhxTsJTDGYEUO
+CffhwERtDXIh3RNqnzJuy3LfksjQMalJL3bH0k7oOPoxn48x+4LB4mCDA0yNBxKK
+glOecnVKTplgRvO+woVR/UdtIkPH9guRAeobxMM7xgbfc5+5BFP0ha+oUOgTUhtb
+ZEor4OUT6NhLhufFkNJ441A3Q/se1qG25df7qAOvUqy/v33DI1R819iP7qm8/QrF
+mIcU+R/lKzjZhh2Spt0190e0/cOmWQXmv8CqdskhwtnD4NsybjDR2QT4+8EZCiDM
+e0eDaI5nzDd9/xIP16YCFncCH26CpAJ4yUqFDtRvDptzfYV/oHR/72CyDLoeoCFZ
+PamBz7+qR/hBrc01MS7ErFFyO4++zQtb+iBhtDQBFRybOZsvCQimwktXpnKgBlLs
+k9xAc0k9ndXshXX1S8MYbW+yU1/bgIXTVHW8R4OscbUbkmNgQwg=
+=tTXV
+-----END PGP SIGNATURE-----
+
+--rqaioz3sr5v2mn7j--
