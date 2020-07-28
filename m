@@ -1,114 +1,138 @@
-Return-Path: <SRS0=0Ue0=BF=vger.kernel.org=linux-man-owner@kernel.org>
+Return-Path: <SRS0=mVwp=BH=vger.kernel.org=linux-man-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-5.8 required=3.0 tests=BAYES_00,DKIM_SIGNED,
-	DKIM_VALID,DKIM_VALID_AU,FREEMAIL_FORGED_FROMDOMAIN,FREEMAIL_FROM,
-	HEADER_FROM_DIFFERENT_DOMAINS,MAILING_LIST_MULTI,NICE_REPLY_A,SPF_HELO_NONE,
-	SPF_PASS,USER_AGENT_SANE_1 autolearn=no autolearn_force=no version=3.4.0
+X-Spam-Status: No, score=-7.0 required=3.0 tests=BAYES_00,DKIMWL_WL_HIGH,
+	DKIM_SIGNED,DKIM_VALID,HEADER_FROM_DIFFERENT_DOMAINS,MAILING_LIST_MULTI,
+	SIGNED_OFF_BY,SPF_HELO_NONE,SPF_PASS,URIBL_BLOCKED autolearn=no
+	autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 50EB4C433E1
-	for <linux-man@archiver.kernel.org>; Sun, 26 Jul 2020 20:01:59 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id D17BEC433DF
+	for <linux-man@archiver.kernel.org>; Tue, 28 Jul 2020 20:28:48 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.kernel.org (Postfix) with ESMTP id 1E5CC2065F
-	for <linux-man@archiver.kernel.org>; Sun, 26 Jul 2020 20:01:59 +0000 (UTC)
-Authentication-Results: mail.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="L9OJMGvx"
+	by mail.kernel.org (Postfix) with ESMTP id AD80A2070B
+	for <linux-man@archiver.kernel.org>; Tue, 28 Jul 2020 20:28:48 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+	s=default; t=1595968128;
+	bh=DZa23iQd1u0Zt0+baOJ3N5SjhG14X7OdVrrXeq9/DLY=;
+	h=Date:From:To:Subject:List-ID:From;
+	b=sWswyHLSuIRwrNCl7NM2JAp+f+0/8pQq1jHOdikAaOqZb+d+RdXfei9aYZqPHYZA8
+	 F0kvVyYhl+8TIk9KkocQ36Re382qK/s3qz0UoLJXnl2iN7whKpaJWrz+V2QuWjhqHO
+	 wMK+uAzoJWwfUgIOTpxnqPhAXNd66pLiNLAmiAEY=
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1726427AbgGZUB6 (ORCPT <rfc822;linux-man@archiver.kernel.org>);
-        Sun, 26 Jul 2020 16:01:58 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:36688 "EHLO
-        lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1726292AbgGZUB6 (ORCPT
-        <rfc822;linux-man@vger.kernel.org>); Sun, 26 Jul 2020 16:01:58 -0400
-Received: from mail-wm1-x331.google.com (mail-wm1-x331.google.com [IPv6:2a00:1450:4864:20::331])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id E1630C0619D2
-        for <linux-man@vger.kernel.org>; Sun, 26 Jul 2020 13:01:56 -0700 (PDT)
-Received: by mail-wm1-x331.google.com with SMTP id k20so5070074wmi.5
-        for <linux-man@vger.kernel.org>; Sun, 26 Jul 2020 13:01:56 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20161025;
-        h=subject:to:references:from:cc:message-id:date:user-agent
-         :mime-version:in-reply-to:content-language:content-transfer-encoding;
-        bh=DdBm+Lk6kWPH3BMLZ2RaAnb3Uptti217lWUE/VYHR+E=;
-        b=L9OJMGvxSUrVXAzdY5xuBo1fitY1aTLhcxGb0U6IPSDBUZ27FGfXdd8r8SiPZkpunt
-         2Tae16sjWvZ4D+NQapahOUT/XEVAn/fEuHzTZukqocS9zfgdAXsJ3T9iFEARRJgRLcNx
-         Dr8YM14t8WT8Z6ACFnsY5yUHYxz8EJh8CHC1CtbAnIJYFOiGbq7q90/ThPRvoWtElbLz
-         P152uoAm7+UagLuCjBpLS+HKul8F9yf+I/BxSYwuLtliyL9/9NK08ePB3QgYKPXgzYgL
-         HgEk+STy5wOtDRrvpIpXj4L2FM9G6x3avS+2JIzzfENeedWZ9EFqZyx74mVlyRYBqc3o
-         CfLw==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20161025;
-        h=x-gm-message-state:subject:to:references:from:cc:message-id:date
-         :user-agent:mime-version:in-reply-to:content-language
-         :content-transfer-encoding;
-        bh=DdBm+Lk6kWPH3BMLZ2RaAnb3Uptti217lWUE/VYHR+E=;
-        b=ARfjeNu4cqxtV+eZdPTpsg4tDOkF375FXNZEsx/bR3MIaExLWta44gTbRu3IQ5keA9
-         iuqae8cltX0SaCkOKBkUQtiA9CBV1vysx/2t1x9YyirARIcbCf9bZQYMnCzKUHZs5B4c
-         pj5aN3zdzpm49Lgf4c8d6CCaF+XLraPFYl6qxHSqagSgj/2JZMAIRVoeFCEflE5fQZ4p
-         2CT+zDffPzbP9lm9+M1ZtzzNXVCtkdBpmsQNceURbFfpjEwW1d8lDWMHue+oJksydlMt
-         ZKmjnByrRzWPpJXnilRAi2AotA88UbIGr3zx2SOfKsB72RAGB5scYSuIx6q8tHM9XesP
-         +XDg==
-X-Gm-Message-State: AOAM5331kK7BPanxTv0b7cH/7aCWw4zpgFfORQvBTenK7fL0yvXiye9D
-        vVt7E8WFtKTwfNekhV9xKwNkerxb
-X-Google-Smtp-Source: ABdhPJwgBABWvw3LFJIpMlFhy6E36tBbegs6sCROUKBh49KNSGJP2kAVhGfEaNEvh5JpChYia5R64Q==
-X-Received: by 2002:a1c:2dc6:: with SMTP id t189mr18573802wmt.26.1595793715183;
-        Sun, 26 Jul 2020 13:01:55 -0700 (PDT)
-Received: from [192.168.0.160] ([93.115.133.118])
-        by smtp.gmail.com with ESMTPSA id k126sm16127640wme.17.2020.07.26.13.01.54
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Sun, 26 Jul 2020 13:01:54 -0700 (PDT)
-Subject: Re: queue.3: Document CIRCLEQ_ macros
-To:     mtk.manpages@gmail.com
-References: <581130f1-f6eb-5845-40e1-220f7edae526@gmail.com>
- <CAKgNAkiCbfZjjTGp6Dy02ejMKRz5+NbKeNN8Et9yW8yvSbuVhA@mail.gmail.com>
-From:   Alejandro Colomar <colomar.6.4.3@gmail.com>
-Cc:     linux-man@vger.kernel.org
-Message-ID: <e842e268-09ad-80c2-5324-7efd5610c8ef@gmail.com>
-Date:   Sun, 26 Jul 2020 22:01:53 +0200
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
- Thunderbird/68.10.0
+        id S1728437AbgG1U2s (ORCPT <rfc822;linux-man@archiver.kernel.org>);
+        Tue, 28 Jul 2020 16:28:48 -0400
+Received: from mail.kernel.org ([198.145.29.99]:56312 "EHLO mail.kernel.org"
+        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
+        id S1728346AbgG1U2s (ORCPT <rfc822;linux-man@vger.kernel.org>);
+        Tue, 28 Jul 2020 16:28:48 -0400
+Received: from localhost.localdomain (c-71-198-47-131.hsd1.ca.comcast.net [71.198.47.131])
+        (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+        (No client certificate requested)
+        by mail.kernel.org (Postfix) with ESMTPSA id 0DCFF2065E;
+        Tue, 28 Jul 2020 20:28:47 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+        s=default; t=1595968127;
+        bh=DZa23iQd1u0Zt0+baOJ3N5SjhG14X7OdVrrXeq9/DLY=;
+        h=Date:From:To:Subject:From;
+        b=oRjZAOksvLmT9TFCvx84rzBWu3trT5wgxLU2VH35mFDff/ODs2BL6LAfuimHubEb2
+         UPfLgG1K1eglxGi2kf60SvjJbcDQXv84jc0vcHuNfrxC9C3l3RMy9CY2mZY/R39Rw3
+         A7KGC7Ei49aTKrDHtGM0KGEGal1mlNaQPjdx+aHM=
+Date:   Tue, 28 Jul 2020 13:28:46 -0700
+From:   akpm@linux-foundation.org
+To:     akpm@linux-foundation.org, alexander.h.duyck@linux.intel.com,
+        axboe@kernel.dk, bgeffon@google.com, christian.brauner@ubuntu.com,
+        christian@brauner.io, dancol@google.com, hannes@cmpxchg.org,
+        jannh@google.com, joaodias@google.com, joel@joelfernandes.org,
+        ktkhai@virtuozzo.com, linux-man@vger.kernel.org, mhocko@suse.com,
+        minchan@kernel.org, mm-commits@vger.kernel.org,
+        oleksandr@redhat.com, rientjes@google.com, shakeelb@google.com,
+        sj38.park@gmail.com, sjpark@amazon.de, sonnyrao@google.com,
+        sspatil@google.com, surenb@google.com, timmurray@google.com,
+        vbabka@suse.cz
+Subject:  [obsolete]
+ =?US-ASCII?Q?mm-madvise-introduce-process=5Fmadvise-syscall-an-externa?=
+ =?US-ASCII?Q?l-memory-hinting-api-fix-2.patch?= removed from -mm tree
+Message-ID: <20200728202846.mSH6rkodT%akpm@linux-foundation.org>
+User-Agent: s-nail v14.8.16
 MIME-Version: 1.0
-In-Reply-To: <CAKgNAkiCbfZjjTGp6Dy02ejMKRz5+NbKeNN8Et9yW8yvSbuVhA@mail.gmail.com>
-Content-Type: text/plain; charset=utf-8; format=flowed
-Content-Language: en-US
-Content-Transfer-Encoding: 8bit
+Content-Type: text/plain; charset=US-ASCII
 Sender: linux-man-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-man.vger.kernel.org>
 X-Mailing-List: linux-man@vger.kernel.org
 
-Hola Michael,
 
-On 7/25/20 9:15 PM, Michael Kerrisk (man-pages) wrote:
-> Hello Alejandro
-> 
-> On Sat, 25 Jul 2020 at 12:13, Alejandro Colomar <colomar.6.4.3@gmail.com> wrote:
->>
->> Hi all,
->>
->> I'm going to use CIRCLEQ and I found out that it's undocumented.  I'm
->> going to document it in queue.3 and I would like to know if someone is
->> already working on that to not duplicate efforts.
-> 
-> No one is working on this, so it would be great if you could document CIRCLEQ.
+The patch titled
+     Subject: mm-madvise-introduce-process_madvise-syscall-an-external-memory-hinting-api-fix-2
+has been removed from the -mm tree.  Its filename was
+     mm-madvise-introduce-process_madvise-syscall-an-external-memory-hinting-api-fix-2.patch
 
-Genial!  Lo haré entonces.
+This patch was dropped because it is obsolete
 
-I found out that there was documentation in the past and it got removed 
-at commit ``c0f21a05f0c6cbd25677fdeef5dc1f1b2e9ffbb8``, probably by 
-accident, when reimporting from the FreeBSD man page to fix some other 
-problem.  I'll base my changes on those old docs.
+------------------------------------------------------
+From: Andrew Morton <akpm@linux-foundation.org>
+Subject: mm-madvise-introduce-process_madvise-syscall-an-external-memory-hinting-api-fix-2
 
-> 
-> Thanks,
-> 
-> Michael
-> 
+fix include/uapi/asm-generic/unistd.h whoops
 
-De nada.  Encantado de colaborar :)
+Cc: Alexander Duyck <alexander.h.duyck@linux.intel.com>
+Cc: Brian Geffon <bgeffon@google.com>
+Cc: Christian Brauner <christian@brauner.io>
+Cc: Christian Brauner <christian.brauner@ubuntu.com>
+Cc: Daniel Colascione <dancol@google.com>
+Cc: David Rientjes <rientjes@google.com>
+Cc: Jann Horn <jannh@google.com>
+Cc: Jens Axboe <axboe@kernel.dk>
+Cc: Joel Fernandes <joel@joelfernandes.org>
+Cc: Johannes Weiner <hannes@cmpxchg.org>
+Cc: John Dias <joaodias@google.com>
+Cc: Kirill Tkhai <ktkhai@virtuozzo.com>
+Cc: <linux-man@vger.kernel.org>
+Cc: Michal Hocko <mhocko@suse.com>
+Cc: Minchan Kim <minchan@kernel.org>
+Cc: Oleksandr Natalenko <oleksandr@redhat.com>
+Cc: Sandeep Patil <sspatil@google.com>
+Cc: SeongJae Park <sj38.park@gmail.com>
+Cc: SeongJae Park <sjpark@amazon.de>
+Cc: Shakeel Butt <shakeelb@google.com>
+Cc: Sonny Rao <sonnyrao@google.com>
+Cc: Suren Baghdasaryan <surenb@google.com>
+Cc: Tim Murray <timmurray@google.com>
+Cc: Vlastimil Babka <vbabka@suse.cz>
+Signed-off-by: Andrew Morton <akpm@linux-foundation.org>
+---
 
-Alex
+ include/uapi/asm-generic/unistd.h |    2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
 
-PS: Me dijiste que tenías que hablar un poco de español, así que aquí 
-estoy para ayudarte ;)
+--- a/include/uapi/asm-generic/unistd.h~mm-madvise-introduce-process_madvise-syscall-an-external-memory-hinting-api-fix-2
++++ a/include/uapi/asm-generic/unistd.h
+@@ -863,7 +863,7 @@ __SYSCALL(__NR_faccessat2, sys_faccessat
+ __SYSCALL(__NR_watch_mount, sys_watch_mount)
+ #define __NR_fsinfo 442
+ __SYSCALL(__NR_fsinfo, sys_fsinfo)
+-#define __NR_fsinfo 443
++#define __NR_process_madvise 443
+ __SC_COMP(__NR_process_madvise, sys_process_madvise, compat_sys_process_madvise)
+ 
+ #undef __NR_syscalls
+_
+
+Patches currently in -mm which might be from akpm@linux-foundation.org are
+
+mm-fix-kthread_use_mm-vs-tlb-invalidate-fix.patch
+mm.patch
+mm-handle-page-mapping-better-in-dump_page-fix.patch
+mm-memcg-percpu-account-percpu-memory-to-memory-cgroups-fix.patch
+mm-memcg-percpu-account-percpu-memory-to-memory-cgroups-fix-fix.patch
+mm-thp-replace-http-links-with-https-ones-fix.patch
+mm-vmstat-add-events-for-thp-migration-without-split-fix.patch
+mmhwpoison-rework-soft-offline-for-in-use-pages-fix.patch
+mm-vmstat-fix-proc-sys-vm-stat_refresh-generating-false-warnings-fix-2.patch
+linux-next-rejects.patch
+linux-next-git-rejects.patch
+mm-migrate-clear-__gfp_reclaim-to-make-the-migration-callback-consistent-with-regular-thp-allocations-fix.patch
+mm-madvise-introduce-process_madvise-syscall-an-external-memory-hinting-api-fix.patch
+kernel-forkc-export-kernel_thread-to-modules.patch
+
