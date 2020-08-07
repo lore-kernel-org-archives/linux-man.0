@@ -1,55 +1,106 @@
-Return-Path: <SRS0=HxJw=BQ=vger.kernel.org=linux-man-owner@kernel.org>
+Return-Path: <SRS0=mY++=BR=vger.kernel.org=linux-man-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-13.0 required=3.0 tests=BAYES_00,
-	HEADER_FROM_DIFFERENT_DOMAINS,INCLUDES_PATCH,MAILING_LIST_MULTI,SIGNED_OFF_BY,
-	SPF_HELO_NONE,SPF_PASS,URIBL_BLOCKED,USER_AGENT_GIT autolearn=ham
+X-Spam-Status: No, score=-10.1 required=3.0 tests=BAYES_00,DKIM_SIGNED,
+	DKIM_VALID,DKIM_VALID_AU,HEADER_FROM_DIFFERENT_DOMAINS,INCLUDES_PATCH,
+	MAILING_LIST_MULTI,SIGNED_OFF_BY,SPF_HELO_NONE,SPF_PASS autolearn=ham
 	autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id DB0D4C388D1
-	for <linux-man@archiver.kernel.org>; Thu,  6 Aug 2020 11:13:33 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 32924C433DF
+	for <linux-man@archiver.kernel.org>; Fri,  7 Aug 2020 07:43:48 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.kernel.org (Postfix) with ESMTP id 20C8822EBF
-	for <linux-man@archiver.kernel.org>; Thu,  6 Aug 2020 11:13:33 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTP id DD570206B5
+	for <linux-man@archiver.kernel.org>; Fri,  7 Aug 2020 07:43:47 +0000 (UTC)
+Authentication-Results: mail.kernel.org;
+	dkim=pass (2048-bit key) header.d=bfs.de header.i=@bfs.de header.b="fn4ERJec"
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1729099AbgHFJt2 (ORCPT <rfc822;linux-man@archiver.kernel.org>);
-        Thu, 6 Aug 2020 05:49:28 -0400
-Received: from mail.cn.fujitsu.com ([183.91.158.132]:52876 "EHLO
-        heian.cn.fujitsu.com" rhost-flags-OK-OK-OK-FAIL) by vger.kernel.org
-        with ESMTP id S1729068AbgHFJsp (ORCPT
-        <rfc822;linux-man@vger.kernel.org>); Thu, 6 Aug 2020 05:48:45 -0400
-X-IronPort-AV: E=Sophos;i="5.75,441,1589212800"; 
-   d="scan'208";a="97707764"
-Received: from unknown (HELO cn.fujitsu.com) ([10.167.33.5])
-  by heian.cn.fujitsu.com with ESMTP; 06 Aug 2020 17:48:26 +0800
-Received: from G08CNEXMBPEKD04.g08.fujitsu.local (unknown [10.167.33.201])
-        by cn.fujitsu.com (Postfix) with ESMTP id A16D84CE34E2
-        for <linux-man@vger.kernel.org>; Thu,  6 Aug 2020 17:48:25 +0800 (CST)
-Received: from localhost.localdomain (10.167.220.84) by
- G08CNEXMBPEKD04.g08.fujitsu.local (10.167.33.201) with Microsoft SMTP Server
- (TLS) id 15.0.1497.2; Thu, 6 Aug 2020 17:48:26 +0800
-From:   Yang Xu <xuyang2018.jy@cn.fujitsu.com>
-To:     <linux-man@vger.kernel.org>
-CC:     Yang Xu <xuyang2018.jy@cn.fujitsu.com>
-Subject: [PATCH v2 2/3] loop.4: add some details about lo_flag
-Date:   Thu, 6 Aug 2020 17:48:33 +0800
-Message-ID: <1596707314-2361-2-git-send-email-xuyang2018.jy@cn.fujitsu.com>
-X-Mailer: git-send-email 1.8.3.1
-In-Reply-To: <1596707314-2361-1-git-send-email-xuyang2018.jy@cn.fujitsu.com>
-References: <1596707314-2361-1-git-send-email-xuyang2018.jy@cn.fujitsu.com>
+        id S1726923AbgHGHnr (ORCPT <rfc822;linux-man@archiver.kernel.org>);
+        Fri, 7 Aug 2020 03:43:47 -0400
+Received: from mx01-sz.bfs.de ([194.94.69.67]:60572 "EHLO mx01-sz.bfs.de"
+        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
+        id S1725805AbgHGHnr (ORCPT <rfc822;linux-man@vger.kernel.org>);
+        Fri, 7 Aug 2020 03:43:47 -0400
+X-Greylist: delayed 424 seconds by postgrey-1.27 at vger.kernel.org; Fri, 07 Aug 2020 03:43:45 EDT
+Received: from SRVEX01-SZ.bfs.intern (exchange-sz.bfs.de [10.129.90.31])
+        by mx01-sz.bfs.de (Postfix) with ESMTPS id 495ED2044F;
+        Fri,  7 Aug 2020 09:36:38 +0200 (CEST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=bfs.de; s=dkim201901;
+        t=1596785798;
+        h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+         to:to:cc:mime-version:mime-version:content-type:content-type:
+         content-transfer-encoding:content-transfer-encoding:
+         in-reply-to:in-reply-to:references:references;
+        bh=uSgnbwZNsvaXAj5ykFB5zMWiBSvvUbcAk6o4CE65DyM=;
+        b=fn4ERJecC2ra4sQG8jwDJiIN0bdaqA5FIVStPIrq/uSAciC43AIT8XEEI5kRt2GmbiGvAh
+        vObK7/UDJ9f/1EVTuanMzFc4vrFBtLLnh/shqadmglNtJWgnuXvBOqSMFxE4MsNKM/61Lv
+        nUhtyR11iuqpHUwFqnbNbAW/JyDbij6wFuP8lp+zM9qW9Fy/aEGLndueiijdAozq8VkaWi
+        40hUrQyZiwv1T5imP7RFf1o/i854fKZBV4AUFk08nH5aYISPdMAXUQLXZIzWxu9LxUDkSf
+        MXnkvJz4o/SDrIqzdXGBjnGWAAB9/uRT1aCj+yqnqUyCz+B0nC8LusP8gXI5SA==
+Received: from SRVEX01-SZ.bfs.intern (10.129.90.31) by SRVEX01-SZ.bfs.intern
+ (10.129.90.31) with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.1.2044.4; Fri, 7 Aug 2020
+ 09:36:37 +0200
+Received: from SRVEX01-SZ.bfs.intern ([fe80::7d2d:f9cb:2761:d24a]) by
+ SRVEX01-SZ.bfs.intern ([fe80::7d2d:f9cb:2761:d24a%6]) with mapi id
+ 15.01.2044.004; Fri, 7 Aug 2020 09:36:37 +0200
+From:   Walter Harms <wharms@bfs.de>
+To:     Yang Xu <xuyang2018.jy@cn.fujitsu.com>,
+        "linux-man@vger.kernel.org" <linux-man@vger.kernel.org>
+Subject: AW: [PATCH v2 2/3] loop.4: add some details about lo_flag
+Thread-Topic: [PATCH v2 2/3] loop.4: add some details about lo_flag
+Thread-Index: AQHWa9blucxVrdjxxUaJJX0mE9lFJqksP6gn
+Date:   Fri, 7 Aug 2020 07:36:37 +0000
+Message-ID: <f25c32a3f4934b329523505796964f63@bfs.de>
+References: <1596707314-2361-1-git-send-email-xuyang2018.jy@cn.fujitsu.com>,<1596707314-2361-2-git-send-email-xuyang2018.jy@cn.fujitsu.com>
+In-Reply-To: <1596707314-2361-2-git-send-email-xuyang2018.jy@cn.fujitsu.com>
+Accept-Language: de-DE, en-US
+Content-Language: de-DE
+X-MS-Has-Attach: 
+X-MS-TNEF-Correlator: 
+x-originating-ip: [10.137.16.39]
+Content-Type: text/plain; charset="us-ascii"
+Content-Transfer-Encoding: quoted-printable
 MIME-Version: 1.0
-Content-Type: text/plain
-X-Originating-IP: [10.167.220.84]
-X-ClientProxiedBy: G08CNEXCHPEKD06.g08.fujitsu.local (10.167.33.205) To
- G08CNEXMBPEKD04.g08.fujitsu.local (10.167.33.201)
-X-yoursite-MailScanner-ID: A16D84CE34E2.AE107
-X-yoursite-MailScanner: Found to be clean
-X-yoursite-MailScanner-From: xuyang2018.jy@cn.fujitsu.com
+Authentication-Results: mx01-sz.bfs.de;
+        none
+X-Spamd-Result: default: False [-0.33 / 7.00];
+         ARC_NA(0.00)[];
+         TO_DN_EQ_ADDR_SOME(0.00)[];
+         HAS_XOIP(0.00)[];
+         FROM_HAS_DN(0.00)[];
+         TO_DN_SOME(0.00)[];
+         TO_MATCH_ENVRCPT_ALL(0.00)[];
+         MIME_GOOD(-0.10)[text/plain];
+         DKIM_SIGNED(0.00)[];
+         RCPT_COUNT_TWO(0.00)[2];
+         NEURAL_HAM(-0.00)[-1.034];
+         RCVD_NO_TLS_LAST(0.10)[];
+         FROM_EQ_ENVFROM(0.00)[];
+         MIME_TRACE(0.00)[0:+];
+         RCVD_COUNT_TWO(0.00)[2];
+         MID_RHS_MATCH_FROM(0.00)[];
+         BAYES_HAM(-0.33)[75.76%]
 Sender: linux-man-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-man.vger.kernel.org>
 X-Mailing-List: linux-man@vger.kernel.org
+
+Hi,
+IMHO "first" and "last" is something that should be avoided in documentatio=
+n
+because the meaning may change in future releases.
+I guess you want to say: lo_number and reserved ?
+
+re,
+ wh
+________________________________________
+Von: linux-man-owner@vger.kernel.org [linux-man-owner@vger.kernel.org] im A=
+uftrag von Yang Xu [xuyang2018.jy@cn.fujitsu.com]
+Gesendet: Donnerstag, 6. August 2020 11:48
+An: linux-man@vger.kernel.org
+Cc: Yang Xu
+Betreff: [PATCH v2 2/3] loop.4: add some details about lo_flag
 
 Signed-off-by: Yang Xu <xuyang2018.jy@cn.fujitsu.com>
 ---
@@ -70,7 +121,7 @@ index 1f8a31ac7..41abe0122 100644
  .B LOOP_GET_STATUS
  Get the status of the loop device.
  The (third)
--- 
+--
 2.23.0
 
 
