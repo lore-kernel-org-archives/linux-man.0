@@ -7,81 +7,81 @@ X-Spam-Status: No, score=-10.1 required=3.0 tests=BAYES_00,DKIMWL_WL_HIGH,
 	INCLUDES_PATCH,MAILING_LIST_MULTI,SIGNED_OFF_BY,SPF_HELO_NONE,SPF_PASS,
 	WEIRD_QUOTING autolearn=unavailable autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 2B678C433DF
-	for <linux-man@archiver.kernel.org>; Fri,  7 Aug 2020 14:08:17 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 12CFBC433E3
+	for <linux-man@archiver.kernel.org>; Fri,  7 Aug 2020 14:08:18 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.kernel.org (Postfix) with ESMTP id 07D9F2224D
+	by mail.kernel.org (Postfix) with ESMTP id E8F5622CA1
 	for <linux-man@archiver.kernel.org>; Fri,  7 Aug 2020 14:08:17 +0000 (UTC)
 Authentication-Results: mail.kernel.org;
-	dkim=pass (1024-bit key) header.d=redhat.com header.i=@redhat.com header.b="IWeQO097"
+	dkim=pass (1024-bit key) header.d=redhat.com header.i=@redhat.com header.b="HdSLugHR"
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1726490AbgHGOIJ (ORCPT <rfc822;linux-man@archiver.kernel.org>);
+        id S1726422AbgHGOIJ (ORCPT <rfc822;linux-man@archiver.kernel.org>);
         Fri, 7 Aug 2020 10:08:09 -0400
-Received: from us-smtp-delivery-1.mimecast.com ([207.211.31.120]:22795 "EHLO
+Received: from us-smtp-delivery-1.mimecast.com ([205.139.110.120]:50890 "EHLO
         us-smtp-1.mimecast.com" rhost-flags-OK-OK-OK-FAIL) by vger.kernel.org
-        with ESMTP id S1726446AbgHGODt (ORCPT
-        <rfc822;linux-man@vger.kernel.org>); Fri, 7 Aug 2020 10:03:49 -0400
+        with ESMTP id S1726508AbgHGODu (ORCPT
+        <rfc822;linux-man@vger.kernel.org>); Fri, 7 Aug 2020 10:03:50 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
-        s=mimecast20190719; t=1596808973;
+        s=mimecast20190719; t=1596808989;
         h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
          to:to:cc:cc:mime-version:mime-version:content-type:content-type:
          content-transfer-encoding:content-transfer-encoding:
          in-reply-to:in-reply-to:references:references;
-        bh=e2kSnqUHcGdkTHKy6munhOubpH7wgpVrDJ4Ah3v9RL4=;
-        b=IWeQO097XA4PpxKXcf99B9p89DRnxZFHzpblcjD0/E20+B/6bNmnh2j2bo6fJYuCq852R2
-        HO0+PuhHw/vuT/Q8e55AY7gRmoL5YQkkMY4B0IHjbdst7S6z+c7aFNb1Ggu5rPsmeuuJLv
-        /mWieB2sncENSfjsa16qe7l6w/Sa0Oc=
+        bh=4jkFvtc0/cVLXMEonOCyvDbru2s10L42s9UjSm/sTUw=;
+        b=HdSLugHRvkh/mW8kJ8PIFbN7AU3PffiTRyKiAZ6J3HX5JzIbkgS2h7iQmmyUiOPI5jjFj2
+        0Ef3SKYQExag0vlnIZ0Ui+IT8nY26VQlZtRbA3EtSwam2KZnJK12v5GmF/fVX3gEFg2dR6
+        JMv34S9G6Vl0ARGSCN0peRVixbMJGzw=
 Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
  [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-381-Lkpx0GaJOA-Fjq8ve_C5XA-1; Fri, 07 Aug 2020 10:02:48 -0400
-X-MC-Unique: Lkpx0GaJOA-Fjq8ve_C5XA-1
-Received: from smtp.corp.redhat.com (int-mx06.intmail.prod.int.phx2.redhat.com [10.5.11.16])
+ us-mta-158-d2TXLffXM7Cw8CuSWldhuQ-1; Fri, 07 Aug 2020 10:03:06 -0400
+X-MC-Unique: d2TXLffXM7Cw8CuSWldhuQ-1
+Received: from smtp.corp.redhat.com (int-mx04.intmail.prod.int.phx2.redhat.com [10.5.11.14])
         (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
         (No client certificate requested)
-        by mimecast-mx01.redhat.com (Postfix) with ESMTPS id C42DC106B24C;
-        Fri,  7 Aug 2020 14:02:38 +0000 (UTC)
+        by mimecast-mx01.redhat.com (Postfix) with ESMTPS id B365FD8DED;
+        Fri,  7 Aug 2020 14:02:53 +0000 (UTC)
 Received: from warthog.procyon.org.uk (ovpn-113-69.rdu2.redhat.com [10.10.113.69])
-        by smtp.corp.redhat.com (Postfix) with ESMTP id F24275C1D2;
-        Fri,  7 Aug 2020 14:02:36 +0000 (UTC)
+        by smtp.corp.redhat.com (Postfix) with ESMTP id 2E9F85D9FC;
+        Fri,  7 Aug 2020 14:02:52 +0000 (UTC)
 Organization: Red Hat UK Ltd. Registered Address: Red Hat UK Ltd, Amberley
         Place, 107-111 Peascod Street, Windsor, Berkshire, SI4 1TE, United
         Kingdom.
         Registered in England and Wales under Company Registration No. 3798903
-Subject: [PATCH 3/5] Add manpage for fspick(2)
+Subject: [PATCH 5/5] Add manpage for fsconfig(2)
 From:   David Howells <dhowells@redhat.com>
 To:     mtk.manpages@gmail.com, viro@zeniv.linux.org.uk
 Cc:     dhowells@redhat.com, linux-fsdevel@vger.kernel.org,
         christian.brauner@ubuntu.com, linux-man@vger.kernel.org,
         linux-api@vger.kernel.org, linux-kernel@vger.kernel.org
-Date:   Fri, 07 Aug 2020 15:02:36 +0100
-Message-ID: <159680895624.29015.1515546306605977725.stgit@warthog.procyon.org.uk>
+Date:   Fri, 07 Aug 2020 15:02:51 +0100
+Message-ID: <159680897140.29015.15318866561972877762.stgit@warthog.procyon.org.uk>
 In-Reply-To: <159680892602.29015.6551860260436544999.stgit@warthog.procyon.org.uk>
 References: <159680892602.29015.6551860260436544999.stgit@warthog.procyon.org.uk>
 User-Agent: StGit/0.23
 MIME-Version: 1.0
 Content-Type: text/plain; charset="utf-8"
 Content-Transfer-Encoding: 7bit
-X-Scanned-By: MIMEDefang 2.79 on 10.5.11.16
+X-Scanned-By: MIMEDefang 2.79 on 10.5.11.14
 Sender: linux-man-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-man.vger.kernel.org>
 X-Mailing-List: linux-man@vger.kernel.org
 
-Add a manual page to document the fspick() system call.
+Add a manual page to document the fsconfig() system call.
 
 Signed-off-by: David Howells <dhowells@redhat.com>
 ---
 
- man2/fspick.2 |  195 +++++++++++++++++++++++++++++++++++++++++++++++++++++++++
- 1 file changed, 195 insertions(+)
- create mode 100644 man2/fspick.2
+ man2/fsconfig.2 |  282 +++++++++++++++++++++++++++++++++++++++++++++++++++++++
+ 1 file changed, 282 insertions(+)
+ create mode 100644 man2/fsconfig.2
 
-diff --git a/man2/fspick.2 b/man2/fspick.2
+diff --git a/man2/fsconfig.2 b/man2/fsconfig.2
 new file mode 100644
-index 000000000..24242b98b
+index 000000000..32f0bce13
 --- /dev/null
-+++ b/man2/fspick.2
-@@ -0,0 +1,195 @@
++++ b/man2/fsconfig.2
+@@ -0,0 +1,282 @@
 +'\" t
 +.\" Copyright (c) 2020 David Howells <dhowells@redhat.com>
 +.\"
@@ -107,9 +107,9 @@ index 000000000..24242b98b
 +.\" the source, must acknowledge the copyright and authors of this work.
 +.\" %%%LICENSE_END
 +.\"
-+.TH FSPICK 2 2020-08-07 "Linux" "Linux Programmer's Manual"
++.TH FSCONFIG 2 2020-08-07 "Linux" "Linux Programmer's Manual"
 +.SH NAME
-+fspick \- Select filesystem for reconfiguration
++fsconfig \- Filesystem parameterisation
 +.SH SYNOPSIS
 +.nf
 +.B #include <sys/types.h>
@@ -118,105 +118,149 @@ index 000000000..24242b98b
 +.br
 +.B #include <unistd.h>
 +.br
-+.BR "#include <fcntl.h>           " "/* Definition of AT_* constants */"
++.B #include <sys/mount.h>
 +.PP
-+.BI "int fspick(int " dirfd ", const char *" pathname ", unsigned int " flags );
++.BI "int fsconfig(int *" fd ", unsigned int " cmd ", const char *" key ,
++.br
++.BI "             const void __user *" value ", int " aux ");"
++.br
++.BI
 +.fi
 +.PP
 +.IR Note :
 +There is no glibc wrapper for this system call.
 +.SH DESCRIPTION
 +.PP
-+.BR fspick ()
-+creates a new filesystem configuration context within the kernel and attaches a
-+pre-existing superblock to it so that it can be reconfigured (similar to
-+.BR mount (8)
-+with the "-o remount" option).  The configuration context is marked as being in
-+reconfiguration mode and attached to a file descriptor, which is returned to
-+the caller.  This can be marked close-on-exec by setting
-+.B FSPICK_CLOEXEC
-+in
-+.IR flags .
-+.PP
-+The target is whichever superblock backs the object determined by
-+.IR dfd ", " pathname " and " flags .
-+The following can be set in
-+.I flags
-+to control the pathwalk to that object:
-+.TP
-+.B FSPICK_SYMLINK_NOFOLLOW
-+Don't follow symbolic links in the terminal component of the path.
-+.TP
-+.B FSPICK_NO_AUTOMOUNT
-+Don't follow automounts in the terminal component of the path.
-+.TP
-+.B FSPICK_EMPTY_PATH
-+Allow an empty string to be specified as the pathname.  This allows
-+.I dirfd
-+to specify a path exactly.
-+.PP
-+After calling fspick(), the file descriptor should be passed to the
-+.BR fsconfig (2)
-+system call, using that to specify the desired changes to filesystem and
-+security parameters.
-+.PP
-+When the parameters are all set, the
 +.BR fsconfig ()
-+system call should then be called again with
++is used to supply parameters to and issue commands against a filesystem
++configuration context as set up by
++.BR fsopen (2)
++or
++.BR fspick (2).
++The context is supplied attached to the file descriptor specified by
++.I fd
++argument.
++.PP
++The
++.I cmd
++argument indicates the command to be issued, where some of the commands simply
++supply parameters to the context.  The meaning of
++.IR key ", " value " and " aux
++are command-dependent; unless required for the command, these should be set to
++NULL or 0.
++.PP
++The available commands are:
++.TP
++.B FSCONFIG_SET_FLAG
++Set the parameter named by
++.IR key
++to true.  This may incur error
++.B EINVAL
++if the parameter requires an argument.
++.TP
++.B FSCONFIG_SET_STRING
++Set the parameter named by
++.I key
++to a string.  This may incur error
++.B EINVAL
++if the parser doesn't want a parameter here, wants a non-string or the string
++cannot be interpreted appropriately.
++.I value
++points to a NUL-terminated string.
++.TP
++.B FSCONFIG_SET_BINARY
++Set the parameter named by
++.I key
++to be a binary blob argument.  This may cause
++.B EINVAL
++to be returned if the filesystem parser isn't expecting a binary blob and it
++can't be converted to something usable.
++.I value
++points to the data and
++.I aux
++indicates the size of the data.
++.TP
++.B FSCONFIG_SET_PATH
++Set the parameter named by
++.I key
++to the object at the provided path.
++.I value
++should point to a NULL-terminated pathname string and aux may indicate
++.B AT_FDCWD
++or a file descriptor indicating a directory from which to begin a relative
++pathwalk.  This may return any errors incurred by the pathwalk and may return
++.B EINVAL
++if the parameter isn't expecting a path.
++.IP
++Note that FSCONFIG_SET_STRING can be used instead, implying AT_FDCWD.
++.TP
++.B FSCONFIG_SET_PATH_EMPTY
++As FSCONFIG_SET_PATH, but with
++.B AT_EMPTY_PATH
++applied to the pathwalk.
++.TP
++.B FSCONFIG_SET_FD
++Set the parameter named by
++.I key
++to the file descriptor specified by
++.IR aux .
++This will incur
++.B EINVAL
++if the parameter doesn't expect a file descriptor or
++.B EBADF
++if the file descriptor is invalid.
++.IP
++Note that FSCONFIG_SET_STRING can be used instead with the file descriptor
++passed as a decimal string.
++.TP
++.B FSCONFIG_CMD_CREATE
++This command causes the filesystem to take the parameters set in the context
++and to try to create filesystem representation in the kernel.  If it can share
++an existing one, it may do that instead if the filesystem type and parameters
++permit that.  This is intended for use with
++.BR fsopen (2).
++.TP
 +.B FSCONFIG_CMD_RECONFIGURE
-+as the command argument to effect the reconfiguration.
-+.PP
-+After the reconfiguration has taken place, the context is wiped clean (apart
-+from the superblock attachment, which remains) and can be reused to make
-+another reconfiguration.
-+.PP
-+The file descriptor also serves as a channel by which more comprehensive error,
-+warning and information messages may be retrieved from the kernel using
-+.BR read (2).
-+
-+
-+.\"________________________________________________________
-+.SS Message Retrieval Interface
-+The context file descriptor may be queried for message strings at any time by
-+calling
-+.BR read (2)
-+on the file descriptor.  This will return formatted messages that are prefixed
-+to indicate their class:
-+.TP
-+\fB"e <message>"\fP
-+An error message string was logged.
-+.TP
-+\fB"i <message>"\fP
-+An informational message string was logged.
-+.TP
-+\fB"w <message>"\fP
-+An warning message string was logged.
-+.PP
-+Messages are removed from the queue as they're read and the queue has a limited
-+depth, so it's possible for some to get lost.
++This command causes the filesystem to apply the parameters set in the context
++to an already existing filesystem representation in memory and to alter it.
++This is intended for use with
++.BR fspick (2),
++but may also by used against the context created by
++.BR fsopen()
++after
++.BR fsmount (2)
++has been called on it.
 +
 +.\"________________________________________________________
 +.SH EXAMPLES
-+To illustrate the process, here's an example whereby this can be used to
-+reconfigure a filesystem:
 +.PP
 +.in +4n
 +.nf
-+sfd = fspick(AT_FDCWD, "/mnt", FSPICK_NO_AUTOMOUNT | FSPICK_CLOEXEC);
 +fsconfig(sfd, FSCONFIG_SET_FLAG, "ro", NULL, 0);
++
 +fsconfig(sfd, FSCONFIG_SET_STRING, "user_xattr", "false", 0);
-+fsconfig(sfd, FSCONFIG_CMD_RECONFIGURE, NULL, NULL, 0);
++
++fsconfig(sfd, FSCONFIG_SET_BINARY, "ms_pac", pac_buffer, pac_size);
++
++fsconfig(sfd, FSCONFIG_SET_PATH, "journal", "/dev/sdd4", AT_FDCWD);
++
++dirfd = open("/dev/", O_PATH);
++fsconfig(sfd, FSCONFIG_SET_PATH, "journal", "sdd4", dirfd);
++
++fd = open("/overlays/mine/", O_PATH);
++fsconfig(sfd, FSCONFIG_SET_PATH_EMPTY, "lower_dir", "", fd);
++
++pipe(pipefds);
++fsconfig(sfd, FSCONFIG_SET_FD, "fd", NULL, pipefds[1]);
 +.fi
 +.in
 +.PP
-+
 +
 +.\"""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
 +.\"""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
 +.\"""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
 +.SH RETURN VALUE
-+On success, the function returns a file descriptor.  On error, \-1 is returned,
-+and
++On success, the function returns 0.  On error, \-1 is returned, and
 +.I errno
 +is set appropriately.
 +.SH ERRORS
@@ -231,25 +275,49 @@ index 000000000..24242b98b
 +(See also
 +.BR path_resolution (7).)
 +.TP
++.B EACCES
++Mounting a read-only filesystem was attempted without specifying the
++.RB ' ro '
++parameter.
++.TP
++.B EACCES
++A specified block device is located on a filesystem mounted with the
++.B MS_NODEV
++option.
++.\" mtk: Probably: write permission is required for MS_BIND, with
++.\" the error EPERM if not present; CAP_DAC_OVERRIDE is required.
++.TP
++.B EBADF
++The file descriptor given by
++.I fd
++or possibly by
++.I aux
++(depending on the command) is invalid.
++.TP
++.B EBUSY
++The context attached to
++.I fd
++is in the wrong state for the given command.
++.TP
++.B EBUSY
++The filesystem representation cannot be reconfigured read-only because it still
++holds files open for writing.
++.TP
 +.B EFAULT
-+.I pathname
-+points outside the user address space.
++One of the pointer arguments points outside the user address space.
 +.TP
 +.B EINVAL
-+.I flags
-+includes an undefined value.
++.I fd
++does not refer to a filesystem configuration context.
++.TP
++.B EINVAL
++One of the source parameters referred to an invalid superblock.
 +.TP
 +.B ELOOP
 +Too many links encountered during pathname resolution.
 +.TP
-+.B EMFILE
-+The system has too many open files to create more.
-+.TP
-+.B ENFILE
-+The process has too many open files to create more.
-+.TP
 +.B ENAMETOOLONG
-+A pathname was longer than
++A path name was longer than
 +.BR MAXPATHLEN .
 +.TP
 +.B ENOENT
@@ -258,24 +326,43 @@ index 000000000..24242b98b
 +.B ENOMEM
 +The kernel could not allocate sufficient memory to complete the call.
 +.TP
++.B ENOTBLK
++Once of the parameters does not refer to a block device (and a device was
++required).
++.TP
++.B ENOTDIR
++.IR pathname ,
++or a prefix of
++.IR source ,
++is not a directory.
++.TP
++.B EOPNOTSUPP
++The command given by
++.I cmd
++was not valid.
++.TP
++.B ENXIO
++The major number of a block device parameter is out of range.
++.TP
 +.B EPERM
 +The caller does not have the required privileges.
 +.SH CONFORMING TO
 +These functions are Linux-specific and should not be used in programs intended
 +to be portable.
 +.SH VERSIONS
-+.BR fsopen "(), " fsmount "() and " fspick ()
-+were added to Linux in kernel 5.1.
++.BR fsconfig ()
++was added to Linux in kernel 5.1.
 +.SH NOTES
 +Glibc does not (yet) provide a wrapper for the
-+.BR fspick "()"
++.BR fsconfig ()
 +system call; call it using
 +.BR syscall (2).
 +.SH SEE ALSO
 +.BR mountpoint (1),
-+.BR fsconfig (2),
++.BR fsmount (2),
 +.BR fsopen (2),
-+.BR path_resolution (7),
-+.BR mount (8)
++.BR fspick (2),
++.BR mount_namespaces (7),
++.BR path_resolution (7)
 
 
