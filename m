@@ -2,63 +2,90 @@ Return-Path: <SRS0=HpxS=BU=vger.kernel.org=linux-man-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-4.0 required=3.0 tests=BAYES_00,
-	HEADER_FROM_DIFFERENT_DOMAINS,MAILING_LIST_MULTI,SPF_HELO_NONE,SPF_PASS
-	autolearn=no autolearn_force=no version=3.4.0
+X-Spam-Status: No, score=-5.5 required=3.0 tests=BAYES_00,
+	HEADER_FROM_DIFFERENT_DOMAINS,MAILING_LIST_MULTI,SPF_HELO_NONE,SPF_PASS,
+	USER_AGENT_SANE_1 autolearn=no autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 21B34C433E0
-	for <linux-man@archiver.kernel.org>; Mon, 10 Aug 2020 14:16:51 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id EBC91C433E0
+	for <linux-man@archiver.kernel.org>; Mon, 10 Aug 2020 18:21:29 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.kernel.org (Postfix) with ESMTP id 0543F2070B
-	for <linux-man@archiver.kernel.org>; Mon, 10 Aug 2020 14:16:51 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTP id CBFC02083B
+	for <linux-man@archiver.kernel.org>; Mon, 10 Aug 2020 18:21:28 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1726937AbgHJOQu (ORCPT <rfc822;linux-man@archiver.kernel.org>);
-        Mon, 10 Aug 2020 10:16:50 -0400
-Received: from l2mail1.panix.com ([166.84.1.75]:50004 "EHLO l2mail1.panix.com"
-        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S1726932AbgHJOQu (ORCPT <rfc822;linux-man@vger.kernel.org>);
-        Mon, 10 Aug 2020 10:16:50 -0400
-X-Greylist: delayed 1106 seconds by postgrey-1.27 at vger.kernel.org; Mon, 10 Aug 2020 10:16:48 EDT
-Received: from mailbackend.panix.com (mailbackend.panix.com [166.84.1.89])
-        by l2mail1.panix.com (Postfix) with ESMTPS id 4BQHcH3MG6zF78
-        for <linux-man@vger.kernel.org>; Mon, 10 Aug 2020 09:58:23 -0400 (EDT)
-Received: from panix5.panix.com (panix5.panix.com [166.84.1.5])
-        by mailbackend.panix.com (Postfix) with ESMTP id 4BQHcF2qpgz1nS4;
-        Mon, 10 Aug 2020 09:58:21 -0400 (EDT)
-Received: by panix5.panix.com (Postfix, from userid 415)
-        id 4BQHcF3LcjzfYm; Mon, 10 Aug 2020 09:58:21 -0400 (EDT)
-Date:   Mon, 10 Aug 2020 09:58:21 -0400
-From:   Thor Lancelot Simon <tls@panix.com>
-To:     Larry Dwyer <larryd.kbd@gmail.com>
-Cc:     Michael Kerrisk <mtk.manpages@gmail.com>,
-        austin-group-l@opengroup.org, Carlos O'Donell <carlos@redhat.com>,
-        Zack Weinberg <zackw@panix.com>,
+        id S1728150AbgHJSV1 (ORCPT <rfc822;linux-man@archiver.kernel.org>);
+        Mon, 10 Aug 2020 14:21:27 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:34476 "EHLO
+        lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1728146AbgHJSV0 (ORCPT
+        <rfc822;linux-man@vger.kernel.org>); Mon, 10 Aug 2020 14:21:26 -0400
+X-Greylist: delayed 208 seconds by postgrey-1.37 at lindbergh.monkeyblade.net; Mon, 10 Aug 2020 11:21:26 PDT
+Received: from hera.aquilenet.fr (hera.aquilenet.fr [IPv6:2a0c:e300::1])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 3B922C061756
+        for <linux-man@vger.kernel.org>; Mon, 10 Aug 2020 11:21:26 -0700 (PDT)
+Received: from localhost (localhost [127.0.0.1])
+        by hera.aquilenet.fr (Postfix) with ESMTP id 22B401146E;
+        Mon, 10 Aug 2020 20:21:23 +0200 (CEST)
+X-Virus-Scanned: Debian amavisd-new at aquilenet.fr
+Received: from hera.aquilenet.fr ([127.0.0.1])
+        by localhost (hera.aquilenet.fr [127.0.0.1]) (amavisd-new, port 10024)
+        with ESMTP id xHBvQ3-qOD4r; Mon, 10 Aug 2020 20:21:22 +0200 (CEST)
+Received: from function (lfbn-bor-1-797-11.w86-234.abo.wanadoo.fr [86.234.239.11])
+        by hera.aquilenet.fr (Postfix) with ESMTPSA id 723161146D;
+        Mon, 10 Aug 2020 20:21:22 +0200 (CEST)
+Received: from samy by function with local (Exim 4.94)
+        (envelope-from <samuel.thibault@ens-lyon.org>)
+        id 1k5CQD-00CNeP-Gi; Mon, 10 Aug 2020 20:21:21 +0200
+Date:   Mon, 10 Aug 2020 20:21:21 +0200
+From:   Samuel Thibault <samuel.thibault@ens-lyon.org>
+To:     Zack Weinberg <zackw@panix.com>,
+        Joerg Schilling <Joerg.Schilling@fokus.fraunhofer.de>,
         Florian Weimer <fweimer@redhat.com>,
-        Paul Eggert <eggert@cs.ucla.edu>,
-        Andrew Josey <ajosey@opengroup.org>,
-        Joseph Myers <joseph@codesourcery.com>,
         linux-man <linux-man@vger.kernel.org>,
-        Geoff Clare <gwc@opengroup.org>,
-        Elliot Hughes <enh@google.com>,
-        libc-alpha <libc-alpha@sourceware.org>
+        GNU C Library <libc-alpha@sourceware.org>,
+        larryd.kbd@gmail.com, gwc@opengroup.org,
+        austin-group-l@opengroup.org, ajosey@opengroup.org,
+        "Michael Kerrisk (man-pages)" <mtk.manpages@gmail.com>,
+        enh@google.com, Joseph Myers <joseph@codesourcery.com>
 Subject: Re: Pseudoterminal terminology in POSIX
-Message-ID: <20200810135821.GA11918@panix.com>
+Message-ID: <20200810182121.msb7mngurj653cau@function>
+Mail-Followup-To: Samuel Thibault <samuel.thibault@ens-lyon.org>,
+        Zack Weinberg <zackw@panix.com>,
+        Joerg Schilling <Joerg.Schilling@fokus.fraunhofer.de>,
+        Florian Weimer <fweimer@redhat.com>,
+        linux-man <linux-man@vger.kernel.org>,
+        GNU C Library <libc-alpha@sourceware.org>, larryd.kbd@gmail.com,
+        gwc@opengroup.org, austin-group-l@opengroup.org,
+        ajosey@opengroup.org,
+        "Michael Kerrisk (man-pages)" <mtk.manpages@gmail.com>,
+        enh@google.com, Joseph Myers <joseph@codesourcery.com>
 References: <CALxWeYrisuzEPVEHOQSFJ8G_=8-VTAOTNBquyszOZMid7YfT=Q@mail.gmail.com>
  <6425d636-7f48-3a73-ef0e-7bb5b991360c@gmail.com>
+ <5f3149ad.G/e/1Ac5SJF38sra%Joerg.Schilling@fokus.fraunhofer.de>
+ <CAKCAbMgmuha1qTB_TKNSVxKvoWKVU-eG27+G-S9kP6rR021fGA@mail.gmail.com>
+ <20200810181753.pkoqpkd3k54b6rfj@function>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
+Content-Type: text/plain; charset=utf-8
 Content-Disposition: inline
-In-Reply-To: <6425d636-7f48-3a73-ef0e-7bb5b991360c@gmail.com>
+Content-Transfer-Encoding: 8bit
+In-Reply-To: <20200810181753.pkoqpkd3k54b6rfj@function>
+Organization: I am not organized
+User-Agent: NeoMutt/20170609 (1.8.3)
 Sender: linux-man-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-man.vger.kernel.org>
 X-Mailing-List: linux-man@vger.kernel.org
 
-On Sat, Aug 08, 2020 at 04:18:10PM -0700, Larry Dwyer via austin-group-l at The Open Group wrote:
-> How about the "control" side and the "terminal" side (of the paired device
-> files)?
+Samuel Thibault, le lun. 10 août 2020 20:17:53 +0200, a ecrit:
+> Zack Weinberg, le lun. 10 août 2020 14:10:42 -0400, a ecrit:
+> > "control(ler) side" still gives the wrong impression IMNSHO.  The
+> > pty[p-r][0-9a-f] | ptmx devices don't exert any actual control over
+> > anything.
+> 
+> ? They do to some extent: writing ^C on that side will send a SIGINT to
+> the foreground process there (even if owned by another user!).
 
-How about the "pty side" and the "tty side"?  It seems hard to be more
-neutral than that and we can be sure there is no ambiguity.
+Unless they opened it with O_NOCTTY to avoid letting it be their
+"controlling terminal". There really is some "control" terminology here,
+which is initiated by the pty side.
 
-Thor
+Samuel
