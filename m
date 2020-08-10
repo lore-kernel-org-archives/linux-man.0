@@ -2,159 +2,89 @@ Return-Path: <SRS0=HpxS=BU=vger.kernel.org=linux-man-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-10.1 required=3.0 tests=BAYES_00,DKIM_SIGNED,
-	DKIM_VALID,DKIM_VALID_AU,HEADER_FROM_DIFFERENT_DOMAINS,INCLUDES_PATCH,
-	MAILING_LIST_MULTI,SIGNED_OFF_BY,SPF_HELO_NONE,SPF_PASS autolearn=ham
-	autolearn_force=no version=3.4.0
+X-Spam-Status: No, score=-4.0 required=3.0 tests=BAYES_00,
+	HEADER_FROM_DIFFERENT_DOMAINS,MAILING_LIST_MULTI,SPF_HELO_NONE,SPF_PASS,
+	URIBL_BLOCKED autolearn=no autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 3EA91C433DF
-	for <linux-man@archiver.kernel.org>; Mon, 10 Aug 2020 07:39:40 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id D3B58C433E0
+	for <linux-man@archiver.kernel.org>; Mon, 10 Aug 2020 13:27:08 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.kernel.org (Postfix) with ESMTP id D8E7F2073A
-	for <linux-man@archiver.kernel.org>; Mon, 10 Aug 2020 07:39:39 +0000 (UTC)
-Authentication-Results: mail.kernel.org;
-	dkim=pass (2048-bit key) header.d=bfs.de header.i=@bfs.de header.b="Dl9wAEcA"
+	by mail.kernel.org (Postfix) with ESMTP id A63E220729
+	for <linux-man@archiver.kernel.org>; Mon, 10 Aug 2020 13:27:08 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1725984AbgHJHjj (ORCPT <rfc822;linux-man@archiver.kernel.org>);
-        Mon, 10 Aug 2020 03:39:39 -0400
-Received: from mx01-sz.bfs.de ([194.94.69.67]:38728 "EHLO mx01-sz.bfs.de"
-        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S1725857AbgHJHji (ORCPT <rfc822;linux-man@vger.kernel.org>);
-        Mon, 10 Aug 2020 03:39:38 -0400
-Received: from SRVEX01-SZ.bfs.intern (exchange-sz.bfs.de [10.129.90.31])
-        by mx01-sz.bfs.de (Postfix) with ESMTPS id C39AA203EE;
-        Mon, 10 Aug 2020 09:39:35 +0200 (CEST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=bfs.de; s=dkim201901;
-        t=1597045175;
-        h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
-         to:to:cc:mime-version:mime-version:content-type:content-type:
-         content-transfer-encoding:content-transfer-encoding:
-         in-reply-to:in-reply-to:references:references;
-        bh=ZFwL6K+IGWT3nny2/PdedlP+itlR/0B2BTUJIm/qw4U=;
-        b=Dl9wAEcA2gRRv8AAUqjWzJK5kl5r2aMutqHoKE16HfT2/Yzw5+8dVLYiWruM3UQPZn9Qcd
-        b+GFvhNOz/rT3q+qwPrsJIn3XtW9BHZF5cHc0fPmtKhLJ13DcJukfbLl9civCbWY64oU67
-        BZCyGed5cUGTzHboWGWro0AAyvG+TizB8QqslDsyKOIwdqNMhXBkrT5vYDNExVJ+5ZFcOJ
-        XsvKFAgM98UAsYA/blAK1P0ZLzocW/UoQttDoopG9zBwI2u8kAntisdf5z5UDz3GZcNBPx
-        4JmJAko+lqro5PfBwJP19uj492fR6N8tKxtOd3s2E7iL3qvplvDp555L3+FdJg==
-Received: from SRVEX01-SZ.bfs.intern (10.129.90.31) by SRVEX01-SZ.bfs.intern
- (10.129.90.31) with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.1.2044.4; Mon, 10 Aug
- 2020 09:39:35 +0200
-Received: from SRVEX01-SZ.bfs.intern ([fe80::7d2d:f9cb:2761:d24a]) by
- SRVEX01-SZ.bfs.intern ([fe80::7d2d:f9cb:2761:d24a%6]) with mapi id
- 15.01.2044.004; Mon, 10 Aug 2020 09:39:35 +0200
-From:   Walter Harms <wharms@bfs.de>
-To:     Yang Xu <xuyang2018.jy@cn.fujitsu.com>,
-        "linux-man@vger.kernel.org" <linux-man@vger.kernel.org>
-Subject: AW: AW: [PATCH v2 2/3] loop.4: add some details about lo_flag
-Thread-Topic: AW: [PATCH v2 2/3] loop.4: add some details about lo_flag
-Thread-Index: AQHWa9blucxVrdjxxUaJJX0mE9lFJqksP6gngASNCICAACx+IA==
-Date:   Mon, 10 Aug 2020 07:39:35 +0000
-Message-ID: <81fa86757a3e463f8e103f23e06ab67e@bfs.de>
-References: <1596707314-2361-1-git-send-email-xuyang2018.jy@cn.fujitsu.com>
- <1596707314-2361-2-git-send-email-xuyang2018.jy@cn.fujitsu.com>
- <f25c32a3f4934b329523505796964f63@bfs.de>,<2ba1ca61-cf3d-0103-d3de-b3bc6e8bd0af@cn.fujitsu.com>
-In-Reply-To: <2ba1ca61-cf3d-0103-d3de-b3bc6e8bd0af@cn.fujitsu.com>
-Accept-Language: de-DE, en-US
-Content-Language: de-DE
-X-MS-Has-Attach: 
-X-MS-TNEF-Correlator: 
-x-originating-ip: [10.137.16.39]
-Content-Type: text/plain; charset="us-ascii"
-Content-Transfer-Encoding: quoted-printable
+        id S1726748AbgHJN1I convert rfc822-to-8bit (ORCPT
+        <rfc822;linux-man@archiver.kernel.org>);
+        Mon, 10 Aug 2020 09:27:08 -0400
+Received: from mx-relay84-hz1.antispameurope.com ([94.100.133.252]:49777 "EHLO
+        mx-relay84-hz1.antispameurope.com" rhost-flags-OK-OK-OK-OK)
+        by vger.kernel.org with ESMTP id S1726571AbgHJN1H (ORCPT
+        <rfc822;linux-man@vger.kernel.org>); Mon, 10 Aug 2020 09:27:07 -0400
+X-Greylist: delayed 344 seconds by postgrey-1.27 at vger.kernel.org; Mon, 10 Aug 2020 09:27:07 EDT
+Received: from smtpsrv2.fokus.fraunhofer.de ([195.37.77.176]) by mx-relay84-hz1.antispameurope.com;
+ Mon, 10 Aug 2020 15:21:20 +0200
+Received: from heisenberg.fokus.fraunhofer.de (heisenberg.fokus.fraunhofer.de [10.147.9.211])
+        by smtpsrv2.fokus.fraunhofer.de (8.14.7/8.14.4) with ESMTP id 07ADLEV4108883
+        (version=TLSv1/SSLv3 cipher=ECDHE-RSA-AES128-SHA256 bits=128 verify=FAIL);
+        Mon, 10 Aug 2020 15:21:14 +0200
+Received: from heisenberg.fokus.fraunhofer.de (10.147.9.211) by
+ heisenberg.fokus.fraunhofer.de (10.147.9.211) with Microsoft SMTP Server
+ (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_CBC_SHA256_P256) id
+ 15.1.2044.4; Mon, 10 Aug 2020 15:20:50 +0200
+Received: from kraxon (10.147.9.171) by heisenberg.fokus.fraunhofer.de
+ (10.147.9.211) with Microsoft SMTP Server id 15.1.2044.4 via Frontend
+ Transport; Mon, 10 Aug 2020 15:20:44 +0200
+Date:   Mon, 10 Aug 2020 15:20:45 +0200
+From:   Joerg Schilling <Joerg.Schilling@fokus.fraunhofer.de>
+To:     <mtk.manpages@gmail.com>, <larryd.kbd@gmail.com>,
+        <austin-group-l@opengroup.org>
+CC:     <zackw@panix.com>, <linux-man@vger.kernel.org>,
+        <libc-alpha@sourceware.org>, <joseph@codesourcery.com>,
+        <gwc@opengroup.org>, <fweimer@redhat.com>, <enh@google.com>,
+        <eggert@cs.ucla.edu>, <carlos@redhat.com>, <ajosey@opengroup.org>
+Subject: Re: Pseudoterminal terminology in POSIX
+Message-ID: <5f3149ad.G/e/1Ac5SJF38sra%Joerg.Schilling@fokus.fraunhofer.de>
+References: <CALxWeYrisuzEPVEHOQSFJ8G_=8-VTAOTNBquyszOZMid7YfT=Q@mail.gmail.com>
+ <6425d636-7f48-3a73-ef0e-7bb5b991360c@gmail.com>
+In-Reply-To: <6425d636-7f48-3a73-ef0e-7bb5b991360c@gmail.com>
+User-Agent: Heirloom mailx 12.5 7/5/10
 MIME-Version: 1.0
-Authentication-Results: mx01-sz.bfs.de;
-        none
-X-Spamd-Result: default: False [-0.46 / 7.00];
-         ARC_NA(0.00)[];
-         TO_DN_EQ_ADDR_SOME(0.00)[];
-         HAS_XOIP(0.00)[];
-         FROM_HAS_DN(0.00)[];
-         TO_DN_SOME(0.00)[];
-         TO_MATCH_ENVRCPT_ALL(0.00)[];
-         MIME_GOOD(-0.10)[text/plain];
-         DKIM_SIGNED(0.00)[];
-         RCPT_COUNT_TWO(0.00)[2];
-         NEURAL_HAM(-0.00)[-0.936];
-         RCVD_NO_TLS_LAST(0.10)[];
-         FROM_EQ_ENVFROM(0.00)[];
-         MIME_TRACE(0.00)[0:+];
-         RCVD_COUNT_TWO(0.00)[2];
-         MID_RHS_MATCH_FROM(0.00)[];
-         BAYES_HAM(-0.46)[79.20%]
+Content-Type: text/plain; charset="ISO-8859-1"
+Content-Transfer-Encoding: 8BIT
+X-KSE-ServerInfo: heisenberg.fokus.fraunhofer.de, 9
+X-KSE-Antivirus-Interceptor-Info: scan successful
+X-KSE-Antivirus-Info: Clean, bases: 10.08.2020 08:22:00
+X-KSE-Attachment-Filter-Triggered-Rules: Clean
+X-KSE-Attachment-Filter-Triggered-Filters: Clean
+X-KSE-BulkMessagesFiltering-Scan-Result: protection disabled
+X-cloud-security-sender: joerg.schilling@fokus.fraunhofer.de
+X-cloud-security-recipient: linux-man@vger.kernel.org
+X-cloud-security-Virusscan: CLEAN
+X-cloud-security-disclaimer: This E-Mail was scanned by E-Mailservice on mx-relay84-hz1.antispameurope.com with 7E47F172009D
+X-cloud-security-connect: smtpsrv2.fokus.fraunhofer.de[195.37.77.176], TLS=1, IP=195.37.77.176
+X-cloud-security: scantime:.4320
 Sender: linux-man-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-man.vger.kernel.org>
 X-Mailing-List: linux-man@vger.kernel.org
 
-ok, i understand now (i hope).
+Larry Dwyer via austin-group-l at The Open Group <austin-group-l@opengroup.org> wrote:
 
-maybe this version is more clear:
+> How about the "control" side and the "terminal" side (of the paired 
+> device files)?
 
-The LOOP_SET_STATUS can neither set the=20
-.B lo_flags =20
-LO_FLAGS_READ_ONLY  nor the LO_FLAGS_DIRECT_IO=20
-because they are exclusively set from kernel.
+The Solaris man pty page since a really long time has this:
 
-hope that helps
-wh
+    By default, 48 pseudo-terminal pairs are configured as  follows:
 
-________________________________________
-Von: linux-man-owner@vger.kernel.org [linux-man-owner@vger.kernel.org] im A=
-uftrag von Yang Xu [xuyang2018.jy@cn.fujitsu.com]
-Gesendet: Montag, 10. August 2020 08:53
-An: Walter Harms; linux-man@vger.kernel.org
-Betreff: Re: AW: [PATCH v2 2/3] loop.4: add some details about lo_flag
+       /dev/pty[p-r][0-9a-f] controller devices
+       /dev/tty[p-r][0-9a-f] slave devices
 
-Hi Walter
-
-> Hi,
-> IMHO "first" and "last" is something that should be avoided in documentat=
-ion
-> because the meaning may change in future releases.
-Thanks, I see.
-> I guess you want to say: lo_number and reserved ?
-No, I just said the loop_set_status ioctl can not set read-only and
-direct io flag.
-
-Best Regards
-Yang Xu
->
-> re,
->   wh
-> ________________________________________
-> Von: linux-man-owner@vger.kernel.org [linux-man-owner@vger.kernel.org] im=
- Auftrag von Yang Xu [xuyang2018.jy@cn.fujitsu.com]
-> Gesendet: Donnerstag, 6. August 2020 11:48
-> An: linux-man@vger.kernel.org
-> Cc: Yang Xu
-> Betreff: [PATCH v2 2/3] loop.4: add some details about lo_flag
->
-> Signed-off-by: Yang Xu <xuyang2018.jy@cn.fujitsu.com>
-> ---
->   man4/loop.4 | 3 +++
->   1 file changed, 3 insertions(+)
->
-> diff --git a/man4/loop.4 b/man4/loop.4
-> index 1f8a31ac7..41abe0122 100644
-> --- a/man4/loop.4
-> +++ b/man4/loop.4
-> @@ -136,6 +136,9 @@ Allow automatic partition scanning.
->   Use direct io mode to access backing file.
->   .RE
->   .TP
-> +.I The LOOP_SET_STATUS can not set the first and last flag because
-> +they are both set from kernel.
-> +.TP
->   .B LOOP_GET_STATUS
->   Get the status of the loop device.
->   The (third)
-> --
-> 2.23.0
->
->
->
->
->
+so I would be OK with "controller" side and "terminal" side.
 
 
+Jörg
+
+-- 
+ EMail:joerg@schily.net                    (home) Jörg Schilling D-13353 Berlin
+    joerg.schilling@fokus.fraunhofer.de (work) Blog: http://schily.blogspot.com/
+ URL: http://cdrecord.org/private/ http://sf.net/projects/schilytools/files/'
