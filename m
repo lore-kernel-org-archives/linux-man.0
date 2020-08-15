@@ -2,78 +2,70 @@ Return-Path: <SRS0=s5ar=BZ=vger.kernel.org=linux-man-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-4.1 required=3.0 tests=BAYES_00,DKIMWL_WL_HIGH,
-	DKIM_SIGNED,DKIM_VALID,DKIM_VALID_AU,HEADER_FROM_DIFFERENT_DOMAINS,
-	MAILING_LIST_MULTI,SPF_HELO_NONE,SPF_PASS autolearn=no autolearn_force=no
-	version=3.4.0
+X-Spam-Status: No, score=-3.1 required=3.0 tests=BAYES_00,DKIMWL_WL_HIGH,
+	DKIM_SIGNED,DKIM_VALID,DKIM_VALID_AU,FSL_HELO_FAKE,MAILING_LIST_MULTI,
+	SPF_HELO_NONE,SPF_PASS autolearn=no autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id BF1ADC433E1
-	for <linux-man@archiver.kernel.org>; Sat, 15 Aug 2020 21:55:05 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 202BCC433DF
+	for <linux-man@archiver.kernel.org>; Sat, 15 Aug 2020 21:56:32 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.kernel.org (Postfix) with ESMTP id 9AF0D2053B
-	for <linux-man@archiver.kernel.org>; Sat, 15 Aug 2020 21:55:05 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTP id F3A842053B
+	for <linux-man@archiver.kernel.org>; Sat, 15 Aug 2020 21:56:31 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=default; t=1597528505;
-	bh=u+p9wegR2gZOvSlwf06YUqLKG2JygCEo3gBEeUIr9Hs=;
-	h=References:In-Reply-To:From:Date:Subject:To:Cc:List-ID:From;
-	b=zNW+t/FWpQv7f4ji8KXojA1C2AeCLbnZzgZQw7vJsFTpFpFXPgVJPhxINSmDzTmrn
-	 N9t2yM8Yvfz3v0SN5zN/HVhBu6oT9W6cz1xplDGNmBo7rRd8a/PZLrZcbZelrh/S+0
-	 XqMdQSavctDI1uk3kdrgHBK4LhFCjfv9YZ3I+seQ=
+	s=default; t=1597528592;
+	bh=dfoSVMRYpG88DCvFyTaoPCR0cfLT0lLH0QBx+hyokv8=;
+	h=Date:From:To:Cc:Subject:References:In-Reply-To:List-ID:From;
+	b=eOrfTqfPvBzSfwcwva3TYKYtZhJm+uMnR25pSskWsl0kSOgo4LjkNS/P2iCxDY4bC
+	 IGdLVXaVywIIB7XD3nzb+6ZxvpTW/7/kieQtdBipa9TsGcoL8kF13bfAvOaziwhkvE
+	 tWxao9J343fnJnuznPeO3l2qLZj180NJRzQouXcQ=
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1728413AbgHOVzF (ORCPT <rfc822;linux-man@archiver.kernel.org>);
-        Sat, 15 Aug 2020 17:55:05 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:45602 "EHLO
+        id S1728071AbgHOV4V (ORCPT <rfc822;linux-man@archiver.kernel.org>);
+        Sat, 15 Aug 2020 17:56:21 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:45648 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1729083AbgHOVw0 (ORCPT
-        <rfc822;linux-man@vger.kernel.org>); Sat, 15 Aug 2020 17:52:26 -0400
-Received: from mail-lj1-x243.google.com (mail-lj1-x243.google.com [IPv6:2a00:1450:4864:20::243])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 5D8F6C061366
-        for <linux-man@vger.kernel.org>; Fri, 14 Aug 2020 19:53:29 -0700 (PDT)
-Received: by mail-lj1-x243.google.com with SMTP id g6so11849858ljn.11
-        for <linux-man@vger.kernel.org>; Fri, 14 Aug 2020 19:53:29 -0700 (PDT)
+        with ESMTP id S1729017AbgHOVwO (ORCPT
+        <rfc822;linux-man@vger.kernel.org>); Sat, 15 Aug 2020 17:52:14 -0400
+Received: from mail-pl1-x644.google.com (mail-pl1-x644.google.com [IPv6:2607:f8b0:4864:20::644])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 79517C004590;
+        Sat, 15 Aug 2020 11:35:01 -0700 (PDT)
+Received: by mail-pl1-x644.google.com with SMTP id g15so1669207plj.6;
+        Sat, 15 Aug 2020 11:35:01 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=linux-foundation.org; s=google;
-        h=mime-version:references:in-reply-to:from:date:message-id:subject:to
-         :cc;
-        bh=Sx+s5TgPBhAC17+Um+mU5R2EXL5eDMwOMqanLnBdz2Y=;
-        b=Bl4GZHv5asknFsbNW29RzFsagBbKlsnuqR6i/rfTX0oEs249lVtvS6L/EePn0pxSei
-         3UJYZbv30ITzXK8T8HGHGmdZ5AK1TOdV19vEc5LsACvxszVZWIUH4yUZqHJPSSen5NyS
-         iIGbjiHf0hWZImak0nld06ODJyIz4oK5b0ExQ=
+        d=gmail.com; s=20161025;
+        h=sender:date:from:to:cc:subject:message-id:references:mime-version
+         :content-disposition:in-reply-to;
+        bh=hPqHDO0S+XL6QqHpVaCwL+AGobW4RXl16iXYcSuPMZA=;
+        b=lBsEOG3/f7tuGUD7xW/y+tmQ0/ZBbY0YFIQvx5AJA5LiyQPpKwn18wXBDOPdoCf4Xp
+         XnWDEb9eJgEvTtLnMVx4st1PEC6vRws3PS5r3lXROtGPiavrFLRpwqgNJn56H7IfENdT
+         S5AKMkiCEc52rz01kZs06hT51RAgXI/dO6zbjtLeN3Or0ly/H9+IaMhr7Anu+dTRE9ZD
+         0nGYatNerJsj/zUUB/0Y0f8ZHDaVf5ZWWU1xZEkcJ28gd2W2csQGlh51oKcwc5Y9l3Fe
+         bJ8vkhykMMUxoPsoptBzeSzXUa/jDn7Urct9OzRZiJJFrVwIw5yR4xpaXz2j/6NOT3Dj
+         zm/g==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
-        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
-         :message-id:subject:to:cc;
-        bh=Sx+s5TgPBhAC17+Um+mU5R2EXL5eDMwOMqanLnBdz2Y=;
-        b=jry/3+BojOEdTkHqYQd7ms3MiU7tA3lpFFsDmcro9itFYa5cfZ0ERDJwVHnwaLXudP
-         AgNX7lToubr0iKszaYJjOZuhUNFen1TSeWWV7buo+Dr18RB4m/81u6LRdWd4GPbfVqeh
-         wgZ2lgLKB+99x/eHxantWy2AqSKdyR1/Y5UTIBLdnt44sUZuXYTIM9WW5O7/7HBwCDKY
-         WDBNwEwOkcRzFevX5lAFw05282e1LRgeG9Dxo2j0aOvYjsr+4QBVPIHD156gPHQy3Lcx
-         Jt00jUYtsPoSXuKEkW4Q4mJf8yeqdqvqfxlXPLHfNKR3j4Ki1RiskwFzNYpf76Zi2JFa
-         APcA==
-X-Gm-Message-State: AOAM531NbsNCHGynuT3frbt2i/FjX5d06Eep5c/Mi4qZ0wn8HHHUqHaK
-        aSSozGKKB48KhH5WfF0Lln3UAyqL6WVi0Q==
-X-Google-Smtp-Source: ABdhPJzE8kJxT6pDFVRT4IpQ3C/xZ/FBR52B/c0mcY267LLLRViihLDKarmNVDj5SFbrvaYdC+DaGw==
-X-Received: by 2002:a2e:85a:: with SMTP id g26mr2487648ljd.60.1597460007320;
-        Fri, 14 Aug 2020 19:53:27 -0700 (PDT)
-Received: from mail-lf1-f48.google.com (mail-lf1-f48.google.com. [209.85.167.48])
-        by smtp.gmail.com with ESMTPSA id c21sm2243219lfh.38.2020.08.14.19.53.25
-        for <linux-man@vger.kernel.org>
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Fri, 14 Aug 2020 19:53:26 -0700 (PDT)
-Received: by mail-lf1-f48.google.com with SMTP id c15so5781905lfi.3
-        for <linux-man@vger.kernel.org>; Fri, 14 Aug 2020 19:53:25 -0700 (PDT)
-X-Received: by 2002:a05:6512:3b7:: with SMTP id v23mr2531085lfp.10.1597460005575;
- Fri, 14 Aug 2020 19:53:25 -0700 (PDT)
-MIME-Version: 1.0
-References: <20200814172939.55d6d80b6e21e4241f1ee1f3@linux-foundation.org> <20200815003102.dzZiwVm-K%akpm@linux-foundation.org>
-In-Reply-To: <20200815003102.dzZiwVm-K%akpm@linux-foundation.org>
-From:   Linus Torvalds <torvalds@linux-foundation.org>
-Date:   Fri, 14 Aug 2020 19:53:09 -0700
-X-Gmail-Original-Message-ID: <CAHk-=wgZ6ZgRWRm0rGgLkYR-_XwKeuWxwbkBWxmCOzt7dGxWpg@mail.gmail.com>
-Message-ID: <CAHk-=wgZ6ZgRWRm0rGgLkYR-_XwKeuWxwbkBWxmCOzt7dGxWpg@mail.gmail.com>
-Subject: Re: [patch 18/39] mm/madvise: check fatal signal pending of target process
-To:     Andrew Morton <akpm@linux-foundation.org>
-Cc:     Alexander Duyck <alexander.h.duyck@linux.intel.com>,
+        h=x-gm-message-state:sender:date:from:to:cc:subject:message-id
+         :references:mime-version:content-disposition:in-reply-to;
+        bh=hPqHDO0S+XL6QqHpVaCwL+AGobW4RXl16iXYcSuPMZA=;
+        b=UF7wTOfAyS0fPduJ2LSb1EDrYbT7ZvNrZ0hlofB99qjWq4rClzGpAC0vIQxYrBX0yx
+         fMmw8RBv2g5LWrIUzTgDeG6yY9xokw1FHhjDvZfrnI1vxH7IxCumUZwaihDwvYa3XAvM
+         CNI6z0qj/mzu49OIQ/OgQhkaL+BJtqvg0CmzuG2+KeQSYaCwi3U6wjpS8MJC5lUDGxEP
+         TZZR92e9i0+PEsQyF/cKkS4nBqZ6/uRmGH/mEgh4LT8Od0up3ExojY1VZHjIsB9ylSw3
+         UllKNB6h978EtXy1ooeBSJt5uTyPcqSKSNnbvbtrz1iuNym2D/1C3TW+jQuoQElXViTh
+         S+5g==
+X-Gm-Message-State: AOAM530gQEDbI2hcxmQ9ttjuXXMoo2ggi7C74t/HC9Aj5SGZWdJPCBje
+        dbuW+eeBRNw32VBJ+TBRiOcG2P15sx0=
+X-Google-Smtp-Source: ABdhPJyTvx50xSuwYoesmqNHShDKrniwc8fdH/zMI9I2zMQ5dvQi+rLeIfIPD7TGqElWHUz9PBsOuA==
+X-Received: by 2002:a17:902:ff16:: with SMTP id f22mr5993896plj.269.1597516500701;
+        Sat, 15 Aug 2020 11:35:00 -0700 (PDT)
+Received: from google.com ([2620:15c:211:1:7220:84ff:fe09:5e58])
+        by smtp.gmail.com with ESMTPSA id t33sm11723192pga.72.2020.08.15.11.34.57
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Sat, 15 Aug 2020 11:34:58 -0700 (PDT)
+Date:   Sat, 15 Aug 2020 11:34:56 -0700
+From:   Minchan Kim <minchan@kernel.org>
+To:     Linus Torvalds <torvalds@linux-foundation.org>
+Cc:     Andrew Morton <akpm@linux-foundation.org>,
+        Alexander Duyck <alexander.h.duyck@linux.intel.com>,
         Jens Axboe <axboe@kernel.dk>,
         Brian Geffon <bgeffon@google.com>,
         Christian Brauner <christian.brauner@ubuntu.com>,
@@ -85,7 +77,7 @@ Cc:     Alexander Duyck <alexander.h.duyck@linux.intel.com>,
         Kirill Tkhai <ktkhai@virtuozzo.com>,
         linux-man <linux-man@vger.kernel.org>,
         Linux-MM <linux-mm@kvack.org>, Michal Hocko <mhocko@suse.com>,
-        Minchan Kim <minchan@kernel.org>, mm-commits@vger.kernel.org,
+        mm-commits@vger.kernel.org,
         Oleksandr Natalenko <oleksandr@redhat.com>,
         David Rientjes <rientjes@google.com>,
         Shakeel Butt <shakeelb@google.com>, sj38.park@gmail.com,
@@ -94,37 +86,88 @@ Cc:     Alexander Duyck <alexander.h.duyck@linux.intel.com>,
         Suren Baghdasaryan <surenb@google.com>,
         Tim Murray <timmurray@google.com>,
         Vlastimil Babka <vbabka@suse.cz>
-Content-Type: text/plain; charset="UTF-8"
+Subject: Re: [patch 18/39] mm/madvise: check fatal signal pending of target
+ process
+Message-ID: <20200815183456.GB2936603@google.com>
+References: <20200814172939.55d6d80b6e21e4241f1ee1f3@linux-foundation.org>
+ <20200815003102.dzZiwVm-K%akpm@linux-foundation.org>
+ <CAHk-=wgZ6ZgRWRm0rGgLkYR-_XwKeuWxwbkBWxmCOzt7dGxWpg@mail.gmail.com>
+ <20200815045900.GA2936603@google.com>
+ <CAHk-=whZCVE_dtkjuCeJnDQxVAvUKASyP9xS16YqQNOm_yz3Sg@mail.gmail.com>
+MIME-Version: 1.0
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <CAHk-=whZCVE_dtkjuCeJnDQxVAvUKASyP9xS16YqQNOm_yz3Sg@mail.gmail.com>
 Sender: linux-man-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-man.vger.kernel.org>
 X-Mailing-List: linux-man@vger.kernel.org
 
-On Fri, Aug 14, 2020 at 5:31 PM Andrew Morton <akpm@linux-foundation.org> wrote:
->
-> From: Minchan Kim <minchan@kernel.org>
-> Subject: mm/madvise: check fatal signal pending of target process
->
-> Bail out to prevent unnecessary CPU overhead if target process has pending
-> fatal signal during (MADV_COLD|MADV_PAGEOUT) operation.
+On Sat, Aug 15, 2020 at 07:57:15AM -0700, Linus Torvalds wrote:
+> On Fri, Aug 14, 2020 at 9:59 PM Minchan Kim <minchan@kernel.org> wrote:
+> >
+> > Currently, madvise(MADV_COLD|PAGEOUT) already have done it. I just wanted
+> > to sync with it with process_madvise. Ting was process_madvise couldn't
+> > get target task while madvise could get it easily.
+> 
+> The thing is, for "current" it makes sense.
+> 
+> It makes sense because "current" is also the one doing the action, so
+> when current is dying, stopping the action is sane too.
 
-This seems bogus.
+True.
 
-Returning -EINTR when *SOMEBODY ELSE* has a signal is crazy talk.
+> 
+> But when you target somebody else, the signal handling simply doesn't
+> make any sense at all.
+> 
+> It doesn't make sense because the error code doesn't make sense (EINTR
+> really is about the _actor_ getting interrupted, not the target), but
+> it also doesn't make sense simply because there is no 1:1 relationship
+> between the target mm and the target thread.
+> 
+> The pid that was the target may be dying, but that does *not* mean
+> that the mm itself is dying. So stopping the operation arbitrarily
+> somewhere in the middle is a fundamentally insane operation.  You've
+> done something partial to a mm that may well still be active.
+> 
+> So I think it's simply conceptually wrong to look at some "target
+> thread signal state" in ways that it isn't to look at "current signal
+> state".
 
-It also seems to be the reason for the previous patches inexplicably
-passing in the task pointer.
+Agreed.
 
-Finally, it has absolutely no explanations for why this would matter,
-and why it's magically and suddenly an issue for process_madvise(),
-when in the history of the *real* madvise() this hasn't been an issue
-for "current".
+> 
+> Now, it might be worth it to have some kind of "this mm is dying,
+> don't bother" thing. We _kind_ of have things like that already in the
+> form of the MMF_OOM_VICTIM flag (and TIF_MEMDIE is the per-thread
+> image of it).
+> 
+> It might be reasonable to have a MMF_DYING flag, but I'm not even sure
+> how to implement it, exactly because of that "this thread group may be
+> dying, but the MM might still be attached to other tasks" issue.
+> 
+> For example, if you do "vfork()" and the child is killed, the mm is
+> still active and attached to the vfork() parent.
 
-I'm dropping the madvise() series.
+Maybe, we could use mm_struct's mm_users to check caller is exclusive
+owner so that rest of all are existing.
 
-If the issue is that you can generate a long series or areas with that
-iovec, maybe the code should re-consider. Or maybe the signal pending
-case should be done there, not passing down an odd task pointer to the
-low-level madvise code.
+> 
+> Similarly, on a trivial level, a particular thread might be killed
+> without the rest of the threads being necessarily killed.
+> 
+> Again, for regular "madvise()" it makes sense to look at whether the
+> _current_ thread is being killed - because that fundamentally
+> interrupts the operator. But for somebody else, operating on the mm of
+> a thread, I really think it's wrong to look at the target thread state
+> and leave the MM operation in some half-way state.
 
-              Linus
+I agreed. I will drop this single patch with revising previous patch
+not to make passing task_struct since the idea.
+We could revist if someting real trouble happens.
+
+Please tell me if you found something weird in this patchset series
+so that in next cycle we could go smooth.
+
+Thanks for the review, Linus.
