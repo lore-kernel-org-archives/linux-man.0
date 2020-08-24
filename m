@@ -2,352 +2,814 @@ Return-Path: <SRS0=mdxN=CC=vger.kernel.org=linux-man-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-10.8 required=3.0 tests=BAYES_00,DKIMWL_WL_HIGH,
-	DKIM_SIGNED,DKIM_VALID,DKIM_VALID_AU,HEADER_FROM_DIFFERENT_DOMAINS,
-	INCLUDES_PATCH,MAILING_LIST_MULTI,SIGNED_OFF_BY,SPF_HELO_NONE,SPF_PASS
-	autolearn=unavailable autolearn_force=no version=3.4.0
+X-Spam-Status: No, score=-11.1 required=3.0 tests=BAYES_00,DKIM_SIGNED,
+	DKIM_VALID,DKIM_VALID_AU,FREEMAIL_FORGED_FROMDOMAIN,FREEMAIL_FROM,
+	HEADER_FROM_DIFFERENT_DOMAINS,INCLUDES_PATCH,MAILING_LIST_MULTI,SIGNED_OFF_BY,
+	SPF_HELO_NONE,SPF_PASS,USER_AGENT_SANE_1 autolearn=ham autolearn_force=no
+	version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 82A1CC433DF
-	for <linux-man@archiver.kernel.org>; Mon, 24 Aug 2020 12:26:01 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 738D6C433E1
+	for <linux-man@archiver.kernel.org>; Mon, 24 Aug 2020 13:29:40 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.kernel.org (Postfix) with ESMTP id 555592074D
-	for <linux-man@archiver.kernel.org>; Mon, 24 Aug 2020 12:26:01 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTP id 2B9BB206B5
+	for <linux-man@archiver.kernel.org>; Mon, 24 Aug 2020 13:29:40 +0000 (UTC)
 Authentication-Results: mail.kernel.org;
-	dkim=pass (1024-bit key) header.d=redhat.com header.i=@redhat.com header.b="MMagacSV"
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="LgNfm6Z5"
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1726795AbgHXMZ4 (ORCPT <rfc822;linux-man@archiver.kernel.org>);
-        Mon, 24 Aug 2020 08:25:56 -0400
-Received: from us-smtp-2.mimecast.com ([205.139.110.61]:41348 "EHLO
-        us-smtp-delivery-1.mimecast.com" rhost-flags-OK-OK-OK-FAIL)
-        by vger.kernel.org with ESMTP id S1726887AbgHXMY6 (ORCPT
-        <rfc822;linux-man@vger.kernel.org>); Mon, 24 Aug 2020 08:24:58 -0400
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
-        s=mimecast20190719; t=1598271896;
-        h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
-         to:to:cc:cc:mime-version:mime-version:content-type:content-type:
-         content-transfer-encoding:content-transfer-encoding:
-         in-reply-to:in-reply-to:references:references;
-        bh=+d95Pyxxs3w7EuizFdEpLYSASJLAlQyWQNxxnlomYro=;
-        b=MMagacSVTGwZGzCgXqc1WTnhrm32FGVxVxZqJe9HN2d28KqOjrC7kZtxVyeqO073DEn5q8
-        /Dt5f+IySIBh4LDm7lZ4kkqX5DEdFjLrn/dJV0A+bxQ6SxZCk5SOk8BIibJy7INteCBAvF
-        Prfv/UAIonkofsL/lfyxRt3R6JtxsYc=
-Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
- [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-328-2iQFX1_IPnuZkCEVfhg__Q-1; Mon, 24 Aug 2020 08:24:54 -0400
-X-MC-Unique: 2iQFX1_IPnuZkCEVfhg__Q-1
-Received: from smtp.corp.redhat.com (int-mx07.intmail.prod.int.phx2.redhat.com [10.5.11.22])
-        (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
-        (No client certificate requested)
-        by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 6C3991084C89;
-        Mon, 24 Aug 2020 12:24:52 +0000 (UTC)
-Received: from warthog.procyon.org.uk (ovpn-120-127.rdu2.redhat.com [10.10.120.127])
-        by smtp.corp.redhat.com (Postfix) with ESMTP id 0B06D10098AE;
-        Mon, 24 Aug 2020 12:24:50 +0000 (UTC)
-Organization: Red Hat UK Ltd. Registered Address: Red Hat UK Ltd, Amberley
-        Place, 107-111 Peascod Street, Windsor, Berkshire, SI4 1TE, United
-        Kingdom.
-        Registered in England and Wales under Company Registration No. 3798903
-Subject: [PATCH 2/5] Add manpages for move_mount(2)
-From:   David Howells <dhowells@redhat.com>
-To:     mtk.manpages@gmail.com, viro@zeniv.linux.org.uk
-Cc:     dhowells@redhat.com, linux-fsdevel@vger.kernel.org,
-        linux-man@vger.kernel.org, linux-api@vger.kernel.org,
-        linux-kernel@vger.kernel.org
-Date:   Mon, 24 Aug 2020 13:24:50 +0100
-Message-ID: <159827189025.306468.4916341547843731338.stgit@warthog.procyon.org.uk>
-In-Reply-To: <159827188271.306468.16962617119460123110.stgit@warthog.procyon.org.uk>
-References: <159827188271.306468.16962617119460123110.stgit@warthog.procyon.org.uk>
-User-Agent: StGit/0.23
+        id S1726086AbgHXN3j (ORCPT <rfc822;linux-man@archiver.kernel.org>);
+        Mon, 24 Aug 2020 09:29:39 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:52602 "EHLO
+        lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1725780AbgHXN3g (ORCPT
+        <rfc822;linux-man@vger.kernel.org>); Mon, 24 Aug 2020 09:29:36 -0400
+Received: from mail-wr1-x42e.google.com (mail-wr1-x42e.google.com [IPv6:2a00:1450:4864:20::42e])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 90BC8C061573
+        for <linux-man@vger.kernel.org>; Mon, 24 Aug 2020 06:29:35 -0700 (PDT)
+Received: by mail-wr1-x42e.google.com with SMTP id l2so8700920wrc.7
+        for <linux-man@vger.kernel.org>; Mon, 24 Aug 2020 06:29:35 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20161025;
+        h=to:cc:from:subject:message-id:date:user-agent:mime-version
+         :content-language:content-transfer-encoding;
+        bh=6StYCLvyYyIUNTpCgRyl7Nzx2K5ga6FY6aZXPG+rGNk=;
+        b=LgNfm6Z5ypVzM1rBxzF3I/PMz09xD9PS9r0axlukbM/t9gKTbKycL5ahQW3G50Xh4j
+         Eydu/7Gai66Z2ym95ZHPjff5matMO78dMriGn0u9BgkexOrH6E5KY9cRW3XlnLN1q3aw
+         03w0kOsyplf/CmpJcdlG20DEoayWAvfVT/DSbJ8TZp7JzBf4rA+OGD6sCwgBHXjWel+n
+         gBIBIh4iELBBQ2aqBEj+AGoG0zXhsEx0tPGyRpZCcMpgE1zfeEMuvoTwkjTfA7VnAFG8
+         wrINWflSGLTVWhasdX7eCvyvH9JtMGHBng6iSrwWgcDI9cSq2qBQCCxG8oAxDvpivnrP
+         oJGw==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20161025;
+        h=x-gm-message-state:to:cc:from:subject:message-id:date:user-agent
+         :mime-version:content-language:content-transfer-encoding;
+        bh=6StYCLvyYyIUNTpCgRyl7Nzx2K5ga6FY6aZXPG+rGNk=;
+        b=b0hUF2opw6nwPEouEHFWhjQshJTI1A5Na5k4i+/vKMUp+OvCNsu7IYSc1N7Nn2D6q5
+         TSBr7D1YBHonJex+byecBVfVSYqgapOA7gar71vfy3x7jOvR5+VwreOkeFpCD0Qgrtdb
+         nb8y8S76rybxM1iwW5wgDXJ+822nydm5SMs6g+cImEGBz3CnWzQDOET+L6yPkj6U8IMS
+         zVxVaICWRFa0YfP6zel1sI4qMMMnoIz+EekDb49Xi0PbC8idU0r8WNl1EALuBZzcZuXx
+         aL61/JSncstWu+JKrGguPMvHCCQqUFXCieLq9eqPFaZ0qrTetuavRL49EqlIgEl74aFX
+         tClQ==
+X-Gm-Message-State: AOAM531kJiXl4falWKUiBVG+CncpHetWCVBidteSbq9f3oOCgmDgucCT
+        7HpgCN+R7y8FmssQ3Cm6U5m6JR1zg3k=
+X-Google-Smtp-Source: ABdhPJyMDCzMsfPeq6SBNjFD1e+xfUsWa2mmSXY5iX9wlTKi7/oeXuljkhAzbXgI08E4RkPtrj629g==
+X-Received: by 2002:adf:fcc5:: with SMTP id f5mr5821227wrs.126.1598275772236;
+        Mon, 24 Aug 2020 06:29:32 -0700 (PDT)
+Received: from [192.168.0.160] ([93.115.133.118])
+        by smtp.gmail.com with ESMTPSA id f6sm32292685wme.32.2020.08.24.06.29.31
+        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+        Mon, 24 Aug 2020 06:29:31 -0700 (PDT)
+To:     "Michael Kerrisk (man-pages)" <mtk.manpages@gmail.com>
+Cc:     linux-man@vger.kernel.org
+From:   Alejandro Colomar <colomar.6.4.3@gmail.com>
+Subject: [patch] memusage.1, bind.2, eventfd.2, futex.2, open_by_handle_at.2,
+ perf_event_open.2, poll.2, signalfd.2, sysctl.2, timerfd_create.2, bsearch.3,
+ cmsg.3, getaddrinfo.3, getaddrinfo_a.3 getgrouplist.3, insque.3,
+ malloc_info.3, mbsinit.3, mbstowcs.3, pthread_create.3,
+ pthread_setaffinity_np.3, queue.3, rtnetlink.3, shm_open.3, strptime.3,
+ tsearch.3, aio.7, fanotify.7, inotify.7, unix.7: Use sizeof consistently
+Message-ID: <cc176298-50e2-7831-f2f7-21be8cae9075@gmail.com>
+Date:   Mon, 24 Aug 2020 15:29:30 +0200
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
+ Thunderbird/68.11.0
 MIME-Version: 1.0
-Content-Type: text/plain; charset="utf-8"
+Content-Type: text/plain; charset=utf-8
+Content-Language: en-US
 Content-Transfer-Encoding: 7bit
-X-Scanned-By: MIMEDefang 2.84 on 10.5.11.22
 Sender: linux-man-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-man.vger.kernel.org>
 X-Mailing-List: linux-man@vger.kernel.org
 
-Add manual pages to document the move_mount() system call.
+From 5df5cae0fb6973df0ab8b3629934f808487112b0 Mon Sep 17 00:00:00 2001
+From: Alejandro Colomar <colomar.6.4.3@gmail.com>
+Date: Fri, 21 Aug 2020 16:58:12 +0200
+Subject: [PATCH] memusage.1, bind.2, eventfd.2, futex.2,
+open_by_handle_at.2,
+ perf_event_open.2, poll.2, signalfd.2, sysctl.2, timerfd_create.2,
+bsearch.3,
+ cmsg.3, getaddrinfo.3, getaddrinfo_a.3 getgrouplist.3, insque.3,
+ malloc_info.3, mbsinit.3, mbstowcs.3, pthread_create.3,
+ pthread_setaffinity_np.3, queue.3, rtnetlink.3, shm_open.3, strptime.3,
+ tsearch.3, aio.7, fanotify.7, inotify.7, unix.7: Use sizeof consistently
 
-Signed-off-by: David Howells <dhowells@redhat.com>
+Use ``sizeof`` consistently through all the examples, in the following
+way:
+
+- Never use a space after ``sizeof``, and always use parentheses
+  instead.
+
+	Rationale:
+
+	https://www.kernel.org/doc/html/v5.8/process/coding-style.html#spaces
+
+- Use the name of the variable instead of the type as argument
+  for ``sizeof``, wherever possible.
+
+	Rationale:
+
+	https://www.kernel.org/doc/html/v5.8/process/coding-style.html#allocating-memory
+
+- When the result of ``sizeof`` is multiplied (or otherwise modified),
+  write ``sizeof`` in the first place.
+
+	Rationale:
+
+	``(sizeof(x) * INT_MAX * 2)`` doesn't overflow.
+
+	``(INT_MAX * 2 * sizeof(x))`` overflows, giving incorrect
+	results.
+
+	As a side effect, the parentheses of ``sizeof`` are not next to
+	the parentheses of the whole expression, and it is visually
+	easier to read.
+
+Signed-off-by: Alejandro Colomar <colomar.6.4.3@gmail.com>
 ---
+ man1/memusage.1               | 12 ++++++------
+ man2/bind.2                   |  6 +++---
+ man2/eventfd.2                |  8 ++++----
+ man2/futex.2                  |  2 +-
+ man2/open_by_handle_at.2      |  4 ++--
+ man2/perf_event_open.2        |  6 +++---
+ man2/poll.2                   |  2 +-
+ man2/signalfd.2               |  4 ++--
+ man2/sysctl.2                 |  2 +-
+ man2/timerfd_create.2         |  4 ++--
+ man3/bsearch.3                |  4 ++--
+ man3/cmsg.3                   |  6 +++---
+ man3/getaddrinfo.3            |  6 +++---
+ man3/getaddrinfo_a.3          |  2 +-
+ man3/getgrouplist.3           |  2 +-
+ man3/insque.3                 |  2 +-
+ man3/malloc_info.3            |  2 +-
+ man3/mbsinit.3                |  2 +-
+ man3/mbstowcs.3               |  2 +-
+ man3/pthread_create.3         |  2 +-
+ man3/pthread_setaffinity_np.3 |  4 ++--
+ man3/queue.3                  | 32 ++++++++++++++++----------------
+ man3/rtnetlink.3              |  4 ++--
+ man3/shm_open.3               |  4 ++--
+ man3/strptime.3               |  2 +-
+ man3/tsearch.3                |  2 +-
+ man7/aio.7                    |  4 ++--
+ man7/fanotify.7               |  3 +--
+ man7/inotify.7                |  6 +++---
+ man7/unix.7                   |  8 ++++----
+ 30 files changed, 74 insertions(+), 75 deletions(-)
 
- man2/move_mount.2 |  267 +++++++++++++++++++++++++++++++++++++++++++++++++++++
- 1 file changed, 267 insertions(+)
- create mode 100644 man2/move_mount.2
+diff --git a/man1/memusage.1 b/man1/memusage.1
+index fa1987c79..a03468442 100644
+--- a/man1/memusage.1
++++ b/man1/memusage.1
+@@ -247,8 +247,8 @@ main(int argc, char *argv[])
+      int i, j;
+      int *p;
 
-diff --git a/man2/move_mount.2 b/man2/move_mount.2
-new file mode 100644
-index 000000000..2ceb775d9
---- /dev/null
-+++ b/man2/move_mount.2
-@@ -0,0 +1,267 @@
-+'\" t
-+.\" Copyright (c) 2020 David Howells <dhowells@redhat.com>
-+.\"
-+.\" %%%LICENSE_START(VERBATIM)
-+.\" Permission is granted to make and distribute verbatim copies of this
-+.\" manual provided the copyright notice and this permission notice are
-+.\" preserved on all copies.
-+.\"
-+.\" Permission is granted to copy and distribute modified versions of this
-+.\" manual under the conditions for verbatim copying, provided that the
-+.\" entire resulting derived work is distributed under the terms of a
-+.\" permission notice identical to this one.
-+.\"
-+.\" Since the Linux kernel and libraries are constantly changing, this
-+.\" manual page may be incorrect or out-of-date.  The author(s) assume no
-+.\" responsibility for errors or omissions, or for damages resulting from
-+.\" the use of the information contained herein.  The author(s) may not
-+.\" have taken the same level of care in the production of this manual,
-+.\" which is licensed free of charge, as they might when working
-+.\" professionally.
-+.\"
-+.\" Formatted or processed versions of this manual, if unaccompanied by
-+.\" the source, must acknowledge the copyright and authors of this work.
-+.\" %%%LICENSE_END
-+.\"
-+.TH MOVE_MOUNT 2 2020-08-24 "Linux" "Linux Programmer's Manual"
-+.SH NAME
-+move_mount \- Move mount objects around the filesystem topology
-+.SH SYNOPSIS
-+.nf
-+.B #include <sys/types.h>
-+.B #include <sys/mount.h>
-+.B #include <unistd.h>
-+.BR "#include <fcntl.h>           " "/* Definition of AT_* constants */"
-+.PP
-+.BI "int move_mount(int " from_dirfd ", const char *" from_pathname ","
-+.BI "               int " to_dirfd ", const char *" to_pathname ","
-+.BI "               unsigned int " flags );
-+.fi
-+.PP
-+.IR Note :
-+There is no glibc wrapper for this system call.
-+.SH DESCRIPTION
-+The
-+.BR move_mount ()
-+call moves a mount from one place to another; it can also be used to attach an
-+unattached mount that was created by
-+.BR fsmount "() or " open_tree "() with " OPEN_TREE_CLONE .
-+.PP
-+If
-+.BR move_mount ()
-+is called repeatedly with a file descriptor that refers to a mount object,
-+then the object will be attached/moved the first time and then moved
-+repeatedly, detaching it from the previous mountpoint each time.
-+.PP
-+To access the source mount object or the destination mountpoint, no
-+permissions are required on the object itself, but if either pathname is
-+supplied, execute (search) permission is required on all of the directories
-+specified in
-+.IR from_pathname " or " to_pathname .
-+.PP
-+The caller does, however, require the appropriate privilege (Linux: the
-+.B CAP_SYS_ADMIN
-+capability) to move or attach mounts.
-+.PP
-+.BR move_mount ()
-+uses
-+.IR from_pathname ", " from_dirfd " and part of " flags
-+to locate the mount object to be moved and
-+.IR to_pathname ", " to_dirfd " and another part of " flags
-+to locate the destination mountpoint.  Each lookup can be done in one of a
-+variety of ways:
-+.TP
-+[*] By absolute path.
-+The pathname points to an absolute path and the dirfd is ignored.  The file is
-+looked up by name, starting from the root of the filesystem as seen by the
-+calling process.
-+.TP
-+[*] By cwd-relative path.
-+The pathname points to a relative path and the dirfd is
-+.IR AT_FDCWD .
-+The file is looked up by name, starting from the current working directory.
-+.TP
-+[*] By dir-relative path.
-+The pathname points to relative path and the dirfd indicates a file descriptor
-+pointing to a directory.  The file is looked up by name, starting from the
-+directory specified by
-+.IR dirfd .
-+.TP
-+[*] By file descriptor.  The pathname is an empty string (""), the dirfd
-+points directly to the mount object to move or the destination mount point and
-+the appropriate
-+.B *_EMPTY_PATH
-+flag is set.
-+.PP
-+.I flags
-+can be used to influence a path-based lookup.  The value for
-+.I flags
-+is constructed by OR'ing together zero or more of the following constants:
-+.TP
-+.BR MOVE_MOUNT_F_EMPTY_PATH
-+.\" commit 65cfc6722361570bfe255698d9cd4dccaf47570d
-+If
-+.I from_pathname
-+is an empty string, operate on the file referred to by
-+.IR from_dirfd
-+(which may have been obtained using the
-+.BR open (2)
-+.B O_PATH
-+flag or
-+.BR open_tree ())
-+If
-+.I from_dirfd
-+is
-+.BR AT_FDCWD ,
-+the call operates on the current working directory.
-+In this case,
-+.I from_dirfd
-+can refer to any type of file, not just a directory.
-+This flag is Linux-specific; define
-+.B _GNU_SOURCE
-+.\" Before glibc 2.16, defining _ATFILE_SOURCE sufficed
-+to obtain its definition.
-+.TP
-+.B MOVE_MOUNT_T_EMPTY_PATH
-+As above, but operating on
-+.IR to_pathname " and " to_dirfd .
-+.TP
-+.B MOVE_MOUNT_F_AUTOMOUNTS
-+Don't automount the terminal ("basename") component of
-+.I from_pathname
-+if it is a directory that is an automount point.  This allows a mount object
-+that has an automount point at its root to be moved and prevents unintended
-+triggering of an automount point.
-+The
-+.B MOVE_MOUNT_F_AUTOMOUNTS
-+flag has no effect if the automount point has already been mounted over.  This
-+flag is Linux-specific; define
-+.B _GNU_SOURCE
-+.\" Before glibc 2.16, defining _ATFILE_SOURCE sufficed
-+to obtain its definition.
-+.TP
-+.B MOVE_MOUNT_T_AUTOMOUNTS
-+As above, but operating on
-+.IR to_pathname " and " to_dirfd .
-+This allows an automount point to be manually mounted over.
-+.TP
-+.B MOVE_MOUNT_F_SYMLINKS
-+If
-+.I from_pathname
-+is a symbolic link, then dereference it.  The default for
-+.BR move_mount ()
-+is to not follow symlinks.
-+.TP
-+.B MOVE_MOUNT_T_SYMLINKS
-+As above, but operating on
-+.IR to_pathname " and " to_dirfd .
-+.SH RETURN VALUE
-+On success, 0 is returned.  On error, \-1 is returned, and
-+.I errno
-+is set appropriately.
-+.SH ERRORS
-+.TP
-+.B EACCES
-+Search permission is denied for one of the directories
-+in the path prefix of
-+.IR pathname .
-+(See also
-+.BR path_resolution (7).)
-+.TP
-+.B EBADF
-+.IR from_dirfd " or " to_dirfd
-+is not a valid open file descriptor.
-+.TP
-+.B EFAULT
-+.IR from_pathname " or " to_pathname
-+is NULL or either one point to a location outside the process's accessible
-+address space.
-+.TP
-+.B EINVAL
-+Reserved flag specified in
-+.IR flags .
-+.TP
-+.B ELOOP
-+Too many symbolic links encountered while traversing the pathname.
-+.TP
-+.B ENAMETOOLONG
-+.IR from_pathname " or " to_pathname
-+is too long.
-+.TP
-+.B ENOENT
-+A component of
-+.IR from_pathname " or " to_pathname
-+does not exist, or one is an empty string and the appropriate
-+.B *_EMPTY_PATH
-+was not specified in
-+.IR flags .
-+.TP
-+.B ENOMEM
-+Out of memory (i.e., kernel memory).
-+.TP
-+.B ENOTDIR
-+A component of the path prefix of
-+.IR from_pathname " or " to_pathname
-+is not a directory or one or the other is relative and the appropriate
-+.I *_dirfd
-+is a file descriptor referring to a file other than a directory.
-+.SH VERSIONS
-+.BR move_mount ()
-+was added to Linux in kernel 5.2.
-+.SH CONFORMING TO
-+.BR move_mount ()
-+is Linux-specific.
-+.SH NOTES
-+Glibc does not (yet) provide a wrapper for the
-+.BR move_mount ()
-+system call; call it using
-+.BR syscall (2).
-+.SH EXAMPLES
-+The
-+.BR move_mount ()
-+function can be used like the following:
-+.PP
-+.RS
-+.nf
-+move_mount(AT_FDCWD, "/a", AT_FDCWD, "/b", 0);
-+.fi
-+.RE
-+.PP
-+This would move the object mounted on "/a" to "/b".  It can also be used in
-+conjunction with
-+.BR open_tree "(2) or " open "(2) with " O_PATH :
-+.PP
-+.RS
-+.nf
-+fd = open_tree(AT_FDCWD, "/mnt", 0);
-+move_mount(fd, "", AT_FDCWD, "/mnt2", MOVE_MOUNT_F_EMPTY_PATH);
-+move_mount(fd, "", AT_FDCWD, "/mnt3", MOVE_MOUNT_F_EMPTY_PATH);
-+move_mount(fd, "", AT_FDCWD, "/mnt4", MOVE_MOUNT_F_EMPTY_PATH);
-+.fi
-+.RE
-+.PP
-+This would attach the path point for "/mnt" to fd, then it would move the
-+mount to "/mnt2", then move it to "/mnt3" and finally to "/mnt4".
-+.PP
-+It can also be used to attach new mounts:
-+.PP
-+.RS
-+.nf
-+sfd = fsopen("ext4", FSOPEN_CLOEXEC);
-+fsconfig(sfd, FSCONFIG_SET_STRING, "source", "/dev/sda1", 0);
-+fsconfig(sfd, FSCONFIG_SET_FLAG, "user_xattr", NULL, 0);
-+fsconfig(sfd, FSCONFIG_CMD_CREATE, NULL, NULL, 0);
-+mfd = fsmount(sfd, FSMOUNT_CLOEXEC, MOUNT_ATTR_NODEV);
-+move_mount(mfd, "", AT_FDCWD, "/home", MOVE_MOUNT_F_EMPTY_PATH);
-+.fi
-+.RE
-+.PP
-+Which would open the Ext4 filesystem mounted on "/dev/sda1", turn on user
-+extended attribute support and create a mount object for it.  Finally, the new
-+mount object would be attached with
-+.BR move_mount ()
-+to "/home".
-+.SH SEE ALSO
-+.BR fsmount (2),
-+.BR fsopen (2),
-+.BR open_tree (2)
+-     printf("malloc: %zd\en", sizeof(int) * 100);
+-     p = malloc(sizeof(int) * 100);
++     printf("malloc: %zd\en", sizeof(*p) * 100);
++     p = malloc(sizeof(*p) * 100);
 
+      for (i = 0; i < CYCLES; i++) {
+          if (i < CYCLES / 2)
+@@ -256,11 +256,11 @@ main(int argc, char *argv[])
+          else
+              j--;
 
+-         printf("realloc: %zd\en", sizeof(int) * (j * 50 + 110));
+-         p = realloc(p, sizeof(int) * (j * 50 + 100));
++         printf("realloc: %zd\en", sizeof(*p) * (j * 50 + 110));
++         p = realloc(p, sizeof(*p) * (j * 50 + 100));
+
+-         printf("realloc: %zd\en", sizeof(int) * ((j+1) * 150 + 110));
+-         p = realloc(p, sizeof(int) * ((j + 1) * 150 + 110));
++         printf("realloc: %zd\en", sizeof(*p) * ((j+1) * 150 + 110));
++         p = realloc(p, sizeof(*p) * ((j + 1) * 150 + 110));
+      }
+
+      free(p);
+diff --git a/man2/bind.2 b/man2/bind.2
+index 72aac9555..74e34b6bd 100644
+--- a/man2/bind.2
++++ b/man2/bind.2
+@@ -293,14 +293,14 @@ main(int argc, char *argv[])
+     if (sfd == \-1)
+         handle_error("socket");
+
+-    memset(&my_addr, 0, sizeof(struct sockaddr_un));
++    memset(&my_addr, 0, sizeof(my_addr));
+                         /* Clear structure */
+     my_addr.sun_family = AF_UNIX;
+     strncpy(my_addr.sun_path, MY_SOCK_PATH,
+             sizeof(my_addr.sun_path) \- 1);
+
+     if (bind(sfd, (struct sockaddr *) &my_addr,
+-            sizeof(struct sockaddr_un)) == \-1)
++            sizeof(my_addr)) == \-1)
+         handle_error("bind");
+
+     if (listen(sfd, LISTEN_BACKLOG) == \-1)
+@@ -309,7 +309,7 @@ main(int argc, char *argv[])
+     /* Now we can accept incoming connections one
+        at a time using accept(2) */
+
+-    peer_addr_size = sizeof(struct sockaddr_un);
++    peer_addr_size = sizeof(peer_addr);
+     cfd = accept(sfd, (struct sockaddr *) &peer_addr,
+                  &peer_addr_size);
+     if (cfd == \-1)
+diff --git a/man2/eventfd.2 b/man2/eventfd.2
+index 804cf796b..35e83c957 100644
+--- a/man2/eventfd.2
++++ b/man2/eventfd.2
+@@ -415,8 +415,8 @@ main(int argc, char *argv[])
+             printf("Child writing %s to efd\en", argv[j]);
+             u = strtoull(argv[j], NULL, 0);
+                     /* strtoull() allows various bases */
+-            s = write(efd, &u, sizeof(uint64_t));
+-            if (s != sizeof(uint64_t))
++            s = write(efd, &u, sizeof(u));
++            if (s != sizeof(u))
+                 handle_error("write");
+         }
+         printf("Child completed write loop\en");
+@@ -427,8 +427,8 @@ main(int argc, char *argv[])
+         sleep(2);
+
+         printf("Parent about to read\en");
+-        s = read(efd, &u, sizeof(uint64_t));
+-        if (s != sizeof(uint64_t))
++        s = read(efd, &u, sizeof(u));
++        if (s != sizeof(u))
+             handle_error("read");
+         printf("Parent read %llu (0x%llx) from efd\en",
+                 (unsigned long long) u, (unsigned long long) u);
+diff --git a/man2/futex.2 b/man2/futex.2
+index 05696f617..6192b145a 100644
+--- a/man2/futex.2
++++ b/man2/futex.2
+@@ -1839,7 +1839,7 @@ main(int argc, char *argv[])
+        subsequently use the "shared" futex operations (i.e., not the
+        ones suffixed "_PRIVATE") */
+
+-    iaddr = mmap(NULL, sizeof(int) * 2, PROT_READ | PROT_WRITE,
++    iaddr = mmap(NULL, sizeof(*iaddr) * 2, PROT_READ | PROT_WRITE,
+                 MAP_ANONYMOUS | MAP_SHARED, \-1, 0);
+     if (iaddr == MAP_FAILED)
+         errExit("mmap");
+diff --git a/man2/open_by_handle_at.2 b/man2/open_by_handle_at.2
+index 78c3220f8..846957acf 100644
+--- a/man2/open_by_handle_at.2
++++ b/man2/open_by_handle_at.2
+@@ -586,7 +586,7 @@ main(int argc, char *argv[])
+
+     /* Reallocate file_handle structure with correct size */
+
+-    fhsize = sizeof(struct file_handle) + fhp\->handle_bytes;
++    fhsize = sizeof(*fhp) + fhp\->handle_bytes;
+     fhp = realloc(fhp, fhsize);         /* Copies fhp\->handle_bytes */
+     if (fhp == NULL)
+         errExit("realloc");
+@@ -707,7 +707,7 @@ main(int argc, char *argv[])
+
+     /* Given handle_bytes, we can now allocate file_handle structure */
+
+-    fhp = malloc(sizeof(struct file_handle) + handle_bytes);
++    fhp = malloc(sizeof(*fhp) + handle_bytes);
+     if (fhp == NULL)
+         errExit("malloc");
+
+diff --git a/man2/perf_event_open.2 b/man2/perf_event_open.2
+index 2492fc75a..aea825706 100644
+--- a/man2/perf_event_open.2
++++ b/man2/perf_event_open.2
+@@ -3419,9 +3419,9 @@ main(int argc, char **argv)
+     long long count;
+     int fd;
+
+-    memset(&pe, 0, sizeof(struct perf_event_attr));
++    memset(&pe, 0, sizeof(pe));
+     pe.type = PERF_TYPE_HARDWARE;
+-    pe.size = sizeof(struct perf_event_attr);
++    pe.size = sizeof(pe);
+     pe.config = PERF_COUNT_HW_INSTRUCTIONS;
+     pe.disabled = 1;
+     pe.exclude_kernel = 1;
+@@ -3439,7 +3439,7 @@ main(int argc, char **argv)
+     printf("Measuring instruction count for this printf\en");
+
+     ioctl(fd, PERF_EVENT_IOC_DISABLE, 0);
+-    read(fd, &count, sizeof(long long));
++    read(fd, &count, sizeof(count));
+
+     printf("Used %lld instructions\en", count);
+
+diff --git a/man2/poll.2 b/man2/poll.2
+index 940c51da5..9b42822c0 100644
+--- a/man2/poll.2
++++ b/man2/poll.2
+@@ -596,7 +596,7 @@ main(int argc, char *argv[])
+     }
+
+     num_open_fds = nfds = argc \- 1;
+-    pfds = calloc(nfds, sizeof(struct pollfd));
++    pfds = calloc(nfds, sizeof(*pfds));
+     if (pfds == NULL)
+         errExit("malloc");
+
+diff --git a/man2/signalfd.2 b/man2/signalfd.2
+index 96d502a50..92e9fd7ef 100644
+--- a/man2/signalfd.2
++++ b/man2/signalfd.2
+@@ -502,8 +502,8 @@ main(int argc, char *argv[])
+         handle_error("signalfd");
+
+     for (;;) {
+-        s = read(sfd, &fdsi, sizeof(struct signalfd_siginfo));
+-        if (s != sizeof(struct signalfd_siginfo))
++        s = read(sfd, &fdsi, sizeof(fdsi));
++        if (s != sizeof(fdsi))
+             handle_error("read");
+
+         if (fdsi.ssi_signo == SIGINT) {
+diff --git a/man2/sysctl.2 b/man2/sysctl.2
+index 65f79516d..161060490 100644
+--- a/man2/sysctl.2
++++ b/man2/sysctl.2
+@@ -154,7 +154,7 @@ main(void)
+     size_t osnamelth;
+     int name[] = { CTL_KERN, KERN_OSTYPE };
+
+-    memset(&args, 0, sizeof(struct __sysctl_args));
++    memset(&args, 0, sizeof(args));
+     args.name = name;
+     args.nlen = sizeof(name)/sizeof(name[0]);
+     args.oldval = osname;
+diff --git a/man2/timerfd_create.2 b/man2/timerfd_create.2
+index 67a13dba3..fd4acf3e9 100644
+--- a/man2/timerfd_create.2
++++ b/man2/timerfd_create.2
+@@ -700,8 +700,8 @@ main(int argc, char *argv[])
+     printf("timer started\en");
+
+     for (tot_exp = 0; tot_exp < max_exp;) {
+-        s = read(fd, &exp, sizeof(uint64_t));
+-        if (s != sizeof(uint64_t))
++        s = read(fd, &exp, sizeof(exp));
++        if (s != sizeof(exp))
+             handle_error("read");
+
+         tot_exp += exp;
+diff --git a/man3/bsearch.3 b/man3/bsearch.3
+index 88e0e6ea1..6859bdba2 100644
+--- a/man3/bsearch.3
++++ b/man3/bsearch.3
+@@ -124,12 +124,12 @@ main(int argc, char **argv)
+ {
+     int i;
+
+-    qsort(months, nr_of_months, sizeof(struct mi), compmi);
++    qsort(months, nr_of_months, sizeof(months[0]), compmi);
+     for (i = 1; i < argc; i++) {
+         struct mi key, *res;
+         key.name = argv[i];
+         res = bsearch(&key, months, nr_of_months,
+-                      sizeof(struct mi), compmi);
++                      sizeof(months[0]), compmi);
+         if (res == NULL)
+             printf("\(aq%s\(aq: unknown month\en", argv[i]);
+         else
+diff --git a/man3/cmsg.3 b/man3/cmsg.3
+index 2f9910093..8d0ad6666 100644
+--- a/man3/cmsg.3
++++ b/man3/cmsg.3
+@@ -203,7 +203,7 @@ for (cmsg = CMSG_FIRSTHDR(&msgh); cmsg != NULL;
+         cmsg = CMSG_NXTHDR(&msgh, cmsg)) {
+     if (cmsg\->cmsg_level == IPPROTO_IP
+             && cmsg\->cmsg_type == IP_TTL) {
+-        memcpy(&receive_ttl, CMSG_DATA(cmsg), sizeof(int));
++        memcpy(&receive_ttl, CMSG_DATA(cmsg), sizeof(received_ttl));
+         break;
+     }
+ }
+@@ -241,8 +241,8 @@ msg.msg_controllen = sizeof(u.buf);
+ cmsg = CMSG_FIRSTHDR(&msg);
+ cmsg\->cmsg_level = SOL_SOCKET;
+ cmsg\->cmsg_type = SCM_RIGHTS;
+-cmsg\->cmsg_len = CMSG_LEN(sizeof(int) * NUM_FD);
+-memcpy(CMSG_DATA(cmsg), myfds, NUM_FD * sizeof(int));
++cmsg\->cmsg_len = CMSG_LEN(sizeof(myfds));
++memcpy(CMSG_DATA(cmsg), myfds, sizeof(myfds));
+ .EE
+ .in
+ .SH SEE ALSO
+diff --git a/man3/getaddrinfo.3 b/man3/getaddrinfo.3
+index 8aa544789..70e6b4cc0 100644
+--- a/man3/getaddrinfo.3
++++ b/man3/getaddrinfo.3
+@@ -679,7 +679,7 @@ main(int argc, char *argv[])
+         exit(EXIT_FAILURE);
+     }
+
+-    memset(&hints, 0, sizeof(struct addrinfo));
++    memset(&hints, 0, sizeof(hints));
+     hints.ai_family = AF_UNSPEC;    /* Allow IPv4 or IPv6 */
+     hints.ai_socktype = SOCK_DGRAM; /* Datagram socket */
+     hints.ai_flags = AI_PASSIVE;    /* For wildcard IP address */
+@@ -721,7 +721,7 @@ main(int argc, char *argv[])
+     /* Read datagrams and echo them back to sender */
+
+     for (;;) {
+-        peer_addr_len = sizeof(struct sockaddr_storage);
++        peer_addr_len = sizeof(peer_addr);
+         nread = recvfrom(sfd, buf, BUF_SIZE, 0,
+                 (struct sockaddr *) &peer_addr, &peer_addr_len);
+         if (nread == \-1)
+@@ -775,7 +775,7 @@ main(int argc, char *argv[])
+
+     /* Obtain address(es) matching host/port */
+
+-    memset(&hints, 0, sizeof(struct addrinfo));
++    memset(&hints, 0, sizeof(hints));
+     hints.ai_family = AF_UNSPEC;    /* Allow IPv4 or IPv6 */
+     hints.ai_socktype = SOCK_DGRAM; /* Datagram socket */
+     hints.ai_flags = 0;
+diff --git a/man3/getaddrinfo_a.3 b/man3/getaddrinfo_a.3
+index af8f88937..cd4cad0dc 100644
+--- a/man3/getaddrinfo_a.3
++++ b/man3/getaddrinfo_a.3
+@@ -473,7 +473,7 @@ add_requests(void)
+
+     while ((host = strtok(NULL, " "))) {
+         nreqs++;
+-        reqs = realloc(reqs, nreqs * sizeof(reqs[0]));
++        reqs = realloc(reqs, sizeof(reqs[0]) * nreqs);
+
+         reqs[nreqs \- 1] = calloc(1, sizeof(*reqs[0]));
+         reqs[nreqs \- 1]\->ar_name = strdup(host);
+diff --git a/man3/getgrouplist.3 b/man3/getgrouplist.3
+index 61c88f75f..ff8d89e3f 100644
+--- a/man3/getgrouplist.3
++++ b/man3/getgrouplist.3
+@@ -164,7 +164,7 @@ main(int argc, char *argv[])
+
+     ngroups = atoi(argv[2]);
+
+-    groups = malloc(ngroups * sizeof (gid_t));
++    groups = malloc(sizeof(*groups) * ngroups);
+     if (groups == NULL) {
+         perror("malloc");
+         exit(EXIT_FAILURE);
+diff --git a/man3/insque.3 b/man3/insque.3
+index a9fc28550..005ad8cc1 100644
+--- a/man3/insque.3
++++ b/man3/insque.3
+@@ -182,7 +182,7 @@ new_element(void)
+ {
+     struct element *e;
+
+-    e = malloc(sizeof(struct element));
++    e = malloc(sizeof(*e));
+     if (e == NULL) {
+         fprintf(stderr, "malloc() failed\en");
+         exit(EXIT_FAILURE);
+diff --git a/man3/malloc_info.3 b/man3/malloc_info.3
+index 0d95cdff7..598478dcc 100644
+--- a/man3/malloc_info.3
++++ b/man3/malloc_info.3
+@@ -226,7 +226,7 @@ main(int argc, char *argv[])
+     blockSize = atoi(argv[3]);
+     sleepTime = (argc > 4) ? atoi(argv[4]) : 0;
+
+-    thr = calloc(numThreads, sizeof(pthread_t));
++    thr = calloc(numThreads, sizeof(*thr));
+     if (thr == NULL)
+         errExit("calloc");
+
+diff --git a/man3/mbsinit.3 b/man3/mbsinit.3
+index 663f9d9ed..74fe48f86 100644
+--- a/man3/mbsinit.3
++++ b/man3/mbsinit.3
+@@ -59,7 +59,7 @@ in initial state is to set it to zero:
+ .in +4n
+ .EX
+ mbstate_t state;
+-memset(&state,0,sizeof(mbstate_t));
++memset(&state, 0, sizeof(state));
+ .EE
+ .in
+ .PP
+diff --git a/man3/mbstowcs.3 b/man3/mbstowcs.3
+index cf650506e..2f9fbc17c 100644
+--- a/man3/mbstowcs.3
++++ b/man3/mbstowcs.3
+@@ -186,7 +186,7 @@ main(int argc, char *argv[])
+     /* Allocate wide character string of the desired size.  Add 1
+        to allow for terminating null wide character (L\(aq\e0\(aq). */
+
+-    wcs = calloc(mbslen + 1, sizeof(wchar_t));
++    wcs = calloc(mbslen + 1, sizeof(*wcs));
+     if (wcs == NULL) {
+         perror("calloc");
+         exit(EXIT_FAILURE);
+diff --git a/man3/pthread_create.3 b/man3/pthread_create.3
+index d86188e6b..5ffb14586 100644
+--- a/man3/pthread_create.3
++++ b/man3/pthread_create.3
+@@ -361,7 +361,7 @@ main(int argc, char *argv[])
+
+     /* Allocate memory for pthread_create() arguments */
+
+-    tinfo = calloc(num_threads, sizeof(struct thread_info));
++    tinfo = calloc(num_threads, sizeof(*tinfo));
+     if (tinfo == NULL)
+         handle_error("calloc");
+
+diff --git a/man3/pthread_setaffinity_np.3 b/man3/pthread_setaffinity_np.3
+index 24499f550..57aaf1251 100644
+--- a/man3/pthread_setaffinity_np.3
++++ b/man3/pthread_setaffinity_np.3
+@@ -194,13 +194,13 @@ main(int argc, char *argv[])
+     for (j = 0; j < 8; j++)
+         CPU_SET(j, &cpuset);
+
+-    s = pthread_setaffinity_np(thread, sizeof(cpu_set_t), &cpuset);
++    s = pthread_setaffinity_np(thread, sizeof(cpuset), &cpuset);
+     if (s != 0)
+         handle_error_en(s, "pthread_setaffinity_np");
+
+     /* Check the actual affinity mask assigned to the thread */
+
+-    s = pthread_getaffinity_np(thread, sizeof(cpu_set_t), &cpuset);
++    s = pthread_getaffinity_np(thread, sizeof(cpuset), &cpuset);
+     if (s != 0)
+         handle_error_en(s, "pthread_getaffinity_np");
+
+diff --git a/man3/queue.3 b/man3/queue.3
+index 070ca47cb..0131fe09b 100644
+--- a/man3/queue.3
++++ b/man3/queue.3
+@@ -558,10 +558,10 @@ struct entry {
+
+ SLIST_INIT(&head);			/* Initialize the list. */
+
+-n1 = malloc(sizeof(struct entry));	/* Insert at the head. */
++n1 = malloc(sizeof(*n1));		/* Insert at the head. */
+ SLIST_INSERT_HEAD(&head, n1, entries);
+
+-n2 = malloc(sizeof(struct entry));	/* Insert after. */
++n2 = malloc(sizeof(*n2));		/* Insert after. */
+ SLIST_INSERT_AFTER(n1, n2, entries);
+
+ SLIST_REMOVE(&head, n2, entry, entries);/* Deletion. */
+@@ -774,13 +774,13 @@ struct entry {
+
+ STAILQ_INIT(&head);			/* Initialize the queue. */
+
+-n1 = malloc(sizeof(struct entry));	/* Insert at the head. */
++n1 = malloc(sizeof(*n1));		/* Insert at the head. */
+ STAILQ_INSERT_HEAD(&head, n1, entries);
+
+-n1 = malloc(sizeof(struct entry));	/* Insert at the tail. */
++n1 = malloc(sizeof(*n1));		/* Insert at the tail. */
+ STAILQ_INSERT_TAIL(&head, n1, entries);
+
+-n2 = malloc(sizeof(struct entry));	/* Insert after. */
++n2 = malloc(sizeof(*n2));		/* Insert after. */
+ STAILQ_INSERT_AFTER(&head, n1, n2, entries);
+ 					/* Deletion. */
+ STAILQ_REMOVE(&head, n2, entry, entries);
+@@ -974,13 +974,13 @@ struct entry {
+
+ LIST_INIT(&head);			/* Initialize the list. */
+
+-n1 = malloc(sizeof(struct entry));	/* Insert at the head. */
++n1 = malloc(sizeof(*n1));		/* Insert at the head. */
+ LIST_INSERT_HEAD(&head, n1, entries);
+
+-n2 = malloc(sizeof(struct entry));	/* Insert after. */
++n2 = malloc(sizeof(*n2));		/* Insert after. */
+ LIST_INSERT_AFTER(n1, n2, entries);
+
+-n3 = malloc(sizeof(struct entry));	/* Insert before. */
++n3 = malloc(sizeof(*n3));		/* Insert before. */
+ LIST_INSERT_BEFORE(n2, n3, entries);
+
+ LIST_REMOVE(n2, entries);		/* Deletion. */
+@@ -1232,16 +1232,16 @@ struct entry {
+
+ TAILQ_INIT(&head);			/* Initialize the queue. */
+
+-n1 = malloc(sizeof(struct entry));	/* Insert at the head. */
++n1 = malloc(sizeof(*n1));		/* Insert at the head. */
+ TAILQ_INSERT_HEAD(&head, n1, entries);
+
+-n1 = malloc(sizeof(struct entry));	/* Insert at the tail. */
++n1 = malloc(sizeof(*n1));		/* Insert at the tail. */
+ TAILQ_INSERT_TAIL(&head, n1, entries);
+
+-n2 = malloc(sizeof(struct entry));	/* Insert after. */
++n2 = malloc(sizeof(*n2));		/* Insert after. */
+ TAILQ_INSERT_AFTER(&head, n1, n2, entries);
+
+-n3 = malloc(sizeof(struct entry));	/* Insert before. */
++n3 = malloc(sizeof(*n3));		/* Insert before. */
+ TAILQ_INSERT_BEFORE(n2, n3, entries);
+
+ TAILQ_REMOVE(&head, n2, entries);	/* Deletion. */
+@@ -1425,16 +1425,16 @@ struct entry {
+
+ CIRCLEQ_INIT(&head);			/* Initialize the queue. */
+
+-n1 = malloc(sizeof(struct entry));	/* Insert at the head. */
++n1 = malloc(sizeof(*n1));		/* Insert at the head. */
+ CIRCLEQ_INSERT_HEAD(&head, n1, entries);
+
+-n1 = malloc(sizeof(struct entry));	/* Insert at the tail. */
++n1 = malloc(sizeof(*n1));		/* Insert at the tail. */
+ CIRCLEQ_INSERT_TAIL(&head, n1, entries);
+
+-n2 = malloc(sizeof(struct entry));	/* Insert after. */
++n2 = malloc(sizeof(*n2));		/* Insert after. */
+ CIRCLEQ_INSERT_AFTER(&head, n1, n2, entries);
+
+-n3 = malloc(sizeof(struct entry));	/* Insert before. */
++n3 = malloc(sizeof(*n3));		/* Insert before. */
+ CIRCLEQ_INSERT_BEFORE(&head, n2, n3, entries);
+
+ CIRCLEQ_REMOVE(&head, n2, entries);	/* Deletion. */
+diff --git a/man3/rtnetlink.3 b/man3/rtnetlink.3
+index 07bb1fbf9..f8b6c255a 100644
+--- a/man3/rtnetlink.3
++++ b/man3/rtnetlink.3
+@@ -105,7 +105,7 @@ unsigned int mtu = 1000;
+ int rtnetlink_sk = socket(AF_NETLINK, SOCK_DGRAM, NETLINK_ROUTE);
+
+ memset(&req, 0, sizeof(req));
+-req.nh.nlmsg_len = NLMSG_LENGTH(sizeof(struct ifinfomsg));
++req.nh.nlmsg_len = NLMSG_LENGTH(sizeof(req.if));
+ req.nh.nlmsg_flags = NLM_F_REQUEST;
+ req.nh.nlmsg_type = RTM_NEWLINK;
+ req.if.ifi_family = AF_UNSPEC;
+@@ -114,7 +114,7 @@ req.if.ifi_change = 0xffffffff; /* ??? */
+ rta = (struct rtattr *)(((char *) &req) +
+                          NLMSG_ALIGN(req.nh.nlmsg_len));
+ rta\->rta_type = IFLA_MTU;
+-rta\->rta_len = RTA_LENGTH(sizeof(unsigned int));
++rta\->rta_len = RTA_LENGTH(sizeof(mtu));
+ req.nh.nlmsg_len = NLMSG_ALIGN(req.nh.nlmsg_len) +
+                               RTA_LENGTH(sizeof(mtu));
+ memcpy(RTA_DATA(rta), &mtu, sizeof(mtu));
+diff --git a/man3/shm_open.3 b/man3/shm_open.3
+index bba4eb826..24cc6a403 100644
+--- a/man3/shm_open.3
++++ b/man3/shm_open.3
+@@ -382,7 +382,7 @@ main(int argc, char *argv[])
+
+     /* Map the object into the caller\(aqs address space */
+
+-    struct shmbuf *shmp = mmap(NULL, sizeof(struct shmbuf),
++    struct shmbuf *shmp = mmap(NULL, sizeof(*shmp),
+                                PROT_READ | PROT_WRITE,
+                                MAP_SHARED, fd, 0);
+     if (shmp == MAP_FAILED)
+@@ -471,7 +471,7 @@ main(int argc, char *argv[])
+     if (fd == \-1)
+         errExit("shm_open");
+
+-    struct shmbuf *shmp = mmap(NULL, sizeof(struct shmbuf),
++    struct shmbuf *shmp = mmap(NULL, sizeof(*shmp),
+                                PROT_READ | PROT_WRITE,
+                                MAP_SHARED, fd, 0);
+     if (shmp == MAP_FAILED)
+diff --git a/man3/strptime.3 b/man3/strptime.3
+index d12f298ff..ab7d76f9a 100644
+--- a/man3/strptime.3
++++ b/man3/strptime.3
+@@ -429,7 +429,7 @@ main(void)
+     struct tm tm;
+     char buf[255];
+
+-    memset(&tm, 0, sizeof(struct tm));
++    memset(&tm, 0, sizeof(tm));
+     strptime("2001\-11\-12 18:31:01", "%Y\-%m\-%d %H:%M:%S", &tm);
+     strftime(buf, sizeof(buf), "%d %b %Y %H:%M", &tm);
+     puts(buf);
+diff --git a/man3/tsearch.3 b/man3/tsearch.3
+index 452395d6b..f0ff80e8c 100644
+--- a/man3/tsearch.3
++++ b/man3/tsearch.3
+@@ -327,7 +327,7 @@ main(void)
+
+     srand(time(NULL));
+     for (i = 0; i < 12; i++) {
+-        ptr = xmalloc(sizeof(int));
++        ptr = xmalloc(sizeof(*ptr));
+         *ptr = rand() & 0xff;
+         val = tsearch((void *) ptr, &root, compare);
+         if (val == NULL)
+diff --git a/man7/aio.7 b/man7/aio.7
+index dd05dce83..d3ab3f422 100644
+--- a/man7/aio.7
++++ b/man7/aio.7
+@@ -311,11 +311,11 @@ main(int argc, char *argv[])
+
+     /* Allocate our arrays */
+
+-    ioList = calloc(numReqs, sizeof(struct ioRequest));
++    ioList = calloc(numReqs, sizeof(*ioList));
+     if (ioList == NULL)
+         errExit("calloc");
+
+-    aiocbList = calloc(numReqs, sizeof(struct aiocb));
++    aiocbList = calloc(numReqs, sizeof(*aiocbList));
+     if (aiocbList == NULL)
+         errExit("calloc");
+
+diff --git a/man7/fanotify.7 b/man7/fanotify.7
+index a7d60b2b9..29c818027 100644
+--- a/man7/fanotify.7
++++ b/man7/fanotify.7
+@@ -808,8 +808,7 @@ handle_events(int fd)
+
+                     response.fd = metadata\->fd;
+                     response.response = FAN_ALLOW;
+-                    write(fd, &response,
+-                          sizeof(struct fanotify_response));
++                    write(fd, &response, sizeof(response));
+                 }
+
+                 /* Handle closing of writable file event */
+diff --git a/man7/inotify.7 b/man7/inotify.7
+index e60d9c82b..f1a1667e3 100644
+--- a/man7/inotify.7
++++ b/man7/inotify.7
+@@ -952,7 +952,7 @@ handle_events(int fd, int *wd, int argc, char* argv[])
+
+         /* Read some events. */
+
+-        len = read(fd, buf, sizeof buf);
++        len = read(fd, buf, sizeof(buf));
+         if (len == \-1 && errno != EAGAIN) {
+             perror("read");
+             exit(EXIT_FAILURE);
+@@ -968,7 +968,7 @@ handle_events(int fd, int *wd, int argc, char* argv[])
+         /* Loop over all events in the buffer */
+
+         for (ptr = buf; ptr < buf + len;
+-                ptr += sizeof(struct inotify_event) + event\->len) {
++                ptr += sizeof(*event) + event\->len) {
+
+             event = (const struct inotify_event *) ptr;
+
+@@ -1031,7 +1031,7 @@ main(int argc, char* argv[])
+
+     /* Allocate memory for watch descriptors */
+
+-    wd = calloc(argc, sizeof(int));
++    wd = calloc(argc, sizeof(*wd));
+     if (wd == NULL) {
+         perror("calloc");
+         exit(EXIT_FAILURE);
+diff --git a/man7/unix.7 b/man7/unix.7
+index 5283a1e58..ac01ff712 100644
+--- a/man7/unix.7
++++ b/man7/unix.7
+@@ -948,7 +948,7 @@ main(int argc, char *argv[])
+      * the structure.
+      */
+
+-    memset(&name, 0, sizeof(struct sockaddr_un));
++    memset(&name, 0, sizeof(name));
+
+     /* Bind socket to socket name. */
+
+@@ -956,7 +956,7 @@ main(int argc, char *argv[])
+     strncpy(name.sun_path, SOCKET_NAME, sizeof(name.sun_path) \- 1);
+
+     ret = bind(connection_socket, (const struct sockaddr *) &name,
+-               sizeof(struct sockaddr_un));
++               sizeof(name));
+     if (ret == \-1) {
+         perror("bind");
+         exit(EXIT_FAILURE);
+@@ -1082,7 +1082,7 @@ main(int argc, char *argv[])
+      * the structure.
+      */
+
+-    memset(&addr, 0, sizeof(struct sockaddr_un));
++    memset(&addr, 0, sizeof(addr));
+
+     /* Connect socket to socket address */
+
+@@ -1090,7 +1090,7 @@ main(int argc, char *argv[])
+     strncpy(addr.sun_path, SOCKET_NAME, sizeof(addr.sun_path) \- 1);
+
+     ret = connect (data_socket, (const struct sockaddr *) &addr,
+-                   sizeof(struct sockaddr_un));
++                   sizeof(addr));
+     if (ret == \-1) {
+         fprintf(stderr, "The server is down.\en");
+         exit(EXIT_FAILURE);
+-- 
+2.28.0
