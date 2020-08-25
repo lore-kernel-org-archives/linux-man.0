@@ -2,467 +2,195 @@ Return-Path: <SRS0=F5uD=CD=vger.kernel.org=linux-man-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-12.6 required=3.0 tests=BAYES_00,DKIM_SIGNED,
+X-Spam-Status: No, score=-3.6 required=3.0 tests=BAYES_00,DKIM_SIGNED,
 	DKIM_VALID,DKIM_VALID_AU,FREEMAIL_FORGED_FROMDOMAIN,FREEMAIL_FROM,
-	HEADER_FROM_DIFFERENT_DOMAINS,INCLUDES_PATCH,MAILING_LIST_MULTI,SIGNED_OFF_BY,
-	SPF_HELO_NONE,SPF_PASS,URIBL_BLOCKED,USER_AGENT_GIT autolearn=ham
-	autolearn_force=no version=3.4.0
+	HEADER_FROM_DIFFERENT_DOMAINS,MAILING_LIST_MULTI,SPF_HELO_NONE,SPF_PASS
+	autolearn=no autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 4599EC433DF
-	for <linux-man@archiver.kernel.org>; Tue, 25 Aug 2020 11:41:35 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 3BDABC433DF
+	for <linux-man@archiver.kernel.org>; Tue, 25 Aug 2020 11:41:49 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.kernel.org (Postfix) with ESMTP id 19A59206F0
-	for <linux-man@archiver.kernel.org>; Tue, 25 Aug 2020 11:41:35 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTP id 1A428206F0
+	for <linux-man@archiver.kernel.org>; Tue, 25 Aug 2020 11:41:49 +0000 (UTC)
 Authentication-Results: mail.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="CxBRDvbB"
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="jYOyre+/"
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1729980AbgHYLlO (ORCPT <rfc822;linux-man@archiver.kernel.org>);
-        Tue, 25 Aug 2020 07:41:14 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:34838 "EHLO
+        id S1728993AbgHYLls (ORCPT <rfc822;linux-man@archiver.kernel.org>);
+        Tue, 25 Aug 2020 07:41:48 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:34908 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1730088AbgHYLlH (ORCPT
-        <rfc822;linux-man@vger.kernel.org>); Tue, 25 Aug 2020 07:41:07 -0400
-Received: from mail-wm1-x342.google.com (mail-wm1-x342.google.com [IPv6:2a00:1450:4864:20::342])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 05F3DC061755
-        for <linux-man@vger.kernel.org>; Tue, 25 Aug 2020 04:41:07 -0700 (PDT)
-Received: by mail-wm1-x342.google.com with SMTP id k20so1782707wmi.5
-        for <linux-man@vger.kernel.org>; Tue, 25 Aug 2020 04:41:06 -0700 (PDT)
+        with ESMTP id S1730020AbgHYLlc (ORCPT
+        <rfc822;linux-man@vger.kernel.org>); Tue, 25 Aug 2020 07:41:32 -0400
+Received: from mail-ot1-x344.google.com (mail-ot1-x344.google.com [IPv6:2607:f8b0:4864:20::344])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 05E9EC061574
+        for <linux-man@vger.kernel.org>; Tue, 25 Aug 2020 04:41:32 -0700 (PDT)
+Received: by mail-ot1-x344.google.com with SMTP id o8so7353591otp.9
+        for <linux-man@vger.kernel.org>; Tue, 25 Aug 2020 04:41:31 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=gmail.com; s=20161025;
-        h=from:to:cc:subject:date:message-id:in-reply-to:references;
-        bh=AtYYmjuDpu5i3HLn3++Yb8qTkl/on+J4g5ntm5ePSFY=;
-        b=CxBRDvbBB98j3vPQREbpeHERTgtkshXZxCexNcYqaanoL741oFfM4Fx+NYIwjqcPa2
-         54LrNetXESQczv9iHI6HyvKdm7rq8GdHUek1GsjKFNvzI7ELg9SG6BDz1Q7esHS7YT9U
-         nVlEdTOWXNVbUr25cciZ/5v61ucbKw1JeDIRDLPXd/rU/sDq51Kl10yJ49e7tsOBAZVN
-         SXBNqXgtXaUUCPQrBX0WZ4TAOzG3hO4n4nVLYm+RFl1dkTVSeM69pPJzlVMegrkZB4iy
-         iKxxLRFdNjvA3noeIZAVruvmYhUFJOvSAmJx+ufu2BmzkYmoQmfQ7f4b5OTZdkfwOjRQ
-         IbWA==
+        h=mime-version:references:in-reply-to:reply-to:from:date:message-id
+         :subject:to:cc;
+        bh=MwGfhROLWwRTn9qEJPkoTNHXFvVGAO46aSFzsWHLP5g=;
+        b=jYOyre+/3qGUXB/zlnYVKTuBM+EmEbZSEcEWpcN6kYdkvd0NUa49fAPtqLkasNgR9C
+         q9h5ownzphnDnM4p9laFKRr7wsM9GQNrGLWn/KKa53Rz4WyIDFqvDDBRkRzPCzc0HJ0L
+         wKivDwJ3pwyVvTfZ0rXD/Zrq+63yLtOr3uSHRWTXppiACR+ctuRDa9gp1ST6g7YNiypH
+         Ni0KkRM6QDYJP+buNAlK3x84eSGy67yVTWpMuDRRO4weksB9BCoTSpoCht/EnUFjnk8N
+         gC33Cy3UliF/KT2shEVLC93sAmb0DZGcQvwsk4S+LU9xgJ1FCnmPnqdQEBuwz0Sr1PcP
+         BUvg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
-        h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
-         :references;
-        bh=AtYYmjuDpu5i3HLn3++Yb8qTkl/on+J4g5ntm5ePSFY=;
-        b=ensgVccRzBAtitL1GdiZOz+M3Rwywp3HfqlVlGkB0/is9gfbNSpXSSVAMnqkKsP057
-         eBfzGb1IHV33JKBquMOweMkcpR+qCVPG4R/wj25zxKtclIXbWXDTukZ3elXYeRkpwb5Y
-         9twdroQ5+U5P0gzp2drzAu1WpO3eIi1MItVgwqJj9/HMJF7Nx3devZ+7VdoqfJr8TbJy
-         ms3+14X8UKqgRo4/Zys4HvY4LBwQeCEvX4LM08fBONpFQcnYUxdVMnDKS/Tv78yVlq9O
-         yg9l8aWIR29BbgydzpzhHX2QeI1JDIjHFHvQx4MjM1+Ds7zsxzBXOKT+r38mtcwN1TZy
-         mC+A==
-X-Gm-Message-State: AOAM5338SjrGBVox9LQGzug2gnDa8QiNaKeGVOLm9A48DGwOD0HHekPs
-        2AdcjrgVgs25MzaTYsev5GE=
-X-Google-Smtp-Source: ABdhPJwyr7yVToqZeX8+UxpeN0nPYNhG1M3QWJZRAFF0xAXYB31j11erDEDa6ixNd5PEjsx4cO8Yww==
-X-Received: by 2002:a7b:cc90:: with SMTP id p16mr540240wma.100.1598355665452;
-        Tue, 25 Aug 2020 04:41:05 -0700 (PDT)
-Received: from localhost.localdomain ([141.226.8.56])
-        by smtp.gmail.com with ESMTPSA id g18sm31256574wru.27.2020.08.25.04.41.04
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Tue, 25 Aug 2020 04:41:04 -0700 (PDT)
-From:   Amir Goldstein <amir73il@gmail.com>
-To:     Michael Kerrisk <mtk.manpages@gmail.com>
-Cc:     Jan Kara <jack@suse.cz>,
-        Matthew Bobrowski <mbobrowski@mbobrowski.org>,
-        linux-man@vger.kernel.org
-Subject: [PATCH v2 1/3] fanotify.7, fanotify_mark.2: Generalize documentation of FAN_REPORT_FID
-Date:   Tue, 25 Aug 2020 14:40:54 +0300
-Message-Id: <20200825114056.5179-2-amir73il@gmail.com>
-X-Mailer: git-send-email 2.17.1
-In-Reply-To: <20200825114056.5179-1-amir73il@gmail.com>
-References: <20200825114056.5179-1-amir73il@gmail.com>
+        h=x-gm-message-state:mime-version:references:in-reply-to:reply-to
+         :from:date:message-id:subject:to:cc;
+        bh=MwGfhROLWwRTn9qEJPkoTNHXFvVGAO46aSFzsWHLP5g=;
+        b=LPOUnKIWNhHHUp6vTyjBDZ2zNlAjEmS31Q1L1f3YSfZ5d0iCx4c4vzxe26G1bnb6OL
+         WXI2VewBbBYDYdb1FJol9KkgPcaHyjwhsH0VDTWP9yi/nen/6ghwIpbHNGCbIBCwHmx7
+         hisdt8e8F0XUS/zeO1xEimAMls2aF66iF3dZGjd80rX7QLgMWoY+RZ+XwYSf54I7Be/b
+         vpbGeyibohQLD5EBPkdnw+eycSzwj9x1tSXa6xpv+NL2aY+evVcW80J+g4b8U472T9Xv
+         72EfKSR4Xa/IibkV/mGlzP+hO2CRaqrLNVUz5rCZMNT7je/UjvO6lICS6BByMwEHmPis
+         k/lg==
+X-Gm-Message-State: AOAM533fXjUgSI0+uDbJXETtrc0/KGLXUr9oes+sjbJxQGw+Lw92OoXU
+        GamC/PGgSBYZI1/FBnzzy/Wx0OkNQw6qWFRkqZ0=
+X-Google-Smtp-Source: ABdhPJxXonEe/xI/07WIkYKYNpoTKmkL2jQ2058JzXQX+iDfdU7rRNSMyGyq5ovgoHKtGM+VIQLL5lPHF2azcSmeoXg=
+X-Received: by 2002:a05:6830:149a:: with SMTP id s26mr6465825otq.114.1598355691273;
+ Tue, 25 Aug 2020 04:41:31 -0700 (PDT)
+MIME-Version: 1.0
+References: <cc176298-50e2-7831-f2f7-21be8cae9075@gmail.com>
+ <e1b424c2-77c1-e995-a866-67a122d7bb07@gmail.com> <20200825111924.gwf3ck4bdq42lrzr@jwilk.net>
+ <d084b7eb-a691-52e8-4996-5080af0175de@gmail.com>
+In-Reply-To: <d084b7eb-a691-52e8-4996-5080af0175de@gmail.com>
+Reply-To: mtk.manpages@gmail.com
+From:   "Michael Kerrisk (man-pages)" <mtk.manpages@gmail.com>
+Date:   Tue, 25 Aug 2020 13:41:20 +0200
+Message-ID: <CAKgNAki_wyf7dCShjpAaRLUeuL=+EFZYeVp0fY-EKHyOBW2hRw@mail.gmail.com>
+Subject: Re: [patch] memusage.1, bind.2, eventfd.2, futex.2,
+ open_by_handle_at.2, perf_event_open.2, poll.2, signalfd.2, sysctl.2,
+ timerfd_create.2, bsearch.3, cmsg.3, getaddrinfo.3, getaddrinfo_a.3
+ getgrouplist.3, insque.3, malloc_info.3, mbsinit.3, mbstowcs.3,
+ pthread_create.3, pthread_setaffinity_np.3, queue.3, rtnetlink.3, shm_open.3,
+ strptime.3, tsearch.3, aio.7, fanotify.7, inotify.7, unix.7: Use sizeof consistently
+To:     Alejandro Colomar <colomar.6.4.3@gmail.com>
+Cc:     Jakub Wilk <jwilk@jwilk.net>, linux-man <linux-man@vger.kernel.org>
+Content-Type: text/plain; charset="UTF-8"
 Sender: linux-man-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-man.vger.kernel.org>
 X-Mailing-List: linux-man@vger.kernel.org
 
-With fanotify_init(2) flag FAN_REPORT_FID, the group identifies
-filesystem objects by file handles in a single event info record of type
-FAN_EVENT_INFO_TYPE_FID.
+Hello Alex,
 
-We indend to add support for new fanotify_init(2) flags for which the
-group identifies filesystem objects by file handles and add more event
-info record types.
+On Tue, 25 Aug 2020 at 13:34, Alejandro Colomar <colomar.6.4.3@gmail.com> wrote:
+>
+> Hello Michael & Jakub,
+>
+> On 8/25/20 12:29 PM, Michael Kerrisk (man-pages) wrote:
+> > I would really have preferred three patches here, since:
+>
+> I can do that.
+>
+> >
+> >> - Never use a space after ``sizeof``, and always use parentheses
+> >>   instead.
+> >>
+> >>      Rationale:
+> >>
+> >>      https://www.kernel.org/doc/html/v5.8/process/coding-style.html#spaces
+> >
+> > (1) This is completely unproblematic from my point of view.
+>
+> Actually there was only one appearance of that (and another one that
+> used a space before the parentheses).  It's unproblematic, but it's so
+> minor that it can be fixed easily.
+>
+> >> - Use the name of the variable instead of the type as argument
+> >>   for ``sizeof``, wherever possible.
+> >>
+> >>      Rationale:
+> >>
+> >>
+> https://www.kernel.org/doc/html/v5.8/process/coding-style.html#allocating-memory
+> >
+> > (2) This one is up for debate. In many cases it makes sense to do
+> > this. However, there are cases where I think that using the struct
+> > name can actually help readability. And when I grep through the kernel
+> > source, of around 139k lines that use "sizeof", some 37k take a
+> 'struct type'
+> > as an argument. SI, I think this kind of change may need to be
+> considered on
+> > a case by case basis, rather than as a blanket change.
+>
+> Ok. I can send a set of patches with a patch for each page.
 
-To that end, start by changing the language of the man page to refer
-to a "group that identifies filesystem objects by file handles" instead
-of referring to the FAN_REPORT_FID flag and document the extended event
-format structure in a more generic manner that allows more than a single
-event info record and not only a record of type FAN_EVENT_INFO_TYPE_FID.
+Okay. Don't do them all at once, since we may change strategy while
+discussing the first few patches.
 
-Clarify that the object identified by the file handle refers to the
-directory in directory entry modification events.
+> >> - When the result of ``sizeof`` is multiplied (or otherwise modified),
+> >>   write ``sizeof`` in the first place.
+> >>
+> >>      Rationale:
+> >>
+> >>      ``(sizeof(x) * INT_MAX * 2)`` doesn't overflow.
+> >>
+> >>      ``(INT_MAX * 2 * sizeof(x))`` overflows, giving incorrect
+> >>      results.
+> >
+> > (3) Is this true? "gcc -Wall" does not complain about this. And, I
+> > thought that in both cases, all operands in the expression
+> > would be promoted to the largest type. And, on my x86-64 system,
+> >
+> > sizeof((sizeof(x) * INT_MAX * 2)) == 8
+> > sizeof(INT_MAX * 2 * sizeof(x)) == 8
+> >
+> > But, I will say tht I'm not a language lawyer, and C still
+> > sometimes has surprises for me. At the least, I'd like to know
+> > more about this point.
+>
+> Well, when I said the first one doesn't overflow, I meant it's much
+> less likely.
+>
+> In C, successive multiplications are evaluated left to right (*), and
+> therefore here is what happens:
+>
+> ``(sizeof(x) * INT_MAX * 2)``:
+>
+> 1) sizeof(x) * INT_MAX  (the type is the largest of both, which is
+>                          size_t (unsigned long; uint64_t)).
+> 2) ANS * 2              (the type is again the largest: size_t)
+>
+> ``(INT_MAX * 2 * sizeof(x))``:
+>
+> 1) INT_MAX * 2          (the type is the largest of both, which is
+>                          int as both are int (int; int32_t), so the
+>                          result is already truncated as it doesn't fit
+>                          an int; at this point, the intermediate result
+>                          will be 2^32 - 2 (``INT_MAX - 1``) (if I did
+>                          the math right)).
+> 2) ANS * 2              (the type is again the largest of both: size_t;
+>                          however, ANS was already incorrect, so the
+>                          result will be an incorrect size_t value)
+>
+> > sizeof((sizeof(x) * INT_MAX * 2)) == 8
+>
+> Here you were overflowing a uint64_t (if x were a char, it would not
+> overflow, and the result would be close to UINT64_MAX).
+>
+> > sizeof(INT_MAX * 2 * sizeof(x)) == 8
+>
+> Here you were overflowing int32_t, and it would overflow regardless of
+> sizeof(x).
 
-Remove a note about directory entry modification events and monitoring
-a mount point that I found to be too confusing and out of context.
+Thanks for the lesson in C basics. I clearly did need a refresher :-}.
 
-Signed-off-by: Amir Goldstein <amir73il@gmail.com>
-Reviewed-by: Jan Kara <jack@suse.cz>
-Reviewed-by: Matthew Bobrowski <mbobrowski@mbobrowski.org>
----
- man2/fanotify_init.2 | 26 ++++++++-----
- man2/fanotify_mark.2 | 50 +++++++-----------------
- man7/fanotify.7      | 93 +++++++++++++++++++++++---------------------
- 3 files changed, 81 insertions(+), 88 deletions(-)
+You and Jakub are of course correct.
 
-diff --git a/man2/fanotify_init.2 b/man2/fanotify_init.2
-index 8eedfe194..54646e3c6 100644
---- a/man2/fanotify_init.2
-+++ b/man2/fanotify_init.2
-@@ -159,22 +159,30 @@ supplied to
- .\" commit a8b13aa20afb69161b5123b4f1acc7ea0a03d360
- This value allows the receipt of events which contain additional information
- about the underlying filesystem object correlated to an event.
--An additional structure encapsulates the information about the object and is
--included alongside the generic event metadata structure.
-+An additional record of type
-+.BR FAN_EVENT_INFO_TYPE_FID
-+encapsulates the information about the object and is included alongside the
-+generic event metadata structure.
- The file descriptor that is used to represent the object correlated to an
- event is instead substituted with a file handle.
- It is intended for applications that may find the use of a file handle to
- identify an object more suitable than a file descriptor.
--Additionally, it may be used for applications that are interested in
--directory entry events, such as
-+Additionally, it may be used for applications monitoring a directory or a
-+filesystem that are interested in the directory entry modification events
- .BR FAN_CREATE ,
--.BR FAN_ATTRIB ,
-+.BR FAN_DELETE ,
-+and
- .BR FAN_MOVE ,
-+or in events such as
-+.BR FAN_ATTRIB ,
-+.BR FAN_DELETE_SELF ,
- and
--.BR FAN_DELETE
--for example.
--Note that the use of directory modification events are not supported when
--monitoring a mount point.
-+.BR FAN_MOVE_SELF .
-+All the events above require an fanotify group that identifies filesystem
-+objects by file handles.
-+Note that for the directory entry modification events the reported file handle
-+identifies the modified directory and not the created/deleted/moved child
-+object.
- The use of
- .BR FAN_CLASS_CONTENT
- or
-diff --git a/man2/fanotify_mark.2 b/man2/fanotify_mark.2
-index 579e5a907..042841687 100644
---- a/man2/fanotify_mark.2
-+++ b/man2/fanotify_mark.2
-@@ -126,10 +126,7 @@ is not itself a mount point, the mount point containing
- will be marked.
- All directories, subdirectories, and the contained files of the mount point
- will be monitored.
--The events which require the
--.I fanotify_fd
--file descriptor to have been initialized with the flag
--.BR FAN_REPORT_FID ,
-+The events which require that filesystem objects are identified by file handles,
- such as
- .BR FAN_CREATE ,
- .BR FAN_ATTRIB ,
-@@ -194,54 +191,47 @@ See NOTES for additional details.
- .BR FAN_ATTRIB " (since Linux 5.1)"
- .\" commit 235328d1fa4251c6dcb32351219bb553a58838d2
- Create an event when the metadata for a file or directory has changed.
--An fanotify file descriptor created with
--.B FAN_REPORT_FID
-+An fanotify group that identifies filesystem objects by file handles
- is required.
- .TP
- .BR FAN_CREATE " (since Linux 5.1)"
- .\" commit 235328d1fa4251c6dcb32351219bb553a58838d2
- Create an event when a file or directory has been created in a marked
- parent directory.
--An fanotify file descriptor created with
--.B FAN_REPORT_FID
-+An fanotify group that identifies filesystem objects by file handles
- is required.
- .TP
- .BR FAN_DELETE " (since Linux 5.1)"
- .\" commit 235328d1fa4251c6dcb32351219bb553a58838d2
- Create an event when a file or directory has been deleted in a marked
- parent directory.
--An fanotify file descriptor created with
--.B FAN_REPORT_FID
-+An fanotify group that identifies filesystem objects by file handles
- is required.
- .TP
- .BR FAN_DELETE_SELF " (since Linux 5.1)"
- .\" commit 235328d1fa4251c6dcb32351219bb553a58838d2
- Create an event when a marked file or directory itself is deleted.
--An fanotify file descriptor created with
--.B FAN_REPORT_FID
-+An fanotify group that identifies filesystem objects by file handles
- is required.
- .TP
- .BR FAN_MOVED_FROM " (since Linux 5.1)"
- .\" commit 235328d1fa4251c6dcb32351219bb553a58838d2
- Create an event when a file or directory has been moved from a marked
- parent directory.
--An fanotify file descriptor created with
--.B FAN_REPORT_FID
-+An fanotify group that identifies filesystem objects by file handles
- is required.
- .TP
- .BR FAN_MOVED_TO " (since Linux 5.1)"
- .\" commit 235328d1fa4251c6dcb32351219bb553a58838d2
- Create an event when a file or directory has been moved to a marked parent
- directory.
--An fanotify file descriptor created with
--.B FAN_REPORT_FID
-+An fanotify group that identifies filesystem objects by file handles
- is required.
- .TP
- .BR FAN_MOVE_SELF " (since Linux 5.1)"
- .\" commit 235328d1fa4251c6dcb32351219bb553a58838d2
- Create an event when a marked file or directory itself has been moved.
--An fanotify file descriptor created with
--.B FAN_REPORT_FID
-+An fanotify group that identifies filesystem objects by file handles
- is required.
- .TP
- .B FAN_OPEN_PERM
-@@ -393,8 +383,7 @@ was not an fanotify file descriptor.
- .B EINVAL
- The fanotify file descriptor was opened with
- .B FAN_CLASS_NOTIF
--or
--.B FAN_REPORT_FID
-+or the fanotify group identifies filesystem objects by file handles
- and mask contains a flag for permission events
- .RB ( FAN_OPEN_PERM
- or
-@@ -407,11 +396,8 @@ is not associated with a filesystem that supports
- .I fsid
- (e.g.,
- .BR tmpfs (5)).
--This error can be returned only when an fanotify file descriptor returned
--by
--.BR fanotify_init (2)
--has been created with
--.BR FAN_REPORT_FID .
-+This error can be returned only with an fanotify group that identifies
-+filesystem objects by file handles.
- .TP
- .B ENOENT
- The filesystem object indicated by
-@@ -452,11 +438,8 @@ The object indicated by
- .I pathname
- is associated with a filesystem that does not support the encoding of file
- handles.
--This error can be returned only when an fanotify file descriptor returned
--by
--.BR fanotify_init (2)
--has been created with
--.BR FAN_REPORT_FID .
-+This error can be returned only with an fanotify group that identifies
-+filesystem objects by file handles.
- .TP
- .B EXDEV
- The filesystem object indicated by
-@@ -466,11 +449,8 @@ resides within a filesystem subvolume (e.g.,
- which uses a different
- .I fsid
- than its root superblock.
--This error can be returned only when an fanotify file descriptor returned
--by
--.BR fanotify_init (2)
--has been created with
--.BR FAN_REPORT_FID .
-+This error can be returned only with an fanotify group that identifies
-+filesystem objects by file handles.
- .SH VERSIONS
- .BR fanotify_mark ()
- was introduced in version 2.6.36 of the Linux kernel and enabled in version
-diff --git a/man7/fanotify.7 b/man7/fanotify.7
-index a7d60b2b9..734fa7b7c 100644
---- a/man7/fanotify.7
-+++ b/man7/fanotify.7
-@@ -110,14 +110,9 @@ Two types of events are generated:
- events and
- .I permission
- events.
--Notification events are merely informative
--and require no action to be taken by
--the receiving application with the exception being that the file
--descriptor provided within a generic event must be closed.
--The closing of file descriptors for each event applies only to
--applications that have initialized fanotify without using
--.BR FAN_REPORT_FID
--(see below).
-+Notification events are merely informative and require no action to be taken
-+by the receiving application with one exception - if a valid file descriptor
-+is provided within a generic event, the file descriptor must be closed.
- Permission events are requests to the receiving application to decide
- whether permission for a file access shall be granted.
- For these events, the recipient must write a response which decides whether
-@@ -147,7 +142,9 @@ The use of the
- flag in
- .BR fanotify_init (2)
- influences what data structures are returned to the event listener for each
--event.
-+event. Events reported to a group initialized with this flag will
-+use file handles to identify filesystem objects instead of file descriptors.
-+.TP
- After a successful
- .BR read (2),
- the read buffer contains one or more of the following structures:
-@@ -166,17 +163,20 @@ struct fanotify_event_metadata {
- .EE
- .in
- .PP
--In the case where
--.BR FAN_REPORT_FID
--is supplied as one of the flags to
--.BR fanotify_init (2),
--you should also expect to receive the structure detailed below following
--the generic
-+In case of an fanotify group that identifies filesystem objects by file
-+handles, you should also expect to receive one or more additional information
-+records of the structure detailed below following the generic
- .I fanotify_event_metadata
- structure within the read buffer:
- .PP
- .in +4n
- .EX
-+struct fanotify_event_info_header {
-+        __u8 info_type;
-+        __u8 pad;
-+        __u16 len;
-+};
-+
- struct fanotify_event_info_fid {
-     struct fanotify_event_info_header hdr;
-     __kernel_fsid_t fsid;
-@@ -202,16 +202,13 @@ structure are as follows:
- .I event_len
- This is the length of the data for the current event and the offset
- to the next event in the buffer.
--Without
--.BR FAN_REPORT_FID ,
--the value of
-+Unless the group identifies filesystem objects by file handles, the value of
- .I event_len
- is always
- .BR FAN_EVENT_METADATA_LEN .
--With
--.BR FAN_REPORT_FID ,
-+For a group that identifies filesystem objects by file handles,
- .I event_len
--also includes the variable length file identifier.
-+also includes the variable length file identifier records.
- .TP
- .I vers
- This field holds a version number for the structure.
-@@ -238,8 +235,7 @@ This is a bit mask describing the event (see below).
- This is an open file descriptor for the object being accessed, or
- .B FAN_NOFD
- if a queue overflow occurred.
--If the fanotify file descriptor has been initialized using
--.BR FAN_REPORT_FID ,
-+With an fanotify group that identifies filesystem objects by file handles,
- applications should expect this value to be set to
- .B FAN_NOFD
- for each event that is received.
-@@ -395,9 +391,8 @@ See
- for additional details.
- The
- .BR FAN_ONDIR
--flag is reported in an event mask only if the fanotify group has been
--initialized with the flag
--.BR FAN_REPORT_FID .
-+flag is reported in an event mask only if the fanotify group identifies
-+filesystem objects by file handles.
- .PP
- The fields of the
- .I fanotify_event_info_fid
-@@ -406,24 +401,30 @@ structure are as follows:
- .I hdr
- This is a structure of type
- .IR fanotify_event_info_header .
--It is a generic header that contains information used to describe
--additional information attached to the event.
-+It is a generic header that contains information used to describe an
-+additional information record attached to the event.
- For example, when an fanotify file descriptor is created using
- .BR FAN_REPORT_FID ,
--the
-+a single information record is expected to be attached to the event with
- .I info_type
--field of this header is set to
-+field value of
- .BR FAN_EVENT_INFO_TYPE_FID .
--Event listeners can use this field to check that the additional
--information received for an event is of the correct type.
--Additionally, the
-+The
- .I fanotify_event_info_header
--also contains a
-+contains a
- .I len
- field.
--In the current implementation, the value of
-+The value of
- .I len
--is always (event_len \- FAN_EVENT_METADATA_LEN).
-+is the size of the additional information record including the
-+.IR fanotify_event_info_header
-+itself. The total size of all additional information records is not expected
-+to be bigger than
-+(
-+.IR event_len
-+\-
-+.IR metadata_len
-+).
- .TP
- .I fsid
- This is a unique identifier of the filesystem containing the object
-@@ -436,31 +437,35 @@ when calling
- .BR statfs (2).
- .TP
- .I file_handle
--This is a variable length structure of type
--.IR file_handle .
-+This is a variable length structure of type struct file_handle.
- It is an opaque handle that corresponds to a specified object on a
- filesystem as returned by
- .BR name_to_handle_at (2).
- It can be used to uniquely identify a file on a filesystem and can be
- passed as an argument to
- .BR open_by_handle_at (2).
--Note that for directory entry events, such as
-+Note that for the directory entry modification events
- .BR FAN_CREATE ,
- .BR FAN_DELETE ,
- and
- .BR FAN_MOVE ,
- the
- .IR file_handle
--describes the modified directory and not the created/deleted/moved child
-+identifies the modified directory and not the created/deleted/moved child
- object.
--The events
-+For other events such as
-+.BR FAN_OPEN ,
- .BR FAN_ATTRIB ,
- .BR FAN_DELETE_SELF ,
- and
--.BR FAN_MOVE_SELF
--will carry the
-+.BR FAN_MOVE_SELF ,
-+if the value of
-+.I info_type
-+field is
-+.BR FAN_EVENT_INFO_TYPE_FID ,
-+the
- .IR file_handle
--information for the child object if the child object is being watched.
-+identifies the object correlated to the event.
- .PP
- The following macros are provided to iterate over a buffer containing
- fanotify event metadata returned by a
--- 
-2.17.1
+If you send the patches in the order (as I numbered in my previous reply):
 
+(1)
+(3)
+(2) as multiple pieces
+
+that would be best, since the first two patches should obviously be
+applied, and then we can discuss the last patch(es) case by case.
+
+Thanks,
+
+Michael
