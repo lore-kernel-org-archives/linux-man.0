@@ -1,51 +1,73 @@
-Return-Path: <SRS0=8CNT=CH=vger.kernel.org=linux-man-owner@kernel.org>
+Return-Path: <SRS0=krZu=CK=vger.kernel.org=linux-man-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-3.5 required=3.0 tests=BAYES_00,DKIM_INVALID,
-	DKIM_SIGNED,HEADER_FROM_DIFFERENT_DOMAINS,MAILING_LIST_MULTI,SPF_HELO_NONE,
-	SPF_PASS autolearn=no autolearn_force=no version=3.4.0
+X-Spam-Status: No, score=-13.1 required=3.0 tests=BAYES_00,DKIMWL_WL_HIGH,
+	DKIM_SIGNED,DKIM_VALID,DKIM_VALID_AU,INCLUDES_PATCH,MAILING_LIST_MULTI,
+	SIGNED_OFF_BY,SPF_HELO_NONE,SPF_PASS,URIBL_BLOCKED,USER_AGENT_GIT
+	autolearn=ham autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 16C49C433E6
-	for <linux-man@archiver.kernel.org>; Sat, 29 Aug 2020 07:02:38 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 7325CC433E7
+	for <linux-man@archiver.kernel.org>; Tue,  1 Sep 2020 00:07:56 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.kernel.org (Postfix) with ESMTP id DD61E20738
-	for <linux-man@archiver.kernel.org>; Sat, 29 Aug 2020 07:02:37 +0000 (UTC)
-Authentication-Results: mail.kernel.org;
-	dkim=fail reason="signature verification failed" (2048-bit key) header.d=infradead.org header.i=@infradead.org header.b="YfaX1TJf"
+	by mail.kernel.org (Postfix) with ESMTP id 463052078B
+	for <linux-man@archiver.kernel.org>; Tue,  1 Sep 2020 00:07:56 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+	s=default; t=1598918876;
+	bh=PNVVnOJI0t2/je1HtZxARoqQd8q1o20hjW4Y11wGbUk=;
+	h=From:To:Cc:Subject:Date:In-Reply-To:References:List-ID:From;
+	b=i7z2Ne992Jls10cm7Cdc6b72Zrop1sXrJKuMREOflHU4/UpL3xjrKrmuBka98TS+y
+	 s1pg+K7OL2zzD+QbOr3Q4CPURhZfhgKd8GhGxeEnOl3jiWCcI+snp+E2TXYJ34iJ+A
+	 e7ecLWXRmvptKYmLdfi90agCSnkwrIQ7mCZ73/zI=
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1725929AbgH2HCh (ORCPT <rfc822;linux-man@archiver.kernel.org>);
-        Sat, 29 Aug 2020 03:02:37 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:40238 "EHLO
+        id S1726174AbgIAAHz (ORCPT <rfc822;linux-man@archiver.kernel.org>);
+        Mon, 31 Aug 2020 20:07:55 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:53042 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1725886AbgH2HCg (ORCPT
-        <rfc822;linux-man@vger.kernel.org>); Sat, 29 Aug 2020 03:02:36 -0400
-Received: from casper.infradead.org (casper.infradead.org [IPv6:2001:8b0:10b:1236::1])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 0F73BC061236;
-        Sat, 29 Aug 2020 00:02:35 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
-        d=infradead.org; s=casper.20170209; h=In-Reply-To:Content-Type:MIME-Version:
-        References:Message-ID:Subject:Cc:To:From:Date:Sender:Reply-To:
-        Content-Transfer-Encoding:Content-ID:Content-Description;
-        bh=9U9dGK0bqJLSVOUuBWXaxoDilhxzVYEaDPKgn3CAclI=; b=YfaX1TJf7HA6uhNhJQiWhVOa96
-        f0ehNVUSyn/j0g/TXrjTt2eoL7mJwEB4PB/JJiVMi5LP9i0Al6Caf4Lm0tnG4qPm+56zU1QgHO5KD
-        zRUe6vhjo0W4XXSUuEeI/I+YhnlDlJDIpE0Vz0B3crHHkxS+LD7Ce5nKBERAGV3SrwNdc5jXEkH+L
-        TT9HMk6Idvnye6juI2mrnxGfJz/Y9+Bftdi20lxWcnnRC5XMrPf7C8x6ilSfuCiEiXoBdRoCP3Rv1
-        ADtVbrtSOnk1GeYxMvqzbU/Yz18EpXB8qaJ0Olsk4Ci3SFrP0SCj75p0juusf5HA04sAnypvPh5mq
-        hT3wh4Ww==;
-Received: from hch by casper.infradead.org with local (Exim 4.92.3 #3 (Red Hat Linux))
-        id 1kBusg-0000WP-5C; Sat, 29 Aug 2020 07:02:30 +0000
-Date:   Sat, 29 Aug 2020 08:02:30 +0100
-From:   Christoph Hellwig <hch@infradead.org>
-To:     Arnd Bergmann <arnd@arndb.de>
-Cc:     Minchan Kim <minchan@kernel.org>,
-        Andrew Morton <akpm@linux-foundation.org>,
-        LKML <linux-kernel@vger.kernel.org>,
+        with ESMTP id S1725872AbgIAAHu (ORCPT
+        <rfc822;linux-man@vger.kernel.org>); Mon, 31 Aug 2020 20:07:50 -0400
+Received: from mail-pl1-x644.google.com (mail-pl1-x644.google.com [IPv6:2607:f8b0:4864:20::644])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 5A916C061573;
+        Mon, 31 Aug 2020 17:07:50 -0700 (PDT)
+Received: by mail-pl1-x644.google.com with SMTP id h2so4056250plr.0;
+        Mon, 31 Aug 2020 17:07:50 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20161025;
+        h=sender:from:to:cc:subject:date:message-id:in-reply-to:references
+         :mime-version:content-transfer-encoding;
+        bh=9v0toS4YEWMYzK02MEFlXArA+LdQ8YNff+2tLjRKFE8=;
+        b=loncq7c6CT+AEoKDTBJeM5bSVJwnYUmCav1ptE1n063QgFNE+8rPq3hINxu9nCjGo7
+         0ji4wtAxZlGbmP0dRWQjrccM9maOKSJiJ++HBj0v3y3HjWsUML4N5hI6xIoV6RbsMWpY
+         YZytYZlrEJx4zOhYOnsfRWQQd34a1vQCND3tyNficVkuj3htbAespGz6J6rVgY/KCxsa
+         /bBIGlpkIxHTJspvAwAg8Ybq/aaY+kNfYSItb+WAo1okZTSRNY3eN3e2NWF7LjqxKxKq
+         qD2exgxLj9A5HWX3STiTlvb0jAN9qeLAyIDW3OJYQWVDxBmPRVJthnOzPFzygTj2BnSv
+         GCsw==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20161025;
+        h=x-gm-message-state:sender:from:to:cc:subject:date:message-id
+         :in-reply-to:references:mime-version:content-transfer-encoding;
+        bh=9v0toS4YEWMYzK02MEFlXArA+LdQ8YNff+2tLjRKFE8=;
+        b=BGQwJZmAnefWUa3ybGXGYRJ0I0HjnfPv9zk4Z9f7gJY9u//09Mbyd9S/lGCjkegsef
+         tFPoimocPXUfZdR2vGV+gkJiKWr+uRFEFEJ/kyMYN4Wjro5mdwUJbFj/4fuwMyW8Ypcs
+         7CNlCCHN12SWheR9/usUkRw12iAFz1ou4BI6xRrY0vGcqY7idxq1jx7B1mxwL6SF20Fx
+         u4/bd9EL2brEnVpzNf0aRiXMfC50rgHmLbt5acNP690+xFcvdSH5LIFnkZokhqf5mxHx
+         lcwZ/zYcwPcLayJiEsF8Me58XfXCglasLrLp5jD6jWMvYLjdqTfb5trbcKavBoF6AG0r
+         U3zA==
+X-Gm-Message-State: AOAM532pXNmvylYFDdiJWO6C3wSZGXJHtgGP0gervse6RxpEXqlwNLsV
+        cvbXW5JMR66aJcz6k0h6mg8=
+X-Google-Smtp-Source: ABdhPJx1GFPW+c6yEJLwrJXLnT6GZ2kh1PjSdZHUxZHP4IaAqCPy2tDZk7LgzqeJ2r3EK5Jrn6rNhw==
+X-Received: by 2002:a17:90b:4a10:: with SMTP id kk16mr1603213pjb.203.1598918869690;
+        Mon, 31 Aug 2020 17:07:49 -0700 (PDT)
+Received: from bbox-1.mtv.corp.google.com ([2620:15c:211:1:7220:84ff:fe09:5e58])
+        by smtp.gmail.com with ESMTPSA id k5sm769777pjq.5.2020.08.31.17.07.46
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Mon, 31 Aug 2020 17:07:48 -0700 (PDT)
+From:   Minchan Kim <minchan@kernel.org>
+To:     Andrew Morton <akpm@linux-foundation.org>
+Cc:     LKML <linux-kernel@vger.kernel.org>,
         Christian Brauner <christian.brauner@ubuntu.com>,
-        linux-mm <linux-mm@kvack.org>,
-        Linux API <linux-api@vger.kernel.org>,
-        Oleksandr Natalenko <oleksandr@redhat.com>,
-        Suren Baghdasaryan <surenb@google.com>,
+        linux-mm <linux-mm@kvack.org>, linux-api@vger.kernel.org,
+        oleksandr@redhat.com, Suren Baghdasaryan <surenb@google.com>,
         Tim Murray <timmurray@google.com>,
         Sandeep Patil <sspatil@google.com>,
         Sonny Rao <sonnyrao@google.com>,
@@ -56,40 +78,258 @@ Cc:     Minchan Kim <minchan@kernel.org>,
         John Dias <joaodias@google.com>,
         Joel Fernandes <joel@joelfernandes.org>,
         Jann Horn <jannh@google.com>,
-        alexander.h.duyck@linux.intel.com,
-        SeongJae Park <sj38.park@gmail.com>,
+        alexander.h.duyck@linux.intel.com, sj38.park@gmail.com,
         David Rientjes <rientjes@google.com>,
         Arjun Roy <arjunroy@google.com>,
-        Vlastimil Babka <vbabka@suse.cz>,
-        Christian Brauner <christian@brauner.io>,
+        Linus Torvalds <torvalds@linux-foundation.org>,
+        Minchan Kim <minchan@kernel.org>,
+        Vlastimil Babka <vbabka@suse.cz>, Jens Axboe <axboe@kernel.dk>,
         Daniel Colascione <dancol@google.com>,
-        Jens Axboe <axboe@kernel.dk>,
+        Christian Brauner <christian@brauner.io>,
         Kirill Tkhai <ktkhai@virtuozzo.com>,
-        SeongJae Park <sjpark@amazon.de>,
-        linux-man <linux-man@vger.kernel.org>
-Subject: Re: [PATCH v8 3/4] mm/madvise: introduce process_madvise() syscall:
- an external memory hinting API
-Message-ID: <20200829070230.GA1099@infradead.org>
-References: <20200622192900.22757-1-minchan@kernel.org>
- <20200622192900.22757-4-minchan@kernel.org>
- <CAK8P3a0Mnp2ekmX-BX9yr+N8fy2=gBtASELLXoa9uGSpSS9aOA@mail.gmail.com>
+        SeongJae Park <sjpark@amazon.de>, linux-man@vger.kernel.org
+Subject: [PATCH v9 1/3] mm/madvise: pass mm to do_madvise
+Date:   Mon, 31 Aug 2020 17:06:31 -0700
+Message-Id: <20200901000633.1920247-2-minchan@kernel.org>
+X-Mailer: git-send-email 2.28.0.402.g5ffc5be6b7-goog
+In-Reply-To: <20200901000633.1920247-1-minchan@kernel.org>
+References: <20200901000633.1920247-1-minchan@kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <CAK8P3a0Mnp2ekmX-BX9yr+N8fy2=gBtASELLXoa9uGSpSS9aOA@mail.gmail.com>
-X-SRS-Rewrite: SMTP reverse-path rewritten from <hch@infradead.org> by casper.infradead.org. See http://www.infradead.org/rpr.html
+Content-Transfer-Encoding: 8bit
 Sender: linux-man-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-man.vger.kernel.org>
 X-Mailing-List: linux-man@vger.kernel.org
 
-On Fri, Aug 28, 2020 at 07:40:08PM +0200, Arnd Bergmann wrote:
-> Every syscall that passes an iovec seems to do this. If we make import_iovec()
-> handle both cases directly, this syscall and a number of others can
-> be simplified, and you avoid the x32 entry point I mentioned above
+Patch series "introduce memory hinting API for external process", v9.
 
-FYI, I do have a series that does this (even tested) and kills tons of
-compat syscalls by that.  But by doing that I found the problem that
-compat syscalls issued by io_uring don't trigger in_compat_syscall().
-I need to go back to fixing the io_uring vs in_compat_syscall() issue
-(probably for 5.9) and then submit the whole thing.
+Now, we have MADV_PAGEOUT and MADV_COLD as madvise hinting API.  With
+that, application could give hints to kernel what memory range are
+preferred to be reclaimed.  However, in some platform(e.g., Android), the
+information required to make the hinting decision is not known to the app.
+Instead, it is known to a centralized userspace daemon(e.g.,
+ActivityManagerService), and that daemon must be able to initiate reclaim
+on its own without any app involvement.
+
+To solve the concern, this patch introduces new syscall -
+process_madvise(2).  Bascially, it's same with madvise(2) syscall but it
+has some differences.
+
+1. It needs pidfd of target process to provide the hint
+
+2.  It supports only MADV_{COLD|PAGEOUT|MERGEABLE|UNMEREABLE} at this
+   moment.  Other hints in madvise will be opened when there are explicit
+   requests from community to prevent unexpected bugs we couldn't support.
+
+3.  Only privileged processes can do something for other process's
+   address space.
+
+For more detail of the new API, please see "mm: introduce external memory
+hinting API" description in this patchset.
+
+This patch (of 4):
+
+In upcoming patches, do_madvise will be called from external process
+context so we shouldn't asssume "current" is always hinted process's
+task_struct.
+
+Furthermore, we must not access mm_struct via task->mm, but obtain it
+via access_mm() once (in the following patch) and only use that pointer
+[1], so pass it to do_madvise() as well.  Note the vma->vm_mm pointers
+are safe, so we can use them further down the call stack.
+
+And let's pass current->mm as arguments of do_madvise so it shouldn't
+change existing behavior but prepare next patch to make review easy.
+
+[vbabka@suse.cz: changelog tweak]
+[minchan@kernel.org: use current->mm for io_uring]
+  Link: http://lkml.kernel.org/r/20200423145215.72666-1-minchan@kernel.org
+[akpm@linux-foundation.org: fix it for upstream changes]
+[akpm@linux-foundation.org: whoops]
+[rdunlap@infradead.org: add missing includes]
+Link: http://lkml.kernel.org/r/20200622192900.22757-1-minchan@kernel.org
+Link: http://lkml.kernel.org/r/20200302193630.68771-2-minchan@kernel.org
+Link: http://lkml.kernel.org/r/20200622192900.22757-2-minchan@kernel.org
+Signed-off-by: Minchan Kim <minchan@kernel.org>
+Reviewed-by: Suren Baghdasaryan <surenb@google.com>
+Reviewed-by: Vlastimil Babka <vbabka@suse.cz>
+Acked-by: David Rientjes <rientjes@google.com>
+Cc: Jens Axboe <axboe@kernel.dk>
+Cc: Jann Horn <jannh@google.com>
+Cc: Tim Murray <timmurray@google.com>
+Cc: Daniel Colascione <dancol@google.com>
+Cc: Sandeep Patil <sspatil@google.com>
+Cc: Sonny Rao <sonnyrao@google.com>
+Cc: Brian Geffon <bgeffon@google.com>
+Cc: Michal Hocko <mhocko@suse.com>
+Cc: Johannes Weiner <hannes@cmpxchg.org>
+Cc: Shakeel Butt <shakeelb@google.com>
+Cc: John Dias <joaodias@google.com>
+Cc: Joel Fernandes <joel@joelfernandes.org>
+Cc: Alexander Duyck <alexander.h.duyck@linux.intel.com>
+Cc: SeongJae Park <sj38.park@gmail.com>
+Cc: Christian Brauner <christian@brauner.io>
+Cc: Kirill Tkhai <ktkhai@virtuozzo.com>
+Cc: Oleksandr Natalenko <oleksandr@redhat.com>
+Cc: SeongJae Park <sjpark@amazon.de>
+Cc: Christian Brauner <christian.brauner@ubuntu.com>
+Cc: <linux-man@vger.kernel.org>
+---
+ fs/io_uring.c      |  2 +-
+ include/linux/mm.h |  2 +-
+ mm/madvise.c       | 32 ++++++++++++++++++--------------
+ 3 files changed, 20 insertions(+), 16 deletions(-)
+
+diff --git a/fs/io_uring.c b/fs/io_uring.c
+index 94b9b5cf5971..cfb8003be09c 100644
+--- a/fs/io_uring.c
++++ b/fs/io_uring.c
+@@ -3823,7 +3823,7 @@ static int io_madvise(struct io_kiocb *req, bool force_nonblock)
+ 	if (force_nonblock)
+ 		return -EAGAIN;
+ 
+-	ret = do_madvise(ma->addr, ma->len, ma->advice);
++	ret = do_madvise(current->mm, ma->addr, ma->len, ma->advice);
+ 	if (ret < 0)
+ 		req_set_fail_links(req);
+ 	io_req_complete(req, ret);
+diff --git a/include/linux/mm.h b/include/linux/mm.h
+index 517751310dd2..a12354e63e49 100644
+--- a/include/linux/mm.h
++++ b/include/linux/mm.h
+@@ -2570,7 +2570,7 @@ extern int __do_munmap(struct mm_struct *, unsigned long, size_t,
+ 		       struct list_head *uf, bool downgrade);
+ extern int do_munmap(struct mm_struct *, unsigned long, size_t,
+ 		     struct list_head *uf);
+-extern int do_madvise(unsigned long start, size_t len_in, int behavior);
++extern int do_madvise(struct mm_struct *mm, unsigned long start, size_t len_in, int behavior);
+ 
+ #ifdef CONFIG_MMU
+ extern int __mm_populate(unsigned long addr, unsigned long len,
+diff --git a/mm/madvise.c b/mm/madvise.c
+index 4d87b31a1576..3bf5c8261f1c 100644
+--- a/mm/madvise.c
++++ b/mm/madvise.c
+@@ -255,6 +255,7 @@ static long madvise_willneed(struct vm_area_struct *vma,
+ 			     struct vm_area_struct **prev,
+ 			     unsigned long start, unsigned long end)
+ {
++	struct mm_struct *mm = vma->vm_mm;
+ 	struct file *file = vma->vm_file;
+ 	loff_t offset;
+ 
+@@ -291,10 +292,10 @@ static long madvise_willneed(struct vm_area_struct *vma,
+ 	get_file(file);
+ 	offset = (loff_t)(start - vma->vm_start)
+ 			+ ((loff_t)vma->vm_pgoff << PAGE_SHIFT);
+-	mmap_read_unlock(current->mm);
++	mmap_read_unlock(mm);
+ 	vfs_fadvise(file, offset, end - start, POSIX_FADV_WILLNEED);
+ 	fput(file);
+-	mmap_read_lock(current->mm);
++	mmap_read_lock(mm);
+ 	return 0;
+ }
+ 
+@@ -763,6 +764,8 @@ static long madvise_dontneed_free(struct vm_area_struct *vma,
+ 				  unsigned long start, unsigned long end,
+ 				  int behavior)
+ {
++	struct mm_struct *mm = vma->vm_mm;
++
+ 	*prev = vma;
+ 	if (!can_madv_lru_vma(vma))
+ 		return -EINVAL;
+@@ -770,8 +773,8 @@ static long madvise_dontneed_free(struct vm_area_struct *vma,
+ 	if (!userfaultfd_remove(vma, start, end)) {
+ 		*prev = NULL; /* mmap_lock has been dropped, prev is stale */
+ 
+-		mmap_read_lock(current->mm);
+-		vma = find_vma(current->mm, start);
++		mmap_read_lock(mm);
++		vma = find_vma(mm, start);
+ 		if (!vma)
+ 			return -ENOMEM;
+ 		if (start < vma->vm_start) {
+@@ -825,6 +828,7 @@ static long madvise_remove(struct vm_area_struct *vma,
+ 	loff_t offset;
+ 	int error;
+ 	struct file *f;
++	struct mm_struct *mm = vma->vm_mm;
+ 
+ 	*prev = NULL;	/* tell sys_madvise we drop mmap_lock */
+ 
+@@ -852,13 +856,13 @@ static long madvise_remove(struct vm_area_struct *vma,
+ 	get_file(f);
+ 	if (userfaultfd_remove(vma, start, end)) {
+ 		/* mmap_lock was not released by userfaultfd_remove() */
+-		mmap_read_unlock(current->mm);
++		mmap_read_unlock(mm);
+ 	}
+ 	error = vfs_fallocate(f,
+ 				FALLOC_FL_PUNCH_HOLE | FALLOC_FL_KEEP_SIZE,
+ 				offset, end - start);
+ 	fput(f);
+-	mmap_read_lock(current->mm);
++	mmap_read_lock(mm);
+ 	return error;
+ }
+ 
+@@ -1046,7 +1050,7 @@ madvise_behavior_valid(int behavior)
+  *  -EBADF  - map exists, but area maps something that isn't a file.
+  *  -EAGAIN - a kernel resource was temporarily unavailable.
+  */
+-int do_madvise(unsigned long start, size_t len_in, int behavior)
++int do_madvise(struct mm_struct *mm, unsigned long start, size_t len_in, int behavior)
+ {
+ 	unsigned long end, tmp;
+ 	struct vm_area_struct *vma, *prev;
+@@ -1084,10 +1088,10 @@ int do_madvise(unsigned long start, size_t len_in, int behavior)
+ 
+ 	write = madvise_need_mmap_write(behavior);
+ 	if (write) {
+-		if (mmap_write_lock_killable(current->mm))
++		if (mmap_write_lock_killable(mm))
+ 			return -EINTR;
+ 	} else {
+-		mmap_read_lock(current->mm);
++		mmap_read_lock(mm);
+ 	}
+ 
+ 	/*
+@@ -1095,7 +1099,7 @@ int do_madvise(unsigned long start, size_t len_in, int behavior)
+ 	 * ranges, just ignore them, but return -ENOMEM at the end.
+ 	 * - different from the way of handling in mlock etc.
+ 	 */
+-	vma = find_vma_prev(current->mm, start, &prev);
++	vma = find_vma_prev(mm, start, &prev);
+ 	if (vma && start > vma->vm_start)
+ 		prev = vma;
+ 
+@@ -1132,19 +1136,19 @@ int do_madvise(unsigned long start, size_t len_in, int behavior)
+ 		if (prev)
+ 			vma = prev->vm_next;
+ 		else	/* madvise_remove dropped mmap_lock */
+-			vma = find_vma(current->mm, start);
++			vma = find_vma(mm, start);
+ 	}
+ out:
+ 	blk_finish_plug(&plug);
+ 	if (write)
+-		mmap_write_unlock(current->mm);
++		mmap_write_unlock(mm);
+ 	else
+-		mmap_read_unlock(current->mm);
++		mmap_read_unlock(mm);
+ 
+ 	return error;
+ }
+ 
+ SYSCALL_DEFINE3(madvise, unsigned long, start, size_t, len_in, int, behavior)
+ {
+-	return do_madvise(start, len_in, behavior);
++	return do_madvise(current->mm, start, len_in, behavior);
+ }
+-- 
+2.28.0.402.g5ffc5be6b7-goog
+
