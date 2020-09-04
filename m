@@ -8,62 +8,63 @@ X-Spam-Status: No, score=-11.3 required=3.0 tests=BAYES_00,DKIM_SIGNED,
 	SPF_HELO_NONE,SPF_PASS,USER_AGENT_SANE_1 autolearn=ham autolearn_force=no
 	version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 6F996C433E2
-	for <linux-man@archiver.kernel.org>; Fri,  4 Sep 2020 14:12:50 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 3173AC433E2
+	for <linux-man@archiver.kernel.org>; Fri,  4 Sep 2020 14:16:25 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.kernel.org (Postfix) with ESMTP id 3F1EE206B8
-	for <linux-man@archiver.kernel.org>; Fri,  4 Sep 2020 14:12:50 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTP id E4D9E20709
+	for <linux-man@archiver.kernel.org>; Fri,  4 Sep 2020 14:16:24 +0000 (UTC)
 Authentication-Results: mail.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="kOV+Yx+9"
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="r+7m1Rrz"
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1730758AbgIDOMs (ORCPT <rfc822;linux-man@archiver.kernel.org>);
-        Fri, 4 Sep 2020 10:12:48 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:53340 "EHLO
+        id S1730470AbgIDNor (ORCPT <rfc822;linux-man@archiver.kernel.org>);
+        Fri, 4 Sep 2020 09:44:47 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:53218 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1730585AbgIDNpV (ORCPT
-        <rfc822;linux-man@vger.kernel.org>); Fri, 4 Sep 2020 09:45:21 -0400
-Received: from mail-wr1-x431.google.com (mail-wr1-x431.google.com [IPv6:2a00:1450:4864:20::431])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 70C93C061244
-        for <linux-man@vger.kernel.org>; Fri,  4 Sep 2020 06:45:16 -0700 (PDT)
-Received: by mail-wr1-x431.google.com with SMTP id a17so6796393wrn.6
-        for <linux-man@vger.kernel.org>; Fri, 04 Sep 2020 06:45:16 -0700 (PDT)
+        with ESMTP id S1730550AbgIDNol (ORCPT
+        <rfc822;linux-man@vger.kernel.org>); Fri, 4 Sep 2020 09:44:41 -0400
+Received: from mail-wr1-x42d.google.com (mail-wr1-x42d.google.com [IPv6:2a00:1450:4864:20::42d])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 4201DC061244
+        for <linux-man@vger.kernel.org>; Fri,  4 Sep 2020 06:44:28 -0700 (PDT)
+Received: by mail-wr1-x42d.google.com with SMTP id k15so6779525wrn.10
+        for <linux-man@vger.kernel.org>; Fri, 04 Sep 2020 06:44:28 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=gmail.com; s=20161025;
         h=subject:from:to:cc:references:message-id:date:user-agent
          :mime-version:in-reply-to:content-language:content-transfer-encoding;
-        bh=ja0cv6hAtfm2BPmP9udAM22wFgJGqBw0cjnTdBQe6SA=;
-        b=kOV+Yx+9Sc5FtuFVEp8toxLSQOEcR61jizOZPgpC6oEI/P6rjRohmmXU6YSUuzM5t0
-         SOQc/55I50u7YeqifuWFAiG5nMlTIPC+7H2WdXk6nwszP5ZNUoy2Y/HQr/iqBy0cTTNM
-         HjXdsY15vXumtE2/rYRkLu7HVH4Wk2mGTloi8Eg2FqeDsKXOja3psx3WquNRdIHZLma9
-         Ics1UVi15eUkp9W6dm9xfZMrRnr1BFw2nVqIM80tZ97sHpYFC12Yi6wvn0zKigZ6VP7v
-         vmiUeGg5igOZUJ5NjDmWYwUP0NYffnX9DZ5gyGueKRMqFA7UZGOGRbFNzTAAwjEVa6SY
-         uLtw==
+        bh=hvHNwitLaKgwzR8P6OQ3CdUvf3YJ3c1a+mizPrv30lI=;
+        b=r+7m1RrzQYQAAAeHf6UVe3FN0FiApuPYMCqb3/yvI8vD47zTG3Rt9bfYgOPTq8+i5m
+         cmYzocloy6HWMzQnGLsMLU7oL8rlI9HM0NVKp9oabT/aKFZuTtX9zU17ki5q+QzTg14L
+         /yaxykO5BCw3iBJzPPdA7OpijAQAt32TXmdoEIlP9Upt2pvRfJ357iynBqepkb/zb7BA
+         5w2H/vq27yRwLJip6AT4gmddZLOZ7fFknNflH+V9h2yNDap0ioHfYrIBPS15W7HCMQfD
+         K2G3h6ZAin7TBOfK7WXDCHOZLkqMeTwJ/fzyj5Q+JP2iNN6JP2ZoRPoFoi7lp/Nd5Tee
+         3WMw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
         h=x-gm-message-state:subject:from:to:cc:references:message-id:date
          :user-agent:mime-version:in-reply-to:content-language
          :content-transfer-encoding;
-        bh=ja0cv6hAtfm2BPmP9udAM22wFgJGqBw0cjnTdBQe6SA=;
-        b=NHgboOSnHHgd9TPTGqHulagG+rrjFLjmpG/2juhR+7DteVC7cr5C130SPKg6EnBOLP
-         Zya2hmnBxnNyVTZfAXavLby5uBdt8ocFcyAEsCoIP4obM4m7o2XymRCgvD135zfnru3u
-         A0kgiKjt+uPd6BBw85er1yyD0ykcE6225rsusvuN3pzS476/tmyN1JxGVrmo9xbk9N6I
-         ndIPtToBXHoCUPeOoucRJ3aBgda8AvLyRENX03qlJgpnpOhB3AyTjp0dK/0cJjV77tNT
-         +X3hJSoIATgLhs8hHMx7dJ30++/7DghjPbvaEAbjnayz/W0xycW01Tk6nQMs7D7/ClEy
-         TGow==
-X-Gm-Message-State: AOAM533bSQwFitQNIDD/cYXyBtMVK1wZbXE8nAJYkMN5UylsMxcgcceP
-        74yISVIolwqbkbviNi/xxR6G2AfLWJM=
-X-Google-Smtp-Source: ABdhPJwusoKJ6p7hTf1ucocnlo+/EXz/bJcCRScjGI7AM68Nhm1cnZ5PUcIfqo6hBXPdBO4RmiLbGw==
-X-Received: by 2002:adf:8481:: with SMTP id 1mr7362494wrg.231.1599227113389;
-        Fri, 04 Sep 2020 06:45:13 -0700 (PDT)
+        bh=hvHNwitLaKgwzR8P6OQ3CdUvf3YJ3c1a+mizPrv30lI=;
+        b=BVSQK/KDE0FkMCYQFUa2K62ti3OJh7LDBKLsnuEB+ycMq0LPlNSGl/Ql9SeEWx9Fey
+         6jxYnH8lzD47Ar3n7x6KwMK0Noz1hykEpUn2WMat737u9Oe1JV2orTN3vjx7p4aVT6lm
+         AOEZ3cEh1fUWdjSsIs6gpR1LdDAq11LZ0VPVQBrAlwOqT2eu29lscSDtdIluEVtTvSOl
+         afyjtdRyHP+1L8l4uEHX+w+gd0n35q+u51Rk/I295vMqubMMez3CMRkP6qHsUMl5bvNu
+         YTvqIWOK/tT9TxyQosSK4GDxxSfGtY5LKzuZ2VHufZnaiYb8wnA/jk+JNZoCO7z7mhnK
+         CPCg==
+X-Gm-Message-State: AOAM533HV4EVkdiHVbsCBGJNRnrejpKUInYg+CxB/utJ65djelEGFYaq
+        HMliRNQJ39j9NVoua7BO+Yo=
+X-Google-Smtp-Source: ABdhPJxqkFazpYwjlmrl3y0KIPKmw13LMmsAAYgKFNr7ysph8mA8mIxdAdHttCNEBj+iv2YCQEf3Tg==
+X-Received: by 2002:a5d:680e:: with SMTP id w14mr7295700wru.50.1599227057302;
+        Fri, 04 Sep 2020 06:44:17 -0700 (PDT)
 Received: from [192.168.0.160] ([93.115.133.118])
-        by smtp.gmail.com with ESMTPSA id u6sm10760010wrn.95.2020.09.04.06.45.12
+        by smtp.gmail.com with ESMTPSA id z13sm11532949wro.97.2020.09.04.06.44.16
         (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Fri, 04 Sep 2020 06:45:12 -0700 (PDT)
-Subject: [PATCH (2) 11/34] timerfd_create.2: Use sizeof consistently
+        Fri, 04 Sep 2020 06:44:16 -0700 (PDT)
+Subject: [PATCH (2) 10/34] signalfd.2: Use sizeof consistently
 From:   Alejandro Colomar <colomar.6.4.3@gmail.com>
 To:     "Michael Kerrisk (man-pages)" <mtk.manpages@gmail.com>
 Cc:     linux-man@vger.kernel.org, Jakub Wilk <jwilk@jwilk.net>
 References: <cc176298-50e2-7831-f2f7-21be8cae9075@gmail.com>
+ <20200825111924.gwf3ck4bdq42lrzr@jwilk.net>
  <d084b7eb-a691-52e8-4996-5080af0175de@gmail.com>
  <CAKgNAki_wyf7dCShjpAaRLUeuL=+EFZYeVp0fY-EKHyOBW2hRw@mail.gmail.com>
  <d72263bb-7c84-3f33-ee44-a2cac2e2662c@gmail.com>
@@ -81,13 +82,12 @@ References: <cc176298-50e2-7831-f2f7-21be8cae9075@gmail.com>
  <257c9374-3253-9091-c116-045ee16590c0@gmail.com>
  <40ba6e68-c2f6-649c-2225-6037e3c0c077@gmail.com>
  <afec3122-19aa-02f4-0850-7000552ceb95@gmail.com>
- <da654939-dcc2-e1f8-65d9-a873325d4609@gmail.com>
-Message-ID: <aec8bb20-6693-f876-0e2e-5574bd3b7af6@gmail.com>
-Date:   Fri, 4 Sep 2020 15:45:12 +0200
+Message-ID: <da654939-dcc2-e1f8-65d9-a873325d4609@gmail.com>
+Date:   Fri, 4 Sep 2020 15:44:16 +0200
 User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
  Thunderbird/68.12.0
 MIME-Version: 1.0
-In-Reply-To: <da654939-dcc2-e1f8-65d9-a873325d4609@gmail.com>
+In-Reply-To: <afec3122-19aa-02f4-0850-7000552ceb95@gmail.com>
 Content-Type: text/plain; charset=utf-8
 Content-Language: en-US
 Content-Transfer-Encoding: 7bit
@@ -96,10 +96,10 @@ Precedence: bulk
 List-ID: <linux-man.vger.kernel.org>
 X-Mailing-List: linux-man@vger.kernel.org
 
-From d347c933a8c253028f8f76c4170b65b85ce7d605 Mon Sep 17 00:00:00 2001
+From 9a10e681849a57f75d89cf6943901a3df8097399 Mon Sep 17 00:00:00 2001
 From: Alejandro Colomar <colomar.6.4.3@gmail.com>
-Date: Thu, 3 Sep 2020 21:42:28 +0200
-Subject: [PATCH 11/34] timerfd_create.2: Use sizeof consistently
+Date: Thu, 3 Sep 2020 21:41:31 +0200
+Subject: [PATCH 10/34] signalfd.2: Use sizeof consistently
 
 Use ``sizeof`` consistently through all the examples in the following
 way:
@@ -112,23 +112,23 @@ way:
 
 Signed-off-by: Alejandro Colomar <colomar.6.4.3@gmail.com>
 ---
- man2/timerfd_create.2 | 4 ++--
+ man2/signalfd.2 | 4 ++--
  1 file changed, 2 insertions(+), 2 deletions(-)
 
-diff --git a/man2/timerfd_create.2 b/man2/timerfd_create.2
-index 67a13dba3..fd4acf3e9 100644
---- a/man2/timerfd_create.2
-+++ b/man2/timerfd_create.2
-@@ -700,8 +700,8 @@ main(int argc, char *argv[])
-     printf("timer started\en");
+diff --git a/man2/signalfd.2 b/man2/signalfd.2
+index 96d502a50..92e9fd7ef 100644
+--- a/man2/signalfd.2
++++ b/man2/signalfd.2
+@@ -502,8 +502,8 @@ main(int argc, char *argv[])
+         handle_error("signalfd");
 
-     for (tot_exp = 0; tot_exp < max_exp;) {
--        s = read(fd, &exp, sizeof(uint64_t));
--        if (s != sizeof(uint64_t))
-+        s = read(fd, &exp, sizeof(exp));
-+        if (s != sizeof(exp))
+     for (;;) {
+-        s = read(sfd, &fdsi, sizeof(struct signalfd_siginfo));
+-        if (s != sizeof(struct signalfd_siginfo))
++        s = read(sfd, &fdsi, sizeof(fdsi));
++        if (s != sizeof(fdsi))
              handle_error("read");
 
-         tot_exp += exp;
+         if (fdsi.ssi_signo == SIGINT) {
 -- 
 2.28.0
