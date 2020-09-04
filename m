@@ -2,72 +2,68 @@ Return-Path: <SRS0=CmKY=CN=vger.kernel.org=linux-man-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-13.8 required=3.0 tests=BAYES_00,DKIM_SIGNED,
+X-Spam-Status: No, score=-11.3 required=3.0 tests=BAYES_00,DKIM_SIGNED,
 	DKIM_VALID,DKIM_VALID_AU,FREEMAIL_FORGED_FROMDOMAIN,FREEMAIL_FROM,
-	HEADER_FROM_DIFFERENT_DOMAINS,INCLUDES_PATCH,MAILING_LIST_MULTI,NICE_REPLY_A,
-	SIGNED_OFF_BY,SPF_HELO_NONE,SPF_PASS,URIBL_BLOCKED,USER_AGENT_SANE_1
-	autolearn=ham autolearn_force=no version=3.4.0
+	HEADER_FROM_DIFFERENT_DOMAINS,INCLUDES_PATCH,MAILING_LIST_MULTI,SIGNED_OFF_BY,
+	SPF_HELO_NONE,SPF_PASS,USER_AGENT_SANE_1 autolearn=ham autolearn_force=no
+	version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 441A7C43461
-	for <linux-man@archiver.kernel.org>; Fri,  4 Sep 2020 12:25:11 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id AD2C7C2BB84
+	for <linux-man@archiver.kernel.org>; Fri,  4 Sep 2020 13:52:52 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.kernel.org (Postfix) with ESMTP id EE01C2087C
-	for <linux-man@archiver.kernel.org>; Fri,  4 Sep 2020 12:25:10 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTP id 7C54D204FD
+	for <linux-man@archiver.kernel.org>; Fri,  4 Sep 2020 13:52:52 +0000 (UTC)
 Authentication-Results: mail.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="tkgy7I6q"
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="kl3CGdna"
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1730013AbgIDMZJ (ORCPT <rfc822;linux-man@archiver.kernel.org>);
-        Fri, 4 Sep 2020 08:25:09 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:41036 "EHLO
+        id S1730496AbgIDNwZ (ORCPT <rfc822;linux-man@archiver.kernel.org>);
+        Fri, 4 Sep 2020 09:52:25 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:54404 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1730006AbgIDMZI (ORCPT
-        <rfc822;linux-man@vger.kernel.org>); Fri, 4 Sep 2020 08:25:08 -0400
-Received: from mail-wr1-x444.google.com (mail-wr1-x444.google.com [IPv6:2a00:1450:4864:20::444])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 6ECCCC061244
-        for <linux-man@vger.kernel.org>; Fri,  4 Sep 2020 05:25:07 -0700 (PDT)
-Received: by mail-wr1-x444.google.com with SMTP id t10so6598642wrv.1
-        for <linux-man@vger.kernel.org>; Fri, 04 Sep 2020 05:25:07 -0700 (PDT)
+        with ESMTP id S1730354AbgIDNwL (ORCPT
+        <rfc822;linux-man@vger.kernel.org>); Fri, 4 Sep 2020 09:52:11 -0400
+Received: from mail-wr1-x441.google.com (mail-wr1-x441.google.com [IPv6:2a00:1450:4864:20::441])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id E0768C061244
+        for <linux-man@vger.kernel.org>; Fri,  4 Sep 2020 06:52:05 -0700 (PDT)
+Received: by mail-wr1-x441.google.com with SMTP id c18so6810043wrm.9
+        for <linux-man@vger.kernel.org>; Fri, 04 Sep 2020 06:52:05 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=gmail.com; s=20161025;
-        h=cc:subject:to:references:from:message-id:date:user-agent
+        h=subject:from:to:cc:references:message-id:date:user-agent
          :mime-version:in-reply-to:content-language:content-transfer-encoding;
-        bh=+K9EeokckbXOarNdng/k1WnXHmdSFNDu9yKUdt0//cY=;
-        b=tkgy7I6qIKAvQX1N46CmAnjQ22m9f+k8XZKTP4T9NgiW3b/Bd8a6Y4MaMBuP5HNlEA
-         9wxY47sB7d+YPY9nHPYxeMkdH5Z/qQ7BsKihV68TfewmeGQfO5yuwz96fSfvVOEL7ALB
-         QMWzK6hDC/fs3SYXUKBD86uMN8Y+XxMOc9wduP6XBqPvoHtKX/Q0Sxa+BKb2300IMVoU
-         MHg5wtZ5P1u7CuR3a9gOm/kTn8N/a1lg7s9yRHtlt/fk9ML5Mjrsos4p/2von9fBEw08
-         My0cHwLdwmhkslVwhc3UmY7eEZ6LrFGoye/zBbier0ZI2ulXOtLAR+s2RIS54jhCirsJ
-         HluA==
+        bh=4LKN2I/qJyAG44NUIfq2S113rl9dbCwjGyP9CGcr/RA=;
+        b=kl3CGdna5P1G9lMWzsBIc0Sj4Wt9HQrHqSHyEDdZcTr7qjchOxYkwc5m6bHi9H/IPO
+         H/R3QHoz/KZgM/78TTpmiIY5c/yd4qaNY4NK+nvA2vrrquaB43OZ9mUVBhxcNyyvJ9pA
+         Y2+XFl8GCh5T4vbXrjQs3lG/aUETH/sF5QFkfC2KmXieVxfJulKadY/z3/tYqNKKqIxm
+         pjSHkgcpmadO3CJfiH69PfCdlqQxaX0dM2bQCfA5OYiJb0ZKnJ+NKKC4qATqGbARNSew
+         2AeXThpjrfY7DD9gaAQCGyCHjB1YhbdJNkv6gMVAmLYawOMYuelkQSfiQjFImrFn1wiL
+         CXzQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
-        h=x-gm-message-state:cc:subject:to:references:from:message-id:date
+        h=x-gm-message-state:subject:from:to:cc:references:message-id:date
          :user-agent:mime-version:in-reply-to:content-language
          :content-transfer-encoding;
-        bh=+K9EeokckbXOarNdng/k1WnXHmdSFNDu9yKUdt0//cY=;
-        b=NrsWMGlXV5Q2paJxyVEju5DrlrSBhBy1LNoi1Bhdxy1qej+G+v1Wm/QqWRozkP7QdH
-         0vXreMqUNOpsePX29IVjWiuk5e1ZhUY2oCKkvAPMXTIt2lHuMMUH6fJciiKC1i6A73nH
-         JZWJep47PbB7pzL3QXVl7qv6c1IINzJNWIAqGI9+gdZstWA+E/gCI1JjyqlcW/Bj6sTR
-         8m81Zka5+bx36VYezGccktS0R9NoAh71j5gp7mDjE3LYl1DZJ9/A1Ya/FS3RS3r1Eztq
-         slK2p9ywPXAlnl1ksOZ6A1jyJSbfU3SLj4rgsRkWfRRnec2gDSTuXI9JOw4EkN7LZQdB
-         tudg==
-X-Gm-Message-State: AOAM530NjLGVxaw9xD84k8xb6Rf2zqYPYTwxCWzeA43g6zow8yjEQ3Gb
-        YERJcIIORy/2zqUDpekXNxk=
-X-Google-Smtp-Source: ABdhPJxgPrnpAhg1crXDYkGJ6jA3uFQMuG1nyUTxmX0pGIgP/eA0NCywV3zFLKNUSCFLsDt0bLGxTA==
-X-Received: by 2002:a5d:5702:: with SMTP id a2mr7265628wrv.284.1599222306112;
-        Fri, 04 Sep 2020 05:25:06 -0700 (PDT)
-Received: from ?IPv6:2001:a61:3ab0:7001:e081:d401:3da8:e4bc? ([2001:a61:3ab0:7001:e081:d401:3da8:e4bc])
-        by smtp.gmail.com with ESMTPSA id y2sm8676117wmg.23.2020.09.04.05.25.05
+        bh=4LKN2I/qJyAG44NUIfq2S113rl9dbCwjGyP9CGcr/RA=;
+        b=cBihaJSTi/9+zrBPSv0dVzsMaH6CTzXQ0GycteBwZ8fgk+dj8PnoWnPLtizj15LGxQ
+         S79g/5BVS6CWrcpLIFKAIdGVG0RzBazFmOpzdhciuF0GHJ9f4oyTsOIvNpODTF+fYrux
+         kSvF18WluWPnV9DVxUfSq7d7k/E+4rcrnrvmu1fCPbB2HlhYL0AKpQ4NWivydW7SR2xW
+         +cuSYGqxIB9H5QjnBRa28sB+/y031DZia09U/mNOR0ZzqYFdyprYbDRhPipI+T/V+50b
+         p9WlAJnYGVdWF4ZGI9tbIvuRedhop84+c8oIu+LUs6nfaHQe/7GtcsLhU7KVPqNVQfEA
+         +NNA==
+X-Gm-Message-State: AOAM531vfNDpyjc54OpSaE/uXwQEPij7YlVHxCzthwbf1Y4xRjhKZUyR
+        oAjLrey+a3qX+7LlG5PTeA8=
+X-Google-Smtp-Source: ABdhPJzU9CPDOnU2+yZCxPY4pvnrUiTsydNO3lyAIL4JCFcjvwWwMIwMO8wVVoKKtuNFI+jpHWMbMg==
+X-Received: by 2002:adf:cd0e:: with SMTP id w14mr2229575wrm.0.1599227524657;
+        Fri, 04 Sep 2020 06:52:04 -0700 (PDT)
+Received: from [192.168.0.160] ([93.115.133.118])
+        by smtp.gmail.com with ESMTPSA id n11sm11533788wrx.91.2020.09.04.06.52.03
         (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Fri, 04 Sep 2020 05:25:05 -0700 (PDT)
-Cc:     mtk.manpages@gmail.com, linux-man@vger.kernel.org,
-        Jakub Wilk <jwilk@jwilk.net>
-Subject: Re: [PATCH (2) 07/34] perf_event_open.2: Use sizeof consistently
-To:     Alejandro Colomar <colomar.6.4.3@gmail.com>
+        Fri, 04 Sep 2020 06:52:04 -0700 (PDT)
+Subject: [PATCH (2) 14/34] cmsg.3: Use sizeof consistently
+From:   Alejandro Colomar <colomar.6.4.3@gmail.com>
+To:     "Michael Kerrisk (man-pages)" <mtk.manpages@gmail.com>
+Cc:     linux-man@vger.kernel.org, Jakub Wilk <jwilk@jwilk.net>
 References: <cc176298-50e2-7831-f2f7-21be8cae9075@gmail.com>
- <e1b424c2-77c1-e995-a866-67a122d7bb07@gmail.com>
- <20200825111924.gwf3ck4bdq42lrzr@jwilk.net>
- <d084b7eb-a691-52e8-4996-5080af0175de@gmail.com>
- <CAKgNAki_wyf7dCShjpAaRLUeuL=+EFZYeVp0fY-EKHyOBW2hRw@mail.gmail.com>
  <d72263bb-7c84-3f33-ee44-a2cac2e2662c@gmail.com>
  <806999b7-8947-d350-2125-f04b69846f37@gmail.com>
  <d3537144-e4da-8359-bc08-4eaf8c7bd059@gmail.com>
@@ -81,13 +77,18 @@ References: <cc176298-50e2-7831-f2f7-21be8cae9075@gmail.com>
  <edf9e2a1-0612-437d-9fbf-e255e0d1df97@gmail.com>
  <c2636c53-e81c-881a-2938-08871e1b176c@gmail.com>
  <257c9374-3253-9091-c116-045ee16590c0@gmail.com>
-From:   "Michael Kerrisk (man-pages)" <mtk.manpages@gmail.com>
-Message-ID: <4d3a5f36-f3f4-2de7-192d-e3f8553060ac@gmail.com>
-Date:   Fri, 4 Sep 2020 14:25:04 +0200
+ <40ba6e68-c2f6-649c-2225-6037e3c0c077@gmail.com>
+ <afec3122-19aa-02f4-0850-7000552ceb95@gmail.com>
+ <da654939-dcc2-e1f8-65d9-a873325d4609@gmail.com>
+ <aec8bb20-6693-f876-0e2e-5574bd3b7af6@gmail.com>
+ <8458b842-7d4b-f19b-c596-7f529dd48ba6@gmail.com>
+ <497bc4f4-31f5-91a5-8bc4-469e22b26502@gmail.com>
+Message-ID: <8160510c-4d9e-7f30-e810-648b0b58a986@gmail.com>
+Date:   Fri, 4 Sep 2020 15:52:03 +0200
 User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
- Thunderbird/68.10.0
+ Thunderbird/68.12.0
 MIME-Version: 1.0
-In-Reply-To: <257c9374-3253-9091-c116-045ee16590c0@gmail.com>
+In-Reply-To: <497bc4f4-31f5-91a5-8bc4-469e22b26502@gmail.com>
 Content-Type: text/plain; charset=utf-8
 Content-Language: en-US
 Content-Transfer-Encoding: 7bit
@@ -96,50 +97,39 @@ Precedence: bulk
 List-ID: <linux-man.vger.kernel.org>
 X-Mailing-List: linux-man@vger.kernel.org
 
-Hello ALex,
+From 374b31bee6762314ab48988e2e78a3a6a2f96834 Mon Sep 17 00:00:00 2001
+From: Alejandro Colomar <colomar.6.4.3@gmail.com>
+Date: Thu, 3 Sep 2020 21:44:54 +0200
+Subject: [PATCH 14/34] cmsg.3: Use sizeof consistently
 
-On 9/4/20 12:57 PM, Alejandro Colomar wrote:
->>From ec1f70a162b0f4ea7a191baf8c098d7872dedce6 Mon Sep 17 00:00:00 2001
-> From: Alejandro Colomar <colomar.6.4.3@gmail.com>
-> Date: Thu, 3 Sep 2020 21:29:33 +0200
-> Subject: [PATCH 07/34] perf_event_open.2: Use sizeof consistently
-> 
-> Use ``sizeof`` consistently through all the examples in the following
-> way:
-> 
-> - Use the name of the variable instead of its type as argument for
->   ``sizeof``.
-> 
-> 	Rationale:
-> 	https://www.kernel.org/doc/html/v5.8/process/coding-style.html#allocating-memory
+Use ``sizeof`` consistently through all the examples in the following
+way:
 
-Thanks. Patch applied.
+- Use the name of the variable instead of its type as argument for
+  ``sizeof``.
 
-Cheers,
+	Rationale:
+	https://www.kernel.org/doc/html/v5.8/process/coding-style.html#allocating-memory
 
-Michael
+Signed-off-by: Alejandro Colomar <colomar.6.4.3@gmail.com>
+---
+ man3/cmsg.3 | 4 ++--
+ 1 file changed, 2 insertions(+), 2 deletions(-)
 
-> Signed-off-by: Alejandro Colomar <colomar.6.4.3@gmail.com>
-> ---
->  man2/perf_event_open.2 | 2 +-
->  1 file changed, 1 insertion(+), 1 deletion(-)
-> 
-> diff --git a/man2/perf_event_open.2 b/man2/perf_event_open.2
-> index ea5ee725f..aea825706 100644
-> --- a/man2/perf_event_open.2
-> +++ b/man2/perf_event_open.2
-> @@ -3439,7 +3439,7 @@ main(int argc, char **argv)
->      printf("Measuring instruction count for this printf\en");
-> 
->      ioctl(fd, PERF_EVENT_IOC_DISABLE, 0);
-> -    read(fd, &count, sizeof(long long));
-> +    read(fd, &count, sizeof(count));
-> 
->      printf("Used %lld instructions\en", count);
-> 
-Hello 
-
+diff --git a/man3/cmsg.3 b/man3/cmsg.3
+index 3d6288901..8d0ad6666 100644
+--- a/man3/cmsg.3
++++ b/man3/cmsg.3
+@@ -241,8 +241,8 @@ msg.msg_controllen = sizeof(u.buf);
+ cmsg = CMSG_FIRSTHDR(&msg);
+ cmsg\->cmsg_level = SOL_SOCKET;
+ cmsg\->cmsg_type = SCM_RIGHTS;
+-cmsg\->cmsg_len = CMSG_LEN(sizeof(int) * NUM_FD);
+-memcpy(CMSG_DATA(cmsg), myfds, sizeof(int) * NUM_FD);
++cmsg\->cmsg_len = CMSG_LEN(sizeof(myfds));
++memcpy(CMSG_DATA(cmsg), myfds, sizeof(myfds));
+ .EE
+ .in
+ .SH SEE ALSO
 -- 
-Michael Kerrisk
-Linux man-pages maintainer; http://www.kernel.org/doc/man-pages/
-Linux/UNIX System Programming Training: http://man7.org/training/
+2.28.0
