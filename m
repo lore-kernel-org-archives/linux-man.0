@@ -2,152 +2,85 @@ Return-Path: <SRS0=CmKY=CN=vger.kernel.org=linux-man-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-13.8 required=3.0 tests=BAYES_00,DKIM_SIGNED,
-	DKIM_VALID,DKIM_VALID_AU,FREEMAIL_FORGED_FROMDOMAIN,FREEMAIL_FROM,
-	HEADER_FROM_DIFFERENT_DOMAINS,INCLUDES_PATCH,MAILING_LIST_MULTI,NICE_REPLY_A,
-	SIGNED_OFF_BY,SPF_HELO_NONE,SPF_PASS,URIBL_BLOCKED,USER_AGENT_SANE_1
-	autolearn=ham autolearn_force=no version=3.4.0
+X-Spam-Status: No, score=-5.6 required=3.0 tests=BAYES_00,DKIM_SIGNED,
+	DKIM_VALID,DKIM_VALID_AU,HEADER_FROM_DIFFERENT_DOMAINS,MAILING_LIST_MULTI,
+	SPF_HELO_NONE,SPF_PASS,URIBL_BLOCKED,USER_AGENT_SANE_1 autolearn=no
+	autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 874C5C3527E
+	by smtp.lore.kernel.org (Postfix) with ESMTP id CA844C4743B
 	for <linux-man@archiver.kernel.org>; Fri,  4 Sep 2020 18:10:29 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.kernel.org (Postfix) with ESMTP id 6F2A3248D2
-	for <linux-man@archiver.kernel.org>; Fri,  4 Sep 2020 18:03:55 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTP id 5428C22246
+	for <linux-man@archiver.kernel.org>; Fri,  4 Sep 2020 18:01:48 +0000 (UTC)
 Authentication-Results: mail.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="Ftp5R1NO"
+	dkim=pass (2048-bit key) header.d=jguk.org header.i=@jguk.org header.b="R2eRmB2T"
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1726521AbgIDRPr (ORCPT <rfc822;linux-man@archiver.kernel.org>);
-        Fri, 4 Sep 2020 13:15:47 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:57794 "EHLO
+        id S1725984AbgIDSBQ (ORCPT <rfc822;linux-man@archiver.kernel.org>);
+        Fri, 4 Sep 2020 14:01:16 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:36612 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1726114AbgIDRPq (ORCPT
-        <rfc822;linux-man@vger.kernel.org>); Fri, 4 Sep 2020 13:15:46 -0400
-Received: from mail-wr1-x443.google.com (mail-wr1-x443.google.com [IPv6:2a00:1450:4864:20::443])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id BCB66C061244
-        for <linux-man@vger.kernel.org>; Fri,  4 Sep 2020 10:15:45 -0700 (PDT)
-Received: by mail-wr1-x443.google.com with SMTP id z1so7498853wrt.3
-        for <linux-man@vger.kernel.org>; Fri, 04 Sep 2020 10:15:45 -0700 (PDT)
+        with ESMTP id S1726293AbgIDSBQ (ORCPT
+        <rfc822;linux-man@vger.kernel.org>); Fri, 4 Sep 2020 14:01:16 -0400
+Received: from mail-wm1-x32f.google.com (mail-wm1-x32f.google.com [IPv6:2a00:1450:4864:20::32f])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 3BD25C061244
+        for <linux-man@vger.kernel.org>; Fri,  4 Sep 2020 11:01:15 -0700 (PDT)
+Received: by mail-wm1-x32f.google.com with SMTP id e11so8009663wme.0
+        for <linux-man@vger.kernel.org>; Fri, 04 Sep 2020 11:01:15 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20161025;
-        h=cc:subject:to:references:from:message-id:date:user-agent
-         :mime-version:in-reply-to:content-language:content-transfer-encoding;
-        bh=fLIKteh/rwGfjkRkt0Du7ljy351vSaZpki8iUP3SDfo=;
-        b=Ftp5R1NOIx2kJLAqGlLtOTeygFgj5xJJJclT7lphTZdkZYLIdzP5nkWTvx5FwlNfJ2
-         yqoZFn6rpifSeSRudpCy7PydPl9EB3IPV2+/sstaulXyVBGUULlzCbYp8ygS9dWchFZj
-         eVZHzMNIOCgc+FkIxaWAzWmSCq/5Zp4saPceODYknVUWOIIIKL72QhcPhKG+X5Ki5Mz1
-         pC20S2A3dvuxwmQcrr/dueePu1zPHjK9fr6GD/TNIMusji+0c/psI3mo+aslkyW0uYOR
-         A7iN9DAXbJdZpL63QAAjjjr33wTOGlUyL1JNOh8xY0M/CEYTNFav2QGrbxE/SdwRnGB8
-         nSpQ==
+        d=jguk.org; s=google;
+        h=from:subject:to:cc:message-id:date:user-agent:mime-version
+         :content-language:content-transfer-encoding;
+        bh=SgY4s1uTur5yZFgKEsEqzMLo4dAZV4b4Dfam7lk+8Rs=;
+        b=R2eRmB2T9GnO+x0JP2G8+DU4oJme4eDH22Ix/FajulAl8GHoNqrlxjajgJhUO4194c
+         Z5ozGRZ/4Z4X2ulf66CUBdjLAuaRc9hM03dBxRVMp8uQXkAfYAQK/zfReXftuG/zFV2f
+         0sUYH3MrtYsdmsoFgeAHS31BDVx6qY8JjqS3GrCXbiKOVtx45WDF3reYnn3ME6PQX3T6
+         rUMPtcqwrX8zkVNOREEqzyT4PrdKHlxhzMoj4iThlXjO0/cGvhK8AENS79yHhsF5Lf6G
+         9mOz6EWmLI6w8Ou5ISrkKRHRzDS3nKApuhm+5fYAD5lPFgxrKnniLAoyoZBL631Jmwob
+         kWlg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
-        h=x-gm-message-state:cc:subject:to:references:from:message-id:date
-         :user-agent:mime-version:in-reply-to:content-language
-         :content-transfer-encoding;
-        bh=fLIKteh/rwGfjkRkt0Du7ljy351vSaZpki8iUP3SDfo=;
-        b=rDAxDzal1b3ciChvWHwubW4un4JdRPGT+c6yLx8eUiGytOc5wHepkaxGpSm9LSjL/I
-         8g1Ibcc78vlUnxuRbY5mei/zsVkipolpMqv7CZuaMUxUgnc1Yt5m5jFpBu7BmebEKP91
-         K31R3Uwo1HPzBdSv7UUwoJQZLeX8gcDbzoiIQPmnYE2Svwn3RmugAN544QgyvtJr9hO6
-         tNZw6zCnHImVCQW5hAwmTVPGXWyPMzFB9ZFyJfm69a3aQgipJ2dH1v39ljMZsh9MEun+
-         Qj1geqbSSj7z0hvFTtYgjscdaxxW7K0QAVFjd67Qtd9VL+UGVrCHVV7MdkQfb7PS0MIQ
-         UJIw==
-X-Gm-Message-State: AOAM533ac8ndAiPTENbfNhl6jdbEJpOqNDgbdObu1V5MlUF6V+LZqrMq
-        qfkmYmtO4rrfS7jeCtYcecQ=
-X-Google-Smtp-Source: ABdhPJy7PIN55hoBekVGmkllvpL3h2Jtjf8uyWVzMBFg078PLxIWKbKxYwKnuBka2/6Ag6pEeY57Sw==
-X-Received: by 2002:a05:6000:7:: with SMTP id h7mr9090313wrx.16.1599239744497;
-        Fri, 04 Sep 2020 10:15:44 -0700 (PDT)
-Received: from ?IPv6:2001:a61:3ab0:7001:e081:d401:3da8:e4bc? ([2001:a61:3ab0:7001:e081:d401:3da8:e4bc])
-        by smtp.gmail.com with ESMTPSA id v128sm11644172wme.2.2020.09.04.10.15.43
+        h=x-gm-message-state:from:subject:to:cc:message-id:date:user-agent
+         :mime-version:content-language:content-transfer-encoding;
+        bh=SgY4s1uTur5yZFgKEsEqzMLo4dAZV4b4Dfam7lk+8Rs=;
+        b=DTEptmne5Icjq2FL9IqPNUnSBU9eUFFg/mdFuZJkK9e8lJjYaRS6a2QwHeTTUKV0Py
+         pg74+vsx591pzBbqr+T2P/9a/kHprKjsY/KWbBNdfXqTYL8F0tmkwFIPBgSA1mbxyN3B
+         Zx746IkbIRU+7DLdlCAXnb9zPW+n2ykAAZwaH0DSOQwuD4UGSw15L79ZqZKlzVmwMUGa
+         uY1rLAg5n4fv1fqB85lXxr+YxeJHjpUkS0F02N7xe7ii5A5eg71M6oAcqWW8RyJjUx3n
+         u0h6mhfkYXhm3ZucJlaXt3SBkgTHnIHsvwRLrtNp0lT52VsOMc3ejvBAlPeIcBz7QNx9
+         PNvQ==
+X-Gm-Message-State: AOAM530n12cHTRSpuKrAdLqiipyRWpFUBJtU8KuvmhDiuGr40Us0qZ9i
+        Bl68TgU1cH0zKIiinfQGau5PNQ==
+X-Google-Smtp-Source: ABdhPJxRHI9i98Sl3GjSLw2+BwOG3XAsut+uu67QvYrdgKMCIjS/m+DTcjYp4e8Jd1xjpVc2gdrZnA==
+X-Received: by 2002:a1c:3d44:: with SMTP id k65mr8335278wma.132.1599242473855;
+        Fri, 04 Sep 2020 11:01:13 -0700 (PDT)
+Received: from [192.168.0.12] (cpc87281-slou4-2-0-cust47.17-4.cable.virginm.net. [92.236.12.48])
+        by smtp.gmail.com with ESMTPSA id 70sm13979865wme.15.2020.09.04.11.01.12
         (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Fri, 04 Sep 2020 10:15:43 -0700 (PDT)
-Cc:     mtk.manpages@gmail.com, linux-man@vger.kernel.org,
-        Jakub Wilk <jwilk@jwilk.net>
-Subject: Re: [PATCH (2) 30/34] aio.7: Use sizeof consistently
-To:     Alejandro Colomar <colomar.6.4.3@gmail.com>
-References: <cc176298-50e2-7831-f2f7-21be8cae9075@gmail.com>
- <da654939-dcc2-e1f8-65d9-a873325d4609@gmail.com>
- <aec8bb20-6693-f876-0e2e-5574bd3b7af6@gmail.com>
- <8458b842-7d4b-f19b-c596-7f529dd48ba6@gmail.com>
- <497bc4f4-31f5-91a5-8bc4-469e22b26502@gmail.com>
- <8160510c-4d9e-7f30-e810-648b0b58a986@gmail.com>
- <d7db8e23-8e86-10ee-f221-30d7e3bd657e@gmail.com>
- <87d5b09a-a3c8-622c-d731-5d42644a5f24@gmail.com>
- <61d2f2f9-08d0-9f1a-9642-ae56b3f4b61d@gmail.com>
- <4bb9e639-83ee-ede0-f6ad-dfc16787d358@gmail.com>
- <3c25bbda-bc90-1364-77cd-2c637f09d611@gmail.com>
- <af5bf8ce-8bb8-3819-a8e4-1454be92097f@gmail.com>
- <4f0ff40c-2a63-736d-698f-0efc436c3678@gmail.com>
- <5343bbd1-b03f-29bf-2def-c27ba3a3616e@gmail.com>
- <4eba3ee9-bb6a-810f-55ae-7f0d76d446a7@gmail.com>
- <82aa16c3-60fe-68b3-103f-6d438563f3c2@gmail.com>
- <6e6d6796-32e0-9cc1-1e6c-4abb0b702499@gmail.com>
- <718db444-6679-224e-c649-6dd219b9db3c@gmail.com>
- <36a9ef8e-6fd9-e074-2a19-d8529f425501@gmail.com>
- <93a1103a-8964-d213-2892-5dc7fe8513f1@gmail.com>
-From:   "Michael Kerrisk (man-pages)" <mtk.manpages@gmail.com>
-Message-ID: <08318f8e-8129-cec5-69a5-c234703fcd31@gmail.com>
-Date:   Fri, 4 Sep 2020 19:15:43 +0200
+        Fri, 04 Sep 2020 11:01:13 -0700 (PDT)
+From:   Jonny Grant <jg@jguk.org>
+Subject: strlen
+To:     linux-man <linux-man@vger.kernel.org>
+Cc:     Michael Kerrisk <mtk.manpages@gmail.com>
+Message-ID: <0bf239e9-cfc7-8889-ca00-b1d1566bd174@jguk.org>
+Date:   Fri, 4 Sep 2020 19:01:12 +0100
 User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
  Thunderbird/68.10.0
 MIME-Version: 1.0
-In-Reply-To: <93a1103a-8964-d213-2892-5dc7fe8513f1@gmail.com>
 Content-Type: text/plain; charset=utf-8
-Content-Language: en-US
+Content-Language: en-GB
 Content-Transfer-Encoding: 7bit
 Sender: linux-man-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-man.vger.kernel.org>
 X-Mailing-List: linux-man@vger.kernel.org
 
-Hi Alex,
+Hello
 
-On 9/4/20 5:04 PM, Alejandro Colomar wrote:
->>From 33a09662331be9666c2f69dc60a792d9deee761e Mon Sep 17 00:00:00 2001
-> From: Alejandro Colomar <colomar.6.4.3@gmail.com>
-> Date: Thu, 3 Sep 2020 21:57:28 +0200
-> Subject: [PATCH 30/34] aio.7: Use sizeof consistently
-> 
-> Use ``sizeof`` consistently through all the examples in the following
-> way:
-> 
-> - Use the name of the variable instead of its type as argument for
->   ``sizeof``.
-> 
-> 	Rationale:
-> 	https://www.kernel.org/doc/html/v5.8/process/coding-style.html#allocating-memory
-> 
-> Signed-off-by: Alejandro Colomar <colomar.6.4.3@gmail.com>
+https://man7.org/linux/man-pages/man3/strlen.3.html
 
-Thanks. Patch applied.
+Is it possible to clarify :-
 
-Cheers,
+* glibc will SIGSEGV if 's' is NULL
+* there are no ERROR returns
 
-Michael
-
-> ---
->  man7/aio.7 | 4 ++--
->  1 file changed, 2 insertions(+), 2 deletions(-)
-> 
-> diff --git a/man7/aio.7 b/man7/aio.7
-> index dd05dce83..d3ab3f422 100644
-> --- a/man7/aio.7
-> +++ b/man7/aio.7
-> @@ -311,11 +311,11 @@ main(int argc, char *argv[])
-> 
->      /* Allocate our arrays */
-> 
-> -    ioList = calloc(numReqs, sizeof(struct ioRequest));
-> +    ioList = calloc(numReqs, sizeof(*ioList));
->      if (ioList == NULL)
->          errExit("calloc");
-> 
-> -    aiocbList = calloc(numReqs, sizeof(struct aiocb));
-> +    aiocbList = calloc(numReqs, sizeof(*aiocbList));
->      if (aiocbList == NULL)
->          errExit("calloc");
-> 
-
-
--- 
-Michael Kerrisk
-Linux man-pages maintainer; http://www.kernel.org/doc/man-pages/
-Linux/UNIX System Programming Training: http://man7.org/training/
+Jonny
