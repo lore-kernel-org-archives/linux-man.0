@@ -8,63 +8,63 @@ X-Spam-Status: No, score=-12.8 required=3.0 tests=BAYES_00,DKIM_SIGNED,
 	SPF_HELO_NONE,SPF_PASS,USER_AGENT_GIT autolearn=ham autolearn_force=no
 	version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 686BEC43461
-	for <linux-man@archiver.kernel.org>; Sat,  5 Sep 2020 15:17:25 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 161D6C433E2
+	for <linux-man@archiver.kernel.org>; Sat,  5 Sep 2020 15:17:44 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.kernel.org (Postfix) with ESMTP id 31C8720C09
-	for <linux-man@archiver.kernel.org>; Sat,  5 Sep 2020 15:17:25 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTP id B584720C09
+	for <linux-man@archiver.kernel.org>; Sat,  5 Sep 2020 15:17:43 +0000 (UTC)
 Authentication-Results: mail.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="ttRoG7Ew"
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="CBq6fbo7"
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1726403AbgIEPRS (ORCPT <rfc822;linux-man@archiver.kernel.org>);
-        Sat, 5 Sep 2020 11:17:18 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:33766 "EHLO
+        id S1726360AbgIEPRT (ORCPT <rfc822;linux-man@archiver.kernel.org>);
+        Sat, 5 Sep 2020 11:17:19 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:33762 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1726360AbgIEPQf (ORCPT
-        <rfc822;linux-man@vger.kernel.org>); Sat, 5 Sep 2020 11:16:35 -0400
-Received: from mail-wm1-x343.google.com (mail-wm1-x343.google.com [IPv6:2a00:1450:4864:20::343])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id DFCD7C061258
-        for <linux-man@vger.kernel.org>; Sat,  5 Sep 2020 08:15:27 -0700 (PDT)
-Received: by mail-wm1-x343.google.com with SMTP id l9so9376739wme.3
-        for <linux-man@vger.kernel.org>; Sat, 05 Sep 2020 08:15:27 -0700 (PDT)
+        with ESMTP id S1726582AbgIEPQe (ORCPT
+        <rfc822;linux-man@vger.kernel.org>); Sat, 5 Sep 2020 11:16:34 -0400
+Received: from mail-wm1-x342.google.com (mail-wm1-x342.google.com [IPv6:2a00:1450:4864:20::342])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id B62BCC06124F
+        for <linux-man@vger.kernel.org>; Sat,  5 Sep 2020 08:15:23 -0700 (PDT)
+Received: by mail-wm1-x342.google.com with SMTP id e11so9385628wme.0
+        for <linux-man@vger.kernel.org>; Sat, 05 Sep 2020 08:15:23 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=gmail.com; s=20161025;
         h=from:to:cc:subject:date:message-id:in-reply-to:references
          :mime-version:content-transfer-encoding;
-        bh=9wox1Bt37nqIE9yiM9iVHKfd+AsvTH/BGjn4Q61wx6U=;
-        b=ttRoG7Ew16XF5XZ2ZdfOzK/pZhyTyEHHSNBU7SVSoURjUEjWTvFfY0Q441N9XnQjPY
-         7PbeMFD3CnkH3N0HYwEaMxfELg/sJKuf/m4Ocm0u2KUBtrfAb9WWmZw03sTHxHuezwZD
-         OvuLGTd2e/xYNTAHi9yAmvX2ittxf6XnRifHkOla0sxzxcH53fxv+xIQWPw3NntbaeVy
-         qxNnRfzJ0xRdYbRI2We8w6x97sUq0GQUYW2wug6a6goKd5qRRq6j3BlZuRL2GnOxwv44
-         2YJ83kN5Vx7YBUoo8PoVx0V9JYwzLh+1hq8wzH7IqSsyxAcHvPJ8wQDMylnA8zH3uM0o
-         XuPw==
+        bh=lDM558DKiKLq3AnZ0i8eDjmIpOruOaH9xEpeza3L5kY=;
+        b=CBq6fbo7t7/gUCTPiEltprAxjRuSeiW2bD11U5YRFsOpmLfW5QznYK4js/Qipl08B8
+         KDP+4xClhvBSNXpOO2KrPN4n+XCNhIcT1jidv1XuedB8u6rAVnW3A0DRC5a8yjzzZADo
+         D4yyEf/gk4langhE4AfpU8GPntz+fhUmRkaPdDoqAoVn30Qv3dbcJr22/s5wXzdRg8Pz
+         OXrixwYDHrevd+8PGqC6beG3iZ/wyarTCmH4jgRddY0u8N7mz/Bq3Lhg8eSy9dkclfU3
+         Vf3uTcuzaUR62MN/NksmemQwcYyl9NY6xMkOm0x0S/9ppF4BEtiiOrqhWZRlZjaxF3ZR
+         zwXw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
         h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
          :references:mime-version:content-transfer-encoding;
-        bh=9wox1Bt37nqIE9yiM9iVHKfd+AsvTH/BGjn4Q61wx6U=;
-        b=ro561guRDKPh+ZOmWagEweWIojSzzUK/PbCj2ZApTPgA6UZQCMGFzrH6c6La1WEhbW
-         XUY08S2xghAPEvel7rPYSbckaT7ZqsWMEiNbJyMxgmEWBU+d6LQsEpyVZ3NFcEpLE9DA
-         2N5lmz/m/EU4jVSFbghbYwtITPY7Lrl8/6D+KVQqbHmZuFZlx3Y4hEtzHFF7R62ajZCw
-         tROMb5nWrg5tTqp3L96EaF0o7EEDC49mfrdop7UK4h66fFQiOQVYYU+UVBUuIcbK1ZLl
-         9O4s1e6c7qR7SyRDd1aCajStCArwCyecvqWiO+4iUfyCuEAx1B69r8iZpxHGkYddEHvK
-         59fg==
-X-Gm-Message-State: AOAM5300H6dj1dvRKmNHyAsTaBVtvL6GJiz8gFhm2ob7qT6qEtm0zv8A
-        G0Lnn5ilxUDlS/+Kpi5Kpcg=
-X-Google-Smtp-Source: ABdhPJyG+Uxg4m9H2f4F3g5GPdXoLH11juVWrhTEeadtgxVF8YTZLcQlj+GehHuAYtRX995ulxjHhA==
-X-Received: by 2002:a1c:3985:: with SMTP id g127mr12932919wma.32.1599318919373;
-        Sat, 05 Sep 2020 08:15:19 -0700 (PDT)
+        bh=lDM558DKiKLq3AnZ0i8eDjmIpOruOaH9xEpeza3L5kY=;
+        b=XWUZAHwWkuXnN6bY+ArXrnkoEjcWS+J/cF+9hQIfS2dWLwlMUcgxlZy2FuyJ5AMKc4
+         DhN0eYDkKUlhfignsQt+Yru25lYSVV2leRAgkXIuk9v02UBAlNolCCCpxjjwldaHCEU5
+         s3kcUFTYQ4ZMbTjNzdA/1seG5CUkZncWU9+afMlm2LXltJzTLCVa0HihRQ5Xopug1mcQ
+         JSSv1uUVcuq7S8aM/UcA9Xo/1Fkjsr35xe60S6GqqfuYIDN8aAK17mRiwjVkn66jKioe
+         Wrp/o2vXtB578ykb2atxKaeLH5gT/day7b3S8ezQPsVJ6sdEbWq+uxWpMK8UcITzo45n
+         JqxQ==
+X-Gm-Message-State: AOAM533Kv6JQh5yc2MmQU7vMhGD2ZlHGXzmv8ETIlh0CkydORilbK1Cd
+        u9TOYZZLcNteqsjrmslc8nA=
+X-Google-Smtp-Source: ABdhPJwYRaZx9fOSeWiUcDW9uKnTskocR2kCp14xT3p8o+1/2y4HUo/Em30P6YTzmXMTtLwPIa6dfA==
+X-Received: by 2002:a1c:7502:: with SMTP id o2mr12245490wmc.29.1599318922155;
+        Sat, 05 Sep 2020 08:15:22 -0700 (PDT)
 Received: from localhost.localdomain ([93.115.133.118])
-        by smtp.googlemail.com with ESMTPSA id t4sm17905363wre.30.2020.09.05.08.15.18
+        by smtp.googlemail.com with ESMTPSA id t4sm17905363wre.30.2020.09.05.08.15.21
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Sat, 05 Sep 2020 08:15:18 -0700 (PDT)
+        Sat, 05 Sep 2020 08:15:21 -0700 (PDT)
 From:   Alejandro Colomar <colomar.6.4.3@gmail.com>
 To:     mtk.manpages@gmail.com
 Cc:     linux-man@vger.kernel.org,
         Alejandro Colomar <colomar.6.4.3@gmail.com>
-Subject: [PATCH 3/7] msgop.2: Remove unneeded casts
-Date:   Sat,  5 Sep 2020 17:14:57 +0200
-Message-Id: <20200905151501.609036-4-colomar.6.4.3@gmail.com>
+Subject: [PATCH 6/7] bsearch.3: Fix intermediate type and remove unneeded casts
+Date:   Sat,  5 Sep 2020 17:15:00 +0200
+Message-Id: <20200905151501.609036-7-colomar.6.4.3@gmail.com>
 X-Mailer: git-send-email 2.28.0
 In-Reply-To: <20200905151501.609036-1-colomar.6.4.3@gmail.com>
 References: <20200905151501.609036-1-colomar.6.4.3@gmail.com>
@@ -75,39 +75,31 @@ Precedence: bulk
 List-ID: <linux-man.vger.kernel.org>
 X-Mailing-List: linux-man@vger.kernel.org
 
-The type `struct msgbuf *` is implicitly casted to `const void *`.
-Not only that, but the explicit cast to `void *` was slightly
-misleading.
-Explicitly casting can silence warnings when mistakes are made, so it's
-better to remove those casts when possible.
+Casting `const void *` to `struct mi *` should result in a warning if
+done implicitly.  The explicit cast was probably silencing that warning.
+`const` can and should be kept.
+Now, casting `const void *` to `const struct mi *` is done implicitly.
 
 Signed-off-by: Alejandro Colomar <colomar.6.4.3@gmail.com>
 ---
- man2/msgop.2 | 4 ++--
+ man3/bsearch.3 | 4 ++--
  1 file changed, 2 insertions(+), 2 deletions(-)
 
-diff --git a/man2/msgop.2 b/man2/msgop.2
-index f992d91a3..373e53aa7 100644
---- a/man2/msgop.2
-+++ b/man2/msgop.2
-@@ -637,7 +637,7 @@ send_msg(int qid, int msgtype)
-     snprintf(msg.mtext, sizeof(msg.mtext), "a message at %s",
-             ctime(&t));
- 
--    if (msgsnd(qid, (void *) &msg, sizeof(msg.mtext),
-+    if (msgsnd(qid, &msg, sizeof(msg.mtext),
-                 IPC_NOWAIT) == \-1) {
-         perror("msgsnd error");
-         exit(EXIT_FAILURE);
-@@ -650,7 +650,7 @@ get_msg(int qid, int msgtype)
+diff --git a/man3/bsearch.3 b/man3/bsearch.3
+index 6859bdba2..a07bfd568 100644
+--- a/man3/bsearch.3
++++ b/man3/bsearch.3
+@@ -114,8 +114,8 @@ struct mi {
+ static int
+ compmi(const void *m1, const void *m2)
  {
-     struct msgbuf msg;
+-    struct mi *mi1 = (struct mi *) m1;
+-    struct mi *mi2 = (struct mi *) m2;
++    const struct mi *mi1 = m1;
++    const struct mi *mi2 = m2;
+     return strcmp(mi1\->name, mi2\->name);
+ }
  
--    if (msgrcv(qid, (void *) &msg, sizeof(msg.mtext), msgtype,
-+    if (msgrcv(qid, &msg, sizeof(msg.mtext), msgtype,
-                MSG_NOERROR | IPC_NOWAIT) == \-1) {
-         if (errno != ENOMSG) {
-             perror("msgrcv");
 -- 
 2.28.0
 
