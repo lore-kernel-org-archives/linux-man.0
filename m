@@ -2,72 +2,68 @@ Return-Path: <SRS0=Bu2X=CO=vger.kernel.org=linux-man-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-12.8 required=3.0 tests=BAYES_00,DKIM_SIGNED,
+X-Spam-Status: No, score=-6.8 required=3.0 tests=BAYES_00,DKIM_SIGNED,
 	DKIM_VALID,DKIM_VALID_AU,FREEMAIL_FORGED_FROMDOMAIN,FREEMAIL_FROM,
-	HEADER_FROM_DIFFERENT_DOMAINS,INCLUDES_PATCH,MAILING_LIST_MULTI,SIGNED_OFF_BY,
-	SPF_HELO_NONE,SPF_PASS,USER_AGENT_GIT autolearn=ham autolearn_force=no
-	version=3.4.0
+	HEADER_FROM_DIFFERENT_DOMAINS,MAILING_LIST_MULTI,SPF_HELO_NONE,SPF_PASS,
+	USER_AGENT_GIT autolearn=no autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id E9C10C43461
-	for <linux-man@archiver.kernel.org>; Sat,  5 Sep 2020 15:16:42 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id D1AF3C43461
+	for <linux-man@archiver.kernel.org>; Sat,  5 Sep 2020 15:17:10 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.kernel.org (Postfix) with ESMTP id A5EB420C09
-	for <linux-man@archiver.kernel.org>; Sat,  5 Sep 2020 15:16:42 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTP id 88DD520C09
+	for <linux-man@archiver.kernel.org>; Sat,  5 Sep 2020 15:17:10 +0000 (UTC)
 Authentication-Results: mail.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="A+50UKBO"
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="R+XeVyyb"
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1726320AbgIEPQi (ORCPT <rfc822;linux-man@archiver.kernel.org>);
-        Sat, 5 Sep 2020 11:16:38 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:33568 "EHLO
+        id S1726468AbgIEPQl (ORCPT <rfc822;linux-man@archiver.kernel.org>);
+        Sat, 5 Sep 2020 11:16:41 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:33558 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1728042AbgIEPQM (ORCPT
+        with ESMTP id S1727875AbgIEPQM (ORCPT
         <rfc822;linux-man@vger.kernel.org>); Sat, 5 Sep 2020 11:16:12 -0400
-Received: from mail-wm1-x344.google.com (mail-wm1-x344.google.com [IPv6:2a00:1450:4864:20::344])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 4E51EC061246
-        for <linux-man@vger.kernel.org>; Sat,  5 Sep 2020 08:15:19 -0700 (PDT)
-Received: by mail-wm1-x344.google.com with SMTP id e11so9385574wme.0
-        for <linux-man@vger.kernel.org>; Sat, 05 Sep 2020 08:15:19 -0700 (PDT)
+Received: from mail-wr1-x432.google.com (mail-wr1-x432.google.com [IPv6:2a00:1450:4864:20::432])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id AFDECC061244
+        for <linux-man@vger.kernel.org>; Sat,  5 Sep 2020 08:15:17 -0700 (PDT)
+Received: by mail-wr1-x432.google.com with SMTP id m6so10345506wrn.0
+        for <linux-man@vger.kernel.org>; Sat, 05 Sep 2020 08:15:17 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=gmail.com; s=20161025;
-        h=from:to:cc:subject:date:message-id:in-reply-to:references
-         :mime-version:content-transfer-encoding;
-        bh=H9gPeF18u3LMdMUJdBTBWbj6axx7NBAsF8IhOPOWXGg=;
-        b=A+50UKBOHE8Q1qWkgVfTVhR+k5p+AV/GW20igJv/CmMdczf2selRBt5XWW+Bm588G6
-         xwqDLu/cKtKmlE0SvdWsJaN+Cj4utECVshos5K9xj931hj7xhkpssvZ7OcIAg9wFvhz5
-         NjcDH6m59SBE39MeVgeK1PIC0bg2ZS8/KWtQffsDaUu0J5KCJJIxUos8yn9FbSPuKMdE
-         fF38dHnOjA64WLr1z0TN71Q5b84feHvPPBdHckp7J+i8j9IJx5P36sbPEK+dE3Rtn8y5
-         qKxhjt0Peb1ApNFsi4UXK/6BJ4uqtkRohRQiC8Fl9eGIaY7gaTYBECSspTaOJsYuNcyY
-         Z06Q==
+        h=from:to:cc:subject:date:message-id:mime-version
+         :content-transfer-encoding;
+        bh=rCgWtz+u6PYUC2JolAnz1yarXg7wwb7cqlKt96uQEJQ=;
+        b=R+XeVyybdcqQh7HSYBn8LPJDb2qZRfJzX1wDjCkO5/Pm90/CNXyYnTMOi+jaYjzD3J
+         vItdzIsGm4FSKO15ob4zNIh/K8E8Ja/YumWPdvWhLTr4qAc2OSrzIW8EZpeMDD+X7xGQ
+         PbsHYz7UYEBv23ouPAO6x8BSxDmZah0pVxtOrQMJqQU7bHR58qbhmZ8dF6Jldyup8F4r
+         SnsuypVUKFCB4vkUw1Ta4k5In8SwI4mofW44Z2PjcsmCNkpZgETR/eiCE+VM0XdvLbHE
+         14fC56ZKyB609JG/pjK8BV+b0M/sPsjTzvLkC0c0D7cImn/lQXp6n3kCxjddYdlyGF8s
+         yB0w==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
-        h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
-         :references:mime-version:content-transfer-encoding;
-        bh=H9gPeF18u3LMdMUJdBTBWbj6axx7NBAsF8IhOPOWXGg=;
-        b=TCVjIFpOuj+8zV7BFiV99H4Zd7VZn0lQR5BkNaIBBThLikBIBqJ2942I91RXodgGzx
-         P9y2cz2nmZKiMzT8zvglly5UZAKQ63O/HPq5cEkSQCps7QshVmCC81zVvhp7RifTUq9s
-         coBuzqklvdt5VVY4PLWAA8TqijJ//xuXl/XmK+L0Mpn35owpmv0PkTwXaS4E8xpXU/+1
-         3ZioqWdPCWtlW8Wa9Y06Q279IWVWPrSyXExZlzxr9xrMhLHXlk93szfjKzOPeLvJ78QU
-         TJWRi7479ubBELcwmWo+zYhXRvO36ieEzt4zgoxo5eetsSsLTp8zSphuOkKPoWgXZw0w
-         OHqg==
-X-Gm-Message-State: AOAM531AcTb07ycJTaHydSSzMMB5OqwbcLzRh2PD+1095PaeTAcaEQip
-        P446+uqEzuwqXCsJHJGqKK8F45hkQ6E=
-X-Google-Smtp-Source: ABdhPJx1J1dHBL0Q1SRCwx7YRL/1tWsdCQgtyFzZfg32Oqf1+LZG88q9QMi8bobbrqsTKtogIQ/nFw==
-X-Received: by 2002:a1c:1b93:: with SMTP id b141mr12134014wmb.166.1599318918315;
-        Sat, 05 Sep 2020 08:15:18 -0700 (PDT)
+        h=x-gm-message-state:from:to:cc:subject:date:message-id:mime-version
+         :content-transfer-encoding;
+        bh=rCgWtz+u6PYUC2JolAnz1yarXg7wwb7cqlKt96uQEJQ=;
+        b=DMe6zj2hHRjEi9cznK2Eevcyx3XJEnf4li7B5old7ZJzLy+Bun7dKjsJV6uKJgarwa
+         qxCDAQh55f7VId8SuEXpAqSnbR0FSLiY6BtG3VD+CHHqzuv/+PRgbZ169YQ/5lsg/YET
+         klTcCxIV1Nt+WLPghJQvy9fkHnY9UZbQcR+PUIBaZzDQkWzbyEx0pRJFbKyaAhqdMY4t
+         xoUd+UZ0rHiUKq1/lO4JGgc6D1Et28d7WFZJqHGT3F6jsDpZBJ9yoe9jadPb+pIHK+cZ
+         1LgmjDU1zt2MDBMXUX2pZfOePFaqEqCZzGplDiybud2tSnYejvEpYO/Frv2/7uhgOV1V
+         PMtQ==
+X-Gm-Message-State: AOAM531AfcYXV1qc41yoXhtktyDnx+HM79BhtJIgVPJEavG6w9ES2Ami
+        s+NgDoqFTmGSd/1g3LcCeds=
+X-Google-Smtp-Source: ABdhPJw3/u1dkgV+9XfD9KbUmhOY68NYtUBCSBUWwHVxdbtBE0LmimxnkoRhdWLVrSqsUYw+uSxmNQ==
+X-Received: by 2002:adf:e610:: with SMTP id p16mr13762068wrm.71.1599318916412;
+        Sat, 05 Sep 2020 08:15:16 -0700 (PDT)
 Received: from localhost.localdomain ([93.115.133.118])
-        by smtp.googlemail.com with ESMTPSA id t4sm17905363wre.30.2020.09.05.08.15.17
+        by smtp.googlemail.com with ESMTPSA id t4sm17905363wre.30.2020.09.05.08.15.15
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Sat, 05 Sep 2020 08:15:17 -0700 (PDT)
+        Sat, 05 Sep 2020 08:15:15 -0700 (PDT)
 From:   Alejandro Colomar <colomar.6.4.3@gmail.com>
 To:     mtk.manpages@gmail.com
-Cc:     linux-man@vger.kernel.org,
-        Alejandro Colomar <colomar.6.4.3@gmail.com>
-Subject: [PATCH 2/7] pthread_sigmask.3: Remove unneeded casts
-Date:   Sat,  5 Sep 2020 17:14:56 +0200
-Message-Id: <20200905151501.609036-3-colomar.6.4.3@gmail.com>
+Cc:     linux-man@vger.kernel.org
+Subject: [PATCH 0/7] Remove and/or fix casts
+Date:   Sat,  5 Sep 2020 17:14:54 +0200
+Message-Id: <20200905151501.609036-1-colomar.6.4.3@gmail.com>
 X-Mailer: git-send-email 2.28.0
-In-Reply-To: <20200905151501.609036-1-colomar.6.4.3@gmail.com>
-References: <20200905151501.609036-1-colomar.6.4.3@gmail.com>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 Sender: linux-man-owner@vger.kernel.org
@@ -75,28 +71,21 @@ Precedence: bulk
 List-ID: <linux-man.vger.kernel.org>
 X-Mailing-List: linux-man@vger.kernel.org
 
-The type `sigset_t *` is implicitly casted to `void *`.
-Explicitly casting can silence warnings when mistakes are made, so it's
-better to remove those casts when possible.
+Hi Michael,
 
-Signed-off-by: Alejandro Colomar <colomar.6.4.3@gmail.com>
----
- man3/pthread_sigmask.3 | 2 +-
- 1 file changed, 1 insertion(+), 1 deletion(-)
+[PATCH 1/7] sock_diag.7: Remove unneeded casts
+[PATCH 2/7] pthread_sigmask.3: Remove unneeded casts
+[PATCH 3/7] msgop.2: Remove unneeded casts
+[PATCH 4/7] user_namespaces.7: Remove unneeded cast
+[PATCH 5/7] dlopen.3: Remove unneeded cast
+[PATCH 6/7] bsearch.3: Fix intermediate type and remove unneeded cast
+[PATCH 7/7] qsort.3: Fix casts
 
-diff --git a/man3/pthread_sigmask.3 b/man3/pthread_sigmask.3
-index 77fd49a89..87a58728a 100644
---- a/man3/pthread_sigmask.3
-+++ b/man3/pthread_sigmask.3
-@@ -154,7 +154,7 @@ main(int argc, char *argv[])
-     if (s != 0)
-         handle_error_en(s, "pthread_sigmask");
- 
--    s = pthread_create(&thread, NULL, &sig_thread, (void *) &set);
-+    s = pthread_create(&thread, NULL, &sig_thread, &set);
-     if (s != 0)
-         handle_error_en(s, "pthread_create");
- 
--- 
-2.28.0
+Here's a set of patches removing unneeded casts when they are
+unneeded or incorrect, and fixing those that are incorrect but can't
+be removed.
+
+Regards,
+
+Alex.
 
