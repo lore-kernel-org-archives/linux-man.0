@@ -2,104 +2,126 @@ Return-Path: <SRS0=Bu2X=CO=vger.kernel.org=linux-man-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-12.8 required=3.0 tests=BAYES_00,DKIM_SIGNED,
+X-Spam-Status: No, score=-6.3 required=3.0 tests=BAYES_00,DKIM_SIGNED,
 	DKIM_VALID,DKIM_VALID_AU,FREEMAIL_FORGED_FROMDOMAIN,FREEMAIL_FROM,
-	HEADER_FROM_DIFFERENT_DOMAINS,INCLUDES_PATCH,MAILING_LIST_MULTI,SIGNED_OFF_BY,
-	SPF_HELO_NONE,SPF_PASS,USER_AGENT_GIT autolearn=ham autolearn_force=no
+	HEADER_FROM_DIFFERENT_DOMAINS,MAILING_LIST_MULTI,NICE_REPLY_A,SPF_HELO_NONE,
+	SPF_PASS,URIBL_BLOCKED,USER_AGENT_SANE_1 autolearn=no autolearn_force=no
 	version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 161D6C433E2
-	for <linux-man@archiver.kernel.org>; Sat,  5 Sep 2020 15:17:44 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id D059CC433E2
+	for <linux-man@archiver.kernel.org>; Sat,  5 Sep 2020 15:24:32 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.kernel.org (Postfix) with ESMTP id B584720C09
-	for <linux-man@archiver.kernel.org>; Sat,  5 Sep 2020 15:17:43 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTP id 826D220760
+	for <linux-man@archiver.kernel.org>; Sat,  5 Sep 2020 15:24:32 +0000 (UTC)
 Authentication-Results: mail.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="CBq6fbo7"
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="f+RP1WwI"
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1726360AbgIEPRT (ORCPT <rfc822;linux-man@archiver.kernel.org>);
-        Sat, 5 Sep 2020 11:17:19 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:33762 "EHLO
+        id S1726320AbgIEPYb (ORCPT <rfc822;linux-man@archiver.kernel.org>);
+        Sat, 5 Sep 2020 11:24:31 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:34966 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1726582AbgIEPQe (ORCPT
-        <rfc822;linux-man@vger.kernel.org>); Sat, 5 Sep 2020 11:16:34 -0400
-Received: from mail-wm1-x342.google.com (mail-wm1-x342.google.com [IPv6:2a00:1450:4864:20::342])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id B62BCC06124F
-        for <linux-man@vger.kernel.org>; Sat,  5 Sep 2020 08:15:23 -0700 (PDT)
-Received: by mail-wm1-x342.google.com with SMTP id e11so9385628wme.0
-        for <linux-man@vger.kernel.org>; Sat, 05 Sep 2020 08:15:23 -0700 (PDT)
+        with ESMTP id S1726266AbgIEPY3 (ORCPT
+        <rfc822;linux-man@vger.kernel.org>); Sat, 5 Sep 2020 11:24:29 -0400
+Received: from mail-wr1-x430.google.com (mail-wr1-x430.google.com [IPv6:2a00:1450:4864:20::430])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 82EB0C061244
+        for <linux-man@vger.kernel.org>; Sat,  5 Sep 2020 08:24:28 -0700 (PDT)
+Received: by mail-wr1-x430.google.com with SMTP id z4so10331511wrr.4
+        for <linux-man@vger.kernel.org>; Sat, 05 Sep 2020 08:24:28 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=gmail.com; s=20161025;
-        h=from:to:cc:subject:date:message-id:in-reply-to:references
-         :mime-version:content-transfer-encoding;
-        bh=lDM558DKiKLq3AnZ0i8eDjmIpOruOaH9xEpeza3L5kY=;
-        b=CBq6fbo7t7/gUCTPiEltprAxjRuSeiW2bD11U5YRFsOpmLfW5QznYK4js/Qipl08B8
-         KDP+4xClhvBSNXpOO2KrPN4n+XCNhIcT1jidv1XuedB8u6rAVnW3A0DRC5a8yjzzZADo
-         D4yyEf/gk4langhE4AfpU8GPntz+fhUmRkaPdDoqAoVn30Qv3dbcJr22/s5wXzdRg8Pz
-         OXrixwYDHrevd+8PGqC6beG3iZ/wyarTCmH4jgRddY0u8N7mz/Bq3Lhg8eSy9dkclfU3
-         Vf3uTcuzaUR62MN/NksmemQwcYyl9NY6xMkOm0x0S/9ppF4BEtiiOrqhWZRlZjaxF3ZR
-         zwXw==
+        h=cc:subject:to:references:from:message-id:date:user-agent
+         :mime-version:in-reply-to:content-language:content-transfer-encoding;
+        bh=+wZ9UnSUNCf0UijyLuB00G7MEe6Cjh9RsytJzfDULXs=;
+        b=f+RP1WwIS4eULyHgR1BBoReavJFbXkBqnJpxxCaxLvyVDedAr7nscrxM87YDEWA8+Q
+         CxepjGU6cWwzB/t8v5qgbysKQexRsySJjXMQWQwypmO+Otz+laTDXMoFylPrICKthldT
+         N6qVTnL3MxfGg/7UZ8yYzwcgfhvzK/SQWtTYNdLMPylLiF23TncWRQaK6JrUI4b3mKal
+         6UOqzNHBFSJAVSHDyFX4UNP8AVpAh9jKCf0UMXHXKcuCRv7q8P9YRAjoIvnb9My/QhiK
+         2+A2FV0PzE9TtDK41mlkz4oayM5Fhg51u8aGmjXrDXFSYl36qExsrQtUUySzjHzG8g5n
+         p33A==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
-        h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
-         :references:mime-version:content-transfer-encoding;
-        bh=lDM558DKiKLq3AnZ0i8eDjmIpOruOaH9xEpeza3L5kY=;
-        b=XWUZAHwWkuXnN6bY+ArXrnkoEjcWS+J/cF+9hQIfS2dWLwlMUcgxlZy2FuyJ5AMKc4
-         DhN0eYDkKUlhfignsQt+Yru25lYSVV2leRAgkXIuk9v02UBAlNolCCCpxjjwldaHCEU5
-         s3kcUFTYQ4ZMbTjNzdA/1seG5CUkZncWU9+afMlm2LXltJzTLCVa0HihRQ5Xopug1mcQ
-         JSSv1uUVcuq7S8aM/UcA9Xo/1Fkjsr35xe60S6GqqfuYIDN8aAK17mRiwjVkn66jKioe
-         Wrp/o2vXtB578ykb2atxKaeLH5gT/day7b3S8ezQPsVJ6sdEbWq+uxWpMK8UcITzo45n
-         JqxQ==
-X-Gm-Message-State: AOAM533Kv6JQh5yc2MmQU7vMhGD2ZlHGXzmv8ETIlh0CkydORilbK1Cd
-        u9TOYZZLcNteqsjrmslc8nA=
-X-Google-Smtp-Source: ABdhPJwYRaZx9fOSeWiUcDW9uKnTskocR2kCp14xT3p8o+1/2y4HUo/Em30P6YTzmXMTtLwPIa6dfA==
-X-Received: by 2002:a1c:7502:: with SMTP id o2mr12245490wmc.29.1599318922155;
-        Sat, 05 Sep 2020 08:15:22 -0700 (PDT)
-Received: from localhost.localdomain ([93.115.133.118])
-        by smtp.googlemail.com with ESMTPSA id t4sm17905363wre.30.2020.09.05.08.15.21
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Sat, 05 Sep 2020 08:15:21 -0700 (PDT)
-From:   Alejandro Colomar <colomar.6.4.3@gmail.com>
-To:     mtk.manpages@gmail.com
-Cc:     linux-man@vger.kernel.org,
-        Alejandro Colomar <colomar.6.4.3@gmail.com>
-Subject: [PATCH 6/7] bsearch.3: Fix intermediate type and remove unneeded casts
-Date:   Sat,  5 Sep 2020 17:15:00 +0200
-Message-Id: <20200905151501.609036-7-colomar.6.4.3@gmail.com>
-X-Mailer: git-send-email 2.28.0
-In-Reply-To: <20200905151501.609036-1-colomar.6.4.3@gmail.com>
-References: <20200905151501.609036-1-colomar.6.4.3@gmail.com>
+        h=x-gm-message-state:cc:subject:to:references:from:message-id:date
+         :user-agent:mime-version:in-reply-to:content-language
+         :content-transfer-encoding;
+        bh=+wZ9UnSUNCf0UijyLuB00G7MEe6Cjh9RsytJzfDULXs=;
+        b=Omu2T77WpQXKvSMJffont9U6+ZKwY5311I/RUMxTOHC3a8k3ZWq7rEF9bt9r8cwgpo
+         qd7BWOGB7dYptTUzL9tGH+efI/yc0VoiJPrKVSuG7JWJ4im3xZiIlxgDDAvb8AuMZAPT
+         FZ//pVB323vR8Q0ipTFZkW8S8QDJfbeMvTc8FCihb8O7OzUT/YS76bsEOKhMjp4bCf85
+         3/HCKAYdv4cVE986Ys5LIQTSICKHOq1t34/KVXyCarn1HFZpiqhir1ozH8tfyaXNd0AA
+         /npR+75hYijWQ4MPEdyWPjIV4Iket5pVtufQkm9nAJ9KBzOkLX9YVX4pNaIGTN4UjIBF
+         Grzg==
+X-Gm-Message-State: AOAM533BLhwgkdKsmiQGt86LMNQHqyTDwEfsZ2+KhFvhsbqaXGHe8ouB
+        Ch1wVXihD19ToSM2pUgIWn4=
+X-Google-Smtp-Source: ABdhPJyQS5jOJChfLgtkY2f4EDkSXzc3N70A5TZYCXXvdcJ9O3wt62o6QG0eEAXrqkL+QetyYzv1yA==
+X-Received: by 2002:adf:f3c6:: with SMTP id g6mr13910800wrp.340.1599319463608;
+        Sat, 05 Sep 2020 08:24:23 -0700 (PDT)
+Received: from ?IPv6:2001:a61:3ab0:7001:e081:d401:3da8:e4bc? ([2001:a61:3ab0:7001:e081:d401:3da8:e4bc])
+        by smtp.gmail.com with ESMTPSA id a11sm13864463wmm.18.2020.09.05.08.24.22
+        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+        Sat, 05 Sep 2020 08:24:23 -0700 (PDT)
+Cc:     mtk.manpages@gmail.com, linux-man <linux-man@vger.kernel.org>,
+        Jakub Wilk <jwilk@jwilk.net>
+Subject: Re: [PATCH (2) 34/34] unix.7: Use sizeof consistently
+To:     Alejandro Colomar <colomar.6.4.3@gmail.com>
+References: <cc176298-50e2-7831-f2f7-21be8cae9075@gmail.com>
+ <87d5b09a-a3c8-622c-d731-5d42644a5f24@gmail.com>
+ <61d2f2f9-08d0-9f1a-9642-ae56b3f4b61d@gmail.com>
+ <4bb9e639-83ee-ede0-f6ad-dfc16787d358@gmail.com>
+ <3c25bbda-bc90-1364-77cd-2c637f09d611@gmail.com>
+ <af5bf8ce-8bb8-3819-a8e4-1454be92097f@gmail.com>
+ <4f0ff40c-2a63-736d-698f-0efc436c3678@gmail.com>
+ <5343bbd1-b03f-29bf-2def-c27ba3a3616e@gmail.com>
+ <4eba3ee9-bb6a-810f-55ae-7f0d76d446a7@gmail.com>
+ <82aa16c3-60fe-68b3-103f-6d438563f3c2@gmail.com>
+ <6e6d6796-32e0-9cc1-1e6c-4abb0b702499@gmail.com>
+ <718db444-6679-224e-c649-6dd219b9db3c@gmail.com>
+ <36a9ef8e-6fd9-e074-2a19-d8529f425501@gmail.com>
+ <70efd632-15b4-0d18-8c05-7a4ea7fe2353@gmail.com>
+ <fa6e973f-0a09-a9d2-a6c6-e6359d84df9e@gmail.com>
+ <eb934301-27b4-245e-da89-28bde26c2bf1@gmail.com>
+ <3777a325-ef49-27df-d21b-375900e34fed@gmail.com>
+ <CAKgNAkiEsM-itdZ-cJAribFuAGoaLT4Nd4HDSSNOYm2MpOCCrg@mail.gmail.com>
+ <302224e0-5d23-1bb3-e1a7-4d74d602099c@gmail.com>
+From:   "Michael Kerrisk (man-pages)" <mtk.manpages@gmail.com>
+Message-ID: <be82d618-8c1e-b2a1-80a6-7acf359defbd@gmail.com>
+Date:   Sat, 5 Sep 2020 17:24:22 +0200
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
+ Thunderbird/68.10.0
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+In-Reply-To: <302224e0-5d23-1bb3-e1a7-4d74d602099c@gmail.com>
+Content-Type: text/plain; charset=utf-8
+Content-Language: en-US
+Content-Transfer-Encoding: 7bit
 Sender: linux-man-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-man.vger.kernel.org>
 X-Mailing-List: linux-man@vger.kernel.org
 
-Casting `const void *` to `struct mi *` should result in a warning if
-done implicitly.  The explicit cast was probably silencing that warning.
-`const` can and should be kept.
-Now, casting `const void *` to `const struct mi *` is done implicitly.
+Hello Alex,
 
-Signed-off-by: Alejandro Colomar <colomar.6.4.3@gmail.com>
----
- man3/bsearch.3 | 4 ++--
- 1 file changed, 2 insertions(+), 2 deletions(-)
+On 9/5/20 4:52 PM, Alejandro Colomar wrote:
+> Hello Michael,
+> 
+> On 9/5/20 4:38 PM, Michael Kerrisk (man-pages) wrote:
+>> See commit 48d05103071830b6708a3ecabeddcdef5f3daa44.
+> 
+> It looks good.  Maybe I'd keep the cosmetic blank line after the
+> declaration+alloc in insque.3...
 
-diff --git a/man3/bsearch.3 b/man3/bsearch.3
-index 6859bdba2..a07bfd568 100644
---- a/man3/bsearch.3
-+++ b/man3/bsearch.3
-@@ -114,8 +114,8 @@ struct mi {
- static int
- compmi(const void *m1, const void *m2)
- {
--    struct mi *mi1 = (struct mi *) m1;
--    struct mi *mi2 = (struct mi *) m2;
-+    const struct mi *mi1 = m1;
-+    const struct mi *mi2 = m2;
-     return strcmp(mi1\->name, mi2\->name);
- }
- 
+I kinda prefer not to have it.
+
+>> Thanks for your input Alex, it's been really helpful!
+> 
+> Thank you very much!  I'm really happy to read that!
+> I learnt a lot these days.
+
+I learned a few things too :-).
+
+Cheers,
+
+Michael
+
 -- 
-2.28.0
-
+Michael Kerrisk
+Linux man-pages maintainer; http://www.kernel.org/doc/man-pages/
+Linux/UNIX System Programming Training: http://man7.org/training/
