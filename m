@@ -2,111 +2,110 @@ Return-Path: <SRS0=Bu2X=CO=vger.kernel.org=linux-man-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-6.3 required=3.0 tests=BAYES_00,DKIM_SIGNED,
+X-Spam-Status: No, score=-12.8 required=3.0 tests=BAYES_00,DKIM_SIGNED,
 	DKIM_VALID,DKIM_VALID_AU,FREEMAIL_FORGED_FROMDOMAIN,FREEMAIL_FROM,
-	HEADER_FROM_DIFFERENT_DOMAINS,MAILING_LIST_MULTI,NICE_REPLY_A,SPF_HELO_NONE,
-	SPF_PASS,USER_AGENT_SANE_1 autolearn=no autolearn_force=no version=3.4.0
+	HEADER_FROM_DIFFERENT_DOMAINS,INCLUDES_PATCH,MAILING_LIST_MULTI,SIGNED_OFF_BY,
+	SPF_HELO_NONE,SPF_PASS,USER_AGENT_GIT autolearn=ham autolearn_force=no
+	version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 9C328C43461
-	for <linux-man@archiver.kernel.org>; Sat,  5 Sep 2020 14:52:41 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 48E6BC433E2
+	for <linux-man@archiver.kernel.org>; Sat,  5 Sep 2020 15:16:39 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.kernel.org (Postfix) with ESMTP id 534E02078E
-	for <linux-man@archiver.kernel.org>; Sat,  5 Sep 2020 14:52:41 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTP id 0678520C09
+	for <linux-man@archiver.kernel.org>; Sat,  5 Sep 2020 15:16:38 +0000 (UTC)
 Authentication-Results: mail.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="GmZ81LBM"
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="aZlNb27q"
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1726468AbgIEOwk (ORCPT <rfc822;linux-man@archiver.kernel.org>);
-        Sat, 5 Sep 2020 10:52:40 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:58330 "EHLO
+        id S1728198AbgIEPQf (ORCPT <rfc822;linux-man@archiver.kernel.org>);
+        Sat, 5 Sep 2020 11:16:35 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:33560 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1726302AbgIEOwj (ORCPT
-        <rfc822;linux-man@vger.kernel.org>); Sat, 5 Sep 2020 10:52:39 -0400
-Received: from mail-wr1-x42d.google.com (mail-wr1-x42d.google.com [IPv6:2a00:1450:4864:20::42d])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 81BBAC061244
-        for <linux-man@vger.kernel.org>; Sat,  5 Sep 2020 07:52:37 -0700 (PDT)
-Received: by mail-wr1-x42d.google.com with SMTP id o5so10227409wrn.13
-        for <linux-man@vger.kernel.org>; Sat, 05 Sep 2020 07:52:37 -0700 (PDT)
+        with ESMTP id S1726468AbgIEPQM (ORCPT
+        <rfc822;linux-man@vger.kernel.org>); Sat, 5 Sep 2020 11:16:12 -0400
+Received: from mail-wm1-x341.google.com (mail-wm1-x341.google.com [IPv6:2a00:1450:4864:20::341])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id AAD67C061245
+        for <linux-man@vger.kernel.org>; Sat,  5 Sep 2020 08:15:18 -0700 (PDT)
+Received: by mail-wm1-x341.google.com with SMTP id z9so9387285wmk.1
+        for <linux-man@vger.kernel.org>; Sat, 05 Sep 2020 08:15:18 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=gmail.com; s=20161025;
-        h=subject:to:cc:references:from:message-id:date:user-agent
-         :mime-version:in-reply-to:content-language:content-transfer-encoding;
-        bh=C0GUf0d7WFiliMz5WL6Y10cDG+sA1XAEua+OHW9d32o=;
-        b=GmZ81LBMlMsoexZImXuEJ9ER4B/+9fMaFmRpyJxF7VsbpOGbqt1y32Z2hnGfoMvq2Q
-         EnD1/Hb2ktZlRAx0WoDNRXuApaIXgBweMUiAVU/PlG1bUFka1KgNZIiN4u6BIMxbjN/7
-         eWcQMsvOyHXrGxE2F70J5vd6ZkFV88S2eLRwH4Bb3tOfsPhyrOOMixYG/rKWvzkT9Bil
-         WDIdLD8cd9Y/Kjm1TJNmzvYXXdl6X1SHi7MbOVY7jUeyAtu0gmEaZW30Njn3Z1IXLkAY
-         TzuOyQudDpouQMfEyH+QurzEjCg4KtqP6McY57gXALV6tqa3PP1f0v1kzMLWkowhW45g
-         /Lvw==
+        h=from:to:cc:subject:date:message-id:in-reply-to:references
+         :mime-version:content-transfer-encoding;
+        bh=up5JCodh8Ak0J1jq4XlQ85kAr1epJrXmsVGjBUCwSmk=;
+        b=aZlNb27qYl3VuGQNZpOsyP+EqgMbV/N/rc587agfj6s75eSH3jz6DvpMq43/lF/xgL
+         tPlRTxv60MO/PnpFsWYASkfW79VZWI1GW3Bmx7teIgntj/XIIHD1/VfPGUzN7ixKSwyU
+         C9otwd0GWj9AvDXPHStcMUDNuWWO2GxtKOtuKt4aKgfMlx7hQcyV+37eXJlvx+E6RAqc
+         I+dZFVZcNhJj+1hprbKTh2cP7mdVxqW8XoWS6bHdSIriyWqnCjQnYSMBwF9UEB1KZMkf
+         Fk1jMC1QYLf+jxKnw3vX9Ji3gdX//v603MnaZwqWWk9C8y+O7KAl4MzAxnXwGhyBYkSj
+         4OQQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
-        h=x-gm-message-state:subject:to:cc:references:from:message-id:date
-         :user-agent:mime-version:in-reply-to:content-language
-         :content-transfer-encoding;
-        bh=C0GUf0d7WFiliMz5WL6Y10cDG+sA1XAEua+OHW9d32o=;
-        b=g1PHG0S6vW6f5Ia6DU4ZhN2ghv1mvIYa37eUMbgx77sfU4FTBQZljMGaguHsoDLzo3
-         Nw3MLV/a0ltMWt3rKHubGPDYHJMFRGDW4QlN+BBHmkmw1F/ZwftLQ+zJl445/3k4DPW9
-         Zuk1eWSTHAqYeTpF/BoXn5SHL9IeQhkLQGYpsza9VDuKwqju/GJtUac4MGElKvgMUqFm
-         ltJHKDPKYkU4gKRAQztNYB8A72mxioYG6vupC6uWtaF9HV/xqcFmo6bRBLH5frSnugzV
-         lTvQzy8pEnwumzNS9y/iuiJF1P4qARCeyXGxkLUaJ+K+W4TgYsGx+Zr7AxK3+i73C957
-         UYJA==
-X-Gm-Message-State: AOAM531Aiq/Hu+1A1nQT0HBxms/5QlLIfzlZSdSJzmDle/I5khbZ0o0+
-        KgmE7WVviJT38SJkEbGTHMzjcZELqiY=
-X-Google-Smtp-Source: ABdhPJx+Kudu2iTDxR0WKhvDFbwCGyXFcS02+bY1vpiqqyeEpNvHrDpsj7TjbSsbpt3WKlAkPm3YMQ==
-X-Received: by 2002:adf:f492:: with SMTP id l18mr13356648wro.280.1599317551365;
-        Sat, 05 Sep 2020 07:52:31 -0700 (PDT)
-Received: from [192.168.0.160] ([93.115.133.118])
-        by smtp.gmail.com with ESMTPSA id 2sm18182437wrs.64.2020.09.05.07.52.30
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Sat, 05 Sep 2020 07:52:30 -0700 (PDT)
-Subject: Re: [PATCH (2) 34/34] unix.7: Use sizeof consistently
-To:     mtk.manpages@gmail.com
-Cc:     linux-man <linux-man@vger.kernel.org>, Jakub Wilk <jwilk@jwilk.net>
-References: <cc176298-50e2-7831-f2f7-21be8cae9075@gmail.com>
- <d7db8e23-8e86-10ee-f221-30d7e3bd657e@gmail.com>
- <87d5b09a-a3c8-622c-d731-5d42644a5f24@gmail.com>
- <61d2f2f9-08d0-9f1a-9642-ae56b3f4b61d@gmail.com>
- <4bb9e639-83ee-ede0-f6ad-dfc16787d358@gmail.com>
- <3c25bbda-bc90-1364-77cd-2c637f09d611@gmail.com>
- <af5bf8ce-8bb8-3819-a8e4-1454be92097f@gmail.com>
- <4f0ff40c-2a63-736d-698f-0efc436c3678@gmail.com>
- <5343bbd1-b03f-29bf-2def-c27ba3a3616e@gmail.com>
- <4eba3ee9-bb6a-810f-55ae-7f0d76d446a7@gmail.com>
- <82aa16c3-60fe-68b3-103f-6d438563f3c2@gmail.com>
- <6e6d6796-32e0-9cc1-1e6c-4abb0b702499@gmail.com>
- <718db444-6679-224e-c649-6dd219b9db3c@gmail.com>
- <36a9ef8e-6fd9-e074-2a19-d8529f425501@gmail.com>
- <70efd632-15b4-0d18-8c05-7a4ea7fe2353@gmail.com>
- <fa6e973f-0a09-a9d2-a6c6-e6359d84df9e@gmail.com>
- <eb934301-27b4-245e-da89-28bde26c2bf1@gmail.com>
- <3777a325-ef49-27df-d21b-375900e34fed@gmail.com>
- <CAKgNAkiEsM-itdZ-cJAribFuAGoaLT4Nd4HDSSNOYm2MpOCCrg@mail.gmail.com>
+        h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
+         :references:mime-version:content-transfer-encoding;
+        bh=up5JCodh8Ak0J1jq4XlQ85kAr1epJrXmsVGjBUCwSmk=;
+        b=tpwi/cUrEwUXajclMMJkIFJf+NxSiViPcy7+ERAgrgMQ4PkJM3kFwQNm5PsO0DEzlk
+         fUOy+aEXCKUT02c+8+oscwjKMoFo6hfwYQnNXQzzPN8UkswktkJ8FZsl+KTIo4W1kaQS
+         N9rWCoWfje0ogHhp65hFuPWsbA1G6FIFv7cRuJUqLzS7dIkeup4T1qE3v8Zq3YCNsKNh
+         ewkKGjtX5LM8TrZGl2iPFzyC2GyhM9jDgNb/URBnpWWDLDQRoti7A17IFNgzOs1jhPBu
+         PdWXkzEjnaAh+EKPJ9zqrKvAvGwJRA85hw2Fk9fv+55h89zc8L0dadvwRT7Hi3QusM9r
+         nkwQ==
+X-Gm-Message-State: AOAM533iCcolTHxMAFPiC6T3p2+JRtGXoy3coe68SPVaVrBsTMs/xkJ7
+        UNJFTgVLiEx6YqVVK16BY0s=
+X-Google-Smtp-Source: ABdhPJxOnr7plXWAoqLg7Vi6t5jlE0ZWIpwYPogC7bE/FoP8F8FoimFGw4lxy5hTHVZhNDiHowQH5A==
+X-Received: by 2002:a1c:dec2:: with SMTP id v185mr12390069wmg.1.1599318917378;
+        Sat, 05 Sep 2020 08:15:17 -0700 (PDT)
+Received: from localhost.localdomain ([93.115.133.118])
+        by smtp.googlemail.com with ESMTPSA id t4sm17905363wre.30.2020.09.05.08.15.16
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Sat, 05 Sep 2020 08:15:16 -0700 (PDT)
 From:   Alejandro Colomar <colomar.6.4.3@gmail.com>
-Message-ID: <302224e0-5d23-1bb3-e1a7-4d74d602099c@gmail.com>
-Date:   Sat, 5 Sep 2020 16:52:30 +0200
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
- Thunderbird/68.12.0
+To:     mtk.manpages@gmail.com
+Cc:     linux-man@vger.kernel.org,
+        Alejandro Colomar <colomar.6.4.3@gmail.com>
+Subject: [PATCH 1/7] sock_diag.7: Remove unneeded casts
+Date:   Sat,  5 Sep 2020 17:14:55 +0200
+Message-Id: <20200905151501.609036-2-colomar.6.4.3@gmail.com>
+X-Mailer: git-send-email 2.28.0
+In-Reply-To: <20200905151501.609036-1-colomar.6.4.3@gmail.com>
+References: <20200905151501.609036-1-colomar.6.4.3@gmail.com>
 MIME-Version: 1.0
-In-Reply-To: <CAKgNAkiEsM-itdZ-cJAribFuAGoaLT4Nd4HDSSNOYm2MpOCCrg@mail.gmail.com>
-Content-Type: text/plain; charset=utf-8
-Content-Language: en-US
-Content-Transfer-Encoding: 7bit
+Content-Transfer-Encoding: 8bit
 Sender: linux-man-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-man.vger.kernel.org>
 X-Mailing-List: linux-man@vger.kernel.org
 
-Hello Michael,
+The type `struct sockaddr_nl *` is implicitly casted to `void *`.
+Explicitly casting can silence warnings when mistakes are made, so it's
+better to remove those casts when possible.
 
-On 9/5/20 4:38 PM, Michael Kerrisk (man-pages) wrote:
-> See commit 48d05103071830b6708a3ecabeddcdef5f3daa44.
+Signed-off-by: Alejandro Colomar <colomar.6.4.3@gmail.com>
+---
+ man7/sock_diag.7 | 4 ++--
+ 1 file changed, 2 insertions(+), 2 deletions(-)
 
-It looks good.  Maybe I'd keep the cosmetic blank line after the
-declaration+alloc in insque.3...
+diff --git a/man7/sock_diag.7 b/man7/sock_diag.7
+index a5816ceca..185fb77ee 100644
+--- a/man7/sock_diag.7
++++ b/man7/sock_diag.7
+@@ -680,7 +680,7 @@ send_query(int fd)
+         .iov_len = sizeof(req)
+     };
+     struct msghdr msg = {
+-        .msg_name = (void *) &nladdr,
++        .msg_name = &nladdr,
+         .msg_namelen = sizeof(nladdr),
+         .msg_iov = &iov,
+         .msg_iovlen = 1
+@@ -765,7 +765,7 @@ receive_responses(int fd)
+ 
+     for (;;) {
+         struct msghdr msg = {
+-            .msg_name = (void *) &nladdr,
++            .msg_name = &nladdr,
+             .msg_namelen = sizeof(nladdr),
+             .msg_iov = &iov,
+             .msg_iovlen = 1
+-- 
+2.28.0
 
-> Thanks for your input Alex, it's been really helpful!
-
-Thank you very much!  I'm really happy to read that!
-I learnt a lot these days.
-
-Cheers,
-Alex.
