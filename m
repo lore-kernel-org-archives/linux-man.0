@@ -2,94 +2,115 @@ Return-Path: <SRS0=S6P1=CQ=vger.kernel.org=linux-man-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-6.6 required=3.0 tests=BAYES_00,DKIM_SIGNED,
+X-Spam-Status: No, score=-12.9 required=3.0 tests=BAYES_00,DKIM_SIGNED,
 	DKIM_VALID,DKIM_VALID_AU,FREEMAIL_FORGED_FROMDOMAIN,FREEMAIL_FROM,
-	HEADER_FROM_DIFFERENT_DOMAINS,MAILING_LIST_MULTI,SPF_HELO_NONE,SPF_PASS,
-	USER_AGENT_GIT autolearn=no autolearn_force=no version=3.4.0
+	HEADER_FROM_DIFFERENT_DOMAINS,INCLUDES_PATCH,MAILING_LIST_MULTI,NICE_REPLY_A,
+	SIGNED_OFF_BY,SPF_HELO_NONE,SPF_PASS,URIBL_BLOCKED,USER_AGENT_SANE_1
+	autolearn=ham autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 22E74C2BB84
-	for <linux-man@archiver.kernel.org>; Mon,  7 Sep 2020 10:22:36 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 678C0C43461
+	for <linux-man@archiver.kernel.org>; Mon,  7 Sep 2020 10:31:54 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.kernel.org (Postfix) with ESMTP id D8797204FD
-	for <linux-man@archiver.kernel.org>; Mon,  7 Sep 2020 10:22:35 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTP id 3087A20659
+	for <linux-man@archiver.kernel.org>; Mon,  7 Sep 2020 10:31:54 +0000 (UTC)
 Authentication-Results: mail.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="qfTC1hvE"
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="ZwzROsk4"
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1728453AbgIGKWc (ORCPT <rfc822;linux-man@archiver.kernel.org>);
-        Mon, 7 Sep 2020 06:22:32 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:33094 "EHLO
+        id S1728814AbgIGKbs (ORCPT <rfc822;linux-man@archiver.kernel.org>);
+        Mon, 7 Sep 2020 06:31:48 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:34666 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1728964AbgIGKVu (ORCPT
-        <rfc822;linux-man@vger.kernel.org>); Mon, 7 Sep 2020 06:21:50 -0400
-Received: from mail-wr1-x434.google.com (mail-wr1-x434.google.com [IPv6:2a00:1450:4864:20::434])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 426EEC061573
-        for <linux-man@vger.kernel.org>; Mon,  7 Sep 2020 03:21:50 -0700 (PDT)
-Received: by mail-wr1-x434.google.com with SMTP id k15so15177709wrn.10
-        for <linux-man@vger.kernel.org>; Mon, 07 Sep 2020 03:21:50 -0700 (PDT)
+        with ESMTP id S1728836AbgIGKbo (ORCPT
+        <rfc822;linux-man@vger.kernel.org>); Mon, 7 Sep 2020 06:31:44 -0400
+Received: from mail-ej1-x641.google.com (mail-ej1-x641.google.com [IPv6:2a00:1450:4864:20::641])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id DFAB4C061573
+        for <linux-man@vger.kernel.org>; Mon,  7 Sep 2020 03:31:43 -0700 (PDT)
+Received: by mail-ej1-x641.google.com with SMTP id i22so17560658eja.5
+        for <linux-man@vger.kernel.org>; Mon, 07 Sep 2020 03:31:43 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=gmail.com; s=20161025;
-        h=from:to:cc:subject:date:message-id:mime-version
-         :content-transfer-encoding;
-        bh=joJEtZo1LfcrrMs/iIGykB2lPNswA+K88U3g5zUjsMY=;
-        b=qfTC1hvECg1ZF1MnOHeF0PnUYN/RyASx63jhwsDG2Sk8k+C3+eyY2tLiAprR7Br9QZ
-         g0J3dZv28pFOZQt7z1r26bAufUNXbv/4TkQbzc3e8vSmqJm97TP+WYqDbnrr21a932yi
-         zehoQg9UddvFllc6uqs4euMA/YvSJ3EuoBClM/qFtk7qkhDsHZbXP6tGA6pkI2Pd1wsJ
-         9rLSHkWbJgCfQ3OHeZDnZVf6Ejeb0+Qojn6UiWUxVAqNXur20KmZPPXAfTyCs4tLPeN3
-         N/V6TdvuhO5QfBFq768nSbzo6eTgrKLCUcFb2jaliJmnp/PFthbmYcOiznj58C1pI/2O
-         EZGA==
+        h=cc:subject:to:references:from:message-id:date:user-agent
+         :mime-version:in-reply-to:content-language:content-transfer-encoding;
+        bh=RpvwTYljO8603ufIZ+uT4iCKgBIEPW/trjR0oDCjAgI=;
+        b=ZwzROsk45W9+mgSP2elmkeipCVNKlGMMWLLEnq8H0Hl+ySmtpuEK9XhUDSjixCy9AC
+         uD+P/YqeFfkHQTfA4vzCfhfBKAt2oDoIwCnVb1AlgDai70unYWiKRZCyidh0FPWCNgeD
+         zA+ETXvJJudp9RxTgFUBpuUlsR2FXjvs1FM2XGuU8NI+a8O+wREs3ns2avk0oaLL/56C
+         68YwPjaVRhDrMpGShzfb2TMBivpoqKQob6MjISt2RMDou0Bqm1Tb+cF/kedqpAeI+h2D
+         0fNV1I5KkaMSFAS4rhtn+G/iX02zR+FA6Dcc4dT4h0fvWpUBNPE/Zvapd+zmKnqsUpP2
+         PYCw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
-        h=x-gm-message-state:from:to:cc:subject:date:message-id:mime-version
+        h=x-gm-message-state:cc:subject:to:references:from:message-id:date
+         :user-agent:mime-version:in-reply-to:content-language
          :content-transfer-encoding;
-        bh=joJEtZo1LfcrrMs/iIGykB2lPNswA+K88U3g5zUjsMY=;
-        b=n64u8wc7DGVCe9uOhfumb9ui/ROZ5VAaaOzKgn3+6wEB8Dw+sVfmeassRkce1Y457E
-         W8JGBky3jpa3QGYVzxc499dPNJXesT1vnxtp6RhjbplFCsrXl6BUuzUei530M/mH+R0r
-         yyvD5c47ma2XV600y17ipZxCFVq8fl3OT8V+AAynKIVClOGqRc5FbikaropwTPQAXDF+
-         WkRuzArchQz/wFUABTg9WAlsjh8vfEHeJKUu7P7zjmY9QKJuzfT8HSEpDeuXhoQ9mb3v
-         KRkBAQI49+zHscRYFXssyRXMxEMPiqnUWxSgU5ASCVNfI9r9d1U77LWJwS8etk4N1si8
-         R2wA==
-X-Gm-Message-State: AOAM533SyFPeM6U1hXjnrALnx5QFcKlBpLxutD9J8D3Yns34fTj+zFHS
-        eFezreXDR93CUFHbaYXLXXg=
-X-Google-Smtp-Source: ABdhPJwhReM/uUEBo4rm+u8OtqH8/spP4tvib7ibFc0Az6nXGIU7WT4FdOHdizm5ce70tTPdgGJCgA==
-X-Received: by 2002:adf:dfc3:: with SMTP id q3mr20063611wrn.238.1599474107428;
-        Mon, 07 Sep 2020 03:21:47 -0700 (PDT)
-Received: from localhost.localdomain ([170.253.60.68])
-        by smtp.googlemail.com with ESMTPSA id q192sm29530873wme.13.2020.09.07.03.21.46
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Mon, 07 Sep 2020 03:21:46 -0700 (PDT)
-From:   Alejandro Colomar <colomar.6.4.3@gmail.com>
-To:     mtk.manpages@gmail.com
-Cc:     linux-man@vger.kernel.org,
-        Alejandro Colomar <colomar.6.4.3@gmail.com>
-Subject: [PATCH 0/2] fopencookie.3: Fix EXAMPLES section
-Date:   Mon,  7 Sep 2020 12:21:15 +0200
-Message-Id: <20200907102116.16924-1-colomar.6.4.3@gmail.com>
-X-Mailer: git-send-email 2.28.0
+        bh=RpvwTYljO8603ufIZ+uT4iCKgBIEPW/trjR0oDCjAgI=;
+        b=azZS5+F6CJsLYQmtcSpDGpZB92ZBHoCaodQ/oRnHokD1Rw9prPFegL5kgWtKnI5SCl
+         nfmbnZvFcwDwyfm1lfruWwYveQjS81wTtqNxRJczuqie67M3Kg2HA1s8Xo8vTSLbFo0C
+         voLX1Om7ZXlPUnxgUCjeeoqVnP9CqpKlv8hJmUZYW7EAV7+pE5hLcKWIaJ3tuJdBSVZc
+         Z8DSXC7YltwIYYMwbOIQyrLs13AjUJnhFaoldnCJ6UBHTAVFIsHrBP3yIpKgplhXWpVL
+         yw2P7gK7AEKKOcnBCi3XPRwYwLgvdv3PNnorNvuMGtTdA4BXf3smGndbdVWSNJWchjVy
+         YWhg==
+X-Gm-Message-State: AOAM53301D9eF0y7LDMLUlvy6hkJ4JrFbFpq+V+m4eUDwaCc5fsGxlah
+        ggc1RYc91Kv8sezK+xaP432qw9R3vi8=
+X-Google-Smtp-Source: ABdhPJxXpMaLZjRpZX6hlKDugn4YcMAuKmb0iJH+SUxF5Y4Xfgb7RaOy5y5PIYq5Wh2YfmpKr+RJYQ==
+X-Received: by 2002:a17:906:3791:: with SMTP id n17mr19958521ejc.216.1599474702338;
+        Mon, 07 Sep 2020 03:31:42 -0700 (PDT)
+Received: from ?IPv6:2001:a61:3ab0:7001:e081:d401:3da8:e4bc? ([2001:a61:3ab0:7001:e081:d401:3da8:e4bc])
+        by smtp.gmail.com with ESMTPSA id y21sm3914432eju.46.2020.09.07.03.31.41
+        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+        Mon, 07 Sep 2020 03:31:41 -0700 (PDT)
+Cc:     mtk.manpages@gmail.com, linux-man@vger.kernel.org
+Subject: Re: [PATCH 1/2] fopencookie.3: printf()'s .* expects an int; cast
+ accordingly
+To:     Alejandro Colomar <colomar.6.4.3@gmail.com>
+References: <20200907102116.16924-1-colomar.6.4.3@gmail.com>
+ <20200907102116.16924-2-colomar.6.4.3@gmail.com>
+From:   "Michael Kerrisk (man-pages)" <mtk.manpages@gmail.com>
+Message-ID: <12b9d72b-4437-5c8b-954b-7b7118be0591@gmail.com>
+Date:   Mon, 7 Sep 2020 12:31:40 +0200
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
+ Thunderbird/68.10.0
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+In-Reply-To: <20200907102116.16924-2-colomar.6.4.3@gmail.com>
+Content-Type: text/plain; charset=utf-8
+Content-Language: en-US
+Content-Transfer-Encoding: 7bit
 Sender: linux-man-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-man.vger.kernel.org>
 X-Mailing-List: linux-man@vger.kernel.org
 
-*** BLURB HERE ***
-Hi Michael,
+Hello ALex,
 
-I fixed a few bugs in the example program.
+On 9/7/20 12:21 PM, Alejandro Colomar wrote:
+> Signed-off-by: Alejandro Colomar <colomar.6.4.3@gmail.com>
+> ---
+>  man3/fopencookie.3 | 2 +-
+>  1 file changed, 1 insertion(+), 1 deletion(-)
 
-Testing the patch cover-letter now :)
+Thanks. Patch applied.
 
 Cheers,
 
-Alex
+Michael
 
-Alejandro Colomar (2):
-  fopencookie.3: printf()'s .* expects an int; cast accordingly
-  fopencookie.3: Fix bugs in example
+> diff --git a/man3/fopencookie.3 b/man3/fopencookie.3
+> index 472a7f3d2..5394ce4a5 100644
+> --- a/man3/fopencookie.3
+> +++ b/man3/fopencookie.3
+> @@ -438,7 +438,7 @@ main(int argc, char *argv[])
+>              break;
+>          }
+>  
+> -        printf("/%.*s/\en", nread, buf);
+> +        printf("/%.*s/\en", (int) nread, buf);
+>      }
+>  
+>      exit(EXIT_SUCCESS);
+> 
 
- man3/fopencookie.3 | 12 ++++++------
- 1 file changed, 6 insertions(+), 6 deletions(-)
 
 -- 
-2.28.0
-
+Michael Kerrisk
+Linux man-pages maintainer; http://www.kernel.org/doc/man-pages/
+Linux/UNIX System Programming Training: http://man7.org/training/
