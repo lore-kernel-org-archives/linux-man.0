@@ -1,136 +1,89 @@
 Return-Path: <SRS0=glPb=CU=vger.kernel.org=linux-man-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
-X-Spam-Level: 
-X-Spam-Status: No, score=-13.6 required=3.0 tests=BAYES_00,DKIM_SIGNED,
-	DKIM_VALID,DKIM_VALID_AU,FREEMAIL_FORGED_FROMDOMAIN,FREEMAIL_FROM,
-	HEADER_FROM_DIFFERENT_DOMAINS,INCLUDES_PATCH,MAILING_LIST_MULTI,NICE_REPLY_A,
-	SIGNED_OFF_BY,SPF_HELO_NONE,SPF_PASS,URIBL_BLOCKED,USER_AGENT_SANE_1
-	autolearn=ham autolearn_force=no version=3.4.0
+X-Spam-Level: *
+X-Spam-Status: No, score=1.7 required=3.0 tests=BAYES_40,
+	HEADER_FROM_DIFFERENT_DOMAINS,LOTS_OF_MONEY,MAILING_LIST_MULTI,SPF_HELO_NONE,
+	SPF_PASS,T_DEAR_BENEFICIARY,UNCLAIMED_MONEY autolearn=no autolearn_force=no
+	version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id A50FFC43461
-	for <linux-man@archiver.kernel.org>; Fri, 11 Sep 2020 06:45:07 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 7A529C43461
+	for <linux-man@archiver.kernel.org>; Fri, 11 Sep 2020 06:48:03 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.kernel.org (Postfix) with ESMTP id 63D8F221EB
-	for <linux-man@archiver.kernel.org>; Fri, 11 Sep 2020 06:45:07 +0000 (UTC)
-Authentication-Results: mail.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="Mz34LlPr"
+	by mail.kernel.org (Postfix) with ESMTP id 3B4D2221EB
+	for <linux-man@archiver.kernel.org>; Fri, 11 Sep 2020 06:48:03 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1725536AbgIKGpH (ORCPT <rfc822;linux-man@archiver.kernel.org>);
-        Fri, 11 Sep 2020 02:45:07 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:37734 "EHLO
-        lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1725497AbgIKGpA (ORCPT
-        <rfc822;linux-man@vger.kernel.org>); Fri, 11 Sep 2020 02:45:00 -0400
-Received: from mail-wr1-x441.google.com (mail-wr1-x441.google.com [IPv6:2a00:1450:4864:20::441])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 9316AC061573;
-        Thu, 10 Sep 2020 23:44:58 -0700 (PDT)
-Received: by mail-wr1-x441.google.com with SMTP id e16so10339772wrm.2;
-        Thu, 10 Sep 2020 23:44:58 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20161025;
-        h=cc:subject:to:references:from:message-id:date:user-agent
-         :mime-version:in-reply-to:content-language:content-transfer-encoding;
-        bh=cWqHeovm590MhuZp19yBBP+HpQpfYturHdDBjMgTDMQ=;
-        b=Mz34LlPrqx2gbGO/kxKqKh+YKqc8BexrSuwASwCFl8+IvVXuMvSfwW2Y9Oc3U1lzmJ
-         xk1jGw7TkUuR64DA3gdBEQJV/tf99Qc+s+xFqgp4sD2Et2fpS45/QoJbmpw9XPZOWYvU
-         a+/jvjDYtuXMfhjktHBGaRjsbj11kIocN3hb35GXzNwTSJk0ZccpV9x6boyIJpbg/E/i
-         DFVqTTzTHdWnEr6Ap9Xk+I618ggAPBNclAlMOkdK/at0lXdzXbEyWv5+pWcxiPjxQS6o
-         Cg2UBXkghd4RDNMTHQLyBGxDN6onpITdHyGjc4zWtuA1AVdoAGehpjVFlzHMVaZxkgIT
-         lozw==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20161025;
-        h=x-gm-message-state:cc:subject:to:references:from:message-id:date
-         :user-agent:mime-version:in-reply-to:content-language
-         :content-transfer-encoding;
-        bh=cWqHeovm590MhuZp19yBBP+HpQpfYturHdDBjMgTDMQ=;
-        b=d2PlhGT53G0PAiVmUzL55L4WD/bT97bJXAQiQodqm98hZJffyE1McCOqtXyNdKbOVd
-         lSlOm6XzIVUkKdG+siMUvYV/z5n8ddz5F8h0imjQ0zU5FN3nSJYojOHgziByLEiFRWET
-         15ZxbVT/PtGd4cqgAxnL0VMjuFXyIPKLj08UmP1lWop5QlZGHFAujR8bEVJLubE1iDow
-         hYwn8Ip9KdV+oUWY+KOD7r+6FK+d3h6YPQYhTLQqyfrPHdRLGZVPpNlPwcoT8wfKM1x8
-         uaPOvXGbFkroBmMd/ibRbxpCtVSLkrhPtk9iAgTZ/Niij4HhEWAR+DnjILvA+5u4ZJDT
-         dTYw==
-X-Gm-Message-State: AOAM531Z/wnm34ifyyiNG+fi3jH/2Wx/1bhhuKgzA3g5GlzNwiNyjtsU
-        ++JEM6ymHMaYfR++mcaAn7QTIlkUw+0=
-X-Google-Smtp-Source: ABdhPJxJvUOduOSFVtm8433wY84M4qQQbjbR0aZuZ4vOJzJ/+exjAnzDWZq+5Gb5bRYPVBXFMKEqWA==
-X-Received: by 2002:a5d:51ce:: with SMTP id n14mr491199wrv.8.1599806697005;
-        Thu, 10 Sep 2020 23:44:57 -0700 (PDT)
-Received: from ?IPv6:2001:a61:2479:6801:d8fe:4132:9f23:7e8f? ([2001:a61:2479:6801:d8fe:4132:9f23:7e8f])
-        by smtp.gmail.com with ESMTPSA id 70sm2410231wme.15.2020.09.10.23.44.55
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Thu, 10 Sep 2020 23:44:56 -0700 (PDT)
-Cc:     mtk.manpages@gmail.com, linux-man@vger.kernel.org,
-        linux-kernel@vger.kernel.org
-Subject: Re: [PATCH 22/24] membarrier.2: Note that glibc does not provide a
- wrapper
-To:     Alejandro Colomar <colomar.6.4.3@gmail.com>
-References: <20200910211344.3562-1-colomar.6.4.3@gmail.com>
- <20200910211344.3562-23-colomar.6.4.3@gmail.com>
-From:   "Michael Kerrisk (man-pages)" <mtk.manpages@gmail.com>
-Message-ID: <5aad6df9-3531-1b16-4d2d-97fb5cf423c2@gmail.com>
-Date:   Fri, 11 Sep 2020 08:44:55 +0200
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
- Thunderbird/68.10.0
+        id S1725497AbgIKGsD convert rfc822-to-8bit (ORCPT
+        <rfc822;linux-man@archiver.kernel.org>);
+        Fri, 11 Sep 2020 02:48:03 -0400
+Received: from mail.flex.co.jp ([211.8.82.123]:54344 "EHLO www.flex.co.jp"
+        rhost-flags-OK-FAIL-OK-FAIL) by vger.kernel.org with ESMTP
+        id S1725468AbgIKGsC (ORCPT <rfc822;linux-man@vger.kernel.org>);
+        Fri, 11 Sep 2020 02:48:02 -0400
+Received: from live.com.mx ([103.89.89.225])
+        (authenticated bits=0)
+        by www.flex.co.jp (MTA) with ESMTP id 0898nrHA009773
+        for <linux-man@vger.kernel.org>; Wed, 9 Sep 2020 17:49:54 +0900
+Reply-To: powerinthewords@yahoo.co.jp
+From:   piyin.crhe@live.com.mx
+To:     linux-man@vger.kernel.org
+Subject: =?utf-8?Q?=5BSpam=5D?=
+ We are still waiting for your email...
+Date:   09 Sep 2020 01:49:51 -0700
+Message-ID: <20200909014951.A25267546755B754@live.com.mx>
 MIME-Version: 1.0
-In-Reply-To: <20200910211344.3562-23-colomar.6.4.3@gmail.com>
-Content-Type: text/plain; charset=utf-8
-Content-Language: en-US
-Content-Transfer-Encoding: 7bit
+Content-Type: text/plain;
+        charset="utf-8"
+Content-Transfer-Encoding: 8BIT
+X-SpamInfo: FortiGuard-AntiSpam ip, connection black ip 103.89.89.225
 Sender: linux-man-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-man.vger.kernel.org>
 X-Mailing-List: linux-man@vger.kernel.org
 
-On 9/10/20 11:13 PM, Alejandro Colomar wrote:
-> Notes: I copied .nf and .fi from futex.2, but they made no visual difference.
-> What do they actually do?
-> 
-> Signed-off-by: Alejandro Colomar <colomar.6.4.3@gmail.com>
+Dear Beneficiary,
 
-Thanks, Alex. Patch applied.
+We wish to inform you that a power of attorney was forwarded to 
+our office  by two gentlemen regarding your unclaimed fund of $56 
+Million Dollar. One of them is an American citizen named Mr. 
+Robert Porter and the other is Mr. Wilhelm Berg a Swedish 
+citizen.We have be waiting for you to contact us since last year.
 
-Cheers,
+The document claims these gentlemen to be your authorized 
+representatives, and the power of attorney states that you are 
+already deceased.  It further states that your death was due to 
+lung cancer, with your date of death being January 27th, 2020.
 
-Michael
+They have now submitted a new account to replace the receiving 
+account that was in the original claim of funds. These funds have 
+remained unclaimed for quite some time and the need for 
+resolution is pressing. Below is the new account they have 
+submitted.
 
-> ---
->  man2/membarrier.2 | 9 +++++++++
->  1 file changed, 9 insertions(+)
-> 
-> diff --git a/man2/membarrier.2 b/man2/membarrier.2
-> index 8825de71e..f65c6be5c 100644
-> --- a/man2/membarrier.2
-> +++ b/man2/membarrier.2
-> @@ -26,9 +26,15 @@
->  .SH NAME
->  membarrier \- issue memory barriers on a set of threads
->  .SH SYNOPSIS
-> +.nf
-> +.PP
->  .B #include <linux/membarrier.h>
->  .PP
->  .BI "int membarrier(int " cmd ", int " flags ");"
-> +.fi
-> +.PP
-> +.IR Note :
-> +There is no glibc wrapper for this system call; see NOTES.
->  .SH DESCRIPTION
->  The
->  .BR membarrier ()
-> @@ -270,6 +276,9 @@ Examples where
->  .BR membarrier ()
->  can be useful include implementations
->  of Read-Copy-Update libraries and garbage collectors.
-> +.PP
-> +Glibc does not provide a wrapper for this system call; call it using
-> +.BR syscall (2).
->  .SH EXAMPLES
->  Assuming a multithreaded application where "fast_path()" is executed
->  very frequently, and where "slow_path()" is executed infrequently, the
-> 
+Account Name's :  Robert Porter /Wilhelm Berg
+Account: 5007-29 438 66
+IBAN-nr: SE4150000000050072943866
+Bic-kod: ESSESESS
+Skandinaviska Enskilda Banken. (SEB :)
+SWEDEN .
 
+In the event that you are in fact still alive, we ask that you 
+confirm your existence by responding to this email. You are to 
+view this as a matter requiring immediate attention and response. 
+We have 48 hr monitoring of all activities within Federal Reserve 
+Bank.On this regard,you will be directed to any of our office 
+center that you will go in person to sign the final papers,
+because we have our payment center in Europe,Asia,America and 
+Canada.You will go to any of the office that you will be directed 
+to with the copy of the documents of your fund.
 
--- 
-Michael Kerrisk
-Linux man-pages maintainer; http://www.kernel.org/doc/man-pages/
-Linux/UNIX System Programming Training: http://man7.org/training/
+We have contacted the bank in the Sweden asking them to wait for 
+further directives from Federal Reserve Bank, prior to 
+authorizing any withdrawals in any form.  Our request is based 
+entirely on our attempt to verify that you are in fact deceased, 
+before money is wrongly disbursed.
+
+Your in Service,
+
+Robert Steven Kaplan
+2200 N Pearl St, Dallas, TX 75201, United States
