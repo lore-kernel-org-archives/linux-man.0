@@ -8,63 +8,63 @@ X-Spam-Status: No, score=-12.6 required=3.0 tests=BAYES_00,DKIM_SIGNED,
 	SPF_HELO_NONE,SPF_PASS,USER_AGENT_GIT autolearn=ham autolearn_force=no
 	version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 90A54C43461
-	for <linux-man@archiver.kernel.org>; Thu, 10 Sep 2020 21:15:53 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id A98EFC43461
+	for <linux-man@archiver.kernel.org>; Thu, 10 Sep 2020 21:16:03 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.kernel.org (Postfix) with ESMTP id 4E578206F4
-	for <linux-man@archiver.kernel.org>; Thu, 10 Sep 2020 21:15:53 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTP id 6DADA21D92
+	for <linux-man@archiver.kernel.org>; Thu, 10 Sep 2020 21:16:03 +0000 (UTC)
 Authentication-Results: mail.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="hSlVc92c"
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="rPIy73KW"
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1726167AbgIJVPe (ORCPT <rfc822;linux-man@archiver.kernel.org>);
-        Thu, 10 Sep 2020 17:15:34 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:34802 "EHLO
+        id S1727113AbgIJVP6 (ORCPT <rfc822;linux-man@archiver.kernel.org>);
+        Thu, 10 Sep 2020 17:15:58 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:34906 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1728045AbgIJVOu (ORCPT
-        <rfc822;linux-man@vger.kernel.org>); Thu, 10 Sep 2020 17:14:50 -0400
-Received: from mail-wm1-x344.google.com (mail-wm1-x344.google.com [IPv6:2a00:1450:4864:20::344])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 9C4B2C0617A2;
-        Thu, 10 Sep 2020 14:14:27 -0700 (PDT)
-Received: by mail-wm1-x344.google.com with SMTP id e17so1975713wme.0;
-        Thu, 10 Sep 2020 14:14:27 -0700 (PDT)
+        with ESMTP id S1728066AbgIJVPI (ORCPT
+        <rfc822;linux-man@vger.kernel.org>); Thu, 10 Sep 2020 17:15:08 -0400
+Received: from mail-wm1-x32e.google.com (mail-wm1-x32e.google.com [IPv6:2a00:1450:4864:20::32e])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 289FAC0617AA;
+        Thu, 10 Sep 2020 14:14:34 -0700 (PDT)
+Received: by mail-wm1-x32e.google.com with SMTP id z9so2109678wmk.1;
+        Thu, 10 Sep 2020 14:14:34 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=gmail.com; s=20161025;
         h=from:to:cc:subject:date:message-id:in-reply-to:references
          :mime-version:content-transfer-encoding;
-        bh=M08gFpIlSmow5oYYQAIlxFRJ5rmGf8HdsQiiFx5PB80=;
-        b=hSlVc92c37ipgS5BcaKHH9cYLrHPxMptprD4AeEcjS+xesSoobhqswsJLZMGRU9ejE
-         GdeNad+CIa/3MZG6TnXLchPCIYQrroAJV/MOS5uCkhKVp3M6LirvwF3DgXo3bmkrOb9J
-         OHJLMlADrQQeBJ7ec5oBx0RRmlEYZcUIwAoKTX+HSJ5HtRmYuwaX4IzuwcNwR8Df/yeV
-         8/Wki1YAMmVyf+u587XAxtLFR9UaxrysKeAFY7J3neU2Q1tj/OEiOV3PcIG1301BICci
-         eRtK9WxYvj4Basaa8q6XBlcuU4ELYBm8H/YhhDqhuM6ydIrmpBZTUsNQsj5RTP3FENUJ
-         XPTw==
+        bh=NEcMV7mwVCcBwDSicVrtyHLbk/vsYwT0ZunUd30Uoo8=;
+        b=rPIy73KWkAhX2hCOZ0I2FLsmAtunpa9hbQEtQnuo9kHWRAjhPYPO9hgVQtJ6cS3OPY
+         XKSX7rMiBHIXLxiaVDH+W3E2njbzekc6qmVibnGzEuv1XrOpxR0deWkXE51wMlelEm3D
+         Rl5+mJq2haAI8jAh9m5XOR9/H255CT2YXKXo2eikrQck0STffjzKXUWoj6ZxnlA3PPqO
+         /N5kLN1y3dj1NPKpF2IXyT6yLj0K5nqYei9Z+Idznay2IlyL3zoKCrzcqd1AOZ2VTGFz
+         hlROGgD6hyHZBrREJFrQYruNJISiVCiOSpsJfVa6+neDishFD6hvFNc4hob7+mfB4E7b
+         c3TA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
         h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
          :references:mime-version:content-transfer-encoding;
-        bh=M08gFpIlSmow5oYYQAIlxFRJ5rmGf8HdsQiiFx5PB80=;
-        b=ONS5HeXCviVB9Y5nIo0buVlqEOdcjlh/F5JPs9sUzIn1VtPW8LQ/nuV4pKGJCBZ7iN
-         2nr7iDXfeLSuujRjjwoCLnNz+DJ3shFERIcZjg4AgXCmYA/I6/GnOBtcZlu6OpkuhDYE
-         3oLWqTTiz18NmVWFNI88VoAXSelsGgWf+zYj04I2cwvZ0Ng81gGzaDNec3WcBeKOewM8
-         F1HfJi7LGwl29JfDChWFdN41wJsjJdO6R4M/tm++DZiQ7sfilri464Lgt+ed6wFYSpH7
-         vcLf5B7haAbt2hHx7B/B+F2Z+38ul3Fzmg+VNzn4e8ZlHxQ5EpC8XoAoG9q2+J7oM95M
-         YvlQ==
-X-Gm-Message-State: AOAM532VwEgis5wQ5XAggnsvdy1/wQL/y2CYFfAxt+p2dSuybBRyiPxl
-        UAdQ4OytUeGs8O3rSFqaYTM=
-X-Google-Smtp-Source: ABdhPJzLL6AQGYjtsDB/LxcOwshcuWzaHMoNo06SXh8WYb6IBE3b9fPIikwFQS90vNHysmL8gKHvng==
-X-Received: by 2002:a05:600c:2257:: with SMTP id a23mr2029057wmm.102.1599772466385;
-        Thu, 10 Sep 2020 14:14:26 -0700 (PDT)
+        bh=NEcMV7mwVCcBwDSicVrtyHLbk/vsYwT0ZunUd30Uoo8=;
+        b=YMe0Cg9m+Y4q02V9SSmGhrbZa6osO2OR5QXjfjJGdO9/cR0G1NvlglnCz/X5KqWC4G
+         UAxqNj0WbKtrZ8nOVRt2ZuMBwO079+KqqSsyB7aQYbnjIsrBcCXAKt6pJvLPQmHJAfja
+         ZWYZ3zDUAERgp8KcuusW3a4G4DUoFqDFlOE0PMNYxuGHbQ6LOiK6fvVqWXI6NPJcJEeU
+         ORCzANQoVV7WdoF2MUtwm28yiIKIAdQNUNghPUxxk03Lv8kYHGA3VGEhRFPFrChMZSwh
+         ek45UPxGbBX9dgJbEkNoJog50iL+Qh3/Hy9AoOgsgO4iBQYUtzgi1Lf1hmtp5QKdnFYV
+         aIhw==
+X-Gm-Message-State: AOAM533L4RDtkEUtXLQfoMbV0R/mecMZ0KT0iye+tNC4vBbn+QAuXWf0
+        n64a2jOFC8gL342nxuQu3pg=
+X-Google-Smtp-Source: ABdhPJyuLc4DzI4rDLXr6PE8oBRsxPYsgLyd3pYeR4Z/O3AJ/84z11b5/Llx8qqq6HngXmQ7UxBfRg==
+X-Received: by 2002:a1c:dfc2:: with SMTP id w185mr697784wmg.15.1599772472828;
+        Thu, 10 Sep 2020 14:14:32 -0700 (PDT)
 Received: from localhost.localdomain ([170.253.60.68])
-        by smtp.googlemail.com with ESMTPSA id l10sm111502wru.59.2020.09.10.14.14.25
+        by smtp.googlemail.com with ESMTPSA id l10sm111502wru.59.2020.09.10.14.14.31
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Thu, 10 Sep 2020 14:14:25 -0700 (PDT)
+        Thu, 10 Sep 2020 14:14:32 -0700 (PDT)
 From:   Alejandro Colomar <colomar.6.4.3@gmail.com>
 To:     mtk.manpages@gmail.com
 Cc:     linux-man@vger.kernel.org, linux-kernel@vger.kernel.org,
         Alejandro Colomar <colomar.6.4.3@gmail.com>
-Subject: [PATCH 15/24] unix.7: Use sizeof() to get buffer size (instead of hardcoding macro name)
-Date:   Thu, 10 Sep 2020 23:13:36 +0200
-Message-Id: <20200910211344.3562-16-colomar.6.4.3@gmail.com>
+Subject: [PATCH 21/24] aio.7: Use perror() directly
+Date:   Thu, 10 Sep 2020 23:13:42 +0200
+Message-Id: <20200910211344.3562-22-colomar.6.4.3@gmail.com>
 X-Mailer: git-send-email 2.28.0
 In-Reply-To: <20200910211344.3562-1-colomar.6.4.3@gmail.com>
 References: <20200910211344.3562-1-colomar.6.4.3@gmail.com>
@@ -77,68 +77,39 @@ X-Mailing-List: linux-man@vger.kernel.org
 
 Signed-off-by: Alejandro Colomar <colomar.6.4.3@gmail.com>
 ---
- man7/unix.7 | 14 +++++++-------
- 1 file changed, 7 insertions(+), 7 deletions(-)
+ man7/aio.7 | 6 ++----
+ 1 file changed, 2 insertions(+), 4 deletions(-)
 
-diff --git a/man7/unix.7 b/man7/unix.7
-index f61b51424..50828a5bc 100644
---- a/man7/unix.7
-+++ b/man7/unix.7
-@@ -991,7 +991,7 @@ main(int argc, char *argv[])
+diff --git a/man7/aio.7 b/man7/aio.7
+index ff099885e..9b2c44c48 100644
+--- a/man7/aio.7
++++ b/man7/aio.7
+@@ -257,8 +257,6 @@ aio_return():
  
-             /* Wait for next data packet. */
+ #define errExit(msg) do { perror(msg); exit(EXIT_FAILURE); } while (0)
  
--            ret = read(data_socket, buffer, BUFFER_SIZE);
-+            ret = read(data_socket, buffer, sizeof(buffer));
-             if (ret == \-1) {
-                 perror("read");
-                 exit(EXIT_FAILURE);
-@@ -999,16 +999,16 @@ main(int argc, char *argv[])
- 
-             /* Ensure buffer is 0\-terminated. */
- 
--            buffer[BUFFER_SIZE \- 1] = 0;
-+            buffer[sizeof(buffer) \- 1] = 0;
- 
-             /* Handle commands. */
- 
--            if (!strncmp(buffer, "DOWN", BUFFER_SIZE)) {
-+            if (!strncmp(buffer, "DOWN", sizeof(buffer))) {
-                 down_flag = 1;
-                 break;
+-#define errMsg(msg)  do { perror(msg); } while (0)
+-
+ struct ioRequest {      /* Application\-defined structure for tracking
+                            I/O requests */
+     int           reqNum;
+@@ -390,7 +388,7 @@ main(int argc, char *argv[])
+                     else if (s == AIO_ALLDONE)
+                         printf("I/O all done\en");
+                     else
+-                        errMsg("aio_cancel");
++                        perror("aio_cancel");
+                 }
              }
  
--            if (!strncmp(buffer, "END", BUFFER_SIZE)) {
-+            if (!strncmp(buffer, "END", sizeof(buffer))) {
-                 break;
-             }
- 
-@@ -1020,7 +1020,7 @@ main(int argc, char *argv[])
-         /* Send result. */
- 
-         sprintf(buffer, "%d", result);
--        ret = write(data_socket, buffer, BUFFER_SIZE);
-+        ret = write(data_socket, buffer, sizeof(buffer));
-         if (ret == \-1) {
-             perror("write");
-             exit(EXIT_FAILURE);
-@@ -1116,7 +1116,7 @@ main(int argc, char *argv[])
- 
-     /* Receive result. */
- 
--    ret = read(data_socket, buffer, BUFFER_SIZE);
-+    ret = read(data_socket, buffer, sizeof(buffer));
-     if (ret == \-1) {
-         perror("read");
-         exit(EXIT_FAILURE);
-@@ -1124,7 +1124,7 @@ main(int argc, char *argv[])
- 
-     /* Ensure buffer is 0\-terminated. */
- 
--    buffer[BUFFER_SIZE \- 1] = 0;
-+    buffer[sizeof(buffer) \- 1] = 0;
- 
-     printf("Result = %s\en", buffer);
+@@ -418,7 +416,7 @@ main(int argc, char *argv[])
+                     printf("Canceled\en");
+                     break;
+                 default:
+-                    errMsg("aio_error");
++                    perror("aio_error");
+                     break;
+                 }
  
 -- 
 2.28.0
