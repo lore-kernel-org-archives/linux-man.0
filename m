@@ -5,66 +5,66 @@ X-Spam-Level:
 X-Spam-Status: No, score=-12.6 required=3.0 tests=BAYES_00,DKIM_SIGNED,
 	DKIM_VALID,DKIM_VALID_AU,FREEMAIL_FORGED_FROMDOMAIN,FREEMAIL_FROM,
 	HEADER_FROM_DIFFERENT_DOMAINS,INCLUDES_PATCH,MAILING_LIST_MULTI,SIGNED_OFF_BY,
-	SPF_HELO_NONE,SPF_PASS,USER_AGENT_GIT autolearn=unavailable
-	autolearn_force=no version=3.4.0
+	SPF_HELO_NONE,SPF_PASS,USER_AGENT_GIT autolearn=ham autolearn_force=no
+	version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 6327AC43461
-	for <linux-man@archiver.kernel.org>; Thu, 10 Sep 2020 21:18:56 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 986F7C433E2
+	for <linux-man@archiver.kernel.org>; Thu, 10 Sep 2020 21:19:01 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.kernel.org (Postfix) with ESMTP id 1A2ED221E2
-	for <linux-man@archiver.kernel.org>; Thu, 10 Sep 2020 21:18:56 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTP id 4EC63221E2
+	for <linux-man@archiver.kernel.org>; Thu, 10 Sep 2020 21:19:01 +0000 (UTC)
 Authentication-Results: mail.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="fAxX8tnu"
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="qSMhYnRK"
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1726914AbgIJVSf (ORCPT <rfc822;linux-man@archiver.kernel.org>);
-        Thu, 10 Sep 2020 17:18:35 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:34812 "EHLO
+        id S1728168AbgIJVS6 (ORCPT <rfc822;linux-man@archiver.kernel.org>);
+        Thu, 10 Sep 2020 17:18:58 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:34858 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1726928AbgIJVPI (ORCPT
-        <rfc822;linux-man@vger.kernel.org>); Thu, 10 Sep 2020 17:15:08 -0400
-Received: from mail-wm1-x341.google.com (mail-wm1-x341.google.com [IPv6:2a00:1450:4864:20::341])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id ED9D5C0617A9;
-        Thu, 10 Sep 2020 14:14:31 -0700 (PDT)
-Received: by mail-wm1-x341.google.com with SMTP id e17so1976070wme.0;
-        Thu, 10 Sep 2020 14:14:31 -0700 (PDT)
+        with ESMTP id S1728048AbgIJVOu (ORCPT
+        <rfc822;linux-man@vger.kernel.org>); Thu, 10 Sep 2020 17:14:50 -0400
+Received: from mail-wr1-x442.google.com (mail-wr1-x442.google.com [IPv6:2a00:1450:4864:20::442])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id A197AC0617A3;
+        Thu, 10 Sep 2020 14:14:28 -0700 (PDT)
+Received: by mail-wr1-x442.google.com with SMTP id j2so8757890wrx.7;
+        Thu, 10 Sep 2020 14:14:28 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=gmail.com; s=20161025;
         h=from:to:cc:subject:date:message-id:in-reply-to:references
          :mime-version:content-transfer-encoding;
-        bh=SKxcOeqsttd+pgRLGZK5oNdlQU7a453Mc1K6A6HL41Q=;
-        b=fAxX8tnuXTa+f6ITUynHhLyj3JnZn+/gn5C5kDha76l5OXRsFAAUZb1hfVcRjm2soH
-         CaCC3sg8EXQ8qNr6Xs2gwNeCjyDmoPI/Cn9sg24Dyn0Tx1PD6g5eox7KeDDXn4mzhrfJ
-         BqdJNslAHiXRNdWSom7qnFnkmIAF7Q47HuXlBMWqmsWsKOcPv0IQjKdNlXUEgBGEUCW7
-         xk/wSWPgnwmO1zcKI0hF6+U9mO+nRmMo2qkHuOOeEqmcFsW390MPkmCctSwY2Q+YajAJ
-         yfVLjRrSg18XvE07d6PHSwXKXKTxDENdm35iF0KIi5UKmIj+NC2D68qC5criwGgKgTo1
-         BscA==
+        bh=CRsaeVhcaauvFcHZ+aRnL+oVg5BB/PSpmiLD4CesFu4=;
+        b=qSMhYnRKYLve3Zw45NlEZlwwlqJXF859tjvmj4IzRVIOuA82+AEDDnp5lfmmqDUXXV
+         J22+hS7TwAOR5zoMe5oGXzfS6dJ2hF0oXPcPRtxvsMvM9mPZUH+s+o+AlBUPRSq5G0Yo
+         4ODflp1+YKk4IctrG4ik9b1lU6paFN+GezI3L76W4my/J8CBMAMjx1EENSg7/R02T3KH
+         mZwikqy1f7PhOgFwyshZyvHyvxXjDdlQP0iN8wLc8zrIQniSs3CL1XqbYtDmGtwEEpnF
+         RUnT8EM3h4SgHkSLqnmIVuZ5khozscpbywQG+oZ6oyQDDsN2xeVzkJwx4KFQk1URBZmk
+         KB5w==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
         h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
          :references:mime-version:content-transfer-encoding;
-        bh=SKxcOeqsttd+pgRLGZK5oNdlQU7a453Mc1K6A6HL41Q=;
-        b=k6YV/hXv46oAlXaTAGKlm93ePMqzdVAdmeYIdAVYbn2I0cyKGZWpFP2oeH+8LCKewq
-         dwk4B/WpOSpEnsMtO1MK5MMpPaYKvUw3bNh3NVEF32U0vhaaPVYQB32Ao7aBubvirxB2
-         NsKKhAOy7mxAvMuh+7kusd/qLV96txOi6c6QYAftKU7m5YtL8wJFWrOGrUq/oSggCSHn
-         nUO/3gKfYFj4rdHNsUMbfcQKFcg7MxNMDQVz4r8JRMkHutYpQF97juQPzRPFshwn2ntD
-         LN/xiotouoqLSp+a7jUBAUDGAFqJjxC0tAd34GoKKjA9e8fghi1bp+ttwbhnb/V+EJQf
-         w+OA==
-X-Gm-Message-State: AOAM532oH4GnQABoyLYSJ7q+l4ow7j8G1DriRDHQpTz5M6xjZnvFQ4Z0
-        UqOBj9GPVprHh2JKq73oVag=
-X-Google-Smtp-Source: ABdhPJwMZwTmUa8AQcuC3fJT27L/QM+LWR7caV9Ews21piwdadv7wVu3jX1lrAuaB1hUHLoqD1WGrg==
-X-Received: by 2002:a1c:f612:: with SMTP id w18mr1859015wmc.47.1599772470662;
-        Thu, 10 Sep 2020 14:14:30 -0700 (PDT)
+        bh=CRsaeVhcaauvFcHZ+aRnL+oVg5BB/PSpmiLD4CesFu4=;
+        b=slQGw/wmIT76KZVTyDWTkrGN7vQ49a/C/4dPza1Ha3qSE+htU0NFaKXr3m8YFF2a5w
+         qr/CghQ1ez6iPuDvAamIzEUXqT1cFlxNBWOSZJevRPibfn5d48NuiZ+b2vRCIf+3WX9B
+         wPLGQkT8ujiC3rKxH03WdA3cUf1Qe2VBmjMxqDCZS445aA1x/imL6kIf620gxxbrEpjg
+         fl4D7w077mpnDmUtF9HJEL9ONuU6624UlGmmzDgfCz2XaiKtZiY2i6rOgEMb/lez63FO
+         cHqVxdYz7SRztKLISzVYfnZwvFixIw7AnQIFmsrrnyqCQ7X1Ic4AcnsrROXMCtrmUWqH
+         6H0A==
+X-Gm-Message-State: AOAM533GcJHM+Pn58P/3sAekpUGh5+nX7WyE8lYDHpColVzsOFfKxQo2
+        LV5lC4gavwToemT4Y8LtR7w=
+X-Google-Smtp-Source: ABdhPJy6AhdBjr5KxHsukUop/YSOxOdmBp6q9bFMtiz0McSFGeg8U0cm51ioiFBajZoi1tDkbyQ2qQ==
+X-Received: by 2002:a5d:61c7:: with SMTP id q7mr11072892wrv.343.1599772467355;
+        Thu, 10 Sep 2020 14:14:27 -0700 (PDT)
 Received: from localhost.localdomain ([170.253.60.68])
-        by smtp.googlemail.com with ESMTPSA id l10sm111502wru.59.2020.09.10.14.14.29
+        by smtp.googlemail.com with ESMTPSA id l10sm111502wru.59.2020.09.10.14.14.26
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Thu, 10 Sep 2020 14:14:30 -0700 (PDT)
+        Thu, 10 Sep 2020 14:14:26 -0700 (PDT)
 From:   Alejandro Colomar <colomar.6.4.3@gmail.com>
 To:     mtk.manpages@gmail.com
 Cc:     linux-man@vger.kernel.org, linux-kernel@vger.kernel.org,
         Alejandro Colomar <colomar.6.4.3@gmail.com>
-Subject: [PATCH 19/24] pthread_setname_np.3: ffix
-Date:   Thu, 10 Sep 2020 23:13:40 +0200
-Message-Id: <20200910211344.3562-20-colomar.6.4.3@gmail.com>
+Subject: [PATCH 16/24] getpwent_r.3: Declare variables with different types in different lines
+Date:   Thu, 10 Sep 2020 23:13:37 +0200
+Message-Id: <20200910211344.3562-17-colomar.6.4.3@gmail.com>
 X-Mailer: git-send-email 2.28.0
 In-Reply-To: <20200910211344.3562-1-colomar.6.4.3@gmail.com>
 References: <20200910211344.3562-1-colomar.6.4.3@gmail.com>
@@ -77,25 +77,23 @@ X-Mailing-List: linux-man@vger.kernel.org
 
 Signed-off-by: Alejandro Colomar <colomar.6.4.3@gmail.com>
 ---
- man3/pthread_setname_np.3 | 5 +++--
- 1 file changed, 3 insertions(+), 2 deletions(-)
+ man3/getpwent_r.3 | 3 ++-
+ 1 file changed, 2 insertions(+), 1 deletion(-)
 
-diff --git a/man3/pthread_setname_np.3 b/man3/pthread_setname_np.3
-index b206f66c0..4dc4960cd 100644
---- a/man3/pthread_setname_np.3
-+++ b/man3/pthread_setname_np.3
-@@ -164,8 +164,9 @@ THREADFOO
+diff --git a/man3/getpwent_r.3 b/man3/getpwent_r.3
+index 0f7581091..b6c1c281f 100644
+--- a/man3/getpwent_r.3
++++ b/man3/getpwent_r.3
+@@ -184,7 +184,8 @@ in the stream with all other threads.
+ int
+ main(void)
+ {
+-    struct passwd pw, *pwp;
++    struct passwd pw;
++    struct passwd *pwp;
+     char buf[BUFLEN];
+     int i;
  
- #define NAMELEN 16
- 
--#define errExitEN(en, msg) \e
--            do { errno = en; perror(msg); exit(EXIT_FAILURE); \e
-+#define errExitEN(en, msg) do \e
-+        { \
-+            errno = en; perror(msg); exit(EXIT_FAILURE); \e
-         } while (0)
- 
- static void *
 -- 
 2.28.0
 
