@@ -8,63 +8,63 @@ X-Spam-Status: No, score=-12.6 required=3.0 tests=BAYES_00,DKIM_SIGNED,
 	SPF_HELO_NONE,SPF_PASS,USER_AGENT_GIT autolearn=ham autolearn_force=no
 	version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 135A3C433E2
-	for <linux-man@archiver.kernel.org>; Thu, 10 Sep 2020 21:18:36 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id A4B35C43461
+	for <linux-man@archiver.kernel.org>; Thu, 10 Sep 2020 21:18:38 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.kernel.org (Postfix) with ESMTP id AFAD2221E2
-	for <linux-man@archiver.kernel.org>; Thu, 10 Sep 2020 21:18:35 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTP id 60DD7221E2
+	for <linux-man@archiver.kernel.org>; Thu, 10 Sep 2020 21:18:38 +0000 (UTC)
 Authentication-Results: mail.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="USeiSt9v"
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="QVWm2UWu"
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1726286AbgIJVSe (ORCPT <rfc822;linux-man@archiver.kernel.org>);
-        Thu, 10 Sep 2020 17:18:34 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:34914 "EHLO
+        id S1727984AbgIJVSf (ORCPT <rfc822;linux-man@archiver.kernel.org>);
+        Thu, 10 Sep 2020 17:18:35 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:34870 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1728071AbgIJVPM (ORCPT
-        <rfc822;linux-man@vger.kernel.org>); Thu, 10 Sep 2020 17:15:12 -0400
-Received: from mail-wr1-x430.google.com (mail-wr1-x430.google.com [IPv6:2a00:1450:4864:20::430])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 8935CC061573;
-        Thu, 10 Sep 2020 14:14:37 -0700 (PDT)
-Received: by mail-wr1-x430.google.com with SMTP id o5so8702841wrn.13;
-        Thu, 10 Sep 2020 14:14:37 -0700 (PDT)
+        with ESMTP id S1727983AbgIJVOz (ORCPT
+        <rfc822;linux-man@vger.kernel.org>); Thu, 10 Sep 2020 17:14:55 -0400
+Received: from mail-wm1-x32a.google.com (mail-wm1-x32a.google.com [IPv6:2a00:1450:4864:20::32a])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 233BAC0617A5;
+        Thu, 10 Sep 2020 14:14:31 -0700 (PDT)
+Received: by mail-wm1-x32a.google.com with SMTP id z9so2109379wmk.1;
+        Thu, 10 Sep 2020 14:14:31 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=gmail.com; s=20161025;
         h=from:to:cc:subject:date:message-id:in-reply-to:references
          :mime-version:content-transfer-encoding;
-        bh=TzEm2scSLES6WjsyM6iO//Wl6U7ZWi8QP6rMUqxU0zw=;
-        b=USeiSt9vAcfkIWT9ODmSAMpQPtyLMHNWQHaduLG/9afYqf6Knq4YkuBT4Mr37TFUoz
-         c/Kcjwq2udc5pXHNQHlKIjeHB/YOxtSE6N82CNVqhlVegtg8jApTy0Uu5rnZ1aeDm3T/
-         d2HX/18Wzt+WfKv3edOv/TjuWFGkt7FHpwBpNhm3+qmXrsJJrt1c0p/4B1QoXlpc2XOT
-         VnuzXbSL44JrwwiYY0NK1Wv4whvqKtJ/PdmM3CPTHjRufai6adpAmB2wC1gZKEEMzv7o
-         ibbWpTelzXyKWsNXrbj6k4f7vWNP6NIcfDY8FzCuC6rLQy/I5ESRiIkDycnIa5os/wlt
-         uilQ==
+        bh=zt6dADGq4la6BR78DuneffLf5Wa58+oMh0mWkL+TeKo=;
+        b=QVWm2UWua4VoPTP4LMW3KiuQF7ciLo+FGwd4KuztOzSngm6aIqcWXKdF5wBIhzN6oN
+         QIJUc2pQpDB6oSJSRuB9LXGyVf0pt91SbpY1ppS/GvYbc1HFHfEOao3saC8WT+mf+LpW
+         c1oLw7XauccTRLXL6r8pMZEh8zkNjl++D57kpVnVxVLbJz98dfgHfCoObhqiS6zMgDan
+         JyWU+PooRKRnMpBQBoLcu3WfwDqn8WVlst1+zrjR17a2cQojSkK0bKnuggGU1sYR0gLB
+         HCg7lMkq+B9U0Xg4CwulYpxSkbrLDN9dH8tXzLATNVal1cRiXSmL+W/Wm1nmGRXZtKv5
+         /AUQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
         h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
          :references:mime-version:content-transfer-encoding;
-        bh=TzEm2scSLES6WjsyM6iO//Wl6U7ZWi8QP6rMUqxU0zw=;
-        b=aNTmlTRFMAcNHxd4XBuYoU4gGjviWAoVHi9IGJ6Uk1On0NDvHxhsX+KtqTytvamPAy
-         1gZDfg7twESjuhpNDgpH3Def3xLvoCX/UZ28DuaT1NLNA0OJNgwkuW6nL0UEkA406jzt
-         TakJ71C3EanGP3DcDzc04vQk2beQm1/oC6Tq8LuhD6hYArFBnMejVIsg7BH90TTCI2Fy
-         30orKmH6iWZsTspPqTJ9Pxppmj+v2k0n9Ug9rUQpKNEXZ1lh7aE9JFBaPVZLTPVxrjDY
-         AUFRHVJ9vsxlqZLO1ezyLLZd3bufKzwrZespkxacNkpu2iWJc+rkRgyHxWP9sXKWfNHX
-         johQ==
-X-Gm-Message-State: AOAM530ezB8wF7co41x63+lPqDTC1YePssjyVlm75AB/AYgl1D/HMD0K
-        0sYBfkDuyLNG/TSN5+yghE4=
-X-Google-Smtp-Source: ABdhPJwv7cN1eq4601HFYnL0/rT91pwU2DwpXiShKv8XGjktS3Bd6466LCwNF1S+gEgFcmDWI9WrhQ==
-X-Received: by 2002:a5d:470e:: with SMTP id y14mr6637853wrq.354.1599772474914;
-        Thu, 10 Sep 2020 14:14:34 -0700 (PDT)
+        bh=zt6dADGq4la6BR78DuneffLf5Wa58+oMh0mWkL+TeKo=;
+        b=hyuYYoudXAzUwP9+BUsyaDa4SkFZMRvHAT/eDwpdO3Vf/7m9spXSOd2BRHgUbfm1g0
+         Q1mdkP2ED4sQlSs/6/o9/BX0yPP02eAfHG0OeFpolbH70Q6i55Hbf0+uNCPq6paz5hRZ
+         nZAiuFH4cgwkaQ4HUItt7aQP2ZYlXf7ve4KGw9tJ8JlpTYM/3aRIuxAsQDok9F36giMS
+         qRgU++XMeii3eAaTeo0AnLg2y8ue9WKGU1LJTYNPgowCb3F+Zul+U1gYhfC0qdwn5mcf
+         sKdCFLBZ6cgV8+d6Lj21By9yCccEKhjJCegf8WPlrsn7n7L7Y8byts6UPHdHkbjrHKZb
+         /DFw==
+X-Gm-Message-State: AOAM532CfPQysbs1z08DlFU9j8zArQeu/QyHK3XeutY5pas3hPum4r0y
+        oXalcOo6ZN13Y5ZcRPn05bvA8Ap6YmpncA==
+X-Google-Smtp-Source: ABdhPJyZlRqX4zzrq7KHKRPdiMoMLPjOqRmYgcM2ewg6l70DDS8U+f6ClsiKMnKLlXwhGBbLGEBV0w==
+X-Received: by 2002:a7b:cb17:: with SMTP id u23mr1970545wmj.79.1599772469561;
+        Thu, 10 Sep 2020 14:14:29 -0700 (PDT)
 Received: from localhost.localdomain ([170.253.60.68])
-        by smtp.googlemail.com with ESMTPSA id l10sm111502wru.59.2020.09.10.14.14.33
+        by smtp.googlemail.com with ESMTPSA id l10sm111502wru.59.2020.09.10.14.14.28
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Thu, 10 Sep 2020 14:14:34 -0700 (PDT)
+        Thu, 10 Sep 2020 14:14:29 -0700 (PDT)
 From:   Alejandro Colomar <colomar.6.4.3@gmail.com>
 To:     mtk.manpages@gmail.com
 Cc:     linux-man@vger.kernel.org, linux-kernel@vger.kernel.org,
         Alejandro Colomar <colomar.6.4.3@gmail.com>
-Subject: [PATCH 23/24] select_tut.2: Use MAX(a, b) from <sys/param.h>
-Date:   Thu, 10 Sep 2020 23:13:44 +0200
-Message-Id: <20200910211344.3562-24-colomar.6.4.3@gmail.com>
+Subject: [PATCH 18/24] core.5: Use adequate type
+Date:   Thu, 10 Sep 2020 23:13:39 +0200
+Message-Id: <20200910211344.3562-19-colomar.6.4.3@gmail.com>
 X-Mailer: git-send-email 2.28.0
 In-Reply-To: <20200910211344.3562-1-colomar.6.4.3@gmail.com>
 References: <20200910211344.3562-1-colomar.6.4.3@gmail.com>
@@ -75,56 +75,38 @@ Precedence: bulk
 List-ID: <linux-man.vger.kernel.org>
 X-Mailing-List: linux-man@vger.kernel.org
 
+'nread' is of type 'ssize_t'
+'tot' adds up different values contained in 'nread',
+so it should also be 'ssize_t', and not 'int' (which possibly overflows).
+
 Signed-off-by: Alejandro Colomar <colomar.6.4.3@gmail.com>
 ---
- man2/select_tut.2 | 10 ++++------
- 1 file changed, 4 insertions(+), 6 deletions(-)
+ man5/core.5 | 5 ++---
+ 1 file changed, 2 insertions(+), 3 deletions(-)
 
-diff --git a/man2/select_tut.2 b/man2/select_tut.2
-index f683dd49d..d23683d75 100644
---- a/man2/select_tut.2
-+++ b/man2/select_tut.2
-@@ -354,6 +354,7 @@ from one TCP port to another.
- #include <stdlib.h>
- #include <stdio.h>
- #include <unistd.h>
-+#include <sys/param.h>      /* Definition of MAX(a, b) */
- #include <sys/select.h>
- #include <string.h>
- #include <signal.h>
-@@ -364,9 +365,6 @@ from one TCP port to another.
- 
- static int forward_port;
- 
--#undef max
--#define max(x,y) ((x) > (y) ? (x) : (y))
--
- static int
- listen_socket(int listen_port)
+diff --git a/man5/core.5 b/man5/core.5
+index a87ebbaf4..45c9de845 100644
+--- a/man5/core.5
++++ b/man5/core.5
+@@ -654,8 +654,7 @@ Total bytes in core dump: 282624
+ int
+ main(int argc, char *argv[])
  {
-@@ -483,7 +481,7 @@ main(int argc, char *argv[])
-         FD_ZERO(&writefds);
-         FD_ZERO(&exceptfds);
-         FD_SET(h, &readfds);
--        nfds = max(nfds, h);
-+        nfds = MAX(nfds, h);
+-    int tot;
+-    ssize_t nread;
++    ssize_t nread, tot;
+     char buf[BUF_SIZE];
+     FILE *fp;
+     char cwd[PATH_MAX];
+@@ -684,7 +683,7 @@ main(int argc, char *argv[])
+     tot = 0;
+     while ((nread = read(STDIN_FILENO, buf, BUF_SIZE)) > 0)
+         tot += nread;
+-    fprintf(fp, "Total bytes in core dump: %d\en", tot);
++    fprintf(fp, "Total bytes in core dump: %zd\en", tot);
  
-         if (fd1 > 0 && buf1_avail < BUF_SIZE)
-             FD_SET(fd1, &readfds);
-@@ -499,11 +497,11 @@ main(int argc, char *argv[])
- 
-         if (fd1 > 0) {
-             FD_SET(fd1, &exceptfds);
--            nfds = max(nfds, fd1);
-+            nfds = MAX(nfds, fd1);
-         }
-         if (fd2 > 0) {
-             FD_SET(fd2, &exceptfds);
--            nfds = max(nfds, fd2);
-+            nfds = MAX(nfds, fd2);
-         }
- 
-         ready = select(nfds + 1, &readfds, &writefds, &exceptfds, NULL);
+     fclose(fp);
+     exit(EXIT_SUCCESS);
 -- 
 2.28.0
 
