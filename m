@@ -1,89 +1,116 @@
 Return-Path: <SRS0=glPb=CU=vger.kernel.org=linux-man-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
-X-Spam-Level: *
-X-Spam-Status: No, score=1.7 required=3.0 tests=BAYES_40,
-	HEADER_FROM_DIFFERENT_DOMAINS,LOTS_OF_MONEY,MAILING_LIST_MULTI,SPF_HELO_NONE,
-	SPF_PASS,T_DEAR_BENEFICIARY,UNCLAIMED_MONEY autolearn=no autolearn_force=no
-	version=3.4.0
+X-Spam-Level: 
+X-Spam-Status: No, score=-13.6 required=3.0 tests=BAYES_00,DKIM_SIGNED,
+	DKIM_VALID,DKIM_VALID_AU,FREEMAIL_FORGED_FROMDOMAIN,FREEMAIL_FROM,
+	HEADER_FROM_DIFFERENT_DOMAINS,INCLUDES_PATCH,MAILING_LIST_MULTI,NICE_REPLY_A,
+	SIGNED_OFF_BY,SPF_HELO_NONE,SPF_PASS,URIBL_BLOCKED,USER_AGENT_SANE_1
+	autolearn=ham autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 7A529C43461
-	for <linux-man@archiver.kernel.org>; Fri, 11 Sep 2020 06:48:03 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 9D55AC433E2
+	for <linux-man@archiver.kernel.org>; Fri, 11 Sep 2020 07:17:45 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.kernel.org (Postfix) with ESMTP id 3B4D2221EB
-	for <linux-man@archiver.kernel.org>; Fri, 11 Sep 2020 06:48:03 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTP id 5838820731
+	for <linux-man@archiver.kernel.org>; Fri, 11 Sep 2020 07:17:45 +0000 (UTC)
+Authentication-Results: mail.kernel.org;
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="h8oRwCVi"
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1725497AbgIKGsD convert rfc822-to-8bit (ORCPT
-        <rfc822;linux-man@archiver.kernel.org>);
-        Fri, 11 Sep 2020 02:48:03 -0400
-Received: from mail.flex.co.jp ([211.8.82.123]:54344 "EHLO www.flex.co.jp"
-        rhost-flags-OK-FAIL-OK-FAIL) by vger.kernel.org with ESMTP
-        id S1725468AbgIKGsC (ORCPT <rfc822;linux-man@vger.kernel.org>);
-        Fri, 11 Sep 2020 02:48:02 -0400
-Received: from live.com.mx ([103.89.89.225])
-        (authenticated bits=0)
-        by www.flex.co.jp (MTA) with ESMTP id 0898nrHA009773
-        for <linux-man@vger.kernel.org>; Wed, 9 Sep 2020 17:49:54 +0900
-Reply-To: powerinthewords@yahoo.co.jp
-From:   piyin.crhe@live.com.mx
-To:     linux-man@vger.kernel.org
-Subject: =?utf-8?Q?=5BSpam=5D?=
- We are still waiting for your email...
-Date:   09 Sep 2020 01:49:51 -0700
-Message-ID: <20200909014951.A25267546755B754@live.com.mx>
+        id S1725550AbgIKHRo (ORCPT <rfc822;linux-man@archiver.kernel.org>);
+        Fri, 11 Sep 2020 03:17:44 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:42778 "EHLO
+        lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1725536AbgIKHRn (ORCPT
+        <rfc822;linux-man@vger.kernel.org>); Fri, 11 Sep 2020 03:17:43 -0400
+Received: from mail-wr1-x443.google.com (mail-wr1-x443.google.com [IPv6:2a00:1450:4864:20::443])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 40606C061573;
+        Fri, 11 Sep 2020 00:17:42 -0700 (PDT)
+Received: by mail-wr1-x443.google.com with SMTP id s12so10364370wrw.11;
+        Fri, 11 Sep 2020 00:17:42 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20161025;
+        h=cc:subject:to:references:from:message-id:date:user-agent
+         :mime-version:in-reply-to:content-language:content-transfer-encoding;
+        bh=7MoWjuSMrmuWBsjyO8VjeyjsgWTYe+KiUqWDrZc69Eo=;
+        b=h8oRwCVizSeeHTG6nCyR1E034d5W7XSJ7sArVp+/oTAOiqPI4LNJryOA0cQP0qfhA4
+         BWiMQHGGTh0MM34Dn9gNbrXo57PQkQ2txEe/BJ3vMvIwC9xH9aRwWTh+ctd6jdABJZC2
+         Ikvm0wFcPWR0UkhJkhVKRjjgS8CAhVxY/ibdMGZpvT8/M99rJN8d9ldG63EumWQ0eZXt
+         pWnQgIl76tyt+qD/7tOBmWbNjzcos049D4Dcg3xYHytvcqjEte4G/A2ZQ9KjFuginKi+
+         q7iAjBu9sa/C97H3fKB/Bu4CQ8upCuuQCZE9BiSbpkO2dgbzTQRp/MZp3JOaPDbEdmdM
+         /j+g==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20161025;
+        h=x-gm-message-state:cc:subject:to:references:from:message-id:date
+         :user-agent:mime-version:in-reply-to:content-language
+         :content-transfer-encoding;
+        bh=7MoWjuSMrmuWBsjyO8VjeyjsgWTYe+KiUqWDrZc69Eo=;
+        b=jzydCf+Tu1I2c5b4BqiAACAYMxDreSkRQ4mpkC5sZGijN+swRFh116qwCawRmaeGS1
+         L5VH/YKez6STLzNP70xYNypk57ABWfPE4WOTcvr55Hs/KFrQlAzqvm5A9S7EHlaAbDJJ
+         8LedYpK1VTZ4IYSmM+EQnBx87dILFbMYEx4HhEQFcuF+W8DxjQJpT5Z0G8pT7XBBrhFo
+         d4Zg7VhLU9UbpDt4mVNs8WxC/u6NZGi2HP2Won7KNOLqZOHgr2JdDuaHl+RFJH+g4A96
+         5bJ7yFHQ5o2DSlpN2qWh9FvYLEik3RyDI0Z5KtDIL2OGW0xyxYmXz0H+uvTgJr2pHFN6
+         yhYA==
+X-Gm-Message-State: AOAM532QfdOpPgyjP2oySc5Xw1M+FgYT0kgxI0b6hmCp7s6JMYNhvdFi
+        dyiglq0eRkFCBKWgXFJD5At3fyI1IzM=
+X-Google-Smtp-Source: ABdhPJzCQ1VkfcPjraJuenEHPI+DEwaFDEWPG6kJojnz+M3mmP9Q4v467NZxonUDrcrxDP2LvQtbaw==
+X-Received: by 2002:a05:6000:d0:: with SMTP id q16mr610086wrx.24.1599808660687;
+        Fri, 11 Sep 2020 00:17:40 -0700 (PDT)
+Received: from ?IPv6:2001:a61:2479:6801:d8fe:4132:9f23:7e8f? ([2001:a61:2479:6801:d8fe:4132:9f23:7e8f])
+        by smtp.gmail.com with ESMTPSA id x10sm2427876wmi.37.2020.09.11.00.17.39
+        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+        Fri, 11 Sep 2020 00:17:40 -0700 (PDT)
+Cc:     mtk.manpages@gmail.com, linux-man@vger.kernel.org,
+        linux-kernel@vger.kernel.org
+Subject: Re: [PATCH 12/24] getgrent_r.3: Use sizeof() to get buffer size
+ (instead of hardcoding macro name)
+To:     Alejandro Colomar <colomar.6.4.3@gmail.com>
+References: <20200910211344.3562-1-colomar.6.4.3@gmail.com>
+ <20200910211344.3562-13-colomar.6.4.3@gmail.com>
+From:   "Michael Kerrisk (man-pages)" <mtk.manpages@gmail.com>
+Message-ID: <8512e6f8-d174-6116-1851-a92d8947b2fd@gmail.com>
+Date:   Fri, 11 Sep 2020 09:17:36 +0200
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
+ Thunderbird/68.10.0
 MIME-Version: 1.0
-Content-Type: text/plain;
-        charset="utf-8"
-Content-Transfer-Encoding: 8BIT
-X-SpamInfo: FortiGuard-AntiSpam ip, connection black ip 103.89.89.225
+In-Reply-To: <20200910211344.3562-13-colomar.6.4.3@gmail.com>
+Content-Type: text/plain; charset=utf-8
+Content-Language: en-US
+Content-Transfer-Encoding: 7bit
 Sender: linux-man-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-man.vger.kernel.org>
 X-Mailing-List: linux-man@vger.kernel.org
 
-Dear Beneficiary,
+On 9/10/20 11:13 PM, Alejandro Colomar wrote:
+> Signed-off-by: Alejandro Colomar <colomar.6.4.3@gmail.com>
 
-We wish to inform you that a power of attorney was forwarded to 
-our office  by two gentlemen regarding your unclaimed fund of $56 
-Million Dollar. One of them is an American citizen named Mr. 
-Robert Porter and the other is Mr. Wilhelm Berg a Swedish 
-citizen.We have be waiting for you to contact us since last year.
+Thanks, Alex. Patch applied.
 
-The document claims these gentlemen to be your authorized 
-representatives, and the power of attorney states that you are 
-already deceased.  It further states that your death was due to 
-lung cancer, with your date of death being January 27th, 2020.
+Cheers,
 
-They have now submitted a new account to replace the receiving 
-account that was in the original claim of funds. These funds have 
-remained unclaimed for quite some time and the need for 
-resolution is pressing. Below is the new account they have 
-submitted.
+Michael
 
-Account Name's :  Robert Porter /Wilhelm Berg
-Account: 5007-29 438 66
-IBAN-nr: SE4150000000050072943866
-Bic-kod: ESSESESS
-Skandinaviska Enskilda Banken. (SEB :)
-SWEDEN .
+> ---
+>  man3/getgrent_r.3 | 2 +-
+>  1 file changed, 1 insertion(+), 1 deletion(-)
+> 
+> diff --git a/man3/getgrent_r.3 b/man3/getgrent_r.3
+> index 81d81a851..76deec370 100644
+> --- a/man3/getgrent_r.3
+> +++ b/man3/getgrent_r.3
+> @@ -186,7 +186,7 @@ main(void)
+>  
+>      setgrent();
+>      while (1) {
+> -        i = getgrent_r(&grp, buf, BUFLEN, &grpp);
+> +        i = getgrent_r(&grp, buf, sizeof(buf), &grpp);
+>          if (i)
+>              break;
+>          printf("%s (%d):", grpp\->gr_name, grpp\->gr_gid);
+> 
 
-In the event that you are in fact still alive, we ask that you 
-confirm your existence by responding to this email. You are to 
-view this as a matter requiring immediate attention and response. 
-We have 48 hr monitoring of all activities within Federal Reserve 
-Bank.On this regard,you will be directed to any of our office 
-center that you will go in person to sign the final papers,
-because we have our payment center in Europe,Asia,America and 
-Canada.You will go to any of the office that you will be directed 
-to with the copy of the documents of your fund.
 
-We have contacted the bank in the Sweden asking them to wait for 
-further directives from Federal Reserve Bank, prior to 
-authorizing any withdrawals in any form.  Our request is based 
-entirely on our attempt to verify that you are in fact deceased, 
-before money is wrongly disbursed.
-
-Your in Service,
-
-Robert Steven Kaplan
-2200 N Pearl St, Dallas, TX 75201, United States
+-- 
+Michael Kerrisk
+Linux man-pages maintainer; http://www.kernel.org/doc/man-pages/
+Linux/UNIX System Programming Training: http://man7.org/training/
