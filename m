@@ -2,99 +2,155 @@ Return-Path: <SRS0=glPb=CU=vger.kernel.org=linux-man-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-5.1 required=3.0 tests=BAYES_00,DKIM_SIGNED,
-	DKIM_VALID,DKIM_VALID_AU,FREEMAIL_FORGED_FROMDOMAIN,FREEMAIL_FROM,
-	HEADER_FROM_DIFFERENT_DOMAINS,MAILING_LIST_MULTI,SPF_HELO_NONE,SPF_PASS,
-	USER_AGENT_SANE_1 autolearn=no autolearn_force=no version=3.4.0
+X-Spam-Status: No, score=-9.8 required=3.0 tests=BAYES_00,DKIM_SIGNED,
+	DKIM_VALID,DKIM_VALID_AU,HEADER_FROM_DIFFERENT_DOMAINS,INCLUDES_PATCH,
+	MAILING_LIST_MULTI,SIGNED_OFF_BY,SPF_HELO_NONE,SPF_PASS autolearn=ham
+	autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 4B061C43461
-	for <linux-man@archiver.kernel.org>; Fri, 11 Sep 2020 17:29:55 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id C2F40C43461
+	for <linux-man@archiver.kernel.org>; Fri, 11 Sep 2020 17:38:14 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.kernel.org (Postfix) with ESMTP id 17A96221E5
-	for <linux-man@archiver.kernel.org>; Fri, 11 Sep 2020 17:29:55 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTP id 61995221E7
+	for <linux-man@archiver.kernel.org>; Fri, 11 Sep 2020 17:38:14 +0000 (UTC)
 Authentication-Results: mail.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="NP5RNGBD"
+	dkim=pass (2048-bit key) header.d=bfs.de header.i=@bfs.de header.b="tLy1Pnfk"
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1726341AbgIKR2z (ORCPT <rfc822;linux-man@archiver.kernel.org>);
-        Fri, 11 Sep 2020 13:28:55 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:38602 "EHLO
-        lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1726095AbgIKM5k (ORCPT
-        <rfc822;linux-man@vger.kernel.org>); Fri, 11 Sep 2020 08:57:40 -0400
-Received: from mail-wr1-x433.google.com (mail-wr1-x433.google.com [IPv6:2a00:1450:4864:20::433])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 63785C061573
-        for <linux-man@vger.kernel.org>; Fri, 11 Sep 2020 05:47:47 -0700 (PDT)
-Received: by mail-wr1-x433.google.com with SMTP id s12so11331954wrw.11
-        for <linux-man@vger.kernel.org>; Fri, 11 Sep 2020 05:47:46 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20161025;
-        h=to:cc:from:subject:message-id:date:user-agent:mime-version
-         :content-language:content-transfer-encoding;
-        bh=GWBnBdX9fOdx32O5Pi4OBj1YpzgXYQxUbEw9xhKaStg=;
-        b=NP5RNGBDfUoa84uNe4amrN62QRIatjT1IO16mU5M4khY8a1OQq9VhWEPIBINqY5oJc
-         7466VJPHQvcrZ9XH7MV2ZzoAS/4R08GoJqe06bTCgRHTQRY14/fmvjw6AJH+04qenLf2
-         ZKZUblNae9M/SGEJ+jeAVKabK/vh488DSArx/mrIkPL3Ij/3vt8hnTTGaS4yy2KqvlVI
-         ojhUq0XZxTwFfg7dINH75rjS3IDE3cq7WbzKJpUoudzhWmpEKxAe1ocACf3YbtPA/Oa1
-         b4k9sTuTIIS5wB+GtJYy36frxQUqKJ3ZKUUIpaLoilb457C0JiEnU6B8kPXpsosPyzsE
-         J7aQ==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20161025;
-        h=x-gm-message-state:to:cc:from:subject:message-id:date:user-agent
-         :mime-version:content-language:content-transfer-encoding;
-        bh=GWBnBdX9fOdx32O5Pi4OBj1YpzgXYQxUbEw9xhKaStg=;
-        b=azgXfl7nuR8IMEgr+Zm4Q0kmvNlGue15VhziYt4p51O+6797XZSeJjAHAgbtyb1Hj6
-         qRPIK2MeI0ePMIrpHW6aenAGGOMLweK78kDaUofFjrM6bkbGoQ5dVkhVp8N/7eR487g4
-         GOU0iJHmhJ+ATUlibZ5V2G/lfBQHG3PGJjH+B3QnjAvWUkmGw1FqGOn/m9H91GQmltvO
-         ZIiZSTVHOthp8g/K0Gl4F1xx/2TjeaFxoj1VVy2hZKYUOJj4O+AvtYhDyUNVdMHOyx8X
-         A3yf3d2IP/+pLMi9h0LQojwHVg/SMSQMHvph5yEuZBq//usTO1O0pD/odTJfd71HcN5H
-         aJLg==
-X-Gm-Message-State: AOAM532SgXZy5C7fd7RkOVsyakuS58sjgZ8+HJw7jJkLKlJBSIgWZ66T
-        LjeZ0WjG3RjEhGUW1c2KTInNORsykhc=
-X-Google-Smtp-Source: ABdhPJwGJw2CN4DZY6rxQ/2uqekJHlhnO++60CKUDlVaoyWdmemZN0ALTdy7+g0YNYw6MFaepePFRQ==
-X-Received: by 2002:adf:9125:: with SMTP id j34mr2118828wrj.157.1599828465231;
-        Fri, 11 Sep 2020 05:47:45 -0700 (PDT)
-Received: from [192.168.1.143] ([170.253.60.68])
-        by smtp.gmail.com with ESMTPSA id b76sm4416069wme.45.2020.09.11.05.47.44
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Fri, 11 Sep 2020 05:47:44 -0700 (PDT)
-To:     "Michael Kerrisk (man-pages)" <mtk.manpages@gmail.com>
-Cc:     linux-man <linux-man@vger.kernel.org>
-From:   Alejandro Colomar <colomar.6.4.3@gmail.com>
-Subject: [IDEA] New pages for types: structs and typedfefs
-Message-ID: <fb6463f6-49d7-e473-d5e1-1cdf8375e498@gmail.com>
-Date:   Fri, 11 Sep 2020 14:47:43 +0200
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
- Thunderbird/68.12.0
+        id S1726024AbgIKRiM (ORCPT <rfc822;linux-man@archiver.kernel.org>);
+        Fri, 11 Sep 2020 13:38:12 -0400
+Received: from mx01-sz.bfs.de ([194.94.69.67]:62428 "EHLO mx01-sz.bfs.de"
+        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
+        id S1725858AbgIKMpy (ORCPT <rfc822;linux-man@vger.kernel.org>);
+        Fri, 11 Sep 2020 08:45:54 -0400
+Received: from SRVEX01-SZ.bfs.intern (exchange-sz.bfs.de [10.129.90.31])
+        by mx01-sz.bfs.de (Postfix) with ESMTPS id BBFA020677;
+        Fri, 11 Sep 2020 14:44:42 +0200 (CEST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=bfs.de; s=dkim201901;
+        t=1599828282;
+        h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+         to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+         content-transfer-encoding:content-transfer-encoding:
+         in-reply-to:in-reply-to:references:references;
+        bh=awLKxFSDiFvN2tMOoPxn792eb95yg0Dc8CoIt1WJxTg=;
+        b=tLy1PnfkTpM45lF7qBi9+qJGalTIbt6vXuUGxivpYuTBFtkRmUKQQk7ydPHvybBP6QsZGS
+        yUiQCbaLepcl72E9nVMrSYS3zlxYJajf0fLHsi/e4LuHyyl1vERTw6lKN3pUsXnZzcX4lB
+        Rbe0UR+xzIK2X4egiKjNwsWDCWLbkG04qcVjnobuuego6e7Tcp7///NMxChVlbuV2znNVw
+        cL2B2Ja4Z35hBK2J29fxrRTANgslfn+u8F7XHT9GYBOSSWIxJGW6ipt7L+5BUBeYiuCKbb
+        i5UmD+0Vvx7c3AGALInpRCRE0/8QmMrdA+smts4ptqhy1Dwula1BDV502H81iQ==
+Received: from SRVEX01-SZ.bfs.intern (10.129.90.31) by SRVEX01-SZ.bfs.intern
+ (10.129.90.31) with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.1.2044.4; Fri, 11 Sep
+ 2020 14:44:42 +0200
+Received: from SRVEX01-SZ.bfs.intern ([fe80::7d2d:f9cb:2761:d24a]) by
+ SRVEX01-SZ.bfs.intern ([fe80::7d2d:f9cb:2761:d24a%6]) with mapi id
+ 15.01.2044.004; Fri, 11 Sep 2020 14:44:42 +0200
+From:   Walter Harms <wharms@bfs.de>
+To:     Alejandro Colomar <colomar.6.4.3@gmail.com>,
+        "mtk.manpages@gmail.com" <mtk.manpages@gmail.com>
+CC:     "linux-man@vger.kernel.org" <linux-man@vger.kernel.org>,
+        "linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>
+Subject: AW: [PATCH 04/24] eventfd.2: Use 'PRIxN' macros when printing C99
+ fixed-width integer types
+Thread-Topic: [PATCH 04/24] eventfd.2: Use 'PRIxN' macros when printing C99
+ fixed-width integer types
+Thread-Index: AQHWh7d4oPYjeCDYAkKQ2imUrEhZI6ljYiE/
+Date:   Fri, 11 Sep 2020 12:44:42 +0000
+Message-ID: <d2ec3c9628884ebeae734ccd726a73cd@bfs.de>
+References: <20200910211344.3562-1-colomar.6.4.3@gmail.com>,<20200910211344.3562-5-colomar.6.4.3@gmail.com>
+In-Reply-To: <20200910211344.3562-5-colomar.6.4.3@gmail.com>
+Accept-Language: de-DE, en-US
+Content-Language: de-DE
+X-MS-Has-Attach: 
+X-MS-TNEF-Correlator: 
+x-originating-ip: [10.137.16.40]
+x-tm-as-product-ver: SMEX-14.0.0.3031-8.6.1012-25658.007
+x-tm-as-result: No-10--1.467500-5.000000
+x-tmase-matchedrid: dhGsVyorqVbRubRCcrbc5pzEHTUOuMX33dCmvEa6IiGoLZarzrrPmXtc
+        SBXe4RfNBHyV47DgzT52mrAqMWjcqxzhSiKnHyLo9u1rQ4BgXPLgt7TT//Roamww+4tkH8hHgm8
+        y9s/8xLBZVPxvRQjmVHotqe6GyX/IB2Y8Y5F1xZxtJYfOb0q5O/f6ZSoNZQrIB2QWi8BF5SiKW8
+        BvXyLiE06K+6IM3Zckb2oLhvXzhe1UzR/yBHQjZp4CIKY/Hg3AnCGS1WQEGtDfwtq4jZ/G3iq2r
+        l3dzGQ1CNyq9HL1qQiwet1ijVZWJbKiBFvCE54jmCYnpBV0qyvN7500j4xkq16wCcILuZ0m81sr
+        f0TfKm7OUB26kNabEhjyk2KDtWSDxwpwazsiHrxwKbJm8PBDLa3lqFG8MgYtra3VVcd6EV7L9Ap
+        LJriTv0MMprcbiest
+x-tm-as-user-approved-sender: No
+x-tm-as-user-blocked-sender: No
+x-tmase-result: 10--1.467500-5.000000
+x-tmase-version: SMEX-14.0.0.3031-8.6.1012-25658.007
+x-tm-snts-smtp: D7B04CFD480A743FD1EB51144D784E81CBF3F4F6871F0C067CC12150EDE317D12000:9
+Content-Type: text/plain; charset="us-ascii"
+Content-Transfer-Encoding: quoted-printable
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8; format=flowed
-Content-Language: en-US
-Content-Transfer-Encoding: 7bit
+Authentication-Results: mx01-sz.bfs.de;
+        none
+X-Spamd-Result: default: False [-0.32 / 7.00];
+         ARC_NA(0.00)[];
+         TO_DN_EQ_ADDR_SOME(0.00)[];
+         HAS_XOIP(0.00)[];
+         FROM_HAS_DN(0.00)[];
+         RCPT_COUNT_THREE(0.00)[4];
+         FREEMAIL_ENVRCPT(0.00)[gmail.com];
+         TO_MATCH_ENVRCPT_ALL(0.00)[];
+         TAGGED_RCPT(0.00)[];
+         MIME_GOOD(-0.10)[text/plain];
+         TO_DN_SOME(0.00)[];
+         DKIM_SIGNED(0.00)[];
+         NEURAL_HAM(-0.00)[-0.850];
+         FREEMAIL_TO(0.00)[gmail.com];
+         RCVD_NO_TLS_LAST(0.10)[];
+         FROM_EQ_ENVFROM(0.00)[];
+         MIME_TRACE(0.00)[0:+];
+         RCVD_COUNT_TWO(0.00)[2];
+         MID_RHS_MATCH_FROM(0.00)[];
+         BAYES_HAM(-0.32)[75.53%]
 Sender: linux-man-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-man.vger.kernel.org>
 X-Mailing-List: linux-man@vger.kernel.org
 
-Hello Michael,
+I do not think that this is a good idea.
+An example should be clear and easy to understand.
+(e.g. with reduced error handling)
 
-In the past, when I was beginning to learn C, I had a lot of trouble 
-with the types.
+These C99 macros are over the top for me.
 
-When you want to know about a function, you just type 'man function' and 
-that tells you everything you need to know.
+jm2c
+ wh
+________________________________________
+Von: linux-man-owner@vger.kernel.org [linux-man-owner@vger.kernel.org] im A=
+uftrag von Alejandro Colomar [colomar.6.4.3@gmail.com]
+Gesendet: Donnerstag, 10. September 2020 23:13
+An: mtk.manpages@gmail.com
+Cc: linux-man@vger.kernel.org; linux-kernel@vger.kernel.org; Alejandro Colo=
+mar
+Betreff: [PATCH 04/24] eventfd.2: Use 'PRIxN' macros when printing C99 fixe=
+d-width integer types
 
-However, when you need to use a type, such as a struct or one of those 
-weird POSIX types (e.g., loff_t), the only solution is to grep through 
-the system headers (e.g., 'cd /usr/include/; grep -rn "struct 
-timespec"'), unless you already know in which man page the type appears.
+Signed-off-by: Alejandro Colomar <colomar.6.4.3@gmail.com>
+---
+ man2/eventfd.2 | 4 ++--
+ 1 file changed, 2 insertions(+), 2 deletions(-)
 
-I remember well when I wanted to use 'ssize_t' for the first time: it 
-was a nightmare to find which header I had to include to get it.
+diff --git a/man2/eventfd.2 b/man2/eventfd.2
+index 929234ab7..71e9d85b4 100644
+--- a/man2/eventfd.2
++++ b/man2/eventfd.2
+@@ -386,6 +386,7 @@ Parent read 28 (0x1c) from efd
+ .EX
+ #include <sys/eventfd.h>
+ #include <unistd.h>
++#include <inttypes.h>           /* Definition of PRIu64 & PRIx64 */
+ #include <stdlib.h>
+ #include <stdio.h>
+ #include <stdint.h>             /* Definition of uint64_t */
+@@ -430,8 +431,7 @@ main(int argc, char *argv[])
+         s =3D read(efd, &u, sizeof(uint64_t));
+         if (s !=3D sizeof(uint64_t))
+             handle_error("read");
+-        printf("Parent read %llu (0x%llx) from efd\en",
+-                (unsigned long long) u, (unsigned long long) u);
++        printf("Parent read %"PRIu64" (0x%"PRIx64") from efd\en", u, u);
+         exit(EXIT_SUCCESS);
 
-Do you agree that it would be a good idea to write man pages for the 
-types, or at least write link pages that link to the page where the type 
-is mentioned?
+     case \-1:
+--
+2.28.0
 
-Thanks,
-
-
-Alex
