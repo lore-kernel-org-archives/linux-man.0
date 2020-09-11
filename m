@@ -2,116 +2,101 @@ Return-Path: <SRS0=glPb=CU=vger.kernel.org=linux-man-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-3.6 required=3.0 tests=BAYES_00,DKIM_SIGNED,
+X-Spam-Status: No, score=-7.6 required=3.0 tests=BAYES_00,DKIM_SIGNED,
 	DKIM_VALID,DKIM_VALID_AU,FREEMAIL_FORGED_FROMDOMAIN,FREEMAIL_FROM,
-	HEADER_FROM_DIFFERENT_DOMAINS,MAILING_LIST_MULTI,SPF_HELO_NONE,SPF_PASS,
-	URIBL_BLOCKED autolearn=no autolearn_force=no version=3.4.0
+	HEADER_FROM_DIFFERENT_DOMAINS,MAILING_LIST_MULTI,NICE_REPLY_A,SPF_HELO_NONE,
+	SPF_PASS,USER_AGENT_SANE_1 autolearn=no autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 738BBC2BC11
-	for <linux-man@archiver.kernel.org>; Fri, 11 Sep 2020 17:38:15 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 90DFAC433E2
+	for <linux-man@archiver.kernel.org>; Fri, 11 Sep 2020 19:17:35 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.kernel.org (Postfix) with ESMTP id 359B1221E7
-	for <linux-man@archiver.kernel.org>; Fri, 11 Sep 2020 17:38:15 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTP id 501F722208
+	for <linux-man@archiver.kernel.org>; Fri, 11 Sep 2020 19:17:35 +0000 (UTC)
 Authentication-Results: mail.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="kox2nOM5"
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="O7Tt9fsq"
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1726393AbgIKRiN (ORCPT <rfc822;linux-man@archiver.kernel.org>);
-        Fri, 11 Sep 2020 13:38:13 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:36560 "EHLO
+        id S1725817AbgIKTRd (ORCPT <rfc822;linux-man@archiver.kernel.org>);
+        Fri, 11 Sep 2020 15:17:33 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:41690 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1726003AbgIKMpx (ORCPT
-        <rfc822;linux-man@vger.kernel.org>); Fri, 11 Sep 2020 08:45:53 -0400
-Received: from mail-ot1-x341.google.com (mail-ot1-x341.google.com [IPv6:2607:f8b0:4864:20::341])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 53C8DC061573;
-        Fri, 11 Sep 2020 05:44:15 -0700 (PDT)
-Received: by mail-ot1-x341.google.com with SMTP id m12so8243877otr.0;
-        Fri, 11 Sep 2020 05:44:15 -0700 (PDT)
+        with ESMTP id S1725863AbgIKTRZ (ORCPT
+        <rfc822;linux-man@vger.kernel.org>); Fri, 11 Sep 2020 15:17:25 -0400
+Received: from mail-wm1-x343.google.com (mail-wm1-x343.google.com [IPv6:2a00:1450:4864:20::343])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id E974CC061757;
+        Fri, 11 Sep 2020 12:17:24 -0700 (PDT)
+Received: by mail-wm1-x343.google.com with SMTP id k18so5752832wmj.5;
+        Fri, 11 Sep 2020 12:17:24 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=gmail.com; s=20161025;
-        h=mime-version:references:in-reply-to:reply-to:from:date:message-id
-         :subject:to:cc;
-        bh=nj6ebQ1LelO8tJiVip6k1rVrHkVeMlZ4zIMMoXNlsek=;
-        b=kox2nOM5Vx8QiGrZU9+tMK1b8MvwNRGG8itgc1QVjK3pwmHR6je1TvzdIPsyiREIWM
-         ikGCzLVhGlYgMVlLcj517cXSxozvRGeRTJO97ZpJDIaHzZfaMAabzq0Gd2ONDPJOdrWD
-         i0kDIwMmU5Mliy8zicz80Rs8NW7c2u+SrgCAVXTCFcRWnub1E/IuEziwZlJ5haexf//W
-         g3gZ3UHHSmlHOfjPx0mMxEIP2dvqkPnLSWCiN/ooqi8XUpP6wPAKwNOjeL/4UvTr9X9/
-         9+bPlg4b9kz9DUZCSK/owoUFNsFKF/kWqVe9FBPcCxNA4iYzOYFg0+438BZ1o7ATcmV4
-         BcTA==
+        h=subject:to:cc:references:from:message-id:date:user-agent
+         :mime-version:in-reply-to:content-language:content-transfer-encoding;
+        bh=M66Xqbib3jxWHl0Zo9EsaSkpUQSezfQpVd1dql9x5f0=;
+        b=O7Tt9fsq1Lgq1+JZlqN6zjniKxqWjBmlRu+z9ZHNNwIcK9L7Ar/6x/NMyJRn/fZkJb
+         3nAJNrH8gufM/Kor3b2uX6Nd/orjMn6WbssDka8rohRX8lFRbSEpFRQeHCELiONnT58m
+         fvqkYDYNBeMB1dR2dRIMUUHR2ecI/0HsDPBfNHsenLFsTWD6I6MyTNu+CCVZ3TNQhTMo
+         F2qiY6ecsGAhryDSyCfk55kiZqKF+lOfYzoy4Jj62fyknpW5gqHnLl49kFbaDi0EN6H6
+         uVoHOZKxexPzAiqksjqPUqwxH3qG0kcuW0eU/Sxv4lOMOTcUHWpP5lrr7+V7hInxkQsb
+         3Frw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
-        h=x-gm-message-state:mime-version:references:in-reply-to:reply-to
-         :from:date:message-id:subject:to:cc;
-        bh=nj6ebQ1LelO8tJiVip6k1rVrHkVeMlZ4zIMMoXNlsek=;
-        b=efe6rBAtsz9viULN7AvexnUDAD4I39M6dSVfKsSrfrXniCRyf91R+e7YuYWk9enQwT
-         PSjvVfq83+sDiF8xwHmYTIvhKpRB8DJ2pjLG337ghbj9uZyTrD9l/w2VesunDyf6MLJ0
-         x379B3PmgoT0AdUSnMPZCkKPdJKqyWF4JtmOvEasUkWtXRNYlFKPbnjk8IlokzBW5tMg
-         WxjleTS/pComPtriynKxejntoRJwGGg2FENmn1m3NM5131bCgUSQ9sO2mYuzInG881kY
-         YMwGFuzCmqmkyN+ZhMJrKVg7baj0RAP6xH3Q9kfCnF/U5L2rWjhDdCq0sESdMQbLoOeW
-         atNQ==
-X-Gm-Message-State: AOAM532tekXXyVyP9Ohe30l+0znAvnEZucS3NnsOFV0W3zx+phCDfdWZ
-        pjOLYv99rhq6X/yr8yGXFJgXEMh+HzpAgKeC/J0=
-X-Google-Smtp-Source: ABdhPJy9smo79lDaJbFYlXf+SK4TUVokeX1B7e4jY2L84PaTnKK4hDfODNKlWttxoZ4ywTuul1Ow3+rp5TkOZp6H4kU=
-X-Received: by 2002:a9d:a2b:: with SMTP id 40mr1134118otg.308.1599828254741;
- Fri, 11 Sep 2020 05:44:14 -0700 (PDT)
+        h=x-gm-message-state:subject:to:cc:references:from:message-id:date
+         :user-agent:mime-version:in-reply-to:content-language
+         :content-transfer-encoding;
+        bh=M66Xqbib3jxWHl0Zo9EsaSkpUQSezfQpVd1dql9x5f0=;
+        b=pE7/qbZZBA4KhnJfxOQpLBRM1Qrx/KJutQoor6m1bgv0kEs1qP5HwnUsA5JPcckoSu
+         /kp+JRDBFbXt89WYnvj4WqRkKGzu0u02LxoQS80PPNYvIwIslkenHS6a4QQGRo8leQ42
+         fkuxplOr3uQhOGVcVCNDo2NUYQOCBHI4jiMW+mPmDSeotgbeb0wb5boCQ4ZUBHpITcsv
+         vGjE10hQtrY3f/spw+xFY3FzxQDsAWFRuKesYGSZho+btqAnMfww90bNiMyxxYJ+1++h
+         eVYv//UUCdsJyU7Qk3b03Dl5utdmHZ10Bdhibuk1Pb4A/7CGjDvn4KxA89s5xDWqJegl
+         6Jxg==
+X-Gm-Message-State: AOAM531P4wwNx7daJ/FJLBnpULCn5hknk90eQCpK8DPFub1uB5pIW3Ep
+        HhytVqCqG9kKhpHd12gB71vbpxModv03og==
+X-Google-Smtp-Source: ABdhPJx5slPijII0Mz3wqmT5afERKxgAnnrFAuaQ1q2SQC34EA7BS8DNA2X86u4FQJuXgEbmsLLXDA==
+X-Received: by 2002:a1c:4187:: with SMTP id o129mr3517237wma.113.1599851842567;
+        Fri, 11 Sep 2020 12:17:22 -0700 (PDT)
+Received: from [192.168.1.143] ([170.253.60.68])
+        by smtp.gmail.com with ESMTPSA id q20sm5856182wmj.5.2020.09.11.12.17.21
+        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+        Fri, 11 Sep 2020 12:17:21 -0700 (PDT)
+Subject: Re: AW: [PATCH 12/24] getgrent_r.3: Use sizeof() to get buffer size
+ (instead of hardcoding macro name)
+To:     Walter Harms <wharms@bfs.de>,
+        "mtk.manpages@gmail.com" <mtk.manpages@gmail.com>
+Cc:     "linux-man@vger.kernel.org" <linux-man@vger.kernel.org>,
+        "linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>
+References: <20200910211344.3562-1-colomar.6.4.3@gmail.com>
+ <20200910211344.3562-13-colomar.6.4.3@gmail.com>
+ <00ae0174f35241efa962286b9247c590@bfs.de>
+From:   Alejandro Colomar <colomar.6.4.3@gmail.com>
+Message-ID: <c2b43a9c-ae80-fae6-16a4-09c9aab73ac1@gmail.com>
+Date:   Fri, 11 Sep 2020 21:17:20 +0200
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
+ Thunderbird/68.12.0
 MIME-Version: 1.0
-References: <159827188271.306468.16962617119460123110.stgit@warthog.procyon.org.uk>
- <159827190508.306468.12755090833140558156.stgit@warthog.procyon.org.uk>
- <CAKgNAkho1WSOsxvCYQOs7vDxpfyeJ9JGdTL-Y0UEZtO3jVfmKw@mail.gmail.com>
- <667616.1599063270@warthog.procyon.org.uk> <CAKgNAkhjDB9bvQ0h5b13fkbhuP9tYrkBQe7w1cbeOH8gM--D0g@mail.gmail.com>
-In-Reply-To: <CAKgNAkhjDB9bvQ0h5b13fkbhuP9tYrkBQe7w1cbeOH8gM--D0g@mail.gmail.com>
-Reply-To: mtk.manpages@gmail.com
-From:   "Michael Kerrisk (man-pages)" <mtk.manpages@gmail.com>
-Date:   Fri, 11 Sep 2020 14:44:03 +0200
-Message-ID: <CAKgNAkh9h3aA1hiYownT2O=xg5JmZwmJUCvQ1Z4f85MTq-26Fw@mail.gmail.com>
-Subject: Re: [PATCH 4/5] Add manpage for fsopen(2) and fsmount(2)
-To:     David Howells <dhowells@redhat.com>
-Cc:     Alexander Viro <viro@zeniv.linux.org.uk>,
-        "linux-fsdevel@vger.kernel.org" <linux-fsdevel@vger.kernel.org>,
-        linux-man <linux-man@vger.kernel.org>,
-        Linux API <linux-api@vger.kernel.org>,
-        lkml <linux-kernel@vger.kernel.org>
-Content-Type: text/plain; charset="UTF-8"
+In-Reply-To: <00ae0174f35241efa962286b9247c590@bfs.de>
+Content-Type: text/plain; charset=utf-8; format=flowed
+Content-Language: en-US
+Content-Transfer-Encoding: 7bit
 Sender: linux-man-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-man.vger.kernel.org>
 X-Mailing-List: linux-man@vger.kernel.org
 
-Hi David,
+Hi Walter,
 
-A ping for these five patches please!
+On 2020-09-11 14:50, Walter Harms wrote:
+> BUFLEN should  be remove completely or stay
+> 
+> jm2c
+>   wh
+
+Sorry that you weren't CC'd in the conversation we are having about it.
+You can have a look at it here:
+
+https://lore.kernel.org/linux-man/ab12151d-6951-2a36-2fc6-ea7eed538c45@gmail.com/T/#m423de347de6a64d099887d4ce615660d16d5b0e6
+
+I'll CC you in the next reply there.
 
 Cheers,
 
-Michael
-
-On Wed, 2 Sep 2020 at 22:14, Michael Kerrisk (man-pages)
-<mtk.manpages@gmail.com> wrote:
->
-> On Wed, 2 Sep 2020 at 18:14, David Howells <dhowells@redhat.com> wrote:
-> >
-> > Michael Kerrisk (man-pages) <mtk.manpages@gmail.com> wrote:
-> >
-> > > The term "filesystem configuration context" is introduced, but never
-> > > really explained. I think it would be very helpful to have a sentence
-> > > or three that explains this concept at the start of the page.
-> >
-> > Does that need a .7 manpage?
->
-> I was hoping a sentence or a paragraph in this page might suffice. Do
-> you think more is required?
->
-> Cheers,
->
-> Michael
->
-> --
-> Michael Kerrisk
-> Linux man-pages maintainer; http://www.kernel.org/doc/man-pages/
-> Linux/UNIX System Programming Training: http://man7.org/training/
-
-
-
--- 
-Michael Kerrisk
-Linux man-pages maintainer; http://www.kernel.org/doc/man-pages/
-Linux/UNIX System Programming Training: http://man7.org/training/
+Alex
