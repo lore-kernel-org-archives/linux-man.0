@@ -5,73 +5,73 @@ X-Spam-Level:
 X-Spam-Status: No, score=-12.6 required=3.0 tests=BAYES_00,DKIM_SIGNED,
 	DKIM_VALID,DKIM_VALID_AU,FREEMAIL_FORGED_FROMDOMAIN,FREEMAIL_FROM,
 	HEADER_FROM_DIFFERENT_DOMAINS,INCLUDES_PATCH,MAILING_LIST_MULTI,NICE_REPLY_A,
-	SIGNED_OFF_BY,SPF_HELO_NONE,SPF_PASS,URIBL_BLOCKED,USER_AGENT_SANE_1
-	autolearn=ham autolearn_force=no version=3.4.0
+	SIGNED_OFF_BY,SPF_HELO_NONE,SPF_PASS,USER_AGENT_SANE_1 autolearn=ham
+	autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 6C6FEC433E2
-	for <linux-man@archiver.kernel.org>; Sun, 13 Sep 2020 05:47:06 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 51911C2D0F6
+	for <linux-man@archiver.kernel.org>; Sun, 13 Sep 2020 05:47:07 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.kernel.org (Postfix) with ESMTP id 3037F2098B
-	for <linux-man@archiver.kernel.org>; Sun, 13 Sep 2020 05:47:06 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTP id 1362221655
+	for <linux-man@archiver.kernel.org>; Sun, 13 Sep 2020 05:47:07 +0000 (UTC)
 Authentication-Results: mail.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="mPyXPZQs"
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="EYbs4oZ+"
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1725922AbgIMFq4 (ORCPT <rfc822;linux-man@archiver.kernel.org>);
-        Sun, 13 Sep 2020 01:46:56 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:47878 "EHLO
+        id S1725902AbgIMFrE (ORCPT <rfc822;linux-man@archiver.kernel.org>);
+        Sun, 13 Sep 2020 01:47:04 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:47904 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1725909AbgIMFqs (ORCPT
-        <rfc822;linux-man@vger.kernel.org>); Sun, 13 Sep 2020 01:46:48 -0400
-Received: from mail-wr1-x442.google.com (mail-wr1-x442.google.com [IPv6:2a00:1450:4864:20::442])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 1DA27C061573
-        for <linux-man@vger.kernel.org>; Sat, 12 Sep 2020 22:46:48 -0700 (PDT)
-Received: by mail-wr1-x442.google.com with SMTP id m6so15254092wrn.0
-        for <linux-man@vger.kernel.org>; Sat, 12 Sep 2020 22:46:47 -0700 (PDT)
+        with ESMTP id S1725909AbgIMFq4 (ORCPT
+        <rfc822;linux-man@vger.kernel.org>); Sun, 13 Sep 2020 01:46:56 -0400
+Received: from mail-wm1-x344.google.com (mail-wm1-x344.google.com [IPv6:2a00:1450:4864:20::344])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 61FC7C061573
+        for <linux-man@vger.kernel.org>; Sat, 12 Sep 2020 22:46:56 -0700 (PDT)
+Received: by mail-wm1-x344.google.com with SMTP id l15so3699959wmh.1
+        for <linux-man@vger.kernel.org>; Sat, 12 Sep 2020 22:46:56 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=gmail.com; s=20161025;
         h=cc:subject:to:references:from:message-id:date:user-agent
          :mime-version:in-reply-to:content-language:content-transfer-encoding;
-        bh=68azweH4jnwfkly5eA9fP812E/wsUjn3vlEEpws7X+c=;
-        b=mPyXPZQsx46r5BUMC+6CqACeYzzLl6x9t7dfz9aJi9EUS6Lk9Hi/RUr8clvVf4ZShb
-         YRUwFcRy7JqryAKSyqv4r/yeU9mMgemebtEp8flwmfVySNwospxTeFIidI/XT7VmVtY9
-         lq8ZAnmY5Xj0Xl8mL6Np0Wu6sAlwFI3O2jj1yuBsFfxfhdo6xjxxG1vUifgQuQSflTeR
-         s/hhrS3W9MY6etachK86IOM4fZxsGe9f2RT+dx/UQ6gFAF6mtaqMJITM8GfZJ369iorY
-         xJOcnkdzoWTOvkfQwoCkgFCKDzBWu+QKir5S9yRM/yBUJWZjHGinOHZR7voFc+3dwaPH
-         bKQQ==
+        bh=j0n5yEarhpbA4UAxQL++W1vWH4m6lKztJBnb4EqKtXA=;
+        b=EYbs4oZ+1ni6AluxwOrUIGx6gyJHTIBen6Idb3Ot8szvO9ZPDykfqxmndDAIKg0HZ6
+         mghAkZtGBFo/nfo5R5Cis+8L+Eee7C1Yyka+a5AX9db4jfaT39U8mNkbEngBScE5WxaY
+         BXWo6cBdwnCfXpggLIm0BlbgotxXeZBZGEOWGHX8rXuXGosskH6AOE7HPzq+nN7hND8s
+         kCOtwKPygWUVuaTCg/D6Ho83CBaMcMOn3W30L/vglokB8q4Ji67oCgLtFPiRJ9HiuEX8
+         0HZXD/gLYcwi3XqwNJepfrx2A/oveC+HUXUNZUB1o84zmTNQyK42G2lyXZvOGeurBQPH
+         19Kg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
         h=x-gm-message-state:cc:subject:to:references:from:message-id:date
          :user-agent:mime-version:in-reply-to:content-language
          :content-transfer-encoding;
-        bh=68azweH4jnwfkly5eA9fP812E/wsUjn3vlEEpws7X+c=;
-        b=nSwmY0VlhnUeMWYjNEGhmNM5eFSvxbfqFfWFaM6d7ZkDu70dWDr9nxCezrSwGRnDkM
-         mpC55gLvgaMYRsWLKKpZpoH8fUr5F3tgdne1x4cS5ojiQ7tqDx8pPGtbm6uKfnhF7icY
-         avfKI0yzrJv/CQEMxyXtBTnIJU18UzsMV6KgL4Ff0uGnkLUKjJEvfwVtmB5Kl92sLqAi
-         Ryidd8Ze6AhZd3/fxWRJmExJO4zkdyIjtv9yCnL44JaG0iaOjQRLFeMGlWnAU0Lj/CGB
-         2ldGFUd76volElAq1tGvA24gq2n4gTn0Hp9XZ5X8k2yX9EaVKzvVmfyln+lFthRyodjc
-         qoig==
-X-Gm-Message-State: AOAM530JdjOj39wfPJwu14DH9fyNu7rvnk/06D+4SKpf0/+0BCcgeJvQ
-        dXrVKofUaAUwNCftGaQRxfp3m/foGrY=
-X-Google-Smtp-Source: ABdhPJxEMl1gl81c0wR752yNUht34bLbDnP7ySXJKz9oUbqsb0OVlo//ah21BK/ZGugiaIlxJosmzA==
-X-Received: by 2002:a5d:4c44:: with SMTP id n4mr9487617wrt.272.1599976004472;
-        Sat, 12 Sep 2020 22:46:44 -0700 (PDT)
+        bh=j0n5yEarhpbA4UAxQL++W1vWH4m6lKztJBnb4EqKtXA=;
+        b=KLTBBlI9ZMsfDFpxKghdX0UZjqizTJ3myMadVRe98lkzBE7jHwcHdnirzchv6lXJIf
+         14ZvNizEDyRJrnMtugOFYqYcFjO5gLFC4l/xFWu7gvZn4P8xqKkQCH82nJKe+oTa/Uth
+         3HEChafrRj7yDt7r+xxtXenLZNV7PCPidmhkndwSbVhrNTmPMVU6E751LvkP2vqJirdS
+         caip1eWObIRlVDcJHiXuq3mo6ll8OEnbxTTPOlWSw5Pcz4En6qAKhOMcMPIZKcA9AlcX
+         bUXNboxLb6mfOi2MYxp+djZm8Ts2R/15VBmLtn88RnFFQyX6xmZwqOaMRTLr64znAdXS
+         g9tQ==
+X-Gm-Message-State: AOAM533wHCxq1Eq8iPbGVNw2DjthoLw0wAnTeIu1CQhCA6GLZvAnKPft
+        OJLw9Y4FNL6/KJwBPGdKl6hGqQUYrE8=
+X-Google-Smtp-Source: ABdhPJxuhOmOmKvc39tEKGsw3iEQ13h8XEvM/TyNPmrGyCZiEMWgeVQFq0VBRsUd3GTw/2HwiTSwbQ==
+X-Received: by 2002:a1c:e1c2:: with SMTP id y185mr5369345wmg.182.1599976014848;
+        Sat, 12 Sep 2020 22:46:54 -0700 (PDT)
 Received: from ?IPv6:2001:a61:2479:6801:d8fe:4132:9f23:7e8f? ([2001:a61:2479:6801:d8fe:4132:9f23:7e8f])
-        by smtp.gmail.com with ESMTPSA id n10sm595180wmk.7.2020.09.12.22.46.42
+        by smtp.gmail.com with ESMTPSA id c14sm13119646wrv.12.2020.09.12.22.46.54
         (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Sat, 12 Sep 2020 22:46:43 -0700 (PDT)
+        Sat, 12 Sep 2020 22:46:54 -0700 (PDT)
 Cc:     mtk.manpages@gmail.com, linux-man@vger.kernel.org
-Subject: Re: [PATCH 06/12] rtld-audit.7: Use "%u" rather than "%d" when
+Subject: Re: [PATCH 09/12] open_by_handle_at.2: Use "%u" rather than "%d" when
  printing 'unsigned int' values
 To:     Alejandro Colomar <colomar.6.4.3@gmail.com>
 References: <20200911231411.28406-1-colomar.6.4.3@gmail.com>
- <20200911231411.28406-7-colomar.6.4.3@gmail.com>
+ <20200911231411.28406-10-colomar.6.4.3@gmail.com>
 From:   "Michael Kerrisk (man-pages)" <mtk.manpages@gmail.com>
-Message-ID: <2a067caa-f30f-0dcd-170f-31383723fdad@gmail.com>
-Date:   Sun, 13 Sep 2020 07:46:42 +0200
+Message-ID: <f810b316-e30f-202b-8907-9d5d97432dc0@gmail.com>
+Date:   Sun, 13 Sep 2020 07:46:53 +0200
 User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
  Thunderbird/68.10.0
 MIME-Version: 1.0
-In-Reply-To: <20200911231411.28406-7-colomar.6.4.3@gmail.com>
+In-Reply-To: <20200911231411.28406-10-colomar.6.4.3@gmail.com>
 Content-Type: text/plain; charset=utf-8
 Content-Language: en-US
 Content-Transfer-Encoding: 7bit
@@ -90,40 +90,22 @@ Cheers,
 Michael
 
 > ---
->  man7/rtld-audit.7 | 6 +++---
->  1 file changed, 3 insertions(+), 3 deletions(-)
+>  man2/open_by_handle_at.2 | 2 +-
+>  1 file changed, 1 insertion(+), 1 deletion(-)
 > 
-> diff --git a/man7/rtld-audit.7 b/man7/rtld-audit.7
-> index f90731261..b1b7dfebc 100644
-> --- a/man7/rtld-audit.7
-> +++ b/man7/rtld-audit.7
-> @@ -508,7 +508,7 @@ This is reportedly fixed in glibc 2.10.
->  unsigned int
->  la_version(unsigned int version)
->  {
-> -    printf("la_version(): %d\en", version);
-> +    printf("la_version(): %u\en", version);
+> diff --git a/man2/open_by_handle_at.2 b/man2/open_by_handle_at.2
+> index fb8940696..53c8c7968 100644
+> --- a/man2/open_by_handle_at.2
+> +++ b/man2/open_by_handle_at.2
+> @@ -600,7 +600,7 @@ main(int argc, char *argv[])
+>         for later reuse by t_open_by_handle_at.c */
 >  
->      return version;
->  }
-> @@ -572,7 +572,7 @@ la_symbind32(Elf32_Sym *sym, unsigned int ndx, uintptr_t *refcook,
->  {
->      printf("la_symbind32(): symname = %s; sym\->st_value = %p\en",
->              symname, sym\->st_value);
-> -    printf("        ndx = %d; flags = %#x", ndx, *flags);
-> +    printf("        ndx = %u; flags = %#x", ndx, *flags);
->      printf("; refcook = %p; defcook = %p\en", refcook, defcook);
->  
->      return sym\->st_value;
-> @@ -584,7 +584,7 @@ la_symbind64(Elf64_Sym *sym, unsigned int ndx, uintptr_t *refcook,
->  {
->      printf("la_symbind64(): symname = %s; sym\->st_value = %p\en",
->              symname, sym\->st_value);
-> -    printf("        ndx = %d; flags = %#x", ndx, *flags);
-> +    printf("        ndx = %u; flags = %#x", ndx, *flags);
->      printf("; refcook = %p; defcook = %p\en", refcook, defcook);
->  
->      return sym\->st_value;
+>      printf("%d\en", mount_id);
+> -    printf("%d %d   ", fhp\->handle_bytes, fhp\->handle_type);
+> +    printf("%u %d   ", fhp\->handle_bytes, fhp\->handle_type);
+>      for (int j = 0; j < fhp\->handle_bytes; j++)
+>          printf(" %02x", fhp\->f_handle[j]);
+>      printf("\en");
 > 
 
 
