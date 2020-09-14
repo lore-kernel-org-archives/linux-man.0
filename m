@@ -2,83 +2,76 @@ Return-Path: <SRS0=trGW=CX=vger.kernel.org=linux-man-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-5.1 required=3.0 tests=BAYES_00,DKIM_SIGNED,
+X-Spam-Status: No, score=-10.1 required=3.0 tests=BAYES_00,DKIM_SIGNED,
 	DKIM_VALID,DKIM_VALID_AU,FREEMAIL_FORGED_FROMDOMAIN,FREEMAIL_FROM,
-	HEADER_FROM_DIFFERENT_DOMAINS,MAILING_LIST_MULTI,NICE_REPLY_A,SPF_HELO_NONE,
-	SPF_PASS,USER_AGENT_SANE_1 autolearn=no autolearn_force=no version=3.4.0
+	HEADER_FROM_DIFFERENT_DOMAINS,MAILING_LIST_MULTI,MENTIONS_GIT_HOSTING,
+	NICE_REPLY_A,SPF_HELO_NONE,SPF_PASS,USER_AGENT_SANE_1 autolearn=ham
+	autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id E570DC433E2
-	for <linux-man@archiver.kernel.org>; Mon, 14 Sep 2020 10:03:38 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 08CC5C433E2
+	for <linux-man@archiver.kernel.org>; Mon, 14 Sep 2020 10:22:12 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.kernel.org (Postfix) with ESMTP id 8A76D20732
-	for <linux-man@archiver.kernel.org>; Mon, 14 Sep 2020 10:03:38 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTP id AFA5B2078D
+	for <linux-man@archiver.kernel.org>; Mon, 14 Sep 2020 10:22:11 +0000 (UTC)
 Authentication-Results: mail.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="ewunUpJA"
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="AUrk/Pzo"
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1726303AbgINKDh (ORCPT <rfc822;linux-man@archiver.kernel.org>);
-        Mon, 14 Sep 2020 06:03:37 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:53000 "EHLO
+        id S1726369AbgINKWL (ORCPT <rfc822;linux-man@archiver.kernel.org>);
+        Mon, 14 Sep 2020 06:22:11 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:55876 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1726302AbgINKDf (ORCPT
-        <rfc822;linux-man@vger.kernel.org>); Mon, 14 Sep 2020 06:03:35 -0400
-Received: from mail-wr1-x444.google.com (mail-wr1-x444.google.com [IPv6:2a00:1450:4864:20::444])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id EA204C06174A
-        for <linux-man@vger.kernel.org>; Mon, 14 Sep 2020 03:03:34 -0700 (PDT)
-Received: by mail-wr1-x444.google.com with SMTP id x14so17987682wrl.12
-        for <linux-man@vger.kernel.org>; Mon, 14 Sep 2020 03:03:34 -0700 (PDT)
+        with ESMTP id S1726434AbgINKWK (ORCPT
+        <rfc822;linux-man@vger.kernel.org>); Mon, 14 Sep 2020 06:22:10 -0400
+Received: from mail-wr1-x42c.google.com (mail-wr1-x42c.google.com [IPv6:2a00:1450:4864:20::42c])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 9DD2CC06174A
+        for <linux-man@vger.kernel.org>; Mon, 14 Sep 2020 03:22:09 -0700 (PDT)
+Received: by mail-wr1-x42c.google.com with SMTP id z1so18088216wrt.3
+        for <linux-man@vger.kernel.org>; Mon, 14 Sep 2020 03:22:09 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=gmail.com; s=20161025;
-        h=subject:to:cc:references:from:message-id:date:user-agent
+        h=subject:from:to:cc:references:message-id:date:user-agent
          :mime-version:in-reply-to:content-language:content-transfer-encoding;
-        bh=ErLT9H1f4ejUa/z5zwom3+okEj+FV6wFbydq3WOBF6c=;
-        b=ewunUpJA7psos6g4xvCxx6gOiHfxq52DcY5hUf4mE+yq5vqOrEq+Vtz2wf4f0G5KlJ
-         Cb2S3syVrE7wLo9gfrtkzUzVSYoT8LzXyLA3Kte0v995q574l/Fq9W3y57jOwdXj4anu
-         HNP3gohNjaKJV1UtNPXhJt9IL6ov9lawaVboDcVA0OfEP1gx67teMmDzw1GZzTQMjsq0
-         ssR3tWcZOPvpMPmGgoVMhuHHApfR93QeNQIJOkWjpGPXYyJA7XcINCR2rW1DSxiGHiE6
-         mPGhk26TNXr3RfZcsjFfdpsl3QlmpPNbMyf2UowuIUbZB8Q0a1FcuQmD/WPZAEXBxs/c
-         gpnw==
+        bh=onk5VlFLt/2rbYSdkglBN0pjaK0X6hkgSFRRhp6WJag=;
+        b=AUrk/PzooEQAM9vsoC9+afbYTu0eIqM4+7HDQqxabBfOQa0PGhI7Jhqem4ft7Uz68Z
+         2bfKt2YOhReBHcDmLyniYoFMImqbSY4FqjNbVM2Z4J2Z77Jl4ghgzY7jQ3z0N/8ZAKcU
+         rQZdYMUjgL/6oSorbb93dXi1AuGaOD8SOCAVCG36UmKmH40O1PXJdgbrL8RC/B51NMi9
+         GOUoHvSG1Epdb58ck+wgEKbHVk3DvA6RMeiwTugBZRJw9/tsD/ZvtcOwxG6CudlHMOl/
+         uj9QmhDeC6Ymd1xKMy95DiJ9TtEIl0eCfYnBcpyqAGz0hpIzcTiMPYR40pgR6vnnliD9
+         MFWA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
-        h=x-gm-message-state:subject:to:cc:references:from:message-id:date
+        h=x-gm-message-state:subject:from:to:cc:references:message-id:date
          :user-agent:mime-version:in-reply-to:content-language
          :content-transfer-encoding;
-        bh=ErLT9H1f4ejUa/z5zwom3+okEj+FV6wFbydq3WOBF6c=;
-        b=qYbo2LH0KGwwy3/mluZFJpUZepDusfyUlw+lh4nd3/Iiz288zaD7sNTBNmMEx7D91c
-         xRREiOm/u+A49cHxiEYiflt5eBXr0MHrMSpP1WY6fhNeGxBNvrFZxpNOFEQKF/rWkRUp
-         jMNJgtlpkrsriVS3hp6L3zka/PacclUjP1QGiQ/txouL4Gy0FayjaeHnP9TjZjohkE8Y
-         T7t1Jh9qa+Xv0NK3MJQGzC2Rqc2tHXhkR+o7+GZWpoJ7gseQCB68RUmTw+0I6dT85Gig
-         BkPXvXMzKMV1DKrfKEDeFJTFj/ZBQUtD6M7yAaewsyH8RlTjcTQFWmZC8gHCo5qdcEyf
-         uehQ==
-X-Gm-Message-State: AOAM530IQxkKLqec0C8BbgFwCKL4wb+RVhTVmCKDcI00uqXxzzAtvNej
-        cEHDM111o7cfEtbztW0YOTm/IlaaqlrKEw==
-X-Google-Smtp-Source: ABdhPJz3SEPnsEfohxebv1wMeJeq/HLQuERcpZ+du+aL35A6YU5dJq29/Ru8diAxTo8vu5Ch8FdS8Q==
-X-Received: by 2002:adf:eb86:: with SMTP id t6mr14950036wrn.411.1600077813683;
-        Mon, 14 Sep 2020 03:03:33 -0700 (PDT)
+        bh=onk5VlFLt/2rbYSdkglBN0pjaK0X6hkgSFRRhp6WJag=;
+        b=lVK4H9iuV/HkxKMzL50kzmdcVkzailAhn2zPfO5HSp39O+DT2tcCS+y5TH5qxr3cyK
+         6Y1XYBaSiOGTWSn07W7ACpvYrGDqfyFs71fE/zRmJBaBwsEm4Lx56C7Psso5qhvL170H
+         dXpKL7WCBUcdkfwryAdbQVcBqd9tfWX8zXcHOZxGPNOy+0Ip2rHJgr1+het436HtQud3
+         0EEzGJtxxF8hG3VG4KFgaznDSoVwHaDGw5s5w6zprLLRN7X6epvN6XMN1GuvvA26ldum
+         L5NZ89bthdfuv/DpgyBZiK3woZC8GWFxgfNun4/TzKDjQhEXeyDfp4o4+oo9t9QFSqJO
+         b88g==
+X-Gm-Message-State: AOAM531JhfIz2+kmXQfqeMo3wEUpGOMb8d+Tq4i/QRalkoM7i6I2Q2Rg
+        you5AOiXFc3VTJoFF3mPbVs=
+X-Google-Smtp-Source: ABdhPJxQSb36ozQawplNgz4ooWiyw8w/utq+u6wncg4CL2KTuKvTnXb5Vaig3gsMW/Zeh1fVvmEvSw==
+X-Received: by 2002:a5d:5281:: with SMTP id c1mr15046867wrv.184.1600078928418;
+        Mon, 14 Sep 2020 03:22:08 -0700 (PDT)
 Received: from [192.168.0.160] ([93.115.133.118])
-        by smtp.gmail.com with ESMTPSA id v204sm19048173wmg.20.2020.09.14.03.03.32
+        by smtp.gmail.com with ESMTPSA id z83sm19525364wmb.4.2020.09.14.03.22.07
         (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Mon, 14 Sep 2020 03:03:33 -0700 (PDT)
-Subject: Re: [PATCH v2] add_key.2, clock_getres.2, clone.2, futex.2,
- getdents.2, getpid.2, getrlimit.2, ioctl_ns.2, kcmp.2, keyctl.2,
- memfd_create.2, request_key.2, stat.2, timer_create.2, wait.2,
- clock_getcpuclockid.3, dl_iterate_phdr.3, getgrent_r.3, getpwent_r.3,
- getpwnam.3, posix_spawn.3, pthread_getcpuclockid.3, strcat.3,
- feature_test_macros.7, user_namespaces.7: Cast types that don't have a
- printf() length modifier to ([u]intmax_t) for printing
-To:     "Michael Kerrisk (man-pages)" <mtk.manpages@gmail.com>
-Cc:     linux-man@vger.kernel.org, Konstantin Bukin <kbukin@gmail.com>,
-        "Dmitry V. Levin" <ldv@altlinux.org>
-References: <20200913175506.576683-1-colomar.6.4.3@gmail.com>
- <d74dd859-91a2-5fad-af6d-b241b0783a9a@gmail.com>
- <c85f7e74-8888-8313-be9f-406d351aeb3f@gmail.com>
- <9039d127-a366-cd8b-992a-038fa11f3308@gmail.com>
+        Mon, 14 Sep 2020 03:22:07 -0700 (PDT)
+Subject: Re: [IDEA] New pages for types: structs and typedfefs
 From:   Alejandro Colomar <colomar.6.4.3@gmail.com>
-Message-ID: <98c426d9-6dde-5578-c1d5-942f21c5080a@gmail.com>
-Date:   Mon, 14 Sep 2020 12:03:32 +0200
+To:     linux-man <linux-man@vger.kernel.org>
+Cc:     "Michael Kerrisk (man-pages)" <mtk.manpages@gmail.com>,
+        Florian Weimer <fweimer@redhat.com>,
+        libbsd@lists.freedesktop.org, Jakub Wilk <jwilk@jwilk.net>
+References: <fb6463f6-49d7-e473-d5e1-1cdf8375e498@gmail.com>
+Message-ID: <6dc80c25-85bf-925c-49c2-f79865027c0f@gmail.com>
+Date:   Mon, 14 Sep 2020 12:22:06 +0200
 User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
  Thunderbird/68.12.0
 MIME-Version: 1.0
-In-Reply-To: <9039d127-a366-cd8b-992a-038fa11f3308@gmail.com>
+In-Reply-To: <fb6463f6-49d7-e473-d5e1-1cdf8375e498@gmail.com>
 Content-Type: text/plain; charset=utf-8
 Content-Language: en-US
 Content-Transfer-Encoding: 7bit
@@ -87,22 +80,15 @@ Precedence: bulk
 List-ID: <linux-man.vger.kernel.org>
 X-Mailing-List: linux-man@vger.kernel.org
 
-On 9/14/20 11:30 AM, Michael Kerrisk (man-pages) wrote:
-> I've applied this patch. Thank you for doing all of that work!
+Here's a link to my branch where I'm developing system_data_types.7 and
+the many link pages:
 
-You're welcome, Michael! :-)
+https://github.com/alejandro-colomar/man-pages/tree/system_data_types
 
-> 
-> Just by the way, I presume you didn't send with 'git send-email',
-> since the patch was busted (wrapped lines in two places). The
-> fix was fairly easy, but just to let you know there was that
-> issue.
+I'll usually send an update to this thread from time to time, in the
+form of a single commit, to ask for comments.
 
-D'oh!
-
-It was simpler to click reply than adding --in-reply-to=, but I guess
-I'll have to use git all the time...
-
-Cheers,
+However, to find the latest version, and also see a detailed commit
+history of the changes, you can follow that link.
 
 Alex
