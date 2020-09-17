@@ -2,92 +2,176 @@ Return-Path: <SRS0=KjTN=C2=vger.kernel.org=linux-man-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-12.6 required=3.0 tests=BAYES_00,DKIM_SIGNED,
+X-Spam-Status: No, score=-17.6 required=3.0 tests=BAYES_00,DKIM_SIGNED,
 	DKIM_VALID,DKIM_VALID_AU,FREEMAIL_FORGED_FROMDOMAIN,FREEMAIL_FROM,
-	HEADER_FROM_DIFFERENT_DOMAINS,INCLUDES_PATCH,MAILING_LIST_MULTI,SIGNED_OFF_BY,
-	SPF_HELO_NONE,SPF_PASS,USER_AGENT_GIT autolearn=ham autolearn_force=no
-	version=3.4.0
+	HEADER_FROM_DIFFERENT_DOMAINS,INCLUDES_PATCH,MAILING_LIST_MULTI,
+	MENTIONS_GIT_HOSTING,SIGNED_OFF_BY,SPF_HELO_NONE,SPF_PASS,URIBL_BLOCKED,
+	USER_AGENT_GIT autolearn=unavailable autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 77D4BC433E2
-	for <linux-man@archiver.kernel.org>; Thu, 17 Sep 2020 10:48:21 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 61985C2D0E3
+	for <linux-man@archiver.kernel.org>; Thu, 17 Sep 2020 17:32:30 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.kernel.org (Postfix) with ESMTP id 2ECD6208DB
-	for <linux-man@archiver.kernel.org>; Thu, 17 Sep 2020 10:48:21 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTP id 11B4322228
+	for <linux-man@archiver.kernel.org>; Thu, 17 Sep 2020 17:32:30 +0000 (UTC)
 Authentication-Results: mail.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="ERpdEFPs"
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="i7O5uCFi"
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1726611AbgIQKsS (ORCPT <rfc822;linux-man@archiver.kernel.org>);
-        Thu, 17 Sep 2020 06:48:18 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:52114 "EHLO
+        id S1726549AbgIQRc2 (ORCPT <rfc822;linux-man@archiver.kernel.org>);
+        Thu, 17 Sep 2020 13:32:28 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:59272 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1726699AbgIQKof (ORCPT
-        <rfc822;linux-man@vger.kernel.org>); Thu, 17 Sep 2020 06:44:35 -0400
-Received: from mail-wm1-x329.google.com (mail-wm1-x329.google.com [IPv6:2a00:1450:4864:20::329])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 52757C061788
-        for <linux-man@vger.kernel.org>; Thu, 17 Sep 2020 03:44:19 -0700 (PDT)
-Received: by mail-wm1-x329.google.com with SMTP id w2so1493917wmi.1
-        for <linux-man@vger.kernel.org>; Thu, 17 Sep 2020 03:44:19 -0700 (PDT)
+        with ESMTP id S1726343AbgIQRcX (ORCPT
+        <rfc822;linux-man@vger.kernel.org>); Thu, 17 Sep 2020 13:32:23 -0400
+Received: from mail-qk1-x741.google.com (mail-qk1-x741.google.com [IPv6:2607:f8b0:4864:20::741])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id E8D16C06178B;
+        Thu, 17 Sep 2020 10:31:52 -0700 (PDT)
+Received: by mail-qk1-x741.google.com with SMTP id t138so3111591qka.0;
+        Thu, 17 Sep 2020 10:31:52 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=gmail.com; s=20161025;
-        h=from:to:cc:subject:date:message-id:in-reply-to:references
-         :mime-version:content-transfer-encoding;
-        bh=2oZQg5cHraRYVgNjLOSs6eiuxAebWAjTDESGDh9GQas=;
-        b=ERpdEFPsV0OZc4AvlJTtdROK+BVH3zL/KSX24CZGeiUzyPU5SMqq5I5nLoIZpnDnaL
-         o6tEiKY2aajei6q/TGC+y0WCsKumtHtpiT5u0ZCaf607oqOUms0NNrxmB9de+FSFRVrZ
-         bMz/7o8ziBBe4OJn5JCb/8ohbn7GfyrHE2/TGBv41mcGUmXD/dRZj2/1SOcGbIe23nVi
-         w60HVJY4Qa+kr0vZ6L/PTYFomZa7BPYr5dJETZIdYl/JzyS1pdn0DCiQlQp60B+ckAuB
-         sn+aBUr68NeA8c1wtTf/b8nqsK4bFDzLyJNVTNSYFlUjBGdHD4oPpAfKaxlsXrPNNkJz
-         AcHQ==
+        h=from:to:cc:subject:date:message-id:mime-version
+         :content-transfer-encoding;
+        bh=AKD/9E79SiZQSW8oLqIokHA8vYGAi3tIl8g3KfMvNZo=;
+        b=i7O5uCFiTKcXzgLkwDex6HWSQBoUI+9kgqEAVg2IH/LpTwrClxKKk48Hku+F9EaVEj
+         ik/CjXF+lBlDqP6VAi6xR5NYYcLqNgA3afDwEQEo6/zb5T2v2Ag+YMtxbm5E2qoe8z70
+         mnl6tDHo5gMC/OehcctCXL2bhQgDrmj2nogKnA5PocP1/o/8VUDM9VOuhVIrSnMN93fB
+         q5BweGKQuuWvdkEcrotqmZht9Hj1YvKOXMr0H8acngAvsJE9IWX6nHObFtoOipQIpuaz
+         UmSNjz1X7WKQ55jMtPjBR81Q9Wi5l9FgtvDeOzIcXMN/ptl3E0NVxr584KxtJ2YYBLuS
+         mmOg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
-        h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
-         :references:mime-version:content-transfer-encoding;
-        bh=2oZQg5cHraRYVgNjLOSs6eiuxAebWAjTDESGDh9GQas=;
-        b=ng6YXIrfmWovfzTErRtGGL7UrCjOeX0MCGt4Z3c9y61HRUkkfs6IOFcXYa6zQxfZ3J
-         6pjepMUfE34ZfTEQ/iobIJpmLUXRpqd4+rO8ibJEXCCyReIMjUEB1gtc2X3f26QC/WGI
-         iabQ4FO8B5wpi8oNzNPUom2HaCqVjnP4ZwyyehTH1LMEnDrf/rXpxyuOhh40LFmegWM8
-         pStft3m0VRh/jfGRcEANcopGN+9YZRZmDpQviA3X2aEJuHOVONP8PNs56JAiiYq1Qpie
-         gzddbRM+xfHvk3V243Juaayt6sAcH2s1caElI52w0YKmR/c8MAb+mOCA2opPLEagIeq+
-         X+9g==
-X-Gm-Message-State: AOAM532Y1u+sxmpU3mOP2TAmQXMOQ9sku7r4z9zGvmF9IB8HS3TSRWMq
-        U/XRnkSEVWC4NbvjTSa74zY=
-X-Google-Smtp-Source: ABdhPJwEVyYQ8eV7E0QZ1uBqssKLSv7lPHRUO5Eybke/DLD0j/6H1aFPa7aFHkHDIHkteusZ2i3h3w==
-X-Received: by 2002:a7b:c3da:: with SMTP id t26mr8873161wmj.23.1600339458093;
-        Thu, 17 Sep 2020 03:44:18 -0700 (PDT)
-Received: from localhost.localdomain ([170.253.60.68])
-        by smtp.googlemail.com with ESMTPSA id l16sm42807186wrb.70.2020.09.17.03.44.17
+        h=x-gm-message-state:from:to:cc:subject:date:message-id:mime-version
+         :content-transfer-encoding;
+        bh=AKD/9E79SiZQSW8oLqIokHA8vYGAi3tIl8g3KfMvNZo=;
+        b=cTZctJMH9XkfDjIrURSWTJvqFCHiU079barNXca4eR22+ihFqCO351X++ZKxWlXETu
+         HQ+WAp5gP1tHCh7dxJ+KoT5cKDMfWRyQmFD1Jw1w690F+X5ElNhYMlaBwgI8cam/Kywx
+         Bl4G8KrT8ortg+3OoaN8MxGGO4CnU85/gJ8lXG8gBRAb0ZOExzCwafZKQ+SqRDMFrm42
+         UhfG/REKF6gcAvGT5uVxBc/kiFJE0TggjDa/ZvJxOz7WB1WiHJ13OkR/hSpetM5Z7TOa
+         3epLuiGKCDh4IyNvoSqI7bzHAjvFXQiuHTHnWfubuEGc+XTT0X9yUdHXNRUqaQjpRBKT
+         1imw==
+X-Gm-Message-State: AOAM5300PwifwQiL2DpTBWF6o5Nhjv33mQytD7p4Df61PDN5UUz0ci5z
+        U0RsnBZYh4LLvoG9omWEDkk=
+X-Google-Smtp-Source: ABdhPJw7RbnGGgOX1j37sVcKkhBWi28KOF3PvRne37dN6DIZIQo2h0vEj4EjBDtBZObYBFIXls2IVQ==
+X-Received: by 2002:a37:54a:: with SMTP id 71mr26161702qkf.407.1600363912118;
+        Thu, 17 Sep 2020 10:31:52 -0700 (PDT)
+Received: from puritycontrol.fios-router.home (pool-96-234-167-227.bltmmd.fios.verizon.net. [96.234.167.227])
+        by smtp.gmail.com with ESMTPSA id z3sm277480qkf.92.2020.09.17.10.31.51
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Thu, 17 Sep 2020 03:44:17 -0700 (PDT)
-From:   Alejandro Colomar <colomar.6.4.3@gmail.com>
+        Thu, 17 Sep 2020 10:31:51 -0700 (PDT)
+From:   Stephen Smalley <stephen.smalley.work@gmail.com>
 To:     mtk.manpages@gmail.com
-Cc:     linux-man@vger.kernel.org, tg@mirbsd.org, fweimer@redhat.com,
-        jwilk@jwilk.net, libbsd@lists.freedesktop.org,
-        Andries.Brouwer@cwi.nl, Alejandro Colomar <colomar.6.4.3@gmail.com>
-Subject: [PATCH v7 2/8] sigval.3: Add link page
-Date:   Thu, 17 Sep 2020 12:43:00 +0200
-Message-Id: <20200917104305.12270-3-colomar.6.4.3@gmail.com>
-X-Mailer: git-send-email 2.28.0
-In-Reply-To: <6dc80c25-85bf-925c-49c2-f79865027c0f@gmail.com>
-References: <6dc80c25-85bf-925c-49c2-f79865027c0f@gmail.com>
+Cc:     linux-man@vger.kernel.org, linux-security-module@vger.kernel.org,
+        selinux@vger.kernel.org, smcv@collabora.com, jmorris@namei.org,
+        serge@hallyn.com, paul@paul-moore.com,
+        Stephen Smalley <stephen.smalley.work@gmail.com>
+Subject: [PATCH] ip.7: Document IP_PASSSEC for UDP sockets
+Date:   Thu, 17 Sep 2020 13:31:43 -0400
+Message-Id: <20200917173143.57241-1-stephen.smalley.work@gmail.com>
+X-Mailer: git-send-email 2.25.1
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 Precedence: bulk
 List-ID: <linux-man.vger.kernel.org>
 X-Mailing-List: linux-man@vger.kernel.org
 
-Signed-off-by: Alejandro Colomar <colomar.6.4.3@gmail.com>
----
- man3/sigval.3 | 1 +
- 1 file changed, 1 insertion(+)
- create mode 100644 man3/sigval.3
+Document the IP_PASSSEC socket option and SCM_SECURITY
+ancillary/control message type for UDP sockets.
 
-diff --git a/man3/sigval.3 b/man3/sigval.3
-new file mode 100644
-index 000000000..db50c0f09
---- /dev/null
-+++ b/man3/sigval.3
-@@ -0,0 +1 @@
-+.so man7/system_data_types.7
+IP_PASSSEC for UDP sockets was introduced in Linux 2.6.17 [1].
+
+Example NetLabel and IPSEC configurations and usage of this option
+can be found in the SELinux Notebook [2] and SELinux testsuite [3].
+
+[1] https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git/commit/?id=2c7946a7bf45ae86736ab3b43d0085e43947945c
+
+[2] https://github.com/SELinuxProject/selinux-notebook
+
+[3] https://github.com/SELinuxProject/selinux-testsuite
+
+Signed-off-by: Stephen Smalley <stephen.smalley.work@gmail.com>
+---
+ man7/ip.7 | 48 ++++++++++++++++++++++++++++++++++++++++++------
+ 1 file changed, 42 insertions(+), 6 deletions(-)
+
+diff --git a/man7/ip.7 b/man7/ip.7
+index 03a9f3f7c..681234c90 100644
+--- a/man7/ip.7
++++ b/man7/ip.7
+@@ -17,11 +17,6 @@
+ .\" 	IP_IPSEC_POLICY (2.5.47)
+ .\"	    Needs CAP_NET_ADMIN
+ .\"
+-.\" 	IP_PASSSEC (2.6.17)
+-.\" 	    Boolean
+-.\"	    commit 2c7946a7bf45ae86736ab3b43d0085e43947945c
+-.\"	    Author: Catherine Zhang <cxzhang@watson.ibm.com>
+-.\"
+ .\"	IP_MINTTL (2.6.34)
+ .\"	    commit d218d11133d888f9745802146a50255a4781d37a
+ .\"	    Author: Stephen Hemminger <shemminger@vyatta.com>
+@@ -664,6 +659,47 @@ with
+ .B IP_OPTIONS
+ puts the current IP options used for sending into the supplied buffer.
+ .TP
++.BR IP_PASSSEC " (since Linux 2.6.17)"
++.\" commit 2c7946a7bf45ae86736ab3b43d0085e43947945c
++If labeled IPSEC or NetLabel is configured on the sending and receiving
++hosts, this option enables receiving of the security context of the peer
++socket in an ancillary message of type
++.B SCM_SECURITY
++retrieved using
++.BR recvmsg (2).
++This option is only supported for UDP sockets; for TCP or SCTP sockets,
++see the description of the
++.B SO_PEERSEC
++option below.
++.IP
++The value given as an argument to
++.BR setsockopt (2)
++and returned as the result of
++.BR getsockopt (2)
++is an integer boolean flag.
++.IP
++The security context returned in the
++.B SCM_SECURITY
++ancillary message
++is of the same format as the one described under the
++.B SO_PEERSEC
++option below.
++.IP
++NOTE: The reuse of the
++.B SCM_SECURITY
++message type
++for the
++.B IP_PASSSEC
++socket option was likely a mistake since other IP control messages use
++their own numbering scheme in the IP namespace and often use the
++socket option value as the message type.  There is no conflict
++currently since the IP option with the same value
++as
++.B SCM_SECURITY
++is
++.B IP_HDRINCL
++and this is never used for a control message type.
++.TP
+ .BR IP_PKTINFO " (since Linux 2.2)"
+ .\" Precisely: 2.1.68
+ Pass an
+@@ -1290,13 +1326,13 @@ and
+ .BR IP_MTU ,
+ .BR IP_MTU_DISCOVER ,
+ .BR IP_RECVORIGDSTADDR ,
++.BR IP_PASSSEC ,
+ .BR IP_PKTINFO ,
+ .BR IP_RECVERR ,
+ .BR IP_ROUTER_ALERT ,
+ and
+ .BR IP_TRANSPARENT
+ are Linux-specific.
+-.\" IP_PASSSEC is Linux-specific
+ .\" IP_XFRM_POLICY is Linux-specific
+ .\" IP_IPSEC_POLICY is a nonstandard extension, also present on some BSDs
+ .PP
 -- 
-2.28.0
+2.25.1
 
