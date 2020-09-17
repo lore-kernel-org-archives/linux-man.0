@@ -2,92 +2,70 @@ Return-Path: <SRS0=KjTN=C2=vger.kernel.org=linux-man-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-12.6 required=3.0 tests=BAYES_00,DKIM_SIGNED,
-	DKIM_VALID,DKIM_VALID_AU,FREEMAIL_FORGED_FROMDOMAIN,FREEMAIL_FROM,
-	HEADER_FROM_DIFFERENT_DOMAINS,INCLUDES_PATCH,MAILING_LIST_MULTI,SIGNED_OFF_BY,
-	SPF_HELO_NONE,SPF_PASS,USER_AGENT_GIT autolearn=ham autolearn_force=no
-	version=3.4.0
+X-Spam-Status: No, score=-5.3 required=3.0 tests=BAYES_00,
+	HEADER_FROM_DIFFERENT_DOMAINS,MAILING_LIST_MULTI,SPF_HELO_NONE,SPF_PASS,
+	USER_AGENT_SANE_1 autolearn=no autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id D7D30C43461
-	for <linux-man@archiver.kernel.org>; Thu, 17 Sep 2020 10:46:39 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 6F4D2C433E2
+	for <linux-man@archiver.kernel.org>; Thu, 17 Sep 2020 10:47:01 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.kernel.org (Postfix) with ESMTP id 948442087D
-	for <linux-man@archiver.kernel.org>; Thu, 17 Sep 2020 10:46:39 +0000 (UTC)
-Authentication-Results: mail.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="pOGl7mGB"
+	by mail.kernel.org (Postfix) with ESMTP id 37E482074B
+	for <linux-man@archiver.kernel.org>; Thu, 17 Sep 2020 10:47:01 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1726630AbgIQKqa (ORCPT <rfc822;linux-man@archiver.kernel.org>);
-        Thu, 17 Sep 2020 06:46:30 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:52178 "EHLO
-        lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1726720AbgIQKop (ORCPT
-        <rfc822;linux-man@vger.kernel.org>); Thu, 17 Sep 2020 06:44:45 -0400
-Received: from mail-wr1-x441.google.com (mail-wr1-x441.google.com [IPv6:2a00:1450:4864:20::441])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 5806EC061797
-        for <linux-man@vger.kernel.org>; Thu, 17 Sep 2020 03:44:24 -0700 (PDT)
-Received: by mail-wr1-x441.google.com with SMTP id c18so1511472wrm.9
-        for <linux-man@vger.kernel.org>; Thu, 17 Sep 2020 03:44:24 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20161025;
-        h=from:to:cc:subject:date:message-id:in-reply-to:references
-         :mime-version:content-transfer-encoding;
-        bh=gy9zGRHRw7nVj9gYlClP/j4vOyMh5+2tFyAHU9SPLe0=;
-        b=pOGl7mGB5rMlybIm3yN65QGpkZgvRsiWIv0ZypYqpbmpOi4P0FNMl3mESkOd5nR41w
-         un0Rb647W6m3jFlp7ObhA6CP7VsQbyez0q1/P+1gVN8DD7a5I45JMjnqSvnC0LsZByHy
-         5f3eXPSAM+nbmmib/cUdKdGZK6uhplH3Af33d98g8tzEgT2Yn/A9rNMPQKpLQ0iTX/MN
-         /+6vDM/Z1zSosz1OIpxpvbqYyIXjcQT7FXzv7PgnKAZ6evMDCXymNHZIfDuJDLrgO1Df
-         xxt5hAtORqUFt34ahELL4pCFq/iUVkueV35Vo0VqsSdoyUahrqCxsDi+vN1UdzRa23Df
-         C76g==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20161025;
-        h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
-         :references:mime-version:content-transfer-encoding;
-        bh=gy9zGRHRw7nVj9gYlClP/j4vOyMh5+2tFyAHU9SPLe0=;
-        b=SyQQ5zosEg1StU3nTLUtcJWSe19VmePzaRmNv2LNTpn4hALZPF8E2VguNYeqYrJCxz
-         Qca78iUNOW3XmvRJAYkGbkC27uVf+I3aeCnrvWspuHyr9g1OXgFUrurBM9NbpM4jMYfP
-         v4YsqVYmUfnyiDcmO6DEHvjyqXFAcBweceN3LBi6tub03Ym2Vez1ARfctffU+jSxJ0Pn
-         hEmh7c3jDrR+nUX4v1on9zY+fZrxLuHsFckOw1hz96zLHzgT+x8NUdjZVQYY0kc91QuP
-         oEilfmfDCKnHXJwa1sO/mDbuuMGmiyu+ise6ip+bdBH6cCNf1i/QpmZYFxUuJYVg3nLt
-         Nb4A==
-X-Gm-Message-State: AOAM531m5pA93N1Ri06Sxmvs2DXOxceOCBvvEF9uNySIOtDWBLiHr2rH
-        gcE2XEe0DNviG0Ggi/36UvQ=
-X-Google-Smtp-Source: ABdhPJzfDvcZV3uVkGTjXhrekpaKm4UUNRyGx1OIGfS6KHBAN0TFUNEsCly+395aQswJ+yx9vCKi9w==
-X-Received: by 2002:a5d:6a47:: with SMTP id t7mr31041040wrw.75.1600339463012;
-        Thu, 17 Sep 2020 03:44:23 -0700 (PDT)
-Received: from localhost.localdomain ([170.253.60.68])
-        by smtp.googlemail.com with ESMTPSA id l16sm42807186wrb.70.2020.09.17.03.44.21
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Thu, 17 Sep 2020 03:44:22 -0700 (PDT)
-From:   Alejandro Colomar <colomar.6.4.3@gmail.com>
-To:     mtk.manpages@gmail.com
-Cc:     linux-man@vger.kernel.org, tg@mirbsd.org, fweimer@redhat.com,
-        jwilk@jwilk.net, libbsd@lists.freedesktop.org,
-        Andries.Brouwer@cwi.nl, Alejandro Colomar <colomar.6.4.3@gmail.com>
-Subject: [PATCH v7 6/8] timer_t.3: Add link page
-Date:   Thu, 17 Sep 2020 12:43:04 +0200
-Message-Id: <20200917104305.12270-7-colomar.6.4.3@gmail.com>
-X-Mailer: git-send-email 2.28.0
-In-Reply-To: <6dc80c25-85bf-925c-49c2-f79865027c0f@gmail.com>
-References: <6dc80c25-85bf-925c-49c2-f79865027c0f@gmail.com>
+        id S1726446AbgIQKqk (ORCPT <rfc822;linux-man@archiver.kernel.org>);
+        Thu, 17 Sep 2020 06:46:40 -0400
+Received: from smtpout1.mo804.mail-out.ovh.net ([79.137.123.220]:53693 "EHLO
+        smtpout1.mo804.mail-out.ovh.net" rhost-flags-OK-OK-OK-OK)
+        by vger.kernel.org with ESMTP id S1726480AbgIQKqW (ORCPT
+        <rfc822;linux-man@vger.kernel.org>); Thu, 17 Sep 2020 06:46:22 -0400
+X-Greylist: delayed 445 seconds by postgrey-1.27 at vger.kernel.org; Thu, 17 Sep 2020 06:46:21 EDT
+Received: from mxplan6.mail.ovh.net (unknown [10.108.4.102])
+        by mo804.mail-out.ovh.net (Postfix) with ESMTPS id 0EBBB62999E7;
+        Thu, 17 Sep 2020 12:38:50 +0200 (CEST)
+Received: from jwilk.net (37.59.142.99) by DAG4EX2.mxp6.local (172.16.2.32)
+ with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id 15.1.2044.4; Thu, 17 Sep
+ 2020 12:38:49 +0200
+Authentication-Results: garm.ovh; auth=pass (GARM-99G003c12eac0d-f6dc-4d49-a275-21d568e436b6,
+                    3D0FA99E2FE06D49D178AFDD43481E01CF719E2A) smtp.auth=jwilk@jwilk.net
+Date:   Thu, 17 Sep 2020 12:38:48 +0200
+From:   Jakub Wilk <jwilk@jwilk.net>
+To:     Michael Kerrisk <mtk.manpages@gmail.com>
+CC:     <linux-man@vger.kernel.org>
+Subject: Re: [draft] Code of conduct for Linux man-pages project
+Message-ID: <20200917103848.uf2yejfedifllpby@jwilk.net>
+References: <02fd2df7-a3dc-c28d-a929-f126f676b3e0@gmail.com>
 MIME-Version: 1.0
+Content-Type: text/plain; charset="utf-8"; format=flowed
+Content-Disposition: inline
 Content-Transfer-Encoding: 8bit
+In-Reply-To: <02fd2df7-a3dc-c28d-a929-f126f676b3e0@gmail.com>
+User-Agent: NeoMutt/20180716
+X-Originating-IP: [37.59.142.99]
+X-ClientProxiedBy: DAG3EX1.mxp6.local (172.16.2.21) To DAG4EX2.mxp6.local
+ (172.16.2.32)
+X-Ovh-Tracer-GUID: e0182f2e-0118-4d73-a390-4673e3456b97
+X-Ovh-Tracer-Id: 4375528513962694554
+X-VR-SPAMSTATE: OK
+X-VR-SPAMSCORE: 0
+X-VR-SPAMCAUSE: gggruggvucftvghtrhhoucdtuddrgedujedrtdeggdefvdcutefuodetggdotefrodftvfcurfhrohhfihhlvgemucfqggfjpdevjffgvefmvefgnecuuegrihhlohhuthemucehtddtnecunecujfgurhepfffhvffukfhfgggtugfgjggfihesthekredttderjeenucfhrhhomheplfgrkhhusgcuhghilhhkuceojhifihhlkhesjhifihhlkhdrnhgvtheqnecuggftrfgrthhtvghrnhepvdehffduvdfgleduledvleekgeeuveduhfdtkeevkeekudejkeffkeehvdefhfeknecuffhomhgrihhnpehkvghrnhgvlhdrohhrghenucfkpheptddrtddrtddrtddpfeejrdehledrudegvddrleelnecuvehluhhsthgvrhfuihiivgeptdenucfrrghrrghmpehmohguvgepshhmthhpqdhouhhtpdhhvghlohepmhigphhlrghniedrmhgrihhlrdhovhhhrdhnvghtpdhinhgvtheptddrtddrtddrtddpmhgrihhlfhhrohhmpehjfihilhhksehjfihilhhkrdhnvghtpdhrtghpthhtoheplhhinhhugidqmhgrnhesvhhgvghrrdhkvghrnhgvlhdrohhrgh
 Precedence: bulk
 List-ID: <linux-man.vger.kernel.org>
 X-Mailing-List: linux-man@vger.kernel.org
 
-Signed-off-by: Alejandro Colomar <colomar.6.4.3@gmail.com>
----
- man3/timer_t.3 | 1 +
- 1 file changed, 1 insertion(+)
- create mode 100644 man3/timer_t.3
+* Michael Kerrisk <mtk.manpages@gmail.com>, 2020-09-17, 10:41:
+>I've put a draft up at:
+>https://www.kernel.org/doc/man-pages/code_of_conduct.html
 
-diff --git a/man3/timer_t.3 b/man3/timer_t.3
-new file mode 100644
-index 000000000..db50c0f09
---- /dev/null
-+++ b/man3/timer_t.3
-@@ -0,0 +1 @@
-+.so man7/system_data_types.7
+Some technical issues:
+
+* The document is in UTF-8, but the encoding is not declared anywhere. 
+As a consequence, my Firefox shows mojibake â€™ instead of curly 
+apostrophe.
+
+* It should be </li> instead of </l>.
+
+* Semicolon after "&gt" is missing in one place.
+
 -- 
-2.28.0
-
+Jakub Wilk
