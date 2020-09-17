@@ -2,251 +2,371 @@ Return-Path: <SRS0=KjTN=C2=vger.kernel.org=linux-man-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-11.1 required=3.0 tests=BAYES_00,DKIM_SIGNED,
+X-Spam-Status: No, score=-12.6 required=3.0 tests=BAYES_00,DKIM_SIGNED,
 	DKIM_VALID,DKIM_VALID_AU,FREEMAIL_FORGED_FROMDOMAIN,FREEMAIL_FROM,
-	HEADER_FROM_DIFFERENT_DOMAINS,INCLUDES_PATCH,MAILING_LIST_MULTI,NICE_REPLY_A,
-	SIGNED_OFF_BY,SPF_HELO_NONE,SPF_PASS,URIBL_BLOCKED,USER_AGENT_SANE_1
-	autolearn=ham autolearn_force=no version=3.4.0
+	HEADER_FROM_DIFFERENT_DOMAINS,INCLUDES_PATCH,MAILING_LIST_MULTI,SIGNED_OFF_BY,
+	SPF_HELO_NONE,SPF_PASS,USER_AGENT_GIT autolearn=ham autolearn_force=no
+	version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 97DF2C433E2
-	for <linux-man@archiver.kernel.org>; Thu, 17 Sep 2020 10:28:17 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 8ED41C433E2
+	for <linux-man@archiver.kernel.org>; Thu, 17 Sep 2020 10:45:09 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.kernel.org (Postfix) with ESMTP id 404E32083B
-	for <linux-man@archiver.kernel.org>; Thu, 17 Sep 2020 10:28:17 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTP id 24C0E2074B
+	for <linux-man@archiver.kernel.org>; Thu, 17 Sep 2020 10:45:09 +0000 (UTC)
 Authentication-Results: mail.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="nHrX9NMq"
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="h/xN+xwg"
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1726539AbgIQK2P (ORCPT <rfc822;linux-man@archiver.kernel.org>);
-        Thu, 17 Sep 2020 06:28:15 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:49554 "EHLO
+        id S1726285AbgIQKpB (ORCPT <rfc822;linux-man@archiver.kernel.org>);
+        Thu, 17 Sep 2020 06:45:01 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:52108 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1726200AbgIQK15 (ORCPT
-        <rfc822;linux-man@vger.kernel.org>); Thu, 17 Sep 2020 06:27:57 -0400
-Received: from mail-wr1-x442.google.com (mail-wr1-x442.google.com [IPv6:2a00:1450:4864:20::442])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id F2FC8C06174A
-        for <linux-man@vger.kernel.org>; Thu, 17 Sep 2020 03:27:56 -0700 (PDT)
-Received: by mail-wr1-x442.google.com with SMTP id g4so1468697wrs.5
-        for <linux-man@vger.kernel.org>; Thu, 17 Sep 2020 03:27:56 -0700 (PDT)
+        with ESMTP id S1726698AbgIQKof (ORCPT
+        <rfc822;linux-man@vger.kernel.org>); Thu, 17 Sep 2020 06:44:35 -0400
+Received: from mail-wm1-x341.google.com (mail-wm1-x341.google.com [IPv6:2a00:1450:4864:20::341])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 7EBEDC061756
+        for <linux-man@vger.kernel.org>; Thu, 17 Sep 2020 03:44:18 -0700 (PDT)
+Received: by mail-wm1-x341.google.com with SMTP id k18so1532129wmj.5
+        for <linux-man@vger.kernel.org>; Thu, 17 Sep 2020 03:44:18 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=gmail.com; s=20161025;
-        h=cc:subject:to:references:from:message-id:date:user-agent
-         :mime-version:in-reply-to:content-language:content-transfer-encoding;
-        bh=gBc6ykz1dP8+Rblebm4+3LWT/QpFfO46DKMepV8g1Zw=;
-        b=nHrX9NMqCrHp1LO8oy7nJFNhzJnY1Zrec/aQz3Jd67B+BFmUNDPoQoyPEwBIXq/Chi
-         XOBEHyurBgxsUzHabUh1PfwQpLB+Sq1nOJSFnbJtIrnyK4cCU5eSPaE5x4PdTOSy4Ul0
-         Rd1OLfapqk/JqXtbZ0TNpyc2VPf2pq6y3Vg+I6mBq4yPwL8HmbYj2qjJ4jVUylC9bq1m
-         r1JoByrqb6ONo92n3YPV/3DsZP349zLa/L8AL3r1AljXuLb3sSSkOww8q8E0pdns+iaJ
-         Y4Ej0ZcEC6WyJQvnRm/qYCPKH1GMx5qyxplLLKoPBoLFdMrWC5HmlVueoVrQEIt2nAvB
-         GpqQ==
+        h=from:to:cc:subject:date:message-id:in-reply-to:references
+         :mime-version:content-transfer-encoding;
+        bh=JI+u/N0ABKQX3RwxBNaHm+lUrEB5F/R+58Z8F1F/2wI=;
+        b=h/xN+xwgIcBgDGrUCr3uze5yZ87A+SZgSoh8XkQzV1nzgiip/qCOaxogPmozq4djAv
+         5Hl+CFbmRBPmkI1aWJRK323xOQNR1lNLoTN5fxCTTf8PmvV7rFdgECE4eW6l4JS0c/cK
+         5sGr3X83qbsTXWx/WxW+YJ26jiS6Nct2wz83KNV0eYsG6SfMrSnnpXhD0H4dNcMJNK1+
+         1ASIJCkSE+2+is+XL2bIS/wytb5d79lbRKo3lSc0mgK9J0UzMN0zjKa+CWDyHVWZiMtN
+         s+qXV4L1e6NWpjW4tWDt+X8vfo0LKUFKsNdjPPZi18Xcd1JPNE1v12slPdaIWW0+LoSe
+         IHPQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
-        h=x-gm-message-state:cc:subject:to:references:from:message-id:date
-         :user-agent:mime-version:in-reply-to:content-language
-         :content-transfer-encoding;
-        bh=gBc6ykz1dP8+Rblebm4+3LWT/QpFfO46DKMepV8g1Zw=;
-        b=rtJWx794lKNYMWX6r+JrYpPwVD1VPV6jt2vyn7IPbSrspmOqxh7LO/8yFHZObshtJ/
-         7Hi1KLSUyUwxWPDAx3YD57GUqeHcfYJqV0hRcHohBPPL1GWTMwO2htzT8Y6ox45fsT2z
-         gmVLAT/k/FFt8o+joRAzdTjGmtwfasXDMWHOoCLOsYJ3WL+GS/1OtB5qct5Z3fnnfKWz
-         kTXWUPH4Nip0TBviWPeL/2vwvHNhx5lsrpeOuc5kWo9c/zkXthjbCztuPm7lv83k+Pjm
-         JzUfQnQLxxkix3FEwIKekX/Gc16FgipaQJH/+RMTEy39D9ltZ7xgl2nJurNvM9b0stp5
-         pg+w==
-X-Gm-Message-State: AOAM531ggtm+QR68fUUf6xltlAI93yVkLor1rPNsrLGEddKfIeerOMqh
-        OgWhOscuF5sDw59Dorren4kn8K1Kjr3WMg==
-X-Google-Smtp-Source: ABdhPJyO1y9Jsf2Sva4t2yaHcVmW5tpz0yut/BkrTqjKjV7D9oc/LeRCsTzQ27lSLMla57ZzEs+Vzw==
-X-Received: by 2002:adf:e58b:: with SMTP id l11mr33539991wrm.210.1600338475374;
-        Thu, 17 Sep 2020 03:27:55 -0700 (PDT)
-Received: from ?IPv6:2001:a61:2479:6801:d8fe:4132:9f23:7e8f? ([2001:a61:2479:6801:d8fe:4132:9f23:7e8f])
-        by smtp.gmail.com with ESMTPSA id z11sm38849397wru.88.2020.09.17.03.27.54
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Thu, 17 Sep 2020 03:27:54 -0700 (PDT)
-Cc:     mtk.manpages@gmail.com, linux-man@vger.kernel.org, tg@mirbsd.org,
-        fweimer@redhat.com, jwilk@jwilk.net, libbsd@lists.freedesktop.org,
-        Andries.Brouwer@cwi.nl
-Subject: Re: [RFC v6] system_data_types.7: Document types: sigval, ssize_t,
- suseconds_t, time_t, timer_t, timespec, timeval
-To:     Alejandro Colomar <colomar.6.4.3@gmail.com>
+        h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
+         :references:mime-version:content-transfer-encoding;
+        bh=JI+u/N0ABKQX3RwxBNaHm+lUrEB5F/R+58Z8F1F/2wI=;
+        b=XKK/Z22xahPZchyDivJ++/WEYM9wd8wrHTr6RezoPY3fXJjrF6oltvkW49qEaHl7Ty
+         Hitchcyk9Pm5BfX/QdDorFfXTE9Gpj/r2FkfT+FTn58Q3bB2nIsHzlaAJAyi54Bln2qJ
+         axAaFJ8qbWgjKcdCwuw+yPLz0BETFleN2cwUTrNom5rDKGXu6qu5S5rLnoCmrcAvciI6
+         ylyl72AoaE5PV7tHzcIrdVoQmJV4CPnZ8Zpx1p/paHeuZZ65UTdOhj8L/fju4h/x+yKv
+         UhLnWLVyBR97ywNniFvAPyFaOFjvwDuxW2wCzPPbQN5P6aVT7r3pKWc6Y9VtPmFhxcPf
+         M2nQ==
+X-Gm-Message-State: AOAM532xiFdFI6h6mxnKRZGGF/qi6JozIb43dNDFYTtiQfjkxca8d7cf
+        aV4Uj5zhue3nO4Omu4nLa0U=
+X-Google-Smtp-Source: ABdhPJzOD5C+1qof7GxL8L+hd7VN4zLJ4t/eQ3mG8DO1FIWqJJBGOn3MvGEH5ffV7AbI/lPxiOMo0w==
+X-Received: by 2002:a7b:cb97:: with SMTP id m23mr9100665wmi.173.1600339456946;
+        Thu, 17 Sep 2020 03:44:16 -0700 (PDT)
+Received: from localhost.localdomain ([170.253.60.68])
+        by smtp.googlemail.com with ESMTPSA id l16sm42807186wrb.70.2020.09.17.03.44.15
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Thu, 17 Sep 2020 03:44:16 -0700 (PDT)
+From:   Alejandro Colomar <colomar.6.4.3@gmail.com>
+To:     mtk.manpages@gmail.com
+Cc:     linux-man@vger.kernel.org, tg@mirbsd.org, fweimer@redhat.com,
+        jwilk@jwilk.net, libbsd@lists.freedesktop.org,
+        Andries.Brouwer@cwi.nl, Alejandro Colomar <colomar.6.4.3@gmail.com>
+Subject: [PATCH v7 1/8] system_data_types.7: Document types: sigval, ssize_t, suseconds_t, time_t, timer_t, timespec, timeval
+Date:   Thu, 17 Sep 2020 12:42:59 +0200
+Message-Id: <20200917104305.12270-2-colomar.6.4.3@gmail.com>
+X-Mailer: git-send-email 2.28.0
+In-Reply-To: <6dc80c25-85bf-925c-49c2-f79865027c0f@gmail.com>
 References: <6dc80c25-85bf-925c-49c2-f79865027c0f@gmail.com>
- <20200916110144.17568-1-colomar.6.4.3@gmail.com>
- <48f5e6ed-f288-151a-50dc-bcf396ff34b6@gmail.com>
- <6555a55b-54d1-5c8c-848f-fac64e765b45@gmail.com>
-From:   "Michael Kerrisk (man-pages)" <mtk.manpages@gmail.com>
-Message-ID: <421e973f-038b-5401-7835-e65852936495@gmail.com>
-Date:   Thu, 17 Sep 2020 12:27:53 +0200
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
- Thunderbird/68.10.0
 MIME-Version: 1.0
-In-Reply-To: <6555a55b-54d1-5c8c-848f-fac64e765b45@gmail.com>
-Content-Type: text/plain; charset=utf-8
-Content-Language: en-US
 Content-Transfer-Encoding: 8bit
 Precedence: bulk
 List-ID: <linux-man.vger.kernel.org>
 X-Mailing-List: linux-man@vger.kernel.org
 
-Hello Alex,
+Signed-off-by: Alejandro Colomar <colomar.6.4.3@gmail.com>
+---
+ man7/system_data_types.7 | 280 +++++++++++++++++++++++++++++++++++++++
+ 1 file changed, 280 insertions(+)
+ create mode 100644 man7/system_data_types.7
 
-On 9/16/20 9:51 PM, Alejandro Colomar wrote:
-> Hello Michael
-> 
-> On 2020-09-16 21:24, Michael Kerrisk (man-pages) wrote:
->  > Hello Alex,
->  >
->  > On 9/16/20 1:01 PM, Alejandro Colomar wrote:
->  >> Signed-off-by: Alejandro Colomar <colomar.6.4.3@gmail.com>
->  >> ---
->  >>
->  >> Hi Michael,
->  >>
->  >> Changelog since v4:
->  >>
->  >> - Comment "See also" about yet undocumented size_t
->  >> - Simplify header ordering
->  >> - Curate See also
->  >> - Remove incorrect headers
->  >>
->  >>
->  >> On 2020-09-15 23:30, Michael Kerrisk (man-pages) wrote:
->  >>> Okay. Time to nit pick:-). Do not be too dispirited,
->  >>> I think we started with some of the most difficult types...
->  >>
->  >> I was waiting for it :-).
->  >>
->  >>> I soppose what I meant is that POSIX defers to the C standard
->  >>> in the cases where they overlap, and I'd expect that the set
->  >>> of headers specified in the C standard and in POSIX might be the
->  >>> same, but where they're not, I suspect the list of POSIX headers
->  >>> would always be a superset of the C headers. So, just make a
->  >>> single list of those headers, followed by 3 and 4 (merged)
->  >>
->  >> See updated comment in the page.
->  >
->  > It looks good to me.
-> 
-> It still doesn't convince me.
-> 
-> Let's see how the standards define the types:
-> 
-> C has a ¿main? header that defines a type
-> (for example, for 'time_t' it would be <time.h>;
-> for 'size_t' it would be <stddef.h>),
-> and then there may be other headers that shall also define the type
-> (for example, 'size_t' is also defined in <stdio.h> and others).
-> 
-> POSIX does more or less the same:
-> It has a ¿main? header where the type is defined
-> (for 'time_t' it is <sys/types>,
-> which as you can it sometimes see differs from C),
-> and then there may be other headers that shall define the type.
-> 
-> I think we should differentiate those 1 or 2 headers
-> by putting them the first ones,
-> and then the rest could be merged together
-> (and maybe use a comma or something to differentiate them?).
-
-Maybe a semicolon (;), just because more visually obvious?
-
-> Such as (for 'time_t'):
-> 
-> Include: <sys/types.h> or <time.h>, or <sched.h> or <sys/msg.h> or
-> <sys/select.h> or <sys/sem.h> or <sys/shm.h> or <sys/stat.h> or
-> <sys/time.h> or <utime.h>
-> 
-> However this still doesn't convince me...
-> I don't see a perfect way to express that.
-
-Maybe not perfect, but I don't think we have to come up with
-the perfect solution (yet). I think things are okay as you
-propose them currently.
-
-> Also, should we put a dot at the end of the includes?
-
-Yes, perhaps a little tidier.
-
-> 
-> Include: <sys/types.h> or <time.h>¿.?
-
-[...]
-
->  >>> <sched.h> only defines time_t since POSIX.1-2008, as far as I can
->  >>> tell! I'm not sure how/if we want to represent that detail.
->  >>
->  >> I added a Notes section for that type.  You like it?
->  >
->  > Yes.
->  >
->  >>> But size_t is not in this page (yet). Is it in your tree?
->  >>
->  >> Not yet.  In my tree I didn't forget to comment it, though.  As you can
->  >> guess, It'll be the next type to document, and then ptrdiff_t.
->  >>
->  >>> Today I learned: size_t is in C99, but ssize_t is not!
->  >
->  > [...]
->  >
->  > I have no comments on the page. It looks great! I'm happy to
->  > merge it now, unless you have something you want to change first.
-> 
-> See above.  That's the only thing that I don't fully like.
-> 
-> Also there are a few cosmetic fixes that I have in my tree already.
-> 
-> And, I trimmed a bit more the 'sigval' See also section.
-> 
-> Here's what I already applied to my tree.  I will show you the diff as
-> it is very short so you have an idea off what is coming:
-> 
-> $ git diff types_draft_6
-> diff --git a/man7/system_data_types.7 b/man7/system_data_types.7
-> index 8fc827332..ffdcc9793 100644
-> --- a/man7/system_data_types.7
-> +++ b/man7/system_data_types.7
-> @@ -38,7 +38,7 @@ system_data_types \- overview of system data types
->   .\"                    1) The header(s) that shall define the type
->   .\"                       according to the C standard,
->   .\"                       and
-> -.\"                       the header that shall define the type
-> +.\"                       the main header that shall define the type
->   .\"                       according to POSIX,
->   .\"                       in alphabetical order.
->   .\"                    2) All other headers that shall define the type
-> 
-> (inline comment): Actually this still doesn't convince me, as I already 
-> said.
-> 
-> @@ -81,11 +81,15 @@ Data passed with a signal.
->   Conforming to: POSIX.1-2001 and later.
->   .IP
->   See also:
-> -.BR rt_sigqueueinfo (2),
-> -.BR sigaction (2),
->   .BR pthread_sigqueue (3),
->   .BR sigqueue (3),
->   .BR sigevent (7)
-> +.\".IP
-> +.\"See also the
-> +.\".I sigevent
-> +.\"structure and the
-> +.\".I siginfo_t
-> +.\"type in this page.
->   .TP
->   .I ssize_t
->   .IP
-> 
-> Those 2 man pages aren't very related to this type,
-> and instead are related to 'siginfo_t', which contains a member of
-> type 'union sigval'.
-> So I prefer to refer to 'siginfo_t',
-> and there we will refer to those pages.
-
-That sounds okay to me. I presume you plan to uncomment the
-lines above that mention sigevent and siginfo_t, right?
-
-Cheers,
-
-Michael
-
-
+diff --git a/man7/system_data_types.7 b/man7/system_data_types.7
+new file mode 100644
+index 000000000..8072f739b
+--- /dev/null
++++ b/man7/system_data_types.7
+@@ -0,0 +1,280 @@
++.\" Copyright (c) 2020 by Alejandro Colomar <colomar.6.4.3@gmail.com>
++.\"
++.\" %%%LICENSE_START(VERBATIM)
++.\" Permission is granted to make and distribute verbatim copies of this
++.\" manual provided the copyright notice and this permission notice are
++.\" preserved on all copies.
++.\"
++.\" Permission is granted to copy and distribute modified versions of this
++.\" manual under the conditions for verbatim copying, provided that the
++.\" entire resulting derived work is distributed under the terms of a
++.\" permission notice identical to this one.
++.\"
++.\" Since the Linux kernel and libraries are constantly changing, this
++.\" manual page may be incorrect or out-of-date.  The author(s) assume no
++.\" responsibility for errors or omissions, or for damages resulting from
++.\" the use of the information contained herein.  The author(s) may not
++.\" have taken the same level of care in the production of this manual,
++.\" which is licensed free of charge, as they might when working
++.\" professionally.
++.\"
++.\" Formatted or processed versions of this manual, if unaccompanied by
++.\" the source, must acknowledge the copyright and authors of this work.
++.\" %%%LICENSE_END
++.\"
++.\"
++.TH SYSTEM_DATA_TYPES 7 2020-09-13 "Linux" "Linux Programmer's Manual"
++.SH NAME
++system_data_types \- overview of system data types
++.SH DESCRIPTION
++.\" TODO:
++.\"	* Add types
++.\"	* Curate "See also"
++.\" Layout:
++.\"	A list of type names (the struct/union keyword will be omitted).
++.\"	Each entry will have the following parts:
++.\"		* Include
++.\"			The headers will be in the following order:
++.\"			1) The main header that shall define the type
++.\"			   according to the C Standard,
++.\"			   and
++.\"			   the main header that shall define the type
++.\"			   according to POSIX,
++.\"			   in alphabetical order.
++.\"			;
++.\"			2) All other headers that shall define the type
++.\"			   as described in the previous header(s)
++.\"			   according to the C Standard or POSIX,
++.\"			   in alphabetical order.
++.\"			*) All headers that define the type
++.\"			   *if* the type is not defined by C nor POSIX,
++.\"			   in alphabetical order.
++.\"
++.\"		* Definition (no "Definition" header)
++.\"			Only struct/union types will have definition;
++.\"			typedefs will remain opaque.
++.\"
++.\"		* Description (no "Description" header)
++.\"			A few lines describing the type.
++.\"
++.\"		* Conforming to
++.\"			Format: CXY and later; POSIX.1-XXXX and later.
++.\"			Forget about pre-C99 C standards (i.e., C89/C90)
++.\"
++.\"		* Notes (optional)
++.\"
++.\"		* See also
++.TP
++.I sigval
++.IP
++Include:
++.IR <signal.h> .
++.IP
++.EX
++union sigval {
++    int     sigval_int; /* Integer value */
++    void   *sigval_ptr; /* Pointer value */
++};
++.EE
++.IP
++Data passed with a signal.
++.IP
++Conforming to: POSIX.1-2001 and later.
++.IP
++See also:
++.BR pthread_sigqueue (3),
++.BR sigqueue (3),
++.BR sigevent (7)
++.\".IP
++.\"See also the
++.\".I sigevent
++.\"structure and the
++.\".I siginfo_t
++.\"type in this page.
++.TP
++.I ssize_t
++.IP
++Include:
++.IR <sys/types.h> ;
++or
++.I <aio.h>
++or
++.I <monetary.h>
++or
++.I <mqueue.h>
++or
++.I <stdio.h>
++or
++.I <sys/msg.h>
++or
++.I <sys/socket.h>
++or
++.I <sys/uio.h>
++or
++.IR <unistd.h> .
++.IP
++Used for a count of bytes or an error indication.
++According to POSIX, it shall be a signed integer type
++capable of storing values at least in the range [-1,
++.BR SSIZE_MAX ].
++.IP
++Conforming to: POSIX.1-2001 and later.
++.IP
++See also:
++.BR read (2),
++.BR readlink (2),
++.BR readv (2),
++.BR recv (2),
++.BR send (2),
++.BR write (2)
++.\".IP	FIXME: When size_t is added, uncomment
++.\"See also the
++.\".I size_t
++.\"type in this page.
++.TP
++.I suseconds_t
++.IP
++Include:
++.IR <sys/types.h> ;
++or
++.I <sys/select.h>
++or
++.IR <sys/time.h> .
++.IP
++Used for time in microseconds.
++According to POSIX, it shall be a signed integer type
++capable of storing values at least in the range [-1, 1000000].
++.IP
++Conforming to: POSIX.1-2001 and later.
++.IP
++See also the
++.I timeval
++structure in this page.
++.TP
++.I time_t
++.IP
++Include:
++.I <sys/types.h>
++or
++.IR <time.h> ;
++or
++.I <sched.h>
++or
++.I <sys/msg.h>
++or
++.I <sys/select.h>
++or
++.I <sys/sem.h>
++or
++.I <sys/shm.h>
++or
++.I <sys/stat.h>
++or
++.I <sys/time.h>
++or
++.IR <utime.h> .
++.IP
++Used for time in seconds.
++According to POSIX, it shall be an integer type.
++.IP
++Conforming to: C99 and later; POSIX.1-2001 and later.
++.IP
++Notes:
++.I <sched.h>
++defines
++.I time_t
++since POSIX.1-2008.
++.IP
++See also:
++.BR stime (2),
++.BR time (2),
++.BR ctime (3),
++.BR difftime (3)
++.TP
++.I timer_t
++.IP
++Include:
++.IR <sys/types.h> ;
++or
++.IR <time.h> .
++.IP
++Used for timer ID returned by
++.BR timer_create (2).
++According to POSIX,
++there are no defined comparison or assignment operators for this type.
++.IP
++Conforming to: POSIX.1-2001 and later.
++.IP
++See also:
++.BR timer_create (2),
++.BR timer_delete (2),
++.BR timer_getoverrun (2),
++.BR timer_settime (2)
++.TP
++.I timespec
++.IP
++Include:
++.IR <time.h> ;
++or
++.I <aio.h>
++or
++.I <mqueue.h>
++or
++.I <sched.h>
++or
++.I <signal.h>
++or
++.I <sys/select.h>
++or
++.IR <sys/stat.h> .
++.IP
++.EX
++struct timespec {
++    time_t  tv_sec;  /* Seconds */
++    long    tv_nsec; /* Nanoseconds */
++};
++.EE
++.IP
++Describes times in seconds and nanoseconds.
++.IP
++Conforming to: C11 and later; POSIX.1-2001 and later.
++.IP
++See also:
++.BR clock_gettime (2),
++.BR clock_nanosleep (2),
++.BR nanosleep (2),
++.BR timerfd_gettime (2),
++.BR timer_gettime (2)
++.TP
++.I timeval
++.IP
++Include:
++.IR <sys/time.h> ;
++or
++.I <sys/resource.h>
++or
++.I <sys/select.h>
++or
++.IR <utmpx.h> .
++.IP
++.EX
++struct timeval {
++    time_t      tv_sec;  /* Seconds */
++    suseconds_t tv_usec; /* Microseconds */
++};
++.EE
++.IP
++Describes times in seconds and microseconds.
++.IP
++Conforming to: POSIX.1-2001 and later.
++.IP
++See also:
++.BR gettimeofday (2),
++.BR select (2),
++.BR utimes (2),
++.BR adjtime (3),
++.BR futimes (3),
++.BR timeradd (3)
++.SH NOTES
++The structures described in this manual page shall contain,
++at least, the members shown in their definition, in no particular order.
 -- 
-Michael Kerrisk
-Linux man-pages maintainer; http://www.kernel.org/doc/man-pages/
-Linux/UNIX System Programming Training: http://man7.org/training/
+2.28.0
+
