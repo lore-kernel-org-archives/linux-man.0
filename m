@@ -2,69 +2,70 @@ Return-Path: <SRS0=KjTN=C2=vger.kernel.org=linux-man-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-6.6 required=3.0 tests=BAYES_00,DKIM_SIGNED,
+X-Spam-Status: No, score=-12.6 required=3.0 tests=BAYES_00,DKIM_SIGNED,
 	DKIM_VALID,DKIM_VALID_AU,FREEMAIL_FORGED_FROMDOMAIN,FREEMAIL_FROM,
-	HEADER_FROM_DIFFERENT_DOMAINS,MAILING_LIST_MULTI,SPF_HELO_NONE,SPF_PASS,
-	USER_AGENT_GIT autolearn=no autolearn_force=no version=3.4.0
+	HEADER_FROM_DIFFERENT_DOMAINS,INCLUDES_PATCH,MAILING_LIST_MULTI,SIGNED_OFF_BY,
+	SPF_HELO_NONE,SPF_PASS,USER_AGENT_GIT autolearn=ham autolearn_force=no
+	version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 83BE3C433E2
-	for <linux-man@archiver.kernel.org>; Thu, 17 Sep 2020 10:46:34 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 3D273C433E2
+	for <linux-man@archiver.kernel.org>; Thu, 17 Sep 2020 10:46:36 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.kernel.org (Postfix) with ESMTP id 3DFCF2074B
-	for <linux-man@archiver.kernel.org>; Thu, 17 Sep 2020 10:46:34 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTP id E1C392087D
+	for <linux-man@archiver.kernel.org>; Thu, 17 Sep 2020 10:46:35 +0000 (UTC)
 Authentication-Results: mail.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="WTTPJp9o"
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="TG4NfDdz"
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1726715AbgIQKop (ORCPT <rfc822;linux-man@archiver.kernel.org>);
-        Thu, 17 Sep 2020 06:44:45 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:52100 "EHLO
+        id S1726611AbgIQKq1 (ORCPT <rfc822;linux-man@archiver.kernel.org>);
+        Thu, 17 Sep 2020 06:46:27 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:52180 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1726610AbgIQKof (ORCPT
-        <rfc822;linux-man@vger.kernel.org>); Thu, 17 Sep 2020 06:44:35 -0400
-Received: from mail-wm1-x32b.google.com (mail-wm1-x32b.google.com [IPv6:2a00:1450:4864:20::32b])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 10B3FC06174A
-        for <linux-man@vger.kernel.org>; Thu, 17 Sep 2020 03:44:17 -0700 (PDT)
-Received: by mail-wm1-x32b.google.com with SMTP id b79so1534883wmb.4
-        for <linux-man@vger.kernel.org>; Thu, 17 Sep 2020 03:44:16 -0700 (PDT)
+        with ESMTP id S1726719AbgIQKop (ORCPT
+        <rfc822;linux-man@vger.kernel.org>); Thu, 17 Sep 2020 06:44:45 -0400
+Received: from mail-wm1-x344.google.com (mail-wm1-x344.google.com [IPv6:2a00:1450:4864:20::344])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id A68AAC061351
+        for <linux-man@vger.kernel.org>; Thu, 17 Sep 2020 03:44:25 -0700 (PDT)
+Received: by mail-wm1-x344.google.com with SMTP id k18so1532559wmj.5
+        for <linux-man@vger.kernel.org>; Thu, 17 Sep 2020 03:44:25 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=gmail.com; s=20161025;
         h=from:to:cc:subject:date:message-id:in-reply-to:references
          :mime-version:content-transfer-encoding;
-        bh=tGSBbnvHyIePkqPBhuPQFP1LpJ5Mp8RWWrre9bOLaHA=;
-        b=WTTPJp9o8s6mmH1OwAOrZk2GICnC516QtT8lj3Jr1spOb0ayi3K2z0CMrX8jDACFRO
-         Yxyb+Rj347oajiFsC0+FUJlzvqhNnY+IGkLFy8RbX0gM7yKMamYblvhauyZfCw8zXnHZ
-         My87u/DJLpJzsXNYiW6JK7TMmRIwUXlu/fjuzlrJ4d5Xmx/OvfQnl21HGtnOebVsonAo
-         EYJIgBqXT2hxOrSrqkdLjG2LEZbgqMAm9CMnJy9ZFoBsEyHbEEF2SyMUhQYJl6k9XCRy
-         7gSt5XtSiO20ibH14tp1NjH0Dc5Z4ArtDnBmiaWDoiszBHskS8UWEodkP8U0dITePlLr
-         eH9w==
+        bh=jEqN9uRtUbNLARR7fnhQQ33gUaifFt81kQk3eewn194=;
+        b=TG4NfDdzh9ZP8WmECo31MED6EfxCtbfUXtUGG7FhiuraH3MNzYQJSw5cgRvAf1h4xs
+         qZCbmlNbKZmPNkoc2gnfSxspHUqHcMaHa8ikHzk9q+q5HpQKsi4WtELLzXxzCSqMUz5B
+         t1Q3o9wYAFvFnCDctUVwxlTwEFX0eLvcwJjCuA3FpWT3hhsC9qknLATwwC99waC40mgN
+         vOm7JAA6pOSRkWbM+lcaOm48X6zvMpE4l5iimUrfFuweKC98+M4ypDeGwetXfsM3l//O
+         A2tJX7FzKC4ethVIk7BP5lU3iwClRSg6dujkQ1KgREcF5P1vgocYjnACBEi6/SNmplCA
+         B4IA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
         h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
          :references:mime-version:content-transfer-encoding;
-        bh=tGSBbnvHyIePkqPBhuPQFP1LpJ5Mp8RWWrre9bOLaHA=;
-        b=VSjW4QHIk2eHvx8PUMs25QnvsOS2VPnFkC8RLegxB1+6wKOH7qwXUHl+PNfHvNRUJQ
-         tfkxVzjHcYQ7gTCb3FLEctRsM/Woilv4bWOedQE8zc+PvMOIYzcALZknEQ7evaL2viv3
-         FLQ2gxQhMzcAgi2pCfY00fEYumOicvXl3AYrT9XcxMUGSwYh/5NQ8wgiXA1s43v+NaEe
-         1iR0xJhcLS0TNNfWeQD4fJCQXobU1fD4Cxk3yPw0RhJd2h7B5xBu91wzP53XZ9amtGbz
-         Abvw/G/fKTwlpdCE+krOKaYi01NGDeZaGkwn+oeBA5ni6Zy6nS/XI2Zfw3Tt0kyIaBj5
-         Qf3g==
-X-Gm-Message-State: AOAM532N5e8a8mDjiib+682IArq94qm/KS2+Pdv1Dumotj7jfmU+YATY
-        1bPl02YzYLj/wkrLS1GkwbYd2S/WQUuEzA==
-X-Google-Smtp-Source: ABdhPJzFi4ArQUhCjq8lQy7ClfXeHPlfcU/TCQAyZI+bP1MeEv8N4aXHIUkJ7uUQmpOCqBNjn1CJMA==
-X-Received: by 2002:a7b:c4d1:: with SMTP id g17mr9020013wmk.167.1600339455738;
-        Thu, 17 Sep 2020 03:44:15 -0700 (PDT)
+        bh=jEqN9uRtUbNLARR7fnhQQ33gUaifFt81kQk3eewn194=;
+        b=SRAR8cGX378LRBt6qZRSPcHi8YTRv7K9yzTedtlv9+63Xe7xhEl1pCOBPe/TJJCYRP
+         yADsmJSMeEqq3d5jehk5sUYMVM29Ze6x4ivic66wiHYcdF2MM7yJ/heNO402wUbp6gJf
+         66sq9P044KIK9cISg9MW29Ke5mcwYoM5jYx97er3GEfr34SezCaQM5o2nossHeh86Chz
+         MjTb8MaBNGAvTUoJ+HbzbgSoeGNGrwNPS+3AogYLImSt94eGCeH71HCbtgp9ilIDcwgG
+         vQty6T46V5CnNnSsTGXJ4qadVMnoAKe0CGYNpp8Zy5IuVAiqYbjB86aHULtmqlHlXca4
+         pkAg==
+X-Gm-Message-State: AOAM5335hm0QFBJ7/tcGHVnV6ahzWLrpZZFuSC6gXIHleZs/zycrLhF3
+        //xvQ6So1kFunuTnRMsgaM4=
+X-Google-Smtp-Source: ABdhPJy721IxH/ZRTr6PkVWZbzgyM0xOJhxWBNj4kfi1yUrzhVy3miauomem7jBDDr8U0OpLtj6YHw==
+X-Received: by 2002:a1c:f003:: with SMTP id a3mr9406546wmb.170.1600339464362;
+        Thu, 17 Sep 2020 03:44:24 -0700 (PDT)
 Received: from localhost.localdomain ([170.253.60.68])
-        by smtp.googlemail.com with ESMTPSA id l16sm42807186wrb.70.2020.09.17.03.44.14
+        by smtp.googlemail.com with ESMTPSA id l16sm42807186wrb.70.2020.09.17.03.44.23
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Thu, 17 Sep 2020 03:44:15 -0700 (PDT)
+        Thu, 17 Sep 2020 03:44:23 -0700 (PDT)
 From:   Alejandro Colomar <colomar.6.4.3@gmail.com>
 To:     mtk.manpages@gmail.com
 Cc:     linux-man@vger.kernel.org, tg@mirbsd.org, fweimer@redhat.com,
         jwilk@jwilk.net, libbsd@lists.freedesktop.org,
         Andries.Brouwer@cwi.nl, Alejandro Colomar <colomar.6.4.3@gmail.com>
-Subject: [PATCH v7 0/8] Document system data types
-Date:   Thu, 17 Sep 2020 12:42:58 +0200
-Message-Id: <20200917104305.12270-1-colomar.6.4.3@gmail.com>
+Subject: [PATCH v7 7/8] timespec.3: Add link page
+Date:   Thu, 17 Sep 2020 12:43:05 +0200
+Message-Id: <20200917104305.12270-8-colomar.6.4.3@gmail.com>
 X-Mailer: git-send-email 2.28.0
 In-Reply-To: <6dc80c25-85bf-925c-49c2-f79865027c0f@gmail.com>
 References: <6dc80c25-85bf-925c-49c2-f79865027c0f@gmail.com>
@@ -74,59 +75,19 @@ Precedence: bulk
 List-ID: <linux-man.vger.kernel.org>
 X-Mailing-List: linux-man@vger.kernel.org
 
-Hi Michael,
-
-I'm proud enough of the result to commit it now :-}.
-
-Changelog since v6:
-
-- ffix
-- wsfix
-- wfix
-- Change ordering of headers (no actual change)
-- Curate See also (sigval)
-- Add NOTES section (about structures)
-
-On 2020-09-17 12:27, Michael Kerrisk (man-pages) wrote:
-> That sounds okay to me. I presume you plan to uncomment the
-> lines above that mention sigevent and siginfo_t, right?
-
-Right.
-
-Cheers,
-
-Alex
-
-
-Alejandro Colomar (8):
-  system_data_types.7: Document types: sigval, ssize_t, suseconds_t,
-    time_t, timer_t, timespec, timeval
-  sigval.3: Add link page
-  ssize_t.3: Add link page
-  suseconds_t.3: Add link page
-  time_t.3: Add link page
-  timer_t.3: Add link page
-  timespec.3: Add link page
-  timeval.3: Add link page
-
- man3/sigval.3            |   1 +
- man3/ssize_t.3           |   1 +
- man3/suseconds_t.3       |   1 +
- man3/time_t.3            |   1 +
- man3/timer_t.3           |   1 +
- man3/timespec.3          |   1 +
- man3/timeval.3           |   1 +
- man7/system_data_types.7 | 280 +++++++++++++++++++++++++++++++++++++++
- 8 files changed, 287 insertions(+)
- create mode 100644 man3/sigval.3
- create mode 100644 man3/ssize_t.3
- create mode 100644 man3/suseconds_t.3
- create mode 100644 man3/time_t.3
- create mode 100644 man3/timer_t.3
+Signed-off-by: Alejandro Colomar <colomar.6.4.3@gmail.com>
+---
+ man3/timespec.3 | 1 +
+ 1 file changed, 1 insertion(+)
  create mode 100644 man3/timespec.3
- create mode 100644 man3/timeval.3
- create mode 100644 man7/system_data_types.7
 
+diff --git a/man3/timespec.3 b/man3/timespec.3
+new file mode 100644
+index 000000000..db50c0f09
+--- /dev/null
++++ b/man3/timespec.3
+@@ -0,0 +1 @@
++.so man7/system_data_types.7
 -- 
 2.28.0
 
