@@ -2,133 +2,91 @@ Return-Path: <SRS0=SL3d=C3=vger.kernel.org=linux-man-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-3.9 required=3.0 tests=BAYES_00,DKIM_SIGNED,
-	DKIM_VALID,DKIM_VALID_AU,HEADER_FROM_DIFFERENT_DOMAINS,MAILING_LIST_MULTI,
-	SPF_HELO_NONE,SPF_PASS,URIBL_BLOCKED autolearn=no autolearn_force=no
+X-Spam-Status: No, score=-12.6 required=3.0 tests=BAYES_00,DKIM_SIGNED,
+	DKIM_VALID,DKIM_VALID_AU,FREEMAIL_FORGED_FROMDOMAIN,FREEMAIL_FROM,
+	HEADER_FROM_DIFFERENT_DOMAINS,INCLUDES_PATCH,MAILING_LIST_MULTI,SIGNED_OFF_BY,
+	SPF_HELO_NONE,SPF_PASS,USER_AGENT_GIT autolearn=ham autolearn_force=no
 	version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id A252CC43463
-	for <linux-man@archiver.kernel.org>; Fri, 18 Sep 2020 02:48:14 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id E7F6AC43463
+	for <linux-man@archiver.kernel.org>; Fri, 18 Sep 2020 11:29:09 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.kernel.org (Postfix) with ESMTP id 0C788235F8
-	for <linux-man@archiver.kernel.org>; Fri, 18 Sep 2020 02:48:14 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTP id A46AF21D42
+	for <linux-man@archiver.kernel.org>; Fri, 18 Sep 2020 11:29:09 +0000 (UTC)
 Authentication-Results: mail.kernel.org;
-	dkim=pass (2048-bit key) header.d=hadrons.org header.i=@hadrons.org header.b="buszeXJO"
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="Hta1mPyk"
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1726874AbgIRCsM (ORCPT <rfc822;linux-man@archiver.kernel.org>);
-        Thu, 17 Sep 2020 22:48:12 -0400
-Received: from 2.152.178.181.dyn.user.ono.com ([2.152.178.181]:59520 "EHLO
-        pulsar.hadrons.org" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1726457AbgIRCsJ (ORCPT
-        <rfc822;linux-man@vger.kernel.org>); Thu, 17 Sep 2020 22:48:09 -0400
-X-Greylist: delayed 1917 seconds by postgrey-1.27 at vger.kernel.org; Thu, 17 Sep 2020 22:48:07 EDT
-DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed; d=hadrons.org
-        ; s=201908; h=In-Reply-To:Content-Type:MIME-Version:References:Message-ID:
-        Subject:Cc:To:From:Date:From:Reply-To:Subject:Content-Transfer-Encoding:
-        Content-ID:Content-Description:X-Debbugs-Cc;
-        bh=eUlugoinU08njf111IfQkAsbakl+CMNPJE/J5QwiPn4=; b=buszeXJOPsx1Z9EsXvl1ynRm5h
-        JcdSCYyDl5TM3MjzYNPaL5jFxmuWWkgxYxlgrYB75jOZ8mj3QpSDfUfg3kUL0uV4oDKqO4jddsrza
-        V+GMqV+Q2x2fOZBUtNa7pbC0lZyOs0GQSSRqDbctGONSzpG1elFi7M4qbHafcY6sjgWtyTEJP91ui
-        Uo8lli3xiGsDemWAxyDYd8buT3nctbn2SVPpLlRWRMMQ6+01dTPLzYwS8w0bnPBaDuxl5Pwnhhq7j
-        WX+IpNQ1sHgJKmxFs0sW9grZjIjv7U3XG6CEYX2EfphF90mJny/jh4Hci+dncae1PpcvWEDx+eTTP
-        Z0Mq6NEw==;
-Received: from guillem by pulsar.hadrons.org with local (Exim 4.92)
-        (envelope-from <guillem@hadrons.org>)
-        id 1kJ65o-0004AZ-2E; Fri, 18 Sep 2020 04:25:44 +0200
-Date:   Fri, 18 Sep 2020 04:16:03 +0200
-From:   Guillem Jover <guillem@hadrons.org>
-To:     "Michael Kerrisk (man-pages)" <mtk.manpages@gmail.com>
-Cc:     Alejandro Colomar <colomar.6.4.3@gmail.com>,
-        Florian Weimer <fweimer@redhat.com>,
-        linux-man <linux-man@vger.kernel.org>,
-        libbsd@lists.freedesktop.org
-Subject: Re: [IDEA] New pages for types: structs and typedfefs
-Message-ID: <20200918021603.GA596604@thunder.hadrons.org>
-Mail-Followup-To: Guillem Jover <guillem@hadrons.org>,
-        "Michael Kerrisk (man-pages)" <mtk.manpages@gmail.com>,
-        Alejandro Colomar <colomar.6.4.3@gmail.com>,
-        Florian Weimer <fweimer@redhat.com>,
-        linux-man <linux-man@vger.kernel.org>, libbsd@lists.freedesktop.org
-References: <fb6463f6-49d7-e473-d5e1-1cdf8375e498@gmail.com>
- <6c5b89f8-4281-4434-cbee-28f88d07920c@gmail.com>
- <4ea99048-4bfd-9cba-44cd-9c37fdad8fce@gmail.com>
- <CAKgNAkjys+LYn1qaSXhM2gJfkv_UOnpeNPyh3QCqNLcMNBKB+g@mail.gmail.com>
+        id S1726241AbgIRL3D (ORCPT <rfc822;linux-man@archiver.kernel.org>);
+        Fri, 18 Sep 2020 07:29:03 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:56112 "EHLO
+        lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1726435AbgIRL2a (ORCPT
+        <rfc822;linux-man@vger.kernel.org>); Fri, 18 Sep 2020 07:28:30 -0400
+Received: from mail-wm1-x335.google.com (mail-wm1-x335.google.com [IPv6:2a00:1450:4864:20::335])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id AAE7FC061788
+        for <linux-man@vger.kernel.org>; Fri, 18 Sep 2020 04:28:26 -0700 (PDT)
+Received: by mail-wm1-x335.google.com with SMTP id w2so4978042wmi.1
+        for <linux-man@vger.kernel.org>; Fri, 18 Sep 2020 04:28:26 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20161025;
+        h=from:to:cc:subject:date:message-id:in-reply-to:references
+         :mime-version:content-transfer-encoding;
+        bh=IA68BhM62SsR1jnhT7Hv3U9eGSBP2CepQnuQ0BuEK5I=;
+        b=Hta1mPykuXlbaWRbkZbAmn4vhkSaQbzOu3Ee+rh8ULafj2j1/3BAjANeVuFqoKpfgC
+         5hGHJbHb53LASONEV4aC8txZF87/KxFKvnj1UhBZym8Vr5AP7BUzQU8HbyS+B4YN/zp+
+         6YyqDWQJl0l+wwQ7ccrY2aoUZ4Jwr/Fryysc2c9AmuWUxW/TlCX9g/JcO0OdzBlzP56X
+         TuH58so1p/Y50bWiMalIBURywzwukYwo5rQUlEdkzIVJgmdMEEh9m+eJRdOsntROI+T9
+         YqCl1BtThJAiZkx2EA1QDZuyhieKauXXW7BIzi8WzWXiC3i2ihNFsgwUojyz8zb1GMCP
+         yS/A==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20161025;
+        h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
+         :references:mime-version:content-transfer-encoding;
+        bh=IA68BhM62SsR1jnhT7Hv3U9eGSBP2CepQnuQ0BuEK5I=;
+        b=Ivf6ijQ+mdn2/9cvPZbq0UwBsNQ9O8CLH+OqCbMO3nlS949s48HJhGXafFNtptJWdH
+         nwkA0gKYu11BDaGXV41fGPe1xBQ6UJfR/5WUjCkrifZPBCioo/oE0FPpL9ODYnxKo6ND
+         cUtel67olneNSy8IkWolcjRUxFbYNCAs2XEZHnbU0j2kjEVFJEQZ1mt7+kAztoYpp0mK
+         nmadSwHcVV3opZNiFUHVYl3BvoAIh/MdKgJg7gakvPLp5sxTHYVQBabj26vyALW8OVOk
+         P+hFO+BpFDoZhgbbypW3i55feVR8+SZ1if07oi9g0Lg2Z1Px3Xr4wGoW9B+EFO51urMx
+         l2gA==
+X-Gm-Message-State: AOAM532VdB3FYcYerEyl7fKKfK+k4TtD62b9DK9gCVnI7YeTl+DzUF43
+        q2GRtlL0NTtn+AF5S/yKFzo=
+X-Google-Smtp-Source: ABdhPJxlua3P8EYhA8FuiRj5YQm97DlkdVvf6zUT3afPo+ErLls2qLxqC0iVN+rZeFgqROqaktBxng==
+X-Received: by 2002:a1c:4c0d:: with SMTP id z13mr14645028wmf.115.1600428505320;
+        Fri, 18 Sep 2020 04:28:25 -0700 (PDT)
+Received: from localhost.localdomain ([170.253.60.68])
+        by smtp.googlemail.com with ESMTPSA id s26sm4504962wmh.44.2020.09.18.04.28.24
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Fri, 18 Sep 2020 04:28:24 -0700 (PDT)
+From:   Alejandro Colomar <colomar.6.4.3@gmail.com>
+To:     mtk.manpages@gmail.com
+Cc:     linux-man@vger.kernel.org, libc-alpha@sourceware.org,
+        Alejandro Colomar <colomar.6.4.3@gmail.com>
+Subject: [PATCH 2/2] size_t.3: New link to new documented type in system_data_types(7)
+Date:   Fri, 18 Sep 2020 13:27:56 +0200
+Message-Id: <20200918112755.21428-3-colomar.6.4.3@gmail.com>
+X-Mailer: git-send-email 2.28.0
+In-Reply-To: <20200918112755.21428-1-colomar.6.4.3@gmail.com>
+References: <20200918112755.21428-1-colomar.6.4.3@gmail.com>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <CAKgNAkjys+LYn1qaSXhM2gJfkv_UOnpeNPyh3QCqNLcMNBKB+g@mail.gmail.com>
+Content-Transfer-Encoding: 8bit
 Precedence: bulk
 List-ID: <linux-man.vger.kernel.org>
 X-Mailing-List: linux-man@vger.kernel.org
 
-Hi!
+Signed-off-by: Alejandro Colomar <colomar.6.4.3@gmail.com>
+---
+ man3/size_t.3 | 1 +
+ 1 file changed, 1 insertion(+)
+ create mode 100644 man3/size_t.3
 
-[ I see this has already been merged, just giving some little context,
-  from the libbsd side. :) ]
+diff --git a/man3/size_t.3 b/man3/size_t.3
+new file mode 100644
+index 000000000..db50c0f09
+--- /dev/null
++++ b/man3/size_t.3
+@@ -0,0 +1 @@
++.so man7/system_data_types.7
+-- 
+2.28.0
 
-On Sun, 2020-09-13 at 14:01:22 +0200, Michael Kerrisk (man-pages) wrote:
-> On Sat, 12 Sep 2020 at 10:59, Alejandro Colomar <colomar.6.4.3@gmail.com> wrote:
-> > On 2020-09-12 08:33, Michael Kerrisk (man-pages) wrote:
-> >  > Your not the first to suggest this. Most recently, if I recall
-> >  > correctly, Florian also suggested it.
-> >  >
-> >  > The idea seems reasonable, but I wonder about the best way of doing it.
-
-Yes, this sounds great, this is also something I've missed from time
-to time. :)
-
-> > libbsd already provides a few pages on types.  Maybe we could have a
-> > look at them.  At least I've seen 'man timespec' (which redirects to
-> > timeval.3bsd):
-> >
-> > https://gitlab.freedesktop.org/libbsd/libbsd/-/blob/master/man/timeval.3bsd
-
-Ah, timespec.3bsd is actually (at least) a man-db construct, libbsd
-does not install an actual link on disk, I assume the .Nm macros in
-the .Sh NAME section are being indexed. I should add such explicit
-link for completeness though, thanks!
-
-> >  > Then of course, we'd need to have links to that page, so that
-> >  > people could just type 'man timer_t'. What section should the links
-> >  > be in? The reasonable candidates would be section 3 or 7. I'm not
-> >  > yet sure which is better. But the point is that we'd have files
-> >  > such as timer_t.3 (or timer_t.7) that are link pages containing the
-> >  > line:
-> >  >
-> >  >      .so man7/system_data_types.7
-> >
-> > Sure.  And for the structs, I'd allow:
-> >
-> > 'man struct timespec'   (For simplicity)
-> > 'man struct-timespec'   (Similar to the git man pages)
-> > 'man timespec'          (For compatibility with libbsd)
-> 
-> Mainly, I'm interested in the last case. That's the one I think that
-> people would most likely use. In a follow-up mail, you expressed
-> concern with conflicts with libbsd pages. I'm not too worried about
-> that. There are already *many* conflicts between libbsd and man-pages.
-
-In libbsd I try to have man pages for at least every function and macro,
-ideally originating from the related BSD. The timeval.3bsd came mostly
-out of a need to document the TIMEVAL_TO_TIMESPEC and TIMESPEC_TO_TIMEVAL
-macros, and finding this on NetBSD:
-
-  <http://man.netbsd.org/timeval.3>
-
-and they do seem to have dedicated man pages for some other
-structures, which seems rather nice, and indeed worth imitating.
-
-Regarding conflicts, I specifically chose to place all libbsd man
-pages in the 3bsd section (both in filename and in the .Dt macro, to
-avoid an actual conflict, and to not override the system man pages.
-So once a man page appears in say man-pages, then that will take
-precedence:
-
-  $ man explicit_bzero # man-pages version recentish addition
-
-vs
-
-  $ man 3bsd explicit_bzero # libbsd version
-
-Thanks,
-Guillem
