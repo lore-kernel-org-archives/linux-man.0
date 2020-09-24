@@ -8,64 +8,66 @@ X-Spam-Status: No, score=-12.8 required=3.0 tests=BAYES_00,DKIM_SIGNED,
 	SPF_HELO_NONE,SPF_PASS,USER_AGENT_GIT autolearn=ham autolearn_force=no
 	version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 583D3C4727D
-	for <linux-man@archiver.kernel.org>; Thu, 24 Sep 2020 10:13:33 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 4899BC4363D
+	for <linux-man@archiver.kernel.org>; Thu, 24 Sep 2020 10:13:35 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.kernel.org (Postfix) with ESMTP id 0195D21D24
-	for <linux-man@archiver.kernel.org>; Thu, 24 Sep 2020 10:13:32 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTP id 01D1221D24
+	for <linux-man@archiver.kernel.org>; Thu, 24 Sep 2020 10:13:34 +0000 (UTC)
 Authentication-Results: mail.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="YONzIrGV"
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="J89molIb"
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1727349AbgIXKNc (ORCPT <rfc822;linux-man@archiver.kernel.org>);
-        Thu, 24 Sep 2020 06:13:32 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:46456 "EHLO
+        id S1727352AbgIXKNe (ORCPT <rfc822;linux-man@archiver.kernel.org>);
+        Thu, 24 Sep 2020 06:13:34 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:46464 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1726949AbgIXKNc (ORCPT
-        <rfc822;linux-man@vger.kernel.org>); Thu, 24 Sep 2020 06:13:32 -0400
-Received: from mail-wm1-x341.google.com (mail-wm1-x341.google.com [IPv6:2a00:1450:4864:20::341])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 3FC4AC0613CE
-        for <linux-man@vger.kernel.org>; Thu, 24 Sep 2020 03:13:32 -0700 (PDT)
-Received: by mail-wm1-x341.google.com with SMTP id d4so2916322wmd.5
-        for <linux-man@vger.kernel.org>; Thu, 24 Sep 2020 03:13:32 -0700 (PDT)
+        with ESMTP id S1726949AbgIXKNe (ORCPT
+        <rfc822;linux-man@vger.kernel.org>); Thu, 24 Sep 2020 06:13:34 -0400
+Received: from mail-wm1-x343.google.com (mail-wm1-x343.google.com [IPv6:2a00:1450:4864:20::343])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 3B4D2C0613CE
+        for <linux-man@vger.kernel.org>; Thu, 24 Sep 2020 03:13:34 -0700 (PDT)
+Received: by mail-wm1-x343.google.com with SMTP id q9so2937371wmj.2
+        for <linux-man@vger.kernel.org>; Thu, 24 Sep 2020 03:13:34 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=gmail.com; s=20161025;
-        h=from:to:cc:subject:date:message-id:mime-version
-         :content-transfer-encoding;
-        bh=ereKgH/OhPvP8Pl+SsxLimFCCqX3CQBGmYUng5V4PZE=;
-        b=YONzIrGVUTMQCYnFluGFdVCxwAz1icXWrhE5wuaedtqL5UW9ffDhnlxbGjm7yhMj3M
-         Y5HnS8brUBHa3J+5iiuRIVJ7TP2olvzqCS1xan9sxP4F8ij5uDnkAoNYHQ22aho/CxH8
-         kJeIJo/qVHYbg3Rg/e7u3KekPQfqhOXPtcqgynVhGbV2hp1gUgeljq0qYa0SKVUH58le
-         e0ZKQJmNRoRtrqJkE1s/uWbGEpbEJE+EMuBmQ2WiTuL7SqMRlwyeiCrWm16BJuetlqLx
-         vsJii0s3NBVTafesYrU6pp/9EtlV/ofgg8sqVPNNu38szq1w7m1N76FIBDUnSsNvl+Yv
-         WcfQ==
+        h=from:to:cc:subject:date:message-id:in-reply-to:references
+         :mime-version:content-transfer-encoding;
+        bh=y+KApmXJsA8IRNFNFOAKrcsi7uFyg47zK/eZwJ/Wtzk=;
+        b=J89molIbyjrtGuNsqhCEkMqTAa0TO/5A3f6sRLBTz28/d9/fQJtEsrjn/OrvQc7TJf
+         /Q9uODYRLItloMVV5bieD3eV4FgbAEpC7prITLzqBJrBbpwN9GYCfEtSEfvZteYyrVOB
+         0hvTjTWjSxipADANuzxcH2Fie60ebu0Sn22jDxqLv2F8VGV49/sNJcJ1Rp0JsxiWKNVc
+         hctpj3+d0BEHORw5OOlmG/OzS4k1HbUMAN5ELamZPmmrZAGueyJydUxW+6qiMyLc0M+N
+         V9ZwEl+Mff4a/0VueCGcQ053X6039jDz+2uEMR+W6U807lE/KXb4pMjtolZ15tqtMcBd
+         fBWg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
-        h=x-gm-message-state:from:to:cc:subject:date:message-id:mime-version
-         :content-transfer-encoding;
-        bh=ereKgH/OhPvP8Pl+SsxLimFCCqX3CQBGmYUng5V4PZE=;
-        b=ntw4QjAr+gLRSimGgJ2sc9AyJrzP7Vy4J6ydXJxwoA4bC3ojgB/GjjmCIAhDbwKIhP
-         P+KV/jay8a4NQPIw/xzm3nXUxdp7RwY10tYwmgI8gGwrpe/kTHPVEi4ed9VCIMJivyYA
-         L25+qMcJGkRmIR9RxC+5N3t/JBtxu4KHouZvCYcwDv5DrP8GeGk8zfBgnF6jDoZ7/7Fo
-         oe6lhnEQkisVhfwDgMpI3ZOP2IQcfLYIETWF80Y4Thm8XEXPjKSB9OJdNK5Dz+BUNwoo
-         +XYfr/NcYAn5buBf06gsA9mVdzr9c425VQMh8J/SvrrB3T0YxeLQmsv19XCrfiSPFdge
-         +phw==
-X-Gm-Message-State: AOAM531UFWreL8hJX62iBJqxwzVorMTf3+moPPuVZ+7JNlAAvS15r7oI
-        5cIVQklmF6C1npHoXTvlg60=
-X-Google-Smtp-Source: ABdhPJwdCa363I+AGbJkgX5qO0yIYSx/G0wpLy3g2NTxEJhUeKp163d9tDUTR+NcVK4NaXjbHnZE0w==
-X-Received: by 2002:a1c:bcd6:: with SMTP id m205mr4097981wmf.68.1600942410910;
-        Thu, 24 Sep 2020 03:13:30 -0700 (PDT)
+        h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
+         :references:mime-version:content-transfer-encoding;
+        bh=y+KApmXJsA8IRNFNFOAKrcsi7uFyg47zK/eZwJ/Wtzk=;
+        b=Mm8nqFWY1cTx6+foUKUg9U4Mu+N17JdGAaTRm5UoGzOuRnggJ/BD/LsgjsGvy0tBzZ
+         ylLoUa8Sd4l6LaCoyM99Iv3ah5j/LORIYCmKmmgQ3Bl/zD40sNmURzP77aq2aHjMAMut
+         avr7lcEmUj5zJcQFZ65asQc5SjIm59+BfCNgztXeVk/kx0ZDmtEThT7MACA0pTvbaMC/
+         asLS525QdJ5k6Dar1e5549P8yrEi5IZilOAv6okqG70Wf/RmgiGUhwehEScnS6mieQBn
+         kqf4wvy5TBnFN6rMPxidEr3uwbHclUBoPeWMfDXRu+N5yV/avscqCeonPUSLFhe8hV4Y
+         7dZg==
+X-Gm-Message-State: AOAM530+xQdpnzAVXvZ/wLRXgjlAJ/fWyr/7AlSp6jds448ILGWVoIAt
+        37Wk2RIquZCgB0UN7Sprtun3Opfz1xM=
+X-Google-Smtp-Source: ABdhPJzhcycM38Du5AxuvVmBEQEkEV0rFS2I+peJeX+572k2qBRTp9OO03STQjAE6tBj07zT/iq94A==
+X-Received: by 2002:a1c:dfc2:: with SMTP id w185mr3898791wmg.15.1600942412973;
+        Thu, 24 Sep 2020 03:13:32 -0700 (PDT)
 Received: from localhost.localdomain ([170.253.60.68])
-        by smtp.googlemail.com with ESMTPSA id m4sm3333032wro.18.2020.09.24.03.13.29
+        by smtp.googlemail.com with ESMTPSA id m4sm3333032wro.18.2020.09.24.03.13.31
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Thu, 24 Sep 2020 03:13:30 -0700 (PDT)
+        Thu, 24 Sep 2020 03:13:32 -0700 (PDT)
 From:   Alejandro Colomar <colomar.6.4.3@gmail.com>
 To:     mtk.manpages@gmail.com
 Cc:     linux-man@vger.kernel.org,
         Alejandro Colomar <colomar.6.4.3@gmail.com>
-Subject: [PATCH 1/6] system_data_types.7: Add div_t
-Date:   Thu, 24 Sep 2020 12:13:04 +0200
-Message-Id: <20200924101308.78204-1-colomar.6.4.3@gmail.com>
+Subject: [PATCH 3/6] system_data_types.7: Add ldiv_t
+Date:   Thu, 24 Sep 2020 12:13:06 +0200
+Message-Id: <20200924101308.78204-3-colomar.6.4.3@gmail.com>
 X-Mailer: git-send-email 2.28.0
+In-Reply-To: <20200924101308.78204-1-colomar.6.4.3@gmail.com>
+References: <20200924101308.78204-1-colomar.6.4.3@gmail.com>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 Precedence: bulk
@@ -78,38 +80,38 @@ Signed-off-by: Alejandro Colomar <colomar.6.4.3@gmail.com>
  1 file changed, 22 insertions(+)
 
 diff --git a/man7/system_data_types.7 b/man7/system_data_types.7
-index c00345741..077d669b4 100644
+index 077d669b4..1f7c172d7 100644
 --- a/man7/system_data_types.7
 +++ b/man7/system_data_types.7
-@@ -95,6 +95,28 @@ See also:
- .BR aio_suspend (3),
- .BR aio_write (3),
- .BR lio_listio (3)
-+.\"------------------------------------- div_t ------------------------/
+@@ -226,6 +226,28 @@ Conforming to: C99 and later; POSIX.1-2001 and later.
+ .IP
+ See also:
+ .BR imaxdiv (3)
++.\"------------------------------------- ldiv_t -----------------------/
 +.TP
-+.I div_t
++.I ldiv_t
 +.IP
 +Include:
 +.IR <stdlib.h> .
 +.IP
 +.EX
 +typedef struct {
-+    int quot; /* Quotient */
-+    int rem;  /* Remainder */
-+} div_t;
++    long    quot; /* Quotient */
++    long    rem;  /* Remainder */
++} ldiv_t;
 +.EE
 +.IP
 +It is the type of the value returned by the
-+.I div (3)
++.I ldiv (3)
 +function.
 +.IP
 +Conforming to: C99 and later; POSIX.1-2001 and later.
 +.IP
 +See also:
-+.BR div (3)
- .\"------------------------------------- fenv_t -----------------------/
++.BR ldiv (3)
+ .\"------------------------------------- pid_t ------------------------/
  .TP
- .I fenv_t
+ .I pid_t
 -- 
 2.28.0
 
