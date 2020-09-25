@@ -8,63 +8,63 @@ X-Spam-Status: No, score=-12.8 required=3.0 tests=BAYES_00,DKIM_SIGNED,
 	SPF_HELO_NONE,SPF_PASS,USER_AGENT_GIT autolearn=ham autolearn_force=no
 	version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 864FDC4727E
-	for <linux-man@archiver.kernel.org>; Fri, 25 Sep 2020 07:33:02 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id DCD47C4363D
+	for <linux-man@archiver.kernel.org>; Fri, 25 Sep 2020 07:33:04 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.kernel.org (Postfix) with ESMTP id 27B2F235FA
-	for <linux-man@archiver.kernel.org>; Fri, 25 Sep 2020 07:33:02 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTP id 8EC45235FA
+	for <linux-man@archiver.kernel.org>; Fri, 25 Sep 2020 07:33:04 +0000 (UTC)
 Authentication-Results: mail.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="ZQeSyZzZ"
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="FPtFa6re"
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1727431AbgIYHdB (ORCPT <rfc822;linux-man@archiver.kernel.org>);
-        Fri, 25 Sep 2020 03:33:01 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:45870 "EHLO
+        id S1727438AbgIYHdE (ORCPT <rfc822;linux-man@archiver.kernel.org>);
+        Fri, 25 Sep 2020 03:33:04 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:45894 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1727063AbgIYHc6 (ORCPT
-        <rfc822;linux-man@vger.kernel.org>); Fri, 25 Sep 2020 03:32:58 -0400
-Received: from mail-wm1-x342.google.com (mail-wm1-x342.google.com [IPv6:2a00:1450:4864:20::342])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id AD19FC0613CE
-        for <linux-man@vger.kernel.org>; Fri, 25 Sep 2020 00:32:57 -0700 (PDT)
-Received: by mail-wm1-x342.google.com with SMTP id e11so1250757wme.0
-        for <linux-man@vger.kernel.org>; Fri, 25 Sep 2020 00:32:57 -0700 (PDT)
+        with ESMTP id S1727435AbgIYHdE (ORCPT
+        <rfc822;linux-man@vger.kernel.org>); Fri, 25 Sep 2020 03:33:04 -0400
+Received: from mail-wr1-x443.google.com (mail-wr1-x443.google.com [IPv6:2a00:1450:4864:20::443])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id C0F5EC0613CE
+        for <linux-man@vger.kernel.org>; Fri, 25 Sep 2020 00:33:03 -0700 (PDT)
+Received: by mail-wr1-x443.google.com with SMTP id o5so2365717wrn.13
+        for <linux-man@vger.kernel.org>; Fri, 25 Sep 2020 00:33:03 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=gmail.com; s=20161025;
         h=from:to:cc:subject:date:message-id:in-reply-to:references
          :mime-version:content-transfer-encoding;
-        bh=yN9x8EhWEnF4EyHwyRFk2ByRb8YJhofqc5biSFBWk0g=;
-        b=ZQeSyZzZGse5QsEkvJgrH2K/v/M1wXPHLvlAzS1vErAwiw6TgN4TxXHhI94/CtQ9HF
-         HkCkcyW9gOoQRJvGQfsCCWuVzNnG2MWKVCP2fEIepQLpfwD0s6gb5b1/3tC87+1cIx0q
-         2L0aCoINApzfdDcraGh41FVzzuIz0+8Q3mPeJlDqrZ3eITQChVJ4kFo1B0QhS7lIqEWq
-         bfkWzdftB5yatAH9POS7k7e5UZZKcL66klerVw14GoW9JNTya/3nfXaRFJqQ/w5Mvy1Y
-         RaQ4C4f07DWvP6QW+Pvvd75tudMftlzFgG0pYYgChTVwsl7D1HntQ4BBwzbVwX0H7x85
-         A+Rg==
+        bh=x7CGpTokpn42Snf1e7AsnFd7uJuVlqyQLYA1DAQvEHs=;
+        b=FPtFa6reQfIJRNEk6k5NQB1J8x9pxnFU/tUR9UDk8Y532u0ThzP7kveQOgJeVURUNc
+         yb8oIyVR99lAdbczqoMxDD/4dNbNRGvztYGcqGwer6G8E2+qV/94LJJu+/Vyrrnwt+FQ
+         zaykvgEmabSzZNa8K3/2/r10txlGoqr5Dwy4q4OaX8R2WRBcR0FIQG0E/1Ivyr5cvmXa
+         0ZuceN+fujzft/SXSvyQuTCCsIzqnhIH9CrqQNXBMQYeVgGIatVJVKo8TZCi7kIEkdr9
+         WDfeoMFwHuz7i+MhBtc238BlwEudHFSxJr6xT4tHvHXPNI09wdW94Ec99soZnPoySCZs
+         8O5w==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
         h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
          :references:mime-version:content-transfer-encoding;
-        bh=yN9x8EhWEnF4EyHwyRFk2ByRb8YJhofqc5biSFBWk0g=;
-        b=U16kVPvOkCRBkP771RS8VXTPtTllKxvx/u7OunCJHe3kwBurAW41nJfYZmzu89qafk
-         RqjSZ7eiX5dVrTi6FwLFD6sPSDe+ww+HlHPtE4xpPemdsA8xIYsrqHe+e2PM8/tsMkxP
-         aUL5q7Z5bySZH+NCD+I2mQNS8qwoJ1WvjD000dZtR1RPiNyXIu2y2P4/vpW+te9Ksbi7
-         aZ93JAG2yWoJe2FMC/bll3sw2fZRok5teI1rO0eeZgAPfwSbFI5D6c35LhQhf74XE/L1
-         qTPO/X3SZSuITJtXg18uM/9AgAEwHUPflL0AK0TiG21Om6dxXBtZIeaNPeJWgt7hD2/q
-         AHIA==
-X-Gm-Message-State: AOAM5339vHKugU/20BX5bE0lYQL3KsmnNgIfXEqTdYlMNGDsiAC9YAo5
-        aTHhzJaKAVmdBtTk5mdTb8E=
-X-Google-Smtp-Source: ABdhPJzhBEC6NZmetp6cMfBAG/T1l1j73IDTaBVJfmMxNpfrBw8BBFZAIQgCTK1k0tPFKhZzBZdjKA==
-X-Received: by 2002:a1c:4d12:: with SMTP id o18mr1680943wmh.177.1601019176389;
-        Fri, 25 Sep 2020 00:32:56 -0700 (PDT)
+        bh=x7CGpTokpn42Snf1e7AsnFd7uJuVlqyQLYA1DAQvEHs=;
+        b=Jy+MfdXn+rejHVORE9h7lWxDISGvPrQ179Jl7hZH2b/D84KE1YTQKrYoDwN4yu6wxm
+         3eHXfisVUffVZa4rv6EG0xW9JxgsUduLPN/yU/8bfciLdnQwDKWkEWW72E6rIA6nuEXs
+         an50h0TOEis1Eaymd0EBrd+7eJ7SBn5GLUfFnfaLOJs3pIt78FDxO70XK4Qr4wqKs12T
+         ov0OG6QiIntvRexKzCBl06Iz+zRO/YZeBFSQDcWcxqUmCR4KZm1J8a6y1WPeWpepp6SE
+         l2PP+x73dxaqfVMVWZeX/A1SJ0IOfcG0yr3JlCKOxv9VNox6YViSwqqI/U2rBH4HaMsz
+         mPBQ==
+X-Gm-Message-State: AOAM533Mevbnf2aMLgOyaXcq7Vyz8UMDSFWbcZT0nML/ADxdk4Kyjr1B
+        epftETs7025/0jIXn2O2Lp4=
+X-Google-Smtp-Source: ABdhPJw+01Ot6UK4J1XP9uveGUE+WM0zeAxOfICbVm4BcgV4HxXtAN/tyC6uPLmRzgx57rahiioYvA==
+X-Received: by 2002:a5d:660f:: with SMTP id n15mr3141380wru.103.1601019182526;
+        Fri, 25 Sep 2020 00:33:02 -0700 (PDT)
 Received: from localhost.localdomain ([170.253.60.68])
-        by smtp.googlemail.com with ESMTPSA id n2sm1974314wma.29.2020.09.25.00.32.55
+        by smtp.googlemail.com with ESMTPSA id n2sm1974314wma.29.2020.09.25.00.33.01
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Fri, 25 Sep 2020 00:32:55 -0700 (PDT)
+        Fri, 25 Sep 2020 00:33:01 -0700 (PDT)
 From:   Alejandro Colomar <colomar.6.4.3@gmail.com>
 To:     mtk.manpages@gmail.com
 Cc:     linux-man@vger.kernel.org, libc-alpha@sourceware.org,
         Alejandro Colomar <colomar.6.4.3@gmail.com>
-Subject: [PATCH 01/10] system_data_types.7: ffix
-Date:   Fri, 25 Sep 2020 09:31:32 +0200
-Message-Id: <20200925073140.173394-2-colomar.6.4.3@gmail.com>
+Subject: [PATCH 06/10] system_data_types.7: Add double_t
+Date:   Fri, 25 Sep 2020 09:31:37 +0200
+Message-Id: <20200925073140.173394-7-colomar.6.4.3@gmail.com>
 X-Mailer: git-send-email 2.28.0
 In-Reply-To: <20200925073140.173394-1-colomar.6.4.3@gmail.com>
 References: <20200925073140.173394-1-colomar.6.4.3@gmail.com>
@@ -76,22 +76,56 @@ X-Mailing-List: linux-man@vger.kernel.org
 
 Signed-off-by: Alejandro Colomar <colomar.6.4.3@gmail.com>
 ---
- man7/system_data_types.7 | 2 +-
- 1 file changed, 1 insertion(+), 1 deletion(-)
+ man7/system_data_types.7 | 36 ++++++++++++++++++++++++++++++++++++
+ 1 file changed, 36 insertions(+)
 
 diff --git a/man7/system_data_types.7 b/man7/system_data_types.7
-index f40b1373f..095a20f6d 100644
+index 238b9593b..43e88942a 100644
 --- a/man7/system_data_types.7
 +++ b/man7/system_data_types.7
-@@ -219,7 +219,7 @@ typedef struct {
- .EE
+@@ -117,6 +117,42 @@ Conforming to: C99 and later; POSIX.1-2001 and later.
  .IP
- It is the type of the value returned by the
--.I imaxdiv (3)
-+.BR imaxdiv (3)
- function.
- .IP
- Conforming to: C99 and later; POSIX.1-2001 and later.
+ See also:
+ .BR div (3)
++.\"------------------------------------- double_t ---------------------/
++.TP
++.I double_t
++.IP
++Include:
++.IR <math.h> .
++.IP
++The implementation's most efficient floating type at least as wide as
++.IR double .
++Its type depends on the value of the macro
++.BR FLT_EVAL_METHOD :
++.RS
++.IP *
++0;
++.I double_t
++is
++.IR double .
++.IP *
++1;
++.I double_t
++is
++.IR double .
++.IP *
++2;
++.I double_t
++is
++.IR "long double" .
++.IP *
++Other implementation-defined values.
++.RE
++.IP
++Conforming to: C99 and later; POSIX.1-2001 and later.
++.IP
++See also the
++.I float_t
++type in this page.
+ .\"------------------------------------- fenv_t -----------------------/
+ .TP
+ .I fenv_t
 -- 
 2.28.0
 
