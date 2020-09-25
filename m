@@ -1,109 +1,109 @@
-Return-Path: <SRS0=d1fi=DB=vger.kernel.org=linux-man-owner@kernel.org>
+Return-Path: <SRS0=7aiR=DC=vger.kernel.org=linux-man-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-5.6 required=3.0 tests=BAYES_00,DKIM_SIGNED,
+X-Spam-Status: No, score=-6.8 required=3.0 tests=BAYES_00,DKIM_SIGNED,
 	DKIM_VALID,DKIM_VALID_AU,FREEMAIL_FORGED_FROMDOMAIN,FREEMAIL_FROM,
-	HEADER_FROM_DIFFERENT_DOMAINS,MAILING_LIST_MULTI,NICE_REPLY_A,SPF_HELO_NONE,
-	SPF_PASS,USER_AGENT_SANE_1 autolearn=no autolearn_force=no version=3.4.0
+	HEADER_FROM_DIFFERENT_DOMAINS,MAILING_LIST_MULTI,SPF_HELO_NONE,SPF_PASS,
+	USER_AGENT_GIT autolearn=no autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 90E9BC4741F
-	for <linux-man@archiver.kernel.org>; Thu, 24 Sep 2020 14:55:59 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 600ADC4741F
+	for <linux-man@archiver.kernel.org>; Fri, 25 Sep 2020 07:32:59 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.kernel.org (Postfix) with ESMTP id 3C2DB206C3
-	for <linux-man@archiver.kernel.org>; Thu, 24 Sep 2020 14:55:59 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTP id 10E3E235FA
+	for <linux-man@archiver.kernel.org>; Fri, 25 Sep 2020 07:32:59 +0000 (UTC)
 Authentication-Results: mail.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="UF9OPLc7"
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="TiHDW1bZ"
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1728210AbgIXOz4 (ORCPT <rfc822;linux-man@archiver.kernel.org>);
-        Thu, 24 Sep 2020 10:55:56 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:33780 "EHLO
+        id S1727427AbgIYHc5 (ORCPT <rfc822;linux-man@archiver.kernel.org>);
+        Fri, 25 Sep 2020 03:32:57 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:45866 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1728126AbgIXOz4 (ORCPT
-        <rfc822;linux-man@vger.kernel.org>); Thu, 24 Sep 2020 10:55:56 -0400
-Received: from mail-wm1-x344.google.com (mail-wm1-x344.google.com [IPv6:2a00:1450:4864:20::344])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 15EC7C0613CE;
-        Thu, 24 Sep 2020 07:55:56 -0700 (PDT)
-Received: by mail-wm1-x344.google.com with SMTP id d4so3810136wmd.5;
-        Thu, 24 Sep 2020 07:55:56 -0700 (PDT)
+        with ESMTP id S1727063AbgIYHc4 (ORCPT
+        <rfc822;linux-man@vger.kernel.org>); Fri, 25 Sep 2020 03:32:56 -0400
+Received: from mail-wr1-x433.google.com (mail-wr1-x433.google.com [IPv6:2a00:1450:4864:20::433])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 8E08AC0613CE
+        for <linux-man@vger.kernel.org>; Fri, 25 Sep 2020 00:32:56 -0700 (PDT)
+Received: by mail-wr1-x433.google.com with SMTP id w5so2402707wrp.8
+        for <linux-man@vger.kernel.org>; Fri, 25 Sep 2020 00:32:56 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=gmail.com; s=20161025;
-        h=to:cc:references:subject:from:message-id:date:user-agent
-         :mime-version:in-reply-to:content-language:content-transfer-encoding;
-        bh=cxvl2MAleQcMTiG0WSrWtQ8ZVgZ+BIbKryf5RRhV2Ew=;
-        b=UF9OPLc72qF28w6y+ivkNrmXc5fop6lS4sjwHWDd9rzAFwH/YxcaJyc57rdANGsIN4
-         rYSEqsboWQ/6Rad3EEZAYH6sJkptJizRO8lNfWk6XYA0XKnfcTxYON3ug44BYQg9EMER
-         pVgAFcgLfPn4DVLiJ3Hib3T01PXbwRe+Vojn0wE3Yok5pMEIejrXlJffXDd6qKuKAg44
-         VtKof8h0scpGdPAcmiLAwTnzsODA8lRMiZPWSwQRsP90h1aLFuABF5VbrFI/sWnrFX0b
-         uEmRRAQsmZaOnouVl0mGoQ3uar4fcGrE+qSzboc3C0J0BGGDyYXkJ66tiP5wIrQLNFZH
-         wH4w==
+        h=from:to:cc:subject:date:message-id:mime-version
+         :content-transfer-encoding;
+        bh=m7EE+Og+NXjEfY3jRsWa0kERcLGt1SRkDekmTeZa9kE=;
+        b=TiHDW1bZmozq2N9AZ+elngDJfO2uDc8uYFkvao2i2qBS4i+ZQyxMNUwHqIDL1LcI1q
+         KN1uYuyYF/PscMuPWjVR/905KwzhrIqu6LxPdEUcVOqqPev4Ik1SmBSKv1BbSiIGdvth
+         ebFp02wZzZ1RxOFTy45x0aGthewEcTdPXvLVK9gPBFADYVdm84dkG5XOnlduzhbxgIoX
+         rLGN1l16ocf27B54qPsdi9IUM3rQBUuBlGNt9ZPPIRdmCS7WorQCcKdOdIdEK9Xnnfda
+         a53Xoqiu/J3+BJH0WPoC8XmzJcaOFZIM2LTmhjdZru6GlWmY8Oqg9jbzL7J7GyHyUnnd
+         477Q==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
-        h=x-gm-message-state:to:cc:references:subject:from:message-id:date
-         :user-agent:mime-version:in-reply-to:content-language
+        h=x-gm-message-state:from:to:cc:subject:date:message-id:mime-version
          :content-transfer-encoding;
-        bh=cxvl2MAleQcMTiG0WSrWtQ8ZVgZ+BIbKryf5RRhV2Ew=;
-        b=hTSqDBFuxLwaGxifgFSmpvbzTdTEM9PeZVn3VLkeG9V7YuGflMyrf2/22YvEnmaECP
-         LOwE8IDY20r1fyOvlnnI+xIRcvzMa/H59XFnwvo5yfKlE2hXTgkydzy2A9JSLtMBoZS6
-         Z1cb0nUjKWkOCVFXvTSveieyyT0WgiZA2xIAmcLePmgz+wJ31wdFtG3bHnii98flaA9V
-         AmB4cbxuMzri1VYIiaqEZrfKhhtiT7gtYwZ+r5Zph0QJsTiUx+EHRmDqAeG5R/H7wU3K
-         DLk1NB36E2eWK6ngBIPMjSxGEo79x0jzRYSJSadmmlXH9SMjhtIXZI9UdqshQ4AmtFut
-         yhSA==
-X-Gm-Message-State: AOAM530WYbpEYFUTx96mjoHRc1qwS2+CZtSQVLgCdF2LD2E17WwLzX2z
-        5dZl4wdsVFF5DO2rTkZBpz0=
-X-Google-Smtp-Source: ABdhPJwA7ld5rBdiNBafXko+QQDLwn3uoHLR26xm9fJkwIdPYX0Ec6468qIEwFlntmVrZ1YEq/Neew==
-X-Received: by 2002:a1c:4b17:: with SMTP id y23mr5136571wma.162.1600959354790;
-        Thu, 24 Sep 2020 07:55:54 -0700 (PDT)
-Received: from [192.168.1.143] ([170.253.60.68])
-        by smtp.gmail.com with ESMTPSA id h76sm4156994wme.10.2020.09.24.07.55.52
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Thu, 24 Sep 2020 07:55:54 -0700 (PDT)
-To:     rppt@kernel.org
-Cc:     akpm@linux-foundation.org, arnd@arndb.de, bp@alien8.de,
-        catalin.marinas@arm.com, cl@linux.com, dan.j.williams@intel.com,
-        dave.hansen@linux.intel.com, david@redhat.com,
-        elena.reshetova@intel.com, hpa@zytor.com, idan.yaniv@ibm.com,
-        jejb@linux.ibm.com, kirill@shutemov.name,
-        linux-api@vger.kernel.org, linux-arch@vger.kernel.org,
-        linux-arm-kernel@lists.infradead.org,
-        linux-fsdevel@vger.kernel.org, linux-kernel@vger.kernel.org,
-        linux-kselftest@vger.kernel.org, linux-man@vger.kernel.org,
-        linux-mm@kvack.org, linux-nvdimm@lists.01.org,
-        linux-riscv@lists.infradead.org, luto@kernel.org,
-        mark.rutland@arm.com, mingo@redhat.com, mtk.manpages@gmail.com,
-        palmer@dabbelt.com, paul.walmsley@sifive.com, peterz@infradead.org,
-        rppt@linux.ibm.com, shuah@kernel.org, tglx@linutronix.de,
-        tycho@tycho.ws, viro@zeniv.linux.org.uk, will@kernel.org,
-        willy@infradead.org, x86@kernel.org
-References: <20200924133513.1589-1-rppt@kernel.org>
-Subject: Re: [PATCH] man2: new page describing memfd_secret() system call
+        bh=m7EE+Og+NXjEfY3jRsWa0kERcLGt1SRkDekmTeZa9kE=;
+        b=HkALdrUbmBtk/n3tI1ZXW3cX6jwI9ynNQU7TNTVyUQV/OOKb+zRylt6weHGTpGxjSu
+         PiA0tzkvqgCzohWcbr94tHnsOkPERDlXMkkeW+Hu3PYqHo1914AvGAwUb4yAljq6ydW2
+         CVS1M1Oo9nF9mlPLvXkrWUlVJjWVq4Ki4Zr7x7VvtL6e0qEBS3tpLLpzuPWt4Fp+uU5M
+         NsIJb+qPhSRt7nN7uNPKdtpAdNNvEjmog+PK2Nc7Kj/CKTYn9NJpC4F8PcqRnUukoe1Z
+         cav1GUG3suc2SK8j5ugVuba7O/ntfNrsN8jk8YynCSeKDh9bYyaWaGOIujor50Tqm0ON
+         vmpQ==
+X-Gm-Message-State: AOAM5303sQLgLbuG0C88N4FmDQhnItd6/MaTtBrZoFE2djmr8X7abRkJ
+        wn4AmQaafru0YLkAlBfv3CQ=
+X-Google-Smtp-Source: ABdhPJxBOILSMGOgDyMqk3yU6s2BWNAeUgpl/n1xUA0sqhbCy33ZvlzM+ydI6XN+BRtYz8tSQ9ZwEQ==
+X-Received: by 2002:adf:eecb:: with SMTP id a11mr2990207wrp.356.1601019175287;
+        Fri, 25 Sep 2020 00:32:55 -0700 (PDT)
+Received: from localhost.localdomain ([170.253.60.68])
+        by smtp.googlemail.com with ESMTPSA id n2sm1974314wma.29.2020.09.25.00.32.53
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Fri, 25 Sep 2020 00:32:54 -0700 (PDT)
 From:   Alejandro Colomar <colomar.6.4.3@gmail.com>
-Message-ID: <efb6d051-2104-af26-bfb0-995f4716feb2@gmail.com>
-Date:   Thu, 24 Sep 2020 16:55:51 +0200
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
- Thunderbird/68.12.0
+To:     mtk.manpages@gmail.com
+Cc:     linux-man@vger.kernel.org, libc-alpha@sourceware.org,
+        Alejandro Colomar <colomar.6.4.3@gmail.com>
+Subject: [PATCH 00/10] Add types, and some fixes
+Date:   Fri, 25 Sep 2020 09:31:31 +0200
+Message-Id: <20200925073140.173394-1-colomar.6.4.3@gmail.com>
+X-Mailer: git-send-email 2.28.0
 MIME-Version: 1.0
-In-Reply-To: <20200924133513.1589-1-rppt@kernel.org>
-Content-Type: text/plain; charset=utf-8; format=flowed
-Content-Language: en-US
-Content-Transfer-Encoding: 7bit
+Content-Transfer-Encoding: 8bit
 Precedence: bulk
 List-ID: <linux-man.vger.kernel.org>
 X-Mailing-List: linux-man@vger.kernel.org
 
-* Mike Rapoport:
- > +.PP
- > +.IR Note :
- > +There is no glibc wrapper for this system call; see NOTES.
+Hello Michael,
 
-You added a reference to NOTES, but then in notes there is nothing about 
-it.  I guess you wanted to add the following to NOTES (taken from 
-membarrier.2):
-
-.PP
-Glibc does not provide a wrapper for this system call; call it using
-.BR syscall (2).
+The .RS/.RE Branden and you talked about
+in a previous email was useful here :-)
 
 Cheers,
 
 Alex
+
+Alejandro Colomar (10):
+  system_data_types.7: ffix
+  system_data_types.7: Add lconv
+  lconv.3: New link to system_data_types(7)
+  system_data_types.7: Add float_t
+  float_t.3: New link to system_data_types(7)
+  system_data_types.7: Add double_t
+  double_t.3: New link to system_data_types(7)
+  seccomp.2: Remove unneeded cast
+  seccomp.2: Use ARRAY_SIZE() macro instead of raw sizeof division
+  getgrent_r.3: Declare variables with different types in different
+    lines
+
+ man2/seccomp.2           |   3 +-
+ man3/double_t.3          |   1 +
+ man3/float_t.3           |   1 +
+ man3/getgrent_r.3        |   3 +-
+ man3/lconv.3             |   1 +
+ man7/system_data_types.7 | 121 ++++++++++++++++++++++++++++++++++++++-
+ 6 files changed, 127 insertions(+), 3 deletions(-)
+ create mode 100644 man3/double_t.3
+ create mode 100644 man3/float_t.3
+ create mode 100644 man3/lconv.3
+
+-- 
+2.28.0
+
