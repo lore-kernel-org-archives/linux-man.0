@@ -8,63 +8,63 @@ X-Spam-Status: No, score=-12.8 required=3.0 tests=BAYES_00,DKIM_SIGNED,
 	SPF_HELO_NONE,SPF_PASS,USER_AGENT_GIT autolearn=ham autolearn_force=no
 	version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 9F938C47420
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 864FDC4727E
 	for <linux-man@archiver.kernel.org>; Fri, 25 Sep 2020 07:33:02 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.kernel.org (Postfix) with ESMTP id 64F6623600
+	by mail.kernel.org (Postfix) with ESMTP id 27B2F235FA
 	for <linux-man@archiver.kernel.org>; Fri, 25 Sep 2020 07:33:02 +0000 (UTC)
 Authentication-Results: mail.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="awTaznV/"
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="ZQeSyZzZ"
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1727063AbgIYHdC (ORCPT <rfc822;linux-man@archiver.kernel.org>);
-        Fri, 25 Sep 2020 03:33:02 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:45884 "EHLO
+        id S1727431AbgIYHdB (ORCPT <rfc822;linux-man@archiver.kernel.org>);
+        Fri, 25 Sep 2020 03:33:01 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:45870 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1727435AbgIYHdB (ORCPT
-        <rfc822;linux-man@vger.kernel.org>); Fri, 25 Sep 2020 03:33:01 -0400
-Received: from mail-wr1-x442.google.com (mail-wr1-x442.google.com [IPv6:2a00:1450:4864:20::442])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 34350C0613CE
-        for <linux-man@vger.kernel.org>; Fri, 25 Sep 2020 00:33:01 -0700 (PDT)
-Received: by mail-wr1-x442.google.com with SMTP id z4so2443195wrr.4
-        for <linux-man@vger.kernel.org>; Fri, 25 Sep 2020 00:33:01 -0700 (PDT)
+        with ESMTP id S1727063AbgIYHc6 (ORCPT
+        <rfc822;linux-man@vger.kernel.org>); Fri, 25 Sep 2020 03:32:58 -0400
+Received: from mail-wm1-x342.google.com (mail-wm1-x342.google.com [IPv6:2a00:1450:4864:20::342])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id AD19FC0613CE
+        for <linux-man@vger.kernel.org>; Fri, 25 Sep 2020 00:32:57 -0700 (PDT)
+Received: by mail-wm1-x342.google.com with SMTP id e11so1250757wme.0
+        for <linux-man@vger.kernel.org>; Fri, 25 Sep 2020 00:32:57 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=gmail.com; s=20161025;
         h=from:to:cc:subject:date:message-id:in-reply-to:references
          :mime-version:content-transfer-encoding;
-        bh=CqQEr9T9uuGEo0PcdlXtzfk+/8ip6WKHDoNoQ0qMOUA=;
-        b=awTaznV/GqKlixB1mXMP3Q4UBpawhnWKr2WlRQXYO8yR+hjC66kDLZq8tXFGgcn4Ex
-         gaaNJxCrcyjfX0P2WzpZh2aCPfC6k7DKy0QxJZasXQk8dm3OLy/eNq1RzqwHT2d0zE4D
-         VyHx+T8cMOBASLwzTJGpgJLzV/H1XaK+nxkx2qrDtf3VbYaycdzMf3OcaxWXTpm+TCbZ
-         ahKjVv2h8hxdFaWywEzSFx2Igk/WIJKEbapshFyz25y+HAL2Gqqz99FbqbB8nL+9E98F
-         peyZ8X1t6mxbb+qT59ga+5qqKfEaHWFySLgLFvkxZbMNgOSwagVenX6G5pVgNZbKj1XI
-         Ut7Q==
+        bh=yN9x8EhWEnF4EyHwyRFk2ByRb8YJhofqc5biSFBWk0g=;
+        b=ZQeSyZzZGse5QsEkvJgrH2K/v/M1wXPHLvlAzS1vErAwiw6TgN4TxXHhI94/CtQ9HF
+         HkCkcyW9gOoQRJvGQfsCCWuVzNnG2MWKVCP2fEIepQLpfwD0s6gb5b1/3tC87+1cIx0q
+         2L0aCoINApzfdDcraGh41FVzzuIz0+8Q3mPeJlDqrZ3eITQChVJ4kFo1B0QhS7lIqEWq
+         bfkWzdftB5yatAH9POS7k7e5UZZKcL66klerVw14GoW9JNTya/3nfXaRFJqQ/w5Mvy1Y
+         RaQ4C4f07DWvP6QW+Pvvd75tudMftlzFgG0pYYgChTVwsl7D1HntQ4BBwzbVwX0H7x85
+         A+Rg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
         h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
          :references:mime-version:content-transfer-encoding;
-        bh=CqQEr9T9uuGEo0PcdlXtzfk+/8ip6WKHDoNoQ0qMOUA=;
-        b=huwhl8kOhY8BnaV0mlQowbeIfYfSQ7pkXkLfuKLUjyuq4BD1JCPosPWAme/3Aha5JS
-         zjsWro94W/ys3q9I4hJRK828C3LMQrjmdOLkvAwITE32smIlpJFE+jbJ2XM8jPOjEwo8
-         6R9DTYdW8X4FfsXM98nH9jen0fqOGH/6wmENt4IVUfNQ37q+t7uVA15PEOFAcWeregMS
-         iWaenmhOb6+ybPodiDicG7ZI2yTpTRT3xXSVvM5cF7U/Sr07IfG87CFHBBfJEsAuiMWm
-         pkKuCjHWpA5ZN8J6Cf8mOzlhNiVPdIBdEwcX7NtbSZGKahkpwai1a1rE0BDUXTnPDWD6
-         OqIA==
-X-Gm-Message-State: AOAM533V3mTMFnpHSK/5Cv6v3spFB31wS6lWixD4PgDL4Keq1mb/FQKX
-        0BcvSMRnOg+Sydr7JhmbMxQ=
-X-Google-Smtp-Source: ABdhPJwLIRDKSZhXDCTVrKn5tw9FxQKS//qix++yP2nRMysrigzE8KGp4AsNvjYwaFnv7woZLvcWdQ==
-X-Received: by 2002:adf:d4c7:: with SMTP id w7mr2962133wrk.263.1601019179854;
-        Fri, 25 Sep 2020 00:32:59 -0700 (PDT)
+        bh=yN9x8EhWEnF4EyHwyRFk2ByRb8YJhofqc5biSFBWk0g=;
+        b=U16kVPvOkCRBkP771RS8VXTPtTllKxvx/u7OunCJHe3kwBurAW41nJfYZmzu89qafk
+         RqjSZ7eiX5dVrTi6FwLFD6sPSDe+ww+HlHPtE4xpPemdsA8xIYsrqHe+e2PM8/tsMkxP
+         aUL5q7Z5bySZH+NCD+I2mQNS8qwoJ1WvjD000dZtR1RPiNyXIu2y2P4/vpW+te9Ksbi7
+         aZ93JAG2yWoJe2FMC/bll3sw2fZRok5teI1rO0eeZgAPfwSbFI5D6c35LhQhf74XE/L1
+         qTPO/X3SZSuITJtXg18uM/9AgAEwHUPflL0AK0TiG21Om6dxXBtZIeaNPeJWgt7hD2/q
+         AHIA==
+X-Gm-Message-State: AOAM5339vHKugU/20BX5bE0lYQL3KsmnNgIfXEqTdYlMNGDsiAC9YAo5
+        aTHhzJaKAVmdBtTk5mdTb8E=
+X-Google-Smtp-Source: ABdhPJzhBEC6NZmetp6cMfBAG/T1l1j73IDTaBVJfmMxNpfrBw8BBFZAIQgCTK1k0tPFKhZzBZdjKA==
+X-Received: by 2002:a1c:4d12:: with SMTP id o18mr1680943wmh.177.1601019176389;
+        Fri, 25 Sep 2020 00:32:56 -0700 (PDT)
 Received: from localhost.localdomain ([170.253.60.68])
-        by smtp.googlemail.com with ESMTPSA id n2sm1974314wma.29.2020.09.25.00.32.58
+        by smtp.googlemail.com with ESMTPSA id n2sm1974314wma.29.2020.09.25.00.32.55
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Fri, 25 Sep 2020 00:32:59 -0700 (PDT)
+        Fri, 25 Sep 2020 00:32:55 -0700 (PDT)
 From:   Alejandro Colomar <colomar.6.4.3@gmail.com>
 To:     mtk.manpages@gmail.com
 Cc:     linux-man@vger.kernel.org, libc-alpha@sourceware.org,
         Alejandro Colomar <colomar.6.4.3@gmail.com>
-Subject: [PATCH 04/10] system_data_types.7: Add float_t
-Date:   Fri, 25 Sep 2020 09:31:35 +0200
-Message-Id: <20200925073140.173394-5-colomar.6.4.3@gmail.com>
+Subject: [PATCH 01/10] system_data_types.7: ffix
+Date:   Fri, 25 Sep 2020 09:31:32 +0200
+Message-Id: <20200925073140.173394-2-colomar.6.4.3@gmail.com>
 X-Mailer: git-send-email 2.28.0
 In-Reply-To: <20200925073140.173394-1-colomar.6.4.3@gmail.com>
 References: <20200925073140.173394-1-colomar.6.4.3@gmail.com>
@@ -76,56 +76,22 @@ X-Mailing-List: linux-man@vger.kernel.org
 
 Signed-off-by: Alejandro Colomar <colomar.6.4.3@gmail.com>
 ---
- man7/system_data_types.7 | 36 ++++++++++++++++++++++++++++++++++++
- 1 file changed, 36 insertions(+)
+ man7/system_data_types.7 | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
 
 diff --git a/man7/system_data_types.7 b/man7/system_data_types.7
-index b04457bbf..238b9593b 100644
+index f40b1373f..095a20f6d 100644
 --- a/man7/system_data_types.7
 +++ b/man7/system_data_types.7
-@@ -147,6 +147,42 @@ Conforming to: C99 and later; POSIX.1-2001 and later.
+@@ -219,7 +219,7 @@ typedef struct {
+ .EE
  .IP
- See also:
- .BR fenv (3)
-+.\"------------------------------------- float_t ----------------------/
-+.TP
-+.I float_t
-+.IP
-+Include:
-+.IR <math.h> .
-+.IP
-+The implementation's most efficient floating type at least as wide as
-+.IR float .
-+Its type depends on the value of the macro
-+.BR FLT_EVAL_METHOD :
-+.RS
-+.IP *
-+0;
-+.I float_t
-+is
-+.IR float .
-+.IP *
-+1;
-+.I float_t
-+is
-+.IR double .
-+.IP *
-+2;
-+.I float_t
-+is
-+.IR "long double" .
-+.IP *
-+Other implementation-defined values.
-+.RE
-+.IP
-+Conforming to: C99 and later; POSIX.1-2001 and later.
-+.IP
-+See also the
-+.I double_t
-+type in this page.
- .\"------------------------------------- gid_t ------------------------/
- .TP
- .I gid_t
+ It is the type of the value returned by the
+-.I imaxdiv (3)
++.BR imaxdiv (3)
+ function.
+ .IP
+ Conforming to: C99 and later; POSIX.1-2001 and later.
 -- 
 2.28.0
 
