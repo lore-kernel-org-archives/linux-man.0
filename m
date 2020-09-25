@@ -2,163 +2,219 @@ Return-Path: <SRS0=7aiR=DC=vger.kernel.org=linux-man-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-11.6 required=3.0 tests=BAYES_00,DKIM_SIGNED,
+X-Spam-Status: No, score=-12.8 required=3.0 tests=BAYES_00,DKIM_SIGNED,
 	DKIM_VALID,DKIM_VALID_AU,FREEMAIL_FORGED_FROMDOMAIN,FREEMAIL_FROM,
-	HEADER_FROM_DIFFERENT_DOMAINS,INCLUDES_PATCH,MAILING_LIST_MULTI,NICE_REPLY_A,
-	SIGNED_OFF_BY,SPF_HELO_NONE,SPF_PASS,URIBL_BLOCKED,USER_AGENT_SANE_1
-	autolearn=ham autolearn_force=no version=3.4.0
+	HEADER_FROM_DIFFERENT_DOMAINS,INCLUDES_PATCH,MAILING_LIST_MULTI,SIGNED_OFF_BY,
+	SPF_HELO_NONE,SPF_PASS,USER_AGENT_GIT autolearn=ham autolearn_force=no
+	version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 03CCFC4727F
-	for <linux-man@archiver.kernel.org>; Fri, 25 Sep 2020 10:47:10 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id E5190C4363D
+	for <linux-man@archiver.kernel.org>; Fri, 25 Sep 2020 11:19:44 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.kernel.org (Postfix) with ESMTP id A513721D91
-	for <linux-man@archiver.kernel.org>; Fri, 25 Sep 2020 10:47:09 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTP id 909B420936
+	for <linux-man@archiver.kernel.org>; Fri, 25 Sep 2020 11:19:44 +0000 (UTC)
 Authentication-Results: mail.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="MogjJJot"
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="qcKowvEj"
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1728069AbgIYKrJ (ORCPT <rfc822;linux-man@archiver.kernel.org>);
-        Fri, 25 Sep 2020 06:47:09 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:47692 "EHLO
+        id S1726255AbgIYLTo (ORCPT <rfc822;linux-man@archiver.kernel.org>);
+        Fri, 25 Sep 2020 07:19:44 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:52678 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1727896AbgIYKrJ (ORCPT
-        <rfc822;linux-man@vger.kernel.org>); Fri, 25 Sep 2020 06:47:09 -0400
-Received: from mail-ej1-x642.google.com (mail-ej1-x642.google.com [IPv6:2a00:1450:4864:20::642])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id E34B2C0613CE
-        for <linux-man@vger.kernel.org>; Fri, 25 Sep 2020 03:47:08 -0700 (PDT)
-Received: by mail-ej1-x642.google.com with SMTP id gx22so3003247ejb.5
-        for <linux-man@vger.kernel.org>; Fri, 25 Sep 2020 03:47:08 -0700 (PDT)
+        with ESMTP id S1727044AbgIYLTn (ORCPT
+        <rfc822;linux-man@vger.kernel.org>); Fri, 25 Sep 2020 07:19:43 -0400
+Received: from mail-wm1-x342.google.com (mail-wm1-x342.google.com [IPv6:2a00:1450:4864:20::342])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id A1A88C0613CE
+        for <linux-man@vger.kernel.org>; Fri, 25 Sep 2020 04:19:42 -0700 (PDT)
+Received: by mail-wm1-x342.google.com with SMTP id d4so2636794wmd.5
+        for <linux-man@vger.kernel.org>; Fri, 25 Sep 2020 04:19:42 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=gmail.com; s=20161025;
-        h=cc:subject:to:references:from:message-id:date:user-agent
-         :mime-version:in-reply-to:content-language:content-transfer-encoding;
-        bh=yvy7nUnY4PloW3Tt0vYsYJwNnJhFsxSf82OyVchcG/4=;
-        b=MogjJJot8bX6TE01pxqnrV+5q7PhNGpniHqHLoEZfnkQN9BDpbi53yKV1ImHZbpqz2
-         TUumMVN99ixXmrB0ia5jcpf6t0rXvKWiEj8KwoBHtHQ2jOknm+SS2FT62UOA+CTl1ZV0
-         l3PziwkdRluERxxDu0lP1B5lP2MM7YJ8G2ougGrB2e1rtvrq8ykg1EezYzF0zCh7WBcx
-         if5fg3WPPkAeeKrllKsRPz3SB3mRXru5WPChzJRSj6Pd7MEvdO/zwzyON7QGOzVrCJLE
-         hxf3DIv3ouIRgaIdeONFdb5rvJwgd4hCNiX81WiZD2AMciCcFmXclmInKj5Hg1dcHEGK
-         zwig==
+        h=from:to:cc:subject:date:message-id:in-reply-to:references
+         :mime-version:content-transfer-encoding;
+        bh=zdac5w91FlbnFp695jxyUtEriFdeg5nN9x9c64ox9VU=;
+        b=qcKowvEjnJE0UaYWgRV18OsDcaSJnrJjSyzeoXNA0ybX99liRXUzAxeAo75C4Rbx/9
+         TCGerGDBmt9tXU9X+wnLBnX15NKR0bVAiH+88JZYrRXkV6WbhfBKYg8IsLQWMw31j4O4
+         /V+dxxBk77+Q/+BmKFQ+q+bfeXOFzdEMOIrLNVBXFOri2RosOyTCU4QYvkaX861dnV5Y
+         llnhmsRhRVOo3vsLRtwRURll7w27ARf1Hi0XN5moUtcIjGT7fC+Ot8Lmh663p1Drdk4B
+         e/ZZ+tvePWAI8BE2vBPQ4lCmctMSrnPp0jbieonvenwdT18+XQasaTEK0ETuhMFK2X2z
+         qJDg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
-        h=x-gm-message-state:cc:subject:to:references:from:message-id:date
-         :user-agent:mime-version:in-reply-to:content-language
-         :content-transfer-encoding;
-        bh=yvy7nUnY4PloW3Tt0vYsYJwNnJhFsxSf82OyVchcG/4=;
-        b=LzpxkGEiTVNN8kTNzyIWV/hE0rRcsqvGXp0XjjSoPJ9zIkHKdNw1uHFvmSdlWP8+tb
-         tpyU26xQLeSxjdwiddBvae0cLjaAwjJPWeFVNlg14AfqPIXECA7RV4WDAYGav3ALwlUp
-         IyMbVYaN2+V3okKryZFkhW7THMbEu8mHGd04aq2mTC+AjNrk4t6UlNvesOsbDUo4rKr6
-         Z7suklKA/vtnC7ojvJ6L+BWR/FMN7oyD61+/wX2N17eIKamGf407gDAbHcIaKFrFwSOh
-         DmuMmppvAHlbjotFehH0EFtRIIysg7ffIIHL91L+UjFUij3na1erEw/D1QfPgGIgPpvs
-         E71A==
-X-Gm-Message-State: AOAM531HpRIqEtLbnT1ieFFYlxrvLJTmIBOgDi+CHVskUR9VFGw1cMbH
-        YiO7ycAOBAmst96KVXTdRjw=
-X-Google-Smtp-Source: ABdhPJxc737wZHjoAPTx1S3MYM1W6Oh1CWEI2lnz5mKT5Prno3BUGz1dSIeNEYPhENv1I07CWTH9VA==
-X-Received: by 2002:a17:906:f897:: with SMTP id lg23mr2225835ejb.89.1601030827562;
-        Fri, 25 Sep 2020 03:47:07 -0700 (PDT)
-Received: from ?IPv6:2001:a61:2479:6801:d8fe:4132:9f23:7e8f? ([2001:a61:2479:6801:d8fe:4132:9f23:7e8f])
-        by smtp.gmail.com with ESMTPSA id p20sm1595858eja.18.2020.09.25.03.47.06
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Fri, 25 Sep 2020 03:47:06 -0700 (PDT)
-Cc:     mtk.manpages@gmail.com, libc-alpha@sourceware.org,
-        Carlos O'Donell <carlos@redhat.com>
-Subject: Re: [PATCH] rtld-audit.7: Clarify la_version handshake
-To:     Florian Weimer <fweimer@redhat.com>, linux-man@vger.kernel.org
-References: <87k0wifdi2.fsf@oldenburg2.str.redhat.com>
-From:   "Michael Kerrisk (man-pages)" <mtk.manpages@gmail.com>
-Message-ID: <299e6651-fa82-8350-f36f-e578e8180859@gmail.com>
-Date:   Fri, 25 Sep 2020 12:47:06 +0200
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
- Thunderbird/68.10.0
+        h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
+         :references:mime-version:content-transfer-encoding;
+        bh=zdac5w91FlbnFp695jxyUtEriFdeg5nN9x9c64ox9VU=;
+        b=UfYg6oq5jCbkx3AdLb3RiF7hMDRWQ55osTvJgtuHBx3ngiIWpT/nEzXbJ+AIi117pe
+         36bnfJh1dtvfHsw7h3o1G2o68Af7fwpkrxCBg5k+pjvxerlRV8WXk/Vl7Mqtv/rhRy96
+         sIGQQUbOWuIkUavPJa4aDWjq5lJkt55Air1V97PKJtC4/YQ8htHmOmGr1KbF1v0CqRF6
+         Pp3PEQdIa7Hkvv8kNAAMJDJacOlrtwS4wsDB72Eu6SiRezewfP0U4bnT2vyQeN7p1Qmb
+         2H2/GEIc+KzcoA7oS6mcsnx4KeSoCArP5JHcN/SqtuY7Hf46LhnWwlTEZS2CseSTxFUA
+         +ucA==
+X-Gm-Message-State: AOAM531lmmww7mBh6CBYnrROtV/mOEOsNqJ2euov3H7Slcj+fOX/2aq0
+        uF0lwSVtPSsLtjmBnjj5gQU=
+X-Google-Smtp-Source: ABdhPJxrSYMZ1XFCNk0TMLuj0L68vTAKI0yi86EX0+OHw1kU6RGfYacGrErnYaQtkKkuNo+Ghs4hNA==
+X-Received: by 2002:a05:600c:2146:: with SMTP id v6mr2524370wml.159.1601032781273;
+        Fri, 25 Sep 2020 04:19:41 -0700 (PDT)
+Received: from localhost.localdomain ([170.253.60.68])
+        by smtp.googlemail.com with ESMTPSA id o15sm2451947wmh.29.2020.09.25.04.19.39
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Fri, 25 Sep 2020 04:19:40 -0700 (PDT)
+From:   Alejandro Colomar <colomar.6.4.3@gmail.com>
+To:     mtk.manpages@gmail.com
+Cc:     linux-man@vger.kernel.org, libc-alpha@sourceware.org,
+        Alejandro Colomar <colomar.6.4.3@gmail.com>
+Subject: [PATCH v2 04/10] system_data_types.7: Add float_t
+Date:   Fri, 25 Sep 2020 13:19:23 +0200
+Message-Id: <20200925111922.222149-1-colomar.6.4.3@gmail.com>
+X-Mailer: git-send-email 2.28.0
+In-Reply-To: <94936b66-4d20-1168-546f-64ac63018845@gmail.com>
+References: <94936b66-4d20-1168-546f-64ac63018845@gmail.com>
 MIME-Version: 1.0
-In-Reply-To: <87k0wifdi2.fsf@oldenburg2.str.redhat.com>
-Content-Type: text/plain; charset=utf-8
-Content-Language: en-US
-Content-Transfer-Encoding: 7bit
+Content-Transfer-Encoding: 8bit
 Precedence: bulk
 List-ID: <linux-man.vger.kernel.org>
 X-Mailing-List: linux-man@vger.kernel.org
 
-On 9/25/20 10:48 AM, Florian Weimer wrote:
-> Returning its argument without further checks is almost always
-> wrong for la_version.
+Signed-off-by: Alejandro Colomar <colomar.6.4.3@gmail.com>
+---
+
+Hi Michael,
+
+On 2020-09-25 11:30, Michael Kerrisk (man-pages) wrote:
+>> I removed the "intended" part to simplify it a bit. Do you prefer to
+>> keep it?
+> Well, as long as you are going to lift the detail about "most
+> efficient" from the C standard, I'd be inclined to keep
+> the word "intended" from the standard as well. But I do not feel
+> strongly about it.
 > 
-> Signed-off-by: Florian Weimer <fweimer@redhat.com>
 
-Hello Florian,
+Fair enough.
 
-I've applied this patch locally. I'll merge into master
-in a few hours. Perhaps in the meantime there are acks/reviews
-that come in.
+
+On 2020-09-25 11:30, Michael Kerrisk (man-pages) wrote:
+>> BTW, I'll also add a note that FLT_EVAL_METHOD is defined in <float.h>
+>> Would you add that to "Notes", or as part of the description?
+> As part of the description I think. (And I don't mind if it's
+> repeated in the double_t description.)
+
+I think there was a misunderstanding; maybe I should have been clearer:
+
+I meant to write about <float.h> in the "Notes" of the type,
+and not in the "NOTES" of the entire page.
+
+However, I decided to do it in the description of the type as you said,
+because it was a bit simpler.
+
+The other version would have resulted in this code, just for you to see:
+
+[[
+.TP
+.I double_t
+.RS
+.PP
+Include:
+.IR <math.h> .
+.PP
+The implementation's most efficient floating type at least as wide as
+.IR double .
+Its type depends on the value of the macro
+.BR FLT_EVAL_METHOD :
+.TP
+0
+.I double_t
+is
+.IR double .
+.TP
+1
+.I double_t
+is
+.IR double .
+.TP
+2
+.I double_t
+is
+.IR "long double" .
+.IP
+For other values of
+.BR FLT_EVAL_METHOD ,
+the type of
+.I double_t
+is implementation-defined.
+.PP
+Conforming to: C99 and later; POSIX.1-2001 and later.
+.PP
+Notes: The macro
+.B FLT_EVAL_METHOD
+is defined in
+.IR <float.h> .
+.PP
+See also the
+.I float_t
+type in this page.
+.RE
+]]
+
 
 Cheers,
 
-Michael
+Alex
 
-> ---
->  man7/rtld-audit.7 | 36 +++++++++++++++++++++++++-----------
->  1 file changed, 25 insertions(+), 11 deletions(-)
-> 
-> diff --git a/man7/rtld-audit.7 b/man7/rtld-audit.7
-> index b1b7dfebc..21cc339d0 100644
-> --- a/man7/rtld-audit.7
-> +++ b/man7/rtld-audit.7
-> @@ -70,17 +70,30 @@ the auditing library.
->  When invoking this function, the dynamic linker passes, in
->  .IR version ,
->  the highest version of the auditing interface that the linker supports.
-> -If necessary, the auditing library can check that this version
-> -is sufficient for its requirements.
->  .PP
-> -As its function result,
-> -this function should return the version of the auditing interface
-> -that this auditing library expects to use (returning
-> +A typical implementation of this function simply returns the constant
-> +.BR LAV_CURRENT ,
-> +which indicates the version of
-> +.I <link.h>
-> +that was used to build the audit module.  If the dynamic linker does
-> +not support this version of the audit interface, it will refuse to
-> +activate this audit module.  If the function returns zero, the dynamic
-> +linker also does not activate this audit module.
-> +.PP
-> +In order to enable backwards compatibility with older dynamic linkers,
-> +an audit module can examine the
-> +.I version
-> +argument and return an earlier version than
-> +.BR LAV_CURRENT ,
-> +assuming the module can adjust its implementation to match the
-> +requirements of the previous version of the audit interface.  The
-> +.B la_version
-> +function should not return the value of
->  .I version
-> -is acceptable).
-> -If the returned value is 0,
-> -or a version that is greater than that supported by the dynamic linker,
-> -then the audit library is ignored.
-> +without further checks because it could correspond to an interface
-> +that does not match the
-> +.I <link.h>
-> +definitions used to build the audit module.
->  .SS la_objsearch()
->  \&
->  .nf
-> @@ -508,9 +521,10 @@ This is reportedly fixed in glibc 2.10.
->  unsigned int
->  la_version(unsigned int version)
->  {
-> -    printf("la_version(): %u\en", version);
-> +    printf("la_version(): version = %u; LAV_CURRENT = %u\en",
-> +            version, LAV_CURRENT);
->  
-> -    return version;
-> +    return LAV_CURRENT;
->  }
->  
->  char *
-> 
+ man7/system_data_types.7 | 42 ++++++++++++++++++++++++++++++++++++++++
+ 1 file changed, 42 insertions(+)
 
-
+diff --git a/man7/system_data_types.7 b/man7/system_data_types.7
+index b04457bbf..aa5ab95e9 100644
+--- a/man7/system_data_types.7
++++ b/man7/system_data_types.7
+@@ -147,6 +147,48 @@ Conforming to: C99 and later; POSIX.1-2001 and later.
+ .IP
+ See also:
+ .BR fenv (3)
++.\"------------------------------------- float_t ----------------------/
++.TP
++.I float_t
++.IP
++Include:
++.IR <math.h> .
++.IP
++The implementation's most efficient floating type at least as wide as
++.IR float .
++Its type depends on the value of the macro
++.BR FLT_EVAL_METHOD ,
++defined in
++.IR <float.h> :
++.RS
++.TP
++0
++.I float_t
++is
++.IR float .
++.TP
++1
++.I float_t
++is
++.IR double .
++.TP
++2
++.I float_t
++is
++.IR "long double" .
++.IP
++For other values of
++.BR FLT_EVAL_METHOD ,
++the type of
++.I float_t
++is implementation-defined.
++.RE
++.IP
++Conforming to: C99 and later; POSIX.1-2001 and later.
++.IP
++See also the
++.I double_t
++type in this page.
+ .\"------------------------------------- gid_t ------------------------/
+ .TP
+ .I gid_t
 -- 
-Michael Kerrisk
-Linux man-pages maintainer; http://www.kernel.org/doc/man-pages/
-Linux/UNIX System Programming Training: http://man7.org/training/
+2.28.0
+
