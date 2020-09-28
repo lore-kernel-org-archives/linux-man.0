@@ -2,143 +2,139 @@ Return-Path: <SRS0=Wb1v=DF=vger.kernel.org=linux-man-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-8.2 required=3.0 tests=BAYES_00,DKIM_SIGNED,
+X-Spam-Status: No, score=-5.2 required=3.0 tests=BAYES_00,DKIM_SIGNED,
 	DKIM_VALID,DKIM_VALID_AU,FREEMAIL_FORGED_FROMDOMAIN,FREEMAIL_FROM,
-	HEADER_FROM_DIFFERENT_DOMAINS,INCLUDES_PATCH,MAILING_LIST_MULTI,SPF_HELO_NONE,
-	SPF_PASS,USER_AGENT_SANE_1 autolearn=ham autolearn_force=no version=3.4.0
+	HEADER_FROM_DIFFERENT_DOMAINS,MAILING_LIST_MULTI,NICE_REPLY_A,SPF_HELO_NONE,
+	SPF_PASS,USER_AGENT_SANE_1 autolearn=no autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 026B7C2D0A8
-	for <linux-man@archiver.kernel.org>; Mon, 28 Sep 2020 13:06:06 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 0F190C2D0A8
+	for <linux-man@archiver.kernel.org>; Mon, 28 Sep 2020 13:33:26 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.kernel.org (Postfix) with ESMTP id A466A21D7F
-	for <linux-man@archiver.kernel.org>; Mon, 28 Sep 2020 13:06:05 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTP id BF39B20759
+	for <linux-man@archiver.kernel.org>; Mon, 28 Sep 2020 13:33:25 +0000 (UTC)
 Authentication-Results: mail.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="HI2RYOmM"
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="HSX+TDHc"
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1726393AbgI1NGF (ORCPT <rfc822;linux-man@archiver.kernel.org>);
-        Mon, 28 Sep 2020 09:06:05 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:55464 "EHLO
+        id S1726461AbgI1NdZ (ORCPT <rfc822;linux-man@archiver.kernel.org>);
+        Mon, 28 Sep 2020 09:33:25 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:59652 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1726328AbgI1NGF (ORCPT
-        <rfc822;linux-man@vger.kernel.org>); Mon, 28 Sep 2020 09:06:05 -0400
-Received: from mail-pf1-x444.google.com (mail-pf1-x444.google.com [IPv6:2607:f8b0:4864:20::444])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 0AC41C061755
-        for <linux-man@vger.kernel.org>; Mon, 28 Sep 2020 06:06:05 -0700 (PDT)
-Received: by mail-pf1-x444.google.com with SMTP id l126so983966pfd.5
-        for <linux-man@vger.kernel.org>; Mon, 28 Sep 2020 06:06:05 -0700 (PDT)
+        with ESMTP id S1726406AbgI1NdZ (ORCPT
+        <rfc822;linux-man@vger.kernel.org>); Mon, 28 Sep 2020 09:33:25 -0400
+Received: from mail-wm1-x343.google.com (mail-wm1-x343.google.com [IPv6:2a00:1450:4864:20::343])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id E9857C061755;
+        Mon, 28 Sep 2020 06:33:24 -0700 (PDT)
+Received: by mail-wm1-x343.google.com with SMTP id q9so1140588wmj.2;
+        Mon, 28 Sep 2020 06:33:24 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=gmail.com; s=20161025;
-        h=date:from:to:cc:subject:message-id:references:mime-version
-         :content-disposition:in-reply-to:user-agent;
-        bh=0c/K5gLMsR915xLwKal5SS5OAXzOHx9Zm/qGb8BfpXA=;
-        b=HI2RYOmMkVboqZbJ0Mn8DavBlnikErlYH7X6I/3I0r3XAsYxbFAVUlTTDlY9vstRAd
-         viqJ+7tDOq2i1YlK5KySIuTLBWEo7/nMoOeV/CGPpZiia5hUwQmRS2LuoBi5DD0cBbaE
-         1z5qE5Hr4j4CYTnjOn2yRpMwSMC1BPylL1JZA5f5WB1X+mhSMKYQW68NGExiSRbZ+O4P
-         pSHeGJJVmRQFQ6AdObo4cg68R/gOPZjL1TskDOH1qewEdkvw1aM8tMwT2/xBDDz76tJy
-         4VpEeFi2SuTi7gT+z/f7XTPuFakljNgLDDA4Zb6M9Fj1zOeWrDEIkVpe6lnainKE56qh
-         PZhA==
+        h=subject:to:cc:references:from:message-id:date:user-agent
+         :mime-version:in-reply-to:content-language:content-transfer-encoding;
+        bh=tNvc95F86PSNz6MYQv4pujClTJG7ZJVCLJQbS+yEorU=;
+        b=HSX+TDHcziofRg+i+V5l++OIDjq4NUY7bzqdftkfesyYmuJbce7NndMiMxqaL8+18x
+         NurEihELDSAz6N1UiBpvEeOxYd3c95YOZrjNfAi8oTdDuvjP5fDBzOjIoH16QRNor5Og
+         z1txVbtUubjnHjsbXVapVdik8OJhv4GKjdnY/UryePIM9hRNwXOBl3ye26GnRnMkr5L2
+         01k/7DFtYYyF3k87qx6Ll5P8i+Fdb51Cbil7UC1xCN11X/BfQnoJIETjn5jbkrEcoqJC
+         orYQF05qEOrBlAGCatjWv2txgMr6TRIrSKcW0+v+DWuTQ4booaTqcFC+N1PgruDDF2DZ
+         epIA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
-        h=x-gm-message-state:date:from:to:cc:subject:message-id:references
-         :mime-version:content-disposition:in-reply-to:user-agent;
-        bh=0c/K5gLMsR915xLwKal5SS5OAXzOHx9Zm/qGb8BfpXA=;
-        b=M0tfJaGyb5mRiWWFwQtey8M3l4PskZPRJpOSLQXNuoiqpCiqvKwMAJ/cKX1FJpRhGC
-         HfQuLUxnAttwp1wDSFcgtBbx+G7oYDDkBNQNEYxsB+jH7P+LU/Zkw3sGcDkrYb7eCxOk
-         AYK+Y3lp1D47bHU9owlkMwQ3y4XoT+SnAgqSAI8thfDl0EMFe4PXEzE/GJ4q+iIzcG27
-         U+YGehKPtw0hzbWSw63imcLDexBoNAvdeHUlU44XmYjM/VXHRm3vGWsLuuETDISoMcd9
-         hp+leo3XIJqo0ZmKRQucWmCEwMC2qdtPrW+YWm8PGiNF+HPyE2qIY2rgd5a7oI4J0cPu
-         pUaQ==
-X-Gm-Message-State: AOAM5331GrhYHIuoYXhVPCplOu5NQ0vVQZnHYknoQqZCExk+Or8gGnmn
-        016vGLacFvEyoKWPdBTFjfg=
-X-Google-Smtp-Source: ABdhPJwFXsvENaRm9SCNUcymGVUTzKGEP191MwYqGEqYOx9jxBFB1YMbMDqm+ZlCJcTAHPgjNdgW1g==
-X-Received: by 2002:a17:902:d346:b029:d2:8cdd:d8d2 with SMTP id l6-20020a170902d346b02900d28cddd8d2mr1552906plk.34.1601298364588;
-        Mon, 28 Sep 2020 06:06:04 -0700 (PDT)
-Received: from localhost.localdomain ([1.129.173.239])
-        by smtp.gmail.com with ESMTPSA id i62sm1647948pfe.140.2020.09.28.06.06.02
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Mon, 28 Sep 2020 06:06:04 -0700 (PDT)
-Date:   Mon, 28 Sep 2020 23:06:00 +1000
-From:   "G. Branden Robinson" <g.branden.robinson@gmail.com>
-To:     Alejandro Colomar <colomar.6.4.3@gmail.com>
-Cc:     mtk.manpages@gmail.com, linux-man@vger.kernel.org,
-        libc-alpha@sourceware.org
-Subject: Re: [PATCH v2 1/3] system_data_types.7: ffix
-Message-ID: <20200928130558.4qi6jitfwxg6ccm7@localhost.localdomain>
-References: <836b6d7d-4433-18d0-78aa-542c419c02f2@gmail.com>
- <20200928090322.2058-1-colomar.6.4.3@gmail.com>
+        h=x-gm-message-state:subject:to:cc:references:from:message-id:date
+         :user-agent:mime-version:in-reply-to:content-language
+         :content-transfer-encoding;
+        bh=tNvc95F86PSNz6MYQv4pujClTJG7ZJVCLJQbS+yEorU=;
+        b=BWQCwclyVZFC7P+zmX9SwjRn5vaGtFW032oN/lIJBOqv4VtMkxm74PJqb8KshKg1n9
+         9/chivoZN+x1pjUDhSfrnAXgiVrHxFM1gj1cMvoHUhz2UeTHS5auFFkAX97EWSptAzbw
+         n4N1nFmO2tt2fOySWmxbNde/6Dhx32/Xo0rpEEdDYr/0I4YbH9f/nIuEh8R19THj9boO
+         G5ObuJdrQPVvDZhMg2amGGYjHwvAUGIlxwftiI/UktsHLfHaQJ7D6n9Vz9r68T6yOdiL
+         ofBH/V8bhZWs2/COq0h0r6aKBiOGoE3j+ZT64r+BQT3sSbOQNqootoAKWQMP86wT8JjO
+         l08Q==
+X-Gm-Message-State: AOAM531S2oscy1ZnfeeipInVpc4jDVHLYQFE46HJrnqRVVyEeIhryStX
+        KMVPfvhi9KUI/RvQeUgoAcs=
+X-Google-Smtp-Source: ABdhPJw/7y2FqbRwW4UCi91xfoQfvg2pXTTVPK4Ox3/z30n1Ala60p8hzczqXtwobQZH2MM8jCISsQ==
+X-Received: by 2002:a1c:3985:: with SMTP id g127mr1775636wma.32.1601300003555;
+        Mon, 28 Sep 2020 06:33:23 -0700 (PDT)
+Received: from [192.168.1.143] ([170.253.60.68])
+        by smtp.gmail.com with ESMTPSA id f23sm8808581wmc.3.2020.09.28.06.33.21
+        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+        Mon, 28 Sep 2020 06:33:22 -0700 (PDT)
+Subject: Re: [PATCH 22/24] membarrier.2: Note that glibc does not provide a
+ wrapper
+To:     "G. Branden Robinson" <g.branden.robinson@gmail.com>
+Cc:     linux-kernel@vger.kernel.org, linux-man@vger.kernel.org,
+        mtk.manpages@gmail.com
+References: <20200927054657.ea2zaiesle6hwjit@localhost.localdomain>
+ <562859fd-6740-1068-d9d0-9562140cec33@gmail.com>
+ <20200928125227.yr2ugl23ib6mid76@localhost.localdomain>
+From:   Alejandro Colomar <colomar.6.4.3@gmail.com>
+Message-ID: <5d4f71a6-8a5e-c683-fcbd-b5453435d736@gmail.com>
+Date:   Mon, 28 Sep 2020 15:33:21 +0200
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
+ Thunderbird/68.12.0
 MIME-Version: 1.0
-Content-Type: multipart/signed; micalg=pgp-sha256;
-        protocol="application/pgp-signature"; boundary="ag77ef2jwulb5lr3"
-Content-Disposition: inline
-In-Reply-To: <20200928090322.2058-1-colomar.6.4.3@gmail.com>
-User-Agent: NeoMutt/20180716
+In-Reply-To: <20200928125227.yr2ugl23ib6mid76@localhost.localdomain>
+Content-Type: text/plain; charset=windows-1252; format=flowed
+Content-Language: en-US
+Content-Transfer-Encoding: 7bit
 Precedence: bulk
 List-ID: <linux-man.vger.kernel.org>
 X-Mailing-List: linux-man@vger.kernel.org
 
 
---ag77ef2jwulb5lr3
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
 
-Hi Alex!
+On 2020-09-28 14:52, G. Branden Robinson wrote:
+ > At 2020-09-27T22:05:14+0200, Alejandro Colomar wrote:
+ >> Hi Branden,
+ >>
+ >> * G. Branden Robinson via linux-man:
+ >>
+ >> 1)
+ >>
+ >>> .EX
+ >>> .B int fstat(int \c
+ >>> .IB fd , \~\c
+ >>> .B struct stat *\c
+ >>> .IB statbuf );
+ >>> .EE
+ >>
+ >> 2)
+ >>
+ >>> .EX
+ >>> .BI "int fstat(int " fd ", struct stat *" statbuf );
+ >>> .EE
+ >>
+ >> 3)
+ >>
+ >>> .EX
+ >>> .BI "int fstat(int\~" fd ", struct stat *" statbuf );
+ >>> .EE
+ >>
+ >> I'd say number 2 is best.  Rationale: grep :)
+ >> I agree it's visually somewhat harder, but grepping is way easier.
+ >
+ > I don't see how (2) is any tougher to grep than (3)...?
+ >
+ > If I'm grepping, I'm usually concerned with things like
+ > variable/function names and not with punctuation, so if I were grepping
+ > for the above function signature I'd probably write:
+ >
+ > $ grep 'fstat.*fd.*statbuf' man2/*
+ >
+ > ...which would catch either of the above just fine.
+ >
+ > Am I missing something?
+ >
+ > Regards,
+ > Branden
+ >
 
-At 2020-09-28T11:03:23+0200, Alejandro Colomar wrote:
-> Normally, text under a section header starts in the next line after
-> the header, without a blank line.  Follow that pattern.
+There are a few cases:  if I want to find declarations of type int,
+I'd start with:
 
-I think your terminology could confuse some people.  A section heading
-in a man page is what is typeset by the .SH macro.  For instance, ".SH
-Name", ".SH See also", and so forth[1].
+$ grep -rn "int\s"
 
-In the below, "aiocb" (in italics) is properly termed a "paragraph tag",
-hence the mnemonic for the macro right before it: "TP" for "tagged
-paragraph".
-
-Just FYI.
-
-[...]
-> diff --git a/man7/system_data_types.7 b/man7/system_data_types.7
-> index 361e8d411..ff0403df9 100644
-> --- a/man7/system_data_types.7
-> +++ b/man7/system_data_types.7
-> @@ -66,7 +66,7 @@ system_data_types \- overview of system data types
->  .TP
->  .I aiocb
->  .RS
-> -.PP
-> +.br
->  Include:
->  .IR <aio.h> .
->  .PP
-> @@ -101,7 +101,7 @@ See also:
+or something like that.  "int\~" would break the ability to do that.
 
 Regards,
-Branden
+Alex
 
-[1] Often section headings are written in full capitals in man page
-source documents, which loses information.  The next release of groff
-will feature support for mixed-case section headings with optional
-full-caps rendering under user control.
-
---ag77ef2jwulb5lr3
-Content-Type: application/pgp-signature; name="signature.asc"
-
------BEGIN PGP SIGNATURE-----
-
-iQIzBAEBCAAdFiEEh3PWHWjjDgcrENwa0Z6cfXEmbc4FAl9x37YACgkQ0Z6cfXEm
-bc6how/+IK0J+zI5Joy+Pum6NHHEqjvROFbIapQVpZFUUo1WFRvDX0ozExA/Hd5Y
-TSK1x34TkgMWfp+al+0nR25JcPaD48RtaKsRTtn/yWj01FpJmuga4lws05uUsE/C
-Sk5aWnLxtC9L8J1lZPmkrXSuNXWwHWYmaHF9/BKzsNxFr807idg6uBLbNjQjztaP
-XQK/3TBhXLeG8t59zrAwMNchqRpzGSkb9pVdDKQUjrhc4//17ainUT9BrLPZPJRM
-ByEujq7qWz1gIxcto4xfAzdEHTdcJsYXjvuHO3DKtZQCR1+ggoVjFCWfF3f+eMLJ
-GyW3JHo0+g7ih89fnZmC1OTkgYn1oJ7RE/MQJ69PHgXK1a3aFfMPrBPRzf0CKK8A
-2oNswMbP2MSBm2HOoNg/E3i0dTxebA98MU2iHMYl2r1r7DJbaXrR21YRqkCwnh6Z
-wrydWWWiokwgqTmRG2HtmFv18wB/pTxdqcOWsahV9p6rNAXH3VwkXEKSrahmS+/t
-WKrdobITt4l/+C9DM9vt0K85VYPmEG81wa+8P/qe2YtRLi3j4JiLG7sKCF/fnto9
-unK4NAp8MM9V0O/2seCKWkUz87i0pghlywhEshUlHVGrlsn1+dT8qafjO0XtSiWp
-kuXBVfdK8+/PJ29LMUvbEW+iX8hOGgc9fvokWbEk3aCtFDarsVQ=
-=MEds
------END PGP SIGNATURE-----
-
---ag77ef2jwulb5lr3--
