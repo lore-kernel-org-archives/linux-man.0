@@ -2,230 +2,213 @@ Return-Path: <SRS0=OugX=DG=vger.kernel.org=linux-man-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-11.2 required=3.0 tests=BAYES_00,DKIM_SIGNED,
+X-Spam-Status: No, score=-5.2 required=3.0 tests=BAYES_00,DKIM_SIGNED,
 	DKIM_VALID,DKIM_VALID_AU,FREEMAIL_FORGED_FROMDOMAIN,FREEMAIL_FROM,
-	HEADER_FROM_DIFFERENT_DOMAINS,INCLUDES_PATCH,MAILING_LIST_MULTI,NICE_REPLY_A,
-	SIGNED_OFF_BY,SPF_HELO_NONE,SPF_PASS,USER_AGENT_SANE_1 autolearn=ham
-	autolearn_force=no version=3.4.0
+	HEADER_FROM_DIFFERENT_DOMAINS,MAILING_LIST_MULTI,NICE_REPLY_A,SPF_HELO_NONE,
+	SPF_PASS,URIBL_BLOCKED,USER_AGENT_SANE_1 autolearn=no autolearn_force=no
+	version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 00E38C4727C
-	for <linux-man@archiver.kernel.org>; Tue, 29 Sep 2020 11:57:33 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 8D517C4741F
+	for <linux-man@archiver.kernel.org>; Tue, 29 Sep 2020 12:06:19 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.kernel.org (Postfix) with ESMTP id B102C206CA
-	for <linux-man@archiver.kernel.org>; Tue, 29 Sep 2020 11:57:32 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTP id 452E620674
+	for <linux-man@archiver.kernel.org>; Tue, 29 Sep 2020 12:06:19 +0000 (UTC)
 Authentication-Results: mail.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="Qro0is09"
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="BFDNDeO4"
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1731580AbgI2L5c (ORCPT <rfc822;linux-man@archiver.kernel.org>);
-        Tue, 29 Sep 2020 07:57:32 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:41518 "EHLO
+        id S1730268AbgI2MGO (ORCPT <rfc822;linux-man@archiver.kernel.org>);
+        Tue, 29 Sep 2020 08:06:14 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:42858 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1731577AbgI2L5b (ORCPT
-        <rfc822;linux-man@vger.kernel.org>); Tue, 29 Sep 2020 07:57:31 -0400
+        with ESMTP id S1731901AbgI2MGN (ORCPT
+        <rfc822;linux-man@vger.kernel.org>); Tue, 29 Sep 2020 08:06:13 -0400
 Received: from mail-wr1-x444.google.com (mail-wr1-x444.google.com [IPv6:2a00:1450:4864:20::444])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id B0AD3C061755
-        for <linux-man@vger.kernel.org>; Tue, 29 Sep 2020 04:57:30 -0700 (PDT)
-Received: by mail-wr1-x444.google.com with SMTP id k15so5036146wrn.10
-        for <linux-man@vger.kernel.org>; Tue, 29 Sep 2020 04:57:30 -0700 (PDT)
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 0284BC061755;
+        Tue, 29 Sep 2020 05:06:13 -0700 (PDT)
+Received: by mail-wr1-x444.google.com with SMTP id m6so5128555wrn.0;
+        Tue, 29 Sep 2020 05:06:12 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=gmail.com; s=20161025;
-        h=subject:to:cc:references:from:message-id:date:user-agent
+        h=cc:subject:to:references:from:message-id:date:user-agent
          :mime-version:in-reply-to:content-language:content-transfer-encoding;
-        bh=6bNzq/ebHUet/XdT0FFen+pWdPLwre8g3CY0488K2Vk=;
-        b=Qro0is09mT5H38jKTfw9u+niD+TeT/7VwvKm6gsXKCwB4ZigQ8Jh5UCIBHSbYJTDAo
-         HkttkaGcgElIxy0iaKQ8EdOO0tKpuEUQosQmLovFiKCFXXhodGGw7yllaWgywymtv2YU
-         0WduvJ5/DjxYR0r7673Qndda3uGwIuHNjPjf8+kHfLA3MIaUFvq+MlcG/1vhJTf+PFGO
-         /IHK3+FT2sBhlH3O2X6D+z7JrOLU3FvKIEDTNI11gk6MRsSh+QlLKBfgg4FDJDCRQjfi
-         i/7+qaAIGwwRPvqKm7VQHy2d975Lg+vJ/gOsqQVBsoKaYlTemRq5Hs6rJdbWl8Q3ffpr
-         cniw==
+        bh=JkfzwPFEgR6eqrtsaH3iBBCMGvSyOxw11OTpBaI42jY=;
+        b=BFDNDeO4JtAlWsNLc241AAkX+uwihHDXGI6cSeHgQO3WtsxM7KtgDzB9ZqKr45Mm/k
+         5SIuPAnJZDdiy19k4VUk/zw9CL/04k51KHsOBw06EHaTK5Lj5MTs3QQpbfvt4TWOe49p
+         7UHaLCHkbc028Ia8z72VNAmkzr0IJ1icTjkJRjG58DFgOmTV2L/F/RSy4qcAN943RkFr
+         VxFDHkDNEP5FUZPatpzzKchrseqhPKNf25kK0cQM2GQxgsYA+M6NoDgTqyer6273v3DO
+         0GimAPb3L9m11zJC+9pR37lHWks1daMT3qUg+9msYgvsKbrw9i8XCxUJYHnfCw/z4tvW
+         t3xw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
-        h=x-gm-message-state:subject:to:cc:references:from:message-id:date
+        h=x-gm-message-state:cc:subject:to:references:from:message-id:date
          :user-agent:mime-version:in-reply-to:content-language
          :content-transfer-encoding;
-        bh=6bNzq/ebHUet/XdT0FFen+pWdPLwre8g3CY0488K2Vk=;
-        b=JXu23E13Z++Yo0jPmIjvh3JGbMX30mChCAb3l5EA05gvQwAA6ywmcxop6HENCz3C7z
-         pb062GeZBPZF4JCJ48LVgMKDkOJ+22+skp1kjR02dKkkf0OoKVUg/eFdJOoU59AXqOR/
-         ZAaUswNjQgDA4RpDc61dO7h+Ohsf9doTQuWT1Vh+6KF4xuMgeZxv3pyQ14SM1aOHsKZk
-         lztGcPIvIgrMYN3BYF5prejA+HxIyKGIJhPNIR4mfsjCXZ5otMxq1g0PhGMr4rk2C8nm
-         EY5btzzqA7VwRVVAoCgSsIUuGuFarsxIHY4rLW5zhCnmUiK7UGghuRT/DVc3GChhyxNq
-         RH0A==
-X-Gm-Message-State: AOAM532RpXLai3GVyBWRyZyt3Wrx3vYIYPekrd+HrsMCHcbWtj/vhiiQ
-        CHKyXOM19hs7vBgi+I/ZIEk=
-X-Google-Smtp-Source: ABdhPJwYF4VmLYg811O83aMn45HOLZXW9B11oZEA4yJt5W1xAyBSIjXszVBB8aYI1SNLn7fM4eEwhA==
-X-Received: by 2002:a5d:6cb1:: with SMTP id a17mr4060458wra.386.1601380649338;
-        Tue, 29 Sep 2020 04:57:29 -0700 (PDT)
-Received: from [192.168.1.143] ([170.253.60.68])
-        by smtp.gmail.com with ESMTPSA id t10sm4922739wmi.1.2020.09.29.04.57.28
+        bh=JkfzwPFEgR6eqrtsaH3iBBCMGvSyOxw11OTpBaI42jY=;
+        b=M4IRqa3+GPeok/sx2NQXKZPENmRUGl6HfQyaBE2Qiss0A7L6sBMeDufW0wZLOvwmZx
+         Op+UimclWbsBsxEUA7lHpFFLiD+5ifLuhhiegnaeR5QZyza5fDdBpfQvo7AQK2LOk49I
+         PT3TyJoVfrKJ8TKyfIaR3u0hMt8tZy2LMbI89mlmK8HWLX/B2qYe3RBrxT78wwF0DkKl
+         fzLxIJ+EgZEu09TncR3H0bpOPmxtMghKqSemulVHFwzydbsi/WvhHyHV26w7oiopAPKb
+         JGgYc4OJNbOZGt1HTRdvh0sNNti4dZmm/Qb3xEn1gHJti6olIxSK7E4mwvVCcjBJGAZ9
+         /EEw==
+X-Gm-Message-State: AOAM530kT1NKsSzaZkztuVK2L1TSVNEmvCkWYVokbuOv5/RAoSIdNz0L
+        M2APEkNgfm6YPgNPE7KddDFxn9dHEp4=
+X-Google-Smtp-Source: ABdhPJxe8TS0p/7FhIKfQ3DZzhiud3KocCaTNj03DhjQfmrjzNFA9glvILUgS8isPzWjfHI2KlwQFw==
+X-Received: by 2002:adf:e6c2:: with SMTP id y2mr4191333wrm.117.1601381171317;
+        Tue, 29 Sep 2020 05:06:11 -0700 (PDT)
+Received: from ?IPv6:2001:a61:2479:6801:d8fe:4132:9f23:7e8f? ([2001:a61:2479:6801:d8fe:4132:9f23:7e8f])
+        by smtp.gmail.com with ESMTPSA id k8sm5325750wma.16.2020.09.29.05.06.10
         (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Tue, 29 Sep 2020 04:57:28 -0700 (PDT)
-Subject: Re: [RFC] system_data_types.7: wfix + ffix
-To:     Dave Martin <Dave.Martin@arm.com>
-Cc:     mtk.manpages@gmail.com, g.branden.robinson@gmail.com,
-        linux-man@vger.kernel.org, libc-alpha@sourceware.org
-References: <b49c082f-06fb-aeed-d6c0-6ab619215d43@gmail.com>
- <20200928151646.20271-1-colomar.6.4.3@gmail.com>
- <20200929103719.GJ6642@arm.com>
-From:   Alejandro Colomar <colomar.6.4.3@gmail.com>
-Message-ID: <b163c51a-1308-c260-c6cc-7930131b6c0e@gmail.com>
-Date:   Tue, 29 Sep 2020 13:57:27 +0200
+        Tue, 29 Sep 2020 05:06:10 -0700 (PDT)
+Cc:     mtk.manpages@gmail.com,
+        "linux-man@vger.kernel.org" <linux-man@vger.kernel.org>,
+        "linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>
+Subject: Re: [PATCH 22/24] membarrier.2: Note that glibc does not provide a
+ wrapper
+To:     "G. Branden Robinson" <g.branden.robinson@gmail.com>
+References: <20200910211344.3562-1-colomar.6.4.3@gmail.com>
+ <20200910211344.3562-23-colomar.6.4.3@gmail.com>
+ <4ace434523f5491b9efcc7af175ad781@bfs.de>
+ <20200921143617.2iskdncu3diginqn@localhost.localdomain>
+ <2862c745-a23a-95d2-157e-7f91f671f839@gmail.com>
+ <20200927054657.ea2zaiesle6hwjit@localhost.localdomain>
+From:   "Michael Kerrisk (man-pages)" <mtk.manpages@gmail.com>
+Message-ID: <baeb500b-f252-2632-585a-93adfab28141@gmail.com>
+Date:   Tue, 29 Sep 2020 14:06:07 +0200
 User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
- Thunderbird/68.12.0
+ Thunderbird/68.10.0
 MIME-Version: 1.0
-In-Reply-To: <20200929103719.GJ6642@arm.com>
-Content-Type: text/plain; charset=utf-8; format=flowed
+In-Reply-To: <20200927054657.ea2zaiesle6hwjit@localhost.localdomain>
+Content-Type: text/plain; charset=windows-1252
 Content-Language: en-US
 Content-Transfer-Encoding: 7bit
 Precedence: bulk
 List-ID: <linux-man.vger.kernel.org>
 X-Mailing-List: linux-man@vger.kernel.org
 
-Hi Dave,
+Hi Branden,
 
-On 2020-09-29 12:37, Dave Martin wrote:
-> On Mon, Sep 28, 2020 at 05:16:47PM +0200, Alejandro Colomar wrote:
->> The previous format/wording for the includes wasn't very clear.
->> Improve it a bit following Branden's proposal.
->>
->> Reported-by: G. Branden Robinson <g.branden.robinson@gmail.com>
->> Signed-off-by: Alejandro Colomar <colomar.6.4.3@gmail.com>
->> ---
->>
->> Hi,
->>
->> What do you think about this?
->>
->> Would you change something?
+On 9/27/20 7:46 AM, G. Branden Robinson wrote:
+> At 2020-09-24T10:06:23+0200, Michael Kerrisk (man-pages) wrote:
+>> Thanks for the interesting history, Branden!
 > 
-> Why should the user of a man page have to go look at the comments in the
-> page source in order to find an explanation of what the notation in the
-> page means?  That seems very strange.
+> Hi, Michael.  And you're welcome!  I often wonder if I test people's
+> patience with my info dumps but I try to show my work when making
+> claims.
+> 
+>> From time toi time I wonder if the function prototypes in
+>> the SYNOPSIS should also be inside .EX/.EE. Your thoughts?
+> 
+> I think there are trade-offs.
+> 
+> 1. If you want alignment, the monospaced font that .EX/.EE uses is the
+>    most portable way to get it.
+> 2. For typeset output, you'll generally run out of line more quickly
+>    with a monospaced font than with the troff/man default (Times).
+>    _Any_ time filling is off, output should be checked to see if it
+>    overruns the right margin, but this point strengthens in monospace.
 
-I think I'll add a paragraph in the NOTES section at the bottom of the page.
+Yes, it's a good point. I think I'll leave this idea for now.
 
+> Here's something that isn't a trade-off that might come as a surprise to
+> some readers.
 > 
->>
->> Thanks,
->>
->> Alex
->>
->>
->>   man7/system_data_types.7 | 285 ++++++++++++++++-----------------------
->>   1 file changed, 113 insertions(+), 172 deletions(-)
->>
->> diff --git a/man7/system_data_types.7 b/man7/system_data_types.7
->> index 16930985e..dc4a3bae4 100644
->> --- a/man7/system_data_types.7
->> +++ b/man7/system_data_types.7
->> @@ -33,20 +33,21 @@ system_data_types \- overview of system data types
->>   .\"	Each entry will have the following parts:
->>   .\"		* Include
->>   .\"			The headers will be in the following order:
->> +.\"			"Include:"
->>   .\"			1) The main header that shall define the type
->> -.\"			   according to the C Standard,
->> -.\"			   and
->> -.\"			   the main header that shall define the type
->> -.\"			   according to POSIX,
->> -.\"			   in alphabetical order.
->> -.\"			;
->> -.\"			2) All other headers that shall define the type
->> +.\"			   according to the C Standard.
->> +.\"			["or"]
->> +.\"			2) The main header that shall define the type
->> +.\"			   according to POSIX.
->> +.\"			[". Alternatively,"]
->> +.\"			3) All other headers that shall define the type
->>   .\"			   as described in the previous header(s)
->>   .\"			   according to the C Standard or POSIX,
->>   .\"			   in alphabetical order.
->>   .\"			*) All headers that define the type
->>   .\"			   *if* the type is not defined by C nor POSIX,
->>   .\"			   in alphabetical order.
->> +.\"			"."
+> * You can still get bold and italics inside an .EX/.EE region, so you
+>   can still use these distinguish data types, variable names, and
+>   what-have-you.
 > 
-> It is fine to have notes about page maintenance here -- i.e., which
-> headers should be placed where in the list, and what order to sort them
-> in.
+> The idiom for achieving this is apparently not well-known among those
+> who write man pages by hand, and tools that generate man(7) language
+> from some other source often produce output that is so ugly as to be
+> unintelligible to non-experts in *roff.
 > 
-> However, I think that statements about which header(s) provide the type
-> under which standard need to be in the actual page text.  Programmers
-> need this information.
+> The key insights are that (A) you can still make macro calls inside an
+> .EX/.EE region, and (B) you can use the \c escape to "interrupt" an
+> input line and continue it on the next without introducing any
+> whitespace.  For instance, looking at fstat() from your stat(2) page, I
+> might write it using .EX and .EE as follows:
+> 
+> .EX
+> .B int fstat(int \c
+> .IB fd , \~\c
+> .B struct stat *\c
+> .IB statbuf );
+> .EE
+> 
+> Normally in man pages, it is senseless to have any spaces before the \c
+> escape, and \c is best omitted in that event.  However, when filling is
+> disabled (as is the case in .EX/.EE regions), output lines break where
+> the input lines do by default--\c overrides this, causing the lines to
+> be joined.  (Regarding the \~, see below.)
+> 
+> If there is no use for roman in the line, then you could do the whole
+> function signature with the .BI macro by quoting macro arguments that
+> contain whitespace.
 
-I hope a paragraph in the NOTES section will be explicit enough, as said 
-above.
-
+I was more or less aware of all of the above. (But the \c technique
+is something that I see rarely enough that I often take a moment to
+remember what it does.)
 > 
->>   .\"
->>   .\"		* Definition (no "Definition" header)
->>   .\"			Only struct/union types will have definition;
->> @@ -203,8 +204,8 @@ See also:
->>   .RS
->>   .br
->>   Include:
->> -.IR <stdio.h> ;
->> -or
->> +.IR <stdio.h> .
->> +Alternatively,
->>   .IR <wchar.h> .
->>   .PP
->>   An object type used for streams.
->> @@ -268,19 +269,14 @@ type in this page.
->>   .RS
->>   .br
->>   Include:
->> -.IR <sys/types.h> ;
->> -or
->> -.I <grp.h>
->> -or
->> -.I <pwd.h>
->> -or
->> -.I <signal.h>
->> -or
->> -.i <stropts.h>
->> -or
->> -.I <sys/ipc.h>
->> -or
->> -.I <sys/stat.h>
->> +.IR <sys/types.h> .
->> +Alternatively,
+> .EX
+> .BI "int fstat(int " fd ", struct stat *" statbuf );
+> .EE
 > 
-> How does the reader of the page know that "alternatively" here has a
-> specific and different meaning from "or"?
+> As a matter of personal style, I find quoted space characters interior
+> but adjacent to quotation marks visually confusing--it's slower for me
+> to tell which parts of the line are "inside" the quotes and which
+> outside--so I turn to groff's \~ non-breaking space escape (widely
+> supported elsewhere) for these boundary spaces.
+> 
+> .EX
+> .BI "int fstat(int\~" fd ", struct stat *" statbuf );
+> .EE
+> 
+> Which of the above three models do you think would work best for the
+> man-pages project?
 
-Well, it remarks a bit that those are something like 2nd class headers 
-for that definition.  But that together with a paragraph in NOTES will 
-be better.
+I understand what you say about quoted interior spaces being 
+a little hard to parse. But I find the \~ makes the source
+less readable. Likewise, IMO, the \c technique renders the source
+harder to read.
+
+> Also, do you have any use for roman in function signatures?  I see it
+> used for comments and feature test macro material, but not within
+> function signatures proper.
+
+I think you're correct. Roman only occurs in comments.
 
 > 
-> Can we describe this somehow along the lines of:
-> 
-> The C standards specify this type in the following header:
-> 
-> 	<stddef.h>
-> 
-> In POSIX environments, it is sufficient instead to include any of the
-> following headers, but the resulting program may not be portable to
-> other C implementations unless <stddef.h> is also included:
-> 
-> 	[etc.]
-> 
-> 
-> (I'm not sure this is 100% true, but it seems a safe recommendation.
-> I'm also being lazy by writing "the C standards" and "POSIX
-> environments" here -- it would be better to be specific.)
-> 
-> [...]
+> As an aside, I will admit to some unease with the heavy use of bold in
+> synopses in section 2 and 3 man pages, 
 
-I wanted to avoid that because that would add a lot of noise lines.
+It's been that way "forever" in the Linux man-pages.
 
-Do you think the note in NOTES would be enough?
+> but I can marshal no historical
+> argument against it.  In fact, a quick check of some Unix v7 section 2
+> pages from 1979 that I have lying around (thanks to TUHS) reveals that
+> Bell Labs used undifferentiated bold for the whole synopsis!
+> 
+> $ head -n 13 usr/man/man2/stat.2
+> .TH STAT 2 
+> .SH NAME
+> stat, fstat \- get file status
+> .SH SYNOPSIS
+> .B #include <sys/types.h>
+> .br
+> .B #include <sys/stat.h>
+> .PP
+> .B stat(name, buf)
+> .br
+> .B char *name;
+> .br
+> .B struct stat *buf;
+
+As ever, thanks for the history!
 
 Thanks,
 
-Alex
+Michael
 
-> 
-> Cheers
-> ---Dave
-> 
+-- 
+Michael Kerrisk
+Linux man-pages maintainer; http://www.kernel.org/doc/man-pages/
+Linux/UNIX System Programming Training: http://man7.org/training/
