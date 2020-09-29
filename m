@@ -2,245 +2,166 @@ Return-Path: <SRS0=OugX=DG=vger.kernel.org=linux-man-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-11.2 required=3.0 tests=BAYES_00,DKIM_SIGNED,
+X-Spam-Status: No, score=-5.2 required=3.0 tests=BAYES_00,DKIM_SIGNED,
 	DKIM_VALID,DKIM_VALID_AU,FREEMAIL_FORGED_FROMDOMAIN,FREEMAIL_FROM,
-	HEADER_FROM_DIFFERENT_DOMAINS,INCLUDES_PATCH,MAILING_LIST_MULTI,NICE_REPLY_A,
-	SIGNED_OFF_BY,SPF_HELO_NONE,SPF_PASS,URIBL_BLOCKED,USER_AGENT_SANE_1
-	autolearn=ham autolearn_force=no version=3.4.0
+	HEADER_FROM_DIFFERENT_DOMAINS,MAILING_LIST_MULTI,NICE_REPLY_A,SPF_HELO_NONE,
+	SPF_PASS,USER_AGENT_SANE_1 autolearn=no autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 6A1A8C4727C
-	for <linux-man@archiver.kernel.org>; Tue, 29 Sep 2020 12:24:04 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id EBB52C4741F
+	for <linux-man@archiver.kernel.org>; Tue, 29 Sep 2020 12:24:47 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.kernel.org (Postfix) with ESMTP id 1DB172075F
-	for <linux-man@archiver.kernel.org>; Tue, 29 Sep 2020 12:24:04 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTP id 9838B2076A
+	for <linux-man@archiver.kernel.org>; Tue, 29 Sep 2020 12:24:47 +0000 (UTC)
 Authentication-Results: mail.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="fGb1Hv3E"
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="KP1DCsba"
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1729833AbgI2MYD (ORCPT <rfc822;linux-man@archiver.kernel.org>);
-        Tue, 29 Sep 2020 08:24:03 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:38038 "EHLO
+        id S1729865AbgI2MYq (ORCPT <rfc822;linux-man@archiver.kernel.org>);
+        Tue, 29 Sep 2020 08:24:46 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:45662 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1729778AbgI2LfJ (ORCPT
-        <rfc822;linux-man@vger.kernel.org>); Tue, 29 Sep 2020 07:35:09 -0400
-Received: from mail-wr1-x444.google.com (mail-wr1-x444.google.com [IPv6:2a00:1450:4864:20::444])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 06F7BC0613E0
-        for <linux-man@vger.kernel.org>; Tue, 29 Sep 2020 04:34:55 -0700 (PDT)
-Received: by mail-wr1-x444.google.com with SMTP id j2so4980917wrx.7
-        for <linux-man@vger.kernel.org>; Tue, 29 Sep 2020 04:34:54 -0700 (PDT)
+        with ESMTP id S1729826AbgI2MY3 (ORCPT
+        <rfc822;linux-man@vger.kernel.org>); Tue, 29 Sep 2020 08:24:29 -0400
+Received: from mail-wr1-x441.google.com (mail-wr1-x441.google.com [IPv6:2a00:1450:4864:20::441])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id D8C50C061755
+        for <linux-man@vger.kernel.org>; Tue, 29 Sep 2020 05:24:28 -0700 (PDT)
+Received: by mail-wr1-x441.google.com with SMTP id c18so5140022wrm.9
+        for <linux-man@vger.kernel.org>; Tue, 29 Sep 2020 05:24:28 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=gmail.com; s=20161025;
-        h=cc:subject:to:references:from:message-id:date:user-agent
+        h=subject:to:cc:references:from:message-id:date:user-agent
          :mime-version:in-reply-to:content-language:content-transfer-encoding;
-        bh=c5fXOtf7lkedRTbIqv+UVBPZkbQpmlhM92seLZS5gR0=;
-        b=fGb1Hv3E3G0vU3k/wUUYQ26PVbADMBYf2UjfAvCfUJk4BLLrBrrrZqqp55o6Oewgsp
-         vvi0DHOaweuiOquunTYKoG8Xhb8ZsWXk3S0Z8lmSb4gbVj2wbQUa1ewNXxdrGXcS5MEG
-         oTUlwGD9h+RLGKpPRc57j0W/YQtLWawhg8i9D0GLq9TD/6vIy2b3qf7qYAwTKe4TWPFX
-         lWYMj965B/bA+TJrjvqMDY03kboQ3K5jCZF2gtxQaFrLBNjswpembq72GK5DqNsbF7x7
-         XduFa5pEaUUQZNZWs+XNDPt9+cg5Cqr4eyS6TN+WjuHWCMmdodq6O9wdW9dNLb4KcjR3
-         41kg==
+        bh=ODcpmbF7LcqJ/4Uk6LuZELIVtudhbacDnbSYnim+4jg=;
+        b=KP1DCsba04CBxKvJFsZqh9J6NC3/iZhBIlDTrkRbygh+vwNseJVjgb1RHPjf6eaLIt
+         62p3oVGE5IjXi+PVlhvE+eTBvtLR6vsAtpwdRPxYx75bvhenzImCbVUgfsvT66fjBtdd
+         JCECV2zpAZJ8kqlhLhuSqlMFIMqCzRaYypWVksfUmnjPlgDLM9Y1DlLJ/QNuGgh0aYDz
+         74Gc/2O1+s85r48hMDGs72mBPhxdYFCe2vzJcR/FAHBTk9uP6+UGZGm+/lAXWSoA3ejH
+         5chifUppQjbL6qx7IRrVRqtys4XkuW1BaK//fL6r6TIzELnQSALj0mVyHMeJBnAUPp3e
+         Jp4Q==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
-        h=x-gm-message-state:cc:subject:to:references:from:message-id:date
+        h=x-gm-message-state:subject:to:cc:references:from:message-id:date
          :user-agent:mime-version:in-reply-to:content-language
          :content-transfer-encoding;
-        bh=c5fXOtf7lkedRTbIqv+UVBPZkbQpmlhM92seLZS5gR0=;
-        b=f7YUyKspVCYUD5w4b1XXumVUbEbVqJ9EWpMbTHt4wOnERh0oFXcraqoeb/84wbhqaN
-         XH/52FLs8oiB9eiC9nE0w90VXHroMTppQW/61cSqGz33sSsNOAF3YNDRZLxOkBvw0Iim
-         VuZaJPSFbQ46oVZ5WBq8Iei8WoYAOcOo91WW9P2AW1+DpxrOdWmEYjDYIRfF0ihikT7V
-         fR2/tKi+CPuOAN7M3PXliQIseMj4dVcEYOoqJfm1PFDA/84rR06QVVm+hP9bX+mClnp7
-         z0iv0WThXdRYQtljkcANK+Wmi+NfFFvOHDheQ7jyMyD4o8wjtgmBSG7rq/MqZinY9uuq
-         J3tA==
-X-Gm-Message-State: AOAM532t7A8VOM4g1vDiNpzTGi4/NJzayTx6S+DrjQ0ebv4XbeVNaYaU
-        eBd/xNaf+o5hmgDULxCiRO4=
-X-Google-Smtp-Source: ABdhPJyZIowNiDfn6Df9XN84ZYH7z5ZaFpF7/EGLEBoH3lt1k5x8uEZNv6ZxIREzax2RZfo+vRsGAw==
-X-Received: by 2002:adf:e80b:: with SMTP id o11mr4068513wrm.118.1601379293654;
-        Tue, 29 Sep 2020 04:34:53 -0700 (PDT)
-Received: from ?IPv6:2001:a61:2479:6801:d8fe:4132:9f23:7e8f? ([2001:a61:2479:6801:d8fe:4132:9f23:7e8f])
-        by smtp.gmail.com with ESMTPSA id m3sm5807736wrs.83.2020.09.29.04.34.52
+        bh=ODcpmbF7LcqJ/4Uk6LuZELIVtudhbacDnbSYnim+4jg=;
+        b=DtZJl0pllgKHqKyXkCP7j16sW1cAIuIB9Y3xyLbKh9YDxTxcFHUM8dKZJC6CiPZLIy
+         YSVfpPLR+EaFbTUUxcNY9/kkyH89Pb09pFgV2eY/5vk0/aRuHTo2w6FoAQXS5AVmFiqC
+         D4+1P3Y0DZUYs9ELcL2056v8i0TjtLqVdIhQHX2O6X1gnm7uHZxXKabIdbeCYZRHRtr0
+         AmpGXuCtRySichW5jPIUmf/l563o+aETSgNEWvvGx4+04H89+6Jr2d8XCkJ6z1iAem0o
+         JYzqS2R2RuBpuYAI0qH4H+raPQbK2TxwDOHHPhod9aT/sKjz7omYlUn7TXj+Z8H2ZdqU
+         T/fw==
+X-Gm-Message-State: AOAM532WuS9/DDro2OcdonSA4FgHz7/lNe7ryigZc3G2qRxjAc1sXs6I
+        xGLZTOGaOdoZk+cNkMm75U8=
+X-Google-Smtp-Source: ABdhPJy1kJBVlBmzy44xRNHi9NPO8p0Mo3B/KOBJR6OpixP2t+D+BfTjc+4WLB2TA7ZLKS88yfA7Xg==
+X-Received: by 2002:adf:f7ca:: with SMTP id a10mr3957339wrq.321.1601382267482;
+        Tue, 29 Sep 2020 05:24:27 -0700 (PDT)
+Received: from [192.168.1.143] ([170.253.60.68])
+        by smtp.gmail.com with ESMTPSA id m3sm5995362wrs.83.2020.09.29.05.24.26
         (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Tue, 29 Sep 2020 04:34:53 -0700 (PDT)
-Cc:     mtk.manpages@gmail.com, g.branden.robinson@gmail.com,
-        linux-man@vger.kernel.org, libc-alpha@sourceware.org
-Subject: Re: [RFC] system_data_types.7: wfix + ffix
-To:     Dave Martin <Dave.Martin@arm.com>,
-        Alejandro Colomar <colomar.6.4.3@gmail.com>
-References: <b49c082f-06fb-aeed-d6c0-6ab619215d43@gmail.com>
- <20200928151646.20271-1-colomar.6.4.3@gmail.com>
- <20200929103719.GJ6642@arm.com>
-From:   "Michael Kerrisk (man-pages)" <mtk.manpages@gmail.com>
-Message-ID: <a65faef4-42c3-8a55-e1ed-e06499769735@gmail.com>
-Date:   Tue, 29 Sep 2020 13:34:52 +0200
+        Tue, 29 Sep 2020 05:24:26 -0700 (PDT)
+Subject: Re: [PATCH 0/8] Add some <stdint.h> types
+To:     mtk.manpages@gmail.com
+Cc:     linux-man <linux-man@vger.kernel.org>,
+        "libc-alpha@sourceware.org" <libc-alpha@sourceware.org>,
+        gcc@gcc.gnu.org
+References: <20200929082524.49529-1-colomar.6.4.3@gmail.com>
+ <CAKgNAkiicqXrCMnr=DbLdFO27yg307wdrMh=QmQu2r2TPZfkuA@mail.gmail.com>
+From:   Alejandro Colomar <colomar.6.4.3@gmail.com>
+Message-ID: <60b619af-f7e1-2a80-ade1-50fef33c83b6@gmail.com>
+Date:   Tue, 29 Sep 2020 14:24:26 +0200
 User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
- Thunderbird/68.10.0
+ Thunderbird/68.12.0
 MIME-Version: 1.0
-In-Reply-To: <20200929103719.GJ6642@arm.com>
-Content-Type: text/plain; charset=utf-8
+In-Reply-To: <CAKgNAkiicqXrCMnr=DbLdFO27yg307wdrMh=QmQu2r2TPZfkuA@mail.gmail.com>
+Content-Type: text/plain; charset=utf-8; format=flowed
 Content-Language: en-US
 Content-Transfer-Encoding: 7bit
 Precedence: bulk
 List-ID: <linux-man.vger.kernel.org>
 X-Mailing-List: linux-man@vger.kernel.org
 
-Hi Alex, Dave,
+Hi Michael,
 
-[Alex, just to note: this patch doesn't apply against current master.]
+On 2020-09-29 13:50, Michael Kerrisk (man-pages) wrote:
+ > Hi Alex
+ >
+ > On Tue, 29 Sep 2020 at 10:26, Alejandro Colomar 
+<colomar.6.4.3@gmail.com> wrote:
+ >>
+ >> Hi Michael,
+ >>
+ >> I started with <stdint.h> types.
+ >
+ > Good. I wanted those the other day :-), but then I saw they weren't in
+ > the page yet!
 
-On 9/29/20 12:37 PM, Dave Martin wrote:
-> On Mon, Sep 28, 2020 at 05:16:47PM +0200, Alejandro Colomar wrote:
->> The previous format/wording for the includes wasn't very clear.
->> Improve it a bit following Branden's proposal.
->>
->> Reported-by: G. Branden Robinson <g.branden.robinson@gmail.com>
->> Signed-off-by: Alejandro Colomar <colomar.6.4.3@gmail.com>
->> ---
->>
->> Hi,
->>
->> What do you think about this?
->>
->> Would you change something?
-> 
-> Why should the user of a man page have to go look at the comments in the
-> page source in order to find an explanation of what the notation in the
-> page means?  That seems very strange.
+They were complicated, so I left them for when the page was a bit more
+mature :-)
 
-I do agree that we need to add some help for the reader.
+ >
+ >> I joined them by groups:
+ >> intN_t instead of having an entry for each int8_t, int16_t, ...
+ >> I think that way I could better explain the types, common things,
+ >> differences, and exceptions.
+ >
+ > Yes, I think that's a good approach.
 
-Alex, how about we start as follows. At the end of the NOTES Section,
-let's add a "Conventions used in this page" subsection (.SS).
+Good.
 
-Some things to mention there:
+ >
+ >> I'll wait until you review them to write about the remaining <stdint.h>
+ >> types: [u]int_leastN_t, [u]int_fastN_t, and [u]intptr_t.
+ >
+ > Although the patch at
+ > 
+https://lore.kernel.org/linux-man/20200928151646.20271-1-colomar.6.4.3@gmail.com/
+ > doesn't apply (can you send me a revision please), and even though
+ > these patches employ the "Include/Alternatively" form, I've applied
+ > them. (Everything is now pushed.)
 
-* In "Conforming to" we only concern ourselves
-  with POSIX.2001 and later and C99 and later.
-  The type may be specified in earlier versions
-  of one of these standards, but in the interests
-  of simplicity we omit details from earlier standards.
+I had the following commit history.
 
-* In "Include", we first note the "primary" header(s)
-  that define the type according to either the C or POSIX.1
-  standards. Under "Alternatively", we note additional headers
-  that the standards specify shall define the type.
+I'll rebase again anyway and check what is pending, etc,
+and fix anything that broke.
 
-And then I have a question. Alex, did you so far find a case of
-type where the C standard specified that a particular header
-shall define the type, but PPOSIX.1 either did not have that
-requirement or did not specify that header? I've been kind of
-expecting that the set of headers specified by POSIX be a proper 
-superset of the the set of headers specified by C, but maybe 
-you have found otherwise.
+* 736f143b4 - Tue, 29 Sep 2020 10:05:33 +0200 (3 hours ago) (origin/alx, 
+origin/HEAD, alx)
+|           uint8_t.3, uint16_t.3, uint32_t.3, uint64_t.3, uintN_t.3: 
+New links to system_data_types(7) - Alejandro Colomar
+* 3afc79ba6 - Tue, 29 Sep 2020 10:04:26 +0200 (3 hours ago)
+|           system_data_types.7: Add uintN_t family of types - Alejandro 
+Colomar
+* 3e317d073 - Tue, 29 Sep 2020 10:03:37 +0200 (3 hours ago)
+|           int8_t.3, int16_t.3, int32_t.3, int64_t.3, intN_t.3: New 
+links to system_data_types(7) - Alejandro Colomar
+* 46f64d53c - Tue, 29 Sep 2020 10:01:52 +0200 (3 hours ago)
+|           system_data_types.7: Add intN_t family of types - Alejandro 
+Colomar
+* 30f375485 - Tue, 29 Sep 2020 10:00:27 +0200 (3 hours ago)
+|           uintmax_t.3: New link to system_data_types(7) - Alejandro 
+Colomar
+* 1c95c8701 - Tue, 29 Sep 2020 10:00:02 +0200 (3 hours ago)
+|           system_data_types.7: Add 'uintmax_t' - Alejandro Colomar
+* 8b1faa88d - Tue, 29 Sep 2020 09:58:08 +0200 (3 hours ago)
+|           intmax_t.3: New link to system_data_types(7) - Alejandro Colomar
+* 0beb4210b - Tue, 29 Sep 2020 09:57:31 +0200 (3 hours ago)
+|           system_data_types.7: Add 'intmax_t' - Alejandro Colomar
+* 40b39dc1f - Mon, 28 Sep 2020 17:08:46 +0200 (20 hours ago)
+|           system_data_types.7: wfix + ffix - Alejandro Colomar
+* 4cefd8302 - Sun, 27 Sep 2020 23:11:43 +0200 (2 days ago)
+|           FILE.3: New link to system_data_types(7) - Alejandro Colomar
+* a65f25603 - Sun, 27 Sep 2020 23:10:36 +0200 (2 days ago)
+|           system_data_types.7: Add 'FILE' - Alejandro Colomar
+* 9cdd2e051 - Sun, 27 Sep 2020 23:13:43 +0200 (2 days ago) 
+(upstream/master, master)
+|           system_data_types.7: ffix - Alejandro Colomar
 
->>  man7/system_data_types.7 | 285 ++++++++++++++++-----------------------
->>  1 file changed, 113 insertions(+), 172 deletions(-)
->>
->> diff --git a/man7/system_data_types.7 b/man7/system_data_types.7
->> index 16930985e..dc4a3bae4 100644
->> --- a/man7/system_data_types.7
->> +++ b/man7/system_data_types.7
->> @@ -33,20 +33,21 @@ system_data_types \- overview of system data types
->>  .\"	Each entry will have the following parts:
->>  .\"		* Include
->>  .\"			The headers will be in the following order:
->> +.\"			"Include:"
->>  .\"			1) The main header that shall define the type
->> -.\"			   according to the C Standard,
->> -.\"			   and
->> -.\"			   the main header that shall define the type
->> -.\"			   according to POSIX,
->> -.\"			   in alphabetical order.
->> -.\"			;
->> -.\"			2) All other headers that shall define the type
->> +.\"			   according to the C Standard.
->> +.\"			["or"]
->> +.\"			2) The main header that shall define the type
->> +.\"			   according to POSIX.
->> +.\"			[". Alternatively,"]
->> +.\"			3) All other headers that shall define the type
->>  .\"			   as described in the previous header(s)
->>  .\"			   according to the C Standard or POSIX,
->>  .\"			   in alphabetical order.
->>  .\"			*) All headers that define the type
->>  .\"			   *if* the type is not defined by C nor POSIX,
->>  .\"			   in alphabetical order.
->> +.\"			"."
-> 
-> It is fine to have notes about page maintenance here -- i.e., which
-> headers should be placed where in the list, and what order to sort them
-> in.
-> 
-> However, I think that statements about which header(s) provide the type
-> under which standard need to be in the actual page text.  Programmers
-> need this information.
-
-My question (to Alex) above is related. (And to repeat, the thing
-I most care about in the man pages is POSIX.1, rather than C.)
-
->>  .\"
->>  .\"		* Definition (no "Definition" header)
->>  .\"			Only struct/union types will have definition;
->> @@ -203,8 +204,8 @@ See also:
->>  .RS
->>  .br
->>  Include:
->> -.IR <stdio.h> ;
->> -or
->> +.IR <stdio.h> .
->> +Alternatively,
->>  .IR <wchar.h> .
->>  .PP
->>  An object type used for streams.
->> @@ -268,19 +269,14 @@ type in this page.
->>  .RS
->>  .br
->>  Include:
->> -.IR <sys/types.h> ;
->> -or
->> -.I <grp.h>
->> -or
->> -.I <pwd.h>
->> -or
->> -.I <signal.h>
->> -or
->> -.i <stropts.h>
->> -or
->> -.I <sys/ipc.h>
->> -or
->> -.I <sys/stat.h>
->> +.IR <sys/types.h> .
->> +Alternatively,
-> 
-> How does the reader of the page know that "alternatively" here has a
-> specific and different meaning from "or"?
-> 
-> Can we describe this somehow along the lines of:
-> 
-> The C standards specify this type in the following header:
-> 
-> 	<stddef.h>
-> 
-> In POSIX environments, it is sufficient instead to include any of the
-> following headers, but the resulting program may not be portable to
-> other C implementations unless <stddef.h> is also included:
-> 
-> 	[etc.]
-> 
-> 
-> (I'm not sure this is 100% true, but it seems a safe recommendation.
-> I'm also being lazy by writing "the C standards" and "POSIX
-> environments" here -- it would be better to be specific.)
-
-This feels too verbose to me. Again, I care more about POSIX
-than C here. This is Linux; it quacks like a UNIX; so POSIX
-is the most relevant thing. And I want to keep the discussion
-of these types reasonably brief. In particular, I think that
-people who care a lot about portability across C implementations
-need to be looking somewhere else than the Linux manual pages.
+ >
+ > Thanks,
+ >
+ > Michael
+ >
 
 Thanks,
 
-Michael
+Alex
 
--- 
-Michael Kerrisk
-Linux man-pages maintainer; http://www.kernel.org/doc/man-pages/
-Linux/UNIX System Programming Training: http://man7.org/training/
