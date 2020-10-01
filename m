@@ -2,98 +2,92 @@ Return-Path: <SRS0=pEEh=DI=vger.kernel.org=linux-man-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-6.8 required=3.0 tests=BAYES_00,DKIM_SIGNED,
+X-Spam-Status: No, score=-12.8 required=3.0 tests=BAYES_00,DKIM_SIGNED,
 	DKIM_VALID,DKIM_VALID_AU,FREEMAIL_FORGED_FROMDOMAIN,FREEMAIL_FROM,
-	HEADER_FROM_DIFFERENT_DOMAINS,MAILING_LIST_MULTI,SPF_HELO_NONE,SPF_PASS,
-	USER_AGENT_GIT autolearn=no autolearn_force=no version=3.4.0
+	HEADER_FROM_DIFFERENT_DOMAINS,INCLUDES_PATCH,MAILING_LIST_MULTI,SIGNED_OFF_BY,
+	SPF_HELO_NONE,SPF_PASS,USER_AGENT_GIT autolearn=ham autolearn_force=no
+	version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 20030C4727E
+	by smtp.lore.kernel.org (Postfix) with ESMTP id A2BD0C4741F
 	for <linux-man@archiver.kernel.org>; Thu,  1 Oct 2020 15:07:02 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.kernel.org (Postfix) with ESMTP id C041020838
-	for <linux-man@archiver.kernel.org>; Thu,  1 Oct 2020 15:07:01 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTP id 5E11D207F7
+	for <linux-man@archiver.kernel.org>; Thu,  1 Oct 2020 15:07:02 +0000 (UTC)
 Authentication-Results: mail.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="ibehrp+v"
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="OcLmKrO7"
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1732213AbgJAPHB (ORCPT <rfc822;linux-man@archiver.kernel.org>);
-        Thu, 1 Oct 2020 11:07:01 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:35482 "EHLO
+        id S1732495AbgJAPHC (ORCPT <rfc822;linux-man@archiver.kernel.org>);
+        Thu, 1 Oct 2020 11:07:02 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:35490 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
         with ESMTP id S1732414AbgJAPHB (ORCPT
         <rfc822;linux-man@vger.kernel.org>); Thu, 1 Oct 2020 11:07:01 -0400
-Received: from mail-wr1-x42a.google.com (mail-wr1-x42a.google.com [IPv6:2a00:1450:4864:20::42a])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 80F77C0613D0
-        for <linux-man@vger.kernel.org>; Thu,  1 Oct 2020 08:06:59 -0700 (PDT)
-Received: by mail-wr1-x42a.google.com with SMTP id o5so6186011wrn.13
-        for <linux-man@vger.kernel.org>; Thu, 01 Oct 2020 08:06:59 -0700 (PDT)
+Received: from mail-wr1-x442.google.com (mail-wr1-x442.google.com [IPv6:2a00:1450:4864:20::442])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 98164C0613D0
+        for <linux-man@vger.kernel.org>; Thu,  1 Oct 2020 08:07:01 -0700 (PDT)
+Received: by mail-wr1-x442.google.com with SMTP id w5so6194045wrp.8
+        for <linux-man@vger.kernel.org>; Thu, 01 Oct 2020 08:07:01 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=gmail.com; s=20161025;
-        h=from:to:cc:subject:date:message-id:mime-version
-         :content-transfer-encoding;
-        bh=agvrGpgDrH5qNLTLM7psr6FXV6CRbe2pCP0Jtc60da0=;
-        b=ibehrp+vvB8cEknqLrJvJmIkU662BL0Vk0gwtTRKoIhWldhGIHP/tFiYZwYwIRD7Tv
-         4lkcmeQtqGPxbezA0ypIUJM1DBnX+kgpZXR2j9XFaBVRLalfaR5wYcIIWZjAwbc6pYj6
-         yC6WkXNdrSNfnahieL75WYrVDDRUZylhFCysy+qfLCxqn1wFxk5l/5H+WKsQOft5fsuJ
-         E+LFkq36T3l761iVMWMdXgeM4674cuSW+jH+6TF31SvaE5Rc8A2KCTGIkPpqoWdBsYPs
-         1696FFBcOzVlD2r1VknBQUrVDAe3ryqn2ZPLWujPtC32/xJCXLY88uOVKYQaPcJHeMtg
-         P14A==
+        h=from:to:cc:subject:date:message-id:in-reply-to:references
+         :mime-version:content-transfer-encoding;
+        bh=YBanW5L7jTWepsRc1GN7VlVzm8sGI1LC0WeenfAKtkw=;
+        b=OcLmKrO7yi81ycswKgoSgNMkycPFrGaXMyNsnSuP0QbgTGSk/timyL+DyA5JJO0QSw
+         WAR12N+BoOaDJc9hvCMWqdUiQbJPNYEiLME0bNJCDPneYelUbMqmcBxODz+tEZrfgCV8
+         7TXtY8+HL+/G2zbVG0+lEYZDeUf4WcJ0zfsXRTWa1bOM9RZ4+0gnUJTxa/pEFs6KDlKV
+         6XiWSMeXhJtfT0ePVXieiAe4yg1UtV8YU5lQQFUyDi05Cj31yNPLi3U2r4NOIigUv40o
+         jG7tWnrG3NKSS009fx5Cdu90t5QPFy4WW5xL7zYXeTR6Z0p5RL33DnPM+YZTIhcdc1P8
+         t6bQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
-        h=x-gm-message-state:from:to:cc:subject:date:message-id:mime-version
-         :content-transfer-encoding;
-        bh=agvrGpgDrH5qNLTLM7psr6FXV6CRbe2pCP0Jtc60da0=;
-        b=BB3XReLr1kPTXfbeXyroA5y08br6U0HfVphcWsHHdGziMWNtaRZvRujGuE8pItqZTv
-         lftYjQJgE44otx8cUOIP73dzoaJCwv8ibP7JP88LKinwv6Tnn1VvJ/xQ2aqsQajfa2Tg
-         gELPnnk8dcA3dONVz3k088lXGdKN201EswC18CUKuj3A13yF72odL+hr8fUWGBJlO5eM
-         w/NnMVH5uPQRFUe7ZSF3QXx32gxOfcT4tblw91UbwchKtnwmGkKH9MHiR7uQHTmLd4Ac
-         few25kCXFujyxJB3EuN4rzXjsJUiYSaoE5vNh3cANJKzqK5KySkUiaa8zL8c29MBsQqG
-         A2bQ==
-X-Gm-Message-State: AOAM530uQncrxN7bc6krZ2945gX6zmp2FbzJ2GKoWtNVHxlULHfddjVr
-        VF8soHV5aMBhgILtlkArgtgfvxYnVp8Neg==
-X-Google-Smtp-Source: ABdhPJzPUfaekBNaCnjr8Op1ahcsSXKml9SUEEuXHWa4LmF5IFwTAfo6ZBL8y9Ti5ITWuOuLWbISiw==
-X-Received: by 2002:a5d:40c4:: with SMTP id b4mr9574693wrq.151.1601564818247;
-        Thu, 01 Oct 2020 08:06:58 -0700 (PDT)
+        h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
+         :references:mime-version:content-transfer-encoding;
+        bh=YBanW5L7jTWepsRc1GN7VlVzm8sGI1LC0WeenfAKtkw=;
+        b=ocpZ9fvGPJA1fHXDdfoM+aaiA4Fc2IFRjyuEJQt5ciY5D76IGmNubTn1fEwOhkzR1y
+         T0kwD0wLxTDW7ABVxeZl/zXqWcFiyodm02pQ6MvPcOMggrSWNOIqfsJp53keNhd0iJmQ
+         2MDG7T4vCm/HrVgVgLt2pBjTPrzpMBAPwt8TzUCBZNT/MwasrxzUpwvZvsqDySohArq8
+         u8CHGUWvnyaUYfTeyzkHmI0NRpmnSQ/9OQY3TuDsoi9fROdMvz0kNDwslIsIMBOzB9Dp
+         HIa/qKGO+JoPDYAnqERhYrZ7tMdaF9nAv/NUtfIi8jtgZndIFivc4BUf4l1Hbph9Lbnk
+         BzPg==
+X-Gm-Message-State: AOAM532RSp6/LaXZuqG0B9jS6JSJy5k4IvGAaHHJJXFtE51Lq3jUZi8a
+        FfAnmFZBFJgVmtSOJ5xs5oo=
+X-Google-Smtp-Source: ABdhPJy1Rz2F8h8AWK8p6vGJDWB34fKaLPVId0Su0rdQwIFbQl+qzL0J8qlaP/GCmk76PHPCQpzFjw==
+X-Received: by 2002:a5d:5751:: with SMTP id q17mr9732010wrw.409.1601564820328;
+        Thu, 01 Oct 2020 08:07:00 -0700 (PDT)
 Received: from localhost.localdomain ([170.253.60.68])
-        by smtp.googlemail.com with ESMTPSA id f5sm351238wmh.16.2020.10.01.08.06.56
+        by smtp.googlemail.com with ESMTPSA id f5sm351238wmh.16.2020.10.01.08.06.59
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Thu, 01 Oct 2020 08:06:57 -0700 (PDT)
+        Thu, 01 Oct 2020 08:06:59 -0700 (PDT)
 From:   Alejandro Colomar <colomar.6.4.3@gmail.com>
 To:     mtk.manpages@gmail.com
 Cc:     Alejandro Colomar <colomar.6.4.3@gmail.com>,
         linux-man@vger.kernel.org, gcc@gcc.gnu.org,
         libc-alpha@sourceware.org
-Subject: [PATCH 0/2] Document void *
-Date:   Thu,  1 Oct 2020 17:06:37 +0200
-Message-Id: <20201001150638.102544-1-colomar.6.4.3@gmail.com>
+Subject: [PATCH 2/2] void-*.3: New link to system_data_types(7)
+Date:   Thu,  1 Oct 2020 17:06:39 +0200
+Message-Id: <20201001150638.102544-3-colomar.6.4.3@gmail.com>
 X-Mailer: git-send-email 2.28.0
+In-Reply-To: <20201001150638.102544-1-colomar.6.4.3@gmail.com>
+References: <20201001150638.102544-1-colomar.6.4.3@gmail.com>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 Precedence: bulk
 List-ID: <linux-man.vger.kernel.org>
 X-Mailing-List: linux-man@vger.kernel.org
 
-Hello Michael,
-
-This type is very special,
-so I will probably have missed some details about it.
-
-Also, do you like the link name?
-
-For anyone reading this, please comment :)
-
-Cheers,
-
-Alex
-
-Alejandro Colomar (2):
-  system_data_types.7: Add 'void *'
-  void-*.3: New link to system_data_types(7)
-
- man3/void-*.3            |  1 +
- man7/system_data_types.7 | 42 ++++++++++++++++++++++++++++++++++++++--
- 2 files changed, 41 insertions(+), 2 deletions(-)
+Signed-off-by: Alejandro Colomar <colomar.6.4.3@gmail.com>
+---
+ man3/void-*.3 | 1 +
+ 1 file changed, 1 insertion(+)
  create mode 100644 man3/void-*.3
 
+diff --git a/man3/void-*.3 b/man3/void-*.3
+new file mode 100644
+index 000000000..db50c0f09
+--- /dev/null
++++ b/man3/void-*.3
+@@ -0,0 +1 @@
++.so man7/system_data_types.7
 -- 
 2.28.0
 
