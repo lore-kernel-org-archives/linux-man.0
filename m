@@ -8,63 +8,63 @@ X-Spam-Status: No, score=-12.8 required=3.0 tests=BAYES_00,DKIM_SIGNED,
 	SPF_HELO_NONE,SPF_PASS,USER_AGENT_GIT autolearn=ham autolearn_force=no
 	version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 25EF5C47420
+	by smtp.lore.kernel.org (Postfix) with ESMTP id BEF98C4727F
 	for <linux-man@archiver.kernel.org>; Thu,  1 Oct 2020 10:16:40 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.kernel.org (Postfix) with ESMTP id E1E9620838
-	for <linux-man@archiver.kernel.org>; Thu,  1 Oct 2020 10:16:39 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTP id 8326E2137B
+	for <linux-man@archiver.kernel.org>; Thu,  1 Oct 2020 10:16:40 +0000 (UTC)
 Authentication-Results: mail.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="Vs/MQITH"
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="kNxRyKu7"
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1731897AbgJAKQj (ORCPT <rfc822;linux-man@archiver.kernel.org>);
-        Thu, 1 Oct 2020 06:16:39 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:47232 "EHLO
+        id S1731907AbgJAKQk (ORCPT <rfc822;linux-man@archiver.kernel.org>);
+        Thu, 1 Oct 2020 06:16:40 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:47242 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1731704AbgJAKQj (ORCPT
-        <rfc822;linux-man@vger.kernel.org>); Thu, 1 Oct 2020 06:16:39 -0400
-Received: from mail-wr1-x444.google.com (mail-wr1-x444.google.com [IPv6:2a00:1450:4864:20::444])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id ADED1C0613D0
-        for <linux-man@vger.kernel.org>; Thu,  1 Oct 2020 03:16:37 -0700 (PDT)
-Received: by mail-wr1-x444.google.com with SMTP id z4so5017218wrr.4
-        for <linux-man@vger.kernel.org>; Thu, 01 Oct 2020 03:16:37 -0700 (PDT)
+        with ESMTP id S1731704AbgJAKQk (ORCPT
+        <rfc822;linux-man@vger.kernel.org>); Thu, 1 Oct 2020 06:16:40 -0400
+Received: from mail-wr1-x441.google.com (mail-wr1-x441.google.com [IPv6:2a00:1450:4864:20::441])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id C34DEC0613D0
+        for <linux-man@vger.kernel.org>; Thu,  1 Oct 2020 03:16:39 -0700 (PDT)
+Received: by mail-wr1-x441.google.com with SMTP id w5so4995537wrp.8
+        for <linux-man@vger.kernel.org>; Thu, 01 Oct 2020 03:16:39 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=gmail.com; s=20161025;
         h=from:to:cc:subject:date:message-id:in-reply-to:references
          :mime-version:content-transfer-encoding;
-        bh=2O7qFHPyjrq2Tn95YL9fKKScMQgJyfgE++5pJKbY1NI=;
-        b=Vs/MQITHV4P0k/xfCgUmL6pzD2/iHV4PwtXEm8b4rNKM/pb0SHjPTBtn22EJeesAoC
-         9ZG3Xzkq275+HdoasXNxhX4YZrU2h0uQruKqdAEu4RoOnFhMAeKy3+heiMxrHvfKqURB
-         ggMj5QDycIhn4eSAH2QzL05L5cgN5R4Fgwh0Mx9uk8vkufG/hmaiMDS7bgIfhimI2QsW
-         rtNkvWdO/Vfkx/yvXzSGudASqlMvWQUD2NPz162fm088VoF2+rAONfc0wiDC5xg6XfaG
-         +VZrKX46GSTqFMLO8sJAYxPKlqZDmdYLuHyI+B9UQgyCd4tH2niw/dq8C8DK6qu0s9Gr
-         +fXQ==
+        bh=zFGAHQ4tN0qBaxawcSu4iAIimfA+9SaHeUdt25mZxi4=;
+        b=kNxRyKu7guuuMl6k8+T6UZzS/5d1uy/4XZv/neOkSFlj6sPMO1NylDou+jjJW1MxRl
+         1j2RlFVLStdZjCx7oScG27usnWiWAfw/0CredzhU62lFNcWoCslMyXo25R0gqjD4M5qL
+         /n15yQRnxEgp6oH2nT7KhVtF6GY5yiGDsPcphCJwuzLT2KRf/jKQ2mKg7GrDg3KsOTZt
+         ve7ZAzzm+ne0HbbfJgdVyk4gcxVJ7TUiOPN2FK2iM7gtfb8ZMl24e8APQ3FYo6CxGWHE
+         ufIXCfr2dOQ2oSIiUVHgowjLaWVjZlUQdiiQLxRaMBF55AkKv8wBTfaDfNYpsbsGRKi5
+         WneQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
         h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
          :references:mime-version:content-transfer-encoding;
-        bh=2O7qFHPyjrq2Tn95YL9fKKScMQgJyfgE++5pJKbY1NI=;
-        b=Im8DSKqDoWdwoRcuqpZIoecWa4ZmfoQ3L0UQib22/IToCOgwrFqpIA+B2v3jkmi2KF
-         mvK4IJYwi/3//YxdC4vBHSrTKnwQlqIDI4dXub52BouoU2CUCf2Lv9geTrEvVbvU2EQE
-         iOZ17pTpkYZg/tG85qnBqQZYgJGhTiK18hucal+nBgSHFX37+KH5CzqXTDVtyhyBfw4G
-         ZJ+FvbhE5e/t79FPpDURZSERy4oXUlue6IW/8ZzRI2BHkxg1Um/mD2GhVGCPYEzUSCJr
-         GvzDpOqatkzZp+0Tj7LFP8mGtonIbhS1wzXiFydkrS5h86QQ+Tvh7dd4V9VJixh74Gce
-         u2mQ==
-X-Gm-Message-State: AOAM5304tXKMXbabZYvEtumto5PZ1CZNQirD8chviyIvU+s6P8a+NzfZ
-        p9oc38sap3cb1waovqdaIAY=
-X-Google-Smtp-Source: ABdhPJwYn0gQLGfk7TJreptB7rv3QFP1M1+EPGVms0K3eQkhm74gA14Oikap7Jhr/UqrNLHVLyWFYQ==
-X-Received: by 2002:a5d:55c8:: with SMTP id i8mr8137442wrw.331.1601547396442;
-        Thu, 01 Oct 2020 03:16:36 -0700 (PDT)
+        bh=zFGAHQ4tN0qBaxawcSu4iAIimfA+9SaHeUdt25mZxi4=;
+        b=AGHt36kRXnJ+sCD4yyIXQrw8BtIQeZazp+2kUTzl9yAbUeNmYqA2vdyIZAQU6RkJo9
+         jqOFLNW0yMLY5HLv1gDlMyhxXt0fa0qfUx1vJBurC4/Cyj+TUA9GlOZ6l5Dms97T9KEc
+         YG2Gobj0dDKxdiq3iNjxij3GiVKMPJERePP0b97nMEwTR2UE+byENCRx4viOBJ4wdMpd
+         65lpZX8rPQ+B823+k5VKm8IC9LifFSE4qbZbaiDztRF7TBZ5QL0qCAGvPOUDDLsIlYgU
+         HH0F4bIpTQas5/wdw6RxY0ZDnvRJ6ROXLWLuNzZyyrdYRXsSqXmVwEXgbgvBzNNMcnMO
+         jNqg==
+X-Gm-Message-State: AOAM530mwJoSFkDn5mJuKh2zWiNmufhzdGxHi6Yp5LoUfNDz9jMhFvWJ
+        UYVS6D5mOeEE7lmgKMn7nhw=
+X-Google-Smtp-Source: ABdhPJzGcMv+O/PwCQkeGPBH1ROiDUCVsbIVqf4RlR71v10x+pPw/jv1UCSDF+By4GcxntgyXybJaw==
+X-Received: by 2002:adf:91c2:: with SMTP id 60mr8684737wri.292.1601547398450;
+        Thu, 01 Oct 2020 03:16:38 -0700 (PDT)
 Received: from localhost.localdomain ([170.253.60.68])
-        by smtp.googlemail.com with ESMTPSA id i15sm8671922wrb.91.2020.10.01.03.16.35
+        by smtp.googlemail.com with ESMTPSA id i15sm8671922wrb.91.2020.10.01.03.16.37
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Thu, 01 Oct 2020 03:16:35 -0700 (PDT)
+        Thu, 01 Oct 2020 03:16:37 -0700 (PDT)
 From:   Alejandro Colomar <colomar.6.4.3@gmail.com>
 To:     mtk.manpages@gmail.com
 Cc:     colomar.6.4.3@gmail.com, linux-man@vger.kernel.org,
         libc-alpha@sourceware.org, gcc@gcc.gnu.org
-Subject: [PATCH 07/16] system_data_types.7: Add uint_fastN_t family of types
-Date:   Thu,  1 Oct 2020 12:15:51 +0200
-Message-Id: <20201001101559.77163-8-colomar.6.4.3@gmail.com>
+Subject: [PATCH 09/16] system_data_types.7: Add int_leastN_t family of types
+Date:   Thu,  1 Oct 2020 12:15:53 +0200
+Message-Id: <20201001101559.77163-10-colomar.6.4.3@gmail.com>
 X-Mailer: git-send-email 2.28.0
 In-Reply-To: <20201001101559.77163-1-colomar.6.4.3@gmail.com>
 References: <20201001101559.77163-1-colomar.6.4.3@gmail.com>
@@ -76,99 +76,92 @@ X-Mailing-List: linux-man@vger.kernel.org
 
 Signed-off-by: Alejandro Colomar <colomar.6.4.3@gmail.com>
 ---
- man7/system_data_types.7 | 79 ++++++++++++++++++++++++++++++++++++++++
- 1 file changed, 79 insertions(+)
+ man7/system_data_types.7 | 72 ++++++++++++++++++++++++++++++++++++++++
+ 1 file changed, 72 insertions(+)
 
 diff --git a/man7/system_data_types.7 b/man7/system_data_types.7
-index 07de6417f..e3ebc2270 100644
+index e3ebc2270..0b8057087 100644
 --- a/man7/system_data_types.7
 +++ b/man7/system_data_types.7
-@@ -1282,6 +1282,85 @@ See also:
- .BR getpwnam (2),
- .BR credentials (7)
+@@ -405,6 +405,78 @@ and
+ .IR uint N _t
+ types in this page.
  .RE
-+.\"------------------------------------- uint_fastN_t -----------------/
++.\"------------------------------------- int_leastN_t -----------------/
 +.TP
-+.IR uint_fast N _t
++.IR int_least N _t
 +.RS
 +Include:
 +.IR <stdint.h> .
 +Alternatively,
 +.IR <inttypes.h> .
 +.PP
-+.IR uint_fast8_t ,
-+.IR uint_fast16_t ,
-+.IR uint_fast32_t ,
-+.I uint_fast64_t
++.IR int_least8_t ,
++.IR int_least16_t ,
++.IR int_least32_t ,
++.I int_least64_t
 +.PP
-+The fastest unsigned integer type
++The narrowest signed integer type
 +of a width of at least N bits,
 +N being the value specified in its type name.
 +According to the C language standard, they shall be
-+capable of storing values in the range [0,
-+.BR UINT_FAST N _MAX ],
++capable of storing values in the range
++.RB [ INT_LEAST N _MIN ,
++.BR INT_LEAST N _MAX ],
 +substituting N by the appropriate number.
 +.PP
 +The length modifiers for the
-+.IR uint_fast N _t
++.IR int_least N _t
 +types for the
 +.BR printf (3)
 +family of functions
 +are expanded by macros of the forms
-+.BR PRIuFAST N,
-+.BR PRIoFAST N,
-+.BR PRIxFAST N
++.BR PRIdLEAST N
 +and
-+.BR PRIXFAST N
++.BR PRIiLEAST N
 +(defined in
 +.IR <inttypes.h> );
 +resulting for example in
-+.B %"PRIuFAST32"
++.B %"PRIdLEAST64"
 +or
-+.B %"PRIxFAST32"
++.B %"PRIiLEAST64"
 +for printing
-+.I uint_fast32_t
++.I int_least64_t
 +values.
 +The length modifiers for the
-+.IR uint_fast N _t
++.IR int_least N _t
 +types for the
 +.BR scanf (3)
 +family of functions
 +are expanded by macros of the forms
-+.BR SCNuFAST N,
-+.BR SCNoFAST N,
-+.BR SCNxFAST N
++.BR SCNdLEAST N
 +and
-+.BR SCNXFAST N
++.BR SCNiLEAST N,
 +(defined in
 +.IR <inttypes.h> );
 +resulting for example in
-+.B %"SCNuFAST16"
++.B %"SCNdLEAST8"
 +or
-+.B %"SCNxFAST16"
++.B %"SCNiLEAST8"
 +for scanning
-+.I uint_fast16_t
++.I int_least8_t
 +values.
 +.PP
 +Conforming to:
 +C99 and later; POSIX.1-2001 and later.
 +.PP
-+Notes:
-+Some of these types may be optimized for size
-+instead of raw performance.
-+.PP
 +See also the
 +.IR int_fast N _t ,
-+.IR int_least N _t ,
 +.IR int N _t ,
++.IR uint_fast N _t ,
 +.IR uint_least N _t
 +and
 +.IR uint N _t
 +types in this page.
 +.RE
- .\"------------------------------------- uintmax_t --------------------/
+ .\"------------------------------------- intmax_t ---------------------/
  .TP
- .I uintmax_t
+ .I intmax_t
 -- 
 2.28.0
 
