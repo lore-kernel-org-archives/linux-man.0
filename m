@@ -8,64 +8,64 @@ X-Spam-Status: No, score=-12.8 required=3.0 tests=BAYES_00,DKIM_SIGNED,
 	SPF_HELO_NONE,SPF_PASS,USER_AGENT_GIT autolearn=ham autolearn_force=no
 	version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 2372AC4741F
+	by smtp.lore.kernel.org (Postfix) with ESMTP id B0EBFC47420
 	for <linux-man@archiver.kernel.org>; Thu,  1 Oct 2020 14:32:55 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.kernel.org (Postfix) with ESMTP id DEA2A207FB
-	for <linux-man@archiver.kernel.org>; Thu,  1 Oct 2020 14:32:54 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTP id 7398A207FB
+	for <linux-man@archiver.kernel.org>; Thu,  1 Oct 2020 14:32:55 +0000 (UTC)
 Authentication-Results: mail.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="Va5kyvkE"
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="ORpg+32B"
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1732429AbgJAOcy (ORCPT <rfc822;linux-man@archiver.kernel.org>);
-        Thu, 1 Oct 2020 10:32:54 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:58486 "EHLO
+        id S1732435AbgJAOcz (ORCPT <rfc822;linux-man@archiver.kernel.org>);
+        Thu, 1 Oct 2020 10:32:55 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:58496 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1732020AbgJAOcy (ORCPT
-        <rfc822;linux-man@vger.kernel.org>); Thu, 1 Oct 2020 10:32:54 -0400
-Received: from mail-wm1-x32a.google.com (mail-wm1-x32a.google.com [IPv6:2a00:1450:4864:20::32a])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 91B6DC0613D0
-        for <linux-man@vger.kernel.org>; Thu,  1 Oct 2020 07:32:52 -0700 (PDT)
-Received: by mail-wm1-x32a.google.com with SMTP id s13so3149570wmh.4
-        for <linux-man@vger.kernel.org>; Thu, 01 Oct 2020 07:32:52 -0700 (PDT)
+        with ESMTP id S1732020AbgJAOcz (ORCPT
+        <rfc822;linux-man@vger.kernel.org>); Thu, 1 Oct 2020 10:32:55 -0400
+Received: from mail-wm1-x32d.google.com (mail-wm1-x32d.google.com [IPv6:2a00:1450:4864:20::32d])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id A9973C0613D0
+        for <linux-man@vger.kernel.org>; Thu,  1 Oct 2020 07:32:54 -0700 (PDT)
+Received: by mail-wm1-x32d.google.com with SMTP id j136so2057240wmj.2
+        for <linux-man@vger.kernel.org>; Thu, 01 Oct 2020 07:32:54 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=gmail.com; s=20161025;
         h=from:to:cc:subject:date:message-id:in-reply-to:references
          :mime-version:content-transfer-encoding;
-        bh=AQn34fQlwTBZh/PWX0LDgku3eePP4sow3MpYt4eKTh4=;
-        b=Va5kyvkEbojwpLinG/L8dG0BA+cDHvpsFJnaLEYK18io51iRyEqjhdwKi3LVG8VsGs
-         z7CksJkJ+AS7nYsqzCpXsAb/KzXQhJp6r6wGZMZnQy5PUT3k30oL6xl5tevP0SvtCMw7
-         Tw49zA8vYKrRWLKd6Y7QOapRd7ZfC5z1T4jj7bBIx/O/qtaxCKWTI/LbCz7+YJIEEOF+
-         2CLgsOTPX6oTZLJhMR8Bo/PNal32RgjC3nV9E9DyOe7d9sXAGpvPTFxd5ttpnwR8ObbT
-         I0yGuP177o/lfM/t8nCbFkO0z/Obe6eiLZUNtRRqfOQS+ZQ+uoea+EPdq83wX1PwKAFW
-         fjsw==
+        bh=7TZle1L2C5hq0UJbPvW/MxD93u3Ydr5kNhgHweCtY0Q=;
+        b=ORpg+32BB+UvhNl/mpifwSxAS79X3P62lvHW9NtS+QAWZOWBY5+LAYisaOomjQPkNG
+         0TH52unVsr542JQ9YjKExKAVjITL2++PPZjacFDKLuiPnF3vsaYjwAUTlTkT+E1eh8fr
+         c8Ut1DxLqPADd1328wUoHSzzdYIOLtBwvyXh1koSXwu00eyK8jWUfqHnwlhtc7yLYr08
+         fwnp/xj//7H8vvII0cebu+nI//faWk8X5RiG37edccttFWsniaBh1JAWB1gO8MbzYnBH
+         ezECnVA9sQaUIzPVn+C9UNdo0hefx7vFp6uZpo0qpTwOuwLBzJrhoLOZ2cY8e7a53/OI
+         yloA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
         h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
          :references:mime-version:content-transfer-encoding;
-        bh=AQn34fQlwTBZh/PWX0LDgku3eePP4sow3MpYt4eKTh4=;
-        b=DR02aqsNoIpFDCeFn4VdgtXkDjjtHDuggA8NJfXhR6hwwNMTk4gtZsUdZRSR92T5FI
-         diTsExsY9UlmVzqclzd6BpUBd3YmCXZIGwQFSAU/XZIAQdBrDPhxzWvraDZqx6dwXZG5
-         +WdZg3kdbAaLBR8i8ckYOLFl88t0zJ6V5i38ncblDKiInm2eKzUFxJnCqsGu1/6ghjdr
-         HsQSF5sLQscnOJBxYmWVqzSzJBlXaM2Nu2QdJ+NBcbrr//q0zrKqCYYAELPbWz5/HS/2
-         ohUxxNCyCEIw6OIFiviCrvZuu7t/zRxigqsZf3IXNMJ/i9tUSmoRM0O7onhgQ2S1o+5I
-         Pdkw==
-X-Gm-Message-State: AOAM532IBksKknueE1DFP5xT/vaOkKGnsy+j1m0QpYnS6BYksEKXLm8Y
-        oXbUu5uZ4Q3q6YJ1HjFrYL4=
-X-Google-Smtp-Source: ABdhPJyyqZmf8kBycu7h+yiFsYsNFhTnDwewLM81BPgWPctj5nxfStvHuYLu3wto/JayBqQjHpE2mA==
-X-Received: by 2002:a1c:c906:: with SMTP id f6mr319348wmb.9.1601562771299;
-        Thu, 01 Oct 2020 07:32:51 -0700 (PDT)
+        bh=7TZle1L2C5hq0UJbPvW/MxD93u3Ydr5kNhgHweCtY0Q=;
+        b=IooowtrNPFMaGRO3jlvlQAWeClHE/J+mJ7EWWittBFeHmoqsCYbNLg71O6Al9ep0AM
+         R3JMZmKLW8aaR/v9eoWlQy3vVfRuNglYmOZaFRtlTW6IWmBMeyN5Ru2PbdbyFhW7z80y
+         NWeANs36NJEoquM8UIAnFTMrj2kD86QzaA2r8Jd7Cqus8IzYsSRIT4d4zqxVFugokdMj
+         eqABCLi3lyxVEPMB+zyTlxBf4U++N5qjD62yDpXYF2LL43caRMmyfTfGCXIHWoZOyF70
+         ppo+96vLnwrpSdlH3MnAGVitGdgg4FoOdr/Y411PN85yS3yI5bikqlxMxj+beLSTKG1E
+         7mbA==
+X-Gm-Message-State: AOAM530xkTpqeQPqcd/cN7khw5dx9+r3lYZzWsXeZsYmCqb5dfy+6Owg
+        Gf4XAt+RCfkxH3PGX6aOCE0=
+X-Google-Smtp-Source: ABdhPJzFtXcSH6pFV8XfifUlafM6DFqw5+w//azh7fU8BKiR+Z8IBlCiWz1ZfkNnD3sPt9Tc1X8tFg==
+X-Received: by 2002:a1c:2cc2:: with SMTP id s185mr298042wms.77.1601562773367;
+        Thu, 01 Oct 2020 07:32:53 -0700 (PDT)
 Received: from localhost.localdomain ([170.253.60.68])
-        by smtp.googlemail.com with ESMTPSA id f23sm5463654wmc.3.2020.10.01.07.32.50
+        by smtp.googlemail.com with ESMTPSA id f23sm5463654wmc.3.2020.10.01.07.32.52
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Thu, 01 Oct 2020 07:32:50 -0700 (PDT)
+        Thu, 01 Oct 2020 07:32:52 -0700 (PDT)
 From:   Alejandro Colomar <colomar.6.4.3@gmail.com>
 To:     mtk.manpages@gmail.com
 Cc:     Alejandro Colomar <colomar.6.4.3@gmail.com>,
         linux-man@vger.kernel.org, gcc@gcc.gnu.org,
         libc-alpha@sourceware.org
-Subject: [PATCH v2 2/4] int_fast8_t.3, int_fast16_t.3, int_fast32_t.3, int_fast64_t.3, int_fastN_t.3: New links to system_data_types(7)
-Date:   Thu,  1 Oct 2020 16:32:02 +0200
-Message-Id: <20201001143203.98803-3-colomar.6.4.3@gmail.com>
+Subject: [PATCH v2 4/4] uint_fast8_t.3, uint_fast16_t.3, uint_fast32_t.3, uint_fast64_t.3, uint_fastN_t.3: New links to system_data_types(7)
+Date:   Thu,  1 Oct 2020 16:32:04 +0200
+Message-Id: <20201001143203.98803-5-colomar.6.4.3@gmail.com>
 X-Mailer: git-send-email 2.28.0
 In-Reply-To: <20201001143203.98803-1-colomar.6.4.3@gmail.com>
 References: <20201001143203.98803-1-colomar.6.4.3@gmail.com>
@@ -77,51 +77,51 @@ X-Mailing-List: linux-man@vger.kernel.org
 
 Signed-off-by: Alejandro Colomar <colomar.6.4.3@gmail.com>
 ---
- man3/int_fast16_t.3 | 1 +
- man3/int_fast32_t.3 | 1 +
- man3/int_fast64_t.3 | 1 +
- man3/int_fast8_t.3  | 1 +
- man3/int_fastN_t.3  | 1 +
+ man3/uint_fast16_t.3 | 1 +
+ man3/uint_fast32_t.3 | 1 +
+ man3/uint_fast64_t.3 | 1 +
+ man3/uint_fast8_t.3  | 1 +
+ man3/uint_fastN_t.3  | 1 +
  5 files changed, 5 insertions(+)
- create mode 100644 man3/int_fast16_t.3
- create mode 100644 man3/int_fast32_t.3
- create mode 100644 man3/int_fast64_t.3
- create mode 100644 man3/int_fast8_t.3
- create mode 100644 man3/int_fastN_t.3
+ create mode 100644 man3/uint_fast16_t.3
+ create mode 100644 man3/uint_fast32_t.3
+ create mode 100644 man3/uint_fast64_t.3
+ create mode 100644 man3/uint_fast8_t.3
+ create mode 100644 man3/uint_fastN_t.3
 
-diff --git a/man3/int_fast16_t.3 b/man3/int_fast16_t.3
+diff --git a/man3/uint_fast16_t.3 b/man3/uint_fast16_t.3
 new file mode 100644
 index 000000000..db50c0f09
 --- /dev/null
-+++ b/man3/int_fast16_t.3
++++ b/man3/uint_fast16_t.3
 @@ -0,0 +1 @@
 +.so man7/system_data_types.7
-diff --git a/man3/int_fast32_t.3 b/man3/int_fast32_t.3
+diff --git a/man3/uint_fast32_t.3 b/man3/uint_fast32_t.3
 new file mode 100644
 index 000000000..db50c0f09
 --- /dev/null
-+++ b/man3/int_fast32_t.3
++++ b/man3/uint_fast32_t.3
 @@ -0,0 +1 @@
 +.so man7/system_data_types.7
-diff --git a/man3/int_fast64_t.3 b/man3/int_fast64_t.3
+diff --git a/man3/uint_fast64_t.3 b/man3/uint_fast64_t.3
 new file mode 100644
 index 000000000..db50c0f09
 --- /dev/null
-+++ b/man3/int_fast64_t.3
++++ b/man3/uint_fast64_t.3
 @@ -0,0 +1 @@
 +.so man7/system_data_types.7
-diff --git a/man3/int_fast8_t.3 b/man3/int_fast8_t.3
+diff --git a/man3/uint_fast8_t.3 b/man3/uint_fast8_t.3
 new file mode 100644
 index 000000000..db50c0f09
 --- /dev/null
-+++ b/man3/int_fast8_t.3
++++ b/man3/uint_fast8_t.3
 @@ -0,0 +1 @@
 +.so man7/system_data_types.7
-diff --git a/man3/int_fastN_t.3 b/man3/int_fastN_t.3
+diff --git a/man3/uint_fastN_t.3 b/man3/uint_fastN_t.3
 new file mode 100644
 index 000000000..db50c0f09
 --- /dev/null
-+++ b/man3/int_fastN_t.3
++++ b/man3/uint_fastN_t.3
 @@ -0,0 +1 @@
 +.so man7/system_data_types.7
 -- 
