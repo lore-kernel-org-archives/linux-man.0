@@ -8,63 +8,63 @@ X-Spam-Status: No, score=-12.8 required=3.0 tests=BAYES_00,DKIM_SIGNED,
 	SPF_HELO_NONE,SPF_PASS,USER_AGENT_GIT autolearn=ham autolearn_force=no
 	version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id CE973C47423
-	for <linux-man@archiver.kernel.org>; Thu,  1 Oct 2020 10:16:35 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id B163BC4727C
+	for <linux-man@archiver.kernel.org>; Thu,  1 Oct 2020 10:16:37 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.kernel.org (Postfix) with ESMTP id 933EB2137B
-	for <linux-man@archiver.kernel.org>; Thu,  1 Oct 2020 10:16:35 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTP id 6EDBC20838
+	for <linux-man@archiver.kernel.org>; Thu,  1 Oct 2020 10:16:37 +0000 (UTC)
 Authentication-Results: mail.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="GxYbWCQI"
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="h+g63J6G"
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1725938AbgJAKQf (ORCPT <rfc822;linux-man@archiver.kernel.org>);
-        Thu, 1 Oct 2020 06:16:35 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:47214 "EHLO
+        id S1731890AbgJAKQh (ORCPT <rfc822;linux-man@archiver.kernel.org>);
+        Thu, 1 Oct 2020 06:16:37 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:47226 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1731704AbgJAKQf (ORCPT
-        <rfc822;linux-man@vger.kernel.org>); Thu, 1 Oct 2020 06:16:35 -0400
-Received: from mail-wm1-x342.google.com (mail-wm1-x342.google.com [IPv6:2a00:1450:4864:20::342])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 5C564C0613E2
-        for <linux-man@vger.kernel.org>; Thu,  1 Oct 2020 03:16:33 -0700 (PDT)
-Received: by mail-wm1-x342.google.com with SMTP id j136so1115072wmj.2
-        for <linux-man@vger.kernel.org>; Thu, 01 Oct 2020 03:16:33 -0700 (PDT)
+        with ESMTP id S1731704AbgJAKQh (ORCPT
+        <rfc822;linux-man@vger.kernel.org>); Thu, 1 Oct 2020 06:16:37 -0400
+Received: from mail-wr1-x442.google.com (mail-wr1-x442.google.com [IPv6:2a00:1450:4864:20::442])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id B2D3BC0613D0
+        for <linux-man@vger.kernel.org>; Thu,  1 Oct 2020 03:16:36 -0700 (PDT)
+Received: by mail-wr1-x442.google.com with SMTP id k10so5002249wru.6
+        for <linux-man@vger.kernel.org>; Thu, 01 Oct 2020 03:16:36 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=gmail.com; s=20161025;
         h=from:to:cc:subject:date:message-id:in-reply-to:references
          :mime-version:content-transfer-encoding;
-        bh=cdnXa1awL5WT+EWtvpL9/3anCoEKmUktHLxqkJ9nd7U=;
-        b=GxYbWCQINeA6Cga8qaad6Es1OORs8xf1L4OFsPicqRb9TXammgg5LU3GzULiW+yZFH
-         JntL1UzusEWG/msTJ9hjsZXXthfa6rcoeQHSKF69mCSaWEbp3dnMVquLbCTTKxZFzIBA
-         LVjWinmStK9Kwk91KZA3qxrYQUptXQcgJehSkpRUByp3QOnydwXTS10NIXfWUPplXgp4
-         +qeverNh/uG5dDR0mRX/frId3kxur6Gsk9b25w02dmJrzxkAaFwVuTZ+X8iMWkEIDrDT
-         Whqy3xWfznskgqiYOGfu4fEFzN5o5eazJErd4WzfbrshgANuLKBBWL1zZ6q4D7BFkD0X
-         2bDg==
+        bh=AQn34fQlwTBZh/PWX0LDgku3eePP4sow3MpYt4eKTh4=;
+        b=h+g63J6GT5XvKzkb0AId8xOm671VW3kzN5xc5TCMytGUwUClhNu7gOkEAb8VKcmv0J
+         Hoi85gHFCYha2IsNAU0YZZoPUYR3A4sys92NgwiFBw9CPomRHC4cE2ndqkIjCi3tRxOj
+         sEr78O2zyA82BSfrc3lBr8Fhg54VedCHcJnRI6CuNDsH8i2EsOg1xUaziJ6BAF2jtBsb
+         Cv3v5cAy8nc0J1U/1HfqjicgQployRFzljpgD0lyMyH738rAJXZPW3dfJ59mmjB3QahW
+         oYumrHeEe9sipxJMjmlGTR02OlwafumhnUrRMdoZK+5F2PAhcQHsdH/te/GrmjWOPWD9
+         VzUA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
         h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
          :references:mime-version:content-transfer-encoding;
-        bh=cdnXa1awL5WT+EWtvpL9/3anCoEKmUktHLxqkJ9nd7U=;
-        b=nwn4oMugZoOtyN0MRZCDnShuuB5N7U2BmDrzz8A897PGIOYK9VVlanQb7mJ3wuKVRf
-         Cggr/qUCbLY8r0NBJPZwa3uNDGCSSP5RC86u8T4b/cAGFhB7czkFKekSiwVqJXRTFp2G
-         6e+hr6WN719AbAPzXbIGQNyvVsEJJWz9NRdO9zFMMFRF4LB0N5kvmMGhIItsy3vllVjI
-         C2RUpEJgyJtr6806KZyrcn3u/uU0k0EKRM/jHgCYSSZg5xULpfje/CJkmM8wQem95Efk
-         nf/rddr+8nqhl3Ip6A/otx3O0AW1E2gJTFOsaw/aAoHjYV5VVlHeyObul1M7XVyggWN8
-         tkCA==
-X-Gm-Message-State: AOAM533jjmq4iG6qSBfiOUHbMbPjACpHTQhG5WF1wXIdOAq7F7NO1oJk
-        IgbOVo2GUJnSPIHxqyjN7HQ9XG4m+Fx8mQ==
-X-Google-Smtp-Source: ABdhPJykXatnP+Fpjbl2OVlUId/VPiptQunaerbe8RuUOIbi8kllq3IeeqTdaxBH/dzEI7c3tXzsKA==
-X-Received: by 2002:a7b:ce96:: with SMTP id q22mr7208486wmj.132.1601547392060;
-        Thu, 01 Oct 2020 03:16:32 -0700 (PDT)
+        bh=AQn34fQlwTBZh/PWX0LDgku3eePP4sow3MpYt4eKTh4=;
+        b=N0TdWx33ju//UyxENSDpFpMfr7bahmIaKh3N+mNYBARC3R/aj5LNC+V9xTHDzAiTzR
+         U7TcyHh792xWbkBGzNFq7GsaDkPh1u5SzDTQhn2AK1VxsCDN0ORlWkoYxtm6pmRXgr7Y
+         aG1zhYD6f3Bn5MZoOb+ZIeUS/81PWwWjxC0a+cMxpnsVu+oGvaNEh6tir2JF/yO1o/YE
+         Q92uU1CBcR/8WyHz6+Y5pWc1goo2G5/fqD1fPmj4oT7b7hdwcdUBrkbLg/BI61Dqb1Iw
+         CGkRRcoDGFeK0xGib8aVvly/SiAg6zv9tRzPjNeDMHOjQ7llBvep+Gh91FmjEiOWQse+
+         ctDg==
+X-Gm-Message-State: AOAM532Co/FOqv80eBIuHYppNF8hP4cbFrlcCo1j5rEWuUI7d6SqjNRC
+        m/A2l0Oq6e1uyB4J5J8jgAM=
+X-Google-Smtp-Source: ABdhPJzqJ/+Ei9UmGjz0Sw8xuJMJWeFqJDk4W6UDjH4k/Gi+6HE0a89W6CCvolcZv0DUqxKWYpsh4w==
+X-Received: by 2002:a5d:4e0f:: with SMTP id p15mr8652007wrt.58.1601547395379;
+        Thu, 01 Oct 2020 03:16:35 -0700 (PDT)
 Received: from localhost.localdomain ([170.253.60.68])
-        by smtp.googlemail.com with ESMTPSA id i15sm8671922wrb.91.2020.10.01.03.16.31
+        by smtp.googlemail.com with ESMTPSA id i15sm8671922wrb.91.2020.10.01.03.16.34
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Thu, 01 Oct 2020 03:16:31 -0700 (PDT)
+        Thu, 01 Oct 2020 03:16:34 -0700 (PDT)
 From:   Alejandro Colomar <colomar.6.4.3@gmail.com>
 To:     mtk.manpages@gmail.com
 Cc:     colomar.6.4.3@gmail.com, linux-man@vger.kernel.org,
         libc-alpha@sourceware.org, gcc@gcc.gnu.org
-Subject: [PATCH 03/16] system_data_types.7: srcfix
-Date:   Thu,  1 Oct 2020 12:15:47 +0200
-Message-Id: <20201001101559.77163-4-colomar.6.4.3@gmail.com>
+Subject: [PATCH 06/16] int_fast8_t.3, int_fast16_t.3, int_fast32_t.3, int_fast64_t.3, int_fastN_t.3: New links to system_data_types(7)
+Date:   Thu,  1 Oct 2020 12:15:50 +0200
+Message-Id: <20201001101559.77163-7-colomar.6.4.3@gmail.com>
 X-Mailer: git-send-email 2.28.0
 In-Reply-To: <20201001101559.77163-1-colomar.6.4.3@gmail.com>
 References: <20201001101559.77163-1-colomar.6.4.3@gmail.com>
@@ -76,57 +76,53 @@ X-Mailing-List: linux-man@vger.kernel.org
 
 Signed-off-by: Alejandro Colomar <colomar.6.4.3@gmail.com>
 ---
- man7/system_data_types.7 | 16 ++++++++++++----
- 1 file changed, 12 insertions(+), 4 deletions(-)
+ man3/int_fast16_t.3 | 1 +
+ man3/int_fast32_t.3 | 1 +
+ man3/int_fast64_t.3 | 1 +
+ man3/int_fast8_t.3  | 1 +
+ man3/int_fastN_t.3  | 1 +
+ 5 files changed, 5 insertions(+)
+ create mode 100644 man3/int_fast16_t.3
+ create mode 100644 man3/int_fast32_t.3
+ create mode 100644 man3/int_fast64_t.3
+ create mode 100644 man3/int_fast8_t.3
+ create mode 100644 man3/int_fastN_t.3
 
-diff --git a/man7/system_data_types.7 b/man7/system_data_types.7
-index a653a7b11..a099c0250 100644
---- a/man7/system_data_types.7
-+++ b/man7/system_data_types.7
-@@ -406,7 +406,10 @@ Include:
- Alternatively,
- .IR <inttypes.h> .
- .PP
--.IR int8_t ", " int16_t ", " int32_t ", " int64_t
-+.IR int8_t ,
-+.IR int16_t ,
-+.IR int32_t ,
-+.I int64_t
- .PP
- A signed integer type
- of a fixed width of exactly N bits,
-@@ -418,7 +421,8 @@ capable of storing values in the range
- substituting N by the appropriate number.
- .PP
- According to POSIX,
--.IR int8_t ", " int16_t
-+.IR int8_t ,
-+.IR int16_t
- and
- .I int32_t
- are required;
-@@ -1299,7 +1303,10 @@ Include:
- Alternatively,
- .IR <inttypes.h> .
- .PP
--.IR uint8_t ", " uint16_t ", " uint32_t ", " uint64_t
-+.IR uint8_t ,
-+.IR uint16_t ,
-+.IR uint32_t ,
-+.I uint64_t
- .PP
- An unsigned integer type
- of a fixed width of exactly N bits,
-@@ -1310,7 +1317,8 @@ capable of storing values in the range [0,
- substituting N by the appropriate number.
- .PP
- According to POSIX,
--.IR uint8_t ", " uint16_t
-+.IR uint8_t ,
-+.IR uint16_t
- and
- .I uint32_t
- are required;
+diff --git a/man3/int_fast16_t.3 b/man3/int_fast16_t.3
+new file mode 100644
+index 000000000..db50c0f09
+--- /dev/null
++++ b/man3/int_fast16_t.3
+@@ -0,0 +1 @@
++.so man7/system_data_types.7
+diff --git a/man3/int_fast32_t.3 b/man3/int_fast32_t.3
+new file mode 100644
+index 000000000..db50c0f09
+--- /dev/null
++++ b/man3/int_fast32_t.3
+@@ -0,0 +1 @@
++.so man7/system_data_types.7
+diff --git a/man3/int_fast64_t.3 b/man3/int_fast64_t.3
+new file mode 100644
+index 000000000..db50c0f09
+--- /dev/null
++++ b/man3/int_fast64_t.3
+@@ -0,0 +1 @@
++.so man7/system_data_types.7
+diff --git a/man3/int_fast8_t.3 b/man3/int_fast8_t.3
+new file mode 100644
+index 000000000..db50c0f09
+--- /dev/null
++++ b/man3/int_fast8_t.3
+@@ -0,0 +1 @@
++.so man7/system_data_types.7
+diff --git a/man3/int_fastN_t.3 b/man3/int_fastN_t.3
+new file mode 100644
+index 000000000..db50c0f09
+--- /dev/null
++++ b/man3/int_fastN_t.3
+@@ -0,0 +1 @@
++.so man7/system_data_types.7
 -- 
 2.28.0
 
