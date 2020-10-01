@@ -8,64 +8,64 @@ X-Spam-Status: No, score=-12.8 required=3.0 tests=BAYES_00,DKIM_SIGNED,
 	SPF_HELO_NONE,SPF_PASS,USER_AGENT_GIT autolearn=ham autolearn_force=no
 	version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 9C233C4727C
-	for <linux-man@archiver.kernel.org>; Thu,  1 Oct 2020 14:32:54 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 2372AC4741F
+	for <linux-man@archiver.kernel.org>; Thu,  1 Oct 2020 14:32:55 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.kernel.org (Postfix) with ESMTP id 6937C207FB
+	by mail.kernel.org (Postfix) with ESMTP id DEA2A207FB
 	for <linux-man@archiver.kernel.org>; Thu,  1 Oct 2020 14:32:54 +0000 (UTC)
 Authentication-Results: mail.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="byRgl5kZ"
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="Va5kyvkE"
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1732426AbgJAOcy (ORCPT <rfc822;linux-man@archiver.kernel.org>);
+        id S1732429AbgJAOcy (ORCPT <rfc822;linux-man@archiver.kernel.org>);
         Thu, 1 Oct 2020 10:32:54 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:58490 "EHLO
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:58486 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
         with ESMTP id S1732020AbgJAOcy (ORCPT
         <rfc822;linux-man@vger.kernel.org>); Thu, 1 Oct 2020 10:32:54 -0400
-Received: from mail-wm1-x343.google.com (mail-wm1-x343.google.com [IPv6:2a00:1450:4864:20::343])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 8FE57C0613E2
-        for <linux-man@vger.kernel.org>; Thu,  1 Oct 2020 07:32:53 -0700 (PDT)
-Received: by mail-wm1-x343.google.com with SMTP id e11so2389664wme.0
-        for <linux-man@vger.kernel.org>; Thu, 01 Oct 2020 07:32:53 -0700 (PDT)
+Received: from mail-wm1-x32a.google.com (mail-wm1-x32a.google.com [IPv6:2a00:1450:4864:20::32a])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 91B6DC0613D0
+        for <linux-man@vger.kernel.org>; Thu,  1 Oct 2020 07:32:52 -0700 (PDT)
+Received: by mail-wm1-x32a.google.com with SMTP id s13so3149570wmh.4
+        for <linux-man@vger.kernel.org>; Thu, 01 Oct 2020 07:32:52 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=gmail.com; s=20161025;
         h=from:to:cc:subject:date:message-id:in-reply-to:references
          :mime-version:content-transfer-encoding;
-        bh=JIm4QMqclRms4PF8Yuy7pCBIl3bsPVDdjQKB2probEc=;
-        b=byRgl5kZPlwOwB/nXR0rstXVNkY8w7ya0wlEpZevJ17mkNPSVKQJGLhkqA+yWZLUMi
-         V8Ju8warNfhKFgUHdhLbWtUfP4pfV7rL9vxj55W65u0gIg4k5kORDMi/J95fMVBnCxwO
-         x4RaHTXUfr2iwR2s1gFhTeoyLCH8edJCdNJmGKTNQwROB513Z4OUAbTJzGObAiFuzhk+
-         IPzP6nK5yWy5kTgaJZuQ3rlG8qnYzbsqLvQzR5iyv+sUVl16pHPrSBk6pl9q7vvvQkUM
-         +k/HvBwJp1b05E4/hRR9lnVvqhM5cF2/P61BG6oTJCJz68xcvI+VByOvq8KwTLHGSZKy
-         YR/A==
+        bh=AQn34fQlwTBZh/PWX0LDgku3eePP4sow3MpYt4eKTh4=;
+        b=Va5kyvkEbojwpLinG/L8dG0BA+cDHvpsFJnaLEYK18io51iRyEqjhdwKi3LVG8VsGs
+         z7CksJkJ+AS7nYsqzCpXsAb/KzXQhJp6r6wGZMZnQy5PUT3k30oL6xl5tevP0SvtCMw7
+         Tw49zA8vYKrRWLKd6Y7QOapRd7ZfC5z1T4jj7bBIx/O/qtaxCKWTI/LbCz7+YJIEEOF+
+         2CLgsOTPX6oTZLJhMR8Bo/PNal32RgjC3nV9E9DyOe7d9sXAGpvPTFxd5ttpnwR8ObbT
+         I0yGuP177o/lfM/t8nCbFkO0z/Obe6eiLZUNtRRqfOQS+ZQ+uoea+EPdq83wX1PwKAFW
+         fjsw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
         h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
          :references:mime-version:content-transfer-encoding;
-        bh=JIm4QMqclRms4PF8Yuy7pCBIl3bsPVDdjQKB2probEc=;
-        b=nxeyeVDwxNWKxK5eSoUh2t7XBsLafhSUns6Q/OP0bxO7t3wv8lvkDtjNXN2zZy+EfQ
-         eh4LrWEQ4BbeDLBx60+it6sx0m4ZIRn1viT/O88n25zpLBb58nR7g4hZShuVOttkiwTz
-         bYg5S6Z+HNh/eD5x+faSivmqaLqkG4wdkc7DFInKc++DBwaPfZGkvAulvEfxL9jdD+37
-         UUULWiSkvVgLOqPxTPj47NHJgN4UTNO3YA/2ysiWzMIXSC/8R3UaKs4Prs37W8ynGeYg
-         iMs02gU8Kv9okpi5iKVIUZgJXwtIXOF6B4Q+opnr8ecj8QHXIleTBoh3IaFWTDIoOTFL
-         Kbbg==
-X-Gm-Message-State: AOAM530F3OZYWRXNKKdKA5vmL1AN49078/9wcZmHPRfAzwOf1xS2IKFA
-        ISzmr4gVkRER/dv2ZRDQOGo=
-X-Google-Smtp-Source: ABdhPJyaigCbDO7jIzpkpELQnlBqqROSUbVukZaPCXrTE/Pl7k0VH33EC5TgjUu58Ky7fqDzglKQyw==
-X-Received: by 2002:a7b:c959:: with SMTP id i25mr311852wml.39.1601562772299;
-        Thu, 01 Oct 2020 07:32:52 -0700 (PDT)
-Received: from localhost.localdomain ([170.253.60.68])
-        by smtp.googlemail.com with ESMTPSA id f23sm5463654wmc.3.2020.10.01.07.32.51
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        bh=AQn34fQlwTBZh/PWX0LDgku3eePP4sow3MpYt4eKTh4=;
+        b=DR02aqsNoIpFDCeFn4VdgtXkDjjtHDuggA8NJfXhR6hwwNMTk4gtZsUdZRSR92T5FI
+         diTsExsY9UlmVzqclzd6BpUBd3YmCXZIGwQFSAU/XZIAQdBrDPhxzWvraDZqx6dwXZG5
+         +WdZg3kdbAaLBR8i8ckYOLFl88t0zJ6V5i38ncblDKiInm2eKzUFxJnCqsGu1/6ghjdr
+         HsQSF5sLQscnOJBxYmWVqzSzJBlXaM2Nu2QdJ+NBcbrr//q0zrKqCYYAELPbWz5/HS/2
+         ohUxxNCyCEIw6OIFiviCrvZuu7t/zRxigqsZf3IXNMJ/i9tUSmoRM0O7onhgQ2S1o+5I
+         Pdkw==
+X-Gm-Message-State: AOAM532IBksKknueE1DFP5xT/vaOkKGnsy+j1m0QpYnS6BYksEKXLm8Y
+        oXbUu5uZ4Q3q6YJ1HjFrYL4=
+X-Google-Smtp-Source: ABdhPJyyqZmf8kBycu7h+yiFsYsNFhTnDwewLM81BPgWPctj5nxfStvHuYLu3wto/JayBqQjHpE2mA==
+X-Received: by 2002:a1c:c906:: with SMTP id f6mr319348wmb.9.1601562771299;
         Thu, 01 Oct 2020 07:32:51 -0700 (PDT)
+Received: from localhost.localdomain ([170.253.60.68])
+        by smtp.googlemail.com with ESMTPSA id f23sm5463654wmc.3.2020.10.01.07.32.50
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Thu, 01 Oct 2020 07:32:50 -0700 (PDT)
 From:   Alejandro Colomar <colomar.6.4.3@gmail.com>
 To:     mtk.manpages@gmail.com
 Cc:     Alejandro Colomar <colomar.6.4.3@gmail.com>,
         linux-man@vger.kernel.org, gcc@gcc.gnu.org,
         libc-alpha@sourceware.org
-Subject: [PATCH v2 3/4] system_data_types.7: Add uint_fastN_t family of types
-Date:   Thu,  1 Oct 2020 16:32:03 +0200
-Message-Id: <20201001143203.98803-4-colomar.6.4.3@gmail.com>
+Subject: [PATCH v2 2/4] int_fast8_t.3, int_fast16_t.3, int_fast32_t.3, int_fast64_t.3, int_fastN_t.3: New links to system_data_types(7)
+Date:   Thu,  1 Oct 2020 16:32:02 +0200
+Message-Id: <20201001143203.98803-3-colomar.6.4.3@gmail.com>
 X-Mailer: git-send-email 2.28.0
 In-Reply-To: <20201001143203.98803-1-colomar.6.4.3@gmail.com>
 References: <20201001143203.98803-1-colomar.6.4.3@gmail.com>
@@ -77,100 +77,53 @@ X-Mailing-List: linux-man@vger.kernel.org
 
 Signed-off-by: Alejandro Colomar <colomar.6.4.3@gmail.com>
 ---
- man7/system_data_types.7 | 80 ++++++++++++++++++++++++++++++++++++++++
- 1 file changed, 80 insertions(+)
+ man3/int_fast16_t.3 | 1 +
+ man3/int_fast32_t.3 | 1 +
+ man3/int_fast64_t.3 | 1 +
+ man3/int_fast8_t.3  | 1 +
+ man3/int_fastN_t.3  | 1 +
+ 5 files changed, 5 insertions(+)
+ create mode 100644 man3/int_fast16_t.3
+ create mode 100644 man3/int_fast32_t.3
+ create mode 100644 man3/int_fast64_t.3
+ create mode 100644 man3/int_fast8_t.3
+ create mode 100644 man3/int_fastN_t.3
 
-diff --git a/man7/system_data_types.7 b/man7/system_data_types.7
-index c5d0b700d..c130b7256 100644
---- a/man7/system_data_types.7
-+++ b/man7/system_data_types.7
-@@ -1348,6 +1348,86 @@ See also:
- .BR getpwnam (2),
- .BR credentials (7)
- .RE
-+.\"------------------------------------- uint_fastN_t -----------------/
-+.TP
-+.IR uint_fast N _t
-+.RS
-+Include:
-+.IR <stdint.h> .
-+Alternatively,
-+.IR <inttypes.h> .
-+.PP
-+.IR uint_fast8_t ,
-+.IR uint_fast16_t ,
-+.IR uint_fast32_t ,
-+.I uint_fast64_t
-+.PP
-+Usually the fastest (see Notes) unsigned integer type
-+of a width of at least N bits,
-+N being the value specified in its type name.
-+According to the C language standard, they shall be
-+capable of storing values in the range [0,
-+.BR UINT_FAST N _MAX ],
-+substituting N by the appropriate number.
-+.PP
-+The length modifiers for the
-+.IR uint_fast N _t
-+types for the
-+.BR printf (3)
-+family of functions
-+are expanded by macros of the forms
-+.BR PRIuFAST N,
-+.BR PRIoFAST N,
-+.BR PRIxFAST N
-+and
-+.BR PRIXFAST N
-+(defined in
-+.IR <inttypes.h> );
-+resulting for example in
-+.B %"PRIuFAST32"
-+or
-+.B %"PRIxFAST32"
-+for printing
-+.I uint_fast32_t
-+values.
-+The length modifiers for the
-+.IR uint_fast N _t
-+types for the
-+.BR scanf (3)
-+family of functions
-+are expanded by macros of the forms
-+.BR SCNuFAST N,
-+.BR SCNoFAST N,
-+.BR SCNxFAST N
-+and
-+.BR SCNXFAST N
-+(defined in
-+.IR <inttypes.h> );
-+resulting for example in
-+.B %"SCNuFAST16"
-+or
-+.B %"SCNxFAST16"
-+for scanning
-+.I uint_fast16_t
-+values.
-+.PP
-+Conforming to:
-+C99 and later; POSIX.1-2001 and later.
-+.PP
-+Notes:
-+Where there is no single type that is fastest for all purposes,
-+the implementation may choose any type
-+with the required signedness and at least the minimum width.
-+.PP
-+See also the
-+.IR int_fast N _t ,
-+.IR int_least N _t ,
-+.IR int N _t ,
-+.IR uint_least N _t
-+and
-+.IR uint N _t
-+types in this page.
-+.RE
- .\"------------------------------------- uintmax_t --------------------/
- .TP
- .I uintmax_t
+diff --git a/man3/int_fast16_t.3 b/man3/int_fast16_t.3
+new file mode 100644
+index 000000000..db50c0f09
+--- /dev/null
++++ b/man3/int_fast16_t.3
+@@ -0,0 +1 @@
++.so man7/system_data_types.7
+diff --git a/man3/int_fast32_t.3 b/man3/int_fast32_t.3
+new file mode 100644
+index 000000000..db50c0f09
+--- /dev/null
++++ b/man3/int_fast32_t.3
+@@ -0,0 +1 @@
++.so man7/system_data_types.7
+diff --git a/man3/int_fast64_t.3 b/man3/int_fast64_t.3
+new file mode 100644
+index 000000000..db50c0f09
+--- /dev/null
++++ b/man3/int_fast64_t.3
+@@ -0,0 +1 @@
++.so man7/system_data_types.7
+diff --git a/man3/int_fast8_t.3 b/man3/int_fast8_t.3
+new file mode 100644
+index 000000000..db50c0f09
+--- /dev/null
++++ b/man3/int_fast8_t.3
+@@ -0,0 +1 @@
++.so man7/system_data_types.7
+diff --git a/man3/int_fastN_t.3 b/man3/int_fastN_t.3
+new file mode 100644
+index 000000000..db50c0f09
+--- /dev/null
++++ b/man3/int_fastN_t.3
+@@ -0,0 +1 @@
++.so man7/system_data_types.7
 -- 
 2.28.0
 
