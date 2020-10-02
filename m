@@ -2,142 +2,147 @@ Return-Path: <SRS0=r36n=DJ=vger.kernel.org=linux-man-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-5.6 required=3.0 tests=BAYES_00,DKIM_SIGNED,
+X-Spam-Status: No, score=-6.8 required=3.0 tests=BAYES_00,DKIM_SIGNED,
 	DKIM_VALID,DKIM_VALID_AU,FREEMAIL_FORGED_FROMDOMAIN,FREEMAIL_FROM,
-	HEADER_FROM_DIFFERENT_DOMAINS,MAILING_LIST_MULTI,NICE_REPLY_A,SPF_HELO_NONE,
-	SPF_PASS,USER_AGENT_SANE_1 autolearn=no autolearn_force=no version=3.4.0
+	HEADER_FROM_DIFFERENT_DOMAINS,MAILING_LIST_MULTI,SPF_HELO_NONE,SPF_PASS,
+	USER_AGENT_GIT autolearn=no autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 8F181C4363D
-	for <linux-man@archiver.kernel.org>; Fri,  2 Oct 2020 19:01:37 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 061B4C4363D
+	for <linux-man@archiver.kernel.org>; Fri,  2 Oct 2020 19:32:50 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.kernel.org (Postfix) with ESMTP id 4F604206A2
-	for <linux-man@archiver.kernel.org>; Fri,  2 Oct 2020 19:01:37 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTP id B5DEE20758
+	for <linux-man@archiver.kernel.org>; Fri,  2 Oct 2020 19:32:49 +0000 (UTC)
 Authentication-Results: mail.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="g7pU521o"
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="dyV/Yas9"
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1726215AbgJBTBh (ORCPT <rfc822;linux-man@archiver.kernel.org>);
-        Fri, 2 Oct 2020 15:01:37 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:40440 "EHLO
+        id S2387688AbgJBTct (ORCPT <rfc822;linux-man@archiver.kernel.org>);
+        Fri, 2 Oct 2020 15:32:49 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:45276 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1725991AbgJBTBg (ORCPT
-        <rfc822;linux-man@vger.kernel.org>); Fri, 2 Oct 2020 15:01:36 -0400
-Received: from mail-wr1-x443.google.com (mail-wr1-x443.google.com [IPv6:2a00:1450:4864:20::443])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 8FAFAC0613D0
-        for <linux-man@vger.kernel.org>; Fri,  2 Oct 2020 12:01:36 -0700 (PDT)
-Received: by mail-wr1-x443.google.com with SMTP id k10so2895813wru.6
-        for <linux-man@vger.kernel.org>; Fri, 02 Oct 2020 12:01:36 -0700 (PDT)
+        with ESMTP id S1726224AbgJBTct (ORCPT
+        <rfc822;linux-man@vger.kernel.org>); Fri, 2 Oct 2020 15:32:49 -0400
+Received: from mail-wr1-x444.google.com (mail-wr1-x444.google.com [IPv6:2a00:1450:4864:20::444])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id D537EC0613D0;
+        Fri,  2 Oct 2020 12:32:48 -0700 (PDT)
+Received: by mail-wr1-x444.google.com with SMTP id k15so2975608wrn.10;
+        Fri, 02 Oct 2020 12:32:48 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=gmail.com; s=20161025;
-        h=subject:to:cc:references:from:message-id:date:user-agent
-         :mime-version:in-reply-to:content-language:content-transfer-encoding;
-        bh=r+fzPKCBU2bObjLgaHHSz8nWQ1qfzAC2vRidNLoubsw=;
-        b=g7pU521o6T+3EgFx3SMPbg+N7OqVjf4IaUO3hZGXAyJtWtpyUxItpQY1UMa3uDIGR0
-         hgMXvLhkRL/cj/TC8K5DfqkA8KoyuNdHdj7RW8v2wxlypqZS5jRNMBhrfc9PVbPTGRXi
-         BXRW8/OchUoUgTL6Q1boAEpSLA/EGwKCwc+h6P0snuXOnddLZ4bt47uf/4JZV1ZQY/9h
-         eO4qLE0puhoWwihk74bbMdAUQRRW/zR17RRzeoPdTGdvyirFUE37BJk0Mvc+JfmVvO/A
-         ELQhMo/H3xjPldFyhrgZJGUKxklS+5J2mNkS3IWoRZZhirK0uDMJCw6773yx3A7Kfzx0
-         yzgw==
+        h=from:to:cc:subject:date:message-id:in-reply-to:references
+         :mime-version:content-transfer-encoding;
+        bh=9WAVTTZWVXFPkge+R2T9ftB7ZAz6PRmo0VTImnGOdmU=;
+        b=dyV/Yas9vfNvx0fENJZp1fcbzGE4MkQ8GcLbGLFaIYE/Un7+libFFHK0+7HRV96BZ6
+         hhGquUP8gI0gSqcYWOPopkzYrMNVOcN5cduVytc2t6LDnC2YJLWmmyUCzDF0GNMQurAc
+         V/hAowH79P+gemS9pBxPKYUsLzOV2L2UXGdEK6hw1BdAV6cTkESj2m8h8XooCzm+wj/Z
+         soS9wTAMTPJ/evVlImQ1JyOG/0eeOaslzrFD3iyhM4WgadyOtKxBgeKB9krl8c4kNnbJ
+         kA/VP6O6OG6PpNrIukSoT14qqv0VMwwcX0hdUogUFrIpsKTo0+Dsoo/LjSS6jUNd1lhQ
+         OBJQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
-        h=x-gm-message-state:subject:to:cc:references:from:message-id:date
-         :user-agent:mime-version:in-reply-to:content-language
-         :content-transfer-encoding;
-        bh=r+fzPKCBU2bObjLgaHHSz8nWQ1qfzAC2vRidNLoubsw=;
-        b=s7WZtn2cFislKck5JjbcZPdbyQ5Iu+TsK6/EIygqSWmv43/XxESTJavhOuXChOBPoD
-         HonuVcjE1LPgfNhT8I7k+hXh3JKw6SrBmABphDR+W8RI+jpqmohX8qU0HuGKVezsZ+oo
-         ycny1z0S9q5tYL07nFZ99EHWgruaY35LOrfjR8X0LoWdsV14yAw9NG3l2gXtjjiuk+QB
-         n3p7qITMXcXOMFdTIOgf/ZrsT+zufT9X+0I70lZH4Xw3IJSpe7eqiPujPsvR/tLxMMno
-         46rPzuU7XPTQdnAjz7pacm23GwmxrMANq1xPZd9rBNvTypRSDQmqTsWboxU5oXw2n4VU
-         SlBg==
-X-Gm-Message-State: AOAM530mC/gOz30QLZ+J5QLjRa3c8X4FsT7XE7HuUDGKGfwen/nrD1R+
-        BQLpOUB0B8TLvyDKK3CWhmk=
-X-Google-Smtp-Source: ABdhPJy3aHH5/0pVxjE7G0Vh9WtNCl650PNLK77B3BBJ8q4Iy7zcn8XNqypEQUvNktO0oYtpINNKpw==
-X-Received: by 2002:a5d:4a4a:: with SMTP id v10mr4541567wrs.72.1601665295223;
-        Fri, 02 Oct 2020 12:01:35 -0700 (PDT)
-Received: from [192.168.1.143] ([170.253.60.68])
-        by smtp.gmail.com with ESMTPSA id y6sm2672896wrt.80.2020.10.02.12.01.34
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Fri, 02 Oct 2020 12:01:34 -0700 (PDT)
-Subject: Re: [PATCH 1/4] system_data_types.7: Add '__int128'
-To:     Paul Eggert <eggert@cs.ucla.edu>
-Cc:     Florian Weimer <fweimer@redhat.com>,
-        Alejandro Colomar via Libc-alpha <libc-alpha@sourceware.org>,
-        linux-man@vger.kernel.org, gcc-patches@gcc.gnu.org,
-        mtk.manpages@gmail.com
-References: <20201001163443.106933-1-colomar.6.4.3@gmail.com>
- <20201001163443.106933-2-colomar.6.4.3@gmail.com>
- <87eemg97ew.fsf@oldenburg2.str.redhat.com>
- <f08ea5cf-d4ae-54aa-405b-829909156186@cs.ucla.edu>
+        h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
+         :references:mime-version:content-transfer-encoding;
+        bh=9WAVTTZWVXFPkge+R2T9ftB7ZAz6PRmo0VTImnGOdmU=;
+        b=Safkwf7/8XHZ4SnQn0Q5HbmwcSvLokO8Ibni0gngaRGufXnXiST8aija9nCBldoh6E
+         wTleEcmBqIZ0yo01vUKGC9F23Xlu7NySDDVIABv9VexbpYGvX6SXo9Jm6JJXSHA72bUS
+         9U61bi1sk5FC8PFAw5C4oWZUOKEqWaDg+cXt3twX1EbV73JkYZFxT+QjLVkSIw/vGFsk
+         NjlGepwGO4k1fjNg+DXVyg1IjQzfKWul/LkB0HugnZodwMz5pBEJz1NhqUzYLha5Dmtd
+         sEdXI7soPmZFVpVEGz6E6aHHlQNuNhck9rqzOn1sQJCnMYhFSxs3JePHhqLgeyLa/maW
+         JLig==
+X-Gm-Message-State: AOAM532eBu70tYkKGYU31TskNJxRnvQcJ2i3Tfe2lLcCb7rcuUKb9udg
+        o353OvH8B7X7H4TrqEGrwZ6Fv4AYC1Y=
+X-Google-Smtp-Source: ABdhPJyfBT9pQo+SXX/SVRxX/51ZMMtCA1RJUScUOWnhvtrYzg/bRzDFelbWIbR8mn6HmKSq2i0djg==
+X-Received: by 2002:adf:f6c8:: with SMTP id y8mr4972404wrp.217.1601667167512;
+        Fri, 02 Oct 2020 12:32:47 -0700 (PDT)
+Received: from localhost.localdomain ([170.253.60.68])
+        by smtp.googlemail.com with ESMTPSA id e19sm3384230wme.2.2020.10.02.12.32.45
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Fri, 02 Oct 2020 12:32:46 -0700 (PDT)
 From:   Alejandro Colomar <colomar.6.4.3@gmail.com>
-Message-ID: <bcce5f89-6682-e089-d129-43c36fe3f392@gmail.com>
-Date:   Fri, 2 Oct 2020 21:01:33 +0200
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
- Thunderbird/68.12.0
+To:     mtk.manpages@gmail.com
+Cc:     Alejandro Colomar <colomar.6.4.3@gmail.com>,
+        linux-man@vger.kernel.org, gcc-patches@gcc.gnu.org,
+        libc-alpha@sourceware.org, eggert@cs.ucla.edu,
+        linux-kernel@vger.kernel.org, jwakely.gcc@gmail.com,
+        David.Laight@ACULAB.COM
+Subject: [PATCH v5 0/2] Document 'void *'
+Date:   Fri,  2 Oct 2020 21:28:13 +0200
+Message-Id: <20201002192814.14113-1-colomar.6.4.3@gmail.com>
+X-Mailer: git-send-email 2.28.0
+In-Reply-To: <20201002151419.32053-1-colomar.6.4.3@gmail.com>
+References: <20201002151419.32053-1-colomar.6.4.3@gmail.com>
 MIME-Version: 1.0
-In-Reply-To: <f08ea5cf-d4ae-54aa-405b-829909156186@cs.ucla.edu>
-Content-Type: text/plain; charset=utf-8; format=flowed
-Content-Language: en-US
-Content-Transfer-Encoding: 7bit
+Content-Transfer-Encoding: 8bit
 Precedence: bulk
 List-ID: <linux-man.vger.kernel.org>
 X-Mailing-List: linux-man@vger.kernel.org
 
-Hi Paul,
+Hi Michael,
 
-On 2020-10-02 19:52, Paul Eggert wrote:
-> Why describe __int128_t in these man pages at all? __int128_t is not a 
-> property of either the kernel or of glibc, so it's out of scope.
-
-Well, as I see it, [unsigned] __int128 is as good as [u]int64_t.
-They are part of the C interface in Linux.
-As a programmer I never cared if it was
-Glibc providing me the type with a typedef,
-or GCC providing me the type with its magic.
-
-If you propose not to document the stdint types either,
-I can see your position, but I'll disagree.
+Here I added a wfix fixing some wording issues and a few typos
+spotted by Paul and Jonathan in the (many) threads.
+As previously, it is squashed into a single commit.
 
 
+Thanks again for those who reviewed the patch!
 
-A few personal lines:
+BTW, for those who don't have a local repo of the man-pages,
+below you can see a rendered version of the patch.
 
-I just want to use it, and to do that,
-I need a reference manual where to look for how to use it.
-And belive me that unsigned __int128 has been very useful to me.
+Thanks,
 
-I think having this page with most of the types,
-in a centralized manner, is exactly
-what I would have needed in the past.
-I have had trouble finding where ssize_t was defined.
-I could have looked at the POSIX manual,
-and I would have easily found that it is defined in <sys/types.h>,
-but I didn't even know that it was a POSIX thing
-(and I can tell that I'm not the only one who didn't know this :),
-so I didn't even know where to search for it.
+Alex
 
-When I wanted to use unsigned __128, kind of the same thing,
-where do you search for the documentation of something
-that you don't even know who specified it?
+[[
+void *
+      According  to  the  C language standard, a pointer to any object
+      type may be converted to a pointer to void and back.  POSIX fur-
+      ther requires that any pointer, including pointers to functions,
+      may be converted to a pointer to void and back.
 
-When that happens, the first thing for me is to 'man something'.
-If that doesn't give me any useful info, then duckduckgo something.
+      Conversions from and to any other pointer type are done  implic-
+      itly,  not  requiring casts at all.  Note that this feature pre-
+      vents any kind of type checking: the programmer should be  care-
+      ful not to convert a void * value to a type incompatible to that
+      of the underlying data, because that would result  in  undefined
+      behavior.
 
-In the internet there's much info,
-but also much of it is incomplete or incorrect,
-so if I have the man, I trust the man over anything else
-(except for the standard documents, of course).
+      This  type  is useful in function parameters and return value to
+      allow passing values of any type.  The function  will  typically
+      use  some  mechanism  to  know  the  real type of the data being
+      passed via a pointer to void.
 
-But the standards documents usually provide the information
-in a reverse fashion:
-If you know where to look at, you'll find it.
-But if you only know its name, it'll be hard to find where it is.
+      A value of this type can't be dereferenced, as it would  give  a
+      value  of  type  void, which is not possible.  Likewise, pointer
+      arithmetic is not possible with this type.  However, in  GNU  C,
+      pointer  arithmetic  is allowed as an extension to the standard;
+      this is done by treating the size of a void or of a function  as
+      1.  A consequence of this is that sizeof is also allowed on void
+      and on function types, and returns 1.
 
-The man provides documentation with the name of what you want to
-know about.  Simple and easy.
+      The conversion specifier for void * for the  printf(3)  and  the
+      scanf(3) families of functions is p.
 
-And man is faster than the internet :)
+      Versions: The POSIX requirement about compatibility between void
+      * and function pointers was added in POSIX.1-2008 Technical Cor-
+      rigendum 1 (2013).
+
+      Conforming to: C99 and later; POSIX.1-2001 and later.
+
+      See also: malloc(3), memcmp(3), memcpy(3), memset(3)
+
+      See also the intptr_t and uintptr_t types in this page.
+]]
 
 
-Regards,
+Alejandro Colomar (2):
+  system_data_types.7: Add 'void *'
+  void.3: New link to system_data_types(7)
 
-Alex.
+ man3/void.3              |  1 +
+ man7/system_data_types.7 | 76 ++++++++++++++++++++++++++++++++++++++--
+ 2 files changed, 75 insertions(+), 2 deletions(-)
+ create mode 100644 man3/void.3
+
+-- 
+2.28.0
+
