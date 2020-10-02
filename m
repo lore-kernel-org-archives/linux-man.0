@@ -7,72 +7,72 @@ X-Spam-Status: No, score=-5.6 required=3.0 tests=BAYES_00,DKIM_SIGNED,
 	HEADER_FROM_DIFFERENT_DOMAINS,MAILING_LIST_MULTI,NICE_REPLY_A,SPF_HELO_NONE,
 	SPF_PASS,USER_AGENT_SANE_1 autolearn=no autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 08F8AC4363D
-	for <linux-man@archiver.kernel.org>; Fri,  2 Oct 2020 08:24:44 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id D8971C4363D
+	for <linux-man@archiver.kernel.org>; Fri,  2 Oct 2020 08:35:25 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.kernel.org (Postfix) with ESMTP id B35EB206B8
-	for <linux-man@archiver.kernel.org>; Fri,  2 Oct 2020 08:24:43 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTP id 8EEE5206B8
+	for <linux-man@archiver.kernel.org>; Fri,  2 Oct 2020 08:35:25 +0000 (UTC)
 Authentication-Results: mail.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="Lr4iaoyu"
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="kW5hB0EN"
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1726017AbgJBIYn (ORCPT <rfc822;linux-man@archiver.kernel.org>);
-        Fri, 2 Oct 2020 04:24:43 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:54926 "EHLO
+        id S1725993AbgJBIfZ (ORCPT <rfc822;linux-man@archiver.kernel.org>);
+        Fri, 2 Oct 2020 04:35:25 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:56566 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1725961AbgJBIYn (ORCPT
-        <rfc822;linux-man@vger.kernel.org>); Fri, 2 Oct 2020 04:24:43 -0400
-Received: from mail-wm1-x344.google.com (mail-wm1-x344.google.com [IPv6:2a00:1450:4864:20::344])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id A6D38C0613D0;
-        Fri,  2 Oct 2020 01:24:42 -0700 (PDT)
-Received: by mail-wm1-x344.google.com with SMTP id 13so736866wmf.0;
-        Fri, 02 Oct 2020 01:24:42 -0700 (PDT)
+        with ESMTP id S1725961AbgJBIfZ (ORCPT
+        <rfc822;linux-man@vger.kernel.org>); Fri, 2 Oct 2020 04:35:25 -0400
+Received: from mail-wm1-x343.google.com (mail-wm1-x343.google.com [IPv6:2a00:1450:4864:20::343])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id CF539C0613D0
+        for <linux-man@vger.kernel.org>; Fri,  2 Oct 2020 01:35:24 -0700 (PDT)
+Received: by mail-wm1-x343.google.com with SMTP id q9so763242wmj.2
+        for <linux-man@vger.kernel.org>; Fri, 02 Oct 2020 01:35:24 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=gmail.com; s=20161025;
         h=subject:to:cc:references:from:message-id:date:user-agent
          :mime-version:in-reply-to:content-language:content-transfer-encoding;
-        bh=uepnmvkaBYFWZFNuqOI3SwkTneUXrVb8dyGb7Wp5nmM=;
-        b=Lr4iaoyucrYzxBxbatoVRF+8FVgj1FznYmnJmf87m2qvfXdmKyULjbqmxYQrkszGOq
-         2y7ARzNj0/bQEzAQN9UaSPkhXsG2CzxZcm47C0dYQgD/79YOE9cr0pimndUCxGuIDXPv
-         0FnzpzT2acTxh2P7ddEV1DkJF4v2SeogNdntutGcczjFRzGorYdz9uYvbAlyjJ3T6BPS
-         Xd3KwvwaaGTx0ooOn2h/tYlF1Ynsm+YlltCgA2HxjHctwAqd0UAbGnb7FzvkTxzBW/mP
-         uyhppFQDFwhSNR/4zRL5Zqxe5Xx921HIf2f9obf7tlxaOL1GY08XcBMZ85cuVNx8sl5K
-         m//g==
+        bh=D1p7Dd8EPKaUSCoq1xg8vdBZaYcJ4v74iy4lAfMhAFE=;
+        b=kW5hB0ENW3JD5hNFZcyc8YP4e66go6KDG9ayAPoqYbKeXFpV0tlGvykOdjLCkoQ0iL
+         4r55dLFQ/bF02y72wmEPwe+b1OFJgwYFweJVCTb6L0pDXZnD/X16UtgecDKLBP40+o6/
+         EPFKmwh8MOmWxJfqlDTDyMJLcRwRHQc5PpK5FyAjidBFbTQG19/DaVR/tdbaeS5RD+dg
+         OJV3y6GkkG1tW5dzDwvEq7+wcE9gC5tk7X7sv5uROiD/R7JUwc+Li90zdwf5zQG/FzWH
+         tqsnOLm7TjBfJGt0F5mK7kG2pdvxGI+1O/CUhWBsjIXreNVbfLDj+vOwmarWaA9YBumM
+         TG1A==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
         h=x-gm-message-state:subject:to:cc:references:from:message-id:date
          :user-agent:mime-version:in-reply-to:content-language
          :content-transfer-encoding;
-        bh=uepnmvkaBYFWZFNuqOI3SwkTneUXrVb8dyGb7Wp5nmM=;
-        b=r4rxELGtCLMu5/W307PHrqVKHdRN6LyLMXBhNaaXRdpXakzmbKN69sXhXAYbD7DprU
-         OxJtGJvWC2Pv5H7e4vikFp2UGChKFoBFpqMMvgxfRQNdG8PCok8trQssYRIepYjnuDup
-         Mi6/1StcQzHyQ04MRH37N5m/3eAB2Cx5QADz09X50yoXDTR3Z3nVvfXq3hvPxN4508WW
-         mwZindn/GU6NWJMBHR10zRGrEB5F0bFNZZcyTYIE4fWLTYCz95nMDzRF7AzJtJqgSwb2
-         9tU60b1lc0J+fH8qGyWITfaJOqUA4oyLdF8bXLnHrYErfHjBm9fKw3rO0zWzel9CtjIR
-         /buQ==
-X-Gm-Message-State: AOAM532v0WnEMeXEOYNMFbY9gWrMEoizp8xS9YtqFS7Yt0OKWFCoIPlq
-        AyIp+EP7jcKHqvVNBAfzfk2y78McQyY=
-X-Google-Smtp-Source: ABdhPJzJ6/QDMUZwbNSfl/vi9c5VAWusWGQJp8tIld00GRV3yGHvAK35ofyqOe1YWmNaK3fY5LEKlg==
-X-Received: by 2002:a1c:f311:: with SMTP id q17mr1630701wmq.168.1601627081017;
-        Fri, 02 Oct 2020 01:24:41 -0700 (PDT)
+        bh=D1p7Dd8EPKaUSCoq1xg8vdBZaYcJ4v74iy4lAfMhAFE=;
+        b=Z8WjGGRlbMQy3SP963KnICCGRUnENYJj/nBlCMAyAPWJp6PbNO63PL0WJlKZwBPQXL
+         JvC5QPjGQv0aNa/rCcoYYL8l6wtRvRYVGj54qXr5aDqFzhJ2IN4fxWcSetIaU+JZvgvw
+         /uVCswddgK42CwRZ4EBU+jnMxFo4bDOSEQ9iNX+GeVEeshTCjbL6Ci+gyqCKkjazZfjj
+         6IRwUDGlWPGRjtPutFwzxAn81U0mgZtjO/t4nC3Q01jMzsTUUDcCY6XZAjF8DLOklo/1
+         4U0rRnm8rB8k3Rz5L2R/CpqHXC0a3/IQJkazatFarH9RNZrraJaHcOQ+i4QANPgMpZi/
+         aRFw==
+X-Gm-Message-State: AOAM533VVbLu1byX+kJg6BeyzcXr6S/q4CafHQr8Z+Kfxp91MXt4v9zJ
+        DE73Feu3teYYIbKkAKfvRHv8Nh1RZS8=
+X-Google-Smtp-Source: ABdhPJySfHlqN36IPsl85SM+iCvPc61PMX/EcoQfBZuiSo8AFSXHFjkQUV2sciP92GRGElCkTMvSmQ==
+X-Received: by 2002:a05:600c:2207:: with SMTP id z7mr1603995wml.42.1601627723550;
+        Fri, 02 Oct 2020 01:35:23 -0700 (PDT)
 Received: from [192.168.1.143] ([170.253.60.68])
-        by smtp.gmail.com with ESMTPSA id l4sm1047135wrc.14.2020.10.02.01.24.39
+        by smtp.gmail.com with ESMTPSA id b8sm974172wmb.4.2020.10.02.01.35.22
         (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Fri, 02 Oct 2020 01:24:40 -0700 (PDT)
-Subject: Re: [PATCH v2 1/2] system_data_types.7: Add 'void *'
-To:     Paul Eggert <eggert@cs.ucla.edu>
-Cc:     mtk.manpages@gmail.com, linux-man@vger.kernel.org,
-        libc-alpha@sourceware.org, gcc@gcc.gnu.org,
-        "linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>
-References: <41affebd-3354-9420-0048-bffd14535e95@gmail.com>
- <20201001154946.104626-2-colomar.6.4.3@gmail.com>
- <538b683f-01d2-6148-4f1d-1b293eb5cd6b@cs.ucla.edu>
+        Fri, 02 Oct 2020 01:35:22 -0700 (PDT)
+Subject: Re: [PATCH v2 1/4] system_data_types.7: Add int_leastN_t family of
+ types
+To:     Paul Eggert <eggert@cs.ucla.edu>, mtk.manpages@gmail.com
+Cc:     linux-man@vger.kernel.org, libc-alpha@sourceware.org,
+        gcc@gcc.gnu.org
+References: <20201001143535.98990-1-colomar.6.4.3@gmail.com>
+ <20201001143535.98990-2-colomar.6.4.3@gmail.com>
+ <b116e906-2a5d-1a7e-2969-52036ab3e8c3@cs.ucla.edu>
 From:   Alejandro Colomar <colomar.6.4.3@gmail.com>
-Message-ID: <4b86f6e9-0d8a-f14a-73ce-ebbdc9d9edba@gmail.com>
-Date:   Fri, 2 Oct 2020 10:24:39 +0200
+Message-ID: <f6711dc6-acd8-257d-811d-75aa4d4a60fe@gmail.com>
+Date:   Fri, 2 Oct 2020 10:35:22 +0200
 User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
  Thunderbird/68.12.0
 MIME-Version: 1.0
-In-Reply-To: <538b683f-01d2-6148-4f1d-1b293eb5cd6b@cs.ucla.edu>
+In-Reply-To: <b116e906-2a5d-1a7e-2969-52036ab3e8c3@cs.ucla.edu>
 Content-Type: text/plain; charset=utf-8; format=flowed
 Content-Language: en-US
 Content-Transfer-Encoding: 7bit
@@ -82,62 +82,37 @@ X-Mailing-List: linux-man@vger.kernel.org
 
 Hi Paul,
 
-On 2020-10-01 19:32, Paul Eggert wrote:
- > If you're going to document this at all, I suggest documenting 'void' as
- > well as 'void *', and putting both sets of documentation into the same
- > man page.
+On 2020-10-01 19:38, Paul Eggert wrote:
+ > On 10/1/20 7:35 AM, Alejandro Colomar via Libc-alpha wrote:
+ >> +The narrowest signed integer type
+ >> +of a width of at least N bits,
  >
+ > Motivation is missing here. Why is there an int_leastN_t type at all?
 
-All the types we're documenting are in the same page:
-system_data_types(7).
-And then we have links with the name of each type.
+Well, I'd say the motivation is for the standard to allow
+unicorn implementations that have types that are not of normal widths
+For example, this allows an implementation to have an int of 33 bits,
+have int_least32_t be that int, and then not provide int32_t.
 
-And yes, I also pretend to document 'void'.
+But, I'd say that writing this information in the man would only confuse
+readers, would not be helpful because those are actually unicorns.
 
+The few programmers that may need that info might better go to the standard.
 
- > For 'void *' you should also mention that one cannot use arithmetic on
- > void * pointers, so they're special in that way too.
+ > Also, on all glibc platforms, int_leastN_t is equivalent to intN_t; this
+ > should probably be mentioned.
 
-Good suggestion!
-
- > Also, you should
- > warn that because one can convert from any pointer type to void * and
- > then to any other pointer type, it's a deliberate hole in C's
- > type-checking.
-
-Also good.  I'll talk about generic function parameters for this.
-
- > It might not also hurt to mention 'void const *', 'void
- > volatile *', 'void const volatile *', etc.
-
-Those are qualifiers for the type,
-and I don't see how any of them would apply differently to 'void *'
-than to any other pointer type (or any type at all),
-so I think they don't belong to system_data_types(7).
-
-However, it might be good that someone starts a page called
-'type_qualifiers(7)' or something like that.
-
-I would love that someone documents 'volatile' correctly,
-as there aren't many good sources about it.
-If someone who knows when to use --and especially when not to use--
-'volatile', is reading this, think about it :-)
-I still wonder if I used it correctly in the few cases I've had to.
-
-BTW, I'll CC the LKML.
+We deliberately decided to not give any information on this.
+Unless there's a strict requirement by the standard,
+or there's some very good reason for it,
+the programmer should treat typedefs as what they actaully are:
+opaque types with some width, signedness and other requirements,
+which we document here.
 
  >
- > For 'void' you can mention the usual things, such as functions returning
- > void, and functions declared with (void) parameters, why one would want
- > to cast to (void), and so forth.
+ > Similarly for int_fastN_t.
 
-Yes, I was thinking about that.
-
- >
- > You're starting to document the C language here, and if you're going to
- > do that you might as well do it right.
-
-I'm trying to do so :)
+Same as above.
 
 Thanks,
 
