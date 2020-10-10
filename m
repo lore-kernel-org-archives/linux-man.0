@@ -2,247 +2,142 @@ Return-Path: <SRS0=gQ/3=DR=vger.kernel.org=linux-man-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-12.8 required=3.0 tests=BAYES_00,DKIM_SIGNED,
+X-Spam-Status: No, score=-11.6 required=3.0 tests=BAYES_00,DKIM_SIGNED,
 	DKIM_VALID,DKIM_VALID_AU,FREEMAIL_FORGED_FROMDOMAIN,FREEMAIL_FROM,
-	HEADER_FROM_DIFFERENT_DOMAINS,INCLUDES_PATCH,MAILING_LIST_MULTI,SIGNED_OFF_BY,
-	SPF_HELO_NONE,SPF_PASS,USER_AGENT_GIT autolearn=ham autolearn_force=no
-	version=3.4.0
+	HEADER_FROM_DIFFERENT_DOMAINS,INCLUDES_PATCH,MAILING_LIST_MULTI,NICE_REPLY_A,
+	SIGNED_OFF_BY,SPF_HELO_NONE,SPF_PASS,URIBL_BLOCKED,USER_AGENT_SANE_1
+	autolearn=ham autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 0F36EC43457
-	for <linux-man@archiver.kernel.org>; Sat, 10 Oct 2020 22:55:48 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 83891C43457
+	for <linux-man@archiver.kernel.org>; Sat, 10 Oct 2020 23:12:01 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.kernel.org (Postfix) with ESMTP id CB6EB20795
-	for <linux-man@archiver.kernel.org>; Sat, 10 Oct 2020 22:55:47 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTP id 4E3B42075E
+	for <linux-man@archiver.kernel.org>; Sat, 10 Oct 2020 23:12:01 +0000 (UTC)
 Authentication-Results: mail.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="sZB4nxTb"
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="QASdun8i"
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S2389516AbgJJWzq (ORCPT <rfc822;linux-man@archiver.kernel.org>);
-        Sat, 10 Oct 2020 18:55:46 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:34596 "EHLO
+        id S2389532AbgJJWzr (ORCPT <rfc822;linux-man@archiver.kernel.org>);
+        Sat, 10 Oct 2020 18:55:47 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:41584 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1731165AbgJJTE0 (ORCPT
-        <rfc822;linux-man@vger.kernel.org>); Sat, 10 Oct 2020 15:04:26 -0400
-Received: from mail-wr1-x444.google.com (mail-wr1-x444.google.com [IPv6:2a00:1450:4864:20::444])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id C97ECC0613BD
-        for <linux-man@vger.kernel.org>; Sat, 10 Oct 2020 12:04:20 -0700 (PDT)
-Received: by mail-wr1-x444.google.com with SMTP id y12so8556052wrp.6
-        for <linux-man@vger.kernel.org>; Sat, 10 Oct 2020 12:04:20 -0700 (PDT)
+        with ESMTP id S1730960AbgJJTuC (ORCPT
+        <rfc822;linux-man@vger.kernel.org>); Sat, 10 Oct 2020 15:50:02 -0400
+Received: from mail-wm1-x342.google.com (mail-wm1-x342.google.com [IPv6:2a00:1450:4864:20::342])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id EECBBC0613D5
+        for <linux-man@vger.kernel.org>; Sat, 10 Oct 2020 02:08:31 -0700 (PDT)
+Received: by mail-wm1-x342.google.com with SMTP id e2so12019661wme.1
+        for <linux-man@vger.kernel.org>; Sat, 10 Oct 2020 02:08:31 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=gmail.com; s=20161025;
-        h=from:to:cc:subject:date:message-id:mime-version
-         :content-transfer-encoding;
-        bh=xN1IDaNQZAUHIF3aZyj4LpP9pvOiaLixR42EhSNa/do=;
-        b=sZB4nxTbuQF0PhuGvaWuoy57PXDhj/xoYJQK177YzTa6TNO4IaOzkvT6QHB6QrrHgG
-         I9t42bWQsGWhgDpeKdmPg3p9OiubSjuUOoGSByMTXTTbx3QpuPdbriJFXxwtTfT7NWvA
-         kZg9cmByvR8xtINkEYzB31hZGMn7g3OBix0+evxYJmngPahlTUYW2EynaRhoDQBUduCw
-         30BVxgcF/7whvpeSA7+fYWC2UMHWOwzGGL+ValJaXMDjMkPY4IXypKh44LHpUiyBg8l7
-         teMu42kLVHR6uUuBsS/12Ja+RU6Jh9bpEH5sGAQ9WngI147FQps0AaLOeP0RrXcXicbh
-         FqQg==
+        h=cc:subject:to:references:from:message-id:date:user-agent
+         :mime-version:in-reply-to:content-language:content-transfer-encoding;
+        bh=3Iz52XB4+G94horzQbWkEFmym9IHrZwlZvLSxhrr7cI=;
+        b=QASdun8i1fMyKEU+I96UnYu/P1j0dgQW2p6swIM3OY8dlK4VSmBFNLgJ7wWNzFCpbl
+         ZNbJcmOEduft3nudiElhi7o6w9p1Iwk8EU0QribUHtsVe+2Tia8R8IxwKayFnRpEDqNC
+         HphctDjLCbb+NEKCnZHjG8r53u1sppmdFSNY3Tqt8IBFHsRT0MemYm6GBG857qMJm+SG
+         ipYZ/VsMPgJT+0yg+0r/FiF7TDNs16h7UcbdZSrc8t7o9mCItuk6O0biUPP74o98pFnk
+         hJK6HZRR0AJ4FK7HdObg6qc7FVmvVwkzHxOWbU/yd73jrGI5eRVKMtp/FxS8Q2nFJWRY
+         XwMQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
-        h=x-gm-message-state:from:to:cc:subject:date:message-id:mime-version
+        h=x-gm-message-state:cc:subject:to:references:from:message-id:date
+         :user-agent:mime-version:in-reply-to:content-language
          :content-transfer-encoding;
-        bh=xN1IDaNQZAUHIF3aZyj4LpP9pvOiaLixR42EhSNa/do=;
-        b=TbUkATc+F3wG04ykvIB2OuaQbHyKUqXM4HjD5L4LuenAuxbsI4NjnV0oznoLr0NieH
-         z0RHER/DdvqSYghFDPim2OaOMf2VepCXv6vn+4RHcTDsn/30IDJcPTudsmYtK5bTOlSx
-         K5yn9dyQjjR3MFuEuRNgSDKd84yChyMJLINYiJy1Puya9WQDAVG735Y6rzfR/fBMobIF
-         4O8eYz7absoQi/XYm9lPyGSC0qkjp5/nmBn1yerRfpzZTCwEIwtF+voYAauaE6SeHHO1
-         b2+UouSc4TicCGTWCjaf7r8B5527u/kQVEL8xLDMYnAQbLod+1dDaXzwlEFmdqB9M/QY
-         qK2g==
-X-Gm-Message-State: AOAM5337vQeEamVWbvjiypg0N6ltxHq0mRzBzGBSPPrqs9bQ6eMpFgvY
-        HAbcdOBC/BHf8K5hDFvr2ds=
-X-Google-Smtp-Source: ABdhPJysVQPkEHtXayiRf/00C9cVuSqH0hU/ijRPC/YlZcQG1ktyc6RH+ogQ0vJs26mnzXB3bx1IJg==
-X-Received: by 2002:adf:db52:: with SMTP id f18mr21062140wrj.397.1602356659333;
-        Sat, 10 Oct 2020 12:04:19 -0700 (PDT)
-Received: from localhost.localdomain ([170.253.60.68])
-        by smtp.googlemail.com with ESMTPSA id c8sm18741759wmd.18.2020.10.10.12.04.17
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Sat, 10 Oct 2020 12:04:18 -0700 (PDT)
-From:   Alejandro Colomar <colomar.6.4.3@gmail.com>
-To:     mtk.manpages@gmail.com
-Cc:     Alejandro Colomar <colomar.6.4.3@gmail.com>,
-        linux-man@vger.kernel.org, libc-alpha@sourceware.org
-Subject: [PATCH] queue.3: Replace incomplete example by a complete example
-Date:   Sat, 10 Oct 2020 21:02:27 +0200
-Message-Id: <20201010190226.19236-1-colomar.6.4.3@gmail.com>
-X-Mailer: git-send-email 2.28.0
+        bh=3Iz52XB4+G94horzQbWkEFmym9IHrZwlZvLSxhrr7cI=;
+        b=W4VaqJSA0bHJoP8ncHeAnKgiinlxleWIzTjRcBXAxYR8RSiUAPCaQHvvHDVI/AeIfY
+         YuiJ7depxLVs/hfGlkumdHg+3rr/G3cX2N9P6nZ0nxdf1Z2IkUWj0tbdqoAYGU+iGLN7
+         FO1wcWCYacE9BT/DC0ZYLlf+1ILuReDa1MBSC5//Qs3VQrSSTPBmxgH0D7Iu4cLAfnz5
+         b4QzdBslT6m3vHFqf2fbyYBJPkHlCZyHmWnhu82lyBInbzk8EUnhI6fx2PpnJlmmdAIO
+         yDGfbIwpqBe875sVchb9200kPd14PBCjr10NosHYbrk3brFLs4zV4o8DNY7CyElRCEKh
+         N/Ow==
+X-Gm-Message-State: AOAM532iHanhRRn8BoufVcBZEkEBdgwzyrsJCSNQnjY6AVhntlS+HLhb
+        Qquf8jWy/aR2sRse61j+jZA=
+X-Google-Smtp-Source: ABdhPJwQ+sXg13S2wGW/mHHO7vQXxCEo6UCWNDlzlapxPHuz9ua4fbHXmqlYfv1zf7xlZfkGDoTO3w==
+X-Received: by 2002:a1c:960a:: with SMTP id y10mr1904532wmd.128.1602320910522;
+        Sat, 10 Oct 2020 02:08:30 -0700 (PDT)
+Received: from [192.168.1.10] (static-176-175-73-29.ftth.abo.bbox.fr. [176.175.73.29])
+        by smtp.gmail.com with ESMTPSA id g5sm2440840wmi.4.2020.10.10.02.08.29
+        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+        Sat, 10 Oct 2020 02:08:29 -0700 (PDT)
+Cc:     mtk.manpages@gmail.com
+Subject: Re: [PATCH] locale.5: Decimal points, thousands separators must be
+ one character
+To:     Florian Weimer <fweimer@redhat.com>, linux-man@vger.kernel.org
+References: <87zh4vdc7d.fsf@oldenburg2.str.redhat.com>
+From:   "Michael Kerrisk (man-pages)" <mtk.manpages@gmail.com>
+Message-ID: <96c8e122-cdfd-3849-1ad8-0f8b70b23988@gmail.com>
+Date:   Sat, 10 Oct 2020 11:08:27 +0200
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
+ Thunderbird/68.11.0
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+In-Reply-To: <87zh4vdc7d.fsf@oldenburg2.str.redhat.com>
+Content-Type: text/plain; charset=utf-8
+Content-Language: en-US
+Content-Transfer-Encoding: 7bit
 Precedence: bulk
 List-ID: <linux-man.vger.kernel.org>
 X-Mailing-List: linux-man@vger.kernel.org
 
-I added the EXAMPLES section.
-The examples in this page are incomplete
-(you can't copy&paste&compile&run).
-I fixed the one about TAILQ first,
-and the rest should follow.
+On 10/9/20 10:40 AM, Florian Weimer wrote:
+> This is implied by POSIX because it requires that these strings in the
+> locale definition file contain one symbol.  Currently, locale.5 does
+> not document the concept of symbols, this change glosses over that and
+> just uses the term "single-character string".
+> 
+> Signed-off-by: Florian Weimer <fweimer@redhat.com>
 
-Signed-off-by: Alejandro Colomar <colomar.6.4.3@gmail.com>
----
-
-Hi Michael,
-
-I think this page needs a big overhaul.
-
-First of all, it's a very big page,
-where it's a bit difficult to go to the subsection you want.
-Then, the examples are incomplete.
-And also, the language of the page is weird.
-
-I thought about having queue.h with an overview of all the different
-data structures, and the differences about them.
-
-And then separate pages for each data structure:
-slist.3, list.3,
-stailq.3, tailq.3,
-simpleq.3 (which right now isn't documented),
-and circleq.3
-with details about each macro and a complete example program.
-
-Your thoughts?
+Thanks, Florian. Patch applied.
 
 Cheers,
 
-Alex
+Michael
+
+> ---
+>  man5/locale.5 | 16 ++++++++--------
+>  1 file changed, 8 insertions(+), 8 deletions(-)
+> 
+> diff --git a/man5/locale.5 b/man5/locale.5
+> index f6b63da9d..9789e0bb0 100644
+> --- a/man5/locale.5
+> +++ b/man5/locale.5
+> @@ -693,12 +693,12 @@ separator.
+>  followed by the local currency symbol.
+>  .TP
+>  .I mon_decimal_point
+> -followed by the string that will be used as the decimal delimiter
+> -when formatting monetary quantities.
+> +followed by the single-character string that will be used as the
+> +decimal delimiter when formatting monetary quantities.
+>  .TP
+>  .I mon_thousands_sep
+> -followed by the string that will be used as a group separator
+> -when formatting monetary quantities.
+> +followed by the single-character string that will be used as a group
+> +separator when formatting monetary quantities.
+>  .TP
+>  .I mon_grouping
+>  followed by a sequence of integers separated by semicolons that
+> @@ -962,12 +962,12 @@ in the first column.
+>  The following keywords are allowed:
+>  .TP
+>  .I decimal_point
+> -followed by the string that will be used as the decimal delimiter
+> -when formatting numeric quantities.
+> +followed by the single-character string that will be used as the
+> +decimal delimiter when formatting numeric quantities.
+>  .TP
+>  .I thousands_sep
+> -followed by the string that will be used as a group separator
+> -when formatting numeric quantities.
+> +followed by the single-character string that will be used as a group
+> +separator when formatting numeric quantities.
+>  .TP
+>  .I grouping
+>  followed by a sequence of integers separated by semicolons
+> 
 
 
- man3/queue.3 | 115 ++++++++++++++++++++++++++-------------------------
- 1 file changed, 59 insertions(+), 56 deletions(-)
-
-diff --git a/man3/queue.3 b/man3/queue.3
-index 55cd5847e..ea43f018b 100644
---- a/man3/queue.3
-+++ b/man3/queue.3
-@@ -1220,62 +1220,8 @@ from the tail queue.
- .\" .Fa head1
- .\" and
- .\" .Fa head2 .
--.Ss Tail queue example
--.Bd -literal
--TAILQ_HEAD(tailhead, entry) head =
--    TAILQ_HEAD_INITIALIZER(head);
--struct tailhead *headp;			/* Tail queue head. */
--struct entry {
--	...
--	TAILQ_ENTRY(entry) entries;	/* Tail queue. */
--	...
--} *n1, *n2, *n3, *np;
--
--TAILQ_INIT(&head);			/* Initialize the queue. */
--
--n1 = malloc(sizeof(struct entry));	/* Insert at the head. */
--TAILQ_INSERT_HEAD(&head, n1, entries);
--
--n1 = malloc(sizeof(struct entry));	/* Insert at the tail. */
--TAILQ_INSERT_TAIL(&head, n1, entries);
--
--n2 = malloc(sizeof(struct entry));	/* Insert after. */
--TAILQ_INSERT_AFTER(&head, n1, n2, entries);
--
--n3 = malloc(sizeof(struct entry));	/* Insert before. */
--TAILQ_INSERT_BEFORE(n2, n3, entries);
--
--TAILQ_REMOVE(&head, n2, entries);	/* Deletion. */
--free(n2);
--					/* Forward traversal. */
--TAILQ_FOREACH(np, &head, entries)
--	np\-> ...
--.\" 					/* Safe forward traversal. */
--.\" TAILQ_FOREACH_SAFE(np, &head, entries, np_temp) {
--.\" 	np\->do_stuff();
--.\" 	...
--.\" 	TAILQ_REMOVE(&head, np, entries);
--.\" 	free(np);
--.\" }
--					/* Reverse traversal. */
--TAILQ_FOREACH_REVERSE(np, &head, tailhead, entries)
--	np\-> ...
--					/* TailQ Deletion. */
--while (!TAILQ_EMPTY(&head)) {
--	n1 = TAILQ_FIRST(&head);
--	TAILQ_REMOVE(&head, n1, entries);
--	free(n1);
--}
--					/* Faster TailQ Deletion. */
--n1 = TAILQ_FIRST(&head);
--while (n1 != NULL) {
--	n2 = TAILQ_NEXT(n1, entries);
--	free(n1);
--	n1 = n2;
--}
--
--TAILQ_INIT(&head);
--.Ed
-+.Pp
-+See the EXAMPLES section below for an example program using a tail queue.
- .Ss Circular queues
- A circular queue is headed by a structure defined by the
- .Nm CIRCLEQ_HEAD
-@@ -1462,6 +1408,63 @@ while (n1 != (void *)&head) {
- 
- CIRCLEQ_INIT(&head);
- .Ed
-+.Sh EXAMPLES
-+.Ss Tail queue example
-+.Bd -literal
-+#include <stddef.h>
-+#include <stdio.h>
-+#include <stdlib.h>
-+#include <sys/queue.h>
-+
-+struct entry {
-+    int data;
-+    TAILQ_ENTRY(entry) entries;             /* Tail queue. */
-+};
-+
-+TAILQ_HEAD(tailhead, entry);
-+
-+int
-+main(void)
-+{
-+    struct entry    *n1, *n2, *n3, *np;
-+    struct tailhead head;                   /* Tail queue head. */
-+    int     i;
-+
-+    TAILQ_INIT(&head);                      /* Initialize the queue. */
-+
-+    n1 = malloc(sizeof(struct entry));      /* Insert at the head. */
-+    TAILQ_INSERT_HEAD(&head, n1, entries);
-+
-+    n1 = malloc(sizeof(struct entry));      /* Insert at the tail. */
-+    TAILQ_INSERT_TAIL(&head, n1, entries);
-+
-+    n2 = malloc(sizeof(struct entry));      /* Insert after. */
-+    TAILQ_INSERT_AFTER(&head, n1, n2, entries);
-+
-+    n3 = malloc(sizeof(struct entry));      /* Insert before. */
-+    TAILQ_INSERT_BEFORE(n2, n3, entries);
-+
-+    TAILQ_REMOVE(&head, n2, entries);       /* Deletion. */
-+    free(n2);
-+                                            /* Forward traversal. */
-+    i = 0;
-+    TAILQ_FOREACH(np, &head, entries)
-+        np->data = i++;
-+                                            /* Reverse traversal. */
-+    TAILQ_FOREACH_REVERSE(np, &head, tailhead, entries)
-+        printf("%i\en", np->data);
-+                                            /* TailQ Deletion. */
-+    n1 = TAILQ_FIRST(&head);
-+    while (n1 != NULL) {
-+        n2 = TAILQ_NEXT(n1, entries);
-+        free(n1);
-+        n1 = n2;
-+    }
-+    TAILQ_INIT(&head);
-+
-+    exit(EXIT_SUCCESS);
-+}
-+.Ed
- .Sh CONFORMING TO
- Not in POSIX.1, POSIX.1-2001 or POSIX.1-2008.
- Present on the BSDs.
 -- 
-2.28.0
-
+Michael Kerrisk
+Linux man-pages maintainer; http://www.kernel.org/doc/man-pages/
+Linux/UNIX System Programming Training: http://man7.org/training/
