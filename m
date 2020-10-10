@@ -2,142 +2,85 @@ Return-Path: <SRS0=gQ/3=DR=vger.kernel.org=linux-man-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-11.6 required=3.0 tests=BAYES_00,DKIM_SIGNED,
+X-Spam-Status: No, score=-5.6 required=3.0 tests=BAYES_00,DKIM_SIGNED,
 	DKIM_VALID,DKIM_VALID_AU,FREEMAIL_FORGED_FROMDOMAIN,FREEMAIL_FROM,
-	HEADER_FROM_DIFFERENT_DOMAINS,INCLUDES_PATCH,MAILING_LIST_MULTI,NICE_REPLY_A,
-	SIGNED_OFF_BY,SPF_HELO_NONE,SPF_PASS,URIBL_BLOCKED,USER_AGENT_SANE_1
-	autolearn=ham autolearn_force=no version=3.4.0
+	HEADER_FROM_DIFFERENT_DOMAINS,MAILING_LIST_MULTI,NICE_REPLY_A,SPF_HELO_NONE,
+	SPF_PASS,USER_AGENT_SANE_1 autolearn=no autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 83891C43457
-	for <linux-man@archiver.kernel.org>; Sat, 10 Oct 2020 23:12:01 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 96A95C433DF
+	for <linux-man@archiver.kernel.org>; Sat, 10 Oct 2020 23:12:02 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.kernel.org (Postfix) with ESMTP id 4E3B42075E
-	for <linux-man@archiver.kernel.org>; Sat, 10 Oct 2020 23:12:01 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTP id 5E3552075E
+	for <linux-man@archiver.kernel.org>; Sat, 10 Oct 2020 23:12:02 +0000 (UTC)
 Authentication-Results: mail.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="QASdun8i"
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="kJJjJn1b"
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S2389532AbgJJWzr (ORCPT <rfc822;linux-man@archiver.kernel.org>);
-        Sat, 10 Oct 2020 18:55:47 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:41584 "EHLO
+        id S2389526AbgJJWzq (ORCPT <rfc822;linux-man@archiver.kernel.org>);
+        Sat, 10 Oct 2020 18:55:46 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:35244 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1730960AbgJJTuC (ORCPT
-        <rfc822;linux-man@vger.kernel.org>); Sat, 10 Oct 2020 15:50:02 -0400
-Received: from mail-wm1-x342.google.com (mail-wm1-x342.google.com [IPv6:2a00:1450:4864:20::342])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id EECBBC0613D5
-        for <linux-man@vger.kernel.org>; Sat, 10 Oct 2020 02:08:31 -0700 (PDT)
-Received: by mail-wm1-x342.google.com with SMTP id e2so12019661wme.1
-        for <linux-man@vger.kernel.org>; Sat, 10 Oct 2020 02:08:31 -0700 (PDT)
+        with ESMTP id S1731306AbgJJTIO (ORCPT
+        <rfc822;linux-man@vger.kernel.org>); Sat, 10 Oct 2020 15:08:14 -0400
+Received: from mail-wm1-x341.google.com (mail-wm1-x341.google.com [IPv6:2a00:1450:4864:20::341])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 1C6C8C0613BD
+        for <linux-man@vger.kernel.org>; Sat, 10 Oct 2020 12:08:14 -0700 (PDT)
+Received: by mail-wm1-x341.google.com with SMTP id p15so13101179wmi.4
+        for <linux-man@vger.kernel.org>; Sat, 10 Oct 2020 12:08:13 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=gmail.com; s=20161025;
-        h=cc:subject:to:references:from:message-id:date:user-agent
+        h=subject:to:cc:references:from:message-id:date:user-agent
          :mime-version:in-reply-to:content-language:content-transfer-encoding;
-        bh=3Iz52XB4+G94horzQbWkEFmym9IHrZwlZvLSxhrr7cI=;
-        b=QASdun8i1fMyKEU+I96UnYu/P1j0dgQW2p6swIM3OY8dlK4VSmBFNLgJ7wWNzFCpbl
-         ZNbJcmOEduft3nudiElhi7o6w9p1Iwk8EU0QribUHtsVe+2Tia8R8IxwKayFnRpEDqNC
-         HphctDjLCbb+NEKCnZHjG8r53u1sppmdFSNY3Tqt8IBFHsRT0MemYm6GBG857qMJm+SG
-         ipYZ/VsMPgJT+0yg+0r/FiF7TDNs16h7UcbdZSrc8t7o9mCItuk6O0biUPP74o98pFnk
-         hJK6HZRR0AJ4FK7HdObg6qc7FVmvVwkzHxOWbU/yd73jrGI5eRVKMtp/FxS8Q2nFJWRY
-         XwMQ==
+        bh=HxYIqShqUwX/LrhzvlYue50MUqLP4Tibu2JhffDUYnc=;
+        b=kJJjJn1b5MGE90kLJlcRNHE1IA19aqA1vVHPz2ub2oLGe9Ei0BJacbVxbuyTpwIxxt
+         4Y4+PrFZCG1OgVEBvjm0YbANEjHEQKRJM9hQ5SHnqudz6NtExFDQdPIoRee4zY9YZDCR
+         4d6OEmGCK3PZzfl/hClDTwFlrUb8VxwpVQAH/f96mj87j0hEhGXl5sBX06UKBd9RsrQp
+         vKLwp4ZnqfrGgRJVo30nniRp4e+Yb3TGxrgzoE5VGzjYq9OWn9e3wMXVCo+AaeYPnH0j
+         G1s1BR7vhNZKEfyJSgH2VQH8r3+ascBVfQYxmCX8ToCl76EgcN6GxZ5lqRAYukvao1bW
+         X7yw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
-        h=x-gm-message-state:cc:subject:to:references:from:message-id:date
+        h=x-gm-message-state:subject:to:cc:references:from:message-id:date
          :user-agent:mime-version:in-reply-to:content-language
          :content-transfer-encoding;
-        bh=3Iz52XB4+G94horzQbWkEFmym9IHrZwlZvLSxhrr7cI=;
-        b=W4VaqJSA0bHJoP8ncHeAnKgiinlxleWIzTjRcBXAxYR8RSiUAPCaQHvvHDVI/AeIfY
-         YuiJ7depxLVs/hfGlkumdHg+3rr/G3cX2N9P6nZ0nxdf1Z2IkUWj0tbdqoAYGU+iGLN7
-         FO1wcWCYacE9BT/DC0ZYLlf+1ILuReDa1MBSC5//Qs3VQrSSTPBmxgH0D7Iu4cLAfnz5
-         b4QzdBslT6m3vHFqf2fbyYBJPkHlCZyHmWnhu82lyBInbzk8EUnhI6fx2PpnJlmmdAIO
-         yDGfbIwpqBe875sVchb9200kPd14PBCjr10NosHYbrk3brFLs4zV4o8DNY7CyElRCEKh
-         N/Ow==
-X-Gm-Message-State: AOAM532iHanhRRn8BoufVcBZEkEBdgwzyrsJCSNQnjY6AVhntlS+HLhb
-        Qquf8jWy/aR2sRse61j+jZA=
-X-Google-Smtp-Source: ABdhPJwQ+sXg13S2wGW/mHHO7vQXxCEo6UCWNDlzlapxPHuz9ua4fbHXmqlYfv1zf7xlZfkGDoTO3w==
-X-Received: by 2002:a1c:960a:: with SMTP id y10mr1904532wmd.128.1602320910522;
-        Sat, 10 Oct 2020 02:08:30 -0700 (PDT)
-Received: from [192.168.1.10] (static-176-175-73-29.ftth.abo.bbox.fr. [176.175.73.29])
-        by smtp.gmail.com with ESMTPSA id g5sm2440840wmi.4.2020.10.10.02.08.29
+        bh=HxYIqShqUwX/LrhzvlYue50MUqLP4Tibu2JhffDUYnc=;
+        b=jaAGUh5KyBz4KbXpCY1EFf79FC3I1hxiwquZOjevBOzVAa6NsX0mNoyqbneDrFWWfq
+         6ZjMJpi3qT1/GBFcy9lhmGcCmU2ouiIcJ+6ppRpe/e5u7g6S98/brsVfqIbaZ+KST76H
+         fDqSEKg8r/m3L3UdeB0yA8WcvY8UuJefktcPFUkOrVijhfBPvLeaHMyml4U0bZjUc7S5
+         oblR9suQYewgf7eMMTSJ1t4tkBH9LUxleJ2+YmizVFZ4e7ksHiEsk9YjrpSIVdTiTwfO
+         XeDT+RwCSwBs3kCKORZy6A6qy0LeAct47qxjxthLEWV7hQMbl7+SEQL632dwYucW92bc
+         9YvA==
+X-Gm-Message-State: AOAM532Su6joiLDXF8AL7Lw0s4vEm2w0F6URvMeqJ1nrGvZQ5/ntvKMz
+        VOVpJOkkHBnVO5WlCAm1RYY=
+X-Google-Smtp-Source: ABdhPJyumLShAn1shuhTcx4ItFRdBZ4kC5zFWoXKn1jihP4s22yNDbIjTx4LO2vTzQdui4y4Ajpq7w==
+X-Received: by 2002:a7b:c7c3:: with SMTP id z3mr3660904wmk.43.1602356892695;
+        Sat, 10 Oct 2020 12:08:12 -0700 (PDT)
+Received: from [192.168.1.143] ([170.253.60.68])
+        by smtp.gmail.com with ESMTPSA id n2sm16731869wma.29.2020.10.10.12.08.11
         (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Sat, 10 Oct 2020 02:08:29 -0700 (PDT)
-Cc:     mtk.manpages@gmail.com
-Subject: Re: [PATCH] locale.5: Decimal points, thousands separators must be
- one character
-To:     Florian Weimer <fweimer@redhat.com>, linux-man@vger.kernel.org
-References: <87zh4vdc7d.fsf@oldenburg2.str.redhat.com>
-From:   "Michael Kerrisk (man-pages)" <mtk.manpages@gmail.com>
-Message-ID: <96c8e122-cdfd-3849-1ad8-0f8b70b23988@gmail.com>
-Date:   Sat, 10 Oct 2020 11:08:27 +0200
+        Sat, 10 Oct 2020 12:08:12 -0700 (PDT)
+Subject: Re: [PATCH] queue.3: Replace incomplete example by a complete example
+To:     mtk.manpages@gmail.com
+Cc:     linux-man@vger.kernel.org, libc-alpha@sourceware.org
+References: <20201010190226.19236-1-colomar.6.4.3@gmail.com>
+From:   Alejandro Colomar <colomar.6.4.3@gmail.com>
+Message-ID: <92309e12-1a90-955b-45da-aedcfe72492a@gmail.com>
+Date:   Sat, 10 Oct 2020 21:08:11 +0200
 User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
- Thunderbird/68.11.0
+ Thunderbird/68.12.0
 MIME-Version: 1.0
-In-Reply-To: <87zh4vdc7d.fsf@oldenburg2.str.redhat.com>
-Content-Type: text/plain; charset=utf-8
+In-Reply-To: <20201010190226.19236-1-colomar.6.4.3@gmail.com>
+Content-Type: text/plain; charset=utf-8; format=flowed
 Content-Language: en-US
 Content-Transfer-Encoding: 7bit
 Precedence: bulk
 List-ID: <linux-man.vger.kernel.org>
 X-Mailing-List: linux-man@vger.kernel.org
 
-On 10/9/20 10:40 AM, Florian Weimer wrote:
-> This is implied by POSIX because it requires that these strings in the
-> locale definition file contain one symbol.  Currently, locale.5 does
-> not document the concept of symbols, this change glosses over that and
-> just uses the term "single-character string".
-> 
-> Signed-off-by: Florian Weimer <fweimer@redhat.com>
-
-Thanks, Florian. Patch applied.
-
-Cheers,
-
-Michael
-
-> ---
->  man5/locale.5 | 16 ++++++++--------
->  1 file changed, 8 insertions(+), 8 deletions(-)
-> 
-> diff --git a/man5/locale.5 b/man5/locale.5
-> index f6b63da9d..9789e0bb0 100644
-> --- a/man5/locale.5
-> +++ b/man5/locale.5
-> @@ -693,12 +693,12 @@ separator.
->  followed by the local currency symbol.
->  .TP
->  .I mon_decimal_point
-> -followed by the string that will be used as the decimal delimiter
-> -when formatting monetary quantities.
-> +followed by the single-character string that will be used as the
-> +decimal delimiter when formatting monetary quantities.
->  .TP
->  .I mon_thousands_sep
-> -followed by the string that will be used as a group separator
-> -when formatting monetary quantities.
-> +followed by the single-character string that will be used as a group
-> +separator when formatting monetary quantities.
->  .TP
->  .I mon_grouping
->  followed by a sequence of integers separated by semicolons that
-> @@ -962,12 +962,12 @@ in the first column.
->  The following keywords are allowed:
->  .TP
->  .I decimal_point
-> -followed by the string that will be used as the decimal delimiter
-> -when formatting numeric quantities.
-> +followed by the single-character string that will be used as the
-> +decimal delimiter when formatting numeric quantities.
->  .TP
->  .I thousands_sep
-> -followed by the string that will be used as a group separator
-> -when formatting numeric quantities.
-> +followed by the single-character string that will be used as a group
-> +separator when formatting numeric quantities.
->  .TP
->  .I grouping
->  followed by a sequence of integers separated by semicolons
-> 
 
 
--- 
-Michael Kerrisk
-Linux man-pages maintainer; http://www.kernel.org/doc/man-pages/
-Linux/UNIX System Programming Training: http://man7.org/training/
+On 2020-10-10 21:02, Alejandro Colomar wrote:
+> I thought about having queue.h with an overview of all the different
+I meant queue.3 (instead of queue.h).
+However, thinking about it,
+if we strip if from the details about all of the macros,
+it might be better as queue.7.
