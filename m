@@ -8,63 +8,63 @@ X-Spam-Status: No, score=-12.6 required=3.0 tests=BAYES_00,DKIM_SIGNED,
 	SPF_HELO_NONE,SPF_PASS,USER_AGENT_GIT autolearn=ham autolearn_force=no
 	version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 10192C4363A
+	by smtp.lore.kernel.org (Postfix) with ESMTP id AE044C388F9
 	for <linux-man@archiver.kernel.org>; Tue, 20 Oct 2020 14:23:46 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.kernel.org (Postfix) with ESMTP id B30042224F
-	for <linux-man@archiver.kernel.org>; Tue, 20 Oct 2020 14:23:45 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTP id 603FF22244
+	for <linux-man@archiver.kernel.org>; Tue, 20 Oct 2020 14:23:46 +0000 (UTC)
 Authentication-Results: mail.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="DbBBriUo"
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="mq0hWne2"
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S2408041AbgJTOXp (ORCPT <rfc822;linux-man@archiver.kernel.org>);
-        Tue, 20 Oct 2020 10:23:45 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:39392 "EHLO
+        id S2408043AbgJTOXq (ORCPT <rfc822;linux-man@archiver.kernel.org>);
+        Tue, 20 Oct 2020 10:23:46 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:39402 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S2407989AbgJTOXp (ORCPT
-        <rfc822;linux-man@vger.kernel.org>); Tue, 20 Oct 2020 10:23:45 -0400
-Received: from mail-wm1-x342.google.com (mail-wm1-x342.google.com [IPv6:2a00:1450:4864:20::342])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 93308C061755
-        for <linux-man@vger.kernel.org>; Tue, 20 Oct 2020 07:23:43 -0700 (PDT)
-Received: by mail-wm1-x342.google.com with SMTP id c77so1995324wmd.4
-        for <linux-man@vger.kernel.org>; Tue, 20 Oct 2020 07:23:43 -0700 (PDT)
+        with ESMTP id S2407989AbgJTOXq (ORCPT
+        <rfc822;linux-man@vger.kernel.org>); Tue, 20 Oct 2020 10:23:46 -0400
+Received: from mail-wr1-x444.google.com (mail-wr1-x444.google.com [IPv6:2a00:1450:4864:20::444])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id A3CCEC061755
+        for <linux-man@vger.kernel.org>; Tue, 20 Oct 2020 07:23:45 -0700 (PDT)
+Received: by mail-wr1-x444.google.com with SMTP id n15so2409436wrq.2
+        for <linux-man@vger.kernel.org>; Tue, 20 Oct 2020 07:23:45 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=gmail.com; s=20161025;
         h=from:to:cc:subject:date:message-id:in-reply-to:references
          :mime-version:content-transfer-encoding;
-        bh=mmsFsfv/B3MScHqyQjkwZ06nYyX1lorlGxlwweOx9HM=;
-        b=DbBBriUoYCCI1iSy3gYl6weSxrBocX/ViIsL1SEEUcdBxoQyhM7Tr+A5xlULdWXLgK
-         BANh17r1W9M1+8y8Gkt+kjvWIq3cyffPfwTgDyEOC4uWXBoBDFM+sLpz/9/59KaPDLoS
-         6qpFJ2eWsYnM7XlniBJCFSVEApeCZNRzoN8bku1Z3Xqbb9W5HpuMcTmHksIssFfMDfYp
-         d/3yHuZyA0s42irVVK11g/46AncZ7T0WsZpINt3D+pxTv10j8WKy1JFhacajNnvH1diy
-         j1nJZAm3db/ax6oadQl12/SKllN57YG65AEwiSt2/Pb0+Pl52+0ZuluM8lTiwB4RW7sr
-         SVpQ==
+        bh=BqmXmbKrXg1DH/KrgyTuNS8q1K3WnyQKkzpPuJBr/pA=;
+        b=mq0hWne21/+n11EMeSd09xqyuA1x5WwU3cFC8RynBgbFch5aNnW3tK9DH2THxU/dFH
+         vFJOh1TQb8DxIKyVt4CAkZsR/ENROB5CpMGk5s2QNDEzwK0/dHLWKGjwUr+rsyNQMOYq
+         YsOv8orDUIQmBBnZxspYsDwW0+wbZ7hX/HlRH/uLpVC8iDxWKtrBtR2V22qcUpvUtoO1
+         zZZ4ODxLdRVQfqvP4+tKMRpw66cS7SACwG0nJLKynmAeu1+ahf0XtK05p9DN09gRhrHQ
+         ETnmj8PAOAK+Udnnro5PnMRkmGl/vHrY3+aAofOLBmOuLWjvxkMSDO4gbn44tHCebU3n
+         wqzw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
         h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
          :references:mime-version:content-transfer-encoding;
-        bh=mmsFsfv/B3MScHqyQjkwZ06nYyX1lorlGxlwweOx9HM=;
-        b=hOiuz1yU2ZW9yzLbq+Hv+YkbScgRHE2NlAYxJsejeqJNvJ6l3UA3B0gTUZxFl8ruNQ
-         GhlWFylqw30cJ7feHBDevfa7ojLZy8jiYQUx6R6aPKUrqiallNYTRPqXdas3+I8cT4gp
-         rPnZe3YB+2TMGQhsK4h6ell6YCQ8wEG3oDezqekmdBTqeNXSFJCUhXjCdgwytqguraC+
-         Hitam66QzE8+6Xh6id5xmxU4G4thnHerhvcz9Z5B72XHVPna/9ysseGqDY5Mui5Wd/Y/
-         0XtszdA0AJI3nMgK/YdFo8lKUD3Zs57xyDHc15y1LKAs9Y1UVN8Fo1AU2RbwBA/tu9DW
-         VgyQ==
-X-Gm-Message-State: AOAM532t1EsoBVRe2vQ5H/SwTXicErci+EDSF0nbkQ7XhoaBxQOwdr16
-        NFGp4QHpKXAuX6d2xeLtcE2JOqLc+1w=
-X-Google-Smtp-Source: ABdhPJwzYi91lN0Rs2ouQc9UcGgwdgVzhI3NkaYttd6hm89/a1v1oAeSeg/TDyUhcWV+UX/OYzPc2g==
-X-Received: by 2002:a1c:a749:: with SMTP id q70mr1309267wme.117.1603203822369;
-        Tue, 20 Oct 2020 07:23:42 -0700 (PDT)
+        bh=BqmXmbKrXg1DH/KrgyTuNS8q1K3WnyQKkzpPuJBr/pA=;
+        b=Yx+bpXnHMZ6KB7s9LxSmd5V0pIP2OT4fyJskrLPT3Be1h/6sDLSRjm+gacdVKlkPOL
+         H4iXe6ylN4Ql/+LGzzgktCggcbp1aojtvu0rvrx804FyYRdjQ+A6GaEJ9aC6L4YvEPcz
+         ZkO52mQ418xTriewr/2OwHXzKf+2PC+ELAG3u2BjDZtIBSGHHumOqW32ybn767v19uoA
+         t2dUXPCEtDZ/RoogoZ46iF6munZ+kDaEuTP+WOIaq6QixkEnHfXTV/UzgZpnaLhmnnCi
+         /SIMFO0Toefj0+b8Dz36UG4YCrsTGO5Wx8JnUjjaV2uIf3oH22SuSH8ccViC6Efw5nMb
+         NMmQ==
+X-Gm-Message-State: AOAM532PCBeUNRND1b8PsEwSeIrTRgUgAIP7Q0pp4fJ7MM+vzHj/FAX6
+        92WNcFws4SwJUqOo/vBsLgZ/usslfYE=
+X-Google-Smtp-Source: ABdhPJxS0wVAU5kxhUejvsqV3OdYhGP4VDXSwxFUsipovZAbeYi1WxxAFaMPJy1UohTVuS+I2mxaiw==
+X-Received: by 2002:a5d:6407:: with SMTP id z7mr4059173wru.271.1603203824472;
+        Tue, 20 Oct 2020 07:23:44 -0700 (PDT)
 Received: from localhost.localdomain ([170.253.60.68])
-        by smtp.googlemail.com with ESMTPSA id s19sm3422153wmc.0.2020.10.20.07.23.41
+        by smtp.googlemail.com with ESMTPSA id s19sm3422153wmc.0.2020.10.20.07.23.43
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Tue, 20 Oct 2020 07:23:41 -0700 (PDT)
+        Tue, 20 Oct 2020 07:23:43 -0700 (PDT)
 From:   Alejandro Colomar <colomar.6.4.3@gmail.com>
 To:     mtk.manpages@gmail.com
 Cc:     Alejandro Colomar <colomar.6.4.3@gmail.com>,
         linux-man@vger.kernel.org, libc-alpha@sourceware.org
-Subject: [PATCH 20/22] list.3: EXAMPLES: ffix: Use man markup
-Date:   Tue, 20 Oct 2020 16:21:45 +0200
-Message-Id: <20201020142146.61837-21-colomar.6.4.3@gmail.com>
+Subject: [PATCH 22/22] list.3: RETURN VALUE: Add details about the return value of those macros that "return" a value
+Date:   Tue, 20 Oct 2020 16:21:47 +0200
+Message-Id: <20201020142146.61837-23-colomar.6.4.3@gmail.com>
 X-Mailer: git-send-email 2.28.0
 In-Reply-To: <20201020142146.61837-1-colomar.6.4.3@gmail.com>
 References: <20201020142146.61837-1-colomar.6.4.3@gmail.com>
@@ -76,32 +76,34 @@ X-Mailing-List: linux-man@vger.kernel.org
 
 Signed-off-by: Alejandro Colomar <colomar.6.4.3@gmail.com>
 ---
- man3/list.3 | 5 ++---
- 1 file changed, 2 insertions(+), 3 deletions(-)
+ man3/list.3 | 14 ++++++++++++++
+ 1 file changed, 14 insertions(+)
 
 diff --git a/man3/list.3 b/man3/list.3
-index b22453ab9..bb64fff92 100644
+index 4aec14cc8..8233c3b3e 100644
 --- a/man3/list.3
 +++ b/man3/list.3
-@@ -262,8 +262,7 @@ Present on the BSDs
- (LIST macros first appeared in 4.4BSD).
- .SH BUGS
- .SH EXAMPLES
--.Ss List example
--.Bd -literal
-+.EX
- #include <stddef.h>
- #include <stdio.h>
- #include <stdlib.h>
-@@ -314,7 +313,7 @@ main(void)
- 
-     exit(EXIT_SUCCESS);
- }
--.Ed
-+.EE
- .SH SEE ALSO
- .BR insque (3),
- .BR queue (3)
+@@ -256,6 +256,20 @@ from the list.
+ .\" and
+ .\" .IR head2 .
+ .SH RETURN VALUE
++.BR LIST_EMPTY ()
++returns non-zero if the list is empty,
++and zero if the list contains at least one entry.
++.PP
++.BR LIST_FIRST (),
++and
++.BR LIST_NEXT ()
++return a pointer to the first or next
++.I LIST_ENTRY
++structre, respectively.
++.PP
++.BR LIST_HEAD_INITIALIZER ()
++returns an initializer that can be assigned to the list
++.IR head .
+ .SH CONFORMING TO
+ Not in POSIX.1, POSIX.1-2001 or POSIX.1-2008.
+ Present on the BSDs
 -- 
 2.28.0
 
