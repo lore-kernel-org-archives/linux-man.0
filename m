@@ -8,63 +8,63 @@ X-Spam-Status: No, score=-12.6 required=3.0 tests=BAYES_00,DKIM_SIGNED,
 	SPF_HELO_NONE,SPF_PASS,USER_AGENT_GIT autolearn=ham autolearn_force=no
 	version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 00A16C4363A
+	by smtp.lore.kernel.org (Postfix) with ESMTP id F08B4C4363D
 	for <linux-man@archiver.kernel.org>; Tue, 20 Oct 2020 14:23:34 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.kernel.org (Postfix) with ESMTP id A014222244
-	for <linux-man@archiver.kernel.org>; Tue, 20 Oct 2020 14:23:33 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTP id 8BFAA22244
+	for <linux-man@archiver.kernel.org>; Tue, 20 Oct 2020 14:23:34 +0000 (UTC)
 Authentication-Results: mail.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="p+gpi/d4"
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="g9QVWZGR"
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S2408028AbgJTOXd (ORCPT <rfc822;linux-man@archiver.kernel.org>);
-        Tue, 20 Oct 2020 10:23:33 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:39340 "EHLO
+        id S2408029AbgJTOXe (ORCPT <rfc822;linux-man@archiver.kernel.org>);
+        Tue, 20 Oct 2020 10:23:34 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:39350 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S2407989AbgJTOXd (ORCPT
-        <rfc822;linux-man@vger.kernel.org>); Tue, 20 Oct 2020 10:23:33 -0400
-Received: from mail-wm1-x344.google.com (mail-wm1-x344.google.com [IPv6:2a00:1450:4864:20::344])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 886FCC061755
-        for <linux-man@vger.kernel.org>; Tue, 20 Oct 2020 07:23:31 -0700 (PDT)
-Received: by mail-wm1-x344.google.com with SMTP id k18so2120909wmj.5
-        for <linux-man@vger.kernel.org>; Tue, 20 Oct 2020 07:23:31 -0700 (PDT)
+        with ESMTP id S2407989AbgJTOXe (ORCPT
+        <rfc822;linux-man@vger.kernel.org>); Tue, 20 Oct 2020 10:23:34 -0400
+Received: from mail-wr1-x442.google.com (mail-wr1-x442.google.com [IPv6:2a00:1450:4864:20::442])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id C18E3C061755
+        for <linux-man@vger.kernel.org>; Tue, 20 Oct 2020 07:23:33 -0700 (PDT)
+Received: by mail-wr1-x442.google.com with SMTP id t9so2381162wrq.11
+        for <linux-man@vger.kernel.org>; Tue, 20 Oct 2020 07:23:33 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=gmail.com; s=20161025;
         h=from:to:cc:subject:date:message-id:in-reply-to:references
          :mime-version:content-transfer-encoding;
-        bh=SKGEEHCRETwd6h9jNsjao2C3LpaBgeXwfnttqzluZKk=;
-        b=p+gpi/d4LAY9xGX1lyZifwkgJpLJqtMEQxaQOwDYdNWxAAIQQj4NbNcjB6zc0+SWJR
-         Herl56uTGLcR1vzobrw4ZN8JfxtOpay8y+uC/yy5NWxqgSzkmxoQtygxWnNokg5wqBdr
-         h8Nsrg5XlcK5yQMSW1svu73OzZv7f4tzjv8d3JXemReeK1r//ZLxu00Yhq9CukMbW6Z5
-         j6FQHvHNFIV5cBAAGRPp07jAZMO2Hct19sCvSVn42yttC+n9rP5EPZ86rfh8XPfHIubO
-         MTCsIVJutcD8+qb2XXTO2yhdzFN4sp3IyJBsJYBl2JOWS/GTkWzVsja9fKQ1+L5gBusv
-         cDmA==
+        bh=qBm/ZsIoaiz1dxV2J1/u99PDeY4Rj3aAFqbDCREEpA0=;
+        b=g9QVWZGRbOeL3+2Eo1x5Kw2hqiX3/JNN1jWbynYm3YS0jy0AeL6Bx0lhZiCUp6e2W7
+         YNDRzz/rK3IZJct3K0dMbcw9o7Nzd8QiU19WYDrhG1BNlz+Wjesj8LF7osMyHNwXVyGE
+         fCwBgJIsn+eGSzxinzoV/wzYKKYsCuCv8XIdfE0pjC2OUYwk3ED0Ca1TL2MjFNMY7uBF
+         /uoMEFRjE21szB7A5RMIaDxjXSOx+E+Bt+5MpEOfKu0GPJ9fFXLp1Xt+giE7lJ/cH2jf
+         Dfm0Bdh1/JCK0s+wBXtd3rynvckLgAyrT7dTMS/VdAdQy2P+tv4WAJgz/y0F320+pV7U
+         Ondg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
         h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
          :references:mime-version:content-transfer-encoding;
-        bh=SKGEEHCRETwd6h9jNsjao2C3LpaBgeXwfnttqzluZKk=;
-        b=sX+yZ44Fa5q9aQe5Zx7IeEad797BP3VuycgGMuQ71S97gmMmN2kD1qaM4fk0d/BJW7
-         JfSLNCx81CXXmDQXG9QU8KTnpG55VIDPhS0c40ZEJW+FZ5YE1c531TiHhnDuwHJE5p79
-         zej+CxfPbQpnL4vx7HNMuYc6EtccrKzb3QFCBipmRt91PsbxpanvQuwHt0ZdzJbc30cN
-         F+5zu2c7gWwFQEoo9htCpAFxM0YoLDZnzV49fDtaUTnbxF5yWai8r8YRjp1Q9jMqyF8h
-         q9TQS+fez93VMWsGZxmIg6vHJ+D5y5Bz7Ygd39hEr0OOx97el/3JvBwRg/1WYE4OU2It
-         ISNg==
-X-Gm-Message-State: AOAM532CHUXc36ara9lkr78DCAw8jHZkAc8+FdJc5c4Q/NFl8s3O7O8x
-        YKsGaqqBXAiPbOD+QKZuGxMd2TM4UrI=
-X-Google-Smtp-Source: ABdhPJxneIawtY0N8DW/IbZjb4gefRtY91q5cG69/myfRtMsbq46JSxvP6j+C5gvT7zFj/OZb+aoCg==
-X-Received: by 2002:a1c:b402:: with SMTP id d2mr3397761wmf.128.1603203810287;
-        Tue, 20 Oct 2020 07:23:30 -0700 (PDT)
+        bh=qBm/ZsIoaiz1dxV2J1/u99PDeY4Rj3aAFqbDCREEpA0=;
+        b=UUz107ACMufrKXCLq9AgQRPo7Jvb+FcMCc3TbNyvEXRn2LyPXLyIqiF2evu9UaJJuF
+         +WVlgfDcEk/0SBY+x44JopbOxEoBc5w7XSmiBRaqsuotMYO8+jBseP4ezJNGVAPTG2pF
+         dPKdt8c7D2iJ/94vIVEgT0DznMGdkMIi0fGK5QQBgoH5b6vpXzx0yiEOfC4f+hZdytxT
+         ryXl491E4OV82sz0cpiATKOiekHVrV6OutXnHqjKe4xrbamw1V40+73RLxgT9qC5XTtc
+         GlC/J6k23GqVKF+kOHUYFbsSeSpz+JLSkLKLJZWcMxKRMCYro9N/gb0KjPYGlqPRk60c
+         XQ9Q==
+X-Gm-Message-State: AOAM531qAoUZHytR7n/tiSP4LPsiYC4vZbl8r8xXBjZ+ZURV4fygwKTC
+        SBXItZQghfjdhL7yDrVcxWk=
+X-Google-Smtp-Source: ABdhPJxf/LN8565qmVm8r7109jdbLavnUBOIOXW01oCbjJVMgBUl2Y6lAhcPhiE71GO0Tk6+hwFjyg==
+X-Received: by 2002:adf:f643:: with SMTP id x3mr4091632wrp.180.1603203812485;
+        Tue, 20 Oct 2020 07:23:32 -0700 (PDT)
 Received: from localhost.localdomain ([170.253.60.68])
-        by smtp.googlemail.com with ESMTPSA id s19sm3422153wmc.0.2020.10.20.07.23.29
+        by smtp.googlemail.com with ESMTPSA id s19sm3422153wmc.0.2020.10.20.07.23.31
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Tue, 20 Oct 2020 07:23:29 -0700 (PDT)
+        Tue, 20 Oct 2020 07:23:31 -0700 (PDT)
 From:   Alejandro Colomar <colomar.6.4.3@gmail.com>
 To:     mtk.manpages@gmail.com
 Cc:     Alejandro Colomar <colomar.6.4.3@gmail.com>,
         linux-man@vger.kernel.org, libc-alpha@sourceware.org
-Subject: [PATCH 09/22] list.3: DESCRIPTION: Copy description about naming of macros from queue.3
-Date:   Tue, 20 Oct 2020 16:21:34 +0200
-Message-Id: <20201020142146.61837-10-colomar.6.4.3@gmail.com>
+Subject: [PATCH 11/22] list.3: DESCRIPTION: ffix: Use man markup
+Date:   Tue, 20 Oct 2020 16:21:36 +0200
+Message-Id: <20201020142146.61837-12-colomar.6.4.3@gmail.com>
 X-Mailer: git-send-email 2.28.0
 In-Reply-To: <20201020142146.61837-1-colomar.6.4.3@gmail.com>
 References: <20201020142146.61837-1-colomar.6.4.3@gmail.com>
@@ -76,42 +76,36 @@ X-Mailing-List: linux-man@vger.kernel.org
 
 Signed-off-by: Alejandro Colomar <colomar.6.4.3@gmail.com>
 ---
- man3/list.3 | 25 +++++++++++++++++++++++++
- 1 file changed, 25 insertions(+)
+ man3/list.3 | 12 ++++++------
+ 1 file changed, 6 insertions(+), 6 deletions(-)
 
 diff --git a/man3/list.3 b/man3/list.3
-index ae6590fdb..70f32a384 100644
+index 36d259a63..39c1d4b4d 100644
 --- a/man3/list.3
 +++ b/man3/list.3
-@@ -89,6 +89,31 @@ LIST_REMOVE
+@@ -89,19 +89,19 @@ LIST_REMOVE
  .fi
  .SH DESCRIPTION
  These macros define and operate on doubly-linked lists.
-+.Pp
-+In the macro definitions,
-+.Fa TYPE
-+is the name of a user defined structure,
-+that must contain a field of type
-+.Li SLIST_ENTRY ,
-+.Li STAILQ_ENTRY ,
-+.Li LIST_ENTRY ,
-+.Li TAILQ_ENTRY ,
-+or
-+.Li CIRCLEQ_ENTRY ,
-+named
-+.Fa NAME .
-+The argument
-+.Fa HEADNAME
-+is the name of a user defined structure that must be declared
-+using the macros
-+.Li SLIST_HEAD ,
-+.Li STAILQ_HEAD ,
-+.Li LIST_HEAD ,
-+.Li TAILQ_HEAD ,
-+or
-+.Li CIRCLEQ_HEAD .
-+See the examples below for further explanation of how these
-+macros are used.
+-.Pp
++.PP
+ In the macro definitions,
+-.Fa TYPE
++.I TYPE
+ is the name of a user defined structure,
+ that must contain a field of type
+-.Li LIST_ENTRY ,
++.IR LIST_ENTRY ,
+ named
+-.Fa NAME .
++.IR NAME .
+ The argument
+-.Fa HEADNAME
++.IR HEADNAME
+ is the name of a user defined structure that must be declared
+ using the macro
+-.Fa LIST_HEAD .
++.BR LIST_HEAD ().
  .SH RETURN VALUE
  .SH CONFORMING TO
  .SH BUGS
