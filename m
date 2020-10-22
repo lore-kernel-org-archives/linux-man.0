@@ -8,63 +8,63 @@ X-Spam-Status: No, score=-12.6 required=3.0 tests=BAYES_00,DKIM_SIGNED,
 	SPF_HELO_NONE,SPF_PASS,USER_AGENT_GIT autolearn=ham autolearn_force=no
 	version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 3A304C388F9
-	for <linux-man@archiver.kernel.org>; Thu, 22 Oct 2020 12:39:10 +0000 (UTC)
-Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.kernel.org (Postfix) with ESMTP id D9E37223BF
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 61C62C55179
 	for <linux-man@archiver.kernel.org>; Thu, 22 Oct 2020 12:39:09 +0000 (UTC)
+Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
+	by mail.kernel.org (Postfix) with ESMTP id 0B21222267
+	for <linux-man@archiver.kernel.org>; Thu, 22 Oct 2020 12:39:08 +0000 (UTC)
 Authentication-Results: mail.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="mjUyihGg"
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="FSw9cIBo"
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S2898261AbgJVMjI (ORCPT <rfc822;linux-man@archiver.kernel.org>);
+        id S2898441AbgJVMjI (ORCPT <rfc822;linux-man@archiver.kernel.org>);
         Thu, 22 Oct 2020 08:39:08 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:44420 "EHLO
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:44424 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S2898468AbgJVMjF (ORCPT
+        with ESMTP id S2898470AbgJVMjF (ORCPT
         <rfc822;linux-man@vger.kernel.org>); Thu, 22 Oct 2020 08:39:05 -0400
-Received: from mail-wm1-x342.google.com (mail-wm1-x342.google.com [IPv6:2a00:1450:4864:20::342])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 62438C0613DA
-        for <linux-man@vger.kernel.org>; Thu, 22 Oct 2020 05:39:00 -0700 (PDT)
-Received: by mail-wm1-x342.google.com with SMTP id a72so1889290wme.5
-        for <linux-man@vger.kernel.org>; Thu, 22 Oct 2020 05:39:00 -0700 (PDT)
+Received: from mail-wr1-x434.google.com (mail-wr1-x434.google.com [IPv6:2a00:1450:4864:20::434])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 6E32AC0613DC
+        for <linux-man@vger.kernel.org>; Thu, 22 Oct 2020 05:39:02 -0700 (PDT)
+Received: by mail-wr1-x434.google.com with SMTP id h5so2191669wrv.7
+        for <linux-man@vger.kernel.org>; Thu, 22 Oct 2020 05:39:02 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=gmail.com; s=20161025;
         h=from:to:cc:subject:date:message-id:in-reply-to:references
          :mime-version:content-transfer-encoding;
-        bh=Ru3xBcM4NaKLMYRiAjZSKh4300mwmz8cNOCl7pbeDn0=;
-        b=mjUyihGgcC2IkEVa3L+tw8urAOivwgDhqQ9v7xten7Knlos+q+69tl4EDJiTRW9Gz7
-         GsbhvKMBdmkig3ZYR0SEJo+m1tZMuM5HGYe8OtWcpDW3X+/QYeyr6z7nzS0SrMtcDFre
-         CAExfAdZvoXMqxCTQAcyjlEG5r2MNUM0fxaQ3VMtP8hh1zMpx3oOxXDSTLvR3F11gb0T
-         JUoHiz7xjuvQcYNpNrYul05/CUDgI3122X3Ag8Chy77nL3inA3Au/+tKlCoYXQoiFW2L
-         9v5WCrjRJlWU1fe1HWza7ntEBQaxszzaZUYzXnninuMhmO/7Evty8qc1pWkPqDluZdI0
-         Vh1A==
+        bh=FSeF2HZcBO8G2ygnvz0yN+C6B3DwI5A9ITVuFiBuknU=;
+        b=FSw9cIBoQkOGV1cMv7BUabZHQ1/5sog8sZhpoRKWxK+31DsbH75V0qBtX+X/wtCtDv
+         z/9GLyVrxo4lxhR5wnD2BqTMwMQv9yzADf1JVvNFs3zHSE1jePXH0Jd7rti4alg5nP76
+         kvWXVlchyVW0CL5+haLiwzKYGAo6AJZ7KQDzMLSDYgjMAM43iThNcSowcleirW8ZU3Y5
+         GrRfvRg2n7HkWNDDDOAOm4N20OadKdFABrpgqGLfS/0q80ceLTKApGfpxEP+cs7NOwvN
+         UM36scvWqBXsjoMtvyl/Z3Vk1Qs7URUmbiPdXkuuNlb48dsItARkufQ3Hr76sUshFVSF
+         WusQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
         h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
          :references:mime-version:content-transfer-encoding;
-        bh=Ru3xBcM4NaKLMYRiAjZSKh4300mwmz8cNOCl7pbeDn0=;
-        b=DCUtJmtzq5KRCPoewBSNDEbdrYjPXuEJaeKG+TnT+bAnx7bfKMoFeHRFq4VaRIeojd
-         wXEjxc+km0zj21PB2c7t7dGkbDK2kxXKHDLw83q/fbM1ZOE9p617TlBeIGaikG3hXsGs
-         0YysqbXIACqgr68+pJsD7PbbRJ3R2rsTmWdk/4MNjM4k2tTaFfG10wB/5r1IAaahl+Ui
-         4575bbQ6mAgsGU6NIbndOIzq9DpqqpPMfzJUzYenx+IiSsF/ApmZ8i1rv/p5iUMz4BcW
-         RnRRYnotubm2Vp4RVgeDbDQwoautO2SkSYs0gVx4l3iztwn86xwcp1qbcTG+AfPmWl0O
-         R5cA==
-X-Gm-Message-State: AOAM533pIfOf7TENsuGkXU5NBVQwUuLWZF+7/ZQwqP2+58AWVN52YtVE
-        VipLzHiU0VIBUfwa0S/CvpC8dKPE5Nc=
-X-Google-Smtp-Source: ABdhPJz7zx6c0OWt0OBaDcFG1jZpnmw0s2xi8o5hGxlPVHMHC77yFtycQXjiJOv5mPhZ100JNVcwqg==
-X-Received: by 2002:a1c:bbd4:: with SMTP id l203mr2374716wmf.153.1603370339053;
-        Thu, 22 Oct 2020 05:38:59 -0700 (PDT)
+        bh=FSeF2HZcBO8G2ygnvz0yN+C6B3DwI5A9ITVuFiBuknU=;
+        b=Tl3wRhPC3wQor5V6nFm534AUyPeN7lbDNcheyXhhW06MhNyv/jnQiCw2IlJOTCBLUX
+         CaGYVeUXKyaltsdZaUz+EXm6QLZMSGAQPZwX4ZyM8GGRqV1Vv/HNfFX0L7YXbJgCVWb4
+         bzkBlI4SsVzKhY564vyv0KjeIN94X/rYMQ2Z1/l2cX6ol2pMSToq1WCMVTWO7Hev2n7L
+         zolld1LZk7py7IwpzkQ5CzrIV8B2q6CE9F731iUZ42zJANbvchKYviZPpOve8iHI1Fhx
+         TrnmN0QMplUhb6/CARR4FNKFoNsk9SW0Dpem8DBrM5MsQMOglQVVFNz2EsRQkgSb01AR
+         bxzw==
+X-Gm-Message-State: AOAM531dscH/7qYCYdXcJhJ7h1BEFW+QT/RvLmUVmL6BIEuhBaoPNy7n
+        f6658yE7WOsnsNnA/Svqht0=
+X-Google-Smtp-Source: ABdhPJxBd2UrN3Q9FgXwhwCZw/mDyOcfqaYh4CRXafnci9l5bVNdYt3Xb+eK/ymU2hhVivEMJ+7bfA==
+X-Received: by 2002:a05:6000:12c9:: with SMTP id l9mr2440467wrx.309.1603370341167;
+        Thu, 22 Oct 2020 05:39:01 -0700 (PDT)
 Received: from debian-VLC.home ([170.253.60.68])
-        by smtp.googlemail.com with ESMTPSA id m1sm3573883wme.48.2020.10.22.05.38.58
+        by smtp.googlemail.com with ESMTPSA id m1sm3573883wme.48.2020.10.22.05.39.00
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Thu, 22 Oct 2020 05:38:58 -0700 (PDT)
+        Thu, 22 Oct 2020 05:39:00 -0700 (PDT)
 From:   Alejandro Colomar <colomar.6.4.3@gmail.com>
 To:     mtk.manpages@gmail.com
 Cc:     Alejandro Colomar <colomar.6.4.3@gmail.com>,
         linux-man@vger.kernel.org, libc-alpha@sourceware.org
-Subject: [PATCH 08/10] slist.3: Add details
-Date:   Thu, 22 Oct 2020 14:38:20 +0200
-Message-Id: <20201022123821.22602-9-colomar.6.4.3@gmail.com>
+Subject: [PATCH 10/10] queue.3: SEE ALSO: Add slist(3)
+Date:   Thu, 22 Oct 2020 14:38:22 +0200
+Message-Id: <20201022123821.22602-11-colomar.6.4.3@gmail.com>
 X-Mailer: git-send-email 2.28.0
 In-Reply-To: <20201022123821.22602-1-colomar.6.4.3@gmail.com>
 References: <20201022123821.22602-1-colomar.6.4.3@gmail.com>
@@ -74,79 +74,21 @@ Precedence: bulk
 List-ID: <linux-man.vger.kernel.org>
 X-Mailing-List: linux-man@vger.kernel.org
 
-Add remaining details to complete the page.
-
 Signed-off-by: Alejandro Colomar <colomar.6.4.3@gmail.com>
 ---
- man3/slist.3 | 32 ++++++++++++++++++++++++++++++++
- 1 file changed, 32 insertions(+)
+ man3/queue.3 | 1 +
+ 1 file changed, 1 insertion(+)
 
-diff --git a/man3/slist.3 b/man3/slist.3
-index d97b745a0..7a8078de0 100644
---- a/man3/slist.3
-+++ b/man3/slist.3
-@@ -48,6 +48,7 @@ SLIST_REMOVE,
- .\"SLIST_REMOVE_AFTER,
- SLIST_REMOVE_HEAD
- .\"SLIST_SWAP
-+\- implementation of a singly-linked list
- .SH SYNOPSIS
- .nf
- .B #include <sys/queue.h>
-@@ -87,6 +88,8 @@ SLIST_REMOVE_HEAD
- .\".BI "void SLIST_SWAP(SLIST_HEAD *" head1 ", SLIST_HEAD *" head2 ", SLIST_ENTRY " NAME ");"
- .fi
- .SH DESCRIPTION
-+These macros define and operate on doubly-linked lists.
-+.PP
- In the macro definitions,
- .I TYPE
- is the name of a user-defined structure,
-@@ -259,11 +262,38 @@ from the list.
- .\" and
- .\" .IR head2 .
- .SH RETURN VALUE
-+.BR SLIST_EMPTY ()
-+returns non-zero if the list is empty,
-+and zero if the list contains at least one entry.
-+.PP
-+.BR SLIST_FIRST (),
-+and
-+.BR SLIST_NEXT ()
-+return a pointer to the first or next
-+.I SLIST_ENTRY
-+structure, respectively.
-+.PP
-+.BR SLIST_HEAD_INITIALIZER ()
-+returns an initializer that can be assigned to the list
-+.IR head .
- .SH CONFORMING TO
- Not in POSIX.1, POSIX.1-2001 or POSIX.1-2008.
- Present on the BSDs
- (SLIST macros first appeared in 4.4BSD).
- .SH BUGS
-+The macro
-+.BR SLIST_FOREACH ()
-+doesn't allow
-+.I var
-+to be removed or freed within the loop,
-+as it would interfere with the traversal.
-+The macro
-+.BR SLIST_FOREACH_SAFE (),
-+which is present on the BSDs but is not present in glibc,
-+fixes this limitation by allowing
-+.I var
-+to safely be removed from the list and freed from within the loop
-+without interfering with the traversal.
- .SH EXAMPLES
- .EX
- #include <stddef.h>
-@@ -321,3 +351,5 @@ main(void)
- }
- .EE
- .SH SEE ALSO
-+.BR insque (3),
-+.BR queue (3)
+diff --git a/man3/queue.3 b/man3/queue.3
+index 6cf13beb7..bcf5ce00a 100644
+--- a/man3/queue.3
++++ b/man3/queue.3
+@@ -1029,4 +1029,5 @@ functions first appeared in
+ .Sh SEE ALSO
+ .Xr insque 3
+ .Xr list 3
++.Xr slist 3
+ .\" .Xr tree 3
 -- 
 2.28.0
 
