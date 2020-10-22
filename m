@@ -5,66 +5,66 @@ X-Spam-Level:
 X-Spam-Status: No, score=-12.6 required=3.0 tests=BAYES_00,DKIM_SIGNED,
 	DKIM_VALID,DKIM_VALID_AU,FREEMAIL_FORGED_FROMDOMAIN,FREEMAIL_FROM,
 	HEADER_FROM_DIFFERENT_DOMAINS,INCLUDES_PATCH,MAILING_LIST_MULTI,SIGNED_OFF_BY,
-	SPF_HELO_NONE,SPF_PASS,UPPERCASE_50_75,USER_AGENT_GIT autolearn=ham
-	autolearn_force=no version=3.4.0
+	SPF_HELO_NONE,SPF_PASS,USER_AGENT_GIT autolearn=ham autolearn_force=no
+	version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 5591DC388F7
-	for <linux-man@archiver.kernel.org>; Thu, 22 Oct 2020 12:39:12 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 0BA9EC388F9
+	for <linux-man@archiver.kernel.org>; Thu, 22 Oct 2020 12:39:14 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.kernel.org (Postfix) with ESMTP id EA40922267
-	for <linux-man@archiver.kernel.org>; Thu, 22 Oct 2020 12:39:11 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTP id 9476B2245F
+	for <linux-man@archiver.kernel.org>; Thu, 22 Oct 2020 12:39:13 +0000 (UTC)
 Authentication-Results: mail.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="pElfXpmZ"
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="PEltxKt+"
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S2504479AbgJVMjL (ORCPT <rfc822;linux-man@archiver.kernel.org>);
+        id S2898336AbgJVMjL (ORCPT <rfc822;linux-man@archiver.kernel.org>);
         Thu, 22 Oct 2020 08:39:11 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:44386 "EHLO
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:44376 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S2898426AbgJVMiz (ORCPT
-        <rfc822;linux-man@vger.kernel.org>); Thu, 22 Oct 2020 08:38:55 -0400
-Received: from mail-wr1-x42a.google.com (mail-wr1-x42a.google.com [IPv6:2a00:1450:4864:20::42a])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id CCDFDC0613D5
-        for <linux-man@vger.kernel.org>; Thu, 22 Oct 2020 05:38:54 -0700 (PDT)
-Received: by mail-wr1-x42a.google.com with SMTP id e17so2174263wru.12
-        for <linux-man@vger.kernel.org>; Thu, 22 Oct 2020 05:38:54 -0700 (PDT)
+        with ESMTP id S2898422AbgJVMix (ORCPT
+        <rfc822;linux-man@vger.kernel.org>); Thu, 22 Oct 2020 08:38:53 -0400
+Received: from mail-wm1-x343.google.com (mail-wm1-x343.google.com [IPv6:2a00:1450:4864:20::343])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id ED3C3C0613D2
+        for <linux-man@vger.kernel.org>; Thu, 22 Oct 2020 05:38:52 -0700 (PDT)
+Received: by mail-wm1-x343.google.com with SMTP id d78so1898601wmd.3
+        for <linux-man@vger.kernel.org>; Thu, 22 Oct 2020 05:38:52 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=gmail.com; s=20161025;
         h=from:to:cc:subject:date:message-id:in-reply-to:references
          :mime-version:content-transfer-encoding;
-        bh=cJH66i8JbJ5zqp7/bgVDCo9vmeEg1eg288jzzpJqt1s=;
-        b=pElfXpmZu/Qk2oEk7TQCC+KmhBMK584T4XBd30TrKOLRMO1625gCErbarIsmaIo7Qf
-         ZKTOoy17HBRxtMzpRY4bz8op8Exr/pp/qGLLb1nlqC3KF60rRN1avJo6JQvXwvzehxCQ
-         3/TPOGsZtShyJ11/E85V/W2jKRg8a6swTEfB/XsZe9ZeczmJPI/EwAfTKNrwiu048oE8
-         dtvNy3QQqRF14z9lmKlqEPpgZo5MmYyFFIkRBhxb5QfzIbWDl7gm7IYfRCoCvxay7qDh
-         kz6GnUBEzLEVbD9QWCjpLsHz8LtukYvbUs3jPpj+9UCy1nBXy97d0Boqy1sm/NeXZG7t
-         LbiQ==
+        bh=4RD0Ms86p14aql5dD7Y/pXQk5G6LCzhe3j13b77RVtw=;
+        b=PEltxKt+NmXBZ9Hg1y5B3SLMw+E4YQMPxSss0S/fi8zzbEZADgqcJwEHBo9DCfH3Uv
+         9jv5WBX/V2GPH25HMHY61lTPFbW5l9D4zxkv/pCl1Q7lPrjVgtOsvwCxPUFtUPIsFTFh
+         5UX35jWSuuw/XSSSl+VYhbvRb1xTiZF3ADWFkDRjYbQR0Piq4B3c4fhDy4mzTxJgoPWV
+         dveQWuJhmDT6PFKiyzH2088D+jqYWuVZTwwAyasmnGLHDIQypRebyzN1vqNYaf0PNgZQ
+         HbXDWhi3d+/qoL4jzg47jkJ7x9XqfccMB7ayySe2/vku2mVhJfaWdmDgxo1LmvlyZVei
+         6XjA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
         h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
          :references:mime-version:content-transfer-encoding;
-        bh=cJH66i8JbJ5zqp7/bgVDCo9vmeEg1eg288jzzpJqt1s=;
-        b=qDH0wsBh9qJk5+fYILH6N3T0d3wRVEQEoyN7kibXcKYV3ZKeo88q+c7T6kEXnx7Q7I
-         7TSRM5RLoUbmdyH6U/hoYwkLfwQ+eZ8dsLVtU8lLshPq+WMElbKsUz/+3Oz7eGp2Skzx
-         yYhk1mBfy6J5duh5my9qDVoDt5a5guNkt/vUTvzy2ePuzVaj5kX7pXXwA86PIRFnpDxt
-         gdX0EaanlVkG4sJVPjY9ddRoRybC9rYTRel1NN+mhw/9ZBEDtJ2AfLn+IqabD9MJIa64
-         axCDsizmU1R6yOr39giwjNHpDkvMZmzEqZkCbctLSBMgROQg+TH+TKIGqCfmb6QzaUS9
-         X0xQ==
-X-Gm-Message-State: AOAM531vH2ZZYNVzFCAsL7pwBN7HHWQ7rVmYrPhM+Jm7MTSqGVxB56Dv
-        SceKhJatb6atDTpSb7g9zUqXrnrrQ4w=
-X-Google-Smtp-Source: ABdhPJzeCT2Gy8jbHqHKTK6jEssPiCaJM/EiXt2vmQChzOYFd6Jqx0xgsbobYxz9/tzL/VGoOifauw==
-X-Received: by 2002:adf:97da:: with SMTP id t26mr2459960wrb.321.1603370333616;
-        Thu, 22 Oct 2020 05:38:53 -0700 (PDT)
+        bh=4RD0Ms86p14aql5dD7Y/pXQk5G6LCzhe3j13b77RVtw=;
+        b=qcXpb1AVpkWuMUEDBglhIMja4l3epiOEGS1ajPfTIUfrpV/rEQLDUz+2HclqZOtqD8
+         BdPvZ0MOx0xEJk/hX6k81AtLWa8Th4FB4uSF8+c8JhT/WRYaNYgJ7fDxk7L68rS2ZlmL
+         czAJl95SJYYoHTo4I2XbxbqwbM97upJkVkF64lgC9EQfDrbkPQ5dz97z/ttLmpf7RzFV
+         4xlJRCfRiM4W/zGRyPhvmcXbd8MuEuNkz/oVgtt/lYDeTtvlXlFv6Ow91y/2B1dxueXe
+         w0JKvhBByFMA3hJwmVtro4k3+3v8clX2+sbamrIIANoXBGyhSW/nfMIAGXKoRD+xu9Oj
+         YUJA==
+X-Gm-Message-State: AOAM531C1UJDEVICwIGJck/GGhvJAyIi9JcOHxzksM24rCmWPExFUlxe
+        cYrA88GVg4Er2aFjmS061OA=
+X-Google-Smtp-Source: ABdhPJwIAhsaAsvvGGTLCMaig0aLolKjI/0Ojj8hM6RDilea0LJ/z+RF6JmEWn+JKBk+c06DHWgeiA==
+X-Received: by 2002:a1c:7708:: with SMTP id t8mr2341181wmi.6.1603370331718;
+        Thu, 22 Oct 2020 05:38:51 -0700 (PDT)
 Received: from debian-VLC.home ([170.253.60.68])
-        by smtp.googlemail.com with ESMTPSA id m1sm3573883wme.48.2020.10.22.05.38.52
+        by smtp.googlemail.com with ESMTPSA id m1sm3573883wme.48.2020.10.22.05.38.50
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Thu, 22 Oct 2020 05:38:53 -0700 (PDT)
+        Thu, 22 Oct 2020 05:38:51 -0700 (PDT)
 From:   Alejandro Colomar <colomar.6.4.3@gmail.com>
 To:     mtk.manpages@gmail.com
 Cc:     Alejandro Colomar <colomar.6.4.3@gmail.com>,
         linux-man@vger.kernel.org, libc-alpha@sourceware.org
-Subject: [PATCH 03/10] queue.3, slist.3: SYNOPSIS: Move code from queue.3 to list.3
-Date:   Thu, 22 Oct 2020 14:38:15 +0200
-Message-Id: <20201022123821.22602-4-colomar.6.4.3@gmail.com>
+Subject: [PATCH 01/10] slist.3: New page that will hold the (slist) contents of queue.3
+Date:   Thu, 22 Oct 2020 14:38:13 +0200
+Message-Id: <20201022123821.22602-2-colomar.6.4.3@gmail.com>
 X-Mailer: git-send-email 2.28.0
 In-Reply-To: <20201022123821.22602-1-colomar.6.4.3@gmail.com>
 References: <20201022123821.22602-1-colomar.6.4.3@gmail.com>
@@ -76,68 +76,56 @@ X-Mailing-List: linux-man@vger.kernel.org
 
 Signed-off-by: Alejandro Colomar <colomar.6.4.3@gmail.com>
 ---
- man3/queue.3 | 18 ------------------
- man3/slist.3 | 18 ++++++++++++++++++
- 2 files changed, 18 insertions(+), 18 deletions(-)
+ man3/slist.3 | 40 ++++++++++++++++++++++++++++++++++++++++
+ 1 file changed, 40 insertions(+)
+ create mode 100644 man3/slist.3
 
-diff --git a/man3/queue.3 b/man3/queue.3
-index 8fc10892a..3f8ca65f2 100644
---- a/man3/queue.3
-+++ b/man3/queue.3
-@@ -101,24 +101,6 @@ lists, tail queues, and circular queues
- .Sh SYNOPSIS
- .In sys/queue.h
- .\"
--.Fn SLIST_EMPTY "SLIST_HEAD *head"
--.Fn SLIST_ENTRY "TYPE"
--.Fn SLIST_FIRST "SLIST_HEAD *head"
--.Fn SLIST_FOREACH "TYPE *var" "SLIST_HEAD *head" "SLIST_ENTRY NAME"
--.\" .Fn SLIST_FOREACH_FROM "TYPE *var" "SLIST_HEAD *head" "SLIST_ENTRY NAME"
--.\" .Fn SLIST_FOREACH_SAFE "TYPE *var" "SLIST_HEAD *head" "SLIST_ENTRY NAME" "TYPE *temp_var"
--.\" .Fn SLIST_FOREACH_FROM_SAFE "TYPE *var" "SLIST_HEAD *head" "SLIST_ENTRY NAME" "TYPE *temp_var"
--.Fn SLIST_HEAD "HEADNAME" "TYPE"
--.Fn SLIST_HEAD_INITIALIZER "SLIST_HEAD head"
--.Fn SLIST_INIT "SLIST_HEAD *head"
--.Fn SLIST_INSERT_AFTER "TYPE *listelm" "TYPE *elm" "SLIST_ENTRY NAME"
--.Fn SLIST_INSERT_HEAD "SLIST_HEAD *head" "TYPE *elm" "SLIST_ENTRY NAME"
--.Fn SLIST_NEXT "TYPE *elm" "SLIST_ENTRY NAME"
--.\" .Fn SLIST_REMOVE_AFTER "TYPE *elm" "SLIST_ENTRY NAME"
--.Fn SLIST_REMOVE_HEAD "SLIST_HEAD *head" "SLIST_ENTRY NAME"
--.Fn SLIST_REMOVE "SLIST_HEAD *head" "TYPE *elm" "TYPE" "SLIST_ENTRY NAME"
--.\" .Fn SLIST_SWAP "SLIST_HEAD *head1" "SLIST_HEAD *head2" "SLIST_ENTRY NAME"
--.\"
- .Fn STAILQ_CONCAT "STAILQ_HEAD *head1" "STAILQ_HEAD *head2"
- .Fn STAILQ_EMPTY "STAILQ_HEAD *head"
- .Fn STAILQ_ENTRY "TYPE"
 diff --git a/man3/slist.3 b/man3/slist.3
-index d2f1fac66..48bce3dc4 100644
---- a/man3/slist.3
+new file mode 100644
+index 000000000..20058a9c6
+--- /dev/null
 +++ b/man3/slist.3
-@@ -49,6 +49,24 @@
- .Nm SLIST_REMOVE ,
- .\" .Nm SLIST_SWAP ,
- .SH SYNOPSIS
-+.Fn SLIST_EMPTY "SLIST_HEAD *head"
-+.Fn SLIST_ENTRY "TYPE"
-+.Fn SLIST_FIRST "SLIST_HEAD *head"
-+.Fn SLIST_FOREACH "TYPE *var" "SLIST_HEAD *head" "SLIST_ENTRY NAME"
-+.\" .Fn SLIST_FOREACH_FROM "TYPE *var" "SLIST_HEAD *head" "SLIST_ENTRY NAME"
-+.\" .Fn SLIST_FOREACH_SAFE "TYPE *var" "SLIST_HEAD *head" "SLIST_ENTRY NAME" "TYPE *temp_var"
-+.\" .Fn SLIST_FOREACH_FROM_SAFE "TYPE *var" "SLIST_HEAD *head" "SLIST_ENTRY NAME" "TYPE *temp_var"
-+.Fn SLIST_HEAD "HEADNAME" "TYPE"
-+.Fn SLIST_HEAD_INITIALIZER "SLIST_HEAD head"
-+.Fn SLIST_INIT "SLIST_HEAD *head"
-+.Fn SLIST_INSERT_AFTER "TYPE *listelm" "TYPE *elm" "SLIST_ENTRY NAME"
-+.Fn SLIST_INSERT_HEAD "SLIST_HEAD *head" "TYPE *elm" "SLIST_ENTRY NAME"
-+.Fn SLIST_NEXT "TYPE *elm" "SLIST_ENTRY NAME"
-+.\" .Fn SLIST_REMOVE_AFTER "TYPE *elm" "SLIST_ENTRY NAME"
-+.Fn SLIST_REMOVE_HEAD "SLIST_HEAD *head" "SLIST_ENTRY NAME"
-+.Fn SLIST_REMOVE "SLIST_HEAD *head" "TYPE *elm" "TYPE" "SLIST_ENTRY NAME"
-+.\" .Fn SLIST_SWAP "SLIST_HEAD *head1" "SLIST_HEAD *head2" "SLIST_ENTRY NAME"
+@@ -0,0 +1,40 @@
++.\" Copyright (c) 1993
++.\"    The Regents of the University of California.  All rights reserved.
++.\" and Copyright (c) 2020 by Alejandro Colomar <colomar.6.4.3@gmail.com>
 +.\"
- .SH DESCRIPTION
- .SH RETURN VALUE
- .SH CONFORMING TO
++.\" %%%LICENSE_START(BSD_3_CLAUSE_UCB)
++.\" Redistribution and use in source and binary forms, with or without
++.\" modification, are permitted provided that the following conditions
++.\" are met:
++.\" 1. Redistributions of source code must retain the above copyright
++.\"    notice, this list of conditions and the following disclaimer.
++.\" 2. Redistributions in binary form must reproduce the above copyright
++.\"    notice, this list of conditions and the following disclaimer in the
++.\"    documentation and/or other materials provided with the distribution.
++.\" 3. Neither the name of the University nor the names of its contributors
++.\"    may be used to endorse or promote products derived from this software
++.\"    without specific prior written permission.
++.\"
++.\" THIS SOFTWARE IS PROVIDED BY THE REGENTS AND CONTRIBUTORS ``AS IS'' AND
++.\" ANY EXPRESS OR IMPLIED WARRANTIES, INCLUDING, BUT NOT LIMITED TO, THE
++.\" IMPLIED WARRANTIES OF MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE
++.\" ARE DISCLAIMED.  IN NO EVENT SHALL THE REGENTS OR CONTRIBUTORS BE LIABLE
++.\" FOR ANY DIRECT, INDIRECT, INCIDENTAL, SPECIAL, EXEMPLARY, OR CONSEQUENTIAL
++.\" DAMAGES (INCLUDING, BUT NOT LIMITED TO, PROCUREMENT OF SUBSTITUTE GOODS
++.\" OR SERVICES; LOSS OF USE, DATA, OR PROFITS; OR BUSINESS INTERRUPTION)
++.\" HOWEVER CAUSED AND ON ANY THEORY OF LIABILITY, WHETHER IN CONTRACT, STRICT
++.\" LIABILITY, OR TORT (INCLUDING NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY
++.\" OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF
++.\" SUCH DAMAGE.
++.\" %%%LICENSE_END
++.\"
++.\"
++.TH SLIST 3 2020-10-21 "GNU" "Linux Programmer's Manual"
++.SH NAME
++.SH SYNOPSIS
++.SH DESCRIPTION
++.SH RETURN VALUE
++.SH CONFORMING TO
++.SH BUGS
++.SH EXAMPLES
++.SH SEE ALSO
 -- 
 2.28.0
 
