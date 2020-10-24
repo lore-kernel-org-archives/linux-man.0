@@ -8,63 +8,63 @@ X-Spam-Status: No, score=-12.6 required=3.0 tests=BAYES_00,DKIM_SIGNED,
 	SPF_HELO_NONE,SPF_PASS,USER_AGENT_GIT autolearn=ham autolearn_force=no
 	version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 12130C2D0A3
-	for <linux-man@archiver.kernel.org>; Sat, 24 Oct 2020 22:21:43 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id A78CBC2D0A3
+	for <linux-man@archiver.kernel.org>; Sat, 24 Oct 2020 22:30:53 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.kernel.org (Postfix) with ESMTP id D140520936
-	for <linux-man@archiver.kernel.org>; Sat, 24 Oct 2020 22:21:42 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTP id 6294A2098B
+	for <linux-man@archiver.kernel.org>; Sat, 24 Oct 2020 22:30:53 +0000 (UTC)
 Authentication-Results: mail.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="Ta5dzIu7"
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="iMczI7GQ"
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1762457AbgJXWVm (ORCPT <rfc822;linux-man@archiver.kernel.org>);
-        Sat, 24 Oct 2020 18:21:42 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:41148 "EHLO
+        id S1762602AbgJXWax (ORCPT <rfc822;linux-man@archiver.kernel.org>);
+        Sat, 24 Oct 2020 18:30:53 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:42542 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1762448AbgJXWVm (ORCPT
-        <rfc822;linux-man@vger.kernel.org>); Sat, 24 Oct 2020 18:21:42 -0400
-Received: from mail-wr1-x444.google.com (mail-wr1-x444.google.com [IPv6:2a00:1450:4864:20::444])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id D9B81C0613CE
-        for <linux-man@vger.kernel.org>; Sat, 24 Oct 2020 15:21:41 -0700 (PDT)
-Received: by mail-wr1-x444.google.com with SMTP id j7so7340675wrt.9
-        for <linux-man@vger.kernel.org>; Sat, 24 Oct 2020 15:21:41 -0700 (PDT)
+        with ESMTP id S1762265AbgJXWaw (ORCPT
+        <rfc822;linux-man@vger.kernel.org>); Sat, 24 Oct 2020 18:30:52 -0400
+Received: from mail-wm1-x32f.google.com (mail-wm1-x32f.google.com [IPv6:2a00:1450:4864:20::32f])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 84D58C0613D2
+        for <linux-man@vger.kernel.org>; Sat, 24 Oct 2020 15:30:52 -0700 (PDT)
+Received: by mail-wm1-x32f.google.com with SMTP id q5so7580876wmq.0
+        for <linux-man@vger.kernel.org>; Sat, 24 Oct 2020 15:30:52 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=gmail.com; s=20161025;
         h=from:to:cc:subject:date:message-id:in-reply-to:references
          :mime-version:content-transfer-encoding;
-        bh=Wcjn5hGssAg6DYFxDeld1Mg5MxdNblHTxG5sds4ramY=;
-        b=Ta5dzIu7dGz9xORjEX24KocO26c82Ppt9IGCYwWJRXpjs5tQYT5Ob15nVlwfxrmti5
-         lNc0DgoYVidih5z8vD9BbAsPt7aG9i3h4NNfXBSNL+cs/6cb2O8kfrOGYYdUuFThUYNs
-         AL50Y1yrtbnLvAE3iNwACK3Zmc8dvtV2EoIsC+hd122iY2do6M5e4LSuAw6/BhL9W0Hv
-         jkN7HEaXTM8Ux/AeYb39PrWBBA2lgZXAWOI7CSMWmiLAnjxKGwTg0RxV7PlscWxvgiMb
-         2H60mfAWLFnAHCvjTYdu9Ir0auuALvdmgPVHCd/2Y3xbKXfnZgMIvrOzLwpgLzGciTlv
-         5+Kg==
+        bh=OrGqEQF7glsKo1/EKkfwpUBJyWsAOso9Ujd8Br1CDlQ=;
+        b=iMczI7GQoL8syWQauSLvmcAeHMSTyMU+nS8giDvTXxmZOmuGhVRsrXDfzvSHPFstxD
+         XRTy1isa+A8CmozpEuvXXRQKSLqSJmqYw1T9+emyFBHihzU+oOhx0u2Z9W/PONVHhcrT
+         kY53Sy+vWx1Lg/oPbLemBEnw361CLh6LaOnBoI0PjdySyEO/8bsru1cO9Vk45DIAUFeQ
+         AOqplHl6ocAH6ZdX4ImiJI8nBn80h/QYE9eAj8wREsMI/xgDl20gpMEAegmbb8SQFvtc
+         vAWAf3fBQP4UYSLPZg94i1kWf7D38klG/8aJdA5wH//1DVH/xRlc+rRlAjY/Budnn+Dl
+         P2DA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
         h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
          :references:mime-version:content-transfer-encoding;
-        bh=Wcjn5hGssAg6DYFxDeld1Mg5MxdNblHTxG5sds4ramY=;
-        b=uh+6PdV7ozulWO9/6bHgk/1GXoIKi7EDxJP2hlvn3H7A1gLdahqDx18KPmPsAFyLgH
-         ygFTukBikCi0Ng5gu3svTX8SFSdz/9skCoq2+ymdzdju2GpTHJvc3d1DpM8U5bxDjqxS
-         RNcKS8uOc2bZ6o9qVjHBrY4au1uxskCuBPr3Z9vo1UmYsrMrx2P/jXmFZbawRitjF8Fc
-         D8MF7CdFsSCl+XyELR7u0scWzi+JvWUFcd9yhS7VJhmAPLDWaU9uDkdKVgD8/RzjXzYM
-         C0HPpkN8wv+HIsRMHhSAVhfOe913/QGLjHu1RJqxWMWKyx6NWFyVEuRRkHql/Kuj01YR
-         i5sQ==
-X-Gm-Message-State: AOAM532Z6NldyZuYA86wPB9A9SojkxzHJ6OQxgqhH7J2RpHT0Iu5oT7W
-        6iiOWK2fYSevXBGGzQ/oavI=
-X-Google-Smtp-Source: ABdhPJzJ2B6rGbJsocbLoiTmBNF7VakHUxrnQfgIJOTzmcTgZvhzUsqmoEKCHLCPD0jlkF8a/RFSQw==
-X-Received: by 2002:adf:d84e:: with SMTP id k14mr10347828wrl.251.1603578100652;
-        Sat, 24 Oct 2020 15:21:40 -0700 (PDT)
+        bh=OrGqEQF7glsKo1/EKkfwpUBJyWsAOso9Ujd8Br1CDlQ=;
+        b=A75DtOKpUBXu708jhgLzEBEct/Eidzri108acg3fU0I+s2xfksMcDza4kTjvsBFIlH
+         mqbyq0/w7vop+Kl4lBTDClwoxW1cdoyuyNP8uvXAPceQEgqOxM1Iwi8/n6VFBp5U8Vmc
+         QcloE3z25dZ1VmnA8IU5Y4U9rsF3qhkkhNAv5s9YBiSHWecyzNAJBfewWKqN8G2ZdOyD
+         GdDjk3ubZfEfuLeozhgwMm47/nokNDBIe1uKuBH1wt1+uHSjkzojvvpPpOXuPnZoTI55
+         SY4S1e6VUEBjQGzgK7Ou25SNcoRHrOl0uNCSNDGINkouP9PlYoE2VGrjO5yEvIhuASsW
+         oh3Q==
+X-Gm-Message-State: AOAM532BDy/iWPgPveN6vT+jyEjXXejCR4XDT/VRt/y2OIyvuGoYA+f3
+        /DqSfv34dijigfM9joAQx5c=
+X-Google-Smtp-Source: ABdhPJyeKxwXnh5DiBFb3O124ztRhqQrP/H6AP3SaBPr1r29x9vAn5/G9sO6cL1ZTGYhd+EWmAm7kw==
+X-Received: by 2002:a1c:bcc2:: with SMTP id m185mr8733297wmf.178.1603578651268;
+        Sat, 24 Oct 2020 15:30:51 -0700 (PDT)
 Received: from localhost.localdomain ([170.253.60.68])
-        by smtp.googlemail.com with ESMTPSA id 133sm16427654wmb.2.2020.10.24.15.21.39
+        by smtp.googlemail.com with ESMTPSA id 71sm13739180wrm.20.2020.10.24.15.30.50
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Sat, 24 Oct 2020 15:21:40 -0700 (PDT)
+        Sat, 24 Oct 2020 15:30:50 -0700 (PDT)
 From:   Alejandro Colomar <colomar.6.4.3@gmail.com>
 To:     mtk.manpages@gmail.com
 Cc:     Alejandro Colomar <colomar.6.4.3@gmail.com>,
         linux-man@vger.kernel.org, libc-alpha@sourceware.org
-Subject: [PATCH 8/8] stailq.3: Add remaining details to complete the page
-Date:   Sun, 25 Oct 2020 00:21:16 +0200
-Message-Id: <20201024222115.6362-9-colomar.6.4.3@gmail.com>
+Subject: [PATCH 10/10] queue.3: SEE ALSO: Add stailq(3)
+Date:   Sun, 25 Oct 2020 00:30:21 +0200
+Message-Id: <20201024223020.11935-2-colomar.6.4.3@gmail.com>
 X-Mailer: git-send-email 2.28.0
 In-Reply-To: <20201024222115.6362-1-colomar.6.4.3@gmail.com>
 References: <20201024222115.6362-1-colomar.6.4.3@gmail.com>
@@ -76,69 +76,19 @@ X-Mailing-List: linux-man@vger.kernel.org
 
 Signed-off-by: Alejandro Colomar <colomar.6.4.3@gmail.com>
 ---
- man3/stailq.3 | 30 ++++++++++++++++++++++++++++++
- 1 file changed, 30 insertions(+)
+ man3/queue.3 | 1 +
+ 1 file changed, 1 insertion(+)
 
-diff --git a/man3/stailq.3 b/man3/stailq.3
-index 0abacd824..2896d27c9 100644
---- a/man3/stailq.3
-+++ b/man3/stailq.3
-@@ -51,6 +51,7 @@ STAILQ_REMOVE,
- .\"STAILQ_REMOVE_AFTER,
- STAILQ_REMOVE_HEAD,
- .\"STAILQ_SWAP
-+\- implementation of a singly-linked tail queue
- .SH SYNOPSIS
- .nf
- .B #include <sys/queue.h>
-@@ -100,6 +101,8 @@ STAILQ_REMOVE_HEAD,
- .\" .BI "                STAILQ_ENTRY " NAME ");"
- .fi
- .SH DESCRIPTION
-+These macros define and operate on singly-linked tail queues.
-+.PP
- In the macro definitions,
- .I TYPE
- is the name of a user-defined structure,
-@@ -292,11 +295,38 @@ from the tail queue.
- .\" and
- .\" .IR head2 .
- .SH RETURN VALUE
-+.BR STAILQ_EMPTY ()
-+returns nonzero if the queue is empty,
-+and zero if the queue contains at least one entry.
-+.PP
-+.BR STAILQ_FIRST (),
-+and
-+.BR STAILQ_NEXT ()
-+return a pointer to the first or next
-+.I STAILQ_ENTRY
-+structure, respectively.
-+.PP
-+.BR STAILQ_HEAD_INITIALIZER ()
-+returns an initializer that can be assigned to the queue
-+.IR head .
- .SH CONFORMING TO
- Not in POSIX.1, POSIX.1-2001 or POSIX.1-2008.
- Present on the BSDs
- (STAILQ macros first appeared in 4.4BSD).
- .SH BUGS
-+The macro
-+.BR STAILQ_FOREACH ()
-+doesn't allow
-+.I var
-+to be removed or freed within the loop,
-+as it would interfere with the traversal.
-+The macro
-+.BR STAILQ_FOREACH_SAFE (),
-+which is present on the BSDs but is not present in glibc,
-+fixes this limitation by allowing
-+.I var
-+to safely be removed from the list and freed from within the loop
-+without interfering with the traversal.
- .SH EXAMPLES
- .EX
- #include <stddef.h>
+diff --git a/man3/queue.3 b/man3/queue.3
+index 00fd36b91..4c597e123 100644
+--- a/man3/queue.3
++++ b/man3/queue.3
+@@ -181,4 +181,5 @@ functions first appeared in
+ .Xr insque 3
+ .Xr list 3
+ .Xr slist 3
++.Xr stailq 3
+ .\" .Xr tree 3
 -- 
 2.28.0
 
