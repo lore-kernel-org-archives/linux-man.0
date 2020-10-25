@@ -2,103 +2,111 @@ Return-Path: <SRS0=EgWi=EA=vger.kernel.org=linux-man-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-6.6 required=3.0 tests=BAYES_00,DKIM_SIGNED,
+X-Spam-Status: No, score=-11.1 required=3.0 tests=BAYES_00,DKIM_SIGNED,
 	DKIM_VALID,DKIM_VALID_AU,FREEMAIL_FORGED_FROMDOMAIN,FREEMAIL_FROM,
-	HEADER_FROM_DIFFERENT_DOMAINS,MAILING_LIST_MULTI,SIGNED_OFF_BY,SPF_HELO_NONE,
-	SPF_PASS,URIBL_BLOCKED autolearn=no autolearn_force=no version=3.4.0
+	HEADER_FROM_DIFFERENT_DOMAINS,INCLUDES_PATCH,MAILING_LIST_MULTI,NICE_REPLY_A,
+	SIGNED_OFF_BY,SPF_HELO_NONE,SPF_PASS,URIBL_BLOCKED,USER_AGENT_SANE_1
+	autolearn=ham autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id F03C9C55178
-	for <linux-man@archiver.kernel.org>; Sun, 25 Oct 2020 11:42:12 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 5FEC0C388F7
+	for <linux-man@archiver.kernel.org>; Sun, 25 Oct 2020 12:08:27 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.kernel.org (Postfix) with ESMTP id B0731222B9
-	for <linux-man@archiver.kernel.org>; Sun, 25 Oct 2020 11:42:12 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTP id 21E28222E8
+	for <linux-man@archiver.kernel.org>; Sun, 25 Oct 2020 12:08:27 +0000 (UTC)
 Authentication-Results: mail.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="XTm7hRaA"
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="mwPkBlP3"
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1415456AbgJYLmM (ORCPT <rfc822;linux-man@archiver.kernel.org>);
-        Sun, 25 Oct 2020 07:42:12 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:50874 "EHLO
+        id S1415615AbgJYMI0 (ORCPT <rfc822;linux-man@archiver.kernel.org>);
+        Sun, 25 Oct 2020 08:08:26 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:54844 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1731992AbgJYLmL (ORCPT
-        <rfc822;linux-man@vger.kernel.org>); Sun, 25 Oct 2020 07:42:11 -0400
-Received: from mail-ot1-x344.google.com (mail-ot1-x344.google.com [IPv6:2607:f8b0:4864:20::344])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 9E61EC0613CE
-        for <linux-man@vger.kernel.org>; Sun, 25 Oct 2020 04:42:11 -0700 (PDT)
-Received: by mail-ot1-x344.google.com with SMTP id f37so5587670otf.12
-        for <linux-man@vger.kernel.org>; Sun, 25 Oct 2020 04:42:11 -0700 (PDT)
+        with ESMTP id S1415611AbgJYMIQ (ORCPT
+        <rfc822;linux-man@vger.kernel.org>); Sun, 25 Oct 2020 08:08:16 -0400
+Received: from mail-wr1-x442.google.com (mail-wr1-x442.google.com [IPv6:2a00:1450:4864:20::442])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id CB84AC0613CE
+        for <linux-man@vger.kernel.org>; Sun, 25 Oct 2020 05:08:15 -0700 (PDT)
+Received: by mail-wr1-x442.google.com with SMTP id g12so9365011wrp.10
+        for <linux-man@vger.kernel.org>; Sun, 25 Oct 2020 05:08:15 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=gmail.com; s=20161025;
-        h=mime-version:references:in-reply-to:reply-to:from:date:message-id
-         :subject:to:cc;
-        bh=7i9Fy1ndRvjMZXd8G3m7KdSrrEDK+DIbML1WSgNojMI=;
-        b=XTm7hRaAaRJ5hF7nqJThrBw9t5XGLdavxECEvsRlMs+6k//IiSyyzoLjOM2D0FNTJ/
-         mnhYHlxmdpt24TlNv/e0uitunF37P8zpzJQH72hR2Fi4mOQtmsZ1s7gPGM0rBH8xdn8C
-         0j9SqcKL3a1QQroBws9zPSh1Ptpu3Ejy1qfO1JQweNr955xYMn+G8zuV0Artv8L3pqcj
-         MC8TQA+RvoP9/A3m9E9/6zyKLLOsO3gjUorvvoP3dfTBJcA3aQzBipCX4oV6fVh4+drV
-         4kYvvsWx2Af1zWp8cZ0yjYNrhjmDO4nrV0LIeME4H97bCiqtZPnezSLnlwLuGpqAoE4l
-         +oow==
+        h=cc:subject:to:references:from:message-id:date:user-agent
+         :mime-version:in-reply-to:content-language:content-transfer-encoding;
+        bh=mYzksf1O5P4B2FlwMB13FVO9/sGSyNLCtEx0Jb8ZMQo=;
+        b=mwPkBlP3IjVYyXmqFPUbW/vmdNjbAndl2SVUxOVFYzUO/wHKCffrvYcg6jU4QmcUG2
+         BoT01dxE2BjTXKHBFVDzJTv1fZjUL8+HbMfCb2yF6GkbODqN2qoucJGxMHqB9eFkcHVw
+         5ClyTGGW74gwpHcZDaYjl14fSIlarGZDUPNHFySptTMtM0QX+bfBe0YF7QaVF8SJccFH
+         wlbZj4sFH5HyQsXRsAFiAYDsSqpgvPjkkqux7dPI2pqOdj8gijyBrngEzk83V+T/AW53
+         +ApWswgF9AfSKm0ZvXCWxpqbWZLqs1cT/Pdv7zkeYiOkI/m2hKkZ00f7f4bCji4oISyJ
+         EWRg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
-        h=x-gm-message-state:mime-version:references:in-reply-to:reply-to
-         :from:date:message-id:subject:to:cc;
-        bh=7i9Fy1ndRvjMZXd8G3m7KdSrrEDK+DIbML1WSgNojMI=;
-        b=FoVKvqSyi9ySAoT1ZJPzRXViSUgk2kSG1bR/iztIQfP4sU+vMkqeGEVcu3UkLrMR6I
-         4JA/n21se4BLuwfwnTGngGEmj+HIh5Yg7MBoHqzLejIapyZrxsdqXniWKZHaJNkvrNgo
-         CYOaOlxOOWPmStrMJjQIkU7BWVjkoU7VhL+SgsAL75GsybhWX1nhzHVh6eAxoEHNs+mY
-         41TW5xoDhBllB7mzJMnI+kv6bQtFRPlUIloI3fEXWZi1KjmRbAhSZdH+JTaTIEuSyDDw
-         7X4npzbur4mKCHS+5l9pASRX8TF0UEM3OLLUTop/qR2zYBpBYiviSgJOuOeSwS0axAE1
-         ZHnw==
-X-Gm-Message-State: AOAM532qivcTtXLefyni7Flez/CRvVD9RtDzUERGZ7cu5Ka/26BQTi1Q
-        VXwfmjfmjnSyfBXEkqLSP/eZbqAzyNKvc+dm5F5U2Or7
-X-Google-Smtp-Source: ABdhPJwBSHgVygk2aNE38CEeEt52f8RdzMBy6kTsdAQuYvLIk1SeCRi0llxWNTXIDZkj4mGsNCQxFZrFmOFTRnvJzuY=
-X-Received: by 2002:a9d:5183:: with SMTP id y3mr10205016otg.308.1603626131072;
- Sun, 25 Oct 2020 04:42:11 -0700 (PDT)
-MIME-Version: 1.0
-References: <20201025104623.54594-1-colomar.6.4.3@gmail.com>
-In-Reply-To: <20201025104623.54594-1-colomar.6.4.3@gmail.com>
-Reply-To: mtk.manpages@gmail.com
+        h=x-gm-message-state:cc:subject:to:references:from:message-id:date
+         :user-agent:mime-version:in-reply-to:content-language
+         :content-transfer-encoding;
+        bh=mYzksf1O5P4B2FlwMB13FVO9/sGSyNLCtEx0Jb8ZMQo=;
+        b=mQ7lkXkJj+O21a7t1CHBGMMgXMrJ2ENegtQ4/mqqml29C0gHvma0E7ISJNIoKeY3N+
+         zsa/9QHM1A9rfL518dYcSYb3gEM/hiCx4HgSButTxHscl1lOPuNlcJwOOi2FeCCfVMUG
+         u8N9ot7GcYhioJquUcrjW7LAW89S0uPyFchWzyEzMzQxxDQm+wnbcbju/wq0MkZ5Duzs
+         cdiB5wxxh6nFiUwIv2FDWihCwcFG2J5yyNpGprsGjXrmr00TsUMBWMqJ5YVo/m3z6Xye
+         2cTjstjKmqzKq+zSEoFVZRtK5+K3xwFW/Mw9BlNExqFlKSY0YAJHWwlKoqU79jkyjaYy
+         9Mjg==
+X-Gm-Message-State: AOAM531UT+eRYFs9B4PMqXYahZtVVT7NhlTWv4PU383K6g7GxOs8sM9b
+        dFC7azGlqI4tlbLiob3LPVRKy6DAFNA=
+X-Google-Smtp-Source: ABdhPJy+hBlB2s0E9sweSvK3N/CmTtZf4T0rL0IIvUYeWj1Xb1VQpHtIL6TVusWxDnsI8qGHTn8sog==
+X-Received: by 2002:adf:8b1a:: with SMTP id n26mr9878984wra.407.1603627694363;
+        Sun, 25 Oct 2020 05:08:14 -0700 (PDT)
+Received: from ?IPv6:2001:a61:245a:d801:2e74:88ad:ef9:5218? ([2001:a61:245a:d801:2e74:88ad:ef9:5218])
+        by smtp.gmail.com with ESMTPSA id a3sm17737625wrh.94.2020.10.25.05.08.13
+        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+        Sun, 25 Oct 2020 05:08:13 -0700 (PDT)
+Cc:     mtk.manpages@gmail.com, linux-man@vger.kernel.org
+Subject: Re: [PATCH] tailq.3: tfix
+To:     "Dmitry V. Levin" <ldv@altlinux.org>
+References: <20201025120331.GA9442@altlinux.org>
 From:   "Michael Kerrisk (man-pages)" <mtk.manpages@gmail.com>
-Date:   Sun, 25 Oct 2020 12:41:59 +0100
-Message-ID: <CAKgNAkj_TGUN6_UNpYjrfZ=EppM4X+Oxbm7zjc7jgtgrFVuKLQ@mail.gmail.com>
-Subject: Re: [PATCH] circleq.3, list.3, slist.3, stailq.3, tailq.3: Use the
- 'struct' keyword when appropriate
-To:     Alejandro Colomar <colomar.6.4.3@gmail.com>
-Cc:     linux-man <linux-man@vger.kernel.org>
-Content-Type: text/plain; charset="UTF-8"
+Message-ID: <4572de1c-13ad-2e6d-7f3f-ddf51705e8f7@gmail.com>
+Date:   Sun, 25 Oct 2020 13:08:11 +0100
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
+ Thunderbird/68.11.0
+MIME-Version: 1.0
+In-Reply-To: <20201025120331.GA9442@altlinux.org>
+Content-Type: text/plain; charset=utf-8
+Content-Language: en-US
+Content-Transfer-Encoding: 7bit
 Precedence: bulk
 List-ID: <linux-man.vger.kernel.org>
 X-Mailing-List: linux-man@vger.kernel.org
 
-Hi Alex,
+On 10/25/20 1:03 PM, Dmitry V. Levin wrote:
+> Signed-off-by: Dmitry V. Levin <ldv@altlinux.org>
 
-On Sun, 25 Oct 2020 at 11:46, Alejandro Colomar <colomar.6.4.3@gmail.com> wrote:
->
-> This helps differentiate 'TYPE' in some arguments
-> from 'struct TYPE *var' in others,
-> and is technically more correct.
->
-> Signed-off-by: Alejandro Colomar <colomar.6.4.3@gmail.com>
+Thanks, Dmitry! Patch applied.
 
-Thanks. Patch applied. Everything is not pushed.
-
-> ---
->
-> Hi Michael,
->
-> This should be the last patch for queue.3 and its forks.
-
-Thanks for all the work!!
-
-Could you please check my commit 9484d926f to make sure it's the right
-correction.
-
-Thanks,
+Cheers,
 
 Michael
 
+> ---
+>  man3/tailq.3 | 2 +-
+>  1 file changed, 1 insertion(+), 1 deletion(-)
+> 
+> diff --git a/man3/tailq.3 b/man3/tailq.3
+> index 73e28e7fc..a782a51e2 100644
+> --- a/man3/tailq.3
+> +++ b/man3/tailq.3
+> @@ -58,7 +58,7 @@ TAILQ_REMOVE
+>  \- implementation of a doubly linked tail queue
+>  .SH SYNOPSIS
+>  .nf
+> -.B #include sys/queue.h
+> +.B #include <sys/queue.h>
+>  .PP
+>  .BI "void TAILQ_CONCAT(TAILQ_HEAD *" head1 ", TAILQ_HEAD *" head2 ","
+>  .BI "                TAILQ_ENTRY " NAME ");"
+> 
 
 
---
+-- 
 Michael Kerrisk
 Linux man-pages maintainer; http://www.kernel.org/doc/man-pages/
 Linux/UNIX System Programming Training: http://man7.org/training/
