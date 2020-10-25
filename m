@@ -8,63 +8,63 @@ X-Spam-Status: No, score=-12.6 required=3.0 tests=BAYES_00,DKIM_SIGNED,
 	SPF_HELO_NONE,SPF_PASS,USER_AGENT_GIT autolearn=ham autolearn_force=no
 	version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id B04C5C55178
+	by smtp.lore.kernel.org (Postfix) with ESMTP id E107EC388F7
 	for <linux-man@archiver.kernel.org>; Sun, 25 Oct 2020 09:37:23 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.kernel.org (Postfix) with ESMTP id 788C72225E
+	by mail.kernel.org (Postfix) with ESMTP id A458422284
 	for <linux-man@archiver.kernel.org>; Sun, 25 Oct 2020 09:37:23 +0000 (UTC)
 Authentication-Results: mail.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="spwcMhm8"
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="ry3udRX3"
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1414876AbgJYJhX (ORCPT <rfc822;linux-man@archiver.kernel.org>);
+        id S1414867AbgJYJhX (ORCPT <rfc822;linux-man@archiver.kernel.org>);
         Sun, 25 Oct 2020 05:37:23 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:60088 "EHLO
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:60100 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1414867AbgJYJhW (ORCPT
+        with ESMTP id S1414875AbgJYJhW (ORCPT
         <rfc822;linux-man@vger.kernel.org>); Sun, 25 Oct 2020 05:37:22 -0400
-Received: from mail-wm1-x335.google.com (mail-wm1-x335.google.com [IPv6:2a00:1450:4864:20::335])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 545AAC0613CE
-        for <linux-man@vger.kernel.org>; Sun, 25 Oct 2020 02:37:18 -0700 (PDT)
-Received: by mail-wm1-x335.google.com with SMTP id a72so8237078wme.5
-        for <linux-man@vger.kernel.org>; Sun, 25 Oct 2020 02:37:18 -0700 (PDT)
+Received: from mail-wm1-x343.google.com (mail-wm1-x343.google.com [IPv6:2a00:1450:4864:20::343])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 88F8AC0613D0
+        for <linux-man@vger.kernel.org>; Sun, 25 Oct 2020 02:37:22 -0700 (PDT)
+Received: by mail-wm1-x343.google.com with SMTP id v5so8239610wmh.1
+        for <linux-man@vger.kernel.org>; Sun, 25 Oct 2020 02:37:22 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=gmail.com; s=20161025;
         h=from:to:cc:subject:date:message-id:in-reply-to:references
          :mime-version:content-transfer-encoding;
-        bh=7YzaZ8g+9Me2W3OhhJNjRksjTTLuR4CJc0EX3VfDJFA=;
-        b=spwcMhm8SLypzRDY4cqtaJYs08+DYAJfKZLFEhCzFaL6Zyhj5iizdMwzrZGYqmnVDF
-         RG+viICXwOiQPCHt77cp7FWbeWpkpRTA4Wmav3uaZaiN5kRimjaIkKsy20wGlE8UBvir
-         iYKGw/LM1fPWuyhqdS4HaRPCj8zFoR73kw32tNo0O2NS1KOLyy+yfqd74eq6c9ZyQAl8
-         XQ9Z1qabm2c51501sS5Cwu10xgtvcxrMEzSHtlIZAiMXnx5lcIWG5nkgpwbo0PHRuU2Q
-         Db2Rfzv9Fh+lDWKyeXMOPrV33xK1r+m6X5xN+fC24S02EIhXqJSFQyKR+H9+n505Hdq8
-         k3hQ==
+        bh=z/M70yZJhqYIUP8P4knVSoIbgEPd1mftgBf9Tc7ZVfE=;
+        b=ry3udRX3s+WH6vyDANTSdLjyOL0wZwL+JC4jf0YbxrQAe0V4FVNyKjTSDw2H5HNBXt
+         zInXMGao+1nGPtfPTIhpUDWsm9CDm5Ac1wbLzSQEpTqdrhQDMplX29yRUgRSRo4FUkft
+         26gdGfUYaBwvYEw/x938BFqizh8kQNFTfpT8kcaHDDRuw8DLORgSphJ+zGPl9fFC5MCK
+         R0SKN9ZTD5Lq9gpDsPsxOCo3dPZHH6OI3aANTLhtFquFP+XF5XoxfNRV93qrOXD5konI
+         MhphKpXRe3uFsW/BzcfbZ1oxNVZ806GnDskGo8dtwkA514ZlJdUtmt4vQeczZzXLtlH6
+         6Y1Q==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
         h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
          :references:mime-version:content-transfer-encoding;
-        bh=7YzaZ8g+9Me2W3OhhJNjRksjTTLuR4CJc0EX3VfDJFA=;
-        b=aRuReqiFHTdFvbWAKne2eP7wuDLV3FfUttdMc1dPTjUChDVPifjC0kPS+1oXo7f6sO
-         3KrfMmssJgHvl8RE929B1pcwCAdl+OPddilUN3KUP8v8kCSoMWNoxJejMgJQBCWta7Qc
-         EtDGzJ41EXuFfCVdbxtVGs7zw0ivLF3IPYldEJsfFz+7+SddZ1jpYzcbBmJjqDcjbLCy
-         bS/XTXkgPEjROsLG7UI7udGaW538PYubNao7A31wG66Z6TBU2I6HuFun7BZ2nm0oRHzD
-         2oFsaso0DN1vFE7xFgeba9OP9HDtV6AUgg+uxTEi226sJEtWczUWTt8RabI0I5v+cyye
-         MUWw==
-X-Gm-Message-State: AOAM531kyFWYHSlNlK9NWNL1vJfjRC0OVs6OWj2W+NVETclcHzfXLGzm
-        y7eDd/scRkqDwRj3H9S0sgQ=
-X-Google-Smtp-Source: ABdhPJxahUAdeqUDV8pzfhBzWMCYVTCYNrsOly29sHuNfgdt5/FnvTfgvqnT+lawLjulv9PgRm1WMA==
-X-Received: by 2002:a7b:c113:: with SMTP id w19mr11322785wmi.25.1603618637055;
-        Sun, 25 Oct 2020 02:37:17 -0700 (PDT)
+        bh=z/M70yZJhqYIUP8P4knVSoIbgEPd1mftgBf9Tc7ZVfE=;
+        b=grt0wfZML7BLcE9U0hzAwKxTn3Csp8+BqKZ4UYOiIC8Mzjybk3zSQPCm2+binC7dfn
+         Aolv3oDfwx474ujxcC3rCbVS5KTtjAHjBFBGwf9vDoQjgyk45VqXUapdPvhXHy53W7qe
+         WkmarcNzDqO99vuDNTxzpiUK4mDeVq0oG7fWWU+d/vH7umj2uNTPeR9Xy5ChPFD28er0
+         LoQePtfACTbvk4UENdjbCllwudnsOnWFVsveQbNbSFXw+HdoHOrrLKlp5k87G+OUUdNN
+         1MhKjRKu8lD2092IUKAyGU0dzRkBC3bxAjWnPLbTBL0ZJQDkHlP/BV2DFxSis8kkiC+0
+         EqvA==
+X-Gm-Message-State: AOAM532qvns8YUdEHLsAvmnr0y5Uu14IfK0CxIwkqbyV13LBykr6pxwc
+        GW3QFcZ1ViiB9ySsSBvmnSpBQktK0Ks=
+X-Google-Smtp-Source: ABdhPJydBeUheDg0iXm3iV2S3SdEBu6muTtnJu8sBWeoitm2VXAt61ZV7wwSUGZ3bL23ZFFyZxtcmQ==
+X-Received: by 2002:a1c:2581:: with SMTP id l123mr10723213wml.169.1603618641356;
+        Sun, 25 Oct 2020 02:37:21 -0700 (PDT)
 Received: from localhost.localdomain ([170.253.60.68])
-        by smtp.googlemail.com with ESMTPSA id m8sm15776446wrw.17.2020.10.25.02.37.15
+        by smtp.googlemail.com with ESMTPSA id m8sm15776446wrw.17.2020.10.25.02.37.19
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Sun, 25 Oct 2020 02:37:16 -0700 (PDT)
+        Sun, 25 Oct 2020 02:37:20 -0700 (PDT)
 From:   Alejandro Colomar <colomar.6.4.3@gmail.com>
 To:     mtk.manpages@gmail.com
 Cc:     Alejandro Colomar <colomar.6.4.3@gmail.com>,
         linux-man@vger.kernel.org, libc-alpha@sourceware.org
-Subject: [PATCH 05/10] queue.3, tailq.3: EXAMPLES: Move code from queue.3 to tailq.3
-Date:   Sun, 25 Oct 2020 10:36:47 +0100
-Message-Id: <20201025093651.4616-6-colomar.6.4.3@gmail.com>
+Subject: [PATCH 08/10] tailq.3: Add remaining details to complete the page
+Date:   Sun, 25 Oct 2020 10:36:50 +0100
+Message-Id: <20201025093651.4616-9-colomar.6.4.3@gmail.com>
 X-Mailer: git-send-email 2.28.0
 In-Reply-To: <20201025093651.4616-1-colomar.6.4.3@gmail.com>
 References: <20201025093651.4616-1-colomar.6.4.3@gmail.com>
@@ -76,142 +76,80 @@ X-Mailing-List: linux-man@vger.kernel.org
 
 Signed-off-by: Alejandro Colomar <colomar.6.4.3@gmail.com>
 ---
- man3/queue.3 | 56 ----------------------------------------------------
- man3/tailq.3 | 56 ++++++++++++++++++++++++++++++++++++++++++++++++++++
- 2 files changed, 56 insertions(+), 56 deletions(-)
+ man3/tailq.3 | 37 +++++++++++++++++++++++++++++++++++++
+ 1 file changed, 37 insertions(+)
 
-diff --git a/man3/queue.3 b/man3/queue.3
-index f6e3b9369..4c597e123 100644
---- a/man3/queue.3
-+++ b/man3/queue.3
-@@ -170,62 +170,6 @@ The termination condition for traversal is more complex.
- Code size is about 40% greater and operations run about 45% slower than lists.
- .El
- .Sh EXAMPLES
--.Ss Tail queue example
--.Bd -literal
--#include <stddef.h>
--#include <stdio.h>
--#include <stdlib.h>
--#include <sys/queue.h>
--
--struct entry {
--    int data;
--    TAILQ_ENTRY(entry) entries;             /* Tail queue. */
--};
--
--TAILQ_HEAD(tailhead, entry);
--
--int
--main(void)
--{
--    struct entry    *n1, *n2, *n3, *np;
--    struct tailhead head;                   /* Tail queue head. */
--    int     i;
--
--    TAILQ_INIT(&head);                      /* Initialize the queue. */
--
--    n1 = malloc(sizeof(struct entry));      /* Insert at the head. */
--    TAILQ_INSERT_HEAD(&head, n1, entries);
--
--    n1 = malloc(sizeof(struct entry));      /* Insert at the tail. */
--    TAILQ_INSERT_TAIL(&head, n1, entries);
--
--    n2 = malloc(sizeof(struct entry));      /* Insert after. */
--    TAILQ_INSERT_AFTER(&head, n1, n2, entries);
--
--    n3 = malloc(sizeof(struct entry));      /* Insert before. */
--    TAILQ_INSERT_BEFORE(n2, n3, entries);
--
--    TAILQ_REMOVE(&head, n2, entries);       /* Deletion. */
--    free(n2);
--                                            /* Forward traversal. */
--    i = 0;
--    TAILQ_FOREACH(np, &head, entries)
--        np->data = i++;
--                                            /* Reverse traversal. */
--    TAILQ_FOREACH_REVERSE(np, &head, tailhead, entries)
--        printf("%i\en", np->data);
--                                            /* TailQ Deletion. */
--    n1 = TAILQ_FIRST(&head);
--    while (n1 != NULL) {
--        n2 = TAILQ_NEXT(n1, entries);
--        free(n1);
--        n1 = n2;
--    }
--    TAILQ_INIT(&head);
--
--    exit(EXIT_SUCCESS);
--}
--.Ed
- .Sh CONFORMING TO
- Not in POSIX.1, POSIX.1-2001 or POSIX.1-2008.
- Present on the BSDs.
 diff --git a/man3/tailq.3 b/man3/tailq.3
-index 144a86f3f..28a7ac509 100644
+index e38cc7e86..cac4a9c3f 100644
 --- a/man3/tailq.3
 +++ b/man3/tailq.3
-@@ -323,4 +323,60 @@ See the EXAMPLES section below for an example program using a tail queue.
+@@ -55,6 +55,7 @@ TAILQ_NEXT,
+ TAILQ_PREV,
+ TAILQ_REMOVE
+ .\"TAILQ_SWAP
++\- implementation of a doubly-linked tail queue
+ .SH SYNOPSIS
+ .nf
+ .B #include sys/queue.h
+@@ -110,6 +111,7 @@ TAILQ_REMOVE
+ .\" .PP
+ .\" .BI "void TAILQ_SWAP(TAILQ_HEAD *" head1 ", TAILQ_HEAD *" head2 ", TYPE, TAILQ_ENTRY " NAME ");"
+ .SH DESCRIPTION
++These macros define and operate on doubly-linked tail queues.
+ .PP
+ In the macro definitions,
+ .I TYPE
+@@ -336,11 +338,44 @@ from the tail queue.
+ .\" and
+ .\" .IR head2 .
+ .SH RETURN VALUE
++.BR TAILQ_EMPTY ()
++returns nonzero if the queue is empty,
++and zero if the queue contains at least one entry.
++.PP
++.BR TAILQ_FIRST (),
++.BR TAILQ_LAST (),
++.BR TAILQ_NEXT (),
++and
++.BR TAILQ_PREV ()
++return a pointer to the first, last, next or previous
++.I TYPE
++structure, respectively.
++.PP
++.BR TAILQ_HEAD_INITIALIZER ()
++returns an initializer that can be assigned to the queue
++.IR head .
  .SH CONFORMING TO
+ Not in POSIX.1, POSIX.1-2001 or POSIX.1-2008.
+ Present on the BSDs.
+ (TAILQ functions first appeared in 4.4BSD).
  .SH BUGS
++The macros
++.BR TAILQ_FOREACH ()
++and
++.BR TAILQ_FOREACH_REVERSE ()
++don't allow
++.I var
++to be removed or freed within the loop,
++as it would interfere with the traversal.
++The macros
++.BR TAILQ_FOREACH_SAFE ()
++and
++.BR TAILQ_FOREACH_REVERSE_SAFE (),
++which are present on the BSDs but are not present in glibc,
++fix this limitation by allowing
++.I var
++to safely be removed from the list and freed from within the loop
++without interfering with the traversal.
  .SH EXAMPLES
-+.Ss Tail queue example
-+.Bd -literal
-+#include <stddef.h>
-+#include <stdio.h>
-+#include <stdlib.h>
-+#include <sys/queue.h>
-+
-+struct entry {
-+    int data;
-+    TAILQ_ENTRY(entry) entries;             /* Tail queue. */
-+};
-+
-+TAILQ_HEAD(tailhead, entry);
-+
-+int
-+main(void)
-+{
-+    struct entry    *n1, *n2, *n3, *np;
-+    struct tailhead head;                   /* Tail queue head. */
-+    int     i;
-+
-+    TAILQ_INIT(&head);                      /* Initialize the queue. */
-+
-+    n1 = malloc(sizeof(struct entry));      /* Insert at the head. */
-+    TAILQ_INSERT_HEAD(&head, n1, entries);
-+
-+    n1 = malloc(sizeof(struct entry));      /* Insert at the tail. */
-+    TAILQ_INSERT_TAIL(&head, n1, entries);
-+
-+    n2 = malloc(sizeof(struct entry));      /* Insert after. */
-+    TAILQ_INSERT_AFTER(&head, n1, n2, entries);
-+
-+    n3 = malloc(sizeof(struct entry));      /* Insert before. */
-+    TAILQ_INSERT_BEFORE(n2, n3, entries);
-+
-+    TAILQ_REMOVE(&head, n2, entries);       /* Deletion. */
-+    free(n2);
-+                                            /* Forward traversal. */
-+    i = 0;
-+    TAILQ_FOREACH(np, &head, entries)
-+        np->data = i++;
-+                                            /* Reverse traversal. */
-+    TAILQ_FOREACH_REVERSE(np, &head, tailhead, entries)
-+        printf("%i\en", np->data);
-+                                            /* TailQ Deletion. */
-+    n1 = TAILQ_FIRST(&head);
-+    while (n1 != NULL) {
-+        n2 = TAILQ_NEXT(n1, entries);
-+        free(n1);
-+        n1 = n2;
-+    }
-+    TAILQ_INIT(&head);
-+
-+    exit(EXIT_SUCCESS);
-+}
-+.Ed
+ .EX
+ #include <stddef.h>
+@@ -398,3 +433,5 @@ main(void)
+ }
+ .EE
  .SH SEE ALSO
++.BR insque (3),
++.BR queue (3)
 -- 
 2.28.0
 
