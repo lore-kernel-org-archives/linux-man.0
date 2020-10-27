@@ -7,87 +7,108 @@ X-Spam-Status: No, score=-11.4 required=3.0 tests=BAYES_00,DKIMWL_WL_MED,
 	MAILING_LIST_MULTI,SPF_HELO_NONE,SPF_PASS,USER_IN_DEF_DKIM_WL autolearn=no
 	autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 35C4AC56202
-	for <linux-man@archiver.kernel.org>; Tue, 27 Oct 2020 10:36:08 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id A0920C56201
+	for <linux-man@archiver.kernel.org>; Tue, 27 Oct 2020 10:39:58 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.kernel.org (Postfix) with ESMTP id CDBB422264
-	for <linux-man@archiver.kernel.org>; Tue, 27 Oct 2020 10:36:07 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTP id 3A5ED20829
+	for <linux-man@archiver.kernel.org>; Tue, 27 Oct 2020 10:39:58 +0000 (UTC)
 Authentication-Results: mail.kernel.org;
-	dkim=pass (2048-bit key) header.d=google.com header.i=@google.com header.b="Bg0yRl3D"
+	dkim=pass (2048-bit key) header.d=google.com header.i=@google.com header.b="SX3vumt+"
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S2898480AbgJ0KgG (ORCPT <rfc822;linux-man@archiver.kernel.org>);
-        Tue, 27 Oct 2020 06:36:06 -0400
-Received: from mail-lf1-f67.google.com ([209.85.167.67]:41733 "EHLO
-        mail-lf1-f67.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S2898468AbgJ0KgF (ORCPT
-        <rfc822;linux-man@vger.kernel.org>); Tue, 27 Oct 2020 06:36:05 -0400
-Received: by mail-lf1-f67.google.com with SMTP id 126so1640631lfi.8
-        for <linux-man@vger.kernel.org>; Tue, 27 Oct 2020 03:36:03 -0700 (PDT)
+        id S2898131AbgJ0K2v (ORCPT <rfc822;linux-man@archiver.kernel.org>);
+        Tue, 27 Oct 2020 06:28:51 -0400
+Received: from mail-lj1-f194.google.com ([209.85.208.194]:32911 "EHLO
+        mail-lj1-f194.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S2898049AbgJ0K2u (ORCPT
+        <rfc822;linux-man@vger.kernel.org>); Tue, 27 Oct 2020 06:28:50 -0400
+Received: by mail-lj1-f194.google.com with SMTP id c21so1168209ljj.0
+        for <linux-man@vger.kernel.org>; Tue, 27 Oct 2020 03:28:49 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=google.com; s=20161025;
         h=mime-version:references:in-reply-to:from:date:message-id:subject:to
          :cc;
-        bh=mDAK9Qmkus2JuFVmISrLkJzFGr6N2n2S3A2eNKiZQ80=;
-        b=Bg0yRl3DQQJVxqp9z1MVtlyenRDUqs8aPuoR+xoioHWwUWs0lLufTQ0M8jBvgOSIIc
-         WyfviguwJb7eVf2UjVyKrPR05ZUJbF9hf+dbjaJLfq1Uv2VIu9tph4Kf3oE+CFQIoZAI
-         Oyd+2XK2nSYUtOcFK29xdNgF+TC5C09ayB9mAe/r2rAvftzT6MiOX3csfK2KaAL2kEEh
-         t+QAlfivOX8He8/C0Kta3s0rQz+3ri+d/JFFoQmKw8e6hW9h2vSJNV7BjzLovAjAL7Ep
-         w310lf/AxYh0alfxlvPz+OW5hevPCYRk9fnNgsPYOQC8q86pup6ZK3hd9vCYw3tWMSCX
-         +ahA==
+        bh=SXBs8vJX4cJod5E0ma8hUPOwIJojpK61dnpKV/ODZKw=;
+        b=SX3vumt+l2xFwFJ7RtGU6f2QwqvLXBNvJIBGPSr2ScNXfHRvXmCpg0n+1g5TYU5nLS
+         er6t1l0zNORBj09H+ZooUZPlhEvAKaZMbyK0tHvjx0xf52Lc9zV+/VxaRuXfwO4j3DZS
+         BSNoLT8j8uzFqjMddbNAbinjHbTmVWxpugf1ax7hBpEqrp2fvnzsaWEb4iG/OB2c4AIp
+         FrLQX+f5C4iZYd6tWM5RnEW7S020S60vUQngFeSZlbJMHUEJWPe4WaELOPFP4YaGQrF2
+         Er58dEZ1XpSNCN8LI1ddVAiSEzdRCBcuY84l0Wi5OvgFYxs5XmBA8iYYSQdbkdikXUET
+         gTzw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
         h=x-gm-message-state:mime-version:references:in-reply-to:from:date
          :message-id:subject:to:cc;
-        bh=mDAK9Qmkus2JuFVmISrLkJzFGr6N2n2S3A2eNKiZQ80=;
-        b=m+b7pE+ud4SkhIv3qA4bEF1l1DBSS+OIsu7i97o3ftZbYaQz6m5ntduo+gMJyvcCrD
-         xcT8HUSmF7YmOanhStTQ6BDmd0cC4DZtkNfOOTmcMKKVcjazdxEivRWwIERpXcJQMopr
-         rD+TFWYN+E4CxkAxH7XA5wH4u/3MJLE73xgR1vSnz+0Uwn5VN2e1I6kiq199SV2PmJCT
-         aUGMOFX2DFttmVHScwAfp0U69mi9eE7Qut3Z3o9/vhvSMmwbLrcsbDVMP1v+ewfFetGj
-         RH1ja9IkOJoQfW0UtOnfbC/yiCxjKEuEWiheEBdsw/JEalQIzvp8jAeEru5YMwn0WD7l
-         0YFQ==
-X-Gm-Message-State: AOAM532YG+nUbkUkRB3J4dl6MHE/VmVQONXBx2GWaJ//2cGlZLcMcDRu
-        SZCaJEL55LTnGGpGONwGFxPATA3LataHgMsqt2pS4ZsIa6E=
-X-Google-Smtp-Source: ABdhPJzzd0v9qutxuBdKKI7KWhwYgFAlqxH6SXNpsTX8Meps08NuGo/cq13wdOHWuN7X4eo0Or1tURBcsH7krfoPslg=
-X-Received: by 2002:a19:e308:: with SMTP id a8mr587547lfh.573.1603794962371;
- Tue, 27 Oct 2020 03:36:02 -0700 (PDT)
+        bh=SXBs8vJX4cJod5E0ma8hUPOwIJojpK61dnpKV/ODZKw=;
+        b=C1nOBNhgUc5c9bqUs2hX3d+HhjNkFYoWadpo/6ejoce/opnF+3BGVhHTDdM8jnEbvm
+         wTq3y/Swmgm0wOb2VV5MaMT58jOBZ0QMZuz0lXiPGza45ytlM6NQl7vKhJ35KL/AY/+k
+         m/p7+0ZBkimo+XOlxLTkTiskq2WJp1Bk+IR3D0zHB9s1JNAHNQG4gGx9zJ5Pq5AplfML
+         P8J6DtpWSuv5UCbnHcsmiBq8R1mFKyO/P8B/Nk2IabIvNF7eCGgn9H0FCY8jwqYdB7F5
+         Sc5lNJ1OzTxot1rVNvQPx25QrDijP9QHIEThmEmR6NPBmWfcYUsrNo84i54gxJwWLrld
+         6bcg==
+X-Gm-Message-State: AOAM530cVtqK2V2rGOCnSdWfj62y0W6ajc4CXSNSSRDdNp9FdyVrpkKl
+        vre3fkAU6ufis5vcbeNIU65SmGFlG6S9Cl0+AKNfKQ==
+X-Google-Smtp-Source: ABdhPJxJshhNft3hUOxXAULUlOUPgHVANJYgBC/Mm8PWirgk1D2JwvX0yuxEiO1qIxFs4Z4pw393eScZt+DPrsMeX1c=
+X-Received: by 2002:a2e:9c84:: with SMTP id x4mr750615lji.326.1603794527981;
+ Tue, 27 Oct 2020 03:28:47 -0700 (PDT)
 MIME-Version: 1.0
-References: <20201012114940.1317510-1-jannh@google.com> <CAG48ez17=x9eHLGR-Uyx3xsVJv3W=4WsTs3HG5Fam5UP=CWXbQ@mail.gmail.com>
- <0a090c14-6b70-4284-bb2d-4fbfd1146aaf@gmail.com>
-In-Reply-To: <0a090c14-6b70-4284-bb2d-4fbfd1146aaf@gmail.com>
+References: <45f07f17-18b6-d187-0914-6f341fe90857@gmail.com>
+ <20200930150330.GC284424@cisco> <8bcd956f-58d2-d2f0-ca7c-0a30f3fcd5b8@gmail.com>
+ <20200930230327.GA1260245@cisco> <CAG48ez1VOUEHVQyo-2+uO7J+-jN5rh7=KmrMJiPaFjwCbKR1Sg@mail.gmail.com>
+ <20200930232456.GB1260245@cisco> <CAG48ez2xn+_KznEztJ-eVTsTzkbf9CVgPqaAk7TpRNAqbdaRoA@mail.gmail.com>
+ <CAG48ez3kpEDO1x_HfvOM2R9M78Ach9O_4+Pjs-vLLfqvZL+13A@mail.gmail.com>
+ <656a37b5-75e3-0ded-6ba8-3bb57b537b24@gmail.com> <CAG48ez2Uy8=Tz9k1hcr0suLPHjbJi1qUviSGzDQ-XWEGsdNU+A@mail.gmail.com>
+ <e2643168-b5d5-4d8c-947a-7895bcabc268@gmail.com>
+In-Reply-To: <e2643168-b5d5-4d8c-947a-7895bcabc268@gmail.com>
 From:   Jann Horn <jannh@google.com>
-Date:   Tue, 27 Oct 2020 11:35:35 +0100
-Message-ID: <CAG48ez2gigjfi3_nmbyhDnb2bsi9K0Yc24y7HdSNDvtumWGbiw@mail.gmail.com>
-Subject: Re: [PATCH] proc.5: Document inaccurate RSS due to SPLIT_RSS_COUNTING
+Date:   Tue, 27 Oct 2020 11:28:20 +0100
+Message-ID: <CAG48ez2Nb95ae+XwZPYRju1KO-Ps_4R6QxN6ioUhOy2Uok=uAg@mail.gmail.com>
+Subject: Re: For review: seccomp_user_notif(2) manual page
 To:     "Michael Kerrisk (man-pages)" <mtk.manpages@gmail.com>
-Cc:     linux-man <linux-man@vger.kernel.org>,
-        Linux-MM <linux-mm@kvack.org>,
-        Mark Mossberg <mark.mossberg@gmail.com>,
-        Michal Hocko <mhocko@suse.com>
+Cc:     Tycho Andersen <tycho@tycho.pizza>,
+        Sargun Dhillon <sargun@sargun.me>,
+        Kees Cook <keescook@chromium.org>,
+        Christian Brauner <christian@brauner.io>,
+        linux-man <linux-man@vger.kernel.org>,
+        lkml <linux-kernel@vger.kernel.org>,
+        Aleksa Sarai <cyphar@cyphar.com>,
+        Alexei Starovoitov <ast@kernel.org>,
+        Will Drewry <wad@chromium.org>, bpf <bpf@vger.kernel.org>,
+        Song Liu <songliubraving@fb.com>,
+        Daniel Borkmann <daniel@iogearbox.net>,
+        Andy Lutomirski <luto@amacapital.net>,
+        Linux Containers <containers@lists.linux-foundation.org>,
+        Giuseppe Scrivano <gscrivan@redhat.com>,
+        Robert Sesek <rsesek@google.com>
 Content-Type: text/plain; charset="UTF-8"
 Precedence: bulk
 List-ID: <linux-man.vger.kernel.org>
 X-Mailing-List: linux-man@vger.kernel.org
 
-On Tue, Oct 27, 2020 at 8:05 AM Michael Kerrisk (man-pages)
+On Tue, Oct 27, 2020 at 7:14 AM Michael Kerrisk (man-pages)
 <mtk.manpages@gmail.com> wrote:
-> On 10/12/20 4:52 PM, Jann Horn wrote:
-> > On Mon, Oct 12, 2020 at 1:49 PM Jann Horn <jannh@google.com> wrote:
-> >> Since 34e55232e59f7b19050267a05ff1226e5cd122a5 (introduced back in
-> >> v2.6.34), Linux uses per-thread RSS counters to reduce cache contention on
-> >> the per-mm counters. With a 4K page size, that means that you can end up
-> >> with the counters off by up to 252KiB per thread.
-> >
-> > Actually, as Mark Mossberg pointed out to me off-thread, the counters
-> > can actually be off by many times more...
+> On 10/26/20 4:54 PM, Jann Horn wrote:
+> > I'm a bit on the fence now on whether non-blocking mode should use
+> > ENOTCONN or not... I guess if we returned ENOENT even when there are
+> > no more listeners, you'd have to disambiguate through the poll()
+> > revents, which would be kinda ugly?
 >
-> So, does your patch to proc.5 need tweaking, or can I just apply as is?
+> I must confess, I'm not quite clear on which two cases you
+> are trying to distinguish. Can you elaborate?
 
-The "(up to 63 pages per thread)" would have to go, the rest should be correct.
+Let's say someone writes a program whose responsibilities are just to
+handle seccomp events and to listen on some other fd for commands. And
+this is implemented with an event loop. Then once all the target
+processes are gone (including zombie reaping), we'll start getting
+EPOLLERR.
 
-But as Michal said, if someone volunteers to get rid of this
-optimization, maybe we don't need the documentation after all? But
-that would probably require actually doing some careful
-heavily-multithreaded benchmarking on a big machine with a few dozen
-cores, or something like that, so that we know whether this
-optimization actually is unimportant enough that we can just get rid
-of it...
+If NOTIF_RECV starts returning -ENOTCONN at this point, the event loop
+can just call into the seccomp logic without any arguments; it can
+just call NOTIF_RECV one more time, see the -ENOTCONN, and terminate.
+The downside is that there's one more error code userspace has to
+special-case.
+This would be more consistent with what we'd be doing in the blocking case.
+
+If NOTIF_RECV keeps returning -ENOENT, the event loop has to also tell
+the seccomp logic what the revents are.
+
+I guess it probably doesn't really matter much.
