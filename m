@@ -2,97 +2,91 @@ Return-Path: <SRS0=qeIG=EC=vger.kernel.org=linux-man-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-7.5 required=3.0 tests=BAYES_00,DKIM_SIGNED,
-	DKIM_VALID,DKIM_VALID_AU,HEADER_FROM_DIFFERENT_DOMAINS,MAILING_LIST_MULTI,
-	NICE_REPLY_A,SPF_HELO_NONE,SPF_PASS,URIBL_BLOCKED,USER_AGENT_SANE_1
-	autolearn=no autolearn_force=no version=3.4.0
+X-Spam-Status: No, score=-12.6 required=3.0 tests=BAYES_00,DKIM_SIGNED,
+	DKIM_VALID,DKIM_VALID_AU,FREEMAIL_FORGED_FROMDOMAIN,FREEMAIL_FROM,
+	HEADER_FROM_DIFFERENT_DOMAINS,INCLUDES_PATCH,MAILING_LIST_MULTI,SIGNED_OFF_BY,
+	SPF_HELO_NONE,SPF_PASS,USER_AGENT_GIT autolearn=ham autolearn_force=no
+	version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 6CB54C4363A
-	for <linux-man@archiver.kernel.org>; Tue, 27 Oct 2020 10:43:59 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id CC559C55179
+	for <linux-man@archiver.kernel.org>; Tue, 27 Oct 2020 10:47:59 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.kernel.org (Postfix) with ESMTP id D67CD20878
-	for <linux-man@archiver.kernel.org>; Tue, 27 Oct 2020 10:43:58 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTP id 75A9C21527
+	for <linux-man@archiver.kernel.org>; Tue, 27 Oct 2020 10:47:59 +0000 (UTC)
 Authentication-Results: mail.kernel.org;
-	dkim=pass (2048-bit key) header.d=jguk.org header.i=@jguk.org header.b="agOPK23O"
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="TN7mlj6z"
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1416791AbgJ0Kn6 (ORCPT <rfc822;linux-man@archiver.kernel.org>);
-        Tue, 27 Oct 2020 06:43:58 -0400
-Received: from mail-wr1-f54.google.com ([209.85.221.54]:36551 "EHLO
-        mail-wr1-f54.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S2437150AbgJ0Kn5 (ORCPT
-        <rfc822;linux-man@vger.kernel.org>); Tue, 27 Oct 2020 06:43:57 -0400
-Received: by mail-wr1-f54.google.com with SMTP id x7so1327042wrl.3
-        for <linux-man@vger.kernel.org>; Tue, 27 Oct 2020 03:43:55 -0700 (PDT)
+        id S1418649AbgJ0Krz (ORCPT <rfc822;linux-man@archiver.kernel.org>);
+        Tue, 27 Oct 2020 06:47:55 -0400
+Received: from mail-wm1-f65.google.com ([209.85.128.65]:39825 "EHLO
+        mail-wm1-f65.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1418646AbgJ0Kru (ORCPT
+        <rfc822;linux-man@vger.kernel.org>); Tue, 27 Oct 2020 06:47:50 -0400
+Received: by mail-wm1-f65.google.com with SMTP id d3so917740wma.4
+        for <linux-man@vger.kernel.org>; Tue, 27 Oct 2020 03:47:49 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=jguk.org; s=google;
-        h=subject:from:to:cc:references:message-id:date:user-agent
-         :mime-version:in-reply-to:content-language:content-transfer-encoding;
-        bh=56wIHdF+a/0y2hltB9y7+8JLMd8NqCanDqTDPYicMog=;
-        b=agOPK23OMpgz41NbDMRGwyLfj5ZL6vCM1BHxEbuQ82pNFzP+YQJS5eWkPdrJIyFV8b
-         UAVcjHmRn0UjFSoHXsisrr+e3lvGCS8vwPapZ6dUQt5WZPgEZep0oe/68zJoSv7MflaD
-         t7oLGhZeZVkTUb6kKaJnA5nPN+YgKdjOTp2ChSTaUeeujfDlFxp7rWgHtveuuJRj0sZI
-         RqjMHIayWQjXbUbXa/x/ZMZc3OfIX2LBQK8omgOITyw3+JKKzHyh/Fb5A5x/0X6YMErI
-         P34uaqRDPDH0C2U8bdPoSlpLwr6ThW7XyukgU1jqWJubAkaMDhJjeYlfp0yQButdTQ9l
-         KnBw==
+        d=gmail.com; s=20161025;
+        h=from:to:cc:subject:date:message-id:mime-version
+         :content-transfer-encoding;
+        bh=Pb5oDjyKuX4hPBtL/CLDP9YJU9zICkJ7oPENQKaal7Q=;
+        b=TN7mlj6zfgxjhqrruggh9RzyN9MXhoUVwoqF04Hah6L5234MCy2UrrsADGeFjliGNC
+         jn6GPdfDBr+Jejlh2b0fsBGaSei1COCg5ew5+Cspf7mLYbdCMoprOgLGoFdOIpAfiowD
+         Qvw8MF1XS+DPuocHUkUhUou544vzComCMQepoZ37ZAzCZiS1LEqNdvmt35m6Nt3iXW5X
+         WGaG0Om2EcgMsB9bNc7Ng2br95T5poxpkQkMVoLUmB8+x92/UL3xc/0lQIRxzCd8UAYU
+         V2V2wkUFCNqzlJCTQWh2CzxxlAkwAOk/QdRBP2j4YuEkBOPzSbpohYelLo8yn0GIJwRm
+         R6ow==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
-        h=x-gm-message-state:subject:from:to:cc:references:message-id:date
-         :user-agent:mime-version:in-reply-to:content-language
+        h=x-gm-message-state:from:to:cc:subject:date:message-id:mime-version
          :content-transfer-encoding;
-        bh=56wIHdF+a/0y2hltB9y7+8JLMd8NqCanDqTDPYicMog=;
-        b=Zk17Bd3BRzvvOJ3rvNSihQ5XzumndcBQkxTMtHWfWuhw0K8ocEJKabsvWqB7uEBi7X
-         o9c+KOyjSDf0v1x6sgBr4YRzTP/Idcdi5Z9zz6m9pgNsorh4EfS2weBRuy9J8HqMQVN8
-         4wqS5wfhCbVzyFJq+Zco2X1ppM1YgdvCG+q2McmEjzv8GvpC8oMu9+Kc4lpvn9dgFe6/
-         XbnfyOCLVjcS9FTJJISynNE/7TGLAyu9TO+8l3/XfubG7hS7uSPjqeHqIH5fQixzKc9x
-         u5wNdhZcNGX+2O7UVffBn3M899v7W98EWgWhE16Lwkp2FZxob7Aev6DqdXzSItNbdPrM
-         E4HQ==
-X-Gm-Message-State: AOAM530kaoyTKaSwlqnfV6cNIqSkXFzMJMK1/JJe1nKcZM2SpID6JICB
-        dwOTK44EUBqx1DeNvd754JfebroU+XGbZ/Rg
-X-Google-Smtp-Source: ABdhPJzZGA+2a5/DIXE6L5/XsXCiWaMA1W2hGrgkGkYVlXyCvY4tQ+JyIcinTaQDMizfZh95uG0A1A==
-X-Received: by 2002:adf:814f:: with SMTP id 73mr2068956wrm.174.1603795434177;
-        Tue, 27 Oct 2020 03:43:54 -0700 (PDT)
-Received: from [192.168.0.12] (cpc87345-slou4-2-0-cust172.17-4.cable.virginm.net. [81.101.252.173])
-        by smtp.gmail.com with ESMTPSA id w7sm1691471wre.9.2020.10.27.03.43.53
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Tue, 27 Oct 2020 03:43:53 -0700 (PDT)
-Subject: Re: argz_create
-From:   Jonny Grant <jg@jguk.org>
+        bh=Pb5oDjyKuX4hPBtL/CLDP9YJU9zICkJ7oPENQKaal7Q=;
+        b=ryNZymRGs2XvwVgw10bAtTh7lbSITxIKPPHeX3fJ1q2oS85kGkCBk8AggZGspSqTai
+         lUEKi/Z4iCYUluhr1heThIAEKULKqP8Yh238gUy7O2jToRhfEtqA/raXlywm5mQFl9Wo
+         oAKGtb1G0TWcxE32/l6Lj0pTAlYqrA4/vajFcToDRkxIgX1/48JZu/8hpNNlw3FdZnsb
+         Sidr1JWHrbheC9GplbemEUBtURhHPkyA6itj4az9n7/WSkRqrFd2zv193k1ujTHVJWAc
+         D4fNU14sIhvK8ABZxlZJEuGJSdxK3YJ4aizztJml8BDti+sQyipIgCRyManvIIc8aqk5
+         N4dA==
+X-Gm-Message-State: AOAM533JD6z0lNrq/J4cWhdg9ODxkFaYaiW+wVYgm4UY9MjVurWTYhM2
+        Uk6V3+Nb3Rq7bYW+0R5u+XE=
+X-Google-Smtp-Source: ABdhPJyEnjl8yc/oVn48nNfE2KllH9POwg8Sm56HWQlecdjmdeUCZbSafB4R6gQaKRWCgEMMdOH3Vw==
+X-Received: by 2002:a1c:1f87:: with SMTP id f129mr2094495wmf.182.1603795668885;
+        Tue, 27 Oct 2020 03:47:48 -0700 (PDT)
+Received: from localhost.localdomain ([170.253.60.68])
+        by smtp.googlemail.com with ESMTPSA id 133sm1273787wmb.2.2020.10.27.03.47.47
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Tue, 27 Oct 2020 03:47:48 -0700 (PDT)
+From:   Alejandro Colomar <colomar.6.4.3@gmail.com>
 To:     mtk.manpages@gmail.com
-Cc:     linux-man <linux-man@vger.kernel.org>
-References: <c1b5cd3d-8be5-3845-1458-10d96ef29e11@jguk.org>
- <e795c4f3-e273-684a-012e-2b03d1f74285@gmail.com>
- <CAKgNAkjFxBQJU81YR-aBV0F6b+aZpzJmYm5ofba5dxuhYTOZpw@mail.gmail.com>
- <b9a3c017-9c36-70c7-3449-e8eccb074532@jguk.org>
-Message-ID: <0b3cc00f-e0e3-deed-f3b8-5446bcaa7742@jguk.org>
-Date:   Tue, 27 Oct 2020 10:43:52 +0000
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
- Thunderbird/68.10.0
+Cc:     Alejandro Colomar <colomar.6.4.3@gmail.com>,
+        linux-man@vger.kernel.org
+Subject: [PATCH] system_data_types: ffix
+Date:   Tue, 27 Oct 2020 11:47:37 +0100
+Message-Id: <20201027104737.26615-1-colomar.6.4.3@gmail.com>
+X-Mailer: git-send-email 2.28.0
 MIME-Version: 1.0
-In-Reply-To: <b9a3c017-9c36-70c7-3449-e8eccb074532@jguk.org>
-Content-Type: text/plain; charset=utf-8
-Content-Language: en-GB
-Content-Transfer-Encoding: 7bit
+Content-Transfer-Encoding: 8bit
 Precedence: bulk
 List-ID: <linux-man.vger.kernel.org>
 X-Mailing-List: linux-man@vger.kernel.org
 
-Hello Mtk
+Signed-off-by: Alejandro Colomar <colomar.6.4.3@gmail.com>
+---
+ man7/system_data_types.7 | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
 
-I noticed "nonzero" needs a hyphen "non-zero", could that be changed please?
+diff --git a/man7/system_data_types.7 b/man7/system_data_types.7
+index e98782545..e1e8f01ca 100644
+--- a/man7/system_data_types.7
++++ b/man7/system_data_types.7
+@@ -775,7 +775,7 @@ See also:
+ .TP
+ .I pid_t
+ .RS
+-Include
++Include:
+ .IR <sys/types.h> .
+ Alternatively,
+ .IR <fcntl.h> ,
+-- 
+2.28.0
 
-Also there is a word "nonempty" which isn't a word, and isn't needed I feel :-
-
-"Allocation of nonempty argz vectors is done using
-malloc(3), so that free(3) can be used to dispose of them again."
-
-May I ask if that be changed to :-
-
-"Allocation of argz vectors is done using
-malloc(3), so that free(3) can be used to dispose of them again."
-
-
-https://man7.org/linux/man-pages/man3/argz_create.3.html
-
-
-Kind regards
-Jonny
