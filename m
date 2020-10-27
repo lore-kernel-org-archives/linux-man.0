@@ -2,113 +2,97 @@ Return-Path: <SRS0=qeIG=EC=vger.kernel.org=linux-man-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-11.4 required=3.0 tests=BAYES_00,DKIMWL_WL_MED,
-	DKIM_SIGNED,DKIM_VALID,DKIM_VALID_AU,HEADER_FROM_DIFFERENT_DOMAINS,
-	MAILING_LIST_MULTI,SPF_HELO_NONE,SPF_PASS,USER_IN_DEF_DKIM_WL autolearn=no
-	autolearn_force=no version=3.4.0
+X-Spam-Status: No, score=-7.5 required=3.0 tests=BAYES_00,DKIM_SIGNED,
+	DKIM_VALID,DKIM_VALID_AU,HEADER_FROM_DIFFERENT_DOMAINS,MAILING_LIST_MULTI,
+	NICE_REPLY_A,SPF_HELO_NONE,SPF_PASS,URIBL_BLOCKED,USER_AGENT_SANE_1
+	autolearn=no autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id A0920C56201
-	for <linux-man@archiver.kernel.org>; Tue, 27 Oct 2020 10:39:58 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 6CB54C4363A
+	for <linux-man@archiver.kernel.org>; Tue, 27 Oct 2020 10:43:59 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.kernel.org (Postfix) with ESMTP id 3A5ED20829
-	for <linux-man@archiver.kernel.org>; Tue, 27 Oct 2020 10:39:58 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTP id D67CD20878
+	for <linux-man@archiver.kernel.org>; Tue, 27 Oct 2020 10:43:58 +0000 (UTC)
 Authentication-Results: mail.kernel.org;
-	dkim=pass (2048-bit key) header.d=google.com header.i=@google.com header.b="SX3vumt+"
+	dkim=pass (2048-bit key) header.d=jguk.org header.i=@jguk.org header.b="agOPK23O"
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S2898131AbgJ0K2v (ORCPT <rfc822;linux-man@archiver.kernel.org>);
-        Tue, 27 Oct 2020 06:28:51 -0400
-Received: from mail-lj1-f194.google.com ([209.85.208.194]:32911 "EHLO
-        mail-lj1-f194.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S2898049AbgJ0K2u (ORCPT
-        <rfc822;linux-man@vger.kernel.org>); Tue, 27 Oct 2020 06:28:50 -0400
-Received: by mail-lj1-f194.google.com with SMTP id c21so1168209ljj.0
-        for <linux-man@vger.kernel.org>; Tue, 27 Oct 2020 03:28:49 -0700 (PDT)
+        id S1416791AbgJ0Kn6 (ORCPT <rfc822;linux-man@archiver.kernel.org>);
+        Tue, 27 Oct 2020 06:43:58 -0400
+Received: from mail-wr1-f54.google.com ([209.85.221.54]:36551 "EHLO
+        mail-wr1-f54.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S2437150AbgJ0Kn5 (ORCPT
+        <rfc822;linux-man@vger.kernel.org>); Tue, 27 Oct 2020 06:43:57 -0400
+Received: by mail-wr1-f54.google.com with SMTP id x7so1327042wrl.3
+        for <linux-man@vger.kernel.org>; Tue, 27 Oct 2020 03:43:55 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=google.com; s=20161025;
-        h=mime-version:references:in-reply-to:from:date:message-id:subject:to
-         :cc;
-        bh=SXBs8vJX4cJod5E0ma8hUPOwIJojpK61dnpKV/ODZKw=;
-        b=SX3vumt+l2xFwFJ7RtGU6f2QwqvLXBNvJIBGPSr2ScNXfHRvXmCpg0n+1g5TYU5nLS
-         er6t1l0zNORBj09H+ZooUZPlhEvAKaZMbyK0tHvjx0xf52Lc9zV+/VxaRuXfwO4j3DZS
-         BSNoLT8j8uzFqjMddbNAbinjHbTmVWxpugf1ax7hBpEqrp2fvnzsaWEb4iG/OB2c4AIp
-         FrLQX+f5C4iZYd6tWM5RnEW7S020S60vUQngFeSZlbJMHUEJWPe4WaELOPFP4YaGQrF2
-         Er58dEZ1XpSNCN8LI1ddVAiSEzdRCBcuY84l0Wi5OvgFYxs5XmBA8iYYSQdbkdikXUET
-         gTzw==
+        d=jguk.org; s=google;
+        h=subject:from:to:cc:references:message-id:date:user-agent
+         :mime-version:in-reply-to:content-language:content-transfer-encoding;
+        bh=56wIHdF+a/0y2hltB9y7+8JLMd8NqCanDqTDPYicMog=;
+        b=agOPK23OMpgz41NbDMRGwyLfj5ZL6vCM1BHxEbuQ82pNFzP+YQJS5eWkPdrJIyFV8b
+         UAVcjHmRn0UjFSoHXsisrr+e3lvGCS8vwPapZ6dUQt5WZPgEZep0oe/68zJoSv7MflaD
+         t7oLGhZeZVkTUb6kKaJnA5nPN+YgKdjOTp2ChSTaUeeujfDlFxp7rWgHtveuuJRj0sZI
+         RqjMHIayWQjXbUbXa/x/ZMZc3OfIX2LBQK8omgOITyw3+JKKzHyh/Fb5A5x/0X6YMErI
+         P34uaqRDPDH0C2U8bdPoSlpLwr6ThW7XyukgU1jqWJubAkaMDhJjeYlfp0yQButdTQ9l
+         KnBw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
-        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
-         :message-id:subject:to:cc;
-        bh=SXBs8vJX4cJod5E0ma8hUPOwIJojpK61dnpKV/ODZKw=;
-        b=C1nOBNhgUc5c9bqUs2hX3d+HhjNkFYoWadpo/6ejoce/opnF+3BGVhHTDdM8jnEbvm
-         wTq3y/Swmgm0wOb2VV5MaMT58jOBZ0QMZuz0lXiPGza45ytlM6NQl7vKhJ35KL/AY/+k
-         m/p7+0ZBkimo+XOlxLTkTiskq2WJp1Bk+IR3D0zHB9s1JNAHNQG4gGx9zJ5Pq5AplfML
-         P8J6DtpWSuv5UCbnHcsmiBq8R1mFKyO/P8B/Nk2IabIvNF7eCGgn9H0FCY8jwqYdB7F5
-         Sc5lNJ1OzTxot1rVNvQPx25QrDijP9QHIEThmEmR6NPBmWfcYUsrNo84i54gxJwWLrld
-         6bcg==
-X-Gm-Message-State: AOAM530cVtqK2V2rGOCnSdWfj62y0W6ajc4CXSNSSRDdNp9FdyVrpkKl
-        vre3fkAU6ufis5vcbeNIU65SmGFlG6S9Cl0+AKNfKQ==
-X-Google-Smtp-Source: ABdhPJxJshhNft3hUOxXAULUlOUPgHVANJYgBC/Mm8PWirgk1D2JwvX0yuxEiO1qIxFs4Z4pw393eScZt+DPrsMeX1c=
-X-Received: by 2002:a2e:9c84:: with SMTP id x4mr750615lji.326.1603794527981;
- Tue, 27 Oct 2020 03:28:47 -0700 (PDT)
+        h=x-gm-message-state:subject:from:to:cc:references:message-id:date
+         :user-agent:mime-version:in-reply-to:content-language
+         :content-transfer-encoding;
+        bh=56wIHdF+a/0y2hltB9y7+8JLMd8NqCanDqTDPYicMog=;
+        b=Zk17Bd3BRzvvOJ3rvNSihQ5XzumndcBQkxTMtHWfWuhw0K8ocEJKabsvWqB7uEBi7X
+         o9c+KOyjSDf0v1x6sgBr4YRzTP/Idcdi5Z9zz6m9pgNsorh4EfS2weBRuy9J8HqMQVN8
+         4wqS5wfhCbVzyFJq+Zco2X1ppM1YgdvCG+q2McmEjzv8GvpC8oMu9+Kc4lpvn9dgFe6/
+         XbnfyOCLVjcS9FTJJISynNE/7TGLAyu9TO+8l3/XfubG7hS7uSPjqeHqIH5fQixzKc9x
+         u5wNdhZcNGX+2O7UVffBn3M899v7W98EWgWhE16Lwkp2FZxob7Aev6DqdXzSItNbdPrM
+         E4HQ==
+X-Gm-Message-State: AOAM530kaoyTKaSwlqnfV6cNIqSkXFzMJMK1/JJe1nKcZM2SpID6JICB
+        dwOTK44EUBqx1DeNvd754JfebroU+XGbZ/Rg
+X-Google-Smtp-Source: ABdhPJzZGA+2a5/DIXE6L5/XsXCiWaMA1W2hGrgkGkYVlXyCvY4tQ+JyIcinTaQDMizfZh95uG0A1A==
+X-Received: by 2002:adf:814f:: with SMTP id 73mr2068956wrm.174.1603795434177;
+        Tue, 27 Oct 2020 03:43:54 -0700 (PDT)
+Received: from [192.168.0.12] (cpc87345-slou4-2-0-cust172.17-4.cable.virginm.net. [81.101.252.173])
+        by smtp.gmail.com with ESMTPSA id w7sm1691471wre.9.2020.10.27.03.43.53
+        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+        Tue, 27 Oct 2020 03:43:53 -0700 (PDT)
+Subject: Re: argz_create
+From:   Jonny Grant <jg@jguk.org>
+To:     mtk.manpages@gmail.com
+Cc:     linux-man <linux-man@vger.kernel.org>
+References: <c1b5cd3d-8be5-3845-1458-10d96ef29e11@jguk.org>
+ <e795c4f3-e273-684a-012e-2b03d1f74285@gmail.com>
+ <CAKgNAkjFxBQJU81YR-aBV0F6b+aZpzJmYm5ofba5dxuhYTOZpw@mail.gmail.com>
+ <b9a3c017-9c36-70c7-3449-e8eccb074532@jguk.org>
+Message-ID: <0b3cc00f-e0e3-deed-f3b8-5446bcaa7742@jguk.org>
+Date:   Tue, 27 Oct 2020 10:43:52 +0000
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
+ Thunderbird/68.10.0
 MIME-Version: 1.0
-References: <45f07f17-18b6-d187-0914-6f341fe90857@gmail.com>
- <20200930150330.GC284424@cisco> <8bcd956f-58d2-d2f0-ca7c-0a30f3fcd5b8@gmail.com>
- <20200930230327.GA1260245@cisco> <CAG48ez1VOUEHVQyo-2+uO7J+-jN5rh7=KmrMJiPaFjwCbKR1Sg@mail.gmail.com>
- <20200930232456.GB1260245@cisco> <CAG48ez2xn+_KznEztJ-eVTsTzkbf9CVgPqaAk7TpRNAqbdaRoA@mail.gmail.com>
- <CAG48ez3kpEDO1x_HfvOM2R9M78Ach9O_4+Pjs-vLLfqvZL+13A@mail.gmail.com>
- <656a37b5-75e3-0ded-6ba8-3bb57b537b24@gmail.com> <CAG48ez2Uy8=Tz9k1hcr0suLPHjbJi1qUviSGzDQ-XWEGsdNU+A@mail.gmail.com>
- <e2643168-b5d5-4d8c-947a-7895bcabc268@gmail.com>
-In-Reply-To: <e2643168-b5d5-4d8c-947a-7895bcabc268@gmail.com>
-From:   Jann Horn <jannh@google.com>
-Date:   Tue, 27 Oct 2020 11:28:20 +0100
-Message-ID: <CAG48ez2Nb95ae+XwZPYRju1KO-Ps_4R6QxN6ioUhOy2Uok=uAg@mail.gmail.com>
-Subject: Re: For review: seccomp_user_notif(2) manual page
-To:     "Michael Kerrisk (man-pages)" <mtk.manpages@gmail.com>
-Cc:     Tycho Andersen <tycho@tycho.pizza>,
-        Sargun Dhillon <sargun@sargun.me>,
-        Kees Cook <keescook@chromium.org>,
-        Christian Brauner <christian@brauner.io>,
-        linux-man <linux-man@vger.kernel.org>,
-        lkml <linux-kernel@vger.kernel.org>,
-        Aleksa Sarai <cyphar@cyphar.com>,
-        Alexei Starovoitov <ast@kernel.org>,
-        Will Drewry <wad@chromium.org>, bpf <bpf@vger.kernel.org>,
-        Song Liu <songliubraving@fb.com>,
-        Daniel Borkmann <daniel@iogearbox.net>,
-        Andy Lutomirski <luto@amacapital.net>,
-        Linux Containers <containers@lists.linux-foundation.org>,
-        Giuseppe Scrivano <gscrivan@redhat.com>,
-        Robert Sesek <rsesek@google.com>
-Content-Type: text/plain; charset="UTF-8"
+In-Reply-To: <b9a3c017-9c36-70c7-3449-e8eccb074532@jguk.org>
+Content-Type: text/plain; charset=utf-8
+Content-Language: en-GB
+Content-Transfer-Encoding: 7bit
 Precedence: bulk
 List-ID: <linux-man.vger.kernel.org>
 X-Mailing-List: linux-man@vger.kernel.org
 
-On Tue, Oct 27, 2020 at 7:14 AM Michael Kerrisk (man-pages)
-<mtk.manpages@gmail.com> wrote:
-> On 10/26/20 4:54 PM, Jann Horn wrote:
-> > I'm a bit on the fence now on whether non-blocking mode should use
-> > ENOTCONN or not... I guess if we returned ENOENT even when there are
-> > no more listeners, you'd have to disambiguate through the poll()
-> > revents, which would be kinda ugly?
->
-> I must confess, I'm not quite clear on which two cases you
-> are trying to distinguish. Can you elaborate?
+Hello Mtk
 
-Let's say someone writes a program whose responsibilities are just to
-handle seccomp events and to listen on some other fd for commands. And
-this is implemented with an event loop. Then once all the target
-processes are gone (including zombie reaping), we'll start getting
-EPOLLERR.
+I noticed "nonzero" needs a hyphen "non-zero", could that be changed please?
 
-If NOTIF_RECV starts returning -ENOTCONN at this point, the event loop
-can just call into the seccomp logic without any arguments; it can
-just call NOTIF_RECV one more time, see the -ENOTCONN, and terminate.
-The downside is that there's one more error code userspace has to
-special-case.
-This would be more consistent with what we'd be doing in the blocking case.
+Also there is a word "nonempty" which isn't a word, and isn't needed I feel :-
 
-If NOTIF_RECV keeps returning -ENOENT, the event loop has to also tell
-the seccomp logic what the revents are.
+"Allocation of nonempty argz vectors is done using
+malloc(3), so that free(3) can be used to dispose of them again."
 
-I guess it probably doesn't really matter much.
+May I ask if that be changed to :-
+
+"Allocation of argz vectors is done using
+malloc(3), so that free(3) can be used to dispose of them again."
+
+
+https://man7.org/linux/man-pages/man3/argz_create.3.html
+
+
+Kind regards
+Jonny
