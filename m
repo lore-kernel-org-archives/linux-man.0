@@ -2,77 +2,59 @@ Return-Path: <SRS0=qeIG=EC=vger.kernel.org=linux-man-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-7.3 required=3.0 tests=BAYES_00,DKIM_SIGNED,
-	DKIM_VALID,DKIM_VALID_AU,FREEMAIL_FORGED_FROMDOMAIN,FREEMAIL_FROM,
-	HEADER_FROM_DIFFERENT_DOMAINS,MAILING_LIST_MULTI,NICE_REPLY_A,SPF_HELO_NONE,
-	SPF_PASS,URIBL_BLOCKED,USER_AGENT_SANE_1 autolearn=no autolearn_force=no
-	version=3.4.0
+X-Spam-Status: No, score=-11.2 required=3.0 tests=BAYES_00,
+	HEADER_FROM_DIFFERENT_DOMAINS,INCLUDES_PATCH,MAILING_LIST_MULTI,SIGNED_OFF_BY,
+	SPF_HELO_NONE,SPF_PASS,URIBL_BLOCKED,USER_AGENT_SANE_1 autolearn=unavailable
+	autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id AC06BC388F9
-	for <linux-man@archiver.kernel.org>; Tue, 27 Oct 2020 16:43:47 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id B2589C55179
+	for <linux-man@archiver.kernel.org>; Tue, 27 Oct 2020 16:52:09 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.kernel.org (Postfix) with ESMTP id 617B821707
-	for <linux-man@archiver.kernel.org>; Tue, 27 Oct 2020 16:43:47 +0000 (UTC)
-Authentication-Results: mail.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="bv8rtIHJ"
+	by mail.kernel.org (Postfix) with ESMTP id 6406022202
+	for <linux-man@archiver.kernel.org>; Tue, 27 Oct 2020 16:52:09 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1802394AbgJ0Qg3 (ORCPT <rfc822;linux-man@archiver.kernel.org>);
-        Tue, 27 Oct 2020 12:36:29 -0400
-Received: from mail-wm1-f41.google.com ([209.85.128.41]:37582 "EHLO
-        mail-wm1-f41.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1802386AbgJ0PsE (ORCPT
-        <rfc822;linux-man@vger.kernel.org>); Tue, 27 Oct 2020 11:48:04 -0400
-Received: by mail-wm1-f41.google.com with SMTP id c16so1939730wmd.2
-        for <linux-man@vger.kernel.org>; Tue, 27 Oct 2020 08:48:01 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20161025;
-        h=cc:subject:to:references:from:message-id:date:user-agent
-         :mime-version:in-reply-to:content-language:content-transfer-encoding;
-        bh=RXv9UrkcLrAZvbf8fKz2jrl+pQNp9AWmIINbdB7vua0=;
-        b=bv8rtIHJqFg27XTCszDhMgbyGKSHUAT8912y/ppK99tcmi1tk6OOxslE9CHDiiDaRA
-         UivdR+ffUw8cKTi5FBtXLwXSIjDkeKlPfMF/wnJOAbBRgNp7gmk4AJAE0KthI5JcVFdK
-         DQz+EyJelA05OqWMftC3/dHvR+QiW3bbl45cWoiBbr+tqHk7fK3yHwPO/d33oZi/+nEt
-         QAZb1+PwMJ6WojdViSp2zJIktf3Jc1AqrZaa9zISLrH8O/3S0haO7bqud7zldtujkBmS
-         o9citALPPC7tSkxJIn9ZjIMQDZqTAQQ/ipZ7M0OXpGXwUegrFww7R7ESnN3YzGsJW9nB
-         t+xQ==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20161025;
-        h=x-gm-message-state:cc:subject:to:references:from:message-id:date
-         :user-agent:mime-version:in-reply-to:content-language
-         :content-transfer-encoding;
-        bh=RXv9UrkcLrAZvbf8fKz2jrl+pQNp9AWmIINbdB7vua0=;
-        b=fMQeJ58E5ze5hXYSuZK6bL2TxiSrzwmVVhbEVV09kF/wdU26HVf3luT2/bJcSKTXBa
-         GFsYVZLKC4ymYXHZFJYQ0GXjOT+/RWsolGX16ad4KzLFre8KZ/rBOKqM5gYKzrbljgcA
-         6Fp6MFsaQfVeMFAHCYrMmpRleb7ESXIpm3heGR9AR0n/Gfy5MtzeVuQXfQXqMZoeIZzO
-         3Fpzsvt53kA4bHzJK6yibDk8kcLUrLoLE28n1X91ep5nnuu/w0vkzG5W3i1aD1/KRs3v
-         /0pzQkBV3em6LRJ6+X9NQaQEbu1WxaL6Mh6nVuAFhp0zE0ujgs34VS3PXC0yPmoEGoF6
-         zjEw==
-X-Gm-Message-State: AOAM5300PKMkYMsjwdY8Q3+nKgd1mEp/EGnnfUA1S2OTTc1sqLf54JZZ
-        D/sWGdA3J9SgNAffUSdfHICrsobx/EI=
-X-Google-Smtp-Source: ABdhPJzAs0XIaKFVj0M3CdGdbx6YFdcGakoMm/PKSw3xwoNerlpxudPI7CsfluR38McW49aoU8s9nA==
-X-Received: by 2002:a05:600c:24d:: with SMTP id 13mr3175310wmj.99.1603813680571;
-        Tue, 27 Oct 2020 08:48:00 -0700 (PDT)
-Received: from ?IPv6:2001:a61:245a:d801:2e74:88ad:ef9:5218? ([2001:a61:245a:d801:2e74:88ad:ef9:5218])
-        by smtp.gmail.com with ESMTPSA id 4sm2479478wrp.58.2020.10.27.08.47.59
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Tue, 27 Oct 2020 08:47:59 -0700 (PDT)
-Cc:     mtk.manpages@gmail.com, linux-man <linux-man@vger.kernel.org>
-Subject: Re: argz_create
-To:     Jonny Grant <jg@jguk.org>
-References: <c1b5cd3d-8be5-3845-1458-10d96ef29e11@jguk.org>
- <e795c4f3-e273-684a-012e-2b03d1f74285@gmail.com>
- <CAKgNAkjFxBQJU81YR-aBV0F6b+aZpzJmYm5ofba5dxuhYTOZpw@mail.gmail.com>
- <b9a3c017-9c36-70c7-3449-e8eccb074532@jguk.org>
- <0b3cc00f-e0e3-deed-f3b8-5446bcaa7742@jguk.org>
- <ede6e5d0-53af-aacb-3bdf-95ad1ffad097@gmail.com>
- <eefb1d45-ab48-e32d-596b-43d748f192da@jguk.org>
-From:   "Michael Kerrisk (man-pages)" <mtk.manpages@gmail.com>
-Message-ID: <099d5476-da34-c62c-1626-d36e54f659c0@gmail.com>
-Date:   Tue, 27 Oct 2020 16:47:58 +0100
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
- Thunderbird/68.11.0
+        id S1813584AbgJ0QwF (ORCPT <rfc822;linux-man@archiver.kernel.org>);
+        Tue, 27 Oct 2020 12:52:05 -0400
+Received: from mga02.intel.com ([134.134.136.20]:31195 "EHLO mga02.intel.com"
+        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
+        id S1813141AbgJ0Qsb (ORCPT <rfc822;linux-man@vger.kernel.org>);
+        Tue, 27 Oct 2020 12:48:31 -0400
+IronPort-SDR: SG5A0/jqaTpytBk1TEhFegUwplx6AGZzEuGDtNpw8d1jSZz8F3wbDr8SJ8dHGAUUTOkT6Zv5ZT
+ RbBzUzlhIr3w==
+X-IronPort-AV: E=McAfee;i="6000,8403,9787"; a="155087877"
+X-IronPort-AV: E=Sophos;i="5.77,424,1596524400"; 
+   d="scan'208";a="155087877"
+X-Amp-Result: SKIPPED(no attachment in message)
+X-Amp-File-Uploaded: False
+Received: from orsmga005.jf.intel.com ([10.7.209.41])
+  by orsmga101.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 27 Oct 2020 09:48:30 -0700
+IronPort-SDR: 999f4SZCkQh4jt4PoWuERWmMbxj0LbOq6PYtsIXn9iP9rfHIhf5z3uX5jG8jw6R2AC4MZxTSGp
+ WgV7OHpJgAqg==
+X-IronPort-AV: E=Sophos;i="5.77,424,1596524400"; 
+   d="scan'208";a="535869569"
+Received: from abudanko-mobl.ccr.corp.intel.com (HELO [10.249.227.94]) ([10.249.227.94])
+  by orsmga005-auth.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 27 Oct 2020 09:48:27 -0700
+From:   Alexey Budankov <alexey.budankov@linux.intel.com>
+Subject: [PATCH v2] perf_event_open.2: update the man page with CAP_PERFMON
+ related information
+To:     "Michael Kerrisk (man-pages)" <mtk.manpages@gmail.com>
+Cc:     Arnaldo Carvalho de Melo <acme@kernel.org>,
+        Jiri Olsa <jolsa@redhat.com>,
+        Namhyung Kim <namhyung@kernel.org>,
+        Alexander Shishkin <alexander.shishkin@linux.intel.com>,
+        Peter Zijlstra <peterz@infradead.org>,
+        Ingo Molnar <mingo@redhat.com>,
+        Andi Kleen <ak@linux.intel.com>,
+        linux-man <linux-man@vger.kernel.org>,
+        "linux-security-module@vger.kernel.org" 
+        <linux-security-module@vger.kernel.org>,
+        linux-kernel <linux-kernel@vger.kernel.org>
+Organization: Intel Corp.
+Message-ID: <33c10554-c0ee-9e46-2946-67a9deac6752@linux.intel.com>
+Date:   Tue, 27 Oct 2020 19:48:25 +0300
+User-Agent: Mozilla/5.0 (Windows NT 10.0; Win64; x64; rv:78.0) Gecko/20100101
+ Thunderbird/78.4.0
 MIME-Version: 1.0
-In-Reply-To: <eefb1d45-ab48-e32d-596b-43d748f192da@jguk.org>
 Content-Type: text/plain; charset=utf-8
 Content-Language: en-US
 Content-Transfer-Encoding: 7bit
@@ -80,45 +62,105 @@ Precedence: bulk
 List-ID: <linux-man.vger.kernel.org>
 X-Mailing-List: linux-man@vger.kernel.org
 
-Hello Jonny,
 
+Extend perf_event_open 2 man page with the information about
+CAP_PERFMON capability designed to secure performance monitoring
+and observability operation in a system according to the principle
+of least privilege [1] (POSIX IEEE 1003.1e, 2.2.2.39).
 
-> However "nonempty" is not an English, or American English expression
-> we would ever use. Even "non-empty" isn't English, we'd say "not
-> empty", although in this sentence there is no need to have this at
-> all....
-> Maybe in another 50 years "nonempty" will be a word,
-> but for now it isn't, so the hyphen is needed. Same as "non-NULL"
+[1] https://sites.google.com/site/fullycapable/, posix_1003.1e-990310.pdf
 
-But "nonempty" has been a word for a long, long time.
-As in "nonempty set", a term you'd use in maths any day.
+Signed-off-by: Alexey Budankov <alexey.budankov@linux.intel.com>
+---
+ man2/perf_event_open.2 | 32 ++++++++++++++++++++++++++++++--
+ 1 file changed, 30 insertions(+), 2 deletions(-)
 
-"non-empty" (with a hyphen) occurs dozens of times in the 
-POSIX standard, just to take an example close to home.
-
-Now, one may argue the point about the hyphen, but
-re "non" vs "non-" see, for example,
-https://www.chicagomanualofstyle.org/qanda/data/faq/topics/HyphensEnDashesEmDashes/faq0079.html
-
-Opinions obviously differ, but the tendency in English
-is that thyphens are going away in these cases. I think CMoS
-has got it right.
-
-Things like "non-NULL" are exceptional, and it's because
-"NULL" is a keyword in C.
-
-Now, as to whether that word "nonempty" is even needed
-in that sentence, I am not sure. Presumably the point isto
-contrast with the "(NULL,0)" tuple mentioned in the
-preceding sentence. In that sense, it's possibly a helpful
-word, though I'm not sure it's necessary.
-
-Thanks,
-
-Michael
-
-
+diff --git a/man2/perf_event_open.2 b/man2/perf_event_open.2
+index 4827a359d..9810bc554 100644
+--- a/man2/perf_event_open.2
++++ b/man2/perf_event_open.2
+@@ -97,6 +97,8 @@ when running on the specified CPU.
+ .BR "pid == \-1" " and " "cpu >= 0"
+ This measures all processes/threads on the specified CPU.
+ This requires
++.B CAP_PERFMON
++(since Linux 5.8) or
+ .B CAP_SYS_ADMIN
+ capability or a
+ .I /proc/sys/kernel/perf_event_paranoid
+@@ -108,9 +110,11 @@ This setting is invalid and will return an error.
+ When
+ .I pid
+ is greater than zero, permission to perform this system call
+-is governed by a ptrace access mode
++is governed by
++.B CAP_PERFMON
++(since Linux 5.9) and a ptrace access mode
+ .B PTRACE_MODE_READ_REALCREDS
+-check; see
++check on older Linux versions; see
+ .BR ptrace (2).
+ .PP
+ The
+@@ -2925,6 +2929,8 @@ to hold the result.
+ This allows attaching a Berkeley Packet Filter (BPF)
+ program to an existing kprobe tracepoint event.
+ You need
++.B CAP_PERFMON
++(since Linux 5.8) or
+ .B CAP_SYS_ADMIN
+ privileges to use this ioctl.
+ .IP
+@@ -2967,6 +2973,8 @@ have multiple events attached to a tracepoint.
+ Querying this value on one tracepoint event returns the id
+ of all BPF programs in all events attached to the tracepoint.
+ You need
++.B CAP_PERFMON
++(since Linux 5.8) or
+ .B CAP_SYS_ADMIN
+ privileges to use this ioctl.
+ .IP
+@@ -3175,6 +3183,8 @@ it was expecting.
+ .TP
+ .B EACCES
+ Returned when the requested event requires
++.B CAP_PERFMON
++(since Linux 5.8) or
+ .B CAP_SYS_ADMIN
+ permissions (or a more permissive perf_event paranoid setting).
+ Some common cases where an unprivileged process
+@@ -3296,6 +3306,8 @@ setting is specified.
+ It can also happen, as with
+ .BR EACCES ,
+ when the requested event requires
++.B CAP_PERFMON
++(since Linux 5.8) or
+ .B CAP_SYS_ADMIN
+ permissions (or a more permissive perf_event paranoid setting).
+ This includes setting a breakpoint on a kernel address,
+@@ -3326,6 +3338,22 @@ The official way of knowing if
+ support is enabled is checking
+ for the existence of the file
+ .IR /proc/sys/kernel/perf_event_paranoid .
++.PP
++.B CAP_PERFMON
++capability (since Linux 5.8) provides secure approach to
++performance monitoring and observability operations in a system
++according to the principal of least privilege (POSIX IEEE 1003.1e).
++Accessing system performance monitoring and observability operations
++using
++.B CAP_PERFMON
++rather than the much more powerful
++.B CAP_SYS_ADMIN
++excludes chances to misuse credentials and makes operations more secure.
++.B CAP_SYS_ADMIN
++usage for secure system performance monitoring and observability
++is discouraged with respect to
++.B CAP_PERFMON
++capability.
+ .SH BUGS
+ The
+ .B F_SETOWN_EX
 -- 
-Michael Kerrisk
-Linux man-pages maintainer; http://www.kernel.org/doc/man-pages/
-Linux/UNIX System Programming Training: http://man7.org/training/
+2.24.1
+
