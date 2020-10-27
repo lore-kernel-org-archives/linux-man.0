@@ -2,108 +2,76 @@ Return-Path: <SRS0=qeIG=EC=vger.kernel.org=linux-man-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-7.3 required=3.0 tests=BAYES_00,DKIM_SIGNED,
-	DKIM_VALID,DKIM_VALID_AU,FREEMAIL_FORGED_FROMDOMAIN,FREEMAIL_FROM,
+X-Spam-Status: No, score=-7.4 required=3.0 tests=BAYES_00,
 	HEADER_FROM_DIFFERENT_DOMAINS,MAILING_LIST_MULTI,NICE_REPLY_A,SPF_HELO_NONE,
 	SPF_PASS,USER_AGENT_SANE_1 autolearn=no autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 3A67DC4363A
-	for <linux-man@archiver.kernel.org>; Tue, 27 Oct 2020 10:27:06 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id A8C76C4363A
+	for <linux-man@archiver.kernel.org>; Tue, 27 Oct 2020 10:35:50 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.kernel.org (Postfix) with ESMTP id CE42722263
-	for <linux-man@archiver.kernel.org>; Tue, 27 Oct 2020 10:27:05 +0000 (UTC)
-Authentication-Results: mail.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="lQ9Y+xCq"
+	by mail.kernel.org (Postfix) with ESMTP id 67D2622263
+	for <linux-man@archiver.kernel.org>; Tue, 27 Oct 2020 10:35:50 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S2898093AbgJ0K1E (ORCPT <rfc822;linux-man@archiver.kernel.org>);
-        Tue, 27 Oct 2020 06:27:04 -0400
-Received: from mail-wm1-f67.google.com ([209.85.128.67]:50311 "EHLO
-        mail-wm1-f67.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S2898088AbgJ0K1E (ORCPT
-        <rfc822;linux-man@vger.kernel.org>); Tue, 27 Oct 2020 06:27:04 -0400
-Received: by mail-wm1-f67.google.com with SMTP id 13so838615wmf.0
-        for <linux-man@vger.kernel.org>; Tue, 27 Oct 2020 03:27:02 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20161025;
-        h=subject:to:cc:references:from:message-id:date:user-agent
-         :mime-version:in-reply-to:content-language:content-transfer-encoding;
-        bh=E0IvkJpeb17WVVy1YAWAp3rH+0DoT1wqD/wM6BAm3Fs=;
-        b=lQ9Y+xCqB2lGSWPDXKif9SN84cWw9/qiTzPtw6PlaDK+TF2XRr2WP8Kl1m5OGnTqaT
-         pcoNEcIlLk2tb6D/YoRchfPQsWan7s0umF8EW8kM5IjDV7POJ8qkYho7DehZOSE/ml3S
-         esHLt++QBbjrY56iYc2/KqwV6LckhTcSt/bfMJ/Pi1UfaB4d0UbE99ijaLetwmTuXx1i
-         mAFn4eflL+qrmj7+wrKPbeSpbm7XVCipOxI+qN1d0YxhlKLxbG4yEaGOdv2PezeRqizc
-         D2jyjC3IxRp8m0z4F/MZD06OooAqjreBamrW8RjZo2uzZTH1PgI0FEkuB/x6bfedYmDp
-         L3XA==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20161025;
-        h=x-gm-message-state:subject:to:cc:references:from:message-id:date
-         :user-agent:mime-version:in-reply-to:content-language
-         :content-transfer-encoding;
-        bh=E0IvkJpeb17WVVy1YAWAp3rH+0DoT1wqD/wM6BAm3Fs=;
-        b=Auv7F3NZWaTTDpfuPSNz7y+B0urSosG4A+AWw6DQrVcm47u96fXo8mMz5q0Mb1Ksg+
-         miE6cx5gt/2SRq+bpyWZZPJzL7qU73c7g5bG4BRBNBmcFVDqZpnGOIkbDeBdGX/EuoQD
-         /mfMXAA9+7JaSEaYr8934QuIUvpHVVI22Zlvf0TtaOKsvVCtxEYoCYYmXcXeVzs71fdH
-         SsSO+c+/2ntPVNwofdGuh4W49pUe8N5PCZYGl/b53N6aTiNesSVOE60dsn7jPXmaRcK1
-         JK7NQPV8qFy/1LhjZg6AIeX/cg62dx1xk6Bez+AghEsj6IxFQPKBVq+zoyNiEMoQjY9L
-         l2qg==
-X-Gm-Message-State: AOAM532MZ3ru/PI5VjQp86MF1uRJ6CrVmt1T86JysF9YBbrFrhcbaw2x
-        lfz3nes1+XcZuZHuhfTIPVKrdrrxLlU=
-X-Google-Smtp-Source: ABdhPJyCwH0xaGUsxTQrw8VpS5lpwYkqdLnb2hNKGblFDoa19oQy2Nd21MnEWO12Dw0Hslk7Vbwx3w==
-X-Received: by 2002:a05:600c:228b:: with SMTP id 11mr1965706wmf.147.1603794421986;
-        Tue, 27 Oct 2020 03:27:01 -0700 (PDT)
-Received: from [192.168.1.143] ([170.253.60.68])
-        by smtp.gmail.com with ESMTPSA id i33sm1533243wri.79.2020.10.27.03.27.01
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Tue, 27 Oct 2020 03:27:01 -0700 (PDT)
-Subject: Re: [PATCH] system_data_types.7: srcfix
-To:     "Michael Kerrisk (man-pages)" <mtk.manpages@gmail.com>
-Cc:     linux-man@vger.kernel.org
-References: <20201026223450.28183-1-colomar.6.4.3@gmail.com>
- <0a104f3b-fdce-f094-7dee-966378b6f760@gmail.com>
-From:   Alejandro Colomar <colomar.6.4.3@gmail.com>
-Message-ID: <38963a74-d34e-03f3-06c2-60df7451327c@gmail.com>
-Date:   Tue, 27 Oct 2020 11:27:00 +0100
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
- Thunderbird/68.12.0
+        id S2436765AbgJ0Kft (ORCPT <rfc822;linux-man@archiver.kernel.org>);
+        Tue, 27 Oct 2020 06:35:49 -0400
+Received: from mga03.intel.com ([134.134.136.65]:56360 "EHLO mga03.intel.com"
+        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
+        id S2436826AbgJ0KfC (ORCPT <rfc822;linux-man@vger.kernel.org>);
+        Tue, 27 Oct 2020 06:35:02 -0400
+IronPort-SDR: 3hvOf2C77882+MsFJ/sgFKbXFHCIAvqp5e5JTFvs8mb/oRrMhFoSV9bFwWTmF7NOT+3+5AvzXM
+ 3Mry2zcULjcA==
+X-IronPort-AV: E=McAfee;i="6000,8403,9786"; a="168157141"
+X-IronPort-AV: E=Sophos;i="5.77,423,1596524400"; 
+   d="scan'208";a="168157141"
+X-Amp-Result: SKIPPED(no attachment in message)
+X-Amp-File-Uploaded: False
+Received: from orsmga005.jf.intel.com ([10.7.209.41])
+  by orsmga103.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 27 Oct 2020 03:34:58 -0700
+IronPort-SDR: fCCXg3Uvd2xxqpaV0RemH16IHtxVBAxHECvOyV7FAdgKrTcNhZHFE8LE2tNzVQCqme50Q1C8bJ
+ 8txAYNxR0jGg==
+X-IronPort-AV: E=Sophos;i="5.77,423,1596524400"; 
+   d="scan'208";a="535734881"
+Received: from abudanko-mobl.ccr.corp.intel.com (HELO [10.249.227.194]) ([10.249.227.194])
+  by orsmga005-auth.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 27 Oct 2020 03:34:55 -0700
+Subject: Re: [PATCH v1] perf_event_open.2: update the man page with
+ CAP_PERFMON related information
+To:     mtk.manpages@gmail.com
+Cc:     linux-man <linux-man@vger.kernel.org>,
+        James Morris <jmorris@namei.org>,
+        Serge Hallyn <serge@hallyn.com>,
+        Stephen Smalley <sds@tycho.nsa.gov>,
+        Peter Zijlstra <peterz@infradead.org>,
+        Arnaldo Carvalho de Melo <acme@kernel.org>,
+        Ingo Molnar <mingo@redhat.com>,
+        Thomas Gleixner <tglx@linutronix.de>,
+        Andi Kleen <ak@linux.intel.com>,
+        linux-kernel <linux-kernel@vger.kernel.org>
+References: <18d1083d-efe5-f5f8-c531-d142c0e5c1a8@linux.intel.com>
+ <ed6f63bd-5dcb-425d-60ee-311a68756bfe@gmail.com>
+ <e3ff6ff2-8fa5-de27-3bc4-f578b6957de8@linux.intel.com>
+ <CAKgNAkirXKh6VocM7-gwvC1CoDgqV7NjpU5OSVvXJX9mwiNnBg@mail.gmail.com>
+From:   Alexey Budankov <alexey.budankov@linux.intel.com>
+Organization: Intel Corp.
+Message-ID: <7a2bbefa-651d-01c2-e0dd-03e8e4d5cef3@linux.intel.com>
+Date:   Tue, 27 Oct 2020 13:34:52 +0300
+User-Agent: Mozilla/5.0 (Windows NT 10.0; Win64; x64; rv:78.0) Gecko/20100101
+ Thunderbird/78.4.0
 MIME-Version: 1.0
-In-Reply-To: <0a104f3b-fdce-f094-7dee-966378b6f760@gmail.com>
-Content-Type: text/plain; charset=utf-8; format=flowed
+In-Reply-To: <CAKgNAkirXKh6VocM7-gwvC1CoDgqV7NjpU5OSVvXJX9mwiNnBg@mail.gmail.com>
+Content-Type: text/plain; charset=utf-8
 Content-Language: en-US
 Content-Transfer-Encoding: 7bit
 Precedence: bulk
 List-ID: <linux-man.vger.kernel.org>
 X-Mailing-List: linux-man@vger.kernel.org
 
-Hi Michael,
 
-On 2020-10-27 06:54, Michael Kerrisk (man-pages) wrote:
-> Hi Alex,
+On 27.10.2020 12:25, Michael Kerrisk (man-pages) wrote:
+> Hi Alexei,
 > 
-> On 10/26/20 11:34 PM, Alejandro Colomar wrote:
->> Remove comment specifying the layout of the page.
->>
->> The page has grown enough to document the layout by itself.
->> Anything that is not clear enough in the current layout
->> should follow documented conventions.
->>
->> This comment is not needed anymore.
-> 
-> I think there's still some value in retaining this comment!
-> IMO, it's not completely obvious how each type should be
-> described from simply reading the existing entries.
+> Would you be able to refresh this patch and resend please?
 
+Sure. Will do.
 
-Okay.
-I'll keep this patch in the 'rejected' branch,
-and maybe some day I'll pick it again :)
-
-> 
-> If we retain the comment, the "Notes" piece could
-> definitely be removed though.
-
-
-I'm not sure what you mean about this.
-
-Cheers,
-
-Alex
+Regards,
+Alexei
