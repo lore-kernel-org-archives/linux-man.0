@@ -8,60 +8,60 @@ X-Spam-Status: No, score=-12.6 required=3.0 tests=BAYES_00,DKIM_SIGNED,
 	SPF_HELO_NONE,SPF_PASS,USER_AGENT_GIT autolearn=ham autolearn_force=no
 	version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 7C149C5517A
+	by smtp.lore.kernel.org (Postfix) with ESMTP id E3DF3C56202
 	for <linux-man@archiver.kernel.org>; Tue, 27 Oct 2020 16:21:32 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.kernel.org (Postfix) with ESMTP id 3E9F821556
+	by mail.kernel.org (Postfix) with ESMTP id 9A8D121556
 	for <linux-man@archiver.kernel.org>; Tue, 27 Oct 2020 16:21:32 +0000 (UTC)
 Authentication-Results: mail.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="L0ZMlDrU"
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="FpnKBgCE"
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1808744AbgJ0QVb (ORCPT <rfc822;linux-man@archiver.kernel.org>);
-        Tue, 27 Oct 2020 12:21:31 -0400
-Received: from mail-wr1-f65.google.com ([209.85.221.65]:37033 "EHLO
-        mail-wr1-f65.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1808746AbgJ0QV3 (ORCPT
-        <rfc822;linux-man@vger.kernel.org>); Tue, 27 Oct 2020 12:21:29 -0400
-Received: by mail-wr1-f65.google.com with SMTP id w1so2609134wrm.4
-        for <linux-man@vger.kernel.org>; Tue, 27 Oct 2020 09:21:28 -0700 (PDT)
+        id S1808745AbgJ0QV2 (ORCPT <rfc822;linux-man@archiver.kernel.org>);
+        Tue, 27 Oct 2020 12:21:28 -0400
+Received: from mail-wm1-f67.google.com ([209.85.128.67]:51916 "EHLO
+        mail-wm1-f67.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1808740AbgJ0QV0 (ORCPT
+        <rfc822;linux-man@vger.kernel.org>); Tue, 27 Oct 2020 12:21:26 -0400
+Received: by mail-wm1-f67.google.com with SMTP id v5so1946524wmh.1
+        for <linux-man@vger.kernel.org>; Tue, 27 Oct 2020 09:21:25 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=gmail.com; s=20161025;
         h=from:to:cc:subject:date:message-id:in-reply-to:references
          :mime-version:content-transfer-encoding;
-        bh=YBEbTSbmKWImcwfQ+AAdKi1H8P/aEwwIKbQuJfbNp2g=;
-        b=L0ZMlDrURSWFM2Fj1MG2gBWxT3M2lSQRZRDDMsk3xpMEmV0u9dnyE65fOPmq3IeKGm
-         KuLppNDEVMPmdhH5tSAkNvJnehH8SkILblHQd7gy50MGmSmMtiqlkyCudsBUuvHaJMdG
-         RNK8d7NqJ+nD4HnL3b+y5iCGifnrckNL2595znVvhikm824T0Fdn/+0VhR4gsH/YLohI
-         nTzMetDpUBSbhcn6DQfm+DEijiLhSJliejAfXfF7rf8CSo224uyi43LK0dAxzvqaU02c
-         UkJ0Ivla9LjyTwTnPdaoZpNSWyqIfUiGhXGVXGSnhRFWOOOnmU5LLzpe/PFvE3KgCINE
-         97tA==
+        bh=s1Qjc7zCz9cRXXt+u9A5WHRxwvzqFmgVkghJJ0OwGsM=;
+        b=FpnKBgCEse7bSmiLlXjJfDMqCYTplYgEbN4AebkIsNbc7KGOhSBFhBFvitiD+he1jZ
+         TCMuCLwXgBUofZYOXxtWoMQewdaC7bxt6MnjZZEkRWjbYxM3y0ZqJWTLVf8hCwPxKe9y
+         SuwRVO9Ary8eXjOH+eeKSuYq5CCqjsPKIH1tihr25MLn9XmI/2akTvd/9MHLzMKzYvFk
+         U9UXvLTvXtesju+SaXe6sIQLEkEAkW9ZzTCl+1Hr2jsI41be96LirurV9fnoihdP10oi
+         z2r5TIpHU1x3xGPvyNxyVxQWvNzQYsvlJiOqQfkoOPiafe9ebAm68o3QV0141hlVQRhG
+         oUpw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
         h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
          :references:mime-version:content-transfer-encoding;
-        bh=YBEbTSbmKWImcwfQ+AAdKi1H8P/aEwwIKbQuJfbNp2g=;
-        b=VGMfanWH4IgNRUOfxlCKI9Y+qeoHS3ki9hj2PdkseQpPo4sOXpPVfIDuD2ZLc3l0gx
-         SNxLAA6CMwXzPl9d8LRWy/Rpt7jM6ES9CC3T42/bNpAcBJ+z7SUIS/o8kCT020p9NMoU
-         tA3tPw2Vtk6QjhqfQ2vaeCDokDuI5JoTQyAkXSbu5cUBQpX7yvuuZr19J3sxR4ARH+g1
-         3IiNIBW7AU6vL5w0lUOXHZjOl6lwG3N2S3idT5P8whrlNf94jY3WMug+pC3QsVoQpQQk
-         //utL8FGs+mcTomBgZxDI43OyDi17FqxB28PmAt512/FQiMm5k2GsvthYTmPYmqUqXaV
-         ZeFA==
-X-Gm-Message-State: AOAM531g5Rhvcvwn/IW0hPiJ8pcw6VABuJWWslS05w9Hml6VepSxxwRC
-        yVwTimyBflmWA5G55o4vA3ikx7uh4+c=
-X-Google-Smtp-Source: ABdhPJwwXzipYMGabO2seK8pbkuvybG2AIcqVI4WvodIqgNX5L+xyUkpCzM39C1CjPzFH3QGxyxCyw==
-X-Received: by 2002:adf:fc08:: with SMTP id i8mr4039334wrr.116.1603815688053;
-        Tue, 27 Oct 2020 09:21:28 -0700 (PDT)
+        bh=s1Qjc7zCz9cRXXt+u9A5WHRxwvzqFmgVkghJJ0OwGsM=;
+        b=kE5qXimZHyEwspOpU+BKekPgReyOXnfJLFjOb63wJlZesxTlF3Zld5mU+rrf/e5Qe7
+         gtjw6Xa0+WvPr/Ya96lYupka67JfhNDtMZWycV0039EsoG8UMf+PnfpRlYrMW/esRQdr
+         jVCr5EDzjRHE1w69RLVYwSZuIo30D0i4akbDJMoZ44oyd7o4aPIsurOrVGmcKKIQaZNf
+         6OSfQcPcWmaUqTltvsXQx9AgsqxdUBia5+6L7zlJdoS7f1zh0iMtwQ7oDKRwy+2idvIP
+         CqWM0Nq6XxkO53ETSxYiu2G2h98QNPOhMMLZfTPg9fR5WvIKtLfr5ZVXekHFJHArD14Y
+         ZrFA==
+X-Gm-Message-State: AOAM531bS/Ucbh3F8rJd5zpIwvBF0M71/XsUv+XK08bCfvJuFzdvJAWP
+        OcGO/WBFxqapDS+sBJBqBCM=
+X-Google-Smtp-Source: ABdhPJxPd8H71jpexNn+SriY32AGIt7Qx5b/YiNWWQxUNQ9fja28W9UDbgUHgQUWcXa2VYW0VvVHXA==
+X-Received: by 2002:a1c:44e:: with SMTP id 75mr3579562wme.117.1603815684763;
+        Tue, 27 Oct 2020 09:21:24 -0700 (PDT)
 Received: from localhost.localdomain ([170.253.60.68])
-        by smtp.googlemail.com with ESMTPSA id u5sm3108839wru.63.2020.10.27.09.21.27
+        by smtp.googlemail.com with ESMTPSA id u5sm3108839wru.63.2020.10.27.09.21.23
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Tue, 27 Oct 2020 09:21:27 -0700 (PDT)
+        Tue, 27 Oct 2020 09:21:24 -0700 (PDT)
 From:   Alejandro Colomar <colomar.6.4.3@gmail.com>
 To:     mtk.manpages@gmail.com
 Cc:     Alejandro Colomar <colomar.6.4.3@gmail.com>,
         linux-man@vger.kernel.org, libc-alpha@sourceware.org
-Subject: [PATCH 5/6] system_data_types.7: Add 'off64_t'
-Date:   Tue, 27 Oct 2020 17:21:13 +0100
-Message-Id: <20201027162114.47521-6-colomar.6.4.3@gmail.com>
+Subject: [PATCH 2/6] system_data_types.7: off_t: Add note about _FILE_OFFSET_BITS
+Date:   Tue, 27 Oct 2020 17:21:10 +0100
+Message-Id: <20201027162114.47521-3-colomar.6.4.3@gmail.com>
 X-Mailer: git-send-email 2.28.0
 In-Reply-To: <20201027162114.47521-1-colomar.6.4.3@gmail.com>
 References: <20201027162114.47521-1-colomar.6.4.3@gmail.com>
@@ -73,51 +73,35 @@ X-Mailing-List: linux-man@vger.kernel.org
 
 Signed-off-by: Alejandro Colomar <colomar.6.4.3@gmail.com>
 ---
- man7/system_data_types.7 | 31 +++++++++++++++++++++++++++++++
- 1 file changed, 31 insertions(+)
+ man7/system_data_types.7 | 8 +++++++-
+ 1 file changed, 7 insertions(+), 1 deletion(-)
 
 diff --git a/man7/system_data_types.7 b/man7/system_data_types.7
-index 313cf059e..0558060d3 100644
+index c02782ed8..e846de68b 100644
 --- a/man7/system_data_types.7
 +++ b/man7/system_data_types.7
-@@ -751,6 +751,37 @@ and
- .I off_t
- types in this page.
- .RE
-+.\"------------------------------------- off64_t ----------------------/
-+.TP
-+.I off64_t
-+.RS
-+.IR Include :
-+.IR <sys/types.h> .
-+.PP
-+Used for file sizes.
-+It is a 64-bit signed integer type.
-+.PP
-+.IR "Conforming to" :
-+Present in glibc.
-+It is not standardized by the C language standard nor POSIX.
-+.PP
+@@ -756,6 +756,11 @@ since POSIX.1-2008.
+ .IR "Conforming to" :
+ POSIX.1-2001 and later.
+ .PP
 +.IR Notes :
-+The feature test macro
-+.B _LARGEFILE64_SOURCE
-+has to be defined for this type to be available.
++On some architectures,
++the width of this type can be controlled with the feature test macro
++.BR _FILE_OFFSET_BITS .
 +.PP
-+.IR "See also" :
-+.BR readahead (2),
-+.BR sync_file_range (2),
-+.BR lseek64 (3),
+ .IR "See also" :
+ .\" .BR fallocate (2),
+ .BR lseek (2),
+@@ -768,7 +773,8 @@ POSIX.1-2001 and later.
+ .BR fseeko (3),
+ .\" .BR getdirentries (3),
+ .BR lockf (3),
+-.BR posix_fallocate (3)
++.BR posix_fallocate (3),
 +.BR feature_test_macros (7)
-+.PP
-+See also the
-+.I loff_t
-+and
-+.I off_t
-+types in this page.
-+.RE
- .\"------------------------------------- off_t ------------------------/
- .TP
- .I off_t
+ .PP
+ See also the
+ .I loff_t
 -- 
 2.28.0
 
