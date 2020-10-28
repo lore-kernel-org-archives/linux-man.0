@@ -1,55 +1,59 @@
-Return-Path: <SRS0=UJMj=ED=vger.kernel.org=linux-man-owner@kernel.org>
+Return-Path: <SRS0=33xd=EE=vger.kernel.org=linux-man-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-2.8 required=3.0 tests=BAYES_00,DATE_IN_PAST_12_24,
-	DKIM_SIGNED,DKIM_VALID,DKIM_VALID_AU,HEADER_FROM_DIFFERENT_DOMAINS,
-	MAILING_LIST_MULTI,SPF_HELO_NONE,SPF_PASS autolearn=no autolearn_force=no
+X-Spam-Status: No, score=-10.3 required=3.0 tests=BAYES_00,DATE_IN_PAST_12_24,
+	DKIMWL_WL_MED,DKIM_SIGNED,DKIM_VALID,DKIM_VALID_AU,
+	HEADER_FROM_DIFFERENT_DOMAINS,MAILING_LIST_MULTI,SPF_HELO_NONE,SPF_PASS,
+	URIBL_BLOCKED,USER_IN_DEF_DKIM_WL autolearn=no autolearn_force=no
 	version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 63646C4363A
-	for <linux-man@archiver.kernel.org>; Wed, 28 Oct 2020 23:45:09 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 6BEBBC4363A
+	for <linux-man@archiver.kernel.org>; Thu, 29 Oct 2020 00:05:54 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.kernel.org (Postfix) with ESMTP id 042B4207BC
-	for <linux-man@archiver.kernel.org>; Wed, 28 Oct 2020 23:45:08 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTP id 1294E207DE
+	for <linux-man@archiver.kernel.org>; Thu, 29 Oct 2020 00:05:54 +0000 (UTC)
 Authentication-Results: mail.kernel.org;
-	dkim=pass (1024-bit key) header.d=sargun.me header.i=@sargun.me header.b="OH+AqmBT"
+	dkim=pass (2048-bit key) header.d=google.com header.i=@google.com header.b="HFAjXWqA"
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1731362AbgJ1XnO (ORCPT <rfc822;linux-man@archiver.kernel.org>);
-        Wed, 28 Oct 2020 19:43:14 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:39582 "EHLO
+        id S1725951AbgJ2AEM (ORCPT <rfc822;linux-man@archiver.kernel.org>);
+        Wed, 28 Oct 2020 20:04:12 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:42814 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1726297AbgJ1XnN (ORCPT
-        <rfc822;linux-man@vger.kernel.org>); Wed, 28 Oct 2020 19:43:13 -0400
-Received: from mail-ej1-x641.google.com (mail-ej1-x641.google.com [IPv6:2a00:1450:4864:20::641])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id AC3E9C0613CF
-        for <linux-man@vger.kernel.org>; Wed, 28 Oct 2020 16:43:12 -0700 (PDT)
-Received: by mail-ej1-x641.google.com with SMTP id gs25so1386810ejb.1
-        for <linux-man@vger.kernel.org>; Wed, 28 Oct 2020 16:43:12 -0700 (PDT)
+        with ESMTP id S2390741AbgJ2ADY (ORCPT
+        <rfc822;linux-man@vger.kernel.org>); Wed, 28 Oct 2020 20:03:24 -0400
+Received: from mail-wr1-x431.google.com (mail-wr1-x431.google.com [IPv6:2a00:1450:4864:20::431])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 6483FC0613CF
+        for <linux-man@vger.kernel.org>; Wed, 28 Oct 2020 17:03:23 -0700 (PDT)
+Received: by mail-wr1-x431.google.com with SMTP id s9so879536wro.8
+        for <linux-man@vger.kernel.org>; Wed, 28 Oct 2020 17:03:23 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=sargun.me; s=google;
+        d=google.com; s=20161025;
         h=mime-version:references:in-reply-to:from:date:message-id:subject:to
          :cc;
-        bh=qt8DJxbLetO1WoXKcxRo5toKKtnSgKB5eVlWB58cOkk=;
-        b=OH+AqmBT9Kdmi64IsMGc8MSNykUCembPpixPv4zzBrzrPu4ucwFsORVaHkMGcfPA4r
-         8uCQVHV+8Wyli+9AttwM7qpv4f4tNC2hdEunrUWLLkSkWs0PWOUCa+n8YKIabHg6GLd7
-         hiwxshPZf7ZvPf+4dweotp+Ny/sGKfx7EeycI=
+        bh=AFQ11nKNwZI/oGFeZxcljdz8x6kEb8+uWHBsNPCDUO0=;
+        b=HFAjXWqAbYshDr2yDxrNzRjLAazYy3NYleGOwhPwLv1pzOgTqSzUGl4QAew8/0Ue0Z
+         UoM2bHGRSrCMkFFIE/eRm1e9A6GSJQQnBj0G0icXRTO3f42Z/TOgD2ZwXEDyH4EQzhtk
+         ywG5wEF7+x5kI5uzusYn+VP7eFH2BvWpSYX2QaSH7NVhnOuxIXe879Y+CazILhKsmJD6
+         IL/m69v/0hvM8YmGddWOL1C5qP87stMvRtBRmf4MLpcBB3WPUywYeyXiWwll/+B6xjhd
+         0IHI4V6rTlKalnDT1Hs7tkfxy9/KFXAims9NH7Xvmh8xuaLNrqF4bCuC4UhMykb0uAU1
+         +C5w==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
         h=x-gm-message-state:mime-version:references:in-reply-to:from:date
          :message-id:subject:to:cc;
-        bh=qt8DJxbLetO1WoXKcxRo5toKKtnSgKB5eVlWB58cOkk=;
-        b=qY5V2mjOWJvrRk8Smfa0P57250b0qYmpCL4uvxk3uinzQGQA9q2Qz5iasL6Ho1W2nN
-         MoSkEbnyCGpcTB3tOGbQdj3sBqCYFpBW19RTfWFC2SVye92ZWrpUBZ0eVgZEapZ1nTj4
-         7HCkzUIyzYtJhEjc1ToCi8iFiG6KEiozeh+jM0dA0BxA4aXUx3N4CPNVwcxOP3UyCOzb
-         wjTVxS2O8imEfpm4+g2ta7ixdxOMB1EbRngBkS4zgSF9LLJmvzuOs/+cpuEk+neJ5A+O
-         XSbqSiC7noSwMNns6b/WwRkSn7SPMDYHGat1M+qro3Kxu84C5mO31EsQjcsSNGqvgA/V
-         63EA==
-X-Gm-Message-State: AOAM533CmqeLnRsORxd3R/P01va75sXFJBKG4g5ijk9dD1heT66KVkbH
-        7RqFB4GX/u8jEASLxCDCt91vE8QZYquekYrDdpeumVQuGtU1gL2+
-X-Google-Smtp-Source: ABdhPJwxL/cNreEkGxZEeBkLMJW+nXtxbWJBnh3oGKara0Jkz/gJF9pPGAqnIO/XhWtV5NKiBIa/b6QweHKnigrOa6I=
-X-Received: by 2002:a50:fb06:: with SMTP id d6mr6238984edq.312.1603866735356;
- Tue, 27 Oct 2020 23:32:15 -0700 (PDT)
+        bh=AFQ11nKNwZI/oGFeZxcljdz8x6kEb8+uWHBsNPCDUO0=;
+        b=tBqZ3fNWTCSedwPoaQdcQZuanFnN9KAEUhctM/eXTEqigGdn3hbikLCiPeG2t3Wn1z
+         a+RRco7edwCE02RjYGsZJ388NU4E9+Mk2oEqE8gFvUpPHJ1zAH2kHr8eBM40+6qx6/Q/
+         CmWKfWITzOHpxH3U8Pzd9zjDMleocRCBkEO0R9enGPBad9kk7/PfxU4oAG/ViEzW5Hvr
+         PQA37Whf8Ow+f4HNMUwuRMLQqxamsegQMggiF4TlWAvhcAKqKEMJQQpTodfMIkyt4gGX
+         BEmO/e5exiONoff5YK0A2pF6je8KNXQAQACZoiMLxD0cI+b6kT/IBzdShf98wI73tJ8s
+         mLPg==
+X-Gm-Message-State: AOAM531FmGCIX26NjsnDAJ6tfIsf5ll0oi6FHqyZZgAzEoH2Q6N5IeT9
+        vv0epvqgwasRkOle4RwIbvAP3o+o5FLLcRaUaudqONpT6x8=
+X-Google-Smtp-Source: ABdhPJwVRGG3pvmn4VHogbgp0mRkC+3Vo3abv5ijmC6QlpCo8lhtrVsa4JWD3BkVHYUkQR8qg4e+R3v66NEu2I+If+A=
+X-Received: by 2002:a05:6512:1054:: with SMTP id c20mr2561887lfb.576.1603878221599;
+ Wed, 28 Oct 2020 02:43:41 -0700 (PDT)
 MIME-Version: 1.0
 References: <45f07f17-18b6-d187-0914-6f341fe90857@gmail.com>
  <20200930150330.GC284424@cisco> <8bcd956f-58d2-d2f0-ca7c-0a30f3fcd5b8@gmail.com>
@@ -58,12 +62,13 @@ References: <45f07f17-18b6-d187-0914-6f341fe90857@gmail.com>
  <CAG48ez3kpEDO1x_HfvOM2R9M78Ach9O_4+Pjs-vLLfqvZL+13A@mail.gmail.com>
  <656a37b5-75e3-0ded-6ba8-3bb57b537b24@gmail.com> <CAG48ez2Uy8=Tz9k1hcr0suLPHjbJi1qUviSGzDQ-XWEGsdNU+A@mail.gmail.com>
  <e2643168-b5d5-4d8c-947a-7895bcabc268@gmail.com> <CAG48ez2Nb95ae+XwZPYRju1KO-Ps_4R6QxN6ioUhOy2Uok=uAg@mail.gmail.com>
-In-Reply-To: <CAG48ez2Nb95ae+XwZPYRju1KO-Ps_4R6QxN6ioUhOy2Uok=uAg@mail.gmail.com>
-From:   Sargun Dhillon <sargun@sargun.me>
-Date:   Tue, 27 Oct 2020 23:31:39 -0700
-Message-ID: <CAMp4zn_Qt2MYuoLojn5ikRkr-J5yGimirjevoAvorK5wfzrBHg@mail.gmail.com>
+ <CAMp4zn_Qt2MYuoLojn5ikRkr-J5yGimirjevoAvorK5wfzrBHg@mail.gmail.com>
+In-Reply-To: <CAMp4zn_Qt2MYuoLojn5ikRkr-J5yGimirjevoAvorK5wfzrBHg@mail.gmail.com>
+From:   Jann Horn <jannh@google.com>
+Date:   Wed, 28 Oct 2020 10:43:14 +0100
+Message-ID: <CAG48ez1drOxgcpuKHiJc+khwmLvqoXfK4yBt9_KHPGQipDf6NQ@mail.gmail.com>
 Subject: Re: For review: seccomp_user_notif(2) manual page
-To:     Jann Horn <jannh@google.com>
+To:     Sargun Dhillon <sargun@sargun.me>
 Cc:     "Michael Kerrisk (man-pages)" <mtk.manpages@gmail.com>,
         Tycho Andersen <tycho@tycho.pizza>,
         Kees Cook <keescook@chromium.org>,
@@ -84,50 +89,58 @@ Precedence: bulk
 List-ID: <linux-man.vger.kernel.org>
 X-Mailing-List: linux-man@vger.kernel.org
 
-On Tue, Oct 27, 2020 at 3:28 AM Jann Horn <jannh@google.com> wrote:
->
-> On Tue, Oct 27, 2020 at 7:14 AM Michael Kerrisk (man-pages)
-> <mtk.manpages@gmail.com> wrote:
-> > On 10/26/20 4:54 PM, Jann Horn wrote:
-> > > I'm a bit on the fence now on whether non-blocking mode should use
-> > > ENOTCONN or not... I guess if we returned ENOENT even when there are
-> > > no more listeners, you'd have to disambiguate through the poll()
-> > > revents, which would be kinda ugly?
+On Wed, Oct 28, 2020 at 7:32 AM Sargun Dhillon <sargun@sargun.me> wrote:
+> On Tue, Oct 27, 2020 at 3:28 AM Jann Horn <jannh@google.com> wrote:
+> > On Tue, Oct 27, 2020 at 7:14 AM Michael Kerrisk (man-pages)
+> > <mtk.manpages@gmail.com> wrote:
+> > > On 10/26/20 4:54 PM, Jann Horn wrote:
+> > > > I'm a bit on the fence now on whether non-blocking mode should use
+> > > > ENOTCONN or not... I guess if we returned ENOENT even when there are
+> > > > no more listeners, you'd have to disambiguate through the poll()
+> > > > revents, which would be kinda ugly?
+> > >
+> > > I must confess, I'm not quite clear on which two cases you
+> > > are trying to distinguish. Can you elaborate?
 > >
-> > I must confess, I'm not quite clear on which two cases you
-> > are trying to distinguish. Can you elaborate?
+> > Let's say someone writes a program whose responsibilities are just to
+> > handle seccomp events and to listen on some other fd for commands. And
+> > this is implemented with an event loop. Then once all the target
+> > processes are gone (including zombie reaping), we'll start getting
+> > EPOLLERR.
+> >
+> > If NOTIF_RECV starts returning -ENOTCONN at this point, the event loop
+> > can just call into the seccomp logic without any arguments; it can
+> > just call NOTIF_RECV one more time, see the -ENOTCONN, and terminate.
+> > The downside is that there's one more error code userspace has to
+> > special-case.
+> > This would be more consistent with what we'd be doing in the blocking case.
+> >
+> > If NOTIF_RECV keeps returning -ENOENT, the event loop has to also tell
+> > the seccomp logic what the revents are.
+> >
+> > I guess it probably doesn't really matter much.
 >
-> Let's say someone writes a program whose responsibilities are just to
-> handle seccomp events and to listen on some other fd for commands. And
-> this is implemented with an event loop. Then once all the target
-> processes are gone (including zombie reaping), we'll start getting
-> EPOLLERR.
+> So, in practice, if you're emulating a blocking syscall (such as open,
+> perf_event_open, or any of a number of other syscalls), you probably
+> have to do it on a separate thread in the supervisor because you want
+> to continue to be able to receive new notifications if any other process
+> generates a seccomp notification event that you need to handle.
 >
-> If NOTIF_RECV starts returning -ENOTCONN at this point, the event loop
-> can just call into the seccomp logic without any arguments; it can
-> just call NOTIF_RECV one more time, see the -ENOTCONN, and terminate.
-> The downside is that there's one more error code userspace has to
-> special-case.
-> This would be more consistent with what we'd be doing in the blocking case.
+> In addition to that, some of these syscalls are preemptible, so you need
+> to poll SECCOMP_IOCTL_NOTIF_ID_VALID to make sure that the program
+> under supervision hasn't left the syscall.
 >
-> If NOTIF_RECV keeps returning -ENOENT, the event loop has to also tell
-> the seccomp logic what the revents are.
->
-> I guess it probably doesn't really matter much.
+> If we're to implement a mechanism that makes the seccomp ioctl receive
+> non-blocking, it would be valuable to address this problem as well (getting
+> a notification when the supervisor is processing a syscall and needs to
+> preempt it). In the best case, this can be a minor inconvenience, and
+> in the worst case this can result in weird errors where you're keeping
+> resources open that the container expects to be closed.
 
-So, in practice, if you're emulating a blocking syscall (such as open,
-perf_event_open, or any of a number of other syscalls), you probably
-have to do it on a separate thread in the supervisor because you want
-to continue to be able to receive new notifications if any other process
-generates a seccomp notification event that you need to handle.
+Does "a notification" mean signals? Or would you want to have a second
+thread in userspace that poll()s for cancellation events on the
+seccomp fd and then somehow takes care of interrupting the first
+thread, or something like that?
 
-In addition to that, some of these syscalls are preemptible, so you need
-to poll SECCOMP_IOCTL_NOTIF_ID_VALID to make sure that the program
-under supervision hasn't left the syscall.
-
-If we're to implement a mechanism that makes the seccomp ioctl receive
-non-blocking, it would be valuable to address this problem as well (getting
-a notification when the supervisor is processing a syscall and needs to
-preempt it). In the best case, this can be a minor inconvenience, and
-in the worst case this can result in weird errors where you're keeping
-resources open that the container expects to be closed.
+Either way, I think your proposal goes beyond the scope of patching
+the existing weirdness, and should be a separate patch.
