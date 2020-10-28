@@ -8,63 +8,63 @@ X-Spam-Status: No, score=-12.6 required=3.0 tests=BAYES_00,DKIM_SIGNED,
 	SPF_HELO_NONE,SPF_PASS,USER_AGENT_GIT autolearn=ham autolearn_force=no
 	version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 55B69C4363A
-	for <linux-man@archiver.kernel.org>; Thu, 29 Oct 2020 00:33:15 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 6171BC4363A
+	for <linux-man@archiver.kernel.org>; Thu, 29 Oct 2020 01:02:28 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.kernel.org (Postfix) with ESMTP id E47CF20790
-	for <linux-man@archiver.kernel.org>; Thu, 29 Oct 2020 00:33:14 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTP id 0BA83206F7
+	for <linux-man@archiver.kernel.org>; Thu, 29 Oct 2020 01:02:27 +0000 (UTC)
 Authentication-Results: mail.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="ntr7VazU"
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="CqxDGYl+"
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1729524AbgJ2AdN (ORCPT <rfc822;linux-man@archiver.kernel.org>);
-        Wed, 28 Oct 2020 20:33:13 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:54512 "EHLO
+        id S1730103AbgJ2BC1 (ORCPT <rfc822;linux-man@archiver.kernel.org>);
+        Wed, 28 Oct 2020 21:02:27 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:52690 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1733151AbgJ1WXR (ORCPT
-        <rfc822;linux-man@vger.kernel.org>); Wed, 28 Oct 2020 18:23:17 -0400
-Received: from mail-wr1-x429.google.com (mail-wr1-x429.google.com [IPv6:2a00:1450:4864:20::429])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 332AEC0613D1
-        for <linux-man@vger.kernel.org>; Wed, 28 Oct 2020 15:23:17 -0700 (PDT)
-Received: by mail-wr1-x429.google.com with SMTP id a9so679278wrg.12
-        for <linux-man@vger.kernel.org>; Wed, 28 Oct 2020 15:23:17 -0700 (PDT)
+        with ESMTP id S1730422AbgJ1WMy (ORCPT
+        <rfc822;linux-man@vger.kernel.org>); Wed, 28 Oct 2020 18:12:54 -0400
+Received: from mail-wm1-x343.google.com (mail-wm1-x343.google.com [IPv6:2a00:1450:4864:20::343])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 2D4EFC0613CF
+        for <linux-man@vger.kernel.org>; Wed, 28 Oct 2020 15:12:54 -0700 (PDT)
+Received: by mail-wm1-x343.google.com with SMTP id e2so725039wme.1
+        for <linux-man@vger.kernel.org>; Wed, 28 Oct 2020 15:12:54 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=gmail.com; s=20161025;
         h=from:to:cc:subject:date:message-id:mime-version
          :content-transfer-encoding;
-        bh=7od1acnp61kz5BDkk25DiYPitQBHzX1bdBGvukqVtFg=;
-        b=ntr7VazUyZoIodl3bkvoF+MifP7NVnoVSEXiXNYPvcdmEe7pOZ8KdRYny14qcbcinK
-         2oOZoU/a/yD5hjKKclZhUtsVse4s9149cx0/seqRNPYwojKNOSJTU8lmg6I4I0y4+f1d
-         77HXvu8BL0zxaz0P2IX2OZejz+BpSXR7g5ixH0hnujoegNVe/KvIJKk4lRbvsOu3Uxwl
-         ONiwqCRUtpJy0Av+4h+3y1L5ewLfo/CufmPhdlEz0Fixmo2YhA4p2qg05xYUkj+PbY5C
-         hVBawNntcosGxPJfjSs0pdlqGP5wrkPUu73mzgcZXLeFuZ2vJU3389tCRuhIL6bU5hrJ
-         ifkQ==
+        bh=/rgXQ881ZgiP+UhCwPLc4FpKLoC72/r4afGRcUKqWRE=;
+        b=CqxDGYl+N9IRIrfDMMuMyFPtHxjBczX2QoxUi9mM3yToVnDC7yczeeBeufimHX6Jin
+         uLIURHizM+qqwHf0v0a/ebp9Nix/NX/ZY83zd5mrirCxqpuhIRZZrgxRNpy0VckfWHSQ
+         qU90AApCrxqX9okbGAJ4kRU7HMOiJNT3a9zMlWxrq4ksPgSNF2g8fdFFIpo2crFTzELX
+         oSx+819aSl24gQFoaX04JAxnysG0oBMAXiF6LrpDYqSfxK20+TVEGPq1LO8uLO6u9rVv
+         6LvtzJ6E6KNHxA/Q2BLQFRR8FARmGH/OE3cueg94LSV2LWSbhNK/qxX1kgzAYy2jSANz
+         jnfQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
         h=x-gm-message-state:from:to:cc:subject:date:message-id:mime-version
          :content-transfer-encoding;
-        bh=7od1acnp61kz5BDkk25DiYPitQBHzX1bdBGvukqVtFg=;
-        b=M9st8JBYsIwM1ytKTAFO3pfZxnfzFamq7BuAQVYuOgHxp8bjjJQRf99omtFcSaTcGn
-         iQUv7gGgPxnW2+Dnb9+OgxZOYZY+MgHnc3SGg9EnCID0AebiHKB6a0ZdX1Yc+OU/SDTW
-         p5epbMcudfIOnqCVmBQEA8B/0b7KTrbvhY2i1w7afScfTMtVza38EkmqKwnpAmXQ4n8G
-         sl0pYTvT6r8dpUyMDp1qlQE9WMJEvI5mSf8tOxqEbRA11+ILm9nMifYhZzaLqfJ0YvjC
-         0pMFOKAVnTROOaJrob5N7ymtq+PQD5VDImc1JUAlB9q34TjsRzI6PlFT5/ZTYdhPO21C
-         lvqg==
-X-Gm-Message-State: AOAM531J912DcBjX++6BpPMJidsVdUCJkP1Eg+Ef4YqnFdIDgmQDR6fk
-        shgwEVI3ae9pyjl2lQFXmErwlmpILPI=
-X-Google-Smtp-Source: ABdhPJyoS+wCpuHQBuHSVFPsexhVf3ELzrcKOo5XOhzRP+xQc1ZOumm4M6eB9OePDFJiXlCXLr8MnA==
-X-Received: by 2002:adf:814f:: with SMTP id 73mr1118589wrm.174.1603914776445;
-        Wed, 28 Oct 2020 12:52:56 -0700 (PDT)
+        bh=/rgXQ881ZgiP+UhCwPLc4FpKLoC72/r4afGRcUKqWRE=;
+        b=jhgIWhegmOXsRxhLTY8DgGkv0Oob5nbkdgqjvzHMaO8yxh+wNT/Q2gQJtoO9wvoY75
+         SUy9z3zEcpCVnWe1jI5XQqKN6NUZf5+zKpRzYSd2TI+X38sVwY3apBkHBH7TPl5TCUu7
+         3F/J9A697qbIGaa6+y6tG2f3W4vF8QB5C5XuxD787vju+wTPA6V5SHvcXewjKQUc/LM0
+         hhd2HAkUzyWHsTD+TzhYZXF2dE38/RrFqOiobkcdNAeuTnlr4URxK0GVBLNZ8KiSnsWy
+         tCUStRAeuX3fYle4T8yKVb6HGHyN01hCRAgZosQhwhhZ2whn8gVvXyJjI7Zd5LioquZe
+         Co6Q==
+X-Gm-Message-State: AOAM530OChxI9acdOKvoH8rTF5bFq0nmIdiwSJ5kDL/WrnDvFzRic63h
+        mX2YZNxnSp/1/QbhFg50gxp/zM7JDa8=
+X-Google-Smtp-Source: ABdhPJyOaLDkOOpEbQumhFQZt8yQTAM8A430i2vKa2uZlFWW6zF/+v4ePWI0N3TgEGXrQ8FTOrLh+Q==
+X-Received: by 2002:a7b:c0d3:: with SMTP id s19mr423772wmh.102.1603913576688;
+        Wed, 28 Oct 2020 12:32:56 -0700 (PDT)
 Received: from localhost.localdomain ([170.253.60.68])
-        by smtp.googlemail.com with ESMTPSA id v24sm375119wrv.80.2020.10.28.12.52.54
+        by smtp.googlemail.com with ESMTPSA id l3sm692727wmg.32.2020.10.28.12.32.55
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Wed, 28 Oct 2020 12:52:55 -0700 (PDT)
+        Wed, 28 Oct 2020 12:32:55 -0700 (PDT)
 From:   Alejandro Colomar <colomar.6.4.3@gmail.com>
 To:     mtk.manpages@gmail.com
 Cc:     Alejandro Colomar <colomar.6.4.3@gmail.com>,
-        linux-man@vger.kernel.org, libc-alpha@sourceware.org
-Subject: [PATCH] getdents.2: SYNOPSIS: Add missing header and feature test macro
-Date:   Wed, 28 Oct 2020 20:51:25 +0100
-Message-Id: <20201028195123.123843-1-colomar.6.4.3@gmail.com>
+        linux-man@vger.kernel.org
+Subject: [PATCH] clock_getres.2: EXAMPLES: Use 'const' when appropriate
+Date:   Wed, 28 Oct 2020 20:32:45 +0100
+Message-Id: <20201028193244.115257-1-colomar.6.4.3@gmail.com>
 X-Mailer: git-send-email 2.28.0
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
@@ -74,24 +74,22 @@ X-Mailing-List: linux-man@vger.kernel.org
 
 Signed-off-by: Alejandro Colomar <colomar.6.4.3@gmail.com>
 ---
- man2/getdents.2 | 4 ++++
- 1 file changed, 4 insertions(+)
+ man2/clock_getres.2 | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
 
-diff --git a/man2/getdents.2 b/man2/getdents.2
-index 02790b8f7..17904ed66 100644
---- a/man2/getdents.2
-+++ b/man2/getdents.2
-@@ -35,6 +35,10 @@ getdents, getdents64 \- get directory entries
- .nf
- .BI "int getdents(unsigned int " fd ", struct linux_dirent *" dirp ,
- .BI "             unsigned int " count );
-+.PP
-+.BR "#define _GNU_SOURCE" "        /* See feature_test_macros(7) */"
-+.BR "#include <dirent.h>" "        /* See NOTES */"
-+.PP
- .BI "int getdents64(unsigned int " fd ", struct linux_dirent64 *" dirp ,
- .BI "             unsigned int " count );
- .fi
+diff --git a/man2/clock_getres.2 b/man2/clock_getres.2
+index 4bd92f861..d47b50328 100644
+--- a/man2/clock_getres.2
++++ b/man2/clock_getres.2
+@@ -476,7 +476,7 @@ CLOCK_BOOTTIME :      72691.019 (20h 11m 31s)
+ #define SECS_IN_DAY (24 * 60 * 60)
+ 
+ static void
+-displayClock(clockid_t clock, char *name, bool showRes)
++displayClock(clockid_t clock, const char *name, bool showRes)
+ {
+     struct timespec ts;
+ 
 -- 
 2.28.0
 
