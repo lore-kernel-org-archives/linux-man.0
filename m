@@ -2,97 +2,108 @@ Return-Path: <SRS0=UJMj=ED=vger.kernel.org=linux-man-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-12.6 required=3.0 tests=BAYES_00,DKIM_SIGNED,
+X-Spam-Status: No, score=-6.0 required=3.0 tests=BAYES_00,DKIM_SIGNED,
 	DKIM_VALID,DKIM_VALID_AU,FREEMAIL_FORGED_FROMDOMAIN,FREEMAIL_FROM,
-	HEADER_FROM_DIFFERENT_DOMAINS,INCLUDES_PATCH,MAILING_LIST_MULTI,SIGNED_OFF_BY,
-	SPF_HELO_NONE,SPF_PASS,USER_AGENT_GIT autolearn=ham autolearn_force=no
+	HEADER_FROM_DIFFERENT_DOMAINS,MAILING_LIST_MULTI,NICE_REPLY_A,SPF_HELO_NONE,
+	SPF_PASS,URIBL_BLOCKED,USER_AGENT_SANE_1 autolearn=no autolearn_force=no
 	version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id D68FDC5DF9D
-	for <linux-man@archiver.kernel.org>; Wed, 28 Oct 2020 23:29:16 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 59EA1C388F7
+	for <linux-man@archiver.kernel.org>; Wed, 28 Oct 2020 23:43:07 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.kernel.org (Postfix) with ESMTP id 7F16920878
-	for <linux-man@archiver.kernel.org>; Wed, 28 Oct 2020 23:29:16 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTP id 05064207DE
+	for <linux-man@archiver.kernel.org>; Wed, 28 Oct 2020 23:43:06 +0000 (UTC)
 Authentication-Results: mail.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="MmRox+Ku"
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="g2qGV66L"
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S2390330AbgJ1X3P (ORCPT <rfc822;linux-man@archiver.kernel.org>);
-        Wed, 28 Oct 2020 19:29:15 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:37334 "EHLO
+        id S1731325AbgJ1XnG (ORCPT <rfc822;linux-man@archiver.kernel.org>);
+        Wed, 28 Oct 2020 19:43:06 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:38038 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S2390353AbgJ1X3O (ORCPT
-        <rfc822;linux-man@vger.kernel.org>); Wed, 28 Oct 2020 19:29:14 -0400
-Received: from mail-wm1-x32f.google.com (mail-wm1-x32f.google.com [IPv6:2a00:1450:4864:20::32f])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 33F5EC0613CF
-        for <linux-man@vger.kernel.org>; Wed, 28 Oct 2020 16:29:14 -0700 (PDT)
-Received: by mail-wm1-x32f.google.com with SMTP id c16so835361wmd.2
-        for <linux-man@vger.kernel.org>; Wed, 28 Oct 2020 16:29:14 -0700 (PDT)
+        with ESMTP id S2390464AbgJ1Xdh (ORCPT
+        <rfc822;linux-man@vger.kernel.org>); Wed, 28 Oct 2020 19:33:37 -0400
+Received: from mail-wm1-x341.google.com (mail-wm1-x341.google.com [IPv6:2a00:1450:4864:20::341])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 2BFBDC0613CF
+        for <linux-man@vger.kernel.org>; Wed, 28 Oct 2020 16:33:37 -0700 (PDT)
+Received: by mail-wm1-x341.google.com with SMTP id v5so829024wmh.1
+        for <linux-man@vger.kernel.org>; Wed, 28 Oct 2020 16:33:37 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=gmail.com; s=20161025;
-        h=from:to:cc:subject:date:message-id:in-reply-to:references
-         :mime-version:content-transfer-encoding;
-        bh=0z9djjMmXj9bf/B4qKdBZRniBJLkKe0wl9x+zcdmqhU=;
-        b=MmRox+KulOQPh/7dtPIb0ppluapHSCW0Je9Y395SYc1KFSRkP4kKQJkJtbb94yalIT
-         y9W4wACJc72bYgSPDmk5MJfhWj3Ujh5WnadPqKTH0SlXn6eWVv/wx9QQ2wLS7J6+n8Rl
-         f/NALjXviU4AWfXDmZ/3/6eYeXM/aUuCZgHu3bxKs4oKXO2QioSu5WdBQ3hxwh5myxa3
-         jp/01i6AzOxKTv73mGqBb0V3/Pp2K72Ae1iy1ioYDOP6K85lZFkpYj3oUhgCWkz1jFG8
-         8FCgkGTWdws7WOBNE4o5RCXbHVIvTPbIhI2KSYeLRqYT3RAdk7ODqxQGJyvTLglIkJnq
-         gKSg==
+        h=cc:subject:to:references:from:message-id:date:user-agent
+         :mime-version:in-reply-to:content-language:content-transfer-encoding;
+        bh=4GUhV67b3Yr8fHVPswi7ZePcc4/VD7XMYf2aF2/3vZQ=;
+        b=g2qGV66LVYJ7OvbhWbrAI7oH/c89xPiUS7BL4c7PYdNGrtlxMajxzae23b+zSGVMD4
+         B8vk5lteUGFJRWhDUO24hq2eTifY/rYkPqusRkBIHIy3HePaRPok9JSF+VXJL+M5mmVQ
+         kmLIBf8zFCRdjY8I/8FPXfOI2JMtqsWNK9cjEfJZ2TDlPd6s6t4Q/mq9QUF+8xOrPQhB
+         nC6Sqnk2QVuJOGNTyPiIJraf+JQiYfMHFVJofZe8xN9bdeqvR0XKMSMqUlT6QBxCtuVP
+         xNqybTwIduC0o92NpLUqFbk0va/le2Lmw9427E07YFmy6iEGkIRFDEjMSgOBsVAXQb7y
+         Nrlg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
-        h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
-         :references:mime-version:content-transfer-encoding;
-        bh=0z9djjMmXj9bf/B4qKdBZRniBJLkKe0wl9x+zcdmqhU=;
-        b=PzF4DmvbY7zLTt1DP483Yfbm+hHaDPOxyQrup/SDklsqSj0Q4uAuPIffoSV24ulXJy
-         epTUbgVBhMsrWG0Hf08exngwhHiT8rUoxp80x6fOM2kcXfRQlWxEJukE8Jvv4X5/ueqF
-         uLVrOn1XYVIWpwkHuy5rOzSuNNH4rES7WoKSFMiMuMzKB53te3Q7xhWyzzGSXWE9w7g4
-         UKBcaPMgz0brHJm0kJeglybP3wscQuTQAZqn82s9izfTljPlUY5+MtvedwkooOCDQJRW
-         hI/wXao98tZTQqAcVlW+6XX4Y4cFIfpfmns4L5aks+maYznn/DrNwXbyI62LSlLnKVbG
-         KuOA==
-X-Gm-Message-State: AOAM532nSVJ8pqRhdGq9yYjFTeVw6xoBzi9PjFALCzU1kPwSC78VjNOC
-        Rqwrzv6nEBD9OWVbMN4qyjH5ekxLhLA=
-X-Google-Smtp-Source: ABdhPJz9uiCu/90G4sFlHoaXGW5rpBAM/c6rbrhEpnN+hG/anqjxGi/zRgm7hS5/2PD6u5tU8zEGtw==
-X-Received: by 2002:a1c:6154:: with SMTP id v81mr7191734wmb.20.1603877600563;
-        Wed, 28 Oct 2020 02:33:20 -0700 (PDT)
-Received: from localhost.localdomain ([170.253.60.68])
-        by smtp.googlemail.com with ESMTPSA id r18sm3631926wrj.50.2020.10.28.02.33.19
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Wed, 28 Oct 2020 02:33:19 -0700 (PDT)
-From:   Alejandro Colomar <colomar.6.4.3@gmail.com>
-To:     mtk.manpages@gmail.com
-Cc:     Alejandro Colomar <colomar.6.4.3@gmail.com>,
-        linux-man@vger.kernel.org
-Subject: [PATCH 3/3] strtol.3: EXAMPLES: Simplify errno checking (no expected change in behavior)
-Date:   Wed, 28 Oct 2020 10:33:08 +0100
-Message-Id: <20201028093308.86310-4-colomar.6.4.3@gmail.com>
-X-Mailer: git-send-email 2.28.0
-In-Reply-To: <20201028093308.86310-1-colomar.6.4.3@gmail.com>
+        h=x-gm-message-state:cc:subject:to:references:from:message-id:date
+         :user-agent:mime-version:in-reply-to:content-language
+         :content-transfer-encoding;
+        bh=4GUhV67b3Yr8fHVPswi7ZePcc4/VD7XMYf2aF2/3vZQ=;
+        b=IPzvLZL1UL1h9hiR5fCa/7wOs62LK0svqUfsKJsgZvNisIhNconnZNXiwZmrC3+0Rj
+         sEeOMHhfyArK2IiRJ3mBjy2Cy2oX2mgpuFnpqXhm7VaAkes7ib22AUvgoT5x4FCsGAvB
+         udodWIMQfl0koIL5NZ17AeMZlg0lROUMRWmgPvigFZv9ZYO74dDvCl8PNad7dqxou7Rr
+         6i2a7+sNWlXQpaVtbA6dkIH0kKhn07ohUFIYRHUABppWvuDXj2B7udDo7BlhJqrkUe3T
+         eHiKgfG7bGvo3Qnm+0shVwrhHSFnQqHI7xrpNRnQMUPwjY2ftR1fBI7JeEVnFr+LYyUn
+         bMfw==
+X-Gm-Message-State: AOAM532xYhlS+hlKm8tRyORl4hUqna6eC90W88puU95R8DhkHzTPm+Vo
+        E8TmRHoQR8IU+nuaUYD9K9C3b1+PqmE=
+X-Google-Smtp-Source: ABdhPJzs1S/BMpGFmKn6SAiwKkqKMqDSNUluUQLbhCgeJyPHVYrgJn5c4+a2v4NNcYrOnlwv+zr8UA==
+X-Received: by 2002:a1c:9d08:: with SMTP id g8mr2140277wme.171.1603880017139;
+        Wed, 28 Oct 2020 03:13:37 -0700 (PDT)
+Received: from ?IPv6:2001:a61:245a:d801:2e74:88ad:ef9:5218? ([2001:a61:245a:d801:2e74:88ad:ef9:5218])
+        by smtp.gmail.com with ESMTPSA id o4sm6172602wrv.8.2020.10.28.03.13.35
+        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+        Wed, 28 Oct 2020 03:13:36 -0700 (PDT)
+Cc:     mtk.manpages@gmail.com, linux-man@vger.kernel.org
+Subject: Re: [PATCH 0/3] Improve strtol(3) example
+To:     Alejandro Colomar <colomar.6.4.3@gmail.com>
 References: <20201028093308.86310-1-colomar.6.4.3@gmail.com>
+From:   "Michael Kerrisk (man-pages)" <mtk.manpages@gmail.com>
+Message-ID: <781c3f01-2a9d-34c8-f543-45cb772f2282@gmail.com>
+Date:   Wed, 28 Oct 2020 11:13:35 +0100
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
+ Thunderbird/68.11.0
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+In-Reply-To: <20201028093308.86310-1-colomar.6.4.3@gmail.com>
+Content-Type: text/plain; charset=utf-8
+Content-Language: en-US
+Content-Transfer-Encoding: 7bit
 Precedence: bulk
 List-ID: <linux-man.vger.kernel.org>
 X-Mailing-List: linux-man@vger.kernel.org
 
-Signed-off-by: Alejandro Colomar <colomar.6.4.3@gmail.com>
----
- man3/strtol.3 | 3 +--
- 1 file changed, 1 insertion(+), 2 deletions(-)
+On 10/28/20 10:33 AM, Alejandro Colomar wrote:
+> Hi Michael,
+> 
+> Here are a few improvements for the strtol(3) example.
 
-diff --git a/man3/strtol.3 b/man3/strtol.3
-index 35252295e..6b328fefe 100644
---- a/man3/strtol.3
-+++ b/man3/strtol.3
-@@ -273,8 +273,7 @@ main(int argc, char *argv[])
- 
-     /* Check for various possible errors */
- 
--    if ((errno == ERANGE && (val == LONG_MAX || val == LONG_MIN))
--            || (errno != 0 && val == 0)) {
-+    if (errno != 0) {
-         perror("strtol");
-         exit(EXIT_FAILURE);
-     }
+Thanks, Alex. I've applied all of these.
+
+Cheers,
+
+Michael
+
+> Cheers,
+> 
+> Alex
+> 
+> Alejandro Colomar (3):
+>   strtol.3: EXAMPLES: Delimit output string using ""
+>   strtol.3: EXAMPLES: As the default base, use special value 0
+>   strtol.3: EXAMPLES: Simplify errno checking (no expected change in
+>     behavior)
+> 
+>  man3/strtol.3 | 9 ++++-----
+>  1 file changed, 4 insertions(+), 5 deletions(-)
+> 
+
+
 -- 
-2.28.0
-
+Michael Kerrisk
+Linux man-pages maintainer; http://www.kernel.org/doc/man-pages/
+Linux/UNIX System Programming Training: http://man7.org/training/
