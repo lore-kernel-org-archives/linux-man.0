@@ -2,163 +2,192 @@ Return-Path: <SRS0=33xd=EE=vger.kernel.org=linux-man-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-11.4 required=3.0 tests=BAYES_00,DKIM_SIGNED,
-	DKIM_VALID,DKIM_VALID_AU,FREEMAIL_FORGED_FROMDOMAIN,FREEMAIL_FROM,
-	HEADER_FROM_DIFFERENT_DOMAINS,INCLUDES_PATCH,MAILING_LIST_MULTI,NICE_REPLY_A,
-	SIGNED_OFF_BY,SPF_HELO_NONE,SPF_PASS,URIBL_BLOCKED,USER_AGENT_SANE_1
-	autolearn=ham autolearn_force=no version=3.4.0
+X-Spam-Status: No, score=-11.4 required=3.0 tests=BAYES_00,DKIMWL_WL_MED,
+	DKIM_SIGNED,DKIM_VALID,DKIM_VALID_AU,HEADER_FROM_DIFFERENT_DOMAINS,
+	MAILING_LIST_MULTI,SPF_HELO_NONE,SPF_PASS,URIBL_BLOCKED,USER_IN_DEF_DKIM_WL
+	autolearn=no autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 43A5DC63699
-	for <linux-man@archiver.kernel.org>; Thu, 29 Oct 2020 07:23:04 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 8FEE3C55178
+	for <linux-man@archiver.kernel.org>; Thu, 29 Oct 2020 07:35:41 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.kernel.org (Postfix) with ESMTP id DED7220735
-	for <linux-man@archiver.kernel.org>; Thu, 29 Oct 2020 07:23:03 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTP id 2A4CE214DB
+	for <linux-man@archiver.kernel.org>; Thu, 29 Oct 2020 07:35:41 +0000 (UTC)
 Authentication-Results: mail.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="INwvDTh4"
+	dkim=pass (2048-bit key) header.d=google.com header.i=@google.com header.b="gZ8H/p46"
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1725993AbgJ2HVZ (ORCPT <rfc822;linux-man@archiver.kernel.org>);
-        Thu, 29 Oct 2020 03:21:25 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:54758 "EHLO
+        id S1726969AbgJ2H0j (ORCPT <rfc822;linux-man@archiver.kernel.org>);
+        Thu, 29 Oct 2020 03:26:39 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:55364 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1725971AbgJ2HVD (ORCPT
-        <rfc822;linux-man@vger.kernel.org>); Thu, 29 Oct 2020 03:21:03 -0400
-Received: from mail-wm1-x343.google.com (mail-wm1-x343.google.com [IPv6:2a00:1450:4864:20::343])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 18658C08EA7D
-        for <linux-man@vger.kernel.org>; Thu, 29 Oct 2020 00:13:53 -0700 (PDT)
-Received: by mail-wm1-x343.google.com with SMTP id k18so1415771wmj.5
-        for <linux-man@vger.kernel.org>; Thu, 29 Oct 2020 00:13:52 -0700 (PDT)
+        with ESMTP id S1728288AbgJ2HY7 (ORCPT
+        <rfc822;linux-man@vger.kernel.org>); Thu, 29 Oct 2020 03:24:59 -0400
+Received: from mail-lj1-x244.google.com (mail-lj1-x244.google.com [IPv6:2a00:1450:4864:20::244])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id F1C57C0613AD
+        for <linux-man@vger.kernel.org>; Wed, 28 Oct 2020 21:44:03 -0700 (PDT)
+Received: by mail-lj1-x244.google.com with SMTP id m16so1669268ljo.6
+        for <linux-man@vger.kernel.org>; Wed, 28 Oct 2020 21:44:03 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20161025;
-        h=cc:subject:to:references:from:message-id:date:user-agent
-         :mime-version:in-reply-to:content-language:content-transfer-encoding;
-        bh=Jt66Ro6ChwF7B4WUC9O1hydUy4hsd8CqZ72SMpMelMs=;
-        b=INwvDTh4fObfAFt44nEj74IOpvd0GQBwUhKw9SimO73RmNQBxBuL+RXTxGV8HPtEVj
-         airCl644lol8BI0Rf10XV7HKRnvv39U43fdAn3VqQt6T/Q5lIU9ZgjuLgeAQCgiWwnBL
-         rq3nNlfw6VylwJZviROPGZVI8cP4rcNyi5Yr1uMRXEpo1L7S3L8AE2mcKcZBswt+wlCX
-         ihNjS3mW1WWoJD9JGhwmo0sUUMg/KC4UM9x/gR3MTreH2IW13VgPjvSKIMzphn3csT8Z
-         q2HIekFzhSedbow1jNXjBUw47Dtbaji4rrzmJLRXUQIB6hnuwU5GzWfHj9H7AuTndJ1V
-         M2cQ==
+        d=google.com; s=20161025;
+        h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+         :cc;
+        bh=8vJY7X+2qf9mk4yjNjSimkTKUqnRW4h3rIif/0iLOrE=;
+        b=gZ8H/p46CECRx9wDoVffbN/h0TJ0bUslUCW4zEC9UGCLKm/cXqu5uiZC1A8cryr+E8
+         e0dLqac5CrQ0wZy68hcC5mDMEnQW3ZBUwc7+nrlVGLwjzOWHmxGB84B6A7tq9XDnv19s
+         M7QjYPJ1Rgm+8fE1FFuZrcNgCnJkq5XlKbHAN6QN93QfeuU4o+r0DZj/rSPyFxLyR9HX
+         goLYDldHw4PKN4C16oNQfIjUL+sxQTmKcTIGcQlhOv8tjXF8krfMfUE47zD8S0ABnIzk
+         C8yOWDT4K5Mx4UbUn4ZaqYyEFrICmzbt6zNb1oXbkYLIFdMceLLg+ASw3I9w2T4L15rH
+         1NBg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
-        h=x-gm-message-state:cc:subject:to:references:from:message-id:date
-         :user-agent:mime-version:in-reply-to:content-language
-         :content-transfer-encoding;
-        bh=Jt66Ro6ChwF7B4WUC9O1hydUy4hsd8CqZ72SMpMelMs=;
-        b=mQYPlu85XzyG+0cBgiAzCBjaO7XcgZ10shlN2e6N+HPazJAqa+MRpxxw2mJflOg7nK
-         97AvMYn5mkDmKxE6koaIC9fkm3KKPLRTma+fzHXVuRPpgKmQeJj6jDYsdj5JBv03rDjE
-         T7BGAp7XE+rwxgT1L+a/TLcv3oL5+MqaVtYcp3qCVZwzWnWlMA6ykjAD5L2k1rsh9G2C
-         qwKe/Mw3LrfXGY+t06Ey4PLeQ2/BIqTy9R6Q6cSsNDNjqX52blP4N7Mh/dqVOrrho4tu
-         ttlmRZDHOUZ4iS02ax1Iirg3eJuRZHDMZ3Fh4RiMNN43ngkND3Y8/fHXjGAmT+CfHIrQ
-         TMxw==
-X-Gm-Message-State: AOAM532weEIc9Fk2W8c58aJ6LnrTuWLEFGXjs5NfTS9SKi6ZsWYq7GWO
-        +QqMjZNMmXnJqdChO5/6y/Ke9MmM1fs=
-X-Google-Smtp-Source: ABdhPJyY/MtaRTjNN5AOkf46pA+dh7dnvI2F4pPRJ1xtbqTuaMJ9jy1IHPcE5/HFeuXd/TyGWLFvvA==
-X-Received: by 2002:a1c:203:: with SMTP id 3mr2695512wmc.128.1603955631449;
-        Thu, 29 Oct 2020 00:13:51 -0700 (PDT)
-Received: from ?IPv6:2001:a61:245a:d801:2e74:88ad:ef9:5218? ([2001:a61:245a:d801:2e74:88ad:ef9:5218])
-        by smtp.gmail.com with ESMTPSA id p9sm2640072wma.12.2020.10.29.00.13.50
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Thu, 29 Oct 2020 00:13:50 -0700 (PDT)
-Cc:     mtk.manpages@gmail.com, linux-man@vger.kernel.org
-Subject: Re: [PATCH] getdents.2: Use 'ssize_t' instead of 'int'
-To:     Alejandro Colomar <colomar.6.4.3@gmail.com>
-References: <20201028221118.158108-1-colomar.6.4.3@gmail.com>
-From:   "Michael Kerrisk (man-pages)" <mtk.manpages@gmail.com>
-Message-ID: <ed5937c4-a590-1735-b716-0894657ff8fc@gmail.com>
-Date:   Thu, 29 Oct 2020 08:13:48 +0100
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
- Thunderbird/78.3.1
+        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+         :message-id:subject:to:cc;
+        bh=8vJY7X+2qf9mk4yjNjSimkTKUqnRW4h3rIif/0iLOrE=;
+        b=g6j37noehjHmBQ4NT9RrwCUNe3kMEMT2kTiy59we4EFUqRKBqbBhehcbowESTrz+lm
+         anZ3eSXAESCkFmaINtP5iVUdBCY9ShWE+KwAMXmN9p/BH9Yky3n6DHpPgTgIbyo2n06M
+         rneWfVjWKT225ovekB/A2kkk78VgTEheLIL2hoYdnNe/+EYa47hQR5qRzuhVUgAk5Uli
+         MMMzIXfJmyq9dbQK0peKIs9KIJbMu7Q/HYHEY9+/o+byRIozLdH8OLEbUJTmCzKyGHlj
+         9a6QGEioSQGXlE1205bMrmltFlWksZVTuIhttI/klZplA+m9EJ9pnGsGW2z+uTdtYDE+
+         mHcA==
+X-Gm-Message-State: AOAM5328jfweUwWKSlE/mfzFNUPXMuAaaWkhgKy+4qXR/vmDNiuvXE1Z
+        fBtc+kx4JGrRaWnq/KlU0MO6CGdoTqbBE97XfBLo1w==
+X-Google-Smtp-Source: ABdhPJw/sZxb5qRToKpsO6Tov3q5O2h9QxUZH9e9awkjhLv1ZkCLPaqe/eslUoWDbcpwUPRAcE7vE1CzAPHEQGncXAA=
+X-Received: by 2002:a2e:9c84:: with SMTP id x4mr981272lji.326.1603946642027;
+ Wed, 28 Oct 2020 21:44:02 -0700 (PDT)
 MIME-Version: 1.0
-In-Reply-To: <20201028221118.158108-1-colomar.6.4.3@gmail.com>
-Content-Type: text/plain; charset=utf-8
-Content-Language: en-US
-Content-Transfer-Encoding: 7bit
+References: <63598b4f-6ce3-5a11-4552-cdfe308f68e4@gmail.com>
+ <CAG48ez0fBE6AJfWh0in=WKkgt98y=KjAen=SQPyTYtvsUbF1yA@mail.gmail.com> <20201029020438.GA25673@cisco>
+In-Reply-To: <20201029020438.GA25673@cisco>
+From:   Jann Horn <jannh@google.com>
+Date:   Thu, 29 Oct 2020 05:43:35 +0100
+Message-ID: <CAG48ez1Jz5YqqEMFYoFhgSroHwMeiNqUU9i=QqLN2uLibKthDQ@mail.gmail.com>
+Subject: Re: For review: seccomp_user_notif(2) manual page [v2]
+To:     Tycho Andersen <tycho@tycho.pizza>,
+        "Michael Kerrisk (man-pages)" <mtk.manpages@gmail.com>
+Cc:     Kees Cook <keescook@chromium.org>,
+        Sargun Dhillon <sargun@sargun.me>,
+        Christian Brauner <christian@brauner.io>,
+        Daniel Borkmann <daniel@iogearbox.net>,
+        Giuseppe Scrivano <gscrivan@redhat.com>,
+        Song Liu <songliubraving@fb.com>,
+        Robert Sesek <rsesek@google.com>,
+        Containers <containers@lists.linux-foundation.org>,
+        linux-man <linux-man@vger.kernel.org>,
+        lkml <linux-kernel@vger.kernel.org>,
+        Aleksa Sarai <cyphar@cyphar.com>,
+        Alexei Starovoitov <ast@kernel.org>,
+        Will Drewry <wad@chromium.org>, bpf <bpf@vger.kernel.org>,
+        Andy Lutomirski <luto@amacapital.net>
+Content-Type: text/plain; charset="UTF-8"
 Precedence: bulk
 List-ID: <linux-man.vger.kernel.org>
 X-Mailing-List: linux-man@vger.kernel.org
 
-Hi Alex,
+On Thu, Oct 29, 2020 at 3:04 AM Tycho Andersen <tycho@tycho.pizza> wrote:
+> On Thu, Oct 29, 2020 at 02:42:58AM +0100, Jann Horn wrote:
+> > On Mon, Oct 26, 2020 at 10:55 AM Michael Kerrisk (man-pages)
+> > <mtk.manpages@gmail.com> wrote:
+> > >        static bool
+> > >        getTargetPathname(struct seccomp_notif *req, int notifyFd,
+> > >                          char *path, size_t len)
+> > >        {
+> > >            char procMemPath[PATH_MAX];
+> > >
+> > >            snprintf(procMemPath, sizeof(procMemPath), "/proc/%d/mem", req->pid);
+> > >
+> > >            int procMemFd = open(procMemPath, O_RDONLY);
+> > >            if (procMemFd == -1)
+> > >                errExit("\tS: open");
+> > >
+> > >            /* Check that the process whose info we are accessing is still alive.
+> > >               If the SECCOMP_IOCTL_NOTIF_ID_VALID operation (performed
+> > >               in checkNotificationIdIsValid()) succeeds, we know that the
+> > >               /proc/PID/mem file descriptor that we opened corresponds to the
+> > >               process for which we received a notification. If that process
+> > >               subsequently terminates, then read() on that file descriptor
+> > >               will return 0 (EOF). */
+> > >
+> > >            checkNotificationIdIsValid(notifyFd, req->id);
+> > >
+> > >            /* Read bytes at the location containing the pathname argument
+> > >               (i.e., the first argument) of the mkdir(2) call */
+> > >
+> > >            ssize_t nread = pread(procMemFd, path, len, req->data.args[0]);
+> > >            if (nread == -1)
+> > >                errExit("pread");
+> >
+> > As discussed at
+> > <https://lore.kernel.org/r/CAG48ez0m4Y24ZBZCh+Tf4ORMm9_q4n7VOzpGjwGF7_Fe8EQH=Q@mail.gmail.com>,
+> > we need to re-check checkNotificationIdIsValid() after reading remote
+> > memory but before using the read value in any way. Otherwise, the
+> > syscall could in the meantime get interrupted by a signal handler, the
+> > signal handler could return, and then the function that performed the
+> > syscall could free() allocations or return (thereby freeing buffers on
+> > the stack).
+> >
+> > In essence, this pread() is (unavoidably) a potential use-after-free
+> > read; and to make that not have any security impact, we need to check
+> > whether UAF read occurred before using the read value. This should
+> > probably be called out elsewhere in the manpage, too...
+> >
+> > Now, of course, **reading** is the easy case. The difficult case is if
+> > we have to **write** to the remote process... because then we can't
+> > play games like that. If we write data to a freed pointer, we're
+> > screwed, that's it. (And for somewhat unrelated bonus fun, consider
+> > that /proc/$pid/mem is originally intended for process debugging,
+> > including installing breakpoints, and will therefore happily write
+> > over "readonly" private mappings, such as typical mappings of
+> > executable code.)
+> >
+> > So, uuuuh... I guess if anyone wants to actually write memory back to
+> > the target process, we'd better come up with some dedicated API for
+> > that, using an ioctl on the seccomp fd that magically freezes the
+>
+> By freeze here you mean a killable wait instead of an interruptible
+> wait, right?
 
-On 10/28/20 11:11 PM, Alejandro Colomar wrote:
-> The glibc wrapper for getdents64() uses ssize_t.
+Nope, nonkillable.
 
-It also changed the types for the arguments, so those need to be 
-fixed too.
+Consider the case of vfork(), where a target process does something like this:
 
-> And let's use it also for getdents().
+void spawn_executable(char **argv, char **envv) {
+  pid_t child = vfork();
+  if (child == 0) {
+    char path[1000];
+    sprintf(path, ...);
+    execve(path, argv, envv);
+  }
+}
 
-I actually think we should *not* change that. So long as their is
-no wrapper, we should show pretty much what the ABI exposes. (That
-makes me think that the return type should really be long; see 
-what you think about DEFINE_SYSCALL3 in the kernel sources.)
-
-And you added an include for <sys/types.h>. I'm not sure 
-whether that's needed, but it should be explained in the 
-commit message.
-
-Thanks,
-
-Michael
-
-> It makes more sense than int:
-> It's a count of bytes, and can report an error (-1).
-> 
-> Signed-off-by: Alejandro Colomar <colomar.6.4.3@gmail.com>
-> ---
->  man2/getdents.2 | 10 ++++++----
->  1 file changed, 6 insertions(+), 4 deletions(-)
-> 
-> diff --git a/man2/getdents.2 b/man2/getdents.2
-> index a187fbcef..d660f1bc1 100644
-> --- a/man2/getdents.2
-> +++ b/man2/getdents.2
-> @@ -33,13 +33,13 @@
->  getdents, getdents64 \- get directory entries
->  .SH SYNOPSIS
->  .nf
-> -.BI "int getdents(unsigned int " fd ", struct linux_dirent *" dirp ,
-> +.BI "ssize_t getdents(unsigned int " fd ", struct linux_dirent *" dirp ,
->  .BI "             unsigned int " count );
->  .PP
->  .BR "#define _GNU_SOURCE" "        /* See feature_test_macros(7) */"
->  .B #include <dirent.h>
->  .PP
-> -.BI "int getdents64(unsigned int " fd ", struct linux_dirent64 *" dirp ,
-> +.BI "ssize_t getdents64(unsigned int " fd ", struct linux_dirent64 *" dirp ,
->  .BI "             unsigned int " count );
->  .fi
->  .PP
-> @@ -266,6 +266,7 @@ inode#    file type  d_reclen  d_off   d_name
->  #include <stdlib.h>
->  #include <sys/stat.h>
->  #include <sys/syscall.h>
-> +#include <sys/types.h>
->  
->  #define handle_error(msg) \e
->          do { perror(msg); exit(EXIT_FAILURE); } while (0)
-> @@ -282,7 +283,8 @@ struct linux_dirent {
->  int
->  main(int argc, char *argv[])
->  {
-> -    int fd, nread;
-> +    int fd;
-> +    ssize_t nread;
->      char buf[BUF_SIZE];
->      struct linux_dirent *d;
->      char d_type;
-> @@ -301,7 +303,7 @@ main(int argc, char *argv[])
->  
->          printf("\-\-\-\-\-\-\-\-\-\-\-\-\-\-\- nread=%d \-\-\-\-\-\-\-\-\-\-\-\-\-\-\-\en", nread);
->          printf("inode#    file type  d_reclen  d_off   d_name\en");
-> -        for (int bpos = 0; bpos < nread;) {
-> +        for (ssize_t bpos = 0; bpos < nread;) {
->              d = (struct linux_dirent *) (buf + bpos);
->              printf("%8ld  ", d\->d_ino);
->              d_type = *(buf + bpos + d\->d_reclen \- 1);
-> 
+and the seccomp notifier wants to look at the execve() path (as a
+somewhat silly example). The child process is just borrowing the
+parent's stack, and as soon as the child either gets far enough into
+execve() or dies, the parent continues using that stack. So keeping
+the child in killable sleep would not be enough to prevent reuse of
+the child's stack.
 
 
--- 
-Michael Kerrisk
-Linux man-pages maintainer; http://www.kernel.org/doc/man-pages/
-Linux/UNIX System Programming Training: http://man7.org/training/
+But conceptually that's not really a big problem - we already have a
+way to force the target task to stay inside the seccomp code no matter
+if it gets SIGKILLed or whatever, and that is to take the notify_lock.
+When the target task wakes up and wants to continue executing, it has
+to first get through mutex_lock(&match->notify_lock) - and that will
+always block until the lock is free. So we could e.g. do something
+like:
+
+ - Grab references to the source pages in the supervisor's address
+space with get_user_pages_fast().
+ - Take mmap_sem on the target.
+ - Grab references to pages in the relevant range with pin_user_pages_remote().
+ - Drop the mmap_sem.
+ - Take the notify_lock.
+ - Recheck whether the notification with the right ID is still there.
+ - Copy data from the pinned source pages to the pinned target pages.
+ - Drop the notify_lock.
+ - Drop the page references.
+
+and this way we would still guarantee that the target process would
+only be blocked in noninterruptible sleep for a small amount of time
+(and would not be indirectly blocked on sleeping operations through
+the mutex). It'd be pretty straightforward, I think. But as long as we
+don't actually need it, it might be easier to just note in the manpage
+that this is not currently supported.
