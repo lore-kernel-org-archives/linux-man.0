@@ -2,105 +2,149 @@ Return-Path: <SRS0=33xd=EE=vger.kernel.org=linux-man-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-12.6 required=3.0 tests=BAYES_00,DKIM_SIGNED,
-	DKIM_VALID,DKIM_VALID_AU,FREEMAIL_FORGED_FROMDOMAIN,FREEMAIL_FROM,
-	HEADER_FROM_DIFFERENT_DOMAINS,INCLUDES_PATCH,MAILING_LIST_MULTI,SIGNED_OFF_BY,
-	SPF_HELO_NONE,SPF_PASS,USER_AGENT_GIT autolearn=ham autolearn_force=no
-	version=3.4.0
+X-Spam-Status: No, score=-11.4 required=3.0 tests=BAYES_00,DKIMWL_WL_MED,
+	DKIM_SIGNED,DKIM_VALID,DKIM_VALID_AU,HEADER_FROM_DIFFERENT_DOMAINS,
+	MAILING_LIST_MULTI,SPF_HELO_NONE,SPF_PASS,USER_IN_DEF_DKIM_WL autolearn=no
+	autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 24844C388F7
-	for <linux-man@archiver.kernel.org>; Thu, 29 Oct 2020 01:36:18 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 53DBCC4363A
+	for <linux-man@archiver.kernel.org>; Thu, 29 Oct 2020 01:45:13 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.kernel.org (Postfix) with ESMTP id A7ADC2076D
-	for <linux-man@archiver.kernel.org>; Thu, 29 Oct 2020 01:36:17 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTP id D040820780
+	for <linux-man@archiver.kernel.org>; Thu, 29 Oct 2020 01:45:12 +0000 (UTC)
 Authentication-Results: mail.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="h9SCt0Vt"
+	dkim=pass (2048-bit key) header.d=google.com header.i=@google.com header.b="sLyaw6q6"
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1727787AbgJ2BZV (ORCPT <rfc822;linux-man@archiver.kernel.org>);
-        Wed, 28 Oct 2020 21:25:21 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:51054 "EHLO
+        id S1729112AbgJ2Bna (ORCPT <rfc822;linux-man@archiver.kernel.org>);
+        Wed, 28 Oct 2020 21:43:30 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:58624 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1729765AbgJ1WDj (ORCPT
-        <rfc822;linux-man@vger.kernel.org>); Wed, 28 Oct 2020 18:03:39 -0400
-Received: from mail-ej1-x633.google.com (mail-ej1-x633.google.com [IPv6:2a00:1450:4864:20::633])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 0DC17C0613CF
-        for <linux-man@vger.kernel.org>; Wed, 28 Oct 2020 15:03:39 -0700 (PDT)
-Received: by mail-ej1-x633.google.com with SMTP id dk16so462484ejb.12
-        for <linux-man@vger.kernel.org>; Wed, 28 Oct 2020 15:03:38 -0700 (PDT)
+        with ESMTP id S1729111AbgJ2Bn2 (ORCPT
+        <rfc822;linux-man@vger.kernel.org>); Wed, 28 Oct 2020 21:43:28 -0400
+Received: from mail-lj1-x22a.google.com (mail-lj1-x22a.google.com [IPv6:2a00:1450:4864:20::22a])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id B1FDFC0613CF
+        for <linux-man@vger.kernel.org>; Wed, 28 Oct 2020 18:43:26 -0700 (PDT)
+Received: by mail-lj1-x22a.google.com with SMTP id m20so1357975ljj.5
+        for <linux-man@vger.kernel.org>; Wed, 28 Oct 2020 18:43:26 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20161025;
-        h=from:to:cc:subject:date:message-id:in-reply-to:references
-         :mime-version:content-transfer-encoding;
-        bh=qeoJsvydWnOUd9yEtskRUxqS01CD3Ds+J9GEXvyCJgY=;
-        b=h9SCt0Vtm5YjUnA5PgmfW8frnfMiXFEAk/FJ7ezjghfPXuA4yF4uxV7AIbLoPtje7C
-         V9+bGx+qWPRwyPWce58d8kknEb2opKY0RAkRqZEfgoo3ePkvfil6DPhtePwjyxjPITFe
-         76Y2ioUCHh8F01TjJcnVgPR2HeZjpW9XfbhdRKE/QwvMsbCa4MayOUHtyfXLj99XkDfe
-         v0ANXVeb9g6wUWUepi+TsUMbvokgz/83THIwqhXM9Mg4PfbtcC1uOwQg4pdRh1NW7x5x
-         OCYLeU3Qha24jN5rSNOTINt10k5hSyimmh9vjnKh4hyuw61EcfZP8uEN3hMUrOtOLbsc
-         ying==
+        d=google.com; s=20161025;
+        h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+         :cc;
+        bh=geZ/oO3CDuXNyCg7XC5g4ztQiJhRJ6O3ZCqLsRDfncw=;
+        b=sLyaw6q6IpMdxy0i+OrwQjeQfMFuDOZH3wZnxjQU/9rDKBm6tuuxuSZwVs5vSb5WCr
+         dhr5wJNw0eYDPLOVlnAfChnG0rwQ3X3IxyOhhms90HJjdyXu5TJC0nW/joAq2f2CND/0
+         CfiNH8M48AdnqYWCsLEkk41NY0rIcwZgm0kQcdKN0ApOcudxbm6lIQIC9aN3G5/6sTDd
+         E0nFCedw0IDNiUhrY+kLYDTgjCvAEsr7GQTQqiccy0MVtif7ayBSqtuFcqw/pBfWXhhK
+         7t/SE3CAxJQ50Fz1/BKEQTbMkwVW/T9PhUh0MdDok3/8p8gBv5Oh9gBVe4i4ApP4av2Y
+         EmxQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
-        h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
-         :references:mime-version:content-transfer-encoding;
-        bh=qeoJsvydWnOUd9yEtskRUxqS01CD3Ds+J9GEXvyCJgY=;
-        b=teNP0UdQRX4WT+kTPxATmqmaLA1iDBX64qtuYXtjih3du9dPCdnTe7nKHc11x8aOuh
-         RyjXlwl+XosU2MVbbqH5Pv6PGI8lE0PiYdO7UeE/DrrYued/GZnFaKrs6e6nhWzkBMov
-         Af5ZJJD8lKYUw48YVOm7JR3GryiKHzXbqSilfIhz1f05oeA2yzAzmAYacZySV42r8mcD
-         QoyZoa7F/RzABCLn0H+tcUApPTmOemqx5fz2MjvyxXAkKQbVb5UTj7+98f+FnsISXWHB
-         k5TFsGhkLoberE2mguzyPinGJ+lYQUwj33EVwQWGIbp091azTOPwRbyleGXraBaKJhrD
-         /2VA==
-X-Gm-Message-State: AOAM532+FcuJzO3G8oJlbod4TU8ggjQfO0EpVFuunPkhHwh5CM2lt1wI
-        /4xj1BvgCoNVKsDV061RFfFG9rX0xwk=
-X-Google-Smtp-Source: ABdhPJyxOofNHHACoq84FB/usJm7ekKPzyJbE5/XAw/tSL22t6kEt3rZYD3kg8vw7A7fOeUzUs1RNA==
-X-Received: by 2002:a05:6000:1051:: with SMTP id c17mr7477908wrx.290.1603877597971;
-        Wed, 28 Oct 2020 02:33:17 -0700 (PDT)
-Received: from localhost.localdomain ([170.253.60.68])
-        by smtp.googlemail.com with ESMTPSA id r18sm3631926wrj.50.2020.10.28.02.33.16
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Wed, 28 Oct 2020 02:33:17 -0700 (PDT)
-From:   Alejandro Colomar <colomar.6.4.3@gmail.com>
-To:     mtk.manpages@gmail.com
-Cc:     Alejandro Colomar <colomar.6.4.3@gmail.com>,
-        linux-man@vger.kernel.org
-Subject: [PATCH 1/3] strtol.3: EXAMPLES: Delimit output string using ""
-Date:   Wed, 28 Oct 2020 10:33:06 +0100
-Message-Id: <20201028093308.86310-2-colomar.6.4.3@gmail.com>
-X-Mailer: git-send-email 2.28.0
-In-Reply-To: <20201028093308.86310-1-colomar.6.4.3@gmail.com>
-References: <20201028093308.86310-1-colomar.6.4.3@gmail.com>
+        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+         :message-id:subject:to:cc;
+        bh=geZ/oO3CDuXNyCg7XC5g4ztQiJhRJ6O3ZCqLsRDfncw=;
+        b=nEn1+ChkAEqNAAx/Rk2HGECctccUMYJ97LGLmWH93ouK/cUM/4OqjOJg9caF2if1IJ
+         YboqDZHqjlP8SZJg/nCWIeH1l+avBVhgOnQtoEgUMasSvu2hHDBl5OkDUAQctXvVf5p9
+         nYTsuj3GGN2NJcyLaXb/OGkx1TEFf/zZ6ysBGE4sAI8yI3c5V4T0q7kdA/D+7UuTJ1SM
+         uIzXdclq+POLqhe6UtFYL/HJXs9tzt+q2Nxwehf6mgEWCR5MtRwypCKTlpbSwWexdfHn
+         iISf3H65AUapueUOQalGQVvCviR5lPMcgm9x0RGjjpzaFSg34RQUEs86GPaLoBALjN4B
+         CBag==
+X-Gm-Message-State: AOAM532GVtbga756xOl2P/lnFIi4OghIczTPmdt2ITcDmSuflr8Ar8VF
+        jX8qxIWWq2qXr68saw13bZgwvGum/cLPFBiNXtY6sQ==
+X-Google-Smtp-Source: ABdhPJz6TDKuIczDEuNWhwAZLwIsi7p/r5pwANkEoLv02bXcTUl1ox9pp4nTanH9lSHFwu+RpElyT1qPIgjQUosCQDo=
+X-Received: by 2002:a2e:b6cf:: with SMTP id m15mr744683ljo.74.1603935804881;
+ Wed, 28 Oct 2020 18:43:24 -0700 (PDT)
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+References: <63598b4f-6ce3-5a11-4552-cdfe308f68e4@gmail.com>
+In-Reply-To: <63598b4f-6ce3-5a11-4552-cdfe308f68e4@gmail.com>
+From:   Jann Horn <jannh@google.com>
+Date:   Thu, 29 Oct 2020 02:42:58 +0100
+Message-ID: <CAG48ez0fBE6AJfWh0in=WKkgt98y=KjAen=SQPyTYtvsUbF1yA@mail.gmail.com>
+Subject: Re: For review: seccomp_user_notif(2) manual page [v2]
+To:     "Michael Kerrisk (man-pages)" <mtk.manpages@gmail.com>,
+        Kees Cook <keescook@chromium.org>
+Cc:     Tycho Andersen <tycho@tycho.pizza>,
+        Sargun Dhillon <sargun@sargun.me>,
+        Christian Brauner <christian@brauner.io>,
+        Daniel Borkmann <daniel@iogearbox.net>,
+        Giuseppe Scrivano <gscrivan@redhat.com>,
+        Song Liu <songliubraving@fb.com>,
+        Robert Sesek <rsesek@google.com>,
+        Containers <containers@lists.linux-foundation.org>,
+        linux-man <linux-man@vger.kernel.org>,
+        lkml <linux-kernel@vger.kernel.org>,
+        Aleksa Sarai <cyphar@cyphar.com>,
+        Alexei Starovoitov <ast@kernel.org>,
+        Will Drewry <wad@chromium.org>, bpf <bpf@vger.kernel.org>,
+        Andy Lutomirski <luto@amacapital.net>
+Content-Type: text/plain; charset="UTF-8"
 Precedence: bulk
 List-ID: <linux-man.vger.kernel.org>
 X-Mailing-List: linux-man@vger.kernel.org
 
-Signed-off-by: Alejandro Colomar <colomar.6.4.3@gmail.com>
----
- man3/strtol.3 | 4 ++--
- 1 file changed, 2 insertions(+), 2 deletions(-)
+On Mon, Oct 26, 2020 at 10:55 AM Michael Kerrisk (man-pages)
+<mtk.manpages@gmail.com> wrote:
+>        static bool
+>        getTargetPathname(struct seccomp_notif *req, int notifyFd,
+>                          char *path, size_t len)
+>        {
+>            char procMemPath[PATH_MAX];
+>
+>            snprintf(procMemPath, sizeof(procMemPath), "/proc/%d/mem", req->pid);
+>
+>            int procMemFd = open(procMemPath, O_RDONLY);
+>            if (procMemFd == -1)
+>                errExit("\tS: open");
+>
+>            /* Check that the process whose info we are accessing is still alive.
+>               If the SECCOMP_IOCTL_NOTIF_ID_VALID operation (performed
+>               in checkNotificationIdIsValid()) succeeds, we know that the
+>               /proc/PID/mem file descriptor that we opened corresponds to the
+>               process for which we received a notification. If that process
+>               subsequently terminates, then read() on that file descriptor
+>               will return 0 (EOF). */
+>
+>            checkNotificationIdIsValid(notifyFd, req->id);
+>
+>            /* Read bytes at the location containing the pathname argument
+>               (i.e., the first argument) of the mkdir(2) call */
+>
+>            ssize_t nread = pread(procMemFd, path, len, req->data.args[0]);
+>            if (nread == -1)
+>                errExit("pread");
 
-diff --git a/man3/strtol.3 b/man3/strtol.3
-index 20b453330..0feb12dbb 100644
---- a/man3/strtol.3
-+++ b/man3/strtol.3
-@@ -236,7 +236,7 @@ strtol() returned 123
- strtol() returned 123
- .RB "$" " ./a.out 123abc"
- strtol() returned 123
--Further characters after number: abc
-+Further characters after number: "abc"
- .RB "$" " ./a.out 123abc 55"
- strtol: Invalid argument
- .RB "$" " ./a.out \(aq\(aq"
-@@ -289,7 +289,7 @@ main(int argc, char *argv[])
-     printf("strtol() returned %ld\en", val);
- 
-     if (*endptr != \(aq\e0\(aq)        /* Not necessarily an error... */
--        printf("Further characters after number: %s\en", endptr);
-+        printf("Further characters after number: \e"%s\e"\en", endptr);
- 
-     exit(EXIT_SUCCESS);
- }
--- 
-2.28.0
+As discussed at
+<https://lore.kernel.org/r/CAG48ez0m4Y24ZBZCh+Tf4ORMm9_q4n7VOzpGjwGF7_Fe8EQH=Q@mail.gmail.com>,
+we need to re-check checkNotificationIdIsValid() after reading remote
+memory but before using the read value in any way. Otherwise, the
+syscall could in the meantime get interrupted by a signal handler, the
+signal handler could return, and then the function that performed the
+syscall could free() allocations or return (thereby freeing buffers on
+the stack).
 
+In essence, this pread() is (unavoidably) a potential use-after-free
+read; and to make that not have any security impact, we need to check
+whether UAF read occurred before using the read value. This should
+probably be called out elsewhere in the manpage, too...
+
+Now, of course, **reading** is the easy case. The difficult case is if
+we have to **write** to the remote process... because then we can't
+play games like that. If we write data to a freed pointer, we're
+screwed, that's it. (And for somewhat unrelated bonus fun, consider
+that /proc/$pid/mem is originally intended for process debugging,
+including installing breakpoints, and will therefore happily write
+over "readonly" private mappings, such as typical mappings of
+executable code.)
+
+So, uuuuh... I guess if anyone wants to actually write memory back to
+the target process, we'd better come up with some dedicated API for
+that, using an ioctl on the seccomp fd that magically freezes the
+target process inside the syscall while writing to its memory, or
+something like that? And until then, the manpage should have a big fat
+warning that writing to the target's memory is simply not possible
+(safely).
+
+>            if (nread == 0) {
+>                fprintf(stderr, "\tS: pread() of /proc/PID/mem "
+>                        "returned 0 (EOF)\n");
+>                exit(EXIT_FAILURE);
+>            }
