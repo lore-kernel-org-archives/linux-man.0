@@ -2,191 +2,177 @@ Return-Path: <SRS0=kYrq=EF=vger.kernel.org=linux-man-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-11.4 required=3.0 tests=BAYES_00,DKIM_SIGNED,
-	DKIM_VALID,DKIM_VALID_AU,FREEMAIL_FORGED_FROMDOMAIN,FREEMAIL_FROM,
-	HEADER_FROM_DIFFERENT_DOMAINS,INCLUDES_PATCH,MAILING_LIST_MULTI,NICE_REPLY_A,
-	SIGNED_OFF_BY,SPF_HELO_NONE,SPF_PASS,USER_AGENT_SANE_1 autolearn=unavailable
+X-Spam-Status: No, score=-11.4 required=3.0 tests=BAYES_00,DKIMWL_WL_MED,
+	DKIM_SIGNED,DKIM_VALID,DKIM_VALID_AU,HEADER_FROM_DIFFERENT_DOMAINS,
+	MAILING_LIST_MULTI,SPF_HELO_NONE,SPF_PASS,USER_IN_DEF_DKIM_WL autolearn=no
 	autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id D5147C4363A
-	for <linux-man@archiver.kernel.org>; Fri, 30 Oct 2020 13:47:08 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id A24C9C00A89
+	for <linux-man@archiver.kernel.org>; Fri, 30 Oct 2020 19:16:49 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.kernel.org (Postfix) with ESMTP id 6FAFE206CB
-	for <linux-man@archiver.kernel.org>; Fri, 30 Oct 2020 13:47:08 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTP id 37BB02072C
+	for <linux-man@archiver.kernel.org>; Fri, 30 Oct 2020 19:16:49 +0000 (UTC)
 Authentication-Results: mail.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="R1XRzj4P"
+	dkim=pass (2048-bit key) header.d=google.com header.i=@google.com header.b="GEScQJl/"
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1726402AbgJ3NrB (ORCPT <rfc822;linux-man@archiver.kernel.org>);
-        Fri, 30 Oct 2020 09:47:01 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:56054 "EHLO
+        id S1727424AbgJ3TPG (ORCPT <rfc822;linux-man@archiver.kernel.org>);
+        Fri, 30 Oct 2020 15:15:06 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:51412 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1726355AbgJ3NrA (ORCPT
-        <rfc822;linux-man@vger.kernel.org>); Fri, 30 Oct 2020 09:47:00 -0400
-Received: from mail-wr1-x444.google.com (mail-wr1-x444.google.com [IPv6:2a00:1450:4864:20::444])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id BBD98C0613CF;
-        Fri, 30 Oct 2020 06:46:43 -0700 (PDT)
-Received: by mail-wr1-x444.google.com with SMTP id m13so6527896wrj.7;
-        Fri, 30 Oct 2020 06:46:43 -0700 (PDT)
+        with ESMTP id S1726317AbgJ3TPF (ORCPT
+        <rfc822;linux-man@vger.kernel.org>); Fri, 30 Oct 2020 15:15:05 -0400
+Received: from mail-lf1-x12a.google.com (mail-lf1-x12a.google.com [IPv6:2a00:1450:4864:20::12a])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 93E3BC0613CF
+        for <linux-man@vger.kernel.org>; Fri, 30 Oct 2020 12:15:05 -0700 (PDT)
+Received: by mail-lf1-x12a.google.com with SMTP id 184so9253705lfd.6
+        for <linux-man@vger.kernel.org>; Fri, 30 Oct 2020 12:15:05 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20161025;
-        h=subject:to:cc:references:from:message-id:date:user-agent
-         :mime-version:in-reply-to:content-language:content-transfer-encoding;
-        bh=Owd0qoYBufmq+xllY0pSMQ4gfvrN825l8lyPXrl0zs0=;
-        b=R1XRzj4P8ek0aFADwp7Vc0A7LqLOWY+++Ya1NE/rjs3BFAAC1ooS15c4BkzXYu6kj4
-         C6q9XtNsK8zyqsyTQ3WnIdi/W62n/osDlPEhheJ+S9Q8q7KghOOpI5QSH62m4smfan2f
-         DCajcHPos+a/yooB/B4TFXQlPeS4mVEHb5PrIAZVkRziR3CPXU8EMFgySQ4CG8jekSOL
-         v6ar3jq1hM+OOIgV2Krc3v2syVWeSeRAAq89br3rnHrzD+hKu4RIdKVatXFgMF3ZulO9
-         +4TOlnd/DPiDbohR2O8AqJNsCWgoJoSpUUJOOPNTS0Ydl/sUSRtnmuJvpGFUP55uQIAf
-         Da8Q==
+        d=google.com; s=20161025;
+        h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+         :cc;
+        bh=wG/u6QLDIeO3+GPNzepwWscTWygaEgqcNOvOguEOtzE=;
+        b=GEScQJl/XRE+Al+2evygNVW34IiBSkoia8s5HzAl8Hv6DEbsHP21Lirga/6tIsjkoR
+         6pndjXo3bhKZOW1Dk5Uub2F/QyY+XpBeX+nLyHZxDUaPhBwraxjKmyUU389u1/xqXlL/
+         voC7OY6hmd5Fr4gE/vpOFEq+3M/K4uBWKjshMkpddljKtLvb7oEgjUepvGxdHLB+qlRi
+         lsXaJFer4KS7uPl33OEqYL9fA3HJYLgu76FbsgqoBkyILSU1vMZhuNLi6w9qOqfkXaAU
+         ytPJv1sI1qSIE1x7QKh8O++0G+mtEs+XlsK0dEAC2cz1JpC6LyJR8sRuqTs2bq0q6mTh
+         QDIw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
-        h=x-gm-message-state:subject:to:cc:references:from:message-id:date
-         :user-agent:mime-version:in-reply-to:content-language
-         :content-transfer-encoding;
-        bh=Owd0qoYBufmq+xllY0pSMQ4gfvrN825l8lyPXrl0zs0=;
-        b=snKfgug9jA5jHPmnyFiPsCXK4332GeeKVuZAS1OIFpKzOmEocdpKJpe7mYXq98bzSo
-         w4xtK8N3VgJV9oTK/r9/LZNCkQY/RhFwtbP2zBEyHmj+mk4odZwETXGwPlEXclnGIQLY
-         2zRt0cmLW6JNW22w1TAUZpwZbvox8idXvdpocemBFdxe9Gse0LtNnTdn6/yOUy6HlQWz
-         D5JXRDDixfX3kRwwKnLrVf7B/OnVMo5HDCYklYcsEjidB0MR6WmlEblyZYFkjGhAIF9K
-         QdBEB/7NyfsjGkejzvLpSoy29fY5UZJ2rAn0D76+S+rsLOPP4Qpw5WIB+JuiAI0y4XKE
-         UZAg==
-X-Gm-Message-State: AOAM532s2Jgz5e76sqp37Tb2wIkMaW4QUfASfsd7I7sa1Q72bK5BB6Xy
-        yuwCZ4l5f2uV7OHGlTuHQM8gGq6U9J8=
-X-Google-Smtp-Source: ABdhPJwAqxmqstQn8ed2p0UAfgOlqVs/TLJPaEUEd0CPk/6lQa1o1lFXtNxwV7Xp7BP5we+pAI/7YQ==
-X-Received: by 2002:adf:ef92:: with SMTP id d18mr3255762wro.420.1604065601978;
-        Fri, 30 Oct 2020 06:46:41 -0700 (PDT)
-Received: from [192.168.1.143] ([170.253.60.68])
-        by smtp.gmail.com with ESMTPSA id w7sm11116103wre.9.2020.10.30.06.46.40
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Fri, 30 Oct 2020 06:46:41 -0700 (PDT)
-Subject: Re: [PATCH 2/2] futex.2: Use appropriate types
-To:     mtk.manpages@gmail.com
-Cc:     linux-man@vger.kernel.org, linux-kernel@vger.kernel.org
-References: <20201030123956.36169-1-colomar.6.4.3@gmail.com>
- <20201030123956.36169-2-colomar.6.4.3@gmail.com>
-From:   Alejandro Colomar <colomar.6.4.3@gmail.com>
-Message-ID: <bfffdeae-26e6-0469-f9af-f48b3b60a363@gmail.com>
-Date:   Fri, 30 Oct 2020 14:46:39 +0100
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
- Thunderbird/68.12.0
+        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+         :message-id:subject:to:cc;
+        bh=wG/u6QLDIeO3+GPNzepwWscTWygaEgqcNOvOguEOtzE=;
+        b=VFA0JLaypsOVop+HsOX/ZXZnRTT/tsIKJFEdRoR5TOOwQwe6DZJ+l3sOLQX/pxQhbr
+         eOO+/iV57vCcOab/Kk2BUJjAwRUSCqgPcrK9ijr/S8nJdi1KQjRR+HWR20WiWkP7HyT9
+         ytwAFklf5UH3hHowjU4CWJFc1WbT/Th2DT6JX7fb/2M0bwb4o4+cDSUtxIoMl5pAowGQ
+         PUm5Ajs4BUvhbMGYBrQtdEtQpO9hsdFkIUkg+brFGcYwi/kKGLAeMGRt7Fjz4VcHKptV
+         mOLmMA5aqk7eaVnxldEvIWUcwpNAfjp+reCBaEUcW8wahYofcEkly0J1hrHQknEotMqf
+         n6xg==
+X-Gm-Message-State: AOAM531sLeq/wWvGrSN/uSTEECE0qH/wje8ImHY8mggc9pXyP5ctWQZw
+        fmQgxi2mtIwOBIww54yJb2u9rL4VXAtbxKQA/JX/pw==
+X-Google-Smtp-Source: ABdhPJwWwVpiw9gJ/puN8rWssNkdz8vVGHPzS0mmXDNNvTGXQ5m+dUeuCNcHNeJlQwiyM5w1WvddtFCfbNI2DKeMRtk=
+X-Received: by 2002:a05:6512:1054:: with SMTP id c20mr1626841lfb.576.1604085303713;
+ Fri, 30 Oct 2020 12:15:03 -0700 (PDT)
 MIME-Version: 1.0
-In-Reply-To: <20201030123956.36169-2-colomar.6.4.3@gmail.com>
-Content-Type: text/plain; charset=utf-8; format=flowed
-Content-Language: en-US
-Content-Transfer-Encoding: 7bit
+References: <63598b4f-6ce3-5a11-4552-cdfe308f68e4@gmail.com>
+ <CAG48ez0fBE6AJfWh0in=WKkgt98y=KjAen=SQPyTYtvsUbF1yA@mail.gmail.com> <0de41eb1-e1fd-85da-61b7-fac4e3006726@gmail.com>
+In-Reply-To: <0de41eb1-e1fd-85da-61b7-fac4e3006726@gmail.com>
+From:   Jann Horn <jannh@google.com>
+Date:   Fri, 30 Oct 2020 20:14:37 +0100
+Message-ID: <CAG48ez3qKg-ReY4R=S_thQ6tOzv2ZHV=xW5qBxpqs0iSjH_oFQ@mail.gmail.com>
+Subject: Re: For review: seccomp_user_notif(2) manual page [v2]
+To:     "Michael Kerrisk (man-pages)" <mtk.manpages@gmail.com>
+Cc:     Kees Cook <keescook@chromium.org>,
+        Tycho Andersen <tycho@tycho.pizza>,
+        Sargun Dhillon <sargun@sargun.me>,
+        Christian Brauner <christian@brauner.io>,
+        Daniel Borkmann <daniel@iogearbox.net>,
+        Giuseppe Scrivano <gscrivan@redhat.com>,
+        Song Liu <songliubraving@fb.com>,
+        Robert Sesek <rsesek@google.com>,
+        Containers <containers@lists.linux-foundation.org>,
+        linux-man <linux-man@vger.kernel.org>,
+        lkml <linux-kernel@vger.kernel.org>,
+        Aleksa Sarai <cyphar@cyphar.com>,
+        Alexei Starovoitov <ast@kernel.org>,
+        Will Drewry <wad@chromium.org>, bpf <bpf@vger.kernel.org>,
+        Andy Lutomirski <luto@amacapital.net>
+Content-Type: text/plain; charset="UTF-8"
 Precedence: bulk
 List-ID: <linux-man.vger.kernel.org>
 X-Mailing-List: linux-man@vger.kernel.org
 
-BTW, apparently the kernel doesn't use 'const' for 'utime'
-('timeout' in the manual page),
-but effectively, it doesn't modify it, AFAICS.
+On Thu, Oct 29, 2020 at 3:19 PM Michael Kerrisk (man-pages)
+<mtk.manpages@gmail.com> wrote:
+> On 10/29/20 2:42 AM, Jann Horn wrote:
+> > On Mon, Oct 26, 2020 at 10:55 AM Michael Kerrisk (man-pages)
+> > <mtk.manpages@gmail.com> wrote:
+> >>        static bool
+> >>        getTargetPathname(struct seccomp_notif *req, int notifyFd,
+> >>                          char *path, size_t len)
+> >>        {
+> >>            char procMemPath[PATH_MAX];
+> >>
+> >>            snprintf(procMemPath, sizeof(procMemPath), "/proc/%d/mem", req->pid);
+> >>
+> >>            int procMemFd = open(procMemPath, O_RDONLY);
+> >>            if (procMemFd == -1)
+> >>                errExit("\tS: open");
+> >>
+> >>            /* Check that the process whose info we are accessing is still alive.
+> >>               If the SECCOMP_IOCTL_NOTIF_ID_VALID operation (performed
+> >>               in checkNotificationIdIsValid()) succeeds, we know that the
+> >>               /proc/PID/mem file descriptor that we opened corresponds to the
+> >>               process for which we received a notification. If that process
+> >>               subsequently terminates, then read() on that file descriptor
+> >>               will return 0 (EOF). */
+> >>
+> >>            checkNotificationIdIsValid(notifyFd, req->id);
+> >>
+> >>            /* Read bytes at the location containing the pathname argument
+> >>               (i.e., the first argument) of the mkdir(2) call */
+> >>
+> >>            ssize_t nread = pread(procMemFd, path, len, req->data.args[0]);
+> >>            if (nread == -1)
+> >>                errExit("pread");
+> >
+> > As discussed at
+> > <https://lore.kernel.org/r/CAG48ez0m4Y24ZBZCh+Tf4ORMm9_q4n7VOzpGjwGF7_Fe8EQH=Q@mail.gmail.com>,
+> > we need to re-check checkNotificationIdIsValid() after reading remote
+> > memory but before using the read value in any way. Otherwise, the
+> > syscall could in the meantime get interrupted by a signal handler, the
+> > signal handler could return, and then the function that performed the
+> > syscall could free() allocations or return (thereby freeing buffers on
+> > the stack).
+> >
+> > In essence, this pread() is (unavoidably) a potential use-after-free
+> > read; and to make that not have any security impact, we need to check
+> > whether UAF read occurred before using the read value. This should
+> > probably be called out elsewhere in the manpage, too...
+>
+> Thanks very much for pointing me at this!
+>
+> So, I want to conform that the fix to the code is as simple as
+> adding a check following the pread() call, something like:
+>
+> [[
+>      ssize_t nread = pread(procMemFd, path, len, req->data.args[argNum]);
+>      if (nread == -1)
+>         errExit("Supervisor: pread");
+>
+>      if (nread == 0) {
+>         fprintf(stderr, "\tS: pread() of /proc/PID/mem "
+>                 "returned 0 (EOF)\n");
+>         exit(EXIT_FAILURE);
+>      }
+>
+>      if (close(procMemFd) == -1)
+>         errExit("Supervisor: close-/proc/PID/mem");
+>
+> +    /* Once again check that the notification ID is still valid. The
+> +       case we are particularly concerned about here is that just
+> +       before we fetched the pathname, the target's blocked system
+> +       call was interrupted by a signal handler, and after the handler
+> +       returned, the target carried on execution (past the interrupted
+> +       system call). In that case, we have no guarantees about what we
+> +       are reading, since the target's memory may have been arbitrarily
+> +       changed by subsequent operations. */
+> +
+> +    if (!notificationIdIsValid(notifyFd, req->id, "post-open"))
+> +        return false;
+> +
+>      /* We have no guarantees about what was in the memory of the target
+>         process. We therefore treat the buffer returned by pread() as
+>         untrusted input. The buffer should be terminated by a null byte;
+>         if not, then we will trigger an error for the target process. */
+>
+>      if (strnlen(path, nread) < nread)
+>          return true;
+> ]]
 
-Should the kernel use 'const'?
-Is there a reason for the kernel not using 'const'?
-Should we do anything about it in the manual page?
-
-Thanks,
-
-Alex
-
-On 2020-10-30 13:39, Alejandro Colomar wrote:
-> The Linux kernel uses the following:
-> 
-> kernel/futex.c:3778:
-> SYSCALL_DEFINE6(futex, u32 __user *, uaddr, int, op, u32, val,
-> 		struct __kernel_timespec __user *, utime, u32 __user *, uaddr2,
-> 		u32, val3)
-> 
-> Since there is no glibc wrapper, use the same types the kernel uses.
-> 
-> Signed-off-by: Alejandro Colomar <colomar.6.4.3@gmail.com>
-> ---
->   man2/futex.2 | 27 ++++++++++++++-------------
->   1 file changed, 14 insertions(+), 13 deletions(-)
-> 
-> diff --git a/man2/futex.2 b/man2/futex.2
-> index 837adbd25..73de71623 100644
-> --- a/man2/futex.2
-> +++ b/man2/futex.2
-> @@ -26,12 +26,13 @@ futex \- fast user-space locking
->   .nf
->   .PP
->   .B #include <linux/futex.h>
-> +.B #include <stdint.h>
->   .B #include <sys/time.h>
->   .PP
-> -.BI "int futex(int *" uaddr ", int " futex_op ", int " val ,
-> +.BI "long futex(uint32_t *" uaddr ", int " futex_op ", uint32_t " val ,
->   .BI "          const struct timespec *" timeout , \
->   " \fR  /* or: \fBuint32_t \fIval2\fP */"
-> -.BI "          int *" uaddr2 ", int " val3 );
-> +.BI "          uint32_t *" uaddr2 ", uint32_t " val3 );
->   .fi
->   .PP
->   .IR Note :
-> @@ -581,8 +582,8 @@ any of the two supplied futex words:
->   .IP
->   .in +4n
->   .EX
-> -int oldval = *(int *) uaddr2;
-> -*(int *) uaddr2 = oldval \fIop\fP \fIoparg\fP;
-> +uint32_t oldval = *(uint32_t *) uaddr2;
-> +*(uint32_t *) uaddr2 = oldval \fIop\fP \fIoparg\fP;
->   futex(uaddr, FUTEX_WAKE, val, 0, 0, 0);
->   if (oldval \fIcmp\fP \fIcmparg\fP)
->       futex(uaddr2, FUTEX_WAKE, val2, 0, 0, 0);
-> @@ -1765,11 +1766,11 @@ Child  (18535) 4
->   #define errExit(msg)    do { perror(msg); exit(EXIT_FAILURE); \e
->                           } while (0)
->   
-> -static int *futex1, *futex2, *iaddr;
-> +static uint32_t *futex1, *futex2, *iaddr;
->   
->   static int
-> -futex(int *uaddr, int futex_op, int val,
-> -      const struct timespec *timeout, int *uaddr2, int val3)
-> +futex(uint32_t *uaddr, int futex_op, uint32_t val,
-> +      const struct timespec *timeout, uint32_t *uaddr2, uint32_t val3)
->   {
->       return syscall(SYS_futex, uaddr, futex_op, val,
->                      timeout, uaddr2, val3);
-> @@ -1779,9 +1780,9 @@ futex(int *uaddr, int futex_op, int val,
->      become 1, and then set the value to 0. */
->   
->   static void
-> -fwait(int *futexp)
-> +fwait(uint32_t *futexp)
->   {
-> -    int s;
-> +    long s;
->   
->       /* atomic_compare_exchange_strong(ptr, oldval, newval)
->          atomically performs the equivalent of:
-> @@ -1794,7 +1795,7 @@ fwait(int *futexp)
->       while (1) {
->   
->           /* Is the futex available? */
-> -        const int one = 1;
-> +        const uint32_t one = 1;
->           if (atomic_compare_exchange_strong(futexp, &one, 0))
->               break;      /* Yes */
->   
-> @@ -1811,13 +1812,13 @@ fwait(int *futexp)
->      so that if the peer is blocked in fpost(), it can proceed. */
->   
->   static void
-> -fpost(int *futexp)
-> +fpost(uint32_t *futexp)
->   {
-> -    int s;
-> +    long s;
->   
->       /* atomic_compare_exchange_strong() was described in comments above */
->   
-> -    const int zero = 0;
-> +    const uint32_t zero = 0;
->       if (atomic_compare_exchange_strong(futexp, &zero, 1)) {
->           s = futex(futexp, FUTEX_WAKE, 1, NULL, NULL, 0);
->           if (s  == \-1)
-> 
+Yeah, that should do the job. With the caveat that a cancelled syscall
+could've also led to the memory being munmap()ed, so the nread==0 case
+could also happen legitimately - so you might want to move this check
+up above the nread==0 (mm went away) and nread==-1 (mm still exists,
+but read from address failed, errno EIO) checks if the error message
+shouldn't appear spuriously.
