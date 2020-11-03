@@ -2,65 +2,65 @@ Return-Path: <SRS0=fr6w=EJ=vger.kernel.org=linux-man-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-17.4 required=3.0 tests=BAYES_00,DKIMWL_WL_MED,
-	DKIM_SIGNED,DKIM_VALID,DKIM_VALID_AU,HEADER_FROM_DIFFERENT_DOMAINS,
-	INCLUDES_PATCH,MAILING_LIST_MULTI,SPF_HELO_NONE,SPF_PASS,USER_AGENT_GIT,
-	USER_IN_DEF_DKIM_WL autolearn=ham autolearn_force=no version=3.4.0
+X-Spam-Status: No, score=-12.6 required=3.0 tests=BAYES_00,DKIM_SIGNED,
+	DKIM_VALID,DKIM_VALID_AU,FREEMAIL_FORGED_FROMDOMAIN,FREEMAIL_FROM,
+	HEADER_FROM_DIFFERENT_DOMAINS,INCLUDES_PATCH,MAILING_LIST_MULTI,SIGNED_OFF_BY,
+	SPF_HELO_NONE,SPF_PASS,USER_AGENT_GIT autolearn=ham autolearn_force=no
+	version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 8AB85C2D0A3
-	for <linux-man@archiver.kernel.org>; Tue,  3 Nov 2020 19:04:59 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 3DEBEC2D0A3
+	for <linux-man@archiver.kernel.org>; Tue,  3 Nov 2020 21:14:58 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.kernel.org (Postfix) with ESMTP id 26B5B2074B
-	for <linux-man@archiver.kernel.org>; Tue,  3 Nov 2020 19:04:59 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTP id E309C20757
+	for <linux-man@archiver.kernel.org>; Tue,  3 Nov 2020 21:14:57 +0000 (UTC)
 Authentication-Results: mail.kernel.org;
-	dkim=pass (2048-bit key) header.d=google.com header.i=@google.com header.b="vT0TJV8q"
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="MWS29J7K"
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1727852AbgKCTE6 (ORCPT <rfc822;linux-man@archiver.kernel.org>);
-        Tue, 3 Nov 2020 14:04:58 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:34266 "EHLO
+        id S2388919AbgKCVO4 (ORCPT <rfc822;linux-man@archiver.kernel.org>);
+        Tue, 3 Nov 2020 16:14:56 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:54290 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1727706AbgKCTE6 (ORCPT
-        <rfc822;linux-man@vger.kernel.org>); Tue, 3 Nov 2020 14:04:58 -0500
-Received: from mail-pf1-x449.google.com (mail-pf1-x449.google.com [IPv6:2607:f8b0:4864:20::449])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 482DAC0613D1
-        for <linux-man@vger.kernel.org>; Tue,  3 Nov 2020 11:04:58 -0800 (PST)
-Received: by mail-pf1-x449.google.com with SMTP id x9so1982282pff.10
-        for <linux-man@vger.kernel.org>; Tue, 03 Nov 2020 11:04:58 -0800 (PST)
+        with ESMTP id S1732451AbgKCVO4 (ORCPT
+        <rfc822;linux-man@vger.kernel.org>); Tue, 3 Nov 2020 16:14:56 -0500
+Received: from mail-wr1-x441.google.com (mail-wr1-x441.google.com [IPv6:2a00:1450:4864:20::441])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id E4B89C0613D1
+        for <linux-man@vger.kernel.org>; Tue,  3 Nov 2020 13:14:55 -0800 (PST)
+Received: by mail-wr1-x441.google.com with SMTP id g12so19909020wrp.10
+        for <linux-man@vger.kernel.org>; Tue, 03 Nov 2020 13:14:55 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=google.com; s=20161025;
-        h=sender:date:message-id:mime-version:subject:from:to:cc;
-        bh=97oxEDL0+5u6kRAuvPT2fBbsOsmtcz2aYWRBJ1sXcGc=;
-        b=vT0TJV8qIIidvm/Se5mv+DLnHo0P64eQxiI4Uy2eRZbHfGpUq7qmyYuDIGeo/XlClL
-         bqgvm3FAw2OYG7rLu1LrMA5k6cjpMCsUMHG3aLYPMYqdwaGJGaVLd2kplY9/3QqoVNAg
-         evlVgGYbAqtIHXh18krRf0/RDW6Zp5x4inRijAasXITB6+PSR5uX4GxAjwp9hAt4bncP
-         6v4pieW1jmPUpdgoOD/tcvIAgLsZK2OFpfFjQLKDmc3iUd+D1YMclgiYpo5nvOTQCXTO
-         8ginmpl7Yn4hGtiVoZJFQsPsTeTnjpNc2R4sAvQj5CL4COcNsEvnerfQjrHla/6A/GnQ
-         50VA==
+        d=gmail.com; s=20161025;
+        h=from:to:cc:subject:date:message-id:in-reply-to:references
+         :mime-version:content-transfer-encoding;
+        bh=7BGn0YaMsfrz1gQkKr2GhCTxqkFFcIPrmh3+Y7Vwiw0=;
+        b=MWS29J7K6j7Hp2p76E+a5wkPu+c9gNO0kvNF8uEaddLegxNvFTbNPgEI7RiXjBpEDM
+         Iv3Vc2ev14dXwRt3tPccj0LlkuSAjsXrKyBvXM1xMbenecnVHncu/jSqgiXF5g6zwP0/
+         BckQzu/BCRMq0UNTOZVXfItxr2aQ1dlk+7ttISV8CT8khtx2CpOweRfjvW+knovRja+6
+         D5RA06kfwHjYfLEmXRU+KMPtbfsqFuXKenpbP+cjcc2ofIiaD9iT4jXbAUSoDiSctGEy
+         IEGgYvxMjhtbjKedjODetkPom3oJ23KBuq+X0cpwwwIgLBM0ddoDhgAMyEhvx99GADti
+         nv/w==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
-        h=x-gm-message-state:sender:date:message-id:mime-version:subject:from
-         :to:cc;
-        bh=97oxEDL0+5u6kRAuvPT2fBbsOsmtcz2aYWRBJ1sXcGc=;
-        b=Yibh5S3FHeqmhYnemzOYv6bMmtZF50sFHTWKjfAe5oe1EMnNHxJonQMCy37lExos90
-         FztP5hiQZuM2OajlDjgRNRcfLH8bqKuF52IvBKHljoZJgMNNrJ2lRKPjx8vwx6+rzaCP
-         r8zicEed/f3LYiSe0gm7O/3jgRXQwJOZ21zoCaaHB/1gYu5LFRg36WAZ7WrPlDcpO/N3
-         zg36wGas3GMzIcKPNTHxyjgLZqdbdJdEY3OkCnLnbTbjtqrS/iItXB/K906D2ctfP2Hi
-         xRlC5zbEB6h+sNJkXtY8qg5O6+lNxaAv5+feq09QY53r0zsOYh6q7937xPTXeS7UORvn
-         54Gg==
-X-Gm-Message-State: AOAM532K6I0lZthuyN87qmLFdeH03QeNjJiVt9veck/XbCo1s7eN4qpp
-        EWoUhFIqTxhb1/HbNnYqTHp41ErS
-X-Google-Smtp-Source: ABdhPJwYZ9z6FfokB5jYc16eT4hSbAGMQeoQwheMYm0J540Z6IBMuFEIZdr6jldavj9WsNpAZdBa4Ov4
-Sender: "posk via sendgmr" <posk@posk.svl.corp.google.com>
-X-Received: from posk.svl.corp.google.com ([2620:15c:2cd:202:7220:84ff:fe09:7598])
- (user=posk job=sendgmr) by 2002:a17:90b:293:: with SMTP id
- az19mr139749pjb.1.1604430297543; Tue, 03 Nov 2020 11:04:57 -0800 (PST)
-Date:   Tue,  3 Nov 2020 11:04:33 -0800
-Message-Id: <20201103190433.373528-1-posk@google.com>
-Mime-Version: 1.0
-X-Mailer: git-send-email 2.29.1.341.ge80a0c044ae-goog
-Subject: [PATCH] membarrier.2: Update membarrier manpage for 5.10
-From:   Peter Oskolkov <posk@google.com>
-To:     mtk.manpages@gmail.com,
+        h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
+         :references:mime-version:content-transfer-encoding;
+        bh=7BGn0YaMsfrz1gQkKr2GhCTxqkFFcIPrmh3+Y7Vwiw0=;
+        b=eA4pGzAnQHZv2yoOkaKZjMBFkWvNhlKLFNvWfbEyYU0T3qSiuInTyPyWO9trwIHfa0
+         DEKtlI4KUfg8R0qndUF2LeRGz6DecQHCYZpN04DAZyZ0B73/kJl70wlvsfdx4o6ZIk6v
+         BlmMIo+zQdg/40QqVyx4yoGP2SKp5LEVcqRMeJmjarbJPflDAZrf/j5OpxY0ylI4E66a
+         qhliy2UVBAF3fvIPJh5zdeDss44N3CwtpO2CbxAt6imjYJXbLmJA6q/7Ai2/efeiSIja
+         pqVWEiaXUEv0iotDIgFcYq8F7yya0Hkr3zWcjjHKt9w0xkpWxpPBdMh/r8P04lCP0tKA
+         K7JA==
+X-Gm-Message-State: AOAM531e96d99VSeovUbDCfKADEjh1I7LjSlhPkirWup8Qujr3yky2RP
+        K9VxpNwZb6mp9jljRN/xhIU=
+X-Google-Smtp-Source: ABdhPJxSDppd6WADX2PBgL0Kw248BCSGy3dnhpm41uTkhYWKB7H0yBvUWuB1ozFM5osjz2tAn4riNA==
+X-Received: by 2002:adf:cd82:: with SMTP id q2mr29845657wrj.118.1604438094678;
+        Tue, 03 Nov 2020 13:14:54 -0800 (PST)
+Received: from localhost.localdomain ([170.253.60.68])
+        by smtp.googlemail.com with ESMTPSA id y4sm24431wmj.2.2020.11.03.13.14.53
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Tue, 03 Nov 2020 13:14:54 -0800 (PST)
+From:   Alejandro Colomar <colomar.6.4.3@gmail.com>
+To:     Michael Kerrisk <mtk.manpages@gmail.com>,
+        Peter Oskolkov <posk@google.com>,
         Mathieu Desnoyers <mathieu.desnoyers@efficios.com>
 Cc:     Alejandro Colomar <colomar.6.4.3@gmail.com>,
         linux-man@vger.kernel.org,
@@ -69,87 +69,70 @@ Cc:     Alejandro Colomar <colomar.6.4.3@gmail.com>,
         Boqun Feng <boqun.feng@gmail.com>,
         Paul Turner <pjt@google.com>,
         Chris Kennelly <ckennelly@google.com>,
-        Peter Oskolkov <posk@posk.io>, Peter Oskolkov <posk@google.com>
-Content-Type: text/plain; charset="UTF-8"
+        Peter Oskolkov <posk@posk.io>
+Subject: [PATCH 2/1] membarrier.2: Update EXAMPLES for new membarrier() API
+Date:   Tue,  3 Nov 2020 22:13:34 +0100
+Message-Id: <20201103211333.11826-1-colomar.6.4.3@gmail.com>
+X-Mailer: git-send-email 2.28.0
+In-Reply-To: <042cd0b4-236f-ceca-2760-9a4fbbcd3e3f@gmail.com>
+References: <042cd0b4-236f-ceca-2760-9a4fbbcd3e3f@gmail.com>
+MIME-Version: 1.0
+Content-Transfer-Encoding: 8bit
 Precedence: bulk
 List-ID: <linux-man.vger.kernel.org>
 X-Mailing-List: linux-man@vger.kernel.org
 
-Linux kernel commit 2a36ab717e8fe678d98f81c14a0b124712719840
-(part of 5.10 release) changed sys_membarrier prototype/parameters
-and added two new commands. This manpages patch reflects these
-changes, by mostly copying comments from the kernel patch
-into the manpage (I was also the author of the kernel change).
+Fix the EXAMPLES tu use the new interface for the syscall membarrier().
+See the previous commit, by Peter Oskolkov.
+
+Signed-off-by: Alejandro Colomar <colomar.6.4.3@gmail.com>
 ---
- man2/membarrier.2 | 41 +++++++++++++++++++++++++++++++++++++++--
- 1 file changed, 39 insertions(+), 2 deletions(-)
+
+Hi Peter,
+
+I wrote this patch for the EXAMPLES Section to complete yours.
+
+Cheers,
+
+Alex
+
+ man2/membarrier.2 | 8 ++++----
+ 1 file changed, 4 insertions(+), 4 deletions(-)
 
 diff --git a/man2/membarrier.2 b/man2/membarrier.2
-index 3064b2d2e..c95e97cb6 100644
+index c95e97cb6..0251f1477 100644
 --- a/man2/membarrier.2
 +++ b/man2/membarrier.2
-@@ -30,7 +30,7 @@ membarrier \- issue memory barriers on a set of threads
- .PP
- .B #include <linux/membarrier.h>
- .PP
--.BI "int membarrier(int " cmd ", int " flags ");"
-+.BI "int membarrier(int " cmd ", unsigned int " flags ", int " cpu_id );"
- .fi
- .PP
- .IR Note :
-@@ -165,6 +165,29 @@ core command prior to using it.
- Register the process's intent to use
- .BR MEMBARRIER_CMD_PRIVATE_EXPEDITED_SYNC_CORE .
- .TP
-+.BR MEMBARRIER_CMD_PRIVATE_EXPEDITED_RSEQ " (since Linux 5.10)"
-+Ensure the caller thread, upon return from system call, that all its
-+running thread siblings have any currently running rseq critical sections
-+restarted if
-+.I flags
-+parameter is 0; if
-+.I flags
-+parameter is
-+.BR MEMBARRIER_CMD_FLAG_CPU ,
-+then this operation is performed only on CPU indicated by
-+.I cpu_id .
-+This guarantee is provided only for threads in
-+the same process as the calling thread.
-+.IP
-+RSEQ membarrier is only available in the "private expedited" form.
-+.IP
-+A process must register its intent to use the private expedited rseq
-+command prior to using it.
-+.TP
-+.BR MEMBARRIER_CMD_REGISTER_PRIVATE_EXPEDITED_RSEQ " (since Linux 5.10)"
-+Register the process's intent to use
-+.BR MEMBARRIER_CMD_PRIVATE_EXPEDITED_RSEQ .
-+.TP
- .BR MEMBARRIER_CMD_SHARED " (since Linux 4.3)"
- This is an alias for
- .BR MEMBARRIER_CMD_GLOBAL
-@@ -172,7 +195,21 @@ that exists for header backward compatibility.
- .PP
- The
- .I flags
--argument is currently unused and must be specified as 0.
-+argument must be specified as 0 unless the command is
-+.BR MEMBARRIER_CMD_PRIVATE_EXPEDITED_RSEQ ,
-+in which case
-+.I flags
-+can be either 0 or
-+.BR MEMBARRIER_CMD_FLAG_CPU .
-+.PP
-+The
-+.I cpu_id
-+argument is ignored unless
-+.I flags
-+is
-+.BR MEMBARRIER_CMD_FLAG_CPU ,
-+in which case it must specify the CPU targeted by this membarrier
-+command.
- .PP
- All memory accesses performed in program order from each targeted thread
- are guaranteed to be ordered with respect to
+@@ -387,9 +387,9 @@ becomes:
+ static volatile int a, b;
+ 
+ static int
+-membarrier(int cmd, int flags)
++membarrier(int cmd, unsigned int flags, int cpu_id)
+ {
+-    return syscall(__NR_membarrier, cmd, flags);
++    return syscall(__NR_membarrier, cmd, flags, cpu_id);
+ }
+ 
+ static int
+@@ -399,7 +399,7 @@ init_membarrier(void)
+ 
+     /* Check that membarrier() is supported. */
+ 
+-    ret = membarrier(MEMBARRIER_CMD_QUERY, 0);
++    ret = membarrier(MEMBARRIER_CMD_QUERY, 0, 0);
+     if (ret < 0) {
+         perror("membarrier");
+         return \-1;
+@@ -426,7 +426,7 @@ static void
+ slow_path(int *read_a)
+ {
+     b = 1;
+-    membarrier(MEMBARRIER_CMD_GLOBAL, 0);
++    membarrier(MEMBARRIER_CMD_GLOBAL, 0, 0);
+     *read_a = a;
+ }
+ 
 -- 
-2.29.1.341.ge80a0c044ae-goog
+2.28.0
 
