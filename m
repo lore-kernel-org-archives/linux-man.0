@@ -1,228 +1,139 @@
-Return-Path: <SRS0=FrXf=EO=vger.kernel.org=linux-man-owner@kernel.org>
+Return-Path: <linux-man-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-6.6 required=3.0 tests=BAYES_00,DKIM_SIGNED,
-	DKIM_VALID,DKIM_VALID_AU,FREEMAIL_FORGED_FROMDOMAIN,FREEMAIL_FROM,
-	HEADER_FROM_DIFFERENT_DOMAINS,MAILING_LIST_MULTI,SIGNED_OFF_BY,SPF_HELO_NONE,
-	SPF_PASS autolearn=no autolearn_force=no version=3.4.0
+X-Spam-Status: No, score=-5.0 required=3.0 tests=BAYES_00,DKIM_SIGNED,
+	DKIM_VALID,FREEMAIL_FORGED_FROMDOMAIN,FREEMAIL_FROM,
+	HEADER_FROM_DIFFERENT_DOMAINS,MAILING_LIST_MULTI,SPF_HELO_NONE,SPF_PASS,
+	USER_AGENT_SANE_1 autolearn=no autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 5EAD1C388F9
-	for <linux-man@archiver.kernel.org>; Sun,  8 Nov 2020 12:23:05 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 6E3FCC388F7
+	for <linux-man@archiver.kernel.org>; Wed, 11 Nov 2020 00:43:08 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.kernel.org (Postfix) with ESMTP id 07766206F4
-	for <linux-man@archiver.kernel.org>; Sun,  8 Nov 2020 12:23:04 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTP id 01B5E21741
+	for <linux-man@archiver.kernel.org>; Wed, 11 Nov 2020 00:43:05 +0000 (UTC)
 Authentication-Results: mail.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="a8n2Fax/"
+	dkim=pass (1024-bit key) header.d=gmx.net header.i=@gmx.net header.b="JeomC1HC"
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1726607AbgKHMXE (ORCPT <rfc822;linux-man@archiver.kernel.org>);
-        Sun, 8 Nov 2020 07:23:04 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:46572 "EHLO
-        lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1726210AbgKHMXE (ORCPT
-        <rfc822;linux-man@vger.kernel.org>); Sun, 8 Nov 2020 07:23:04 -0500
-Received: from mail-oi1-x231.google.com (mail-oi1-x231.google.com [IPv6:2607:f8b0:4864:20::231])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id EE49DC0613CF
-        for <linux-man@vger.kernel.org>; Sun,  8 Nov 2020 04:23:03 -0800 (PST)
-Received: by mail-oi1-x231.google.com with SMTP id d9so6966421oib.3
-        for <linux-man@vger.kernel.org>; Sun, 08 Nov 2020 04:23:03 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20161025;
-        h=mime-version:references:in-reply-to:reply-to:from:date:message-id
-         :subject:to:cc;
-        bh=ZJQ3YXxs526MlR+ne+nuYCbi7sAG2sJQDjkzGtqYKLU=;
-        b=a8n2Fax/K+OBeNVrORu0ZL2BGq3e4BobjrzsBSlGGGxZ78j1GZaJ+mknQMoweIDbJq
-         w0LXlGRlc6G3Up49bxpVGJsBfWQKJVnyhgmcxiD82XPNBllVAcWwsBcY0D4Z8niyXdSM
-         9G5OMuN0wJoeyXSeLHJPgLi0HpzIYuue0CxvqX5SS9SKME0q7trx7v54uKqCTcTOkatx
-         +e29ljuEqPT/jTrQIMb4B0DOSS+QgZvHZci1AqI5YavlnHqPwpWQV5oRbBeFD3LUYDpN
-         8ZdFiw+XwOL77Uel6LHE8UY1m8AwFwYs8eMEjy2DTv7JAPRMKl7ctwep6/EXOILw9dPH
-         yAog==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20161025;
-        h=x-gm-message-state:mime-version:references:in-reply-to:reply-to
-         :from:date:message-id:subject:to:cc;
-        bh=ZJQ3YXxs526MlR+ne+nuYCbi7sAG2sJQDjkzGtqYKLU=;
-        b=W3yNVymvganJUBtFRHN4yW60T6dte0amxC+2SD3opoPnitWD63anxvePdCyU+pKFpJ
-         I+/2z8hhEmZuPozFEq0R1griliOK3WWXgqddEqzV5Ty8fpU7HjvdSusNzUFk9M5dGJl6
-         yKNb5MY8K/dKHm+SSQZSkFFeYy/ct4azmeC+v2uyD1mur0cJYmdQ0zhqD8c+iF0eOzRA
-         GtCMMkhSOzHWgK07knYu65gGna3iGu1/rzfsFor9M4dNigYJcLy1svR5awJtmpzbUrZY
-         OFdRovNZraw2WTchQmBkz9y/8zwbbQb04bxtAxjb6HdmykLPMBMvdsJIHvXqMureBxJJ
-         ku2g==
-X-Gm-Message-State: AOAM530EGMbHFWNjX9F07jcQ4ddN1BabwXvpElMy8XFAMytIQG90MJ2o
-        yRTmt7fWuT7VgSRP71JOjd+QJAuF5IZaITAgI2HgTGribShJog==
-X-Google-Smtp-Source: ABdhPJyGKyrDD3BDZSlQ3O0FQZT60Tuxw8lqakSRl3KJ9CWp4lHv5K0qZUTgEDan16wPfDdzYDbpTXomeYVM/Hc7igA=
-X-Received: by 2002:aca:1803:: with SMTP id h3mr6173014oih.148.1604838182888;
- Sun, 08 Nov 2020 04:23:02 -0800 (PST)
+        id S1732052AbgKKAnF (ORCPT <rfc822;linux-man@archiver.kernel.org>);
+        Tue, 10 Nov 2020 19:43:05 -0500
+Received: from mout.gmx.net ([212.227.17.20]:52709 "EHLO mout.gmx.net"
+        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
+        id S1727275AbgKKAnB (ORCPT <rfc822;linux-man@vger.kernel.org>);
+        Tue, 10 Nov 2020 19:43:01 -0500
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=gmx.net;
+        s=badeba3b8450; t=1605055379;
+        bh=O04ydfee4ukTyETSCBFBMjKtlN/zT9QuTDJQMo7WBuY=;
+        h=X-UI-Sender-Class:To:From:Subject:Date;
+        b=JeomC1HCph/ijK1UnJRJELrnBqRRdkj7Se0PZgf9oQU3iQvwb66OFVwdAHyJ5QK7y
+         46GdtCb/ZHUM/mEBHWDkf/EDxmy4XXYL0vXYgeLQBBl5qMzh75HWw/67OtwwC18Zri
+         wsR518xIPQBw3JMgQD0+nsqxlZ1qogMOJyPmeD3A=
+X-UI-Sender-Class: 01bb95c1-4bf8-414a-932a-4f6e2808ef9c
+Received: from [192.168.123.51] ([178.202.41.135]) by mail.gmx.com (mrgmx104
+ [212.227.17.168]) with ESMTPSA (Nemesis) id 1Ml6m4-1jtfNH0fro-00lTb1; Wed, 11
+ Nov 2020 01:42:59 +0100
+To:     linux-man@vger.kernel.org, Michael Kerrisk <mtk.manpages@gmail.com>
+From:   Heinrich Schuchardt <xypron.glpk@gmx.de>
+Subject: sigaction.2: clarification for SA_NODEFER needed
+Autocrypt: addr=xypron.glpk@gmx.de; prefer-encrypt=mutual; keydata=
+ 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 Eg==
+Message-ID: <e18cbe1f-5dcf-c717-5790-912af6bbfa41@gmx.de>
+Date:   Wed, 11 Nov 2020 01:42:53 +0100
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
+ Thunderbird/68.12.0
 MIME-Version: 1.0
-References: <f10acb37-f929-c1fd-9827-c33aaf2955a1@gmail.com>
- <20201106093845.12897-1-colomar.6.4.3@gmail.com> <3f041e44-c5c7-f17a-9e99-125eeb6ccb0c@gmail.com>
- <387259c5-3051-8058-e99c-b17873fe7187@gmail.com>
-In-Reply-To: <387259c5-3051-8058-e99c-b17873fe7187@gmail.com>
-Reply-To: mtk.manpages@gmail.com
-From:   "Michael Kerrisk (man-pages)" <mtk.manpages@gmail.com>
-Date:   Sun, 8 Nov 2020 13:22:51 +0100
-Message-ID: <CAKgNAkjsnu9+rxdLgZ5VzYxjFf_c1Ed0JUQ8=KHkK6Qw9X4B-Q@mail.gmail.com>
-Subject: Re: Format inline code
-To:     Alejandro Colomar <colomar.6.4.3@gmail.com>
-Cc:     "G . Branden Robinson" <g.branden.robinson@gmail.com>,
-        linux-man <linux-man@vger.kernel.org>
-Content-Type: text/plain; charset="UTF-8"
+Content-Type: text/plain; charset=utf-8
+Content-Language: en-US
+Content-Transfer-Encoding: 7bit
+X-Provags-ID: V03:K1:WYnWZzpOW7fGAyOIKhtYSuQLCIpWjOLIk4R+oSN+LgIzsrSjCfr
+ lJna2/bgvFLnqcWNbUf0/c7Qlqz+GV5EFAZ+t86UK3INkq8lu0hiHjvtNYHQpVY/VZt6gPW
+ TNHSwiI8FCgavzE7BOTkiGjimWpulB2wRR8I4PjnI+azs+xZGYnDpiwnKk3VW1ypoVFO1N0
+ U0S22kMMW998hvPaY2VGw==
+X-UI-Out-Filterresults: notjunk:1;V03:K0:GtuabmNTmXg=:xGLJhhDAYaUEz+ppnBxeis
+ 7a8RhrmQgLEp4Iz+RZTtbgNqac6KjktaZj3Pc2WnQPePH08OORBO9vlZPuiLg6I4vHv+dlaPw
+ U5hV0Vw1VFSUzdN4evTmuAZJN2Kils+pKBwnlA6MfqLt5TgZyj+XtDV1649BOJKCMvLHg8TOD
+ d0bUKW3qt1XteanpACyMrUOl57PQ7+YJyGBScWp1mGDYBlPAWFzOUMjQkMwuIprdGee8QOoi4
+ 4YiGqacUXEZ55ynL3U/RUBjexioYBI5c2EC6CpBZsqCox5QvKI9Ck2BbE+N5NhPIeRo670pt8
+ KYVbvlvVTqw61Va2qN8bTn8IUCOaUaq9OJg8FozZ1t9LZKR+iZ5pa1GFSxPlIDgGWFELAvdwI
+ I0ba+nqIbDgsNr0pinGKny3XbLobS46ugSKD7Q//nkODBeDJZmKApBruLIQs0e8GtlMoOAsH+
+ JdustWThqZmzQlhhpjqksvXtH2M1sPvmBLbF+mOvtPWVK+eZctEvTFXtnwiwnOhcVexb+4Yik
+ ph3ijJdQmfy6ufYFjO8efOkTwyujg6+W5a8Q5IKjxdv28+gnyUkB8snHiKkA8vOauIR4Mjs13
+ kurlfKVrqkriULgfTyoJky6jMJ946oVHQJ52nBkxTAGrFQTQqgMmfbwpT3hVAOw2ASAUrOJAi
+ +x3g/deF80TFHEENBGyU4S4Z6oH1/Xsa596Xp1HqjoXRp8ihzarURUYfjbnj5J2zB4oPBPhfb
+ quKZRiSzu42gQJbfX9pCS139FkoCq5WFygxILtzVJgyQNJGKudwgR8WKqmP+jeYeGObHqZhKF
+ OeNLEL1o11RIZ7bGBKPRTgYGLdUP5V9JU7+akkQfVj2YH3sgg/70eyugaa7HCaL6kORptwqUG
+ DSn1RqcRC+7rv+2cwf/w==
 Precedence: bulk
 List-ID: <linux-man.vger.kernel.org>
 X-Mailing-List: linux-man@vger.kernel.org
 
-Hi Alex,
+Hello Michael,
 
-On Fri, 6 Nov 2020 at 17:36, Alejandro Colomar <colomar.6.4.3@gmail.com> wrote:
->
-> Hi M,
->
-> On 2020-11-06 17:00, Michael Kerrisk (man-pages) wrote:
->  > Hi Alex,
->  >
->  > On 11/6/20 10:38 AM, Alejandro Colomar wrote:
->  >> Signed-off-by: Alejandro Colomar <colomar.6.4.3@gmail.com>
->  >> ---
->  >>
->  >> Hi Michael,
->  >>
->  >> This is not a patch.
->  >> But I sent you a full page to better see what we're talking about.
->  >
->  > Thanks. The "patch" was helpful.
-> :P
->
-> BTW, the thing I tried in the "patch"
-> of passing a length argument to .IP
-> is not possible, right?
+I have been writing a handler for SIGILL and SIGSEGV which restarts the
+program using execv() if an exception occurs. The handler never returns.
 
-Right.
+From the description of SA_NODEFER it was not evident that even if the
+process is restarted with execv() the signal remains masked if
+SA_NODEFER is not set as a flag.
 
-> It would simplify some things.
->
->  >
->  >> Here are, as subsections of EXAMPLES,
->  >> A (.RS/.RE after first .TP paragraph) and
->  >> B (.RS/.RE Always)
->  >> from last email.
->  >>
->  >> As for using .RS/.RE for single paragraphs,
->  >> we could do as in C:
->  >> {} for multi-line ifs/loops -> .RS/.RE for multiple paragraphs.
->  >
->  > With the important caveat that {} plus indentation is a lot more
->  > visually comprehensible than a .RS/.RE pair.
-> Agree.  I dislike most if not all markup languages
-> for being not very easy to read.
-> Maybe .rst is the only one I kind of like in that sense :/
+It think this behavior deserves mentioning on the sigaction.2 manpage, e.g.
 
-Yeah, I've wondered about a conversion to .rst, but so far I'm not
-sure, and also I presume it will take a lot of work.
+"Do not prevent the signal from being received from within its own
+signal handler. A signal handler call is not terminated by calling
+execv() as the pending signal property is inherited by the new process."
 
->  >> just indent for single-line ifs/loops -> .IP for single paragraphs.
->  >
->  > So., I think the choice is really down to something like
->  > this:
->  >
->  > * For .TP with single paragraph, no extra markup
->  > * For .TP with multiple paragraphs/examples, I would probably prefer:
->  >
->  >          .TP
->  >          .RS
->  >          [paragraphs started by .PP]
->  >          .RE
->  >
->  > rather than:
->  >
->  >          .TP
->  >          [first para]
->  >          .RS
->  >          [paragraphs started by .PP]
->  >          .RE
->  >
->
-> I'd reword it as:
->
->            .TP
->            .RS
->            [first para]
->            [paragraphs started by .PP]
->            .RE
+On the signal.7 manpage there is a paragraph "Signal mask and pending
+signals". Here pending signals are mentioned. There is a sentence
+"Between the time when it is generated and when it is delivered a signal
+is said to be pending."
 
-(Yes.)
+To me "delivered" means the instance when the signal handler is called
+and not the instance when the signal handler returns. So said sentence
+should be reworked, e.g.
 
-> i.e., the first paragraph should not start by .PP.
-> But I agree on including the first one in the .RS/.RE group
-> for logic and consistency reasons.
->
->
->  > But I still wonder, do we want to do this? The advantages:
->  >
->  > * Consistent use of .PP everywhere.
->  >
->  > The disadvantages:
->  > * A bit more mark-up required.
->
-> Agree on that one.
->
->  > * Perhaps the source is also a little harder to understand.
->
-> I would argue the other way:
->
-> .IP Does too many things: It indents, and it also adds a new paragraph.
-> It is like .RS+.PP/.RE grouped into one macro.
+"Between the time when it is generated and when the signal handler
+returns a signal is said to be pending."
 
-Yes, I guess one could argue that point too :-).
+Best regards
 
-> With the separation into .RS/.RE and .PP,
-> each macro does one job, and does it well.
-> So when you see .RS, you know you're moving +1 tab,
-> when you see .RE, you're moving -1 tab.
-> and when you see .PP, you're leaving a blank line.
->
-> It will be more code (the previous disadvantage),
-> but conceptually, I think it will be simpler.
-
-Yeah, I can see the argument.
-
->  > * What to do with existing pages? Do we convert them? Scripting
->  >    will probably help, but still there's probably a decent
->  >    amount of work required.
->
-> Well, we can change them slowly.
->
-> Scripting will probably be difficult,
-> and maybe it doesn't even fix 50% of the cases,
-> so it will probably need to be mostly handmade.
->
-> But there's no hurry.
-> It works as it is now, so we can change one page at a time,
-> and some day all will be fixed.
-> We had pages with very old markup (queue.3; is there any other?),
-> until very recently...
-
-queue.3 was the only one that still used 'mdoc' mark-up.
-
-> For example, when we add new code to a page, we can fix that page.
-> perf_event_open.2 could be a start;
-> it also has some other obvious srcfixes,
-> which could be fixed on the same patch.
-
-So, I am a little bit hesitant about "fix-as-we-go". Possibly, this
-means some pages will never be changed. If we were to make the change,
-my preference would be to do all pages at once. But I am not fixed on
-that idea. Some grepping[1] suggests that the number of pages that
-would need to be changed is around 100. Perhaps fix-as-we-go would be
-feasible...
-
-I'm still thinking about this one.
-
-Cheers,
-
-Michael
-
-[1] grep -l '\.IP$' $(grep -l '\.RS' $(git grep -l '\.TP' man?)) | wc
--- 
-Michael Kerrisk
-Linux man-pages maintainer; http://www.kernel.org/doc/man-pages/
-Linux/UNIX System Programming Training: http://man7.org/training/
+Heinrich
