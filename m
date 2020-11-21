@@ -2,71 +2,74 @@ Return-Path: <linux-man-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-10.8 required=3.0 tests=BAYES_00,DKIM_SIGNED,
+X-Spam-Status: No, score=-15.8 required=3.0 tests=BAYES_00,DKIM_SIGNED,
 	DKIM_VALID,DKIM_VALID_AU,FREEMAIL_FORGED_FROMDOMAIN,FREEMAIL_FROM,
-	HEADER_FROM_DIFFERENT_DOMAINS,INCLUDES_PATCH,MAILING_LIST_MULTI,SPF_HELO_NONE,
-	SPF_PASS,USER_AGENT_GIT autolearn=ham autolearn_force=no version=3.4.0
+	HEADER_FROM_DIFFERENT_DOMAINS,INCLUDES_CR_TRAILER,INCLUDES_PATCH,
+	MAILING_LIST_MULTI,SPF_HELO_NONE,SPF_PASS,USER_AGENT_GIT autolearn=ham
+	autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 4A787C388F9
-	for <linux-man@archiver.kernel.org>; Sat, 21 Nov 2020 14:44:06 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 430ACC64E69
+	for <linux-man@archiver.kernel.org>; Sat, 21 Nov 2020 14:44:29 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.kernel.org (Postfix) with ESMTP id F350822201
-	for <linux-man@archiver.kernel.org>; Sat, 21 Nov 2020 14:44:05 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTP id 04D00223B0
+	for <linux-man@archiver.kernel.org>; Sat, 21 Nov 2020 14:44:28 +0000 (UTC)
 Authentication-Results: mail.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="LF3CR/lH"
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="Y51JVFSB"
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1727922AbgKUOoF (ORCPT <rfc822;linux-man@archiver.kernel.org>);
-        Sat, 21 Nov 2020 09:44:05 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:58736 "EHLO
+        id S1728145AbgKUOoR (ORCPT <rfc822;linux-man@archiver.kernel.org>);
+        Sat, 21 Nov 2020 09:44:17 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:58754 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1727892AbgKUOoF (ORCPT
-        <rfc822;linux-man@vger.kernel.org>); Sat, 21 Nov 2020 09:44:05 -0500
-Received: from mail-qk1-x741.google.com (mail-qk1-x741.google.com [IPv6:2607:f8b0:4864:20::741])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 29D90C0613CF;
-        Sat, 21 Nov 2020 06:44:05 -0800 (PST)
-Received: by mail-qk1-x741.google.com with SMTP id m2so876722qka.3;
-        Sat, 21 Nov 2020 06:44:05 -0800 (PST)
+        with ESMTP id S1728105AbgKUOoL (ORCPT
+        <rfc822;linux-man@vger.kernel.org>); Sat, 21 Nov 2020 09:44:11 -0500
+Received: from mail-qt1-x842.google.com (mail-qt1-x842.google.com [IPv6:2607:f8b0:4864:20::842])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id C853FC061A4A;
+        Sat, 21 Nov 2020 06:44:09 -0800 (PST)
+Received: by mail-qt1-x842.google.com with SMTP id t5so9453246qtp.2;
+        Sat, 21 Nov 2020 06:44:09 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=gmail.com; s=20161025;
-        h=from:to:cc:subject:date:message-id:mime-version
-         :content-transfer-encoding;
-        bh=b1YsIwwUIN4rYNJz4bNr3pgQUADYxpKbFfwui8E1kVk=;
-        b=LF3CR/lH4Pkt6bqErxou/dv4op9wa9S8xbgYEw9tFFeZdj8ETu5DjCeWOTaXEmC1/b
-         KWJxJNTqBX/wE/wqQd1hAPLOJoK3pVxovMeqg51ClH/uLp6+IEY8bz6dE8TcpzcKsv//
-         fNEeLKXjNP/XotaxfAui87UMpr6nUHrsa2MgIBjvzfNDjL4YoT01zrg+kx8LpOFC240F
-         vKC9XXImD6VPD4/st+tmk4ePCK4lQQdcyRfzf3qcxoful5M+k9F9tDtS58U3QiRK6j9g
-         ng+f6uogrtjxOLkT5lo4Yynb3j8+WE/rRZTfhxoXkkaVkDpxKZaJxY+S5WT0dnxnueAh
-         MMAQ==
+        h=from:to:cc:subject:date:message-id:in-reply-to:references
+         :mime-version:content-transfer-encoding;
+        bh=W8hY/Ql0KC3NjThrNmgRpN1eJ4DPqb/Xthh3vnaFG5Q=;
+        b=Y51JVFSBTBEljv9F+YxqarzbZ3wLYPY6lk7oI8oyDzUFfWIk4jSp0V73ggApyTsGc+
+         FPhEk4l4mqw7N0ShyeMfd+Ky+k+f/oGNY1B+dCyLJNOHmA2bue/n+ZH4Xj87ogPZWXNU
+         SW1MYEncChRiPCg/gx2bpGdghlieJYd9crcFtlXp+2GdaU8YcW3P1RfGYoBbkfkT3+ov
+         hK8AaWJv1Et9jp5vstFNTwnfLThVPR+l1g1f6293/Y76CwvJp8Pr3q+8IRYM2D6GVSZ+
+         HQw6BbOdZNgpxBVFXMlibkQGRuXXrRhE0GNOjZgPUUJvHoKD3JBs6i4fUmjfSl03eC7w
+         7Zew==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
-        h=x-gm-message-state:from:to:cc:subject:date:message-id:mime-version
-         :content-transfer-encoding;
-        bh=b1YsIwwUIN4rYNJz4bNr3pgQUADYxpKbFfwui8E1kVk=;
-        b=ZyCzNLtOvc53Wkc0HuXyYDp8K4CfyviGFHLS0RkZ5UEQRwhc+iaxTKTCFMxTtGg/7w
-         aSLNO/Dhwf2UdhLlSjRqfu19MRCiJDwWUxjVkZWfd9minuX88BHqfPZuAlSye2fxL2qu
-         Qic9C8UcsfDToLLngvcOoekSDadsGnc6k0PkH7qVx6t5i8q3Fy6ZkPBvn8aVyHTLSLsA
-         T2psNewdbLF0TuKC5qaQDBFKUvYOCnZZJ7lIPFYE6DkJIHQ0MKi7fz19NmXfq9622y8p
-         2OUYaA8471E4QH6H9qNIqn8HerHmwYEPMqgB/leblHZYcVockP8w9IzpiEudJlvmMOXj
-         USPQ==
-X-Gm-Message-State: AOAM531H/8Y3WpTftdSgPuvHLLzpXKnjCdg91yNLzNGQ4XTaD0lO9rW3
-        mrCOJog+7/7YBXJad3Xzmm+1jRUXr8E=
-X-Google-Smtp-Source: ABdhPJxxK+sVIb9gXaO6vIpinvm4SWyrCKjaFjMTLxuNiHPTirtw1msOuhdVY0ctV9ShJT7hyz0qRg==
-X-Received: by 2002:a37:9a94:: with SMTP id c142mr695606qke.480.1605969843846;
-        Sat, 21 Nov 2020 06:44:03 -0800 (PST)
+        h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
+         :references:mime-version:content-transfer-encoding;
+        bh=W8hY/Ql0KC3NjThrNmgRpN1eJ4DPqb/Xthh3vnaFG5Q=;
+        b=OZ3GVjkmzt9dy/no0qbTTuSpY6SyRqhWRsxX1jeEXhyg2ok9ooLu9Z9Bw3C//bOlwp
+         0IUR7ccoUITVCVFcAyWHa5k8GuKX2XOrdfpiL/cbuhzvkNjaqOKvrp55WTlHREQSTwf1
+         MC09jieH2k8gAQeCvJSEz396VKn4PIjTB+i0aidu1rVdS9qio79YEnYI1vt/AYygTjl7
+         nCJJRNhWERMBvpDqCAn1S/yuWRdHFkRmGn1nBdUjKnK5Dw/vA/h7bAE7bFEBiZMqmg/J
+         4EvG44ChmQTbijz7H2i+JbJtfshvur8DQAZW5/xSicgEJULuLhsjSFuXFIwHsCOAIO9d
+         A5DQ==
+X-Gm-Message-State: AOAM533wxXDU7XApCB/tDgGGVlwTLbtsmkKsW+xjdNt//f8FKzG7VSFJ
+        snZMwzHRXp5b+/uTPeY4TJ4OwernmEU=
+X-Google-Smtp-Source: ABdhPJwb5UJ1zyYFxc8niQFhSXfXCY02AiebZG1VCk68dQyf7z4lI+isE+9s2K0ZihUTx51wPbxUAA==
+X-Received: by 2002:aed:22c5:: with SMTP id q5mr21141065qtc.234.1605969848777;
+        Sat, 21 Nov 2020 06:44:08 -0800 (PST)
 Received: from willemb.nyc.corp.google.com ([2620:0:1003:312:f693:9fff:fef4:3e8a])
-        by smtp.gmail.com with ESMTPSA id q15sm4055137qki.13.2020.11.21.06.44.02
+        by smtp.gmail.com with ESMTPSA id q15sm4055137qki.13.2020.11.21.06.44.07
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Sat, 21 Nov 2020 06:44:03 -0800 (PST)
+        Sat, 21 Nov 2020 06:44:07 -0800 (PST)
 From:   Willem de Bruijn <willemdebruijn.kernel@gmail.com>
 To:     linux-fsdevel@vger.kernel.org
 Cc:     linux-kernel@vger.kernel.org, viro@zeniv.linux.org.uk,
         akpm@linux-foundation.org, soheil.kdev@gmail.com,
         willy@infradead.org, arnd@arndb.de, shuochen@google.com,
         linux-man@vger.kernel.org, Willem de Bruijn <willemb@google.com>
-Subject: [PATCH v4 0/4] add epoll_pwait2 syscall
-Date:   Sat, 21 Nov 2020 09:43:56 -0500
-Message-Id: <20201121144401.3727659-1-willemdebruijn.kernel@gmail.com>
+Subject: [PATCH v4 4/4] selftests/filesystems: expand epoll with epoll_pwait2
+Date:   Sat, 21 Nov 2020 09:44:00 -0500
+Message-Id: <20201121144401.3727659-5-willemdebruijn.kernel@gmail.com>
 X-Mailer: git-send-email 2.29.2.454.gaff20da3a2-goog
+In-Reply-To: <20201121144401.3727659-1-willemdebruijn.kernel@gmail.com>
+References: <20201121144401.3727659-1-willemdebruijn.kernel@gmail.com>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 Precedence: bulk
@@ -75,54 +78,116 @@ X-Mailing-List: linux-man@vger.kernel.org
 
 From: Willem de Bruijn <willemb@google.com>
 
-Enable nanosecond timeouts for epoll.
+Code coverage for the epoll_pwait2 syscall.
 
-Analogous to pselect and ppoll, introduce an epoll_wait syscall
-variant that takes a struct timespec instead of int timeout.
+epoll62: Repeat basic test epoll1, but exercising the new syscall.
+epoll63: Pass a timespec and exercise the timeout wakeup path.
 
-See patch 2 for more details.
+Changes
+  v4:
+  - fix sys_epoll_pwait2 to take __kernel_timespec (Arnd).
+  - fix sys_epoll_pwait2 to have sigsetsize arg.
 
-patch 1: pre patch cleanup: convert internal epoll to timespec64
-patch 2: add syscall
-patch 3: wire up syscall
-patch 4: selftest
+Signed-off-by: Willem de Bruijn <willemb@google.com>
+---
+ .../filesystems/epoll/epoll_wakeup_test.c     | 72 +++++++++++++++++++
+ 1 file changed, 72 insertions(+)
 
-Applies cleanly to next-20201120
-No update to man-pages since v3, see commit
-https://lore.kernel.org/patchwork/patch/1341103/
-
-Willem de Bruijn (4):
-  epoll: convert internal api to timespec64
-  epoll: add syscall epoll_pwait2
-  epoll: wire up syscall epoll_pwait2
-  selftests/filesystems: expand epoll with epoll_pwait2
-
- arch/alpha/kernel/syscalls/syscall.tbl        |   1 +
- arch/arm/tools/syscall.tbl                    |   1 +
- arch/arm64/include/asm/unistd.h               |   2 +-
- arch/arm64/include/asm/unistd32.h             |   2 +
- arch/ia64/kernel/syscalls/syscall.tbl         |   1 +
- arch/m68k/kernel/syscalls/syscall.tbl         |   1 +
- arch/microblaze/kernel/syscalls/syscall.tbl   |   1 +
- arch/mips/kernel/syscalls/syscall_n32.tbl     |   1 +
- arch/mips/kernel/syscalls/syscall_n64.tbl     |   1 +
- arch/mips/kernel/syscalls/syscall_o32.tbl     |   1 +
- arch/parisc/kernel/syscalls/syscall.tbl       |   1 +
- arch/powerpc/kernel/syscalls/syscall.tbl      |   1 +
- arch/s390/kernel/syscalls/syscall.tbl         |   1 +
- arch/sh/kernel/syscalls/syscall.tbl           |   1 +
- arch/sparc/kernel/syscalls/syscall.tbl        |   1 +
- arch/x86/entry/syscalls/syscall_32.tbl        |   1 +
- arch/x86/entry/syscalls/syscall_64.tbl        |   1 +
- arch/xtensa/kernel/syscalls/syscall.tbl       |   1 +
- fs/eventpoll.c                                | 130 ++++++++++++++----
- include/linux/compat.h                        |   6 +
- include/linux/syscalls.h                      |   5 +
- include/uapi/asm-generic/unistd.h             |   4 +-
- kernel/sys_ni.c                               |   2 +
- .../filesystems/epoll/epoll_wakeup_test.c     |  72 ++++++++++
- 24 files changed, 210 insertions(+), 29 deletions(-)
-
+diff --git a/tools/testing/selftests/filesystems/epoll/epoll_wakeup_test.c b/tools/testing/selftests/filesystems/epoll/epoll_wakeup_test.c
+index 8f82f99f7748..ad7fabd575f9 100644
+--- a/tools/testing/selftests/filesystems/epoll/epoll_wakeup_test.c
++++ b/tools/testing/selftests/filesystems/epoll/epoll_wakeup_test.c
+@@ -1,6 +1,8 @@
+ // SPDX-License-Identifier: GPL-2.0
+ 
+ #define _GNU_SOURCE
++#include <asm/unistd.h>
++#include <linux/time_types.h>
+ #include <poll.h>
+ #include <unistd.h>
+ #include <assert.h>
+@@ -21,6 +23,19 @@ struct epoll_mtcontext
+ 	pthread_t waiter;
+ };
+ 
++#ifndef __NR_epoll_pwait2
++#define __NR_epoll_pwait2 -1
++#endif
++
++static inline int sys_epoll_pwait2(int fd, struct epoll_event *events,
++				   int maxevents,
++				   const struct __kernel_timespec *timeout,
++				   const sigset_t *sigset, size_t sigsetsize)
++{
++	return syscall(__NR_epoll_pwait2, fd, events, maxevents, timeout,
++		       sigset, sigsetsize);
++}
++
+ static void signal_handler(int signum)
+ {
+ }
+@@ -3377,4 +3392,61 @@ TEST(epoll61)
+ 	close(ctx.evfd);
+ }
+ 
++/* Equivalent to basic test epoll1, but exercising epoll_pwait2. */
++TEST(epoll62)
++{
++	int efd;
++	int sfd[2];
++	struct epoll_event e;
++
++	ASSERT_EQ(socketpair(AF_UNIX, SOCK_STREAM, 0, sfd), 0);
++
++	efd = epoll_create(1);
++	ASSERT_GE(efd, 0);
++
++	e.events = EPOLLIN;
++	ASSERT_EQ(epoll_ctl(efd, EPOLL_CTL_ADD, sfd[0], &e), 0);
++
++	ASSERT_EQ(write(sfd[1], "w", 1), 1);
++
++	EXPECT_EQ(sys_epoll_pwait2(efd, &e, 1, NULL, NULL, 0), 1);
++	EXPECT_EQ(sys_epoll_pwait2(efd, &e, 1, NULL, NULL, 0), 1);
++
++	close(efd);
++	close(sfd[0]);
++	close(sfd[1]);
++}
++
++/* Epoll_pwait2 basic timeout test. */
++TEST(epoll63)
++{
++	const int cfg_delay_ms = 10;
++	unsigned long long tdiff;
++	struct __kernel_timespec ts;
++	int efd;
++	int sfd[2];
++	struct epoll_event e;
++
++	ASSERT_EQ(socketpair(AF_UNIX, SOCK_STREAM, 0, sfd), 0);
++
++	efd = epoll_create(1);
++	ASSERT_GE(efd, 0);
++
++	e.events = EPOLLIN;
++	ASSERT_EQ(epoll_ctl(efd, EPOLL_CTL_ADD, sfd[0], &e), 0);
++
++	ts.tv_sec = 0;
++	ts.tv_nsec = cfg_delay_ms * 1000 * 1000;
++
++	tdiff = msecs();
++	EXPECT_EQ(sys_epoll_pwait2(efd, &e, 1, &ts, NULL, 0), 0);
++	tdiff = msecs() - tdiff;
++
++	EXPECT_GE(tdiff, cfg_delay_ms);
++
++	close(efd);
++	close(sfd[0]);
++	close(sfd[1]);
++}
++
+ TEST_HARNESS_MAIN
 -- 
 2.29.2.454.gaff20da3a2-goog
 
