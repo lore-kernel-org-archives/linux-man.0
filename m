@@ -2,83 +2,97 @@ Return-Path: <linux-man-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-5.8 required=3.0 tests=BAYES_00,DKIMWL_WL_HIGH,
-	DKIM_SIGNED,DKIM_VALID,DKIM_VALID_AU,HEADER_FROM_DIFFERENT_DOMAINS,
-	MAILING_LIST_MULTI,SPF_HELO_NONE,SPF_PASS autolearn=no autolearn_force=no
-	version=3.4.0
+X-Spam-Status: No, score=-3.6 required=3.0 tests=BAYES_00,DKIM_INVALID,
+	DKIM_SIGNED,HEADER_FROM_DIFFERENT_DOMAINS,MAILING_LIST_MULTI,SPF_HELO_NONE,
+	SPF_PASS autolearn=no autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 8AD91C64E7C
-	for <linux-man@archiver.kernel.org>; Wed, 25 Nov 2020 16:50:39 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 2433EC56201
+	for <linux-man@archiver.kernel.org>; Wed, 25 Nov 2020 19:27:20 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.kernel.org (Postfix) with ESMTP id 30D8021527
-	for <linux-man@archiver.kernel.org>; Wed, 25 Nov 2020 16:50:39 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTP id B9023206D9
+	for <linux-man@archiver.kernel.org>; Wed, 25 Nov 2020 19:27:19 +0000 (UTC)
 Authentication-Results: mail.kernel.org;
-	dkim=pass (1024-bit key) header.d=redhat.com header.i=@redhat.com header.b="BRElEXym"
+	dkim=fail reason="key not found in DNS" (0-bit key) header.d=szeredi.hu header.i=@szeredi.hu header.b="bPok7N0l"
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1732173AbgKYQuZ (ORCPT <rfc822;linux-man@archiver.kernel.org>);
-        Wed, 25 Nov 2020 11:50:25 -0500
-Received: from us-smtp-delivery-124.mimecast.com ([63.128.21.124]:28530 "EHLO
-        us-smtp-delivery-124.mimecast.com" rhost-flags-OK-OK-OK-OK)
-        by vger.kernel.org with ESMTP id S1732067AbgKYQuZ (ORCPT
-        <rfc822;linux-man@vger.kernel.org>); Wed, 25 Nov 2020 11:50:25 -0500
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
-        s=mimecast20190719; t=1606323024;
-        h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
-         to:to:cc:cc:mime-version:mime-version:content-type:content-type:
-         content-transfer-encoding:content-transfer-encoding;
-        bh=XZc3CPeOm1ZOxeaYmzK65nkw+8TNuZ7nhsmtRqGrSEo=;
-        b=BRElEXymKbRO2sMs3V+UaNmbZPB/LcrmnCRyVVan3PrlMT+7YG7lU0AAf51UuFDhP5z0fQ
-        1pAo291Ik1kaFFXmetzkRFQYqGSfZqDQYxenFeFVslLzHSNfdYSKsH+XcnhpgkJO5KtgLX
-        7qPlOLr4EytkzQy+gA9+oed55YJRla8=
-Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
- [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-596-bEjfIDKOOqarG3JXigFZCQ-1; Wed, 25 Nov 2020 11:50:20 -0500
-X-MC-Unique: bEjfIDKOOqarG3JXigFZCQ-1
-Received: from smtp.corp.redhat.com (int-mx07.intmail.prod.int.phx2.redhat.com [10.5.11.22])
-        (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
-        (No client certificate requested)
-        by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 76FDD185E48A;
-        Wed, 25 Nov 2020 16:50:19 +0000 (UTC)
-Received: from warthog.procyon.org.uk (ovpn-112-111.rdu2.redhat.com [10.10.112.111])
-        by smtp.corp.redhat.com (Postfix) with ESMTP id D604510021B3;
-        Wed, 25 Nov 2020 16:50:14 +0000 (UTC)
-Organization: Red Hat UK Ltd. Registered Address: Red Hat UK Ltd, Amberley
-        Place, 107-111 Peascod Street, Windsor, Berkshire, SI4 1TE, United
-        Kingdom.
-        Registered in England and Wales under Company Registration No. 3798903
-From:   David Howells <dhowells@redhat.com>
-To:     torvalds@linux-foundation.org,
-        Miklos Szeredi <mszeredi@redhat.com>,
-        Ira Weiny <ira.weiny@intel.com>
-cc:     dhowells@redhat.com, sandeen@redhat.com,
-        linux-fsdevel@vger.kernel.org, linux-man@vger.kernel.org,
-        linux-kernel@vger.kernel.org
-Subject: UAPI value collision: STATX_ATTR_MOUNT_ROOT vs STATX_ATTR_DAX
+        id S1728056AbgKYT1E (ORCPT <rfc822;linux-man@archiver.kernel.org>);
+        Wed, 25 Nov 2020 14:27:04 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:58334 "EHLO
+        lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1726985AbgKYT1D (ORCPT
+        <rfc822;linux-man@vger.kernel.org>); Wed, 25 Nov 2020 14:27:03 -0500
+Received: from mail-ua1-x930.google.com (mail-ua1-x930.google.com [IPv6:2607:f8b0:4864:20::930])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id B388FC0617A7
+        for <linux-man@vger.kernel.org>; Wed, 25 Nov 2020 11:27:03 -0800 (PST)
+Received: by mail-ua1-x930.google.com with SMTP id 103so1061033uai.9
+        for <linux-man@vger.kernel.org>; Wed, 25 Nov 2020 11:27:03 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=szeredi.hu; s=google;
+        h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+         :cc;
+        bh=qbHWiqal0hTnnP0+s/LzA+vytzA77Sj1yZGY5laK5Mo=;
+        b=bPok7N0lQn8HawChGhsoakYuwCJGVv+1qvsPy3DCBQinvN9qAKU6rmDN2+UTxrdqpS
+         7R08fQSZZT1oEwe16U/Rzis1FttPkr5y6H0xH1uC5YpiC3EjKKhYDMCL+WqYQIU+/vVb
+         oxBMRoPt5NBNwOZXcirj0UkHLdmnZZu8RpCNU=
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20161025;
+        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+         :message-id:subject:to:cc;
+        bh=qbHWiqal0hTnnP0+s/LzA+vytzA77Sj1yZGY5laK5Mo=;
+        b=c4KtLomi+L4/YKZeIaNSYJoahErakwU/HmBOCBqRQh1UxUvQaT12mliQUZ58v/rXOV
+         Laej0cTnd67ABWjozDzJ/0H0n3ABEghV8dNqkBVB88OASTbpv7l6QbcIonnbNvjfB/89
+         dcYkBdSAotF4t8TGprFLwKfCdzNNmek1cMGCnQGnsiqcRtQ+QfkYmGfMn0UCfmbQW/NX
+         bzZLLNgj8lnlALs/OMi5t0luCvW3Db7zThDYaFDTmud+DX4+4zxo7vhRL1rUOs5SZHCZ
+         66+s3vgFzoWtbeeCXeRI1AQh+bDtD9QYSGpAECLbPLpodIVeCvAlWMe/Ai3DdG/9JtfO
+         09Yg==
+X-Gm-Message-State: AOAM533B/Sp+KEHiOYpyq7ZUfC736EjOt1IaVWd9KDX24K7beqBQksPV
+        hJGr3UX1fKkzP7382+0IflBBwmc2rCMfb0z1CjeLlA==
+X-Google-Smtp-Source: ABdhPJx9J1bIU6bHhGpNGQ4brFDMFFNfIyzdlnirgZrJOSCe9LO5Ysc+DA2CqJNjVLb6FJg1vAaP7fPFEEcGQ0yoxVM=
+X-Received: by 2002:ab0:35c8:: with SMTP id x8mr3968146uat.72.1606332422949;
+ Wed, 25 Nov 2020 11:27:02 -0800 (PST)
 MIME-Version: 1.0
-Content-Type: text/plain; charset="us-ascii"
-Content-ID: <1927369.1606323014.1@warthog.procyon.org.uk>
-Content-Transfer-Encoding: quoted-printable
-Date:   Wed, 25 Nov 2020 16:50:14 +0000
-Message-ID: <1927370.1606323014@warthog.procyon.org.uk>
-X-Scanned-By: MIMEDefang 2.84 on 10.5.11.22
+References: <1927370.1606323014@warthog.procyon.org.uk>
+In-Reply-To: <1927370.1606323014@warthog.procyon.org.uk>
+From:   Miklos Szeredi <miklos@szeredi.hu>
+Date:   Wed, 25 Nov 2020 20:26:52 +0100
+Message-ID: <CAJfpegvc5FjU-X1DxNtPjJLgEp_gT228kqk2Va31nk7GjZbPBQ@mail.gmail.com>
+Subject: Re: UAPI value collision: STATX_ATTR_MOUNT_ROOT vs STATX_ATTR_DAX
+To:     David Howells <dhowells@redhat.com>
+Cc:     Linus Torvalds <torvalds@linux-foundation.org>,
+        Miklos Szeredi <mszeredi@redhat.com>,
+        Ira Weiny <ira.weiny@intel.com>, sandeen@redhat.com,
+        linux-fsdevel@vger.kernel.org,
+        linux-man <linux-man@vger.kernel.org>,
+        linux-kernel@vger.kernel.org
+Content-Type: text/plain; charset="UTF-8"
 Precedence: bulk
 List-ID: <linux-man.vger.kernel.org>
 X-Mailing-List: linux-man@vger.kernel.org
 
-Hi Linus, Miklos, Ira,
+On Wed, Nov 25, 2020 at 5:57 PM David Howells <dhowells@redhat.com> wrote:
+>
+> Hi Linus, Miklos, Ira,
+>
+> It seems that two patches that got merged in the 5.8 merge window collided and
+> no one noticed until now:
+>
+> 80340fe3605c0 (Miklos Szeredi     2020-05-14 184) #define STATX_ATTR_MOUNT_ROOT         0x00002000 /* Root of a mount */
+> ...
+> 712b2698e4c02 (Ira Weiny          2020-04-30 186) #define STATX_ATTR_DAX                        0x00002000 /* [I] File is DAX */
+>
+> The question is, what do we do about it?  Renumber one or both of the
+> constants?
 
-It seems that two patches that got merged in the 5.8 merge window collided=
- and
-no one noticed until now:
+<uapi/linux/stat.h>:
+ * Note that the flags marked [I] correspond to generic FS_IOC_FLAGS
+ * semantically.  Where possible, the numerical value is picked to correspond
+ * also.
 
-80340fe3605c0 (Miklos Szeredi     2020-05-14 184) #define STATX_ATTR_MOUNT=
-_ROOT		0x00002000 /* Root of a mount */
-...
-712b2698e4c02 (Ira Weiny          2020-04-30 186) #define STATX_ATTR_DAX		=
-	0x00002000 /* [I] File is DAX */
+<uapi/linux/fs.h>:
+#define FS_DAX_FL 0x02000000 /* Inode is DAX */
 
-The question is, what do we do about it?  Renumber one or both of the
-constants?
+The DAX one can be the same value as FS_DAX_FL, the placement (after
+STATX_ATTR_VERITY, instead of before) seems to confirm this intention.
 
-David
-
+Not that I care too much, the important thing is to have distinct values.
+Thanks,
+Miklos
