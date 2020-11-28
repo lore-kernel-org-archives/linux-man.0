@@ -2,127 +2,130 @@ Return-Path: <linux-man-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-15.7 required=3.0 tests=BAYES_00,DKIM_SIGNED,
+X-Spam-Status: No, score=-9.2 required=3.0 tests=BAYES_00,DKIM_SIGNED,
 	DKIM_VALID,DKIM_VALID_AU,FREEMAIL_FORGED_FROMDOMAIN,FREEMAIL_FROM,
-	HEADER_FROM_DIFFERENT_DOMAINS,INCLUDES_CR_TRAILER,INCLUDES_PATCH,
-	MAILING_LIST_MULTI,SPF_HELO_NONE,SPF_PASS,USER_AGENT_GIT autolearn=ham
-	autolearn_force=no version=3.4.0
+	HEADER_FROM_DIFFERENT_DOMAINS,INCLUDES_PATCH,MAILING_LIST_MULTI,NICE_REPLY_A,
+	SPF_HELO_NONE,SPF_PASS,USER_AGENT_SANE_1 autolearn=ham autolearn_force=no
+	version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 0E3EFC63777
-	for <linux-man@archiver.kernel.org>; Fri, 27 Nov 2020 23:48:53 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 7AF93C63798
+	for <linux-man@archiver.kernel.org>; Sat, 28 Nov 2020 22:05:59 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.kernel.org (Postfix) with ESMTP id BE8972223D
-	for <linux-man@archiver.kernel.org>; Fri, 27 Nov 2020 23:48:52 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTP id 30E402344C
+	for <linux-man@archiver.kernel.org>; Sat, 28 Nov 2020 22:05:59 +0000 (UTC)
 Authentication-Results: mail.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="cad8pQah"
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="I6FDcdqK"
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1731014AbgK0XrA (ORCPT <rfc822;linux-man@archiver.kernel.org>);
-        Fri, 27 Nov 2020 18:47:00 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:35052 "EHLO
+        id S1733220AbgK1VuY (ORCPT <rfc822;linux-man@archiver.kernel.org>);
+        Sat, 28 Nov 2020 16:50:24 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:42384 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1732251AbgK0XqP (ORCPT
-        <rfc822;linux-man@vger.kernel.org>); Fri, 27 Nov 2020 18:46:15 -0500
-Received: from mail-wr1-x444.google.com (mail-wr1-x444.google.com [IPv6:2a00:1450:4864:20::444])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id CC611C0613D1;
-        Fri, 27 Nov 2020 15:45:51 -0800 (PST)
-Received: by mail-wr1-x444.google.com with SMTP id r3so7174111wrt.2;
-        Fri, 27 Nov 2020 15:45:51 -0800 (PST)
+        with ESMTP id S1731531AbgK1Sw6 (ORCPT
+        <rfc822;linux-man@vger.kernel.org>); Sat, 28 Nov 2020 13:52:58 -0500
+Received: from mail-wr1-x432.google.com (mail-wr1-x432.google.com [IPv6:2a00:1450:4864:20::432])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 8D069C02B8EF
+        for <linux-man@vger.kernel.org>; Sat, 28 Nov 2020 01:02:48 -0800 (PST)
+Received: by mail-wr1-x432.google.com with SMTP id i2so7982635wrs.4
+        for <linux-man@vger.kernel.org>; Sat, 28 Nov 2020 01:02:48 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=gmail.com; s=20161025;
-        h=from:to:cc:subject:date:message-id:mime-version
-         :content-transfer-encoding;
-        bh=ArS/EwWJdEoWtOikMdJmuMJ71dFV+wrZB3bzscQJ/Nc=;
-        b=cad8pQahC4RRnxSAYAIvt5EVtjpY3oNE27b/2bvcra7gpMNKofSF5JgfxostkARLG2
-         51W+iimFudA79Ct/cmwn8WzQEAQ9GKHz/399SSZRQqP5LXqND7jYshNQLpKvZHSN8fN9
-         CPMV1bB/IlANQS481ibCJjKFhTAiIzxZe3FRJNTGKaMoCqyUPnmCMNjyBYyiHZBqGiRd
-         G/Qs+vkVWkOZPQXIBLZccRK6gm/PDpq8sB1gzXMDmVxVZGr7DZjhytelUQr5DjqP7P1S
-         JrvFtTFTj/ADLusLHoH/fk8KQ+KsyjCtqVLJlPCUAxJYXHEKXa6Ag82m20Wd7o4nZ3pt
-         HbTg==
+        h=cc:subject:to:references:from:message-id:date:user-agent
+         :mime-version:in-reply-to:content-language:content-transfer-encoding;
+        bh=vLV3qFBuvjYjsCvoipCQgNW2D42jP9DYcHT4H0SDiw8=;
+        b=I6FDcdqKNJeDs/kYX0k5QI+bJB4AUlzmqYAUlwAwrhUZ7Rrco0nw3ZBBfnq2rNb3jx
+         xUBt8Nhb9Vj7nxZ5vm2CKsQm825Ygvp/VhU6e90+djRiePTjGoSva864PepGy2kO09IM
+         T6zmJXXPFp7Hp6EQU2wo0vPw6PVPnA/puVB1pW8Yl1abN1KfKiG/Al0NQMscyWC4K0Fg
+         pxNaXIWEJtVx0NRmbk/6P9YyV/Mwc2HIIb08MDCvY5o1vt5F+AG7eWI9qvOUlgGvehTp
+         B/+WzvjQWzNooInLs6zUs/XM1ylN9lPJvHOYMOeMeaogghItcB1fthSnpP6R6HqESpIJ
+         liCw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
-        h=x-gm-message-state:from:to:cc:subject:date:message-id:mime-version
+        h=x-gm-message-state:cc:subject:to:references:from:message-id:date
+         :user-agent:mime-version:in-reply-to:content-language
          :content-transfer-encoding;
-        bh=ArS/EwWJdEoWtOikMdJmuMJ71dFV+wrZB3bzscQJ/Nc=;
-        b=H5y3fv8KOXPoOA9jx5hm/hbwiYJ+jKpf2Ey77gYeF9Ct6LJAkXztwUnwt3IEgibFJc
-         8DgzYOpOykq4H2UAW1FLrceuFJncqfUdvvIHPEc+rdeXtolX97tG3yplzTW853q9jObP
-         h3ktj58kD3Z9F7jn7dKg+XvY0H1L9WnbepMb42utr4mol8Kjf67LW4QwN06Hcdal9CCw
-         2SqWS8hbvtpO4xKDqJ3mSpDPdpQqsjtGL2f53iIsztW9adDGdGeL2HIk+QweB7CWBPBx
-         sVnHAaWVYruDqwA05mG4qVY5IJM4TLR8Ie9VGZSdqwMu89CEw0Rkcmfjw/9uzK09lqce
-         aJsg==
-X-Gm-Message-State: AOAM5338qbv02aLXbfDMdMiW6DW+QaULsyycrJ2us2ZDONBbPYDVgeZL
-        QO0ywInQ+mohYkj4tAbDuGM=
-X-Google-Smtp-Source: ABdhPJyuNeqFF0Mzk0Hy9cB5zQVOpgJLjz322bEapz0SAPrjuXFR/nAINaj9TL/njybPZcn5hRI5XQ==
-X-Received: by 2002:a5d:4052:: with SMTP id w18mr14227792wrp.63.1606520750447;
-        Fri, 27 Nov 2020 15:45:50 -0800 (PST)
-Received: from localhost.localdomain ([170.253.51.130])
-        by smtp.gmail.com with ESMTPSA id a12sm17963600wrq.58.2020.11.27.15.45.49
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Fri, 27 Nov 2020 15:45:49 -0800 (PST)
-From:   Alejandro Colomar <alx.manpages@gmail.com>
-To:     mtk.manpages@gmail.com
-Cc:     Alejandro Colomar <alx.manpages@gmail.com>,
-        linux-man@vger.kernel.org, linux-kernel@vger.kernel.org
-Subject: [PATCH] subpage_prot.2: SYNOPSIS: Fix return type: s/long/int/
-Date:   Sat, 28 Nov 2020 00:44:18 +0100
-Message-Id: <20201127234417.26257-1-alx.manpages@gmail.com>
-X-Mailer: git-send-email 2.29.2
+        bh=vLV3qFBuvjYjsCvoipCQgNW2D42jP9DYcHT4H0SDiw8=;
+        b=TFseebMokRVN449HQU3BUNyJwVfJx/jJxUCfd9pl6LCUMt05N2NNZjBvueH6CneK60
+         MSGhUSw+RBTx/hjv+aMGUcTOGlNSG0f5lkQVobupzwsqtGFUiJ7/HoWZ+JG5LaEIgL1t
+         waNqWmPY9k7e+6VpxZVArJQh+HR+sxYqdBsIK8Ye9IOm+xWcgN6tLUCQFUm3sZcHQWZq
+         Z0BAGXvDteHHvg5Yoyby5s17WP2QRxiR1HkTZs4HX3+wu3eoWNCchMfcDQTc1N3LF/10
+         RjJk/vk4b33TB+nWqx0EN1SdWwbjg28eQwsb74tPD6PX7IQAbFGhzybuVUOhsJdEXGYW
+         wfTA==
+X-Gm-Message-State: AOAM531CTylkhP10qr6wGJbpdYetnCyUWFcCNV8JaZYejaEKoj10Pi0d
+        XIdr/PvoMbjr/uGj5qc8MFM=
+X-Google-Smtp-Source: ABdhPJz9ldYF285bQLhUxvfUW2JRtxvzKEdxpjJuSnwQp+8xwJEqfZkxHeRdF8dET+QG+asx6p/yuA==
+X-Received: by 2002:adf:e509:: with SMTP id j9mr16434437wrm.354.1606554167072;
+        Sat, 28 Nov 2020 01:02:47 -0800 (PST)
+Received: from ?IPv6:2001:a61:24b3:de01:7310:e730:497d:ea6a? ([2001:a61:24b3:de01:7310:e730:497d:ea6a])
+        by smtp.gmail.com with ESMTPSA id d8sm16177544wmb.11.2020.11.28.01.02.45
+        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+        Sat, 28 Nov 2020 01:02:46 -0800 (PST)
+Cc:     mtk.manpages@gmail.com
+Subject: Re: strnlen.3: never beyond s+maxlen
+To:     Heinrich Schuchardt <xypron.glpk@gmx.de>, linux-man@vger.kernel.org
+References: <66a3e04d-b70d-4c55-ea2c-37175753a2e7@gmx.de>
+From:   "Michael Kerrisk (man-pages)" <mtk.manpages@gmail.com>
+Message-ID: <bf58251f-1d06-6722-7a02-23ebd96f381a@gmail.com>
+Date:   Sat, 28 Nov 2020 10:02:43 +0100
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
+ Thunderbird/78.4.0
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+In-Reply-To: <66a3e04d-b70d-4c55-ea2c-37175753a2e7@gmx.de>
+Content-Type: text/plain; charset=utf-8
+Content-Language: en-US
+Content-Transfer-Encoding: 7bit
 Precedence: bulk
 List-ID: <linux-man.vger.kernel.org>
 X-Mailing-List: linux-man@vger.kernel.org
 
-The Linux kernel uses 'int' instead of 'long' for the return type.
-As glibc provides no wrapper, use the same type the kernel uses.
+On 11/19/20 8:42 PM, Heinrich Schuchardt wrote:
+> Hello Michael,
+> 
+> the strnlen.3 manpage has the following sentence:
+> 
+> "In doing this, strnlen() looks only at the first maxlen characters in
+> the string pointed to by s and never beyond s+maxlen."
+> 
+> This sentence is self-contradictory:
+> 
+> The last visited character implied by "first maxlen characters" is
+> s[maxlen-1].
+> 
+> Given that "beyond a" does not include "a", the last visited character
+> implied by "never beyond s+maxlen" is s[maxlen].
+> 
+> A consistent sentence would be
+> 
+> "In doing this, strnlen() looks only at the first maxlen characters in
+> the string pointed to by s and never beyond s+maxlen-1."
+> 
+> I would prefer
+> 
+> "In doing this, strnlen() looks only at the first maxlen characters in
+> the string pointed to by s and never beyond s[maxlen-1]"
 
-......
+Thanks, Heinrich. I changed as you suggested.
 
-$ grep -n wrapper man-pages/man2/subpage_prot.2
-40:There is no glibc wrapper for this system call; see NOTES.
-99:Glibc does not provide a wrapper for this system call; call it using
+Cheers,
 
-$ grep -rn SYSCALL_DEFINE.*subpage_prot linux/;
-linux/arch/powerpc/mm/book3s64/subpage_prot.c:190:
-SYSCALL_DEFINE3(subpage_prot, unsigned long, addr,
+Michael
 
-$ sed -n /SYSCALL.*subpage_prot/,/^}/p \
-  linux/arch/powerpc/mm/book3s64/subpage_prot.c \
-  |grep return;
-		return -ENOENT;
-		return -EINVAL;
-		return -EINVAL;
-		return 0;
-		return -EFAULT;
-			return -EFAULT;
-	return err;
+diff --git a/man3/strnlen.3 b/man3/strnlen.3
+index 6c4b080fc..d4385af49 100644
+--- a/man3/strnlen.3
++++ b/man3/strnlen.3
+@@ -54,7 +54,7 @@ looks only at the first
+ characters in the string pointed to by
+ .I s
+ and never beyond
+-.IR s+maxlen .
++.IR s[maxlen\-1] .
+ .SH RETURN VALUE
+ The
+ .BR strnlen ()
 
-$ sed -n /SYSCALL.*subpage_prot/,/^}/p \
-  linux/arch/powerpc/mm/book3s64/subpage_prot.c \
-  |grep '\<err\>';
-	int err;
-			err = -ENOMEM;
-		err = -ENOMEM;
-	err = 0;
-	return err;
 
-Signed-off-by: Alejandro Colomar <alx.manpages@gmail.com>
----
- man2/subpage_prot.2 | 2 +-
- 1 file changed, 1 insertion(+), 1 deletion(-)
 
-diff --git a/man2/subpage_prot.2 b/man2/subpage_prot.2
-index b38ba718f..d6f016665 100644
---- a/man2/subpage_prot.2
-+++ b/man2/subpage_prot.2
-@@ -32,7 +32,7 @@
- subpage_prot \- define a subpage protection for an address range
- .SH SYNOPSIS
- .nf
--.BI "long subpage_prot(unsigned long " addr ", unsigned long " len ,
-+.BI "int subpage_prot(unsigned long " addr ", unsigned long " len ,
- .BI "                  uint32_t *" map );
- .fi
- .PP
 -- 
-2.29.2
-
+Michael Kerrisk
+Linux man-pages maintainer; http://www.kernel.org/doc/man-pages/
+Linux/UNIX System Programming Training: http://man7.org/training/
