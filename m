@@ -2,146 +2,188 @@ Return-Path: <linux-man-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-14.2 required=3.0 tests=BAYES_00,DKIM_SIGNED,
+X-Spam-Status: No, score=-15.7 required=3.0 tests=BAYES_00,DKIM_SIGNED,
 	DKIM_VALID,DKIM_VALID_AU,FREEMAIL_FORGED_FROMDOMAIN,FREEMAIL_FROM,
 	HEADER_FROM_DIFFERENT_DOMAINS,INCLUDES_CR_TRAILER,INCLUDES_PATCH,
-	MAILING_LIST_MULTI,NICE_REPLY_A,SPF_HELO_NONE,SPF_PASS,USER_AGENT_SANE_1
+	MAILING_LIST_MULTI,SPF_HELO_NONE,SPF_PASS,USER_AGENT_GIT
 	autolearn=unavailable autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 58DD4C63777
-	for <linux-man@archiver.kernel.org>; Sat, 28 Nov 2020 22:05:59 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 18785C64E8A
+	for <linux-man@archiver.kernel.org>; Sat, 28 Nov 2020 22:06:00 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.kernel.org (Postfix) with ESMTP id 004F622470
-	for <linux-man@archiver.kernel.org>; Sat, 28 Nov 2020 22:05:58 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTP id B9F632344C
+	for <linux-man@archiver.kernel.org>; Sat, 28 Nov 2020 22:05:59 +0000 (UTC)
 Authentication-Results: mail.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="iQUGvVBi"
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="bnsf08Oj"
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1731531AbgK1VuY (ORCPT <rfc822;linux-man@archiver.kernel.org>);
+        id S2387848AbgK1VuY (ORCPT <rfc822;linux-man@archiver.kernel.org>);
         Sat, 28 Nov 2020 16:50:24 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:43506 "EHLO
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:40024 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1732454AbgK1TA3 (ORCPT
-        <rfc822;linux-man@vger.kernel.org>); Sat, 28 Nov 2020 14:00:29 -0500
-Received: from mail-wm1-x344.google.com (mail-wm1-x344.google.com [IPv6:2a00:1450:4864:20::344])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 66E46C02B8EE;
-        Sat, 28 Nov 2020 00:57:02 -0800 (PST)
-Received: by mail-wm1-x344.google.com with SMTP id v14so1301992wml.1;
-        Sat, 28 Nov 2020 00:57:02 -0800 (PST)
+        with ESMTP id S1730138AbgK1Sh7 (ORCPT
+        <rfc822;linux-man@vger.kernel.org>); Sat, 28 Nov 2020 13:37:59 -0500
+Received: from mail-wm1-x342.google.com (mail-wm1-x342.google.com [IPv6:2a00:1450:4864:20::342])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 378A9C02A190;
+        Sat, 28 Nov 2020 04:39:57 -0800 (PST)
+Received: by mail-wm1-x342.google.com with SMTP id u10so3233609wmm.0;
+        Sat, 28 Nov 2020 04:39:57 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=gmail.com; s=20161025;
-        h=cc:subject:to:references:from:message-id:date:user-agent
-         :mime-version:in-reply-to:content-language:content-transfer-encoding;
-        bh=jSwglpibr8SD4xYQvu/kD8qx3bDD7ljk9nmPcuPEoLI=;
-        b=iQUGvVBiJ1OEcrN0h4BcsOFX+VzWhBwlRLV3YgaK9QHGIy2jw+a6vcw/KiYYuISKLx
-         QxB/wWLfTmuNKdBEFPCM76+MoFETMx1N/EotrwsWO24XcD5+3ByLJep/wroZrsYxdD03
-         8sdAXv8B85sSpqk2c5tmSyFHZkVyxMqKKFeYkCnUfDLlVEvKI2rFnh5ZbliFxOiINDsr
-         Wo2BBFPpvLw3o79Q2sgHe31ItZDBlouyUO+6GavX3zs+wMQu9uiJeJ3x7Yd5dF+gfsz1
-         +l/fq2OYk8Q77zWV+rGwyokRaN22yn1BYNAx5+ydeJNq/8OrthKZmjHmf5604v6m3PZ/
-         sIzw==
+        h=from:to:cc:subject:date:message-id:mime-version
+         :content-transfer-encoding;
+        bh=B3Vf9XYn//Fj5v4zXe+KRqjMj3t6Oew9GGBwAujZoyk=;
+        b=bnsf08Oj9hx8+v7iJPMuj5mv4FEH7MXsr3ol5Cbt7gbyaJ7ie/vZdCzhJX0vqZE+DV
+         Z0CjZmYpwPQymQsa7t/wEOV0BuAPGK5+plybf7IsKJPGhA46CKzH2TK0iR9PVCuTQpft
+         txKUQ/WA4b/g9ELUs4cQcQkTbIwRmMDikDyOolIwUHUnMB2YEc0h2iFgbXugV44jjsrQ
+         PY+OfEks6BTCh5cSUzcr/K87Vgt+8lfyqkLoUaLKBZZ1MevJNRkr433QOvgaMGuiqMTL
+         tvyU5Sesa1B9hHsz7OMgSQCBMiPiBQrnAJ8WsrULwwDOWc6v8xK11JXfucZCs9q7wieA
+         wrPQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
-        h=x-gm-message-state:cc:subject:to:references:from:message-id:date
-         :user-agent:mime-version:in-reply-to:content-language
+        h=x-gm-message-state:from:to:cc:subject:date:message-id:mime-version
          :content-transfer-encoding;
-        bh=jSwglpibr8SD4xYQvu/kD8qx3bDD7ljk9nmPcuPEoLI=;
-        b=goC9IV9+ROoloCCPTCFOMlKtvcNKjTPFoOcDUTuhKH1mSWIhegchtvOUYfHr2U788i
-         ZzAjd3nvQWHUoB5BbGYoSfDI6gtkMlyqmHc2OnT5Uh8kIJSYAGuLGIBcOAXquE6HPEFV
-         4TWATQVFSlrKEbSurb8a7aZDYXrQf0ngJ6wrMT7hcVxb+2HVWsa7vj5guiQ3I5yzhqKH
-         D+gMKttoV+Vt6PWtfqDwHv9W82N6ziJLDAUOd8MLjoy17oe0XMgIJALUKqfH35zHeA4z
-         OpPxGRwDYTmsAGRjSrv7xpzOJUCFPCaK+vrB30XsSSzH3Nc6U0jUvAa8pT5MPvUGNHM4
-         DrJA==
-X-Gm-Message-State: AOAM530MKAlzu8c2Ng/p/pRhxKkFWWzc8roL1wNSyEcicxOeUrkfA6H5
-        woK19t/zv1Z5zlXTAq5QU5JrCOOqBHdgpg==
-X-Google-Smtp-Source: ABdhPJw2X2rXk1TOS9fObhj6bjUpTvwyjqHToCFaW9jW95QaKGK4aKVddKC88UJRed6quWoYdBWntg==
-X-Received: by 2002:a7b:c19a:: with SMTP id y26mr13609321wmi.88.1606553820930;
-        Sat, 28 Nov 2020 00:57:00 -0800 (PST)
-Received: from ?IPv6:2001:a61:24b3:de01:7310:e730:497d:ea6a? ([2001:a61:24b3:de01:7310:e730:497d:ea6a])
-        by smtp.gmail.com with ESMTPSA id m4sm492142wmi.41.2020.11.28.00.56.59
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Sat, 28 Nov 2020 00:56:59 -0800 (PST)
-Cc:     mtk.manpages@gmail.com, linux-man@vger.kernel.org,
-        linux-kernel@vger.kernel.org
-Subject: Re: [PATCH] subpage_prot.2: SYNOPSIS: Fix return type: s/long/int/
-To:     Alejandro Colomar <alx.manpages@gmail.com>
-References: <20201127234417.26257-1-alx.manpages@gmail.com>
-From:   "Michael Kerrisk (man-pages)" <mtk.manpages@gmail.com>
-Message-ID: <f61b365a-19b7-8dbc-e714-7c55d192d469@gmail.com>
-Date:   Sat, 28 Nov 2020 09:56:59 +0100
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
- Thunderbird/78.4.0
+        bh=B3Vf9XYn//Fj5v4zXe+KRqjMj3t6Oew9GGBwAujZoyk=;
+        b=iVpmPEdAinD4Hu2Wy0rBS/LWHm7IKvVXtD6VP3yWXb/tBBlgbcXsIQlj4BFgwMVObq
+         1605GMGWm19U2p5nYNXszNWuAbgC0KDnIQVLXM1hd1zU38MJ3SjFbvpR8APP3ij/8wgk
+         Z8v0BTqzcfU28VlflCI6tjKop9twd2NkUvYAAYH2cgYA8OKEwX7mogmQ4cfQyWEXARER
+         opnpPRZKZreNAStGdija3kctrz3K28HkApVZcZssfLecrqayazUxbqMoH7aeUe2w7krT
+         NZFmu0r3KCfDw6lzOMDVlVS/Tcbb6FlyAKsS7KKupE+T8jhJpOCtiIRlhFybPz4COdna
+         IGyQ==
+X-Gm-Message-State: AOAM53295fEIBPZ1OGtaSwpkRIi26IDPOiMIp94/DfyhRIOh+u6p3Ny7
+        ETdGUOR8H/e+uy74AWEm+s4=
+X-Google-Smtp-Source: ABdhPJzBGFVCgjC1d/RIgLo0FZh3GOX+UyzrsNUJcNUxRkxwNbLpRRVDbNafzbG3zL7SwGtg695+7g==
+X-Received: by 2002:a7b:cb84:: with SMTP id m4mr14143078wmi.157.1606567195862;
+        Sat, 28 Nov 2020 04:39:55 -0800 (PST)
+Received: from localhost.localdomain ([170.253.51.130])
+        by smtp.gmail.com with ESMTPSA id s4sm19887591wro.10.2020.11.28.04.39.54
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Sat, 28 Nov 2020 04:39:55 -0800 (PST)
+From:   Alejandro Colomar <alx.manpages@gmail.com>
+To:     Thomas Gleixner <tglx@linutronix.de>,
+        Ingo Molnar <mingo@redhat.com>
+Cc:     Alejandro Colomar <alx.manpages@gmail.com>,
+        Peter Zijlstra <peterz@infradead.org>,
+        Darren Hart <dvhart@infradead.org>,
+        linux-kernel@vger.kernel.org, linux-man@vger.kernel.org
+Subject: [PATCH] futex: Change 'utime' parameter to be 'const ... *'
+Date:   Sat, 28 Nov 2020 13:39:46 +0100
+Message-Id: <20201128123945.4592-1-alx.manpages@gmail.com>
+X-Mailer: git-send-email 2.29.2
 MIME-Version: 1.0
-In-Reply-To: <20201127234417.26257-1-alx.manpages@gmail.com>
-Content-Type: text/plain; charset=utf-8
-Content-Language: en-US
-Content-Transfer-Encoding: 7bit
+Content-Transfer-Encoding: 8bit
 Precedence: bulk
 List-ID: <linux-man.vger.kernel.org>
 X-Mailing-List: linux-man@vger.kernel.org
 
-Hi Alex,
+futex(2) says that 'utime' is a pointer to 'const'.
+The implementation doesn't use 'const';
+however, it _never_ modifies the contents of utime.
 
-On 11/28/20 12:44 AM, Alejandro Colomar wrote:
-> The Linux kernel uses 'int' instead of 'long' for the return type.
-> As glibc provides no wrapper, use the same type the kernel uses.
+- futex() either uses 'utime' as a pointer to struct or as a 'u32'.
 
-Thanks. Patch applied.
+- In case it's used as a 'u32', it makes a copy of it,
+  and of course it is not dereferenced.
 
-Cheers,
+- In case it's used as a 'struct __kernel_timespec __user *',
+  the pointer is not dereferenced inside the futex() definition,
+  and it is only passed to a function: get_timespec64(),
+  which accepts a 'const struct __kernel_timespec __user *'.
 
-Michael
+context:
+........
 
-> ......
-> 
-> $ grep -n wrapper man-pages/man2/subpage_prot.2
-> 40:There is no glibc wrapper for this system call; see NOTES.
-> 99:Glibc does not provide a wrapper for this system call; call it using
-> 
-> $ grep -rn SYSCALL_DEFINE.*subpage_prot linux/;
-> linux/arch/powerpc/mm/book3s64/subpage_prot.c:190:
-> SYSCALL_DEFINE3(subpage_prot, unsigned long, addr,
-> 
-> $ sed -n /SYSCALL.*subpage_prot/,/^}/p \
->   linux/arch/powerpc/mm/book3s64/subpage_prot.c \
->   |grep return;
-> 		return -ENOENT;
-> 		return -EINVAL;
-> 		return -EINVAL;
-> 		return 0;
-> 		return -EFAULT;
-> 			return -EFAULT;
-> 	return err;
-> 
-> $ sed -n /SYSCALL.*subpage_prot/,/^}/p \
->   linux/arch/powerpc/mm/book3s64/subpage_prot.c \
->   |grep '\<err\>';
-> 	int err;
-> 			err = -ENOMEM;
-> 		err = -ENOMEM;
-> 	err = 0;
-> 	return err;
-> 
-> Signed-off-by: Alejandro Colomar <alx.manpages@gmail.com>
-> ---
->  man2/subpage_prot.2 | 2 +-
->  1 file changed, 1 insertion(+), 1 deletion(-)
-> 
-> diff --git a/man2/subpage_prot.2 b/man2/subpage_prot.2
-> index b38ba718f..d6f016665 100644
-> --- a/man2/subpage_prot.2
-> +++ b/man2/subpage_prot.2
-> @@ -32,7 +32,7 @@
->  subpage_prot \- define a subpage protection for an address range
->  .SH SYNOPSIS
->  .nf
-> -.BI "long subpage_prot(unsigned long " addr ", unsigned long " len ,
-> +.BI "int subpage_prot(unsigned long " addr ", unsigned long " len ,
->  .BI "                  uint32_t *" map );
->  .fi
->  .PP
-> 
+[[
+FUTEX(2)               Linux Programmer's Manual              FUTEX(2)
 
+NAME
+       futex - fast user-space locking
 
+SYNOPSIS
+       #include <linux/futex.h>
+       #include <stdint.h>
+       #include <sys/time.h>
+
+       long futex(uint32_t *uaddr, int futex_op, uint32_t val,
+                 const struct timespec *timeout,   /* or: uint32_t val2 */
+                 uint32_t *uaddr2, uint32_t val3);
+
+       Note:  There  is  no  glibc  wrapper  for this system call; see
+       NOTES.
+]]
+
+$ sed -n '/SYSCALL_DEFINE.(futex\>/,/^}/p' linux/kernel/futex.c
+SYSCALL_DEFINE6(futex, u32 __user *, uaddr, int, op, u32, val,
+		struct __kernel_timespec __user *, utime, u32 __user *, uaddr2,
+		u32, val3)
+{
+	struct timespec64 ts;
+	ktime_t t, *tp = NULL;
+	u32 val2 = 0;
+	int cmd = op & FUTEX_CMD_MASK;
+
+	if (utime && (cmd == FUTEX_WAIT || cmd == FUTEX_LOCK_PI ||
+		      cmd == FUTEX_WAIT_BITSET ||
+		      cmd == FUTEX_WAIT_REQUEUE_PI)) {
+		if (unlikely(should_fail_futex(!(op & FUTEX_PRIVATE_FLAG))))
+			return -EFAULT;
+		if (get_timespec64(&ts, utime))
+			return -EFAULT;
+		if (!timespec64_valid(&ts))
+			return -EINVAL;
+
+		t = timespec64_to_ktime(ts);
+		if (cmd == FUTEX_WAIT)
+			t = ktime_add_safe(ktime_get(), t);
+		else if (!(op & FUTEX_CLOCK_REALTIME))
+			t = timens_ktime_to_host(CLOCK_MONOTONIC, t);
+		tp = &t;
+	}
+	/*
+	 * requeue parameter in 'utime' if cmd == FUTEX_*_REQUEUE_*.
+	 * number of waiters to wake in 'utime' if cmd == FUTEX_WAKE_OP.
+	 */
+	if (cmd == FUTEX_REQUEUE || cmd == FUTEX_CMP_REQUEUE ||
+	    cmd == FUTEX_CMP_REQUEUE_PI || cmd == FUTEX_WAKE_OP)
+		val2 = (u32) (unsigned long) utime;
+
+	return do_futex(uaddr, op, val, tp, uaddr2, val2, val3);
+}
+
+$ sed -n '/get_timespec64(/,/;/p' linux/include/linux/time.h
+int get_timespec64(struct timespec64 *ts,
+		const struct __kernel_timespec __user *uts);
+
+...
+
+Signed-off-by: Alejandro Colomar <alx.manpages@gmail.com>
+---
+
+Hello Thomas & Ingo,
+
+I'm sorry I couldn't test the change in my computers,
+as there is a bug since Linux 5.7 where I can't boot
+(https://bugs.debian.org/cgi-bin/bugreport.cgi?bug=974166).
+
+Alex
+
+ kernel/futex.c | 4 ++--
+ 1 file changed, 2 insertions(+), 2 deletions(-)
+
+diff --git a/kernel/futex.c b/kernel/futex.c
+index 00259c7e288e..28577c7d2805 100644
+--- a/kernel/futex.c
++++ b/kernel/futex.c
+@@ -3792,8 +3792,8 @@ long do_futex(u32 __user *uaddr, int op, u32 val, ktime_t *timeout,
+ 
+ 
+ SYSCALL_DEFINE6(futex, u32 __user *, uaddr, int, op, u32, val,
+-		struct __kernel_timespec __user *, utime, u32 __user *, uaddr2,
+-		u32, val3)
++		const struct __kernel_timespec __user *, utime,
++		u32 __user *, uaddr2, u32, val3)
+ {
+ 	struct timespec64 ts;
+ 	ktime_t t, *tp = NULL;
 -- 
-Michael Kerrisk
-Linux man-pages maintainer; http://www.kernel.org/doc/man-pages/
-Linux/UNIX System Programming Training: http://man7.org/training/
+2.29.2
+
