@@ -1,131 +1,65 @@
 Return-Path: <linux-man-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
-X-Spam-Level: 
-X-Spam-Status: No, score=-15.7 required=3.0 tests=BAYES_00,DKIM_SIGNED,
-	DKIM_VALID,DKIM_VALID_AU,FREEMAIL_FORGED_FROMDOMAIN,FREEMAIL_FROM,
-	HEADER_FROM_DIFFERENT_DOMAINS,INCLUDES_CR_TRAILER,INCLUDES_PATCH,
-	MAILING_LIST_MULTI,SPF_HELO_NONE,SPF_PASS,URIBL_BLOCKED,USER_AGENT_GIT
-	autolearn=ham autolearn_force=no version=3.4.0
+X-Spam-Level: **
+X-Spam-Status: No, score=2.2 required=3.0 tests=BAYES_40,DKIM_INVALID,
+	DKIM_SIGNED,HEADER_FROM_DIFFERENT_DOMAINS,MAILING_LIST_MULTI,SPF_HELO_NONE,
+	SPF_PASS,UNWANTED_LANGUAGE_BODY autolearn=no autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 09A4FC4361B
-	for <linux-man@archiver.kernel.org>; Mon,  7 Dec 2020 17:09:22 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id D61DFC4361B
+	for <linux-man@archiver.kernel.org>; Tue,  8 Dec 2020 09:15:45 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.kernel.org (Postfix) with ESMTP id CA90D23884
-	for <linux-man@archiver.kernel.org>; Mon,  7 Dec 2020 17:09:21 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTP id 88B6F23A7F
+	for <linux-man@archiver.kernel.org>; Tue,  8 Dec 2020 09:15:45 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1726344AbgLGRJG (ORCPT <rfc822;linux-man@archiver.kernel.org>);
-        Mon, 7 Dec 2020 12:09:06 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:36818 "EHLO
-        lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1725822AbgLGRJG (ORCPT
-        <rfc822;linux-man@vger.kernel.org>); Mon, 7 Dec 2020 12:09:06 -0500
-Received: from mail-wr1-x441.google.com (mail-wr1-x441.google.com [IPv6:2a00:1450:4864:20::441])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 96247C061749
-        for <linux-man@vger.kernel.org>; Mon,  7 Dec 2020 09:08:25 -0800 (PST)
-Received: by mail-wr1-x441.google.com with SMTP id r3so13496643wrt.2
-        for <linux-man@vger.kernel.org>; Mon, 07 Dec 2020 09:08:25 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20161025;
-        h=from:to:cc:subject:date:message-id:mime-version
-         :content-transfer-encoding;
-        bh=phl+mNb0ub8u8EdVND2e7uK1Lx8kgP8u1JwUWYRO5n8=;
-        b=W2nxUHRdhpwELvXzgb/ZxgxMcl+5vk5RhswqYUEu/fv38md+4Iy2lE9gT/IfC+YDGY
-         4nVcVXP2w4q3Rpm5l38zUYpn6bRTuBqczANsu+TImoPjatzHMEa7LIM5DluefAkVvp0q
-         z8jMeSSiQ1GvcUTW0QKIrKFOAJEkwBMjwWzzD/i5oEQ6kozp3NVPSFY2BYOVHrGheyLI
-         Cfm0H3vj6XDbp3TO4d3qqEvTMvcWxpDCeE6Vwy0iSjCrjE+qb8cy9Z1TKXWgEue9IHD7
-         HtBXeIU445YoEuAMy1O0Vs2V0WjvHNjgVw4HZOxkVHcafwxZF++CzHyV2SvCl9hjxGAl
-         k/lw==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20161025;
-        h=x-gm-message-state:from:to:cc:subject:date:message-id:mime-version
-         :content-transfer-encoding;
-        bh=phl+mNb0ub8u8EdVND2e7uK1Lx8kgP8u1JwUWYRO5n8=;
-        b=hrepscOiNSA+nSGFLn5r/+NONS1ufn6oede6zuZQsH60nwNuZsQjtSRGeLPlS1uyi7
-         1p72B/EYt3EH3I2bpmm4NJSAGO2G+vLeXsq/FbtGFh3T4f6X78MxejLv47TAFj4KjFkX
-         KPYE2uwNAkFvfBXlH+RzQCwkZtXe3oZX85GVaoXz7WfE8OxcUG8CWOSJG92YF4ivqZZv
-         5ZgspNLE3ipPkcXNS/57dYKeqiGmT2VPbTyTbciHtf3k0Qv1I673n7IXCAy1gRRsH8BS
-         iSaTtdf12A4jRQLokeUuPVY5Cna7YOKs+aDjuk2XBQIJLsEp9gMLheMXRZhi3fYsaLqz
-         MS7A==
-X-Gm-Message-State: AOAM532CpcfIrOCIbsejdnsWQ5dTuwK6lmW2aZUj5ojQeJlb89GCrOxn
-        FVkaPWXvg3mdQTIohsp9oXyy++yMSJy+8Q==
-X-Google-Smtp-Source: ABdhPJwib3X9Xt6BrIJksFbMnhWmbH9TYsC4yOvs0VR027LDXH1m4QMNvjIaN+5v/rVcint5TaEXfA==
-X-Received: by 2002:a5d:530c:: with SMTP id e12mr3765463wrv.54.1607360904339;
-        Mon, 07 Dec 2020 09:08:24 -0800 (PST)
-Received: from localhost.localdomain ([170.253.51.130])
-        by smtp.gmail.com with ESMTPSA id 101sm9605724wrc.11.2020.12.07.09.08.23
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Mon, 07 Dec 2020 09:08:23 -0800 (PST)
-From:   Alejandro Colomar <alx.manpages@gmail.com>
-To:     mtk.manpages@gmail.com
-Cc:     Alejandro Colomar <alx.manpages@gmail.com>,
-        linux-man@vger.kernel.org,
-        Philip Rowlands <linux-kernel@dimebar.com>,
-        Eric Dumazet <eric.dumazet@gmail.com>,
-        Hannes Frederic Sowa <hannes@stressinduktion.org>,
-        "David S . Miller" <davem@davemloft.net>
-Subject: [PATCH] tcp.7: tcp_syncookies: It is now an integer [0, 2]
-Date:   Mon,  7 Dec 2020 18:08:07 +0100
-Message-Id: <20201207170806.64140-1-alx.manpages@gmail.com>
-X-Mailer: git-send-email 2.29.2
+        id S1725927AbgLHJPa (ORCPT <rfc822;linux-man@archiver.kernel.org>);
+        Tue, 8 Dec 2020 04:15:30 -0500
+Received: from mail.planhousebiz.com ([217.61.15.185]:33034 "EHLO
+        server1.mail.planhousebiz.com" rhost-flags-OK-OK-OK-FAIL)
+        by vger.kernel.org with ESMTP id S1725874AbgLHJP3 (ORCPT
+        <rfc822;linux-man@vger.kernel.org>); Tue, 8 Dec 2020 04:15:29 -0500
+X-Greylist: delayed 506 seconds by postgrey-1.27 at vger.kernel.org; Tue, 08 Dec 2020 04:15:29 EST
+Received: by server1.mail.planhousebiz.com (Postfix, from userid 1001)
+        id 919FD86979; Tue,  8 Dec 2020 09:06:05 +0000 (GMT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=planhousebiz.com;
+        s=mail; t=1607418377;
+        bh=KcTLAaBZFyXcuWORfd+SWML68Lg2YFEJhVMRcrpbANk=;
+        h=Date:From:To:Subject:From;
+        b=Ar2RvNiHMmntIDMXDx3PiUySMFGQvVNhAcCccYKiiZqfzo9t01tzFkM2uoiALaTHa
+         mJsF21WuNy6X9RkRu0Juw6dmuEpPreK3wR3oaeoWTQknUV8B9/jhuM/Fhv8IEBt16Y
+         CoB3VNdqgVGVTTUkiAQmGSUchBhG6sB+xAf0laYo+4Kv6FGp/fkC1kP0M7JB5x2a38
+         PGREPuImi9gMJ+799LYoT5/ZAvZB2AUV+bYCinYdcCg6RQ3Irkv7zahTcga8C9epHT
+         +6DLIGAupM2/RgCE/28yPcjRlRayhS/7fGo8NEoqY5Cqq0smptnCyEWazm+uCX/p7N
+         TPaaWp7h0Hdng==
+Received: by mail.planhousebiz.com for <linux-man@vger.kernel.org>; Tue,  8 Dec 2020 09:05:53 GMT
+Message-ID: <20201208074500-0.1.f.1ir4.0.kl1gh9cjq4@planhousebiz.com>
+Date:   Tue,  8 Dec 2020 09:05:53 GMT
+From:   "Juanito Gil" <juanito.gil@planhousebiz.com>
+To:     <linux-man@vger.kernel.org>
+Subject: =?UTF-8?Q?Control_del_veh=C3=ADculo?=
+X-Mailer: mail.planhousebiz.com
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 Precedence: bulk
 List-ID: <linux-man.vger.kernel.org>
 X-Mailing-List: linux-man@vger.kernel.org
 
-Since Linux kernel 3.12, tcp_syncookies can have the value 2,
-which sends out cookies unconditionally.
+Buenos d=C3=ADas:
+=20
 
-Related kernel commits:
-5ad37d5deee1ff7150a2d0602370101de158ad86
-d8513df2598e5142f8a5c4724f28411936e1dfc7
+Represento a una empresa que ofrece las mejores soluciones telem=C3=A1tic=
+as de su clase.
 
-Reported-by: Philip Rowlands <linux-kernel@dimebar.com>
-Signed-off-by: Alejandro Colomar <alx.manpages@gmail.com>
-Cc: Eric Dumazet <eric.dumazet@gmail.com>
-Cc: Hannes Frederic Sowa <hannes@stressinduktion.org>
-Cc: David S. Miller <davem@davemloft.net>
----
- man7/tcp.7 | 14 ++++++++++++--
- 1 file changed, 12 insertions(+), 2 deletions(-)
+Un sistema de seguimiento de veh=C3=ADculos sin igual con una funcionalid=
+ad ampliamente desarrollada que satisface pr=C3=A1cticamente todas las ne=
+cesidades existentes en el =C3=A1mbito de la gesti=C3=B3n de flotas.
 
-diff --git a/man7/tcp.7 b/man7/tcp.7
-index d983a8f9a..591f73d8d 100644
---- a/man7/tcp.7
-+++ b/man7/tcp.7
-@@ -830,12 +830,11 @@ The maximum number of times a SYN/ACK segment
- for a passive TCP connection will be retransmitted.
- This number should not be higher than 255.
- .TP
--.IR tcp_syncookies " (Boolean; since Linux 2.2)"
-+.IR tcp_syncookies " (integer; default: 1; since Linux 2.2)"
- .\" Since 2.1.43
- Enable TCP syncookies.
- The kernel must be compiled with
- .BR CONFIG_SYN_COOKIES .
--Send out syncookies when the syn backlog queue of a socket overflows.
- The syncookies feature attempts to protect a
- socket from a SYN flood attack.
- This should be used as a last resort, if at all.
-@@ -849,6 +848,17 @@ For recommended alternatives see
- .IR tcp_synack_retries ,
- and
- .IR tcp_abort_on_overflow .
-+Set to one of the following values:
-+.RS
-+.IP 0 3
-+Disable TCP syncookies.
-+.IP 1
-+Send out syncookies when the syn backlog queue of a socket overflows.
-+.IP 2
-+.\" commit 5ad37d5deee1ff7150a2d0602370101de158ad86
-+Send out syncookies unconditionally.
-+This can be useful for network testing.
-+.RE
- .TP
- .IR tcp_timestamps " (integer; default: 1; since Linux 2.2)"
- .\" Since 2.1.36
--- 
-2.29.2
+Por otra parte, el per=C3=ADodo de prueba gratuito de tres meses le permi=
+te explorar completamente las posibilidades sin ning=C3=BAn riesgo.
 
+=C2=BFEst=C3=A1 interesado en ser m=C3=A1s eficiente a la hora de gestion=
+ar autom=C3=B3viles u otros veh=C3=ADculos de empresa?
+
+Saludos,
+Juanito Gil
