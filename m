@@ -2,83 +2,203 @@ Return-Path: <linux-man-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-3.8 required=3.0 tests=BAYES_00,
-	HEADER_FROM_DIFFERENT_DOMAINS,MAILING_LIST_MULTI,SPF_HELO_NONE,SPF_PASS
-	autolearn=no autolearn_force=no version=3.4.0
+X-Spam-Status: No, score=-14.2 required=3.0 tests=BAYES_00,DKIM_SIGNED,
+	DKIM_VALID,DKIM_VALID_AU,FREEMAIL_FORGED_FROMDOMAIN,FREEMAIL_FROM,
+	HEADER_FROM_DIFFERENT_DOMAINS,INCLUDES_CR_TRAILER,INCLUDES_PATCH,
+	MAILING_LIST_MULTI,NICE_REPLY_A,SPF_HELO_NONE,SPF_PASS,URIBL_BLOCKED,
+	USER_AGENT_SANE_1 autolearn=unavailable autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 8EA53C19425
-	for <linux-man@archiver.kernel.org>; Wed,  9 Dec 2020 10:03:13 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 12A90C433FE
+	for <linux-man@archiver.kernel.org>; Wed,  9 Dec 2020 10:46:20 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.kernel.org (Postfix) with ESMTP id 5557123BAE
-	for <linux-man@archiver.kernel.org>; Wed,  9 Dec 2020 10:03:13 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTP id C1E4C23B77
+	for <linux-man@archiver.kernel.org>; Wed,  9 Dec 2020 10:46:19 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1729592AbgLIKDN (ORCPT <rfc822;linux-man@archiver.kernel.org>);
-        Wed, 9 Dec 2020 05:03:13 -0500
-Received: from 7.mo173.mail-out.ovh.net ([46.105.44.159]:60537 "EHLO
-        7.mo173.mail-out.ovh.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1729051AbgLIKDM (ORCPT
-        <rfc822;linux-man@vger.kernel.org>); Wed, 9 Dec 2020 05:03:12 -0500
-X-Greylist: delayed 1142 seconds by postgrey-1.27 at vger.kernel.org; Wed, 09 Dec 2020 05:03:12 EST
-Received: from player698.ha.ovh.net (unknown [10.108.57.14])
-        by mo173.mail-out.ovh.net (Postfix) with ESMTP id BCBF41569DA
-        for <linux-man@vger.kernel.org>; Wed,  9 Dec 2020 10:43:22 +0100 (CET)
-Received: from RCM-web5.webmail.mail.ovh.net (82-65-25-201.subs.proxad.net [82.65.25.201])
-        (Authenticated sender: steve@sk2.org)
-        by player698.ha.ovh.net (Postfix) with ESMTPSA id 1D42F18F600CF;
-        Wed,  9 Dec 2020 09:43:17 +0000 (UTC)
-MIME-Version: 1.0
-Date:   Wed, 09 Dec 2020 10:43:16 +0100
-From:   Stephen Kitt <steve@sk2.org>
-To:     "Michael Kerrisk (man-pages)" <mtk.manpages@gmail.com>,
-        Christian Brauner <christian.brauner@ubuntu.com>
-Cc:     linux-man <linux-man@vger.kernel.org>,
-        Alejandro Colomar <alx.manpages@gmail.com>,
-        lkml <linux-kernel@vger.kernel.org>
+        id S1729887AbgLIKpG (ORCPT <rfc822;linux-man@archiver.kernel.org>);
+        Wed, 9 Dec 2020 05:45:06 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:58270 "EHLO
+        lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1729382AbgLIKpG (ORCPT
+        <rfc822;linux-man@vger.kernel.org>); Wed, 9 Dec 2020 05:45:06 -0500
+Received: from mail-wr1-x434.google.com (mail-wr1-x434.google.com [IPv6:2a00:1450:4864:20::434])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 2D44FC0613D6;
+        Wed,  9 Dec 2020 02:44:26 -0800 (PST)
+Received: by mail-wr1-x434.google.com with SMTP id l9so1173402wrt.13;
+        Wed, 09 Dec 2020 02:44:26 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20161025;
+        h=subject:to:cc:references:from:message-id:date:user-agent
+         :mime-version:in-reply-to:content-language:content-transfer-encoding;
+        bh=e9U14YbvPQ65OpVh9QyrJJaUt+mKvoE8C0Y0f02ixB8=;
+        b=rdUwne1A+4a4WU3fu2Ua/8s6HdxJWXvV63jmt5PQ/bid8f+M6MPNES6HxHukqCsNVv
+         h45zlHSRDbAV5AsmOtNtyrNspJBtIuPQzkqDNjdd3MKMrRNREfErX5Y+KOJ7XMJ8cD+o
+         ldaHkmFZXmcaHDWcAgROqddd1pyPQG0Qy42+52kDwKs5jtpnmUrr9oXAkqiyYhij0p8T
+         ISKfeQFvgRSApK4Ny+1CufDOHZ3ncghx+Cfi8QMmTfmfh5j4BrrR5zVFbcTGw5GRhIua
+         tH3hJ2QBPsyVqp5LNgXGPSh4slTFVemaYbIy9tVmd2+7g/jXSyxznmalwip8wNs+PYFs
+         FjMg==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20161025;
+        h=x-gm-message-state:subject:to:cc:references:from:message-id:date
+         :user-agent:mime-version:in-reply-to:content-language
+         :content-transfer-encoding;
+        bh=e9U14YbvPQ65OpVh9QyrJJaUt+mKvoE8C0Y0f02ixB8=;
+        b=IXG84fMQiGw3sceZ3ufCx6w87prUvS+FuLqLFIybZIOjb7EGPeCrXuGFJWsgY6LttE
+         dKVhaAIzR5q30OIz0US32qNy5tlEdmhM4800Uwe26a4p7sVfqRS0umHzkN32xd09nQio
+         EwIs3HEZyaTWKmqT4q68klWbdfOVjA7BoaCB8tlf2uoon6nEN4TrK3Z46VoPrzK4nXZ3
+         R5lvepW1YnkuXS8bKG9Ma8BzITQC7B85oP6R9UdQMl3djXedlUfjpTrN+y+g6657tIkQ
+         7GCYsY4KFIzuMyM9UEv0vs2YbeFGig03qkIUcDL44NcZDJqjETZ/0Gkn2ZcyBEXUwMug
+         vReQ==
+X-Gm-Message-State: AOAM533DpTgG8Fllv2wYpAhyVtHRPw/AqGbqiah/TlvhV1n9qru9CCsl
+        o+voFkLgfL94LAAVgNe4RGnRRKABzj/cGg==
+X-Google-Smtp-Source: ABdhPJzOJ3IkoPp2j9FdlXjWeLwGt3aK7bZ31z40KjIzv62CXeeOMndxYJx+HpoiBOoMVc4hCRV1kw==
+X-Received: by 2002:adf:c589:: with SMTP id m9mr1960375wrg.370.1607510663842;
+        Wed, 09 Dec 2020 02:44:23 -0800 (PST)
+Received: from [192.168.1.143] ([170.253.51.130])
+        by smtp.gmail.com with ESMTPSA id d187sm2777012wmd.8.2020.12.09.02.44.22
+        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+        Wed, 09 Dec 2020 02:44:23 -0800 (PST)
 Subject: Re: [patch] close_range.2: new page documenting close_range(2)
-In-Reply-To: <20201209094039.ksqlt7g5mq7mp4mq@wittgenstein>
+To:     Christian Brauner <christian.brauner@ubuntu.com>,
+        Stephen Kitt <steve@sk2.org>
+Cc:     linux-man@vger.kernel.org,
+        Michael Kerrisk <mtk.manpages@gmail.com>,
+        linux-kernel@vger.kernel.org
 References: <20201208215133.30575-1-steve@sk2.org>
- <CAKgNAki3jRYmTzCMXgBzXTz9LEmmAfRE5VuMOhnDbVmiJU=asg@mail.gmail.com>
- <20201209094039.ksqlt7g5mq7mp4mq@wittgenstein>
-User-Agent: Roundcube Webmail/1.4.3
-Message-ID: <9020961b9cb4ebc61d6a07f603a226aa@sk2.org>
-X-Sender: steve@sk2.org
-X-Originating-IP: 82.65.25.201
-X-Webmail-UserID: steve@sk2.org
-Content-Type: text/plain; charset=UTF-8;
- format=flowed
-Content-Transfer-Encoding: 8bit
-X-Ovh-Tracer-Id: 11257310219080977789
-X-VR-SPAMSTATE: OK
-X-VR-SPAMSCORE: -100
-X-VR-SPAMCAUSE: gggruggvucftvghtrhhoucdtuddrgedujedrudejkedgtdekucetufdoteggodetrfdotffvucfrrhhofhhilhgvmecuqfggjfdpvefjgfevmfevgfenuceurghilhhouhhtmecuhedttdenucesvcftvggtihhpihgvnhhtshculddquddttddmnecujfgurhepggffhffvufgjfhgfkfigihgtgfesthekjhdttderjeenucfhrhhomhepufhtvghphhgvnhcumfhithhtuceoshhtvghvvgesshhkvddrohhrgheqnecuggftrfgrthhtvghrnhepheeftedvhfevuedthedthfektdelleegtdevfeetveefhfekgedttdefgfetgfeunecukfhppedtrddtrddtrddtpdekvddrieehrddvhedrvddtudenucevlhhushhtvghrufhiiigvpedtnecurfgrrhgrmhepmhhouggvpehsmhhtphdqohhuthdphhgvlhhopehplhgrhigvrheileekrdhhrgdrohhvhhdrnhgvthdpihhnvghtpedtrddtrddtrddtpdhmrghilhhfrhhomhepshhtvghvvgesshhkvddrohhrghdprhgtphhtthhopehlihhnuhigqdhmrghnsehvghgvrhdrkhgvrhhnvghlrdhorhhg
+ <20201209095817.7ksihhftmnd3c3hi@wittgenstein>
+From:   "Alejandro Colomar (man-pages)" <alx.manpages@gmail.com>
+Message-ID: <5f69d42d-c36d-b98a-3d00-7a5e7f489a07@gmail.com>
+Date:   Wed, 9 Dec 2020 11:44:22 +0100
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
+ Thunderbird/78.5.0
+MIME-Version: 1.0
+In-Reply-To: <20201209095817.7ksihhftmnd3c3hi@wittgenstein>
+Content-Type: text/plain; charset=utf-8
+Content-Language: en-US
+Content-Transfer-Encoding: 7bit
 Precedence: bulk
 List-ID: <linux-man.vger.kernel.org>
 X-Mailing-List: linux-man@vger.kernel.org
 
-Le 09/12/2020 10:40, Christian Brauner a écrit :
-> On Wed, Dec 09, 2020 at 09:50:38AM +0100, Michael Kerrisk (man-pages) 
-> wrote:
->> > +.PP
->> > +.I flags
->> > +can be set to
->> > +.B CLOSE_RANGE_UNSHARE
->> > +to unshare the range of file descriptors from any other processes,
->> > +.I instead
->> > +of closing them.
->> 
->> Really "instead of closing them"? I had supposed that rather that this
->> should be "before closing them". That's also how the kernel code reads
->> to me, from a quick glance.
+Hey Christian,
+
+I have a question for you below.
+
+Thanks,
+
+Alex
+
+On 12/9/20 10:58 AM, Christian Brauner wrote:
+> On Tue, Dec 08, 2020 at 10:51:33PM +0100, Stephen Kitt wrote:
+>> This documents close_range(2) based on information in
+>> 278a5fbaed89dacd04e9d052f4594ffd0e0585de and
+>> 60997c3d45d9a67daf01c56d805ae4fec37e0bd8.
+>>
+>> Signed-off-by: Stephen Kitt <steve@sk2.org>
+>> ---
 > 
-> It's also mentioned in the commit message. Basically setting
-> CLOSE_RANGE_UNSHARE is equivalent to:
+> Hey Stephen,
 > 
-> unshare(CLONE_FILES);
-> close_range(<start>, <end>);
+> Thanks for working on this that's an early Christmas present as it gets
+> an item off my todo list!
+> 
+>>  man2/close_range.2 | 112 +++++++++++++++++++++++++++++++++++++++++++++
+>>  1 file changed, 112 insertions(+)
+>>  create mode 100644 man2/close_range.2
+>>
+>> diff --git a/man2/close_range.2 b/man2/close_range.2
+>> new file mode 100644
+>> index 000000000..62167d9b0
+>> --- /dev/null
+>> +++ b/man2/close_range.2
+>> @@ -0,0 +1,112 @@
+>> +.\" Copyright (c) 2020 Stephen Kitt <steve@sk2.org>
+>> +.\"
+>> +.\" %%%LICENSE_START(VERBATIM)
+>> +.\" Permission is granted to make and distribute verbatim copies of this
+>> +.\" manual provided the copyright notice and this permission notice are
+>> +.\" preserved on all copies.
+>> +.\"
+>> +.\" Permission is granted to copy and distribute modified versions of this
+>> +.\" manual under the conditions for verbatim copying, provided that the
+>> +.\" entire resulting derived work is distributed under the terms of a
+>> +.\" permission notice identical to this one.
+>> +.\"
+>> +.\" Since the Linux kernel and libraries are constantly changing, this
+>> +.\" manual page may be incorrect or out-of-date.  The author(s) assume no
+>> +.\" responsibility for errors or omissions, or for damages resulting from
+>> +.\" the use of the information contained herein.  The author(s) may not
+>> +.\" have taken the same level of care in the production of this manual,
+>> +.\" which is licensed free of charge, as they might when working
+>> +.\" professionally.
+>> +.\"
+>> +.\" Formatted or processed versions of this manual, if unaccompanied by
+>> +.\" the source, must acknowledge the copyright and authors of this work.
+>> +.\" %%%LICENSE_END
+>> +.\"
+>> +.TH CLOSE_RANGE 2 2020-12-08 "Linux" "Linux Programmer's Manual"
+>> +.SH NAME
+>> +close_range \- close all file descriptors in a given range
+>> +.SH SYNOPSIS
+>> +.nf
+>> +.B #include <linux/close_range.h>
+>> +.PP
+>> +.BI "int close_range(int " first ", int " last ", unsigned int " flags );
+> 
+> Note, the kernel prototype uses unsigned int as the type for file
+> descriptor arguments. As does the close() syscall itself. Only glibc
+> wrappers expose file descriptor types (at least in close variants) as
+> int.
+> Since this is a manpage about the syscall not the wrapper it might make
+> sense to note the correct types.
+> 
+>> +.fi
+>> +.SH DESCRIPTION
+>> +The
+>> +.BR close_range ()
+>> +system call closes all open file descriptors from
+>> +.I first
+>> +to
+>> +.IR last
+>> +(included).
+>> +.PP
+>> +Errors closing a given file descriptor are currently ignored.
+>> +.PP
+>> +.I flags
+>> +can be set to
+>> +.B CLOSE_RANGE_UNSHARE
+>> +to unshare the range of file descriptors from any other processes,
+>> +.I instead
+>> +of closing them.
+> 
+> As Michael has noted, this needs to be reworded. A few things to note:
+> - CLOSE_RANGE_UNSHARE will ensure that the calling process will have a
+>   private file descriptor table. This ensures that other threads opening
+>   files cannot inject new file descriptors into the caller's file
+>   descriptor table to e.g. make the caller inherit unwanted file
+>   descriptors.
+> - CLOSE_RANGE_UNSHARE is conceptually equivalent to:
+>   unshare(CLONE_FILES);
+>   close_range(3, ~0U);
 
-Yes, I got that mixed up, thanks for the clarification! I'll send a v2 
-addressing the review comments later today.
+AFAICS after reading the code, if the unsharing fails,
+it will not close any file descriptors (please correct me if I'm wrong).
 
-Regards,
+Just wanted to be sure that it was the intended behavior with you,
+and if so, it would be good to document it in the page.
 
-Stephen
+> - Whenever the requested range @last is greater than the current maximum
+>   number of file descriptors allocated in the caller's file descriptor
+>   table the kernel will only unshare a new file descriptor table for the
+>   caller up to @first, i.e. the new file descriptor table will be 0 up
+>   to and including @first not 0 up to and including @last. Which means
+>   that the kernel will not have to do any costly filp_close() calls at
+>   all. In essence, the close_range() operation is finished after the
+>   in-kernel unshare call in such cases.
+> 
+> Christian
+> 
+
+-- 
+Alejandro Colomar
+Linux man-pages comaintainer; http://www.kernel.org/doc/man-pages/
+http://www.alejandro-colomar.es
