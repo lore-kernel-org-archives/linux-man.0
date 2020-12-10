@@ -2,156 +2,296 @@ Return-Path: <linux-man-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-9.2 required=3.0 tests=BAYES_00,DKIM_SIGNED,
+X-Spam-Status: No, score=-14.2 required=3.0 tests=BAYES_00,DKIM_SIGNED,
 	DKIM_VALID,DKIM_VALID_AU,FREEMAIL_FORGED_FROMDOMAIN,FREEMAIL_FROM,
-	HEADER_FROM_DIFFERENT_DOMAINS,MAILING_LIST_MULTI,MENTIONS_GIT_HOSTING,
-	NICE_REPLY_A,SPF_HELO_NONE,SPF_PASS,URIBL_BLOCKED,USER_AGENT_SANE_1
-	autolearn=ham autolearn_force=no version=3.4.0
+	HEADER_FROM_DIFFERENT_DOMAINS,INCLUDES_CR_TRAILER,INCLUDES_PATCH,
+	MAILING_LIST_MULTI,NICE_REPLY_A,SPF_HELO_NONE,SPF_PASS,URIBL_BLOCKED,
+	USER_AGENT_SANE_1 autolearn=unavailable autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id A4980C4361B
-	for <linux-man@archiver.kernel.org>; Wed,  9 Dec 2020 19:16:09 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id B539BC433FE
+	for <linux-man@archiver.kernel.org>; Thu, 10 Dec 2020 00:26:15 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.kernel.org (Postfix) with ESMTP id 6186223AAC
-	for <linux-man@archiver.kernel.org>; Wed,  9 Dec 2020 19:16:09 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTP id 7540B22D49
+	for <linux-man@archiver.kernel.org>; Thu, 10 Dec 2020 00:26:15 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S2387521AbgLITQJ (ORCPT <rfc822;linux-man@archiver.kernel.org>);
-        Wed, 9 Dec 2020 14:16:09 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:52512 "EHLO
+        id S1728964AbgLJAZR (ORCPT <rfc822;linux-man@archiver.kernel.org>);
+        Wed, 9 Dec 2020 19:25:17 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:43722 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S2387426AbgLITQB (ORCPT
-        <rfc822;linux-man@vger.kernel.org>); Wed, 9 Dec 2020 14:16:01 -0500
-Received: from mail-wm1-x341.google.com (mail-wm1-x341.google.com [IPv6:2a00:1450:4864:20::341])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 2976BC0613D6
-        for <linux-man@vger.kernel.org>; Wed,  9 Dec 2020 11:15:21 -0800 (PST)
-Received: by mail-wm1-x341.google.com with SMTP id x22so2505370wmc.5
-        for <linux-man@vger.kernel.org>; Wed, 09 Dec 2020 11:15:21 -0800 (PST)
+        with ESMTP id S1728791AbgLJAZM (ORCPT
+        <rfc822;linux-man@vger.kernel.org>); Wed, 9 Dec 2020 19:25:12 -0500
+Received: from mail-wr1-x442.google.com (mail-wr1-x442.google.com [IPv6:2a00:1450:4864:20::442])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id D12B1C0613CF;
+        Wed,  9 Dec 2020 16:24:31 -0800 (PST)
+Received: by mail-wr1-x442.google.com with SMTP id i9so3660200wrc.4;
+        Wed, 09 Dec 2020 16:24:31 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=gmail.com; s=20161025;
         h=subject:to:cc:references:from:message-id:date:user-agent
          :mime-version:in-reply-to:content-language:content-transfer-encoding;
-        bh=1rZt/k3t9CzXf4RKhZkrfsXMIKx82mw0UDClNj3a1sc=;
-        b=PaflzcjsLdj8g0xw9ngvZJg8jp2mjX4hkeVYyd5yz+Ps/QLe8Bq5VuZi5kHZu7N2xb
-         q5PICbWjmQQ1HVEKNJQwPECXp5QGrQZYJjTZQM0CZH1JtnNrijrqlp8Zud20aur16iXL
-         34zPuVl5l7Hk1ijT7bKg7YKiTFe15QCg4wFIX6wn+ePoS3CdlAWCr5FylPRQHZgUgZ4Z
-         W+P9O8lK9LxxezQoBL9fXH7e1jbzBEf96rXtVUZDAS+MaOVCeCXxgqMc850iBzt7eAG6
-         KgDelvHCve3aDO4TG9NnRUVVndDBYuNVTDOf95otJRFOzeuyrcHnFXkcKBAJVMvNS92F
-         vm6g==
+        bh=uSIXfMhMnKiM8+KPjiJHJGdQzdO3M8deFNEnj1sZf9s=;
+        b=QlFKAsowCD2EMqHO90AbD0zLnyM67dIUDBp51k1DHA4IvIxQ0XO6kOvVNFrYnSj/aC
+         H82mvXNLFRO//3imdpB4+Gh86Vl4LYBTBXGFArreaUKlAdd57WpsAN3QD23CwfULnbve
+         W91+UosmvjxMCrmQz1J34w4NP3v56dFG282R5I3T7CQFFvY9C9BJVTMT30kpRBzVdq2v
+         ZrWbtLYxor0i3rLAzTFZ7sQH8U4NDiPaT5hddQnnk58XBYsgD3+SVtWZtcascyDhHKkb
+         5QF1bTaLw7lu34Ehiq4TP5pFNfNDrNSL94YjUQxfNKUIjKwZIbjy+ObIZhd5JZlWtXIm
+         RwlA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
         h=x-gm-message-state:subject:to:cc:references:from:message-id:date
          :user-agent:mime-version:in-reply-to:content-language
          :content-transfer-encoding;
-        bh=1rZt/k3t9CzXf4RKhZkrfsXMIKx82mw0UDClNj3a1sc=;
-        b=mJbXufHcJGgm07QNgUD/O8eskpKXQdhPtIBMUw/7d3LP4Yg40spDWY5pl/fH/eH0l3
-         SM8k8kmiKPzBh/DX3aLc/SSjkhbHkyDuRgDJJgKlFTZBKG5C7vhShr2YfnbuWN7okD5H
-         8ZU4vWDMs7vmISj+yELUI7Jz2SFQZIYIW0NK4JZLosSBvFP0iVSY2bGzFnu3yKD3UIzt
-         WTp+XcKS/e/Ym/jlMya0/snXPRh4fn1Ejg0+CIhV3HswqKf1hLHs4BgREEoQ43L129oD
-         S5gIacwhAy3+oSlMylsVS6XVWrv3oZ8UYCS2VqraMXyACiU/wLBwvcIeBx2W0kI8IJzV
-         dnGQ==
-X-Gm-Message-State: AOAM530XxAkqJZMZxrj7G3DpvahhEeg4D9QT8dq3Gt6EKh05PPb1MDX0
-        Lh4f6ic2TG8a0bIWvwrwm7U=
-X-Google-Smtp-Source: ABdhPJw6ILk2qBb3ziNNLB0at17WJU4kbR1Gg7f558vkUcXkUTaSUgJ+bj6gtBwwMR7a1ZfFUwQ/Eg==
-X-Received: by 2002:a7b:c157:: with SMTP id z23mr4312713wmi.35.1607541319960;
-        Wed, 09 Dec 2020 11:15:19 -0800 (PST)
+        bh=uSIXfMhMnKiM8+KPjiJHJGdQzdO3M8deFNEnj1sZf9s=;
+        b=nHnWS0PIp+xJ4ihdMwm0eY8CsWRHVmN9umjKcbAnNyM+N3AkGOFzZXpZfH7Vqq00jG
+         Cu7gmVTebe//byp5MpLqpKfDtE4il11tNaXVmL48ygiAoMn4YoLGyoder1JvKd+TPShl
+         GRKE9hLCB68hxkKu0OKEPH2q6lywA/Sy567T1O3hdTcOGs9KHf5EkiBaPbNc83VJW8YB
+         XmmkUhTiaSn4rjrk0fDfz6vO9K3QP3tT7OHdTfFxli4O3QmLd3Yjs/QmTPiXzOuq1sjS
+         T/rGl2mSWVdSeQAOZXGYURQvMTiW1jE8RYa9ooqKzQyqe5gmXKDcE8brfG1uJgsMugrm
+         VQfw==
+X-Gm-Message-State: AOAM533MSOg67s32m8oFu+B9phJAaGP9lpoH67gYBAy3oh90Cu5nL3NU
+        CWPObZgfbSKM13xFkR2/slAiWfHJty6TSw==
+X-Google-Smtp-Source: ABdhPJzqs9b6Zk6n+qlxJN5q9oKwV5cLcF3fmlAVkVh0rBGkUBq/5JwSIB7ceT7u+DCOgTaA8w95gw==
+X-Received: by 2002:adf:f74e:: with SMTP id z14mr5508820wrp.146.1607559870543;
+        Wed, 09 Dec 2020 16:24:30 -0800 (PST)
 Received: from [192.168.1.143] ([170.253.51.130])
-        by smtp.gmail.com with ESMTPSA id u66sm5542098wmg.30.2020.12.09.11.15.18
+        by smtp.gmail.com with ESMTPSA id u66sm6844141wmg.30.2020.12.09.16.24.29
         (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Wed, 09 Dec 2020 11:15:19 -0800 (PST)
-Subject: Re: cacheflush.2
-To:     Heinrich Schuchardt <xypron.glpk@gmx.de>,
-        "Michael Kerrisk (man-pages)" <mtk.manpages@gmail.com>
-Cc:     linux-man@vger.kernel.org, gcc@gcc.gnu.org,
-        cfe-users@lists.llvm.org
-References: <794cf0d1-d528-4b5a-3ce0-b1b5f588dc6d@gmx.de>
- <ca265930-00d7-44f5-b2dd-535a5cf0310a@gmail.com>
- <5257a883-29f0-6eaa-5708-d1f47356a57a@gmx.de>
+        Wed, 09 Dec 2020 16:24:29 -0800 (PST)
+Subject: Re: [PATCH v2] close_range.2: new page documenting close_range(2)
+To:     Stephen Kitt <steve@sk2.org>, linux-man@vger.kernel.org,
+        Michael Kerrisk <mtk.manpages@gmail.com>,
+        Christian Brauner <christian.brauner@ubuntu.com>
+Cc:     linux-kernel@vger.kernel.org
+References: <20201209220023.17912-1-steve@sk2.org>
 From:   "Alejandro Colomar (man-pages)" <alx.manpages@gmail.com>
-Message-ID: <90152ea6-f2eb-b08f-7269-f8266ffb15d1@gmail.com>
-Date:   Wed, 9 Dec 2020 20:15:18 +0100
+Message-ID: <e50183ce-3ccb-c41c-9d30-bfb622b3b1f5@gmail.com>
+Date:   Thu, 10 Dec 2020 01:24:28 +0100
 User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
  Thunderbird/78.5.1
 MIME-Version: 1.0
-In-Reply-To: <5257a883-29f0-6eaa-5708-d1f47356a57a@gmx.de>
+In-Reply-To: <20201209220023.17912-1-steve@sk2.org>
 Content-Type: text/plain; charset=utf-8
 Content-Language: en-US
-Content-Transfer-Encoding: 8bit
+Content-Transfer-Encoding: 7bit
 Precedence: bulk
 List-ID: <linux-man.vger.kernel.org>
 X-Mailing-List: linux-man@vger.kernel.org
 
-Hi Heinrich,
+Hi Stephen,
 
-It looks like a bug (or at least an undocumented divergence from GCC) in
-Clang/LLVM.  Or I couldn't find the documentation for it.
+A few more comments below.
 
-Clang uses 'char *':
-https://github.com/llvm/llvm-project/blob/7faf62a80bfc3a9dfe34133681fcc31f8e8d658b/clang/include/clang/Basic/Builtins.def#L583
+Michael, please have a look at them too.
 
-GCC uses 'void *':
-https://gcc.gnu.org/onlinedocs/gcc/Other-Builtins.html
+Christian, do you have any program that you used to test the syscall
+that could be added as an example program to the page?
 
-I CCd Clang and GCC lists; maybe they know about that divergence.
-
-Cheers,
+Thanks,
 
 Alex
 
-On 12/9/20 7:48 PM, Heinrich Schuchardt wrote:
-> On 12/9/20 7:34 PM, Alejandro Colomar (man-pages) wrote:
->> Hi Heinrich & Michael,
->>
->> What about the following?:
->>
->> [
->> NOTES
->>         GCC provides a similar function, which may be useful on  archi‐
->>         tectures that lack this system call:
->>
->>             void __builtin___clear_cache(void *begin, void *end);
->> ]
+On 12/9/20 11:00 PM, Stephen Kitt wrote:
+> This documents close_range(2) based on information in
+> 278a5fbaed89dacd04e9d052f4594ffd0e0585de and
+> 60997c3d45d9a67daf01c56d805ae4fec37e0bd8.
 > 
-> I just checked building with Clang/LLVM. There the arguments are of type
-> (char *). See the following error output:
+> Signed-off-by: Stephen Kitt <steve@sk2.org>
+> ---
+> V2: unsigned int to match the kernel declarations
+>     groff and grammar tweaks
+>     CLOSE_RANGE_UNSHARE unshares *and* closes
+>     Explain that EMFILE and ENOMEM can occur with C_R_U
+>     "Conforming to" phrasing
+>     Detailed explanation of CLOSE_RANGE_UNSHARE
+>     Reading /proc isn't common
 > 
-> +arch/sandbox/cpu/cache.c:19:26: error: passing 'uint8_t *' (aka
-> 'unsigned char *') to parameter of type 'char *' converts between
-> pointers to integer types with different sign [-Werror,-Wpointer-sign]
-> +        __builtin___clear_cache(state->ram_buf,
-> +                                ^~~~~~~~~~~~~~
-> +arch/sandbox/cpu/cache.c:20:12: error: passing 'uint8_t *' (aka
-> 'unsigned char *') to parameter of type 'char *' converts between
-> pointers to integer types with different sign [-Werror,-Wpointer-sign]
-> +                                state->ram_buf + state->ram_size);
-> +                                ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+>  man2/close_range.2 | 138 +++++++++++++++++++++++++++++++++++++++++++++
+>  1 file changed, 138 insertions(+)
+>  create mode 100644 man2/close_range.2
 > 
-> Best regards
+> diff --git a/man2/close_range.2 b/man2/close_range.2
+> new file mode 100644
+> index 000000000..403142b33
+> --- /dev/null
+> +++ b/man2/close_range.2
+> @@ -0,0 +1,138 @@
+> +.\" Copyright (c) 2020 Stephen Kitt <steve@sk2.org>
+> +.\"
+> +.\" %%%LICENSE_START(VERBATIM)
+> +.\" Permission is granted to make and distribute verbatim copies of this
+> +.\" manual provided the copyright notice and this permission notice are
+> +.\" preserved on all copies.
+> +.\"
+> +.\" Permission is granted to copy and distribute modified versions of this
+> +.\" manual under the conditions for verbatim copying, provided that the
+> +.\" entire resulting derived work is distributed under the terms of a
+> +.\" permission notice identical to this one.
+> +.\"
+> +.\" Since the Linux kernel and libraries are constantly changing, this
+> +.\" manual page may be incorrect or out-of-date.  The author(s) assume no
+> +.\" responsibility for errors or omissions, or for damages resulting from
+> +.\" the use of the information contained herein.  The author(s) may not
+> +.\" have taken the same level of care in the production of this manual,
+> +.\" which is licensed free of charge, as they might when working
+> +.\" professionally.
+> +.\"
+> +.\" Formatted or processed versions of this manual, if unaccompanied by
+> +.\" the source, must acknowledge the copyright and authors of this work.
+> +.\" %%%LICENSE_END
+> +.\"
+> +.TH CLOSE_RANGE 2 2020-12-08 "Linux" "Linux Programmer's Manual"
+> +.SH NAME
+> +close_range \- close all file descriptors in a given range
+> +.SH SYNOPSIS
+> +.nf
+> +.B #include <linux/close_range.h>
+> +.PP
+> +.BI "int close_range(unsigned int " first ", unsigned int " last ", unsigned int " flags );
+
+This line overflows an 80-col terminal.  Fix:
+
+.BI "int close_range(unsigned int " first ", unsigned int " last ,
+.BI "                unsigned int " flags );
+
+
+> +.fi
+
+Please, add a note here that there is no wrapper for this syscall,
+as in other syscalls without wrapper (see membarrier(2) as an example).
+That way it's easier to grep, if all pages have the same notice.
+
+> +.SH DESCRIPTION
+> +The
+> +.BR close_range ()
+> +system call closes all open file descriptors from
+> +.I first
+> +to
+> +.I last
+> +(included).
+> +.PP
+> +Errors closing a given file descriptor are currently ignored.
+> +.PP
+> +.I flags
+> +can be set to
+> +.B CLOSE_RANGE_UNSHARE
+> +to unshare the range of file descriptors from any other processes,
+> +before closing them, avoiding races with other threads sharing the
+> +file descriptor table.
+
+Please use semantic newlines.
+See man-pages(7)::STYLE GUIDE::Use semantic newlines
+
+> +.SH RETURN VALUE
+> +On success,
+> +.BR close_range ()
+> +returns 0.
+> +On error, \-1 is returned and
+> +.I errno
+> +is set to indicate the cause of the error.
+> +.SH ERRORS
+> +.TP
+> +.B EINVAL
+> +.I flags
+> +is not valid, or
+> +.I first
+> +is greater than
+> +.IR last .
+> +.PP
+> +The following can occur with
+> +.B CLOSE_RANGE_UNSHARE
+> +(when constructing the new descriptor table):
+> +.TP
+> +.B EMFILE
+> +The per-process limit on the number of open file descriptors has been reached
+> +(see the description of
+> +.B RLIMIT_NOFILE
+> +in
+> +.BR getrlimit (2)).
+> +.TP
+> +.B ENOMEM
+> +Insufficient kernel memory was available.
+> +.SH VERSIONS
+> +.BR close_range ()
+> +first appeared in Linux 5.9.
+> +.SH CONFORMING TO
+> +.BR close_range ()
+> +is a nonstandard function that is also present on FreeBSD.
+> +.SH NOTES
+> +Currently, there is no glibc wrapper for this system call; call it using
+> +.BR syscall (2).
+
+I can see that this notice is also present on a few pages,
+but the one in membarrier(2) is more extended.
+
+Please, copy the notices from membarrier(2).
+There's one in SYNOPSIS, and one in NOTES.
+
+> +.PP
+> +.B CLOSE_RANGE_UNSHARE
+> +is conceptually equivalent to
+> +.PP
+> +.in +4n
+> +.EX
+> +unshare(CLONE_FILES);
+> +close_range(first, last, 0);
+> +.EE
+> +.in
+> +.PP
+> +but can be more efficient: if the unshared range extends past the
+> +current maximum number of file descriptors allocated in the caller's
+> +file descriptor table (the common case when
+> +.I last
+> +is
+> +.BR ~0U ),
+> +the kernel will unshare a new file descriptor
+> +table for the caller up to
+> +.IR first .
+> +This avoids subsequent close calls entirely; the whole operation is
+> +complete once the table is unshared.
+
+I think the above is more suitable for the DESCRIPTION, but what are
+your thoughts, mtk?
+
+> +.SH USE CASES
+
+This section is unconventional.  Please move that text to one of the
+traditional sections.  I think DESCRIPTION would be the best place for this.
+
+For a list of the traditional sections,
+see man-pages(7)::DESCRIPTION::Sections within a manual page
+
+> +.\" 278a5fbaed89dacd04e9d052f4594ffd0e0585de
+> +.\" 60997c3d45d9a67daf01c56d805ae4fec37e0bd8
+> +.SS Closing file descriptors before exec
+> +File descriptors can be closed safely using
+> +.PP
+> +.in +4n
+> +.EX
+> +/* we don't want anything past stderr here */
+> +close_range(3, ~0U, CLOSE_RANGE_UNSHARE);
+> +execve(....);
+> +.EE
+> +.in
+> +.SS Closing all open file descriptors
+> +To avoid blindly closing file descriptors in the range of possible
+> +file descriptors, this is sometimes implemented (on Linux) by listing
+> +open file descriptors in
+> +.I /proc/self/fd/
+> +and calling
+> +.BR close (2)
+> +on each one.
+> +.BR close_range ()
+> +can take care of this without requiring
+> +.I /proc
+> +and with a single system call, which provides significant performance
+> +benefits.
+> +.SH SEE ALSO
+> +.BR close (2)
 > 
-> Heinrich
-> 
->>
->> Cheers,
->>
->> Alex
->>
->> On 12/9/20 7:04 PM, Heinrich Schuchardt wrote:
->>> Hello Michael,
->>>
->>> function cacheflush() does not exist on many architectures.
->>>
->>> It would have saved me a lot of time if the man-page had referenced
->>> GCC's
->>>
->>> void __builtin___clear_cache(void *begin, void *end)
->>>
->>> Maybe you can add it to NOTES.
->>>
->>> Best regards
->>>
->>> heirnich
->>
+> base-commit: b5dae3959625f5ff378e9edf9139057d1c06bb55
 > 
 
 -- 
 Alejandro Colomar
-Linux man-pages comaintainer; http://www.kernel.org/doc/man-pages/
+Linux man-pages comaintainer; https://www.kernel.org/doc/man-pages/
 http://www.alejandro-colomar.es
