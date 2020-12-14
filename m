@@ -2,159 +2,174 @@ Return-Path: <linux-man-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-15.7 required=3.0 tests=BAYES_00,DKIM_SIGNED,
+X-Spam-Status: No, score=-9.2 required=3.0 tests=BAYES_00,DKIM_SIGNED,
 	DKIM_VALID,DKIM_VALID_AU,FREEMAIL_FORGED_FROMDOMAIN,FREEMAIL_FROM,
-	HEADER_FROM_DIFFERENT_DOMAINS,INCLUDES_CR_TRAILER,INCLUDES_PATCH,
-	MAILING_LIST_MULTI,SPF_HELO_NONE,SPF_PASS,USER_AGENT_GIT
-	autolearn=unavailable autolearn_force=no version=3.4.0
+	HEADER_FROM_DIFFERENT_DOMAINS,MAILING_LIST_MULTI,MENTIONS_GIT_HOSTING,
+	NICE_REPLY_A,SPF_HELO_NONE,SPF_PASS,URIBL_BLOCKED,USER_AGENT_SANE_1
+	autolearn=ham autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id AF036C2BBCA
-	for <linux-man@archiver.kernel.org>; Mon, 14 Dec 2020 14:40:01 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 2AA05C2BB48
+	for <linux-man@archiver.kernel.org>; Mon, 14 Dec 2020 21:15:03 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.kernel.org (Postfix) with ESMTP id 67ABB225AC
-	for <linux-man@archiver.kernel.org>; Mon, 14 Dec 2020 14:40:01 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTP id EA3FD2250F
+	for <linux-man@archiver.kernel.org>; Mon, 14 Dec 2020 21:15:02 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S2408053AbgLNOjz (ORCPT <rfc822;linux-man@archiver.kernel.org>);
-        Mon, 14 Dec 2020 09:39:55 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:46562 "EHLO
+        id S2388560AbgLNVOx (ORCPT <rfc822;linux-man@archiver.kernel.org>);
+        Mon, 14 Dec 2020 16:14:53 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:52030 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S2407660AbgLNOjt (ORCPT
-        <rfc822;linux-man@vger.kernel.org>); Mon, 14 Dec 2020 09:39:49 -0500
-Received: from mail-wr1-x444.google.com (mail-wr1-x444.google.com [IPv6:2a00:1450:4864:20::444])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 553A6C0613D6;
-        Mon, 14 Dec 2020 06:39:09 -0800 (PST)
-Received: by mail-wr1-x444.google.com with SMTP id r7so16648529wrc.5;
-        Mon, 14 Dec 2020 06:39:09 -0800 (PST)
+        with ESMTP id S1728461AbgLNVOl (ORCPT
+        <rfc822;linux-man@vger.kernel.org>); Mon, 14 Dec 2020 16:14:41 -0500
+Received: from mail-qv1-xf30.google.com (mail-qv1-xf30.google.com [IPv6:2607:f8b0:4864:20::f30])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id AA1F9C0613D3
+        for <linux-man@vger.kernel.org>; Mon, 14 Dec 2020 13:14:01 -0800 (PST)
+Received: by mail-qv1-xf30.google.com with SMTP id s6so8510197qvn.6
+        for <linux-man@vger.kernel.org>; Mon, 14 Dec 2020 13:14:01 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=gmail.com; s=20161025;
-        h=from:to:cc:subject:date:message-id:mime-version
-         :content-transfer-encoding;
-        bh=Y23uQOHXl8QZ5RIklxR/5d33ikY1eJDu8wcPOna5oh4=;
-        b=L6tz25Dmbm6QTy/RsOTHj5HcD+iVVZXZ9pDv1dXNiPIUjzgZ3vz2s9Jsi8bDGn8OW4
-         2YkyF5rU/HLezWAyBNB6QMCNBG8/HuvpFBX+rz8/VdKBKS5VVt39sWNvga9Q53e7R733
-         0LpK5/rJTUMvJbs3pGlBAzAEqdZmaZgEuaPJc728JO42MKOphAv+uSg7af7zvgoz34P6
-         6UG1aBiBYuu3bKLd+DJXPJTECQWb62n2d9EnSPdqZB5T6BJbifDwfjKDSUo7qDamU66o
-         8VdH2J+YpEYeDoeN7/bocXWlfCox28B/i9OkKwLvgulGEKd96SGHbVV8l6K6rduduooi
-         +7BA==
+        h=subject:to:cc:references:from:message-id:date:user-agent
+         :mime-version:in-reply-to:content-language:content-transfer-encoding;
+        bh=5f6MbzMS1AYUHWx2y4T/TE0uixQGO7cdlupZZpVKi74=;
+        b=EaxSOVv8SnKkP23Y0vzwURyObuHmTqwQzuqeBemPc8ZWeyv2HXdk07M4iHLissFaym
+         rOSaIyFG4Ixp2ik680xcx2UJaE/IyGn5mWqxsbf/13R/XiZGKTH45NS8dY/7AgHxP+9e
+         /V3hCikFTxN1V5Ffj0t/TqemlGHkXX5fVvAdSdK9mkA8s/nsyFzmp14MdxhghVYbbtE+
+         VDNx8VVFcJ32BQd54k9IvIu0dyTDQFHRqMud0yYF/Il5svBTlwodFvjYw4KG9KMX/R6r
+         vQysKwCDlSDXuTrmjkjW0ndh7DwmYQNT1HdSHnw82k63AyenrHZYjnMpuHdrG1Ha7fcM
+         Le5w==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
-        h=x-gm-message-state:from:to:cc:subject:date:message-id:mime-version
+        h=x-gm-message-state:subject:to:cc:references:from:message-id:date
+         :user-agent:mime-version:in-reply-to:content-language
          :content-transfer-encoding;
-        bh=Y23uQOHXl8QZ5RIklxR/5d33ikY1eJDu8wcPOna5oh4=;
-        b=aHLw8pxdgu0JXPC+gp31XKSnRdQOaGeu0TqiMDeR7tDzNGAswzIGBrpW4bWVgCVSu+
-         d0Uqxm2vdozJaw8vVpe1xhSRjMswzDFsbfgki6vrr6sakAWSHnbYRnJk7D3KWr4SISif
-         /Fu05TuITOi/kyGMbyDp70KpOERrl6PnFYKVWHQCYG/NlTZWpV07Fby9ZzvbhZik2D1B
-         xu1PPUpKcas262R0e89+IoBmOWy0B+XtPul7vMN6XzMSXmi4iTZwlAnTP7kOaNEKMETQ
-         gPn7ov1YoDKKwEf8RaHqMQiJdM0mlHu/bmcNuwVERxOeQmc3mZtRrwmeafLLNsQMj+Ot
-         a2qw==
-X-Gm-Message-State: AOAM530OohmJo4+UzEc7Cfi2YsGzkSKqVvjCVaPCoiWXqmRdKuWwuToy
-        mI9EdzoqfkwfOoNaH1m5GeI=
-X-Google-Smtp-Source: ABdhPJw6FLJ01Z+XyCZT/YG7W+WiJ6p1Di+54cDzlWLY2Y7+ZsEyURKbqB2sn9ipAH3YjqEV1gr5gw==
-X-Received: by 2002:a05:6000:185:: with SMTP id p5mr28298483wrx.403.1607956748086;
-        Mon, 14 Dec 2020 06:39:08 -0800 (PST)
-Received: from debian.vlc ([170.253.51.130])
-        by smtp.gmail.com with ESMTPSA id w18sm12481539wrn.2.2020.12.14.06.39.06
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Mon, 14 Dec 2020 06:39:07 -0800 (PST)
-From:   Alejandro Colomar <alx.manpages@gmail.com>
-To:     Michael Kerrisk <mtk.manpages@gmail.com>,
-        Dave Martin <Dave.Martin@arm.com>,
+        bh=5f6MbzMS1AYUHWx2y4T/TE0uixQGO7cdlupZZpVKi74=;
+        b=gGe0IXmNZNNpUogwLJ5Jso46wioTxIOE1bHmKJji5KReDDlbJ1244v1riChRxVAh8D
+         0txqwy+lHNoOAdwQ+Lg3Jcp2gpinu79Eyz22DmuIQDdbwgvioAgK68EWuAxtbtrm/REO
+         inqZq5+FrMMOr+yHtaVEnSdVi0bvIHT5Q/iRjdYGS+Wix9Up4kDnLRqITi+usyicXvA5
+         Gt1eHJVonQ0BeHPF0DV0lFO8sggn2wPfWZwJdrf/AHrbOybayJsaJ7nPmwPFtfwImsAQ
+         UjS0/XNLJtiYBIKpos+CqURdYDoyjVSGUajELVt9ydjkR625xXHz/dndqPgNsna7mP0a
+         4VpQ==
+X-Gm-Message-State: AOAM531l7whrMmsXWcM7XnvlfW5KEFdYN8QDUsGpQRD4/objShhHsGTU
+        J72jocugLS6VRrHFlkrcFtY=
+X-Google-Smtp-Source: ABdhPJxyKmFhLXYHFwbTsPgsChlxQYU/mChM3ozwDPvg4CjVkX7nP6ukSGkFjgZn55IGaFGwz9Ut4A==
+X-Received: by 2002:ad4:45a9:: with SMTP id y9mr34688031qvu.15.1607980440850;
+        Mon, 14 Dec 2020 13:14:00 -0800 (PST)
+Received: from [192.168.0.41] (174-16-97-231.hlrn.qwest.net. [174.16.97.231])
+        by smtp.gmail.com with ESMTPSA id j124sm15825817qkf.113.2020.12.14.13.13.59
+        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+        Mon, 14 Dec 2020 13:14:00 -0800 (PST)
+Subject: Re: cacheflush.2
+To:     "Alejandro Colomar (man-pages)" <alx.manpages@gmail.com>,
         Heinrich Schuchardt <xypron.glpk@gmx.de>,
-        linux-man@vger.kernel.org
-Cc:     Alejandro Colomar <alx.manpages@gmail.com>,
-        Vineet Gupta <vgupta@synopsys.com>,
-        linux-snps-arc@lists.infradead.org, Guo Ren <guoren@kernel.org>,
-        linux-csky@vger.kernel.org,
-        Thomas Bogendoerfer <tsbogend@alpha.franken.de>,
-        linux-mips@vger.kernel.org, Nick Hu <nickhu@andestech.com>,
-        Greentime Hu <green.hu@gmail.com>,
-        Vincent Chen <deanbo422@gmail.com>, libc-alpha@sourceware.org
-Subject: [PATCH] cacheflush.2: Document Architecture-specific variants
-Date:   Mon, 14 Dec 2020 15:38:53 +0100
-Message-Id: <20201214143852.16565-1-alx.manpages@gmail.com>
-X-Mailer: git-send-email 2.29.2
+        "Michael Kerrisk (man-pages)" <mtk.manpages@gmail.com>
+Cc:     linux-man@vger.kernel.org, Dave Martin <Dave.Martin@arm.com>,
+        cfe-users@lists.llvm.org, gcc@gcc.gnu.org
+References: <794cf0d1-d528-4b5a-3ce0-b1b5f588dc6d@gmx.de>
+ <ca265930-00d7-44f5-b2dd-535a5cf0310a@gmail.com>
+ <5257a883-29f0-6eaa-5708-d1f47356a57a@gmx.de>
+ <90152ea6-f2eb-b08f-7269-f8266ffb15d1@gmail.com>
+ <b18b7e3d-d6a2-dba6-adad-713a171044c0@gmail.com>
+From:   Martin Sebor <msebor@gmail.com>
+Message-ID: <52a37c46-3488-957c-fc50-6caca177cb3c@gmail.com>
+Date:   Mon, 14 Dec 2020 14:13:58 -0700
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
+ Thunderbird/68.2.2
 MIME-Version: 1.0
+In-Reply-To: <b18b7e3d-d6a2-dba6-adad-713a171044c0@gmail.com>
+Content-Type: text/plain; charset=utf-8; format=flowed
+Content-Language: en-US
 Content-Transfer-Encoding: 8bit
 Precedence: bulk
 List-ID: <linux-man.vger.kernel.org>
 X-Mailing-List: linux-man@vger.kernel.org
 
-Signed-off-by: Alejandro Colomar <alx.manpages@gmail.com>
----
+On 12/11/20 11:14 AM, Alejandro Colomar (man-pages) via Gcc wrote:
+> It looks like GCC recently moved from 'char *' to 'void *'.
+> This SO question[1] (4 years ago) quotes the GCC docs
+> and they had 'char *'.
 
-Hi Michael,
+__builtin___clear_cache in GCC has always been declared to take
+void*.  The signature in the manual was recently corrected to match
+the implementation, i.e., from char* to void*, in r269082.
 
-Please apply this patch after
-'[PATCH v5] cacheflush.2: Document __builtin___clear_cache() as a more
- portable alternative'.
+Martin
 
-Thanks,
-
-Alex
-
- man2/cacheflush.2 | 42 ++++++++++++++++++++++++++++++++++++++++++
- 1 file changed, 42 insertions(+)
-
-diff --git a/man2/cacheflush.2 b/man2/cacheflush.2
-index fc35f1a0b..0761b429a 100644
---- a/man2/cacheflush.2
-+++ b/man2/cacheflush.2
-@@ -31,6 +31,10 @@ cacheflush \- flush contents of instruction and/or data cache
- .PP
- .BI "int cacheflush(char *" addr ", int "nbytes ", int "cache );
- .fi
-+.PP
-+.IR Note :
-+On some architectures,
-+there is no glibc wrapper for this system call; see NOTES.
- .SH DESCRIPTION
- .BR cacheflush ()
- flushes the contents of the indicated cache(s) for the
-@@ -87,6 +91,44 @@ but nowadays, Linux provides a
- .BR cacheflush ()
- system call on some other architectures, but with different arguments.
- .SH NOTES
-+.SS Architecture-specific variants
-+Glibc provides a wrapper for this system call,
-+with the prototype shown in SYNOPSIS,
-+for the following architectures:
-+ARC, CSKY, MIPS, and NIOS2.
-+.PP
-+On some other architectures,
-+Linux provides this system call, with different arguments:
-+.TP
-+M68K:
-+.PP
-+.in +4n
-+.EX
-+.BI "int cacheflush(unsigned long " addr ", int " scope ", int " cache ,
-+.BI "               unsigned long " len );
-+.EE
-+.in
-+.TP
-+SH:
-+.PP
-+.in +4n
-+.EX
-+.BI "int cacheflush(unsigned long " addr ", unsigned long " len ", int " op );
-+.EE
-+.in
-+.TP
-+NDS32:
-+.PP
-+.in +4n
-+.EX
-+.BI "int cacheflush(unsigned int " start ", unsigned int " end ", int " cache );
-+.EE
-+.in
-+.PP
-+On the above architectures,
-+glibc does not provide a wrapper for this system call; call it using
-+.BR syscall (2).
-+.SS GCC alternative
- Unless you need the finer grained control that this system call provides,
- you probably want to use the GCC built-in function
- .BR __builtin___clear_cache (),
--- 
-2.29.2
+> Maybe Clang hasn't noticed the change.
+> I'll report a bug.
+> 
+> [1]: https://stackoverflow.com/q/35741814/6872717
+> 
+> On 12/9/20 8:15 PM, Alejandro Colomar (man-pages) wrote:
+>> Hi Heinrich,
+>>
+>> It looks like a bug (or at least an undocumented divergence from GCC) in
+>> Clang/LLVM.  Or I couldn't find the documentation for it.
+>>
+>> Clang uses 'char *':
+>> https://github.com/llvm/llvm-project/blob/7faf62a80bfc3a9dfe34133681fcc31f8e8d658b/clang/include/clang/Basic/Builtins.def#L583
+>>
+>> GCC uses 'void *':
+>> https://gcc.gnu.org/onlinedocs/gcc/Other-Builtins.html
+>>
+>> I CCd Clang and GCC lists; maybe they know about that divergence.
+>>
+>> Cheers,
+>>
+>> Alex
+>>
+>> On 12/9/20 7:48 PM, Heinrich Schuchardt wrote:
+>>> On 12/9/20 7:34 PM, Alejandro Colomar (man-pages) wrote:
+>>>> Hi Heinrich & Michael,
+>>>>
+>>>> What about the following?:
+>>>>
+>>>> [
+>>>> NOTES
+>>>>          GCC provides a similar function, which may be useful on  archi‐
+>>>>          tectures that lack this system call:
+>>>>
+>>>>              void __builtin___clear_cache(void *begin, void *end);
+>>>> ]
+>>>
+>>> I just checked building with Clang/LLVM. There the arguments are of type
+>>> (char *). See the following error output:
+>>>
+>>> +arch/sandbox/cpu/cache.c:19:26: error: passing 'uint8_t *' (aka
+>>> 'unsigned char *') to parameter of type 'char *' converts between
+>>> pointers to integer types with different sign [-Werror,-Wpointer-sign]
+>>> +        __builtin___clear_cache(state->ram_buf,
+>>> +                                ^~~~~~~~~~~~~~
+>>> +arch/sandbox/cpu/cache.c:20:12: error: passing 'uint8_t *' (aka
+>>> 'unsigned char *') to parameter of type 'char *' converts between
+>>> pointers to integer types with different sign [-Werror,-Wpointer-sign]
+>>> +                                state->ram_buf + state->ram_size);
+>>> +                                ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+>>>
+>>> Best regards
+>>>
+>>> Heinrich
+>>>
+>>>>
+>>>> Cheers,
+>>>>
+>>>> Alex
+>>>>
+>>>> On 12/9/20 7:04 PM, Heinrich Schuchardt wrote:
+>>>>> Hello Michael,
+>>>>>
+>>>>> function cacheflush() does not exist on many architectures.
+>>>>>
+>>>>> It would have saved me a lot of time if the man-page had referenced
+>>>>> GCC's
+>>>>>
+>>>>> void __builtin___clear_cache(void *begin, void *end)
+>>>>>
+>>>>> Maybe you can add it to NOTES.
+>>>>>
+>>>>> Best regards
+>>>>>
+>>>>> heirnich
+>>>>
+>>>
+>>
+> 
 
