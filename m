@@ -2,204 +2,171 @@ Return-Path: <linux-man-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-9.2 required=3.0 tests=BAYES_00,DKIM_SIGNED,
+X-Spam-Status: No, score=-4.3 required=3.0 tests=BAYES_00,DKIM_SIGNED,
 	DKIM_VALID,DKIM_VALID_AU,FREEMAIL_FORGED_FROMDOMAIN,FREEMAIL_FROM,
-	HEADER_FROM_DIFFERENT_DOMAINS,MAILING_LIST_MULTI,MENTIONS_GIT_HOSTING,
-	NICE_REPLY_A,SPF_HELO_NONE,SPF_PASS,URIBL_BLOCKED,USER_AGENT_SANE_1
-	autolearn=unavailable autolearn_force=no version=3.4.0
+	HEADER_FROM_DIFFERENT_DOMAINS,MAILING_LIST_MULTI,NICE_REPLY_A,SPF_HELO_NONE,
+	SPF_PASS,USER_AGENT_SANE_1 autolearn=no autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 255CCC4361B
-	for <linux-man@archiver.kernel.org>; Tue, 15 Dec 2020 22:49:06 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 61D9FC4361B
+	for <linux-man@archiver.kernel.org>; Wed, 16 Dec 2020 00:01:31 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.kernel.org (Postfix) with ESMTP id E765D22D02
-	for <linux-man@archiver.kernel.org>; Tue, 15 Dec 2020 22:49:05 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTP id 3438A22CB8
+	for <linux-man@archiver.kernel.org>; Wed, 16 Dec 2020 00:01:31 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1725272AbgLOWs6 (ORCPT <rfc822;linux-man@archiver.kernel.org>);
-        Tue, 15 Dec 2020 17:48:58 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:36048 "EHLO
+        id S1727721AbgLPABH (ORCPT <rfc822;linux-man@archiver.kernel.org>);
+        Tue, 15 Dec 2020 19:01:07 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:42040 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1727068AbgLOWs4 (ORCPT
-        <rfc822;linux-man@vger.kernel.org>); Tue, 15 Dec 2020 17:48:56 -0500
-Received: from mail-wm1-x32e.google.com (mail-wm1-x32e.google.com [IPv6:2a00:1450:4864:20::32e])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id A1D05C0613D3;
-        Tue, 15 Dec 2020 14:48:15 -0800 (PST)
-Received: by mail-wm1-x32e.google.com with SMTP id g25so789661wmh.1;
-        Tue, 15 Dec 2020 14:48:15 -0800 (PST)
+        with ESMTP id S1726278AbgLOXZ4 (ORCPT
+        <rfc822;linux-man@vger.kernel.org>); Tue, 15 Dec 2020 18:25:56 -0500
+Received: from mail-wr1-x436.google.com (mail-wr1-x436.google.com [IPv6:2a00:1450:4864:20::436])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 0A9A0C0613D3;
+        Tue, 15 Dec 2020 15:25:16 -0800 (PST)
+Received: by mail-wr1-x436.google.com with SMTP id w5so17711562wrm.11;
+        Tue, 15 Dec 2020 15:25:15 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=gmail.com; s=20161025;
         h=subject:from:to:cc:references:message-id:date:user-agent
          :mime-version:in-reply-to:content-language:content-transfer-encoding;
-        bh=RWTdo7l7B/SOH7EWwFmGvBqYnRSrVGaVN94yY6EDipE=;
-        b=M2hjolxQdQNzwTd38OCRE2DXoCSXTFZ+aZBAesh1bVtg62r7MQw9KErIw8fm0+8aN5
-         dcvtsLlB7xoSImuq2yPH6uHKK9Kd1yjAU+/90JAdmjybC2g2rccIZeag4+041RZN2cCG
-         uFO72ex3HO5T6HN8auWXlQ/ZK+LvZ8GzaxQWApSFEIDfy7XFSt7yLaotuOZ38tro4T1J
-         7ksNvdgd/WEZM1FyC9sSY7Q0TvvnLg6WqDyjXmymifD+L4sWSK/Y0ftVics4ZFwA/jQ6
-         ajshzUnmTy4mqzs+3s/FZnwN8dmdKaUchqe1waNlTKe0gCmPs7PzhRboJRHIptDT5Dy4
-         6bNA==
+        bh=mEnQ7aAeDvRnP33MLvsHxkYPbD2kQD2gYMjqtW14l7k=;
+        b=JlBQ6TBbFMxcIylxax/Iq6J9oFeDJgH3drWCpixek8jvDLHLkqrqRSD8b8D/AkCS8/
+         bWhKDl7pVXeRFZm1iedNvbMzHyUXQX4tu85jmZDN+j0lVrExPKRVLw+Z8En0MYTp/ayT
+         zfY5ChkYKe2yyvCEvAInVe8vM21JHn/FFJuMqjaf8kEiJblgZjRDraFmpgH2jOEOtJdn
+         ESVJPRSK6fQZl6FiIYKWFanhuvpOaR49kV2BNYNLAaFrjiJhz9+Fdmk+mtSlfqLA1GSH
+         zJmnVDhtsI8EU6ZIgnbvZYd9p2o+anoLS/9ov058ynwVtypG65Km5MdjNlOJED811CZc
+         10HQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
         h=x-gm-message-state:subject:from:to:cc:references:message-id:date
          :user-agent:mime-version:in-reply-to:content-language
          :content-transfer-encoding;
-        bh=RWTdo7l7B/SOH7EWwFmGvBqYnRSrVGaVN94yY6EDipE=;
-        b=JHxTPG5U4J3Kt8TK/JnsC0lXVgfQwgyNUuUGKBCl89/qXmH4cXHdT4h8Qkmau91xOW
-         SY+ijZ66yH7iORaQ/TzPfj6hgEn/PL8c5PUdVY9W+1z0eL01ZAxSnLj8WrLZHgpuZlMJ
-         qFtOuPkeJTzl5lYxA0sI+NWZ+4PWqS2XIXE4eB7nk6paKqw8/iO13PQjruRVqbSoay5X
-         8l051FRmf6sqlBRh1G09H8fEokkxQ3XIcJHSzy/oGY6ooY7O1xL5B9KHjKd5ZrkCbs1f
-         Tpa87JspRFyU36O1jzBZOI3j21wOc0ayY/DhOkgxJtZan7SAoyS6HrtkAh/u8wT132Ja
-         8bWw==
-X-Gm-Message-State: AOAM530PRYS4SOLve3eaR5hFjIMYnpUFv60p5Poxbt3U+xS0BTmCH2mm
-        z8KX/4QEAevckOo9gCAtCPU=
-X-Google-Smtp-Source: ABdhPJy/UuePFsjcKAdx4K0/aoI7VhC9302B/Ve9JgzUYrV8vNVofyLWmTZbX4SCSfIy6j/4A7rXzA==
-X-Received: by 2002:a1c:6283:: with SMTP id w125mr665100wmb.155.1608072494168;
-        Tue, 15 Dec 2020 14:48:14 -0800 (PST)
+        bh=mEnQ7aAeDvRnP33MLvsHxkYPbD2kQD2gYMjqtW14l7k=;
+        b=HTdQC7yt6aLb1qukkD4c3W/WM52Qho/XKKfLteTl2jf4vgob0lKCB+U+DVLsEAz+Qp
+         SU7aHysekdoyuXWQNA7CVhvyoQVcqxe6INUWW0314uEs1QEEzI66lpsng4rW/8qpEBah
+         iyIw+TYv+6z9Gy6y8nRXmH/RatEi44y2hmRjTG21uktownuDOaH7hPcZVV0ay0BpYr+l
+         sYW3KtLoybGDeV972YvhFZPrUpcEa5w35NRHNZj8UHegoSWyslgm3265/YBew9IbtNfV
+         3bxU89d/SB+SEW5Ot5luXMbEDX2hC7T4nVfpaeoWcJAkNTVWrC9qikBdCXdlu/RyZ8Dc
+         PTww==
+X-Gm-Message-State: AOAM532M3VAxgck/dcnna8cqvxJZGzYhnY/IFhQKHIxp8K+K3+74JOgB
+        GpaSSWl3gYvqvLWz2EB5aPA=
+X-Google-Smtp-Source: ABdhPJznzN5AjHzbXYLg8nRvX+e58aXB7eSnrxhO/pnDu8OWayKIPim54smcJd8fkZP8fwpdNH/67A==
+X-Received: by 2002:a5d:4a44:: with SMTP id v4mr36840812wrs.106.1608074714845;
+        Tue, 15 Dec 2020 15:25:14 -0800 (PST)
 Received: from [192.168.0.160] ([170.253.49.0])
-        by smtp.gmail.com with ESMTPSA id t13sm5739wrs.26.2020.12.15.14.48.12
+        by smtp.gmail.com with ESMTPSA id h184sm8788wmh.23.2020.12.15.15.25.13
         (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Tue, 15 Dec 2020 14:48:13 -0800 (PST)
+        Tue, 15 Dec 2020 15:25:14 -0800 (PST)
 Subject: Re: [Bug 210655] ptrace.2: documentation is incorrect about access
  checking threads in same thread group
 From:   "Alejandro Colomar (man-pages)" <alx.manpages@gmail.com>
-To:     Ted Estes <ted@softwarecrafters.com>,
-        Pavel Emelyanov <xemul@openvz.org>,
+To:     Jann Horn <jann@thejh.net>
+Cc:     Pavel Emelyanov <xemul@openvz.org>,
         Oleg Nesterov <oleg@tv-sign.ru>,
         Andrew Morton <akpm@linux-foundation.org>,
         Michael Kerrisk <mtk.manpages@gmail.com>,
-        Kees Cook <keescook@chromium.org>, Jann Horn <jann@thejh.net>
-Cc:     linux-man <linux-man@vger.kernel.org>,
+        Kees Cook <keescook@chromium.org>,
+        Ted Estes <ted@softwarecrafters.com>,
+        linux-man <linux-man@vger.kernel.org>,
         linux-kernel <linux-kernel@vger.kernel.org>,
-        Linus Torvalds <torvalds@linux-foundation.org>,
-        Oleg Nesterov <oleg@redhat.com>,
-        Markus Gutschke <markus@google.com>,
-        Roland McGrath <roland@redhat.com>,
-        Andreas Hobein <ah2@delair.de>
+        Jann Horn <jannh@google.com>
 References: <feef4f9a-4ed8-8a2e-d330-88e7f516faae@gmail.com>
- <b416e106-c11d-1471-de3d-fb9d5b1b6747@softwarecrafters.com>
- <223477a0-0b92-3a01-46bb-c06f7d5d5901@gmail.com>
-Message-ID: <0df0ac9e-e881-88c7-cea9-5154077c95a9@gmail.com>
-Date:   Tue, 15 Dec 2020 23:48:12 +0100
+ <X9lBp3BHbwcTmDqb@pc.thejh.net>
+ <0e5189c0-9e9b-ac34-825c-619a9a6ef682@gmail.com>
+Message-ID: <d38c5e8b-1653-d89a-a0c8-b95cb1844fba@gmail.com>
+Date:   Wed, 16 Dec 2020 00:25:13 +0100
 User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
  Thunderbird/68.12.0
 MIME-Version: 1.0
-In-Reply-To: <223477a0-0b92-3a01-46bb-c06f7d5d5901@gmail.com>
+In-Reply-To: <0e5189c0-9e9b-ac34-825c-619a9a6ef682@gmail.com>
 Content-Type: text/plain; charset=utf-8
 Content-Language: en-US
-Content-Transfer-Encoding: 8bit
+Content-Transfer-Encoding: 7bit
 Precedence: bulk
 List-ID: <linux-man.vger.kernel.org>
 X-Mailing-List: linux-man@vger.kernel.org
 
-[CC += Andreas, Linus, Roland, Markus; fixed Oleg]
 
-On 12/15/20 7:34 PM, Alejandro Colomar (man-pages) wrote:
-> Hi Ted,
->
-> On 12/15/20 7:31 PM, Ted Estes wrote:
->> Per my research on the topic, the error is in the manual page.  The
->> behavior of ptrace(2) was intentionally changed to prohibit attaching to
->> a thread in the same group.  Apparently, there were a number of
->> ill-behaved edge cases.
->>
->> I found this email thread on the subject:
->> https://lkml.org/lkml/2006/8/31/241
 
-Okay, after reading the LKML thread,
-the old behavior was removed because it was very buggy.
-
-We have two options now:
-
-1) Remove that paragraph, as if that behavior had never existed.
-
-   If we do this, not much is lost:
-   Only _very_ old kernels had that behavior,
-   and it's not even advisable to make use of it on those, AFAICS.
-
-2) Add a note to that paragraph, saying that since kernel 2.X.Y?
-   the calling thread and the target thread can't be in the same group.
-
-   Cons: That info is unlikely to be useful, and will only add
-   a few more lines to a page that is already very long.
-
-3) Suggestions?
-
-I prefer option 1.
-
-I'll add a larger screenshot of the manual page below,
-so that readers don't need to read 'man 2 ptrace':
-
-[[
-	...
-
-       The algorithm employed for ptrace access mode  checking  deter‐
-       mines  whether  the  calling  process is allowed to perform the
-       corresponding action on the target process.  (In  the  case  of
-       opening  /proc/[pid]  files,  the  "calling process" is the one
-       opening the file, and the process with the corresponding PID is
-       the "target process".)  The algorithm is as follows:
-
-       1. If  the calling thread and the target thread are in the same
-          thread group, access is always allowed.
-
-       2. If the access mode specifies PTRACE_MODE_FSCREDS, then,  for
-          the  check  in the next step, employ the caller's filesystem
-          UID and GID.  (As noted in  credentials(7),  the  filesystem
-          UID and GID almost always have the same values as the corre‐
-          sponding effective IDs.)
-
-          Otherwise, the access mode specifies  PTRACE_MODE_REALCREDS,
-          so  use  the caller's real UID and GID for the checks in the
-          next step.  (Most APIs that check the caller's UID  and  GID
-          use   the   effective  IDs.   For  historical  reasons,  the
-          PTRACE_MODE_REALCREDS check uses the real IDs instead.)
-
-	...
-]]
-
-Any thoughts before I write the patch?
-
-Thanks,
-
-Alex
-
->
-> Thank you for all the details and links!
-> I'll fix the page.
->
-> Thanks,
->
-> Alex
->
->>
->> Thank you.
->> --Ted Estes
->>
->> On 12/15/2020 11:01 AM, Alejandro Colomar (man-pages) wrote:
+On 12/16/20 12:23 AM, Alejandro Colomar (man-pages) wrote:
+> Hi Jann,
+> 
+> On 12/16/20 12:07 AM, Jann Horn wrote:
+>> Am Tue, Dec 15, 2020 at 06:01:25PM +0100 schrieb Alejandro Colomar (man-pages):
 >>> Hi,
 >>>
 >>> There's a bug report: https://bugzilla.kernel.org/show_bug.cgi?id=210655
 >>>
 >>> [[
 >>> Under "Ptrace access mode checking", the documentation states:
->>>    "1. If the calling thread and the target thread are in the same
-thread
+>>>   "1. If the calling thread and the target thread are in the same thread
 >>> group, access is always allowed."
 >>>
->>> This is incorrect. A thread may never attach to another in the same
->>> group.
->>>
->>> Reference, ptrace_attach()
->>>
-https://git.kernel.org/pub/scm/linux/kernel/git/stable/linux.git/tree/kernel/ptrace.c?h=v5.9.14#n380
->>>
->>> ]]
->>>
->>> I just wanted to make sure that it is a bug in the manual page, and not
->>> in the implementation.
->>>
->>>
->>> Thanks,
->>>
->>> Alex
->>>
+>>> This is incorrect. A thread may never attach to another in the same group.
 >>
->
+>> No, that is correct. ptrace-mode access checks do always short-circuit for
+>> tasks in the same thread group:
+>>
+>> /* Returns 0 on success, -errno on denial. */
+>> static int __ptrace_may_access(struct task_struct *task, unsigned int mode)
+>> {
+>> [...]
+>>         /* May we inspect the given task?
+>>          * This check is used both for attaching with ptrace
+>>          * and for allowing access to sensitive information in /proc.
+>>          *
+>>          * ptrace_attach denies several cases that /proc allows
+>>          * because setting up the necessary parent/child relationship
+>>          * or halting the specified task is impossible.
+>>          */
+>>
+>>         /* Don't let security modules deny introspection */
+>>         if (same_thread_group(task, current))
+>>                 return 0;
+>> [...]
+>> }
+> 
+> AFAICS, that code always returns non-zero,
+
+Sorry, I should have said "that code never returns 0".
+
+> at least when called from ptrace_attach().
+> 
+> As you can see below,
+> __ptrace_may_access() is called some lines after
+> the code pointed to by the bug report.
+> 
+> 
+> static int ptrace_attach(struct task_struct *task, long request,
+> 			 unsigned long addr,
+> 			 unsigned long flags)
+> {
+> [...]
+> 	if (same_thread_group(task, current))
+> 		goto out;
+> 
+> 	/*
+> 	 * Protect exec's credential calculations against our interference;
+> 	 * SUID, SGID and LSM creds get determined differently
+> 	 * under ptrace.
+> 	 */
+> 	retval = -ERESTARTNOINTR;
+> 	if (mutex_lock_interruptible(&task->signal->cred_guard_mutex))
+> 		goto out;
+> 
+> 	task_lock(task);
+> 	retval = __ptrace_may_access(task, PTRACE_MODE_ATTACH_REALCREDS);
+> [...]
+> }
+> 
+> 
+> Thanks,
+> 
+> Alex
+> 
+>>
+>> As the comment explains, you can't actually *attach*
+>> to another task in the same thread group; but that's
+>> not because of the ptrace-style access check rules,
+>> but because specifically *attaching* to another task
+>> in the same thread group doesn't work.
+>>
