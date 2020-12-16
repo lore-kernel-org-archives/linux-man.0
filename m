@@ -6,94 +6,91 @@ X-Spam-Status: No, score=-5.8 required=3.0 tests=BAYES_00,DKIM_SIGNED,
 	DKIM_VALID,DKIM_VALID_AU,HEADER_FROM_DIFFERENT_DOMAINS,MAILING_LIST_MULTI,
 	SPF_HELO_NONE,SPF_PASS autolearn=no autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 5864EC3526F
-	for <linux-man@archiver.kernel.org>; Wed, 16 Dec 2020 00:06:37 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 81B85C4361B
+	for <linux-man@archiver.kernel.org>; Wed, 16 Dec 2020 00:56:27 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.kernel.org (Postfix) with ESMTP id 3683222D07
-	for <linux-man@archiver.kernel.org>; Wed, 16 Dec 2020 00:06:37 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTP id 49D7822DA9
+	for <linux-man@archiver.kernel.org>; Wed, 16 Dec 2020 00:56:27 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1727712AbgLPABG (ORCPT <rfc822;linux-man@archiver.kernel.org>);
-        Tue, 15 Dec 2020 19:01:06 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:40224 "EHLO
+        id S1726306AbgLPA4L (ORCPT <rfc822;linux-man@archiver.kernel.org>);
+        Tue, 15 Dec 2020 19:56:11 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:56050 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1730683AbgLOXPJ (ORCPT
-        <rfc822;linux-man@vger.kernel.org>); Tue, 15 Dec 2020 18:15:09 -0500
-X-Greylist: delayed 352 seconds by postgrey-1.37 at lindbergh.monkeyblade.net; Tue, 15 Dec 2020 15:14:13 PST
-Received: from thejh.net (thejh.net [IPv6:2a03:4000:2:1b9::1])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id C88C0C0613D3;
-        Tue, 15 Dec 2020 15:14:13 -0800 (PST)
-Received: from pc.thejh.net (thejh.net [37.221.195.125])
-        by thejh.net (Postfix) with ESMTPA id 6B533180B24;
-        Wed, 16 Dec 2020 00:07:13 +0100 (CET)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=thejh.net; s=s2016;
-        t=1608073633; bh=JfYHDjZhnEOFUIv6V0vdz/JbYVeAsMYomEzrtdM/sQA=;
-        h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-        b=DMKuPnb2PyJ8et4OsOxE50yjiMXYU1p3HKdlLQy6im6fRcAdsazNGGU7Hofl0FUjM
-         nUzjwDKW7WYqNGWyIWxg2wljjL398ReGnzMmhkdMI8i7leZewtQRHcz045By0o11v4
-         ATZ6OqU8DWYtNkqsF/imNSw+HkYcFLsnciLBVFE9EX86NYV8YQOvB57Q5Z4HZsPB4K
-         yL08eK+ZeT2UT+ZhWX2jKVDcv3b3QxNpEBgTubEBVnXdcikxR9FII8sF8oHeC0d1Z2
-         BDRFD6NdsiVnXJ3ZHzsuom1BEQqyEwOSHMjoJU5iuLafdHl/EqH5NdLoGlHJlhJj4m
-         a8F7/rHXGmxhw==
-Date:   Wed, 16 Dec 2020 00:07:19 +0100
-From:   Jann Horn <jann@thejh.net>
+        with ESMTP id S1725275AbgLPA4G (ORCPT
+        <rfc822;linux-man@vger.kernel.org>); Tue, 15 Dec 2020 19:56:06 -0500
+Received: from mail-lf1-x142.google.com (mail-lf1-x142.google.com [IPv6:2a00:1450:4864:20::142])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 89805C0613D3
+        for <linux-man@vger.kernel.org>; Tue, 15 Dec 2020 16:55:26 -0800 (PST)
+Received: by mail-lf1-x142.google.com with SMTP id m12so44183224lfo.7
+        for <linux-man@vger.kernel.org>; Tue, 15 Dec 2020 16:55:26 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=linux-foundation.org; s=google;
+        h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+         :cc;
+        bh=uQk7Me9L6JQEViwMKHK4s1W79BskuSvqSCotSZKyK7s=;
+        b=Rdv6r1sJKTWN/kV8kd4ZFiG+HqLd4HL5W/5psvTlYYi+13FaL+oNKTG5usrScHYBxb
+         LE9leDS+K9oYxrG3Ihj01Nwoeov3emncoTT1wM9oh+i4Ln1pGRIdQNgmgUPqPniGK9pa
+         IN3Mf7/Q0KAV7olZl10qnGo7UyDJKrEwLudZ4=
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20161025;
+        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+         :message-id:subject:to:cc;
+        bh=uQk7Me9L6JQEViwMKHK4s1W79BskuSvqSCotSZKyK7s=;
+        b=OCuP0zCm+2dSOf4FX21q09CxyX0gHs/+VH4q3bfGAsfUkfwn1OCcjdE0BEvYah17BF
+         XCF5JiEye2gPp48VOxWhL4z80/HjK9SGDVV79gm70zUF0qxq7AmgdwTxEdxzCvO7jN2x
+         6RerbHQBT2uiNdihf2PElkyBmjBhDVq+zOZG/XpCE6cbwsk7uR/4dBCv/5uccjI/8gNA
+         NsGUwasRysbb3mwYLWEwMIHCkqO8fsobNkdcsT49TvoYN471VDYX40ZwmA7hUvSs8TCX
+         MwHa/n/a99rFT54mbO8PlaymloS2d7BSAyCVn74TtlMCyxLHFbhdfbTd5fR+3r9u0xaS
+         U1rw==
+X-Gm-Message-State: AOAM531ZkyQh+LEXOfYwv4QEp4iiLGGZR76GlbdCUhB5X+RQvzHrfZuQ
+        NIeDcEVU3nZYvoo3WhneyanW0i/zlqmOLQ==
+X-Google-Smtp-Source: ABdhPJxCRBaWce4bYwNMaqj8VPCZ5DkD/QfbbUkmse5t4l6UDpUVxQ1O+cXobCiURdV3e+LuPpPIWA==
+X-Received: by 2002:a05:651c:1027:: with SMTP id w7mr13162819ljm.297.1608080124538;
+        Tue, 15 Dec 2020 16:55:24 -0800 (PST)
+Received: from mail-lf1-f46.google.com (mail-lf1-f46.google.com. [209.85.167.46])
+        by smtp.gmail.com with ESMTPSA id k2sm26996lfo.256.2020.12.15.16.55.22
+        for <linux-man@vger.kernel.org>
+        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+        Tue, 15 Dec 2020 16:55:23 -0800 (PST)
+Received: by mail-lf1-f46.google.com with SMTP id o19so18521822lfo.1
+        for <linux-man@vger.kernel.org>; Tue, 15 Dec 2020 16:55:22 -0800 (PST)
+X-Received: by 2002:a2e:9d89:: with SMTP id c9mr14176203ljj.220.1608080122327;
+ Tue, 15 Dec 2020 16:55:22 -0800 (PST)
+MIME-Version: 1.0
+References: <feef4f9a-4ed8-8a2e-d330-88e7f516faae@gmail.com>
+ <b416e106-c11d-1471-de3d-fb9d5b1b6747@softwarecrafters.com>
+ <223477a0-0b92-3a01-46bb-c06f7d5d5901@gmail.com> <0df0ac9e-e881-88c7-cea9-5154077c95a9@gmail.com>
+In-Reply-To: <0df0ac9e-e881-88c7-cea9-5154077c95a9@gmail.com>
+From:   Linus Torvalds <torvalds@linux-foundation.org>
+Date:   Tue, 15 Dec 2020 16:55:06 -0800
+X-Gmail-Original-Message-ID: <CAHk-=whppaJf=UoODaUP=tBjc9FjwSOX3hLBhZRgaGQKSKVW4A@mail.gmail.com>
+Message-ID: <CAHk-=whppaJf=UoODaUP=tBjc9FjwSOX3hLBhZRgaGQKSKVW4A@mail.gmail.com>
+Subject: Re: [Bug 210655] ptrace.2: documentation is incorrect about access
+ checking threads in same thread group
 To:     "Alejandro Colomar (man-pages)" <alx.manpages@gmail.com>
-Cc:     Pavel Emelyanov <xemul@openvz.org>,
+Cc:     Ted Estes <ted@softwarecrafters.com>,
+        Pavel Emelyanov <xemul@openvz.org>,
         Oleg Nesterov <oleg@tv-sign.ru>,
         Andrew Morton <akpm@linux-foundation.org>,
         Michael Kerrisk <mtk.manpages@gmail.com>,
-        Kees Cook <keescook@chromium.org>,
-        Ted Estes <ted@softwarecrafters.com>,
+        Kees Cook <keescook@chromium.org>, Jann Horn <jann@thejh.net>,
         linux-man <linux-man@vger.kernel.org>,
         linux-kernel <linux-kernel@vger.kernel.org>,
-        Jann Horn <jannh@google.com>
-Subject: Re: [Bug 210655] ptrace.2: documentation is incorrect about access
- checking threads in same thread group
-Message-ID: <X9lBp3BHbwcTmDqb@pc.thejh.net>
-References: <feef4f9a-4ed8-8a2e-d330-88e7f516faae@gmail.com>
-MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <feef4f9a-4ed8-8a2e-d330-88e7f516faae@gmail.com>
+        Oleg Nesterov <oleg@redhat.com>,
+        Markus Gutschke <markus@google.com>,
+        Roland McGrath <roland@redhat.com>,
+        Andreas Hobein <ah2@delair.de>
+Content-Type: text/plain; charset="UTF-8"
 Precedence: bulk
 List-ID: <linux-man.vger.kernel.org>
 X-Mailing-List: linux-man@vger.kernel.org
 
-Am Tue, Dec 15, 2020 at 06:01:25PM +0100 schrieb Alejandro Colomar (man-pages):
-> Hi,
-> 
-> There's a bug report: https://bugzilla.kernel.org/show_bug.cgi?id=210655
-> 
-> [[
-> Under "Ptrace access mode checking", the documentation states:
->   "1. If the calling thread and the target thread are in the same thread
-> group, access is always allowed."
-> 
-> This is incorrect. A thread may never attach to another in the same group.
+On Tue, Dec 15, 2020 at 2:48 PM Alejandro Colomar (man-pages)
+<alx.manpages@gmail.com> wrote:
+>
+> 1) Remove that paragraph, as if that behavior had never existed.
 
-No, that is correct. ptrace-mode access checks do always short-circuit for
-tasks in the same thread group:
+If it's been 15 years since that paragraph was relevant, I think just
+removing it is the right thing to do.
 
-/* Returns 0 on success, -errno on denial. */
-static int __ptrace_may_access(struct task_struct *task, unsigned int mode)
-{
-[...]
-        /* May we inspect the given task?
-         * This check is used both for attaching with ptrace
-         * and for allowing access to sensitive information in /proc.
-         *
-         * ptrace_attach denies several cases that /proc allows
-         * because setting up the necessary parent/child relationship
-         * or halting the specified task is impossible.
-         */
-
-        /* Don't let security modules deny introspection */
-        if (same_thread_group(task, current))
-                return 0;
-[...]
-}
-
-As the comment explains, you can't actually *attach*
-to another task in the same thread group; but that's
-not because of the ptrace-style access check rules,
-but because specifically *attaching* to another task
-in the same thread group doesn't work.
+             Linus
