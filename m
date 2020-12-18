@@ -2,73 +2,67 @@ Return-Path: <linux-man-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-3.8 required=3.0 tests=BAYES_00,
-	HEADER_FROM_DIFFERENT_DOMAINS,MAILING_LIST_MULTI,SPF_HELO_NONE,SPF_PASS
-	autolearn=no autolearn_force=no version=3.4.0
+X-Spam-Status: No, score=-6.0 required=3.0 tests=BAYES_00,DKIMWL_WL_HIGH,
+	DKIM_SIGNED,DKIM_VALID,DKIM_VALID_AU,MAILING_LIST_MULTI,SPF_HELO_NONE,
+	SPF_PASS autolearn=no autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 934DCC4361B
-	for <linux-man@archiver.kernel.org>; Fri, 18 Dec 2020 10:51:25 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 7ED11C2BBD4
+	for <linux-man@archiver.kernel.org>; Fri, 18 Dec 2020 12:52:17 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.kernel.org (Postfix) with ESMTP id 58DFF23A82
-	for <linux-man@archiver.kernel.org>; Fri, 18 Dec 2020 10:51:25 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTP id 38227239FE
+	for <linux-man@archiver.kernel.org>; Fri, 18 Dec 2020 12:52:17 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S2389137AbgLRKvZ (ORCPT <rfc822;linux-man@archiver.kernel.org>);
-        Fri, 18 Dec 2020 05:51:25 -0500
-Received: from 8.mo179.mail-out.ovh.net ([46.105.75.26]:36479 "EHLO
-        8.mo179.mail-out.ovh.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S2389129AbgLRKvY (ORCPT
-        <rfc822;linux-man@vger.kernel.org>); Fri, 18 Dec 2020 05:51:24 -0500
-X-Greylist: delayed 1805 seconds by postgrey-1.27 at vger.kernel.org; Fri, 18 Dec 2020 05:51:24 EST
-Received: from player770.ha.ovh.net (unknown [10.108.42.5])
-        by mo179.mail-out.ovh.net (Postfix) with ESMTP id 3E2D91837CC
-        for <linux-man@vger.kernel.org>; Fri, 18 Dec 2020 11:14:12 +0100 (CET)
-Received: from RCM-web6.webmail.mail.ovh.net (82-65-25-201.subs.proxad.net [82.65.25.201])
-        (Authenticated sender: steve@sk2.org)
-        by player770.ha.ovh.net (Postfix) with ESMTPSA id C61751965D5D9;
-        Fri, 18 Dec 2020 10:14:06 +0000 (UTC)
-MIME-Version: 1.0
-Date:   Fri, 18 Dec 2020 11:14:06 +0100
-From:   Stephen Kitt <steve@sk2.org>
+        id S1726567AbgLRMwQ (ORCPT <rfc822;linux-man@archiver.kernel.org>);
+        Fri, 18 Dec 2020 07:52:16 -0500
+Received: from mail.kernel.org ([198.145.29.99]:41264 "EHLO mail.kernel.org"
+        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
+        id S1726540AbgLRMwQ (ORCPT <rfc822;linux-man@vger.kernel.org>);
+        Fri, 18 Dec 2020 07:52:16 -0500
+Date:   Fri, 18 Dec 2020 14:51:31 +0200
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+        s=k20201202; t=1608295896;
+        bh=v7i9oZe+Faa3d9HYVlijlswKw+o65sEt+QDkdoP+X/8=;
+        h=From:To:Cc:Subject:References:In-Reply-To:From;
+        b=T7rOVDz5g7xqvkShUvIhyTYYPYFGPN56iT7FkFvcJ9Qkl5zYLsfxWmFKJAfjNZdvJ
+         lDrVZC+j527KUw9beWdZURSXLq3SrrS5XVY7kHk8uZ/hY8Ljsy3pvJSxrzVTkJzZXy
+         KFWvllpeugWLWYUoo8q7Fy8TfA+cbmtcgYhi5gGlgQ0KV1DziAoDTkUGQ97MYyMAWb
+         cjA3xMdvXT4j2P6Q5lgzDEpTTci5Zws6AdpjRwIV9isHhhziVM3hMsXIKu9q5wKUpH
+         s71V5W9GDoPEi6Np9hgBXHY5K2qx9UGshEUPTVA9yLVB06j/+EbSgs/hv56Bc+0oe8
+         bRVSxwmxswjvA==
+From:   Jarkko Sakkinen <jarkko@kernel.org>
 To:     "Alejandro Colomar (man-pages)" <alx.manpages@gmail.com>
 Cc:     linux-man@vger.kernel.org,
-        Michael Kerrisk <mtk.manpages@gmail.com>,
-        linux-kernel@vger.kernel.org,
-        Christian Brauner <christian.brauner@ubuntu.com>
-Subject: Re: Ping: [patch] close_range.2: new page documenting close_range(2)
-In-Reply-To: <6c32a7c3-4bed-8d5e-134f-47a4bd49dc78@gmail.com>
-References: <20201208215133.30575-1-steve@sk2.org>
- <20201209095817.7ksihhftmnd3c3hi@wittgenstein>
- <5f69d42d-c36d-b98a-3d00-7a5e7f489a07@gmail.com>
- <20201209105618.okw5lgcdikg5bvae@wittgenstein>
- <0ea38a7a-1c64-086e-3d64-38686f5b7856@gmail.com>
- <20201212121419.odpgbaigrjhpkjnm@wittgenstein>
- <47a388ca-bcd8-d917-0a0a-cdbd185d6998@gmail.com>
- <6c32a7c3-4bed-8d5e-134f-47a4bd49dc78@gmail.com>
-User-Agent: Roundcube Webmail/1.4.3
-Message-ID: <c8709e99154791547af435a639154881@sk2.org>
-X-Sender: steve@sk2.org
-X-Originating-IP: 82.65.25.201
-X-Webmail-UserID: steve@sk2.org
-Content-Type: text/plain; charset=UTF-8;
- format=flowed
-Content-Transfer-Encoding: 8bit
-X-Ovh-Tracer-Id: 9291770456798350806
-X-VR-SPAMSTATE: OK
-X-VR-SPAMSCORE: -100
-X-VR-SPAMCAUSE: gggruggvucftvghtrhhoucdtuddrgedujedrudeliedgudegucetufdoteggodetrfdotffvucfrrhhofhhilhgvmecuqfggjfdpvefjgfevmfevgfenuceurghilhhouhhtmecuhedttdenucesvcftvggtihhpihgvnhhtshculddquddttddmnecujfgurhepggffhffvufgjfhgfkfigihgtgfesthekjhdttderjeenucfhrhhomhepufhtvghphhgvnhcumfhithhtuceoshhtvghvvgesshhkvddrohhrgheqnecuggftrfgrthhtvghrnhepheeftedvhfevuedthedthfektdelleegtdevfeetveefhfekgedttdefgfetgfeunecukfhppedtrddtrddtrddtpdekvddrieehrddvhedrvddtudenucevlhhushhtvghrufhiiigvpedtnecurfgrrhgrmhepmhhouggvpehsmhhtphdqohhuthdphhgvlhhopehplhgrhigvrhejjedtrdhhrgdrohhvhhdrnhgvthdpihhnvghtpedtrddtrddtrddtpdhmrghilhhfrhhomhepshhtvghvvgesshhkvddrohhrghdprhgtphhtthhopehlihhnuhigqdhmrghnsehvghgvrhdrkhgvrhhnvghlrdhorhhg
+        "Michael Kerrisk (man-pages)" <mtk.manpages@gmail.com>,
+        linux-sgx@vger.kernel.org, dave.hansen@linux.intel.com,
+        x86@kernel.org
+Subject: Re: [PATCH] sgx.7: New page with overview of Software Guard
+ eXtensions (SGX)
+Message-ID: <20201218125131.GA28524@kernel.org>
+References: <20201202071543.74866-1-jarkko@kernel.org>
+ <f6eb74cf-0cb6-0549-9ed3-3e3b2af23ad1@gmail.com>
+ <c698b115-2daa-c92b-da92-abe261a37222@gmail.com>
+ <b57aa7d7-b4d0-6358-258c-45fa69e40df8@gmail.com>
+ <1b818d58-4a82-4192-ab01-16a5ff2d7cfa@gmail.com>
+ <678536be-b0a2-af9d-2f41-5f3ff7ee9669@gmail.com>
+MIME-Version: 1.0
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <678536be-b0a2-af9d-2f41-5f3ff7ee9669@gmail.com>
 Precedence: bulk
 List-ID: <linux-man.vger.kernel.org>
 X-Mailing-List: linux-man@vger.kernel.org
 
-Hi Alex,
-
-Le 18/12/2020 11:12, Alejandro Colomar (man-pages) a écrit :
+On Fri, Dec 18, 2020 at 11:24:38AM +0100, Alejandro Colomar (man-pages) wrote:
+> Hi Jarkko,
+> 
 > Linux 5.10 has been recently released.
 > Do you have any updates for this patch?
+> 
+> Thanks,
+> 
+> Alex
 
-Yes, I have a v3 in preparation, with _CLOEXEC and a code example. I'll 
-wrap it up today.
+Hi, I've been on a vacation this week. I'm planning to update during the
+upcoming week.
 
-Regards,
-
-Stephen
+/Jarkko
