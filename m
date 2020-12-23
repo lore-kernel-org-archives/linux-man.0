@@ -2,109 +2,76 @@ Return-Path: <linux-man-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-16.8 required=3.0 tests=BAYES_00,DKIM_SIGNED,
-	DKIM_VALID,DKIM_VALID_AU,FREEMAIL_FORGED_FROMDOMAIN,FREEMAIL_FROM,
+X-Spam-Status: No, score=-16.7 required=3.0 tests=BAYES_00,
 	HEADER_FROM_DIFFERENT_DOMAINS,INCLUDES_CR_TRAILER,INCLUDES_PATCH,
-	MAILING_LIST_MULTI,NICE_REPLY_A,SPF_HELO_NONE,SPF_PASS,URIBL_BLOCKED,
-	USER_AGENT_SANE_1 autolearn=ham autolearn_force=no version=3.4.0
+	MAILING_LIST_MULTI,SPF_HELO_NONE,SPF_PASS,URIBL_BLOCKED,USER_AGENT_GIT
+	autolearn=ham autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 86066C433E6
-	for <linux-man@archiver.kernel.org>; Wed, 23 Dec 2020 19:43:03 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 03033C433DB
+	for <linux-man@archiver.kernel.org>; Wed, 23 Dec 2020 19:48:13 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.kernel.org (Postfix) with ESMTP id 52FE1223E4
-	for <linux-man@archiver.kernel.org>; Wed, 23 Dec 2020 19:43:03 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTP id B585122228
+	for <linux-man@archiver.kernel.org>; Wed, 23 Dec 2020 19:48:12 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1728706AbgLWTm7 (ORCPT <rfc822;linux-man@archiver.kernel.org>);
-        Wed, 23 Dec 2020 14:42:59 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:54690 "EHLO
-        lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1727671AbgLWTm7 (ORCPT
-        <rfc822;linux-man@vger.kernel.org>); Wed, 23 Dec 2020 14:42:59 -0500
-Received: from mail-wr1-x429.google.com (mail-wr1-x429.google.com [IPv6:2a00:1450:4864:20::429])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 03B2BC061794
-        for <linux-man@vger.kernel.org>; Wed, 23 Dec 2020 11:42:19 -0800 (PST)
-Received: by mail-wr1-x429.google.com with SMTP id y17so253552wrr.10
-        for <linux-man@vger.kernel.org>; Wed, 23 Dec 2020 11:42:18 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20161025;
-        h=subject:to:cc:references:from:message-id:date:user-agent
-         :mime-version:in-reply-to:content-language:content-transfer-encoding;
-        bh=zaJPAv35p7tYyH3AJ2+r5aC10kVF5ebf5TE8wHA/JX8=;
-        b=c2YIgPbdGtzZE4wBjKxWvkJJigjaDlcXNf+Bm3E5mIdaLD6MnPTVHpBVkt5zNgF0/T
-         uEfYyDaGPrqW466VVMATUwjdXxNzSa5xEBceXXfYRF6WBy8e3VETfVl2+4C66mWSp5gT
-         jNAuWqJSZIp/a0/liVm34mFDPMvZM280DxmPQCOxNfmCtRXMVHB4T9YIDGaOO+l4s3Wh
-         qu3wXGcznUrH2DK6NzSvH2fX7FWFv2F7shAPJ6tlHo9RkpHykuIbOFSQJuRCpeT4Dgn8
-         D8smDCKLwH45cfq+8jqEJW2ClBJAct/S231cs/cKEToq6KnJUlRc/n668PBWh0TycJum
-         v/rw==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20161025;
-        h=x-gm-message-state:subject:to:cc:references:from:message-id:date
-         :user-agent:mime-version:in-reply-to:content-language
-         :content-transfer-encoding;
-        bh=zaJPAv35p7tYyH3AJ2+r5aC10kVF5ebf5TE8wHA/JX8=;
-        b=YejenY6Dtvypr/lZgjZXralPei2GFj8YG2t7Pn69FQAMoqWnnNHCSB27KU/bmIDJGp
-         DwgH+KgfhbYuupVvF9wgShTYotzr+N4UcIuDpm40IkZunW9goquFRh9C2wQKvHgq1PiE
-         UawGt+4aoVYTKitRZwz+05gvzolxoq3RcSE9XWBFPJPQK4NrDME3e3ypO7IbAPXg6zCF
-         hekUy852nhJpuLu/JhlZejf+Qq9vgPulgjgN22/s3OO1sYkjlL3lC2WSIIwudsy9iumQ
-         DoL+M8wghxVXKFPPkvc/YM48cIIBxKcEkKPlf54dDskgLWSyrp/LExeF6+9oqRGQaelb
-         1coQ==
-X-Gm-Message-State: AOAM533x8ZODQYcWQjBDyUVSP08DArKTqnTAqYpUbOcS8Ps7k9f8By+u
-        FUZvyLpqPKrBsgsA0bQCDv9A4h9Hb/Y=
-X-Google-Smtp-Source: ABdhPJziq+x3PH2urIZ05vLZyV77O+R3hsjKcpNZAholIrUcBqAP5A51oV1pUWKzENnSlPh6i/9wUw==
-X-Received: by 2002:adf:fdcb:: with SMTP id i11mr31308487wrs.349.1608752537789;
-        Wed, 23 Dec 2020 11:42:17 -0800 (PST)
-Received: from [192.168.1.143] ([170.253.51.130])
-        by smtp.gmail.com with ESMTPSA id j10sm984404wmj.7.2020.12.23.11.42.17
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Wed, 23 Dec 2020 11:42:17 -0800 (PST)
-Subject: Re: [PATCH 1/4] signal.7: tfix
-To:     Jakub Wilk <jwilk@jwilk.net>,
-        Michael Kerrisk <mtk.manpages@gmail.com>
-Cc:     linux-man@vger.kernel.org
-References: <20201223193033.1012-1-jwilk@jwilk.net>
-From:   "Alejandro Colomar (man-pages)" <alx.manpages@gmail.com>
-Message-ID: <16ce14af-9593-9ada-a745-d70e6ff81b1d@gmail.com>
-Date:   Wed, 23 Dec 2020 20:42:16 +0100
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
- Thunderbird/78.5.1
-MIME-Version: 1.0
+        id S1728222AbgLWTsM (ORCPT <rfc822;linux-man@archiver.kernel.org>);
+        Wed, 23 Dec 2020 14:48:12 -0500
+Received: from 9.mo51.mail-out.ovh.net ([46.105.48.137]:33146 "EHLO
+        9.mo51.mail-out.ovh.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1728075AbgLWTsM (ORCPT
+        <rfc822;linux-man@vger.kernel.org>); Wed, 23 Dec 2020 14:48:12 -0500
+X-Greylist: delayed 1008 seconds by postgrey-1.27 at vger.kernel.org; Wed, 23 Dec 2020 14:48:11 EST
+Received: from mxplan6.mail.ovh.net (unknown [10.108.4.25])
+        by mo51.mail-out.ovh.net (Postfix) with ESMTPS id CD3F2249C06;
+        Wed, 23 Dec 2020 20:30:38 +0100 (CET)
+Received: from jwilk.net (37.59.142.96) by DAG4EX2.mxp6.local (172.16.2.32)
+ with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id 15.1.2044.4; Wed, 23 Dec
+ 2020 20:30:37 +0100
+Authentication-Results: garm.ovh; auth=pass (GARM-96R001ef1b21ec-f043-485e-922b-65911ad7c6a1,
+                    A52BA6BD936B9B6465AEB870C134438BA02787E0) smtp.auth=jwilk@jwilk.net
+X-OVh-ClientIp: 5.173.48.134
+From:   Jakub Wilk <jwilk@jwilk.net>
+To:     Michael Kerrisk <mtk.manpages@gmail.com>
+CC:     <linux-man@vger.kernel.org>
+Subject: [PATCH 2/4] cgroups.7: tfix
+Date:   Wed, 23 Dec 2020 20:30:31 +0100
+Message-ID: <20201223193033.1012-2-jwilk@jwilk.net>
+X-Mailer: git-send-email 2.30.0.rc1
 In-Reply-To: <20201223193033.1012-1-jwilk@jwilk.net>
-Content-Type: text/plain; charset=utf-8
-Content-Language: en-US
-Content-Transfer-Encoding: 7bit
+References: <20201223193033.1012-1-jwilk@jwilk.net>
+MIME-Version: 1.0
+Content-Transfer-Encoding: 7BIT
+Content-Type:   text/plain; charset=US-ASCII
+X-Originating-IP: [37.59.142.96]
+X-ClientProxiedBy: DAG9EX2.mxp6.local (172.16.2.82) To DAG4EX2.mxp6.local
+ (172.16.2.32)
+X-Ovh-Tracer-GUID: bc5eb4bc-d7e1-465c-9da5-1111707483b6
+X-Ovh-Tracer-Id: 11159356929874909149
+X-VR-SPAMSTATE: OK
+X-VR-SPAMSCORE: 0
+X-VR-SPAMCAUSE: gggruggvucftvghtrhhoucdtuddrgedujedrvddtjedguddviecutefuodetggdotefrodftvfcurfhrohhfihhlvgemucfqggfjpdevjffgvefmvefgnecuuegrihhlohhuthemucehtddtnecunecujfgurhephffvufffkffojghfggfgtghisehtkeertdertddtnecuhfhrohhmpeflrghkuhgsucghihhlkhcuoehjfihilhhksehjfihilhhkrdhnvghtqeenucggtffrrghtthgvrhhnpeeulefftddufefggeehjeetgfevvdeljeehheegkedtkeetfeetgfffueetudffkeenucfkpheptddrtddrtddrtddpfeejrdehledrudegvddrleeinecuvehluhhsthgvrhfuihiivgeptdenucfrrghrrghmpehmohguvgepshhmthhpqdhouhhtpdhhvghlohepmhigphhlrghniedrmhgrihhlrdhovhhhrdhnvghtpdhinhgvtheptddrtddrtddrtddpmhgrihhlfhhrohhmpehjfihilhhksehjfihilhhkrdhnvghtpdhrtghpthhtoheplhhinhhugidqmhgrnhesvhhgvghrrdhkvghrnhgvlhdrohhrgh
 Precedence: bulk
 List-ID: <linux-man.vger.kernel.org>
 X-Mailing-List: linux-man@vger.kernel.org
 
-On 12/23/20 8:30 PM, Jakub Wilk wrote:
-> Signed-off-by: Jakub Wilk <jwilk@jwilk.net>
+Signed-off-by: Jakub Wilk <jwilk@jwilk.net>
+---
+ man7/cgroups.7 | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
 
-Jakub, patch applied.
-
-Thanks,
-
-Alex
-
-> ---
->  man7/signal.7 | 2 +-
->  1 file changed, 1 insertion(+), 1 deletion(-)
-> 
-> diff --git a/man7/signal.7 b/man7/signal.7
-> index e5b9e00ca..1b48356b8 100644
-> --- a/man7/signal.7
-> +++ b/man7/signal.7
-> @@ -357,7 +357,7 @@ From the kernel's point of view,
->  execution of the signal handler code is exactly the same as the execution
->  of any other user-space code.
->  That is to say, the kernel does not record any special state information
-> -indicating that the thread is currently excuting inside a signal handler.
-> +indicating that the thread is currently executing inside a signal handler.
->  All necessary state information is maintained in user-space registers
->  and the user-space stack.
->  The depth to which nested signal handlers may be invoked is thus
-> 
-
+diff --git a/man7/cgroups.7 b/man7/cgroups.7
+index 0d525d91f..f6e7a8d8f 100644
+--- a/man7/cgroups.7
++++ b/man7/cgroups.7
+@@ -1123,7 +1123,7 @@ mount \-t cgroup2 \-o remount,nsdelegate \e
+ .EE
+ .in
+ .\"
+-.\" ALternatively, we could boot the kernel with the options:
++.\" Alternatively, we could boot the kernel with the options:
+ .\"
+ .\"    cgroup_no_v1=all systemd.legacy_systemd_cgroup_controller
+ .\"
 -- 
-Alejandro Colomar
-Linux man-pages comaintainer; https://www.kernel.org/doc/man-pages/
-http://www.alejandro-colomar.es/
+2.30.0.rc1
+
