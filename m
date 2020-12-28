@@ -2,130 +2,186 @@ Return-Path: <linux-man-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-3.8 required=3.0 tests=BAYES_00,
-	HEADER_FROM_DIFFERENT_DOMAINS,MAILING_LIST_MULTI,SPF_HELO_NONE,SPF_PASS
-	autolearn=no autolearn_force=no version=3.4.0
+X-Spam-Status: No, score=-6.9 required=3.0 tests=BAYES_00,DKIM_SIGNED,
+	DKIM_VALID,DKIM_VALID_AU,FREEMAIL_FORGED_FROMDOMAIN,FREEMAIL_FROM,
+	HEADER_FROM_DIFFERENT_DOMAINS,MAILING_LIST_MULTI,NICE_REPLY_A,SPF_HELO_NONE,
+	SPF_PASS,USER_AGENT_SANE_1 autolearn=no autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 5D10EC4332B
+	by smtp.lore.kernel.org (Postfix) with ESMTP id CA324C43332
 	for <linux-man@archiver.kernel.org>; Mon, 28 Dec 2020 23:13:57 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.kernel.org (Postfix) with ESMTP id 2CA222222A
+	by mail.kernel.org (Postfix) with ESMTP id B3238223C8
 	for <linux-man@archiver.kernel.org>; Mon, 28 Dec 2020 23:13:57 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1730676AbgL1Wzw (ORCPT <rfc822;linux-man@archiver.kernel.org>);
+        id S1729530AbgL1Wzw (ORCPT <rfc822;linux-man@archiver.kernel.org>);
         Mon, 28 Dec 2020 17:55:52 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:39718 "EHLO
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:35436 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1729491AbgL1VJa (ORCPT
-        <rfc822;linux-man@vger.kernel.org>); Mon, 28 Dec 2020 16:09:30 -0500
-Received: from bhuna.collabora.co.uk (bhuna.collabora.co.uk [IPv6:2a00:1098:0:82:1000:25:2eeb:e3e3])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 781C6C0613D6
-        for <linux-man@vger.kernel.org>; Mon, 28 Dec 2020 13:08:49 -0800 (PST)
-Received: from localhost (unknown [IPv6:2804:431:c7f5:e396:88cd:ceb6:57aa:eaba])
-        (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
-        (No client certificate requested)
-        (Authenticated sender: krisman)
-        by bhuna.collabora.co.uk (Postfix) with ESMTPSA id 09A541F4430B;
-        Mon, 28 Dec 2020 21:08:46 +0000 (GMT)
-From:   Gabriel Krisman Bertazi <krisman@collabora.com>
-To:     "Michael Kerrisk (man-pages)" <mtk.manpages@gmail.com>
-Cc:     "Alejandro Colomar (man-pages)" <alx.manpages@gmail.com>,
-        linux-man <linux-man@vger.kernel.org>
+        with ESMTP id S1729434AbgL1Ulr (ORCPT
+        <rfc822;linux-man@vger.kernel.org>); Mon, 28 Dec 2020 15:41:47 -0500
+Received: from mail-wr1-x430.google.com (mail-wr1-x430.google.com [IPv6:2a00:1450:4864:20::430])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 6AD9AC0613D6
+        for <linux-man@vger.kernel.org>; Mon, 28 Dec 2020 12:41:07 -0800 (PST)
+Received: by mail-wr1-x430.google.com with SMTP id r7so12469479wrc.5
+        for <linux-man@vger.kernel.org>; Mon, 28 Dec 2020 12:41:07 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20161025;
+        h=subject:to:cc:references:from:message-id:date:user-agent
+         :mime-version:in-reply-to:content-language:content-transfer-encoding;
+        bh=RIU+DNQYSJuMeHe5QX6C/8G9DfyWMaazgSG7Pcz0xdY=;
+        b=KUchjsreB/DG4Z0a1OGakKAreb5K20xkpA9ZB3eAEJsxeXOwAUEutyYBDQ7sIcnorO
+         5ACfDzGNMyzToYJlzqzUqLorxNsbqjQl7FyQWWDZDcGRT6u4kc6TqpFnKrYCPCsKgg7e
+         z8Zb8njtmbKoOqMHLMWWPWBv6Q6YAAUsPzKTy0A5AkAiNpF4Mf+hQ+A+SWyQGt1NFLeh
+         Ed5uRqjS0sQe1rwKiAXP+OvjBZGXmcMnM3Q/UnDg3lric3zpRPJhLcbJ8uLnn99j/rYX
+         zxs+y7j9HjQ6A82NTeinK3hUjDKtC5xzqpcSUYIDPCPpozSm/JAypTzkof1qbMADawJz
+         utuA==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20161025;
+        h=x-gm-message-state:subject:to:cc:references:from:message-id:date
+         :user-agent:mime-version:in-reply-to:content-language
+         :content-transfer-encoding;
+        bh=RIU+DNQYSJuMeHe5QX6C/8G9DfyWMaazgSG7Pcz0xdY=;
+        b=S41XOaGBup8jsFFfWeLO1bJ54o9qRpCk1ahqRWecSJyHR96SmOxC7VeCFCE7B+tM7N
+         58fn1fJO1O1nV2kLH8Qb4Fe6U3WXcHuQKKnGShEIml6up593aLIgvk6kG0P3jdL0f/jz
+         mjFTDexUxdcuN4jThxIoiy0u/5ZflCurRiXlU5P9FNyaoyq1/7XscPWlFAPiRnUki9t6
+         L9mIB/+jHAew52joz8UqU67NYdqxzw2EYBJRA7f8CB1ju3nBNPIpukuJRc8RDWGqfoS3
+         xirYFuLjtLtmHHpxNNHuR41Ub/71AAu/ywKjNhlaFdjkIjZe3S5vk1CA1UfELhErr44o
+         0b8g==
+X-Gm-Message-State: AOAM531F6tPR170ImnuZfu77IoCq03Thb2Wleh7Iw7CDtcM5sc4AJnGg
+        rt/PyR+VAbifK2M3Rw+Cn3OYGIcZqhw=
+X-Google-Smtp-Source: ABdhPJzsQFzlKF4WcKjgjJz+5bMWoLLRg/5oTiTUAIFd3Q0YRP7XisWbs2E1mZNsCAHIjFBzBNu96A==
+X-Received: by 2002:a5d:61c4:: with SMTP id q4mr52846035wrv.304.1609188064521;
+        Mon, 28 Dec 2020 12:41:04 -0800 (PST)
+Received: from [192.168.1.143] ([170.253.51.130])
+        by smtp.gmail.com with ESMTPSA id u83sm645003wmu.12.2020.12.28.12.41.03
+        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+        Mon, 28 Dec 2020 12:41:04 -0800 (PST)
 Subject: Re: [PATCH v5] prctl.2: Document Syscall User Dispatch
-Organization: Collabora
+To:     mtk.manpages@gmail.com
+Cc:     Gabriel Krisman Bertazi <krisman@collabora.com>,
+        linux-man <linux-man@vger.kernel.org>
 References: <20201223182911.4066380-1-krisman@collabora.com>
-        <85b23b60-a92c-a5a8-1cc5-24bdfb8b3530@gmail.com>
-        <c73ca93d-b723-adc1-0603-4c7f9ecc458e@gmail.com>
-        <CAKgNAkgUabNogtQGzGGo4K8CN1wTL-nH=gjuFNGfXM+ysQ+CQQ@mail.gmail.com>
-        <869fca51-770f-ed44-4196-e99189832e69@gmail.com>
-        <CAKgNAkiGg0=TF4TCKvSFxmBnC2FwwvySxFte8Lnz+ny2T692pA@mail.gmail.com>
-Date:   Mon, 28 Dec 2020 18:08:42 -0300
-In-Reply-To: <CAKgNAkiGg0=TF4TCKvSFxmBnC2FwwvySxFte8Lnz+ny2T692pA@mail.gmail.com>
-        (Michael Kerrisk's message of "Mon, 28 Dec 2020 21:53:36 +0100")
-Message-ID: <877dp1y6xx.fsf@collabora.com>
-User-Agent: Gnus/5.13 (Gnus v5.13) Emacs/27.1 (gnu/linux)
+ <85b23b60-a92c-a5a8-1cc5-24bdfb8b3530@gmail.com>
+ <c73ca93d-b723-adc1-0603-4c7f9ecc458e@gmail.com>
+ <CAKgNAkgUabNogtQGzGGo4K8CN1wTL-nH=gjuFNGfXM+ysQ+CQQ@mail.gmail.com>
+From:   "Alejandro Colomar (man-pages)" <alx.manpages@gmail.com>
+Message-ID: <869fca51-770f-ed44-4196-e99189832e69@gmail.com>
+Date:   Mon, 28 Dec 2020 21:41:03 +0100
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
+ Thunderbird/78.5.1
 MIME-Version: 1.0
-Content-Type: text/plain
+In-Reply-To: <CAKgNAkgUabNogtQGzGGo4K8CN1wTL-nH=gjuFNGfXM+ysQ+CQQ@mail.gmail.com>
+Content-Type: text/plain; charset=utf-8
+Content-Language: en-US
+Content-Transfer-Encoding: 7bit
 Precedence: bulk
 List-ID: <linux-man.vger.kernel.org>
 X-Mailing-List: linux-man@vger.kernel.org
 
-"Michael Kerrisk (man-pages)" <mtk.manpages@gmail.com> writes:
 
-> On Mon, 28 Dec 2020 at 21:41, Alejandro Colomar (man-pages)
+
+On 12/28/20 9:06 PM, Michael Kerrisk (man-pages) wrote:
+> Hi Alex,
+> 
+> On Mon, 28 Dec 2020 at 19:24, Alejandro Colomar (man-pages)
 > <alx.manpages@gmail.com> wrote:
 >>
+>> Hi Michael & Gabriel,
 >>
+>> I disagree on a comment; see below.
 >>
->> On 12/28/20 9:06 PM, Michael Kerrisk (man-pages) wrote:
->> > Hi Alex,
->> >
->> > On Mon, 28 Dec 2020 at 19:24, Alejandro Colomar (man-pages)
->> > <alx.manpages@gmail.com> wrote:
->> >>
->> >> Hi Michael & Gabriel,
->> >>
->> >> I disagree on a comment; see below.
->> >>
->> >> On 12/24/20 10:18 AM, Michael Kerrisk (man-pages) wrote:
->> >>> Hello Gabriel,
->> >>>
->> >>> Thanks for the revisions!
->> >>>
->> >> [...]
->> >>>> +.IP
->> >>>> +When
->> >>>> +.I arg2
->> >>>> +is set to
->> >>>> +.BR PR_SYS_DISPATCH_ON ,
->> >>>> +.I arg3
->> >>>> +and
->> >>>> +.I arg4
->> >>>> +respectively identify the
->> >>>> +.I offset
->> >>>> +and
->> >>>> +.I length
->> >>>> +of a single contiguous memory region in the process map
->> >>>> +from where system calls are always allowed to be executed,
->> >>>> +regardless of the switch variable
->> >>>> +(Typically, this area would include the area of memory
->> >>>> +containing the C library).
->> >>>
->> >>> s/)./.)/
->> >>
->> >> That point is ending the full sentence starting at 'When',
->> >
->> > I see it the other. The piece in parentheses is a free-standing idea
->> > that should be (parenthetical) sentence on its own.
->> >
->> > But, if that was not the case, your points below would hold.
+>> On 12/24/20 10:18 AM, Michael Kerrisk (man-pages) wrote:
+>>> Hello Gabriel,
+>>>
+>>> Thanks for the revisions!
+>>>
+>> [...]
+>>>> +.IP
+>>>> +When
+>>>> +.I arg2
+>>>> +is set to
+>>>> +.BR PR_SYS_DISPATCH_ON ,
+>>>> +.I arg3
+>>>> +and
+>>>> +.I arg4
+>>>> +respectively identify the
+>>>> +.I offset
+>>>> +and
+>>>> +.I length
+>>>> +of a single contiguous memory region in the process map
+>>>> +from where system calls are always allowed to be executed,
+>>>> +regardless of the switch variable
+>>>> +(Typically, this area would include the area of memory
+>>>> +containing the C library).
+>>>
+>>> s/)./.)/
 >>
->> Hi Michael,
->>
->> I see; but there still isn't any separator between '... switch
->> variable', and 'arg5 points to ...'.
->>
->> Would you then do?:
->>
->> [
->> +regardless of the switch variable_._
->> ]
->>
->> Or what?
->
-> Oh yes. I missed that. That period also needs to be added!
->
+>> That point is ending the full sentence starting at 'When',
+> 
+> I see it the other. The piece in parentheses is a free-standing idea
+> that should be (parenthetical) sentence on its own.
+> 
+> But, if that was not the case, your points below would hold.
 
-Which one?
+Hi Michael,
 
-> +regardless of the switch variable_._
+I see; but there still isn't any separator between '... switch
+variable', and 'arg5 points to ...'.
 
-or
+Would you then do?:
 
-> I see; but there still isn't any separator between '... switch
-> variable', and 'arg5 points to ...'.
+[
++regardless of the switch variable_._
+]
 
-which would be .). 
+Or what?
+
+Thanks,
+
+Alex
+
+> 
+> Thanks,
+> 
+> Michael
+> 
+> 
+>> not just the
+>> sentence in parentheses.
+>>
+>> See <https://www.thepunctuationguide.com/terminal-points.html>.
+>>
+>> Quoting that, "The main sentence takes a period outside the closing
+>> parenthesis no matter what punctuation is included inside the
+>> parenthetical element.".  So that you should be able to:  s/(.*)//
+>>
+>> s/)./.)./  would be more correct, but I think ').' is enough.
+>> See my quotation above, which is a similar example :)
+>>
+>> I'd also s/Typically/typically/
+>>
+>> Your thoughts?
+>>
+>> Thanks,
+>>
+>> Alex
+>>
+>>>
+>>>> +.I arg5
+>>>> +points to a char-sized variable
+>>>> +that is a fast switch to enable/disable the mechanism
+>>>> +without the overhead of doing a system call.
+>>>> +The variable pointed by
+>>
+>> --
+>> Alejandro Colomar
+>> Linux man-pages comaintainer; https://www.kernel.org/doc/man-pages/
+>> http://www.alejandro-colomar.es/
+> 
+> 
+> 
 
 -- 
-Gabriel Krisman Bertazi
+Alejandro Colomar
+Linux man-pages comaintainer; https://www.kernel.org/doc/man-pages/
+http://www.alejandro-colomar.es/
