@@ -2,138 +2,136 @@ Return-Path: <linux-man-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-6.9 required=3.0 tests=BAYES_00,DKIM_SIGNED,
+X-Spam-Status: No, score=-2.7 required=3.0 tests=BAYES_00,DKIM_SIGNED,
 	DKIM_VALID,DKIM_VALID_AU,FREEMAIL_FORGED_FROMDOMAIN,FREEMAIL_FROM,
-	HEADER_FROM_DIFFERENT_DOMAINS,MAILING_LIST_MULTI,NICE_REPLY_A,SPF_HELO_NONE,
-	SPF_PASS,USER_AGENT_SANE_1 autolearn=no autolearn_force=no version=3.4.0
+	HEADER_FROM_DIFFERENT_DOMAINS,MAILING_LIST_MULTI,SPF_HELO_NONE,SPF_PASS
+	autolearn=no autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 7D87CC433E0
-	for <linux-man@archiver.kernel.org>; Mon, 28 Dec 2020 18:25:39 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 73215C4332E
+	for <linux-man@archiver.kernel.org>; Mon, 28 Dec 2020 23:13:57 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.kernel.org (Postfix) with ESMTP id 352DE2242A
-	for <linux-man@archiver.kernel.org>; Mon, 28 Dec 2020 18:25:39 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTP id 4B8F8222F9
+	for <linux-man@archiver.kernel.org>; Mon, 28 Dec 2020 23:13:57 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1728620AbgL1SZX (ORCPT <rfc822;linux-man@archiver.kernel.org>);
-        Mon, 28 Dec 2020 13:25:23 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:42738 "EHLO
+        id S1729547AbgL1Wzw (ORCPT <rfc822;linux-man@archiver.kernel.org>);
+        Mon, 28 Dec 2020 17:55:52 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:37402 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1728583AbgL1SZW (ORCPT
-        <rfc822;linux-man@vger.kernel.org>); Mon, 28 Dec 2020 13:25:22 -0500
-Received: from mail-wm1-x329.google.com (mail-wm1-x329.google.com [IPv6:2a00:1450:4864:20::329])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 51173C0613D6
-        for <linux-man@vger.kernel.org>; Mon, 28 Dec 2020 10:24:42 -0800 (PST)
-Received: by mail-wm1-x329.google.com with SMTP id k10so146247wmi.3
-        for <linux-man@vger.kernel.org>; Mon, 28 Dec 2020 10:24:42 -0800 (PST)
+        with ESMTP id S1729471AbgL1Uy2 (ORCPT
+        <rfc822;linux-man@vger.kernel.org>); Mon, 28 Dec 2020 15:54:28 -0500
+Received: from mail-oi1-x229.google.com (mail-oi1-x229.google.com [IPv6:2607:f8b0:4864:20::229])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id BB2D8C061798
+        for <linux-man@vger.kernel.org>; Mon, 28 Dec 2020 12:53:47 -0800 (PST)
+Received: by mail-oi1-x229.google.com with SMTP id x13so12690679oic.5
+        for <linux-man@vger.kernel.org>; Mon, 28 Dec 2020 12:53:47 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=gmail.com; s=20161025;
-        h=subject:to:cc:references:from:message-id:date:user-agent
-         :mime-version:in-reply-to:content-language:content-transfer-encoding;
-        bh=atCV6d/0GwviOW6yXtzwJhBEXtPgZU0x/QLguGTIqy4=;
-        b=XYPqj1+GPoe4DOcsTNgcNtWdfau6BDk2X/NNgkEzcFvGFmH3RxylFvv9Z6ciR71b8v
-         QiSscHX/cTrNtQz8B0HjIuI7PtFrF0GpnWpxa5IsDCxAbUYDxOvLmwhxj6Db1U7TGWkZ
-         l7HWqyQpRdbRlw6oSC3GvYhWRPBDkH8mxWfmnYvKkzrHTjQ4Ti2ACIz9te7g77R1HvEI
-         IfsCm84Ha+JHCNQLNZ8IdUWgsH/+g3Hu/j+f+Oa62E6kijoyELrRVk5dn/b79vY6BQma
-         Iwyfb0JANy2IIW//zRX9fYJb2T+FfEdfTbweSZY5W+bNSnmp7NcWc1IZy+XDRWabsHA+
-         oDUA==
+        h=mime-version:references:in-reply-to:reply-to:from:date:message-id
+         :subject:to:cc;
+        bh=tgrKURuI4xextLVLIk4U056vCobi+wA7b8obTQAs6s8=;
+        b=MPGpJCfmdw7T2mNx4ki8gHsXwwopVl0f5XAzTtbioi+BWwZclITFseb8Dg1c0JBUDM
+         F86X3qGPELCb5wE7a6KbYwuQiLWcYlbV73Z69VjpzPwxPIktpNci4X0sZzxgKwg6UE1r
+         i2wxToW2V3Y94ZgnUOOHPshGxnsyVNp7feKM5IWTtC97OtoPQIscLRgc36SJs6XJkNTq
+         xI49xU0eBi++U8/NQ+uycFKZKLi3HrKcHPLea87UEONAsFfGYJBquUREEc/zkATUeMNv
+         lD2Qmzgpzx1CzVVbhsFEPlWh5Q0FoCdtuGD7xjUgpkvIjM9dvTJF7Lf6dZJaPrOvWQq3
+         7agw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
-        h=x-gm-message-state:subject:to:cc:references:from:message-id:date
-         :user-agent:mime-version:in-reply-to:content-language
-         :content-transfer-encoding;
-        bh=atCV6d/0GwviOW6yXtzwJhBEXtPgZU0x/QLguGTIqy4=;
-        b=cHJHHuYprH8M9nSFtdohFxvK0cgl58C+xCAtMvQvkk/n2eh/+hPVYcHBn6rgbNy1PJ
-         7qbbsFozzsDCj46oGcpAJfW/Pn0vJOxi+3nMEAT70Z8+xbQjQEC1yH9EkOf9MG1gSCXd
-         GEc0+mnHRy452kUtv9swwVQ7zFhnVWhQM9z5JG33hoUIc6mCw/XTVZF+sTpIOxp4ohHX
-         4uw7j2qatnhP1Csh6+IjBc6zanfu7sjWbmhpBCQRVJP5yci0JbC/7z/XrxGTZOv8WBIu
-         k7dzK00XmPVQezDgG7UpFf0m6hOM0PFcO2k7hgTyKwQa19DFQuV+gMQOYn45xhaSqfv1
-         MgSg==
-X-Gm-Message-State: AOAM5330TixfegSj1FlyV5c9XEsKstqS5CimCKR7O3GpOO/DZfu1Xp25
-        Wa8Np7zUhWAghIfX75TGKypl/7D9oQQ=
-X-Google-Smtp-Source: ABdhPJxwDdTrGuUfvTe7niN2Wk8+EqA/NmUIb+dzmQQa5r3tZDzpPQGP7qKrSH/roxzblTT8q3RK8Q==
-X-Received: by 2002:a1c:b742:: with SMTP id h63mr151610wmf.122.1609179881050;
-        Mon, 28 Dec 2020 10:24:41 -0800 (PST)
-Received: from [192.168.1.143] ([170.253.51.130])
-        by smtp.gmail.com with ESMTPSA id c10sm59936451wrb.92.2020.12.28.10.24.40
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Mon, 28 Dec 2020 10:24:40 -0800 (PST)
-Subject: Re: [PATCH v5] prctl.2: Document Syscall User Dispatch
-To:     "Michael Kerrisk (man-pages)" <mtk.manpages@gmail.com>,
-        Gabriel Krisman Bertazi <krisman@collabora.com>
-Cc:     linux-man@vger.kernel.org
-References: <20201223182911.4066380-1-krisman@collabora.com>
- <85b23b60-a92c-a5a8-1cc5-24bdfb8b3530@gmail.com>
-From:   "Alejandro Colomar (man-pages)" <alx.manpages@gmail.com>
-Message-ID: <c73ca93d-b723-adc1-0603-4c7f9ecc458e@gmail.com>
-Date:   Mon, 28 Dec 2020 19:24:39 +0100
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
- Thunderbird/78.5.1
+        h=x-gm-message-state:mime-version:references:in-reply-to:reply-to
+         :from:date:message-id:subject:to:cc;
+        bh=tgrKURuI4xextLVLIk4U056vCobi+wA7b8obTQAs6s8=;
+        b=VG2vJoHA+gxRQZ/2G9e50pi530JHDtX43f4Xv0aFkPOHM3Eh6R9o9EssUZWSbWJFLP
+         EGsuJH2/vw0+V4bV3Mmg4T4Q2lCDcp8+VnSl7qH8hpSLM6cSUgwkKALnJQuRbydgyXF/
+         S+XkgaWUJANHjN/ju4FjPywSk4jGy9/O3saHj6J+Gu4rsI2dR145/1RA7boGwBt/lVXW
+         MrSdKZAyOEAfuyKQQvR6WI0oCWp8HcnrBQ0aDwshN7hIQMmQJfi0Q/wuNQA+1jB/1cWK
+         jCifaVDwakZFMTzynH6SbtcBxFqlyxxm21db8wVYJmjNL/X0Xin/chf3SAftVey5ZBr4
+         hHjQ==
+X-Gm-Message-State: AOAM533gqFMXCdBUgU1poXPUGr+36bqIGJhnSNQKLFtEWoDMIUW1C2n0
+        pOPGb8H1MT0VXdXl2kYjHvf7wPTpa2Ss6RZjrEdbmarX
+X-Google-Smtp-Source: ABdhPJy21urRfcEeEpBa98E80QvniIEzvj9qHUB8RtIuIwBvMIMB3IM8Y1PU3DK2aQYJPTLz7IjDsx36u2+JTi2xocs=
+X-Received: by 2002:aca:ded4:: with SMTP id v203mr494623oig.148.1609188827059;
+ Mon, 28 Dec 2020 12:53:47 -0800 (PST)
 MIME-Version: 1.0
-In-Reply-To: <85b23b60-a92c-a5a8-1cc5-24bdfb8b3530@gmail.com>
-Content-Type: text/plain; charset=utf-8
-Content-Language: en-US
-Content-Transfer-Encoding: 7bit
+References: <20201223182911.4066380-1-krisman@collabora.com>
+ <85b23b60-a92c-a5a8-1cc5-24bdfb8b3530@gmail.com> <c73ca93d-b723-adc1-0603-4c7f9ecc458e@gmail.com>
+ <CAKgNAkgUabNogtQGzGGo4K8CN1wTL-nH=gjuFNGfXM+ysQ+CQQ@mail.gmail.com> <869fca51-770f-ed44-4196-e99189832e69@gmail.com>
+In-Reply-To: <869fca51-770f-ed44-4196-e99189832e69@gmail.com>
+Reply-To: mtk.manpages@gmail.com
+From:   "Michael Kerrisk (man-pages)" <mtk.manpages@gmail.com>
+Date:   Mon, 28 Dec 2020 21:53:36 +0100
+Message-ID: <CAKgNAkiGg0=TF4TCKvSFxmBnC2FwwvySxFte8Lnz+ny2T692pA@mail.gmail.com>
+Subject: Re: [PATCH v5] prctl.2: Document Syscall User Dispatch
+To:     "Alejandro Colomar (man-pages)" <alx.manpages@gmail.com>
+Cc:     Gabriel Krisman Bertazi <krisman@collabora.com>,
+        linux-man <linux-man@vger.kernel.org>
+Content-Type: text/plain; charset="UTF-8"
 Precedence: bulk
 List-ID: <linux-man.vger.kernel.org>
 X-Mailing-List: linux-man@vger.kernel.org
 
-Hi Michael & Gabriel,
+On Mon, 28 Dec 2020 at 21:41, Alejandro Colomar (man-pages)
+<alx.manpages@gmail.com> wrote:
+>
+>
+>
+> On 12/28/20 9:06 PM, Michael Kerrisk (man-pages) wrote:
+> > Hi Alex,
+> >
+> > On Mon, 28 Dec 2020 at 19:24, Alejandro Colomar (man-pages)
+> > <alx.manpages@gmail.com> wrote:
+> >>
+> >> Hi Michael & Gabriel,
+> >>
+> >> I disagree on a comment; see below.
+> >>
+> >> On 12/24/20 10:18 AM, Michael Kerrisk (man-pages) wrote:
+> >>> Hello Gabriel,
+> >>>
+> >>> Thanks for the revisions!
+> >>>
+> >> [...]
+> >>>> +.IP
+> >>>> +When
+> >>>> +.I arg2
+> >>>> +is set to
+> >>>> +.BR PR_SYS_DISPATCH_ON ,
+> >>>> +.I arg3
+> >>>> +and
+> >>>> +.I arg4
+> >>>> +respectively identify the
+> >>>> +.I offset
+> >>>> +and
+> >>>> +.I length
+> >>>> +of a single contiguous memory region in the process map
+> >>>> +from where system calls are always allowed to be executed,
+> >>>> +regardless of the switch variable
+> >>>> +(Typically, this area would include the area of memory
+> >>>> +containing the C library).
+> >>>
+> >>> s/)./.)/
+> >>
+> >> That point is ending the full sentence starting at 'When',
+> >
+> > I see it the other. The piece in parentheses is a free-standing idea
+> > that should be (parenthetical) sentence on its own.
+> >
+> > But, if that was not the case, your points below would hold.
+>
+> Hi Michael,
+>
+> I see; but there still isn't any separator between '... switch
+> variable', and 'arg5 points to ...'.
+>
+> Would you then do?:
+>
+> [
+> +regardless of the switch variable_._
+> ]
+>
+> Or what?
 
-I disagree on a comment; see below.
+Oh yes. I missed that. That period also needs to be added!
 
-On 12/24/20 10:18 AM, Michael Kerrisk (man-pages) wrote:
-> Hello Gabriel,
-> 
-> Thanks for the revisions!
-> 
-[...]
->> +.IP
->> +When
->> +.I arg2
->> +is set to
->> +.BR PR_SYS_DISPATCH_ON ,
->> +.I arg3
->> +and
->> +.I arg4
->> +respectively identify the
->> +.I offset
->> +and
->> +.I length
->> +of a single contiguous memory region in the process map
->> +from where system calls are always allowed to be executed,
->> +regardless of the switch variable
->> +(Typically, this area would include the area of memory
->> +containing the C library).
-> 
-> s/)./.)/
+Cheers,
 
-That point is ending the full sentence starting at 'When', not just the
-sentence in parentheses.
-
-See <https://www.thepunctuationguide.com/terminal-points.html>.
-
-Quoting that, "The main sentence takes a period outside the closing
-parenthesis no matter what punctuation is included inside the
-parenthetical element.".  So that you should be able to:  s/(.*)//
-
-s/)./.)./  would be more correct, but I think ').' is enough.
-See my quotation above, which is a similar example :)
-
-I'd also s/Typically/typically/
-
-Your thoughts?
-
-Thanks,
-
-Alex
-
-> 
->> +.I arg5
->> +points to a char-sized variable
->> +that is a fast switch to enable/disable the mechanism
->> +without the overhead of doing a system call.
->> +The variable pointed by
-
--- 
-Alejandro Colomar
-Linux man-pages comaintainer; https://www.kernel.org/doc/man-pages/
-http://www.alejandro-colomar.es/
+Michael
