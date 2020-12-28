@@ -8,60 +8,60 @@ X-Spam-Status: No, score=-15.7 required=3.0 tests=BAYES_00,DKIM_SIGNED,
 	MAILING_LIST_MULTI,SPF_HELO_NONE,SPF_PASS,USER_AGENT_GIT autolearn=ham
 	autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id D4582C433E0
-	for <linux-man@archiver.kernel.org>; Mon, 28 Dec 2020 09:45:58 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 343FBC433E9
+	for <linux-man@archiver.kernel.org>; Mon, 28 Dec 2020 09:45:59 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.kernel.org (Postfix) with ESMTP id A2D02208B3
+	by mail.kernel.org (Postfix) with ESMTP id EE0EE208B3
 	for <linux-man@archiver.kernel.org>; Mon, 28 Dec 2020 09:45:58 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1727017AbgL1Jpn (ORCPT <rfc822;linux-man@archiver.kernel.org>);
-        Mon, 28 Dec 2020 04:45:43 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:45866 "EHLO
+        id S1726697AbgL1Jpp (ORCPT <rfc822;linux-man@archiver.kernel.org>);
+        Mon, 28 Dec 2020 04:45:45 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:45874 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1727013AbgL1Jpm (ORCPT
-        <rfc822;linux-man@vger.kernel.org>); Mon, 28 Dec 2020 04:45:42 -0500
-Received: from mail-wm1-x32a.google.com (mail-wm1-x32a.google.com [IPv6:2a00:1450:4864:20::32a])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 4121FC061795
-        for <linux-man@vger.kernel.org>; Mon, 28 Dec 2020 01:45:02 -0800 (PST)
-Received: by mail-wm1-x32a.google.com with SMTP id n16so6702126wmc.0
-        for <linux-man@vger.kernel.org>; Mon, 28 Dec 2020 01:45:02 -0800 (PST)
+        with ESMTP id S1727160AbgL1Jpo (ORCPT
+        <rfc822;linux-man@vger.kernel.org>); Mon, 28 Dec 2020 04:45:44 -0500
+Received: from mail-wm1-x331.google.com (mail-wm1-x331.google.com [IPv6:2a00:1450:4864:20::331])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id C77C3C061798
+        for <linux-man@vger.kernel.org>; Mon, 28 Dec 2020 01:45:03 -0800 (PST)
+Received: by mail-wm1-x331.google.com with SMTP id c133so9912057wme.4
+        for <linux-man@vger.kernel.org>; Mon, 28 Dec 2020 01:45:03 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=gmail.com; s=20161025;
         h=from:to:cc:subject:date:message-id:in-reply-to:references
          :mime-version:content-transfer-encoding;
-        bh=EVE02IXKpK76w3otWeVbNKE9gurBDo2/RBLoNAWgvfU=;
-        b=OHmT3ua5CQUm3GHpTJzExmyDcTR7o1WGmgTgTz6tvFWe7MqheSuhJMbVhrI1Gf9inX
-         /k0RFDDCEbBShilCI5Q4QCMdoz2CHgdxbFcMNQsIk7BKcONghV3vPgMvZEnOmSuy7Ji0
-         FwT3OQQ31RcWtBwVAKUAp2KlYrAaC/q7P+JuVeDOLHvhZrXYrpwkCJSW/jw/lv38P6ED
-         3LHJW2wEs8DfgfekICBI68w17EaBmW+jHkS7m0sIApgsc9JfgH6Orfl4L5dGiMl/W3Fg
-         k6jewaetZSYr5/Cp34u+C6zcNDkK0yhu1QNagJFuu97E/t/L+lmRTp5WFkU/RnHFPAZ0
-         E8eQ==
+        bh=/dSlTwCO6l6FngvzNZqI7nLu4rw+myGj1G5vXrzoxSM=;
+        b=G+D/f+XpPelQkm+z2AeEaxe9ww8DMh2qJFvZkHBMgJZGWOjF72qYaAiN62bCnPwR5r
+         AFKF7OIrDn7dunyxr5AUqDTYIgxR9Kba2oSeW9Fh+h1gtqH0nPYEoDufKw1xr7Xz1E/A
+         tlByiiywGLEwU9zlSC5g0B1X//ToHL8uvOgluJBN2cIBTEthHS5F6dpRijmhHZ68SA5g
+         TDlYSUOIAraWnqGK6wq0KGhjVs+Iwr3CQRsvs+pSiXsYcNsTU2hOtr584/0G4PDfJ3v6
+         YtS/of1dEXLj6BadKDj2NwYmjs/m8Ibq8rbbQwqOHLzDswTFnAjNC9X7kOpQE78As460
+         8ieQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
         h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
          :references:mime-version:content-transfer-encoding;
-        bh=EVE02IXKpK76w3otWeVbNKE9gurBDo2/RBLoNAWgvfU=;
-        b=Yzdx7D5mUR20cM0qkA800st8RXK+KB323XMWbqs5BRN8+wGgrq9d5fRD7DBKSb1/DH
-         uLaxWdg573P/dF0yNWhGQkx5hNypbWhQQ7F8t+tMIUK6E5AmVxCEhkZLb3jBoLzKjfNd
-         hgyZtKkj2JNPb029Uc8G9Yn0g67KBkC2hrFC9si3X9jOxeB4o2THzlaFGlQ8mlZ9uf4F
-         ws2CpMyIySeJWidrcGPJGHff4dbE7OzK6sFBqGdqHv0xS6Dih1laOjslTBlMw0f0bIGP
-         cCJdRe5wK+4ZTWA76om+ZbXMe+hT4WpB6zepjDUojBPy0ikcspft00DU5GlnKqclh1kO
-         YHEA==
-X-Gm-Message-State: AOAM5328PXINhqWCgCGU3ccSc4sgqlJCQkgcBOTUp+YHbO3TvlSXHKCS
-        lKx8BZhqPGRzVz8H/QnNUg4=
-X-Google-Smtp-Source: ABdhPJwJd6yBiMYxWTjP97zNXST9is4SQ+EINivrcyMelT6BV2sOPkfZJUWR90VZZcU7B9ZBbJ0+Hg==
-X-Received: by 2002:a1c:1d08:: with SMTP id d8mr20144041wmd.159.1609148701106;
-        Mon, 28 Dec 2020 01:45:01 -0800 (PST)
+        bh=/dSlTwCO6l6FngvzNZqI7nLu4rw+myGj1G5vXrzoxSM=;
+        b=cYevGipJPGuZ1L6HpD5ZmQ/MeCPFswpnydPTtylUzvF7O5Awkjtqyv5FB8jO6UEm+K
+         XOow9vRF9sSH29Terc0yG8+9l9OROUqrI26ECc4WeaBXRBaRDBu8/0Ae74i+ZplYGaMm
+         BNMQC2AaLYZYu4vU9+uwSWIPdQoK9tUf28uh2Ge7tWLoHCrK2OVqU+Fx1EQm6/47c9vJ
+         WowG8/LIY8rh8KgW8IgAL1puPc7NmEkiKbPey1aBemOnnOoQugI8pr8ogPS61qrd82Zw
+         LidISFpRSV2WrANTQiN7kEq1U/u4oEGEyc/D1NXHmETHs6Oa2Gds/0vUhJ2u4isSDZvV
+         GJzg==
+X-Gm-Message-State: AOAM531qBTa7HawfzhCL9JGPC6FitJ96bwZHJPs9jhjRF5wAasoheI6d
+        6+tSx/Fo1H4naWOpiuvTLaQ=
+X-Google-Smtp-Source: ABdhPJw+PC80pvZWVMXa0pswbaI3skelvbDn/36WoYRdERboxJkLtRr99JzYB2XkaRGSZbbmW/iQ2Q==
+X-Received: by 2002:a1c:7d58:: with SMTP id y85mr19622195wmc.50.1609148702663;
+        Mon, 28 Dec 2020 01:45:02 -0800 (PST)
 Received: from debian.vlc ([170.253.51.130])
-        by smtp.gmail.com with ESMTPSA id c6sm32119165wrh.7.2020.12.28.01.45.00
+        by smtp.gmail.com with ESMTPSA id c6sm32119165wrh.7.2020.12.28.01.45.02
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Mon, 28 Dec 2020 01:45:00 -0800 (PST)
+        Mon, 28 Dec 2020 01:45:02 -0800 (PST)
 From:   Alejandro Colomar <alx.manpages@gmail.com>
 To:     mtk.manpages@gmail.com
 Cc:     Jakub Wilk <jwilk@jwilk.net>, linux-man@vger.kernel.org
-Subject: [PATCH 2/4] cgroups.7: tfix
-Date:   Mon, 28 Dec 2020 10:42:11 +0100
-Message-Id: <20201228094211.4917-2-alx.manpages@gmail.com>
+Subject: [PATCH 4/4] filesystems.5: tfix
+Date:   Mon, 28 Dec 2020 10:42:13 +0100
+Message-Id: <20201228094211.4917-4-alx.manpages@gmail.com>
 X-Mailer: git-send-email 2.29.2
 In-Reply-To: <20201228094211.4917-1-alx.manpages@gmail.com>
 References: <20201228094211.4917-1-alx.manpages@gmail.com>
@@ -75,22 +75,22 @@ From: Jakub Wilk <jwilk@jwilk.net>
 
 Signed-off-by: Jakub Wilk <jwilk@jwilk.net>
 ---
- man7/cgroups.7 | 2 +-
+ man5/filesystems.5 | 2 +-
  1 file changed, 1 insertion(+), 1 deletion(-)
 
-diff --git a/man7/cgroups.7 b/man7/cgroups.7
-index 0d525d91f..f6e7a8d8f 100644
---- a/man7/cgroups.7
-+++ b/man7/cgroups.7
-@@ -1123,7 +1123,7 @@ mount \-t cgroup2 \-o remount,nsdelegate \e
- .EE
- .in
- .\"
--.\" ALternatively, we could boot the kernel with the options:
-+.\" Alternatively, we could boot the kernel with the options:
- .\"
- .\"    cgroup_no_v1=all systemd.legacy_systemd_cgroup_controller
- .\"
+diff --git a/man5/filesystems.5 b/man5/filesystems.5
+index f3d37d3c7..aa7d74740 100644
+--- a/man5/filesystems.5
++++ b/man5/filesystems.5
+@@ -154,7 +154,7 @@ optional period and 3 character extension.
+ .B ncpfs
+ is a network filesystem that supports the NCP protocol,
+ used by Novell NetWare.
+-It was was removed from the kernel in 4.17.
++It was removed from the kernel in 4.17.
+ .IP
+ To use
+ .BR ncpfs ,
 -- 
 2.29.2
 
