@@ -2,95 +2,87 @@ Return-Path: <linux-man-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-15.7 required=3.0 tests=BAYES_00,DKIM_SIGNED,
+X-Spam-Status: No, score=-4.1 required=3.0 tests=BAYES_00,DKIM_SIGNED,
 	DKIM_VALID,DKIM_VALID_AU,FREEMAIL_FORGED_FROMDOMAIN,FREEMAIL_FROM,
-	HEADER_FROM_DIFFERENT_DOMAINS,INCLUDES_CR_TRAILER,INCLUDES_PATCH,
-	MAILING_LIST_MULTI,SPF_HELO_NONE,SPF_PASS,USER_AGENT_GIT autolearn=ham
-	autolearn_force=no version=3.4.0
+	HEADER_FROM_DIFFERENT_DOMAINS,MAILING_LIST_MULTI,SPF_HELO_NONE,SPF_PASS,
+	TRACKER_ID,USER_AGENT_SANE_1 autolearn=no autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 16E78C433E6
-	for <linux-man@archiver.kernel.org>; Mon, 28 Dec 2020 09:45:59 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 1CB55C433E0
+	for <linux-man@archiver.kernel.org>; Mon, 28 Dec 2020 11:30:11 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.kernel.org (Postfix) with ESMTP id D6EB3221E5
-	for <linux-man@archiver.kernel.org>; Mon, 28 Dec 2020 09:45:58 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTP id CED8922583
+	for <linux-man@archiver.kernel.org>; Mon, 28 Dec 2020 11:30:10 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1727138AbgL1Jpn (ORCPT <rfc822;linux-man@archiver.kernel.org>);
-        Mon, 28 Dec 2020 04:45:43 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:45868 "EHLO
+        id S1727231AbgL1L3z (ORCPT <rfc822;linux-man@archiver.kernel.org>);
+        Mon, 28 Dec 2020 06:29:55 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:33702 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1726697AbgL1Jpn (ORCPT
-        <rfc822;linux-man@vger.kernel.org>); Mon, 28 Dec 2020 04:45:43 -0500
-Received: from mail-wr1-x42a.google.com (mail-wr1-x42a.google.com [IPv6:2a00:1450:4864:20::42a])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 35054C061796
-        for <linux-man@vger.kernel.org>; Mon, 28 Dec 2020 01:45:03 -0800 (PST)
-Received: by mail-wr1-x42a.google.com with SMTP id d26so10777407wrb.12
-        for <linux-man@vger.kernel.org>; Mon, 28 Dec 2020 01:45:03 -0800 (PST)
+        with ESMTP id S1727035AbgL1L3z (ORCPT
+        <rfc822;linux-man@vger.kernel.org>); Mon, 28 Dec 2020 06:29:55 -0500
+Received: from mail-wm1-x32a.google.com (mail-wm1-x32a.google.com [IPv6:2a00:1450:4864:20::32a])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 8C2B0C061794
+        for <linux-man@vger.kernel.org>; Mon, 28 Dec 2020 03:29:14 -0800 (PST)
+Received: by mail-wm1-x32a.google.com with SMTP id v14so10120397wml.1
+        for <linux-man@vger.kernel.org>; Mon, 28 Dec 2020 03:29:14 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=gmail.com; s=20161025;
-        h=from:to:cc:subject:date:message-id:in-reply-to:references
-         :mime-version:content-transfer-encoding;
-        bh=dQA03QmNQgFBmz0KFbrb2U66U1dvTD7mefDuwufnM74=;
-        b=icXu58dlSpwUmhx2JgAHFZ3FduRr8EWYSQGrbuICL2VVCRx2zRqYy7kHZYmV3IW22O
-         rpf+iDmVwrmoFrTjllEodHhvw07FBba3rC0wA02LZPzbz6Ni36vYNOBq8YkDEfsmigif
-         hLq8K5dQ3EFa0ZA7IfUyG6gldApA9D0apseFPxzKnWcN5pgNUci/d5Q8XOdDMXsVxrCv
-         fNaFc+TTkK0hPPg3g6r6/gtfnKRsQEKiT7ZcaGOaTJ8qvJ2aLNi6t/b7J7JCLIAM2W7A
-         dHlrc03qyZAlV1SATKMwwaerNWrCkKJM7hl3abyHNlT4GUWnXRr/Fjwrcc1iJq5+bDPo
-         KQEw==
+        h=to:cc:from:subject:message-id:date:user-agent:mime-version
+         :content-language:content-transfer-encoding;
+        bh=lPEq69F440EJYkRjGIIv7kgGFtdojWxoPq7ZSb3jSXY=;
+        b=CvkD4epmz5n/uTM5Z4QW/moj5zcGtHSyUTQMkn+W7Xyzrs2Ajvsqa1KgOg8bw+f/4l
+         tzBKvGi3cnyINil79fp8OQ1ZQ9odXffgo8mIAf3ZvPL/yrysCMZjstpnN0mWw2SyWE7F
+         v0x/he06VMc7VxhUIp4H9p1Ex0XfzkxZI3yWUwIPSXGhpieMDSwt8U3M8lnhjDCiLIG0
+         p1Z22IzodFyxdGdKhzXGEx1AMGTS3qv7EcthNxcLnaxy3R8Nagyr8/bkbr2XW2E+Xzey
+         UeWQVMoYQpvpiQ0QWG7PBR+b/DDg3yWpPLuPEOXqIdFpxtaF1klfhMdlr+uco7BGVDZv
+         Sviw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
-        h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
-         :references:mime-version:content-transfer-encoding;
-        bh=dQA03QmNQgFBmz0KFbrb2U66U1dvTD7mefDuwufnM74=;
-        b=TDQ7KVGqcCSDow6HiwpXKjX7oQMtVQhBeVMe88R9rJ3S/52Sop+riT6GAIpT5VvLx+
-         1e5eivPXDn96K9S/DgcK8ib04kdTBjicz77xufaJVYgGTem3XTCGN4Bw5bocLxcYZ6gm
-         SnxQY6pn01PMDrpizCCbNn8R2u0Gywvn+CDK91KQYcTHEYnVgNi6FgHn8a+YeCvC7Crp
-         MHYnSd63C64vamgej3GPDcFrJp5yo1m2Xt2tL0MO1HNvzjBFzYW7p2rZymYt8kI55q44
-         oxOOOwtpHPNPL4riEQ8aVWrKn9K9UlqQlkqCEkwbSHErGQNxgK+ZYUmT+3Hi7MxOYO/a
-         obpw==
-X-Gm-Message-State: AOAM530lFiXS4Fbj2miKEF7wQV1XioGWUDvaA9GIY0lY+2WUj5kup102
-        8UDFw/40tfgocteVUrMJYnA=
-X-Google-Smtp-Source: ABdhPJxgPKTmaKy0RiCwkXVVz2sFbVXqxaJswPY54Qit7req8Oy6f4LR1WHg+XR4dXqh80aRHg/f4w==
-X-Received: by 2002:adf:f605:: with SMTP id t5mr49326411wrp.39.1609148701882;
-        Mon, 28 Dec 2020 01:45:01 -0800 (PST)
-Received: from debian.vlc ([170.253.51.130])
-        by smtp.gmail.com with ESMTPSA id c6sm32119165wrh.7.2020.12.28.01.45.01
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Mon, 28 Dec 2020 01:45:01 -0800 (PST)
-From:   Alejandro Colomar <alx.manpages@gmail.com>
-To:     mtk.manpages@gmail.com
-Cc:     Jakub Wilk <jwilk@jwilk.net>, linux-man@vger.kernel.org
-Subject: [PATCH 3/4] ftime.3: tfix
-Date:   Mon, 28 Dec 2020 10:42:12 +0100
-Message-Id: <20201228094211.4917-3-alx.manpages@gmail.com>
-X-Mailer: git-send-email 2.29.2
-In-Reply-To: <20201228094211.4917-1-alx.manpages@gmail.com>
-References: <20201228094211.4917-1-alx.manpages@gmail.com>
+        h=x-gm-message-state:to:cc:from:subject:message-id:date:user-agent
+         :mime-version:content-language:content-transfer-encoding;
+        bh=lPEq69F440EJYkRjGIIv7kgGFtdojWxoPq7ZSb3jSXY=;
+        b=allkUaNeuFT92OlKm4nPiHVqFwhZDlCJRXoTsiaoC++zf2nxbw4Eoe+qv4bEjVtNmg
+         tcV7+nVdMeL1Mi8WC1H7QFsCNIzOmwjs3c8Gp+zg4sdCIy5EWssXKB8ysbm5uX5DGrtj
+         tZHImG4nIBs+5851Aofr+sQ1LexNIRaO+2qi8QsTEx+xU7YauVKMCmRfsyKIQjzV+8Hc
+         JwgIRyT6rC6UGR3cRihod40elwoaghPrzmPBuJ9ypSuEGfgieV9py/Al8gXhlZGOaMhD
+         mNx73Hv3x7vxk2ATDp4C4TffjsYRmvD1QYoL7fdo5KqBEjjG0kxTvX/bs4Z4fVxxBQ21
+         Knww==
+X-Gm-Message-State: AOAM530rAhPFsg5jYY1b1n2uPD2S4x9dIfSWqOSdeSQjrXhR7DCI9401
+        MnbfvldauGr6KkKqbUF+raSNwNGqBIA=
+X-Google-Smtp-Source: ABdhPJyspg+OXqrZJvhrnmlzYfsKMcSZ2vr2Fj7VBhOZQkzD1bCiorQjfx8Li28V83Dzc01SH0o9rA==
+X-Received: by 2002:a7b:c3d6:: with SMTP id t22mr20583968wmj.134.1609154953270;
+        Mon, 28 Dec 2020 03:29:13 -0800 (PST)
+Received: from [192.168.1.143] ([170.253.51.130])
+        by smtp.gmail.com with ESMTPSA id 138sm20967284wma.41.2020.12.28.03.29.12
+        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+        Mon, 28 Dec 2020 03:29:12 -0800 (PST)
+To:     "Michael Kerrisk (man-pages)" <mtk.manpages@gmail.com>
+Cc:     linux-man <linux-man@vger.kernel.org>
+From:   "Alejandro Colomar (man-pages)" <alx.manpages@gmail.com>
+Subject: Rationale for a commit
+Message-ID: <fab82b1d-2e7b-a741-6d1f-df46c6edd64e@gmail.com>
+Date:   Mon, 28 Dec 2020 12:29:12 +0100
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
+ Thunderbird/78.5.1
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+Content-Type: text/plain; charset=utf-8
+Content-Language: en-US
+Content-Transfer-Encoding: 7bit
 Precedence: bulk
 List-ID: <linux-man.vger.kernel.org>
 X-Mailing-List: linux-man@vger.kernel.org
 
-From: Jakub Wilk <jwilk@jwilk.net>
+Hi Michael,
 
-Signed-off-by: Jakub Wilk <jwilk@jwilk.net>
----
- man3/ftime.3 | 2 +-
- 1 file changed, 1 insertion(+), 1 deletion(-)
+I'd like to know if you remember the rationale behind this commit:
 
-diff --git a/man3/ftime.3 b/man3/ftime.3
-index fa28daccd..658ed300c 100644
---- a/man3/ftime.3
-+++ b/man3/ftime.3
-@@ -80,7 +80,7 @@ function and the
- .I <sys/timeb.h>
- header have been removed.
- To support old binaries,
--glibc contines to provide a compatibility symbol for
-+glibc continues to provide a compatibility symbol for
- applications linked against glibc 2.32 and earlier.
- .SH ATTRIBUTES
- For an explanation of the terms used in this section, see
+f90f031e0f1f4529fa7536aca61dfe54509745a5
+
+Thanks,
+
+Alex
+
+
 -- 
-2.29.2
-
+Alejandro Colomar
+Linux man-pages comaintainer; https://www.kernel.org/doc/man-pages/
+http://www.alejandro-colomar.es/
