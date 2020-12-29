@@ -2,154 +2,116 @@ Return-Path: <linux-man-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-20.3 required=3.0 tests=BAYES_00,DKIM_SIGNED,
+X-Spam-Status: No, score=-15.8 required=3.0 tests=BAYES_00,DKIM_SIGNED,
 	DKIM_VALID,DKIM_VALID_AU,FREEMAIL_FORGED_FROMDOMAIN,FREEMAIL_FROM,
 	HEADER_FROM_DIFFERENT_DOMAINS,INCLUDES_CR_TRAILER,INCLUDES_PATCH,
-	MAILING_LIST_MULTI,MENTIONS_GIT_HOSTING,NICE_REPLY_A,SPF_HELO_NONE,SPF_PASS,
-	URIBL_BLOCKED,USER_AGENT_SANE_1 autolearn=ham autolearn_force=no version=3.4.0
+	MAILING_LIST_MULTI,SPF_HELO_NONE,SPF_PASS,URIBL_BLOCKED,USER_AGENT_GIT
+	autolearn=ham autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id C1E13C433DB
-	for <linux-man@archiver.kernel.org>; Tue, 29 Dec 2020 11:13:05 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 4BDECC433E6
+	for <linux-man@archiver.kernel.org>; Tue, 29 Dec 2020 11:19:05 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.kernel.org (Postfix) with ESMTP id 8F36B20728
-	for <linux-man@archiver.kernel.org>; Tue, 29 Dec 2020 11:13:05 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTP id 29D8F20825
+	for <linux-man@archiver.kernel.org>; Tue, 29 Dec 2020 11:19:05 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1725980AbgL2LNF (ORCPT <rfc822;linux-man@archiver.kernel.org>);
-        Tue, 29 Dec 2020 06:13:05 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:56382 "EHLO
+        id S1726026AbgL2LSy (ORCPT <rfc822;linux-man@archiver.kernel.org>);
+        Tue, 29 Dec 2020 06:18:54 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:57278 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1725866AbgL2LNE (ORCPT
-        <rfc822;linux-man@vger.kernel.org>); Tue, 29 Dec 2020 06:13:04 -0500
-Received: from mail-wr1-x42d.google.com (mail-wr1-x42d.google.com [IPv6:2a00:1450:4864:20::42d])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 92C34C0613D6
-        for <linux-man@vger.kernel.org>; Tue, 29 Dec 2020 03:12:24 -0800 (PST)
-Received: by mail-wr1-x42d.google.com with SMTP id i9so14338172wrc.4
-        for <linux-man@vger.kernel.org>; Tue, 29 Dec 2020 03:12:24 -0800 (PST)
+        with ESMTP id S1726181AbgL2LSx (ORCPT
+        <rfc822;linux-man@vger.kernel.org>); Tue, 29 Dec 2020 06:18:53 -0500
+Received: from mail-wr1-x42a.google.com (mail-wr1-x42a.google.com [IPv6:2a00:1450:4864:20::42a])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 40335C061793
+        for <linux-man@vger.kernel.org>; Tue, 29 Dec 2020 03:18:13 -0800 (PST)
+Received: by mail-wr1-x42a.google.com with SMTP id t30so14375857wrb.0
+        for <linux-man@vger.kernel.org>; Tue, 29 Dec 2020 03:18:13 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=gmail.com; s=20161025;
-        h=subject:to:cc:references:from:message-id:date:user-agent
-         :mime-version:in-reply-to:content-language:content-transfer-encoding;
-        bh=iqyU6KcvReDnkIVoUXvwC1HWpn2JO5Ds3+TP334LUkY=;
-        b=awMncukCuHaTN71ewMoTIaboGE/yLl6VxD2kvcaKYtElGKFPs5hxT3HyaD4Y2xFEBg
-         tzWr1fGqg9y3v8fn017/HyrwIRlwpOT6ybcvvSghC9bRkFJpwqKVTHIUyAfSq5lFwjjQ
-         GsiZZU6h2WNOc37Sar/a8yT6lGA+bizFocLDiBU5i/wXucq/i6LYnlvW8goWviunZ+u4
-         +/0BiHlKevHxs8O2viSfUGPiLvPnMEq1MC6VMhH2XYSRfeScI3jxTZoIVlFL0zoBu0+o
-         K2JicNT7iuIfo7lwdxzXIctOyx+xFCkss8YenI+0cQwhngY5dvisi4AmtyfHTZ/GLGt3
-         01Dg==
+        h=from:to:cc:subject:date:message-id:mime-version
+         :content-transfer-encoding;
+        bh=4xXBnrRa3W/qJM2mtJfopCsJfCwUhuH+d/5HwvJFdX8=;
+        b=vatIcLzC8WZk+jrMGNRd3cLDLM8hoMJLrRIowwdzplwY1xFVk8mumXz1xgNeR4y2uX
+         DTou4ctGu/be6MOEFnYU8EcfBMhkS3YCX83L+CK9dZ0gmYCaefhBposNNS7vWMfqo2Ue
+         FIH2znn4iCgko9YiPpz78f1tAdbqoWH5tNPMzZS3ErLsSzNb6EHW465lJExDuQIm5mKN
+         P12Fr5KJLOdgZQ6Tv8EGPYnfFqqpLZ/GQSt3JaX/qgxSFqLwXkGBBGuAhjpUYT0YCQmT
+         HSNkCiTYX5kdYKWdFWmEK3mmXxi5ez3w6IKzb0fw6MNxc/o0SVVKsqyMqYS+JgV6p0i1
+         08kg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
-        h=x-gm-message-state:subject:to:cc:references:from:message-id:date
-         :user-agent:mime-version:in-reply-to:content-language
+        h=x-gm-message-state:from:to:cc:subject:date:message-id:mime-version
          :content-transfer-encoding;
-        bh=iqyU6KcvReDnkIVoUXvwC1HWpn2JO5Ds3+TP334LUkY=;
-        b=XLsowDYx+81rChVqRbxYlz4MkjLkJR7AvGsy5TkvXNfXFdDH6sYaqch+VW7ZDv2tad
-         RmyR1yGN0RX4jNxqp9L7uRS6wrNqB/mkXo2l9/jEZrD10zbYcWK2UPd5th0jqpAnHplc
-         Yo/L2GhDxcZtznWwqQHMGQdFe85sYN2bUJJMmZq07QDsGp9vfhtNJqojU6p55Gcjy+uE
-         2vA7mDZxPh8gDbZYY4+iZtD3/bJn+vqzp4AI9AFhjiib9VtuQ3aEEr6KCe0MVs4YVSD3
-         LpzmQpCVtb03TFBLmJXrc4yUw0XRjoC+L6OvHwvTE4hQsgjP5WAa3Hm7Bd21t/36z2fB
-         zixQ==
-X-Gm-Message-State: AOAM530JY8FHI7fDr4NQkLKp4cw6ndIcUVYGfVQTD/W+rWpoO7hLyioG
-        LvCxSJi2GaDk2iHafT+GmQM=
-X-Google-Smtp-Source: ABdhPJzuVhyz1W0BYBkVC1CS81vfs0/SnfuTPKUknQv1hLzAzWbh0r9I3u/eS90Vlh3UtFZlTVQorg==
-X-Received: by 2002:adf:e44f:: with SMTP id t15mr48626124wrm.74.1609240343401;
-        Tue, 29 Dec 2020 03:12:23 -0800 (PST)
-Received: from [192.168.1.143] ([170.253.51.130])
-        by smtp.gmail.com with ESMTPSA id s20sm2793255wmj.46.2020.12.29.03.12.22
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Tue, 29 Dec 2020 03:12:22 -0800 (PST)
-Subject: Re: [PATCH] semctl.2: Correct SEM_STAT_ANY description
-To:     Manfred Spraul <manfred@colorfullife.com>,
-        Yang Xu <xuyang2018.jy@cn.fujitsu.com>, mtk.manpages@gmail.com
-Cc:     linux-man@vger.kernel.org, Joe Lawrence <joe.lawrence@redhat.com>,
-        Robert Kettler <robert.kettler@outlook.com>,
-        "Eric W. Biederman" <ebiederm@xmission.com>,
-        Kees Cook <keescook@chromium.org>,
-        Michal Hocko <mhocko@kernel.org>,
-        Davidlohr Bueso <dbueso@suse.de>
-References: <1608616543-21436-1-git-send-email-xuyang2018.jy@cn.fujitsu.com>
- <746deff0-e919-173b-25f6-34fc465a7ba0@gmail.com>
- <e7b0eb9e-b1d2-ed46-f7ac-66f22ef3faf1@colorfullife.com>
-From:   "Alejandro Colomar (mailing lists; readonly)" 
-        <alx.mailinglists@gmail.com>
-Message-ID: <c971b894-6619-f43b-a7c2-e244d4d92081@gmail.com>
-Date:   Tue, 29 Dec 2020 12:12:21 +0100
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
- Thunderbird/78.5.1
+        bh=4xXBnrRa3W/qJM2mtJfopCsJfCwUhuH+d/5HwvJFdX8=;
+        b=Y7kMh5bYrON05Z0B1gCYJNxkwtw8muJLZeL/SKYwK7TJNcyz7WRgbhUBYdw+7bWMLB
+         6cqet9/IgjU6CZJZcIvFwoOrq9elJ5VutXgPUsH9uWPO3Y7ANr4GmlEBbNcmn4CuL5fA
+         046G8Ps+rWOrXDivXh3H6BfHgvMjFlR80mJwhG2/ImyHOhkKGnRwGkBLUobQus2eVu98
+         m//cyJbT23Ec8rGrVqlyBx93s+oG8xtELxP7qppYXh9HUi9PODDDA23Z3fP2LIeajb94
+         lLTx1zHycgWwyHlsr+rhPXToboyefJGh4lGmGg9LeYePmv9yJlUiwflonZ3Rgbj+bwRz
+         2sbQ==
+X-Gm-Message-State: AOAM531SjCk293CtSHZlYpElugH7JiD8pfWY4wn4bey6TpWVTC0DwDRh
+        b3hSYfBH8iynh5qf57VJ8tA=
+X-Google-Smtp-Source: ABdhPJwhZxaXXOmlVpw+ordnwlC/cqjm2Zk5wqUgNhDRf8eztIardRDQdR42WxyCu8i8EZgeHDuXAA==
+X-Received: by 2002:a5d:50c3:: with SMTP id f3mr54836295wrt.287.1609240692061;
+        Tue, 29 Dec 2020 03:18:12 -0800 (PST)
+Received: from debian.vlc ([170.253.51.130])
+        by smtp.gmail.com with ESMTPSA id a25sm2993437wmb.25.2020.12.29.03.18.11
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Tue, 29 Dec 2020 03:18:11 -0800 (PST)
+From:   Alejandro Colomar <alx.manpages@gmail.com>
+To:     Michael Kerrisk <mtk.manpages@gmail.com>
+Cc:     Yang Xu <xuyang2018.jy@cn.fujitsu.com>, linux-man@vger.kernel.org,
+        Manfred Spraul <manfred@colorfullife.com>,
+        Alejandro Colomar <alx.manpages@gmail.com>
+Subject: [PATCH] semctl.2: Correct SEM_STAT_ANY description
+Date:   Tue, 29 Dec 2020 12:03:11 +0100
+Message-Id: <20201229110309.7774-1-alx.manpages@gmail.com>
+X-Mailer: git-send-email 2.29.2
 MIME-Version: 1.0
-In-Reply-To: <e7b0eb9e-b1d2-ed46-f7ac-66f22ef3faf1@colorfullife.com>
-Content-Type: text/plain; charset=utf-8
-Content-Language: en-US
 Content-Transfer-Encoding: 8bit
 Precedence: bulk
 List-ID: <linux-man.vger.kernel.org>
 X-Mailing-List: linux-man@vger.kernel.org
 
-On 12/29/20 11:38 AM, Manfred Spraul wrote:
-> Hi,
-> 
-> 
-> On 12/22/20 12:55 PM, Alejandro Colomar (mailing lists; readonly) wrote:
->> Hi Yang,
->>
->> It looks good to me.
->> I'll add a few people that might want to comment.
-> 
-> The code returns a semid_ds structure, and if I take strace as reference
-> implementation, then user space expects a semid_ds as well.
-> https://github.com/strace/strace/commit/8f0870a780bfd8cd9a91c3b7ad05baccda10bc84
-> 
-> 
-> In addition, the current page is self-inconsistent: seminfo doesn't
-> contain sem_perm.
-> 
-> The pages for msgctl and shmctl are correct, i.e. no further obvious
-> inconsistencies.
-> 
-> Thus: The man page for semctl is incorrect, the page needs to be updated.
-> 
-> Acked-by: manfred@colorfullife.com
-> 
->> Thanks,
->>
->> Alex
->>
->> On 12/22/20 6:55 AM, Yang Xu wrote:
->>> Since kernel commit a280d6dc77eb ("ipc/sem: introduce
->>> semctl(SEM_STAT_ANY)"),
->>> it only skips read access check when using SEM_STAT_ANY command. And
->>> it should
->>> use the semid_ds struct instead of seminfo struct. Fix this.
->>>
->>> Signed-off-by: Yang Xu <xuyang2018.jy@cn.fujitsu.com>
+From: Yang Xu <xuyang2018.jy@cn.fujitsu.com>
 
-Hi Yang Xu and Manfred,
+Since kernel commit a280d6dc77eb
+("ipc/sem: introduce semctl(SEM_STAT_ANY)"),
+it only skips read access check when using SEM_STAT_ANY command.
+And it should use the semid_ds struct instead of seminfo struct.
+Fix this.
 
-Thanks for the ping and for the acked-by!
+Signed-off-by: Yang Xu <xuyang2018.jy@cn.fujitsu.com>
+Acked-by: Manfred Spraul <manfred@colorfullife.com>
+Signed-off-by: Alejandro Colomar <alx.manpages@gmail.com>
+---
 
-Patch applied.
+Hi Michael,
 
-Thanks,
+Here's a recent patch from Yang Xu.
+
+Cheers,
 
 Alex
 
->>> ---
->>>   man2/semctl.2 | 4 ++--
->>>   1 file changed, 2 insertions(+), 2 deletions(-)
->>>
->>> diff --git a/man2/semctl.2 b/man2/semctl.2
->>> index dd3fb077b..a7462c5cc 100644
->>> --- a/man2/semctl.2
->>> +++ b/man2/semctl.2
->>> @@ -297,8 +297,8 @@ all semaphore sets on the system.
->>>   .TP
->>>   .BR SEM_STAT_ANY " (Linux-specific, since Linux 4.17)"
->>>   Return a
->>> -.I seminfo
->>> -structure containing the same information as for
->>> +.I semid_ds
->>> +structure as for
->>>   .BR SEM_STAT .
->>>   However,
->>>   .I sem_perm.mode
->>>
-> 
+ man2/semctl.2 | 4 ++--
+ 1 file changed, 2 insertions(+), 2 deletions(-)
+
+diff --git a/man2/semctl.2 b/man2/semctl.2
+index ed5e79efd..e562d0bc4 100644
+--- a/man2/semctl.2
++++ b/man2/semctl.2
+@@ -297,8 +297,8 @@ all semaphore sets on the system.
+ .TP
+ .BR SEM_STAT_ANY " (Linux-specific, since Linux 4.17)"
+ Return a
+-.I seminfo
+-structure containing the same information as for
++.I semid_ds
++structure as for
+ .BR SEM_STAT .
+ However,
+ .I sem_perm.mode
+
+base-commit: c55f66855eccfcd92b35fe7b13a326121f2ee0fd
+-- 
+2.29.2
+
