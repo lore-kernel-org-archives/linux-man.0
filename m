@@ -8,61 +8,61 @@ X-Spam-Status: No, score=-15.8 required=3.0 tests=BAYES_00,DKIM_SIGNED,
 	MAILING_LIST_MULTI,SPF_HELO_NONE,SPF_PASS,USER_AGENT_GIT autolearn=ham
 	autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 32933C433E6
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 51777C43381
 	for <linux-man@archiver.kernel.org>; Wed, 30 Dec 2020 21:42:54 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.kernel.org (Postfix) with ESMTP id F0FB220771
-	for <linux-man@archiver.kernel.org>; Wed, 30 Dec 2020 21:42:53 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTP id 2976E20756
+	for <linux-man@archiver.kernel.org>; Wed, 30 Dec 2020 21:42:54 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1726491AbgL3Vmr (ORCPT <rfc822;linux-man@archiver.kernel.org>);
-        Wed, 30 Dec 2020 16:42:47 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:35070 "EHLO
+        id S1726500AbgL3Vmt (ORCPT <rfc822;linux-man@archiver.kernel.org>);
+        Wed, 30 Dec 2020 16:42:49 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:35082 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1726486AbgL3Vmq (ORCPT
-        <rfc822;linux-man@vger.kernel.org>); Wed, 30 Dec 2020 16:42:46 -0500
-Received: from mail-wm1-x335.google.com (mail-wm1-x335.google.com [IPv6:2a00:1450:4864:20::335])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 64646C061799
-        for <linux-man@vger.kernel.org>; Wed, 30 Dec 2020 13:42:06 -0800 (PST)
-Received: by mail-wm1-x335.google.com with SMTP id n16so3107615wmc.0
-        for <linux-man@vger.kernel.org>; Wed, 30 Dec 2020 13:42:06 -0800 (PST)
+        with ESMTP id S1726486AbgL3Vmt (ORCPT
+        <rfc822;linux-man@vger.kernel.org>); Wed, 30 Dec 2020 16:42:49 -0500
+Received: from mail-wr1-x432.google.com (mail-wr1-x432.google.com [IPv6:2a00:1450:4864:20::432])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 543D4C06179C
+        for <linux-man@vger.kernel.org>; Wed, 30 Dec 2020 13:42:09 -0800 (PST)
+Received: by mail-wr1-x432.google.com with SMTP id c5so18628107wrp.6
+        for <linux-man@vger.kernel.org>; Wed, 30 Dec 2020 13:42:09 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=gmail.com; s=20161025;
         h=from:to:cc:subject:date:message-id:mime-version
          :content-transfer-encoding;
-        bh=ipmXgJf6kgs/WuTCgPQkqSpphcxd9/C4LDB3pT2ComY=;
-        b=pqW+Ci/1btSQE65JLVw0Mx3zJpySlw1LarjGbz2VouGk6FOBWc5kwCS0PuGgrCvmCK
-         zfXvxxeo64zp7d5w7cphoPXJLZBrvcEcc+QDZTL2bt9hwZJQImD7lSdQGgapCpJhX34J
-         gfnZrHuUqgcysRMlnmxyEobFHM3VnM2i1tF6g8UBEdDaSds1Hb7vQOeiGK/VUqoYVAHN
-         kHNmb1TGs+5FOgzV7/OBUfQVLuGUQgu7f5UnNVmKYseJ9H5R8m/sPX9oy07oOSivCGEV
-         8WPY/va6gCNx9Ys9V7J2xAE37BjAmIhSnt19fLCC6z0kbqjdxhbslDZC15RusVyb6XjL
-         rGpA==
+        bh=5i7ArzqIFUQ0D6LvQuPl+LBedDWOek/Pk4Iw4gEDQJs=;
+        b=VxtumtjNp9DUXrsoBb4DHn6m+d2XnoQWTVTORHOG3gxyd3y2DjuhsA4yCCF0zbcTMd
+         1vOOWjDNoxRor7b2CFjT3gZZ6vErHpe3Txhb6c/6Kk3EHCxtS8UWpOd5+kuyALJA5zpN
+         y9VSTeXBnrZMKaJpU8tXr6z/d9vhdRCFEtNGZLUzN3+DwNIblJafHW9F4D3ghhULWPXL
+         4k7BHpsC9CkSprcO9hfBEQtl4eeWk78QHg6raWHp8KkUcHGV2bUIzqN1urSAV/a+wLZA
+         5H2PkP8gORL0JGmX3fSSmi3kcigCVp6KEEL1wDaY+Gcvks39WLyVsQrMzfSaSU1trcff
+         xPqw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
         h=x-gm-message-state:from:to:cc:subject:date:message-id:mime-version
          :content-transfer-encoding;
-        bh=ipmXgJf6kgs/WuTCgPQkqSpphcxd9/C4LDB3pT2ComY=;
-        b=Z58nEwfHiZTZWwFP5ARGXffrrbQHRu5WdVtMbViHgxaHHqMIC707NeVBkItVU6MW3q
-         49U1v0dIOnxiv1Dnf6YiHHNIKfN4MpeY88K7leQ5Ntt0ntulYI4WKqO9dBApR4iPq9Su
-         I9cTDS8nlAmN+GrpW1tZQm8Pm2QQcX/ZJ/+eMOBxLHCosJXzSszVMDjPxPKpgGUoVXL6
-         OW4M2mQi9UVrzXWI2NQamhHhIFDU5RCftlSzaS3z5nFu4ANHwLp5hbPS9PIIJpnUTqyE
-         B98JrEwrQCr93nngGvlyBL5MTfeYD654BhZ9Ck6wthcvhlMxeXP8z79n1cCuZvNK0QND
-         AXLA==
-X-Gm-Message-State: AOAM532yKqlWzCdH1pgShMT4lD5Y1GdG+TDAgutSGz1knrJgJYbPGvEC
-        EoScH7vP547aN0zQubMbzfw=
-X-Google-Smtp-Source: ABdhPJz7T4qaaRytW1cUppRKm4M4npvEeZpr4TGbYeS7ZPDyve1db89ENMhoBhC0njnP00ogljhgsw==
-X-Received: by 2002:a1c:b487:: with SMTP id d129mr9259829wmf.177.1609364525249;
-        Wed, 30 Dec 2020 13:42:05 -0800 (PST)
+        bh=5i7ArzqIFUQ0D6LvQuPl+LBedDWOek/Pk4Iw4gEDQJs=;
+        b=kMA4S11RkGschdvMvwLIbbx72d8LhKkWLwnQNeurtcGUvirK9siHy0p4Fb8TfmH24R
+         9R8npLWhWjuptXkAEGgHebPwLT6ZufZ5d1ogRD1bBIo2jViDG0ht3grS4apFWzUU9RLG
+         DJeO4Ayy4JdFD3fmGMETpdyq+wnIN/QAGhh2Ce2WXriV/mij4YLq5fyOtyfuDokXC1nn
+         qD8Kyd/Tr5bhQrCVK+zRwT/0pbA90kfEyja7d87t4mWn6SzLcaCIbOyvZpq1Y/va10Ty
+         xXQ5sk4WQcVoxS2whgeuq4iNKPtZVCwBy1Er+25S9XXt9o1+a3QrcPTuG7mGuowQQ2KY
+         RxSA==
+X-Gm-Message-State: AOAM531i6nsKypwe/aw8rSwr5HBI4bvOELZ8Hb6fILl+58OkQnDmUswp
+        or+ZBea5pXCg3UgHafP1KRI=
+X-Google-Smtp-Source: ABdhPJwoE9/R+jCVG7qqrDMhTea//JqSKFFPT+IZnK0/xrQEBuzft/lVAQZkWGNvUwJjSyhyNl0Z4A==
+X-Received: by 2002:adf:e9d2:: with SMTP id l18mr60126211wrn.179.1609364528153;
+        Wed, 30 Dec 2020 13:42:08 -0800 (PST)
 Received: from localhost.localdomain ([170.253.49.0])
-        by smtp.googlemail.com with ESMTPSA id 67sm9519234wmb.47.2020.12.30.13.42.04
+        by smtp.googlemail.com with ESMTPSA id 67sm9519234wmb.47.2020.12.30.13.42.07
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Wed, 30 Dec 2020 13:42:04 -0800 (PST)
+        Wed, 30 Dec 2020 13:42:07 -0800 (PST)
 From:   Alejandro Colomar <alx.manpages@gmail.com>
 To:     mtk.manpages@gmail.com
 Cc:     Alejandro Colomar <alx.manpages@gmail.com>,
         linux-man@vger.kernel.org
-Subject: [PATCH] delete_module.2: SYNOPSIS: Fix prototype parameter types
-Date:   Wed, 30 Dec 2020 22:41:43 +0100
-Message-Id: <20201230214147.874671-3-alx.manpages@gmail.com>
+Subject: [PATCH] copy_file_range.2: SYNOPSIS: Fix prototype parameter types
+Date:   Wed, 30 Dec 2020 22:41:45 +0100
+Message-Id: <20201230214147.874671-5-alx.manpages@gmail.com>
 X-Mailer: git-send-email 2.29.2
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
@@ -70,37 +70,42 @@ Precedence: bulk
 List-ID: <linux-man.vger.kernel.org>
 X-Mailing-List: linux-man@vger.kernel.org
 
-The Linux kernel uses 'unsigned int' instead of 'int' for the
-'flags' parameter.  As glibc provides no wrapper, use the same
-type the kernel uses.
+Glibc uses 'off64_t' instead of 'loff_t'.
+
+This patch doesn't change the types in the code example,
+because it uses the Linux syscall, and not the glibc wrapper.
 
 ......
 
-$ syscall='delete_module';
-$ find linux/ -type f -name '*.c' \
-  |xargs pcregrep -Mn "(?s)^[\w_]*SYSCALL_DEFINE.\(${syscall},.*?\)";
-linux/kernel/module.c:977:
-SYSCALL_DEFINE2(delete_module, const char __user *, name_user,
-		unsigned int, flags)
+$ syscall='copy_file_range';
+$ ret='ssize_t';
+$ find glibc/ -type f -name '*.h' \
+  |xargs pcregrep -Mn "(?s)^[\w\s]*${ret}\s*${syscall}\s*\(.*?;";
+glibc/posix/unistd.h:1121:
+ssize_t copy_file_range (int __infd, __off64_t *__pinoff,
+			 int __outfd, __off64_t *__poutoff,
+			 size_t __length, unsigned int __flags);
 
 Signed-off-by: Alejandro Colomar <alx.manpages@gmail.com>
 ---
- man2/delete_module.2 | 2 +-
- 1 file changed, 1 insertion(+), 1 deletion(-)
+ man2/copy_file_range.2 | 4 ++--
+ 1 file changed, 2 insertions(+), 2 deletions(-)
 
-diff --git a/man2/delete_module.2 b/man2/delete_module.2
-index e63545d51..1030e9698 100644
---- a/man2/delete_module.2
-+++ b/man2/delete_module.2
-@@ -27,7 +27,7 @@
- delete_module \- unload a kernel module
- .SH SYNOPSIS
- .nf
--.BI "int delete_module(const char *" name ", int " flags );
-+.BI "int delete_module(const char *" name ", unsigned int " flags );
- .fi
+diff --git a/man2/copy_file_range.2 b/man2/copy_file_range.2
+index 1692aa44a..6f4708c4b 100644
+--- a/man2/copy_file_range.2
++++ b/man2/copy_file_range.2
+@@ -30,8 +30,8 @@ copy_file_range \- Copy a range of data from one file to another
+ .B #define _GNU_SOURCE
+ .B #include <unistd.h>
  .PP
- .IR Note :
+-.BI "ssize_t copy_file_range(int " fd_in ", loff_t *" off_in ,
+-.BI "                        int " fd_out ", loff_t *" off_out ,
++.BI "ssize_t copy_file_range(int " fd_in ", off64_t *" off_in ,
++.BI "                        int " fd_out ", off64_t *" off_out ,
+ .BI "                        size_t " len ", unsigned int " flags );
+ .fi
+ .SH DESCRIPTION
 -- 
 2.29.2
 
