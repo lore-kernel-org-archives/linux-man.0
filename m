@@ -2,120 +2,100 @@ Return-Path: <linux-man-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-14.3 required=3.0 tests=BAYES_00,DKIM_SIGNED,
+X-Spam-Status: No, score=-15.7 required=3.0 tests=BAYES_00,DKIM_SIGNED,
 	DKIM_VALID,DKIM_VALID_AU,FREEMAIL_FORGED_FROMDOMAIN,FREEMAIL_FROM,
 	HEADER_FROM_DIFFERENT_DOMAINS,INCLUDES_CR_TRAILER,INCLUDES_PATCH,
-	MAILING_LIST_MULTI,NICE_REPLY_A,SPF_HELO_NONE,SPF_PASS,USER_AGENT_SANE_1
+	MAILING_LIST_MULTI,SPF_HELO_NONE,SPF_PASS,URIBL_BLOCKED,USER_AGENT_GIT
 	autolearn=ham autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 5D092C433DB
+	by smtp.lore.kernel.org (Postfix) with ESMTP id CB075C43381
 	for <linux-man@archiver.kernel.org>; Sat, 16 Jan 2021 17:11:23 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.kernel.org (Postfix) with ESMTP id 1C38C22527
+	by mail.kernel.org (Postfix) with ESMTP id 8E17F23750
 	for <linux-man@archiver.kernel.org>; Sat, 16 Jan 2021 17:11:23 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1728326AbhAPRKd (ORCPT <rfc822;linux-man@archiver.kernel.org>);
-        Sat, 16 Jan 2021 12:10:33 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:39126 "EHLO
+        id S1728388AbhAPRLC (ORCPT <rfc822;linux-man@archiver.kernel.org>);
+        Sat, 16 Jan 2021 12:11:02 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:39128 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1728252AbhAPRK0 (ORCPT
-        <rfc822;linux-man@vger.kernel.org>); Sat, 16 Jan 2021 12:10:26 -0500
-Received: from mail-wr1-x42a.google.com (mail-wr1-x42a.google.com [IPv6:2a00:1450:4864:20::42a])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 0275CC061794
-        for <linux-man@vger.kernel.org>; Sat, 16 Jan 2021 05:02:34 -0800 (PST)
-Received: by mail-wr1-x42a.google.com with SMTP id q18so11967248wrn.1
-        for <linux-man@vger.kernel.org>; Sat, 16 Jan 2021 05:02:33 -0800 (PST)
+        with ESMTP id S1728520AbhAPRLA (ORCPT
+        <rfc822;linux-man@vger.kernel.org>); Sat, 16 Jan 2021 12:11:00 -0500
+Received: from mail-wr1-x42e.google.com (mail-wr1-x42e.google.com [IPv6:2a00:1450:4864:20::42e])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 08164C061387
+        for <linux-man@vger.kernel.org>; Sat, 16 Jan 2021 07:03:05 -0800 (PST)
+Received: by mail-wr1-x42e.google.com with SMTP id q18so12184291wrn.1
+        for <linux-man@vger.kernel.org>; Sat, 16 Jan 2021 07:03:04 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=gmail.com; s=20161025;
-        h=subject:to:cc:references:from:message-id:date:user-agent
-         :mime-version:in-reply-to:content-language:content-transfer-encoding;
-        bh=jBu+9TQFN4SgxYB9KDbHMpBMC5PWn5Fx/sZ1Zf/sia0=;
-        b=AjbE1l0ZRWgR0aSz2BZi2YpuOIGdngO97QEBZy1MrdiCCnrI1bn72w/w/ZqJCtoXu5
-         VwqhinKRe6R/SNML63N8zlskIzUfc9SIuxP2AE3On4yjydCOJI7JHDHRzxOA4UJePNkG
-         jvK1H8kiR5y1f2W+XP2NYkWHUYu+pp0PCXRSZnkoq6ps/0IV/D9a8/jP0Qi9p+lE7zxS
-         ase7KFQ0DwcGRH3sNFnnGmnlB80ZQ6oNAm1HlIWE03RxB6P8o8FGkvM6xAGWaMEFHWj3
-         sDlXD/NJlzHcrkBwKmOfhVpuh/8eotCYjvKTima0JLxC4Na3089hi6AMjKxqjJbCdnmZ
-         4HBg==
+        h=from:to:cc:subject:date:message-id:mime-version
+         :content-transfer-encoding;
+        bh=9pK1K0mTX/4PU4AmD7w1MBMfuHiYZkCm/C+TDnhN1M4=;
+        b=hVpwNZnftJOYaN4DupOrA7UmWUgaah0cnRHCZkPH2lmijColcrW/GtPwFAEQagk3ej
+         ltMPLZDU30CxwV2iPgajhmn8gwjbhqGH992208woKukR5q5YaaVW5J4ksO5q3kJn0Ona
+         zy+UHqnyF5PajdnHHHrvAuTpZrYIzzzfQE1YoVQ60ovQbq+RUw7ku+VTiDtEMjgHYaWR
+         lMfdmyVIo0cKD94SW5o8PjNgULHBw3gkOgbojnhPNEIEOLoQkejr0hJ94mFu2NbTLSwQ
+         Sz/QdWiFTpHM0iYBgkb33ru0RdTkVniwfzQgwFmrBMxyne1++K5U2lkecgn0ckee4xzQ
+         0bJg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
-        h=x-gm-message-state:subject:to:cc:references:from:message-id:date
-         :user-agent:mime-version:in-reply-to:content-language
+        h=x-gm-message-state:from:to:cc:subject:date:message-id:mime-version
          :content-transfer-encoding;
-        bh=jBu+9TQFN4SgxYB9KDbHMpBMC5PWn5Fx/sZ1Zf/sia0=;
-        b=bwcUJsB2EUhgmQT6jAD7/RNUquLPXWHyD9s+1MAToWnEfnJBabyUcz8R8Y3Z8YJhJI
-         CRCCa6sbhBUEBcieib6CxAICYV36wGq4j6iV7sYbcaYry6tF1M23vpQxZSJlKJG/dRK9
-         j4ahb8VE+hdaD22wcCfnqh8ggEMwNJy0/qWqnJNoC3h1KkjRg9uVNA7KLyfa/NbNTqRl
-         CHVkS6F5kh0voDUOJBM0OO1oZOcrk3emUo4EhSdA0vOBOr4Cs9HbhaL37D0G7/ovEXxt
-         V7pbmQLAaV3SS862in8X/rVbu6tiJCl2RBXNKXWdq/52QbsnFDe9o42O+dJFKI5eJCxV
-         4D9Q==
-X-Gm-Message-State: AOAM532uOqrY9dSzWnMxEtIeQJzLNYNjusTAzWUz6ItL8LODvbAbrlyo
-        iZ3hFq1JL9xkEPPBxOdTwZ3KU0QltPg=
-X-Google-Smtp-Source: ABdhPJzqZZgL6kRy+1NuuM1T8bAic8Mff+gtl+tkzi6qDpgOCx8XThWoIDiprWtC5opVfXYOeeI4Nw==
-X-Received: by 2002:adf:e552:: with SMTP id z18mr18609027wrm.29.1610802152791;
-        Sat, 16 Jan 2021 05:02:32 -0800 (PST)
-Received: from [192.168.1.143] ([170.253.51.130])
-        by smtp.gmail.com with UTF8SMTPSA id h9sm17326051wre.24.2021.01.16.05.02.32
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Sat, 16 Jan 2021 05:02:32 -0800 (PST)
-Subject: Re: [PATCH] ulimit.3: wfix
-To:     Alyssa Ross <hi@alyssa.is>, linux-man@vger.kernel.org
-Cc:     mtk.manpages@gmail.com
-References: <20210116125155.23815-1-hi@alyssa.is>
-From:   "Alejandro Colomar (man-pages)" <alx.manpages@gmail.com>
-Message-ID: <c633bed9-28d9-1542-195a-9d8b8493ef1a@gmail.com>
-Date:   Sat, 16 Jan 2021 14:02:31 +0100
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:84.0) Gecko/20100101
- Thunderbird/84.0
+        bh=9pK1K0mTX/4PU4AmD7w1MBMfuHiYZkCm/C+TDnhN1M4=;
+        b=LOHnSQfJATsC68ffVqWh/910U0VRIvfGm5hHPlJ8fc7hiGSVCVLtIRqxYaHTOUjSEX
+         DxIz/7njgTCfWphOa7H3eQP6HCiHn2UojlYWhiJ0ioIEEabfcV6kpNqXICn1TKc9KHOj
+         hiCAb8J8HKJYaF5f7YaAhat772GB36IlDhJ1cPIC8tHzFwDUDAFh3c3p5T4QXOWZzq3C
+         atReABhzPhn8IvNQgUJlWMgtqp/S+0BX8nAQW41TfydZJrCD9UHI9HZ/38CfaTDCtL+Y
+         2kg7sulLQHiZJrJ0H5b8hIS/maxgPYtdZMyv2Lf7h1I10O//rENvYPjb6imjgKpsfUST
+         pBkA==
+X-Gm-Message-State: AOAM5334NfOEk3pcKPBjrkaXkip8PkJ5+13LE+3FB0BZoy3BRjVHfAPL
+        PRbkaUbuxyiRNxnjdX07e+T9ci1m9kI=
+X-Google-Smtp-Source: ABdhPJzyPD8Z6/BqKZ12fVD2R5MdIXGoQPtKDm8CliyrAnRgzoREktLhVP737+FKPLufS0yKaQJrow==
+X-Received: by 2002:adf:e452:: with SMTP id t18mr17562939wrm.177.1610809383833;
+        Sat, 16 Jan 2021 07:03:03 -0800 (PST)
+Received: from debian.vlc ([170.253.51.130])
+        by smtp.gmail.com with ESMTPSA id z184sm11393113wmg.7.2021.01.16.07.03.03
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Sat, 16 Jan 2021 07:03:03 -0800 (PST)
+From:   Alejandro Colomar <alx.manpages@gmail.com>
+To:     mtk.manpages@gmail.com
+Cc:     Alyssa Ross <hi@alyssa.is>, linux-man@vger.kernel.org,
+        Alejandro Colomar <alx.manpages@gmail.com>
+Subject: [PATCH] ulimit.3: tfix
+Date:   Sat, 16 Jan 2021 16:01:04 +0100
+Message-Id: <20210116150103.7846-1-alx.manpages@gmail.com>
+X-Mailer: git-send-email 2.30.0
 MIME-Version: 1.0
-In-Reply-To: <20210116125155.23815-1-hi@alyssa.is>
-Content-Type: text/plain; charset=UTF-8
-Content-Language: en-US
-Content-Transfer-Encoding: 7bit
+Content-Transfer-Encoding: 8bit
 Precedence: bulk
 List-ID: <linux-man.vger.kernel.org>
 X-Mailing-List: linux-man@vger.kernel.org
 
-On 1/16/21 1:51 PM, Alyssa Ross wrote:
-> The parentheses here make it look like a function rather than a
-> command.
-> 
-> Signed-off-by: Alyssa Ross <hi@alyssa.is>
+From: Alyssa Ross <hi@alyssa.is>
 
-Hi Alyssa,
+The parentheses here make it look like a function rather than a
+command.
 
-Thanks for the patch! Applied.
+This was a typo introduced by a script-assisted global edit.
 
-I fixed a minor formatting issue (see below),
-and changed the message to be tfix instead of wfix.
+Signed-off-by: Alyssa Ross <hi@alyssa.is>
+Signed-off-by: Alejandro Colomar <alx.manpages@gmail.com>
+---
+ man3/ulimit.3 | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
 
-Regards,
-
-Alex
-
-> ---
->  man3/ulimit.3 | 2 +-
->  1 file changed, 1 insertion(+), 1 deletion(-)
-> 
-> diff --git a/man3/ulimit.3 b/man3/ulimit.3
-> index b6d0b3250..eb028f97c 100644
-> --- a/man3/ulimit.3
-> +++ b/man3/ulimit.3
-> @@ -42,7 +42,7 @@ and
->  .BR sysconf (3)
->  instead.
->  For the shell command
-> -.BR ulimit (),
-> +.BR ulimit,
-
+diff --git a/man3/ulimit.3 b/man3/ulimit.3
+index b6d0b3250..be70e4f8c 100644
+--- a/man3/ulimit.3
++++ b/man3/ulimit.3
+@@ -42,7 +42,7 @@ and
+ .BR sysconf (3)
+ instead.
+ For the shell command
+-.BR ulimit (),
 +.BR ulimit ,
-
->  see
->  .BR bash (1).
->  .PP
-> 
-
-
+ see
+ .BR bash (1).
+ .PP
 -- 
-Alejandro Colomar
-Linux man-pages comaintainer; https://www.kernel.org/doc/man-pages/
-http://www.alejandro-colomar.es/
+2.30.0
+
