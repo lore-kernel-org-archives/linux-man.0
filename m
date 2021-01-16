@@ -5,120 +5,97 @@ X-Spam-Level:
 X-Spam-Status: No, score=-15.8 required=3.0 tests=BAYES_00,DKIM_SIGNED,
 	DKIM_VALID,DKIM_VALID_AU,FREEMAIL_FORGED_FROMDOMAIN,FREEMAIL_FROM,
 	HEADER_FROM_DIFFERENT_DOMAINS,INCLUDES_CR_TRAILER,INCLUDES_PATCH,
-	MAILING_LIST_MULTI,SPF_HELO_NONE,SPF_PASS,USER_AGENT_GIT
-	autolearn=unavailable autolearn_force=no version=3.4.0
+	MAILING_LIST_MULTI,SPF_HELO_NONE,SPF_PASS,USER_AGENT_GIT autolearn=ham
+	autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id EC94CC43381
-	for <linux-man@archiver.kernel.org>; Sat, 16 Jan 2021 17:11:44 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id D7571C4360C
+	for <linux-man@archiver.kernel.org>; Sat, 16 Jan 2021 17:13:02 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.kernel.org (Postfix) with ESMTP id A17DE22527
-	for <linux-man@archiver.kernel.org>; Sat, 16 Jan 2021 17:11:44 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTP id B4F8223A62
+	for <linux-man@archiver.kernel.org>; Sat, 16 Jan 2021 17:13:02 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1728577AbhAPRLI (ORCPT <rfc822;linux-man@archiver.kernel.org>);
-        Sat, 16 Jan 2021 12:11:08 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:39212 "EHLO
+        id S1728146AbhAPRMl (ORCPT <rfc822;linux-man@archiver.kernel.org>);
+        Sat, 16 Jan 2021 12:12:41 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:39090 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1728569AbhAPRLF (ORCPT
-        <rfc822;linux-man@vger.kernel.org>); Sat, 16 Jan 2021 12:11:05 -0500
-Received: from mail-wm1-x32d.google.com (mail-wm1-x32d.google.com [IPv6:2a00:1450:4864:20::32d])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id B6392C061382;
-        Sat, 16 Jan 2021 06:57:22 -0800 (PST)
-Received: by mail-wm1-x32d.google.com with SMTP id e15so3682622wme.0;
-        Sat, 16 Jan 2021 06:57:22 -0800 (PST)
+        with ESMTP id S1728383AbhAPRKv (ORCPT
+        <rfc822;linux-man@vger.kernel.org>); Sat, 16 Jan 2021 12:10:51 -0500
+Received: from mail-wr1-x42c.google.com (mail-wr1-x42c.google.com [IPv6:2a00:1450:4864:20::42c])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 88E55C061389
+        for <linux-man@vger.kernel.org>; Sat, 16 Jan 2021 07:06:19 -0800 (PST)
+Received: by mail-wr1-x42c.google.com with SMTP id a9so8719687wrt.5
+        for <linux-man@vger.kernel.org>; Sat, 16 Jan 2021 07:06:19 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=gmail.com; s=20161025;
         h=from:to:cc:subject:date:message-id:mime-version
          :content-transfer-encoding;
-        bh=GBNeTSu04ixKYSzbYAV+880sIV5+lGfcrwYBDcoDztA=;
-        b=Tf7ga7AWLWf2ItsBKMJgzstjS0iQOHyu2Bo5P9Zu7PeqJcTXV5R0QRtWy+fAX6ZziU
-         VTNdIKv1L+KoiYBkGsnBL+BhiCiRriQOW5i2KikBXwHQIALRDeXy+VTiYVnz73jP7DAl
-         27BkEd63K5Hg779deY110KMYRPgeCQDyER+D7mwy7XNpWem3zdNkAXMiD48+24RuYJIU
-         z0RotZ+DEDYaLV7VuLX0fzRCfjekiPoN3LBRk3jP37V7k+/qqLb5EksB0+JOLQGJvkDg
-         zapzPI3f8tN+CN+LVAlIUlwTk5krGCiBKPyZl2T/h3eXWZNQpH9kbeXmx3g503dfLN6x
-         DJ1w==
+        bh=0ngzN48o9KxxF/1CTfdWj/qMG5zCQVZwtkG9r9+4yoI=;
+        b=fSMAqF4pH8zBfg6uzi9gFcnW1HDPXgXfNsyGoc/27Ku2rXSkr6J+aHBrGlkTfumEKg
+         YK+o2LJmabAfJMLCYOJO92AsMPJ2GNjiXach0lcs6CfgsfzMZmTo2B3KBlcfg6obZvV/
+         vi8qGFkFbsW2YP/5rAeqLjI/s/1ByZSjTOjp3nGKy5aEDPZitp/zPjB2+JZ9EfvqxATD
+         GsQ/vjTaudDXhtMARjwLmcQIHxdya6GAcVDAeudq4diDAElNUhCZ0fA4eZJ1zpZohdLX
+         Xo94nu1in70y9m33DxmfJ9CZt3l3Msjpr8oCVe21Fo7+6pADL4X/pFh0i/qJxzJoTNdQ
+         T7nA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
         h=x-gm-message-state:from:to:cc:subject:date:message-id:mime-version
          :content-transfer-encoding;
-        bh=GBNeTSu04ixKYSzbYAV+880sIV5+lGfcrwYBDcoDztA=;
-        b=aXAh9xVeFKsTte+Sjp5QQumAvwGc40uGJ7MdwJ+V1cVlQ8LnMseKsp+mwaeZD+1Z8F
-         Ag5c09hM+bMnlz1Fn8bOY7v8LiNfrPmtyqrlFGhv5yWBLO2kjoTXLkLUAuHmvG1yq0Vq
-         rOsOVFh+oAAXBUjaclJtjCEWpcpB+rVfMRGeXGiMb2WIvUdMlAOZVPOBWS5KDh9MGEYt
-         fLeF1H3kVLwm6FxiNPwkODGnrlXGlZirMdbQUNnh4Da7wxYfnPyNxUc4i1jRaKPEg9Az
-         6UQs1XmXQsQKBIhkx5ilQPWs95EVKGEaFgbWFN+CSOrEJZJJF7/SGrb8dozcnNe2yASe
-         ChhQ==
-X-Gm-Message-State: AOAM532usOjPa61kge6iUHluZsCywhqoErea8d5H+tk/I6CvVVY7SL6G
-        O+ees49kwhcWDPcKXwIV4rE=
-X-Google-Smtp-Source: ABdhPJwm71FymYwD2RCaAQe0ruh5XNahsyLNfkIwL+NUnHq8L9JrVeaj5YOOjlfFOQEHLVAB1cN/oQ==
-X-Received: by 2002:a1c:e0d4:: with SMTP id x203mr13318861wmg.160.1610809041319;
-        Sat, 16 Jan 2021 06:57:21 -0800 (PST)
+        bh=0ngzN48o9KxxF/1CTfdWj/qMG5zCQVZwtkG9r9+4yoI=;
+        b=k99Uhnnj8qKq5MQw60GbJjUmtbraxAFUylcmU4eKNaWPLJmaAUrvmoFrA+yu+lbjMT
+         o/3E1dR9Umo9AcK7byTGUMRpYCrYOCwkLNOEk01q88y7qk/cBj+VSTGip2GT11PXiiVj
+         on3C8DQxqFd0eI2NfQYzxi0fnLCqdA3LAnlMKcHTX7M9IZk2rlf69aJtVjNuXMz3XDrn
+         5smNmupYiX/kNxAagpl9+VgkNDE6wVAyzYN7J0pu+9FHswwSwPnWjiUJ1lQccZExE8FZ
+         0QCFMR9Q06bHXD1Iv+RMPvclV1RNX+dc3YZITO/NKsrD50lh64UsKyrxfP5/EbaD+lo1
+         2zcw==
+X-Gm-Message-State: AOAM530hpqvZtxwsNK/Y0ra12XGg5dchZvaOrGvdbSfpffiVVMP5KIEj
+        ggQeTmzapg28JNxm1fqJAfm2a19lpFI=
+X-Google-Smtp-Source: ABdhPJzzsDuLu5ABDr4JndFBb1hTK2PrJn+qudgT9AZ//qziD7OJRNIS7VYW9LNtN38ootaPhQ5kQQ==
+X-Received: by 2002:a5d:400c:: with SMTP id n12mr18497464wrp.218.1610809578304;
+        Sat, 16 Jan 2021 07:06:18 -0800 (PST)
 Received: from debian.vlc ([170.253.51.130])
-        by smtp.gmail.com with ESMTPSA id h83sm17285824wmf.9.2021.01.16.06.57.19
+        by smtp.gmail.com with ESMTPSA id y24sm1462248wmi.47.2021.01.16.07.06.17
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Sat, 16 Jan 2021 06:57:20 -0800 (PST)
+        Sat, 16 Jan 2021 07:06:17 -0800 (PST)
 From:   Alejandro Colomar <alx.manpages@gmail.com>
 To:     mtk.manpages@gmail.com
-Cc:     Alejandro Colomar <alx.manpages@gmail.com>,
-        linux-man@vger.kernel.org, Vineet Gupta <vgupta@synopsys.com>,
-        linux-snps-arc@lists.infradead.org,
-        Heinrich Schuchardt <xypron.glpk@gmx.de>,
-        Guo Ren <guoren@kernel.org>, linux-csky@vger.kernel.org,
-        Thomas Bogendoerfer <tsbogend@alpha.franken.de>,
-        linux-mips@vger.kernel.org, Nick Hu <nickhu@andestech.com>,
-        Greentime Hu <green.hu@gmail.com>,
-        Vincent Chen <deanbo422@gmail.com>, libc-alpha@sourceware.org,
-        Dave Martin <Dave.Martin@arm.com>,
-        Martin Sebor <msebor@redhat.com>
-Subject: [PATCH] cacheflush.2: Update SYNOPSIS for glibc wrapper
-Date:   Sat, 16 Jan 2021 15:56:33 +0100
-Message-Id: <20210116145632.7636-1-alx.manpages@gmail.com>
+Cc:     =?UTF-8?q?Pali=20Roh=C3=A1r?= <pali@kernel.org>,
+        linux-man@vger.kernel.org,
+        Alejandro Colomar <alx.manpages@gmail.com>
+Subject: [PATCH] netlink.7: Fix minimal Linux version for NETLINK_CAP_ACK
+Date:   Sat, 16 Jan 2021 16:06:01 +0100
+Message-Id: <20210116150600.8001-1-alx.manpages@gmail.com>
 X-Mailer: git-send-email 2.30.0
 MIME-Version: 1.0
+Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
 Precedence: bulk
 List-ID: <linux-man.vger.kernel.org>
 X-Mailing-List: linux-man@vger.kernel.org
 
-Glibc uses 'void *' instead of 'char *'.
-And the prototype is declared in <sys/cacheflush.h>.
+From: Pali Rohár <pali@kernel.org>
 
-......
+NETLINK_CAP_ACK option was introduced in commit 0a6a3a23ea6e which first
+appeared in Linux version 4.3 and not 4.2.
 
-$ syscall='cacheflush';
-$ ret='int';
-$ find glibc/ -type f -name '*.h' \
-  |xargs pcregrep -Mn "(?s)^[\w\s]*${ret}\s*${syscall}\s*\(.*?;";
-glibc/sysdeps/unix/sysv/linux/nios2/sys/cachectl.h:27:
-extern int cacheflush (void *__addr, const int __nbytes, const int __op) __THROW;
-glibc/sysdeps/unix/sysv/linux/mips/sys/cachectl.h:35:
-extern int cacheflush (void *__addr, const int __nbytes, const int __op) __THROW;
-glibc/sysdeps/unix/sysv/linux/arc/sys/cachectl.h:30:
-extern int cacheflush (void *__addr, int __nbytes, int __op) __THROW;
-glibc/sysdeps/unix/sysv/linux/csky/sys/cachectl.h:30:
-extern int cacheflush (void *__addr, const int __nbytes,
-		       const int __op) __THROW;
-
+Signed-off-by: Pali Rohár <pali@kernel.org>
 Signed-off-by: Alejandro Colomar <alx.manpages@gmail.com>
 ---
- man2/cacheflush.2 | 4 ++--
- 1 file changed, 2 insertions(+), 2 deletions(-)
+ man7/netlink.7 | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
 
-diff --git a/man2/cacheflush.2 b/man2/cacheflush.2
-index 2cf624f3a..0496879ca 100644
---- a/man2/cacheflush.2
-+++ b/man2/cacheflush.2
-@@ -27,9 +27,9 @@
- cacheflush \- flush contents of instruction and/or data cache
- .SH SYNOPSIS
- .nf
--.B #include <asm/cachectl.h>
-+.B #inlcude <sys/cacheflush.h>
- .PP
--.BI "int cacheflush(char *" addr ", int "nbytes ", int "cache );
-+.BI "int cacheflush(void *" addr ", int "nbytes ", int "cache );
- .fi
- .PP
- .IR Note :
+diff --git a/man7/netlink.7 b/man7/netlink.7
+index b14e981d1..ec5d0e71f 100644
+--- a/man7/netlink.7
++++ b/man7/netlink.7
+@@ -491,7 +491,7 @@ The
+ .I nsid
+ is sent to user space via an ancillary data.
+ .TP
+-.BR NETLINK_CAP_ACK " (since Linux 4.2)"
++.BR NETLINK_CAP_ACK " (since Linux 4.3)"
+ .\"	commit 0a6a3a23ea6efde079a5b77688541a98bf202721
+ .\"	Author: Christophe Ricard <christophe.ricard@gmail.com>
+ The kernel may fail to allocate the necessary room for the acknowledgment
 -- 
 2.30.0
 
