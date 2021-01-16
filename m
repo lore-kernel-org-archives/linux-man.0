@@ -2,69 +2,45 @@ Return-Path: <linux-man-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-15.8 required=3.0 tests=BAYES_00,DKIM_SIGNED,
-	DKIM_VALID,DKIM_VALID_AU,FREEMAIL_FORGED_FROMDOMAIN,FREEMAIL_FROM,
-	HEADER_FROM_DIFFERENT_DOMAINS,INCLUDES_CR_TRAILER,INCLUDES_PATCH,
-	MAILING_LIST_MULTI,SPF_HELO_NONE,SPF_PASS,USER_AGENT_GIT
-	autolearn=unavailable autolearn_force=no version=3.4.0
+X-Spam-Status: No, score=-19.3 required=3.0 tests=BAYES_00,DKIMWL_WL_HIGH,
+	DKIM_SIGNED,DKIM_VALID,DKIM_VALID_AU,INCLUDES_CR_TRAILER,INCLUDES_PATCH,
+	MAILING_LIST_MULTI,SPF_HELO_NONE,SPF_PASS,USER_AGENT_GIT autolearn=ham
+	autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 56482C433E6
-	for <linux-man@archiver.kernel.org>; Sat, 16 Jan 2021 17:14:48 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id C4A86C433DB
+	for <linux-man@archiver.kernel.org>; Sat, 16 Jan 2021 18:47:04 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.kernel.org (Postfix) with ESMTP id 235D9227BF
-	for <linux-man@archiver.kernel.org>; Sat, 16 Jan 2021 17:14:48 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTP id 8FFFC2310F
+	for <linux-man@archiver.kernel.org>; Sat, 16 Jan 2021 18:47:04 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1728320AbhAPRKc (ORCPT <rfc822;linux-man@archiver.kernel.org>);
-        Sat, 16 Jan 2021 12:10:32 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:39128 "EHLO
-        lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1728256AbhAPRK0 (ORCPT
-        <rfc822;linux-man@vger.kernel.org>); Sat, 16 Jan 2021 12:10:26 -0500
-Received: from mail-wm1-x329.google.com (mail-wm1-x329.google.com [IPv6:2a00:1450:4864:20::329])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 0024AC061388;
-        Sat, 16 Jan 2021 07:05:28 -0800 (PST)
-Received: by mail-wm1-x329.google.com with SMTP id g10so10098111wmh.2;
-        Sat, 16 Jan 2021 07:05:28 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20161025;
-        h=from:to:cc:subject:date:message-id:mime-version
-         :content-transfer-encoding;
-        bh=DZLVsLwB5k35ns7zYrJfmPC7wohrTEilCe/nrtCaIos=;
-        b=mdF7Lcv1Qsj0qki+yGN+ZMvZUIzeogvlFBN3jT3HMVH2P4zGfcp4NeVeiHp+HEZZ0D
-         IKjY9DelmAmuH6F3e7pBF+k8cNnWD8soPicZcMjHuN7/xPBsljHal9bsxYdIJZIIY/fG
-         HcpvylPeg2/DuY310EqRrfTK8EiPua3jLUromeIIxVfhmNFMxmneHM424bGLHF2El4qz
-         fU8YPbJvJrBI+qkEML2I997Ag1JKCG58QFYWCNGCtoxp93Q5ZL+NTs/LO81Lbpxcb20e
-         0isftoNA88QE+4XLjD3no8lKloHL8JUdhMuzU94atSxl/4nZNancrBE1i5QHDbnvpm69
-         ZOzw==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20161025;
-        h=x-gm-message-state:from:to:cc:subject:date:message-id:mime-version
-         :content-transfer-encoding;
-        bh=DZLVsLwB5k35ns7zYrJfmPC7wohrTEilCe/nrtCaIos=;
-        b=QeKBpU2xPzxVMRTz7zahw0GqpzfgC80UwxLH7Pbtpdo2mWANtJ3l9gf/z+XkGHw3/Y
-         ljw43KbI7kmNte/ru2BtjKD1EUU5xUn78zpcNS+KpeX3CyyyLidS57TSeuejP641ko2V
-         zMRq1xymkKm0kZATQB7t9gJXgTlvjljbKPGGilOqzpgTvAl5854CrnZL/MQAJ8uLH7v7
-         qI95I6EQjTDRW+JNcCayRVqs41NQAwTudiSl0h2TP0bOd133ZU6ZD8KalhaXoyRhzUp8
-         OnIYWF8HG+8emerHOF3xI445aYwCNokoalcx2JPdA529fKXjDCUhaD1C/bjNXcylDdB3
-         ot4Q==
-X-Gm-Message-State: AOAM530R4l3Ijmt+Cx9qy4mdY4H2yxd21s5x/wAQKyZZrSf/IMekc1P0
-        3LANsnf2th/4ws4KZsd9gy0=
-X-Google-Smtp-Source: ABdhPJxQAvj6kOWZC0WaVg5MqIG+8t3an335uYZ8IsA/Sff+21gUj42t5TDr7z/f6Ql38fca5Uixgw==
-X-Received: by 2002:a1c:24c4:: with SMTP id k187mr13816365wmk.14.1610809527727;
-        Sat, 16 Jan 2021 07:05:27 -0800 (PST)
-Received: from debian.vlc ([170.253.51.130])
-        by smtp.gmail.com with ESMTPSA id f68sm5494887wmf.6.2021.01.16.07.05.26
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Sat, 16 Jan 2021 07:05:27 -0800 (PST)
-From:   Alejandro Colomar <alx.manpages@gmail.com>
-To:     mtk.manpages@gmail.com
-Cc:     =?UTF-8?q?Pali=20Roh=C3=A1r?= <pali@kernel.org>,
-        linux-man@vger.kernel.org, netdev@vger.kernel.org,
-        Alejandro Colomar <alx.manpages@gmail.com>
-Subject: [PATCH] rtnetlink.7: Remove IPv4 from description
-Date:   Sat, 16 Jan 2021 16:04:35 +0100
-Message-Id: <20210116150434.7938-1-alx.manpages@gmail.com>
-X-Mailer: git-send-email 2.30.0
+        id S1725964AbhAPSqs (ORCPT <rfc822;linux-man@archiver.kernel.org>);
+        Sat, 16 Jan 2021 13:46:48 -0500
+Received: from mail.kernel.org ([198.145.29.99]:47128 "EHLO mail.kernel.org"
+        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
+        id S1727057AbhAPSqs (ORCPT <rfc822;linux-man@vger.kernel.org>);
+        Sat, 16 Jan 2021 13:46:48 -0500
+Received: by mail.kernel.org (Postfix) with ESMTPSA id 0072223106;
+        Sat, 16 Jan 2021 18:46:07 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+        s=k20201202; t=1610822768;
+        bh=bE0kwGR2/4kn2qhgidlPEBNqd3TIfX7fXnrcNRRa8/k=;
+        h=From:To:Subject:Date:From;
+        b=gx4yIlS+4xiMSIiiauNjARHMYT0x6Dvg87m9Y8QAeti3gfu3+LQOjCFV4KA8cg/GN
+         vbf8dDG9cZhzeOmxqWYdz6Wzn4ySmZipN69jxIB+sPZP98wQQAjKZ28XPRuRkmikcj
+         RhW5tdJxkC7uMrOfBzR2AQjk6APbk+UhiwmLOOnGa6Pap/HkXJfGU8YNa1O7HaqnnN
+         GPN1w9RSpj3/FaLaZlp7TWU5dueSvSeYEZLoZM226/Pqec8l2A5WIC9lsfm436sa09
+         rBPp1N5JN/zyD78PHZjNgZLiAH25u1eehgo1wO/HWwa1ywZ6ou3bWqA9UFGo2E4OOu
+         bttylgPp6ibIQ==
+Received: by pali.im (Postfix)
+        id 970B860E; Sat, 16 Jan 2021 19:46:05 +0100 (CET)
+From:   =?UTF-8?q?Pali=20Roh=C3=A1r?= <pali@kernel.org>
+To:     linux-man@vger.kernel.org,
+        Alejandro Colomar <alx.manpages@gmail.com>,
+        Michael Kerrisk <mtk.manpages@gmail.com>
+Subject: [PATCH] sock_diag.7: Fix recvmsg() usage in the example
+Date:   Sat, 16 Jan 2021 19:45:54 +0100
+Message-Id: <20210116184554.30730-1-pali@kernel.org>
+X-Mailer: git-send-email 2.20.1
 MIME-Version: 1.0
 Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
@@ -72,29 +48,44 @@ Precedence: bulk
 List-ID: <linux-man.vger.kernel.org>
 X-Mailing-List: linux-man@vger.kernel.org
 
-From: Pali Rohár <pali@kernel.org>
+The msg_name field for recvmsg() call points to a caller-allocated buffer
+nladdr that is used to return the source address of the (netlink) socket.
 
-rtnetlink is not only used for IPv4
+As recvmsg() does not read this buffer and fills it for a caller, do not
+initialize it and instead check its value in the example.
 
 Signed-off-by: Pali Rohár <pali@kernel.org>
-Signed-off-by: Alejandro Colomar <alx.manpages@gmail.com>
 ---
- man7/rtnetlink.7 | 2 +-
- 1 file changed, 1 insertion(+), 1 deletion(-)
+ man7/sock_diag.7 | 9 ++++++---
+ 1 file changed, 6 insertions(+), 3 deletions(-)
 
-diff --git a/man7/rtnetlink.7 b/man7/rtnetlink.7
-index cd6809320..aec005ff9 100644
---- a/man7/rtnetlink.7
-+++ b/man7/rtnetlink.7
-@@ -13,7 +13,7 @@
- .\"
- .TH RTNETLINK  7 2020-06-09 "Linux" "Linux Programmer's Manual"
- .SH NAME
--rtnetlink \- Linux IPv4 routing socket
-+rtnetlink \- Linux routing socket
- .SH SYNOPSIS
- .nf
- .B #include <asm/types.h>
+diff --git a/man7/sock_diag.7 b/man7/sock_diag.7
+index 91ccf3ac5..191e6ac49 100644
+--- a/man7/sock_diag.7
++++ b/man7/sock_diag.7
+@@ -753,9 +753,7 @@ static int
+ receive_responses(int fd)
+ {
+     long buf[8192 / sizeof(long)];
+-    struct sockaddr_nl nladdr = {
+-        .nl_family = AF_NETLINK
+-    };
++    struct sockaddr_nl nladdr;
+     struct iovec iov = {
+         .iov_base = buf,
+         .iov_len = sizeof(buf)
+@@ -782,6 +780,11 @@ receive_responses(int fd)
+         if (ret == 0)
+             return 0;
+ 
++        if (nladdr.nl_family != AF_NETLINK) {
++            fputs("!AF_NETLINK\en", stderr);
++            return \-1;
++        }
++
+         const struct nlmsghdr *h = (struct nlmsghdr *) buf;
+ 
+         if (!NLMSG_OK(h, ret)) {
 -- 
-2.30.0
+2.20.1
 
