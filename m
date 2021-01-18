@@ -8,212 +8,121 @@ X-Spam-Status: No, score=-14.4 required=3.0 tests=BAYES_00,DKIM_SIGNED,
 	MAILING_LIST_MULTI,NICE_REPLY_A,SPF_HELO_NONE,SPF_PASS,URIBL_BLOCKED,
 	USER_AGENT_SANE_1 autolearn=ham autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id A5520C433E0
-	for <linux-man@archiver.kernel.org>; Mon, 18 Jan 2021 16:18:06 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 63FABC433E9
+	for <linux-man@archiver.kernel.org>; Mon, 18 Jan 2021 16:41:50 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.kernel.org (Postfix) with ESMTP id 7919720715
-	for <linux-man@archiver.kernel.org>; Mon, 18 Jan 2021 16:18:06 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTP id 3FF1222BF3
+	for <linux-man@archiver.kernel.org>; Mon, 18 Jan 2021 16:41:50 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S2404094AbhARQRe (ORCPT <rfc822;linux-man@archiver.kernel.org>);
-        Mon, 18 Jan 2021 11:17:34 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:45040 "EHLO
+        id S2393538AbhARQlp (ORCPT <rfc822;linux-man@archiver.kernel.org>);
+        Mon, 18 Jan 2021 11:41:45 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:37442 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S2406159AbhARP7L (ORCPT
-        <rfc822;linux-man@vger.kernel.org>); Mon, 18 Jan 2021 10:59:11 -0500
-Received: from mail-ej1-x632.google.com (mail-ej1-x632.google.com [IPv6:2a00:1450:4864:20::632])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 5851FC061574
-        for <linux-man@vger.kernel.org>; Mon, 18 Jan 2021 07:58:31 -0800 (PST)
-Received: by mail-ej1-x632.google.com with SMTP id rv9so5577626ejb.13
-        for <linux-man@vger.kernel.org>; Mon, 18 Jan 2021 07:58:31 -0800 (PST)
+        with ESMTP id S2393385AbhARPYB (ORCPT
+        <rfc822;linux-man@vger.kernel.org>); Mon, 18 Jan 2021 10:24:01 -0500
+Received: from mail-wm1-x336.google.com (mail-wm1-x336.google.com [IPv6:2a00:1450:4864:20::336])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 1981EC0613CF
+        for <linux-man@vger.kernel.org>; Mon, 18 Jan 2021 07:22:54 -0800 (PST)
+Received: by mail-wm1-x336.google.com with SMTP id o10so101057wmc.1
+        for <linux-man@vger.kernel.org>; Mon, 18 Jan 2021 07:22:54 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=gmail.com; s=20161025;
-        h=cc:subject:to:references:from:message-id:date:user-agent
+        h=subject:to:cc:references:from:message-id:date:user-agent
          :mime-version:in-reply-to:content-language:content-transfer-encoding;
-        bh=1Kj0QemMF+tjNOMNKzDW/PW0sjwYy0q2DilV05bnWLU=;
-        b=k1Bky8Rqi5jRoMogEKNOjpRXevVNCoLTbISE590SbvgvnetdSyfc0ohBzl/FPCtZbx
-         jFX+xXm572eMW8A4SqYy3rs0FOogygQxk9CAyeJP+aLrg5Gmd0aHzgvVCz4mF97pjGFE
-         kXDnu8hjg0y7jH7zSp8Nz0jDUkoqMK2RAtZrZg2ag9XmO6VElCZ+FtF6uKg4JaG1JwVO
-         B6sZEQSxIQ9EGK8BapQcPfNYc1CPC84xhDwFm86KVTFP6C7AS/yXorKl1Jz8aTJlFErS
-         uWUUJVv3EvtNlKEb3Pf8IckJU9hXKNCEN7CW2T859LgDbgh0Y5lbuC3nIh8lEPC9AGpT
-         qAOA==
+        bh=fQz4p//o6+FYuOzkm4ubM077DvGWsW/dtCLFP19rB1s=;
+        b=NxjTGd7AIVoVLlCSq8y96g4jstoecuUw2kbG8qATAKKmmC0B73ueQVKWeZ/EKzohLI
+         pn04Wr1kdbJvZAA8mIaz6NpzaFlu6m0UGabfl+f/kQEdd6cureTqVe+Opu79LGktq1UQ
+         0GmNZmC83x879Qb9POsd083N0RLeE521rYQ/c6Ae48Pdc7/IBCSCp/b6gpYtdlxOEmCm
+         4uTCdL3E8lXRQ8o2X7WHeE4yLM1eizv0c5RKTALkx/hc9xNbqRgEdGG4PMC+KpLGrsZY
+         Ds0+f1godneDVNgBmwTj4T6bN6I2s3XAbEDBo4lGcURRQJRueTcMUszDht4rgubmWzJI
+         BHig==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
-        h=x-gm-message-state:cc:subject:to:references:from:message-id:date
+        h=x-gm-message-state:subject:to:cc:references:from:message-id:date
          :user-agent:mime-version:in-reply-to:content-language
          :content-transfer-encoding;
-        bh=1Kj0QemMF+tjNOMNKzDW/PW0sjwYy0q2DilV05bnWLU=;
-        b=ALNvvilqLWkXF1fgvHKd1rrcfqTUdM4UH7gZDRbElhiATJ1+6UBp59Stcnu4L+S6c/
-         CWX39un9GQRA0BJIgO6Ay1KVwg2R55ph75jWX60SImNgV4ymXqjEVlsUlSyvbmh9RwLN
-         01sQXpZ1SkhLBAUc1q+PDCr2t96xhH2LhsQazCgMrai/vXcMNfMJJBwlcI6Fs/pXBuke
-         yBeTYeHP+HCBJAiFt3kNV7jvSzh/pP9EbjeGp7GMVF5VQnMPl0aX8T6aTGlLLjhcDRmg
-         tRfYdY84rpUL/03dQMzH0reNo9wpnsWDKQTMp/SW8DzxPkNfP4eTCAqNvHbrvVD0X27T
-         YkjQ==
-X-Gm-Message-State: AOAM5310EshesZn8yZLmMkE82K8aF7hdgrwmvIbM8klxf6mFgxmDjHDs
-        oVz6tkarZZnTIswDPlbPkP4MKGOeydc=
-X-Google-Smtp-Source: ABdhPJyBhtc2Obcc9A++PFK8ec/BZj0mWeMA4iBm/Sku8J2pj8lzWoYD9u///wxNy4YIMGnFvbz+0Q==
-X-Received: by 2002:a17:906:2681:: with SMTP id t1mr234353ejc.29.1610985509814;
-        Mon, 18 Jan 2021 07:58:29 -0800 (PST)
-Received: from ?IPv6:2001:a61:244d:fe01:9fb1:d962:461a:45e8? ([2001:a61:244d:fe01:9fb1:d962:461a:45e8])
-        by smtp.gmail.com with ESMTPSA id i22sm4586545ejx.77.2021.01.18.07.58.28
+        bh=fQz4p//o6+FYuOzkm4ubM077DvGWsW/dtCLFP19rB1s=;
+        b=EAUnB7+6V8vp8clFQ2EPLy1QLH2G86ZY7TUW9tSAYgPNpCMx5pjEQDhov8vtKi+dxI
+         VQOEIw/HXsZOwqJsjuMAXGZsENQpK5ORFPSsHGGw/XCAPMkMc4r9Ud7OHTIKT8pLbE00
+         XigD9AQwx+eA5P+V1M7BOwu35DRyj43jQ+ujTQWDGI2tLw+BlDCuOiB8wxWpcTAcSM5y
+         hB5syw1Uf0YX3bzjskgVwii8gfZYuo/jRemKLeKkr4tS1aumj6GgnjGXqV7GrNtlzV4j
+         GcXX5s5TvuUXrx1Sn/WsqEXoGofYq4ksGSogVV9Mvh7lvaHpBWXbR3jlGYx9y1upIhrP
+         H3+g==
+X-Gm-Message-State: AOAM530AuvD6XcK7MHJU400LoeyRpzIFr5hEv9SOz8ojpYsEgusL9bBL
+        2TE8uSaM3vBYJ1tqWe5I9XdXDw1Waug=
+X-Google-Smtp-Source: ABdhPJyagRZnq026DvyopJ+tk1oDE5af1DRI3h79iVfp1kDDfV75Skfg5mWkPGcxyye4UoBInuey2A==
+X-Received: by 2002:a1c:cc19:: with SMTP id h25mr21439774wmb.124.1610983372840;
+        Mon, 18 Jan 2021 07:22:52 -0800 (PST)
+Received: from [192.168.1.143] ([170.253.51.130])
+        by smtp.gmail.com with UTF8SMTPSA id b3sm23708525wme.32.2021.01.18.07.22.51
         (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Mon, 18 Jan 2021 07:58:29 -0800 (PST)
-Cc:     mtk.manpages@gmail.com, linux-man@vger.kernel.org
-Subject: Re: Ping: [PATCH v4] system.3: Document bug and workaround when the
- command name starts with a hypen
-To:     "Alejandro Colomar (man-pages)" <alx.manpages@gmail.com>
-References: <20210104180420.74092-1-alx.manpages@gmail.com>
- <20210108142209.61938-1-alx.manpages@gmail.com>
- <a89dea2b-5b26-040a-2f12-3e096756f118@gmail.com>
- <e6ee2473-9096-0d6e-b793-c90e03bc6dfc@gmail.com>
- <99aa567a-67d5-d7c1-ddf3-de4141f3c1ff@gmail.com>
- <bafaf8cf-7d9d-8bf4-a95c-653ac0049e7c@gmail.com>
-From:   "Michael Kerrisk (man-pages)" <mtk.manpages@gmail.com>
-Message-ID: <e1a37ef8-72b7-aeb5-dd0f-36bec4597a6a@gmail.com>
-Date:   Mon, 18 Jan 2021 16:58:27 +0100
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
- Thunderbird/78.5.0
+        Mon, 18 Jan 2021 07:22:52 -0800 (PST)
+Subject: Re: [PATCH 2/2] semget.2, shm_open.3: tfix
+To:     Jakub Wilk <jwilk@jwilk.net>,
+        Michael Kerrisk <mtk.manpages@gmail.com>
+Cc:     linux-man@vger.kernel.org
+References: <20210118090811.6495-1-jwilk@jwilk.net>
+ <20210118090811.6495-2-jwilk@jwilk.net>
+From:   "Alejandro Colomar (man-pages)" <alx.manpages@gmail.com>
+Message-ID: <edef3181-994a-2319-6f7f-dcb5c92382b4@gmail.com>
+Date:   Mon, 18 Jan 2021 16:22:51 +0100
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:84.0) Gecko/20100101
+ Thunderbird/84.0
 MIME-Version: 1.0
-In-Reply-To: <bafaf8cf-7d9d-8bf4-a95c-653ac0049e7c@gmail.com>
-Content-Type: text/plain; charset=utf-8
+In-Reply-To: <20210118090811.6495-2-jwilk@jwilk.net>
+Content-Type: text/plain; charset=UTF-8
 Content-Language: en-US
 Content-Transfer-Encoding: 7bit
 Precedence: bulk
 List-ID: <linux-man.vger.kernel.org>
 X-Mailing-List: linux-man@vger.kernel.org
 
-Hi Alex,
+On 1/18/21 10:08 AM, Jakub Wilk wrote:
+> Signed-off-by: Jakub Wilk <jwilk@jwilk.net>
 
-On 1/18/21 4:45 PM, Alejandro Colomar (man-pages) wrote:
-> [removed some CCs]
-> 
-> On 1/18/21 4:37 PM, Michael Kerrisk (man-pages) wrote:
->> On 1/18/21 4:28 PM, Alejandro Colomar (man-pages) wrote:
->>> Hi Michael,
->>>
->>> Ping!
->>>
->>> And now I noticed a typo in the subject:
->>> s/hypen/hyphen/
->>
->> D'oh! I missed that.
->>
->> In cases like these, where there's already two amendments to the patch,
->> perhaps better is a new complete patch, rather than a ping :-).
-> 
-> 
-> Yup, I considered that for a moment...
-> Should've listened to myself :/
-> 
-> BTW, I don't understand why you ffixed to use .RS/.RE.
+Hello Jakub,
 
-
-Cause that's what we do around code blocks. See man-pages(7),
-and all of the other pages :-).
-
-The conclusion of the mail thread on this topic was that .RS/RE don't 
-do correct relative indents, IIRC.
+Patch applied.
 
 Thanks,
 
-Michael
+Alex
 
-
-> See
-> https://lore.kernel.org/linux-man/eaee2c6e-cbb7-94b2-f6c4-9039d184e129@gmail.com/T/
+> ---
+>  man2/semget.2   | 2 +-
+>  man3/shm_open.3 | 2 +-
+>  2 files changed, 2 insertions(+), 2 deletions(-)
 > 
-> Thanks,
-> 
-> Alex
-> 
->>
->> Thanks,
->>
->> Michael
->>
->>
->>> On 1/8/21 3:28 PM, Alejandro Colomar (man-pages) wrote:
->>>>
->>>>
->>>> On 1/8/21 3:22 PM, Alejandro Colomar wrote:
->>>>> man-pages bug: 211029
->>>>>  https://bugzilla.kernel.org/show_bug.cgi?id=211029
->>>>>
->>>>> Complete workaround
->>>>
->>>> Maybe a bit more readable:
->>>> Complete workaround example
->>>>
->>>>
->>>>> (it was too long for the page, but it may be useful here):
->>>>>
->>>>> ......
->>>>>
->>>>> $ sudo ln -s -T /usr/bin/echo /usr/bin/-echo;
->>>>> $ cc -o system_hyphen -x c - ;
->>>>> #include <stdlib.h>
->>>>>
->>>>> int
->>>>> main(void)
->>>>> {
->>>>>     system(" -echo Hello world!");
->>>>>     exit(EXIT_SUCCESS);
->>>>> }
->>>>>
->>>>> $ ./system_hyphen;
->>>>> Hello world!
->>>>>
->>>>> Reported-by: Ciprian Dorin Craciun <ciprian.craciun@gmail.com>
->>>>> Cc: Florian Weimer <fweimer@redhat.com>
->>>>> Signed-off-by: Alejandro Colomar <alx.manpages@gmail.com>
->>>>> ---
->>>>>
->>>>> D'oh!
->>>>>
->>>>>  man3/system.3 | 20 ++++++++++++++++++++
->>>>>  1 file changed, 20 insertions(+)
->>>>>
->>>>> diff --git a/man3/system.3 b/man3/system.3
->>>>> index 753d46f7d..ead35ab30 100644
->>>>> --- a/man3/system.3
->>>>> +++ b/man3/system.3
->>>>> @@ -255,6 +255,26 @@ are not executed.
->>>>>  Such risks are especially grave when using
->>>>>  .BR system ()
->>>>>  from a privileged program.
->>>>> +.SH BUGS
->>>>> +.\" [BUG 211029](https://bugzilla.kernel.org/show_bug.cgi?id=211029)
->>>>> +.\" [Glibc bug](https://sourceware.org/bugzilla/show_bug.cgi?id=27143)
->>>>> +.\" [POSIX bug](https://www.austingroupbugs.net/view.php?id=1440)
->>>>> +If the command name starts with a hyphen,
->>>>> +.BR sh (1)
->>>>> +interprets the command name as an option,
->>>>> +and the behavior is undefined.
->>>>> +(See the
->>>>> +.B \-c
->>>>> +option to
->>>>> +.BR sh (1).)
->>>>> +To work around this problem,
->>>>> +prepend the command with a space as in the following call:
->>>>> +.PP
->>>>> +.RS 4
->>>>> +.EX
->>>>> +    system(" \-unfortunate\-command\-name");
->>>>> +.EE
->>>>> +.RE
->>>>>  .SH SEE ALSO
->>>>>  .BR sh (1),
->>>>>  .BR execve (2),
->>>>>
->>>>
->>>
->>>
->>
->>
-> 
+> diff --git a/man2/semget.2 b/man2/semget.2
+> index a8fed15e6..445ac0249 100644
+> --- a/man2/semget.2
+> +++ b/man2/semget.2
+> @@ -155,7 +155,7 @@ If the semaphore set already exists, the permissions are
+>  verified.
+>  .\" and a check is made to see if it is marked for destruction.
+>  .SH RETURN VALUE
+> -On sucess,
+> +On success,
+>  .BR semget ()
+>  returns the semaphore set identifier (a nonnegative integer).
+>  On failure, \-1 is returned, and
+> diff --git a/man3/shm_open.3 b/man3/shm_open.3
+> index 80d1eae17..9b06335d2 100644
+> --- a/man3/shm_open.3
+> +++ b/man3/shm_open.3
+> @@ -170,7 +170,7 @@ was specified, in which case a new, distinct object is created).
+>  On success,
+>  .BR shm_open ()
+>  returns a file descriptor (a nonnegative integer).
+> -On sucess,
+> +On success,
+>  .BR shm_unlink ()
+>  returns 0.
+>  On failure, both functions return \-1 and set
 > 
 
 
 -- 
-Michael Kerrisk
-Linux man-pages maintainer; http://www.kernel.org/doc/man-pages/
-Linux/UNIX System Programming Training: http://man7.org/training/
+Alejandro Colomar
+Linux man-pages comaintainer; https://www.kernel.org/doc/man-pages/
+http://www.alejandro-colomar.es/
