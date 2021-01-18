@@ -8,104 +8,227 @@ X-Spam-Status: No, score=-14.4 required=3.0 tests=BAYES_00,DKIM_SIGNED,
 	MAILING_LIST_MULTI,NICE_REPLY_A,SPF_HELO_NONE,SPF_PASS,URIBL_BLOCKED,
 	USER_AGENT_SANE_1 autolearn=ham autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 65722C433E6
-	for <linux-man@archiver.kernel.org>; Mon, 18 Jan 2021 15:58:09 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 554E3C433DB
+	for <linux-man@archiver.kernel.org>; Mon, 18 Jan 2021 16:12:33 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.kernel.org (Postfix) with ESMTP id 3D38622B4E
-	for <linux-man@archiver.kernel.org>; Mon, 18 Jan 2021 15:58:09 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTP id 29E0C222F9
+	for <linux-man@archiver.kernel.org>; Mon, 18 Jan 2021 16:12:33 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S2404141AbhARPqq (ORCPT <rfc822;linux-man@archiver.kernel.org>);
-        Mon, 18 Jan 2021 10:46:46 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:42198 "EHLO
+        id S2406378AbhARQM3 (ORCPT <rfc822;linux-man@archiver.kernel.org>);
+        Mon, 18 Jan 2021 11:12:29 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:47902 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S2393522AbhARPp5 (ORCPT
-        <rfc822;linux-man@vger.kernel.org>); Mon, 18 Jan 2021 10:45:57 -0500
-Received: from mail-ej1-x62f.google.com (mail-ej1-x62f.google.com [IPv6:2a00:1450:4864:20::62f])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 7F2DDC061574
-        for <linux-man@vger.kernel.org>; Mon, 18 Jan 2021 07:45:17 -0800 (PST)
-Received: by mail-ej1-x62f.google.com with SMTP id b5so7867199ejv.4
-        for <linux-man@vger.kernel.org>; Mon, 18 Jan 2021 07:45:17 -0800 (PST)
+        with ESMTP id S2406302AbhARQMV (ORCPT
+        <rfc822;linux-man@vger.kernel.org>); Mon, 18 Jan 2021 11:12:21 -0500
+Received: from mail-wr1-x42a.google.com (mail-wr1-x42a.google.com [IPv6:2a00:1450:4864:20::42a])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 73B79C061574
+        for <linux-man@vger.kernel.org>; Mon, 18 Jan 2021 08:11:41 -0800 (PST)
+Received: by mail-wr1-x42a.google.com with SMTP id q18so17014807wrn.1
+        for <linux-man@vger.kernel.org>; Mon, 18 Jan 2021 08:11:41 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=gmail.com; s=20161025;
-        h=cc:subject:to:references:from:message-id:date:user-agent
+        h=subject:to:cc:references:from:message-id:date:user-agent
          :mime-version:in-reply-to:content-language:content-transfer-encoding;
-        bh=GM2qZFykahpv325NhYSntg+XRbBeYcauyMG2hQTodOQ=;
-        b=enlThKinJf0pMkc4zctqKRqbJKGhXOVY/fejQp0ujvibH3ucbDxWwQhcBajimbKv8l
-         7iYuxiPY4Ybqx+JTWB2e4RaGjzR8S7yw9YZspDsoI5Sir/ydFwY8Ypa/1z7wtbl/CLrw
-         /ITL+AIsrPweShewPHT44uVp3rHpsl2gKyORyGJmhkW5ZnDlc4LwruMiKaXh0wwSmT6p
-         QKuZASYI//Htg48tfV+1Hj4XlOIE1VPeEvlj1lYmZYVm7BN+lQmklFuNJR86VC+HgSsC
-         Ze3/ru7lUF8oeA+ePR8FyoagsALDpdd6wOohwyLoQTlxADojVFu0pyKcppg0vt/YkU5R
-         +93Q==
+        bh=3+pQ8FC1IEfCP/ThigNsi6mzzJzfKR4Vs/WKN8S/kpA=;
+        b=M3JNNTUqETq45F8BEuTsN9ahzaDdUtO/eTCCUwBRRmsUXVm1G0w01n1/SuIH+BaoIZ
+         gctgJ3jyKrSzONZ7wnskBpIcDZcQw7lfjoNUFKE+217EqJrdXTXgJoGfhOtrj1ePjnqx
+         uRfqi2gemCil0xe/BwJHjpwakF4WCeuaIT/zJhOljw5jGWIncCK8vzkFCxQMikn2Awrj
+         yv4GBJ+cLl5GL92eKRDtvpRSgT6ip0iAnrxoS1IVNxq1eI2VZE+4C6dQh0SHnG3qIFaR
+         nHapY+ZPwlnBLOllMQ7IyF6AdsIVNy+ZLviQ8KMYi6etUQrw4ayD5+ces70DjWyIgB+2
+         xEaQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
-        h=x-gm-message-state:cc:subject:to:references:from:message-id:date
+        h=x-gm-message-state:subject:to:cc:references:from:message-id:date
          :user-agent:mime-version:in-reply-to:content-language
          :content-transfer-encoding;
-        bh=GM2qZFykahpv325NhYSntg+XRbBeYcauyMG2hQTodOQ=;
-        b=B/X1SpMq112qeRGCpRynvdi3J2ttIvLwDePv7aaoTGXMfxtwVQmQ2njFSqmMGl7DE5
-         tS1j9kMYM58qs3MkiSmfqwmbkvFOC3ustHUqCBTEL7KxrVQsSrNXP0H1SnpUMrYqWQH+
-         u6SNsf1TMrWFimTvQ8Jj2ZuR7wU8TRdRDynFy6auMk70zM9BnCyATteOOU2qxMoMDOoi
-         xHPCh5W9Lh63r9lmPvZWQw+DWgHhY/dMkAzkLdHC/13p+rtt4KpeJiFWRqNjYVViZJ4j
-         gko5mkSU71AEAXwKlGZ+EtXCqbR4ucMBkpYLwto5KdpzFYacoMCn5zLdCdcZV4L89aMD
-         6UxQ==
-X-Gm-Message-State: AOAM531Hc+QnoDxYtHMFFVN8/LiVMr8u+21rrDR0AURygcUfXEGUfqIo
-        K+QEWsuWkCE5N4k4XVA6QHQ=
-X-Google-Smtp-Source: ABdhPJzJaJSj8jB8ZQaSbdzab+pPH9cc9/RcKKUJ8WqHP5+wRUWm/0wWCZE1dImVAdZCGMJNJExmMw==
-X-Received: by 2002:a17:906:f0c4:: with SMTP id dk4mr195534ejb.225.1610984716268;
-        Mon, 18 Jan 2021 07:45:16 -0800 (PST)
-Received: from ?IPv6:2001:a61:244d:fe01:9fb1:d962:461a:45e8? ([2001:a61:244d:fe01:9fb1:d962:461a:45e8])
-        by smtp.gmail.com with ESMTPSA id jt8sm8026471ejc.40.2021.01.18.07.45.15
+        bh=3+pQ8FC1IEfCP/ThigNsi6mzzJzfKR4Vs/WKN8S/kpA=;
+        b=a02a+fQIZqf06c+AoeuERKnEgux0m7EtPDwAUFZJBdRkRXlTExE9x5+heLkUJr+PCa
+         t19B5X2r5CwOpWP+oYZqd5DoRz7tJ49QU34OsRMhb4fsfJwoHtKy+bt7OVnKBnQXB8EC
+         zhIMICJi3zSWUTJD35Spd/3mVdGryjtPp2m8C++0/1saT0ypjJPg8n5xLbBfac3jssp6
+         EqcyElWEwXmnxSxmmAVlULI9JgnUR46AS5+Gxqj8b2QtvYC2Rt8vGC8RJaM17L9vFIwB
+         CpVtfDogb+VTy/V2gk53g4wA1BNSpLN+nKXH4HQFybiBibEfsej6P2nOmb8WIi1WCfM6
+         PPAw==
+X-Gm-Message-State: AOAM531AQfZNkrI4z2nmC47/YUtS5VYWX2Gw85OLAuGbaGIme3H6wy/V
+        cmYuO60aHVB2LckYl7Ue+Pjm0lkybGc=
+X-Google-Smtp-Source: ABdhPJxmQldGeAIpyR+oajYoMvBrT1M5anqszrJIJUJKx/6IjO9/xvLtJZuINmU8GyyqRihAk3aGsg==
+X-Received: by 2002:adf:b257:: with SMTP id y23mr169100wra.371.1610986300244;
+        Mon, 18 Jan 2021 08:11:40 -0800 (PST)
+Received: from [192.168.1.143] ([170.253.51.130])
+        by smtp.gmail.com with UTF8SMTPSA id f14sm31161032wre.69.2021.01.18.08.11.39
         (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Mon, 18 Jan 2021 07:45:15 -0800 (PST)
-Cc:     mtk.manpages@gmail.com, linux-man@vger.kernel.org,
-        Alejandro Colomar <alx.manpages@gmail.com>
-Subject: Re: [PATCH 1/2] cacheflush.2: tfix
-To:     Jakub Wilk <jwilk@jwilk.net>
-References: <20210118090811.6495-1-jwilk@jwilk.net>
-From:   "Michael Kerrisk (man-pages)" <mtk.manpages@gmail.com>
-Message-ID: <30f96038-c892-2f3a-a6fa-ae1a9ceffcdd@gmail.com>
-Date:   Mon, 18 Jan 2021 16:45:14 +0100
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
- Thunderbird/78.5.0
+        Mon, 18 Jan 2021 08:11:39 -0800 (PST)
+Subject: Re: Ping: [PATCH v4] system.3: Document bug and workaround when the
+ command name starts with a hypen
+To:     "Michael Kerrisk (man-pages)" <mtk.manpages@gmail.com>
+Cc:     linux-man@vger.kernel.org
+References: <20210104180420.74092-1-alx.manpages@gmail.com>
+ <20210108142209.61938-1-alx.manpages@gmail.com>
+ <a89dea2b-5b26-040a-2f12-3e096756f118@gmail.com>
+ <e6ee2473-9096-0d6e-b793-c90e03bc6dfc@gmail.com>
+ <99aa567a-67d5-d7c1-ddf3-de4141f3c1ff@gmail.com>
+ <bafaf8cf-7d9d-8bf4-a95c-653ac0049e7c@gmail.com>
+ <e1a37ef8-72b7-aeb5-dd0f-36bec4597a6a@gmail.com>
+From:   "Alejandro Colomar (man-pages)" <alx.manpages@gmail.com>
+Message-ID: <9c00f2b3-bd56-0f75-0053-ef17bec26085@gmail.com>
+Date:   Mon, 18 Jan 2021 17:11:38 +0100
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:84.0) Gecko/20100101
+ Thunderbird/84.0
 MIME-Version: 1.0
-In-Reply-To: <20210118090811.6495-1-jwilk@jwilk.net>
-Content-Type: text/plain; charset=utf-8
+In-Reply-To: <e1a37ef8-72b7-aeb5-dd0f-36bec4597a6a@gmail.com>
+Content-Type: text/plain; charset=UTF-8
 Content-Language: en-US
 Content-Transfer-Encoding: 7bit
 Precedence: bulk
 List-ID: <linux-man.vger.kernel.org>
 X-Mailing-List: linux-man@vger.kernel.org
 
-On 1/18/21 10:08 AM, Jakub Wilk wrote:
-> Signed-off-by: Jakub Wilk <jwilk@jwilk.net>
+On 1/18/21 4:58 PM, Michael Kerrisk (man-pages) wrote:
+> Hi Alex,
+> 
+> On 1/18/21 4:45 PM, Alejandro Colomar (man-pages) wrote:
+>> [removed some CCs]
+>>
+>> On 1/18/21 4:37 PM, Michael Kerrisk (man-pages) wrote:
+>>> On 1/18/21 4:28 PM, Alejandro Colomar (man-pages) wrote:
+>>>> Hi Michael,
+>>>>
+>>>> Ping!
+>>>>
+>>>> And now I noticed a typo in the subject:
+>>>> s/hypen/hyphen/
+>>>
+>>> D'oh! I missed that.
+>>>
+>>> In cases like these, where there's already two amendments to the patch,
+>>> perhaps better is a new complete patch, rather than a ping :-).
+>>
+>>
+>> Yup, I considered that for a moment...
+>> Should've listened to myself :/
+>>
+>> BTW, I don't understand why you ffixed to use .RS/.RE.
+> 
+> 
+> Cause that's what we do around code blocks. See man-pages(7),
+> and all of the other pages :-).
+> 
+> The conclusion of the mail thread on this topic was that .RS/RE don't 
+> do correct relative indents, IIRC.
 
-Alex, you grabbed the 2/2. What about this 1/2?
+Ahhh, I read the diff the other way.
+I thought you changed .in -> .RS.
+But you did .RS -> .in.
+
+So forget what I said :-)
 
 Thanks,
 
-Michael
+Alex
 
-> ---
->  man2/cacheflush.2 | 2 +-
->  1 file changed, 1 insertion(+), 1 deletion(-)
 > 
-> diff --git a/man2/cacheflush.2 b/man2/cacheflush.2
-> index 12be4c94a..44fc064a8 100644
-> --- a/man2/cacheflush.2
-> +++ b/man2/cacheflush.2
-> @@ -27,7 +27,7 @@
->  cacheflush \- flush contents of instruction and/or data cache
->  .SH SYNOPSIS
->  .nf
-> -.B #inlcude <sys/cachectl.h>
-> +.B #include <sys/cachectl.h>
->  .PP
->  .BI "int cacheflush(void *" addr ", int "nbytes ", int "cache );
->  .fi
+> Thanks,
+> 
+> Michael
+> 
+> 
+>> See
+>> https://lore.kernel.org/linux-man/eaee2c6e-cbb7-94b2-f6c4-9039d184e129@gmail.com/T/
+>>
+>> Thanks,
+>>
+>> Alex
+>>
+>>>
+>>> Thanks,
+>>>
+>>> Michael
+>>>
+>>>
+>>>> On 1/8/21 3:28 PM, Alejandro Colomar (man-pages) wrote:
+>>>>>
+>>>>>
+>>>>> On 1/8/21 3:22 PM, Alejandro Colomar wrote:
+>>>>>> man-pages bug: 211029
+>>>>>>  https://bugzilla.kernel.org/show_bug.cgi?id=211029
+>>>>>>
+>>>>>> Complete workaround
+>>>>>
+>>>>> Maybe a bit more readable:
+>>>>> Complete workaround example
+>>>>>
+>>>>>
+>>>>>> (it was too long for the page, but it may be useful here):
+>>>>>>
+>>>>>> ......
+>>>>>>
+>>>>>> $ sudo ln -s -T /usr/bin/echo /usr/bin/-echo;
+>>>>>> $ cc -o system_hyphen -x c - ;
+>>>>>> #include <stdlib.h>
+>>>>>>
+>>>>>> int
+>>>>>> main(void)
+>>>>>> {
+>>>>>>     system(" -echo Hello world!");
+>>>>>>     exit(EXIT_SUCCESS);
+>>>>>> }
+>>>>>>
+>>>>>> $ ./system_hyphen;
+>>>>>> Hello world!
+>>>>>>
+>>>>>> Reported-by: Ciprian Dorin Craciun <ciprian.craciun@gmail.com>
+>>>>>> Cc: Florian Weimer <fweimer@redhat.com>
+>>>>>> Signed-off-by: Alejandro Colomar <alx.manpages@gmail.com>
+>>>>>> ---
+>>>>>>
+>>>>>> D'oh!
+>>>>>>
+>>>>>>  man3/system.3 | 20 ++++++++++++++++++++
+>>>>>>  1 file changed, 20 insertions(+)
+>>>>>>
+>>>>>> diff --git a/man3/system.3 b/man3/system.3
+>>>>>> index 753d46f7d..ead35ab30 100644
+>>>>>> --- a/man3/system.3
+>>>>>> +++ b/man3/system.3
+>>>>>> @@ -255,6 +255,26 @@ are not executed.
+>>>>>>  Such risks are especially grave when using
+>>>>>>  .BR system ()
+>>>>>>  from a privileged program.
+>>>>>> +.SH BUGS
+>>>>>> +.\" [BUG 211029](https://bugzilla.kernel.org/show_bug.cgi?id=211029)
+>>>>>> +.\" [Glibc bug](https://sourceware.org/bugzilla/show_bug.cgi?id=27143)
+>>>>>> +.\" [POSIX bug](https://www.austingroupbugs.net/view.php?id=1440)
+>>>>>> +If the command name starts with a hyphen,
+>>>>>> +.BR sh (1)
+>>>>>> +interprets the command name as an option,
+>>>>>> +and the behavior is undefined.
+>>>>>> +(See the
+>>>>>> +.B \-c
+>>>>>> +option to
+>>>>>> +.BR sh (1).)
+>>>>>> +To work around this problem,
+>>>>>> +prepend the command with a space as in the following call:
+>>>>>> +.PP
+>>>>>> +.RS 4
+>>>>>> +.EX
+>>>>>> +    system(" \-unfortunate\-command\-name");
+>>>>>> +.EE
+>>>>>> +.RE
+>>>>>>  .SH SEE ALSO
+>>>>>>  .BR sh (1),
+>>>>>>  .BR execve (2),
+>>>>>>
+>>>>>
+>>>>
+>>>>
+>>>
+>>>
+>>
+>>
+> 
 > 
 
 
 -- 
-Michael Kerrisk
-Linux man-pages maintainer; http://www.kernel.org/doc/man-pages/
-Linux/UNIX System Programming Training: http://man7.org/training/
+Alejandro Colomar
+Linux man-pages comaintainer; https://www.kernel.org/doc/man-pages/
+http://www.alejandro-colomar.es/
