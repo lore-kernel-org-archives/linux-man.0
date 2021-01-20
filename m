@@ -8,81 +8,111 @@ X-Spam-Status: No, score=-14.3 required=3.0 tests=BAYES_00,DKIM_SIGNED,
 	MAILING_LIST_MULTI,NICE_REPLY_A,SPF_HELO_NONE,SPF_PASS,URIBL_BLOCKED,
 	USER_AGENT_SANE_1 autolearn=ham autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 65C9AC433DB
-	for <linux-man@archiver.kernel.org>; Wed, 20 Jan 2021 08:57:15 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 0BC3EC433DB
+	for <linux-man@archiver.kernel.org>; Wed, 20 Jan 2021 09:00:31 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.kernel.org (Postfix) with ESMTP id 1054D22C9E
-	for <linux-man@archiver.kernel.org>; Wed, 20 Jan 2021 08:57:15 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTP id C7B2522C9E
+	for <linux-man@archiver.kernel.org>; Wed, 20 Jan 2021 09:00:30 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1726167AbhATI5N (ORCPT <rfc822;linux-man@archiver.kernel.org>);
-        Wed, 20 Jan 2021 03:57:13 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:38016 "EHLO
+        id S1729214AbhATJAL (ORCPT <rfc822;linux-man@archiver.kernel.org>);
+        Wed, 20 Jan 2021 04:00:11 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:38638 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1729101AbhATI5B (ORCPT
-        <rfc822;linux-man@vger.kernel.org>); Wed, 20 Jan 2021 03:57:01 -0500
-Received: from mail-wr1-x432.google.com (mail-wr1-x432.google.com [IPv6:2a00:1450:4864:20::432])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id BDF05C0613CF
-        for <linux-man@vger.kernel.org>; Wed, 20 Jan 2021 00:56:20 -0800 (PST)
-Received: by mail-wr1-x432.google.com with SMTP id 6so14994519wri.3
-        for <linux-man@vger.kernel.org>; Wed, 20 Jan 2021 00:56:20 -0800 (PST)
+        with ESMTP id S1727143AbhATI7w (ORCPT
+        <rfc822;linux-man@vger.kernel.org>); Wed, 20 Jan 2021 03:59:52 -0500
+Received: from mail-wr1-x430.google.com (mail-wr1-x430.google.com [IPv6:2a00:1450:4864:20::430])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 6A079C061757
+        for <linux-man@vger.kernel.org>; Wed, 20 Jan 2021 00:50:59 -0800 (PST)
+Received: by mail-wr1-x430.google.com with SMTP id a1so947134wrq.6
+        for <linux-man@vger.kernel.org>; Wed, 20 Jan 2021 00:50:59 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=gmail.com; s=20161025;
         h=cc:subject:to:references:from:message-id:date:user-agent
          :mime-version:in-reply-to:content-language:content-transfer-encoding;
-        bh=oz4Z2hUCFoHZY1GHHxph7m+EiSKjLPPU4J1oFyiqquA=;
-        b=Tsud8aeJjzp0d1a9ovgfMBq7eBBbiyl7DLeZ5mUa1i8cOjX/mXK6k2ORYjyoQyypAU
-         OW3bxL4+KKUejYwz73mdx7QL4Rfl5fWZhUr5Me/W7ZhkZeOSzl9OHbLThOpXEeLIlR99
-         sufk565F7H8k56eWGmh6xYaK+xYlvhbfvOam5HSm6A7EBB2m8rBTS2SR9iltZzVrjdan
-         78yBVYZliRYbZT3Vlao9HiR2w/2Rz+q5lzNLPGFnjsF08GtoJmOCaJmaca34O0iSWAy0
-         gcLjPkyeHI2XyuT34gRKlQjBKT+k9A6isuC8pqv+1gMHGBZXiF94mNz2dVcB/9kIyR/U
-         wL+A==
+        bh=xC9WeKeoax5DWLj28MWI/hv9RqCVFqTymI5urzoFJEk=;
+        b=YWauVGhhx911IwnXjOJ1GNjQ0lFIPKOMxNy79mZxNhFRXncuurdxvRhX5B+fbApovW
+         +ghtKMffcGHR6W1synDdeFlysorIgmWMoU40CuaKLwtJAzLpTHvu/0fhMjx3Xmk8QJdH
+         mGCV59bVbmNBN9dM51mhtaiIgYp6LVbjmvnow19L3WIFDwUGsAQ+viO64ydWlSL8A6tg
+         hnu6tu/n+rsKYttK3JlHN/LoUIAjp1QU6IJ1l5mkIavx5tW4dWCIgm/QLVF7kw5C9pGS
+         591ZsFHvc9mcS3tGs0gggBS6Dw9Xd3ZCKuccDVxXN0v2yircxaAlG2Oj/lxKinQciO+J
+         eiGw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
         h=x-gm-message-state:cc:subject:to:references:from:message-id:date
          :user-agent:mime-version:in-reply-to:content-language
          :content-transfer-encoding;
-        bh=oz4Z2hUCFoHZY1GHHxph7m+EiSKjLPPU4J1oFyiqquA=;
-        b=IPIcWU6NZXlyFzQajHzQxM+G8zlN75MG4rrw2GumGwRgibFA49X1VK6lptXQ2EAmpV
-         29yiYZIUzAbBWg46Xenw+LT9Ykbjc2onR98d+j+Obj5dIQvVaTX7Ni+Rt8LNJ+Yc61TB
-         LrMD439kvUNUBlSFBDef2MWrZEjfEI5uS0dEcHp0Ypozcu/FtWlKuT8yfvLy0I+Jt8Ul
-         89LmAGxdLRTDPgrIA1cVihtsJgEtdG+mmLCxXFpjDMY2p3xZbNAsIburdOyunVcS6PYr
-         pnGRSzk3EZzPynesi9T5PtX5XV9fBOENaAfC/XPOz3pvIAAoGbaP0n9LKwxlqcC4p5NW
-         iOSA==
-X-Gm-Message-State: AOAM533aIHYo7XZKt/0gDSr8lMFTAjcedXY1ZFSc2drlWDpxtbIWvJS9
-        gpDbYzutRoG+LEMhM+ZDaLg=
-X-Google-Smtp-Source: ABdhPJwif15rVPovOMYK0B8l3/jnJEqInigaT22rVRvZTHXfTerKdTT8kvBljC66eQuf2ysxr8ez8g==
-X-Received: by 2002:a5d:6a4c:: with SMTP id t12mr8164439wrw.249.1611132979585;
-        Wed, 20 Jan 2021 00:56:19 -0800 (PST)
+        bh=xC9WeKeoax5DWLj28MWI/hv9RqCVFqTymI5urzoFJEk=;
+        b=uI5SJ8h2lX6VYjrXKCjmB9+ulGUQrXaKQv1T5JpUqo2mwllYvG5480O7xpGL7S9slm
+         lfUBlHAyaxMOeYM58qOgGWE7G8sxjl5Nw7RLd9O2jVkRTFRIbrtj+T1/9jeQhmdW0PnX
+         seOpst90gDrHj9DJ+jP0+zbC54Ll+YaEe0Yuq1VQGjeXL+1HzwvNYjpYd4oNYLBUHmLq
+         o3b9mUi55Hf9btpAvQWOpLX44ONzK0/KYg5mN5lWCMjZW92Kdqf6zZ1ZgwOvnVSP1JMI
+         /abl5dzj/UcT8NS7WafkWzQ50zo5IVLh6y7xnXGr7BYKQgW+hCxD6D9xW4nsQ9ngtb8C
+         nLVw==
+X-Gm-Message-State: AOAM530drqCjKWusDNo9wQpCgq9Z5bsyubOFCYbAAHDJ/YPEivoCfZNi
+        mO5ljjtVx+uCplRvbg+et2g92f7ZuLQ=
+X-Google-Smtp-Source: ABdhPJwUhG900ijchXWzExQ7uVaHm8iy2bZSEhS1VLJIZn3CIcgrkK2wCOlMItUl3pWVAbCX+3KmmA==
+X-Received: by 2002:a5d:4d06:: with SMTP id z6mr8475246wrt.70.1611132657963;
+        Wed, 20 Jan 2021 00:50:57 -0800 (PST)
 Received: from ?IPv6:2a02:2455:e0:e000:3005:efab:c884:ced0? ([2a02:2455:e0:e000:3005:efab:c884:ced0])
-        by smtp.gmail.com with ESMTPSA id b3sm2591159wme.32.2021.01.20.00.56.18
+        by smtp.gmail.com with ESMTPSA id h5sm2833677wrp.56.2021.01.20.00.50.56
         (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Wed, 20 Jan 2021 00:56:18 -0800 (PST)
-Cc:     mtk.manpages@gmail.com, linux-man@vger.kernel.org,
-        libc-alpha@sourceware.org
-Subject: Re: [PATCH] circleq.3: Fix CIRCLEQ_LOOP_*() return type
+        Wed, 20 Jan 2021 00:50:57 -0800 (PST)
+Cc:     mtk.manpages@gmail.com,
+        "G . Branden Robinson" <g.branden.robinson@gmail.com>,
+        linux-man@vger.kernel.org
+Subject: Re: [PATCH v2] posix.py: ffix: Correctly format URIs
 To:     Alejandro Colomar <alx.manpages@gmail.com>
-References: <20210119211226.440430-1-alx.manpages@gmail.com>
+References: <af78792f-9758-e3e6-9c65-c2f93f0fcfdd@gmail.com>
+ <20210110145745.4360-1-alx.manpages@gmail.com>
 From:   "Michael Kerrisk (man-pages)" <mtk.manpages@gmail.com>
-Message-ID: <ee727e99-a3b4-e58c-411b-dcb39de025c3@gmail.com>
-Date:   Wed, 20 Jan 2021 09:56:18 +0100
+Message-ID: <7e480760-48c9-af90-5e2e-81e51d45834c@gmail.com>
+Date:   Wed, 20 Jan 2021 09:50:56 +0100
 User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
  Thunderbird/78.5.0
 MIME-Version: 1.0
-In-Reply-To: <20210119211226.440430-1-alx.manpages@gmail.com>
+In-Reply-To: <20210110145745.4360-1-alx.manpages@gmail.com>
 Content-Type: text/plain; charset=utf-8
 Content-Language: en-US
-Content-Transfer-Encoding: 7bit
+Content-Transfer-Encoding: 8bit
 Precedence: bulk
 List-ID: <linux-man.vger.kernel.org>
 X-Mailing-List: linux-man@vger.kernel.org
 
 Hi Alex,
 
-On 1/19/21 10:12 PM, Alejandro Colomar wrote:
+On 1/10/21 3:57 PM, Alejandro Colomar wrote:
+> $ man 7 uri 2>/dev/null \
+>   |sed -n '/Writing a URI/,/^$/p';
+>    Writing a URI
+>        When  written, URIs should be placed inside double quotes
+>        (e.g., "http://www.kernel.org"), enclosed in angle brack‐
+>        ets  (e.g.,  <http://lwn.net>),  or  placed  on a line by
+>        themselves.  A warning for those who  use  double-quotes:
+>        never  move  extraneous  punctuation  (such as the period
+>        ending a sentence or the comma in a list) inside  a  URI,
+>        since  this  will  change the value of the URI.  Instead,
+>        use angle brackets instead, or switch to a quoting system
+>        that  never  includes extraneous characters inside quota‐
+>        tion marks.  This latter  system,  called  the  'new'  or
+>        'logical'  quoting  system by "Hart's Rules" and the "Ox‐
+>        ford Dictionary for Writers and  Editors",  is  preferred
+>        practice  in Great Britain and hackers worldwide (see the
+>        Jargon  File's   section   on   Hacker   Writing   Style,
+>        ⟨http://www.fwi.uva.nl/~mes/jargon/h
+>        /HackerWritingStyle.html⟩, for more information).   Older
+>        documents  suggested inserting the prefix "URL:" just be‐
+>        fore the URI, but this form has never caught on.
+> 
+> Enclose URIs in .UR/.UE,
+> which encloses the URIs in between <> (or similar characters).
+> It is especially important in this case,
+> as the URIs are followed by '.'.
+> 
+> This also fixes the extraneous space that was used to
+> separate the URIs from the final period.
+> In some cases, the period ended in a line of its own.
+> 
 > Signed-off-by: Alejandro Colomar <alx.manpages@gmail.com>
-> ---
->  man3/circleq.3 | 18 ++++++++++++++----
->  1 file changed, 14 insertions(+), 4 deletions(-)
 
 Thanks. Patch applied.
 
@@ -90,48 +120,35 @@ Cheers,
 
 Michael
 
-> diff --git a/man3/circleq.3 b/man3/circleq.3
-> index 6b6b9aa14..f21bbf903 100644
-> --- a/man3/circleq.3
-> +++ b/man3/circleq.3
-> @@ -75,9 +75,9 @@ CIRCLEQ_REMOVE
->  .BI "struct TYPE *CIRCLEQ_LAST(CIRCLEQ_HEAD *" head );
->  .BI "struct TYPE *CIRCLEQ_PREV(struct TYPE *" elm ", CIRCLEQ_ENTRY " NAME );
->  .BI "struct TYPE *CIRCLEQ_NEXT(struct TYPE *" elm ", CIRCLEQ_ENTRY " NAME );
-> -.BI "void CIRCLEQ_LOOP_PREV(CIRCLEQ_HEAD *" head ,
-> +.BI "struct TYPE *CIRCLEQ_LOOP_PREV(CIRCLEQ_HEAD *" head ,
->  .BI "                           struct TYPE *" elm ", CIRCLEQ_ENTRY " NAME );
-> -.BI "void CIRCLEQ_LOOP_NEXT(CIRCLEQ_HEAD *" head ,
-> +.BI "struct TYPE *CIRCLEQ_LOOP_NEXT(CIRCLEQ_HEAD *" head ,
->  .BI "                           struct TYPE *" elm ", CIRCLEQ_ENTRY " NAME );
->  .PP
->  .BI "CIRCLEQ_FOREACH(struct TYPE *" var ", CIRCLEQ_HEAD *" head ,
-> @@ -238,13 +238,23 @@ and zero if the queue contains at least one entry.
->  .PP
->  .BR CIRCLEQ_FIRST (),
->  .BR CIRCLEQ_LAST (),
-> -.BR CIRCLEQ_PREV (),
-> +.BR CIRCLEQ_LOOP_PREV (),
->  and
-> -.BR CIRCLEQ_NEXT ()
-> +.BR CIRCLEQ_LOOP_NEXT ()
->  return a pointer to the first, last, previous, or next
->  .I TYPE
->  structure, respectively.
->  .PP
-> +.BR CIRCLEQ_PREV (),
-> +and
-> +.BR CIRCLEQ_NEXT ()
-> +are similar to their
-> +.BR CIRCLEQ_LOOP_* ()
-> +counterparts,
-> +except that if the argument is the first or last element, respectively,
-> +they return
-> +.IR &head .
-> +.PP
->  .BR CIRCLEQ_HEAD_INITIALIZER ()
->  returns an initializer that can be assigned to the queue
->  .IR head .
+> ---
+>  posix.py | 10 ++++++----
+>  1 file changed, 6 insertions(+), 4 deletions(-)
+> 
+> diff --git a/posix.py b/posix.py
+> index 55e401a..60271cc 100755
+> --- a/posix.py
+> +++ b/posix.py
+> @@ -337,14 +337,16 @@ for file in sys.argv[2:]:
+>        "Electrical and Electronics Engineers, Inc and The Open Group.\n"
+>        "In the event of any discrepancy between this version and the original IEEE and\n"
+>        "The Open Group Standard, the original IEEE and The Open Group Standard\n"
+> -      "is the referee document. The original Standard can be obtained online at\n"
+> -      "http://www.opengroup.org/unix/online.html .\n"
+> +      "is the referee document.  The original Standard can be obtained online at\n"
+> +      ".UR http://www.opengroup.org/unix/online.html\n"
+> +      ".UE .\n"
+>        ".PP\n"
+>        "Any typographical or formatting errors that appear\n"
+>        "in this page are most likely\n"
+>        "to have been introduced during the conversion of the source files to\n"
+> -      "man page format. To report such errors, see\n"
+> -      "https://www.kernel.org/doc/man-pages/reporting_bugs.html .\n"
+> +      "man page format.  To report such errors, see\n"
+> +      ".UR https://www.kernel.org/doc/man-pages/reporting_bugs.html\n"
+> +      ".UE .\n"
+>        )
+>  
+>      text = "".join(lines)
 > 
 
 
