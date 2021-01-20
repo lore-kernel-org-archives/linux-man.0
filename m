@@ -2,73 +2,73 @@ Return-Path: <linux-man-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-4.3 required=3.0 tests=BAYES_00,DKIM_SIGNED,
+X-Spam-Status: No, score=-9.3 required=3.0 tests=BAYES_00,DKIM_SIGNED,
 	DKIM_VALID,DKIM_VALID_AU,FREEMAIL_FORGED_FROMDOMAIN,FREEMAIL_FROM,
-	HEADER_FROM_DIFFERENT_DOMAINS,MAILING_LIST_MULTI,NICE_REPLY_A,SPF_HELO_NONE,
-	SPF_PASS,URIBL_BLOCKED,USER_AGENT_SANE_1 autolearn=no autolearn_force=no
-	version=3.4.0
+	HEADER_FROM_DIFFERENT_DOMAINS,INCLUDES_PATCH,MAILING_LIST_MULTI,NICE_REPLY_A,
+	SPF_HELO_NONE,SPF_PASS,URIBL_BLOCKED,USER_AGENT_SANE_1 autolearn=ham
+	autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 0665CC433DB
-	for <linux-man@archiver.kernel.org>; Wed, 20 Jan 2021 20:20:07 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 15672C433E0
+	for <linux-man@archiver.kernel.org>; Wed, 20 Jan 2021 20:32:26 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.kernel.org (Postfix) with ESMTP id A9C3B23443
-	for <linux-man@archiver.kernel.org>; Wed, 20 Jan 2021 20:20:06 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTP id CDC14233FC
+	for <linux-man@archiver.kernel.org>; Wed, 20 Jan 2021 20:32:25 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S2389626AbhATUTt (ORCPT <rfc822;linux-man@archiver.kernel.org>);
-        Wed, 20 Jan 2021 15:19:49 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:43730 "EHLO
+        id S1729735AbhATUbe (ORCPT <rfc822;linux-man@archiver.kernel.org>);
+        Wed, 20 Jan 2021 15:31:34 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:46216 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1733263AbhATUTh (ORCPT
-        <rfc822;linux-man@vger.kernel.org>); Wed, 20 Jan 2021 15:19:37 -0500
-Received: from mail-wm1-x32f.google.com (mail-wm1-x32f.google.com [IPv6:2a00:1450:4864:20::32f])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 389D6C061757
-        for <linux-man@vger.kernel.org>; Wed, 20 Jan 2021 12:18:57 -0800 (PST)
-Received: by mail-wm1-x32f.google.com with SMTP id i63so3868885wma.4
-        for <linux-man@vger.kernel.org>; Wed, 20 Jan 2021 12:18:57 -0800 (PST)
+        with ESMTP id S2388755AbhATUbP (ORCPT
+        <rfc822;linux-man@vger.kernel.org>); Wed, 20 Jan 2021 15:31:15 -0500
+Received: from mail-ej1-x629.google.com (mail-ej1-x629.google.com [IPv6:2a00:1450:4864:20::629])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id C7780C0613C1
+        for <linux-man@vger.kernel.org>; Wed, 20 Jan 2021 12:30:33 -0800 (PST)
+Received: by mail-ej1-x629.google.com with SMTP id w1so35319108ejf.11
+        for <linux-man@vger.kernel.org>; Wed, 20 Jan 2021 12:30:33 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=gmail.com; s=20161025;
         h=cc:subject:to:references:from:message-id:date:user-agent
          :mime-version:in-reply-to:content-language:content-transfer-encoding;
-        bh=k6Mz3vq97EUeLR5C4oJClqCFsYIZ/5QxKr3w3vX1yNQ=;
-        b=RCfvMCXxXKyn6fqncBuw93YhXUeXVS9H5hIe5nYKBZ+kJtqqeEW/bp3BTDSkUzBjhb
-         xGgERBJwnGiCRoyVnqKemEIqweXWsH2LbxW+4X9BhjuwxI/Q3kGc8U6Z+vqArg7Knfbk
-         P8onAa7JZ8i8r/ssNQ9gJMA1wMHBZbjr5xNpyu6ZKdkpdX6/MpVxlblErL/AWxv3oMZG
-         zQVpo073oTKvgNkJFSlMU8el9s3+w2klT6SAKq//tBA4kctJjWLXkGAakbGRG6XQXXAZ
-         yULhoTwU3A0rIHyeCJ/KFf0iJ7K746EmPp/HR39jmbPkVeURvy5ohNTqj+iW1lzkXmFu
-         IQ3A==
+        bh=nQXhixognWDrtf/vipQoPKgXb46aTWLuca66kr+By8g=;
+        b=lVbDiJHaxU6bh4P9Px9QZFPqok8SnIkRji9ajk3/exWBCIyUFYDkBl/9cRNGOpzzdJ
+         Nt5OpAYlHOhtupzOYw4pY5QcOUl+CyfUMK7uYCwxgVhIcmLga8ujeOhl8j62FmEBz43H
+         qbr7mDwQQ/3jJPz9k4U/snM7EG2gRNaZjUIZJXlFVGBzl7Ok/qzDRMpsWxAL+j0XbvNW
+         9QFnUdt4x3lYxCJdtlGBoldiRuBZlkbBuX8STXGJf+EcJzxLZMkeAA8uE20AL36ZFjSp
+         rfvAA/j55hBPvbQRx88Abs+UFurLUO4c2tETuLMMrWco3ve/vj5tVkcDftYSaSQkqsJm
+         7elQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
         h=x-gm-message-state:cc:subject:to:references:from:message-id:date
          :user-agent:mime-version:in-reply-to:content-language
          :content-transfer-encoding;
-        bh=k6Mz3vq97EUeLR5C4oJClqCFsYIZ/5QxKr3w3vX1yNQ=;
-        b=o1JuJ03kAJ3JOa+325ztlsfW/5w9/7+vs6OQzMfU0ifNDGhznrpRGZoXWmchp+6vUB
-         DqzssBBdWS/wuSkKpfrrx2XTBIruZ6ic0UUv4RuKwQ6ew+FzUP2CDUWEUWRmfUJFq9Gr
-         qsTXYCCa9wptrX7tmSfde6uWzE+MN64+UMbIBYzogNA/CnT3W5VZtce5GWpu15JjNGfm
-         e1JD+jpzL7JZapgVfRED+Y/sFCjpfM/x5fbCyTBf/oHRW+0Qxw+rNhc89zt3SBQzl3a0
-         oOQ+/Mak3lZgPtSHYT5X/tTtKQcTPRPfrkqeZt2bWqZnofGf5rb36L3Ojtma/RfPVshn
-         IjcQ==
-X-Gm-Message-State: AOAM532Nd7GZArLPO7qZR8sEe4YNC/CQXRZ535bxfRCBOfvaVp13gmQ7
-        iFD01qxCT6Y2W+jbBCbBG+A=
-X-Google-Smtp-Source: ABdhPJx+LDe8/66daS3sh8uPochQ1RjgQq/3ZMNMis3P+sdo92D6RbzLjCGUgvR7lFXtHO+gld9Npw==
-X-Received: by 2002:a05:600c:4ed3:: with SMTP id g19mr5775789wmq.95.1611173935952;
-        Wed, 20 Jan 2021 12:18:55 -0800 (PST)
+        bh=nQXhixognWDrtf/vipQoPKgXb46aTWLuca66kr+By8g=;
+        b=ZBYy7Lf6odMFB84qWYhBcGeo5ZXuZG6y+5hMx0td0DnNTSuLzDbmmw6DxjpRHvQMgd
+         AeEraBzqPKfpJrMry0+w3V/vPA5nupQZKx8IUD4zsWYosZ0r8tAyoDKXrtFmmUow1/6s
+         Vx0om3EPyo2KNl9T5YT0hZn0ESacCBr+P2xk/h8VQMpMsULfD/7c99ppUupLx07y4zW1
+         1TZX4sDk1vksQ+EgKxE95hSh2BFNQH7NZQEBo68Q/9lA12MOSqEt9pTtowsAmLZv3iOO
+         bUkRqHUC9HHSsu8nBjmlBQcQ5aWeJ+ISto8izZVfIJfSNat9YfpMkOBpFzfabLbWm2vL
+         3gow==
+X-Gm-Message-State: AOAM533yFmFfpPD8JLhvYFqnmEUpK14fGtLwF7IFTFvK5nRk9Y7wXfxs
+        5NcHCaTN66bvBxJ3NNKiwQM=
+X-Google-Smtp-Source: ABdhPJyHlHBUGLV6jFjcBTYwq7/tBcDD4rKl9L4JJLLQ45NIorLRdlGEeGZ2kc9JdTacCamxx0Fk8Q==
+X-Received: by 2002:a17:906:2747:: with SMTP id a7mr7435780ejd.250.1611174632572;
+        Wed, 20 Jan 2021 12:30:32 -0800 (PST)
 Received: from ?IPv6:2a02:2455:e0:e000:3005:efab:c884:ced0? ([2a02:2455:e0:e000:3005:efab:c884:ced0])
-        by smtp.gmail.com with ESMTPSA id l7sm5351242wmg.41.2021.01.20.12.18.54
+        by smtp.gmail.com with ESMTPSA id c24sm1657211edt.74.2021.01.20.12.30.31
         (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Wed, 20 Jan 2021 12:18:55 -0800 (PST)
-Cc:     mtk.manpages@gmail.com
-Subject: Re: sendfile() more defailed information ? anyone ?
-To:     Walter Harms <wharms@bfs.de>,
-        "linux-man@vger.kernel.org" <linux-man@vger.kernel.org>
-References: <6e9e410d0e874053bed915ba2c31a74b@bfs.de>
+        Wed, 20 Jan 2021 12:30:31 -0800 (PST)
+Cc:     mtk.manpages@gmail.com, alx.manpages@gmail.com
+Subject: Re: [patch] fread.3: Swap size and nmemb params
+To:     Alessandro Bono <alessandro.bono369@gmail.com>,
+        linux-man@vger.kernel.org
+References: <CANqtVe=DzPjaPo831d+UadR_oc4TR_4t8RBwWwwBME0kQvpcoA@mail.gmail.com>
 From:   "Michael Kerrisk (man-pages)" <mtk.manpages@gmail.com>
-Message-ID: <1c979dfb-5d9b-27e6-39a3-8947bc8cee74@gmail.com>
-Date:   Wed, 20 Jan 2021 21:18:51 +0100
+Message-ID: <e739507e-cff3-810e-d95b-7ffd0b699398@gmail.com>
+Date:   Wed, 20 Jan 2021 21:30:28 +0100
 User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
  Thunderbird/78.5.0
 MIME-Version: 1.0
-In-Reply-To: <6e9e410d0e874053bed915ba2c31a74b@bfs.de>
+In-Reply-To: <CANqtVe=DzPjaPo831d+UadR_oc4TR_4t8RBwWwwBME0kQvpcoA@mail.gmail.com>
 Content-Type: text/plain; charset=utf-8
 Content-Language: en-US
 Content-Transfer-Encoding: 7bit
@@ -76,41 +76,46 @@ Precedence: bulk
 List-ID: <linux-man.vger.kernel.org>
 X-Mailing-List: linux-man@vger.kernel.org
 
-Hello Walter,
+Hello Alessandro,
 
-On 1/20/21 6:40 PM, Walter Harms wrote:
-> Hi List,
-> there was a discussion on the busybox-ml about a kernel-bug in sendfile(). 
-> <cite>
-> In 2.6.33.7, when used with a normal file as the output, it always
-> writes the data to offset 0 in the file.
+On 1/20/21 4:36 PM, Alessandro Bono wrote:
+>>From 4562f0a369db6343902a5a3c5dd6bdb3413b64f9 Mon Sep 17 00:00:00 2001
+> From: Alessandro Bono <alessandro.bono369@gmail.com>
+> Date: Wed, 20 Jan 2021 16:11:57 +0100
+> Subject: [PATCH] fread.3: Swap size and nmemb params
 > 
-> That's fine if you only call it once and then close the output
-> fd. However, if you call it multiple times (as busybox 'cat' does when
-> copying multiple files), then you don't get the expected result. The
-> contents of the input files are not concatenated. Instead the contents
-> of each input file overwites the existing contents of the output file
-> starting at offset 0.
-> </cite>
+> It works both way, but this one feels more right. 
 
-At a very quick test, I could not reproduce this. Do you have a URL 
-for the mail discussion?
+Quite!
 
-Thanks,
+> We are reading four
+> elements sizeof(*buffer) bytes each.
+
+Yes. Thank you. Patch applied.
+
+Cheers,
 
 Michael
 
-> these apache doc mentions more problems
-> https://httpd.apache.org/docs/2.4/mod/core.html#enablesendfile
+> ---
+>  man3/fread.3 | 4 ++--
+>  1 file changed, 2 insertions(+), 2 deletions(-)
 > 
-> It seems that the bug mentioned above is fixed but nobody seems to
-> know when this was done.
->> IMHO this should be mentioned in the man page, but i lack detailed
-> information and time to research them. I would like to encourage
-> anyone who has information to  come forward so it can be added to man
-> page.> 
-> re,
->  wh
+> diff --git a/man3/fread.3 b/man3/fread.3
+> index e1284e0..e3f34b7 100644
+> --- a/man3/fread.3
+> +++ b/man3/fread.3
+> @@ -153,8 +153,8 @@ main(void)
+> 
+>      unsigned char buffer[4];
+> 
+> -    size_t ret = fread(buffer, ARRAY_SIZE(buffer), sizeof(*buffer), fp);
+> -    if (ret != sizeof(*buffer)) {
+> +    size_t ret = fread(buffer, sizeof(*buffer), ARRAY_SIZE(buffer), fp);
+> +    if (ret != ARRAY_SIZE(buffer)) {
+>          fprintf(stderr, "fread() failed: %zu\en", ret);
+>          exit(EXIT_FAILURE);
+>      }
 > 
 
 
