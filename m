@@ -2,197 +2,253 @@ Return-Path: <linux-man-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-4.5 required=3.0 tests=BAYES_00,DKIM_SIGNED,
+X-Spam-Status: No, score=-9.5 required=3.0 tests=BAYES_00,DKIM_SIGNED,
 	DKIM_VALID,DKIM_VALID_AU,FREEMAIL_FORGED_FROMDOMAIN,FREEMAIL_FROM,
-	HEADER_FROM_DIFFERENT_DOMAINS,MAILING_LIST_MULTI,NICE_REPLY_A,SPF_HELO_NONE,
-	SPF_PASS,URIBL_BLOCKED,USER_AGENT_SANE_1 autolearn=no autolearn_force=no
-	version=3.4.0
+	HEADER_FROM_DIFFERENT_DOMAINS,INCLUDES_CR_TRAILER,MAILING_LIST_MULTI,
+	NICE_REPLY_A,SPF_HELO_NONE,SPF_PASS,URIBL_BLOCKED,USER_AGENT_SANE_1
+	autolearn=ham autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 8C227C433DB
-	for <linux-man@archiver.kernel.org>; Fri, 22 Jan 2021 17:51:24 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 964A8C43381
+	for <linux-man@archiver.kernel.org>; Fri, 22 Jan 2021 19:17:37 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.kernel.org (Postfix) with ESMTP id 57CD423AAC
-	for <linux-man@archiver.kernel.org>; Fri, 22 Jan 2021 17:51:24 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTP id 7C45D23AC1
+	for <linux-man@archiver.kernel.org>; Fri, 22 Jan 2021 19:17:37 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1729044AbhAVRur (ORCPT <rfc822;linux-man@archiver.kernel.org>);
-        Fri, 22 Jan 2021 12:50:47 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:34128 "EHLO
+        id S1728745AbhAVSmS (ORCPT <rfc822;linux-man@archiver.kernel.org>);
+        Fri, 22 Jan 2021 13:42:18 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:45290 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1729579AbhAVR2V (ORCPT
-        <rfc822;linux-man@vger.kernel.org>); Fri, 22 Jan 2021 12:28:21 -0500
-Received: from mail-wr1-x431.google.com (mail-wr1-x431.google.com [IPv6:2a00:1450:4864:20::431])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id E411AC06178B
-        for <linux-man@vger.kernel.org>; Fri, 22 Jan 2021 09:27:32 -0800 (PST)
-Received: by mail-wr1-x431.google.com with SMTP id 6so5830887wri.3
-        for <linux-man@vger.kernel.org>; Fri, 22 Jan 2021 09:27:32 -0800 (PST)
+        with ESMTP id S1729687AbhAVSUA (ORCPT
+        <rfc822;linux-man@vger.kernel.org>); Fri, 22 Jan 2021 13:20:00 -0500
+Received: from mail-wr1-x432.google.com (mail-wr1-x432.google.com [IPv6:2a00:1450:4864:20::432])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 8A10BC0613D6
+        for <linux-man@vger.kernel.org>; Fri, 22 Jan 2021 10:19:19 -0800 (PST)
+Received: by mail-wr1-x432.google.com with SMTP id q7so5942693wre.13
+        for <linux-man@vger.kernel.org>; Fri, 22 Jan 2021 10:19:19 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=gmail.com; s=20161025;
         h=subject:to:cc:references:from:message-id:date:user-agent
          :mime-version:in-reply-to:content-language:content-transfer-encoding;
-        bh=MSQT1Z+ke8prdUSDHb+BEaDn490iC5sDrHOQ8zlukm0=;
-        b=R8So5zYDvAYFRH1jXTfLimgNvwzAz0ZbrLl4/wUTvbhEnFKz9dZRDTMh82tZV/ONVh
-         /FRrUJQp5AlYCoKVX7QcNif/XSl6jhBihk6eYQaBqBx3j9WtFOB7hwO9bmH1GpolTqjS
-         kpIvOSSR2JG9e0cKVJ3MS18c5q1y2y3T6j1AE5ZIKCeZt8/D9iruVEdJKgbAYdzKokxb
-         bOx+z1QYP7VU3jVBRB1Om9pI0Qi+2IRVzBzabgAD8CaYr+y0bivBpGk6yobf8os1YfnB
-         Z+s0Ra/1kaLn4rudp3WLrKmSHRDxL/v8zvxOopdi3ekA0rNPA0pcNKDfb6yQifJ6w13J
-         pPBQ==
+        bh=lnls1RNFFY2nSl2JG0OmILdhpPSDYdaNEBW4R93UPzw=;
+        b=M+7O1A2frQB7BBGGUqGXTTN1z5SWf9W4AgpzbsrKWVdDk5FcjF0qDdMNenXkLD6Fu6
+         gcFEMq/TBj+LrnJeu23VEl9b6xHvFiwKIACpA1EPp4lpZJD9vIPYr4Rn50s6+vxelAgb
+         R9qLuxeMlXNoLa+TKwdE/ftijHuk/vbG1UvsjVDYlZbQVZd8rnE00tqwMUjHtBqsiaNd
+         4M/dL/+ZqzZ8eOT3jZ+WwEMqerECfIqOIDfEx8G8HIMOVl4+YN5gZLc++J3w2JjH5cBh
+         Ww5MIaRQjYO66IgfliUc26jpuArEW+O4zdcczy+bkhxF2OpO4N0bZSulU/Osa06K04/2
+         dVMA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
         h=x-gm-message-state:subject:to:cc:references:from:message-id:date
          :user-agent:mime-version:in-reply-to:content-language
          :content-transfer-encoding;
-        bh=MSQT1Z+ke8prdUSDHb+BEaDn490iC5sDrHOQ8zlukm0=;
-        b=cvlXqFeFYSHbsfgPHgvaiywyJJd1QQrmf0DJj3+ZGyzz+bvVMq0hXnJs1Z06TAXtpH
-         r+sh11Q/Ad/g806qa8G3Lq0J/kWmBUJEa2+Xk2JrE79hxQKh+R+DwhYhwyAoDaT5qVkP
-         wKdRqG7Xuh4pLPw02KvhDM3W4pcVgTOLdoGMgZziuRA9agY9Kn32Ui1qrQgZhYgvsDjL
-         AWHl9YNDcCzDRK77bTTH4uV2ao1dcV2RmRA+3F9z/AiQ6kg8UCgwsfdJQPavLiV542Pz
-         S5EjAgd0xsb3AFxZ4R0qldmfwUc61XWhs7LBOsMay86hTcXieKxR7yHvWUaNisLRUGLe
-         p0rg==
-X-Gm-Message-State: AOAM530sqXz+Fn3BXZLCys9SAD+j2QFiGG8qnABijCugS6Vyd0k7W2Z8
-        68CkCUBRwoOD14ubyYudEKU=
-X-Google-Smtp-Source: ABdhPJzw5AsRojEdDybp4HtTpruY/yPHMD0Uf8+kAqDI8TCBWJd5yJLTH4HItwdyRqd/Z28EekoL1A==
-X-Received: by 2002:a05:6000:1815:: with SMTP id m21mr5475471wrh.350.1611336451717;
-        Fri, 22 Jan 2021 09:27:31 -0800 (PST)
-Received: from [10.8.0.134] ([195.53.121.100])
-        by smtp.gmail.com with ESMTPSA id e16sm834178wrp.24.2021.01.22.09.27.28
+        bh=lnls1RNFFY2nSl2JG0OmILdhpPSDYdaNEBW4R93UPzw=;
+        b=rDDjYOtjHAZAs+otZzwW67Ol8dAanyKQIUm+pxV1VpoFQPj0BERIcyzyFMIS4CJzeg
+         zM8R61e7ty9pl7ePv80DOhRJDRsKek7ppJDHfSMc4z6V7GozURE3Zid5FWSWHtLF2Hbs
+         eUJPgSLlLfv+gPMwKcEKDmO61e24QbPgJaNcGSIUXsBCs5BLoMh8BBJo2diXDeDET0X7
+         EyYTumJM5zZt7ORxBsSFsnWs9jaMGjkKunR8/mKut6w/oOngZ4i+KcYEr2duE5uLlSRz
+         BxQ6Tg/M/qJYJ6BCMkASLiHbYkyzZRaYsrMNK7bqPMjH0keryCtc1k1scTu7LZGcdbGJ
+         /uvw==
+X-Gm-Message-State: AOAM533FR6QLtXQhdjIMtZOt6z4S9O4+zoos60z9qRkvWr7EL5PYwACF
+        OAteWKtd+TsIXFbzACNOUn4=
+X-Google-Smtp-Source: ABdhPJxT6tYkDaGHdo00iAsDBbHW2oZkVH4r/EDpFiZUsrTd8motigZTSXRCXHjizUz4J7O1sGtG3w==
+X-Received: by 2002:adf:f512:: with SMTP id q18mr5793813wro.55.1611339557499;
+        Fri, 22 Jan 2021 10:19:17 -0800 (PST)
+Received: from [192.168.42.141] ([37.29.246.4])
+        by smtp.gmail.com with ESMTPSA id g194sm12085934wme.39.2021.01.22.10.19.15
         (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Fri, 22 Jan 2021 09:27:31 -0800 (PST)
-Subject: Re: [PATCH] posix.py: ffix: Correctly format URIs
-To:     "G. Branden Robinson" <g.branden.robinson@gmail.com>
-Cc:     Jakub Wilk <jwilk@jwilk.net>, linux-man@vger.kernel.org,
-        mtk.manpages@gmail.com
-References: <a1d2172c-3880-ac79-7df7-0f5fb0bc65af@gmail.com>
- <20210110065023.olvhi2gqjbmv7243@localhost.localdomain>
- <af78792f-9758-e3e6-9c65-c2f93f0fcfdd@gmail.com>
- <20210112205115.g3nuoodpn7xxpx5u@jwilk.net>
- <bdbf6dee-e74f-e2e3-8c44-4ce63d396aa1@gmail.com>
- <20210121201426.b6wfycjdegxce7fw@jwilk.net>
- <20210122032300.zsqf6uuznfbu6tij@localhost.localdomain>
- <20210122093556.nwo4qe5vcnbinu7z@jwilk.net>
- <20210122100718.ab3wkbyf2hv533rz@localhost.localdomain>
- <948982ef-a747-099a-78d5-096610ec0f57@gmail.com>
- <20210122145114.hc3vsw2gc4sjwkpt@localhost.localdomain>
+        Fri, 22 Jan 2021 10:19:17 -0800 (PST)
+Subject: Re: Ping: [PATCH] posix.py: ffix: Correctly format URIs
+To:     mtk.manpages@gmail.com
+Cc:     Alejandro Colomar <colomar.6.4.3@gmail.com>,
+        linux-man <linux-man@vger.kernel.org>,
+        "G . Branden Robinson" <g.branden.robinson@gmail.com>,
+        Jakub Wilk <jwilk@jwilk.net>
+References: <20210109195840.74472-1-colomar.6.4.3@gmail.com>
+ <b5c59c50-3d98-8835-0c26-90fa6bfaf08b@gmail.com>
+ <CAKgNAkhHLw2gwrnquOq8nbFSoydkSyoWivgeHrh2CH4QY3PdDg@mail.gmail.com>
 From:   "Alejandro Colomar (man-pages)" <alx.manpages@gmail.com>
-Message-ID: <d27e393e-a75f-ea1b-4c8c-c5afe06189cb@gmail.com>
-Date:   Fri, 22 Jan 2021 18:27:22 +0100
+Message-ID: <bdc24ecd-bb92-5d9a-4461-f3d3640f6457@gmail.com>
+Date:   Fri, 22 Jan 2021 19:19:14 +0100
 User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
  Thunderbird/78.6.1
 MIME-Version: 1.0
-In-Reply-To: <20210122145114.hc3vsw2gc4sjwkpt@localhost.localdomain>
-Content-Type: text/plain; charset=windows-1252; format=flowed
+In-Reply-To: <CAKgNAkhHLw2gwrnquOq8nbFSoydkSyoWivgeHrh2CH4QY3PdDg@mail.gmail.com>
+Content-Type: text/plain; charset=utf-8; format=flowed
 Content-Language: en-US
 Content-Transfer-Encoding: 8bit
 Precedence: bulk
 List-ID: <linux-man.vger.kernel.org>
 X-Mailing-List: linux-man@vger.kernel.org
 
-Hi Branden,
-
-On 1/22/21 3:51 PM, G. Branden Robinson wrote:
+On 1/22/21 4:13 PM, Michael Kerrisk (man-pages) wrote:
 > Hi Alex,
 > 
-> At 2021-01-22T11:50:02+0100, Alejandro Colomar (man-pages) wrote:
->> On 1/22/21 11:07 AM, G. Branden Robinson wrote:
->>> I don't think I've ever seen URLs bracketed �like this�.
+> On Fri, 22 Jan 2021 at 13:37, Alejandro Colomar (man-pages)
+> <alx.manpages@gmail.com> wrote:
+>>
+>> On 1/9/21 8:58 PM, Alejandro Colomar wrote:
+>>> $ man 7 uri 2>/dev/null \
+>>>    |sed -n '/Writing a URI/,/^$/p';
+>>>     Writing a URI
+>>>         When  written, URIs should be placed inside double quotes
+>>>         (e.g., "http://www.kernel.org"), enclosed in angle brack‐
+>>>         ets  (e.g.,  <http://lwn.net>),  or  placed  on a line by
+>>>         themselves.  A warning for those who  use  double-quotes:
+>>>         never  move  extraneous  punctuation  (such as the period
+>>>         ending a sentence or the comma in a list) inside  a  URI,
+>>>         since  this  will  change the value of the URI.  Instead,
+>>>         use angle brackets instead, or switch to a quoting system
+>>>         that  never  includes extraneous characters inside quota‐
+>>>         tion marks.  This latter  system,  called  the  'new'  or
+>>>         'logical'  quoting  system by "Hart's Rules" and the "Ox‐
+>>>         ford Dictionary for Writers and  Editors",  is  preferred
+>>>         practice  in Great Britain and hackers worldwide (see the
+>>>         Jargon  File's   section   on   Hacker   Writing   Style,
+>>>         ⟨http://www.fwi.uva.nl/~mes/jargon/h/HackerWritingStyle.html⟩,
+>>>         for more information).   Older
+>>>         documents  suggested inserting the prefix "URL:" just be‐
+>>>         fore the URI, but this form has never caught on.
 >>>
->>> On the other hand, because \[Fo] and \[Fc] are in the ISO 8859
->>> character sets, aren't they much more likely to be supported by the
->>> Linux console driver?
+>>> Enclose URIs in <>.  It is especially important in this case, as
+>>> the URIs are followed by '.'.
+>>>  From "" or <>, I prefer <>, as they are less used in other
+>>> contexts, so they are more easily read as URIs.
+>>>
+>>> This also fixes the extraneous space that was used to separate
+>>> the URIs from the final period.
+>>> In some cases, the period ended in a line of its own.
+>>>
+>>> Also enclose them in [.UR/.UE].
+>>>
+>>> Signed-off-by: Alejandro Colomar <colomar.6.4.3@gmail.com>
+>>> ---
+>>>
+>>> Hello Michael,
+>>>
+>>> This patch is for man-pages-posix.git.
+>>> I found that the link in uri(7) is broken,
+>>> but I found that same document here:
+>>> http://www.catb.org/jargon/html/writing-style.html
+>>> I'll patch uri.7 to fix that link.
+>>>
+>>> That was a very interesting read.
+>>> I got why you tend to use "xxxx (xxxx.)" and not "xxxx (xxxx).",
+> 
+> Sorry... I don't understand what you are referring to in the previous line.
+
+It has happened already a few times that you corrected a patch of mine 
+(or you corrected the corrections I sent to others' patches), because of 
+using "... foo)." and you changed it to be "... foo.)" (see 
+<c73ca93d-b723-adc1-0603-4c7f9ecc458e@gmail.com>) as an example).
+
+> 
+>>> the latter being _much_ more common in Spanish (and other languages)
+>>> (actually, I've never read the former in Spanish).
 >>
->> For that same reason we could conclude that <> (less than, greater
->> than) have even better support :)
+>> Hey Michael,
 >>
->> I'd use either u2039/A, or plain <>.
+>> Ping!
+>>
+>> I'm still very interested in knowing your thoughts about the Hacker
+>> Writing Style from the Jargon File, and more specifically about the
+>> so-called `new' or `logical' quoting method[1].  Especially you being
+>> both a hacker and a writer :-).
+>>
+>> [1]: http://www.catb.org/jargon/html/writing-style.html
 > 
-> The less and greater than signs are already used to bracket URLs using
-> the .UR and .UE requests on non-UTF-8 devices and non-groff formatters.
-> 
-> If funny characters (or the Unicode replacement character) are rendering
-> around the URLs in your terminal window, then there are a few
-> possibilities.
-> 
-> 1.  Something is misconfigured; try a stock groff installation in an
->      xterm.
-> 2.  The font you're using in your terminal emulator lacks adequate glyph
->      coverage; a look at groff_char(7) may help determine this.
-> 3.  Your terminal emulator inadequately supports some aspect of UTF-8.
+> So, I regard the Jargon File and HWS as no real authority on anything,
+> and I'm not even sure we should refer to them in a manual page. Much
+> of the writing there is rather polemical. But, that said...
 > 
 
-I'll investigate with the tools you gave me below.
-Right now, the only thing I know is that I'm using Debian Sid's 
-defaults.  I never touched groff's config files.  And thanks, for the 
-man.local code snippet!
+I don't regard it as an authority either, and yes, it's unnecessarily 
+polemical, but there are still some entries that have some useful 
+information, like this one about the different quoting methods, IMHO.
+
+>> I'll quote the most important part here so you don't need to follow the
+>> link (but I recommend it, though):
+>>
+>> [[
+>> Hackers tend to use quotes as balanced delimiters like parentheses, much
+>> to the dismay of American editors. Thus, if “Jim is going” is a phrase,
+>> and so are “Bill runs” and “Spock groks”, then hackers generally prefer
+>> to write: “Jim is going”, “Bill runs”, and “Spock groks”. This is
+>> incorrect according to standard American usage (which would put the
+>> continuation commas and the final period inside the string quotes);
+>> however, it is counter-intuitive to hackers to mutilate literal strings
+>> with characters that don't belong in them. Given the sorts of examples
+>> that can come up in discussions of programming, American-style quoting
+>> can even be grossly misleading. When communicating command lines or
+>> small pieces of code, extra characters can be a real pain in the neck.
+>>
+>> Consider, for example, a sentence in a vi tutorial that looks like this:
+>>
+>>      Then delete a line from the file by typing “dd”.
+>>
+>> Standard usage would make this
+>>
+>>      Then delete a line from the file by typing “dd.”
+>>
+>> but that would be very bad — because the reader would be prone to type
+>> the string d-d-dot, and it happens that in vi(1), dot repeats the last
+>> command accepted. The net result would be to delete two lines!
+>>
+>> The Jargon File follows hackish usage throughout.
+>>
+>> Interestingly, a similar style is now preferred practice in Great
+>> Britain, though the older style (which became established for
+>> typographical reasons having to do with the aesthetics of comma and
+>> quotes in typeset text) is still accepted there. Hart's Rules and the
+>> Oxford Dictionary for Writers and Editors call the hacker-like style
+>> ‘new’ or ‘logical’ quoting. This returns British English to the style
+>> many other languages (including Spanish, French, Italian, Catalan, and
+>> German) have been using all along.
+>> ]]
+> 
+> Like many programmers, I find the Logical Style, ahhh, logical. And in
+> a fixed-width font, the visual argument for putting periods and commas
+> inside the quotes (the American style) doesn't apply. The
+> counterargument is that in most every other aspect, man-pages follows
+> American conventions.
+
+For that counterpart I'd argue an easy one: we already made some 
+rational exceptions, such as s/dgment/dgement/ ;-).
+
+> 
+> I imagine that in man-pages there's a mix of both styles, since I'm
+> not sure if I've ever taken care about this.
+> 
+
+Yes, there is.
+
+> So, what to do... Given that man-pages are primarily rendered to
+> fix-width displays, and the confusion that can sometimes occur in a
+> technical context if following the American style, I would not oppose
+> switching everything British/Logical style.
+> 
+> Maybe others have opinions to offer.
+
+I strongly vote for the European quoting method, for logical reasons. 
+Pun intended :-).
+
+> 
+>> BTW, I should remind myself to fix the link in uri.7.
+> 
+> I'd be inclined to remove the URL. Mention of the Logical Style in
+> Hart's rules and the British style is good enough, I think.
+> 
+
+
+I'm not against keeping the link, but I wouldn't oppose a removal either.
+
+> Thanks,
+> 
+> Michael
+> 
 
 Thanks,
 
 Alex
-
-> /usr/share/groff/1.22.4/tmac/an-ext.tmac:
->      43  .\" groff has glyph entities for angle brackets.
->      44  .ie \n(.g \{\
->      45  .  ds la \(la\"
->      46  .  ds ra \(ra\"
->      47  .\}
->      48  .el \{\
->      49  .  ds la <\"
->      50  .  ds ra >\"
->      51  .  \" groff's man macros control hyphenation with this register.
->      52  .  nr HY 1
->      53  .\}
-> 
-> The above chunk of the groff man(7) extension macros has not been
-> changed in 14 years, and no changes to the above string definitions are
-> planned.  (Nor do I anticipate changes to the value of the HY register,
-> since it's present for non-groff formatters, but it's a completely
-> separate issue.)
-> 
-> $ grep -B 1 -Ew '(la|ra)' /usr/share/groff/1.22.4/font/dev{ascii,latin1}/*
-> 
-> /usr/share/groff/1.22.4/font/devascii/B-<       24      0       0074
-> /usr/share/groff/1.22.4/font/devascii/B:la      "
-> --
-> /usr/share/groff/1.22.4/font/devascii/B->       24      0       0076
-> /usr/share/groff/1.22.4/font/devascii/B:ra      "
-> --
-> /usr/share/groff/1.22.4/font/devascii/BI-<      24      0       0074
-> /usr/share/groff/1.22.4/font/devascii/BI:la     "
-> --
-> /usr/share/groff/1.22.4/font/devascii/BI->      24      0       0076
-> /usr/share/groff/1.22.4/font/devascii/BI:ra     "
-> --
-> /usr/share/groff/1.22.4/font/devascii/I-<       24      0       0074
-> /usr/share/groff/1.22.4/font/devascii/I:la      "
-> --
-> /usr/share/groff/1.22.4/font/devascii/I->       24      0       0076
-> /usr/share/groff/1.22.4/font/devascii/I:ra      "
-> --
-> /usr/share/groff/1.22.4/font/devascii/R-<       24      0       0074
-> /usr/share/groff/1.22.4/font/devascii/R:la      "
-> --
-> /usr/share/groff/1.22.4/font/devascii/R->       24      0       0076
-> /usr/share/groff/1.22.4/font/devascii/R:ra      "
-> --
-> /usr/share/groff/1.22.4/font/devlatin1/B-<      24      0       0074
-> /usr/share/groff/1.22.4/font/devlatin1/B:la     "
-> --
-> [...and so on...]
-> 
-> The \(la and \(ra special character escapes map to < and > respectively
-> for non-UTF-8 terminal devices in groff.
-> 
-> So, as it happens, do \(fo and \(fc.
-> 
-> Here's a simple reproducer you can feed to "nroff -man" or "groff -Tutf8
-> -man".
-> 
-> 	.TH foo 1
-> 	.UR bar
-> 	.UE
-> 
-> Regards,
-> Branden
-> 
-
 
 -- 
 --
