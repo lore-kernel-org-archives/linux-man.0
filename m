@@ -2,140 +2,383 @@ Return-Path: <linux-man-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-4.5 required=3.0 tests=BAYES_00,DKIM_SIGNED,
+X-Spam-Status: No, score=-12.7 required=3.0 tests=BAYES_00,DKIM_SIGNED,
 	DKIM_VALID,DKIM_VALID_AU,FREEMAIL_FORGED_FROMDOMAIN,FREEMAIL_FROM,
-	HEADER_FROM_DIFFERENT_DOMAINS,MAILING_LIST_MULTI,NICE_REPLY_A,SPF_HELO_NONE,
-	SPF_PASS,URIBL_BLOCKED,USER_AGENT_SANE_1 autolearn=no autolearn_force=no
-	version=3.4.0
+	HEADER_FROM_DIFFERENT_DOMAINS,INCLUDES_CR_TRAILER,INCLUDES_PATCH,
+	MAILING_LIST_MULTI,SPF_HELO_NONE,SPF_PASS,URIBL_BLOCKED autolearn=unavailable
+	autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 587FEC433DB
-	for <linux-man@archiver.kernel.org>; Fri, 22 Jan 2021 10:52:00 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id EAE87C43381
+	for <linux-man@archiver.kernel.org>; Fri, 22 Jan 2021 10:55:15 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.kernel.org (Postfix) with ESMTP id 00394230F9
-	for <linux-man@archiver.kernel.org>; Fri, 22 Jan 2021 10:51:59 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTP id B51BE23A84
+	for <linux-man@archiver.kernel.org>; Fri, 22 Jan 2021 10:55:15 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1727368AbhAVKvf (ORCPT <rfc822;linux-man@archiver.kernel.org>);
-        Fri, 22 Jan 2021 05:51:35 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:33192 "EHLO
+        id S1727040AbhAVJ3w (ORCPT <rfc822;linux-man@archiver.kernel.org>);
+        Fri, 22 Jan 2021 04:29:52 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:33466 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1727389AbhAVKut (ORCPT
-        <rfc822;linux-man@vger.kernel.org>); Fri, 22 Jan 2021 05:50:49 -0500
-Received: from mail-wm1-x334.google.com (mail-wm1-x334.google.com [IPv6:2a00:1450:4864:20::334])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id E5BD8C0613D6
-        for <linux-man@vger.kernel.org>; Fri, 22 Jan 2021 02:50:07 -0800 (PST)
-Received: by mail-wm1-x334.google.com with SMTP id c124so3877136wma.5
-        for <linux-man@vger.kernel.org>; Fri, 22 Jan 2021 02:50:07 -0800 (PST)
+        with ESMTP id S1727146AbhAVIlh (ORCPT
+        <rfc822;linux-man@vger.kernel.org>); Fri, 22 Jan 2021 03:41:37 -0500
+Received: from mail-oo1-xc2c.google.com (mail-oo1-xc2c.google.com [IPv6:2607:f8b0:4864:20::c2c])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 6A05AC06174A;
+        Fri, 22 Jan 2021 00:40:57 -0800 (PST)
+Received: by mail-oo1-xc2c.google.com with SMTP id y72so704143ooa.5;
+        Fri, 22 Jan 2021 00:40:57 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=gmail.com; s=20161025;
-        h=subject:to:cc:references:from:message-id:date:user-agent
-         :mime-version:in-reply-to:content-language:content-transfer-encoding;
-        bh=oGk4yKoentR3E0kH3ZDBGbcGXvFM2Hzoot0sfSF219A=;
-        b=VVXyX2luCttuEJJq1GshSqIDuV+924QufNm9gGPVc84tM0VjFXXsfiEt457u7ww/62
-         brrw5lw0/MvY0Qvnyn/Tw9WKuG3ahGVLNYcKZFjuOR3xvaqnoJSpwwkjvKuo1xTU11SP
-         aqLvufrHHfRX4vmQNVYpGdlsYpfvCEElpJYtNpeD3fjVSViNcOEBZenPyNPKGipjAc2q
-         bdBP2wxPzy5xneklJmvsj14DwP5iMn7jBMXk8r5qyB3Uwl+dNuGmZnPAQcKJYA0E+k2B
-         QR21tFosF3W/mI0rXysWBHWah/yLsBDdfs+gOlTJ7sfVxUs7aAqAK+OTspNDp9JPKv14
-         3Taw==
+        h=mime-version:references:in-reply-to:reply-to:from:date:message-id
+         :subject:to:cc;
+        bh=vYZ4kaGGeeIlMEyYkA+xlQJt3yvEaAvxGbfej6Rp5qY=;
+        b=CXpdV1bM/VZYk+G12m+P+BAkF0ek3cYnb7ECqPgjb1MfxdQXDyeOmADCUP4TQQTynW
+         pZ/G6yyeNs6+oMSpoKjT/4PJxYEJtUGc24ww0e2vv93hD3RF6cRZxOxE6vRzCFjTIpJB
+         coQmTeKr8n4xZC0SnWyBXfGFwfdzeVqlkn8DQ7I5zv8+1a9MPzCYkIrQl/4hlsFr+gwq
+         0kbFFFp+2hRSShJNyyEjE20qKYqfyAqQVaFfogm04B+Hck6wff7y5kQPvh8YrcWTSK7J
+         NY8pPD0aPR6IaFIjNBZi76Jg9VNfei1Lhe43D6nrNtVOrZ/ECitSyEgHMgHuMvyfTMHF
+         db9g==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
-        h=x-gm-message-state:subject:to:cc:references:from:message-id:date
-         :user-agent:mime-version:in-reply-to:content-language
-         :content-transfer-encoding;
-        bh=oGk4yKoentR3E0kH3ZDBGbcGXvFM2Hzoot0sfSF219A=;
-        b=JJDK9hhA8icEHlEk82mcJ95uziZj8JyvQcR9rZeR/xbxu45WFQTxGM1F2b9ZdAMnib
-         FiAmh0iuej4VsojWh9Pvpy7AjthLOurbBsJH3tSLS5R5tC5tKmvmzdxKVGSdD+eT2SPB
-         k7OpCcKPXkdnf96yjQyzo1K5Y7SbVsKpbHBwbFaaOuc6W8G3tbInJLE3Tbx0Q/rymQRH
-         JaOMYKYmi1tIOl3glC4n+SHDySwP6pg5QjO8Ry50EgHsOuzJEvLJsBF1cspoxSeQsVGv
-         jlsAEZIbf9rzldOQMu/ppSYOF1P0HzDw6KN+MO5NsLMKK3Lmnfv580PpKKMvEfKCYvXI
-         TUsg==
-X-Gm-Message-State: AOAM532LkL/pVlvKrDp4++ZljtHwFsYkim74S2OyVLOQPQJ39bFutBv9
-        lZjNwp6Jw5r0W8vTgYbiE5c=
-X-Google-Smtp-Source: ABdhPJwd0BDwHNT7xufr/BcWWsG1nC85I+5uV1B9BMeR69CH7cLGb+bZDPt7DXy8T6aMpyVWYzm4yQ==
-X-Received: by 2002:a1c:f604:: with SMTP id w4mr3412381wmc.39.1611312605746;
-        Fri, 22 Jan 2021 02:50:05 -0800 (PST)
-Received: from [10.8.0.134] ([195.53.121.100])
-        by smtp.gmail.com with ESMTPSA id h1sm8194431wrr.73.2021.01.22.02.50.04
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Fri, 22 Jan 2021 02:50:05 -0800 (PST)
-Subject: Re: [PATCH] posix.py: ffix: Correctly format URIs
-To:     "G. Branden Robinson" <g.branden.robinson@gmail.com>,
-        Jakub Wilk <jwilk@jwilk.net>
-Cc:     linux-man@vger.kernel.org, mtk.manpages@gmail.com
-References: <20210109195840.74472-1-colomar.6.4.3@gmail.com>
- <a1d2172c-3880-ac79-7df7-0f5fb0bc65af@gmail.com>
- <20210110065023.olvhi2gqjbmv7243@localhost.localdomain>
- <af78792f-9758-e3e6-9c65-c2f93f0fcfdd@gmail.com>
- <20210112205115.g3nuoodpn7xxpx5u@jwilk.net>
- <bdbf6dee-e74f-e2e3-8c44-4ce63d396aa1@gmail.com>
- <20210121201426.b6wfycjdegxce7fw@jwilk.net>
- <20210122032300.zsqf6uuznfbu6tij@localhost.localdomain>
- <20210122093556.nwo4qe5vcnbinu7z@jwilk.net>
- <20210122100718.ab3wkbyf2hv533rz@localhost.localdomain>
-From:   "Alejandro Colomar (man-pages)" <alx.manpages@gmail.com>
-Message-ID: <948982ef-a747-099a-78d5-096610ec0f57@gmail.com>
-Date:   Fri, 22 Jan 2021 11:50:02 +0100
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
- Thunderbird/78.6.1
+        h=x-gm-message-state:mime-version:references:in-reply-to:reply-to
+         :from:date:message-id:subject:to:cc;
+        bh=vYZ4kaGGeeIlMEyYkA+xlQJt3yvEaAvxGbfej6Rp5qY=;
+        b=Ecdq5OxHpKPcwKzH03jtM7IxYbIFfLVbpZI3DB7D+Nj4VVwmL6eIeDpxKtouibJO39
+         AP4hTAjgAdtbuzvBSj2X1rbHKv/x7JQGKeDf0/bvnTywE1VaAn1eAxqMqMJTWCmlGl9a
+         eWzrs5wIQpvM/ECh9vwEa8uH2OzaeeLt71ZpjKCK4zsGVHAUJ8H9VfEHIrL+UaonSaWu
+         LrUMm4Y96M55PgAHKsKfXDKZBblzS41rzmjsn70fgMWfJQ1DaLSO5vFvMkDQvWSI9zzF
+         pbq2WroaE3/Vqx95rw+CrWWurgv4HxPvU2a8lq4TxovaicbXpaTWW/9prjozIqMmL7HI
+         wu7w==
+X-Gm-Message-State: AOAM530ZzeJjBd6oTd02TacMVgcl4H3+fiLe5Af0OOBLOOYGY10znGAR
+        mkEyZSyUgqVAjjuSHQDUT6SMsTAMQXFCWkoAhi8=
+X-Google-Smtp-Source: ABdhPJwLzAr9HJcVEn2sw6T+5mRcd3ah3U8DYUiZ6CJbxhKmPl02xVBrqvdYquWyQUJxbssho1YO3M3uFoWwfXBuQW4=
+X-Received: by 2002:a4a:eb18:: with SMTP id f24mr2960922ooj.80.1611304856758;
+ Fri, 22 Jan 2021 00:40:56 -0800 (PST)
 MIME-Version: 1.0
-In-Reply-To: <20210122100718.ab3wkbyf2hv533rz@localhost.localdomain>
-Content-Type: text/plain; charset=utf-8; format=flowed
-Content-Language: en-US
-Content-Transfer-Encoding: 8bit
+References: <159827188271.306468.16962617119460123110.stgit@warthog.procyon.org.uk>
+ <159827191245.306468.4903071494263813779.stgit@warthog.procyon.org.uk>
+In-Reply-To: <159827191245.306468.4903071494263813779.stgit@warthog.procyon.org.uk>
+Reply-To: mtk.manpages@gmail.com
+From:   "Michael Kerrisk (man-pages)" <mtk.manpages@gmail.com>
+Date:   Fri, 22 Jan 2021 09:40:45 +0100
+Message-ID: <CAKgNAkjp0GOaqt3q9n=E9EereUMGRP8L6Dvn-MsCuntuT2Un7w@mail.gmail.com>
+Subject: Re: [PATCH 5/5] Add manpage for fsconfig(2)
+To:     David Howells <dhowells@redhat.com>
+Cc:     Alexander Viro <viro@zeniv.linux.org.uk>,
+        "linux-fsdevel@vger.kernel.org" <linux-fsdevel@vger.kernel.org>,
+        linux-man <linux-man@vger.kernel.org>,
+        Linux API <linux-api@vger.kernel.org>,
+        lkml <linux-kernel@vger.kernel.org>
+Content-Type: text/plain; charset="UTF-8"
 Precedence: bulk
 List-ID: <linux-man.vger.kernel.org>
 X-Mailing-List: linux-man@vger.kernel.org
 
-On 1/22/21 11:07 AM, G. Branden Robinson wrote:
-> At 2021-01-22T10:35:56+0100, Jakub Wilk wrote:
->> * G. Branden Robinson <g.branden.robinson@gmail.com>, 2021-01-22, 14:23:
->>> U+2039 and U+203A are "single {left,right}-pointing angle quotation
->>> mark" per Unicode.  Their groff special character escapes are \[fo]
->>> and \[fc], respectively.  (I don't know the mnemonic that inspired
->>> the "f" in the name.)
->>
->> "French", I guess:
->> https://en.wikipedia.org/wiki/French_quotes#French
-> 
-> Thanks.  That's probably true, alas for the poor overlooked Finns,
-> Swedes, Greeks, Hungarians, Portuguese...
-> 
->>> .  char \[la] \[Fo]
->>> .  char \[ra] \[Fc]
->>
->> Should be lowercase "f" here.
-> 
-> You're right: we have both kinds--Country _and_ Western!
-> 
->         «        \[Fo]   u00AB     left double chevron
->         »        \[Fc]   u00BB     right double chevron
->         ‹        \[fo]   u2039     left single chevron
->         ›        \[fc]   u203A     right single chevron
-> [from groff_char(7) in the forthcoming groff 1.23.0]
-> 
-> I don't think I've ever seen URLs bracketed «like this».
-> 
-> On the other hand, because \[Fo] and \[Fc] are in the ISO 8859 character
-> sets, aren't they much more likely to be supported by the Linux console
-> driver?
+Hello David,
 
-For that same reason we could conclude that <> (less than, greater than) 
-have even better support :)
+Ping!
 
-I'd use either u2039/A, or plain <>.
+Thanks,
 
-Regards,
+Michael
 
-Alex
-
-
-> 
-> Regards,
-> Branden
-> 
+On Mon, 24 Aug 2020 at 14:25, David Howells <dhowells@redhat.com> wrote:
+>
+> Add a manual page to document the fsconfig() system call.
+>
+> Signed-off-by: David Howells <dhowells@redhat.com>
+> ---
+>
+>  man2/fsconfig.2 |  277 +++++++++++++++++++++++++++++++++++++++++++++++++++++++
+>  1 file changed, 277 insertions(+)
+>  create mode 100644 man2/fsconfig.2
+>
+> diff --git a/man2/fsconfig.2 b/man2/fsconfig.2
+> new file mode 100644
+> index 000000000..da53d2fcb
+> --- /dev/null
+> +++ b/man2/fsconfig.2
+> @@ -0,0 +1,277 @@
+> +'\" t
+> +.\" Copyright (c) 2020 David Howells <dhowells@redhat.com>
+> +.\"
+> +.\" %%%LICENSE_START(VERBATIM)
+> +.\" Permission is granted to make and distribute verbatim copies of this
+> +.\" manual provided the copyright notice and this permission notice are
+> +.\" preserved on all copies.
+> +.\"
+> +.\" Permission is granted to copy and distribute modified versions of this
+> +.\" manual under the conditions for verbatim copying, provided that the
+> +.\" entire resulting derived work is distributed under the terms of a
+> +.\" permission notice identical to this one.
+> +.\"
+> +.\" Since the Linux kernel and libraries are constantly changing, this
+> +.\" manual page may be incorrect or out-of-date.  The author(s) assume no
+> +.\" responsibility for errors or omissions, or for damages resulting from
+> +.\" the use of the information contained herein.  The author(s) may not
+> +.\" have taken the same level of care in the production of this manual,
+> +.\" which is licensed free of charge, as they might when working
+> +.\" professionally.
+> +.\"
+> +.\" Formatted or processed versions of this manual, if unaccompanied by
+> +.\" the source, must acknowledge the copyright and authors of this work.
+> +.\" %%%LICENSE_END
+> +.\"
+> +.TH FSCONFIG 2 2020-08-24 "Linux" "Linux Programmer's Manual"
+> +.SH NAME
+> +fsconfig \- Filesystem parameterisation
+> +.SH SYNOPSIS
+> +.nf
+> +.B #include <sys/types.h>
+> +.B #include <sys/mount.h>
+> +.B #include <unistd.h>
+> +.B #include <sys/mount.h>
+> +.PP
+> +.BI "int fsconfig(int *" fd ", unsigned int " cmd ", const char *" key ,
+> +.br
+> +.BI "             const void __user *" value ", int " aux ");"
+> +.br
+> +.BI
+> +.fi
+> +.PP
+> +.IR Note :
+> +There is no glibc wrapper for this system call.
+> +.SH DESCRIPTION
+> +.PP
+> +.BR fsconfig ()
+> +is used to supply parameters to and issue commands against a filesystem
+> +configuration context as set up by
+> +.BR fsopen (2)
+> +or
+> +.BR fspick (2).
+> +The context is supplied attached to the file descriptor specified by
+> +.I fd
+> +argument.
+> +.PP
+> +The
+> +.I cmd
+> +argument indicates the command to be issued, where some of the commands simply
+> +supply parameters to the context.  The meaning of
+> +.IR key ", " value " and " aux
+> +are command-dependent; unless required for the command, these should be set to
+> +NULL or 0.
+> +.PP
+> +The available commands are:
+> +.TP
+> +.B FSCONFIG_SET_FLAG
+> +Set the parameter named by
+> +.IR key
+> +to true.  This may fail with error
+> +.B EINVAL
+> +if the parameter requires an argument.
+> +.TP
+> +.B FSCONFIG_SET_STRING
+> +Set the parameter named by
+> +.I key
+> +to a string.  This may fail with error
+> +.B EINVAL
+> +if the parser doesn't want a parameter here, wants a non-string or the string
+> +cannot be interpreted appropriately.
+> +.I value
+> +points to a NUL-terminated string.
+> +.TP
+> +.B FSCONFIG_SET_BINARY
+> +Set the parameter named by
+> +.I key
+> +to be a binary blob argument.  This may cause
+> +.B EINVAL
+> +to be returned if the filesystem parser isn't expecting a binary blob and it
+> +can't be converted to something usable.
+> +.I value
+> +points to the data and
+> +.I aux
+> +indicates the size of the data.
+> +.TP
+> +.B FSCONFIG_SET_PATH
+> +Set the parameter named by
+> +.I key
+> +to the object at the provided path.
+> +.I value
+> +should point to a NUL-terminated pathname string and aux may indicate
+> +.B AT_FDCWD
+> +or a file descriptor indicating a directory from which to begin a relative
+> +path resolution.  This may fail with error
+> +.B EINVAL
+> +if the parameter isn't expecting a path; it may also fail if the path cannot
+> +be resolved with the typcal errors for that
+> +.RB "(" ENOENT ", " ENOTDIR ", " EPERM ", " EACCES ", etc.)."
+> +.IP
+> +Note that FSCONFIG_SET_STRING can be used instead, implying AT_FDCWD.
+> +.TP
+> +.B FSCONFIG_SET_PATH_EMPTY
+> +As FSCONFIG_SET_PATH, but with
+> +.B AT_EMPTY_PATH
+> +applied to the pathwalk.
+> +.TP
+> +.B FSCONFIG_SET_FD
+> +Set the parameter named by
+> +.I key
+> +to the file descriptor specified by
+> +.IR aux .
+> +This will fail with
+> +.B EINVAL
+> +if the parameter doesn't expect a file descriptor or
+> +.B EBADF
+> +if the file descriptor is invalid.
+> +.IP
+> +Note that FSCONFIG_SET_STRING can be used instead with the file descriptor
+> +passed as a decimal string.
+> +.TP
+> +.B FSCONFIG_CMD_CREATE
+> +This command triggers the filesystem to take the parameters set in the context
+> +and to try to create filesystem representation in the kernel.  If an existing
+> +representation can be shared, the filesystem may do that instead if the
+> +parameters permit.  This is intended for use with
+> +.BR fsopen (2).
+> +.TP
+> +.B FSCONFIG_CMD_RECONFIGURE
+> +This command causes the driver to alter the parameters of an already live
+> +filesystem instance according to the parameters stored in the context.  This
+> +is intended for use with
+> +.BR fspick (2),
+> +but may also by used against the context created by
+> +.BR fsopen()
+> +after
+> +.BR fsmount (2)
+> +has been called on it.
+> +
+> +.\"________________________________________________________
+> +.SH EXAMPLES
+> +.PP
+> +.in +4n
+> +.nf
+> +fsconfig(sfd, FSCONFIG_SET_FLAG, "ro", NULL, 0);
+> +
+> +fsconfig(sfd, FSCONFIG_SET_STRING, "user_xattr", "false", 0);
+> +
+> +fsconfig(sfd, FSCONFIG_SET_BINARY, "ms_pac", pac_buffer, pac_size);
+> +
+> +fsconfig(sfd, FSCONFIG_SET_PATH, "journal", "/dev/sdd4", AT_FDCWD);
+> +
+> +dirfd = open("/dev/", O_PATH);
+> +fsconfig(sfd, FSCONFIG_SET_PATH, "journal", "sdd4", dirfd);
+> +
+> +fd = open("/overlays/mine/", O_PATH);
+> +fsconfig(sfd, FSCONFIG_SET_PATH_EMPTY, "lower_dir", "", fd);
+> +
+> +pipe(pipefds);
+> +fsconfig(sfd, FSCONFIG_SET_FD, "fd", NULL, pipefds[1]);
+> +.fi
+> +.in
+> +.PP
+> +.SH RETURN VALUE
+> +On success, the function returns 0.  On error, \-1 is returned, and
+> +.I errno
+> +is set appropriately.
+> +.SH ERRORS
+> +The error values given below result from filesystem type independent
+> +errors.
+> +Each filesystem type may have its own special errors and its
+> +own special behavior.
+> +See the Linux kernel source code for details.
+> +.TP
+> +.B EACCES
+> +A component of a path was not searchable.
+> +(See also
+> +.BR path_resolution (7).)
+> +.TP
+> +.B EACCES
+> +Mounting a read-only filesystem was attempted without specifying the
+> +.RB ' ro '
+> +parameter.
+> +.TP
+> +.B EACCES
+> +A specified block device is located on a filesystem mounted with the
+> +.B MS_NODEV
+> +option.
+> +.\" mtk: Probably: write permission is required for MS_BIND, with
+> +.\" the error EPERM if not present; CAP_DAC_OVERRIDE is required.
+> +.TP
+> +.B EBADF
+> +The file descriptor given by
+> +.I fd
+> +or possibly by
+> +.I aux
+> +(depending on the command) is invalid.
+> +.TP
+> +.B EBUSY
+> +The context attached to
+> +.I fd
+> +is in the wrong state for the given command.
+> +.TP
+> +.B EBUSY
+> +The filesystem representation cannot be reconfigured read-only because it still
+> +holds files open for writing.
+> +.TP
+> +.B EFAULT
+> +One of the pointer arguments points outside the accessible address space.
+> +.TP
+> +.B EINVAL
+> +.I fd
+> +does not refer to a filesystem configuration context.
+> +.TP
+> +.B EINVAL
+> +One of the source parameters referred to an invalid superblock.
+> +.TP
+> +.B ELOOP
+> +Too many links encountered during pathname resolution.
+> +.TP
+> +.B ENAMETOOLONG
+> +A path name was longer than
+> +.BR MAXPATHLEN .
+> +.TP
+> +.B ENOENT
+> +A pathname was empty or had a nonexistent component.
+> +.TP
+> +.B ENOMEM
+> +The kernel could not allocate sufficient memory to complete the call.
+> +.TP
+> +.B ENOTBLK
+> +Once of the parameters does not refer to a block device (and a device was
+> +required).
+> +.TP
+> +.B ENOTDIR
+> +.IR pathname ,
+> +or a prefix of
+> +.IR source ,
+> +is not a directory.
+> +.TP
+> +.B EOPNOTSUPP
+> +The command given by
+> +.I cmd
+> +was not valid.
+> +.TP
+> +.B ENXIO
+> +The major number of a block device parameter is out of range.
+> +.TP
+> +.B EPERM
+> +The caller does not have the required privileges.
+> +.SH CONFORMING TO
+> +These functions are Linux-specific and should not be used in programs intended
+> +to be portable.
+> +.SH VERSIONS
+> +.BR fsconfig ()
+> +was added to Linux in kernel 5.2.
+> +.SH NOTES
+> +Glibc does not (yet) provide a wrapper for the
+> +.BR fsconfig ()
+> +system call; call it using
+> +.BR syscall (2).
+> +.SH SEE ALSO
+> +.BR mountpoint (1),
+> +.BR fsmount (2),
+> +.BR fsopen (2),
+> +.BR fspick (2),
+> +.BR mount_namespaces (7),
+> +.BR path_resolution (7)
+>
+>
 
 
 -- 
---
-Alejandro Colomar
-Linux man-pages comaintainer; https://www.kernel.org/doc/man-pages/
-http://www.alejandro-colomar.es/
+Michael Kerrisk
+Linux man-pages maintainer; http://www.kernel.org/doc/man-pages/
+Linux/UNIX System Programming Training: http://man7.org/training/
