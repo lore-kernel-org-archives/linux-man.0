@@ -2,286 +2,225 @@ Return-Path: <linux-man-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-12.7 required=3.0 tests=BAYES_00,DKIM_SIGNED,
+X-Spam-Status: No, score=-14.2 required=3.0 tests=BAYES_00,DKIM_SIGNED,
 	DKIM_VALID,DKIM_VALID_AU,FREEMAIL_FORGED_FROMDOMAIN,FREEMAIL_FROM,
 	HEADER_FROM_DIFFERENT_DOMAINS,INCLUDES_CR_TRAILER,INCLUDES_PATCH,
-	MAILING_LIST_MULTI,SPF_HELO_NONE,SPF_PASS,URIBL_BLOCKED autolearn=unavailable
-	autolearn_force=no version=3.4.0
+	MAILING_LIST_MULTI,SPF_HELO_NONE,SPF_PASS,URIBL_BLOCKED,USER_AGENT_SANE_1
+	autolearn=ham autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 0AAC9C4332D
-	for <linux-man@archiver.kernel.org>; Fri, 22 Jan 2021 10:55:16 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id BFB16C433E0
+	for <linux-man@archiver.kernel.org>; Fri, 22 Jan 2021 12:38:25 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.kernel.org (Postfix) with ESMTP id DC44023A9F
-	for <linux-man@archiver.kernel.org>; Fri, 22 Jan 2021 10:55:15 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTP id 7674E22DBF
+	for <linux-man@archiver.kernel.org>; Fri, 22 Jan 2021 12:38:25 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1727301AbhAVJ3v (ORCPT <rfc822;linux-man@archiver.kernel.org>);
-        Fri, 22 Jan 2021 04:29:51 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:33324 "EHLO
+        id S1727293AbhAVMiW (ORCPT <rfc822;linux-man@archiver.kernel.org>);
+        Fri, 22 Jan 2021 07:38:22 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:56248 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1727040AbhAVIlC (ORCPT
-        <rfc822;linux-man@vger.kernel.org>); Fri, 22 Jan 2021 03:41:02 -0500
-Received: from mail-oi1-x231.google.com (mail-oi1-x231.google.com [IPv6:2607:f8b0:4864:20::231])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 39C75C061786;
-        Fri, 22 Jan 2021 00:40:18 -0800 (PST)
-Received: by mail-oi1-x231.google.com with SMTP id q25so5212394oij.10;
-        Fri, 22 Jan 2021 00:40:18 -0800 (PST)
+        with ESMTP id S1727401AbhAVMiC (ORCPT
+        <rfc822;linux-man@vger.kernel.org>); Fri, 22 Jan 2021 07:38:02 -0500
+Received: from mail-wm1-x336.google.com (mail-wm1-x336.google.com [IPv6:2a00:1450:4864:20::336])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 35129C061788
+        for <linux-man@vger.kernel.org>; Fri, 22 Jan 2021 04:37:22 -0800 (PST)
+Received: by mail-wm1-x336.google.com with SMTP id e15so4218076wme.0
+        for <linux-man@vger.kernel.org>; Fri, 22 Jan 2021 04:37:22 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=gmail.com; s=20161025;
-        h=mime-version:references:in-reply-to:reply-to:from:date:message-id
-         :subject:to:cc;
-        bh=e0T/0FMUpYKFq5BQWC0q9ZRuoujNmvORYqx5Qnxrd6U=;
-        b=Qg+bUYVKucO99QnqOD4irrWaQBQMH2hjBBwXFRQi8Pojs8JiwApZXHdXhzAXyM5Pqc
-         a+tQUweISQZagSTAGPD69wWhU8GeHSF5kqApp1qa/mBCX2KaFLKcf0Auzv3t4naom4dc
-         1gU8KN3/z5DcOduhiBWp++lA9Vf3QqS5FTK0BDE8E2pJz2pp76Lzr4tpAZfHFkOdhEdI
-         oN7dqVOhUeojDRk2v6aaAzKTnU4jCSm3crS9fVvVPFpLcV28nkOpJLC+8F17KHKV0hI1
-         NMf/rZw7ZMWZexe2AepQEVVARyALk8OczObHNBX2K+bOnM6zUSJYqqT6zgBFAD1wzWXv
-         HfNQ==
+        h=subject:to:cc:references:from:message-id:date:user-agent
+         :mime-version:in-reply-to:content-language:content-transfer-encoding;
+        bh=7KxLMuJy+mLp1v88DST7KqRnydpnXb+i9XIZmxOm+7s=;
+        b=FYjuM7ddPj65RhaodItdqC413GdvbQvl52XIPIV1sIeWn4297Dw1cm+xicvUnFVFCC
+         uoK9b39oQZ2/lnE+UnbK131wK3Z9mbFmmqr4LwsDXGoyrH9WX4vWRA3Shfo1FS/+BPVv
+         eFJ1/sSJgRpvc5gWPemI3yO3W+AWvPcsotLMh5QebC6bWm7PmA5HRSe/ewnQAls6lmqa
+         Kd3dAz4Usr1zYTN29WkmvDN6fO0kUi0JnFlPnkw2t43p7as3mDlI1V2aQphmfY6jINYr
+         BNhVEeSzEdjKN8/JmBhAuVIJ9RoYCWnNED49ZCnutctdPpVubimF7oZsNsWCyAhZHbzF
+         l6yg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
-        h=x-gm-message-state:mime-version:references:in-reply-to:reply-to
-         :from:date:message-id:subject:to:cc;
-        bh=e0T/0FMUpYKFq5BQWC0q9ZRuoujNmvORYqx5Qnxrd6U=;
-        b=R7qVdj0YvRNF6xv2FnDefesiUni2EEPR7tMRvF3k0e1GbHRb316IOF4iQ5bEuelGSx
-         xfMkbLlvVo0O+NifzWNxzyd4sjk6I/ph3RzhhEPoVK29SLZAZ03g4N9n0G/nG033Pyrz
-         itWPotGFOyBrLlLlcXZMXErODP7Y/U+ycNI/r5LsAwpNSZnIR6qkdjRMMnsoARnZzN6V
-         cL4rru58lFO1syEbGZp80UFJhJvnNJaPxcBRrSAgxhf6m6an7siSI1MPmq12NvPdRDwM
-         tZeweXPO1J+KDvOs4bZlsCXxF7vgdcBDLUKCtfw8NHmgrwHNPg32KHwVJBaVMMTFkQvb
-         aUPA==
-X-Gm-Message-State: AOAM530alvsGJPoF8CJ3Z7dCmZ4Gvo1+KhnXWBiN28nvDNdK44EbChiX
-        NG5j87OqKu+EuFRfb8rIPEzMDY9yRSaZu+C8pAM=
-X-Google-Smtp-Source: ABdhPJxO03NnkN0i+zF1FsF5GZIM81INjIxkYX25MAI0FxT8LEV/GLpukpWNGekHxp3VyVrLV2Dp109fDZqLDGQ89bA=
-X-Received: by 2002:aca:ded4:: with SMTP id v203mr2551827oig.148.1611304817605;
- Fri, 22 Jan 2021 00:40:17 -0800 (PST)
+        h=x-gm-message-state:subject:to:cc:references:from:message-id:date
+         :user-agent:mime-version:in-reply-to:content-language
+         :content-transfer-encoding;
+        bh=7KxLMuJy+mLp1v88DST7KqRnydpnXb+i9XIZmxOm+7s=;
+        b=WBNjK/rqb/+8MNF84nBSiYvDmQ6btQpFsxsp3bLjeYeNTg26JB3d9OtdnaMUFPpEZh
+         4+py4izJWIHQ4eMvpVdneSisTrWoSKukl+HKzA4RAT78AHhjWPK4iuUglgB7KuKKrDLh
+         vyia4rsPLGCgUAyHP2ASmVcyYajZZko7Ff2BSVqNCtQteOSnaH88Y4eYZdqm3M/xwNzr
+         xDcHs9lR4PZsCtDDEbv6jcBgTxPCZk7ZxpadTgyahWbiXpXrInLcC1h248KCiIlEzabt
+         xfVD78OCKzQN09sRk8qJDpmlrB27/ESYSzQW0/NgI+gvKKjRw/OZzpvXXBpyj728bjfZ
+         NZgA==
+X-Gm-Message-State: AOAM530ujPNhDp4xMIniGZYJHtsrWyiihW3vHdLXER3g3AVJpzIgByug
+        jkGQkSx3UDjClt9mrBD8fcw=
+X-Google-Smtp-Source: ABdhPJzy0YIXi7DvNrnmWQiXIsLKDFSWoGAN+Y1FqUAFQ7e3nq6HiVudPkee2236knJk0mToJxgxag==
+X-Received: by 2002:a05:600c:198e:: with SMTP id t14mr3741403wmq.109.1611319040473;
+        Fri, 22 Jan 2021 04:37:20 -0800 (PST)
+Received: from [192.168.0.160] ([170.253.49.0])
+        by smtp.gmail.com with ESMTPSA id m11sm4424962wmc.15.2021.01.22.04.37.19
+        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+        Fri, 22 Jan 2021 04:37:19 -0800 (PST)
+Subject: Ping: [PATCH] posix.py: ffix: Correctly format URIs
+To:     mtk.manpages@gmail.com
+Cc:     Alejandro Colomar <colomar.6.4.3@gmail.com>,
+        linux-man@vger.kernel.org,
+        "G . Branden Robinson" <g.branden.robinson@gmail.com>,
+        Jakub Wilk <jwilk@jwilk.net>
+References: <20210109195840.74472-1-colomar.6.4.3@gmail.com>
+From:   "Alejandro Colomar (man-pages)" <alx.manpages@gmail.com>
+Message-ID: <b5c59c50-3d98-8835-0c26-90fa6bfaf08b@gmail.com>
+Date:   Fri, 22 Jan 2021 13:37:18 +0100
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
+ Thunderbird/78.6.1
 MIME-Version: 1.0
-References: <159827188271.306468.16962617119460123110.stgit@warthog.procyon.org.uk>
- <159827189767.306468.1803062787718957199.stgit@warthog.procyon.org.uk>
-In-Reply-To: <159827189767.306468.1803062787718957199.stgit@warthog.procyon.org.uk>
-Reply-To: mtk.manpages@gmail.com
-From:   "Michael Kerrisk (man-pages)" <mtk.manpages@gmail.com>
-Date:   Fri, 22 Jan 2021 09:40:06 +0100
-Message-ID: <CAKgNAkj=1y51Yei9FchAEKEm=mgY_soVfn-58mRC+Z2Ae2HZZw@mail.gmail.com>
-Subject: Re: [PATCH 3/5] Add manpage for fspick(2)
-To:     David Howells <dhowells@redhat.com>
-Cc:     Alexander Viro <viro@zeniv.linux.org.uk>,
-        "linux-fsdevel@vger.kernel.org" <linux-fsdevel@vger.kernel.org>,
-        linux-man <linux-man@vger.kernel.org>,
-        Linux API <linux-api@vger.kernel.org>,
-        lkml <linux-kernel@vger.kernel.org>
-Content-Type: text/plain; charset="UTF-8"
+In-Reply-To: <20210109195840.74472-1-colomar.6.4.3@gmail.com>
+Content-Type: text/plain; charset=utf-8
+Content-Language: en-US
+Content-Transfer-Encoding: 8bit
 Precedence: bulk
 List-ID: <linux-man.vger.kernel.org>
 X-Mailing-List: linux-man@vger.kernel.org
 
-Hello David,
+On 1/9/21 8:58 PM, Alejandro Colomar wrote:
+> $ man 7 uri 2>/dev/null \
+>   |sed -n '/Writing a URI/,/^$/p';
+>    Writing a URI
+>        When  written, URIs should be placed inside double quotes
+>        (e.g., "http://www.kernel.org"), enclosed in angle brack‐
+>        ets  (e.g.,  <http://lwn.net>),  or  placed  on a line by
+>        themselves.  A warning for those who  use  double-quotes:
+>        never  move  extraneous  punctuation  (such as the period
+>        ending a sentence or the comma in a list) inside  a  URI,
+>        since  this  will  change the value of the URI.  Instead,
+>        use angle brackets instead, or switch to a quoting system
+>        that  never  includes extraneous characters inside quota‐
+>        tion marks.  This latter  system,  called  the  'new'  or
+>        'logical'  quoting  system by "Hart's Rules" and the "Ox‐
+>        ford Dictionary for Writers and  Editors",  is  preferred
+>        practice  in Great Britain and hackers worldwide (see the
+>        Jargon  File's   section   on   Hacker   Writing   Style,
+>        ⟨http://www.fwi.uva.nl/~mes/jargon/h/HackerWritingStyle.html⟩,
+>        for more information).   Older
+>        documents  suggested inserting the prefix "URL:" just be‐
+>        fore the URI, but this form has never caught on.
+> 
+> Enclose URIs in <>.  It is especially important in this case, as
+> the URIs are followed by '.'.
+> From "" or <>, I prefer <>, as they are less used in other
+> contexts, so they are more easily read as URIs.
+> 
+> This also fixes the extraneous space that was used to separate
+> the URIs from the final period.
+> In some cases, the period ended in a line of its own.
+> 
+> Also enclose them in [.UR/.UE].
+> 
+> Signed-off-by: Alejandro Colomar <colomar.6.4.3@gmail.com>
+> ---
+> 
+> Hello Michael,
+> 
+> This patch is for man-pages-posix.git.
+> I found that the link in uri(7) is broken,
+> but I found that same document here:
+> http://www.catb.org/jargon/html/writing-style.html
+> I'll patch uri.7 to fix that link.
+> 
+> That was a very interesting read.
+> I got why you tend to use "xxxx (xxxx.)" and not "xxxx (xxxx).",
+> the latter being _much_ more common in Spanish (and other languages)
+> (actually, I've never read the former in Spanish).
+
+Hey Michael,
 
 Ping!
 
-Thanks,
+I'm still very interested in knowing your thoughts about the Hacker
+Writing Style from the Jargon File, and more specifically about the
+so-called `new' or `logical' quoting method[1].  Especially you being
+both a hacker and a writer :-).
 
-Michael
+[1]: http://www.catb.org/jargon/html/writing-style.html
 
-On Mon, 24 Aug 2020 at 14:25, David Howells <dhowells@redhat.com> wrote:
->
-> Add a manual page to document the fspick() system call.
->
-> Signed-off-by: David Howells <dhowells@redhat.com>
-> ---
->
->  man2/fspick.2 |  180 +++++++++++++++++++++++++++++++++++++++++++++++++++++++++
->  1 file changed, 180 insertions(+)
->  create mode 100644 man2/fspick.2
->
-> diff --git a/man2/fspick.2 b/man2/fspick.2
-> new file mode 100644
-> index 000000000..72bf645dd
-> --- /dev/null
-> +++ b/man2/fspick.2
-> @@ -0,0 +1,180 @@
-> +'\" t
-> +.\" Copyright (c) 2020 David Howells <dhowells@redhat.com>
-> +.\"
-> +.\" %%%LICENSE_START(VERBATIM)
-> +.\" Permission is granted to make and distribute verbatim copies of this
-> +.\" manual provided the copyright notice and this permission notice are
-> +.\" preserved on all copies.
-> +.\"
-> +.\" Permission is granted to copy and distribute modified versions of this
-> +.\" manual under the conditions for verbatim copying, provided that the
-> +.\" entire resulting derived work is distributed under the terms of a
-> +.\" permission notice identical to this one.
-> +.\"
-> +.\" Since the Linux kernel and libraries are constantly changing, this
-> +.\" manual page may be incorrect or out-of-date.  The author(s) assume no
-> +.\" responsibility for errors or omissions, or for damages resulting from
-> +.\" the use of the information contained herein.  The author(s) may not
-> +.\" have taken the same level of care in the production of this manual,
-> +.\" which is licensed free of charge, as they might when working
-> +.\" professionally.
-> +.\"
-> +.\" Formatted or processed versions of this manual, if unaccompanied by
-> +.\" the source, must acknowledge the copyright and authors of this work.
-> +.\" %%%LICENSE_END
-> +.\"
-> +.TH FSPICK 2 2020-08-24 "Linux" "Linux Programmer's Manual"
-> +.SH NAME
-> +fspick \- Select filesystem for reconfiguration
-> +.SH SYNOPSIS
-> +.nf
-> +.B #include <sys/types.h>
-> +.B #include <sys/mount.h>
-> +.B #include <unistd.h>
-> +.BR "#include <fcntl.h>           " "/* Definition of AT_* constants */"
-> +.PP
-> +.BI "int fspick(int " dirfd ", const char *" pathname ", unsigned int " flags );
-> +.fi
-> +.PP
-> +.IR Note :
-> +There is no glibc wrapper for this system call.
-> +.SH DESCRIPTION
-> +.PP
-> +.BR fspick ()
-> +creates a new filesystem configuration context within the kernel and attaches a
-> +pre-existing superblock to it so that it can be reconfigured (similar to
-> +.BR mount (8)
-> +with the "-o remount" option).  The configuration context is marked as being in
-> +reconfiguration mode and attached to a file descriptor, which is returned to
-> +the caller.  The file descriptor can be marked close-on-exec by setting
-> +.B FSPICK_CLOEXEC
-> +in
-> +.IR flags .
-> +.PP
-> +The target is whichever superblock backs the object determined by
-> +.IR dfd ", " pathname " and " flags .
-> +The following can be set in
-> +.I flags
-> +to control the pathwalk to that object:
-> +.TP
-> +.B FSPICK_SYMLINK_NOFOLLOW
-> +Don't follow symbolic links in the final component of the path.
-> +.TP
-> +.B FSPICK_NO_AUTOMOUNT
-> +Don't follow automounts in the final component of the path.
-> +.TP
-> +.B FSPICK_EMPTY_PATH
-> +Allow an empty string to be specified as the pathname.  This allows
-> +.I dirfd
-> +to specify the target mount exactly.
-> +.PP
-> +After calling fspick(), the file descriptor should be passed to the
-> +.BR fsconfig (2)
-> +system call, using that to specify the desired changes to filesystem and
-> +security parameters.
-> +.PP
-> +When the parameters are all set, the
-> +.BR fsconfig ()
-> +system call should then be called again with
-> +.B FSCONFIG_CMD_RECONFIGURE
-> +as the command argument to effect the reconfiguration.
-> +.PP
-> +After the reconfiguration has taken place, the context is wiped clean (apart
-> +from the superblock attachment, which remains) and can be reused to make
-> +another reconfiguration.
-> +.PP
-> +The file descriptor also serves as a channel by which more comprehensive error,
-> +warning and information messages may be retrieved from the kernel using
-> +.BR read (2).
-> +.SS Message Retrieval Interface
-> +The context file descriptor may be queried for message strings at any time by
-> +calling
-> +.BR read (2)
-> +on the file descriptor.  This will return formatted messages that are prefixed
-> +to indicate their class:
-> +.TP
-> +\fB"e <message>"\fP
-> +An error message string was logged.
-> +.TP
-> +\fB"i <message>"\fP
-> +An informational message string was logged.
-> +.TP
-> +\fB"w <message>"\fP
-> +An warning message string was logged.
-> +.PP
-> +Messages are removed from the queue as they're read and the queue has a limited
-> +depth of 8 messages, so it's possible for some to get lost.
-> +.SH RETURN VALUE
-> +On success, the function returns a file descriptor.  On error, \-1 is returned,
-> +and
-> +.I errno
-> +is set appropriately.
-> +.SH ERRORS
-> +The error values given below result from filesystem type independent errors.
-> +Additionally, each filesystem type may have its own special errors and its own
-> +special behavior.  See the Linux kernel source code for details.
-> +.TP
-> +.B EACCES
-> +A component of a path was not searchable.
-> +(See also
-> +.BR path_resolution (7).)
-> +.TP
-> +.B EFAULT
-> +.I pathname
-> +points outside the user address space.
-> +.TP
-> +.B EINVAL
-> +.I flags
-> +includes an undefined value.
-> +.TP
-> +.B ELOOP
-> +Too many links encountered during pathname resolution.
-> +.TP
-> +.B EMFILE
-> +The system has too many open files to create more.
-> +.TP
-> +.B ENFILE
-> +The process has too many open files to create more.
-> +.TP
-> +.B ENAMETOOLONG
-> +A pathname was longer than
-> +.BR MAXPATHLEN .
-> +.TP
-> +.B ENOENT
-> +A pathname was empty or had a nonexistent component.
-> +.TP
-> +.B ENOMEM
-> +The kernel could not allocate sufficient memory to complete the call.
-> +.TP
-> +.B EPERM
-> +The caller does not have the required privileges.
-> +.SH CONFORMING TO
-> +These functions are Linux-specific and should not be used in programs intended
-> +to be portable.
-> +.SH VERSIONS
-> +.BR fsopen "(), " fsmount "() and " fspick ()
-> +were added to Linux in kernel 5.2.
-> +.SH EXAMPLES
-> +To illustrate the process, here's an example whereby this can be used to
-> +reconfigure a filesystem:
-> +.PP
-> +.in +4n
-> +.nf
-> +sfd = fspick(AT_FDCWD, "/mnt", FSPICK_NO_AUTOMOUNT | FSPICK_CLOEXEC);
-> +fsconfig(sfd, FSCONFIG_SET_FLAG, "ro", NULL, 0);
-> +fsconfig(sfd, FSCONFIG_SET_STRING, "user_xattr", "false", 0);
-> +fsconfig(sfd, FSCONFIG_CMD_RECONFIGURE, NULL, NULL, 0);
-> +.fi
-> +.in
-> +.PP
-> +.SH NOTES
-> +Glibc does not (yet) provide a wrapper for the
-> +.BR fspick "()"
-> +system call; call it using
-> +.BR syscall (2).
-> +.SH SEE ALSO
-> +.BR mountpoint (1),
-> +.BR fsconfig (2),
-> +.BR fsopen (2),
-> +.BR path_resolution (7),
-> +.BR mount (8)
->
->
+I'll quote the most important part here so you don't need to follow the
+link (but I recommend it, though):
 
+[[
+Hackers tend to use quotes as balanced delimiters like parentheses, much
+to the dismay of American editors. Thus, if “Jim is going” is a phrase,
+and so are “Bill runs” and “Spock groks”, then hackers generally prefer
+to write: “Jim is going”, “Bill runs”, and “Spock groks”. This is
+incorrect according to standard American usage (which would put the
+continuation commas and the final period inside the string quotes);
+however, it is counter-intuitive to hackers to mutilate literal strings
+with characters that don't belong in them. Given the sorts of examples
+that can come up in discussions of programming, American-style quoting
+can even be grossly misleading. When communicating command lines or
+small pieces of code, extra characters can be a real pain in the neck.
+
+Consider, for example, a sentence in a vi tutorial that looks like this:
+
+    Then delete a line from the file by typing “dd”.
+
+Standard usage would make this
+
+    Then delete a line from the file by typing “dd.”
+
+but that would be very bad — because the reader would be prone to type
+the string d-d-dot, and it happens that in vi(1), dot repeats the last
+command accepted. The net result would be to delete two lines!
+
+The Jargon File follows hackish usage throughout.
+
+Interestingly, a similar style is now preferred practice in Great
+Britain, though the older style (which became established for
+typographical reasons having to do with the aesthetics of comma and
+quotes in typeset text) is still accepted there. Hart's Rules and the
+Oxford Dictionary for Writers and Editors call the hacker-like style
+‘new’ or ‘logical’ quoting. This returns British English to the style
+many other languages (including Spanish, French, Italian, Catalan, and
+German) have been using all along.
+]]
+
+BTW, I should remind myself to fix the link in uri.7.
+
+Cheers,
+
+Alex
+
+> 
+> Regards,
+> 
+> Alex
+> 
+>  posix.py | 10 ++++++----
+>  1 file changed, 6 insertions(+), 4 deletions(-)
+> 
+> diff --git a/posix.py b/posix.py
+> index 55e401a..27f6207 100755
+> --- a/posix.py
+> +++ b/posix.py
+> @@ -337,14 +337,16 @@ for file in sys.argv[2:]:
+>        "Electrical and Electronics Engineers, Inc and The Open Group.\n"
+>        "In the event of any discrepancy between this version and the original IEEE and\n"
+>        "The Open Group Standard, the original IEEE and The Open Group Standard\n"
+> -      "is the referee document. The original Standard can be obtained online at\n"
+> -      "http://www.opengroup.org/unix/online.html .\n"
+> +      "is the referee document.  The original Standard can be obtained online at\n"
+> +      ".UR <http://www.opengroup.org/unix/online.html>\n"
+> +      ".UE .\n"
+>        ".PP\n"
+>        "Any typographical or formatting errors that appear\n"
+>        "in this page are most likely\n"
+>        "to have been introduced during the conversion of the source files to\n"
+> -      "man page format. To report such errors, see\n"
+> -      "https://www.kernel.org/doc/man-pages/reporting_bugs.html .\n"
+> +      "man page format.  To report such errors, see\n"
+> +      ".UR <https://www.kernel.org/doc/man-pages/reporting_bugs.html>\n"
+> +      ".UE .\n"
+>        )
+>  
+>      text = "".join(lines)
+> 
 
 -- 
-Michael Kerrisk
-Linux man-pages maintainer; http://www.kernel.org/doc/man-pages/
-Linux/UNIX System Programming Training: http://man7.org/training/
+Alejandro Colomar
+Linux man-pages comaintainer; https://www.kernel.org/doc/man-pages/
+http://www.alejandro-colomar.es/
