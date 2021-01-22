@@ -2,147 +2,144 @@ Return-Path: <linux-man-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-4.2 required=3.0 tests=BAYES_00,DKIM_SIGNED,
+X-Spam-Status: No, score=-4.5 required=3.0 tests=BAYES_00,DKIM_SIGNED,
 	DKIM_VALID,DKIM_VALID_AU,FREEMAIL_FORGED_FROMDOMAIN,FREEMAIL_FROM,
-	HEADER_FROM_DIFFERENT_DOMAINS,MAILING_LIST_MULTI,SPF_HELO_NONE,SPF_PASS,
-	USER_AGENT_SANE_1 autolearn=no autolearn_force=no version=3.4.0
+	HEADER_FROM_DIFFERENT_DOMAINS,MAILING_LIST_MULTI,NICE_REPLY_A,SPF_HELO_NONE,
+	SPF_PASS,URIBL_BLOCKED,USER_AGENT_SANE_1 autolearn=no autolearn_force=no
+	version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 824CAC433E0
-	for <linux-man@archiver.kernel.org>; Fri, 22 Jan 2021 17:04:12 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id B382CC433DB
+	for <linux-man@archiver.kernel.org>; Fri, 22 Jan 2021 17:43:22 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.kernel.org (Postfix) with ESMTP id 4AF54233FA
-	for <linux-man@archiver.kernel.org>; Fri, 22 Jan 2021 17:04:12 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTP id 7FE3323A6A
+	for <linux-man@archiver.kernel.org>; Fri, 22 Jan 2021 17:43:22 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1728684AbhAVRDw (ORCPT <rfc822;linux-man@archiver.kernel.org>);
-        Fri, 22 Jan 2021 12:03:52 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:56992 "EHLO
+        id S1729404AbhAVRmt (ORCPT <rfc822;linux-man@archiver.kernel.org>);
+        Fri, 22 Jan 2021 12:42:49 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:35240 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1728812AbhAVRDS (ORCPT
-        <rfc822;linux-man@vger.kernel.org>); Fri, 22 Jan 2021 12:03:18 -0500
-Received: from mail-pj1-x102c.google.com (mail-pj1-x102c.google.com [IPv6:2607:f8b0:4864:20::102c])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 49925C061786
-        for <linux-man@vger.kernel.org>; Fri, 22 Jan 2021 09:02:25 -0800 (PST)
-Received: by mail-pj1-x102c.google.com with SMTP id kx7so4147482pjb.2
-        for <linux-man@vger.kernel.org>; Fri, 22 Jan 2021 09:02:25 -0800 (PST)
+        with ESMTP id S1729283AbhAVRdP (ORCPT
+        <rfc822;linux-man@vger.kernel.org>); Fri, 22 Jan 2021 12:33:15 -0500
+Received: from mail-wr1-x436.google.com (mail-wr1-x436.google.com [IPv6:2a00:1450:4864:20::436])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id AC05CC0613D6
+        for <linux-man@vger.kernel.org>; Fri, 22 Jan 2021 09:32:34 -0800 (PST)
+Received: by mail-wr1-x436.google.com with SMTP id m4so5833511wrx.9
+        for <linux-man@vger.kernel.org>; Fri, 22 Jan 2021 09:32:34 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=gmail.com; s=20161025;
-        h=date:from:to:cc:subject:message-id:references:mime-version
-         :content-disposition:in-reply-to:user-agent;
-        bh=R10DStvqCBWKfYOmAjTWWNMrfKSgC1i9cRo+OSlO94Q=;
-        b=vS6xYrk8gP1+FHdgZNHBPZMk/OJ7InCrz8rKALpUE2aMsMTrK+u7ssokfZ7am1/I9h
-         AvM/R7AEU2iTNc+dmWHK0Cm590+2goh4Jb2nKiqPigfpFX0DM3fJeyvcfB9BNgQqF8ZH
-         EYGeZ2UgeOkfKJbeCNwPQvsiKGbUMSHDyBHfUShpptez5pENHI3jgRLfkBQs9O5o52bu
-         DfeVcxPqwclmKaOMPPnaZpW1qbrsy6b2hIjMY3tamniXKDGbSX2j1d5ULjh7j/838AqO
-         K9fglaWtpqx5m15p7pJ4EvszEDm23Qd4SbJNaJs48W1Sx9yK77leYgpbyNhnkbeQLW46
-         B/Og==
+        h=subject:to:cc:references:from:message-id:date:user-agent
+         :mime-version:in-reply-to:content-language:content-transfer-encoding;
+        bh=96OWAZ/QuVY28HN4xolP9Wm1Pv06b4MjjTatVsHD0pA=;
+        b=OpNRgMtwZEYjEzDuc8GA4Mlv2Gt7jhx/2HX0e0jT9lJ6Nao08vWJsu7uoOHYaE0zks
+         oxzm1MIvWwtkv4mbboyLL1mXU4EHA4VD7C0+ufad56B3KWdW9qZvYhnfsYMTQbMv8fN5
+         Y+KaN7oCfit9YPfXzCnGJso5QWgrDURrub7L1pujPpYQsQU/Jb5Yb7qCdXndN+GNMSYX
+         BNITrJgrPpSvA4lO3AD17N0mHgccnEwCBlqIlR2BZ7wXToSFQeGsw7Kx7ko+XGTjeGpB
+         NOeK3yFP+WKTgSkLXUb/zUPvSiwjOHgaODEzmmvU0A1I+zMvM7hfPSbQIm8S2yUKYMbK
+         J/yA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
-        h=x-gm-message-state:date:from:to:cc:subject:message-id:references
-         :mime-version:content-disposition:in-reply-to:user-agent;
-        bh=R10DStvqCBWKfYOmAjTWWNMrfKSgC1i9cRo+OSlO94Q=;
-        b=jQWI4G87clPauOgmLnfIYHd2iRaSgvcgVlyJyCrSnTAXEJHoStH/5J2Y6O86b1UQGt
-         +iwUkGkg0/1+dt5nR9s/Cv5KBNSvhy2QebAlfvpTt8YAVXe2+5wlCbDSqoFTzhRHNbah
-         sEFUkUZykmHANAdYu4IK8oXr0BYxY96bNuJPBR+CD23UwSVdUNLa4Jj94es0dQ2mxFD4
-         PRfyNgjQl5/k3e454OwdXEtCr8Z8ZczZ3B1AGEBeWZoR3IfkuAgmcd2U7JWho8wgK/Sn
-         a8z5OwuFVpin4sNMeoQ0iA+2tvCxxJoQ03j1f+KtW9I4G0pWFwXI7VRZaaki01rOvK7G
-         L2Ng==
-X-Gm-Message-State: AOAM5315gzI8qu/Me4X1F3HX0vvmliVPKtXNsKpWX58cifH+pDMh/nJw
-        Cl6lXPxuZqda/Qp8HFls7t8=
-X-Google-Smtp-Source: ABdhPJxJImjgW7dC0LNkkm5afiWkvh+nIQ35mvbUTM6pebn2LTpPXOqKlTsbvxtq8mUvAPyxs0wtgQ==
-X-Received: by 2002:a17:90a:5d13:: with SMTP id s19mr794646pji.110.1611334944785;
-        Fri, 22 Jan 2021 09:02:24 -0800 (PST)
-Received: from localhost.localdomain ([1.144.185.233])
-        by smtp.gmail.com with ESMTPSA id b7sm9192219pff.96.2021.01.22.09.02.22
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Fri, 22 Jan 2021 09:02:24 -0800 (PST)
-Date:   Sat, 23 Jan 2021 04:02:19 +1100
-From:   "G. Branden Robinson" <g.branden.robinson@gmail.com>
-To:     Deri <deri@chuzzlewit.myzen.co.uk>
-Cc:     groff@gnu.org,
-        "Michael Kerrisk (man-pages)" <mtk.manpages@gmail.com>,
+        h=x-gm-message-state:subject:to:cc:references:from:message-id:date
+         :user-agent:mime-version:in-reply-to:content-language
+         :content-transfer-encoding;
+        bh=96OWAZ/QuVY28HN4xolP9Wm1Pv06b4MjjTatVsHD0pA=;
+        b=OGYbpRFb8kVk5ZbjKaz9bOQ4iwd6Yinwi30XrV32Vx+Bl8NOlyGXxp4EGANlgy7smp
+         S0Uw0DcLAhBKS7AJvEdLJma3mj/IJMfRecgEWhI7UJXGEP4mM6a2ZkprOF2jH0KVd9Eg
+         U5AmPY69DDtkbg9MXO1KT8DQqUJuHzViFXYsQ0KU79OBLc0G9G6IhfKis9DBSkJr5b/d
+         fC8MM0P7S4CvLROcUS6LYcQdVTQWMul2PUa6r44u4Y9LCnoHX3RXiq8SRghXjpj+rsCP
+         Zayg4NQUFm2q1QUG2WETx9DY9DGDOdggwKU/sn9YMd6zb/1f8hnCpjW4EcmKXvJ32VaK
+         9gjA==
+X-Gm-Message-State: AOAM532q+1LdrxsmBaeK1MLxcuY3VnXjogogXm4litleqQ9naY/C7qJ0
+        bDmtma14yzkJj3Ut/MQtT4MPY/IXOCIPFiyz
+X-Google-Smtp-Source: ABdhPJxc2Abq+J3FdqxHOS4FnNw/Jsr+KTpci+r3b4CX9Ld7Le+xWVATbAJ0RwMTLiLJ5p9iYYu08Q==
+X-Received: by 2002:adf:dc89:: with SMTP id r9mr5567149wrj.52.1611336753475;
+        Fri, 22 Jan 2021 09:32:33 -0800 (PST)
+Received: from [10.8.0.134] ([195.53.121.100])
+        by smtp.gmail.com with ESMTPSA id b18sm13296466wrm.57.2021.01.22.09.32.32
+        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+        Fri, 22 Jan 2021 09:32:32 -0800 (PST)
+Subject: Re: Correctly formatting URIs: slash
+To:     "G. Branden Robinson" <g.branden.robinson@gmail.com>
+Cc:     "Michael Kerrisk (man-pages)" <mtk.manpages@gmail.com>,
+        Jakub Wilk <jwilk@jwilk.net>,
         linux-man <linux-man@vger.kernel.org>
-Subject: Re: Escaping hyphens ("real" minus signs in groff)
-Message-ID: <20210122170217.kndzit52utaoisfa@localhost.localdomain>
-References: <CAKgNAkihGY5W178QYHcRvs0f0E4HMQdWir9KOJsEzVF=1wi-sQ@mail.gmail.com>
- <a1af3f5c-f3e9-4bf3-cad5-389571c45d27@gmail.com>
- <20210122035558.ny2u3ddel2mltrve@localhost.localdomain>
- <1730363.VJsQCkzT93@pip>
+References: <dd390b94-1733-eca1-4a59-d16988881f9e@gmail.com>
+ <20210122151204.tf7ygq324cf4zwjq@localhost.localdomain>
+From:   "Alejandro Colomar (man-pages)" <alx.manpages@gmail.com>
+Message-ID: <ee39d6f4-4279-a8cc-63e7-f2f583d40659@gmail.com>
+Date:   Fri, 22 Jan 2021 18:32:30 +0100
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
+ Thunderbird/78.6.1
 MIME-Version: 1.0
-Content-Type: multipart/signed; micalg=pgp-sha256;
-        protocol="application/pgp-signature"; boundary="pyofx66jsndwngxz"
-Content-Disposition: inline
-In-Reply-To: <1730363.VJsQCkzT93@pip>
-User-Agent: NeoMutt/20180716
+In-Reply-To: <20210122151204.tf7ygq324cf4zwjq@localhost.localdomain>
+Content-Type: text/plain; charset=windows-1252; format=flowed
+Content-Language: en-US
+Content-Transfer-Encoding: 7bit
 Precedence: bulk
 List-ID: <linux-man.vger.kernel.org>
 X-Mailing-List: linux-man@vger.kernel.org
 
+Hi Branden and Michael,
 
---pyofx66jsndwngxz
-Content-Type: text/plain; charset=utf-8
-Content-Disposition: inline
-Content-Transfer-Encoding: quoted-printable
+On 1/22/21 4:12 PM, G. Branden Robinson wrote:
+> Hi Alex!
+> 
+> At 2021-01-22T14:00:33+0100, Alejandro Colomar (man-pages) wrote:
+>> Why do some pages use \:/ for the slash in the path part of a URL, but
+>> some others don't, and just use /?
+> 
+> Laziness or ignorance of how URLs get typeset and what the \: escape is
+> for.
+> 
+> URLs are typeset with hyphenation disabled.  That means that the line
+> preceding a URL can
+> be broken early in a very ugly way, somewhat like this sentence.
+> 
+> Slashes in URLs turn out to be pretty good places to break a line if it
+> must be.  If you wanted a hyphen to appear at the break point, you'd use
+> the "hyphenation character", an escape that goes way back to 1970s AT&T
+> troff: \%.  However, as with URLs,sometimes you want a hyphenless break
+> point, and that's what groff's \: is.  Heirloom Doctools troff supports
+> \: as well.  mandoc 1.14.1 does not (it refuses to break URLs at all, at
+> least for man(7) documents; I didn't check its mdoc(7) support).
+> 
+>> Moreover, why do the former use \:/ only for the path, but not for the
+>> protocol?
+> 
+> I think it is because people feel like postponing a break by 7 more
+> characters to get the first part after the schema adjacent to it is not
+> too high a price to pay.
+> 
+> There's no deep reason why you couldn't do:
+> 
+> .UR http\:://www\:.w3\:.org\:/CGI
+> Common Gateway Interface
+> .UE
+> 
+> for instance.
+> 
+> House style for the groff man pages is to place hyphenless break points
+> _before_ periods and _after_ slashes in pathnames and URLs.  The former
+> point is one I'd recommend firmly to others, because it helps keep the
+> reader from confusing a line-broken pathname or URL as ending a
+> sentence (prematurely).  The latter convention is more arbitrary; plenty
+> of perfectly valid URLs (and pathnames) exist with or without trailing
+> slashes, so one can't infer the end of such an object from the presence
+> or absence of a slash at the end of a line of text.
 
-Hi Deri!
+Fair enough!  I'll patch URLs to follow those conventions.
 
-At 2021-01-22T16:27:38+0000, Deri wrote:
-> On Friday, 22 January 2021 03:56:00 GMT G. Branden Robinson wrote:
-> > The gap between aspiration and implementation.  I don't think the
-> > "copy-and-paste from PDF to terminal window" matter is completely
-> > sorted out yet.
->=20
-> Hi Branden,
->=20
-> I can't seem to make this not work. In my last email I explained how a
-> default ucmap is installed in the pdfs produced by gropdf, so assuming
-> the pdf viewer supports the pdf standard it should not require a
-> change to the man macros you favour. I have tested using 'xpdf' as the
-> viewer which pastes:-
->=20
-> - =E2=88=92 =EF=AC=81	<=3D=3D without ucmap
-> - - fi	<=3D=3D with ucmap
->=20
-> Of course, if the pdf is produced by using grops and ghostscript the
-> result will be the same as using gropdf with no ucmap, i.e. '-' and
-> '\-' will be pasted as different characters.
+Thanks,
 
-You're right!  It works for me with both evince (my usual viewer) and
-xpdf as it does for you.  I had had a problem with PDF man pages in the
-past but couldn't remember clearly what it was, and had thought it was
-this.
+Alex
 
-But I was able to copy-and-paste and run the "ls -l" from the attached
-trivial man page from the PDF without trouble:
+> 
+> Regards,
+> Branden
+> 
 
-$ groff -Tpdf -man hyphen-minus.man > hm.pdf
-$ evince hm.pdf
 
-This is actually a relief to me.  I feared that special-casing the \-
-would become a camel's nose that would support the recent lobbying
-effort for permanent degradation of traditional *roff glyphs to ASCII
-"just for man pages".
-
-Regards,
-Branden
-
---pyofx66jsndwngxz
-Content-Type: application/pgp-signature; name="signature.asc"
-
------BEGIN PGP SIGNATURE-----
-
-iQIzBAEBCAAdFiEEh3PWHWjjDgcrENwa0Z6cfXEmbc4FAmALBRAACgkQ0Z6cfXEm
-bc749w/+J52cEUcJky/nR2KT943xOSb7uwgMFDzBUrLe2jm8e7NW0fGyQvLrKqqW
-lhuh8vkP0nSxhjAUzTWU5nlrKed24YbKTLHwspRjXmRP5VHxT0VK1cPFU1kkDS0J
-dErObUEqNgzfkuVdWYyLHGLbKngCPVJt54k6A7BnuSJWrGraGROEkH/IRuaHm6fi
-ZVCk+Sdrw5R+zA0tocbxCVeQvbm4noa5Jc+ws1LrzielKfB2vEkswyuN1mCbwvyr
-BN2qXl4TpxFwNWiq6j+vrCYJ5f+h0lVwUHWpj+9/tcqGcxXOy08htiaKeinVEt8S
-8DWC7J4oK2S4mGkPqojShSjT5xpHrX42l8+vQLktj4cMHU/QtPQ37WSZMrOSnvsS
-njy5zhWHqsYbBCCjvaDbjOaoeNeA7ma9IIq7O8+aqwcdVDx00U/qaSQkE7VnEfTO
-/0SbVn6hx6nw4XOJxVmGqsMJJPXCjngflTu5B2s8U6kcG/IHA+SJ+oUSUbcvjCik
-UxRyxXNOyQh15PE5CVlD5B8w/sQ8NqXTRcG19psj7ZbU/EcBBXvGb9g/s8DSReap
-Ew2UKhowpSXRfRBRQTuUFKOtIC5JRthVlGoaAWY2srW4PVDHlHDT0G1P3oLlYC7T
-Zy0dQdq8GgGfUCKOPNnMjR/aPkIIpsvCtONcb8l3HUl3XONR4lw=
-=bfQ1
------END PGP SIGNATURE-----
-
---pyofx66jsndwngxz--
+-- 
+--
+Alejandro Colomar
+Linux man-pages comaintainer; https://www.kernel.org/doc/man-pages/
+http://www.alejandro-colomar.es/
