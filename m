@@ -8,96 +8,111 @@ X-Spam-Status: No, score=-15.8 required=3.0 tests=BAYES_00,DKIM_SIGNED,
 	MAILING_LIST_MULTI,SPF_HELO_NONE,SPF_PASS,USER_AGENT_GIT autolearn=ham
 	autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id D8042C433E6
-	for <linux-man@archiver.kernel.org>; Sun, 24 Jan 2021 15:12:43 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 09116C433DB
+	for <linux-man@archiver.kernel.org>; Sun, 24 Jan 2021 15:13:53 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.kernel.org (Postfix) with ESMTP id B864F22B51
-	for <linux-man@archiver.kernel.org>; Sun, 24 Jan 2021 15:12:43 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTP id D640C22DD6
+	for <linux-man@archiver.kernel.org>; Sun, 24 Jan 2021 15:13:52 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1726554AbhAXPMd (ORCPT <rfc822;linux-man@archiver.kernel.org>);
-        Sun, 24 Jan 2021 10:12:33 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:56342 "EHLO
+        id S1726298AbhAXPN1 (ORCPT <rfc822;linux-man@archiver.kernel.org>);
+        Sun, 24 Jan 2021 10:13:27 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:56506 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1726539AbhAXPLv (ORCPT
-        <rfc822;linux-man@vger.kernel.org>); Sun, 24 Jan 2021 10:11:51 -0500
-Received: from mail-wr1-x436.google.com (mail-wr1-x436.google.com [IPv6:2a00:1450:4864:20::436])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id BDCBAC061574
-        for <linux-man@vger.kernel.org>; Sun, 24 Jan 2021 07:11:04 -0800 (PST)
-Received: by mail-wr1-x436.google.com with SMTP id a1so9754901wrq.6
-        for <linux-man@vger.kernel.org>; Sun, 24 Jan 2021 07:11:04 -0800 (PST)
+        with ESMTP id S1726302AbhAXPM2 (ORCPT
+        <rfc822;linux-man@vger.kernel.org>); Sun, 24 Jan 2021 10:12:28 -0500
+Received: from mail-wr1-x42e.google.com (mail-wr1-x42e.google.com [IPv6:2a00:1450:4864:20::42e])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id C9B9BC0613ED
+        for <linux-man@vger.kernel.org>; Sun, 24 Jan 2021 07:11:47 -0800 (PST)
+Received: by mail-wr1-x42e.google.com with SMTP id g10so9770790wrx.1
+        for <linux-man@vger.kernel.org>; Sun, 24 Jan 2021 07:11:47 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=gmail.com; s=20161025;
         h=from:to:cc:subject:date:message-id:mime-version
          :content-transfer-encoding;
-        bh=OiIxtAS90som2ftWXh7kY74JiJoThy/Sn7eT77cDIv4=;
-        b=r7gtiE547YwuQlzhzRpHjr+NYRD2NlbOL/pWB8it1DmZ8W7h8FQ49M1wLclnetHD1g
-         Wfja+Tst3HVYLNvbPSh/nZ75GezTh4ir28lDNgl9kHkSsvz5ZgpmBzEU2DabhpureRnj
-         eZ3inOzJ7K/0pS6QCkOPiCclTuj0VVLHHRmoeRFweYk11baWEuILslq1tiWKOpqQvhD9
-         ELm2yhgkePzSxobi9VC4+euiggqL+24RItqvG86baS7Bb4gPBxXz5jDqvue4keQCAHRg
-         LkxkqefX2Uxufo6q1+bALQREDdex57aLwZV5VOoNfsqxzZUm7Qy0z58ia353r1noSrOK
-         Hs0g==
+        bh=2dH/AnIKGD78Wvb6nm+25r2o7zcq5zifnjOd4aJrWHE=;
+        b=YqrDGUDZ3rZ+FcKB4zeOdI1c3beQPed6Y+1jvRl45tH+tTIuSDRm3PuPv4wI7I04B7
+         FY0XFvp5djmJlIXLs+sj36fmDzQHpn4KfrWC7HSS4IJGwWHTIYz1Y+aTV0b3SHClmqer
+         6UjLIqLTprQRpdoXWFfjE2uWeb8FHBkeyTj6emm3v8KVLFgGT+fEdVEOhMT+GuphfkkU
+         Pj0+P3L36LHjTphLvoDRhdL1yobJMaNlidx7St+JIkVpOrWraVX11HvPj4V7B2gdy+J5
+         7irtEEIr6LoHWXfyz9cjS9TNfu2iDqbaQ3wZWJco07xxhxPvkDRH0NY6gJCGxrb27crr
+         a5zg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
         h=x-gm-message-state:from:to:cc:subject:date:message-id:mime-version
          :content-transfer-encoding;
-        bh=OiIxtAS90som2ftWXh7kY74JiJoThy/Sn7eT77cDIv4=;
-        b=CTNOwj7XDY4GEYJn6wtY2qk3emfDfrE8WhOGkKvZJ+Rkd56OdmpdMGYyj4xojfnSXX
-         RyANml+ehCdTLGEc1DExzQbsYM4oXQ8bIUMfC3oSKeRRPx6QSBol78Dx0ttjpboV4Nzu
-         /e1cXsfdPIBl+Htnx9e1RrN1DgCjivyQNK1Se5imuXnnSxSxb0LzbyfRIuwHJpZp8om0
-         OuSBFJw5fpDcw511GEeZysePQ9TgcTANv/sS0HMc39miUtgJlGZS+Ef5Cjxbz+C27siE
-         iQOEdh5LVG5OgEA5I8UmDirPNx2/eIb+929HLHW3DfCM7cmZhAs7VYtADdpsDkcAC9XA
-         L6QA==
-X-Gm-Message-State: AOAM533YrygO8UXJ/yfVb/ecpjh70ePTef2zrQvRH3qfU2IgobbuR6mK
-        39uZpzZDe7zbqUFM3Hg730A=
-X-Google-Smtp-Source: ABdhPJx/0guUA4HHKMR9AAvQ5UVotsYcuC/M4SAoQMJs0NRYNga/nud8oOVrjeLd66wRDY0fLvWN/Q==
-X-Received: by 2002:a05:6000:1045:: with SMTP id c5mr225578wrx.250.1611501063503;
-        Sun, 24 Jan 2021 07:11:03 -0800 (PST)
+        bh=2dH/AnIKGD78Wvb6nm+25r2o7zcq5zifnjOd4aJrWHE=;
+        b=Q7UyCVQm6O5FvZze3og5IhoSeApGJwuzTv6iY6+gYiiZ4fSGxU6r8ac+B2sbaCvW4O
+         woTIEJKFjua40SbLU/WDhnDSUaHNkTGHqQzyABNACxOuZRG25IaD7+19C1XtHtoWrKEr
+         PYKk4BnCyLpSAcXcQsfgFeoywB6vqZlPm/hoiJySP5Dd59GOQ2/0erti5pW9899catIx
+         6KZtjPecn6enl1SrW3f7ZrycERu5oXX3tz2/G7RhQin3+IUH3euCz6ER5gFoP/D7iaKp
+         Fi8LIDlLaer1o1HX6Z2DyI7WH/WaC+upg4/vwQ7W3ZifBpEFL23VwsoA9bDAobU42kOF
+         z+ig==
+X-Gm-Message-State: AOAM530XWKnhiXkTyP8DPKH6x6C6KkuikalqkzXTnuwX/eog9mE+GEYI
+        1eUBxXZCpKA5hAAtvViLGJk=
+X-Google-Smtp-Source: ABdhPJxoxSNre+i6iQQB1sHDLkfWMOx7j/h8WQNH3IERQmFSohdC5J6Ea774OR6JhAB0DX7t4q0qDw==
+X-Received: by 2002:a5d:5051:: with SMTP id h17mr1000765wrt.164.1611501106619;
+        Sun, 24 Jan 2021 07:11:46 -0800 (PST)
 Received: from debian.vlc ([170.253.51.130])
-        by smtp.gmail.com with ESMTPSA id j2sm18480099wrh.78.2021.01.24.07.11.02
+        by smtp.gmail.com with ESMTPSA id j2sm18480099wrh.78.2021.01.24.07.11.45
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Sun, 24 Jan 2021 07:11:03 -0800 (PST)
+        Sun, 24 Jan 2021 07:11:46 -0800 (PST)
 From:   Alejandro Colomar <alx.manpages@gmail.com>
 To:     mtk.manpages@gmail.com
 Cc:     linux-man@vger.kernel.org,
+        =?UTF-8?q?Pali=20Roh=C3=A1r?= <pali@kernel.org>,
         Alejandro Colomar <alx.manpages@gmail.com>
-Subject: [PATCH] kexec_load.2: srcfix: Don't break a line that doesn't get past the right margin
-Date:   Sun, 24 Jan 2021 16:10:31 +0100
-Message-Id: <20210124151035.70536-2-alx.manpages@gmail.com>
+Subject: [PATCH] sock_diag.7: Fix recvmsg() usage in the example
+Date:   Sun, 24 Jan 2021 16:10:39 +0100
+Message-Id: <20210124151035.70536-6-alx.manpages@gmail.com>
 X-Mailer: git-send-email 2.30.0
 MIME-Version: 1.0
+Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
 Precedence: bulk
 List-ID: <linux-man.vger.kernel.org>
 X-Mailing-List: linux-man@vger.kernel.org
 
+From: Pali Rohár <pali@kernel.org>
+
+The msg_name field for recvmsg() call points to a caller-allocated buffer
+nladdr that is used to return the source address of the (netlink) socket.
+
+As recvmsg() does not read this buffer and fills it for a caller, do not
+initialize it and instead check its value in the example.
+
+Signed-off-by: Pali Rohár <pali@kernel.org>
 Signed-off-by: Alejandro Colomar <alx.manpages@gmail.com>
 ---
- man2/kexec_load.2 | 11 +++++------
- 1 file changed, 5 insertions(+), 6 deletions(-)
+ man7/sock_diag.7 | 9 ++++++---
+ 1 file changed, 6 insertions(+), 3 deletions(-)
 
-diff --git a/man2/kexec_load.2 b/man2/kexec_load.2
-index 8cd062229..eec63d312 100644
---- a/man2/kexec_load.2
-+++ b/man2/kexec_load.2
-@@ -31,13 +31,12 @@ kexec_load, kexec_file_load \- load a new kernel for later execution
- .nf
- .B #include <linux/kexec.h>
- .PP
--.BI "long kexec_load(unsigned long " entry ", unsigned long " nr_segments ","
-+.BI "long kexec_load(unsigned long " entry ", unsigned long " nr_segments ,
- .BI "                struct kexec_segment *" segments ,
--.BI "                unsigned long " flags ");"
--.BI "long kexec_file_load(int " kernel_fd ", int " initrd_fd ","
--.BI "                unsigned long " cmdline_len  \
--", const char *" cmdline ","
--.BI "                unsigned long " flags ");"
-+.BI "                unsigned long " flags );
-+.BI "long kexec_file_load(int " kernel_fd ", int " initrd_fd ,
-+.BI "                unsigned long " cmdline_len ", const char *" cmdline ,
-+.BI "                unsigned long " flags );
- .fi
- .PP
- .IR Note :
+diff --git a/man7/sock_diag.7 b/man7/sock_diag.7
+index b732b2571..569106dd6 100644
+--- a/man7/sock_diag.7
++++ b/man7/sock_diag.7
+@@ -753,9 +753,7 @@ static int
+ receive_responses(int fd)
+ {
+     long buf[8192 / sizeof(long)];
+-    struct sockaddr_nl nladdr = {
+-        .nl_family = AF_NETLINK
+-    };
++    struct sockaddr_nl nladdr;
+     struct iovec iov = {
+         .iov_base = buf,
+         .iov_len = sizeof(buf)
+@@ -782,6 +780,11 @@ receive_responses(int fd)
+         if (ret == 0)
+             return 0;
+ 
++        if (nladdr.nl_family != AF_NETLINK) {
++            fputs("!AF_NETLINK\en", stderr);
++            return \-1;
++        }
++
+         const struct nlmsghdr *h = (struct nlmsghdr *) buf;
+ 
+         if (!NLMSG_OK(h, ret)) {
 -- 
 2.30.0
 
