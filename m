@@ -8,111 +8,103 @@ X-Spam-Status: No, score=-15.8 required=3.0 tests=BAYES_00,DKIM_SIGNED,
 	MAILING_LIST_MULTI,SPF_HELO_NONE,SPF_PASS,USER_AGENT_GIT autolearn=ham
 	autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 09116C433DB
-	for <linux-man@archiver.kernel.org>; Sun, 24 Jan 2021 15:13:53 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 58155C433DB
+	for <linux-man@archiver.kernel.org>; Sun, 24 Jan 2021 15:15:10 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.kernel.org (Postfix) with ESMTP id D640C22DD6
-	for <linux-man@archiver.kernel.org>; Sun, 24 Jan 2021 15:13:52 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTP id 2759A22B43
+	for <linux-man@archiver.kernel.org>; Sun, 24 Jan 2021 15:15:10 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1726298AbhAXPN1 (ORCPT <rfc822;linux-man@archiver.kernel.org>);
-        Sun, 24 Jan 2021 10:13:27 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:56506 "EHLO
+        id S1726065AbhAXPPJ (ORCPT <rfc822;linux-man@archiver.kernel.org>);
+        Sun, 24 Jan 2021 10:15:09 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:56584 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1726302AbhAXPM2 (ORCPT
-        <rfc822;linux-man@vger.kernel.org>); Sun, 24 Jan 2021 10:12:28 -0500
-Received: from mail-wr1-x42e.google.com (mail-wr1-x42e.google.com [IPv6:2a00:1450:4864:20::42e])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id C9B9BC0613ED
-        for <linux-man@vger.kernel.org>; Sun, 24 Jan 2021 07:11:47 -0800 (PST)
-Received: by mail-wr1-x42e.google.com with SMTP id g10so9770790wrx.1
-        for <linux-man@vger.kernel.org>; Sun, 24 Jan 2021 07:11:47 -0800 (PST)
+        with ESMTP id S1726530AbhAXPMr (ORCPT
+        <rfc822;linux-man@vger.kernel.org>); Sun, 24 Jan 2021 10:12:47 -0500
+Received: from mail-wr1-x430.google.com (mail-wr1-x430.google.com [IPv6:2a00:1450:4864:20::430])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 460E0C06174A
+        for <linux-man@vger.kernel.org>; Sun, 24 Jan 2021 07:12:07 -0800 (PST)
+Received: by mail-wr1-x430.google.com with SMTP id p15so3104369wrq.8
+        for <linux-man@vger.kernel.org>; Sun, 24 Jan 2021 07:12:07 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=gmail.com; s=20161025;
         h=from:to:cc:subject:date:message-id:mime-version
          :content-transfer-encoding;
-        bh=2dH/AnIKGD78Wvb6nm+25r2o7zcq5zifnjOd4aJrWHE=;
-        b=YqrDGUDZ3rZ+FcKB4zeOdI1c3beQPed6Y+1jvRl45tH+tTIuSDRm3PuPv4wI7I04B7
-         FY0XFvp5djmJlIXLs+sj36fmDzQHpn4KfrWC7HSS4IJGwWHTIYz1Y+aTV0b3SHClmqer
-         6UjLIqLTprQRpdoXWFfjE2uWeb8FHBkeyTj6emm3v8KVLFgGT+fEdVEOhMT+GuphfkkU
-         Pj0+P3L36LHjTphLvoDRhdL1yobJMaNlidx7St+JIkVpOrWraVX11HvPj4V7B2gdy+J5
-         7irtEEIr6LoHWXfyz9cjS9TNfu2iDqbaQ3wZWJco07xxhxPvkDRH0NY6gJCGxrb27crr
-         a5zg==
+        bh=wo271IPG/KksBuGahN9ZswHwFduqLEGkWvA4JDqucLU=;
+        b=AfPvLWim9qI+BWpoCYRoQuBq0Q/q1jilGpTKO54FYzJ4OXOwLSzVOthe75x8dIFpPb
+         cf55GxIj7skz/0FaaG4IbgUcXWERe+U2IS/er7OQnLpvVn6WMJbJ2iJGqS682IpuOVIA
+         mQnrqM13GplLZuzEDHyHGjt1MNElYkttJ44bLO1sZvJuKCFLn7TLA2MACiUH+4iamSxd
+         QngLj+KjZXDA+3/lGKknKq3g4lHqi7KzVzco/LtyaI6RpmuExR8gdwSE19sPRlGtME/A
+         YYzKRTCmLmBQuN7fxCwiv5EK85xgLB7lvrTqBkMS3q2isqqblw6YAGwjtl+yK5xu9PEP
+         uZWA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
         h=x-gm-message-state:from:to:cc:subject:date:message-id:mime-version
          :content-transfer-encoding;
-        bh=2dH/AnIKGD78Wvb6nm+25r2o7zcq5zifnjOd4aJrWHE=;
-        b=Q7UyCVQm6O5FvZze3og5IhoSeApGJwuzTv6iY6+gYiiZ4fSGxU6r8ac+B2sbaCvW4O
-         woTIEJKFjua40SbLU/WDhnDSUaHNkTGHqQzyABNACxOuZRG25IaD7+19C1XtHtoWrKEr
-         PYKk4BnCyLpSAcXcQsfgFeoywB6vqZlPm/hoiJySP5Dd59GOQ2/0erti5pW9899catIx
-         6KZtjPecn6enl1SrW3f7ZrycERu5oXX3tz2/G7RhQin3+IUH3euCz6ER5gFoP/D7iaKp
-         Fi8LIDlLaer1o1HX6Z2DyI7WH/WaC+upg4/vwQ7W3ZifBpEFL23VwsoA9bDAobU42kOF
-         z+ig==
-X-Gm-Message-State: AOAM530XWKnhiXkTyP8DPKH6x6C6KkuikalqkzXTnuwX/eog9mE+GEYI
-        1eUBxXZCpKA5hAAtvViLGJk=
-X-Google-Smtp-Source: ABdhPJxoxSNre+i6iQQB1sHDLkfWMOx7j/h8WQNH3IERQmFSohdC5J6Ea774OR6JhAB0DX7t4q0qDw==
-X-Received: by 2002:a5d:5051:: with SMTP id h17mr1000765wrt.164.1611501106619;
-        Sun, 24 Jan 2021 07:11:46 -0800 (PST)
+        bh=wo271IPG/KksBuGahN9ZswHwFduqLEGkWvA4JDqucLU=;
+        b=PV2Mv8d6OfFROX83V3GX6In9GKh1QAG0sxIJtPrb6vcDbsSdpx7YQ4SWuG+mMIGI6g
+         h4xCp0Him1Tbo7TskK/5m7dXjR8p/cRNSyGPfUZc/k7y0C5ogNR4z6qp3XUb12rcud+a
+         ut7mCdmoelpTCyZguX+YDqHN1loNx6QNEGEDHHdWtGgrGtMh44DiD5rKzVwLAevuM00R
+         FkUnMgqSDdYWywgpCXIdMSfPRwf4z1IPIjbxXIhCShGf9etyEZSZZf09rMkdWR0pDGZE
+         J4FDta4IidwF5Ga/MTOGhZqwRQsHLDZf3WjDMPW7WL5Hxbda+JnEhQBMO15QTYO5rhCB
+         D0Qg==
+X-Gm-Message-State: AOAM533MaT1OkJzvrlOy5/ch3bwkA3Fv15v50Cxd2Cjojrk3HOKP8dnJ
+        nnpZwA6LPfq8tDwqGUOq9qY=
+X-Google-Smtp-Source: ABdhPJwE/VaVjMwMiNc4Cte35tGsDMqpjgYwzhGsBLXJkuFypgKXqtS0WnTDwCV53qQh+4SsR8ZRIA==
+X-Received: by 2002:a5d:4a09:: with SMTP id m9mr4726930wrq.122.1611501126134;
+        Sun, 24 Jan 2021 07:12:06 -0800 (PST)
 Received: from debian.vlc ([170.253.51.130])
-        by smtp.gmail.com with ESMTPSA id j2sm18480099wrh.78.2021.01.24.07.11.45
+        by smtp.gmail.com with ESMTPSA id j2sm18480099wrh.78.2021.01.24.07.12.05
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Sun, 24 Jan 2021 07:11:46 -0800 (PST)
+        Sun, 24 Jan 2021 07:12:05 -0800 (PST)
 From:   Alejandro Colomar <alx.manpages@gmail.com>
 To:     mtk.manpages@gmail.com
-Cc:     linux-man@vger.kernel.org,
-        =?UTF-8?q?Pali=20Roh=C3=A1r?= <pali@kernel.org>,
+Cc:     linux-man@vger.kernel.org, Jakub Wilk <jwilk@jwilk.net>,
         Alejandro Colomar <alx.manpages@gmail.com>
-Subject: [PATCH] sock_diag.7: Fix recvmsg() usage in the example
-Date:   Sun, 24 Jan 2021 16:10:39 +0100
-Message-Id: <20210124151035.70536-6-alx.manpages@gmail.com>
+Subject: [PATCH] semget.2, shm_open.3: tfix
+Date:   Sun, 24 Jan 2021 16:10:43 +0100
+Message-Id: <20210124151035.70536-8-alx.manpages@gmail.com>
 X-Mailer: git-send-email 2.30.0
 MIME-Version: 1.0
-Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
 Precedence: bulk
 List-ID: <linux-man.vger.kernel.org>
 X-Mailing-List: linux-man@vger.kernel.org
 
-From: Pali Rohár <pali@kernel.org>
+From: Jakub Wilk <jwilk@jwilk.net>
 
-The msg_name field for recvmsg() call points to a caller-allocated buffer
-nladdr that is used to return the source address of the (netlink) socket.
-
-As recvmsg() does not read this buffer and fills it for a caller, do not
-initialize it and instead check its value in the example.
-
-Signed-off-by: Pali Rohár <pali@kernel.org>
+Signed-off-by: Jakub Wilk <jwilk@jwilk.net>
 Signed-off-by: Alejandro Colomar <alx.manpages@gmail.com>
 ---
- man7/sock_diag.7 | 9 ++++++---
- 1 file changed, 6 insertions(+), 3 deletions(-)
+ man2/semget.2   | 2 +-
+ man3/shm_open.3 | 2 +-
+ 2 files changed, 2 insertions(+), 2 deletions(-)
 
-diff --git a/man7/sock_diag.7 b/man7/sock_diag.7
-index b732b2571..569106dd6 100644
---- a/man7/sock_diag.7
-+++ b/man7/sock_diag.7
-@@ -753,9 +753,7 @@ static int
- receive_responses(int fd)
- {
-     long buf[8192 / sizeof(long)];
--    struct sockaddr_nl nladdr = {
--        .nl_family = AF_NETLINK
--    };
-+    struct sockaddr_nl nladdr;
-     struct iovec iov = {
-         .iov_base = buf,
-         .iov_len = sizeof(buf)
-@@ -782,6 +780,11 @@ receive_responses(int fd)
-         if (ret == 0)
-             return 0;
- 
-+        if (nladdr.nl_family != AF_NETLINK) {
-+            fputs("!AF_NETLINK\en", stderr);
-+            return \-1;
-+        }
-+
-         const struct nlmsghdr *h = (struct nlmsghdr *) buf;
- 
-         if (!NLMSG_OK(h, ret)) {
+diff --git a/man2/semget.2 b/man2/semget.2
+index 9276a1820..17bad6ca9 100644
+--- a/man2/semget.2
++++ b/man2/semget.2
+@@ -155,7 +155,7 @@ If the semaphore set already exists, the permissions are
+ verified.
+ .\" and a check is made to see if it is marked for destruction.
+ .SH RETURN VALUE
+-On sucess,
++On success,
+ .BR semget ()
+ returns the semaphore set identifier (a nonnegative integer).
+ On failure, \-1 is returned, and
+diff --git a/man3/shm_open.3 b/man3/shm_open.3
+index c7d051067..6bc8078f0 100644
+--- a/man3/shm_open.3
++++ b/man3/shm_open.3
+@@ -170,7 +170,7 @@ was specified, in which case a new, distinct object is created).
+ On success,
+ .BR shm_open ()
+ returns a file descriptor (a nonnegative integer).
+-On sucess,
++On success,
+ .BR shm_unlink ()
+ returns 0.
+ On failure, both functions return \-1 and set
 -- 
 2.30.0
 
