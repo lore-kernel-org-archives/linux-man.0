@@ -2,92 +2,109 @@ Return-Path: <linux-man-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-15.7 required=3.0 tests=BAYES_00,DKIM_SIGNED,
+X-Spam-Status: No, score=-14.2 required=3.0 tests=BAYES_00,DKIM_SIGNED,
 	DKIM_VALID,DKIM_VALID_AU,FREEMAIL_FORGED_FROMDOMAIN,FREEMAIL_FROM,
 	HEADER_FROM_DIFFERENT_DOMAINS,INCLUDES_CR_TRAILER,INCLUDES_PATCH,
-	MAILING_LIST_MULTI,SPF_HELO_NONE,SPF_PASS,USER_AGENT_GIT autolearn=ham
-	autolearn_force=no version=3.4.0
+	MAILING_LIST_MULTI,NICE_REPLY_A,SPF_HELO_NONE,SPF_PASS,URIBL_BLOCKED,
+	USER_AGENT_SANE_1 autolearn=ham autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 3ADF1C433E6
-	for <linux-man@archiver.kernel.org>; Thu, 28 Jan 2021 15:31:18 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id E80B0C433E0
+	for <linux-man@archiver.kernel.org>; Thu, 28 Jan 2021 20:14:33 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.kernel.org (Postfix) with ESMTP id F1E9964DF3
-	for <linux-man@archiver.kernel.org>; Thu, 28 Jan 2021 15:31:17 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTP id AE77964E01
+	for <linux-man@archiver.kernel.org>; Thu, 28 Jan 2021 20:14:33 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S231663AbhA1PbD (ORCPT <rfc822;linux-man@archiver.kernel.org>);
-        Thu, 28 Jan 2021 10:31:03 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:56022 "EHLO
+        id S231201AbhA1UO0 (ORCPT <rfc822;linux-man@archiver.kernel.org>);
+        Thu, 28 Jan 2021 15:14:26 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:60170 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S232327AbhA1PaI (ORCPT
-        <rfc822;linux-man@vger.kernel.org>); Thu, 28 Jan 2021 10:30:08 -0500
-Received: from mail-wm1-x333.google.com (mail-wm1-x333.google.com [IPv6:2a00:1450:4864:20::333])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 8E73AC0613D6
-        for <linux-man@vger.kernel.org>; Thu, 28 Jan 2021 07:29:27 -0800 (PST)
-Received: by mail-wm1-x333.google.com with SMTP id j18so4639534wmi.3
-        for <linux-man@vger.kernel.org>; Thu, 28 Jan 2021 07:29:27 -0800 (PST)
+        with ESMTP id S229953AbhA1UMa (ORCPT
+        <rfc822;linux-man@vger.kernel.org>); Thu, 28 Jan 2021 15:12:30 -0500
+Received: from mail-wr1-x429.google.com (mail-wr1-x429.google.com [IPv6:2a00:1450:4864:20::429])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 7500AC061794
+        for <linux-man@vger.kernel.org>; Thu, 28 Jan 2021 12:11:45 -0800 (PST)
+Received: by mail-wr1-x429.google.com with SMTP id a1so6706754wrq.6
+        for <linux-man@vger.kernel.org>; Thu, 28 Jan 2021 12:11:45 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=gmail.com; s=20161025;
-        h=from:to:cc:subject:date:message-id:mime-version
-         :content-transfer-encoding;
-        bh=gFyQnKKmdPTHjWtRqJbUDWpolF+kp7rb5PvIearMZrc=;
-        b=bHUxbXrVY1UmHXj/FTWJ4nJXzRy89WOJvzag0t+TRckhN3pHD7CmaEEVNfU3xfZ0Dk
-         J8kjWHtPrkMq4OsZ6ooY/5GpLSzUjZ1ZiesGcXebNikBxNb3VzozIL/6SKHmYqrBzWNH
-         dVKSL6PE7WE4hRessvI5Ef8ZjbkeERyc1BHWfgxaVENZ7t0vrWZf+hNxWOrFksk+E8vj
-         ILMOQorCFUKqr1CfcKwdqnTydqwO6dzy/9sWlMVjAueCC6SfsA4nste2F77wanW9LFR/
-         w6BBjL+GOGyKBmTPVvULs/J0ZRQFHox+1R0Yoz+l8fbRHNxRK07rnyiawB9+1plOpJwt
-         EDCQ==
+        h=cc:subject:to:references:from:message-id:date:user-agent
+         :mime-version:in-reply-to:content-language:content-transfer-encoding;
+        bh=WW8dLH9zyTiuTVBFXmuznyStn01ToKbSWA/CSgP/J2Y=;
+        b=Cnl7eScNtV9MUEw+Hu0pD7rMzyevC08szSl8pMFa6fPfM7f58s19qE0XqMo/mP+BMT
+         bfXjpI5VljuK1BnxQPmGcK/u4GBjb+D4MtwMR+bmRL9xKmYZQLsuYuGM5j3arRpr609m
+         8nZv3zEaDStDKttcW2FP29eu5AIqtx/AQ1GmrauSJ6xlgAlaWc5fEkQUocKUX4Ahnccb
+         OiIcMwzQp+3lt+xtwAEQhsAEID+fXDBmJxpkhO1j/Vr4Kpodk3LImmB7FC+0LFizzdvd
+         roVImyySDuBP0PD7/vc/sl7I2mWviek7r7AGaAR7XWkxOeLS77v6G07t8oMhT/duuNqf
+         URAw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
-        h=x-gm-message-state:from:to:cc:subject:date:message-id:mime-version
+        h=x-gm-message-state:cc:subject:to:references:from:message-id:date
+         :user-agent:mime-version:in-reply-to:content-language
          :content-transfer-encoding;
-        bh=gFyQnKKmdPTHjWtRqJbUDWpolF+kp7rb5PvIearMZrc=;
-        b=grQF4TPdlymGiMTnv94aBQgPBfiUdR5PPQwpQLTIH1BhLnUhetkpOikTbQCFTiFFTA
-         y0HfbtV/LvUyqsEa0kDhTnIokwtGm5088geZvdZ6L/AyL1iajCG9LRlgUhoz/YQ+xrnC
-         g7rXyO5CjJy5BylDCuYIB3W/uBj7EJbbt9nRk1xr2to+qq5zEO3wwQhdNsyOWjRjwLqA
-         qpJOQ3l3xbwFs/vOTs/1CCsEcHjjKom0Um1eKHHnzAXKh2Q77RZLhigPMEt9Urn0ej1o
-         LzIqZIa4gnq7sodgRHPVzc5gXGVlhcRqAt2Pmy13CcNuOBcT1J2J2prypevSE0h3oSb/
-         ghYw==
-X-Gm-Message-State: AOAM530YwjzrDOYtZpTTHoy5tgGDVpKgfgUvA75BW3ALphJ0SNC1uLws
-        BgxiiiF2onhYxpIc/1iHd7o=
-X-Google-Smtp-Source: ABdhPJwe2U1AWVFlLNh8Zrjbk17a73C/JlNTm6aY42K7A2plOrpc+RuuSXBv5YALnWPdQalOdPi5yg==
-X-Received: by 2002:a1c:398b:: with SMTP id g133mr9008381wma.35.1611847766405;
-        Thu, 28 Jan 2021 07:29:26 -0800 (PST)
-Received: from localhost.localdomain ([170.253.49.0])
-        by smtp.googlemail.com with ESMTPSA id t18sm3327126wrr.56.2021.01.28.07.29.25
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Thu, 28 Jan 2021 07:29:25 -0800 (PST)
-From:   Alejandro Colomar <alx.manpages@gmail.com>
-To:     mtk.manpages@gmail.com
-Cc:     Alejandro Colomar <alx.manpages@gmail.com>,
-        linux-man@vger.kernel.org
-Subject: [PATCH] man-pages.7: tfix
-Date:   Thu, 28 Jan 2021 16:29:11 +0100
-Message-Id: <20210128152910.321187-1-alx.manpages@gmail.com>
-X-Mailer: git-send-email 2.30.0
+        bh=WW8dLH9zyTiuTVBFXmuznyStn01ToKbSWA/CSgP/J2Y=;
+        b=qGCJbIyVN+vvugE6TcBgVxJIbYY0Uh11j37G2MmJsaBcPedL+xok2ta328RauntRo9
+         4E52aCLp0rUVRn/whIHuYSkPFH5NpO1NcCVcXwgX/l2Nja3YXkAmAYbFr4hJ6Aq9gjLh
+         F0R4YAheFqPKoB/E52xDkVhINd0qXg9KnJ6Dryz7zpsuRPkDz5yQtw0iUvGcVWS0lkkm
+         VAI8umKf2JaeqyR2B5gMX3cO8IoxVelX1tn4c68QUJMRo5ukctOoCOBXat3/GFsFdcEq
+         eMp97/H83nRqndweort0rhj0fKsnDc4pk1/0TsLajK597IUF46kjNrTbQlydampm9W+L
+         HYSg==
+X-Gm-Message-State: AOAM531vZWSepxa9U4aEXg+2+ZnSsUJ12D0EWZuJnWbhvoU6g0dpWEGy
+        h/v2UpfOBhXTbin/fMEWaZbJXlhi2OA=
+X-Google-Smtp-Source: ABdhPJyDHVYA8TtfmFoGXkoVsjh2BqBPDaQQTzOOu4NXXpue33mdGuhQnZHePbaIIv40kUQ8WUFwAg==
+X-Received: by 2002:a5d:6c6d:: with SMTP id r13mr789163wrz.343.1611864703957;
+        Thu, 28 Jan 2021 12:11:43 -0800 (PST)
+Received: from ?IPv6:2a02:2455:e0:e000:3005:efab:c884:ced0? ([2a02:2455:e0:e000:3005:efab:c884:ced0])
+        by smtp.gmail.com with ESMTPSA id z8sm6933429wmi.44.2021.01.28.12.11.42
+        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+        Thu, 28 Jan 2021 12:11:43 -0800 (PST)
+Cc:     mtk.manpages@gmail.com, linux-man@vger.kernel.org
+Subject: Re: [PATCH] man-pages.7: tfix
+To:     Alejandro Colomar <alx.manpages@gmail.com>
+References: <20210128152910.321187-1-alx.manpages@gmail.com>
+From:   "Michael Kerrisk (man-pages)" <mtk.manpages@gmail.com>
+Message-ID: <c400e2fb-9911-146c-5f82-cb3e2cd64ad8@gmail.com>
+Date:   Thu, 28 Jan 2021 21:11:42 +0100
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
+ Thunderbird/78.6.0
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+In-Reply-To: <20210128152910.321187-1-alx.manpages@gmail.com>
+Content-Type: text/plain; charset=utf-8
+Content-Language: en-US
+Content-Transfer-Encoding: 7bit
 Precedence: bulk
 List-ID: <linux-man.vger.kernel.org>
 X-Mailing-List: linux-man@vger.kernel.org
 
-Signed-off-by: Alejandro Colomar <alx.manpages@gmail.com>
----
- man7/man-pages.7 | 2 +-
- 1 file changed, 1 insertion(+), 1 deletion(-)
+On 1/28/21 4:29 PM, Alejandro Colomar wrote:
+> Signed-off-by: Alejandro Colomar <alx.manpages@gmail.com>
 
-diff --git a/man7/man-pages.7 b/man7/man-pages.7
-index 7658ef33b..7ca2dfbf4 100644
---- a/man7/man-pages.7
-+++ b/man7/man-pages.7
-@@ -511,7 +511,7 @@ However, blank lines (achieved using
- .IR .PP )
- may be added in the following cases:
- .IP * 3
--to separate long lists of function prototypes ino relates groups
-+to separate long lists of function prototypes into related groups
- (see for example
- .BR list (3));
- .IP *
+Thanks, Alex. Patch applied.
+
+Cheers,
+
+Michael
+
+> ---
+>  man7/man-pages.7 | 2 +-
+>  1 file changed, 1 insertion(+), 1 deletion(-)
+> 
+> diff --git a/man7/man-pages.7 b/man7/man-pages.7
+> index 7658ef33b..7ca2dfbf4 100644
+> --- a/man7/man-pages.7
+> +++ b/man7/man-pages.7
+> @@ -511,7 +511,7 @@ However, blank lines (achieved using
+>  .IR .PP )
+>  may be added in the following cases:
+>  .IP * 3
+> -to separate long lists of function prototypes ino relates groups
+> +to separate long lists of function prototypes into related groups
+>  (see for example
+>  .BR list (3));
+>  .IP *
+> 
+
+
 -- 
-2.30.0
-
+Michael Kerrisk
+Linux man-pages maintainer; http://www.kernel.org/doc/man-pages/
+Linux/UNIX System Programming Training: http://man7.org/training/
