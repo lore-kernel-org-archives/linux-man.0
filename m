@@ -2,85 +2,126 @@ Return-Path: <linux-man-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-5.2 required=3.0 tests=BAYES_00,
-	HEADER_FROM_DIFFERENT_DOMAINS,MAILING_LIST_MULTI,SPF_HELO_NONE,SPF_PASS,
-	URIBL_BLOCKED,USER_AGENT_SANE_1 autolearn=no autolearn_force=no version=3.4.0
+X-Spam-Status: No, score=-4.4 required=3.0 tests=BAYES_00,DKIM_SIGNED,
+	DKIM_VALID,DKIM_VALID_AU,FREEMAIL_FORGED_FROMDOMAIN,FREEMAIL_FROM,
+	HEADER_FROM_DIFFERENT_DOMAINS,MAILING_LIST_MULTI,NICE_REPLY_A,SPF_HELO_NONE,
+	SPF_PASS,URIBL_BLOCKED,USER_AGENT_SANE_1 autolearn=no autolearn_force=no
+	version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id E3CF1C433E0
-	for <linux-man@archiver.kernel.org>; Tue,  2 Feb 2021 23:51:07 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 1D453C433E0
+	for <linux-man@archiver.kernel.org>; Wed,  3 Feb 2021 08:12:01 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.kernel.org (Postfix) with ESMTP id 95D1264E38
-	for <linux-man@archiver.kernel.org>; Tue,  2 Feb 2021 23:51:07 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTP id C469C64F50
+	for <linux-man@archiver.kernel.org>; Wed,  3 Feb 2021 08:12:00 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S229949AbhBBXvF (ORCPT <rfc822;linux-man@archiver.kernel.org>);
-        Tue, 2 Feb 2021 18:51:05 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:35874 "EHLO
+        id S232242AbhBCIMA (ORCPT <rfc822;linux-man@archiver.kernel.org>);
+        Wed, 3 Feb 2021 03:12:00 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:58304 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S229910AbhBBXvE (ORCPT
-        <rfc822;linux-man@vger.kernel.org>); Tue, 2 Feb 2021 18:51:04 -0500
-X-Greylist: delayed 417 seconds by postgrey-1.37 at lindbergh.monkeyblade.net; Tue, 02 Feb 2021 15:50:23 PST
-Received: from outpost.hi.is (outpost.hi.is [IPv6:2a00:c88:4000:1650::165:166])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id E872DC061573
-        for <linux-man@vger.kernel.org>; Tue,  2 Feb 2021 15:50:23 -0800 (PST)
-Received: from inpost.hi.is (inpost.hi.is [IPv6:2a00:c88:4000:1650::165:62])
-        by outpost.hi.is (8.14.7/8.14.7) with ESMTP id 112NhRca014845
-        (version=TLSv1/SSLv3 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK)
-        for <linux-man@vger.kernel.org>; Tue, 2 Feb 2021 23:43:27 GMT
-DKIM-Filter: OpenDKIM Filter v2.11.0 outpost.hi.is 112NhRca014845
-Received: from hekla.rhi.hi.is (hekla.rhi.hi.is [IPv6:2a00:c88:4000:1650::165:2])
-        by inpost.hi.is (8.14.7/8.14.7) with ESMTP id 112NhKbe020280
-        (version=TLSv1/SSLv3 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NO);
-        Tue, 2 Feb 2021 23:43:20 GMT
-DKIM-Filter: OpenDKIM Filter v2.11.0 inpost.hi.is 112NhKbe020280
-Received: from hekla.rhi.hi.is (localhost [127.0.0.1])
-        by hekla.rhi.hi.is (8.14.4/8.14.4) with ESMTP id 112NhKuf029797;
-        Tue, 2 Feb 2021 23:43:20 GMT
-Received: (from bjarniig@localhost)
-        by hekla.rhi.hi.is (8.14.4/8.14.4/Submit) id 112NhJPM029796;
-        Tue, 2 Feb 2021 23:43:19 GMT
-Date:   Tue, 2 Feb 2021 23:43:19 +0000
-From:   Bjarni Ingi Gislason <bjarniig@rhi.hi.is>
-To:     "Michael Kerrisk (man-pages)" <mtk.manpages@gmail.com>
-Cc:     "G. Branden Robinson" <g.branden.robinson@gmail.com>,
-        Alejandro Colomar <alx.manpages@gmail.com>,
-        linux-man@vger.kernel.org
-Subject: Re: [PATCH] man-pages.7: Formatting suggestion revisions
-Message-ID: <20210202234319.GA29621@rhi.hi.is>
-References: <20210128205734.nhvua6ameelaomaw@localhost.localdomain>
- <2c95eb35-3e8a-a745-3242-fc8c8947660c@gmail.com>
+        with ESMTP id S231704AbhBCIL7 (ORCPT
+        <rfc822;linux-man@vger.kernel.org>); Wed, 3 Feb 2021 03:11:59 -0500
+Received: from mail-wr1-x429.google.com (mail-wr1-x429.google.com [IPv6:2a00:1450:4864:20::429])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 0DF23C06174A;
+        Wed,  3 Feb 2021 00:11:19 -0800 (PST)
+Received: by mail-wr1-x429.google.com with SMTP id c12so23100300wrc.7;
+        Wed, 03 Feb 2021 00:11:18 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20161025;
+        h=cc:subject:to:references:from:message-id:date:user-agent
+         :mime-version:in-reply-to:content-language:content-transfer-encoding;
+        bh=GMkk0PLQYC5yjtJhBL5QqnCNEN+xIHzvgjGjkI4SSr0=;
+        b=H156lNPMFt/fJt1Li8iHVTh1TAazwks3SJvEQ6qzJHWUT/PQPYxzrYEFubqqNWrXNq
+         mgoLLYIJeAAikA4O2/u6niOXVo/HrkDY40qS0LPHavW3VCQInaHL+tpfNVtff8s+0TjP
+         MQxEK4gg1pdd3u7Bwi02dW7Ek1k44RKwUkokbBaT79w62HQobBSudyrIOhuWsj4MrcKw
+         xR/bQTSon/6cfb5Jc/LTxzXd82f8ClXu6zKxpZ0hb1GbteWyo+3KKSD2HL7S2G18/a3e
+         9luo6lkgLDePUVPcdz28Ie9TOQ7t41uo+F8o+k+I0o61ha1sgWN+/fmmsMAK+fbV4u2k
+         zF9Q==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20161025;
+        h=x-gm-message-state:cc:subject:to:references:from:message-id:date
+         :user-agent:mime-version:in-reply-to:content-language
+         :content-transfer-encoding;
+        bh=GMkk0PLQYC5yjtJhBL5QqnCNEN+xIHzvgjGjkI4SSr0=;
+        b=fLYt+MThlq9POrmqG7qOVJH8sXo6t/YbZHMe6xUjEnn/aZhz1MaImi8lqkAORQgrjR
+         8etLrt9YFDGvBF91WdEZ0wMccRNGBrl8WPUTBMVOkXGQtCUcYLVXuXQZB7+JbVh7KA7L
+         wIONZ9s0o7lx78Wk2NCWaAdwySklUhe2362DWPGWJCSW7gW3mTpL7cOA2T4mmBv/9O2t
+         7TSz+Dr0t69EZ6mRgba3uqe5Um11mQ/reGDZh24uhAhXCjzMKDMeg7gAxwZAKFVdgwn3
+         omVXcqL47xeoS/piMJkpXiqJQ60Q+xCt8isUa21/5hlnPwX2xcohk8SbXB3BxilPk6hx
+         tB0Q==
+X-Gm-Message-State: AOAM530JD16LG7IZZ3dzD0lgRXDUXZSAec+heQDa7xJ/T2wryTa7Z8CV
+        wc0KfMiz+p6gQFOTRnMKkxVpIcu8rM0=
+X-Google-Smtp-Source: ABdhPJxD+PANN8G+Kf39iMcS452T+kU/+V6qJV5vC3YZIvIFleyojmEYW7Djfm5lgsD9CIDmcE8q2g==
+X-Received: by 2002:a05:6000:1202:: with SMTP id e2mr2052338wrx.328.1612339877824;
+        Wed, 03 Feb 2021 00:11:17 -0800 (PST)
+Received: from ?IPv6:2001:a61:2542:b001:294f:8948:78a8:d929? ([2001:a61:2542:b001:294f:8948:78a8:d929])
+        by smtp.gmail.com with ESMTPSA id w15sm1921011wrp.15.2021.02.03.00.11.15
+        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+        Wed, 03 Feb 2021 00:11:16 -0800 (PST)
+Cc:     mtk.manpages@gmail.com, linux-man@vger.kernel.org,
+        linux-sgx@vger.kernel.org, dave.hansen@linux.intel.com
+Subject: Re: [PATCH v2] sgx.7: New page with overview of Software Guard
+ eXtensions (SGX)
+To:     Jarkko Sakkinen <jarkko@kernel.org>
+References: <20201222004108.49159-1-jarkko@kernel.org>
+ <16f13aee-a966-ecd4-6f08-d9d7b0e869f3@gmail.com>
+ <YAli9syKOwVTYeh6@kernel.org>
+ <cb04f65c-7598-e5c0-6aa9-421b8e37c8db@gmail.com>
+ <YBmPiqfHLz5JV57y@kernel.org>
+From:   "Michael Kerrisk (man-pages)" <mtk.manpages@gmail.com>
+Message-ID: <fcd5531f-3d8b-491f-6949-9e20a47882fb@gmail.com>
+Date:   Wed, 3 Feb 2021 09:11:15 +0100
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
+ Thunderbird/78.6.0
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <2c95eb35-3e8a-a745-3242-fc8c8947660c@gmail.com>
-Sender: bjarniig@hi.is
-User-Agent: Mutt/1.5.20 (2009-12-10)
+In-Reply-To: <YBmPiqfHLz5JV57y@kernel.org>
+Content-Type: text/plain; charset=utf-8
+Content-Language: en-US
+Content-Transfer-Encoding: 7bit
 Precedence: bulk
 List-ID: <linux-man.vger.kernel.org>
 X-Mailing-List: linux-man@vger.kernel.org
 
-On Tue, Feb 02, 2021 at 02:14:33PM +0100, Michael Kerrisk (man-pages) wrote:
-> Hello Branden,
+Hello Jarkko,
+
+On 2/2/21 6:44 PM, Jarkko Sakkinen wrote:
+> On Thu, Jan 21, 2021 at 03:33:05PM +0100, Michael Kerrisk (man-pages) wrote:
+>> Hi Jarko,
 > 
-> {I've also seen you reply to this mail.]
-> I think I'm okay with everything you say in this patch/mail, but I have one concern
-> On 1/28/21 9:57 PM, G. Branden Robinson wrote:
-> > 
-> > The problem with .na before a table, which is the more popular approach,
-> > and which you probably already discovered given that you're recommending
-> > ".ad l" instead, is that people who have found a way to force adjustment
-> > off already will be angry with man pages taking your advice because
-> > "full" adjustment (to both margins) will spring to life after the table.
-> > 
+> Jarkko :-)
+> 
+>> On 1/21/21 12:18 PM, Jarkko Sakkinen wrote:
+>>> On Tue, Dec 22, 2020 at 07:53:24PM +0100, Michael Kerrisk (man-pages) wrote:
+>>>>> * Fixed the semantic newlines convention and various style errors etc.
+>>>>>   that were reported by Alenjandro and Michael.
+>>
+>> s/Alenjandro/Alejandro/  :-)
+> 
+> Just had to mention the typo above because of this, sorry :-) I'll
+> fix this.
 
-  This is caused by a bug in groff,
-see bug #59795
-(the original had the subject:
-[PATCH] troff/env.cpp: fix wrong restoration of link adjustment after 
- '.na' and '.ad'
-)
-in "savannah.gnu.org/bugs/index.php?59795"
+Got it. Not enough practivce with Finnish :-)
 
-  "link adjustment" should be "left adjustment" (.ad l).
+>>> So the thing is that there is reserved memory, consider it as a bit like
+>>> VRAM. This memory can be oversubscribed. Then when you create an enclave
+>>> you consume these pages. When running out of them, the kernel swaps pages
+>>> from enclaves across the system currently based on a trivial FIFO policy.
+>>> So these regions define kind of the memory pool for all enclaves running in
+>>> the system.
+>>
+>> SO, is there some suitable change for the manual page text?
+> 
+> What if I just edit it from this? I think the video RAM comparison makes
+> this common sense understandable. There's restricted memory shared by
+> processes and managed by the kernel.
+
+That sounds okay to me.
+
+Thanks,
+
+Michael
+
 
 -- 
-Bjarni I. Gislason
+Michael Kerrisk
+Linux man-pages maintainer; http://www.kernel.org/doc/man-pages/
+Linux/UNIX System Programming Training: http://man7.org/training/
