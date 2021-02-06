@@ -2,75 +2,110 @@ Return-Path: <linux-man-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-5.2 required=3.0 tests=BAYES_00,
-	HEADER_FROM_DIFFERENT_DOMAINS,MAILING_LIST_MULTI,SPF_HELO_NONE,SPF_PASS,
-	URIBL_BLOCKED,USER_AGENT_SANE_1 autolearn=no autolearn_force=no version=3.4.0
+X-Spam-Status: No, score=-15.7 required=3.0 tests=BAYES_00,DKIM_SIGNED,
+	DKIM_VALID,DKIM_VALID_AU,FREEMAIL_FORGED_FROMDOMAIN,FREEMAIL_FROM,
+	HEADER_FROM_DIFFERENT_DOMAINS,INCLUDES_CR_TRAILER,INCLUDES_PATCH,
+	MAILING_LIST_MULTI,SPF_HELO_NONE,SPF_PASS,URIBL_BLOCKED,USER_AGENT_GIT
+	autolearn=ham autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 2AE67C433DB
-	for <linux-man@archiver.kernel.org>; Sat,  6 Feb 2021 11:09:19 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id F3914C433DB
+	for <linux-man@archiver.kernel.org>; Sat,  6 Feb 2021 11:46:11 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.kernel.org (Postfix) with ESMTP id E43A564E57
-	for <linux-man@archiver.kernel.org>; Sat,  6 Feb 2021 11:09:18 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTP id B8FC064E26
+	for <linux-man@archiver.kernel.org>; Sat,  6 Feb 2021 11:46:11 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S229541AbhBFLJD (ORCPT <rfc822;linux-man@archiver.kernel.org>);
-        Sat, 6 Feb 2021 06:09:03 -0500
-Received: from 7.mo51.mail-out.ovh.net ([46.105.33.25]:46362 "EHLO
-        7.mo51.mail-out.ovh.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S229529AbhBFLJC (ORCPT
-        <rfc822;linux-man@vger.kernel.org>); Sat, 6 Feb 2021 06:09:02 -0500
-X-Greylist: delayed 1523 seconds by postgrey-1.27 at vger.kernel.org; Sat, 06 Feb 2021 06:09:01 EST
-Received: from mxplan6.mail.ovh.net (unknown [10.109.138.118])
-        by mo51.mail-out.ovh.net (Postfix) with ESMTPS id 20E6B2637E6;
-        Sat,  6 Feb 2021 11:42:56 +0100 (CET)
-Received: from jwilk.net (37.59.142.106) by DAG4EX2.mxp6.local (172.16.2.32)
- with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id 15.1.2106.2; Sat, 6 Feb 2021
- 11:42:54 +0100
-Authentication-Results: garm.ovh; auth=pass (GARM-106R006a4eaeb10-b875-48f6-bfac-b8ce502f6a7e,
-                    BDE223F477C8D6F048CCDACB4016D8D7C5E7A21E) smtp.auth=jwilk@jwilk.net
-X-OVh-ClientIp: 5.172.255.84
-Date:   Sat, 6 Feb 2021 11:42:47 +0100
-From:   Jakub Wilk <jwilk@jwilk.net>
+        id S229508AbhBFLqK (ORCPT <rfc822;linux-man@archiver.kernel.org>);
+        Sat, 6 Feb 2021 06:46:10 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:43160 "EHLO
+        lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S229506AbhBFLqB (ORCPT
+        <rfc822;linux-man@vger.kernel.org>); Sat, 6 Feb 2021 06:46:01 -0500
+Received: from mail-wr1-x436.google.com (mail-wr1-x436.google.com [IPv6:2a00:1450:4864:20::436])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id A0F2FC06174A
+        for <linux-man@vger.kernel.org>; Sat,  6 Feb 2021 03:45:20 -0800 (PST)
+Received: by mail-wr1-x436.google.com with SMTP id b3so10787280wrj.5
+        for <linux-man@vger.kernel.org>; Sat, 06 Feb 2021 03:45:20 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20161025;
+        h=from:to:cc:subject:date:message-id:in-reply-to:references
+         :mime-version:content-transfer-encoding;
+        bh=v3V6LcDocs+tPI1oEhjj3r0WfxSdtJUs2m3MFM/ixhU=;
+        b=tKALK37otUDJMkwfoM5Urre4o/s+mhLMpPYPujMGIOgx0kQMTUWJhJMFmeXs3Oes3F
+         hlZgn5JekQ3yaKgMHdfugen1xyDctKP7Vj1/YYsdue21kogeod0rgTGPQELq7H+DYzLC
+         6XormpOMdYW95dWZEgpi1mmUucfQXWdmE0LdyoIUVF/MVlTSTkMe8xurgKW/OoQtnKfJ
+         Kv3v/aoQ02jv8MP04SBjUxROvVpKB+xC27EuMW/9JyBFwckXC5j4FVBXaeJfx+oDZJJO
+         KdOaDXNwlvZVsxynr2m50vpmojC1gIV6yGQsH6ERYojBk0kCvuBfXRoRGC7k4jCKKyff
+         yp7g==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20161025;
+        h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
+         :references:mime-version:content-transfer-encoding;
+        bh=v3V6LcDocs+tPI1oEhjj3r0WfxSdtJUs2m3MFM/ixhU=;
+        b=uGu3L3HoyddODWBk2g72RrmOISeT+M6XvsKlbOE2BH2bXSxjB0m9Zpc5X2/mEuSlt/
+         O8Zp2ySNE7R9+Dh/kfqwmoP8C74bl9dNfcouGYXqzd76LrGq9MUDoHkmaGmppIg1xP/3
+         55QJ05JRZbCdQ7IpmWzzRoUyDbiwxn+KdloAPeGYJTCwMftQ9ijQfIdw7ltIDxpG1T4t
+         pMZAG3inTvgEFxASw9OlpMQNWTjejuVSQrqVnGr84FpmK0Jfv+m1Adzn2/AxqgOXwPr9
+         I+OH3J2LzqEupmeNX018FAowPDJMW6B9juJr4gX/7m/wUu/3xXHYfqvKJ/JXQNlBKW6I
+         Hb/A==
+X-Gm-Message-State: AOAM530s5v5ybQ+CqfyRN9eejwICib391Jo4GG6ptQSYf3gmq082BxmE
+        k44po0+Lu8fhN25mFuvw9bg=
+X-Google-Smtp-Source: ABdhPJwWcwDzlEuVdwCH6WiG7IRdOKkrEJpjxobBHD0lALZOuKmAOuhUKKEmBjW8M62WBmIbxRZLvA==
+X-Received: by 2002:adf:e68e:: with SMTP id r14mr10298458wrm.242.1612611918117;
+        Sat, 06 Feb 2021 03:45:18 -0800 (PST)
+Received: from debian.vlc ([170.253.51.130])
+        by smtp.gmail.com with ESMTPSA id n15sm15556100wrx.2.2021.02.06.03.45.16
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Sat, 06 Feb 2021 03:45:17 -0800 (PST)
+From:   Alejandro Colomar <alx.manpages@gmail.com>
 To:     Michael Kerrisk <mtk.manpages@gmail.com>
-CC:     Walter Harms <wharms@bfs.de>, <linux-man@vger.kernel.org>
-Subject: Re: rfc: free and errno
-Message-ID: <20210206104247.w4be4spmmbj7rbey@jwilk.net>
-References: <2ea085f2674543b1a1fb41702bc959c7@bfs.de>
- <CAKgNAkh-y9TOWVy9ot25ig_XR4u4VSRz3=qEUezYKc0u0PVyug@mail.gmail.com>
+Cc:     Alejandro Colomar <alx.manpages@gmail.com>,
+        Florian Weimer <fweimer@redhat.com>, libc-alpha@sourceware.org,
+        linux-man <linux-man@vger.kernel.org>,
+        Willem de Bruijn <willemb@google.com>
+Subject: [PATCH v2] epoll_wait.2: Glibc doesn't provide epoll_pwait2() yet
+Date:   Sat,  6 Feb 2021 12:43:04 +0100
+Message-Id: <20210206114303.4657-1-alx.manpages@gmail.com>
+X-Mailer: git-send-email 2.30.0
+In-Reply-To: <CAKgNAkj6Kz=DGjrrX-NHKWRYjLZXED7TZyHFtTYpf0gAPmHSeg@mail.gmail.com>
+References: <CAKgNAkj6Kz=DGjrrX-NHKWRYjLZXED7TZyHFtTYpf0gAPmHSeg@mail.gmail.com>
 MIME-Version: 1.0
-Content-Type: text/plain; charset="us-ascii"; format=flowed
-Content-Disposition: inline
-In-Reply-To: <CAKgNAkh-y9TOWVy9ot25ig_XR4u4VSRz3=qEUezYKc0u0PVyug@mail.gmail.com>
-User-Agent: NeoMutt/20180716
-X-Originating-IP: [37.59.142.106]
-X-ClientProxiedBy: DAG1EX1.mxp6.local (172.16.2.1) To DAG4EX2.mxp6.local
- (172.16.2.32)
-X-Ovh-Tracer-GUID: bbb73596-21b3-4333-853f-0e365f05f808
-X-Ovh-Tracer-Id: 8263823842340296669
-X-VR-SPAMSTATE: OK
-X-VR-SPAMSCORE: -100
-X-VR-SPAMCAUSE: gggruggvucftvghtrhhoucdtuddrgeduledrgeekgddulecutefuodetggdotefrodftvfcurfhrohhfihhlvgemucfqggfjpdevjffgvefmvefgnecuuegrihhlohhuthemucehtddtnecusecvtfgvtghiphhivghnthhsucdlqddutddtmdenucfjughrpeffhffvuffkfhggtggujggfihesthdtredttdervdenucfhrhhomheplfgrkhhusgcuhghilhhkuceojhifihhlkhesjhifihhlkhdrnhgvtheqnecuggftrfgrthhtvghrnheptdevffefieekvdekhefhiedutdevvdeffeeuffdvveeljeeghfekheekleeijeeinecuffhomhgrihhnpegsuhhshigsohigrdhnvghtpdhsohhurhgtvgifrghrvgdrohhrghenucfkpheptddrtddrtddrtddpfeejrdehledrudegvddruddtieenucevlhhushhtvghrufhiiigvpedtnecurfgrrhgrmhepmhhouggvpehsmhhtphdqohhuthdphhgvlhhopehmgihplhgrnheirdhmrghilhdrohhvhhdrnhgvthdpihhnvghtpedtrddtrddtrddtpdhmrghilhhfrhhomhepjhifihhlkhesjhifihhlkhdrnhgvthdprhgtphhtthhopehlihhnuhigqdhmrghnsehvghgvrhdrkhgvrhhnvghlrdhorhhg
+Content-Transfer-Encoding: 8bit
 Precedence: bulk
 List-ID: <linux-man.vger.kernel.org>
 X-Mailing-List: linux-man@vger.kernel.org
 
-* Michael Kerrisk <mtk.manpages@gmail.com>, 2021-02-06, 10:49:
->On Mon, 1 Feb 2021 at 12:19, Walter Harms <wharms@bfs.de> wrote:
->>free() is generaly assumed not to modify errno.
->>
->>Lately there was a bugfix posting on the busybox mailing list, because:
->>
->>"musl libc's mallocing free() may modify errno if kernel does not 
->>support MADV_FREE which causes echo to echo with error when it 
->>shouldn't."
->
->URL please.
+I filed a bug against glibc
+requesting the wrapper for the new syscall.
 
-http://lists.busybox.net/pipermail/busybox/2021-January/088491.html 
-probably.
+Glibc bug: <https://sourceware.org/bugzilla/show_bug.cgi?id=27359>
+Signed-off-by: Alejandro Colomar <alx.manpages@gmail.com>
+---
 
-glibc's free() also can set errno in some circumstances:
-https://sourceware.org/bugzilla/show_bug.cgi?id=17924
+Hi Michael,
 
+Yes, filing a bug is one better :-).
+
+Cheers,
+
+Alex
+
+ man2/epoll_wait.2 | 3 +++
+ 1 file changed, 3 insertions(+)
+
+diff --git a/man2/epoll_wait.2 b/man2/epoll_wait.2
+index f0e432478..f941023c2 100644
+--- a/man2/epoll_wait.2
++++ b/man2/epoll_wait.2
+@@ -35,6 +35,9 @@ epoll_wait, epoll_pwait, epoll_pwait2 \- wait for an I/O event on an epoll file
+ .BI "int epoll_pwait2(int " epfd ", struct epoll_event *" events ,
+ .BI "               int " maxevents ", const struct timespec *" timeout ,
+ .BI "               const sigset_t *" sigmask );
++.\" FIXME: Check if glibc has added a wrapper for epoll_pwait2(),
++.\"        and if so, check the prototype.
++.\"        https://sourceware.org/bugzilla/show_bug.cgi?id=27359
+ .fi
+ .SH DESCRIPTION
+ The
 -- 
-Jakub Wilk
+2.30.0
+
