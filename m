@@ -7,85 +7,99 @@ X-Spam-Status: No, score=-2.7 required=3.0 tests=BAYES_00,DKIM_SIGNED,
 	HEADER_FROM_DIFFERENT_DOMAINS,MAILING_LIST_MULTI,SPF_HELO_NONE,SPF_PASS,
 	URIBL_BLOCKED autolearn=no autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 430D2C433E0
-	for <linux-man@archiver.kernel.org>; Fri,  5 Feb 2021 08:58:47 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 16DD6C433DB
+	for <linux-man@archiver.kernel.org>; Sat,  6 Feb 2021 09:51:00 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.kernel.org (Postfix) with ESMTP id D7D5764EE2
-	for <linux-man@archiver.kernel.org>; Fri,  5 Feb 2021 08:58:44 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTP id D27DE64E49
+	for <linux-man@archiver.kernel.org>; Sat,  6 Feb 2021 09:50:59 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S229716AbhBEI6n (ORCPT <rfc822;linux-man@archiver.kernel.org>);
-        Fri, 5 Feb 2021 03:58:43 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:38456 "EHLO
+        id S229586AbhBFJui (ORCPT <rfc822;linux-man@archiver.kernel.org>);
+        Sat, 6 Feb 2021 04:50:38 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:46116 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S229692AbhBEI6l (ORCPT
-        <rfc822;linux-man@vger.kernel.org>); Fri, 5 Feb 2021 03:58:41 -0500
-Received: from mail-oi1-x22e.google.com (mail-oi1-x22e.google.com [IPv6:2607:f8b0:4864:20::22e])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id B5589C0613D6
-        for <linux-man@vger.kernel.org>; Fri,  5 Feb 2021 00:58:01 -0800 (PST)
-Received: by mail-oi1-x22e.google.com with SMTP id k142so6732121oib.7
-        for <linux-man@vger.kernel.org>; Fri, 05 Feb 2021 00:58:01 -0800 (PST)
+        with ESMTP id S229507AbhBFJuf (ORCPT
+        <rfc822;linux-man@vger.kernel.org>); Sat, 6 Feb 2021 04:50:35 -0500
+Received: from mail-ot1-x32e.google.com (mail-ot1-x32e.google.com [IPv6:2607:f8b0:4864:20::32e])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 59900C06174A
+        for <linux-man@vger.kernel.org>; Sat,  6 Feb 2021 01:49:55 -0800 (PST)
+Received: by mail-ot1-x32e.google.com with SMTP id k25so7325314otb.4
+        for <linux-man@vger.kernel.org>; Sat, 06 Feb 2021 01:49:55 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=gmail.com; s=20161025;
         h=mime-version:references:in-reply-to:reply-to:from:date:message-id
          :subject:to:cc;
-        bh=C7nGXiuyWZpA6/jXSCahuEbpc9mR37jhFw4owsZCL+E=;
-        b=DlOTQ3eoYPD+LO89TXu2uifFQj5TxDAlHm5PdFAM+9F3rsHS242o5XxzWC8oc2vgFU
-         NPXiHsQ3StzYl0JtvYtKI6OUpWbvz50UP3eEuuoRu75NrVh7cWYe5aJEzjQiiEXhMyEU
-         HKCsstifIGGYEZzLBgKzySXKKcN4PjZBZJgP1uudxNQN405FXWoXjFtNGjYlJDOfTZNB
-         rNH5LVOJtzmcrnr54sngRAYP8OSD9CNeu6Uu7mevcf8nLQsMZs7ff1Gof0PodHCUwxR5
-         3hwDj5/qsYxT+xe/0ZyXH4m5LB1WoQxuuKCodDMEExWR6M/sd7t9J2Q/U8F7Ongdu7Va
-         8OkA==
+        bh=TKY4Jkme+o5OjY7yrzdpWPaGUBhXdIE8w7YMLhzs+e8=;
+        b=cIsBdWLlj4sJWZR5Y03a3CODb7cvofuOd8KU0TBqB/kKoHx23sCjm0bmGsigBdhhQj
+         UJgOvhQxIXXIwjNG4G6rxRry0GXCx01Ki6zKAKxGASB5SxBkj8oK/MGHIhHmcVtegTcC
+         USuAYlpz7nJZOyf9JtH/BQNnE2F4oRLUdVKeRpth2RtKS8QLAFWGTjUvWi3mq5OhKUTw
+         SLVuSBl/fl0TGkB4lBf4SXcsszTmvMRysYULnVmfMvkcjSraaYsxERn5ze+LKYefDqge
+         OCIcCQOoLNqi87TC4g4EbYNy4Wj/aff3k/eBsj0z2acTuG+L7zrVuaGZQsz4ZXB5XyIV
+         x81g==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
         h=x-gm-message-state:mime-version:references:in-reply-to:reply-to
          :from:date:message-id:subject:to:cc;
-        bh=C7nGXiuyWZpA6/jXSCahuEbpc9mR37jhFw4owsZCL+E=;
-        b=ngh1oJkS0XV9PX2cRbGEQ5Y9Jieu+43HRGKTzUFtCLKR1sQ4J28oM0R5hlQdFk1+fQ
-         cH22JWm38TOL+RseaGZhE48eZI4SWIoKB/HXKXdkUqht0oV4vKM/716voCoANivvBkde
-         S/e/6ZytdtAw4fzT8vKQ76EN5Y9qf2tJq1n+s14ZT8Dqj6hA5X/dZoxFMuzWEuN8fwOO
-         RgIAlX3QFyaUfc8FSKb1eNnv3aoWFSp3nImXlyQWu3YeFK10gM2+hJZvOh3TOV7syFAP
-         p9qLCVgJBuoNrSLa7xNwn8xlXhvKWpIqUz3iDnZCaj6MPiPPgWPrlQnDzlDSaJGBnMo8
-         GvMw==
-X-Gm-Message-State: AOAM533TJw+Tv8zdrKkYPPw9KvWul8QQDfXbkOKEZ8EhYV0FG3UrAcuF
-        6yBr8nqZammzE5BlbxXVIh2AdJLWQSAnziaiglE=
-X-Google-Smtp-Source: ABdhPJzDZRg6lmcv2kSoOTFuzbctlnHXAq/pLAxzZKkjZkRp47VU3Mr1j8s4cJYyGhdhfHlKripV9dbQV54zaR8IRlM=
-X-Received: by 2002:aca:4f4d:: with SMTP id d74mr2390447oib.159.1612515481103;
- Fri, 05 Feb 2021 00:58:01 -0800 (PST)
+        bh=TKY4Jkme+o5OjY7yrzdpWPaGUBhXdIE8w7YMLhzs+e8=;
+        b=Dy3hlndVlE6sDNpA6inxn3UXEZP6HeTX0KwYCUILqWM50QiHa4hqRRCeA/1ZuA0CGi
+         d0q8oBIZJn4pj0jGHDxRTUTillZea9bICc1yeyEPKxgqaSR2z8fDHKXzfP4uP0BOQvjI
+         jh7PxydjE1gbnzBfcGR/oKQLzJarF783GdD9GYIT+I8yFWxy6pvfYwd83rBqQ+ywlwpt
+         yOgqA1m8esQaPmT9HLwjhCbVDElm9iELCHMqMqeXPhXdJiScqTf5KRC5weqAslY03/W3
+         IF8bsAuBiOgNIOx0SFCPZ/CaPRv7SrbclSGmPtVpfNZuPnzyRYHQFKEUgKAX7UKuFkH7
+         v1vQ==
+X-Gm-Message-State: AOAM531lCv2iHdolv1CN44i9Omjt0IJAayOpjpp24WRcZOPjHt5gSR+K
+        TmRDWJbfe6nEADvPCFCOwgPQ6exXJLRkKRQ7Ncg=
+X-Google-Smtp-Source: ABdhPJwBYinfWjn5xVHoMAl4RBo2v2OsM/OjFEN1PCY9xd8sDqw0qJJTYEqLMhQUykcyyBqUPj+2k+tWtyGviOTEG00=
+X-Received: by 2002:a05:6830:148a:: with SMTP id s10mr6335294otq.323.1612604994613;
+ Sat, 06 Feb 2021 01:49:54 -0800 (PST)
 MIME-Version: 1.0
-References: <6336a172-6bc5-bad8-21a4-0309a83728e7@gmail.com>
-In-Reply-To: <6336a172-6bc5-bad8-21a4-0309a83728e7@gmail.com>
+References: <2ea085f2674543b1a1fb41702bc959c7@bfs.de>
+In-Reply-To: <2ea085f2674543b1a1fb41702bc959c7@bfs.de>
 Reply-To: mtk.manpages@gmail.com
 From:   "Michael Kerrisk (man-pages)" <mtk.manpages@gmail.com>
-Date:   Fri, 5 Feb 2021 09:57:49 +0100
-Message-ID: <CAKgNAkg=Eqd5QDkdWhecSq-0=Q8tnRm3yR_=5gsoDuxXQbpMYw@mail.gmail.com>
-Subject: Re: outb.2: What to do with prototypes?
-To:     "Alejandro Colomar (man-pages)" <alx.manpages@gmail.com>
-Cc:     linux-man <linux-man@vger.kernel.org>
+Date:   Sat, 6 Feb 2021 10:49:43 +0100
+Message-ID: <CAKgNAkh-y9TOWVy9ot25ig_XR4u4VSRz3=qEUezYKc0u0PVyug@mail.gmail.com>
+Subject: Re: rfc: free and errno
+To:     Walter Harms <wharms@bfs.de>
+Cc:     "linux-man@vger.kernel.org" <linux-man@vger.kernel.org>,
+        Michael Kerrisk <mtk.manpages@gmail.com>
 Content-Type: text/plain; charset="UTF-8"
 Precedence: bulk
 List-ID: <linux-man.vger.kernel.org>
 X-Mailing-List: linux-man@vger.kernel.org
 
-Hello Alex,
+Hello Walter,
 
-On Thu, 4 Feb 2021 at 13:59, Alejandro Colomar (man-pages)
-<alx.manpages@gmail.com> wrote:
->
-> Hi Michael,
->
-> What would you do with the prototypes in outb.2?
-> They are different in glibc and the kernel.
-> However, since these are functions to be called mostly withing the
-> kernel, the kernel prototype is more important.  Would you use the glibc
-> one in SYNOPSIS, and then a C library / kernel differences with the
-> kernel prototypes?
+Thanks for raising this.
 
-Are the glibc APIs wrappers for the kernel interpreters?
+On Mon, 1 Feb 2021 at 12:19, Walter Harms <wharms@bfs.de> wrote:
+>
+> Hi List
+>
+> free() is generaly assumed not to modify errno.
+>
+> Lately there was a bugfix posting on the busybox mailing list, because:
+>
+> "musl libc's mallocing free() may modify errno if kernel does not support
+> MADV_FREE which causes echo to echo with error when it shouldn't."
+
+URL please.
+
+> In future  it seems that POSIX with require free() not to change errno.
+
+The statement you make in the preceding sentence is useful
+information, but you could save other people a lot of time searching
+if you provided a reference:
+
+https://www.austingroupbugs.net/view.php?id=385#c713
+
+> after much soul searching i have still no idea if that should be documented in
+> the free(3) man page. Any comments ?
+
+Probably it should be documented. Did you have a suggestion for the text?
 
 Thanks,
 
 Michael
-
 
 -- 
 Michael Kerrisk
