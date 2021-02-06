@@ -2,110 +2,184 @@ Return-Path: <linux-man-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-15.7 required=3.0 tests=BAYES_00,DKIM_SIGNED,
+X-Spam-Status: No, score=-14.4 required=3.0 tests=BAYES_00,DKIM_SIGNED,
 	DKIM_VALID,DKIM_VALID_AU,FREEMAIL_FORGED_FROMDOMAIN,FREEMAIL_FROM,
 	HEADER_FROM_DIFFERENT_DOMAINS,INCLUDES_CR_TRAILER,INCLUDES_PATCH,
-	MAILING_LIST_MULTI,SPF_HELO_NONE,SPF_PASS,URIBL_BLOCKED,USER_AGENT_GIT
-	autolearn=ham autolearn_force=no version=3.4.0
+	MAILING_LIST_MULTI,NICE_REPLY_A,SPF_HELO_NONE,SPF_PASS,URIBL_BLOCKED,
+	USER_AGENT_SANE_1 autolearn=ham autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id F3914C433DB
-	for <linux-man@archiver.kernel.org>; Sat,  6 Feb 2021 11:46:11 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 0DDABC433DB
+	for <linux-man@archiver.kernel.org>; Sat,  6 Feb 2021 20:39:16 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.kernel.org (Postfix) with ESMTP id B8FC064E26
-	for <linux-man@archiver.kernel.org>; Sat,  6 Feb 2021 11:46:11 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTP id D9EBB64E52
+	for <linux-man@archiver.kernel.org>; Sat,  6 Feb 2021 20:39:15 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S229508AbhBFLqK (ORCPT <rfc822;linux-man@archiver.kernel.org>);
-        Sat, 6 Feb 2021 06:46:10 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:43160 "EHLO
+        id S229621AbhBFUjJ (ORCPT <rfc822;linux-man@archiver.kernel.org>);
+        Sat, 6 Feb 2021 15:39:09 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:43818 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S229506AbhBFLqB (ORCPT
-        <rfc822;linux-man@vger.kernel.org>); Sat, 6 Feb 2021 06:46:01 -0500
-Received: from mail-wr1-x436.google.com (mail-wr1-x436.google.com [IPv6:2a00:1450:4864:20::436])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id A0F2FC06174A
-        for <linux-man@vger.kernel.org>; Sat,  6 Feb 2021 03:45:20 -0800 (PST)
-Received: by mail-wr1-x436.google.com with SMTP id b3so10787280wrj.5
-        for <linux-man@vger.kernel.org>; Sat, 06 Feb 2021 03:45:20 -0800 (PST)
+        with ESMTP id S229554AbhBFUjD (ORCPT
+        <rfc822;linux-man@vger.kernel.org>); Sat, 6 Feb 2021 15:39:03 -0500
+Received: from mail-wm1-x336.google.com (mail-wm1-x336.google.com [IPv6:2a00:1450:4864:20::336])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 4D355C06174A
+        for <linux-man@vger.kernel.org>; Sat,  6 Feb 2021 12:38:23 -0800 (PST)
+Received: by mail-wm1-x336.google.com with SMTP id 190so8998201wmz.0
+        for <linux-man@vger.kernel.org>; Sat, 06 Feb 2021 12:38:23 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=gmail.com; s=20161025;
-        h=from:to:cc:subject:date:message-id:in-reply-to:references
-         :mime-version:content-transfer-encoding;
-        bh=v3V6LcDocs+tPI1oEhjj3r0WfxSdtJUs2m3MFM/ixhU=;
-        b=tKALK37otUDJMkwfoM5Urre4o/s+mhLMpPYPujMGIOgx0kQMTUWJhJMFmeXs3Oes3F
-         hlZgn5JekQ3yaKgMHdfugen1xyDctKP7Vj1/YYsdue21kogeod0rgTGPQELq7H+DYzLC
-         6XormpOMdYW95dWZEgpi1mmUucfQXWdmE0LdyoIUVF/MVlTSTkMe8xurgKW/OoQtnKfJ
-         Kv3v/aoQ02jv8MP04SBjUxROvVpKB+xC27EuMW/9JyBFwckXC5j4FVBXaeJfx+oDZJJO
-         KdOaDXNwlvZVsxynr2m50vpmojC1gIV6yGQsH6ERYojBk0kCvuBfXRoRGC7k4jCKKyff
-         yp7g==
+        h=cc:subject:to:references:from:message-id:date:user-agent
+         :mime-version:in-reply-to:content-language:content-transfer-encoding;
+        bh=uhbPwFNRdaAoXW2viAN3XACdriQjRCodL3I0lvMxRUI=;
+        b=lIO1MIWHPBLjRSwOWUIOg28PybPDnXvvMQgfDTFwoonjPu+iGALtPu+sZHkSHCJqxF
+         y7OjqHN6oHemtKIf6BjgBRgIU8ct595sewyhA9j4BTA4ZqMowEu3w90JpQoFurZsy3FP
+         Ztb30E8c4+gm4KI5utiMgUlB5/QCRBbPDOHefjsNios+U7E7WrXEzx2Agr/2NGW+0MLC
+         bysyNaeRDUWFsPFv96a4hhlWTwRw0Fh77uqmL8Vkrbxuzwqw0PKoHpr2BeERHBlHt/sZ
+         /JCpCgJG0X3FCHC3r6P9Oz8+TKh50n02q+j5OpQJz+gd+44qXOvcmhVz1j6ZD9/lenLt
+         uLfQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
-        h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
-         :references:mime-version:content-transfer-encoding;
-        bh=v3V6LcDocs+tPI1oEhjj3r0WfxSdtJUs2m3MFM/ixhU=;
-        b=uGu3L3HoyddODWBk2g72RrmOISeT+M6XvsKlbOE2BH2bXSxjB0m9Zpc5X2/mEuSlt/
-         O8Zp2ySNE7R9+Dh/kfqwmoP8C74bl9dNfcouGYXqzd76LrGq9MUDoHkmaGmppIg1xP/3
-         55QJ05JRZbCdQ7IpmWzzRoUyDbiwxn+KdloAPeGYJTCwMftQ9ijQfIdw7ltIDxpG1T4t
-         pMZAG3inTvgEFxASw9OlpMQNWTjejuVSQrqVnGr84FpmK0Jfv+m1Adzn2/AxqgOXwPr9
-         I+OH3J2LzqEupmeNX018FAowPDJMW6B9juJr4gX/7m/wUu/3xXHYfqvKJ/JXQNlBKW6I
-         Hb/A==
-X-Gm-Message-State: AOAM530s5v5ybQ+CqfyRN9eejwICib391Jo4GG6ptQSYf3gmq082BxmE
-        k44po0+Lu8fhN25mFuvw9bg=
-X-Google-Smtp-Source: ABdhPJwWcwDzlEuVdwCH6WiG7IRdOKkrEJpjxobBHD0lALZOuKmAOuhUKKEmBjW8M62WBmIbxRZLvA==
-X-Received: by 2002:adf:e68e:: with SMTP id r14mr10298458wrm.242.1612611918117;
-        Sat, 06 Feb 2021 03:45:18 -0800 (PST)
-Received: from debian.vlc ([170.253.51.130])
-        by smtp.gmail.com with ESMTPSA id n15sm15556100wrx.2.2021.02.06.03.45.16
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Sat, 06 Feb 2021 03:45:17 -0800 (PST)
-From:   Alejandro Colomar <alx.manpages@gmail.com>
-To:     Michael Kerrisk <mtk.manpages@gmail.com>
-Cc:     Alejandro Colomar <alx.manpages@gmail.com>,
-        Florian Weimer <fweimer@redhat.com>, libc-alpha@sourceware.org,
-        linux-man <linux-man@vger.kernel.org>,
-        Willem de Bruijn <willemb@google.com>
-Subject: [PATCH v2] epoll_wait.2: Glibc doesn't provide epoll_pwait2() yet
-Date:   Sat,  6 Feb 2021 12:43:04 +0100
-Message-Id: <20210206114303.4657-1-alx.manpages@gmail.com>
-X-Mailer: git-send-email 2.30.0
-In-Reply-To: <CAKgNAkj6Kz=DGjrrX-NHKWRYjLZXED7TZyHFtTYpf0gAPmHSeg@mail.gmail.com>
-References: <CAKgNAkj6Kz=DGjrrX-NHKWRYjLZXED7TZyHFtTYpf0gAPmHSeg@mail.gmail.com>
+        h=x-gm-message-state:cc:subject:to:references:from:message-id:date
+         :user-agent:mime-version:in-reply-to:content-language
+         :content-transfer-encoding;
+        bh=uhbPwFNRdaAoXW2viAN3XACdriQjRCodL3I0lvMxRUI=;
+        b=hYM+gJmQjZrNkP4GxyDe3AnC84p0eUAdEkUdhq7zfO/L4AwUEVFfUxDoBvbdvNMPS4
+         7jcxgCDGAC50dAByqNC/gi5/JwKK5KmEwKf9z+D8/UrLYP8PLobB+Ht/omgQFDa7F6tr
+         dwhti/uHXK0o9eSonn8gASZmswZH6qsyCgT3QdoH5GQbhO0FnyDSgA6W9ZM33e6rMAOB
+         bYOvfQuGLyoIPNZdbem8izz87U6ITu1BRdrPnjPOFXZOL00ZtVaWQdGa61Em1gZb1zQ8
+         6TefseFh5TcYMfYKGbq66JdV6hAzDINhhIjke1F57r1ObCbwMWAi5Zo9CwaZepbPkS80
+         O2uA==
+X-Gm-Message-State: AOAM531ylM5tprEO8tETQVK8OrxrPBRz+/y2h2xpQgFs1JMOtxntQm9o
+        PcbgmOjQl+BrfSbutUG4+lBSY3Iv0Ps=
+X-Google-Smtp-Source: ABdhPJzvkMrHbUcA6hW2EteG2aVk9VG3KMWW1MafUhwm3ejHaIuLmZWBandcEl9q1Jx7PW4JTDfbHQ==
+X-Received: by 2002:a1c:6387:: with SMTP id x129mr8784131wmb.84.1612643902007;
+        Sat, 06 Feb 2021 12:38:22 -0800 (PST)
+Received: from ?IPv6:2001:a61:2542:b001:294f:8948:78a8:d929? ([2001:a61:2542:b001:294f:8948:78a8:d929])
+        by smtp.gmail.com with ESMTPSA id r1sm16989434wrl.95.2021.02.06.12.38.20
+        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+        Sat, 06 Feb 2021 12:38:21 -0800 (PST)
+Cc:     mtk.manpages@gmail.com, linux-man <linux-man@vger.kernel.org>,
+        Heinrich Schuchardt <xypron.glpk@gmx.de>,
+        "libc-alpha@sourceware.org" <libc-alpha@sourceware.org>
+Subject: Re: [PATCH] getitimer.2: Use restrict in prototypes
+To:     "Alejandro Colomar (man-pages)" <alx.manpages@gmail.com>
+References: <20210203194354.158439-1-alx.manpages@gmail.com>
+ <CAKgNAkg-EZi7tTUW3j7Ro330ATHyzy2820La5AoiURLj+xgr2Q@mail.gmail.com>
+ <c0285eaf-4d7b-8c6c-38d6-bdc2bcb135f9@gmail.com>
+From:   "Michael Kerrisk (man-pages)" <mtk.manpages@gmail.com>
+Message-ID: <5c543624-1c0b-a15d-a1c7-e607135fbc15@gmail.com>
+Date:   Sat, 6 Feb 2021 21:38:18 +0100
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
+ Thunderbird/78.6.0
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+In-Reply-To: <c0285eaf-4d7b-8c6c-38d6-bdc2bcb135f9@gmail.com>
+Content-Type: text/plain; charset=utf-8
+Content-Language: en-US
+Content-Transfer-Encoding: 7bit
 Precedence: bulk
 List-ID: <linux-man.vger.kernel.org>
 X-Mailing-List: linux-man@vger.kernel.org
 
-I filed a bug against glibc
-requesting the wrapper for the new syscall.
+Hi Alex,
 
-Glibc bug: <https://sourceware.org/bugzilla/show_bug.cgi?id=27359>
-Signed-off-by: Alejandro Colomar <alx.manpages@gmail.com>
----
+On 2/6/21 11:47 AM, Alejandro Colomar (man-pages) wrote:
+> Hi Michael,
+> 
+> On 2/6/21 10:58 AM, Michael Kerrisk (man-pages) wrote:
+>> Hi Alex,
+>>
+>> On Wed, 3 Feb 2021 at 20:45, Alejandro Colomar <alx.manpages@gmail.com> wrote:
+>>>
+>>> POSIX specifies that the 2nd and 3rd parameters to setitimer()
+>>> shall be 'restrict'.  Glibc uses 'restrict' too.
+>>> Let's use it here too.
+>>
+>> I'm not against this change. But, as we know, 'restrict' is not used
+>> at all so far in the SYNOPSIS sections of the manual pages. DO you
+>> have an overall plan here?
+> 
+> Yes, I do.  My plan is to fix all the prototypes that use restrict by
+> adding the keyword.
 
-Hi Michael,
+It's not a pretty or glamorous job. So thank you very much for doing it!
 
-Yes, filing a bug is one better :-).
+Thanks for this patch. I've applied it.
 
 Cheers,
 
-Alex
+Michael
 
- man2/epoll_wait.2 | 3 +++
- 1 file changed, 3 insertions(+)
+> I'm using the man_section function I showed you to see all the man2 and
+> man3 prototypes on one side, and grep_syscall_wrapper/grep_syscall on
+> the other side to do it fast, so expect just a few weeks to do the
+> change completely.
+> 
+> Heinrich also proposed this change some time ago (I already had in my
+> to-do list, but that reminded me to do it) here:
+> <https://lore.kernel.org/linux-man/105b8883-d6a8-b3c3-3aff-ee1d6e88980a@gmail.com/T/>.
+> 
+> Cheers,
+> 
+> Alex
+> 
+>>
+>> Thanks,
+>>
+>> Michael
+>>
+>>> ......
+>>>
+>>> .../glibc$ grep_syscall_wrapper setitimer
+>>> time/sys/time.h:129:
+>>> extern int setitimer (__itimer_which_t __which,
+>>>                       const struct itimerval *__restrict __new,
+>>>                       struct itimerval *__restrict __old) __THROW;
+>>> .../glibc$
+>>>
+>>> function grep_syscall_wrapper()
+>>> {
+>>>         if ! [ -v 1 ]; then
+>>>                 >&2 echo "Usage: ${FUNCNAME[0]} <syscall>";
+>>>                 return ${EX_USAGE};
+>>>         fi
+>>>
+>>>         find * -type f \
+>>>         |grep '\.h$' \
+>>>         |sort -V \
+>>>         |xargs pcregrep -Mn \
+>>>           "^[^\s][\w\s]+\s+\**${1}\s*\((?s)[\w\s()[\]*,]*?(...)?\)[\w\s()]*;" \
+>>>         |sed -E 's/^[^:]+:[0-9]+:/&\n/';
+>>> }
+>>>
+>>> Signed-off-by: Alejandro Colomar <alx.manpages@gmail.com>
+>>> ---
+>>>  man2/getitimer.2 | 4 ++--
+>>>  1 file changed, 2 insertions(+), 2 deletions(-)
+>>>
+>>> diff --git a/man2/getitimer.2 b/man2/getitimer.2
+>>> index b435c343e..9ec32e836 100644
+>>> --- a/man2/getitimer.2
+>>> +++ b/man2/getitimer.2
+>>> @@ -18,8 +18,8 @@ getitimer, setitimer \- get or set value of an interval timer
+>>>  .B #include <sys/time.h>
+>>>  .PP
+>>>  .BI "int getitimer(int " which ", struct itimerval *" curr_value );
+>>> -.BI "int setitimer(int " which ", const struct itimerval *" new_value ,
+>>> -.BI "              struct itimerval *" old_value );
+>>> +.BI "int setitimer(int " which ", const struct itimerval *restrict " new_value ,
+>>> +.BI "              struct itimerval *restrict " old_value );
+>>>  .fi
+>>>  .SH DESCRIPTION
+>>>  These system calls provide access to interval timers, that is,
+>>> --
+>>> 2.30.0
+>>>
+>>
+>>
+> 
+> 
 
-diff --git a/man2/epoll_wait.2 b/man2/epoll_wait.2
-index f0e432478..f941023c2 100644
---- a/man2/epoll_wait.2
-+++ b/man2/epoll_wait.2
-@@ -35,6 +35,9 @@ epoll_wait, epoll_pwait, epoll_pwait2 \- wait for an I/O event on an epoll file
- .BI "int epoll_pwait2(int " epfd ", struct epoll_event *" events ,
- .BI "               int " maxevents ", const struct timespec *" timeout ,
- .BI "               const sigset_t *" sigmask );
-+.\" FIXME: Check if glibc has added a wrapper for epoll_pwait2(),
-+.\"        and if so, check the prototype.
-+.\"        https://sourceware.org/bugzilla/show_bug.cgi?id=27359
- .fi
- .SH DESCRIPTION
- The
+
 -- 
-2.30.0
-
+Michael Kerrisk
+Linux man-pages maintainer; http://www.kernel.org/doc/man-pages/
+Linux/UNIX System Programming Training: http://man7.org/training/
