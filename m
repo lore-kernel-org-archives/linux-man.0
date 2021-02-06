@@ -8,69 +8,68 @@ X-Spam-Status: No, score=-14.4 required=3.0 tests=BAYES_00,DKIM_SIGNED,
 	MAILING_LIST_MULTI,NICE_REPLY_A,SPF_HELO_NONE,SPF_PASS,URIBL_BLOCKED,
 	USER_AGENT_SANE_1 autolearn=ham autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 31FCBC433DB
-	for <linux-man@archiver.kernel.org>; Sat,  6 Feb 2021 10:48:14 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 53D9CC433DB
+	for <linux-man@archiver.kernel.org>; Sat,  6 Feb 2021 11:05:17 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.kernel.org (Postfix) with ESMTP id EC25364E40
-	for <linux-man@archiver.kernel.org>; Sat,  6 Feb 2021 10:48:13 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTP id 17E6F64E52
+	for <linux-man@archiver.kernel.org>; Sat,  6 Feb 2021 11:05:17 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S229681AbhBFKr6 (ORCPT <rfc822;linux-man@archiver.kernel.org>);
-        Sat, 6 Feb 2021 05:47:58 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:58910 "EHLO
+        id S229590AbhBFLFA (ORCPT <rfc822;linux-man@archiver.kernel.org>);
+        Sat, 6 Feb 2021 06:05:00 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:34324 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S229507AbhBFKrx (ORCPT
-        <rfc822;linux-man@vger.kernel.org>); Sat, 6 Feb 2021 05:47:53 -0500
-Received: from mail-wm1-x332.google.com (mail-wm1-x332.google.com [IPv6:2a00:1450:4864:20::332])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 66029C06174A
-        for <linux-man@vger.kernel.org>; Sat,  6 Feb 2021 02:47:13 -0800 (PST)
-Received: by mail-wm1-x332.google.com with SMTP id j11so8051143wmi.3
-        for <linux-man@vger.kernel.org>; Sat, 06 Feb 2021 02:47:13 -0800 (PST)
+        with ESMTP id S229529AbhBFLE7 (ORCPT
+        <rfc822;linux-man@vger.kernel.org>); Sat, 6 Feb 2021 06:04:59 -0500
+Received: from mail-wr1-x430.google.com (mail-wr1-x430.google.com [IPv6:2a00:1450:4864:20::430])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 6D3DBC06174A
+        for <linux-man@vger.kernel.org>; Sat,  6 Feb 2021 03:04:18 -0800 (PST)
+Received: by mail-wr1-x430.google.com with SMTP id p15so10670601wrq.8
+        for <linux-man@vger.kernel.org>; Sat, 06 Feb 2021 03:04:18 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=gmail.com; s=20161025;
         h=subject:to:cc:references:from:message-id:date:user-agent
          :mime-version:in-reply-to:content-language:content-transfer-encoding;
-        bh=9b35jzBZ64wGb10Onjtk/0ZyVz+wwHkG3G7B0ysuCOY=;
-        b=UcoXi0CobI8cJpd70k9g1NBRLvYvrxEqIbd055oK/zFjoqSLc0Qjn5rqBZnEjmQSYA
-         Yg6H4B9+fCR8shzKiEheqRUjL621oxP7l7cZF9+kYl6ufjD7V+IuWn1jD9ibEBDmkRuB
-         et39Ax4Ol8AwqjpvVQg/letmUwQ4E84UcyjcJFrpDmipBU7O6Nl0zvWvj2XBN6xhvus9
-         t8enu4wpCN0+EzCC/2ECf4i7A7XJiD7rIsF55iW34n80nol5LROcGAkwPMcH2xnFpvEH
-         sGJHS3c+12WSEuESj9WkZ5Uh6gKvwGcQ/kEyJgMmZbvP2jvUlQ10c56bIT/msuDGsSuc
-         pIRg==
+        bh=T/rcjJEerNEcThXqKmRwTFYfJwqqpuweJsiKjttJgS4=;
+        b=UUo0oGiQF0Uf+210QKofmjnablCKQcJSxb1Ug58sFSnR58yzV4DP6qVaClK6LHILTT
+         cWdzdjaXeq3uKN0d0sKQeLDgLyzZS9e6MmV4U2ReaF/DGmr0jaGd7p3zvXMDkzfTDmN8
+         hoeOyJr4tB2/HJIJKJQlmmc3KBVzHzqXFCcljAilpsMD+pEglVF2DYkG0C8MvnOg3e4w
+         vs68K6n/kF+G5P1/40eFcu/K9Lp4G7hDQFjgrQDaFMLdiXp0uAdmdNdnrXpqh5ct32zL
+         O0rArzFwzqhg/gXW4ZFROkHdO2Hc+zWaLcvFLiukoO/8XEwK7zODk/7NzjpNDtlm2by1
+         STaQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
         h=x-gm-message-state:subject:to:cc:references:from:message-id:date
          :user-agent:mime-version:in-reply-to:content-language
          :content-transfer-encoding;
-        bh=9b35jzBZ64wGb10Onjtk/0ZyVz+wwHkG3G7B0ysuCOY=;
-        b=qh7fTrtIVU3HXnRc+XxKQtr9N9tlBvma5wqzN9lCtISvoqS7FhAlwNTWNSBHhnYygK
-         zLo/94Eln8Rl+bqFsmNJn3S1A/xEWVFbVVMOY2zYMZtxWN8eIdDdd1YGzfyMbiCKzs1M
-         XS3MlXMhhFnJkdQymlHIyB/y0z3JDRgRAdckKCNlvkSYjiDklRazpe+6ccdOxfiVWx7A
-         Ne/BW4aSdpaVH6w8s6cwUbdcAg2hiQmVVGbQRb1djFhaTkS8m2uz2wC4DeW0khCAkBwS
-         +9pap+9i+Md7qu6/flpG5zrfEdgL5ZGG5XAEzNK1tTacdEws+EGkaAQP6duTt+v6ZU2v
-         Cxng==
-X-Gm-Message-State: AOAM532pC2xNH/hB3JTNdD/SNS8W5TG+qe6mTDEEwDw4lHPJ/P8kh+1p
-        PbCFcyMJEnGT9Z0yNsxYpzc=
-X-Google-Smtp-Source: ABdhPJzRmpm7sMJ3PCgqzUg4AhWFXnRUimvRlZZOo41QycA6gGhdeUpJYXkfPYwMDqxhYwruWLmFdQ==
-X-Received: by 2002:a1c:3b02:: with SMTP id i2mr6948830wma.141.1612608432159;
-        Sat, 06 Feb 2021 02:47:12 -0800 (PST)
+        bh=T/rcjJEerNEcThXqKmRwTFYfJwqqpuweJsiKjttJgS4=;
+        b=jjZ1u3BvbOFSww1Ij2iRhyWNWmc4qz1V7ZVAcEGFMzoVK307KyM3TwiSnUdnPd+TCF
+         IHxoaeOVmX8PEBU3+mY/U3yxMDCdyjGiFSUdvwdZWGFW0Hdc4CRKyaNQtZvu6rDNA+dJ
+         WD9UgIJu/+RZzR0d/qO0PzUtJC1TIylUkSlmTB8MFbh651Te4c/agX4sEZAWgehIZn3W
+         HyBaDykGVidTPVsA9kkVrVQjTkyFPH3VOV4deYVioqX7JHTzHv62QbewokooR/Ze5O9t
+         g8B2EFi11230/yZLW24/OG9X8GbxFvi1+cNOZkQR89giVCnXM0xeEJp+MEa9dYKmsTDt
+         Ubqg==
+X-Gm-Message-State: AOAM530IvLLGcB3KNZ7paZtKf435ZrF1GkYiH/wRUXfWKN9YhCwZI0YN
+        5EBKr1gC8s/ba7g6YgZuc08=
+X-Google-Smtp-Source: ABdhPJxieo3+v+PnGu3oG487UNYeLr+BKtoacEOBEZZY3xSIZTGJiuM89JZJ8x7SIZ4/sPSPND57vA==
+X-Received: by 2002:a5d:4708:: with SMTP id y8mr1486050wrq.402.1612609457048;
+        Sat, 06 Feb 2021 03:04:17 -0800 (PST)
 Received: from [192.168.1.143] ([170.253.51.130])
-        by smtp.gmail.com with UTF8SMTPSA id z14sm15303279wrm.5.2021.02.06.02.47.11
+        by smtp.gmail.com with UTF8SMTPSA id d13sm15237890wrx.93.2021.02.06.03.04.16
         (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Sat, 06 Feb 2021 02:47:11 -0800 (PST)
-Subject: Re: [PATCH] getitimer.2: Use restrict in prototypes
+        Sat, 06 Feb 2021 03:04:16 -0800 (PST)
+Subject: Re: [PATCH] execveat.2: Fix prototype
 To:     mtk.manpages@gmail.com
 Cc:     linux-man <linux-man@vger.kernel.org>,
-        Heinrich Schuchardt <xypron.glpk@gmx.de>,
-        "libc-alpha@sourceware.org" <libc-alpha@sourceware.org>
-References: <20210203194354.158439-1-alx.manpages@gmail.com>
- <CAKgNAkg-EZi7tTUW3j7Ro330ATHyzy2820La5AoiURLj+xgr2Q@mail.gmail.com>
+        David Drysdale <drysdale@google.com>
+References: <20210203184517.153948-1-alx.manpages@gmail.com>
+ <CAKgNAkgW=1GE4qcmWsTvfpj2y_N8Bp_ePKtV4VyE8t_b9Ro85w@mail.gmail.com>
 From:   "Alejandro Colomar (man-pages)" <alx.manpages@gmail.com>
-Message-ID: <c0285eaf-4d7b-8c6c-38d6-bdc2bcb135f9@gmail.com>
-Date:   Sat, 6 Feb 2021 11:47:10 +0100
+Message-ID: <94d4a5ad-7d44-0745-db9c-e1b7e50efae4@gmail.com>
+Date:   Sat, 6 Feb 2021 12:04:15 +0100
 User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:84.0) Gecko/20100101
  Thunderbird/84.0
 MIME-Version: 1.0
-In-Reply-To: <CAKgNAkg-EZi7tTUW3j7Ro330ATHyzy2820La5AoiURLj+xgr2Q@mail.gmail.com>
+In-Reply-To: <CAKgNAkgW=1GE4qcmWsTvfpj2y_N8Bp_ePKtV4VyE8t_b9Ro85w@mail.gmail.com>
 Content-Type: text/plain; charset=UTF-8
 Content-Language: en-US
 Content-Transfer-Encoding: 7bit
@@ -78,34 +77,34 @@ Precedence: bulk
 List-ID: <linux-man.vger.kernel.org>
 X-Mailing-List: linux-man@vger.kernel.org
 
-Hi Michael,
-
-On 2/6/21 10:58 AM, Michael Kerrisk (man-pages) wrote:
+On 2/6/21 10:54 AM, Michael Kerrisk (man-pages) wrote:
 > Hi Alex,
 > 
-> On Wed, 3 Feb 2021 at 20:45, Alejandro Colomar <alx.manpages@gmail.com> wrote:
->>
->> POSIX specifies that the 2nd and 3rd parameters to setitimer()
->> shall be 'restrict'.  Glibc uses 'restrict' too.
->> Let's use it here too.
+> Can we please begin every commit message with some English sentences :-).
+
+Sure! Thanks for the reminder! :-)
+
 > 
-> I'm not against this change. But, as we know, 'restrict' is not used
-> at all so far in the SYNOPSIS sections of the manual pages. DO you
-> have an overall plan here?
+> I'm a little hesitant about the proposed change. execve() has a
+> similar prototype in the kernel, but the glibc wrapper is just:
+> 
+> extern int execve (const char *__path, char *const __argv[],
+>                    char *const __envp[]) ;
 
-Yes, I do.  My plan is to fix all the prototypes that use restrict by
-adding the keyword.
+I guess that was the reason to write it like that.
 
-I'm using the man_section function I showed you to see all the man2 and
-man3 prototypes on one side, and grep_syscall_wrapper/grep_syscall on
-the other side to do it fast, so expect just a few weeks to do the
-change completely.
+> 
+> I expect that one day when execveat() is added to glibc, it will be
+> the same. What do you think?
 
-Heinrich also proposed this change some time ago (I already had in my
-to-do list, but that reminded me to do it) here:
-<https://lore.kernel.org/linux-man/105b8883-d6a8-b3c3-3aff-ee1d6e88980a@gmail.com/T/>.
+execveat() was added 6 years ago to the kernel (kernel commit
+51f39a1f0cea1cacf8c787f652f26dfee9611874) and there's still no wrapper.
+ It's not like epoll_pwait2() that isn't yet in a stable release.  I'd
+document the actual prototype, maybe open a bug in glibc to request a
+wrapper, and if some day glibc adds that wrapper, I'd just revert the
+commit.  Wouldn't you?
 
-Cheers,
+Thanks,
 
 Alex
 
@@ -114,16 +113,28 @@ Alex
 > 
 > Michael
 > 
->> ......
+> On Wed, 3 Feb 2021 at 19:46, Alejandro Colomar <alx.manpages@gmail.com> wrote:
 >>
->> .../glibc$ grep_syscall_wrapper setitimer
->> time/sys/time.h:129:
->> extern int setitimer (__itimer_which_t __which,
->>                       const struct itimerval *__restrict __new,
->>                       struct itimerval *__restrict __old) __THROW;
->> .../glibc$
+>> .../linux$ grep_syscall execveat
+>> fs/exec.c:2062:
+>> SYSCALL_DEFINE5(execveat,
+>>                 int, fd, const char __user *, filename,
+>>                 const char __user *const __user *, argv,
+>>                 const char __user *const __user *, envp,
+>>                 int, flags)
+>> fs/exec.c:2083:
+>> COMPAT_SYSCALL_DEFINE5(execveat, int, fd,
+>>                        const char __user *, filename,
+>>                        const compat_uptr_t __user *, argv,
+>>                        const compat_uptr_t __user *, envp,
+>>                        int,  flags)
+>> include/linux/syscalls.h:980:
+>> asmlinkage long sys_execveat(int dfd, const char __user *filename,
+>>                         const char __user *const __user *argv,
+>>                         const char __user *const __user *envp, int flags);
+>> .../linux$
 >>
->> function grep_syscall_wrapper()
+>> function grep_syscall()
 >> {
 >>         if ! [ -v 1 ]; then
 >>                 >&2 echo "Usage: ${FUNCNAME[0]} <syscall>";
@@ -131,33 +142,36 @@ Alex
 >>         fi
 >>
 >>         find * -type f \
+>>         |grep '\.c$' \
+>>         |sort -V \
+>>         |xargs pcregrep -Mn "(?s)^\w*SYSCALL_DEFINE.\(${1},.*?\)" \
+>>         |sed -E 's/^[^:]+:[0-9]+:/&\n/';
+>>
+>>         find * -type f \
 >>         |grep '\.h$' \
 >>         |sort -V \
->>         |xargs pcregrep -Mn \
->>           "^[^\s][\w\s]+\s+\**${1}\s*\((?s)[\w\s()[\]*,]*?(...)?\)[\w\s()]*;" \
+>>         |xargs pcregrep -Mn "(?s)^asmlinkage \w+ \**sys_${1}\(.*?\)" \
 >>         |sed -E 's/^[^:]+:[0-9]+:/&\n/';
 >> }
 >>
 >> Signed-off-by: Alejandro Colomar <alx.manpages@gmail.com>
 >> ---
->>  man2/getitimer.2 | 4 ++--
->>  1 file changed, 2 insertions(+), 2 deletions(-)
+>>  man2/execveat.2 | 2 +-
+>>  1 file changed, 1 insertion(+), 1 deletion(-)
 >>
->> diff --git a/man2/getitimer.2 b/man2/getitimer.2
->> index b435c343e..9ec32e836 100644
->> --- a/man2/getitimer.2
->> +++ b/man2/getitimer.2
->> @@ -18,8 +18,8 @@ getitimer, setitimer \- get or set value of an interval timer
->>  .B #include <sys/time.h>
+>> diff --git a/man2/execveat.2 b/man2/execveat.2
+>> index 02d9c7331..d1ce4bee1 100644
+>> --- a/man2/execveat.2
+>> +++ b/man2/execveat.2
+>> @@ -31,7 +31,7 @@ execveat \- execute program relative to a directory file descriptor
+>>  .B #include <unistd.h>
 >>  .PP
->>  .BI "int getitimer(int " which ", struct itimerval *" curr_value );
->> -.BI "int setitimer(int " which ", const struct itimerval *" new_value ,
->> -.BI "              struct itimerval *" old_value );
->> +.BI "int setitimer(int " which ", const struct itimerval *restrict " new_value ,
->> +.BI "              struct itimerval *restrict " old_value );
+>>  .BI "int execveat(int " dirfd ", const char *" pathname ,
+>> -.BI "             char *const " argv "[], char *const " envp [],
+>> +.BI "             const char *const " argv "[], const char *const " envp [],
+>>  .BI "             int " flags );
 >>  .fi
->>  .SH DESCRIPTION
->>  These system calls provide access to interval timers, that is,
+>>  .PP
 >> --
 >> 2.30.0
 >>
