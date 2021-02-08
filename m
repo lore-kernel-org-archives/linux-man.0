@@ -2,271 +2,103 @@ Return-Path: <linux-man-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-16.8 required=3.0 tests=BAYES_00,
-	HEADER_FROM_DIFFERENT_DOMAINS,INCLUDES_CR_TRAILER,INCLUDES_PATCH,
-	MAILING_LIST_MULTI,SPF_HELO_NONE,SPF_PASS,UNPARSEABLE_RELAY,USER_AGENT_GIT
-	autolearn=ham autolearn_force=no version=3.4.0
+X-Spam-Status: No, score=-4.5 required=3.0 tests=BAYES_00,DKIM_SIGNED,
+	DKIM_VALID,DKIM_VALID_AU,FREEMAIL_FORGED_FROMDOMAIN,FREEMAIL_FROM,
+	HEADER_FROM_DIFFERENT_DOMAINS,MAILING_LIST_MULTI,NICE_REPLY_A,SPF_HELO_NONE,
+	SPF_PASS,URIBL_BLOCKED,USER_AGENT_SANE_1 autolearn=no autolearn_force=no
+	version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 96E3CC433E0
-	for <linux-man@archiver.kernel.org>; Sun,  7 Feb 2021 23:49:03 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 38560C433E0
+	for <linux-man@archiver.kernel.org>; Mon,  8 Feb 2021 22:36:54 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.kernel.org (Postfix) with ESMTP id 50BC964DFF
-	for <linux-man@archiver.kernel.org>; Sun,  7 Feb 2021 23:49:03 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTP id ED75664E99
+	for <linux-man@archiver.kernel.org>; Mon,  8 Feb 2021 22:36:53 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S229537AbhBGXsr (ORCPT <rfc822;linux-man@archiver.kernel.org>);
-        Sun, 7 Feb 2021 18:48:47 -0500
-Received: from bhuna.collabora.co.uk ([46.235.227.227]:59186 "EHLO
-        bhuna.collabora.co.uk" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S229522AbhBGXsr (ORCPT
-        <rfc822;linux-man@vger.kernel.org>); Sun, 7 Feb 2021 18:48:47 -0500
-Received: from [127.0.0.1] (localhost [127.0.0.1])
-        (Authenticated sender: krisman)
-        with ESMTPSA id C3E0A1F44EA3
-From:   Gabriel Krisman Bertazi <krisman@collabora.com>
-To:     alx.manpages@gmail.com, mtk.manpages@gmail.com
-Cc:     linux-man@vger.kernel.org, kernel@collabora.com,
-        Gabriel Krisman Bertazi <krisman@collabora.com>
-Subject: [PATCH v8] prctl.2: Document Syscall User Dispatch
-Date:   Sun,  7 Feb 2021 18:47:57 -0500
-Message-Id: <20210207234757.3364096-1-krisman@collabora.com>
-X-Mailer: git-send-email 2.30.0
+        id S229715AbhBHWgx (ORCPT <rfc822;linux-man@archiver.kernel.org>);
+        Mon, 8 Feb 2021 17:36:53 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:34656 "EHLO
+        lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S229691AbhBHWgw (ORCPT
+        <rfc822;linux-man@vger.kernel.org>); Mon, 8 Feb 2021 17:36:52 -0500
+Received: from mail-wm1-x32e.google.com (mail-wm1-x32e.google.com [IPv6:2a00:1450:4864:20::32e])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id D7A5EC061786
+        for <linux-man@vger.kernel.org>; Mon,  8 Feb 2021 14:36:11 -0800 (PST)
+Received: by mail-wm1-x32e.google.com with SMTP id o24so510473wmh.5
+        for <linux-man@vger.kernel.org>; Mon, 08 Feb 2021 14:36:11 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20161025;
+        h=subject:from:to:references:cc:message-id:date:user-agent
+         :mime-version:in-reply-to:content-language:content-transfer-encoding;
+        bh=1R+e5JFDNh1cpRLUogyYqNfPT1Wbo7DPFxyEiJBAo7E=;
+        b=YO9hA5UkgKVOf8vwix0rox5pJm3dfVIm8Tiqu4QbeZ4rWog1aBL555fujEyUjoYDYZ
+         I3p88WB52JiQfgsV04FyrMt8Fm+XZnmn9C0oo/vxPK/tDmBw/dFiRuLA7wD4LlGT5sOi
+         4d+1oVqUT+kZk0uyhWJyPDEzg5+sMqP6mrFYo50vh9OgJsG8TM07llWM4TlxPuKhtxs7
+         V7cIq0sMn1GLdVCxoX70Weds1GHWlwrGHDgt8SZ+mVeeqHygHBL7QQCGMninOZNznVYp
+         ixV6TKMnVpCktY+qm9NMx8JPqjvdhD27dOoefHGwGQSHZXMer5WldN7HJT89Yz6Xzrb0
+         rEKg==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20161025;
+        h=x-gm-message-state:subject:from:to:references:cc:message-id:date
+         :user-agent:mime-version:in-reply-to:content-language
+         :content-transfer-encoding;
+        bh=1R+e5JFDNh1cpRLUogyYqNfPT1Wbo7DPFxyEiJBAo7E=;
+        b=EB5j6szBAUVUbe0RhDL5ylB+kC3+fkyY7N5oaGPBESrkLpE/AHvyjuzwxPae1klLgr
+         AMs76RgPxWDDD29qTeXgpZG2cPPkZ4xCEArw7PjePSEfYFh5uArkAE5zqSoN+6ueX4+c
+         u6j+/ZYGO25QMkuUbxJsK1hQUslWaLrLDq4ZRkBPAdpIPX+aUxeBG8SRsuCIknVOGKmx
+         R7cBCEv7Msjlh7Sd0ZfdHejiICZzG3mdn4PwN5dP1Th1ZbCD4irXzokwOKFs9m/Ub4jF
+         5sM7YGqyuwGDHk/WQs/AkUJ95DcorAEE92XTk7ndRIV+dJuH+qRuQ+hyZgqMTEp/bKBu
+         6xKA==
+X-Gm-Message-State: AOAM532jCCSeqlDVb+DytY+4Z2E1EUhEfS0RTYhCaNdc9CCkhdHenhPX
+        keN1X03XuzgQdNqdTCmE6iBy7BkWxec=
+X-Google-Smtp-Source: ABdhPJy4E8Aw7RNxEfK450rAcenFmH03CC8+iApJJSWwWRi/En9O9H/j5EkKGGUH7KXIIFn8qgCXGQ==
+X-Received: by 2002:a7b:cc95:: with SMTP id p21mr816752wma.22.1612823769892;
+        Mon, 08 Feb 2021 14:36:09 -0800 (PST)
+Received: from [192.168.1.143] ([170.253.51.130])
+        by smtp.gmail.com with UTF8SMTPSA id l38sm981041wmp.19.2021.02.08.14.36.09
+        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+        Mon, 08 Feb 2021 14:36:09 -0800 (PST)
+Subject: Re: ptrace.2: Simplify signature? s/enum \w*/int/
+From:   "Alejandro Colomar (man-pages)" <alx.manpages@gmail.com>
+To:     "Michael Kerrisk (man-pages)" <mtk.manpages@gmail.com>
+References: <e7685576-db7b-f53d-26b9-64ee6621aea1@gmail.com>
+Cc:     linux-man <linux-man@vger.kernel.org>
+Message-ID: <bba760a2-b291-d676-2949-90b47f13d4f9@gmail.com>
+Date:   Mon, 8 Feb 2021 23:36:08 +0100
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:84.0) Gecko/20100101
+ Thunderbird/84.0
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+In-Reply-To: <e7685576-db7b-f53d-26b9-64ee6621aea1@gmail.com>
+Content-Type: text/plain; charset=UTF-8
+Content-Language: en-US
+Content-Transfer-Encoding: 7bit
 Precedence: bulk
 List-ID: <linux-man.vger.kernel.org>
 X-Mailing-List: linux-man@vger.kernel.org
 
-Signed-off-by: Gabriel Krisman Bertazi <krisman@collabora.com>
+[CC += linux-man@]
 
----
-Changes since v7:
-(suggested by Michael Kerrisk)
-  - Update values accepted by the selector variable to reflect
-  upstream API change.
+I forgot the list.
 
-Changes since v6:
-(suggested by Michael Kerrisk)
-  - process map -> process address space
-  - add period before parenthesis.
-  - Clarify difference between enable/disable SUD and allow/block
-  syscalls.
+On 2/8/21 11:34 PM, Alejandro Colomar (man-pages) wrote:
+> Hi Michael,
+> 
+> I think we should simplify the prototype of ptrace(2) from using 'enum
+> __ptrace_request' to 'int'.  It is an implementation detail that should
+> be transparent to the user.  Other pages where glibc uses an 'enum' are
+> documented to use 'int' (I don't remember the names of those, but
+> remember having seen them a few days ago.  Otherwise, we might have to
+> document 'enum' elsewhere, which I don't think adds any value.  What do
+> you think about it?
+> 
+> Thanks,
+> 
+> Alex
+> 
+> -- Alejandro Colomar Linux man-pages comaintainer;
+> https://www.kernel.org/doc/man-pages/ http://www.alejandro-colomar.es/
 
-Changes since v5:
-(suggested by Michael Kerrisk)
-  - Change () punctuation
-  - fix grammar
-  - Add information about interception, return and return value
 
-Changes since v4:
-(suggested by Michael Kerrisk)
-  - Modify explanation of what dispatch to user space means.
-  - Drop references to emulation.
-  - Document suggestion about placing libc in allowed-region.
-  - Comment about avoiding syscall cost.
-Changes since v3:
-(suggested by Michael Kerrisk)
-  - Explain what dispatch to user space means.
-  - Document the fact that the memory region is a single consecutive
-  range.
-  - Explain failure if *arg5 is set to a bad value.
-  - fix english typo.
-  - Define what 'invalid memory region' means.
-
-Changes since v2:
-(suggested by Alejandro Colomar)
-  - selective -> selectively
-  - Add missing oxford comma.
-
-Changes since v1:
-(suggested by Alejandro Colomar)
-  - Use semantic lines
-  - Fix usage of .{B|I}R and .{B|I}
-  - Don't format literals
-  - Fix preferred spelling of userspace
-  - Fix case of word
----
- man2/prctl.2 | 154 +++++++++++++++++++++++++++++++++++++++++++++++++++
- 1 file changed, 154 insertions(+)
-
-diff --git a/man2/prctl.2 b/man2/prctl.2
-index f25f05fdb593..e6df23898838 100644
---- a/man2/prctl.2
-+++ b/man2/prctl.2
-@@ -1533,6 +1533,130 @@ For more information, see the kernel source file
- (or
- .I Documentation/arm64/sve.txt
- before Linux 5.3).
-+.TP
-+.\" prctl PR_SET_SYSCALL_USER_DISPATCH
-+.\" commit 1446e1df9eb183fdf81c3f0715402f1d7595d4
-+.BR PR_SET_SYSCALL_USER_DISPATCH " (since Linux 5.11, x86 only)"
-+.IP
-+Configure the Syscall User Dispatch mechanism
-+for the calling thread.
-+This mechanism allows an application
-+to selectively intercept system calls
-+so that they can be handled within the application itself.
-+Interception takes the form of a thread-directed
-+.B SIGSYS
-+signal that is delivered to the thread
-+when it makes a system call.
-+If intercepted,
-+the system call is not executed by the kernel.
-+.IP
-+To enable this mechanism,
-+.I arg2
-+should be set to
-+.BR PR_SYS_DISPATCH_ON .
-+Once enabled, further system calls will be selectively intercepted,
-+depending on a control variable provided by user space.
-+In this case,
-+.I arg3
-+and
-+.I arg4
-+respectively identify the
-+.I offset
-+and
-+.I length
-+of a single contiguous memory region in the process address space
-+from where system calls are always allowed to be executed,
-+regardless of the control variable.
-+(Typically, this area would include the area of memory
-+containing the C library.)
-+.IP
-+.I arg5
-+points to a char-sized variable
-+that is a fast switch to allow/block system call execution
-+without the overhead of doing another system call
-+to re-configure Syscall User Dispatch.
-+This control variable can either be set to
-+.B SYSCALL_DISPATCH_FILTER_BLOCK
-+to block system calls from executing
-+or to
-+.B SYSCALL_DISPATCH_FILTER_ALLOW
-+to temporarily allow them to be executed.
-+This value is checked by the kernel
-+on every system call entry,
-+and any unexpected value will raise
-+an uncatchable
-+.B SIGSYS
-+at that time,
-+killing the application.
-+.IP
-+When a system call is intercepted,
-+the kernel sends a thread-directed
-+.B SIGSYS
-+signal to the triggering thread.
-+Various fields will be set in the
-+.I siginfo_t
-+structure (see
-+.BR sigaction (2))
-+associated with the signal:
-+.RS
-+.IP * 3
-+.I si_signo
-+will contain
-+.BR SIGSYS .
-+.IP *
-+.IR si_call_addr
-+will show the address of the system call instruction.
-+.IP *
-+.IR si_syscall
-+and
-+.IR si_arch
-+will indicate which system call was attempted.
-+.IP *
-+.I si_code
-+will contain
-+.BR SYS_USER_DISPATCH .
-+.IP *
-+.I si_errno
-+will be set to 0.
-+.RE
-+.IP
-+The program counter will be as though the system call happened
-+(i.e., the program counter will not point to the system call instruction).
-+.IP
-+When the signal handler returns to the kernel,
-+the system call completes immediately
-+and returns to the calling thread,
-+without actually being executed.
-+If necessary
-+(i.e., when emulating the system call on user space.),
-+the signal handler should set the system call return value
-+to a sane value,
-+by modifying the register context stored in the
-+.I ucontext
-+argument of the signal handler.
-+See
-+.BR sigaction (2),
-+.BR sigreturn (2),
-+and
-+.BR getcontext (3)
-+for more information.
-+.IP
-+If
-+.I arg2
-+is set to
-+.BR PR_SYS_DISPATCH_OFF ,
-+Syscall User Dispatch is disabled for that thread.
-+the remaining arguments must be set to 0.
-+.IP
-+The setting is not preserved across
-+.BR fork (2),
-+.BR clone (2),
-+or
-+.BR execve (2).
-+.IP
-+For more information,
-+see the kernel source file
-+.IR Documentation/admin-guide/syscall-user-dispatch.rst
- .\" prctl PR_SET_TAGGED_ADDR_CTRL
- .\" commit 63f0c60379650d82250f22e4cf4137ef3dc4f43d
- .TP
-@@ -2000,6 +2124,14 @@ and
- .I arg3
- is an invalid address.
- .TP
-+.B EFAULT
-+.I option
-+is
-+.B PR_SET_SYSCALL_USER_DISPATCH
-+and
-+.I arg5
-+has an invalid address.
-+.TP
- .B EINVAL
- The value of
- .I option
-@@ -2231,6 +2363,28 @@ and SVE is not available on this platform.
- .B EINVAL
- .I option
- is
-+.B PR_SET_SYSCALL_USER_DISPATCH
-+and one of the following is true:
-+.RS
-+.IP * 3
-+.I arg2
-+is
-+.B PR_SYS_DISPATCH_OFF
-+and the remaining arguments are not 0;
-+.IP * 3
-+.I arg2
-+is
-+.B PR_SYS_DISPATCH_ON
-+and the memory range specified is outside the
-+address space of the process.
-+.IP * 3
-+.I arg2
-+is invalid.
-+.RE
-+.TP
-+.B EINVAL
-+.I option
-+is
- .BR PR_SET_TAGGED_ADDR_CTRL
- and the arguments are invalid or unsupported.
- See the description of
 -- 
-2.30.0
-
+Alejandro Colomar
+Linux man-pages comaintainer; https://www.kernel.org/doc/man-pages/
+http://www.alejandro-colomar.es/
