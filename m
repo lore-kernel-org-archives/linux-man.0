@@ -2,135 +2,135 @@ Return-Path: <linux-man-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-9.5 required=3.0 tests=BAYES_00,DKIM_SIGNED,
+X-Spam-Status: No, score=-14.5 required=3.0 tests=BAYES_00,DKIM_SIGNED,
 	DKIM_VALID,DKIM_VALID_AU,FREEMAIL_FORGED_FROMDOMAIN,FREEMAIL_FROM,
-	HEADER_FROM_DIFFERENT_DOMAINS,INCLUDES_PATCH,MAILING_LIST_MULTI,NICE_REPLY_A,
-	SPF_HELO_NONE,SPF_PASS,URIBL_BLOCKED,USER_AGENT_SANE_1 autolearn=ham
-	autolearn_force=no version=3.4.0
+	HEADER_FROM_DIFFERENT_DOMAINS,INCLUDES_CR_TRAILER,INCLUDES_PATCH,
+	MAILING_LIST_MULTI,NICE_REPLY_A,SPF_HELO_NONE,SPF_PASS,URIBL_BLOCKED,
+	USER_AGENT_SANE_1 autolearn=ham autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id D80B3C43381
-	for <linux-man@archiver.kernel.org>; Tue,  9 Feb 2021 21:43:12 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id D2A51C433E0
+	for <linux-man@archiver.kernel.org>; Tue,  9 Feb 2021 23:22:45 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.kernel.org (Postfix) with ESMTP id 9EC8F64EE1
-	for <linux-man@archiver.kernel.org>; Tue,  9 Feb 2021 21:43:12 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTP id 96D5764E4B
+	for <linux-man@archiver.kernel.org>; Tue,  9 Feb 2021 23:22:45 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S233817AbhBIVmo (ORCPT <rfc822;linux-man@archiver.kernel.org>);
-        Tue, 9 Feb 2021 16:42:44 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:41272 "EHLO
+        id S234210AbhBIXUN (ORCPT <rfc822;linux-man@archiver.kernel.org>);
+        Tue, 9 Feb 2021 18:20:13 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:57778 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S234309AbhBIVAd (ORCPT
-        <rfc822;linux-man@vger.kernel.org>); Tue, 9 Feb 2021 16:00:33 -0500
-Received: from mail-ej1-x62b.google.com (mail-ej1-x62b.google.com [IPv6:2a00:1450:4864:20::62b])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 04B57C06178A
-        for <linux-man@vger.kernel.org>; Tue,  9 Feb 2021 12:59:53 -0800 (PST)
-Received: by mail-ej1-x62b.google.com with SMTP id sa23so34213886ejb.0
-        for <linux-man@vger.kernel.org>; Tue, 09 Feb 2021 12:59:52 -0800 (PST)
+        with ESMTP id S233522AbhBIWRC (ORCPT
+        <rfc822;linux-man@vger.kernel.org>); Tue, 9 Feb 2021 17:17:02 -0500
+Received: from mail-wr1-x433.google.com (mail-wr1-x433.google.com [IPv6:2a00:1450:4864:20::433])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id B85C6C06178C
+        for <linux-man@vger.kernel.org>; Tue,  9 Feb 2021 11:00:02 -0800 (PST)
+Received: by mail-wr1-x433.google.com with SMTP id n6so10517975wrv.8
+        for <linux-man@vger.kernel.org>; Tue, 09 Feb 2021 11:00:02 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=gmail.com; s=20161025;
         h=cc:subject:to:references:from:message-id:date:user-agent
          :mime-version:in-reply-to:content-language:content-transfer-encoding;
-        bh=KU5nLgaqE5A32Bs5bIet9Vpf4FIrh9geuqy2ye62pVA=;
-        b=XrJgCaZOXgOa81Oe/PmxsVO3+l8D8MkC6sHXfMlB79iQoq2mQxjX9U6pwEpeXZifVe
-         pbnwKkCSs3iOStTIdKxpqZfygMb9Z5ckqkZANaygmYExIFGpL7O1HQoyoQuofwbkzc0K
-         2Qyli169sd3Rd+PHauB0aWQYIFInv/HD4hz15Btvu4e34IYV4HZmOrdkwQTtxRQKoo3h
-         2+8IHo1D1bf8BzCQqGtV01C8aqvvyqYD/ptPXQVRICrHPbG0AucIUK082tPCsL3TAVHS
-         EeMpB1wMcE6Jn+yEVMHEp/MWYQIBNCURN06sF9SeiC2A7I3JPvWa5mrKSc2z0unDGvBu
-         iF9Q==
+        bh=Sq7veWnskG1bH/So4sPfXAMiGxTI5iAiud4Iyyw6We0=;
+        b=t7MuvSL/GdLEdBc8ZIE1xHp/eB1Gp8nCKMSGkSsB/aZrTQGPZvIxjhtZCF0MUdmxae
+         NuR1AhIpfchBCFPrtnJttkx4F15ibLQgbnPJOFkBGq9aOC1WimBFd5bI0pMgbcTx6sw6
+         10mAEgPM35zpl23aSbW0Qt27gXbEHRUsqyiUtySSAUXJ74Kn4s8ISNa0n4+oI4AXTbUr
+         OytbhU7nKENXY1q+TEPWzFW5soGsA5cVaBhjAxPgdJfu4WGB9XFerhkNnG/d3yX69stf
+         c489jlPyMpAk50rk//6oeS9a50XrMch4HPpL5pSaiN+LsoBmqTXLTeMKEXNuG+YFEHI3
+         TTwA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
         h=x-gm-message-state:cc:subject:to:references:from:message-id:date
          :user-agent:mime-version:in-reply-to:content-language
          :content-transfer-encoding;
-        bh=KU5nLgaqE5A32Bs5bIet9Vpf4FIrh9geuqy2ye62pVA=;
-        b=MT3m9gll1dg4MFgy8FzxnYf6pEq/IFWcEoumR4CSvNu4UsiWU15PKMIDAyMZkfnYzm
-         QYOOy+t8Dkr9TvTrplG0IMz3+2ZevcPUiamIR/FVL96wbnQkelH6n+wKxtk3I1jwTkJK
-         wWeq9sEXH/wkLZ248RHKwVDSz06B9H/74wpDt0oeuVYNRVhcFcYiuEQTRVTcHS33Wfzd
-         rNS4hzkBxwemXhKYA3KFMjwa2MgorpU31eIfVna0s6M3SBisjdFK3t6pLX4yIiQLDbUc
-         t0XDXHfitP2gOIPrtV2HiOfu5MOWi4+u8agpJpCOjV4rVFRMLUGNyw5M39psQI3ORkqS
-         KJwg==
-X-Gm-Message-State: AOAM533txVwLder8vkRNPz1wM01pIMk0tKR2o8NLHUwSzYMI/2IGVeF3
-        bbOD2khBJTXbTHrqztrxN4XhYFQPgMfzcA==
-X-Google-Smtp-Source: ABdhPJzwzTKKbIwzKpQc2mPVQ7Zyg2v+mUaLojqCEnv/a5GCtSsnyH7tFnEeXkkn4qi+bto/0KRZ1Q==
-X-Received: by 2002:a17:906:cb83:: with SMTP id mf3mr15581918ejb.155.1612904391492;
-        Tue, 09 Feb 2021 12:59:51 -0800 (PST)
+        bh=Sq7veWnskG1bH/So4sPfXAMiGxTI5iAiud4Iyyw6We0=;
+        b=LsH7E1rIelpaXfjX7xf/nmf5vg5g4iVocfLkWcnj/9ABP5hwYEBYOjTg2K72RLzV7O
+         mktPsoiKNQ4S32YjsGHjznIH7uEPhEWuLgJEpama0duYlwMhxKdGqHt5AG7SUEKmu4G5
+         t9zFekQnNEVa05HNOsQjdobyp2i38q8gp8ErnQT2zSJrqxjoaTia2l1SVkZfbcCnfBDK
+         DAt463NrtUVIVK0HOjIO4rZfOcaPKz0LULaEKpLQtGfb1iX8H1CXzGFQf4h0E8FQkX2C
+         qYPFxaHbHnMcaU9VIYA41ozXyBKRb/7WD7m7dqSJru8JHY+B0E2WKbYn3dsQ8+UVgpNx
+         wmqA==
+X-Gm-Message-State: AOAM5333hD0YJRspOvGDUDZItIqNKP/3W1hmZCq8Q21eDbHlnksKFsDp
+        oEHiG08Xc9hr3BpjN9X0JQI=
+X-Google-Smtp-Source: ABdhPJyhbpSNOCn0NvwIpO4kgXtH1V4jR3YsPRIiIg7wdO7e5d3f/4pglLIncCCKrXPgh6q2j8OD/w==
+X-Received: by 2002:a5d:5049:: with SMTP id h9mr27944986wrt.404.1612897201500;
+        Tue, 09 Feb 2021 11:00:01 -0800 (PST)
 Received: from ?IPv6:2001:a61:24ca:4d01:a815:d0d9:f754:e0ef? ([2001:a61:24ca:4d01:a815:d0d9:f754:e0ef])
-        by smtp.gmail.com with ESMTPSA id ze12sm6898821ejb.18.2021.02.09.12.59.50
+        by smtp.gmail.com with ESMTPSA id 143sm5995959wmb.47.2021.02.09.11.00.00
         (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Tue, 09 Feb 2021 12:59:50 -0800 (PST)
-Cc:     mtk.manpages@gmail.com,
-        "Alejandro Colomar (man-pages)" <alx.manpages@gmail.com>,
-        linux-man@vger.kernel.org
-Subject: Re: [PATCH 2/2] netdevice.7: Minor fixes to Pali's patch
-To:     =?UTF-8?Q?Pali_Roh=c3=a1r?= <pali@kernel.org>
-References: <20210128152430.314458-1-alx.manpages@gmail.com>
- <20210128152430.314458-2-alx.manpages@gmail.com>
- <2263f2ae-6984-bc6d-d14a-285078aacbe3@gmail.com>
- <8ba042b9-c292-c76f-d553-cfb06bd74884@gmail.com>
- <2483bb46-5d32-1f2c-fceb-70d30f81b810@gmail.com>
- <20210209193751.kgcrd43yymzowotv@pali>
+        Tue, 09 Feb 2021 11:00:00 -0800 (PST)
+Cc:     mtk.manpages@gmail.com, linux-man@vger.kernel.org,
+        libc-alpha@sourceware.org
+Subject: Re: [PATCH v2] mlock.2: mlock2(): Fix prototype parameter types
+To:     Alejandro Colomar <alx.manpages@gmail.com>
+References: <20210204111732.194599-1-alx.manpages@gmail.com>
+ <20210207124611.201122-1-alx.manpages@gmail.com>
 From:   "Michael Kerrisk (man-pages)" <mtk.manpages@gmail.com>
-Message-ID: <d57ad48c-0899-7a54-dabf-cc7e687cca73@gmail.com>
-Date:   Tue, 9 Feb 2021 21:59:49 +0100
+Message-ID: <faf6af4d-e7f3-e591-f3cf-c02660e910f1@gmail.com>
+Date:   Tue, 9 Feb 2021 20:00:00 +0100
 User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
  Thunderbird/78.6.0
 MIME-Version: 1.0
-In-Reply-To: <20210209193751.kgcrd43yymzowotv@pali>
+In-Reply-To: <20210207124611.201122-1-alx.manpages@gmail.com>
 Content-Type: text/plain; charset=utf-8
 Content-Language: en-US
-Content-Transfer-Encoding: 8bit
+Content-Transfer-Encoding: 7bit
 Precedence: bulk
 List-ID: <linux-man.vger.kernel.org>
 X-Mailing-List: linux-man@vger.kernel.org
 
-On 2/9/21 8:37 PM, Pali Rohár wrote:
-> On Tuesday 09 February 2021 20:29:45 Michael Kerrisk (man-pages) wrote:
->> Hi Alex,
->>
->> On 2/7/21 12:18 PM, Alejandro Colomar (man-pages) wrote:
->>> Hi Michael,
->>>
->>> On 1/28/21 9:16 PM, Michael Kerrisk (man-pages) wrote:
->>
->> [...]
->>
->>>>>  .BR rtnetlink (7).
->>>>>  Adding a new or deleting an existing IPv6 address can be done via
->>>>> -.BR SIOCSIFADDR " / " SIOCDIFADDR
->>>>> +.BR SIOCSIFADDR / SIOCDIFADDR
->>>
->>> I noticed you didn't apply this part.  Did you forget it, or do you
->>> prefer it as is?
->>>
->>> Rationale:
->>>
->>> https://lore.kernel.org/linux-man/fc4a94d4-2eac-1b24-cc90-162045eae107@gmail.com/
->>
->> I'm not sure, but overall I did not/do like the sentence structure.
->> I applied the patch below.
->>
->> Cheers,
->>
->> Michael
->>
->> --- a/man7/netdevice.7
->> +++ b/man7/netdevice.7
->> @@ -394,8 +394,11 @@ IPv6 addresses can be read from
->>  .I /proc/net/if_inet6
->>  or via
->>  .BR rtnetlink (7).
->> -Adding a new or deleting an existing IPv6 address can be done via
->> -.BR SIOCSIFADDR " / " SIOCDIFADDR
->> +Adding a new IPv6 address and deleting an existing IPv6 address
->> +can be done via
->> +.B SIOCSIFADDRi
-> 
-> Hello Michael! There is an extra 'i'.
+Hello Alex
 
-Thanks, Pali! Fixed.
+On 2/7/21 1:46 PM, Alejandro Colomar wrote:
+> The documented prototype for mlock2() was a mix of the
+> glibc wrapper prototype and the kernel syscall prototype.
+> Let's document the glibc wrapper prototype, which is shown below.
+
+Thanks. Patch applied.
 
 Cheers,
 
 Michael
+
+> ......
+> 
+> .../glibc$ grep_glibc_prototype mlock2
+> sysdeps/unix/sysv/linux/bits/mman-shared.h:55:
+> int mlock2 (const void *__addr, size_t __length, unsigned int __flags) __THROW;
+> .../glibc$
+> 
+> function grep_glibc_prototype()
+> {
+> 	if ! [ -v 1 ]; then
+> 		>&2 echo "Usage: ${FUNCNAME[0]} <func>";
+> 		return ${EX_USAGE};
+> 	fi
+> 
+> 	find * -type f \
+> 	|grep '\.h$' \
+> 	|sort -V \
+> 	|xargs pcregrep -Mn \
+> 	  "(?s)^[^\s#][\w\s]+\s+\**${1}\s*\([\w\s()[\]*,]*?(...)?\)[\w\s()]*;" \
+> 	|sed -E 's/^[^:]+:[0-9]+:/&\n/';
+> }
+> 
+> Signed-off-by: Alejandro Colomar <alx.manpages@gmail.com>
+> ---
+>  man2/mlock.2 | 2 +-
+>  1 file changed, 1 insertion(+), 1 deletion(-)
+> 
+> diff --git a/man2/mlock.2 b/man2/mlock.2
+> index 2822df7cf..f48d632c4 100644
+> --- a/man2/mlock.2
+> +++ b/man2/mlock.2
+> @@ -31,7 +31,7 @@ mlock, mlock2, munlock, mlockall, munlockall \- lock and unlock memory
+>  .B #include <sys/mman.h>
+>  .PP
+>  .BI "int mlock(const void *" addr ", size_t " len );
+> -.BI "int mlock2(const void *" addr ", size_t " len ", int " flags );
+> +.BI "int mlock2(const void *" addr ", size_t " len ", unsigned int " flags );
+>  .BI "int munlock(const void *" addr ", size_t " len );
+>  .PP
+>  .BI "int mlockall(int " flags );
+> 
 
 
 -- 
