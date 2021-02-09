@@ -2,96 +2,117 @@ Return-Path: <linux-man-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-15.8 required=3.0 tests=BAYES_00,DKIM_SIGNED,
+X-Spam-Status: No, score=-4.5 required=3.0 tests=BAYES_00,DKIM_SIGNED,
 	DKIM_VALID,DKIM_VALID_AU,FREEMAIL_FORGED_FROMDOMAIN,FREEMAIL_FROM,
-	HEADER_FROM_DIFFERENT_DOMAINS,INCLUDES_CR_TRAILER,INCLUDES_PATCH,
-	MAILING_LIST_MULTI,SPF_HELO_NONE,SPF_PASS,USER_AGENT_GIT autolearn=ham
-	autolearn_force=no version=3.4.0
+	HEADER_FROM_DIFFERENT_DOMAINS,MAILING_LIST_MULTI,NICE_REPLY_A,SPF_HELO_NONE,
+	SPF_PASS,USER_AGENT_SANE_1 autolearn=no autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 5B5C9C433DB
-	for <linux-man@archiver.kernel.org>; Tue,  9 Feb 2021 12:10:17 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 87049C433E0
+	for <linux-man@archiver.kernel.org>; Tue,  9 Feb 2021 12:28:26 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.kernel.org (Postfix) with ESMTP id F396564E56
-	for <linux-man@archiver.kernel.org>; Tue,  9 Feb 2021 12:10:16 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTP id 43F6E64EB1
+	for <linux-man@archiver.kernel.org>; Tue,  9 Feb 2021 12:28:26 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S229759AbhBIMKP (ORCPT <rfc822;linux-man@archiver.kernel.org>);
-        Tue, 9 Feb 2021 07:10:15 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:39236 "EHLO
+        id S229626AbhBIM2Z (ORCPT <rfc822;linux-man@archiver.kernel.org>);
+        Tue, 9 Feb 2021 07:28:25 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:43522 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S230174AbhBIMIV (ORCPT
-        <rfc822;linux-man@vger.kernel.org>); Tue, 9 Feb 2021 07:08:21 -0500
-Received: from mail-wm1-x32a.google.com (mail-wm1-x32a.google.com [IPv6:2a00:1450:4864:20::32a])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id DD1D3C061788
-        for <linux-man@vger.kernel.org>; Tue,  9 Feb 2021 04:07:40 -0800 (PST)
-Received: by mail-wm1-x32a.google.com with SMTP id w4so2870497wmi.4
-        for <linux-man@vger.kernel.org>; Tue, 09 Feb 2021 04:07:40 -0800 (PST)
+        with ESMTP id S229503AbhBIM2Y (ORCPT
+        <rfc822;linux-man@vger.kernel.org>); Tue, 9 Feb 2021 07:28:24 -0500
+Received: from mail-ej1-x629.google.com (mail-ej1-x629.google.com [IPv6:2a00:1450:4864:20::629])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 5DD30C061786
+        for <linux-man@vger.kernel.org>; Tue,  9 Feb 2021 04:27:44 -0800 (PST)
+Received: by mail-ej1-x629.google.com with SMTP id jj19so31013699ejc.4
+        for <linux-man@vger.kernel.org>; Tue, 09 Feb 2021 04:27:44 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=gmail.com; s=20161025;
-        h=from:to:cc:subject:date:message-id:mime-version
-         :content-transfer-encoding;
-        bh=NdsTCATYwcu02euMWgj//0uUzaQWuxy+LA4/qb4ONcc=;
-        b=BJRbt2hSkRWy5nYFenvgasd/wQJWGgxIzVrqTnIW/JpTihnX2BudLxgyHcZVHaig1A
-         vDAxyr7izrc3p1Ubs8E5b54ZmkKrTxNez/7zcTJDpArKyzbZlovjH1+AjG6Ee3HJPsGu
-         kHop3BBD+GogkAdAtqPVPl/oTC/b1iCXm+ofNKmgvOeQzu3APhsHEAhCozsQqwGRgSoh
-         k7id5IhONiVtSFc8odvfLpkprzi4/KMG+Gz69om2ML67UktBf+YA9kGmHKhgaKo+k7Ho
-         H7bmZQm0fial+m5JaCsZ4iqiUW5Wy9iGtGzjfa69iLGGJvPOjcJyC0RI/hEuwOFaRqmG
-         Hk0Q==
+        h=cc:subject:to:references:from:message-id:date:user-agent
+         :mime-version:in-reply-to:content-language:content-transfer-encoding;
+        bh=BOwyYXqV408vrsQ0qObVRTVlkAluUIzudoJs4Zic1K4=;
+        b=HsrXJFmGuMrdEjhPfC8wubXUT1rJKUF9UZcoMCtZktbDn7xmAlVtAbEkn6VpsFfBLY
+         lzEsfbhQxIIPZOgEmCjuQY9kFVJEppJdP1M8L7i2yQQaNV7Qwt97F1ooGXOIr2W7NC27
+         Ks22x8YxmoB/X53ylklp70dQBIaoAS+tMzQzm+Mj2auoUgTnjgjR4FvqjfYLxW5Ytzqy
+         siCO9IUvl9xNMGWY4wPuSzm9saXbOK74/u4wYHB142bSD4boCwo2vaWWOUkF/qcj+4xi
+         0Tpjs4INVefedMEZNkMfmlr3M2YGGW0D6+BgSsO20zlu8jgF4C9q6DGCYpY2TZdY/sIB
+         40hA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
-        h=x-gm-message-state:from:to:cc:subject:date:message-id:mime-version
+        h=x-gm-message-state:cc:subject:to:references:from:message-id:date
+         :user-agent:mime-version:in-reply-to:content-language
          :content-transfer-encoding;
-        bh=NdsTCATYwcu02euMWgj//0uUzaQWuxy+LA4/qb4ONcc=;
-        b=gOvqpT7ddVuDrYCHB39PE1HuGB0vqHEh0FSk20qQWsVcNzgClOob5QRSoFwTDY2/Tr
-         4tku/pP5p9TPhRvNZoQBhcCjhWb7EFE4Ykvqe/U5oy/RXREt91bjYNW6dhIwI1VTLu0w
-         1USDTFbJr+JdgVGolEgNL8BOs+F4B+7+QkN4QWuWe/4j0ftXUjI5g+14Q+QQSJMHThtY
-         BMlwSj4D+IoWaYUvAD6JvxfkZiwrfcMMq2ME17ZBqi3TppZXdTpcA1iH+gOg8IG56Xzr
-         S3pRqpY0rgjPUF1xx5WVkan0TfVDm2c3enExjaTGE3TkyGbhIpzo24Am1Trk2gZsTDaU
-         vz1g==
-X-Gm-Message-State: AOAM530EEtmQghei4HHMCHXgIiUT31pAsqTE0WQyWduKrPZm5i6iw63n
-        MK73SpbUqpSJDjGVDyHH7Lo=
-X-Google-Smtp-Source: ABdhPJzZXpXjN2wfjekQ2lwKqGKkcg96No85FHtefjjXxPL171gqHMedCLUm2gaDadXIMYchK7+IYQ==
-X-Received: by 2002:a1c:4483:: with SMTP id r125mr3067771wma.80.1612872459671;
-        Tue, 09 Feb 2021 04:07:39 -0800 (PST)
-Received: from debian.vlc ([170.253.51.130])
-        by smtp.gmail.com with ESMTPSA id f7sm1430041wrw.81.2021.02.09.04.07.38
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Tue, 09 Feb 2021 04:07:39 -0800 (PST)
-From:   Alejandro Colomar <alx.manpages@gmail.com>
-To:     mtk.manpages@gmail.com
-Cc:     Jonathan Wakely <jwakely@redhat.com>, linux-man@vger.kernel.org,
-        Alejandro Colomar <alx.manpages@gmail.com>
-Subject: [PATCH] stat.2: Remove <unistd.h> from synopsis
-Date:   Tue,  9 Feb 2021 13:01:17 +0100
-Message-Id: <20210209120116.15711-1-alx.manpages@gmail.com>
-X-Mailer: git-send-email 2.30.0
+        bh=BOwyYXqV408vrsQ0qObVRTVlkAluUIzudoJs4Zic1K4=;
+        b=etgA1Ir5FzslmEG4QMTpBfM3HM+3dAv+2VOXF1oHHdJmO9ggue7L8n4kBycgSFPjuR
+         og+TtgwCCcj3GRpza0Fu8HeXYwvmKbBBLzpBJK3KDF2xkly4rW9HpIrH5iOr523KxhRn
+         1szZbh/68SzKPnnyNjohnChpjKgZ3kJj8b/wNePvJGbMTQWDZjzETuEjNxGi4Xz4+zYd
+         Uh49xoIkVPPvpKNnaAnvtLogwcQOqN+OArVGuYZ1kZGWzqAgFZ/lViKwQFwQVPl5Y9gH
+         wIHNYhUzD3SqoVn7P5sZgjEHlxz5AnKvx/EHIMYNxefSKFzLqcrPeRD36MRMSl3TjCiu
+         5rWw==
+X-Gm-Message-State: AOAM532nFCbHr57Rd1wm1Ft7DICitnAiq4cFi2RYSjs5kbmE/4ZWefI2
+        5pOFxbyVed//01ITflEK7Ew=
+X-Google-Smtp-Source: ABdhPJxzIakx3/AoqDngLL4kFwf9iEYn/Gcc6Jo8EUtiMypTcDH41T75DQ+MrrwmUYYajn3ATnxkaw==
+X-Received: by 2002:a17:906:7689:: with SMTP id o9mr22426866ejm.324.1612873662858;
+        Tue, 09 Feb 2021 04:27:42 -0800 (PST)
+Received: from ?IPv6:2001:a61:24ca:4d01:a815:d0d9:f754:e0ef? ([2001:a61:24ca:4d01:a815:d0d9:f754:e0ef])
+        by smtp.gmail.com with ESMTPSA id b17sm11366218edv.56.2021.02.09.04.27.41
+        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+        Tue, 09 Feb 2021 04:27:42 -0800 (PST)
+Cc:     mtk.manpages@gmail.com, Alejandro Colomar <alx.manpages@gmail.com>
+Subject: Re: Why does stat(2) say <unistd.h> is needed?
+To:     Jonathan Wakely <jwakely@redhat.com>, linux-man@vger.kernel.org
+References: <20210209110912.GX3008@redhat.com>
+From:   "Michael Kerrisk (man-pages)" <mtk.manpages@gmail.com>
+Message-ID: <cb10752b-3036-67d3-41c5-b9ef0954f7f9@gmail.com>
+Date:   Tue, 9 Feb 2021 13:27:39 +0100
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
+ Thunderbird/78.6.0
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+In-Reply-To: <20210209110912.GX3008@redhat.com>
+Content-Type: text/plain; charset=utf-8
+Content-Language: en-US
+Content-Transfer-Encoding: 7bit
 Precedence: bulk
 List-ID: <linux-man.vger.kernel.org>
 X-Mailing-List: linux-man@vger.kernel.org
 
-From: Jonathan Wakely <jwakely@redhat.com>
+Hi Jonathan!
 
-There seems to be no reason <unistd.h> is shown here, so remove it.
+On 2/9/21 12:09 PM, Jonathan Wakely wrote:
+> The stat(2) man page says:
+> 
+> SYNOPSIS
+>         #include <sys/types.h>
+>         #include <sys/stat.h>
+>         #include <unistd.h>
+> 
+>         int stat(const char *pathname, struct stat *statbuf);
+>         int fstat(int fd, struct stat *statbuf);
+>         int lstat(const char *pathname, struct stat *statbuf);
+> 
+> But I don't see anything there that would require <unistd.h>. POSIX
+> doesn't require it (and since POSIX.1-2001 no longer requires
+> <sys/types.h>, saying "Although <sys/types.h> was required for
+> conforming implementations of previous POSIX specifications, it was
+> not required for UNIX applications.")
+> 
+> Is the inclusion of <unistd.h> there a mistake?
 
-Signed-off-by: Jonathan Wakely <jwakely@redhat.com>
-Signed-off-by: Alejandro Colomar <alx.manpages@gmail.com>
----
- man2/stat.2 | 1 -
- 1 file changed, 1 deletion(-)
+I do not know the reasons for it, but it has been there in
+the manual page since 1993, and the reasons are thus lost
+in the mists of the VCS and mailing list that the project
+did not have back then :-}. By now, I'm prepared to classify
+it as a mistake.
 
-diff --git a/man2/stat.2 b/man2/stat.2
-index 734c74b04..fed926715 100644
---- a/man2/stat.2
-+++ b/man2/stat.2
-@@ -43,7 +43,6 @@ stat, fstat, lstat, fstatat \- get file status
- .nf
- .B #include <sys/types.h>
- .B #include <sys/stat.h>
--.B #include <unistd.h>
- .PP
- .BI "int stat(const char *" pathname ", struct stat *" statbuf );
- .BI "int fstat(int " fd ", struct stat *" statbuf );
+Thanks,
+
+Michael
+
+> I've been trying to track down why a libstdc++ header includes
+> <unistd.h> for no apparent reason, and my best guess is that it's a
+> result of this man page saying to do it.
+> 
+
+
 -- 
-2.30.0
-
+Michael Kerrisk
+Linux man-pages maintainer; http://www.kernel.org/doc/man-pages/
+Linux/UNIX System Programming Training: http://man7.org/training/
