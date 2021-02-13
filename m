@@ -8,61 +8,61 @@ X-Spam-Status: No, score=-15.7 required=3.0 tests=BAYES_00,DKIM_SIGNED,
 	MAILING_LIST_MULTI,SPF_HELO_NONE,SPF_PASS,USER_AGENT_GIT autolearn=ham
 	autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 648F6C43381
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 390D7C433E9
 	for <linux-man@archiver.kernel.org>; Sat, 13 Feb 2021 23:11:30 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.kernel.org (Postfix) with ESMTP id 3C3FE64E3B
+	by mail.kernel.org (Postfix) with ESMTP id 0C16B6186A
 	for <linux-man@archiver.kernel.org>; Sat, 13 Feb 2021 23:11:30 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S229703AbhBMXLZ (ORCPT <rfc822;linux-man@archiver.kernel.org>);
-        Sat, 13 Feb 2021 18:11:25 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:60652 "EHLO
+        id S229713AbhBMXLY (ORCPT <rfc822;linux-man@archiver.kernel.org>);
+        Sat, 13 Feb 2021 18:11:24 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:60648 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S229710AbhBMXLX (ORCPT
+        with ESMTP id S229690AbhBMXLX (ORCPT
         <rfc822;linux-man@vger.kernel.org>); Sat, 13 Feb 2021 18:11:23 -0500
-Received: from mail-wr1-x42a.google.com (mail-wr1-x42a.google.com [IPv6:2a00:1450:4864:20::42a])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id AEBF9C061788
+Received: from mail-wm1-x32e.google.com (mail-wm1-x32e.google.com [IPv6:2a00:1450:4864:20::32e])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 9FD5CC0613D6
         for <linux-man@vger.kernel.org>; Sat, 13 Feb 2021 15:10:42 -0800 (PST)
-Received: by mail-wr1-x42a.google.com with SMTP id n6so4238700wrv.8
+Received: by mail-wm1-x32e.google.com with SMTP id x4so3718888wmi.3
         for <linux-man@vger.kernel.org>; Sat, 13 Feb 2021 15:10:42 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=gmail.com; s=20161025;
         h=from:to:cc:subject:date:message-id:in-reply-to:references
          :mime-version:content-transfer-encoding;
-        bh=WhxwzE675zbG3h3s+evpbQJ/2N4ENWs3XPX/dMjJw5s=;
-        b=mm4kDyFUSUJranx4XiMYdGA1u+D8nPGJaI5sU3apv1AdzBXKYMpRXcnM+6CYrxDm2M
-         kxpTeV2SUqeLUVV8NEv6lMdEknLo9/+qIsLc/lh4Vjm2JMDZwbKj0qPjz5brLCVRbkkq
-         Ekz+WpP4Rxo4GuzlgQpcmKnrbqCKOuMcZZ3K4Jh0BFkrQNsNQVEpsJp9kU5/2v3WKU9W
-         DSMfMjiAXnxK7SBVgtgLGj6Hz7gay4hHHsKvuA8m34w1yIuxNkPFwhjS5j2XNts9XlTo
-         ZRGs/dLBvM8tPJKBdqAbPlYEpYjqoabSnrF40lsLZSh7pjGlvn7ZxlwIZEqqVDL4mXiY
-         UiCw==
+        bh=+mHjGxTMVKdme9/cda8AQpRdOgD8h/rJiK4VyVexMdY=;
+        b=HPZBAxawYDrzVi+FQS/7dr4VpG5yP6uoBRnZHcpf2d0H/z4zTU4KE7qe6E7hk9yh1r
+         W8R7v5XmTRLseL8tDiDE36IFDdATsCF+M1SEedE+Xw56PedJ48aQmyZEjHw/DMcpH116
+         K94/zim+7voascoUqlWlbt4pgmOz1I7a/5hBpcruo5CmqLiKZu+ATI9kH6U945JCv0hm
+         fZlH5x+Mf1ui+82NLK8574YzX+xri/m9KHgdiFi1qpuJiMu+IIrmaFvvvSVxEYmmOmvt
+         elWvn02qrovYrkol+ZIVVG9cbW6El2knsKuD+NQSVyredAEZ7l6IvnxPMjqZ/hFVc0i9
+         Rm2w==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
         h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
          :references:mime-version:content-transfer-encoding;
-        bh=WhxwzE675zbG3h3s+evpbQJ/2N4ENWs3XPX/dMjJw5s=;
-        b=qM7hRvYwDRLs+41TQXkyimgEmkcTAGlHnNihETxaUbIE/BDs1gmcmf15K72PHIEw3E
-         DdJ8WkECNmtTTPBGumNmHAihVh9DKIi6lsJ6ZhiAdZtwtC3J8rOWxEhHubpvtIkaLIHL
-         eXMVhwk+n5kJMRoRd2GTO9yCVGyZ6K38ilznPtdoHGfSX7QKLKbbPTaishqlBaE8APBJ
-         e454hGHnYMvTF8tK+8lf2eHUa9ROLUBBsN8RFUyWjxKOKa+IqYIxtkeyl0J9X31v6zVV
-         TZwwIN09xHm+eU/9zZO4WRUcbBVHSIcXzg0V4S1lMM1ptiIm9nfS/+PUowR4QK3ZfNW9
-         jOkA==
-X-Gm-Message-State: AOAM53195hEkp14ufXNmf/ks9X4I2fcY3G8YmE9Ne0YHZKnbSOU/N4wh
-        ZuPiX0lmyavE4r+PB+YdiN7dsxwGYBo=
-X-Google-Smtp-Source: ABdhPJwBnX4CcJ55yS5iUl5ZoP+K0RsawjMw1pFn27l8Xq3CRjz3THYa8mk0ZYx7EY7R1OeqYoView==
-X-Received: by 2002:adf:a50c:: with SMTP id i12mr10841912wrb.299.1613257841390;
-        Sat, 13 Feb 2021 15:10:41 -0800 (PST)
+        bh=+mHjGxTMVKdme9/cda8AQpRdOgD8h/rJiK4VyVexMdY=;
+        b=qslRFVm1mhn5Eqa7JDy6GXpgoPoLHqmGwjc362Pa2HmD/EpN2aeJIPsTj1ifEQAS/6
+         LK4lFKiifb0NwDPmUjBD/it6nY7D41jsEIYF8Hrd044C+WfZy0PsqLu3RNQ9HGGj78ir
+         uDSbiMas3geiXbvEmkB8PYtZuoboaa1tttMtRY18p7jdJ3sYD7bBhlrmveZNFEi2SKYk
+         QNbbFGFhbnZXJt/CgGVZ/PAYaNFaV6LiuT8H+4G7QDNmFO0JLedY0lX88XwWcgFdRXUQ
+         Vagb6S8HYwyvcRfdkSRYbMDHGJzOZup/ctUfwA4yRi9VefsVbdfK6soULwMEs+MY4kNi
+         HXDQ==
+X-Gm-Message-State: AOAM533qV4Ef19pqnYMWA1xGoQZx1EKTdYk/ywR+5J61B2Gh6KbRM7sv
+        +Zb+KDGHYJTfIBHigIyj5h8=
+X-Google-Smtp-Source: ABdhPJywWcvnUj59suKzjSOsz2prxgYg7VALbS5FlMJidGXB9o4Rv4cf6Pki145kDmyyTedA8iS0lQ==
+X-Received: by 2002:a1c:67c3:: with SMTP id b186mr8185401wmc.24.1613257839358;
+        Sat, 13 Feb 2021 15:10:39 -0800 (PST)
 Received: from debian.vlc ([170.253.51.130])
-        by smtp.gmail.com with ESMTPSA id 64sm21011878wrc.50.2021.02.13.15.10.40
+        by smtp.gmail.com with ESMTPSA id 64sm21011878wrc.50.2021.02.13.15.10.38
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Sat, 13 Feb 2021 15:10:41 -0800 (PST)
+        Sat, 13 Feb 2021 15:10:39 -0800 (PST)
 From:   Alejandro Colomar <alx.manpages@gmail.com>
 To:     mtk.manpages@gmail.com
 Cc:     Alejandro Colomar <alx.manpages@gmail.com>,
         linux-man@vger.kernel.org
-Subject: [PATCH 04/14] readlink.2: SYNOPSIS: Use 'restrict' in prototypes
-Date:   Sun, 14 Feb 2021 00:10:14 +0100
-Message-Id: <20210213231024.440020-5-alx.manpages@gmail.com>
+Subject: [PATCH 01/14] accept.2: SYNOPSIS: Use 'restrict' in prototypes
+Date:   Sun, 14 Feb 2021 00:10:11 +0100
+Message-Id: <20210213231024.440020-2-alx.manpages@gmail.com>
 X-Mailer: git-send-email 2.30.0
 In-Reply-To: <20210213231024.440020-1-alx.manpages@gmail.com>
 References: <20210213231024.440020-1-alx.manpages@gmail.com>
@@ -72,52 +72,49 @@ Precedence: bulk
 List-ID: <linux-man.vger.kernel.org>
 X-Mailing-List: linux-man@vger.kernel.org
 
-POSIX specifies that the parameters of readlink() and readlinkat()
-shall be 'restrict'.  Glibc uses 'restrict' too.
+POSIX specifies the parameters of accept() shall be 'restrict'.
+Glibc uses 'restrict' too (also for accept4()).
 Let's use it here too.
 
 ......
 
-.../glibc$ grep_glibc_prototype readlink
-posix/unistd.h:820:
-extern ssize_t readlink (const char *__restrict __path,
-			 char *__restrict __buf, size_t __len)
-     __THROW __nonnull ((1, 2)) __wur __attr_access ((__write_only__, 2, 3));
-.../glibc$ grep_glibc_prototype readlinkat
-posix/unistd.h:832:
-extern ssize_t readlinkat (int __fd, const char *__restrict __path,
-			   char *__restrict __buf, size_t __len)
-     __THROW __nonnull ((2, 3)) __wur __attr_access ((__write_only__, 3, 4));
+.../glibc$ grep_glibc_prototype accept
+socket/sys/socket.h:232:
+extern int accept (int __fd, __SOCKADDR_ARG __addr,
+		   socklen_t *__restrict __addr_len);
+.../glibc$ grep_glibc_prototype accept4
+socket/sys/socket.h:240:
+extern int accept4 (int __fd, __SOCKADDR_ARG __addr,
+		    socklen_t *__restrict __addr_len, int __flags);
 .../glibc$
 
 Signed-off-by: Alejandro Colomar <alx.manpages@gmail.com>
 ---
- man2/readlink.2 | 8 ++++----
- 1 file changed, 4 insertions(+), 4 deletions(-)
+ man2/accept.2 | 7 ++++---
+ 1 file changed, 4 insertions(+), 3 deletions(-)
 
-diff --git a/man2/readlink.2 b/man2/readlink.2
-index 88c07e66d..92b9b09ae 100644
---- a/man2/readlink.2
-+++ b/man2/readlink.2
-@@ -48,14 +48,14 @@ readlink, readlinkat \- read value of a symbolic link
- .nf
- .B #include <unistd.h>
+diff --git a/man2/accept.2 b/man2/accept.2
+index 90551f8e5..0923ea97a 100644
+--- a/man2/accept.2
++++ b/man2/accept.2
+@@ -46,13 +46,14 @@ accept, accept4 \- accept a connection on a socket
+ .BR "#include <sys/types.h>" "          /* See NOTES */"
+ .B #include <sys/socket.h>
  .PP
--.BI "ssize_t readlink(const char *" pathname ", char *" buf \
--", size_t " bufsiz );
-+.BI "ssize_t readlink(const char *restrict " pathname ", char *restrict " buf ,
-+.BI "                 size_t " bufsiz );
+-.BI "int accept(int " sockfd ", struct sockaddr *" addr ", socklen_t *" addrlen );
++.BI "int accept(int " sockfd ", struct sockaddr *restrict " addr ,
++.BI "           socklen_t *restrict " addrlen );
  .PP
- .BR "#include <fcntl.h>           " "/* Definition of AT_* constants */"
- .B #include <unistd.h>
+ .BR "#define _GNU_SOURCE" "             /* See feature_test_macros(7) */"
+ .B #include <sys/socket.h>
  .PP
--.BI "ssize_t readlinkat(int " dirfd ", const char *" pathname ,
--.BI "                   char *" buf ", size_t " bufsiz );
-+.BI "ssize_t readlinkat(int " dirfd ", const char *restrict " pathname ,
-+.BI "                 char *restrict " buf ", size_t " bufsiz );
- .PP
+-.BI "int accept4(int " sockfd ", struct sockaddr *" addr ,
+-.BI "            socklen_t *" addrlen ", int " flags );
++.BI "int accept4(int " sockfd ", struct sockaddr *restrict " addr ,
++.BI "           socklen_t *restrict " addrlen ", int " flags );
  .fi
- .RS -4
+ .SH DESCRIPTION
+ The
 -- 
 2.30.0
 
