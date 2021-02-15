@@ -8,61 +8,61 @@ X-Spam-Status: No, score=-15.8 required=3.0 tests=BAYES_00,DKIM_SIGNED,
 	MAILING_LIST_MULTI,SPF_HELO_NONE,SPF_PASS,USER_AGENT_GIT autolearn=ham
 	autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 73E06C433E0
-	for <linux-man@archiver.kernel.org>; Mon, 15 Feb 2021 13:17:44 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 64ABBC433E0
+	for <linux-man@archiver.kernel.org>; Mon, 15 Feb 2021 13:18:00 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.kernel.org (Postfix) with ESMTP id 41E9B64DEE
-	for <linux-man@archiver.kernel.org>; Mon, 15 Feb 2021 13:17:44 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTP id 36FBD64E26
+	for <linux-man@archiver.kernel.org>; Mon, 15 Feb 2021 13:18:00 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S229666AbhBONRn (ORCPT <rfc822;linux-man@archiver.kernel.org>);
-        Mon, 15 Feb 2021 08:17:43 -0500
+        id S230162AbhBONSA (ORCPT <rfc822;linux-man@archiver.kernel.org>);
+        Mon, 15 Feb 2021 08:18:00 -0500
 Received: from lindbergh.monkeyblade.net ([23.128.96.19]:38290 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S230239AbhBONRk (ORCPT
-        <rfc822;linux-man@vger.kernel.org>); Mon, 15 Feb 2021 08:17:40 -0500
-Received: from mail-wr1-x432.google.com (mail-wr1-x432.google.com [IPv6:2a00:1450:4864:20::432])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 280CEC0613D6
-        for <linux-man@vger.kernel.org>; Mon, 15 Feb 2021 05:16:59 -0800 (PST)
-Received: by mail-wr1-x432.google.com with SMTP id v1so8836183wrd.6
-        for <linux-man@vger.kernel.org>; Mon, 15 Feb 2021 05:16:59 -0800 (PST)
+        with ESMTP id S230014AbhBONR7 (ORCPT
+        <rfc822;linux-man@vger.kernel.org>); Mon, 15 Feb 2021 08:17:59 -0500
+Received: from mail-wm1-x32d.google.com (mail-wm1-x32d.google.com [IPv6:2a00:1450:4864:20::32d])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 59019C061756
+        for <linux-man@vger.kernel.org>; Mon, 15 Feb 2021 05:17:43 -0800 (PST)
+Received: by mail-wm1-x32d.google.com with SMTP id w4so6189424wmi.4
+        for <linux-man@vger.kernel.org>; Mon, 15 Feb 2021 05:17:43 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=gmail.com; s=20161025;
         h=from:to:cc:subject:date:message-id:mime-version
          :content-transfer-encoding;
-        bh=dSHWn7kZI3gE7QY/vcg6HzyqpUSCbntisIALFW+yU0I=;
-        b=u3u6f3ZHHdFRHAsv8rhOYl8jAuiyu9puu+IRm0YmSSGQV8RlcYYruIGzin+69O3oEU
-         o5DX/9EuimztNt9PjlYxKpsKb6ohVn3uSUnAhOW0wIc7lPWN+uMz3sO4pFofPBNJTR7J
-         BPlshjfzMpvrp2TK0wj4R0qrI/Z3I6F1r5ErNm4fNeDB4TT4j2L15SZtXYJFiFjtRLB4
-         5IdF+HMvg6JcZogbHw/swV9d8LSWcKVyRuugqB0Ekb3vonAAP7EciIGTcoFDqMYwq5Db
-         Xy7T+rhNZpfPWNA6PVRzCMLRhw6NSEZGKZPsM3RSnGMTZOzc/CcCNKFAyjkqVoYROLXl
-         dFVw==
+        bh=1c+DnRNagBpBzvlgCmeb7u6iUbg+3aVt0C1emBBqrHE=;
+        b=vOIwcU8jOADE8NabTwT7czS+K1lXjLl4PMyFCk2KCbQWzEmqQFpOzxdpg1no4Eka12
+         o9lMFgZ5/A4knP4wK8esURBpOgXqZApMVFskkDXOD0okRNbBWOSrrwKZEsAhVKQTdcTd
+         wKqlNF++Iu+sBVh0ZRK7oUdSaXbUHk81soREiUmrjD9oX+o7Plu24oJ3LR03GuGAi1+p
+         shmzvBB6U+jMQ7qxyiKBAlQRIyGkZGX9yppjU6+aGYvvZVlxwskVzA1S3cyMv1N56Z4R
+         3WNQ2Zjgi5Rt7jfGtSnrmxrRQ8pWcHkwhqDsif6nZDGykH4Jmww55w3yOtfTMJooQukS
+         Bzxw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
         h=x-gm-message-state:from:to:cc:subject:date:message-id:mime-version
          :content-transfer-encoding;
-        bh=dSHWn7kZI3gE7QY/vcg6HzyqpUSCbntisIALFW+yU0I=;
-        b=R1Oi1BLwRxBCLl+lAhzdaFEVON8j23DsDq2UVFU2K3msDjD2Hn70W0IH7zvSbyh3bP
-         vrblFeUvm/t7A4BHZSnJdFJfndDT/G7oxfDUzeOD5u/KEI9qpKMKv8xwULhDknEEng/o
-         7fKN2NSQtCflrcKIrc+TfkR6Ga5+RatGTv83eTBjfTXBbA0TexRGck9XhVwjckJAgrrC
-         Gi8ulzbEHgk75NbLuVZtlHzTf+IB9yr5taaZ+2vQKW6rn9VBq3h2Mz1v/OU5witB3kyY
-         mJ1b+cgM7EIpLCyw9zgODKEtTDo6t4frbpbdvp+3gym4ZE4/Y8UPbYvNlYldoS7k/x2G
-         T90A==
-X-Gm-Message-State: AOAM532C7yGVOpegztowBwbBpzDZru7oJ2TCQsp2glCFsT9/Vd3RZpVw
-        D0brydpQ0YKeIw4G07GwD98R25zcNrc=
-X-Google-Smtp-Source: ABdhPJxmqwJuUVCKGBwMQulMCh7NjSk3ZSUALdn5YonJbnXaJAk+7mnR1dWmvZ+O9E2AoMV2LnZDsA==
-X-Received: by 2002:a5d:698b:: with SMTP id g11mr18654635wru.211.1613395017957;
-        Mon, 15 Feb 2021 05:16:57 -0800 (PST)
+        bh=1c+DnRNagBpBzvlgCmeb7u6iUbg+3aVt0C1emBBqrHE=;
+        b=NHSist9n7sqRPx1WdpbTbRdNOxMM/+vgqBbpxVPk2gIM/rPiQKOn/QSTMnCiTHKTlt
+         o7gtjWuQA5cgBU1loXiNB+d+KFCuryDavH2vcKskkg98FamgJg3yGKssA9AeSJaivSKT
+         jeKXHX3y9Gnfzw+2NL70M5uqE/twJ3vKvOSnPin18/A6HyljfnfAUHlRRpAtk2Vojg39
+         +DiO61v1G3RfAroqMh/QZ7ZCEpQ0HvOI1mL21LoBLnwirF1Mgd1WGrZYNiVacUQW+JF2
+         lQ0LOxGiJWp4R7ZAjzfYnTR0fZx/p6QXzGpa/JJoJG88QT1U2sy+/gVGiN1VcLoMV7Iz
+         8OUA==
+X-Gm-Message-State: AOAM531dM1acpriSbAM+3jTusymBZKES8lEQk4Q0uWYCn6QhKMRqdMQv
+        R99lghcRWTP/KEi3kwrTu8E=
+X-Google-Smtp-Source: ABdhPJySPJnMMn56SJVHawIjq4CiGgIg3rM1+2jm9EAxRNhJtPQRWUtaUf+Y2ajm8zJdq4vFFVhDrA==
+X-Received: by 2002:a1c:a553:: with SMTP id o80mr14117435wme.20.1613395062154;
+        Mon, 15 Feb 2021 05:17:42 -0800 (PST)
 Received: from debian.vlc ([170.253.51.130])
-        by smtp.gmail.com with ESMTPSA id d15sm19309504wru.80.2021.02.15.05.16.57
+        by smtp.gmail.com with ESMTPSA id d15sm19309504wru.80.2021.02.15.05.17.41
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Mon, 15 Feb 2021 05:16:57 -0800 (PST)
+        Mon, 15 Feb 2021 05:17:41 -0800 (PST)
 From:   Alejandro Colomar <alx.manpages@gmail.com>
 To:     mtk.manpages@gmail.com
 Cc:     Alejandro Colomar <alx.manpages@gmail.com>,
         linux-man@vger.kernel.org
-Subject: [PATCH] setfsgid.2: tfix
-Date:   Mon, 15 Feb 2021 14:15:16 +0100
-Message-Id: <20210215131522.450666-4-alx.manpages@gmail.com>
+Subject: [PATCH] spu_create.2: SYNOPSIS: Fix prototype parameter type
+Date:   Mon, 15 Feb 2021 14:15:20 +0100
+Message-Id: <20210215131522.450666-6-alx.manpages@gmail.com>
 X-Mailer: git-send-email 2.30.0
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
@@ -70,33 +70,38 @@ Precedence: bulk
 List-ID: <linux-man.vger.kernel.org>
 X-Mailing-List: linux-man@vger.kernel.org
 
-The type of fsgid is git_t, and not uid_t.  Fix it.
+The 'flags' parameter of spu_create() uses 'unsigned int'.  Fix it.
 
 ......
 
-.../glibc$ grep_glibc_prototype setfsgid
-sysdeps/unix/sysv/linux/sys/fsuid.h:31:
-extern int setfsgid (__gid_t __gid) __THROW;
-.../glibc$
+.../linux$ grep_syscall spu_create
+arch/powerpc/platforms/cell/spu_syscalls.c:56:
+SYSCALL_DEFINE4(spu_create, const char __user *, name, unsigned int, flags,
+	umode_t, mode, int, neighbor_fd)
+include/linux/syscalls.h:1036:
+asmlinkage long sys_spu_create(const char __user *name,
+		unsigned int flags, umode_t mode, int fd);
+.../linux$
 
 Signed-off-by: Alejandro Colomar <alx.manpages@gmail.com>
 ---
- man2/setfsgid.2 | 2 +-
- 1 file changed, 1 insertion(+), 1 deletion(-)
+ man2/spu_create.2 | 3 ++-
+ 1 file changed, 2 insertions(+), 1 deletion(-)
 
-diff --git a/man2/setfsgid.2 b/man2/setfsgid.2
-index e2d4d09f3..3fd22f3a5 100644
---- a/man2/setfsgid.2
-+++ b/man2/setfsgid.2
-@@ -36,7 +36,7 @@ setfsgid \- set group identity used for filesystem checks
- .nf
- .B #include <sys/fsuid.h>
+diff --git a/man2/spu_create.2 b/man2/spu_create.2
+index ff0dbdc20..2493b16bc 100644
+--- a/man2/spu_create.2
++++ b/man2/spu_create.2
+@@ -30,7 +30,8 @@ spu_create \- create a new spu context
+ .B #include <sys/types.h>
+ .B #include <sys/spu.h>
  .PP
--.BI "int setfsgid(uid_t " fsgid );
-+.BI "int setfsgid(gid_t " fsgid );
+-.BI "int spu_create(const char *" pathname ", int " flags ", mode_t " mode ","
++.BI "int spu_create(const char *" pathname ", unsigned int " flags \
++", mode_t " mode ,
+ .BI "               int " neighbor_fd ");"
  .fi
- .SH DESCRIPTION
- On Linux, a process has both a filesystem group ID and an effective group ID.
+ .PP
 -- 
 2.30.0
 
