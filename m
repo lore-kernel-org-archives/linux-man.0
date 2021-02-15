@@ -8,61 +8,61 @@ X-Spam-Status: No, score=-15.8 required=3.0 tests=BAYES_00,DKIM_SIGNED,
 	MAILING_LIST_MULTI,SPF_HELO_NONE,SPF_PASS,USER_AGENT_GIT autolearn=ham
 	autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 0145AC433E0
-	for <linux-man@archiver.kernel.org>; Mon, 15 Feb 2021 20:33:26 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id DED04C433DB
+	for <linux-man@archiver.kernel.org>; Mon, 15 Feb 2021 20:34:49 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.kernel.org (Postfix) with ESMTP id C318E64DE0
-	for <linux-man@archiver.kernel.org>; Mon, 15 Feb 2021 20:33:25 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTP id AA83564DEC
+	for <linux-man@archiver.kernel.org>; Mon, 15 Feb 2021 20:34:49 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S229520AbhBOUdZ (ORCPT <rfc822;linux-man@archiver.kernel.org>);
-        Mon, 15 Feb 2021 15:33:25 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:46994 "EHLO
+        id S229469AbhBOUet (ORCPT <rfc822;linux-man@archiver.kernel.org>);
+        Mon, 15 Feb 2021 15:34:49 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:47318 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S229469AbhBOUdQ (ORCPT
-        <rfc822;linux-man@vger.kernel.org>); Mon, 15 Feb 2021 15:33:16 -0500
-Received: from mail-wr1-x435.google.com (mail-wr1-x435.google.com [IPv6:2a00:1450:4864:20::435])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id E9283C0613D6
-        for <linux-man@vger.kernel.org>; Mon, 15 Feb 2021 12:32:35 -0800 (PST)
-Received: by mail-wr1-x435.google.com with SMTP id t15so10469005wrx.13
-        for <linux-man@vger.kernel.org>; Mon, 15 Feb 2021 12:32:35 -0800 (PST)
+        with ESMTP id S229617AbhBOUeq (ORCPT
+        <rfc822;linux-man@vger.kernel.org>); Mon, 15 Feb 2021 15:34:46 -0500
+Received: from mail-wm1-x32e.google.com (mail-wm1-x32e.google.com [IPv6:2a00:1450:4864:20::32e])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 50224C061574
+        for <linux-man@vger.kernel.org>; Mon, 15 Feb 2021 12:34:06 -0800 (PST)
+Received: by mail-wm1-x32e.google.com with SMTP id h67so5679749wmh.1
+        for <linux-man@vger.kernel.org>; Mon, 15 Feb 2021 12:34:06 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=gmail.com; s=20161025;
         h=from:to:cc:subject:date:message-id:in-reply-to:references
          :mime-version:content-transfer-encoding;
-        bh=YUaSxi+WW1gnLsv8mO6Al+HvAe1CtbL3gATu4buO5vQ=;
-        b=T+ywPJaKBbgEotDEuF0vqEqwqn/Z9nc/OPOhgpHIleasLhfF81Bwt05+TCTj+uSuGL
-         Mzv5xMXybAt5RgUshrnmAWGJm6xHHQneLeeCjxwpto7dMakTjB4Jnpw5AsjCXFEsqj+a
-         SRvbPcJGxBadBKKxeNfUqq5XbRlhsqTMVc1pT+Yc/bl9rGYb0oXFn/gtmQM0KbgId8yH
-         UiaEjQIOngGHDifw4hTfJapbn0m3miXyq3vvbMoFAbyrqa6VjWgHiDaSM1EBur+76T9g
-         lp0Rgq/g/Hqd2WL8+0+/y/xH1J1AvN49K8XbIcxqEW8N7ZHlTe9eFBcd+ZkF7OUPA9Zt
-         4N8Q==
+        bh=MZFbfiTxg+Q9QitBTGRI0g2UFYfk+G/9Htal8URD9pQ=;
+        b=fc1gLfuYsIPIghr7KJU9yDxxwUCVxCJW1imKRnXliwdLkI3gExhUSD4TVSkNLp1ApF
+         m2zecLlzToZj6M7TgGDTrDzBPDqI2GVMDrD/o4kDZDIPRRI7ODhYslTzD8ybnVe9Ld8B
+         hotxw50ZHoWtAJK2/bG1n4aOa9i//E8bbFsaTa9RTwUC1ok4IV1riqn0ZsRegdFMZ+Q5
+         gggAJJKw0tHXBPxahoNFzVhHAKrqwcp9dw9NKULZGQojXj5a8QRvFp0I6a3Uw/XlFFfb
+         o8Dp0YqWS+sSWJlMLbTpLoN/L9sNU8oTOrW4XP8nYx5EkU/bSmbLbq2Ga8u9X7tsg1CV
+         Yr8g==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
         h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
          :references:mime-version:content-transfer-encoding;
-        bh=YUaSxi+WW1gnLsv8mO6Al+HvAe1CtbL3gATu4buO5vQ=;
-        b=FfsdD4YGBErhFo8J0ymjM3xJ4Aj+2B5Lr66vizIO4poX1ZFUDkrGDzJHRraTE/mfNo
-         K6N18Cim1YaYRWru/Dk290MmSTHFoO0wem/z4UjGhTwyY3Q6/h9euVszBJAKkd3RFZou
-         w5rsENtOPcDWMBGGl682w7G3o05bTsoPxp+5K8xD99xNcA/nDnWrfj2eXh2EXgn0ctvp
-         N09t84lAGI5PLRBjSukRrAy49/qXLzyxGP5jcMMLMmY/Qg98p6ne6SxpKoYWrJDtzWvN
-         r0/ZJMzPUuqOz/0OhJGaUDNvsrDZ1YEX+0ZFZlsK71cQbdIDmA1xoVxbBjYjqFaP9R3d
-         gEmg==
-X-Gm-Message-State: AOAM530JCu5JPuonxSwsnKvudqfa2UpY1tAKIg1Ln2jNkTjNI/F/obnt
-        UP4LnslxcLdQ7JKqBv6//GT54lO7Hsw=
-X-Google-Smtp-Source: ABdhPJyKm0+qQ7vqY16kVSX+5SYhN8yF/yLANQ9vJKUJd7SCjCTytCg+IVR7FwnbopoRCM0AUg3rAg==
-X-Received: by 2002:a5d:4582:: with SMTP id p2mr19943448wrq.126.1613421154704;
-        Mon, 15 Feb 2021 12:32:34 -0800 (PST)
+        bh=MZFbfiTxg+Q9QitBTGRI0g2UFYfk+G/9Htal8URD9pQ=;
+        b=Ub7OjfKGm8niwCvsXkZBx/gScOOk40CY/aOnFKDtMH1S21gdtD8TjV7n0xARhFIbMv
+         VaJ98bSyLTJ6NWCxEbtY4cTpPCtnZMWe/fDzD+JBZDQ3I50MDef7n3v9DorQAcisoUri
+         g7n4B9i1+L44p13lw/O4J4xMoYO9kubQK0+R0cJUcF3qom8IptabtxQIDFBp+5OOe/N/
+         rzvUzbQPgGavu416lEyeJuZCJJ/dzWmsS5pY1vJ3bxDPL1IAyALU/vebNU4Q73d2UOdm
+         c2Z9DJlQIUoW/5Hzu7MpHqGbMXJjaiy3f+2TUM9o3QJCTuVxLJPU8BADfcSBUuOsX6IY
+         2LaQ==
+X-Gm-Message-State: AOAM531XjF6xactqY3BuMfp39VeaXXkFTJyITGRIj+9n6wdGZfoS2he2
+        DBMtPjnmbUlxRV1znxmQTkl+5UlInTY=
+X-Google-Smtp-Source: ABdhPJyEyk7YhIJ7z3pZadyRnCF04heUW1/QMOVfmVCoBNqpP3sjy6gpNK5qKSYwPXU9vSenWp9s1g==
+X-Received: by 2002:a05:600c:2d44:: with SMTP id a4mr480202wmg.95.1613421245042;
+        Mon, 15 Feb 2021 12:34:05 -0800 (PST)
 Received: from debian.vlc ([170.253.51.130])
-        by smtp.gmail.com with ESMTPSA id g62sm461305wmf.46.2021.02.15.12.32.33
+        by smtp.gmail.com with ESMTPSA id g15sm25403065wrx.1.2021.02.15.12.34.04
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Mon, 15 Feb 2021 12:32:34 -0800 (PST)
+        Mon, 15 Feb 2021 12:34:04 -0800 (PST)
 From:   Alejandro Colomar <alx.manpages@gmail.com>
 To:     mtk.manpages@gmail.com
 Cc:     Alejandro Colomar <alx.manpages@gmail.com>,
         linux-man@vger.kernel.org
-Subject: [PATCH] scripts/bash_aliases: Add useful functions
-Date:   Mon, 15 Feb 2021 21:31:24 +0100
-Message-Id: <20210215203123.580680-1-alx.manpages@gmail.com>
+Subject: [PATCH v3] scripts/bash_aliases: Add useful functions
+Date:   Mon, 15 Feb 2021 21:32:50 +0100
+Message-Id: <20210215203249.580748-1-alx.manpages@gmail.com>
 X-Mailer: git-send-email 2.30.0
 In-Reply-To: <20210215131522.450666-11-alx.manpages@gmail.com>
 References: <20210215131522.450666-11-alx.manpages@gmail.com>
@@ -91,6 +91,8 @@ v2:
 	- Reword license to adequate it for many functions instead
 	  of a single program.
 	- Add a trailing ';' for consistency.
+v3:
+	- Resend to avoid confusion:  I forgot to use [PATCH v2]!
 
 ---
  scripts/bash_aliases | 171 +++++++++++++++++++++++++++++++++++++++++++
