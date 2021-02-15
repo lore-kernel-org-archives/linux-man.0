@@ -8,61 +8,61 @@ X-Spam-Status: No, score=-15.8 required=3.0 tests=BAYES_00,DKIM_SIGNED,
 	MAILING_LIST_MULTI,SPF_HELO_NONE,SPF_PASS,USER_AGENT_GIT autolearn=ham
 	autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 4D5F2C433DB
-	for <linux-man@archiver.kernel.org>; Mon, 15 Feb 2021 13:18:03 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id D6BF1C433DB
+	for <linux-man@archiver.kernel.org>; Mon, 15 Feb 2021 13:19:00 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.kernel.org (Postfix) with ESMTP id 1DABC64E26
-	for <linux-man@archiver.kernel.org>; Mon, 15 Feb 2021 13:18:03 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTP id 9D9D864DEE
+	for <linux-man@archiver.kernel.org>; Mon, 15 Feb 2021 13:19:00 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S230014AbhBONSD (ORCPT <rfc822;linux-man@archiver.kernel.org>);
-        Mon, 15 Feb 2021 08:18:03 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:38370 "EHLO
+        id S230265AbhBONTA (ORCPT <rfc822;linux-man@archiver.kernel.org>);
+        Mon, 15 Feb 2021 08:19:00 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:38568 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S229805AbhBONSC (ORCPT
-        <rfc822;linux-man@vger.kernel.org>); Mon, 15 Feb 2021 08:18:02 -0500
-Received: from mail-wr1-x434.google.com (mail-wr1-x434.google.com [IPv6:2a00:1450:4864:20::434])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id C1A81C061574
-        for <linux-man@vger.kernel.org>; Mon, 15 Feb 2021 05:17:20 -0800 (PST)
-Received: by mail-wr1-x434.google.com with SMTP id r21so8814886wrr.9
-        for <linux-man@vger.kernel.org>; Mon, 15 Feb 2021 05:17:20 -0800 (PST)
+        with ESMTP id S230222AbhBONS6 (ORCPT
+        <rfc822;linux-man@vger.kernel.org>); Mon, 15 Feb 2021 08:18:58 -0500
+Received: from mail-wm1-x329.google.com (mail-wm1-x329.google.com [IPv6:2a00:1450:4864:20::329])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id E8B9BC061574
+        for <linux-man@vger.kernel.org>; Mon, 15 Feb 2021 05:18:16 -0800 (PST)
+Received: by mail-wm1-x329.google.com with SMTP id z63so4018947wmg.4
+        for <linux-man@vger.kernel.org>; Mon, 15 Feb 2021 05:18:16 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=gmail.com; s=20161025;
         h=from:to:cc:subject:date:message-id:mime-version
          :content-transfer-encoding;
-        bh=31rx3l2PdJGOAJEv+e3vpfr+GldWHWiMGTLLOSAaja0=;
-        b=Ld3h/JVszdaD8IYKljvX/PHoAMM1QMdIVqLKQxENMxyMF+bAlQ6vq7U7BPziMlK/y+
-         XBrbTeMvmrReEmMx+3LOfd5K5JM9Q6D6ulX8QbQip9hmPks0LjG3aNlV58mMixA6mHc5
-         BMVy14O6RBAwGfyhqthYQkon6asqnfOmwf9xvhJ/21KUgRjlki/2y+CaBMOnZeTIX3B+
-         /Dg4dGoJJBS5PLLO2bHH2n8KYiDvYmvCvIeHHROzRTJv6lvQR6wEe8h5OJ+ggqp8ks7A
-         gk7ZsnCXXQoTmudgmZYJiLXH77bm2qHIs57/BEiWUByGbAsfCaSrKdrUINBiIKlPDCXO
-         t65Q==
+        bh=ASSEmdGknOwzsT3nkJ4bbbjT15+LwEKCUgXaFQdJdU0=;
+        b=pJWcT/6jxQz/XWiXbFi3tP9kLkZw4MfhDQqJL/45189ORIisIUGQMi1nhI7ODskK9t
+         7aUIXUZtrdnUs6SueQPM8mSdelH1vl36TNQYRScDajlpsHwpR0aSzv8GBvAZ9C3TFyU7
+         Q+PIvD787G/byq2Zp5wC9vg1t1sNvuLoQNj3YVljybxcUwoXvYuB9MPUDJLCqGMkm4uS
+         wDlfgDCJHcNa9JCrpbzyAyNpo0sM4pEIKcvOpqUL0nLnPcMT4tbN01C3ttZCYMHU2kTJ
+         SRVCma7mIgfRYmzHJ/q/dvtuJHZ/ZES0UZO0cCxAQcrWkIqndHReyQoHxV08dADfOB9G
+         driw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
         h=x-gm-message-state:from:to:cc:subject:date:message-id:mime-version
          :content-transfer-encoding;
-        bh=31rx3l2PdJGOAJEv+e3vpfr+GldWHWiMGTLLOSAaja0=;
-        b=TAgdJb+ATTIcNT5qJuhVpPLiFHR+0mjdz6jsjbmeldr00VuC+PD6OPQ7kSvLoLggeg
-         6pZRKzHDpCd/ToXjxnjXBSW99IcYItZXeGM48IPHdIMXt7BmvV6EsDrxA1QFpQWHXE3i
-         qqV2N6fLOLnd23TJujmm5M/t9sofwcnewyM+ipJnVagDX/M/gxm4d8kvTI/DsJLxjTod
-         GD9O6+k2JT2iqwEY/AvRDDRQ79S398jgPVRyomLygzmri8kH3YnK+8FyB6jm2Ds5rWXZ
-         AwKOdvJMuj2wJ4Xdof3IrgNF4z6k474V+uKjLtSZTgpnmySQby3nESpB9ngIMCKnLjL8
-         cdUQ==
-X-Gm-Message-State: AOAM532PGmRNg4eAEGL0N+s0ehLkbAnBlNrXDgpT8s9t69uu5Aov7OfK
-        KQgBZyEZzeZdAX8lrEG8BdY=
-X-Google-Smtp-Source: ABdhPJyN3TXFtB17JJM6gn0RLJqUg5kxMHgEGdncWu8Ec/wGhKDLXewUlFO8PGdCW/VPYeYpZqZzWQ==
-X-Received: by 2002:a5d:6d0c:: with SMTP id e12mr18200286wrq.136.1613395039575;
-        Mon, 15 Feb 2021 05:17:19 -0800 (PST)
+        bh=ASSEmdGknOwzsT3nkJ4bbbjT15+LwEKCUgXaFQdJdU0=;
+        b=YYiPnmrNuhIM5Z7SR6/r+N7LdF93/wp92a9R94GYRR4LmIbG6apU75/2dtnLUCoas5
+         GdhudOxc3d2RESZgyNN2qSOVI4VAF5Rp2vK/JpR2Tqez0S/OAerHbLKleIHZY6+QW3rb
+         TiehifDzirEbEWswwGr7gEYKBqsdiFr2+6A+eAk44D7pfxum+ZHPsi9c0AuIumF5Yoie
+         PrCpCMqig+Lulqe3JhmvEgNqbp92y0fWxAx5yrtMyl5JHvzYbdCJL5nxiCvHSGuP7o1I
+         6hnTzkk9m2jzABDj9Dx/xKDh/pmlWLWJ6C2gjJ5CU+ao7X3WZo8huVXpBGl7No5UFoMH
+         H3MQ==
+X-Gm-Message-State: AOAM530SKXWOfe8Y12Txf4vYuuX9CTYNGDcu/L66wOSUVcwh6l5oH4Y4
+        huTBziw4HjHUUaSrT41ciew=
+X-Google-Smtp-Source: ABdhPJyEgzA2MdlUypU2tugMHo1Uzmnvw7HJc4QPkNOBzX7O/YLY6XOZ6mWHqYKpsYq9C6SXPtYf/A==
+X-Received: by 2002:a7b:ce17:: with SMTP id m23mr14364789wmc.80.1613395095790;
+        Mon, 15 Feb 2021 05:18:15 -0800 (PST)
 Received: from debian.vlc ([170.253.51.130])
-        by smtp.gmail.com with ESMTPSA id d15sm19309504wru.80.2021.02.15.05.17.18
+        by smtp.gmail.com with ESMTPSA id d15sm19309504wru.80.2021.02.15.05.18.14
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Mon, 15 Feb 2021 05:17:19 -0800 (PST)
+        Mon, 15 Feb 2021 05:18:15 -0800 (PST)
 From:   Alejandro Colomar <alx.manpages@gmail.com>
 To:     mtk.manpages@gmail.com
 Cc:     Alejandro Colomar <alx.manpages@gmail.com>,
         linux-man@vger.kernel.org
-Subject: [PATCH] splice.2: Use 'off64_t' instead of 'loff_t'
-Date:   Mon, 15 Feb 2021 14:15:18 +0100
-Message-Id: <20210215131522.450666-5-alx.manpages@gmail.com>
+Subject: [PATCH] spu_run.2: SYNOPSIS: Fix prototype parameter types
+Date:   Mon, 15 Feb 2021 14:15:22 +0100
+Message-Id: <20210215131522.450666-7-alx.manpages@gmail.com>
 X-Mailer: git-send-email 2.30.0
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
@@ -70,38 +70,37 @@ Precedence: bulk
 List-ID: <linux-man.vger.kernel.org>
 X-Mailing-List: linux-man@vger.kernel.org
 
-The kernel syscall uses 'loff_t', but the glibc wrapper uses 'off64_t'.
-Let's document the wrapper prototype, as in other pages.
+The 2nd and 3rd parameters of spu_run() use 'uint32_t *'.  Fix it.
 
 ......
 
-.../glibc$ grep_glibc_prototype splice
-sysdeps/unix/sysv/linux/bits/fcntl-linux.h:398:
-extern __ssize_t splice (int __fdin, __off64_t *__offin, int __fdout,
-			 __off64_t *__offout, size_t __len,
-			 unsigned int __flags);
-.../glibc$
+.../linux$ grep_syscall spu_run
+arch/powerpc/platforms/cell/spu_syscalls.c:80:
+SYSCALL_DEFINE3(spu_run,int, fd, __u32 __user *, unpc, __u32 __user *, ustatus)
+include/linux/syscalls.h:1034:
+asmlinkage long sys_spu_run(int fd, __u32 __user *unpc,
+				 __u32 __user *ustatus);
+.../linux$
 
 Signed-off-by: Alejandro Colomar <alx.manpages@gmail.com>
 ---
- man2/splice.2 | 4 ++--
- 1 file changed, 2 insertions(+), 2 deletions(-)
+ man2/spu_run.2 | 3 +--
+ 1 file changed, 1 insertion(+), 2 deletions(-)
 
-diff --git a/man2/splice.2 b/man2/splice.2
-index 6e9029281..d07639810 100644
---- a/man2/splice.2
-+++ b/man2/splice.2
-@@ -31,8 +31,8 @@ splice \- splice data to/from a pipe
- .BR "#define _GNU_SOURCE" "         /* See feature_test_macros(7) */"
- .B #include <fcntl.h>
+diff --git a/man2/spu_run.2 b/man2/spu_run.2
+index fb1879759..8b2a64ebb 100644
+--- a/man2/spu_run.2
++++ b/man2/spu_run.2
+@@ -30,8 +30,7 @@ spu_run \- execute an SPU context
+ .nf
+ .B #include <sys/spu.h>
  .PP
--.BI "ssize_t splice(int " fd_in ", loff_t *" off_in ", int " fd_out ,
--.BI "               loff_t *" off_out ", size_t " len \
-+.BI "ssize_t splice(int " fd_in ", off64_t *" off_in ", int " fd_out ,
-+.BI "               off64_t *" off_out ", size_t " len \
- ", unsigned int " flags );
- .\" Return type was long before glibc 2.7
+-.BI "int spu_run(int " fd ", unsigned int *" npc \
+-", unsigned int *" event ");"
++.BI "int spu_run(int " fd ", uint32_t *" npc ", uint32_t *" event );
  .fi
+ .PP
+ .IR Note :
 -- 
 2.30.0
 
