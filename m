@@ -2,166 +2,283 @@ Return-Path: <linux-man-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-15.8 required=3.0 tests=BAYES_00,DKIM_SIGNED,
+X-Spam-Status: No, score=-15.7 required=3.0 tests=BAYES_00,DKIM_SIGNED,
 	DKIM_VALID,DKIM_VALID_AU,FREEMAIL_FORGED_FROMDOMAIN,FREEMAIL_FROM,
 	HEADER_FROM_DIFFERENT_DOMAINS,INCLUDES_CR_TRAILER,INCLUDES_PATCH,
-	MAILING_LIST_MULTI,SPF_HELO_NONE,SPF_PASS,USER_AGENT_GIT autolearn=ham
-	autolearn_force=no version=3.4.0
+	MAILING_LIST_MULTI,SPF_HELO_NONE,SPF_PASS,URIBL_BLOCKED,USER_AGENT_GIT
+	autolearn=ham autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 136CBC433E0
-	for <linux-man@archiver.kernel.org>; Thu, 18 Feb 2021 15:44:26 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 8449AC433E6
+	for <linux-man@archiver.kernel.org>; Thu, 18 Feb 2021 19:20:13 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.kernel.org (Postfix) with ESMTP id AA19664E6F
-	for <linux-man@archiver.kernel.org>; Thu, 18 Feb 2021 15:44:25 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTP id 3F55064E2F
+	for <linux-man@archiver.kernel.org>; Thu, 18 Feb 2021 19:20:13 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S232575AbhBRPmE (ORCPT <rfc822;linux-man@archiver.kernel.org>);
-        Thu, 18 Feb 2021 10:42:04 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:55814 "EHLO
+        id S231637AbhBRTTy (ORCPT <rfc822;linux-man@archiver.kernel.org>);
+        Thu, 18 Feb 2021 14:19:54 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:45542 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S231387AbhBRPPv (ORCPT
-        <rfc822;linux-man@vger.kernel.org>); Thu, 18 Feb 2021 10:15:51 -0500
-Received: from mail-wm1-x32a.google.com (mail-wm1-x32a.google.com [IPv6:2a00:1450:4864:20::32a])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 037FBC061574;
-        Thu, 18 Feb 2021 07:15:07 -0800 (PST)
-Received: by mail-wm1-x32a.google.com with SMTP id x4so4278382wmi.3;
-        Thu, 18 Feb 2021 07:15:06 -0800 (PST)
+        with ESMTP id S232984AbhBRSuT (ORCPT
+        <rfc822;linux-man@vger.kernel.org>); Thu, 18 Feb 2021 13:50:19 -0500
+Received: from mail-wm1-x331.google.com (mail-wm1-x331.google.com [IPv6:2a00:1450:4864:20::331])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id EBFC8C061788
+        for <linux-man@vger.kernel.org>; Thu, 18 Feb 2021 10:49:37 -0800 (PST)
+Received: by mail-wm1-x331.google.com with SMTP id a132so4709678wmc.0
+        for <linux-man@vger.kernel.org>; Thu, 18 Feb 2021 10:49:37 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=gmail.com; s=20161025;
         h=from:to:cc:subject:date:message-id:in-reply-to:references
          :mime-version:content-transfer-encoding;
-        bh=4oZWeumg03d8Z1y5Lnt1KGkf0PD/+G44xxBEli+me8o=;
-        b=vW8TmiLiGX4AAFg/14PsYui7gubBWEMlEkNvBVNmyfwt0+DdrCN6C98O7iPgaxvNKJ
-         fltwCxn0bXoofh7LLDh81dLzYDEyJYpu6RIscxwmcEv5nJnpXKf4mPJ9x0guRRZPGbik
-         dqsTQ6Sda/IVEUZJXPKgOqKlxtQblJWDFaUCMGgCj8oszmAgvQGEiLt+BcgXQR+Y4E1S
-         hZcuSGC3YehlehZr/JtVr8E5dy44XS/T9jDXqxkO2cIVJDpzYC26TNeXyIdxGHBNbYCa
-         MRHA0IoYAogZc3bYDBlL+r5I5qhILBOGTYF7GfIHslHg/hNCFYO9/tRtGeHLqX0yJXWa
-         Z1vg==
+        bh=eWC1LhhTiX1RF+cXmpiYE7XBXv6GD7FmwovEReZNehw=;
+        b=kDcRHoXpQ9eX0ybVxhJrCNG29WLK/JVX5Fi5JtroWn5B5Uc2A7jQnKUjTPj161JWty
+         MnGfBSloKJV27KZw6qBtCPTJGUsRfcgagsQKmRglgPv/armS2nf+Fdy6MZ4u6lJ9XrqF
+         KGyWX+hOixCMyViJ+hshOm9Ywnv83yqjczCjvwj75cJyO/uO8mK8Pon229/dodBeIr9x
+         fRPgbb7smoNbrn2G8VqOC9vYOMNhQXAnEkuiphz8oxUnVA1yGYzfKvLvIx/f+IwAp2sX
+         7GK9pcEItdqin8mWA6VKUt1WGsNJCSjm6cPo+DSbpd7Oxfj0m30eEwZgCDCpqVXBgzGe
+         GIGw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
         h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
          :references:mime-version:content-transfer-encoding;
-        bh=4oZWeumg03d8Z1y5Lnt1KGkf0PD/+G44xxBEli+me8o=;
-        b=OMA+2PFlWu3N+yKwH7nTSyFtJgzvJEZNqJCdFayafd9GLVIME132QQSZoVsMRi94d+
-         Byvf1SY/jig7OVqJraqHDhMWFJya0Seh1YOlyaS4C3y0Q5SkxLTvHInHJtNFfc4+Oghg
-         sLxfPhRmCDPelzJBZmOrPQ6us4gsG3RSR+QYMkUIu4B76cTcBWTu5vllkM4PKyC0QBjs
-         DVpr55v7sIik9SAKA9UNCcFpcQwPvQ4Ded6khRJlOmWTsq8FPvBqKIMPtxiZGoyuiX6B
-         YfmINwhO87sqTRvX1uY1aXvyMcDBZmYqp+CsewPx4xQskXFjrbLrrLUrBTeCJcuR1qlW
-         Lnbg==
-X-Gm-Message-State: AOAM531A+unhTCsSxnOkd14KD6nrnjo0vuMifm7ibcJsEQmvPII0f189
-        1IyNPM/9cjt+y695+cCNU6UJkx4lt984sw==
-X-Google-Smtp-Source: ABdhPJwtIJqjqzAGT9hXk10R/Qa398m5v2JYPqfHkS4B5i+SEsUvq1nXBulTGEu+ecSq189+DIW5sw==
-X-Received: by 2002:a05:600c:3516:: with SMTP id h22mr4076388wmq.35.1613661305650;
-        Thu, 18 Feb 2021 07:15:05 -0800 (PST)
+        bh=eWC1LhhTiX1RF+cXmpiYE7XBXv6GD7FmwovEReZNehw=;
+        b=A6SOEqXD2QTv/Dx/LBN9UFxQbAkqAzWFyRUemdRZE54n9dOog+XHExk9YGarFKlKHF
+         Fc2X+g8/b9Ru8rHfLTb8QJq4NlRQv2pFKLDgzXgf3i8AJW0tW6xcn13UE70ZxxHMxwMI
+         HTeYNspHmhgv1oQ2eBhGSsXorOQLJLWzCQJKQE1/U3hQk66gGUe0O4NTzxM4l1yhsWhg
+         Gzy8rC9Pb16V8vaI8VDTw3/QdEim/y1gdlVtSH91ig5we4ShviE+85DKKtJ8+0sIWCRD
+         ARCVT+6msjE/IulXupzNE0rFg7Bcfo2uX86h/+f+uYT/lITYsQukhDyGUCQHizDq/ZPN
+         oupw==
+X-Gm-Message-State: AOAM53265e0Ady53mUbtCLuDygDGlrIqF48mtv2za0F04Vmq4edDeyZh
+        ybzRbfewrPRivxXoe6kNGWk=
+X-Google-Smtp-Source: ABdhPJwGPLWkfxvOuJw1ejQnFnHdEwmF4two0pnYuFi34IMxmbOHJf0zJi8XppfEA/sQmoJfAUbsSA==
+X-Received: by 2002:a1c:f708:: with SMTP id v8mr4672078wmh.25.1613674176600;
+        Thu, 18 Feb 2021 10:49:36 -0800 (PST)
 Received: from localhost.localdomain ([170.253.51.130])
-        by smtp.googlemail.com with ESMTPSA id k128sm3363760wmf.42.2021.02.18.07.15.04
+        by smtp.googlemail.com with ESMTPSA id l4sm10082828wrt.42.2021.02.18.10.49.35
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Thu, 18 Feb 2021 07:15:05 -0800 (PST)
+        Thu, 18 Feb 2021 10:49:36 -0800 (PST)
 From:   Alejandro Colomar <alx.manpages@gmail.com>
 To:     mtk.manpages@gmail.com
 Cc:     Alejandro Colomar <alx.manpages@gmail.com>,
-        linux-man@vger.kernel.org, libc-alpha@sourceware.org,
-        Florian Weimer <fweimer@redhat.com>,
-        linux-kernel@vger.kernel.org
-Subject: [RFC v2] execve.2: SYNOPSIS: Document both glibc wrapper and kernel sycalls
-Date:   Thu, 18 Feb 2021 16:13:42 +0100
-Message-Id: <20210218151341.51095-1-alx.manpages@gmail.com>
+        linux-man@vger.kernel.org, Walter Harms <wharms@bfs.de>
+Subject: [PATCH v4] scripts/bash_aliases: Add useful functions
+Date:   Thu, 18 Feb 2021 19:47:35 +0100
+Message-Id: <20210218184735.54457-1-alx.manpages@gmail.com>
 X-Mailer: git-send-email 2.30.1.721.g45526154a5
-In-Reply-To: <938df2c0-04b5-f6a4-79c3-b8fe09973828@gmail.com>
-References: <938df2c0-04b5-f6a4-79c3-b8fe09973828@gmail.com>
+In-Reply-To: <20210215131522.450666-11-alx.manpages@gmail.com>
+References: <20210215131522.450666-11-alx.manpages@gmail.com>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 Precedence: bulk
 List-ID: <linux-man.vger.kernel.org>
 X-Mailing-List: linux-man@vger.kernel.org
 
-Until now, the manual pages have (usually) documented only either
-the glibc (or another library) wrapper for a syscall, or the
-kernel syscall (this only when there's not a wrapper).
+That file should be sourced (.) from 'bashrc' (or 'bash_aliases').
 
-Let's document both prototypes, which many times are slightly
-different.  This will solve a problem where documenting glibc
-wrappers implied shadowing the documentation for the raw syscall.
+It contains functions that are useful for the maintenance of this
+project.
+
+- grep_syscall()
+- grep_syscall_def()
+- man_section()
+- man_lsfunc()
+- pdfman()
+- grep_glibc_prototype()
 
 Signed-off-by: Alejandro Colomar <alx.manpages@gmail.com>
 ---
- man2/execve.2     | 15 +++++++++++++--
- man2/membarrier.2 | 14 +++++---------
- 2 files changed, 18 insertions(+), 11 deletions(-)
 
-diff --git a/man2/execve.2 b/man2/execve.2
-index 027a0efd2..318c71c85 100644
---- a/man2/execve.2
-+++ b/man2/execve.2
-@@ -41,8 +41,8 @@ execve \- execute program
- .nf
- .B #include <unistd.h>
- .PP
--.BI "int execve(const char *" pathname ", char *const " argv [],
--.BI "           char *const " envp []);
-+.BI "int execve(const char *" pathname ",
-+.BI "           char *const " argv "[], char *const " envp []);
- .fi
- .SH DESCRIPTION
- .BR execve ()
-@@ -772,6 +772,17 @@ Thus, this argument list was not directly usable in a further
- .BR exec ()
- call.
- Since UNIX\ V7, both are NULL.
-+.SS C library/kernel differences
-+.RS 4
-+.nf
-+/* Kernel system call: */
-+.BR "#include <sys/syscall.h>" "        /* For " SYS_* " constants */"
-+.B #include <unistd.h>
-+.PP
-+.BI "int syscall(SYS_execve, const char *" pathname ,
-+.BI "            const char *const " argv "[], const char *const " envp []);
-+.fi
-+.RE
- .\"
- .\" .SH BUGS
- .\" Some Linux versions have failed to check permissions on ELF
-diff --git a/man2/membarrier.2 b/man2/membarrier.2
-index 173195484..25d6add77 100644
---- a/man2/membarrier.2
-+++ b/man2/membarrier.2
-@@ -28,13 +28,12 @@ membarrier \- issue memory barriers on a set of threads
- .SH SYNOPSIS
- .nf
- .PP
--.B #include <linux/membarrier.h>
-+.BR "#include <linux/membarrier.h>" "   /* For " MEMBARRIER_* " constants */"
-+.BR "#include <sys/syscall.h>" "        /* For " SYS_* " constants */"
-+.B #include <unistd.h>
- .PP
--.BI "int membarrier(int " cmd ", unsigned int " flags ", int " cpu_id );
-+.BI "int syscall(SYS_membarrier, int " cmd ", unsigned int " flags ", int " cpu_id );
- .fi
--.PP
--.IR Note :
--There is no glibc wrapper for this system call; see NOTES.
- .SH DESCRIPTION
- The
- .BR membarrier ()
-@@ -295,7 +294,7 @@ was:
- .PP
- .in +4n
- .EX
--.BI "int membarrier(int " cmd ", int " flags );
-+.BI "int syscall(SYS_membarrier, int " cmd ", int " flags );
- .EE
- .in
- .SH CONFORMING TO
-@@ -322,9 +321,6 @@ Examples where
- .BR membarrier ()
- can be useful include implementations
- of Read-Copy-Update libraries and garbage collectors.
--.PP
--Glibc does not provide a wrapper for this system call; call it using
--.BR syscall (2).
- .SH EXAMPLES
- Assuming a multithreaded application where "fast_path()" is executed
- very frequently, and where "slow_path()" is executed infrequently, the
+
+v2:
+	- Reword license to adequate it for many functions instead
+	  of a single program.
+	- Add a trailing ';' for consistency.
+v3:
+	- Resend to avoid confusion:  I forgot to use [PATCH v2]!
+v4:
+	- Fix some corner cases where a function invocation was printed
+
+---
+ scripts/bash_aliases | 171 +++++++++++++++++++++++++++++++++++++++++++
+ 1 file changed, 171 insertions(+)
+ create mode 100644 scripts/bash_aliases
+
+diff --git a/scripts/bash_aliases b/scripts/bash_aliases
+new file mode 100644
+index 000000000..8697371f6
+--- /dev/null
++++ b/scripts/bash_aliases
+@@ -0,0 +1,171 @@
++# SPDX-License-Identifier: GPL-2.0-only
++########################################################################
++#
++# (C) Copyright 2021, Alejandro Colomar
++# These functions are free software; you can redistribute them and/or
++# modify them under the terms of the GNU General Public License
++# as published by the Free Software Foundation; version 2.
++#
++# These functions are distributed in the hope that they will be useful,
++# but WITHOUT ANY WARRANTY; without even the implied warranty of
++# MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
++# GNU General Public License for more details
++# (http://www.gnu.org/licenses/gpl-2.0.html).
++#
++########################################################################
++
++########################################################################
++#	Exit status
++
++EX_OK=0;
++EX_USAGE=64;
++
++########################################################################
++#	Linux kernel
++
++#  grep_syscall()  finds the prototype of a syscall in the kernel sources,
++# printing the filename, line number, and the prototype.
++# It should be run from the root of the linux kernel source tree.
++# Usage example:  .../linux$ grep_syscall openat2;
++
++function grep_syscall()
++{
++	if ! [ -v 1 ]; then
++		>&2 echo "Usage: ${FUNCNAME[0]} <syscall>";
++		return ${EX_USAGE};
++	fi
++
++	find * -type f \
++	|grep '\.c$' \
++	|sort -V \
++	|xargs pcregrep -Mn "(?s)^\w*SYSCALL_DEFINE.\(${1},.*?\)" \
++	|sed -E 's/^[^:]+:[0-9]+:/&\n/';
++
++	find * -type f \
++	|grep '\.[ch]$' \
++	|sort -V \
++	|xargs pcregrep -Mn "(?s)^asmlinkage\s+[\w\s]+\**sys_${1}\s*\(.*?\)" \
++	|sed -E 's/^[^:]+:[0-9]+:/&\n/';
++}
++
++#  grep_syscall_def()  finds the definition of a syscall in the kernel sources,
++# printing the filename, line number, and the function definition.
++# It should be run from the root of the linux kernel source tree.
++# Usage example:  .../linux$ grep_syscall_def openat2;
++
++function grep_syscall_def()
++{
++	if ! [ -v 1 ]; then
++		>&2 echo "Usage: ${FUNCNAME[0]} <syscall>";
++		return ${EX_USAGE};
++	fi
++
++	find * -type f \
++	|grep '\.c$' \
++	|sort -V \
++	|xargs pcregrep -Mn "(?s)^\w*SYSCALL_DEFINE.\(${1},.*?^}" \
++	|sed -E 's/^[^:]+:[0-9]+:/&\n/';
++}
++
++########################################################################
++#	Linux man-pages
++
++#  man_section()  prints a specific manual page section (DESCRIPTION, SYNOPSIS,
++# ...) of all manual pages in a directory (or in a single manual page file).
++# Usage example:  .../man-pages$ man_section man2 SYNOPSIS;
++
++function man_section()
++{
++	if ! [ -v 2 ]; then
++		>&2 echo "Usage: ${FUNCNAME[0]} <dir> <section>";
++		return ${EX_USAGE};
++	fi
++
++	find "${1}" -type f \
++	|xargs grep -l "\.SH ${2}" \
++	|sort -V \
++	|while read -r manpage; do
++		<${manpage} \
++		sed -n \
++			-e '/^\.TH/,/^\.SH/{/^\.SH/!p}' \
++			-e "/^\.SH ${2}/p" \
++			-e "/^\.SH ${2}/,/^\.SH/{/^\.SH/!p}" \
++		|man -P cat -l - 2>/dev/null;
++	done;
++}
++
++#  man_lsfunc()  prints the name of all C functions declared in the SYNOPSIS
++# of all manual pages in a directory (or in a single manual page file).
++# Each name is printed in a separate line
++# Usage example:  .../man-pages$ man_lsfunc man2;
++
++function man_lsfunc()
++{
++	if ! [ -v 1 ]; then
++		>&2 echo "Usage: ${FUNCNAME[0]} <dir>";
++		return ${EX_USAGE};
++	fi
++
++	find "${1}" -type f \
++	|xargs grep -l "\.SH SYNOPSIS" \
++	|sort -V \
++	|while read -r manpage; do
++		<${manpage} \
++		sed -n \
++			-e '/^\.TH/,/^\.SH/{/^\.SH/!p}' \
++			-e "/^\.SH SYNOPSIS/p" \
++			-e "/^\.SH SYNOPSIS/,/^\.SH/{/^\.SH/!p}" \
++		|sed \
++			-e '/Feature/,$d' \
++			-e '/{/,/}/d' \
++		|man -P cat -l - 2>/dev/null;
++	done \
++	|sed -n "/^SYNOPSIS/,/^\w/p" \
++	|grep '^       \w' \
++	|grep -v ':' \
++	|sed 's/^[^(]* \**\(\w*\)(.*/\1/' \
++	|grep '^\w' \
++	|uniq;
++}
++
++#  pdfman()  reanders a manual page in PDF
++# Usage example:  .../man-pages$ pdfman man2/membarrier.2;
++
++function pdfman()
++{
++	if ! [ -v 1 ]; then
++		>&2 echo "Usage: ${FUNCNAME[0]} <man-page.n>";
++		return ${EX_USAGE};
++	fi;
++
++	local tmp="$(mktemp -t "${1##*/}.XXXXXX")";
++
++	<${1} \
++	man -Tps -l - \
++	|ps2pdf - - \
++	>${tmp};
++	xdg-open ${tmp};
++}
++
++########################################################################
++#	Glibc
++
++#  grep_glibc_prototype()  finds a function prototype in the glibc sources,
++# printing the filename, line number, and the prototype.
++# It should be run from the root of the glibc source tree.
++# Usage example:  .../glibc$ grep_glibc_prototype printf;
++
++function grep_glibc_prototype()
++{
++	if ! [ -v 1 ]; then
++		>&2 echo "Usage: ${FUNCNAME[0]} <func>";
++		return ${EX_USAGE};
++	fi
++
++	find * -type f \
++	|grep '\.h$' \
++	|sort -V \
++	|xargs pcregrep -Mn \
++	  "(?s)^[^\s#][\w\s]+\s+\**${1}\s*\([\w\s()[\]*,]+?(...)?\)[\w\s()]*;" \
++	|sed -E 's/^[^:]+:[0-9]+:/&\n/';
++}
 -- 
 2.30.1.721.g45526154a5
 
