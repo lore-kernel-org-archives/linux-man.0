@@ -2,222 +2,115 @@ Return-Path: <linux-man-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-9.2 required=3.0 tests=BAYES_00,DKIM_SIGNED,
+X-Spam-Status: No, score=-14.2 required=3.0 tests=BAYES_00,DKIM_SIGNED,
 	DKIM_VALID,DKIM_VALID_AU,FREEMAIL_FORGED_FROMDOMAIN,FREEMAIL_FROM,
-	HEADER_FROM_DIFFERENT_DOMAINS,MAILING_LIST_MULTI,MENTIONS_GIT_HOSTING,
-	NICE_REPLY_A,SPF_HELO_NONE,SPF_PASS,URIBL_BLOCKED,USER_AGENT_SANE_1
-	autolearn=ham autolearn_force=no version=3.4.0
+	HEADER_FROM_DIFFERENT_DOMAINS,INCLUDES_CR_TRAILER,INCLUDES_PATCH,
+	MAILING_LIST_MULTI,NICE_REPLY_A,SPF_HELO_NONE,SPF_PASS,URIBL_BLOCKED,
+	USER_AGENT_SANE_1 autolearn=ham autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 1B143C433E0
-	for <linux-man@archiver.kernel.org>; Thu, 18 Feb 2021 07:59:25 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 3778FC433E9
+	for <linux-man@archiver.kernel.org>; Thu, 18 Feb 2021 08:01:16 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.kernel.org (Postfix) with ESMTP id A889561494
-	for <linux-man@archiver.kernel.org>; Thu, 18 Feb 2021 07:59:24 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTP id E8DBF64DE9
+	for <linux-man@archiver.kernel.org>; Thu, 18 Feb 2021 08:01:15 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S230212AbhBRH6M (ORCPT <rfc822;linux-man@archiver.kernel.org>);
-        Thu, 18 Feb 2021 02:58:12 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:46616 "EHLO
+        id S230368AbhBRIBC (ORCPT <rfc822;linux-man@archiver.kernel.org>);
+        Thu, 18 Feb 2021 03:01:02 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:47088 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S230321AbhBRH4R (ORCPT
-        <rfc822;linux-man@vger.kernel.org>); Thu, 18 Feb 2021 02:56:17 -0500
-Received: from mail-wm1-x32f.google.com (mail-wm1-x32f.google.com [IPv6:2a00:1450:4864:20::32f])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 20656C061574;
-        Wed, 17 Feb 2021 23:55:37 -0800 (PST)
-Received: by mail-wm1-x32f.google.com with SMTP id m1so2109288wml.2;
-        Wed, 17 Feb 2021 23:55:36 -0800 (PST)
+        with ESMTP id S231216AbhBRH6b (ORCPT
+        <rfc822;linux-man@vger.kernel.org>); Thu, 18 Feb 2021 02:58:31 -0500
+Received: from mail-wm1-x330.google.com (mail-wm1-x330.google.com [IPv6:2a00:1450:4864:20::330])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 2FC1DC061574
+        for <linux-man@vger.kernel.org>; Wed, 17 Feb 2021 23:57:50 -0800 (PST)
+Received: by mail-wm1-x330.google.com with SMTP id i7so2239153wmb.0
+        for <linux-man@vger.kernel.org>; Wed, 17 Feb 2021 23:57:50 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=gmail.com; s=20161025;
         h=cc:subject:to:references:from:message-id:date:user-agent
          :mime-version:in-reply-to:content-language:content-transfer-encoding;
-        bh=8VuOr5IRYyD3SOn+5chtalvwQdWPMiTxF9JpEV7axuU=;
-        b=DiTZz/4gmJZPeTC5pv54B/6ep6c4fIy5ngNCoDUIRkkmLho2VvinhJ1mkzcRljbaKw
-         4CJD0yTXHFFSnmhiyBYE4ydfNjhRNJHQ7mYNnqhSS4DeCt4/9PaUd6u48IsL5Qz6nf6p
-         oMrgW9xB+Beq4LiN/xmy0zmV9bThfFonj9oyYnhz1l3I6zmyitlpj6ICdRhN45uMJceG
-         ZvyAVZh9LRLDdbBcH3Bxtk0I3pVm76joUGkkd+A/fglhVxxMtSX5FgisfOVSdQEfXn3Z
-         KOySjv69SsVPdtmtkvy1STkomL3q3xgkqmu9JXTlujoSfZLAH7l9BUcwEH7mjpWdIHVS
-         LN5Q==
+        bh=i8ThkJdeSKmpDWcmfUgk6Mc4RQnBYkmAhr+2t8l6Oh0=;
+        b=lynopRs3X8VURwgYE3+dn5o0vk05F7RbFg7mJ2/+V/h/178fE3P7o6L8xjy0LggTxx
+         4Z1RENaWJ2KnDfVLYHRbx3flLvQ1kxlx/TyLApb77eH7R+XwvibXgON1SyJsYKCVLTrv
+         8FJb851CkOW+renfe4CSgBXlIOFoxK36tyWSqrbYh79Y7t7GSTmkcsArJX2Z0+P1W2EO
+         xtjw5TFw87V7Art2JpE4a6ZbdCedhnmQxsBPFj7UGe3zZ3C34h0j2JYXd3gtkmCDG6DV
+         fbvqOH9H4MtgNBQWU7GZ+731f6TQiLzw922J0E8I+8SqfF6bVx1rPygIOztLSEN6wTaR
+         w/Aw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
         h=x-gm-message-state:cc:subject:to:references:from:message-id:date
          :user-agent:mime-version:in-reply-to:content-language
          :content-transfer-encoding;
-        bh=8VuOr5IRYyD3SOn+5chtalvwQdWPMiTxF9JpEV7axuU=;
-        b=UarYHgzkbK38jENeWSluZ3kIAxrrobOl+LDH24zCUg3bVhAqrUnFIduMI0AExeik2j
-         46b8X0nXkC+RBFpbGIlf0YJaI1yu9EcJzVWpLlSo1S0qzTeDWmqk7T9ljgCJSmnGjPMe
-         CzoIVVoB8rkbqx0oi4IOgHbA62VIhIDDq/RKNjOtb1LucO1Q3OaNPuK3+wiUdSwZ3jd4
-         R0+HIzsQnZgXdW2rXwcuMJQJ1OWn9ytHSvjgbHU8H2dPMIc1cV5bmlElAoVzoSP2ZE1V
-         PEoQxOy9HT9wolB2g4eX2rgQLvHGFm6XBboCEE3n7gzNMfCZP0Yl4M8EyCGIROPAID9y
-         OrDA==
-X-Gm-Message-State: AOAM533VdgLyAZINtcNTJJcIougqIGnWf/Gbiesh9zOxObpsqZKgHJt6
-        /Xa0XC+Z6Unt6dDDYXK1epY=
-X-Google-Smtp-Source: ABdhPJzB2TIsvhv0bBBak6Op7cXkJ1RH2wz0nb5/aO3RSIANbztDN+kcjVRGxzqpkXPSK0o0IJh9YA==
-X-Received: by 2002:a7b:c2a9:: with SMTP id c9mr2443813wmk.116.1613634935639;
-        Wed, 17 Feb 2021 23:55:35 -0800 (PST)
+        bh=i8ThkJdeSKmpDWcmfUgk6Mc4RQnBYkmAhr+2t8l6Oh0=;
+        b=tIeu09NneGErYP6MLi951mB6RKZdAwNfzUTIyNACtHy1u/ishvCDlBtuZ6M1iXZa5D
+         m1vcKK3qarr68K4gcThIUMSp9Bfh2viknl0t8QZAwcQZIh1BFqoS4trK5GCQcjvrbWii
+         DbI9Rf/jNIiucaw9ziq6+gHgK6xFeSBnWNvnssbkO86rIQfhMaDjAtm98Y3CO6MUTsMr
+         wlc/QnPR+pNgUApPUnNJ7+3VdbB15A0SpbpPEpYlSSyPMJkzxaarLG7Bm/3oCce9rLD1
+         ZKTish3xrt4C5DLtGYMCABhU3mUvYK4OHkufiqU3vwyyR9/QaDzHDOdkk6suRUyGqTJZ
+         H8SA==
+X-Gm-Message-State: AOAM531LASeyBbqkVYJiANkN6+aZlUYCIwGrIdM4Vqmh1l39w5n3g8x4
+        DCNUW997nglqU9N3ROcp7lQ=
+X-Google-Smtp-Source: ABdhPJxoz3f+jFoWOp3BG9YBOU2nbT5XgJ7JaRZ9q8eQyA8hfgoAav7EnsB67jvI4pF5fV9HVcSAYg==
+X-Received: by 2002:a05:600c:354f:: with SMTP id i15mr2503288wmq.28.1613635068964;
+        Wed, 17 Feb 2021 23:57:48 -0800 (PST)
 Received: from ?IPv6:2001:a61:3a2d:1d01:99ab:4f20:ed7f:402b? ([2001:a61:3a2d:1d01:99ab:4f20:ed7f:402b])
-        by smtp.gmail.com with ESMTPSA id t9sm7401393wrw.76.2021.02.17.23.55.34
+        by smtp.gmail.com with ESMTPSA id w13sm6524208wrt.49.2021.02.17.23.57.48
         (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Wed, 17 Feb 2021 23:55:35 -0800 (PST)
-Cc:     mtk.manpages@gmail.com, linux-man <linux-man@vger.kernel.org>,
-        Andrew Morton <akpm@linux-foundation.org>,
-        Jann Horn <jannh@google.com>,
-        Kees Cook <keescook@chromium.org>,
-        Jeffrey Vander Stoep <jeffv@google.com>,
-        Minchan Kim <minchan@kernel.org>,
-        Michal Hocko <mhocko@suse.com>,
-        Shakeel Butt <shakeelb@google.com>,
-        David Rientjes <rientjes@google.com>,
-        =?UTF-8?Q?Edgar_Arriaga_Garc=c3=ada?= <edgararriaga@google.com>,
-        Tim Murray <timmurray@google.com>,
-        linux-mm <linux-mm@kvack.org>,
-        SElinux list <selinux@vger.kernel.org>,
-        linux-security-module <linux-security-module@vger.kernel.org>,
-        Linux API <linux-api@vger.kernel.org>,
-        LKML <linux-kernel@vger.kernel.org>,
-        kernel-team <kernel-team@android.com>
-Subject: Re: [PATCH v3 1/1] process_madvise.2: Add process_madvise man page
-To:     Suren Baghdasaryan <surenb@google.com>
-References: <20210202053046.1653012-1-surenb@google.com>
- <079db245-a08c-0dbd-01d4-8065f533652e@gmail.com>
- <CAJuCfpGotx_04Stn5Nw6Au+TVG9LuAJ=CB_s7uxjMLOLerw-GA@mail.gmail.com>
- <2d303517-cdcd-9ec8-e57d-3d065edb573c@gmail.com>
- <CAJuCfpFC0B=jXFEuPYYBZAjgx1B6S8vG-i7_0iBc_RHeWynyzw@mail.gmail.com>
+        Wed, 17 Feb 2021 23:57:48 -0800 (PST)
+Cc:     mtk.manpages@gmail.com, linux-man@vger.kernel.org,
+        libc-alpha@sourceware.org
+Subject: Re: [PATCH v2] strerror.3: VERSIONS: Document that strerrorname_np()
+ and strerrordesc_np() functions first appeared on glibc 2.32
+To:     Alejandro Colomar <alx.manpages@gmail.com>
+References: <20210217095231.27727-1-alx.manpages@gmail.com>
+ <20210217122310.107318-1-alx.manpages@gmail.com>
 From:   "Michael Kerrisk (man-pages)" <mtk.manpages@gmail.com>
-Message-ID: <7fb20d93-92d0-14b3-f7f9-8b9af4ebb584@gmail.com>
-Date:   Thu, 18 Feb 2021 08:55:31 +0100
+Message-ID: <4af8b445-2d65-fbd2-7e15-eda8fd8bd0cc@gmail.com>
+Date:   Thu, 18 Feb 2021 08:57:47 +0100
 User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
  Thunderbird/78.6.0
 MIME-Version: 1.0
-In-Reply-To: <CAJuCfpFC0B=jXFEuPYYBZAjgx1B6S8vG-i7_0iBc_RHeWynyzw@mail.gmail.com>
+In-Reply-To: <20210217122310.107318-1-alx.manpages@gmail.com>
 Content-Type: text/plain; charset=utf-8
 Content-Language: en-US
-Content-Transfer-Encoding: 8bit
+Content-Transfer-Encoding: 7bit
 Precedence: bulk
 List-ID: <linux-man.vger.kernel.org>
 X-Mailing-List: linux-man@vger.kernel.org
 
-Hello Suren,
+Hi Alex,
 
->> Thanks. I added a few words to clarify this.>
-> Any link where I can see the final version?
+On 2/17/21 1:23 PM, Alejandro Colomar wrote:
+> Signed-off-by: Alejandro Colomar <alx.manpages@gmail.com>
 
-Sure:
-https://git.kernel.org/pub/scm/docs/man-pages/man-pages.git/tree/man2/process_madvise.2
+Thanks. Patch applied.
 
-Also rendered below.
-
-Thanks,
+Cheers,
 
 Michael
 
-NAME
-       process_madvise - give advice about use of memory to a process
-
-SYNOPSIS
-       #include <sys/uio.h>
-
-       ssize_t process_madvise(int pidfd, const struct iovec *iovec,
-                               size_t vlen, int advice,
-                               unsigned int flags);
-
-       Note: There is no glibc wrapper for this system call; see NOTES.
-
-DESCRIPTION
-       The process_madvise() system call is used to give advice or direc‐
-       tions to the kernel about the address ranges of another process or
-       of  the  calling  process.  It provides the advice for the address
-       ranges described by iovec and vlen.  The goal of such advice is to
-       improve system or application performance.
-
-       The  pidfd  argument  is a PID file descriptor (see pidfd_open(2))
-       that specifies the process to which the advice is to be applied.
-
-       The pointer iovec points to an array of iovec structures,  defined
-       in <sys/uio.h> as:
-
-           struct iovec {
-               void  *iov_base;    /* Starting address */
-               size_t iov_len;     /* Length of region */
-           };
-
-       The iovec structure describes address ranges beginning at iov_base
-       address and with the size of iov_len bytes.
-
-       The vlen specifies the number of elements in the iovec  structure.
-       This value must be less than or equal to IOV_MAX (defined in <lim‐
-       its.h> or accessible via the call sysconf(_SC_IOV_MAX)).
-
-       The advice argument is one of the following values:
-
-       MADV_COLD
-              See madvise(2).
-
-       MADV_PAGEOUT
-              See madvise(2).
-
-       The flags argument is reserved for future use; currently, this ar‐
-       gument must be specified as 0.
-
-       The  vlen  and iovec arguments are checked before applying any ad‐
-       vice.  If vlen is too big, or iovec is invalid, then an error will
-       be returned immediately and no advice will be applied.
-
-       The  advice might be applied to only a part of iovec if one of its
-       elements points to an invalid memory region in the remote process.
-       No further elements will be processed beyond that point.  (See the
-       discussion regarding partial advice in RETURN VALUE.)
-
-       Permission to apply advice to another process  is  governed  by  a
-       ptrace   access   mode   PTRACE_MODE_READ_REALCREDS   check   (see
-       ptrace(2)); in addition, because of the  performance  implications
-       of applying the advice, the caller must have the CAP_SYS_ADMIN ca‐
-       pability.
-
-RETURN VALUE
-       On success, process_madvise() returns the number of bytes advised.
-       This  return  value may be less than the total number of requested
-       bytes, if an error occurred after some iovec elements were already
-       processed.   The caller should check the return value to determine
-       whether a partial advice occurred.
-
-       On error, -1 is returned and errno is set to indicate the error.
-
-ERRORS
-       EBADF  pidfd is not a valid PID file descriptor.
-
-       EFAULT The memory described by iovec is outside the accessible ad‐
-              dress space of the process referred to by pidfd.
-
-       EINVAL flags is not 0.
-
-       EINVAL The  sum of the iov_len values of iovec overflows a ssize_t
-              value.
-
-       EINVAL vlen is too large.
-
-       ENOMEM Could not allocate memory for internal copies of the  iovec
-              structures.
-
-       EPERM  The  caller  does not have permission to access the address
-              space of the process pidfd.
-
-       ESRCH  The target process does not exist (i.e., it has  terminated
-              and been waited on).
-
-VERSIONS
-       This  system  call first appeared in Linux 5.10.  Support for this
-       system call is optional, depending on  the  setting  of  the  CON‐
-       FIG_ADVISE_SYSCALLS configuration option.
-
-CONFORMING TO
-       The process_madvise() system call is Linux-specific.
-
-NOTES
-       Glibc does not provide a wrapper for this system call; call it us‐
-       ing syscall(2).
-
-SEE ALSO
-       madvise(2),          pidfd_open(2),           process_vm_readv(2),
-       process_vm_write(2)
+> ---
+>  man3/strerror.3 | 6 ++++++
+>  1 file changed, 6 insertions(+)
+> 
+> diff --git a/man3/strerror.3 b/man3/strerror.3
+> index 5dfe76f69..e1724a102 100644
+> --- a/man3/strerror.3
+> +++ b/man3/strerror.3
+> @@ -235,6 +235,12 @@ Insufficient storage was supplied to contain the error description string.
+>  The
+>  .BR strerror_l ()
+>  function first appeared in glibc 2.6.
+> +.PP
+> +The
+> +.BR strerrorname_np ()
+> +and
+> +.BR strerrordesc_np ()
+> +functions first appeared in glibc 2.32.
+>  .SH ATTRIBUTES
+>  For an explanation of the terms used in this section, see
+>  .BR attributes (7).
+> 
 
 
 -- 
