@@ -8,69 +8,66 @@ X-Spam-Status: No, score=-14.2 required=3.0 tests=BAYES_00,DKIM_SIGNED,
 	MAILING_LIST_MULTI,NICE_REPLY_A,SPF_HELO_NONE,SPF_PASS,URIBL_BLOCKED,
 	USER_AGENT_SANE_1 autolearn=ham autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 3778FC433E9
-	for <linux-man@archiver.kernel.org>; Thu, 18 Feb 2021 08:01:16 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 1BB67C433DB
+	for <linux-man@archiver.kernel.org>; Thu, 18 Feb 2021 08:06:44 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.kernel.org (Postfix) with ESMTP id E8DBF64DE9
-	for <linux-man@archiver.kernel.org>; Thu, 18 Feb 2021 08:01:15 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTP id C194D64DE9
+	for <linux-man@archiver.kernel.org>; Thu, 18 Feb 2021 08:06:43 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S230368AbhBRIBC (ORCPT <rfc822;linux-man@archiver.kernel.org>);
-        Thu, 18 Feb 2021 03:01:02 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:47088 "EHLO
+        id S231260AbhBRIGP (ORCPT <rfc822;linux-man@archiver.kernel.org>);
+        Thu, 18 Feb 2021 03:06:15 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:48204 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S231216AbhBRH6b (ORCPT
-        <rfc822;linux-man@vger.kernel.org>); Thu, 18 Feb 2021 02:58:31 -0500
-Received: from mail-wm1-x330.google.com (mail-wm1-x330.google.com [IPv6:2a00:1450:4864:20::330])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 2FC1DC061574
-        for <linux-man@vger.kernel.org>; Wed, 17 Feb 2021 23:57:50 -0800 (PST)
-Received: by mail-wm1-x330.google.com with SMTP id i7so2239153wmb.0
-        for <linux-man@vger.kernel.org>; Wed, 17 Feb 2021 23:57:50 -0800 (PST)
+        with ESMTP id S231422AbhBRIDo (ORCPT
+        <rfc822;linux-man@vger.kernel.org>); Thu, 18 Feb 2021 03:03:44 -0500
+Received: from mail-wm1-x32c.google.com (mail-wm1-x32c.google.com [IPv6:2a00:1450:4864:20::32c])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 0063BC061756
+        for <linux-man@vger.kernel.org>; Thu, 18 Feb 2021 00:03:03 -0800 (PST)
+Received: by mail-wm1-x32c.google.com with SMTP id m1so2126535wml.2
+        for <linux-man@vger.kernel.org>; Thu, 18 Feb 2021 00:03:03 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=gmail.com; s=20161025;
         h=cc:subject:to:references:from:message-id:date:user-agent
          :mime-version:in-reply-to:content-language:content-transfer-encoding;
-        bh=i8ThkJdeSKmpDWcmfUgk6Mc4RQnBYkmAhr+2t8l6Oh0=;
-        b=lynopRs3X8VURwgYE3+dn5o0vk05F7RbFg7mJ2/+V/h/178fE3P7o6L8xjy0LggTxx
-         4Z1RENaWJ2KnDfVLYHRbx3flLvQ1kxlx/TyLApb77eH7R+XwvibXgON1SyJsYKCVLTrv
-         8FJb851CkOW+renfe4CSgBXlIOFoxK36tyWSqrbYh79Y7t7GSTmkcsArJX2Z0+P1W2EO
-         xtjw5TFw87V7Art2JpE4a6ZbdCedhnmQxsBPFj7UGe3zZ3C34h0j2JYXd3gtkmCDG6DV
-         fbvqOH9H4MtgNBQWU7GZ+731f6TQiLzw922J0E8I+8SqfF6bVx1rPygIOztLSEN6wTaR
-         w/Aw==
+        bh=rw1KGgujr0jRV+6BoJkA+oZCZeyRdcE37cUL0MrTk7c=;
+        b=NnVlLJtj67jrQ0lQsbQp4lSjL2Uu0esimTJJU5EC0OWnEKch4rjhtFvpaLw/RdJPcg
+         gxZj6MVVdMg8q/OVZAXfEg6+1yK0XPz7LNiiVUgJWxO/bhGh8aQGxaRZVFacHIA0mnPr
+         y77grO/AjdhUedF5cVKJfenYMQDFM4kM5YU45RADKMrN9U61Jyts0rsXmQ85zuS6hZ07
+         qmS75gLawyN+o0MDhX7/QhzEql1YnKoXLQEU/lrfcDyqFRXHx2WaYSg7NocqqEhPscav
+         Z87NGSYH8lEfeaypKWHPHmj6ccw6ey7yIJwXnRcvefCRLmBTW6IVXltGTyXDwGV2wYRi
+         WVZw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
         h=x-gm-message-state:cc:subject:to:references:from:message-id:date
          :user-agent:mime-version:in-reply-to:content-language
          :content-transfer-encoding;
-        bh=i8ThkJdeSKmpDWcmfUgk6Mc4RQnBYkmAhr+2t8l6Oh0=;
-        b=tIeu09NneGErYP6MLi951mB6RKZdAwNfzUTIyNACtHy1u/ishvCDlBtuZ6M1iXZa5D
-         m1vcKK3qarr68K4gcThIUMSp9Bfh2viknl0t8QZAwcQZIh1BFqoS4trK5GCQcjvrbWii
-         DbI9Rf/jNIiucaw9ziq6+gHgK6xFeSBnWNvnssbkO86rIQfhMaDjAtm98Y3CO6MUTsMr
-         wlc/QnPR+pNgUApPUnNJ7+3VdbB15A0SpbpPEpYlSSyPMJkzxaarLG7Bm/3oCce9rLD1
-         ZKTish3xrt4C5DLtGYMCABhU3mUvYK4OHkufiqU3vwyyR9/QaDzHDOdkk6suRUyGqTJZ
-         H8SA==
-X-Gm-Message-State: AOAM531LASeyBbqkVYJiANkN6+aZlUYCIwGrIdM4Vqmh1l39w5n3g8x4
-        DCNUW997nglqU9N3ROcp7lQ=
-X-Google-Smtp-Source: ABdhPJxoz3f+jFoWOp3BG9YBOU2nbT5XgJ7JaRZ9q8eQyA8hfgoAav7EnsB67jvI4pF5fV9HVcSAYg==
-X-Received: by 2002:a05:600c:354f:: with SMTP id i15mr2503288wmq.28.1613635068964;
-        Wed, 17 Feb 2021 23:57:48 -0800 (PST)
+        bh=rw1KGgujr0jRV+6BoJkA+oZCZeyRdcE37cUL0MrTk7c=;
+        b=Sr3ReZk/dgMMOzKmWE5XAms+7sqLsemnCnvXHh9tL/yP8ITJOjT7cAVNeVeFB46aXv
+         K/8z5cqTwlBjx/oOg1wueaCUfz3S+/masThcDh3PGzydTV74zlNqT6YAB7OLoDo57loc
+         YcNiBEE+8PmuBdGRtdJB5xtVfrzqF63ZpENQWhMUPHV13lGyzExLn5AKkyTAeulinXO4
+         CdPZVw58/JEypyUjgQ2WQy+I4lpdkJZfml64WwiTvKfUouZ29g2jXCi0fe1gYK12nQ2R
+         Pj8TMFGVbFljXiUwKWHkOBvu5CQwIG5EG1kdxlQz5g1STeQCVyadLR2WLX7u2hhIS97+
+         xklw==
+X-Gm-Message-State: AOAM532bARxZkvEdBQg/w7Qjoa9mjf8P6bJ0QXR+xQOtBV3gGs/XKYxH
+        gegZ3Oaofg6hK6grELtDGQzi7llh5aMCsA==
+X-Google-Smtp-Source: ABdhPJzndIeUokBUvnvhrTMr9FC7i6fwI5HYJqkyxg26+FJeNwW1ZoXTw1WT2GhHHJ7hrFlZi8Rn8g==
+X-Received: by 2002:a1c:b783:: with SMTP id h125mr2438715wmf.186.1613635016087;
+        Wed, 17 Feb 2021 23:56:56 -0800 (PST)
 Received: from ?IPv6:2001:a61:3a2d:1d01:99ab:4f20:ed7f:402b? ([2001:a61:3a2d:1d01:99ab:4f20:ed7f:402b])
-        by smtp.gmail.com with ESMTPSA id w13sm6524208wrt.49.2021.02.17.23.57.48
+        by smtp.gmail.com with ESMTPSA id w25sm6195021wmc.42.2021.02.17.23.56.54
         (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Wed, 17 Feb 2021 23:57:48 -0800 (PST)
-Cc:     mtk.manpages@gmail.com, linux-man@vger.kernel.org,
-        libc-alpha@sourceware.org
-Subject: Re: [PATCH v2] strerror.3: VERSIONS: Document that strerrorname_np()
- and strerrordesc_np() functions first appeared on glibc 2.32
-To:     Alejandro Colomar <alx.manpages@gmail.com>
-References: <20210217095231.27727-1-alx.manpages@gmail.com>
- <20210217122310.107318-1-alx.manpages@gmail.com>
+        Wed, 17 Feb 2021 23:56:55 -0800 (PST)
+Cc:     mtk.manpages@gmail.com, linux-man@vger.kernel.org
+Subject: Re: [PATCH] epoll_wait.2: tfix
+To:     "Dmitry V. Levin" <ldv@altlinux.org>
+References: <20210217080000.GA21832@altlinux.org>
 From:   "Michael Kerrisk (man-pages)" <mtk.manpages@gmail.com>
-Message-ID: <4af8b445-2d65-fbd2-7e15-eda8fd8bd0cc@gmail.com>
-Date:   Thu, 18 Feb 2021 08:57:47 +0100
+Message-ID: <922c47c5-42ab-8344-97b2-aba0aa9bfa79@gmail.com>
+Date:   Thu, 18 Feb 2021 08:56:54 +0100
 User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
  Thunderbird/78.6.0
 MIME-Version: 1.0
-In-Reply-To: <20210217122310.107318-1-alx.manpages@gmail.com>
+In-Reply-To: <20210217080000.GA21832@altlinux.org>
 Content-Type: text/plain; charset=utf-8
 Content-Language: en-US
 Content-Transfer-Encoding: 7bit
@@ -78,10 +75,13 @@ Precedence: bulk
 List-ID: <linux-man.vger.kernel.org>
 X-Mailing-List: linux-man@vger.kernel.org
 
-Hi Alex,
+Hi Dmitry,
 
-On 2/17/21 1:23 PM, Alejandro Colomar wrote:
-> Signed-off-by: Alejandro Colomar <alx.manpages@gmail.com>
+On 2/17/21 9:00 AM, Dmitry V. Levin wrote:
+> Mention epoll_pwait2 in "CONFORMING TO" section.
+> 
+> Complements: ba47eb5e3 "epoll_wait.2: Add documentation of epoll_pwait2()"
+> Signed-off-by: Dmitry V. Levin <ldv@altlinux.org>
 
 Thanks. Patch applied.
 
@@ -90,26 +90,26 @@ Cheers,
 Michael
 
 > ---
->  man3/strerror.3 | 6 ++++++
->  1 file changed, 6 insertions(+)
+>  man2/epoll_wait.2 | 5 +++--
+>  1 file changed, 3 insertions(+), 2 deletions(-)
 > 
-> diff --git a/man3/strerror.3 b/man3/strerror.3
-> index 5dfe76f69..e1724a102 100644
-> --- a/man3/strerror.3
-> +++ b/man3/strerror.3
-> @@ -235,6 +235,12 @@ Insufficient storage was supplied to contain the error description string.
->  The
->  .BR strerror_l ()
->  function first appeared in glibc 2.6.
-> +.PP
-> +The
-> +.BR strerrorname_np ()
-> +and
-> +.BR strerrordesc_np ()
-> +functions first appeared in glibc 2.32.
->  .SH ATTRIBUTES
->  For an explanation of the terms used in this section, see
->  .BR attributes (7).
+> diff --git a/man2/epoll_wait.2 b/man2/epoll_wait.2
+> index f941023c2..af4180df0 100644
+> --- a/man2/epoll_wait.2
+> +++ b/man2/epoll_wait.2
+> @@ -248,9 +248,10 @@ Library support is provided in glibc starting with version 2.6.
+>  .BR epoll_pwait2 ()
+>  was added to Linux in kernel 5.11.
+>  .SH CONFORMING TO
+> -.BR epoll_wait ()
+> +.BR epoll_wait (),
+> +.BR epoll_pwait (),
+>  and
+> -.BR epoll_pwait ()
+> +.BR epoll_pwait2 ()
+>  are Linux-specific.
+>  .SH NOTES
+>  While one thread is blocked in a call to
 > 
 
 
