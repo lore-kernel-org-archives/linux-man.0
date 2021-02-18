@@ -2,114 +2,98 @@ Return-Path: <linux-man-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-10.8 required=3.0 tests=BAYES_00,DKIM_SIGNED,
+X-Spam-Status: No, score=-15.8 required=3.0 tests=BAYES_00,DKIM_SIGNED,
 	DKIM_VALID,DKIM_VALID_AU,FREEMAIL_FORGED_FROMDOMAIN,FREEMAIL_FROM,
-	HEADER_FROM_DIFFERENT_DOMAINS,INCLUDES_PATCH,MAILING_LIST_MULTI,SPF_HELO_NONE,
-	SPF_PASS,USER_AGENT_GIT autolearn=ham autolearn_force=no version=3.4.0
+	HEADER_FROM_DIFFERENT_DOMAINS,INCLUDES_CR_TRAILER,INCLUDES_PATCH,
+	MAILING_LIST_MULTI,SPF_HELO_NONE,SPF_PASS,USER_AGENT_GIT autolearn=ham
+	autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 13706C433E0
+	by smtp.lore.kernel.org (Postfix) with ESMTP id F0E26C43381
 	for <linux-man@archiver.kernel.org>; Thu, 18 Feb 2021 21:25:58 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.kernel.org (Postfix) with ESMTP id A9E5664E3E
-	for <linux-man@archiver.kernel.org>; Thu, 18 Feb 2021 21:25:57 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTP id 7A3DE64E3E
+	for <linux-man@archiver.kernel.org>; Thu, 18 Feb 2021 21:25:58 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S229953AbhBRVZl (ORCPT <rfc822;linux-man@archiver.kernel.org>);
-        Thu, 18 Feb 2021 16:25:41 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:50716 "EHLO
+        id S229720AbhBRVZp (ORCPT <rfc822;linux-man@archiver.kernel.org>);
+        Thu, 18 Feb 2021 16:25:45 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:50736 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S229480AbhBRVZi (ORCPT
-        <rfc822;linux-man@vger.kernel.org>); Thu, 18 Feb 2021 16:25:38 -0500
-Received: from mail-wr1-x42f.google.com (mail-wr1-x42f.google.com [IPv6:2a00:1450:4864:20::42f])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 1CA71C061574
-        for <linux-man@vger.kernel.org>; Thu, 18 Feb 2021 13:24:58 -0800 (PST)
-Received: by mail-wr1-x42f.google.com with SMTP id n4so4555485wrx.1
-        for <linux-man@vger.kernel.org>; Thu, 18 Feb 2021 13:24:58 -0800 (PST)
+        with ESMTP id S229954AbhBRVZl (ORCPT
+        <rfc822;linux-man@vger.kernel.org>); Thu, 18 Feb 2021 16:25:41 -0500
+Received: from mail-wr1-x42a.google.com (mail-wr1-x42a.google.com [IPv6:2a00:1450:4864:20::42a])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 360EFC061788
+        for <linux-man@vger.kernel.org>; Thu, 18 Feb 2021 13:25:01 -0800 (PST)
+Received: by mail-wr1-x42a.google.com with SMTP id u14so4532724wri.3
+        for <linux-man@vger.kernel.org>; Thu, 18 Feb 2021 13:25:01 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=gmail.com; s=20161025;
-        h=from:to:cc:subject:date:message-id:mime-version
-         :content-transfer-encoding;
-        bh=V+Ie+jSD7WGbwld4HODHcBJ+cUe6/AnVx3fAcRgHIJk=;
-        b=gCU9hc0SqQ8q01KaGpa3z3X6rxNN2sKgTyBdlDR6ZxqJFYfdq5BGItJVhCWY2IvgYx
-         0DLA+KqZNmHcAW5Fmx/kJ5XB4erDJzaR44sVKcbJ723YiXhCFy9Xw0zdlj5feMugPDLt
-         bYtBUR5nBp4FRFhGBLvlZuVfk77cDCDMEj/BrkN+9tiwFHScs2fUv74hYaIhRxANUCt2
-         iloUxywXwpzEDKnvlgE6WH2ptQ2AIPLDF8ydHDjxw3rPQLyhGsnIq6dXn255cLlS8Iui
-         c36/meSKlpk/gFfLbdto+yZlkAbtDmWHvO8BhHVfC+49QWHh14K0r0fyvyG+hqJBpSdy
-         bnIA==
+        h=from:to:cc:subject:date:message-id:in-reply-to:references
+         :mime-version:content-transfer-encoding;
+        bh=BVFUHN0gLvvk3Ff9UduPeKJz8vLqyXCvPRAU9Snpcyg=;
+        b=MP9QH3lgIx4KN5gp2XF44bD5JqMNtZcrnCqOrnXq3zXol+Gq1kGMqHZj18ZUW8Gfdg
+         sDVv1W24NzXRkkSU3ZoZkkdtPWVtngxj3QjTMjQehUei8nmW8X2LwpybWc5Skgk1LwH3
+         wGEqqkxaS558NdrSnePKyvdEBJ+HJU6SdSEm+Ah9qCiMJFQmeaaGCJCb/AWIEBnul57e
+         KTSYT6MMYE+bdUU+L/6WnlhkteNCKpVEV0YJDv3ell6KfRu0UlvqM1RpQGbU8Vq/5tlO
+         FbCCDI3fhkLnAL1+fCWiD0cyhKdsgvTqce2GlnoHCQXU8qwAM8MCqJvRYMDp1JyxZBCU
+         mCOQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
-        h=x-gm-message-state:from:to:cc:subject:date:message-id:mime-version
-         :content-transfer-encoding;
-        bh=V+Ie+jSD7WGbwld4HODHcBJ+cUe6/AnVx3fAcRgHIJk=;
-        b=IbW9PaJ6rTcPza9j+4VKB0O9fBbfOWGUR4Ysu/M0ZXOhbZ8Pt73dfUHsK6oG64psaV
-         Vm/bwivgynBA9uy3Tn4++v939wJbgy5fGvqeU9/rEa/CCrQWIXFsPymhvukZak9dP2QE
-         1Oub+EC6ZaTw7EcHrTKmQt1+gHhyHQhDQTnPpYX3JJ7gNCeBrs8nQ7sU6dYHQumEarrJ
-         e4zGcIu7t++GxnzcQHea8zcbN2aKzlflMHi+DC9CUMTdPyBikbxIb/SQdh3RiGmkHn1P
-         3pQjdj8XaaZDfk8tVw4PPl6Gyaf+k1crcAnjSesTrIrHDfXouiBISfn4Y1yoFvuWFAm5
-         oKmw==
-X-Gm-Message-State: AOAM5337pOchXLUxvGXV63cdAhQig/11ZVPzdb3644jcV+auR1izwBIP
-        GI7fU6k1+2H1sraIXhGlkO8=
-X-Google-Smtp-Source: ABdhPJweuYFBrEdm6RnSAUbfNmEVnxiNStg5HuST1N72FbqBmAGS7trB0ogEg0OvouStNaBOYZ3sZg==
-X-Received: by 2002:adf:f6d0:: with SMTP id y16mr6134730wrp.351.1613683496893;
-        Thu, 18 Feb 2021 13:24:56 -0800 (PST)
+        h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
+         :references:mime-version:content-transfer-encoding;
+        bh=BVFUHN0gLvvk3Ff9UduPeKJz8vLqyXCvPRAU9Snpcyg=;
+        b=Cx5/Y3CHSqhmWqZtdyuaGsdg+fbCZZglRt5D4versbvURopA7l1tVJwkGj3IT8oL04
+         54IevhdmFvgMWyeU7PMPzG5AzIQhzaZnuOcORyd9/Tz7ABXwfV2C92UFYzT6hYDwP8/C
+         Ei5RkZsQcPAkJzc4s4FgNGSG9sxPqhVSFDbrb0VBMW8q9MC4H9xrhy9ZGfQWZ4ACms4s
+         p56pZZjD9KQwqAjbOxA70L/pl7UJSeUOYyNdq4HECtkZFB1YuKry0i8uc61Q7ipMr2VK
+         e3JEQO2/qelurPK4oLLGVJR/Ydi42nifQILPXcR0wMtC7WJJfPI6EsTS9gGBeK09B1RE
+         hcxQ==
+X-Gm-Message-State: AOAM531Lc6ySGYvOngdXu35aIOpkvC3l1POdtrlhuF2KXqRKmhTqS9C5
+        iyi2BoVrV7NAJWLEEk9ZQFk=
+X-Google-Smtp-Source: ABdhPJyK201C19q+o6cLCqq782yD1jmwt+2+WNUwEWSJGe3iuZ6dJI1oMPHonMwpz/5FAznGIiD/bg==
+X-Received: by 2002:adf:a703:: with SMTP id c3mr5916498wrd.379.1613683499811;
+        Thu, 18 Feb 2021 13:24:59 -0800 (PST)
 Received: from localhost.localdomain ([170.253.51.130])
-        by smtp.googlemail.com with ESMTPSA id s11sm7870940wme.22.2021.02.18.13.24.56
+        by smtp.googlemail.com with ESMTPSA id s11sm7870940wme.22.2021.02.18.13.24.59
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Thu, 18 Feb 2021 13:24:56 -0800 (PST)
+        Thu, 18 Feb 2021 13:24:59 -0800 (PST)
 From:   Alejandro Colomar <alx.manpages@gmail.com>
 To:     mtk.manpages@gmail.com
 Cc:     Alejandro Colomar <alx.manpages@gmail.com>,
         linux-man@vger.kernel.org, libc-alpha@sourceware.org
-Subject: [PATCH 0/6] man[23]: SYNOPSIS: Use 'noreturn' in prototypes.
-Date:   Thu, 18 Feb 2021 22:23:53 +0100
-Message-Id: <20210218212358.246072-1-alx.manpages@gmail.com>
+Subject: [PATCH 4/6] exit.3: SYNOPSIS: Use 'noreturn' in prototypes
+Date:   Thu, 18 Feb 2021 22:23:57 +0100
+Message-Id: <20210218212358.246072-5-alx.manpages@gmail.com>
 X-Mailer: git-send-email 2.30.1.721.g45526154a5
+In-Reply-To: <20210218212358.246072-1-alx.manpages@gmail.com>
+References: <20210218212358.246072-1-alx.manpages@gmail.com>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 Precedence: bulk
 List-ID: <linux-man.vger.kernel.org>
 X-Mailing-List: linux-man@vger.kernel.org
 
-Hi Michael,
+POSIX specifies that exit() shall not return.
+Glibc uses __attribute__((__noreturn__)).
+Let's use standard C11 'noreturn' in the manual page.
 
-Here's a patch for using 'noreturn' in the prototypes that never return,
-such as exit(), abort(), longjmp(), etc, using standard C (C11) syntax.
-
-This patch set fixes all of man2 and man3.
-
-Cheers,
-
-Alex
-
-......
-
-This was useful:
-
-.../glibc$ man_lsfunc ../../linux/man-pages/man[23] \
-           |while read -r syscall; do
-           	echo "=============================  ${syscall}";
-           	grep_glibc_prototype ${syscall} \
-           	|sed -e 's/\bextern //' \
-           	|pcregrep -M '(?s).*noreturn.*';
-           done \
-           |less;
-
+Signed-off-by: Alejandro Colomar <alx.manpages@gmail.com>
 ---
-Alejandro Colomar (6):
-  abort.3: SYNOPSIS: Use 'noreturn' in prototypes
-  _exit.2: SYNOPSIS: Use 'noreturn' in prototypes
-  err.3: SYNOPSIS: Use 'noreturn' in prototypes
-  exit.3: SYNOPSIS: Use 'noreturn' in prototypes
-  pthread_exit.3: SYNOPSIS: Use 'noreturn' in prototypes
-  setjmp.3: SYNOPSIS: Use 'noreturn' in prototypes
+ man3/exit.3 | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
 
- man2/_exit.2        | 4 ++--
- man3/abort.3        | 2 +-
- man3/err.3          | 8 ++++----
- man3/exit.3         | 2 +-
- man3/pthread_exit.3 | 2 +-
- man3/setjmp.3       | 4 ++--
- 6 files changed, 11 insertions(+), 11 deletions(-)
-
+diff --git a/man3/exit.3 b/man3/exit.3
+index 50eec7821..3e38a32a6 100644
+--- a/man3/exit.3
++++ b/man3/exit.3
+@@ -33,7 +33,7 @@ exit \- cause normal process termination
+ .nf
+ .B #include <stdlib.h>
+ .PP
+-.BI "void exit(int " status );
++.BI "noreturn void exit(int " status );
+ .fi
+ .SH DESCRIPTION
+ The
 -- 
 2.30.1.721.g45526154a5
 
