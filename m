@@ -2,118 +2,112 @@ Return-Path: <linux-man-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-14.2 required=3.0 tests=BAYES_00,DKIM_SIGNED,
-	DKIM_VALID,DKIM_VALID_AU,FREEMAIL_FORGED_FROMDOMAIN,FREEMAIL_FROM,
-	HEADER_FROM_DIFFERENT_DOMAINS,INCLUDES_CR_TRAILER,INCLUDES_PATCH,
-	MAILING_LIST_MULTI,NICE_REPLY_A,SPF_HELO_NONE,SPF_PASS,URIBL_BLOCKED,
-	USER_AGENT_SANE_1 autolearn=ham autolearn_force=no version=3.4.0
+X-Spam-Status: No, score=-5.8 required=3.0 tests=BAYES_00,DKIMWL_WL_HIGH,
+	DKIM_SIGNED,DKIM_VALID,DKIM_VALID_AU,HEADER_FROM_DIFFERENT_DOMAINS,
+	MAILING_LIST_MULTI,SPF_HELO_NONE,SPF_PASS,URIBL_BLOCKED autolearn=no
+	autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 1BB67C433DB
-	for <linux-man@archiver.kernel.org>; Thu, 18 Feb 2021 08:06:44 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 13718C433DB
+	for <linux-man@archiver.kernel.org>; Thu, 18 Feb 2021 12:01:17 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.kernel.org (Postfix) with ESMTP id C194D64DE9
-	for <linux-man@archiver.kernel.org>; Thu, 18 Feb 2021 08:06:43 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTP id C868464D79
+	for <linux-man@archiver.kernel.org>; Thu, 18 Feb 2021 12:01:16 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S231260AbhBRIGP (ORCPT <rfc822;linux-man@archiver.kernel.org>);
-        Thu, 18 Feb 2021 03:06:15 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:48204 "EHLO
-        lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S231422AbhBRIDo (ORCPT
-        <rfc822;linux-man@vger.kernel.org>); Thu, 18 Feb 2021 03:03:44 -0500
-Received: from mail-wm1-x32c.google.com (mail-wm1-x32c.google.com [IPv6:2a00:1450:4864:20::32c])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 0063BC061756
-        for <linux-man@vger.kernel.org>; Thu, 18 Feb 2021 00:03:03 -0800 (PST)
-Received: by mail-wm1-x32c.google.com with SMTP id m1so2126535wml.2
-        for <linux-man@vger.kernel.org>; Thu, 18 Feb 2021 00:03:03 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20161025;
-        h=cc:subject:to:references:from:message-id:date:user-agent
-         :mime-version:in-reply-to:content-language:content-transfer-encoding;
-        bh=rw1KGgujr0jRV+6BoJkA+oZCZeyRdcE37cUL0MrTk7c=;
-        b=NnVlLJtj67jrQ0lQsbQp4lSjL2Uu0esimTJJU5EC0OWnEKch4rjhtFvpaLw/RdJPcg
-         gxZj6MVVdMg8q/OVZAXfEg6+1yK0XPz7LNiiVUgJWxO/bhGh8aQGxaRZVFacHIA0mnPr
-         y77grO/AjdhUedF5cVKJfenYMQDFM4kM5YU45RADKMrN9U61Jyts0rsXmQ85zuS6hZ07
-         qmS75gLawyN+o0MDhX7/QhzEql1YnKoXLQEU/lrfcDyqFRXHx2WaYSg7NocqqEhPscav
-         Z87NGSYH8lEfeaypKWHPHmj6ccw6ey7yIJwXnRcvefCRLmBTW6IVXltGTyXDwGV2wYRi
-         WVZw==
+        id S229656AbhBRL5k (ORCPT <rfc822;linux-man@archiver.kernel.org>);
+        Thu, 18 Feb 2021 06:57:40 -0500
+Received: from us-smtp-delivery-124.mimecast.com ([216.205.24.124]:46429 "EHLO
+        us-smtp-delivery-124.mimecast.com" rhost-flags-OK-OK-OK-OK)
+        by vger.kernel.org with ESMTP id S231614AbhBRLjZ (ORCPT
+        <rfc822;linux-man@vger.kernel.org>); Thu, 18 Feb 2021 06:39:25 -0500
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+        s=mimecast20190719; t=1613648221;
+        h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+         to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+         content-transfer-encoding:content-transfer-encoding:
+         in-reply-to:in-reply-to:references:references;
+        bh=36Nxu7fh3KcvHdksE5HDqIJ3wvrGYUMQwh0wbPL/3hQ=;
+        b=Ntj5q//aNzk8/wEfcfaX18aPAKhw5alGvt8GLHYt1odruEcI3QtLTS+DYEEcwO1xyI9C+C
+        S4w0foBzj0bVPaQNvVGrceOYyckAnqsBOJE3XIabMhcW5YX/aaeGtkhTMnN/b0h1CY5hO7
+        TdDPtp34xGTaUZVlzYvH7Zq4XoMqefc=
+Received: from mail-ej1-f70.google.com (mail-ej1-f70.google.com
+ [209.85.218.70]) (Using TLS) by relay.mimecast.com with ESMTP id
+ us-mta-346-lNaUCJL5O9yfGuDITW96MA-1; Thu, 18 Feb 2021 06:33:12 -0500
+X-MC-Unique: lNaUCJL5O9yfGuDITW96MA-1
+Received: by mail-ej1-f70.google.com with SMTP id 7so556982ejh.10
+        for <linux-man@vger.kernel.org>; Thu, 18 Feb 2021 03:33:12 -0800 (PST)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
-        h=x-gm-message-state:cc:subject:to:references:from:message-id:date
-         :user-agent:mime-version:in-reply-to:content-language
-         :content-transfer-encoding;
-        bh=rw1KGgujr0jRV+6BoJkA+oZCZeyRdcE37cUL0MrTk7c=;
-        b=Sr3ReZk/dgMMOzKmWE5XAms+7sqLsemnCnvXHh9tL/yP8ITJOjT7cAVNeVeFB46aXv
-         K/8z5cqTwlBjx/oOg1wueaCUfz3S+/masThcDh3PGzydTV74zlNqT6YAB7OLoDo57loc
-         YcNiBEE+8PmuBdGRtdJB5xtVfrzqF63ZpENQWhMUPHV13lGyzExLn5AKkyTAeulinXO4
-         CdPZVw58/JEypyUjgQ2WQy+I4lpdkJZfml64WwiTvKfUouZ29g2jXCi0fe1gYK12nQ2R
-         Pj8TMFGVbFljXiUwKWHkOBvu5CQwIG5EG1kdxlQz5g1STeQCVyadLR2WLX7u2hhIS97+
-         xklw==
-X-Gm-Message-State: AOAM532bARxZkvEdBQg/w7Qjoa9mjf8P6bJ0QXR+xQOtBV3gGs/XKYxH
-        gegZ3Oaofg6hK6grELtDGQzi7llh5aMCsA==
-X-Google-Smtp-Source: ABdhPJzndIeUokBUvnvhrTMr9FC7i6fwI5HYJqkyxg26+FJeNwW1ZoXTw1WT2GhHHJ7hrFlZi8Rn8g==
-X-Received: by 2002:a1c:b783:: with SMTP id h125mr2438715wmf.186.1613635016087;
-        Wed, 17 Feb 2021 23:56:56 -0800 (PST)
-Received: from ?IPv6:2001:a61:3a2d:1d01:99ab:4f20:ed7f:402b? ([2001:a61:3a2d:1d01:99ab:4f20:ed7f:402b])
-        by smtp.gmail.com with ESMTPSA id w25sm6195021wmc.42.2021.02.17.23.56.54
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Wed, 17 Feb 2021 23:56:55 -0800 (PST)
-Cc:     mtk.manpages@gmail.com, linux-man@vger.kernel.org
-Subject: Re: [PATCH] epoll_wait.2: tfix
-To:     "Dmitry V. Levin" <ldv@altlinux.org>
-References: <20210217080000.GA21832@altlinux.org>
-From:   "Michael Kerrisk (man-pages)" <mtk.manpages@gmail.com>
-Message-ID: <922c47c5-42ab-8344-97b2-aba0aa9bfa79@gmail.com>
-Date:   Thu, 18 Feb 2021 08:56:54 +0100
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
- Thunderbird/78.6.0
+        h=x-gm-message-state:from:to:cc:subject:in-reply-to:references:date
+         :message-id:mime-version:content-transfer-encoding;
+        bh=36Nxu7fh3KcvHdksE5HDqIJ3wvrGYUMQwh0wbPL/3hQ=;
+        b=cErSnzfKh9CnRp/tRjaCSQJkUFJpgQfhji0nRA0P7URD8Hym1+5i0ehSE/uXnWyY+V
+         meKQ6B/ua9qiM1bkFCzpI5eZMfLtE8vXaSAXyYiooy1ThY+ebeOTqh42CWIrlneF/p6r
+         IMNoofTOTM2JFjJYqV1dUp6aSdVcY7/qvdE9iIg4YuWjM/EInA7IZVbvTEXUlhLLdrZZ
+         77NjT32LZyHDCFEt2iLWJb99pwtw3uXa6gjYEFeUGIOVa77X4FH2O4YYBra0e3JBQuJi
+         fJGFz1uNBVrCTA2ZaeemGhCMscy36PZ5KbPy/8eRhuFba4gLfNH+y1szGqgV/3M4Z9ag
+         Or2Q==
+X-Gm-Message-State: AOAM530S+NyGlJc2sWICCu+uqdkmgdlSxciNX2A/dMd8Pv3JlaJPmxih
+        Xgd59lTUmRsgfGbvxQGcqgZKHgpHEnAjU/YdsDkiqufJOe+MgNB3fPxVADUB5cSo/6NYWlWP4yP
+        Or6haEkQtgJiUyq8RZmYM
+X-Received: by 2002:a17:906:4c90:: with SMTP id q16mr3650789eju.49.1613647991258;
+        Thu, 18 Feb 2021 03:33:11 -0800 (PST)
+X-Google-Smtp-Source: ABdhPJwncoh1x9SnZ4fpM1Vv1Dk74fJ6NcnMvbuj6niroKBejeYqbgEzKQVsxkuh9Jeo8iBmL8Bskg==
+X-Received: by 2002:a17:906:4c90:: with SMTP id q16mr3650770eju.49.1613647991115;
+        Thu, 18 Feb 2021 03:33:11 -0800 (PST)
+Received: from alrua-x1.borgediget.toke.dk ([45.145.92.2])
+        by smtp.gmail.com with ESMTPSA id p20sm701475ejo.19.2021.02.18.03.33.10
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Thu, 18 Feb 2021 03:33:10 -0800 (PST)
+Received: by alrua-x1.borgediget.toke.dk (Postfix, from userid 1000)
+        id 619B31805FA; Thu, 18 Feb 2021 12:33:09 +0100 (CET)
+From:   Toke =?utf-8?Q?H=C3=B8iland-J=C3=B8rgensen?= <toke@redhat.com>
+To:     Joe Stringer <joe@cilium.io>
+Cc:     bpf@vger.kernel.org, Joe Stringer <joe@cilium.io>,
+        linux-man@vger.kernel.org, Networking <netdev@vger.kernel.org>,
+        mtk.manpages@gmail.com, ast@kernel.org, brianvv@google.com,
+        Daniel Borkmann <daniel@iogearbox.net>, daniel@zonque.org,
+        john.fastabend@gmail.com, ppenkov@google.com,
+        Quentin Monnet <quentin@isovalent.com>, sean@mess.org,
+        yhs@fb.com
+Subject: Re: [PATCH bpf-next 00/17] Improve BPF syscall command documentation
+In-Reply-To: <CADa=RywykZt_kMVcCJk8N0vm2sJHW2_mKTr9Z8m2rTsnqvinqA@mail.gmail.com>
+References: <20210217010821.1810741-1-joe@wand.net.nz>
+ <87r1len6hi.fsf@toke.dk>
+ <CADa=RywykZt_kMVcCJk8N0vm2sJHW2_mKTr9Z8m2rTsnqvinqA@mail.gmail.com>
+X-Clacks-Overhead: GNU Terry Pratchett
+Date:   Thu, 18 Feb 2021 12:33:09 +0100
+Message-ID: <87mtw1life.fsf@toke.dk>
 MIME-Version: 1.0
-In-Reply-To: <20210217080000.GA21832@altlinux.org>
 Content-Type: text/plain; charset=utf-8
-Content-Language: en-US
-Content-Transfer-Encoding: 7bit
+Content-Transfer-Encoding: quoted-printable
 Precedence: bulk
 List-ID: <linux-man.vger.kernel.org>
 X-Mailing-List: linux-man@vger.kernel.org
 
-Hi Dmitry,
+Joe Stringer <joe@cilium.io> writes:
 
-On 2/17/21 9:00 AM, Dmitry V. Levin wrote:
-> Mention epoll_pwait2 in "CONFORMING TO" section.
-> 
-> Complements: ba47eb5e3 "epoll_wait.2: Add documentation of epoll_pwait2()"
-> Signed-off-by: Dmitry V. Levin <ldv@altlinux.org>
+> On Wed, Feb 17, 2021 at 5:55 AM Toke H=C3=B8iland-J=C3=B8rgensen <toke@re=
+dhat.com> wrote:
+>>
+>> Joe Stringer <joe@wand.net.nz> writes:
+>> > Given the relative success of the process around bpf-helpers(7) to
+>> > encourage developers to document their user-facing changes, in this
+>> > patch series I explore applying this technique to bpf(2) as well.
+>> > Unfortunately, even with bpf(2) being so out-of-date, there is still a
+>> > lot of content to convert over. In particular, I've identified at least
+>> > the following aspects of the bpf syscall which could individually be
+>> > generated from separate documentation in the header:
+>> > * BPF syscall commands
+>> > * BPF map types
+>> > * BPF program types
+>> > * BPF attachment points
+>>
+>> Does this also include program subtypes (AKA expected_attach_type?)
+>
+> I seem to have left my lawyerly "including, but not limited to..."
+> language at home today ;-) . Of course, I can add that to the list.
 
-Thanks. Patch applied.
+Great, thanks! :)
 
-Cheers,
+-Toke
 
-Michael
-
-> ---
->  man2/epoll_wait.2 | 5 +++--
->  1 file changed, 3 insertions(+), 2 deletions(-)
-> 
-> diff --git a/man2/epoll_wait.2 b/man2/epoll_wait.2
-> index f941023c2..af4180df0 100644
-> --- a/man2/epoll_wait.2
-> +++ b/man2/epoll_wait.2
-> @@ -248,9 +248,10 @@ Library support is provided in glibc starting with version 2.6.
->  .BR epoll_pwait2 ()
->  was added to Linux in kernel 5.11.
->  .SH CONFORMING TO
-> -.BR epoll_wait ()
-> +.BR epoll_wait (),
-> +.BR epoll_pwait (),
->  and
-> -.BR epoll_pwait ()
-> +.BR epoll_pwait2 ()
->  are Linux-specific.
->  .SH NOTES
->  While one thread is blocked in a call to
-> 
-
-
--- 
-Michael Kerrisk
-Linux man-pages maintainer; http://www.kernel.org/doc/man-pages/
-Linux/UNIX System Programming Training: http://man7.org/training/
