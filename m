@@ -2,101 +2,128 @@ Return-Path: <linux-man-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-18.8 required=3.0 tests=BAYES_00,DKIM_SIGNED,
-	DKIM_VALID,DKIM_VALID_AU,HEADER_FROM_DIFFERENT_DOMAINS,INCLUDES_CR_TRAILER,
-	INCLUDES_PATCH,MAILING_LIST_MULTI,SPF_HELO_NONE,SPF_PASS,URIBL_BLOCKED,
-	USER_AGENT_GIT autolearn=ham autolearn_force=no version=3.4.0
+X-Spam-Status: No, score=-9.2 required=3.0 tests=BAYES_00,DKIM_SIGNED,
+	DKIM_VALID,DKIM_VALID_AU,FREEMAIL_FORGED_FROMDOMAIN,FREEMAIL_FROM,
+	HEADER_FROM_DIFFERENT_DOMAINS,MAILING_LIST_MULTI,MENTIONS_GIT_HOSTING,
+	SPF_HELO_NONE,SPF_PASS,URIBL_BLOCKED,USER_AGENT_SANE_1 autolearn=ham
+	autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id F138CC433E0
-	for <linux-man@archiver.kernel.org>; Fri, 19 Feb 2021 23:56:28 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 80EB7C433E0
+	for <linux-man@archiver.kernel.org>; Sat, 20 Feb 2021 09:31:02 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.kernel.org (Postfix) with ESMTP id ACEF064EC7
-	for <linux-man@archiver.kernel.org>; Fri, 19 Feb 2021 23:56:28 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTP id 5D05764ED7
+	for <linux-man@archiver.kernel.org>; Sat, 20 Feb 2021 09:31:02 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S229658AbhBSX42 (ORCPT <rfc822;linux-man@archiver.kernel.org>);
-        Fri, 19 Feb 2021 18:56:28 -0500
-Received: from out2-smtp.messagingengine.com ([66.111.4.26]:47187 "EHLO
-        out2-smtp.messagingengine.com" rhost-flags-OK-OK-OK-OK)
-        by vger.kernel.org with ESMTP id S229652AbhBSX41 (ORCPT
-        <rfc822;linux-man@vger.kernel.org>); Fri, 19 Feb 2021 18:56:27 -0500
-Received: from compute4.internal (compute4.nyi.internal [10.202.2.44])
-        by mailout.nyi.internal (Postfix) with ESMTP id 09C895C00FD;
-        Fri, 19 Feb 2021 18:55:22 -0500 (EST)
-Received: from mailfrontend1 ([10.202.2.162])
-  by compute4.internal (MEProxy); Fri, 19 Feb 2021 18:55:22 -0500
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=edef.eu; h=from
-        :to:cc:subject:date:message-id:in-reply-to:references
-        :mime-version:content-transfer-encoding; s=fm2; bh=R7yaX7+QT6Gna
-        reOTZsHUqKjd0naX5NiBKXVIg5xoug=; b=n7DPFZEpd8kw2rm6QUMjspJs+6SiK
-        pnmFihHF8U3mqkieCi0Yu1x0DR4vHCzElFM9Xj9utdZlJwsxkkUALVWLELtg/cSq
-        VPPYzElUPW2Jyi4w8IDQMKR7w7sMIEVcp1rSnsyoFSc1PdiQJAIpyDEvGoFugAX9
-        WHf7rllFvjj4kuoYVbHFX9UrpBy15qxL7Q+5x9TjX9jCaklHGIKAIyWO0RwG9bEA
-        Vh0r+3OiAVso6rEmb/Xa0FDwJQczBpDWFtKmBmactI39YZVrb6Z5wUD5ktlcdbqe
-        DHlwIBq5kQykG7a54WxIK/GrPpJ4IMssAyhfY/oSo64VJsNLS/xABis3g==
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=
-        messagingengine.com; h=cc:content-transfer-encoding:date:from
-        :in-reply-to:message-id:mime-version:references:subject:to
-        :x-me-proxy:x-me-proxy:x-me-sender:x-me-sender:x-sasl-enc; s=
-        fm2; bh=R7yaX7+QT6GnareOTZsHUqKjd0naX5NiBKXVIg5xoug=; b=s158T1q+
-        Txr5s6YINSVrGz4+bLz9+F4/PlCvrrtXNhBTuqrazkWuF9rDqghhwLWLhZHYJB7U
-        lv1ArVHEz3wRlNCNOOC3t9a9DzAebg0UqUk6v0NyIaRwlZliUuK9R82fzIOaWtEa
-        boR1P70fbl5UL+X+XqH2pIR0a7EirWpspT20XGFQkUVGVhQ6JMoRV4aKDJls+gIX
-        +34Yc2ryrMGAG+B+XaIWzucntOj1Z0GJkUTiT0KFHqpryQXuxHrDjWDkCvlY0GyO
-        uDk+X1uWq/ruSpBMunSdbd/ZLQlOGkVG16IjEqWI+lzySIzL5UgolVZW80bopMMf
-        7gbDxKnkKoznvw==
-X-ME-Sender: <xms:6U8wYEcuh6JVMjQS68eYehF2WJL8c34jKxTHptxaSc_aZFxyI6XLpg>
-    <xme:6U8wYGOajCpiq6e2Pr5Nz_AQEgeaF1tLSftXzm7N1cpoZ-foMNqRK0I-Mdg30qvMY
-    QCFM4ypnbzFsPnMFQ>
-X-ME-Proxy-Cause: gggruggvucftvghtrhhoucdtuddrgeduledrjeejgddugecutefuodetggdotefrodftvf
-    curfhrohhfihhlvgemucfhrghsthforghilhdpqfgfvfdpuffrtefokffrpgfnqfghnecu
-    uegrihhlohhuthemuceftddtnecunecujfgurhephffvufffkffojghfggfgsedtkeertd
-    ertddtnecuhfhrohhmpegvuggvfhcuoegvuggvfhesvgguvghfrdgvuheqnecuggftrfgr
-    thhtvghrnhepkeduvdevgeeufffgheehhfefgeelleduveejhfdugedthfffgefgvddvud
-    eggfehnecukfhppeduleehrddvtddurddvtdeirddujeefnecuvehluhhsthgvrhfuihii
-    vgeptdenucfrrghrrghmpehmrghilhhfrhhomhepvgguvghfsegvuggvfhdrvghu
-X-ME-Proxy: <xmx:6U8wYFgGN5WHKZO99R0P86ClhgSDFSXcMyG1JreuAXpBCCINtZvNIQ>
-    <xmx:6U8wYJ8vJGbVnVuG-HIeHp26YBs8_zgIxh6pzNsuquRkQiTwGTRonA>
-    <xmx:6U8wYAvlCAXIp7EfmO1z53CeNCjor22VGW-P5M88F-camn2Ws49VQQ>
-    <xmx:6k8wYG2WDSQVPFD5D06hLlrNFO6n-RzaMuoJgmxHjwundN0hPaht6Q>
-Received: from localhost (uhura.edef.eu [195.201.206.173])
-        by mail.messagingengine.com (Postfix) with ESMTPA id 8CD4A240057;
-        Fri, 19 Feb 2021 18:55:21 -0500 (EST)
-From:   edef <edef@edef.eu>
-To:     linux-man@vger.kernel.org
-Cc:     mtk.manpages@gmail.com, edef <edef@edef.eu>
-Subject: [PATCH] ptrace.2: tfix
-Date:   Fri, 19 Feb 2021 23:54:22 +0000
-Message-Id: <20210219235421.120078-1-edef@edef.eu>
-X-Mailer: git-send-email 2.21.0
-In-Reply-To: <20210219234906.117356-1-edef@edef.eu>
-References: <20210219234906.117356-1-edef@edef.eu>
+        id S229630AbhBTJbC (ORCPT <rfc822;linux-man@archiver.kernel.org>);
+        Sat, 20 Feb 2021 04:31:02 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:60602 "EHLO
+        lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S229542AbhBTJbB (ORCPT
+        <rfc822;linux-man@vger.kernel.org>); Sat, 20 Feb 2021 04:31:01 -0500
+Received: from mail-wr1-x42f.google.com (mail-wr1-x42f.google.com [IPv6:2a00:1450:4864:20::42f])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 350BCC061786
+        for <linux-man@vger.kernel.org>; Sat, 20 Feb 2021 01:30:20 -0800 (PST)
+Received: by mail-wr1-x42f.google.com with SMTP id n4so13044550wrx.1
+        for <linux-man@vger.kernel.org>; Sat, 20 Feb 2021 01:30:20 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20161025;
+        h=subject:references:to:cc:from:message-id:date:user-agent
+         :mime-version:in-reply-to:content-language:content-transfer-encoding;
+        bh=tjz4xss1+0ZI7pIzHHJ7TNuBHYheu5hpgEGaaPVJhRg=;
+        b=aE/B1nVa2fqUGYiL+xx1M8PygPNKnL2sLsiOW0LDwoY1fm9hvDeNIX5mvuc25R67cp
+         rlcuVaQw52kb6lwhdeaSp9/LqUEGBK/OpfqF+WwqXlwarGegaF1YbmVrJoT5GSac8Ewv
+         yORhIYgSWIy/srb/v2eOH+rzPx+Y3OcdYOZAkDQBsgfn9RMgftih0rPqO6EIkYBN+4Zy
+         ybuEm6DC79HonLuwOFT2vscuQOssVI86CFNK4ljZI5eWRpKmsrTY3vOwPNmywoTv9PiH
+         ZETJtHaabPZs9B9L+xggUDEspTIyqgvnSuA1TiymXq+FXIi/+etdepRb1NgQOWNpn9Zr
+         aX+g==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20161025;
+        h=x-gm-message-state:subject:references:to:cc:from:message-id:date
+         :user-agent:mime-version:in-reply-to:content-language
+         :content-transfer-encoding;
+        bh=tjz4xss1+0ZI7pIzHHJ7TNuBHYheu5hpgEGaaPVJhRg=;
+        b=tV3psawGZF9qxD2QYTkwDOToMi/Tw8ld0QcMfamiyr4Gh79acUfihmdbIDPZ2kfjWe
+         pSNQZ2g1vUdHdSAY4/lCLbT9MyiNTvBy4+P1oytMXg5VpkGKpCeieYNqfB+jYr/a13gd
+         Xz3fnv0bjJWe/1CEtKHIzKy+BR9Lz8mxOFSA1+CbVw9WuCjhwW8eWW2mg2aOynj210q2
+         qRuVQQE+Y0xNnJzh+sfVF9d0fWsPTxtjLIiBraTMGIb33kEqVd17Rs2LqOhyv2t/w82b
+         Z6rS5yMt7HKOpForPeHbBBzpaNVxIL1u/pthSIWbVQOh1AhL8ZiJ3In/afKWlMzJ9G/H
+         UJ4g==
+X-Gm-Message-State: AOAM531FOXDGHmvW8Ij2ky3Nqb8tVCYSUw0cVKsSwhPPjioK9fHeLzVW
+        SCzp6znjrSa/v51kdadDKDPEAUDQtD6rYw==
+X-Google-Smtp-Source: ABdhPJzct3ImEpIMhHiGJVs5MLBeao6ZbMb0ExG5kghHDNHzhEzvneqRHUfozJ18qAr+XAQOZord4A==
+X-Received: by 2002:a5d:4f12:: with SMTP id c18mr10407088wru.90.1613813418999;
+        Sat, 20 Feb 2021 01:30:18 -0800 (PST)
+Received: from [192.168.1.143] ([170.253.51.130])
+        by smtp.gmail.com with ESMTPSA id c12sm6203726wru.71.2021.02.20.01.30.18
+        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+        Sat, 20 Feb 2021 01:30:18 -0800 (PST)
+Subject: Fwd: exit: Bug reporting
+References: <268231613796665@mail.yandex.ru>
+To:     Dave Chupreev <cdn.dev@yandex.ru>
+Cc:     linux-man@vger.kernel.org,
+        "Michael Kerrisk (man-pages)" <mtk.manpages@gmail.com>
+From:   "Alejandro Colomar (man-pages)" <alx.manpages@gmail.com>
+X-Forwarded-Message-Id: <268231613796665@mail.yandex.ru>
+Message-ID: <4c169a8f-4368-3423-1af1-e7f6ba7df8b9@gmail.com>
+Date:   Sat, 20 Feb 2021 10:30:17 +0100
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
+ Thunderbird/78.7.1
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+In-Reply-To: <268231613796665@mail.yandex.ru>
+Content-Type: text/plain; charset=utf-8; format=flowed
+Content-Language: en-US
+Content-Transfer-Encoding: 7bit
 Precedence: bulk
 List-ID: <linux-man.vger.kernel.org>
 X-Mailing-List: linux-man@vger.kernel.org
 
-Signed-off-by: edef <edef@edef.eu>
----
-I seem to have forgotten my Signed-off-by in my original email,
-my apologies.
+I'll forward these 2 mails to the mailing list (and Michael (mtk) too; 
+maybe he can correct me).
 
- man2/ptrace.2 | 2 +-
- 1 file changed, 1 insertion(+), 1 deletion(-)
+I'll answer in a reply to this email.
 
-diff --git a/man2/ptrace.2 b/man2/ptrace.2
-index 17e415ba2..5245338ba 100644
---- a/man2/ptrace.2
-+++ b/man2/ptrace.2
-@@ -1052,7 +1052,7 @@ structure contains the following fields:
- .IP
- .in +4n
- .EX
--struct ptrace_syscal_info {
-+struct ptrace_syscall_info {
-     __u8 op;        /* Type of system call stop */
-     __u32 arch;     /* AUDIT_ARCH_* value; see seccomp(2) */
-     __u64 instruction_pointer; /* CPU instruction pointer */
--- 
-2.30.0
 
+-------- Forwarded Message --------
+Subject: 	Bug reporting
+Date: 	Sat, 20 Feb 2021 08:09:50 +0300
+From: 	Dave Chupreev <cdn.dev@yandex.ru>
+To: 	alx.manpages@gmail.com <alx.manpages@gmail.com>
+
+
+
+Hello, Alejandro.
+
+Pages this <https://man7.org/linux/man-pages/dir_section_2.html> and 
+this <https://man7.org/linux/man-pages/man2/syscalls.2.html> have 
+different count of 'exit' calls, 4 and 2 respectively.
+
+According to these pages 
+(<https://github.com/torvalds/linux/blob/v5.11/arch/x86/entry/syscalls/syscall_32.tbl>, 
+<https://github.com/torvalds/linux/blob/v5.11/arch/x86/entry/syscalls/syscall_64.tbl>), 
+there are only 2 system calls containing 'exit' - *exit* and 
+*exit_group*.  So it seems '_Exit' and '_exit' are redundant here 
+<https://man7.org/linux/man-pages/dir_section_2.html>. Please correct me 
+if I am wrong.
+
+Thanks in advance!
+
+-------- Forwarded Message --------
+Subject: 	Bug reporting
+Date: 	Sat, 20 Feb 2021 08:18:56 +0300
+From: 	Dave Chupreev <cdn.dev@yandex.ru>
+To: 	alx.manpages@gmail.com <alx.manpages@gmail.com>
+
+
+
+Hello, Alejandro.
+
+Entry exit(2) on this 
+<https://man7.org/linux/man-pages/dir_section_2.html> page directs to 
+page with _exit(2) in the header.
+According to these pages 
+(<https://github.com/torvalds/linux/blob/v5.11/arch/x86/entry/syscalls/syscall_32.tbl>, 
+<https://github.com/torvalds/linux/blob/v5.11/arch/x86/entry/syscalls/syscall_64.tbl>), 
+system call itself is called *exit* so it would be nice to fix the 
+header to avoid the confusion. Please correct me if I am wrong.
+
+Thanks in advance!
