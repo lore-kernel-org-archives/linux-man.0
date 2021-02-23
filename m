@@ -2,98 +2,88 @@ Return-Path: <linux-man-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-15.2 required=3.0 tests=BAYES_00,DKIM_SIGNED,
-	DKIM_VALID,HEADER_FROM_DIFFERENT_DOMAINS,INCLUDES_CR_TRAILER,
-	MAILING_LIST_MULTI,MENTIONS_GIT_HOSTING,NICE_REPLY_A,SPF_HELO_NONE,SPF_PASS,
-	URIBL_BLOCKED,USER_AGENT_SANE_1 autolearn=ham autolearn_force=no version=3.4.0
+X-Spam-Status: No, score=-10.8 required=3.0 tests=BAYES_00,DKIMWL_WL_HIGH,
+	DKIM_SIGNED,DKIM_VALID,DKIM_VALID_AU,HEADER_FROM_DIFFERENT_DOMAINS,
+	INCLUDES_PATCH,MAILING_LIST_MULTI,SPF_HELO_NONE,SPF_PASS autolearn=ham
+	autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id C3947C433E6
-	for <linux-man@archiver.kernel.org>; Mon, 22 Feb 2021 20:06:10 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 136B0C433DB
+	for <linux-man@archiver.kernel.org>; Tue, 23 Feb 2021 16:16:40 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.kernel.org (Postfix) with ESMTP id 80F5664DF2
-	for <linux-man@archiver.kernel.org>; Mon, 22 Feb 2021 20:06:10 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTP id ABB5364E3F
+	for <linux-man@archiver.kernel.org>; Tue, 23 Feb 2021 16:16:39 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S233395AbhBVUGF (ORCPT <rfc822;linux-man@archiver.kernel.org>);
-        Mon, 22 Feb 2021 15:06:05 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:46998 "EHLO
-        lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S230099AbhBVUGB (ORCPT
-        <rfc822;linux-man@vger.kernel.org>); Mon, 22 Feb 2021 15:06:01 -0500
-Received: from mail-io1-xd2e.google.com (mail-io1-xd2e.google.com [IPv6:2607:f8b0:4864:20::d2e])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 06C3BC06174A
-        for <linux-man@vger.kernel.org>; Mon, 22 Feb 2021 12:05:21 -0800 (PST)
-Received: by mail-io1-xd2e.google.com with SMTP id f20so14613958ioo.10
-        for <linux-man@vger.kernel.org>; Mon, 22 Feb 2021 12:05:21 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=kernel-dk.20150623.gappssmtp.com; s=20150623;
-        h=subject:to:references:from:message-id:date:user-agent:mime-version
-         :in-reply-to:content-language:content-transfer-encoding;
-        bh=m2NmaBXNLaZ7ex0MQETJN4rvqOPmFU4iJPR4O6mx6Kg=;
-        b=0azSo8T/cxGumzsc1LrnzItywsIkAPf6iiq2JuF0R451Ycosa+9paBBLSZpbrXXYlx
-         5aIA3cmLlDRsSROQEvU0KQOEm0wswqX2QyjLtpWfO/KUxmECP+5GG4jGjr+Jek+lSf+E
-         JgkzvDOVFZ50jiLr4uzNmEwx1n3491bq3pumXefaqzedh2uSljg04wqrgCbsjVveOHYm
-         CuXdkhoTn6zXiMG6nCjLqUDxVJra+f3f6imikG3EW06netg45Y842IfWGi3kZcWL1UNj
-         q6RrePBZDUKzBfS/yP9sUyPz94kqllSasvAPwFFLxrKwr6A9gH9/JhOLnEjbfXwpdrEY
-         WJOg==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20161025;
-        h=x-gm-message-state:subject:to:references:from:message-id:date
-         :user-agent:mime-version:in-reply-to:content-language
-         :content-transfer-encoding;
-        bh=m2NmaBXNLaZ7ex0MQETJN4rvqOPmFU4iJPR4O6mx6Kg=;
-        b=V7Hmpr1e3V+s40kJMQDNzIhYUDonxwTp4yQewvH9bRNV7TYtbFgzcZ3cevUqBG6ste
-         /iSdCQ6TANyAI3b8KcEkItc24M+gtnINxDeBhXWtD8uD64mNtLQLcO05ArEKcgJxSRjR
-         HU+wDkliRugA2vG7yneERYNH0h+zN3ZTQ4ZpfRARD3jooDg9ydbRnUIdonRYZfD7jxgQ
-         571agwd0vfmNoBzv46c3aMSebwCzOAr1j6x4XmSgs5iTbq7GqPGPBDirMi+Lf1U0nK6/
-         l27ZDPBjRrySou7Fe29u/vTZ+WXJhqOieQ1BqaZ/846yLgUZ1woCIurVXf2yEQelGvtI
-         i6iA==
-X-Gm-Message-State: AOAM530fA8BMcYAYMcX3YJoybr53NVytlk+c1z3QpYfVsnooNsh0fUwi
-        Too3MoOyChuQh9FCoyLIYd7/kXDjowf4jnpo
-X-Google-Smtp-Source: ABdhPJwMqLRvKGMKLXdN8x2h+F2G7vPTyRuSKYkA+zHi+6cSCbwqiMkU1ZiFTnzjkCos+n7XeUjWcQ==
-X-Received: by 2002:a5e:870f:: with SMTP id y15mr9446095ioj.68.1614024320219;
-        Mon, 22 Feb 2021 12:05:20 -0800 (PST)
-Received: from [192.168.1.30] ([65.144.74.34])
-        by smtp.gmail.com with ESMTPSA id s9sm12337236ilt.77.2021.02.22.12.05.19
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Mon, 22 Feb 2021 12:05:19 -0800 (PST)
-Subject: Re: [PATCH v3] man2/openat2.2: add RESOLVE_CACHED
-To:     "Michael Kerrisk (man-pages)" <mtk.manpages@gmail.com>,
-        linux-man <linux-man@vger.kernel.org>
-References: <51d86aa7-8a19-5457-6932-0bd3c746c4a6@kernel.dk>
- <38c96b3d-84b2-bebd-4163-27fd2b3295c1@gmail.com>
-From:   Jens Axboe <axboe@kernel.dk>
-Message-ID: <b0277762-1eda-7b13-1a40-2abb68ba1142@kernel.dk>
-Date:   Mon, 22 Feb 2021 13:05:19 -0700
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
- Thunderbird/68.10.0
+        id S233500AbhBWQQY (ORCPT <rfc822;linux-man@archiver.kernel.org>);
+        Tue, 23 Feb 2021 11:16:24 -0500
+Received: from us-smtp-delivery-124.mimecast.com ([63.128.21.124]:50151 "EHLO
+        us-smtp-delivery-124.mimecast.com" rhost-flags-OK-OK-OK-OK)
+        by vger.kernel.org with ESMTP id S233491AbhBWQQU (ORCPT
+        <rfc822;linux-man@vger.kernel.org>); Tue, 23 Feb 2021 11:16:20 -0500
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+        s=mimecast20190719; t=1614096892;
+        h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+         to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+         in-reply-to:in-reply-to:references:references;
+        bh=KeWt/IdGTJbN0yFn1dINL5p2N/1MlBP7qkRn7zeQuR0=;
+        b=MJQK13uTV5qZCVdmzZXz6qvW/0aus0B70VwZHnDZZgyBulOh5FWY+OC01eM9DSbMFfHemT
+        XarLX2jcLDfdPeITVBI5igVX5kZNtDX1a6EMX6rBLcJ5wKolcIos7QN3A2hcl4hCz5tKHV
+        urQiXl/udGuA8ck2t4h9oiOojobSbQw=
+Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
+ [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
+ us-mta-442-YAmqfG1jNpG7T0OnNp1QDw-1; Tue, 23 Feb 2021 11:14:49 -0500
+X-MC-Unique: YAmqfG1jNpG7T0OnNp1QDw-1
+Received: from smtp.corp.redhat.com (int-mx01.intmail.prod.int.phx2.redhat.com [10.5.11.11])
+        (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
+        (No client certificate requested)
+        by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 3326791271;
+        Tue, 23 Feb 2021 16:14:32 +0000 (UTC)
+Received: from oldenburg.str.redhat.com (ovpn-113-131.ams2.redhat.com [10.36.113.131])
+        by smtp.corp.redhat.com (Postfix) with ESMTPS id 16EBD722CE;
+        Tue, 23 Feb 2021 16:14:24 +0000 (UTC)
+From:   Florian Weimer <fweimer@redhat.com>
+To:     Piotr Figiel <figiel@google.com>
+Cc:     Andrew Morton <akpm@linux-foundation.org>,
+        mathieu.desnoyers@efficios.com, peterz@infradead.org,
+        paulmck@kernel.org, boqun.feng@gmail.com, oleg@redhat.com,
+        Alexey Dobriyan <adobriyan@gmail.com>,
+        Andrei Vagin <avagin@gmail.com>, linux-kernel@vger.kernel.org,
+        posk@google.com, kyurtsever@google.com, ckennelly@google.com,
+        pjt@google.com, emmir@google.com, linux-man@vger.kernel.org,
+        linux-api@vger.kernel.org
+Subject: Re: [PATCH] ptrace: add PTRACE_GET_RSEQ_CONFIGURATION request
+References: <20210222100443.4155938-1-figiel@google.com>
+Date:   Tue, 23 Feb 2021 17:15:08 +0100
+In-Reply-To: <20210222100443.4155938-1-figiel@google.com> (Piotr Figiel's
+        message of "Mon, 22 Feb 2021 11:04:43 +0100")
+Message-ID: <878s7ewyk3.fsf@oldenburg.str.redhat.com>
+User-Agent: Gnus/5.13 (Gnus v5.13) Emacs/27.1 (gnu/linux)
 MIME-Version: 1.0
-In-Reply-To: <38c96b3d-84b2-bebd-4163-27fd2b3295c1@gmail.com>
-Content-Type: text/plain; charset=utf-8
-Content-Language: en-US
-Content-Transfer-Encoding: 7bit
+Content-Type: text/plain
+X-Scanned-By: MIMEDefang 2.79 on 10.5.11.11
 Precedence: bulk
 List-ID: <linux-man.vger.kernel.org>
 X-Mailing-List: linux-man@vger.kernel.org
 
-On 2/22/21 1:01 PM, Michael Kerrisk (man-pages) wrote:
-> Hi Jens,
-> 
-> On 2/21/21 2:12 PM, Jens Axboe wrote:
->> RESOLVE_CACHED allows an application to attempt a cache-only open
->> of a file. If this isn't possible, the request will fail with
->> -1/EAGAIN and the caller should retry without RESOLVE_CACHED set.
->> This will generally happen from a different context, where a slower
->> open operation can be performed.
->>
->> Signed-off-by: Jens Axboe <axboe@kernel.dk>
-> 
-> Is it correct that this feature is now merged?
+* Piotr Figiel:
 
-Yes, it's in Linus's tree:
+> diff --git a/include/uapi/linux/ptrace.h b/include/uapi/linux/ptrace.h
+> index 83ee45fa634b..d54cf6b6ce7c 100644
+> --- a/include/uapi/linux/ptrace.h
+> +++ b/include/uapi/linux/ptrace.h
+> @@ -102,6 +102,14 @@ struct ptrace_syscall_info {
+>  	};
+>  };
+>  
+> +#define PTRACE_GET_RSEQ_CONFIGURATION	0x420f
+> +
+> +struct ptrace_rseq_configuration {
+> +	__u64 rseq_abi_pointer;
+> +	__u32 signature;
+> +	__u32 pad;
+> +};
 
-https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git/commit/fs/open.c?id=99668f618062816ca7ba639b007eb145b9d3d41e
+The flags and the structure size appear to be missing here.
 
-
--- 
-Jens Axboe
+Thanks,
+Florian
 
