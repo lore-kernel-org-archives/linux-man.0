@@ -2,113 +2,169 @@ Return-Path: <linux-man-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-15.7 required=3.0 tests=BAYES_00,DKIM_SIGNED,
+X-Spam-Status: No, score=-10.7 required=3.0 tests=BAYES_00,DKIM_SIGNED,
 	DKIM_VALID,DKIM_VALID_AU,FREEMAIL_FORGED_FROMDOMAIN,FREEMAIL_FROM,
-	HEADER_FROM_DIFFERENT_DOMAINS,INCLUDES_CR_TRAILER,INCLUDES_PATCH,
-	MAILING_LIST_MULTI,SPF_HELO_NONE,SPF_PASS,USER_AGENT_GIT autolearn=ham
-	autolearn_force=no version=3.4.0
+	HEADER_FROM_DIFFERENT_DOMAINS,INCLUDES_PATCH,MAILING_LIST_MULTI,SPF_HELO_NONE,
+	SPF_PASS,USER_AGENT_GIT autolearn=ham autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 531C6C433DB
-	for <linux-man@archiver.kernel.org>; Wed, 24 Feb 2021 15:44:26 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 8D70FC433E9
+	for <linux-man@archiver.kernel.org>; Wed, 24 Feb 2021 15:44:27 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.kernel.org (Postfix) with ESMTP id F373A64ED4
-	for <linux-man@archiver.kernel.org>; Wed, 24 Feb 2021 15:44:25 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTP id 340D564EDB
+	for <linux-man@archiver.kernel.org>; Wed, 24 Feb 2021 15:44:27 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S235469AbhBXPmD (ORCPT <rfc822;linux-man@archiver.kernel.org>);
-        Wed, 24 Feb 2021 10:42:03 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:59320 "EHLO
+        id S231815AbhBXPm2 (ORCPT <rfc822;linux-man@archiver.kernel.org>);
+        Wed, 24 Feb 2021 10:42:28 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:59312 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S237215AbhBXOs5 (ORCPT
+        with ESMTP id S237229AbhBXOs5 (ORCPT
         <rfc822;linux-man@vger.kernel.org>); Wed, 24 Feb 2021 09:48:57 -0500
-Received: from mail-wr1-x42a.google.com (mail-wr1-x42a.google.com [IPv6:2a00:1450:4864:20::42a])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 99CE7C061224
-        for <linux-man@vger.kernel.org>; Wed, 24 Feb 2021 06:43:59 -0800 (PST)
-Received: by mail-wr1-x42a.google.com with SMTP id w11so2119318wrr.10
-        for <linux-man@vger.kernel.org>; Wed, 24 Feb 2021 06:43:59 -0800 (PST)
+Received: from mail-wr1-x433.google.com (mail-wr1-x433.google.com [IPv6:2a00:1450:4864:20::433])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id B3EC8C06121F
+        for <linux-man@vger.kernel.org>; Wed, 24 Feb 2021 06:43:56 -0800 (PST)
+Received: by mail-wr1-x433.google.com with SMTP id w11so2119193wrr.10
+        for <linux-man@vger.kernel.org>; Wed, 24 Feb 2021 06:43:56 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=gmail.com; s=20161025;
-        h=from:to:cc:subject:date:message-id:in-reply-to:references
-         :mime-version:content-transfer-encoding;
-        bh=+LVqM39z5Vi/Hm5Z1pvnNB7gBSOEqh55CdFfDua3Q/Q=;
-        b=cUNQ8afsLAtJmmPnrf4qNIiQzjCNAm03K1XfI7+eil9gSCaG5nEaWpJRQA/OweLvkx
-         exjIJ4uu0X2CybRfpsT3Lejon2iQVbI0f8fmz7YEJ/uGGvs+g8I0Qj37Cb5U3JMTIwd6
-         jnAmaMKiCrdcWqMqDkmGoWFfPdBeE89Pg6rvrrz1fgWk8SBYwo4ZbC0bvq1YdpIXwlUB
-         ALB+F0rvH32cpK1GXfUGZK2hYhG1HEP3DEdJk3bWzJ8z70JEOStwHZZVooQI/OuBq7Ah
-         rPK5Ns/qMx8G/WubFrvt7Pcg33Gr3UR52xMt4q3pJ9MqyydMLZsk6o6cBbu72wDaD+Ru
-         jkTA==
+        h=from:to:cc:subject:date:message-id:mime-version
+         :content-transfer-encoding;
+        bh=YPIw+Ti+MmL7QJ49iCQL8RczSYBIls/uYGzpmyhKgCU=;
+        b=qOlklqtPe9cxWpry3KDC+zMK0lVd+Ph+nOdN8xVTt+h0O7YCbDCcwo37Yb728k2Qb7
+         8FFlA2LtZCB5GK6qLw3NmytccBasrjUbocGge7aqM1sSJYsAqg7wgHGQpLg0YNq68bx+
+         QN1mfk47S6LvGNpgRBJSDpJLDTK5tHBC+lIuOCuE6inXCvYvZv4AJ7Jl0Tam2JtyQS6d
+         RumcUb24CAkQ/v5Qw+0wnWk7DU0ZsT6d/z1VQs4SZXplfdXEXbnUIfMny2XsumluAd09
+         95/9pNHQywa7bOrDd6boHNIHdPQby4g22Y+PRZa6W/uByj5uaQx0d8oSdN6DA4S5xA2v
+         hsQQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
-        h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
-         :references:mime-version:content-transfer-encoding;
-        bh=+LVqM39z5Vi/Hm5Z1pvnNB7gBSOEqh55CdFfDua3Q/Q=;
-        b=ioxF4/V97MMgHTBmtLlBfvgsw8YUPnDn/YtEq86PwbgM906sLlc23gaH6Xh5tbto5B
-         1GgtzpQDfHopTSzRtW5ctSMEPR27nHu/zYnMmM0P8DkWRUDHGjbgL0HZQHru2+n8xWmM
-         hA+9s4p1ZFIzn9UYgoVjtTOyZjku1F2h7chzBhQF1bkMp0s5Vg0FX3V0FePghpt6N45/
-         xQpNY8xWBV6koWJ7j+B4YfvhSlmBOENdW0uLsi+vStUuMJlVglHZpv7tuOVWqujpSb0A
-         OSifoc/X9j1eJTukKMhLP3Z2B9T8LbRFtAPeosl1/qxmiscy6y+ovo94Np0koM6iH8J8
-         b0ng==
-X-Gm-Message-State: AOAM533XY5vdrOM910wSPhng0Th0Hn5biIywJqO3Qj+e2DFcYEnDcL1b
-        egdnO7sm+EDrs+m9s5w+Yxv7CsSpAao5cQ==
-X-Google-Smtp-Source: ABdhPJwYc7BUqFjTqB3kSYopZYYo7jTCvCRs+G1dSFiucUIyk7/N9pN5N1jMBLrxeSqiI8BB4aU/tw==
-X-Received: by 2002:a5d:660b:: with SMTP id n11mr16883114wru.280.1614177838484;
-        Wed, 24 Feb 2021 06:43:58 -0800 (PST)
+        h=x-gm-message-state:from:to:cc:subject:date:message-id:mime-version
+         :content-transfer-encoding;
+        bh=YPIw+Ti+MmL7QJ49iCQL8RczSYBIls/uYGzpmyhKgCU=;
+        b=WAVpL023UVOj1MwRLJcZw+rjo9W4fzZWH1aUxOJS9URcMgRdUIny9yVV82ovs6s/a3
+         /pJrAcPtjSXbVc4+AeT80J6oLtkhtm9FibSlL8oV/lWi4ORJ38cNqsimoLD7nSzVyDvQ
+         PscEI/ezh0yiNfKnAWDLapG+zDkqCKHOHVZ3a2WivCWF39J01ak+8YuGox1t5I1MTpyr
+         gZ7lUYA3ASGZxLHy5eFcDgtxSF+hVKwz+rF3w897ac1JxyJxTh7HMe4A2TFLo2Tw3G+/
+         Nij1fj1nUQ1AX4w2VgrX6BBGicmirtc5hel6CGtrYCX2qqGyYJebcHwoZtdKWeMuOu5L
+         7rpw==
+X-Gm-Message-State: AOAM530NGVic1Jf9veR9EZEXyZ5ZKiNb2aIwZTcv9pf8xz2taFhG21pm
+        EKvs/RIcL9gRt9qDAQHWdZo=
+X-Google-Smtp-Source: ABdhPJwkPHrxh2mXaCG3ZG6XKdQJZqCCohKUF7jZUP7fTBHhSg6GhM3B3ZBtfAOB4pUV6sWkYGbKpg==
+X-Received: by 2002:adf:9226:: with SMTP id 35mr32367891wrj.408.1614177835549;
+        Wed, 24 Feb 2021 06:43:55 -0800 (PST)
 Received: from localhost.localdomain ([170.253.51.130])
-        by smtp.googlemail.com with ESMTPSA id a5sm3990676wrs.35.2021.02.24.06.43.57
+        by smtp.googlemail.com with ESMTPSA id a5sm3990676wrs.35.2021.02.24.06.43.54
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Wed, 24 Feb 2021 06:43:58 -0800 (PST)
+        Wed, 24 Feb 2021 06:43:54 -0800 (PST)
 From:   Alejandro Colomar <alx.manpages@gmail.com>
 To:     mtk.manpages@gmail.com
 Cc:     Alejandro Colomar <alx.manpages@gmail.com>,
-        linux-man@vger.kernel.org
-Subject: [PATCH 04/20] memcpy.3: SYNOPSIS: Use 'restrict' in prototypes
-Date:   Wed, 24 Feb 2021 15:42:55 +0100
-Message-Id: <20210224144310.140649-5-alx.manpages@gmail.com>
+        linux-man@vger.kernel.org, Heinrich Schuchardt <xypron.glpk@gmx.de>
+Subject: [PATCH 00/20] man3: SYNOPSIS: Use 'restrict' in prototypes (batch 1)
+Date:   Wed, 24 Feb 2021 15:42:51 +0100
+Message-Id: <20210224144310.140649-1-alx.manpages@gmail.com>
 X-Mailer: git-send-email 2.30.1.721.g45526154a5
-In-Reply-To: <20210224144310.140649-1-alx.manpages@gmail.com>
-References: <20210224144310.140649-1-alx.manpages@gmail.com>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 Precedence: bulk
 List-ID: <linux-man.vger.kernel.org>
 X-Mailing-List: linux-man@vger.kernel.org
 
-POSIX specifies that the parameters of memcpy()
-shall be 'restrict'.  Glibc uses 'restrict' too.
-Let's use it here too.
+Hi Michael,
 
-It's especially important in memcpy(),
-as it's been a historical source of bugs.
+This are the first pages of man3 with 'restrict'.
+I'm sending you these already, becuase otherwise I'd accumulate
+too many patches in the end.
 
-......
+I have fixed from the first page until ftw.3.
 
-.../glibc$ grep_glibc_prototype memcpy
-posix/regex_internal.h:746:
-{
-  memcpy (dest, src, sizeof (bitset_t));
-string/string.h:43:
-extern void *memcpy (void *__restrict __dest, const void *__restrict __src,
-		     size_t __n) __THROW __nonnull ((1, 2));
-.../glibc$
+Spin off:
+	I found different terms for parameters that refer to a same thing
+	in different functions (usually a '[const] char *'):
+	 - filename
+	 - file
+	 - path
+	 - pathname
+	 - Maybe others; I don't know
 
-Signed-off-by: Alejandro Colomar <alx.manpages@gmail.com>
+	For 'FILE *' we have more or less the same,
+	although this one is much more standard (>90% use 'stream'):
+	 - stream
+	 - streamp
+	 - s
+	 - fp
+	 - file
+	 - filehandle
+	 - A few others in specific cases
+
+	What would you do about it?
+
+Thanks,
+
+Alex
+
 ---
- man3/memcpy.3 | 3 ++-
- 1 file changed, 2 insertions(+), 1 deletion(-)
 
-diff --git a/man3/memcpy.3 b/man3/memcpy.3
-index 523465ae8..369f9f9d0 100644
---- a/man3/memcpy.3
-+++ b/man3/memcpy.3
-@@ -35,7 +35,8 @@ memcpy \- copy memory area
- .nf
- .B #include <string.h>
- .PP
--.BI "void *memcpy(void *" dest ", const void *" src ", size_t " n );
-+.BI "void *memcpy(void *restrict " dest ", const void *restrict " src \
-+", size_t " n );
- .fi
- .SH DESCRIPTION
- The
+I'll copy here the commands again to find them easily next time.
+
+For reading the man_pages SYNOPSIS:
+
+.../linux/man-pages$ man_section man2 SYNOPSIS |less;
+
+For reading the glibc prototypes:
+
+.../gnu/glibc$ man_lsfunc ../../linux/man-pages/man2 \
+  |while read -r syscall; do
+          echo "=============================  ${syscall}";
+          grep_glibc_prototype ${syscall};
+  done \
+  |sed -e 's/\bextern //' -e 's/\b_*//g' \
+  |less;
+
+---
+Alejandro Colomar (20):
+  argz_add.3: SYNOPSIS: Use 'restrict' in prototypes
+  asprintf.3: SYNOPSIS: Use 'restrict' in prototypes
+  memccpy.3: SYNOPSIS: Use 'restrict' in prototypes
+  memcpy.3: SYNOPSIS: Use 'restrict' in prototypes
+  crypt.3: SYNOPSIS: Use 'restrict' in prototypes
+  ctime.3: SYNOPSIS: Use 'restrict' in prototypes
+  ctime.3: SYNOPSIS: Use 'restrict' in prototypes
+  dlinfo.3: SYNOPSIS: Use 'restrict' in prototypes
+  dlsym.3: SYNOPSIS: Use 'restrict' in prototypes; add missing 'const'
+    too
+  drand48_r.3: SYNOPSIS: Use 'restrict' in prototypes
+  ecvt_r.3: SYNOPSIS: Use 'restrict' in prototypes
+  ecvt.3: SYNOPSIS: Use 'restrict' in prototypes
+  envz_add.3: SYNOPSIS: Use 'restrict' in prototypes
+  fgetc.3: SYNOPSIS: Use 'restrict' in prototypes
+  fgetws.3: SYNOPSIS: Use 'restrict' in prototypes
+  fopencookie.3: SYNOPSIS: Use 'restrict' in prototypes
+  fopen.3: SYNOPSIS: Use 'restrict' in prototypes
+  fputws.3: SYNOPSIS: Use 'restrict' in prototypes
+  fread.3: SYNOPSIS: Use 'restrict' in prototypes
+  fseek.3: SYNOPSIS: Use 'restrict' in prototypes
+
+ man3/argz_add.3    | 41 +++++++++++++++++++++++------------------
+ man3/asprintf.3    |  5 +++--
+ man3/crypt.3       |  2 +-
+ man3/ctime.3       | 16 ++++++++++++----
+ man3/dlinfo.3      |  3 ++-
+ man3/dlsym.3       |  5 +++--
+ man3/drand48_r.3   | 22 ++++++++++++++--------
+ man3/ecvt.3        |  6 ++++--
+ man3/ecvt_r.3      | 18 ++++++++++--------
+ man3/envz_add.3    | 25 +++++++++++++------------
+ man3/fgetc.3       |  2 +-
+ man3/fgetws.3      |  3 ++-
+ man3/fopen.3       |  7 +++++--
+ man3/fopencookie.3 |  2 +-
+ man3/fputws.3      |  2 +-
+ man3/fread.3       |  9 +++++----
+ man3/fseek.3       |  2 +-
+ man3/memccpy.3     |  3 ++-
+ man3/memcpy.3      |  3 ++-
+ 19 files changed, 105 insertions(+), 71 deletions(-)
+
 -- 
 2.30.1.721.g45526154a5
 
