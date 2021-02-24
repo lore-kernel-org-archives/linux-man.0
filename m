@@ -8,61 +8,61 @@ X-Spam-Status: No, score=-15.7 required=3.0 tests=BAYES_00,DKIM_SIGNED,
 	MAILING_LIST_MULTI,SPF_HELO_NONE,SPF_PASS,USER_AGENT_GIT autolearn=ham
 	autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 91302C4332E
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 9DB3FC43332
 	for <linux-man@archiver.kernel.org>; Wed, 24 Feb 2021 15:44:51 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.kernel.org (Postfix) with ESMTP id 4CC1A64F04
+	by mail.kernel.org (Postfix) with ESMTP id 7788364F19
 	for <linux-man@archiver.kernel.org>; Wed, 24 Feb 2021 15:44:51 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S235781AbhBXPnf (ORCPT <rfc822;linux-man@archiver.kernel.org>);
-        Wed, 24 Feb 2021 10:43:35 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:59936 "EHLO
+        id S235807AbhBXPni (ORCPT <rfc822;linux-man@archiver.kernel.org>);
+        Wed, 24 Feb 2021 10:43:38 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:59940 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S237413AbhBXOtW (ORCPT
+        with ESMTP id S237424AbhBXOtW (ORCPT
         <rfc822;linux-man@vger.kernel.org>); Wed, 24 Feb 2021 09:49:22 -0500
-Received: from mail-wr1-x436.google.com (mail-wr1-x436.google.com [IPv6:2a00:1450:4864:20::436])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id BD3E8C0611C1
-        for <linux-man@vger.kernel.org>; Wed, 24 Feb 2021 06:44:02 -0800 (PST)
-Received: by mail-wr1-x436.google.com with SMTP id c7so2130850wru.8
-        for <linux-man@vger.kernel.org>; Wed, 24 Feb 2021 06:44:02 -0800 (PST)
+Received: from mail-wr1-x432.google.com (mail-wr1-x432.google.com [IPv6:2a00:1450:4864:20::432])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 345B1C0611C3
+        for <linux-man@vger.kernel.org>; Wed, 24 Feb 2021 06:44:04 -0800 (PST)
+Received: by mail-wr1-x432.google.com with SMTP id t15so2110386wrx.13
+        for <linux-man@vger.kernel.org>; Wed, 24 Feb 2021 06:44:04 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=gmail.com; s=20161025;
         h=from:to:cc:subject:date:message-id:in-reply-to:references
          :mime-version:content-transfer-encoding;
-        bh=nxcmPcwQNRFgJWnS6gdvMXWN/PssKBRPaTxnX9sSgec=;
-        b=BULOXpke7fUMOM1fIjnPjvqDhZ6XDfVQVX0/qNRauoxycoNXfDpLp89Kt5nsvDaksc
-         4qAMDQCyC2TPipv4NX/xsATAaYx6ULivgYIFTgt3GwwIPsdNxQSQMcdUrG2VJKqUN6Ku
-         0LwsOslhk6g12lchFIgeC7Gpxg/Pk7oHeT3NscyfYxY5Lr2eKfdOnPIXyH7tGKvFHYSm
-         /sXYxXmuAd3/2jH10jaNg/gBTX3Jx81BtFTDyPQgmd3y+wTvrdRXB5P0FYntEPovvq7i
-         TguQ5ah9csBbIie2NYsHXEIEC8Ot8ABhVCbmFkPkls1fSASm7JSEfiF3Rhm0WN2GlgSx
-         qs4w==
+        bh=VW3zVZshSFpBJG60uGM463FIgci7SpiCEdYBqYjCLWQ=;
+        b=VxvD7IbyognHdDI+DzmaBzNo7evpB4fNaspzel3ZTl14n4hmjwxb2qhzcwRsagHOI+
+         uz24Ugg6ZpXcfrkdUYZofgBvmJRv0BRvBQDRVxPllzWfaj7yK++kclRQ9wO4fSvo7NQ1
+         LSKJ7wPcK5sxVVebqbDZvqnsJw+OtO0qcphLnutlmzyOIqL0BIl2moRtiZe2fKEWL+ir
+         pe2OI+vh2gKQ9Jns/8xb8WuStEI5h+Cl3OZMdP/OP2osNiOrqlWF5gytTQuCcl92qG+j
+         6MvHXw6jtqOqYwoepbO37XQh1F1mv7h4O5Kist+k76rzGajWzrrrUmWeip8NuOFIh2c3
+         PuEA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
         h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
          :references:mime-version:content-transfer-encoding;
-        bh=nxcmPcwQNRFgJWnS6gdvMXWN/PssKBRPaTxnX9sSgec=;
-        b=oocIZXe64y5BAwvW/j5biviDqAchUtH/C1FZ7D2rwGMy6fsM11r1cTOoOpUBruvjIz
-         3op9BKTl0fzMDYBJak0GcyRXe6eha+J41ILYU/ibhQxMkwrtr4upoaQSp0wo1QI315+x
-         h/mv/u6wwJ7Y4do0lbTg+JSNrNYTef+31E+WM2ZqV2FHR/EZLDrD1LWTSBJqMSm+2epq
-         SxqBL+E0xHyk9gDgHHKGm+8h34LIb/1l6XHsu6F25tYpSD4iW6vgZzbl16FrogmMZP2q
-         BZ5aAxkyXK0L539CTkSUzKGXfxQGK6VTSTTiwybY/QppkPdCQme3sWSR6qqd3l/bq0Gg
-         L58A==
-X-Gm-Message-State: AOAM531/z9M1z06DtrhROYjmuAK5T9MtE9muaBYRoozAKCX2CSxL4MtM
-        peWhZiReaj1WIfbwP/8iIAuP3TdQsIbwBA==
-X-Google-Smtp-Source: ABdhPJzLA+XSTEmwx3q0ANjzxkeYz6UczqjMtb6ouWCmWK040fqysBuAxO9bbjZur73SmAay4tz0OQ==
-X-Received: by 2002:a5d:6b89:: with SMTP id n9mr31907553wrx.74.1614177841626;
-        Wed, 24 Feb 2021 06:44:01 -0800 (PST)
+        bh=VW3zVZshSFpBJG60uGM463FIgci7SpiCEdYBqYjCLWQ=;
+        b=RqA0V0sVO91LdEEEJ7i2K5kIOCoL/H2BcKg+Ct2PsuWFdy8nYl0lwWJTbExuog7ze1
+         s2UyCeoiEsNy+K/gLZQ9cXHJG3HSlAah8PqCZTa0REjHfyY08mhPqUbTY9T6T4uxhepT
+         kEVbnjWiD3cixV9ocgwZJnXPivmSL4DwHejuuv7ENNh6RPGBCdIEiSsW2hHy71zzdCAa
+         RIcyb4bST8NmekUK5Q6v8mWPzaJkoiUfapDZrP6A6ltfzDDOSi4XtLLMLzrlllWmHeWQ
+         le4hl9ECJqCA4a4Okdt5c8QSp7aO/trGSpX8hXpKiQZ/DNppRoVZyiv6fMu6jrAlDCSj
+         vCCg==
+X-Gm-Message-State: AOAM530A6pnk8/z7CA8XGWQ18rxTuFkSO8/w/wf135tqfu1EFq1QkEO3
+        PGLWV0sPWLFQsUgyzzSn1uI=
+X-Google-Smtp-Source: ABdhPJzXmaAgWO9LjM0lVt6nhhnThRIZOWGMwaMQWkmKo0fWq1Ic8J5DOls3aQJxrfYzjqK6f6sCHQ==
+X-Received: by 2002:a5d:658b:: with SMTP id q11mr29538185wru.132.1614177843051;
+        Wed, 24 Feb 2021 06:44:03 -0800 (PST)
 Received: from localhost.localdomain ([170.253.51.130])
-        by smtp.googlemail.com with ESMTPSA id a5sm3990676wrs.35.2021.02.24.06.44.00
+        by smtp.googlemail.com with ESMTPSA id a5sm3990676wrs.35.2021.02.24.06.44.02
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Wed, 24 Feb 2021 06:44:01 -0800 (PST)
+        Wed, 24 Feb 2021 06:44:02 -0800 (PST)
 From:   Alejandro Colomar <alx.manpages@gmail.com>
 To:     mtk.manpages@gmail.com
 Cc:     Alejandro Colomar <alx.manpages@gmail.com>,
         linux-man@vger.kernel.org
-Subject: [PATCH 08/20] dlinfo.3: SYNOPSIS: Use 'restrict' in prototypes
-Date:   Wed, 24 Feb 2021 15:42:59 +0100
-Message-Id: <20210224144310.140649-9-alx.manpages@gmail.com>
+Subject: [PATCH 10/20] drand48_r.3: SYNOPSIS: Use 'restrict' in prototypes
+Date:   Wed, 24 Feb 2021 15:43:01 +0100
+Message-Id: <20210224144310.140649-11-alx.manpages@gmail.com>
 X-Mailer: git-send-email 2.30.1.721.g45526154a5
 In-Reply-To: <20210224144310.140649-1-alx.manpages@gmail.com>
 References: <20210224144310.140649-1-alx.manpages@gmail.com>
@@ -72,37 +72,100 @@ Precedence: bulk
 List-ID: <linux-man.vger.kernel.org>
 X-Mailing-List: linux-man@vger.kernel.org
 
-Glibc uses 'restrict' for dlinfo().
+Glibc uses 'restrict' for some of the functions in this page:
+
+=============================  drand48_r
+stdlib/stdlib.h:501:
+int drand48_r (struct drand48_data *restrict buffer,
+                      double *restrict result) THROW nonnull ((1, 2));
+=============================  erand48_r
+stdlib/stdlib.h:503:
+int erand48_r (unsigned short int xsubi[3],
+                      struct drand48_data *restrict buffer,
+                      double *restrict result) THROW nonnull ((1, 2));
+=============================  lrand48_r
+stdlib/stdlib.h:508:
+int lrand48_r (struct drand48_data *restrict buffer,
+                      long int *restrict result)
+     THROW nonnull ((1, 2));
+=============================  nrand48_r
+stdlib/stdlib.h:511:
+int nrand48_r (unsigned short int xsubi[3],
+                      struct drand48_data *restrict buffer,
+                      long int *restrict result)
+     THROW nonnull ((1, 2));
+=============================  mrand48_r
+stdlib/stdlib.h:517:
+int mrand48_r (struct drand48_data *restrict buffer,
+                      long int *restrict result)
+     THROW nonnull ((1, 2));
+=============================  jrand48_r
+stdlib/stdlib.h:520:
+int jrand48_r (unsigned short int xsubi[3],
+                      struct drand48_data *restrict buffer,
+                      long int *restrict result)
+     THROW nonnull ((1, 2));
+=============================  srand48_r
+stdlib/stdlib.h:526:
+int srand48_r (long int seedval, struct drand48_data *buffer)
+     THROW nonnull ((2));
+=============================  seed48_r
+stdlib/stdlib.h:529:
+int seed48_r (unsigned short int seed16v[3],
+                     struct drand48_data *buffer) THROW nonnull ((1, 2));
+=============================  lcong48_r
+stdlib/stdlib.h:532:
+int lcong48_r (unsigned short int param[7],
+                      struct drand48_data *buffer)
+     THROW nonnull ((1, 2));
+
 Let's use it here too.
-
-......
-
-.../glibc$ grep_glibc_prototype dlinfo
-dlfcn/dlfcn.h:123:
-extern int dlinfo (void *__restrict __handle,
-		   int __request, void *__restrict __arg)
-     __THROW __nonnull ((1, 3));
-.../glibc$
 
 Signed-off-by: Alejandro Colomar <alx.manpages@gmail.com>
 ---
- man3/dlinfo.3 | 3 ++-
- 1 file changed, 2 insertions(+), 1 deletion(-)
+ man3/drand48_r.3 | 22 ++++++++++++++--------
+ 1 file changed, 14 insertions(+), 8 deletions(-)
 
-diff --git a/man3/dlinfo.3 b/man3/dlinfo.3
-index 194f106ad..b75242f13 100644
---- a/man3/dlinfo.3
-+++ b/man3/dlinfo.3
-@@ -31,7 +31,8 @@ dlinfo \- obtain information about a dynamically loaded object
- .B #include <link.h>
- .B #include <dlfcn.h>
+diff --git a/man3/drand48_r.3 b/man3/drand48_r.3
+index b2209c5b8..9203498f4 100644
+--- a/man3/drand48_r.3
++++ b/man3/drand48_r.3
+@@ -33,21 +33,27 @@ srand48_r, seed48_r, lcong48_r
+ .nf
+ .B #include <stdlib.h>
  .PP
--.BR "int dlinfo(void *" handle ", int " request ", void *" info );
-+.BR "int dlinfo(void *restrict " handle ", int " request \
-+", void *restrict " info );
+-.BI "int drand48_r(struct drand48_data *" buffer ", double *" result );
++.BI "int drand48_r(struct drand48_data *restrict " buffer ,
++.BI "              double *restrict " result );
+ .BI "int erand48_r(unsigned short " xsubi [3] ","
+-.BI "              struct drand48_data *"buffer ", double *" result ");"
++.BI "              struct drand48_data *restrict "buffer ,
++.BI "              double *restrict " result ");"
  .PP
- Link with \fI\-ldl\fP.
+-.BI "int lrand48_r(struct drand48_data *" buffer ", long *" result );
++.BI "int lrand48_r(struct drand48_data *restrict " buffer ,
++.BI "              long *restrict " result );
+ .BI "int nrand48_r(unsigned short " xsubi[3] ","
+-.BI "              struct drand48_data *"buffer ", long *" result ");"
++.BI "              struct drand48_data *restrict "buffer ,
++.BI "              long *restrict " result ");"
+ .PP
+-.BI "int mrand48_r(struct drand48_data *" buffer ",long *" result ");"
++.BI "int mrand48_r(struct drand48_data *restrict " buffer ,
++.BI "              long *restrict " result ");"
+ .BI "int jrand48_r(unsigned short " xsubi[3] ","
+-.BI "              struct drand48_data *" buffer ", long *" result ");"
++.BI "              struct drand48_data *restrict " buffer ,
++.BI "              long *restrict " result ");"
+ .PP
+ .BI "int srand48_r(long int " seedval ", struct drand48_data *" buffer ");"
+-.BI "int seed48_r(unsigned short " seed16v[3] ", struct drand48_data *" buffer ");"
+-.BI "int lcong48_r(unsigned short " param[7] ", struct drand48_data *" buffer ");"
++.BI "int seed48_r(unsigned short " seed16v[3] ", struct drand48_data *" buffer );
++.BI "int lcong48_r(unsigned short " param[7] ", struct drand48_data *" buffer );
  .fi
+ .PP
+ .RS -4
 -- 
 2.30.1.721.g45526154a5
 
