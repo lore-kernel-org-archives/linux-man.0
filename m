@@ -2,169 +2,114 @@ Return-Path: <linux-man-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-10.7 required=3.0 tests=BAYES_00,DKIM_SIGNED,
+X-Spam-Status: No, score=-15.7 required=3.0 tests=BAYES_00,DKIM_SIGNED,
 	DKIM_VALID,DKIM_VALID_AU,FREEMAIL_FORGED_FROMDOMAIN,FREEMAIL_FROM,
-	HEADER_FROM_DIFFERENT_DOMAINS,INCLUDES_PATCH,MAILING_LIST_MULTI,SPF_HELO_NONE,
-	SPF_PASS,USER_AGENT_GIT autolearn=ham autolearn_force=no version=3.4.0
+	HEADER_FROM_DIFFERENT_DOMAINS,INCLUDES_CR_TRAILER,INCLUDES_PATCH,
+	MAILING_LIST_MULTI,SPF_HELO_NONE,SPF_PASS,USER_AGENT_GIT autolearn=ham
+	autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 8D70FC433E9
-	for <linux-man@archiver.kernel.org>; Wed, 24 Feb 2021 15:44:27 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 691BAC433E0
+	for <linux-man@archiver.kernel.org>; Wed, 24 Feb 2021 15:44:50 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.kernel.org (Postfix) with ESMTP id 340D564EDB
-	for <linux-man@archiver.kernel.org>; Wed, 24 Feb 2021 15:44:27 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTP id 190C764ED3
+	for <linux-man@archiver.kernel.org>; Wed, 24 Feb 2021 15:44:50 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S231815AbhBXPm2 (ORCPT <rfc822;linux-man@archiver.kernel.org>);
-        Wed, 24 Feb 2021 10:42:28 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:59312 "EHLO
+        id S235612AbhBXPmu (ORCPT <rfc822;linux-man@archiver.kernel.org>);
+        Wed, 24 Feb 2021 10:42:50 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:59310 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S237229AbhBXOs5 (ORCPT
+        with ESMTP id S237224AbhBXOs5 (ORCPT
         <rfc822;linux-man@vger.kernel.org>); Wed, 24 Feb 2021 09:48:57 -0500
-Received: from mail-wr1-x433.google.com (mail-wr1-x433.google.com [IPv6:2a00:1450:4864:20::433])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id B3EC8C06121F
-        for <linux-man@vger.kernel.org>; Wed, 24 Feb 2021 06:43:56 -0800 (PST)
-Received: by mail-wr1-x433.google.com with SMTP id w11so2119193wrr.10
-        for <linux-man@vger.kernel.org>; Wed, 24 Feb 2021 06:43:56 -0800 (PST)
+Received: from mail-wr1-x435.google.com (mail-wr1-x435.google.com [IPv6:2a00:1450:4864:20::435])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 1EE15C061222
+        for <linux-man@vger.kernel.org>; Wed, 24 Feb 2021 06:43:58 -0800 (PST)
+Received: by mail-wr1-x435.google.com with SMTP id u14so2145310wri.3
+        for <linux-man@vger.kernel.org>; Wed, 24 Feb 2021 06:43:58 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=gmail.com; s=20161025;
-        h=from:to:cc:subject:date:message-id:mime-version
-         :content-transfer-encoding;
-        bh=YPIw+Ti+MmL7QJ49iCQL8RczSYBIls/uYGzpmyhKgCU=;
-        b=qOlklqtPe9cxWpry3KDC+zMK0lVd+Ph+nOdN8xVTt+h0O7YCbDCcwo37Yb728k2Qb7
-         8FFlA2LtZCB5GK6qLw3NmytccBasrjUbocGge7aqM1sSJYsAqg7wgHGQpLg0YNq68bx+
-         QN1mfk47S6LvGNpgRBJSDpJLDTK5tHBC+lIuOCuE6inXCvYvZv4AJ7Jl0Tam2JtyQS6d
-         RumcUb24CAkQ/v5Qw+0wnWk7DU0ZsT6d/z1VQs4SZXplfdXEXbnUIfMny2XsumluAd09
-         95/9pNHQywa7bOrDd6boHNIHdPQby4g22Y+PRZa6W/uByj5uaQx0d8oSdN6DA4S5xA2v
-         hsQQ==
+        h=from:to:cc:subject:date:message-id:in-reply-to:references
+         :mime-version:content-transfer-encoding;
+        bh=nP/woCBr8mCN56szOZ4HeeptmFchB1r923AKGMpG9DE=;
+        b=rVC+Tr4pyS9/apeMSNwhbjCq9pBp523cDndPuIl6AeyeTvJV9pudMYAvPfbJgBa/UN
+         GhUxnK6t7d0JORzYaboXHVQytLO9Ebox/ECQkRSYn0LCRUCff/XPYzIVklgP9xLczUch
+         dmMueUFA3kh/mRmMsQNG0zW4Hk2j5IkvZWoJbkdZwTl6xPLMbs/b0mQVP+x7z52MBdSg
+         D1cSTj/pPCTb4YuSE+rUnOCzXwcNJA3sLCRHZ7NUbjqjQals2TA5oZBPEGPQ8NnvWeFO
+         X11WCJTUqFg551aL28k3qzN9Q2uNj7DwHniqsIBeuZQZFa/UPPKeuP+aiuPAMUaqtGO2
+         uXpg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
-        h=x-gm-message-state:from:to:cc:subject:date:message-id:mime-version
-         :content-transfer-encoding;
-        bh=YPIw+Ti+MmL7QJ49iCQL8RczSYBIls/uYGzpmyhKgCU=;
-        b=WAVpL023UVOj1MwRLJcZw+rjo9W4fzZWH1aUxOJS9URcMgRdUIny9yVV82ovs6s/a3
-         /pJrAcPtjSXbVc4+AeT80J6oLtkhtm9FibSlL8oV/lWi4ORJ38cNqsimoLD7nSzVyDvQ
-         PscEI/ezh0yiNfKnAWDLapG+zDkqCKHOHVZ3a2WivCWF39J01ak+8YuGox1t5I1MTpyr
-         gZ7lUYA3ASGZxLHy5eFcDgtxSF+hVKwz+rF3w897ac1JxyJxTh7HMe4A2TFLo2Tw3G+/
-         Nij1fj1nUQ1AX4w2VgrX6BBGicmirtc5hel6CGtrYCX2qqGyYJebcHwoZtdKWeMuOu5L
-         7rpw==
-X-Gm-Message-State: AOAM530NGVic1Jf9veR9EZEXyZ5ZKiNb2aIwZTcv9pf8xz2taFhG21pm
-        EKvs/RIcL9gRt9qDAQHWdZo=
-X-Google-Smtp-Source: ABdhPJwkPHrxh2mXaCG3ZG6XKdQJZqCCohKUF7jZUP7fTBHhSg6GhM3B3ZBtfAOB4pUV6sWkYGbKpg==
-X-Received: by 2002:adf:9226:: with SMTP id 35mr32367891wrj.408.1614177835549;
-        Wed, 24 Feb 2021 06:43:55 -0800 (PST)
+        h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
+         :references:mime-version:content-transfer-encoding;
+        bh=nP/woCBr8mCN56szOZ4HeeptmFchB1r923AKGMpG9DE=;
+        b=D8jqip8EvnvsHy3IGFpduqZ5rxSNJlFdp3xeifImjl9MKTHU5Z0JPwpEcAhCuP2ozD
+         4Pk/EdNSazO7bHgTYPxHrCzDTDAMrI6uRjGwrVXg33eWSREYwK0whC9V4sLxl5HAwgRu
+         Ev4x5ODsDHGOPiWx5+Q5oiv3zv3lBluKfoFSgBiTXzH4Hib5V/aPJ9rQTIIQQbJi9wcG
+         fYu085OiyvK6RC+NO+j7IXYFW4uHPaQsAyCm5eOGUbQyJXIwyvSU31MzVkfU/3xdfsmU
+         J8kp41Q9BmLpqYLZqnaugJJHDcaM0xyiQmTyb3ClvXsyolAkmPCfRFUvj07dJOPfCuQF
+         rVzg==
+X-Gm-Message-State: AOAM532CRAv2UQxlZjaL8WeSQYkgvIrPMLTqyC9jq9ZkvX2wlywgNs4K
+        JHniW+DgC6Fc2u3U9jlwFwE=
+X-Google-Smtp-Source: ABdhPJybld4HZjz8wMn9xWejA9K3CJQS52WWXtNs0v1AUIVDSkribHjbA3MR0LOhecqG2wgwU5visQ==
+X-Received: by 2002:a5d:4905:: with SMTP id x5mr8233117wrq.201.1614177836970;
+        Wed, 24 Feb 2021 06:43:56 -0800 (PST)
 Received: from localhost.localdomain ([170.253.51.130])
-        by smtp.googlemail.com with ESMTPSA id a5sm3990676wrs.35.2021.02.24.06.43.54
+        by smtp.googlemail.com with ESMTPSA id a5sm3990676wrs.35.2021.02.24.06.43.56
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Wed, 24 Feb 2021 06:43:54 -0800 (PST)
+        Wed, 24 Feb 2021 06:43:56 -0800 (PST)
 From:   Alejandro Colomar <alx.manpages@gmail.com>
 To:     mtk.manpages@gmail.com
 Cc:     Alejandro Colomar <alx.manpages@gmail.com>,
-        linux-man@vger.kernel.org, Heinrich Schuchardt <xypron.glpk@gmx.de>
-Subject: [PATCH 00/20] man3: SYNOPSIS: Use 'restrict' in prototypes (batch 1)
-Date:   Wed, 24 Feb 2021 15:42:51 +0100
-Message-Id: <20210224144310.140649-1-alx.manpages@gmail.com>
+        linux-man@vger.kernel.org
+Subject: [PATCH 02/20] asprintf.3: SYNOPSIS: Use 'restrict' in prototypes
+Date:   Wed, 24 Feb 2021 15:42:53 +0100
+Message-Id: <20210224144310.140649-3-alx.manpages@gmail.com>
 X-Mailer: git-send-email 2.30.1.721.g45526154a5
+In-Reply-To: <20210224144310.140649-1-alx.manpages@gmail.com>
+References: <20210224144310.140649-1-alx.manpages@gmail.com>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 Precedence: bulk
 List-ID: <linux-man.vger.kernel.org>
 X-Mailing-List: linux-man@vger.kernel.org
 
-Hi Michael,
+Glibc uses 'restrict' for [v]asprintf().
+Let's use it here too.
 
-This are the first pages of man3 with 'restrict'.
-I'm sending you these already, becuase otherwise I'd accumulate
-too many patches in the end.
+......
 
-I have fixed from the first page until ftw.3.
+.../glibc$ grep_glibc_prototype asprintf
+libio/stdio.h:372:
+extern int asprintf (char **__restrict __ptr,
+		     const char *__restrict __fmt, ...)
+     __THROWNL __attribute__ ((__format__ (__printf__, 2, 3))) __wur;
+.../glibc$ grep_glibc_prototype vasprintf
+libio/stdio.h:366:
+extern int vasprintf (char **__restrict __ptr, const char *__restrict __f,
+		      __gnuc_va_list __arg)
+     __THROWNL __attribute__ ((__format__ (__printf__, 2, 0))) __wur;
+.../glibc$
 
-Spin off:
-	I found different terms for parameters that refer to a same thing
-	in different functions (usually a '[const] char *'):
-	 - filename
-	 - file
-	 - path
-	 - pathname
-	 - Maybe others; I don't know
-
-	For 'FILE *' we have more or less the same,
-	although this one is much more standard (>90% use 'stream'):
-	 - stream
-	 - streamp
-	 - s
-	 - fp
-	 - file
-	 - filehandle
-	 - A few others in specific cases
-
-	What would you do about it?
-
-Thanks,
-
-Alex
-
+Signed-off-by: Alejandro Colomar <alx.manpages@gmail.com>
 ---
+ man3/asprintf.3 | 5 +++--
+ 1 file changed, 3 insertions(+), 2 deletions(-)
 
-I'll copy here the commands again to find them easily next time.
-
-For reading the man_pages SYNOPSIS:
-
-.../linux/man-pages$ man_section man2 SYNOPSIS |less;
-
-For reading the glibc prototypes:
-
-.../gnu/glibc$ man_lsfunc ../../linux/man-pages/man2 \
-  |while read -r syscall; do
-          echo "=============================  ${syscall}";
-          grep_glibc_prototype ${syscall};
-  done \
-  |sed -e 's/\bextern //' -e 's/\b_*//g' \
-  |less;
-
----
-Alejandro Colomar (20):
-  argz_add.3: SYNOPSIS: Use 'restrict' in prototypes
-  asprintf.3: SYNOPSIS: Use 'restrict' in prototypes
-  memccpy.3: SYNOPSIS: Use 'restrict' in prototypes
-  memcpy.3: SYNOPSIS: Use 'restrict' in prototypes
-  crypt.3: SYNOPSIS: Use 'restrict' in prototypes
-  ctime.3: SYNOPSIS: Use 'restrict' in prototypes
-  ctime.3: SYNOPSIS: Use 'restrict' in prototypes
-  dlinfo.3: SYNOPSIS: Use 'restrict' in prototypes
-  dlsym.3: SYNOPSIS: Use 'restrict' in prototypes; add missing 'const'
-    too
-  drand48_r.3: SYNOPSIS: Use 'restrict' in prototypes
-  ecvt_r.3: SYNOPSIS: Use 'restrict' in prototypes
-  ecvt.3: SYNOPSIS: Use 'restrict' in prototypes
-  envz_add.3: SYNOPSIS: Use 'restrict' in prototypes
-  fgetc.3: SYNOPSIS: Use 'restrict' in prototypes
-  fgetws.3: SYNOPSIS: Use 'restrict' in prototypes
-  fopencookie.3: SYNOPSIS: Use 'restrict' in prototypes
-  fopen.3: SYNOPSIS: Use 'restrict' in prototypes
-  fputws.3: SYNOPSIS: Use 'restrict' in prototypes
-  fread.3: SYNOPSIS: Use 'restrict' in prototypes
-  fseek.3: SYNOPSIS: Use 'restrict' in prototypes
-
- man3/argz_add.3    | 41 +++++++++++++++++++++++------------------
- man3/asprintf.3    |  5 +++--
- man3/crypt.3       |  2 +-
- man3/ctime.3       | 16 ++++++++++++----
- man3/dlinfo.3      |  3 ++-
- man3/dlsym.3       |  5 +++--
- man3/drand48_r.3   | 22 ++++++++++++++--------
- man3/ecvt.3        |  6 ++++--
- man3/ecvt_r.3      | 18 ++++++++++--------
- man3/envz_add.3    | 25 +++++++++++++------------
- man3/fgetc.3       |  2 +-
- man3/fgetws.3      |  3 ++-
- man3/fopen.3       |  7 +++++--
- man3/fopencookie.3 |  2 +-
- man3/fputws.3      |  2 +-
- man3/fread.3       |  9 +++++----
- man3/fseek.3       |  2 +-
- man3/memccpy.3     |  3 ++-
- man3/memcpy.3      |  3 ++-
- 19 files changed, 105 insertions(+), 71 deletions(-)
-
+diff --git a/man3/asprintf.3 b/man3/asprintf.3
+index b682a7793..d09c2437e 100644
+--- a/man3/asprintf.3
++++ b/man3/asprintf.3
+@@ -32,8 +32,9 @@ asprintf, vasprintf \- print to allocated string
+ .BR "#define _GNU_SOURCE" "         /* See feature_test_macros(7) */"
+ .B #include <stdio.h>
+ .PP
+-.BI "int asprintf(char **" strp ", const char *" fmt ", ...);"
+-.BI "int vasprintf(char **" strp ", const char *" fmt ", va_list " ap );
++.BI "int asprintf(char **restrict " strp ", const char *restrict " fmt ", ...);"
++.BI "int vasprintf(char **restrict " strp ", const char *restrict " fmt ,
++.BI "              va_list " ap );
+ .fi
+ .SH DESCRIPTION
+ The functions
 -- 
 2.30.1.721.g45526154a5
 
