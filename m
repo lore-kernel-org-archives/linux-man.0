@@ -8,61 +8,61 @@ X-Spam-Status: No, score=-15.7 required=3.0 tests=BAYES_00,DKIM_SIGNED,
 	MAILING_LIST_MULTI,SPF_HELO_NONE,SPF_PASS,USER_AGENT_GIT autolearn=ham
 	autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id F3689C433E0
+	by smtp.lore.kernel.org (Postfix) with ESMTP id CF6DCC43603
 	for <linux-man@archiver.kernel.org>; Wed, 24 Feb 2021 15:44:52 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.kernel.org (Postfix) with ESMTP id C7B8264ED3
+	by mail.kernel.org (Postfix) with ESMTP id A461264ED4
 	for <linux-man@archiver.kernel.org>; Wed, 24 Feb 2021 15:44:52 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S235926AbhBXPoO (ORCPT <rfc822;linux-man@archiver.kernel.org>);
-        Wed, 24 Feb 2021 10:44:14 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:60388 "EHLO
+        id S235915AbhBXPoN (ORCPT <rfc822;linux-man@archiver.kernel.org>);
+        Wed, 24 Feb 2021 10:44:13 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:60382 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S238369AbhBXOvV (ORCPT
-        <rfc822;linux-man@vger.kernel.org>); Wed, 24 Feb 2021 09:51:21 -0500
-Received: from mail-wm1-x329.google.com (mail-wm1-x329.google.com [IPv6:2a00:1450:4864:20::329])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 905EAC061A29
-        for <linux-man@vger.kernel.org>; Wed, 24 Feb 2021 06:44:08 -0800 (PST)
-Received: by mail-wm1-x329.google.com with SMTP id u187so88555wmg.4
-        for <linux-man@vger.kernel.org>; Wed, 24 Feb 2021 06:44:08 -0800 (PST)
+        with ESMTP id S238368AbhBXOvU (ORCPT
+        <rfc822;linux-man@vger.kernel.org>); Wed, 24 Feb 2021 09:51:20 -0500
+Received: from mail-wr1-x42e.google.com (mail-wr1-x42e.google.com [IPv6:2a00:1450:4864:20::42e])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 13C9FC061A27
+        for <linux-man@vger.kernel.org>; Wed, 24 Feb 2021 06:44:07 -0800 (PST)
+Received: by mail-wr1-x42e.google.com with SMTP id t15so2110553wrx.13
+        for <linux-man@vger.kernel.org>; Wed, 24 Feb 2021 06:44:07 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=gmail.com; s=20161025;
         h=from:to:cc:subject:date:message-id:in-reply-to:references
          :mime-version:content-transfer-encoding;
-        bh=UMQ3j+oYxqAgFlSPvIDKNOHfNXYRkgnaZElgyY3W3JY=;
-        b=tui1EKLUrvTE+itxhJuPH+cf1dz78jyD9sq/lNGhJNhf8HDhN0tIrnO/rxAkX1vlX0
-         RB8qHMYdWNLfvGIhJ0CzCiS5/EU3uaN8iNgbjSq3hF1yWRl2Y7+EphwSIvDY5jpk1U1s
-         wMtr2NzRq6d3q8OJWvqOVVEnBKSYHPgT2exX4i2IaKDkTnTwlFwAEh7KAbokIEtwflWv
-         CXdV71ROgfocf+FqDy6k1J/BGjkLSk48QvGsYZ8Ef8uvDJjntQzIYj8fWIJwphRqHHOo
-         TrydCN9pnb9iqyjsGXvl/aJT1dxOzx0dOR49k7LHmyzba7jUraxNgQwGdUWg7xgWiwB5
-         IiWw==
+        bh=12WQi5UTdmyb542H7yJ6iDxlQVns1qvnW7L2OCXdcVU=;
+        b=JmHA4jy7dKf9BzBjxjWQsf/N0WWAqWh+HETtgOEUf6kFDu93WD2w9Fw9mQ/btKZz9O
+         Q5X4bsTxxPUf080u1gKzGN/bhkZQX9LUsl8RmFaRCOYKzSeL0t3PLhd4A/4f4c5rjR0o
+         CEHJO0ADgn8IEMyswjqlpg65eRpyU1DvstwZfKOMJfjZJ7KD37yphCAtTolB03XCtCUa
+         mw5ttbe3IapHyRgCwxxQYjAmGH5Utq6OtQPQtZwQPuWMkNUh2bbTxcBQeLiTW27/Jk5N
+         lnGHcIzC4kl+tHzcZiVAATHFHYHqH9GTIPbC3ZtsCGBOeAJKlQ5oqmwHryGs0kAtiP46
+         X+NA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
         h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
          :references:mime-version:content-transfer-encoding;
-        bh=UMQ3j+oYxqAgFlSPvIDKNOHfNXYRkgnaZElgyY3W3JY=;
-        b=CgiYI8i5qJqCqTsY4Zi2ZuvUzN17728BcJuIuxt1fTQt1MURvCExMciH3SaYCXuYfs
-         HQ22SiVXgc8AtOmIjiIYbbAe+wRWsLcD6v4hHZ5qrLcWY/pAkULcD9R5qIMNdU/KmSu0
-         olpXFkqj+3O6p83h7zpzQFtNYCEWtRfK1hd13GpXFT+lO9s4TVNKF7XGa9SdYMbZ9hs+
-         ZRNmB0T5fIekogOdQyy+VI1LXWp8M+rltcZCVc8dzTqeSy1QOyZso6UTCsfmYeOxN6Xh
-         Y5jn9a/jT1qtd5AHaVWwuD3936iu32YAMqBggOhw4Db/7+gLB1e5klPOnDK79IpVf1hK
-         34gQ==
-X-Gm-Message-State: AOAM531dwAOM+YuCehzcfQVZHShkXv9TIXrJF2/xbK28OHQYmQYqr70Y
-        LIFM6LvL1uxCjxedH/51iA8=
-X-Google-Smtp-Source: ABdhPJx0qx9sEHx4cS5U/mcFMoog+MeUmpdRMj0XG19M/5KUoz05BkrgAGoEuZIO565czWn0FuS7hQ==
-X-Received: by 2002:a1c:ed1a:: with SMTP id l26mr4176410wmh.114.1614177847390;
-        Wed, 24 Feb 2021 06:44:07 -0800 (PST)
+        bh=12WQi5UTdmyb542H7yJ6iDxlQVns1qvnW7L2OCXdcVU=;
+        b=OxDQhVQyPlrmp3Hi9yX7Cu6KZseRrTu3l+0VkhuZQiiJusAhfHhcNqFgbHDgkN7D76
+         46xN27nEzcRrS8Pz3+ylCUc1TJCrBnLIrRnvF3e06OpRajcoZPU8d5TAayj0oGF9F1D6
+         50xSNZhyH9Xc6RLVfXevcY2VK3qENQK4W38JwRV+RG0tYuUHm8F9ZGfBeYolVIIdSAEw
+         X5WxiIdbLVJgh1e1nGXhj/BlmCNp6pS3zLkuCcyqarWuGVQF4q4o2HfGdrWZhxXGH/PF
+         O9ekfiOllGhpf2egdcKk+9P51NEyxwrBnYJF7fwUDmjyXYtebk+2KOuPqHH2Ifw+l4YD
+         3uzw==
+X-Gm-Message-State: AOAM530KlpxT0zJdoaftT9/TPyrguEihZ0rG1Bx22IUYgdycHcO3zT+9
+        p+z+HR2sds0rNhI0RrLdAwE=
+X-Google-Smtp-Source: ABdhPJxhVYVjmxYvu14DktjXyvQY8IRQQxnpZY0gvRTs/9OwAiopsttk7ShUi5rqplyouzT34l/J5Q==
+X-Received: by 2002:adf:9226:: with SMTP id 35mr32368551wrj.408.1614177845922;
+        Wed, 24 Feb 2021 06:44:05 -0800 (PST)
 Received: from localhost.localdomain ([170.253.51.130])
-        by smtp.googlemail.com with ESMTPSA id a5sm3990676wrs.35.2021.02.24.06.44.06
+        by smtp.googlemail.com with ESMTPSA id a5sm3990676wrs.35.2021.02.24.06.44.05
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Wed, 24 Feb 2021 06:44:07 -0800 (PST)
+        Wed, 24 Feb 2021 06:44:05 -0800 (PST)
 From:   Alejandro Colomar <alx.manpages@gmail.com>
 To:     mtk.manpages@gmail.com
 Cc:     Alejandro Colomar <alx.manpages@gmail.com>,
         linux-man@vger.kernel.org
-Subject: [PATCH 16/20] fopencookie.3: SYNOPSIS: Use 'restrict' in prototypes
-Date:   Wed, 24 Feb 2021 15:43:07 +0100
-Message-Id: <20210224144310.140649-17-alx.manpages@gmail.com>
+Subject: [PATCH 14/20] fgetc.3: SYNOPSIS: Use 'restrict' in prototypes
+Date:   Wed, 24 Feb 2021 15:43:05 +0100
+Message-Id: <20210224144310.140649-15-alx.manpages@gmail.com>
 X-Mailer: git-send-email 2.30.1.721.g45526154a5
 In-Reply-To: <20210224144310.140649-1-alx.manpages@gmail.com>
 References: <20210224144310.140649-1-alx.manpages@gmail.com>
@@ -72,33 +72,32 @@ Precedence: bulk
 List-ID: <linux-man.vger.kernel.org>
 X-Mailing-List: linux-man@vger.kernel.org
 
-glibc uses 'restrict' for fopencookie().
+Both POSIX and glibc use 'restrict' in fgets().
 Let's use it here too.
 
 glibc:
-libio/stdio.h:285:
-FILE *fopencookie (void *restrict magic_cookie,
-                          const char *restrict modes,
-                          cookie_io_functions_t io_funcs) THROW wur;
+libio/stdio.h:568:
+char *fgets (char *restrict s, int n, FILE *restrict stream)
+     wur attr_access ((write_only__, 1, 2));
 
 Signed-off-by: Alejandro Colomar <alx.manpages@gmail.com>
 ---
- man3/fopencookie.3 | 2 +-
+ man3/fgetc.3 | 2 +-
  1 file changed, 1 insertion(+), 1 deletion(-)
 
-diff --git a/man3/fopencookie.3 b/man3/fopencookie.3
-index 35b01493f..07736e3b2 100644
---- a/man3/fopencookie.3
-+++ b/man3/fopencookie.3
-@@ -31,7 +31,7 @@ fopencookie \- opening a custom stream
- .BR "#define _GNU_SOURCE" "         /* See feature_test_macros(7) */"
- .B #include <stdio.h>
+diff --git a/man3/fgetc.3 b/man3/fgetc.3
+index 5e0ded168..1aa419935 100644
+--- a/man3/fgetc.3
++++ b/man3/fgetc.3
+@@ -35,7 +35,7 @@ fgetc, fgets, getc, getchar, ungetc \- input of characters and strings
+ .BI "int getc(FILE *" stream );
+ .B "int getchar(void);"
  .PP
--.BI "FILE *fopencookie(void *" cookie ", const char *" mode ,
-+.BI "FILE *fopencookie(void *restrict " cookie ", const char *restrict " mode ,
- .BI "                  cookie_io_functions_t " io_funcs );
+-.BI "char *fgets(char *" "s" ", int " "size" ", FILE *" "stream" );
++.BI "char *fgets(char *restrict " s ", int " size ", FILE *restrict " stream );
+ .PP
+ .BI "int ungetc(int " c ", FILE *" stream );
  .fi
- .SH DESCRIPTION
 -- 
 2.30.1.721.g45526154a5
 
