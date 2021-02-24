@@ -5,64 +5,65 @@ X-Spam-Level:
 X-Spam-Status: No, score=-15.7 required=3.0 tests=BAYES_00,DKIM_SIGNED,
 	DKIM_VALID,DKIM_VALID_AU,FREEMAIL_FORGED_FROMDOMAIN,FREEMAIL_FROM,
 	HEADER_FROM_DIFFERENT_DOMAINS,INCLUDES_CR_TRAILER,INCLUDES_PATCH,
-	MAILING_LIST_MULTI,SPF_HELO_NONE,SPF_PASS,USER_AGENT_GIT autolearn=ham
-	autolearn_force=no version=3.4.0
+	MAILING_LIST_MULTI,SPF_HELO_NONE,SPF_PASS,URIBL_BLOCKED,USER_AGENT_GIT
+	autolearn=ham autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id BF208C433E6
-	for <linux-man@archiver.kernel.org>; Wed, 24 Feb 2021 15:44:50 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 78AD2C4332D
+	for <linux-man@archiver.kernel.org>; Wed, 24 Feb 2021 15:44:51 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.kernel.org (Postfix) with ESMTP id 6EB0F64EDB
-	for <linux-man@archiver.kernel.org>; Wed, 24 Feb 2021 15:44:50 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTP id 2298F64ED4
+	for <linux-man@archiver.kernel.org>; Wed, 24 Feb 2021 15:44:51 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S235660AbhBXPnI (ORCPT <rfc822;linux-man@archiver.kernel.org>);
-        Wed, 24 Feb 2021 10:43:08 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:59302 "EHLO
+        id S235748AbhBXPnZ (ORCPT <rfc822;linux-man@archiver.kernel.org>);
+        Wed, 24 Feb 2021 10:43:25 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:59934 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S237232AbhBXOs5 (ORCPT
-        <rfc822;linux-man@vger.kernel.org>); Wed, 24 Feb 2021 09:48:57 -0500
-Received: from mail-wr1-x42f.google.com (mail-wr1-x42f.google.com [IPv6:2a00:1450:4864:20::42f])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 59918C061225
-        for <linux-man@vger.kernel.org>; Wed, 24 Feb 2021 06:44:00 -0800 (PST)
-Received: by mail-wr1-x42f.google.com with SMTP id u14so2145450wri.3
-        for <linux-man@vger.kernel.org>; Wed, 24 Feb 2021 06:44:00 -0800 (PST)
+        with ESMTP id S237411AbhBXOtW (ORCPT
+        <rfc822;linux-man@vger.kernel.org>); Wed, 24 Feb 2021 09:49:22 -0500
+Received: from mail-wm1-x335.google.com (mail-wm1-x335.google.com [IPv6:2a00:1450:4864:20::335])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 1B522C0611C0
+        for <linux-man@vger.kernel.org>; Wed, 24 Feb 2021 06:44:02 -0800 (PST)
+Received: by mail-wm1-x335.google.com with SMTP id w7so2004444wmb.5
+        for <linux-man@vger.kernel.org>; Wed, 24 Feb 2021 06:44:02 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=gmail.com; s=20161025;
         h=from:to:cc:subject:date:message-id:in-reply-to:references
          :mime-version:content-transfer-encoding;
-        bh=JVMsD3lXx2WBnHZSlFkPVew3pJfPgQEk0UFPw9w2r7E=;
-        b=lT4zpRpT0nhOzYH5a9x/PmUQws+Tvv82Ejy0ss3Ai4I8Lw0i5smr5gxH3N9RhWKGCs
-         yW3lRldEF7QDmMfVaTc7J2SducePysPzShr548ECgqLXUVClKOeivGa1PTv+jYUR5R/p
-         ChqkC+2Zqtq18S7YT2VQo89p3sfplFqLzSR9jhB0XWIlObwidG+5pIjl1kIQ7ZdEqscc
-         L80nsYTqhZThzZ0jjG8sjIxA/HBHCShvaSGR5QESq/D1fjoW0hKlAPy1uiNDG5M3a4WC
-         tzdTTUCxB40A+bnz2UbR/mAMhzvBLKygcsculYuMxWIXitaLAe42gZ8G0pVtYX+06dZF
-         hX4w==
+        bh=TKb5SxYeSQZIL/cLkRICHkolXAAl+45MgBm7VlSyIC8=;
+        b=FvCwYxxH/MDzAFLXrG3eaq/m9RG2acaKgE9n8Ud86YLl/K5pirPpG1Ug5t0g+9vBFC
+         jj1lRMeWhR3EIaVpqK6ixTGrzjbdNi0aBW3ghBoxlwzg2Ms/UFX5SBWprpG3wJaFfyn3
+         QsdYZ642hWgfu5QdHeyGQfRHCeFeg0dNipFg4/AKYbkYzJpXaeHlLfUAlYdqOCXe0cX8
+         Vr4jDwBMwoAM/C8aNfzunQmAWLekENvsGx6Bf6QdFdtPIdljvK+1d4MekPDVBTkpYubX
+         qfXwQ+gi9nQ+Giq6VDvNSHhJh6QM4Srvn+T3CMdb5HQVsLTHq3fpIhl2frtzUIl+EdPY
+         Qj9A==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
         h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
          :references:mime-version:content-transfer-encoding;
-        bh=JVMsD3lXx2WBnHZSlFkPVew3pJfPgQEk0UFPw9w2r7E=;
-        b=oGUh5XOnDO6LKCPi8f95Pyd9qhqSceUx2r4IxWEOj5On15+HLLU+oUC0i6w8pWo/Am
-         81zMvWPYjGJbXY55nP3niFm8X+DHkTzx3AaEfPZXQxllyraGm51EkWGrhoTynKUG29D0
-         Ht2V7q46lRz0OPs1oNtHWup7b00GwVzn7lAQV26yGW4kl65UVspPs46wl/qI0mTGtN7y
-         li/czG3sFE7fpE/toI8Qihj3xtc0dmlLWzFwQiamIFS/koi61U++tuVPcq3o+Edlbplw
-         1pKTV2+iAhj3lQ7J6Pvb4nKH4bmZCND6q1SXm7wx19U+4LRU06g13l0Pqp7/zgxayYQ9
-         DUrg==
-X-Gm-Message-State: AOAM531GesucyM3Gm4tYABpjjWk/PmhcJvhSIvJLgEsjhAFcseGppVC1
-        9UG99I82BhT/vXM03Kn6apI=
-X-Google-Smtp-Source: ABdhPJyTV01EjYsIRqKFxepQ1EDw9IPexMTD9c8khxLexm4Ph7xCmBjrRKCLzqFq4zm3L+LQjvpy+A==
-X-Received: by 2002:a5d:4e05:: with SMTP id p5mr18564767wrt.273.1614177839164;
-        Wed, 24 Feb 2021 06:43:59 -0800 (PST)
+        bh=TKb5SxYeSQZIL/cLkRICHkolXAAl+45MgBm7VlSyIC8=;
+        b=ulKcvNYmVrsasdcLHVbgMfsLealqdxcGb9EEUU7Xdx9gg6jp7mwpcEx6FLta+sXbU8
+         PXClpxvXIYs3nAPYjdPACowk6tEwffcaPhzAYxNBtkDL7TnwE5OnWR1HJ28agMfn8bj2
+         HdtOGRRlC9OHeaGZBdrIlSkfkSAYXh30Fp2vU1pwZWmrNGkHigD0th1k+z3IPN3UINna
+         WpOKcwahv5WxfrfEdMIst6Rk6hIKlBUlGcd2Kl1pVnT504wWqWPsfTwBfvImPxbFZbrO
+         fqiUwtQG+x2EIoYPfaJOfdTrdezGRQRgnDElJFI5LzH483nJs7or89U86On/jUbbcwX2
+         Mvlg==
+X-Gm-Message-State: AOAM532uEoFuvVYHv55Z8aG1IG2HotYMGFkSX8/H3Ai7QXCJT000tGqI
+        le4H28b1Y32wM9yL61jrNWE=
+X-Google-Smtp-Source: ABdhPJxkOkJ+EwNcb0UEZbItCQ7f2qkd86LTQFehnftinWZeRFfscxgzmukLpJfeR38umvHVv7/+3A==
+X-Received: by 2002:a1c:7501:: with SMTP id o1mr3942531wmc.105.1614177840853;
+        Wed, 24 Feb 2021 06:44:00 -0800 (PST)
 Received: from localhost.localdomain ([170.253.51.130])
-        by smtp.googlemail.com with ESMTPSA id a5sm3990676wrs.35.2021.02.24.06.43.58
+        by smtp.googlemail.com with ESMTPSA id a5sm3990676wrs.35.2021.02.24.06.44.00
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Wed, 24 Feb 2021 06:43:58 -0800 (PST)
+        Wed, 24 Feb 2021 06:44:00 -0800 (PST)
 From:   Alejandro Colomar <alx.manpages@gmail.com>
 To:     mtk.manpages@gmail.com
 Cc:     Alejandro Colomar <alx.manpages@gmail.com>,
-        linux-man@vger.kernel.org
-Subject: [PATCH 05/20] crypt.3: SYNOPSIS: Use 'restrict' in prototypes
-Date:   Wed, 24 Feb 2021 15:42:56 +0100
-Message-Id: <20210224144310.140649-6-alx.manpages@gmail.com>
+        linux-man@vger.kernel.org, libc-alpha@sourceware.org,
+        Ulrich Drepper <drepper@redhat.com>
+Subject: [PATCH 07/20] ctime.3: SYNOPSIS: Use 'restrict' in prototypes
+Date:   Wed, 24 Feb 2021 15:42:58 +0100
+Message-Id: <20210224144310.140649-8-alx.manpages@gmail.com>
 X-Mailer: git-send-email 2.30.1.721.g45526154a5
 In-Reply-To: <20210224144310.140649-1-alx.manpages@gmail.com>
 References: <20210224144310.140649-1-alx.manpages@gmail.com>
@@ -72,36 +73,55 @@ Precedence: bulk
 List-ID: <linux-man.vger.kernel.org>
 X-Mailing-List: linux-man@vger.kernel.org
 
-Glibc uses 'restrict' for the 3rd parameter of crypt_r().
-Let's use it here too.
+POSIX does NOT specify ctime_r() to use 'restrict'.
+However, glibc uses 'restrict'.
+Users might be surprised by this!  Let's use it here too!
 
 ......
 
-.../glibc$ grep_glibc_prototype crypt_t
-crypt/crypt.h:63:
-extern char *crypt_r (const char *__phrase, const char *__salt,
-		      struct crypt_data * __restrict __data)
-     __THROW __nonnull ((1, 2, 3));
+.../glibc$ grep_glibc_prototype ctime_r
+timezone/private.h:504:
+char *ctime_r(time_t const *, char *);
+timezone/private.h:712:
+char *ctime_r(time_t const *, char *);
+time/time.h:153:
+extern char *ctime_r (const time_t *__restrict __timer,
+		      char *__restrict __buf) __THROW;
 .../glibc$
 
+Cc: <libc-alpha@sourceware.org>
+Cc: Ulrich Drepper <drepper@redhat.com>
 Signed-off-by: Alejandro Colomar <alx.manpages@gmail.com>
 ---
- man3/crypt.3 | 2 +-
- 1 file changed, 1 insertion(+), 1 deletion(-)
+ man3/ctime.3 | 8 +++++++-
+ 1 file changed, 7 insertions(+), 1 deletion(-)
 
-diff --git a/man3/crypt.3 b/man3/crypt.3
-index a73c8facc..7a9b3e9ad 100644
---- a/man3/crypt.3
-+++ b/man3/crypt.3
-@@ -45,7 +45,7 @@ crypt, crypt_r \- password and data encryption
- .B #include <crypt.h>
+diff --git a/man3/ctime.3 b/man3/ctime.3
+index cd0ccc98d..7e4baa390 100644
+--- a/man3/ctime.3
++++ b/man3/ctime.3
+@@ -44,7 +44,7 @@ localtime_r \- transform date and time to broken-down time or ASCII
+ .BI "char *asctime_r(const struct tm *restrict " tm ", char *restrict " buf );
  .PP
- .BI "char *crypt_r(const char *" key ", const char *" salt ,
--.BI "              struct crypt_data *" data );
-+.BI "              struct crypt_data *restrict " data );
- .fi
+ .BI "char *ctime(const time_t *" timep );
+-.BI "char *ctime_r(const time_t *" timep ", char *" buf );
++.BI "char *ctime_r(const time_t *restrict " timep ", char *restrict " buf );
  .PP
- Link with \fI\-lcrypt\fP.
+ .BI "struct tm *gmtime(const time_t *" timep );
+ .BI "struct tm *gmtime_r(const time_t *restrict " timep ,
+@@ -381,6 +381,12 @@ as obsolete,
+ recommending the use of
+ .BR strftime (3)
+ instead.
++.PP
++POSIX doesn't specify the parameters of
++.BR ctime_r ()
++to be
++.IR restrict ;
++that is specific to glibc.
+ .SH NOTES
+ The four functions
+ .BR asctime (),
 -- 
 2.30.1.721.g45526154a5
 
