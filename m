@@ -8,61 +8,61 @@ X-Spam-Status: No, score=-15.7 required=3.0 tests=BAYES_00,DKIM_SIGNED,
 	MAILING_LIST_MULTI,SPF_HELO_NONE,SPF_PASS,USER_AGENT_GIT autolearn=ham
 	autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id CF6DCC43603
+	by smtp.lore.kernel.org (Postfix) with ESMTP id A969DC433DB
 	for <linux-man@archiver.kernel.org>; Wed, 24 Feb 2021 15:44:52 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.kernel.org (Postfix) with ESMTP id A461264ED4
+	by mail.kernel.org (Postfix) with ESMTP id 8698264ED3
 	for <linux-man@archiver.kernel.org>; Wed, 24 Feb 2021 15:44:52 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S235915AbhBXPoN (ORCPT <rfc822;linux-man@archiver.kernel.org>);
-        Wed, 24 Feb 2021 10:44:13 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:60382 "EHLO
+        id S235906AbhBXPoL (ORCPT <rfc822;linux-man@archiver.kernel.org>);
+        Wed, 24 Feb 2021 10:44:11 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:59320 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S238368AbhBXOvU (ORCPT
-        <rfc822;linux-man@vger.kernel.org>); Wed, 24 Feb 2021 09:51:20 -0500
-Received: from mail-wr1-x42e.google.com (mail-wr1-x42e.google.com [IPv6:2a00:1450:4864:20::42e])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 13C9FC061A27
-        for <linux-man@vger.kernel.org>; Wed, 24 Feb 2021 06:44:07 -0800 (PST)
-Received: by mail-wr1-x42e.google.com with SMTP id t15so2110553wrx.13
-        for <linux-man@vger.kernel.org>; Wed, 24 Feb 2021 06:44:07 -0800 (PST)
+        with ESMTP id S238309AbhBXOu6 (ORCPT
+        <rfc822;linux-man@vger.kernel.org>); Wed, 24 Feb 2021 09:50:58 -0500
+Received: from mail-wr1-x435.google.com (mail-wr1-x435.google.com [IPv6:2a00:1450:4864:20::435])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 3FD42C061A2A
+        for <linux-man@vger.kernel.org>; Wed, 24 Feb 2021 06:44:09 -0800 (PST)
+Received: by mail-wr1-x435.google.com with SMTP id d11so2128705wrj.7
+        for <linux-man@vger.kernel.org>; Wed, 24 Feb 2021 06:44:09 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=gmail.com; s=20161025;
         h=from:to:cc:subject:date:message-id:in-reply-to:references
          :mime-version:content-transfer-encoding;
-        bh=12WQi5UTdmyb542H7yJ6iDxlQVns1qvnW7L2OCXdcVU=;
-        b=JmHA4jy7dKf9BzBjxjWQsf/N0WWAqWh+HETtgOEUf6kFDu93WD2w9Fw9mQ/btKZz9O
-         Q5X4bsTxxPUf080u1gKzGN/bhkZQX9LUsl8RmFaRCOYKzSeL0t3PLhd4A/4f4c5rjR0o
-         CEHJO0ADgn8IEMyswjqlpg65eRpyU1DvstwZfKOMJfjZJ7KD37yphCAtTolB03XCtCUa
-         mw5ttbe3IapHyRgCwxxQYjAmGH5Utq6OtQPQtZwQPuWMkNUh2bbTxcBQeLiTW27/Jk5N
-         lnGHcIzC4kl+tHzcZiVAATHFHYHqH9GTIPbC3ZtsCGBOeAJKlQ5oqmwHryGs0kAtiP46
-         X+NA==
+        bh=wwG/UDsOeyvAQQQB5GEHITQ15p7AnLb7+ytBx/VHbCw=;
+        b=DqWw/rpwWEDyQMLvU82FCBovt0SowzdiI2QEVeU25QODzMpr2NKa5LRPIX8r1h2HDx
+         mGdSDm+ohgDQRRPVmk7Bs0x0+5G5fOfK0DKeZooAtgkyvSCDTyHAd4eV8FPCdd5n1mLf
+         5x2EyX0FeYgkle4W2DqMgQm2zvB9Kn7cJ4CJY27/ye54+0mK2pEdzO9+poCFt3gicpHQ
+         fq4AelCNXY9VHf0qcEOblDc3nB2S4DtAI0cK80QsBybSugDWmfOoN453MKydG1g3vj/y
+         Km5kkWuvraAmcSNzt38oDHFpaJ9HiVasa06e/6AV7pUr8L7zVUayWeIZ3POFIQ1aVCMT
+         XG3Q==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
         h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
          :references:mime-version:content-transfer-encoding;
-        bh=12WQi5UTdmyb542H7yJ6iDxlQVns1qvnW7L2OCXdcVU=;
-        b=OxDQhVQyPlrmp3Hi9yX7Cu6KZseRrTu3l+0VkhuZQiiJusAhfHhcNqFgbHDgkN7D76
-         46xN27nEzcRrS8Pz3+ylCUc1TJCrBnLIrRnvF3e06OpRajcoZPU8d5TAayj0oGF9F1D6
-         50xSNZhyH9Xc6RLVfXevcY2VK3qENQK4W38JwRV+RG0tYuUHm8F9ZGfBeYolVIIdSAEw
-         X5WxiIdbLVJgh1e1nGXhj/BlmCNp6pS3zLkuCcyqarWuGVQF4q4o2HfGdrWZhxXGH/PF
-         O9ekfiOllGhpf2egdcKk+9P51NEyxwrBnYJF7fwUDmjyXYtebk+2KOuPqHH2Ifw+l4YD
-         3uzw==
-X-Gm-Message-State: AOAM530KlpxT0zJdoaftT9/TPyrguEihZ0rG1Bx22IUYgdycHcO3zT+9
-        p+z+HR2sds0rNhI0RrLdAwE=
-X-Google-Smtp-Source: ABdhPJxhVYVjmxYvu14DktjXyvQY8IRQQxnpZY0gvRTs/9OwAiopsttk7ShUi5rqplyouzT34l/J5Q==
-X-Received: by 2002:adf:9226:: with SMTP id 35mr32368551wrj.408.1614177845922;
-        Wed, 24 Feb 2021 06:44:05 -0800 (PST)
+        bh=wwG/UDsOeyvAQQQB5GEHITQ15p7AnLb7+ytBx/VHbCw=;
+        b=LQu0bWTo3n5h3UtRTXVwD9mLUOghUBE+Jt9htMz0A7AE6h7gLWb18SEkFypYKJRHvw
+         y7WDc38jQJdV0tKG3HbrN6YgoIEdurHeoEd1AUEg5d2dmCxHLpCrT2GNIFNLnVu0qd1D
+         gtyNdY6ZR+NWmPXNDJOVZJhVtM5xNfV99YZYl2ll2xyNrfBZJtkcr1m3x5RSDLhzeIpp
+         p7mxnvlhGA07Q9Fk7i5jeeAsOn1E9YtmPquUEN04qpmeLsLDMacFhfDLeeZO6fajT6lv
+         BJ9/GQl+XI1piZBK+43iq7AKEVOT/vmT0jhRDQBfZIpP+rUHg/SpFk9pfNJkC6XY0GVr
+         /nxw==
+X-Gm-Message-State: AOAM532p6OxBUAlXbex4P+ieWde2urFQNeiZbg7HRCPUI+KeKX2/CfkZ
+        6EZBazLr2Vaoi9Wa3Ysk2BxVwgY/BM4QPQ==
+X-Google-Smtp-Source: ABdhPJwbe3X6MtDaoPFg3tUcVcqKD1xvMDWEzIpVtuRBXeXEs5NyCPBbKwt0ZkDAISOkw+CpK8YUZg==
+X-Received: by 2002:a5d:4d85:: with SMTP id b5mr30020236wru.192.1614177848112;
+        Wed, 24 Feb 2021 06:44:08 -0800 (PST)
 Received: from localhost.localdomain ([170.253.51.130])
-        by smtp.googlemail.com with ESMTPSA id a5sm3990676wrs.35.2021.02.24.06.44.05
+        by smtp.googlemail.com with ESMTPSA id a5sm3990676wrs.35.2021.02.24.06.44.07
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Wed, 24 Feb 2021 06:44:05 -0800 (PST)
+        Wed, 24 Feb 2021 06:44:07 -0800 (PST)
 From:   Alejandro Colomar <alx.manpages@gmail.com>
 To:     mtk.manpages@gmail.com
 Cc:     Alejandro Colomar <alx.manpages@gmail.com>,
         linux-man@vger.kernel.org
-Subject: [PATCH 14/20] fgetc.3: SYNOPSIS: Use 'restrict' in prototypes
-Date:   Wed, 24 Feb 2021 15:43:05 +0100
-Message-Id: <20210224144310.140649-15-alx.manpages@gmail.com>
+Subject: [PATCH 17/20] fopen.3: SYNOPSIS: Use 'restrict' in prototypes
+Date:   Wed, 24 Feb 2021 15:43:08 +0100
+Message-Id: <20210224144310.140649-18-alx.manpages@gmail.com>
 X-Mailer: git-send-email 2.30.1.721.g45526154a5
 In-Reply-To: <20210224144310.140649-1-alx.manpages@gmail.com>
 References: <20210224144310.140649-1-alx.manpages@gmail.com>
@@ -72,32 +72,47 @@ Precedence: bulk
 List-ID: <linux-man.vger.kernel.org>
 X-Mailing-List: linux-man@vger.kernel.org
 
-Both POSIX and glibc use 'restrict' in fgets().
+Both POSIX and glibc use 'restrict' for some of these functions.
 Let's use it here too.
 
 glibc:
-libio/stdio.h:568:
-char *fgets (char *restrict s, int n, FILE *restrict stream)
-     wur attr_access ((write_only__, 1, 2));
+=============================  fopen
+libio/stdio.h:246:
+FILE *fopen (const char *restrict filename,
+                    const char *restrict modes) wur;
+=============================  fdopen
+libio/stdio.h:279:
+FILE *fdopen (int fd, const char *modes) THROW wur;
+=============================  freopen
+libio/stdio.h:252:
+FILE *freopen (const char *restrict filename,
+                      const char *restrict modes,
+                      FILE *restrict stream) wur;
 
 Signed-off-by: Alejandro Colomar <alx.manpages@gmail.com>
 ---
- man3/fgetc.3 | 2 +-
- 1 file changed, 1 insertion(+), 1 deletion(-)
+ man3/fopen.3 | 7 +++++--
+ 1 file changed, 5 insertions(+), 2 deletions(-)
 
-diff --git a/man3/fgetc.3 b/man3/fgetc.3
-index 5e0ded168..1aa419935 100644
---- a/man3/fgetc.3
-+++ b/man3/fgetc.3
-@@ -35,7 +35,7 @@ fgetc, fgets, getc, getchar, ungetc \- input of characters and strings
- .BI "int getc(FILE *" stream );
- .B "int getchar(void);"
+diff --git a/man3/fopen.3 b/man3/fopen.3
+index 65ca99f75..d7af3fe96 100644
+--- a/man3/fopen.3
++++ b/man3/fopen.3
+@@ -48,9 +48,12 @@ fopen, fdopen, freopen \- stream open functions
+ .nf
+ .B #include <stdio.h>
  .PP
--.BI "char *fgets(char *" "s" ", int " "size" ", FILE *" "stream" );
-+.BI "char *fgets(char *restrict " s ", int " size ", FILE *restrict " stream );
- .PP
- .BI "int ungetc(int " c ", FILE *" stream );
+-.BI "FILE *fopen(const char *" pathname ", const char *" mode );
++.BI "FILE *fopen(const char *restrict " pathname \
++", const char *restrict " mode );
+ .BI "FILE *fdopen(int " fd ", const char *" mode );
+-.BI "FILE *freopen(const char *" pathname ", const char *" mode ", FILE *" stream );
++.BI "FILE *freopen(const char *restrict " pathname \
++", const char *restrict " mode ,
++.BI "              FILE *restrict " stream );
  .fi
+ .PP
+ .RS -4
 -- 
 2.30.1.721.g45526154a5
 
