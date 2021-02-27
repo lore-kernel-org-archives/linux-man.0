@@ -2,151 +2,286 @@ Return-Path: <linux-man-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-4.6 required=3.0 tests=BAYES_00,DKIM_SIGNED,
+X-Spam-Status: No, score=-12.7 required=3.0 tests=BAYES_00,DKIM_SIGNED,
 	DKIM_VALID,DKIM_VALID_AU,FREEMAIL_FORGED_FROMDOMAIN,FREEMAIL_FROM,
-	HEADER_FROM_DIFFERENT_DOMAINS,MAILING_LIST_MULTI,NICE_REPLY_A,SPF_HELO_NONE,
-	SPF_PASS,USER_AGENT_SANE_1 autolearn=no autolearn_force=no version=3.4.0
+	HEADER_FROM_DIFFERENT_DOMAINS,INCLUDES_CR_TRAILER,INCLUDES_PATCH,
+	MAILING_LIST_MULTI,SPF_HELO_NONE,SPF_PASS autolearn=unavailable
+	autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 532F0C433E9
-	for <linux-man@archiver.kernel.org>; Sat, 27 Feb 2021 17:20:33 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id E47B7C433E6
+	for <linux-man@archiver.kernel.org>; Sat, 27 Feb 2021 23:09:20 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.kernel.org (Postfix) with ESMTP id 2FF4B64E85
-	for <linux-man@archiver.kernel.org>; Sat, 27 Feb 2021 17:20:33 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTP id B59E464E0F
+	for <linux-man@archiver.kernel.org>; Sat, 27 Feb 2021 23:09:20 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S230274AbhB0RT5 (ORCPT <rfc822;linux-man@archiver.kernel.org>);
-        Sat, 27 Feb 2021 12:19:57 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:55052 "EHLO
+        id S230102AbhB0XJN (ORCPT <rfc822;linux-man@archiver.kernel.org>);
+        Sat, 27 Feb 2021 18:09:13 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:45078 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S230282AbhB0RQ4 (ORCPT
-        <rfc822;linux-man@vger.kernel.org>); Sat, 27 Feb 2021 12:16:56 -0500
-Received: from mail-wr1-x429.google.com (mail-wr1-x429.google.com [IPv6:2a00:1450:4864:20::429])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 8257EC06174A
-        for <linux-man@vger.kernel.org>; Sat, 27 Feb 2021 09:16:14 -0800 (PST)
-Received: by mail-wr1-x429.google.com with SMTP id b18so5170010wrn.6
-        for <linux-man@vger.kernel.org>; Sat, 27 Feb 2021 09:16:14 -0800 (PST)
+        with ESMTP id S230083AbhB0XJH (ORCPT
+        <rfc822;linux-man@vger.kernel.org>); Sat, 27 Feb 2021 18:09:07 -0500
+Received: from mail-lf1-x134.google.com (mail-lf1-x134.google.com [IPv6:2a00:1450:4864:20::134])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 93D33C06174A;
+        Sat, 27 Feb 2021 15:08:24 -0800 (PST)
+Received: by mail-lf1-x134.google.com with SMTP id m22so19532563lfg.5;
+        Sat, 27 Feb 2021 15:08:24 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=gmail.com; s=20161025;
-        h=subject:to:cc:references:from:message-id:date:user-agent
-         :mime-version:in-reply-to:content-language:content-transfer-encoding;
-        bh=rLIvdL31ffVILM5QZEKTWebgCq9wgDGQBaXEShtAC1M=;
-        b=KbLPgGi/S+29sPqAUtvOXByOV06v3UfwTaJb3y8n1oXyID/sa/ZxXOw7FX4eLOQ8nn
-         VfDA4bomq2sXS3PbeqCg8MKpq+HddmJs1fYW4749Qo0eIPoGEjARbseDb2kPYzkauoVS
-         AbId5Tm1CIkUlc/bOKFEreFYKBOAzRLEtY0Yk48oKMEk1Xt5vR7hw7q+LRKNlUFQvz1P
-         r/rxMZw/x2BO5I36UiynKh09GjKdhbK2up0D/pXJK+Qqg9NzngFSUrvH9rYkkiUOobbj
-         Frfk67305mUsOsYu2bY7bHIKGo5HFVC0QVCvmJawEhTXtrKZ8GgHkL3i5XfDEfM3IE/I
-         oRNQ==
+        h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+         :cc;
+        bh=glnpWSk4rG8Jdx3aWYcn4pK1w9vhuEg0gz7RqD4OqHw=;
+        b=adagdJIgLfiD2F3hflBvKgeRbQ2HuPaagXcm5JOgXYnJVCFbB0iZ8zTKKo6QlQKszh
+         jXYgdy5nAZb7MVIkdoEJbtc9i/5jcHjSHno0J4fVQGt9uvo+U1Ca2ATusthCdPtHVD4f
+         ehcbKCbiWRHuMVvh8o5GY3lcTDLRr9tbdtYQHZBX49GxbmZfVZSL4/n9p2fssrKx/Jte
+         aPxK3XYVdAJ3dtSXr+obCRqXbjd+t4UNa/yQ8BN5UQtjn27n1VTM7vXk4qnfvMr7qlXg
+         wGYO8a83XU5LAIGVhaiOlmbX966ooH1H1eHiwQkDRp6yeXsak7ZVsa3C+y69lXNxhyPv
+         MxNw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
-        h=x-gm-message-state:subject:to:cc:references:from:message-id:date
-         :user-agent:mime-version:in-reply-to:content-language
-         :content-transfer-encoding;
-        bh=rLIvdL31ffVILM5QZEKTWebgCq9wgDGQBaXEShtAC1M=;
-        b=Y1wpvCGu/FCg6Rv4IM6hA2a6miiLRfB1Ixpmr0OJvCc6AoxwXGAh4hOlwPiSatqOAi
-         c4EvNaq4bKvxS2d3A1KdLfZG5vAuqzITSKlDsCG5gUMGEgF9DyM3gjEKaYTKC+QqgCwE
-         73WRTXY2Ad7h7gWP3OT7Y5XxaHwkP1lsoXdktcTggs5mYO0ez7zL/E2hIklunedaWoSV
-         t4qCzVIB6K4AkZhlYbErEdaYHUoP2twEImCmKbp89t+oIs5HvgSZ6hLNiXpfcq3e6/eC
-         CwUmP7Offm6ZMIRJ33Ri94JpllXtxaMZ88PrajJUP0MvwCmT5FIzVVs8sb9rIyDshqsM
-         7Zrg==
-X-Gm-Message-State: AOAM531AfsfEPtaDIdahej2++2vRMyrn9iKpT62st8F8SdTjzoZf09Cx
-        siIwiU5EF+Iuj783r1/07HcSSuCCcAHdfA==
-X-Google-Smtp-Source: ABdhPJxXOyhQvLydluwZhh6Q4IcpAWNTUPrcHdgOo9P3bsZGug3aIJg5sANMbxqWhGbzKZNPVkLJRg==
-X-Received: by 2002:a5d:47c7:: with SMTP id o7mr3107529wrc.3.1614446173127;
-        Sat, 27 Feb 2021 09:16:13 -0800 (PST)
-Received: from [192.168.1.143] ([170.253.51.130])
-        by smtp.gmail.com with ESMTPSA id r18sm19155027wro.7.2021.02.27.09.16.11
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Sat, 27 Feb 2021 09:16:12 -0800 (PST)
-Subject: Re: [PATCH v9] scripts/bash_aliases: Add useful functions
-To:     Stefan Puiu <stefan.puiu@gmail.com>
-Cc:     Michael Kerrisk <mtk.manpages@gmail.com>,
-        lnx-man <linux-man@vger.kernel.org>, Walter Harms <wharms@bfs.de>
-References: <20210215131522.450666-11-alx.manpages@gmail.com>
- <20210219143221.108935-1-alx.manpages@gmail.com>
- <CACKs7VAD69B2+rRPkXLwy0YtVOswvbqJjvvMNQ_rdQoBjF-sow@mail.gmail.com>
-From:   "Alejandro Colomar (man-pages)" <alx.manpages@gmail.com>
-Message-ID: <072ee0c3-f30f-9da3-1b3f-37b5bc095806@gmail.com>
-Date:   Sat, 27 Feb 2021 18:16:11 +0100
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
- Thunderbird/78.7.1
+        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+         :message-id:subject:to:cc;
+        bh=glnpWSk4rG8Jdx3aWYcn4pK1w9vhuEg0gz7RqD4OqHw=;
+        b=tkfteRM7ZUidHcJn4sZ2H8gzKthANRAZOv+XtzPKCV0Jf+XYBA4VUfTCAEVKKeF6w7
+         JaM1NHZUV7yawnNpQaMaqF+L2hbbkJnOTAJGyyTx9x0oiaPPpLIfmr7P+egeAb3agz+/
+         JfTwoPTEQcckG9OpypbDD8OuZ7bKSjixzKT9S17IVrGB6pwnGmg7T0Kw1SyoXt1RBDNa
+         LJuv0reSgPabE4rFmtFLQUfdtIYJDIwULGIKQ7iOD8yE9GEDxBnHLYMH776twaRdnpD/
+         Lb/+lhL0fKZ5uoeiwznX1Ga86PnZ4F85UKjfhCpM599ZX9avBAf0NZhx4Cfca2JO22EX
+         Bmkw==
+X-Gm-Message-State: AOAM532MCbew9Id7GjIET381UvZRxA9+dwo2dr0jaGnPfjLSabgJnkPi
+        nlkQSRxdRCl1iJarm7XQk2GWRtkjdwQhzQQVHc0=
+X-Google-Smtp-Source: ABdhPJxelWqOMFu2EuQB/lDRKZ/wJonA/4yw6GbVBQPe4KIfFQOypPuYBpE9BmQIiSZLtcoHUxMPSrmeOnZlyoGnDiI=
+X-Received: by 2002:a19:910e:: with SMTP id t14mr5686304lfd.282.1614467302642;
+ Sat, 27 Feb 2021 15:08:22 -0800 (PST)
 MIME-Version: 1.0
-In-Reply-To: <CACKs7VAD69B2+rRPkXLwy0YtVOswvbqJjvvMNQ_rdQoBjF-sow@mail.gmail.com>
-Content-Type: text/plain; charset=utf-8; format=flowed
-Content-Language: en-US
-Content-Transfer-Encoding: 7bit
+References: <20210222102456.6692-1-lhenriques@suse.de> <20210224142307.7284-1-lhenriques@suse.de>
+ <CAOQ4uxi3-+tOgHV_GUnWtJoQXbV5ZS9qDZsLsd9sJxX5Aftyew@mail.gmail.com>
+ <6b896b29-6fc1-0586-ef31-f2f3298b56b0@gmail.com> <CAOQ4uxgFCBNwRD7e1srwaVrZMGfOE_JXENL4Q2En52srdj2AYA@mail.gmail.com>
+In-Reply-To: <CAOQ4uxgFCBNwRD7e1srwaVrZMGfOE_JXENL4Q2En52srdj2AYA@mail.gmail.com>
+From:   Steve French <smfrench@gmail.com>
+Date:   Sat, 27 Feb 2021 17:08:11 -0600
+Message-ID: <CAH2r5mvJPh6H_Owt7QiBY0xWO0T6ai65R5tspn+cDru0_P0V4A@mail.gmail.com>
+Subject: Re: [PATCH] copy_file_range.2: Kernel v5.12 updates
+To:     Amir Goldstein <amir73il@gmail.com>
+Cc:     "Alejandro Colomar (man-pages)" <alx.manpages@gmail.com>,
+        Luis Henriques <lhenriques@suse.de>,
+        Michael Kerrisk <mtk.manpages@gmail.com>,
+        Anna Schumaker <anna.schumaker@netapp.com>,
+        Jeff Layton <jlayton@kernel.org>,
+        Steve French <sfrench@samba.org>,
+        Miklos Szeredi <miklos@szeredi.hu>,
+        Trond Myklebust <trond.myklebust@hammerspace.com>,
+        Alexander Viro <viro@zeniv.linux.org.uk>,
+        "Darrick J. Wong" <darrick.wong@oracle.com>,
+        Dave Chinner <dchinner@redhat.com>,
+        Greg KH <gregkh@linuxfoundation.org>,
+        Nicolas Boichat <drinkcat@chromium.org>,
+        Ian Lance Taylor <iant@google.com>,
+        Luis Lozano <llozano@chromium.org>,
+        Andreas Dilger <adilger@dilger.ca>,
+        Olga Kornievskaia <aglo@umich.edu>,
+        Christoph Hellwig <hch@infradead.org>,
+        ceph-devel <ceph-devel@vger.kernel.org>,
+        linux-kernel <linux-kernel@vger.kernel.org>,
+        CIFS <linux-cifs@vger.kernel.org>,
+        samba-technical <samba-technical@lists.samba.org>,
+        linux-fsdevel <linux-fsdevel@vger.kernel.org>,
+        Linux NFS Mailing List <linux-nfs@vger.kernel.org>,
+        linux-man <linux-man@vger.kernel.org>
+Content-Type: text/plain; charset="UTF-8"
 Precedence: bulk
 List-ID: <linux-man.vger.kernel.org>
 X-Mailing-List: linux-man@vger.kernel.org
 
-Hi Stefan,
-
-On 2/27/21 4:09 PM, Stefan Puiu wrote:
-> Sorry for jumping in this discussion so late, but I was wondering
-> about one thing (see below).
-> 
-> On Fri, Feb 19, 2021 at 4:38 PM Alejandro Colomar
+On Fri, Feb 26, 2021 at 11:43 PM Amir Goldstein <amir73il@gmail.com> wrote:
+>
+> On Sat, Feb 27, 2021 at 12:19 AM Alejandro Colomar (man-pages)
 > <alx.manpages@gmail.com> wrote:
->> +#  grep_syscall()  finds the prototype of a syscall in the kernel sources,
->> +# printing the filename, line number, and the prototype.
->> +# It should be run from the root of the linux kernel source tree.
->> +# Usage example:  .../linux$ grep_syscall openat2;
->> +
->> +function grep_syscall()
->> +{
->> +       if ! [ -v 1 ]; then
->> +               >&2 echo "Usage: ${FUNCNAME[0]} <syscall>";
->> +               return ${EX_USAGE};
->> +       fi
->> +
->> +       find * -type f \
->> +       |grep '\.c$' \
->> +       |sort -V \
->> +       |xargs pcregrep -Mn "(?s)^\w*SYSCALL_DEFINE.\(${1},.*?\)" \
->> +       |sed -E 's/^[^:]+:[0-9]+:/&\n/';
->> +
->> +       find * -type f \
->> +       |grep '\.[ch]$' \
-> 
-> Any reason not to use "find . -type f -name '*.[ch]'" when you need to
-> restrict the files you're looking at? I would expect that to be
-> faster.
+> >
+> > Hello Amir, Luis,
+> >
+> > On 2/24/21 5:10 PM, Amir Goldstein wrote:
+> > > On Wed, Feb 24, 2021 at 4:22 PM Luis Henriques <lhenriques@suse.de> wrote:
+> > >>
+> > >> Update man-page with recent changes to this syscall.
+> > >>
+> > >> Signed-off-by: Luis Henriques <lhenriques@suse.de>
+> > >> ---
+> > >> Hi!
+> > >>
+> > >> Here's a suggestion for fixing the manpage for copy_file_range().  Note that
+> > >> I've assumed the fix will hit 5.12.
+> > >>
+> > >>   man2/copy_file_range.2 | 10 +++++++++-
+> > >>   1 file changed, 9 insertions(+), 1 deletion(-)
+> > >>
+> > >> diff --git a/man2/copy_file_range.2 b/man2/copy_file_range.2
+> > >> index 611a39b8026b..b0fd85e2631e 100644
+> > >> --- a/man2/copy_file_range.2
+> > >> +++ b/man2/copy_file_range.2
+> > >> @@ -169,6 +169,9 @@ Out of memory.
+> > >>   .B ENOSPC
+> > >>   There is not enough space on the target filesystem to complete the copy.
+> > >>   .TP
+> > >> +.B EOPNOTSUPP
+> >
+> > I'll add the kernel version here:
+> >
+> > .BR EOPNOTSUPP " (since Linux 5.12)"
+>
+> Error could be returned prior to 5.3 and would be probably returned
+> by future stable kernels 5.3..5.12 too
+>
+> >
+> > >> +The filesystem does not support this operation >> +.TP
+> > >>   .B EOVERFLOW
+> > >>   The requested source or destination range is too large to represent in the
+> > >>   specified data types.
+> > >> @@ -187,7 +190,7 @@ refers to an active swap file.
+> > >>   .B EXDEV
+> > >>   The files referred to by
+> > >>   .IR fd_in " and " fd_out
+> > >> -are not on the same mounted filesystem (pre Linux 5.3).
+> > >> +are not on the same mounted filesystem (pre Linux 5.3 and post Linux 5.12).
+> >
+> > I'm not sure that 'mounted' adds any value here.  Would you remove the
+> > word here?
+>
+> See rename(2). 'mounted' in this context is explained there.
+> HOWEVER, it does not fit here.
+> copy_file_range() IS allowed between two mounts of the same filesystem instance.
+>
+> To make things more complicated, it appears that cross mount clone is not
+> allowed via FICLONE/FICLONERANGE ioctl, so ioctl_ficlonerange(2) man page
+> also uses the 'mounted filesystem' terminology for EXDEV
+>
+> As things stand now, because of the fallback to clone logic,
+> copy_file_range() provides a way for users to clone across different mounts
+> of the same filesystem instance, which they cannot do with the FICLONE ioctl.
+>
+> Fun :)
+>
+> BTW, I don't know if preventing cross mount clone was done intentionally,
+> but as I wrote in a comment in the code once:
+>
+>         /*
+>          * FICLONE/FICLONERANGE ioctls enforce that src and dest files are on
+>          * the same mount. Practically, they only need to be on the same file
+>          * system.
+>          */
+>
+> >
+> > It reads as if two separate devices with the same filesystem type would
+> > still give this error.
+> >
+> > Per the LWN.net article Amir shared, this is permitted ("When called
+> > from user space, copy_file_range() will only try to copy a file across
+> > filesystems if the two are of the same type").
+> >
+> > This behavior was slightly different before 5.3 AFAICR (was it?) ("until
+> > then, copy_file_range() refused to copy between files that were not
+> > located on the same filesystem.").  If that's the case, I'd specify the
+> > difference, or more probably split the error into two, one before 5.3,
+> > and one since 5.12.
+> >
+>
+> True.
+>
+> > >
+> > > I think you need to drop the (Linux range) altogether.
+> >
+> > I'll keep the range.  Users of 5.3..5.11 might be surprised if the
+> > filesystems are different and they don't get an error, I think.
+> >
+> > I reworded it to follow other pages conventions:
+> >
+> > .BR EXDEV " (before Linux 5.3; or since Linux 5.12)"
+> >
+> > which renders as:
+> >
+> >         EXDEV (before Linux 5.3; or since Linux 5.12)
+> >                The files referred to by fd_in and fd_out are not on
+> >                the same mounted filesystem.
+> >
+>
+> drop 'mounted'
+>
+> >
+> > > What's missing here is the NFS cross server copy use case.
+> > > Maybe:
 
-I don't like find syntax.  I never remember how all of its options work.
-grep is much simpler, and everyone knows how it works.
+At least for the SMB3 kernel server (ksmbd "cifsd") looks like they use splice.
+And for the user space CIFS/SMB3 server (like Samba) they have a configurable
+plug in library interface ("Samba VFS modules") that would allow you
+to implement
+cross filesystem copy optimally for your version of Linux and plug
+this into Samba
+with little work on your part.
 
-find has: -[i]lname, -[i]name, -[i]path, -[i]regex, -[i]wholename
-I don't want to be reading the manual for all of them each time I use 
-find.  grep does the same with optional -i and some simple regex which 
-anyone could understand with some basic regex knowledge.
+> >
+> > Again, this wasn't true before 5.3, right?
+> >
+>
+> Right.
+> Actually, v5.3 provides the vfs capabilities for filesystems to support
+> cross fs copy. I am not sure if NFS already implements cross fs copy in
+> v5.3 and not sure about cifs. Need to get input from nfs/cis developers
+> or dig in the release notes for server-side copy.
 
-For the performance part, I don't know; but we might be surprised.  At 
-most it might be a bit faster (nothing like 200%), but I care more about 
-readability.
+The SMB3 protocol has multiple ways to do "server side copy" (copy
+offload to the server), some of which would apply to your example.
+The case of "reflink" in many cases would be most efficient, and is supported
+by the Linux client (see MS-SMB2 protocol specification section 3.3.5.15.18) but
+is supported by fewer server file systems, so probably more important
+to focus on
+the other mechanisms which are server side copy rather than clone.  The most
+popular way, supported by most servers, is  "CopyChunk" - 100s of
+millions of systems
+support this (if not more) - see MS-SMB2 protocol specification
+section 2.2.31.1 and
+3.3.5.15.16 - there are various cases where two different SMB3 mounts
+on the same
+client could handle cross mount server side copy.
 
-I also avoid using find -exec option, and instead use xargs.  It's way 
-simpler to understand, at least for me.
+There are other mechanisms supported by fewer servers SMB3 ODX/T10 style copy
+offload (Windows and some others see e.g. Gordon at Nexenta's presentation
+https://www.slideshare.net/gordonross/smb3-offload-data-transfer-odx)
+but still popular for virtualization workloads.  For this it could be
+even more common
+for those to be different mounts on the client.  The Linux client does
+not support
+the SMB3 ODX/T10 offload yet but it would be good to add support for it.
+There is a nice description of its additional benefits at
+https://docs.microsoft.com/en-us/windows-hardware/drivers/storage/offloaded-data-transfer
 
-See also:
-<http://doc.cat-v.org/unix/find-history>
-<http://harmful.cat-v.org/cat-v/>
+But - yes SMB3 on Linux can have cross mount file copy today, which is
+far more efficient
+(having the server do the copy for us) rather than sending large
+reads/writes back and
+forth over the network from the client.  In the future I am hoping that use case
+becomes even more common over SMB3 as cloud servers improve.
 
-> Also, not sure what you are trying to do with 'sort -V' - why
-> not feed the results directly to pcregrep?
 
-Some consistency.  Sometimes this function finds more than one prototype 
-for a syscall.  I prefer that everyone using this function gets the 
-results in the same predictable order, instead of some random order.
+> > > You may refer the reader to VERSIONS section where it will say which
+> > > filesystems support cross-fs copy as of kernel version XXX (i.e. cifs and nfs).
+> > >
+> > >>   .SH VERSIONS
+> > >>   The
+> > >>   .BR copy_file_range ()
+> > >> @@ -202,6 +205,11 @@ Applications should target the behaviour and requirements of 5.3 kernels.
+> > >>   .PP
+> > >>   First support for cross-filesystem copies was introduced in Linux 5.3.
+> > >>   Older kernels will return -EXDEV when cross-filesystem copies are attempted.
+> > >> +.PP
+> > >> +After Linux 5.12, support for copies between different filesystems was dropped.
+> > >> +However, individual filesystems may still provide
+> > >> +.BR copy_file_range ()
+> > >> +implementations that allow copies across different devices.
 
-> 
->> +       |sort -V \
->> +       |xargs pcregrep -Mn "(?s)^asmlinkage\s+[\w\s]+\**sys_${1}\s*\(.*?\)" \
->> +       |sed -E 's/^[^:]+:[0-9]+:/&\n/';
->> +}
+Yes - this could be very important, especially for cifs (smb3) going forward.
 
-Regards,
 
-Alex
 
 -- 
-Alejandro Colomar
-Linux man-pages comaintainer; https://www.kernel.org/doc/man-pages/
-http://www.alejandro-colomar.es/
+Thanks,
+
+Steve
