@@ -8,61 +8,61 @@ X-Spam-Status: No, score=-15.7 required=3.0 tests=BAYES_00,DKIM_SIGNED,
 	MAILING_LIST_MULTI,SPF_HELO_NONE,SPF_PASS,USER_AGENT_GIT autolearn=ham
 	autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 811FAC433E6
+	by smtp.lore.kernel.org (Postfix) with ESMTP id D5A0CC4332E
 	for <linux-man@archiver.kernel.org>; Sun, 28 Feb 2021 00:51:00 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.kernel.org (Postfix) with ESMTP id 5241C64E25
+	by mail.kernel.org (Postfix) with ESMTP id B9F0C64D5D
 	for <linux-man@archiver.kernel.org>; Sun, 28 Feb 2021 00:51:00 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S230203AbhB1Aun (ORCPT <rfc822;linux-man@archiver.kernel.org>);
-        Sat, 27 Feb 2021 19:50:43 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:38396 "EHLO
+        id S230153AbhB1Aut (ORCPT <rfc822;linux-man@archiver.kernel.org>);
+        Sat, 27 Feb 2021 19:50:49 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:38412 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S230167AbhB1Aum (ORCPT
-        <rfc822;linux-man@vger.kernel.org>); Sat, 27 Feb 2021 19:50:42 -0500
-Received: from mail-wm1-x32c.google.com (mail-wm1-x32c.google.com [IPv6:2a00:1450:4864:20::32c])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 5D5DDC061794
-        for <linux-man@vger.kernel.org>; Sat, 27 Feb 2021 16:49:23 -0800 (PST)
-Received: by mail-wm1-x32c.google.com with SMTP id k66so11028624wmf.1
-        for <linux-man@vger.kernel.org>; Sat, 27 Feb 2021 16:49:23 -0800 (PST)
+        with ESMTP id S230206AbhB1Auo (ORCPT
+        <rfc822;linux-man@vger.kernel.org>); Sat, 27 Feb 2021 19:50:44 -0500
+Received: from mail-wm1-x32e.google.com (mail-wm1-x32e.google.com [IPv6:2a00:1450:4864:20::32e])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 10AC2C0617AA
+        for <linux-man@vger.kernel.org>; Sat, 27 Feb 2021 16:49:26 -0800 (PST)
+Received: by mail-wm1-x32e.google.com with SMTP id m1so11031268wml.2
+        for <linux-man@vger.kernel.org>; Sat, 27 Feb 2021 16:49:25 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=gmail.com; s=20161025;
         h=from:to:cc:subject:date:message-id:in-reply-to:references
          :mime-version:content-transfer-encoding;
-        bh=tRzlPy2PPTLESgxjvB3EDqAIHaGLuT8gloIx083+Jh8=;
-        b=JTFLTO+hqtRYSHr5omDamYoPorS9CPWzpFBt3ks3FVa/oFydDeQCZHDCOCy/Ii5s58
-         X+zGgHk40HYG5FSYyP/3vuqs9/sasBquxhBteOKXiNPErc8tKp3ELMV0IvRbXWgscxJJ
-         Xv++9IOvMau+H0KkwKP0sSgP/yU/2pVFulzSh10qJG1g3V5j7Nk4evCYc6YxiT0Q41WO
-         UFjPBB7uqZbeaDTzuXNfWi8OTgmFvLXydic07H0Y5JRfaVGVy5teGPTiRRa1Ndxx8ooC
-         OVVglRVh2WtC273gUcKNztryaBY4M66DNtlc+FxueWknQSO79dW10gMlIsWPbYrAzUdq
-         TBvA==
+        bh=tTgSAnxTLFjz9zOHsSmkUH18INVWp3rDvh8POrPDkU0=;
+        b=Lk7Udp0NU5+JKoWP26A9miyHejcb++fPaF924WU7EpPyQR3bqrY4gQWi55VhagsrmU
+         LbTPiOYDWbIzOfh99uICmACWUC7tN0T7YS3D2q7PPtmVy0XcoJwvSX+ldhhcZxTgZbY/
+         +PplcHi6QJSsh+sTqDBqXqayj8WZf0zZv6aOmED7WR1/uMvAksoG+HmZ8z/CrQ8JicUx
+         ij3nJs2lMXt3G/VqRcEXf2JW4Lwe+mnjr4OdUQoSy0SnwtIJK/5YXwlD+xBvoc8eTjE0
+         qqC34sucKr8cIkiHqqSV1htgzrEDJps01BiNCm2vauP5iC3MXeSkDnZfsOVBLixcDN08
+         qz4g==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
         h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
          :references:mime-version:content-transfer-encoding;
-        bh=tRzlPy2PPTLESgxjvB3EDqAIHaGLuT8gloIx083+Jh8=;
-        b=bXkr93h5w65sfUaUMIGjFH6AHbLrjS67yTJZMUZyC0Otfw5ez8GQI0SzikiCvnOLjp
-         amzRsY15Icc+4TnWdzmS9lkjZyTILE3Y2z+iq2KKFpBPkl0wgoz6bp639E2kuDPKFYR8
-         6qH/ifouQ7Tkeak/3cEReSS/tQXUEV0oZJywLwFWPiOlhUiK2CuGBmJ3Mer3m4hsjY7x
-         5PNL9y65SdTPBXOpptHUUaZJNP+2+w/lUZC2HY4Nhf0NJR9qG/Q65Ojhr9JK1n9pHEnQ
-         MeMQf9SqYF/3O1VVHXEYZaX5jNOWEn8cVZNjWOPdoegsGgqEdUR85LoFpNNTUAaZEQcp
-         CjGw==
-X-Gm-Message-State: AOAM531zPLamEYosafwZ67XmTmv3IZk6OkdJHN7q4y0H6PVmrI5fQe0Y
-        SEuGOhX66tSMpTeoJKX3Z/A=
-X-Google-Smtp-Source: ABdhPJzOojBz2pIHkXAjnmYRBEM79zjc4PP57fLTX1gumJav5z8goSAnL4qD8aOZKCHNAaco1FwrGA==
-X-Received: by 2002:a05:600c:4f4d:: with SMTP id m13mr8969400wmq.81.1614473362205;
-        Sat, 27 Feb 2021 16:49:22 -0800 (PST)
+        bh=tTgSAnxTLFjz9zOHsSmkUH18INVWp3rDvh8POrPDkU0=;
+        b=t/2O9JNUtLYL95gojSUvgt3Yn5jm/YEyNbe6VD9wNPQiy6ARMObw6jwUDzvSIOzg0J
+         WhZD39t+r/hd0nETukPiHefOszeLCmE0ZH/MMXdM7UVEXWD7HM0nolznWmFw3KJgxu6/
+         gUKmcPaXS53JKvcgzm4QY3hb77U6CEdT9xL0GfUa8AOD1P9c84JY2xhtVAe2HkFmU5TB
+         u4LggOEt7+AdzNrPZyqE5qpKtHicKzpAO6ae4ssMHD9a8zvP3O8+O9WTj2ZbfGQEZt+i
+         +uKmyKXwtYGkJFeVZbBNa/634SM887/nGZ5VwqZPyto84g5jTPwJAEXso/bnbtc9dEcx
+         Y8eQ==
+X-Gm-Message-State: AOAM530BJoUpBXKF/iHOMxpw4kwQ3jQ7VxlSrsZvC3/fsBbjdjbiAQbz
+        uTYPyTIopmK7zcc3qE+loCE=
+X-Google-Smtp-Source: ABdhPJyijzHVj5WSVCsCJ2DdfGPebb3BqmTTJRU8jXjQzpJ65KbubghJJSh3or/t2/GG6Oh5lLWEaQ==
+X-Received: by 2002:a7b:c112:: with SMTP id w18mr4256261wmi.28.1614473364927;
+        Sat, 27 Feb 2021 16:49:24 -0800 (PST)
 Received: from localhost.localdomain ([170.253.51.130])
-        by smtp.googlemail.com with ESMTPSA id o14sm18212145wri.48.2021.02.27.16.49.21
+        by smtp.googlemail.com with ESMTPSA id o14sm18212145wri.48.2021.02.27.16.49.24
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Sat, 27 Feb 2021 16:49:21 -0800 (PST)
+        Sat, 27 Feb 2021 16:49:24 -0800 (PST)
 From:   Alejandro Colomar <alx.manpages@gmail.com>
 To:     mtk.manpages@gmail.com
 Cc:     Alejandro Colomar <alx.manpages@gmail.com>,
         linux-man@vger.kernel.org, libc-alpha@sourceware.org
-Subject: [PATCH 05/14] getgrent_r.3: SYNOPSIS: Use 'restrict' in prototypes
-Date:   Sun, 28 Feb 2021 01:48:09 +0100
-Message-Id: <20210228004817.122463-6-alx.manpages@gmail.com>
+Subject: [PATCH 09/14] getmntent.3: SYNOPSIS: Use 'restrict' in prototypes
+Date:   Sun, 28 Feb 2021 01:48:13 +0100
+Message-Id: <20210228004817.122463-10-alx.manpages@gmail.com>
 X-Mailer: git-send-email 2.30.1.721.g45526154a5
 In-Reply-To: <20210228004817.122463-1-alx.manpages@gmail.com>
 References: <20210228004817.122463-1-alx.manpages@gmail.com>
@@ -72,45 +72,49 @@ Precedence: bulk
 List-ID: <linux-man.vger.kernel.org>
 X-Mailing-List: linux-man@vger.kernel.org
 
-glibc uses 'restrict' in getgrent_r(), fgetgrent_r().
+glibc uses 'restrict' in addmntent(), getmntent_r().
 Let's use it here too.
 
-.../glibc$ grep_glibc_prototype getgrent_r
-grp/grp.h:131:
-extern int getgrent_r (struct group *__restrict __resultbuf,
-		       char *__restrict __buffer, size_t __buflen,
-		       struct group **__restrict __result);
-.../glibc$ grep_glibc_prototype fgetgrent_r
-grp/grp.h:161:
-extern int fgetgrent_r (FILE *__restrict __stream,
-			struct group *__restrict __resultbuf,
-			char *__restrict __buffer, size_t __buflen,
-			struct group **__restrict __result);
+.../glibc$ grep_glibc_prototype addmntent
+misc/mntent.h:81:
+extern int addmntent (FILE *__restrict __stream,
+		      const struct mntent *__restrict __mnt) __THROW;
+.../glibc$ grep_glibc_prototype getmntent_r
+misc/mntent.h:73:
+extern struct mntent *getmntent_r (FILE *__restrict __stream,
+				   struct mntent *__restrict __result,
+				   char *__restrict __buffer,
+				   int __bufsize) __THROW;
 .../glibc$
 
 Signed-off-by: Alejandro Colomar <alx.manpages@gmail.com>
 ---
- man3/getgrent_r.3 | 10 ++++++----
- 1 file changed, 6 insertions(+), 4 deletions(-)
+ man3/getmntent.3 | 8 +++++---
+ 1 file changed, 5 insertions(+), 3 deletions(-)
 
-diff --git a/man3/getgrent_r.3 b/man3/getgrent_r.3
-index 55d9d698f..29f063a0a 100644
---- a/man3/getgrent_r.3
-+++ b/man3/getgrent_r.3
-@@ -28,10 +28,12 @@ getgrent_r, fgetgrent_r \- get group file entry reentrantly
- .nf
- .B #include <grp.h>
+diff --git a/man3/getmntent.3 b/man3/getmntent.3
+index 7f83ed248..96e642d18 100644
+--- a/man3/getmntent.3
++++ b/man3/getmntent.3
+@@ -42,7 +42,8 @@ getmntent_r \- get filesystem descriptor file entry
  .PP
--.BI "int getgrent_r(struct group *" gbuf ", char *" buf ,
--.BI "               size_t " buflen ", struct group **" gbufp );
--.BI "int fgetgrent_r(FILE *" stream ", struct group *" gbuf ", char *" buf ,
--.BI "               size_t " buflen ", struct group **" gbufp );
-+.BI "int getgrent_r(struct group *restrict " gbuf ,
-+.BI "               char *restrict " buf ", size_t " buflen ,
-+.BI "               struct group **restrict " gbufp );
-+.BI "int fgetgrent_r(FILE *restrict " stream ", struct group *restrict " gbuf ,
-+.BI "               char *restrict " buf ", size_t " buflen ,
-+.BI "               struct group **restrict " gbufp );
+ .BI "struct mntent *getmntent(FILE *" stream );
+ .PP
+-.BI "int addmntent(FILE *" stream ", const struct mntent *" mnt );
++.BI "int addmntent(FILE *restrict " stream ,
++.BI "              const struct mntent *restrict " mnt );
+ .PP
+ .BI "int endmntent(FILE *" streamp );
+ .PP
+@@ -51,8 +52,9 @@ getmntent_r \- get filesystem descriptor file entry
+ /* GNU extension */
+ .B #include <mntent.h>
+ .PP
+-.BI "struct mntent *getmntent_r(FILE *" streamp ", struct mntent *" mntbuf ,
+-.BI "                           char *" buf ", int " buflen );
++.BI "struct mntent *getmntent_r(FILE *restrict " streamp ,
++.BI "              struct mntent *restrict " mntbuf ,
++.BI "              char *restrict " buf ", int " buflen );
  .fi
  .PP
  .RS -4
