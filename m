@@ -2,67 +2,67 @@ Return-Path: <linux-man-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-15.7 required=3.0 tests=BAYES_00,DKIM_SIGNED,
+X-Spam-Status: No, score=-12.9 required=3.0 tests=BAYES_00,DKIM_SIGNED,
 	DKIM_VALID,DKIM_VALID_AU,FREEMAIL_FORGED_FROMDOMAIN,FREEMAIL_FROM,
 	HEADER_FROM_DIFFERENT_DOMAINS,INCLUDES_CR_TRAILER,INCLUDES_PATCH,
-	MAILING_LIST_MULTI,SPF_HELO_NONE,SPF_PASS,USER_AGENT_GIT autolearn=ham
-	autolearn_force=no version=3.4.0
+	MAILING_LIST_MULTI,SPF_HELO_NONE,SPF_PASS,UNWANTED_LANGUAGE_BODY,
+	USER_AGENT_GIT autolearn=ham autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 6AD93C433E0
+	by smtp.lore.kernel.org (Postfix) with ESMTP id B03CDC43381
 	for <linux-man@archiver.kernel.org>; Sun, 28 Feb 2021 00:51:00 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.kernel.org (Postfix) with ESMTP id 3934164E29
+	by mail.kernel.org (Postfix) with ESMTP id 8899C64E25
 	for <linux-man@archiver.kernel.org>; Sun, 28 Feb 2021 00:51:00 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S230194AbhB1Aun (ORCPT <rfc822;linux-man@archiver.kernel.org>);
-        Sat, 27 Feb 2021 19:50:43 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:38394 "EHLO
+        id S230040AbhB1Aup (ORCPT <rfc822;linux-man@archiver.kernel.org>);
+        Sat, 27 Feb 2021 19:50:45 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:38410 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S230153AbhB1Aum (ORCPT
-        <rfc822;linux-man@vger.kernel.org>); Sat, 27 Feb 2021 19:50:42 -0500
-Received: from mail-wm1-x32e.google.com (mail-wm1-x32e.google.com [IPv6:2a00:1450:4864:20::32e])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id A7275C061793
-        for <linux-man@vger.kernel.org>; Sat, 27 Feb 2021 16:49:22 -0800 (PST)
-Received: by mail-wm1-x32e.google.com with SMTP id l22so727182wme.1
-        for <linux-man@vger.kernel.org>; Sat, 27 Feb 2021 16:49:22 -0800 (PST)
+        with ESMTP id S230153AbhB1Auo (ORCPT
+        <rfc822;linux-man@vger.kernel.org>); Sat, 27 Feb 2021 19:50:44 -0500
+Received: from mail-wm1-x330.google.com (mail-wm1-x330.google.com [IPv6:2a00:1450:4864:20::330])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 64E11C0617A9
+        for <linux-man@vger.kernel.org>; Sat, 27 Feb 2021 16:49:25 -0800 (PST)
+Received: by mail-wm1-x330.google.com with SMTP id n4so9581851wmq.3
+        for <linux-man@vger.kernel.org>; Sat, 27 Feb 2021 16:49:25 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=gmail.com; s=20161025;
         h=from:to:cc:subject:date:message-id:in-reply-to:references
          :mime-version:content-transfer-encoding;
-        bh=FixLbOhgK5wIJDgk/4Q+2cv9wagoAqhe2NOAOg5XQ7s=;
-        b=jmZQJKELBGL2fUsU8K0Z1PE2uFtgZShewvxFK5ih0Nn1K1sB/TZYiXnKTDo634wq6R
-         UblwbI3ovvfX4j+cL6V4kDPkY+/I5R52cnPm2Ifa8ysxzPcGVuRT+OKdHsPin8vycrLq
-         k6cFhWBMhn274i2kffrS5vuklSOPje4RQu770zpR8mKTfczuTDfdUm6WJ/Odi65dyev3
-         TnS5mBbMzTdRqPnO0rVFQcR2u7rrf/tW4KdTf7jZMTudvB0LMZpqn3Al72w3hfoJyPFK
-         TDfogm7IYmlzb6iTeD+kOAV9KA14tkR6FqKj11qdrIBOI1t7U9UealQFWJt3ZRrbEYG9
-         UYTg==
+        bh=MxkD4a6rylrGp5JIkAA92kF0tWAH9d5pd5HaxqyitoA=;
+        b=FycoRKfB2rvowwQGnAhgUiJlebdjhb8UmxcJqEbma9222Us0nYZPU0U6bktJm0LkLw
+         DfLn4WiTOwqx/Zk6HPmVwQxf0De0VpNetdbRyP1Gb/aLrIH0/KjjWab4oFFLUFZBvmMZ
+         WHA/AnyY0G5/Yyg7PeznZwSjon5Y22xS3Q27oUflikZsGvzLMPxRo2EF6CJU6zNO4fMX
+         6//Bbf4JlCLOq1l8nfj/Y/wEIF3qkAwBB2FuyJEwRh/FVgtlvO3EasltW2eruMf4QDJj
+         idtKy3XKKzGVaphNSOZwjd1L72kMoMXatdnSLs68tE96POEwVTuU0Bi/Utx+24Si6ynH
+         PITg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
         h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
          :references:mime-version:content-transfer-encoding;
-        bh=FixLbOhgK5wIJDgk/4Q+2cv9wagoAqhe2NOAOg5XQ7s=;
-        b=mueUoOTYoGV1y4/q9oO1qYOo8gTmWcy4KfZ/wV7wGvW93Kt4qliwdPLdLLa0/q/Hx/
-         aD9NvQ9L2QFZx9jYGPWBDQIy9m6VVZadDdOLzKN4wlyYKrrgMhOQRGtHWB4oiJaJjzK6
-         FUzy74H4bfQrZmxLBtOIgv5pT5TkDwvW/JiLgJt9/HTNQUjivpOh938Ez8m1dxxl4JXM
-         T84iS8+pEZHRGAltLqGKjgwbXbYu7qHSCj2KsPaqz0C7Giz6Q3MsX6lRS+OkqQaxDJCe
-         m4k5DiaO25hcBAhY+MJJF0Azrm7qvhHyARBIsq5i78lPV/G93l6z2wSrE5t8AvGngXai
-         kd+w==
-X-Gm-Message-State: AOAM533pxzsDZdfgwWSb3vpCIz5hFnw6aCULK8JC1WCQsh6tAFGBaA7+
-        M5iDFP8ht/DbOmU656MV4To=
-X-Google-Smtp-Source: ABdhPJwidQwhlNrr0ppsgs4y3J3gPKb7f6XFX9gggeJsbjw3Lzas9DYKHvFtilvtbzud2kOZTBBxdg==
-X-Received: by 2002:a7b:c5d0:: with SMTP id n16mr9075013wmk.27.1614473361533;
-        Sat, 27 Feb 2021 16:49:21 -0800 (PST)
+        bh=MxkD4a6rylrGp5JIkAA92kF0tWAH9d5pd5HaxqyitoA=;
+        b=YB7dMa58cFAPnbdu5Ti949IIcjvXcH4G/xzdy25DW9Rl1FVrL3Man8864gz2ROyyEq
+         e6f+UxXhTSl+PWygQPrvCF1H+kmsmMfKJ0CMY6v195tEq1eXwxRtQk7oi/Zv60thqv8J
+         sG66hGZdog8DKLNRm+CFwiuX2cXthp4UltWpfNCd9/dBvfQMqJQL6M7Q4WCqCqNG4hLt
+         MvwUQBoBhnTBMAEulcXkrjF5HHZSFYRmwWQ5aiIztA4zxZaoxGgLqpkNCnVUNly5196l
+         4lCvVc25V0Uhmu2w3eS340zfYsUuClk7ElZx6W1VbsHdRlDKogWTspgpCa8yqM9WbHZd
+         ZtVg==
+X-Gm-Message-State: AOAM530clP84VN+Fx/Z4tS8him35QWF/wVmbg7P9UoS6r9xjOiJk84vY
+        TvVlWD4lUTXOxUcSFz39wps=
+X-Google-Smtp-Source: ABdhPJz2NIAfHvcT6UIuqXaAxUOAhqUgXLi/oyWfXM/zMr7tDdjolMCMu8k8GeT/+EhXANAkuqlvhQ==
+X-Received: by 2002:a7b:cb01:: with SMTP id u1mr9319991wmj.149.1614473364274;
+        Sat, 27 Feb 2021 16:49:24 -0800 (PST)
 Received: from localhost.localdomain ([170.253.51.130])
-        by smtp.googlemail.com with ESMTPSA id o14sm18212145wri.48.2021.02.27.16.49.20
+        by smtp.googlemail.com with ESMTPSA id o14sm18212145wri.48.2021.02.27.16.49.23
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Sat, 27 Feb 2021 16:49:21 -0800 (PST)
+        Sat, 27 Feb 2021 16:49:24 -0800 (PST)
 From:   Alejandro Colomar <alx.manpages@gmail.com>
 To:     mtk.manpages@gmail.com
 Cc:     Alejandro Colomar <alx.manpages@gmail.com>,
         linux-man@vger.kernel.org, libc-alpha@sourceware.org
-Subject: [PATCH 04/14] getdirentries.3: SYNOPSIS: Use 'restrict' in prototypes
-Date:   Sun, 28 Feb 2021 01:48:08 +0100
-Message-Id: <20210228004817.122463-5-alx.manpages@gmail.com>
+Subject: [PATCH 08/14] getline.3: SYNOPSIS: Use 'restrict' in prototypes
+Date:   Sun, 28 Feb 2021 01:48:12 +0100
+Message-Id: <20210228004817.122463-9-alx.manpages@gmail.com>
 X-Mailer: git-send-email 2.30.1.721.g45526154a5
 In-Reply-To: <20210228004817.122463-1-alx.manpages@gmail.com>
 References: <20210228004817.122463-1-alx.manpages@gmail.com>
@@ -72,34 +72,41 @@ Precedence: bulk
 List-ID: <linux-man.vger.kernel.org>
 X-Mailing-List: linux-man@vger.kernel.org
 
-glibc uses 'restrict' in getdirentries().
+Both POSIX and glibc use 'restrict' in getline(), getdelim().
 Let's use it here too.
 
-.../glibc$ grep_glibc_prototype getdirentries
-dirent/dirent.h:353:
-extern __ssize_t getdirentries (int __fd, char *__restrict __buf,
-				size_t __nbytes,
-				__off_t *__restrict __basep)
-     __THROW __nonnull ((2, 4));
+.../glibc$ grep_glibc_prototype getline
+libio/stdio.h:621:
+extern __ssize_t getline (char **__restrict __lineptr,
+                          size_t *__restrict __n,
+                          FILE *__restrict __stream) __wur;
+.../glibc$ grep_glibc_prototype getdelim
+libio/stdio.h:611:
+extern __ssize_t getdelim (char **__restrict __lineptr,
+                           size_t *__restrict __n, int __delimiter,
+                           FILE *__restrict __stream) __wur;
 .../glibc$
 
 Signed-off-by: Alejandro Colomar <alx.manpages@gmail.com>
 ---
- man3/getdirentries.3 | 4 ++--
- 1 file changed, 2 insertions(+), 2 deletions(-)
+ man3/getline.3 | 7 ++++---
+ 1 file changed, 4 insertions(+), 3 deletions(-)
 
-diff --git a/man3/getdirentries.3 b/man3/getdirentries.3
-index 0deff6371..9bba3cc4b 100644
---- a/man3/getdirentries.3
-+++ b/man3/getdirentries.3
-@@ -31,8 +31,8 @@ getdirentries \- get directory entries in a filesystem-independent format
+diff --git a/man3/getline.3 b/man3/getline.3
+index 25930dbf9..182a8ca85 100644
+--- a/man3/getline.3
++++ b/man3/getline.3
+@@ -30,9 +30,10 @@ getline, getdelim \- delimited string input
  .nf
- .B #include <dirent.h>
+ .B #include <stdio.h>
  .PP
--.BI "ssize_t getdirentries(int " fd ", char *" buf ", size_t " nbytes ,
--.BI "                      off_t *" basep );
-+.BI "ssize_t getdirentries(int " fd ", char *restrict " buf ", size_t " nbytes ,
-+.BI "                      off_t *restrict " basep );
+-.BI "ssize_t getline(char **" lineptr ", size_t *" n ", FILE *" stream );
+-.BI "ssize_t getdelim(char **" lineptr ", size_t *" n ", int " delim \
+-", FILE *" stream );
++.BI "ssize_t getline(char **restrict " lineptr ", size_t *restrict " n ,
++.BI "                FILE *restrict " stream );
++.BI "ssize_t getdelim(char **restrict " lineptr ", size_t *restrict " n ,
++.BI "                int " delim ", FILE *restrict " stream );
  .fi
  .PP
  .RS -4
