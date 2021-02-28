@@ -8,115 +8,99 @@ X-Spam-Status: No, score=-15.7 required=3.0 tests=BAYES_00,DKIM_SIGNED,
 	MAILING_LIST_MULTI,SPF_HELO_NONE,SPF_PASS,USER_AGENT_GIT autolearn=ham
 	autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 27546C433E0
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 3B73EC433DB
 	for <linux-man@archiver.kernel.org>; Sun, 28 Feb 2021 00:51:43 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.kernel.org (Postfix) with ESMTP id E86D164D5D
-	for <linux-man@archiver.kernel.org>; Sun, 28 Feb 2021 00:51:42 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTP id 0901664E29
+	for <linux-man@archiver.kernel.org>; Sun, 28 Feb 2021 00:51:43 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S230213AbhB1Av1 (ORCPT <rfc822;linux-man@archiver.kernel.org>);
+        id S230209AbhB1Av1 (ORCPT <rfc822;linux-man@archiver.kernel.org>);
         Sat, 27 Feb 2021 19:51:27 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:38554 "EHLO
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:38556 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S230209AbhB1AvW (ORCPT
+        with ESMTP id S230212AbhB1AvW (ORCPT
         <rfc822;linux-man@vger.kernel.org>); Sat, 27 Feb 2021 19:51:22 -0500
-Received: from mail-wm1-x334.google.com (mail-wm1-x334.google.com [IPv6:2a00:1450:4864:20::334])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 2CCA9C06121E
-        for <linux-man@vger.kernel.org>; Sat, 27 Feb 2021 16:49:29 -0800 (PST)
-Received: by mail-wm1-x334.google.com with SMTP id i9so10031135wml.0
-        for <linux-man@vger.kernel.org>; Sat, 27 Feb 2021 16:49:29 -0800 (PST)
+Received: from mail-wm1-x32c.google.com (mail-wm1-x32c.google.com [IPv6:2a00:1450:4864:20::32c])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id C6D13C06174A
+        for <linux-man@vger.kernel.org>; Sat, 27 Feb 2021 16:50:38 -0800 (PST)
+Received: by mail-wm1-x32c.google.com with SMTP id u125so10990072wmg.4
+        for <linux-man@vger.kernel.org>; Sat, 27 Feb 2021 16:50:38 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=gmail.com; s=20161025;
-        h=from:to:cc:subject:date:message-id:in-reply-to:references
-         :mime-version:content-transfer-encoding;
-        bh=rmmzZxLGW7vf7rTslg7OcZB3XnE5Jj8qb7jk19tyUJ8=;
-        b=qNOQc9aXfpZc5NGz4ahQem3L1mcpvAsTSjvMy6zjO4cIf8d6T+JyAO2Q6YS1s0o+Yi
-         62dCzHywvfmftWJIRMco8pKGbHlSTk0Vu3OYB//lNXud698t5kI9u2Sk13Srdi5Gj6gr
-         Hjxdj/FDCP8bsP30EWG9D77s2ls04GQ9qRnFTPMWRmoTyu+CyZ738pudoZ5GDza141AK
-         o+Vn9s/IAlMPFtzTDCyCcKa+a+g8LsvRQXLSNZDzzVZdIcNLQeR4DbDCscAmkQ4YqIyh
-         jT450AH35RtTkDfNuXAxDSCq6K09wfExcCFFAoqIwRT501BjELCurtwo2/GuEZQ3oUZl
-         at6A==
+        h=from:to:cc:subject:date:message-id:mime-version
+         :content-transfer-encoding;
+        bh=5a48VXI/LlaQg4ZbUc0ua9uF+dg1VkBzaIHAK8FrjIs=;
+        b=dpn/UykjFUMnB/RKmpZ8PQ6s7cxvQ14fi8c3yEk/cSm71afFcH1KxsLA0UzrbdwBPr
+         LA6Gh9QYDzykvJUoj23si1VNuMiUbkAkZX1vaqxsQIFCsv0AHaSmh8CEd163RMXnBSax
+         gJQhiL/fCwa5Qwo9w/s7mpXawtoUvOksAUQ/p2R8DO2VApvmNs2ME2AGN2wjsmiVV+cp
+         /X54qYs4Ep9AQc31TD7h2z/t3Nq1zVVgAZHwMTDrQ/byEaqSwuJVygKxTQvxFZpc9shw
+         /7CvgnUJ7hFAwRvs90CCXnZCMttAF3Sbnou+ghp84k+gOk9+7ZY722h9BSrPVNxqLEce
+         o4zg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
-        h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
-         :references:mime-version:content-transfer-encoding;
-        bh=rmmzZxLGW7vf7rTslg7OcZB3XnE5Jj8qb7jk19tyUJ8=;
-        b=emQ/LKBLAP8CoiJrOsRv2pN7yINkJvZpCdC8QFof2RqoQfhUyAtyQ8UooXCFTsGkZB
-         YOz9Sfmj2MEy++uCVG6daUCwljSzT9+N88++MJZxuK7Mqz+X482DzPXEQzRUoMa2ONID
-         vnZPN1E8PVOBZJx15NhYEHuDHJ6aekw9nmf0NJhAgPnyQGwfgsIuE6K4X1Ke3Q6QWAU6
-         E4Anu+FUbaXNQytj1Ab07tqhzgpko9jjjCAsNh6xRVVjG/G91Y8UqxDUsI0xCqF+K1+4
-         e9b74p0xbMW0E1+E9WOLtXJofegkmoVbdnh5/hQ4H1O6PfrEJfeO9U1GX7I9yigjHev+
-         78fw==
-X-Gm-Message-State: AOAM530+zkzq/5/7jsxEgt6T1ny6EikCt9FkM5F1khE7R9nBGl0V64j8
-        HJv5EDKvZ6drToLBlPY9e9c=
-X-Google-Smtp-Source: ABdhPJy8xi03xqBSVfAJ6JWo/16cVS4/F/M3wtzObKIH17DArCTcFfz3QSLcJcAGblQ/Js/XMl9xjA==
-X-Received: by 2002:a1c:1bc7:: with SMTP id b190mr9298025wmb.115.1614473368005;
-        Sat, 27 Feb 2021 16:49:28 -0800 (PST)
+        h=x-gm-message-state:from:to:cc:subject:date:message-id:mime-version
+         :content-transfer-encoding;
+        bh=5a48VXI/LlaQg4ZbUc0ua9uF+dg1VkBzaIHAK8FrjIs=;
+        b=DSRL/UJUwl9tQs3Hphq4WFv/uDqw79R0LTCLG6Lo7JzNYCZKvwrYoUaZ268EAPqdVZ
+         a5lWglhPK3ANLjGDJif1gB8JvF4Wh60NDVTCm6oqdyLCggks7HX7wN+dJ9TWzg44z6w3
+         kfKrtwGTsUQdHee8+XOYa1cX+WT7dzViMT0D4dHwLi0zJCroJNer8Hhu4TXjCgFm0Atg
+         XuCXbeKBhx0nACbbMzhzj97Hb5IHkYjMoQzpfHuJUof4T4Uv9yvdfKQtomZipmCixxqF
+         uKh9FIlRIVASqr7bNL1dHhOaNxYomHN9sylCbSiydrA9XT4uLdIBvJN8pLP89ed084Lr
+         UyQw==
+X-Gm-Message-State: AOAM533WLycUSwn8tIl8fkfC+rT6QrJruT+70Y03GWAht0ArMcpAWFi1
+        dupBIihxOIKxyUT+v4KITsT6iEqn8e5zjw==
+X-Google-Smtp-Source: ABdhPJxZVLIQt16PZASYpCXnIYSLQtgKsLtbtiCZw7N4gDMCfAUAILwsLgqaahXVVGF4Z0byGFqX4g==
+X-Received: by 2002:a05:600c:2946:: with SMTP id n6mr1235954wmd.52.1614473437618;
+        Sat, 27 Feb 2021 16:50:37 -0800 (PST)
 Received: from localhost.localdomain ([170.253.51.130])
-        by smtp.googlemail.com with ESMTPSA id o14sm18212145wri.48.2021.02.27.16.49.27
+        by smtp.googlemail.com with ESMTPSA id j30sm1068819wrj.62.2021.02.27.16.50.37
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Sat, 27 Feb 2021 16:49:27 -0800 (PST)
+        Sat, 27 Feb 2021 16:50:37 -0800 (PST)
 From:   Alejandro Colomar <alx.manpages@gmail.com>
 To:     mtk.manpages@gmail.com
 Cc:     Alejandro Colomar <alx.manpages@gmail.com>,
-        linux-man@vger.kernel.org, libc-alpha@sourceware.org
-Subject: [PATCH 13/14] getpwent_r.3: SYNOPSIS: Use 'restrict' in prototypes
-Date:   Sun, 28 Feb 2021 01:48:17 +0100
-Message-Id: <20210228004817.122463-14-alx.manpages@gmail.com>
+        linux-man@vger.kernel.org
+Subject: [PATCH] getopt.3: ffix
+Date:   Sun, 28 Feb 2021 01:50:25 +0100
+Message-Id: <20210228005024.122579-1-alx.manpages@gmail.com>
 X-Mailer: git-send-email 2.30.1.721.g45526154a5
-In-Reply-To: <20210228004817.122463-1-alx.manpages@gmail.com>
-References: <20210228004817.122463-1-alx.manpages@gmail.com>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 Precedence: bulk
 List-ID: <linux-man.vger.kernel.org>
 X-Mailing-List: linux-man@vger.kernel.org
 
-glibc uses 'restrict' in getpwent_r(), fgetpwent_r().
-Let's use it here too.
-
-.../glibc$ grep_glibc_prototype getpwent_r
-pwd/pwd.h:139:
-extern int getpwent_r (struct passwd *__restrict __resultbuf,
-		       char *__restrict __buffer, size_t __buflen,
-		       struct passwd **__restrict __result)
-		       __nonnull ((1, 2, 4));
-.../glibc$ grep_glibc_prototype fgetpwent_r
-pwd/pwd.h:166:
-extern int fgetpwent_r (FILE *__restrict __stream,
-			struct passwd *__restrict __resultbuf,
-			char *__restrict __buffer, size_t __buflen,
-			struct passwd **__restrict __result)
-			__nonnull ((1, 2, 3, 5));
-.../glibc$
-
 Signed-off-by: Alejandro Colomar <alx.manpages@gmail.com>
 ---
- man3/getpwent_r.3 | 11 +++++++----
- 1 file changed, 7 insertions(+), 4 deletions(-)
+ man3/getopt.3 | 6 +++---
+ 1 file changed, 3 insertions(+), 3 deletions(-)
 
-diff --git a/man3/getpwent_r.3 b/man3/getpwent_r.3
-index 3414b31a8..b2c7e420a 100644
---- a/man3/getpwent_r.3
-+++ b/man3/getpwent_r.3
-@@ -28,10 +28,13 @@ getpwent_r, fgetpwent_r \- get passwd file entry reentrantly
+diff --git a/man3/getopt.3 b/man3/getopt.3
+index d83f8693e..b628a0b4d 100644
+--- a/man3/getopt.3
++++ b/man3/getopt.3
+@@ -47,7 +47,7 @@ optarg, optind, opterr, optopt \- Parse command-line options
  .nf
- .B #include <pwd.h>
+ .B #include <unistd.h>
  .PP
--.BI "int getpwent_r(struct passwd *" pwbuf ", char *" buf ,
--.BI "               size_t " buflen ", struct passwd **" pwbufp );
--.BI "int fgetpwent_r(FILE *" stream ", struct passwd *" pwbuf ", char *" buf ,
--.BI "                size_t " buflen ", struct passwd **" pwbufp );
-+.BI "int getpwent_r(struct passwd *restrict " pwbuf ,
-+.BI "               char *restrict " buf ", size_t " buflen ,
-+.BI "               struct passwd **restrict " pwbufp );
-+.BI "int fgetpwent_r(FILE *restrict " stream \
-+", struct passwd *restrict " pwbuf ,
-+.BI "               char *restrict " buf ", size_t " buflen ,
-+.BI "               struct passwd **restrict " pwbufp );
+-.BI "int getopt(int " argc ", char * const " argv[] ,
++.BI "int getopt(int " argc ", char *const " argv [],
+ .BI "           const char *" optstring );
+ .PP
+ .BI "extern char *" optarg ;
+@@ -55,10 +55,10 @@ optarg, optind, opterr, optopt \- Parse command-line options
+ .PP
+ .B #include <getopt.h>
+ .PP
+-.BI "int getopt_long(int " argc ", char * const " argv[] ,
++.BI "int getopt_long(int " argc ", char *const " argv [],
+ .BI "           const char *" optstring ,
+ .BI "           const struct option *" longopts ", int *" longindex );
+-.BI "int getopt_long_only(int " argc ", char * const " argv[] ,
++.BI "int getopt_long_only(int " argc ", char *const " argv [],
+ .BI "           const char *" optstring ,
+ .BI "           const struct option *" longopts ", int *" longindex );
  .fi
- .PP
- .RS -4
 -- 
 2.30.1.721.g45526154a5
 
