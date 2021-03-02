@@ -7,64 +7,63 @@ X-Spam-Status: No, score=-16.8 required=3.0 tests=BAYES_00,DKIM_SIGNED,
 	MAILING_LIST_MULTI,SPF_HELO_NONE,SPF_PASS,URIBL_BLOCKED,USER_AGENT_GIT
 	autolearn=unavailable autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 3348AC43381
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 45103C4332B
 	for <linux-man@archiver.kernel.org>; Wed,  3 Mar 2021 06:32:58 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.kernel.org (Postfix) with ESMTP id EDB3164ED0
-	for <linux-man@archiver.kernel.org>; Wed,  3 Mar 2021 06:32:57 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTP id 1C4A564ECF
+	for <linux-man@archiver.kernel.org>; Wed,  3 Mar 2021 06:32:58 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1355175AbhCCG0C (ORCPT <rfc822;linux-man@archiver.kernel.org>);
-        Wed, 3 Mar 2021 01:26:02 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:51324 "EHLO
+        id S1355165AbhCCG0I (ORCPT <rfc822;linux-man@archiver.kernel.org>);
+        Wed, 3 Mar 2021 01:26:08 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:51320 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1344252AbhCBRlq (ORCPT
+        with ESMTP id S1344213AbhCBRlq (ORCPT
         <rfc822;linux-man@vger.kernel.org>); Tue, 2 Mar 2021 12:41:46 -0500
-Received: from mail-pf1-x433.google.com (mail-pf1-x433.google.com [IPv6:2607:f8b0:4864:20::433])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 4984BC0698C3
-        for <linux-man@vger.kernel.org>; Tue,  2 Mar 2021 09:20:43 -0800 (PST)
-Received: by mail-pf1-x433.google.com with SMTP id i10so5088509pfk.4
-        for <linux-man@vger.kernel.org>; Tue, 02 Mar 2021 09:20:43 -0800 (PST)
+Received: from mail-pg1-x534.google.com (mail-pg1-x534.google.com [IPv6:2607:f8b0:4864:20::534])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id D19F9C0698CC
+        for <linux-man@vger.kernel.org>; Tue,  2 Mar 2021 09:20:46 -0800 (PST)
+Received: by mail-pg1-x534.google.com with SMTP id l2so14290156pgb.1
+        for <linux-man@vger.kernel.org>; Tue, 02 Mar 2021 09:20:46 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=cilium-io.20150623.gappssmtp.com; s=20150623;
         h=from:to:cc:subject:date:message-id:in-reply-to:references
          :mime-version:content-transfer-encoding;
-        bh=AThU4ci48FKxy/EX8TQpAEHDA9i5ZmNT/rLJMEkkHrM=;
-        b=TRm4JPuM3dS20NhEZWk7JIzebqcxaxAjsqGFS5zL6ZusSg7H37Xa9iJXZUODP5okvA
-         6EmC7Quu6NbpvlZkJaKrXaJ6/2CjePLiQ0qMKsn8zWq3Q8tJHswz6F27RSKKdXbkzzTO
-         Ep4Y7DkVGYZMmgeSu0Td4gmz0LOW47iLVUEjQm+k1Gc/T9Copy63Uypd9NGe+yRaM/bp
-         In/0+dZQluaotcyb3QizHyPqAxNGb7zCYx+BpVIxaU60BL2Ti1HzaiAHeXbrgZAIjScu
-         4NhIu9uS709nR1F2IUkI3AJd75vakacFjFq9BXXSDE7PjlXLBe4WynJBe6jgxcKZcee4
-         FW1Q==
+        bh=hu2fl/gdmtemcdYzHoBNdDwL+TolrGxintCby5qolro=;
+        b=gUeXZS2tsNTXS18Z4VONyksNUoioo/xd+y0QiZIsR+hxzg2BxZmWY/v7YFh3MicoyF
+         Fcqm8KlHlNsXyIns2a0V9XbeqGHNqfAv/W++vmNiX9pfZM2W6JslFu/MQf823Y40U+AX
+         xNfh0wj7eTi2NxM+BFt37IssX7tV0gE4zYELLAijxoewKKLulYTDpSLosnfHOkO2Pe2m
+         WHIaJSecBWQJqWGG5sq29pl+t8gaUsOwUTrKKoVxoRaQZ2BIHBkBaTfxoGsJT3bsUXgi
+         iYBwcfsN4k4nrNeAmodfhSHVCOXooHe+4w23bmUblDg7kD67WLx0wld/EezzdsvanNHk
+         ZlBg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
         h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
          :references:mime-version:content-transfer-encoding;
-        bh=AThU4ci48FKxy/EX8TQpAEHDA9i5ZmNT/rLJMEkkHrM=;
-        b=eEAnMKW43nJjc6zjONwLlh+CNKF68UcxNoRWHAuC/eCBwcPZutfkm2lWJHFPYpvnZW
-         dQp1Ka9SqQxEHotST+Lp8LiWv7n8bQ21FuhnP/rGqkcYppGynf384BkNI8IQwM5YnpWI
-         8+LeNSI1L/V+50UAWdR9H1IfY8gX4mIJ45RI68ovjxfxmy77ytbgqNKEIDj6l43gkI+p
-         8SVUKq27he5+NSR5eKdxl6IW1++nBOTj9CQ9J9srGaGssZVcA0g6+SLuAkWW+DX4QVXO
-         TqZdijZw4sem+ZsPMrxHlDiGeJkPsqtlir2Xf/sBWkE5PwA4SQncERUdmStJRqGtsdD2
-         mRIw==
-X-Gm-Message-State: AOAM531IPTZwnn7juKWwL+48bVBY+5PoFfAcaje70t/EYcPcWXmly26+
-        4rdg9eB6nxUS1w1pQTqmZLU98Q==
-X-Google-Smtp-Source: ABdhPJzzVSbAzyjYnnbzdMLtBDQGJaOL0r5I5Nr5cA2wEk7ykjzOznxcSdJydzJkbN2d2iEG3ly2ng==
-X-Received: by 2002:a62:4e92:0:b029:1ee:251d:50a1 with SMTP id c140-20020a624e920000b02901ee251d50a1mr4010269pfb.53.1614705642736;
-        Tue, 02 Mar 2021 09:20:42 -0800 (PST)
+        bh=hu2fl/gdmtemcdYzHoBNdDwL+TolrGxintCby5qolro=;
+        b=MqMkdyafvfcbk8HlHMCiRwkv4XBL1HiC6VTsLJs5sinaaE5FFxTyXgeqVYhosY9DpA
+         vPdPMWsb2t2jjFv0JBOyH4S3S067KSw7ghPflW9G0CGgn5yi5/kGRq63Ot41ZrcsC7M/
+         5h4nQllL4so22DdyPBCwgTTIEmh80Qkn5IqKHbrP8qesZsRwL6OCaYdqLH5zoE2/2Vde
+         ZAirYX/bN3E20U8B47JAsp8NSQ3CYJ0h9fnN/BFs9+2SG9hwursXcy+9Cl1xkYc3a1HW
+         onVUSZsHHATQRmFT4rQvnac+SStiO1tlq4HpHFrrXXsMmwSCuzbPZevFOQ2FOydP9E+9
+         TPKg==
+X-Gm-Message-State: AOAM532J2YbGqE0Fot3pwERXl66/pz3UN8uO6HEqs8anx5/t2Syj4Nj0
+        VcF32WlPWTH6fHTfCFZZ5pFN3ZVQpH000FBK
+X-Google-Smtp-Source: ABdhPJzBegCXpYGBPuhfMSwsZrbAutCvoiFoc06DUlOYmxG7LD63nqFLBzLNBKT72gRfSqvMLazo0g==
+X-Received: by 2002:a62:ea19:0:b029:1ee:5911:c516 with SMTP id t25-20020a62ea190000b02901ee5911c516mr4070769pfh.67.1614705646358;
+        Tue, 02 Mar 2021 09:20:46 -0800 (PST)
 Received: from localhost.localdomain (c-73-93-5-123.hsd1.ca.comcast.net. [73.93.5.123])
-        by smtp.gmail.com with ESMTPSA id b15sm20073923pgg.85.2021.03.02.09.20.41
+        by smtp.gmail.com with ESMTPSA id b15sm20073923pgg.85.2021.03.02.09.20.45
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Tue, 02 Mar 2021 09:20:42 -0800 (PST)
+        Tue, 02 Mar 2021 09:20:45 -0800 (PST)
 From:   Joe Stringer <joe@cilium.io>
 To:     bpf@vger.kernel.org
 Cc:     daniel@iogearbox.net, ast@kernel.org, linux-doc@vger.kernel.org,
         linux-man@vger.kernel.org,
         =?UTF-8?q?Toke=20H=C3=B8iland-J=C3=B8rgensen?= <toke@redhat.com>,
-        Quentin Monnet <quentin@isovalent.com>,
-        Brian Vazquez <brianvv@google.com>, Yonghong Song <yhs@fb.com>
-Subject: [PATCHv2 bpf-next 08/15] bpf: Document BPF_MAP_*_BATCH syscall commands
-Date:   Tue,  2 Mar 2021 09:19:40 -0800
-Message-Id: <20210302171947.2268128-9-joe@cilium.io>
+        Quentin Monnet <quentin@isovalent.com>
+Subject: [PATCHv2 bpf-next 11/15] tools/bpf: Remove bpf-helpers from bpftool docs
+Date:   Tue,  2 Mar 2021 09:19:43 -0800
+Message-Id: <20210302171947.2268128-12-joe@cilium.io>
 X-Mailer: git-send-email 2.27.0
 In-Reply-To: <20210302171947.2268128-1-joe@cilium.io>
 References: <20210302171947.2268128-1-joe@cilium.io>
@@ -75,167 +74,270 @@ Precedence: bulk
 List-ID: <linux-man.vger.kernel.org>
 X-Mailing-List: linux-man@vger.kernel.org
 
-Based roughly on the following commits:
-* Commit cb4d03ab499d ("bpf: Add generic support for lookup batch op")
-* Commit 057996380a42 ("bpf: Add batch ops to all htab bpf map")
-* Commit aa2e93b8e58e ("bpf: Add generic support for update and delete
-  batch ops")
+This logic is used for validating the manual pages from selftests, so
+move the infra under tools/testing/selftests/bpf/ and rely on selftests
+for validation rather than tying it into the bpftool build.
 
 Acked-by: Toke Høiland-Jørgensen <toke@redhat.com>
 Reviewed-by: Quentin Monnet <quentin@isovalent.com>
 Signed-off-by: Joe Stringer <joe@cilium.io>
 ---
-CC: Brian Vazquez <brianvv@google.com>
-CC: Yonghong Song <yhs@fb.com>
----
- include/uapi/linux/bpf.h | 114 +++++++++++++++++++++++++++++++++++++--
- 1 file changed, 111 insertions(+), 3 deletions(-)
+ tools/bpf/bpftool/.gitignore                  |  1 -
+ tools/bpf/bpftool/Documentation/Makefile      | 11 +++----
+ tools/testing/selftests/bpf/.gitignore        |  1 +
+ tools/testing/selftests/bpf/Makefile          | 20 +++++++++---
+ .../selftests/bpf/Makefile.docs}              | 32 ++++++++++---------
+ .../selftests/bpf/test_bpftool_build.sh       | 21 ------------
+ tools/testing/selftests/bpf/test_doc_build.sh | 13 ++++++++
+ 7 files changed, 50 insertions(+), 49 deletions(-)
+ rename tools/{bpf/Makefile.helpers => testing/selftests/bpf/Makefile.docs} (64%)
+ create mode 100755 tools/testing/selftests/bpf/test_doc_build.sh
 
-diff --git a/include/uapi/linux/bpf.h b/include/uapi/linux/bpf.h
-index 0cf92ef011f1..c8b9d19fce22 100644
---- a/include/uapi/linux/bpf.h
-+++ b/include/uapi/linux/bpf.h
-@@ -553,13 +553,55 @@ union bpf_iter_link_info {
-  *	Description
-  *		Iterate and fetch multiple elements in a map.
-  *
-+ *		Two opaque values are used to manage batch operations,
-+ *		*in_batch* and *out_batch*. Initially, *in_batch* must be set
-+ *		to NULL to begin the batched operation. After each subsequent
-+ *		**BPF_MAP_LOOKUP_BATCH**, the caller should pass the resultant
-+ *		*out_batch* as the *in_batch* for the next operation to
-+ *		continue iteration from the current point.
-+ *
-+ *		The *keys* and *values* are output parameters which must point
-+ *		to memory large enough to hold *count* items based on the key
-+ *		and value size of the map *map_fd*. The *keys* buffer must be
-+ *		of *key_size* * *count*. The *values* buffer must be of
-+ *		*value_size* * *count*.
-+ *
-+ *		The *elem_flags* argument may be specified as one of the
-+ *		following:
-+ *
-+ *		**BPF_F_LOCK**
-+ *			Look up the value of a spin-locked map without
-+ *			returning the lock. This must be specified if the
-+ *			elements contain a spinlock.
-+ *
-+ *		On success, *count* elements from the map are copied into the
-+ *		user buffer, with the keys copied into *keys* and the values
-+ *		copied into the corresponding indices in *values*.
-+ *
-+ *		If an error is returned and *errno* is not **EFAULT**, *count*
-+ *		is set to the number of successfully processed elements.
-+ *
-  *	Return
-  *		Returns zero on success. On error, -1 is returned and *errno*
-  *		is set appropriately.
-  *
-+ *		May set *errno* to **ENOSPC** to indicate that *keys* or
-+ *		*values* is too small to dump an entire bucket during
-+ *		iteration of a hash-based map type.
-+ *
-  * BPF_MAP_LOOKUP_AND_DELETE_BATCH
-  *	Description
-- *		Iterate and delete multiple elements in a map.
-+ *		Iterate and delete all elements in a map.
-+ *
-+ *		This operation has the same behavior as
-+ *		**BPF_MAP_LOOKUP_BATCH** with two exceptions:
-+ *
-+ *		* Every element that is successfully returned is also deleted
-+ *		  from the map. This is at least *count* elements. Note that
-+ *		  *count* is both an input and an output parameter.
-+ *		* Upon returning with *errno* set to **EFAULT**, up to
-+ *		  *count* elements may be deleted without returning the keys
-+ *		  and values of the deleted elements.
-  *
-  *	Return
-  *		Returns zero on success. On error, -1 is returned and *errno*
-@@ -567,15 +609,81 @@ union bpf_iter_link_info {
-  *
-  * BPF_MAP_UPDATE_BATCH
-  *	Description
-- *		Iterate and update multiple elements in a map.
-+ *		Update multiple elements in a map by *key*.
-+ *
-+ *		The *keys* and *values* are input parameters which must point
-+ *		to memory large enough to hold *count* items based on the key
-+ *		and value size of the map *map_fd*. The *keys* buffer must be
-+ *		of *key_size* * *count*. The *values* buffer must be of
-+ *		*value_size* * *count*.
-+ *
-+ *		Each element specified in *keys* is sequentially updated to the
-+ *		value in the corresponding index in *values*. The *in_batch*
-+ *		and *out_batch* parameters are ignored and should be zeroed.
-+ *
-+ *		The *elem_flags* argument should be specified as one of the
-+ *		following:
-+ *
-+ *		**BPF_ANY**
-+ *			Create new elements or update a existing elements.
-+ *		**BPF_NOEXIST**
-+ *			Create new elements only if they do not exist.
-+ *		**BPF_EXIST**
-+ *			Update existing elements.
-+ *		**BPF_F_LOCK**
-+ *			Update spin_lock-ed map elements. This must be
-+ *			specified if the map value contains a spinlock.
-+ *
-+ *		On success, *count* elements from the map are updated.
-+ *
-+ *		If an error is returned and *errno* is not **EFAULT**, *count*
-+ *		is set to the number of successfully processed elements.
-  *
-  *	Return
-  *		Returns zero on success. On error, -1 is returned and *errno*
-  *		is set appropriately.
-  *
-+ *		May set *errno* to **EINVAL**, **EPERM**, **ENOMEM**, or
-+ *		**E2BIG**. **E2BIG** indicates that the number of elements in
-+ *		the map reached the *max_entries* limit specified at map
-+ *		creation time.
-+ *
-+ *		May set *errno* to one of the following error codes under
-+ *		specific circumstances:
-+ *
-+ *		**EEXIST**
-+ *			If *flags* specifies **BPF_NOEXIST** and the element
-+ *			with *key* already exists in the map.
-+ *		**ENOENT**
-+ *			If *flags* specifies **BPF_EXIST** and the element with
-+ *			*key* does not exist in the map.
-+ *
-  * BPF_MAP_DELETE_BATCH
-  *	Description
-- *		Iterate and delete multiple elements in a map.
-+ *		Delete multiple elements in a map by *key*.
-+ *
-+ *		The *keys* parameter is an input parameter which must point
-+ *		to memory large enough to hold *count* items based on the key
-+ *		size of the map *map_fd*, that is, *key_size* * *count*.
-+ *
-+ *		Each element specified in *keys* is sequentially deleted. The
-+ *		*in_batch*, *out_batch*, and *values* parameters are ignored
-+ *		and should be zeroed.
-+ *
-+ *		The *elem_flags* argument may be specified as one of the
-+ *		following:
-+ *
-+ *		**BPF_F_LOCK**
-+ *			Look up the value of a spin-locked map without
-+ *			returning the lock. This must be specified if the
-+ *			elements contain a spinlock.
-+ *
-+ *		On success, *count* elements from the map are updated.
-+ *
-+ *		If an error is returned and *errno* is not **EFAULT**, *count*
-+ *		is set to the number of successfully processed elements. If
-+ *		*errno* is **EFAULT**, up to *count* elements may be been
-+ *		deleted.
-  *
-  *	Return
-  *		Returns zero on success. On error, -1 is returned and *errno*
+diff --git a/tools/bpf/bpftool/.gitignore b/tools/bpf/bpftool/.gitignore
+index 944cb4b7c95d..05ce4446b780 100644
+--- a/tools/bpf/bpftool/.gitignore
++++ b/tools/bpf/bpftool/.gitignore
+@@ -3,7 +3,6 @@
+ /bootstrap/
+ /bpftool
+ bpftool*.8
+-bpf-helpers.*
+ FEATURE-DUMP.bpftool
+ feature
+ libbpf
+diff --git a/tools/bpf/bpftool/Documentation/Makefile b/tools/bpf/bpftool/Documentation/Makefile
+index f33cb02de95c..c49487905ceb 100644
+--- a/tools/bpf/bpftool/Documentation/Makefile
++++ b/tools/bpf/bpftool/Documentation/Makefile
+@@ -16,15 +16,12 @@ prefix ?= /usr/local
+ mandir ?= $(prefix)/man
+ man8dir = $(mandir)/man8
+ 
+-# Load targets for building eBPF helpers man page.
+-include ../../Makefile.helpers
+-
+ MAN8_RST = $(wildcard bpftool*.rst)
+ 
+ _DOC_MAN8 = $(patsubst %.rst,%.8,$(MAN8_RST))
+ DOC_MAN8 = $(addprefix $(OUTPUT),$(_DOC_MAN8))
+ 
+-man: man8 helpers
++man: man8
+ man8: $(DOC_MAN8)
+ 
+ RST2MAN_DEP := $(shell command -v rst2man 2>/dev/null)
+@@ -46,16 +43,16 @@ ifndef RST2MAN_DEP
+ endif
+ 	$(QUIET_GEN)( cat $< ; printf "%b" $(call see_also,$<) ) | rst2man $(RST2MAN_OPTS) > $@
+ 
+-clean: helpers-clean
++clean:
+ 	$(call QUIET_CLEAN, Documentation)
+ 	$(Q)$(RM) $(DOC_MAN8)
+ 
+-install: man helpers-install
++install: man
+ 	$(call QUIET_INSTALL, Documentation-man)
+ 	$(Q)$(INSTALL) -d -m 755 $(DESTDIR)$(man8dir)
+ 	$(Q)$(INSTALL) -m 644 $(DOC_MAN8) $(DESTDIR)$(man8dir)
+ 
+-uninstall: helpers-uninstall
++uninstall:
+ 	$(call QUIET_UNINST, Documentation-man)
+ 	$(Q)$(RM) $(addprefix $(DESTDIR)$(man8dir)/,$(_DOC_MAN8))
+ 	$(Q)$(RMDIR) $(DESTDIR)$(man8dir)
+diff --git a/tools/testing/selftests/bpf/.gitignore b/tools/testing/selftests/bpf/.gitignore
+index c0c48fdb9ac1..a0d5ec3cfc24 100644
+--- a/tools/testing/selftests/bpf/.gitignore
++++ b/tools/testing/selftests/bpf/.gitignore
+@@ -1,4 +1,5 @@
+ # SPDX-License-Identifier: GPL-2.0-only
++bpf-helpers*
+ test_verifier
+ test_maps
+ test_lru_map
+diff --git a/tools/testing/selftests/bpf/Makefile b/tools/testing/selftests/bpf/Makefile
+index a81af15e4ded..b5827464c6b5 100644
+--- a/tools/testing/selftests/bpf/Makefile
++++ b/tools/testing/selftests/bpf/Makefile
+@@ -68,6 +68,7 @@ TEST_PROGS := test_kmod.sh \
+ 	test_bpftool_build.sh \
+ 	test_bpftool.sh \
+ 	test_bpftool_metadata.sh \
++	test_docs_build.sh \
+ 	test_xsk.sh
+ 
+ TEST_PROGS_EXTENDED := with_addr.sh \
+@@ -103,6 +104,7 @@ override define CLEAN
+ 	$(call msg,CLEAN)
+ 	$(Q)$(RM) -r $(TEST_GEN_PROGS) $(TEST_GEN_PROGS_EXTENDED) $(TEST_GEN_FILES) $(EXTRA_CLEAN)
+ 	$(Q)$(MAKE) -C bpf_testmod clean
++	$(Q)$(MAKE) docs-clean
+ endef
+ 
+ include ../lib.mk
+@@ -180,6 +182,7 @@ $(OUTPUT)/runqslower: $(BPFOBJ) | $(DEFAULT_BPFTOOL)
+ 		    cp $(SCRATCH_DIR)/runqslower $@
+ 
+ $(TEST_GEN_PROGS) $(TEST_GEN_PROGS_EXTENDED): $(OUTPUT)/test_stub.o $(BPFOBJ)
++$(TEST_GEN_FILES): docs
+ 
+ $(OUTPUT)/test_dev_cgroup: cgroup_helpers.c
+ $(OUTPUT)/test_skb_cgroup_id_user: cgroup_helpers.c
+@@ -200,11 +203,16 @@ $(DEFAULT_BPFTOOL): $(wildcard $(BPFTOOLDIR)/*.[ch] $(BPFTOOLDIR)/Makefile)    \
+ 		    CC=$(HOSTCC) LD=$(HOSTLD)				       \
+ 		    OUTPUT=$(HOST_BUILD_DIR)/bpftool/			       \
+ 		    prefix= DESTDIR=$(HOST_SCRATCH_DIR)/ install
+-	$(Q)mkdir -p $(BUILD_DIR)/bpftool/Documentation
+-	$(Q)RST2MAN_OPTS="--exit-status=1" $(MAKE) $(submake_extras)	       \
+-		    -C $(BPFTOOLDIR)/Documentation			       \
+-		    OUTPUT=$(BUILD_DIR)/bpftool/Documentation/		       \
+-		    prefix= DESTDIR=$(SCRATCH_DIR)/ install
++
++docs:
++	$(Q)RST2MAN_OPTS="--exit-status=1" $(MAKE) $(submake_extras)	\
++	            -f Makefile.docs					\
++	            prefix= OUTPUT=$(OUTPUT)/ DESTDIR=$(OUTPUT)/ $@
++
++docs-clean:
++	$(Q)$(MAKE) $(submake_extras)					\
++	            -f Makefile.docs					\
++	            prefix= OUTPUT=$(OUTPUT)/ DESTDIR=$(OUTPUT)/ $@
+ 
+ $(BPFOBJ): $(wildcard $(BPFDIR)/*.[ch] $(BPFDIR)/Makefile)		       \
+ 	   ../../../include/uapi/linux/bpf.h                                   \
+@@ -477,3 +485,5 @@ EXTRA_CLEAN := $(TEST_CUSTOM_PROGS) $(SCRATCH_DIR) $(HOST_SCRATCH_DIR)	\
+ 	prog_tests/tests.h map_tests/tests.h verifier/tests.h		\
+ 	feature								\
+ 	$(addprefix $(OUTPUT)/,*.o *.skel.h no_alu32 bpf_gcc bpf_testmod.ko)
++
++.PHONY: docs docs-clean
+diff --git a/tools/bpf/Makefile.helpers b/tools/testing/selftests/bpf/Makefile.docs
+similarity index 64%
+rename from tools/bpf/Makefile.helpers
+rename to tools/testing/selftests/bpf/Makefile.docs
+index a26599022fd6..546c4a763b46 100644
+--- a/tools/bpf/Makefile.helpers
++++ b/tools/testing/selftests/bpf/Makefile.docs
+@@ -1,13 +1,7 @@
+ # SPDX-License-Identifier: GPL-2.0-only
+-ifndef allow-override
+-  include ../scripts/Makefile.include
+-  include ../scripts/utilities.mak
+-else
+-  # Assume Makefile.helpers is being run from bpftool/Documentation
+-  # subdirectory. Go up two more directories to fetch bpf.h header and
+-  # associated script.
+-  UP2DIR := ../../
+-endif
++
++include ../../../scripts/Makefile.include
++include ../../../scripts/utilities.mak
+ 
+ INSTALL ?= install
+ RM ?= rm -f
+@@ -29,13 +23,21 @@ MAN7_RST = $(HELPERS_RST)
+ _DOC_MAN7 = $(patsubst %.rst,%.7,$(MAN7_RST))
+ DOC_MAN7 = $(addprefix $(OUTPUT),$(_DOC_MAN7))
+ 
++DOCTARGETS := helpers
++
++docs: $(DOCTARGETS)
+ helpers: man7
+ man7: $(DOC_MAN7)
+ 
+ RST2MAN_DEP := $(shell command -v rst2man 2>/dev/null)
+ 
+-$(OUTPUT)$(HELPERS_RST): $(UP2DIR)../../include/uapi/linux/bpf.h
+-	$(QUIET_GEN)$(UP2DIR)../../scripts/bpf_doc.py --filename $< > $@
++# Configure make rules for the man page bpf-$1.$2.
++# $1 - target for scripts/bpf_doc.py
++# $2 - man page section to generate the troff file
++define DOCS_RULES =
++$(OUTPUT)bpf-$1.rst: ../../../../include/uapi/linux/bpf.h
++	$$(QUIET_GEN)../../../../scripts/bpf_doc.py $1 \
++		--filename $$< > $$@
+ 
+ $(OUTPUT)%.7: $(OUTPUT)%.rst
+ ifndef RST2MAN_DEP
+@@ -43,18 +45,18 @@ ifndef RST2MAN_DEP
+ endif
+ 	$(QUIET_GEN)rst2man $< > $@
+ 
+-helpers-clean:
++docs-clean:
+ 	$(call QUIET_CLEAN, eBPF_helpers-manpage)
+ 	$(Q)$(RM) $(DOC_MAN7) $(OUTPUT)$(HELPERS_RST)
+ 
+-helpers-install: helpers
++docs-install: helpers
+ 	$(call QUIET_INSTALL, eBPF_helpers-manpage)
+ 	$(Q)$(INSTALL) -d -m 755 $(DESTDIR)$(man7dir)
+ 	$(Q)$(INSTALL) -m 644 $(DOC_MAN7) $(DESTDIR)$(man7dir)
+ 
+-helpers-uninstall:
++docs-uninstall:
+ 	$(call QUIET_UNINST, eBPF_helpers-manpage)
+ 	$(Q)$(RM) $(addprefix $(DESTDIR)$(man7dir)/,$(_DOC_MAN7))
+ 	$(Q)$(RMDIR) $(DESTDIR)$(man7dir)
+ 
+-.PHONY: helpers helpers-clean helpers-install helpers-uninstall
++.PHONY: docs docs-clean docs-install docs-uninstall
+diff --git a/tools/testing/selftests/bpf/test_bpftool_build.sh b/tools/testing/selftests/bpf/test_bpftool_build.sh
+index 2db3c60e1e61..ac349a5cea7e 100755
+--- a/tools/testing/selftests/bpf/test_bpftool_build.sh
++++ b/tools/testing/selftests/bpf/test_bpftool_build.sh
+@@ -85,23 +85,6 @@ make_with_tmpdir() {
+ 	echo
+ }
+ 
+-make_doc_and_clean() {
+-	echo -e "\$PWD:    $PWD"
+-	echo -e "command: make -s $* doc >/dev/null"
+-	RST2MAN_OPTS="--exit-status=1" make $J -s $* doc
+-	if [ $? -ne 0 ] ; then
+-		ERROR=1
+-		printf "FAILURE: Errors or warnings when building documentation\n"
+-	fi
+-	(
+-		if [ $# -ge 1 ] ; then
+-			cd ${@: -1}
+-		fi
+-		make -s doc-clean
+-	)
+-	echo
+-}
+-
+ echo "Trying to build bpftool"
+ echo -e "... through kbuild\n"
+ 
+@@ -162,7 +145,3 @@ make_and_clean
+ make_with_tmpdir OUTPUT
+ 
+ make_with_tmpdir O
+-
+-echo -e "Checking documentation build\n"
+-# From tools/bpf/bpftool
+-make_doc_and_clean
+diff --git a/tools/testing/selftests/bpf/test_doc_build.sh b/tools/testing/selftests/bpf/test_doc_build.sh
+new file mode 100755
+index 000000000000..7eb940a7b2eb
+--- /dev/null
++++ b/tools/testing/selftests/bpf/test_doc_build.sh
+@@ -0,0 +1,13 @@
++#!/bin/bash
++# SPDX-License-Identifier: (GPL-2.0-only OR BSD-2-Clause)
++
++# Assume script is located under tools/testing/selftests/bpf/. We want to start
++# build attempts from the top of kernel repository.
++SCRIPT_REL_PATH=$(realpath --relative-to=$PWD $0)
++SCRIPT_REL_DIR=$(dirname $SCRIPT_REL_PATH)
++KDIR_ROOT_DIR=$(realpath $PWD/$SCRIPT_REL_DIR/../../../../)
++cd $KDIR_ROOT_DIR
++
++for tgt in docs docs-clean; do
++	make -s -C $PWD/$SCRIPT_REL_DIR $tgt;
++done
 -- 
 2.27.0
 
