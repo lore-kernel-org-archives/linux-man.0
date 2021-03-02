@@ -7,63 +7,63 @@ X-Spam-Status: No, score=-16.8 required=3.0 tests=BAYES_00,DKIM_SIGNED,
 	MAILING_LIST_MULTI,SPF_HELO_NONE,SPF_PASS,URIBL_BLOCKED,USER_AGENT_GIT
 	autolearn=unavailable autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id EDDE6C433E6
-	for <linux-man@archiver.kernel.org>; Wed,  3 Mar 2021 06:32:57 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 0F8FDC433E9
+	for <linux-man@archiver.kernel.org>; Wed,  3 Mar 2021 06:32:58 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.kernel.org (Postfix) with ESMTP id B86FB64ECF
+	by mail.kernel.org (Postfix) with ESMTP id D156064EC3
 	for <linux-man@archiver.kernel.org>; Wed,  3 Mar 2021 06:32:57 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1355158AbhCCGZo (ORCPT <rfc822;linux-man@archiver.kernel.org>);
-        Wed, 3 Mar 2021 01:25:44 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:51222 "EHLO
+        id S1355168AbhCCGZz (ORCPT <rfc822;linux-man@archiver.kernel.org>);
+        Wed, 3 Mar 2021 01:25:55 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:51234 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1344084AbhCBRlc (ORCPT
+        with ESMTP id S1344095AbhCBRlc (ORCPT
         <rfc822;linux-man@vger.kernel.org>); Tue, 2 Mar 2021 12:41:32 -0500
-Received: from mail-pg1-x530.google.com (mail-pg1-x530.google.com [IPv6:2607:f8b0:4864:20::530])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 8691FC0698C8
-        for <linux-man@vger.kernel.org>; Tue,  2 Mar 2021 09:20:45 -0800 (PST)
-Received: by mail-pg1-x530.google.com with SMTP id l2so14290110pgb.1
-        for <linux-man@vger.kernel.org>; Tue, 02 Mar 2021 09:20:45 -0800 (PST)
+Received: from mail-pg1-x52e.google.com (mail-pg1-x52e.google.com [IPv6:2607:f8b0:4864:20::52e])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 26600C0698D1
+        for <linux-man@vger.kernel.org>; Tue,  2 Mar 2021 09:20:49 -0800 (PST)
+Received: by mail-pg1-x52e.google.com with SMTP id e6so14261024pgk.5
+        for <linux-man@vger.kernel.org>; Tue, 02 Mar 2021 09:20:49 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=cilium-io.20150623.gappssmtp.com; s=20150623;
         h=from:to:cc:subject:date:message-id:in-reply-to:references
          :mime-version:content-transfer-encoding;
-        bh=y+YcpUVr7LDyGFtvHmMjDnyPsDr68hKJkv6AGVIRT3Y=;
-        b=Rp5v5A14/uC75JpS8WLyl2oXZSjMYyIQFkEiPl4ZINMcxDxI348/xLTD6m0jtWk9Ec
-         aleRvpbPKXhFyYT46yDQ4MPmlN49N3q96FOHck48avTz8LMfy/eqQg+UBMQquFr57H5p
-         HwVlvfbD1+hdrjHyQ/WRM2790r9Jt9H25V5j3aGi55ZhyMU1tAU9iT10Bw5TzzBl8kr9
-         ZWkKme6tjLL6BqsfL2m0a9Z0qYhnaHArgqhsj5n1SRGiyJgnA3Pe/quB+KFLrPlcq7ng
-         KsA4vcxLGPd/DS8PD727FS+xr8DkzQ0/LO4fpEj2GDqqbvo9LzKVPCxHJGYKNge+H5+i
-         rH4A==
+        bh=sdfyObE0E1JspOvROEYz/USdJ0MsLAvmGmtxjKiuziw=;
+        b=hX1Bi349HGCRg4XxhEuiHPv8IhO8nCMLe1NF8WCH6A8WDN//ph/h8lvaH5r2lczDV1
+         wrB0kZ8auZwVQ++e7AnrEtrDanbuws/DC5Namddhl3/vNLA8kGdngV51GGXhpZV1xade
+         TZHIOt6Agm3XH6WZL1D2jgzJRHFQgj6lzRyCmk+k7+FRzXF2j1SyAnxREGC2vfgVjdwt
+         /o6FcUOFQigEC9sLMr9LX8X3mUyiIJM0BhlCghAY1B24xST7eaMJ1m84cV3lH3les6Rf
+         iaiokLMplzD2gO1jSgVAxEPR7CMzIv0B7+wYO2hZpo1g9G62jJjOdh0engpN8omOwBZu
+         yS3A==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
         h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
          :references:mime-version:content-transfer-encoding;
-        bh=y+YcpUVr7LDyGFtvHmMjDnyPsDr68hKJkv6AGVIRT3Y=;
-        b=ug419lgqYU6ve5KzHhsmwpVtf/lKLxxxMjYTeW2e5cLaZCAE7wsSwFyCbaj8jhxKhM
-         vofT9Q1FVU4CaGsDbCXhCikSx9BBwYanr7A+CS7siTJlNUqN7ZtJNowXnpyShnzNjv6o
-         VPF1QCmT3nkOV1tA66IFSwtw5ofUpWI/1KxOAKBfX+9aAgf0cl3vfGOE3JEAfgwsdBQV
-         MqOmErVRvGE6NgwWOXdZANWtLmelV/AMVGPoSXMtpD6QRlspSkPI0qCoEHlHWMgsr4SL
-         JV/hchklydTIznpIqYTVAdaubqMxPkCpmT96On+09KlesRYxt+6GBoGJqG4gAOHySNaC
-         ky4Q==
-X-Gm-Message-State: AOAM530nR9eQ4xo0ddwRhoX2LBj5Dw3t7s9Z7egmyp49T2FLXzV6sJ2Q
-        4lp4XdOCokGjD/kGGs95+tr7yA==
-X-Google-Smtp-Source: ABdhPJzRmXxKE3NeYoNTv2Wb6UuOiXhbHE0sPmPP7v+b1QA2sVKS8vNLK86MDTp8LsIIIAsqUyq8fQ==
-X-Received: by 2002:a05:6a00:148a:b029:1ae:6d20:fbb3 with SMTP id v10-20020a056a00148ab02901ae6d20fbb3mr4055694pfu.55.1614705645090;
-        Tue, 02 Mar 2021 09:20:45 -0800 (PST)
+        bh=sdfyObE0E1JspOvROEYz/USdJ0MsLAvmGmtxjKiuziw=;
+        b=li8MQEsUpKMxp8wRq1L/76+TgRHjOGLB3U+bRZq7CRpjB3qQ/nTyRyIVA1hjzSeLiZ
+         cFy46+pa68+sJWOdLunILzz7U7wS22TpTyBkpvTwUjGI/fVBKuzCqaKFKfty0y3jKMCJ
+         uHJVD/Nw2+9LaDHCpt34HFpT0I/3x07MPBpBGs7aA21bDRYwFw8Bt3jrFQwmVFfqi3xA
+         GAHHEdI4gZ+vLaUt+Mh/N0jHsM4C1pEZJnBwMApeSNZyDttFbwru141GTmNaeokTz6fH
+         npaW6/wpd8GXMNh1bQfhPW9TPC1WdHH5cVlzwSOoAPUTQp507d1cM9MtSlj4U+1jQW25
+         4Bjw==
+X-Gm-Message-State: AOAM530edDoh0B+YsW7NfAztqMWraAvV3LD/o2ONff+J5InHkn53HKlP
+        syTJfVL54ZKg982AGB9E+xgtKw==
+X-Google-Smtp-Source: ABdhPJxu2ccLPZxQduQGZaDo7/+I565sDXZiuNJfYVTL+2FXqWypan6o8vAXbJYeQe0VhYMkd+Z72Q==
+X-Received: by 2002:a62:6304:0:b029:1c0:d62d:d213 with SMTP id x4-20020a6263040000b02901c0d62dd213mr4045441pfb.79.1614705648725;
+        Tue, 02 Mar 2021 09:20:48 -0800 (PST)
 Received: from localhost.localdomain (c-73-93-5-123.hsd1.ca.comcast.net. [73.93.5.123])
-        by smtp.gmail.com with ESMTPSA id b15sm20073923pgg.85.2021.03.02.09.20.44
+        by smtp.gmail.com with ESMTPSA id b15sm20073923pgg.85.2021.03.02.09.20.47
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Tue, 02 Mar 2021 09:20:44 -0800 (PST)
+        Tue, 02 Mar 2021 09:20:48 -0800 (PST)
 From:   Joe Stringer <joe@cilium.io>
 To:     bpf@vger.kernel.org
 Cc:     daniel@iogearbox.net, ast@kernel.org, linux-doc@vger.kernel.org,
         linux-man@vger.kernel.org,
         =?UTF-8?q?Toke=20H=C3=B8iland-J=C3=B8rgensen?= <toke@redhat.com>,
         Quentin Monnet <quentin@isovalent.com>
-Subject: [PATCHv2 bpf-next 10/15] scripts/bpf: Add syscall commands printer
-Date:   Tue,  2 Mar 2021 09:19:42 -0800
-Message-Id: <20210302171947.2268128-11-joe@cilium.io>
+Subject: [PATCHv2 bpf-next 13/15] selftests/bpf: Test syscall command parsing
+Date:   Tue,  2 Mar 2021 09:19:45 -0800
+Message-Id: <20210302171947.2268128-14-joe@cilium.io>
 X-Mailer: git-send-email 2.27.0
 In-Reply-To: <20210302171947.2268128-1-joe@cilium.io>
 References: <20210302171947.2268128-1-joe@cilium.io>
@@ -74,207 +74,78 @@ Precedence: bulk
 List-ID: <linux-man.vger.kernel.org>
 X-Mailing-List: linux-man@vger.kernel.org
 
-Add a new target to bpf_doc.py to support generating the list of syscall
-commands directly from the UAPI headers. Assuming that developer
-submissions keep the main header up to date, this should allow the man
-pages to be automatically generated based on the latest API changes
-rather than requiring someone to separately go back through the API and
-describe each command.
+Add building of the bpf(2) syscall commands documentation as part of the
+docs building step in the build. This allows us to pick up on potential
+parse errors from the docs generator script as part of selftests.
+
+The generated manual pages here are not intended for distribution, they
+are just a fragment that can be integrated into the other static text of
+bpf(2) to form the full manual page.
 
 Acked-by: Toke Høiland-Jørgensen <toke@redhat.com>
 Reviewed-by: Quentin Monnet <quentin@isovalent.com>
 Signed-off-by: Joe Stringer <joe@cilium.io>
 ---
- scripts/bpf_doc.py | 100 +++++++++++++++++++++++++++++++++++++++++----
- 1 file changed, 91 insertions(+), 9 deletions(-)
+ tools/testing/selftests/bpf/.gitignore    |  1 +
+ tools/testing/selftests/bpf/Makefile.docs | 14 ++++++++++++--
+ 2 files changed, 13 insertions(+), 2 deletions(-)
 
-diff --git a/scripts/bpf_doc.py b/scripts/bpf_doc.py
-index 5a4f68aab335..2d94025b38e9 100755
---- a/scripts/bpf_doc.py
-+++ b/scripts/bpf_doc.py
-@@ -14,6 +14,9 @@ import sys, os
- class NoHelperFound(BaseException):
-     pass
+diff --git a/tools/testing/selftests/bpf/.gitignore b/tools/testing/selftests/bpf/.gitignore
+index a0d5ec3cfc24..4866f6a21901 100644
+--- a/tools/testing/selftests/bpf/.gitignore
++++ b/tools/testing/selftests/bpf/.gitignore
+@@ -1,5 +1,6 @@
+ # SPDX-License-Identifier: GPL-2.0-only
+ bpf-helpers*
++bpf-syscall*
+ test_verifier
+ test_maps
+ test_lru_map
+diff --git a/tools/testing/selftests/bpf/Makefile.docs b/tools/testing/selftests/bpf/Makefile.docs
+index f39ad19317c8..ccf260021e83 100644
+--- a/tools/testing/selftests/bpf/Makefile.docs
++++ b/tools/testing/selftests/bpf/Makefile.docs
+@@ -15,18 +15,27 @@ endif
  
-+class NoSyscallCommandFound(BaseException):
-+    pass
+ prefix ?= /usr/local
+ mandir ?= $(prefix)/man
++man2dir = $(mandir)/man2
+ man7dir = $(mandir)/man7
+ 
++SYSCALL_RST = bpf-syscall.rst
++MAN2_RST = $(SYSCALL_RST)
 +
- class ParsingError(BaseException):
-     def __init__(self, line='<line not provided>', reader=None):
-         if reader:
-@@ -23,18 +26,27 @@ class ParsingError(BaseException):
-         else:
-             BaseException.__init__(self, 'Error parsing line: %s' % line)
+ HELPERS_RST = bpf-helpers.rst
+ MAN7_RST = $(HELPERS_RST)
  
--class Helper(object):
++_DOC_MAN2 = $(patsubst %.rst,%.2,$(MAN2_RST))
++DOC_MAN2 = $(addprefix $(OUTPUT),$(_DOC_MAN2))
 +
-+class APIElement(object):
-     """
--    An object representing the description of an eBPF helper function.
--    @proto: function prototype of the helper function
--    @desc: textual description of the helper function
--    @ret: description of the return value of the helper function
-+    An object representing the description of an aspect of the eBPF API.
-+    @proto: prototype of the API symbol
-+    @desc: textual description of the symbol
-+    @ret: (optional) description of any associated return value
-     """
-     def __init__(self, proto='', desc='', ret=''):
-         self.proto = proto
-         self.desc = desc
-         self.ret = ret
+ _DOC_MAN7 = $(patsubst %.rst,%.7,$(MAN7_RST))
+ DOC_MAN7 = $(addprefix $(OUTPUT),$(_DOC_MAN7))
  
-+
-+class Helper(APIElement):
-+    """
-+    An object representing the description of an eBPF helper function.
-+    @proto: function prototype of the helper function
-+    @desc: textual description of the helper function
-+    @ret: description of the return value of the helper function
-+    """
-     def proto_break_down(self):
-         """
-         Break down helper function protocol into smaller chunks: return type,
-@@ -61,6 +73,7 @@ class Helper(object):
+-DOCTARGETS := helpers
++DOCTARGETS := helpers syscall
  
-         return res
+ docs: $(DOCTARGETS)
++syscall: man2
+ helpers: man7
++man2: $(DOC_MAN2)
+ man7: $(DOC_MAN7)
  
-+
- class HeaderParser(object):
-     """
-     An object used to parse a file in order to extract the documentation of a
-@@ -73,6 +86,13 @@ class HeaderParser(object):
-         self.reader = open(filename, 'r')
-         self.line = ''
-         self.helpers = []
-+        self.commands = []
-+
-+    def parse_element(self):
-+        proto    = self.parse_symbol()
-+        desc     = self.parse_desc()
-+        ret      = self.parse_ret()
-+        return APIElement(proto=proto, desc=desc, ret=ret)
+ RST2MAN_DEP := $(shell command -v rst2man 2>/dev/null)
+@@ -64,9 +73,10 @@ endef
  
-     def parse_helper(self):
-         proto    = self.parse_proto()
-@@ -80,6 +100,18 @@ class HeaderParser(object):
-         ret      = self.parse_ret()
-         return Helper(proto=proto, desc=desc, ret=ret)
+ # Create the make targets to generate manual pages by name and section
+ $(eval $(call DOCS_RULES,helpers,7))
++$(eval $(call DOCS_RULES,syscall,2))
  
-+    def parse_symbol(self):
-+        p = re.compile(' \* ?(.+)$')
-+        capture = p.match(self.line)
-+        if not capture:
-+            raise NoSyscallCommandFound
-+        end_re = re.compile(' \* ?NOTES$')
-+        end = end_re.match(self.line)
-+        if end:
-+            raise NoSyscallCommandFound
-+        self.line = self.reader.readline()
-+        return capture.group(1)
-+
-     def parse_proto(self):
-         # Argument can be of shape:
-         #   - "void"
-@@ -141,16 +173,29 @@ class HeaderParser(object):
-                     break
-         return ret
+ docs-clean: $(foreach doctarget,$(DOCTARGETS), docs-clean-$(doctarget))
+ docs-install: $(foreach doctarget,$(DOCTARGETS), docs-install-$(doctarget))
+ docs-uninstall: $(foreach doctarget,$(DOCTARGETS), docs-uninstall-$(doctarget))
  
--    def run(self):
--        # Advance to start of helper function descriptions.
--        offset = self.reader.read().find('* Start of BPF helper function descriptions:')
-+    def seek_to(self, target, help_message):
-+        self.reader.seek(0)
-+        offset = self.reader.read().find(target)
-         if offset == -1:
--            raise Exception('Could not find start of eBPF helper descriptions list')
-+            raise Exception(help_message)
-         self.reader.seek(offset)
-         self.reader.readline()
-         self.reader.readline()
-         self.line = self.reader.readline()
- 
-+    def parse_syscall(self):
-+        self.seek_to('* DOC: eBPF Syscall Commands',
-+                     'Could not find start of eBPF syscall descriptions list')
-+        while True:
-+            try:
-+                command = self.parse_element()
-+                self.commands.append(command)
-+            except NoSyscallCommandFound:
-+                break
-+
-+    def parse_helpers(self):
-+        self.seek_to('* Start of BPF helper function descriptions:',
-+                     'Could not find start of eBPF helper descriptions list')
-         while True:
-             try:
-                 helper = self.parse_helper()
-@@ -158,6 +203,9 @@ class HeaderParser(object):
-             except NoHelperFound:
-                 break
- 
-+    def run(self):
-+        self.parse_syscall()
-+        self.parse_helpers()
-         self.reader.close()
- 
- ###############################################################################
-@@ -420,6 +468,37 @@ SEE ALSO
-         self.print_elem(helper)
- 
- 
-+class PrinterSyscallRST(PrinterRST):
-+    """
-+    A printer for dumping collected information about the syscall API as a
-+    ReStructured Text page compatible with the rst2man program, which can be
-+    used to generate a manual page for the syscall.
-+    @parser: A HeaderParser with APIElement objects to print to standard
-+             output
-+    """
-+    def __init__(self, parser):
-+        self.elements = parser.commands
-+
-+    def print_header(self):
-+        header = '''\
-+===
-+bpf
-+===
-+-------------------------------------------------------------------------------
-+Perform a command on an extended BPF object
-+-------------------------------------------------------------------------------
-+
-+:Manual section: 2
-+
-+COMMANDS
-+========
-+'''
-+        PrinterRST.print_license(self)
-+        print(header)
-+
-+    def print_one(self, command):
-+        print('**%s**' % (command.proto))
-+        self.print_elem(command)
- 
- 
- class PrinterHelpers(Printer):
-@@ -620,6 +699,7 @@ bpfh = os.path.join(linuxRoot, 'include/uapi/linux/bpf.h')
- 
- printers = {
-         'helpers': PrinterHelpersRST,
-+        'syscall': PrinterSyscallRST,
- }
- 
- argParser = argparse.ArgumentParser(description="""
-@@ -644,6 +724,8 @@ headerParser.run()
- 
- # Print formatted output to standard output.
- if args.header:
-+    if args.target != 'helpers':
-+        raise NotImplementedError('Only helpers header generation is supported')
-     printer = PrinterHelpers(headerParser)
- else:
-     printer = printers[args.target](headerParser)
+-.PHONY: docs docs-clean docs-install docs-uninstall man7
++.PHONY: docs docs-clean docs-install docs-uninstall man2 man7
 -- 
 2.27.0
 
