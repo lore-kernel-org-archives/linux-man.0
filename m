@@ -2,267 +2,168 @@ Return-Path: <linux-man-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-19.0 required=3.0 tests=BAYES_00,DKIMWL_WL_HIGH,
-	DKIM_SIGNED,DKIM_VALID,DKIM_VALID_AU,INCLUDES_CR_TRAILER,INCLUDES_PATCH,
-	MAILING_LIST_MULTI,SPF_HELO_NONE,SPF_PASS,USER_AGENT_GIT autolearn=ham
+X-Spam-Status: No, score=-18.7 required=3.0 tests=BAYES_00,DKIM_SIGNED,
+	DKIM_VALID,DKIM_VALID_AU,HEADER_FROM_DIFFERENT_DOMAINS,INCLUDES_CR_TRAILER,
+	INCLUDES_PATCH,MAILING_LIST_MULTI,MSGID_FROM_MTA_HEADER,SPF_HELO_NONE,
+	SPF_PASS,URIBL_BLOCKED,USER_AGENT_GIT autolearn=unavailable
 	autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 5A2CAC433DB
-	for <linux-man@archiver.kernel.org>; Mon,  1 Mar 2021 21:30:00 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 5ED8FC433E6
+	for <linux-man@archiver.kernel.org>; Wed,  3 Mar 2021 06:32:32 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.kernel.org (Postfix) with ESMTP id 1095260233
-	for <linux-man@archiver.kernel.org>; Mon,  1 Mar 2021 21:30:00 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTP id 096ED64EC3
+	for <linux-man@archiver.kernel.org>; Wed,  3 Mar 2021 06:32:31 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S241578AbhCAV3f (ORCPT <rfc822;linux-man@archiver.kernel.org>);
-        Mon, 1 Mar 2021 16:29:35 -0500
-Received: from mail.kernel.org ([198.145.29.99]:44062 "EHLO mail.kernel.org"
-        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S244643AbhCAVYq (ORCPT <rfc822;linux-man@vger.kernel.org>);
-        Mon, 1 Mar 2021 16:24:46 -0500
-Received: by mail.kernel.org (Postfix) with ESMTPSA id D3857600EF;
-        Mon,  1 Mar 2021 21:24:03 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-        s=k20201202; t=1614633844;
-        bh=yudPdpWA0xjWt/ApE8X46xPRZMawZSDGpWIOqFdB3Gs=;
-        h=From:To:Cc:Subject:Date:From;
-        b=qPNTHF4pDHMAvSmrWLdbjJBPycLuKEH2HvH/ODbtAXU8IrLrsUuVWM38sGefR83wZ
-         iZtnMkhDE32ipbxehpftZycA2p4XbFvCF2qXhD6yF37sGO+Uw3TWHI9KfFu5Or/xUv
-         a2XVBgK8L6szWt5KunnoKM/pohdZMdbRSTPjf+L6zcTVK55NbeXysbkSI173ykHzaw
-         V2x0nzC11ia9bZhsRWhSpYLI25/pkJA7f4xPvZTwZmBwp0zJmk5d8INWg3UpT7wLH0
-         nfX743SFT+jEypbKvE5ZvJEZ9BGB1vXg96PgM1pNems64/J68JAhLFDlkoRDmi3v2Y
-         ps4M3L/FDeRyg==
-From:   Jarkko Sakkinen <jarkko@kernel.org>
-To:     mtk.manpages@gmail.com
-Cc:     linux-man@vger.kernel.org, linux-sgx@vger.kernel.org,
-        dave.hansen@linux.intel.com, Jarkko Sakkinen <jarkko@kernel.org>
-Subject: [PATCH v4] sgx.7: New page with overview of Software Guard eXtensions (SGX)
-Date:   Mon,  1 Mar 2021 23:23:44 +0200
-Message-Id: <20210301212344.48650-1-jarkko@kernel.org>
-X-Mailer: git-send-email 2.30.1
+        id S236130AbhCCGXr (ORCPT <rfc822;linux-man@archiver.kernel.org>);
+        Wed, 3 Mar 2021 01:23:47 -0500
+Received: from de-smtp-delivery-102.mimecast.com ([194.104.109.102]:46156 "EHLO
+        de-smtp-delivery-102.mimecast.com" rhost-flags-OK-OK-OK-OK)
+        by vger.kernel.org with ESMTP id S1448970AbhCBPx0 (ORCPT
+        <rfc822;linux-man@vger.kernel.org>); Tue, 2 Mar 2021 10:53:26 -0500
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.com; s=mimecast20200619;
+        t=1614700320;
+        h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+         to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+         content-transfer-encoding:content-transfer-encoding;
+        bh=kUZjVnsi8Dl5WkKKATrMY3ju10QZjCQvQ2azn7UrYKI=;
+        b=Ibw+kCFKla0B8rTBnHu0WGlbUlyflBhF6V0oYGVIyvlROp24QYCGEFDTresm17mLQ+6Gd9
+        FJBWVSdW/037nfChd+Q5DJzlc/3Hyzvm9eHpMz0Prt5JJQbVL/3HRZO4fKBNz/5IF6873R
+        NR8osEU8W3OarxDwdIrgEzkbLrrDsgU=
+Received: from EUR01-VE1-obe.outbound.protection.outlook.com
+ (mail-ve1eur01lp2056.outbound.protection.outlook.com [104.47.1.56]) (Using
+ TLS) by relay.mimecast.com with ESMTP id
+ de-mta-40-u2cQ5GqlNYSOc0e9C6YSaQ-1; Tue, 02 Mar 2021 16:48:48 +0100
+X-MC-Unique: u2cQ5GqlNYSOc0e9C6YSaQ-1
+ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
+ b=gi2P0RhcBw+mjUvi4RHb3Bl7XnkWA3YLSAze59pY/KyJv8ldE9WrfK6oCUmpVz8LP/YkD3Jmz4GwiCWXPy4fFIE7+bSFfkEY96Ibs5PcirMqVSW5xD49cKDeIV/cxudmsUdgpzydxSgtRse/3eZWGBCApR3KRfVZtUPF5jenmnUsV6uk5v5zgKF3b06c2Astm2xmPwwk81Q9nVrI1KjL6kdp2zIs+iNBhUrfJWxDJcOjr+N/jjkQfQMyOw85FLElf0IKmZNtqybNeY9K4WXhVcWOJl2equ3xFIsSE/HRsl6aKmgbN53NNHznzRyXv5cyZz05KMXmQYtk/eEN+HBVgA==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
+ s=arcselector9901;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=ughVXVVY+M8Uyu/njLCniBzIDoWqbgxHRkRylp9mdZw=;
+ b=iN2H2U+NjSF7ycC9ZU/P2dPDaKB0XCfLr1+Yd/QooR5pqnlf3teaGGCGppB5oIpjbNie2sp7q0kDtLT/CEQKJ5XhwpTJCnEG2rzbjrn+cgyqlFS93GBpoornrso5JhRMZsQVJqsol08GEFtcWBiPVfBvrtFMytvG/7ChXq3fXDFeGb1kg8emii7abHcDBiRMFC2HymMH6niO10ZVmxZGKzEJPgb+lIq7EyJ91tdLViG8JGKFvPakclp0QEBiwpL3O7cs34ahwTFkO6CGmdZOoBiUV76Mxt2wifjsF7phNx2s+gAPM0DbP2ARTssGgnF2lhUyUj9O2MQS6CWWL57Cpw==
+ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
+ smtp.mailfrom=suse.com; dmarc=pass action=none header.from=suse.com;
+ dkim=pass header.d=suse.com; arc=none
+Authentication-Results: vger.kernel.org; dkim=none (message not signed)
+ header.d=none;vger.kernel.org; dmarc=none action=none header.from=suse.com;
+Received: from VI1PR0402MB3359.eurprd04.prod.outlook.com (2603:10a6:803:3::28)
+ by VI1PR04MB5055.eurprd04.prod.outlook.com (2603:10a6:803:53::29) with
+ Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.3890.20; Tue, 2 Mar
+ 2021 15:48:47 +0000
+Received: from VI1PR0402MB3359.eurprd04.prod.outlook.com
+ ([fe80::9c1d:89de:a08e:ccc9]) by VI1PR0402MB3359.eurprd04.prod.outlook.com
+ ([fe80::9c1d:89de:a08e:ccc9%4]) with mapi id 15.20.3890.028; Tue, 2 Mar 2021
+ 15:48:46 +0000
+From:   =?UTF-8?q?Aur=C3=A9lien=20Aptel?= <aaptel@suse.com>
+To:     linux-cifs@vger.kernel.org, linux-fsdevel@vger.kernel.org,
+        linux-man@vger.kernel.org, mtk.manpages@gmail.com
+CC:     smfrench@gmail.com, Aurelien Aptel <aaptel@suse.com>
+Subject: [man-pages][PATCH v1] flock.2: add CIFS details
+Date:   Tue,  2 Mar 2021 16:48:31 +0100
+Message-ID: <20210302154831.17000-1-aaptel@suse.com>
+X-Mailer: git-send-email 2.30.0
+Content-Transfer-Encoding: quoted-printable
+Content-Type: text/plain
+X-Originating-IP: [2003:fa:70b:4a07:1423:4545:e408:5580]
+X-ClientProxiedBy: ZR0P278CA0033.CHEP278.PROD.OUTLOOK.COM
+ (2603:10a6:910:1c::20) To VI1PR0402MB3359.eurprd04.prod.outlook.com
+ (2603:10a6:803:3::28)
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+X-MS-Exchange-MessageSentRepresentingType: 1
+Received: from localhost (2003:fa:70b:4a07:1423:4545:e408:5580) by ZR0P278CA0033.CHEP278.PROD.OUTLOOK.COM (2603:10a6:910:1c::20) with Microsoft SMTP Server (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.3890.24 via Frontend Transport; Tue, 2 Mar 2021 15:48:46 +0000
+X-MS-PublicTrafficType: Email
+X-MS-Office365-Filtering-Correlation-Id: 500a5b59-b4fc-49a5-92d0-08d8dd92aa68
+X-MS-TrafficTypeDiagnostic: VI1PR04MB5055:
+X-MS-Exchange-Transport-Forked: True
+X-Microsoft-Antispam-PRVS: <VI1PR04MB505507EFCC96C298F97FE8C8A8999@VI1PR04MB5055.eurprd04.prod.outlook.com>
+X-MS-Oob-TLC-OOBClassifiers: OLM:7691;
+X-MS-Exchange-SenderADCheck: 1
+X-Microsoft-Antispam: BCL:0;
+X-Microsoft-Antispam-Message-Info: wgncJweN730CubP4O8rMOdYwckmavL4A8hfPQzHnxtqAUIJaeqW+nKBj6F+xVCAzzVtm6n8g7B6zD/PVWxX6g4mwVLZtJv1cCdcfAJFEhepjfHKCVhy+LCnI240p0ETyq7oknx9abTUQVoOb4T38N1ifYoPObJafdO4mXUu0i3ps6XQC6dDkWjGaHsTUyQ/48VLNuQPG2YSgmvFX34lzUIKQsGD6/jQ2k5aHQShsZ/dU6Ee38cFaXXT0DRwnA7iZwkTrb7fRifP8pl7Bel4Lv6EWRoos6l0AoZzhFx9J0daktxc/AUdO/3QUliYGXNkZ9g7KEvzSbBLLYxepymPe4RyCWei+D8yF2H99nNK6nWWGsoUqd2IbALEqIAHq16tuQWI2tDGRht72eujCbg/lXWvsDxSrcF3xRCNPRRjYcM6TEN1JcKzmqsQVUJXo5c9hbGnAVTCfuGl3deW50AQo63q4KbstY71LZU9pLece9+Y1XiLg/gw8K7ylvzb+rfSiLYUmho/ffPHHYoCyp1FAjHDvutMDLQi6ZDvF0k1kJ89CXA14aR75Fw6T9HPVaHRfpRPOgY4lbQh36OXlPdsK8Ld9gePscX4fr2HRF8vR2Um/TZgBN30J4ZhpuyaUS9gpJp1XGioev9QQRr4uNTMcFoTWNwLsM/3xXtLrwThjFMleqK8RDovqQHb1Vyv9hCnIfoMD5neLHijSVFI5AkHeVtEZCQ38vSsR0W/4Qpk/8Q93kEZ8c0u3uxaxNTkQDr64FyBLk7R+rPFFeFMciOL0ZvbV23+uUMZcNy2U8ACJrFCP37d7nLh0R4zrYWVcrANjV2XG7LNIQAFhRGncxRpNIKhSx1hsea42A77oJoUI2kWsoI13OazzRqfjtHtrU2ww/96ReOz54H2C8RRBnvMFrw==
+X-Forefront-Antispam-Report: CIP:255.255.255.255;CTRY:;LANG:en;SCL:5;SRV:;IPV:NLI;SFV:SPM;H:VI1PR0402MB3359.eurprd04.prod.outlook.com;PTR:;CAT:OSPM;SFS:(376002)(136003)(396003)(39860400002)(366004)(346002)(8936002)(4326008)(107886003)(52116002)(8676002)(186003)(6496006)(16526019)(36756003)(66476007)(5660300002)(2906002)(66556008)(316002)(6666004)(2616005)(83380400001)(1076003)(66946007)(478600001)(86362001)(6486002)(23200700001);DIR:OUT;SFP:1501;
+X-MS-Exchange-AntiSpam-MessageData: =?us-ascii?Q?oSLs+YQJNYu6lZ6Pz1mN9BgmDdEz6jnTERQ6Q1fBngNgD7jGn0lFen9gh2De?=
+ =?us-ascii?Q?jwzfNpNPWcg8Se2I9uYG6lh2SFvTfscNDlVZGIBSPfZ14LX8YLNNuCFlT3ke?=
+ =?us-ascii?Q?NRyMM+tgo6rVE+PALPYxpu4SSyWjcggwkfl+Nl9haKr/5IccbHY4N8PthxLh?=
+ =?us-ascii?Q?jLSss/BOtvnJjjki+Lq3Hbb9XqGgaLQ1x6IsUOa6LmEGjuBb41FvfsCaA7zx?=
+ =?us-ascii?Q?qkR59hnMFQkBILknWxOssHLvqeMiS0Rb7aEUyYC5N+R0EXcQMkPj+hLC5hAd?=
+ =?us-ascii?Q?VlhGLFKgjvvZqFRvl4/LMsNF4JeBozp7t3rKEmWKLSzn6coi84iNVIBJwOU1?=
+ =?us-ascii?Q?eGIfBm7OFCAZC3UNJl4CGy3NKBT6oFtWg/TCkFmUt9Q9fb//KPO2Y1W2NGUd?=
+ =?us-ascii?Q?Qg50Si1Zb04lv70/61I5FzkT4Vs3UT7DERuvLJJePWaWM0sFNwwt4bh2UW02?=
+ =?us-ascii?Q?qeAl34PiKQCFFiwJBUw5RV7KVHECYyEA+tEqMUIHw8jaUchgXhAdj3ZeZCxB?=
+ =?us-ascii?Q?RFC5sv7unAxT8J/RmE+zhx7eHDYIwa9Y/bqKqDLlbY42VIG7oU1n4BXmqv0d?=
+ =?us-ascii?Q?DPKujvdfLVqnErHnCqHZ/LtCq01wBEIBkOd6u0E2F1OC4jXtwoZNsCeNIB6s?=
+ =?us-ascii?Q?o33S15uhwiam24vKzA2VdwpsEF76HzQuNFJanQHP6YL3LcFpF3WLP0xL7Sgd?=
+ =?us-ascii?Q?MjEyXG9a/8B3cLx44KhppUQ5bCFd3p74WvE+I8Z+RM7A7cRGoJKa2VyhY1O9?=
+ =?us-ascii?Q?hswraAzKp2uQ46hvENzFiCepnUUyLy4THkhsJePrzT6779vGsXHGoN2PL8/C?=
+ =?us-ascii?Q?ofzf5KHCQtkIpTrbfWoE0P/6gncXsbreLCCwRPgSgK/zqVEbAw4TBo1ptIML?=
+ =?us-ascii?Q?qU80/wIbRdaL/JQg+TKhlsT4dusXb5vlYPwMmBrOIhkcrlUBELI0+rpjrdbF?=
+ =?us-ascii?Q?XVljisJm2BHots8/FRxuO37dtMBHJZi/wW+iwLYNlO6WbPaUwdHFAVosLj6m?=
+ =?us-ascii?Q?j2MMMHNGkBchL/9uBWS+q5CnVysMXi6pektQwNvsNFWkyVaq1c7uVMmIQwfC?=
+ =?us-ascii?Q?Rv00uRIOYxPUtPEpbwVigIUFt1Ww9yQeF653P4EP+JeKtW+YCARQ5YEIo7gF?=
+ =?us-ascii?Q?yKUqGwfd/eBi5eGyIokssVuM/2s7ewj0ypUVlgfWwbGxtH63HnrlIb5j4FPn?=
+ =?us-ascii?Q?eood6DDjkblzLtVEoTMwJYK0BK7jBBs9qLQkn4M4kEVza/zx16xZEWUok+IC?=
+ =?us-ascii?Q?Rag++dvIxOkEg4I1rSO4oFsJZz97CyMJZRKV744np2GqgU+IQpdp+E5Ws57B?=
+ =?us-ascii?Q?ShBHbqJmyqHoTfpHnoVZkKQgwI+V/S/qN6jVXrq6RpyalOghpCLJsjaOGuiQ?=
+ =?us-ascii?Q?vDQYTYVOl7qrnJIa6ChEd5yfmiR3?=
+X-OriginatorOrg: suse.com
+X-MS-Exchange-CrossTenant-Network-Message-Id: 500a5b59-b4fc-49a5-92d0-08d8dd92aa68
+X-MS-Exchange-CrossTenant-AuthSource: VI1PR0402MB3359.eurprd04.prod.outlook.com
+X-MS-Exchange-CrossTenant-AuthAs: Internal
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 02 Mar 2021 15:48:46.8807
+ (UTC)
+X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
+X-MS-Exchange-CrossTenant-Id: f7a17af6-1c5c-4a36-aa8b-f5be247aa4ba
+X-MS-Exchange-CrossTenant-MailboxType: HOSTED
+X-MS-Exchange-CrossTenant-UserPrincipalName: mHVxrBJargI9TCBJq+YKOSukmNiBv+4rZcpdHKle/Iz9LJk0ECyfuZg1u72WELxt
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: VI1PR04MB5055
 Precedence: bulk
 List-ID: <linux-man.vger.kernel.org>
 X-Mailing-List: linux-man@vger.kernel.org
 
-Signed-off-by: Jarkko Sakkinen <jarkko@kernel.org>
----
-v4:
-* Did a heavy edit trying to streamline the story a bit and focus on
-  stuff important to the user (e.g. lighten up x86 details).
-v3:
-* Overhaul based on Michael's comments. Most likely needs to be refined
-  in various places but this is at least a small step forward for sure.
-v2:
-* Fixed the semantic newlines convention and various style errors etc.
-  that were reported by Alenjandro and Michael.
-* SGX was merged to v5.
- man7/sgx.7 | 196 +++++++++++++++++++++++++++++++++++++++++++++++++++++
- 1 file changed, 196 insertions(+)
- create mode 100644 man7/sgx.7
+From: Aurelien Aptel <aaptel@suse.com>
 
-diff --git a/man7/sgx.7 b/man7/sgx.7
-new file mode 100644
-index 000000000..c0b67020e
---- /dev/null
-+++ b/man7/sgx.7
-@@ -0,0 +1,196 @@
-+.\" Copyright (C) 2021 Intel Corporation
-+.\"
-+.\" %%%LICENSE_START(VERBATIM)
-+.\" Permission is granted to make and distribute verbatim copies of this
-+.\" manual provided the copyright notice and this permission notice are
-+.\" preserved on all copies.
-+.\"
-+.\" Permission is granted to copy and distribute modified versions of this
-+.\" manual under the conditions for verbatim copying, provided that the
-+.\" entire resulting derived work is distributed under the terms of a
-+.\" permission notice identical to this one.
-+.\"
-+.\" Since the Linux kernel and libraries are constantly changing, this
-+.\" manual page may be incorrect or out-of-date.  The author(s) assume no
-+.\" responsibility for errors or omissions, or for damages resulting from
-+.\" the use of the information contained herein.  The author(s) may not
-+.\" have taken the same level of care in the production of this manual,
-+.\" which is licensed free of charge, as they might when working
-+.\" professionally.
-+.\"
-+.\" Formatted or processed versions of this manual, if unaccompanied by
-+.\" the source, must acknowledge the copyright and authors of this work.
-+.\" %%%LICENSE_END
-+.\"
-+.TH SGX 7 2021\-02\-02 "Linux" "Linux Programmer's Manual"
+Similarly to NFS, CIFS flock() locks behave differently than the
+standard. Document those differences.
+
+Signed-off-by: Aurelien Aptel <aaptel@suse.com>
+---
+ man2/flock.2 | 22 ++++++++++++++++++++++
+ 1 file changed, 22 insertions(+)
+
+diff --git a/man2/flock.2 b/man2/flock.2
+index 61d4b5396..9271b8fef 100644
+--- a/man2/flock.2
++++ b/man2/flock.2
+@@ -239,6 +239,28 @@ see the discussion of the
+ .I "local_lock"
+ option in
+ .BR nfs (5).
++.SS CIFS details
++CIFS mounts share similar limitations with NFS.
 +.PP
-+sgx - overview of Software Guard eXtensions
-+.SH DESCRIPTION
++In Linux kernels up to 5.4,
++.BR flock ()
++locks files on the local system,
++not over SMB. A locked file won't appear locked for other SMB clients
++accessing the same share.
 +.PP
-+Intel Software Guard eXtensions (SGX) allow applications to set
-+aside private memory regions of code and data.
-+These memory regions are called enclaves.
-+.PP
-+SGX must be enabled in BIOS.
-+If SGX appears to be unsupported on a system having hardware support,
-+ensure that SGX is enabled in the BIOS.
-+If a BIOS presents a choice between \(dqEnabled\(dq and \(dqSoftware
-+Enabled\(dq modes for SGX,
-+choose \(dqEnabled\(dq.
-+.PP
-+SGX is available only if the kernel was configured and built with the
-+.B CONFIG_X86_SGX
-+option.
-+You can determine whether the hardware supports SGX by checking
-+whether "sgx" appears in the
-+.I flags
-+field in
-+.IR /proc/cpuinfo .
-+.SS Overview
-+.PP
-+An enclave is a region of address space,
-+mapping pages from Enclave Page Cache (EPC),
-+which consists of sections of non-addressable system memory.
-+They are constructed with sub-functions of the privileged (ring-0) ENCLS x86
-+instruction,
-+and interacted with sub-functions of the unprivileged (ring-3) ENCLU x86
-+instruction.
-+Any other type of memory access gets asserted by the CPU.
-+Enclaves are represented to the user space as memory-mapped files,
-+shareable by multiple processes.
-+.PP
-+An EPC page can be initialized with ENCLS sub-functions to any of the
-+following types:
-+.TP
-+SECS
-+SGX Enclave Control Structure (SECS) contains the enclave global properties
-+such as the base address,
-+size and SHA256 checksum of its contents.
-+.TP
-+REG
-+Regular (REG) pages are code and data pages of the enclave.
-+They are mapped to the enclave address space.
-+.TP
-+TCS
-+Thread Control Structure (TCS) pages describe the entry points to an enclave with
-+an offset from the base address.
-+They are mapped to the enclave address space.
-+ENCLU provides EENTER and ERESUME sub-functions,
-+which take the address of a TCS page,
-+and jump executing inside an enclave from the given offset.
-+.PP
-+An enclave can be entered only at a fixed set of entry points,
-+each defined by a TCS,
-+by invoking EENTER and ERESUME.
-+Any other type of memory access is strictly prohibited by the CPU.
-+.PP
-+A thread inside an enclave can read and write memory inside and outside the
-+enclave,
-+but any action causing execution outside the enclave is asserted by the CPU
-+with an exception,
-+and ultimately exit from the enclave.
-+A thread can cleanly exit from the enclave with EEXIT sub-function of the ENCLU,
-+to a given address outside the enclave.
-+.PP
-+Although carved out of normal DRAM,
-+enclave memory is marked in the system memory map as reserved and is not
-+managed by the Linux memory manager.
-+There may be several enclave regions spread across the system.
-+Each contiguous region is called an Enclave Page Cache (EPC) section.
-+The pages belonging to the EPC sections are encrypted when they leave the
-+Last Level Cache (LLC).
-+.SS Construction
-+.PP
-+An enclave's life-cycle starts by opening
-+.I /dev/sgx_enclave,
-+and ends when all the file descriptors have been closed.
-+After opening the enclave,
-+its contents must be populated with the
-+.BR ioctl (2)
-+interface provided by
-+.IR <asm/sgx.h> .
-+.PP
-+The are rudimentarily the steps to construct an enclave:
-+.IP 1.
-+Invoke
-+.B SGX_IOC_ENCLAVE_CREATE,
-+which takes in data for the SECS,
-+and initializes an EPC page for it.
-+SECS is used by various ENCLS sub-functions to modify the enclave state.
-+It is kept internally by the kernel,
-+and is never made available to the user space.
-+.IP 2.
-+Populate regular and TCS pages to the enclave,
-+by invoking
-+.B SGX_IOC_ENCLAVE_ADD_PAGES.
-+.IP 3.
-+Invoke
-+.B SGX_IOC_ENCLAVE_INIT,
-+which makes the enclave executable.
-+After this new pages can no longer be added.
-+.SS Access rights
-+The state of each EPC page is stored to a structure called the
-+.I Enclave Page Cache Map (EPCM),
-+which takes a portion of the EPC.
-+The state consists of page type and access rights,
-+among the other things.
-+When a page is accessed by a CPU,
-+the EPCM permissions are enforced,
-+in addition to the
-+.BR mmap(2)
-+permissions.
-+EPCM permissions are defined when invoking
-+.B SGX_IOC_ENCLAVE_ADD_PAGES,
-+by setting them to the
-+.B flags
-+field of
-+.B struct enclave_add_pages.
-+.PP
-+A memory access to an unitialized EPC page causes EPCM fault,
-+with a new SGX bit set in the error code.
-+A new power cycle invalidates the whole EPCM,
-+making all EPC pages unitialized.
-+E.g. if the system goes to sleep,
-+and then wakes up,
-+all the data is gone.
-+Thus, a user space run-time must be prepared to handle this exception,
-+at any point of time.
-+.PP
-+When the pages are mapped to memory via
-+.BR mmap (2)
-+or
-+.BR mprotect (2),
-+the EPCM permissions are compared against the declared permissions.
-+If the declared permissions have bits set that are not part of the EPCM
-+permissions,
-+the operation fails with the error
-+.B EACCES.
-+.SS Exception handling
-+These are the exceptions triggered by an enclave:
-+.IP
-+Undefined instruction (#UD) exception is triggered when executing inside an enclave,
-+for any instruction that may cause VMEXIT,
-+I/O instruction, 
-+or a change in CPU privilege levels.
-+.IP
-+Page fault (#PF) with a new SGX bit set,
-+also known as EPCM fault,
-+is triggered,
-+when accessing unitialized EPC page,
-+or when the memory access surpasses the EPCM permissions.
-+.PP
-+In order to assist the run-time,
-+the kernel provides a vDSO entry point,
-+.BR vsgx_enter_enclave,
-+which wraps the code required the enter the enclave.
-+When an exception occurs,
-+the vDSO populates
-+.B struct sgx_enclave_run 
-+with the exception data,
-+and returns to the caller.
-+.SH VERSIONS
-+The SGX feature was added in Linux 5.11.
-+.SH SEE ALSO
-+.BR ioctl (2),
-+.BR mmap() (2),
-+.BR mprotect (2)
--- 
-2.30.1
++Since Linux 5.5,
++.BR flock ()
++are emulated with SMB byte-range locks on the
++entire file. Similarly to NFS, this means that
++.BR fcntl (2)
++and
++.BR flock ()
++locks interact with one another over SMB. Another important
++side-effect is that the locks are not advisory anymore: a write on a
++locked file will always fail with
++.BR EACCESS .
++This difference originates from the design of locks in the SMB
++protocol and cannot be worked around.
+ .SH SEE ALSO
+ .BR flock (1),
+ .BR close (2),
+--=20
+2.30.0
 
