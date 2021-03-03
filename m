@@ -2,119 +2,130 @@ Return-Path: <linux-man-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-14.2 required=3.0 tests=BAYES_00,DKIM_SIGNED,
-	DKIM_VALID,DKIM_VALID_AU,FREEMAIL_FORGED_FROMDOMAIN,FREEMAIL_FROM,
-	HEADER_FROM_DIFFERENT_DOMAINS,INCLUDES_CR_TRAILER,INCLUDES_PATCH,
-	MAILING_LIST_MULTI,NICE_REPLY_A,SPF_HELO_NONE,SPF_PASS,URIBL_BLOCKED,
-	USER_AGENT_SANE_1 autolearn=ham autolearn_force=no version=3.4.0
+X-Spam-Status: No, score=-5.8 required=3.0 tests=BAYES_00,DKIM_SIGNED,
+	DKIM_VALID,DKIM_VALID_AU,HEADER_FROM_DIFFERENT_DOMAINS,MAILING_LIST_MULTI,
+	SPF_HELO_NONE,SPF_PASS,URIBL_BLOCKED autolearn=no autolearn_force=no
+	version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 3F317C43619
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 56F42C4160E
 	for <linux-man@archiver.kernel.org>; Thu,  4 Mar 2021 00:32:00 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.kernel.org (Postfix) with ESMTP id 1CD9864F14
+	by mail.kernel.org (Postfix) with ESMTP id 30AB964E62
 	for <linux-man@archiver.kernel.org>; Thu,  4 Mar 2021 00:32:00 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1355593AbhCDAb6 (ORCPT <rfc822;linux-man@archiver.kernel.org>);
-        Wed, 3 Mar 2021 19:31:58 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:51126 "EHLO
-        lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S231816AbhCCWVD (ORCPT
-        <rfc822;linux-man@vger.kernel.org>); Wed, 3 Mar 2021 17:21:03 -0500
-Received: from mail-ej1-x62e.google.com (mail-ej1-x62e.google.com [IPv6:2a00:1450:4864:20::62e])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 2351EC061756
-        for <linux-man@vger.kernel.org>; Wed,  3 Mar 2021 14:20:23 -0800 (PST)
-Received: by mail-ej1-x62e.google.com with SMTP id jt13so45440481ejb.0
-        for <linux-man@vger.kernel.org>; Wed, 03 Mar 2021 14:20:23 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20161025;
-        h=cc:subject:to:references:from:message-id:date:user-agent
-         :mime-version:in-reply-to:content-language:content-transfer-encoding;
-        bh=6se0NdvR5s6CDWt5ko7mjfcu50ks9MFAFcuUNOwj1KE=;
-        b=cyEHtMVyJZZCch0IRSfVj0j1GOhYmzbKRDlgUqDuyNi2n7w/J32LYxre8a2wi5n53m
-         iiPashopSS7xnAPahDd5ZoXRxAKtmL8Z74/90PbmAm+kNMkypnjaUXJrJ3PisXGVyt8Y
-         hqHK3XLjIHl2WJiKGVmW1iy4x1hDIDzjr4NgWg4+jfxEfgr3WYlvom9nZ7QPS2CfcXF5
-         FACcCTRMIGvrXelYgNDQaGzzdd/KFDMw8pHz2Pjy3q6wB5FrFo0SMYHOgHwM8/dvE9ze
-         lQvB+CT708kLXNNt5yBQ/XDn2TlaCMLuhU7+ZPAgxPNAQZdZBNhIqMrjvIghMWqTOutR
-         xQ1A==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20161025;
-        h=x-gm-message-state:cc:subject:to:references:from:message-id:date
-         :user-agent:mime-version:in-reply-to:content-language
-         :content-transfer-encoding;
-        bh=6se0NdvR5s6CDWt5ko7mjfcu50ks9MFAFcuUNOwj1KE=;
-        b=BksNU5ZT0N25dITV5yhmV3LlGVUBlmo1/XyLrpwpne+LKcJBo/HomqMvbc/WGhLvp1
-         nYeBjYRnd+Wl66YHTFdW6+40/yeSDJywpRg6ClfCapzoPUt6KNBRheTtsoTQAeGQNAG3
-         rtpIWIlbJDxFfhkzVkoJQY9msFoBspbCWjK0QaeLgbl2vgj8mSJ047UhqfAsTlsd2AjY
-         8H+c1GOYU1RHzwciiNhpjyg/A4qsAA3mb9/G17C2GfVkFj8TKpvIhUt/twglCGcFKWHZ
-         BF6S8UYL1odg0BgdR0nbzGu6K89BdXMFvDnRrWRzJ1MT0iZOEsJlDLucc/Ht/rkN/vZA
-         CuwQ==
-X-Gm-Message-State: AOAM533bZQTlRLAZwDegckghwoSlVpy92b4xM670xG8LG098N3C1d9g2
-        bMlvLJSZkZ6StZbIQ94bTUkkLShsmw6G4g==
-X-Google-Smtp-Source: ABdhPJz6VDkvhzyXurizi1hdsu99/p1LHfIhwMxYkwxx7PyZvQ0KYp1ZN/b0NJWF29PUPygxkD5duA==
-X-Received: by 2002:a17:907:9709:: with SMTP id jg9mr840978ejc.276.1614810021553;
-        Wed, 03 Mar 2021 14:20:21 -0800 (PST)
-Received: from ?IPv6:2001:a61:3a2d:1d01:99ab:4f20:ed7f:402b? ([2001:a61:3a2d:1d01:99ab:4f20:ed7f:402b])
-        by smtp.gmail.com with ESMTPSA id fw3sm18659359ejb.82.2021.03.03.14.20.20
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Wed, 03 Mar 2021 14:20:21 -0800 (PST)
-Cc:     mtk.manpages@gmail.com, linux-man@vger.kernel.org
-Subject: Re: [PATCH] fflush.3: SEE ALSO: Add fpurge(3)
-To:     Alejandro Colomar <alx.manpages@gmail.com>
-References: <20210223231713.124003-1-alx.manpages@gmail.com>
-From:   "Michael Kerrisk (man-pages)" <mtk.manpages@gmail.com>
-Message-ID: <ebd5b29a-6130-b7e8-d1d4-83ff92781a8d@gmail.com>
-Date:   Wed, 3 Mar 2021 23:20:20 +0100
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
- Thunderbird/78.6.0
+        id S240467AbhCDAbM (ORCPT <rfc822;linux-man@archiver.kernel.org>);
+        Wed, 3 Mar 2021 19:31:12 -0500
+Received: from mail.efficios.com ([167.114.26.124]:38258 "EHLO
+        mail.efficios.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S244996AbhCCS63 (ORCPT
+        <rfc822;linux-man@vger.kernel.org>); Wed, 3 Mar 2021 13:58:29 -0500
+Received: from localhost (localhost [127.0.0.1])
+        by mail.efficios.com (Postfix) with ESMTP id D15D43220FC;
+        Wed,  3 Mar 2021 13:55:00 -0500 (EST)
+Received: from mail.efficios.com ([127.0.0.1])
+        by localhost (mail03.efficios.com [127.0.0.1]) (amavisd-new, port 10032)
+        with ESMTP id aAXDIHMqpOpt; Wed,  3 Mar 2021 13:55:00 -0500 (EST)
+Received: from localhost (localhost [127.0.0.1])
+        by mail.efficios.com (Postfix) with ESMTP id 6A56B3220FB;
+        Wed,  3 Mar 2021 13:55:00 -0500 (EST)
+DKIM-Filter: OpenDKIM Filter v2.10.3 mail.efficios.com 6A56B3220FB
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=efficios.com;
+        s=default; t=1614797700;
+        bh=rCq90Cemnj8uIDnzvWa7FZTmINWyPkoJYeBmJ7lHhLM=;
+        h=Date:From:To:Message-ID:MIME-Version;
+        b=GTVjsfF3WiOHC2+vY+c6TYY9cvcQDkrU+9bfM2NO0e0kcGRUbJPZ0w9WB4tmtup/O
+         /LgQNvgx5blMss5mLTbGC9t8q4ylQ16nXq7t1NqOuSDMIkpVJNKhkDhZTLiytPfJSw
+         MRhu+8V5EYuKKUx76PvITOIXlmpXwlhmi0HxnUZD8Uwp3x4PFWgi0ciJxLXAWirSOL
+         ooJYN9AFHuC1x9a/aVWn5SAfeEHXL/ZH/hbwr8bZKq2wQu8X1Aepe5ZPVag69T3yK2
+         wNgkYVqjbqXR69ZZ5TlGr/Fhhts25RH9eLhlk55OZ1icgBvm/5YTBHk+GeFxjls+Ga
+         T+VjiPIxCa9pQ==
+X-Virus-Scanned: amavisd-new at efficios.com
+Received: from mail.efficios.com ([127.0.0.1])
+        by localhost (mail03.efficios.com [127.0.0.1]) (amavisd-new, port 10026)
+        with ESMTP id z7lHbMmAUfH0; Wed,  3 Mar 2021 13:55:00 -0500 (EST)
+Received: from mail03.efficios.com (mail03.efficios.com [167.114.26.124])
+        by mail.efficios.com (Postfix) with ESMTP id 562F43224B8;
+        Wed,  3 Mar 2021 13:55:00 -0500 (EST)
+Date:   Wed, 3 Mar 2021 13:55:00 -0500 (EST)
+From:   Mathieu Desnoyers <mathieu.desnoyers@efficios.com>
+To:     Piotr Figiel <figiel@google.com>
+Cc:     Andrew Morton <akpm@linux-foundation.org>,
+        Peter Zijlstra <peterz@infradead.org>,
+        paulmck <paulmck@kernel.org>, Boqun Feng <boqun.feng@gmail.com>,
+        Oleg Nesterov <oleg@redhat.com>,
+        Alexey Dobriyan <adobriyan@gmail.com>,
+        Andrei Vagin <avagin@gmail.com>,
+        linux-kernel <linux-kernel@vger.kernel.org>,
+        Peter Oskolkov <posk@google.com>,
+        Kamil Yurtsever <kyurtsever@google.com>,
+        Chris Kennelly <ckennelly@google.com>,
+        Paul Turner <pjt@google.com>, emmir <emmir@google.com>,
+        linux-man <linux-man@vger.kernel.org>,
+        linux-api <linux-api@vger.kernel.org>
+Message-ID: <1698111952.9528.1614797700222.JavaMail.zimbra@efficios.com>
+In-Reply-To: <YDkBlYp76PGsgUZs@google.com>
+References: <20210222100443.4155938-1-figiel@google.com> <1521573573.29432.1614005597395.JavaMail.zimbra@efficios.com> <YDkBlYp76PGsgUZs@google.com>
+Subject: Re: [PATCH] ptrace: add PTRACE_GET_RSEQ_CONFIGURATION request
 MIME-Version: 1.0
-In-Reply-To: <20210223231713.124003-1-alx.manpages@gmail.com>
 Content-Type: text/plain; charset=utf-8
-Content-Language: en-US
 Content-Transfer-Encoding: 7bit
+X-Originating-IP: [167.114.26.124]
+X-Mailer: Zimbra 8.8.15_GA_3996 (ZimbraWebClient - FF86 (Linux)/8.8.15_GA_4007)
+Thread-Topic: ptrace: add PTRACE_GET_RSEQ_CONFIGURATION request
+Thread-Index: cQoLUNh7wF6cm+pfSb0FxCqp8YWzpA==
 Precedence: bulk
 List-ID: <linux-man.vger.kernel.org>
 X-Mailing-List: linux-man@vger.kernel.org
 
-Hello Alex,
+----- On Feb 26, 2021, at 9:11 AM, Piotr Figiel figiel@google.com wrote:
 
-On 2/24/21 12:17 AM, Alejandro Colomar wrote:
-> fpurge(i_stream) does the same as fflush(i_stream), AFAIK.
+> Hi,
+> 
+> On Mon, Feb 22, 2021 at 09:53:17AM -0500, Mathieu Desnoyers wrote:
+> 
+>> I notice that other structures defined in this UAPI header are not
+>> packed as well.  Should we add an attribute packed on new structures ?
+>> It seems like it is generally a safer course of action, even though
+>> each field is naturally aligned here (there is no padding/hole in the
+>> structure).
+> 
+> I considered this for quite a while. There are some gains for this
+> approach, i.e. it's safer towards the ISO C, as theoretically compiler
+> can generate arbitrary offsets as long as struct elements have correct
+> order in memory.
+> Also with packed attribute it would be harder to make it incorrect in
+> future modifications.
+> User code also could theoretically put the structure on any misaligned
+> address.
+> 
+> But the drawback is that all accesses to the structure contents are
+> inefficient and some compilers may generate large chunks of code
+> whenever the structure elements are accessed (I recall at least one ARM
+> compiler which generates series of single-byte accesses for those). For
+> kernel it doesn't matter much because the structure type is used in one
+> place, but it may be different for the application code.
+> 
+> The change would be also inconsistent with the rest of the file and IMO
+> the gains are only theoretical.
+> 
+> If there are more opinions on this or you have some argument I'm missing
+> please let me know I can send v3 with packed and explicit padding
+> removed. I think this is rather borderline trade off.
 
-I don''t think so. fflush() of an output stream forces
-a write() of data to the kernel. fpurge() discards the data,
-as I understand things.
-
-But I still think the patch is useful. fflush(3)
-and fpurge(3) serve related purposes.
-
-Patch applied.
+I personally don't have a strong opinion on this and completely agree with
+your analysis. Maybe for pre-existing system calls adding more non-packed
+structures might be kind-of OK if some were already exposed, even though
+it seems rather fragile wrt ISO C.
 
 Thanks,
 
-Michael
+Mathieu
 
-
-> Signed-off-by: Alejandro Colomar <alx.manpages@gmail.com>
-> ---
->  man3/fflush.3 | 1 +
->  1 file changed, 1 insertion(+)
 > 
-> diff --git a/man3/fflush.3 b/man3/fflush.3
-> index 26b91e618..bbe3c453e 100644
-> --- a/man3/fflush.3
-> +++ b/man3/fflush.3
-> @@ -133,6 +133,7 @@ or
->  .BR sync (2),
->  .BR write (2),
->  .BR fclose (3),
-> +.BR fpurge (3),
->  .BR fileno (3),
->  .BR fopen (3),
->  .BR setbuf (3),
-> 
-
+> Best regards and thanks for looking at this,
+> Piotr.
 
 -- 
-Michael Kerrisk
-Linux man-pages maintainer; http://www.kernel.org/doc/man-pages/
-Linux/UNIX System Programming Training: http://man7.org/training/
+Mathieu Desnoyers
+EfficiOS Inc.
+http://www.efficios.com
