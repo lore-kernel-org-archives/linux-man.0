@@ -2,133 +2,179 @@ Return-Path: <linux-man-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-15.3 required=3.0 tests=BAYES_00,
-	HEADER_FROM_DIFFERENT_DOMAINS,INCLUDES_CR_TRAILER,INCLUDES_PATCH,
-	MAILING_LIST_MULTI,NICE_REPLY_A,SPF_HELO_NONE,SPF_PASS,URIBL_BLOCKED,
-	USER_AGENT_SANE_1 autolearn=unavailable autolearn_force=no version=3.4.0
+X-Spam-Status: No, score=-9.2 required=3.0 tests=BAYES_00,DKIM_SIGNED,
+	DKIM_VALID,DKIM_VALID_AU,FREEMAIL_FORGED_FROMDOMAIN,FREEMAIL_FROM,
+	HEADER_FROM_DIFFERENT_DOMAINS,INCLUDES_PATCH,MAILING_LIST_MULTI,NICE_REPLY_A,
+	SPF_HELO_NONE,SPF_PASS,URIBL_BLOCKED,USER_AGENT_SANE_1 autolearn=ham
+	autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 38CC0C43331
-	for <linux-man@archiver.kernel.org>; Thu,  4 Mar 2021 00:32:03 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 1052AC4332D
+	for <linux-man@archiver.kernel.org>; Thu,  4 Mar 2021 00:32:05 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.kernel.org (Postfix) with ESMTP id 0C8BC64EEE
-	for <linux-man@archiver.kernel.org>; Thu,  4 Mar 2021 00:32:03 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTP id D9BAF64F14
+	for <linux-man@archiver.kernel.org>; Thu,  4 Mar 2021 00:32:04 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S244432AbhCDAbG (ORCPT <rfc822;linux-man@archiver.kernel.org>);
-        Wed, 3 Mar 2021 19:31:06 -0500
-Received: from p3plsmtpa11-03.prod.phx3.secureserver.net ([68.178.252.104]:35780
-        "EHLO p3plsmtpa11-03.prod.phx3.secureserver.net" rhost-flags-OK-OK-OK-OK)
-        by vger.kernel.org with ESMTP id S1378962AbhCCSNy (ORCPT
-        <rfc822;linux-man@vger.kernel.org>); Wed, 3 Mar 2021 13:13:54 -0500
-Received: from [192.168.0.116] ([71.184.94.153])
-        by :SMTPAUTH: with ESMTPSA
-        id HVvelXiCvKEOAHVvelgCok; Wed, 03 Mar 2021 11:08:58 -0700
-X-CMAE-Analysis: v=2.4 cv=erwacqlX c=1 sm=1 tr=0 ts=603fd0ba
- a=vbvdVb1zh1xTTaY8rfQfKQ==:117 a=vbvdVb1zh1xTTaY8rfQfKQ==:17
- a=IkcTkHD0fZMA:10 a=iox4zFpeAAAA:8 a=Dn3fJbBJWZ8bWwpP0-sA:9 a=QEXdDO2ut3YA:10
- a=WzC6qhA0u3u7Ye7llzcV:22
-X-SECURESERVER-ACCT: tom@talpey.com
-Subject: Re: [PATCH v2] flock.2: add CIFS details
-To:     =?UTF-8?Q?Aur=c3=a9lien_Aptel?= <aaptel@suse.com>,
-        linux-cifs@vger.kernel.org, linux-fsdevel@vger.kernel.org,
-        linux-man@vger.kernel.org, mtk.manpages@gmail.com
-Cc:     smfrench@gmail.com
-References: <8735xcxkv5.fsf@suse.com> <20210303163755.31127-1-aaptel@suse.com>
-From:   Tom Talpey <tom@talpey.com>
-Message-ID: <17fc432c-f485-0945-6d12-fa338ea0025f@talpey.com>
-Date:   Wed, 3 Mar 2021 13:08:58 -0500
-User-Agent: Mozilla/5.0 (Windows NT 10.0; Win64; x64; rv:68.0) Gecko/20100101
- Thunderbird/68.12.1
+        id S1355596AbhCDAcA (ORCPT <rfc822;linux-man@archiver.kernel.org>);
+        Wed, 3 Mar 2021 19:32:00 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:52266 "EHLO
+        lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1391158AbhCCW0P (ORCPT
+        <rfc822;linux-man@vger.kernel.org>); Wed, 3 Mar 2021 17:26:15 -0500
+Received: from mail-ej1-x62d.google.com (mail-ej1-x62d.google.com [IPv6:2a00:1450:4864:20::62d])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id D8537C061756
+        for <linux-man@vger.kernel.org>; Wed,  3 Mar 2021 14:25:32 -0800 (PST)
+Received: by mail-ej1-x62d.google.com with SMTP id w1so45436541ejf.11
+        for <linux-man@vger.kernel.org>; Wed, 03 Mar 2021 14:25:32 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20161025;
+        h=cc:subject:to:references:from:message-id:date:user-agent
+         :mime-version:in-reply-to:content-language:content-transfer-encoding;
+        bh=Gvp3P0bkdpvSHLSuYYkVNLgGG/7qYyOKw//qYCl6dzs=;
+        b=YvHIvBYFDIV3/0vD7ayLWvCcSCjw0n5JEaPp0trdR5RXXjoDoMJo0lWE9z44Y4jYNR
+         qWsAkR+nILmgov1dc7rjtoAgWC4ZXVtrSj1Bp/0ybZOjny9Us0aVIk0EHDSCFF6tHRCW
+         6K/xWa+pu11fr1UEMO7fSTB0KgBRq5XANLWtFTVtqHvj13x3CI+gjtLe6dxvnmTVozQr
+         IxgjjgorqeW50lXVj7aaA1mYWYNEJIncy0WZjlakHZiiWHEm1Y3zRWsORlzceGi560Fj
+         8+A8+jcLm+AQXD8seyUyWn2sVhdqyO+82L0UgTknH1naCwgglZxq5cGycR9iAuwPHnTt
+         cYRA==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20161025;
+        h=x-gm-message-state:cc:subject:to:references:from:message-id:date
+         :user-agent:mime-version:in-reply-to:content-language
+         :content-transfer-encoding;
+        bh=Gvp3P0bkdpvSHLSuYYkVNLgGG/7qYyOKw//qYCl6dzs=;
+        b=YkkroGLyTNIQjaWufCyxf0FByKjj9/yMOOn2FsB9u1bxrO8mpJt7ftw0cA58SGfj16
+         cTiXisRA3CjTZ5TQ1jq4pWlKrxCMexG3VhmB029pkzwabwF5/ax/9MAiu/lppE3Vg47T
+         t7KZqfp5E+MQlbWOg4oQp2tZVk9KdlmdZNZYNVReCF57Dn4Z8o/NmGsaLRPVEJYKbiDx
+         sAgyPe0h4AwligYtX1M8gZMmL1f9TYqSCs0noj1g2rrpq6u4pzwG7KULwCQ9p8SjrtJO
+         Z3468xIO9lpobECV+ju/DgqzJeD6gXsfdY1KAd9kBz26IvdaMYR6JAUZWu7kwwvHpJcp
+         uLWA==
+X-Gm-Message-State: AOAM531C8GF3pqa+tHf3winw8UyexPwo24jGDfCDRrFp/zU/0SsR343N
+        dYwtmp4SaylBminqb1k8Q/s=
+X-Google-Smtp-Source: ABdhPJzut7X6rehd+u75KjrJW7zfEUVonqZz0kUuBkxGcB7NRLQCXCFUZAUI8UKacRC5yI3B7qP4Mw==
+X-Received: by 2002:a17:906:dfcc:: with SMTP id jt12mr865537ejc.31.1614810331568;
+        Wed, 03 Mar 2021 14:25:31 -0800 (PST)
+Received: from ?IPv6:2001:a61:3a2d:1d01:99ab:4f20:ed7f:402b? ([2001:a61:3a2d:1d01:99ab:4f20:ed7f:402b])
+        by smtp.gmail.com with ESMTPSA id d15sm8749615edx.62.2021.03.03.14.25.30
+        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+        Wed, 03 Mar 2021 14:25:30 -0800 (PST)
+Cc:     mtk.manpages@gmail.com, linux-man@vger.kernel.org,
+        libc-alpha@sourceware.org, Heinrich Schuchardt <xypron.glpk@gmx.de>
+Subject: Re: [PATCH 00/14] man3: SYNOPSIS: Use 'restrict' in prototypes (batch
+ 2)
+To:     Alejandro Colomar <alx.manpages@gmail.com>
+References: <20210228004817.122463-1-alx.manpages@gmail.com>
+From:   "Michael Kerrisk (man-pages)" <mtk.manpages@gmail.com>
+Message-ID: <0f98f70d-c060-c58c-a4aa-6fb5c0c2eaa3@gmail.com>
+Date:   Wed, 3 Mar 2021 23:25:30 +0100
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
+ Thunderbird/78.6.0
 MIME-Version: 1.0
-In-Reply-To: <20210303163755.31127-1-aaptel@suse.com>
-Content-Type: text/plain; charset=utf-8; format=flowed
+In-Reply-To: <20210228004817.122463-1-alx.manpages@gmail.com>
+Content-Type: text/plain; charset=utf-8
 Content-Language: en-US
-Content-Transfer-Encoding: 8bit
-X-CMAE-Envelope: MS4xfCWhMEvjwmzD8Up+kCe11ZTwxATDUaYkCaSiMu66xtAOJDknoqjgYDolWUzD30AASEU3ysNJTqgye3KgMwSCjrYbnSojIBN3xh9sSY7M38WZP//0PUlc
- e8FRucMuxT+TXlO+yOfuCEu23fHOqGS2R4OjH5gcCUvLGWoE4cYmYqgAirQTj9yWA5HbR67TSI9xsnlKEB3D34fswAlSNIJ5hI5U69AFUtGRKovTyCril6Wa
- Y3UHM4UmPcAuYKW16EqYRUUjY4UJu0sHPWNjwI0jsmdNTBn8mXAmMxAc5HRuK/mdVxqu39PAentTwAsva67FCqT4vKXZCb9zuQ6dnDsKIv0m4Jj6SDbtvhoQ
- S5y4xRm4
+Content-Transfer-Encoding: 7bit
 Precedence: bulk
 List-ID: <linux-man.vger.kernel.org>
 X-Mailing-List: linux-man@vger.kernel.org
 
-Definitely better! Couple of suggestions:
+Hi Alex,
 
-On 3/3/2021 11:37 AM, Aurélien Aptel wrote:
-> From: Aurelien Aptel <aaptel@suse.com>
+On 2/28/21 1:48 AM, Alejandro Colomar wrote:
+> Hey Michael,
 > 
-> Similarly to NFS, CIFS flock() locks behave differently than the
-> standard. Document those differences.
+> This is the second batch of pages in man3 that use 'restrict'.
 > 
-> Here is the rendered text:
+> I have already checked until getrpcport.3.
+
+Thanks for doing all of this work!
+
+I've applied all of these patches.
+
+Cheers,
+
+Michael
+
 > 
-> CIFS details
->    In  Linux kernels up to 5.4, flock() is not propagated over SMB. A file
->    with such locks will not appear locked for other SMB clients.
-> 
->    Since Linux 5.5, flock() are emulated with SMB byte-range locks on  the
->    entire  file.  Similarly  to  NFS, this means that fcntl(2) and flock()
->    locks interact with one another over SMB. Another important side-effect
->    is  that  the  locks are not advisory anymore: a write on a locked file
->    will always fail with EACCESS.  This difference originates from the de-
->    sign of locks in the SMB protocol, which provides mandatory locking se-
->    mantics. The nobrl mount option can be used switch back to pre-5.5 ker-
->    nel behavior.
-> 
-> Signed-off-by: Aurelien Aptel <aaptel@suse.com>
 > ---
->   man2/flock.2 | 21 +++++++++++++++++++++
->   1 file changed, 21 insertions(+)
 > 
-> diff --git a/man2/flock.2 b/man2/flock.2
-> index 61d4b5396..7c4e7e8c9 100644
-> --- a/man2/flock.2
-> +++ b/man2/flock.2
-> @@ -239,6 +239,27 @@ see the discussion of the
->   .I "local_lock"
->   option in
->   .BR nfs (5).
-> +.SS CIFS details
-> +In Linux kernels up to 5.4,
-> +.BR flock ()
-> +is not propagated over SMB. A file with such locks will not appear
-> +locked for other SMB clients.
-
-Other "remote" clients, right? It's not limited to SMB, if the server
-is also managing other protocols which might support flock'ing.
-
-> +.PP
-> +Since Linux 5.5,
-> +.BR flock ()
-> +are emulated with SMB byte-range locks on the
-> +entire file. Similarly to NFS, this means that
-> +.BR fcntl (2)
-> +and
-> +.BR flock ()
-> +locks interact with one another over SMB. Another important
-
-There's a subtlety here. If the server implements these SMB byte-range
-locks in certain ways, the locks may interact with other protocols too.
-So constraining the statement to "over SMB" may be incomplete.
-
-Wy not simply say "this means that fcntl() and flock() locks interact
-with one another", and preserve the generality?
-
-> +side-effect is that the locks are not advisory anymore: a write on a
-> +locked file will always fail with
-> +.BR EACCESS .
-> +This difference originates from the design of locks in the SMB
-> +protocol, which provides mandatory locking semantics. The
-> +.BR nobrl
-> +mount option can be used switch back to pre-5.5 kernel behavior.
-
-Wait, the page just said that pre-5.5 was local only. Wouldn't it
-be better to just say that "nobrl" turns off the entire behavior of
-forwarding locks to the server, like before? Or are there other
-side effects...
-
-Tom.
-
->   .SH SEE ALSO
->   .BR flock (1),
->   .BR close (2),
+> A few functions to automate the commit messages:
 > 
+> For functions that are restrict in POSIX and glibc:
+> 
+> function gitcommit_rp()
+> {
+> 	local commafuncs="$(echo $@ |sed -e 's/\> \</(), /g' -e 's/$/()/')";
+> 	local msg="\
+> $(man_gitstaged): SYNOPSIS: Use 'restrict' in prototypes
+> 
+> Both POSIX and glibc use 'restrict' in ${commafuncs}.
+> Let's use it here too.
+> 
+> $(echo "$@" \
+>   |xargs -n1 bash -c \
+>     'echo ".../glibc$ grep_glibc_prototype $@"; \
+>      echo "$(cd ~/src/gnu/glibc && grep_glibc_prototype $@)"' _)
+> .../glibc$";
+> 
+> 	git commit -sm "$msg";
+> }
+> 
+> For functions that are restrict in glibc:
+> 
+> function gitcommit_rg()
+> {
+> 	local commafuncs="$(echo $@ |sed -e 's/\> \</(), /g' -e 's/$/()/')";
+> 	local msg="\
+> $(man_gitstaged): SYNOPSIS: Use 'restrict' in prototypes
+> 
+> glibc uses 'restrict' in ${commafuncs}.
+> Let's use it here too.
+> 
+> $(echo "$@" \
+>   |xargs -n1 bash -c \
+>     'echo ".../glibc$ grep_glibc_prototype $@"; \
+>      echo "$(cd ~/src/gnu/glibc && grep_glibc_prototype $@)"' _)
+> .../glibc$";
+> 
+> 	git commit -sm "$msg";
+> }
+> 
+> ---
+> Alejandro Colomar (14):
+>   getaddrinfo.3: SYNOPSIS: Use 'restrict' in prototypes
+>   getaddrinfo_a.3: SYNOPSIS: Use 'restrict' in prototypes
+>   getdate.3: SYNOPSIS: Use 'restrict' in prototypes
+>   getdirentries.3: SYNOPSIS: Use 'restrict' in prototypes
+>   getgrent_r.3: SYNOPSIS: Use 'restrict' in prototypes
+>   getgrnam.3: SYNOPSIS: Use 'restrict' in prototypes
+>   gethostbyname.3: SYNOPSIS: Use 'restrict' in prototypes
+>   getline.3: SYNOPSIS: Use 'restrict' in prototypes
+>   getmntent.3: SYNOPSIS: Use 'restrict' in prototypes
+>   getnameinfo.3: SYNOPSIS: Use 'restrict' in prototypes
+>   getnetent_r.3: SYNOPSIS: Use 'restrict' in prototypes
+>   getprotoent_r.3: SYNOPSIS: Use 'restrict' in prototypes
+>   getpwent_r.3: SYNOPSIS: Use 'restrict' in prototypes
+>   getpwnam.3: SYNOPSIS: Use 'restrict' in prototypes
+> 
+>  man3/getaddrinfo.3   | 11 ++++++-----
+>  man3/getaddrinfo_a.3 | 12 ++++++------
+>  man3/getdate.3       |  2 +-
+>  man3/getdirentries.3 |  4 ++--
+>  man3/getgrent_r.3    | 10 ++++++----
+>  man3/getgrnam.3      | 11 +++++++----
+>  man3/gethostbyname.3 | 31 ++++++++++++++++++++-----------
+>  man3/getline.3       |  7 ++++---
+>  man3/getmntent.3     |  8 +++++---
+>  man3/getnameinfo.3   |  8 +++++---
+>  man3/getnetent_r.3   | 23 +++++++++++++----------
+>  man3/getprotoent_r.3 | 17 ++++++++++-------
+>  man3/getpwent_r.3    | 11 +++++++----
+>  man3/getpwnam.3      | 11 +++++++----
+>  14 files changed, 99 insertions(+), 67 deletions(-)
+> 
+
+
+-- 
+Michael Kerrisk
+Linux man-pages maintainer; http://www.kernel.org/doc/man-pages/
+Linux/UNIX System Programming Training: http://man7.org/training/
