@@ -2,179 +2,123 @@ Return-Path: <linux-man-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-9.2 required=3.0 tests=BAYES_00,DKIM_SIGNED,
-	DKIM_VALID,DKIM_VALID_AU,FREEMAIL_FORGED_FROMDOMAIN,FREEMAIL_FROM,
-	HEADER_FROM_DIFFERENT_DOMAINS,INCLUDES_PATCH,MAILING_LIST_MULTI,NICE_REPLY_A,
-	SPF_HELO_NONE,SPF_PASS,URIBL_BLOCKED,USER_AGENT_SANE_1 autolearn=ham
+X-Spam-Status: No, score=-13.8 required=3.0 tests=BAYES_00,DKIM_SIGNED,
+	DKIM_VALID,HEADER_FROM_DIFFERENT_DOMAINS,INCLUDES_CR_TRAILER,INCLUDES_PATCH,
+	MAILING_LIST_MULTI,SPF_HELO_NONE,SPF_PASS,URIBL_BLOCKED autolearn=unavailable
 	autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 1052AC4332D
-	for <linux-man@archiver.kernel.org>; Thu,  4 Mar 2021 00:32:05 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 483C7C43332
+	for <linux-man@archiver.kernel.org>; Thu,  4 Mar 2021 00:32:06 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.kernel.org (Postfix) with ESMTP id D9BAF64F14
-	for <linux-man@archiver.kernel.org>; Thu,  4 Mar 2021 00:32:04 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTP id 1B37C6146D
+	for <linux-man@archiver.kernel.org>; Thu,  4 Mar 2021 00:32:06 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1355596AbhCDAcA (ORCPT <rfc822;linux-man@archiver.kernel.org>);
-        Wed, 3 Mar 2021 19:32:00 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:52266 "EHLO
+        id S1355602AbhCDAcB (ORCPT <rfc822;linux-man@archiver.kernel.org>);
+        Wed, 3 Mar 2021 19:32:01 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:44272 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1391158AbhCCW0P (ORCPT
-        <rfc822;linux-man@vger.kernel.org>); Wed, 3 Mar 2021 17:26:15 -0500
-Received: from mail-ej1-x62d.google.com (mail-ej1-x62d.google.com [IPv6:2a00:1450:4864:20::62d])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id D8537C061756
-        for <linux-man@vger.kernel.org>; Wed,  3 Mar 2021 14:25:32 -0800 (PST)
-Received: by mail-ej1-x62d.google.com with SMTP id w1so45436541ejf.11
-        for <linux-man@vger.kernel.org>; Wed, 03 Mar 2021 14:25:32 -0800 (PST)
+        with ESMTP id S1353275AbhCDAEB (ORCPT
+        <rfc822;linux-man@vger.kernel.org>); Wed, 3 Mar 2021 19:04:01 -0500
+Received: from mail-oi1-x236.google.com (mail-oi1-x236.google.com [IPv6:2607:f8b0:4864:20::236])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id A827CC0617AB
+        for <linux-man@vger.kernel.org>; Wed,  3 Mar 2021 15:53:35 -0800 (PST)
+Received: by mail-oi1-x236.google.com with SMTP id q203so5049113oih.5
+        for <linux-man@vger.kernel.org>; Wed, 03 Mar 2021 15:53:35 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20161025;
-        h=cc:subject:to:references:from:message-id:date:user-agent
-         :mime-version:in-reply-to:content-language:content-transfer-encoding;
-        bh=Gvp3P0bkdpvSHLSuYYkVNLgGG/7qYyOKw//qYCl6dzs=;
-        b=YvHIvBYFDIV3/0vD7ayLWvCcSCjw0n5JEaPp0trdR5RXXjoDoMJo0lWE9z44Y4jYNR
-         qWsAkR+nILmgov1dc7rjtoAgWC4ZXVtrSj1Bp/0ybZOjny9Us0aVIk0EHDSCFF6tHRCW
-         6K/xWa+pu11fr1UEMO7fSTB0KgBRq5XANLWtFTVtqHvj13x3CI+gjtLe6dxvnmTVozQr
-         IxgjjgorqeW50lXVj7aaA1mYWYNEJIncy0WZjlakHZiiWHEm1Y3zRWsORlzceGi560Fj
-         8+A8+jcLm+AQXD8seyUyWn2sVhdqyO+82L0UgTknH1naCwgglZxq5cGycR9iAuwPHnTt
-         cYRA==
+        d=cilium-io.20150623.gappssmtp.com; s=20150623;
+        h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+         :cc:content-transfer-encoding;
+        bh=sJfUpwC5Q0AujFJkQ3bJRLWkfqFnVs4ZYKg21LJVuHE=;
+        b=BFIWZ0u0+EF/YC1mA2Nchh2NeUUfh8mRSTWelXDcFLQm2vG0MPevPcPuTWmYwx4XeL
+         1Xk+DQKrHnBz+sIjKI+ng4AK1/SgOuS6H+lXZPHBmnv0SNp8K6ZxJhG3ujg2ZeAJ2wwP
+         d7F0hjQDdtCyevlcdjFr21rzFqYI/oWOvVzQ/mcUuAwV3ELOANllu1vNL2cwfRMCILdX
+         1NKZHPNvRopqcWZD+RWrXQ9cw22ho6Mwsbg1ilG7UEz+4/MGONLMrpFxX+kz0LwJeJj2
+         kZ7gUkarr8Usb0SLVN6UGeUgC2zXh+t4KgzmJD02xc4AwN5+e/9xJfZOFU7VpPwhA/Sk
+         eJQA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
-        h=x-gm-message-state:cc:subject:to:references:from:message-id:date
-         :user-agent:mime-version:in-reply-to:content-language
-         :content-transfer-encoding;
-        bh=Gvp3P0bkdpvSHLSuYYkVNLgGG/7qYyOKw//qYCl6dzs=;
-        b=YkkroGLyTNIQjaWufCyxf0FByKjj9/yMOOn2FsB9u1bxrO8mpJt7ftw0cA58SGfj16
-         cTiXisRA3CjTZ5TQ1jq4pWlKrxCMexG3VhmB029pkzwabwF5/ax/9MAiu/lppE3Vg47T
-         t7KZqfp5E+MQlbWOg4oQp2tZVk9KdlmdZNZYNVReCF57Dn4Z8o/NmGsaLRPVEJYKbiDx
-         sAgyPe0h4AwligYtX1M8gZMmL1f9TYqSCs0noj1g2rrpq6u4pzwG7KULwCQ9p8SjrtJO
-         Z3468xIO9lpobECV+ju/DgqzJeD6gXsfdY1KAd9kBz26IvdaMYR6JAUZWu7kwwvHpJcp
-         uLWA==
-X-Gm-Message-State: AOAM531C8GF3pqa+tHf3winw8UyexPwo24jGDfCDRrFp/zU/0SsR343N
-        dYwtmp4SaylBminqb1k8Q/s=
-X-Google-Smtp-Source: ABdhPJzut7X6rehd+u75KjrJW7zfEUVonqZz0kUuBkxGcB7NRLQCXCFUZAUI8UKacRC5yI3B7qP4Mw==
-X-Received: by 2002:a17:906:dfcc:: with SMTP id jt12mr865537ejc.31.1614810331568;
-        Wed, 03 Mar 2021 14:25:31 -0800 (PST)
-Received: from ?IPv6:2001:a61:3a2d:1d01:99ab:4f20:ed7f:402b? ([2001:a61:3a2d:1d01:99ab:4f20:ed7f:402b])
-        by smtp.gmail.com with ESMTPSA id d15sm8749615edx.62.2021.03.03.14.25.30
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Wed, 03 Mar 2021 14:25:30 -0800 (PST)
-Cc:     mtk.manpages@gmail.com, linux-man@vger.kernel.org,
-        libc-alpha@sourceware.org, Heinrich Schuchardt <xypron.glpk@gmx.de>
-Subject: Re: [PATCH 00/14] man3: SYNOPSIS: Use 'restrict' in prototypes (batch
- 2)
-To:     Alejandro Colomar <alx.manpages@gmail.com>
-References: <20210228004817.122463-1-alx.manpages@gmail.com>
-From:   "Michael Kerrisk (man-pages)" <mtk.manpages@gmail.com>
-Message-ID: <0f98f70d-c060-c58c-a4aa-6fb5c0c2eaa3@gmail.com>
-Date:   Wed, 3 Mar 2021 23:25:30 +0100
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
- Thunderbird/78.6.0
+        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+         :message-id:subject:to:cc:content-transfer-encoding;
+        bh=sJfUpwC5Q0AujFJkQ3bJRLWkfqFnVs4ZYKg21LJVuHE=;
+        b=LNoFRvfRDKdx5cJBEwbQgNRQbVgT9qUNYx9Dr2KAqHxPkCYkSrYmFiLqqC+/jCKNgg
+         JhsndUN7OmuKRwj9chIjCJGQPrUSJpJV7/VFh1sU/NMhakkWzfPL7CzFUMEkODaV8qsd
+         8TLCujZBZy1dlNM/IKrRmr/vkw99af5nsLDx6SBtZGelWHb2ED/U4+0iDb1I/b5OQpdl
+         IPZvuQqqZcPz7k9tVd+5t6ar7YlZE3RwGkGuZJ6XpTPP9n7ZaWleSHeIe6fQOkBgTSKC
+         KWN7OqJberytDmyZ9VW/NdGEQPPsL5xteYor1wzhH8DYJgi4COWtrRFdPfzRD4d/F7V6
+         8X/g==
+X-Gm-Message-State: AOAM533NDp4UyaFdKxEkPb7Do4PovUnl/oH5ZJd06yHdESYl9t0D6Gtu
+        IBw0l6HWGrRXzVqxgamejvlI6Jyd2umMtjF5dbfRnw==
+X-Google-Smtp-Source: ABdhPJxVhvbmRStq/JhsuTAFe5elO14d19je73tPaRLSxCTShXmLatgreMOoyRO4L0xaC9DGZmlwi8aJuYsRDzPNKKo=
+X-Received: by 2002:aca:f50d:: with SMTP id t13mr1041539oih.89.1614815615117;
+ Wed, 03 Mar 2021 15:53:35 -0800 (PST)
 MIME-Version: 1.0
-In-Reply-To: <20210228004817.122463-1-alx.manpages@gmail.com>
-Content-Type: text/plain; charset=utf-8
-Content-Language: en-US
-Content-Transfer-Encoding: 7bit
+References: <20210302171947.2268128-1-joe@cilium.io> <20210302171947.2268128-7-joe@cilium.io>
+ <79954d84-ad75-8f91-118c-0ce2150a1c96@fb.com>
+In-Reply-To: <79954d84-ad75-8f91-118c-0ce2150a1c96@fb.com>
+From:   Joe Stringer <joe@cilium.io>
+Date:   Wed, 3 Mar 2021 15:53:24 -0800
+Message-ID: <CADa=RyzgsEsRpED34Bi141216de9ecbSUw7M+349wtDDKVy2dw@mail.gmail.com>
+Subject: Re: [PATCHv2 bpf-next 06/15] bpf: Document BPF_PROG_TEST_RUN syscall command
+To:     Yonghong Song <yhs@fb.com>
+Cc:     Joe Stringer <joe@cilium.io>, bpf <bpf@vger.kernel.org>,
+        Daniel Borkmann <daniel@iogearbox.net>,
+        Alexei Starovoitov <ast@kernel.org>, linux-doc@vger.kernel.org,
+        linux-man@vger.kernel.org,
+        =?UTF-8?B?VG9rZSBIw7hpbGFuZC1Kw7hyZ2Vuc2Vu?= <toke@redhat.com>,
+        Quentin Monnet <quentin@isovalent.com>,
+        Lorenz Bauer <lmb@cloudflare.com>
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 Precedence: bulk
 List-ID: <linux-man.vger.kernel.org>
 X-Mailing-List: linux-man@vger.kernel.org
 
-Hi Alex,
+On Wed, Mar 3, 2021 at 12:29 PM Yonghong Song <yhs@fb.com> wrote:
+>
+>
+>
+> On 3/2/21 9:19 AM, Joe Stringer wrote:
+> > Based on a brief read of the corresponding source code.
+> >
+> > Acked-by: Toke H=C3=B8iland-J=C3=B8rgensen <toke@redhat.com>
+> > Reviewed-by: Quentin Monnet <quentin@isovalent.com>
+> > Signed-off-by: Joe Stringer <joe@cilium.io>
+>
+> Acked-by: Yonghong Song <yhs@fb.com>
+>
+> > ---
+> >   include/uapi/linux/bpf.h | 14 +++++++++++---
+> >   1 file changed, 11 insertions(+), 3 deletions(-)
+> >
+> > diff --git a/include/uapi/linux/bpf.h b/include/uapi/linux/bpf.h
+> > index a8f2964ec885..a6cd6650e23d 100644
+> > --- a/include/uapi/linux/bpf.h
+> > +++ b/include/uapi/linux/bpf.h
+> > @@ -306,14 +306,22 @@ union bpf_iter_link_info {
+> >    *
+> >    * BPF_PROG_TEST_RUN
+> >    *  Description
+> > - *           Run an eBPF program a number of times against a provided
+> > - *           program context and return the modified program context a=
+nd
+> > - *           duration of the test run.
+> > + *           Run the eBPF program associated with the *prog_fd* a *rep=
+eat*
+> > + *           number of times against a provided program context *ctx_i=
+n* and
+> > + *           data *data_in*, and return the modified program context
+> > + *           *ctx_out*, *data_out* (for example, packet data), result =
+of the
+> > + *           execution *retval*, and *duration* of the test run.
+>
+> FYI, Lorenz's BPF_PROG_TEST_RUN support for sk_lookup program
+> requires data_in and data_out to be NULL. Not sure whether it is
+> worthwhile to specially mention here or not. The patch has not
+> been merged but close.
+>
+> https://lore.kernel.org/bpf/20210301101859.46045-1-lmb@cloudflare.com/
 
-On 2/28/21 1:48 AM, Alejandro Colomar wrote:
-> Hey Michael,
-> 
-> This is the second batch of pages in man3 that use 'restrict'.
-> 
-> I have already checked until getrpcport.3.
-
-Thanks for doing all of this work!
-
-I've applied all of these patches.
-
-Cheers,
-
-Michael
-
-> 
-> ---
-> 
-> A few functions to automate the commit messages:
-> 
-> For functions that are restrict in POSIX and glibc:
-> 
-> function gitcommit_rp()
-> {
-> 	local commafuncs="$(echo $@ |sed -e 's/\> \</(), /g' -e 's/$/()/')";
-> 	local msg="\
-> $(man_gitstaged): SYNOPSIS: Use 'restrict' in prototypes
-> 
-> Both POSIX and glibc use 'restrict' in ${commafuncs}.
-> Let's use it here too.
-> 
-> $(echo "$@" \
->   |xargs -n1 bash -c \
->     'echo ".../glibc$ grep_glibc_prototype $@"; \
->      echo "$(cd ~/src/gnu/glibc && grep_glibc_prototype $@)"' _)
-> .../glibc$";
-> 
-> 	git commit -sm "$msg";
-> }
-> 
-> For functions that are restrict in glibc:
-> 
-> function gitcommit_rg()
-> {
-> 	local commafuncs="$(echo $@ |sed -e 's/\> \</(), /g' -e 's/$/()/')";
-> 	local msg="\
-> $(man_gitstaged): SYNOPSIS: Use 'restrict' in prototypes
-> 
-> glibc uses 'restrict' in ${commafuncs}.
-> Let's use it here too.
-> 
-> $(echo "$@" \
->   |xargs -n1 bash -c \
->     'echo ".../glibc$ grep_glibc_prototype $@"; \
->      echo "$(cd ~/src/gnu/glibc && grep_glibc_prototype $@)"' _)
-> .../glibc$";
-> 
-> 	git commit -sm "$msg";
-> }
-> 
-> ---
-> Alejandro Colomar (14):
->   getaddrinfo.3: SYNOPSIS: Use 'restrict' in prototypes
->   getaddrinfo_a.3: SYNOPSIS: Use 'restrict' in prototypes
->   getdate.3: SYNOPSIS: Use 'restrict' in prototypes
->   getdirentries.3: SYNOPSIS: Use 'restrict' in prototypes
->   getgrent_r.3: SYNOPSIS: Use 'restrict' in prototypes
->   getgrnam.3: SYNOPSIS: Use 'restrict' in prototypes
->   gethostbyname.3: SYNOPSIS: Use 'restrict' in prototypes
->   getline.3: SYNOPSIS: Use 'restrict' in prototypes
->   getmntent.3: SYNOPSIS: Use 'restrict' in prototypes
->   getnameinfo.3: SYNOPSIS: Use 'restrict' in prototypes
->   getnetent_r.3: SYNOPSIS: Use 'restrict' in prototypes
->   getprotoent_r.3: SYNOPSIS: Use 'restrict' in prototypes
->   getpwent_r.3: SYNOPSIS: Use 'restrict' in prototypes
->   getpwnam.3: SYNOPSIS: Use 'restrict' in prototypes
-> 
->  man3/getaddrinfo.3   | 11 ++++++-----
->  man3/getaddrinfo_a.3 | 12 ++++++------
->  man3/getdate.3       |  2 +-
->  man3/getdirentries.3 |  4 ++--
->  man3/getgrent_r.3    | 10 ++++++----
->  man3/getgrnam.3      | 11 +++++++----
->  man3/gethostbyname.3 | 31 ++++++++++++++++++++-----------
->  man3/getline.3       |  7 ++++---
->  man3/getmntent.3     |  8 +++++---
->  man3/getnameinfo.3   |  8 +++++---
->  man3/getnetent_r.3   | 23 +++++++++++++----------
->  man3/getprotoent_r.3 | 17 ++++++++++-------
->  man3/getpwent_r.3    | 11 +++++++----
->  man3/getpwnam.3      | 11 +++++++----
->  14 files changed, 99 insertions(+), 67 deletions(-)
-> 
-
-
--- 
-Michael Kerrisk
-Linux man-pages maintainer; http://www.kernel.org/doc/man-pages/
-Linux/UNIX System Programming Training: http://man7.org/training/
+Not sure how close either series is but I'm sure between Lorenz & I we
+can figure out how to fix this up. If I need to respin the series and
+Lorenz's one is in by then, I'll fix it up but it's not the end of the
+world to send an extra dedicated patch for this.
