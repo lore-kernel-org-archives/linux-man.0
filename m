@@ -2,155 +2,75 @@ Return-Path: <linux-man-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-8.8 required=3.0 tests=BAYES_00,DKIM_SIGNED,
-	DKIM_VALID,HEADER_FROM_DIFFERENT_DOMAINS,INCLUDES_CR_TRAILER,
-	MAILING_LIST_MULTI,SPF_HELO_NONE,SPF_PASS,URIBL_BLOCKED autolearn=unavailable
-	autolearn_force=no version=3.4.0
+X-Spam-Status: No, score=-5.3 required=3.0 tests=BAYES_00,
+	HEADER_FROM_DIFFERENT_DOMAINS,MAILING_LIST_MULTI,NICE_REPLY_A,SPF_HELO_NONE,
+	SPF_PASS,URIBL_BLOCKED,USER_AGENT_SANE_1 autolearn=no autolearn_force=no
+	version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 1BFDEC43333
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 99FC8C4332E
 	for <linux-man@archiver.kernel.org>; Thu,  4 Mar 2021 00:32:07 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.kernel.org (Postfix) with ESMTP id E5AF664EBB
-	for <linux-man@archiver.kernel.org>; Thu,  4 Mar 2021 00:32:06 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTP id 6B0BB6146D
+	for <linux-man@archiver.kernel.org>; Thu,  4 Mar 2021 00:32:07 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S244533AbhCDAcC (ORCPT <rfc822;linux-man@archiver.kernel.org>);
-        Wed, 3 Mar 2021 19:32:02 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:44696 "EHLO
-        lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1353593AbhCDAFJ (ORCPT
-        <rfc822;linux-man@vger.kernel.org>); Wed, 3 Mar 2021 19:05:09 -0500
-Received: from mail-oo1-xc30.google.com (mail-oo1-xc30.google.com [IPv6:2607:f8b0:4864:20::c30])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id BB466C0617A9
-        for <linux-man@vger.kernel.org>; Wed,  3 Mar 2021 15:51:07 -0800 (PST)
-Received: by mail-oo1-xc30.google.com with SMTP id e17so6132201oow.4
-        for <linux-man@vger.kernel.org>; Wed, 03 Mar 2021 15:51:07 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=cilium-io.20150623.gappssmtp.com; s=20150623;
-        h=mime-version:references:in-reply-to:from:date:message-id:subject:to
-         :cc:content-transfer-encoding;
-        bh=E/wr0fT0I7yiXwtdsqEsPqFrJ61emPLJgrDzqVvsCwc=;
-        b=Rk23ty4+bc5BV6kqWSsua/rctvyP75yV3bfEv2fvBR0l+li24kdj5a2bFVJnqUMAjv
-         SdnkUHdOrr7+ehIz1rD1YDtnJ4DhRqspOhwuLH37k+1iwjeYf0n/EDrTvbxcf9oJ48XA
-         /Dwcc7UsGU8X3vB5lE+BXnhL/wdTaeuaNS4jd63P+vcevgmU0QaEQSNqb9g/nvlZC1YM
-         zNHEnoZKoTN4XPvRTLXJp3tBo6tq4nyre7ooTDs3YMfKuLSa6TyhsXpRAiWcM38b67Dt
-         KzH75JKwvI5RroFYCH97HV/Ez4busEbTOUpAmWMQ33pQC5ZiAfrEE5/J+KoTT+ehSq0z
-         pD8w==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20161025;
-        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
-         :message-id:subject:to:cc:content-transfer-encoding;
-        bh=E/wr0fT0I7yiXwtdsqEsPqFrJ61emPLJgrDzqVvsCwc=;
-        b=NXWlRx5SG6mt1I2zbSE/WMKI+qG8AiQ2phkFJBjEDl4pFoFGBgbPjH6wxUPLG/I6TQ
-         uxtv+JSXyywiJnrJHrypsNSKe+WO+hJ+YWSccsCPISJR1gUNJQHJQ70tQPPdlJxAVsOo
-         2xUfFFd/ci3JifJIv+bX+PuCMReR0mKqruQzrAovzWBPvOpkH7F4zSaV7iCU2VualL+T
-         C1pwtrzyHJqIvyK5uKBok7cyJ9mD7Fq9bBT6oyEnMlikBN9XF5nFqZNTaJirrdLblvq+
-         9TRcbEF64Q7g/uS54tSX0sjEBJdofsLoGnoOSJsE8wB2du0wLtvDONUM7GSAk3p108l3
-         qCMA==
-X-Gm-Message-State: AOAM530cBz/c9QfFHsLVzhhmEIvvEMnylEPaWGVJ2rvLKLb1hMY5GaVj
-        1bugsxwCE4rAB7QmWqbsIUe42vwGuQFk3M4Ixgz24w==
-X-Google-Smtp-Source: ABdhPJwVmc2156RMPrmhrO69/wE7ilvgnrBhCrPXsfMwzYNLZG0DtDXU3w4tN/jdvhorW978WFVzqxZ3ivV0zLv+Yaw=
-X-Received: by 2002:a4a:ac49:: with SMTP id q9mr1226251oon.73.1614815466599;
- Wed, 03 Mar 2021 15:51:06 -0800 (PST)
+        id S237393AbhCDAbF (ORCPT <rfc822;linux-man@archiver.kernel.org>);
+        Wed, 3 Mar 2021 19:31:05 -0500
+Received: from p3plsmtpa11-09.prod.phx3.secureserver.net ([68.178.252.110]:33398
+        "EHLO p3plsmtpa11-09.prod.phx3.secureserver.net" rhost-flags-OK-OK-OK-OK)
+        by vger.kernel.org with ESMTP id S1379829AbhCCRqC (ORCPT
+        <rfc822;linux-man@vger.kernel.org>); Wed, 3 Mar 2021 12:46:02 -0500
+Received: from [192.168.0.116] ([71.184.94.153])
+        by :SMTPAUTH: with ESMTPSA
+        id HVUmlB2UCysOoHVUmlpJsP; Wed, 03 Mar 2021 10:41:13 -0700
+X-CMAE-Analysis: v=2.4 cv=Q50XX66a c=1 sm=1 tr=0 ts=603fca39
+ a=vbvdVb1zh1xTTaY8rfQfKQ==:117 a=vbvdVb1zh1xTTaY8rfQfKQ==:17
+ a=IkcTkHD0fZMA:10 a=SEc3moZ4AAAA:8 a=rTsI85MkaD2DFeaHCx4A:9 a=QEXdDO2ut3YA:10
+ a=5oRCH6oROnRZc2VpWJZ3:22
+X-SECURESERVER-ACCT: tom@talpey.com
+Subject: Re: [man-pages][PATCH v1] flock.2: add CIFS details
+To:     =?UTF-8?Q?Aur=c3=a9lien_Aptel?= <aaptel@suse.com>,
+        linux-cifs@vger.kernel.org, linux-fsdevel@vger.kernel.org,
+        linux-man@vger.kernel.org, mtk.manpages@gmail.com
+Cc:     smfrench@gmail.com
+References: <20210302154831.17000-1-aaptel@suse.com>
+ <5ae02f1f-af45-25aa-71b1-4f8782286158@talpey.com> <8735xcxkv5.fsf@suse.com>
+ <f1beb7c8-1f73-0ea7-7052-13b6516b5f6c@talpey.com> <87zgzkw4ya.fsf@suse.com>
+From:   Tom Talpey <tom@talpey.com>
+Message-ID: <50268813-b6cd-8959-26a9-79ce75366c64@talpey.com>
+Date:   Wed, 3 Mar 2021 12:41:13 -0500
+User-Agent: Mozilla/5.0 (Windows NT 10.0; Win64; x64; rv:68.0) Gecko/20100101
+ Thunderbird/68.12.1
 MIME-Version: 1.0
-References: <20210302171947.2268128-1-joe@cilium.io> <20210302171947.2268128-14-joe@cilium.io>
- <0c5a3a41-2df2-2d54-80d5-00a9951074fb@fb.com>
-In-Reply-To: <0c5a3a41-2df2-2d54-80d5-00a9951074fb@fb.com>
-From:   Joe Stringer <joe@cilium.io>
-Date:   Wed, 3 Mar 2021 15:50:56 -0800
-Message-ID: <CADa=Ryw+qV=bVYkGj+9WkS6T_pGCBc4cpg6KnkoQg1wRfwwXNQ@mail.gmail.com>
-Subject: Re: [PATCHv2 bpf-next 13/15] selftests/bpf: Test syscall command parsing
-To:     Yonghong Song <yhs@fb.com>
-Cc:     Joe Stringer <joe@cilium.io>, bpf <bpf@vger.kernel.org>,
-        Daniel Borkmann <daniel@iogearbox.net>,
-        Alexei Starovoitov <ast@kernel.org>, linux-doc@vger.kernel.org,
-        linux-man@vger.kernel.org,
-        =?UTF-8?B?VG9rZSBIw7hpbGFuZC1Kw7hyZ2Vuc2Vu?= <toke@redhat.com>,
-        Quentin Monnet <quentin@isovalent.com>,
-        Michael Kerrisk <mtk.manpages@gmail.com>
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+In-Reply-To: <87zgzkw4ya.fsf@suse.com>
+Content-Type: text/plain; charset=utf-8; format=flowed
+Content-Language: en-US
+Content-Transfer-Encoding: 8bit
+X-CMAE-Envelope: MS4xfHo6Q74mDvowcGKiwdTMTE7yxk9Y4AJDvJ3lmuR200BrV34EqvoMKLg2nqIh2RCwmfKBp/7Quj15N+dRQJu5Vlq01lhpjjl7RfL5n4VN6fn2XVtYdedg
+ NxxT3ermjZBhp+CLCTHj2fwPzn/p8X2FE+twP4oV8mI4srwVvZazs9XVbYOW1avBaP6UKvBeMM+IDVOT5AG9XCOLOMAw+46iiQc4TBPNn5tJqAoI+GOutd7I
+ 3sdobejCifY82+VV1FcXFSYrHtUPgDn5Fa6/EgJBhlVFiEgwQBi0OQidwZrCxwa0fMuxThD9l8E156So4enHAwG+un4FL0ZoP3B9lWCgYjRjKCzC7I7NQUqW
+ sSUu+tlD
 Precedence: bulk
 List-ID: <linux-man.vger.kernel.org>
 X-Mailing-List: linux-man@vger.kernel.org
 
-On Wed, Mar 3, 2021 at 2:23 PM Yonghong Song <yhs@fb.com> wrote:
->
->
->
-> On 3/2/21 9:19 AM, Joe Stringer wrote:
-> > Add building of the bpf(2) syscall commands documentation as part of th=
-e
-> > docs building step in the build. This allows us to pick up on potential
-> > parse errors from the docs generator script as part of selftests.
-> >
-> > The generated manual pages here are not intended for distribution, they
-> > are just a fragment that can be integrated into the other static text o=
-f
-> > bpf(2) to form the full manual page.
->
-> I tried and the generated bpf(2) man page looks like:
->
-> BPF(2)
->
->                           BPF(2)
->
-> NAME
->         bpf - Perform a command on an extended BPF object
->
-> COMMANDS
->         BPF_MAP_CREATE
->
->                Description
->                       Create  a map and return a file descriptor that
-> refers to the map. The close-on-exec file descriptor flag (see fcntl(2))
-> is automatically enabled for the
->                       new file descriptor.
->
->                       Applying close(2) to the file descriptor returned
-> by BPF_MAP_CREATE will delete the map (but see NOTES).
->
->                Return A new file descriptor (a nonnegative integer), or
-> -1 if an error occurred (in which case, errno is set appropriately).
->
->         BPF_MAP_LOOKUP_ELEM
-> ...
->         BPF_PROG_BIND_MAP
->
->                Description
->                       Bind a map to the lifetime of an eBPF program.
->
->                       The map identified by map_fd is bound to the
-> program identified by prog_fd and only released when prog_fd is
-> released. This may be used  in  cases  where
->                       metadata  should  be  associated  with  a  program
->   which otherwise does not contain any references to the map (for
-> example, embedded in the eBPF program
->                       instructions).
->
->                Return Returns zero on success. On error, -1 is returned
-> and errno is set appropriately.
->
->
-> Yes, this needs to be integrated into the real man page. But this is
-> already great so people can see latest bpf latest features without
-> going to the source code. Thanks!
+On 3/3/2021 11:57 AM, Aurélien Aptel wrote:
+> Tom Talpey <tom@talpey.com> writes:
+>> I don't fully understand your response. What does "knows about syscall
+>> from local apps" mean, from a practical perspective? That it never
+>> forwards any flock() call to the server? Or that it somehow caches
+>> the flock() results, and never checks if the server has a conflict
+>> from another client?
+> 
+> Yes that's what I'm trying to say. Locking never goes on the
+> wire. Server is not aware of locking, and thus neither are any other
+> clients.
 
-:party-parrot:
+Ok, but that's what I wrote in the earlier suggestion:
 
-Yeah I think the step around integrating into the real man page is an
-area that folks may have opinions on and I'm CC'ing Michael here in
-particular, but ultimately that manual is currently managed in the
-upstream manpages tree so nothing actionable from this series,
-absolute simplest is for someone (is that me?) to just package this
-hunk up and submit it to the upstream tree every once in a while.
-Slightly more elaborate would involve integrating the static text with
-this generated text somewhere (either kernel tree or manpages tree)
-and have someone run a cron job to generate & submit the changes.
-Could be another option, these are the obvious ones that come to mind.
+"In Linux kernels up to 5.4, flock() is not propagated over SMB. A file
+with such locks will not appear locked for remote clients."
 
-> >
-> > Acked-by: Toke H=C3=B8iland-J=C3=B8rgensen <toke@redhat.com>
-> > Reviewed-by: Quentin Monnet <quentin@isovalent.com>
-> > Signed-off-by: Joe Stringer <joe@cilium.io>
->
-> Acked-by: Yonghong Song <yhs@fb.com>
+So I'm still confused what to suggest, but I'll respond on the
+other fork of the thread.
+
+Tom.
