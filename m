@@ -8,66 +8,66 @@ X-Spam-Status: No, score=-14.2 required=3.0 tests=BAYES_00,DKIM_SIGNED,
 	MAILING_LIST_MULTI,NICE_REPLY_A,SPF_HELO_NONE,SPF_PASS,URIBL_BLOCKED,
 	USER_AGENT_SANE_1 autolearn=ham autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id A337AC433DB
-	for <linux-man@archiver.kernel.org>; Thu,  4 Mar 2021 00:31:57 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 5DB93C43381
+	for <linux-man@archiver.kernel.org>; Thu,  4 Mar 2021 00:31:58 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.kernel.org (Postfix) with ESMTP id 7EB6D64EBB
-	for <linux-man@archiver.kernel.org>; Thu,  4 Mar 2021 00:31:57 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTP id 3CC816146D
+	for <linux-man@archiver.kernel.org>; Thu,  4 Mar 2021 00:31:58 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1386548AbhCDAbk (ORCPT <rfc822;linux-man@archiver.kernel.org>);
-        Wed, 3 Mar 2021 19:31:40 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:35272 "EHLO
+        id S1348838AbhCDAbm (ORCPT <rfc822;linux-man@archiver.kernel.org>);
+        Wed, 3 Mar 2021 19:31:42 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:37100 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1388250AbhCCVG5 (ORCPT
-        <rfc822;linux-man@vger.kernel.org>); Wed, 3 Mar 2021 16:06:57 -0500
-Received: from mail-ej1-x629.google.com (mail-ej1-x629.google.com [IPv6:2a00:1450:4864:20::629])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 155F6C061761
-        for <linux-man@vger.kernel.org>; Wed,  3 Mar 2021 13:06:09 -0800 (PST)
-Received: by mail-ej1-x629.google.com with SMTP id p8so18687832ejb.10
-        for <linux-man@vger.kernel.org>; Wed, 03 Mar 2021 13:06:09 -0800 (PST)
+        with ESMTP id S1581467AbhCCVPb (ORCPT
+        <rfc822;linux-man@vger.kernel.org>); Wed, 3 Mar 2021 16:15:31 -0500
+Received: from mail-ed1-x536.google.com (mail-ed1-x536.google.com [IPv6:2a00:1450:4864:20::536])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 18D7EC061756
+        for <linux-man@vger.kernel.org>; Wed,  3 Mar 2021 13:14:41 -0800 (PST)
+Received: by mail-ed1-x536.google.com with SMTP id d13so26954557edp.4
+        for <linux-man@vger.kernel.org>; Wed, 03 Mar 2021 13:14:40 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=gmail.com; s=20161025;
         h=cc:subject:to:references:from:message-id:date:user-agent
          :mime-version:in-reply-to:content-language:content-transfer-encoding;
-        bh=6zXgEDKriSl5n5Q0ds1U5PGi9bvEKwmNO/jfGxaidTk=;
-        b=qpMJGfQSvu0W/hEjf/d9IEwVwQI76D+6qfTBpMjrdvD8y7Fi7TlCDF2SR0uiFH32uQ
-         DvFfTCBK5PhToNO+aQxzDHnv+uC9AyTaKnlgeW0Eraac5XZKxjPny7UW86aMsrkvyP4w
-         pSFb2e7obKllafH4TZVhy96gLwPN9YpM25yduPoRp0E9w9Hnxcj6tiBnh8TWaMMqOVbz
-         +0Q7/5X84yKX3KTQtz6g2OQvjl1m3rL63ByJ222auT1ElpBIJ89PtzneJUBeTzvslRXZ
-         9wcr3wZW+8wNdqdrR3bJSqWUeOMk90HtYGZmFL+GxV8O2/9sX9cG1PQ2gP/oKjtC4AVb
-         Dg1Q==
+        bh=Gsb7p3lHxwqEyzlYgTeRLW9CKPtXkL+ffDG3FJmCv4s=;
+        b=nef2M8xLh7j2rtP6nzL1oChcoNjmtoS/Kr/m0cx6azM2x1x5hBkAKTSvt80fzLo+fn
+         w9Jhwkq80awq4/5EdorhJRpdBGFl79wtedaRnGv+YURilHRP5aW3WwqU1O/+GTUO1UaA
+         mkx/3j/2fO16BF82Y+/yaRipYdNxH2+ygaI9hrhxochJbzAvPhcbZtvkVFrvsJswBNbO
+         D487TvUkl1yFqB9lWiy43o+9M8yoHkhof6DgU3HiWPJ4ETYWEj90nwl2wYeCWAn6IaY7
+         eZzM9MlhoaTmrXrz7sh6Vtm+o07gnqkztyHAYtuPy7lgZn+tELd8drr7+IAgpwbtsZNf
+         YErQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
         h=x-gm-message-state:cc:subject:to:references:from:message-id:date
          :user-agent:mime-version:in-reply-to:content-language
          :content-transfer-encoding;
-        bh=6zXgEDKriSl5n5Q0ds1U5PGi9bvEKwmNO/jfGxaidTk=;
-        b=LDYKrMy9la3ur6OAyFfl175YJ5IwfO/5t3aA9uK/AytbOqn52o8SceKHhcqWkIYV6k
-         xWtlpC0+Dn7jNVoEXkRejzFNpTJHkZ3pKaOkUaRk4vxRQPn8/ICE2qGVwwbGmmBZNYX9
-         Xe42K6gfP8i1wsrwsP7TakI+hEyq/U2An9X/DCEh0UJlPI190PR8X+K976YKhII59DXI
-         8OelMDj9qWR4CoGtL1ERZg+L/znUeamaiO5xRCZm0wad1A/Bs6/2kb34Np4l2BMWLjpU
-         +tHbCESoNABL8jR1QJr0TeOETKRNIgE/ywMsSPSI8Pr7e2qfmA0YPIHbJkN2m4Ly1RV1
-         26aQ==
-X-Gm-Message-State: AOAM530leYHh/js2lUsOtFKAKSIbr68QVsBtLZrYlaNSLMa52UWhJoG6
-        vZ4sWVbaa8nN/keIlmbK5+gW3S05CEpKiQ==
-X-Google-Smtp-Source: ABdhPJy4UUEyzgl4gPSZPw6xDSFSl3+UFeyttuC3PBDsndGuy3MC4TCuiPoAzJQTx0PYVNqNbYJzTA==
-X-Received: by 2002:a17:906:68c5:: with SMTP id y5mr628734ejr.371.1614805567633;
-        Wed, 03 Mar 2021 13:06:07 -0800 (PST)
+        bh=Gsb7p3lHxwqEyzlYgTeRLW9CKPtXkL+ffDG3FJmCv4s=;
+        b=B13iu295J+eEO5iEhAu6JSSn6oQaGUXSiq24PqoRtu3CZUsXoc2xlejVO3aSy9TbOx
+         7nSg1oCivR4NisOnWnUkabH1OyLUAUbdviF8cKotUqvk3f95Br4I/+4BQH3XoRKjg7wD
+         Q4898n+xR6AnQ+2BwhlqHk/je5H+bfJ23lRqbdzQXJKqogB+8eT/K+V3SjsiOISaisqN
+         Wbd2Tqe9pmISnvPvBcWwoN7akxwyiXZNt3gzLkJ6E3xoUaIPn/G9MwjG/SW/NyQM2nr0
+         0MKFEpCX279jwrnBflb+G/TNzeIK9iBvM5LAqVMca47QtL7jZoTAYUnKgLjIfPKQpDA8
+         Evcw==
+X-Gm-Message-State: AOAM532KuQICYMldEDWBYEg5USvOlfkycCl/2zNkXdTmx05GUIZgq8HD
+        Qa0MFlXApRd+VPktP1Y32nLOYmNS3H7t9g==
+X-Google-Smtp-Source: ABdhPJzpIaqWakDbR/9iz6Vgfh24f7xphWjt44j5Cf7VOl+VE5DsFCZaSNo8VU7Gxka7rjCxqg8Lrw==
+X-Received: by 2002:a05:6402:c88:: with SMTP id cm8mr1186460edb.62.1614806079476;
+        Wed, 03 Mar 2021 13:14:39 -0800 (PST)
 Received: from ?IPv6:2001:a61:3a2d:1d01:99ab:4f20:ed7f:402b? ([2001:a61:3a2d:1d01:99ab:4f20:ed7f:402b])
-        by smtp.gmail.com with ESMTPSA id kz4sm22572491ejc.38.2021.03.03.13.06.06
+        by smtp.gmail.com with ESMTPSA id q16sm13389930ejd.15.2021.03.03.13.14.38
         (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Wed, 03 Mar 2021 13:06:07 -0800 (PST)
+        Wed, 03 Mar 2021 13:14:38 -0800 (PST)
 Cc:     mtk.manpages@gmail.com, linux-man@vger.kernel.org
-Subject: Re: [PATCH] getopt.3: ffix
+Subject: Re: [PATCH] ftw.3: SYNOPSIS: Remove duplicate header
 To:     Alejandro Colomar <alx.manpages@gmail.com>
-References: <20210228005024.122579-1-alx.manpages@gmail.com>
+References: <20210223235439.135579-1-alx.manpages@gmail.com>
 From:   "Michael Kerrisk (man-pages)" <mtk.manpages@gmail.com>
-Message-ID: <2081681b-f058-dd7a-c913-6e2092d50636@gmail.com>
-Date:   Wed, 3 Mar 2021 22:06:06 +0100
+Message-ID: <8fd64055-2650-669a-f270-4206cd738b1a@gmail.com>
+Date:   Wed, 3 Mar 2021 22:14:38 +0100
 User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
  Thunderbird/78.6.0
 MIME-Version: 1.0
-In-Reply-To: <20210228005024.122579-1-alx.manpages@gmail.com>
+In-Reply-To: <20210223235439.135579-1-alx.manpages@gmail.com>
 Content-Type: text/plain; charset=utf-8
 Content-Language: en-US
 Content-Transfer-Encoding: 7bit
@@ -77,45 +77,34 @@ X-Mailing-List: linux-man@vger.kernel.org
 
 Hi Alex,
 
-On 2/28/21 1:50 AM, Alejandro Colomar wrote:
-> Signed-off-by: Alejandro Colomar <alx.manpages@gmail.com>
-
-Thanks. Patch applied.
+On 2/24/21 12:54 AM, Alejandro Colomar wrote:
+> Both functions have the same header.
+> There's no reason to separate the prototypes repeating the header.
+Agreed. Patch applied.
 
 Cheers,
 
 Michael
 
+
+> Signed-off-by: Alejandro Colomar <alx.manpages@gmail.com>
 > ---
->  man3/getopt.3 | 6 +++---
->  1 file changed, 3 insertions(+), 3 deletions(-)
+>  man3/ftw.3 | 2 --
+>  1 file changed, 2 deletions(-)
 > 
-> diff --git a/man3/getopt.3 b/man3/getopt.3
-> index d83f8693e..b628a0b4d 100644
-> --- a/man3/getopt.3
-> +++ b/man3/getopt.3
-> @@ -47,7 +47,7 @@ optarg, optind, opterr, optopt \- Parse command-line options
->  .nf
->  .B #include <unistd.h>
+> diff --git a/man3/ftw.3 b/man3/ftw.3
+> index 027750fd7..fa7678fa8 100644
+> --- a/man3/ftw.3
+> +++ b/man3/ftw.3
+> @@ -45,8 +45,6 @@ ftw, nftw \- file tree walk
+>  .BI "                  int " typeflag ", struct FTW *" ftwbuf ),
+>  .BI "        int " nopenfd ", int " flags );
 >  .PP
-> -.BI "int getopt(int " argc ", char * const " argv[] ,
-> +.BI "int getopt(int " argc ", char *const " argv [],
->  .BI "           const char *" optstring );
->  .PP
->  .BI "extern char *" optarg ;
-> @@ -55,10 +55,10 @@ optarg, optind, opterr, optopt \- Parse command-line options
->  .PP
->  .B #include <getopt.h>
->  .PP
-> -.BI "int getopt_long(int " argc ", char * const " argv[] ,
-> +.BI "int getopt_long(int " argc ", char *const " argv [],
->  .BI "           const char *" optstring ,
->  .BI "           const struct option *" longopts ", int *" longindex );
-> -.BI "int getopt_long_only(int " argc ", char * const " argv[] ,
-> +.BI "int getopt_long_only(int " argc ", char *const " argv [],
->  .BI "           const char *" optstring ,
->  .BI "           const struct option *" longopts ", int *" longindex );
->  .fi
+> -.B #include <ftw.h>
+> -.PP
+>  .BI "int ftw(const char *" dirpath ,
+>  .BI "        int (*" fn ")(const char *" fpath ", const struct stat *" sb ,
+>  .BI "                  int " typeflag ),
 > 
 
 
