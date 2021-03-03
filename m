@@ -2,74 +2,73 @@ Return-Path: <linux-man-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-14.2 required=3.0 tests=BAYES_00,DKIM_SIGNED,
+X-Spam-Status: No, score=-4.2 required=3.0 tests=BAYES_00,DKIM_SIGNED,
 	DKIM_VALID,DKIM_VALID_AU,FREEMAIL_FORGED_FROMDOMAIN,FREEMAIL_FROM,
-	HEADER_FROM_DIFFERENT_DOMAINS,INCLUDES_CR_TRAILER,MAILING_LIST_MULTI,
-	MENTIONS_GIT_HOSTING,NICE_REPLY_A,SPF_HELO_NONE,SPF_PASS,URIBL_BLOCKED,
-	USER_AGENT_SANE_1 autolearn=ham autolearn_force=no version=3.4.0
+	HEADER_FROM_DIFFERENT_DOMAINS,MAILING_LIST_MULTI,NICE_REPLY_A,SPF_HELO_NONE,
+	SPF_PASS,URIBL_BLOCKED,USER_AGENT_SANE_1 autolearn=no autolearn_force=no
+	version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id BC18CC433E0
-	for <linux-man@archiver.kernel.org>; Thu,  4 Mar 2021 00:31:57 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 97128C43331
+	for <linux-man@archiver.kernel.org>; Thu,  4 Mar 2021 00:31:58 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.kernel.org (Postfix) with ESMTP id 967916146D
-	for <linux-man@archiver.kernel.org>; Thu,  4 Mar 2021 00:31:57 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTP id 7BFD364EEE
+	for <linux-man@archiver.kernel.org>; Thu,  4 Mar 2021 00:31:58 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1386552AbhCDAbl (ORCPT <rfc822;linux-man@archiver.kernel.org>);
-        Wed, 3 Mar 2021 19:31:41 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:35960 "EHLO
+        id S1349450AbhCDAbp (ORCPT <rfc822;linux-man@archiver.kernel.org>);
+        Wed, 3 Mar 2021 19:31:45 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:47202 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1388405AbhCCVKG (ORCPT
-        <rfc822;linux-man@vger.kernel.org>); Wed, 3 Mar 2021 16:10:06 -0500
-Received: from mail-ed1-x534.google.com (mail-ed1-x534.google.com [IPv6:2a00:1450:4864:20::534])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id BDEB2C061756
-        for <linux-man@vger.kernel.org>; Wed,  3 Mar 2021 13:09:25 -0800 (PST)
-Received: by mail-ed1-x534.google.com with SMTP id dm26so8401075edb.12
-        for <linux-man@vger.kernel.org>; Wed, 03 Mar 2021 13:09:25 -0800 (PST)
+        with ESMTP id S1390324AbhCCWCn (ORCPT
+        <rfc822;linux-man@vger.kernel.org>); Wed, 3 Mar 2021 17:02:43 -0500
+Received: from mail-ej1-x632.google.com (mail-ej1-x632.google.com [IPv6:2a00:1450:4864:20::632])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 612DFC0613DD
+        for <linux-man@vger.kernel.org>; Wed,  3 Mar 2021 14:02:02 -0800 (PST)
+Received: by mail-ej1-x632.google.com with SMTP id lr13so45268230ejb.8
+        for <linux-man@vger.kernel.org>; Wed, 03 Mar 2021 14:02:02 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=gmail.com; s=20161025;
         h=cc:subject:to:references:from:message-id:date:user-agent
          :mime-version:in-reply-to:content-language:content-transfer-encoding;
-        bh=xtQIAG53LcX4xmVk0L7WpBzG20ri3VzM1fbc0bOVcyI=;
-        b=DjzMbAqTTY53AjCkkLsX46lxtaMdPjLhJD41ldAQqguTCeyvhiCxPCNRb/zj4/+rSW
-         Jmn9SG2CY56PtC/NAPPb8AC2QmUPTBksOVqyGYXQWzweY4jIlNzCk+Wt4op+X13mH88y
-         PFOZrM3DO0wpurcKFZ+6SM2zEn7C8h/SCF4d6etuxCvor4bnQAvf+x+TP2jJ2XbGUBxq
-         5M3+G5fzVoA4gx2+tBnmLki1Qqbxeniqfw9FYCt6cqUJmy966sXcrJnDsbudIXogABz7
-         9vRqgaFY0tinOplcYjuKBQK8zCTpCizCeREDTGoI4jK+FOTD78ya6FjHHEenz9ucMtLI
-         ycAQ==
+        bh=prSuv3+r5+64a5jYVnh6CSiiexuCuBpvUnxlmd202VI=;
+        b=joaaeXBjfRYvtOToGEqQLmpgBn6zbcFEczKUWj4MnGJwK5nQbkil6+AvMu0s3lxich
+         af7QKM6hCDsj13uTE1nMOsiq8u9T0F+hl6OI9V7lxsFmStnOkux3n9r2az7v6kIr0SG9
+         6n4cDM3JLwZAxfJeibByS+4y6Fosa6lUQ+dwoCSxUGQ4HaQvlDuozS6zfTcaR+GAox8s
+         8oUut+ntPFcHZAXAVXv4YvQGEUAz/R24fzuRZ1jO+BnuWPGVctXpaZJB1qamLE3IBIWZ
+         EDySbqjTX7i6I+Mv/juZwLjsCsdvVcF4igEUeeTrWhAmQvK9z5GS2MWGr/XV5H+su8Jv
+         9OXQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
         h=x-gm-message-state:cc:subject:to:references:from:message-id:date
          :user-agent:mime-version:in-reply-to:content-language
          :content-transfer-encoding;
-        bh=xtQIAG53LcX4xmVk0L7WpBzG20ri3VzM1fbc0bOVcyI=;
-        b=pYe0SoSRe1OImqsT33WSke126TOnCYn2lkE1a+d7VUFxAvLwwJqX7toyXjoyAMbERU
-         tjxl04du1xOaQ5lk4gPE7xuROQ/kN6+oXy6dNFH3WzzY2DK9oQjqMWSe9nG0Lig79CwX
-         S6s52qbCjOMG8PDN4dkFnpQ7lYU+zqykPzFoogjOos7oTWclvDa+oMDI23cwY3DIySJg
-         ww2zQ4o6iiQpjif/kvVqbKvQ25HjCvaKM/F2iP6UugH1EGocBIrwU15/FFiagTe76hM3
-         UeadkcjyXB+I+QMeCFyOyYxTDbLdYkGDZH64vcsMs6c91W1rc9IRiaGZztlBWn/np1q5
-         YkCA==
-X-Gm-Message-State: AOAM532kkWN46uiA5Bd40aXTHma78scKuFn82q1N5EnQ6q4y+Oun0szr
-        QCTIW0yZe+jBuKV5dpeP+GQhBbBdLkESXA==
-X-Google-Smtp-Source: ABdhPJyOeeNEC3uz2rVfu/HJZ8AsFb7WCDgBb2aRzvD1xvuWuP5wxFnWGqVKRTOvbwrWMx7yF0tcPw==
-X-Received: by 2002:a05:6402:1d95:: with SMTP id dk21mr1138125edb.280.1614805764402;
-        Wed, 03 Mar 2021 13:09:24 -0800 (PST)
+        bh=prSuv3+r5+64a5jYVnh6CSiiexuCuBpvUnxlmd202VI=;
+        b=jaLN+JBca1AQBLYNOKmmbgzYKTQSUnqHnh7xweH65jsuVQZCMVFpylvsPLGz4TVP5o
+         +aDVV7/5CTv8R1Xx3Wb1wrO+dh5kFSc16qNnPozbaD5qrPw9k9w1am4j4J+qLgj/zO3z
+         2EoBhkcQdxnNgBHQgciELBrTGhdAI8mudMuDB/si1JYYrwJ8XGz1qzbgLeZ2yYfpYH43
+         M+wD7lbSg56QwjgVr01/a0+QN5NOQtjrDjGhY0Y9bLoyVkJblak68RZdD8L7buQH2C+I
+         u9ltM4gH/p4phVxZy3z/RAcI8lWGNYvmScSKccvU6HQrbhQsb7b1myjiXS304eOejc6/
+         5ZvA==
+X-Gm-Message-State: AOAM5330+Xpc71MXreJtnpILIs4Do/OIggzQb1/SQJerW0C+fn0P2OoN
+        f70DIAFxQnFOLZow/sFNKqlh7BwqJEVWNw==
+X-Google-Smtp-Source: ABdhPJwZm6MmLMfr5MAvf9zcsLM+ISi4Pk7ga0xy/QwxgHa/AuyetFS94FEBtX1iGq32GYOYcuJi7w==
+X-Received: by 2002:a17:906:3a10:: with SMTP id z16mr743692eje.483.1614808914769;
+        Wed, 03 Mar 2021 14:01:54 -0800 (PST)
 Received: from ?IPv6:2001:a61:3a2d:1d01:99ab:4f20:ed7f:402b? ([2001:a61:3a2d:1d01:99ab:4f20:ed7f:402b])
-        by smtp.gmail.com with ESMTPSA id i6sm18320963ejz.95.2021.03.03.13.09.23
+        by smtp.gmail.com with ESMTPSA id d15sm8726708edx.62.2021.03.03.14.01.54
         (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Wed, 03 Mar 2021 13:09:23 -0800 (PST)
-Cc:     mtk.manpages@gmail.com
-Subject: Re: [PATCH v3] man2/openat2.2: add RESOLVE_CACHED
-To:     Jens Axboe <axboe@kernel.dk>, linux-man <linux-man@vger.kernel.org>
-References: <51d86aa7-8a19-5457-6932-0bd3c746c4a6@kernel.dk>
- <38c96b3d-84b2-bebd-4163-27fd2b3295c1@gmail.com>
- <b0277762-1eda-7b13-1a40-2abb68ba1142@kernel.dk>
+        Wed, 03 Mar 2021 14:01:54 -0800 (PST)
+Cc:     mtk.manpages@gmail.com, linux-man <linux-man@vger.kernel.org>
+Subject: Re: gethostbyname.3: Use internally consistent continuation indents
+ in SYNOPSIS
+To:     "Alejandro Colomar (man-pages)" <alx.manpages@gmail.com>
+References: <2e87f61b-ad14-e349-1332-58c0a6755d02@gmail.com>
 From:   "Michael Kerrisk (man-pages)" <mtk.manpages@gmail.com>
-Message-ID: <12662f60-158f-5fa4-15c9-1c9299b22b98@gmail.com>
-Date:   Wed, 3 Mar 2021 22:09:23 +0100
+Message-ID: <c8e62845-1f33-cd07-1159-f89d890efc25@gmail.com>
+Date:   Wed, 3 Mar 2021 23:01:51 +0100
 User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
  Thunderbird/78.6.0
 MIME-Version: 1.0
-In-Reply-To: <b0277762-1eda-7b13-1a40-2abb68ba1142@kernel.dk>
+In-Reply-To: <2e87f61b-ad14-e349-1332-58c0a6755d02@gmail.com>
 Content-Type: text/plain; charset=utf-8
 Content-Language: en-US
 Content-Transfer-Encoding: 7bit
@@ -77,32 +76,23 @@ Precedence: bulk
 List-ID: <linux-man.vger.kernel.org>
 X-Mailing-List: linux-man@vger.kernel.org
 
-Hi Jens,
+Hi Alex,
 
-On 2/22/21 9:05 PM, Jens Axboe wrote:
-> On 2/22/21 1:01 PM, Michael Kerrisk (man-pages) wrote:
->> Hi Jens,
->>
->> On 2/21/21 2:12 PM, Jens Axboe wrote:
->>> RESOLVE_CACHED allows an application to attempt a cache-only open
->>> of a file. If this isn't possible, the request will fail with
->>> -1/EAGAIN and the caller should retry without RESOLVE_CACHED set.
->>> This will generally happen from a different context, where a slower
->>> open operation can be performed.
->>>
->>> Signed-off-by: Jens Axboe <axboe@kernel.dk>
->>
->> Is it correct that this feature is now merged?
+On 2/28/21 12:20 AM, Alejandro Colomar (man-pages) wrote:
+> Hi Michael,
 > 
-> Yes, it's in Linus's tree:
-> 
-> https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git/commit/fs/open.c?id=99668f618062816ca7ba639b007eb145b9d3d41e
+> Did you leave gethostbyaddr(3) untouched on purpose?  I guess not :)
 
-Thanks. Patch applied.
+I do not recall. But perhaps it was deliberate. Because, if
+the arg list of gethostbyaddr() is indented as the functions
+below, then it looks a bit weird. since the continued arg
+list is almost at the same indent as the function name.
+I'm going to call this a tasteful exception to the rule :-).
 
 Cheers,
 
 Michael
+
 
 
 -- 
