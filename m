@@ -2,52 +2,59 @@ Return-Path: <linux-man-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-5.8 required=3.0 tests=BAYES_00,DKIMWL_WL_HIGH,
-	DKIM_SIGNED,DKIM_VALID,DKIM_VALID_AU,HEADER_FROM_DIFFERENT_DOMAINS,
-	MAILING_LIST_MULTI,SPF_HELO_NONE,SPF_PASS autolearn=no autolearn_force=no
+X-Spam-Status: No, score=-5.8 required=3.0 tests=BAYES_00,DKIM_SIGNED,
+	DKIM_VALID,DKIM_VALID_AU,HEADER_FROM_DIFFERENT_DOMAINS,MAILING_LIST_MULTI,
+	SPF_HELO_NONE,SPF_PASS,URIBL_BLOCKED autolearn=no autolearn_force=no
 	version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id EADBCC433E0
-	for <linux-man@archiver.kernel.org>; Thu,  4 Mar 2021 00:31:16 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id AD4E5C4332B
+	for <linux-man@archiver.kernel.org>; Thu,  4 Mar 2021 00:31:18 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.kernel.org (Postfix) with ESMTP id C142764EDF
-	for <linux-man@archiver.kernel.org>; Thu,  4 Mar 2021 00:31:16 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTP id 8796664EF8
+	for <linux-man@archiver.kernel.org>; Thu,  4 Mar 2021 00:31:18 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1355575AbhCDAbD (ORCPT <rfc822;linux-man@archiver.kernel.org>);
-        Wed, 3 Mar 2021 19:31:03 -0500
-Received: from us-smtp-delivery-124.mimecast.com ([216.205.24.124]:41936 "EHLO
-        us-smtp-delivery-124.mimecast.com" rhost-flags-OK-OK-OK-OK)
-        by vger.kernel.org with ESMTP id S236455AbhCCRMW (ORCPT
-        <rfc822;linux-man@vger.kernel.org>); Wed, 3 Mar 2021 12:12:22 -0500
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
-        s=mimecast20190719; t=1614791435;
-        h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
-         to:to:cc:cc:mime-version:mime-version:content-type:content-type:
-         in-reply-to:in-reply-to:references:references;
-        bh=72AvldDshkpAm4vjL1rTWERNo04lTYkEaJw4N5Ow1KY=;
-        b=DhYfQ/Jn1lNU0zT4p0CKC1+ojCX4AbSMXW7GL8JxTitbK4IZMZO3oad2RTt6uQ5aYp3aV7
-        56msmm5HnBtIAWfKrDQqeiksIfL/koeObivKSW51X+LsbOFNMphjPybRLbp21Zrl+92l6k
-        1Pgv/XtcgNaQMbVfMGKsI3r2mlJCfZk=
-Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
- [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-391-Vzp06uWgMW-4lLCQSKAZmA-1; Wed, 03 Mar 2021 12:10:33 -0500
-X-MC-Unique: Vzp06uWgMW-4lLCQSKAZmA-1
-Received: from smtp.corp.redhat.com (int-mx06.intmail.prod.int.phx2.redhat.com [10.5.11.16])
-        (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
-        (No client certificate requested)
-        by mimecast-mx01.redhat.com (Postfix) with ESMTPS id ACB2E100A61D;
-        Wed,  3 Mar 2021 17:10:29 +0000 (UTC)
-Received: from oldenburg.str.redhat.com (ovpn-112-51.ams2.redhat.com [10.36.112.51])
-        by smtp.corp.redhat.com (Postfix) with ESMTPS id 006F45C5DF;
-        Wed,  3 Mar 2021 17:10:21 +0000 (UTC)
-From:   Florian Weimer <fweimer@redhat.com>
-To:     Mathieu Desnoyers <mathieu.desnoyers@efficios.com>
-Cc:     Piotr Figiel <figiel@google.com>,
-        Andrew Morton <akpm@linux-foundation.org>,
+        id S244996AbhCDAbP (ORCPT <rfc822;linux-man@archiver.kernel.org>);
+        Wed, 3 Mar 2021 19:31:15 -0500
+Received: from mail.efficios.com ([167.114.26.124]:38490 "EHLO
+        mail.efficios.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S244810AbhCCS6d (ORCPT
+        <rfc822;linux-man@vger.kernel.org>); Wed, 3 Mar 2021 13:58:33 -0500
+Received: from localhost (localhost [127.0.0.1])
+        by mail.efficios.com (Postfix) with ESMTP id 64221322273;
+        Wed,  3 Mar 2021 13:55:39 -0500 (EST)
+Received: from mail.efficios.com ([127.0.0.1])
+        by localhost (mail03.efficios.com [127.0.0.1]) (amavisd-new, port 10032)
+        with ESMTP id nzmyisAEtpyn; Wed,  3 Mar 2021 13:55:39 -0500 (EST)
+Received: from localhost (localhost [127.0.0.1])
+        by mail.efficios.com (Postfix) with ESMTP id 21F7D3224BB;
+        Wed,  3 Mar 2021 13:55:39 -0500 (EST)
+DKIM-Filter: OpenDKIM Filter v2.10.3 mail.efficios.com 21F7D3224BB
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=efficios.com;
+        s=default; t=1614797739;
+        bh=/+Cqqku+yj2v49ObRIAAYZyDmnbTz9LGncxn1fI29Ps=;
+        h=Date:From:To:Message-ID:MIME-Version;
+        b=GbxlIVqm7efnQ45RtVCzOCfqdFevWnV4Wyzn7JHHpWE+0kW93ElqMjI6yq7dxzt8l
+         2WSXEedfphWhw6AYPFWyvpLK3G4CgbjsKgPvcbVMxE+hZr9w/SRnut1hmufF0EqRPn
+         KEWcysdPcD3O3rqaWGuheyIyrdjF8s8WjULftPOz7JT9Ecerk/QvFsEbHCPrjxiLIX
+         bQyl7wpB14EYEWRAGflHweOC9547veDzzjHeKTMYkR0LFbUn61awhCuCK5Jp2QtLZm
+         vxWNO+i6I/PWSt/4u0hde3c1CSJsbgHjBvJzG/Zpaep3cex7+psgOkSGqQ7Da80P9G
+         wDXxuw/fAZsLg==
+X-Virus-Scanned: amavisd-new at efficios.com
+Received: from mail.efficios.com ([127.0.0.1])
+        by localhost (mail03.efficios.com [127.0.0.1]) (amavisd-new, port 10026)
+        with ESMTP id RSvuoPlpXd8c; Wed,  3 Mar 2021 13:55:39 -0500 (EST)
+Received: from mail03.efficios.com (mail03.efficios.com [167.114.26.124])
+        by mail.efficios.com (Postfix) with ESMTP id 11C6A3226AB;
+        Wed,  3 Mar 2021 13:55:39 -0500 (EST)
+Date:   Wed, 3 Mar 2021 13:55:39 -0500 (EST)
+From:   Mathieu Desnoyers <mathieu.desnoyers@efficios.com>
+To:     Piotr Figiel <figiel@google.com>
+Cc:     Andrew Morton <akpm@linux-foundation.org>,
         Peter Zijlstra <peterz@infradead.org>,
         paulmck <paulmck@kernel.org>, Boqun Feng <boqun.feng@gmail.com>,
         Oleg Nesterov <oleg@redhat.com>,
         "Dmitry V. Levin" <ldv@altlinux.org>,
+        Florian Weimer <fweimer@redhat.com>,
         Alexey Dobriyan <adobriyan@gmail.com>,
         Andrei Vagin <avagin@gmail.com>,
         linux-kernel <linux-kernel@vger.kernel.org>,
@@ -57,39 +64,81 @@ Cc:     Piotr Figiel <figiel@google.com>,
         Paul Turner <pjt@google.com>, emmir <emmir@google.com>,
         linux-man <linux-man@vger.kernel.org>,
         linux-api <linux-api@vger.kernel.org>
+Message-ID: <1647666880.9529.1614797739047.JavaMail.zimbra@efficios.com>
+In-Reply-To: <YDkchUnCe5ctDwYB@google.com>
+References: <20210226135156.1081606-1-figiel@google.com> <192824546.8190.1614353555831.JavaMail.zimbra@efficios.com> <YDkchUnCe5ctDwYB@google.com>
 Subject: Re: [PATCH v2] ptrace: add PTRACE_GET_RSEQ_CONFIGURATION request
-References: <20210226135156.1081606-1-figiel@google.com>
-        <192824546.8190.1614353555831.JavaMail.zimbra@efficios.com>
-Date:   Wed, 03 Mar 2021 18:10:27 +0100
-In-Reply-To: <192824546.8190.1614353555831.JavaMail.zimbra@efficios.com>
-        (Mathieu Desnoyers's message of "Fri, 26 Feb 2021 10:32:35 -0500
-        (EST)")
-Message-ID: <87h7lsuprw.fsf@oldenburg.str.redhat.com>
-User-Agent: Gnus/5.13 (Gnus v5.13) Emacs/27.1 (gnu/linux)
 MIME-Version: 1.0
-Content-Type: text/plain
-X-Scanned-By: MIMEDefang 2.79 on 10.5.11.16
+Content-Type: text/plain; charset=utf-8
+Content-Transfer-Encoding: 7bit
+X-Originating-IP: [167.114.26.124]
+X-Mailer: Zimbra 8.8.15_GA_3996 (ZimbraWebClient - FF86 (Linux)/8.8.15_GA_4007)
+Thread-Topic: ptrace: add PTRACE_GET_RSEQ_CONFIGURATION request
+Thread-Index: +gCa2M7/7eePF4mAiSVH9mBBgTSE+w==
 Precedence: bulk
 List-ID: <linux-man.vger.kernel.org>
 X-Mailing-List: linux-man@vger.kernel.org
 
-* Mathieu Desnoyers:
+----- On Feb 26, 2021, at 11:06 AM, Piotr Figiel figiel@google.com wrote:
 
-> This way, the configuration structure can be expanded in the future. The
-> rseq ABI structure is by definition fixed-size, so there is no point in
-> having its size here.
->
-> Florian, did I understand your request correctly, or am I missing your
-> point ?
+> Hi,
+> 
+> On Fri, Feb 26, 2021 at 10:32:35AM -0500, Mathieu Desnoyers wrote:
+>> > +static long ptrace_get_rseq_configuration(struct task_struct *task,
+>> > +					  unsigned long size, void __user *data)
+>> > +{
+>> > +	struct ptrace_rseq_configuration conf = {
+>> > +		.rseq_abi_pointer = (u64)(uintptr_t)task->rseq,
+>> > +		.rseq_abi_size = sizeof(*task->rseq),
+>> > +		.signature = task->rseq_sig,
+>> > +		.flags = 0,
+>> > +	};
+>> > +
+>> > +	size = min_t(unsigned long, size, sizeof(conf));
+>> > +	if (copy_to_user(data, &conf, size))
+>> > +		return -EFAULT;
+>> > +	return sizeof(conf);
+>> > +}
+>> 
+>> I think what Florian was after would be:
+>> 
+>> struct ptrace_rseq_configuration {
+>> 	__u32 size;  /* size of struct ptrace_rseq_configuration */
+>> 	__u32 flags;
+>> 	__u64 rseq_abi_pointer;
+>> 	__u32 signature;
+>> 	__u32 pad;
+>> };
+>> 
+>> where:
+>> 
+>>     .size = sizeof(struct ptrace_rseq_configuration),
+>> 
+>> This way, the configuration structure can be expanded in the future. The
+>> rseq ABI structure is by definition fixed-size, so there is no point in
+>> having its size here.
+> 
+> Still rseq syscall accepts the rseq ABI structure size as a paremeter.
+> I think this way the information returned from ptrace is consistent with
+> the userspace view of the rseq state and allows expansion in case the
+> ABI structure would have to be extended (in spite of it's current
+> definition).
+> 
+> The configuration structure still can be expanded as its size is
+> reported to userspace as return value from the request (in line with
+> Dmitry's comments).
 
-No, the idea was that if the kernel ever supports different rseq ABI
-sizes on registration (it could as there's a size argument to the rseq
-system call), that needs to be communicated to CRIU, so that it restores
-with the right size.
-
-I haven't thought about whether it makes sense to make the ptrace
-argument struct extensible.
+Fair enough. And now with the reply from Florian I see that I misunderstood his
+point.
 
 Thanks,
-Florian
 
+Mathieu
+
+> 
+> Best regards, Piotr.
+
+-- 
+Mathieu Desnoyers
+EfficiOS Inc.
+http://www.efficios.com
