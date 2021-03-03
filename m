@@ -2,73 +2,74 @@ Return-Path: <linux-man-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-14.2 required=3.0 tests=BAYES_00,DKIM_SIGNED,
+X-Spam-Status: No, score=-4.2 required=3.0 tests=BAYES_00,DKIM_SIGNED,
 	DKIM_VALID,DKIM_VALID_AU,FREEMAIL_FORGED_FROMDOMAIN,FREEMAIL_FROM,
-	HEADER_FROM_DIFFERENT_DOMAINS,INCLUDES_CR_TRAILER,INCLUDES_PATCH,
-	MAILING_LIST_MULTI,NICE_REPLY_A,SPF_HELO_NONE,SPF_PASS,URIBL_BLOCKED,
-	USER_AGENT_SANE_1 autolearn=ham autolearn_force=no version=3.4.0
+	HEADER_FROM_DIFFERENT_DOMAINS,MAILING_LIST_MULTI,NICE_REPLY_A,SPF_HELO_NONE,
+	SPF_PASS,URIBL_BLOCKED,USER_AGENT_SANE_1 autolearn=no autolearn_force=no
+	version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 6CADAC43332
+	by smtp.lore.kernel.org (Postfix) with ESMTP id C151EC433DB
 	for <linux-man@archiver.kernel.org>; Thu,  4 Mar 2021 00:31:59 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.kernel.org (Postfix) with ESMTP id 3E6D364EF8
+	by mail.kernel.org (Postfix) with ESMTP id AC42564E62
 	for <linux-man@archiver.kernel.org>; Thu,  4 Mar 2021 00:31:59 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1355586AbhCDAbv (ORCPT <rfc822;linux-man@archiver.kernel.org>);
-        Wed, 3 Mar 2021 19:31:51 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:47986 "EHLO
+        id S1355588AbhCDAb5 (ORCPT <rfc822;linux-man@archiver.kernel.org>);
+        Wed, 3 Mar 2021 19:31:57 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:49966 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S234195AbhCCWH3 (ORCPT
-        <rfc822;linux-man@vger.kernel.org>); Wed, 3 Mar 2021 17:07:29 -0500
-Received: from mail-ej1-x62c.google.com (mail-ej1-x62c.google.com [IPv6:2a00:1450:4864:20::62c])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 9AC6CC0613D7
-        for <linux-man@vger.kernel.org>; Wed,  3 Mar 2021 13:58:22 -0800 (PST)
-Received: by mail-ej1-x62c.google.com with SMTP id hs11so45290003ejc.1
-        for <linux-man@vger.kernel.org>; Wed, 03 Mar 2021 13:58:22 -0800 (PST)
+        with ESMTP id S1390740AbhCCWPl (ORCPT
+        <rfc822;linux-man@vger.kernel.org>); Wed, 3 Mar 2021 17:15:41 -0500
+Received: from mail-ed1-x529.google.com (mail-ed1-x529.google.com [IPv6:2a00:1450:4864:20::529])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 85773C061756
+        for <linux-man@vger.kernel.org>; Wed,  3 Mar 2021 14:15:01 -0800 (PST)
+Received: by mail-ed1-x529.google.com with SMTP id bd6so18931108edb.10
+        for <linux-man@vger.kernel.org>; Wed, 03 Mar 2021 14:15:01 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=gmail.com; s=20161025;
         h=cc:subject:to:references:from:message-id:date:user-agent
          :mime-version:in-reply-to:content-language:content-transfer-encoding;
-        bh=4Ei2zEYBu9AS6+1MjcBTUaGzpP6ocQ0ju1iFAmeYQXM=;
-        b=RgDnRISvlZknvm1EC4mzlBzL1m+W1Jbko1sKc4Jwu5CtP0dIW/2kOnrv9oa0HGFfD0
-         l3KJokUFz0609uNShX86voxviXUJ9ygOzD0sCCv9i4AAjEr8OhrwRCDR5+wY2rv6CfH1
-         Sh/7uwxtMDrjh3n8q/4Mi+Ix3B969MQtw9KpcPpwPvUHI9vgCdJewaarPo2NHQqAwm7D
-         ZcoR2q7Wr8EwKGwKLi5riR7QDqvey4RoYzosJKfyE9YGjkd8K78s+zIThiUipW6oBMOc
-         OLDccUaJA4N4Vt2MBp/paIdcxJQOXSSucUzIqep21PwAasTbsWIIOyeV5iLhilB76pRJ
-         9ndQ==
+        bh=kD4Q8mT8W2cyJTfFlPw5AqTxwcaAkWK8nd1++f9HvK4=;
+        b=TyveJ8AIgSUZMz6pbeOVEHBXXiOxzpK+9XLXxTvtcESTbgsn29cz5SFBU5T90AUvvL
+         qSArTfxLcfGq1CWy9D3Rc/47jglzuF1BeOWkVsB381O9uHmvxkEA+e3EF+tz0apgApve
+         0xehMh1P3btbk98EMH1B/t6orTnbcwVxfgRO9lIpXFg6cEfdukaFsTXpnPcX8fuzNsQM
+         13QHAQdwqhgbpD6CAN2tYcufw14FmElYs7CdBFaiXV+/UO5n6yVmAAVQJYlLL6CB7r/A
+         uc190nXven8PCEMji0I7Q/ShJcduEWa1sSck7uHJUuuvx4KI3bwbDw9ovtPHeYpQ3nTF
+         +p0g==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
         h=x-gm-message-state:cc:subject:to:references:from:message-id:date
          :user-agent:mime-version:in-reply-to:content-language
          :content-transfer-encoding;
-        bh=4Ei2zEYBu9AS6+1MjcBTUaGzpP6ocQ0ju1iFAmeYQXM=;
-        b=gC4r4LJ8tk4xB+ihiSRugKpT/87PlQEpNRjg+aJ6Ic467wcx5UUzWlE/3FJKtWogWU
-         Ec7LGOB54ltFU79AccmGrl0CL/Aj+E0gACsmn8Izj0sibFLrI13VEj0lcETtC8a3y4/e
-         tfXCBqnEbf9jbMCZ4sN6k5eokLIRuq+HvSr9pVh4fAcm6jq/NtMs98OCp2zlhxPHvUz8
-         3sCraJ2wqdPxwto1IxJF7MdVUXLb6sSxmesHAv2HclW7sWZy7Rdza8JOjO6YK289TkJp
-         z/+a8CTCHnCQjxjfnrz230RXAiEzU9w/BljdhhYF8utvrTU3zjKloddm/B50xeBuYRj/
-         p13A==
-X-Gm-Message-State: AOAM533miV0ZPWPlYbJw0GtgyKZaP/RM+OWKgdjN4Iu69e+TegLaRAGA
-        RLGPRQJpiX2xYm8PYbiKzAlnYGftrMjioQ==
-X-Google-Smtp-Source: ABdhPJxFZcxnRTTrld4iCW9+7B4X3pAYj9f7DgHUmvAVpzKAS2i2YkOIU6b9pEJUbYzvkWmBdYhBHw==
-X-Received: by 2002:a17:906:9152:: with SMTP id y18mr785750ejw.19.1614808701327;
-        Wed, 03 Mar 2021 13:58:21 -0800 (PST)
+        bh=kD4Q8mT8W2cyJTfFlPw5AqTxwcaAkWK8nd1++f9HvK4=;
+        b=qsruBGwOYCN47dMlsBvxog2ZAVcFc646XmmtUXxCTu+qqq93X5WNP37Cj41HitL7OS
+         Rw+ejlE5s6VCRwcHJITvVh+qVgERTS8SFlpLXvo7RulX47zfAy/JGlxQAJ9NJvfmjd/w
+         vO3R7bMg8qRYqZBfKM2AIa8xT7xOClsTZI2TBSqFFvk/zY6KPaQrSrxcvYpMR+0Kt9pQ
+         TNTlCQi30U0kUhmTNpy1Dhk9qoC5UPXYbwlHd+rW28RlLIm+CVxKkac06b8dXk0Sklcd
+         FKiYi+6k/GY/sFNDN2lMBSQoShl6JT8xiQYufVRPSZEGQ8ZGxW+mJWFI6gRB7/51IIL/
+         nBkw==
+X-Gm-Message-State: AOAM531W3CahWBMqyd2p7ynzTLtQ0ilA0Lpm+QNgnNcvslBdXyEyGq6K
+        I2Ieh7OEYw5LNCp3Q/zGtT0=
+X-Google-Smtp-Source: ABdhPJwfBGtGWtdilldLlNtw7+3u8IlJZi80kOMyECIdTpywUiqp87f0FNfIlatKyUjwyHH+NT/Qsg==
+X-Received: by 2002:a05:6402:2215:: with SMTP id cq21mr1270372edb.281.1614809700135;
+        Wed, 03 Mar 2021 14:15:00 -0800 (PST)
 Received: from ?IPv6:2001:a61:3a2d:1d01:99ab:4f20:ed7f:402b? ([2001:a61:3a2d:1d01:99ab:4f20:ed7f:402b])
-        by smtp.gmail.com with ESMTPSA id gj13sm3680720ejb.118.2021.03.03.13.58.20
+        by smtp.gmail.com with ESMTPSA id c20sm22265825eja.22.2021.03.03.14.14.59
         (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Wed, 03 Mar 2021 13:58:20 -0800 (PST)
+        Wed, 03 Mar 2021 14:14:59 -0800 (PST)
 Cc:     mtk.manpages@gmail.com, linux-man@vger.kernel.org,
-        Walter Franzini <walter.franzini@gmail.com>
-Subject: Re: [PATCH] inode.7: tfix
+        Heinrich Schuchardt <xypron.glpk@gmx.de>
+Subject: Re: [PATCH 00/20] man3: SYNOPSIS: Use 'restrict' in prototypes (batch
+ 1)
 To:     Alejandro Colomar <alx.manpages@gmail.com>
-References: <20210227112217.1629-1-alx.manpages@gmail.com>
+References: <20210224144310.140649-1-alx.manpages@gmail.com>
 From:   "Michael Kerrisk (man-pages)" <mtk.manpages@gmail.com>
-Message-ID: <71cd2520-2bfc-256e-cc0a-6453a3e34d35@gmail.com>
-Date:   Wed, 3 Mar 2021 22:58:19 +0100
+Message-ID: <fe535a38-d2da-b5a9-06b2-96adfa54d3de@gmail.com>
+Date:   Wed, 3 Mar 2021 23:14:58 +0100
 User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
  Thunderbird/78.6.0
 MIME-Version: 1.0
-In-Reply-To: <20210227112217.1629-1-alx.manpages@gmail.com>
+In-Reply-To: <20210224144310.140649-1-alx.manpages@gmail.com>
 Content-Type: text/plain; charset=utf-8
 Content-Language: en-US
 Content-Transfer-Encoding: 7bit
@@ -76,41 +77,44 @@ Precedence: bulk
 List-ID: <linux-man.vger.kernel.org>
 X-Mailing-List: linux-man@vger.kernel.org
 
-Hi Alex,
+Hello Alex,
 
-On 2/27/21 12:22 PM, Alejandro Colomar wrote:
-> Epoch is 1970-01-01 00:00:00 +0000, UTC (see time(7)).
+On 2/24/21 3:42 PM, Alejandro Colomar wrote:
+> Hi Michael,
 > 
-> Reported-by: Walter Franzini <walter.franzini@gmail.com>
-> Signed-off-by: Alejandro Colomar <alx.manpages@gmail.com>
-> ---
->  man7/inode.7 | 2 +-
->  1 file changed, 1 insertion(+), 1 deletion(-)
+> This are the first pages of man3 with 'restrict'.
+> I'm sending you these already, becuase otherwise I'd accumulate
+> too many patches in the end.
+
+Thanks. I have applied all of these.
+
+> I have fixed from the first page until ftw.3.
 > 
-> diff --git a/man7/inode.7 b/man7/inode.7
-> index fe50a4596..d3b9fa1ff 100644
-> --- a/man7/inode.7
-> +++ b/man7/inode.7
-> @@ -207,7 +207,7 @@ It is changed by writing or by setting inode information
->  .PP
->  The timestamp fields report time measured with a zero point at the
->  .IR Epoch ,
-> -1970-01-02 00:00:00 +0000, UTC (see
-> +1970-01-01 00:00:00 +0000, UTC (see
+> Spin off:
+> 	I found different terms for parameters that refer to a same thing
+> 	in different functions (usually a '[const] char *'):
+> 	 - filename
+> 	 - file
+> 	 - path
+> 	 - pathname
+> 	 - Maybe others; I don't know
+> 
+> 	For 'FILE *' we have more or less the same,
+> 	although this one is much more standard (>90% use 'stream'):
+> 	 - stream
+> 	 - streamp
+> 	 - s
+> 	 - fp
+> 	 - file
+> 	 - filehandle
+> 	 - A few others in specific cases
+> 
+> 	What would you do about it?
+I think it would be best to start a new thread for this...
 
-Cute :-}
-
-Thanks, patch applied.
-
-Cheers,
+Thanks,
 
 Michael
-
->  .BR time (7)).
->  .PP
->  Nanosecond timestamps are supported on XFS, JFS, Btrfs, and
-> 
-
 
 -- 
 Michael Kerrisk
