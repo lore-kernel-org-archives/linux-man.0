@@ -2,109 +2,200 @@ Return-Path: <linux-man-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-18.8 required=3.0 tests=BAYES_00,DKIMWL_WL_HIGH,
-	DKIM_SIGNED,DKIM_VALID,DKIM_VALID_AU,HEADER_FROM_DIFFERENT_DOMAINS,
-	INCLUDES_CR_TRAILER,INCLUDES_PATCH,MAILING_LIST_MULTI,SPF_HELO_NONE,SPF_PASS,
-	USER_AGENT_GIT autolearn=unavailable autolearn_force=no version=3.4.0
+X-Spam-Status: No, score=-16.0 required=3.0 tests=BAYES_00,DKIMWL_WL_HIGH,
+	DKIM_SIGNED,DKIM_VALID,DKIM_VALID_AU,INCLUDES_CR_TRAILER,INCLUDES_PATCH,
+	MAILING_LIST_MULTI,SPF_HELO_NONE,SPF_PASS,URIBL_BLOCKED autolearn=unavailable
+	autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 184CFC43331
-	for <linux-man@archiver.kernel.org>; Thu,  4 Mar 2021 16:34:12 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 59EF8C433E6
+	for <linux-man@archiver.kernel.org>; Thu,  4 Mar 2021 17:15:33 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.kernel.org (Postfix) with ESMTP id 0480B64F52
-	for <linux-man@archiver.kernel.org>; Thu,  4 Mar 2021 16:34:12 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTP id 2C5E964F59
+	for <linux-man@archiver.kernel.org>; Thu,  4 Mar 2021 17:15:33 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S237836AbhCDQd0 (ORCPT <rfc822;linux-man@archiver.kernel.org>);
-        Thu, 4 Mar 2021 11:33:26 -0500
-Received: from us-smtp-delivery-124.mimecast.com ([63.128.21.124]:40184 "EHLO
-        us-smtp-delivery-124.mimecast.com" rhost-flags-OK-OK-OK-OK)
-        by vger.kernel.org with ESMTP id S237840AbhCDQdR (ORCPT
-        <rfc822;linux-man@vger.kernel.org>); Thu, 4 Mar 2021 11:33:17 -0500
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
-        s=mimecast20190719; t=1614875511;
-        h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
-         to:to:cc:cc:mime-version:mime-version:
-         content-transfer-encoding:content-transfer-encoding:
-         in-reply-to:in-reply-to:references:references;
-        bh=L+ETSEf1ZAFUSggoPbuwMmKsXjA8FmosFmIyKB/HpBM=;
-        b=imRIUmetSzXFWRWo+AvHzeskhoH5oMcqGZ8eXqMoaadmV0N9JW7RcJK7bYvsk4hCZaHs3l
-        J05ohUBIBVvi1jqYg9dzmb4fTRGjzHZlQFiXmlXtG9W9maSzoZlopYqO2yvcHCxEfKJCeb
-        rQ4SVFL+77bB4f6SVmNDdYS+r+65qDY=
-Received: from mail-qk1-f197.google.com (mail-qk1-f197.google.com
- [209.85.222.197]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-232-huSqDC8FO2Wm9bK--r8Q_Q-1; Thu, 04 Mar 2021 11:31:49 -0500
-X-MC-Unique: huSqDC8FO2Wm9bK--r8Q_Q-1
-Received: by mail-qk1-f197.google.com with SMTP id y79so23522513qka.23
-        for <linux-man@vger.kernel.org>; Thu, 04 Mar 2021 08:31:49 -0800 (PST)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20161025;
-        h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
-         :references:mime-version:content-transfer-encoding;
-        bh=L+ETSEf1ZAFUSggoPbuwMmKsXjA8FmosFmIyKB/HpBM=;
-        b=NqHaxtnzjUHNC2e/OGFTLvbN6HfF6yMBPg0h6JQO8UBiyw7SirijqLtZJQkF6+DVCG
-         D9m1KjBWt2v5WKXBK7mhf+ytIWPYdfdKfyQC8BVLj+Lbndk77OaUNq7pp4XRc8gNPfPt
-         +IOVocB2oFfNLuMqQwG2p3PeP/thjCwhrjGfxRDJbLF5EXim6X+tpkBv1247idEjhBR9
-         On177VhjHhXBl7Tp+B+Vju+uXExTsd7TEfxjerDYaQ6kQkWKqGTTTwbLuI+WltWxiPq0
-         a15M16z8a9sMUvqFtFiLJiNZGPp997tN7VbriMf0+5r3rPQAOri2+AI2M02VGWkEPbfW
-         jauA==
-X-Gm-Message-State: AOAM533+3ZnkEqRs9Zm15KGM6dY+0FlWFtN2vQkRuR23ifazAFvLB46Z
-        SuLdqzT07fnQnarV0Pg3fsFh7xzOyzptz4duyP5k/5mzjSpmGIKn82mJB1iJr30BOO6O/+zqnVN
-        oAhv24c0ojaSZKe4ZDMPefsznAhOUsHI/xQviojKSfhwKKrQqJcDnaHY9KClcnEj5sQM9fQ==
-X-Received: by 2002:a05:6214:1424:: with SMTP id o4mr4686704qvx.34.1614875509312;
-        Thu, 04 Mar 2021 08:31:49 -0800 (PST)
-X-Google-Smtp-Source: ABdhPJzZVGrykbdTHTsJvMYciYnspUzYH+GMDJvtLzn0b2/AnSBx/ccJd5RUBv4+cALIgTK9I6Wcag==
-X-Received: by 2002:a05:6214:1424:: with SMTP id o4mr4686678qvx.34.1614875509092;
-        Thu, 04 Mar 2021 08:31:49 -0800 (PST)
-Received: from xz-x1.redhat.com (bras-vprn-toroon474qw-lp130-25-174-95-95-253.dsl.bell.ca. [174.95.95.253])
-        by smtp.gmail.com with ESMTPSA id r2sm51753qti.4.2021.03.04.08.31.47
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Thu, 04 Mar 2021 08:31:48 -0800 (PST)
-From:   Peter Xu <peterx@redhat.com>
-To:     linux-man@vger.kernel.org
-Cc:     Alejandro Colomar <alx.manpages@gmail.com>,
-        Nadav Amit <nadav.amit@gmail.com>,
-        Andrea Arcangeli <aarcange@redhat.com>,
-        linux-kernel@vger.kernel.org,
+        id S239166AbhCDRPA (ORCPT <rfc822;linux-man@archiver.kernel.org>);
+        Thu, 4 Mar 2021 12:15:00 -0500
+Received: from mail.kernel.org ([198.145.29.99]:36886 "EHLO mail.kernel.org"
+        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
+        id S239072AbhCDROb (ORCPT <rfc822;linux-man@vger.kernel.org>);
+        Thu, 4 Mar 2021 12:14:31 -0500
+Received: by mail.kernel.org (Postfix) with ESMTPSA id 960E464F1E;
+        Thu,  4 Mar 2021 17:13:50 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+        s=k20201202; t=1614878030;
+        bh=lqO7UkOMXWWQHikCfDTDyGiTWusKSlro4VEZN21pRgk=;
+        h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+        b=c7RhJ2hkF22/QR6Ws+Ygt5m539P7TU2r4XRQOb1j2WGhUQwtrop0RLw0uZ+MemZzU
+         hqmLenKN93+rdtIUoh0Fexx5dW7WA9hjA149SdKqlDG714eINwMfIAacaBtKIPNrCO
+         oPQcTLzT77A4g8h4dFkceukCFmK6HQt644bGSVLv6v1SEsYKakk60fXnpjHJJcWsOD
+         67oPOglMCgjQbzitpIhyT0NGM9vzd9Fd2IdZvQbZHSiTcYiaexbIBXyfSvFoObOm1Z
+         I2afWFBzXpFOqxhrtSiwJ5I4YY8CDrJTGEMxNUL+2Sy61o7bLMURkAx1jpnQg4oAkY
+         LmWjhrD0TModA==
+Date:   Thu, 4 Mar 2021 09:13:50 -0800
+From:   "Darrick J. Wong" <djwong@kernel.org>
+To:     Alejandro Colomar <alx.manpages@gmail.com>
+Cc:     linux-man@vger.kernel.org, Amir Goldstein <amir73il@gmail.com>,
         Michael Kerrisk <mtk.manpages@gmail.com>,
-        Mike Rapoport <rppt@linux.vnet.ibm.com>,
-        Axel Rasmussen <axelrasmussen@google.com>,
-        Andrew Morton <akpm@linux-foundation.org>,
-        Linux MM Mailing List <linux-mm@kvack.org>,
-        peterx@redhat.com
-Subject: [PATCH v2 3/4] ioctl_userfaultfd.2: Add UFFD_FEATURE_THREAD_ID docs
-Date:   Thu,  4 Mar 2021 11:31:39 -0500
-Message-Id: <20210304163140.543171-4-peterx@redhat.com>
-X-Mailer: git-send-email 2.26.2
-In-Reply-To: <20210304163140.543171-1-peterx@redhat.com>
-References: <20210304163140.543171-1-peterx@redhat.com>
+        Luis Henriques <lhenriques@suse.de>,
+        Steve French <sfrench@samba.org>,
+        Greg KH <gregkh@linuxfoundation.org>,
+        Anna Schumaker <anna.schumaker@netapp.com>,
+        Jeff Layton <jlayton@kernel.org>,
+        Miklos Szeredi <miklos@szeredi.hu>,
+        Trond Myklebust <trond.myklebust@hammerspace.com>,
+        Alexander Viro <viro@zeniv.linux.org.uk>,
+        "Darrick J. Wong" <darrick.wong@oracle.com>,
+        Dave Chinner <dchinner@redhat.com>,
+        Nicolas Boichat <drinkcat@chromium.org>,
+        Ian Lance Taylor <iant@google.com>,
+        Luis Lozano <llozano@chromium.org>,
+        Andreas Dilger <adilger@dilger.ca>,
+        Olga Kornievskaia <aglo@umich.edu>,
+        Christoph Hellwig <hch@infradead.org>,
+        ceph-devel <ceph-devel@vger.kernel.org>,
+        linux-kernel <linux-kernel@vger.kernel.org>,
+        CIFS <linux-cifs@vger.kernel.org>,
+        samba-technical <samba-technical@lists.samba.org>,
+        linux-fsdevel <linux-fsdevel@vger.kernel.org>,
+        Linux NFS Mailing List <linux-nfs@vger.kernel.org>,
+        Walter Harms <wharms@bfs.de>
+Subject: Re: [RFC v4] copy_file_range.2: Update cross-filesystem support for
+ 5.12
+Message-ID: <20210304171350.GC7267@magnolia>
+References: <20210224142307.7284-1-lhenriques@suse.de>
+ <20210304093806.10589-1-alx.manpages@gmail.com>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20210304093806.10589-1-alx.manpages@gmail.com>
 Precedence: bulk
 List-ID: <linux-man.vger.kernel.org>
 X-Mailing-List: linux-man@vger.kernel.org
 
-UFFD_FEATURE_THREAD_ID is supported in Linux 4.14.
+On Thu, Mar 04, 2021 at 10:38:07AM +0100, Alejandro Colomar wrote:
+> Linux 5.12 fixes a regression.
+> 
+> Cross-filesystem (introduced in 5.3) copies were buggy.
+> 
+> Move the statements documenting cross-fs to BUGS.
+> Kernels 5.3..5.11 should be patched soon.
+> 
+> State version information for some errors related to this.
+> 
+> Reported-by: Luis Henriques <lhenriques@suse.de>
+> Reported-by: Amir Goldstein <amir73il@gmail.com>
+> Related: <https://lwn.net/Articles/846403/>
+> Cc: Greg KH <gregkh@linuxfoundation.org>
+> Cc: Michael Kerrisk <mtk.manpages@gmail.com>
+> Cc: Anna Schumaker <anna.schumaker@netapp.com>
+> Cc: Jeff Layton <jlayton@kernel.org>
+> Cc: Steve French <sfrench@samba.org>
+> Cc: Miklos Szeredi <miklos@szeredi.hu>
+> Cc: Trond Myklebust <trond.myklebust@hammerspace.com>
+> Cc: Alexander Viro <viro@zeniv.linux.org.uk>
+> Cc: "Darrick J. Wong" <darrick.wong@oracle.com>
+> Cc: Dave Chinner <dchinner@redhat.com>
+> Cc: Nicolas Boichat <drinkcat@chromium.org>
+> Cc: Ian Lance Taylor <iant@google.com>
+> Cc: Luis Lozano <llozano@chromium.org>
+> Cc: Andreas Dilger <adilger@dilger.ca>
+> Cc: Olga Kornievskaia <aglo@umich.edu>
+> Cc: Christoph Hellwig <hch@infradead.org>
+> Cc: ceph-devel <ceph-devel@vger.kernel.org>
+> Cc: linux-kernel <linux-kernel@vger.kernel.org>
+> Cc: CIFS <linux-cifs@vger.kernel.org>
+> Cc: samba-technical <samba-technical@lists.samba.org>
+> Cc: linux-fsdevel <linux-fsdevel@vger.kernel.org>
+> Cc: Linux NFS Mailing List <linux-nfs@vger.kernel.org>
+> Cc: Walter Harms <wharms@bfs.de>
+> Signed-off-by: Alejandro Colomar <alx.manpages@gmail.com>
+> ---
+> 
+> v3:
+>         - Don't remove some important text.
+>         - Reword BUGS.
+> v4:
+> 	- Reword.
+> 	- Link to BUGS.
+> 
+> Thanks, Amir, for all the help and better wordings.
+> 
+> Cheers,
+> 
+> Alex
+> 
+> ---
+>  man2/copy_file_range.2 | 27 +++++++++++++++++++++++----
+>  1 file changed, 23 insertions(+), 4 deletions(-)
+> 
+> diff --git a/man2/copy_file_range.2 b/man2/copy_file_range.2
+> index 611a39b80..f58bfea8f 100644
+> --- a/man2/copy_file_range.2
+> +++ b/man2/copy_file_range.2
+> @@ -169,6 +169,9 @@ Out of memory.
+>  .B ENOSPC
+>  There is not enough space on the target filesystem to complete the copy.
+>  .TP
+> +.BR EOPNOTSUPP " (since Linux 5.12)"
+> +The filesystem does not support this operation.
+> +.TP
+>  .B EOVERFLOW
+>  The requested source or destination range is too large to represent in the
+>  specified data types.
+> @@ -184,10 +187,17 @@ or
+>  .I fd_out
+>  refers to an active swap file.
+>  .TP
+> -.B EXDEV
+> +.BR EXDEV " (before Linux 5.3)"
+> +The files referred to by
+> +.IR fd_in " and " fd_out
+> +are not on the same filesystem.
+> +.TP
+> +.BR EXDEV " (since Linux 5.12)"
+>  The files referred to by
+>  .IR fd_in " and " fd_out
+> -are not on the same mounted filesystem (pre Linux 5.3).
+> +are not on the same filesystem,
+> +and the source and target filesystems are not of the same type,
+> +or do not support cross-filesystem copy.
+>  .SH VERSIONS
+>  The
+>  .BR copy_file_range ()
+> @@ -200,8 +210,11 @@ Areas of the API that weren't clearly defined were clarified and the API bounds
+>  are much more strictly checked than on earlier kernels.
+>  Applications should target the behaviour and requirements of 5.3 kernels.
+>  .PP
+> -First support for cross-filesystem copies was introduced in Linux 5.3.
+> -Older kernels will return -EXDEV when cross-filesystem copies are attempted.
+> +Since Linux 5.12,
+> +cross-filesystem copies can be achieved
+> +when both filesystems are of the same type,
+> +and that filesystem implements support for it.
+> +See BUGS for behavior prior to 5.12.
+>  .SH CONFORMING TO
+>  The
+>  .BR copy_file_range ()
+> @@ -226,6 +239,12 @@ gives filesystems an opportunity to implement "copy acceleration" techniques,
+>  such as the use of reflinks (i.e., two or more inodes that share
+>  pointers to the same copy-on-write disk blocks)
+>  or server-side-copy (in the case of NFS).
+> +.SH BUGS
+> +In Linux kernels 5.3 to 5.11,
+> +cross-filesystem copies were implemented by the kernel,
+> +if the operation was not supported by individual filesystems.
+> +However, on some virtual filesystems,
+> +the call failed to copy, while still reporting success.
 
-Signed-off-by: Peter Xu <peterx@redhat.com>
----
- man2/ioctl_userfaultfd.2 | 5 +++++
- 1 file changed, 5 insertions(+)
+...success, or merely a short copy?
 
-diff --git a/man2/ioctl_userfaultfd.2 b/man2/ioctl_userfaultfd.2
-index 47ae5f473..b58983fe7 100644
---- a/man2/ioctl_userfaultfd.2
-+++ b/man2/ioctl_userfaultfd.2
-@@ -208,6 +208,11 @@ signal will be sent to the faulting process.
- Applications using this
- feature will not require the use of a userfaultfd monitor for processing
- memory accesses to the regions registered with userfaultfd.
-+.TP
-+.BR UFFD_FEATURE_THREAD_ID " (since Linux 4.14)"
-+If this feature bit is set,
-+.I uffd_msg.pagefault.feat.ptid
-+Will be set to the faulted thread ID for each page fault message.
- .PP
- The returned
- .I ioctls
--- 
-2.26.2
+(The rest looks reasonable (at least by c_f_r standards) to me.)
 
+--D
+
+>  .SH EXAMPLES
+>  .EX
+>  #define _GNU_SOURCE
+> -- 
+> 2.30.1.721.g45526154a5
+> 
