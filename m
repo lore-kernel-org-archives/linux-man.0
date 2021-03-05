@@ -2,67 +2,71 @@ Return-Path: <SRS0=pazf=ID=vger.kernel.org=linux-man-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-15.8 required=3.0 tests=BAYES_00,DKIM_SIGNED,
+X-Spam-Status: No, score=-15.7 required=3.0 tests=BAYES_00,DKIM_SIGNED,
 	DKIM_VALID,DKIM_VALID_AU,FREEMAIL_FORGED_FROMDOMAIN,FREEMAIL_FROM,
 	HEADER_FROM_DIFFERENT_DOMAINS,INCLUDES_CR_TRAILER,INCLUDES_PATCH,
-	MAILING_LIST_MULTI,SPF_HELO_NONE,SPF_PASS,USER_AGENT_GIT autolearn=ham
-	autolearn_force=no version=3.4.0
+	MAILING_LIST_MULTI,SPF_HELO_NONE,SPF_PASS,URIBL_BLOCKED,USER_AGENT_GIT
+	autolearn=ham autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 0A888C4332D
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 25AD0C4332E
 	for <linux-man@archiver.kernel.org>; Fri,  5 Mar 2021 23:52:10 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.kernel.org (Postfix) with ESMTP id C5E8765073
+	by mail.kernel.org (Postfix) with ESMTP id 02B02650AC
 	for <linux-man@archiver.kernel.org>; Fri,  5 Mar 2021 23:52:09 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S229882AbhCEXvj (ORCPT <rfc822;linux-man@archiver.kernel.org>);
+        id S229837AbhCEXvj (ORCPT <rfc822;linux-man@archiver.kernel.org>);
         Fri, 5 Mar 2021 18:51:39 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:42216 "EHLO
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:42200 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S229919AbhCEXvY (ORCPT
-        <rfc822;linux-man@vger.kernel.org>); Fri, 5 Mar 2021 18:51:24 -0500
-Received: from mail-wm1-x32d.google.com (mail-wm1-x32d.google.com [IPv6:2a00:1450:4864:20::32d])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 2F751C06175F
-        for <linux-man@vger.kernel.org>; Fri,  5 Mar 2021 15:51:24 -0800 (PST)
-Received: by mail-wm1-x32d.google.com with SMTP id u187so2664920wmg.4
-        for <linux-man@vger.kernel.org>; Fri, 05 Mar 2021 15:51:24 -0800 (PST)
+        with ESMTP id S229901AbhCEXvW (ORCPT
+        <rfc822;linux-man@vger.kernel.org>); Fri, 5 Mar 2021 18:51:22 -0500
+Received: from mail-wm1-x334.google.com (mail-wm1-x334.google.com [IPv6:2a00:1450:4864:20::334])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id CB835C06175F
+        for <linux-man@vger.kernel.org>; Fri,  5 Mar 2021 15:51:21 -0800 (PST)
+Received: by mail-wm1-x334.google.com with SMTP id e23so2665233wmh.3
+        for <linux-man@vger.kernel.org>; Fri, 05 Mar 2021 15:51:21 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=gmail.com; s=20161025;
         h=from:to:cc:subject:date:message-id:in-reply-to:references
          :mime-version:content-transfer-encoding;
-        bh=braMiz+RmjCWbXkO3k2735BiRuyVPf15QOPaEoS+Fho=;
-        b=n12WAO5SvEfQS2Hm8v5hzcPZ6T07rammN1ufE8lsOGA5lyt8NkEXihR/iCU2p//lFY
-         ahm7WGXU9b3KJC9Ruurw8hxhGOvEWozqeRtKWKcNUQK+nNpfAn6ALejQzmyqDN9PO/HK
-         8LYsIaWpCKqOvSaCkwJRpaVvR2FXQ2IYp7Yx3ofiU8JhbpIIQDVSuvwYwdYgZ1BXYxWA
-         X51ibiiuMtm/ZkJiB4JQkOevZ92TcaQFzxKl8f5O0K2u8EUhGfoqYp3tgw2sAdzdBk2a
-         6RUZKrmQlDDNsxi7/WlR9z229PHIYelb/WSZD2cV68snJ1sDpEVo+oemOeUhum7uXKKk
-         ejzg==
+        bh=rwMbXBcdVIzlI2PqTJEt8bjtXUamR+0zXscAcBktAA0=;
+        b=Ja/3NpzsNqJ/tHnqYuB0dYC61kUhQYhXuhBVkSSSNcW9ov4dJulClr1FN6SQAdLdif
+         WmMahSf8tgV8yUxSvJRRyE5IzCXUlF6qAO+836agJzOe8NULzYNTvkEJPeptiQ6AJS1T
+         Fm0BGtB8or0TD8hlXKSn7Ra0SpjdsZAVmvvGctCGDfVDzTjVfO3XjNO9sFZeFLA1WMl9
+         kO8B7r7mR1wk/tZSE87+p+VCa5q206/5LkrqYGEAwxazS0qmXX9rSFZYJP01+egLCOLm
+         L59mXJ53vt7Nzui/S9uHrVUitHB03fs9sg5Q+hkPqN1rOxwJp8Yf0gYHJgmAnMYqXtsM
+         C6+Q==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
         h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
          :references:mime-version:content-transfer-encoding;
-        bh=braMiz+RmjCWbXkO3k2735BiRuyVPf15QOPaEoS+Fho=;
-        b=BJKo6uqeCvuoMAsk9Cf7sxrKlUNoTsV/zOIvYlMHfZ+aI/FYVz00CJAzmmwwWV9q09
-         Ak1/vwQzbljUBT8BnwQZ9hV+wtJdZWXxuyq92HB42FCB8GzS/s2BIo65nlG/cIDPUpIk
-         Fzu3gmSHVTytYM3QX4IvlPALzT7X/5yMaNmqSNw9+Ssec6NQbSjmcQ3b7Qq748Kdr0Jq
-         XPmfqYh/M/YOfpjMIoRaR20M0lbT/dwwKRk+VNV4rJ8YP2h5zkvMRtbEHz2v9UGeT1CT
-         UaMPWVugNyRSBtsKWlkp/KkzqxerDmjwER83eBhT94qOZbRDUSpXchU4UuNbhdZQIogI
-         iGxg==
-X-Gm-Message-State: AOAM533jW69VOPa7q4sI2KgU02XPOJMF3hEKfI5tbcQDudGX9cDiDtWV
-        aklHYXa1LkzLHp99tsCqYCc=
-X-Google-Smtp-Source: ABdhPJzdr3BunYszFDoiRGIJOZ0gyejPrAy1obzsPz2fvOO2a/xKIKOStDvY2W/L0iajxWUGesrwig==
-X-Received: by 2002:a05:600c:2204:: with SMTP id z4mr11423399wml.31.1614988282973;
-        Fri, 05 Mar 2021 15:51:22 -0800 (PST)
+        bh=rwMbXBcdVIzlI2PqTJEt8bjtXUamR+0zXscAcBktAA0=;
+        b=GKn7icTEjTLG/jiIDoOsjyvpgqq3b/xGzIbrQ+CjxpmHeR4lO3sy3cLg0O2qU5X7e0
+         +7xZmsdnIcLLmLMJisDH1s7yaGbw5/GXKUW9zdhiv/UVoxmHtEOSdwisxs2Oad0twABn
+         vIgQlhMOR+EpGONlz0GV5dRIFNpWQAHNGOEuYEwFdnQh+NDLQ/zUl46OVNVklWLxQLvZ
+         8EroyQgAouNicXNfw/0tHirCeChuXGCXSZoDRAG1Z0EM0LDeSh8Mp1+HkVj4UpvTBkkx
+         d8+D3HkPPUlgaWIUz0C11BXaKFsM/5tKyWfgn1ZRGXJoB/Dmy0hSFI6kzLi1k9QaPAGf
+         hduA==
+X-Gm-Message-State: AOAM533d/PEc/LrD/f7rZ40WCem5QqMkKxHQK/b4b798J4OI9aRuKrDb
+        NbB86tWcAEH+0MjFpnMh2rU=
+X-Google-Smtp-Source: ABdhPJyDKy9QfeH6FGedI+rRhpp7V6mbwZNCH5laXNiDsSxnMR/UHCoGNzNpdq5oICHMbI6OeA1xgg==
+X-Received: by 2002:a7b:cf16:: with SMTP id l22mr10838884wmg.26.1614988280677;
+        Fri, 05 Mar 2021 15:51:20 -0800 (PST)
 Received: from localhost.localdomain ([170.253.51.130])
-        by smtp.googlemail.com with ESMTPSA id f7sm7219835wrm.36.2021.03.05.15.51.21
+        by smtp.googlemail.com with ESMTPSA id f7sm7219835wrm.36.2021.03.05.15.51.19
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Fri, 05 Mar 2021 15:51:22 -0800 (PST)
+        Fri, 05 Mar 2021 15:51:20 -0800 (PST)
 From:   Alejandro Colomar <alx.manpages@gmail.com>
 To:     mtk.manpages@gmail.com
 Cc:     Alejandro Colomar <alx.manpages@gmail.com>,
-        linux-man@vger.kernel.org, libc-alpha@sourceware.org
-Subject: [PATCH 09/22] malloc_hook.3: SYNOPSIS: Use 'volatile' in prototypes
-Date:   Sat,  6 Mar 2021 00:50:53 +0100
-Message-Id: <20210305235105.177359-10-alx.manpages@gmail.com>
+        linux-man@vger.kernel.org, libc-alpha@sourceware.org,
+        Szabolcs Nagy <Szabolcs.Nagy@arm.com>,
+        "Joseph S. Myers" <joseph@codesourcery.com>,
+        Ulrich Drepper <drepper@redhat.com>,
+        Florian Weimer <fweimer@redhat.com>
+Subject: [PATCH 07/22] lio_listio.3: SYNOPSIS: Use 'restrict' in prototypes
+Date:   Sat,  6 Mar 2021 00:50:51 +0100
+Message-Id: <20210305235105.177359-8-alx.manpages@gmail.com>
 X-Mailer: git-send-email 2.30.1.721.g45526154a5
 In-Reply-To: <20210305235105.177359-1-alx.manpages@gmail.com>
 References: <20210305235105.177359-1-alx.manpages@gmail.com>
@@ -72,87 +76,53 @@ Precedence: bulk
 List-ID: <linux-man.vger.kernel.org>
 X-Mailing-List: linux-man@vger.kernel.org
 
-glibc uses 'volatile' in __malloc_hook, __realloc_hook,
-__memalign_hook, __free_hook, and __after_morecore_hook.
-Let's use it here too.
+Both POSIX and glibc use 'restrict' in lio_listio().
+However, POSIX is a bit more restrictive than glibc
+for the second parameter.
+Let's document the more restrictive POSIX variant.
 
-.../glibc$ find * -type f \
-  |grep '\.h$' \
-  |xargs pcregrep -Mn '(?s)\b__malloc_hook\b.*?;';
-malloc/malloc.h:168:
-extern void *(*__MALLOC_HOOK_VOLATILE __malloc_hook)(size_t __size,
-                                                     const void *)
-__MALLOC_DEPRECATED;
-.../glibc$ find * -type f \
-  |grep '\.h$' \
-  |xargs pcregrep -Mn '(?s)\b__realloc_hook\b.*?;';
-malloc/malloc.h:171:
-extern void *(*__MALLOC_HOOK_VOLATILE __realloc_hook)(void *__ptr,
-                                                      size_t __size,
-                                                      const void *)
-__MALLOC_DEPRECATED;
-.../glibc$ find * -type f \
- |grep '\.h$' \
- |xargs pcregrep -Mn '(?s)\b__memalign_hook\b.*?;';
-malloc/malloc.h:175:
-extern void *(*__MALLOC_HOOK_VOLATILE __memalign_hook)(size_t __alignment,
-                                                       size_t __size,
-                                                       const void *)
-__MALLOC_DEPRECATED;
-.../glibc$ find * -type f \
-  |grep '\.h$' \
-  |xargs pcregrep -Mn '(?s)\b__free_hook\b.*?;';
-malloc/malloc.h:165:
-extern void (*__MALLOC_HOOK_VOLATILE __free_hook) (void *__ptr,
-                                                   const void *)
-__MALLOC_DEPRECATED;
-.../glibc$ find * -type f \
-  |grep '\.h$' \
-  |xargs pcregrep -Mn '(?s)\*\w*\s*\b__malloc_initialize_hook\b.*?;';
-malloc/malloc-hooks.h:22:
-void (*__malloc_initialize_hook) (void);
-.../glibc$ find * -type f \
-  |grep '\.h$' \
-  |xargs pcregrep -Mn '(?s)\*\w*\s*\b__after_morecore_hook\b.*?;';
-malloc/malloc.h:179:
-extern void (*__MALLOC_HOOK_VOLATILE __after_morecore_hook) (void)
-  __MALLOC_DEPRECATED;
+$ man 3p lio_listio |sed -n '/^SYNOPSIS/,/;/p'
+SYNOPSIS
+       #include <aio.h>
+
+       int lio_listio(int mode, struct aiocb *restrict const list[restrict],
+           int nent, struct sigevent *restrict sig);
+$
+
+.../glibc$ grep_glibc_prototype lio_listio
+rt/aio.h:148:
+extern int lio_listio (int __mode,
+		       struct aiocb *const __list[__restrict_arr],
+		       int __nent, struct sigevent *__restrict __sig)
+  __THROW __nonnull ((2));
 .../glibc$
 
+Cc: Szabolcs Nagy <Szabolcs.Nagy@arm.com>
+Cc: "Joseph S. Myers" <joseph@codesourcery.com>
+Cc: Ulrich Drepper <drepper@redhat.com>
+Cc: Florian Weimer <fweimer@redhat.com>
+Cc: glibc <libc-alpha@sourceware.org>
+Bug: glibc <https://sourceware.org/bugzilla/show_bug.cgi?id=16747>
 Signed-off-by: Alejandro Colomar <alx.manpages@gmail.com>
 ---
- man3/malloc_hook.3 | 10 +++++-----
- 1 file changed, 5 insertions(+), 5 deletions(-)
+ man3/lio_listio.3 | 4 ++--
+ 1 file changed, 2 insertions(+), 2 deletions(-)
 
-diff --git a/man3/malloc_hook.3 b/man3/malloc_hook.3
-index 7f1e35043..74c493c83 100644
---- a/man3/malloc_hook.3
-+++ b/man3/malloc_hook.3
-@@ -16,19 +16,19 @@ __after_morecore_hook \- malloc debugging variables
+diff --git a/man3/lio_listio.3 b/man3/lio_listio.3
+index d89670f7c..d40ac89fb 100644
+--- a/man3/lio_listio.3
++++ b/man3/lio_listio.3
+@@ -28,8 +28,8 @@ lio_listio \- initiate a list of I/O requests
  .nf
- .B "#include <malloc.h>"
+ .B "#include <aio.h>"
  .PP
--.BI "void *(*__malloc_hook)(size_t " size ", const void *" caller );
-+.BI "void *(*volatile __malloc_hook)(size_t " size ", const void *" caller );
+-.BI "int lio_listio(int " mode ", struct aiocb *const " aiocb_list [],
+-.BI "               int " nitems ", struct sigevent *" sevp );
++.BI "int lio_listio(int " mode ", struct aiocb *restrict const " aiocb_list [restrict],
++.BI "               int " nitems ", struct sigevent *restrict " sevp );
  .PP
--.BI "void *(*__realloc_hook)(void *" ptr ", size_t " size \
-+.BI "void *(*volatile __realloc_hook)(void *" ptr ", size_t " size \
- ", const void *" caller );
- .PP
--.BI "void *(*__memalign_hook)(size_t " alignment ", size_t " size ,
-+.BI "void *(*volatile __memalign_hook)(size_t " alignment ", size_t " size ,
- .BI "                         const void *" caller );
- .PP
--.BI "void (*__free_hook)(void *" ptr ", const void *" caller );
-+.BI "void (*volatile __free_hook)(void *" ptr ", const void *" caller );
- .PP
- .B "void (*__malloc_initialize_hook)(void);"
- .PP
--.B "void (*__after_morecore_hook)(void);"
-+.B "void (*volatile __after_morecore_hook)(void);"
+ Link with \fI\-lrt\fP.
  .fi
- .SH DESCRIPTION
- The GNU C library lets you modify the behavior of
 -- 
 2.30.1.721.g45526154a5
 
