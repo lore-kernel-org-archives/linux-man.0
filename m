@@ -2,65 +2,111 @@ Return-Path: <SRS0=pazf=ID=vger.kernel.org=linux-man-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-5.3 required=3.0 tests=BAYES_00,
-	HEADER_FROM_DIFFERENT_DOMAINS,MAILING_LIST_MULTI,SPF_HELO_NONE,SPF_PASS,
-	USER_AGENT_SANE_1 autolearn=no autolearn_force=no version=3.4.0
+X-Spam-Status: No, score=-15.8 required=3.0 tests=BAYES_00,DKIM_SIGNED,
+	DKIM_VALID,DKIM_VALID_AU,FREEMAIL_FORGED_FROMDOMAIN,FREEMAIL_FROM,
+	HEADER_FROM_DIFFERENT_DOMAINS,INCLUDES_CR_TRAILER,INCLUDES_PATCH,
+	MAILING_LIST_MULTI,SPF_HELO_NONE,SPF_PASS,USER_AGENT_GIT autolearn=ham
+	autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 333AAC433E0
-	for <linux-man@archiver.kernel.org>; Fri,  5 Mar 2021 23:23:00 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id A0275C433E0
+	for <linux-man@archiver.kernel.org>; Fri,  5 Mar 2021 23:52:09 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.kernel.org (Postfix) with ESMTP id D2FAC6509F
-	for <linux-man@archiver.kernel.org>; Fri,  5 Mar 2021 23:22:59 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTP id 79308650AA
+	for <linux-man@archiver.kernel.org>; Fri,  5 Mar 2021 23:52:09 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S229829AbhCEXW2 (ORCPT <rfc822;linux-man@archiver.kernel.org>);
-        Fri, 5 Mar 2021 18:22:28 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:35970 "EHLO
+        id S229813AbhCEXvi (ORCPT <rfc822;linux-man@archiver.kernel.org>);
+        Fri, 5 Mar 2021 18:51:38 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:42180 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S229797AbhCEXWD (ORCPT
-        <rfc822;linux-man@vger.kernel.org>); Fri, 5 Mar 2021 18:22:03 -0500
-Received: from Chamillionaire.breakpoint.cc (Chamillionaire.breakpoint.cc [IPv6:2a0a:51c0:0:12e:520::1])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id B7307C06175F;
-        Fri,  5 Mar 2021 15:22:03 -0800 (PST)
-Received: from fw by Chamillionaire.breakpoint.cc with local (Exim 4.92)
-        (envelope-from <fw@strlen.de>)
-        id 1lIJlf-00027F-Sr; Sat, 06 Mar 2021 00:22:00 +0100
-Date:   Sat, 6 Mar 2021 00:21:59 +0100
-From:   Florian Westphal <fw@strlen.de>
-To:     Pablo Neira Ayuso <pablo@netfilter.org>
-Cc:     Alexander Ahring Oder Aring <aahringo@redhat.com>, fw@strlen.de,
-        netdev@vger.kernel.org, linux-man@vger.kernel.org,
-        David Teigland <teigland@redhat.com>
-Subject: Re: [PATCH resend] netlink.7: note not reliable if NETLINK_NO_ENOBUFS
-Message-ID: <20210305232159.GB10808@breakpoint.cc>
-References: <20210304205728.34477-1-aahringo@redhat.com>
- <20210305030437.GA4268@salvia>
- <CAK-6q+iBhzFVgm5NQaPCZhJ8tEvVVeTt2OAEGH4QkOfHqfYzaA@mail.gmail.com>
- <20210305203657.GA9426@salvia>
+        with ESMTP id S229788AbhCEXvS (ORCPT
+        <rfc822;linux-man@vger.kernel.org>); Fri, 5 Mar 2021 18:51:18 -0500
+Received: from mail-wr1-x42c.google.com (mail-wr1-x42c.google.com [IPv6:2a00:1450:4864:20::42c])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id E2D94C06175F
+        for <linux-man@vger.kernel.org>; Fri,  5 Mar 2021 15:51:17 -0800 (PST)
+Received: by mail-wr1-x42c.google.com with SMTP id b18so3922474wrn.6
+        for <linux-man@vger.kernel.org>; Fri, 05 Mar 2021 15:51:17 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20161025;
+        h=from:to:cc:subject:date:message-id:in-reply-to:references
+         :mime-version:content-transfer-encoding;
+        bh=MXjq2DN+YJn4kUCwgg0gYtbwvNKne04W2dMax4QblGk=;
+        b=WHPc0Evh+Yn+hJA4PSlSxk5/mGjj1a2ZGv21H+d3CFJ5cjxvYqEWSS0TaiK0O1OdvB
+         Q9u1oM3F1vgb4x7TJrnO+IXR33awdlWWGhBf8cuBbfeFYXeVgQq6rjGs+rP9oep9t0KD
+         EQtko6LQonV3AeL4ohHHNSG3WA3NRyEEp79gqwqZ/OfSUAcK/j2AAzgBFM+9UW7dQ5Xv
+         iMPQ/+5ugtxoEVZCr6x/EShFdCY/yuCemZScXtYreiRCwUaqwOyjKgyg/pAVe0niwzdN
+         QMOGvc1h1/r9dlYBD5F9NVj1gFEvvTN54c9Heokoxe+dMzvevxVvj6JolGkGt5vRqsPW
+         QWAA==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20161025;
+        h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
+         :references:mime-version:content-transfer-encoding;
+        bh=MXjq2DN+YJn4kUCwgg0gYtbwvNKne04W2dMax4QblGk=;
+        b=dRi4rrJi6xyrrCCxSO3jyq1RkeLv4mkoh1VCRp7Tk7kksA6BnIMibWb0AJmhx4l+jl
+         tkuvN7euKMypT0FewjdBchI+FsBHrO9wEjpTBndPia1IQqGcxeG2J4aJtjdTK2rwcCgF
+         q5iiC2uZblxTdFDbrWziw5XAGNDIcjWsR0Nd7WWXcZXeSMGBSNgRKeny6vLLyNnHgBxh
+         8x5N+KvSzAb4NDdK8WKZR4pf6AJuCG+TUmo6izSIN3Mj5Ih+0r96H2vclML5qXG9rLh1
+         FATr99l+pCmBs2QjFK0X6RIsRniM6Qb+2tTVspp0ZeRg/1iUThgTrguvQmF2wbL+jM6s
+         gPZQ==
+X-Gm-Message-State: AOAM532zzhDVp4tXkcQK052pc4Nr7xazzji9vBSEVerT3wDvhd65TeH2
+        ay8wsumVVzYlt80yflbeSs8=
+X-Google-Smtp-Source: ABdhPJyt6sb/bWb/cwpPA6Y/SAoKVpA0vl4Fk06Z/SZkws8GXuuDyd2w6ctGnZn+oyNWqy83Cffm+Q==
+X-Received: by 2002:adf:f584:: with SMTP id f4mr11834386wro.311.1614988276573;
+        Fri, 05 Mar 2021 15:51:16 -0800 (PST)
+Received: from localhost.localdomain ([170.253.51.130])
+        by smtp.googlemail.com with ESMTPSA id f7sm7219835wrm.36.2021.03.05.15.51.15
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Fri, 05 Mar 2021 15:51:16 -0800 (PST)
+From:   Alejandro Colomar <alx.manpages@gmail.com>
+To:     mtk.manpages@gmail.com
+Cc:     Alejandro Colomar <alx.manpages@gmail.com>,
+        linux-man@vger.kernel.org, libc-alpha@sourceware.org,
+        Ulrich Drepper <drepper@redhat.com>
+Subject: [PATCH 02/22] getsubopt.3: SYNOPSIS: Use 'restrict' in prototypes
+Date:   Sat,  6 Mar 2021 00:50:46 +0100
+Message-Id: <20210305235105.177359-3-alx.manpages@gmail.com>
+X-Mailer: git-send-email 2.30.1.721.g45526154a5
+In-Reply-To: <20210305235105.177359-1-alx.manpages@gmail.com>
+References: <20210305235105.177359-1-alx.manpages@gmail.com>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20210305203657.GA9426@salvia>
-User-Agent: Mutt/1.10.1 (2018-07-13)
+Content-Transfer-Encoding: 8bit
 Precedence: bulk
 List-ID: <linux-man.vger.kernel.org>
 X-Mailing-List: linux-man@vger.kernel.org
 
-Pablo Neira Ayuso <pablo@netfilter.org> wrote:
-> > If I understand correctly, the connection tracking netlink interface
-> > is an exception here because it has its own handling of dealing with
-> > congestion ("more reliable"?) so you need to disable the "default
-> > congestion control"?
-> 
-> In conntrack, you have to combine NETLINK_NO_ENOBUFS with
-> NETLINK_BROADCAST_ERROR, then it's the kernel turns on the "more
-> reliable" event delivery.
+POSIX does NOT specify getsubopt() to use 'restrict'.
+However, glibc uses 'restrict'.
+Users might be surprised by this!  Let's use it here too!
 
-The "more reliable" event delivery guarantees that the kernel will
-deliver at least the DESTROY notification (connection close).
+.../glibc$ grep_glibc_prototype getsubopt
+stdlib/stdlib.h:958:
+extern int getsubopt (char **__restrict __optionp,
+		      char *const *__restrict __tokens,
+		      char **__restrict __valuep)
+     __THROW __nonnull ((1, 2, 3)) __wur;
+.../glibc$
 
-If the userspace program is stuck, kernel has to hold on the expired
-entries.  Eventually conntrack stops accepting new connections because
-the table is full.
+Cc: glibc <libc-alpha@sourceware.org>
+Cc: Ulrich Drepper <drepper@redhat.com>
+Signed-off-by: Alejandro Colomar <alx.manpages@gmail.com>
+---
+ man3/getsubopt.3 | 4 ++--
+ 1 file changed, 2 insertions(+), 2 deletions(-)
 
-So this feature can't be recommended as a best-practice for conntrack
-either.
+diff --git a/man3/getsubopt.3 b/man3/getsubopt.3
+index ed6a24ed6..9bceed075 100644
+--- a/man3/getsubopt.3
++++ b/man3/getsubopt.3
+@@ -29,8 +29,8 @@ getsubopt \- parse suboption arguments from a string
+ .nf
+ .B #include <stdlib.h>
+ .PP
+-.BI "int getsubopt(char **"optionp ", char * const *" tokens \
+-", char **" valuep );
++.BI "int getsubopt(char **restrict " optionp ", char *const *restrict " tokens ,
++.BI "              char **restrict " valuep );
+ .fi
+ .PP
+ .RS -4
+-- 
+2.30.1.721.g45526154a5
+
