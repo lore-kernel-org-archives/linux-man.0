@@ -2,138 +2,107 @@ Return-Path: <SRS0=pazf=ID=vger.kernel.org=linux-man-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-10.8 required=3.0 tests=BAYES_00,DKIM_SIGNED,
+X-Spam-Status: No, score=-15.8 required=3.0 tests=BAYES_00,DKIM_SIGNED,
 	DKIM_VALID,DKIM_VALID_AU,FREEMAIL_FORGED_FROMDOMAIN,FREEMAIL_FROM,
-	HEADER_FROM_DIFFERENT_DOMAINS,INCLUDES_PATCH,MAILING_LIST_MULTI,SPF_HELO_NONE,
-	SPF_PASS,USER_AGENT_GIT autolearn=ham autolearn_force=no version=3.4.0
+	HEADER_FROM_DIFFERENT_DOMAINS,INCLUDES_CR_TRAILER,INCLUDES_PATCH,
+	MAILING_LIST_MULTI,SPF_HELO_NONE,SPF_PASS,USER_AGENT_GIT autolearn=ham
+	autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 7FD2DC433DB
+	by smtp.lore.kernel.org (Postfix) with ESMTP id C6A96C43381
 	for <linux-man@archiver.kernel.org>; Fri,  5 Mar 2021 23:52:09 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.kernel.org (Postfix) with ESMTP id 5B4CB650A3
+	by mail.kernel.org (Postfix) with ESMTP id 9FC0F650AC
 	for <linux-man@archiver.kernel.org>; Fri,  5 Mar 2021 23:52:09 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S229730AbhCEXvg (ORCPT <rfc822;linux-man@archiver.kernel.org>);
-        Fri, 5 Mar 2021 18:51:36 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:42162 "EHLO
+        id S229701AbhCEXvi (ORCPT <rfc822;linux-man@archiver.kernel.org>);
+        Fri, 5 Mar 2021 18:51:38 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:42182 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S229768AbhCEXvP (ORCPT
-        <rfc822;linux-man@vger.kernel.org>); Fri, 5 Mar 2021 18:51:15 -0500
-Received: from mail-wr1-x430.google.com (mail-wr1-x430.google.com [IPv6:2a00:1450:4864:20::430])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 645ABC06175F
-        for <linux-man@vger.kernel.org>; Fri,  5 Mar 2021 15:51:15 -0800 (PST)
-Received: by mail-wr1-x430.google.com with SMTP id 7so3947410wrz.0
-        for <linux-man@vger.kernel.org>; Fri, 05 Mar 2021 15:51:15 -0800 (PST)
+        with ESMTP id S229813AbhCEXvS (ORCPT
+        <rfc822;linux-man@vger.kernel.org>); Fri, 5 Mar 2021 18:51:18 -0500
+Received: from mail-wm1-x336.google.com (mail-wm1-x336.google.com [IPv6:2a00:1450:4864:20::336])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 6EA1FC06175F
+        for <linux-man@vger.kernel.org>; Fri,  5 Mar 2021 15:51:18 -0800 (PST)
+Received: by mail-wm1-x336.google.com with SMTP id 124-20020a1c00820000b029010b871409cfso254417wma.4
+        for <linux-man@vger.kernel.org>; Fri, 05 Mar 2021 15:51:18 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=gmail.com; s=20161025;
-        h=from:to:cc:subject:date:message-id:mime-version
-         :content-transfer-encoding;
-        bh=KzSqTTh1AEi4UgtdPe6yOO/bHgAaiMTwJedd1yqDn4k=;
-        b=MthCrX28ocgCCDKw4K2RD9TFMsYR4jsnA9CL45kNdGm/sA3HdNk3mj4qPXMVhVf2LE
-         HZbA0nwJuhIBwElC7zpeVu1G9ydr9n1e0YnKQX+K4V9x13CD5aoAR+oio4+DXWqv0Q4q
-         eIKhKNYlFx3pAUYyUKI5TWVZPXV1GTm/VOuz9rWOL/Qys7MOjX+UzR/Vd90imK2Pm4go
-         lGJDbxVl9d6cZtIq81SQgWVa8oWmWa3mCQz/o6j3o4rMee7u3/haVx4mkDikcDVOlj5Q
-         kIrDW4lfTgLOOaGXQLRFRttfXHx/Sx+mB28bjU/zm8+O0jK2IvQfViV60EO31kS2gzEd
-         lqug==
+        h=from:to:cc:subject:date:message-id:in-reply-to:references
+         :mime-version:content-transfer-encoding;
+        bh=6PT7vriHQS0EVj3o09yovnwOZKM/iDM6QcQOYGGTtO8=;
+        b=bzYK9uD43v85rFZHzTsUjXma2hD5zT7rW6mq3S268YyGQmmpPdHqJ1nSzJwV9+o9fu
+         D5Fzbibta/i2Qm1vokV94+fClvkB0GWl1sL2NxyEWYQ9pI9Rh9UpD3LPz7So1bqGKYo2
+         kJw9dP2wqULHWRwQg+QuJXspLc5ssILwcJh+bUi90z4tEopX80Yw1xz2qx6FJW37DolP
+         OqkAz6syeZ6ToqZDFXbhPXclmnv7//lwjfyEyr1UwcOovXBH+AlH630IhuZaLss/fAvj
+         u+NDzjr0d9QLAXm+j0gzBVXkLDn9V0V/6P1mplPkM7e/ep/uKrS+do0Pe9gIXALUsUk2
+         8QUQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
-        h=x-gm-message-state:from:to:cc:subject:date:message-id:mime-version
-         :content-transfer-encoding;
-        bh=KzSqTTh1AEi4UgtdPe6yOO/bHgAaiMTwJedd1yqDn4k=;
-        b=kl8nArL5qAxNRCzVVqAksqtDTyyN2sUznd4blN0wBOEPW6ghWmyKHNC0nVAkUVKu0J
-         H9hO2klQ7psN3oemPPocDhuaUtbSijevFwSytkeJxKr+OFSnnMdHmlxSZDmruqmYyli9
-         RoLKCqJFWPjTfufXQuItCwNyNfUJVrMHP6P18q6Fh/nasUQ1rNrbnl7dbdLpEfD4i9aN
-         Fh9xR04NkVBZYADPs84KxR6SsEJ5GeoN+VgVpxsmpLKNE2N/EAiKVD/TrNzk8gresRUO
-         PeqO5AaqvVBbxVevBRRCZ79n5Etjsa/qtu/y21xnUTXt9o4Nm3br6ke1SuppIAzfrxjz
-         nuQg==
-X-Gm-Message-State: AOAM532xU48E+ZNCEYiPbtoBW0E5i520DCZaa+GkUP2/V0BPxAEJocJ5
-        ZvFZWvvttsaFTP/ZZT+tzuI=
-X-Google-Smtp-Source: ABdhPJwFgD5e9G058wW1yA/eOFlWTucD5WkvZvFxnHlKXI7NjIFJiRgHAGQa4xTShxbisBNU1VepXw==
-X-Received: by 2002:a05:6000:147:: with SMTP id r7mr11843775wrx.25.1614988274192;
-        Fri, 05 Mar 2021 15:51:14 -0800 (PST)
+        h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
+         :references:mime-version:content-transfer-encoding;
+        bh=6PT7vriHQS0EVj3o09yovnwOZKM/iDM6QcQOYGGTtO8=;
+        b=OzgaQleEtk8WcAATfj8e0Mo0xAbTUjXZ/zD11ByNSOqgxd2Lh5WbPtbfVu5AHhudrQ
+         z1ah9cJC7/3FJpBW4JWscu1NxM1xYI+GE+1pDqvbd++mZExDhucFUNNyNpRixrGBS+UM
+         uUbtpdOq5VR6he6o3fWAasmCN4FrSgRYUkS/cIygr++k4SwDxEB+QlAW5vpZIvukBZcK
+         LxHLH9gPg/9u2CdAb703Rskt78Yk/6cBO5HhMIvnlt9CpECmNhsFBXjluvuDMB63AX5c
+         X3Y3RImuiIYnNdHmWmoofuQUerZ1Q6hPJDLJUqbpf4jp/+IIDDaLmn8cvFXpAJwi5lTQ
+         dYxw==
+X-Gm-Message-State: AOAM531xzKIVzmjokylNCy/+zEPNF20XQ/+fS2PUyIdoTo8J6H5zirOO
+        SzXD9UgpQ2zJaRpQcBr1hiJnGldfTKXVqw==
+X-Google-Smtp-Source: ABdhPJzss1PpGIXfC5S4X6pWomqvTHZfDHFWxze2AvicD8oxB/gs3y0sFMGDcWDgbiL2oRSx6h7qEg==
+X-Received: by 2002:a1c:5f54:: with SMTP id t81mr6229334wmb.84.1614988277295;
+        Fri, 05 Mar 2021 15:51:17 -0800 (PST)
 Received: from localhost.localdomain ([170.253.51.130])
-        by smtp.googlemail.com with ESMTPSA id f7sm7219835wrm.36.2021.03.05.15.51.12
+        by smtp.googlemail.com with ESMTPSA id f7sm7219835wrm.36.2021.03.05.15.51.16
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Fri, 05 Mar 2021 15:51:13 -0800 (PST)
+        Fri, 05 Mar 2021 15:51:17 -0800 (PST)
 From:   Alejandro Colomar <alx.manpages@gmail.com>
 To:     mtk.manpages@gmail.com
 Cc:     Alejandro Colomar <alx.manpages@gmail.com>,
-        linux-man@vger.kernel.org, libc-alpha@sourceware.org,
-        Heinrich Schuchardt <xypron.glpk@gmx.de>
-Subject: [PATCH 00/22] man3: SYNOPSIS: Use 'restrict' in prototypes (batch 3)
-Date:   Sat,  6 Mar 2021 00:50:44 +0100
-Message-Id: <20210305235105.177359-1-alx.manpages@gmail.com>
+        linux-man@vger.kernel.org, libc-alpha@sourceware.org
+Subject: [PATCH 03/22] glob.3: SYNOPSIS: Use 'restrict' in prototypes
+Date:   Sat,  6 Mar 2021 00:50:47 +0100
+Message-Id: <20210305235105.177359-4-alx.manpages@gmail.com>
 X-Mailer: git-send-email 2.30.1.721.g45526154a5
+In-Reply-To: <20210305235105.177359-1-alx.manpages@gmail.com>
+References: <20210305235105.177359-1-alx.manpages@gmail.com>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 Precedence: bulk
 List-ID: <linux-man.vger.kernel.org>
 X-Mailing-List: linux-man@vger.kernel.org
 
-Hi Michael,
+Both POSIX and glibc use 'restrict' in glob().
+Let's use it here too.
 
-This fixes up to pthread_attr_setguardsize.3 to use 'restrict'.
-Please have a special look at printf.3, because of the ffix.
+.../glibc$ grep_glibc_prototype glob
+posix/glob.h:146:
+extern int glob (const char *__restrict __pattern, int __flags,
+		 int (*__errfunc) (const char *, int),
+		 glob_t *__restrict __pglob) __THROW;
+.../glibc$
 
-Also, I included in this patchset one patch about 'volatile': malloc_hook.3.
-I introduced it by accident into this patch set,
-and I'm too lazy to remove it :P
-I have no other patches related to 'volatile' pending.
-If you think it's likely that there are more cases, please tell me,
-and I'll try to have a look (I'd have to create a list of
-man[23] variables for that, similar to man_lsfunc()).
+Signed-off-by: Alejandro Colomar <alx.manpages@gmail.com>
+---
+ man3/glob.3 | 4 ++--
+ 1 file changed, 2 insertions(+), 2 deletions(-)
 
-Cheers,
-
-Alex
-
-Alejandro Colomar (22):
-  getservent_r.3: SYNOPSIS: Use 'restrict' in prototypes
-  getsubopt.3: SYNOPSIS: Use 'restrict' in prototypes
-  glob.3: SYNOPSIS: Use 'restrict' in prototypes
-  iconv.3: SYNOPSIS: Use 'restrict' in prototypes
-  inet_ntop.3: SYNOPSIS: Use 'restrict' in prototypes
-  inet_pton.3: SYNOPSIS: Use 'restrict' in prototypes
-  lio_listio.3: SYNOPSIS: Use 'restrict' in prototypes
-  makecontext.3: SYNOPSIS: Use 'restrict' in prototypes
-  malloc_hook.3: SYNOPSIS: Use 'volatile' in prototypes
-  mbrlen.3: SYNOPSIS: Use 'restrict' in prototypes
-  mbrtowc.3: SYNOPSIS: Use 'restrict' in prototypes
-  mbsnrtowcs.3: SYNOPSIS: Use 'restrict' in prototypes
-  mbsrtowcs.3: SYNOPSIS: Use 'restrict' in prototypes
-  mbstowcs.3: SYNOPSIS: Use 'restrict' in prototypes
-  mbtowc.3: SYNOPSIS: Use 'restrict' in prototypes
-  mempcpy.3: SYNOPSIS: Use 'restrict' in prototypes
-  mq_getattr.3: SYNOPSIS: Use 'restrict' in prototypes
-  mq_receive.3: SYNOPSIS: Use 'restrict' in prototypes
-  posix_spawn.3: SYNOPSIS: Use 'restrict' in prototypes
-  posix_spawn.3: SYNOPSIS: Use 'restrict' in prototypes
-  printf.3: SYNOPSIS: Use 'restrict' in prototypes; ffix too
-  pthread_attr_setguardsize.3: SYNOPSIS: Use 'restrict' in prototypes
-
- man3/getservent_r.3              | 21 +++++++++++++--------
- man3/getsubopt.3                 |  4 ++--
- man3/glob.3                      |  4 ++--
- man3/iconv.3                     |  4 ++--
- man3/inet_ntop.3                 |  4 ++--
- man3/inet_pton.3                 |  3 ++-
- man3/lio_listio.3                |  4 ++--
- man3/makecontext.3               |  6 ++++--
- man3/malloc_hook.3               | 10 +++++-----
- man3/mbrlen.3                    |  3 ++-
- man3/mbrtowc.3                   |  5 +++--
- man3/mbsnrtowcs.3                |  5 +++--
- man3/mbsrtowcs.3                 |  4 ++--
- man3/mbstowcs.3                  |  3 ++-
- man3/mbtowc.3                    |  3 ++-
- man3/mempcpy.3                   |  7 +++++--
- man3/mq_getattr.3                |  4 ++--
- man3/mq_receive.3                |  6 +++---
- man3/posix_spawn.3               | 18 ++++++++++--------
- man3/printf.3                    | 29 ++++++++++++++++++-----------
- man3/pthread_attr_setguardsize.3 |  4 ++--
- 21 files changed, 88 insertions(+), 63 deletions(-)
-
+diff --git a/man3/glob.3 b/man3/glob.3
+index 94e668e0d..be41fec13 100644
+--- a/man3/glob.3
++++ b/man3/glob.3
+@@ -38,9 +38,9 @@ glob, globfree \- find pathnames matching a pattern, free memory from glob()
+ .nf
+ .B #include <glob.h>
+ .PP
+-.BI "int glob(const char *" pattern ", int " flags ,
++.BI "int glob(const char *restrict " pattern ", int " flags ,
+ .BI "         int (*" errfunc ")(const char *" epath ", int " eerrno ),
+-.BI "         glob_t *" pglob );
++.BI "         glob_t *restrict " pglob );
+ .BI "void globfree(glob_t *" pglob );
+ .fi
+ .SH DESCRIPTION
 -- 
 2.30.1.721.g45526154a5
 
