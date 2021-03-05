@@ -8,61 +8,61 @@ X-Spam-Status: No, score=-15.8 required=3.0 tests=BAYES_00,DKIM_SIGNED,
 	MAILING_LIST_MULTI,SPF_HELO_NONE,SPF_PASS,USER_AGENT_GIT autolearn=ham
 	autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 53756C43331
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 87CB7C43603
 	for <linux-man@archiver.kernel.org>; Fri,  5 Mar 2021 23:52:10 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.kernel.org (Postfix) with ESMTP id 29704650AA
+	by mail.kernel.org (Postfix) with ESMTP id 791E165073
 	for <linux-man@archiver.kernel.org>; Fri,  5 Mar 2021 23:52:10 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S229816AbhCEXvj (ORCPT <rfc822;linux-man@archiver.kernel.org>);
-        Fri, 5 Mar 2021 18:51:39 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:42194 "EHLO
+        id S229919AbhCEXvk (ORCPT <rfc822;linux-man@archiver.kernel.org>);
+        Fri, 5 Mar 2021 18:51:40 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:42232 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S229837AbhCEXvU (ORCPT
-        <rfc822;linux-man@vger.kernel.org>); Fri, 5 Mar 2021 18:51:20 -0500
-Received: from mail-wm1-x330.google.com (mail-wm1-x330.google.com [IPv6:2a00:1450:4864:20::330])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 11D0DC06175F
-        for <linux-man@vger.kernel.org>; Fri,  5 Mar 2021 15:51:20 -0800 (PST)
-Received: by mail-wm1-x330.google.com with SMTP id c76-20020a1c9a4f0000b029010c94499aedso256308wme.0
-        for <linux-man@vger.kernel.org>; Fri, 05 Mar 2021 15:51:20 -0800 (PST)
+        with ESMTP id S229723AbhCEXv1 (ORCPT
+        <rfc822;linux-man@vger.kernel.org>); Fri, 5 Mar 2021 18:51:27 -0500
+Received: from mail-wr1-x431.google.com (mail-wr1-x431.google.com [IPv6:2a00:1450:4864:20::431])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 607CAC06175F
+        for <linux-man@vger.kernel.org>; Fri,  5 Mar 2021 15:51:27 -0800 (PST)
+Received: by mail-wr1-x431.google.com with SMTP id a18so3881890wrc.13
+        for <linux-man@vger.kernel.org>; Fri, 05 Mar 2021 15:51:27 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=gmail.com; s=20161025;
         h=from:to:cc:subject:date:message-id:in-reply-to:references
          :mime-version:content-transfer-encoding;
-        bh=Na9fqCLj6gqYVuSm/deOAFHJh297IfvHV4/YM4XoJ8w=;
-        b=ni1rb+letQALHU0MN6/LOVkqoPIvGYduqvu6EP9L9fpePP33diBD5GxUhRiEo4RNA4
-         QQLLIpl1LebqtpfuXr/zxzVrLYLm3MC8sPwt3xUQ8UY7OyYYVvJh7ITUbRcXooR7c+7s
-         3viOCPyj+Hj9CSpHUiuoiJ6euqIWnEx6RLNdr/WHGOYs7L+dZsWPjgCFugCNkj145NLx
-         E5vrthPsL/P2aETStgoAB4iixOi1XB33XDNJ0Gt0XzOJOUEXCL0QoxR8vZglYWaXmLX2
-         gTz3G+jzWvsY+7SQm4oho4w7ckpIAIXjFR18ACK6+cF0pP8bn42PAdgO/WWWtsY+bsnK
-         pVnA==
+        bh=Q1pjliYa+Fqfa23JL9Oat0fPdR24xbt5VeZBKpsNeZE=;
+        b=XHU5TUOJUiEp3WKZsucOI5PHGTWmmXPbRdA4pEWiw759rAAlmt9v/I1E0Rysa1qlid
+         lZLlUnoh4L1wKBMfz8zv18KfL5SXtMi+tt/g9iYYUigwoqpO+BHxRrkzsN0rXWFeFhC+
+         /eGhpg/WiPE0oxHX99sV5JTtSJZbmdX7lnADPWzEcoDGOub7l/LC0Xcdct2zLNITWu0M
+         MPd5VnWT1iS8CIzoJc6MyvRDbrVKFCOhVnGU7YDwDPDzX5krvCRhTjdlsDSSQ/UATp4Y
+         8hI7/ai06KDjR9tZKEsHbIcrOJx9OsrqhTi3YqN6Z2l2X90Ix2N7xgNVyW+KyavNdCc7
+         /xrA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
         h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
          :references:mime-version:content-transfer-encoding;
-        bh=Na9fqCLj6gqYVuSm/deOAFHJh297IfvHV4/YM4XoJ8w=;
-        b=A5+U0lQh6zJhw04Nenbn0yVGzBnAUzOz69+lMC/KAybFwsqN2rAG8S39JaTAJXK8P7
-         OGPwg/ehmt3WD0L05caYlTnR7O4yCVMV48v7UK2RUcsPBEUKiFa6BtXfdJbt2iJdn4pN
-         zVgFwi6N143dsJBGVjhvgLeJk01x+8TIEtlkWBZOdMIN3YNH3JokdLjzbHg/nxH8Zzsd
-         HRcRpAIAmgQWhRNhYe7zT9FVnsvdYNCCfckG04BbSc5dG4FcVf/YMCGYTlQEtRxJrizp
-         iA7orAh4sQ8WtNbQkb0FRgLtdl66OKUXgX3L8wlOlY2R5zn7VrDQKGgz1EKse9vp9zYK
-         YYpA==
-X-Gm-Message-State: AOAM532r36Lv7XjYuJVnF3lq7405UUuNctRjRjw0p2pBhU9M727uUnqt
-        aQgbUb5n/q5uJqGPfWSgxwE=
-X-Google-Smtp-Source: ABdhPJzn6YyGboP1afcDpBEPr6PKI7gqMaHyNj5whOWlYKabAUUurzthRN3grhp/QM1zNLbzmKHzAA==
-X-Received: by 2002:a05:600c:2145:: with SMTP id v5mr11242616wml.65.1614988278792;
-        Fri, 05 Mar 2021 15:51:18 -0800 (PST)
+        bh=Q1pjliYa+Fqfa23JL9Oat0fPdR24xbt5VeZBKpsNeZE=;
+        b=Z3MQoWSL/q9BUPBwEqXddyHq3zddbTzhCEkzganwGzer6iVvbk3CQK+UPuqBd3AMQC
+         jeBXiE6xTw+zDFySGMlZAg4k5/1a6PNJ/GJiS5YeV+YV5Vst0aOEOHLpouEe/5hCbKZO
+         gu4Sj/Wvh1r3fgY/aI3/KjE+52X6t3CD7b0D0BwZ+zHLsmNNIbGD9Tggrb/ITcBv4N9b
+         QJC9BceoNa3A5tBnqBVzhX4IAwpAZQVVIp57UDlGfzzdQ7Tuk4vVOEoWKntLLbet5I06
+         dYpQU583jXhaETxP9lULYXdI1J4KnzAnaVba8ZHBzFFctHkvbROR9zc7AQ/3ACIl/6fP
+         5Umw==
+X-Gm-Message-State: AOAM533M/0XIF9BR03JiAobQUe9rUko4NGezvvcT1nc4gPdHF+LxHfvO
+        m3bdtAYU2xDJj4YKw4Up5fc=
+X-Google-Smtp-Source: ABdhPJwNtmAXL/kpIVID8W2Qp27gmGizxUH+7G5P6wD1RpD7Zhq10fT9z353PtOzDpgmwaez4Hdhcg==
+X-Received: by 2002:a05:6000:1ca:: with SMTP id t10mr11593207wrx.45.1614988286189;
+        Fri, 05 Mar 2021 15:51:26 -0800 (PST)
 Received: from localhost.localdomain ([170.253.51.130])
-        by smtp.googlemail.com with ESMTPSA id f7sm7219835wrm.36.2021.03.05.15.51.18
+        by smtp.googlemail.com with ESMTPSA id f7sm7219835wrm.36.2021.03.05.15.51.25
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Fri, 05 Mar 2021 15:51:18 -0800 (PST)
+        Fri, 05 Mar 2021 15:51:25 -0800 (PST)
 From:   Alejandro Colomar <alx.manpages@gmail.com>
 To:     mtk.manpages@gmail.com
 Cc:     Alejandro Colomar <alx.manpages@gmail.com>,
         linux-man@vger.kernel.org, libc-alpha@sourceware.org
-Subject: [PATCH 05/22] inet_ntop.3: SYNOPSIS: Use 'restrict' in prototypes
-Date:   Sat,  6 Mar 2021 00:50:49 +0100
-Message-Id: <20210305235105.177359-6-alx.manpages@gmail.com>
+Subject: [PATCH 13/22] mbsrtowcs.3: SYNOPSIS: Use 'restrict' in prototypes
+Date:   Sat,  6 Mar 2021 00:50:57 +0100
+Message-Id: <20210305235105.177359-14-alx.manpages@gmail.com>
 X-Mailer: git-send-email 2.30.1.721.g45526154a5
 In-Reply-To: <20210305235105.177359-1-alx.manpages@gmail.com>
 References: <20210305235105.177359-1-alx.manpages@gmail.com>
@@ -72,36 +72,36 @@ Precedence: bulk
 List-ID: <linux-man.vger.kernel.org>
 X-Mailing-List: linux-man@vger.kernel.org
 
-Both POSIX and glibc use 'restrict' in inet_ntop().
+Both POSIX and glibc use 'restrict' in mbsrtowcs().
 Let's use it here too.
 
-.../glibc$ grep_glibc_prototype inet_ntop
-inet/arpa/inet.h:64:
-extern const char *inet_ntop (int __af, const void *__restrict __cp,
-			      char *__restrict __buf, socklen_t __len)
-     __THROW;
+.../glibc$ grep_glibc_prototype mbsrtowcs
+wcsmbs/wchar.h:337:
+extern size_t mbsrtowcs (wchar_t *__restrict __dst,
+			 const char **__restrict __src, size_t __len,
+			 mbstate_t *__restrict __ps) __THROW;
 .../glibc$
 
 Signed-off-by: Alejandro Colomar <alx.manpages@gmail.com>
 ---
- man3/inet_ntop.3 | 4 ++--
+ man3/mbsrtowcs.3 | 4 ++--
  1 file changed, 2 insertions(+), 2 deletions(-)
 
-diff --git a/man3/inet_ntop.3 b/man3/inet_ntop.3
-index 9abb9556d..fc15ba859 100644
---- a/man3/inet_ntop.3
-+++ b/man3/inet_ntop.3
-@@ -30,8 +30,8 @@ inet_ntop \- convert IPv4 and IPv6 addresses from binary to text form
+diff --git a/man3/mbsrtowcs.3 b/man3/mbsrtowcs.3
+index 429af329e..7b7acaf7c 100644
+--- a/man3/mbsrtowcs.3
++++ b/man3/mbsrtowcs.3
+@@ -20,8 +20,8 @@ mbsrtowcs \- convert a multibyte string to a wide-character string
  .nf
- .B #include <arpa/inet.h>
+ .B #include <wchar.h>
  .PP
--.BI "const char *inet_ntop(int " "af" ", const void *" "src" ,
--.BI "                      char *" "dst" ", socklen_t " "size" );
-+.BI "const char *inet_ntop(int " af ", const void *restrict " src ,
-+.BI "                      char *restrict " dst ", socklen_t " size );
+-.BI "size_t mbsrtowcs(wchar_t *" dest ", const char **" src ,
+-.BI "                  size_t " len ", mbstate_t *" ps );
++.BI "size_t mbsrtowcs(wchar_t *restrict " dest ", const char **restrict " src ,
++.BI "                 size_t " len ", mbstate_t *restrict " ps );
  .fi
  .SH DESCRIPTION
- This function converts the network address structure
+ If
 -- 
 2.30.1.721.g45526154a5
 
