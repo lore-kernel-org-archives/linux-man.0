@@ -8,61 +8,61 @@ X-Spam-Status: No, score=-15.8 required=3.0 tests=BAYES_00,DKIM_SIGNED,
 	MAILING_LIST_MULTI,SPF_HELO_NONE,SPF_PASS,USER_AGENT_GIT autolearn=ham
 	autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 4F326C15508
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 1A5C8C4161F
 	for <linux-man@archiver.kernel.org>; Fri,  5 Mar 2021 23:52:11 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.kernel.org (Postfix) with ESMTP id 2DCFE65073
+	by mail.kernel.org (Postfix) with ESMTP id 09E6E65073
 	for <linux-man@archiver.kernel.org>; Fri,  5 Mar 2021 23:52:11 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S229965AbhCEXvm (ORCPT <rfc822;linux-man@archiver.kernel.org>);
-        Fri, 5 Mar 2021 18:51:42 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:42278 "EHLO
+        id S229935AbhCEXvl (ORCPT <rfc822;linux-man@archiver.kernel.org>);
+        Fri, 5 Mar 2021 18:51:41 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:42246 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S229976AbhCEXvf (ORCPT
-        <rfc822;linux-man@vger.kernel.org>); Fri, 5 Mar 2021 18:51:35 -0500
-Received: from mail-wm1-x32a.google.com (mail-wm1-x32a.google.com [IPv6:2a00:1450:4864:20::32a])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 9E9C1C06175F
-        for <linux-man@vger.kernel.org>; Fri,  5 Mar 2021 15:51:34 -0800 (PST)
-Received: by mail-wm1-x32a.google.com with SMTP id a25-20020a1cf0190000b029010b1cbe2dd0so243071wmb.2
-        for <linux-man@vger.kernel.org>; Fri, 05 Mar 2021 15:51:34 -0800 (PST)
+        with ESMTP id S229955AbhCEXva (ORCPT
+        <rfc822;linux-man@vger.kernel.org>); Fri, 5 Mar 2021 18:51:30 -0500
+Received: from mail-wr1-x42b.google.com (mail-wr1-x42b.google.com [IPv6:2a00:1450:4864:20::42b])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id C948DC06175F
+        for <linux-man@vger.kernel.org>; Fri,  5 Mar 2021 15:51:29 -0800 (PST)
+Received: by mail-wr1-x42b.google.com with SMTP id l12so3923274wry.2
+        for <linux-man@vger.kernel.org>; Fri, 05 Mar 2021 15:51:29 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=gmail.com; s=20161025;
         h=from:to:cc:subject:date:message-id:in-reply-to:references
          :mime-version:content-transfer-encoding;
-        bh=kNrbVVsaOoZV8hT/c+Lam8I1mma4ycksLM7kHGce/Ls=;
-        b=kVxU4O4WNn1gXEfiHeB9a2eN62xd2TP8/W9X+Hnzlx9f8SKW8O9u5jjf/+fC3Jm3WQ
-         7kLrs9Zp9IRKUyA3RxRoK1cwi4mKhlFB8EmLq+zhGSBEnGnORflZaegZD59BOQqiRYhC
-         7ZvdruzEZp/ESLSAfjavD6rKCJcDtwTgXDDOi9m8BY8XCqQ9uuD+vaeN1jtb0JtM9/8w
-         1jgXnXIfnSKGcSFTmd76PMsBqlfI7P3cLIQ/6SeuTjwWHHMhrWDn2lE+HAEe3IUIhVie
-         KXuxOCva5s5IjXIkCqXgNGPMdNUqOrDYw1n8aATHUz4RAMB7gIHPZ1w9XNJordqk1VgN
-         AjuA==
+        bh=KdxOyC9Hv0CB7JvZPjCKcFOH0+O/XDEKOUtz7Jr6yfQ=;
+        b=l+w+VCW+ycJ8RHF/t34v+hpXphHqucwI7WkqyFSoOHkLSwJk2XXh8oPHTTk/PgWCGi
+         ysS9qVxUSprqcs0I6TF4yj+nYb0uVaryMVGDVThU9DLWLuJyQVMOLPSvAZiCIGHzy2qk
+         0rL+7IXqNDNUUCZAdqAWJo/1Bga/+T4HvWyA7HVNcvl5huKGhXU86EfzSTzkrfo3Z7h5
+         fQSlS7gDHuOKutkDhCaFs/sKlYSrfC/FIPeyGZ50waybvUwZk0mqJZbibE9OyVyNNjFx
+         nbyIJEvOonYbcVh44CftTrYj+yGcPJ3i+4OXXBnklUj4ESSV6ZHwIIAuYFwxeYowRzaC
+         DBcA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
         h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
          :references:mime-version:content-transfer-encoding;
-        bh=kNrbVVsaOoZV8hT/c+Lam8I1mma4ycksLM7kHGce/Ls=;
-        b=pOL1BCg+j8efDpb2fPGq+Cz4laMRroJaE6m77vr1PNX419R8wh5mF9+EkUAuR7SYdh
-         JlMuVV/eMSLavcNsJlAkURgUgXRc9uM8ZqXEmxBJxf++NlBZV48aWRSZkvb4pqmamw1A
-         3/iQTaXWTc0XOSY0XsESHej9yqBTftFKUR1QupvUU2lqTJdxVMDZKmtgwHG+9Y9GBuhK
-         e7RfGSFgYy93kzxZT/VazDaxvENKOTvjWXs6EQeXj/cLZh19ITFHYRrmckaMUern4JdW
-         q561mL6sB5gnmMrflM/1aiUNU4loJ3eoOWF3bb1QBMXeyZ3J4ZkxJUlN6oeuzZ3Ux4GE
-         hSyQ==
-X-Gm-Message-State: AOAM530vvv4LNIOsvl0TqqbiTXpXKIx4htTTiaYDB3yOeNON1uuPTiiC
-        ZDnWlwC2+sjK1RucLQdDkeo=
-X-Google-Smtp-Source: ABdhPJzChU4Z8uFyGavZgi4wLI9KcqDtFhOLrPTT9kmBNbQsR5E6Nw7AEWgZIkVk9bipG1ia6nKBEw==
-X-Received: by 2002:a7b:cdf7:: with SMTP id p23mr11135807wmj.26.1614988293498;
-        Fri, 05 Mar 2021 15:51:33 -0800 (PST)
+        bh=KdxOyC9Hv0CB7JvZPjCKcFOH0+O/XDEKOUtz7Jr6yfQ=;
+        b=AcHcJ3dVKIlOVioJQU1IxOFyPjH0RSUrcfG2l9HY1RxioQ9s/QexmeYUbs20IMDUW4
+         VTsZqpSmyjOoG4ZIG9LrgHVtmt2+yGX1FqUz5NvrbBZR7fbbKxZYvINE4AW0Rxel7xhZ
+         lDDQA5sGfBXMDx+IfAUmGdEz2R8q1GxgAtIQC8L+v30nDqcIvljFsvBu4GW5WbmnTz5L
+         NYsQk7BtfCt2SPd6zHeGshSJ6gSw5yjzVQT8dQFVQHGN+3ljGSJdi0zD6ePS/Y/0zrQj
+         CDtrxysgN1+QYBKGGW27O6DXTWVMHLH8AzaX0WChnoD8bHqhVK8g6YPx3HbYTjGxhCvR
+         /dyg==
+X-Gm-Message-State: AOAM532EN/DE1/YLP+NCqXwqrRGw/7kKUv/DrWUHlk3Thack1eTJhKLg
+        2yjQOjzml90/xr9Q5DmIQCM=
+X-Google-Smtp-Source: ABdhPJw0QMYG8jYcDbtSve1101RhLNVhimdPnrcXSi1RSqKVyRHrKFynbF6R2JP1Ni58t7+Qm5e81g==
+X-Received: by 2002:adf:b313:: with SMTP id j19mr11377163wrd.188.1614988288677;
+        Fri, 05 Mar 2021 15:51:28 -0800 (PST)
 Received: from localhost.localdomain ([170.253.51.130])
-        by smtp.googlemail.com with ESMTPSA id f7sm7219835wrm.36.2021.03.05.15.51.32
+        by smtp.googlemail.com with ESMTPSA id f7sm7219835wrm.36.2021.03.05.15.51.27
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Fri, 05 Mar 2021 15:51:33 -0800 (PST)
+        Fri, 05 Mar 2021 15:51:28 -0800 (PST)
 From:   Alejandro Colomar <alx.manpages@gmail.com>
 To:     mtk.manpages@gmail.com
 Cc:     Alejandro Colomar <alx.manpages@gmail.com>,
         linux-man@vger.kernel.org, libc-alpha@sourceware.org
-Subject: [PATCH 22/22] pthread_attr_setguardsize.3: SYNOPSIS: Use 'restrict' in prototypes
-Date:   Sat,  6 Mar 2021 00:51:06 +0100
-Message-Id: <20210305235105.177359-23-alx.manpages@gmail.com>
+Subject: [PATCH 16/22] mempcpy.3: SYNOPSIS: Use 'restrict' in prototypes
+Date:   Sat,  6 Mar 2021 00:51:00 +0100
+Message-Id: <20210305235105.177359-17-alx.manpages@gmail.com>
 X-Mailer: git-send-email 2.30.1.721.g45526154a5
 In-Reply-To: <20210305235105.177359-1-alx.manpages@gmail.com>
 References: <20210305235105.177359-1-alx.manpages@gmail.com>
@@ -72,40 +72,48 @@ Precedence: bulk
 List-ID: <linux-man.vger.kernel.org>
 X-Mailing-List: linux-man@vger.kernel.org
 
-Both POSIX and glibc use 'restrict' in pthread_attr_getguardsize().
+glibc uses 'restrict' in mempcpy(), wmempcpy().
 Let's use it here too.
 
-.../glibc$ grep_glibc_prototype pthread_attr_getguardsize
-sysdeps/htl/pthread.h:180:
-extern int pthread_attr_getguardsize (const pthread_attr_t *__restrict __attr,
-				      size_t *__restrict __guardsize)
-	__THROW __nonnull ((1, 2));
-sysdeps/nptl/pthread.h:283:
-extern int pthread_attr_getguardsize (const pthread_attr_t *__attr,
-				      size_t *__guardsize)
+.../glibc$ grep_glibc_prototype mempcpy
+string/string.h:384:
+extern void *mempcpy (void *__restrict __dest,
+		      const void *__restrict __src, size_t __n)
      __THROW __nonnull ((1, 2));
+.../glibc$ grep_glibc_prototype wmempcpy
+wcsmbs/wchar.h:276:
+extern wchar_t *wmempcpy (wchar_t *__restrict __s1,
+			  const wchar_t *__restrict __s2, size_t __n)
+     __THROW;
 .../glibc$
 
 Signed-off-by: Alejandro Colomar <alx.manpages@gmail.com>
 ---
- man3/pthread_attr_setguardsize.3 | 4 ++--
- 1 file changed, 2 insertions(+), 2 deletions(-)
+ man3/mempcpy.3 | 7 +++++--
+ 1 file changed, 5 insertions(+), 2 deletions(-)
 
-diff --git a/man3/pthread_attr_setguardsize.3 b/man3/pthread_attr_setguardsize.3
-index 94d900ef5..ca225d1e5 100644
---- a/man3/pthread_attr_setguardsize.3
-+++ b/man3/pthread_attr_setguardsize.3
-@@ -33,8 +33,8 @@ attribute in thread attributes object
+diff --git a/man3/mempcpy.3 b/man3/mempcpy.3
+index 33c032c50..8a810e6a5 100644
+--- a/man3/mempcpy.3
++++ b/man3/mempcpy.3
+@@ -15,12 +15,15 @@ mempcpy, wmempcpy  \- copy memory area
+ .BR "#define _GNU_SOURCE" "         /* See feature_test_macros(7) */"
+ .B #include <string.h>
  .PP
- .BI "int pthread_attr_setguardsize(pthread_attr_t *" attr \
- ", size_t " guardsize );
--.BI "int pthread_attr_getguardsize(const pthread_attr_t *" attr ,
--.BI "                              size_t *" guardsize );
-+.BI "int pthread_attr_getguardsize(const pthread_attr_t *restrict " attr ,
-+.BI "                              size_t *restrict " guardsize );
+-.BI "void *mempcpy(void *" dest ", const void *" src ", size_t " n );
++.BI "void *mempcpy(void *restrict " dest ", const void *restrict " src \
++", size_t " n );
  .PP
- Compile and link with \fI\-pthread\fP.
+ .BR "#define _GNU_SOURCE" "         /* See feature_test_macros(7) */"
+ .B #include <wchar.h>
+ .PP
+-.BI "wchar_t *wmempcpy(wchar_t *" dest ", const wchar_t *" src ", size_t " n );
++.BI "wchar_t *wmempcpy(wchar_t *restrict " dest \
++", const wchar_t *restrict " src ,
++.BI "                  size_t " n );
  .fi
+ .SH DESCRIPTION
+ The
 -- 
 2.30.1.721.g45526154a5
 
