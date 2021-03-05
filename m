@@ -8,61 +8,62 @@ X-Spam-Status: No, score=-15.8 required=3.0 tests=BAYES_00,DKIM_SIGNED,
 	MAILING_LIST_MULTI,SPF_HELO_NONE,SPF_PASS,USER_AGENT_GIT autolearn=ham
 	autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 990A3C43619
+	by smtp.lore.kernel.org (Postfix) with ESMTP id DFEA1C4361B
 	for <linux-man@archiver.kernel.org>; Fri,  5 Mar 2021 23:52:10 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.kernel.org (Postfix) with ESMTP id 88BB3650AA
+	by mail.kernel.org (Postfix) with ESMTP id BE933650AA
 	for <linux-man@archiver.kernel.org>; Fri,  5 Mar 2021 23:52:10 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S229911AbhCEXvk (ORCPT <rfc822;linux-man@archiver.kernel.org>);
-        Fri, 5 Mar 2021 18:51:40 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:42222 "EHLO
+        id S229955AbhCEXvl (ORCPT <rfc822;linux-man@archiver.kernel.org>);
+        Fri, 5 Mar 2021 18:51:41 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:42264 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S229935AbhCEXv0 (ORCPT
-        <rfc822;linux-man@vger.kernel.org>); Fri, 5 Mar 2021 18:51:26 -0500
-Received: from mail-wr1-x431.google.com (mail-wr1-x431.google.com [IPv6:2a00:1450:4864:20::431])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id B786BC06175F
-        for <linux-man@vger.kernel.org>; Fri,  5 Mar 2021 15:51:25 -0800 (PST)
-Received: by mail-wr1-x431.google.com with SMTP id d15so3924341wrv.5
-        for <linux-man@vger.kernel.org>; Fri, 05 Mar 2021 15:51:25 -0800 (PST)
+        with ESMTP id S229965AbhCEXvc (ORCPT
+        <rfc822;linux-man@vger.kernel.org>); Fri, 5 Mar 2021 18:51:32 -0500
+Received: from mail-wm1-x32f.google.com (mail-wm1-x32f.google.com [IPv6:2a00:1450:4864:20::32f])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 416DBC06175F
+        for <linux-man@vger.kernel.org>; Fri,  5 Mar 2021 15:51:32 -0800 (PST)
+Received: by mail-wm1-x32f.google.com with SMTP id r10-20020a05600c35cab029010c946c95easo241849wmq.4
+        for <linux-man@vger.kernel.org>; Fri, 05 Mar 2021 15:51:32 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=gmail.com; s=20161025;
         h=from:to:cc:subject:date:message-id:in-reply-to:references
          :mime-version:content-transfer-encoding;
-        bh=pEIqZAAZRuOzbuWzODHq3Y3qLFS8eWijrMpzbLrbTDs=;
-        b=IHi9Cny3lz966RusgZ8CX5om8Owohh5Y9xJikSsDCfHv3oLLZSxM2P/Gb0fhjLXLlJ
-         pi2FjvN2BxuXXG/sixOo4mI9+AEqGRJZmG+xDYF8VQ3LNzYeHxuLZfbIfAyfXX+YArZL
-         2U4KvfN4AmFYBjInmJijBO74rd+6Pnl2tWxSYBomevlFacKZpTk7en7/v5cmKC6ZsMu5
-         kFG7MS3Ds5gXEv+1VwomXBHjREfprn/wDHICVm68OJLI/oRm5bmKeinWVgRJTZ3+RCds
-         EMoVDOkMtCtQq9hzXgYbilxVNfE3+RQSnXTKPQvMNWGWkWTILCT+SMlrA51Ky7y3zCaU
-         Fn/Q==
+        bh=ziriBOqKNZ9d4xO2UDwSKTeAENeQ3dZSV2nMSKavWl0=;
+        b=FlekrWFtJwe42uSCP6CDlnZXcL+85iAklX0PLG7+tr0HdLSeM+VgK5PbFXppaaX4VV
+         8+r+gt/0AKat5z7wdy6/Fmmajqc6d2a0dyqriAinxLaeLGDSGg/dfx9DBEljPouzfn8h
+         GWqgUotqva3Yz31cyoBGhaBbyZYMLPaObljKYjUOVEvQCFFSVHYwS5ctjdQ7x6qLtqut
+         4k7gcep9L98RESpiMc7+7AhOR/GExnpkn6OxR6op+ZOLxeTWSW2x8ZqFhL7h3sg6RaSD
+         bTHmuMqHCuyjGfregBnxtoUZHIQIXUmf7fNWMsjj8OraEFWL/uYkck3HYV7QXgEg6nb4
+         CKOQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
         h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
          :references:mime-version:content-transfer-encoding;
-        bh=pEIqZAAZRuOzbuWzODHq3Y3qLFS8eWijrMpzbLrbTDs=;
-        b=OekKzXCk6Tnf14IhGU5mR91N/NUFvHz4dARDdA9ii/W+UzeIheBu0nBPzih9m84SIx
-         bt1c1oH2m2sZtu6uRY+JYC/U8ZvcRkxbbGBSa7QTknhFx6MMEy2/2/iP4rz+0Gl1ucAe
-         xI29Nk7+TU6J0ACUQRm4HwcyllBw1rVU/xLm+w8ZzUYrOGGKqeHYUNtBZCCVbuu9aK2Q
-         mFvSnyo16BNpI3whFlURQI0BVwrtE+bzkx/ZVmMSLU0luu1fSXebpMZn8R0vNFWioFgM
-         0cH3+UT/70H7jwS8Rk+o3RsFB0icrGFtaZPIMsDze8eEIXchn9smuDbQBittkd8Io83J
-         xe/Q==
-X-Gm-Message-State: AOAM532k+fab70y7KnIbpiNA00xX9qKC+KeW/XHRjhoDAkTj510UHJJX
-        Y0ON3oNFYBsGAR19Te82qGg=
-X-Google-Smtp-Source: ABdhPJwI+CMmlg1ohgWONgwWBMT5esz9Qrcaake6baukHvyDQABJu1zTsnvzCqSM4jB5DJmWr16Nsw==
-X-Received: by 2002:a5d:4d01:: with SMTP id z1mr11577493wrt.133.1614988284549;
-        Fri, 05 Mar 2021 15:51:24 -0800 (PST)
+        bh=ziriBOqKNZ9d4xO2UDwSKTeAENeQ3dZSV2nMSKavWl0=;
+        b=gQ55JXCnCPNhxSogaR92SE2amxyGSMQsVxkwSLLNMR8iidjIC7aBFlHNMg9XJ8YWYn
+         aMYtVLmtmnu8Sn9WrxrWJnXr36/4iASG3F9juG/quro3C+Ixjh6qHPNr1Y9bKkPr/i8q
+         8QMzrNS7QPpviHmP0bpSDEKM61H2E79gIipioy2GJQAnzcHZZRPNmqkZai6oAahIKDn+
+         rWJja5HKP4i/lcZlCtYI0MfxRUVr2BbY+gIHhl0xtjn9DIPIaAyTQ9iRJYk8A+kMfzuX
+         PlWr7TIHZsBdvmeL3m2mBQs6orpu3dJ/+6+1r711Vqvm8keKDEuY3CIZNkAMrN5g5Og9
+         8fJw==
+X-Gm-Message-State: AOAM533zDRLWwjyybH7ytDiI9z2vYuBQiCSvgDygrOv+X1atq5C50ftC
+        bzPvV6JkdMPBmU4Gq7oCOWQ=
+X-Google-Smtp-Source: ABdhPJyO/a+vgchjGIKhrt6dGIL2qw6yOqq5BF3KO/hBEkdK/rrly6uLyNiHBukh8O2liq5RXHSRFw==
+X-Received: by 2002:a7b:c35a:: with SMTP id l26mr9399179wmj.104.1614988291059;
+        Fri, 05 Mar 2021 15:51:31 -0800 (PST)
 Received: from localhost.localdomain ([170.253.51.130])
-        by smtp.googlemail.com with ESMTPSA id f7sm7219835wrm.36.2021.03.05.15.51.23
+        by smtp.googlemail.com with ESMTPSA id f7sm7219835wrm.36.2021.03.05.15.51.30
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Fri, 05 Mar 2021 15:51:24 -0800 (PST)
+        Fri, 05 Mar 2021 15:51:30 -0800 (PST)
 From:   Alejandro Colomar <alx.manpages@gmail.com>
 To:     mtk.manpages@gmail.com
 Cc:     Alejandro Colomar <alx.manpages@gmail.com>,
-        linux-man@vger.kernel.org, libc-alpha@sourceware.org
-Subject: [PATCH 11/22] mbrtowc.3: SYNOPSIS: Use 'restrict' in prototypes
-Date:   Sat,  6 Mar 2021 00:50:55 +0100
-Message-Id: <20210305235105.177359-12-alx.manpages@gmail.com>
+        linux-man@vger.kernel.org, libc-alpha@sourceware.org,
+        "G . Branden Robinson" <g.branden.robinson@gmail.com>
+Subject: [PATCH 19/22] posix_spawn.3: SYNOPSIS: Use 'restrict' in prototypes
+Date:   Sat,  6 Mar 2021 00:51:03 +0100
+Message-Id: <20210305235105.177359-20-alx.manpages@gmail.com>
 X-Mailer: git-send-email 2.30.1.721.g45526154a5
 In-Reply-To: <20210305235105.177359-1-alx.manpages@gmail.com>
 References: <20210305235105.177359-1-alx.manpages@gmail.com>
@@ -72,37 +73,54 @@ Precedence: bulk
 List-ID: <linux-man.vger.kernel.org>
 X-Mailing-List: linux-man@vger.kernel.org
 
-Both POSIX and glibc use 'restrict' in mbrtowc().
+Both POSIX and glibc use 'restrict' in posix_spawn().
 Let's use it here too.
 
-.../glibc$ grep_glibc_prototype mbrtowc
-wcsmbs/wchar.h:296:
-extern size_t mbrtowc (wchar_t *__restrict __pwc,
-		       const char *__restrict __s, size_t __n,
-		       mbstate_t *__restrict __p) __THROW;
+.../glibc$ grep_glibc_prototype posix_spawn
+posix/spawn.h:72:
+extern int posix_spawn (pid_t *__restrict __pid,
+			const char *__restrict __path,
+			const posix_spawn_file_actions_t *__restrict
+			__file_actions,
+			const posix_spawnattr_t *__restrict __attrp,
+			char *const __argv[__restrict_arr],
+			char *const __envp[__restrict_arr])
+    __nonnull ((2, 5));
 .../glibc$
 
+I conciously did an exception with respect to the right margin
+of the rendered page.  Instead of having the right margin at 78
+as usual (per Branden's recommendation), I let it use col 79
+this time, to avoid breaking the prototype in an ugly way,
+or shifting all of the parameters to the left, unaligned with
+respect to the function parentheses.
+
+Cc: G. Branden Robinson <g.branden.robinson@gmail.com>
 Signed-off-by: Alejandro Colomar <alx.manpages@gmail.com>
 ---
- man3/mbrtowc.3 | 5 +++--
- 1 file changed, 3 insertions(+), 2 deletions(-)
+ man3/posix_spawn.3 | 9 +++++----
+ 1 file changed, 5 insertions(+), 4 deletions(-)
 
-diff --git a/man3/mbrtowc.3 b/man3/mbrtowc.3
-index c092b2d63..f3ea9d049 100644
---- a/man3/mbrtowc.3
-+++ b/man3/mbrtowc.3
-@@ -21,8 +21,9 @@ mbrtowc \- convert a multibyte sequence to a wide character
+diff --git a/man3/posix_spawn.3 b/man3/posix_spawn.3
+index a56aa3e86..02f86fddd 100644
+--- a/man3/posix_spawn.3
++++ b/man3/posix_spawn.3
+@@ -35,10 +35,11 @@ posix_spawn, posix_spawnp \- spawn a process
  .nf
- .B #include <wchar.h>
+ .B #include <spawn.h>
  .PP
--.BI "size_t mbrtowc(wchar_t *" pwc ", const char *" s ", size_t " n \
--", mbstate_t *" ps );
-+.BI "size_t mbrtowc(wchar_t *restrict " pwc ", const char *restrict " s \
-+", size_t " n ,
-+.BI "               mbstate_t *restrict " ps );
- .fi
- .SH DESCRIPTION
- The main case for this function is when
+-.BI "int posix_spawn(pid_t *" pid ", const char *" path ,
+-.BI "                 const posix_spawn_file_actions_t *" file_actions ,
+-.BI "                 const posix_spawnattr_t *" attrp ,
+-.BI "                 char *const " argv[] ", char *const " envp[] );
++.BI "int posix_spawn(pid_t *restrict " pid ", const char *restrict " path ,
++.BI "                const posix_spawn_file_actions_t *restrict " file_actions ,
++.BI "                const posix_spawnattr_t *restrict " attrp ,
++.BI "                char *const " argv [restrict],
++.BI "                char *const " envp [restrict]);
+ .BI "int posix_spawnp(pid_t *" pid ", const char *" file ,
+ .BI "                 const posix_spawn_file_actions_t *" file_actions ,
+ .BI "                 const posix_spawnattr_t *" attrp ,
 -- 
 2.30.1.721.g45526154a5
 
