@@ -8,61 +8,61 @@ X-Spam-Status: No, score=-15.8 required=3.0 tests=BAYES_00,DKIM_SIGNED,
 	MAILING_LIST_MULTI,SPF_HELO_NONE,SPF_PASS,USER_AGENT_GIT autolearn=ham
 	autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 3CBEBC15500
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 071D5C43142
 	for <linux-man@archiver.kernel.org>; Fri,  5 Mar 2021 23:52:11 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.kernel.org (Postfix) with ESMTP id 1996B650AA
-	for <linux-man@archiver.kernel.org>; Fri,  5 Mar 2021 23:52:11 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTP id E67A7650AC
+	for <linux-man@archiver.kernel.org>; Fri,  5 Mar 2021 23:52:10 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S229929AbhCEXvk (ORCPT <rfc822;linux-man@archiver.kernel.org>);
-        Fri, 5 Mar 2021 18:51:40 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:42244 "EHLO
+        id S229948AbhCEXvl (ORCPT <rfc822;linux-man@archiver.kernel.org>);
+        Fri, 5 Mar 2021 18:51:41 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:42256 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S229951AbhCEXv3 (ORCPT
-        <rfc822;linux-man@vger.kernel.org>); Fri, 5 Mar 2021 18:51:29 -0500
-Received: from mail-wr1-x430.google.com (mail-wr1-x430.google.com [IPv6:2a00:1450:4864:20::430])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id E3E01C06175F
-        for <linux-man@vger.kernel.org>; Fri,  5 Mar 2021 15:51:28 -0800 (PST)
-Received: by mail-wr1-x430.google.com with SMTP id j2so3907978wrx.9
-        for <linux-man@vger.kernel.org>; Fri, 05 Mar 2021 15:51:28 -0800 (PST)
+        with ESMTP id S229964AbhCEXvb (ORCPT
+        <rfc822;linux-man@vger.kernel.org>); Fri, 5 Mar 2021 18:51:31 -0500
+Received: from mail-wm1-x32f.google.com (mail-wm1-x32f.google.com [IPv6:2a00:1450:4864:20::32f])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 61501C06175F
+        for <linux-man@vger.kernel.org>; Fri,  5 Mar 2021 15:51:31 -0800 (PST)
+Received: by mail-wm1-x32f.google.com with SMTP id b2-20020a7bc2420000b029010be1081172so241817wmj.1
+        for <linux-man@vger.kernel.org>; Fri, 05 Mar 2021 15:51:31 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=gmail.com; s=20161025;
         h=from:to:cc:subject:date:message-id:in-reply-to:references
          :mime-version:content-transfer-encoding;
-        bh=AD94mE1d4lWMJqXY5sVZhK/h3b3IRzBgJIe03vSZtAo=;
-        b=QtAEKKL9Z0H5Vm1Puhvn9cNfcyalhbVwCLemrFpgoN2xWJQeY3yr8+MM8bv6Kc7/zc
-         fxBnoOmrhprD8DKwaQAkUtC4hWInfbD9UeZUZjgIVqN5s3oAgmoxhL5dV/F/YCj3Nvoh
-         yw5FnnvKrLcuwQ9Mc/u43oUsE9Ui7DQ8KTPPyDEApWem1TjE0dCb4sdfEK3QSQT0gea6
-         YGrmbPRnLdL4+uiTUhPGhNGV0nYl8NWDuRwZ7GeNoPjn9OlfTr3gAgQCN6MCrPKFgOQz
-         OEPTeoz8Nnk7BQn09koMPUNyim+sQd4vboVN8oN+TA0Au3d+HJdk7WeE+Oo4wzX8maLT
-         pR1w==
+        bh=mIc6rGAqKPEz4YerYnPfyn1kpGW1lLvqw0RqeL5TtrE=;
+        b=Uv6cY6gG/CqhQq6XNLOil+MFAiEKTkC1zEvB5nKPeMCKB+44pvtrDZl6T4ENJcrQGa
+         X2Ocby0E/RLRkPFiJ+eSN1Yf7ZBcwhYGJx7PokKFSQW7zziibLY1HgvrRUx9/WXhIBeM
+         OlBYtml/RpZm4CQw7TqY9tmoJBKE6/pXE2znW85XE//b2phGMgGrmOdN/4OcRf2ZjlFU
+         GtxdA9IaV4EqH+5DPy5ZDrw9SNiETvQtwjxpUFLdGqwghTJfCJ1CioGqFFCrztn8bsmF
+         5LNG6aO1YOu4PWUqg5O9NeFwva/Gs/qouclDfb8fO4dolnV5GTQ5+RYg2D947P7fHndO
+         lUtA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
         h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
          :references:mime-version:content-transfer-encoding;
-        bh=AD94mE1d4lWMJqXY5sVZhK/h3b3IRzBgJIe03vSZtAo=;
-        b=dFE4A91xWOzk4QJWSezCxLh78yf0HkHA+/cyfI4Tf8DOH6Q9ZeBLMSkTHE2Phn2Xc5
-         xU4medKH2L1P6ZWOnYVjFfzeNBRH3OU9iGoSos/82zcxyRLCZ96Os030bk7RiEzUNOiv
-         Q/p/mMqDmaB8IxsOr7fNTAE0y95phkUilZXxUX7kwIcZWq7ZegY+94u6yxYEsVw8dTS/
-         SzqYJnb1R0pxGbqdcIDC7UgF3RPqsQJyOZ5JdG/TAnUmIELJax9pKRoydN1qA2xgNObM
-         Hn78JM6vpbQkBbzSX5pLfgn6KurV5qU3d1LeKgY/B6g3UtbKozxkO25yrMSQRgJxcleC
-         q5LQ==
-X-Gm-Message-State: AOAM532glMOpJcTjGNpE/3kseP0MasBglTKJfn4deO/8AA5LkWtVNJXC
-        HWJNdHCeN4yHtlDfYsrmxQI=
-X-Google-Smtp-Source: ABdhPJy4zQ7atUoIQiggcujn6irWlYBCH5dkv1msmYh/5eF96wkTD/HQvanzJ99yfAaKzZWRdAt0pA==
-X-Received: by 2002:adf:cd8c:: with SMTP id q12mr11407986wrj.185.1614988287783;
-        Fri, 05 Mar 2021 15:51:27 -0800 (PST)
+        bh=mIc6rGAqKPEz4YerYnPfyn1kpGW1lLvqw0RqeL5TtrE=;
+        b=eSKUcYYcIssnkD4KvHxmc0rUJGhqvZUBbvhzzsjeeK6DuOClPrcEe39AFV2D6jpWtw
+         rCcUllyDkxSv8IJWWbmiRgwlziaReJfxWKMwptmuDrswUxYxv1aKGplgUD+SwGKY4YgI
+         dzi6W/B0V4InKKhltQWTGqST3TVKC15vhYENQ4YTnKmYwAtYHQrNfC8+LW+bZfvCQo4p
+         VyIXxUuQDhO6fW1GykNczJSG3lvVfgjTitoe4Df7UIyEHAKq8AqvMnDYOWgtTMsjXJQ3
+         tAvBOSp4hbrZTov4Egz/kV4PJVOVla4/t9h0rxpvN3xuYW7hUGMJK/ZSnW2KFs7AReZ7
+         FwkA==
+X-Gm-Message-State: AOAM532qopt4gmtHG5KTdVX4phZ+vy6ncaojT8osLPF9NKfhcP3jptwN
+        XMV6LxwclNLWsQ/p8zRchqU=
+X-Google-Smtp-Source: ABdhPJzTcU8BnbhIOZJHPbgKafpgxWxUELWxuZlL162Q12qvhbG6X4stMU4hhCMrLIqEMkB76PX3dA==
+X-Received: by 2002:a05:600c:4f44:: with SMTP id m4mr643348wmq.175.1614988290192;
+        Fri, 05 Mar 2021 15:51:30 -0800 (PST)
 Received: from localhost.localdomain ([170.253.51.130])
-        by smtp.googlemail.com with ESMTPSA id f7sm7219835wrm.36.2021.03.05.15.51.27
+        by smtp.googlemail.com with ESMTPSA id f7sm7219835wrm.36.2021.03.05.15.51.29
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Fri, 05 Mar 2021 15:51:27 -0800 (PST)
+        Fri, 05 Mar 2021 15:51:29 -0800 (PST)
 From:   Alejandro Colomar <alx.manpages@gmail.com>
 To:     mtk.manpages@gmail.com
 Cc:     Alejandro Colomar <alx.manpages@gmail.com>,
         linux-man@vger.kernel.org, libc-alpha@sourceware.org
-Subject: [PATCH 15/22] mbtowc.3: SYNOPSIS: Use 'restrict' in prototypes
-Date:   Sat,  6 Mar 2021 00:50:59 +0100
-Message-Id: <20210305235105.177359-16-alx.manpages@gmail.com>
+Subject: [PATCH 18/22] mq_receive.3: SYNOPSIS: Use 'restrict' in prototypes
+Date:   Sat,  6 Mar 2021 00:51:02 +0100
+Message-Id: <20210305235105.177359-19-alx.manpages@gmail.com>
 X-Mailer: git-send-email 2.30.1.721.g45526154a5
 In-Reply-To: <20210305235105.177359-1-alx.manpages@gmail.com>
 References: <20210305235105.177359-1-alx.manpages@gmail.com>
@@ -72,34 +72,40 @@ Precedence: bulk
 List-ID: <linux-man.vger.kernel.org>
 X-Mailing-List: linux-man@vger.kernel.org
 
-Both POSIX and glibc use 'restrict' in mbtowc().
+Both POSIX and glibc use 'restrict' in mq_timedreceive().
 Let's use it here too.
 
-.../glibc$ grep_glibc_prototype mbtowc
-stdlib/stdlib.h:925:
-extern int mbtowc (wchar_t *__restrict __pwc,
-		   const char *__restrict __s, size_t __n) __THROW;
+.../glibc$ grep_glibc_prototype mq_timedreceive
+rt/mqueue.h:76:
+extern ssize_t mq_timedreceive (mqd_t __mqdes, char *__restrict __msg_ptr,
+				size_t __msg_len,
+				unsigned int *__restrict __msg_prio,
+				const struct timespec *__restrict __abs_timeout)
+  __nonnull ((2, 5));
 .../glibc$
 
 Signed-off-by: Alejandro Colomar <alx.manpages@gmail.com>
 ---
- man3/mbtowc.3 | 3 ++-
- 1 file changed, 2 insertions(+), 1 deletion(-)
+ man3/mq_receive.3 | 6 +++---
+ 1 file changed, 3 insertions(+), 3 deletions(-)
 
-diff --git a/man3/mbtowc.3 b/man3/mbtowc.3
-index d0af36831..80058a192 100644
---- a/man3/mbtowc.3
-+++ b/man3/mbtowc.3
-@@ -20,7 +20,8 @@ mbtowc \- convert a multibyte sequence to a wide character
- .nf
- .B #include <stdlib.h>
+diff --git a/man3/mq_receive.3 b/man3/mq_receive.3
+index 418330bac..4dc1c3342 100644
+--- a/man3/mq_receive.3
++++ b/man3/mq_receive.3
+@@ -35,9 +35,9 @@ mq_receive, mq_timedreceive \- receive a message from a message queue
+ .B #include <time.h>
+ .B #include <mqueue.h>
  .PP
--.BI "int mbtowc(wchar_t *" pwc ", const char *" s ", size_t " n );
-+.BI "int mbtowc(wchar_t *restrict " pwc ", const char *restrict " s \
-+", size_t " n );
+-.BI "ssize_t mq_timedreceive(mqd_t " mqdes ", char *" msg_ptr ,
+-.BI "                   size_t " msg_len ", unsigned int *" msg_prio ,
+-.BI "                   const struct timespec *" abs_timeout );
++.BI "ssize_t mq_timedreceive(mqd_t " mqdes ", char *restrict " msg_ptr ,
++.BI "                   size_t " msg_len ", unsigned int *restrict " msg_prio ,
++.BI "                   const struct timespec *restrict " abs_timeout );
  .fi
- .SH DESCRIPTION
- The main case for this function is when
+ .PP
+ Link with \fI\-lrt\fP.
 -- 
 2.30.1.721.g45526154a5
 
