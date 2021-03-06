@@ -1,175 +1,101 @@
-Return-Path: <SRS0=pazf=ID=vger.kernel.org=linux-man-owner@kernel.org>
+Return-Path: <SRS0=dKvZ=IE=vger.kernel.org=linux-man-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-15.8 required=3.0 tests=BAYES_00,DKIM_SIGNED,
-	DKIM_VALID,DKIM_VALID_AU,FREEMAIL_FORGED_FROMDOMAIN,FREEMAIL_FROM,
-	HEADER_FROM_DIFFERENT_DOMAINS,INCLUDES_CR_TRAILER,INCLUDES_PATCH,
-	MAILING_LIST_MULTI,SPF_HELO_NONE,SPF_PASS,USER_AGENT_GIT autolearn=ham
-	autolearn_force=no version=3.4.0
+X-Spam-Status: No, score=-1.4 required=3.0 tests=BAYES_00,FORGED_MUA_MOZILLA,
+	HEADER_FROM_DIFFERENT_DOMAINS,MAILING_LIST_MULTI,NICE_REPLY_A,SPF_HELO_NONE,
+	SPF_PASS,URIBL_BLOCKED autolearn=no autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 4FC73C41620
-	for <linux-man@archiver.kernel.org>; Fri,  5 Mar 2021 23:52:11 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id D22C3C433E6
+	for <linux-man@archiver.kernel.org>; Sat,  6 Mar 2021 00:11:05 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.kernel.org (Postfix) with ESMTP id 3DB3B650A3
-	for <linux-man@archiver.kernel.org>; Fri,  5 Mar 2021 23:52:11 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTP id A2827650B6
+	for <linux-man@archiver.kernel.org>; Sat,  6 Mar 2021 00:11:05 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S229964AbhCEXvl (ORCPT <rfc822;linux-man@archiver.kernel.org>);
-        Fri, 5 Mar 2021 18:51:41 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:42276 "EHLO
-        lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S229972AbhCEXve (ORCPT
-        <rfc822;linux-man@vger.kernel.org>); Fri, 5 Mar 2021 18:51:34 -0500
-Received: from mail-wm1-x336.google.com (mail-wm1-x336.google.com [IPv6:2a00:1450:4864:20::336])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id D3C90C06175F
-        for <linux-man@vger.kernel.org>; Fri,  5 Mar 2021 15:51:33 -0800 (PST)
-Received: by mail-wm1-x336.google.com with SMTP id l22so2677807wme.1
-        for <linux-man@vger.kernel.org>; Fri, 05 Mar 2021 15:51:33 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20161025;
-        h=from:to:cc:subject:date:message-id:in-reply-to:references
-         :mime-version:content-transfer-encoding;
-        bh=HhvuXCSbRnCi7UkA1cJpWv2boJvtS+wypg1tiYOyje8=;
-        b=QItW8Y0y/wcIFx3ImRlMx7jRU6f1/RIfSQvW2hHVneKj1A9Nqx//wvNAsMmoWZMCvP
-         h9HuAcVZXF40mETqkj7G7Az8tY6ysEKwGVrcfL0iVCwNe8F7NpvTec4ikWMTDw8ceGiV
-         LSqMNOm1XkLsiAe30HOZSPk9IHDju7MLLP2SVDTR/Pomu9w73FEKDjHC2BtUxGuateZ7
-         GQSxjQdBQeS+pBT+/KNBgHh3/Vy3O8/iaPbcjuKsSeTf33qckmeK+xFxbr1Wb4LNPnvg
-         ByBvyYJtnrWAmGfuwSg5FiaKRqYBNLusCWuRzbJvXadHWvpkDBxv+MhdmoIVcr+SpVfW
-         r98A==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20161025;
-        h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
-         :references:mime-version:content-transfer-encoding;
-        bh=HhvuXCSbRnCi7UkA1cJpWv2boJvtS+wypg1tiYOyje8=;
-        b=SdT1ZuY7C2kKXD6JlP8JWrUDNKQUAfZlAq4dLd8isKoNG9t+FSItTWVb2l3wZYud5A
-         rcC2GXI+NlhzImF1M+aAcRQcPZpITZ02Kw4CHQf18lC+6BkZAEVhvgadFZDaAVZhq42L
-         9RV8UXAAWfCBHSZvIVSxzOTqbvDYzsDhTtnjDv9hUkR1B1q+G+qZhupP9JlB6d21foVz
-         UOPlfEQZ2nPe5lCVDp7/XtI/pjV/D9pNoWVTedYelhFgMJP1TGjgseF2AvPtOW1gbCDJ
-         qW83PgciK1+UVDb7k/kqjktw/6vrdc7UNyuonH+ng9v22iSed1zxcSYrErYtnSdI4KLv
-         w2Ug==
-X-Gm-Message-State: AOAM533LamRkN/PxC+1JJ0jUMrTCwtjUy1ofZEjEtrS+fG0iRXXZDDE7
-        m6rsBPHF7qbSMndVxBN4nLU=
-X-Google-Smtp-Source: ABdhPJyI8SAW6g80glEEoplZMLFES4asrKDGXzsQrrBUUHzQDaHaAQ1/3RLCLvohHzUd7tpy3Lg5Ew==
-X-Received: by 2002:a1c:a504:: with SMTP id o4mr10949087wme.174.1614988292707;
-        Fri, 05 Mar 2021 15:51:32 -0800 (PST)
-Received: from localhost.localdomain ([170.253.51.130])
-        by smtp.googlemail.com with ESMTPSA id f7sm7219835wrm.36.2021.03.05.15.51.31
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Fri, 05 Mar 2021 15:51:32 -0800 (PST)
-From:   Alejandro Colomar <alx.manpages@gmail.com>
-To:     mtk.manpages@gmail.com
-Cc:     Alejandro Colomar <alx.manpages@gmail.com>,
-        linux-man@vger.kernel.org, libc-alpha@sourceware.org
-Subject: [PATCH 21/22] printf.3: SYNOPSIS: Use 'restrict' in prototypes; ffix too
-Date:   Sat,  6 Mar 2021 00:51:05 +0100
-Message-Id: <20210305235105.177359-22-alx.manpages@gmail.com>
-X-Mailer: git-send-email 2.30.1.721.g45526154a5
-In-Reply-To: <20210305235105.177359-1-alx.manpages@gmail.com>
-References: <20210305235105.177359-1-alx.manpages@gmail.com>
+        id S229631AbhCFAKY (ORCPT <rfc822;linux-man@archiver.kernel.org>);
+        Fri, 5 Mar 2021 19:10:24 -0500
+Received: from correo.us.es ([193.147.175.20]:59954 "EHLO mail.us.es"
+        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
+        id S229629AbhCFAKX (ORCPT <rfc822;linux-man@vger.kernel.org>);
+        Fri, 5 Mar 2021 19:10:23 -0500
+Received: from antivirus1-rhel7.int (unknown [192.168.2.11])
+        by mail.us.es (Postfix) with ESMTP id 24AC9117721
+        for <linux-man@vger.kernel.org>; Sat,  6 Mar 2021 01:10:18 +0100 (CET)
+Received: from antivirus1-rhel7.int (localhost [127.0.0.1])
+        by antivirus1-rhel7.int (Postfix) with ESMTP id 0DDABDA78B
+        for <linux-man@vger.kernel.org>; Sat,  6 Mar 2021 01:10:18 +0100 (CET)
+Received: by antivirus1-rhel7.int (Postfix, from userid 99)
+        id 02B11DA73D; Sat,  6 Mar 2021 01:10:18 +0100 (CET)
+Received: from antivirus1-rhel7.int (localhost [127.0.0.1])
+        by antivirus1-rhel7.int (Postfix) with ESMTP id C8CD1DA722;
+        Sat,  6 Mar 2021 01:10:15 +0100 (CET)
+Received: from 192.168.1.97 (192.168.1.97)
+ by antivirus1-rhel7.int (F-Secure/fsigk_smtp/550/antivirus1-rhel7.int);
+ Sat, 06 Mar 2021 01:10:15 +0100 (CET)
+X-Virus-Status: clean(F-Secure/fsigk_smtp/550/antivirus1-rhel7.int)
+Received: from us.es (unknown [90.77.255.23])
+        (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+        (No client certificate requested)
+        (Authenticated sender: 1984lsi)
+        by entrada.int (Postfix) with ESMTPSA id AC69E42DF561;
+        Sat,  6 Mar 2021 01:10:15 +0100 (CET)
+Date:   Sat, 6 Mar 2021 01:10:15 +0100
+X-SMTPAUTHUS: auth mail.us.es
+From:   Pablo Neira Ayuso <pablo@netfilter.org>
+To:     Florian Westphal <fw@strlen.de>
+Cc:     Alexander Ahring Oder Aring <aahringo@redhat.com>,
+        netdev@vger.kernel.org, linux-man@vger.kernel.org,
+        David Teigland <teigland@redhat.com>
+Subject: Re: [PATCH resend] netlink.7: note not reliable if NETLINK_NO_ENOBUFS
+Message-ID: <20210306001015.GA1638@salvia>
+References: <20210304205728.34477-1-aahringo@redhat.com>
+ <20210305030437.GA4268@salvia>
+ <CAK-6q+iBhzFVgm5NQaPCZhJ8tEvVVeTt2OAEGH4QkOfHqfYzaA@mail.gmail.com>
+ <20210305203657.GA9426@salvia>
+ <20210305232159.GB10808@breakpoint.cc>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+Content-Type: text/plain; charset=utf-8
+Content-Disposition: inline
+In-Reply-To: <20210305232159.GB10808@breakpoint.cc>
+User-Agent: Mozilla/5.0
+X-Virus-Scanned: ClamAV using ClamSMTP
 Precedence: bulk
 List-ID: <linux-man.vger.kernel.org>
 X-Mailing-List: linux-man@vger.kernel.org
 
-Both POSIX and glibc use 'restrict' in printf(), fprintf(),
-dprintf(), sprintf(), snprintf(), vprintf(), vfprintf(),
-vdprintf(), vsprintf(), vsnprintf().
-Let's use it here too.
+On Sat, Mar 06, 2021 at 12:21:59AM +0100, Florian Westphal wrote:
+> Pablo Neira Ayuso <pablo@netfilter.org> wrote:
+> > > If I understand correctly, the connection tracking netlink interface
+> > > is an exception here because it has its own handling of dealing with
+> > > congestion ("more reliable"?) so you need to disable the "default
+> > > congestion control"?
+> > 
+> > In conntrack, you have to combine NETLINK_NO_ENOBUFS with
+> > NETLINK_BROADCAST_ERROR, then it's the kernel turns on the "more
+> > reliable" event delivery.
+> 
+> The "more reliable" event delivery guarantees that the kernel will
+> deliver at least the DESTROY notification (connection close).
+> 
+> If the userspace program is stuck, kernel has to hold on the expired
+> entries.  Eventually conntrack stops accepting new connections because
+> the table is full.
+> 
+> So this feature can't be recommended as a best-practice for conntrack
+> either.
 
-.../glibc$ grep_glibc_prototype printf
-libio/stdio.h:332:
-extern int printf (const char *__restrict __format, ...);
-.../glibc$ grep_glibc_prototype fprintf
-libio/stdio.h:326:
-extern int fprintf (FILE *__restrict __stream,
-		    const char *__restrict __format, ...);
-.../glibc$ grep_glibc_prototype dprintf
-libio/stdio.h:382:
-extern int dprintf (int __fd, const char *__restrict __fmt, ...)
-     __attribute__ ((__format__ (__printf__, 2, 3)));
-.../glibc$ grep_glibc_prototype sprintf
-libio/stdio.h:334:
-extern int sprintf (char *__restrict __s,
-		    const char *__restrict __format, ...) __THROWNL;
-.../glibc$ grep_glibc_prototype snprintf
-libio/stdio.h:354:
-extern int snprintf (char *__restrict __s, size_t __maxlen,
-		     const char *__restrict __format, ...)
-     __THROWNL __attribute__ ((__format__ (__printf__, 3, 4)));
-.../glibc$ grep_glibc_prototype vprintf
-libio/stdio.h:347:
-extern int vprintf (const char *__restrict __format, __gnuc_va_list __arg);
-.../glibc$ grep_glibc_prototype vfprintf
-libio/stdio.h:341:
-extern int vfprintf (FILE *__restrict __s, const char *__restrict __format,
-		     __gnuc_va_list __arg);
-.../glibc$ grep_glibc_prototype vdprintf
-libio/stdio.h:379:
-extern int vdprintf (int __fd, const char *__restrict __fmt,
-		     __gnuc_va_list __arg)
-     __attribute__ ((__format__ (__printf__, 2, 0)));
-.../glibc$ grep_glibc_prototype vsprintf
-libio/stdio.h:349:
-extern int vsprintf (char *__restrict __s, const char *__restrict __format,
-		     __gnuc_va_list __arg) __THROWNL;
-.../glibc$ grep_glibc_prototype vsnprintf
-libio/stdio.h:358:
-extern int vsnprintf (char *__restrict __s, size_t __maxlen,
-		      const char *__restrict __format, __gnuc_va_list __arg)
-     __THROWNL __attribute__ ((__format__ (__printf__, 3, 0)));
-.../glibc$
+There are two use-cases for this:
 
-ffix: Align common parameters.
+- If you run conntrackd and you really want to sure you backup firewall
+  does not get out of sync.
 
-Signed-off-by: Alejandro Colomar <alx.manpages@gmail.com>
----
- man3/printf.3 | 29 ++++++++++++++++++-----------
- 1 file changed, 18 insertions(+), 11 deletions(-)
+- If you run ulogd2 and you want to make sure your connection log is
+  complete (no events got lost).
 
-diff --git a/man3/printf.3 b/man3/printf.3
-index 48bb9771d..fa6564426 100644
---- a/man3/printf.3
-+++ b/man3/printf.3
-@@ -39,20 +39,27 @@ vsprintf, vsnprintf \- formatted output conversion
- .nf
- .B #include <stdio.h>
- .PP
--.BI "int printf(const char *" format ", ...);"
--.BI "int fprintf(FILE *" stream ", const char *" format ", ...);"
--.BI "int dprintf(int " fd ", const char *" format ", ...);"
--.BI "int sprintf(char *" str ", const char *" format ", ...);"
--.BI "int snprintf(char *" str ", size_t " size ", const char *" format ", ...);"
-+.BI "int printf(const char *restrict " format ", ...);"
-+.BI "int fprintf(FILE *restrict " stream ,
-+.BI "            const char *restrict " format ", ...);"
-+.BI "int dprintf(int " fd ,
-+.BI "            const char *restrict " format ", ...);"
-+.BI "int sprintf(char *restrict " str ,
-+.BI "            const char *restrict " format ", ...);"
-+.BI "int snprintf(char *restrict " str ", size_t " size ,
-+.BI "            const char *restrict " format ", ...);"
- .PP
- .B #include <stdarg.h>
- .PP
--.BI "int vprintf(const char *" format ", va_list " ap );
--.BI "int vfprintf(FILE *" stream ", const char *" format ", va_list " ap );
--.BI "int vdprintf(int " fd ", const char *" format ", va_list " ap );
--.BI "int vsprintf(char *" str ", const char *" format ", va_list " ap );
--.BI "int vsnprintf(char *" str ", size_t " size ", const char *" format \
--", va_list " ap );
-+.BI "int vprintf(const char *restrict " format ", va_list " ap );
-+.BI "int vfprintf(FILE *restrict " stream ,
-+.BI "            const char *restrict " format ", va_list " ap );
-+.BI "int vdprintf(int " fd ,
-+.BI "            const char *restrict " format ", va_list " ap );
-+.BI "int vsprintf(char *restrict " str ,
-+.BI "            const char *restrict " format ", va_list " ap );
-+.BI "int vsnprintf(char *restrict " str ", size_t " size ,
-+.BI "            const char *restrict " format ", va_list " ap );
- .fi
- .PP
- .RS -4
--- 
-2.30.1.721.g45526154a5
+In both cases, this might comes at the cost of dropping packets if the
+table gets full. So it's placing the pressure on the conntrack side.
+With the right policy you could restrict the number of connection per
+second.
 
+I agree though that combination of NETLINK_NO_ENOBUFS and
+NETLINK_BROADCAST_ERROR only makes sense for very specific use-cases.
