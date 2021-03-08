@@ -8,61 +8,61 @@ X-Spam-Status: No, score=-15.8 required=3.0 tests=BAYES_00,DKIM_SIGNED,
 	MAILING_LIST_MULTI,SPF_HELO_NONE,SPF_PASS,USER_AGENT_GIT autolearn=ham
 	autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 70138C433E9
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 5AE12C433E6
 	for <linux-man@archiver.kernel.org>; Mon,  8 Mar 2021 18:55:14 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.kernel.org (Postfix) with ESMTP id 40531652AD
+	by mail.kernel.org (Postfix) with ESMTP id 27B1A65295
 	for <linux-man@archiver.kernel.org>; Mon,  8 Mar 2021 18:55:14 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S231386AbhCHSym (ORCPT <rfc822;linux-man@archiver.kernel.org>);
+        id S231387AbhCHSym (ORCPT <rfc822;linux-man@archiver.kernel.org>);
         Mon, 8 Mar 2021 13:54:42 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:58042 "EHLO
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:58064 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S230512AbhCHSyL (ORCPT
-        <rfc822;linux-man@vger.kernel.org>); Mon, 8 Mar 2021 13:54:11 -0500
+        with ESMTP id S231203AbhCHSyO (ORCPT
+        <rfc822;linux-man@vger.kernel.org>); Mon, 8 Mar 2021 13:54:14 -0500
 Received: from mail-wm1-x331.google.com (mail-wm1-x331.google.com [IPv6:2a00:1450:4864:20::331])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id E48CDC06174A
-        for <linux-man@vger.kernel.org>; Mon,  8 Mar 2021 10:54:10 -0800 (PST)
-Received: by mail-wm1-x331.google.com with SMTP id y124-20020a1c32820000b029010c93864955so4447719wmy.5
-        for <linux-man@vger.kernel.org>; Mon, 08 Mar 2021 10:54:10 -0800 (PST)
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 79951C061760
+        for <linux-man@vger.kernel.org>; Mon,  8 Mar 2021 10:54:13 -0800 (PST)
+Received: by mail-wm1-x331.google.com with SMTP id n22so142219wmc.2
+        for <linux-man@vger.kernel.org>; Mon, 08 Mar 2021 10:54:13 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=gmail.com; s=20161025;
         h=from:to:cc:subject:date:message-id:in-reply-to:references
          :mime-version:content-transfer-encoding;
-        bh=YM7dtQrtq24gSjndZcmN6Vq3FIxEeztgQZpUiOPWTkc=;
-        b=GkjqxqlhLMLHJr4SksjwEOf0pfUN1KWtcyesndgPNx1HuVx4QDDfvRl34la4fCyS4a
-         pgvQPpg3LnrXoR24fkGRyeKhzH91L6Jk0jWLvqdcGQvBwfyWuh/bDB7yGG6htu0nYC11
-         3MqHBuN/gaXe4HmggqI17MvZOFetB945TkkCQdGJWJFB7Nae1oSpxsOmULGBJzkzTPyM
-         u4sa6eIXG7AVUSIBY3mN7xbusTUniw6jIeHlG4fodEC5LdA3osihTEnMrj/L0xHVO0zD
-         Gzm38UjuJQhBVKpbrMPZTKyLOIr8XZOT7RgRnV4t9TPHWXrI1xsraRuXqStdnREFOJZt
-         0haQ==
+        bh=y7oQEJLoqF0ep/Q8ZyAoTWWiXwJHlzm0VkHdwByue50=;
+        b=qEkJ0hGXOoMfy7z2GgvJmN+4S5+3AJlKv5VtFFk7NTsoLpXeY9azh1AEitigSdabrt
+         dugar+37ern6MrT5CQnNFkRf3iaAqeThbp286Diag03NqviDUrqT1GYY3d/90eALpzwp
+         LRXqpn8AEU1LM787iQm5YQPMpLZKOim+Zyw3LisHDHdCxFUYLunl+9/7J6d54B9wlE95
+         R1pWWRQ+/3la1xKMhr3xDV3sq98YZdElcEsVLDhfztegkBvQQbaEqsxtB80tRxf9/P1P
+         A1PZGApBzymHRUwBH677WFC3YtTr7tR0vKKMAy0D7vu6syjpphW0FE7cHfCv1sx+HhmW
+         ae9A==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
         h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
          :references:mime-version:content-transfer-encoding;
-        bh=YM7dtQrtq24gSjndZcmN6Vq3FIxEeztgQZpUiOPWTkc=;
-        b=TRf0yRSvBD7BOb3yyGjlCQoSnSJho5KrJBrKRLLbFtP5M57XxtpoZelKjUvQGkEE83
-         zr/cHBkIWb86OhFz3gb+ZNKu0Qdx76hx7d8sqbsOwOfM+dEWqUsKOr4TvNMI2roj0Sf0
-         9cxgBNiwMnSjH4gaiIONEJEwvEjSdT4JFq3DRaMvk24GzbZ27uX1nYKqE2rSa5xGdAds
-         jda78J5UXU5GQdP5UM2Pyaq8rWGcwlwEHz8ufSuHD5ABTo4xr5odZDRuR5tlLLBIAWCk
-         +/LQAYeB+2GH2AWL0733Y+XeTzxF0RCPwleNaYR1Iqgop2NF9yVaSZbaSHylHttToHiM
-         160g==
-X-Gm-Message-State: AOAM5302pFQ4Dw2IhwH08TiGsi3Mk204sIHLfWrcBnGV5pwoPcR1Yucz
-        7cZ3HuBYs8KqNJmHr+pxFWtf6IZVWKQ=
-X-Google-Smtp-Source: ABdhPJw53JryrrgfTCrAMu1W+Q+ZR9fOL6f1RQ1LQjM1WBI9RTvVZMw5+gbgpGVcGO21KfExEtR4lQ==
-X-Received: by 2002:a05:600c:2cb9:: with SMTP id h25mr219355wmc.110.1615229649718;
-        Mon, 08 Mar 2021 10:54:09 -0800 (PST)
+        bh=y7oQEJLoqF0ep/Q8ZyAoTWWiXwJHlzm0VkHdwByue50=;
+        b=qvWtCDy2PfoJW7sQzWruKG2/N3helEK76r1AEnkSNeWZlkv09Uh81F5Dg8AhVWHw9m
+         lv2BFSV0t+5eKwxVIb9jSFaboKXzqWcXUJiUJ6p1hpTR7h5mp6yoIxQWDuCUhuJA2vGa
+         D3A1x82gG+F3xfE9aBGFmv5DZwjAphPZRbib4cT0F/vYJrIg2r7G2nFJVxMPFf4aFM5+
+         YdM4xTKxltNerpU7xH0V43O118xxOuf0gyca/u+F7LIpFA5Xg4V3KegG8zy1rMB5jG/P
+         hK/56IGpdmZWrx3aD5HMtWj/z54MMS+LV4Vw9UmZU0TRZL4Y9OiM8H7qStvj8u7FsK8f
+         BA3A==
+X-Gm-Message-State: AOAM531iqIpiLj6gNKIQ8bHx3eKcs0n+1MPSYL8Ru5H/lIaGWBdOVMZ9
+        PbAmkrqtRVA8SXaZEYLEFgI=
+X-Google-Smtp-Source: ABdhPJzCdzgglPS8LyYDcVYKxeK89KlO4dzHAoMK97LpPhKuDr9av3MaIaF+Tq+UasTTfpSj6IWK8Q==
+X-Received: by 2002:a05:600c:4a18:: with SMTP id c24mr165053wmp.173.1615229652308;
+        Mon, 08 Mar 2021 10:54:12 -0800 (PST)
 Received: from sqli.sqli.com ([195.53.121.100])
-        by smtp.googlemail.com with ESMTPSA id i11sm19889921wro.53.2021.03.08.10.54.08
+        by smtp.googlemail.com with ESMTPSA id i11sm19889921wro.53.2021.03.08.10.54.11
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Mon, 08 Mar 2021 10:54:09 -0800 (PST)
+        Mon, 08 Mar 2021 10:54:12 -0800 (PST)
 From:   Alejandro Colomar <alx.manpages@gmail.com>
 To:     mtk.manpages@gmail.com
 Cc:     Alejandro Colomar <alx.manpages@gmail.com>,
         linux-man@vger.kernel.org, libc-alpha@sourceware.org
-Subject: [PATCH 04/23] pthread_attr_setstacksize.3: SYNOPSIS: Use 'restrict' in prototypes
-Date:   Mon,  8 Mar 2021 19:53:13 +0100
-Message-Id: <20210308185331.242176-5-alx.manpages@gmail.com>
+Subject: [PATCH 06/23] pthread_create.3: SYNOPSIS: Use 'restrict' in prototypes
+Date:   Mon,  8 Mar 2021 19:53:15 +0100
+Message-Id: <20210308185331.242176-7-alx.manpages@gmail.com>
 X-Mailer: git-send-email 2.30.1
 In-Reply-To: <20210308185331.242176-1-alx.manpages@gmail.com>
 References: <20210308185331.242176-1-alx.manpages@gmail.com>
@@ -72,40 +72,44 @@ Precedence: bulk
 List-ID: <linux-man.vger.kernel.org>
 X-Mailing-List: linux-man@vger.kernel.org
 
-Both POSIX and glibc use 'restrict' in pthread_attr_getstacksize().
+Both POSIX and glibc use 'restrict' in pthread_create().
 Let's use it here too.
 
-.../glibc$ grep_glibc_prototype pthread_attr_getstacksize
-sysdeps/htl/pthread.h:192:
-extern int pthread_attr_getstacksize (const pthread_attr_t *__restrict __attr,
-				      size_t *__restrict __stacksize)
-	__THROW __nonnull ((1, 2));
-sysdeps/nptl/pthread.h:346:
-extern int pthread_attr_getstacksize (const pthread_attr_t *__restrict
-				      __attr, size_t *__restrict __stacksize)
-     __THROW __nonnull ((1, 2));
+.../glibc$ grep_glibc_prototype pthread_create
+sysdeps/htl/pthread.h:212:
+extern int pthread_create (pthread_t *__restrict __threadp,
+			   __const pthread_attr_t *__restrict __attr,
+			   void *(*__start_routine)(void *),
+			   void *__restrict __arg) __THROWNL __nonnull ((1, 3));
+sysdeps/nptl/pthread.h:200:
+extern int pthread_create (pthread_t *__restrict __newthread,
+			   const pthread_attr_t *__restrict __attr,
+			   void *(*__start_routine) (void *),
+			   void *__restrict __arg) __THROWNL __nonnull ((1, 3));
 .../glibc$
 
 Signed-off-by: Alejandro Colomar <alx.manpages@gmail.com>
 ---
- man3/pthread_attr_setstacksize.3 | 4 ++--
- 1 file changed, 2 insertions(+), 2 deletions(-)
+ man3/pthread_create.3 | 6 ++++--
+ 1 file changed, 4 insertions(+), 2 deletions(-)
 
-diff --git a/man3/pthread_attr_setstacksize.3 b/man3/pthread_attr_setstacksize.3
-index 824dbc5f7..e1e56aeee 100644
---- a/man3/pthread_attr_setstacksize.3
-+++ b/man3/pthread_attr_setstacksize.3
-@@ -33,8 +33,8 @@ attribute in thread attributes object
+diff --git a/man3/pthread_create.3 b/man3/pthread_create.3
+index a1ede6e96..14fd37220 100644
+--- a/man3/pthread_create.3
++++ b/man3/pthread_create.3
+@@ -30,8 +30,10 @@ pthread_create \- create a new thread
+ .nf
+ .B #include <pthread.h>
  .PP
- .BI "int pthread_attr_setstacksize(pthread_attr_t *" attr \
- ", size_t " stacksize );
--.BI "int pthread_attr_getstacksize(const pthread_attr_t *" attr ,
--.BI "                              size_t *" stacksize );
-+.BI "int pthread_attr_getstacksize(const pthread_attr_t *restrict " attr ,
-+.BI "                              size_t *restrict " stacksize );
+-.BI "int pthread_create(pthread_t *" thread ", const pthread_attr_t *" attr ,
+-.BI "                   void *(*" start_routine ")(void *), void *" arg );
++.BI "int pthread_create(pthread_t *restrict " thread ,
++.BI "                   const pthread_attr_t *restrict " attr ,
++.BI "                   void *(*" start_routine ")(void *),"
++.BI "                   void *restrict " arg );
+ .fi
  .PP
  Compile and link with \fI\-pthread\fP.
- .fi
 -- 
 2.30.1
 
