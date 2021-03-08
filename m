@@ -2,67 +2,68 @@ Return-Path: <linux-man-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-15.8 required=3.0 tests=BAYES_00,DKIM_SIGNED,
+X-Spam-Status: No, score=-15.7 required=3.0 tests=BAYES_00,DKIM_SIGNED,
 	DKIM_VALID,DKIM_VALID_AU,FREEMAIL_FORGED_FROMDOMAIN,FREEMAIL_FROM,
 	HEADER_FROM_DIFFERENT_DOMAINS,INCLUDES_CR_TRAILER,INCLUDES_PATCH,
-	MAILING_LIST_MULTI,SPF_HELO_NONE,SPF_PASS,USER_AGENT_GIT autolearn=ham
-	autolearn_force=no version=3.4.0
+	MAILING_LIST_MULTI,SPF_HELO_NONE,SPF_PASS,URIBL_BLOCKED,USER_AGENT_GIT
+	autolearn=ham autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 147A6C43619
-	for <linux-man@archiver.kernel.org>; Mon,  8 Mar 2021 18:55:16 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 33B83C1550D
+	for <linux-man@archiver.kernel.org>; Mon,  8 Mar 2021 18:55:17 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.kernel.org (Postfix) with ESMTP id E301665296
-	for <linux-man@archiver.kernel.org>; Mon,  8 Mar 2021 18:55:15 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTP id 0891E65298
+	for <linux-man@archiver.kernel.org>; Mon,  8 Mar 2021 18:55:16 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S229818AbhCHSyp (ORCPT <rfc822;linux-man@archiver.kernel.org>);
-        Mon, 8 Mar 2021 13:54:45 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:58096 "EHLO
+        id S231307AbhCHSys (ORCPT <rfc822;linux-man@archiver.kernel.org>);
+        Mon, 8 Mar 2021 13:54:48 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:58152 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S231256AbhCHSyU (ORCPT
-        <rfc822;linux-man@vger.kernel.org>); Mon, 8 Mar 2021 13:54:20 -0500
-Received: from mail-wm1-x32d.google.com (mail-wm1-x32d.google.com [IPv6:2a00:1450:4864:20::32d])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 8CB81C06174A
-        for <linux-man@vger.kernel.org>; Mon,  8 Mar 2021 10:54:20 -0800 (PST)
-Received: by mail-wm1-x32d.google.com with SMTP id d139-20020a1c1d910000b029010b895cb6f2so4441505wmd.5
-        for <linux-man@vger.kernel.org>; Mon, 08 Mar 2021 10:54:20 -0800 (PST)
+        with ESMTP id S231308AbhCHSyb (ORCPT
+        <rfc822;linux-man@vger.kernel.org>); Mon, 8 Mar 2021 13:54:31 -0500
+Received: from mail-wm1-x335.google.com (mail-wm1-x335.google.com [IPv6:2a00:1450:4864:20::335])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 8BD11C06174A
+        for <linux-man@vger.kernel.org>; Mon,  8 Mar 2021 10:54:31 -0800 (PST)
+Received: by mail-wm1-x335.google.com with SMTP id w7so133220wmb.5
+        for <linux-man@vger.kernel.org>; Mon, 08 Mar 2021 10:54:31 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=gmail.com; s=20161025;
         h=from:to:cc:subject:date:message-id:in-reply-to:references
          :mime-version:content-transfer-encoding;
-        bh=keKhGIASzR+KDmVSRdeBYflkvdCHb0zMub9XC6AIMKg=;
-        b=NVNGwkt1b9s6OboasTROLsPpveMrrXcnzLxcir62rRCWg5U9tnTUnEVqO8rDbHhH9z
-         3dIuKnLy3a57u9x2Scb3JQa+lgQYGkq9iN6i/LDmv20UztyZcyqoMMRicl1zb9KJ86eM
-         4HGe9F1iCjJjL+udOFgBVegN9Lhk2YB2n3aaUOFkqp5oDfRZOHYuy1zgl8sXUCbLTim+
-         V5qs8MSXH0uLqfd5Xc0qJHVCy6BZdAIXTUc8LquJ6kFnq2Qy3IksM0EBmeokNAUqRmWx
-         0Y3JeoAiwSHo5yFdB//4OWHZZys0vzlPtPQYmjZA2GKFvBwsc4SwRTMCHrVaILqwM/8j
-         eP1Q==
+        bh=zFMszwXfmDYjnjHVjEHRpFT+uOJvHzDiuMD4xKbmO+s=;
+        b=DTkTRE+5ycAFTeMcDkEhs7fI1y6QP2Nl2uzrYDcCe5cM2rcB8UzsxkWZDa8Oh8LLTH
+         UUhSB20ivrZBh0d6DQNWk0TFpEacyh0XSh4E92NLR5xMLNA8PenQ57w8bzhBH07QrfzE
+         Mt+Y9H84A4eqs1XlXFxklgtauGdc+SgwM9M2P5uP0gvlvTczyXjWtWBuIF7X7jLyIVQ1
+         +EBKU0n2woYnUtpeX4W+lI2LbCjoVTXvX/j0+KCS4QZScRGdOUDtmYGGZS6DZ+CcJz/c
+         kEBRTuXAoAajABKytKWKfZe7frvTRKejO9fdNR4sajMDOtrmRjTrAO9Qzwhe9/xpv3F8
+         NE3Q==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
         h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
          :references:mime-version:content-transfer-encoding;
-        bh=keKhGIASzR+KDmVSRdeBYflkvdCHb0zMub9XC6AIMKg=;
-        b=GTv2oFY9rUoSqx9GZHl45eYkTVJjsKKNSS/mKI0pgkSkHJBBEjfqv7yp+4H8TG2t5F
-         vxyv8PRdUcdzoAFGvEXP1kWMdWwDITgRagLA9uqrl1eWL3dYnZYlPAJHEZj7XSnZeNgy
-         ZoSBeFIt3tQKIOQ1/SHitJlBF4J8R5DIfee411g2ePMXpAOrHRctOdKPwKs69CAZTT/K
-         gy4Vn37m3t6Y2nmx4suxNQNUbpfEW7T5QVluzY/iwzCRxww9Mrfd1fG5itKF8Kxlo7Bd
-         6W/TRfL8141sTuKoScygA7k+dXxkDKPvSc0vsL39ajxWV0S+ARsC9L+6kWIJ7ojBsGND
-         odog==
-X-Gm-Message-State: AOAM532qtpDcWr9e5vvPIhLS77B4JDehMJLtp00Wn2di/aXUz9ihV7vm
-        Hgg6m2G+luwf5OQaCpTr00c=
-X-Google-Smtp-Source: ABdhPJzeTc/UU+UJZgRfFRoj6CYGLrpNHMLRCnEm9lK2m3HgOU8H0Jk+L4wcdaWJ6jFXMNatBroYvg==
-X-Received: by 2002:a7b:cc1a:: with SMTP id f26mr197020wmh.19.1615229659419;
-        Mon, 08 Mar 2021 10:54:19 -0800 (PST)
+        bh=zFMszwXfmDYjnjHVjEHRpFT+uOJvHzDiuMD4xKbmO+s=;
+        b=F7jy84OuWv3OzHod/dP3Nj/HaOlwlr4a7aoFaxFVlVokEDQ4gZ5C+unApSSuNbCY4O
+         aIGY3fLH4kqs/roeA+h2n1fBCIKVEdM5lS9EcQ6yhDbTIN8lF9WG2FkGRbFQU+l2Bkyq
+         SbCuuIK2J3WoZDkzWdss2uCmLt9yK+Qgmn6dggF+C4wJ2IEcIRRYBGLmkdrGHU3l/qgs
+         J6nh5mbMxxtTOmFbD4vN+r3sfYrqoeGXy7L5/glOsiuF7nkD6S2yMIxF7zTcwL2M/vQw
+         ZTomXqwK0yXiK4TI5bsQfSuGTRphu/CRd3WmB4DEx9gvt5DBaQDq6MfiHKXFQICnMbQ0
+         NmeA==
+X-Gm-Message-State: AOAM5301Die6NL1BPsX5LgXdQD8DNuEqKA1HE4Bq0pgKN3KrZ+TJB5mP
+        gN0q0J1hOQP6ILxqeoeP22Y=
+X-Google-Smtp-Source: ABdhPJw4+3PadQm3orzqO7dDgQTS910b6opM79TEyfjTqn7LlfTvMIinTctB9szhfmdtOggRvtOTsg==
+X-Received: by 2002:a05:600c:2301:: with SMTP id 1mr239274wmo.36.1615229670366;
+        Mon, 08 Mar 2021 10:54:30 -0800 (PST)
 Received: from sqli.sqli.com ([195.53.121.100])
-        by smtp.googlemail.com with ESMTPSA id i11sm19889921wro.53.2021.03.08.10.54.18
+        by smtp.googlemail.com with ESMTPSA id i11sm19889921wro.53.2021.03.08.10.54.29
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Mon, 08 Mar 2021 10:54:19 -0800 (PST)
+        Mon, 08 Mar 2021 10:54:30 -0800 (PST)
 From:   Alejandro Colomar <alx.manpages@gmail.com>
 To:     mtk.manpages@gmail.com
 Cc:     Alejandro Colomar <alx.manpages@gmail.com>,
-        linux-man@vger.kernel.org, libc-alpha@sourceware.org
-Subject: [PATCH 12/23] putgrent.3: SYNOPSIS: Use 'restrict' in prototypes
-Date:   Mon,  8 Mar 2021 19:53:21 +0100
-Message-Id: <20210308185331.242176-13-alx.manpages@gmail.com>
+        linux-man@vger.kernel.org, libc-alpha@sourceware.org,
+        Ulrich Drepper <drepper@redhat.com>
+Subject: [PATCH 22/23] scandir.3: SYNOPSIS: Use 'restrict' in prototypes
+Date:   Mon,  8 Mar 2021 19:53:31 +0100
+Message-Id: <20210308185331.242176-23-alx.manpages@gmail.com>
 X-Mailer: git-send-email 2.30.1
 In-Reply-To: <20210308185331.242176-1-alx.manpages@gmail.com>
 References: <20210308185331.242176-1-alx.manpages@gmail.com>
@@ -72,34 +73,40 @@ Precedence: bulk
 List-ID: <linux-man.vger.kernel.org>
 X-Mailing-List: linux-man@vger.kernel.org
 
-glibc uses 'restrict' in putgrent().
-Let's use it here too.
+POSIX does NOT specify scandir() to use 'restrict'.
+However, glibc uses 'restrict'.
+Users might be surprised by this!  Let's use it here too!
 
-.../glibc$ grep_glibc_prototype putgrent
-grp/grp.h:93:
-extern int putgrent (const struct group *__restrict __p,
-		     FILE *__restrict __f);
+.../glibc$ grep_glibc_prototype scandir
+dirent/dirent.h:255:
+extern int scandir (const char *__restrict __dir,
+		    struct dirent ***__restrict __namelist,
+		    int (*__selector) (const struct dirent *),
+		    int (*__cmp) (const struct dirent **,
+				  const struct dirent **))
+     __nonnull ((1, 2));
 .../glibc$
 
+Cc: glibc <libc-alpha@sourceware.org>
+Cc: Ulrich Drepper <drepper@redhat.com>
 Signed-off-by: Alejandro Colomar <alx.manpages@gmail.com>
 ---
- man3/putgrent.3 | 3 ++-
- 1 file changed, 2 insertions(+), 1 deletion(-)
+ man3/scandir.3 | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
 
-diff --git a/man3/putgrent.3 b/man3/putgrent.3
-index 6ce977cb1..2a2801a96 100644
---- a/man3/putgrent.3
-+++ b/man3/putgrent.3
-@@ -12,7 +12,8 @@ putgrent \- write a group database entry to a file
- .BR "#define _GNU_SOURCE" "         /* See feature_test_macros(7) */"
- .B #include <grp.h>
+diff --git a/man3/scandir.3 b/man3/scandir.3
+index 83a5eea7d..262e125c1 100644
+--- a/man3/scandir.3
++++ b/man3/scandir.3
+@@ -67,7 +67,7 @@ a directory for matching entries
+ .nf
+ .B #include <dirent.h>
  .PP
--.BI "int putgrent(const struct group *" grp ", FILE *" stream );
-+.BI "int putgrent(const struct group *restrict " grp \
-+", FILE *restrict " stream );
- .fi
- .SH DESCRIPTION
- The
+-.BI "int scandir(const char *" dirp ", struct dirent ***" namelist ,
++.BI "int scandir(const char *restrict " dirp ", struct dirent ***restrict " namelist ,
+ .BI "            int (*" filter ")(const struct dirent *),"
+ .BI "            int (*" compar ")(const struct dirent **,"
+ .BR "                          const struct dirent **));"
 -- 
 2.30.1
 
