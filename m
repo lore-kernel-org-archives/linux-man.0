@@ -8,61 +8,61 @@ X-Spam-Status: No, score=-15.8 required=3.0 tests=BAYES_00,DKIM_SIGNED,
 	MAILING_LIST_MULTI,SPF_HELO_NONE,SPF_PASS,USER_AGENT_GIT autolearn=ham
 	autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id E2F30C4361A
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 57F73C43333
 	for <linux-man@archiver.kernel.org>; Mon,  8 Mar 2021 18:55:15 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.kernel.org (Postfix) with ESMTP id BD4FB65298
+	by mail.kernel.org (Postfix) with ESMTP id 2B51065294
 	for <linux-man@archiver.kernel.org>; Mon,  8 Mar 2021 18:55:15 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S231418AbhCHSyq (ORCPT <rfc822;linux-man@archiver.kernel.org>);
-        Mon, 8 Mar 2021 13:54:46 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:58106 "EHLO
+        id S231395AbhCHSyo (ORCPT <rfc822;linux-man@archiver.kernel.org>);
+        Mon, 8 Mar 2021 13:54:44 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:58078 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S231263AbhCHSyW (ORCPT
-        <rfc822;linux-man@vger.kernel.org>); Mon, 8 Mar 2021 13:54:22 -0500
-Received: from mail-wr1-x432.google.com (mail-wr1-x432.google.com [IPv6:2a00:1450:4864:20::432])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id A3E25C06174A
-        for <linux-man@vger.kernel.org>; Mon,  8 Mar 2021 10:54:21 -0800 (PST)
-Received: by mail-wr1-x432.google.com with SMTP id u14so12610584wri.3
-        for <linux-man@vger.kernel.org>; Mon, 08 Mar 2021 10:54:21 -0800 (PST)
+        with ESMTP id S231254AbhCHSyR (ORCPT
+        <rfc822;linux-man@vger.kernel.org>); Mon, 8 Mar 2021 13:54:17 -0500
+Received: from mail-wm1-x334.google.com (mail-wm1-x334.google.com [IPv6:2a00:1450:4864:20::334])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 299C3C06174A
+        for <linux-man@vger.kernel.org>; Mon,  8 Mar 2021 10:54:17 -0800 (PST)
+Received: by mail-wm1-x334.google.com with SMTP id w7so132799wmb.5
+        for <linux-man@vger.kernel.org>; Mon, 08 Mar 2021 10:54:17 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=gmail.com; s=20161025;
         h=from:to:cc:subject:date:message-id:in-reply-to:references
          :mime-version:content-transfer-encoding;
-        bh=aXj66QydK9PB052W5oOABywajg3+p7kxv2g7HNu+5yI=;
-        b=jNAZwhi+7t1IKMWm+zhVcSBeMrGxPdZy40NsQBBcpkwMOc4OG5dN85j8E7nERAfvFT
-         DxEkE6kZxvATV7Y9jY9iwvzP4ft3wbCs6PTEA8/HZ4JdjJ5hqv58MnhGeZICQsX5r+ig
-         gIlQCU6EghKrPWeu4LASQnp8LoJ4MVAfv2/Ok5Lh0etraL6Gnyi6AssNlQr+e9+Mq3hv
-         J2QYiIHB8pRRcSCgpDWx+Q7TOgkVQLmvnIRl2YzF187QpH+qMzD2WYTf97EWABQuEmQJ
-         /oVALwjgnz1GdLKQh0aoS1BhLYSFruarnKNRcix6/YR0QxZ/zmubVP7ixBoQc+76KdY5
-         Hs7g==
+        bh=K/drAXEjQJHJ+Fo9ef70417YopJZciKi0Gu4CJxjrPY=;
+        b=aXPStQub7qPQMyETvdmpYMe+h0YDNASlhaAJtpn2rtnZTa3aX2uC9JCuttqWSXKTma
+         vJX0PpXg/Kkv7uiqW5AmLZEX/YfuKp4bLoJ5EqBPOk6XCol6+TchJBscm8Z0gIf7SXLb
+         Mc3qvlb2uXCmfGYr4HtvK2CwEGFXSUF1tSsb33EYrrgkQ2oq15Do1QXvosqmFsdsSz+P
+         ENDymw+nqxmQdP7jbtzkiQlgpWqnDlHPY03UmtQ7o2LABv5s9AVxdpy+kLmz9jGrM8ZD
+         7fS53mcKdGcsMeHvd90up3UBLMu6xyco+ZzRpLdzDewWT60Hw2mX4aCwSpUGEH6Jso5b
+         Z8CQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
         h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
          :references:mime-version:content-transfer-encoding;
-        bh=aXj66QydK9PB052W5oOABywajg3+p7kxv2g7HNu+5yI=;
-        b=pBBQw2/7ghwVfGri//Ex3VOvrj/B9eZ1GwCgSkonuf0bdQymfD62lm1myF8jAH43BI
-         N7q7zHC/y3YCCsjM4q6bl+fuhHywyjE3BkcTkpmmwxK7fOYsMTw4kSoJWbr7zIZg9ggK
-         sLBNmt+hDol6MkNUXxRQSZpsYmNgi4R6tudCM2e90BPNt8R8iCn/Wb/JYzQSKFMcDS2X
-         blfutgFSfKGgdQg1/ek1FQ1dCKpIn4Wciau1Z7KF9KpvcEq+tOgKItsXh+n4AViA0wAK
-         ff4JLzpsi1t5iraF7nhehYIzep4aQXqGzbJO+W0yVusu+VuJV39Jq5CHaPvabZjBv4aG
-         rDHg==
-X-Gm-Message-State: AOAM533R3h3T0mqyQXvrMxi7wM2/e+amFGHAzVwraJF/G1DB3Yc5MITS
-        ikEVRJsPWAINL5NN1yb7xGo=
-X-Google-Smtp-Source: ABdhPJxOfbIlQjaAFue52j4+kFu95bTVQBmwb7jRrBJzBqOmRfRAShRYkF1T/xICkYaCyRjgJiM9fA==
-X-Received: by 2002:a5d:4c43:: with SMTP id n3mr4219080wrt.259.1615229660516;
-        Mon, 08 Mar 2021 10:54:20 -0800 (PST)
+        bh=K/drAXEjQJHJ+Fo9ef70417YopJZciKi0Gu4CJxjrPY=;
+        b=RctJ4G7sxaTp005EVNqB46m1r1avI4iLkZj6+Lvv/PiEZWg5z3LrW4KtkBiwm91Jyo
+         hJg5N3ipnjr1DmG1DCfc4UOpYj0SM0bOIa/U0JcT1KxM4WsrkWswtkD4fjr567uo8hGW
+         Zo/ZosQ4oIZMEMnNMwaDzPwsdZ5SilMWzEG1DxYVFJvrCeeGSHlyPtdqVLja8shxjN9B
+         C9IhN2+FsGC1zruYZccKzFiS1InOPDQsWLgVzII0z6GycM2dA4x6Rcr96YgId1eZrNaB
+         Ev3cvuRzs4iN+Ps6R6rEacsepwEyNSGJttxAActMeA5RYCa2gpvXX2vOj8I+b96ZbFI7
+         jfZw==
+X-Gm-Message-State: AOAM532A3QmzkSSePatRpz0n2qpYj/6tezfxXP0O29XhWmq0gsHDR010
+        VqTY89aCAIg0vEwJx+gUEkM=
+X-Google-Smtp-Source: ABdhPJyoc8QX1Rn5YRbOKWpDbiYTdWRJXKWyBkqgT/7PfFg0lsBHNjBj3muClOlVh0NMB5wKE5NkpA==
+X-Received: by 2002:a7b:c410:: with SMTP id k16mr178482wmi.121.1615229656015;
+        Mon, 08 Mar 2021 10:54:16 -0800 (PST)
 Received: from sqli.sqli.com ([195.53.121.100])
-        by smtp.googlemail.com with ESMTPSA id i11sm19889921wro.53.2021.03.08.10.54.19
+        by smtp.googlemail.com with ESMTPSA id i11sm19889921wro.53.2021.03.08.10.54.14
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Mon, 08 Mar 2021 10:54:20 -0800 (PST)
+        Mon, 08 Mar 2021 10:54:15 -0800 (PST)
 From:   Alejandro Colomar <alx.manpages@gmail.com>
 To:     mtk.manpages@gmail.com
 Cc:     Alejandro Colomar <alx.manpages@gmail.com>,
         linux-man@vger.kernel.org, libc-alpha@sourceware.org
-Subject: [PATCH 13/23] putpwent.3: SYNOPSIS: Use 'restrict' in prototypes
-Date:   Mon,  8 Mar 2021 19:53:22 +0100
-Message-Id: <20210308185331.242176-14-alx.manpages@gmail.com>
+Subject: [PATCH 09/23] pthread_mutexattr_setrobust.3: SYNOPSIS: Remove incorrect 'const'
+Date:   Mon,  8 Mar 2021 19:53:18 +0100
+Message-Id: <20210308185331.242176-10-alx.manpages@gmail.com>
 X-Mailer: git-send-email 2.30.1
 In-Reply-To: <20210308185331.242176-1-alx.manpages@gmail.com>
 References: <20210308185331.242176-1-alx.manpages@gmail.com>
@@ -72,34 +72,39 @@ Precedence: bulk
 List-ID: <linux-man.vger.kernel.org>
 X-Mailing-List: linux-man@vger.kernel.org
 
-glibc uses 'restrict' in putpwent().
-Let's use it here too.
+Neither POSIX or glibc use 'const' in
+pthread_mutexattr_setrobust().
+Remove it.
 
-.../glibc$ grep_glibc_prototype putpwent
-pwd/pwd.h:102:
-extern int putpwent (const struct passwd *__restrict __p,
-		     FILE *__restrict __f);
+.../glibc$ grep_glibc_prototype pthread_mutexattr_setrobust
+sysdeps/htl/pthread.h:355:
+extern int pthread_mutexattr_setrobust (pthread_mutexattr_t *__attr,
+					int __robustness)
+     __THROW __nonnull ((1));
+sysdeps/nptl/pthread.h:888:
+extern int pthread_mutexattr_setrobust (pthread_mutexattr_t *__attr,
+					int __robustness)
+     __THROW __nonnull ((1));
 .../glibc$
 
 Signed-off-by: Alejandro Colomar <alx.manpages@gmail.com>
 ---
- man3/putpwent.3 | 3 ++-
- 1 file changed, 2 insertions(+), 1 deletion(-)
+ man3/pthread_mutexattr_setrobust.3 | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
 
-diff --git a/man3/putpwent.3 b/man3/putpwent.3
-index 4db31a78d..85caca9c7 100644
---- a/man3/putpwent.3
-+++ b/man3/putpwent.3
-@@ -36,7 +36,8 @@ putpwent \- write a password file entry
- .B #include <sys/types.h>
- .B #include <pwd.h>
+diff --git a/man3/pthread_mutexattr_setrobust.3 b/man3/pthread_mutexattr_setrobust.3
+index 9034d6faf..d2df02b00 100644
+--- a/man3/pthread_mutexattr_setrobust.3
++++ b/man3/pthread_mutexattr_setrobust.3
+@@ -33,7 +33,7 @@ pthread_mutexattr_getrobust, pthread_mutexattr_setrobust
  .PP
--.BI "int putpwent(const struct passwd *" p ", FILE *" stream );
-+.BI "int putpwent(const struct passwd *restrict " p \
-+", FILE *restrict " stream );
+ .BI "int pthread_mutexattr_getrobust(const pthread_mutexattr_t *" attr ,
+ .BI "                                int *" robustness ");"
+-.BI "int pthread_mutexattr_setrobust(const pthread_mutexattr_t *" attr ,
++.BI "int pthread_mutexattr_setrobust(pthread_mutexattr_t *" attr ,
+ .BI "                                int " robustness ");"
  .fi
  .PP
- .RS -4
 -- 
 2.30.1
 
