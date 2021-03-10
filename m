@@ -5,59 +5,59 @@ X-Spam-Level:
 X-Spam-Status: No, score=-19.0 required=3.0 tests=BAYES_00,DKIMWL_WL_HIGH,
 	DKIM_SIGNED,DKIM_VALID,DKIM_VALID_AU,HEADER_FROM_DIFFERENT_DOMAINS,
 	INCLUDES_CR_TRAILER,INCLUDES_PATCH,MAILING_LIST_MULTI,SPF_HELO_NONE,SPF_PASS,
-	USER_AGENT_GIT autolearn=ham autolearn_force=no version=3.4.0
+	USER_AGENT_GIT autolearn=unavailable autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 054C5C433DB
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 3D703C43381
 	for <linux-man@archiver.kernel.org>; Wed, 10 Mar 2021 22:24:08 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.kernel.org (Postfix) with ESMTP id C312D64EDB
-	for <linux-man@archiver.kernel.org>; Wed, 10 Mar 2021 22:24:07 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTP id 0F8A964EDB
+	for <linux-man@archiver.kernel.org>; Wed, 10 Mar 2021 22:24:08 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S231790AbhCJWXh (ORCPT <rfc822;linux-man@archiver.kernel.org>);
-        Wed, 10 Mar 2021 17:23:37 -0500
-Received: from us-smtp-delivery-124.mimecast.com ([63.128.21.124]:59681 "EHLO
+        id S231935AbhCJWXi (ORCPT <rfc822;linux-man@archiver.kernel.org>);
+        Wed, 10 Mar 2021 17:23:38 -0500
+Received: from us-smtp-delivery-124.mimecast.com ([216.205.24.124]:56670 "EHLO
         us-smtp-delivery-124.mimecast.com" rhost-flags-OK-OK-OK-OK)
-        by vger.kernel.org with ESMTP id S231207AbhCJWXG (ORCPT
-        <rfc822;linux-man@vger.kernel.org>); Wed, 10 Mar 2021 17:23:06 -0500
+        by vger.kernel.org with ESMTP id S232058AbhCJWXJ (ORCPT
+        <rfc822;linux-man@vger.kernel.org>); Wed, 10 Mar 2021 17:23:09 -0500
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
-        s=mimecast20190719; t=1615414986;
+        s=mimecast20190719; t=1615414989;
         h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
          to:to:cc:cc:mime-version:mime-version:
          content-transfer-encoding:content-transfer-encoding:
          in-reply-to:in-reply-to:references:references;
-        bh=xTi7eK4FhauapOMog+x2j3yLdISM1j6yYqbUEE/lj8k=;
-        b=EOny+7YwKvV3oGXe6aBsGnOP4vzQGK7BnY7M6M295Md192TZZ9eYjIZaKFYQNkXkomNBxL
-        rVr3lq9HAPFPgSPASEUIfLsQA5ABmWS1YvoYQVAx9cD+COC75bhfaMHmrnvgWdRcWWrf0J
-        RU0pC0KZ6sda1jX6lYbFbb8fePODhEk=
-Received: from mail-qv1-f72.google.com (mail-qv1-f72.google.com
- [209.85.219.72]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-356-QztfYagxN6m4CCYym2NkTw-1; Wed, 10 Mar 2021 17:23:04 -0500
-X-MC-Unique: QztfYagxN6m4CCYym2NkTw-1
-Received: by mail-qv1-f72.google.com with SMTP id o14so13797023qvn.18
-        for <linux-man@vger.kernel.org>; Wed, 10 Mar 2021 14:23:04 -0800 (PST)
+        bh=ZFzDXRjRCL3c0mZFRAdKQ2jZRyOr3oCuno8J4ucW1ys=;
+        b=PNuET1DtmhDWZrYKYgtjEw/5pd/dVAusKMt/0sLYUlM9I7rVaxgC7FfN38UIerfao2H+BO
+        do4+smpm0DxVPwkR4r+Z1oRYNi1xwnOBf37GNPH4HVCOJS09398KIJAm5Q7iMSoKA87L3A
+        0sRH4ZhAy64lI6fUU7EIjmv2rEBerAc=
+Received: from mail-qv1-f71.google.com (mail-qv1-f71.google.com
+ [209.85.219.71]) (Using TLS) by relay.mimecast.com with ESMTP id
+ us-mta-131-kXEKFyNJPHal2K0UVwVGuw-1; Wed, 10 Mar 2021 17:23:08 -0500
+X-MC-Unique: kXEKFyNJPHal2K0UVwVGuw-1
+Received: by mail-qv1-f71.google.com with SMTP id u15so13791204qvo.13
+        for <linux-man@vger.kernel.org>; Wed, 10 Mar 2021 14:23:08 -0800 (PST)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
         h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
          :references:mime-version:content-transfer-encoding;
-        bh=xTi7eK4FhauapOMog+x2j3yLdISM1j6yYqbUEE/lj8k=;
-        b=JHruTvDuog5C7FO0RQRjnraObeobCdAv5qtuxxM/vTWY5RlxWAplsEbNzj5p/qRcaz
-         cFmi/pwg9W4lBqKjjx4LfxTae9C8YR3r+fGsrTw9foiMP9OPg5kgV6YqAcdBfkNuSRDl
-         W6bmL4pcK7HJ5E3JA7WtLFUc0Gmd5nRymdH57Vu88LyJYMIjl4sA5F81QleMM34xF4FC
-         b/ADFnXS3PNkMHzALOCaoIeKyA9cYrlE9aYtla7ktKErZiWs0wryCaCcmHqEvkuy8sgw
-         25AWlJmJP2Q6fLKayCyBuCOGe1Xs61+MXHfx/8ltrnUn5IC/+7V2l4UiGQcuajwj01Ca
-         1h/Q==
-X-Gm-Message-State: AOAM530UT9N7gjCPRjjEnaewFikpJ8xt1SVccX7ewRxoUHURDDuraYKu
-        eiGcs7btn5sTXsn+V9IbnEe7Et19USug68D4Nu5Yhjb/mvx7EzON/ptGDSNEEsPv/gNyABqX+Ew
-        KjKMQyqy4l6PXpDG29gg5OmN55KpkB5yXra2EgCQAMzPZH5uFAAYxB+3NAFu7W0a0k5hi3g==
-X-Received: by 2002:a37:b801:: with SMTP id i1mr4941134qkf.133.1615414983513;
-        Wed, 10 Mar 2021 14:23:03 -0800 (PST)
-X-Google-Smtp-Source: ABdhPJwU243DD5kOgxdOCxo20TQ0iqAimdDflbdLiodAf/V734MqCBcbaDiFEuQUCmE8qO5s1PRH9Q==
-X-Received: by 2002:a37:b801:: with SMTP id i1mr4941116qkf.133.1615414983236;
-        Wed, 10 Mar 2021 14:23:03 -0800 (PST)
+        bh=ZFzDXRjRCL3c0mZFRAdKQ2jZRyOr3oCuno8J4ucW1ys=;
+        b=nACYq0QkeQXoy12fGTIIzE18UJ+IM7xsBt+4aZbHb8tj47IavUSqtOe3GkIDLsmFKk
+         iZ90mt6sJEZL/rJAgfT/2m3YcGBwLXt86zWQ5ZzfKijXco1uSZYo/i4JTv2/nB/qeD7w
+         tiua2gtKQxhr37RbkvrNrqNAB6RbfGvgPThIaIR26qthyWsf3LKPKMJkLcr68etiL4+j
+         e079JwUSOIE4lSGer5A3JtxX6vTUeS6OEazTol79WUFqPAJ9vnUCYONaEWTD7RM/27Sz
+         gesdIzd3fhxO9zzi1ZV3u5mSdH4CtO1vEff73kdhYPl8dRr/dGb7g/yds5tLw7fCk+uR
+         ibjA==
+X-Gm-Message-State: AOAM532C/Ij04C0cSD36Dl2/I6BccqZfdP8MdfR2ho0Dqh4SAfYGMhOv
+        cjL/BCCmCnaUm/g/KnrKKzskg1aAc8aeS+dl040QXjXP8auFkCLnP3GSU2kgqp9VqOXk6eIPDlC
+        g45AjLS+YiDqYSABxzwOmTkhlDbpe7B9pA9aH6zGI99Z5N6OYTt5+c98++BfORgnxJQ82iQ==
+X-Received: by 2002:ac8:66d6:: with SMTP id m22mr4889769qtp.56.1615414987268;
+        Wed, 10 Mar 2021 14:23:07 -0800 (PST)
+X-Google-Smtp-Source: ABdhPJx0t3Sv/WtT2KXEpJpvdRgG/DJ9qTaCC0wpr6ZtX+MfqYxr2PjwtYccR5Z4rx16/S25TA6Rzg==
+X-Received: by 2002:ac8:66d6:: with SMTP id m22mr4889741qtp.56.1615414986928;
+        Wed, 10 Mar 2021 14:23:06 -0800 (PST)
 Received: from xz-x1.redhat.com ([142.126.89.138])
-        by smtp.gmail.com with ESMTPSA id e18sm451364qtr.52.2021.03.10.14.23.02
+        by smtp.gmail.com with ESMTPSA id e18sm451364qtr.52.2021.03.10.14.23.05
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Wed, 10 Mar 2021 14:23:02 -0800 (PST)
+        Wed, 10 Mar 2021 14:23:06 -0800 (PST)
 From:   Peter Xu <peterx@redhat.com>
 To:     linux-man@vger.kernel.org
 Cc:     Andrea Arcangeli <aarcange@redhat.com>,
@@ -69,9 +69,9 @@ Cc:     Andrea Arcangeli <aarcange@redhat.com>,
         Alejandro Colomar <alx.manpages@gmail.com>,
         Nadav Amit <nadav.amit@gmail.com>,
         Mike Rapoport <rppt@linux.vnet.ibm.com>
-Subject: [PATCH v3 1/4] userfaultfd.2: Add UFFD_FEATURE_THREAD_ID docs
-Date:   Wed, 10 Mar 2021 17:22:57 -0500
-Message-Id: <20210310222300.200054-2-peterx@redhat.com>
+Subject: [PATCH v3 4/4] ioctl_userfaultfd.2: Add write-protect mode docs
+Date:   Wed, 10 Mar 2021 17:23:00 -0500
+Message-Id: <20210310222300.200054-5-peterx@redhat.com>
 X-Mailer: git-send-email 2.26.2
 In-Reply-To: <20210310222300.200054-1-peterx@redhat.com>
 References: <20210310222300.200054-1-peterx@redhat.com>
@@ -81,51 +81,126 @@ Precedence: bulk
 List-ID: <linux-man.vger.kernel.org>
 X-Mailing-List: linux-man@vger.kernel.org
 
-UFFD_FEATURE_THREAD_ID is supported since Linux 4.14.
+Userfaultfd write-protect mode is supported starting from Linux 5.7.
 
 Signed-off-by: Peter Xu <peterx@redhat.com>
 ---
- man2/userfaultfd.2 | 13 +++++++++++++
- 1 file changed, 13 insertions(+)
+ man2/ioctl_userfaultfd.2 | 81 ++++++++++++++++++++++++++++++++++++++--
+ 1 file changed, 78 insertions(+), 3 deletions(-)
 
-diff --git a/man2/userfaultfd.2 b/man2/userfaultfd.2
-index e7dc9f813..555e37409 100644
---- a/man2/userfaultfd.2
-+++ b/man2/userfaultfd.2
-@@ -77,6 +77,13 @@ When the last file descriptor referring to a userfaultfd object is closed,
- all memory ranges that were registered with the object are unregistered
- and unread events are flushed.
- .\"
-+.PP
-+Since Linux 4.14, userfaultfd page fault message can selectively embed faulting
-+thread ID information into the fault message.
-+One needs to enable this feature explicitly using the
-+.BR UFFD_FEATURE_THREAD_ID
-+feature bit when initializing the userfaultfd context.
-+By default, thread ID reporting is diabled.
- .SS Usage
- The userfaultfd mechanism is designed to allow a thread in a multithreaded
- program to perform user-space paging for the other threads in the process.
-@@ -229,6 +236,9 @@ struct uffd_msg {
-         struct {
-             __u64 flags;    /* Flags describing fault */
-             __u64 address;  /* Faulting address */
-+            union {
-+                __u32 ptid; /* Thread ID of the fault */
-+            } feat;
-         } pagefault;
- 
-         struct {            /* Since Linux 4.11 */
-@@ -358,6 +368,9 @@ otherwise it is a read fault.
- .\" UFFD_PAGEFAULT_FLAG_WP is not yet supported.
- .RE
- .TP
-+.I pagefault.feat.pid
-+The thread ID that triggered the page fault.
+diff --git a/man2/ioctl_userfaultfd.2 b/man2/ioctl_userfaultfd.2
+index d4a8375b8..d8380896a 100644
+--- a/man2/ioctl_userfaultfd.2
++++ b/man2/ioctl_userfaultfd.2
+@@ -234,6 +234,11 @@ operation is supported.
+ The
+ .B UFFDIO_UNREGISTER
+ operation is supported.
 +.TP
- .I fork.ufd
- The file descriptor associated with the userfault object
- created for the child created by
++.B 1 << _UFFDIO_WRITEPROTECT
++The
++.B UFFDIO_WRITEPROTECT
++operation is supported.
+ .PP
+ This
+ .BR ioctl (2)
+@@ -322,9 +327,6 @@ Track page faults on missing pages.
+ .B UFFDIO_REGISTER_MODE_WP
+ Track page faults on write-protected pages.
+ .PP
+-Currently, the only supported mode is
+-.BR UFFDIO_REGISTER_MODE_MISSING .
+-.PP
+ If the operation is successful, the kernel modifies the
+ .I ioctls
+ bit-mask field to indicate which
+@@ -443,6 +445,13 @@ operation:
+ .TP
+ .B UFFDIO_COPY_MODE_DONTWAKE
+ Do not wake up the thread that waits for page-fault resolution
++.TP
++.B UFFDIO_COPY_MODE_WP
++Copy the page with read-only permission.
++This allows the user to trap the next write to the page, which will block and
++generate another write-protect userfault message.
++This is only used in conjunction with write-protect mode when both missing and
++write-protect modes are enabled.
+ .PP
+ The
+ .I copy
+@@ -654,6 +663,72 @@ field of the
+ structure was not a multiple of the system page size; or
+ .I len
+ was zero; or the specified range was otherwise invalid.
++.SS UFFDIO_WRITEPROTECT (Since Linux 5.7)
++Write-protect or write-unprotect an userfaultfd registered memory range
++registered with mode
++.BR UFFDIO_REGISTER_MODE_WP .
++.PP
++The
++.I argp
++argument is a pointer to a
++.I uffdio_range
++structure as shown below:
++.PP
++.in +4n
++.EX
++struct uffdio_writeprotect {
++    struct uffdio_range range;  /* Range to change write permission */
++    __u64 mode;                 /* Mode to change write permission */
++};
++.EE
++.in
++There're two mode bits that are supported in this structure:
++.TP
++.B UFFDIO_WRITEPROTECT_MODE_WP
++When this mode bit is set, the ioctl will be a write-protect operation upon the
++memory range specified by
++.IR range .
++Otherwise it'll be a write-unprotect operation upon the specified range, which
++can be used to resolve an userfaultfd write-protect page fault.
++.TP
++.B UFFDIO_WRITEPROTECT_MODE_DONTWAKE
++When this mode bit is set, do not wake up any thread that waits for page-fault
++resolution after the operation.
++This could only be specified if
++.B UFFDIO_WRITEPROTECT_MODE_WP
++is not specified.
++.PP
++This
++.BR ioctl (2)
++operation returns 0 on success.
++On error, \-1 is returned and
++.I errno
++is set to indicate the error.
++Possible errors include:
++.TP
++.B EINVAL
++The
++.I start
++or the
++.I len
++field of the
++.I ufdio_range
++structure was not a multiple of the system page size; or
++.I len
++was zero; or the specified range was otherwise invalid.
++.TP
++.B EAGAIN
++The process was interrupted and need to retry.
++.TP
++.B ENOENT
++The range specified in
++.I range
++is not valid.
++For example, the virtual address does not exist, or not registered with
++userfaultfd write-protect mode.
++.TP
++.B EFAULT
++Encountered a generic fault during processing.
+ .SH RETURN VALUE
+ See descriptions of the individual operations, above.
+ .SH ERRORS
 -- 
 2.26.2
 
