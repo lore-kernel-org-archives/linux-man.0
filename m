@@ -2,136 +2,111 @@ Return-Path: <linux-man-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-10.8 required=3.0 tests=BAYES_00,DKIM_SIGNED,
+X-Spam-Status: No, score=-12.9 required=3.0 tests=BAYES_00,DKIM_SIGNED,
 	DKIM_VALID,DKIM_VALID_AU,FREEMAIL_FORGED_FROMDOMAIN,FREEMAIL_FROM,
-	HEADER_FROM_DIFFERENT_DOMAINS,INCLUDES_PATCH,MAILING_LIST_MULTI,SPF_HELO_NONE,
-	SPF_PASS,USER_AGENT_GIT autolearn=ham autolearn_force=no version=3.4.0
+	HEADER_FROM_DIFFERENT_DOMAINS,INCLUDES_CR_TRAILER,INCLUDES_PATCH,
+	MAILING_LIST_MULTI,SPF_HELO_NONE,SPF_PASS,UNWANTED_LANGUAGE_BODY,
+	USER_AGENT_GIT autolearn=ham autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 9076EC433E9
+	by smtp.lore.kernel.org (Postfix) with ESMTP id D0055C433DB
 	for <linux-man@archiver.kernel.org>; Wed, 10 Mar 2021 18:33:08 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.kernel.org (Postfix) with ESMTP id 612A764F9A
+	by mail.kernel.org (Postfix) with ESMTP id 9A1E264F9A
 	for <linux-man@archiver.kernel.org>; Wed, 10 Mar 2021 18:33:08 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S229950AbhCJScf (ORCPT <rfc822;linux-man@archiver.kernel.org>);
-        Wed, 10 Mar 2021 13:32:35 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:56102 "EHLO
+        id S232598AbhCJScg (ORCPT <rfc822;linux-man@archiver.kernel.org>);
+        Wed, 10 Mar 2021 13:32:36 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:56126 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S232387AbhCJScI (ORCPT
-        <rfc822;linux-man@vger.kernel.org>); Wed, 10 Mar 2021 13:32:08 -0500
-Received: from mail-wm1-x335.google.com (mail-wm1-x335.google.com [IPv6:2a00:1450:4864:20::335])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id BC96CC061760
-        for <linux-man@vger.kernel.org>; Wed, 10 Mar 2021 10:32:07 -0800 (PST)
-Received: by mail-wm1-x335.google.com with SMTP id w7so7727050wmb.5
-        for <linux-man@vger.kernel.org>; Wed, 10 Mar 2021 10:32:07 -0800 (PST)
+        with ESMTP id S233336AbhCJScM (ORCPT
+        <rfc822;linux-man@vger.kernel.org>); Wed, 10 Mar 2021 13:32:12 -0500
+Received: from mail-wm1-x329.google.com (mail-wm1-x329.google.com [IPv6:2a00:1450:4864:20::329])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id B1467C061760
+        for <linux-man@vger.kernel.org>; Wed, 10 Mar 2021 10:32:11 -0800 (PST)
+Received: by mail-wm1-x329.google.com with SMTP id n22so7751328wmc.2
+        for <linux-man@vger.kernel.org>; Wed, 10 Mar 2021 10:32:11 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=gmail.com; s=20161025;
-        h=from:to:cc:subject:date:message-id:mime-version
-         :content-transfer-encoding;
-        bh=ONv0Si/7CZKpk5KEhJauGZ9kHUHz5Ol5zYAOS5zL8k8=;
-        b=uJgkR99/e1nNZAQcRag7eavMRY0YyT8FJ/gHWhnpN8AOk1LCzBXxtM152n6ccwFYyp
-         MD28+bFr1H4QC9FVq/S0b2nGAi11O34t1jbyu1vl5nbs2G4nlrhMCpiAa5kRmHkItx21
-         R8+7Gf6EVuu7vh2AeZnFTLxz+T6+XqTbpvwahu3NJWJhayBrfAHbIaxGy54fBBuX/egD
-         8BUQIloIQ03zXBZIGQlVwc7rJJmeAXil4+SvDsAdfW9BHclC1Ouv/mgQbrycL+zcAyLx
-         W0L6iCwrHuZYDlD6Gfml1+pOwX+RIn3zUU6i/PefuUa9ae4Y3lx3AAEkrSdnlbNJJTIO
-         1Gtw==
+        h=from:to:cc:subject:date:message-id:in-reply-to:references
+         :mime-version:content-transfer-encoding;
+        bh=TTdSfDoRiVb1tuE+92dsswKwFjc3WvqJM2t894HwE+0=;
+        b=E6HtMAJWC1W4AkbxQa2fhjk3BcdJYBSfmkS+eW1/DRTTwuU9pXLCLrwVQKxwntMs0B
+         RybjGCdNXwremXuUZVOT4tHdOTJRXmRYGF7lt+6gRSYxH3MorlBJR8lEBpMSXgim9dca
+         y3iFFYa+pAIMbxduMxkpDUgAbbeNJpMXnVgUdTBkMG36EUkkaLi3IdRfa3VdkJABblnG
+         N6xoYHTFnxj46Sd73j4dcennuuZndsTjzX6pITqxSxnV6gwKRg+hSK4qcYN5zkEN1BhT
+         mpS9cUsaoYQaCl/7HL7S6D137wRnFunpU7SAfKksp8Sa65ihvqTWtzi562OnceHik1Q0
+         SVzw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
-        h=x-gm-message-state:from:to:cc:subject:date:message-id:mime-version
-         :content-transfer-encoding;
-        bh=ONv0Si/7CZKpk5KEhJauGZ9kHUHz5Ol5zYAOS5zL8k8=;
-        b=rPfS+U9fLQ/Wo011CN/3cIBDzoSjpVcBlIGC5pZk6m4Ro8lWtExontSjL/MYjkaeom
-         JIRk6yBTgmmlnqbXLuBJoeVHtEL4EtLPk5zGnnKvUXlqWSSQlWpk4QG8Yl5n/Xu8emGY
-         EzUByY81f7+DanA93xhR0nHTDrwQxb4nVs4MXCrrXN7qE6I4O6ErFa0LAYjYQT24y9Nk
-         Yncr4DR7bwFt4tvKyHLu0bOt+A/FzfkkA4hs+pBQ6evChOKPATxya6zF8GBQkqfe8iBp
-         DTlbtlN3rLs4HE4CcfzZXrOUsl7ES/ojD1cnf/yVSzAuxgBMMf7x/7XTLV9lK4snUhhm
-         HWMQ==
-X-Gm-Message-State: AOAM531GFhHOimGdIVsq/mZK1rdbJqCXgrgdXveOM4ABUuGdFhVrf07M
-        WvymgM30FyeeBz/i5XScM0A=
-X-Google-Smtp-Source: ABdhPJzHMhOrT6e10mgi+wR7/H9jjJdZdGVrVlofcndJf/HrZycUl1ibGh1z9KqfLvYjPUpuX/x3qA==
-X-Received: by 2002:a1c:7fc9:: with SMTP id a192mr4499806wmd.15.1615401126585;
-        Wed, 10 Mar 2021 10:32:06 -0800 (PST)
+        h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
+         :references:mime-version:content-transfer-encoding;
+        bh=TTdSfDoRiVb1tuE+92dsswKwFjc3WvqJM2t894HwE+0=;
+        b=Jdry8/YtPn1a9cTcx5HdLEAcrYdxTFnvT9hxiDTpWTE1/3kiEls8t5k1HCMr1fP6e3
+         GCx5VTQgRXeznumFMC1I1iMp5rNl//f/hDTy2xa0eXjRhQ1X7PJL6CvHYBsZUKzyGQl3
+         tI4G2Mj31+Fugl7NYynS8VzC8sawHjDq5gFvZ7Zd3fyAWHBo+TKZF9Y7eZq3bCJ9S7bx
+         1jGJ9Lb5lPCKKNV9Aju25dtP0sZXuKuMxj5Sm0fqV+Pyn1RbrRuuoDh+04H5HMKuGdG8
+         Ft9JjX3Hz4kkoarH34qmuKJSoJH2xWijfJ/SggNlNWDnNubx+C/xWj+zP2ljHroH4FSL
+         Ob/A==
+X-Gm-Message-State: AOAM530sddLYdQGO+2zO7d7kZQdb/HiZKwl3cslwTfLLcNRIBK4+9KMo
+        5WlqLOuXAENby+vWTCAhvLE=
+X-Google-Smtp-Source: ABdhPJyPjNiZoNtH9EE7CB3RWZiEjP57WGXFB2E9xeBOAgbxHH43Fkh1RqdfZSIoC2J5qrDhpEbgow==
+X-Received: by 2002:a1c:6543:: with SMTP id z64mr4706350wmb.50.1615401130522;
+        Wed, 10 Mar 2021 10:32:10 -0800 (PST)
 Received: from localhost.localdomain ([170.253.51.130])
-        by smtp.googlemail.com with ESMTPSA id k11sm325374wmj.1.2021.03.10.10.32.05
+        by smtp.googlemail.com with ESMTPSA id k11sm325374wmj.1.2021.03.10.10.32.09
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Wed, 10 Mar 2021 10:32:06 -0800 (PST)
+        Wed, 10 Mar 2021 10:32:10 -0800 (PST)
 From:   Alejandro Colomar <alx.manpages@gmail.com>
 To:     mtk.manpages@gmail.com
 Cc:     Alejandro Colomar <alx.manpages@gmail.com>,
-        linux-man@vger.kernel.org, libc-alpha@sourceware.org,
-        Heinrich Schuchardt <xypron.glpk@gmx.de>
-Subject: [PATCH 00/24] man3: SYNOPSIS: Use 'restrict' in prototypes (batch 5)
-Date:   Wed, 10 Mar 2021 19:31:26 +0100
-Message-Id: <20210310183149.194717-1-alx.manpages@gmail.com>
+        linux-man@vger.kernel.org, libc-alpha@sourceware.org
+Subject: [PATCH 05/24] setbuf.3: SYNOPSIS: Use 'restrict' in prototypes
+Date:   Wed, 10 Mar 2021 19:31:31 +0100
+Message-Id: <20210310183149.194717-6-alx.manpages@gmail.com>
 X-Mailer: git-send-email 2.30.1.721.g45526154a5
+In-Reply-To: <20210310183149.194717-1-alx.manpages@gmail.com>
+References: <20210310183149.194717-1-alx.manpages@gmail.com>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 Precedence: bulk
 List-ID: <linux-man.vger.kernel.org>
 X-Mailing-List: linux-man@vger.kernel.org
 
-This fixes up til trunc.3 (I didn't send you scanf.3
-in this patch set because I did in my mom's computer and forgot to push).
+Both POSIX and glibc use 'restrict' in setvbuf(), setbuf().
+Let's use it here too.
 
-When you come back and merge all of the pending patches, I'll send/resend
-anything that's not in sync anyway.
-So don't worry about missing some of them.
+.../glibc$ grep_glibc_prototype setvbuf
+libio/stdio.h:308:
+extern int setvbuf (FILE *__restrict __stream, char *__restrict __buf,
+		    int __modes, size_t __n) __THROW;
+.../glibc$ grep_glibc_prototype setbuf
+libio/stdio.h:304:
+extern void setbuf (FILE *__restrict __stream, char *__restrict __buf) __THROW;
+.../glibc$
 
-Kind regards,
+Signed-off-by: Alejandro Colomar <alx.manpages@gmail.com>
+---
+ man3/setbuf.3 | 6 +++---
+ 1 file changed, 3 insertions(+), 3 deletions(-)
 
-Alex
-
-Alejandro Colomar (24):
-  sem_getvalue.3: SYNOPSIS: Use 'restrict' in prototypes
-  sem_wait.3: SYNOPSIS: Use 'restrict' in prototypes
-  setaliasent.3: SYNOPSIS: Use 'restrict' in prototypes
-  setbuf.3: SYNOPSIS: Use 'restrict' in prototypes
-  setbuf.3: SYNOPSIS: Use 'restrict' in prototypes
-  setnetgrent.3: SYNOPSIS: Use 'restrict' in prototypes
-  sigwait.3: SYNOPSIS: Use 'restrict' in prototypes
-  statvfs.3: SYNOPSIS: Use 'restrict' in prototypes
-  stpcpy.3: SYNOPSIS: Use 'restrict' in prototypes
-  stpncpy.3: SYNOPSIS: Use 'restrict' in prototypes
-  strcat.3: SYNOPSIS: Use 'restrict' in prototypes
-  strcpy.3: SYNOPSIS: Use 'restrict' in prototypes
-  strfmon.3: SYNOPSIS: Use 'restrict' in prototypes
-  strftime.3: SYNOPSIS: Use 'restrict' in prototypes
-  string.3: SYNOPSIS: Use 'restrict' in prototypes
-  string.3: SYNOPSIS: Use 'restrict' in prototypes
-  strptime.3: SYNOPSIS: Use 'restrict' in prototypes
-  strsep.3: SYNOPSIS: Use 'restrict' in prototypes
-  strtod.3: SYNOPSIS: Use 'restrict' in prototypes
-  strtoimax.3: SYNOPSIS: Use 'restrict' in prototypes
-  strtok.3: SYNOPSIS: Use 'restrict' in prototypes
-  strtol.3, strtoul.3: SYNOPSIS: Use 'restrict' in prototypes
-  strxfrm.3: SYNOPSIS: Use 'restrict' in prototypes
-  swab.3: SYNOPSIS: Use 'restrict' in prototypes
-
- man3/sem_getvalue.3 |  2 +-
- man3/sem_wait.3     |  3 ++-
- man3/setaliasent.3  | 13 +++++++------
- man3/setbuf.3       |  9 +++++----
- man3/setnetgrent.3  | 12 +++++++-----
- man3/sigwait.3      |  2 +-
- man3/statvfs.3      |  3 ++-
- man3/stpcpy.3       |  2 +-
- man3/stpncpy.3      |  3 ++-
- man3/strcat.3       |  5 +++--
- man3/strcpy.3       |  5 +++--
- man3/strfmon.3      |  7 ++++---
- man3/strftime.3     |  5 +++--
- man3/string.3       | 21 ++++++++++++---------
- man3/strptime.3     |  3 ++-
- man3/strsep.3       |  2 +-
- man3/strtod.3       |  7 ++++---
- man3/strtoimax.3    |  6 ++++--
- man3/strtok.3       |  5 +++--
- man3/strtol.3       |  7 ++++---
- man3/strtoul.3      |  8 ++++----
- man3/strxfrm.3      |  3 ++-
- man3/swab.3         |  3 ++-
- 23 files changed, 79 insertions(+), 57 deletions(-)
-
+diff --git a/man3/setbuf.3 b/man3/setbuf.3
+index ac73bb06e..708e5c5aa 100644
+--- a/man3/setbuf.3
++++ b/man3/setbuf.3
+@@ -52,10 +52,10 @@ setbuf, setbuffer, setlinebuf, setvbuf \- stream buffering operations
+ .nf
+ .B #include <stdio.h>
+ .PP
+-.BI "int setvbuf(FILE *" stream ", char *" buf ", int " mode \
+-", size_t " size );
++.BI "int setvbuf(FILE *restrict " stream ", char *restrict " buf ,
++.BI "            int " mode ", size_t " size );
+ .PP
+-.BI "void setbuf(FILE *" stream ", char *" buf );
++.BI "void setbuf(FILE *restrict " stream ", char *restrict " buf );
+ .BI "void setbuffer(FILE *restrict " stream ", char *restrict " buf ,
+ .BI "            size_t "  size );
+ .BI "void setlinebuf(FILE *" stream );
 -- 
 2.30.1.721.g45526154a5
 
