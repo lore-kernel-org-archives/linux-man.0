@@ -8,61 +8,61 @@ X-Spam-Status: No, score=-15.8 required=3.0 tests=BAYES_00,DKIM_SIGNED,
 	MAILING_LIST_MULTI,SPF_HELO_NONE,SPF_PASS,USER_AGENT_GIT autolearn=ham
 	autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 9352CC43619
+	by smtp.lore.kernel.org (Postfix) with ESMTP id EF6EDC4161F
 	for <linux-man@archiver.kernel.org>; Wed, 10 Mar 2021 18:33:09 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.kernel.org (Postfix) with ESMTP id 7E87864F02
+	by mail.kernel.org (Postfix) with ESMTP id C683464F02
 	for <linux-man@archiver.kernel.org>; Wed, 10 Mar 2021 18:33:09 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S233424AbhCJSci (ORCPT <rfc822;linux-man@archiver.kernel.org>);
-        Wed, 10 Mar 2021 13:32:38 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:56176 "EHLO
+        id S233475AbhCJScj (ORCPT <rfc822;linux-man@archiver.kernel.org>);
+        Wed, 10 Mar 2021 13:32:39 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:56200 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S233461AbhCJScV (ORCPT
-        <rfc822;linux-man@vger.kernel.org>); Wed, 10 Mar 2021 13:32:21 -0500
-Received: from mail-wm1-x331.google.com (mail-wm1-x331.google.com [IPv6:2a00:1450:4864:20::331])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id B5F5BC061760
-        for <linux-man@vger.kernel.org>; Wed, 10 Mar 2021 10:32:20 -0800 (PST)
-Received: by mail-wm1-x331.google.com with SMTP id j4-20020a05600c4104b029010c62bc1e20so11361568wmi.3
-        for <linux-man@vger.kernel.org>; Wed, 10 Mar 2021 10:32:20 -0800 (PST)
+        with ESMTP id S233495AbhCJScZ (ORCPT
+        <rfc822;linux-man@vger.kernel.org>); Wed, 10 Mar 2021 13:32:25 -0500
+Received: from mail-wr1-x42f.google.com (mail-wr1-x42f.google.com [IPv6:2a00:1450:4864:20::42f])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id C7C42C061760
+        for <linux-man@vger.kernel.org>; Wed, 10 Mar 2021 10:32:24 -0800 (PST)
+Received: by mail-wr1-x42f.google.com with SMTP id l12so24416042wry.2
+        for <linux-man@vger.kernel.org>; Wed, 10 Mar 2021 10:32:24 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=gmail.com; s=20161025;
         h=from:to:cc:subject:date:message-id:in-reply-to:references
          :mime-version:content-transfer-encoding;
-        bh=H8k9UdQsMXTORYdmaOp/4Mj59+nJPP71f8MfYKUnTEw=;
-        b=RCwRKlbMi3zZhw13WA++n/3qJs9BT3vz254Jy6dqSV6Ng5ICia1znMgYcIIPT80z7h
-         0J0JK1d1UXOzSyMuB1So9rJ5jZlK84HwUGvq7FYxEchy+Vj7y4Xm17gcLN+YmqpPZe2K
-         rFl4/Joqe/hwWWRPly0IwJaISNc5iPjIM7JysabrQJmxRaW3X1e+qK/E30RduB/9j5a2
-         ids6mJdOqkp5/stF8m449yNRwpG/qowbtTauGj0kp/aOdGicjr/qZ0xFoeaVEgILO6Qf
-         dix3arpQh0EhuYguDOnDmrMQHohM2Ssn4zNuuMHUwGpQTfYRTltg4FkPAnS6uq2+RCgy
-         muNg==
+        bh=UbqNJxji0iog/ihZEREGvWtqIWGF3dWUVT8PqeBhNDY=;
+        b=Swcw7DE8u91W8QqeerBcIOteoK3vktBVF8Zh4p9R+JLZv6UuGKC0HNug0/aiNClQ09
+         vc3he05zqqZjeXkuWVNeK8zpsY+K2LF8Vru+ztXvEYgzg3dzQEhyJ4pWdGmJu1pyXXfj
+         3zrGAIo8XbSdICWdSb9Di4Qu/xBjGPKEwB1NI4QWHG2YAKWzcBqZ7L5su3ru4OzZGw8D
+         FqD7vVQV03Q5Zku1tlNK7s5naeNrfjhC1Jv9c3rTZUg0s7M2ypMEB+txEloA2GH+ZJXf
+         CmmdtexDQ3cOgojTolVkQpcotAFhd6CiOElm9ZqefXFW7oOqfPt2u037QJV63xMQqEge
+         Nr8w==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
         h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
          :references:mime-version:content-transfer-encoding;
-        bh=H8k9UdQsMXTORYdmaOp/4Mj59+nJPP71f8MfYKUnTEw=;
-        b=XRK4TjOnq4/bflD8uh1HqjhV1iYvdUqLUG7k+hWgqMA3dfv36UgqGKJUjmRNQE/5N2
-         BfBg8wHHwbqpqqEUlGmOFS8GZwMdb3Fg3u5ztOplRo80iNhPlwSGgt6KOeqmYPgytD9l
-         WJSeiAYPaEgsRU+ppEF+KC3NYISCvTskVXmPUWJ/cVaJSjVNIQTqRvc1PiLtD4liqN6v
-         qbYX5ZIe3Jg49Mhh+qjXLuvLZiQnsGNB9oKOvg2uB9jlnK9wkU6+M3fcPEmlJFmKi91z
-         6id+cjSZ8IVPk6Vb54ttqC1aiYxUQe7O3Hg1o1seBZRurCE5aG9nEx1XDp41unL3Y8EO
-         cUzw==
-X-Gm-Message-State: AOAM533884nsevKmgClOCOBvVlHFO0l2v3WyLYzaPWGNCYn2lD1AS7ll
-        E1y4/0Vz5bPWfnczzChXcJ8=
-X-Google-Smtp-Source: ABdhPJxMct7E4+JoqDh4LKVOIYI62RobQsVXQNuC6CpU0tcCpo3uHR1gUbkqXG4mZ8iO1qTk5upYlw==
-X-Received: by 2002:a7b:c010:: with SMTP id c16mr4713344wmb.134.1615401139412;
-        Wed, 10 Mar 2021 10:32:19 -0800 (PST)
+        bh=UbqNJxji0iog/ihZEREGvWtqIWGF3dWUVT8PqeBhNDY=;
+        b=nBjQA/sQXaxEGItHShQCBfRSLQV13e5s189GsI2xh25cx8jIMpnyVVhGRYZmRJem9O
+         ptTwPBvZjt6o6BOeCSapkgnZLX/BydhXuSJssvnFIrm9pI2XF/VNPp2VS/lCSmD3adxf
+         NiOqEFrj7oQewER66aTx6/NPxOfJgai2hOkP9vW+DO8dHnkKIgHcDut5xIYILoo+vuki
+         Nc6aqEKn+brDgthTqzFdxslPfSbdz8CfKccOWmMCIGz4kMLLTm7MtLX4K8UKrsQ6UKjx
+         loMPc+r11o+4D86ASHROeSKor6l80ylIFQs7XjcZQfUwmqUlSE9DJpf1lLXi1Qt9Jzdt
+         Wq7w==
+X-Gm-Message-State: AOAM533WnP3NwVNqE33Sz4AvxKLlVzBf//E4lQ19YD8HD6CrGMkvsAde
+        HT0SN6nui4bVJKlJWcJuerw=
+X-Google-Smtp-Source: ABdhPJwITlZItXQJTT4ESeSmwDDKDuhYIZED+Lat/lWmxR77ZkMDemH2ojyZHTsTW7kiLYlETGGytg==
+X-Received: by 2002:adf:b355:: with SMTP id k21mr4934952wrd.156.1615401143632;
+        Wed, 10 Mar 2021 10:32:23 -0800 (PST)
 Received: from localhost.localdomain ([170.253.51.130])
-        by smtp.googlemail.com with ESMTPSA id k11sm325374wmj.1.2021.03.10.10.32.18
+        by smtp.googlemail.com with ESMTPSA id k11sm325374wmj.1.2021.03.10.10.32.22
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Wed, 10 Mar 2021 10:32:19 -0800 (PST)
+        Wed, 10 Mar 2021 10:32:23 -0800 (PST)
 From:   Alejandro Colomar <alx.manpages@gmail.com>
 To:     mtk.manpages@gmail.com
 Cc:     Alejandro Colomar <alx.manpages@gmail.com>,
         linux-man@vger.kernel.org, libc-alpha@sourceware.org
-Subject: [PATCH 16/24] string.3: SYNOPSIS: Use 'restrict' in prototypes
-Date:   Wed, 10 Mar 2021 19:31:42 +0100
-Message-Id: <20210310183149.194717-17-alx.manpages@gmail.com>
+Subject: [PATCH 21/24] strtok.3: SYNOPSIS: Use 'restrict' in prototypes
+Date:   Wed, 10 Mar 2021 19:31:47 +0100
+Message-Id: <20210310183149.194717-22-alx.manpages@gmail.com>
 X-Mailer: git-send-email 2.30.1.721.g45526154a5
 In-Reply-To: <20210310183149.194717-1-alx.manpages@gmail.com>
 References: <20210310183149.194717-1-alx.manpages@gmail.com>
@@ -72,34 +72,41 @@ Precedence: bulk
 List-ID: <linux-man.vger.kernel.org>
 X-Mailing-List: linux-man@vger.kernel.org
 
-glibc uses 'restrict' in strsep().
+Both POSIX and glibc use 'restrict' in strtok(), strtok_r().
 Let's use it here too.
 
-.../glibc$ grep_glibc_prototype strsep
-string/string.h:455:
-extern char *strsep (char **__restrict __stringp,
-		     const char *__restrict __delim)
-     __THROW __nonnull ((1, 2));
+.../glibc$ grep_glibc_prototype strtok
+string/string.h:340:
+extern char *strtok (char *__restrict __s, const char *__restrict __delim)
+     __THROW __nonnull ((2));
+.../glibc$ grep_glibc_prototype strtok_r
+string/string.h:350:
+extern char *strtok_r (char *__restrict __s, const char *__restrict __delim,
+		       char **__restrict __save_ptr)
+     __THROW __nonnull ((2, 3));
 .../glibc$
 
 Signed-off-by: Alejandro Colomar <alx.manpages@gmail.com>
 ---
- man3/string.3 | 2 +-
- 1 file changed, 1 insertion(+), 1 deletion(-)
+ man3/strtok.3 | 5 +++--
+ 1 file changed, 3 insertions(+), 2 deletions(-)
 
-diff --git a/man3/string.3 b/man3/string.3
-index 06da21c28..4bacd8d8b 100644
---- a/man3/string.3
-+++ b/man3/string.3
-@@ -171,7 +171,7 @@ Return a pointer to the last occurrence of the character
- in the string
- .IR s .
- .TP
--.BI "char *strsep(char **" stringp ", const char *" delim );
-+.BI "char *strsep(char **restrict " stringp ", const char *restrict " delim );
- Extract the initial token in
- .I stringp
- that is delimited by one of the bytes in
+diff --git a/man3/strtok.3 b/man3/strtok.3
+index 6db48b677..8058ff2fe 100644
+--- a/man3/strtok.3
++++ b/man3/strtok.3
+@@ -36,8 +36,9 @@ strtok, strtok_r \- extract tokens from strings
+ .nf
+ .B #include <string.h>
+ .PP
+-.BI "char *strtok(char *" str ", const char *" delim );
+-.BI "char *strtok_r(char *" str ", const char *" delim ", char **" saveptr );
++.BI "char *strtok(char *restrict " str ", const char *restrict " delim );
++.BI "char *strtok_r(char *restrict " str ", const char *restrict " delim ,
++.BI "               char **restrict " saveptr );
+ .fi
+ .PP
+ .RS -4
 -- 
 2.30.1.721.g45526154a5
 
