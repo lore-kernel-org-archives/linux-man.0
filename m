@@ -2,141 +2,124 @@ Return-Path: <linux-man-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-13.8 required=3.0 tests=BAYES_00,
-	HEADER_FROM_DIFFERENT_DOMAINS,INCLUDES_CR_TRAILER,INCLUDES_PATCH,
-	MAILING_LIST_MULTI,SPF_HELO_NONE,SPF_PASS,URIBL_BLOCKED autolearn=ham
-	autolearn_force=no version=3.4.0
+X-Spam-Status: No, score=-4.2 required=3.0 tests=BAYES_00,DKIM_SIGNED,
+	DKIM_VALID,DKIM_VALID_AU,FREEMAIL_FORGED_FROMDOMAIN,FREEMAIL_FROM,
+	HEADER_FROM_DIFFERENT_DOMAINS,MAILING_LIST_MULTI,SPF_HELO_NONE,SPF_PASS,
+	URIBL_BLOCKED,USER_AGENT_SANE_1 autolearn=no autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 84614C433DB
-	for <linux-man@archiver.kernel.org>; Wed, 10 Mar 2021 01:43:13 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id B6655C433E0
+	for <linux-man@archiver.kernel.org>; Wed, 10 Mar 2021 17:33:31 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.kernel.org (Postfix) with ESMTP id 5AFAA650F3
-	for <linux-man@archiver.kernel.org>; Wed, 10 Mar 2021 01:43:13 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTP id 8A8A360232
+	for <linux-man@archiver.kernel.org>; Wed, 10 Mar 2021 17:33:31 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S231464AbhCJBmm (ORCPT <rfc822;linux-man@archiver.kernel.org>);
-        Tue, 9 Mar 2021 20:42:42 -0500
-Received: from mga11.intel.com ([192.55.52.93]:20603 "EHLO mga11.intel.com"
-        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S229467AbhCJBmk (ORCPT <rfc822;linux-man@vger.kernel.org>);
-        Tue, 9 Mar 2021 20:42:40 -0500
-IronPort-SDR: 73BHovlxDb9Kt+zNGAQUO6tWPnlRFwgGDPDEzC5PdSHdpG1cXRHNxOKuUsoxvNiVHd2vgNiGWQ
- /tDTuNNLjqWA==
-X-IronPort-AV: E=McAfee;i="6000,8403,9917"; a="185004310"
-X-IronPort-AV: E=Sophos;i="5.81,236,1610438400"; 
-   d="scan'208";a="185004310"
-Received: from fmsmga006.fm.intel.com ([10.253.24.20])
-  by fmsmga102.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 09 Mar 2021 17:42:38 -0800
-IronPort-SDR: tqkym2bmInsABOvl/EZ2feMAWIcDuuUohUD82qfdWXz95sCK+eIXnXSvkRECLKS9nnBQP0V3Qv
- e+LE69U/w+nQ==
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="5.81,236,1610438400"; 
-   d="scan'208";a="599574529"
-Received: from yhuang-dev.sh.intel.com (HELO yhuang-dev) ([10.239.159.130])
-  by fmsmga006.fm.intel.com with ESMTP; 09 Mar 2021 17:42:31 -0800
-From:   "Huang, Ying" <ying.huang@intel.com>
-To:     Alejandro Colomar <alx.manpages@gmail.com>
-Cc:     Michael Kerrisk <mtk.manpages@gmail.com>,
-        <linux-man@vger.kernel.org>, Mel Gorman <mgorman@suse.de>
-Subject: Re: [PATCH] man2/set_mempolicy.2: Add mode flag MPOL_F_NUMA_BALANCING
-References: <20210301024555.85484-1-ying.huang@intel.com>
-Date:   Wed, 10 Mar 2021 09:42:31 +0800
-In-Reply-To: <20210301024555.85484-1-ying.huang@intel.com> (Huang Ying's
-        message of "Mon, 1 Mar 2021 10:45:55 +0800")
-Message-ID: <878s6vyebc.fsf@yhuang-dev.intel.com>
-User-Agent: Gnus/5.13 (Gnus v5.13) Emacs/27.1 (gnu/linux)
+        id S229851AbhCJRdA (ORCPT <rfc822;linux-man@archiver.kernel.org>);
+        Wed, 10 Mar 2021 12:33:00 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:43204 "EHLO
+        lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S232734AbhCJRcg (ORCPT
+        <rfc822;linux-man@vger.kernel.org>); Wed, 10 Mar 2021 12:32:36 -0500
+Received: from mail-wr1-x434.google.com (mail-wr1-x434.google.com [IPv6:2a00:1450:4864:20::434])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 58AFAC061760
+        for <linux-man@vger.kernel.org>; Wed, 10 Mar 2021 09:32:36 -0800 (PST)
+Received: by mail-wr1-x434.google.com with SMTP id v15so24258536wrx.4
+        for <linux-man@vger.kernel.org>; Wed, 10 Mar 2021 09:32:36 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20161025;
+        h=to:cc:from:subject:message-id:date:user-agent:mime-version
+         :content-language:content-transfer-encoding;
+        bh=B5GrBUuLJovj8++5LGyGOp6I2VeehkGdRaxZNMRcSYw=;
+        b=WtCNoin3Sy017qkwaIPrCWOCSywJsPMhecpYvtEOoap54GlZCyixUHv43v6Cgu+q+d
+         uRx9cbh3cuj4UVX07f2Vmq5Oyr2aK4RKuJ0FRkuJOq+Tgbeb0lqRAQt79nkl/2ZFwOOf
+         P3KwuFfdC222Kasx0nMVytxj3Zw53FROZNPbakLhuZnCUfUp6TEWrWnUnBIY8A9+4K3F
+         0A3+6rsErYGTgvb5jjOFTJwICQiNAD/gDQpkowKKOAzP+hcNlRal/N9yThiPhaeHwCrW
+         xQ4apLRgK+JgX6qYji1ehMB+TY79ni8jGm68G0N25FAtCxoBeA0TAQX/tS90HaCFY0Za
+         jsIQ==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20161025;
+        h=x-gm-message-state:to:cc:from:subject:message-id:date:user-agent
+         :mime-version:content-language:content-transfer-encoding;
+        bh=B5GrBUuLJovj8++5LGyGOp6I2VeehkGdRaxZNMRcSYw=;
+        b=PFOvtnhD7IPmQfZDNBzRpBaHavrc1DBMqLrkewMRzzkaPomKj6pBnlRWHNL1vJao32
+         v6Yi/l8kiQH55HkFfAbx4jNn137RfgqMhqx4e35Y7B7uuGJO2DUAidjCjKNNdBpqph0G
+         6SzZBoghU88eytIWiHgy1ZKbNelo+ul6hq0j15zX1C5FF47/eNlbTJvs5xRLtCgl6dP+
+         jDuwK2rsNvCtHSt1BpoL+YPevmhVMnbORQzjGq3ZIN8vmZxado90aDOiT50c93q0DaNn
+         lIO4YEixa3MCEtNPSsc4zap181I85mEHi8nWgGjwNKtEjs79kJcti7x3Dm2Iwm/Vxx20
+         l0VQ==
+X-Gm-Message-State: AOAM531aZQ/OeBRhuzERgtWGejS3hvY0rVleJKPN0fhIgoKPnRBtPsKH
+        1GrJKl0jGbSr9O6K9Pmd8e0=
+X-Google-Smtp-Source: ABdhPJxl5GWFtjPY07RP7MOoiBqb4ShSo839+yAcatWqPKH3+WU3BZrf1UkyNnzp/QIUPAJZc5ddUg==
+X-Received: by 2002:adf:eec9:: with SMTP id a9mr4649813wrp.252.1615397555102;
+        Wed, 10 Mar 2021 09:32:35 -0800 (PST)
+Received: from [192.168.1.143] ([170.253.51.130])
+        by smtp.gmail.com with ESMTPSA id c128sm15932943wme.3.2021.03.10.09.32.34
+        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+        Wed, 10 Mar 2021 09:32:34 -0800 (PST)
+To:     "Michael Kerrisk (man-pages)" <mtk.manpages@gmail.com>,
+        Wainer dos Santos Moschetta <wainersm@linux.vnet.ibm.com>
+Cc:     linux-man <linux-man@vger.kernel.org>, libc-alpha@sourceware.org
+From:   "Alejandro Colomar (man-pages)" <alx.manpages@gmail.com>
+Subject: strfromd.3: restrict? C99?
+Message-ID: <befb1e8d-42e5-05bc-4d88-ee7f92e9e692@gmail.com>
+Date:   Wed, 10 Mar 2021 18:32:33 +0100
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
+ Thunderbird/78.8.0
 MIME-Version: 1.0
-Content-Type: text/plain; charset=ascii
+Content-Type: text/plain; charset=utf-8; format=flowed
+Content-Language: en-US
+Content-Transfer-Encoding: 7bit
 Precedence: bulk
 List-ID: <linux-man.vger.kernel.org>
 X-Mailing-List: linux-man@vger.kernel.org
 
-Huang Ying <ying.huang@intel.com> writes:
+Hello Michael, Wainer,
 
-> In Linux kernel 5.12, a new mode flag MPOL_F_NUMA_BALANCING is added
-> to set_mempolicy() to optimize the page placement among the NUMA nodes
-> with the NUMA balancing mechanism even if the memory of the
-> applications are bound with MPOL_BIND.  This patch update the man page
-> for the new mode flag.
->
-> Related kernel commits:
-> bda420b985054a3badafef23807c4b4fa38a3dff
+It's weird.  The only manual page that I've seen using restrict, and I 
+think it's wrong.  glibc doesn't use it:
 
-Hi, Colomar,
+.../glibc$ grep_glibc_prototype strfromd
+src/gnu/glibc/stdlib/stdlib.h:212:
+extern int strfromd (char *__dest, size_t __size, const char *__format,
+		     double __f)
+      __THROW __nonnull ((3));
+.../glibc$ grep_glibc_prototype strfromf
+src/gnu/glibc/stdlib/stdlib.h:216:
+extern int strfromf (char *__dest, size_t __size, const char *__format,
+		     float __f)
+      __THROW __nonnull ((3));
+.../glibc$ grep_glibc_prototype strfroml
+src/gnu/glibc/stdlib/stdlib.h:220:
+extern int strfroml (char *__dest, size_t __size, const char *__format,
+		     long double __f)
+      __THROW __nonnull ((3));
+.../glibc$
 
-Do you have time to take a look at this patch?  It has been reviewed in
-the following thread,
+And the manual page states that it conforms to some standards, but I 
+haven't found it in C99 (neither in C11 nor C18) nor in POSIX:
 
-https://lore.kernel.org/lkml/20210120061235.148637-3-ying.huang@intel.com/
+$ man 3 strfromd | sed -n '/CONFORMING/,/^$/p'
+CONFORMING TO
+        C99, ISO/IEC TS 18661-1.
 
-Now the corresponding kernel change has been merged by upstream kernel.
-Do you have further comments?
+$ man 3p strfromd
+No manual entry for strfromd in section 3p
+$
 
-Best Regards,
-Huang, Ying
+I don't know what that other "ISO/IEC TS 18661-1" is.
 
-> Signed-off-by: "Huang, Ying" <ying.huang@intel.com>
-> Cc: "Alejandro Colomar" <alx.manpages@gmail.com>
-> Cc: "Michael Kerrisk" <mtk.manpages@gmail.com>
-> ---
->  man2/set_mempolicy.2 | 34 ++++++++++++++++++++++++++++------
->  1 file changed, 28 insertions(+), 6 deletions(-)
->
-> diff --git a/man2/set_mempolicy.2 b/man2/set_mempolicy.2
-> index 6e695fb13..cd543667f 100644
-> --- a/man2/set_mempolicy.2
-> +++ b/man2/set_mempolicy.2
-> @@ -98,6 +98,28 @@ The supported
->  .I "mode flags"
->  are:
->  .TP
-> +.BR MPOL_F_NUMA_BALANCING " (since Linux 5.12)"
-> +When
-> +.I mode
-> +is
-> +.BR MPOL_BIND ,
-> +enable the kernel NUMA balancing for the task if it is supported by
-> +the kernel.
-> +If the flag isn't supported by the kernel, or is used with
-> +.I mode
-> +other than
-> +.BR MPOL_BIND ,
-> +\-1 is returned and
-> +.I errno
-> +is set to
-> +.BR EINVAL .
-> +.TP
-> +.BR MPOL_F_RELATIVE_NODES " (since Linux 2.6.26)"
-> +A nonempty
-> +.I nodemask
-> +specifies node IDs that are relative to the set of
-> +node IDs allowed by the process's current cpuset.
-> +.TP
->  .BR MPOL_F_STATIC_NODES " (since Linux 2.6.26)"
->  A nonempty
->  .I nodemask
-> @@ -107,12 +129,6 @@ Linux will not remap the
->  when the process moves to a different cpuset context,
->  nor when the set of nodes allowed by the process's
->  current cpuset context changes.
-> -.TP
-> -.BR MPOL_F_RELATIVE_NODES " (since Linux 2.6.26)"
-> -A nonempty
-> -.I nodemask
-> -specifies node IDs that are relative to the set of
-> -node IDs allowed by the process's current cpuset.
->  .PP
->  .I nodemask
->  points to a bit mask of node IDs that contains up to
-> @@ -293,6 +309,12 @@ argument specified both
->  .B MPOL_F_STATIC_NODES
->  and
->  .BR MPOL_F_RELATIVE_NODES .
-> +Or, the
-> +.B MPOL_F_NUMA_BALANCING
-> +isn't supported by the kernel, or is used with
-> +.I mode
-> +other than
-> +.BR MPOL_BIND .
->  .TP
->  .B ENOMEM
->  Insufficient kernel memory was available.
+<http://www.open-std.org/jtc1/sc22/wg14/www/docs/n1256.pdf>
+<http://www.open-std.org/jtc1/sc22/wg14/www/docs/n1570.pdf>
+<https://web.archive.org/web/20181230041359if_/http://www.open-std.org/jtc1/sc22/wg14/www/abq/c17_updated_proposed_fdis.pdf>
+
+
+Should I remove restrict?  And C99 from the CONFORMING TO section?
+
+Thanks,
+
+Alex
+
+
+-- 
+Alejandro Colomar
+Linux man-pages comaintainer; https://www.kernel.org/doc/man-pages/
+http://www.alejandro-colomar.es/
