@@ -8,61 +8,61 @@ X-Spam-Status: No, score=-15.8 required=3.0 tests=BAYES_00,DKIM_SIGNED,
 	MAILING_LIST_MULTI,SPF_HELO_NONE,SPF_PASS,USER_AGENT_GIT autolearn=ham
 	autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id D87B9C4332D
-	for <linux-man@archiver.kernel.org>; Wed, 10 Mar 2021 18:33:08 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 580C3C4360C
+	for <linux-man@archiver.kernel.org>; Wed, 10 Mar 2021 18:33:09 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.kernel.org (Postfix) with ESMTP id AF7E464FB9
-	for <linux-man@archiver.kernel.org>; Wed, 10 Mar 2021 18:33:08 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTP id 4656564FBA
+	for <linux-man@archiver.kernel.org>; Wed, 10 Mar 2021 18:33:09 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S233257AbhCJScg (ORCPT <rfc822;linux-man@archiver.kernel.org>);
+        id S233057AbhCJScg (ORCPT <rfc822;linux-man@archiver.kernel.org>);
         Wed, 10 Mar 2021 13:32:36 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:56128 "EHLO
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:56140 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S232598AbhCJScM (ORCPT
-        <rfc822;linux-man@vger.kernel.org>); Wed, 10 Mar 2021 13:32:12 -0500
-Received: from mail-wm1-x32f.google.com (mail-wm1-x32f.google.com [IPv6:2a00:1450:4864:20::32f])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 8922CC061760
-        for <linux-man@vger.kernel.org>; Wed, 10 Mar 2021 10:32:12 -0800 (PST)
-Received: by mail-wm1-x32f.google.com with SMTP id n11-20020a05600c4f8bb029010e5cf86347so1942782wmq.1
-        for <linux-man@vger.kernel.org>; Wed, 10 Mar 2021 10:32:12 -0800 (PST)
+        with ESMTP id S233065AbhCJScO (ORCPT
+        <rfc822;linux-man@vger.kernel.org>); Wed, 10 Mar 2021 13:32:14 -0500
+Received: from mail-wr1-x42c.google.com (mail-wr1-x42c.google.com [IPv6:2a00:1450:4864:20::42c])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 5EE2CC061760
+        for <linux-man@vger.kernel.org>; Wed, 10 Mar 2021 10:32:14 -0800 (PST)
+Received: by mail-wr1-x42c.google.com with SMTP id u14so24450332wri.3
+        for <linux-man@vger.kernel.org>; Wed, 10 Mar 2021 10:32:14 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=gmail.com; s=20161025;
         h=from:to:cc:subject:date:message-id:in-reply-to:references
          :mime-version:content-transfer-encoding;
-        bh=+bzWvWDLSxoT6KTAh+c1ca6ECWOIV1SYop1drWRGp9k=;
-        b=UAV9I7rB2VrAPiDYlpX6WftzY9yu07/Frz6CFSdRf5WveCTBMUe9Ja+0covzUGLsfc
-         wepvWEriwi+XxEW4j4r1fiKVcleTk27rGHwMBK0aVtcApI9EMXxC3ZDMXYX0yhw8R5xR
-         lITGjP+OxbYYjO0D+evZMVRg3bWEac14y1U8p5MW4nKLeiWm9V0EYfxETq/74viGHWl3
-         fYZ3rz/uYOExwQPw9WatUdLIDa474dopObKDX7KlpFEwJBst9B9KLWS48JmYDGpb0fBN
-         /McaePVp9dUPuo9W1tKXScuaLK9uRD7DWnxcoy0NGboZSG1nJWOLTytdcakgb4n8xjA0
-         BfhQ==
+        bh=XCSDsp2q5xXoeQUsWa0c7bkMZ/kpYfI6jEnJNon/iaY=;
+        b=rflTr/IZsJnarqXifdAaG+S/iKGVjQCMaInd/Tfzu8FwbO6G7LjUPwRU+m98NwDRZg
+         5jka60/VEDgEcXxQ7+FPpcFeDiP6bmPkkuwS1xAf9OqNoKiZz3RmxYn56cM0DIwQHOoK
+         nmA3+m+queVuorxm0GywLNqYvu179q5eOLIH0FweJqPVEOY+cWjjh1/PjSmnqhrJaSqt
+         EZLlncwJSkeZeUPPF2v1WM5UmGN5CC7XmAhEe0O2NePk4qfwmIT/BN/71wdjHawX4QfK
+         u3PO9sKPO2tls7swN9PcP/fKGjHNrSyveO6talj54SwF8JnGvHrrLUxujK5mZ6n0wYdR
+         IMGA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
         h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
          :references:mime-version:content-transfer-encoding;
-        bh=+bzWvWDLSxoT6KTAh+c1ca6ECWOIV1SYop1drWRGp9k=;
-        b=ahcOGOWvjjQq4vVigU38nSmQC1jeQXQC7/adrGJE0wTqmNjSzyhAzvrZyn2J0xWfu3
-         j2MduJAsN16DfuODqWaJPcy7jnfWZzfV7rfSdSrwbXQ/ldNQaomDtZ0iyPpwNQRcO+ya
-         N420jwfXjMOumFqP5dQTPuV4usXDbaItzoK5x7Yui6DXcp1Ds9d/xA3GQCN62hhb+CMh
-         R8QgNKOi/gaxgAfgU5n69X7cpQwpt0n9eELN57JDpgDlDIXlmpUYMyrkAeMCnFX2ZVg9
-         1dYwV9TXtSLQN8eD457S5CAlQezZbbf9E1JLN08klxlFsl7Eij2D3p4n1FBK1o/qvXXN
-         /skg==
-X-Gm-Message-State: AOAM532gBCCClbwZ36G8PXp8Pjs1owBNmm/8EGY5W1SfER+0dMRKCh6L
-        TywrOcBhSs58O3NbK+G5J8Y=
-X-Google-Smtp-Source: ABdhPJzjb2/By5pS2u2sqtxNmmtWyHrzyB5V+7X/3DpQB6WzzeYDtSbFdabqArePslKRCe10aCnaUw==
-X-Received: by 2002:a1c:4986:: with SMTP id w128mr4610975wma.37.1615401131356;
-        Wed, 10 Mar 2021 10:32:11 -0800 (PST)
+        bh=XCSDsp2q5xXoeQUsWa0c7bkMZ/kpYfI6jEnJNon/iaY=;
+        b=T/LWzV1zFUAPt4p9rsvq2aF56hv7+Go5QvKPQaDlJYCg9RI3YJjUlB3id59A22OzQQ
+         4VZtMScJxFi9mv2JYlrGUom7t3NC7YsNHAYfj7oU9eHfwzdhSIZa+qWRAvT4BMxyIDCw
+         BMgLr+FkcX+tdQsX36phs1DznglptKXOjl2id42HFoCK5Ew0sT/DC39/Gr4THqpr6MU3
+         UvipslNdxH6FNWqNrjZzHkJkAvv4gDr5ZWkPczu7ezjGb4QwsmzrRAZzHdLTij3Z3q2l
+         rLTFo1JIddeNzXRw/kpspIvXIHol/mxObG4ePBQzoDmYaRPX8eprW/+RMZC/6x+kckaC
+         y7Ug==
+X-Gm-Message-State: AOAM531JjXTymNt8XFqzJL81PPHxFvKteyXeSLe2sWv9SKlovphgKnoK
+        Hkpt8pSFeADtaq5kcio5+W0=
+X-Google-Smtp-Source: ABdhPJxFK+knhX+ENxqJsN+g/RId1RD1cxTYdPA0P9GIv4dWM0QwHP1eGierKCWQiYYyfMa+px2Jgw==
+X-Received: by 2002:adf:fb05:: with SMTP id c5mr4999718wrr.302.1615401133035;
+        Wed, 10 Mar 2021 10:32:13 -0800 (PST)
 Received: from localhost.localdomain ([170.253.51.130])
-        by smtp.googlemail.com with ESMTPSA id k11sm325374wmj.1.2021.03.10.10.32.10
+        by smtp.googlemail.com with ESMTPSA id k11sm325374wmj.1.2021.03.10.10.32.12
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Wed, 10 Mar 2021 10:32:11 -0800 (PST)
+        Wed, 10 Mar 2021 10:32:12 -0800 (PST)
 From:   Alejandro Colomar <alx.manpages@gmail.com>
 To:     mtk.manpages@gmail.com
 Cc:     Alejandro Colomar <alx.manpages@gmail.com>,
         linux-man@vger.kernel.org, libc-alpha@sourceware.org
-Subject: [PATCH 06/24] setnetgrent.3: SYNOPSIS: Use 'restrict' in prototypes
-Date:   Wed, 10 Mar 2021 19:31:32 +0100
-Message-Id: <20210310183149.194717-7-alx.manpages@gmail.com>
+Subject: [PATCH 08/24] statvfs.3: SYNOPSIS: Use 'restrict' in prototypes
+Date:   Wed, 10 Mar 2021 19:31:34 +0100
+Message-Id: <20210310183149.194717-9-alx.manpages@gmail.com>
 X-Mailer: git-send-email 2.30.1.721.g45526154a5
 In-Reply-To: <20210310183149.194717-1-alx.manpages@gmail.com>
 References: <20210310183149.194717-1-alx.manpages@gmail.com>
@@ -72,51 +72,35 @@ Precedence: bulk
 List-ID: <linux-man.vger.kernel.org>
 X-Mailing-List: linux-man@vger.kernel.org
 
-glibc uses 'restrict' in getnetgrent(), getnetgrent_r().
+Both POSIX and glibc use 'restrict' in statvfs().
 Let's use it here too.
 
-.../glibc$ grep_glibc_prototype getnetgrent
-resolv/netdb.h:410:
-extern int getnetgrent (char **__restrict __hostp,
-			char **__restrict __userp,
-			char **__restrict __domainp);
-.../glibc$ grep_glibc_prototype getnetgrent_r
-resolv/netdb.h:430:
-extern int getnetgrent_r (char **__restrict __hostp,
-			  char **__restrict __userp,
-			  char **__restrict __domainp,
-			  char *__restrict __buffer, size_t __buflen);
+.../glibc$ grep_glibc_prototype statvfs
+io/sys/statvfs.h:51:
+extern int statvfs (const char *__restrict __file,
+		    struct statvfs *__restrict __buf)
+     __THROW __nonnull ((1, 2));
 .../glibc$
 
 Signed-off-by: Alejandro Colomar <alx.manpages@gmail.com>
 ---
- man3/setnetgrent.3 | 12 +++++++-----
- 1 file changed, 7 insertions(+), 5 deletions(-)
+ man3/statvfs.3 | 3 ++-
+ 1 file changed, 2 insertions(+), 1 deletion(-)
 
-diff --git a/man3/setnetgrent.3 b/man3/setnetgrent.3
-index 440cf2846..2a783ee58 100644
---- a/man3/setnetgrent.3
-+++ b/man3/setnetgrent.3
-@@ -18,12 +18,14 @@ handle network group entries
- .BI "int setnetgrent(const char *" netgroup );
- .B "void endnetgrent(void);"
+diff --git a/man3/statvfs.3 b/man3/statvfs.3
+index 4f2788614..6fbfdc719 100644
+--- a/man3/statvfs.3
++++ b/man3/statvfs.3
+@@ -34,7 +34,8 @@ statvfs, fstatvfs \- get filesystem statistics
+ .nf
+ .B #include <sys/statvfs.h>
  .PP
--.BI "int getnetgrent(char **" host ", char **" user ", char **" domain );
--.BI "int getnetgrent_r(char **" host ", char **" user ","
--.BI "                  char **" domain ", char *" buf ", size_t " buflen );
-+.BI "int getnetgrent(char **restrict " host ,
-+.BI "            char **restrict " user ", char **restrict " domain );
-+.BI "int getnetgrent_r(char **restrict " host ,
-+.BI "            char **restrict " user ", char **restrict " domain ,
-+.BI "            char *restrict " buf ", size_t " buflen );
- .PP
--.BI "int innetgr(const char *" netgroup ", const char *" host ","
--.BI "                  const char *" user ", const char *" domain );
-+.BI "int innetgr(const char *" netgroup ", const char *" host ,
-+.BI "            const char *" user ", const char *" domain );
+-.BI "int statvfs(const char *" path ", struct statvfs *" buf );
++.BI "int statvfs(const char *restrict " path \
++", struct statvfs *restrict " buf );
+ .BI "int fstatvfs(int " fd ", struct statvfs *" buf );
  .fi
- .PP
- .RS -4
+ .SH DESCRIPTION
 -- 
 2.30.1.721.g45526154a5
 
