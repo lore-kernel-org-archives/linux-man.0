@@ -8,61 +8,61 @@ X-Spam-Status: No, score=-15.8 required=3.0 tests=BAYES_00,DKIM_SIGNED,
 	MAILING_LIST_MULTI,SPF_HELO_NONE,SPF_PASS,USER_AGENT_GIT autolearn=ham
 	autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 27575C41620
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 385C7C28D13
 	for <linux-man@archiver.kernel.org>; Wed, 10 Mar 2021 18:33:10 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.kernel.org (Postfix) with ESMTP id 1590D64F02
+	by mail.kernel.org (Postfix) with ESMTP id 23D5164FB1
 	for <linux-man@archiver.kernel.org>; Wed, 10 Mar 2021 18:33:10 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S233250AbhCJSci (ORCPT <rfc822;linux-man@archiver.kernel.org>);
-        Wed, 10 Mar 2021 13:32:38 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:56196 "EHLO
+        id S233495AbhCJScj (ORCPT <rfc822;linux-man@archiver.kernel.org>);
+        Wed, 10 Mar 2021 13:32:39 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:56220 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S233291AbhCJScX (ORCPT
-        <rfc822;linux-man@vger.kernel.org>); Wed, 10 Mar 2021 13:32:23 -0500
-Received: from mail-wm1-x32a.google.com (mail-wm1-x32a.google.com [IPv6:2a00:1450:4864:20::32a])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 2AC2DC061760
-        for <linux-man@vger.kernel.org>; Wed, 10 Mar 2021 10:32:23 -0800 (PST)
-Received: by mail-wm1-x32a.google.com with SMTP id w7so7727460wmb.5
-        for <linux-man@vger.kernel.org>; Wed, 10 Mar 2021 10:32:23 -0800 (PST)
+        with ESMTP id S232958AbhCJSc1 (ORCPT
+        <rfc822;linux-man@vger.kernel.org>); Wed, 10 Mar 2021 13:32:27 -0500
+Received: from mail-wm1-x32d.google.com (mail-wm1-x32d.google.com [IPv6:2a00:1450:4864:20::32d])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 007B8C061760
+        for <linux-man@vger.kernel.org>; Wed, 10 Mar 2021 10:32:26 -0800 (PST)
+Received: by mail-wm1-x32d.google.com with SMTP id l22so7744759wme.1
+        for <linux-man@vger.kernel.org>; Wed, 10 Mar 2021 10:32:26 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=gmail.com; s=20161025;
         h=from:to:cc:subject:date:message-id:in-reply-to:references
          :mime-version:content-transfer-encoding;
-        bh=v+opXIiWov/WZw07j+Hr+F2pJZt+UphMGIAIEODD3N8=;
-        b=P5IddB4t/5vcZ1jogAcSotrfC+zimzrJpgTchZCxWYdwqftLEag3tOy/smlhMm3D62
-         2UKaurNDd4MRkBlI86GJiZ5z5Oi/PSfwVIRPjt8TkLRl1PGxvufcCpmnetRELkSxH03z
-         p12OOLtQDGL3MAobny3lya2LgviIkzL8VURg+isv2Dq2Fe8VvFkdpKNLhzPw7Z/Xpu6n
-         +jn8tg/drS9yYruB6RU2r97mRyBKYhPAIUMnFPJOR8+PvWrMqTQqdaNThuIWHGHaefkM
-         EVch4Hde9HNNAmPFsFwBKvGhbdnLcJ/UhWSpD/MKXxHgcjdyYiEvfaFagTdwjPrCM9Ua
-         /5Xw==
+        bh=Rg/uisPDWdJXJiNctQ2c56fF8wJdfkaJ9RGAuxYwaxo=;
+        b=sp/9HmrtBA2XSzO3lKZ+EUnevZcJKRTPIW88IfWTtxgvwNc31rfkpkK/yGrDq4KxDB
+         RTdtmDH62Y2lMRy+DTrgkHURybNk60FhbRVwI1IhCRp9o/20K57kB4ySfBp/TDXHf6Hf
+         /CGh2CFBZ0xHUXn27gZaiytT9hm45qybAds7is6SmRWuHFGNUgEu1AH6kNkmu/SI3L+m
+         hSw76TgUwjrJh4OTu4RiHssm9ycalSO8yUxuyVRf+/H3yKAw8jsJUNH4/ka/76Xf2y3G
+         Lh0k9Qdcg+T8Om4zoyRnrnmZDi+vpgTyThv1SwivFyPg75Zmz0EtGv7xuc51v8mkAzf1
+         0VoQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
         h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
          :references:mime-version:content-transfer-encoding;
-        bh=v+opXIiWov/WZw07j+Hr+F2pJZt+UphMGIAIEODD3N8=;
-        b=dAn6A3sk6NzhM+NGClqDbVm3rEWrDhofz9zVFZLt7HsjYAtsYL1680b4Tar/BC8Rwq
-         Kc3AQcTQtZH49Pk7HTRgXFYhnOo11I3m8av0njYRoavG2+3yXsAQkLv17QEIP3Fx60LI
-         dGzhtbmn7/gPJB9pXvA58zi+1iexHw0irRLEaN6vUj/K4Qx/QRNM8XTO1Ile1AEN6poA
-         qVaKJqJYh7FfMCuws9ZHiuKwzfiI8YVgxNkwrcAcuHiGrJw9k7Je+/Ted8sQo069jrHc
-         tu/D7It7CFNZ1TSC4DKRp1YWvS8VEkRafqFqCqD51aEWGy/LDGbrPYtYkhJo7Mr+l+dz
-         CQOw==
-X-Gm-Message-State: AOAM5319nbDyktKsGqtB2rtj4+w5ciC14FbEIqvf+0H3fkT5+01AqNvq
-        3bXDyGIHz7grlnLHlLUUZng=
-X-Google-Smtp-Source: ABdhPJxlFaJGZkRqr2m+WTSzKSvtt0l/HLnNy/hIzEw8u4s4B3QmC1ojP7yU2G9YMGML5GVx/gCEgw==
-X-Received: by 2002:a05:600c:204f:: with SMTP id p15mr4639490wmg.165.1615401142019;
-        Wed, 10 Mar 2021 10:32:22 -0800 (PST)
+        bh=Rg/uisPDWdJXJiNctQ2c56fF8wJdfkaJ9RGAuxYwaxo=;
+        b=ImF26bOmB40nyc/b0wHttfmHOAS+V7qr62t8X37tmWpPlM98pd1QM/xZZ79FO9HYk1
+         geLsozt4/AT9HQK8eNZpcv2YpG2yjzi2NPvufA8jHs1g7GMO50G639R1UucJiYr0Cx56
+         w9Wt6cXoEjai9dQ6oe6DX1j3OxIqf37xkhadcfvBCAp9deERWwXV3wbcocNaPk87u0F5
+         qgtKwGiv+ZN4ZFuAS+axBlyhw6feMEoJIQtS4thJa/pLrFKkUYq23UmaTgVemjws5Zvw
+         diCDq/PX4sNHILML2Fi0cif9bSgl8Z3dHGTJ1qUx+9u1x9Hm8Baav7DDuuFvqJnH0BY2
+         Z5uQ==
+X-Gm-Message-State: AOAM5303kNYecAj46RxdN+FeCr1NfKf+GIYPEWzEoYZ59TOYgSa6Kkmq
+        K/U4DKOnY6btCklZiU5q+FU=
+X-Google-Smtp-Source: ABdhPJxopxsG2u7B6bq3QJ1OnVYjZf7Em0oJZWvF38k0IrIAXQpoEyHihjutR/gxP63NXWqqkZBMuw==
+X-Received: by 2002:a1c:2288:: with SMTP id i130mr4623952wmi.62.1615401145785;
+        Wed, 10 Mar 2021 10:32:25 -0800 (PST)
 Received: from localhost.localdomain ([170.253.51.130])
-        by smtp.googlemail.com with ESMTPSA id k11sm325374wmj.1.2021.03.10.10.32.21
+        by smtp.googlemail.com with ESMTPSA id k11sm325374wmj.1.2021.03.10.10.32.25
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Wed, 10 Mar 2021 10:32:21 -0800 (PST)
+        Wed, 10 Mar 2021 10:32:25 -0800 (PST)
 From:   Alejandro Colomar <alx.manpages@gmail.com>
 To:     mtk.manpages@gmail.com
 Cc:     Alejandro Colomar <alx.manpages@gmail.com>,
         linux-man@vger.kernel.org, libc-alpha@sourceware.org
-Subject: [PATCH 19/24] strtod.3: SYNOPSIS: Use 'restrict' in prototypes
-Date:   Wed, 10 Mar 2021 19:31:45 +0100
-Message-Id: <20210310183149.194717-20-alx.manpages@gmail.com>
+Subject: [PATCH 24/24] swab.3: SYNOPSIS: Use 'restrict' in prototypes
+Date:   Wed, 10 Mar 2021 19:31:50 +0100
+Message-Id: <20210310183149.194717-25-alx.manpages@gmail.com>
 X-Mailer: git-send-email 2.30.1.721.g45526154a5
 In-Reply-To: <20210310183149.194717-1-alx.manpages@gmail.com>
 References: <20210310183149.194717-1-alx.manpages@gmail.com>
@@ -72,48 +72,36 @@ Precedence: bulk
 List-ID: <linux-man.vger.kernel.org>
 X-Mailing-List: linux-man@vger.kernel.org
 
-Both POSIX and glibc use 'restrict' in strtod(), strtof(), strtold().
+Both POSIX and glibc use 'restrict' in swab().
 Let's use it here too.
 
-.../glibc$ grep_glibc_prototype strtod
-stdlib/stdlib.h:117:
-extern double strtod (const char *__restrict __nptr,
-		      char **__restrict __endptr)
-     __THROW __nonnull ((1));
-.../glibc$ grep_glibc_prototype strtof
-stdlib/stdlib.h:123:
-extern float strtof (const char *__restrict __nptr,
-		     char **__restrict __endptr) __THROW __nonnull ((1));
-.../glibc$ grep_glibc_prototype strtold
-stdlib/stdlib.h:126:
-extern long double strtold (const char *__restrict __nptr,
-			    char **__restrict __endptr)
-     __THROW __nonnull ((1));
+.../glibc$ grep_glibc_prototype swab
+posix/unistd.h:1147:
+extern void swab (const void *__restrict __from, void *__restrict __to,
+		  ssize_t __n) __THROW __nonnull ((1, 2))
+    __attr_access ((__read_only__, 1, 3))
+    __attr_access ((__write_only__, 2, 3));
 .../glibc$
 
 Signed-off-by: Alejandro Colomar <alx.manpages@gmail.com>
 ---
- man3/strtod.3 | 7 ++++---
- 1 file changed, 4 insertions(+), 3 deletions(-)
+ man3/swab.3 | 3 ++-
+ 1 file changed, 2 insertions(+), 1 deletion(-)
 
-diff --git a/man3/strtod.3 b/man3/strtod.3
-index e77bd59ec..24cb4ad13 100644
---- a/man3/strtod.3
-+++ b/man3/strtod.3
-@@ -49,9 +49,10 @@ strtod, strtof, strtold \- convert ASCII string to floating-point number
- .nf
- .B #include <stdlib.h>
+diff --git a/man3/swab.3 b/man3/swab.3
+index b68d698d7..700d2d5f4 100644
+--- a/man3/swab.3
++++ b/man3/swab.3
+@@ -36,7 +36,8 @@ swab \- swap adjacent bytes
+ .BR "#define _XOPEN_SOURCE" "       /* See feature_test_macros(7) */"
+ .B #include <unistd.h>
  .PP
--.BI "double strtod(const char *" nptr ", char **" endptr );
--.BI "float strtof(const char *" nptr ", char **" endptr );
--.BI "long double strtold(const char *" nptr ", char **" endptr );
-+.BI "double strtod(const char *restrict " nptr ", char **restrict " endptr );
-+.BI "float strtof(const char *restrict " nptr ", char **restrict " endptr );
-+.BI "long double strtold(const char *restrict " nptr \
-+", char **restrict " endptr );
+-.BI "void swab(const void *" from ", void *" to ", ssize_t " n );
++.BI "void swab(const void *restrict " from ", void *restrict " to \
++", ssize_t " n );
  .fi
- .PP
- .RS -4
+ .SH DESCRIPTION
+ The
 -- 
 2.30.1.721.g45526154a5
 
