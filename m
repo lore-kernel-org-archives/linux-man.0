@@ -8,61 +8,61 @@ X-Spam-Status: No, score=-15.8 required=3.0 tests=BAYES_00,DKIM_SIGNED,
 	MAILING_LIST_MULTI,SPF_HELO_NONE,SPF_PASS,USER_AGENT_GIT autolearn=ham
 	autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 040D1C43332
-	for <linux-man@archiver.kernel.org>; Wed, 10 Mar 2021 18:33:09 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id E8322C4332B
+	for <linux-man@archiver.kernel.org>; Wed, 10 Mar 2021 18:33:08 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.kernel.org (Postfix) with ESMTP id E37F864FB1
+	by mail.kernel.org (Postfix) with ESMTP id D4A5A64FBA
 	for <linux-man@archiver.kernel.org>; Wed, 10 Mar 2021 18:33:08 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S233223AbhCJSch (ORCPT <rfc822;linux-man@archiver.kernel.org>);
-        Wed, 10 Mar 2021 13:32:37 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:56164 "EHLO
+        id S232948AbhCJScf (ORCPT <rfc822;linux-man@archiver.kernel.org>);
+        Wed, 10 Mar 2021 13:32:35 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:56116 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S233288AbhCJScS (ORCPT
-        <rfc822;linux-man@vger.kernel.org>); Wed, 10 Mar 2021 13:32:18 -0500
-Received: from mail-wm1-x332.google.com (mail-wm1-x332.google.com [IPv6:2a00:1450:4864:20::332])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 3A8BFC061760
-        for <linux-man@vger.kernel.org>; Wed, 10 Mar 2021 10:32:18 -0800 (PST)
-Received: by mail-wm1-x332.google.com with SMTP id l22so7744482wme.1
-        for <linux-man@vger.kernel.org>; Wed, 10 Mar 2021 10:32:18 -0800 (PST)
+        with ESMTP id S233234AbhCJScK (ORCPT
+        <rfc822;linux-man@vger.kernel.org>); Wed, 10 Mar 2021 13:32:10 -0500
+Received: from mail-wm1-x32d.google.com (mail-wm1-x32d.google.com [IPv6:2a00:1450:4864:20::32d])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 20435C061760
+        for <linux-man@vger.kernel.org>; Wed, 10 Mar 2021 10:32:10 -0800 (PST)
+Received: by mail-wm1-x32d.google.com with SMTP id w7so7727114wmb.5
+        for <linux-man@vger.kernel.org>; Wed, 10 Mar 2021 10:32:10 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=gmail.com; s=20161025;
         h=from:to:cc:subject:date:message-id:in-reply-to:references
          :mime-version:content-transfer-encoding;
-        bh=6+5cYVxGM416CCW1Kt63Tc4b+b6uRKL9mvOnyhbZ8iw=;
-        b=kDKv0yDQFzOvctP1G466cnMeYnKbWl14dhnwwM+J18n7aXB/6ly57S9d526WnBRJBu
-         mKD0YLmn3CSQgyCq/97ePHCtJD3eo+SY2Q4vbN1KOWZuyd6LTp7fwGRgSjncycpnSL1H
-         qvjR+kvZXd3zebtbVokhUHN7qOfY4YXZynG0aDmw4Vkw6sut3pKgc7saDQ7+4X0/06Vh
-         /nBk6QQfQJFMTThiQ9K6CkQSdj30fM2duijJ1LdEx+0MUxLTU6xlkFX9SON9DMSYXmqc
-         OnKWhPSa4pmEpFPcKCjdLTkyA+YIsxz4RGAo94U8pXRALC+N/KyrYAqgFpDX/9HvxVPw
-         iuSA==
+        bh=/2cJ8HWX1tQaJ+wSbquo1BnR87Ep6w0X6W75wazdkM4=;
+        b=ANzLqwYzmW4EoziTAiRWJIl18qx4Id0NvMqekML7L+h/ZlakbJLpn5/gJ/enVM9Er3
+         DXYNZ5u93ix/SHVk2KKnzXTbHe5Q+ywUcyqk5JLh4Vl7fHrNBgH/ndoGXIwGLgB4NeGx
+         IVZPAWdn2uOUhYLpdrE7TpvEcZWtFRH/egdvtY2EKTPiMy9HUGdZII6C/a3ZNvteVGtd
+         1Ot4oWcjA/Bym6kCafgglTSnomZHlO0HhSdclojQDYa+vDLnhFlykT0Y3bzbnJZa/Dh0
+         bwy2xS18Wm5IddZ4svvxwJ33zSfbwEfJnbd/w6ZBHtoY2WthNb6gvvnjA+zg41v9WDnN
+         GKzQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
         h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
          :references:mime-version:content-transfer-encoding;
-        bh=6+5cYVxGM416CCW1Kt63Tc4b+b6uRKL9mvOnyhbZ8iw=;
-        b=Rd73XynyRKJRT6YaUtWh1NiiSsLX8VJ3UxAnitO7yzbplP9ECEx04CsiFKqFgLR+4R
-         zTGpH42+gh2mBgYiZ6Gf7PwQEu/lQxUc1gKofIb/Y+pqcNTjZO/I3z5USdAgnxWK5XTo
-         cuufjjRtBXR627307SlHQ54U6ZQGpu4FNSs6prfqBJsEKJdI00i08YK1d7+V03UHXJ61
-         zGrRDnhcxZ4B3y+aRk6b/ZoUO8/zeFDSvdwbhfbdOI3LrX7yKRiSzXobfOeUQ/6nKv3a
-         5Ma5q8ciJEJnLGRLPLh8GKpZghYhYRiYafsRk2Q6aarUBrqPy03vNApy7/zqySKMPLCV
-         e8wQ==
-X-Gm-Message-State: AOAM53388nCbmJoJTc6088KM61AeUpqdu0nY6PIwmQHppVZtAhsV1Qv+
-        f3xgXEqEHYDd/jOR8q41ce8=
-X-Google-Smtp-Source: ABdhPJyoWrTUCFk1VbyimBHGDNC94q0t06EAKH82YRX2b9+0AT+Tmy/nKLnAcjLw/4ZeQ5DWJZsbEw==
-X-Received: by 2002:a7b:c055:: with SMTP id u21mr4750192wmc.68.1615401137077;
-        Wed, 10 Mar 2021 10:32:17 -0800 (PST)
+        bh=/2cJ8HWX1tQaJ+wSbquo1BnR87Ep6w0X6W75wazdkM4=;
+        b=JcqgQlrMakS1G1lr4xp6e4rFnxY3QCP39cfQKIDoyWwdY/DC+9jCNHAomvYfnuGTsj
+         rIrwlYrZ1HqNCr5Hwfyl8n9zgzzOAEBid5WlxS9R1fP9tiB2Q+AVF1YA0TgohpZXs88G
+         z45urWjD6JNh0TwOsq1/FuiGdD9tobUvR8WqkyNHSC3i4HEsVy5f+DA4149BPoZbyV61
+         NGZdh0kkxj2aoJ+qr/gL1Sgvkf/iw1f7aiwHa95nfqsr4RI+1mrMZeiygSJxT206GLaC
+         NubThWPDe7aTvMLELtLP/baKIP1PZAbSqwJY/jWuTlbArLUgw1Nr5RMoerTr+lZP2wsH
+         HUHA==
+X-Gm-Message-State: AOAM530yOjTioS+R6+EQl4RXZb2lgWO9cHBaGG1Ll2jkeUMIv/84FgZz
+        9jamCBQYBU7akEX757c8gdM=
+X-Google-Smtp-Source: ABdhPJzwg7T1/dNA8WBf893v2a04OxmWRZ88jOINbyiQULamvrBy++/Yk1Rt/RN2dG0OY7RiuYPK1Q==
+X-Received: by 2002:a1c:32ca:: with SMTP id y193mr4614814wmy.56.1615401128956;
+        Wed, 10 Mar 2021 10:32:08 -0800 (PST)
 Received: from localhost.localdomain ([170.253.51.130])
-        by smtp.googlemail.com with ESMTPSA id k11sm325374wmj.1.2021.03.10.10.32.16
+        by smtp.googlemail.com with ESMTPSA id k11sm325374wmj.1.2021.03.10.10.32.08
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Wed, 10 Mar 2021 10:32:16 -0800 (PST)
+        Wed, 10 Mar 2021 10:32:08 -0800 (PST)
 From:   Alejandro Colomar <alx.manpages@gmail.com>
 To:     mtk.manpages@gmail.com
 Cc:     Alejandro Colomar <alx.manpages@gmail.com>,
         linux-man@vger.kernel.org, libc-alpha@sourceware.org
-Subject: [PATCH 13/24] strfmon.3: SYNOPSIS: Use 'restrict' in prototypes
-Date:   Wed, 10 Mar 2021 19:31:39 +0100
-Message-Id: <20210310183149.194717-14-alx.manpages@gmail.com>
+Subject: [PATCH 03/24] setaliasent.3: SYNOPSIS: Use 'restrict' in prototypes
+Date:   Wed, 10 Mar 2021 19:31:29 +0100
+Message-Id: <20210310183149.194717-4-alx.manpages@gmail.com>
 X-Mailer: git-send-email 2.30.1.721.g45526154a5
 In-Reply-To: <20210310183149.194717-1-alx.manpages@gmail.com>
 References: <20210310183149.194717-1-alx.manpages@gmail.com>
@@ -72,45 +72,53 @@ Precedence: bulk
 List-ID: <linux-man.vger.kernel.org>
 X-Mailing-List: linux-man@vger.kernel.org
 
-Both POSIX and glibc use 'restrict' in strfmon(), strfmon_l().
+glibc uses 'restrict' in getaliasent_r(), getaliasbyname_r().
 Let's use it here too.
 
-.../glibc$ grep_glibc_prototype strfmon
-stdlib/monetary.h:38:
-extern ssize_t strfmon (char *__restrict __s, size_t __maxsize,
-			const char *__restrict __format, ...)
-     __THROW __attribute_format_strfmon__ (3, 4);
-.../glibc$ grep_glibc_prototype strfmon_l
-stdlib/monetary.h:47:
-extern ssize_t strfmon_l (char *__restrict __s, size_t __maxsize,
-			  locale_t __loc,
-			  const char *__restrict __format, ...)
-     __THROW __attribute_format_strfmon__ (4, 5);
+.../glibc$ grep_glibc_prototype getaliasent_r
+inet/aliases.h:48:
+extern int getaliasent_r (struct aliasent *__restrict __result_buf,
+			  char *__restrict __buffer, size_t __buflen,
+			  struct aliasent **__restrict __result) __THROW;
+.../glibc$ grep_glibc_prototype getaliasbyname_r
+inet/aliases.h:56:
+extern int getaliasbyname_r (const char *__restrict __name,
+			     struct aliasent *__restrict __result_buf,
+			     char *__restrict __buffer, size_t __buflen,
+			     struct aliasent **__restrict __result) __THROW;
 .../glibc$
 
 Signed-off-by: Alejandro Colomar <alx.manpages@gmail.com>
 ---
- man3/strfmon.3 | 7 ++++---
- 1 file changed, 4 insertions(+), 3 deletions(-)
+ man3/setaliasent.3 | 13 +++++++------
+ 1 file changed, 7 insertions(+), 6 deletions(-)
 
-diff --git a/man3/strfmon.3 b/man3/strfmon.3
-index f2434a7fa..98c8d34fe 100644
---- a/man3/strfmon.3
-+++ b/man3/strfmon.3
-@@ -28,9 +28,10 @@ strfmon, strfmon_l \- convert monetary value to a string
- .nf
- .B #include <monetary.h>
+diff --git a/man3/setaliasent.3 b/man3/setaliasent.3
+index 027bc91b6..b1b3a4ae5 100644
+--- a/man3/setaliasent.3
++++ b/man3/setaliasent.3
+@@ -18,14 +18,15 @@ getaliasbyname, getaliasbyname_r \- read an alias entry
+ .B "void endaliasent(void);"
  .PP
--.BI "ssize_t strfmon(char *" s ", size_t " max ", const char *" format ", ...);"
--.BI "ssize_t strfmon_l(char *" s ", size_t " max ", locale_t " locale ,
--.BI "                  const char *" format ", ...);"
-+.BI "ssize_t strfmon(char *restrict " s ", size_t " max ,
-+.BI "                const char *restrict " format ", ...);"
-+.BI "ssize_t strfmon_l(char *restrict " s ", size_t " max ", locale_t " locale ,
-+.BI "                const char *restrict " format ", ...);"
+ .B "struct aliasent *getaliasent(void);"
+-.BI "int getaliasent_r(struct aliasent *" result ","
+-.BI "               char *" buffer ", size_t " buflen \
+-", struct aliasent **" res );
++.BI "int getaliasent_r(struct aliasent *restrict " result ,
++.BI "                     char *restrict " buffer ", size_t " buflen ,
++.BI "                     struct aliasent **restrict " res );
+ .PP
+ .BI "struct aliasent *getaliasbyname(const char *" name );
+-.BI "int getaliasbyname_r(const char *" name ", struct aliasent *" result ,
+-.BI "               char *" buffer ", size_t " buflen \
+-", struct aliasent **" res );
++.BI "int getaliasbyname_r(const char *restrict " name ,
++.BI "                     struct aliasent *restrict " result ,
++.BI "                     char *restrict " buffer ", size_t " buflen ,
++.BI "                     struct aliasent **restrict " res );
  .fi
  .SH DESCRIPTION
- The
+ One of the databases available with the Name Service Switch (NSS)
 -- 
 2.30.1.721.g45526154a5
 
