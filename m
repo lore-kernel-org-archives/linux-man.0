@@ -8,61 +8,61 @@ X-Spam-Status: No, score=-15.8 required=3.0 tests=BAYES_00,DKIM_SIGNED,
 	MAILING_LIST_MULTI,SPF_HELO_NONE,SPF_PASS,USER_AGENT_GIT autolearn=ham
 	autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 580C3C4360C
-	for <linux-man@archiver.kernel.org>; Wed, 10 Mar 2021 18:33:09 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 0AA59C07D5C
+	for <linux-man@archiver.kernel.org>; Wed, 10 Mar 2021 18:33:10 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.kernel.org (Postfix) with ESMTP id 4656564FBA
+	by mail.kernel.org (Postfix) with ESMTP id D9D1764FB1
 	for <linux-man@archiver.kernel.org>; Wed, 10 Mar 2021 18:33:09 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S233057AbhCJScg (ORCPT <rfc822;linux-man@archiver.kernel.org>);
-        Wed, 10 Mar 2021 13:32:36 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:56140 "EHLO
+        id S233354AbhCJScj (ORCPT <rfc822;linux-man@archiver.kernel.org>);
+        Wed, 10 Mar 2021 13:32:39 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:56208 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S233065AbhCJScO (ORCPT
-        <rfc822;linux-man@vger.kernel.org>); Wed, 10 Mar 2021 13:32:14 -0500
-Received: from mail-wr1-x42c.google.com (mail-wr1-x42c.google.com [IPv6:2a00:1450:4864:20::42c])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 5EE2CC061760
-        for <linux-man@vger.kernel.org>; Wed, 10 Mar 2021 10:32:14 -0800 (PST)
-Received: by mail-wr1-x42c.google.com with SMTP id u14so24450332wri.3
-        for <linux-man@vger.kernel.org>; Wed, 10 Mar 2021 10:32:14 -0800 (PST)
+        with ESMTP id S233496AbhCJScZ (ORCPT
+        <rfc822;linux-man@vger.kernel.org>); Wed, 10 Mar 2021 13:32:25 -0500
+Received: from mail-wm1-x329.google.com (mail-wm1-x329.google.com [IPv6:2a00:1450:4864:20::329])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 8CDA3C061760
+        for <linux-man@vger.kernel.org>; Wed, 10 Mar 2021 10:32:25 -0800 (PST)
+Received: by mail-wm1-x329.google.com with SMTP id j4-20020a05600c4104b029010c62bc1e20so11361736wmi.3
+        for <linux-man@vger.kernel.org>; Wed, 10 Mar 2021 10:32:25 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=gmail.com; s=20161025;
         h=from:to:cc:subject:date:message-id:in-reply-to:references
          :mime-version:content-transfer-encoding;
-        bh=XCSDsp2q5xXoeQUsWa0c7bkMZ/kpYfI6jEnJNon/iaY=;
-        b=rflTr/IZsJnarqXifdAaG+S/iKGVjQCMaInd/Tfzu8FwbO6G7LjUPwRU+m98NwDRZg
-         5jka60/VEDgEcXxQ7+FPpcFeDiP6bmPkkuwS1xAf9OqNoKiZz3RmxYn56cM0DIwQHOoK
-         nmA3+m+queVuorxm0GywLNqYvu179q5eOLIH0FweJqPVEOY+cWjjh1/PjSmnqhrJaSqt
-         EZLlncwJSkeZeUPPF2v1WM5UmGN5CC7XmAhEe0O2NePk4qfwmIT/BN/71wdjHawX4QfK
-         u3PO9sKPO2tls7swN9PcP/fKGjHNrSyveO6talj54SwF8JnGvHrrLUxujK5mZ6n0wYdR
-         IMGA==
+        bh=hVnhWYituodV/kzNGhKhIhdhny8rADVzvRuqiSRhoQk=;
+        b=CI7gOUm2C6KTATheE3Z2PyanCYJjALO5ZfUqUdFcs9wgbT7XpHcCUZbu6mdiUTORwp
+         S73F4FWLz+wwIxnbuX599ONBQmRQmy5yI2ALkVdaUBOxhaT3uQFGcOKN5YnXDvDeqCfE
+         dRiPdMdDJtXLYjgWw08K+mFBwpxsXWlKn+0pvWBggrpc0aSuNKzDTeheIH9M0GBFvb19
+         eaAYjt2mrpuz3S/XgVEE+BgCLPVU27hn7hpNE7VE6Yj4Hwx2SH2loasq16X1dO952Rd8
+         0mtO0due7m4OZuSPYnGnmmhgJDojYbVQUi5NyHzLjl1kPG/nMo0O5g6DDExlEmXFib9w
+         wB1g==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
         h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
          :references:mime-version:content-transfer-encoding;
-        bh=XCSDsp2q5xXoeQUsWa0c7bkMZ/kpYfI6jEnJNon/iaY=;
-        b=T/LWzV1zFUAPt4p9rsvq2aF56hv7+Go5QvKPQaDlJYCg9RI3YJjUlB3id59A22OzQQ
-         4VZtMScJxFi9mv2JYlrGUom7t3NC7YsNHAYfj7oU9eHfwzdhSIZa+qWRAvT4BMxyIDCw
-         BMgLr+FkcX+tdQsX36phs1DznglptKXOjl2id42HFoCK5Ew0sT/DC39/Gr4THqpr6MU3
-         UvipslNdxH6FNWqNrjZzHkJkAvv4gDr5ZWkPczu7ezjGb4QwsmzrRAZzHdLTij3Z3q2l
-         rLTFo1JIddeNzXRw/kpspIvXIHol/mxObG4ePBQzoDmYaRPX8eprW/+RMZC/6x+kckaC
-         y7Ug==
-X-Gm-Message-State: AOAM531JjXTymNt8XFqzJL81PPHxFvKteyXeSLe2sWv9SKlovphgKnoK
-        Hkpt8pSFeADtaq5kcio5+W0=
-X-Google-Smtp-Source: ABdhPJxFK+knhX+ENxqJsN+g/RId1RD1cxTYdPA0P9GIv4dWM0QwHP1eGierKCWQiYYyfMa+px2Jgw==
-X-Received: by 2002:adf:fb05:: with SMTP id c5mr4999718wrr.302.1615401133035;
-        Wed, 10 Mar 2021 10:32:13 -0800 (PST)
+        bh=hVnhWYituodV/kzNGhKhIhdhny8rADVzvRuqiSRhoQk=;
+        b=blZT69BJO1Jb9GIXUXbCCP3IfSYllW8lD78zk1kAt6Yc87Nxl7pn9J1Te10ygxPyXq
+         dpYKNe+Bdm/qsfDsU3l4YD0+H4Qq7W5ZWf8sEmEdVWKpWJzOGJ4Sy9hLbYOSdAUAQ2cE
+         TwppXV/N6meptMVGsLm85Q4OLusJF5710q+omHoqf/PtlgSlnurJRfC/JtRyPd1e2fcq
+         Mk3acXJ7VDUvz6RNG98MWXZa4+i1UhaSo4mNuyzFlrmpnMpfSdot66vY9BEJXtgO1Lw6
+         ZXPQVTs19KVaY2k+4NgCCcRKwdw44IXhtbGe9o4C2hIj88AccRwdSYuEak9ZOKjVSDby
+         pX9g==
+X-Gm-Message-State: AOAM533VcIidwXwqO1Q41TKuceNltVjmggUFM0NMdnjOSLAAqFLeSIAd
+        ZfLiETRb3vNMPuzOOZTFeNs=
+X-Google-Smtp-Source: ABdhPJxwHneauBzPJ7UfMAGw6NEHyWsCnh3Su63HvKs0xx/Dbr0U+Nrmrn0/ARwu+OfRasikbk3Z7g==
+X-Received: by 2002:a1c:32ca:: with SMTP id y193mr4615649wmy.56.1615401144420;
+        Wed, 10 Mar 2021 10:32:24 -0800 (PST)
 Received: from localhost.localdomain ([170.253.51.130])
-        by smtp.googlemail.com with ESMTPSA id k11sm325374wmj.1.2021.03.10.10.32.12
+        by smtp.googlemail.com with ESMTPSA id k11sm325374wmj.1.2021.03.10.10.32.23
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Wed, 10 Mar 2021 10:32:12 -0800 (PST)
+        Wed, 10 Mar 2021 10:32:24 -0800 (PST)
 From:   Alejandro Colomar <alx.manpages@gmail.com>
 To:     mtk.manpages@gmail.com
 Cc:     Alejandro Colomar <alx.manpages@gmail.com>,
         linux-man@vger.kernel.org, libc-alpha@sourceware.org
-Subject: [PATCH 08/24] statvfs.3: SYNOPSIS: Use 'restrict' in prototypes
-Date:   Wed, 10 Mar 2021 19:31:34 +0100
-Message-Id: <20210310183149.194717-9-alx.manpages@gmail.com>
+Subject: [PATCH 22/24] strtol.3, strtoul.3: SYNOPSIS: Use 'restrict' in prototypes
+Date:   Wed, 10 Mar 2021 19:31:48 +0100
+Message-Id: <20210310183149.194717-23-alx.manpages@gmail.com>
 X-Mailer: git-send-email 2.30.1.721.g45526154a5
 In-Reply-To: <20210310183149.194717-1-alx.manpages@gmail.com>
 References: <20210310183149.194717-1-alx.manpages@gmail.com>
@@ -72,35 +72,76 @@ Precedence: bulk
 List-ID: <linux-man.vger.kernel.org>
 X-Mailing-List: linux-man@vger.kernel.org
 
-Both POSIX and glibc use 'restrict' in statvfs().
+Both POSIX and glibc use 'restrict' in strtol(), strtoll(), strtoul(), strtoull().
 Let's use it here too.
 
-.../glibc$ grep_glibc_prototype statvfs
-io/sys/statvfs.h:51:
-extern int statvfs (const char *__restrict __file,
-		    struct statvfs *__restrict __buf)
-     __THROW __nonnull ((1, 2));
+.../glibc$ grep_glibc_prototype strtol
+stdlib/stdlib.h:176:
+extern long int strtol (const char *__restrict __nptr,
+			char **__restrict __endptr, int __base)
+     __THROW __nonnull ((1));
+.../glibc$ grep_glibc_prototype strtoll
+stdlib/stdlib.h:199:
+__extension__
+extern long long int strtoll (const char *__restrict __nptr,
+			      char **__restrict __endptr, int __base)
+     __THROW __nonnull ((1));
+.../glibc$ grep_glibc_prototype strtoul
+stdlib/stdlib.h:180:
+extern unsigned long int strtoul (const char *__restrict __nptr,
+				  char **__restrict __endptr, int __base)
+     __THROW __nonnull ((1));
+.../glibc$ grep_glibc_prototype strtoull
+stdlib/stdlib.h:204:
+__extension__
+extern unsigned long long int strtoull (const char *__restrict __nptr,
+					char **__restrict __endptr, int __base)
+     __THROW __nonnull ((1));
 .../glibc$
 
 Signed-off-by: Alejandro Colomar <alx.manpages@gmail.com>
 ---
- man3/statvfs.3 | 3 ++-
- 1 file changed, 2 insertions(+), 1 deletion(-)
+ man3/strtol.3  | 7 ++++---
+ man3/strtoul.3 | 8 ++++----
+ 2 files changed, 8 insertions(+), 7 deletions(-)
 
-diff --git a/man3/statvfs.3 b/man3/statvfs.3
-index 4f2788614..6fbfdc719 100644
---- a/man3/statvfs.3
-+++ b/man3/statvfs.3
-@@ -34,7 +34,8 @@ statvfs, fstatvfs \- get filesystem statistics
+diff --git a/man3/strtol.3 b/man3/strtol.3
+index 8f4a5e54c..148586b99 100644
+--- a/man3/strtol.3
++++ b/man3/strtol.3
+@@ -36,9 +36,10 @@ strtol, strtoll, strtoq \- convert a string to a long integer
  .nf
- .B #include <sys/statvfs.h>
+ .B #include <stdlib.h>
  .PP
--.BI "int statvfs(const char *" path ", struct statvfs *" buf );
-+.BI "int statvfs(const char *restrict " path \
-+", struct statvfs *restrict " buf );
- .BI "int fstatvfs(int " fd ", struct statvfs *" buf );
+-.BI "long strtol(const char *" nptr ", char **" endptr ", int " base );
+-.BI "long long strtoll(const char *" nptr ", char **" endptr \
+-", int " base );
++.BI "long strtol(const char *restrict " nptr ,
++.BI "            char **restrict " endptr ", int " base );
++.BI "long long strtoll(const char *restrict " nptr ,
++.BI "            char **restrict " endptr ", int " base );
  .fi
- .SH DESCRIPTION
+ .PP
+ .RS -4
+diff --git a/man3/strtoul.3 b/man3/strtoul.3
+index b0a5c34fe..c6a55e732 100644
+--- a/man3/strtoul.3
++++ b/man3/strtoul.3
+@@ -37,10 +37,10 @@ strtoul, strtoull, strtouq \- convert a string to an unsigned long integer
+ .nf
+ .B #include <stdlib.h>
+ .PP
+-.BI "unsigned long strtoul(const char *" nptr ", char **" endptr \
+-", int " base );
+-.BI "unsigned long long strtoull(const char *" nptr ", char **" endptr ,
+-.BI "                            int " base );
++.BI "unsigned long strtoul(const char *restrict " nptr ,
++.BI "                      char **restrict " endptr ", int " base );
++.BI "unsigned long long strtoull(const char *restrict " nptr ,
++.BI "                      char **restrict " endptr ", int " base );
+ .fi
+ .PP
+ .RS -4
 -- 
 2.30.1.721.g45526154a5
 
