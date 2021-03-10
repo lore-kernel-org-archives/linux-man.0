@@ -8,61 +8,61 @@ X-Spam-Status: No, score=-15.8 required=3.0 tests=BAYES_00,DKIM_SIGNED,
 	MAILING_LIST_MULTI,SPF_HELO_NONE,SPF_PASS,USER_AGENT_GIT autolearn=ham
 	autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id C758CC43142
-	for <linux-man@archiver.kernel.org>; Wed, 10 Mar 2021 18:33:09 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 27575C41620
+	for <linux-man@archiver.kernel.org>; Wed, 10 Mar 2021 18:33:10 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.kernel.org (Postfix) with ESMTP id B161964FB1
-	for <linux-man@archiver.kernel.org>; Wed, 10 Mar 2021 18:33:09 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTP id 1590D64F02
+	for <linux-man@archiver.kernel.org>; Wed, 10 Mar 2021 18:33:10 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S233488AbhCJScj (ORCPT <rfc822;linux-man@archiver.kernel.org>);
-        Wed, 10 Mar 2021 13:32:39 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:56212 "EHLO
+        id S233250AbhCJSci (ORCPT <rfc822;linux-man@archiver.kernel.org>);
+        Wed, 10 Mar 2021 13:32:38 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:56196 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S233514AbhCJSc0 (ORCPT
-        <rfc822;linux-man@vger.kernel.org>); Wed, 10 Mar 2021 13:32:26 -0500
-Received: from mail-wm1-x336.google.com (mail-wm1-x336.google.com [IPv6:2a00:1450:4864:20::336])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 39896C061760
-        for <linux-man@vger.kernel.org>; Wed, 10 Mar 2021 10:32:26 -0800 (PST)
-Received: by mail-wm1-x336.google.com with SMTP id d139-20020a1c1d910000b029010b895cb6f2so11351673wmd.5
-        for <linux-man@vger.kernel.org>; Wed, 10 Mar 2021 10:32:26 -0800 (PST)
+        with ESMTP id S233291AbhCJScX (ORCPT
+        <rfc822;linux-man@vger.kernel.org>); Wed, 10 Mar 2021 13:32:23 -0500
+Received: from mail-wm1-x32a.google.com (mail-wm1-x32a.google.com [IPv6:2a00:1450:4864:20::32a])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 2AC2DC061760
+        for <linux-man@vger.kernel.org>; Wed, 10 Mar 2021 10:32:23 -0800 (PST)
+Received: by mail-wm1-x32a.google.com with SMTP id w7so7727460wmb.5
+        for <linux-man@vger.kernel.org>; Wed, 10 Mar 2021 10:32:23 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=gmail.com; s=20161025;
         h=from:to:cc:subject:date:message-id:in-reply-to:references
          :mime-version:content-transfer-encoding;
-        bh=KaFj7Tr9fR/tAVTbWXI0CsnmRuh98rZPZlMDuCQ86yA=;
-        b=D3K7rnD7JnLb+qZBCPo6hJfRuFFqe6zeay6zejILt4gYM/bRSey0wD7kIx+MYn0DFh
-         eKSvYfTY4ys2PaYa4V/AtQTD/TUuUljDOCgXAW13cYZMfaxZ6AivYjZm732gHlR/Dea2
-         zKLyXJqklYq3SKaF3dIg78wsMEtEfLHmhBIkhtYfH77foN6CmzAvQF8sH4Fw1qHK6m48
-         eUWUTCfOZ2Ky4tzjRirrAiYk2kAdiz7iXQ6mMbCireaDw1uIffhqniNXD4aINlYhnNkz
-         DSCE6k2NQPZxagREF+DqOtnPuosQAd989xNkDKsqm+8l5D8UtJTAFDAQ5uZyJ7sR/R7h
-         SWMQ==
+        bh=v+opXIiWov/WZw07j+Hr+F2pJZt+UphMGIAIEODD3N8=;
+        b=P5IddB4t/5vcZ1jogAcSotrfC+zimzrJpgTchZCxWYdwqftLEag3tOy/smlhMm3D62
+         2UKaurNDd4MRkBlI86GJiZ5z5Oi/PSfwVIRPjt8TkLRl1PGxvufcCpmnetRELkSxH03z
+         p12OOLtQDGL3MAobny3lya2LgviIkzL8VURg+isv2Dq2Fe8VvFkdpKNLhzPw7Z/Xpu6n
+         +jn8tg/drS9yYruB6RU2r97mRyBKYhPAIUMnFPJOR8+PvWrMqTQqdaNThuIWHGHaefkM
+         EVch4Hde9HNNAmPFsFwBKvGhbdnLcJ/UhWSpD/MKXxHgcjdyYiEvfaFagTdwjPrCM9Ua
+         /5Xw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
         h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
          :references:mime-version:content-transfer-encoding;
-        bh=KaFj7Tr9fR/tAVTbWXI0CsnmRuh98rZPZlMDuCQ86yA=;
-        b=qEr5a1QDWyvuZevLZyekHY7c/JSLr2E9GoJPi7sIH8GwNz8Au9qQJsrH5uvpbWBQZZ
-         gmNZEQfyYd5+HK/VUrI8fDgs8Fs3uSGcmRwZB5gQex5b4UB7YOwi+9kwcJN2I3+4FAle
-         KW+n/+ltMlZ2ntcnovJHUZ/I3JkSJNbmJc0gRKROSSqDi3Ey63Mvp8Pyces64qY1g+yw
-         faxaYacupomB9rSdt48+inpRQ74xB/FlSaa1CIWzwbYpd8iFRQhZc1Bq/3u0zK7N8xcT
-         oALTsJvBK2S/R+PlhLifG9yaJzeU7HGCxiCYdRXPvQknyrRcJQ4Drjz2tqpCxSxH9zbK
-         En8A==
-X-Gm-Message-State: AOAM5336bHT7QPTxc7tk1b3qQoA4MXFzALs6YvekNxnZ/x+L+WH8d/MF
-        /bxhEyqkmdA9aoPTBHc5ZvE=
-X-Google-Smtp-Source: ABdhPJwm2W+d5W6AgtTJA61TYoI2c7AS5coRvVnDlXra1cQychOeMafqXyIj7Ii+G9M8gFpPCM2mLg==
-X-Received: by 2002:a1c:6543:: with SMTP id z64mr4707167wmb.50.1615401145084;
-        Wed, 10 Mar 2021 10:32:25 -0800 (PST)
+        bh=v+opXIiWov/WZw07j+Hr+F2pJZt+UphMGIAIEODD3N8=;
+        b=dAn6A3sk6NzhM+NGClqDbVm3rEWrDhofz9zVFZLt7HsjYAtsYL1680b4Tar/BC8Rwq
+         Kc3AQcTQtZH49Pk7HTRgXFYhnOo11I3m8av0njYRoavG2+3yXsAQkLv17QEIP3Fx60LI
+         dGzhtbmn7/gPJB9pXvA58zi+1iexHw0irRLEaN6vUj/K4Qx/QRNM8XTO1Ile1AEN6poA
+         qVaKJqJYh7FfMCuws9ZHiuKwzfiI8YVgxNkwrcAcuHiGrJw9k7Je+/Ted8sQo069jrHc
+         tu/D7It7CFNZ1TSC4DKRp1YWvS8VEkRafqFqCqD51aEWGy/LDGbrPYtYkhJo7Mr+l+dz
+         CQOw==
+X-Gm-Message-State: AOAM5319nbDyktKsGqtB2rtj4+w5ciC14FbEIqvf+0H3fkT5+01AqNvq
+        3bXDyGIHz7grlnLHlLUUZng=
+X-Google-Smtp-Source: ABdhPJxlFaJGZkRqr2m+WTSzKSvtt0l/HLnNy/hIzEw8u4s4B3QmC1ojP7yU2G9YMGML5GVx/gCEgw==
+X-Received: by 2002:a05:600c:204f:: with SMTP id p15mr4639490wmg.165.1615401142019;
+        Wed, 10 Mar 2021 10:32:22 -0800 (PST)
 Received: from localhost.localdomain ([170.253.51.130])
-        by smtp.googlemail.com with ESMTPSA id k11sm325374wmj.1.2021.03.10.10.32.24
+        by smtp.googlemail.com with ESMTPSA id k11sm325374wmj.1.2021.03.10.10.32.21
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Wed, 10 Mar 2021 10:32:24 -0800 (PST)
+        Wed, 10 Mar 2021 10:32:21 -0800 (PST)
 From:   Alejandro Colomar <alx.manpages@gmail.com>
 To:     mtk.manpages@gmail.com
 Cc:     Alejandro Colomar <alx.manpages@gmail.com>,
         linux-man@vger.kernel.org, libc-alpha@sourceware.org
-Subject: [PATCH 23/24] strxfrm.3: SYNOPSIS: Use 'restrict' in prototypes
-Date:   Wed, 10 Mar 2021 19:31:49 +0100
-Message-Id: <20210310183149.194717-24-alx.manpages@gmail.com>
+Subject: [PATCH 19/24] strtod.3: SYNOPSIS: Use 'restrict' in prototypes
+Date:   Wed, 10 Mar 2021 19:31:45 +0100
+Message-Id: <20210310183149.194717-20-alx.manpages@gmail.com>
 X-Mailer: git-send-email 2.30.1.721.g45526154a5
 In-Reply-To: <20210310183149.194717-1-alx.manpages@gmail.com>
 References: <20210310183149.194717-1-alx.manpages@gmail.com>
@@ -72,35 +72,48 @@ Precedence: bulk
 List-ID: <linux-man.vger.kernel.org>
 X-Mailing-List: linux-man@vger.kernel.org
 
-Both POSIX and glibc use 'restrict' in strxfrm().
+Both POSIX and glibc use 'restrict' in strtod(), strtof(), strtold().
 Let's use it here too.
 
-.../glibc$ grep_glibc_prototype strxfrm
-string/string.h:150:
-extern size_t strxfrm (char *__restrict __dest,
-		       const char *__restrict __src, size_t __n)
-    __THROW __nonnull ((2)) __attr_access ((__write_only__, 1, 3));
+.../glibc$ grep_glibc_prototype strtod
+stdlib/stdlib.h:117:
+extern double strtod (const char *__restrict __nptr,
+		      char **__restrict __endptr)
+     __THROW __nonnull ((1));
+.../glibc$ grep_glibc_prototype strtof
+stdlib/stdlib.h:123:
+extern float strtof (const char *__restrict __nptr,
+		     char **__restrict __endptr) __THROW __nonnull ((1));
+.../glibc$ grep_glibc_prototype strtold
+stdlib/stdlib.h:126:
+extern long double strtold (const char *__restrict __nptr,
+			    char **__restrict __endptr)
+     __THROW __nonnull ((1));
 .../glibc$
 
 Signed-off-by: Alejandro Colomar <alx.manpages@gmail.com>
 ---
- man3/strxfrm.3 | 3 ++-
- 1 file changed, 2 insertions(+), 1 deletion(-)
+ man3/strtod.3 | 7 ++++---
+ 1 file changed, 4 insertions(+), 3 deletions(-)
 
-diff --git a/man3/strxfrm.3 b/man3/strxfrm.3
-index a6e0e4515..276497450 100644
---- a/man3/strxfrm.3
-+++ b/man3/strxfrm.3
-@@ -34,7 +34,8 @@ strxfrm \- string transformation
+diff --git a/man3/strtod.3 b/man3/strtod.3
+index e77bd59ec..24cb4ad13 100644
+--- a/man3/strtod.3
++++ b/man3/strtod.3
+@@ -49,9 +49,10 @@ strtod, strtof, strtold \- convert ASCII string to floating-point number
  .nf
- .B #include <string.h>
+ .B #include <stdlib.h>
  .PP
--.BI "size_t strxfrm(char *" dest ", const char *" src ", size_t " n );
-+.BI "size_t strxfrm(char *restrict " dest ", const char *restrict " src ,
-+.BI "               size_t " n );
+-.BI "double strtod(const char *" nptr ", char **" endptr );
+-.BI "float strtof(const char *" nptr ", char **" endptr );
+-.BI "long double strtold(const char *" nptr ", char **" endptr );
++.BI "double strtod(const char *restrict " nptr ", char **restrict " endptr );
++.BI "float strtof(const char *restrict " nptr ", char **restrict " endptr );
++.BI "long double strtold(const char *restrict " nptr \
++", char **restrict " endptr );
  .fi
- .SH DESCRIPTION
- The
+ .PP
+ .RS -4
 -- 
 2.30.1.721.g45526154a5
 
