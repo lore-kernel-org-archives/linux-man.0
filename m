@@ -8,61 +8,61 @@ X-Spam-Status: No, score=-15.8 required=3.0 tests=BAYES_00,DKIM_SIGNED,
 	MAILING_LIST_MULTI,SPF_HELO_NONE,SPF_PASS,USER_AGENT_GIT autolearn=ham
 	autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id CEC85C4361B
-	for <linux-man@archiver.kernel.org>; Thu, 11 Mar 2021 22:34:36 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 0BC0EC4160E
+	for <linux-man@archiver.kernel.org>; Thu, 11 Mar 2021 22:34:37 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.kernel.org (Postfix) with ESMTP id 91FFA64F26
+	by mail.kernel.org (Postfix) with ESMTP id D4B5864F8C
 	for <linux-man@archiver.kernel.org>; Thu, 11 Mar 2021 22:34:36 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S229796AbhCKWe0 (ORCPT <rfc822;linux-man@archiver.kernel.org>);
-        Thu, 11 Mar 2021 17:34:26 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:51148 "EHLO
+        id S229791AbhCKWeZ (ORCPT <rfc822;linux-man@archiver.kernel.org>);
+        Thu, 11 Mar 2021 17:34:25 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:51138 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S230034AbhCKWd5 (ORCPT
-        <rfc822;linux-man@vger.kernel.org>); Thu, 11 Mar 2021 17:33:57 -0500
-Received: from mail-wm1-x335.google.com (mail-wm1-x335.google.com [IPv6:2a00:1450:4864:20::335])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id D5A4BC061574
-        for <linux-man@vger.kernel.org>; Thu, 11 Mar 2021 14:33:56 -0800 (PST)
-Received: by mail-wm1-x335.google.com with SMTP id r10-20020a05600c35cab029010c946c95easo14049657wmq.4
-        for <linux-man@vger.kernel.org>; Thu, 11 Mar 2021 14:33:56 -0800 (PST)
+        with ESMTP id S229488AbhCKWdz (ORCPT
+        <rfc822;linux-man@vger.kernel.org>); Thu, 11 Mar 2021 17:33:55 -0500
+Received: from mail-wm1-x32a.google.com (mail-wm1-x32a.google.com [IPv6:2a00:1450:4864:20::32a])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 54A1FC061574
+        for <linux-man@vger.kernel.org>; Thu, 11 Mar 2021 14:33:55 -0800 (PST)
+Received: by mail-wm1-x32a.google.com with SMTP id n11-20020a05600c4f8bb029010e5cf86347so3723355wmq.1
+        for <linux-man@vger.kernel.org>; Thu, 11 Mar 2021 14:33:55 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=gmail.com; s=20161025;
         h=from:to:cc:subject:date:message-id:in-reply-to:references
          :mime-version:content-transfer-encoding;
-        bh=PpEOVWfqV9IDWxGDvvSQ/l5VTTpqamXdm5A+zEC/48o=;
-        b=A8O2v07EUgP6LgOGgBzb/LNOwdJkMshh2++CYc7wVcK62oY80VUk0nHKuvpRO/CBd+
-         2Gc+2orV6PIXgQPGflp6qijoEMW6SzIAP5xO4S8P6v+tV5W3ih1bwpf1ih9eFnYRYtu5
-         +WaQ4leLF0pG2dKZNGRfQTDT/sNJxBaM3DqHbLiRsOVREwzcnlnNLGeVJL+9ZZDM2GMK
-         g7lxCXPLY/0v6jsa9Wcs9ricXYAOgBJp8y6pJ7a6DvjI5UnmnwEMCozCkb0up++ZSNUh
-         jzaOYhoBj+crh5Neya7TEZXnmrlml0GGaP8oAKea7YZgkBFL4XVlSByIM1zJ1BewSzGx
-         f0QA==
+        bh=BtcRSttyb7PEKrP5ov8UPCiUEg4e6dcbYNzcVWGp7W4=;
+        b=K4bAh/UZWal6hDCa72JuDJ8mmm+SeNtHr2d1AVXAzyH2CHkMheMY68f8JzQYk0T00F
+         c8fyp2VV/SbHE+7VZjHIwVqJBkKy4De6L3t16KG6B6ZFl6UTh1O5RxTsR9zChi/RH4+K
+         vS+P8gNCYVbBlRbd+79XXppMWaVSe8VzZarPaGEuAir0GVAfyQ406wwgU5MO5fJyJIT0
+         dMMMsyJKlB/ysUqBEjZcPzCfe7wSsbiD/SHAlMLnrA/hideJV+XKzVKIESbZg8RHA7xT
+         WF0K0+G/ifFPL2mF2KNtZr7Ojq3Z9lKHLsCQwO4B5BrYfDnR1Povr2ibRNxyAMd1/snf
+         A6sg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
         h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
          :references:mime-version:content-transfer-encoding;
-        bh=PpEOVWfqV9IDWxGDvvSQ/l5VTTpqamXdm5A+zEC/48o=;
-        b=Hqp+9edGJ9ezAaCx7XbRF3NVC2nfXrBULPZkKutfLBxx4U3/2llUwBkl0AUgEzlS6n
-         yjWZDQvRZEUJQQEYdOH4C9/z6NMV5nJhSJ5yYPj/6ucljVkYqeCEttDd2LQhQYcFhUvx
-         pqjbqBRls96luiqw+J5Nt6d+UYl/17WisGH0B8YudS6qPFarj3fd3LeEtMJ2hKf0cM9l
-         9Dt4UwU0Chiymj76i5t8LKznPCItKhCrsyvoeyNpRrrjh9F9Sp3OaijJh9vPws6K4M6h
-         aMpzffM01RAL9fDnOeKihqH798n2aU97rm9a37teSSAe3fEBZKT5Xt8nnu0hXgD/l91X
-         BGOA==
-X-Gm-Message-State: AOAM533dsm9ETtUt0lqgIqWddYb2UjMXK+nl7vfqvcPYMupnMLen3GMl
-        dQT+YKHTnrbq7DAanLJ9SrA=
-X-Google-Smtp-Source: ABdhPJxLbIhOLeeo1Fm++454BRHAAmmArMznx+lQ2EGzQa8rvdZlEAgOIQc3Q7UZwdW2RlypfROmsQ==
-X-Received: by 2002:a7b:ce06:: with SMTP id m6mr9958444wmc.38.1615502035595;
-        Thu, 11 Mar 2021 14:33:55 -0800 (PST)
+        bh=BtcRSttyb7PEKrP5ov8UPCiUEg4e6dcbYNzcVWGp7W4=;
+        b=MQi8TR3VhzwZolkLg6kGR4TOLk1i7x584jSOjHUfM/ymgBa9r+mg99BMcER59nva06
+         RTBJWNA3r47arUXbTJ9bcpzdDCwJsIM9WPnhpjQzaLA3BTORMzjbpNRlOvVPBdlUa2j7
+         nPTypjvRztLNXu/B9xwCRg/+g+Q6qXDWaIZ7wLP0kvaI/xO8aVzytkyRqYOQ5HEaEWrL
+         nf9rBrYsc2zEOiE4ZhsXTezy97swDef+pW24Rywl0MoRpw3J/1CLGhg9wgQ2XaSHw5Wf
+         WO37ei5x1aXyV3xqihbNXJLCP6p28QYe92C9l7Ly7I/nSrnEr/wrNOClk3Zj8vxxFK+K
+         09ZA==
+X-Gm-Message-State: AOAM533E+8yRC0SrZL7yT9buEl7lHGAdqmGimb+d8pBLx9NjqrW3keIC
+        8TiBmKj6rQoXJxXRh3Zadfg=
+X-Google-Smtp-Source: ABdhPJyk6TQqujFB7mVaqdnVxDpQmFDYh2/64khgTwoZnY/0zL/vww86U4IbGdxCa+pwLNWmqvj99A==
+X-Received: by 2002:a05:600c:2215:: with SMTP id z21mr10382013wml.86.1615502034085;
+        Thu, 11 Mar 2021 14:33:54 -0800 (PST)
 Received: from localhost.localdomain ([170.253.36.171])
-        by smtp.googlemail.com with ESMTPSA id v2sm22365771wmj.1.2021.03.11.14.33.54
+        by smtp.googlemail.com with ESMTPSA id v2sm22365771wmj.1.2021.03.11.14.33.53
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Thu, 11 Mar 2021 14:33:55 -0800 (PST)
+        Thu, 11 Mar 2021 14:33:53 -0800 (PST)
 From:   Alejandro Colomar <alx.manpages@gmail.com>
 To:     mtk.manpages@gmail.com
 Cc:     Alejandro Colomar <alx.manpages@gmail.com>,
         linux-man@vger.kernel.org, libc-alpha@sourceware.org
-Subject: [PATCH 17/17] wordexp.3: SYNOPSIS: Use 'restrict' in prototypes
-Date:   Thu, 11 Mar 2021 23:33:30 +0100
-Message-Id: <20210311223330.722437-18-alx.manpages@gmail.com>
+Subject: [PATCH 15/17] wcstombs.3: SYNOPSIS: Use 'restrict' in prototypes
+Date:   Thu, 11 Mar 2021 23:33:28 +0100
+Message-Id: <20210311223330.722437-16-alx.manpages@gmail.com>
 X-Mailer: git-send-email 2.30.1
 In-Reply-To: <20210311223330.722437-1-alx.manpages@gmail.com>
 References: <20210311223330.722437-1-alx.manpages@gmail.com>
@@ -72,34 +72,36 @@ Precedence: bulk
 List-ID: <linux-man.vger.kernel.org>
 X-Mailing-List: linux-man@vger.kernel.org
 
-Both POSIX and glibc use 'restrict' in wordexp().
+Both POSIX and glibc use 'restrict' in wcstombs().
 Let's use it here too.
 
-.../glibc$ grep_glibc_prototype wordexp
-posix/wordexp.h:62:
-extern int wordexp (const char *__restrict __words,
-		    wordexp_t *__restrict __pwordexp, int __flags);
+.../glibc$ grep_glibc_prototype wcstombs
+stdlib/stdlib.h:937:
+extern size_t wcstombs (char *__restrict __s,
+			const wchar_t *__restrict __pwcs, size_t __n)
+     __THROW
+  __attr_access ((__write_only__, 1, 3)) __attr_access ((__read_only__, 2));
 .../glibc$
 
 Signed-off-by: Alejandro Colomar <alx.manpages@gmail.com>
 ---
- man3/wordexp.3 | 3 ++-
+ man3/wcstombs.3 | 3 ++-
  1 file changed, 2 insertions(+), 1 deletion(-)
 
-diff --git a/man3/wordexp.3 b/man3/wordexp.3
-index b1d78cf2f..a531e1eaf 100644
---- a/man3/wordexp.3
-+++ b/man3/wordexp.3
-@@ -28,7 +28,8 @@ wordexp, wordfree \- perform word expansion like a posix-shell
+diff --git a/man3/wcstombs.3 b/man3/wcstombs.3
+index 21f2c8274..a42c25ebc 100644
+--- a/man3/wcstombs.3
++++ b/man3/wcstombs.3
+@@ -20,7 +20,8 @@ wcstombs \- convert a wide-character string to a multibyte string
  .nf
- .B "#include <wordexp.h>"
+ .B #include <stdlib.h>
  .PP
--.BI "int wordexp(const char *" s ", wordexp_t *" p ", int " flags );
-+.BI "int wordexp(const char *restrict " s ", wordexp_t *restrict " p \
-+", int " flags );
- .BI "void wordfree(wordexp_t *" p );
+-.BI "size_t wcstombs(char *" dest ", const wchar_t *" src ", size_t " n );
++.BI "size_t wcstombs(char *restrict " dest ", const wchar_t *restrict " src ,
++.BI "                size_t " n );
  .fi
- .PP
+ .SH DESCRIPTION
+ If
 -- 
 2.30.1
 
