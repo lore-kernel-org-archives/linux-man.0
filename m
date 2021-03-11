@@ -8,61 +8,61 @@ X-Spam-Status: No, score=-15.8 required=3.0 tests=BAYES_00,DKIM_SIGNED,
 	MAILING_LIST_MULTI,SPF_HELO_NONE,SPF_PASS,USER_AGENT_GIT autolearn=ham
 	autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 5D27BC43619
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 2BE8CC4321A
 	for <linux-man@archiver.kernel.org>; Thu, 11 Mar 2021 22:34:36 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.kernel.org (Postfix) with ESMTP id 340C064F8C
-	for <linux-man@archiver.kernel.org>; Thu, 11 Mar 2021 22:34:36 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTP id 0554964F8D
+	for <linux-man@archiver.kernel.org>; Thu, 11 Mar 2021 22:34:35 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S229771AbhCKWeT (ORCPT <rfc822;linux-man@archiver.kernel.org>);
-        Thu, 11 Mar 2021 17:34:19 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:51124 "EHLO
+        id S229730AbhCKWeP (ORCPT <rfc822;linux-man@archiver.kernel.org>);
+        Thu, 11 Mar 2021 17:34:15 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:51114 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S229900AbhCKWdx (ORCPT
-        <rfc822;linux-man@vger.kernel.org>); Thu, 11 Mar 2021 17:33:53 -0500
-Received: from mail-wm1-x333.google.com (mail-wm1-x333.google.com [IPv6:2a00:1450:4864:20::333])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id DBD46C061760
-        for <linux-man@vger.kernel.org>; Thu, 11 Mar 2021 14:33:52 -0800 (PST)
-Received: by mail-wm1-x333.google.com with SMTP id o26so2659470wmc.5
-        for <linux-man@vger.kernel.org>; Thu, 11 Mar 2021 14:33:52 -0800 (PST)
+        with ESMTP id S229827AbhCKWdv (ORCPT
+        <rfc822;linux-man@vger.kernel.org>); Thu, 11 Mar 2021 17:33:51 -0500
+Received: from mail-wr1-x433.google.com (mail-wr1-x433.google.com [IPv6:2a00:1450:4864:20::433])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 4BC33C061574
+        for <linux-man@vger.kernel.org>; Thu, 11 Mar 2021 14:33:51 -0800 (PST)
+Received: by mail-wr1-x433.google.com with SMTP id o16so681418wrn.0
+        for <linux-man@vger.kernel.org>; Thu, 11 Mar 2021 14:33:51 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=gmail.com; s=20161025;
         h=from:to:cc:subject:date:message-id:in-reply-to:references
          :mime-version:content-transfer-encoding;
-        bh=myGBFmTyq8yKUO/9bCCE9EWQo9Gph4cL/zgnQG+CavY=;
-        b=f7l4VzDWYEMxc3HRtWWafyaA+UsZIbpRR2ZDVQOdDCkNpOmfcDwYnLlQMwVB+MR2rC
-         R8Odj/qc9FpjutPOuIPBdvY07kjSKPA6rUYH8+IoG5iP2F8gL9fqV4PYeZpi2C/uYl+6
-         8jvgGCgrqK4bGW7eiggFx0+BWl3wNeSRldbPxFG14ApJsiMz4EJX3BJvAqVBwTwDmbG/
-         0jxTYDmKjYF2zKGGsNK6bJI3afKXo8xixQzkK/7CgwhuVl7CKK5zFjLAMfcwrUb0ts/h
-         rOamWP7osXOgozbtGVwokxLGkq6y0U9MDb3he/QmqhPmi92G1lq1RXnLfDAJ/RbRwkR8
-         uJYg==
+        bh=z6vwUMWeUYWla4vOWWGgeWQONBlQ4FsYHC/qTO0bfL4=;
+        b=eIAvjcG1uAlMV4Rwpn2R5StLEuAJKx0bQ98ixbhNNXB5NyOya8fmfH0wZvzQgdkiA7
+         XVaq++kR8eChKGEhOzoLMdNwtf3QhPRvqiuRvQoBzFkMY7D7DGqIVtM1tZy7XEeyK8Y+
+         5br7/Bqw8ZNjpypXxddyAiSZ7EVTf/CpTV31oS7cFh8DaXxzhByFF71IAva9ODQyAwPj
+         1mHjMaPjJLo9DANpR+fpqgXq4FZ8vtMeOprtc7ZQvBnqJomIJ0cvw8PLXWfsYsoH0luZ
+         gcET62qaK5YLgcYQce48ZVPl9wADvAUYV72XFWiRuR0wixUvVyVYsU/ZJnIAbuFjYxTW
+         c/Ow==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
         h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
          :references:mime-version:content-transfer-encoding;
-        bh=myGBFmTyq8yKUO/9bCCE9EWQo9Gph4cL/zgnQG+CavY=;
-        b=my9XLV/v3BPGarmbDxZInBqgAnXK70k+WKDVqItIAYzmagwlvCG/tc5VuFV8K8Rb3I
-         jkUcPeeUzmSnAHJtroEbIiGPLZBbpgh5IBjr4aLzBEebfffoTamGVv08dMjLRiif1aj3
-         Ahwi68Cec86oskHCJkeVUqMFkFsppAViq3k7ut2nv63ctYYR1OHG0N7zDf7AhuDWYTP+
-         3Fk/6vffr4TpCwQIeWg+HcJ1mkvyLUWkQ9GWaiuX7Wq70AQANHyMyis3adVx3lGN/4fi
-         4T1pX66nGY3iVtkdR0aJFMiCpigWxJpa9HxnmIs1Supj6F7++6T32vhFLW8x5N9ut8uC
-         NEMg==
-X-Gm-Message-State: AOAM530g/yyYVQyDViUH5BurLLWM0pbjEV+0lfSOBdzvQsQSnrh1Rimy
-        X4+mHeBzqUO7TxC8bUwQHROlBWYvf8g=
-X-Google-Smtp-Source: ABdhPJyOlK5Qv/x7vKMNCOqiIwTZej2GPlz+bwVC7FrvJM6+WqoeLpaJFh8uZkfHxd7nIsEjjnLkOQ==
-X-Received: by 2002:a1c:6a05:: with SMTP id f5mr10053202wmc.75.1615502031708;
-        Thu, 11 Mar 2021 14:33:51 -0800 (PST)
+        bh=z6vwUMWeUYWla4vOWWGgeWQONBlQ4FsYHC/qTO0bfL4=;
+        b=C7wNnpiKOtD1it5qyWlWAhic3mPx4kFFAImrjLC74HXoM24aFj7cWT83FHPjGRNNQ4
+         cXrwKZcxBGo/5tZOGwqcESUUwOYetMa5JuyEUnQicYjm26JKpo/UqY65fMCaG1SdSqaF
+         0HOpEnVtS/S1n7ViDy7XeoSTlOTs5LjQs4oJx43MbLiq0bhbSQvFerMwmUr04cDw5llE
+         D0oaMQ3EvM1ti0C55u1GaHyeju1Uc9uNpAw/Soe+wS5X/6PUMfDvTfUJ4pSK0uxSVAkd
+         vcX0PVcd8GgHweSaEamFqn8cw/Q8v+5b1k+6qQW73jFSTzYOB0cXYdzU8cpc/PnwWUmB
+         e8xg==
+X-Gm-Message-State: AOAM531SUOq8cb4x4FsDibW2S5Qa+pzt24iw0SmE83QnmKjko9RyjdIo
+        7yWLRFnLKXN57NXPsgXXuak=
+X-Google-Smtp-Source: ABdhPJyvWxQlnWFIKAzjWOnVKxElsR9QaHMGUyjD/mXy0CspwC8Nssv8uiDTNis5Lrkt9Ih8O/HuWQ==
+X-Received: by 2002:adf:f148:: with SMTP id y8mr10705852wro.107.1615502030103;
+        Thu, 11 Mar 2021 14:33:50 -0800 (PST)
 Received: from localhost.localdomain ([170.253.36.171])
-        by smtp.googlemail.com with ESMTPSA id v2sm22365771wmj.1.2021.03.11.14.33.50
+        by smtp.googlemail.com with ESMTPSA id v2sm22365771wmj.1.2021.03.11.14.33.49
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Thu, 11 Mar 2021 14:33:51 -0800 (PST)
+        Thu, 11 Mar 2021 14:33:49 -0800 (PST)
 From:   Alejandro Colomar <alx.manpages@gmail.com>
 To:     mtk.manpages@gmail.com
 Cc:     Alejandro Colomar <alx.manpages@gmail.com>,
         linux-man@vger.kernel.org, libc-alpha@sourceware.org
-Subject: [PATCH 12/17] wcsrtombs.3: SYNOPSIS: Use 'restrict' in prototypes
-Date:   Thu, 11 Mar 2021 23:33:25 +0100
-Message-Id: <20210311223330.722437-13-alx.manpages@gmail.com>
+Subject: [PATCH 10/17] wcsncpy.3: SYNOPSIS: Use 'restrict' in prototypes
+Date:   Thu, 11 Mar 2021 23:33:23 +0100
+Message-Id: <20210311223330.722437-11-alx.manpages@gmail.com>
 X-Mailer: git-send-email 2.30.1
 In-Reply-To: <20210311223330.722437-1-alx.manpages@gmail.com>
 References: <20210311223330.722437-1-alx.manpages@gmail.com>
@@ -72,36 +72,36 @@ Precedence: bulk
 List-ID: <linux-man.vger.kernel.org>
 X-Mailing-List: linux-man@vger.kernel.org
 
-Both POSIX and glibc use 'restrict' in wcsrtombs().
+Both POSIX and glibc use 'restrict' in wcsncpy().
 Let's use it here too.
 
-.../glibc$ grep_glibc_prototype wcsrtombs
-wcsmbs/wchar.h:343:
-extern size_t wcsrtombs (char *__restrict __dst,
-			 const wchar_t **__restrict __src, size_t __len,
-			 mbstate_t *__restrict __ps) __THROW;
+.../glibc$ grep_glibc_prototype wcsncpy
+wcsmbs/wchar.h:92:
+extern wchar_t *wcsncpy (wchar_t *__restrict __dest,
+			 const wchar_t *__restrict __src, size_t __n)
+     __THROW __nonnull ((1, 2));
 .../glibc$
 
 Signed-off-by: Alejandro Colomar <alx.manpages@gmail.com>
 ---
- man3/wcsrtombs.3 | 4 ++--
- 1 file changed, 2 insertions(+), 2 deletions(-)
+ man3/wcsncpy.3 | 4 +++-
+ 1 file changed, 3 insertions(+), 1 deletion(-)
 
-diff --git a/man3/wcsrtombs.3 b/man3/wcsrtombs.3
-index df5518080..b5e9a68ad 100644
---- a/man3/wcsrtombs.3
-+++ b/man3/wcsrtombs.3
-@@ -20,8 +20,8 @@ wcsrtombs \- convert a wide-character string to a multibyte string
+diff --git a/man3/wcsncpy.3 b/man3/wcsncpy.3
+index d5a02b8a6..b90908fe7 100644
+--- a/man3/wcsncpy.3
++++ b/man3/wcsncpy.3
+@@ -20,7 +20,9 @@ wcsncpy \- copy a fixed-size string of wide characters
  .nf
  .B #include <wchar.h>
  .PP
--.BI "size_t wcsrtombs(char *" dest ", const wchar_t **" src ,
--.BI "                 size_t " len ", mbstate_t *" ps );
-+.BI "size_t wcsrtombs(char *restrict " dest ", const wchar_t **restrict " src ,
-+.BI "                 size_t " len ", mbstate_t *restrict " ps );
+-.BI "wchar_t *wcsncpy(wchar_t *" dest ", const wchar_t *" src ", size_t " n );
++.BI "wchar_t *wcsncpy(wchar_t *restrict " dest \
++", const wchar_t *restrict " src ,
++.BI "                 size_t " n );
  .fi
  .SH DESCRIPTION
- If
+ The
 -- 
 2.30.1
 
