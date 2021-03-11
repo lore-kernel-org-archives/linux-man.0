@@ -8,61 +8,61 @@ X-Spam-Status: No, score=-15.8 required=3.0 tests=BAYES_00,DKIM_SIGNED,
 	MAILING_LIST_MULTI,SPF_HELO_NONE,SPF_PASS,USER_AGENT_GIT autolearn=ham
 	autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 2BE8CC4321A
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 06A59C432C3
 	for <linux-man@archiver.kernel.org>; Thu, 11 Mar 2021 22:34:36 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.kernel.org (Postfix) with ESMTP id 0554964F8D
+	by mail.kernel.org (Postfix) with ESMTP id C727D64F8F
 	for <linux-man@archiver.kernel.org>; Thu, 11 Mar 2021 22:34:35 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S229730AbhCKWeP (ORCPT <rfc822;linux-man@archiver.kernel.org>);
-        Thu, 11 Mar 2021 17:34:15 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:51114 "EHLO
+        id S229688AbhCKWeN (ORCPT <rfc822;linux-man@archiver.kernel.org>);
+        Thu, 11 Mar 2021 17:34:13 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:51104 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S229827AbhCKWdv (ORCPT
-        <rfc822;linux-man@vger.kernel.org>); Thu, 11 Mar 2021 17:33:51 -0500
-Received: from mail-wr1-x433.google.com (mail-wr1-x433.google.com [IPv6:2a00:1450:4864:20::433])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 4BC33C061574
-        for <linux-man@vger.kernel.org>; Thu, 11 Mar 2021 14:33:51 -0800 (PST)
-Received: by mail-wr1-x433.google.com with SMTP id o16so681418wrn.0
-        for <linux-man@vger.kernel.org>; Thu, 11 Mar 2021 14:33:51 -0800 (PST)
+        with ESMTP id S229791AbhCKWdu (ORCPT
+        <rfc822;linux-man@vger.kernel.org>); Thu, 11 Mar 2021 17:33:50 -0500
+Received: from mail-wr1-x435.google.com (mail-wr1-x435.google.com [IPv6:2a00:1450:4864:20::435])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 10ECFC061574
+        for <linux-man@vger.kernel.org>; Thu, 11 Mar 2021 14:33:49 -0800 (PST)
+Received: by mail-wr1-x435.google.com with SMTP id e18so680617wrt.6
+        for <linux-man@vger.kernel.org>; Thu, 11 Mar 2021 14:33:48 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=gmail.com; s=20161025;
         h=from:to:cc:subject:date:message-id:in-reply-to:references
          :mime-version:content-transfer-encoding;
-        bh=z6vwUMWeUYWla4vOWWGgeWQONBlQ4FsYHC/qTO0bfL4=;
-        b=eIAvjcG1uAlMV4Rwpn2R5StLEuAJKx0bQ98ixbhNNXB5NyOya8fmfH0wZvzQgdkiA7
-         XVaq++kR8eChKGEhOzoLMdNwtf3QhPRvqiuRvQoBzFkMY7D7DGqIVtM1tZy7XEeyK8Y+
-         5br7/Bqw8ZNjpypXxddyAiSZ7EVTf/CpTV31oS7cFh8DaXxzhByFF71IAva9ODQyAwPj
-         1mHjMaPjJLo9DANpR+fpqgXq4FZ8vtMeOprtc7ZQvBnqJomIJ0cvw8PLXWfsYsoH0luZ
-         gcET62qaK5YLgcYQce48ZVPl9wADvAUYV72XFWiRuR0wixUvVyVYsU/ZJnIAbuFjYxTW
-         c/Ow==
+        bh=hIPXV5VCEPaPMLD+26mfqastCeKgnkS0cIJ9FjKHlxo=;
+        b=c4uZbiqobsD5AuRnHcewH52+XPSvEfqq9Xkl8v8Zbv0UBBA4kcajw2dPtxktyCGWyR
+         npnDPjwjocL+T0ltToh46UD3caxzB73sIN7wCQuN6Hexl89K3bGk7DKJPbtZbyDbaN3J
+         LuKSZq2ydoETh2l3G4T33wWdaTysn+BP5cO/epHLXIWDmEIRHyasJwPvSZmB8Qpgj+Vx
+         xwzibPos2Yo5eGj+bqj4q6pMhWb1RpNAqpJsGAeQWy//+5sI7MgzPbqWkf60wtoPtlsO
+         uczpM6jZVrzOnsw/JatM29eBH5HsHT/1n196Af0FBV8zuiuiNkXS1fOGyH0V3K2ztR2b
+         cuBw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
         h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
          :references:mime-version:content-transfer-encoding;
-        bh=z6vwUMWeUYWla4vOWWGgeWQONBlQ4FsYHC/qTO0bfL4=;
-        b=C7wNnpiKOtD1it5qyWlWAhic3mPx4kFFAImrjLC74HXoM24aFj7cWT83FHPjGRNNQ4
-         cXrwKZcxBGo/5tZOGwqcESUUwOYetMa5JuyEUnQicYjm26JKpo/UqY65fMCaG1SdSqaF
-         0HOpEnVtS/S1n7ViDy7XeoSTlOTs5LjQs4oJx43MbLiq0bhbSQvFerMwmUr04cDw5llE
-         D0oaMQ3EvM1ti0C55u1GaHyeju1Uc9uNpAw/Soe+wS5X/6PUMfDvTfUJ4pSK0uxSVAkd
-         vcX0PVcd8GgHweSaEamFqn8cw/Q8v+5b1k+6qQW73jFSTzYOB0cXYdzU8cpc/PnwWUmB
-         e8xg==
-X-Gm-Message-State: AOAM531SUOq8cb4x4FsDibW2S5Qa+pzt24iw0SmE83QnmKjko9RyjdIo
-        7yWLRFnLKXN57NXPsgXXuak=
-X-Google-Smtp-Source: ABdhPJyvWxQlnWFIKAzjWOnVKxElsR9QaHMGUyjD/mXy0CspwC8Nssv8uiDTNis5Lrkt9Ih8O/HuWQ==
-X-Received: by 2002:adf:f148:: with SMTP id y8mr10705852wro.107.1615502030103;
-        Thu, 11 Mar 2021 14:33:50 -0800 (PST)
+        bh=hIPXV5VCEPaPMLD+26mfqastCeKgnkS0cIJ9FjKHlxo=;
+        b=m8tb12WTYXpLrPdYoMeoKfdpDd4ADWnQc4xmKSlr2hB14Cr3T3/+ZISLlWSjZk8paY
+         hq6HD8+3rz7Z7JwolVTYCoS8nL5zaEJ8cmaOZS4MsGM59W8wdXTpF/mEG2tYyioROc4t
+         zOjBXxqE7ZXUjXoxwYl9SVmQ9eLJq1MND2r+kuK6M3b+ehO7hc7reuRHPGcyCo/f1KDq
+         wgP55A8vb23mGUweW9Lpcl1H3ZV+SeuqoZz5ObL7uIokqa0O/rBU23hI/jISkzrDH7eC
+         2OJsk40oDstpoW5G/ebJ9ZcNVRhn5ibMl32okdBT2cJgEfLxgZF2wDtS51FhsyTsW1yG
+         Bo7Q==
+X-Gm-Message-State: AOAM533rEQZdZ66q4eCEvVORM6TjR76yID5AoyFzLd3q6+7VfwLtfVKY
+        VVRQzyBmhyFUqPofsw8U9wj+C+qHz8I=
+X-Google-Smtp-Source: ABdhPJxPxFdmBzyWecT0qlrVzLjuxAjPQyGJhR2LlHzHxzvRDAYpdlxcN/nnVYVhsD0lGGjirkoDhA==
+X-Received: by 2002:adf:a302:: with SMTP id c2mr10894452wrb.212.1615502027818;
+        Thu, 11 Mar 2021 14:33:47 -0800 (PST)
 Received: from localhost.localdomain ([170.253.36.171])
-        by smtp.googlemail.com with ESMTPSA id v2sm22365771wmj.1.2021.03.11.14.33.49
+        by smtp.googlemail.com with ESMTPSA id v2sm22365771wmj.1.2021.03.11.14.33.47
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Thu, 11 Mar 2021 14:33:49 -0800 (PST)
+        Thu, 11 Mar 2021 14:33:47 -0800 (PST)
 From:   Alejandro Colomar <alx.manpages@gmail.com>
 To:     mtk.manpages@gmail.com
 Cc:     Alejandro Colomar <alx.manpages@gmail.com>,
         linux-man@vger.kernel.org, libc-alpha@sourceware.org
-Subject: [PATCH 10/17] wcsncpy.3: SYNOPSIS: Use 'restrict' in prototypes
-Date:   Thu, 11 Mar 2021 23:33:23 +0100
-Message-Id: <20210311223330.722437-11-alx.manpages@gmail.com>
+Subject: [PATCH 07/17] wcscat.3: SYNOPSIS: Use 'restrict' in prototypes
+Date:   Thu, 11 Mar 2021 23:33:20 +0100
+Message-Id: <20210311223330.722437-8-alx.manpages@gmail.com>
 X-Mailer: git-send-email 2.30.1
 In-Reply-To: <20210311223330.722437-1-alx.manpages@gmail.com>
 References: <20210311223330.722437-1-alx.manpages@gmail.com>
@@ -72,33 +72,32 @@ Precedence: bulk
 List-ID: <linux-man.vger.kernel.org>
 X-Mailing-List: linux-man@vger.kernel.org
 
-Both POSIX and glibc use 'restrict' in wcsncpy().
+Both POSIX and glibc use 'restrict' in wcscat().
 Let's use it here too.
 
-.../glibc$ grep_glibc_prototype wcsncpy
-wcsmbs/wchar.h:92:
-extern wchar_t *wcsncpy (wchar_t *__restrict __dest,
-			 const wchar_t *__restrict __src, size_t __n)
+.../glibc$ grep_glibc_prototype wcscat
+wcsmbs/wchar.h:97:
+extern wchar_t *wcscat (wchar_t *__restrict __dest,
+			const wchar_t *__restrict __src)
      __THROW __nonnull ((1, 2));
 .../glibc$
 
 Signed-off-by: Alejandro Colomar <alx.manpages@gmail.com>
 ---
- man3/wcsncpy.3 | 4 +++-
- 1 file changed, 3 insertions(+), 1 deletion(-)
+ man3/wcscat.3 | 3 ++-
+ 1 file changed, 2 insertions(+), 1 deletion(-)
 
-diff --git a/man3/wcsncpy.3 b/man3/wcsncpy.3
-index d5a02b8a6..b90908fe7 100644
---- a/man3/wcsncpy.3
-+++ b/man3/wcsncpy.3
-@@ -20,7 +20,9 @@ wcsncpy \- copy a fixed-size string of wide characters
+diff --git a/man3/wcscat.3 b/man3/wcscat.3
+index c756337f1..acfb8d43e 100644
+--- a/man3/wcscat.3
++++ b/man3/wcscat.3
+@@ -20,7 +20,8 @@ wcscat \- concatenate two wide-character strings
  .nf
  .B #include <wchar.h>
  .PP
--.BI "wchar_t *wcsncpy(wchar_t *" dest ", const wchar_t *" src ", size_t " n );
-+.BI "wchar_t *wcsncpy(wchar_t *restrict " dest \
-+", const wchar_t *restrict " src ,
-+.BI "                 size_t " n );
+-.BI "wchar_t *wcscat(wchar_t *" dest ", const wchar_t *" src );
++.BI "wchar_t *wcscat(wchar_t *restrict " dest \
++", const wchar_t *restrict " src );
  .fi
  .SH DESCRIPTION
  The
