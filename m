@@ -8,62 +8,62 @@ X-Spam-Status: No, score=-15.8 required=3.0 tests=BAYES_00,DKIM_SIGNED,
 	MAILING_LIST_MULTI,SPF_HELO_NONE,SPF_PASS,USER_AGENT_GIT autolearn=ham
 	autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id AB18BC4332D
+	by smtp.lore.kernel.org (Postfix) with ESMTP id CA5DEC4332E
 	for <linux-man@archiver.kernel.org>; Sat, 13 Mar 2021 19:27:01 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.kernel.org (Postfix) with ESMTP id 8B89064ED4
+	by mail.kernel.org (Postfix) with ESMTP id B2FC464ECB
 	for <linux-man@archiver.kernel.org>; Sat, 13 Mar 2021 19:27:01 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S234418AbhCMT02 (ORCPT <rfc822;linux-man@archiver.kernel.org>);
-        Sat, 13 Mar 2021 14:26:28 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:36108 "EHLO
+        id S230412AbhCMT0a (ORCPT <rfc822;linux-man@archiver.kernel.org>);
+        Sat, 13 Mar 2021 14:26:30 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:36144 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S233635AbhCMTZw (ORCPT
-        <rfc822;linux-man@vger.kernel.org>); Sat, 13 Mar 2021 14:25:52 -0500
-Received: from mail-wm1-x335.google.com (mail-wm1-x335.google.com [IPv6:2a00:1450:4864:20::335])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 02C62C061762;
-        Sat, 13 Mar 2021 11:25:51 -0800 (PST)
-Received: by mail-wm1-x335.google.com with SMTP id r10-20020a05600c35cab029010c946c95easo17093510wmq.4;
-        Sat, 13 Mar 2021 11:25:50 -0800 (PST)
+        with ESMTP id S234348AbhCMTZ5 (ORCPT
+        <rfc822;linux-man@vger.kernel.org>); Sat, 13 Mar 2021 14:25:57 -0500
+Received: from mail-wr1-x429.google.com (mail-wr1-x429.google.com [IPv6:2a00:1450:4864:20::429])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id DFA6BC061574;
+        Sat, 13 Mar 2021 11:25:56 -0800 (PST)
+Received: by mail-wr1-x429.google.com with SMTP id e18so3594376wrt.6;
+        Sat, 13 Mar 2021 11:25:56 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=gmail.com; s=20161025;
         h=from:to:cc:subject:date:message-id:in-reply-to:references
          :mime-version:content-transfer-encoding;
-        bh=BYdTpAPv2ucDx5jpmDXZtAt9jTO208SebGegbuoICkg=;
-        b=gtg59Hdlglv+wdDa5olPrAlmIwJrg2QtskYp5hzJYG6er7p2qUmATUFPRW7vADQo4z
-         KNAqCJQFao1acgGRDzuYCJaXP7mhoWFPCFIiAmozWcAc2BzG9Edfhq9hM4M0PSXcmJFo
-         f8Io6GrUxU11i/f/uI/qMi4pj4zWSITc5JEhsFIjkPuEaFCxmxaY09FHVZtNLw/hSSBz
-         w9ma3RP7DEoRNYhoVvHS12xXXumgel569dn5znUQ/G3wa500sdNm97sfCO8umPUTIU+m
-         Ba8tBTt19oe/tvfamE1PewJb/ftevhJfVx9Cenrec0c1LAQlsVoEQ7ETtZ2SrFMbjx5B
-         KF+Q==
+        bh=m2UYqInPbiVi0OaTJQ9o2S1q3+yvxRnv9zNjA6WqsG0=;
+        b=uy6ZrOFPH4Q7ALCnDzF0BmGYOBPgfmgQBg7qs9FM7VVW7+f/2bilxQSCtMWVBJohvX
+         Ch/bhpYq930LKPrtnOGrhx8KufnCudjif4MIFkPklhHAy6bhXqUWSPGwkeXrVl65Xi9M
+         pA0qREL0yvWC0owUBXGvGQ7/3sPmD2U3L5V0S5Z67KkcglhwaP3Pvo3hbgZxT1NmVYfZ
+         w+1TglKJ4wAMwL69Awnmx/QmYruBPAE5zrxQDyyBZmDQvaH1BlAZuTSrnMdDwOt7KIZq
+         SR/yPVZ8lAgLxKkaD3AwctXJ0WbYPAPkovFev0wiiv14BUD90mM2dNJ8qVlyzDSVeEzj
+         GCRA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
         h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
          :references:mime-version:content-transfer-encoding;
-        bh=BYdTpAPv2ucDx5jpmDXZtAt9jTO208SebGegbuoICkg=;
-        b=pyMMqZVXHQ+TIzhqFthBBOy40B1O8jfif4Ko8vC+GLiz5YJmzDNu+hCp4CrViivN3W
-         4H7VCkwEoM5QvUGekoxESixHcd7QfjOzi9ivBjI3m0tK4MmccnnbaaHohK3GWNiNLV/p
-         i4kqORy7yzUuzSEo/cVI1TwpeUXwlDGr2aOJxXFgszyCf76yWnC7dKdCQA2yGTZEItfb
-         6E6LLMAHvBfARvELqMprAjxCp/7qpsZOiFL01AAShuqi7e2AFK43QwJ0iIEOcRptpijc
-         NTjRZJoKb2Pb87es+lRDbME9jNyxF1mOPRiMftecDy/WuurVPqP8/5dEAk/z6DbxdMez
-         Z8GA==
-X-Gm-Message-State: AOAM530tQNjzr3jdP5cjD0vgS4IJrm48HbFH1smCgciiuxvp8eJg/OU7
-        x5BSlIVW9qFIJ/eTWEA7gwI=
-X-Google-Smtp-Source: ABdhPJwdlVOcLlmf6hpsOl81qlC8u8+JLLHp9iNG6Vo4Z+UWO0vvf8fId7ak+3iqrU9IRg8BhorLRQ==
-X-Received: by 2002:a05:600c:290b:: with SMTP id i11mr19245214wmd.129.1615663549732;
-        Sat, 13 Mar 2021 11:25:49 -0800 (PST)
+        bh=m2UYqInPbiVi0OaTJQ9o2S1q3+yvxRnv9zNjA6WqsG0=;
+        b=owe1lJLHvUKbBq8ID3zCwBO2nbiQm1EOdXUs8ojWadqDOoe7u0GjkVvXMHrpcYeo5T
+         Xtoju9acc2hw5C3IaYJabqdLIJAOoVK5EZw5v+Vj5cZgBoCoL40OeuVWND3IAWVQ8LXk
+         ymyXDMOUiX3wP50T+xNBwFuktmO6ktRC0eCJhF7gU/eDm3nOqnaNs1Hhqy7DwmR8sEkS
+         NJVscbrmavHNCc4CF40lv52A9rV6b50YrpbGCJ55nR74Agf0WYlyV9DPMdOCksJAuZG/
+         KHpL/XI/IXMI/xW/k0VoZNMxUtrkARGFac19E315PcNri0ZQ0NFwhx6yfYG0mAcCV+t8
+         L3BQ==
+X-Gm-Message-State: AOAM532CjZgUqpfiA/livbwNNAD6jzUVSE4wcuswx6WNXpQ+7nlJvcr/
+        Ue3TAFkiscFoEtQq6TrhSOg=
+X-Google-Smtp-Source: ABdhPJz0V23KnA6yIiswti5QiH73acYI1QhV9tU6ijBdEO/5LImULsitAbd8x0W3FS7qq+7ZO6R9TQ==
+X-Received: by 2002:a5d:6404:: with SMTP id z4mr19052012wru.109.1615663555693;
+        Sat, 13 Mar 2021 11:25:55 -0800 (PST)
 Received: from localhost.localdomain ([170.253.51.130])
-        by smtp.googlemail.com with ESMTPSA id j136sm7670964wmj.35.2021.03.13.11.25.48
+        by smtp.googlemail.com with ESMTPSA id j136sm7670964wmj.35.2021.03.13.11.25.54
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Sat, 13 Mar 2021 11:25:49 -0800 (PST)
+        Sat, 13 Mar 2021 11:25:55 -0800 (PST)
 From:   Alejandro Colomar <alx.manpages@gmail.com>
 To:     mtk.manpages@gmail.com
 Cc:     Alejandro Colomar <alx.manpages@gmail.com>,
         linux-man@vger.kernel.org, libc-alpha@sourceware.org,
         linux-kernel@vger.kernel.org, Florian Weimer <fweimer@redhat.com>
-Subject: [RFC v3 01/17] access.2: Use syscall(SYS_...); for system calls without a wrapper
-Date:   Sat, 13 Mar 2021 20:25:11 +0100
-Message-Id: <20210313192526.350200-2-alx.manpages@gmail.com>
+Subject: [RFC v3 08/17] epoll_wait.2: Use syscall(SYS_...); for system calls without a wrapper
+Date:   Sat, 13 Mar 2021 20:25:18 +0100
+Message-Id: <20210313192526.350200-9-alx.manpages@gmail.com>
 X-Mailer: git-send-email 2.30.2
 In-Reply-To: <20210214133907.157320-1-alx.manpages@gmail.com>
 References: <20210214133907.157320-1-alx.manpages@gmail.com>
@@ -75,37 +75,28 @@ X-Mailing-List: linux-man@vger.kernel.org
 
 Signed-off-by: Alejandro Colomar <alx.manpages@gmail.com>
 ---
- man2/access.2 | 11 ++++++++---
- 1 file changed, 8 insertions(+), 3 deletions(-)
+ man2/epoll_wait.2 | 8 +++++++-
+ 1 file changed, 7 insertions(+), 1 deletion(-)
 
-diff --git a/man2/access.2 b/man2/access.2
-index 77ff2bd99..b662d07cf 100644
---- a/man2/access.2
-+++ b/man2/access.2
-@@ -49,15 +49,20 @@ access, faccessat, faccessat2 \- check user's permissions for a file
- .PP
- .BI "int access(const char *" pathname ", int " mode );
- .PP
--.BR "#include <fcntl.h>           " "/* Definition of AT_* constants */"
-+.BR "#include <fcntl.h>" "            /* Definition of " AT_* " constants */"
- .B #include <unistd.h>
- .PP
- .BI "int faccessat(int " dirfd ", const char *" pathname ", int " \
- mode ", int " flags );
-                 /* But see C library/kernel differences, below */
- .PP
--.BI "int faccessat2(int " dirfd ", const char *" pathname ", int " \
--mode ", int " flags );
-+.BR "#include <fcntl.h>" "            /* Definition of " AT_* " constants */"
-+.BR "#include <sys/syscall.h>" "      /* For " SYS_* " constants */"
+diff --git a/man2/epoll_wait.2 b/man2/epoll_wait.2
+index af4180df0..0f3cfe1d5 100644
+--- a/man2/epoll_wait.2
++++ b/man2/epoll_wait.2
+@@ -32,7 +32,13 @@ epoll_wait, epoll_pwait, epoll_pwait2 \- wait for an I/O event on an epoll file
+ .BI "int epoll_pwait(int " epfd ", struct epoll_event *" events ,
+ .BI "               int " maxevents ", int " timeout ,
+ .BI "               const sigset_t *" sigmask );
+-.BI "int epoll_pwait2(int " epfd ", struct epoll_event *" events ,
++.PP
++.BR "#include <linux/eventpoll.h>" \
++" /* Definition of " "struct epoll_event" " */"
++.BR "#include <sys/syscall.h>" "     /* Definition of " SYS_* " constants */"
 +.B #include <unistd.h>
 +.PP
-+.BI "int syscall(SYS_faccessat2,"
-+.BI "            int " dirfd ", const char *" pathname ", int " mode \
-+", int " flags );
- .fi
- .PP
- .RS -4
++.BI "int syscall(SYS_epoll_pwait2, int " epfd ", struct epoll_event *" events ,
+ .BI "               int " maxevents ", const struct timespec *" timeout ,
+ .BI "               const sigset_t *" sigmask );
+ .\" FIXME: Check if glibc has added a wrapper for epoll_pwait2(),
 -- 
 2.30.2
 
