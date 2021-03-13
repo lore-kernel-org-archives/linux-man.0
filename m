@@ -2,114 +2,117 @@ Return-Path: <linux-man-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-4.3 required=3.0 tests=BAYES_00,DKIM_SIGNED,
+X-Spam-Status: No, score=-15.8 required=3.0 tests=BAYES_00,DKIM_SIGNED,
 	DKIM_VALID,DKIM_VALID_AU,FREEMAIL_FORGED_FROMDOMAIN,FREEMAIL_FROM,
-	HEADER_FROM_DIFFERENT_DOMAINS,MAILING_LIST_MULTI,NICE_REPLY_A,SPF_HELO_NONE,
-	SPF_PASS,USER_AGENT_SANE_1 autolearn=no autolearn_force=no version=3.4.0
+	HEADER_FROM_DIFFERENT_DOMAINS,INCLUDES_CR_TRAILER,INCLUDES_PATCH,
+	MAILING_LIST_MULTI,SPF_HELO_NONE,SPF_PASS,USER_AGENT_GIT autolearn=ham
+	autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 709C2C433E0
-	for <linux-man@archiver.kernel.org>; Sat, 13 Mar 2021 17:10:59 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id C187AC433E0
+	for <linux-man@archiver.kernel.org>; Sat, 13 Mar 2021 19:27:00 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.kernel.org (Postfix) with ESMTP id 4124764F21
-	for <linux-man@archiver.kernel.org>; Sat, 13 Mar 2021 17:10:59 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTP id 8EA0B64E62
+	for <linux-man@archiver.kernel.org>; Sat, 13 Mar 2021 19:27:00 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S234132AbhCMRK0 (ORCPT <rfc822;linux-man@archiver.kernel.org>);
-        Sat, 13 Mar 2021 12:10:26 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:35438 "EHLO
+        id S234181AbhCMT0Z (ORCPT <rfc822;linux-man@archiver.kernel.org>);
+        Sat, 13 Mar 2021 14:26:25 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:36116 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S234071AbhCMRKH (ORCPT
-        <rfc822;linux-man@vger.kernel.org>); Sat, 13 Mar 2021 12:10:07 -0500
-Received: from mail-wm1-x329.google.com (mail-wm1-x329.google.com [IPv6:2a00:1450:4864:20::329])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 563E5C061574;
-        Sat, 13 Mar 2021 09:10:07 -0800 (PST)
-Received: by mail-wm1-x329.google.com with SMTP id j4-20020a05600c4104b029010c62bc1e20so16966134wmi.3;
-        Sat, 13 Mar 2021 09:10:07 -0800 (PST)
+        with ESMTP id S234010AbhCMTZx (ORCPT
+        <rfc822;linux-man@vger.kernel.org>); Sat, 13 Mar 2021 14:25:53 -0500
+Received: from mail-wm1-x32d.google.com (mail-wm1-x32d.google.com [IPv6:2a00:1450:4864:20::32d])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 93C78C061764;
+        Sat, 13 Mar 2021 11:25:52 -0800 (PST)
+Received: by mail-wm1-x32d.google.com with SMTP id b2-20020a7bc2420000b029010be1081172so17104416wmj.1;
+        Sat, 13 Mar 2021 11:25:52 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=gmail.com; s=20161025;
-        h=subject:to:cc:references:from:message-id:date:user-agent
-         :mime-version:in-reply-to:content-language:content-transfer-encoding;
-        bh=uxXcx5tCWVJlzcshWXHiDgaPyurgvL5/J2tFChe0zBg=;
-        b=lgAtaOsdhAi+Qaq0ZXhJ2RyjVzIA0NdwA81J/CeE/nDSCHejnq3mlfAGnCNvlBSiuM
-         m8QS9KwANjL59/D0JMCuaOgEeruMzzcpyy9rSz177MUhiBCDviF+3aEDUM2gHMuoEjy3
-         iK5oMmo+rcGzXUAsvJRjKrN28CQbFOdGzFSg9psocKDwQ8yO1CUHMNt8UPsV26LFOO3L
-         DI8zkATPjqON6uKDG+i2Ch3WxUFy2wbfSWgHBrL2Fa6eNauGoli5Maxsf+XHmQDMMgRo
-         TdT4be9bRftf43D8qRJ8roWClk22dajSCu5U8TigzbZk2qAG/Agv8reDwTFtFlAL5vZI
-         KbdA==
+        h=from:to:cc:subject:date:message-id:in-reply-to:references
+         :mime-version:content-transfer-encoding;
+        bh=z3NNryk1ci9eYbs78Jt/UvIKKs9jNRVOVbWS8ChqMqc=;
+        b=POcK3lgqwMu0sbFfmztkXz639fflSScfGSLs364lwOUa7vg2+C0fnchRbGvX0RDVfY
+         GUG07nOLUxeYSWxqWG/mjdXLWnoK/exyRfmSRNAefiHHs34OnTZI9orfeClRGSFWmYtm
+         2tMQ7aT8evjuZqbAzgNTQPz8WNHyT8e0Ze7z+bfXfJaltXJtWuXlj23Kmm1lR+UPPA0V
+         6EVZ8R9o7iD5vqUoSejMZWAN2pGiO9KavVx84Cy77F2YXKd5z2aNhh8m756qtxL8Oyhu
+         4Xkm92CGWr8qzuyC9xZ2q9mKZFBybU1HSLVAZlOH5Ov3tdzIpas5i3Z9qMe0rzQi4i1q
+         QPng==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
-        h=x-gm-message-state:subject:to:cc:references:from:message-id:date
-         :user-agent:mime-version:in-reply-to:content-language
-         :content-transfer-encoding;
-        bh=uxXcx5tCWVJlzcshWXHiDgaPyurgvL5/J2tFChe0zBg=;
-        b=mTsS7VSTd99xMPxqhin+VBL2oVBXGicxpEO1aa4VkJbnjiLZnEKgoGgEu66GQfM5Eg
-         U6fK4Tlo0GGI3p32E3v4WzqkxZ3IoNNCgrr+wwPSe4FV7BbO+CFDqd/WTyR9aCYNvGDf
-         14nWx/0bZQJaPJBOBUw6Kih2cHIEcQb9RmxHAb8yUrpswYbwCQjVaKDwSgmaBagqyGJ9
-         x/vqeMSeD2JBOrY7KfpplI6rL4eFb3nFjsd6plbMC3DIcqpiPlqLyaLzke3CLMIvuasM
-         KV2Rz+dz8DeoxkEThsXhMg/TiLDDf+9e7BSTJZiEOMO1WPCbgSspXFgoslcUVzEDNnUU
-         zyvA==
-X-Gm-Message-State: AOAM531LG9/q/99gbrEeCwstG3Rp1Gd20AoKy1ToscUK8FPxO42pI7a6
-        2p67FukVLa9DQOY519kxQA1jY7HpbOZN8g==
-X-Google-Smtp-Source: ABdhPJzx5pXKZyc0H0ELXyqikd7atH4DO/6lXbTiNri/jZCpws6ukyPErnUKkKVIf4gI0gutocBhLA==
-X-Received: by 2002:a7b:c096:: with SMTP id r22mr18576100wmh.102.1615655406109;
-        Sat, 13 Mar 2021 09:10:06 -0800 (PST)
-Received: from [192.168.1.143] ([170.253.51.130])
-        by smtp.gmail.com with ESMTPSA id q4sm7481816wma.20.2021.03.13.09.10.05
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Sat, 13 Mar 2021 09:10:05 -0800 (PST)
-Subject: Re: epoll_wait.2: epoll_pwait2(2) prototype
-To:     "Dmitry V. Levin" <ldv@altlinux.org>
-Cc:     Willem de Bruijn <willemb@google.com>,
-        linux-man <linux-man@vger.kernel.org>,
-        Florian Weimer <fweimer@redhat.com>,
-        Michael Kerrisk <mtk.manpages@gmail.com>,
-        linux-fsdevel <linux-fsdevel@vger.kernel.org>,
-        linux-api@vger.kernel.org
-References: <eb42faba-2235-4536-df49-795ef2719552@gmail.com>
- <20210313170250.GA15968@altlinux.org>
-From:   "Alejandro Colomar (man-pages)" <alx.manpages@gmail.com>
-Message-ID: <db9dbcc6-91e0-bfc3-0f19-b91fd2afec24@gmail.com>
-Date:   Sat, 13 Mar 2021 18:10:04 +0100
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
- Thunderbird/78.8.0
+        h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
+         :references:mime-version:content-transfer-encoding;
+        bh=z3NNryk1ci9eYbs78Jt/UvIKKs9jNRVOVbWS8ChqMqc=;
+        b=U6Tih8ojAlziKX5ljl/XfSqtgBLIt5fpCQv6IghgCKX5TzITI/NN8I7dUI7PJnVNw0
+         0EhMANOlBBGnwyFvKeyIVBlueEBuVORsougsLdOAv8LAmxfT/Vtv7zbaIoSjaCtp4N7E
+         trc2WQZJSdACP7pdiuSftSWIfUElOrV8tTHQqGZZL5VxRboVmSMa7OyRGYeJ2iMwhGF9
+         v05fHttrweLqEQT89A8DIPpERinZ0xgg9dSQj79l0Pv6HcdCVRZ876pfsiDYk9aTIVL/
+         BsgaPbGh8fRIQ/A8xWoS/ouqY4WZeR9PQExzTsRe8vNMhKY70XAaq1bUGh01FRmh+ctn
+         Qgkg==
+X-Gm-Message-State: AOAM532NpwmS73XFoewK5IWInvS+XxH/tMZ3vE7M/aTB8dCMIHXGcB2u
+        E2hQ+qV6NWpDRFUd0u3v+k0=
+X-Google-Smtp-Source: ABdhPJx8XH+GI14ambLJs44HFKtFSLjhMYB43uahxuH3zsK3nJ3aAR44vwc7rLp3W9uyMvAta7r7PA==
+X-Received: by 2002:a1c:1bc7:: with SMTP id b190mr19148407wmb.115.1615663551362;
+        Sat, 13 Mar 2021 11:25:51 -0800 (PST)
+Received: from localhost.localdomain ([170.253.51.130])
+        by smtp.googlemail.com with ESMTPSA id j136sm7670964wmj.35.2021.03.13.11.25.50
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Sat, 13 Mar 2021 11:25:51 -0800 (PST)
+From:   Alejandro Colomar <alx.manpages@gmail.com>
+To:     mtk.manpages@gmail.com
+Cc:     Alejandro Colomar <alx.manpages@gmail.com>,
+        linux-man@vger.kernel.org, libc-alpha@sourceware.org,
+        linux-kernel@vger.kernel.org, Florian Weimer <fweimer@redhat.com>
+Subject: [RFC v3 03/17] arch_prctl.2: Use syscall(SYS_...); for system calls without a wrapper
+Date:   Sat, 13 Mar 2021 20:25:13 +0100
+Message-Id: <20210313192526.350200-4-alx.manpages@gmail.com>
+X-Mailer: git-send-email 2.30.2
+In-Reply-To: <20210214133907.157320-1-alx.manpages@gmail.com>
+References: <20210214133907.157320-1-alx.manpages@gmail.com>
 MIME-Version: 1.0
-In-Reply-To: <20210313170250.GA15968@altlinux.org>
-Content-Type: text/plain; charset=utf-8; format=flowed
-Content-Language: en-US
-Content-Transfer-Encoding: 7bit
+Content-Transfer-Encoding: 8bit
 Precedence: bulk
 List-ID: <linux-man.vger.kernel.org>
 X-Mailing-List: linux-man@vger.kernel.org
 
-Hi Dmitry,
+Signed-off-by: Alejandro Colomar <alx.manpages@gmail.com>
+---
+ man2/arch_prctl.2 | 14 +++++---------
+ 1 file changed, 5 insertions(+), 9 deletions(-)
 
-On 3/13/21 6:02 PM, Dmitry V. Levin wrote:
-> Hi Alex,
-> 
-> On Sat, Mar 13, 2021 at 05:48:08PM +0100, Alejandro Colomar (man-pages) wrote:
->> Hi Willem,
->>
->> I checked that the prototype of the kernel epoll_pwait2() syscall is
->> different from the one we recently merged; it has one more parameter
->> 'size_t sigsetsize':
-[...]
->>
->> I'm could fix the prototype, but maybe there are more changes needed for
->> the manual page.
->>
->> Would you mind fixing it?
-> 
-> Looks like the 6th argument of epoll_pwait and epoll_pwait2 syscalls
-> is already described in "C library/kernel differences" subsection of
-> epoll_pwait2(2).
-
-Ahhh, I didn't see it, ok.  That's in BUGS by mistake.  I'll move it to 
-NOTES, where it should be.
-
-Thanks,
-
-Alex
-
+diff --git a/man2/arch_prctl.2 b/man2/arch_prctl.2
+index f9a9dc39d..8706cd1ec 100644
+--- a/man2/arch_prctl.2
++++ b/man2/arch_prctl.2
+@@ -27,15 +27,14 @@
+ arch_prctl \- set architecture-specific thread state
+ .SH SYNOPSIS
+ .nf
+-.B #include <asm/prctl.h>
++.BR "#include <asm/prctl.h>" "        /* Definition of " ARCH_* " constants */"
+ .B #include <sys/prctl.h>
++.BR "#include <sys/syscall.h>" "      /* Definition of " SYS_* " constants */"
++.B #include <unistd.h>
+ .PP
+-.BI "int arch_prctl(int " code ", unsigned long " addr );
+-.BI "int arch_prctl(int " code ", unsigned long *" addr );
++.BI "int syscall(SYS_arch_prctl, int " code ", unsigned long " addr );
++.BI "int syscall(SYS_arch_prctl, int " code ", unsigned long *" addr );
+ .fi
+-.PP
+-.IR Note :
+-There is no glibc wrapper for this system call; see NOTES.
+ .SH DESCRIPTION
+ .BR arch_prctl ()
+ sets architecture-specific process or thread state.
+@@ -177,9 +176,6 @@ and
+ in the same thread is dangerous, as they may overwrite each other's
+ TLS entries.
+ .PP
+-Glibc does not provide a wrapper for this system call; call it using
+-.BR syscall (2).
+-.PP
+ .I FS
+ may be already used by the threading library.
+ Programs that use
 -- 
-Alejandro Colomar
-Linux man-pages comaintainer; https://www.kernel.org/doc/man-pages/
-http://www.alejandro-colomar.es/
+2.30.2
+
