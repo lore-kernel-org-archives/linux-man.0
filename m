@@ -8,62 +8,62 @@ X-Spam-Status: No, score=-15.8 required=3.0 tests=BAYES_00,DKIM_SIGNED,
 	MAILING_LIST_MULTI,SPF_HELO_NONE,SPF_PASS,USER_AGENT_GIT autolearn=ham
 	autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 288B2C43333
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 4C91EC43619
 	for <linux-man@archiver.kernel.org>; Sat, 13 Mar 2021 19:27:02 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.kernel.org (Postfix) with ESMTP id 12D3D64ED4
+	by mail.kernel.org (Postfix) with ESMTP id 3520E64ED1
 	for <linux-man@archiver.kernel.org>; Sat, 13 Mar 2021 19:27:02 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S234445AbhCMT0b (ORCPT <rfc822;linux-man@archiver.kernel.org>);
-        Sat, 13 Mar 2021 14:26:31 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:36156 "EHLO
+        id S234458AbhCMT0c (ORCPT <rfc822;linux-man@archiver.kernel.org>);
+        Sat, 13 Mar 2021 14:26:32 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:36168 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S234392AbhCMTZ7 (ORCPT
-        <rfc822;linux-man@vger.kernel.org>); Sat, 13 Mar 2021 14:25:59 -0500
-Received: from mail-wm1-x32f.google.com (mail-wm1-x32f.google.com [IPv6:2a00:1450:4864:20::32f])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 65399C061574;
-        Sat, 13 Mar 2021 11:25:59 -0800 (PST)
-Received: by mail-wm1-x32f.google.com with SMTP id r10-20020a05600c35cab029010c946c95easo17093624wmq.4;
-        Sat, 13 Mar 2021 11:25:59 -0800 (PST)
+        with ESMTP id S234395AbhCMT0B (ORCPT
+        <rfc822;linux-man@vger.kernel.org>); Sat, 13 Mar 2021 14:26:01 -0500
+Received: from mail-wr1-x42b.google.com (mail-wr1-x42b.google.com [IPv6:2a00:1450:4864:20::42b])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 09F68C061574;
+        Sat, 13 Mar 2021 11:26:01 -0800 (PST)
+Received: by mail-wr1-x42b.google.com with SMTP id y16so6617151wrw.3;
+        Sat, 13 Mar 2021 11:26:00 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=gmail.com; s=20161025;
         h=from:to:cc:subject:date:message-id:in-reply-to:references
          :mime-version:content-transfer-encoding;
-        bh=ELdom3QA9KtDMvn7b4rnXhEozrUJ/M/stF+XSkKHLwg=;
-        b=M3pl3OcTlbdM0Sid43TgYS9RizRfYdL3Gp/BR33Sof8vDsC6+ToLqo79SXu9L3GNNX
-         zPhMjqAtMnYFrQUdQiwwcxnHHs6QAQGE9uc5P+bsaDDn/T/lrTTkMAtVnZITCaJ6gOyg
-         QuXSM+gv5U+hzow32YXRbw3U7YOwGql0fV6+xGLiOuKS1NQziVrtsZTnrCJnIJczyxCN
-         13VXOuA5Hhwk07TgYvQ75oCsv7Jc+Jf/ox71IH102eXEcDjA6koGECv9aC4FMTjKSlrt
-         FcwQfV2c2WKhtlljjb8pHghRmglO+wkpcN7sZu1mhpERqL6SSTJWQM9W9NP7wfx3+zvp
-         NR2Q==
+        bh=WAJ8l7S3N7jAAUiOrOBAwKqf/KXf6VsnLcR6sFmm34Q=;
+        b=Lzc/pdUdNtyQnIkl7poe8jxu5OBMbq9ruGKWoMAs59ew+kQxI+1D3O4M2X2LH0ZPO7
+         jGY3ZIpoG4gOaqhLLdYAAe6YNmCNqmdDBJt9OfFfsWlsqvFChw9KpGKKmArpHcFkZhxq
+         lEa7CXVR3LZh7E37zE5L6BKuMXQlyaJh1dTw+ubClD1kFAh/FaGbljjJi7SskaHuH0Vr
+         nomDBUuryL/QFYqfNbkR7HcfzjepZp2VGObudTN4B+Z83ewieZbnniRPUC4IEQ4lcdtB
+         /2iB7t/U/8J1oR1xiagO0q5NmJ59lRQ2Vxz1lXFMS2IKJNLb7J8ArZLO7CZqXVFW6jPS
+         F4tA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
         h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
          :references:mime-version:content-transfer-encoding;
-        bh=ELdom3QA9KtDMvn7b4rnXhEozrUJ/M/stF+XSkKHLwg=;
-        b=pP293+sS1Uzv1hPMl4jX0A7p5IHGj+M+KmoX3l0yiFga0FkK7IQNJHUYWiTE8pgX/5
-         F1SjOqLSdfUAcAjBDMpZ8swDTGxjhiTSldHnWZynKCSm8X3TbZNdt86ll9sQnG3RpP4x
-         IYl/pXph7Tl15IpwyoW9IuZFqzgdFAqzwthBzZcXHJjLjCeL230yWePy38FekPHUJ+bW
-         1xeDFAgu2jg9OMjEffks0Ga1cxXGmlrhPghqqunZZpld9EPjPAj7TJQIOEEM92j6F/Lb
-         Wl3yBy4XiCgZ+tSDWewUwWiXPk5i9zIPa0AHpjHvITkQuCZ2npOtPK72W1Jm5vwaGmPs
-         a0Zg==
-X-Gm-Message-State: AOAM532b7wcXGxapQFj/qtRiS9yKJpOea6KXcUYw+e2pH0nPJ2y0MLpE
-        bEf5WIWlPDFDgzKmxol+waA=
-X-Google-Smtp-Source: ABdhPJwyTmDL/rq88PSF7k7CcZENxH2pPePg+uuA365qwWo7crkb4mTyxer3LC5CdTBneL6n3MF/hg==
-X-Received: by 2002:a7b:cb90:: with SMTP id m16mr18819776wmi.162.1615663558205;
-        Sat, 13 Mar 2021 11:25:58 -0800 (PST)
+        bh=WAJ8l7S3N7jAAUiOrOBAwKqf/KXf6VsnLcR6sFmm34Q=;
+        b=LxbTGKzpONie0l/vEoHzdjTsP4SbyGFEKmuWESMahsR6z3ZF3bpic35mPvv8s3rK9u
+         gLNwMf3aUBxTbJT8lRU9Yg3PP1wHE0h3Vdz8tGa/C4UUCG5KhgcIWl2cVQmUUhNEGDJ/
+         Iq2zZw3aCZxg6t9m2GSxebv5UGCTU065Uvx73PqpOPxqolUbQn2aLFTenZV5lawqPxsC
+         ld0pIKE5KLJr73ANwr0Dx2YnT9HI2MvHQD3e86pGOC0YME6+KSNiOG9rauYDJHjeBgBZ
+         zGkoAz7IgEJTip+vjQA3oQaHmV/ElYbyM5JO/Mm0o8NAG34439hLjmkA33XPtvuQqJCn
+         m1lA==
+X-Gm-Message-State: AOAM532KNc6RjIChaBsfXwxts5yIDtwUrtRmYoub26n4Xifw9uFDFcWK
+        ceo3FANp1xjT7h4y7zfIGLA=
+X-Google-Smtp-Source: ABdhPJzkRm+ZA4vhU5vZItwDPwVrxlDWOs0deZ/6NNDvo21ELaqzPaYQgbY9quF8RLkyPjJ3BZ7nhw==
+X-Received: by 2002:adf:cf11:: with SMTP id o17mr20102411wrj.391.1615663559850;
+        Sat, 13 Mar 2021 11:25:59 -0800 (PST)
 Received: from localhost.localdomain ([170.253.51.130])
-        by smtp.googlemail.com with ESMTPSA id j136sm7670964wmj.35.2021.03.13.11.25.57
+        by smtp.googlemail.com with ESMTPSA id j136sm7670964wmj.35.2021.03.13.11.25.59
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Sat, 13 Mar 2021 11:25:57 -0800 (PST)
+        Sat, 13 Mar 2021 11:25:59 -0800 (PST)
 From:   Alejandro Colomar <alx.manpages@gmail.com>
 To:     mtk.manpages@gmail.com
 Cc:     Alejandro Colomar <alx.manpages@gmail.com>,
         linux-man@vger.kernel.org, libc-alpha@sourceware.org,
         linux-kernel@vger.kernel.org, Florian Weimer <fweimer@redhat.com>
-Subject: [RFC v3 11/17] futex.2: Use syscall(SYS_...); for system calls without a wrapper
-Date:   Sat, 13 Mar 2021 20:25:21 +0100
-Message-Id: <20210313192526.350200-12-alx.manpages@gmail.com>
+Subject: [RFC v3 13/17] getunwind.2: Use syscall(SYS_...); for system calls without a wrapper
+Date:   Sat, 13 Mar 2021 20:25:23 +0100
+Message-Id: <20210313192526.350200-14-alx.manpages@gmail.com>
 X-Mailer: git-send-email 2.30.2
 In-Reply-To: <20210214133907.157320-1-alx.manpages@gmail.com>
 References: <20210214133907.157320-1-alx.manpages@gmail.com>
@@ -73,72 +73,46 @@ Precedence: bulk
 List-ID: <linux-man.vger.kernel.org>
 X-Mailing-List: linux-man@vger.kernel.org
 
-At the same time, document only headers that are required
-for calling the function, or those that are specific to the
-function:
-
-<unistd.h> is required for the syscall() prototype.
-<sys/syscall.h> is required for the syscall name SYS_xxx.
-<linux/futex.h> is specific to this syscall.
-
-However, uint32_t is generic enough that it shouldn't be
-documented here.  The system_data_types(7) page already documents
-it, and is more precise about it.  The same goes for timespec.
-
-As a general rule a man[23] page should document the header that
-includes the prototype, and all of the headers that define macros
-that should be used with the call.  However, the information about
-types should be restricted to system_data_types(7) (and that page
-should probably be improved by adding types), except for types
-that are very specific to the call.  Otherwise, we're duplicating
-info and it's then harder to maintain, and probably outdated in
-the future.
-
 Signed-off-by: Alejandro Colomar <alx.manpages@gmail.com>
 ---
- man2/futex.2 | 19 +++++++------------
- 1 file changed, 7 insertions(+), 12 deletions(-)
+ man2/getunwind.2 | 14 ++++----------
+ 1 file changed, 4 insertions(+), 10 deletions(-)
 
-diff --git a/man2/futex.2 b/man2/futex.2
-index e698178d2..a2486628b 100644
---- a/man2/futex.2
-+++ b/man2/futex.2
-@@ -25,18 +25,16 @@ futex \- fast user-space locking
+diff --git a/man2/getunwind.2 b/man2/getunwind.2
+index 9a58f43e4..3490a0617 100644
+--- a/man2/getunwind.2
++++ b/man2/getunwind.2
+@@ -29,16 +29,14 @@
+ getunwind \- copy the unwind data to caller's buffer
  .SH SYNOPSIS
  .nf
- .PP
--.B #include <linux/futex.h>
--.B #include <stdint.h>
--.B #include <sys/time.h>
-+.BR "#include <linux/futex.h>" "      /* Definition of " FUTEX_* " constants */"
+-.B #include <syscall.h>
+ .B #include <linux/unwind.h>
 +.BR "#include <sys/syscall.h>" "      /* Definition of " SYS_* " constants */"
-+.B #include <unistd.h>
++.B #inlcude <unistd.h>
  .PP
--.BI "long futex(uint32_t *" uaddr ", int " futex_op ", uint32_t " val ,
--.BI "          const struct timespec *" timeout , \
-+.BI "long syscall(SYS_futex, uint32_t *" uaddr ", int " futex_op \
-+", uint32_t " val ,
-+.BI "             const struct timespec *" timeout , \
- " \fR  /* or: \fBuint32_t \fIval2\fP */"
--.BI "          uint32_t *" uaddr2 ", uint32_t " val3 );
-+.BI "             uint32_t *" uaddr2 ", uint32_t " val3 );
+-.BI "long getunwind(void " *buf ", size_t " buf_size );
++.BI "long syscall(SYS_getunwind, void " *buf ", size_t " buf_size );
  .fi
 -.PP
 -.IR Note :
 -There is no glibc wrapper for this system call; see NOTES.
  .SH DESCRIPTION
+-.I Note: this function is obsolete.
++.I Note: this system call is obsolete.
+ .PP
  The
- .BR futex ()
-@@ -1695,9 +1693,6 @@ and a sixth argument was added in Linux 2.6.7.
- .SH CONFORMING TO
- This system call is Linux-specific.
- .SH NOTES
--Glibc does not provide a wrapper for this system call; call it using
--.BR syscall (2).
+ IA-64-specific
+@@ -102,9 +100,5 @@ and is available only on the IA-64 architecture.
+ This system call has been deprecated.
+ The modern way to obtain the kernel's unwind data is via the
+ .BR vdso (7).
 -.PP
- Several higher-level programming abstractions are implemented via futexes,
- including POSIX semaphores and
- various POSIX threads synchronization mechanisms
+-Glibc does not provide a wrapper for this system call;
+-in the unlikely event that you want to call it, use
+-.BR syscall (2).
+ .SH SEE ALSO
+ .BR getauxval (3)
 -- 
 2.30.2
 
