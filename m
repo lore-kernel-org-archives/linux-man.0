@@ -8,62 +8,62 @@ X-Spam-Status: No, score=-15.8 required=3.0 tests=BAYES_00,DKIM_SIGNED,
 	MAILING_LIST_MULTI,SPF_HELO_NONE,SPF_PASS,USER_AGENT_GIT autolearn=ham
 	autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 18C26C433DB
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 6979EC433E9
 	for <linux-man@archiver.kernel.org>; Sat, 13 Mar 2021 19:27:01 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.kernel.org (Postfix) with ESMTP id D99D364E62
-	for <linux-man@archiver.kernel.org>; Sat, 13 Mar 2021 19:27:00 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTP id 4593564ECB
+	for <linux-man@archiver.kernel.org>; Sat, 13 Mar 2021 19:27:01 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S234415AbhCMT01 (ORCPT <rfc822;linux-man@archiver.kernel.org>);
-        Sat, 13 Mar 2021 14:26:27 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:36114 "EHLO
+        id S234425AbhCMT03 (ORCPT <rfc822;linux-man@archiver.kernel.org>);
+        Sat, 13 Mar 2021 14:26:29 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:36122 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S231329AbhCMTZw (ORCPT
-        <rfc822;linux-man@vger.kernel.org>); Sat, 13 Mar 2021 14:25:52 -0500
-Received: from mail-wm1-x32c.google.com (mail-wm1-x32c.google.com [IPv6:2a00:1450:4864:20::32c])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id C503CC061763;
-        Sat, 13 Mar 2021 11:25:51 -0800 (PST)
-Received: by mail-wm1-x32c.google.com with SMTP id t5-20020a1c77050000b029010e62cea9deso17084627wmi.0;
-        Sat, 13 Mar 2021 11:25:51 -0800 (PST)
+        with ESMTP id S234071AbhCMTZx (ORCPT
+        <rfc822;linux-man@vger.kernel.org>); Sat, 13 Mar 2021 14:25:53 -0500
+Received: from mail-wm1-x335.google.com (mail-wm1-x335.google.com [IPv6:2a00:1450:4864:20::335])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 713BFC061574;
+        Sat, 13 Mar 2021 11:25:53 -0800 (PST)
+Received: by mail-wm1-x335.google.com with SMTP id f22-20020a7bc8d60000b029010c024a1407so17795060wml.2;
+        Sat, 13 Mar 2021 11:25:53 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=gmail.com; s=20161025;
         h=from:to:cc:subject:date:message-id:in-reply-to:references
          :mime-version:content-transfer-encoding;
-        bh=53imOT5BnpvRZ4s95euPtzvtcokyK77zLaPlARMABdo=;
-        b=Lmr9+lHdyb1ZIt3HssHU+WXxrSFQCt35iHbnBrlJHEfgNYggsvKt9NeXYNNkGNbdHO
-         lrlhb1XoaTwfRLtpqpuHsQrvt4jSWwS604jbMgY//gTU7AHZCfs1l1WWk8Z0lisJ8NIi
-         UMxt/P9c+3eRI+sUMH4RK2qdZjDgXsNh43+DaUwlQATf8Vb7baxR9xdQ7pQh/CYOlx5h
-         Y+PJvXBmGoH8MLAwuOQx31WEcnuk+QYESgUa5drH0yq0AcS5u7Z9jpdtcFEV31D6e/MS
-         Q/fKBjcOH1taOezMjhCQ8t//93hk0dTAXWIXhrWc7LOP6Xmf8drNuW3RvqUW7qZJw95m
-         wlVQ==
+        bh=/AFw5wHq+GfKWHh1wvl2IlsPE6dyDM4uX+z9mQpJ5/M=;
+        b=t8HFcaPNzThd5rERaQVP0VxQzlIYY2PkyE9v7pDkWbyhHM5x922PHPxOoWApusHjWE
+         KCzQQmZgIYAyxh5LZJsWylNdBkmcc737LQH4kssthFULoyLhc3WkCenB4LuPrz9za2iO
+         Dp4cfCguaY8Vem69InbFZDZ3gxm1quaon1nK/SLscyRYub/V6pRPdNcRsOLVjWqy1ofi
+         WE9BeJt9hM9cJrf7r8sYNsTqHhGU/YzHJuFqlJFIPcJ9IPcREvu0Ni4a2+tt7ERdmDya
+         Ra9ATnSROHotfkZDUhXxOUPnQ1+B5iRGMdpWZ5bKUMUI8keTVnICL3iNR32+6/ZdsApi
+         M9Eg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
         h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
          :references:mime-version:content-transfer-encoding;
-        bh=53imOT5BnpvRZ4s95euPtzvtcokyK77zLaPlARMABdo=;
-        b=G3VZn0t4UZyTL8KH9hZ2aTV5ZaB03v69usCgXGyR2aztysMpASp4HgsK+dbHzeXPoa
-         7SVwTELKpX7eFbn9ExTXpbZph1A8AXW87VSQb3B3TK3dpzZFtuHdQ2K0S2aUc/ldcXgi
-         KPI0UHYUnFip7OMnpa7E6Gd8DgVGXoS3iLzaSi0Oq4MK7xCX8Br2O6Z0oPdd2xDxiT5b
-         PFigSCkfogIzElO4wlbSXKCCDVxxxrSi+wskZryv0K2XUhjJv95Gnyb9Rf98cMyGHGXE
-         TfPU9S4gGzI85t1fiA3ZQ9R81/o0EuCQ/3ApNiipiSSxu5onXV17XGqNEMS+OmzxB4tb
-         pPXQ==
-X-Gm-Message-State: AOAM533acjPpc2/PHmjCpOoQBSCOCjeG1Qre7qkBq1dRqSzQ3C2ePBDU
-        +jdjAbydK1wXARox3oiWzF4=
-X-Google-Smtp-Source: ABdhPJxhiKSAKHH3iakfudvWPUYRMNwr2C7nWlPajnCaqXmkd2bz3HxTZOSV1DShl9gnoFJQuRljGA==
-X-Received: by 2002:a7b:c396:: with SMTP id s22mr18682288wmj.38.1615663550550;
-        Sat, 13 Mar 2021 11:25:50 -0800 (PST)
+        bh=/AFw5wHq+GfKWHh1wvl2IlsPE6dyDM4uX+z9mQpJ5/M=;
+        b=c/WyQV7WRqTmFlihlNpY7YmXtZlBppDt9fsxBW+9w+CMe0nl0qO80T8XB+rDU7eSX+
+         TUD7dxsKHERdsuGr2UApX7fk6qA5zcKxSMxfn8HlUaZhRjK2fT8ZQ2mALBsWPt1AUaWR
+         6x30MkIXpI2rk9DlnsK05YuCZ0M8QGgMLvoyjNLDQ/KkQwqh43982eC3syYQ8GGYc3jW
+         JL1HZRyr601Gg2aCGrd5B0lc8TADn7Ueq7NSQ6tsgOAl+ApfeqVRp1CXOWaSpDP6h4Df
+         kULssdcSW2LJqvuYxqrMGO0/3BZUofK79UvKw8zHK3vZ2K1aDslI83vyh+5XIFT3BLG8
+         gYCw==
+X-Gm-Message-State: AOAM532/5WkRuoIo8l1EM4FZ7yy+SnKrBGJGYkFWZv1m+7+KIxljvvBt
+        I488hxnlOcGtAjqBnEfVvkU=
+X-Google-Smtp-Source: ABdhPJwFJC4ND+OAQfr098dvmKqEpBmwO0pYfnx/Kpx8bTckbjgEpUfEnjj9RCx4VboksKP+tiKkkw==
+X-Received: by 2002:a05:600c:4112:: with SMTP id j18mr18959294wmi.143.1615663552222;
+        Sat, 13 Mar 2021 11:25:52 -0800 (PST)
 Received: from localhost.localdomain ([170.253.51.130])
-        by smtp.googlemail.com with ESMTPSA id j136sm7670964wmj.35.2021.03.13.11.25.49
+        by smtp.googlemail.com with ESMTPSA id j136sm7670964wmj.35.2021.03.13.11.25.51
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Sat, 13 Mar 2021 11:25:50 -0800 (PST)
+        Sat, 13 Mar 2021 11:25:51 -0800 (PST)
 From:   Alejandro Colomar <alx.manpages@gmail.com>
 To:     mtk.manpages@gmail.com
 Cc:     Alejandro Colomar <alx.manpages@gmail.com>,
         linux-man@vger.kernel.org, libc-alpha@sourceware.org,
         linux-kernel@vger.kernel.org, Florian Weimer <fweimer@redhat.com>
-Subject: [RFC v3 02/17] alloc_hugepages.2: Use syscall(SYS_...); for system calls without a wrapper
-Date:   Sat, 13 Mar 2021 20:25:12 +0100
-Message-Id: <20210313192526.350200-3-alx.manpages@gmail.com>
+Subject: [RFC v3 04/17] arch_prctl.2: SYNOPSIS: Remove unused includes
+Date:   Sat, 13 Mar 2021 20:25:14 +0100
+Message-Id: <20210313192526.350200-5-alx.manpages@gmail.com>
 X-Mailer: git-send-email 2.30.2
 In-Reply-To: <20210214133907.157320-1-alx.manpages@gmail.com>
 References: <20210214133907.157320-1-alx.manpages@gmail.com>
@@ -73,31 +73,28 @@ Precedence: bulk
 List-ID: <linux-man.vger.kernel.org>
 X-Mailing-List: linux-man@vger.kernel.org
 
+AFAICS, there's no reason to include that.
+All of the macros that this function uses
+are already defined in the other headers.
+
+Cc: glibc <libc-alpha@sourceware.org>
 Signed-off-by: Alejandro Colomar <alx.manpages@gmail.com>
 ---
- man2/alloc_hugepages.2 | 7 ++++---
- 1 file changed, 4 insertions(+), 3 deletions(-)
+ man2/arch_prctl.2 | 1 -
+ 1 file changed, 1 deletion(-)
 
-diff --git a/man2/alloc_hugepages.2 b/man2/alloc_hugepages.2
-index 623eeab6e..a3a157725 100644
---- a/man2/alloc_hugepages.2
-+++ b/man2/alloc_hugepages.2
-@@ -27,11 +27,12 @@
- alloc_hugepages, free_hugepages \- allocate or free huge pages
+diff --git a/man2/arch_prctl.2 b/man2/arch_prctl.2
+index 8706cd1ec..d1b9e16f9 100644
+--- a/man2/arch_prctl.2
++++ b/man2/arch_prctl.2
+@@ -28,7 +28,6 @@ arch_prctl \- set architecture-specific thread state
  .SH SYNOPSIS
  .nf
--.BI "void *alloc_hugepages(int " key ", void *" addr ", size_t " len ,
--.BI "                      int " prot ", int " flag );
-+.BI "void *syscall(SYS_alloc_hugepages, int " key ", void *" addr \
-+", size_t " len ,
-+.BI "              int " prot ", int " flag );
- .\" asmlinkage unsigned long sys_alloc_hugepages(int key, unsigned long addr,
- .\" unsigned long len, int prot, int flag);
--.BI "int free_hugepages(void *" addr );
-+.BI "int syscall(SYS_free_hugepages, void *" addr );
- .\" asmlinkage int sys_free_hugepages(unsigned long addr);
- .fi
- .SH DESCRIPTION
+ .BR "#include <asm/prctl.h>" "        /* Definition of " ARCH_* " constants */"
+-.B #include <sys/prctl.h>
+ .BR "#include <sys/syscall.h>" "      /* Definition of " SYS_* " constants */"
+ .B #include <unistd.h>
+ .PP
 -- 
 2.30.2
 
