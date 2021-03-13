@@ -8,62 +8,62 @@ X-Spam-Status: No, score=-15.8 required=3.0 tests=BAYES_00,DKIM_SIGNED,
 	MAILING_LIST_MULTI,SPF_HELO_NONE,SPF_PASS,USER_AGENT_GIT autolearn=ham
 	autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 86C98C4361A
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 397A0C43603
 	for <linux-man@archiver.kernel.org>; Sat, 13 Mar 2021 19:27:02 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.kernel.org (Postfix) with ESMTP id 6271664ECB
+	by mail.kernel.org (Postfix) with ESMTP id 2170A64ECB
 	for <linux-man@archiver.kernel.org>; Sat, 13 Mar 2021 19:27:02 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S231329AbhCMT0b (ORCPT <rfc822;linux-man@archiver.kernel.org>);
-        Sat, 13 Mar 2021 14:26:31 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:36162 "EHLO
+        id S234442AbhCMT0a (ORCPT <rfc822;linux-man@archiver.kernel.org>);
+        Sat, 13 Mar 2021 14:26:30 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:36148 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S234393AbhCMT0A (ORCPT
-        <rfc822;linux-man@vger.kernel.org>); Sat, 13 Mar 2021 14:26:00 -0500
-Received: from mail-wr1-x436.google.com (mail-wr1-x436.google.com [IPv6:2a00:1450:4864:20::436])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 3D93CC061574;
-        Sat, 13 Mar 2021 11:26:00 -0800 (PST)
-Received: by mail-wr1-x436.google.com with SMTP id z2so3601933wrl.5;
-        Sat, 13 Mar 2021 11:26:00 -0800 (PST)
+        with ESMTP id S234386AbhCMTZ6 (ORCPT
+        <rfc822;linux-man@vger.kernel.org>); Sat, 13 Mar 2021 14:25:58 -0500
+Received: from mail-wm1-x330.google.com (mail-wm1-x330.google.com [IPv6:2a00:1450:4864:20::330])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id B74CCC061574;
+        Sat, 13 Mar 2021 11:25:57 -0800 (PST)
+Received: by mail-wm1-x330.google.com with SMTP id u5-20020a7bcb050000b029010e9316b9d5so14144770wmj.2;
+        Sat, 13 Mar 2021 11:25:57 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=gmail.com; s=20161025;
         h=from:to:cc:subject:date:message-id:in-reply-to:references
          :mime-version:content-transfer-encoding;
-        bh=9VCy3PwsXOlp+t9P8TEk8gqJUNOzd1/Fb5yw/M+eqTo=;
-        b=cH8xvL7Lo2udgJSqxC+NlqlkP5IIpgT4xs0dzeSpWwllyZH+zNa7dls+IyfKU6dutj
-         alco1oy8aV+c1C0oUSPHUHnvrs+Nspz/0i95NDFL3dKdzQyl6zxN8a55SKX/P2qFTPhG
-         BnyVR5FUgmAbUTTubmSyJYzoBLnyiJ0YLw6WZH1jT6Sbh46lwEMporxjSrwyTp7sNn9E
-         RaVj17oyKm0LEBYCOVINMwRdUWaR3LxDqZDCWK5qJ9gm4cd5QY0nibmuRXanHhBqY0zk
-         JTkxgRUa7eX6TL743vuGEZ35YeGQ0doslQuPVZUSqq/zvkl5TB0C408NBrRTPSXdcIPQ
-         RveQ==
+        bh=NOO1piYZB4k0TV/xxFD2hxAk7MvONuytBBkxF8kYck4=;
+        b=BzvdGiNRwMyzEi0IleuhXEy5cL7KOE4Pr7ZxXr0xywSgYXfPILXOexiHFq5drVIWFr
+         YR21tmHcqj/yLYiECEZ40eYBR/+EeENv20Nbb5LliXySK/bAW2Y4CI84WENc3R1BI5iv
+         BIP/Gt9Kg6QzAPHc5v2apDmJPM4CLAez8TAC6LS4FjekgKIX4w+lzf84lOahZYy9WZ1s
+         dtPxHZpjqH1FbbGelN/446wASztX/lh1UELJYdgbnVushZcf+hYknKlxbeSK5bjS/+9p
+         FHbXzYRK4MRtAqhAUlyfu6RfyJtXeDZqLNdk8FIdZYtdMht9DprF6qfwjBhz3wFem6HC
+         +tVg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
         h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
          :references:mime-version:content-transfer-encoding;
-        bh=9VCy3PwsXOlp+t9P8TEk8gqJUNOzd1/Fb5yw/M+eqTo=;
-        b=Jl+eBn5oxbpx10oFoKMNipZp4zwIAimWsAyImLNDeJv1aI1AxG05tj42vSyx1BVAKq
-         gXalIAZssxXd9nxPsSnWkHzzmwSSufHMqdAAzvB9cyObwKvbLwLwFhbon1em9haXiE4K
-         TToDqQlaMHrOp9d/dhwkLQdGaKT9XeCuycGju9P1LhftKYM4ksrEPKxod80cCfyKKp2D
-         9urdKdSpLOph2hhXLsGHkAr0UeNWrqV6U+8gz+L3ga1/anXmgmd8+mbgbCjLygXmwF2p
-         uVKSQJsmBuWcUr0Ngd9Lg03jrjQ5uompQ4iZ/8AzBVeNbazd2Syi6cyyXJcRG3byZGE/
-         /IYQ==
-X-Gm-Message-State: AOAM5323F3coJNXqGVGNasgZKtV0VPTc1BCFD9LvX0FbQj3rPNUIDisO
-        8Lt4vC+GBcZ6GwO2tNUBsKw=
-X-Google-Smtp-Source: ABdhPJzS85oZIdFISj0xy7H815EDeHntGPJsgnIKwfB9Cd5Euba2OfLlnSCmBIshhd4hdUjDZw/l7w==
-X-Received: by 2002:adf:82af:: with SMTP id 44mr19370149wrc.279.1615663559022;
-        Sat, 13 Mar 2021 11:25:59 -0800 (PST)
+        bh=NOO1piYZB4k0TV/xxFD2hxAk7MvONuytBBkxF8kYck4=;
+        b=JFCXNmXnVGDbBVbGv3Zg+y2AJwcuMdTqt1cYd9ln5T9tv7xwmZCAFotgqMSF2gbQpV
+         j/1GiMEEA0bZeVqN8AVTQdoDlZ5EiVe66AxUXqwWkYclh3nML+svu450IzM6SZnk30AI
+         q6TW4fTEJbkGXET3wgs2HCtjxlWv3WzeNTWcc7gHOkXIDqwc5RTNUIiPpt9BcmXJPV2q
+         6xZZiHklF3YcucoBHMLoy7Zuo7gdodlYdngwCubBdGXIaO8KtQ9ZY1mwoXYyF8tralKj
+         vDEIt53TaofALn70M5gKhOk30EyUlYIAtcgKoojsqYT9dzCiUATS16+xquWSziV2MejX
+         wjHw==
+X-Gm-Message-State: AOAM530iKyiIOYqrCwgRZfkytcBvSuEY0r5DNb1c/z/TFFfQXSUMX4Uw
+        uUMQDZdmNBYkcvAfeq6PoRY=
+X-Google-Smtp-Source: ABdhPJxq/HKudgOtfWet3oROo3nP2zKy3IWv9Mw94DLCTh9f3pueKjVhvJXPpwLA4qXrFTyaVCDnzw==
+X-Received: by 2002:a7b:c0c4:: with SMTP id s4mr19465206wmh.9.1615663556524;
+        Sat, 13 Mar 2021 11:25:56 -0800 (PST)
 Received: from localhost.localdomain ([170.253.51.130])
-        by smtp.googlemail.com with ESMTPSA id j136sm7670964wmj.35.2021.03.13.11.25.58
+        by smtp.googlemail.com with ESMTPSA id j136sm7670964wmj.35.2021.03.13.11.25.55
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Sat, 13 Mar 2021 11:25:58 -0800 (PST)
+        Sat, 13 Mar 2021 11:25:56 -0800 (PST)
 From:   Alejandro Colomar <alx.manpages@gmail.com>
 To:     mtk.manpages@gmail.com
 Cc:     Alejandro Colomar <alx.manpages@gmail.com>,
         linux-man@vger.kernel.org, libc-alpha@sourceware.org,
         linux-kernel@vger.kernel.org, Florian Weimer <fweimer@redhat.com>
-Subject: [RFC v3 12/17] getdents.2: Use syscall(SYS_...); for system calls without a wrapper
-Date:   Sat, 13 Mar 2021 20:25:22 +0100
-Message-Id: <20210313192526.350200-13-alx.manpages@gmail.com>
+Subject: [RFC v3 09/17] execveat.2: Use syscall(SYS_...); for system calls without a wrapper
+Date:   Sat, 13 Mar 2021 20:25:19 +0100
+Message-Id: <20210313192526.350200-10-alx.manpages@gmail.com>
 X-Mailer: git-send-email 2.30.2
 In-Reply-To: <20210214133907.157320-1-alx.manpages@gmail.com>
 References: <20210214133907.157320-1-alx.manpages@gmail.com>
@@ -75,39 +75,43 @@ X-Mailing-List: linux-man@vger.kernel.org
 
 Signed-off-by: Alejandro Colomar <alx.manpages@gmail.com>
 ---
- man2/getdents.2 | 12 ++++++++----
- 1 file changed, 8 insertions(+), 4 deletions(-)
+ man2/execveat.2 | 13 ++++---------
+ 1 file changed, 4 insertions(+), 9 deletions(-)
 
-diff --git a/man2/getdents.2 b/man2/getdents.2
-index ba41e0be8..7d5b0e01c 100644
---- a/man2/getdents.2
-+++ b/man2/getdents.2
-@@ -33,7 +33,11 @@
- getdents, getdents64 \- get directory entries
+diff --git a/man2/execveat.2 b/man2/execveat.2
+index 499bf1b57..0d23cb39b 100644
+--- a/man2/execveat.2
++++ b/man2/execveat.2
+@@ -28,15 +28,13 @@
+ execveat \- execute program relative to a directory file descriptor
  .SH SYNOPSIS
  .nf
--.BI "long getdents(unsigned int " fd ", struct linux_dirent *" dirp ,
 +.BR "#include <sys/syscall.h>" "      /* Definition of " SYS_* " constants */"
-+.B #include <unistd.h>
-+.PP
-+.BI "long syscall(SYS_getdents, unsigned int " fd \
-+", struct linux_dirent *" dirp ,
- .BI "             unsigned int " count );
+ .B #include <unistd.h>
  .PP
- .BR "#define _GNU_SOURCE" "        /* See feature_test_macros(7) */"
-@@ -43,9 +47,9 @@ getdents, getdents64 \- get directory entries
+-.BI "int execveat(int " dirfd ", const char *" pathname ,
+-.BI "             const char *const " argv "[], const char *const " envp [],
+-.BI "             int " flags );
++.BI "int syscall(SYS_execveat, int " dirfd ", const char *" pathname ,
++.BI "            const char *const " argv "[], const char *const " envp [],
++.BI "            int " flags );
  .fi
- .PP
- .IR Note :
--There is no glibc wrapper for
--.BR getdents ();
--see NOTES.
-+There is no definition of
-+.B struct linux_dirent
-+in glibc; see NOTES.
+-.PP
+-.IR Note :
+-There is no glibc wrapper for this system call; see NOTES.
+ .\" FIXME . See https://sourceware.org/bugzilla/show_bug.cgi?id=27364
  .SH DESCRIPTION
- These are not the interfaces you are interested in.
- Look at
+ .\" commit 51f39a1f0cea1cacf8c787f652f26dfee9611874
+@@ -209,9 +207,6 @@ the natural idiom when using
+ is to set the close-on-exec flag on
+ .IR dirfd .
+ (But see BUGS.)
+-.PP
+-Glibc does not provide a wrapper for this system call; call it using
+-.BR syscall (2).
+ .SH BUGS
+ The
+ .B ENOENT
 -- 
 2.30.2
 
