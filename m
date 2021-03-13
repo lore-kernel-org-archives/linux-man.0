@@ -8,62 +8,62 @@ X-Spam-Status: No, score=-15.8 required=3.0 tests=BAYES_00,DKIM_SIGNED,
 	MAILING_LIST_MULTI,SPF_HELO_NONE,SPF_PASS,USER_AGENT_GIT autolearn=ham
 	autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id CA5DEC4332E
-	for <linux-man@archiver.kernel.org>; Sat, 13 Mar 2021 19:27:01 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 0C2AAC432C3
+	for <linux-man@archiver.kernel.org>; Sat, 13 Mar 2021 19:27:02 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.kernel.org (Postfix) with ESMTP id B2FC464ECB
+	by mail.kernel.org (Postfix) with ESMTP id DA75464ED1
 	for <linux-man@archiver.kernel.org>; Sat, 13 Mar 2021 19:27:01 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S230412AbhCMT0a (ORCPT <rfc822;linux-man@archiver.kernel.org>);
-        Sat, 13 Mar 2021 14:26:30 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:36144 "EHLO
+        id S234427AbhCMT03 (ORCPT <rfc822;linux-man@archiver.kernel.org>);
+        Sat, 13 Mar 2021 14:26:29 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:36132 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S234348AbhCMTZ5 (ORCPT
-        <rfc822;linux-man@vger.kernel.org>); Sat, 13 Mar 2021 14:25:57 -0500
-Received: from mail-wr1-x429.google.com (mail-wr1-x429.google.com [IPv6:2a00:1450:4864:20::429])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id DFA6BC061574;
-        Sat, 13 Mar 2021 11:25:56 -0800 (PST)
-Received: by mail-wr1-x429.google.com with SMTP id e18so3594376wrt.6;
-        Sat, 13 Mar 2021 11:25:56 -0800 (PST)
+        with ESMTP id S234344AbhCMTZz (ORCPT
+        <rfc822;linux-man@vger.kernel.org>); Sat, 13 Mar 2021 14:25:55 -0500
+Received: from mail-wm1-x32a.google.com (mail-wm1-x32a.google.com [IPv6:2a00:1450:4864:20::32a])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 436FDC061574;
+        Sat, 13 Mar 2021 11:25:55 -0800 (PST)
+Received: by mail-wm1-x32a.google.com with SMTP id d139-20020a1c1d910000b029010b895cb6f2so17090924wmd.5;
+        Sat, 13 Mar 2021 11:25:55 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=gmail.com; s=20161025;
         h=from:to:cc:subject:date:message-id:in-reply-to:references
          :mime-version:content-transfer-encoding;
-        bh=m2UYqInPbiVi0OaTJQ9o2S1q3+yvxRnv9zNjA6WqsG0=;
-        b=uy6ZrOFPH4Q7ALCnDzF0BmGYOBPgfmgQBg7qs9FM7VVW7+f/2bilxQSCtMWVBJohvX
-         Ch/bhpYq930LKPrtnOGrhx8KufnCudjif4MIFkPklhHAy6bhXqUWSPGwkeXrVl65Xi9M
-         pA0qREL0yvWC0owUBXGvGQ7/3sPmD2U3L5V0S5Z67KkcglhwaP3Pvo3hbgZxT1NmVYfZ
-         w+1TglKJ4wAMwL69Awnmx/QmYruBPAE5zrxQDyyBZmDQvaH1BlAZuTSrnMdDwOt7KIZq
-         SR/yPVZ8lAgLxKkaD3AwctXJ0WbYPAPkovFev0wiiv14BUD90mM2dNJ8qVlyzDSVeEzj
-         GCRA==
+        bh=vaIv3psZjL7GIAaqBtUc1l5X6QKk9mi+QSa5QAcEGL8=;
+        b=Y+VhKGdFUmcIAzRZRMynpxIY6AYaPQ39bg+AoSsSnCPMITw+ZCjpx52hSLJRX+gB6r
+         bys7oxg9I5difQRmBgdryBfRvqHeyecpceoJodzwVxeZHXEjgzHpFoRZp6aFtiPaJZIa
+         ZY4JJjlHt5uKFQ3uXL4/BrgrV6oPNO/e6UIKFir9H8GwyJIPdX9abUWzfwdrLsqwFAVu
+         Xmb/Shf/J1MTQKQzhTaPoOVF9YrbF/EUSBR9jJyuf9iO5WhCeRkpz8YgMzsl+CXK2/WH
+         ahDq4GvmbxE/6i7NwgpbNbwV+bml8ZadagSOB3d6RzCgbJICEn/Q4jn3QO1N3dobrUUy
+         rQAA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
         h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
          :references:mime-version:content-transfer-encoding;
-        bh=m2UYqInPbiVi0OaTJQ9o2S1q3+yvxRnv9zNjA6WqsG0=;
-        b=owe1lJLHvUKbBq8ID3zCwBO2nbiQm1EOdXUs8ojWadqDOoe7u0GjkVvXMHrpcYeo5T
-         Xtoju9acc2hw5C3IaYJabqdLIJAOoVK5EZw5v+Vj5cZgBoCoL40OeuVWND3IAWVQ8LXk
-         ymyXDMOUiX3wP50T+xNBwFuktmO6ktRC0eCJhF7gU/eDm3nOqnaNs1Hhqy7DwmR8sEkS
-         NJVscbrmavHNCc4CF40lv52A9rV6b50YrpbGCJ55nR74Agf0WYlyV9DPMdOCksJAuZG/
-         KHpL/XI/IXMI/xW/k0VoZNMxUtrkARGFac19E315PcNri0ZQ0NFwhx6yfYG0mAcCV+t8
-         L3BQ==
-X-Gm-Message-State: AOAM532CjZgUqpfiA/livbwNNAD6jzUVSE4wcuswx6WNXpQ+7nlJvcr/
-        Ue3TAFkiscFoEtQq6TrhSOg=
-X-Google-Smtp-Source: ABdhPJz0V23KnA6yIiswti5QiH73acYI1QhV9tU6ijBdEO/5LImULsitAbd8x0W3FS7qq+7ZO6R9TQ==
-X-Received: by 2002:a5d:6404:: with SMTP id z4mr19052012wru.109.1615663555693;
-        Sat, 13 Mar 2021 11:25:55 -0800 (PST)
+        bh=vaIv3psZjL7GIAaqBtUc1l5X6QKk9mi+QSa5QAcEGL8=;
+        b=SPxFJgErD2jPnZiDikTjg7urs6T93XB8zSb199Uvi6KH+6nEIMzz0WTgnG+hGcevqs
+         UcFRgoQgITA4bTO9roK2LKI9fT4l8rkrGT+84NAJJUFmobyNl1J6AzsIWbUV5b3MEl8L
+         2/tXHQVwEU3+JN2TTcDLtBbeWYOV6Nc0GVKkaTWSbi71lf3Q0y7tr85mOkUDZWypWNqz
+         0Z8dGWElZ91Zxg+C/FVNBMd+yVDh2+oejFe1Umbd1MTy2HGXHrsfffmo3b41E7ENn8Im
+         mwENI7hkK3Icus3WR8OyfzBLA4BQxF5nXN8GOzaB2j/zpVVGfJaj1Q/u/A/m8wu5SPwZ
+         SFKA==
+X-Gm-Message-State: AOAM532Sy+4xT0VFAF+252E4cBzv4jpsBlpNPj1sdllqptn7hdnr4cLg
+        bjPG8jz5Uk0XgtATRK7NO9Sj06cD9WyDtA==
+X-Google-Smtp-Source: ABdhPJwhVIebu85kdo6+AvqSaKQ6mTQ0asUxJ7beu3O5wd/FQm2wlW1rjKDbwlKjiV015/s63tEL1A==
+X-Received: by 2002:a7b:c931:: with SMTP id h17mr19202908wml.4.1615663553968;
+        Sat, 13 Mar 2021 11:25:53 -0800 (PST)
 Received: from localhost.localdomain ([170.253.51.130])
-        by smtp.googlemail.com with ESMTPSA id j136sm7670964wmj.35.2021.03.13.11.25.54
+        by smtp.googlemail.com with ESMTPSA id j136sm7670964wmj.35.2021.03.13.11.25.53
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Sat, 13 Mar 2021 11:25:55 -0800 (PST)
+        Sat, 13 Mar 2021 11:25:53 -0800 (PST)
 From:   Alejandro Colomar <alx.manpages@gmail.com>
 To:     mtk.manpages@gmail.com
 Cc:     Alejandro Colomar <alx.manpages@gmail.com>,
         linux-man@vger.kernel.org, libc-alpha@sourceware.org,
         linux-kernel@vger.kernel.org, Florian Weimer <fweimer@redhat.com>
-Subject: [RFC v3 08/17] epoll_wait.2: Use syscall(SYS_...); for system calls without a wrapper
-Date:   Sat, 13 Mar 2021 20:25:18 +0100
-Message-Id: <20210313192526.350200-9-alx.manpages@gmail.com>
+Subject: [RFC v3 06/17] clone.2: Use syscall(SYS_...); for system calls without a wrapper
+Date:   Sat, 13 Mar 2021 20:25:16 +0100
+Message-Id: <20210313192526.350200-7-alx.manpages@gmail.com>
 X-Mailer: git-send-email 2.30.2
 In-Reply-To: <20210214133907.157320-1-alx.manpages@gmail.com>
 References: <20210214133907.157320-1-alx.manpages@gmail.com>
@@ -75,28 +75,44 @@ X-Mailing-List: linux-man@vger.kernel.org
 
 Signed-off-by: Alejandro Colomar <alx.manpages@gmail.com>
 ---
- man2/epoll_wait.2 | 8 +++++++-
- 1 file changed, 7 insertions(+), 1 deletion(-)
+ man2/clone.2 | 16 +++++-----------
+ 1 file changed, 5 insertions(+), 11 deletions(-)
 
-diff --git a/man2/epoll_wait.2 b/man2/epoll_wait.2
-index af4180df0..0f3cfe1d5 100644
---- a/man2/epoll_wait.2
-+++ b/man2/epoll_wait.2
-@@ -32,7 +32,13 @@ epoll_wait, epoll_pwait, epoll_pwait2 \- wait for an I/O event on an epoll file
- .BI "int epoll_pwait(int " epfd ", struct epoll_event *" events ,
- .BI "               int " maxevents ", int " timeout ,
- .BI "               const sigset_t *" sigmask );
--.BI "int epoll_pwait2(int " epfd ", struct epoll_event *" events ,
-+.PP
-+.BR "#include <linux/eventpoll.h>" \
-+" /* Definition of " "struct epoll_event" " */"
-+.BR "#include <sys/syscall.h>" "     /* Definition of " SYS_* " constants */"
+diff --git a/man2/clone.2 b/man2/clone.2
+index 11eb6c622..2f5ecac42 100644
+--- a/man2/clone.2
++++ b/man2/clone.2
+@@ -56,13 +56,12 @@ clone, __clone2, clone3 \- create a child process
+ .PP
+ /* For the prototype of the raw clone() system call, see NOTES */
+ .PP
+-.BI "long clone3(struct clone_args *" cl_args ", size_t " size );
+-.fi
++.BR "#include <linux/sched.h>" "    /* Definition of " "struct clone_args" " */"
++.BR "#include <sys/syscall.h>" "    /* Definition of " SYS_* " constants */"
 +.B #include <unistd.h>
-+.PP
-+.BI "int syscall(SYS_epoll_pwait2, int " epfd ", struct epoll_event *" events ,
- .BI "               int " maxevents ", const struct timespec *" timeout ,
- .BI "               const sigset_t *" sigmask );
- .\" FIXME: Check if glibc has added a wrapper for epoll_pwait2(),
+ .PP
+-.IR Note :
+-There is no glibc wrapper for
+-.BR clone3 ();
+-see NOTES.
++.BI "long syscall(SYS_clone3, struct clone_args *" cl_args ", size_t " size );
++.fi
+ .SH DESCRIPTION
+ These system calls
+ create a new ("child") process, in a manner similar to
+@@ -1541,11 +1540,6 @@ One use of these systems calls
+ is to implement threads: multiple flows of control in a program that
+ run concurrently in a shared address space.
+ .PP
+-Glibc does not provide a wrapper for
+-.BR clone3 ();
+-call it using
+-.BR syscall (2).
+-.PP
+ Note that the glibc
+ .BR clone ()
+ wrapper function makes some changes
 -- 
 2.30.2
 
