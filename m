@@ -2,1005 +2,155 @@ Return-Path: <linux-man-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-14.3 required=3.0 tests=BAYES_00,DKIM_SIGNED,
-	DKIM_VALID,DKIM_VALID_AU,FREEMAIL_FORGED_FROMDOMAIN,FREEMAIL_FROM,
-	HEADER_FROM_DIFFERENT_DOMAINS,INCLUDES_CR_TRAILER,INCLUDES_PATCH,
-	MAILING_LIST_MULTI,NICE_REPLY_A,SPF_HELO_NONE,SPF_PASS,USER_AGENT_SANE_1
+X-Spam-Status: No, score=-14.8 required=3.0 tests=BAYES_00,DKIM_SIGNED,
+	DKIM_VALID,DKIM_VALID_AU,HEADER_FROM_DIFFERENT_DOMAINS,INCLUDES_CR_TRAILER,
+	INCLUDES_PATCH,MAILING_LIST_MULTI,PDS_BAD_THREAD_QP_64,SPF_HELO_NONE,SPF_PASS
 	autolearn=ham autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 49F05C433E6
-	for <linux-man@archiver.kernel.org>; Mon, 15 Mar 2021 07:45:40 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 8E0A1C433E0
+	for <linux-man@archiver.kernel.org>; Mon, 15 Mar 2021 18:01:23 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.kernel.org (Postfix) with ESMTP id 11FEB64E37
-	for <linux-man@archiver.kernel.org>; Mon, 15 Mar 2021 07:45:40 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTP id 67C8664F21
+	for <linux-man@archiver.kernel.org>; Mon, 15 Mar 2021 18:01:23 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S229939AbhCOHpH (ORCPT <rfc822;linux-man@archiver.kernel.org>);
-        Mon, 15 Mar 2021 03:45:07 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:48384 "EHLO
-        lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S230053AbhCOHom (ORCPT
-        <rfc822;linux-man@vger.kernel.org>); Mon, 15 Mar 2021 03:44:42 -0400
-Received: from mail-ej1-x62c.google.com (mail-ej1-x62c.google.com [IPv6:2a00:1450:4864:20::62c])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 639CBC061574
-        for <linux-man@vger.kernel.org>; Mon, 15 Mar 2021 00:44:42 -0700 (PDT)
-Received: by mail-ej1-x62c.google.com with SMTP id c10so64402562ejx.9
-        for <linux-man@vger.kernel.org>; Mon, 15 Mar 2021 00:44:42 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20161025;
-        h=cc:subject:to:references:from:message-id:date:user-agent
-         :mime-version:in-reply-to:content-language:content-transfer-encoding;
-        bh=jucU2zJ6kePKdRf0BTL6QqMciydVlykVvyLV19H3xkU=;
-        b=KRl7TfA802Okr2PcIXkBxENNaG0A6rpQcuGwPU/Yid8JckFgOs6Px0uXB8pIn43CIr
-         X9xAd2sSelXQzZl0kOFmlBF/HoWMGj3OVCJJcB6IdGKdMVUXSEyWkW22JKYiaK8u3IDw
-         Ha9usfotSx0XcdTajjj+UrxsD3oHgy+LCkrrofL3Ug88LX9hsg0wwlxlis3fUd3JmN/w
-         5Rzfb5mToaGovKLHOJprwPwCeYvgG6hhoTjfe0HFSPHfiq81vOSeC/xVqCHQmlmbHkKP
-         rcMyADx7bwXRbpangMqIs3bgL/dnqdixasmJ/vhkRjqghgeZ9pyhICdlN+57PceByBEM
-         xuOw==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20161025;
-        h=x-gm-message-state:cc:subject:to:references:from:message-id:date
-         :user-agent:mime-version:in-reply-to:content-language
-         :content-transfer-encoding;
-        bh=jucU2zJ6kePKdRf0BTL6QqMciydVlykVvyLV19H3xkU=;
-        b=sKJMCY4ZpO5/3mWDxl7UCJhYImSB5gdK42XAPOvABJzFdgO0Xmfk61awDxlY2K+ZcC
-         e4/921DQ78Z3H21tWN3gZ90bKTZ4uuBJh42JNgbFRrggwJbMHT66CSe3Kj/KEs8tPNmO
-         cNAPyQhPpv/aGfQsrudI3UHYkGCwVg7NK10fN1aioOEj8SKVz4SHQrQelhVq5+F0YRa3
-         XjkfiZfpk4BFttmOeywawA2dnNQLdAce3CTy7Gyxntyk0dxWJd/G3sRvtOK4vJo0Lsl0
-         0RuR0kH/iXCGKzwnuRZuu25giT678sm0I4jvujNqBwxpIYDIBLitZLhHVJonZ0GyB/WF
-         5o6Q==
-X-Gm-Message-State: AOAM532HFXCifCIL+U2QZLJF4hky174FTwl5hfi+V+rxvZpTtBoI3PAl
-        Q+FAjPPYDkSJdgUXXVtS6z8=
-X-Google-Smtp-Source: ABdhPJxxUfy3mSZfRm71oTCJU9WjjQrUOsaNAuH6LXt72wr9eO0XhT7LLdhBKziMG8fxkdGgC/QCmQ==
-X-Received: by 2002:a17:906:da0e:: with SMTP id fi14mr22756000ejb.188.1615794280943;
-        Mon, 15 Mar 2021 00:44:40 -0700 (PDT)
-Received: from ?IPv6:2001:a61:3a2d:1d01:e14:1e8b:dca4:7d73? ([2001:a61:3a2d:1d01:e14:1e8b:dca4:7d73])
-        by smtp.gmail.com with ESMTPSA id a12sm7506209edx.91.2021.03.15.00.44.40
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Mon, 15 Mar 2021 00:44:40 -0700 (PDT)
-Cc:     mtk.manpages@gmail.com, libc-alpha@sourceware.org,
-        Zack Weinberg <zackw@panix.com>
-Subject: Re: [PATCH] Various pages: Remove unused <sys/types.h>
+        id S232651AbhCOSAw (ORCPT <rfc822;linux-man@archiver.kernel.org>);
+        Mon, 15 Mar 2021 14:00:52 -0400
+Received: from mx01-sz.bfs.de ([194.94.69.67]:57568 "EHLO mx01-sz.bfs.de"
+        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
+        id S232432AbhCOSAg (ORCPT <rfc822;linux-man@vger.kernel.org>);
+        Mon, 15 Mar 2021 14:00:36 -0400
+Received: from SRVEX01-SZ.bfs.intern (exchange-sz.bfs.de [10.129.90.31])
+        by mx01-sz.bfs.de (Postfix) with ESMTPS id 6E6BD20424;
+        Mon, 15 Mar 2021 19:00:32 +0100 (CET)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=bfs.de; s=dkim201901;
+        t=1615831232;
+        h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+         to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+         content-transfer-encoding:content-transfer-encoding:
+         in-reply-to:in-reply-to:references:references;
+        bh=CkaN9AZ03poPxA7f4gJYYTjbp5p4x6TZ6uzceZecgPM=;
+        b=RTkj8QuRR6OMZINbRxJfdfF9SrjOrhIY0tJf90GrEGiXYOF+bEjbxEhYP9V6F8YWltVG5R
+        jRYJtycEInEtGW+8YItSdICvqbbx+/kzEg3z8DNYGBywbsbvuUH1EouREaoPx8gS1THfaX
+        IW+mBQn7opOK84G5oLwMAGpufGfCVPzbBPH0swxg7EF8d7EXeF5qL66nFSwCAQlZfsJQ3T
+        P8rIIMIHL3bVc3e/CQRZPC4g+RknZWKbOpxifktgafD88C6A6ltdv/+gkgxtE11EZbhBwU
+        zNvBWO11G9n7Lz8vuUykDxWNyac/ctDllEpWpgcElsdm4JFVU7cXq5jo33e8dw==
+Received: from SRVEX01-SZ.bfs.intern (10.129.90.31) by SRVEX01-SZ.bfs.intern
+ (10.129.90.31) with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.1.2176.2; Mon, 15 Mar
+ 2021 19:00:31 +0100
+Received: from SRVEX01-SZ.bfs.intern ([fe80::7d2d:f9cb:2761:d24a]) by
+ SRVEX01-SZ.bfs.intern ([fe80::7d2d:f9cb:2761:d24a%13]) with mapi id
+ 15.01.2176.009; Mon, 15 Mar 2021 19:00:31 +0100
+From:   Walter Harms <wharms@bfs.de>
 To:     Alejandro Colomar <alx.manpages@gmail.com>,
-        linux-man@vger.kernel.org
-References: <20210314160134.127878-1-alx.manpages@gmail.com>
-From:   "Michael Kerrisk (man-pages)" <mtk.manpages@gmail.com>
-Message-ID: <8d745273-9fc9-04d2-78ef-49201efcf71a@gmail.com>
-Date:   Mon, 15 Mar 2021 08:44:39 +0100
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
- Thunderbird/78.6.0
+        "mtk.manpages@gmail.com" <mtk.manpages@gmail.com>
+CC:     "linux-man@vger.kernel.org" <linux-man@vger.kernel.org>,
+        "libc-alpha@sourceware.org" <libc-alpha@sourceware.org>,
+        "linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>,
+        Florian Weimer <fweimer@redhat.com>
+Subject: AW: [RFC v3 04/17] arch_prctl.2: SYNOPSIS: Remove unused includes
+Thread-Topic: [RFC v3 04/17] arch_prctl.2: SYNOPSIS: Remove unused includes
+Thread-Index: AQHXGD7XAxTSL2NJaE+7W5iBTQCmt6qFVHc7
+Date:   Mon, 15 Mar 2021 18:00:31 +0000
+Message-ID: <be6a5420c2de4cd5a772a878a173fd09@bfs.de>
+References: <20210214133907.157320-1-alx.manpages@gmail.com>,<20210313192526.350200-5-alx.manpages@gmail.com>
+In-Reply-To: <20210313192526.350200-5-alx.manpages@gmail.com>
+Accept-Language: de-DE, en-US
+Content-Language: de-DE
+X-MS-Has-Attach: 
+X-MS-TNEF-Correlator: 
+x-originating-ip: [10.137.16.39]
+x-tm-as-product-ver: SMEX-14.0.0.3080-8.6.1012-26032.001
+x-tm-as-result: No-10-3.260300-5.000000
+x-tmase-matchedrid: CDTSlS88fVTRubRCcrbc5grcxrzwsv5u3dCmvEa6IiGoLZarzrrPmY8c
+        NcoztgfFQVZ/emx6g8Y8CQr3JqGFgWbK2Lp4BaXTs35egIUyB0yNY/pqxovzxWww+4tkH8hH/eb
+        8AiQy4VrAt83TuKuapBv4L0374LF/3huBcHFqgEv1P1OLgOxuG9Mtvp2vZ9b08YXezpzoZTpAwV
+        xIwdMCgWe4Wa1eP/asXl5aEpWgX5dEVewvaIzmdXYZxYoZm58F9e5am3m57X1wh5cseF+Y9lMe5
+        Blkpry7rdoLblq9S5rZsNA4lAbe+0kjllSXrjtQgxsfzkNRlfLdB/CxWTRRuwihQpoXbuXFx/mZ
+        2/tYMNdk6kcSjxdDoZky1yTNkSniULYWWJ6MTvne3IkDeq6Pe3VdQuCkdZvmVs3mQrPFErZ4Nj9
+        8aMLOkXuBattE+CJ0qcFxC+mrhy1WwS3yrrDBJd6uf8BQDO/7JXUq4O4yYIf6svlVb6h9lw==
+x-tm-as-user-approved-sender: No
+x-tm-as-user-blocked-sender: No
+x-tmase-result: 10-3.260300-5.000000
+x-tmase-version: SMEX-14.0.0.3080-8.6.1012-26032.001
+x-tm-snts-smtp: DF8E54FA244AE94B072DC9C21BA856F55E500E6D160883E88D602C86E137F0B82000:9
+Content-Type: text/plain; charset="iso-8859-1"
+Content-Transfer-Encoding: quoted-printable
 MIME-Version: 1.0
-In-Reply-To: <20210314160134.127878-1-alx.manpages@gmail.com>
-Content-Type: text/plain; charset=utf-8
-Content-Language: en-US
-Content-Transfer-Encoding: 7bit
+X-Spamd-Result: default: False [-16.37 / 7.00];
+         ARC_NA(0.00)[];
+         TO_DN_EQ_ADDR_SOME(0.00)[];
+         HAS_XOIP(0.00)[];
+         FROM_HAS_DN(0.00)[];
+         TO_DN_SOME(0.00)[];
+         FREEMAIL_ENVRCPT(0.00)[gmail.com];
+         TO_MATCH_ENVRCPT_ALL(0.00)[];
+         TAGGED_RCPT(0.00)[];
+         MIME_GOOD(-0.10)[text/plain];
+         RCPT_COUNT_FIVE(0.00)[6];
+         DKIM_SIGNED(0.00)[bfs.de:s=dkim201901];
+         BAYES_HAM(-2.87)[99.44%];
+         WHITELIST_LOCAL_IP(-15.00)[10.129.90.31];
+         NEURAL_HAM(-0.00)[-1.000];
+         FREEMAIL_TO(0.00)[gmail.com];
+         RCVD_NO_TLS_LAST(0.10)[];
+         FROM_EQ_ENVFROM(0.00)[];
+         MIME_TRACE(0.00)[0:+];
+         RCVD_COUNT_TWO(0.00)[2];
+         MID_RHS_MATCH_FROM(0.00)[];
+         SUSPICIOUS_RECIPS(1.50)[]
+Authentication-Results: mx01-sz.bfs.de;
+        none
 Precedence: bulk
 List-ID: <linux-man.vger.kernel.org>
 X-Mailing-List: linux-man@vger.kernel.org
 
-Hi Alex,
+I have learned the other way around:
+#include <sys/prctl.h>
+Is a general system header to use that may include
+the asm/prctrl.h what should never be included by
+userspace programms.
 
-On 3/14/21 5:01 PM, Alejandro Colomar wrote:
-> The manual pages are already inconsistent in which headers need
-> to be included.  Right now, not all of the types used by a
-> function have their required header included in the SYNOPSIS.
-> 
-> If we were to add the headers required by all of the types used by
-> functions, the SYNOPSIS would grow too much.  Not only it would
-> grow too much, but the information there would be less precise.
-> 
-> Having system_data_types(7) document each type with all the
-> information about required includes is much more precise, and the
-> info is centralized so that it's much easier to maintain.
-> 
-> So let's document only the include required for the function
-> prototype, and also the ones required for the macros needed to
-> call the function.
-> 
-> <sys/types.h> only defines types, not functions or constants, so
-> it doesn't belong to man[23] (function) pages at all.
-> 
-> I ignore if some old systems had headers that required you to
-> include <sys/types.h> *before* them (incomplete headers), but if
-> so, those implementations would be broken, and those headers
-> should probably provide some kind of warning.  I hope this is not
-> the case.
-> 
-> Signed-off-by: Alejandro Colomar <alx.manpages@gmail.com>
+jm2c,
+re,
+ wh
+________________________________________
+Von: Alejandro Colomar <alx.manpages@gmail.com>
+Gesendet: Samstag, 13. M=E4rz 2021 20:25:14
+An: mtk.manpages@gmail.com
+Cc: Alejandro Colomar; linux-man@vger.kernel.org; libc-alpha@sourceware.org=
+; linux-kernel@vger.kernel.org; Florian Weimer
+Betreff: [RFC v3 04/17] arch_prctl.2: SYNOPSIS: Remove unused includes
 
-If I recall correctly, I had a conversation about this topic
-with the previous maintainer, who pointed out that the need 
-to include <sys/types.h> was (then) still quite current on
-various implementations. But it is (by now) 20 years since
-POSIX.1-2001/SUSv3 dropped the requirement to include 
-<sys/types.h>  when using various APIs, so this patch seems
-well past due, and I have applied it (with an Acked-by from
-Zack).
-
-Cheers,
-
-Michael
+WARNUNG: Diese E-Mail kam von au=DFerhalb der Organisation. Klicken Sie nic=
+ht auf Links oder =F6ffnen Sie keine Anh=E4nge, es sei denn, Sie kennen den=
+ Absender und wissen, dass der Inhalt sicher ist.
 
 
-> ---
->  man2/accept.2            |  7 -------
->  man2/bind.2              |  7 -------
->  man2/connect.2           |  7 -------
->  man2/fork.2              |  1 -
->  man2/get_robust_list.2   |  1 -
->  man2/getgid.2            |  1 -
->  man2/getgroups.2         |  1 -
->  man2/getpid.2            |  1 -
->  man2/getsid.2            |  1 -
->  man2/getsockopt.2        |  7 -------
->  man2/gettid.2            |  1 -
->  man2/getuid.2            |  1 -
->  man2/getxattr.2          |  1 -
->  man2/keyctl.2            |  1 -
->  man2/kill.2              |  1 -
->  man2/listen.2            |  7 -------
->  man2/listxattr.2         |  1 -
->  man2/llseek.2            |  1 -
->  man2/lseek.2             |  1 -
->  man2/mkdir.2             |  1 -
->  man2/mknod.2             |  1 -
->  man2/modify_ldt.2        |  2 --
->  man2/mq_getsetattr.2     |  1 -
->  man2/msgctl.2            | 11 ++++-------
->  man2/msgget.2            | 11 ++++-------
->  man2/msgop.2             | 11 ++++-------
->  man2/open.2              |  1 -
->  man2/open_by_handle_at.2 |  1 -
->  man2/openat2.2           |  1 -
->  man2/pidfd_open.2        |  2 --
->  man2/recv.2              |  1 -
->  man2/removexattr.2       |  1 -
->  man2/request_key.2       |  1 -
->  man2/semctl.2            |  9 +++------
->  man2/semget.2            | 11 ++++-------
->  man2/semop.2             | 11 ++++-------
->  man2/send.2              |  1 -
->  man2/seteuid.2           |  1 -
->  man2/setgid.2            |  1 -
->  man2/setpgid.2           |  1 -
->  man2/setreuid.2          |  1 -
->  man2/setsid.2            |  1 -
->  man2/setuid.2            |  1 -
->  man2/setxattr.2          |  1 -
->  man2/shmctl.2            | 10 ++++------
->  man2/socket.2            |  7 -------
->  man2/socketpair.2        |  7 -------
->  man2/statx.2             |  1 -
->  man2/vfork.2             |  1 -
->  49 files changed, 27 insertions(+), 133 deletions(-)
-> 
-> diff --git a/man2/accept.2 b/man2/accept.2
-> index 0923ea97a..a5d642cc3 100644
-> --- a/man2/accept.2
-> +++ b/man2/accept.2
-> @@ -43,7 +43,6 @@
->  accept, accept4 \- accept a connection on a socket
->  .SH SYNOPSIS
->  .nf
-> -.BR "#include <sys/types.h>" "          /* See NOTES */"
->  .B #include <sys/socket.h>
->  .PP
->  .BI "int accept(int " sockfd ", struct sockaddr *restrict " addr ,
-> @@ -319,12 +318,6 @@ of file status flags and always explicitly set all required flags on
->  the socket returned from
->  .BR accept ().
->  .SH NOTES
-> -POSIX.1-2001 does not require the inclusion of
-> -.IR <sys/types.h> ,
-> -and this header file is not required on Linux.
-> -However, some historical (BSD) implementations required this header
-> -file, and portable applications are probably wise to include it.
-> -.PP
->  There may not always be a connection waiting after a
->  .B SIGIO
->  is delivered or
-> diff --git a/man2/bind.2 b/man2/bind.2
-> index 548391f1d..e4765dde0 100644
-> --- a/man2/bind.2
-> +++ b/man2/bind.2
-> @@ -71,7 +71,6 @@
->  bind \- bind a name to a socket
->  .SH SYNOPSIS
->  .nf
-> -.BR "#include <sys/types.h>" "          /* See NOTES */"
->  .B #include <sys/socket.h>
->  .PP
->  .BI "int bind(int " sockfd ", const struct sockaddr *" addr ,
-> @@ -243,12 +242,6 @@ first appeared in 4.2BSD).
->  .\" .B EISDIR
->  .\" UNIX-domain error conditions.
->  .SH NOTES
-> -POSIX.1 does not require the inclusion of
-> -.IR <sys/types.h> ,
-> -and this header file is not required on Linux.
-> -However, some historical (BSD) implementations required this header
-> -file, and portable applications are probably wise to include it.
-> -.PP
->  For background on the
->  .I socklen_t
->  type, see
-> diff --git a/man2/connect.2 b/man2/connect.2
-> index 9572676ef..013a46994 100644
-> --- a/man2/connect.2
-> +++ b/man2/connect.2
-> @@ -69,7 +69,6 @@
->  connect \- initiate a connection on a socket
->  .SH SYNOPSIS
->  .nf
-> -.BR "#include <sys/types.h>" "          /* See NOTES */"
->  .B #include <sys/socket.h>
->  .PP
->  .BI "int connect(int " sockfd ", const struct sockaddr *" addr ,
-> @@ -276,12 +275,6 @@ first appeared in 4.2BSD).
->  .\" It also
->  .\" documents many additional error conditions not described here.
->  .SH NOTES
-> -POSIX.1 does not require the inclusion of
-> -.IR <sys/types.h> ,
-> -and this header file is not required on Linux.
-> -However, some historical (BSD) implementations required this header
-> -file, and portable applications are probably wise to include it.
-> -.PP
->  For background on the
->  .I socklen_t
->  type, see
-> diff --git a/man2/fork.2 b/man2/fork.2
-> index 894a628cc..344b9f6eb 100644
-> --- a/man2/fork.2
-> +++ b/man2/fork.2
-> @@ -41,7 +41,6 @@
->  fork \- create a child process
->  .SH SYNOPSIS
->  .nf
-> -.B #include <sys/types.h>
->  .B #include <unistd.h>
->  .PP
->  .B pid_t fork(void);
-> diff --git a/man2/get_robust_list.2 b/man2/get_robust_list.2
-> index b1ae42dbd..ac73bfab0 100644
-> --- a/man2/get_robust_list.2
-> +++ b/man2/get_robust_list.2
-> @@ -33,7 +33,6 @@ get_robust_list, set_robust_list \- get/set list of robust futexes
->  .SH SYNOPSIS
->  .nf
->  .B #include <linux/futex.h>
-> -.B #include <sys/types.h>
->  .B #include <syscall.h>
->  .PP
->  .BI "long get_robust_list(int " pid ", struct robust_list_head **" head_ptr ,
-> diff --git a/man2/getgid.2 b/man2/getgid.2
-> index e0c802e36..4c2ec6163 100644
-> --- a/man2/getgid.2
-> +++ b/man2/getgid.2
-> @@ -28,7 +28,6 @@ getgid, getegid \- get group identity
->  .SH SYNOPSIS
->  .nf
->  .B #include <unistd.h>
-> -.B #include <sys/types.h>
->  .PP
->  .B gid_t getgid(void);
->  .B gid_t getegid(void);
-> diff --git a/man2/getgroups.2 b/man2/getgroups.2
-> index ffe01fbb1..a90894b8a 100644
-> --- a/man2/getgroups.2
-> +++ b/man2/getgroups.2
-> @@ -34,7 +34,6 @@
->  getgroups, setgroups \- get/set list of supplementary group IDs
->  .SH SYNOPSIS
->  .nf
-> -.B #include <sys/types.h>
->  .B #include <unistd.h>
->  .PP
->  .BI "int getgroups(int " size ", gid_t " list []);
-> diff --git a/man2/getpid.2 b/man2/getpid.2
-> index f2bf232ca..b2574c4c3 100644
-> --- a/man2/getpid.2
-> +++ b/man2/getpid.2
-> @@ -27,7 +27,6 @@
->  getpid, getppid \- get process identification
->  .SH SYNOPSIS
->  .nf
-> -.B #include <sys/types.h>
->  .B #include <unistd.h>
->  .PP
->  .B pid_t getpid(void);
-> diff --git a/man2/getsid.2 b/man2/getsid.2
-> index 11d096a1a..805ffe0bd 100644
-> --- a/man2/getsid.2
-> +++ b/man2/getsid.2
-> @@ -29,7 +29,6 @@
->  getsid \- get session ID
->  .SH SYNOPSIS
->  .nf
-> -.B #include <sys/types.h>
->  .B #include <unistd.h>
->  .PP
->  .BI "pid_t getsid(pid_t" " pid" );
-> diff --git a/man2/getsockopt.2 b/man2/getsockopt.2
-> index 9b2c6cc3d..8011a4b5a 100644
-> --- a/man2/getsockopt.2
-> +++ b/man2/getsockopt.2
-> @@ -46,7 +46,6 @@
->  getsockopt, setsockopt \- get and set options on sockets
->  .SH SYNOPSIS
->  .nf
-> -.BR "#include <sys/types.h>" "          /* See NOTES */"
->  .B #include <sys/socket.h>
->  .PP
->  .BI "int getsockopt(int " sockfd ", int " level ", int " optname ,
-> @@ -179,12 +178,6 @@ SVr4, 4.4BSD (these system calls first appeared in 4.2BSD).
->  .\" .BR SO_SNDLOWAT ", " SO_RCVLOWAT ", " SO_SNDTIMEO ", " SO_RCVTIMEO
->  .\" options
->  .SH NOTES
-> -POSIX.1 does not require the inclusion of
-> -.IR <sys/types.h> ,
-> -and this header file is not required on Linux.
-> -However, some historical (BSD) implementations required this header
-> -file, and portable applications are probably wise to include it.
-> -.PP
->  For background on the
->  .I socklen_t
->  type, see
-> diff --git a/man2/gettid.2 b/man2/gettid.2
-> index 60780e2b7..13313caa4 100644
-> --- a/man2/gettid.2
-> +++ b/man2/gettid.2
-> @@ -30,7 +30,6 @@ gettid \- get thread identification
->  .nf
->  .B #define _GNU_SOURCE
->  .B #include <unistd.h>
-> -.B #include <sys/types.h>
->  .PP
->  .B pid_t gettid(void);
->  .fi
-> diff --git a/man2/getuid.2 b/man2/getuid.2
-> index 6c2768643..e374d21ab 100644
-> --- a/man2/getuid.2
-> +++ b/man2/getuid.2
-> @@ -29,7 +29,6 @@ getuid, geteuid \- get user identity
->  .SH SYNOPSIS
->  .nf
->  .B #include <unistd.h>
-> -.B #include <sys/types.h>
->  .PP
->  .B uid_t getuid(void);
->  .B uid_t geteuid(void);
-> diff --git a/man2/getxattr.2 b/man2/getxattr.2
-> index d7a92f901..d63e45bd2 100644
-> --- a/man2/getxattr.2
-> +++ b/man2/getxattr.2
-> @@ -28,7 +28,6 @@ getxattr, lgetxattr, fgetxattr \- retrieve an extended attribute value
->  .SH SYNOPSIS
->  .fam C
->  .nf
-> -.B #include <sys/types.h>
->  .B #include <sys/xattr.h>
->  .PP
->  .BI "ssize_t getxattr(const char *" path ", const char *" name ,
-> diff --git a/man2/keyctl.2 b/man2/keyctl.2
-> index 99cb65e19..a6daafe7a 100644
-> --- a/man2/keyctl.2
-> +++ b/man2/keyctl.2
-> @@ -30,7 +30,6 @@
->  keyctl \- manipulate the kernel's key management facility
->  .SH SYNOPSIS
->  .nf
-> -.B #include <sys/types.h>
->  .B #include <keyutils.h>
->  .PP
->  .BI "long keyctl(int " operation ", ...);"
-> diff --git a/man2/kill.2 b/man2/kill.2
-> index b6fa289ab..9b27726d7 100644
-> --- a/man2/kill.2
-> +++ b/man2/kill.2
-> @@ -46,7 +46,6 @@
->  kill \- send signal to a process
->  .SH SYNOPSIS
->  .nf
-> -.B #include <sys/types.h>
->  .B #include <signal.h>
->  .PP
->  .BI "int kill(pid_t " pid ", int " sig );
-> diff --git a/man2/listen.2 b/man2/listen.2
-> index 7c944ff4c..5e12bc756 100644
-> --- a/man2/listen.2
-> +++ b/man2/listen.2
-> @@ -47,7 +47,6 @@
->  listen \- listen for connections on a socket
->  .SH SYNOPSIS
->  .nf
-> -.BR "#include <sys/types.h>" "          /* See NOTES */"
->  .B #include <sys/socket.h>
->  .PP
->  .BI "int listen(int " sockfd ", int " backlog );
-> @@ -140,12 +139,6 @@ Connections are accepted with
->  .BR accept (2).
->  .RE
->  .PP
-> -POSIX.1 does not require the inclusion of
-> -.IR <sys/types.h> ,
-> -and this header file is not required on Linux.
-> -However, some historical (BSD) implementations required this header
-> -file, and portable applications are probably wise to include it.
-> -.PP
->  The behavior of the
->  .I backlog
->  argument on TCP sockets changed with Linux 2.2.
-> diff --git a/man2/listxattr.2 b/man2/listxattr.2
-> index f073c5409..03595a9e6 100644
-> --- a/man2/listxattr.2
-> +++ b/man2/listxattr.2
-> @@ -29,7 +29,6 @@ listxattr, llistxattr, flistxattr \- list extended attribute names
->  .SH SYNOPSIS
->  .fam C
->  .nf
-> -.B #include <sys/types.h>
->  .B #include <sys/xattr.h>
->  .PP
->  .BI "ssize_t listxattr(const char *" path ", char *" list \
-> diff --git a/man2/llseek.2 b/man2/llseek.2
-> index a46ce370e..81bb4e19f 100644
-> --- a/man2/llseek.2
-> +++ b/man2/llseek.2
-> @@ -31,7 +31,6 @@
->  _llseek \- reposition read/write file offset
->  .SH SYNOPSIS
->  .nf
-> -.B #include <sys/types.h>
->  .B #include <unistd.h>
->  .PP
->  .BI "int _llseek(unsigned int " fd ", unsigned long " offset_high ,
-> diff --git a/man2/lseek.2 b/man2/lseek.2
-> index ad5526b66..042479833 100644
-> --- a/man2/lseek.2
-> +++ b/man2/lseek.2
-> @@ -48,7 +48,6 @@
->  lseek \- reposition read/write file offset
->  .SH SYNOPSIS
->  .nf
-> -.B #include <sys/types.h>
->  .B #include <unistd.h>
->  .PP
->  .BI "off_t lseek(int " fd ", off_t " offset ", int " whence );
-> diff --git a/man2/mkdir.2 b/man2/mkdir.2
-> index 6934e331a..640a4783d 100644
-> --- a/man2/mkdir.2
-> +++ b/man2/mkdir.2
-> @@ -14,7 +14,6 @@ mkdir, mkdirat \- create a directory
->  .SH SYNOPSIS
->  .nf
->  .B #include <sys/stat.h>
-> -.B #include <sys/types.h>
->  .\" .B #include <unistd.h>
->  .PP
->  .BI "int mkdir(const char *" pathname ", mode_t " mode );
-> diff --git a/man2/mknod.2 b/man2/mknod.2
-> index fad459d8c..9ecf6611b 100644
-> --- a/man2/mknod.2
-> +++ b/man2/mknod.2
-> @@ -17,7 +17,6 @@
->  mknod, mknodat \- create a special or ordinary file
->  .SH SYNOPSIS
->  .nf
-> -.B #include <sys/types.h>
->  .B #include <sys/stat.h>
->  .B #include <fcntl.h>
->  .B #include <unistd.h>
-> diff --git a/man2/modify_ldt.2 b/man2/modify_ldt.2
-> index 7dc12be8e..c40dae62b 100644
-> --- a/man2/modify_ldt.2
-> +++ b/man2/modify_ldt.2
-> @@ -27,8 +27,6 @@
->  modify_ldt \- get or set a per-process LDT entry
->  .SH SYNOPSIS
->  .nf
-> -.B #include <sys/types.h>
-> -.PP
->  .BI "int modify_ldt(int " func ", void *" ptr ", unsigned long " bytecount );
->  .fi
->  .PP
-> diff --git a/man2/mq_getsetattr.2 b/man2/mq_getsetattr.2
-> index 409dfe11c..5036428d6 100644
-> --- a/man2/mq_getsetattr.2
-> +++ b/man2/mq_getsetattr.2
-> @@ -27,7 +27,6 @@
->  mq_getsetattr \- get/set message queue attributes
->  .SH SYNOPSIS
->  .nf
-> -.B #include <sys/types.h>
->  .B #include <mqueue.h>
->  .PP
->  .BI "int mq_getsetattr(mqd_t " mqdes ", const struct mq_attr *" newattr ,
-> diff --git a/man2/msgctl.2 b/man2/msgctl.2
-> index 1e27871ad..58e8cb29e 100644
-> --- a/man2/msgctl.2
-> +++ b/man2/msgctl.2
-> @@ -40,7 +40,6 @@
->  msgctl \- System V message control operations
->  .SH SYNOPSIS
->  .nf
-> -.B #include <sys/types.h>
->  .B #include <sys/ipc.h>
->  .B #include <sys/msg.h>
->  .PP
-> @@ -407,17 +406,15 @@ POSIX.1-2001, POSIX.1-2008, SVr4.
->  .\" SVID does not document the EIDRM error condition.
->  .SH NOTES
->  The inclusion of
-> -.I <sys/types.h>
-> -and
->  .I <sys/ipc.h>
->  isn't required on Linux or by any version of POSIX.
->  However,
-> -some old implementations required the inclusion of these header files,
-> -and the SVID also documented their inclusion.
-> +some old implementations required the inclusion of this header file,
-> +and the SVID also documented its inclusion.
->  Applications intended to be portable to such old systems may need
-> -to include these header files.
-> +to include this header file.
->  .\" Like Linux, the FreeBSD man pages still document
-> -.\" the inclusion of these header files.
-> +.\" the inclusion of this header file.
->  .PP
->  The
->  .BR IPC_INFO ,
-> diff --git a/man2/msgget.2 b/man2/msgget.2
-> index 7326c9044..8959797eb 100644
-> --- a/man2/msgget.2
-> +++ b/man2/msgget.2
-> @@ -37,7 +37,6 @@
->  msgget \- get a System V message queue identifier
->  .SH SYNOPSIS
->  .nf
-> -.B #include <sys/types.h>
->  .B #include <sys/ipc.h>
->  .B #include <sys/msg.h>
->  .PP
-> @@ -190,17 +189,15 @@ would be exceeded.
->  POSIX.1-2001, POSIX.1-2008, SVr4.
->  .SH NOTES
->  The inclusion of
-> -.I <sys/types.h>
-> -and
->  .I <sys/ipc.h>
->  isn't required on Linux or by any version of POSIX.
->  However,
-> -some old implementations required the inclusion of these header files,
-> -and the SVID also documented their inclusion.
-> +some old implementations required the inclusion of this header file,
-> +and the SVID also documented its inclusion.
->  Applications intended to be portable to such old systems may need
-> -to include these header files.
-> +to include this header file.
->  .\" Like Linux, the FreeBSD man pages still document
-> -.\" the inclusion of these header files.
-> +.\" the inclusion of this header file.
->  .PP
->  .B IPC_PRIVATE
->  isn't a flag field but a
-> diff --git a/man2/msgop.2 b/man2/msgop.2
-> index ef66eb10d..92cc94549 100644
-> --- a/man2/msgop.2
-> +++ b/man2/msgop.2
-> @@ -42,7 +42,6 @@
->  msgrcv, msgsnd \- System V message queue operations
->  .SH SYNOPSIS
->  .nf
-> -.B #include <sys/types.h>
->  .B #include <sys/ipc.h>
->  .B #include <sys/msg.h>
->  .PP
-> @@ -482,17 +481,15 @@ their definitions can be obtained by defining the
->  feature test macro.
->  .SH NOTES
->  The inclusion of
-> -.I <sys/types.h>
-> -and
->  .I <sys/ipc.h>
->  isn't required on Linux or by any version of POSIX.
->  However,
-> -some old implementations required the inclusion of these header files,
-> -and the SVID also documented their inclusion.
-> +some old implementations required the inclusion of this header file,
-> +and the SVID also documented its inclusion.
->  Applications intended to be portable to such old systems may need
-> -to include these header files.
-> +to include this header file.
->  .\" Like Linux, the FreeBSD man pages still document
-> -.\" the inclusion of these header files.
-> +.\" the inclusion of this header file.
->  .PP
->  The
->  .I msgp
-> diff --git a/man2/open.2 b/man2/open.2
-> index 267e79656..3b853d8e2 100644
-> --- a/man2/open.2
-> +++ b/man2/open.2
-> @@ -53,7 +53,6 @@
->  open, openat, creat \- open and possibly create a file
->  .SH SYNOPSIS
->  .nf
-> -.B #include <sys/types.h>
->  .B #include <sys/stat.h>
->  .B #include <fcntl.h>
->  .PP
-> diff --git a/man2/open_by_handle_at.2 b/man2/open_by_handle_at.2
-> index 09349066d..4ae0f0577 100644
-> --- a/man2/open_by_handle_at.2
-> +++ b/man2/open_by_handle_at.2
-> @@ -29,7 +29,6 @@ for a pathname and open file via a handle
->  .SH SYNOPSIS
->  .nf
->  .BR "#define _GNU_SOURCE" "         /* See feature_test_macros(7) */"
-> -.B #include <sys/types.h>
->  .B #include <sys/stat.h>
->  .B #include <fcntl.h>
->  .PP
-> diff --git a/man2/openat2.2 b/man2/openat2.2
-> index 739ac4747..ff0ff839f 100644
-> --- a/man2/openat2.2
-> +++ b/man2/openat2.2
-> @@ -26,7 +26,6 @@
->  openat2 \- open and possibly create a file (extended)
->  .SH SYNOPSIS
->  .nf
-> -.B #include <sys/types.h>
->  .B #include <sys/stat.h>
->  .B #include <fcntl.h>
->  .B #include <linux/openat2.h>
-> diff --git a/man2/pidfd_open.2 b/man2/pidfd_open.2
-> index b25b74273..5601f8005 100644
-> --- a/man2/pidfd_open.2
-> +++ b/man2/pidfd_open.2
-> @@ -27,8 +27,6 @@
->  pidfd_open \- obtain a file descriptor that refers to a process
->  .SH SYNOPSIS
->  .nf
-> -.B #include <sys/types.h>
-> -.PP
->  .BI "int pidfd_open(pid_t " pid ", unsigned int " flags );
->  .fi
->  .PP
-> diff --git a/man2/recv.2 b/man2/recv.2
-> index 3a501f9ad..e6005e8d6 100644
-> --- a/man2/recv.2
-> +++ b/man2/recv.2
-> @@ -43,7 +43,6 @@
->  recv, recvfrom, recvmsg \- receive a message from a socket
->  .SH SYNOPSIS
->  .nf
-> -.B #include <sys/types.h>
->  .B #include <sys/socket.h>
->  .PP
->  .BI "ssize_t recv(int " sockfd ", void *" buf ", size_t " len ", int " flags );
-> diff --git a/man2/removexattr.2 b/man2/removexattr.2
-> index 6ef3349e6..175494010 100644
-> --- a/man2/removexattr.2
-> +++ b/man2/removexattr.2
-> @@ -28,7 +28,6 @@ removexattr, lremovexattr, fremovexattr \- remove an extended attribute
->  .SH SYNOPSIS
->  .fam C
->  .nf
-> -.B #include <sys/types.h>
->  .B #include <sys/xattr.h>
->  .PP
->  .BI "int removexattr(const char\ *" path ", const char\ *" name );
-> diff --git a/man2/request_key.2 b/man2/request_key.2
-> index 89bde01c3..7efa6ee46 100644
-> --- a/man2/request_key.2
-> +++ b/man2/request_key.2
-> @@ -14,7 +14,6 @@
->  request_key \- request a key from the kernel's key management facility
->  .SH SYNOPSIS
->  .nf
-> -.B #include <sys/types.h>
->  .B #include <keyutils.h>
->  .PP
->  .BI "key_serial_t request_key(const char *" type ", const char *" description ,
-> diff --git a/man2/semctl.2 b/man2/semctl.2
-> index a99c6fb87..2b75341d7 100644
-> --- a/man2/semctl.2
-> +++ b/man2/semctl.2
-> @@ -44,7 +44,6 @@
->  semctl \- System V semaphore control operations
->  .SH SYNOPSIS
->  .nf
-> -.B #include <sys/types.h>
->  .B #include <sys/ipc.h>
->  .B #include <sys/sem.h>
->  .PP
-> @@ -538,15 +537,13 @@ but, since Linux 2.4, the field has the type
->  .IR "unsigned\ long" .
->  .SH NOTES
->  The inclusion of
-> -.I <sys/types.h>
-> -and
->  .I <sys/ipc.h>
->  isn't required on Linux or by any version of POSIX.
->  However,
-> -some old implementations required the inclusion of these header files,
-> -and the SVID also documented their inclusion.
-> +some old implementations required the inclusion of this header file,
-> +and the SVID also documented its inclusion.
->  Applications intended to be portable to such old systems may need
-> -to include these header files.
-> +to include this header file.
->  .\" Like Linux, the FreeBSD man pages still document
->  .\" the inclusion of these header files.
->  .PP
-> diff --git a/man2/semget.2 b/man2/semget.2
-> index 445ac0249..b991f822f 100644
-> --- a/man2/semget.2
-> +++ b/man2/semget.2
-> @@ -39,7 +39,6 @@
->  semget \- get a System V semaphore set identifier
->  .SH SYNOPSIS
->  .nf
-> -.B #include <sys/types.h>
->  .B #include <sys/ipc.h>
->  .B #include <sys/sem.h>
->  .fi
-> @@ -221,17 +220,15 @@ SVr4, POSIX.1-2001.
->  .\" ERANGE, EFAULT.
->  .SH NOTES
->  The inclusion of
-> -.I <sys/types.h>
-> -and
->  .I <sys/ipc.h>
->  isn't required on Linux or by any version of POSIX.
->  However,
-> -some old implementations required the inclusion of these header files,
-> -and the SVID also documented their inclusion.
-> +some old implementations required the inclusion of this header file,
-> +and the SVID also documented its inclusion.
->  Applications intended to be portable to such old systems may need
-> -to include these header files.
-> +to include this header file.
->  .\" Like Linux, the FreeBSD man pages still document
-> -.\" the inclusion of these header files.
-> +.\" the inclusion of this header file.
->  .PP
->  .B IPC_PRIVATE
->  isn't a flag field but a
-> diff --git a/man2/semop.2 b/man2/semop.2
-> index ce970b577..a0595b68a 100644
-> --- a/man2/semop.2
-> +++ b/man2/semop.2
-> @@ -37,7 +37,6 @@
->  semop, semtimedop \- System V semaphore operations
->  .SH SYNOPSIS
->  .nf
-> -.B #include <sys/types.h>
->  .B #include <sys/ipc.h>
->  .B #include <sys/sem.h>
->  .PP
-> @@ -385,17 +384,15 @@ POSIX.1-2001, POSIX.1-2008, SVr4.
->  .\" SVr4 documents additional error conditions EINVAL, EFBIG, ENOSPC.
->  .SH NOTES
->  The inclusion of
-> -.I <sys/types.h>
-> -and
->  .I <sys/ipc.h>
->  isn't required on Linux or by any version of POSIX.
->  However,
-> -some old implementations required the inclusion of these header files,
-> -and the SVID also documented their inclusion.
-> +some old implementations required the inclusion of this header file,
-> +and the SVID also documented its inclusion.
->  Applications intended to be portable to such old systems may need
-> -to include these header files.
-> +to include this header file.
->  .\" Like Linux, the FreeBSD man pages still document
-> -.\" the inclusion of these header files.
-> +.\" the inclusion of this header file.
->  .PP
->  The
->  .I sem_undo
-> diff --git a/man2/send.2 b/man2/send.2
-> index 42fa5bf54..a6199922b 100644
-> --- a/man2/send.2
-> +++ b/man2/send.2
-> @@ -42,7 +42,6 @@
->  send, sendto, sendmsg \- send a message on a socket
->  .SH SYNOPSIS
->  .nf
-> -.B #include <sys/types.h>
->  .B #include <sys/socket.h>
->  .PP
->  .BI "ssize_t send(int " sockfd ", const void *" buf ", size_t " len \
-> diff --git a/man2/seteuid.2 b/man2/seteuid.2
-> index 0bc20b268..f662c0838 100644
-> --- a/man2/seteuid.2
-> +++ b/man2/seteuid.2
-> @@ -31,7 +31,6 @@
->  seteuid, setegid \- set effective user or group ID
->  .SH SYNOPSIS
->  .nf
-> -.B #include <sys/types.h>
->  .B #include <unistd.h>
->  .PP
->  .BI "int seteuid(uid_t " euid );
-> diff --git a/man2/setgid.2 b/man2/setgid.2
-> index 728b57398..15d2348d3 100644
-> --- a/man2/setgid.2
-> +++ b/man2/setgid.2
-> @@ -32,7 +32,6 @@
->  setgid \- set group identity
->  .SH SYNOPSIS
->  .nf
-> -.B #include <sys/types.h>
->  .B #include <unistd.h>
->  .PP
->  .BI "int setgid(gid_t " gid );
-> diff --git a/man2/setpgid.2 b/man2/setpgid.2
-> index be17bc053..093ecd327 100644
-> --- a/man2/setpgid.2
-> +++ b/man2/setpgid.2
-> @@ -50,7 +50,6 @@
->  setpgid, getpgid, setpgrp, getpgrp \- set/get process group
->  .SH SYNOPSIS
->  .nf
-> -.B #include <sys/types.h>
->  .B #include <unistd.h>
->  .PP
->  .BI "int setpgid(pid_t " pid ", pid_t " pgid );
-> diff --git a/man2/setreuid.2 b/man2/setreuid.2
-> index 90ca93a9a..d0f27a6ee 100644
-> --- a/man2/setreuid.2
-> +++ b/man2/setreuid.2
-> @@ -48,7 +48,6 @@
->  setreuid, setregid \- set real and/or effective user or group ID
->  .SH SYNOPSIS
->  .nf
-> -.B #include <sys/types.h>
->  .B #include <unistd.h>
->  .PP
->  .BI "int setreuid(uid_t " ruid ", uid_t " euid );
-> diff --git a/man2/setsid.2 b/man2/setsid.2
-> index 38d5fb1fb..236a915ff 100644
-> --- a/man2/setsid.2
-> +++ b/man2/setsid.2
-> @@ -34,7 +34,6 @@ setsid \- creates a session and sets the process group ID
->  .SH SYNOPSIS
->  .nf
->  .ad l
-> -.B #include <sys/types.h>
->  .B #include <unistd.h>
->  .PP
->  .B pid_t setsid(void);
-> diff --git a/man2/setuid.2 b/man2/setuid.2
-> index d8e461552..a7669258c 100644
-> --- a/man2/setuid.2
-> +++ b/man2/setuid.2
-> @@ -33,7 +33,6 @@
->  setuid \- set user identity
->  .SH SYNOPSIS
->  .nf
-> -.B #include <sys/types.h>
->  .B #include <unistd.h>
->  .PP
->  .BI "int setuid(uid_t " uid );
-> diff --git a/man2/setxattr.2 b/man2/setxattr.2
-> index ebcfa4ded..dbc50e36e 100644
-> --- a/man2/setxattr.2
-> +++ b/man2/setxattr.2
-> @@ -28,7 +28,6 @@ setxattr, lsetxattr, fsetxattr \- set an extended attribute value
->  .SH SYNOPSIS
->  .fam C
->  .nf
-> -.B #include <sys/types.h>
->  .B #include <sys/xattr.h>
->  .PP
->  .BI "int setxattr(const char\ *" path ", const char\ *" name ,
-> diff --git a/man2/shmctl.2 b/man2/shmctl.2
-> index 0d564293a..6acc0b787 100644
-> --- a/man2/shmctl.2
-> +++ b/man2/shmctl.2
-> @@ -467,17 +467,15 @@ POSIX.1-2001, POSIX.1-2008, SVr4.
->  .\" an EIDRM error condition.
->  .SH NOTES
->  The inclusion of
-> -.I <sys/types.h>
-> -and
->  .I <sys/ipc.h>
->  isn't required on Linux or by any version of POSIX.
->  However,
-> -some old implementations required the inclusion of these header files,
-> -and the SVID also documented their inclusion.
-> +some old implementations required the inclusion of this header file,
-> +and the SVID also documented its inclusion.
->  Applications intended to be portable to such old systems may need
-> -to include these header files.
-> +to include this header file.
->  .\" Like Linux, the FreeBSD man pages still document
-> -.\" the inclusion of these header files.
-> +.\" the inclusion of this header file.
->  .PP
->  The
->  .BR IPC_INFO ,
-> diff --git a/man2/socket.2 b/man2/socket.2
-> index 2a22567c7..0c3523a2e 100644
-> --- a/man2/socket.2
-> +++ b/man2/socket.2
-> @@ -44,7 +44,6 @@
->  socket \- create an endpoint for communication
->  .SH SYNOPSIS
->  .nf
-> -.BR "#include <sys/types.h>" "          /* See NOTES */"
->  .B #include <sys/socket.h>
->  .PP
->  .BI "int socket(int " domain ", int " type ", int " protocol );
-> @@ -467,12 +466,6 @@ It is generally portable to/from
->  non-BSD systems supporting clones of the BSD socket layer (including
->  System\ V variants).
->  .SH NOTES
-> -POSIX.1 does not require the inclusion of
-> -.IR <sys/types.h> ,
-> -and this header file is not required on Linux.
-> -However, some historical (BSD) implementations required this header
-> -file, and portable applications are probably wise to include it.
-> -.PP
->  The manifest constants used under 4.x BSD for protocol families
->  are
->  .BR PF_UNIX ,
-> diff --git a/man2/socketpair.2 b/man2/socketpair.2
-> index 629cf0f48..1f5c3aec2 100644
-> --- a/man2/socketpair.2
-> +++ b/man2/socketpair.2
-> @@ -44,7 +44,6 @@
->  socketpair \- create a pair of connected sockets
->  .SH SYNOPSIS
->  .nf
-> -.BR "#include <sys/types.h>" "          /* See NOTES */"
->  .B #include <sys/socket.h>
->  .PP
->  .BI "int socketpair(int " domain ", int " type ", int " protocol \
-> @@ -130,12 +129,6 @@ flags in the
->  .I type
->  argument, as described in
->  .BR socket (2).
-> -.PP
-> -POSIX.1 does not require the inclusion of
-> -.IR <sys/types.h> ,
-> -and this header file is not required on Linux.
-> -However, some historical (BSD) implementations required this header
-> -file, and portable applications are probably wise to include it.
->  .SH SEE ALSO
->  .BR pipe (2),
->  .BR read (2),
-> diff --git a/man2/statx.2 b/man2/statx.2
-> index aeb3d377d..8b99fb3d2 100644
-> --- a/man2/statx.2
-> +++ b/man2/statx.2
-> @@ -32,7 +32,6 @@
->  statx \- get file status (extended)
->  .SH SYNOPSIS
->  .nf
-> -.B #include <sys/types.h>
->  .B #include <sys/stat.h>
->  .B #include <unistd.h>
->  .BR "#include <fcntl.h>           " "/* Definition of AT_* constants */"
-> diff --git a/man2/vfork.2 b/man2/vfork.2
-> index dbb803b66..73a8fff62 100644
-> --- a/man2/vfork.2
-> +++ b/man2/vfork.2
-> @@ -31,7 +31,6 @@
->  vfork \- create a child process and block parent
->  .SH SYNOPSIS
->  .nf
-> -.B #include <sys/types.h>
->  .B #include <unistd.h>
->  .PP
->  .B pid_t vfork(void);
-> 
+AFAICS, there's no reason to include that.
+All of the macros that this function uses
+are already defined in the other headers.
 
+Cc: glibc <libc-alpha@sourceware.org>
+Signed-off-by: Alejandro Colomar <alx.manpages@gmail.com>
+---
+ man2/arch_prctl.2 | 1 -
+ 1 file changed, 1 deletion(-)
 
--- 
-Michael Kerrisk
-Linux man-pages maintainer; http://www.kernel.org/doc/man-pages/
-Linux/UNIX System Programming Training: http://man7.org/training/
+diff --git a/man2/arch_prctl.2 b/man2/arch_prctl.2
+index 8706cd1ec..d1b9e16f9 100644
+--- a/man2/arch_prctl.2
++++ b/man2/arch_prctl.2
+@@ -28,7 +28,6 @@ arch_prctl \- set architecture-specific thread state
+ .SH SYNOPSIS
+ .nf
+ .BR "#include <asm/prctl.h>" "        /* Definition of " ARCH_* " constant=
+s */"
+-.B #include <sys/prctl.h>
+ .BR "#include <sys/syscall.h>" "      /* Definition of " SYS_* " constants=
+ */"
+ .B #include <unistd.h>
+ .PP
+--
+2.30.2
+
