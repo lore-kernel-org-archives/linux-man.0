@@ -8,61 +8,61 @@ X-Spam-Status: No, score=-15.8 required=3.0 tests=BAYES_00,DKIM_SIGNED,
 	MAILING_LIST_MULTI,SPF_HELO_NONE,SPF_PASS,USER_AGENT_GIT autolearn=ham
 	autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 05305C433DB
-	for <linux-man@archiver.kernel.org>; Sat, 20 Mar 2021 00:00:34 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 093D7C433E0
+	for <linux-man@archiver.kernel.org>; Sat, 20 Mar 2021 00:01:07 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.kernel.org (Postfix) with ESMTP id A5E2D6197D
-	for <linux-man@archiver.kernel.org>; Sat, 20 Mar 2021 00:00:33 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTP id A699961950
+	for <linux-man@archiver.kernel.org>; Sat, 20 Mar 2021 00:01:06 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S229564AbhCSX77 (ORCPT <rfc822;linux-man@archiver.kernel.org>);
-        Fri, 19 Mar 2021 19:59:59 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:37368 "EHLO
+        id S229648AbhCTAAg (ORCPT <rfc822;linux-man@archiver.kernel.org>);
+        Fri, 19 Mar 2021 20:00:36 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:37530 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S229519AbhCSX7o (ORCPT
-        <rfc822;linux-man@vger.kernel.org>); Fri, 19 Mar 2021 19:59:44 -0400
-Received: from mail-wm1-x32f.google.com (mail-wm1-x32f.google.com [IPv6:2a00:1450:4864:20::32f])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id E3A20C061760
-        for <linux-man@vger.kernel.org>; Fri, 19 Mar 2021 16:59:43 -0700 (PDT)
-Received: by mail-wm1-x32f.google.com with SMTP id 12so6261189wmf.5
-        for <linux-man@vger.kernel.org>; Fri, 19 Mar 2021 16:59:43 -0700 (PDT)
+        with ESMTP id S229649AbhCTAAZ (ORCPT
+        <rfc822;linux-man@vger.kernel.org>); Fri, 19 Mar 2021 20:00:25 -0400
+Received: from mail-wr1-x42d.google.com (mail-wr1-x42d.google.com [IPv6:2a00:1450:4864:20::42d])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 06293C061760
+        for <linux-man@vger.kernel.org>; Fri, 19 Mar 2021 17:00:25 -0700 (PDT)
+Received: by mail-wr1-x42d.google.com with SMTP id k8so10727109wrc.3
+        for <linux-man@vger.kernel.org>; Fri, 19 Mar 2021 17:00:24 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=gmail.com; s=20161025;
         h=from:to:cc:subject:date:message-id:mime-version
          :content-transfer-encoding;
-        bh=fzXSO88y1tcSQOJ39O0scp70ywoQUi/ukUoZH5np5N4=;
-        b=oUfkmHF0BmosnQ/Y9JUjld0bMtnHDvkpo4XcRofIuc5YvLNgbTkQPKAnz7uqArNLGq
-         QAFhs3arM3373DaauiWGt4UNF+y68GMYv2zGboPYYEJAnL3Hsm5Mqp7xh7zMlq6p1RxB
-         b7MiCgZE1HoQ18mG81omGtK041tlDGVu6PJLhTcwnlOXvf1P2NkNZyIydm4T6jS6uowY
-         xDq7X7oElZ6pzVWDNiHhVEyInp5/BkSXYh8D4bGjV7CLwDoPv95woIV7f0qwQjqyeqXN
-         IA8rDffyoNno2VS1NGmMTIcZx9RSZKu1mnF9HWk1m/Q6RN3ZhPbLD+WEBO3YzASNUNdE
-         fgUw==
+        bh=O43UEQEFxqfDKnzii37dNLl8vHNNznXZD2GWJNipKjQ=;
+        b=JL83OHUKtOpN10yQQxD8j4o8p130vVJOpilwTR941dUvjXqfBHBIztnXeU/icckEYa
+         jyFfYuBtYu+VZ5IDCNmUr+Mja6jTP3aR4i6TDaHEsjUTymQbQzlbgWdjsMnrrqflKqH2
+         hiFbniJvZRsFaumUg5SToT3GjP0dnGShF0JdthlqiMbdLDsSyl3TIx/xsZ8gEPUHMHVV
+         HjJDqbsU8y5zKGhoIQmYjuyYMaq4mrxQtuZUOIMVLhMCACsvHtXRdXs1nfINZesnXPeI
+         oea22GQiOkdy5I5kwWp0WUWkpNuvsjZUUuIa7N7HK0ysNkBVNiH3qKMD2vorA+AMRsq9
+         p6aQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
         h=x-gm-message-state:from:to:cc:subject:date:message-id:mime-version
          :content-transfer-encoding;
-        bh=fzXSO88y1tcSQOJ39O0scp70ywoQUi/ukUoZH5np5N4=;
-        b=SdFACk8jCPm5E7Z8EvY5xmkXEhoQhuOLBqNcgwNctUT3Ni7ASY3+630ix+T+J/Xhcm
-         IwO3dwT8b4yxzVPsQiZWz1eNNEUsHgOMdPba8UgJ5VECRNyjwgnt8MACXrdFYtszuTgk
-         7GmAangHxJePQwVe1xsvGKsSuIr2jSrP5EUKV0rI/2Xe7TkCV5TJM1RQQY+d3yXkgqsb
-         L0HCLvl/V6W5i0wklwubwIAGE856oYsc0+BNxS0NJ8sOSgVDuIj8YLnE17yVREJHpkEO
-         8QFsBFCxkjk68EFTJfm613NuLKQDsfNSs0CVSmTPc6M9jPzwffXVudQ88vsWvd8368J0
-         guHw==
-X-Gm-Message-State: AOAM530LrBW3wa/M/2ii9hmTcsB2SMBCx/pNpZoxL1fLHApSQKinSO0b
-        RXtno1tJ1w/kyiujIr5HOI4=
-X-Google-Smtp-Source: ABdhPJzNPFOqxvRezwVh7sVIMD2iHH6bLHNXRdqmE1lBr3i2hGQNAedZBRjwjlP1U8baUJnPyuJZcg==
-X-Received: by 2002:a7b:cdef:: with SMTP id p15mr5775693wmj.0.1616198382716;
-        Fri, 19 Mar 2021 16:59:42 -0700 (PDT)
+        bh=O43UEQEFxqfDKnzii37dNLl8vHNNznXZD2GWJNipKjQ=;
+        b=omj5c8MV8AlmGTr0FmK1pGrO3JQdxUAKp0cKy/LM58ZVznI+jvBQJ5TJskfeK6+KhF
+         B284tFpsZVB4In4kpR8uLznm4KFpxp8arFAjOHuZMe9H1FM68ytwT6q38XyIa9phVb8q
+         GiRQKOE0dz/OYjerD6IREyEaKMmsa8Aqyn4ZV0oetQKc6dmoGySLP5qs7tEXtFlZMIP5
+         jg8Xcaqn4zguaw8Rzf2MjPahmeDLrsFQ9CbuE+ENqrtOwIhNkPf4nI/+iZygOuKYzXnE
+         7lFpYZGJLKBjAl1VuNu9vxH6VVizUVf+KaDPAqBFlGJU5Ss6fDOfiJu3GBkDxAc+Uz8G
+         2HOg==
+X-Gm-Message-State: AOAM531G83RuCSbeiQ9abkNzyTCXY3LrAuyUPEa9whXDkyftq1UFbbiA
+        3D3myL7Nm42GLIxj15HDh9U=
+X-Google-Smtp-Source: ABdhPJx1S/riKL5tU4A5LwFskccGrm3ArWwehc073d+BMhMFqQOzj/lUJQGgUc9DUbK7Fafw7k7hcg==
+X-Received: by 2002:a5d:54c4:: with SMTP id x4mr6822725wrv.329.1616198423828;
+        Fri, 19 Mar 2021 17:00:23 -0700 (PDT)
 Received: from localhost.localdomain ([170.253.36.171])
-        by smtp.googlemail.com with ESMTPSA id q207sm9327832wme.36.2021.03.19.16.59.42
+        by smtp.googlemail.com with ESMTPSA id q207sm9327832wme.36.2021.03.19.17.00.23
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Fri, 19 Mar 2021 16:59:42 -0700 (PDT)
+        Fri, 19 Mar 2021 17:00:23 -0700 (PDT)
 From:   Alejandro Colomar <alx.manpages@gmail.com>
 To:     mtk.manpages@gmail.com
 Cc:     Alejandro Colomar <alx.manpages@gmail.com>,
-        linux-man@vger.kernel.org
-Subject: [PATCH] printf.3: Minor wording tweaks to Utkarsh's patch
-Date:   Sat, 20 Mar 2021 00:57:20 +0100
-Message-Id: <20210319235717.28264-5-alx.manpages@gmail.com>
+        linux-man@vger.kernel.org, Mark Kettenis <kettenis@openbsd.org>
+Subject: [PATCH] errno.3: ENODATA is an XSI STREAMS extension
+Date:   Sat, 20 Mar 2021 00:57:24 +0100
+Message-Id: <20210319235717.28264-7-alx.manpages@gmail.com>
 X-Mailer: git-send-email 2.30.1
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
@@ -70,29 +70,26 @@ Precedence: bulk
 List-ID: <linux-man.vger.kernel.org>
 X-Mailing-List: linux-man@vger.kernel.org
 
-The format string refers to the whole string passed in 'format'.
-The syntax referred to is that of a conversion specification,
-as called in the manual page.
-Use specific language.
-
+Reported-by: Mark Kettenis <kettenis@openbsd.org>
 Signed-off-by: Alejandro Colomar <alx.manpages@gmail.com>
 ---
- man3/printf.3 | 2 +-
- 1 file changed, 1 insertion(+), 1 deletion(-)
+ man3/errno.3 | 3 ++-
+ 1 file changed, 2 insertions(+), 1 deletion(-)
 
-diff --git a/man3/printf.3 b/man3/printf.3
-index 7c993074c..f69a44066 100644
---- a/man3/printf.3
-+++ b/man3/printf.3
-@@ -193,7 +193,7 @@ an optional
- and an optional
- .IR "length modifier" .
- .PP
--Overall syntax of format string is:
-+The overall syntax of a conversion specification is:
- .PP
- .in +4n
- .nf
+diff --git a/man3/errno.3 b/man3/errno.3
+index fe9b7f715..48e3e63f3 100644
+--- a/man3/errno.3
++++ b/man3/errno.3
+@@ -403,7 +403,8 @@ No buffer space available (POSIX.1 (XSI STREAMS option)).
+ .\" ENOCSI is defined but appears to be unused.
+ .TP
+ .B ENODATA
+-No message is available on the STREAM head read queue (POSIX.1-2001).
++No message is available on the STREAM head read queue
++(POSIX.1-2001 (XSI STREAMS option).
+ .TP
+ .B ENODEV
+ No such device (POSIX.1-2001).
 -- 
 2.30.1
 
