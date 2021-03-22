@@ -2,107 +2,104 @@ Return-Path: <linux-man-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-19.0 required=3.0 tests=BAYES_00,DKIMWL_WL_HIGH,
-	DKIM_SIGNED,DKIM_VALID,DKIM_VALID_AU,HEADER_FROM_DIFFERENT_DOMAINS,
-	INCLUDES_CR_TRAILER,INCLUDES_PATCH,MAILING_LIST_MULTI,SPF_HELO_NONE,SPF_PASS,
-	USER_AGENT_GIT autolearn=ham autolearn_force=no version=3.4.0
+X-Spam-Status: No, score=-5.3 required=3.0 tests=BAYES_00,
+	HEADER_FROM_DIFFERENT_DOMAINS,MAILING_LIST_MULTI,SPF_HELO_NONE,SPF_PASS,
+	USER_AGENT_SANE_2 autolearn=no autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id E8FC0C433E3
-	for <linux-man@archiver.kernel.org>; Mon, 22 Mar 2021 22:09:37 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 44CE9C433C1
+	for <linux-man@archiver.kernel.org>; Mon, 22 Mar 2021 22:10:41 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.kernel.org (Postfix) with ESMTP id BB414619AA
-	for <linux-man@archiver.kernel.org>; Mon, 22 Mar 2021 22:09:37 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTP id 16420619A9
+	for <linux-man@archiver.kernel.org>; Mon, 22 Mar 2021 22:10:41 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S230167AbhCVWJI (ORCPT <rfc822;linux-man@archiver.kernel.org>);
-        Mon, 22 Mar 2021 18:09:08 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124]:42320 "EHLO
-        us-smtp-delivery-124.mimecast.com" rhost-flags-OK-OK-OK-OK)
-        by vger.kernel.org with ESMTP id S230258AbhCVWI6 (ORCPT
-        <rfc822;linux-man@vger.kernel.org>); Mon, 22 Mar 2021 18:08:58 -0400
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
-        s=mimecast20190719; t=1616450938;
-        h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
-         to:to:cc:cc:mime-version:mime-version:
-         content-transfer-encoding:content-transfer-encoding:
-         in-reply-to:in-reply-to:references:references;
-        bh=BRu817/U099Z69O52DlP7850OjT0QzngDMzivy9vMy0=;
-        b=Xj/pAn5Ng3jbI3R15QwYU28Bau3W/QuWhCjpTm/u8oMT94jqa2+oPEhGg5rwF5E5ycbaXX
-        yWKZPvxjg55KsOvhYtlCEUrboGFIEnOXiHTgKsRJ0Wpi2LL7g8RM0AhJ35WHjh8iKOe/EP
-        5SlC1i2zSKg1JQYb2yUl7PtCP5InTi8=
-Received: from mail-qv1-f71.google.com (mail-qv1-f71.google.com
- [209.85.219.71]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-144-HHi8yUsiO-OL4Hl2PZcncg-1; Mon, 22 Mar 2021 18:08:56 -0400
-X-MC-Unique: HHi8yUsiO-OL4Hl2PZcncg-1
-Received: by mail-qv1-f71.google.com with SMTP id h12so373020qvm.9
-        for <linux-man@vger.kernel.org>; Mon, 22 Mar 2021 15:08:56 -0700 (PDT)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20161025;
-        h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
-         :references:mime-version:content-transfer-encoding;
-        bh=BRu817/U099Z69O52DlP7850OjT0QzngDMzivy9vMy0=;
-        b=qwvCmfXoUUqeKudE+lLBgMpqtzuayhiMQFa64S7nWyamWqJVI9wgouRyHl78LFACkU
-         pJkUwdhrPUyR0RxFPcn+CzoEygFRCpgrvpmOKypha6dTxpB9MXmnilfxp92FLuh8wcK1
-         SOD6ueX0/iDI216uQW7Csy1U6hNK/ctEfIgxpdB6gs9nTlZNMrtVCx6xbCs8hsVYLw44
-         CSf9mg5dqFb0P69AVmsDAhqnqkLoTOVRtQesVHmlLMyjr2v4T4OoYLZq57cDBDN+AAYp
-         H5N/lH42TGyrLWz6a7lLB7UQbqlgPLWticPGzOsWbqrjpSemoXhKnLs/KjZL71xztWZp
-         yqPg==
-X-Gm-Message-State: AOAM5313WSbQY+YZhqvxTNYlPHeOU8Ffx577CbGcFxFxMFym1wtOo+AG
-        AVVpFsRyMS7TsVwFpNLsJ5FlyzjdIjnJYWNnj+NtEPLgJHLcp7645A1bS/cwEzWtqD7q2prbqFU
-        MLhVxEaY87QVCxFg1/7NjwhsIgAH4DFRRQU1F89ecoLNSBQbjhSuq/inBgtfajA6urvtKYQ==
-X-Received: by 2002:a0c:8365:: with SMTP id j92mr1838983qva.19.1616450935947;
-        Mon, 22 Mar 2021 15:08:55 -0700 (PDT)
-X-Google-Smtp-Source: ABdhPJwCbjzyxBUp80nxRyYOsjXe3EhMn6ViF263Myc1EobEUgW3DpX04+Jg+RKXYZDbze77kuVtcQ==
-X-Received: by 2002:a0c:8365:: with SMTP id j92mr1838955qva.19.1616450935685;
-        Mon, 22 Mar 2021 15:08:55 -0700 (PDT)
-Received: from xz-x1.redhat.com (bras-base-toroon474qw-grc-82-174-91-135-175.dsl.bell.ca. [174.91.135.175])
-        by smtp.gmail.com with ESMTPSA id x1sm9627850qtr.97.2021.03.22.15.08.54
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Mon, 22 Mar 2021 15:08:54 -0700 (PDT)
-From:   Peter Xu <peterx@redhat.com>
-To:     linux-man@vger.kernel.org, linux-kernel@vger.kernel.org,
-        linux-mm@kvack.org
-Cc:     Andrea Arcangeli <aarcange@redhat.com>,
-        Mike Rapoport <rppt@linux.vnet.ibm.com>,
-        Axel Rasmussen <axelrasmussen@google.com>,
-        Alejandro Colomar <alx.manpages@gmail.com>, peterx@redhat.com,
-        Michael Kerrisk <mtk.manpages@gmail.com>,
-        Nadav Amit <nadav.amit@gmail.com>,
-        Andrew Morton <akpm@linux-foundation.org>
-Subject: [PATCH v4 3/4] ioctl_userfaultfd.2: Add UFFD_FEATURE_THREAD_ID docs
-Date:   Mon, 22 Mar 2021 18:08:47 -0400
-Message-Id: <20210322220848.52162-4-peterx@redhat.com>
-X-Mailer: git-send-email 2.26.2
-In-Reply-To: <20210322220848.52162-1-peterx@redhat.com>
-References: <20210322220848.52162-1-peterx@redhat.com>
+        id S229730AbhCVWKJ (ORCPT <rfc822;linux-man@archiver.kernel.org>);
+        Mon, 22 Mar 2021 18:10:09 -0400
+Received: from 10.mo177.mail-out.ovh.net ([46.105.73.133]:48322 "EHLO
+        10.mo177.mail-out.ovh.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S230289AbhCVWJn (ORCPT
+        <rfc822;linux-man@vger.kernel.org>); Mon, 22 Mar 2021 18:09:43 -0400
+X-Greylist: delayed 1796 seconds by postgrey-1.27 at vger.kernel.org; Mon, 22 Mar 2021 18:09:43 EDT
+Received: from player687.ha.ovh.net (unknown [10.108.4.98])
+        by mo177.mail-out.ovh.net (Postfix) with ESMTP id 4013B15B222
+        for <linux-man@vger.kernel.org>; Mon, 22 Mar 2021 22:32:06 +0100 (CET)
+Received: from sk2.org (82-65-25-201.subs.proxad.net [82.65.25.201])
+        (Authenticated sender: steve@sk2.org)
+        by player687.ha.ovh.net (Postfix) with ESMTPSA id 9B8361C47A591;
+        Mon, 22 Mar 2021 21:31:59 +0000 (UTC)
+Authentication-Results: garm.ovh; auth=pass (GARM-106R006966245d9-6aa9-4837-8d8e-e1c1413ba974,
+                    42D814DD661CBCB8911BCE7CED7A5A479C85926C) smtp.auth=steve@sk2.org
+X-OVh-ClientIp: 82.65.25.201
+Date:   Mon, 22 Mar 2021 22:31:52 +0100
+From:   Stephen Kitt <steve@sk2.org>
+To:     "Michael Kerrisk (man-pages)" <mtk.manpages@gmail.com>
+Cc:     linux-man@vger.kernel.org,
+        Alejandro Colomar <alx.manpages@gmail.com>,
+        Christian Brauner <christian.brauner@ubuntu.com>,
+        Giuseppe Scrivano <gscrivan@redhat.com>,
+        linux-kernel@vger.kernel.org
+Subject: Re: [PATCH v6] close_range.2: new page documenting close_range(2)
+Message-ID: <20210322223152.29a543dc@heffalump.sk2.org>
+In-Reply-To: <4eb789d0-5914-23ae-3ab9-cbfa9b6b9622@gmail.com>
+References: <20210123161154.29332-1-steve@sk2.org>
+        <e761f00d-751f-f782-9af1-c5f868d52df0@gmail.com>
+        <20210309205309.7e2568c9@heffalump.sk2.org>
+        <4eb789d0-5914-23ae-3ab9-cbfa9b6b9622@gmail.com>
+X-Mailer: Claws Mail 3.17.3 (GTK+ 2.24.32; x86_64-pc-linux-gnu)
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+Content-Type: multipart/signed; micalg=pgp-sha512;
+ boundary="Sig_/t/+JjWWje8.QJpY66lDRcYW"; protocol="application/pgp-signature"
+X-Ovh-Tracer-Id: 924926777643584893
+X-VR-SPAMSTATE: OK
+X-VR-SPAMSCORE: -100
+X-VR-SPAMCAUSE: gggruggvucftvghtrhhoucdtuddrgeduledrudeggedgudehtdcutefuodetggdotefrodftvfcurfhrohhfihhlvgemucfqggfjpdevjffgvefmvefgnecuuegrihhlohhuthemucehtddtnecusecvtfgvtghiphhivghnthhsucdlqddutddtmdenucfjughrpeffhffvuffkjghfofggtgesghdtreerredtjeenucfhrhhomhepufhtvghphhgvnhcumfhithhtuceoshhtvghvvgesshhkvddrohhrgheqnecuggftrfgrthhtvghrnhepveelvdeufedvieevffdtueegkeevteehffdtffetleehjeekjeejudffieduteeknecukfhppedtrddtrddtrddtpdekvddrieehrddvhedrvddtudenucevlhhushhtvghrufhiiigvpedtnecurfgrrhgrmhepmhhouggvpehsmhhtphdqohhuthdphhgvlhhopehplhgrhigvrheikeejrdhhrgdrohhvhhdrnhgvthdpihhnvghtpedtrddtrddtrddtpdhmrghilhhfrhhomhepshhtvghvvgesshhkvddrohhrghdprhgtphhtthhopehlihhnuhigqdhmrghnsehvghgvrhdrkhgvrhhnvghlrdhorhhg
 Precedence: bulk
 List-ID: <linux-man.vger.kernel.org>
 X-Mailing-List: linux-man@vger.kernel.org
 
-UFFD_FEATURE_THREAD_ID is supported in Linux 4.14.
+--Sig_/t/+JjWWje8.QJpY66lDRcYW
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: quoted-printable
 
-Signed-off-by: Peter Xu <peterx@redhat.com>
----
- man2/ioctl_userfaultfd.2 | 5 +++++
- 1 file changed, 5 insertions(+)
+On Sun, 21 Mar 2021 16:38:59 +0100, "Michael Kerrisk (man-pages)"
+<mtk.manpages@gmail.com> wrote:
+> On 3/9/21 8:53 PM, Stephen Kitt wrote:
+> > On Thu, 28 Jan 2021 21:50:23 +0100, "Michael Kerrisk (man-pages)"
+> > <mtk.manpages@gmail.com> wrote: =20
+> >> Thanks for your patch revision. I've merged it, and have
+> >> done some light editing, but I still have a question: =20
+> >=20
+> > Does this need anything more? I don=E2=80=99t see it in the man-pages r=
+epo. =20
+>=20
+> Sorry, Stephen. It's just me being slow. I've made a few edits,
+> replaced the example program with another that more clearly allows
+> the user to see what's going on, and pushed to Git.
 
-diff --git a/man2/ioctl_userfaultfd.2 b/man2/ioctl_userfaultfd.2
-index 47ae5f473..d4a8375b8 100644
---- a/man2/ioctl_userfaultfd.2
-+++ b/man2/ioctl_userfaultfd.2
-@@ -208,6 +208,11 @@ signal will be sent to the faulting process.
- Applications using this
- feature will not require the use of a userfaultfd monitor for processing
- memory accesses to the regions registered with userfaultfd.
-+.TP
-+.BR UFFD_FEATURE_THREAD_ID " (since Linux 4.14)"
-+If this feature bit is set,
-+.I uffd_msg.pagefault.feat.ptid
-+will be set to the faulted thread ID for each page fault message.
- .PP
- The returned
- .I ioctls
--- 
-2.26.2
+Thanks, your example program is indeed much better!
 
+Regards,
+
+Stephen
+
+--Sig_/t/+JjWWje8.QJpY66lDRcYW
+Content-Type: application/pgp-signature
+Content-Description: OpenPGP digital signature
+
+-----BEGIN PGP SIGNATURE-----
+
+iQIzBAEBCgAdFiEEnPVX/hPLkMoq7x0ggNMC9Yhtg5wFAmBZDMgACgkQgNMC9Yht
+g5yOLQ//TQqhNpOGPnpJca45rS1Wiok5m/AdLmZ27vgsGvxvWUwPD4ORmRzoS9Ix
+YqUSmN9xpunLgAaH4msJx6787IrC5p1IoxprUigrHXnb616XU+IHyQO6+0q6UnB5
+9308jYAglLFN0ImtUYODwRvAj4pF3RfgF4vh3ETlHN7Ydvpum59Ki+WBKKgpGkLq
+q/3g9lPT/GUxRcvAHho0j6cxGi/51G4J6UddBBAPssk1yLHSnWo1Qf3ISsk77zBl
+jdz+CfdytIwvm2lRrtovXUH0jhqaBomjO/3ZTx+uOTeZQdJic15tzkkY0vn+F7Ar
+ZXEsOFn9fr4KwjO0fAXrPRCTjwJqLgZX7A4rld8GdwwJNiC3hqy/vhRE1vbFw5JS
+A/8R5ce7Tj4Sgm/Ivnnu6pSLBYSdCE6bcI3YbW1iK/vRiRiBh2G3Id3CG3OCghwm
+j/3wiY9BhEsh6frZlOeUAzHvqFiPdUzCM85tRM/hZoUX1oywyDvDR7go+XgmUmTc
+W42CHvLM58LHzwup0GmMxIQKzYaXGlR0RO8EciJ2/bP/tt4LHfrtFkT2aAJ6Q/ut
+E87DbBgM1dUyRwEHoxKoYQrPNEPM7DKu65RIFAfMQOgEJw8FH2T0vCwtQ9tXbifn
+c6Px+4ilwvWPQ8dmp9TaK5155Zo71MkYq/jUxor1MtbJiLLBVFI=
+=qTB9
+-----END PGP SIGNATURE-----
+
+--Sig_/t/+JjWWje8.QJpY66lDRcYW--
