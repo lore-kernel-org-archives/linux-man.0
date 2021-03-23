@@ -2,104 +2,96 @@ Return-Path: <linux-man-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-5.3 required=3.0 tests=BAYES_00,
-	HEADER_FROM_DIFFERENT_DOMAINS,MAILING_LIST_MULTI,SPF_HELO_NONE,SPF_PASS,
-	USER_AGENT_SANE_2 autolearn=no autolearn_force=no version=3.4.0
+X-Spam-Status: No, score=-8.8 required=3.0 tests=BAYES_00,DKIM_SIGNED,
+	DKIM_VALID,HEADER_FROM_DIFFERENT_DOMAINS,INCLUDES_PATCH,MAILING_LIST_MULTI,
+	SPF_HELO_NONE,SPF_PASS autolearn=ham autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 44CE9C433C1
-	for <linux-man@archiver.kernel.org>; Mon, 22 Mar 2021 22:10:41 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id E13D3C433C1
+	for <linux-man@archiver.kernel.org>; Tue, 23 Mar 2021 07:50:12 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.kernel.org (Postfix) with ESMTP id 16420619A9
-	for <linux-man@archiver.kernel.org>; Mon, 22 Mar 2021 22:10:41 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTP id AE62A619AE
+	for <linux-man@archiver.kernel.org>; Tue, 23 Mar 2021 07:50:12 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S229730AbhCVWKJ (ORCPT <rfc822;linux-man@archiver.kernel.org>);
-        Mon, 22 Mar 2021 18:10:09 -0400
-Received: from 10.mo177.mail-out.ovh.net ([46.105.73.133]:48322 "EHLO
-        10.mo177.mail-out.ovh.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S230289AbhCVWJn (ORCPT
-        <rfc822;linux-man@vger.kernel.org>); Mon, 22 Mar 2021 18:09:43 -0400
-X-Greylist: delayed 1796 seconds by postgrey-1.27 at vger.kernel.org; Mon, 22 Mar 2021 18:09:43 EDT
-Received: from player687.ha.ovh.net (unknown [10.108.4.98])
-        by mo177.mail-out.ovh.net (Postfix) with ESMTP id 4013B15B222
-        for <linux-man@vger.kernel.org>; Mon, 22 Mar 2021 22:32:06 +0100 (CET)
-Received: from sk2.org (82-65-25-201.subs.proxad.net [82.65.25.201])
-        (Authenticated sender: steve@sk2.org)
-        by player687.ha.ovh.net (Postfix) with ESMTPSA id 9B8361C47A591;
-        Mon, 22 Mar 2021 21:31:59 +0000 (UTC)
-Authentication-Results: garm.ovh; auth=pass (GARM-106R006966245d9-6aa9-4837-8d8e-e1c1413ba974,
-                    42D814DD661CBCB8911BCE7CED7A5A479C85926C) smtp.auth=steve@sk2.org
-X-OVh-ClientIp: 82.65.25.201
-Date:   Mon, 22 Mar 2021 22:31:52 +0100
-From:   Stephen Kitt <steve@sk2.org>
-To:     "Michael Kerrisk (man-pages)" <mtk.manpages@gmail.com>
-Cc:     linux-man@vger.kernel.org,
-        Alejandro Colomar <alx.manpages@gmail.com>,
-        Christian Brauner <christian.brauner@ubuntu.com>,
-        Giuseppe Scrivano <gscrivan@redhat.com>,
-        linux-kernel@vger.kernel.org
-Subject: Re: [PATCH v6] close_range.2: new page documenting close_range(2)
-Message-ID: <20210322223152.29a543dc@heffalump.sk2.org>
-In-Reply-To: <4eb789d0-5914-23ae-3ab9-cbfa9b6b9622@gmail.com>
-References: <20210123161154.29332-1-steve@sk2.org>
-        <e761f00d-751f-f782-9af1-c5f868d52df0@gmail.com>
-        <20210309205309.7e2568c9@heffalump.sk2.org>
-        <4eb789d0-5914-23ae-3ab9-cbfa9b6b9622@gmail.com>
-X-Mailer: Claws Mail 3.17.3 (GTK+ 2.24.32; x86_64-pc-linux-gnu)
+        id S229464AbhCWHtl (ORCPT <rfc822;linux-man@archiver.kernel.org>);
+        Tue, 23 Mar 2021 03:49:41 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:46986 "EHLO
+        lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S229730AbhCWHtP (ORCPT
+        <rfc822;linux-man@vger.kernel.org>); Tue, 23 Mar 2021 03:49:15 -0400
+Received: from mail-ed1-x532.google.com (mail-ed1-x532.google.com [IPv6:2a00:1450:4864:20::532])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id C94F4C061574
+        for <linux-man@vger.kernel.org>; Tue, 23 Mar 2021 00:49:12 -0700 (PDT)
+Received: by mail-ed1-x532.google.com with SMTP id dm8so22333700edb.2
+        for <linux-man@vger.kernel.org>; Tue, 23 Mar 2021 00:49:12 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=ska-ac-za.20150623.gappssmtp.com; s=20150623;
+        h=date:from:to:cc:subject:message-id:mime-version:content-disposition;
+        bh=AipmUsGW6FfmfSUU27X8f4Y5KaWRTVjRABybZ9TG6Uk=;
+        b=aU3AEUeOOk6GnHRr1PjaRuLwRl5R4fLXDvKAlMzlYTjsQWbNqjD6Ng4w0qf+mCYLFS
+         r+gLPifXsyYQ/Y/bjSzRiPLWZx43qpumKrF5pEMIa7qKNGxSuIIievHRxh40Ik/3hGWE
+         vuSnX1zZbLTKSgxyePoRp4EnJ6Jr5doPiJR1Fgns2ufhm0hKui19q8pswR1I0CeHMXe2
+         TNoCh8m7LGf5UkxY/AgLwfsRaVR5pxJkVS7kgFaf3UsoonXBMJ4uCt/NoJGfwgofHKTH
+         nrxI4a+wkAjRBcIv2wdAVya0N3cbD2pV95rdqp8pKZfH3vDai+/LC6T/RzNvSszPLu41
+         BdkQ==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20161025;
+        h=x-gm-message-state:date:from:to:cc:subject:message-id:mime-version
+         :content-disposition;
+        bh=AipmUsGW6FfmfSUU27X8f4Y5KaWRTVjRABybZ9TG6Uk=;
+        b=nf/x7l3Ugjwr9M8iirUMETIeZIezo29D+ZQjc5jcr0k/v2C0CTy2dctwjMh9eqv/v/
+         g6EfM6WSwnI8kM9V5/ktRh1Hfk3K2NHxlP4F529JFR0l3D44WTGRFytDja8iHQJy39gl
+         kyzwSJcPn2g7SzYvVUU9eOPv/d1LfiSW7mA5jWcIdOzD9gv5EE095HrTksZARFmImRjy
+         bl0/opbD2TyddTJnFSiOZrOllHQtWw2M1EHcVg4Ce9VvaT9rdFUMv5eAR89vPn6Znnsq
+         OYUo7hufHDD9n7wY8e0r0SJ1vCmxzw4IJH7WyGlHX6hYE1SRJwqGftPpDGiJp5JkOMiF
+         p8tQ==
+X-Gm-Message-State: AOAM533meRYnszuRnN4CrUmVPvyhYD3Z9SOCDoY4Vb/OXJj+55605WSY
+        ZAytC0Ieb+7xz14c5ntFZHtWudluy/2TscEC
+X-Google-Smtp-Source: ABdhPJxh87HBh1TGFoMdMzYO0t/nkzo95hx91hQ0Bw7i/ey2HH2BnIBXObL60jhMZMQQXc+pZepdPw==
+X-Received: by 2002:a05:6402:1713:: with SMTP id y19mr3344871edu.52.1616485751271;
+        Tue, 23 Mar 2021 00:49:11 -0700 (PDT)
+Received: from kryton.kat.ac.za (102-182-203-66.ip.afrihost.co.za. [102.182.203.66])
+        by smtp.gmail.com with ESMTPSA id u24sm12269638edt.85.2021.03.23.00.49.09
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Tue, 23 Mar 2021 00:49:10 -0700 (PDT)
+Date:   Tue, 23 Mar 2021 09:48:31 +0200
+From:   Bruce Merry <bmerry@ska.ac.za>
+To:     linux-man@vger.kernel.org,
+        Alejandro Colomar <alx.manpages@gmail.com>
+Cc:     linux-mm@kvack.org
+Subject: [patch] Clarify that MAP_POPULATE is best-effort
+Message-ID: <20210323074831.GA7535@kryton.kat.ac.za>
 MIME-Version: 1.0
-Content-Type: multipart/signed; micalg=pgp-sha512;
- boundary="Sig_/t/+JjWWje8.QJpY66lDRcYW"; protocol="application/pgp-signature"
-X-Ovh-Tracer-Id: 924926777643584893
-X-VR-SPAMSTATE: OK
-X-VR-SPAMSCORE: -100
-X-VR-SPAMCAUSE: gggruggvucftvghtrhhoucdtuddrgeduledrudeggedgudehtdcutefuodetggdotefrodftvfcurfhrohhfihhlvgemucfqggfjpdevjffgvefmvefgnecuuegrihhlohhuthemucehtddtnecusecvtfgvtghiphhivghnthhsucdlqddutddtmdenucfjughrpeffhffvuffkjghfofggtgesghdtreerredtjeenucfhrhhomhepufhtvghphhgvnhcumfhithhtuceoshhtvghvvgesshhkvddrohhrgheqnecuggftrfgrthhtvghrnhepveelvdeufedvieevffdtueegkeevteehffdtffetleehjeekjeejudffieduteeknecukfhppedtrddtrddtrddtpdekvddrieehrddvhedrvddtudenucevlhhushhtvghrufhiiigvpedtnecurfgrrhgrmhepmhhouggvpehsmhhtphdqohhuthdphhgvlhhopehplhgrhigvrheikeejrdhhrgdrohhvhhdrnhgvthdpihhnvghtpedtrddtrddtrddtpdhmrghilhhfrhhomhepshhtvghvvgesshhkvddrohhrghdprhgtphhtthhopehlihhnuhigqdhmrghnsehvghgvrhdrkhgvrhhnvghlrdhorhhg
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
 Precedence: bulk
 List-ID: <linux-man.vger.kernel.org>
 X-Mailing-List: linux-man@vger.kernel.org
 
---Sig_/t/+JjWWje8.QJpY66lDRcYW
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: quoted-printable
+As discussed on linux-mm
+(https://marc.info/?l=linux-mm&m=161528594100612&w=2), MAP_POPULATE can
+fail silently if the hugetlb cgroup settings allow huge page reservation
+but prevents huge pages being allocated.
 
-On Sun, 21 Mar 2021 16:38:59 +0100, "Michael Kerrisk (man-pages)"
-<mtk.manpages@gmail.com> wrote:
-> On 3/9/21 8:53 PM, Stephen Kitt wrote:
-> > On Thu, 28 Jan 2021 21:50:23 +0100, "Michael Kerrisk (man-pages)"
-> > <mtk.manpages@gmail.com> wrote: =20
-> >> Thanks for your patch revision. I've merged it, and have
-> >> done some light editing, but I still have a question: =20
-> >=20
-> > Does this need anything more? I don=E2=80=99t see it in the man-pages r=
-epo. =20
->=20
-> Sorry, Stephen. It's just me being slow. I've made a few edits,
-> replaced the example program with another that more clearly allows
-> the user to see what's going on, and pushed to Git.
+Closes https://bugzilla.kernel.org/show_bug.cgi?id=212153.
+---
+ man2/mmap.2 | 5 +++++
+ 1 file changed, 5 insertions(+)
 
-Thanks, your example program is indeed much better!
-
-Regards,
-
-Stephen
-
---Sig_/t/+JjWWje8.QJpY66lDRcYW
-Content-Type: application/pgp-signature
-Content-Description: OpenPGP digital signature
-
------BEGIN PGP SIGNATURE-----
-
-iQIzBAEBCgAdFiEEnPVX/hPLkMoq7x0ggNMC9Yhtg5wFAmBZDMgACgkQgNMC9Yht
-g5yOLQ//TQqhNpOGPnpJca45rS1Wiok5m/AdLmZ27vgsGvxvWUwPD4ORmRzoS9Ix
-YqUSmN9xpunLgAaH4msJx6787IrC5p1IoxprUigrHXnb616XU+IHyQO6+0q6UnB5
-9308jYAglLFN0ImtUYODwRvAj4pF3RfgF4vh3ETlHN7Ydvpum59Ki+WBKKgpGkLq
-q/3g9lPT/GUxRcvAHho0j6cxGi/51G4J6UddBBAPssk1yLHSnWo1Qf3ISsk77zBl
-jdz+CfdytIwvm2lRrtovXUH0jhqaBomjO/3ZTx+uOTeZQdJic15tzkkY0vn+F7Ar
-ZXEsOFn9fr4KwjO0fAXrPRCTjwJqLgZX7A4rld8GdwwJNiC3hqy/vhRE1vbFw5JS
-A/8R5ce7Tj4Sgm/Ivnnu6pSLBYSdCE6bcI3YbW1iK/vRiRiBh2G3Id3CG3OCghwm
-j/3wiY9BhEsh6frZlOeUAzHvqFiPdUzCM85tRM/hZoUX1oywyDvDR7go+XgmUmTc
-W42CHvLM58LHzwup0GmMxIQKzYaXGlR0RO8EciJ2/bP/tt4LHfrtFkT2aAJ6Q/ut
-E87DbBgM1dUyRwEHoxKoYQrPNEPM7DKu65RIFAfMQOgEJw8FH2T0vCwtQ9tXbifn
-c6Px+4ilwvWPQ8dmp9TaK5155Zo71MkYq/jUxor1MtbJiLLBVFI=
-=qTB9
------END PGP SIGNATURE-----
-
---Sig_/t/+JjWWje8.QJpY66lDRcYW--
+diff --git a/man2/mmap.2 b/man2/mmap.2
+index 164ba196e..03f2eeb2c 100644
+--- a/man2/mmap.2
++++ b/man2/mmap.2
+@@ -400,6 +400,11 @@ private writable mappings.
+ Populate (prefault) page tables for a mapping.
+ For a file mapping, this causes read-ahead on the file.
+ This will help to reduce blocking on page faults later.
++The
++.BR mmap ()
++call doesn't fail if the mapping cannot be populated (for example, due
++to limitations on the number of mapped huge pages when using
++.BR MAP_HUGETLB ).
+ .BR MAP_POPULATE
+ is supported for private mappings only since Linux 2.6.23.
+ .TP
+-- 
+2.25.1
