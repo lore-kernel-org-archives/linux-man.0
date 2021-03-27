@@ -6,46 +6,89 @@ X-Spam-Status: No, score=-3.8 required=3.0 tests=BAYES_00,
 	HEADER_FROM_DIFFERENT_DOMAINS,MAILING_LIST_MULTI,SPF_HELO_NONE,SPF_PASS
 	autolearn=no autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id E3D86C433DB
-	for <linux-man@archiver.kernel.org>; Fri, 26 Mar 2021 23:46:54 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id E19A1C433C1
+	for <linux-man@archiver.kernel.org>; Sat, 27 Mar 2021 00:22:42 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.kernel.org (Postfix) with ESMTP id C5C4B61958
-	for <linux-man@archiver.kernel.org>; Fri, 26 Mar 2021 23:46:54 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTP id B1E3661A0D
+	for <linux-man@archiver.kernel.org>; Sat, 27 Mar 2021 00:22:42 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S230294AbhCZXqV (ORCPT <rfc822;linux-man@archiver.kernel.org>);
-        Fri, 26 Mar 2021 19:46:21 -0400
-Received: from 75-101-100-43.dsl.static.fusionbroadband.com ([75.101.100.43]:57794
-        "EHLO hop.toad.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S229969AbhCZXpv (ORCPT
-        <rfc822;linux-man@vger.kernel.org>); Fri, 26 Mar 2021 19:45:51 -0400
-Received: from hop.toad.com (localhost [127.0.0.1])
-        by hop.toad.com (8.12.9/8.12.9) with ESMTP id 12QNjcRl023509;
-        Fri, 26 Mar 2021 16:45:38 -0700
-To:     Seth David Schoen <schoen@loyalty.org>
-cc:     Florian Weimer <fw@deneb.enyo.de>, linux-man@vger.kernel.org,
-        gnu@toad.com
-Subject: Re: [PATCH 1/1] ip.7: Add "special and reserved addresses" section 
-In-reply-to: <20210326225305.GB10062@frotz.zork.net> 
-References: <20210320002041.GZ2289@frotz.zork.net> <87ft0pzjtk.fsf@mid.deneb.enyo.de> <20210322175815.GX10062@frotz.zork.net> <87blb9q7ok.fsf@mid.deneb.enyo.de> <20210324191858.GP10062@frotz.zork.net> <20210326225305.GB10062@frotz.zork.net>
-Comments: In-reply-to Seth David Schoen <schoen@loyalty.org>
-   message dated "Fri, 26 Mar 2021 15:53:05 -0700."
-Date:   Fri, 26 Mar 2021 16:45:38 -0700
-Message-ID: <23508.1616802338@hop.toad.com>
-From:   John Gilmore <gnu@toad.com>
+        id S231172AbhC0AWK (ORCPT <rfc822;linux-man@archiver.kernel.org>);
+        Fri, 26 Mar 2021 20:22:10 -0400
+Received: from frotz.zork.net ([69.164.197.204]:39184 "EHLO frotz.zork.net"
+        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
+        id S230236AbhC0AWD (ORCPT <rfc822;linux-man@vger.kernel.org>);
+        Fri, 26 Mar 2021 20:22:03 -0400
+X-Greylist: delayed 5335 seconds by postgrey-1.27 at vger.kernel.org; Fri, 26 Mar 2021 20:22:03 EDT
+Received: by frotz.zork.net (Postfix, from userid 1008)
+        id 7289E1198B; Sat, 27 Mar 2021 00:22:02 +0000 (UTC)
+DKIM-Filter: OpenDKIM Filter v2.11.0 frotz.zork.net 7289E1198B
+Date:   Fri, 26 Mar 2021 17:22:02 -0700
+From:   Seth David Schoen <schoen@loyalty.org>
+To:     John Gilmore <gnu@toad.com>
+Cc:     Florian Weimer <fw@deneb.enyo.de>, linux-man@vger.kernel.org
+Subject: Re: [PATCH 1/1] ip.7: Add "special and reserved addresses" section
+Message-ID: <20210327002202.GC10062@frotz.zork.net>
+References: <20210320002041.GZ2289@frotz.zork.net>
+ <87ft0pzjtk.fsf@mid.deneb.enyo.de>
+ <20210322175815.GX10062@frotz.zork.net>
+ <87blb9q7ok.fsf@mid.deneb.enyo.de>
+ <20210324191858.GP10062@frotz.zork.net>
+ <20210326225305.GB10062@frotz.zork.net>
+ <23508.1616802338@hop.toad.com>
+MIME-Version: 1.0
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <23508.1616802338@hop.toad.com>
 Precedence: bulk
 List-ID: <linux-man.vger.kernel.org>
 X-Mailing-List: linux-man@vger.kernel.org
 
-> > > Are there network devices that are neither point-to-point, nor do they
-> > > have broadcast support?
+John Gilmore writes:
 
-It seems to me that cellular radio systems are neither point-to-point,
-nor do they support broadcast.  And they keep moving further and further
-toward being IP-based (e.g. phone calls on your LTE phone use SIP over
-UDP over IP over cellular!).  But given the proprietary nature of most
-cellphone radio chips and their firmware, it's possible that Linux has
-never built a fully capable network interface to talk to them.  I don't
-think we should attempt to rule it out, though.
+> > > > Are there network devices that are neither point-to-point, nor do they
+> > > > have broadcast support?
+> 
+> It seems to me that cellular radio systems are neither point-to-point,
+> nor do they support broadcast.  And they keep moving further and further
+> toward being IP-based (e.g. phone calls on your LTE phone use SIP over
+> UDP over IP over cellular!).  But given the proprietary nature of most
+> cellphone radio chips and their firmware, it's possible that Linux has
+> never built a fully capable network interface to talk to them.  I don't
+> think we should attempt to rule it out, though.
 
-	John
-	
+I found in include/uapi/linux/if_link.h the following classification
+about this:
+
+   IFF_LOOPBACK, IFF_BROADCAST and IFF_POINTOPOINT are
+   more not changeable by user. They describe link media
+   characteristics and set by device driver.
+
+   Comments:
+   - Combination IFF_BROADCAST|IFF_POINTOPOINT is invalid
+   - If neither of these three flags are set;
+     the interface is NBMA.
+
+https://en.wikipedia.org/wiki/Non-broadcast_multiple-access_network
+
+The likeliest example there in terms of running IP directly over such a
+network would presumably be ATM, which had a whole series of RFCs about
+how to make this work, and which is supported by the Linux kernel (e.g.
+net/atm/clip.c, for "Classical IP over ATM" following RFC 1577).  That
+includes, for example, a non-broadcast-based ARP mechanism!
+
+I'll try to figure out what a Linux ATM interface does about IP broadcasts.
+It seems like the RFC 1577 instruction is to still allow IP broadcasts
+but accept that they won't be mapped onto link-layer broadcasts:
+
+   ATM does not support broadcast addressing, therefore there are no
+   mappings available from IP broadcast addresses to ATM broadcast
+   services. Note: this lack of mapping does not restrict members from
+   transmitting or receiving IP datagrams specifying any of the four
+   standard IP broadcast address forms as described in [8].  Members,
+   upon receiving an IP broadcast or IP subnet broadcast for their LIS,
+   MUST process the packet as if addressed to that station.
+
+In other IP-over-ATM methods it appears that broadcasting is emulated by
+a lower layer.
+
+https://www.cse.wustl.edu/~jain/cis788-97/ftp/ip_over_atm/index.html#3
