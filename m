@@ -2,149 +2,117 @@ Return-Path: <linux-man-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-14.2 required=3.0 tests=BAYES_00,DKIM_SIGNED,
+X-Spam-Status: No, score=-15.7 required=3.0 tests=BAYES_00,DKIM_SIGNED,
 	DKIM_VALID,DKIM_VALID_AU,FREEMAIL_FORGED_FROMDOMAIN,FREEMAIL_FROM,
-	HEADER_FROM_DIFFERENT_DOMAINS,INCLUDES_PATCH,MAILING_LIST_MULTI,
-	MENTIONS_GIT_HOSTING,NICE_REPLY_A,SPF_HELO_NONE,URIBL_BLOCKED,
-	USER_AGENT_SANE_1 autolearn=unavailable autolearn_force=no version=3.4.0
+	HEADER_FROM_DIFFERENT_DOMAINS,INCLUDES_CR_TRAILER,INCLUDES_PATCH,
+	MAILING_LIST_MULTI,SPF_HELO_NONE,SPF_PASS,USER_AGENT_GIT autolearn=ham
+	autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 94ED0C433B4
-	for <linux-man@archiver.kernel.org>; Thu,  1 Apr 2021 18:11:31 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id C0AAAC433B4
+	for <linux-man@archiver.kernel.org>; Sat,  3 Apr 2021 19:41:51 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.kernel.org (Postfix) with ESMTP id 70D006044F
-	for <linux-man@archiver.kernel.org>; Thu,  1 Apr 2021 18:11:31 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTP id 9928361350
+	for <linux-man@archiver.kernel.org>; Sat,  3 Apr 2021 19:41:51 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S236677AbhDASLU (ORCPT <rfc822;linux-man@archiver.kernel.org>);
-        Thu, 1 Apr 2021 14:11:20 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:34268 "EHLO
+        id S236725AbhDCTlx (ORCPT <rfc822;linux-man@archiver.kernel.org>);
+        Sat, 3 Apr 2021 15:41:53 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:54900 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S237858AbhDASEn (ORCPT
-        <rfc822;linux-man@vger.kernel.org>); Thu, 1 Apr 2021 14:04:43 -0400
-Received: from mail-wr1-x431.google.com (mail-wr1-x431.google.com [IPv6:2a00:1450:4864:20::431])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id AA9F3C0613B1;
-        Thu,  1 Apr 2021 05:00:30 -0700 (PDT)
-Received: by mail-wr1-x431.google.com with SMTP id x16so1557317wrn.4;
-        Thu, 01 Apr 2021 05:00:30 -0700 (PDT)
+        with ESMTP id S231658AbhDCTlx (ORCPT
+        <rfc822;linux-man@vger.kernel.org>); Sat, 3 Apr 2021 15:41:53 -0400
+Received: from mail-wm1-x336.google.com (mail-wm1-x336.google.com [IPv6:2a00:1450:4864:20::336])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id C1433C0613E6
+        for <linux-man@vger.kernel.org>; Sat,  3 Apr 2021 12:41:49 -0700 (PDT)
+Received: by mail-wm1-x336.google.com with SMTP id y124-20020a1c32820000b029010c93864955so5735478wmy.5
+        for <linux-man@vger.kernel.org>; Sat, 03 Apr 2021 12:41:49 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=gmail.com; s=20161025;
-        h=subject:to:cc:references:from:message-id:date:user-agent
-         :mime-version:in-reply-to:content-language:content-transfer-encoding;
-        bh=IN8ma/Di2llyrq0H/t/B4q1AvpJ/EKX/tn/NrDgiOPo=;
-        b=NF9+CybshsLJC4JuAI+jV/yXLbq7pjAZf9ZSHdQ0WJEI8c9SymKyVThTP6FHpe/2Ct
-         DNYd4RW3Wo9MXqdcdtywsadSESKmNKi4Bhtl+wkCE7Y2Q2iurIck4+JwlKq3WwKJy200
-         Ysf2KZg+3VHRf7eG9kSSrwAV+PbNhXeq+rgHEuqkHdEpvy7xM1FkJBS3Y3ygB70AQZ3e
-         eV1BxBpAkF6kvMvKj2ZQQJsMRzo2pqCQmoXRBo4j0ImYvHZPy+8LMUZxZUNDDwqm7Kdj
-         wyRVHAiEI9Cj4pM15rfKtxKUuToiGBbSTrstpTObEogTVHhbsz8SOma1BN5Lyj3a8Op/
-         qpRw==
+        h=from:to:cc:subject:date:message-id:in-reply-to:references
+         :mime-version:content-transfer-encoding;
+        bh=GrWMJ+RJ9gg0brZt9cDUsUVd+Cv1ihZ/2NnN94O5JCg=;
+        b=V0So52neCtGLpiciR4Q96u1fVUwUuneKPYFXdkPSvYRdKYCAWUPKiNpfs5bgllI7q5
+         cLqUErn5noryTJ8hV8N9aavXauEWaPSPlmmsCk738+xuYq3e9BLgujabDCfV+rpjTHY0
+         xoV2Uh0L4l8RP6FDykA0imgZtwtd7ZAXAA1LXrsNVbGWmV30kwSZnxajunbrBxYT9+fK
+         DUcabqfBM1CH7WhBlexhNQwD8ovUDCrMOWw0Mv/XvKt+i4GpdWe3XIXJn6uSlqBtnfw/
+         y9d6FHQLX4bHBvHAn9F1AppRLM4G9u3Vsy0dqZgbUbLqFnF8qUARYY9DkFgEUEigjtiC
+         ABeA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
-        h=x-gm-message-state:subject:to:cc:references:from:message-id:date
-         :user-agent:mime-version:in-reply-to:content-language
-         :content-transfer-encoding;
-        bh=IN8ma/Di2llyrq0H/t/B4q1AvpJ/EKX/tn/NrDgiOPo=;
-        b=hjs+coMNFGIDk6KgqULy+BV1lYfOyvaiI3IaKk+I+9vMLEQXupjVuU2OtA6OZ34PLv
-         lc2tg1WNexqrBsDDMEdxqCtuMPikD0USJlk2shHnnhAlcQuz0nyxtPCqak85NXa4KoXj
-         ULPKIuw9dqdbzHM1ocr3Fl5fI/T24S+jX8Fk34W6ybKZaFbrhT8iYr8c8L1osCAFVk7Q
-         ez+0molWk3kg8oMdKl9JcS0YNvcmeyJeqtiGbjPDxrZIiX/kFkgni/ZtnWMynKgtpjc+
-         68GirUiWqMIc99qN/+nVwyObWPQRsmjnp4Q97acSCA/rG9YIULky23zDS5uCMnx2j9FP
-         ZzVg==
-X-Gm-Message-State: AOAM532opkxuZkpkwqz7vVrwokFJL7n8EeKIKaNQJ40U8PvICyRHVs2L
-        lsxrriN7pMeummB2+KW/fBA=
-X-Google-Smtp-Source: ABdhPJzpjYtrF2kVsDEgbJBP4aFj+go6/vx/MuIjXCtxMLpnHvHXJ3i009fdqrpu5QmTLXIcPLjEvA==
-X-Received: by 2002:a5d:564b:: with SMTP id j11mr9364649wrw.326.1617278429421;
-        Thu, 01 Apr 2021 05:00:29 -0700 (PDT)
-Received: from [10.8.0.206] ([195.53.121.100])
-        by smtp.gmail.com with ESMTPSA id w22sm8770829wmi.22.2021.04.01.05.00.26
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Thu, 01 Apr 2021 05:00:28 -0700 (PDT)
-Subject: Re: [PATCH v5 0/4] man2: udpate mm/userfaultfd manpages to latest
-To:     Peter Xu <peterx@redhat.com>, linux-mm@kvack.org,
-        linux-kernel@vger.kernel.org, linux-man@vger.kernel.org
-Cc:     Axel Rasmussen <axelrasmussen@google.com>,
-        Nadav Amit <nadav.amit@gmail.com>,
-        Mike Rapoport <rppt@linux.vnet.ibm.com>,
-        Andrea Arcangeli <aarcange@redhat.com>,
-        Michael Kerrisk <mtk.manpages@gmail.com>,
-        Andrew Morton <akpm@linux-foundation.org>
-References: <20210329221833.517923-1-peterx@redhat.com>
-From:   "Alejandro Colomar (man-pages)" <alx.manpages@gmail.com>
-Message-ID: <76f5d3a7-626e-563b-c1bd-d318a476a8ed@gmail.com>
-Date:   Thu, 1 Apr 2021 14:00:25 +0200
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
- Thunderbird/78.8.0
+        h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
+         :references:mime-version:content-transfer-encoding;
+        bh=GrWMJ+RJ9gg0brZt9cDUsUVd+Cv1ihZ/2NnN94O5JCg=;
+        b=E7ofBqRt+8PQDxur3jg4czuxQBKMWqSGNnFqw8NNOIuhvD4watDO9WauBGiRQLXpbS
+         7jCpCN/Hox39U8FsGd51gVO5SS/E+FwVhhz0QAGzNAcilxBKIIWT2akhHcC1RqS5uXoA
+         ZQPN+eRXSXpOqfu5rKLdUqT52cm4LhFInHItX+w0wxwimnOcfbUy0EGEjZ2x/Fptzo8l
+         qheQG7kFF2mlq9orvBYQNZ71WBIfrqrexciIxLfy6MPpjMU+COGdlawAX3m+cfn1HPyt
+         OrHmdlOeOMdhEKoytxl7298mlx0Tp4DO5QpMD2Fps/ro82JKYsPK8q4CLWmRbsDKzSwt
+         sFxQ==
+X-Gm-Message-State: AOAM530DX3X5wUFMZDayWifga0fRrKd6VeYGqqaowTo2HNChofTsvix7
+        e6uOQ4i9Rnd1568omf/1rU4=
+X-Google-Smtp-Source: ABdhPJyu7MUTY9ydTHuPlh4H+TfcqnBEhFddhSrvLd+mRWRoHFU43oelf+vpBH7IUjRzcc5MjMjMMQ==
+X-Received: by 2002:a05:600c:358c:: with SMTP id p12mr18080552wmq.19.1617478908615;
+        Sat, 03 Apr 2021 12:41:48 -0700 (PDT)
+Received: from localhost.localdomain ([170.253.36.171])
+        by smtp.googlemail.com with ESMTPSA id n1sm25211056wro.36.2021.04.03.12.41.47
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Sat, 03 Apr 2021 12:41:48 -0700 (PDT)
+From:   Alejandro Colomar <alx.manpages@gmail.com>
+To:     mtk.manpages@gmail.com
+Cc:     Alejandro Colomar <alx.manpages@gmail.com>,
+        linux-man@vger.kernel.org, libc-alpha@sourceware.org
+Subject: [PATCH v4 01/35] system_data_types.7: Add 'struct sockaddr'
+Date:   Sat,  3 Apr 2021 21:39:53 +0200
+Message-Id: <20210403194026.102818-2-alx.manpages@gmail.com>
+X-Mailer: git-send-email 2.31.0
+In-Reply-To: <20210403194026.102818-1-alx.manpages@gmail.com>
+References: <20210403194026.102818-1-alx.manpages@gmail.com>
 MIME-Version: 1.0
-In-Reply-To: <20210329221833.517923-1-peterx@redhat.com>
-Content-Type: text/plain; charset=utf-8; format=flowed
-Content-Language: en-US
-Content-Transfer-Encoding: 7bit
+Content-Transfer-Encoding: 8bit
 Precedence: bulk
 List-ID: <linux-man.vger.kernel.org>
 X-Mailing-List: linux-man@vger.kernel.org
 
-Hi Peter,
+Signed-off-by: Alejandro Colomar <alx.manpages@gmail.com>
+---
+ man7/system_data_types.7 | 25 +++++++++++++++++++++++++
+ 1 file changed, 25 insertions(+)
 
-On 3/30/21 12:18 AM, Peter Xu wrote:
-> v5:
-> - add r-bs for Mike R.
-> - Fix spelling mistake "diable" [Mike R.]
-> - s/Starting from/Since/ for patch 2 (also replaced two existing ones in the
->    same file) [Alex]
-> - s/un-write-protect/write-unprotect/ [Alex]
-> - s/The process was interrupted and need to retry/The process was interrupted;
->    retry this call/ in the last patch. [Alex]
-> 
-> v4:
-> - Fixed a few "subordinate clauses" (SC) cases [Alex]
-> - Reword in ioctl_userfaultfd.2 to use bold font for the two modes referenced,
->    so as to be clear on what is "both" referring to [Alex]
-> 
-> v3:
-> - Don't use "Currently", instead add "(since x.y)" mark where proper [Alex]
-> - Always use semantic newlines across the whole patchset [Alex]
-> - Use quote when possible, rather than escapes [Alex]
-> - Fix one missing replacement of ".BR" -> ".B" [Alex]
-> - Some other trivial rephrases here and there when fixing up above
-> 
-> v2 changes:
-> - Fix wordings as suggested [MikeR]
-> - convert ".BR" to ".B" where proper for the patchset [Alex]
-> - rearrange a few lines in the last two patches where they got messed up
-> - document more things, e.g. UFFDIO_COPY_MODE_WP; and also on how to resolve a
->    wr-protect page fault.
-> 
-> There're two features missing in current manpage, namely:
-> 
->    (1) Userfaultfd Thread-ID feature
->    (2) Userfaultfd write protect mode
-> 
-> There's also a 3rd one which was just contributed from Axel - Axel, I think it
-> would be great if you can add that part too, probably after the whole
-> hugetlbfs/shmem minor mode reaches the linux master branch.
-> 
-> Please review, thanks.
-> 
-> Peter Xu (4):
->    userfaultfd.2: Add UFFD_FEATURE_THREAD_ID docs
->    userfaultfd.2: Add write-protect mode
->    ioctl_userfaultfd.2: Add UFFD_FEATURE_THREAD_ID docs
->    ioctl_userfaultfd.2: Add write-protect mode docs
-
-I applied all 4 patches (with a few minor fixes to 1/4 and 4/4 (cosmetic 
-fixes; some of them about the 80-col right margin)): 
-<https://github.com/alejandro-colomar/man-pages/tree/eb8f2001d493d458d08b9b87605ed2ac453c7f5f>
-
-Thanks!
-
-Alex
-
-> 
->   man2/ioctl_userfaultfd.2 |  89 +++++++++++++++++++++++++++-
->   man2/userfaultfd.2       | 121 +++++++++++++++++++++++++++++++++++++--
->   2 files changed, 203 insertions(+), 7 deletions(-)
-> 
-
-
+diff --git a/man7/system_data_types.7 b/man7/system_data_types.7
+index 5648ae500..93c723a2f 100644
+--- a/man7/system_data_types.7
++++ b/man7/system_data_types.7
+@@ -1226,6 +1226,31 @@ and
+ .I ssize_t
+ types in this page.
+ .RE
++.\"------------------------------------- sockaddr ---------------------/
++.TP
++.I sockaddr
++.RS
++.IR Include :
++.IR <sys/socket.h> .
++.PP
++.EX
++struct sockaddr {
++    sa_family_t sa_family; /* Address family */
++    char        sa_data[]; /* Socket address */
++};
++.EE
++.PP
++Describes a socket address.
++.PP
++.IR "Conforming to" :
++POSIX.1-2001 and later.
++.PP
++.IR "See also" :
++.BR accept (2),
++.BR getpeername (2),
++.BR getsockname (2),
++.BR socket (2)
++.RE
+ .\"------------------------------------- ssize_t ----------------------/
+ .TP
+ .I ssize_t
 -- 
-Alejandro Colomar
-Linux man-pages comaintainer; https://www.kernel.org/doc/man-pages/
-http://www.alejandro-colomar.es/
+2.31.0
+
