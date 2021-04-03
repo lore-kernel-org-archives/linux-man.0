@@ -8,61 +8,61 @@ X-Spam-Status: No, score=-15.7 required=3.0 tests=BAYES_00,DKIM_SIGNED,
 	MAILING_LIST_MULTI,SPF_HELO_NONE,SPF_PASS,USER_AGENT_GIT autolearn=ham
 	autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 13666C43461
-	for <linux-man@archiver.kernel.org>; Sat,  3 Apr 2021 19:42:02 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 03C11C43460
+	for <linux-man@archiver.kernel.org>; Sat,  3 Apr 2021 19:42:03 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.kernel.org (Postfix) with ESMTP id DCBE061350
-	for <linux-man@archiver.kernel.org>; Sat,  3 Apr 2021 19:42:01 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTP id DD7B561350
+	for <linux-man@archiver.kernel.org>; Sat,  3 Apr 2021 19:42:02 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S236791AbhDCTmE (ORCPT <rfc822;linux-man@archiver.kernel.org>);
-        Sat, 3 Apr 2021 15:42:04 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:54972 "EHLO
+        id S236808AbhDCTmF (ORCPT <rfc822;linux-man@archiver.kernel.org>);
+        Sat, 3 Apr 2021 15:42:05 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:54978 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S236794AbhDCTmE (ORCPT
-        <rfc822;linux-man@vger.kernel.org>); Sat, 3 Apr 2021 15:42:04 -0400
-Received: from mail-wm1-x336.google.com (mail-wm1-x336.google.com [IPv6:2a00:1450:4864:20::336])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id BD8A2C06178C
-        for <linux-man@vger.kernel.org>; Sat,  3 Apr 2021 12:42:00 -0700 (PDT)
-Received: by mail-wm1-x336.google.com with SMTP id d191so3934098wmd.2
-        for <linux-man@vger.kernel.org>; Sat, 03 Apr 2021 12:42:00 -0700 (PDT)
+        with ESMTP id S236794AbhDCTmF (ORCPT
+        <rfc822;linux-man@vger.kernel.org>); Sat, 3 Apr 2021 15:42:05 -0400
+Received: from mail-wm1-x32a.google.com (mail-wm1-x32a.google.com [IPv6:2a00:1450:4864:20::32a])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 1D963C0613E6
+        for <linux-man@vger.kernel.org>; Sat,  3 Apr 2021 12:42:02 -0700 (PDT)
+Received: by mail-wm1-x32a.google.com with SMTP id d191so3934113wmd.2
+        for <linux-man@vger.kernel.org>; Sat, 03 Apr 2021 12:42:02 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=gmail.com; s=20161025;
         h=from:to:cc:subject:date:message-id:in-reply-to:references
          :mime-version:content-transfer-encoding;
-        bh=8sXcJxfoGscdez3mIIgG0Vwgw6xUHy5fJqoPTId1UhU=;
-        b=Ea4O0toTVUFRG3tK2P+aUvH2KQktXsEk/dPY2z2ROt+TvZBczG6S4RHO2XiDo7iuzp
-         naENTTdOuxR2UvTJvpweDGBT8e5kSWvMButNQDue9ZRCR6tZBzJ+YUdZyb3leTCjJ+U2
-         O0zFoUHHgugzjdwUWio54Lt6g6VQ1SxbcW/UTIoG2c+NZcpUQHEo75x773wj2hJlaiUJ
-         Iss705f1lTMHtss7KQH8A+oYGjPfBizqsdcag+0On4drA7VJxvx29NzpaQbTSvv19npR
-         P2kwJTMHvfjP2BZ/cQxZlnRfp7i9QDPSNg9ADTstQgPs7f8tixuJ8bsOV6uPk7fQrR/7
-         CjhA==
+        bh=V5uiLR+ON/9jELwFRyhOf85vS9zd2T+icii+8Xp6azA=;
+        b=ZvZLO6jNRraC4u4muno8KfaQQKG238psG454E/lFrZJsjWmHuEfVKkNWnG9YFhvYNw
+         cdW/s7a3QTmvsXXs8HlhMJSQ7L0PxUoljYduylSy8QQmihV3/9OGI45xn/ZCgKNHjxq3
+         ssnrXQLA6D7VvjZ8XtfI9J2E+RtwzU9Ykq2Wynl4NexkuGZqB26D64jBiFi0IGd+km+/
+         aIXECREeBxgwKXqn+VeiuFp+UehysQCjEZQdh1jxqCHIoyAiuinaqVCx8tAu6wjd1a/0
+         5PPttUD4AVcCsqeJ8mnxB2GHo6lK8ndQ3SXr69Yy/QvCd8qEPnQX0RpVhmpUhz4tkcDX
+         YziQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
         h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
          :references:mime-version:content-transfer-encoding;
-        bh=8sXcJxfoGscdez3mIIgG0Vwgw6xUHy5fJqoPTId1UhU=;
-        b=RW1bIoeDbywx/1+iWsP1NZeKI1FP3jmK/iedM2myEyZsNqfR2mFGscc7hH1J7juKpJ
-         hneOWpnky6CETZQ36ZxvlMBBsy9ldgxsJdVTsmTo3BdbThc8fQOMB1SddWAocDiXyI8A
-         AVRfGyFJ6HVUFjDiXCFHoNxAtgvzgykI5WkDzUrE8PgeeRpyA4JVrYFe0vQpzxRNDYSa
-         K++Z6S4KBVb9TIhkWy6vsfEC0p34CD96OF92qSChQh2wKVHQJ1Cr8uaLnXdDRSdC5k7K
-         xQCK4p+IWXhNlJcHUXWukgIxLC2d+Kt8Y5EnLyu7yWC60Zdm8xIUBGirOPptUqMJkTf+
-         z6Qw==
-X-Gm-Message-State: AOAM530Jji1pGk8hKtAIC8nXdnuJkchTIATeGc1C2Krpy04b8gk2WZso
-        bV8x1345zG1thdNWj4mpTLw=
-X-Google-Smtp-Source: ABdhPJzp3ft/6ObO1L1nyY1AMtbgfDkh8Gr375lvaGHf4XId8iMl21VDImY112QtbahrpSfgYj7XQg==
-X-Received: by 2002:a1c:9a51:: with SMTP id c78mr7253898wme.160.1617478919629;
-        Sat, 03 Apr 2021 12:41:59 -0700 (PDT)
+        bh=V5uiLR+ON/9jELwFRyhOf85vS9zd2T+icii+8Xp6azA=;
+        b=YNbK0iusyi6LvdDs+G4no2seM1L11xZfWZbOVAmumCBvYKjRShHIA44brYkcIjw8Zq
+         q5xzAcyW4W0NG1T/LY9t2plvAAlaRw2Hcb+eTeyx90K/AL7Vpg1HRvtNFKMkbYe4GusT
+         LlRTkZgiN9ILYTaSX3y12dhIAPDGWqzLhPvyPtXC/tV0NEPWSVlDHqLpuiccX6zNOifp
+         ea7hIgWzKYAfLqW/qWkuX8uXnpvrqBTg6IPqpR05pLoOdNj+CasTNSjRaboSF9PbR6GS
+         4RZrVlyaj/hFmTMuZEr78Nzd1gvNv7jvglWMYINWAGjV0EfqQBlp5SX22ShF6BkoL4Bv
+         uAew==
+X-Gm-Message-State: AOAM531Z10ZRKJI7SxKOfeeiMecacmRc27SOK3IHKEDMS79HqFvCiA6F
+        zPp0YAqKdFT77AdL4DPwyBceLTJ5U5o=
+X-Google-Smtp-Source: ABdhPJwVpBu5z/IxVm7HVyiwZ68uknjOUDOy/X6H0jCAPfE3ynYK7YMB5RMe/9UJCxapKcj9Q454Tw==
+X-Received: by 2002:a1c:b002:: with SMTP id z2mr18218859wme.121.1617478920888;
+        Sat, 03 Apr 2021 12:42:00 -0700 (PDT)
 Received: from localhost.localdomain ([170.253.36.171])
-        by smtp.googlemail.com with ESMTPSA id n1sm25211056wro.36.2021.04.03.12.41.59
+        by smtp.googlemail.com with ESMTPSA id n1sm25211056wro.36.2021.04.03.12.42.00
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Sat, 03 Apr 2021 12:41:59 -0700 (PDT)
+        Sat, 03 Apr 2021 12:42:00 -0700 (PDT)
 From:   Alejandro Colomar <alx.manpages@gmail.com>
 To:     mtk.manpages@gmail.com
 Cc:     Alejandro Colomar <alx.manpages@gmail.com>,
         linux-man@vger.kernel.org, libc-alpha@sourceware.org
-Subject: [PATCH v4 17/35] fanotify_init.2: Add comment: why more than one include is needed
-Date:   Sat,  3 Apr 2021 21:40:09 +0200
-Message-Id: <20210403194026.102818-18-alx.manpages@gmail.com>
+Subject: [PATCH v4 19/35] futex.2: Use syscall(SYS_...); for system calls without a wrapper
+Date:   Sat,  3 Apr 2021 21:40:11 +0200
+Message-Id: <20210403194026.102818-20-alx.manpages@gmail.com>
 X-Mailer: git-send-email 2.31.0
 In-Reply-To: <20210403194026.102818-1-alx.manpages@gmail.com>
 References: <20210403194026.102818-1-alx.manpages@gmail.com>
@@ -72,24 +72,72 @@ Precedence: bulk
 List-ID: <linux-man.vger.kernel.org>
 X-Mailing-List: linux-man@vger.kernel.org
 
+At the same time, document only headers that are required
+for calling the function, or those that are specific to the
+function:
+
+<unistd.h> is required for the syscall() prototype.
+<sys/syscall.h> is required for the syscall name SYS_xxx.
+<linux/futex.h> is specific to this syscall.
+
+However, uint32_t is generic enough that it shouldn't be
+documented here.  The system_data_types(7) page already documents
+it, and is more precise about it.  The same goes for timespec.
+
+As a general rule a man[23] page should document the header that
+includes the prototype, and all of the headers that define macros
+that should be used with the call.  However, the information about
+types should be restricted to system_data_types(7) (and that page
+should probably be improved by adding types), except for types
+that are very specific to the call.  Otherwise, we're duplicating
+info and it's then harder to maintain, and probably outdated in
+the future.
+
 Signed-off-by: Alejandro Colomar <alx.manpages@gmail.com>
 ---
- man2/fanotify_init.2 | 2 +-
- 1 file changed, 1 insertion(+), 1 deletion(-)
+ man2/futex.2 | 19 +++++++------------
+ 1 file changed, 7 insertions(+), 12 deletions(-)
 
-diff --git a/man2/fanotify_init.2 b/man2/fanotify_init.2
-index 2418bbdd2..2b44fc6ec 100644
---- a/man2/fanotify_init.2
-+++ b/man2/fanotify_init.2
-@@ -26,7 +26,7 @@
- fanotify_init \- create and initialize fanotify group
+diff --git a/man2/futex.2 b/man2/futex.2
+index 389c25224..7a19e50d2 100644
+--- a/man2/futex.2
++++ b/man2/futex.2
+@@ -25,18 +25,16 @@ futex \- fast user-space locking
  .SH SYNOPSIS
  .nf
--.B #include <fcntl.h>
-+.BR "#include <fcntl.h>" "            /* Definition of " O_* " constants */"
- .B #include <sys/fanotify.h>
  .PP
- .BI "int fanotify_init(unsigned int " flags ", unsigned int " event_f_flags );
+-.B #include <linux/futex.h>
+-.B #include <stdint.h>
+-.B #include <sys/time.h>
++.BR "#include <linux/futex.h>" "      /* Definition of " FUTEX_* " constants */"
++.BR "#include <sys/syscall.h>" "      /* Definition of " SYS_* " constants */"
++.B #include <unistd.h>
+ .PP
+-.BI "long futex(uint32_t *" uaddr ", int " futex_op ", uint32_t " val ,
+-.BI "          const struct timespec *" timeout , \
++.BI "long syscall(SYS_futex, uint32_t *" uaddr ", int " futex_op \
++", uint32_t " val ,
++.BI "             const struct timespec *" timeout , \
+ " \fR  /* or: \fBuint32_t \fIval2\fP */"
+-.BI "          uint32_t *" uaddr2 ", uint32_t " val3 );
++.BI "             uint32_t *" uaddr2 ", uint32_t " val3 );
+ .fi
+-.PP
+-.IR Note :
+-There is no glibc wrapper for this system call; see NOTES.
+ .SH DESCRIPTION
+ The
+ .BR futex ()
+@@ -1695,9 +1693,6 @@ and a sixth argument was added in Linux 2.6.7.
+ .SH CONFORMING TO
+ This system call is Linux-specific.
+ .SH NOTES
+-Glibc does not provide a wrapper for this system call; call it using
+-.BR syscall (2).
+-.PP
+ Several higher-level programming abstractions are implemented via futexes,
+ including POSIX semaphores and
+ various POSIX threads synchronization mechanisms
 -- 
 2.31.0
 
