@@ -8,61 +8,61 @@ X-Spam-Status: No, score=-15.7 required=3.0 tests=BAYES_00,DKIM_SIGNED,
 	MAILING_LIST_MULTI,SPF_HELO_NONE,SPF_PASS,USER_AGENT_GIT autolearn=ham
 	autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 9DCFDC433ED
-	for <linux-man@archiver.kernel.org>; Sun,  4 Apr 2021 11:59:40 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 372DCC43470
+	for <linux-man@archiver.kernel.org>; Sun,  4 Apr 2021 11:59:41 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.kernel.org (Postfix) with ESMTP id 69A0A61365
-	for <linux-man@archiver.kernel.org>; Sun,  4 Apr 2021 11:59:40 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTP id 0D55B61365
+	for <linux-man@archiver.kernel.org>; Sun,  4 Apr 2021 11:59:41 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S230373AbhDDL7n (ORCPT <rfc822;linux-man@archiver.kernel.org>);
-        Sun, 4 Apr 2021 07:59:43 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:37786 "EHLO
+        id S230122AbhDDL7o (ORCPT <rfc822;linux-man@archiver.kernel.org>);
+        Sun, 4 Apr 2021 07:59:44 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:37794 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S230307AbhDDL7m (ORCPT
-        <rfc822;linux-man@vger.kernel.org>); Sun, 4 Apr 2021 07:59:42 -0400
-Received: from mail-wm1-x32a.google.com (mail-wm1-x32a.google.com [IPv6:2a00:1450:4864:20::32a])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 40107C061756
-        for <linux-man@vger.kernel.org>; Sun,  4 Apr 2021 04:59:38 -0700 (PDT)
-Received: by mail-wm1-x32a.google.com with SMTP id o20-20020a05600c4fd4b0290114265518afso1566573wmq.4
-        for <linux-man@vger.kernel.org>; Sun, 04 Apr 2021 04:59:38 -0700 (PDT)
+        with ESMTP id S230378AbhDDL7o (ORCPT
+        <rfc822;linux-man@vger.kernel.org>); Sun, 4 Apr 2021 07:59:44 -0400
+Received: from mail-wm1-x329.google.com (mail-wm1-x329.google.com [IPv6:2a00:1450:4864:20::329])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id AA29EC061756
+        for <linux-man@vger.kernel.org>; Sun,  4 Apr 2021 04:59:39 -0700 (PDT)
+Received: by mail-wm1-x329.google.com with SMTP id o6so1558313wmq.3
+        for <linux-man@vger.kernel.org>; Sun, 04 Apr 2021 04:59:39 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=gmail.com; s=20161025;
         h=from:to:cc:subject:date:message-id:in-reply-to:references
          :mime-version:content-transfer-encoding;
-        bh=q7IOiVrQjHRTRmbdVaEa4LKpd5wHcjiuSaqgIJt7lkc=;
-        b=n6xMrLXepeTXa3/2qmr304uYeD4icQo+QVq+IoXdpb/Fv+etYtg0v/KoUeUn4XBbkl
-         BCAVLA01HqO2DEKUOWZteHhTAEwM+liBRC3r6g/mNY15suIKgLJXIVmSDzXjf5MP4RG/
-         /me4ejck/4RLSxV9Cckn54fUl+rF2DrMC51tVSqAdy0iuyGOXXrS4KmYpCouMsTQ5FYK
-         uobyItEavHSo3yCpo1H4HQlOUORd7y9Y1BiZqyPxJYh6GgoIx+ue9tBpafUE48s+/vk0
-         cEixpomebd1yDEKjsR+P9mbOZZ+oOzd12p7AaRauaKFULuosODJyaVU/Sxq1o2kigIBL
-         IuLw==
+        bh=mrkfk1quWdjBX9VDibOMAzdhIk8NhlqMcKJaPgXG5vw=;
+        b=FMoHXnYrXpBblzn1bwF16UVNeSTuQ2iMUSfActlIoKWUuo/UawjYm44CuNZGHgfcHS
+         3mO7k2yWWP1wLgfb2blwMgst88V/qbIjwt2dqHvIe3xvOqlsENvXa6QQzg7J6DxtlPZF
+         2QUPW9LUmGfTcwqmtu93hK0z6OXwzH991X7bIVSCKiMUMiIDGFc6Px05BukoikCBq15Z
+         JzcgQn3BlDZkKb49LnWJ1K5G+wOoakBaEepG+1127Go6P1BXjzvvY0JvcjIgYZ+gMxSG
+         qXc9e0Uzz/QYMslI0nadDTpl2pVCNIfZ9xvj4d/2ZI2Inu+46Ysvk4V7AI2zZfE1MZt4
+         fl/A==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
         h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
          :references:mime-version:content-transfer-encoding;
-        bh=q7IOiVrQjHRTRmbdVaEa4LKpd5wHcjiuSaqgIJt7lkc=;
-        b=JhQu7NV76qXs9/e22k0+ZiYKWQ9JXmj7x+OumoI1ISqmV5pnskyTAuQ+S6fe/kNiBz
-         it74pb8V0/ypwFRWmARj6Tv9anIE+ebj+5XIWvaY/wx7HW9jbM+Is/TvF9OVuX7pgssr
-         57ehTezSxVvztU+48zjU+DooWF+Ij5Tmp3OOV6zGPT/1JDRASl47lPw/mMvICnB/R1dM
-         R13uK440+nlzRIygfARRFa26kQTC4WSi1Jhd/iuB9ZGw5PZQRWM2eSxeBP2hAkgG7Zd0
-         Q/zCVZ0fIRANF51FgvJk7LKDtOCTz4COgwQKUUnTM6UnBAP4upveNX8aAUPqQBFWU4aR
-         tu9A==
-X-Gm-Message-State: AOAM533RQj7G7IUlxm7D/YDDJvAPg431UKu4XsTiLIAfhSHMP5RhHPdE
-        7gF3KbkRa01i2zaDM318Dc2MSQiYzus=
-X-Google-Smtp-Source: ABdhPJxpYHMLYHCfgMiTP1E0zo01aFo5aNlPCTHQkRrjZtftztzKodb5x/KaD5fuQMB0Gb6sq/kWNg==
-X-Received: by 2002:a05:600c:4656:: with SMTP id n22mr5045188wmo.30.1617537577109;
-        Sun, 04 Apr 2021 04:59:37 -0700 (PDT)
+        bh=mrkfk1quWdjBX9VDibOMAzdhIk8NhlqMcKJaPgXG5vw=;
+        b=a4DXzF4ox4/zTBFrkdEduBdOLXiXKplc8g95VAFeDOkBL4LQ7X5jKZ2GFzU25KPBEi
+         CCAKP9cUDmCV2xPhrsayApBvjkQ/pKnxwnsPgs4Wh/ppQzUZQ30c/B3qJLTCeuUVNjKc
+         H8jfD9P89biTQ34oK129Z1W6dWtFFEegP1cIp6aiwRLiemdtt1uiJoYtFNHYxHhjspvZ
+         gxuPL4XCsZbg4ulEjc5lDMQxqS8GIo7xb2MCRhCwo0fiL2YCaZhIjY7pBIm0+P4IUd0v
+         R02oKjICGfw0Y+EDfaMKOHvUT2sxqPo4IjmT3dJCeoDqyjFqd/fhGRg5UlzQWtn9iNGX
+         dGiw==
+X-Gm-Message-State: AOAM530HwkhOT7hQjxoXd3BapWvib9lDqusPENHyS5kiBelgec2IfbVm
+        xSW/XAR8Xy0IxkYeYRUgPuFmVHylASo=
+X-Google-Smtp-Source: ABdhPJxG+SOFZJR7Bk04BCZO77MXxTTD7ZvJLFBIfXRv7y4L3E5zFGllTnT3SZzCuTAsOUgHelpWtQ==
+X-Received: by 2002:a05:600c:4242:: with SMTP id r2mr2256700wmm.77.1617537578545;
+        Sun, 04 Apr 2021 04:59:38 -0700 (PDT)
 Received: from localhost.localdomain ([170.253.36.171])
-        by smtp.googlemail.com with ESMTPSA id u2sm23786967wrp.12.2021.04.04.04.59.36
+        by smtp.googlemail.com with ESMTPSA id u2sm23786967wrp.12.2021.04.04.04.59.37
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Sun, 04 Apr 2021 04:59:36 -0700 (PDT)
+        Sun, 04 Apr 2021 04:59:38 -0700 (PDT)
 From:   Alejandro Colomar <alx.manpages@gmail.com>
 To:     mtk.manpages@gmail.com
 Cc:     Alejandro Colomar <alx.manpages@gmail.com>,
         linux-man@vger.kernel.org, libc-alpha@sourceware.org
-Subject: [PATCH v5 06/35] add_key.2: Remove unused include
-Date:   Sun,  4 Apr 2021 13:58:19 +0200
-Message-Id: <20210404115847.78166-7-alx.manpages@gmail.com>
+Subject: [PATCH v5 08/35] arch_prctl.2: Use syscall(SYS_...); for system calls without a wrapper
+Date:   Sun,  4 Apr 2021 13:58:21 +0200
+Message-Id: <20210404115847.78166-9-alx.manpages@gmail.com>
 X-Mailer: git-send-email 2.31.0
 In-Reply-To: <20210403194026.102818-1-alx.manpages@gmail.com>
 References: <20210403194026.102818-1-alx.manpages@gmail.com>
@@ -72,27 +72,46 @@ Precedence: bulk
 List-ID: <linux-man.vger.kernel.org>
 X-Mailing-List: linux-man@vger.kernel.org
 
-<sys/types.h> was only needed for size_t, AFAIK.  That is already
-(and more precisely) documented in system_data_types(7).  Let's
-remove it here, as it's not really needed for calling add_key().
-
 Signed-off-by: Alejandro Colomar <alx.manpages@gmail.com>
 ---
- man2/add_key.2 | 1 -
- 1 file changed, 1 deletion(-)
+ man2/arch_prctl.2 | 14 +++++---------
+ 1 file changed, 5 insertions(+), 9 deletions(-)
 
-diff --git a/man2/add_key.2 b/man2/add_key.2
-index f3d803adf..dca44b8e7 100644
---- a/man2/add_key.2
-+++ b/man2/add_key.2
-@@ -14,7 +14,6 @@
- add_key \- add a key to the kernel's key management facility
+diff --git a/man2/arch_prctl.2 b/man2/arch_prctl.2
+index 1ddeca595..f8073d625 100644
+--- a/man2/arch_prctl.2
++++ b/man2/arch_prctl.2
+@@ -27,15 +27,14 @@
+ arch_prctl \- set architecture-specific thread state
  .SH SYNOPSIS
  .nf
--.B #include <sys/types.h>
- .B #include <keyutils.h>
+-.B #include <asm/prctl.h>
++.BR "#include <asm/prctl.h>" "        /* Definition of " ARCH_* " constants */"
+ .B #include <sys/prctl.h>
++.BR "#include <sys/syscall.h>" "      /* Definition of " SYS_* " constants */"
++.B #include <unistd.h>
  .PP
- .BI "key_serial_t add_key(const char *" type ", const char *" description ,
+-.BI "int arch_prctl(int " code ", unsigned long " addr );
+-.BI "int arch_prctl(int " code ", unsigned long *" addr );
++.BI "int syscall(SYS_arch_prctl, int " code ", unsigned long " addr );
++.BI "int syscall(SYS_arch_prctl, int " code ", unsigned long *" addr );
+ .fi
+-.PP
+-.IR Note :
+-There is no glibc wrapper for this system call; see NOTES.
+ .SH DESCRIPTION
+ .BR arch_prctl ()
+ sets architecture-specific process or thread state.
+@@ -177,9 +176,6 @@ and
+ in the same thread is dangerous, as they may overwrite each other's
+ TLS entries.
+ .PP
+-Glibc does not provide a wrapper for this system call; call it using
+-.BR syscall (2).
+-.PP
+ .I FS
+ may be already used by the threading library.
+ Programs that use
 -- 
 2.31.0
 
