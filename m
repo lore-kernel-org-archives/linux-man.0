@@ -8,61 +8,61 @@ X-Spam-Status: No, score=-15.7 required=3.0 tests=BAYES_00,DKIM_SIGNED,
 	MAILING_LIST_MULTI,SPF_HELO_NONE,SPF_PASS,USER_AGENT_GIT autolearn=ham
 	autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id B4E24C433B4
+	by smtp.lore.kernel.org (Postfix) with ESMTP id F1B8CC43460
 	for <linux-man@archiver.kernel.org>; Sun,  4 Apr 2021 11:59:39 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.kernel.org (Postfix) with ESMTP id 897F461365
+	by mail.kernel.org (Postfix) with ESMTP id C3CF261365
 	for <linux-man@archiver.kernel.org>; Sun,  4 Apr 2021 11:59:39 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S230364AbhDDL7m (ORCPT <rfc822;linux-man@archiver.kernel.org>);
-        Sun, 4 Apr 2021 07:59:42 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:37772 "EHLO
+        id S230209AbhDDL7n (ORCPT <rfc822;linux-man@archiver.kernel.org>);
+        Sun, 4 Apr 2021 07:59:43 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:37782 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S230209AbhDDL7m (ORCPT
+        with ESMTP id S230122AbhDDL7m (ORCPT
         <rfc822;linux-man@vger.kernel.org>); Sun, 4 Apr 2021 07:59:42 -0400
-Received: from mail-wr1-x42b.google.com (mail-wr1-x42b.google.com [IPv6:2a00:1450:4864:20::42b])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 395AFC0613E6
-        for <linux-man@vger.kernel.org>; Sun,  4 Apr 2021 04:59:36 -0700 (PDT)
-Received: by mail-wr1-x42b.google.com with SMTP id b9so722271wrs.1
-        for <linux-man@vger.kernel.org>; Sun, 04 Apr 2021 04:59:36 -0700 (PDT)
+Received: from mail-wr1-x429.google.com (mail-wr1-x429.google.com [IPv6:2a00:1450:4864:20::429])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 94657C061756
+        for <linux-man@vger.kernel.org>; Sun,  4 Apr 2021 04:59:37 -0700 (PDT)
+Received: by mail-wr1-x429.google.com with SMTP id x16so8597155wrn.4
+        for <linux-man@vger.kernel.org>; Sun, 04 Apr 2021 04:59:37 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=gmail.com; s=20161025;
         h=from:to:cc:subject:date:message-id:in-reply-to:references
          :mime-version:content-transfer-encoding;
-        bh=kJYH9tpAtDL4EhejYbDB+JwVoNY7pJbsuEmcLrJV8zQ=;
-        b=XhRUXeKgPO4VcClhu/j2htaza2ezPc1y5dQXzInszp9cvNNx5hpmMj2y72BVbQzNJQ
-         psaqvOUcmV2Znlt2nImBWlTA+xz4ssg0mDpaGPtSJihwnw84TxXPudHc2ewIXodAW5Pb
-         +P5bBFS226ICMTOYIOoXOqBBgY7xMw567XAGtyWTHk0pWZjd2ePa5ZO8qWwp2GDCWIjt
-         F3XGE007LnoEgwuCakq5ha26WXnKamnGr1VSR55dBHdO99LlpwzzuUDE5/MHdrfTL82s
-         idPosCX+/avJtP5vbzMrot8+xCQIDuLyaJRPpVco3Rcwxwh5nPul8rbytQf6rt9AGiKT
-         RbuQ==
+        bh=05/KP7vJhvkE2Vr+ZV4ZGftwCp2ksqL5BUThcW4yjm8=;
+        b=oTHfTNjCPEl4ANBJtOnge1e2MruVYzkpAEhKZ1rNGpC8fb1VsEHbt9jdA8yLwZ79za
+         v0/hB7LHB9XSPQDKIKEPIJidsy3MKqTZEYvr9c8h/83IQ/pg0DHBB8272xi3YPq4DK02
+         eSIAKspOaOexIgJEzYWfeJsGpEW18gTRNTC1a7l+z9eppG8gYB7sxaL5t/1tEvJXPpOJ
+         AsNpYakLitYgZadcLHdXxTYyeaLXjg/+iJH9+r8h7oNz8X3AynRZshVKbpI8e+VM+iwL
+         j0mXcMhFTrWvzOJ+jNup19YUKfNSU8ac1HPX0D6MvRD3YULEVcjdWGyvuYf/azbNOFCl
+         aeSg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
         h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
          :references:mime-version:content-transfer-encoding;
-        bh=kJYH9tpAtDL4EhejYbDB+JwVoNY7pJbsuEmcLrJV8zQ=;
-        b=tgdAzawnH7ywtAtHLG0XDpXQSgC5f1pGEYP20c904PDg/r5VMi7EnIx8XcWPvIeCdK
-         tGWghmCpgKehU5LnTIXuxUOpOTkt9m9icZzw7tRLRWudU/RFW3+fiH0jgO81PQ/Gw6Sb
-         FBxQstR8FyRkJ97q/R2nWXm4iNNwH8+9ZXD/VgXZrwZUjFqTvOqIrZ0PUpl7jGEV+7Aw
-         ozqq/Fwr0MbJMF+WgcEhEljJNNvblazhjTLnWNL4tG7YkIsWGCG4jrLagRvFeltdxhd8
-         dXRDt/qSk3KF+0kr2wbkGEmTgkcIKGO+HN2mtKz8Ve0aF3L+siFV0JtDZR+QndO4GTXA
-         +WTQ==
-X-Gm-Message-State: AOAM533SzxquW+y+TIPZSFbn6VRsue7X9ptNOfq6dElixs7aw6ZsaVA9
-        k6vB9fCpf11ZXfPuXK7oBa5yluEdb0s=
-X-Google-Smtp-Source: ABdhPJyuzyvtipAGjyOeop94s+/iBnybm0vdNzYMhZv9V6UXWf0+O95ymUunVwlIqbbB9VBXxxo2ZQ==
-X-Received: by 2002:a5d:5152:: with SMTP id u18mr5972825wrt.289.1617537575077;
-        Sun, 04 Apr 2021 04:59:35 -0700 (PDT)
+        bh=05/KP7vJhvkE2Vr+ZV4ZGftwCp2ksqL5BUThcW4yjm8=;
+        b=lUqr5iwjiTOlymARmTSKPkFLJKFbu0ecJz/7cDlpXKaPm/tk81C93OCTYNTjjfgeRN
+         r2N/ScH9HsYxOfWCqt4lzSaGBVqcVxBDzXjqsSX7JATU7SeyFT+nlMrwildsZmWhbsC9
+         Cxek92vxyBIMkyZN8x3tCHov35eNSUAGKCkBE5ubuoFNIwVoch/qZhzMY0qzbyV348Ka
+         FrFpFEdo+P2p3pINQMmZ0z89DknX8aeYZC4hhDyl4HeZGTx9qQGASh22gur2JkX8I3IW
+         QXbUJKhnRuAanA83Lr/5Ns9o9D4cLh3HH6Tb9POyCnMCNicKYSygESW8ADWiUxfuza7G
+         cbJQ==
+X-Gm-Message-State: AOAM531OdS4w/CFjOLevssd7Odz2g9MF6TTwyLRj2aEisYZ6JZB+QDkl
+        TMxV2Rm1rs5k2dwAYB3diF8=
+X-Google-Smtp-Source: ABdhPJxy5rISy9sztUqf6n9fU87Z4VMV+h82xLJFBoIQwRTEIu27vfg3EaDM5XwW0sFXavfbiVIbsQ==
+X-Received: by 2002:a5d:6b50:: with SMTP id x16mr23941507wrw.379.1617537576460;
+        Sun, 04 Apr 2021 04:59:36 -0700 (PDT)
 Received: from localhost.localdomain ([170.253.36.171])
-        by smtp.googlemail.com with ESMTPSA id u2sm23786967wrp.12.2021.04.04.04.59.34
+        by smtp.googlemail.com with ESMTPSA id u2sm23786967wrp.12.2021.04.04.04.59.35
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Sun, 04 Apr 2021 04:59:34 -0700 (PDT)
+        Sun, 04 Apr 2021 04:59:36 -0700 (PDT)
 From:   Alejandro Colomar <alx.manpages@gmail.com>
 To:     mtk.manpages@gmail.com
 Cc:     Alejandro Colomar <alx.manpages@gmail.com>,
         linux-man@vger.kernel.org, libc-alpha@sourceware.org
-Subject: [PATCH v5 03/35] system_data_types.7: Add 'socklen_t'
-Date:   Sun,  4 Apr 2021 13:58:16 +0200
-Message-Id: <20210404115847.78166-4-alx.manpages@gmail.com>
+Subject: [PATCH v5 05/35] access.2: Use syscall(SYS_...); for system calls without a wrapper
+Date:   Sun,  4 Apr 2021 13:58:18 +0200
+Message-Id: <20210404115847.78166-6-alx.manpages@gmail.com>
 X-Mailer: git-send-email 2.31.0
 In-Reply-To: <20210403194026.102818-1-alx.manpages@gmail.com>
 References: <20210403194026.102818-1-alx.manpages@gmail.com>
@@ -74,48 +74,37 @@ X-Mailing-List: linux-man@vger.kernel.org
 
 Signed-off-by: Alejandro Colomar <alx.manpages@gmail.com>
 ---
- man7/system_data_types.7 | 28 ++++++++++++++++++++++++++++
- 1 file changed, 28 insertions(+)
+ man2/access.2 | 11 ++++++++---
+ 1 file changed, 8 insertions(+), 3 deletions(-)
 
-diff --git a/man7/system_data_types.7 b/man7/system_data_types.7
-index 93c723a2f..e038aab1e 100644
---- a/man7/system_data_types.7
-+++ b/man7/system_data_types.7
-@@ -1251,6 +1251,34 @@ POSIX.1-2001 and later.
- .BR getsockname (2),
- .BR socket (2)
- .RE
-+.\"------------------------------------- socklen_t --------------------/
-+.TP
-+.I socklen_t
-+.RS
-+.IR Include :
-+.IR <sys/socket.h> .
-+Alternatively,
-+.IR <netdb.h> .
+diff --git a/man2/access.2 b/man2/access.2
+index 4a6e28db3..f24a73161 100644
+--- a/man2/access.2
++++ b/man2/access.2
+@@ -49,15 +49,20 @@ access, faccessat, faccessat2 \- check user's permissions for a file
+ .PP
+ .BI "int access(const char *" pathname ", int " mode );
+ .PP
+-.BR "#include <fcntl.h>           " "/* Definition of AT_* constants */"
++.BR "#include <fcntl.h>" "            /* Definition of " AT_* " constants */"
+ .B #include <unistd.h>
+ .PP
+ .BI "int faccessat(int " dirfd ", const char *" pathname ", int " \
+ mode ", int " flags );
+                 /* But see C library/kernel differences, below */
+ .PP
+-.BI "int faccessat2(int " dirfd ", const char *" pathname ", int " \
+-mode ", int " flags );
++.BR "#include <fcntl.h>" "            /* Definition of " AT_* " constants */"
++.BR "#include <sys/syscall.h>" "      /* Definition of " SYS_* " constants */"
++.B #include <unistd.h>
 +.PP
-+Describes the length of a socket address.
-+According to POSIX,
-+this shall be an integer type of at least 32 bits.
-+.PP
-+.IR "Conforming to" :
-+POSIX.1-2001 and later.
-+.PP
-+.IR "See also" :
-+.BR accept (2),
-+.BR bind (2),
-+.BR connect (2),
-+.BR gethostbyaddr (2),
-+.BR getnameinfo (2),
-+.BR socket (2)
-+.PP
-+See also the
-+.I sockaddr
-+structure in this page.
-+.RE
- .\"------------------------------------- ssize_t ----------------------/
- .TP
- .I ssize_t
++.BI "int syscall(SYS_faccessat2,"
++.BI "            int " dirfd ", const char *" pathname ", int " mode \
++", int " flags );
+ .fi
+ .PP
+ .RS -4
 -- 
 2.31.0
 
