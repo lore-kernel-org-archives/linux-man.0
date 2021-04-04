@@ -8,61 +8,61 @@ X-Spam-Status: No, score=-15.7 required=3.0 tests=BAYES_00,DKIM_SIGNED,
 	MAILING_LIST_MULTI,SPF_HELO_NONE,SPF_PASS,USER_AGENT_GIT autolearn=ham
 	autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id F1B8CC43460
-	for <linux-man@archiver.kernel.org>; Sun,  4 Apr 2021 11:59:39 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id E3F93C43461
+	for <linux-man@archiver.kernel.org>; Sun,  4 Apr 2021 11:59:40 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.kernel.org (Postfix) with ESMTP id C3CF261365
-	for <linux-man@archiver.kernel.org>; Sun,  4 Apr 2021 11:59:39 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTP id BD2656128A
+	for <linux-man@archiver.kernel.org>; Sun,  4 Apr 2021 11:59:40 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S230209AbhDDL7n (ORCPT <rfc822;linux-man@archiver.kernel.org>);
-        Sun, 4 Apr 2021 07:59:43 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:37782 "EHLO
+        id S230307AbhDDL7o (ORCPT <rfc822;linux-man@archiver.kernel.org>);
+        Sun, 4 Apr 2021 07:59:44 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:37792 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S230122AbhDDL7m (ORCPT
-        <rfc822;linux-man@vger.kernel.org>); Sun, 4 Apr 2021 07:59:42 -0400
-Received: from mail-wr1-x429.google.com (mail-wr1-x429.google.com [IPv6:2a00:1450:4864:20::429])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 94657C061756
-        for <linux-man@vger.kernel.org>; Sun,  4 Apr 2021 04:59:37 -0700 (PDT)
-Received: by mail-wr1-x429.google.com with SMTP id x16so8597155wrn.4
-        for <linux-man@vger.kernel.org>; Sun, 04 Apr 2021 04:59:37 -0700 (PDT)
+        with ESMTP id S230366AbhDDL7n (ORCPT
+        <rfc822;linux-man@vger.kernel.org>); Sun, 4 Apr 2021 07:59:43 -0400
+Received: from mail-wr1-x431.google.com (mail-wr1-x431.google.com [IPv6:2a00:1450:4864:20::431])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 086CCC0613E6
+        for <linux-man@vger.kernel.org>; Sun,  4 Apr 2021 04:59:39 -0700 (PDT)
+Received: by mail-wr1-x431.google.com with SMTP id k8so8610871wrc.3
+        for <linux-man@vger.kernel.org>; Sun, 04 Apr 2021 04:59:38 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=gmail.com; s=20161025;
         h=from:to:cc:subject:date:message-id:in-reply-to:references
          :mime-version:content-transfer-encoding;
-        bh=05/KP7vJhvkE2Vr+ZV4ZGftwCp2ksqL5BUThcW4yjm8=;
-        b=oTHfTNjCPEl4ANBJtOnge1e2MruVYzkpAEhKZ1rNGpC8fb1VsEHbt9jdA8yLwZ79za
-         v0/hB7LHB9XSPQDKIKEPIJidsy3MKqTZEYvr9c8h/83IQ/pg0DHBB8272xi3YPq4DK02
-         eSIAKspOaOexIgJEzYWfeJsGpEW18gTRNTC1a7l+z9eppG8gYB7sxaL5t/1tEvJXPpOJ
-         AsNpYakLitYgZadcLHdXxTYyeaLXjg/+iJH9+r8h7oNz8X3AynRZshVKbpI8e+VM+iwL
-         j0mXcMhFTrWvzOJ+jNup19YUKfNSU8ac1HPX0D6MvRD3YULEVcjdWGyvuYf/azbNOFCl
-         aeSg==
+        bh=jk79jF3k9E6vfPguSO5Yh2Y/ohCtW/UIxIkavyhEbp4=;
+        b=DcrpK/lR44ouhKmMeljlaxBWI3cFHkFvQ+4nUJh7Sst5HiL4heobjxgrRGRgQBnjvQ
+         5nfNcKLngd83JXcWj2aOXhL+gxZjPwZlM0gTUeyJCTSh671DeTcrx1ISrawGM9bYKejy
+         CltQplE4cokxJyu/5WTZ6Rmmc2EQARgppvFvGwM5JRlXDaTcj/ebMQEC1gKmxo1xZwli
+         91jnBp6loBxmu5dRXF3oopmkHEEcScAyApTb+lbbWEfhtsf5XRav1b0WapCgdDxJZGtx
+         7u6WSMUsy0kUGwzFRyNxtUKxBFescCpd7JWGyFDAKjY3jzw3p4H354weW4Cd2IKPEFP/
+         TJuQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
         h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
          :references:mime-version:content-transfer-encoding;
-        bh=05/KP7vJhvkE2Vr+ZV4ZGftwCp2ksqL5BUThcW4yjm8=;
-        b=lUqr5iwjiTOlymARmTSKPkFLJKFbu0ecJz/7cDlpXKaPm/tk81C93OCTYNTjjfgeRN
-         r2N/ScH9HsYxOfWCqt4lzSaGBVqcVxBDzXjqsSX7JATU7SeyFT+nlMrwildsZmWhbsC9
-         Cxek92vxyBIMkyZN8x3tCHov35eNSUAGKCkBE5ubuoFNIwVoch/qZhzMY0qzbyV348Ka
-         FrFpFEdo+P2p3pINQMmZ0z89DknX8aeYZC4hhDyl4HeZGTx9qQGASh22gur2JkX8I3IW
-         QXbUJKhnRuAanA83Lr/5Ns9o9D4cLh3HH6Tb9POyCnMCNicKYSygESW8ADWiUxfuza7G
-         cbJQ==
-X-Gm-Message-State: AOAM531OdS4w/CFjOLevssd7Odz2g9MF6TTwyLRj2aEisYZ6JZB+QDkl
-        TMxV2Rm1rs5k2dwAYB3diF8=
-X-Google-Smtp-Source: ABdhPJxy5rISy9sztUqf6n9fU87Z4VMV+h82xLJFBoIQwRTEIu27vfg3EaDM5XwW0sFXavfbiVIbsQ==
-X-Received: by 2002:a5d:6b50:: with SMTP id x16mr23941507wrw.379.1617537576460;
-        Sun, 04 Apr 2021 04:59:36 -0700 (PDT)
+        bh=jk79jF3k9E6vfPguSO5Yh2Y/ohCtW/UIxIkavyhEbp4=;
+        b=DZ3n+TzlWkTbgMBEqScUex4Fr6MZ3dErhj9weETK7B06IfzfqwCiTA/DP77FJnLeQp
+         EBCzC2JcTZZlMy36rOQLyanInFkggHgNnM7D+UF7PtAFdmJPl8zrKVxhNlmGVnaPHPT8
+         LMuJQd8MZ/jwUkWgtTNrO4VqUrJTrM7Xx+hf3u8eaVqU//h98On2NX6fBwGacdQ3EhZj
+         uBllB+twCOrLEyIJD0oAzGiYkJZ2moT3bd1CiLHWF5HxQSgM/Ipw0GZorDQ5tYuHIjsp
+         5uGKdd/ZspU9/RApnPXj/kXgZE7eEjNTFhKehWBjQFnO6/v7ZxyW4XoNM1PtRvAqHDY/
+         LpiQ==
+X-Gm-Message-State: AOAM532mNQ81A6QPg75llNFVM20309chEE6QFehwnCkntGI8IpsmOTjh
+        1wjOH3TcKPrre3kyljAjW1hEjIbwQOc=
+X-Google-Smtp-Source: ABdhPJzCuQ5x+/u9Yu5Xmdr88Krcd32mAkrwfGti6ynE9poooQJkFXYDsjSWwOncRgU/X7woVEaW/g==
+X-Received: by 2002:a5d:65ca:: with SMTP id e10mr1281426wrw.331.1617537577828;
+        Sun, 04 Apr 2021 04:59:37 -0700 (PDT)
 Received: from localhost.localdomain ([170.253.36.171])
-        by smtp.googlemail.com with ESMTPSA id u2sm23786967wrp.12.2021.04.04.04.59.35
+        by smtp.googlemail.com with ESMTPSA id u2sm23786967wrp.12.2021.04.04.04.59.37
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Sun, 04 Apr 2021 04:59:36 -0700 (PDT)
+        Sun, 04 Apr 2021 04:59:37 -0700 (PDT)
 From:   Alejandro Colomar <alx.manpages@gmail.com>
 To:     mtk.manpages@gmail.com
 Cc:     Alejandro Colomar <alx.manpages@gmail.com>,
         linux-man@vger.kernel.org, libc-alpha@sourceware.org
-Subject: [PATCH v5 05/35] access.2: Use syscall(SYS_...); for system calls without a wrapper
-Date:   Sun,  4 Apr 2021 13:58:18 +0200
-Message-Id: <20210404115847.78166-6-alx.manpages@gmail.com>
+Subject: [PATCH v5 07/35] alloc_hugepages.2: Use syscall(SYS_...); for system calls without a wrapper
+Date:   Sun,  4 Apr 2021 13:58:20 +0200
+Message-Id: <20210404115847.78166-8-alx.manpages@gmail.com>
 X-Mailer: git-send-email 2.31.0
 In-Reply-To: <20210403194026.102818-1-alx.manpages@gmail.com>
 References: <20210403194026.102818-1-alx.manpages@gmail.com>
@@ -72,39 +72,35 @@ Precedence: bulk
 List-ID: <linux-man.vger.kernel.org>
 X-Mailing-List: linux-man@vger.kernel.org
 
+The page didn't specify includes, and the syscalls are extint, so
+instead of adding incomplete information about includes, just
+leave it without any includes.
+
 Signed-off-by: Alejandro Colomar <alx.manpages@gmail.com>
 ---
- man2/access.2 | 11 ++++++++---
- 1 file changed, 8 insertions(+), 3 deletions(-)
+ man2/alloc_hugepages.2 | 7 ++++---
+ 1 file changed, 4 insertions(+), 3 deletions(-)
 
-diff --git a/man2/access.2 b/man2/access.2
-index 4a6e28db3..f24a73161 100644
---- a/man2/access.2
-+++ b/man2/access.2
-@@ -49,15 +49,20 @@ access, faccessat, faccessat2 \- check user's permissions for a file
- .PP
- .BI "int access(const char *" pathname ", int " mode );
- .PP
--.BR "#include <fcntl.h>           " "/* Definition of AT_* constants */"
-+.BR "#include <fcntl.h>" "            /* Definition of " AT_* " constants */"
- .B #include <unistd.h>
- .PP
- .BI "int faccessat(int " dirfd ", const char *" pathname ", int " \
- mode ", int " flags );
-                 /* But see C library/kernel differences, below */
- .PP
--.BI "int faccessat2(int " dirfd ", const char *" pathname ", int " \
--mode ", int " flags );
-+.BR "#include <fcntl.h>" "            /* Definition of " AT_* " constants */"
-+.BR "#include <sys/syscall.h>" "      /* Definition of " SYS_* " constants */"
-+.B #include <unistd.h>
-+.PP
-+.BI "int syscall(SYS_faccessat2,"
-+.BI "            int " dirfd ", const char *" pathname ", int " mode \
-+", int " flags );
+diff --git a/man2/alloc_hugepages.2 b/man2/alloc_hugepages.2
+index 07193c542..cc76fc495 100644
+--- a/man2/alloc_hugepages.2
++++ b/man2/alloc_hugepages.2
+@@ -27,11 +27,12 @@
+ alloc_hugepages, free_hugepages \- allocate or free huge pages
+ .SH SYNOPSIS
+ .nf
+-.BI "void *alloc_hugepages(int " key ", void *" addr ", size_t " len ,
+-.BI "                      int " prot ", int " flag );
++.BI "void *syscall(SYS_alloc_hugepages, int " key ", void *" addr \
++", size_t " len ,
++.BI "              int " prot ", int " flag );
+ .\" asmlinkage unsigned long sys_alloc_hugepages(int key, unsigned long addr,
+ .\" unsigned long len, int prot, int flag);
+-.BI "int free_hugepages(void *" addr );
++.BI "int syscall(SYS_free_hugepages, void *" addr );
+ .\" asmlinkage int sys_free_hugepages(unsigned long addr);
  .fi
- .PP
- .RS -4
+ .SH DESCRIPTION
 -- 
 2.31.0
 
