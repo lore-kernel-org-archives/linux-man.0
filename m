@@ -8,61 +8,61 @@ X-Spam-Status: No, score=-15.7 required=3.0 tests=BAYES_00,DKIM_SIGNED,
 	MAILING_LIST_MULTI,SPF_HELO_NONE,SPF_PASS,USER_AGENT_GIT autolearn=ham
 	autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id ECBA6C43461
+	by smtp.lore.kernel.org (Postfix) with ESMTP id CD2D1C43460
 	for <linux-man@archiver.kernel.org>; Sun,  4 Apr 2021 11:59:50 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.kernel.org (Postfix) with ESMTP id C8FC661365
+	by mail.kernel.org (Postfix) with ESMTP id 961D36128A
 	for <linux-man@archiver.kernel.org>; Sun,  4 Apr 2021 11:59:50 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S230448AbhDDL7y (ORCPT <rfc822;linux-man@archiver.kernel.org>);
+        id S230435AbhDDL7y (ORCPT <rfc822;linux-man@archiver.kernel.org>);
         Sun, 4 Apr 2021 07:59:54 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:37858 "EHLO
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:37848 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S230447AbhDDL7x (ORCPT
+        with ESMTP id S230446AbhDDL7x (ORCPT
         <rfc822;linux-man@vger.kernel.org>); Sun, 4 Apr 2021 07:59:53 -0400
-Received: from mail-wr1-x42b.google.com (mail-wr1-x42b.google.com [IPv6:2a00:1450:4864:20::42b])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 7459AC061756
-        for <linux-man@vger.kernel.org>; Sun,  4 Apr 2021 04:59:49 -0700 (PDT)
-Received: by mail-wr1-x42b.google.com with SMTP id x16so8597491wrn.4
-        for <linux-man@vger.kernel.org>; Sun, 04 Apr 2021 04:59:49 -0700 (PDT)
+Received: from mail-wr1-x429.google.com (mail-wr1-x429.google.com [IPv6:2a00:1450:4864:20::429])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 23B65C0613E6
+        for <linux-man@vger.kernel.org>; Sun,  4 Apr 2021 04:59:48 -0700 (PDT)
+Received: by mail-wr1-x429.google.com with SMTP id b9so722612wrs.1
+        for <linux-man@vger.kernel.org>; Sun, 04 Apr 2021 04:59:48 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=gmail.com; s=20161025;
         h=from:to:cc:subject:date:message-id:in-reply-to:references
          :mime-version:content-transfer-encoding;
-        bh=4RUXZNNPRHFOrslSAajMyr/oneUNBsE8l+hRPjLljlU=;
-        b=RQ3FGdNYxPaE6d49eat0Xle32ukQfV1F5Q6hzxZiLwm+i9+ix59ImeYrbSHAglKEhs
-         RnjkL37xa00rkJYqKMc/a0a/OpUl+VexZ8GgRcdQxeDstocdRsd7VTqJKnjiRx6UfeJB
-         ZKHCSPWEcz7NCozpSRMVONSYSWeqF+nHjWApvA+HHko04cFT9LiNF1T0zAvD0CudnLN0
-         eA5jwGWqZMpr/21lloKWQfDIpmwOsPaO0TOLFVxAC/FTeXB664VHf1M7Pp5GGdVbVi8K
-         w9ipKfjZ2FjFE+IofTYKQCQCmHbeydf5FMe8znqnRy2SEcYsJENF0MI1QfEB89fa4FQi
-         b8JA==
+        bh=od3nVNvd6lfIlcamsSsLIjaETo+dX83Tof4HnlB2lP4=;
+        b=hbddO/MuCyJrUyt+VzZ3OePhpNSAstRF44tHp792DlOQvuLh3KGgEOp6OnUAn5p+XP
+         Ue4EpuIy1mWSYp65hYyslMeasGl9jy2EJXYvQ4o0PdNtTcNDg0Xlq4BnQJKcqb3eb83P
+         NFfV+jGvok/Ec97eTlaSg+U739ny1PTlGfRKkM7kS09MMraQzpSHcZoksu1Bd0MIPUpr
+         B0XKjPWkrmDIFEHFxFcUS3pFiKEiN6Jsek6lle7XsJ8WcfwLmOBPvuKQur+h8cR/jYD+
+         OQTzi9+88emxWjxebdjA98bMYHv/YQfPKxqSHfgkruLJGY3dkZNNsUhAJfy/huPJb3by
+         cvLQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
         h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
          :references:mime-version:content-transfer-encoding;
-        bh=4RUXZNNPRHFOrslSAajMyr/oneUNBsE8l+hRPjLljlU=;
-        b=dy1kxDVMvE1jfabUhoy5/SDtarnu5KfHfcf4pM/dBZnYZs9HYCr4XzeCe522z2G7te
-         AO6kyYZhg1sr8Td3+CZQ7k76pf9jnc62g80Zwk5PTdchLHKONJlCqe1KwYals3a2FHc9
-         Bk0e3+z7xtzH2wPHH00UfCcvi11GVXq99I7xfXKm2tgX/zD8s9QrbcLpE1EZOPStX/FG
-         6FqcBbFfU0/qwhkgDj9C8ucGQxmqbHRAJxYCNhcOTyEXgV1KYF9QkHP3i+dztu49E3tQ
-         hBWf/T10BAQv+5HRQhBRpQOW3Vz2XP2GonRI7mZeifgbvAeoAULTylNhMSKztnhAFqlG
-         laAg==
-X-Gm-Message-State: AOAM533VZ4BDhOmEhewfQBxF+xHG7DtgonaMk7tp5dJxfzbVr0im416a
-        O10LYRR53gcrOOZgN17Arja/93G6VBE=
-X-Google-Smtp-Source: ABdhPJwmxNYd03/hXEz4G+xHqACI+y481rN5LNbHGCYciZkNiqFd9RhfRGfct12W2aFhanucD6lPYQ==
-X-Received: by 2002:a5d:4bcb:: with SMTP id l11mr25167639wrt.390.1617537588323;
-        Sun, 04 Apr 2021 04:59:48 -0700 (PDT)
+        bh=od3nVNvd6lfIlcamsSsLIjaETo+dX83Tof4HnlB2lP4=;
+        b=Q9ilK2Yqh6+cjznUhzS4RUuVqK8Zh9IqwWPrGqvzBaOGK7fjAWF7L0bp240waJrAEJ
+         rp7UBP9Zv0CtNzPb4fKX8lACuGfCGkKrf69tn4hCvqgG9wGZ/BAdlzsjJHt21VPbE1DL
+         xGhoSjpjDLD/Z9Sb1E4P7OPu5P8rPkBKIYB7lr6HTuW1quQkUaVWQym5lv/IRcXk2L3X
+         nBCm9Z10TfLrMyvkzCs6DYgEkZNYxLqdMWcv0Tzr1kW24QjKyQIkxuNefYjNrPJOayrD
+         2hVnODxlnjTMk3PRSSYWXF+4uosLwxdRxtF/ngkubLOSvMO+ivykzzuNMYpWC6pyaoME
+         ey7A==
+X-Gm-Message-State: AOAM533Z3oOtTj7k0BatTOfbZegs4HGCbq82fIhQKCePFDGejGXN3VVQ
+        l2JnWw47MT3FhlAXJ0purEk=
+X-Google-Smtp-Source: ABdhPJwX5H3M3kxIZfgEiSfqi2wwArSQNThTiAYteoYcmUkjN6/ekJZ5PpCWoDUzPfesfxrpnL7nAA==
+X-Received: by 2002:adf:edc3:: with SMTP id v3mr23761491wro.79.1617537586944;
+        Sun, 04 Apr 2021 04:59:46 -0700 (PDT)
 Received: from localhost.localdomain ([170.253.36.171])
-        by smtp.googlemail.com with ESMTPSA id u2sm23786967wrp.12.2021.04.04.04.59.47
+        by smtp.googlemail.com with ESMTPSA id u2sm23786967wrp.12.2021.04.04.04.59.46
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Sun, 04 Apr 2021 04:59:48 -0700 (PDT)
+        Sun, 04 Apr 2021 04:59:46 -0700 (PDT)
 From:   Alejandro Colomar <alx.manpages@gmail.com>
 To:     mtk.manpages@gmail.com
 Cc:     Alejandro Colomar <alx.manpages@gmail.com>,
         linux-man@vger.kernel.org, libc-alpha@sourceware.org
-Subject: [PATCH v5 22/35] getpriority.2: Remove unused include
-Date:   Sun,  4 Apr 2021 13:58:35 +0200
-Message-Id: <20210404115847.78166-23-alx.manpages@gmail.com>
+Subject: [PATCH v5 20/35] futimesat.2: ffix
+Date:   Sun,  4 Apr 2021 13:58:33 +0200
+Message-Id: <20210404115847.78166-21-alx.manpages@gmail.com>
 X-Mailer: git-send-email 2.31.0
 In-Reply-To: <20210403194026.102818-1-alx.manpages@gmail.com>
 References: <20210403194026.102818-1-alx.manpages@gmail.com>
@@ -72,47 +72,24 @@ Precedence: bulk
 List-ID: <linux-man.vger.kernel.org>
 X-Mailing-List: linux-man@vger.kernel.org
 
-<sys/time.h> is not needed to get the function declaration nor any
-constant used by the function.  It was only needed (before
-POSIX.1) to get 'struct timeval', but that information would be
-more suited for system_data_types(7), and not for this page.
-
 Signed-off-by: Alejandro Colomar <alx.manpages@gmail.com>
 ---
- man2/getpriority.2 | 13 -------------
- 1 file changed, 13 deletions(-)
+ man2/futimesat.2 | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
 
-diff --git a/man2/getpriority.2 b/man2/getpriority.2
-index e3d518028..d6744989d 100644
---- a/man2/getpriority.2
-+++ b/man2/getpriority.2
-@@ -47,7 +47,6 @@
- getpriority, setpriority \- get/set program scheduling priority
+diff --git a/man2/futimesat.2 b/man2/futimesat.2
+index 6ac9a9200..86e941fe5 100644
+--- a/man2/futimesat.2
++++ b/man2/futimesat.2
+@@ -28,7 +28,7 @@ futimesat \- change timestamps of a file relative to a \
+ directory file descriptor
  .SH SYNOPSIS
  .nf
--.B #include <sys/time.h>
- .B #include <sys/resource.h>
+-.B #include <fcntl.h>           /* Definition of AT_* constants */
++.BR "#include <fcntl.h>" "            /* Definition of " AT_* " constants */"
+ .B #include <sys/time.h>
  .PP
- .BI "int getpriority(int " which ", id_t " who );
-@@ -209,18 +208,6 @@ the real or effective user ID of the process \fIwho\fP.
- All BSD-like systems (SunOS 4.1.3, Ultrix 4.2,
- 4.3BSD, FreeBSD 4.3, OpenBSD-2.5, ...) behave in the same
- manner as Linux 2.6.12 and later.
--.PP
--Including
--.I <sys/time.h>
--is not required these days, but increases portability.
--(Indeed,
--.I <sys/resource.h>
--defines the
--.I rusage
--structure with fields of type
--.I struct timeval
--defined in
--.IR <sys/time.h> .)
- .\"
- .SS C library/kernel differences
- Within the kernel, nice values are actually represented
+ .BI "int futimesat(int " dirfd ", const char *" pathname ,
 -- 
 2.31.0
 
