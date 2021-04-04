@@ -8,61 +8,61 @@ X-Spam-Status: No, score=-15.7 required=3.0 tests=BAYES_00,DKIM_SIGNED,
 	MAILING_LIST_MULTI,SPF_HELO_NONE,SPF_PASS,USER_AGENT_GIT autolearn=ham
 	autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 0B07CC433ED
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 62390C43461
 	for <linux-man@archiver.kernel.org>; Sun,  4 Apr 2021 11:59:44 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.kernel.org (Postfix) with ESMTP id D8C596128A
-	for <linux-man@archiver.kernel.org>; Sun,  4 Apr 2021 11:59:43 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTP id 2B9096137A
+	for <linux-man@archiver.kernel.org>; Sun,  4 Apr 2021 11:59:44 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S230377AbhDDL7r (ORCPT <rfc822;linux-man@archiver.kernel.org>);
+        id S230378AbhDDL7r (ORCPT <rfc822;linux-man@archiver.kernel.org>);
         Sun, 4 Apr 2021 07:59:47 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:37806 "EHLO
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:37812 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S230378AbhDDL7q (ORCPT
-        <rfc822;linux-man@vger.kernel.org>); Sun, 4 Apr 2021 07:59:46 -0400
-Received: from mail-wr1-x430.google.com (mail-wr1-x430.google.com [IPv6:2a00:1450:4864:20::430])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 2F813C0613E6
-        for <linux-man@vger.kernel.org>; Sun,  4 Apr 2021 04:59:41 -0700 (PDT)
-Received: by mail-wr1-x430.google.com with SMTP id j18so8597935wra.2
-        for <linux-man@vger.kernel.org>; Sun, 04 Apr 2021 04:59:41 -0700 (PDT)
+        with ESMTP id S230388AbhDDL7r (ORCPT
+        <rfc822;linux-man@vger.kernel.org>); Sun, 4 Apr 2021 07:59:47 -0400
+Received: from mail-wm1-x32d.google.com (mail-wm1-x32d.google.com [IPv6:2a00:1450:4864:20::32d])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 7C2F5C061756
+        for <linux-man@vger.kernel.org>; Sun,  4 Apr 2021 04:59:42 -0700 (PDT)
+Received: by mail-wm1-x32d.google.com with SMTP id j20-20020a05600c1914b029010f31e15a7fso6344548wmq.1
+        for <linux-man@vger.kernel.org>; Sun, 04 Apr 2021 04:59:42 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=gmail.com; s=20161025;
         h=from:to:cc:subject:date:message-id:in-reply-to:references
          :mime-version:content-transfer-encoding;
-        bh=95FmrA4H8nqvZ9OQeG4Dh0kLkA1VLnSc6nqAgxvFvvI=;
-        b=EoUJpT8Ga4avxDBGtLG/lczbeZ6TDZWiJZvhwqIBR3X4yrmdezip7jue2pnntjgHP6
-         KTMHRkLFLIwq8UI8n87IZrSW9Vtl+i8w+xt66m8rd2fA18WhnmFFUGFtRG4K/EqxODdz
-         IfoZ7gqjrjnuC7aBSHB6fqf7ErxYrLIXqhS3CQzKyRFOlzOOMemybm02rND40EmlzkHl
-         D2rYyct5ZQl94ZKgoJ0HbComLY6kxeWMKrFsdeCPX5UrIvDLlwO3I0ITJmZjjEGxJ8nG
-         gSvSifPiASpRP9DAlUAD4P9mQha9avjH1uMqee77AfZm74Y326LVYT33/FuFlvUXfJea
-         JHsQ==
+        bh=TV1ZaGzpzoXjid5LXMYW52L7tDzb+jhqCC6Ks0Q7om8=;
+        b=DLEYe3LlcWZ5U5Iq4iyWxL768erlWuYgObVAc5l7jtxfww31FpfxSU/3xMrh19KPz7
+         IMy9pZGuEN0qJS/f+fJDAF7wE5u6W1GeSjfokMGYq3+j/fdnUZ5jgMAdzoTznvQsorYK
+         ABAGs6bNelrlqXFDhqNuJGD72UK3k0VIB8pIkUGra0avAPj3L3zf5T917NwdYvNKwidX
+         FfkZY6OWg1WJsHYvDqTXn8QdvvXhU/wMiVmqssUW/tsW7X7BsVn1mgtqkFeJNwR0slWZ
+         qLuymHZQ/lamsJPStCXjij/1wYu34KFJqUd+Hf8l81BZ6zqC0X45MVgrapDDdgmkB+0y
+         VezQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
         h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
          :references:mime-version:content-transfer-encoding;
-        bh=95FmrA4H8nqvZ9OQeG4Dh0kLkA1VLnSc6nqAgxvFvvI=;
-        b=udUbHe9rhATlmrO7fEho0vdkvEzJ7A8ifM49a00LlFxRdoJWEmW/UmfW6SXYxWLgJG
-         sl1eBMhcn0ENS7S2gEXkl2JgsnpdO3fCts+6OuR3HkLJxrDZ/vtAyWFjcEmYzh5a9qbO
-         /GYjHcncL8gJnT3RDIfDHnvOrdaIDdWaMZUC9MtpYrJo0FW5biqTkObNXPx8kafn18cT
-         Cvof+8EwUXGqXAbx+MQFBEmqZfa9gPR1c43ToB0c3xgGJn6V2sNbRRmDpeirTL/3ruvH
-         cIj20PNCFKRSrEOwdZwVWd7si4seiyDx8Lzz28s5uLnsbPzsA26kox0Ms84wY5Xvvlqb
-         kgIg==
-X-Gm-Message-State: AOAM532D/L6Pv4qy6zBigTy9z20GNmLYO3IHmYMDhVoa86j8ly4ovBmb
-        +P9cL+ePFzz5KmLv8De/Jdn6olq73FU=
-X-Google-Smtp-Source: ABdhPJyvbO4yONKoyUpdS704mo0DFIqui10+fZomkO4SKovukKKeLVQmdbdpBDQcrMjtIvAKc6DZtg==
-X-Received: by 2002:a5d:58e8:: with SMTP id f8mr24534317wrd.102.1617537579970;
-        Sun, 04 Apr 2021 04:59:39 -0700 (PDT)
+        bh=TV1ZaGzpzoXjid5LXMYW52L7tDzb+jhqCC6Ks0Q7om8=;
+        b=cxaT5puYtOz+BQ+4zo7uSHeOEAgeylsdZQWZlBiE2bBqcBIbqPqSasY8DckSfVRSWN
+         iQv7jbq8wJA2jO7qcBE1LZBxjDRm23KRu6XlUZCj54Ii3chuWqd1ZoTw2jX9MGaIdRb4
+         U+qlZZyypeDsbor7cEynvbjocIVMEeF0KxTTbhEGoRpofvGNtdd6lJFvMvJ9xcb6KrJe
+         pjvRPJvyYh9HbYFA3rrT1UsksDfPoavqrCUs1Ye7J/Z1vyA3lDHx1DHaeFzAFkYiE3R/
+         rCB9nv7QXL/BUc+T0cdJU0cVX46J0gLWXs3b1zJEwEVeeBITOIclKNqXGIkGTFPR/5it
+         l+/Q==
+X-Gm-Message-State: AOAM53349AMzvzqLL9LhtCB8W7wJpf9srwCgzk371IqPeh3SZ/J4EbZ7
+        DPypkiZrdcvLGV28eKszPfc=
+X-Google-Smtp-Source: ABdhPJwctxf/O4qvDJ/7yqsVBP1rOLw41pdoqoolcQTb84vbG+OlAvHlQCNNQbPFDhPX1fIWY+v8bA==
+X-Received: by 2002:a1c:a958:: with SMTP id s85mr21534620wme.4.1617537581340;
+        Sun, 04 Apr 2021 04:59:41 -0700 (PDT)
 Received: from localhost.localdomain ([170.253.36.171])
-        by smtp.googlemail.com with ESMTPSA id u2sm23786967wrp.12.2021.04.04.04.59.39
+        by smtp.googlemail.com with ESMTPSA id u2sm23786967wrp.12.2021.04.04.04.59.40
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Sun, 04 Apr 2021 04:59:39 -0700 (PDT)
+        Sun, 04 Apr 2021 04:59:41 -0700 (PDT)
 From:   Alejandro Colomar <alx.manpages@gmail.com>
 To:     mtk.manpages@gmail.com
 Cc:     Alejandro Colomar <alx.manpages@gmail.com>,
         linux-man@vger.kernel.org, libc-alpha@sourceware.org
-Subject: [PATCH v5 10/35] capget.2: Use syscall(SYS_...); for system calls without a wrapper
-Date:   Sun,  4 Apr 2021 13:58:23 +0200
-Message-Id: <20210404115847.78166-11-alx.manpages@gmail.com>
+Subject: [PATCH v5 12/35] delete_module.2: Add missing include
+Date:   Sun,  4 Apr 2021 13:58:25 +0200
+Message-Id: <20210404115847.78166-13-alx.manpages@gmail.com>
 X-Mailer: git-send-email 2.31.0
 In-Reply-To: <20210403194026.102818-1-alx.manpages@gmail.com>
 References: <20210403194026.102818-1-alx.manpages@gmail.com>
@@ -74,56 +74,22 @@ X-Mailing-List: linux-man@vger.kernel.org
 
 Signed-off-by: Alejandro Colomar <alx.manpages@gmail.com>
 ---
- man2/capget.2 | 20 ++++++++++----------
- 1 file changed, 10 insertions(+), 10 deletions(-)
+ man2/delete_module.2 | 2 ++
+ 1 file changed, 2 insertions(+)
 
-diff --git a/man2/capget.2 b/man2/capget.2
-index 6de51b72c..a2d897cc7 100644
---- a/man2/capget.2
-+++ b/man2/capget.2
-@@ -18,14 +18,17 @@
- capget, capset \- set/get capabilities of thread(s)
+diff --git a/man2/delete_module.2 b/man2/delete_module.2
+index bb0a812a6..174ef04d2 100644
+--- a/man2/delete_module.2
++++ b/man2/delete_module.2
+@@ -27,6 +27,8 @@
+ delete_module \- unload a kernel module
  .SH SYNOPSIS
  .nf
--.B #include <sys/capability.h>
-+.RB "         /* Definition of " CAP_* " and " \
-+_LINUX_CAPABILITY_* " constants */"
-+.B #include <linux/capability.h>
-+.BR "#include <sys/syscall.h>" "      /* Definition of " SYS_* " constants */"
-+.B #include <unistd.h>
- .PP
--.BI "int capget(cap_user_header_t " hdrp ", cap_user_data_t " datap );
--.BI "int capset(cap_user_header_t " hdrp ", const cap_user_data_t " datap );
-+.BI "int syscall(SYS_capget, cap_user_header_t " hdrp ,
-+.BI "            cap_user_data_t " datap );
-+.BI "int syscall(SYS_capset, cap_user_header_t " hdrp ,
-+.BI "            const cap_user_data_t " datap );
++.BR "#include <fcntl.h>" "            /* Definition of " O_* " constants */"
++.PP
+ .BI "int delete_module(const char *" name ", unsigned int " flags );
  .fi
--.PP
--.IR Note :
--There are no glibc wrappers for these system calls; see NOTES.
- .SH DESCRIPTION
- These two system calls are the raw kernel interface for getting and
- setting thread capabilities.
-@@ -40,7 +43,7 @@ The portable interfaces are
- .BR cap_set_proc (3)
- and
- .BR cap_get_proc (3);
--if possible, you should use those interfaces in applications.
-+if possible, you should use those interfaces in applications; see NOTES.
- .\"
- .SS Current details
- Now that you have been warned, some current kernel details.
-@@ -239,9 +242,6 @@ No such thread.
- .SH CONFORMING TO
- These system calls are Linux-specific.
- .SH NOTES
--Glibc does not provide a wrapper for this system call; call it using
--.BR syscall (2).
--.PP
- The portable interface to the capability querying and setting
- functions is provided by the
- .I libcap
+ .PP
 -- 
 2.31.0
 
