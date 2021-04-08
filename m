@@ -2,66 +2,69 @@ Return-Path: <linux-man-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-10.7 required=3.0 tests=BAYES_00,DKIM_SIGNED,
+X-Spam-Status: No, score=-15.7 required=3.0 tests=BAYES_00,DKIM_SIGNED,
 	DKIM_VALID,DKIM_VALID_AU,FREEMAIL_FORGED_FROMDOMAIN,FREEMAIL_FROM,
-	HEADER_FROM_DIFFERENT_DOMAINS,INCLUDES_PATCH,MAILING_LIST_MULTI,SPF_HELO_NONE,
-	SPF_PASS,USER_AGENT_GIT autolearn=ham autolearn_force=no version=3.4.0
+	HEADER_FROM_DIFFERENT_DOMAINS,INCLUDES_CR_TRAILER,INCLUDES_PATCH,
+	MAILING_LIST_MULTI,SPF_HELO_NONE,SPF_PASS,USER_AGENT_GIT autolearn=ham
+	autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id D2665C433ED
-	for <linux-man@archiver.kernel.org>; Thu,  8 Apr 2021 08:57:41 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 9D3CDC433B4
+	for <linux-man@archiver.kernel.org>; Thu,  8 Apr 2021 08:57:46 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.kernel.org (Postfix) with ESMTP id 8B9736112F
-	for <linux-man@archiver.kernel.org>; Thu,  8 Apr 2021 08:57:41 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTP id 7B1406112F
+	for <linux-man@archiver.kernel.org>; Thu,  8 Apr 2021 08:57:46 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S229689AbhDHI5v (ORCPT <rfc822;linux-man@archiver.kernel.org>);
-        Thu, 8 Apr 2021 04:57:51 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:35472 "EHLO
+        id S230211AbhDHI54 (ORCPT <rfc822;linux-man@archiver.kernel.org>);
+        Thu, 8 Apr 2021 04:57:56 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:35492 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S229588AbhDHI5v (ORCPT
-        <rfc822;linux-man@vger.kernel.org>); Thu, 8 Apr 2021 04:57:51 -0400
-Received: from mail-wr1-x42c.google.com (mail-wr1-x42c.google.com [IPv6:2a00:1450:4864:20::42c])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id B683EC061760
-        for <linux-man@vger.kernel.org>; Thu,  8 Apr 2021 01:57:39 -0700 (PDT)
-Received: by mail-wr1-x42c.google.com with SMTP id q26so1237425wrz.9
-        for <linux-man@vger.kernel.org>; Thu, 08 Apr 2021 01:57:39 -0700 (PDT)
+        with ESMTP id S229588AbhDHI5z (ORCPT
+        <rfc822;linux-man@vger.kernel.org>); Thu, 8 Apr 2021 04:57:55 -0400
+Received: from mail-wm1-x32a.google.com (mail-wm1-x32a.google.com [IPv6:2a00:1450:4864:20::32a])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id CEF4EC061760
+        for <linux-man@vger.kernel.org>; Thu,  8 Apr 2021 01:57:44 -0700 (PDT)
+Received: by mail-wm1-x32a.google.com with SMTP id p22so797230wmc.3
+        for <linux-man@vger.kernel.org>; Thu, 08 Apr 2021 01:57:44 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=gmail.com; s=20161025;
         h=from:to:cc:subject:date:message-id:in-reply-to:references
          :mime-version:content-transfer-encoding;
-        bh=waMzWN38rkM+Tnx2HgKuC4I8QWJthO47FCF9FrjMFHQ=;
-        b=QboBqvUOVzzs7SnZsALoHuCkUvikhyEJJEUSMo8O7KiSDABxdL0DdTRMGX4O/b6ChR
-         +boWtGoJmDuELyYFKzWRe37ENWUfIdbWyldkl/wGQOKDa3t4xbVSEK5rVkV63TXHYJBV
-         d4Z83Kf3Ip3bpKC2EzUddQqSpULSBNkoEg4qPcmIUWi92Bx8AzsT6BHVIKuSURw6/cx7
-         fbMSjlp6qdBsUfISt/ELgYVKeu2t+omVq4ph7l+ttmXUPyC5QFS25kiIs8apKxTAK+9w
-         Yykb9HN3aVww5PK0r4Rrh97+YvVHBvt1YX8pX86gICTYiYlDuVVrJIXjTtzZrt5+4dKI
-         0RMg==
+        bh=iw8n/FSk3Jc9bFPImzhTzY6c4YmUEz17qiWTFHWVb9A=;
+        b=PDW7mRnWB/tA+xMvokzmNVS8heJKek+1nMztq9FwAFSgwSi9M/AXdBRquaby7sdP7c
+         JYsO4+M94as1DmAmi0WniQws95XsQkboO9JlTDrVMIzP2wxLOV7ZJa/PiKIL74TbYvE9
+         tGcy9eMl0ulWm0ed0ORSavNLDv8DR7H8Q3vdUfuBxz6ScyOzbvCNgrwB1E+WGMpMytks
+         L7uda3Ujh1SV8MISVndOua3mEUThbjR6gukNlanlcqyDEaCVgFb/C7hyazJ11gdEaJwS
+         t2NuGbTzAEmYyBClI+XZMtO1jwqlx9vjezaBTWPwhAaAEJ6FGShU7KKwhhuek3OnYJbW
+         S90w==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
         h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
          :references:mime-version:content-transfer-encoding;
-        bh=waMzWN38rkM+Tnx2HgKuC4I8QWJthO47FCF9FrjMFHQ=;
-        b=o+Eb8I4SQPlWAqR3QLcUWS0rOxTopoch1+PsIzW6EUJ/XAZqKvyU/jLmb957SZ09bp
-         6xXu0EqDi/gODYg96/s+Sp7w9eM4je11yzre0bK9kIpWonj2USAHCLWt+wnvW7K0rkdZ
-         40Wm99bAlv0bLnkTIDZVvfPsYg89OkU4wkCuzKOntKyLI+Z1qVtd0F7SdeSYX2IXI7iD
-         IFDLS+p/a1bwiK4RnD3iep3RiNV9hfBMxLRaORxVQZG9Kx20ekKxT4mFjUouXIBz/FC/
-         raw2JI2IwA4Td/oTzGfnSSvdR4GtlJtj2CHGTH5TSt5yBkjxVQvHGMRyEwp7YFtevRff
-         /v1w==
-X-Gm-Message-State: AOAM532iHURIScKcQj7L8SV2Wiw8qQUdXnAHngpG1aFqjaN/oanFG0Zg
-        XfPF7tiW5yUSQzJuVZ4BsGY=
-X-Google-Smtp-Source: ABdhPJzg8orgdIbtjxM/xqICPMU5WNNmmnccn4av2s8Rf1ty71s9SW4pc6pyA2kla8JqV1q7p4/fOA==
-X-Received: by 2002:a5d:65d2:: with SMTP id e18mr9581484wrw.256.1617872258496;
-        Thu, 08 Apr 2021 01:57:38 -0700 (PDT)
+        bh=iw8n/FSk3Jc9bFPImzhTzY6c4YmUEz17qiWTFHWVb9A=;
+        b=L7tY9zIBkGNE61PQG1D7pZ6mdX6QT3G1ISD+nZQOM4FLZbjkZsulPA/Fw6zx1N/N9q
+         e+9EzA6t/iVLK+EQupLBiz6KA9dXLZNWd2mKf7IIeXjeJJs2+DbX82XCaVydY40eJFZ1
+         jzu7UG7UyppC4rgzXDDnMtf77MWlznZ9k6RlNVbNrtz67oBum8DAkL1kq1orQgu50zmJ
+         4UWfLxC1+L9I+Yi6xswL03MPgsP0IL2gwiLQV/CHHmLaFJJG3tyvl2rgCb50tR41SDCB
+         8v7ammuEC+iSwF4Do/MM2dxtDObIPR4PvLqn9MG3/6Uwaf6cwCSJRqEeP0DrkmMZxK+N
+         5DEw==
+X-Gm-Message-State: AOAM531sjGEIoFCyJmLfL9t9Mlo/AD0iXMxNKGj3BiRF2tpiCTKJXK/s
+        +GlZuFpoe4/LWzkQRKW02p0=
+X-Google-Smtp-Source: ABdhPJyoG8jSxe9voky6ZJy12knW7g80hLoAEanaetBzY+PmbqLsagCL8MY30gC4c3oiPuiEu2hswg==
+X-Received: by 2002:a7b:c357:: with SMTP id l23mr7169325wmj.152.1617872263675;
+        Thu, 08 Apr 2021 01:57:43 -0700 (PDT)
 Received: from sqli.sqli.com ([195.53.121.100])
-        by smtp.googlemail.com with ESMTPSA id f2sm13071875wmp.20.2021.04.08.01.57.36
+        by smtp.googlemail.com with ESMTPSA id f2sm13071875wmp.20.2021.04.08.01.57.42
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Thu, 08 Apr 2021 01:57:37 -0700 (PDT)
+        Thu, 08 Apr 2021 01:57:43 -0700 (PDT)
 From:   Alejandro Colomar <alx.manpages@gmail.com>
 To:     mtk.manpages@gmail.com
 Cc:     Alejandro Colomar <alx.manpages@gmail.com>,
-        linux-man@vger.kernel.org, Jakub Wilk <jwilk@jwilk.net>
-Subject: [PATCH v6 0/3] Use standard features in the Makefile
-Date:   Thu,  8 Apr 2021 10:57:11 +0200
-Message-Id: <20210408085713.7093-1-alx.manpages@gmail.com>
+        linux-man@vger.kernel.org, Jakub Wilk <jwilk@jwilk.net>,
+        Debian man-pages <manpages@packages.debian.org>,
+        "Dr . Tobias Quathamer" <toddy@debian.org>
+Subject: [PATCH v6 2/3] Makefile: Fix bug when running in parallel
+Date:   Thu,  8 Apr 2021 10:57:13 +0200
+Message-Id: <20210408085713.7093-3-alx.manpages@gmail.com>
 X-Mailer: git-send-email 2.31.0
 In-Reply-To: <20210406111448.20392-1-alx.manpages@gmail.com>
 References: <20210406111448.20392-1-alx.manpages@gmail.com>
@@ -71,21 +74,34 @@ Precedence: bulk
 List-ID: <linux-man.vger.kernel.org>
 X-Mailing-List: linux-man@vger.kernel.org
 
-Hi Michael,
+Prerequisites can run in parallel.  This wouldn't make any sense
+when uninstalling and installing again.
 
-I was probably a bit distracted when I sent v5.  The .gitignore I sent had
-many issues.  I rewrote it from scratch and did some thorough testing this time.
+For that, use consecutive commands, which run one after the other
+even with multiple cores.
 
-Alejandro Colomar (3):
-  Makefile: Use standard features (IMPORTANT: default prefix changed)
-  Makefile: Fix bug when running in parallel
-  .gitignore: Add file
+Cc: Debian man-pages <manpages@packages.debian.org>
+Cc: Dr. Tobias Quathamer <toddy@debian.org>
+Signed-off-by: Alejandro Colomar <alx.manpages@gmail.com>
+---
+ Makefile | 4 +++-
+ 1 file changed, 3 insertions(+), 1 deletion(-)
 
- .gitignore |  12 ++++++
- Makefile   | 116 ++++++++++++++++++++++++++++++++++++++++++-----------
- 2 files changed, 104 insertions(+), 24 deletions(-)
- create mode 100644 .gitignore
-
+diff --git a/Makefile b/Makefile
+index 430090801..fdfaf9645 100644
+--- a/Makefile
++++ b/Makefile
+@@ -20,7 +20,9 @@ INSTALL_DATA = $(INSTALL) -m 644
+ INSTALL_DIR = $(INSTALL) -m 755 -d
+ 
+ .PHONY: all
+-all: remove install
++all:
++	$(MAKE) uninstall;
++	$(MAKE) install;
+ 
+ # Use with
+ #  make HTOPTS=whatever html
 -- 
 2.31.0
 
