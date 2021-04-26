@@ -2,101 +2,70 @@ Return-Path: <linux-man-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-3.7 required=3.0 tests=BAYES_00,
+X-Spam-Status: No, score=-5.3 required=3.0 tests=BAYES_00,
 	HEADER_FROM_DIFFERENT_DOMAINS,MAILING_LIST_MULTI,SPF_HELO_NONE,SPF_PASS,
-	URIBL_BLOCKED autolearn=no autolearn_force=no version=3.4.0
+	USER_AGENT_SANE_1 autolearn=no autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 563E9C433B4
-	for <linux-man@archiver.kernel.org>; Sun, 25 Apr 2021 21:09:29 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id ED015C433B4
+	for <linux-man@archiver.kernel.org>; Mon, 26 Apr 2021 17:26:25 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.kernel.org (Postfix) with ESMTP id 299226120D
-	for <linux-man@archiver.kernel.org>; Sun, 25 Apr 2021 21:09:29 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTP id 9BC1D61104
+	for <linux-man@archiver.kernel.org>; Mon, 26 Apr 2021 17:26:25 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S231292AbhDYVKG (ORCPT <rfc822;linux-man@archiver.kernel.org>);
-        Sun, 25 Apr 2021 17:10:06 -0400
-Received: from eu-smtp-delivery-151.mimecast.com ([185.58.85.151]:27776 "EHLO
-        eu-smtp-delivery-151.mimecast.com" rhost-flags-OK-OK-OK-OK)
-        by vger.kernel.org with ESMTP id S231231AbhDYVKF (ORCPT
-        <rfc822;linux-man@vger.kernel.org>); Sun, 25 Apr 2021 17:10:05 -0400
-Received: from AcuMS.aculab.com (156.67.243.121 [156.67.243.121]) (Using
- TLS) by relay.mimecast.com with ESMTP id
- uk-mta-264-PkwKK9X8NdyBSIEz6JCoUA-1; Sun, 25 Apr 2021 22:09:22 +0100
-X-MC-Unique: PkwKK9X8NdyBSIEz6JCoUA-1
-Received: from AcuMS.Aculab.com (fd9f:af1c:a25b:0:994c:f5c2:35d6:9b65) by
- AcuMS.aculab.com (fd9f:af1c:a25b:0:994c:f5c2:35d6:9b65) with Microsoft SMTP
- Server (TLS) id 15.0.1497.2; Sun, 25 Apr 2021 22:09:21 +0100
-Received: from AcuMS.Aculab.com ([fe80::994c:f5c2:35d6:9b65]) by
- AcuMS.aculab.com ([fe80::994c:f5c2:35d6:9b65%12]) with mapi id
- 15.00.1497.015; Sun, 25 Apr 2021 22:09:21 +0100
-From:   David Laight <David.Laight@ACULAB.COM>
-To:     'Zack Weinberg' <zackw@panix.com>
-CC:     Alexei Starovoitov <alexei.starovoitov@gmail.com>,
-        Alejandro Colomar <alx.manpages@gmail.com>,
-        bpf <bpf@vger.kernel.org>, linux-man <linux-man@vger.kernel.org>,
-        "gcc-patches@gcc.gnu.org" <gcc-patches@gcc.gnu.org>,
-        "libc-alpha@sourceware.org" <libc-alpha@sourceware.org>,
-        "Michael Kerrisk (man-pages)" <mtk.manpages@gmail.com>,
-        LKML <linux-kernel@vger.kernel.org>
-Subject: RE: [RFC] bpf.2: Use standard types and attributes
-Thread-Topic: [RFC] bpf.2: Use standard types and attributes
-Thread-Index: AQHXOJdJ6YNcCKeqkEK6KUcQdn8TZarEIdzggAFrTACAAC7GAA==
-Date:   Sun, 25 Apr 2021 21:09:21 +0000
-Message-ID: <600f0f5de9ff4bc887eec42d38113a8c@AcuMS.aculab.com>
+        id S235298AbhDZR1G (ORCPT <rfc822;linux-man@archiver.kernel.org>);
+        Mon, 26 Apr 2021 13:27:06 -0400
+Received: from esa4.mentor.iphmx.com ([68.232.137.252]:62824 "EHLO
+        esa4.mentor.iphmx.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S235241AbhDZR1G (ORCPT
+        <rfc822;linux-man@vger.kernel.org>); Mon, 26 Apr 2021 13:27:06 -0400
+X-Greylist: delayed 430 seconds by postgrey-1.27 at vger.kernel.org; Mon, 26 Apr 2021 13:27:06 EDT
+IronPort-SDR: IWuO6eyjHRki6A3pxfdsGIsVmsPKnqlifC8wplSzx/+qP5I3zxq4uAwRWcSo7g9CTbV5hdofFE
+ aTcO2AkC26BF0NYxz/Y8XQoeCD3BhdQzd5CSSxj+gZ8FYWwgmXouhhQzyc/C0g/R/jHCyjjDGj
+ QCzEQAMwFIaDp5Ec1KiD9IC9H/eR79YBUSS5LJ9O9KvrfmQpzUYVZGbHtwC6iR1FzgSUeueu+K
+ o0faHhCdDbQoDR73sBVyge7xzecRTeUPTFJj+i8xrkVYwLN8vMIuoZg8oQ6JN6GEJ7uqhsYOQC
+ MPM=
+X-IronPort-AV: E=Sophos;i="5.82,252,1613462400"; 
+   d="scan'208";a="60674745"
+Received: from orw-gwy-02-in.mentorg.com ([192.94.38.167])
+  by esa4.mentor.iphmx.com with ESMTP; 26 Apr 2021 09:19:13 -0800
+IronPort-SDR: hVNETrJmdsECZoHvqs0DjVbjjB4D+FVH8Iv6VkjYfdaIaO8I/fMfTeTxmZEaYWZK0+0oZOslIy
+ rkFFwcx5JLTZjNDafr0h5Xm3ROGNwoPTkQWvFFSOnsmAxgTzeUq8I7qGK6va6YNLzIEIzpPEuD
+ NHU/lnukVsVThxiM3eWNlBTFE5KOo2TrqOiDyrgklcDyyTty4gAbsGd0jnHUYhllbOOAayZuGx
+ 181tpRt3FgW8A46M5RsNr3LEMnyOgk1XGLT1oaxWdpjoJsROj7yUWR9rSaCN5q2FxnSw3eecrf
+ OOU=
+Date:   Mon, 26 Apr 2021 17:19:07 +0000
+From:   Joseph Myers <joseph@codesourcery.com>
+X-X-Sender: jsm28@digraph.polyomino.org.uk
+To:     Alejandro Colomar <alx.manpages@gmail.com>
+CC:     <mtk.manpages@gmail.com>, <linux-man@vger.kernel.org>,
+        <gcc-patches@gcc.gnu.org>, <libc-alpha@sourceware.org>,
+        <linux-kernel@vger.kernel.org>
+Subject: Re: [RFC] bpf.2: Use standard types and attributes
+In-Reply-To: <20210423230609.13519-1-alx.manpages@gmail.com>
+Message-ID: <alpine.DEB.2.22.394.2104261717120.641239@digraph.polyomino.org.uk>
 References: <20210423230609.13519-1-alx.manpages@gmail.com>
- <CAADnVQLf4qe3Hj7cjBUCY4wXb9t2ZjUt=Z=JuygRY0LNNHWAoA@mail.gmail.com>
- <78af3c302dd5447887f4a14cd4629119@AcuMS.aculab.com>
- <CAKCAbMgJBRKc+kszT-foDtOQC6Q1veOuxC_a1aX_Qt4PTCpEkg@mail.gmail.com>
-In-Reply-To: <CAKCAbMgJBRKc+kszT-foDtOQC6Q1veOuxC_a1aX_Qt4PTCpEkg@mail.gmail.com>
-Accept-Language: en-GB, en-US
-X-MS-Has-Attach: 
-X-MS-TNEF-Correlator: 
-x-ms-exchange-transport-fromentityheader: Hosted
-x-originating-ip: [10.202.205.107]
+User-Agent: Alpine 2.22 (DEB 394 2020-01-19)
 MIME-Version: 1.0
-Authentication-Results: relay.mimecast.com;
-        auth=pass smtp.auth=C51A453 smtp.mailfrom=david.laight@aculab.com
-X-Mimecast-Spam-Score: 0
-X-Mimecast-Originator: aculab.com
-Content-Language: en-US
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: base64
+Content-Type: text/plain; charset="US-ASCII"
+X-Originating-IP: [137.202.0.90]
+X-ClientProxiedBy: svr-ies-mbx-02.mgc.mentorg.com (139.181.222.2) To
+ svr-ies-mbx-01.mgc.mentorg.com (139.181.222.1)
 Precedence: bulk
 List-ID: <linux-man.vger.kernel.org>
 X-Mailing-List: linux-man@vger.kernel.org
 
-RnJvbTogWmFjayBXZWluYmVyZw0KPiBTZW50OiAyNSBBcHJpbCAyMDIxIDIwOjE3DQo+IA0KPiBP
-biBTYXQsIEFwciAyNCwgMjAyMSBhdCA0OjQzIFBNIERhdmlkIExhaWdodCB2aWEgTGliYy1hbHBo
-YQ0KPiA8bGliYy1hbHBoYUBzb3VyY2V3YXJlLm9yZz4gd3JvdGU6DQo+ID4gRnJvbTogQWxleGVp
-IFN0YXJvdm9pdG92DQo+ID4gPiBPbiBGcmksIEFwciAyMywgMjAyMSBhdCA0OjE1IFBNIEFsZWph
-bmRybyBDb2xvbWFyIDxhbHgubWFucGFnZXNAZ21haWwuY29tPiB3cm90ZToNCj4gLi4uDQo+ID4g
-PiA+IFNvbWUgcGFnZXMgYWxzbyBkb2N1bWVudCBhdHRyaWJ1dGVzLCB1c2luZyBHTlUgc3ludGF4
-DQo+ID4gPiA+ICdfX2F0dHJpYnV0ZV9fKCh4eHgpKScuICBVcGRhdGUgdGhvc2UgdG8gdXNlIHRo
-ZSBzaG9ydGVyIGFuZCBtb3JlDQo+ID4gPiA+IHBvcnRhYmxlIEMyeCBzeW50YXgsIHdoaWNoIGhh
-c24ndCBiZWVuIHN0YW5kYXJkaXplZCB5ZXQsIGJ1dCBpcw0KPiA+ID4gPiBhbHJlYWR5IGltcGxl
-bWVudGVkIGluIEdDQywgYW5kIGF2YWlsYWJsZSB0aHJvdWdoIGVpdGhlciAtLXN0ZD1jMngNCj4g
-PiA+ID4gb3IgYW55IG9mIHRoZSAtLXN0ZD1nbnUuLi4gb3B0aW9ucy4NCj4gLi4NCj4gPiBBbmQg
-dGhlIGNvZGUgYmVsb3cgaXMgbm8gbW9yZSBwb3J0YWJsZSB0aGF0IGEgI3ByYWdtYScuDQo+ID4g
-SXQgaXMgcHJvYmFibHkgd29yc2UgdGhhbiBfX2F0dHJpYnV0ZV9fKChhbGlnbmVkKDgpKSkNCj4g
-PiArICAgICAgICAgICAgdWludDY0X3QgW1tnbnU6OmFsaWduZWQoOCldXSB2YWx1ZTsNCj4gPiBU
-aGUgc3RhbmRhcmRzIGNvbW1pdHRlZSBhcmUgc21va2luZyBkb3BlIGFnYWluLg0KPiA+IEF0IGxl
-YXN0IHRoZSAnX19hbGlnbmVkX3U2NCB2YWx1ZTsnIGZvcm0gc3RhbmRzIGEgcmVhc29uYWJsZQ0K
-PiA+IGNoYW5jZSBvZiBiZWluZyBjb252ZXJ0ZWQgYnkgY3BwIGludG8gd2hhdGV2ZXIgeW91ciBj
-b21waWxlciBzdXBwb3J0cy4NCj4gDQo+IElzIGl0IGFjdHVhbGx5IG5lY2Vzc2FyeSB0byBtZW50
-aW9uIHRoZSBhbGlnbm1lbnQgb3ZlcnJpZGVzIGF0IGFsbCBpbg0KPiB0aGUgbWFucGFnZXM/ICBU
-aGV5IGFyZSBvbmx5IHJlbGV2YW50IHRvIHBlb3BsZSB3b3JraW5nIGF0IHRoZSBsZXZlbA0KPiBv
-ZiBwaHlzaWNhbCBsYXlvdXQgb2YgdGhlIGRhdGEgaW4gUkFNLCBhbmQgdGhvc2UgcGVvcGxlIGFy
-ZSBwcm9iYWJseQ0KPiBnb2luZyB0byBoYXZlIHRvIGNvbnN1bHQgdGhlIGhlYWRlciBmaWxlIGFu
-eXdheS4NCg0KRGVwZW5kcywgaWYgdGhlIG1hbiBwYWdlIGRlZmluZXMgdGhlIHN0cnVjdHVyZSAt
-IGl0IG5lZWRzIHRvDQpjb250YWluIGl0cyBkZWZpbml0aW9uLg0KSWYgdGhlb3J5IHRoZSBtYW4g
-cGFnZSBvdWdodCB0byBiZSB0aGUgZGVmaW5pdGlvbiwgYW5kIHRoZSBjb2RlDQpkbyB3aGF0IHRo
-ZSBtYW4gcGFnZSBzYXlzIGhhcHBlbnMuDQoNCkFuIGFsdGVybmF0aXZlIGlzIGZvciB0aGUgbWFu
-IHBhZ2UgdG8gc2F5IHRoYXQgdGhlIHN0cnVjdHVyZQ0KY29udGFpbnMgc29tZSBmaWVsZHMgLSB3
-aXRob3V0IHByZXNjcmliaW5nIHRoZSBvcmRlciwgb3INCnN0b3BwaW5nIHRoZSBpbXBsZW1lbnRh
-dGlvbiBhZGRpbmcgYWRkaXRpb25hbCBmaWVsZHMgKG9yIGV2ZW4NCmNoYW5naW5nIHRoZSBhY3R1
-YWwgbnVtZXJpYyB0eXBlKS4NClRoaXMgaXMgbW9yZSBjb21tb24gaW4gdGhlIHN0YW5kYXJkcyBk
-b2N1bWVudHMuDQpJTUhPIFRoZSBMaW51eCBwYWdlcyByZWFsbHkgb3VnaHQgdG8gc2F5IGhvdyBs
-aW51eCBkb2VzIHRoaW5ncy4NCihXaXRoIG5vdGVzIGFib3V0IHBvcnRhYmlsaXR5LikNCg0KCURh
-dmlkDQoNCi0NClJlZ2lzdGVyZWQgQWRkcmVzcyBMYWtlc2lkZSwgQnJhbWxleSBSb2FkLCBNb3Vu
-dCBGYXJtLCBNaWx0b24gS2V5bmVzLCBNSzEgMVBULCBVSw0KUmVnaXN0cmF0aW9uIE5vOiAxMzk3
-Mzg2IChXYWxlcykNCg==
+On Sat, 24 Apr 2021, Alejandro Colomar via Libc-alpha wrote:
 
+> Some pages also document attributes, using GNU syntax
+> '__attribute__((xxx))'.  Update those to use the shorter and more
+> portable C2x syntax, which hasn't been standardized yet, but is
+> already implemented in GCC, and available through either --std=c2x
+> or any of the --std=gnu... options.
+
+If you mention alignment in the manpage at all, the same reasoning would 
+say you should use _Alignas(8) not [[gnu::aligned(8)]], in any context 
+where _Alignas is valid.
+
+-- 
+Joseph S. Myers
+joseph@codesourcery.com
