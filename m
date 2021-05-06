@@ -2,76 +2,106 @@ Return-Path: <linux-man-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-7.8 required=3.0 tests=BAYES_00,DKIM_SIGNED,
+X-Spam-Status: No, score=-9.3 required=3.0 tests=BAYES_00,DKIM_SIGNED,
 	DKIM_VALID,DKIM_VALID_AU,FREEMAIL_FORGED_FROMDOMAIN,FREEMAIL_FROM,
-	HEADER_FROM_DIFFERENT_DOMAINS,INCLUDES_PATCH,MAILING_LIST_MULTI,SPF_HELO_NONE,
-	SPF_PASS autolearn=no autolearn_force=no version=3.4.0
+	HEADER_FROM_DIFFERENT_DOMAINS,INCLUDES_PATCH,MAILING_LIST_MULTI,NICE_REPLY_A,
+	SPF_HELO_NONE,SPF_PASS,USER_AGENT_SANE_1 autolearn=ham autolearn_force=no
+	version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id B9DACC433ED
-	for <linux-man@archiver.kernel.org>; Thu,  6 May 2021 12:01:27 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id D1985C433ED
+	for <linux-man@archiver.kernel.org>; Thu,  6 May 2021 12:02:02 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.kernel.org (Postfix) with ESMTP id 8682261176
-	for <linux-man@archiver.kernel.org>; Thu,  6 May 2021 12:01:27 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTP id 8EF3B613C7
+	for <linux-man@archiver.kernel.org>; Thu,  6 May 2021 12:02:02 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S232144AbhEFMCY (ORCPT <rfc822;linux-man@archiver.kernel.org>);
-        Thu, 6 May 2021 08:02:24 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:42098 "EHLO
+        id S231653AbhEFMC7 (ORCPT <rfc822;linux-man@archiver.kernel.org>);
+        Thu, 6 May 2021 08:02:59 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:42226 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S231791AbhEFMCX (ORCPT
-        <rfc822;linux-man@vger.kernel.org>); Thu, 6 May 2021 08:02:23 -0400
-Received: from mail-vk1-xa2b.google.com (mail-vk1-xa2b.google.com [IPv6:2607:f8b0:4864:20::a2b])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id BEEC1C061574
-        for <linux-man@vger.kernel.org>; Thu,  6 May 2021 05:01:24 -0700 (PDT)
-Received: by mail-vk1-xa2b.google.com with SMTP id o17so1153179vko.8
-        for <linux-man@vger.kernel.org>; Thu, 06 May 2021 05:01:24 -0700 (PDT)
+        with ESMTP id S231560AbhEFMC6 (ORCPT
+        <rfc822;linux-man@vger.kernel.org>); Thu, 6 May 2021 08:02:58 -0400
+Received: from mail-wm1-x335.google.com (mail-wm1-x335.google.com [IPv6:2a00:1450:4864:20::335])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id B2128C061574
+        for <linux-man@vger.kernel.org>; Thu,  6 May 2021 05:02:00 -0700 (PDT)
+Received: by mail-wm1-x335.google.com with SMTP id 4-20020a05600c26c4b0290146e1feccd8so2907805wmv.1
+        for <linux-man@vger.kernel.org>; Thu, 06 May 2021 05:02:00 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=gmail.com; s=20161025;
-        h=mime-version:from:date:message-id:subject:to:cc;
-        bh=ZTx5kHSJ2K7EAlp6Oz553haayx6oWcVEIR7WOWGsUvw=;
-        b=l3XroECU1NJDnzhs5OBOYfsjXIttY/V5fLVGGC0Wi+Mka4jmLv7Gnc9ye0Afq/Ywq4
-         50JVAf6gdb8RpuDsfHzZETDaQmSRtaGwSXSmfD01RqkdCxuIXMdX9DBfwcEzztPBOB5o
-         rmE8KGW+Q4HlZODlePomJvLuG28fX8tIbB99IqskstTutIlnjrBl9qRvB1Bu0T/luV8K
-         5XNW7n6aIRPSDOAvb9aTqjVD6UI8f5UGcfvpn7IGiK8EBpnVWAQQmFfgTLJmNSnN183m
-         LO+NSGguKqsCxLKYFZwLlzqnrZJ8+YhOR2ab1JrkWx1nnNuCarJxr3/Vs/IJk8uCH4Kw
-         OIsQ==
+        h=subject:to:cc:references:from:message-id:date:user-agent
+         :mime-version:in-reply-to:content-language:content-transfer-encoding;
+        bh=d9MN1P99KStHAwhLMwJikwdGZyfRZj1kW6esdEEWynE=;
+        b=W1MEhshNBpEIM3k627Ut3sDLqqsrQBLAgKwq+P8OP/is3oZ2inmofDrU0DFBHSVjla
+         GGurMPfQMH7tBIIDgyEzt8pmCKZlFhh4qNXKhhcVdNTh6jnSRY4Gv+FAQ+8ADyQz/PbR
+         WgkFpyXPFJq1uopnfaEGlHA+SqjiUTtxPMhJtZmKN/ldgI++Key8f9aJraeMGQtrUErf
+         RTBaZMKBjPAeR+0V+JH0JlDt7o4dIz9SLc8gVtRd0LmJCd6Zy2GeVA9Dv6m9tBSoHWW3
+         PSR/0pMMlZKC/DcOFNi6Oj8cjI0Naw0cyQmyNLdbhzI1icTKPMFJLvaP/ZIlQnqBQyVX
+         BEzA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
-        h=x-gm-message-state:mime-version:from:date:message-id:subject:to:cc;
-        bh=ZTx5kHSJ2K7EAlp6Oz553haayx6oWcVEIR7WOWGsUvw=;
-        b=LnrZ/DPELNe9yCVHmRdspH+zWv54RpH37G6bNnVbhMggXKxjyzpUvfXI9RY7PPj7yL
-         CEmE9NZ2A5meXHguiPEnT45A3oIOul/F7jF1n3c58TYdk2ON8mt4h9TlaPQAKG7nBgQy
-         YN0z/WD2JunH0pLyJa//aa/cQCUimStOiQ3Rz7qtU1D//xyz71Fs1M5VAthZQtuiZ7l0
-         84AB6SU9Tup0ctO3hBKxtYsvU3m+5TnzoEueAmATteTHEytFivc0vkxwbjIZEFQI03fL
-         BzIgsUMXg6IvqwYcqBvIJSPh9A2lCNyyorgCl7gKm181rbbn6DP+MQlKqUN8iscCrPJI
-         KlQg==
-X-Gm-Message-State: AOAM531tGj4iTeJCYOBhBerw2/xl6YMQ6tDjnnoyvwPDJvmnKSMh/P+g
-        XX7LgqlcrPc7D9lXk2hnGPYUmGDnGN04cVTvs+1p0zNAYgzLVQ==
-X-Google-Smtp-Source: ABdhPJyAU6alQ+RYC5izHdVUuz9+50ZtDJbvQx77Xyhk+MigcRj8xr/XkpzoPMDHvOitV0Os0hqndUzSFvKFIrYfW+I=
-X-Received: by 2002:a1f:5682:: with SMTP id k124mr2236013vkb.20.1620302483705;
- Thu, 06 May 2021 05:01:23 -0700 (PDT)
+        h=x-gm-message-state:subject:to:cc:references:from:message-id:date
+         :user-agent:mime-version:in-reply-to:content-language
+         :content-transfer-encoding;
+        bh=d9MN1P99KStHAwhLMwJikwdGZyfRZj1kW6esdEEWynE=;
+        b=kpF57ZzhE3ehejGK9iOQzBeEF3bS5GI4RgU6mHN74ZQgN3vr3tW+49Guzm8ut2oxdP
+         Qd1ZO0jxueuT3zzfLMYVAUXzcfOHH7L9sLHCYJNTSov1wM9QOBh5RZ6SGN+FlG0K6nkV
+         xST0OCn5+7nmdimTpIf2ShnqvKp2AQVKn9/kStzdnsPtpbAYN+VYpVypnlVDybGB2FlD
+         IFS1RWlZ5ZeJFw1NWAg9VE0Mquy+P6iWosVV7/yhCd0u+7NqoVjrZwPfumKfqRdeX5XS
+         VhPmepP3+0+3pQMNgJy7FpXbAMSyQkJwtilNbR5+hAenjbvtWlaaf72oGfhM/jH2WpXl
+         MwRw==
+X-Gm-Message-State: AOAM530AwSgtpMDCA2pFV/ybmIcBUOXmB7dyaFGTlqh1Sq8T2GC//yR7
+        NgspnK3rDcYwPOs8p9AvMyRT/MMru0M=
+X-Google-Smtp-Source: ABdhPJxWCa1LynjDtEq51R6uG+uRVAcEBfXB+TYrhK8H9Ek+Qcchr+8/V9//YUd9FYVXemZ9NMr+Ng==
+X-Received: by 2002:a7b:c206:: with SMTP id x6mr14548923wmi.72.1620302519500;
+        Thu, 06 May 2021 05:01:59 -0700 (PDT)
+Received: from [10.8.0.106] ([195.53.121.100])
+        by smtp.gmail.com with ESMTPSA id i13sm3940340wrs.12.2021.05.06.05.01.58
+        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+        Thu, 06 May 2021 05:01:59 -0700 (PDT)
+Subject: Re: [patch] semctl.2: ffix
+To:     Akihiro Motoki <amotoki@gmail.com>, linux-man@vger.kernel.org
+Cc:     "Michael Kerrisk (man-pages)" <mtk.manpages@gmail.com>
+References: <CALhU9t=kyQT98yoGVKuiGOzfk9ACZ8fpNEYdyQqBUNTzDgAyNA@mail.gmail.com>
+From:   "Alejandro Colomar (man-pages)" <alx.manpages@gmail.com>
+Message-ID: <82537153-ad61-cadc-132f-0de8d8ca5720@gmail.com>
+Date:   Thu, 6 May 2021 14:01:56 +0200
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
+ Thunderbird/78.10.0
 MIME-Version: 1.0
-From:   Akihiro Motoki <amotoki@gmail.com>
-Date:   Thu, 6 May 2021 21:02:42 +0900
-Message-ID: <CALhU9tnz9ufWpCR7cdn51JeKUHraqHPMmqqBKp8pSyYfSyUBpQ@mail.gmail.com>
-Subject: [patch] signalfd.2: ffix
-To:     linux-man@vger.kernel.org
-Cc:     "Michael Kerrisk (man-pages)" <mtk.manpages@gmail.com>,
-        alx.manpages@gmail.com
-Content-Type: text/plain; charset="UTF-8"
+In-Reply-To: <CALhU9t=kyQT98yoGVKuiGOzfk9ACZ8fpNEYdyQqBUNTzDgAyNA@mail.gmail.com>
+Content-Type: text/plain; charset=utf-8; format=flowed
+Content-Language: en-US
+Content-Transfer-Encoding: 7bit
 Precedence: bulk
 List-ID: <linux-man.vger.kernel.org>
 X-Mailing-List: linux-man@vger.kernel.org
 
-diff --git a/man2/signalfd.2 b/man2/signalfd.2
-index e362d1f72..102679c0d 100644
---- a/man2/signalfd.2
-+++ b/man2/signalfd.2
-@@ -196,7 +196,7 @@ struct signalfd_siginfo {
-     uint64_t ssi_addr;     /* Address that generated signal
-                               (for hardware\-generated signals) */
-     uint16_t ssi_addr_lsb; /* Least significant bit of address
--                              (SIGBUS; since Linux 2.6.37)
-+                              (SIGBUS; since Linux 2.6.37) */
- .\" ssi_addr_lsb: commit b8aeec34175fc8fe8b0d40efea4846dfc1ba663e
-     uint8_t  pad[\fIX\fP];       /* Pad size to 128 bytes (allow for
-                               additional fields in the future) */
+Hello Akihiro,
+
+Patch applied.
+
+Thanks,
+
+Alex
+
+
+On 5/6/21 1:45 PM, Akihiro Motoki wrote:
+> diff --git a/man2/semctl.2 b/man2/semctl.2
+> index 504cdf9da..bea27aa37 100644
+> --- a/man2/semctl.2
+> +++ b/man2/semctl.2
+> @@ -378,7 +378,7 @@ the semaphore set.
+>   .TP
+>   .B SETVAL
+>   Set the semaphore value
+> -.BR ( semval )
+> +.RB ( semval )
+>   to
+>   .I arg.val
+>   for the
+> 
+
+
+-- 
+Alejandro Colomar
+Linux man-pages comaintainer; https://www.kernel.org/doc/man-pages/
+http://www.alejandro-colomar.es/
