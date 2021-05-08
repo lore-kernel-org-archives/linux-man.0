@@ -2,100 +2,100 @@ Return-Path: <linux-man-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-2.8 required=3.0 tests=BAYES_00,DKIM_SIGNED,
+X-Spam-Status: No, score=-7.8 required=3.0 tests=BAYES_00,DKIM_SIGNED,
 	DKIM_VALID,DKIM_VALID_AU,FREEMAIL_FORGED_FROMDOMAIN,FREEMAIL_FROM,
-	HEADER_FROM_DIFFERENT_DOMAINS,MAILING_LIST_MULTI,SPF_HELO_NONE,SPF_PASS
-	autolearn=no autolearn_force=no version=3.4.0
+	HEADER_FROM_DIFFERENT_DOMAINS,INCLUDES_PATCH,MAILING_LIST_MULTI,SPF_HELO_NONE,
+	SPF_PASS autolearn=no autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 44EB3C433B4
-	for <linux-man@archiver.kernel.org>; Thu,  6 May 2021 12:29:41 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 4F042C433ED
+	for <linux-man@archiver.kernel.org>; Sat,  8 May 2021 10:08:19 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.kernel.org (Postfix) with ESMTP id 16C96610A2
-	for <linux-man@archiver.kernel.org>; Thu,  6 May 2021 12:29:41 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTP id 1E4A361432
+	for <linux-man@archiver.kernel.org>; Sat,  8 May 2021 10:08:19 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S229854AbhEFMai (ORCPT <rfc822;linux-man@archiver.kernel.org>);
-        Thu, 6 May 2021 08:30:38 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:48352 "EHLO
+        id S229947AbhEHKJS (ORCPT <rfc822;linux-man@archiver.kernel.org>);
+        Sat, 8 May 2021 06:09:18 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:59772 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S229777AbhEFMai (ORCPT
-        <rfc822;linux-man@vger.kernel.org>); Thu, 6 May 2021 08:30:38 -0400
-Received: from mail-ua1-x92e.google.com (mail-ua1-x92e.google.com [IPv6:2607:f8b0:4864:20::92e])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 04786C061574
-        for <linux-man@vger.kernel.org>; Thu,  6 May 2021 05:29:40 -0700 (PDT)
-Received: by mail-ua1-x92e.google.com with SMTP id a12so1643917uak.6
-        for <linux-man@vger.kernel.org>; Thu, 06 May 2021 05:29:39 -0700 (PDT)
+        with ESMTP id S229869AbhEHKJS (ORCPT
+        <rfc822;linux-man@vger.kernel.org>); Sat, 8 May 2021 06:09:18 -0400
+Received: from mail-il1-x12d.google.com (mail-il1-x12d.google.com [IPv6:2607:f8b0:4864:20::12d])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id B6BBCC061574
+        for <linux-man@vger.kernel.org>; Sat,  8 May 2021 03:08:16 -0700 (PDT)
+Received: by mail-il1-x12d.google.com with SMTP id j20so9855347ilo.10
+        for <linux-man@vger.kernel.org>; Sat, 08 May 2021 03:08:16 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=gmail.com; s=20161025;
         h=mime-version:references:in-reply-to:from:date:message-id:subject:to
          :cc;
-        bh=GvDuiiwEiNbXZT6QIoFJ5Ha5KpSTKjThRqoVDFCYd1s=;
-        b=byxKRUkh30sH92J4ku6OcS5uQPXfOLCmQNbyIyvbC15XkSjiq53fPbNTLy3KADUBxa
-         Ln12T5iydPq0vqk6XDWcCy5AHd6bLR7nxbmEGg3lOzDPPgtPeiwE8O4HFMe/WkQLV9mr
-         0CVlww4h4X/7NdsINNO15P7goARsIQFgV3AqWgbAZGSQkogEsjpO9VvZ3E3wNFZve/Wk
-         LlZQ+be0T0WuS7KDV0K6D4cNBUFjzBWYvI2iRxl6fWukfvRFE3tekz4e168jGoWUNZZq
-         xF0sUnYY4vyb7T/t4UDAtTVrvIdNp9OocQssMDu99cJ6gABgvbkW7hYfMtkQRnOsZO/a
-         U/5g==
+        bh=aKoeM3kdRekC2/0qHHd8ly0BqMswMz8Yy9JFqH9j5lI=;
+        b=G9fQ7o3kUM1wIDAJ0ULCgHqnNhOZGNkw7EIrm9D0dpN/diNxhH55mNaMi/g99J76IT
+         PUW7RnjOzA8h0DRd/TWbdPU7Gx3VPHs9Zdl4eWiT0pZP7qX2l9oyU9O5BPNlJk33cmU+
+         1wcPkuNsl7Cm4+t7fDrQ17zQxXPfT8w9zfn4171katazH0peIl3ldlmzWbToP5nTGxwc
+         k0sHTybFbS4QwgjEU0PVG2qbj2Mw8Cdh2FNLyKEAk3KreZoKh8ZevDo9rxbDvZpeTCEx
+         SgCZKXxASQs4/0wBR/C3qSe+CczK6mi7YZ/qGuH+htT//puN3BCnZuwQPF1lIeSHi5Eu
+         5iQg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
         h=x-gm-message-state:mime-version:references:in-reply-to:from:date
          :message-id:subject:to:cc;
-        bh=GvDuiiwEiNbXZT6QIoFJ5Ha5KpSTKjThRqoVDFCYd1s=;
-        b=QazzYG0fC65EjIu9OIttUAsAPsqtvXkEwxr6W8FHwCIpdn1DyPeallXhAxoRjfrX5g
-         4HYguYT99G40c1HeUthl37u0QSZMG1Tj2ed4EmG5dWSyFcKvGMfbU1NcEIxkIRYXF5oP
-         P0MHHfllsjbLKGGfEY6bhExi4qhgJC1oHDJMiBRplyzp/iNxg6BPLQR6SqUZJu8UMCvC
-         aAHxVgu2r2w0F6ZYwoHqs6sjZlwJBWDepG8CYmj5eNz6Xr5YjFHGzWkLWmvxhZGnf4fs
-         d5RHGjmozP7X2XLsdYZdrZb+Pq0SWDBdaF/FmMsSLM+6q+5glowhBMOGvRwLr9KdAiCe
-         jYMw==
-X-Gm-Message-State: AOAM530mj/ikHb/DD3ojMkUswi9R/WwN2jSY/vGr6VuZb2N8uilAlbwW
-        nMalZUahzUR7L0pREPX6KUVxTznDTYiGhbtOQvI=
-X-Google-Smtp-Source: ABdhPJx5c3zb1Mr80eRoFCeCd84n+DWRqeoEulhU5Y7KywWMddP/ZM0U+sDjxTcHdyqJJHjh9MhNpTK4sVgtYF7j36Y=
-X-Received: by 2002:a9f:2334:: with SMTP id 49mr3149928uae.69.1620304178456;
- Thu, 06 May 2021 05:29:38 -0700 (PDT)
+        bh=aKoeM3kdRekC2/0qHHd8ly0BqMswMz8Yy9JFqH9j5lI=;
+        b=LtsAxw/wpoyfNp32c+4jqmZ09MUAqSUyIXWgE591N3tnKh5So3ZCW62cDxaHe/Tq+G
+         1MAoFShyrijmJgrobT9dAW0HFWwMbbxGjC6Jqmk2rFTueAcIstHwveHALrkGY49MGDt8
+         S7XqP+LXCa5OM/+Q7OZrrGrHIpPNdp6/1EDdOLxbeWDnk1lAh6Xtkq1UuasKVEiuyE0J
+         OMopQFZH/1qt2kCZfg+ZXPnPU7DrgniHcBTivuI+BmJD3H+jBl3rp23DI6KlVC3inzNB
+         eBAnIsgtNBf/ohHaZBPBZjltMaNTsjy4CoKrvdhA7Xn4BRnC7gpU1UEdEht9ulu4xu0W
+         UQnw==
+X-Gm-Message-State: AOAM532Si4aEcD07JesIIdunWuyMOfKDPupG5HTTzmNVXEadeib2QoDn
+        oqfA3mNdtFh6jGFqP2x6GFtiyxXBvV7KOIvhO2J8b98TGD4=
+X-Google-Smtp-Source: ABdhPJxh8hgZnEmHbXu+blfZLXKwjhnunJ7jYDbTn864GWnJq9RJvJCXrVG6dSHhw9d1yMg30iCwd0rwSrEMREPKb70=
+X-Received: by 2002:a05:6e02:1b87:: with SMTP id h7mr12923103ili.54.1620468495751;
+ Sat, 08 May 2021 03:08:15 -0700 (PDT)
 MIME-Version: 1.0
-References: <CALhU9tkuovaHEhB6u6iL=V7+B51FYWEuBgRuekSojiibXnUzOw@mail.gmail.com>
- <cf2e3ee0-1ecc-8eb2-cd1e-df2568aefe8e@gmail.com> <CALhU9tmOLL=JuYLpDD7OCEK9+mSfq5DvWLaMVSQKZA3x9j18FA@mail.gmail.com>
- <b7e3e750-70fe-ef9b-9d87-23f3a4257045@gmail.com>
-In-Reply-To: <b7e3e750-70fe-ef9b-9d87-23f3a4257045@gmail.com>
-From:   Akihiro Motoki <amotoki@gmail.com>
-Date:   Thu, 6 May 2021 21:30:56 +0900
-Message-ID: <CALhU9tkJwz5a5gXP5tKdQHXFzzRvh743cpNnE92H75gn9GG84Q@mail.gmail.com>
-Subject: Re: [patch] fanotify.7: ffix
-To:     "Alejandro Colomar (man-pages)" <alx.manpages@gmail.com>
-Cc:     linux-man@vger.kernel.org,
-        "Michael Kerrisk (man-pages)" <mtk.manpages@gmail.com>
+References: <CAN2tbMWSHJ=BXe70ygXg9NpCWhB+3V-CpZEWCTtOynJr_QODbw@mail.gmail.com>
+In-Reply-To: <CAN2tbMWSHJ=BXe70ygXg9NpCWhB+3V-CpZEWCTtOynJr_QODbw@mail.gmail.com>
+From:   "Vishwajith.K" <vishuvikas1996@gmail.com>
+Date:   Sat, 8 May 2021 15:37:40 +0530
+Message-ID: <CAN2tbMUfwpG_5KWCgoO1t9ZexshUmAF+0AfchfzDmfWgN4iVZw@mail.gmail.com>
+Subject: Re: [patch] shmop.2: tfix
+To:     linux-man@vger.kernel.org
+Cc:     alx.manpages@gmail.com, mtk.manpages@gmail.com
 Content-Type: text/plain; charset="UTF-8"
 Precedence: bulk
 List-ID: <linux-man.vger.kernel.org>
 X-Mailing-List: linux-man@vger.kernel.org
 
-Sorry for the inconvenience.
-In this case, my mailer automatically wrapped long lines.
-Thanks for pointing this out.
-I will check my mailer configuration and also try the direct usage of
-"git" command.
+replying to all;
+Consider checking this patch - code duplication typo fix.
 
-Thanks,
-Akihiro
+Regards,
+Vishwa
 
-On Thu, May 6, 2021 at 9:16 PM Alejandro Colomar (man-pages)
-<alx.manpages@gmail.com> wrote:
+On Tue, May 4, 2021 at 7:22 PM Vishwajith.K <vishuvikas1996@gmail.com> wrote:
 >
-> Hi Akihiro,
+> From 8f678998296fab3d68b3637f5334d8ded37f3c99 Mon Sep 17 00:00:00 2001
+> From: Vishwajith K <vishuvikas1996@gmail.com>
+> Date: Tue, 4 May 2021 10:09:11 -0400
+> Subject: [PATCH] tfix: shmop.2 example code
 >
-> On 5/6/21 2:04 PM, Akihiro Motoki wrote:
-> > I just posted an output of "git diff". Is the output of git am preferred?
+> ---
+>  man2/shmop.2 | 4 ++--
+>  1 file changed, 2 insertions(+), 2 deletions(-)
 >
-> The preferred way is using `git send-mail` (after `git format-patch`).
-> Nevertheless, could you please tell me how to apply those patches?  I
-> tried `git am` and `git apply`, and both failed.  I don't know if
-> they're malformed due to the mailer, or if I just don't know how to
-> apply them.
+> diff --git a/man2/shmop.2 b/man2/shmop.2
+> index 3a6c908ee..c7e66af0e 100644
+> --- a/man2/shmop.2
+> +++ b/man2/shmop.2
+> @@ -387,8 +387,8 @@ main(int argc, char *argv[])
+>          errExit("shmget");
 >
-> Thanks,
+>      semid = semget(IPC_PRIVATE, 1, IPC_CREAT | 0600);
+> -    if (shmid == \-1)
+> -        errExit("shmget");
+> +    if (semid == \-1)
+> +        errExit("semget");
 >
-> Alex
+>      /* Attach shared memory into our address space. */
 >
 > --
-> Alejandro Colomar
-> Linux man-pages comaintainer; https://www.kernel.org/doc/man-pages/
-> http://www.alejandro-colomar.es/
+> 2.27.0
