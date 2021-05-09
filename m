@@ -8,61 +8,61 @@ X-Spam-Status: No, score=-15.8 required=3.0 tests=BAYES_00,DKIM_SIGNED,
 	MAILING_LIST_MULTI,SPF_HELO_NONE,SPF_PASS,USER_AGENT_GIT autolearn=ham
 	autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 71A46C43460
-	for <linux-man@archiver.kernel.org>; Sun,  9 May 2021 21:44:04 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 6F527C43462
+	for <linux-man@archiver.kernel.org>; Sun,  9 May 2021 21:44:06 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.kernel.org (Postfix) with ESMTP id 37631613CA
-	for <linux-man@archiver.kernel.org>; Sun,  9 May 2021 21:44:04 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTP id 4E267613C5
+	for <linux-man@archiver.kernel.org>; Sun,  9 May 2021 21:44:06 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S229968AbhEIVpF (ORCPT <rfc822;linux-man@archiver.kernel.org>);
-        Sun, 9 May 2021 17:45:05 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:39520 "EHLO
+        id S229976AbhEIVpI (ORCPT <rfc822;linux-man@archiver.kernel.org>);
+        Sun, 9 May 2021 17:45:08 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:39534 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S229980AbhEIVpE (ORCPT
-        <rfc822;linux-man@vger.kernel.org>); Sun, 9 May 2021 17:45:04 -0400
-Received: from mail-wr1-x42f.google.com (mail-wr1-x42f.google.com [IPv6:2a00:1450:4864:20::42f])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id AE553C061573
-        for <linux-man@vger.kernel.org>; Sun,  9 May 2021 14:44:00 -0700 (PDT)
-Received: by mail-wr1-x42f.google.com with SMTP id x5so14536757wrv.13
-        for <linux-man@vger.kernel.org>; Sun, 09 May 2021 14:44:00 -0700 (PDT)
+        with ESMTP id S229992AbhEIVpH (ORCPT
+        <rfc822;linux-man@vger.kernel.org>); Sun, 9 May 2021 17:45:07 -0400
+Received: from mail-wr1-x42d.google.com (mail-wr1-x42d.google.com [IPv6:2a00:1450:4864:20::42d])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id B2E67C061760
+        for <linux-man@vger.kernel.org>; Sun,  9 May 2021 14:44:02 -0700 (PDT)
+Received: by mail-wr1-x42d.google.com with SMTP id m9so14568591wrx.3
+        for <linux-man@vger.kernel.org>; Sun, 09 May 2021 14:44:02 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=gmail.com; s=20161025;
         h=from:to:cc:subject:date:message-id:in-reply-to:references
          :mime-version:content-transfer-encoding;
-        bh=aO/75rPRJ9WQBLdRoX43tyfctoCAZsu2O6Uwfzv/yeU=;
-        b=KC0kwpMUM2Hd9z8CgCHWUeb5Q9ksDhNFii8BOEaZ5yOtLAuTW9OaSp8UBQod5RP5vM
-         X/gkjmb1sqCyDzLDvXfsHpl4pS5pRqhbQ5mSClSUyujGtLdWtZnxBC9wTJtFTzsJQop/
-         WgtRVeDpnMchrjgKcgqWfCfKOQs/oVYCof/ZbnIFEnlm1tEe3IwDRnau+HqENYWuQJJk
-         +WbZA0RMmiKD6PvH/YxzSVOWI5NnY3+ZI0shbI2X/8AGAFqcwlnktiSYSgrXvVjpbm8o
-         9fxgHN/+aAGtXLcmlwbZeef1jcskOlj+47EXvA/wEbpn3Cws3CWKEJGwPtovCMWhVpnI
-         cVeA==
+        bh=/KXIKayWKMK1I6jNzZIi3sSsLZh5KuG3vwu3ZhGfQ7k=;
+        b=HsBkwmsOJaPFRWvqCsftXnijuOat9sO9KDewrzO54iOPa0Yxe3AMtQ2doNWbcyvDIl
+         i4So3wX+o+zC639t5aLc27dAC6175Tdf7oBmFHWKYHCxwWr8lwfr00jwbhS6srylGzRo
+         GeWHwVxC2noBORshp1z27p/mvNZZ7tpI4TSY/KXqNQPf/3k31MEmMepMLZtzdYSR4Nqg
+         1QqIPDIc/HfHqsKFjWZHgcSvtZVlc7QSP3Jw6XHWhxiw6pRccO9lL/iEh3fTr0z0M0fY
+         QxqrkRjvUh/8eme40n1ZhcA/RiAnE/sLOVq0raxC/eiLeaK3O0XGYlshP0EUcA+4xf55
+         WY5A==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
         h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
          :references:mime-version:content-transfer-encoding;
-        bh=aO/75rPRJ9WQBLdRoX43tyfctoCAZsu2O6Uwfzv/yeU=;
-        b=Zo860/GX3f+5Xz55OjFPqAKu9WIzukCE1lzvkLf6bwFkdzhSnqIpKLsMlwSm/NhsDg
-         GhBmvzE5dMW1a0DZJcqp7UOSBDOJqmKFbvIw5KUKhvda8rjgZe5XOhk5E2P5zEugbIj4
-         4jVp7hXbDW37bLDXvfNqkWPWxTTuWrNNxHo4hSXwMhmVut1h6a2LMBvxnPvt/Pivfihp
-         YJrdbkEJBZ8hzv1Ep126udgXoMQKHEuKpTrcdRV4fC3Mfs65erpnNJ/oUqnXwmMOL2aU
-         8NNxpGxecJSWyKzo7A2gLM6oufCJisUv9XC7FlvB+ktnXn0udJZczrjWLp9mhqivd4CE
-         3sCg==
-X-Gm-Message-State: AOAM5307ypfuFWc4spWA4b5+UlGjYy679rf1QvCIn6nKZIqWBUA69uhR
-        TQBNZDeRgFHbygO/vQ1gUMw=
-X-Google-Smtp-Source: ABdhPJyD7r2xWP3ynN0oOFj+VCkw0jAY1Z2OKezoFudKFfsn+KYiMnQ+T7lTTp3G6XpkgIVl8dQDHQ==
-X-Received: by 2002:a05:6000:2a2:: with SMTP id l2mr26871490wry.285.1620596639557;
-        Sun, 09 May 2021 14:43:59 -0700 (PDT)
+        bh=/KXIKayWKMK1I6jNzZIi3sSsLZh5KuG3vwu3ZhGfQ7k=;
+        b=dW2TSICnUuJiEvkqvW2Q5R5cMvsamsIYDnUzaA55C/5EB57BsAs2sxeBHkQ/KRkezq
+         2UE/Cs0iielebP6wpETXih6BI4064MHBa4r8qGShnv7sh+a/u2CsY9k/FGE6U6NCSB10
+         mw7xOvlN1oVgTxdK4RBODvl0nQrMADTmuPaOzdoo942Y9OPLGWDjD5T3BG0PPC/CDcuR
+         8Fd9OtIibRX6spk4arxB6LtNr85quVMsl7H099jQQb/1+saRiXWDS9EiNRdZxznpEWeM
+         jDRucxizbv67caZr08XH+hsLP8+UVOxIxs6s3ql4zjbF/RYWkC7HXMVf+4l7ef5Jc4v+
+         534g==
+X-Gm-Message-State: AOAM531h2jLHhNbibS5/VGxV23cipoDRMw92N3krojXbItnA1zwSuT3S
+        kzeuu50//flz62izc8UbeXY=
+X-Google-Smtp-Source: ABdhPJyMfW09FdpXZM8hJCLDLuEtr4DdRi1z5lXLyb3Fki4pLqswA8wmHva9reptyN1Uuv7NH1tMYQ==
+X-Received: by 2002:adf:e846:: with SMTP id d6mr26721178wrn.356.1620596641586;
+        Sun, 09 May 2021 14:44:01 -0700 (PDT)
 Received: from localhost.localdomain ([170.253.36.171])
-        by smtp.googlemail.com with ESMTPSA id u6sm16495530wml.6.2021.05.09.14.43.58
+        by smtp.googlemail.com with ESMTPSA id u6sm16495530wml.6.2021.05.09.14.44.01
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Sun, 09 May 2021 14:43:59 -0700 (PDT)
+        Sun, 09 May 2021 14:44:01 -0700 (PDT)
 From:   Alejandro Colomar <alx.manpages@gmail.com>
 To:     mtk.manpages@gmail.com
 Cc:     Alejandro Colomar <alx.manpages@gmail.com>,
         linux-man@vger.kernel.org
-Subject: [PATCH] dladdr.3: SYNOPSIS: Add missing 'const'
-Date:   Sun,  9 May 2021 23:38:59 +0200
-Message-Id: <20210509213930.94120-5-alx.manpages@gmail.com>
+Subject: [PATCH] malloc_usable_size.3: ffix
+Date:   Sun,  9 May 2021 23:39:02 +0200
+Message-Id: <20210509213930.94120-8-alx.manpages@gmail.com>
 X-Mailer: git-send-email 2.31.1
 In-Reply-To: <20210509213930.94120-1-alx.manpages@gmail.com>
 References: <20210509213930.94120-1-alx.manpages@gmail.com>
@@ -72,43 +72,24 @@ Precedence: bulk
 List-ID: <linux-man.vger.kernel.org>
 X-Mailing-List: linux-man@vger.kernel.org
 
-Glibc uses 'const' for the 1st parameter of these functions.
-Fix the prototypes.
-
-......
-
-.../glibc$ grep_glibc_prototype dladdr
-dlfcn/dlfcn.h:98:
-extern int dladdr (const void *__address, Dl_info *__info)
-     __THROW __nonnull ((2));
-.../glibc$ grep_glibc_prototype dladdr1
-dlfcn/dlfcn.h:102:
-extern int dladdr1 (const void *__address, Dl_info *__info,
-		    void **__extra_info, int __flags) __THROW __nonnull ((2));
-.../glibc$
-
 Signed-off-by: Alejandro Colomar <alx.manpages@gmail.com>
 ---
- man3/dladdr.3 | 6 +++---
- 1 file changed, 3 insertions(+), 3 deletions(-)
+ man3/malloc_usable_size.3 | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
 
-diff --git a/man3/dladdr.3 b/man3/dladdr.3
-index 19944174b..c95df4e49 100644
---- a/man3/dladdr.3
-+++ b/man3/dladdr.3
-@@ -31,9 +31,9 @@ dladdr, dladdr1 \- translate address to symbolic information
- .B #define _GNU_SOURCE
- .B #include <dlfcn.h>
+diff --git a/man3/malloc_usable_size.3 b/man3/malloc_usable_size.3
+index 4b4ba3dca..5f892ef6c 100644
+--- a/man3/malloc_usable_size.3
++++ b/man3/malloc_usable_size.3
+@@ -29,7 +29,7 @@ malloc_usable_size \- obtain size of block of memory allocated from heap
+ .nf
+ .B #include <malloc.h>
  .PP
--.BI "int dladdr(void *" addr ", Dl_info *" info );
--.BI "int dladdr1(void *" addr ", Dl_info *" info ", void **" \
--        extra_info ", int " flags );
-+.BI "int dladdr(const void *" addr ", Dl_info *" info );
-+.BI "int dladdr1(const void *" addr ", Dl_info *" info ", void **" extra_info ,
-+.BI "            int " flags );
- .PP
- Link with \fI\-ldl\fP.
+-.BI "size_t malloc_usable_size (void *" ptr );
++.BI "size_t malloc_usable_size(void *" ptr );
  .fi
+ .SH DESCRIPTION
+ The
 -- 
 2.31.1
 
