@@ -8,63 +8,61 @@ X-Spam-Status: No, score=-15.8 required=3.0 tests=BAYES_00,DKIM_SIGNED,
 	MAILING_LIST_MULTI,SPF_HELO_NONE,SPF_PASS,USER_AGENT_GIT autolearn=ham
 	autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 4A585C433ED
-	for <linux-man@archiver.kernel.org>; Sun,  9 May 2021 21:44:06 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 5A9F9C433ED
+	for <linux-man@archiver.kernel.org>; Sun,  9 May 2021 21:44:09 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.kernel.org (Postfix) with ESMTP id 1CE59613C9
-	for <linux-man@archiver.kernel.org>; Sun,  9 May 2021 21:44:06 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTP id 3BC02613CA
+	for <linux-man@archiver.kernel.org>; Sun,  9 May 2021 21:44:09 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S229980AbhEIVpI (ORCPT <rfc822;linux-man@archiver.kernel.org>);
-        Sun, 9 May 2021 17:45:08 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:39522 "EHLO
+        id S229992AbhEIVpJ (ORCPT <rfc822;linux-man@archiver.kernel.org>);
+        Sun, 9 May 2021 17:45:09 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:39538 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S229976AbhEIVpG (ORCPT
-        <rfc822;linux-man@vger.kernel.org>); Sun, 9 May 2021 17:45:06 -0400
-Received: from mail-wr1-x42a.google.com (mail-wr1-x42a.google.com [IPv6:2a00:1450:4864:20::42a])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 72973C061574
-        for <linux-man@vger.kernel.org>; Sun,  9 May 2021 14:44:01 -0700 (PDT)
-Received: by mail-wr1-x42a.google.com with SMTP id v12so14543008wrq.6
-        for <linux-man@vger.kernel.org>; Sun, 09 May 2021 14:44:01 -0700 (PDT)
+        with ESMTP id S229994AbhEIVpH (ORCPT
+        <rfc822;linux-man@vger.kernel.org>); Sun, 9 May 2021 17:45:07 -0400
+Received: from mail-wm1-x335.google.com (mail-wm1-x335.google.com [IPv6:2a00:1450:4864:20::335])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 6BACDC061763
+        for <linux-man@vger.kernel.org>; Sun,  9 May 2021 14:44:03 -0700 (PDT)
+Received: by mail-wm1-x335.google.com with SMTP id l24-20020a7bc4580000b029014ac3b80020so10051769wmi.1
+        for <linux-man@vger.kernel.org>; Sun, 09 May 2021 14:44:03 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=gmail.com; s=20161025;
         h=from:to:cc:subject:date:message-id:in-reply-to:references
          :mime-version:content-transfer-encoding;
-        bh=XiPHRkX5I+f+Sb3ILrl5Yo5nXh3udTQ9qXJfioNySEI=;
-        b=LcRiUDd98LjcdxnS39aW1A8qQbNWGJgxMzj299NXnVUFYf/EmuDrtjE/VZRQlHoB13
-         M4uIbNXyzIe5fraI22w9IMYWH7n2HCEa0w6m13FsGEZQqzbasJS6sGgu2lx///lwJo+n
-         wmgE4d3ITy3iR5qJBeMDbEeCqEoazpE7dFB7n6C5esPalDdiZYaVARCMD/9yHtvCRm4Z
-         UlBAW62+F9EeM+M43raI6DHQdXF040qnvkNESjzwwxLWwXmL7i+1u/cZO2AF4PrQLPxn
-         ywpXKQCTcrEeNFsSGptHUjZ7s4AhnVRkZ79oL6jCJZnZUIS5T0rwspeVqjsk46HF2TBN
-         pNAg==
+        bh=Dxrip1DriFG4mNty1fFibeeBdt/qTPXSz05eCLUPgGM=;
+        b=UPS/S0M3/l67QP2DNhRVpm8/dktlEIUkVR5+T8rnC+C+Jt3IpzV6868hUKMcEQHXMa
+         BBHUvlr31yxi+mPuZrUNFBfV8ri9ZMFJVO8/LcK1Gr4M7aWEYKFcT7/Uf7oMY2TRi25o
+         bjYpimHggzG4JJAI02Z0MyS90oQ2MRbLLWFBb8f/N3vrUL7xCVC9gxRoWK4TEL+CxgVX
+         zA61+DFVpz2nOngGt3ZPTF2I5IVU2Fa7r5uiLj3opfaq2ARpBvyLR73UUOuSH61vHW40
+         FahUsjbeknjCy64x5qTya2EfEdpjGz1Ny6owr0O9Z6sTXEpiXERp4gTDSpvp3MXU4/Hb
+         6QpQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
         h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
          :references:mime-version:content-transfer-encoding;
-        bh=XiPHRkX5I+f+Sb3ILrl5Yo5nXh3udTQ9qXJfioNySEI=;
-        b=LvF1BwlL+IkT+1EN6FxgBYR8h8YUnJMBTKj1bZuVwRqUeSc67Q80W857omOkNV5H0p
-         GnWt+2O5UXhJMyl7uNos7qbi3Y/AvqWrR4xyKEaaKR/75llMrgeRxC1rSaV2pF4w+Qpi
-         BoUr2dm8nHggtMoH+4ATvhRp88IIea4BQn7L/DfoidQmWxsVKugxEfTl1leqr5svz3/B
-         S0fXDpZTwnHxE0FHAPfbrl7sJ/gXdcQUKAzwJugkWA8RScglHBHGYF8SBO0VaKHcy7Yg
-         dTunUsOZXZhTzDyxWMCSYxlo0RaGrR9fm1ebR31v1R13cvsRTDUnPSlR0zL5b/ZEoJ1l
-         u9+g==
-X-Gm-Message-State: AOAM531l74RVk7R4dmI2zqNad5PRearXSA4Bcb2XwZ9jYHbpJopuY3YE
-        mLk2lIGasFg7agSITPdjZBc=
-X-Google-Smtp-Source: ABdhPJxXAbG4dEEH8BeUC98KRdI+wA+I1m/rKafFzddjlE1h7qlfHZglaQmIIMyfRh4xdrcPTJT2PA==
-X-Received: by 2002:a5d:6e0d:: with SMTP id h13mr27095822wrz.118.1620596640319;
-        Sun, 09 May 2021 14:44:00 -0700 (PDT)
+        bh=Dxrip1DriFG4mNty1fFibeeBdt/qTPXSz05eCLUPgGM=;
+        b=SQqQBu3FoBhWCRK4xahFiuYd4yJiXsObGma19fYfIxsu4zfLLhajvSthbNgrf4O/k2
+         T11vIhiV7Yhd7pfZr+lCqI7q/luRJ8c/rBafP2uOVWN8tg5ihdFceaW9N0DMgJ+FdbFI
+         /eLNkIokb2DvJmEFjtPuAXwpW1EvBrlvsjyrLyT/+VpuewvRPBX1BUzghpG0azT8W1rX
+         6R1LB1opTSX89gjowBM1CmRQ11egxhEwB7rXLkGqmk0ac2o0tfBwpnCbOGJevBm2wiSc
+         DXHn5pI72+lh2RacrWlDvrvDvqO/22iH5E+ZXHev4ZBpzkd/gQdftgStb7x4dxxmqgJR
+         LAkg==
+X-Gm-Message-State: AOAM533KEwk3sfFoKkB/mpgwx1ZjNxbko5qn7pseqLjq2PZxBoVzI55F
+        wOcx4wudd6zeVI4ofvqVeV0=
+X-Google-Smtp-Source: ABdhPJzbYB5+WNCqDM72wGZ8zsOnBR+hRKLRfa69IsukuI3yiS+Q5AjHj28iJEXPV/PulOQu3wn04g==
+X-Received: by 2002:a05:600c:3542:: with SMTP id i2mr19585726wmq.171.1620596642215;
+        Sun, 09 May 2021 14:44:02 -0700 (PDT)
 Received: from localhost.localdomain ([170.253.36.171])
-        by smtp.googlemail.com with ESMTPSA id u6sm16495530wml.6.2021.05.09.14.43.59
+        by smtp.googlemail.com with ESMTPSA id u6sm16495530wml.6.2021.05.09.14.44.01
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Sun, 09 May 2021 14:44:00 -0700 (PDT)
+        Sun, 09 May 2021 14:44:01 -0700 (PDT)
 From:   Alejandro Colomar <alx.manpages@gmail.com>
 To:     mtk.manpages@gmail.com
 Cc:     Alejandro Colomar <alx.manpages@gmail.com>,
-        linux-man@vger.kernel.org, Walter Harms <wharms@bfs.de>,
-        Theodore Ts'o <tytso@mit.edu>,
-        Adam Borowski <kilobyte@angband.pl>
-Subject: [PATCH] open.2: Fix bug in linkat(2) call example
-Date:   Sun,  9 May 2021 23:39:00 +0200
-Message-Id: <20210509213930.94120-6-alx.manpages@gmail.com>
+        linux-man@vger.kernel.org
+Subject: [PATCH] getutmp.3: ffix
+Date:   Sun,  9 May 2021 23:39:03 +0200
+Message-Id: <20210509213930.94120-9-alx.manpages@gmail.com>
 X-Mailer: git-send-email 2.31.1
 In-Reply-To: <20210509213930.94120-1-alx.manpages@gmail.com>
 References: <20210509213930.94120-1-alx.manpages@gmail.com>
@@ -74,44 +72,26 @@ Precedence: bulk
 List-ID: <linux-man.vger.kernel.org>
 X-Mailing-List: linux-man@vger.kernel.org
 
-AT_EMPTY_PATH works with empty strings (""), but not with NULL
-(or at least it's not obvious).
-
-The relevant kernel code is the following:
-
-linux$ sed -n 189,198p fs/namei.c
-	result->refcnt = 1;
-	/* The empty path is special. */
-	if (unlikely(!len)) {
-		if (empty)
-			*empty = 1;
-		if (!(flags & LOOKUP_EMPTY)) {
-			putname(result);
-			return ERR_PTR(-ENOENT);
-		}
-	}
-
-Reported-by: Walter Harms <wharms@bfs.de>
-Cc: Theodore Ts'o <tytso@mit.edu>
-Cc: Adam Borowski <kilobyte@angband.pl>
 Signed-off-by: Alejandro Colomar <alx.manpages@gmail.com>
 ---
- man2/open.2 | 2 +-
- 1 file changed, 1 insertion(+), 1 deletion(-)
+ man3/getutmp.3 | 4 ++--
+ 1 file changed, 2 insertions(+), 2 deletions(-)
 
-diff --git a/man2/open.2 b/man2/open.2
-index 6360636af..bac1ee806 100644
---- a/man2/open.2
-+++ b/man2/open.2
-@@ -824,7 +824,7 @@ fd = open("/path/to/dir", O_TMPFILE | O_RDWR,
- 
- /* File I/O on \(aqfd\(aq... */
- 
--linkat(fd, NULL, AT_FDCWD, "/path/for/file", AT_EMPTY_PATH);
-+linkat(fd, "", AT_FDCWD, "/path/for/file", AT_EMPTY_PATH);
- 
- /* If the caller doesn\(aqt have the CAP_DAC_READ_SEARCH
-    capability (needed to use AT_EMPTY_PATH with linkat(2)),
+diff --git a/man3/getutmp.3 b/man3/getutmp.3
+index e5e85aced..012cfdf6f 100644
+--- a/man3/getutmp.3
++++ b/man3/getutmp.3
+@@ -31,8 +31,8 @@ getutmp, getutmpx \- copy utmp structure to utmpx, and vice versa
+ .BR "#define _GNU_SOURCE" "             /* See feature_test_macros(7) */"
+ .B #include <utmpx.h>
+ .PP
+-.BI " void getutmp(const struct utmpx *" ux ", struct utmp *" u );
+-.BI " void getutmpx(const struct utmp *" u ", struct utmpx *" ux );
++.BI "void getutmp(const struct utmpx *" ux ", struct utmp *" u );
++.BI "void getutmpx(const struct utmp *" u ", struct utmpx *" ux );
+ .fi
+ .SH DESCRIPTION
+ The
 -- 
 2.31.1
 
