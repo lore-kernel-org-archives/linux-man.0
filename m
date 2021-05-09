@@ -8,62 +8,61 @@ X-Spam-Status: No, score=-15.8 required=3.0 tests=BAYES_00,DKIM_SIGNED,
 	MAILING_LIST_MULTI,SPF_HELO_NONE,SPF_PASS,USER_AGENT_GIT autolearn=ham
 	autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 88A12C43470
+	by smtp.lore.kernel.org (Postfix) with ESMTP id C5F71C43600
 	for <linux-man@archiver.kernel.org>; Sun,  9 May 2021 20:20:17 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.kernel.org (Postfix) with ESMTP id 6DC96613E8
+	by mail.kernel.org (Postfix) with ESMTP id A5E1361108
 	for <linux-man@archiver.kernel.org>; Sun,  9 May 2021 20:20:17 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S230057AbhEIUVT (ORCPT <rfc822;linux-man@archiver.kernel.org>);
-        Sun, 9 May 2021 16:21:19 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:49532 "EHLO
+        id S230002AbhEIUVU (ORCPT <rfc822;linux-man@archiver.kernel.org>);
+        Sun, 9 May 2021 16:21:20 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:49536 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S230002AbhEIUVS (ORCPT
+        with ESMTP id S230070AbhEIUVS (ORCPT
         <rfc822;linux-man@vger.kernel.org>); Sun, 9 May 2021 16:21:18 -0400
-Received: from mail-wr1-x42a.google.com (mail-wr1-x42a.google.com [IPv6:2a00:1450:4864:20::42a])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 134A1C06175F
-        for <linux-man@vger.kernel.org>; Sun,  9 May 2021 13:20:12 -0700 (PDT)
-Received: by mail-wr1-x42a.google.com with SMTP id l2so14433274wrm.9
-        for <linux-man@vger.kernel.org>; Sun, 09 May 2021 13:20:12 -0700 (PDT)
+Received: from mail-wr1-x435.google.com (mail-wr1-x435.google.com [IPv6:2a00:1450:4864:20::435])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 6AF62C061763
+        for <linux-man@vger.kernel.org>; Sun,  9 May 2021 13:20:13 -0700 (PDT)
+Received: by mail-wr1-x435.google.com with SMTP id v12so14428572wrq.6
+        for <linux-man@vger.kernel.org>; Sun, 09 May 2021 13:20:13 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=gmail.com; s=20161025;
         h=from:to:cc:subject:date:message-id:in-reply-to:references
          :mime-version:content-transfer-encoding;
-        bh=cppW1TuMVdKNuuwdYFi01fCEB1ceaPLP/QRgl/UFIg8=;
-        b=i4Gw1oIF5DYsCPsdN9Hi+wWjArZ1JY/XLWfxlHl7QajqrPUk3UtWGznrdT9PXjLZ4k
-         Y2877PAWgmRII+CFd5sAGplhEwU0sdBA2r2oW5PhResJYdAsZXxvGtm+CTiOI81bcC1S
-         ev80agXqY5Q2bQJcx1mw986VrzaXltaFOW+lIAnIa8QaqcN+Rr6Qasa58kqxOqNZeyJe
-         dRfOsC7YAXm+yGISPsxtz1/BeTKAD5QqrYq0Gr1aAWnqJ8/eZa3UoJAvaimc5rEdSNmK
-         KSCvmgnLynGI3O4g99EuXp/lpdRdO5VGl3yKd3YNpQsWmpgp/ryB5aQyBogYfXlMhPbM
-         bs2g==
+        bh=xFtkPeQ8Ryby47qCIyLIAN/DwZCs0f9D4VqlrqJNN4I=;
+        b=VijAf0w0CEemK77w4plBr3W16MYb6LmeBHw5CeqqEz/StHTqmucXnzqLLAPcO6eSv3
+         Lm0IUaBBgPzduTbbIqbuI2ZiJbzSSVeAjH3Hg5FkoettkoSYikNmjWwV6NP90q6gVYj4
+         ntsz1vGBks7WCIv8JjWUwUgQcdAx0HrH4+oQOfqH0aT82zb+8PLb6+FSd5DSH8p4ce8v
+         ZF49l8LBc9JER6Kid5cH1W/om3pq70V4CdzltQF/87kGDLxNuHLwzM/xFPLt9TsqTCuM
+         ImLEqqVqzaYYQUNbSxAicMEfZuxbZkOA3+pSRnwh1Te0Ovt4LAI+GpZnROHwDvGqjELv
+         oxvQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
         h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
          :references:mime-version:content-transfer-encoding;
-        bh=cppW1TuMVdKNuuwdYFi01fCEB1ceaPLP/QRgl/UFIg8=;
-        b=NMVS5aizgNeb/zveRCmKffBLcCbY1cwTNJC6AAKwl3wcfcA1G0vag7qOPq7OdUEod3
-         DC+MpDNUFjRy/7o49CUDu1LA6kHyZy5W7FliWXTiee6B0RRWVX49JHzpYpoyoc+SX3ll
-         R+cLrVkEhCRImqLMv1H4DXUTLmTHQtsvtw+rz+N2Gg923AwvZVbMnybjafkdwBWNXAye
-         niXDAYukVO/1W4vIMww9LTZa+Eynqw8bZn3vFB0gnzxa/OAx+hLtZcotjSW3z1QE3QO/
-         vf5GwEOUf71dHVEtkCq6LHMNbhv4L6zlNpcY/G71wB0Y71s8gs1FheJBKJzXhWyNzVS4
-         qIUg==
-X-Gm-Message-State: AOAM530xzFuVN/YxUSHllyOuEb874OmxulpeW0oHD/iewKLE5UnfmUrO
-        jDOkPIZLXXEA6xJeaTz30pA=
-X-Google-Smtp-Source: ABdhPJw7GikH9hrlFXe8TVbrYC9CG+k6+5QM4qAU4Q2DR+BEUljP+7oV5XmzlMzALKPWRNAx1dj6jQ==
-X-Received: by 2002:a05:6000:108b:: with SMTP id y11mr26619921wrw.166.1620591610871;
-        Sun, 09 May 2021 13:20:10 -0700 (PDT)
+        bh=xFtkPeQ8Ryby47qCIyLIAN/DwZCs0f9D4VqlrqJNN4I=;
+        b=qhZCvm6jWkGpbz92R60BGn5U7Fn9BwVXfuxp4OdxTqrdS9qDynJa7ii6RqPnVIZFdX
+         +NgFMtdlC7XYme+w0wyDpy4IVXDiM4bwxXRxjESb6jPtw4S+ar64qENQvfg56Ej5s98t
+         6j9HuhQd4nFluywvfDACQZ+nGmRTKPtWwR+7iXKMArsidZUNSam0AqVVSZDn2LLg62gX
+         YHZiXChA50XSNFXseF0I2IoTtpK0LLKBolPtF8ZNtPeZMp0GobTVHDdMUeiAngT/UWa/
+         MuqOzcVeXcZAfJGA2ZZ8lou/UsgHWdFW2ZJV16QQHCivOlLg8X0iaVfd4YD4UGANZqfr
+         ebkQ==
+X-Gm-Message-State: AOAM532Kxwf0PSlBfh5+hz2+JPjAwNDuayYL2sGNwUNnnso4bufyeyls
+        4N5ttKX6/yOKEWJ1o3Gt3svUqpP1OSslOA==
+X-Google-Smtp-Source: ABdhPJwrJBKSLgwcPetbQ/bRSySu0c4pTD+TOYSlIQnKz2F1EWVvzWPuNLea1MHQRnyz3LwtFblsLQ==
+X-Received: by 2002:a5d:6383:: with SMTP id p3mr26376912wru.230.1620591612204;
+        Sun, 09 May 2021 13:20:12 -0700 (PDT)
 Received: from localhost.localdomain ([170.253.36.171])
-        by smtp.googlemail.com with ESMTPSA id b10sm22591346wrr.27.2021.05.09.13.20.10
+        by smtp.googlemail.com with ESMTPSA id b10sm22591346wrr.27.2021.05.09.13.20.11
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Sun, 09 May 2021 13:20:10 -0700 (PDT)
+        Sun, 09 May 2021 13:20:11 -0700 (PDT)
 From:   Alejandro Colomar <alx.manpages@gmail.com>
 To:     mtk.manpages@gmail.com
-Cc:     "James O. D. Hunt" <jamesodhunt@gmail.com>,
-        linux-man@vger.kernel.org,
+Cc:     Vishwajith K <vishuvikas1996@gmail.com>, linux-man@vger.kernel.org,
         Alejandro Colomar <alx.manpages@gmail.com>
-Subject: [PATCH 10/17] getopt.3: Clarify behaviour
-Date:   Sun,  9 May 2021 22:19:43 +0200
-Message-Id: <20210509201949.90495-11-alx.manpages@gmail.com>
+Subject: [PATCH 12/17] shmop.2: tfix
+Date:   Sun,  9 May 2021 22:19:45 +0200
+Message-Id: <20210509201949.90495-13-alx.manpages@gmail.com>
 X-Mailer: git-send-email 2.31.1
 In-Reply-To: <20210509201949.90495-1-alx.manpages@gmail.com>
 References: <20210509201949.90495-1-alx.manpages@gmail.com>
@@ -73,61 +72,29 @@ Precedence: bulk
 List-ID: <linux-man.vger.kernel.org>
 X-Mailing-List: linux-man@vger.kernel.org
 
-From: "James O. D. Hunt" <jamesodhunt@gmail.com>
+From: Vishwajith K <vishuvikas1996@gmail.com>
 
-Improved the `getopt(3)` man page in the following ways:
-
-1) Defined the existing term "legitimate option character".
-2) Added an additional NOTE stressing that arguments are parsed in strict
-   order and the implications of this when numeric options are utilised.
-
-Signed-off-by: James O. D. Hunt <jamesodhunt@gmail.com>
+Signed-off-by: Vishwajith K <vishuvikas1996@gmail.com>
 Signed-off-by: Alejandro Colomar <alx.manpages@gmail.com>
 ---
- man3/getopt.3 | 23 +++++++++++++++++++++++
- 1 file changed, 23 insertions(+)
+ man2/shmop.2 | 4 ++--
+ 1 file changed, 2 insertions(+), 2 deletions(-)
 
-diff --git a/man3/getopt.3 b/man3/getopt.3
-index 921e747f8..e88321ed0 100644
---- a/man3/getopt.3
-+++ b/man3/getopt.3
-@@ -126,6 +126,11 @@ Then \fIoptind\fP is the index in \fIargv\fP of the first
- .PP
- .I optstring
- is a string containing the legitimate option characters.
-+A legitimate option character is any visible one byte
-+.BR ascii (7)
-+character (for which
-+.BR isgraph (3)
-+would return nonzero) that is not dash (\(aq\-\(aq) or colon (\(aq:\(aq).
- If such a
- character is followed by a colon, the option requires an argument, so
- .BR getopt ()
-@@ -402,6 +407,24 @@ routine that rechecks
- .B POSIXLY_CORRECT
- and checks for GNU extensions in
- .IR optstring .)
-+.PP
-+Command-line arguments are parsed in strict order
-+meaning that an option requiring an argument will consume the next argument,
-+regardless of whether that argument is the correctly specified option argument
-+or simply the next option
-+(in the scenario the user mis-specifies the command line).
-+For example, if
-+.I optstring
-+is specified as "1n:"
-+and the user specifies the command line arguments incorrectly as
-+.IR "prog\ \-n\ \-1" ,
-+the
-+.I \-n
-+option will be given the
-+.B optarg
-+value "\-1", and the
-+.I \-1
-+option will be considered to have not been specified.
- .SH EXAMPLES
- .SS getopt()
- The following trivial example program uses
+diff --git a/man2/shmop.2 b/man2/shmop.2
+index 3a6c908ee..c7e66af0e 100644
+--- a/man2/shmop.2
++++ b/man2/shmop.2
+@@ -387,8 +387,8 @@ main(int argc, char *argv[])
+         errExit("shmget");
+ 
+     semid = semget(IPC_PRIVATE, 1, IPC_CREAT | 0600);
+-    if (shmid == \-1)
+-        errExit("shmget");
++    if (semid == \-1)
++        errExit("semget");
+ 
+     /* Attach shared memory into our address space. */
+ 
 -- 
 2.31.1
 
