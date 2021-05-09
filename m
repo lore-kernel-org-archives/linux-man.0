@@ -8,61 +8,61 @@ X-Spam-Status: No, score=-15.8 required=3.0 tests=BAYES_00,DKIM_SIGNED,
 	MAILING_LIST_MULTI,SPF_HELO_NONE,SPF_PASS,USER_AGENT_GIT autolearn=ham
 	autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 7BB46C433B4
-	for <linux-man@archiver.kernel.org>; Sun,  9 May 2021 21:44:17 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id E70DEC433ED
+	for <linux-man@archiver.kernel.org>; Sun,  9 May 2021 21:44:23 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.kernel.org (Postfix) with ESMTP id 42826613C9
-	for <linux-man@archiver.kernel.org>; Sun,  9 May 2021 21:44:17 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTP id AE71C613CA
+	for <linux-man@archiver.kernel.org>; Sun,  9 May 2021 21:44:23 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S230035AbhEIVpS (ORCPT <rfc822;linux-man@archiver.kernel.org>);
-        Sun, 9 May 2021 17:45:18 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:39588 "EHLO
+        id S230079AbhEIVp0 (ORCPT <rfc822;linux-man@archiver.kernel.org>);
+        Sun, 9 May 2021 17:45:26 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:39574 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S229987AbhEIVpQ (ORCPT
-        <rfc822;linux-man@vger.kernel.org>); Sun, 9 May 2021 17:45:16 -0400
-Received: from mail-wr1-x430.google.com (mail-wr1-x430.google.com [IPv6:2a00:1450:4864:20::430])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 31553C061761
-        for <linux-man@vger.kernel.org>; Sun,  9 May 2021 14:44:12 -0700 (PDT)
-Received: by mail-wr1-x430.google.com with SMTP id n2so14606299wrm.0
-        for <linux-man@vger.kernel.org>; Sun, 09 May 2021 14:44:12 -0700 (PDT)
+        with ESMTP id S230032AbhEIVpR (ORCPT
+        <rfc822;linux-man@vger.kernel.org>); Sun, 9 May 2021 17:45:17 -0400
+Received: from mail-wm1-x32b.google.com (mail-wm1-x32b.google.com [IPv6:2a00:1450:4864:20::32b])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 64FA5C06175F
+        for <linux-man@vger.kernel.org>; Sun,  9 May 2021 14:44:13 -0700 (PDT)
+Received: by mail-wm1-x32b.google.com with SMTP id y124-20020a1c32820000b029010c93864955so10034273wmy.5
+        for <linux-man@vger.kernel.org>; Sun, 09 May 2021 14:44:13 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=gmail.com; s=20161025;
         h=from:to:cc:subject:date:message-id:in-reply-to:references
          :mime-version:content-transfer-encoding;
-        bh=3qe1wYpVmCOStgjDGeNWPiA6O7+vbxcDFxh4+EEbOqA=;
-        b=SMisC5Lee4OPxTHhsCXsCPfsB+RGTeGbDSR2J380+/cKPqaFR9UYXyxYkenm4ytBoB
-         wOLWTX0xuWXfM/ImhocCCUK497QRuEUlabXKykQIjUqX8soX1chKNxT96JZ+TtxXopwm
-         vH7Ky6fOb+SFQbmk6vY2hwEaPFxmGx07gX8NE/rgkDBmAc1+zyT0nVj+fV6aXloZgwlo
-         qmQEn1wP+jwL7T2838sqm/xPcw18K5B+MBLKlMkF9OLptCS22sQB7LTieoXeG9PFmYwa
-         sKj03TJT1WQHrXgMeRq231TK2rYS/cDGh19Ks2evztMXkSHN90F3vQc4OBPtGAiGKL7H
-         ArLw==
+        bh=k9fRv+/QE6CkquKbt73Z9OREHmLuuuzw/sGHGyv5Im4=;
+        b=exMBH3jEXQul4LYrgotd6xpUP45LTQd+PFdd3IXc0jpIbbnp9JtYKYHj7EDwATg+I8
+         0z1zVgNnH6lw3tCmjJickzinbJVYYC4niP0T3TVZF1BXpg1eSHum0rkt6IhHkYpGe2n7
+         1xGf+LdTOq67MJij6sZg8ZhYSzBAY9K0gTfhs2OTH932Q6xNLMQPWrjCRDByoV3n7ioT
+         VStYUY6CuWts4qm/0m/wmFFQAeEZVS8bwb7bNtceBUaSw9SE32mLF9SFB/OTAGD1bs4J
+         AjRMKJr4P6ucL/fpZslRyov1lbDwmrfMqQIEQkkM3fG7WZn9zIimUWJ3nnJcxR5g3prx
+         FHgA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
         h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
          :references:mime-version:content-transfer-encoding;
-        bh=3qe1wYpVmCOStgjDGeNWPiA6O7+vbxcDFxh4+EEbOqA=;
-        b=kXMDRaGAKB4qxjRq9TIl5lRCVQDceWBaBeXrhyf8dvM5Sbt6xvjVeaYCaLer5O0k/+
-         0iLSctp3I4bS1NqvAtUQJlnsiIho2rsKsy+JaeYewyuKdRoUkhjCuNiuWhikt+O5b4Yn
-         oyUn4uk6wN0rj4+rH/T5LW43jzoxqyBf70PvN/3lrN6P7Zh8eDpXGCUR93Sr8ftM5R78
-         KBBUN4lOeRXv3qNPH3Rvmv7QUJ5r4PBs8SFah7WVA+Zgf7SFf3/lcA5ZFR1iad8zU3Rw
-         1///XlJi9al8q7X1OCZvB80fPAbH5zplJky2asfmLDtNaconGlXxv/m8W51Gu7cSpVs2
-         +OUg==
-X-Gm-Message-State: AOAM5317R6uyFRUWgQvmmNDqjrzqe4eV9OkgLmXKUpCn5ikwDROYUctG
-        mdUl3bxYWoiTDRWSW0l0gew=
-X-Google-Smtp-Source: ABdhPJytvDKBvJugToayQyW+IYcR2Ybh/Ag1mM2nmGqlBF30JUZd4aCnyam3zJ43YnUR/QOTkNCrbw==
-X-Received: by 2002:adf:ff81:: with SMTP id j1mr26918528wrr.336.1620596651008;
-        Sun, 09 May 2021 14:44:11 -0700 (PDT)
+        bh=k9fRv+/QE6CkquKbt73Z9OREHmLuuuzw/sGHGyv5Im4=;
+        b=uKp5c0Woj88ddca3LbgZ2UFYMfuUARW2YhE+vJVjb0Bc2vTfI4BKRY49ytcuU00TmU
+         vqLjWtt6SNl/NJOrgQ+rnkNQfskiTVgB1q1llpHxxaiz43M774m7XUhLAn5xjQrv1fuT
+         qG7cgNexlxoP59V9NOyYPmEuIJH94LRkr36aZxxmx9I50tQsypAod4dA+Lb4Y6wIWIv/
+         R+leVLlBtzFjxK4V7kT8yGgQqIr0l9UTebLFbnM71iSn30GAzXs2+IPR9va7pocX5MAa
+         NDVhxJoQG88/TbCZpqjLFTlZ59zp5WeNTPbH44/U0K2BellLY/JlywdYbGzluCysXQb7
+         JhRQ==
+X-Gm-Message-State: AOAM530gtCJxT1eZNQ7V3DOkY04noEHPfrLk3were2iCHHpVRVwhe24x
+        xSJtfO1zxH1Kuub/x3VgJRD0ZdUbK1newg==
+X-Google-Smtp-Source: ABdhPJxllMv8IvfKDGuRzHMjpO/RY1rCg4gbSV93YzWxz/Gcd9gSV5Z0c0SHUkbWmQxW34YBqGZywQ==
+X-Received: by 2002:a05:600c:3644:: with SMTP id y4mr33894429wmq.132.1620596652265;
+        Sun, 09 May 2021 14:44:12 -0700 (PDT)
 Received: from localhost.localdomain ([170.253.36.171])
-        by smtp.googlemail.com with ESMTPSA id u6sm16495530wml.6.2021.05.09.14.44.10
+        by smtp.googlemail.com with ESMTPSA id u6sm16495530wml.6.2021.05.09.14.44.11
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Sun, 09 May 2021 14:44:10 -0700 (PDT)
+        Sun, 09 May 2021 14:44:12 -0700 (PDT)
 From:   Alejandro Colomar <alx.manpages@gmail.com>
 To:     mtk.manpages@gmail.com
 Cc:     Alejandro Colomar <alx.manpages@gmail.com>,
         linux-man@vger.kernel.org
-Subject: [PATCH] rpc.3: SYNOPSIS: Fix prototypes (misc.)
-Date:   Sun,  9 May 2021 23:39:15 +0200
-Message-Id: <20210509213930.94120-21-alx.manpages@gmail.com>
+Subject: [PATCH] pthread_mutexattr_setrobust.3: SYNOPSIS: Remove incorrect 'const'
+Date:   Sun,  9 May 2021 23:39:17 +0200
+Message-Id: <20210509213930.94120-23-alx.manpages@gmail.com>
 X-Mailer: git-send-email 2.31.1
 In-Reply-To: <20210509213930.94120-1-alx.manpages@gmail.com>
 References: <20210509213930.94120-1-alx.manpages@gmail.com>
@@ -72,165 +72,39 @@ Precedence: bulk
 List-ID: <linux-man.vger.kernel.org>
 X-Mailing-List: linux-man@vger.kernel.org
 
-Fix the types for the following functions:
+Neither POSIX or glibc use 'const' in
+pthread_mutexattr_setrobust().
+Remove it.
 
-authunix_create(),
-callrpc(),
-clnt_create(),
-clnt_pcreateerror(),
-clnt_perror(),
-clnt_spcreateerror(),
-clnt_sperror(),
-pmap_set(),
-svc_register(),
-svcerr_progvers().
-
-.../glibc$ grep_glibc_prototype authunix_create
-sunrpc/rpc/auth.h:158:
-extern AUTH *authunix_create (char *__machname, __uid_t __uid, __gid_t __gid,
-			      int __len, __gid_t *__aup_gids);
-.../glibc$ grep_glibc_prototype callrpc
-sunrpc/rpc/clnt.h:359:
-extern int callrpc (const char *__host, const u_long __prognum,
-		    const u_long __versnum, const u_long __procnum,
-		    const xdrproc_t __inproc, const char *__in,
-		    const xdrproc_t __outproc, char *__out) __THROW;
-.../glibc$ grep_glibc_prototype clnt_create
-sunrpc/rpc/clnt.h:291:
-extern CLIENT *clnt_create (const char *__host, const u_long __prog,
-			    const u_long __vers, const char *__prot)
-     __THROW;
-.../glibc$ grep_glibc_prototype clnt_pcreateerror
-sunrpc/rpc/clnt.h:368:
-extern void clnt_pcreateerror (const char *__msg);	/* stderr */
-.../glibc$ grep_glibc_prototype clnt_perror
-sunrpc/rpc/clnt.h:379:
-extern void clnt_perror (CLIENT *__clnt, const char *__msg);
-.../glibc$ grep_glibc_prototype clnt_spcreateerror
-sunrpc/rpc/clnt.h:369:
-extern char *clnt_spcreateerror(const char *__msg) __THROW;	/* string */
-.../glibc$ grep_glibc_prototype clnt_sperror
-sunrpc/rpc/clnt.h:381:
-extern char *clnt_sperror (CLIENT *__clnt, const char *__msg) __THROW;
-.../glibc$ grep_glibc_prototype pmap_set
-sunrpc/rpc/pmap_clnt.h:69:
-extern bool_t pmap_set (const u_long __program, const u_long __vers,
-			int __protocol, u_short __port) __THROW;
-.../glibc$ grep_glibc_prototype svc_register
-sunrpc/rpc/svc.h:188:
-extern bool_t svc_register (SVCXPRT *__xprt, rpcprog_t __prog,
-			    rpcvers_t __vers, __dispatch_fn_t __dispatch,
-			    rpcprot_t __protocol) __THROW;
-.../glibc$ grep_glibc_prototype svcerr_progvers
-sunrpc/rpc/svc.h:253:
-extern void	svcerr_progvers (SVCXPRT *__xprt, rpcvers_t __low_vers,
-				 rpcvers_t __high_vers) __THROW;
+.../glibc$ grep_glibc_prototype pthread_mutexattr_setrobust
+sysdeps/htl/pthread.h:355:
+extern int pthread_mutexattr_setrobust (pthread_mutexattr_t *__attr,
+					int __robustness)
+     __THROW __nonnull ((1));
+sysdeps/nptl/pthread.h:888:
+extern int pthread_mutexattr_setrobust (pthread_mutexattr_t *__attr,
+					int __robustness)
+     __THROW __nonnull ((1));
 .../glibc$
 
 Signed-off-by: Alejandro Colomar <alx.manpages@gmail.com>
 ---
- man3/rpc.3 | 25 +++++++++++++------------
- 1 file changed, 13 insertions(+), 12 deletions(-)
+ man3/pthread_mutexattr_setrobust.3 | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
 
-diff --git a/man3/rpc.3 b/man3/rpc.3
-index 1daaaad7e..3d2fe4243 100644
---- a/man3/rpc.3
-+++ b/man3/rpc.3
-@@ -70,8 +70,8 @@ information with each remote procedure call.
- This is the default authentication used by RPC.
+diff --git a/man3/pthread_mutexattr_setrobust.3 b/man3/pthread_mutexattr_setrobust.3
+index dbf429c48..86aab88ed 100644
+--- a/man3/pthread_mutexattr_setrobust.3
++++ b/man3/pthread_mutexattr_setrobust.3
+@@ -33,7 +33,7 @@ pthread_mutexattr_getrobust, pthread_mutexattr_setrobust
  .PP
- .nf
--.BI "AUTH *authunix_create(char *" host ", int " uid ", int " gid ,
--.BI "                      int " len ", int *" aup_gids );
-+.BI "AUTH *authunix_create(char *" host ", uid_t " uid ", gid_t " gid ,
-+.BI "                      int " len ", gid_t *" aup_gids );
+ .BI "int pthread_mutexattr_getrobust(const pthread_mutexattr_t *" attr ,
+ .BI "                                int *" robustness ");"
+-.BI "int pthread_mutexattr_setrobust(const pthread_mutexattr_t *" attr ,
++.BI "int pthread_mutexattr_setrobust(pthread_mutexattr_t *" attr ,
+ .BI "                                int " robustness ");"
  .fi
- .IP
- Create and return an RPC authentication handle that contains
-@@ -100,7 +100,7 @@ with the appropriate parameters.
- .nf
- .BI "int callrpc(char *" host ", unsigned long " prognum ,
- .BI "            unsigned long " versnum ", unsigned long " procnum ,
--.BI "            xdrproc_t " inproc ", char *" in ,
-+.BI "            xdrproc_t " inproc ", const char *" in ,
- .BI "            xdrproc_t " outproc ", char *" out );
- .fi
- .IP
-@@ -216,8 +216,8 @@ If the RPC library opened the associated socket, it will close it also.
- Otherwise, the socket remains open.
  .PP
- .nf
--.BI "CLIENT *clnt_create(char *" host ", unsigned long " prog ,
--.BI "                    unsigned long " vers ", char *" proto );
-+.BI "CLIENT *clnt_create(const char *" host ", unsigned long " prog ,
-+.BI "                    unsigned long " vers ", const char *" proto );
- .fi
- .IP
- Generic client creation routine.
-@@ -305,7 +305,7 @@ handle to the structure at address
- .IR errp .
- .PP
- .nf
--.BI "void clnt_pcreateerror(char *" s );
-+.BI "void clnt_pcreateerror(const char *" s );
- .fi
- .IP
- Print a message to standard error indicating why a client RPC
-@@ -332,7 +332,7 @@ Used after
- .BR callrpc ().
- .PP
- .nf
--.BI "clnt_perror(CLIENT *" clnt ", char *" s );
-+.BI "clnt_perror(CLIENT *" clnt ", const char *" s );
- .fi
- .IP
- Print a message to standard error indicating why an RPC call failed;
-@@ -345,7 +345,7 @@ Used after
- .BR clnt_call ().
- .PP
- .nf
--.BI "char *clnt_spcreateerror(char *" s );
-+.BI "char *clnt_spcreateerror(const char *" s );
- .fi
- .IP
- Like
-@@ -383,7 +383,7 @@ returns pointer to static data, but the
- result will not get overwritten on each call.
- .PP
- .nf
--.BI "char *clnt_sperror(CLIENT *" rpch ", char *" s );
-+.BI "char *clnt_sperror(CLIENT *" rpch ", const char *" s );
- .fi
- .IP
- Like
-@@ -601,7 +601,7 @@ See also
- .PP
- .nf
- .BI "bool_t pmap_set(unsigned long " prognum ", unsigned long " versnum ,
--.BI "                unsigned int " protocol ", unsigned short " port );
-+.BI "                int " protocol ", unsigned short " port );
- .fi
- .IP
- A user interface to the
-@@ -781,7 +781,7 @@ This interface is obsoleted by
- .nf
- .BI "bool_t svc_register(SVCXPRT *" xprt ", unsigned long " prognum ,
- .BI "                    unsigned long " versnum ,
--.BI "                    void (*" dispatch ")(svc_req *, SVCXPRT *),"
-+.BI "                    void (*" dispatch ")(struct svc_req *, SVCXPRT *),"
- .BI "                    unsigned long " protocol );
- .fi
- .IP
-@@ -894,7 +894,8 @@ Called when the desired program is not registered with the RPC package.
- Service implementors usually do not need this routine.
- .PP
- .nf
--.BI "void svcerr_progvers(SVCXPRT *" xprt );
-+.BI "void svcerr_progvers(SVCXPRT *" xprt ", unsigned long " low_vers ,
-+.BI "                     unsigned long " high_vers );
- .fi
- .IP
- Called when the desired version of a program is not registered
 -- 
 2.31.1
 
