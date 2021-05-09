@@ -8,61 +8,61 @@ X-Spam-Status: No, score=-15.8 required=3.0 tests=BAYES_00,DKIM_SIGNED,
 	MAILING_LIST_MULTI,SPF_HELO_NONE,SPF_PASS,USER_AGENT_GIT autolearn=ham
 	autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 05E51C433ED
+	by smtp.lore.kernel.org (Postfix) with ESMTP id C31AAC433B4
 	for <linux-man@archiver.kernel.org>; Sun,  9 May 2021 21:44:29 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.kernel.org (Postfix) with ESMTP id C7675613C9
-	for <linux-man@archiver.kernel.org>; Sun,  9 May 2021 21:44:28 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTP id 89B6B613CA
+	for <linux-man@archiver.kernel.org>; Sun,  9 May 2021 21:44:29 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S230040AbhEIVpb (ORCPT <rfc822;linux-man@archiver.kernel.org>);
-        Sun, 9 May 2021 17:45:31 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:39642 "EHLO
+        id S229987AbhEIVpc (ORCPT <rfc822;linux-man@archiver.kernel.org>);
+        Sun, 9 May 2021 17:45:32 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:39654 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S230071AbhEIVp0 (ORCPT
+        with ESMTP id S230085AbhEIVp0 (ORCPT
         <rfc822;linux-man@vger.kernel.org>); Sun, 9 May 2021 17:45:26 -0400
-Received: from mail-wr1-x42b.google.com (mail-wr1-x42b.google.com [IPv6:2a00:1450:4864:20::42b])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 14D74C06138D
-        for <linux-man@vger.kernel.org>; Sun,  9 May 2021 14:44:18 -0700 (PDT)
-Received: by mail-wr1-x42b.google.com with SMTP id z6so14559546wrm.4
-        for <linux-man@vger.kernel.org>; Sun, 09 May 2021 14:44:18 -0700 (PDT)
+Received: from mail-wr1-x430.google.com (mail-wr1-x430.google.com [IPv6:2a00:1450:4864:20::430])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id AFCCAC061344
+        for <linux-man@vger.kernel.org>; Sun,  9 May 2021 14:44:20 -0700 (PDT)
+Received: by mail-wr1-x430.google.com with SMTP id z6so14559587wrm.4
+        for <linux-man@vger.kernel.org>; Sun, 09 May 2021 14:44:20 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=gmail.com; s=20161025;
         h=from:to:cc:subject:date:message-id:in-reply-to:references
          :mime-version:content-transfer-encoding;
-        bh=C0YEez2VLKczzyy6kaegS7N24dVZig035wT5nEOUtjI=;
-        b=B0L2Yp3ggBjRDloWZeo+5jyNTSzolYZ2vmSX1f97Zdy72fKePiZxgQ80sWiQD6nqZU
-         F9+Gbp9u7YdQRa9jLGbJJ76jZFLF3lPipQ6YL36ehFrnHYnCDlahMp9X7R/JlZXPXbpA
-         EHr3BUG64fO9npWN7N2hgn0i8ATPQkNZ7+5erbk/4IS9bfEXAJ9d5HhBbF8fZD6h2w5N
-         19xua0Og+1/XaOxJu9QjS/a+rW0yx0ONuNQTVSgJeGepi29Z+8ijVAkR2RX/Is9tQyu9
-         PXa/uSJQAFkBOd+jTIZbo5jA7mVE737yrlLo/bK89OBUYYh5evyOMlc7Sio1u+i9BGkg
-         xGmg==
+        bh=gXM8+4PzVofU9cvKLuTdeWXQtlG8OnU3Cf1SkVMOQqY=;
+        b=gL6J/dhKquqNIJ3tUmZvj6h3c2nIBH9Fqng9g5u/ptL3zPGxzUBJGJZjm2KIuT2Aym
+         /g0296H3bx117jggaGSeMgRrazt+NX/T5M2Mxx0LILKSwLOiPRJOHQ/yVPVJt+ftswqV
+         qAXYUkPHgsLubwQVYWDSNlO0LijQb6DFARpQPEHE0OxAlpj+2HPs5I304/GMtFOIORgq
+         txuGdtZwenSEqCdDBqId5iR5F9PjnommVxf8DTaE9vXPowLDv+QC63WJ5xbwx9HixAkr
+         RL7ODvw6W9swwRbXpYybNnnI2Syt7gmwLOBgs9uwGqqZc3FMFLXX7wJlQCShdZCpuLUD
+         +vxA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
         h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
          :references:mime-version:content-transfer-encoding;
-        bh=C0YEez2VLKczzyy6kaegS7N24dVZig035wT5nEOUtjI=;
-        b=inmi5XULI1dwazLC1k/NwzXjKXj5TDALgsLw0W4HIt7BSjc+raGPPJ++gAixAvisVE
-         DpjC8YuUNzedkpRAxdqS6xow7TfPyiwhU7LAG+6mmSnBVAKx8Y6ogTw/rvWIu0HStl93
-         TWw2W/eYMvCSxsG7hfGHABbL4sRrgkxP2Qi6y0ncuc6Py1GEPMkIRTYX2+u72VCGacTV
-         HOXzK+GpaLzpL2T0bBZAEWJgCrlbHPFm2BkFDojh5Wxp5vdzAM4OfEePO1WwqD5x4ZA/
-         WbOJ8QaQqrcgxQ5UUCyJakuR9VsSlzXA7HvtYq+huIM0RiQe6xx6BfaQ+jIUaK71jWXF
-         SPmw==
-X-Gm-Message-State: AOAM5300PzjBy5xIWM0i5vO105gP6tKCZqJv34Vbmoe+4WcL/X9m69LG
-        qGdyVdtwagspolHEPysiCRg=
-X-Google-Smtp-Source: ABdhPJyOa0/vo0BZ3P4o1jA2GU3sMfQMynOXUye79fXp5xkT3t4Y//cCGzzeAgFv5zoxpcXNyPJ7PQ==
-X-Received: by 2002:a5d:6811:: with SMTP id w17mr27270699wru.348.1620596656828;
-        Sun, 09 May 2021 14:44:16 -0700 (PDT)
+        bh=gXM8+4PzVofU9cvKLuTdeWXQtlG8OnU3Cf1SkVMOQqY=;
+        b=pc05QpbViQMv+WFMDg1UF9ioET2OrW8Z+Wq4CePOMWz9nFfS1qD3mXHvNxlxXBHzHg
+         dFlvop8e0emgCOu37KzC2MJIrmOv+XGUYiAG0CezEJ+/9hQcx494ehGHDGqRAUvVfvsu
+         f1TNkB/U3YTQbxqV2MOl2H0XUBVmj92hAA4+m2iX5Qrgo8S/MlyzHqZXzdyCLKc+ljXE
+         sfleP+8D4p0ZS6bmxsx97JFYttqo0whGZcO/wjPjt694RxOJQw3PlDk0U53M5KCCLZHQ
+         hQAC4US9pnuqVVWJrHDYzyjc+pxhh1CTyHFDsjQVRKhkxTlxMlLXp0ajq5ftjy0VoeVX
+         jZ/A==
+X-Gm-Message-State: AOAM533yTqkpRGwHgt+dIVTLqZ49odVUSHXe4EjfwgWiPmNjWjlCmBSS
+        8LJCDhJ/Pw4mzcDd1u5TEXulqBDjZTVlmg==
+X-Google-Smtp-Source: ABdhPJzEN4LM2cS0oql1Kk94sy1QzKWfyGWFgtXbyXMmtcUoMGgKLTvXGc/POfb5KexCVb2H+BIAlg==
+X-Received: by 2002:a5d:6687:: with SMTP id l7mr27326090wru.235.1620596659476;
+        Sun, 09 May 2021 14:44:19 -0700 (PDT)
 Received: from localhost.localdomain ([170.253.36.171])
-        by smtp.googlemail.com with ESMTPSA id u6sm16495530wml.6.2021.05.09.14.44.16
+        by smtp.googlemail.com with ESMTPSA id u6sm16495530wml.6.2021.05.09.14.44.18
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Sun, 09 May 2021 14:44:16 -0700 (PDT)
+        Sun, 09 May 2021 14:44:19 -0700 (PDT)
 From:   Alejandro Colomar <alx.manpages@gmail.com>
 To:     mtk.manpages@gmail.com
 Cc:     Alejandro Colomar <alx.manpages@gmail.com>,
         linux-man@vger.kernel.org
-Subject: [PATCH] cpow.3: Use 'complex' after the type consistently
-Date:   Sun,  9 May 2021 23:39:24 +0200
-Message-Id: <20210509213930.94120-30-alx.manpages@gmail.com>
+Subject: [PATCH] Makefile: Fix bug when running in parallel
+Date:   Sun,  9 May 2021 23:39:28 +0200
+Message-Id: <20210509213930.94120-34-alx.manpages@gmail.com>
 X-Mailer: git-send-email 2.31.1
 In-Reply-To: <20210509213930.94120-1-alx.manpages@gmail.com>
 References: <20210509213930.94120-1-alx.manpages@gmail.com>
@@ -72,29 +72,32 @@ Precedence: bulk
 List-ID: <linux-man.vger.kernel.org>
 X-Mailing-List: linux-man@vger.kernel.org
 
+Prerequisites can run in parallel.  This wouldn't make any sense
+when uninstalling and installing again.
+
+For that, use consecutive commands, which run one after the other
+even with multiple cores.
+
 Signed-off-by: Alejandro Colomar <alx.manpages@gmail.com>
 ---
- man3/cpow.3 | 6 +++---
- 1 file changed, 3 insertions(+), 3 deletions(-)
+ Makefile | 4 +++-
+ 1 file changed, 3 insertions(+), 1 deletion(-)
 
-diff --git a/man3/cpow.3 b/man3/cpow.3
-index 494b88f74..be93bff74 100644
---- a/man3/cpow.3
-+++ b/man3/cpow.3
-@@ -11,10 +11,10 @@ cpow, cpowf, cpowl \- complex power function
- .nf
- .B #include <complex.h>
- .PP
--.BI "double complex cpow(double complex " x ", complex double " z ");"
--.BI "float complex cpowf(float complex " x ", complex float " z ");"
-+.BI "double complex cpow(double complex " x ", double complex " z );
-+.BI "float complex cpowf(float complex " x ", float complex " z );
- .BI "long double complex cpowl(long double complex " x ,
--.BI "                          complex long double " z ");"
-+.BI "                          long double complex " z );
- .PP
- Link with \fI\-lm\fP.
- .fi
+diff --git a/Makefile b/Makefile
+index 430090801..fdfaf9645 100644
+--- a/Makefile
++++ b/Makefile
+@@ -20,7 +20,9 @@ INSTALL_DATA = $(INSTALL) -m 644
+ INSTALL_DIR = $(INSTALL) -m 755 -d
+ 
+ .PHONY: all
+-all: remove install
++all:
++	$(MAKE) uninstall;
++	$(MAKE) install;
+ 
+ # Use with
+ #  make HTOPTS=whatever html
 -- 
 2.31.1
 
