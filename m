@@ -8,61 +8,63 @@ X-Spam-Status: No, score=-15.8 required=3.0 tests=BAYES_00,DKIM_SIGNED,
 	MAILING_LIST_MULTI,SPF_HELO_NONE,SPF_PASS,USER_AGENT_GIT autolearn=ham
 	autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 2D561C43460
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 59C9BC43470
 	for <linux-man@archiver.kernel.org>; Sun,  9 May 2021 21:44:30 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.kernel.org (Postfix) with ESMTP id E7C50613CA
-	for <linux-man@archiver.kernel.org>; Sun,  9 May 2021 21:44:29 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTP id 36051613C9
+	for <linux-man@archiver.kernel.org>; Sun,  9 May 2021 21:44:30 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S230039AbhEIVpd (ORCPT <rfc822;linux-man@archiver.kernel.org>);
+        id S230045AbhEIVpd (ORCPT <rfc822;linux-man@archiver.kernel.org>);
         Sun, 9 May 2021 17:45:33 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:39640 "EHLO
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:39612 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S230087AbhEIVp0 (ORCPT
-        <rfc822;linux-man@vger.kernel.org>); Sun, 9 May 2021 17:45:26 -0400
-Received: from mail-wm1-x330.google.com (mail-wm1-x330.google.com [IPv6:2a00:1450:4864:20::330])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 5AF55C06138C
-        for <linux-man@vger.kernel.org>; Sun,  9 May 2021 14:44:17 -0700 (PDT)
-Received: by mail-wm1-x330.google.com with SMTP id y124-20020a1c32820000b029010c93864955so10034322wmy.5
-        for <linux-man@vger.kernel.org>; Sun, 09 May 2021 14:44:17 -0700 (PDT)
+        with ESMTP id S229986AbhEIVp1 (ORCPT
+        <rfc822;linux-man@vger.kernel.org>); Sun, 9 May 2021 17:45:27 -0400
+Received: from mail-wr1-x435.google.com (mail-wr1-x435.google.com [IPv6:2a00:1450:4864:20::435])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 5EC01C061574
+        for <linux-man@vger.kernel.org>; Sun,  9 May 2021 14:44:21 -0700 (PDT)
+Received: by mail-wr1-x435.google.com with SMTP id v12so14543534wrq.6
+        for <linux-man@vger.kernel.org>; Sun, 09 May 2021 14:44:21 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=gmail.com; s=20161025;
         h=from:to:cc:subject:date:message-id:in-reply-to:references
          :mime-version:content-transfer-encoding;
-        bh=oB3NQtRKRYuvuhwTSIgBlvvZWzEVsNHJ1ZgLBZyEvGE=;
-        b=IQR+hva88hInshBEpXnTVq0XfZSXApNnx9ZTxtt0MUVNazwmQnAE5LqcQnzOb1OhRk
-         SI78TT1Qw+vPTrhu+bpZpoeaJYxzeM5uGSqWT66GFU3rIEcrBoNyAfVKERqK41y7s/t2
-         kt7tvh87G+HS2dMg8I2EeZJO1V3se+DK8KG7sRGmJGWt5GH6EqnirrFpdEleJmV/3GuW
-         Y2gTwVyzNCpID1y8MibfmJ/EqZpHeuHkNwojLAfKYFwZa+xbTzCnGwTnwfTGW/q7a9Yu
-         vCXQ3EaAM/ToVKrYtq7CGLAz9BfN9QTWLu8lX85RivsFKNlL4Tylmx5lkJ3ktLsnZaTv
-         oPIw==
+        bh=3Tiw3LGhI2Ta/P64wPit7nQhs6mpjtBaiIgKAJLD0gI=;
+        b=R4/51yczVvkfD16gkekK6mLGOULS9JnsvPONrhvfvOcookL6hJKjowUTxjhnAA46Sl
+         2eRLdCq9g6UMJounlRwjy+vWVXFCvZr+lfzkdxJDyYHNESMINxGvXJ0YkSEq0qYTvEQs
+         yNqMrqRcymA/COcN8NxbA6cShg8nYBIsuZJrAfvwyvedxZvoKW/TYGhnijWHRyGAcDp2
+         p1sXDwadidn7JFNVPHa0xmvrflXf7WFTxKvKafsxFHjznw+r3N3tjYgGrh36VLIX5SUx
+         grCzKcYcTbLq35jYJWD5NkF8+yEYyz2pA3eeAoG443PXhoznmIAocfSXL00mqQHn5JnB
+         WQwA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
         h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
          :references:mime-version:content-transfer-encoding;
-        bh=oB3NQtRKRYuvuhwTSIgBlvvZWzEVsNHJ1ZgLBZyEvGE=;
-        b=e5ea7iEfbD3A8h0cFQuXuALUo2jF/X847yibVQSt4Jem0tW5RN85qr++rK1I5r8Vqc
-         DNjI9V91yls8Qwao2ocH3KSO11sOm0T2lYjbYrOzOZylwN6aTZvWnDQnRWo3y4G2+/aD
-         Evp7xRCHNdZYJQuQAlDQPvx7XkE/OerQiRS3ygFFEFgQLQh4ID+kbif4N3NOOidH58we
-         KlRQafAIuJdEkGUy6l55+DqVTh5/lTitr/TjSVHI91ofPn383s6SFhdS/JpoXheblJLz
-         ffbZZDTdqfd3cZhEQVYycRIsz7enes9qpD72eQYOnhJiFpTcAhyU7l0gRFS4PoLmxl5f
-         LExw==
-X-Gm-Message-State: AOAM532ySeflQPtvUGU/ISmJLiwvO7158+cYxxvMKRrx+f8akBr1HdTI
-        z/SJ5VEg82pzPAc/5kLM3pWVnqIWgWJAcw==
-X-Google-Smtp-Source: ABdhPJytyz5H93dAQUCAc1IUT6soMBFop6b3vtOSWfLflmCnX5sRq67Y7zUTQf7LtDOCbOi+mvOf3w==
-X-Received: by 2002:a1c:b7c4:: with SMTP id h187mr22487093wmf.178.1620596656203;
-        Sun, 09 May 2021 14:44:16 -0700 (PDT)
+        bh=3Tiw3LGhI2Ta/P64wPit7nQhs6mpjtBaiIgKAJLD0gI=;
+        b=JLgHtDaSNsh3a8gORO2RorvZf+us9o5SdlcyHBoHTkX/D2Mwk4wz0f+IDDm4hGtHnR
+         9GvUrryWlFJaa1dxpSWpxXE5EH8IlxTbA2yacKArBpvJZFY1HE8X8QnZyBTlzYhkfQOt
+         WUF0zcjFxJJAhyu8W+Ke7T/0+/HrF+AcgHJwBmdMiey+dAwIJK2PZCUYWP5mrt0C/hGT
+         uyWEBOEMelHTsFHOswO4p5hlE3P8k9pH/mizXAbiHpk8L+6D1c1yP7VTNBfFT4aWCOZv
+         aPhkmFRhnsNjnxgKrFhE1wsy8NohiyS+3qMySzS1t9JRnOcom4cENIXoB+N7qo2+PwS0
+         2kHg==
+X-Gm-Message-State: AOAM533AkCpiLqdsFQQ4yQsuHpyvrC8Wcac5M46PAFCSIhdNqnDPnCZL
+        duqgjYYym6xIHxDz9gqYys4=
+X-Google-Smtp-Source: ABdhPJykYFx9EEsUxLEgebnf72uIYINxO13PM5M2lubWG0ImHRRkizVJ024dlLwf6Sv9QJ+B89TpNA==
+X-Received: by 2002:adf:e846:: with SMTP id d6mr26722123wrn.356.1620596660225;
+        Sun, 09 May 2021 14:44:20 -0700 (PDT)
 Received: from localhost.localdomain ([170.253.36.171])
-        by smtp.googlemail.com with ESMTPSA id u6sm16495530wml.6.2021.05.09.14.44.15
+        by smtp.googlemail.com with ESMTPSA id u6sm16495530wml.6.2021.05.09.14.44.19
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Sun, 09 May 2021 14:44:15 -0700 (PDT)
+        Sun, 09 May 2021 14:44:19 -0700 (PDT)
 From:   Alejandro Colomar <alx.manpages@gmail.com>
 To:     mtk.manpages@gmail.com
 Cc:     Alejandro Colomar <alx.manpages@gmail.com>,
-        linux-man@vger.kernel.org
-Subject: [PATCH] bswap.3: bswap_*() are implemented using functions
-Date:   Sun,  9 May 2021 23:39:23 +0200
-Message-Id: <20210509213930.94120-29-alx.manpages@gmail.com>
+        linux-man@vger.kernel.org,
+        Debian man-pages <manpages@packages.debian.org>,
+        "Dr . Tobias Quathamer" <toddy@debian.org>
+Subject: [PATCH] .gitignore: Add file
+Date:   Sun,  9 May 2021 23:39:29 +0200
+Message-Id: <20210509213930.94120-35-alx.manpages@gmail.com>
 X-Mailer: git-send-email 2.31.1
 In-Reply-To: <20210509213930.94120-1-alx.manpages@gmail.com>
 References: <20210509213930.94120-1-alx.manpages@gmail.com>
@@ -72,54 +74,39 @@ Precedence: bulk
 List-ID: <linux-man.vger.kernel.org>
 X-Mailing-List: linux-man@vger.kernel.org
 
-See <bits/byteswap.h> in glibc.
-These macros call functions of the form __bswap_N(),
-which use uintN_t.
+Ignore everything new by default.
 
-Eventhough it's true that they are macros,
-it's transparent to the user.
+This avoids having to update the .gitignore when we need to ignore
+something new.  It also avoids accidents that may add an unwanted
+temporary file.
 
-The user will see their results casted to unsigned types
-after the conversion do to the underlying functions,
-so it's better to document these as the underlying functions,
-specifying the types.
-
+Cc: Debian man-pages <manpages@packages.debian.org>
+Cc: Dr. Tobias Quathamer <toddy@debian.org>
 Signed-off-by: Alejandro Colomar <alx.manpages@gmail.com>
 ---
- man3/bswap.3 | 14 +++++++-------
- 1 file changed, 7 insertions(+), 7 deletions(-)
+ .gitignore | 13 +++++++++++++
+ 1 file changed, 13 insertions(+)
+ create mode 100644 .gitignore
 
-diff --git a/man3/bswap.3 b/man3/bswap.3
-index 937ef0416..369daa411 100644
---- a/man3/bswap.3
-+++ b/man3/bswap.3
-@@ -29,19 +29,19 @@ bswap_16, bswap_32, bswap_64 \- reverse order of bytes
- .nf
- .B #include <byteswap.h>
- .PP
--.BI bswap_16( x );
--.BI bswap_32( x );
--.BI bswap_64( x );
-+.BI "uint16_t bswap_16(uint16_t " x );
-+.BI "uint32_t bswap_32(uint32_t " x );
-+.BI "uint64_t bswap_64(uint64_t " x );
- .fi
- .SH DESCRIPTION
--These macros return a value in which the order of the bytes
-+These functions return a value in which the order of the bytes
- in their 2-, 4-, or 8-byte arguments is reversed.
- .SH RETURN VALUE
--These macros return the value of their argument with the bytes reversed.
-+These functions return the value of their argument with the bytes reversed.
- .SH ERRORS
--These macros always succeed.
-+These functions always succeed.
- .SH CONFORMING TO
--These macros are GNU extensions.
-+These functions are GNU extensions.
- .SH EXAMPLES
- The program below swaps the bytes of the 8-byte integer supplied as
- its command-line argument.
+diff --git a/.gitignore b/.gitignore
+new file mode 100644
+index 000000000..9eb9fc096
+--- /dev/null
++++ b/.gitignore
+@@ -0,0 +1,13 @@
++# Ignore everything new by default
++/*
++
++# Ignore everything in man?/ that doesn't follow conventions (e.g., tmp files)
++!/man?/
++/man?/**
++!/man?/**.?
++
++# These files change name in each release
++!/man-pages*.Announce
++!/man-pages*.lsm
++
++!/scripts/
 -- 
 2.31.1
 
