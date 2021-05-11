@@ -5,90 +5,96 @@ X-Spam-Level:
 X-Spam-Status: No, score=-9.3 required=3.0 tests=BAYES_00,DKIM_SIGNED,
 	DKIM_VALID,DKIM_VALID_AU,FREEMAIL_FORGED_FROMDOMAIN,FREEMAIL_FROM,
 	HEADER_FROM_DIFFERENT_DOMAINS,INCLUDES_CR_TRAILER,MAILING_LIST_MULTI,
-	NICE_REPLY_A,SPF_HELO_NONE,SPF_PASS,USER_AGENT_SANE_1 autolearn=ham
-	autolearn_force=no version=3.4.0
+	NICE_REPLY_A,SPF_HELO_NONE,SPF_PASS,URIBL_BLOCKED,USER_AGENT_SANE_1
+	autolearn=ham autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id EA50DC433ED
-	for <linux-man@archiver.kernel.org>; Mon, 10 May 2021 18:02:46 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 44775C433B4
+	for <linux-man@archiver.kernel.org>; Tue, 11 May 2021 05:15:24 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.kernel.org (Postfix) with ESMTP id CFA6861481
-	for <linux-man@archiver.kernel.org>; Mon, 10 May 2021 18:02:46 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTP id 1CF23616EA
+	for <linux-man@archiver.kernel.org>; Tue, 11 May 2021 05:15:24 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S231563AbhEJSDu (ORCPT <rfc822;linux-man@archiver.kernel.org>);
-        Mon, 10 May 2021 14:03:50 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:55808 "EHLO
+        id S229970AbhEKFQ2 (ORCPT <rfc822;linux-man@archiver.kernel.org>);
+        Tue, 11 May 2021 01:16:28 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:36728 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S232977AbhEJSDs (ORCPT
-        <rfc822;linux-man@vger.kernel.org>); Mon, 10 May 2021 14:03:48 -0400
-Received: from mail-wm1-x333.google.com (mail-wm1-x333.google.com [IPv6:2a00:1450:4864:20::333])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 54916C061760
-        for <linux-man@vger.kernel.org>; Mon, 10 May 2021 11:02:43 -0700 (PDT)
-Received: by mail-wm1-x333.google.com with SMTP id g65so9704315wmg.2
-        for <linux-man@vger.kernel.org>; Mon, 10 May 2021 11:02:43 -0700 (PDT)
+        with ESMTP id S229885AbhEKFQ2 (ORCPT
+        <rfc822;linux-man@vger.kernel.org>); Tue, 11 May 2021 01:16:28 -0400
+Received: from mail-pj1-x1029.google.com (mail-pj1-x1029.google.com [IPv6:2607:f8b0:4864:20::1029])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 4623AC061574
+        for <linux-man@vger.kernel.org>; Mon, 10 May 2021 22:15:21 -0700 (PDT)
+Received: by mail-pj1-x1029.google.com with SMTP id lj11-20020a17090b344bb029015bc3073608so672817pjb.3
+        for <linux-man@vger.kernel.org>; Mon, 10 May 2021 22:15:21 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=gmail.com; s=20161025;
-        h=subject:to:cc:references:from:message-id:date:user-agent
+        h=cc:subject:to:references:from:message-id:date:user-agent
          :mime-version:in-reply-to:content-language:content-transfer-encoding;
-        bh=uVvRF6epk9Yhq5/vhGwNhCqJMu4hKu1ZMycGbVNbHh4=;
-        b=Rof+DaUumGWK7/XXt21KGPsSUQjs1E07Jq4l3RQ3r9Vs+SnoPX/e7/4rcetTZwmMBz
-         9AxoCHzP0BbkWskDuP4GoISXz8LJvF3S4yOx4e0aDSI5dCSJQ1R6SoRHfJ88TPH5M0hA
-         ktckyfhy+fzhDfL72M0zCpdPF5u2gCkTJvsglamsStj+f/AWaqHW1iNpuTuFPeux5iqD
-         v95UB5z5nEAVN5d2z+pPnZ3aIBanp5CHJrGHimYF+mc6uaCJzuDM+BcsjpyAWYQ1r5Q0
-         jqNCpHbtRfnMJKArUNJWQsY8ku+xKQnAk6hzxSbEtMdiBNgA3LzQ4muKZqQVBZ+BnpO7
-         nlBw==
+        bh=tIty0gug4XHf0hnV4aOZJMdwLhSPmGyWnhllR/z9LBY=;
+        b=DO79oEbiaG9DGpvYxhsR8piKTndIUaijKjTzHxqrB2hZxMwvRSLxQ/Ciz9t1hKxb+V
+         kfwFgujVl5HRCQdgHFP7DZE3Tt+38aU52zEG5LKazAA4xzpcZl/npOFYNo66Fnkt8coN
+         Ogp0PmXPiEjVy7WQIp1/TxhY2fBPk1xKu/+KvodrIQSi/cFl4WKOUx+OIeTinDTbPrBN
+         eQ67h9QNGK3U1BUdpbYqUx/mQ+NxoyNyNtfR0WpnC5E6wYpom3okV1LTbL/W3wYLsamz
+         59jf3aAAzqoLiIGX3dK/D7U9FliwXQi7oyUwuIvV6lbMnwzlQl7QBcenuJEIT93BY6iS
+         JvOQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
-        h=x-gm-message-state:subject:to:cc:references:from:message-id:date
+        h=x-gm-message-state:cc:subject:to:references:from:message-id:date
          :user-agent:mime-version:in-reply-to:content-language
          :content-transfer-encoding;
-        bh=uVvRF6epk9Yhq5/vhGwNhCqJMu4hKu1ZMycGbVNbHh4=;
-        b=cMcSoIHh/4XsJBDxaPxFVuHb0mETTVKb/wPfXQ2MNUgUXa6TZW4kXc5pX7wt72JPOd
-         wZDyevU55BvtacB1lU2zWn1kfBxijJOGTL4lLiNaPT4sthXW0ZfuLISNAcwlE9OtUCIs
-         RWwjupC/1HrYVDw8QR9/U0nwJRGvfn7RARei3wzrxgfHrZ5QuDwoeu6jHEy1jvmcMfe+
-         ivXUdR2sgAW+22zw+X/l5mzHarsqGVk3quf9T5BPCcpME1TkX2O1ksCE5/QcC2UdCE5l
-         tAQYKnUFDkKT8ClHIsKaXSr1miEQsaiI/MBGPXCsdpgq1CgllGXxJRQvu778vKOPUKKY
-         uDGg==
-X-Gm-Message-State: AOAM532JEMk4V+bOdHYdDIZUc2P6Tyu9zeFPd/ooGd7wLPI8l+SZma9P
-        KRTlVbq7VRx3YNNyr6KkITQ=
-X-Google-Smtp-Source: ABdhPJx57hswQs4Vbovpfh0UO4+6iCGRxZSCJkyqWLMO8BghxbeU3LAEtM42zMN4Oz5maBtj1X69vw==
-X-Received: by 2002:a1c:ed03:: with SMTP id l3mr28155718wmh.130.1620669761955;
-        Mon, 10 May 2021 11:02:41 -0700 (PDT)
-Received: from [10.8.0.106] ([195.53.121.100])
-        by smtp.gmail.com with ESMTPSA id z14sm26800886wrt.54.2021.05.10.11.02.40
+        bh=tIty0gug4XHf0hnV4aOZJMdwLhSPmGyWnhllR/z9LBY=;
+        b=QqAxAlGoNORmKZsoA4nkECkZNti5+OPpM5eI05yeleanWgwVtIQb0pd7cgb7YPqXw2
+         bNLgTH5ew0sS0ZggImhT6Oc/fY5UvzXvRPHJVNHIeTlZEiXhl33pOw3XZKgiQb+Sk+BB
+         xk0Hleb70Fhxe9uq1zqtNYrnUH+ngv0+DcFjGxD9620cRIsvi0MEvd6eVWgPN4PfW9FF
+         2LxqxkJbasaPL9tePdlVu7IAp7UAkqU7C2Nm+XCUHocG3uYH8zZ+BsLWKRIgavkVVCAU
+         0EC9D9UQDNS+Bz0McPYGqrqhOrY6WTmU6n/3ylvcEiDG/EnqtROpA5TDyfhk82sjkY3I
+         KTpw==
+X-Gm-Message-State: AOAM531XO1hPbFT6rvrYB/zE3TW1TRGhqapntGCvLnYp6ZkuJ+kSNutl
+        TlMoGJF4dBcRbySAVFt5XDY=
+X-Google-Smtp-Source: ABdhPJyJ4VY1lv2rDJmtEwD368yvb7IMgj7OVVjfOsky1HI3v7z9qb9x7FoqMnqKji+/GQqfgbxk4g==
+X-Received: by 2002:a17:90b:17cd:: with SMTP id me13mr3163425pjb.128.1620710120784;
+        Mon, 10 May 2021 22:15:20 -0700 (PDT)
+Received: from [192.168.192.21] (47-72-82-130.dsl.dyn.ihug.co.nz. [47.72.82.130])
+        by smtp.gmail.com with ESMTPSA id x9sm12702478pfd.66.2021.05.10.22.15.17
         (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Mon, 10 May 2021 11:02:41 -0700 (PDT)
-Subject: Re: [PATCH 39/39] reboot.2: Use syscall(SYS_...); for system calls
- without a wrapper
-To:     mtk.manpages@gmail.com
-Cc:     Florian Weimer <fweimer@redhat.com>, Jakub Wilk <jwilk@jwilk.net>,
-        linux-man@vger.kernel.org, libc-alpha@sourceware.org
+        Mon, 10 May 2021 22:15:20 -0700 (PDT)
+Cc:     mtk.manpages@gmail.com, Florian Weimer <fweimer@redhat.com>,
+        Jakub Wilk <jwilk@jwilk.net>, linux-man@vger.kernel.org,
+        libc-alpha@sourceware.org
+Subject: Re: [PATCH 26/39] open.2: Remove unused <sys/stat.h>
+To:     "Alejandro Colomar (man-pages)" <alx.manpages@gmail.com>
 References: <20210510175546.28445-1-alx.manpages@gmail.com>
- <20210510175546.28445-40-alx.manpages@gmail.com>
-From:   "Alejandro Colomar (man-pages)" <alx.manpages@gmail.com>
-Message-ID: <8dce0a25-ba60-9e84-3b33-3773b8cfe8b5@gmail.com>
-Date:   Mon, 10 May 2021 20:02:39 +0200
+ <20210510175546.28445-27-alx.manpages@gmail.com>
+ <c4ef60cb-d8b0-fa14-3ebd-25c5732ed2aa@gmail.com>
+From:   "Michael Kerrisk (man-pages)" <mtk.manpages@gmail.com>
+Message-ID: <857f16db-d02a-2f25-7b91-464f356fdd1f@gmail.com>
+Date:   Tue, 11 May 2021 17:15:15 +1200
 User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
- Thunderbird/78.10.0
+ Thunderbird/78.8.1
 MIME-Version: 1.0
-In-Reply-To: <20210510175546.28445-40-alx.manpages@gmail.com>
-Content-Type: text/plain; charset=utf-8; format=flowed
+In-Reply-To: <c4ef60cb-d8b0-fa14-3ebd-25c5732ed2aa@gmail.com>
+Content-Type: text/plain; charset=utf-8
 Content-Language: en-US
 Content-Transfer-Encoding: 7bit
 Precedence: bulk
 List-ID: <linux-man.vger.kernel.org>
 X-Mailing-List: linux-man@vger.kernel.org
 
-On 5/10/21 7:55 PM, Alejandro Colomar wrote:
-> Explain also why are headers needed.
-
-s/are headers/headers are/
-
-> And some ffix.
+On 5/11/21 6:02 AM, Alejandro Colomar (man-pages) wrote:
+> On 5/10/21 7:55 PM, Alejandro Colomar wrote:
+>> I can't see a reason to include it.  <fcntl.h> provides O_*
+>> constants for 'flags', S_* constants for 'mode', and mode_t.
+>>
+>> Probably a long time ago, some of those weren't defined in
+>> <fcntl.h>, and both headers needed to be included, or maybe it's
+>> a historical error.
+>>
+>> Signed-off-by: Alejandro Colomar <alx.manpages@gmail.com>
 > 
-> Signed-off-by: Alejandro Colomar <alx.manpages@gmail.com>
+> Drop this one, please.  (We discussed it yesterday.)
 
+Okay.
 
 -- 
-Alejandro Colomar
-Linux man-pages comaintainer; https://www.kernel.org/doc/man-pages/
-http://www.alejandro-colomar.es/
+Michael Kerrisk
+Linux man-pages maintainer; http://www.kernel.org/doc/man-pages/
+Linux/UNIX System Programming Training: http://man7.org/training/
