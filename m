@@ -8,64 +8,61 @@ X-Spam-Status: No, score=-15.7 required=3.0 tests=BAYES_00,DKIM_SIGNED,
 	MAILING_LIST_MULTI,SPF_HELO_NONE,SPF_PASS,USER_AGENT_GIT autolearn=ham
 	autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 92C07C43461
-	for <linux-man@archiver.kernel.org>; Sat, 15 May 2021 18:20:44 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 7FF7CC433B4
+	for <linux-man@archiver.kernel.org>; Sat, 15 May 2021 18:20:47 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.kernel.org (Postfix) with ESMTP id 62C5461369
-	for <linux-man@archiver.kernel.org>; Sat, 15 May 2021 18:20:44 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTP id 5B9A561369
+	for <linux-man@archiver.kernel.org>; Sat, 15 May 2021 18:20:47 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S234379AbhEOSV4 (ORCPT <rfc822;linux-man@archiver.kernel.org>);
-        Sat, 15 May 2021 14:21:56 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:52268 "EHLO
+        id S234377AbhEOSV6 (ORCPT <rfc822;linux-man@archiver.kernel.org>);
+        Sat, 15 May 2021 14:21:58 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:52278 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S234387AbhEOSVz (ORCPT
-        <rfc822;linux-man@vger.kernel.org>); Sat, 15 May 2021 14:21:55 -0400
-Received: from mail-wr1-x433.google.com (mail-wr1-x433.google.com [IPv6:2a00:1450:4864:20::433])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 0C0A4C06174A
-        for <linux-man@vger.kernel.org>; Sat, 15 May 2021 11:20:42 -0700 (PDT)
-Received: by mail-wr1-x433.google.com with SMTP id s8so2251327wrw.10
-        for <linux-man@vger.kernel.org>; Sat, 15 May 2021 11:20:41 -0700 (PDT)
+        with ESMTP id S234390AbhEOSV5 (ORCPT
+        <rfc822;linux-man@vger.kernel.org>); Sat, 15 May 2021 14:21:57 -0400
+Received: from mail-wr1-x430.google.com (mail-wr1-x430.google.com [IPv6:2a00:1450:4864:20::430])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 66535C061573
+        for <linux-man@vger.kernel.org>; Sat, 15 May 2021 11:20:43 -0700 (PDT)
+Received: by mail-wr1-x430.google.com with SMTP id v12so2257459wrq.6
+        for <linux-man@vger.kernel.org>; Sat, 15 May 2021 11:20:43 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=gmail.com; s=20161025;
         h=from:to:cc:subject:date:message-id:in-reply-to:references
          :mime-version:content-transfer-encoding;
-        bh=Ru7UQeqDR511MHACtZlVJdwfxchIFbpm00vbtUn/YFk=;
-        b=Z/emX7bA1Ik7cbZcymxoyGpCo6dcXkdj8ntNVdxI6q2BDwv7lXG/j3Wyyz/fuKxsXF
-         GdF8WLCEYhWu4AcOClND4cPkj4jfkBm95VD8XuH7FhmKBaAHz1LlR2kQ3vO4Uh6XwzaM
-         sKgE9xNF0amL0g6HTmzobbfZdw4zNIzm1EO/GltGH3HJQHnwiQQsPwxp4rZZNOmpUzeR
-         KygDvjZzBFhRsl8rPCKQx7SRQGKiR06TmD1HcIFqtUh133Cy2s8+4vodpQvYuoN/Qm16
-         HTR60Ei2J4rKc7MaL2kzuofSROuizstDn47DQQR27jXVfQaFA0+uJvjusCQd1AjG5szM
-         DfHQ==
+        bh=9EUC89ZdBbeE26Hmtl/q2E8a+FonG4MH2DOCKU+cYBo=;
+        b=QpCKY5JG57h+eB5fc5lvU+UW6LEp9xQedJehhoIeeAR+uG3wXrdT1Uck3x52xGrIhw
+         PYW81vEwrnYteRI/yoZxFz4umdUyaaE0IfZvR5NuR6S86qjsE5CLsQ8VwsrdY8y+98/x
+         eKNgtTmLvR2r6aq9u/FMTui+sWn0DPsg2RhP1Q6+Kk8izeefr79mtA1hQIzdO46jo9rC
+         JxuhtX5kY8KfjQR7UzVN299XCJptYjVklH240e2rFBj8g7zjs7QlHGCkr1AoCqIJZEA1
+         YZXZCTwMol8XISXfAM6lvI4pqsloZVEyCxctBsZRn9pisBxGHsnjMlHLzcqzQBjVrNse
+         R6oQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
         h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
          :references:mime-version:content-transfer-encoding;
-        bh=Ru7UQeqDR511MHACtZlVJdwfxchIFbpm00vbtUn/YFk=;
-        b=UhXrdZMfiWF9igw9Nzy0UAO5sbbZ/cqag8P+i3DF0KAbWjE46rpyKkUc5N/Rvo/DIa
-         xST1bGQNNqikpBop6Ezy6C78ZGet2jmg7sc10CRLJhEYFaY7+jCum2HPpgTYOXtx4diD
-         hDEbauTPmr5cGMUxrRNsoqZBVWpUrWTR7PcvM4j2RpBcQilLj+Cpfy7wreej9pGj1cJi
-         6S5yo+GxxEdWosSmgcFUeQRbvwlBuuzaTp4g5dwOdOmVR2MgkhF0jXI903+xWfZfUZCL
-         pbFZIVQOJxbrjwFwoqhN0jUWtFKp0HpPI+R9Id45vUyvd/1EhzaWP2h8EhVZTy5BRChl
-         deYw==
-X-Gm-Message-State: AOAM531EJirRogGUECVOeiQ02KWlrf7Zy++prrcgcMnVmBioeggPWCpJ
-        X45euqdIj3pedWqTdb1Z9YWx+v8e0Xf64w==
-X-Google-Smtp-Source: ABdhPJyQW1YL79AjFbHaade0mHhOFEoCsurJg/F7HPcMzWlrqg4CK2FaPcEO8FZwjKUHOS5JSY5IJg==
-X-Received: by 2002:a5d:6484:: with SMTP id o4mr63748936wri.8.1621102840886;
-        Sat, 15 May 2021 11:20:40 -0700 (PDT)
+        bh=9EUC89ZdBbeE26Hmtl/q2E8a+FonG4MH2DOCKU+cYBo=;
+        b=qDvSc0BZyo0lHGg33g8/tgX+w0juWeR3u3s2ZhblngoMfHyJ6zufRxC0pQUo4a5dyz
+         epCzVg8r1Aaw6vhxtVfv859NXN2sE9WsnrBzviCr6d6aP+UrysJL/+sLtRxtL2byOglG
+         pfNfGzEa+On+RwvgWuRwLTcywq5x5VLFP0T3pfOMjNVjQgsPeDI2aEolP2iVzDV3XprG
+         k+suFawoRzGisHv989jqPdFCTnJek5eT5Vc8LP5yF640t0Lp46wr30yL1/0cDn5thW5g
+         uJISpNBT4IaYEoh74DeI9Pt7Jw3ZPxxo4+b3ZbJaBb3ZGrt4YzRveaKF/F3cj1O/5irq
+         3xWQ==
+X-Gm-Message-State: AOAM532T452YA4AZY3vzvRXM7FPkbgqAzokd/GMrciaV003Ogph2NedW
+        Z/1uNGIQc6jGoCpuEGhyiJk=
+X-Google-Smtp-Source: ABdhPJyRc0jDefAymRc+gnEd0+QDsVUE1hbNpayClhxbrsZbWF3YQkVSygnkTdgg+uoBWEzp4RWK0A==
+X-Received: by 2002:a5d:4408:: with SMTP id z8mr3078140wrq.2.1621102842253;
+        Sat, 15 May 2021 11:20:42 -0700 (PDT)
 Received: from localhost.localdomain ([170.253.36.171])
-        by smtp.googlemail.com with ESMTPSA id v10sm12007254wrq.0.2021.05.15.11.20.40
+        by smtp.googlemail.com with ESMTPSA id v10sm12007254wrq.0.2021.05.15.11.20.41
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Sat, 15 May 2021 11:20:40 -0700 (PDT)
+        Sat, 15 May 2021 11:20:42 -0700 (PDT)
 From:   Alejandro Colomar <alx.manpages@gmail.com>
 To:     mtk.manpages@gmail.com
 Cc:     Alejandro Colomar <alx.manpages@gmail.com>,
-        linux-man@vger.kernel.org,
-        Heiko Carstens <heiko.carstens@de.ibm.com>,
-        Eugene Syromyatnikov <evgsyr@gmail.com>,
-        QingFeng Hao <haoqf@linux.vnet.ibm.com>
-Subject: [PATCH 6/8] s390_sthyi.2: Replace numeric constant by its name (macro)
-Date:   Sat, 15 May 2021 20:20:26 +0200
-Message-Id: <20210515182027.186403-6-alx.manpages@gmail.com>
+        linux-man@vger.kernel.org
+Subject: [PATCH 8/8] sched_setattr.2: Use syscall(SYS_...); for system calls without a wrapper
+Date:   Sat, 15 May 2021 20:20:28 +0200
+Message-Id: <20210515182027.186403-8-alx.manpages@gmail.com>
 X-Mailer: git-send-email 2.31.1
 In-Reply-To: <20210515182027.186403-1-alx.manpages@gmail.com>
 References: <20210515182027.186403-1-alx.manpages@gmail.com>
@@ -75,46 +72,45 @@ Precedence: bulk
 List-ID: <linux-man.vger.kernel.org>
 X-Mailing-List: linux-man@vger.kernel.org
 
-Signed-off-by: Alejandro Colomar <alx.manpages@gmail.com>
-Cc: Heiko Carstens <heiko.carstens@de.ibm.com>
-Cc: Eugene Syromyatnikov <evgsyr@gmail.com>
-Cc: QingFeng Hao <haoqf@linux.vnet.ibm.com>
----
- man2/s390_sthyi.2 | 7 +++++--
- 1 file changed, 5 insertions(+), 2 deletions(-)
+Document also why each header is required
 
-diff --git a/man2/s390_sthyi.2 b/man2/s390_sthyi.2
-index d1abb17a4..acba43a20 100644
---- a/man2/s390_sthyi.2
-+++ b/man2/s390_sthyi.2
-@@ -27,6 +27,7 @@
- s390_sthyi \- emulate STHYI instruction
+Signed-off-by: Alejandro Colomar <alx.manpages@gmail.com>
+---
+ man2/sched_setattr.2 | 16 ++++++++++------
+ 1 file changed, 10 insertions(+), 6 deletions(-)
+
+diff --git a/man2/sched_setattr.2 b/man2/sched_setattr.2
+index 545558a4e..1c24c65d3 100644
+--- a/man2/sched_setattr.2
++++ b/man2/sched_setattr.2
+@@ -29,17 +29,21 @@ sched_setattr, sched_getattr \-
+ set and get scheduling policy and attributes
  .SH SYNOPSIS
  .nf
-+.BR "#include <asm/sthyi.h>" "        /* Definition of " STHYI_* " constants */"
- .B #include <asm/unistd.h>
+-.B #include <sched.h>
++.BR "#include <sched.h>" "            /* Definition of " SCHED_* " constants */"
++.BR "#include <sys/syscall.h>" "      /* Definition of " SYS_* " constants */"
++.B #include <unistd.h>
  .PP
- .BI "int s390_sthyi(unsigned long " function_code ", void *" resp_buffer ","
-@@ -49,7 +50,7 @@ The
- argument indicates which function to perform.
- The following code(s) are supported:
- .TP
--0
-+.B STHYI_FC_CP_IFL_CAP
- Return CP (Central Processor) and IFL (Integrated Facility for Linux)
- capacity information.
+-.BI "int sched_setattr(pid_t " pid ", struct sched_attr *" attr ,
+-.BI "                  unsigned int " flags );
+-.BI "int sched_getattr(pid_t " pid ", struct sched_attr *" attr ,
+-.BI "                  unsigned int " size ", unsigned int " flags );
++.BI "int syscall(SYS_sched_setattr, pid_t " pid ", struct sched_attr *" attr ,
++.BI "            unsigned int " flags );
++.BI "int syscall(SYS_sched_getattr, pid_t " pid ", struct sched_attr *" attr ,
++.BI "            unsigned int " size ", unsigned int " flags );
+ .fi
+ .\" FIXME . Add feature test macro requirements
  .PP
-@@ -58,7 +59,9 @@ The
- argument specifies the address of a response buffer.
- When the
- .I function_code
--is 0, the buffer must be one page (4K) in size.
-+is
-+.BR STHYI_FC_CP_IFL_CAP ,
-+the buffer must be one page (4K) in size.
- If the system call returns 0,
- the response buffer will be filled with CPU capacity information.
- Otherwise, the response buffer's content is unchanged.
+ .IR Note :
+-There are no glibc wrappers for these system calls; see NOTES.
++glibc provides no wrappers for these system calls,
++necessitating the use of
++.BR syscall (2).
+ .SH DESCRIPTION
+ .SS sched_setattr()
+ The
 -- 
 2.31.1
 
