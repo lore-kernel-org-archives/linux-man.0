@@ -2,104 +2,122 @@ Return-Path: <linux-man-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-15.7 required=3.0 tests=BAYES_00,DKIM_SIGNED,
+X-Spam-Status: No, score=-4.2 required=3.0 tests=BAYES_00,DKIM_SIGNED,
 	DKIM_VALID,DKIM_VALID_AU,FREEMAIL_FORGED_FROMDOMAIN,FREEMAIL_FROM,
-	HEADER_FROM_DIFFERENT_DOMAINS,INCLUDES_CR_TRAILER,INCLUDES_PATCH,
-	MAILING_LIST_MULTI,SPF_HELO_NONE,SPF_PASS,USER_AGENT_GIT autolearn=ham
-	autolearn_force=no version=3.4.0
+	HEADER_FROM_DIFFERENT_DOMAINS,MAILING_LIST_MULTI,SPF_HELO_NONE,SPF_PASS,
+	URIBL_BLOCKED,USER_AGENT_SANE_1 autolearn=no autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 37DDDC04FF3
-	for <linux-man@archiver.kernel.org>; Fri, 21 May 2021 21:17:13 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 78B12C04FF3
+	for <linux-man@archiver.kernel.org>; Fri, 21 May 2021 22:19:52 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.kernel.org (Postfix) with ESMTP id 17006613D9
-	for <linux-man@archiver.kernel.org>; Fri, 21 May 2021 21:17:13 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTP id 55C6A613EC
+	for <linux-man@archiver.kernel.org>; Fri, 21 May 2021 22:19:52 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S229595AbhEUVSf (ORCPT <rfc822;linux-man@archiver.kernel.org>);
-        Fri, 21 May 2021 17:18:35 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:49506 "EHLO
+        id S229534AbhEUWVP (ORCPT <rfc822;linux-man@archiver.kernel.org>);
+        Fri, 21 May 2021 18:21:15 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:35536 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S229634AbhEUVSf (ORCPT
-        <rfc822;linux-man@vger.kernel.org>); Fri, 21 May 2021 17:18:35 -0400
-Received: from mail-wr1-x42f.google.com (mail-wr1-x42f.google.com [IPv6:2a00:1450:4864:20::42f])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id A6238C0613CE
-        for <linux-man@vger.kernel.org>; Fri, 21 May 2021 14:17:10 -0700 (PDT)
-Received: by mail-wr1-x42f.google.com with SMTP id i17so22279701wrq.11
-        for <linux-man@vger.kernel.org>; Fri, 21 May 2021 14:17:10 -0700 (PDT)
+        with ESMTP id S229503AbhEUWVO (ORCPT
+        <rfc822;linux-man@vger.kernel.org>); Fri, 21 May 2021 18:21:14 -0400
+Received: from mail-wm1-x333.google.com (mail-wm1-x333.google.com [IPv6:2a00:1450:4864:20::333])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 0BB5EC061574
+        for <linux-man@vger.kernel.org>; Fri, 21 May 2021 15:19:51 -0700 (PDT)
+Received: by mail-wm1-x333.google.com with SMTP id z19-20020a7bc7d30000b029017521c1fb75so8205358wmk.0
+        for <linux-man@vger.kernel.org>; Fri, 21 May 2021 15:19:50 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=gmail.com; s=20161025;
-        h=from:to:cc:subject:date:message-id:in-reply-to:references
-         :mime-version:content-transfer-encoding;
-        bh=EZdSMgwMplJ7HT3Qz0jbXMYjNtG0inE1M4UvREXJEII=;
-        b=i/7JTZ7sSIBI4fuWjCGh0PrlLg4MGJFIs+SP35eRMt5c/PK4EY4kajQWBMl5Im6HYw
-         9p1fy8xhCjzuPJ4YkATwbjeszmn3yYFNDoGdTsoUKSGK2gGgcBj76mTtvCC++WsQWbcS
-         bFCLXArpPwcti2kxwM/DgzHrxJuXS5xFo/LzPtzESHBQa3bopUausWZjLYKfga8WLhtQ
-         4yUxjo48oZablzYdP4O43GMbbGQNIn0OiWD6rYK0ZDkNMWylZpNUI1m0KBRVPKyO/LVx
-         gDFMAe84LcMRJG8bW7HBiygGOHg2NKNXSZ7578aPkcQXmm5xgDPBMpnI3L4Fwk9EWX4J
-         RfSg==
+        h=subject:from:to:cc:references:message-id:date:user-agent
+         :mime-version:in-reply-to:content-language:content-transfer-encoding;
+        bh=h/f/qiFYbLBK5JkervWFA402A8BSCO47nndLtV5qOHM=;
+        b=HWpqbShehYKzxeOEqt6drKRcY7XoJOXEECNYhQnWcGnXqISP4jdd0uTyKdww1QV9Qb
+         ZLWDPqK3jrLqCQYpwuEX+12EIApypPT+oGNn2h+bpxrvByjvHwNx19B2GZvPNxvpIPVT
+         U0dgyB3KUenfFMbT0ML1O6BRrg+KV48TPBSdgq/pBJqC/Sy6jseMmrfyUg2kpRCxBWe+
+         w0GMnKVQvdBlobMjhGvQfa8YDwf9AEN4VSS7cP15W13joFjnt/SG6ABXz5rbfV+BIT/3
+         j1a/J9B9/++v0vUA/k54XZyjcVWbUZSzYWBkHx0OAlstPGMPBmVm6YK+ZeGzGkHuTJWR
+         Y3aA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
-        h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
-         :references:mime-version:content-transfer-encoding;
-        bh=EZdSMgwMplJ7HT3Qz0jbXMYjNtG0inE1M4UvREXJEII=;
-        b=o6x37ZjYOG9xaYl1xmY2Ij4WK40CgF+ia22kFOQQ2iGZ/Ktq0PpqkEFDPd0FmV1QhO
-         4b0iK49KRRvj0SzY/VBA59nl/fT0gdCItqG0Lt+TeuFnXLTB5FsaB8bLt8N9PMTa3zyc
-         CvqXOGAfIMTyXKEvbtw/LioWMGFOHatiWSihqU81V9ZLlTnELHhG7qZq3QmkdyZ4qzDX
-         rjsBXuTvsuiRPYpcSz6affiTeaAKviAkUmaDSEAeSqUY7l6DBaK+/hR15lJ/2quKNSCb
-         xaVdP0KDLZXXP7Thpze/fx32w0GbdQSJQ6chEX/pZmNHgWcamAEnvQGLWgdZLanIpPJ7
-         0/5g==
-X-Gm-Message-State: AOAM533URf8pXIBb8g7OiwCKnPcLGBTsua0gcISu9uqKHmm0n3D5W6R7
-        yXuQ0LayD1+0pf4KIlLjnOo=
-X-Google-Smtp-Source: ABdhPJzmZiV1rIPrlUSjzUo85c7pbFY8ZWyKugRSLS4z3pwPOv2YbVuqUSi7JNAX29g+Er2d6uXDSg==
-X-Received: by 2002:a5d:50c7:: with SMTP id f7mr11743292wrt.189.1621631829296;
-        Fri, 21 May 2021 14:17:09 -0700 (PDT)
-Received: from localhost.localdomain ([170.253.36.171])
-        by smtp.googlemail.com with ESMTPSA id v10sm3944489wrq.0.2021.05.21.14.17.08
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Fri, 21 May 2021 14:17:08 -0700 (PDT)
-From:   Alejandro Colomar <alx.manpages@gmail.com>
-To:     mtk.manpages@gmail.com
-Cc:     Alejandro Colomar <alx.manpages@gmail.com>,
-        linux-man@vger.kernel.org
-Subject: [PATCH 3/4] gamma.3: Add LIBRARY section
-Date:   Fri, 21 May 2021 23:16:53 +0200
-Message-Id: <20210521211652.49949-4-alx.manpages@gmail.com>
-X-Mailer: git-send-email 2.31.1
-In-Reply-To: <20210521211652.49949-1-alx.manpages@gmail.com>
-References: <20210521211652.49949-1-alx.manpages@gmail.com>
+        h=x-gm-message-state:subject:from:to:cc:references:message-id:date
+         :user-agent:mime-version:in-reply-to:content-language
+         :content-transfer-encoding;
+        bh=h/f/qiFYbLBK5JkervWFA402A8BSCO47nndLtV5qOHM=;
+        b=asBmP5nzE1Kt7csEbr1W3a2/8E+n+/CRikkwp1O+8j94IYqsDIdxMdUlF49KG2q3M5
+         PzczleLcUYrIUlNmpiYGAb1gG6Miey9ZatbAf3BdLB+rDK0T8N2ytwlIVK1AfOkerK8B
+         BU14ffrJBsCfVj7mQUlrnBdUeMrCkjHHvkFHaDD20vpgQyTrHWRHnimVESbbKp6m6uej
+         C9P6nxHe0SOzQb+X9yeQMg4xncEA/Aznw4pxqZe8X1jTwgGOp5uYj7SlWYeGuCJzu4PC
+         JEUFezLWcl8lQVWFjjuG0jEdNJ486k6gYUqBELZKniqkOpfV/BlcVKDkg5ZxS52xBQY+
+         GrZA==
+X-Gm-Message-State: AOAM530QiqiGpWty/NSleGLUWXmnqpIkl9bhfBu8HB9F5XSND2l0j9Gi
+        sUasAO5UTJlHk1ZvHq+D+2rzqGvTIdKnAw==
+X-Google-Smtp-Source: ABdhPJwqGGd9mFqq6vmiIxW0bz6qlYZz7MAXw3RTstihKwUFg7DRJ/OWR2WHWvY+m8E0c0p+OMjRBQ==
+X-Received: by 2002:a05:600c:4f8b:: with SMTP id n11mr10619324wmq.180.1621635588634;
+        Fri, 21 May 2021 15:19:48 -0700 (PDT)
+Received: from [192.168.0.160] ([170.253.36.171])
+        by smtp.gmail.com with ESMTPSA id t7sm3298130wrs.87.2021.05.21.15.19.47
+        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+        Fri, 21 May 2021 15:19:48 -0700 (PDT)
+Subject: Ping: Consistent parameter names
+From:   "Alejandro Colomar (man-pages)" <alx.manpages@gmail.com>
+To:     "Michael Kerrisk (man-pages)" <mtk.manpages@gmail.com>
+Cc:     linux-man <linux-man@vger.kernel.org>
+References: <548683d1-4a39-5f1f-2459-36c95844a0a8@gmail.com>
+Message-ID: <e7814c4e-fcd8-8e7e-742a-f35cda31848a@gmail.com>
+Date:   Sat, 22 May 2021 00:19:47 +0200
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
+ Thunderbird/78.10.0
 MIME-Version: 1.0
+In-Reply-To: <548683d1-4a39-5f1f-2459-36c95844a0a8@gmail.com>
+Content-Type: text/plain; charset=utf-8
+Content-Language: en-US
 Content-Transfer-Encoding: 8bit
 Precedence: bulk
 List-ID: <linux-man.vger.kernel.org>
 X-Mailing-List: linux-man@vger.kernel.org
 
-Signed-off-by: Alejandro Colomar <alx.manpages@gmail.com>
----
- man3/gamma.3 | 5 +++--
- 1 file changed, 3 insertions(+), 2 deletions(-)
+Ping.
 
-diff --git a/man3/gamma.3 b/man3/gamma.3
-index 003964158..49f66427b 100644
---- a/man3/gamma.3
-+++ b/man3/gamma.3
-@@ -9,6 +9,9 @@
- .TH GAMMA 3 2021-03-22 "GNU" "Linux Programmer's Manual"
- .SH NAME
- gamma, gammaf, gammal \- (logarithm of the) gamma function
-+.SH LIBRARY
-+glibc - math library
-+.RI ( libm ", " -lm )
- .SH SYNOPSIS
- .nf
- .B #include <math.h>
-@@ -18,8 +21,6 @@ gamma, gammaf, gammal \- (logarithm of the) gamma function
- .BI "long double gammal(long double " x ");"
- .fi
- .PP
--Link with \fI\-lm\fP.
--.PP
- .RS -4
- Feature Test Macro Requirements for glibc (see
- .BR feature_test_macros (7)):
+On 3/4/21 3:50 PM, Alejandro Colomar (man-pages) wrote:
+> Hello Michael,
+> 
+> I found different terms for parameters that refer to a same thing
+> in different functions (usually a '[const] char *'):
+>      - filename
+>      - file
+>      - path
+>      - pathname
+>      - Maybe others; I don't know
+> 
+> For 'FILE *' we have more or less the same,
+> although this one is much more consistent (>90% use 'stream'):
+>      - stream
+>      - streamp
+>      - s
+>      - fp
+>      - file
+>      - filehandle
+>      - A few others in specific cases
+> 
+> Also for strings, there are
+>     - s
+>     - str
+>     - string
+>     - maybe others
+> 
+> There are probably other cases with the same problem.
+> I think these parameters should have a more consistent naming.
+> But which names should we use?
+> 
+> I tend to use short names such as fname, fd, s, ...
+> but I don't know if you may prefer longer names for documentation purposes.
+> 
+> What would you do about it?
+> 
+> Thanks,
+> 
+> Alex
+> 
+
 -- 
-2.31.1
-
+Alejandro Colomar
+Linux man-pages comaintainer; https://www.kernel.org/doc/man-pages/
+http://www.alejandro-colomar.es/
