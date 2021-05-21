@@ -8,61 +8,61 @@ X-Spam-Status: No, score=-15.7 required=3.0 tests=BAYES_00,DKIM_SIGNED,
 	MAILING_LIST_MULTI,SPF_HELO_NONE,SPF_PASS,USER_AGENT_GIT autolearn=ham
 	autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id DC40BC04FF3
-	for <linux-man@archiver.kernel.org>; Fri, 21 May 2021 21:17:10 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 6B177C4707E
+	for <linux-man@archiver.kernel.org>; Fri, 21 May 2021 21:17:11 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.kernel.org (Postfix) with ESMTP id B7787613EC
-	for <linux-man@archiver.kernel.org>; Fri, 21 May 2021 21:17:10 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTP id 4E24B613D9
+	for <linux-man@archiver.kernel.org>; Fri, 21 May 2021 21:17:11 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S229583AbhEUVSd (ORCPT <rfc822;linux-man@archiver.kernel.org>);
-        Fri, 21 May 2021 17:18:33 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:49500 "EHLO
+        id S229519AbhEUVSe (ORCPT <rfc822;linux-man@archiver.kernel.org>);
+        Fri, 21 May 2021 17:18:34 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:49496 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S229519AbhEUVSd (ORCPT
+        with ESMTP id S229589AbhEUVSd (ORCPT
         <rfc822;linux-man@vger.kernel.org>); Fri, 21 May 2021 17:18:33 -0400
-Received: from mail-wr1-x433.google.com (mail-wr1-x433.google.com [IPv6:2a00:1450:4864:20::433])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id C6192C0613CE
+Received: from mail-wr1-x431.google.com (mail-wr1-x431.google.com [IPv6:2a00:1450:4864:20::431])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 14265C061574
         for <linux-man@vger.kernel.org>; Fri, 21 May 2021 14:17:09 -0700 (PDT)
-Received: by mail-wr1-x433.google.com with SMTP id x7so2684417wrt.12
+Received: by mail-wr1-x431.google.com with SMTP id x7so2684394wrt.12
         for <linux-man@vger.kernel.org>; Fri, 21 May 2021 14:17:09 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=gmail.com; s=20161025;
         h=from:to:cc:subject:date:message-id:in-reply-to:references
          :mime-version:content-transfer-encoding;
-        bh=kqdOic8RoRKMHnQkK9Z08RK8B15VUZpim/HB7TlU8Qo=;
-        b=HoRnAgcavDXz3W9ZYa8IjyD69M+ICLcsqdA4arhH+kExf2uXd9kai4lEmGHem5N82o
-         9u6b6+KSZaFc60bz5jC0MBFuAdUGE8r7Szu+g7RFY5qNvsNxFm+MPsc/7XiQkq2Odn2Z
-         sQ/qBuGtiKykkiSP3aJYxVgfY8yIlnznYIf3L8suwiKdLPlb5Lry+rz86YHEwV2UXyGV
-         mng+A6eGizcXP2bVhzWGXpv7p0DEaZpLEywLRQED9p0jrEoS4XeKjJsZez5hNu4c3RVn
-         JJnh9L0mf9kEYrN1XrVzHR4qJLzbglGLgRcjuaXouFeITXrSC7FQZOeSckmKbWN9q7xn
-         vc+w==
+        bh=e7zrJu14fy2n6rwrMWj9JbEJiLWMgrV/O1TZhysqI4w=;
+        b=cIaoWOVl3H9xiS+YF8i3DfVH7dA0rqAGPEXBn8FXCHaJYcLspAKXzLRXQ672cscTiP
+         ZDKYmcX3nXdWvCfYK6bhYI4GqrnOj3hlMpjB7Oj5UPEcZxhawGxFvHEZtB3omQ1+LtVQ
+         R2nzLNb8GHAjjW8Gi8sKNQjqUNPQuvit+QupI5Q1uRKSNfO3Liwg+NIYdR2th7eDWqMx
+         xB+Mh5TRgu1cSZ154HXhIjvT4G/ricGBfc91GigltRVlX4UCTscXnAy4q6I5df1xzKcQ
+         VJbRKhwITYUgQgPDoaz3wDlZP3+xQ2F02cM4T1i89yonaBsab7UkeHqXfdCnne37nbqS
+         2Ibg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
         h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
          :references:mime-version:content-transfer-encoding;
-        bh=kqdOic8RoRKMHnQkK9Z08RK8B15VUZpim/HB7TlU8Qo=;
-        b=J3NJIh6LfJFvGv1g3WohDcFLl1SOgEaDL9dEkgIz1pKkc2J7PJoy1sJdL5oloLz+qK
-         f+hosoRKawPRxWN99eMsn3IayM3rif7JJuhAnfoxFgTwKLWTGuoTndcvGe9vqm+6k7Ku
-         OK5OmRbiZ2HSXk06JHWeJZbSj3gkZEw9Zp3+lqnzVEmg7IIriLuGlUYd/qJgWzz184b/
-         vCwlNOdhvNOzWEEgxlGuPIL4C/vkV9OgCmbLCoCvIWA18NlWtTeG+dOyjoysCTnhnmVu
-         TEgAqC1cwFNEI2a2sY1O+89q8HFuZAyBnS/X/VIL9hbbOeDbOgHZmbd13R00ntbAryxg
-         w1xQ==
-X-Gm-Message-State: AOAM531TSquuzPbeQhduAF+1gqjXHMibvLVWY/kOMPPk+UE2zqve4yYB
-        DYf4fQ60QZ2jdRaqbFulAvY=
-X-Google-Smtp-Source: ABdhPJy/7iaq1ex6Fw4NSP4b3Khl6+ZXSzPikQFLED9n1YuS7W2ewpfCGp/lrxHd0/eh1J00EkJlnQ==
-X-Received: by 2002:a5d:568c:: with SMTP id f12mr11882396wrv.382.1621631828452;
-        Fri, 21 May 2021 14:17:08 -0700 (PDT)
+        bh=e7zrJu14fy2n6rwrMWj9JbEJiLWMgrV/O1TZhysqI4w=;
+        b=O4H+57znst0z9P6YZIT6QYpCtoBUwrdfhoM2XnYbRtsrraAYsJOgzjhNHhuqQuOtJb
+         dcfkCX2MHpUWa5RgO8EIByKjc+wPHITAbnpnoyfUxJWf+IfL+1msD/uKsH+02LIqMqML
+         c7Ne4fzTill1CMP38Z690tlvgUnbtGVuijzkGXV0THxIDjpy7Y3PuxHWOHkduNjOLzrh
+         c27DbVssA2pgUOxC8RrV3GnrriXHeU5Hy1Jo1PchHeRQyHMNE05+cCCqhKxgXkrXdzcE
+         V9T4ppPmh9gcStnFZw/zlJx/cLjTnl2IOw93L0HVhmIcEwM2Xu4QFMgy8Xs1Tb5IIL9Z
+         +Gpg==
+X-Gm-Message-State: AOAM533EJMX3UE6QCXajew1dQpgnh03mpomAmSDivyhpyjgK4Bpl0yFU
+        5W5Rh6fyaCPy1YqKnIeNgBQ=
+X-Google-Smtp-Source: ABdhPJwOaqTr0+Ow5QyNG/og1xOG2Ev5tj80W2TKKIMRPOWoirHL467tVm8LP5DXJWM03Za0KU/5zw==
+X-Received: by 2002:a05:6000:18a:: with SMTP id p10mr11426277wrx.99.1621631827759;
+        Fri, 21 May 2021 14:17:07 -0700 (PDT)
 Received: from localhost.localdomain ([170.253.36.171])
         by smtp.googlemail.com with ESMTPSA id v10sm3944489wrq.0.2021.05.21.14.17.07
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Fri, 21 May 2021 14:17:08 -0700 (PDT)
+        Fri, 21 May 2021 14:17:07 -0700 (PDT)
 From:   Alejandro Colomar <alx.manpages@gmail.com>
 To:     mtk.manpages@gmail.com
 Cc:     Alejandro Colomar <alx.manpages@gmail.com>,
         linux-man@vger.kernel.org
-Subject: [PATCH 2/4] keyctl.2: Add LIBRARY section
-Date:   Fri, 21 May 2021 23:16:52 +0200
-Message-Id: <20210521211652.49949-3-alx.manpages@gmail.com>
+Subject: [PATCH 1/4] _exit.2: Add LIBRARY section
+Date:   Fri, 21 May 2021 23:16:51 +0200
+Message-Id: <20210521211652.49949-2-alx.manpages@gmail.com>
 X-Mailer: git-send-email 2.31.1
 In-Reply-To: <20210521211652.49949-1-alx.manpages@gmail.com>
 References: <20210521211652.49949-1-alx.manpages@gmail.com>
@@ -74,36 +74,23 @@ X-Mailing-List: linux-man@vger.kernel.org
 
 Signed-off-by: Alejandro Colomar <alx.manpages@gmail.com>
 ---
- man2/keyctl.2 | 9 +++++++--
- 1 file changed, 7 insertions(+), 2 deletions(-)
+ man2/_exit.2 | 3 +++
+ 1 file changed, 3 insertions(+)
 
-diff --git a/man2/keyctl.2 b/man2/keyctl.2
-index 7f5fcb951..4b4eeee04 100644
---- a/man2/keyctl.2
-+++ b/man2/keyctl.2
-@@ -28,6 +28,13 @@
- .TH KEYCTL 2 2021-03-22 Linux "Linux Key Management Calls"
+diff --git a/man2/_exit.2 b/man2/_exit.2
+index 6d9067eb6..38ee1d7ec 100644
+--- a/man2/_exit.2
++++ b/man2/_exit.2
+@@ -29,6 +29,9 @@
+ .TH _EXIT 2 2021-03-22 "Linux" "Linux Programmer's Manual"
  .SH NAME
- keyctl \- manipulate the kernel's key management facility
+ _exit, _Exit \- terminate the calling process
 +.SH LIBRARY
-+Linux kernel, glibc - standard C library
++glibc - standard C library
 +.RI ( libc ", " -lc )
-+.PP
-+Alternatively, libkeyutils
-+.RI ( libkeyutils ", " -lkeyutils );
-+see NOTES.
  .SH SYNOPSIS
  .nf
- .BR "#include <linux/keyctl.h>" "     /* Definition of " KEY* " constants */"
-@@ -1955,8 +1962,6 @@ This system call is a nonstandard Linux extension.
- A wrapper is provided in the
- .IR libkeyutils
- library.
--When employing the wrapper in that library, link with
--.IR \-lkeyutils .
- However, rather than using this system call directly,
- you probably want to use the various library functions
- mentioned in the descriptions of individual operations above.
+ .B #include <unistd.h>
 -- 
 2.31.1
 
