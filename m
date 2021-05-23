@@ -2,89 +2,103 @@ Return-Path: <linux-man-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-15.7 required=3.0 tests=BAYES_00,DKIM_SIGNED,
+X-Spam-Status: No, score=-4.2 required=3.0 tests=BAYES_00,DKIM_SIGNED,
 	DKIM_VALID,DKIM_VALID_AU,FREEMAIL_FORGED_FROMDOMAIN,FREEMAIL_FROM,
-	HEADER_FROM_DIFFERENT_DOMAINS,INCLUDES_CR_TRAILER,INCLUDES_PATCH,
-	MAILING_LIST_MULTI,SPF_HELO_NONE,SPF_PASS,USER_AGENT_GIT autolearn=ham
-	autolearn_force=no version=3.4.0
+	HEADER_FROM_DIFFERENT_DOMAINS,MAILING_LIST_MULTI,SPF_HELO_NONE,SPF_PASS,
+	URIBL_BLOCKED,USER_AGENT_SANE_1 autolearn=no autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 39FAEC47080
-	for <linux-man@archiver.kernel.org>; Sun, 23 May 2021 11:30:12 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 95D50C47080
+	for <linux-man@archiver.kernel.org>; Sun, 23 May 2021 14:03:38 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.kernel.org (Postfix) with ESMTP id F236F61002
-	for <linux-man@archiver.kernel.org>; Sun, 23 May 2021 11:30:11 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTP id 6E66661057
+	for <linux-man@archiver.kernel.org>; Sun, 23 May 2021 14:03:38 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S231715AbhEWLbh (ORCPT <rfc822;linux-man@archiver.kernel.org>);
-        Sun, 23 May 2021 07:31:37 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:42002 "EHLO
+        id S231761AbhEWOFE (ORCPT <rfc822;linux-man@archiver.kernel.org>);
+        Sun, 23 May 2021 10:05:04 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:47032 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S231687AbhEWLbg (ORCPT
-        <rfc822;linux-man@vger.kernel.org>); Sun, 23 May 2021 07:31:36 -0400
-Received: from mail-wm1-x32e.google.com (mail-wm1-x32e.google.com [IPv6:2a00:1450:4864:20::32e])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 5BCDDC061574
-        for <linux-man@vger.kernel.org>; Sun, 23 May 2021 04:30:09 -0700 (PDT)
-Received: by mail-wm1-x32e.google.com with SMTP id u5-20020a7bc0450000b02901480e40338bso8577852wmc.1
-        for <linux-man@vger.kernel.org>; Sun, 23 May 2021 04:30:09 -0700 (PDT)
+        with ESMTP id S231758AbhEWOFD (ORCPT
+        <rfc822;linux-man@vger.kernel.org>); Sun, 23 May 2021 10:05:03 -0400
+Received: from mail-wr1-x429.google.com (mail-wr1-x429.google.com [IPv6:2a00:1450:4864:20::429])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 4C55AC061574
+        for <linux-man@vger.kernel.org>; Sun, 23 May 2021 07:03:36 -0700 (PDT)
+Received: by mail-wr1-x429.google.com with SMTP id i17so25744057wrq.11
+        for <linux-man@vger.kernel.org>; Sun, 23 May 2021 07:03:36 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=gmail.com; s=20161025;
-        h=from:to:cc:subject:date:message-id:in-reply-to:references
-         :mime-version:content-transfer-encoding;
-        bh=KpIcfufL+RuDe1uKw741WGVm1AMdDJeKp3fCVqjjUkc=;
-        b=AsYy8tlWWqpt5wzKsgzj3xTy96ku6VIxV4Spw2Y0fo33iXnk0fKhaqZiLso4itHw26
-         T45+mfIYNhGJm+02qV56iU8JxSIoFH1ztmSzf2ou5FsdIVzwa8gyU81wVnlzySQPgB08
-         3g7+a+eWZr276IgKS0ngZbLKFo1ZaowzFYQpsYDZBwA4VF/lGt4VpW/5dzcACkMFMoWT
-         tn/G3ETL4NO+UZIbIKkV2pa1ZvPQAPeZO7Ulm5OkkbE07a3cGvpwrL3hPMUWgbSNRpwV
-         py7/nLMtfC9h8JGCAb8bvBeRD0ajfqQJEuHW6Q4e98hIY8g39VUWSiV76rcTdlxRWDSq
-         D/Mw==
+        h=to:cc:from:subject:message-id:date:user-agent:mime-version
+         :content-language:content-transfer-encoding;
+        bh=hj19LL4Z9Q1eJK5hJgHOG35v8KEGcXZYMkK8ZcqUYMw=;
+        b=IIqbGFo5wa3M4RkcF0Ia8dKgE9LYSjrwVKgBD+051m+Bzkc0kDjF70kFfO63Ldukno
+         px+9vNoHdgIVJ4B5Gqs+t2NGpODAycyYBu2sBT15JHSxq+4bUsDldB+hlHR6BzqPD2kO
+         mb7Ck/bCg1GlsXFigQoXKO2LFMOa8aoEeRH70V67r1ZyG8IBdk1ylAc2KjKRA9OT0oDb
+         G2ZTh7yIYDwOF8LjzPB0Ip9+hzuuz2iSX0gJF/ace5MeM2eM6Qrw+sfAlj2As3X198sj
+         ZUtzex5VNRLXwqq448UhOojEbBnPV3TOoN8qxnKLo6er6ipQe9vufpCifQ84H/8LvlGZ
+         VIiw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
-        h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
-         :references:mime-version:content-transfer-encoding;
-        bh=KpIcfufL+RuDe1uKw741WGVm1AMdDJeKp3fCVqjjUkc=;
-        b=ZPsKizLOPkE/ctQb+uogaB0mLbkhoVOeLphFftOwW/ifFp5yWKjFyhvBN6lEOtSScZ
-         bePWvuYj1cKsX1D3QCfpGemXFyNDQrzrwpA8hKic5NS/soObMZMAMmmEufkiF5hAtfsG
-         vZVsW4JrLs/IgcDxbwMirG5jIXu4DwgI0kthsXDwYWlxW+W6P89NglwvjGpG0w16NVCr
-         aQhiAa2m1foN8CRqXJ2P3SqgtQgQ1AY/q+FOwJ7VrW5HYQKs21cvLlYhk9FQ1NJk3j0L
-         0wvppADg/jGoFKqDzgxD4hoLxqXZ0jKJZTj/JsRkTNs/Rrl8Mut+X+lnCxDP28LLUbXi
-         KI6g==
-X-Gm-Message-State: AOAM531UnH6AqaQ+aawPTlADAWNecW4a6HFO1ZyG6jr8koOyHmNXNmjN
-        pf+b4vDxkiOb6TuQTnFaii3ielxcE7Y=
-X-Google-Smtp-Source: ABdhPJx8r8jd6F74YTZZZsMoMV4HjKxSGZIcMHEPaK+vKrlwlEIj0DqVQClWt9KgOfVZP39V6EUsdA==
-X-Received: by 2002:a1c:4601:: with SMTP id t1mr15756627wma.27.1621768949114;
-        Sun, 23 May 2021 04:22:29 -0700 (PDT)
-Received: from sqli.sqli.com ([195.53.121.100])
-        by smtp.googlemail.com with ESMTPSA id x10sm8273921wrt.65.2021.05.23.04.22.27
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Sun, 23 May 2021 04:22:28 -0700 (PDT)
-From:   Alejandro Colomar <alx.manpages@gmail.com>
-To:     mtk.manpages@gmail.com
-Cc:     Alejandro Colomar <alx.manpages@gmail.com>,
-        linux-man@vger.kernel.org
-Subject: [PATCH 4/8] cc_t.3: New link to system_data_types(7)
-Date:   Sun, 23 May 2021 13:22:09 +0200
-Message-Id: <20210523112213.170202-4-alx.manpages@gmail.com>
-X-Mailer: git-send-email 2.31.1
-In-Reply-To: <20210523112213.170202-1-alx.manpages@gmail.com>
-References: <20210523112213.170202-1-alx.manpages@gmail.com>
+        h=x-gm-message-state:to:cc:from:subject:message-id:date:user-agent
+         :mime-version:content-language:content-transfer-encoding;
+        bh=hj19LL4Z9Q1eJK5hJgHOG35v8KEGcXZYMkK8ZcqUYMw=;
+        b=RjhdfR+cOAuOlMwtyP1PWfgAfzCz+UqwuO2QQfdZf5Tdr0e6zwBN5oxih8/g5JYB5C
+         ca9JRWlhSt+MvoqfvrWis8InAiEcqPF2bX9dpjGdcoMmLMKYoe5x1l7gLZ3R09OEkA2h
+         MfoXw3P7L3lKdo98VoydjDMfdhSs/hgqREjDEusj9xd98xQvcvMdZzZXnZEe6b/kpuoL
+         oqhi3obrRdcdNBr7MDRp6KwhHNQsGqxnxhuJctqf45llpr0QXKI5WfgKI+2I6Asm3uIz
+         CD/T1nh+Sse/Ic8y9ZLW+qUdBd/3BMGMJdPncOn98cW8u6IfYPn8ZKQsA70vffntEC/3
+         wang==
+X-Gm-Message-State: AOAM531SxjLe3EJOCawGVfUQRNkSbg9mb1cGRMdyipl86lybsPKUBFTV
+        ef61vbyCEJos7nGZRRfgSrrRTO5xY9Q=
+X-Google-Smtp-Source: ABdhPJxl+xoaUTdjKyDqS4nxy4J5py3Yfh9REKo+FQFscGHamlAqHiW9N8ByQSU7Dy+oM0bKcvf0pQ==
+X-Received: by 2002:adf:dcd2:: with SMTP id x18mr17676531wrm.202.1621778614926;
+        Sun, 23 May 2021 07:03:34 -0700 (PDT)
+Received: from [10.8.0.106] ([195.53.121.100])
+        by smtp.gmail.com with ESMTPSA id b8sm9022739wrx.15.2021.05.23.07.03.32
+        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+        Sun, 23 May 2021 07:03:34 -0700 (PDT)
+To:     "Michael Kerrisk (man-pages)" <mtk.manpages@gmail.com>
+Cc:     linux-man <linux-man@vger.kernel.org>
+From:   "Alejandro Colomar (man-pages)" <alx.manpages@gmail.com>
+Subject: Adding struct-xxx link pages for structures
+Message-ID: <5872e635-1b61-6193-55fa-0a26e59afbca@gmail.com>
+Date:   Sun, 23 May 2021 16:03:30 +0200
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
+ Thunderbird/78.10.0
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+Content-Type: text/plain; charset=utf-8; format=flowed
+Content-Language: en-US
+Content-Transfer-Encoding: 7bit
 Precedence: bulk
 List-ID: <linux-man.vger.kernel.org>
 X-Mailing-List: linux-man@vger.kernel.org
 
-Signed-off-by: Alejandro Colomar <alx.manpages@gmail.com>
----
- man3/cc_t.3 | 1 +
- 1 file changed, 1 insertion(+)
- create mode 100644 man3/cc_t.3
+Hi Michael,
 
-diff --git a/man3/cc_t.3 b/man3/cc_t.3
-new file mode 100644
-index 000000000..db50c0f09
---- /dev/null
-+++ b/man3/cc_t.3
-@@ -0,0 +1 @@
-+.so man7/system_data_types.7
+We have some structures defined in system_data_types(7) for which we 
+don't have a link page, because it would have shadowed other more 
+important pages.
+
+I've been documenting 'struct stat', and it happens the same: I'd shadow 
+stat(2) with stat(3).
+
+But I need to refer to stat(3) (or whatever link page we decide to have) 
+from stat(2).  So I need one (referring to system_data_types(7) isn't 
+very informative).
+
+How about adding struct-stat(2)?
+
+However, that means that we should also add struct-xxx(3) / union-xxx(3) 
+for all of the structs/unions we have documented there (one might 
+reasonably expect to be able to find struct-aiocb(3) or union-sigval(3) 
+if there's a struct-stat(3)).
+
+What do you think about it?
+
+Thanks,
+
+Alex
+
+
 -- 
-2.31.1
-
+Alejandro Colomar
+Linux man-pages comaintainer; https://www.kernel.org/doc/man-pages/
+http://www.alejandro-colomar.es/
