@@ -8,65 +8,68 @@ X-Spam-Status: No, score=-14.3 required=3.0 tests=BAYES_00,DKIM_SIGNED,
 	MAILING_LIST_MULTI,NICE_REPLY_A,SPF_HELO_NONE,SPF_PASS,USER_AGENT_SANE_1
 	autolearn=ham autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id AFBC3C48BCF
-	for <linux-man@archiver.kernel.org>; Wed,  9 Jun 2021 22:25:53 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 50CC1C48BCD
+	for <linux-man@archiver.kernel.org>; Wed,  9 Jun 2021 22:26:00 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.kernel.org (Postfix) with ESMTP id 876E3613C8
-	for <linux-man@archiver.kernel.org>; Wed,  9 Jun 2021 22:25:53 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTP id 3016F61377
+	for <linux-man@archiver.kernel.org>; Wed,  9 Jun 2021 22:26:00 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S229578AbhFIW1s (ORCPT <rfc822;linux-man@archiver.kernel.org>);
-        Wed, 9 Jun 2021 18:27:48 -0400
-Received: from mail-pl1-f173.google.com ([209.85.214.173]:39632 "EHLO
-        mail-pl1-f173.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S229542AbhFIW1r (ORCPT
-        <rfc822;linux-man@vger.kernel.org>); Wed, 9 Jun 2021 18:27:47 -0400
-Received: by mail-pl1-f173.google.com with SMTP id v11so5014806ply.6
-        for <linux-man@vger.kernel.org>; Wed, 09 Jun 2021 15:25:40 -0700 (PDT)
+        id S229557AbhFIW1y (ORCPT <rfc822;linux-man@archiver.kernel.org>);
+        Wed, 9 Jun 2021 18:27:54 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:59596 "EHLO
+        lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S229542AbhFIW1y (ORCPT
+        <rfc822;linux-man@vger.kernel.org>); Wed, 9 Jun 2021 18:27:54 -0400
+Received: from mail-pl1-x62e.google.com (mail-pl1-x62e.google.com [IPv6:2607:f8b0:4864:20::62e])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id A0B27C061574
+        for <linux-man@vger.kernel.org>; Wed,  9 Jun 2021 15:25:42 -0700 (PDT)
+Received: by mail-pl1-x62e.google.com with SMTP id e1so2075596plh.8
+        for <linux-man@vger.kernel.org>; Wed, 09 Jun 2021 15:25:42 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=gmail.com; s=20161025;
         h=cc:subject:to:references:from:message-id:date:user-agent
          :mime-version:in-reply-to:content-language:content-transfer-encoding;
-        bh=MBm7UIGhQjp/trWSSQZZBqIsXVilQ9v/jatCtK1xjlo=;
-        b=OyMLvVit8ejgh4otFsYxozMKbFUuAjUPC092ZOtpOopgWKe/Pjfpo7RyNu3RM7O6/x
-         GNy2KnmzIIyYY2SS0SaM/OEHHZjS6rateorp4SGAtAyr0ECYlB5PtA7PnI5GiAKXZM8M
-         5LucPi2gQ28yBGOF/t+BU5NHqVj27iijuo3rhm4JYwsfjUJqk1ofETlSJ2hUyZcdwwG5
-         RkK5+phJgfx7V5ON2jb2Mzun/sVW+DJFc8OVfxk7UN3XAUkwAkN2onEaT2+Yxsk1pf+p
-         sFNmaIp2VCyfzTRll+oY5szbgwxp1wm/tFwxw7c7xeG4wrhpGCQWMcmeP5SzFkzby5AN
-         37wA==
+        bh=PIXs0lbWsgPJqKv4COXrYxpWHjP5TLAX5E0wmKJTcKM=;
+        b=KOYg0AZqatiGHZXlkC7/2vLq4q3SdfZZb3hCKXdBFJ58i5+IQmOZZH/YbDhC63kZfO
+         rLXFnTQ+AelXV8fmGnXw9r49y9Kolt2xwUT2krkok/0hWE9qXYHMMQ5WlbQW3i2V1PND
+         Fo9k8HkPKCmzX0jVQ9Jq7XexWDzUEzLICQoOwdpA3XM2oYkNyUnFUbzNZH1K7/HG7PLk
+         1JEpmtns5lBLRNftP4ySbsV+2C2Y0INLVFYU4S9ifLYGLYEaNsXf5F8zGwpRvg5haffR
+         8DL5AU3QZRY9TPFZJ5Q8UCNmcNUkd+DTFQtNCrCRiSnFUHyQ+PdnScyQcEmb71I/hqUW
+         xyhQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
         h=x-gm-message-state:cc:subject:to:references:from:message-id:date
          :user-agent:mime-version:in-reply-to:content-language
          :content-transfer-encoding;
-        bh=MBm7UIGhQjp/trWSSQZZBqIsXVilQ9v/jatCtK1xjlo=;
-        b=CE7cOiX9Bd1xPvCATtKvNfjtkL50ma7yj4xr7KvRUPG64X/Ojqgu3xcBaLRwxDsiL/
-         idfzLkrdpnlh1sU32LY0bkaq36nSq2VKBOxTB76Ov659GJYtAOmBH78iYt6+WIGKuYmC
-         DQIwnj6qGOk08cH9VpeVpGkuPXGVBGHJW6bhJlHuKLLGJTwiw8lOSSHY+v+3dVaHN3Pw
-         laC9u6J25RQHK+fzhlMH9tWZr7mWph85GNNi2gLYOzVJsLLtbcWi0oQZ1Rv07Pi4CiQV
-         o2msAI/cfx5vUitclc9SuFyomuL0zRc5noYVxETejAnyk4CFASg+nK9x95S08SVZ7fqD
-         oPRg==
-X-Gm-Message-State: AOAM533qj82dV7lpIJa6QVyY6B9JCurqLEVNii9OKQZ/eeYn0I7zKR3z
-        AzUUAu7KJhPfMdO0BP5Fn33sBr83xK0=
-X-Google-Smtp-Source: ABdhPJzdeF9La8NXLQL9iegIKT47iRFSUnlThMtA/4Z8tXNSrvD1BsjqbBGf/NITXjC6ZdzNiJ1ahQ==
-X-Received: by 2002:a17:90a:b008:: with SMTP id x8mr1887972pjq.160.1623277480076;
-        Wed, 09 Jun 2021 15:24:40 -0700 (PDT)
+        bh=PIXs0lbWsgPJqKv4COXrYxpWHjP5TLAX5E0wmKJTcKM=;
+        b=OpoJvhkViKCTvQ2EGPLEMp5u1G2VGumLCBCH1qtLcgcX8TItGItzfJsWRgece1/10n
+         ggctObTHBqEZUN5S8NUmJ1WuujedyW9Of1KGvZnuYWqs7N9cw7T6DAoCfNEUnOt1jTox
+         Q7KaWQERUDW56YBojn/Yv92RDi71DA9LVP0qAFh1WDEaSSXXOB+Buv9aoX+wE2kbSitp
+         1O2I2V1nLSg/FxrzvJjenB0ovy9J2Ek08XMxDRiiO2IodBf7JNlNPWPllcs79IamwXYg
+         awWzMcWaPRUWX3KQiUr5ET0BzYFoUWW/7MGv65w+AM2X5BS/VivY8y4NnAZcdUcsr2fA
+         KWzg==
+X-Gm-Message-State: AOAM532JO9akZgRa5EagNXSnft41Hx6Q8gUxbyVSOdzBh7IzI4kLYxKn
+        shfq/X+dPbuTF0vS8FgQhGmba7d+LPI=
+X-Google-Smtp-Source: ABdhPJxAvKF4xRTgfnSFqHglgj25PYjzTnLvMvtiUi3nhJ0A5mRT45Knm2paKY7KLJNoHvPC6xOYLQ==
+X-Received: by 2002:a17:902:be0d:b029:f9:c913:821f with SMTP id r13-20020a170902be0db02900f9c913821fmr1736234pls.2.1623277541983;
+        Wed, 09 Jun 2021 15:25:41 -0700 (PDT)
 Received: from [192.168.1.70] (122-61-176-117-fibre.sparkbb.co.nz. [122.61.176.117])
-        by smtp.gmail.com with ESMTPSA id p14sm711754pgb.2.2021.06.09.15.24.37
+        by smtp.gmail.com with ESMTPSA id l5sm466295pff.20.2021.06.09.15.25.40
         (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Wed, 09 Jun 2021 15:24:39 -0700 (PDT)
+        Wed, 09 Jun 2021 15:25:41 -0700 (PDT)
 Cc:     mtk.manpages@gmail.com, linux-man@vger.kernel.org
-Subject: Re: [PATCH v2 05/10] set_thread_area.2: Use syscall(SYS_...); for
- system calls without a wrapper
+Subject: Re: [PATCH v2 07/10] sgetmask.2: Use syscall(SYS_...); for system
+ calls without a wrapper
 To:     Alejandro Colomar <alx.manpages@gmail.com>
 References: <20210521232553.161080-10-alx.manpages@gmail.com>
- <20210524181947.459437-5-alx.manpages@gmail.com>
+ <20210524181947.459437-7-alx.manpages@gmail.com>
 From:   "Michael Kerrisk (man-pages)" <mtk.manpages@gmail.com>
-Message-ID: <874ba77c-e350-39b4-7b29-dd589eab5f96@gmail.com>
-Date:   Thu, 10 Jun 2021 10:24:36 +1200
+Message-ID: <f71544ba-5196-40fb-acfb-5ae35ffcd299@gmail.com>
+Date:   Thu, 10 Jun 2021 10:25:36 +1200
 User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
  Thunderbird/78.8.1
 MIME-Version: 1.0
-In-Reply-To: <20210524181947.459437-5-alx.manpages@gmail.com>
+In-Reply-To: <20210524181947.459437-7-alx.manpages@gmail.com>
 Content-Type: text/plain; charset=utf-8
 Content-Language: en-US
 Content-Transfer-Encoding: 7bit
@@ -78,9 +81,6 @@ Hi Alex,
 
 On 5/25/21 6:19 AM, Alejandro Colomar wrote:
 > Signed-off-by: Alejandro Colomar <alx.manpages@gmail.com>
-> ---
->  man2/set_thread_area.2 | 24 ++++++++++++------------
->  1 file changed, 12 insertions(+), 12 deletions(-)
 
 Applied.
 
@@ -89,62 +89,46 @@ Thanks,
 Michael
 
 
-> diff --git a/man2/set_thread_area.2 b/man2/set_thread_area.2
-> index 284dea390..43f3009f7 100644
-> --- a/man2/set_thread_area.2
-> +++ b/man2/set_thread_area.2
-> @@ -11,28 +11,31 @@
->  get_thread_area, set_thread_area \- manipulate thread-local storage information
+> ---
+>  man2/sgetmask.2 | 15 ++++++++-------
+>  1 file changed, 8 insertions(+), 7 deletions(-)
+> 
+> diff --git a/man2/sgetmask.2 b/man2/sgetmask.2
+> index 7563b57ff..59b58ceaf 100644
+> --- a/man2/sgetmask.2
+> +++ b/man2/sgetmask.2
+> @@ -27,12 +27,17 @@
+>  sgetmask, ssetmask \- manipulation of signal mask (obsolete)
 >  .SH SYNOPSIS
 >  .nf
-> -.B #include <linux/unistd.h>
-> +.BR "#include <sys/syscall.h>" "     /* Definition of " SYS_* " constants */"
+> -.B "long sgetmask(void);"
+> -.BI "long ssetmask(long " newmask );
+> +.BR "#include <sys/syscall.h>" "      /* Definition of " SYS_* " constants */"
 > +.B #include <unistd.h>
->  .PP
->  .B #if defined __i386__ || defined __x86_64__
-> -.B # include <asm/ldt.h>
-> +.BR "# include <asm/ldt.h>" "        /* Definition of " "struct user_desc" " */"
->  .PP
-> -.BI "int get_thread_area(struct user_desc *" u_info );
-> -.BI "int set_thread_area(struct user_desc *" u_info );
-> +.BI "int syscall(SYS_get_thread_area, struct user_desc *" u_info );
-> +.BI "int syscall(SYS_set_thread_area, struct user_desc *" u_info );
->  .PP
->  .B #elif defined __m68k__
->  .PP
-> -.B "int get_thread_area(void);"
-> -.BI "int set_thread_area(unsigned long " tp );
-> +.B "int syscall(SYS_get_thread_area);"
-> +.BI "int syscall(SYS_set_thread_area, unsigned long " tp );
->  .PP
->  .B #elif defined __mips__
->  .PP
-> -.BI "int set_thread_area(unsigned long " addr );
-> +.BI "int syscall(SYS_set_thread_area, unsigned long " addr );
->  .PP
->  .B #endif
+> +.PP
+> +.B "long syscall(SYS_sgetmask, void);"
+> +.BI "long syscall(SYS_ssetmask, long " newmask );
 >  .fi
 >  .PP
 >  .IR Note :
 > -There are no glibc wrappers for these system calls; see NOTES.
-> +glibc provides no wrappers for these system calls,
+> +glibc provides no wrappers for these functions,
 > +necessitating the use of
 > +.BR syscall (2).
 >  .SH DESCRIPTION
->  These calls provide architecture-specific support for a thread-local storage
->  implementation.
-> @@ -172,10 +175,7 @@ and
->  are Linux-specific and should not be used in programs that are intended
->  to be portable.
+>  These system calls are obsolete.
+>  .IR "Do not use them" ;
+> @@ -73,10 +78,6 @@ option.
+>  .SH CONFORMING TO
+>  These system calls are Linux-specific.
 >  .SH NOTES
-> -Glibc does not provide wrappers for these system calls,
-> -since they are generally intended for use only by threading libraries.
-> -In the unlikely event that you want to call them directly, use
+> -Glibc does not provide wrappers for these obsolete system calls;
+> -in the unlikely event that you want to call them, use
 > -.BR syscall (2).
-> +These system calls are generally intended for use only by threading libraries.
+> -.PP
+>  These system calls are unaware of signal numbers greater than 31
+>  (i.e., real-time signals).
 >  .PP
->  .BR arch_prctl (2)
->  can interfere with
 > 
 
 
