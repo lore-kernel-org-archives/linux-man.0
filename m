@@ -2,69 +2,74 @@ Return-Path: <linux-man-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-4.3 required=3.0 tests=BAYES_00,DKIM_SIGNED,
+X-Spam-Status: No, score=-14.3 required=3.0 tests=BAYES_00,DKIM_SIGNED,
 	DKIM_VALID,DKIM_VALID_AU,FREEMAIL_FORGED_FROMDOMAIN,FREEMAIL_FROM,
-	HEADER_FROM_DIFFERENT_DOMAINS,MAILING_LIST_MULTI,NICE_REPLY_A,SPF_HELO_NONE,
-	SPF_PASS,USER_AGENT_SANE_1 autolearn=no autolearn_force=no version=3.4.0
+	HEADER_FROM_DIFFERENT_DOMAINS,INCLUDES_CR_TRAILER,INCLUDES_PATCH,
+	MAILING_LIST_MULTI,NICE_REPLY_A,SPF_HELO_NONE,SPF_PASS,USER_AGENT_SANE_1
+	autolearn=ham autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id BEB97C48BCF
-	for <linux-man@archiver.kernel.org>; Wed,  9 Jun 2021 22:31:06 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 618F8C48BCD
+	for <linux-man@archiver.kernel.org>; Wed,  9 Jun 2021 22:31:25 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.kernel.org (Postfix) with ESMTP id AA6A2613C8
-	for <linux-man@archiver.kernel.org>; Wed,  9 Jun 2021 22:31:06 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTP id 35C4C613C8
+	for <linux-man@archiver.kernel.org>; Wed,  9 Jun 2021 22:31:25 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S229925AbhFIWdA (ORCPT <rfc822;linux-man@archiver.kernel.org>);
-        Wed, 9 Jun 2021 18:33:00 -0400
-Received: from mail-pj1-f53.google.com ([209.85.216.53]:56074 "EHLO
-        mail-pj1-f53.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S229757AbhFIWdA (ORCPT
-        <rfc822;linux-man@vger.kernel.org>); Wed, 9 Jun 2021 18:33:00 -0400
-Received: by mail-pj1-f53.google.com with SMTP id k7so2455909pjf.5
-        for <linux-man@vger.kernel.org>; Wed, 09 Jun 2021 15:30:58 -0700 (PDT)
+        id S229757AbhFIWdT (ORCPT <rfc822;linux-man@archiver.kernel.org>);
+        Wed, 9 Jun 2021 18:33:19 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:60818 "EHLO
+        lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S229542AbhFIWdT (ORCPT
+        <rfc822;linux-man@vger.kernel.org>); Wed, 9 Jun 2021 18:33:19 -0400
+Received: from mail-pl1-x634.google.com (mail-pl1-x634.google.com [IPv6:2607:f8b0:4864:20::634])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id F18C9C061574
+        for <linux-man@vger.kernel.org>; Wed,  9 Jun 2021 15:31:13 -0700 (PDT)
+Received: by mail-pl1-x634.google.com with SMTP id c13so13530742plz.0
+        for <linux-man@vger.kernel.org>; Wed, 09 Jun 2021 15:31:13 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=gmail.com; s=20161025;
         h=cc:subject:to:references:from:message-id:date:user-agent
          :mime-version:in-reply-to:content-language:content-transfer-encoding;
-        bh=T8z/UfyIrxQw1IhIVSqZo+i748jwUUInp+feXJ1eR9s=;
-        b=AiPj1l9Bh3to6Z5/i60ve5EtvgcXN2MlmKB1tLZD7r34vgdDbGMbd6WB0PptYbXN2J
-         NayodlLSaaSEfhwyJcP6BUitCEDb2lJg5FdHY6Xcr6bhpVr0y4VcJjyBmyPwcQfJnIgK
-         aP0jO0RtGCO/dRmqJY1vAin/He+yjowtkLehp+D5wIQsLvvjCKmvDdqr3TWQGqlB/w0H
-         /ser3wLmwAEvoi9uDVQFfptXd8IzI3phoyOdWWlAVVOI13s7OFpieaCIOqPAoXb/Tr8C
-         +u4uiDQT3S3mBZS7UrhMuvxzk6xuuVL4gQVeZE2suQRHz6eG1565xvzymZ+PQTT2rma2
-         BERA==
+        bh=WacEZKR/xsVuf8WgIbqBOqvmsWS6m5sckxSGmQal3ZI=;
+        b=WA8OueRX71g6ZE7Y8m83L1FGdHS0vCLzXRWErLjudl45ZvOiRiwyKrAfQJMAdMMNdL
+         wRbXPvVY7QkwqFIdmh6F67uQsux4WKyYhE3z+VfkwT48M6r8ilSCd8aEPhcHDUiFgXAm
+         utufr3SZdoTGue2BDE0Ohow1XseBgP4VTGZTylDpkfft7TuV5uBxApzQ8UTEE6iKU0SA
+         PEZmwt5zgYLuYX6gQq9qRY5WqB1DqOKdJwfaWzoakwkAvTM0lOG/jcAqD3J6d72q+dAd
+         ehiFiz2eTJVw9wKekagniHPAif6GMKunfRgym6hmTO1FStcUZvA7UpbbQimiA49ifxpF
+         L8Cw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
         h=x-gm-message-state:cc:subject:to:references:from:message-id:date
          :user-agent:mime-version:in-reply-to:content-language
          :content-transfer-encoding;
-        bh=T8z/UfyIrxQw1IhIVSqZo+i748jwUUInp+feXJ1eR9s=;
-        b=JsDYljdWPVS16kIyt1M8279yd2DRyxnPZp14bQeyOn7RoLYdACiwb8CtihNziPqwem
-         Sf3jZlyiT7tIG4R2Nshprl2CArFdmorJ6Puyc5jE5tQFlgTqD9EDp/bvCiPIAO9NRQrn
-         Uw1C8aezd3o2HFMldHo96ZBm08aOW7wE0kd3HNIEqqfmGpdCTOEjzjMuVQUxdSVWRvbz
-         CS+Rm8jPKoG3KwvaM6xAncsw4xG03n0VdxN3/yKvHILQc2KYlCneid9AthO0A0CxsLye
-         R+8xcUKucEY4kvSXg2k3/KOhkxz2PdrxJsLknm9MnQ4lebCE8R4v1YNZj18hcbWhUDKY
-         zfXg==
-X-Gm-Message-State: AOAM53299gnaY8TPaACPSXukhMItb5ffMWbCVL4/gmkoSIOTmySKMb5Z
-        l8GwCldFf7Vy96PmsKuhECg495v0tKw=
-X-Google-Smtp-Source: ABdhPJzweRE4B3yWxI/tK54mMJccUAtLZsCB6CYOV8UEzX8EfY844v7jxhgpEUnEtTt2TnzakdE5pg==
-X-Received: by 2002:a17:902:e213:b029:115:b33c:7c73 with SMTP id u19-20020a170902e213b0290115b33c7c73mr1706029plb.46.1623277797917;
-        Wed, 09 Jun 2021 15:29:57 -0700 (PDT)
+        bh=WacEZKR/xsVuf8WgIbqBOqvmsWS6m5sckxSGmQal3ZI=;
+        b=UgK4Oq/cU83XAF7vBYIuViPRI4j23MFK9Sv7tT5g7w0K9UTEg08vUp6C+dpRsON25A
+         RbsNHjolaJbbLCq8w60N0AnNP80+ED+4Zwwa1xRBx7Av1jcXV8xzATBpO2I5rZW92Jy/
+         m+6sm3IQXOdR78yRIytTpGhLnNcHjeDVA8iHIJBxaMXhUx+fyD68OBXux+KGy8cCepim
+         +iv7qjIHRUAmNrx7saR7zYLhPIoNh5n4AEb+7Fj854nk0pnL2YOXSGrgFLqcheo0911s
+         SJoTj+bWdAEYCfhW5Ezdj5XMrYQzlcO1Sr8kLIyjRPPOlrEWIqWO0IQx3XyYrk92HSAE
+         pdhg==
+X-Gm-Message-State: AOAM530dAadDfNKUgcJGCbGWkMOxzRgGlUNvBg8ziGTuKlSg/2VqbSuu
+        0bO/aYQkmT7fJImEs7hodcBv3TDGrxU=
+X-Google-Smtp-Source: ABdhPJxy7MNZ8rWWM8ywqjISgBX7Tbv/qnStFLusmzdCEqgo7M3/yT5aFgN0ptCc3vJhR2wMxvSWcQ==
+X-Received: by 2002:a17:902:56d:b029:103:75e4:7bf5 with SMTP id 100-20020a170902056db029010375e47bf5mr1805005plf.84.1623277872504;
+        Wed, 09 Jun 2021 15:31:12 -0700 (PDT)
 Received: from [192.168.1.70] (122-61-176-117-fibre.sparkbb.co.nz. [122.61.176.117])
-        by smtp.gmail.com with ESMTPSA id g8sm641008pgo.10.2021.06.09.15.29.55
+        by smtp.gmail.com with ESMTPSA id r6sm5576882pjm.12.2021.06.09.15.31.10
         (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Wed, 09 Jun 2021 15:29:57 -0700 (PDT)
+        Wed, 09 Jun 2021 15:31:12 -0700 (PDT)
 Cc:     mtk.manpages@gmail.com, linux-man@vger.kernel.org
-Subject: Re: [PATCH 00/10] man2: SYNOPSIS: Use syscall, and fix includes.
-To:     "Alejandro Colomar (man-pages)" <alx.manpages@gmail.com>
-References: <20210521232553.161080-1-alx.manpages@gmail.com>
- <ddc30879-c7c1-d66e-2eed-443319f3186b@gmail.com>
+Subject: Re: [PATCH v2 04/10] seccomp.2: Use syscall(SYS_...); for system
+ calls without a wrapper
+To:     Alejandro Colomar <alx.manpages@gmail.com>
+References: <20210521232553.161080-10-alx.manpages@gmail.com>
+ <20210524181947.459437-4-alx.manpages@gmail.com>
 From:   "Michael Kerrisk (man-pages)" <mtk.manpages@gmail.com>
-Message-ID: <6ea04241-a0e0-b8b6-e91e-ebb8fb2ae9e5@gmail.com>
-Date:   Thu, 10 Jun 2021 10:29:54 +1200
+Message-ID: <65088a2c-854e-4f26-795e-a87cab192575@gmail.com>
+Date:   Thu, 10 Jun 2021 10:31:09 +1200
 User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
  Thunderbird/78.8.1
 MIME-Version: 1.0
-In-Reply-To: <ddc30879-c7c1-d66e-2eed-443319f3186b@gmail.com>
+In-Reply-To: <20210524181947.459437-4-alx.manpages@gmail.com>
 Content-Type: text/plain; charset=utf-8
 Content-Language: en-US
 Content-Transfer-Encoding: 7bit
@@ -72,45 +77,56 @@ Precedence: bulk
 List-ID: <linux-man.vger.kernel.org>
 X-Mailing-List: linux-man@vger.kernel.org
 
-[I hit send too soon....]
+On 5/25/21 6:19 AM, Alejandro Colomar wrote:
+> Signed-off-by: Alejandro Colomar <alx.manpages@gmail.com>
 
-On 5/25/21 7:09 AM, Alejandro Colomar (man-pages) wrote:
-> Hi Michael,
-> 
-> On 5/22/21 1:25 AM, Alejandro Colomar wrote:
->> Hi Michael,
->>
->> Almost finished these:
->> $ man_lsfunc man2 | sed -n '/socketcall/,$p' | wc -l
->> 67
->> $ man_lsfunc man2 | wc -l
->> 401
->> $
-> 
-> Right now I have around 20-30 more patches about this pending, and 
-> that's all; I've finished.
-
-Good!
-
-> I'll hold them until you apply (or reject) the various patch sets that 
-> are pending to avoid creating conflicts.
-> 
-> After that, I think we should release v5.12 :).
-> 
-> And after the release, I have 4 branches to develop a few things for 
-> 5.13/14 (some of them depending on what we decide about some RFCs):
->   - library: Use LIBRARY section (similar to FreeBSD)
->   - stdint: Use standard (<stdint.h>) types, as well as standard attributes.
->   - system_data_types: Document more types (I was documenting those you 
-> mark in TLPI as important).
->   - examples: Fix the includes in the EXAMPLES sections to use the 
-> minimum number of includes, by using iwyu(1).
-
-Okay.
+This patch doesn't apply. Probably because I dropped 3/10?
 
 Thanks,
 
 Michael
+
+> ---
+>  man2/seccomp.2 | 14 ++++++++------
+>  1 file changed, 8 insertions(+), 6 deletions(-)
+> 
+> diff --git a/man2/seccomp.2 b/man2/seccomp.2
+> index 1be7d6766..0f3f30767 100644
+> --- a/man2/seccomp.2
+> +++ b/man2/seccomp.2
+> @@ -37,13 +37,18 @@ seccomp \- operate on Secure Computing state of the process
+>  .BR "#include <sys/ptrace.h>" "     /* Definition of " PTRACE_* " constants */"
+>  .\" Kees Cook noted: Anything that uses SECCOMP_RET_TRACE returns will
+>  .\"                  need <sys/ptrace.h>
+> +.BR "#include <sys/syscall.h>" "    /* Definition of " SYS_* " constants */"
+> +.B #include <unistd.h>
+>  .PP
+> -.BI "int seccomp(unsigned int " operation ", unsigned int " flags \
+> -", void *" args );
+> +.BI "int syscall(SYS_seccomp, unsigned int " operation ", unsigned int " flags ,
+> +.BI "            void *" args );
+>  .fi
+>  .PP
+>  .IR Note :
+> -There is no glibc wrapper for this system call; see NOTES.
+> +glibc provides no wrapper for
+> +.BR seccomp (),
+> +necessitating the use of
+> +.BR syscall (2).
+>  .SH DESCRIPTION
+>  The
+>  .BR seccomp ()
+> @@ -858,9 +863,6 @@ Tile (since Linux 4.3)
+>  PA-RISC (since Linux 4.6)
+>  .\" User mode Linux since Linux 4.6
+>  .PD
+> -.PP
+> -Glibc does not provide a wrapper for this system call; call it using
+> -.BR syscall (2).
+>  .\"
+>  .SS Caveats
+>  There are various subtleties to consider when applying seccomp filters
+> 
 
 
 -- 
