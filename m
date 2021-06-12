@@ -2,134 +2,99 @@ Return-Path: <linux-man-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-14.3 required=3.0 tests=BAYES_00,DKIM_SIGNED,
-	DKIM_VALID,DKIM_VALID_AU,FREEMAIL_FORGED_FROMDOMAIN,FREEMAIL_FROM,
-	HEADER_FROM_DIFFERENT_DOMAINS,INCLUDES_CR_TRAILER,INCLUDES_PATCH,
-	MAILING_LIST_MULTI,NICE_REPLY_A,SPF_HELO_NONE,SPF_PASS,USER_AGENT_SANE_1
-	autolearn=ham autolearn_force=no version=3.4.0
+X-Spam-Status: No, score=-4.2 required=3.0 tests=BAYES_00,DKIMWL_WL_HIGH,
+	DKIM_SIGNED,DKIM_VALID,MAILING_LIST_MULTI,SPF_HELO_NONE,SPF_PASS,
+	URIBL_BLOCKED autolearn=no autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 618F8C48BCD
-	for <linux-man@archiver.kernel.org>; Wed,  9 Jun 2021 22:31:25 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id D3390C48BCF
+	for <linux-man@archiver.kernel.org>; Sat, 12 Jun 2021 06:47:46 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.kernel.org (Postfix) with ESMTP id 35C4C613C8
-	for <linux-man@archiver.kernel.org>; Wed,  9 Jun 2021 22:31:25 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTP id B516B61374
+	for <linux-man@archiver.kernel.org>; Sat, 12 Jun 2021 06:47:46 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S229757AbhFIWdT (ORCPT <rfc822;linux-man@archiver.kernel.org>);
-        Wed, 9 Jun 2021 18:33:19 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:60818 "EHLO
-        lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S229542AbhFIWdT (ORCPT
-        <rfc822;linux-man@vger.kernel.org>); Wed, 9 Jun 2021 18:33:19 -0400
-Received: from mail-pl1-x634.google.com (mail-pl1-x634.google.com [IPv6:2607:f8b0:4864:20::634])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id F18C9C061574
-        for <linux-man@vger.kernel.org>; Wed,  9 Jun 2021 15:31:13 -0700 (PDT)
-Received: by mail-pl1-x634.google.com with SMTP id c13so13530742plz.0
-        for <linux-man@vger.kernel.org>; Wed, 09 Jun 2021 15:31:13 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20161025;
-        h=cc:subject:to:references:from:message-id:date:user-agent
-         :mime-version:in-reply-to:content-language:content-transfer-encoding;
-        bh=WacEZKR/xsVuf8WgIbqBOqvmsWS6m5sckxSGmQal3ZI=;
-        b=WA8OueRX71g6ZE7Y8m83L1FGdHS0vCLzXRWErLjudl45ZvOiRiwyKrAfQJMAdMMNdL
-         wRbXPvVY7QkwqFIdmh6F67uQsux4WKyYhE3z+VfkwT48M6r8ilSCd8aEPhcHDUiFgXAm
-         utufr3SZdoTGue2BDE0Ohow1XseBgP4VTGZTylDpkfft7TuV5uBxApzQ8UTEE6iKU0SA
-         PEZmwt5zgYLuYX6gQq9qRY5WqB1DqOKdJwfaWzoakwkAvTM0lOG/jcAqD3J6d72q+dAd
-         ehiFiz2eTJVw9wKekagniHPAif6GMKunfRgym6hmTO1FStcUZvA7UpbbQimiA49ifxpF
-         L8Cw==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20161025;
-        h=x-gm-message-state:cc:subject:to:references:from:message-id:date
-         :user-agent:mime-version:in-reply-to:content-language
-         :content-transfer-encoding;
-        bh=WacEZKR/xsVuf8WgIbqBOqvmsWS6m5sckxSGmQal3ZI=;
-        b=UgK4Oq/cU83XAF7vBYIuViPRI4j23MFK9Sv7tT5g7w0K9UTEg08vUp6C+dpRsON25A
-         RbsNHjolaJbbLCq8w60N0AnNP80+ED+4Zwwa1xRBx7Av1jcXV8xzATBpO2I5rZW92Jy/
-         m+6sm3IQXOdR78yRIytTpGhLnNcHjeDVA8iHIJBxaMXhUx+fyD68OBXux+KGy8cCepim
-         +iv7qjIHRUAmNrx7saR7zYLhPIoNh5n4AEb+7Fj854nk0pnL2YOXSGrgFLqcheo0911s
-         SJoTj+bWdAEYCfhW5Ezdj5XMrYQzlcO1Sr8kLIyjRPPOlrEWIqWO0IQx3XyYrk92HSAE
-         pdhg==
-X-Gm-Message-State: AOAM530dAadDfNKUgcJGCbGWkMOxzRgGlUNvBg8ziGTuKlSg/2VqbSuu
-        0bO/aYQkmT7fJImEs7hodcBv3TDGrxU=
-X-Google-Smtp-Source: ABdhPJxy7MNZ8rWWM8ywqjISgBX7Tbv/qnStFLusmzdCEqgo7M3/yT5aFgN0ptCc3vJhR2wMxvSWcQ==
-X-Received: by 2002:a17:902:56d:b029:103:75e4:7bf5 with SMTP id 100-20020a170902056db029010375e47bf5mr1805005plf.84.1623277872504;
-        Wed, 09 Jun 2021 15:31:12 -0700 (PDT)
-Received: from [192.168.1.70] (122-61-176-117-fibre.sparkbb.co.nz. [122.61.176.117])
-        by smtp.gmail.com with ESMTPSA id r6sm5576882pjm.12.2021.06.09.15.31.10
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Wed, 09 Jun 2021 15:31:12 -0700 (PDT)
-Cc:     mtk.manpages@gmail.com, linux-man@vger.kernel.org
-Subject: Re: [PATCH v2 04/10] seccomp.2: Use syscall(SYS_...); for system
- calls without a wrapper
-To:     Alejandro Colomar <alx.manpages@gmail.com>
-References: <20210521232553.161080-10-alx.manpages@gmail.com>
- <20210524181947.459437-4-alx.manpages@gmail.com>
-From:   "Michael Kerrisk (man-pages)" <mtk.manpages@gmail.com>
-Message-ID: <65088a2c-854e-4f26-795e-a87cab192575@gmail.com>
-Date:   Thu, 10 Jun 2021 10:31:09 +1200
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
- Thunderbird/78.8.1
+        id S231161AbhFLGto (ORCPT <rfc822;linux-man@archiver.kernel.org>);
+        Sat, 12 Jun 2021 02:49:44 -0400
+Received: from mail.kernel.org ([198.145.29.99]:46580 "EHLO mail.kernel.org"
+        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
+        id S229584AbhFLGtn (ORCPT <rfc822;linux-man@vger.kernel.org>);
+        Sat, 12 Jun 2021 02:49:43 -0400
+Received: by mail.kernel.org (Postfix) with ESMTPS id A847F61374
+        for <linux-man@vger.kernel.org>; Sat, 12 Jun 2021 06:47:44 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+        s=k20201202; t=1623480464;
+        bh=+oydtDpQRABjp1bMMoWIxShuC1+SkUsSQ+vDI2ZWKbE=;
+        h=From:To:Subject:Date:From;
+        b=qd4oQD6cBF/ILZ8bGqr2wUF/21kcVHm2Av1/1LtEYjX0mEkiXNow+shjcrqncQlZD
+         FaAa+8VWUhO6yxDSfIJ5l2psU1XKTC6KObOAgOWiqY8pQAZbRCf/KD2KcQ1pMqBVdP
+         CagJ3iu71cg21AquRScKXIKaadMHEXKVEEO3l3IzqnNCTEjl2bXdFByP4b1aPYGoLt
+         fRwkyhK+d0FoWkBB8RwUJqDeEPPwy77fW09/9fdwrkeIPwVv6XMn4XoMXyeEOdaBgT
+         8uzEYqQSshV0dqH9GIDhRleEXQ0dyBpCSlimIfnbRtzS7Q2Hhxp+0VcnltC5b9uV9h
+         AU/q1f+TB8wgA==
+From:   bugzilla-daemon@bugzilla.kernel.org
+To:     linux-man@vger.kernel.org
+Subject: [Bug 213419] New: Outdated limitation for powerpc in vdso(7)
+Date:   Sat, 12 Jun 2021 06:47:44 +0000
+X-Bugzilla-Reason: None
+X-Bugzilla-Type: new
+X-Bugzilla-Watch-Reason: AssignedTo
+ documentation_man-pages@kernel-bugs.osdl.org
+X-Bugzilla-Product: Documentation
+X-Bugzilla-Component: man-pages
+X-Bugzilla-Version: unspecified
+X-Bugzilla-Keywords: 
+X-Bugzilla-Severity: normal
+X-Bugzilla-Who: christophe.leroy@csgroup.eu
+X-Bugzilla-Status: NEW
+X-Bugzilla-Resolution: 
+X-Bugzilla-Priority: P1
+X-Bugzilla-Assigned-To: documentation_man-pages@kernel-bugs.osdl.org
+X-Bugzilla-Flags: 
+X-Bugzilla-Changed-Fields: bug_id short_desc product version rep_platform
+ op_sys bug_status bug_severity priority component assigned_to reporter
+ cf_regression
+Message-ID: <bug-213419-11311@https.bugzilla.kernel.org/>
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
+X-Bugzilla-URL: https://bugzilla.kernel.org/
+Auto-Submitted: auto-generated
 MIME-Version: 1.0
-In-Reply-To: <20210524181947.459437-4-alx.manpages@gmail.com>
-Content-Type: text/plain; charset=utf-8
-Content-Language: en-US
-Content-Transfer-Encoding: 7bit
 Precedence: bulk
 List-ID: <linux-man.vger.kernel.org>
 X-Mailing-List: linux-man@vger.kernel.org
 
-On 5/25/21 6:19 AM, Alejandro Colomar wrote:
-> Signed-off-by: Alejandro Colomar <alx.manpages@gmail.com>
+https://bugzilla.kernel.org/show_bug.cgi?id=3D213419
 
-This patch doesn't apply. Probably because I dropped 3/10?
+            Bug ID: 213419
+           Summary: Outdated limitation for powerpc in vdso(7)
+           Product: Documentation
+           Version: unspecified
+          Hardware: All
+                OS: Linux
+            Status: NEW
+          Severity: normal
+          Priority: P1
+         Component: man-pages
+          Assignee: documentation_man-pages@kernel-bugs.osdl.org
+          Reporter: christophe.leroy@csgroup.eu
+        Regression: No
 
-Thanks,
+https://man7.org/linux/man-pages/man7/vdso.7.html (as of today, flagged
+2021-03-22)
 
-Michael
+ppc/32 and ppc/64 sections both have the following note:
 
-> ---
->  man2/seccomp.2 | 14 ++++++++------
->  1 file changed, 8 insertions(+), 6 deletions(-)
-> 
-> diff --git a/man2/seccomp.2 b/man2/seccomp.2
-> index 1be7d6766..0f3f30767 100644
-> --- a/man2/seccomp.2
-> +++ b/man2/seccomp.2
-> @@ -37,13 +37,18 @@ seccomp \- operate on Secure Computing state of the process
->  .BR "#include <sys/ptrace.h>" "     /* Definition of " PTRACE_* " constants */"
->  .\" Kees Cook noted: Anything that uses SECCOMP_RET_TRACE returns will
->  .\"                  need <sys/ptrace.h>
-> +.BR "#include <sys/syscall.h>" "    /* Definition of " SYS_* " constants */"
-> +.B #include <unistd.h>
->  .PP
-> -.BI "int seccomp(unsigned int " operation ", unsigned int " flags \
-> -", void *" args );
-> +.BI "int syscall(SYS_seccomp, unsigned int " operation ", unsigned int " flags ,
-> +.BI "            void *" args );
->  .fi
->  .PP
->  .IR Note :
-> -There is no glibc wrapper for this system call; see NOTES.
-> +glibc provides no wrapper for
-> +.BR seccomp (),
-> +necessitating the use of
-> +.BR syscall (2).
->  .SH DESCRIPTION
->  The
->  .BR seccomp ()
-> @@ -858,9 +863,6 @@ Tile (since Linux 4.3)
->  PA-RISC (since Linux 4.6)
->  .\" User mode Linux since Linux 4.6
->  .PD
-> -.PP
-> -Glibc does not provide a wrapper for this system call; call it using
-> -.BR syscall (2).
->  .\"
->  .SS Caveats
->  There are various subtleties to consider when applying seccomp filters
-> 
+The CLOCK_REALTIME_COARSE and CLOCK_MONOTONIC_COARSE clocks are
+       not supported by the __kernel_clock_getres and
+       __kernel_clock_gettime interfaces; the kernel falls back to the
+       real system call
 
+This note has been wrong from quite some time now, since commit 654abc69ef2e
+("powerpc/vdso32: Add support for CLOCK_{REALTIME/MONOTONIC}_COARSE") and
+commit 5c929885f1bb ("powerpc/vdso64: Add support for
+CLOCK_{REALTIME/MONOTONIC}_COARSE")
 
--- 
-Michael Kerrisk
-Linux man-pages maintainer; http://www.kernel.org/doc/man-pages/
-Linux/UNIX System Programming Training: http://man7.org/training/
+--=20
+You may reply to this email to add a comment.
+
+You are receiving this mail because:
+You are watching the assignee of the bug.=
