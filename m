@@ -2,115 +2,144 @@ Return-Path: <linux-man-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-15.8 required=3.0 tests=BAYES_00,DKIM_SIGNED,
+X-Spam-Status: No, score=-10.8 required=3.0 tests=BAYES_00,DKIM_SIGNED,
 	DKIM_VALID,DKIM_VALID_AU,FREEMAIL_FORGED_FROMDOMAIN,FREEMAIL_FROM,
-	HEADER_FROM_DIFFERENT_DOMAINS,INCLUDES_CR_TRAILER,INCLUDES_PATCH,
-	MAILING_LIST_MULTI,SPF_HELO_NONE,SPF_PASS,URIBL_BLOCKED,USER_AGENT_GIT
-	autolearn=ham autolearn_force=no version=3.4.0
+	HEADER_FROM_DIFFERENT_DOMAINS,INCLUDES_PATCH,MAILING_LIST_MULTI,SPF_HELO_NONE,
+	SPF_PASS,USER_AGENT_GIT autolearn=ham autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 3DC92C48BE5
-	for <linux-man@archiver.kernel.org>; Sat, 12 Jun 2021 08:29:08 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id C94D4C48BE5
+	for <linux-man@archiver.kernel.org>; Sat, 12 Jun 2021 08:31:50 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.kernel.org (Postfix) with ESMTP id 1D883611CE
-	for <linux-man@archiver.kernel.org>; Sat, 12 Jun 2021 08:29:08 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTP id A6976611CD
+	for <linux-man@archiver.kernel.org>; Sat, 12 Jun 2021 08:31:50 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S230526AbhFLIbF (ORCPT <rfc822;linux-man@archiver.kernel.org>);
-        Sat, 12 Jun 2021 04:31:05 -0400
-Received: from mail-wr1-f44.google.com ([209.85.221.44]:46033 "EHLO
-        mail-wr1-f44.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S230511AbhFLIbE (ORCPT
-        <rfc822;linux-man@vger.kernel.org>); Sat, 12 Jun 2021 04:31:04 -0400
-Received: by mail-wr1-f44.google.com with SMTP id z8so8455990wrp.12
-        for <linux-man@vger.kernel.org>; Sat, 12 Jun 2021 01:28:50 -0700 (PDT)
+        id S229819AbhFLIdt (ORCPT <rfc822;linux-man@archiver.kernel.org>);
+        Sat, 12 Jun 2021 04:33:49 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:35978 "EHLO
+        lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S229584AbhFLIds (ORCPT
+        <rfc822;linux-man@vger.kernel.org>); Sat, 12 Jun 2021 04:33:48 -0400
+Received: from mail-wr1-x42a.google.com (mail-wr1-x42a.google.com [IPv6:2a00:1450:4864:20::42a])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 32ADDC061574
+        for <linux-man@vger.kernel.org>; Sat, 12 Jun 2021 01:31:49 -0700 (PDT)
+Received: by mail-wr1-x42a.google.com with SMTP id n7so2341361wri.3
+        for <linux-man@vger.kernel.org>; Sat, 12 Jun 2021 01:31:49 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=gmail.com; s=20161025;
         h=from:to:cc:subject:date:message-id:mime-version
          :content-transfer-encoding;
-        bh=A3eomUntPxZYgiX2mYecgN2th+vTx9aSg06yPvluuv0=;
-        b=XF0CkEH7FHO5/eEtOfonYYAAoxuewW8rA8m1S9V9AHVyj1UsEbW457zqMnHeTkJhIe
-         BAR/6vnveXmwv5EMuzF2d4IGnz15Wue8kAbYnSj4LI8wRzrbiE213ITsA2zG/dCnzTZH
-         5+EKj9QzAPMIakAi3+HnMwK9rTPapmmaHgo0hGJW/W8+np64Bhj7JfzO4rCReNxeC1Oz
-         ynH3yUJSFeVX/onh/SXrM25WDl2DEduF9pxnUORxwqMBMLLa0KIJdLClMds7FMyj7UwS
-         +P/U7WQzYFW1Elp6y+2MkcTdc2rQyWU98Te/rf56X15QKt9G/BieQDjksknsTGSH4CoO
-         d38A==
+        bh=hmGiBCcbupnZeOFLsMufJp6NGmECvvECIiqzGf3+vyA=;
+        b=GzP0FSAwNBJsh+V9Ms6koPuP3GWefq/1P1m1AuIh6+n5AfT5wSIV7gUyQYp1CWNYlZ
+         QxTBjkbiLBrDufsWC/ir61EEMA7YQneonKWp1qlA/Oiwdfj1zqGeUpK/xpfgL6cg4k1R
+         O6HhjBiiafq+0irICRBTHcLuJxIsnlvLkAoCtbu7zE6fCleTNwFsak8mFZ3ZEjdleSKy
+         Wwy2hc5m+nmRsNMLSCu5oESTe94PFUPrTyPPYhGy5uEZ//2l0+KrtFadR2HU6MpiQLEG
+         s/+t3/e+8HBXGiU/kX797EnxkV7R7qk5Ku2hhak6NtZm62utAcU6RUfMSn0mAN8fwFWq
+         +Mzg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
         h=x-gm-message-state:from:to:cc:subject:date:message-id:mime-version
          :content-transfer-encoding;
-        bh=A3eomUntPxZYgiX2mYecgN2th+vTx9aSg06yPvluuv0=;
-        b=eBWTv0yRIr2AXf4JwrIYySwl4ls6JsvyDNjUN18CAWhy43F/wey4IbkW5Rj9xwBSzP
-         pkEJGWqW1LIxOG6jLCdUNNR8m6xo95CrF9qzCoVf4Sedln2aHRcd1a/8Yqnpw+E52iRP
-         FP9cbKbLIGTbRL2m9m+5keMHgwSsTSxfoORTm4Zla7Q4k884FQPDy2qrpZsL49lRFf28
-         OQL4CBDSwliOPd7B4x84q3eKqlm/9GIHrOXOsijxgSFck+OFqTapqNoHGWXgj2lltatr
-         xgkBo6xDnuK1OkYrikrj4liYuSdXCs0vJDfMRWgtc6Wa1TgXkYrgrJAtHrM4tvDMdCIs
-         6CxQ==
-X-Gm-Message-State: AOAM530ZDWlzXfwfgjSgqUF4LVYo9T+iAM864ZOPuelTQvMYe6aroR0z
-        roBH2mJhyY5giIl45ruI2Vg=
-X-Google-Smtp-Source: ABdhPJwXJ1kv7C5zq4Mk033RYE54X+HmBhy7mHAna7RjpFofyxRz5xB5/+IeFG9v1JkKx+Gd9QZx7A==
-X-Received: by 2002:adf:b648:: with SMTP id i8mr8098009wre.425.1623486469885;
-        Sat, 12 Jun 2021 01:27:49 -0700 (PDT)
+        bh=hmGiBCcbupnZeOFLsMufJp6NGmECvvECIiqzGf3+vyA=;
+        b=FXSQOBTxmNH8CFtV2wytHhmD2e9oilV8kpSICokbHUlGwZKL2HgUaCRv1884DYHZMf
+         5qJseYPoihgvMxiw+rztcNfelsd0qBQF4Q8xSlq4gIgjaTwd/J1hXiGToYHw+DbfHSH6
+         iS27e4HLTo+wELX42thxT88zqxTMiYYXBn9rehFBMdRPlSPkVeTc30AFotD2gDngZI3D
+         E4gIodrr4DLldxcVSwqW5Radd3RInr6aBImVPDPs19mvIxpHXAUYXn3hP26R1U4+0YS9
+         qu45qSrktANqa6pgzPw/iqMxTuE5xTl2+LXYCuJtCdWvweJNbVkbeHWjjhJLwGjAWih0
+         ihlg==
+X-Gm-Message-State: AOAM531KDdL88fu1g6j1q7T2hCZqiNyW5x3uHRLYOpQM6XLYJgEj4ZDk
+        gd0VDjpYYIGY2ZswzLtrwZLTxNodbcA=
+X-Google-Smtp-Source: ABdhPJyK//AecFssO8g/dnw4d5ZASjCTQS1bZABQpBKyX1wGMsoQRPcY/AjjmZ1kEQNxVQFa5vg1Bw==
+X-Received: by 2002:a5d:54c8:: with SMTP id x8mr8343126wrv.109.1623486707835;
+        Sat, 12 Jun 2021 01:31:47 -0700 (PDT)
 Received: from localhost.localdomain ([170.253.36.171])
-        by smtp.googlemail.com with ESMTPSA id g17sm9864035wrp.61.2021.06.12.01.27.48
+        by smtp.googlemail.com with ESMTPSA id c12sm11165110wrr.90.2021.06.12.01.31.47
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Sat, 12 Jun 2021 01:27:49 -0700 (PDT)
+        Sat, 12 Jun 2021 01:31:47 -0700 (PDT)
 From:   Alejandro Colomar <alx.manpages@gmail.com>
 To:     mtk.manpages@gmail.com
-Cc:     =?UTF-8?q?=D0=BD=D0=B0=D0=B1?= <nabijaczleweli@nabijaczleweli.xyz>,
-        linux-man@vger.kernel.org,
-        Alejandro Colomar <alx.manpages@gmail.com>
-Subject: [PATCH 1/3] getline.3: !*lineptr is sufficient
-Date:   Sat, 12 Jun 2021 10:27:39 +0200
-Message-Id: <20210612082741.12211-1-alx.manpages@gmail.com>
+Cc:     Alejandro Colomar <alx.manpages@gmail.com>,
+        linux-man@vger.kernel.org
+Subject: [PATCH 00/28] SYNPOSIS: Use syscall() and fix includes
+Date:   Sat, 12 Jun 2021 10:31:17 +0200
+Message-Id: <20210612083145.12485-1-alx.manpages@gmail.com>
 X-Mailer: git-send-email 2.32.0
 MIME-Version: 1.0
-Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
 Precedence: bulk
 List-ID: <linux-man.vger.kernel.org>
 X-Mailing-List: linux-man@vger.kernel.org
 
-From: наб <nabijaczleweli@nabijaczleweli.xyz>
+Hi Michael,
 
-No implementation or spec requires *n to be 0 to allocate a new buffer:
-  * musl checks for !*lineptr
-    (and sets *n=0 for later allocations)
-  * glibc checks for !*lineptr || !*n
-    (but only because it allocates early)
-  * NetBSD checks for !*lineptr
-    (and sets *n=0 for later allocations)
-    (but specifies *n => mlen(*lineptr) >= *n as a precondition,
-     to which this appears to be an exception)
-  * FreeBSD checks for !*lineptr and sets *n=0
-    (and specifies !*lineptr as sufficient)
-  * Lastly, POSIX.1-2017 specifies:
-    > If *n is non-zero, the application shall ensure that *lineptr
-    > either points to an object of size at least *n bytes,
-    > or is a null pointer.
+This is the last batch.  It includes the changes to seccomp.2, as you can see.
+Actually, they are a resend of the last ones.  I found out that all of the
+versions I sent you are identical...
 
-The new wording matches POSIX, even if it arrives at the point slightly
-differently
+Cheers,
 
-Signed-off-by: Ahelenia Ziemiańska <nabijaczleweli@nabijaczleweli.xyz>
-Signed-off-by: Alejandro Colomar <alx.manpages@gmail.com>
----
- man3/getline.3 | 4 +---
- 1 file changed, 1 insertion(+), 3 deletions(-)
+Alex
 
-diff --git a/man3/getline.3 b/man3/getline.3
-index a32d7e770..6641ecc35 100644
---- a/man3/getline.3
-+++ b/man3/getline.3
-@@ -59,9 +59,7 @@ one was found.
- .PP
- If
- .I "*lineptr"
--is set to NULL and
--.I *n
--is set 0 before the call, then
-+is set to NULL before the call, then
- .BR getline ()
- will allocate a buffer for storing the line.
- This buffer should be freed by the user program
+
+Alejandro Colomar (28):
+  seccomp.2: Document why each header is needed
+  seccomp.2: Use syscall(SYS_...); for system calls without a wrapper
+  spu_create.2: Remove <sys/types.h>
+  spu_create.2: Use syscall(SYS_...), for system calls without a wrapper
+  pipe.2: SYNOPSIS: Fix incorrect prototype
+  spu_run.2: Use syscall(SYS_...), for system calls without a wrapper
+  stat.2: SYNOPSIS: Fix includes
+  statx.2: SYNOPSIS: Fix includes
+  subpage_prot.2: Use syscall(SYS_...); for system calls without a
+    wrapper
+  swapon.2: SYNOPSIS: Fix includes
+  symlink.2: ffix
+  syscall.2: wfix + ffix
+  syslog.2: Use syscall(SYS_...); for raw system calls
+  timer_create.2: SYNOPSIS: Document why more than one header is needed
+  s390_guarded_storage.2: tfix
+  s390_runtime_instr.2: tfix
+  s390_sthyi.2: tfix
+  tkill.2: Use syscall(SYS_...); for system calls without a wrapper; fix
+    includes too
+  truncate.2: Remove <sys/types.h>
+  umask.2: Remove <sys/types.h>
+  unlink.2: ffix
+  userfaultfd.2: Remove unused includes
+  userfaultfd.2: Use syscall(SYS_...); for system calls without a
+    wrapper; fix includes too
+  utime.2: SYNOPSIS: Fix includes
+  utimensat.2: ffix
+  vmsplice.2: Remove unneeded include
+  wait.2: Remove <sys/types.h>
+  wait4.2: SYNOPSIS: Remove includes
+
+ man2/pipe.2                 |  2 +-
+ man2/s390_guarded_storage.2 |  2 +-
+ man2/s390_runtime_instr.2   |  2 +-
+ man2/s390_sthyi.2           |  2 +-
+ man2/seccomp.2              | 24 +++++++++++++-----------
+ man2/spu_create.2           | 19 ++++++++++---------
+ man2/spu_run.2              | 12 +++++++-----
+ man2/stat.2                 |  3 +--
+ man2/statx.2                |  3 +--
+ man2/subpage_prot.2         | 15 +++++++++------
+ man2/swapon.2               |  1 -
+ man2/symlink.2              |  2 +-
+ man2/syscall.2              |  2 +-
+ man2/syslog.2               |  8 ++++++--
+ man2/timer_create.2         |  2 +-
+ man2/tkill.2                | 22 +++++++++++++---------
+ man2/truncate.2             |  1 -
+ man2/umask.2                |  1 -
+ man2/unlink.2               |  2 +-
+ man2/userfaultfd.2          | 15 ++++++++-------
+ man2/utime.2                |  1 -
+ man2/utimensat.2            |  2 +-
+ man2/vmsplice.2             |  1 -
+ man2/wait.2                 |  1 -
+ man2/wait4.2                |  3 ---
+ 25 files changed, 77 insertions(+), 71 deletions(-)
+
 -- 
 2.32.0
 
