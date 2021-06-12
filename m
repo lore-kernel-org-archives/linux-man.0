@@ -8,61 +8,61 @@ X-Spam-Status: No, score=-15.8 required=3.0 tests=BAYES_00,DKIM_SIGNED,
 	MAILING_LIST_MULTI,SPF_HELO_NONE,SPF_PASS,USER_AGENT_GIT autolearn=ham
 	autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id C7B14C48BE5
-	for <linux-man@archiver.kernel.org>; Sat, 12 Jun 2021 08:32:09 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 087FEC48BE8
+	for <linux-man@archiver.kernel.org>; Sat, 12 Jun 2021 08:32:10 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.kernel.org (Postfix) with ESMTP id A80F7611CD
+	by mail.kernel.org (Postfix) with ESMTP id DD089611CD
 	for <linux-man@archiver.kernel.org>; Sat, 12 Jun 2021 08:32:09 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S231145AbhFLIeI (ORCPT <rfc822;linux-man@archiver.kernel.org>);
+        id S229584AbhFLIeI (ORCPT <rfc822;linux-man@archiver.kernel.org>);
         Sat, 12 Jun 2021 04:34:08 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:36018 "EHLO
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:36000 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S229584AbhFLIeI (ORCPT
+        with ESMTP id S231133AbhFLIeI (ORCPT
         <rfc822;linux-man@vger.kernel.org>); Sat, 12 Jun 2021 04:34:08 -0400
-Received: from mail-wm1-x32b.google.com (mail-wm1-x32b.google.com [IPv6:2a00:1450:4864:20::32b])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id B0E87C061767
-        for <linux-man@vger.kernel.org>; Sat, 12 Jun 2021 01:31:57 -0700 (PDT)
-Received: by mail-wm1-x32b.google.com with SMTP id v206-20020a1cded70000b02901a586d3fa23so9902902wmg.4
-        for <linux-man@vger.kernel.org>; Sat, 12 Jun 2021 01:31:57 -0700 (PDT)
+Received: from mail-wr1-x435.google.com (mail-wr1-x435.google.com [IPv6:2a00:1450:4864:20::435])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 23A16C0617AF
+        for <linux-man@vger.kernel.org>; Sat, 12 Jun 2021 01:31:53 -0700 (PDT)
+Received: by mail-wr1-x435.google.com with SMTP id r9so8449651wrz.10
+        for <linux-man@vger.kernel.org>; Sat, 12 Jun 2021 01:31:53 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=gmail.com; s=20161025;
         h=from:to:cc:subject:date:message-id:in-reply-to:references
          :mime-version:content-transfer-encoding;
-        bh=LI/AXTw8JaIbfLp1uK+ObX2zjaPj9tH/hHGcvF/F8FE=;
-        b=Za+TsY7mSeVyoP+aXuyA38MP+wWS9j+hu+Yz0i2M1HxTfobWYacbx0CVH0a8m+UXhF
-         tdhcD9ZDwPnwoJzE9gCSbIqL4b59Kl5ydg7KYysfONcnCe5xMZCWARxAdRT52XX+pIX9
-         3Y8Os2Qcw7ylNV/71XK5QFP5wUXwIMBE3gXl7GmwI509AVq/gSGzE2UYHlm35+TLhhKw
-         oe6rqIXDLrjWyAvp3i1x+Bj0a1yKeelX97yENx193AMrLTLwRU72667/kA2bLHMscU40
-         iSooHUGY1BpsLG97GxX8w0PM+oHeEbub3cXbdyU69mnh3ez/OE9KexaqwmQsqgiPRMq8
-         GIRw==
+        bh=qdmRO9jkvWRtteAYwetjmvwjGumYi1/A4xnCg0vLb8g=;
+        b=lRIBOSkxNOZJdfa2v6ZMq008y9dzH0YjWTRuiBIhRD5XpKTb33PbdSGreuTnJt3F/A
+         PpoOp8ORksYk+tEcX4RTnJUG+x9KuGPs5I5gM2gR01UmeBXRYziOjNGyxDUQlJfWjAOp
+         Ty9tDXsWqlJlrrFHrmE++726CFKx9luFV6ZLH9w2aKEOsXXF1Af2ezd7JSNOscutip6G
+         jZgWziEyZz9Ll++ZdMHJOv+QHTtCNtVf7IBTqAmQrxtkrpIl3WcRanoYCx4O5JrRZbr9
+         h8vA/0t7qnqg02Nes2aPa9YUkuvKcOp+e1PWKMJy5jcYAEAl2ZL/o3hdsS6NqxP/E/0V
+         M52A==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
         h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
          :references:mime-version:content-transfer-encoding;
-        bh=LI/AXTw8JaIbfLp1uK+ObX2zjaPj9tH/hHGcvF/F8FE=;
-        b=Uy0GmLBj84LERzvmNqw6d0yAd1ct52AS/9j1+7SRsptOz3lc91g/+4ni6sdk59nZGc
-         0hgHs54XtmVmRmX/2RddKxZdskvAxB+ezo4nIWs1+pWPEFrjWvrFzDpeHolEOXeXyCQH
-         J9y5DUzez/ahotrs9ZcoqKACQssQh1pJzih7fy+IIWTIddwmAovPWsczGnB2BhxSkFrR
-         4q3TzUGN5HzA6LpRv894Qjofn3kSiH7WuHcY6ntKTh1VUPUyiQlOqxEHtEk1e39c+1D4
-         ihwdTG1jWTB5U0X/g4ZBg5ifrnvqSgmLo3HaO/HSCbNhNmd+3PrLaDWuz/7C9LbRO/0R
-         fKgw==
-X-Gm-Message-State: AOAM532xOt1lqz3dnfZAb1MFYZRCXuMeoRsVWkEP6rM5Ax5Lae/dZz4u
-        iRPmG3hda7Idz/W9GlM5evk=
-X-Google-Smtp-Source: ABdhPJwzIvyxHr3FKPuPhNvOf7Om4EOHusbVW765PHartFUxvtuUXw4IJkZMjcJJNbM5adOfUh3FwA==
-X-Received: by 2002:a05:600c:2046:: with SMTP id p6mr23581495wmg.19.1623486716397;
-        Sat, 12 Jun 2021 01:31:56 -0700 (PDT)
+        bh=qdmRO9jkvWRtteAYwetjmvwjGumYi1/A4xnCg0vLb8g=;
+        b=GHV1D3EPgMcPw4JseL0+WG6ZSIehV66rVTH8dxhfcttrm0+vXQCGqg9ZdmJpRksEe5
+         1EpO/zvOLIweEK2lY6+LsRXmGjfJDBcd/MdCYEMtwubhcqhkmd/Mq+lps3qtMKuOk7Uc
+         1n/7pQSTVvIWWDeUWojThyvOb7DcvAR/knkaJgTnvUjhM1Q9TVImDYW1A4CrF1rjG+kt
+         ykvMNMYevEfk+rFtEJfBF3oDhPawvFD91QjJ0gICrRrcCOvLYAZGGb/kn2h0+C8IaHMy
+         92hUbJJOOTyorxGIR9xZmubTKChh2V4gnWjBHuX6EP6mprCeH7rBH7lhxPcwYxQfxXTf
+         gyJw==
+X-Gm-Message-State: AOAM530KhAfxXeGkRFR+3ymt00v0URVyStlOw4sL3IXSP5ry5OioHeYb
+        5+UoDJYeFakY1RiF+5wnzNA=
+X-Google-Smtp-Source: ABdhPJyThIVfuHSBwT/THJo3MPHQDUKd8H0adaLpLRt4PipA1rIJjSRI0tWrXxKXwr5gKu8x9I7f+A==
+X-Received: by 2002:a5d:5104:: with SMTP id s4mr8033468wrt.306.1623486710883;
+        Sat, 12 Jun 2021 01:31:50 -0700 (PDT)
 Received: from localhost.localdomain ([170.253.36.171])
-        by smtp.googlemail.com with ESMTPSA id c12sm11165110wrr.90.2021.06.12.01.31.55
+        by smtp.googlemail.com with ESMTPSA id c12sm11165110wrr.90.2021.06.12.01.31.50
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Sat, 12 Jun 2021 01:31:56 -0700 (PDT)
+        Sat, 12 Jun 2021 01:31:50 -0700 (PDT)
 From:   Alejandro Colomar <alx.manpages@gmail.com>
 To:     mtk.manpages@gmail.com
 Cc:     Alejandro Colomar <alx.manpages@gmail.com>,
         linux-man@vger.kernel.org
-Subject: [PATCH 12/28] syscall.2: wfix + ffix
-Date:   Sat, 12 Jun 2021 10:31:29 +0200
-Message-Id: <20210612083145.12485-13-alx.manpages@gmail.com>
+Subject: [PATCH 04/28] spu_create.2: Use syscall(SYS_...), for system calls without a wrapper
+Date:   Sat, 12 Jun 2021 10:31:21 +0200
+Message-Id: <20210612083145.12485-5-alx.manpages@gmail.com>
 X-Mailer: git-send-email 2.32.0
 In-Reply-To: <20210612083145.12485-1-alx.manpages@gmail.com>
 References: <20210612083145.12485-1-alx.manpages@gmail.com>
@@ -74,23 +74,49 @@ X-Mailing-List: linux-man@vger.kernel.org
 
 Signed-off-by: Alejandro Colomar <alx.manpages@gmail.com>
 ---
- man2/syscall.2 | 2 +-
- 1 file changed, 1 insertion(+), 1 deletion(-)
+ man2/spu_create.2 | 18 ++++++++++--------
+ 1 file changed, 10 insertions(+), 8 deletions(-)
 
-diff --git a/man2/syscall.2 b/man2/syscall.2
-index 0b542ab10..abdf1c702 100644
---- a/man2/syscall.2
-+++ b/man2/syscall.2
-@@ -44,8 +44,8 @@
- syscall \- indirect system call
+diff --git a/man2/spu_create.2 b/man2/spu_create.2
+index 6541a6e9a..746a86ed6 100644
+--- a/man2/spu_create.2
++++ b/man2/spu_create.2
+@@ -27,15 +27,20 @@
+ spu_create \- create a new spu context
  .SH SYNOPSIS
  .nf
+-.B #include <sys/spu.h>
++.BR "#include <sys/spu.h>" "          /* Definition of " SPU_* " constants */"
 +.BR "#include <sys/syscall.h>" "      /* Definition of " SYS_* " constants */"
- .B #include <unistd.h>
--.BR "#include <sys/syscall.h>   "  "/* For SYS_xxx definitions */"
++.B #include <unistd.h>
  .PP
- .BI "long syscall(long " number ", ...);"
+-.BI "int spu_create(const char *" pathname ", unsigned int " flags \
+-", mode_t " mode ,
+-.BI "               int " neighbor_fd ");"
++.BI "int syscall(SYS_spu_create, const char *" pathname \
++", unsigned int " flags ,
++.BI "            mode_t " mode ", int " neighbor_fd );
  .fi
+ .PP
+ .IR Note :
+-There is no glibc wrapper for this system call; see NOTES.
++glibc provides no wrapper for
++.BR spu_create (),
++necessitating the use of
++.BR syscall (2).
+ .SH DESCRIPTION
+ The
+ .BR spu_create ()
+@@ -259,9 +264,6 @@ This call is Linux-specific and implemented only on the PowerPC
+ architecture.
+ Programs using this system call are not portable.
+ .SH NOTES
+-Glibc does not provide a wrapper for this system call; call it using
+-.BR syscall (2).
+-Note however, that
+ .BR spu_create ()
+ is meant to be used from libraries that implement a more abstract
+ interface to SPUs, not to be used from regular applications.
 -- 
 2.32.0
 
