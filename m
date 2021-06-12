@@ -8,61 +8,61 @@ X-Spam-Status: No, score=-15.8 required=3.0 tests=BAYES_00,DKIM_SIGNED,
 	MAILING_LIST_MULTI,SPF_HELO_NONE,SPF_PASS,USER_AGENT_GIT autolearn=ham
 	autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 9BCA7C48BE8
+	by smtp.lore.kernel.org (Postfix) with ESMTP id E4C1CC49360
 	for <linux-man@archiver.kernel.org>; Sat, 12 Jun 2021 08:32:18 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.kernel.org (Postfix) with ESMTP id 85266611CD
+	by mail.kernel.org (Postfix) with ESMTP id CCAB061249
 	for <linux-man@archiver.kernel.org>; Sat, 12 Jun 2021 08:32:18 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S231157AbhFLIeR (ORCPT <rfc822;linux-man@archiver.kernel.org>);
+        id S231133AbhFLIeR (ORCPT <rfc822;linux-man@archiver.kernel.org>);
         Sat, 12 Jun 2021 04:34:17 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:36044 "EHLO
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:36060 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S231133AbhFLIeQ (ORCPT
+        with ESMTP id S231153AbhFLIeQ (ORCPT
         <rfc822;linux-man@vger.kernel.org>); Sat, 12 Jun 2021 04:34:16 -0400
-Received: from mail-wr1-x434.google.com (mail-wr1-x434.google.com [IPv6:2a00:1450:4864:20::434])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id CB373C0613A2
-        for <linux-man@vger.kernel.org>; Sat, 12 Jun 2021 01:32:03 -0700 (PDT)
-Received: by mail-wr1-x434.google.com with SMTP id c9so8454938wrt.5
-        for <linux-man@vger.kernel.org>; Sat, 12 Jun 2021 01:32:03 -0700 (PDT)
+Received: from mail-wm1-x32a.google.com (mail-wm1-x32a.google.com [IPv6:2a00:1450:4864:20::32a])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 01535C0613A4
+        for <linux-man@vger.kernel.org>; Sat, 12 Jun 2021 01:32:06 -0700 (PDT)
+Received: by mail-wm1-x32a.google.com with SMTP id f16-20020a05600c1550b02901b00c1be4abso9938016wmg.2
+        for <linux-man@vger.kernel.org>; Sat, 12 Jun 2021 01:32:05 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=gmail.com; s=20161025;
         h=from:to:cc:subject:date:message-id:in-reply-to:references
          :mime-version:content-transfer-encoding;
-        bh=iWCuhze1b0ncjgBtiAl+2Zg4NspOCqOfAKxRe5mAaYM=;
-        b=B3LKTUET6aQHIKTHbTrmrq+X4+KQQ/MDfDRsfO9nr53QDBCkfN2kqo41oopH7Ywwje
-         FFVktHswVD/mlZudn4G1AYZoRi/FQxqDIqN9LxvaLEyfO9d+6B0mvGx/x6E600F1JNdk
-         JfwPWtOezpkZwckQZmwui8acmD9duyu0jJ112agBpYaxPEnX5nFs+9MgYWZ44OqhN0Tm
-         /8YXmcV2r0A+0VpU3RzFzJse3e8Tov9RzwmcRkIOvxjyzHofx6SC+626JYSXsLPOXE3T
-         jrpOzs+XLyo2Sz9sWLDskTLqFFCVsN51XIpMA7pIY5q6idP8WC9uZXuIP5JJftu2sRsq
-         8sow==
+        bh=kkczIYnA90VryG3PyEAfN3jH2/oClph23cXO7JThEXE=;
+        b=veSi5ar0XGnW44GaB18KHR7nPUTSIEzkevIfIxB8+t1eAKb9DN7sjG1zarC8tObvUt
+         WdLRF6Pl1qMv1kQ6EHyQZ/uffAERWJAwx1q2u4HFhCiA0c3BgKM/4Rbt2IFVV99Ixpgl
+         vEJ8tNo1qUEC0kLPhkoU9Je5etPaMDbD8bQpcuHNlVVlRx0uW7kF2zMCdazlDc0nKq1i
+         6lfB/Gf2PR4G5+o/UlYhOtNNrAaeVHcqXeMM5I750FfMv7X/CQycCuTSmJNkwVwLFyY1
+         6bO/gsJI7aEf10NGeJ1f5H9zayfTtIMA/p1ljFBprT1vIy5jAyOSdNeJuP4+4tHA4H+t
+         XnKA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
         h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
          :references:mime-version:content-transfer-encoding;
-        bh=iWCuhze1b0ncjgBtiAl+2Zg4NspOCqOfAKxRe5mAaYM=;
-        b=KOvCJN294AHJtKkNFUQAhhoDpnHrC3T9RqjGb8UbrQQ7fjXzJS1ufm/I7yC8rRUzrL
-         Pl9KPiikIZu/fiw7x0TkJ+0T4mVYWceP2vrOnp6uB8IpuzmN7AxJ94txfJsbmABG/gXh
-         HKr88g4zoLbtmn1dynd0XYgwGTuG/6USlX4mYMInJYNqB6YDKLVwf+tqXRas1KwkGsoN
-         UTzTC6g4Q+fsGzu7GetocYmIJSUu7q/p6X619kN4hu0jDYLcB4gO30mwLEL8tiah7Hoc
-         iyZsx3w+b5Bwwuw5SqXLSOaD2viKuNVklBumS7WqnP05itB73F/tbheMdynvghBtHxMX
-         2cbg==
-X-Gm-Message-State: AOAM5316+ghekLnmtKpqQ5uhad1Lyyq9cloY9QHFoLUUwolXPTY41mNQ
-        GoEKnmJb6dFgs1rSx5KyuAM=
-X-Google-Smtp-Source: ABdhPJxRvFCYkWuVaBl9S+eFRLJNGiaZEP7TvtSw/vNlhK/Nldvc/TajYRKFq34M1hZw+drq7/bMSg==
-X-Received: by 2002:a5d:64ee:: with SMTP id g14mr3300223wri.66.1623486722425;
-        Sat, 12 Jun 2021 01:32:02 -0700 (PDT)
+        bh=kkczIYnA90VryG3PyEAfN3jH2/oClph23cXO7JThEXE=;
+        b=coW+7pB6jxqdeFSnvSYqeaHqTsvvMSISZMNqz/UFk88ApKzI2ujXs850IwgxnInbtM
+         Wjc5e0OEGr+i7BmlzZzbuU9kNucmieEHaqCwq2Zof6AF9Kj98p+W4rmY8XcdfncIKodc
+         cEXHhNVkygf3JxCVWfXIyY+uaIOJ+0OP/a/20cUbBmxxVRXY9iSoFc+nvrn0dt9z0Lxm
+         KrpWHslnSF+t0IvezxpeV5WawmMMrGSPm1zuNjjguWca3mRmH0Pai/Y5lPcQBt1nRcVJ
+         gPzcBDUmO1NFY2KEtDN9VM4xAqC+C2B9XDZwtHdKm6mTMj+blbXtLlxgWOcDW8nUu0em
+         HPug==
+X-Gm-Message-State: AOAM530+RKxf5WA2zg4TMJuyTb++HOrHlGJmGFwzfL62Cl+4qXqFGVsr
+        Gs30ArzGLYRAdN1m87ABXak=
+X-Google-Smtp-Source: ABdhPJzUm6LOvX6v1cVzW1fOFTDgnmbq+jpBYDkzRq80i7d/+3jLO96wDiEi2loCx8cCLjxYTlVUnA==
+X-Received: by 2002:a05:600c:2298:: with SMTP id 24mr23206371wmf.173.1623486724575;
+        Sat, 12 Jun 2021 01:32:04 -0700 (PDT)
 Received: from localhost.localdomain ([170.253.36.171])
-        by smtp.googlemail.com with ESMTPSA id c12sm11165110wrr.90.2021.06.12.01.32.01
+        by smtp.googlemail.com with ESMTPSA id c12sm11165110wrr.90.2021.06.12.01.32.04
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Sat, 12 Jun 2021 01:32:02 -0700 (PDT)
+        Sat, 12 Jun 2021 01:32:04 -0700 (PDT)
 From:   Alejandro Colomar <alx.manpages@gmail.com>
 To:     mtk.manpages@gmail.com
 Cc:     Alejandro Colomar <alx.manpages@gmail.com>,
         linux-man@vger.kernel.org
-Subject: [PATCH 21/28] unlink.2: ffix
-Date:   Sat, 12 Jun 2021 10:31:38 +0200
-Message-Id: <20210612083145.12485-22-alx.manpages@gmail.com>
+Subject: [PATCH 24/28] utime.2: SYNOPSIS: Fix includes
+Date:   Sat, 12 Jun 2021 10:31:41 +0200
+Message-Id: <20210612083145.12485-25-alx.manpages@gmail.com>
 X-Mailer: git-send-email 2.32.0
 In-Reply-To: <20210612083145.12485-1-alx.manpages@gmail.com>
 References: <20210612083145.12485-1-alx.manpages@gmail.com>
@@ -72,24 +72,26 @@ Precedence: bulk
 List-ID: <linux-man.vger.kernel.org>
 X-Mailing-List: linux-man@vger.kernel.org
 
+'struct utimbuf' is provided by <utime.h>.
+There's no need for <sys/types.h>.
+
 Signed-off-by: Alejandro Colomar <alx.manpages@gmail.com>
 ---
- man2/unlink.2 | 2 +-
- 1 file changed, 1 insertion(+), 1 deletion(-)
+ man2/utime.2 | 1 -
+ 1 file changed, 1 deletion(-)
 
-diff --git a/man2/unlink.2 b/man2/unlink.2
-index 39a4ec974..6f4c187f8 100644
---- a/man2/unlink.2
-+++ b/man2/unlink.2
-@@ -39,7 +39,7 @@ unlink, unlinkat \- delete a name and possibly the file it refers to
+diff --git a/man2/utime.2 b/man2/utime.2
+index 4995cf3ce..55ea8fc27 100644
+--- a/man2/utime.2
++++ b/man2/utime.2
+@@ -33,7 +33,6 @@
+ utime, utimes \- change file last access and modification times
+ .SH SYNOPSIS
+ .nf
+-.B #include <sys/types.h>
+ .B #include <utime.h>
  .PP
- .BI "int unlink(const char *" pathname );
- .PP
--.BR "#include <fcntl.h>           " "/* Definition of AT_* constants */"
-+.BR "#include <fcntl.h>           " "/* Definition of " AT_* " constants */"
- .B #include <unistd.h>
- .PP
- .BI "int unlinkat(int " dirfd ", const char *" pathname ", int " flags );
+ .BI "int utime(const char *" filename ", const struct utimbuf *" times );
 -- 
 2.32.0
 
