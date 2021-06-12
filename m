@@ -8,61 +8,61 @@ X-Spam-Status: No, score=-15.8 required=3.0 tests=BAYES_00,DKIM_SIGNED,
 	MAILING_LIST_MULTI,SPF_HELO_NONE,SPF_PASS,USER_AGENT_GIT autolearn=ham
 	autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 16003C48BCF
-	for <linux-man@archiver.kernel.org>; Sat, 12 Jun 2021 08:32:01 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id F28BCC48BE5
+	for <linux-man@archiver.kernel.org>; Sat, 12 Jun 2021 08:32:02 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.kernel.org (Postfix) with ESMTP id ECD4F611CD
-	for <linux-man@archiver.kernel.org>; Sat, 12 Jun 2021 08:32:00 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTP id D1D24611CD
+	for <linux-man@archiver.kernel.org>; Sat, 12 Jun 2021 08:32:02 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S230474AbhFLId7 (ORCPT <rfc822;linux-man@archiver.kernel.org>);
-        Sat, 12 Jun 2021 04:33:59 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:36026 "EHLO
+        id S230516AbhFLIeB (ORCPT <rfc822;linux-man@archiver.kernel.org>);
+        Sat, 12 Jun 2021 04:34:01 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:35986 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S229584AbhFLId6 (ORCPT
-        <rfc822;linux-man@vger.kernel.org>); Sat, 12 Jun 2021 04:33:58 -0400
-Received: from mail-wr1-x431.google.com (mail-wr1-x431.google.com [IPv6:2a00:1450:4864:20::431])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 0D742C0613A2
-        for <linux-man@vger.kernel.org>; Sat, 12 Jun 2021 01:31:59 -0700 (PDT)
-Received: by mail-wr1-x431.google.com with SMTP id a11so8460388wrt.13
-        for <linux-man@vger.kernel.org>; Sat, 12 Jun 2021 01:31:58 -0700 (PDT)
+        with ESMTP id S229584AbhFLIeA (ORCPT
+        <rfc822;linux-man@vger.kernel.org>); Sat, 12 Jun 2021 04:34:00 -0400
+Received: from mail-wr1-x430.google.com (mail-wr1-x430.google.com [IPv6:2a00:1450:4864:20::430])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id D34BCC061574
+        for <linux-man@vger.kernel.org>; Sat, 12 Jun 2021 01:31:50 -0700 (PDT)
+Received: by mail-wr1-x430.google.com with SMTP id a11so8460110wrt.13
+        for <linux-man@vger.kernel.org>; Sat, 12 Jun 2021 01:31:50 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=gmail.com; s=20161025;
         h=from:to:cc:subject:date:message-id:in-reply-to:references
          :mime-version:content-transfer-encoding;
-        bh=S849LDVl/4+Fe0QYg/mIXLkH+V8gLRm2wfjbNFPajik=;
-        b=olykZism9mSJm5mpKh8ufyoca4eUoSYilHG2+wlqaI1G7iDedvMe5tFPSSI9jDBU8C
-         u6lVbvI958DuC+R5ku1Ac+f0kh/sv4WHqQ8vzAVGWGXsF6cxsX2+JLJ4/iDT3lwOUyqs
-         tfF4gtKAGiGGFP10F5uYwFwdpDawGEtYqbUIpnl/JTDCme9eLwiSXsZo94+9UUYvu0jU
-         1gvcLuoSfhza1hQ21k2lTxxLj0d1L3oz7unlaPjF7PpRcYbWoy98KJ5y0syvDkBSEP16
-         sMDlSFzIC0BTKcmpg7sqMXBsVWH7KS4R0CuGSOxpdPu4YsY3Led7yUnCUw/hJEepiX6f
-         +C8g==
+        bh=ExebsN56b/xPylzCPw5CcjiwIE0jvTqkaUYckUyu0lY=;
+        b=jtQ93c9pMbMWc6Bj05ZE9xpq+DVuKML7O12aA25Zih3n6epv1N4J+yNGSw43cgv37c
+         rEkUo1JBD6I2gtkFs4c0XO3R+2V+tvKC5yZi8YSp6JoQwIEMW8NAadkPHUBjueOCqGxH
+         bqLXzF3vsLvnyTgfLQSEPkGn/re25Ck+1j34PTnMQTH8aUyn2KpegHTr3vH5+jiUMbi+
+         s9P5z9rAJzsyQvkfirO5Pm0Lslh0MgCFRhGbIhhXbWQxvnKa8LzKIqT2CUmRQGVm5RPD
+         zD1P6ANXmNL1bIKOF+dVXjE4DEBOI0AcDtM6c42Nkus34+1/zbJXe1/vrWGvYbDOTGL+
+         pyUA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
         h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
          :references:mime-version:content-transfer-encoding;
-        bh=S849LDVl/4+Fe0QYg/mIXLkH+V8gLRm2wfjbNFPajik=;
-        b=TQvky2ZJYcZqAOskRVfR6lq+e/E8JjLbxXOBZzWc2G4jYnqCBMf4J4e4gabAUGPB2m
-         4vGoquPhOQxneMRo75XSKlYQ76zYxgVyZCtOXHQQ7NhWvAFcDT+DxOL3s2HFZaxh54Ey
-         r/cFxLtVm/4soyieWBZ9mB5YPEjuESo6XeO7dY65w49MrwwkmldeYBVxZVVBr2pJD9Ef
-         8pukgsdYbPhVH5RQGB71i98ysF700+xINP3C0nMFRSwsaii6jzwUgQ7af2pjkfFEsqyP
-         NfJ9bwMCZadx/EoHyYf7DsK5O4UZPpXxPKZOuq8GTuGNgGmXbwR5PHaKupXp2ZoQ8Yne
-         SN6Q==
-X-Gm-Message-State: AOAM533+N3BWGx8afQO7w8/9gSAeackBUYCZNUPXd1YOKkjAW6TLX9FY
-        h41cB/9bdOszDopH5wU7dSs=
-X-Google-Smtp-Source: ABdhPJyNaHsdASkkJ1EsOjx4rhNKLV04TSjLDU397Lk6qjorURT5OviDb5kBK8oKC3PNTYvSDVCa9g==
-X-Received: by 2002:a5d:4fc6:: with SMTP id h6mr8283177wrw.1.1623486717747;
-        Sat, 12 Jun 2021 01:31:57 -0700 (PDT)
+        bh=ExebsN56b/xPylzCPw5CcjiwIE0jvTqkaUYckUyu0lY=;
+        b=QdZwkwzM/od5HvQT5QQK9eR0m0puI9SBYDwdlbbgRIlYCIIw2H1SjItecZ0VbCGEkF
+         n1IHztDDP7VePX6M8Xwivw3tXPkyFYbzMfUSa94UgRAt5vBia46CxiaLpMZMaAqs4W53
+         U3XTsEZO7lqpT3d5jq1ikPreJEwawWIkd6PcFtCdnnz8DWDuWzKPzo1RvK1EbxFF9RHV
+         IBTteqFD/psBiezRPxke/HWdYYRaE8npXQyWheyO2mjRWaIV8QXGEf9ezG6KVgGMMf/A
+         jdRPPZeZ7xBbKu08fopDyJiH7ZCtT9c1fcs6vcV9xxPkzcdzgLbG5Z3t/AGHlOFHswY4
+         C1sA==
+X-Gm-Message-State: AOAM533SXNIPwEBe0KwZdAQswBrDGHBlbg1STG57HhteuKNxMl6z2yYy
+        bycK8vxMZnkhsLwqu7XCSreOO+21VvI=
+X-Google-Smtp-Source: ABdhPJyrPBOhuCWusPN1YAQy9pd/gTt9ZhViuQAbswJ+tklxiPvIkFaJoKAYCkBuVsYIt6e7XjCBMw==
+X-Received: by 2002:adf:d1e4:: with SMTP id g4mr8141661wrd.405.1623486709533;
+        Sat, 12 Jun 2021 01:31:49 -0700 (PDT)
 Received: from localhost.localdomain ([170.253.36.171])
-        by smtp.googlemail.com with ESMTPSA id c12sm11165110wrr.90.2021.06.12.01.31.57
+        by smtp.googlemail.com with ESMTPSA id c12sm11165110wrr.90.2021.06.12.01.31.48
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Sat, 12 Jun 2021 01:31:57 -0700 (PDT)
+        Sat, 12 Jun 2021 01:31:49 -0700 (PDT)
 From:   Alejandro Colomar <alx.manpages@gmail.com>
 To:     mtk.manpages@gmail.com
 Cc:     Alejandro Colomar <alx.manpages@gmail.com>,
         linux-man@vger.kernel.org
-Subject: [PATCH 14/28] timer_create.2: SYNOPSIS: Document why more than one header is needed
-Date:   Sat, 12 Jun 2021 10:31:31 +0200
-Message-Id: <20210612083145.12485-15-alx.manpages@gmail.com>
+Subject: [PATCH 02/28] seccomp.2: Use syscall(SYS_...); for system calls without a wrapper
+Date:   Sat, 12 Jun 2021 10:31:19 +0200
+Message-Id: <20210612083145.12485-3-alx.manpages@gmail.com>
 X-Mailer: git-send-email 2.32.0
 In-Reply-To: <20210612083145.12485-1-alx.manpages@gmail.com>
 References: <20210612083145.12485-1-alx.manpages@gmail.com>
@@ -74,22 +74,45 @@ X-Mailing-List: linux-man@vger.kernel.org
 
 Signed-off-by: Alejandro Colomar <alx.manpages@gmail.com>
 ---
- man2/timer_create.2 | 2 +-
- 1 file changed, 1 insertion(+), 1 deletion(-)
+ man2/seccomp.2 | 14 ++++++++------
+ 1 file changed, 8 insertions(+), 6 deletions(-)
 
-diff --git a/man2/timer_create.2 b/man2/timer_create.2
-index 7f81914c2..9d3534570 100644
---- a/man2/timer_create.2
-+++ b/man2/timer_create.2
-@@ -28,7 +28,7 @@
- timer_create \- create a POSIX per-process timer
- .SH SYNOPSIS
- .nf
--.B  #include <signal.h>
-+.BR "#include <signal.h>" "           /* Definition of " SIGEV_* " constants */"
- .B  #include <time.h>
+diff --git a/man2/seccomp.2 b/man2/seccomp.2
+index 53f473a78..a3421871f 100644
+--- a/man2/seccomp.2
++++ b/man2/seccomp.2
+@@ -38,13 +38,18 @@ seccomp \- operate on Secure Computing state of the process
+ .BR "#include <sys/ptrace.h>" "     /* Definition of " PTRACE_* " constants */"
+ .\" Kees Cook noted: Anything that uses SECCOMP_RET_TRACE returns will
+ .\"                  need <sys/ptrace.h>
++.BR "#include <sys/syscall.h>" "    /* Definition of " SYS_* " constants */"
++.B #include <unistd.h>
  .PP
- .BI "int timer_create(clockid_t " clockid ", struct sigevent *restrict " sevp ,
+-.BI "int seccomp(unsigned int " operation ", unsigned int " flags \
+-", void *" args );
++.BI "int syscall(SYS_seccomp, unsigned int " operation ", unsigned int " flags ,
++.BI "            void *" args );
+ .fi
+ .PP
+ .IR Note :
+-There is no glibc wrapper for this system call; see NOTES.
++glibc provides no wrapper for
++.BR seccomp (),
++necessitating the use of
++.BR syscall (2).
+ .SH DESCRIPTION
+ The
+ .BR seccomp ()
+@@ -930,9 +935,6 @@ Tile (since Linux 4.3)
+ PA-RISC (since Linux 4.6)
+ .\" User mode Linux since Linux 4.6
+ .PD
+-.PP
+-Glibc does not provide a wrapper for this system call; call it using
+-.BR syscall (2).
+ .\"
+ .SS Caveats
+ There are various subtleties to consider when applying seccomp filters
 -- 
 2.32.0
 
