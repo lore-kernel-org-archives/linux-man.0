@@ -8,61 +8,61 @@ X-Spam-Status: No, score=-15.8 required=3.0 tests=BAYES_00,DKIM_SIGNED,
 	MAILING_LIST_MULTI,SPF_HELO_NONE,SPF_PASS,USER_AGENT_GIT autolearn=ham
 	autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 39BA9C48BE5
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 7F6FCC48BCF
 	for <linux-man@archiver.kernel.org>; Sat, 12 Jun 2021 08:32:18 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.kernel.org (Postfix) with ESMTP id 23B3B611CD
+	by mail.kernel.org (Postfix) with ESMTP id 5F37C611CD
 	for <linux-man@archiver.kernel.org>; Sat, 12 Jun 2021 08:32:18 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S231158AbhFLIeQ (ORCPT <rfc822;linux-man@archiver.kernel.org>);
+        id S230511AbhFLIeQ (ORCPT <rfc822;linux-man@archiver.kernel.org>);
         Sat, 12 Jun 2021 04:34:16 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:36026 "EHLO
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:36040 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S230511AbhFLIeP (ORCPT
-        <rfc822;linux-man@vger.kernel.org>); Sat, 12 Jun 2021 04:34:15 -0400
-Received: from mail-wr1-x42c.google.com (mail-wr1-x42c.google.com [IPv6:2a00:1450:4864:20::42c])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 5F02CC0613A3
-        for <linux-man@vger.kernel.org>; Sat, 12 Jun 2021 01:32:00 -0700 (PDT)
-Received: by mail-wr1-x42c.google.com with SMTP id n7so2341703wri.3
-        for <linux-man@vger.kernel.org>; Sat, 12 Jun 2021 01:32:00 -0700 (PDT)
+        with ESMTP id S231157AbhFLIeQ (ORCPT
+        <rfc822;linux-man@vger.kernel.org>); Sat, 12 Jun 2021 04:34:16 -0400
+Received: from mail-wm1-x336.google.com (mail-wm1-x336.google.com [IPv6:2a00:1450:4864:20::336])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 66520C061574
+        for <linux-man@vger.kernel.org>; Sat, 12 Jun 2021 01:32:02 -0700 (PDT)
+Received: by mail-wm1-x336.google.com with SMTP id g204so9253486wmf.5
+        for <linux-man@vger.kernel.org>; Sat, 12 Jun 2021 01:32:02 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=gmail.com; s=20161025;
         h=from:to:cc:subject:date:message-id:in-reply-to:references
          :mime-version:content-transfer-encoding;
-        bh=Bmz4sANDKH/jnSvmxxijyVMLi9gMaxoHwHyyCQmpYQQ=;
-        b=Clx72nXljb+b96/V1DcQO2rwzE9VVUvCuyTKzh9Yh6oYSoKrpFrOSeGRQwJMphN82j
-         wI1mmVfSr7pwdpbx0aTYBPJ6GGUCoQUGWI2PvQZ1KKlLXxhAekKB74Jr3hoYQ6G2C8sx
-         XIjFRbd+VF6oQ3S3oHM66x40NJvuRmmg36OnB4hRKjCECEU5SLklJLy54ebIbBsmmvKT
-         VAIl/VgEPmsKTuE1++xnY9AcUnhGxjEHzrrj4VeJjUoaCw6XiIKHwTFAN4l623i0RPeR
-         qo4jO4SN3sOmCxWbLG7JSR9ZVU+pUPIV3YASlJ7HwVV9sGZqzrFxYx1SgGSL6PpUSGIs
-         HD4w==
+        bh=Lkb9JVwed0J0QQfd6bQwmgHPaDHtmw3mtaxnMwJir48=;
+        b=GssmnWugpKgDlk5FkLjMUtkLucMq5/KarH1XbNSCOyRssYxuP8iSscrUbgqg99TAFu
+         0FJNZNm9xQjrS1N2/p58Wu4QOhF8zmcJKlQnLRyy0TFCSG9KUXYCTFgk00oHHfbIS5El
+         W+I1PKrhkYSukzN1vgFAWQ3wjSWB9qgGcH1iC0Rmckfb5D4+ithImEqjc5pG7Jw1YiVY
+         vhmgnppOu6BG74cXb+M5P0vSR9SwIlbFT8OmTOAopUD2oZfiY0mdWEYII40tLu06VMKh
+         SjL4h/08tmw62E/kde6JjwDEjpV396VgHLXLi8ISD7OkeuGFHYICfTiYrOsnzNv9NMQ9
+         bEOg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
         h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
          :references:mime-version:content-transfer-encoding;
-        bh=Bmz4sANDKH/jnSvmxxijyVMLi9gMaxoHwHyyCQmpYQQ=;
-        b=LojaebKV8RAxC19oZ4hnZUJQFI/6bRViJLUA3/SykPTYNqoO6s4nlISzT5KrjVlaV0
-         NMdFG/9ixuMM5bUetQbAyD6Bcs9JvtNe4D3kJlPYONnL05NFFTrNSQPap3e53o9Lk7tZ
-         ideUPkuGJULW4lYCeCARUwiSg6li04b98uWgRA8vnaPVTm/R6sckhDy+/j9BOioOlacH
-         8isDAxxZpndprn1WahRSms8nTujMILsl5W6sCwvceyqQetuGi9T3twd+UVSW5Pg1M4Yi
-         HSNPD4eOjfAbatU5mLsAF17ZpAxNdu1gwsBYwdyNm3JnTVPPV6C2p9FHAEcgopeukiLV
-         qNoQ==
-X-Gm-Message-State: AOAM5323/Gc7Z3DkuykBOBvIO67iwe8dmgLXqm8qlXVZUThP8HRcyZJy
-        e+8VO7hfRx8lvgGr/gXKIOHDTgHryW8=
-X-Google-Smtp-Source: ABdhPJwnVyWUVOwWr3JJZqiOCi5XEhbFy9w6lO1VcLslMZZVZldc9jonFtGPNw3S2/e0ExKwrXn78Q==
-X-Received: by 2002:adf:f382:: with SMTP id m2mr8142986wro.394.1623486719089;
-        Sat, 12 Jun 2021 01:31:59 -0700 (PDT)
+        bh=Lkb9JVwed0J0QQfd6bQwmgHPaDHtmw3mtaxnMwJir48=;
+        b=IpY1I4jEu4ojl37leyUK6jybrL9arwa0JoxAjJQ2pt6cexyO52/sa9tct9GgRDafWj
+         aFc4O+zbsQrEUZUsVO+dLYSLQ4VExkyDn8zPIceJRJAN3xgYUTxfqXMC4opmDbYsQrca
+         K2r+fDD6i97kmymXiIEt3GEPgnLTR+dS4Qt+q11IyAH/0DJERmV4fvgCHg1EMzQ+DOuD
+         tiVTm+os0AEpfIZehEuKCtTea3SaJFNGwJQqGfGLKRovzcGhGoPKAAuOyt5CQwSFpnOV
+         gZWIGVdpxJCamUVlsNv+OZ6+uXO8FYeghWslzdn89PZHk/5MZ0fqzKcH755O4GJ5FlkR
+         wMOQ==
+X-Gm-Message-State: AOAM530K0TDZP5iyjZSoRl2mxDhuVQdVjcOUtBEn3ztiS36GIaWSPu2A
+        TbW6z+k8RReDv+8VXlCyHS0=
+X-Google-Smtp-Source: ABdhPJzkoG9DoiG3bLXVVF7KMyY/x9nPNPCrnqwGkG/rTLIci4mUBLdwuE6XCNXXH/iTbSnPcAJbBA==
+X-Received: by 2002:a1c:4c07:: with SMTP id z7mr23171122wmf.90.1623486721106;
+        Sat, 12 Jun 2021 01:32:01 -0700 (PDT)
 Received: from localhost.localdomain ([170.253.36.171])
-        by smtp.googlemail.com with ESMTPSA id c12sm11165110wrr.90.2021.06.12.01.31.58
+        by smtp.googlemail.com with ESMTPSA id c12sm11165110wrr.90.2021.06.12.01.32.00
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Sat, 12 Jun 2021 01:31:58 -0700 (PDT)
+        Sat, 12 Jun 2021 01:32:00 -0700 (PDT)
 From:   Alejandro Colomar <alx.manpages@gmail.com>
 To:     mtk.manpages@gmail.com
 Cc:     Alejandro Colomar <alx.manpages@gmail.com>,
         linux-man@vger.kernel.org
-Subject: [PATCH 16/28] s390_runtime_instr.2: tfix
-Date:   Sat, 12 Jun 2021 10:31:33 +0200
-Message-Id: <20210612083145.12485-17-alx.manpages@gmail.com>
+Subject: [PATCH 19/28] truncate.2: Remove <sys/types.h>
+Date:   Sat, 12 Jun 2021 10:31:36 +0200
+Message-Id: <20210612083145.12485-20-alx.manpages@gmail.com>
 X-Mailer: git-send-email 2.32.0
 In-Reply-To: <20210612083145.12485-1-alx.manpages@gmail.com>
 References: <20210612083145.12485-1-alx.manpages@gmail.com>
@@ -72,24 +72,26 @@ Precedence: bulk
 List-ID: <linux-man.vger.kernel.org>
 X-Mailing-List: linux-man@vger.kernel.org
 
+'off_t', which is the only reason this might have been ever
+needed, is provided by <unistd.h> since POSIX.1-2001.
+
 Signed-off-by: Alejandro Colomar <alx.manpages@gmail.com>
 ---
- man2/s390_runtime_instr.2 | 2 +-
- 1 file changed, 1 insertion(+), 1 deletion(-)
+ man2/truncate.2 | 1 -
+ 1 file changed, 1 deletion(-)
 
-diff --git a/man2/s390_runtime_instr.2 b/man2/s390_runtime_instr.2
-index 0685fde6c..a043cfd9a 100644
---- a/man2/s390_runtime_instr.2
-+++ b/man2/s390_runtime_instr.2
-@@ -36,7 +36,7 @@ s390_runtime_instr \- enable/disable s390 CPU run-time instrumentation
+diff --git a/man2/truncate.2 b/man2/truncate.2
+index a882e41c7..ebe3c4ef4 100644
+--- a/man2/truncate.2
++++ b/man2/truncate.2
+@@ -46,7 +46,6 @@ truncate, ftruncate \- truncate a file to a specified length
+ .SH SYNOPSIS
+ .nf
+ .B #include <unistd.h>
+-.B #include <sys/types.h>
  .PP
- .IR Note :
- glibc provides no wrapper for
--.BR s390_runtime_instr (2),
-+.BR s390_runtime_instr (),
- necessitating the use of
- .BR syscall (2).
- .SH DESCRIPTION
+ .BI "int truncate(const char *" path ", off_t " length );
+ .BI "int ftruncate(int " fd ", off_t " length );
 -- 
 2.32.0
 
