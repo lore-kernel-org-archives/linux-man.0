@@ -8,61 +8,61 @@ X-Spam-Status: No, score=-15.8 required=3.0 tests=BAYES_00,DKIM_SIGNED,
 	MAILING_LIST_MULTI,SPF_HELO_NONE,SPF_PASS,USER_AGENT_GIT autolearn=ham
 	autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 47008C48BE5
-	for <linux-man@archiver.kernel.org>; Sat, 12 Jun 2021 08:32:05 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id ACC5EC48BE5
+	for <linux-man@archiver.kernel.org>; Sat, 12 Jun 2021 08:32:07 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.kernel.org (Postfix) with ESMTP id 33AF461249
-	for <linux-man@archiver.kernel.org>; Sat, 12 Jun 2021 08:32:05 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTP id 8A75F611CD
+	for <linux-man@archiver.kernel.org>; Sat, 12 Jun 2021 08:32:07 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S230526AbhFLIeD (ORCPT <rfc822;linux-man@archiver.kernel.org>);
-        Sat, 12 Jun 2021 04:34:03 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:36050 "EHLO
+        id S230527AbhFLIeG (ORCPT <rfc822;linux-man@archiver.kernel.org>);
+        Sat, 12 Jun 2021 04:34:06 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:36062 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S229584AbhFLIeD (ORCPT
-        <rfc822;linux-man@vger.kernel.org>); Sat, 12 Jun 2021 04:34:03 -0400
-Received: from mail-wm1-x32d.google.com (mail-wm1-x32d.google.com [IPv6:2a00:1450:4864:20::32d])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 560BAC0613A4
-        for <linux-man@vger.kernel.org>; Sat, 12 Jun 2021 01:32:04 -0700 (PDT)
-Received: by mail-wm1-x32d.google.com with SMTP id m3so4034425wms.4
-        for <linux-man@vger.kernel.org>; Sat, 12 Jun 2021 01:32:04 -0700 (PDT)
+        with ESMTP id S229584AbhFLIeF (ORCPT
+        <rfc822;linux-man@vger.kernel.org>); Sat, 12 Jun 2021 04:34:05 -0400
+Received: from mail-wm1-x332.google.com (mail-wm1-x332.google.com [IPv6:2a00:1450:4864:20::332])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id A18CDC061280
+        for <linux-man@vger.kernel.org>; Sat, 12 Jun 2021 01:32:06 -0700 (PDT)
+Received: by mail-wm1-x332.google.com with SMTP id u5-20020a7bc0450000b02901480e40338bso7248520wmc.1
+        for <linux-man@vger.kernel.org>; Sat, 12 Jun 2021 01:32:06 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=gmail.com; s=20161025;
         h=from:to:cc:subject:date:message-id:in-reply-to:references
          :mime-version:content-transfer-encoding;
-        bh=F6zr/tGORvmIEBtNb/R1nkf6s/LYRqic2Q8eDAiTcOA=;
-        b=kZnIxBm5tHwizMaHzkvv8Fo2hXyW4mUf1XYvdbMXx/FNKM4X3ClmNL2OOKl2SgER6j
-         FJlj2EqNLSiQ0J7Wpa1d0IIGcqHO/uFlhLW7DsFtODvrLYFbvAXyZHaZjDuEP69S3rX5
-         Zx8Fsq8gqZwdN8si3L2VD2rkPDwFy9qeWRo20CEN0t4ee9lj8NSbmaW+U3MrnfMKxS+p
-         lMvOx8AS3l/23JDaEPVZKTlrgSlZ4UIQTFUpM7CKFjxD9fiiUxjASXUIgqv7nQxBANTJ
-         J44EniAYUTtzGJc7IoJqNtR5d6ham8OREeSoGk24hTTG/LdPxto5CPnUoXsedBkV2q5y
-         EG3A==
+        bh=U/HVfJP50c4AzOtBKSicxnAAC36NsOakbSfBjYfLjp8=;
+        b=hQ92SW9hbOi1KYDdArhKHxFb93rgtlVkkFTxtbipQ0ylW81G0Z02NJd4AhRYsZjKq3
+         pfjexixT2D0iaEZfrFZEyBzjyZrHaVtJmdym9+u2JBjmHvNHXDPGlYs2LWHYolOSfCrW
+         6qxqkucApiTvmflDZil9CvRkkvf1skoZ5fCKZpFUAV1PISIVCyJc1JT3L8hYP4jKs/VE
+         7LM4Y+fI8W2P/Ez9EArzDGCD5isMZ/M2mpNI6J3YB6XwfyTkI4gpmT7n3mJXkSoO/TdN
+         lo+SGJbjAR8HlL56TISoXBIiDN15oUuTbhUFLk4uImR86Z4PZCdfHJ8p5jmwfH9E+JCQ
+         CWVA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
         h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
          :references:mime-version:content-transfer-encoding;
-        bh=F6zr/tGORvmIEBtNb/R1nkf6s/LYRqic2Q8eDAiTcOA=;
-        b=L7awP2u1p4Mz8TE2SShW15+QNkyoCrCOkE2+BA2V2OJAH8B4MCCbnrg1f0NT4+YRhP
-         HO6KOO8eMRi5z43zVvTaGaXRrsw85mG6S1vzUJfX3WkMcHiD7xEjF0efIvAguTb4h1W3
-         e9cM2JDfR2HW5zts6wa/kMFOkMnQntn6qe8JDcQx/E+KdM9YdodMDEQblXOFeAnLG9Hs
-         W3ae7jg4WCQ7e4wj3vqfHs7DyHxTMTrjiXlIICDDEWPknrAytm+5UXhnjzCrjdGjRKFo
-         4X1XNVlKEZDSrDIBWZgr20R4WrMBioZAfJteGgElMr8L9V6LfWtA83ReXNdhl6smGxUp
-         0dug==
-X-Gm-Message-State: AOAM532umlX1o4WYu2aMeCCxXP3tBe9AiyIc3s4u3CNhFp2rQKZsIYDR
-        s6QnjKVE0qLsTV5RPNlXKjKA/rHJmZ0=
-X-Google-Smtp-Source: ABdhPJwlr8fBCrudCIEhzw2UJOu5ShwxQKUGu71jIgd4pX75KkOaWKU4h9WhQXnCrgz+semWOva4Lg==
-X-Received: by 2002:a1c:7402:: with SMTP id p2mr23451479wmc.88.1623486719768;
-        Sat, 12 Jun 2021 01:31:59 -0700 (PDT)
+        bh=U/HVfJP50c4AzOtBKSicxnAAC36NsOakbSfBjYfLjp8=;
+        b=kQdqsnyZnEEZ4oevHy0ChV0J/nLUk/UlMLkpyAZL1YVYR4x4tMfJHByXVT/QUKB8nY
+         IipCIH8N7DghdPpZy8e6iNHAzN2fOAuQ+SxcIXOnMX2HmSH3WuMPmowOzRQ0A3a9UzYy
+         zekqFPKRmtytXz9JG6cbKlJOemKUSnJllW7yB6Cy3B4VjgqFarHTJDVCyTGCM9NnLqBN
+         c1IfPo0EGK+Wl9sFaTjEPtlvoPQsC7FqFA4fNomBQugznJWlKOQIVPOrCsysQwuPA8Fw
+         apwqQQI7vrNfRMHjiGs6xNEVIrpXzqU6Pt0L5SmkQNWK87rc/pnpvcIlkYY2xAqImSay
+         b9OQ==
+X-Gm-Message-State: AOAM532CnqBCgsBvx+0av8jc0vU3uaedwJ1T8ieuWy7FCmFOeIYUm8CZ
+        EOI+Xii820z/v/uXOag4Xls=
+X-Google-Smtp-Source: ABdhPJyFIA3kTNZun9b42iX4mBWjhhE2HpaEHXjfJz9YlGx478C6zIPil/n+NHWLokB+3yrdvLuhbg==
+X-Received: by 2002:a1c:a382:: with SMTP id m124mr7339184wme.40.1623486725284;
+        Sat, 12 Jun 2021 01:32:05 -0700 (PDT)
 Received: from localhost.localdomain ([170.253.36.171])
-        by smtp.googlemail.com with ESMTPSA id c12sm11165110wrr.90.2021.06.12.01.31.59
+        by smtp.googlemail.com with ESMTPSA id c12sm11165110wrr.90.2021.06.12.01.32.04
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Sat, 12 Jun 2021 01:31:59 -0700 (PDT)
+        Sat, 12 Jun 2021 01:32:05 -0700 (PDT)
 From:   Alejandro Colomar <alx.manpages@gmail.com>
 To:     mtk.manpages@gmail.com
 Cc:     Alejandro Colomar <alx.manpages@gmail.com>,
         linux-man@vger.kernel.org
-Subject: [PATCH 17/28] s390_sthyi.2: tfix
-Date:   Sat, 12 Jun 2021 10:31:34 +0200
-Message-Id: <20210612083145.12485-18-alx.manpages@gmail.com>
+Subject: [PATCH 25/28] utimensat.2: ffix
+Date:   Sat, 12 Jun 2021 10:31:42 +0200
+Message-Id: <20210612083145.12485-26-alx.manpages@gmail.com>
 X-Mailer: git-send-email 2.32.0
 In-Reply-To: <20210612083145.12485-1-alx.manpages@gmail.com>
 References: <20210612083145.12485-1-alx.manpages@gmail.com>
@@ -74,22 +74,22 @@ X-Mailing-List: linux-man@vger.kernel.org
 
 Signed-off-by: Alejandro Colomar <alx.manpages@gmail.com>
 ---
- man2/s390_sthyi.2 | 2 +-
+ man2/utimensat.2 | 2 +-
  1 file changed, 1 insertion(+), 1 deletion(-)
 
-diff --git a/man2/s390_sthyi.2 b/man2/s390_sthyi.2
-index df4a91d5d..58e3230a9 100644
---- a/man2/s390_sthyi.2
-+++ b/man2/s390_sthyi.2
-@@ -38,7 +38,7 @@ s390_sthyi \- emulate STHYI instruction
+diff --git a/man2/utimensat.2 b/man2/utimensat.2
+index 05b36c9e6..006677db8 100644
+--- a/man2/utimensat.2
++++ b/man2/utimensat.2
+@@ -28,7 +28,7 @@
+ utimensat, futimens \- change file timestamps with nanosecond precision
+ .SH SYNOPSIS
+ .nf
+-.B #include <fcntl.h>           /* Definition of AT_* constants */
++.BR "#include <fcntl.h>" "            /* Definition of " AT_* " constants */"
+ .B #include <sys/stat.h>
  .PP
- .IR Note :
- glibc provides no wrapper for
--.BR s390_sthyi (2),
-+.BR s390_sthyi (),
- necessitating the use of
- .BR syscall (2).
- .SH DESCRIPTION
+ .BI "int utimensat(int " dirfd ", const char *" pathname ,
 -- 
 2.32.0
 
