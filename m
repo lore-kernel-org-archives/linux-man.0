@@ -8,61 +8,58 @@ X-Spam-Status: No, score=-15.8 required=3.0 tests=BAYES_00,DKIM_SIGNED,
 	MAILING_LIST_MULTI,SPF_HELO_NONE,SPF_PASS,USER_AGENT_GIT autolearn=ham
 	autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id E4C1CC49360
-	for <linux-man@archiver.kernel.org>; Sat, 12 Jun 2021 08:32:18 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 8B0D4C48BCF
+	for <linux-man@archiver.kernel.org>; Sat, 12 Jun 2021 08:32:55 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.kernel.org (Postfix) with ESMTP id CCAB061249
-	for <linux-man@archiver.kernel.org>; Sat, 12 Jun 2021 08:32:18 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTP id 62D1B61249
+	for <linux-man@archiver.kernel.org>; Sat, 12 Jun 2021 08:32:55 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S231133AbhFLIeR (ORCPT <rfc822;linux-man@archiver.kernel.org>);
-        Sat, 12 Jun 2021 04:34:17 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:36060 "EHLO
-        lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S231153AbhFLIeQ (ORCPT
-        <rfc822;linux-man@vger.kernel.org>); Sat, 12 Jun 2021 04:34:16 -0400
-Received: from mail-wm1-x32a.google.com (mail-wm1-x32a.google.com [IPv6:2a00:1450:4864:20::32a])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 01535C0613A4
-        for <linux-man@vger.kernel.org>; Sat, 12 Jun 2021 01:32:06 -0700 (PDT)
-Received: by mail-wm1-x32a.google.com with SMTP id f16-20020a05600c1550b02901b00c1be4abso9938016wmg.2
-        for <linux-man@vger.kernel.org>; Sat, 12 Jun 2021 01:32:05 -0700 (PDT)
+        id S231161AbhFLIex (ORCPT <rfc822;linux-man@archiver.kernel.org>);
+        Sat, 12 Jun 2021 04:34:53 -0400
+Received: from mail-wm1-f46.google.com ([209.85.128.46]:40644 "EHLO
+        mail-wm1-f46.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S229819AbhFLIew (ORCPT
+        <rfc822;linux-man@vger.kernel.org>); Sat, 12 Jun 2021 04:34:52 -0400
+Received: by mail-wm1-f46.google.com with SMTP id b145-20020a1c80970000b029019c8c824054so9917224wmd.5
+        for <linux-man@vger.kernel.org>; Sat, 12 Jun 2021 01:32:52 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=gmail.com; s=20161025;
         h=from:to:cc:subject:date:message-id:in-reply-to:references
          :mime-version:content-transfer-encoding;
-        bh=kkczIYnA90VryG3PyEAfN3jH2/oClph23cXO7JThEXE=;
-        b=veSi5ar0XGnW44GaB18KHR7nPUTSIEzkevIfIxB8+t1eAKb9DN7sjG1zarC8tObvUt
-         WdLRF6Pl1qMv1kQ6EHyQZ/uffAERWJAwx1q2u4HFhCiA0c3BgKM/4Rbt2IFVV99Ixpgl
-         vEJ8tNo1qUEC0kLPhkoU9Je5etPaMDbD8bQpcuHNlVVlRx0uW7kF2zMCdazlDc0nKq1i
-         6lfB/Gf2PR4G5+o/UlYhOtNNrAaeVHcqXeMM5I750FfMv7X/CQycCuTSmJNkwVwLFyY1
-         6bO/gsJI7aEf10NGeJ1f5H9zayfTtIMA/p1ljFBprT1vIy5jAyOSdNeJuP4+4tHA4H+t
-         XnKA==
+        bh=KZWw4Zzdt42s/980dqYtatfovJfhW11EXVzv3Q6PZdw=;
+        b=Z6jHebazCr0Va70nyCaycrjjIsz4TqQjlA+nYfx/eVNp5+FR+480um2Zlqq07O3VmU
+         Awve57otFlHfJFjXKmzc+6T0xzgv2kzDzBk7G2L98tNnRivEnUfLiIVUanwaDvOXx9Jn
+         N/VD6OUh/RIf9XxzPK9EaOWenfgYYFaHNHxojBBpFl94qOp4/Hi0iIPc5ENZztu8jvRQ
+         Bgpi7e3kfRR+X1t7YXAYCvfg0+COnke+tazUxyYu86npXzC7UhfcY1nRHeoPWlnycl41
+         2Q13VZmRQZxFbraUpMUlGtgbw4rxVr++0YqI1pv629mKn+VJjWr8cBBaIUCcbrUmgIhz
+         NgPQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
         h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
          :references:mime-version:content-transfer-encoding;
-        bh=kkczIYnA90VryG3PyEAfN3jH2/oClph23cXO7JThEXE=;
-        b=coW+7pB6jxqdeFSnvSYqeaHqTsvvMSISZMNqz/UFk88ApKzI2ujXs850IwgxnInbtM
-         Wjc5e0OEGr+i7BmlzZzbuU9kNucmieEHaqCwq2Zof6AF9Kj98p+W4rmY8XcdfncIKodc
-         cEXHhNVkygf3JxCVWfXIyY+uaIOJ+0OP/a/20cUbBmxxVRXY9iSoFc+nvrn0dt9z0Lxm
-         KrpWHslnSF+t0IvezxpeV5WawmMMrGSPm1zuNjjguWca3mRmH0Pai/Y5lPcQBt1nRcVJ
-         gPzcBDUmO1NFY2KEtDN9VM4xAqC+C2B9XDZwtHdKm6mTMj+blbXtLlxgWOcDW8nUu0em
-         HPug==
-X-Gm-Message-State: AOAM530+RKxf5WA2zg4TMJuyTb++HOrHlGJmGFwzfL62Cl+4qXqFGVsr
-        Gs30ArzGLYRAdN1m87ABXak=
-X-Google-Smtp-Source: ABdhPJzUm6LOvX6v1cVzW1fOFTDgnmbq+jpBYDkzRq80i7d/+3jLO96wDiEi2loCx8cCLjxYTlVUnA==
-X-Received: by 2002:a05:600c:2298:: with SMTP id 24mr23206371wmf.173.1623486724575;
-        Sat, 12 Jun 2021 01:32:04 -0700 (PDT)
+        bh=KZWw4Zzdt42s/980dqYtatfovJfhW11EXVzv3Q6PZdw=;
+        b=BN4pqY7tK/QgxDUifIKIcvrKLY81kYBdrsACxd1ve0eBdVH+LGyutD7IzrQ9LRVbEu
+         TvDlbpz8tczZeZYVnACm+djH1wAFLS3FTCe+Ba8KtgZJA3VusmeihHx5nSt7xhjrEIwF
+         jPgl53ytJBTJJSab4FHPiYnAZVNww1LF6cgzFhcouvWe1axbA1q62fXpe+eE/30aWc+o
+         9IbqafuL24xSY4I6o5sQfGO+Nty2/DLwb0PfkRDGSHRcJYSHeCL7Qdg8Q+r6MZcVW3LG
+         nCRNmE3CKVaYLHT09IhXF35axWeKr3UArthkRmqi5XRWMl9Loav54KEmRM1K5X16PjBB
+         ynIQ==
+X-Gm-Message-State: AOAM530s9fN0EJU0EM8Cxbi9YAg/6Dhez9pGSwcimq/TSQF+qQLfjfTQ
+        fI0ZfB0o46yzQEM7ZsFuT6I=
+X-Google-Smtp-Source: ABdhPJwmE8cp6Wia9DazMYAp40omi38ZjYAginysrCbYMWCHTsF5WtSKJV9ZBsUL+ko1/dOiQ1DCOg==
+X-Received: by 2002:a05:600c:8a6:: with SMTP id l38mr7352259wmp.108.1623486712278;
+        Sat, 12 Jun 2021 01:31:52 -0700 (PDT)
 Received: from localhost.localdomain ([170.253.36.171])
-        by smtp.googlemail.com with ESMTPSA id c12sm11165110wrr.90.2021.06.12.01.32.04
+        by smtp.googlemail.com with ESMTPSA id c12sm11165110wrr.90.2021.06.12.01.31.51
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Sat, 12 Jun 2021 01:32:04 -0700 (PDT)
+        Sat, 12 Jun 2021 01:31:52 -0700 (PDT)
 From:   Alejandro Colomar <alx.manpages@gmail.com>
 To:     mtk.manpages@gmail.com
 Cc:     Alejandro Colomar <alx.manpages@gmail.com>,
         linux-man@vger.kernel.org
-Subject: [PATCH 24/28] utime.2: SYNOPSIS: Fix includes
-Date:   Sat, 12 Jun 2021 10:31:41 +0200
-Message-Id: <20210612083145.12485-25-alx.manpages@gmail.com>
+Subject: [PATCH 06/28] spu_run.2: Use syscall(SYS_...), for system calls without a wrapper
+Date:   Sat, 12 Jun 2021 10:31:23 +0200
+Message-Id: <20210612083145.12485-7-alx.manpages@gmail.com>
 X-Mailer: git-send-email 2.32.0
 In-Reply-To: <20210612083145.12485-1-alx.manpages@gmail.com>
 References: <20210612083145.12485-1-alx.manpages@gmail.com>
@@ -72,26 +69,46 @@ Precedence: bulk
 List-ID: <linux-man.vger.kernel.org>
 X-Mailing-List: linux-man@vger.kernel.org
 
-'struct utimbuf' is provided by <utime.h>.
-There's no need for <sys/types.h>.
-
 Signed-off-by: Alejandro Colomar <alx.manpages@gmail.com>
 ---
- man2/utime.2 | 1 -
- 1 file changed, 1 deletion(-)
+ man2/spu_run.2 | 12 +++++++-----
+ 1 file changed, 7 insertions(+), 5 deletions(-)
 
-diff --git a/man2/utime.2 b/man2/utime.2
-index 4995cf3ce..55ea8fc27 100644
---- a/man2/utime.2
-+++ b/man2/utime.2
-@@ -33,7 +33,6 @@
- utime, utimes \- change file last access and modification times
+diff --git a/man2/spu_run.2 b/man2/spu_run.2
+index def974772..d5fdc2280 100644
+--- a/man2/spu_run.2
++++ b/man2/spu_run.2
+@@ -28,13 +28,18 @@
+ spu_run \- execute an SPU context
  .SH SYNOPSIS
  .nf
--.B #include <sys/types.h>
- .B #include <utime.h>
+-.B #include <sys/spu.h>
++.BR "#include <sys/spu.h>" "          /* Definition of " SPU_* " constants */"
++.BR "#include <sys/syscall.h>" "      /* Definition of " SYS_* " constants */"
++.B #include <unistd.h>
  .PP
- .BI "int utime(const char *" filename ", const struct utimbuf *" times );
+ .BI "int spu_run(int " fd ", uint32_t *" npc ", uint32_t *" event );
+ .fi
+ .PP
+ .IR Note :
+-There is no glibc wrapper for this system call; see NOTES.
++glibc provides no wrapper for
++.BR spu_run (),
++necessitating the use of
++.BR syscall (2).
+ .SH DESCRIPTION
+ The
+ .BR spu_run ()
+@@ -195,9 +200,6 @@ This call is Linux-specific and implemented only by the PowerPC
+ architecture.
+ Programs using this system call are not portable.
+ .SH NOTES
+-Glibc does not provide a wrapper for this system call; call it using
+-.BR syscall (2).
+-Note however, that
+ .BR spu_run ()
+ is meant to be used from libraries that implement a more abstract
+ interface to SPUs, not to be used from regular applications.
 -- 
 2.32.0
 
