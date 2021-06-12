@@ -8,61 +8,61 @@ X-Spam-Status: No, score=-15.8 required=3.0 tests=BAYES_00,DKIM_SIGNED,
 	MAILING_LIST_MULTI,SPF_HELO_NONE,SPF_PASS,USER_AGENT_GIT autolearn=ham
 	autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 1DD2DC48BE5
-	for <linux-man@archiver.kernel.org>; Sat, 12 Jun 2021 08:31:57 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 16003C48BCF
+	for <linux-man@archiver.kernel.org>; Sat, 12 Jun 2021 08:32:01 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.kernel.org (Postfix) with ESMTP id F4209611CD
-	for <linux-man@archiver.kernel.org>; Sat, 12 Jun 2021 08:31:56 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTP id ECD4F611CD
+	for <linux-man@archiver.kernel.org>; Sat, 12 Jun 2021 08:32:00 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S230208AbhFLIdz (ORCPT <rfc822;linux-man@archiver.kernel.org>);
-        Sat, 12 Jun 2021 04:33:55 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:36008 "EHLO
+        id S230474AbhFLId7 (ORCPT <rfc822;linux-man@archiver.kernel.org>);
+        Sat, 12 Jun 2021 04:33:59 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:36026 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S229584AbhFLIdz (ORCPT
-        <rfc822;linux-man@vger.kernel.org>); Sat, 12 Jun 2021 04:33:55 -0400
-Received: from mail-wm1-x32b.google.com (mail-wm1-x32b.google.com [IPv6:2a00:1450:4864:20::32b])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id BFC0DC061767
-        for <linux-man@vger.kernel.org>; Sat, 12 Jun 2021 01:31:55 -0700 (PDT)
-Received: by mail-wm1-x32b.google.com with SMTP id b205so4565844wmb.3
-        for <linux-man@vger.kernel.org>; Sat, 12 Jun 2021 01:31:55 -0700 (PDT)
+        with ESMTP id S229584AbhFLId6 (ORCPT
+        <rfc822;linux-man@vger.kernel.org>); Sat, 12 Jun 2021 04:33:58 -0400
+Received: from mail-wr1-x431.google.com (mail-wr1-x431.google.com [IPv6:2a00:1450:4864:20::431])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 0D742C0613A2
+        for <linux-man@vger.kernel.org>; Sat, 12 Jun 2021 01:31:59 -0700 (PDT)
+Received: by mail-wr1-x431.google.com with SMTP id a11so8460388wrt.13
+        for <linux-man@vger.kernel.org>; Sat, 12 Jun 2021 01:31:58 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=gmail.com; s=20161025;
         h=from:to:cc:subject:date:message-id:in-reply-to:references
          :mime-version:content-transfer-encoding;
-        bh=kjDsHgSmJ98CZinPxQ0iFmwo1UfbV1JSdSWo7uUKicY=;
-        b=gwpQ+Fn7zLIpDDr//sauu6aye5ROBAADvlIugw6QpPP4Zx/2vdPjjnj8u6N3y3DKr9
-         nc6evhfbUBz4CM9/SlKT6UYqALcXmlcil3HZR6bsy7+0b//S8jbZFB2JFS8QJdDVieoZ
-         3lTQiKWLDTze3FHcDc2KHNCNHgPCeUnoFs68SSXGGxt1lYtsJoWWsZzeGVg2MyJnqW9f
-         HvGWJQe3s9zwXycUaks0MfT6/2IbffRNfrsomils5sP13SCGAFxAIcOuwxFeitSf0T1E
-         XdgIFLWQ3iVscCRnusidCYKuMjuR/MvJ3I+yKOpVH3oNSTmalVE07TkKCuue2qOFEkHa
-         zV5w==
+        bh=S849LDVl/4+Fe0QYg/mIXLkH+V8gLRm2wfjbNFPajik=;
+        b=olykZism9mSJm5mpKh8ufyoca4eUoSYilHG2+wlqaI1G7iDedvMe5tFPSSI9jDBU8C
+         u6lVbvI958DuC+R5ku1Ac+f0kh/sv4WHqQ8vzAVGWGXsF6cxsX2+JLJ4/iDT3lwOUyqs
+         tfF4gtKAGiGGFP10F5uYwFwdpDawGEtYqbUIpnl/JTDCme9eLwiSXsZo94+9UUYvu0jU
+         1gvcLuoSfhza1hQ21k2lTxxLj0d1L3oz7unlaPjF7PpRcYbWoy98KJ5y0syvDkBSEP16
+         sMDlSFzIC0BTKcmpg7sqMXBsVWH7KS4R0CuGSOxpdPu4YsY3Led7yUnCUw/hJEepiX6f
+         +C8g==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
         h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
          :references:mime-version:content-transfer-encoding;
-        bh=kjDsHgSmJ98CZinPxQ0iFmwo1UfbV1JSdSWo7uUKicY=;
-        b=ZOHGJ7r0LleckqR56T3hzo/qcsdW2qnmeOirIz1Sq5oTOWOssqunEsK9NOPPu0k9tl
-         aEkqVnDsX9ZtVgdVq9md7XXbSLxQf/N+sTgpfqm0jNZfToaWJLHoT3YOB/XxxcAUfl6N
-         fCl9zCfxF3O7BiLuDTDwQq8RJxKU/XYxE8IxSgEPN88QHlNUua/oscJEKNXjIOSCm+ti
-         +h6b7fn4jBQqWQCHKha6fWLKI0y6dfRmZWPHKmwce9tAiA/Mf/1CZS9PkIAFkVvDjSLy
-         WAWi5aVmbdcGbkyATNCHuE5q79Y07PhxK8WrP30VjypHRBu7z0+iIcIEc0b1NLW3JFPA
-         xb9w==
-X-Gm-Message-State: AOAM5305lVaK/7Kh2ygfT4a3ufKKbpDkunFjS6/hX1q8SPlkqoQlJmqm
-        LT6sSu9ijJUyA0h8wkWO/eqNAkvmjyg=
-X-Google-Smtp-Source: ABdhPJy9yuCEhrdiabnEogTj7VN/FyVZpEGgNdGTF6ppmDb9vgJ7DDRZ7AP1e1kZNkKcGo32oIzPhw==
-X-Received: by 2002:a7b:c38f:: with SMTP id s15mr24374549wmj.16.1623486714443;
-        Sat, 12 Jun 2021 01:31:54 -0700 (PDT)
+        bh=S849LDVl/4+Fe0QYg/mIXLkH+V8gLRm2wfjbNFPajik=;
+        b=TQvky2ZJYcZqAOskRVfR6lq+e/E8JjLbxXOBZzWc2G4jYnqCBMf4J4e4gabAUGPB2m
+         4vGoquPhOQxneMRo75XSKlYQ76zYxgVyZCtOXHQQ7NhWvAFcDT+DxOL3s2HFZaxh54Ey
+         r/cFxLtVm/4soyieWBZ9mB5YPEjuESo6XeO7dY65w49MrwwkmldeYBVxZVVBr2pJD9Ef
+         8pukgsdYbPhVH5RQGB71i98ysF700+xINP3C0nMFRSwsaii6jzwUgQ7af2pjkfFEsqyP
+         NfJ9bwMCZadx/EoHyYf7DsK5O4UZPpXxPKZOuq8GTuGNgGmXbwR5PHaKupXp2ZoQ8Yne
+         SN6Q==
+X-Gm-Message-State: AOAM533+N3BWGx8afQO7w8/9gSAeackBUYCZNUPXd1YOKkjAW6TLX9FY
+        h41cB/9bdOszDopH5wU7dSs=
+X-Google-Smtp-Source: ABdhPJyNaHsdASkkJ1EsOjx4rhNKLV04TSjLDU397Lk6qjorURT5OviDb5kBK8oKC3PNTYvSDVCa9g==
+X-Received: by 2002:a5d:4fc6:: with SMTP id h6mr8283177wrw.1.1623486717747;
+        Sat, 12 Jun 2021 01:31:57 -0700 (PDT)
 Received: from localhost.localdomain ([170.253.36.171])
-        by smtp.googlemail.com with ESMTPSA id c12sm11165110wrr.90.2021.06.12.01.31.53
+        by smtp.googlemail.com with ESMTPSA id c12sm11165110wrr.90.2021.06.12.01.31.57
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Sat, 12 Jun 2021 01:31:54 -0700 (PDT)
+        Sat, 12 Jun 2021 01:31:57 -0700 (PDT)
 From:   Alejandro Colomar <alx.manpages@gmail.com>
 To:     mtk.manpages@gmail.com
 Cc:     Alejandro Colomar <alx.manpages@gmail.com>,
         linux-man@vger.kernel.org
-Subject: [PATCH 09/28] subpage_prot.2: Use syscall(SYS_...); for system calls without a wrapper
-Date:   Sat, 12 Jun 2021 10:31:26 +0200
-Message-Id: <20210612083145.12485-10-alx.manpages@gmail.com>
+Subject: [PATCH 14/28] timer_create.2: SYNOPSIS: Document why more than one header is needed
+Date:   Sat, 12 Jun 2021 10:31:31 +0200
+Message-Id: <20210612083145.12485-15-alx.manpages@gmail.com>
 X-Mailer: git-send-email 2.32.0
 In-Reply-To: <20210612083145.12485-1-alx.manpages@gmail.com>
 References: <20210612083145.12485-1-alx.manpages@gmail.com>
@@ -74,45 +74,22 @@ X-Mailing-List: linux-man@vger.kernel.org
 
 Signed-off-by: Alejandro Colomar <alx.manpages@gmail.com>
 ---
- man2/subpage_prot.2 | 15 +++++++++------
- 1 file changed, 9 insertions(+), 6 deletions(-)
+ man2/timer_create.2 | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
 
-diff --git a/man2/subpage_prot.2 b/man2/subpage_prot.2
-index dc07753b5..91bb789e1 100644
---- a/man2/subpage_prot.2
-+++ b/man2/subpage_prot.2
-@@ -32,12 +32,18 @@
- subpage_prot \- define a subpage protection for an address range
+diff --git a/man2/timer_create.2 b/man2/timer_create.2
+index 7f81914c2..9d3534570 100644
+--- a/man2/timer_create.2
++++ b/man2/timer_create.2
+@@ -28,7 +28,7 @@
+ timer_create \- create a POSIX per-process timer
  .SH SYNOPSIS
  .nf
--.BI "int subpage_prot(unsigned long " addr ", unsigned long " len \
--", uint32_t *" map );
-+.BR "#include <sys/syscall.h>" "      /* Definition of " SYS_* " constants */"
-+.B #include <unistd.h>
-+.PP
-+.BI "int syscall(SYS_subpage_prot, unsigned long " addr ", unsigned long " len ,
-+.BI "            uint32_t *" map );
- .fi
+-.B  #include <signal.h>
++.BR "#include <signal.h>" "           /* Definition of " SIGEV_* " constants */"
+ .B  #include <time.h>
  .PP
- .IR Note :
--There is no glibc wrapper for this system call; see NOTES.
-+glibc provides no wrapper for
-+.BR subpage_prot (),
-+necessitating the use of
-+.BR syscall (2).
- .SH DESCRIPTION
- The PowerPC-specific
- .BR subpage_prot ()
-@@ -96,9 +102,6 @@ No library support is provided.
- .SH CONFORMING TO
- This system call is Linux-specific.
- .SH NOTES
--Glibc does not provide a wrapper for this system call; call it using
--.BR syscall (2).
--.PP
- Normal page protections (at the 64-kB page level) also apply;
- the subpage protection mechanism is an additional constraint,
- so putting 0 in a 2-bit field won't allow writes to a page that is otherwise
+ .BI "int timer_create(clockid_t " clockid ", struct sigevent *restrict " sevp ,
 -- 
 2.32.0
 
