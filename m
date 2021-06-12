@@ -8,58 +8,58 @@ X-Spam-Status: No, score=-15.8 required=3.0 tests=BAYES_00,DKIM_SIGNED,
 	MAILING_LIST_MULTI,SPF_HELO_NONE,SPF_PASS,USER_AGENT_GIT autolearn=ham
 	autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 8B0D4C48BCF
-	for <linux-man@archiver.kernel.org>; Sat, 12 Jun 2021 08:32:55 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id DEC3BC48BE8
+	for <linux-man@archiver.kernel.org>; Sat, 12 Jun 2021 08:32:56 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.kernel.org (Postfix) with ESMTP id 62D1B61249
-	for <linux-man@archiver.kernel.org>; Sat, 12 Jun 2021 08:32:55 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTP id C171461249
+	for <linux-man@archiver.kernel.org>; Sat, 12 Jun 2021 08:32:56 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S231161AbhFLIex (ORCPT <rfc822;linux-man@archiver.kernel.org>);
-        Sat, 12 Jun 2021 04:34:53 -0400
-Received: from mail-wm1-f46.google.com ([209.85.128.46]:40644 "EHLO
-        mail-wm1-f46.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S229819AbhFLIew (ORCPT
-        <rfc822;linux-man@vger.kernel.org>); Sat, 12 Jun 2021 04:34:52 -0400
-Received: by mail-wm1-f46.google.com with SMTP id b145-20020a1c80970000b029019c8c824054so9917224wmd.5
-        for <linux-man@vger.kernel.org>; Sat, 12 Jun 2021 01:32:52 -0700 (PDT)
+        id S229819AbhFLIez (ORCPT <rfc822;linux-man@archiver.kernel.org>);
+        Sat, 12 Jun 2021 04:34:55 -0400
+Received: from mail-wm1-f41.google.com ([209.85.128.41]:39573 "EHLO
+        mail-wm1-f41.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S230400AbhFLIex (ORCPT
+        <rfc822;linux-man@vger.kernel.org>); Sat, 12 Jun 2021 04:34:53 -0400
+Received: by mail-wm1-f41.google.com with SMTP id l18-20020a1ced120000b029014c1adff1edso9922673wmh.4
+        for <linux-man@vger.kernel.org>; Sat, 12 Jun 2021 01:32:54 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=gmail.com; s=20161025;
         h=from:to:cc:subject:date:message-id:in-reply-to:references
          :mime-version:content-transfer-encoding;
-        bh=KZWw4Zzdt42s/980dqYtatfovJfhW11EXVzv3Q6PZdw=;
-        b=Z6jHebazCr0Va70nyCaycrjjIsz4TqQjlA+nYfx/eVNp5+FR+480um2Zlqq07O3VmU
-         Awve57otFlHfJFjXKmzc+6T0xzgv2kzDzBk7G2L98tNnRivEnUfLiIVUanwaDvOXx9Jn
-         N/VD6OUh/RIf9XxzPK9EaOWenfgYYFaHNHxojBBpFl94qOp4/Hi0iIPc5ENZztu8jvRQ
-         Bgpi7e3kfRR+X1t7YXAYCvfg0+COnke+tazUxyYu86npXzC7UhfcY1nRHeoPWlnycl41
-         2Q13VZmRQZxFbraUpMUlGtgbw4rxVr++0YqI1pv629mKn+VJjWr8cBBaIUCcbrUmgIhz
-         NgPQ==
+        bh=Ibwh6A5lc2r1HNGbK/LmQRv9sSjpxDdd9y5anmCPQmE=;
+        b=LTxebVI36v0k/nJwnAS6pM5DualYO3deDfE0HfUh2hCH8k/zqJgsMl3RZUVTiFCHFr
+         WReL4q85RfjXJTbdATvB17fHQpNZqYKeRcKxYDbsbfkJkoQZg4JqoWuaglE3HVQKi5JU
+         6guFlF1zJOXHeFzIJ9x9o1KFg7mi9tN5Mn16eItjB5hPGv6GxGh7d76pk7gxuGkWv4rd
+         mk5lPFaLTIRLwCibysjon3ohh2NrdneCWmFnWpO+SK8Al27/McpKfmb7JzCKLhOxBEqz
+         ltTdkYE2Dls9N5IKAtDLFmc3TVeMCxg2X+t4tJog59PL8cyod4qoXvmvkbeP8jLXaDjb
+         J30g==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
         h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
          :references:mime-version:content-transfer-encoding;
-        bh=KZWw4Zzdt42s/980dqYtatfovJfhW11EXVzv3Q6PZdw=;
-        b=BN4pqY7tK/QgxDUifIKIcvrKLY81kYBdrsACxd1ve0eBdVH+LGyutD7IzrQ9LRVbEu
-         TvDlbpz8tczZeZYVnACm+djH1wAFLS3FTCe+Ba8KtgZJA3VusmeihHx5nSt7xhjrEIwF
-         jPgl53ytJBTJJSab4FHPiYnAZVNww1LF6cgzFhcouvWe1axbA1q62fXpe+eE/30aWc+o
-         9IbqafuL24xSY4I6o5sQfGO+Nty2/DLwb0PfkRDGSHRcJYSHeCL7Qdg8Q+r6MZcVW3LG
-         nCRNmE3CKVaYLHT09IhXF35axWeKr3UArthkRmqi5XRWMl9Loav54KEmRM1K5X16PjBB
-         ynIQ==
-X-Gm-Message-State: AOAM530s9fN0EJU0EM8Cxbi9YAg/6Dhez9pGSwcimq/TSQF+qQLfjfTQ
-        fI0ZfB0o46yzQEM7ZsFuT6I=
-X-Google-Smtp-Source: ABdhPJwmE8cp6Wia9DazMYAp40omi38ZjYAginysrCbYMWCHTsF5WtSKJV9ZBsUL+ko1/dOiQ1DCOg==
-X-Received: by 2002:a05:600c:8a6:: with SMTP id l38mr7352259wmp.108.1623486712278;
-        Sat, 12 Jun 2021 01:31:52 -0700 (PDT)
+        bh=Ibwh6A5lc2r1HNGbK/LmQRv9sSjpxDdd9y5anmCPQmE=;
+        b=sbujQOY4X82AYRdDYGXWzWly1oR9lfh6itJMhcDt4NyxDElFHsJVcHPXdAsuJUrdVa
+         TK29j3UbNI+p5BOoRxMBvPxasWKjpp7TUNgK1vL+fi3om7omk6EmO4q0H6t2Sj4iJ2Kf
+         0Sid8bqbGARomtWb+ZcSRLUkjqF2/dwRn51hCJkGoqy7l6Sw5qe5MwBKU9owMIrQ7Bbo
+         qbW48q+nczG/RzP4xRjn7lvVgDTJBoxQl9JqgGOKy5BnUGcW7qrEn6+gmJc41w/atBHY
+         UfkBO6ps7mrQL+oPG0W0DQUDvLrupY/IFEEUl+oFiriDYECWGLvKqvQFYXfCBCHglGkX
+         G4gQ==
+X-Gm-Message-State: AOAM530e9IhlWntEQBHrk9yc9+wooDd9ZQZ1MR3Nx3pfXguBUl6z2L8A
+        6TRephz0i0yIR1lPtdMmMmlUaYHj75g=
+X-Google-Smtp-Source: ABdhPJwsbDkiLUyS/hkXwJ72Yh827Ykmn+JRmoWqWOH3XDEZk94R2jjwW1fc/Yof6yo/Cr4j0nJlDA==
+X-Received: by 2002:a1c:b403:: with SMTP id d3mr7433949wmf.79.1623486713727;
+        Sat, 12 Jun 2021 01:31:53 -0700 (PDT)
 Received: from localhost.localdomain ([170.253.36.171])
-        by smtp.googlemail.com with ESMTPSA id c12sm11165110wrr.90.2021.06.12.01.31.51
+        by smtp.googlemail.com with ESMTPSA id c12sm11165110wrr.90.2021.06.12.01.31.53
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Sat, 12 Jun 2021 01:31:52 -0700 (PDT)
+        Sat, 12 Jun 2021 01:31:53 -0700 (PDT)
 From:   Alejandro Colomar <alx.manpages@gmail.com>
 To:     mtk.manpages@gmail.com
 Cc:     Alejandro Colomar <alx.manpages@gmail.com>,
         linux-man@vger.kernel.org
-Subject: [PATCH 06/28] spu_run.2: Use syscall(SYS_...), for system calls without a wrapper
-Date:   Sat, 12 Jun 2021 10:31:23 +0200
-Message-Id: <20210612083145.12485-7-alx.manpages@gmail.com>
+Subject: [PATCH 08/28] statx.2: SYNOPSIS: Fix includes
+Date:   Sat, 12 Jun 2021 10:31:25 +0200
+Message-Id: <20210612083145.12485-9-alx.manpages@gmail.com>
 X-Mailer: git-send-email 2.32.0
 In-Reply-To: <20210612083145.12485-1-alx.manpages@gmail.com>
 References: <20210612083145.12485-1-alx.manpages@gmail.com>
@@ -69,46 +69,31 @@ Precedence: bulk
 List-ID: <linux-man.vger.kernel.org>
 X-Mailing-List: linux-man@vger.kernel.org
 
+<unistd.h> doesn't seem to be needed:
+  AT_* constants come from <fcntl.h>
+  STATX_* constants come from <sys/stat.h>
+  'struct statx' comes from <sys/stat.h>
+
 Signed-off-by: Alejandro Colomar <alx.manpages@gmail.com>
 ---
- man2/spu_run.2 | 12 +++++++-----
- 1 file changed, 7 insertions(+), 5 deletions(-)
+ man2/statx.2 | 3 +--
+ 1 file changed, 1 insertion(+), 2 deletions(-)
 
-diff --git a/man2/spu_run.2 b/man2/spu_run.2
-index def974772..d5fdc2280 100644
---- a/man2/spu_run.2
-+++ b/man2/spu_run.2
-@@ -28,13 +28,18 @@
- spu_run \- execute an SPU context
+diff --git a/man2/statx.2 b/man2/statx.2
+index a14880630..62e86fb1b 100644
+--- a/man2/statx.2
++++ b/man2/statx.2
+@@ -32,9 +32,8 @@
+ statx \- get file status (extended)
  .SH SYNOPSIS
  .nf
--.B #include <sys/spu.h>
-+.BR "#include <sys/spu.h>" "          /* Definition of " SPU_* " constants */"
-+.BR "#include <sys/syscall.h>" "      /* Definition of " SYS_* " constants */"
-+.B #include <unistd.h>
++.BR "#include <fcntl.h>           " "/* Definition of " AT_* " constants */"
+ .B #include <sys/stat.h>
+-.B #include <unistd.h>
+-.BR "#include <fcntl.h>           " "/* Definition of AT_* constants */"
  .PP
- .BI "int spu_run(int " fd ", uint32_t *" npc ", uint32_t *" event );
- .fi
- .PP
- .IR Note :
--There is no glibc wrapper for this system call; see NOTES.
-+glibc provides no wrapper for
-+.BR spu_run (),
-+necessitating the use of
-+.BR syscall (2).
- .SH DESCRIPTION
- The
- .BR spu_run ()
-@@ -195,9 +200,6 @@ This call is Linux-specific and implemented only by the PowerPC
- architecture.
- Programs using this system call are not portable.
- .SH NOTES
--Glibc does not provide a wrapper for this system call; call it using
--.BR syscall (2).
--Note however, that
- .BR spu_run ()
- is meant to be used from libraries that implement a more abstract
- interface to SPUs, not to be used from regular applications.
+ .BI "int statx(int " dirfd ", const char *restrict " pathname ", int " flags ,
+ .BI "          unsigned int " mask ", struct statx *restrict " statxbuf );
 -- 
 2.32.0
 
