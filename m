@@ -8,58 +8,58 @@ X-Spam-Status: No, score=-15.8 required=3.0 tests=BAYES_00,DKIM_SIGNED,
 	MAILING_LIST_MULTI,SPF_HELO_NONE,SPF_PASS,USER_AGENT_GIT autolearn=ham
 	autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 272CAC48BE8
-	for <linux-man@archiver.kernel.org>; Sat, 12 Jun 2021 08:33:20 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 6C57AC48BCF
+	for <linux-man@archiver.kernel.org>; Sat, 12 Jun 2021 08:33:29 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.kernel.org (Postfix) with ESMTP id 10A04611CD
-	for <linux-man@archiver.kernel.org>; Sat, 12 Jun 2021 08:33:20 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTP id 5304F61249
+	for <linux-man@archiver.kernel.org>; Sat, 12 Jun 2021 08:33:29 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S231168AbhFLIfR (ORCPT <rfc822;linux-man@archiver.kernel.org>);
-        Sat, 12 Jun 2021 04:35:17 -0400
-Received: from mail-wm1-f46.google.com ([209.85.128.46]:37711 "EHLO
-        mail-wm1-f46.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S231145AbhFLIfP (ORCPT
-        <rfc822;linux-man@vger.kernel.org>); Sat, 12 Jun 2021 04:35:15 -0400
-Received: by mail-wm1-f46.google.com with SMTP id f16-20020a05600c1550b02901b00c1be4abso9937996wmg.2
-        for <linux-man@vger.kernel.org>; Sat, 12 Jun 2021 01:33:03 -0700 (PDT)
+        id S230526AbhFLIf1 (ORCPT <rfc822;linux-man@archiver.kernel.org>);
+        Sat, 12 Jun 2021 04:35:27 -0400
+Received: from mail-wm1-f44.google.com ([209.85.128.44]:36403 "EHLO
+        mail-wm1-f44.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S231165AbhFLIfV (ORCPT
+        <rfc822;linux-man@vger.kernel.org>); Sat, 12 Jun 2021 04:35:21 -0400
+Received: by mail-wm1-f44.google.com with SMTP id h11-20020a05600c350bb02901b59c28e8b4so9453949wmq.1
+        for <linux-man@vger.kernel.org>; Sat, 12 Jun 2021 01:33:07 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=gmail.com; s=20161025;
         h=from:to:cc:subject:date:message-id:in-reply-to:references
          :mime-version:content-transfer-encoding;
-        bh=fUsfMOGS4WUdIabEmz/ZbqsUN1En4tGcaRJHlOIsWk4=;
-        b=oF5Qc4o0zAv2orhb3bcNFSIFJ7PyKoLf8xyWcVCznC7KRdkUc2ZmWPWGZGFj9sQ2hW
-         6XhzgtueJGzfsNxIyALmqIqd8z74r40gqvx7ocbFSJz8qeoDhYiVLCNBMrbtEwdPK8zJ
-         YUb/FWupOBkGC/WDvpO3yTcSBAE6MLJwcqX16CpsXPdFPpQ0q2lxDT0JA4TXP33XqZRj
-         iauzP7UoI41SbI7NNoo9GSvPXCMZ6nuREYqy4AbQqAEuW1dP6Bt7isqbX6SX2tTRgrqQ
-         b0AqjcGh+2Yjs0kdGIgCM03bzsai6VV2mCae5o8wQexLhMlSVeJ6CJwT/hzamlU8RqEP
-         Uf4Q==
+        bh=rb4AuUBKrEV8ftSTGDRdoYFv1hyNUeE18cKuTA1rRH4=;
+        b=fQ2LIwEqkKLMmBrAMz/gFUcVa+IlgwuYK8Cr3ez1E4TcYDjHH05C7hNrYXaDqr+7kS
+         6rP5Bv0fJ//YtWJ+AHvQu8jM4bi44xVOs1kop1czb/kY+X06FBq51Y85SBDofWqm0wp9
+         yzIYutqhFlEu8lIckeE/8v+4XnT/p0KLaqIXkBjDdH1I7Zz/PMh0gHX8ce4KLsvfHfzW
+         8ilyjm4jibG2h8g6TzA/o+dcBetJ2lkMJORozUIXOhnwsRy/zT20UG9i6bBobQ3dLhEm
+         n5kn2siKrEUKo2k6nZD+7qdY9qOChBzprU4lut343wGkiF1LNVbWhuJC9oapapXVNdlC
+         usSQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
         h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
          :references:mime-version:content-transfer-encoding;
-        bh=fUsfMOGS4WUdIabEmz/ZbqsUN1En4tGcaRJHlOIsWk4=;
-        b=Y6R7PTzhAY7zAn+5AuvCy9t5W/USlJCEcil3XCRxj8D5Nog1CUc1Ga5JT+Jguo/GsM
-         icyAM6YUULEcdw1+Sk7Cv3C4007A9GUjhUMyj2KkH6CoIgPuO8p7YYY68C7GZyGRCmYU
-         qohnSoaiCqVUSZy/mwD7eYdC68U5xWf2/oN7bGm20hwCfk2KDPxBDOoU6YZxnyMVpqLB
-         73YtoHs/OFBlw+Esf4YoNLlV7PWPVic8uqlVbwkNoqZuZzZfU9dh2ehlELLg/JWPw+7f
-         oA4dE25Jnyq0aHvSbrHAHt1i+Fd+8kUbWwj5DPMiF4i45lscQ8AzxWzVIt4DGEaZWvL3
-         pL5w==
-X-Gm-Message-State: AOAM531YZbf7LBvwEiqT3Isn1BrmAzoTbt5tTf/43UV46GAYugUiZF78
-        sAIWygHZv/8PMMhAc4wzTjI=
-X-Google-Smtp-Source: ABdhPJzsecpYRU3kPUWf/x/xEReQHykkRCo27IPVb5tQUdy4LWBUOGZYPJMgjR9VteLazTTPz2LTwQ==
-X-Received: by 2002:a1c:7218:: with SMTP id n24mr23701453wmc.104.1623486723161;
-        Sat, 12 Jun 2021 01:32:03 -0700 (PDT)
+        bh=rb4AuUBKrEV8ftSTGDRdoYFv1hyNUeE18cKuTA1rRH4=;
+        b=B6JcaCQxBR2WgOMQ+9ZqYuYD7WTCgkS8+F3eFRV2ar8YXQQ1rydzpepluyphXMB8fl
+         5rycPKOpdftX6EVx3KQnBcmgRlPAbledTaL5p/Pj7AqOz0UImt3qQJ/9374LPg6He3cq
+         NFpdaFfyiIWFANRF2mJ0yH5eSJTdCGkqgmPFyCy+LSZXbSd+X4IxL8QLV0axEqVXsRtT
+         QpF7zMj+RSFpGuX0lEXqoRBnZKtsJS46OfELTlluCx0SO6sdTqgMtNeUknK8VZ2LcO7B
+         Qb/y/S/fzsCiQmfS6AEQkHOTeaG5VpkFHC/9DC62w/uvPM6u/Rszxgw8UvEh+s/9plrO
+         79tg==
+X-Gm-Message-State: AOAM533OO+Dq6nRBROk62XEoWha3GeKI3gCGvccVu9Yh0Bwjw/Q+Cpbf
+        +7TlE1NvEBvhbabAe+Wq/ZY=
+X-Google-Smtp-Source: ABdhPJzudUUOGl2m6dJMb9MZDsWXYXNeYn10Au2eA381gWfppU2+ebQmMllmIA8VTLHyr60nIFMvlg==
+X-Received: by 2002:a7b:c38f:: with SMTP id s15mr24375280wmj.16.1623486726963;
+        Sat, 12 Jun 2021 01:32:06 -0700 (PDT)
 Received: from localhost.localdomain ([170.253.36.171])
-        by smtp.googlemail.com with ESMTPSA id c12sm11165110wrr.90.2021.06.12.01.32.02
+        by smtp.googlemail.com with ESMTPSA id c12sm11165110wrr.90.2021.06.12.01.32.06
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Sat, 12 Jun 2021 01:32:02 -0700 (PDT)
+        Sat, 12 Jun 2021 01:32:06 -0700 (PDT)
 From:   Alejandro Colomar <alx.manpages@gmail.com>
 To:     mtk.manpages@gmail.com
 Cc:     Alejandro Colomar <alx.manpages@gmail.com>,
         linux-man@vger.kernel.org
-Subject: [PATCH 22/28] userfaultfd.2: Remove unused includes
-Date:   Sat, 12 Jun 2021 10:31:39 +0200
-Message-Id: <20210612083145.12485-23-alx.manpages@gmail.com>
+Subject: [PATCH 27/28] wait.2: Remove <sys/types.h>
+Date:   Sat, 12 Jun 2021 10:31:44 +0200
+Message-Id: <20210612083145.12485-28-alx.manpages@gmail.com>
 X-Mailer: git-send-email 2.32.0
 In-Reply-To: <20210612083145.12485-1-alx.manpages@gmail.com>
 References: <20210612083145.12485-1-alx.manpages@gmail.com>
@@ -69,28 +69,27 @@ Precedence: bulk
 List-ID: <linux-man.vger.kernel.org>
 X-Mailing-List: linux-man@vger.kernel.org
 
-<sys/types.h> makes no sense for a function that only uses 'int'.
-The flags used by this function are provided by <fcntl.h>
-(or others), but not by <linux/userfaultfd.h>.
+The types that need <sys/types.h> are better documented in
+system_data_types(7).  Let's keep only the includes for the
+prototypes and the constants.
 
 Signed-off-by: Alejandro Colomar <alx.manpages@gmail.com>
 ---
- man2/userfaultfd.2 | 2 --
- 1 file changed, 2 deletions(-)
+ man2/wait.2 | 1 -
+ 1 file changed, 1 deletion(-)
 
-diff --git a/man2/userfaultfd.2 b/man2/userfaultfd.2
-index 593c189d8..e1a18a9d9 100644
---- a/man2/userfaultfd.2
-+++ b/man2/userfaultfd.2
-@@ -29,8 +29,6 @@
- userfaultfd \- create a file descriptor for handling page faults in user space
+diff --git a/man2/wait.2 b/man2/wait.2
+index 760f02f22..5ae955b3f 100644
+--- a/man2/wait.2
++++ b/man2/wait.2
+@@ -51,7 +51,6 @@
+ wait, waitpid, waitid \- wait for process to change state
  .SH SYNOPSIS
  .nf
 -.B #include <sys/types.h>
--.B #include <linux/userfaultfd.h>
+ .B #include <sys/wait.h>
  .PP
- .BI "int userfaultfd(int " flags );
- .fi
+ .BI "pid_t wait(int *" "wstatus" );
 -- 
 2.32.0
 
