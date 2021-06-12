@@ -8,58 +8,58 @@ X-Spam-Status: No, score=-15.8 required=3.0 tests=BAYES_00,DKIM_SIGNED,
 	MAILING_LIST_MULTI,SPF_HELO_NONE,SPF_PASS,USER_AGENT_GIT autolearn=ham
 	autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 2AB19C48BE5
-	for <linux-man@archiver.kernel.org>; Sat, 12 Jun 2021 08:33:18 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 1E451C48BE5
+	for <linux-man@archiver.kernel.org>; Sat, 12 Jun 2021 08:33:20 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.kernel.org (Postfix) with ESMTP id 0EEF261249
-	for <linux-man@archiver.kernel.org>; Sat, 12 Jun 2021 08:33:18 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTP id 0300A61263
+	for <linux-man@archiver.kernel.org>; Sat, 12 Jun 2021 08:33:19 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S229584AbhFLIfQ (ORCPT <rfc822;linux-man@archiver.kernel.org>);
-        Sat, 12 Jun 2021 04:35:16 -0400
-Received: from mail-wr1-f46.google.com ([209.85.221.46]:42793 "EHLO
-        mail-wr1-f46.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S231164AbhFLIfP (ORCPT
+        id S231164AbhFLIfR (ORCPT <rfc822;linux-man@archiver.kernel.org>);
+        Sat, 12 Jun 2021 04:35:17 -0400
+Received: from mail-wm1-f42.google.com ([209.85.128.42]:50872 "EHLO
+        mail-wm1-f42.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S231165AbhFLIfP (ORCPT
         <rfc822;linux-man@vger.kernel.org>); Sat, 12 Jun 2021 04:35:15 -0400
-Received: by mail-wr1-f46.google.com with SMTP id c5so8452950wrq.9
-        for <linux-man@vger.kernel.org>; Sat, 12 Jun 2021 01:32:58 -0700 (PDT)
+Received: by mail-wm1-f42.google.com with SMTP id d184so9291065wmd.0
+        for <linux-man@vger.kernel.org>; Sat, 12 Jun 2021 01:33:04 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=gmail.com; s=20161025;
         h=from:to:cc:subject:date:message-id:in-reply-to:references
          :mime-version:content-transfer-encoding;
-        bh=6uwDSBHCkI76w11CTOd/NPGJ1NBNGPYTSJyqRf8NNmM=;
-        b=akgmVmVT6dl1GMd02ryPRfsx6wHN5Sr6+ER5rk6AkRI9rBekZf5qS11SNFMtY2DJcQ
-         gEeJYzjpprwesr07DUwpupI/y3j3ucgvIpAMXl0ro6SNiD6M4MTCL+26no1iGVkajmbc
-         tOziKcO6XlZNmbrrylHTR5OsmrIODF1i8kMiH1LdyAOTCM8sudjJu/XAN23t24bM3swh
-         nc2KHvnDtbHzAw/lZLF3sgH9AlUiRSmxbwG0cRDYcoW4l/LkQ9TkJOErXxBLXUWGomUK
-         XNUlj6LjSJzyXrRhVoImmZIFg+Kd4+yNn5dngZ/PsV5EOpmflDlixzseDB9T0M0kcDDO
-         GijQ==
+        bh=omOYxjX8BzFEN+ao/+g3AxnVRYo3p1qkIkGVVr42xY0=;
+        b=IvT4t3DqUJ/hhDbL58OmL8/dwrzFjP5qYcFg5+PxcOlXUAEwG7e0hFjeuvkf+3iuHX
+         V+eANFG52kp09fzttenIASN5eJekyH/H3fkB57XkMgwTN9mHser5nKxXvRsCo+B371oI
+         FCnGFNyDLcT2o/H5HtVYC0FMrvB8gwmk7UfEstPg300MBA2GLsyd1EwnlHwU2FM7yb6/
+         aiRvzcdWfTKTQAvSf1vGWluXOiM6dt+nY/KdV9tRFD90n8jjknRZtqafS0br0fpke9Da
+         SqUvBWXJ7XridUREU9dDxbhn3Ke7Z1hf+m0b8O3AcozGHsGs9zDJ18oI9kzmYDOegVbO
+         c+zg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
         h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
          :references:mime-version:content-transfer-encoding;
-        bh=6uwDSBHCkI76w11CTOd/NPGJ1NBNGPYTSJyqRf8NNmM=;
-        b=BIMVXp7ihe8KM6RuSwH6rYRFNk+dx6BC775k1BFwehcjo6fIDTPM+W5D5y54fmerTr
-         cifYv5gN50wVj8O7RIye3fhREe1ju4QDuHJ9/s4vk85FpdTv6tc45T20jBNLvLEMsMPL
-         R/4nlv513w6/ZHHngYqiH7BhXSc9sYICr2kp7ctXEgojwh5thiM2Y9qUkqHqMoOKSARd
-         Ps8KuieMhf0FEc2jq8IHVyUql21PxsCifWFb0oKmC6tfuxI14qJHiH6rQ7UUvVHmlK2w
-         xHz0LbJMubRAnsXFIGY4/xaMmEWsH9nqaC12fQVbTO67Fopz+nDdJgrIeW6oWjPMOBNR
-         lNQw==
-X-Gm-Message-State: AOAM531FDJUzbu3ZqaMDnItaPlkXWE2ITFo5czBTVeKbT/brPVE0L2Se
-        8e6XV0K4DnKILR8+4A6UZXj2FvAbju4=
-X-Google-Smtp-Source: ABdhPJzd0+EY8i9AheF8zLj8YgXeLe26YDhRBIBP4t01/m99i2GdzKwheoqqIZ1x+CyBENqPu+qeHQ==
-X-Received: by 2002:a5d:5189:: with SMTP id k9mr7811993wrv.319.1623486718420;
-        Sat, 12 Jun 2021 01:31:58 -0700 (PDT)
+        bh=omOYxjX8BzFEN+ao/+g3AxnVRYo3p1qkIkGVVr42xY0=;
+        b=ce9TlG4LlCsLBp8+at6LCD9GRVQ65n0LsEaLneH8OrsIwM0ie2U6agXtKxM+BCgZ9+
+         T7SxzfSNF8gbormxrSkYI2BYv5gr+pYVoe2TvlulKMKbwNe2Q3uyBff3W7j3BFhJzEyo
+         4RYUjc1kupC5ab5nAwI9YpoevJEsRDjTlfDXrlh2On7cmSdF/rVrgPG1Twiw0iScaZiB
+         25byjRvsZVU+6wl49DCzKMfE3UdzHSAehd1EC2EUf/5QpckUEycvwbFievGn2kOGhFo/
+         ZFnuR/yKP+Zn5WjGhZ+vwxxhnH9QpnR+o01GAI4EV8Ln7PSg0s1QU+kULsZPP1I0JYXT
+         vJ/g==
+X-Gm-Message-State: AOAM533AjE6a/iKYyjcJKSwbtM+BjDUSxE7JQdbzKIIs5+rfTX0OUVX+
+        u3jQdBshf5GFu2FKQX9TnVY=
+X-Google-Smtp-Source: ABdhPJyZm3qB2AdoCaXxuLFxkpv1QruCcfQXOsXLIq6ie96UteuK3Le0pApk1V2KOMmrz8otASPJRw==
+X-Received: by 2002:a05:600c:1ca6:: with SMTP id k38mr24670596wms.49.1623486723880;
+        Sat, 12 Jun 2021 01:32:03 -0700 (PDT)
 Received: from localhost.localdomain ([170.253.36.171])
-        by smtp.googlemail.com with ESMTPSA id c12sm11165110wrr.90.2021.06.12.01.31.57
+        by smtp.googlemail.com with ESMTPSA id c12sm11165110wrr.90.2021.06.12.01.32.03
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Sat, 12 Jun 2021 01:31:58 -0700 (PDT)
+        Sat, 12 Jun 2021 01:32:03 -0700 (PDT)
 From:   Alejandro Colomar <alx.manpages@gmail.com>
 To:     mtk.manpages@gmail.com
 Cc:     Alejandro Colomar <alx.manpages@gmail.com>,
         linux-man@vger.kernel.org
-Subject: [PATCH 15/28] s390_guarded_storage.2: tfix
-Date:   Sat, 12 Jun 2021 10:31:32 +0200
-Message-Id: <20210612083145.12485-16-alx.manpages@gmail.com>
+Subject: [PATCH 23/28] userfaultfd.2: Use syscall(SYS_...); for system calls without a wrapper; fix includes too
+Date:   Sat, 12 Jun 2021 10:31:40 +0200
+Message-Id: <20210612083145.12485-24-alx.manpages@gmail.com>
 X-Mailer: git-send-email 2.32.0
 In-Reply-To: <20210612083145.12485-1-alx.manpages@gmail.com>
 References: <20210612083145.12485-1-alx.manpages@gmail.com>
@@ -71,22 +71,44 @@ X-Mailing-List: linux-man@vger.kernel.org
 
 Signed-off-by: Alejandro Colomar <alx.manpages@gmail.com>
 ---
- man2/s390_guarded_storage.2 | 2 +-
- 1 file changed, 1 insertion(+), 1 deletion(-)
+ man2/userfaultfd.2 | 13 ++++++++-----
+ 1 file changed, 8 insertions(+), 5 deletions(-)
 
-diff --git a/man2/s390_guarded_storage.2 b/man2/s390_guarded_storage.2
-index 747c45c3a..62b3ed913 100644
---- a/man2/s390_guarded_storage.2
-+++ b/man2/s390_guarded_storage.2
-@@ -38,7 +38,7 @@ s390_guarded_storage \- operations with z/Architecture guarded storage facility
+diff --git a/man2/userfaultfd.2 b/man2/userfaultfd.2
+index e1a18a9d9..cee7c01d2 100644
+--- a/man2/userfaultfd.2
++++ b/man2/userfaultfd.2
+@@ -29,12 +29,18 @@
+ userfaultfd \- create a file descriptor for handling page faults in user space
+ .SH SYNOPSIS
+ .nf
++.BR "#include <fcntl.h>" "            /* Definition of " O_* " constants */"
++.BR "#include <sys/syscall.h>" "      /* Definition of " SYS_* " constants */"
++.B #include <unistd.h>
+ .PP
+-.BI "int userfaultfd(int " flags );
++.BI "int syscall(SYS_userfaultfd, int " flags );
+ .fi
  .PP
  .IR Note :
- glibc provides no wrapper for
--.BR s390_guarded_storage (2),
-+.BR s390_guarded_storage (),
- necessitating the use of
- .BR syscall (2).
+-There is no glibc wrapper for this system call; see NOTES.
++glibc provides no wrapper for
++.BR userfaultfd (),
++necessitating the use of
++.BR syscall (2).
  .SH DESCRIPTION
+ .BR userfaultfd ()
+ creates a new userfaultfd object that can be used for delegation of page-fault
+@@ -573,9 +579,6 @@ non-page-fault events was added in Linux 4.11
+ is Linux-specific and should not be used in programs intended to be
+ portable.
+ .SH NOTES
+-Glibc does not provide a wrapper for this system call; call it using
+-.BR syscall (2).
+-.PP
+ The userfaultfd mechanism can be used as an alternative to
+ traditional user-space paging techniques based on the use of the
+ .BR SIGSEGV
 -- 
 2.32.0
 
