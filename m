@@ -5,66 +5,64 @@ X-Spam-Level:
 X-Spam-Status: No, score=-15.8 required=3.0 tests=BAYES_00,DKIM_SIGNED,
 	DKIM_VALID,DKIM_VALID_AU,FREEMAIL_FORGED_FROMDOMAIN,FREEMAIL_FROM,
 	HEADER_FROM_DIFFERENT_DOMAINS,INCLUDES_CR_TRAILER,INCLUDES_PATCH,
-	MAILING_LIST_MULTI,SPF_HELO_NONE,SPF_PASS,URIBL_BLOCKED,USER_AGENT_GIT
-	autolearn=ham autolearn_force=no version=3.4.0
+	MAILING_LIST_MULTI,SPF_HELO_NONE,SPF_PASS,USER_AGENT_GIT autolearn=ham
+	autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 6DFF2C48BCF
-	for <linux-man@archiver.kernel.org>; Sat, 12 Jun 2021 08:31:51 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 0FC8BC48BCF
+	for <linux-man@archiver.kernel.org>; Sat, 12 Jun 2021 08:31:54 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.kernel.org (Postfix) with ESMTP id 50BAB611CD
-	for <linux-man@archiver.kernel.org>; Sat, 12 Jun 2021 08:31:51 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTP id ECEF561184
+	for <linux-man@archiver.kernel.org>; Sat, 12 Jun 2021 08:31:53 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S230400AbhFLIdt (ORCPT <rfc822;linux-man@archiver.kernel.org>);
-        Sat, 12 Jun 2021 04:33:49 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:35984 "EHLO
+        id S230459AbhFLIdw (ORCPT <rfc822;linux-man@archiver.kernel.org>);
+        Sat, 12 Jun 2021 04:33:52 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:35998 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S229584AbhFLIdt (ORCPT
-        <rfc822;linux-man@vger.kernel.org>); Sat, 12 Jun 2021 04:33:49 -0400
-Received: from mail-wr1-x42c.google.com (mail-wr1-x42c.google.com [IPv6:2a00:1450:4864:20::42c])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id EDA36C061574
-        for <linux-man@vger.kernel.org>; Sat, 12 Jun 2021 01:31:49 -0700 (PDT)
-Received: by mail-wr1-x42c.google.com with SMTP id n7so2341411wri.3
-        for <linux-man@vger.kernel.org>; Sat, 12 Jun 2021 01:31:49 -0700 (PDT)
+        with ESMTP id S229584AbhFLIdw (ORCPT
+        <rfc822;linux-man@vger.kernel.org>); Sat, 12 Jun 2021 04:33:52 -0400
+Received: from mail-wm1-x336.google.com (mail-wm1-x336.google.com [IPv6:2a00:1450:4864:20::336])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id E7890C061767
+        for <linux-man@vger.kernel.org>; Sat, 12 Jun 2021 01:31:52 -0700 (PDT)
+Received: by mail-wm1-x336.google.com with SMTP id l9so9277830wms.1
+        for <linux-man@vger.kernel.org>; Sat, 12 Jun 2021 01:31:52 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=gmail.com; s=20161025;
         h=from:to:cc:subject:date:message-id:in-reply-to:references
          :mime-version:content-transfer-encoding;
-        bh=HAobOVRCPZhcGIVtjuNYshaPN8hQXyMwSc4qHSmYeEM=;
-        b=RQEKfNL7Uz1rkvOrdRCrYb2GAfRrfF3qF7pi4e0FzGkIBK2M1Z529SFWu+N9XtZvkK
-         FwSq+qh0g1YZWxIQ3fgh3Sx0Fl6dq0uWZe1Xso3J5Z4ChjzOY5Xe9ukRnIcN4xPQgMMy
-         hoZcebTP8tTTiexQypwFm9urlifj6BPUeLLb3SNK0xkf3jUONqgnwRSWQ38avA9DJP8f
-         7sz/NG4v2ODMnQD1emXQ5Yyx9ULUHll3+jtGt6yDqVkzZFpz3BAf9msLaVw3jKu3JElT
-         ldDT0fBpaCWeTfPZAKq0rpmT2ONqv5e2cLg7e0mUY7AcQ170BCeMP7NRnFwM2iC1F8Qg
-         PzrQ==
+        bh=pL8LZ2K0wUOULtxfeeWVdQP6Tlx+z9olK+/hxJMrxVg=;
+        b=OZ3x6LAvYGuXCATer4/H6i3WQMnI2GLoJMyyhy+jkwIgO+2W4+S/Q8A/kj9M++fSjO
+         6q4HbV1Ny8zozOZhO6yfwTzurqnGt0oxvYRgya4wwCqAf0+PEiLX5LCxpA1IQsU4dlJu
+         tT3hIU9fM7NDVOee9/htgjt3QE/MxOs46D0TJEZXYheP7vojYlbNUMakIqBq+tj/orRy
+         Wmcw+6w+QXfzLXQVD3YIX7eNgdZWCGviS9iDo+rMP4V8VqpfoCYfELDpuGAwWra13xKh
+         7Vpd2TbstqqTCBVGtiOLVkHtKrx+oL0f7VNlC5vJPWU/tbJgQ0mDU6IjTersJIeD0/gb
+         TAkA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
         h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
          :references:mime-version:content-transfer-encoding;
-        bh=HAobOVRCPZhcGIVtjuNYshaPN8hQXyMwSc4qHSmYeEM=;
-        b=Zld+KGVZeJ2ANp1go4k2hEPAYzGpHExYeUMWvAZ8x7CzhgKhYJLNWkF+sZREv3Crhw
-         35RbY9NZ+6N4aURuN0VvIA1HsSpCEXEASaPsS5so7j+UGf8xi1dg3SnM1lYRbvVi4PgJ
-         AEPdeg8k3Q3wNslJS3/iUYbzjEmMGgrJlGi91fnpkr32pdrWz2pmIbVuoy3PEOJHfuMb
-         IKPKGGAoVpQ7KpHm7ZDSiQZW65QwxhfzTwY7uKUx9/3LkbmRTDWqNxDr5S/y4dunQgR+
-         60g1KuRcsp+TBfrHggcI4AC0+VUF5z2dF08+00hG0it0/wRRdpqiL9AHdgqCuSusVcME
-         qcgw==
-X-Gm-Message-State: AOAM533jp8dvoQX9Lic72URiKIwenAbN3JJRr7+ruj4LfGjsnbjOvUJ1
-        W/iV1zKCtLVvEiZCUEvpYGU=
-X-Google-Smtp-Source: ABdhPJxv+oYhL/ACbeuCS0Nfo+TJB6eJqF2ZN27ttlnHDdPEZxwog+HR45qgo6ib1Zh+ddutfpmqFA==
-X-Received: by 2002:adf:fe86:: with SMTP id l6mr8374505wrr.106.1623486708618;
-        Sat, 12 Jun 2021 01:31:48 -0700 (PDT)
+        bh=pL8LZ2K0wUOULtxfeeWVdQP6Tlx+z9olK+/hxJMrxVg=;
+        b=Y1h8+8jODM9F1t/6050uWy+WxBCokv7pdNMpGU3LQ2ZEKUCaQfulHiJ20ZAj3HT+FQ
+         +i6fVNsnDM83gQFJAecTxaEdiW4EeCqyHgwMXCeKgigCFamGva8VunG430TNQrgmrvpW
+         so1/Rrrr+nwP3S4uwISX4u5DYL6TZK5XZfWDdlyC4m8++/Wes9SzMEoXDqjigqyIL4k6
+         87ZdnMBgfCJOSscQofMwnSPur/65I+DV1ybI3pzNq0LtYrYWGvtj/07VeGI7dI4iW7g4
+         WR1ti7T0zXo0H8b02cF8tRYNqKTjqEEECqMmVdx46z2xJNlMyRqNkZXQXZqiPAs4rtj5
+         RFtA==
+X-Gm-Message-State: AOAM5339bN3XufC/wOtOYIO7qcDdv+0jzi2DEUHJW7d8s8zd0brGMwpK
+        0PyuQgSstCrtygYXKd8FfLU=
+X-Google-Smtp-Source: ABdhPJzKUIwR9KZO4AJYazZB8DYhR+iZsLP1RHBCcFrKdieYgxolPmVm2+s3fUAPqcyXyUJRNk1b0g==
+X-Received: by 2002:a1c:9dc5:: with SMTP id g188mr23507346wme.141.1623486711624;
+        Sat, 12 Jun 2021 01:31:51 -0700 (PDT)
 Received: from localhost.localdomain ([170.253.36.171])
-        by smtp.googlemail.com with ESMTPSA id c12sm11165110wrr.90.2021.06.12.01.31.47
+        by smtp.googlemail.com with ESMTPSA id c12sm11165110wrr.90.2021.06.12.01.31.50
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Sat, 12 Jun 2021 01:31:48 -0700 (PDT)
+        Sat, 12 Jun 2021 01:31:51 -0700 (PDT)
 From:   Alejandro Colomar <alx.manpages@gmail.com>
 To:     mtk.manpages@gmail.com
 Cc:     Alejandro Colomar <alx.manpages@gmail.com>,
-        linux-man@vger.kernel.org, Kees Cook <keescook@chromium.org>,
-        Tyler Hicks <tyhicks@canonical.com>,
-        Will Drewry <wad@chromium.org>
-Subject: [PATCH 01/28] seccomp.2: Document why each header is needed
-Date:   Sat, 12 Jun 2021 10:31:18 +0200
-Message-Id: <20210612083145.12485-2-alx.manpages@gmail.com>
+        linux-man@vger.kernel.org
+Subject: [PATCH 05/28] pipe.2: SYNOPSIS: Fix incorrect prototype
+Date:   Sat, 12 Jun 2021 10:31:22 +0200
+Message-Id: <20210612083145.12485-6-alx.manpages@gmail.com>
 X-Mailer: git-send-email 2.32.0
 In-Reply-To: <20210612083145.12485-1-alx.manpages@gmail.com>
 References: <20210612083145.12485-1-alx.manpages@gmail.com>
@@ -74,36 +72,29 @@ Precedence: bulk
 List-ID: <linux-man.vger.kernel.org>
 X-Mailing-List: linux-man@vger.kernel.org
 
-Signed-off-by: Alejandro Colomar <alx.manpages@gmail.com>
-Cc: Kees Cook <keescook@chromium.org>
-Cc: Tyler Hicks <tyhicks@canonical.com>
-Cc: Will Drewry <wad@chromium.org>
-Cc: Michael Kerrisk <mtk.manpages@gmail.com>
----
- man2/seccomp.2 | 10 +++++-----
- 1 file changed, 5 insertions(+), 5 deletions(-)
+A function declarator with empty parentheses, which is not a
+prototype, is an obsolescent feature of C (See C17 6.11.6.1), and
+doesn't mean 0 parameters, but instead that no information about
+the parameters is provided (See C17 6.5.2.2).
 
-diff --git a/man2/seccomp.2 b/man2/seccomp.2
-index 35eb1dd1f..53f473a78 100644
---- a/man2/seccomp.2
-+++ b/man2/seccomp.2
-@@ -31,11 +31,11 @@
- seccomp \- operate on Secure Computing state of the process
- .SH SYNOPSIS
- .nf
--.B #include <linux/seccomp.h>
--.B #include <linux/filter.h>
--.B #include <linux/audit.h>
--.B #include <linux/signal.h>
--.B #include <sys/ptrace.h>
-+.BR "#include <linux/seccomp.h>" "  /* Definition of " SECCOMP_* " constants */"
-+.BR "#include <linux/filter.h>" "   /* Definition of " "struct sock_fprog" " */"
-+.BR "#include <linux/audit.h>" "    /* Definition of " AUDIT_* " constants */"
-+.BR "#include <linux/signal.h>" "   /* Definition of " SIG* " constants */"
-+.BR "#include <sys/ptrace.h>" "     /* Definition of " PTRACE_* " constants */"
- .\" Kees Cook noted: Anything that uses SECCOMP_RET_TRACE returns will
- .\"                  need <sys/ptrace.h>
- .PP
+Signed-off-by: Alejandro Colomar <alx.manpages@gmail.com>
+---
+ man2/pipe.2 | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
+
+diff --git a/man2/pipe.2 b/man2/pipe.2
+index 93fbd36f2..41a482f37 100644
+--- a/man2/pipe.2
++++ b/man2/pipe.2
+@@ -56,7 +56,7 @@ pipe, pipe2 \- create pipe
+ .B struct fd_pair {
+ .B "    long fd[2];"
+ .B "};"
+-.B struct fd_pair pipe();
++.B struct fd_pair pipe(void);
+ .fi
+ .SH DESCRIPTION
+ .BR pipe ()
 -- 
 2.32.0
 
