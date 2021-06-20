@@ -2,137 +2,214 @@ Return-Path: <linux-man-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-5.8 required=3.0 tests=BAYES_00,DKIM_SIGNED,
-	DKIM_VALID,DKIM_VALID_AU,HEADER_FROM_DIFFERENT_DOMAINS,MAILING_LIST_MULTI,
-	SPF_HELO_NONE,SPF_PASS,URIBL_BLOCKED autolearn=no autolearn_force=no
-	version=3.4.0
+X-Spam-Status: No, score=-14.5 required=3.0 tests=BAYES_00,DKIM_SIGNED,
+	DKIM_VALID,DKIM_VALID_AU,FREEMAIL_FORGED_FROMDOMAIN,FREEMAIL_FROM,
+	HEADER_FROM_DIFFERENT_DOMAINS,INCLUDES_CR_TRAILER,INCLUDES_PATCH,
+	MAILING_LIST_MULTI,NICE_REPLY_A,SPF_HELO_NONE,SPF_PASS,URIBL_BLOCKED,
+	USER_AGENT_SANE_1 autolearn=ham autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id AA8AFC48BE6
-	for <linux-man@archiver.kernel.org>; Mon, 14 Jun 2021 08:51:41 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 4B863C2B9F4
+	for <linux-man@archiver.kernel.org>; Sun, 20 Jun 2021 02:39:45 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.kernel.org (Postfix) with ESMTP id 88993610A2
-	for <linux-man@archiver.kernel.org>; Mon, 14 Jun 2021 08:51:41 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTP id 1A9446109F
+	for <linux-man@archiver.kernel.org>; Sun, 20 Jun 2021 02:39:45 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S232653AbhFNIxn (ORCPT <rfc822;linux-man@archiver.kernel.org>);
-        Mon, 14 Jun 2021 04:53:43 -0400
-Received: from mail-bn8nam11on2110.outbound.protection.outlook.com ([40.107.236.110]:10688
-        "EHLO NAM11-BN8-obe.outbound.protection.outlook.com"
-        rhost-flags-OK-OK-OK-FAIL) by vger.kernel.org with ESMTP
-        id S232528AbhFNIxl (ORCPT <rfc822;linux-man@vger.kernel.org>);
-        Mon, 14 Jun 2021 04:53:41 -0400
-ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
- b=MdMeY7ObmZkK2qrdMMoSg+i+eDmZ1KLorxL7SpUnSqnppBr1lNt0YUgYKD+rdNtsCbGL58l7Y+gk2BaTuSUoKZGd5fXx5j+InaOu3sI84OK8zeqbDPaZ/FDlB+qgZd8XrEeoiV79BfTd2xTmmp+VnVi/qbXtcX7XYTGD+3gKwzNaQ8Ci2fLtskL6w7wlhFEU6cNgEt++j793Cs7ix4sn37SPQm9McaDnTapVJsOd3imi5KTDcOYNvRPD3tpCpd76eKo9KiVOJ6kWWnaMozq4/2iBzDfEG3TpAkK1h3JDPEpteoprsXKUGSKngOhTk4de92yJ+pOieTEd6Ubz3kY9tQ==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
- s=arcselector9901;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=iOTtipDe4Orw/iRX5ap9UGHe8FBRRB2pT4NsGnebjxE=;
- b=GP3ZrB/veGSub8c0nYWn5OT7zZnOnfZ1K9jxrbdGbUP7mP8VzvOH+hqudWA0PIEs1mNj5DjrLDXZEShRo5nHIrPslFrL3qcSGXULKskFac2Llb80C2iizLKGjbROSNbzvw/XGFPFqveSXhXmNujn6bpr9MwQUxwoUvq/QneVa2v/mGSsjglDTFsC1G/Paa0mzBUJx5tNG0r5P9qfqfoade3sfmiuv4a8KkmYPVtqB8C7aoEYJBfDkfe93CT/cSGWCBSmsBjz73E2FqEiLP6G6sIq3ExQPOn9kCxtBPkeeOQnLuQWs3K93RnZZD3LpjIbPcKsUBg9D/S7byg2bhPUyA==
-ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
- smtp.mailfrom=helpsystems.com; dmarc=pass action=none
- header.from=helpsystems.com; dkim=pass header.d=helpsystems.com; arc=none
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=helpsystems.com;
- s=selector2;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=iOTtipDe4Orw/iRX5ap9UGHe8FBRRB2pT4NsGnebjxE=;
- b=R8ZetiKzifK4K2Y/EFpTuDuj7zsUaPYWMtIfn/35zU5BHvDK5PCexaFP72n23pbhhQXjYyVsBfI0MswPiHYZ/Ua6HBjd7UWcKqMkbl/dVkfzvUqHNgpp8Br2ayjeYuxT1wTjLFw9OB9E6FnwPipADbhiUFB0zUb+AcH4rAPZ4RE=
-Received: from SN6PR08MB4928.namprd08.prod.outlook.com (2603:10b6:805:6b::32)
- by SN6PR08MB5087.namprd08.prod.outlook.com (2603:10b6:805:73::11) with
- Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.4219.25; Mon, 14 Jun
- 2021 08:51:36 +0000
-Received: from SN6PR08MB4928.namprd08.prod.outlook.com
- ([fe80::dd96:1caf:9d83:20ce]) by SN6PR08MB4928.namprd08.prod.outlook.com
- ([fe80::dd96:1caf:9d83:20ce%6]) with mapi id 15.20.4219.025; Mon, 14 Jun 2021
- 08:51:36 +0000
-From:   Alan Peakall <Alan.Peakall@helpsystems.com>
-To:     "mtk.manpages@gmail.com" <mtk.manpages@gmail.com>,
-        "alx.manpages@gmail.com" <alx.manpages@gmail.com>
-CC:     "linux-man@vger.kernel.org" <linux-man@vger.kernel.org>
-Subject: man-pages: posixoptions(7)
-Thread-Topic: man-pages: posixoptions(7)
-Thread-Index: Addg+NE0d4d5WDpjR1OcWlLC7uCoYw==
-Date:   Mon, 14 Jun 2021 08:51:36 +0000
-Message-ID: <SN6PR08MB49282117AFEB2499B3DD224380319@SN6PR08MB4928.namprd08.prod.outlook.com>
-Accept-Language: en-GB, en-US
-Content-Language: en-US
-X-MS-Has-Attach: 
-X-MS-TNEF-Correlator: 
-authentication-results: gmail.com; dkim=none (message not signed)
- header.d=none;gmail.com; dmarc=none action=none header.from=helpsystems.com;
-x-originating-ip: [86.191.111.216]
-x-ms-publictraffictype: Email
-x-ms-office365-filtering-correlation-id: cbb5f8d6-cb5e-4583-8409-08d92f119e08
-x-ms-traffictypediagnostic: SN6PR08MB5087:
-x-microsoft-antispam-prvs: <SN6PR08MB5087F1A3BF2A63745282F49780319@SN6PR08MB5087.namprd08.prod.outlook.com>
-x-ms-oob-tlc-oobclassifiers: OLM:8273;
-x-ms-exchange-senderadcheck: 1
-x-microsoft-antispam: BCL:0;
-x-microsoft-antispam-message-info: YpVwejaA3M3KgVrSWj18mTqpoYjpe32Gjt728QU9bfXQcSFRbK735Zo3P6DUcd8gGv5UyZCtzwOtRHXjSDLomJrn9EZkOE2vttmwd80ENoGVfydbhO4BCtXajoJJZNR8ek/50GFqpL7KvymbVjxSSiO0k+GupVw+brfwB1ryzAovN//TQe8nfKtDWWcl4pHelaGFYodmaZ3Yl4MxwXw4U6b17l7O6hiE9oheSIsD8P0WBey1LF5/7m79DrKupz7TMSQTQpR8i3nzrYBEogsJURPeoPprC7IfJ19cpJSbDseFI+wXwsCNqU5hnsc8idSceEXwdrM8KXXRkX0EiRJwpvHhXR6B4gunZhHwOMXwjT8TIzFo+etzF9I9zayWb78Yv2JgMwjsEot8V4ZtUAmWX5aQbrq09zSEhUt1V1gkRxBeB4UYaKaNSeY8g08IGjJW71SyXi0MDlaw8FIoMP5IAX8DxYTOm7hDEoIYzZq56etY95mco5zLyhRXdKMMNs63HTgRk/SjpHPp0QoJ5F19DJC9405DoqKhaGIuXhRgoGib5+D0+xNoFwBEwtd658PXtkDsMa4vU0u6lA6GQibIrFFWfMpsSspRr4HxpUf++wadgWrbQNzkOxDINaOKQNtxMLGcu+Q3ZH19UIu/1k/r8I6b6lP8h82vbciUkqy33ZMKZNjnnWOrVnjtHJ6oKBSnMBIt36xXh6wN4W992VF4xa23sDNGzjlgRoTk1AiPMqI=
-x-forefront-antispam-report: CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:SN6PR08MB4928.namprd08.prod.outlook.com;PTR:;CAT:NONE;SFS:(4636009)(376002)(136003)(366004)(396003)(346002)(39850400004)(33656002)(15974865002)(7696005)(38100700002)(122000001)(86362001)(8676002)(186003)(71200400001)(6506007)(478600001)(4326008)(26005)(8936002)(83380400001)(64756008)(66556008)(66476007)(66446008)(2906002)(9686003)(55016002)(5660300002)(110136005)(316002)(76116006)(4744005)(66946007)(52536014);DIR:OUT;SFP:1102;
-x-ms-exchange-antispam-messagedata-chunkcount: 1
-x-ms-exchange-antispam-messagedata-0: =?us-ascii?Q?8h6NEym649ST6YCsN3sghtRg61YW1Za4IFBW665TZRcdx/L+yMKVnxJ0Vb4y?=
- =?us-ascii?Q?9fgUngrSkEM34zplHV5gr1eY8y5IQ1gOxz+L1rDxLFWNRAZRxG/tW7CSi70A?=
- =?us-ascii?Q?qtROVjgpvNvThKr3wLedZYXJSTGzkkRBWVa3rSWhRKD2i/ocCOb+8CwIYvoB?=
- =?us-ascii?Q?FBe6TSiMzf30mGwT84/+RI21b15AzNyEk4J/WJ8ziunRdSYO/GySFllxkH/E?=
- =?us-ascii?Q?iVTcTUIs0MtorRRvmpsYtCWul8ofDDOm6YJNRUJWCGAR9ouIYJrlmlgK6ol0?=
- =?us-ascii?Q?M1o1SVKDdZUVmsGpXsKPHro82eJcL8UACesdMo7Fm5cJ2yYa7PX29Qo0WiVq?=
- =?us-ascii?Q?R1ydPkJ7tKSk/rLG32i8ZTdELhKncm3oFDsbclGlcxlpDQ/CEdADL3oVBXlP?=
- =?us-ascii?Q?dMPAeEy8Bb/fL0Cm5mSucQraVz/KpeCADgPlpHWJLpzcCCZBK84iPx+fGi10?=
- =?us-ascii?Q?1ZjkmhgLFaeV3C0e7gxXHdwSiFr0Du+ySZaWS/p6NRGj4c/gCHIh9VHRYzLd?=
- =?us-ascii?Q?aT1xSqOBO8FHEG7+dGYzKc2kTiV8aTG4ytSHiZEVpaWIfK2ChMzA+Xf6pXsd?=
- =?us-ascii?Q?p0WQMp7za3v0ia9J49lgoi44xn0m0v96f3FJ207z39rwFqu2hWeUf/LkLK4a?=
- =?us-ascii?Q?dRLjYSMfkMU9MRzLm+GWzH+6RRfs8/t4JILRNetWk6dp7qpIFYQ7zjV3rNRc?=
- =?us-ascii?Q?oMlGUQpLWhWGnM732lMDUcgMMSlNBvgXECTkN6cWEguXUnaW/BsU23UCkyGk?=
- =?us-ascii?Q?Lam4HwUSKG5lh9woSVX9Ifvv+yy1VKTnaUVAV06t160ckyDVykNdyFPjo9jb?=
- =?us-ascii?Q?v6GAzEXShIm6KErgRtLfh4qkrJ8M+sKP9B64/0gnCUtFZcX6wYbn6iZwzxCM?=
- =?us-ascii?Q?ruDlRUbI1pZBNcrHXWz+K4v0rRuh6lOjFpB7rOK3Zmh/P0CY2sg6/cEdpMvM?=
- =?us-ascii?Q?YDC8ojFJtntDv0t14hTgMlWH4LJW4Tl3FnRAEtWFJSi8nQxHLWtI+eLTRmt+?=
- =?us-ascii?Q?AofzL1iFqceoyZ7MWYlpWq4uhaptFf1S9wfCbd6oWr2XZE22UpSC/PwvKjOk?=
- =?us-ascii?Q?MxyIAs6Zpy2oKAc85K/KBIMQVy79u2JKZ/W+RA5NH5VZFqHJMGSyk5KoeBwd?=
- =?us-ascii?Q?lpH3WGJuLHP0ifHqM91yuYt66eHET2YKQ5hWt4ZAqw05YgTw25wxLDmdNrM4?=
- =?us-ascii?Q?rb4rpNBzUt8sew8EuC6rA5uAl0aZzyRg059Y2UhyboT8r/hLqpv9/tnS9tRx?=
- =?us-ascii?Q?nRTYsuMtllWDG0Ma4y9K7Yo6JK5QFrxKU0RJhcu1Y0hedgez2RgIDYN16MdX?=
- =?us-ascii?Q?FnUXjzMHrlM1syALE+bV/zCq?=
-x-ms-exchange-transport-forked: True
-Content-Type: text/plain; charset="us-ascii"
-Content-Transfer-Encoding: quoted-printable
+        id S230331AbhFTClz (ORCPT <rfc822;linux-man@archiver.kernel.org>);
+        Sat, 19 Jun 2021 22:41:55 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:40388 "EHLO
+        lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S230236AbhFTClz (ORCPT
+        <rfc822;linux-man@vger.kernel.org>); Sat, 19 Jun 2021 22:41:55 -0400
+Received: from mail-pj1-x1036.google.com (mail-pj1-x1036.google.com [IPv6:2607:f8b0:4864:20::1036])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 7E4A4C061574
+        for <linux-man@vger.kernel.org>; Sat, 19 Jun 2021 19:39:42 -0700 (PDT)
+Received: by mail-pj1-x1036.google.com with SMTP id m15-20020a17090a5a4fb029016f385ffad0so5313094pji.0
+        for <linux-man@vger.kernel.org>; Sat, 19 Jun 2021 19:39:42 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20161025;
+        h=cc:subject:to:references:from:message-id:date:user-agent
+         :mime-version:in-reply-to:content-language:content-transfer-encoding;
+        bh=HGWeSdhqd515AxOLab24ln2eXM1nRb3eMjajuSs/o78=;
+        b=Y5azgShdXpGTNqC8wE66qB001W3pW11hglITObgjX6GsjmswyaBO/NnF50/N7zl078
+         N5B2L86JQjM6ZLALzB9U3BSAbVLoISuhwqEgaYgyJ48YTas5/oL4Dsug2BgRXvdXW7wp
+         ImtUqtVY0b204LKgcBY/Ad2w9e1ATcKVRCRz7IoYDKMe9LfoNGGuD4GvdW//OdWwAi2n
+         ylFg1XUAHqrgqmtcElLmFx+majZ6XcrIo/D4jCjkcX/ZUMSBvohZkHJM5aI0LlE+6Xaq
+         N/2Ocgxj71Y9xrW/912s/M0jHF4C1iw2BQng+O3QI1K/FChTuFHm1SQDZCnfSS5W/I5I
+         RlIQ==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20161025;
+        h=x-gm-message-state:cc:subject:to:references:from:message-id:date
+         :user-agent:mime-version:in-reply-to:content-language
+         :content-transfer-encoding;
+        bh=HGWeSdhqd515AxOLab24ln2eXM1nRb3eMjajuSs/o78=;
+        b=BKgg/gZ28ahTRoYXbo2z/94F/poAPxKxPACSzoZq7+/km6rWsRNdtwkCbHUS9aDuhd
+         Sl1RFz4p0AVmFPsMe+HN/I7+EVELwyjs8B4H4bCE/+vgbUva8n139/WOX5bhZTOnOHbs
+         SvCpuT4xvgm1lSgjVxw1Yg3w+4lnoZTIxiiIpWRi4iKUBgg5FpNtShWvC41t5ip+QJeI
+         oB1zYLe5S824CXzdeXi/HoqKZAQKUJo5xXhecFVKk/NbuQAgqSemFllahi/sejLaLFdT
+         hKaKSatj61VQ7u1dRIu5VkhnPcYtxbmfSJOo0+40nw0+7yJSrH3b2F6XpMnSfnb6ZaBB
+         2fPQ==
+X-Gm-Message-State: AOAM532SoYgaJTBm9+Qk4GevozUFvamu+Rl8cvicBLuCrKiOEneLSIQX
+        og/6I4ON9tr6X9F1TM0vpiM=
+X-Google-Smtp-Source: ABdhPJyyH46KX0/8yzDyRL3xp+UHxkvsZf4k5/FxZ48ROT05LryXkJRU3ICMwhWubqT7pjQjzo564A==
+X-Received: by 2002:a17:90a:8816:: with SMTP id s22mr19455054pjn.231.1624156781852;
+        Sat, 19 Jun 2021 19:39:41 -0700 (PDT)
+Received: from [192.168.1.70] (122-61-176-117-fibre.sparkbb.co.nz. [122.61.176.117])
+        by smtp.gmail.com with ESMTPSA id r10sm13151799pga.48.2021.06.19.19.39.38
+        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+        Sat, 19 Jun 2021 19:39:40 -0700 (PDT)
+Cc:     mtk.manpages@gmail.com, linux-man@vger.kernel.org,
+        libc-alpha@sourceware.org, Paul Eggert <eggert@cs.ucla.edu>
+Subject: Re: [PATCH v3] MAX.3, MIN.3: New pages to document MAX() and MIN()
+To:     Alejandro Colomar <alx.manpages@gmail.com>
+References: <688adf87-e108-b4dd-66dd-ae9c4d7afdf8@cs.ucla.edu>
+ <20210512225130.43044-1-alx.manpages@gmail.com>
+From:   "Michael Kerrisk (man-pages)" <mtk.manpages@gmail.com>
+Message-ID: <050302e6-c80c-efeb-a291-01a3801ecd5e@gmail.com>
+Date:   Sun, 20 Jun 2021 14:39:33 +1200
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
+ Thunderbird/78.8.1
 MIME-Version: 1.0
-X-OriginatorOrg: helpsystems.com
-X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-AuthSource: SN6PR08MB4928.namprd08.prod.outlook.com
-X-MS-Exchange-CrossTenant-Network-Message-Id: cbb5f8d6-cb5e-4583-8409-08d92f119e08
-X-MS-Exchange-CrossTenant-originalarrivaltime: 14 Jun 2021 08:51:36.0454
- (UTC)
-X-MS-Exchange-CrossTenant-fromentityheader: Hosted
-X-MS-Exchange-CrossTenant-id: ca81e23b-3509-45ee-a998-3e346acf274d
-X-MS-Exchange-CrossTenant-mailboxtype: HOSTED
-X-MS-Exchange-CrossTenant-userprincipalname: 8O8kcjEIns0OFXVGDVfDxbW/VRKMrSZGrQOO/aL8q+oFoflwjUdelvoN+NEscXvMiGIzqbwCYkJ0/HO2vblnAjXel1PDNmhR88Z3wUPGtAk=
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: SN6PR08MB5087
+In-Reply-To: <20210512225130.43044-1-alx.manpages@gmail.com>
+Content-Type: text/plain; charset=utf-8
+Content-Language: en-US
+Content-Transfer-Encoding: 7bit
 Precedence: bulk
 List-ID: <linux-man.vger.kernel.org>
 X-Mailing-List: linux-man@vger.kernel.org
 
-The on-line copy of the manual page "posixoptions(7)" dated 2018-04-30 has =
-an entry for "getcwd()" in the section headed "XSI - _XOPEN_LEGACY - _SC_XO=
-PEN_LEGACY".
-I believe that entry should be "getwd()" as that is the API call which was =
-present in X/Open-6 but withdrawn in X/Open-7.
+Hi Alex,
 
-Regards - Alan
+On 5/13/21 10:51 AM, Alejandro Colomar wrote:
+> Signed-off-by: Alejandro Colomar <alx.manpages@gmail.com>
+> Cc: Paul Eggert <eggert@cs.ucla.edu>
+> ---
+> 
+> v2:
+> 	wfix
+> v3:
+> 	Adress Paul's review (rewrote most sections, and added BUGS and NOTES).
 
-Alan Peakall
-Senior Software Engineer
-e. alan.peakall@helpsystems.com
-p. 44 (0)1252 618006
-w. www.helpsystems.com=20
+Thanks.
 
-Northern European Headquarters: Sentinel House, Building B, Harvest Crescen=
-t, Fleet, Hampshire GU51 2UZ
+Patch applied.
 
-Help/Systems International Limited. Registered in England and Wales. Regist=
-ered number: 4172068.
-Registered Office: 3rd Floor 1 Ashley Road, Altrincham, Cheshire, United Ki=
-ngdom, WA14 2DT
+Cheers,
+
+Michael
+
+>  man3/MAX.3 | 90 ++++++++++++++++++++++++++++++++++++++++++++++++++++++
+>  man3/MIN.3 |  1 +
+>  2 files changed, 91 insertions(+)
+>  create mode 100644 man3/MAX.3
+>  create mode 100644 man3/MIN.3
+> 
+> diff --git a/man3/MAX.3 b/man3/MAX.3
+> new file mode 100644
+> index 000000000..38d019a2d
+> --- /dev/null
+> +++ b/man3/MAX.3
+> @@ -0,0 +1,90 @@
+> +.\" Copyright (C) 2021 Alejandro Colomar <alx.manpages@gmail.com>
+> +.\"
+> +.\" %%%LICENSE_START(VERBATIM)
+> +.\" Permission is granted to make and distribute verbatim copies of this
+> +.\" manual provided the copyright notice and this permission notice are
+> +.\" preserved on all copies.
+> +.\"
+> +.\" Permission is granted to copy and distribute modified versions of this
+> +.\" manual under the conditions for verbatim copying, provided that the
+> +.\" entire resulting derived work is distributed under the terms of a
+> +.\" permission notice identical to this one.
+> +.\"
+> +.\" Since the Linux kernel and libraries are constantly changing, this
+> +.\" manual page may be incorrect or out-of-date.  The author(s) assume no
+> +.\" responsibility for errors or omissions, or for damages resulting from
+> +.\" the use of the information contained herein.  The author(s) may not
+> +.\" have taken the same level of care in the production of this manual,
+> +.\" which is licensed free of charge, as they might when working
+> +.\" professionally.
+> +.\"
+> +.\" Formatted or processed versions of this manual, if unaccompanied by
+> +.\" the source, must acknowledge the copyright and authors of this work.
+> +.\" %%%LICENSE_END
+> +.\"
+> +.TH MAX 3 2020-11-01 "Linux" "Linux Programmer's Manual"
+> +.SH NAME
+> +MAX, MIN \- maximum or minimum of two values
+> +.SH SYNOPSIS
+> +.nf
+> +.B #include <sys/param.h>
+> +.PP
+> +.BI MAX( a ", " b );
+> +.BI MIN( a ", " b );
+> +.fi
+> +.SH DESCRIPTION
+> +These macros return the maximum or minimum of
+> +.I a
+> +and
+> +.IR b .
+> +.SH RETURN VALUE
+> +These macros return the value of one of their arguments,
+> +possibly converted to a different type (see BUGS).
+> +.SH ERRORS
+> +These macros may raise the "invalid" floating-point exception
+> +when any of the arguments is NaN.
+> +.SH CONFORMING TO
+> +These nonstandard macros are present in glibc and the BSDs.
+> +.SH NOTES
+> +If either of the arguments is of a floating-point type,
+> +you might prefer to use
+> +.BR fmax (3)
+> +or
+> +.BR fmin (3),
+> +which can handle NaN.
+> +.PP
+> +The arguments may be evaluated more than once, or not at all.
+> +.PP
+> +Some UNIX systems might provide these macros in a different header,
+> +or not at all.
+> +.SH BUGS
+> +Due to the usual arithmetic conversions,
+> +the result of these macros may be very different from either of the arguments.
+> +To avoid this, ensure that both arguments have the same type.
+> +.SH EXAMPLES
+> +.EX
+> +#include <stdio.h>
+> +#include <stdlib.h>
+> +#include <sys/param.h>
+> +
+> +int
+> +main(int argc, char *argv[])
+> +{
+> +    int a, b, x;
+> +
+> +    if (argc != 3) {
+> +        fprintf(stderr, "Usage: %s <num> <num>\en", argv[0]);
+> +        exit(EXIT_FAILURE);
+> +    }
+> +
+> +    a = atoi(argv[1]);
+> +    b = atoi(argv[2]);
+> +    x = MAX(a, b);
+> +    printf("MAX(%d, %d) is %d\en", a, b, x);
+> +
+> +    exit(EXIT_SUCCESS);
+> +}
+> +.EE
+> +.SH SEE ALSO
+> +.BR fmax (3),
+> +.BR fmin (3)
+> diff --git a/man3/MIN.3 b/man3/MIN.3
+> new file mode 100644
+> index 000000000..9938abda2
+> --- /dev/null
+> +++ b/man3/MIN.3
+> @@ -0,0 +1 @@
+> +.so man3/MAX.3
+> 
 
 
-
+-- 
+Michael Kerrisk
+Linux man-pages maintainer; http://www.kernel.org/doc/man-pages/
+Linux/UNIX System Programming Training: http://man7.org/training/
