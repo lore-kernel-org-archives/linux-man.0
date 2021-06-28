@@ -2,151 +2,97 @@ Return-Path: <linux-man-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-0.8 required=3.0 tests=BAYES_00,DKIM_SIGNED,
-	DKIM_VALID,FREEMAIL_FORGED_FROMDOMAIN,FREEMAIL_FROM,
-	HEADER_FROM_DIFFERENT_DOMAINS,MAILING_LIST_MULTI,SPF_HELO_NONE,SPF_PASS
-	autolearn=no autolearn_force=no version=3.4.0
+X-Spam-Status: No, score=-8.8 required=3.0 tests=BAYES_00,
+	HEADER_FROM_DIFFERENT_DOMAINS,INCLUDES_CR_TRAILER,MAILING_LIST_MULTI,
+	SPF_HELO_NONE,SPF_PASS,URIBL_BLOCKED autolearn=ham autolearn_force=no
+	version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 1DBBFC49EA6
-	for <linux-man@archiver.kernel.org>; Sat, 26 Jun 2021 23:09:38 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id E4E49C2B9F4
+	for <linux-man@archiver.kernel.org>; Mon, 28 Jun 2021 13:38:57 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.kernel.org (Postfix) with ESMTP id F194F61C21
-	for <linux-man@archiver.kernel.org>; Sat, 26 Jun 2021 23:09:37 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTP id C88B56145F
+	for <linux-man@archiver.kernel.org>; Mon, 28 Jun 2021 13:38:57 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S229794AbhFZXMA (ORCPT <rfc822;linux-man@archiver.kernel.org>);
-        Sat, 26 Jun 2021 19:12:00 -0400
-Received: from mout.gmx.net ([212.227.15.19]:40483 "EHLO mout.gmx.net"
-        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S229556AbhFZXL7 (ORCPT <rfc822;linux-man@vger.kernel.org>);
-        Sat, 26 Jun 2021 19:11:59 -0400
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=gmx.net;
-        s=badeba3b8450; t=1624748974;
-        bh=aWIYUPVcn4z/o0v6IAHhu+tWO6vFfRmTuV9i5r2AtFI=;
-        h=X-UI-Sender-Class:From:To:Cc:Subject:Date:In-Reply-To:References;
-        b=g5IvqQZiIfEIk0NN76cyXwm6SnuLTHqKQkvK2VhV6KkJt33QHqg+sgXYpNfy1M3C5
-         kSXzOyeZsnz5iGEzDQGPawQeqo+pheJl3tZCKLwaiSQwDdEMxKaW50hqiJqpbQK71p
-         VVVzu73LgTTKVsPRiZPtgnytLp8uWuOCEN/NOd88=
-X-UI-Sender-Class: 01bb95c1-4bf8-414a-932a-4f6e2808ef9c
-Received: from [87.9.70.237] ([87.9.70.237]) by web-mail.gmx.net
- (3c-app-mailcom-bs03.server.lan [172.19.170.169]) (via HTTP); Sun, 27 Jun
- 2021 01:09:34 +0200
+        id S230166AbhF1NlW (ORCPT <rfc822;linux-man@archiver.kernel.org>);
+        Mon, 28 Jun 2021 09:41:22 -0400
+Received: from sender4-op-o14.zoho.com ([136.143.188.14]:17422 "EHLO
+        sender4-op-o14.zoho.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S231259AbhF1NlU (ORCPT
+        <rfc822;linux-man@vger.kernel.org>); Mon, 28 Jun 2021 09:41:20 -0400
+ARC-Seal: i=1; a=rsa-sha256; t=1624887531; cv=none; 
+        d=zohomail.com; s=zohoarc; 
+        b=MPrqZJhDNRBAqRpB3xutLbt0GQITyw1NkMJhnyCAB3d7HbWAQZWWouOEAzbxJhg96C0QTLC2l1jIHoUeyjVh8z89aXwz1wuHFwEG6JRWQAb0HAmjZkqkmrsSr2KTj7g3XlvtdAFqmKiSXSf/X5foJjiwxyleX5sxqzAtxyzr+sU=
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=zohomail.com; s=zohoarc; 
+        t=1624887531; h=Content-Type:Cc:Date:From:In-Reply-To:MIME-Version:Message-ID:References:Subject:To; 
+        bh=7qUo1kH/P4AO9ynZmlbXill090A8JQMnmx1pacQV9sI=; 
+        b=UVYgz5UmHzXstKNBrkITNWawNoBkF6hGOxHISYdsvXiZUVDclatqU6ZHlgSxjO3u5JbMOFr9visn0Tjo5CYw4g/VLCsNfMY1Mu6wCep7fYY8+Fx7z7jxR2yVjSFUiNw7Y526BkZVFtixa8iPkoCwfyq5rDacSXT6N96BLWVpBVM=
+ARC-Authentication-Results: i=1; mx.zohomail.com;
+        spf=pass  smtp.mailfrom=dan@dlrobertson.com;
+        dmarc=pass header.from=<dan@dlrobertson.com>
+Received: from dlrobertson.com (pool-108-51-207-71.washdc.fios.verizon.net [108.51.207.71]) by mx.zohomail.com
+        with SMTPS id 1624887528441593.376846587812; Mon, 28 Jun 2021 06:38:48 -0700 (PDT)
+Date:   Mon, 28 Jun 2021 13:13:09 +0000
+From:   Dan Robertson <dan@dlrobertson.com>
+To:     "Darrick J. Wong" <djwong@kernel.org>
+Cc:     linux-man@vger.kernel.org, alx.manpages@gmail.com,
+        mtk.manpages@gmail.com
+Subject: Re: [PATCH 1/1] man2/fallocate.2: tfix documentation of shared blocks
+Message-ID: <YNnK5cuO7+RitEk5@dlrobertson.com>
+References: <20210621004453.7437-1-dan@dlrobertson.com>
+ <20210621004453.7437-2-dan@dlrobertson.com>
+ <20210621042550.GG158232@locust>
 MIME-Version: 1.0
-Message-ID: <trinity-606da93f-54ae-4472-ba63-e45b3f76d6b0-1624748974126@3c-app-mailcom-bs03>
-From:   Nora Platiel <nplatiel@gmx.us>
-To:     Walter Harms <wharms@bfs.de>
-Cc:     mtk.manpages@gmail.com, alx.manpages@gmail.com,
-        linux-man@vger.kernel.org
-Subject: Re: AW: execve(2) man page: "absolute pathname" inconsistency
-Content-Type: text/plain; charset=UTF-8
-Date:   Sun, 27 Jun 2021 01:09:34 +0200
-Importance: normal
-Sensitivity: Normal
-In-Reply-To: <750acf642c3e4e79b782e72d5914c89d@bfs.de>
-References: <trinity-131cbf9a-6570-4d3c-8b80-a808d1ad445a-1624567328724@3c-app-mailcom-bs07>
- <750acf642c3e4e79b782e72d5914c89d@bfs.de>
-X-UI-Message-Type: mail
-X-Priority: 3
-X-Provags-ID: V03:K1:JoiNXcClpPV6vecxegadCzyZq7kPo1SOZrtVBSerVQBbgWzwiNh7IzMc7mLoMm7WDchl5
- klkJKBbrmsiCTd4lHhQWl3iUTXbOa8kl9vZxB7VDk2puUFOADts+gkPLd/T9eZtJJnGZo8l1SFML
- ZLZuaTR5YmEF+4YYJtWSapYc6Pfrc3CTG7qQjo7wIpjYJ6LOO+Vax3F8ny0jcJHQmdrWbpxJna36
- eOqIcWT5g1XpDgbt7SDlwW+J5H2wtomnj+FC34hlKqXJgHenoWhwmbrjy3fMeq4P0AvsUCE45Bmj
- yA=
-X-UI-Out-Filterresults: notjunk:1;V03:K0:o5zoUxFQRj8=:bfOgYjW4FX5de4dFR6X4sE
- kUP/ShWYV1uE0oUlMu04xZzfBYacLm7TTL+4Vs4pPg1Tt0FkOE9lr9UyjeqxyQ56v7Pku53rp
- M+M8advvBG19KYnsd28dSU9hzCNuM7LM6MoIl/rWqFXja4votFEov8lZQx6RDePMv3dT0q5B0
- CWW4m4nu5VbxrB51iADk7QBQQkb5RGhTDxUvtvHHzGkUsrhYOi6NeI2+lwRM1ckLluHH1FblW
- Z+XBncYZ16a+Y2QVm/blc5Y2ZbQ9MVszfIirI+qhiMinGKyXlZ54Xpt2UbCOdh9RuwG+sSEky
- XwIluaTUJOLKKBPJwC8NP/D6GjcE2VJs6U3jk031RiZGpN8HLxSMhf52AIFQ+HPbekxtK/l4E
- JZIvgisZac3QJMO6Cn8lBaCoXsoCXAHE2s/p2PUgbnpaFw+h2orHD8dZoONCfb5TPgyj7Ywd7
- 82uicTmOeXTXYI1awy2GI29a9ajTvkDdTqxz7emMP1N9nvMWOfEuoVHUDCT3fe8QNTqXB++mP
- BB+G1+9+qMr65pNkZ0U1k9QF7G8OgiBoMNIXdPCRV22gn2N0mQf5uYzAd6jzNUoaWAodLG9jp
- NMiM1gfYNzUEAk0MmVMg3cAwrDrQSkdPixI+pwLKclGqrhrT8SYF/M1lp4hl0SshLpT5M5osQ
- 6BZXgl+GIDQgiRYzetWoigRdtW/GdnvTPDBCghRzRdbES1uNR8mUhFYXBIs20yJTvAESjQPyf
- 2lVi5oMM4gahiWzVrmw5gZO4lfAHt1H5+ZrXlN1dStLe388Zqo5+UDPoBVLpdstuGH90vzu8N
- XAU8btlDKx/e4vN5Ydj4sZ0XkeRQA==
-Content-Transfer-Encoding: quoted-printable
+Content-Type: multipart/signed; micalg=pgp-sha256;
+        protocol="application/pgp-signature"; boundary="Zu6hRUHuDCKFgesu"
+Content-Disposition: inline
+In-Reply-To: <20210621042550.GG158232@locust>
+X-Zoho-Virus-Status: 1
+X-ZohoMailClient: External
 Precedence: bulk
 List-ID: <linux-man.vger.kernel.org>
 X-Mailing-List: linux-man@vger.kernel.org
 
-> I guess there is a mixup between interpreter and pathname.
 
-Do you mean that `interpreter' is supposed to be absolute, instead of `pat=
-hname'?
-The same example also disproves that, since argv[0] is relative:
+--Zu6hRUHuDCKFgesu
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+Content-Transfer-Encoding: quoted-printable
 
-|   interpreter [optional-arg] pathname arg...
-|
-| $ ./execve ./script
-| argv[0]: ./myecho
-| argv[1]: script-arg
-| argv[2]: ./script
-| argv[3]: hello
-| argv[4]: world
+On Sun, Jun 20, 2021 at 09:25:50PM -0700, Darrick J. Wong wrote:
+> On Sun, Jun 20, 2021 at 08:44:53PM -0400, Dan Robertson wrote:
+> > Fix a typo in the documentation of using fallocate to allocate shared
+> > blocks. The flag FALLOC_FL_UNSHARE should instead be documented as
+> > FALLOC_FL_UNSHARE_RANGE.
+> >=20
+> > Fixes: 07c7a6a35497 ("man2/fallocate.2: Document behavior with shared b=
+locks")
+> > Signed-off-by: Dan Robertson <dan@dlrobertson.com>
+>=20
+> Definitely an artifact of unshare being added and removed repeatedly
+> during the development of XFS reflink.  Thanks for fixing this...
 
-> All this is only vaild if the
-> flag is set to P (P - preserve-argv[0]) when you add a new
-> setting in /proc/sys/fs/binfmt_misc/register
+Yeah, that makes sense. Thanks for checking this!
 
-I'm not sure how binfmt_misc is related to this.
-We are talking about the normal shebang mechanism (which doesn't preserve =
-argv[0]), and the man page doesn't even mention binfmt_misc.
-Do you agree that the man page is in error?
+ - Dan
 
-> (any way to get the current setting ?)
+--Zu6hRUHuDCKFgesu
+Content-Type: application/pgp-signature; name="signature.asc"
 
-You can see the active flags for a registered FORMAT by reading /proc/sys/=
-fs/binfmt_misc/FORMAT.
-(Though I'm new to binfmt_misc, I usually keep it disabled.)
+-----BEGIN PGP SIGNATURE-----
 
-> the original wording from the kernel says:
->
-> Legacy behavior of binfmt_misc is to overwrite the original argv[0] with
-> the full path to the binary. When this flag is included, binfmt_misc wil=
-l
-> add an argument to the argument vector for this purpose, thus preserving
-> the original argv[0]. e.g. If your interp is set to /bin/foo and you run
-> blah (which is in /usr/local/bin), then the kernel will execute /bin/foo
-> with argv[] set to ["/bin/foo", "/usr/local/bin/blah", "blah"]. The inte=
-rp
-> has to be aware of this so it can execute /usr/local/bin/blah with argv[=
-]
-> set to ["blah"].
+iQIzBAABCAAdFiEEF5dO2RaKc5C+SCJ9RcSmUsR+QqUFAmDZyuUACgkQRcSmUsR+
+QqVAHA//f5SDzpsaGjbS59R+lEOAs5OgaIu/YIhalzn1ryGT9dc/V31AhPI4hZWC
+ht20CBaMmjmkrmB3l25QhCxN4GB/Upd+L7Lpq/8PZc/rxPQQHHx5gjvPPLbo+GCh
+E8+LzPLFaU7eCzzVY+kH8/hzZKd4IdbO40TT8wLxM/5R/0odOlQbnSdzbyYwr+mz
+C3NEWEwguLDv6chmyy6yuQngMrUP2tpFCuUXFsIwHsoYVABEMUlIpbEev9zjJ11R
+qKCIRloYY7qZJXywHDhay/adHdNIyFE7RQy8cIHDe+pCfCA3E134B4m9uaG+mcJb
+A0zixjTpX1/0N+I3aCr/Oc7vKOgaEjle+NNWDFitt/rA5bKDOMj4cx12EyqbWp4X
+ZZPlbCI0JLlAXDal/Kj84LnRLUf7C4RDLF5Rxvs+uOcf+9DkQZHDJhfKjXqw1coi
+h8Og7Ylfw1oQTC1lL8GsffJorZxMnHdv7/8CjbxhQjRMLOaRDv0ZmtxQQnItvKtK
+7UmsMpqKLA4XoesTfu6b2t/NEzCB1H3XYcnhSO+e7Ta8swrHKjMEpBOlFsoHbdl5
+zYuhn79wX1wD6v9s3wzS3SPJzQgishexumyNBh3p5h6sAC3sXw4GXd2l6H+8hPdZ
+XI61wuUXz132TwpV6L1uPzFBcZENaaua3Ex4Cq1l4xtZfjiVyKo=
+=5F+l
+-----END PGP SIGNATURE-----
 
-According to my tests, no path is ever made absolute regardless of the P f=
-lag.
-Apparently where it says "the full path to the binary" it doesn't mean an =
-absolute path, just a path that resolves to the actual file (and doesn't n=
-eed to be searched in $PATH as it may be the case with the original argv[0=
-]).
-
-# echo :myecho:M::1::./myecho: >/proc/sys/fs/binfmt_misc/register
-# echo :myechop:M::2::./myecho:P >/proc/sys/fs/binfmt_misc/register
-$ cat /proc/sys/fs/binfmt_misc/myecho
-enabled
-interpreter ./myecho
-flags:
-offset 0
-magic 31
-$ cat /proc/sys/fs/binfmt_misc/myechop
-enabled
-interpreter ./myecho
-flags: P
-offset 0
-magic 32
-$ echo 1 >script
-$ echo 2 >scriptp
-$ chmod a+x script scriptp
-$ ./execve ./script
-argv[0]: ./myecho
-argv[1]: ./script
-argv[2]: hello
-argv[3]: world
-$ ./execve ./scriptp
-argv[0]: ./myecho
-argv[1]: ./scriptp
-argv[2]: ./scriptp
-argv[3]: hello
-argv[4]: world
-
-As you can see, all the paths are relative regardless of the P flag.
+--Zu6hRUHuDCKFgesu--
