@@ -2,112 +2,82 @@ Return-Path: <linux-man-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-6.2 required=3.0 tests=BAYES_00,DKIMWL_WL_HIGH,
-	DKIM_SIGNED,DKIM_VALID,DKIM_VALID_AU,HEADER_FROM_DIFFERENT_DOMAINS,
-	MAILING_LIST_MULTI,SPF_HELO_NONE,SPF_PASS autolearn=no autolearn_force=no
-	version=3.4.0
+X-Spam-Status: No, score=-13.8 required=3.0 tests=BAYES_00,
+	HEADER_FROM_DIFFERENT_DOMAINS,INCLUDES_CR_TRAILER,INCLUDES_PATCH,
+	MAILING_LIST_MULTI,SPF_HELO_NONE,SPF_PASS,URIBL_BLOCKED autolearn=ham
+	autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 2F2D6C11F65
-	for <linux-man@archiver.kernel.org>; Wed, 30 Jun 2021 05:23:10 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 7EAECC11F65
+	for <linux-man@archiver.kernel.org>; Wed, 30 Jun 2021 20:12:11 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.kernel.org (Postfix) with ESMTP id 088E361607
-	for <linux-man@archiver.kernel.org>; Wed, 30 Jun 2021 05:23:10 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTP id 56A946100B
+	for <linux-man@archiver.kernel.org>; Wed, 30 Jun 2021 20:12:11 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S229572AbhF3FZh (ORCPT <rfc822;linux-man@archiver.kernel.org>);
-        Wed, 30 Jun 2021 01:25:37 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:45492 "EHLO
-        lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S229510AbhF3FZg (ORCPT
-        <rfc822;linux-man@vger.kernel.org>); Wed, 30 Jun 2021 01:25:36 -0400
-Received: from mail-pg1-x529.google.com (mail-pg1-x529.google.com [IPv6:2607:f8b0:4864:20::529])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 83B32C061766
-        for <linux-man@vger.kernel.org>; Tue, 29 Jun 2021 22:23:08 -0700 (PDT)
-Received: by mail-pg1-x529.google.com with SMTP id d12so1076450pgd.9
-        for <linux-man@vger.kernel.org>; Tue, 29 Jun 2021 22:23:08 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=chromium.org; s=google;
-        h=date:from:to:cc:subject:message-id:references:mime-version
-         :content-disposition:in-reply-to;
-        bh=OkgX/l6nyVHOkHtVICWEWlZsAs77Eh7E8vZnP+04cZU=;
-        b=Ozuu7aPncD/CMLJza+F4JwA5PsKvNqi55YrM7STSKGqVfTpUR6pNiqkih8C4Yej/UI
-         pX+laWJdYLjpLb9flbG3+U2C2Ptmg+Az4aAgDQyct0uzw/FYqXma79YGfBZ+XB5d0fJG
-         dq5rXy7x0hVB2s2mU6bck5fQekMMTukz/ufvc=
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20161025;
-        h=x-gm-message-state:date:from:to:cc:subject:message-id:references
-         :mime-version:content-disposition:in-reply-to;
-        bh=OkgX/l6nyVHOkHtVICWEWlZsAs77Eh7E8vZnP+04cZU=;
-        b=MhJDH2XQ3ThJXG+0XOmApnRa+PUk/pXQfOu3VCoBkVBxE4lX2htCdKzvBFtTX7ym8A
-         JQFMUFUjj6hu5i3mwVJvF3v9ygPkHRI2uVlsVp/SHrtnF8bz09oSAfiq9l4npS6ExQ4f
-         gxzv85DzGM6MCbnLvSzboDcOjWAfM4sbNTClwFbf9N7f9N4KFv9Ek3+/vaQif6vLc6AI
-         +SOOTfqfr9ZY6a0fUVlJXJo1T1WA6uM1awA3JbWu+1UoVdi2KLdti6Xh2sZXdKGOz3ju
-         tCGb+F3raihODEioG2NepCgVVMfRHugIv+mXbPcmAci99rnB3IPQpZfW+8Su4Af0MOh2
-         YjvA==
-X-Gm-Message-State: AOAM533Lkjb/zAnC3L6qd0Y58cojn1TG8zGO8R7pzJqYvqbGLN440qCK
-        QP2bu1F6zMzBxGT2Q5UPsEHgZA==
-X-Google-Smtp-Source: ABdhPJwDqkm3t0Zwuy34uTWGsjAywlzfUwSe78RbVnfvHZrGSmFPSQRG5iMuesZvQ5sZ2hfjRRaV2Q==
-X-Received: by 2002:a62:380c:0:b029:2f7:4057:c3ed with SMTP id f12-20020a62380c0000b02902f74057c3edmr34233852pfa.21.1625030588089;
-        Tue, 29 Jun 2021 22:23:08 -0700 (PDT)
-Received: from www.outflux.net (smtp.outflux.net. [198.145.64.163])
-        by smtp.gmail.com with ESMTPSA id q18sm20087789pfj.178.2021.06.29.22.23.07
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Tue, 29 Jun 2021 22:23:07 -0700 (PDT)
-Date:   Tue, 29 Jun 2021 22:23:06 -0700
-From:   Kees Cook <keescook@chromium.org>
-To:     "Eric W. Biederman" <ebiederm@xmission.com>
+        id S233996AbhF3UOk (ORCPT <rfc822;linux-man@archiver.kernel.org>);
+        Wed, 30 Jun 2021 16:14:40 -0400
+Received: from out01.mta.xmission.com ([166.70.13.231]:49604 "EHLO
+        out01.mta.xmission.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S233847AbhF3UOj (ORCPT
+        <rfc822;linux-man@vger.kernel.org>); Wed, 30 Jun 2021 16:14:39 -0400
+Received: from in02.mta.xmission.com ([166.70.13.52])
+        by out01.mta.xmission.com with esmtps  (TLS1.3) tls TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384
+        (Exim 4.93)
+        (envelope-from <ebiederm@xmission.com>)
+        id 1lygZ7-00BxLo-8J; Wed, 30 Jun 2021 14:12:09 -0600
+Received: from ip68-227-160-95.om.om.cox.net ([68.227.160.95]:43832 helo=email.xmission.com)
+        by in02.mta.xmission.com with esmtpsa  (TLS1.3) tls TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384
+        (Exim 4.93)
+        (envelope-from <ebiederm@xmission.com>)
+        id 1lygZ5-007Q6s-LZ; Wed, 30 Jun 2021 14:12:08 -0600
+From:   ebiederm@xmission.com (Eric W. Biederman)
+To:     Michael Kerrisk <mtk.manpages@gmail.com>
 Cc:     linux-api@vger.kernel.org, Andy Lutomirski <luto@amacapital.net>,
         Will Drewry <wad@chromium.org>,
         Linus Torvalds <torvalds@linux-foundation.org>,
         Al Viro <viro@zeniv.linux.org.uk>,
-        Michael Kerrisk <mtk.manpages@gmail.com>,
-        linux-man@vger.kernel.org, linux-kernel@vger.kernel.org
-Subject: Re: Semantics of SECCOMP_MODE_STRICT?
-Message-ID: <202106292156.9458CF22@keescook>
-References: <87r1gkp9i7.fsf@disp2133>
+        Kees Cook <keescook@chromium.org>, linux-man@vger.kernel.org,
+        linux-kernel@vger.kernel.org
+References: <87r1gkp9i7.fsf@disp2133> <202106292156.9458CF22@keescook>
+Date:   Wed, 30 Jun 2021 15:11:23 -0500
+In-Reply-To: <202106292156.9458CF22@keescook> (Kees Cook's message of "Tue, 29
+        Jun 2021 22:23:06 -0700")
+Message-ID: <87k0mbp0yc.fsf_-_@disp2133>
+User-Agent: Gnus/5.13 (Gnus v5.13) Emacs/26.1 (gnu/linux)
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <87r1gkp9i7.fsf@disp2133>
+Content-Type: text/plain
+X-XM-SPF: eid=1lygZ5-007Q6s-LZ;;;mid=<87k0mbp0yc.fsf_-_@disp2133>;;;hst=in02.mta.xmission.com;;;ip=68.227.160.95;;;frm=ebiederm@xmission.com;;;spf=neutral
+X-XM-AID: U2FsdGVkX18aOKYeX4bVt7U5rQ+ngAg94VyPJEFtMio=
+X-SA-Exim-Connect-IP: 68.227.160.95
+X-SA-Exim-Mail-From: ebiederm@xmission.com
+Subject: [PATCH] seccomp.2:  Clarify that bad system calls kill the thread
+X-SA-Exim-Version: 4.2.1 (built Sat, 08 Feb 2020 21:53:50 +0000)
+X-SA-Exim-Scanned: Yes (on in02.mta.xmission.com)
 Precedence: bulk
 List-ID: <linux-man.vger.kernel.org>
 X-Mailing-List: linux-man@vger.kernel.org
 
-On Tue, Jun 29, 2021 at 05:54:24PM -0500, Eric W. Biederman wrote:
-> 
-> I am the process of cleaning up the process exit path in the kernel, and
-> as part of that I am looking at the callers of do_exit.  A very
-> interesting one is __seccure_computing_strict.
-> 
-> Looking at the code is very clear that if a system call is attempted
-> that is not in the table the thread attempting to execute that system
-> call is terminated.
-> 
-> Reading the man page for seccomp it says that the process is delivered
-> SIGKILL.
-> 
-> The practical difference is what happens for multi-threaded
-> applications.
-> 
-> What are the desired semantics for a multi-threaded application if one
-> thread attempts to use a unsupported system call?  Should the thread be
-> terminated or the entire application?
-> 
-> Do we need to fix the kernel, or do we need to fix the manpages?
 
-I don't know of anyone actually using SECCOMP_MODE_STRICT, but the
-original implementation was (perhaps accidentally) thread-killing. It
-turns out this is not a particularly desirable situation, and when
-SECCOMP_MODE_FILTER was created, it continued with that semantic,
-but later grew a process-killing flags, as that's what most programs
-actually wanted.
+Signed-off-by: Eric W. Biederman <ebiederm@xmission.com>
+---
+ man2/seccomp.2 | 5 +++--
+ 1 file changed, 3 insertions(+), 2 deletions(-)
 
-It's likely the manpage needs fixing (we had to make similar updates
-for SECCOMP_MODE_FILTER), since some of the early examples of using
-SECCOMP_MODE_STRICT were basically "fork, calculate, write result to
-fd, exit".
-
-FWIW the seccomp selftests don't even check for the thread-vs-process
-SIGKILL of SECCOMP_MODE_STRICT. :)
-
+diff --git a/man2/seccomp.2 b/man2/seccomp.2
+index a3421871f0f4..bde54c3e3e99 100644
+--- a/man2/seccomp.2
++++ b/man2/seccomp.2
+@@ -69,9 +69,10 @@ The only system calls that the calling thread is permitted to make are
+ .BR exit_group (2)),
+ and
+ .BR sigreturn (2).
+-Other system calls result in the delivery of a
++Other system calls result in the termination of the calling thread,
++or termination of the entire process with the
+ .BR SIGKILL
+-signal.
++signal when there is only one thread.
+ Strict secure computing mode is useful for number-crunching
+ applications that may need to execute untrusted byte code, perhaps
+ obtained by reading from a pipe or socket.
 -- 
-Kees Cook
+2.29.2
