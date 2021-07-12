@@ -2,170 +2,197 @@ Return-Path: <linux-man-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-9.5 required=3.0 tests=BAYES_00,DKIM_SIGNED,
-	DKIM_VALID,DKIM_VALID_AU,FREEMAIL_FORGED_FROMDOMAIN,FREEMAIL_FROM,
-	HEADER_FROM_DIFFERENT_DOMAINS,INCLUDES_PATCH,MAILING_LIST_MULTI,NICE_REPLY_A,
-	SPF_HELO_NONE,SPF_PASS,URIBL_BLOCKED,USER_AGENT_SANE_1 autolearn=ham
-	autolearn_force=no version=3.4.0
+X-Spam-Status: No, score=-16.4 required=3.0 tests=BAYES_00,DKIMWL_WL_HIGH,
+	DKIM_SIGNED,DKIM_VALID,DKIM_VALID_AU,HEADER_FROM_DIFFERENT_DOMAINS,
+	INCLUDES_CR_TRAILER,INCLUDES_PATCH,MAILING_LIST_MULTI,SPF_HELO_NONE,SPF_PASS,
+	URIBL_BLOCKED autolearn=ham autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id EA510C07E95
-	for <linux-man@archiver.kernel.org>; Sat, 10 Jul 2021 21:36:59 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 6E785C07E9B
+	for <linux-man@archiver.kernel.org>; Mon, 12 Jul 2021 08:40:30 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.kernel.org (Postfix) with ESMTP id C56C961353
-	for <linux-man@archiver.kernel.org>; Sat, 10 Jul 2021 21:36:59 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTP id 5E6C26101E
+	for <linux-man@archiver.kernel.org>; Mon, 12 Jul 2021 08:40:30 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S229674AbhGJVjo (ORCPT <rfc822;linux-man@archiver.kernel.org>);
-        Sat, 10 Jul 2021 17:39:44 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:48048 "EHLO
-        lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S229515AbhGJVjo (ORCPT
-        <rfc822;linux-man@vger.kernel.org>); Sat, 10 Jul 2021 17:39:44 -0400
-Received: from mail-wr1-x42a.google.com (mail-wr1-x42a.google.com [IPv6:2a00:1450:4864:20::42a])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id B7AEBC0613DD
-        for <linux-man@vger.kernel.org>; Sat, 10 Jul 2021 14:36:58 -0700 (PDT)
-Received: by mail-wr1-x42a.google.com with SMTP id p8so17955673wrr.1
-        for <linux-man@vger.kernel.org>; Sat, 10 Jul 2021 14:36:58 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20161025;
-        h=subject:to:cc:references:from:message-id:date:user-agent
-         :mime-version:in-reply-to:content-language:content-transfer-encoding;
-        bh=FWAXJlvmjmw379ImXQ3+PpYqIvlYYEp6OwA8iOlB0DY=;
-        b=d6+4VyNnujCo0owyTzbxjANzM/YfgLJBRHnOQ8A6v1zIq+S7Z0U1tNKebGhNzsYGq/
-         /R499enxx2djXWVuTWJqt9/0WdjX02ZSAtbBL3Wf4Xe+5ulHEQDorF5Xz1Tfcf7fLhJZ
-         uhRFhuEQatwRMRBNOCtBoXEH5PSh0va6X9rANnzlsswGzSJ1TCvyacylWP6GwSw44xBl
-         QxbdIPbm5krgAXSksnXPE228578U+ggkU1mLtkDMeTS+TEXW5hPWsX5Q81YtHF0SyenS
-         HQifjib6IG8+sma8T94mOuMqZyx/tbexGpihYYgzQMko5/3owbZYXgsi47xTwuM1e0a2
-         C0pg==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20161025;
-        h=x-gm-message-state:subject:to:cc:references:from:message-id:date
-         :user-agent:mime-version:in-reply-to:content-language
-         :content-transfer-encoding;
-        bh=FWAXJlvmjmw379ImXQ3+PpYqIvlYYEp6OwA8iOlB0DY=;
-        b=gNiQviyWcwJeuQHz1vD6GZ2Qs7EXmeI6mPdGq6+8UrIe3wQylkB/G7McnzZNfnVipR
-         epWVJPFB2UpycKVY2A59N1SbmZ2UzAkSAkJQ2QYXkqOzoD0u3b4U+B/K4rDmR5SBrNcX
-         cmV8hFN3k1FdiKgZmIImVp5IbbdhcdnUCnaeGNo44szsN1UsnRxy1i1fa+Y5MB8HKYca
-         Hl4XW5r3GluGS4YpyXQ6AENHYTvvsB737QE9G5IFvkSZ2mc6i1FIHDHb3CT0ImVsrGb2
-         1Es/ADFz8MwWg9XGfLBAkUj/u6MxyXZTvbwehcFM1kLm3A0V7gX9ZdSU5sj36QLzAYYU
-         G5zg==
-X-Gm-Message-State: AOAM532AmYwuRsSWeVjdSiyLZ6lVzqf8d6K/wasbHvtS5FiplP41o1zi
-        oQX+i0YOtgmWqfhCP3InduU=
-X-Google-Smtp-Source: ABdhPJx2aR0vuBLFlFDCcMddZCXMMfkBH4dW5teq1xgIkXYP67iqS7Nni4nUqT8LQdjs0UMvn1Mj4Q==
-X-Received: by 2002:adf:c448:: with SMTP id a8mr29636031wrg.103.1625953017389;
-        Sat, 10 Jul 2021 14:36:57 -0700 (PDT)
-Received: from [10.8.0.150] ([195.53.121.100])
-        by smtp.gmail.com with ESMTPSA id s17sm9434233wrv.2.2021.07.10.14.36.56
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Sat, 10 Jul 2021 14:36:56 -0700 (PDT)
-Subject: Re: strlen
-To:     Jonny Grant <jg@jguk.org>
-Cc:     linux-man <linux-man@vger.kernel.org>,
+        id S245480AbhGLInI (ORCPT <rfc822;linux-man@archiver.kernel.org>);
+        Mon, 12 Jul 2021 04:43:08 -0400
+Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124]:53168 "EHLO
+        us-smtp-delivery-124.mimecast.com" rhost-flags-OK-OK-OK-OK)
+        by vger.kernel.org with ESMTP id S1349860AbhGLImS (ORCPT
+        <rfc822;linux-man@vger.kernel.org>); Mon, 12 Jul 2021 04:42:18 -0400
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+        s=mimecast20190719; t=1626079169;
+        h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+         to:to:cc:cc:mime-version:mime-version:
+         content-transfer-encoding:content-transfer-encoding;
+        bh=nWJUYOez7eAAIVRuvZFT1uKCzfdN0rxKg/h1MnIYqcE=;
+        b=TnN+SNaHfEKdlsdIUGl8OcnVleToZLAELzoKPeY8Sj0UdCZ469A3Hc0p2OESOEdDqTAeQy
+        K9UqQ5aLs1VVPHEnH6n7dzmfYcl8ThyXa0Ows0yCqzhNUidshNeNpq58uvgeX1p8JMziYI
+        d2lXVAgyTTZPhuxpKTgj0eC1Pw0cNjo=
+Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
+ [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
+ us-mta-576-soJ3PwFuObWp_v98xq5Dog-1; Mon, 12 Jul 2021 04:39:27 -0400
+X-MC-Unique: soJ3PwFuObWp_v98xq5Dog-1
+Received: from smtp.corp.redhat.com (int-mx02.intmail.prod.int.phx2.redhat.com [10.5.11.12])
+        (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
+        (No client certificate requested)
+        by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 53D3D1906810;
+        Mon, 12 Jul 2021 08:39:21 +0000 (UTC)
+Received: from t480s.redhat.com (ovpn-113-111.rdu2.redhat.com [10.10.113.111])
+        by smtp.corp.redhat.com (Postfix) with ESMTP id 6F9DA60CA0;
+        Mon, 12 Jul 2021 08:39:18 +0000 (UTC)
+From:   David Hildenbrand <david@redhat.com>
+To:     linux-man@vger.kernel.org
+Cc:     David Hildenbrand <david@redhat.com>,
+        Alejandro Colomar <alx.manpages@gmail.com>,
         Michael Kerrisk <mtk.manpages@gmail.com>,
-        Florian Weimer <fw@deneb.enyo.de>
-References: <0bf239e9-cfc7-8889-ca00-b1d1566bd174@jguk.org>
- <87lfhpgxf8.fsf@mid.deneb.enyo.de>
- <017a5a66-ba66-7cc8-c607-f851c2e54fc4@jguk.org>
- <87363whf2z.fsf@mid.deneb.enyo.de>
- <48e874cb-2b95-2783-ddfc-ae12d9aaf8f5@jguk.org>
- <87bl7fozxi.fsf@mid.deneb.enyo.de>
- <23679a28-5986-0af2-4d98-7de68ed0deec@jguk.org>
- <53b3666b-d200-ef97-b050-cc38669c61cd@gmail.com>
- <b6fccca1-6e2b-fb20-d9d6-9df94cd3f05f@gmail.com>
- <564825ed-1e1f-b344-da35-1b83c551ed5f@jguk.org>
- <b71170df-7c6b-4582-c3d1-84b811fe5259@gmail.com>
- <19f7f15f-f425-5e23-87e0-65b8313c08f6@jguk.org>
- <3bf01638-1d53-82f9-d66b-6e4365ef1ff2@gmail.com>
- <1d1a4318-654e-e071-efb3-fef9aa9a8b27@jguk.org>
-From:   "Alejandro Colomar (man-pages)" <alx.manpages@gmail.com>
-Message-ID: <7d6af9f7-d672-724b-0ab2-4616ee9f6f14@gmail.com>
-Date:   Sat, 10 Jul 2021 23:36:55 +0200
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
- Thunderbird/78.11.0
+        Andrew Morton <akpm@linux-foundation.org>,
+        Michal Hocko <mhocko@suse.com>,
+        Oscar Salvador <osalvador@suse.de>,
+        Jann Horn <jannh@google.com>, Mike Rapoport <rppt@kernel.org>,
+        Linux API <linux-api@vger.kernel.org>, linux-mm@kvack.org
+Subject: [PATCH v1] madvise.2: Document MADV_POPULATE_READ and MADV_POPULATE_WRITE
+Date:   Mon, 12 Jul 2021 10:39:17 +0200
+Message-Id: <20210712083917.16361-1-david@redhat.com>
 MIME-Version: 1.0
-In-Reply-To: <1d1a4318-654e-e071-efb3-fef9aa9a8b27@jguk.org>
-Content-Type: text/plain; charset=utf-8; format=flowed
-Content-Language: en-US
-Content-Transfer-Encoding: 7bit
+Content-Transfer-Encoding: 8bit
+X-Scanned-By: MIMEDefang 2.79 on 10.5.11.12
 Precedence: bulk
 List-ID: <linux-man.vger.kernel.org>
 X-Mailing-List: linux-man@vger.kernel.org
 
-On 7/10/21 10:49 PM, Jonny Grant wrote:
-> On 10/07/2021 19:37, Alejandro Colomar (man-pages) wrote:
->> diff --git a/man3/wcslen.3 b/man3/wcslen.3
->> index af3fcb9ca..868f748a8 100644
->> --- a/man3/wcslen.3
->> +++ b/man3/wcslen.3
->> @@ -58,5 +58,12 @@ T}	Thread safety	MT-Safe
->>   .sp 1
->>   .SH CONFORMING TO
->>   POSIX.1-2001, POSIX.1-2008, C99.
->> +.SH NOTES
->> +.SS wcsnlen(3)
->> +If there is a known buffer size,
->> +it is probably better to use
->> +.BR wcsnlen (3),
->> +which can prevent some cases of buffer overrun/overflow.
->>   .SH SEE ALSO
->> -.BR strlen (3)
->> +.BR strlen (3),
->> +.BR wcsnlen (3)
->>
-> 
-> Hi Alex
-> 
-> Thank you for making the updates!
-> 
-> As "buffer overrun" refers to writing to a buffer, my 2 cents would be to express as:
-> 
-> "which will prevent reading beyond the end of the character buffer"
+MADV_POPULATE_READ and MADV_POPULATE_WRITE have been merged into
+upstream Linux via commit 4ca9b3859dac ("mm/madvise: introduce
+MADV_POPULATE_(READ|WRITE) to prefault page tables"), part of v5.14-rc1.
 
-I wrote both overrun and overflow on purpose.
-I was thinking of something like:
+Let's document the behavior and error conditions of these new madvise()
+options.
 
-const char *src;
-char dest[5];
+Cc: Alejandro Colomar <alx.manpages@gmail.com>
+Cc: Michael Kerrisk <mtk.manpages@gmail.com>
+Cc: Andrew Morton <akpm@linux-foundation.org>
+Cc: Michal Hocko <mhocko@suse.com>
+Cc: Oscar Salvador <osalvador@suse.de>
+Cc: Jann Horn <jannh@google.com>
+Cc: Mike Rapoport <rppt@kernel.org>
+Cc: Linux API <linux-api@vger.kernel.org>
+Cc: linux-mm@kvack.org
+Signed-off-by: David Hildenbrand <david@redhat.com>
+---
+ man2/madvise.2 | 80 ++++++++++++++++++++++++++++++++++++++++++++++++++
+ 1 file changed, 80 insertions(+)
 
-src = "This is a very ... long valid string";
-len = strnlen(src, 5 - 1);
-/* strlen(s) wouldn't overrun, but the next call would overflow */
-memcpy(dest, src, len);
-dest[len] = '\0';
-
-
-But after thinking about it a second time, I think I'll remove it, and 
-keep only overrun (and I like your text, I'll copy part of it), as the 
-overflow is a problem of considering that the size of the buffers is 
-going to be the same, and the solution is not to use strnlen(3), but to 
-differentiate both sizes, which allows to detect truncation.
-
-If the input string is known but the output buffer is small, I'd call 
-strlen(str) and then MIN(len, bufsiz)  (this is kind of equivalent to 
-what strlcpy(3bsd) does).
-And if the input string is untrusted, I'd call strnlen(str, strsiz) and 
-MIN(len, bufsiz) (this is kind of what strncpy_s(3) does).
-
-
-
-> 
-> Any thoughts about adding the following?
-> 
-> NOTES
->      Calling strlen with a NULL pointer is undefined behavior.
-
-
-I'm waiting for Michael and/or Florian to comment on my proposal.
-
-I don't want to fix a page and have 296 broken...  I want to fix them 
-all at once, but am not sure which solution to apply.
-
-But yes, adding a line like that one is likely.
-
-Thanks!
-
-Alex
-
+diff --git a/man2/madvise.2 b/man2/madvise.2
+index f1f384c0c..3ec8c53a7 100644
+--- a/man2/madvise.2
++++ b/man2/madvise.2
+@@ -469,6 +469,59 @@ If a page is file-backed and dirty, it will be written back to the backing
+ storage.
+ The advice might be ignored for some pages in the range when it is not
+ applicable.
++.TP
++.BR MADV_POPULATE_READ " (since Linux 5.14)
++Populate (prefault) page tables readable for the whole range without actually
++reading. Depending on the underlying mapping, map the shared zeropage,
++preallocate memory or read the underlying file; files with holes might or
++might not preallocate blocks.
++Do not generate
++.B SIGBUS
++when populating fails, return an error instead.
++.IP
++If
++.B MADV_POPULATE_READ
++succeeds, all page tables have been populated (prefaulted) readable once.
++If
++.B MADV_POPULATE_READ
++fails, some page tables might have been populated.
++.IP
++.B MADV_POPULATE_READ
++cannot be applied to mappings without read permissions
++and special mappings marked with the kernel-internal
++.B VM_PFNMAP
++and
++.BR VM_IO .
++.IP
++Note that with
++.BR MADV_POPULATE_READ ,
++the process can be killed at any moment when the system runs out of memory.
++.TP
++.BR MADV_POPULATE_WRITE " (since Linux 5.14)
++Populate (prefault) page tables writable for the whole range without actually
++writing. Depending on the underlying mapping, preallocate memory or read the
++underlying file; files with holes will preallocate blocks.
++Do not generate
++.B SIGBUS
++when populating fails, return an error instead.
++.IP
++If
++.B MADV_POPULATE_WRITE
++succeeds, all page tables have been populated (prefaulted) writable once.
++If
++.B MADV_POPULATE_WRITE
++fails, some page tables might have been populated.
++.IP
++.B MADV_POPULATE_WRITE
++cannot be applied to mappings without write permissions
++and special mappings marked with the kernel-internal
++.B VM_PFNMAP
++and
++.BR VM_IO .
++.IP
++Note that
++.BR MADV_POPULATE_WRITE ,
++the process can be killed at any moment when the system runs out of memory.
+ .SH RETURN VALUE
+ On success,
+ .BR madvise ()
+@@ -533,6 +586,17 @@ or
+ .BR VM_PFNMAP
+ ranges.
+ .TP
++.B EINVAL
++.I advice
++is
++.B MADV_POPULATE_READ
++or
++.BR MADV_POPULATE_WRITE ,
++but the specified address range includes ranges with insufficient permissions,
++.B VM_IO
++or
++.BR VM_PFNMAP.
++.TP
+ .B EIO
+ (for
+ .BR MADV_WILLNEED )
+@@ -548,6 +612,14 @@ Not enough memory: paging in failed.
+ Addresses in the specified range are not currently
+ mapped, or are outside the address space of the process.
+ .TP
++.B ENOMEM
++.I advice
++is
++.B MADV_POPULATE_READ
++or
++.BR MADV_POPULATE_WRITE ,
++but populating (prefaulting) page tables failed.
++.TP
+ .B EPERM
+ .I advice
+ is
+@@ -555,6 +627,14 @@ is
+ but the caller does not have the
+ .B CAP_SYS_ADMIN
+ capability.
++.TP
++.B EHWPOISON
++.I advice
++is
++.B MADV_POPULATE_READ
++or
++.BR MADV_POPULATE_WRITE ,
++and a HW poisoned page is encountered.
+ .SH VERSIONS
+ Since Linux 3.18,
+ .\" commit d3ac21cacc24790eb45d735769f35753f5b56ceb
 -- 
-Alejandro Colomar
-Linux man-pages comaintainer; https://www.kernel.org/doc/man-pages/
-http://www.alejandro-colomar.es/
+2.31.1
+
