@@ -2,96 +2,109 @@ Return-Path: <linux-man-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-5.8 required=3.0 tests=BAYES_00,DKIM_SIGNED,
-	DKIM_VALID,DKIM_VALID_AU,HEADER_FROM_DIFFERENT_DOMAINS,MAILING_LIST_MULTI,
-	SPF_HELO_NONE,SPF_PASS autolearn=no autolearn_force=no version=3.4.0
+X-Spam-Status: No, score=-12.8 required=3.0 tests=BAYES_00,DKIM_SIGNED,
+	DKIM_VALID,DKIM_VALID_AU,FREEMAIL_FORGED_FROMDOMAIN,FREEMAIL_FROM,
+	HEADER_FROM_DIFFERENT_DOMAINS,INCLUDES_PATCH,MAILING_LIST_MULTI,
+	MENTIONS_GIT_HOSTING,SPF_HELO_NONE,SPF_PASS autolearn=ham autolearn_force=no
+	version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 17296C07E96
-	for <linux-man@archiver.kernel.org>; Tue, 13 Jul 2021 07:37:46 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 41F4DC07E95
+	for <linux-man@archiver.kernel.org>; Tue, 13 Jul 2021 16:36:29 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.kernel.org (Postfix) with ESMTP id F1F756023D
-	for <linux-man@archiver.kernel.org>; Tue, 13 Jul 2021 07:37:45 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTP id 2FE2C60FF3
+	for <linux-man@archiver.kernel.org>; Tue, 13 Jul 2021 16:36:29 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S234305AbhGMHke (ORCPT <rfc822;linux-man@archiver.kernel.org>);
-        Tue, 13 Jul 2021 03:40:34 -0400
-Received: from smtp-out2.suse.de ([195.135.220.29]:44510 "EHLO
-        smtp-out2.suse.de" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S234172AbhGMHkd (ORCPT
-        <rfc822;linux-man@vger.kernel.org>); Tue, 13 Jul 2021 03:40:33 -0400
-Received: from relay2.suse.de (relay2.suse.de [149.44.160.134])
-        by smtp-out2.suse.de (Postfix) with ESMTP id 8E40E2005F;
-        Tue, 13 Jul 2021 07:37:43 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
-        t=1626161863;
-        h=from:from:reply-to:reply-to:date:date:message-id:message-id:to:to:
-         cc:cc:mime-version:mime-version:content-type:content-type:
-         in-reply-to:in-reply-to:references:references;
-        bh=Hq2c9xZsvqW774kdI59IJ8mNNDC47Lg/E7EzR1uxpDA=;
-        b=sED8oC/wG6zAbqcB04S1b7O4/JRSiBboPBv5Wc6y52lzyj0hu05r2dsVh0A3Jh/FXzVGgR
-        jXWT9PwYnH9WeJO2phajYnMhLqChJUy/ZBHq4tgTCtbwPEsWqXdtni+scGXBirQdGFJVPx
-        173ehJ5yEDxfiWrrLP/Gku1i1uwlX1E=
-DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
-        s=susede2_ed25519; t=1626161863;
-        h=from:from:reply-to:reply-to:date:date:message-id:message-id:to:to:
-         cc:cc:mime-version:mime-version:content-type:content-type:
-         in-reply-to:in-reply-to:references:references;
-        bh=Hq2c9xZsvqW774kdI59IJ8mNNDC47Lg/E7EzR1uxpDA=;
-        b=0Fuir0sXP7YuUKpefjMFkTFS0Cmx7gafaOFe3cMyKvWzSTorBikxaNhzONbFWwso3mwYXm
-        rMCGGi4iUOlXALAQ==
-Received: from g78 (unknown [10.163.24.38])
-        (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
-        (No client certificate requested)
-        by relay2.suse.de (Postfix) with ESMTPS id 4CCE4A3B8B;
-        Tue, 13 Jul 2021 07:37:43 +0000 (UTC)
-References: <20210708100853.17391-1-rpalethorpe@suse.com>
- <20210712161159.no5qnjjzsrjev2s3@jwilk.net>
-User-agent: mu4e 1.4.15; emacs 27.2
-From:   Richard Palethorpe <rpalethorpe@suse.de>
-To:     Jakub Wilk <jwilk@jwilk.net>
-Cc:     linux-man@vger.kernel.org,
-        Alejandro Colomar <alx.manpages@gmail.com>,
-        Michael Kerrisk <mtk.manpages@gmail.com>
-Subject: Re: [PATCH] wait.2: Add ESRCH for when pid == INT_MIN
-Reply-To: rpalethorpe@suse.de
-In-reply-to: <20210712161159.no5qnjjzsrjev2s3@jwilk.net>
-Date:   Tue, 13 Jul 2021 08:37:42 +0100
-Message-ID: <871r827jg9.fsf@suse.de>
+        id S230296AbhGMQjS (ORCPT <rfc822;linux-man@archiver.kernel.org>);
+        Tue, 13 Jul 2021 12:39:18 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:45100 "EHLO
+        lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S235623AbhGMQiu (ORCPT
+        <rfc822;linux-man@vger.kernel.org>); Tue, 13 Jul 2021 12:38:50 -0400
+Received: from mail-il1-x129.google.com (mail-il1-x129.google.com [IPv6:2607:f8b0:4864:20::129])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id DD5D8C06119D
+        for <linux-man@vger.kernel.org>; Tue, 13 Jul 2021 09:35:07 -0700 (PDT)
+Received: by mail-il1-x129.google.com with SMTP id r16so16834454ilt.11
+        for <linux-man@vger.kernel.org>; Tue, 13 Jul 2021 09:35:07 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20161025;
+        h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+         :cc;
+        bh=xnkW9xzeY0yYo+BSi4okF3lpv9EeEMn7zMwkv0ak7IU=;
+        b=CALzqpqUwB1yBSQzVAlV3efSbvED9QqbVindWfdM+EFdL1249ern4fnjVzTYzoKbRI
+         4EQsZ2nqApF96JaBD/i/CZ1N1f+GX9W/QUXbz4NlEGmqe3wSEA9eqvoXfnxVq9BtH0Or
+         zPTVJZfiZLKaSTYTz0em/XC3AkndnV7b4hXFaTbOYcmSUBwoxq9rkoygunJO7Y8B93B3
+         XdrOsOsLDlFB8c3wxLbjVpszKbEh6qpMANiVSUltOoG+nzH/cUC9SDGMKr9F8qCNqm8n
+         8nOEIVeodM18FD6vp6i0T+TWHKeDos4D4BeslFXHZsQMUw+d15dfBY1X0oWYYtOg1e33
+         xXOQ==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20161025;
+        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+         :message-id:subject:to:cc;
+        bh=xnkW9xzeY0yYo+BSi4okF3lpv9EeEMn7zMwkv0ak7IU=;
+        b=p5EmhR0kyChUuI6HTIa8ikSm7i/B5KWhvuEzou5k8xvuLCApICgkyQeVJ8K0v4YGsI
+         ltoST1Ab2/SIWUG7gcU8bKS8lqPpWSXw9m0zicP9svL5ZkL6oft0rnZmsdXGQsOiAkSF
+         Z4t8Rak/dY6p6HNkdx38WLYsFqJ8HV6OUY3Yf4gsMEHCMqCuA1xwoxTgrzNF5RYnbanh
+         oLm8XSis27cHeuxudeuj5lJp1SKoFWtLgZVIVDutlJLrfAT9bB9ezQgkeKY3zSYbyXLH
+         vKsIHRi+D/iTQZ2rZAyXeFhDT8TEGI4zbPjoiNzYocjZpcbOLLntu/ZvSjdHlnpdLveI
+         095Q==
+X-Gm-Message-State: AOAM532tBGbft2MQ5RbI345b3ZnE8DBUEKNQV5G3R34FE57r92HN8D9N
+        gUC66LwQwynW6IkUy5JwWpTUSpb4asYlEiCM7pU=
+X-Google-Smtp-Source: ABdhPJw1cd5dyLhIa3oN2+aUYyHA7C0gnpRrolVi7atjbyyKUWpYsj0y9VxTRa0XU0Yfk8TbRQlfTG0wY0hHryhZCSs=
+X-Received: by 2002:a05:6e02:1c2d:: with SMTP id m13mr3413935ilh.137.1626194107356;
+ Tue, 13 Jul 2021 09:35:07 -0700 (PDT)
 MIME-Version: 1.0
-Content-Type: text/plain
+References: <20210318160817.3586288-1-amir73il@gmail.com>
+In-Reply-To: <20210318160817.3586288-1-amir73il@gmail.com>
+From:   Amir Goldstein <amir73il@gmail.com>
+Date:   Tue, 13 Jul 2021 19:34:56 +0300
+Message-ID: <CAOQ4uxjxqavy=E7NAO-E3kCe_q4E087iXtTZgtvj4YLjLdzbmw@mail.gmail.com>
+Subject: Re: [PATCH 0/2] fanotify man page updates for v5.13
+To:     Michael Kerrisk <mtk.manpages@gmail.com>
+Cc:     Jan Kara <jack@suse.cz>,
+        Matthew Bobrowski <mbobrowski@mbobrowski.org>,
+        linux-man <linux-man@vger.kernel.org>
+Content-Type: text/plain; charset="UTF-8"
 Precedence: bulk
 List-ID: <linux-man.vger.kernel.org>
 X-Mailing-List: linux-man@vger.kernel.org
 
-Hello Jakub,
-
-Jakub Wilk <jwilk@jwilk.net> writes:
-
-> * Richard Palethorpe <rpalethorpe@suse.com>, 2021-07-08, 11:08:
->>Please see upstream commit:
->>
->> commit dd83c161fbcc5d8be637ab159c0de015cbff5ba4
->> Author: zhongjiang <zhongjiang@huawei.com>
->> Date:   Mon Jul 10 15:53:01 2017 -0700
->>
->>     kernel/exit.c: avoid undefined behaviour when calling wait4()
->>
->>It avoids negating INT_MIN by returning early with ESRCH.
+On Thu, Mar 18, 2021 at 6:08 PM Amir Goldstein <amir73il@gmail.com> wrote:
 >
-> That sounds like a bug in the kernel, though?
+> Hi Michael,
 >
-> POSIX says the error should be ECHILD if "the process group specified
-> by pid does not exist".
+> Following are updated for changes queued for v5.13 [1]:
+> - Unprivileged fanotify listener
+> - Configurable limits
+>
+> It is still pretty early in the development cycle, but I am posting
+> them early for review.
+>
 
-The absolute value of INT_MIN is undefined or "not representable" in
-two's complement. So I think this can reasonably be considered undefined
-behaviour and the kernel can do what it wants.
+I Michael,
 
-Also, as the error code is different, we can detect if the fix has been
-applied without UBSAN enabled (unlike a similar fix in kill).
+This post was a long time ago so following up on it now.
+FYI, the 2 patches are also available on
+https://github.com/amir73il/man-pages/commits/fanotify_unpriv
+along with another minor man page update.
+I will post it separately soon.
 
-OTOH, I would have probably used ECHILD for consistency. However it is
-done now and has been in use for some years.
+Thanks,
+Amir.
 
--- 
-Thank you,
-Richard.
+>
+> [1] https://lore.kernel.org/linux-fsdevel/20210304112921.3996419-1-amir73il@gmail.com/
+>
+> Amir Goldstein (1):
+>   fanotify_init.2, fanotify_mark.2, fanotify.7: Configurable limits
+>
+> Matthew Bobrowski (1):
+>   fanotify_init.2, fanotify_mark.2: Document unprivileged listener
+>
+>  man2/fanotify_init.2 | 99 ++++++++++++++++++++++++++++++++++++--------
+>  man2/fanotify_mark.2 | 14 ++++++-
+>  man7/fanotify.7      | 35 +++++++++++++++-
+>  3 files changed, 127 insertions(+), 21 deletions(-)
+>
+> --
+> 2.25.1
+>
