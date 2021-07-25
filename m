@@ -6,31 +6,31 @@ X-Spam-Status: No, score=-5.3 required=3.0 tests=BAYES_00,
 	HEADER_FROM_DIFFERENT_DOMAINS,MAILING_LIST_MULTI,SPF_HELO_NONE,SPF_PASS,
 	USER_AGENT_SANE_1 autolearn=no autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 22FE1C4338F
-	for <linux-man@archiver.kernel.org>; Sun, 25 Jul 2021 17:10:28 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 21392C4338F
+	for <linux-man@archiver.kernel.org>; Sun, 25 Jul 2021 17:10:35 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.kernel.org (Postfix) with ESMTP id 0424260E77
-	for <linux-man@archiver.kernel.org>; Sun, 25 Jul 2021 17:10:27 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTP id 09C8360F35
+	for <linux-man@archiver.kernel.org>; Sun, 25 Jul 2021 17:10:35 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S229584AbhGYQ35 (ORCPT <rfc822;linux-man@archiver.kernel.org>);
-        Sun, 25 Jul 2021 12:29:57 -0400
+        id S229709AbhGYQaE (ORCPT <rfc822;linux-man@archiver.kernel.org>);
+        Sun, 25 Jul 2021 12:30:04 -0400
 Received: from luckmann.name ([213.239.213.133]:56899 "EHLO
         static.213-239-213-133.clients.your-server.de" rhost-flags-OK-OK-OK-OK)
-        by vger.kernel.org with ESMTP id S229545AbhGYQ35 (ORCPT
-        <rfc822;linux-man@vger.kernel.org>); Sun, 25 Jul 2021 12:29:57 -0400
+        by vger.kernel.org with ESMTP id S229545AbhGYQaE (ORCPT
+        <rfc822;linux-man@vger.kernel.org>); Sun, 25 Jul 2021 12:30:04 -0400
 X-Greylist: delayed 302 seconds by postgrey-1.27 at vger.kernel.org; Sun, 25 Jul 2021 12:28:42 EDT
 Received: from localhost (localhost [127.0.0.1])
   (uid 502)
   by static.213-239-213-133.clients.your-server.de with local
-  id 0000000000BD8002.0000000060FD9B02.0000425D; Sun, 25 Jul 2021 19:10:26 +0200
-Date:   Sun, 25 Jul 2021 19:10:26 +0200
+  id 0000000000BD8005.0000000060FD99DC.00003FAC; Sun, 25 Jul 2021 19:05:32 +0200
+Date:   Sun, 25 Jul 2021 19:05:32 +0200
 From:   Helge Kreutzmann <debian@helgefjell.de>
 To:     mtk.manpages@gmail.com
 Cc:     linux-man@vger.kernel.org
-Subject: Errors in man pages, here: unicode.7
-Message-ID: <20210725171026.GA16960@Debian-50-lenny-64-minimal>
+Subject: Errors in man pages, here: atanh.3
+Message-ID: <20210725170532.GA16265@Debian-50-lenny-64-minimal>
 Mime-Version: 1.0
-Content-Type: multipart/signed; micalg=pgp-sha256; protocol="application/pgp-signature"; boundary="=_luckmann.name-16989-1627233026-0001-2"
+Content-Type: multipart/signed; micalg=pgp-sha256; protocol="application/pgp-signature"; boundary="=_luckmann.name-16300-1627232732-0001-2"
 Content-Disposition: inline
 X-Public-Key-URL: http://www.helgefjell.de/data/debian_neu.asc
 X-homepage: http://www.helgefjell.de/debian
@@ -42,8 +42,8 @@ X-Mailing-List: linux-man@vger.kernel.org
 This is a MIME-formatted message.  If you see this text it means that your
 E-mail software does not support MIME-formatted messages.
 
---=_luckmann.name-16989-1627233026-0001-2
-Content-Type: text/plain; charset=us-ascii
+--=_luckmann.name-16300-1627232732-0001-2
+Content-Type: text/plain; charset=utf-8
 Content-Disposition: inline
 Content-Transfer-Encoding: quoted-printable
 
@@ -81,12 +81,13 @@ them.
 I'm now reporting the errors for your project. If future reports
 should use another channel, please let me know.
 
-Man page: unicode.7
-Issue: remove whitespace before full stoop in "UCS ."
+Man page: atanh.3
+Issue: as set =E2=86=92 was set
 
-"This is the official specification of UCS .  Available from E<.UR http://w=
-ww."
-"iso.ch/> E<.UE .>"
+"In glibc 2.9 and earlier, when a pole error occurs, I<errno> as set to "
+"B<EDOM> instead of the POSIX-mandated B<ERANGE>.  Since version 2.10, glib=
+c "
+"does the right thing."
 
 --=20
       Dr. Helge Kreutzmann                     debian@helgefjell.de
@@ -94,25 +95,25 @@ ww."
         64bit GNU powered                     gpg signed mail preferred
            Help keep free software "libre": http://www.ffii.de/
 
---=_luckmann.name-16989-1627233026-0001-2
+--=_luckmann.name-16300-1627232732-0001-2
 Content-Type: application/pgp-signature; name="signature.asc"
 Content-Transfer-Encoding: 7bit
 
 -----BEGIN PGP SIGNATURE-----
 
-iQIzBAABCAAdFiEEbZZfteMW0gNUynuwQbqlJmgq5nAFAmD9mwIACgkQQbqlJmgq
-5nDrTQ/9Eqq0yodFyFxze8cKtmOeqw8kzNQ1fTLkywwR/BmkfwDEL0TRqFTZUdj/
-y65pQjwEfX0OMW+H9A+NqIu7nXdYo3xxiTjmI5ZGEyatI/AMUDzwLYtqv2M4Z4DE
-+hLfQNKTZMSEzIxJazTmks7C7Z3Am7cSPqQ0gIl5Eaa7ySSmnAtv10tVEl0LG1Ws
-J2fNn8VnKh3lZcF694nQnWUFKnQHK8nwmzOiC7qmqBp+F6RfR3hq4FtzarU8RQ2N
-cd2rFzcs/uJO81yLMC6fJvB9ZRibjXR18e6bCTZTqgrJj8kvhSZwLU4g+inTHvNT
-Q4s4lJK9qW2NDf15YQIHVsrqhC6Kd1I/NIyjL1ovXCVRnYzy19uLeiNEZyKC7lix
-76Ix5QOsfZrpL9yGn6gvzDmW1YoqnK7KOuPeghtoZX+XG6rIF6+asS5QOAOcAb4x
-SzSXTMt8aHFw5qmyq+EOhT3b8RU6bFbHxuQjCpgcyZ++/R0RXsSsktgPsMxSaZRx
-qN9/5I1KRTekAerzSNtSSPNlGWvBSEOPCR5r4n45iD8IpfSwjGafVW4umdt6eCar
-dy1+CJVal5ru9XXLU4BNazbJZkUM3rv6Cgj1I9htWMNSTe96sHmcWMW7TmmY77hd
-04VT1ggLrpBvNjy/3l3G7UllvlypYBWHIrdI9ocVIFmKoiSeB1w=
-=e+4H
+iQIzBAABCAAdFiEEbZZfteMW0gNUynuwQbqlJmgq5nAFAmD9mdwACgkQQbqlJmgq
+5nCmIQ/7BswpvKOiSePSbvH0Ht7lfKTbq1vRcYgofQkTz1oO9gbBSZG2Y9EgXc7w
+grjqBIWp7yzWlu6ElT7d2goC8j1OtQqN/lDliNAjm8fLxcU0OQJoUEEBKVfrFyNp
+BDCiRke2WplVxVI4OqHAgbb14+LnSHW/osnUAzTp/rgtHtxJYccBApYUevOxnmv6
+mI7K94WYuwHFaHrov8uKykBo5aG3PYINKUDj6f8wdp3au/EGBI57a0WOQYRdKu8+
+d0ROjnAI7M5BSb+y01OPfeaOCxyjbChZTCjf8w0ba5+lIR7TmKYrqVb0F02DrpuH
+Bq0avHpbPvPu9HIvLfZaX733ke8YHz/Q/xsBX3i8XXnsFYwvJS9zzJyfoeHPB5Ds
+KZdYNlHMBNWiFXzezxp82vGBDpjAk8C4o/fjOo6hX2O8yt4we6t08lAoEl1uxfUp
+WcDqKG9dsMZoAEB1QOollcVWwCWLhAZ1546FHLBORGqgwYIFK8iDWU/im3QbyFuV
+YHF3lA3DHNjgEmbKoAyBC1+aR6C89xnGkW57vOI3G/N1dQ88OeQAMGWhHZaKC0j+
+MBQ84bdfuMLOKU3VFz+Cj6NNYUsc/fKYWSwSjfBWL0d4sA2gNIZVawEcqyPtslZi
+TX1jaGdTDoNLFAlMSP37u929yAq0Ix1x/ZkDAAsDjP0rY7Nx0Mk=
+=Uhve
 -----END PGP SIGNATURE-----
 
---=_luckmann.name-16989-1627233026-0001-2--
+--=_luckmann.name-16300-1627232732-0001-2--
