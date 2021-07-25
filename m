@@ -6,31 +6,31 @@ X-Spam-Status: No, score=-5.3 required=3.0 tests=BAYES_00,
 	HEADER_FROM_DIFFERENT_DOMAINS,MAILING_LIST_MULTI,SPF_HELO_NONE,SPF_PASS,
 	USER_AGENT_SANE_1 autolearn=no autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id DCA5DC4338F
-	for <linux-man@archiver.kernel.org>; Sun, 25 Jul 2021 17:10:11 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 02E5FC4320A
+	for <linux-man@archiver.kernel.org>; Sun, 25 Jul 2021 17:10:13 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.kernel.org (Postfix) with ESMTP id C545F60EB4
-	for <linux-man@archiver.kernel.org>; Sun, 25 Jul 2021 17:10:11 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTP id D75CB60EB4
+	for <linux-man@archiver.kernel.org>; Sun, 25 Jul 2021 17:10:12 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S229829AbhGYQ3l (ORCPT <rfc822;linux-man@archiver.kernel.org>);
-        Sun, 25 Jul 2021 12:29:41 -0400
+        id S229831AbhGYQ3m (ORCPT <rfc822;linux-man@archiver.kernel.org>);
+        Sun, 25 Jul 2021 12:29:42 -0400
 Received: from luckmann.name ([213.239.213.133]:56899 "EHLO
         static.213-239-213-133.clients.your-server.de" rhost-flags-OK-OK-OK-OK)
-        by vger.kernel.org with ESMTP id S229545AbhGYQ3k (ORCPT
-        <rfc822;linux-man@vger.kernel.org>); Sun, 25 Jul 2021 12:29:40 -0400
+        by vger.kernel.org with ESMTP id S229545AbhGYQ3l (ORCPT
+        <rfc822;linux-man@vger.kernel.org>); Sun, 25 Jul 2021 12:29:41 -0400
 X-Greylist: delayed 302 seconds by postgrey-1.27 at vger.kernel.org; Sun, 25 Jul 2021 12:28:42 EDT
 Received: from localhost (localhost [127.0.0.1])
   (uid 502)
   by static.213-239-213-133.clients.your-server.de with local
-  id 0000000000BD8002.0000000060FD9AF2.0000423F; Sun, 25 Jul 2021 19:10:10 +0200
-Date:   Sun, 25 Jul 2021 19:10:10 +0200
+  id 0000000000BD8003.0000000060FD99C7.00003F88; Sun, 25 Jul 2021 19:05:11 +0200
+Date:   Sun, 25 Jul 2021 19:05:11 +0200
 From:   Helge Kreutzmann <debian@helgefjell.de>
 To:     mtk.manpages@gmail.com
 Cc:     linux-man@vger.kernel.org
-Subject: Errors in man pages, here: unicode.7
-Message-ID: <20210725171010.GA16927@Debian-50-lenny-64-minimal>
+Subject: Errors in man pages, here: access.2
+Message-ID: <20210725170511.GA16224@Debian-50-lenny-64-minimal>
 Mime-Version: 1.0
-Content-Type: multipart/signed; micalg=pgp-sha256; protocol="application/pgp-signature"; boundary="=_luckmann.name-16959-1627233010-0001-2"
+Content-Type: multipart/signed; micalg=pgp-sha256; protocol="application/pgp-signature"; boundary="=_luckmann.name-16264-1627232711-0001-2"
 Content-Disposition: inline
 X-Public-Key-URL: http://www.helgefjell.de/data/debian_neu.asc
 X-homepage: http://www.helgefjell.de/debian
@@ -42,8 +42,8 @@ X-Mailing-List: linux-man@vger.kernel.org
 This is a MIME-formatted message.  If you see this text it means that your
 E-mail software does not support MIME-formatted messages.
 
---=_luckmann.name-16959-1627233010-0001-2
-Content-Type: text/plain; charset=utf-8
+--=_luckmann.name-16264-1627232711-0001-2
+Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
 Content-Transfer-Encoding: quoted-printable
 
@@ -81,16 +81,11 @@ them.
 I'm now reporting the errors for your project. If future reports
 should use another channel, please let me know.
 
-Man page: unicode.7
-Issue: tells, how many =E2=86=92 tells how many
+Man page: access.2
+Issue: FIXME: The if construct does not reeally work well, better: B<access=
+>() and B<faccessat>() return the following exit codes:
 
-"The B<nl_langinfo(CODESET)> function returns the name of the selected "
-"encoding.  Library functions such as B<wctomb>(3)  and B<mbsrtowcs>(3)  ca=
-n "
-"be used to transform the internal I<wchar_t> characters and strings into t=
-he "
-"system character encoding and back and B<wcwidth>(3)  tells, how many "
-"positions (0\\(en2) the cursor is advanced by the output of a character."
+"B<access>()  and B<faccessat>()  shall fail if:"
 
 --=20
       Dr. Helge Kreutzmann                     debian@helgefjell.de
@@ -98,25 +93,25 @@ he "
         64bit GNU powered                     gpg signed mail preferred
            Help keep free software "libre": http://www.ffii.de/
 
---=_luckmann.name-16959-1627233010-0001-2
+--=_luckmann.name-16264-1627232711-0001-2
 Content-Type: application/pgp-signature; name="signature.asc"
 Content-Transfer-Encoding: 7bit
 
 -----BEGIN PGP SIGNATURE-----
 
-iQIzBAABCAAdFiEEbZZfteMW0gNUynuwQbqlJmgq5nAFAmD9mvEACgkQQbqlJmgq
-5nDHsg/+MQjrGWQKEfcG6eXh6FHt4DWpywaHyEwERsGuh/CkrhP56e55IJPfyNJ3
-II8vjMgOqRDqYARw0lZj8BAtdjENfGpOA+rkECQkKjj9WHrkMiljZZzpFRjtSn6X
-7vFHpsxIkGeQIsubAPbP4jbOENOyZf5WqV1rif3f9d/t5oIqOm6qrkeBbcsMom1a
-O1pNtUu/ntnIAUHxMEN4tqyvhegc23LlboqRnFEvH596sIrX3gxcrflO3TkF34Ro
-153Kc/jAhqk5JwWCGfy0JhnoTK7Qxfp1OWbp7J6s9UvHh+p6maRZEuK1ZHYcVI8m
-lmZZg4gamNbQoIICnttssAIzBXfTGjXBF8/0AJUv9O36oQPV7U0U2NbADhRPFewL
-7U39dokp/wb4ZEPOmwXLENpoND026Aa/PX7a8dvFJ2wKtRTSky9lc0Glocc/vTK7
-RVpiFwEQxu72re3sUuBAD5wyCG0f+0SciVWa9fnTFl5Dc6SvfrbeZSXbzAR6yF+o
-ESFgMyepCQ+D3zHytjWqxl8JsAhzCFjVYKTL+l4vWFrkq81K6+v4r21UNLnsI6A2
-jzHJvWHECDSqipLx16s6oq2XC340DRfnFjxjUaqMef+LEQKcgvPNmcEqInbluNvT
-1OI0B5zS3qLxJ1K47nGsiqhG8cUDgHLDEjTGHqluZWB+JDTAfVQ=
-=yPLN
+iQIzBAABCAAdFiEEbZZfteMW0gNUynuwQbqlJmgq5nAFAmD9mcYACgkQQbqlJmgq
+5nAQOg//fNSYqyE7xBFU2XO9w7P8f8mQdjza6BoBQcM5/KZM8BGI/1qB5Q846zKC
+6BfVmmry5oriRnmcoA25o+/Zpyw/qw7wkN1Le6ijb1iaGY6lhVxtCytHqmbVjrPF
+bhMF3p0A59pjoFBL4kZO1X9nfBpey1JUnGeC+Rc65kQoNhic6jhJojdY9Ixv06qp
+uL0+oT8U00GA+NFQkkCcx85M/HCYamme67mPjrkLUOmCDJ2hwe6bLDgx6bSm+2Hx
+KDSdwOZic7BiBo0xbdj860w1yMUpT3vNum5jHAsuco87/fNvVnQ2MFvoRzpIwIjp
+w7CN+VHvo/w+d8SYvnsQD85Z/cGitEBnpJPyoxXoxuWksqE9g8Idhl9N9yiCccOC
+zKsOsPlE2dJ7aDkEzx+0RtPsyoYjZq75p+botLQruGtdfKl/Lu0jUd9RfhTx5PxD
+wFMjBFknEYsg9iW7zhRI+T6UvKODl8w64u9zKTvMHoNhhOm7q19c6/w+l1a8UW84
+gjZGpLeddJDqtMHcrmRtfzkL7jItKYVeA7efmiPCnm7SyXvxX4TSL17lk2h+9m/3
+C+z42HlGdFkw1KRj5Wt5G6L29S2Nt6PluRtO5QWQ7vpZGHHW0WK1okc/3CqMWxhD
+gEBqNSEn55D+B6eV1kadk7MTkq7EUwOpkpuDAx/coof+lBnvxrA=
+=81ul
 -----END PGP SIGNATURE-----
 
---=_luckmann.name-16959-1627233010-0001-2--
+--=_luckmann.name-16264-1627232711-0001-2--
