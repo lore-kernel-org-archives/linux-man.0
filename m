@@ -6,31 +6,31 @@ X-Spam-Status: No, score=-5.3 required=3.0 tests=BAYES_00,
 	HEADER_FROM_DIFFERENT_DOMAINS,MAILING_LIST_MULTI,SPF_HELO_NONE,SPF_PASS,
 	USER_AGENT_SANE_1 autolearn=no autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id AFCB8C432BE
-	for <linux-man@archiver.kernel.org>; Sun, 25 Jul 2021 17:11:00 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 8AF91C4338F
+	for <linux-man@archiver.kernel.org>; Sun, 25 Jul 2021 17:11:09 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.kernel.org (Postfix) with ESMTP id 99D3160F11
-	for <linux-man@archiver.kernel.org>; Sun, 25 Jul 2021 17:11:00 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTP id 6CF4560E77
+	for <linux-man@archiver.kernel.org>; Sun, 25 Jul 2021 17:11:09 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S229831AbhGYQa3 (ORCPT <rfc822;linux-man@archiver.kernel.org>);
-        Sun, 25 Jul 2021 12:30:29 -0400
+        id S229829AbhGYQai (ORCPT <rfc822;linux-man@archiver.kernel.org>);
+        Sun, 25 Jul 2021 12:30:38 -0400
 Received: from luckmann.name ([213.239.213.133]:56899 "EHLO
         static.213-239-213-133.clients.your-server.de" rhost-flags-OK-OK-OK-OK)
-        by vger.kernel.org with ESMTP id S229584AbhGYQa3 (ORCPT
-        <rfc822;linux-man@vger.kernel.org>); Sun, 25 Jul 2021 12:30:29 -0400
+        by vger.kernel.org with ESMTP id S229584AbhGYQai (ORCPT
+        <rfc822;linux-man@vger.kernel.org>); Sun, 25 Jul 2021 12:30:38 -0400
 X-Greylist: delayed 302 seconds by postgrey-1.27 at vger.kernel.org; Sun, 25 Jul 2021 12:28:42 EDT
 Received: from localhost (localhost [127.0.0.1])
   (uid 502)
   by static.213-239-213-133.clients.your-server.de with local
-  id 0000000000BD8002.0000000060FD9B22.00004294; Sun, 25 Jul 2021 19:10:58 +0200
-Date:   Sun, 25 Jul 2021 19:10:58 +0200
+  id 0000000000BD8009.0000000060FD99FF.00003FE8; Sun, 25 Jul 2021 19:06:07 +0200
+Date:   Sun, 25 Jul 2021 19:06:07 +0200
 From:   Helge Kreutzmann <debian@helgefjell.de>
 To:     mtk.manpages@gmail.com
 Cc:     linux-man@vger.kernel.org
-Subject: Errors in man pages, here: uri.7
-Message-ID: <20210725171058.GA17019@Debian-50-lenny-64-minimal>
+Subject: Errors in man pages, here: clock.3
+Message-ID: <20210725170607.GA16334@Debian-50-lenny-64-minimal>
 Mime-Version: 1.0
-Content-Type: multipart/signed; micalg=pgp-sha256; protocol="application/pgp-signature"; boundary="=_luckmann.name-17044-1627233058-0001-2"
+Content-Type: multipart/signed; micalg=pgp-sha256; protocol="application/pgp-signature"; boundary="=_luckmann.name-16360-1627232767-0001-2"
 Content-Disposition: inline
 X-Public-Key-URL: http://www.helgefjell.de/data/debian_neu.asc
 X-homepage: http://www.helgefjell.de/debian
@@ -42,8 +42,8 @@ X-Mailing-List: linux-man@vger.kernel.org
 This is a MIME-formatted message.  If you see this text it means that your
 E-mail software does not support MIME-formatted messages.
 
---=_luckmann.name-17044-1627233058-0001-2
-Content-Type: text/plain; charset=utf-8
+--=_luckmann.name-16360-1627232767-0001-2
+Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
 Content-Transfer-Encoding: quoted-printable
 
@@ -81,13 +81,12 @@ them.
 I'm now reporting the errors for your project. If future reports
 should use another channel, please let me know.
 
-Man page: uri.7.po
-Issue: uppercase and lowercase English letters =E2=86=92 uppercase and lowe=
-rcase Latin letters
+Man page: clock.3
+Issue: Previously POSIX, now XSI requires?
 
-"Unreserved characters may be included in a URI.  Unreserved characters "
-"include uppercase and lowercase English letters, decimal digits, and the "
-"following limited set of punctuation marks and symbols:"
+"POSIX.1-2001, POSIX.1-2008, C89, C99.  XSI requires that B<CLOCKS_PER_SEC>=
+ "
+"equals 1000000 independent of the actual resolution."
 
 --=20
       Dr. Helge Kreutzmann                     debian@helgefjell.de
@@ -95,25 +94,25 @@ rcase Latin letters
         64bit GNU powered                     gpg signed mail preferred
            Help keep free software "libre": http://www.ffii.de/
 
---=_luckmann.name-17044-1627233058-0001-2
+--=_luckmann.name-16360-1627232767-0001-2
 Content-Type: application/pgp-signature; name="signature.asc"
 Content-Transfer-Encoding: 7bit
 
 -----BEGIN PGP SIGNATURE-----
 
-iQIzBAABCAAdFiEEbZZfteMW0gNUynuwQbqlJmgq5nAFAmD9myIACgkQQbqlJmgq
-5nCL3A/+PlSn6JvOpMft4xaVkzc1ics17SWtmylAAOMVH62HHqnrX2KFzlY1Oq40
-oUCU97oMYWzkdmbmX0fso1Xzp/g8u7NSLMaamElOo0cttbgxUffvEohCEadWYLI5
-zTbFh1WdsqOFPtqXpyR+OqZgnUGKpTtVwhIksdW6LzascGgPEei853EreNj0a2Ai
-fi3/D9NkK2YGK/FjRCQdMInG2KDnG7Uv4i4blHCXDv06T8MA7EUfgH5T3neid4Zr
-/esmrDXT8hq3Z+pAlImFqhntOc+srVJBXjtNHhupTEzcn29GzhlpdzJzt6H+5oZz
-8dnuRkWtgK4Ttx+FVbISG2+7yb6FXfOzFSTrSJASdkMTHweU2O8omqS9WqQy6MBh
-wWork2R/uI0Bd6inztVz6WpIwWVfZdKcFVRSIBqEGkX3jOXLXCqBlpLbhjoxFpVO
-+NbkoM1ucN7tml22aQjv81svaj5Kl2Da69VxcWtYEJfjZz+3DCCtvBabSq0NZgqZ
-6JF3i/Tor4fH5ilrWCizKQjludiDcSqH3ffeMTrs37+haW0yEveEmYLL/3ZD7afy
-mhtbrH70TxpjE/0NqOe4rhmoH0Y/R2NF2pEifJiZegsG0s/eXIt86nQ/DwlEL0Wt
-H4pIb2Z7V1B4eQ1hDgyst1f74hPKRhVQtJRjNXaeViIsKEAobRs=
-=g40d
+iQIzBAABCAAdFiEEbZZfteMW0gNUynuwQbqlJmgq5nAFAmD9mf8ACgkQQbqlJmgq
+5nBlEw/8DPszRqmn37W12n0xvHtL4QTeURbIP6fKiKfHpQiT9Qe8f/2OCloiHjyv
+WUJSJtr+7L27jBJfk0XRMU2o6EMonk1KbWauGbcfHasSD6trTn2PRfkELil/dKAm
+nYrATiDcOs157Kd8NNDn41ju9Btca6Wbc3J04/r3W/V2rsslkT5mkHdXtpcEVOjB
+7CDV5OTuX8M6cUnkFrAg/HrjAomcFECNcC+4fVjDnA1oy8lqULNg/QLxd76HNiMp
+/4WAjP9H8OyGzFaKCXSJgsmgTKelF32IDeswIPGZTJTVaWxaYgyzFU1ziNPQWs4z
+sFl3/pv4B7HUFNyq/Gt2ixV1t+6637mVjT2EWccEKEFG/ljnzUFKCrCnAIiNOYUu
+G7uupSzL7s4QaJ0QsZ3FJ+rQKB8BB7tolNnLBd9wwukIOCSmp+iPDXeFonJaivHO
+IWSfZOrpNlAeHf+C6lv/+fXEkH3aXVB4uTx9IV8MdpZhgvPxsjEdpSDzUGsBnlZl
+hmi2ZEg09f1WeSIW7aR3rYNHMTi9xNtLeVIFEJwbS8fktq//PgKu2Co1bgrw7Jly
+Do2pPsYh0lHV1+Bp7/MuSzPchrggX20tLxNKGQBvYKz9mEpn5ogiDOl2bjapEpDk
+ExcTc2Z66Pj7GdqeW/L2xPvTwZOz9hcyMyCrll+dn46yAUlEzYE=
+=33+D
 -----END PGP SIGNATURE-----
 
---=_luckmann.name-17044-1627233058-0001-2--
+--=_luckmann.name-16360-1627232767-0001-2--
