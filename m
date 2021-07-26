@@ -2,87 +2,112 @@ Return-Path: <linux-man-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-2.8 required=3.0 tests=BAYES_00,DKIM_SIGNED,
-	DKIM_VALID,DKIM_VALID_AU,FREEMAIL_FORGED_FROMDOMAIN,FREEMAIL_FROM,
-	HEADER_FROM_DIFFERENT_DOMAINS,MAILING_LIST_MULTI,SPF_HELO_NONE,SPF_PASS
-	autolearn=no autolearn_force=no version=3.4.0
+X-Spam-Status: No, score=-5.2 required=3.0 tests=BAYES_00,
+	HEADER_FROM_DIFFERENT_DOMAINS,MAILING_LIST_MULTI,SPF_HELO_NONE,SPF_PASS,
+	URIBL_BLOCKED,USER_AGENT_SANE_1 autolearn=no autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 24294C4338F
-	for <linux-man@archiver.kernel.org>; Sun, 25 Jul 2021 23:30:47 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id C2AC0C4320E
+	for <linux-man@archiver.kernel.org>; Mon, 26 Jul 2021 04:51:42 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.kernel.org (Postfix) with ESMTP id 0066C608FE
-	for <linux-man@archiver.kernel.org>; Sun, 25 Jul 2021 23:30:46 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTP id A2B3C604AC
+	for <linux-man@archiver.kernel.org>; Mon, 26 Jul 2021 04:51:42 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S229956AbhGYWuQ (ORCPT <rfc822;linux-man@archiver.kernel.org>);
-        Sun, 25 Jul 2021 18:50:16 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:52458 "EHLO
-        lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S229829AbhGYWuQ (ORCPT
-        <rfc822;linux-man@vger.kernel.org>); Sun, 25 Jul 2021 18:50:16 -0400
-Received: from mail-ot1-x32b.google.com (mail-ot1-x32b.google.com [IPv6:2607:f8b0:4864:20::32b])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 1D279C061757
-        for <linux-man@vger.kernel.org>; Sun, 25 Jul 2021 16:30:45 -0700 (PDT)
-Received: by mail-ot1-x32b.google.com with SMTP id c2-20020a0568303482b029048bcf4c6bd9so6960768otu.8
-        for <linux-man@vger.kernel.org>; Sun, 25 Jul 2021 16:30:45 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20161025;
-        h=mime-version:references:in-reply-to:reply-to:from:date:message-id
-         :subject:to:cc;
-        bh=1wtDuDxvyJSrDbbsoLO4s4COpfKvPPNtaupyaVTY/N0=;
-        b=CgJih5NwQj5q9C/kEWa/q8DZvOm6Xky0yzQRHIlDOKwybEK/cFKTmJPjY6JJcQr3Sv
-         odl8mQDRWRRpJQZ4hiZBz44ymnAilDFPmDST2qWuAnwDI+2B8AcyksmBhfzW67hN097a
-         8TyD8F47KJx+DE4gu/7tIxoNbDBT0JXLtyoBtX575Maq3Yu/EpXgUn8dorv0Qo9s8TG5
-         +8chQX+6YmPd1+G1PbxaSXkDSroFj5Ra5UQJwFSYLxRft9Jti7Um/56TpJv+HljylfwU
-         3QLPy3o+hKjt+dp3IoTMO0tMoA/wJktz8l/MxwSFyq2Tere6oRt1zD/Tv/8UVU9ylTAm
-         EXHA==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20161025;
-        h=x-gm-message-state:mime-version:references:in-reply-to:reply-to
-         :from:date:message-id:subject:to:cc;
-        bh=1wtDuDxvyJSrDbbsoLO4s4COpfKvPPNtaupyaVTY/N0=;
-        b=giMLbc5CbQjqdV2M9UKMbNPdIgkSCvMpaP9cPt12D2/525VCLRTWIQTpbg+8fYE8xy
-         Wquw4zq8LpvNefAZJ2MiauEtgmWEcOI4i1fkicWGRLuAMi3kY2ICKvGsMg36so3HpUen
-         F1NqrmR3Xb/0ZFLU6BhAPvh3VlFsVet4IfXUX1cz90jD3b3S1bScW8/F3wxdePTfBZIW
-         5JjQ0+pHJ/qQS32bbrC1SeH8se+ZLsOXy3HleyVLpcrF4FQENPWmNq3XaogJUraVMKGF
-         0u1dD6W8Zjx0seip0OXgsKmPa2PYBTrRmPv5Ktot2OWppsYdDcKyNvEmaqM2SiYordy8
-         Cs5A==
-X-Gm-Message-State: AOAM532Eb9Dqkb4Z53bW8WYR7eOt+xfd4slaPefUkZ6Ki6LR7mYWSmkz
-        FVSCclhca++LGXiSe171TBw0gLj3jClzsugrLDg=
-X-Google-Smtp-Source: ABdhPJw0C7gDWEzyCCAIWHEthTuq8SDy5FsK/qLQj+1nZTdKRsh99VkMHJrwr68w5wUDzq7YF0zeBZaW4/ptemcfnPU=
-X-Received: by 2002:a9d:172e:: with SMTP id i46mr9901243ota.308.1627255844549;
- Sun, 25 Jul 2021 16:30:44 -0700 (PDT)
-MIME-Version: 1.0
-References: <CALBoerdTNOd0w0gj4XQMd8Y76MP4tRhSvhAXcQifH1RgydNw-g@mail.gmail.com>
-In-Reply-To: <CALBoerdTNOd0w0gj4XQMd8Y76MP4tRhSvhAXcQifH1RgydNw-g@mail.gmail.com>
-Reply-To: mtk.manpages@gmail.com
-From:   "Michael Kerrisk (man-pages)" <mtk.manpages@gmail.com>
-Date:   Mon, 26 Jul 2021 01:30:33 +0200
-Message-ID: <CAKgNAkhdFSWtCyOOb-nXgOXD2AeEFtwqCV_3ECGaLx-nF47Wng@mail.gmail.com>
-Subject: Re: typo in systemd.unit(5)
-To:     snow under <hikigaya58@gmail.com>
+        id S229683AbhGZELD (ORCPT <rfc822;linux-man@archiver.kernel.org>);
+        Mon, 26 Jul 2021 00:11:03 -0400
+Received: from luckmann.name ([213.239.213.133]:43991 "EHLO
+        static.213-239-213-133.clients.your-server.de" rhost-flags-OK-OK-OK-OK)
+        by vger.kernel.org with ESMTP id S229658AbhGZEKs (ORCPT
+        <rfc822;linux-man@vger.kernel.org>); Mon, 26 Jul 2021 00:10:48 -0400
+Received: from localhost (localhost [127.0.0.1])
+  (uid 502)
+  by static.213-239-213-133.clients.your-server.de with local
+  id 0000000000E54073.0000000060FE3F44.00002204; Mon, 26 Jul 2021 06:51:16 +0200
+Date:   Mon, 26 Jul 2021 06:51:16 +0200
+From:   Helge Kreutzmann <debian@helgefjell.de>
+To:     "Michael Kerrisk (man-pages)" <mtk.manpages@gmail.com>
 Cc:     linux-man <linux-man@vger.kernel.org>
-Content-Type: text/plain; charset="UTF-8"
+Subject: Re: Errors in man pages, here: rename.2
+Message-ID: <20210726045116.GB19395@Debian-50-lenny-64-minimal>
+References: <20210725170844.GA16696@Debian-50-lenny-64-minimal>
+ <CAKgNAkiuPrqBvoFv-11SAxfEfvRvqLP-yvOA7sKBkr60PreJ=g@mail.gmail.com>
+Mime-Version: 1.0
+Content-Type: multipart/signed; micalg=pgp-sha256; protocol="application/pgp-signature"; boundary="=_luckmann.name-8708-1627275076-0001-2"
+Content-Disposition: inline
+In-Reply-To: <CAKgNAkiuPrqBvoFv-11SAxfEfvRvqLP-yvOA7sKBkr60PreJ=g@mail.gmail.com>
+X-Public-Key-URL: http://www.helgefjell.de/data/debian_neu.asc
+X-homepage: http://www.helgefjell.de/debian
+User-Agent: Mutt/1.10.1 (2018-07-13)
 Precedence: bulk
 List-ID: <linux-man.vger.kernel.org>
 X-Mailing-List: linux-man@vger.kernel.org
 
-Thanks, but this bug needs to be reported to a different project.
+This is a MIME-formatted message.  If you see this text it means that your
+E-mail software does not support MIME-formatted messages.
 
-See https://man7.org/linux/man-pages/man5/systemd.unit.5.html#COLOPHON
+--=_luckmann.name-8708-1627275076-0001-2
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+Content-Transfer-Encoding: quoted-printable
 
-Cheers,
+Hello Michael,
+On Mon, Jul 26, 2021 at 12:58:36AM +0200, Michael Kerrisk (man-pages) wrote:
+> > Man page: rename.2
+> > Issue: So far, the manpage does not mention a variable I<pathname>
+> >
+> > "The directory containing I<oldpath> has the sticky bit (B<S_ISVTX>)  s=
+et and "
+> > "the process's effective user ID is neither the user ID of the file to =
+be "
+> > "deleted nor that of the directory containing it, and the process is no=
+t "
+> > "privileged (Linux: does not have the B<CAP_FOWNER> capability); or "
+> > "I<newpath> is an existing file and the directory containing it has the=
+ "
+> > "sticky bit set and the process's effective user ID is neither the user=
+ ID of "
+> > "the file to be replaced nor that of the directory containing it, and t=
+he "
+> > "process is not privileged (Linux: does not have the B<CAP_FOWNER> "
+> > "capability); or the filesystem containing I<pathname> does not support=
+ "
+> > "renaming of the type requested."
+>=20
+> Wow. That bug has been present for 28 years (since the page was first
+> added in 1993)!
 
-Michael
+I noticed it when I was trying to make the translation more
+consistent. And this one stood out. Hopefully not too many users got
+confused.
 
-On Mon, 19 Jul 2021 at 09:30, snow under <hikigaya58@gmail.com> wrote:
->
-> location: [UNIT] SECTION OPTIONS > Upholds= > first line "but as long a this unit is up"
-> checked from online page: https://man7.org/linux/man-pages/man5/systemd.unit.5.html#[UNIT]_SECTION_OPTIONS
-> thanks for your great work.
+Greetings
 
+        Helge
 
+--=20
+      Dr. Helge Kreutzmann                     debian@helgefjell.de
+           Dipl.-Phys.                   http://www.helgefjell.de/debian.php
+        64bit GNU powered                     gpg signed mail preferred
+           Help keep free software "libre": http://www.ffii.de/
 
--- 
-Michael Kerrisk
-Linux man-pages maintainer; http://www.kernel.org/doc/man-pages/
-Linux/UNIX System Programming Training: http://man7.org/training/
+--=_luckmann.name-8708-1627275076-0001-2
+Content-Type: application/pgp-signature; name="signature.asc"
+Content-Transfer-Encoding: 7bit
+
+-----BEGIN PGP SIGNATURE-----
+
+iQIzBAABCAAdFiEEbZZfteMW0gNUynuwQbqlJmgq5nAFAmD+P0QACgkQQbqlJmgq
+5nAsTA/+MOLUbcw/8Peay+VW+4E8NmoqVM3tGzgV/Nzv6s8F7TpSw4jIv0oKif4m
+UpYArX53eRBJB/lc41S4fSCVS6IB4HtdinQJRJ8q1UKN/IJ2zTMsuL+M3Og9JQBR
+EABPvwnnsS/9s1DBst/SrjdLlVSPTA1mhmtCf5GaBdDgNM956vosIlobJE0Ps+ce
+8aqJK9wyGfpiAGAaHO84K/gL+/9aRlywULt6PgctBlAin1pNQfbrwCbouGd00jch
+rQQlhSkcLnMbIxPjsUnu+a+EmTeYWEGQx7lUGTcy1+BbI4p2I6taCxQn9o7LucKt
+YabP8P+Ri24H27uy11aM4QWnP9B/uf9xuVGnhrXHKlUFex3Aa34NJ+LZJIUBWM46
+HY1yjKU8QRPsQFflF9pt58H2BXsT0Pizbk+g2cOcrjVoFOzld87yhYBPeDrO3LYJ
+Kr26jyazbghQ5fF0bnCLJxNXmUOVVEgJrasf09ZzW5z0sQxZ/ITiDUuBMiS8RSzn
+PEZuL/Jz/adOwhb/f5bbMwGABf1ZWHcZbrRjJYl/tcooUD9G8Sda/EUnKB9ii5wX
+ltqitH8P1k9eLF4CS2Wb5hF26KDsoknBqnkJFxoRDh5Z3G78swe+8F/6y/++FCEo
+VrsqGtTg5MZrLJFjiRyG0m0w8gAcOGyJWuvdSNEvHg5sOwhgz0U=
+=dEPY
+-----END PGP SIGNATURE-----
+
+--=_luckmann.name-8708-1627275076-0001-2--
