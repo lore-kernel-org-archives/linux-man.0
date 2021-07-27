@@ -2,79 +2,60 @@ Return-Path: <linux-man-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-4.7 required=3.0 tests=BAYES_00,DKIMWL_WL_HIGH,
-	DKIM_SIGNED,DKIM_VALID,MAILING_LIST_MULTI,SPF_HELO_NONE,SPF_PASS autolearn=no
-	autolearn_force=no version=3.4.0
+X-Spam-Status: No, score=0.0 required=3.0 tests=BAYES_40,DKIM_SIGNED,
+	DKIM_VALID,DKIM_VALID_AU,HEADER_FROM_DIFFERENT_DOMAINS,MAILING_LIST_MULTI,
+	SPF_HELO_NONE,SPF_PASS,UNWANTED_LANGUAGE_BODY autolearn=no autolearn_force=no
+	version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 2526DC432BE
-	for <linux-man@archiver.kernel.org>; Mon, 26 Jul 2021 16:29:06 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id B225CC4338F
+	for <linux-man@archiver.kernel.org>; Tue, 27 Jul 2021 07:51:38 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.kernel.org (Postfix) with ESMTP id 0B4F060F6B
-	for <linux-man@archiver.kernel.org>; Mon, 26 Jul 2021 16:29:06 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTP id 83CCF611CE
+	for <linux-man@archiver.kernel.org>; Tue, 27 Jul 2021 07:51:38 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S238017AbhGZPsg (ORCPT <rfc822;linux-man@archiver.kernel.org>);
-        Mon, 26 Jul 2021 11:48:36 -0400
-Received: from mail.kernel.org ([198.145.29.99]:36182 "EHLO mail.kernel.org"
-        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S238945AbhGZPsV (ORCPT <rfc822;linux-man@vger.kernel.org>);
-        Mon, 26 Jul 2021 11:48:21 -0400
-Received: by mail.kernel.org (Postfix) with ESMTPS id 5E27060F5E
-        for <linux-man@vger.kernel.org>; Mon, 26 Jul 2021 16:28:50 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-        s=k20201202; t=1627316930;
-        bh=A0XTDn/xPlm9ygPyWiT9mHL0+UEsnZFj/fSv5XlkXHA=;
-        h=From:To:Subject:Date:In-Reply-To:References:From;
-        b=H3A706wmdTNflB2wIUztk89A5+rWWR4XtRQlRGzP2vf7dtyRRF30NwcM1WwLyK1HH
-         45kILPddTuOkiO1WVjwqh0y6KVVc+7ljaPcOMFwlUyqkXoH0JaGmfkbb1S+lw8e5py
-         4vkfpppFTzW65OnHKtsYWGMw4XbtX2zFoUJhD3S7UcomXd5rSi+pKWJgT92K9xgMc5
-         lxTANwsznsA6gSQqY/1+p3Q9Vcfv92cZXvHsUEYVBmqGoujRZwweqxWgcWR6OIymBU
-         qposXuK5GMgzLj4YX2THdv1ssvhmvwSHwdxnuSWGfqjSTv13x98jbbn4qC0ujvkJWf
-         xDjEebXJDDmNQ==
-From:   bugzilla-daemon@bugzilla.kernel.org
-To:     linux-man@vger.kernel.org
-Subject: [Bug 211973] Wrong epoch date in inode(7)
-Date:   Mon, 26 Jul 2021 16:28:50 +0000
-X-Bugzilla-Reason: None
-X-Bugzilla-Type: changed
-X-Bugzilla-Watch-Reason: AssignedTo
- documentation_man-pages@kernel-bugs.osdl.org
-X-Bugzilla-Product: Documentation
-X-Bugzilla-Component: man-pages
-X-Bugzilla-Version: unspecified
-X-Bugzilla-Keywords: 
-X-Bugzilla-Severity: low
-X-Bugzilla-Who: thanhoangviet@gmail.com
-X-Bugzilla-Status: NEW
-X-Bugzilla-Resolution: 
-X-Bugzilla-Priority: P1
-X-Bugzilla-Assigned-To: documentation_man-pages@kernel-bugs.osdl.org
-X-Bugzilla-Flags: 
-X-Bugzilla-Changed-Fields: cc
-Message-ID: <bug-211973-11311-BqLLaXOVag@https.bugzilla.kernel.org/>
-In-Reply-To: <bug-211973-11311@https.bugzilla.kernel.org/>
-References: <bug-211973-11311@https.bugzilla.kernel.org/>
+        id S235810AbhG0Hvh (ORCPT <rfc822;linux-man@archiver.kernel.org>);
+        Tue, 27 Jul 2021 03:51:37 -0400
+Received: from mail.tradeias.com ([212.237.11.189]:39484 "EHLO
+        mail.tradeias.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S235621AbhG0Hvg (ORCPT
+        <rfc822;linux-man@vger.kernel.org>); Tue, 27 Jul 2021 03:51:36 -0400
+Received: by mail.tradeias.com (Postfix, from userid 1001)
+        id 06250A2B1D; Tue, 27 Jul 2021 08:51:19 +0100 (BST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=tradeias.com; s=mail;
+        t=1627372295; bh=tegSUSO8UdW4nPAN+CTxUCS0b4WeMgxljdiMdwCnwbk=;
+        h=Date:From:To:Subject:From;
+        b=xpIp4LroxVICeKokAe3IBBD7fKXO8WRNWQ5keOezY62S4ehTUoip+2ppyjCunufFj
+         pcQT9IOJLOAWdh3Tr0Alcf3JSSnN8oQyCls/I4J5GqjgdX1+uXoAVuro3vB0q/Kd/+
+         5gt0gnoWH7ll8p5IayDV5fAyUM/ohaP4+BWfv/czf6eTpmu3EXBcfX3Mrm7Iabh5l4
+         +uwJvq5ABAsA0LdgL1yyRwbrIj9XX7s+r+hw48iGzlwawcRGoIX6+vDEFieX7LFZQo
+         2zYFT0fh/oqZbOHBDD5BVhEKZoJUeVsexdYKb2UFJJoqlmcMNtmJzTSO75uPlnYgCK
+         Ti7wWLeA+dxow==
+Received: by mail.tradeias.com for <linux-man@vger.kernel.org>; Tue, 27 Jul 2021 07:51:06 GMT
+Message-ID: <20210727074500-0.1.36.6wzy.0.iamnmtyxce@tradeias.com>
+Date:   Tue, 27 Jul 2021 07:51:06 GMT
+From:   "Alarico Veloz" <alarico.veloz@tradeias.com>
+To:     <linux-man@vger.kernel.org>
+Subject: Servicio de la flota
+X-Mailer: mail.tradeias.com
+MIME-Version: 1.0
 Content-Type: text/plain; charset="UTF-8"
 Content-Transfer-Encoding: quoted-printable
-X-Bugzilla-URL: https://bugzilla.kernel.org/
-Auto-Submitted: auto-generated
-MIME-Version: 1.0
 Precedence: bulk
 List-ID: <linux-man.vger.kernel.org>
 X-Mailing-List: linux-man@vger.kernel.org
 
-https://bugzilla.kernel.org/show_bug.cgi?id=3D211973
+Buenos d=C3=ADas:
 
-VietThan (thanhoangviet@gmail.com) changed:
+Le escribo para hablarle sobre una de las mejores herramientas GPS en el =
+mercado.
 
-           What    |Removed                     |Added
-----------------------------------------------------------------------------
-                 CC|                            |thanhoangviet@gmail.com
+La herramienta, que me gustar=C3=ADa presentarle brevemente, dispone de m=
+uchas funciones =C3=BAtiles para su trabajo, que optimizan los procesos d=
+e transporte y le ayudan a realizar tareas de campo de manera m=C3=A1s ef=
+iciente.
 
---- Comment #1 from VietThan (thanhoangviet@gmail.com) ---
-Fixed by Alejandro Colomar Feb 27, 2021
+=C2=BFQuiere conocer los detalles?
 
---=20
-You may reply to this email to add a comment.
 
-You are receiving this mail because:
-You are watching the assignee of the bug.=
+Atentamente,
+Alarico Veloz
