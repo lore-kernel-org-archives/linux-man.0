@@ -2,67 +2,67 @@ Return-Path: <linux-man-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-15.7 required=3.0 tests=BAYES_00,DKIM_SIGNED,
+X-Spam-Status: No, score=-15.8 required=3.0 tests=BAYES_00,DKIM_SIGNED,
 	DKIM_VALID,DKIM_VALID_AU,FREEMAIL_FORGED_FROMDOMAIN,FREEMAIL_FROM,
 	HEADER_FROM_DIFFERENT_DOMAINS,INCLUDES_CR_TRAILER,INCLUDES_PATCH,
-	MAILING_LIST_MULTI,SPF_HELO_NONE,SPF_PASS,USER_AGENT_GIT,WEIRD_QUOTING
-	autolearn=ham autolearn_force=no version=3.4.0
+	MAILING_LIST_MULTI,SPF_HELO_NONE,SPF_PASS,USER_AGENT_GIT autolearn=ham
+	autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 60771C43214
-	for <linux-man@archiver.kernel.org>; Wed, 28 Jul 2021 20:20:27 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 488E1C4338F
+	for <linux-man@archiver.kernel.org>; Wed, 28 Jul 2021 20:20:29 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.kernel.org (Postfix) with ESMTP id 4ED1660ED4
-	for <linux-man@archiver.kernel.org>; Wed, 28 Jul 2021 20:20:27 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTP id 2D8EF60F5E
+	for <linux-man@archiver.kernel.org>; Wed, 28 Jul 2021 20:20:29 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S231488AbhG1UU2 (ORCPT <rfc822;linux-man@archiver.kernel.org>);
-        Wed, 28 Jul 2021 16:20:28 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:35546 "EHLO
+        id S231520AbhG1UUa (ORCPT <rfc822;linux-man@archiver.kernel.org>);
+        Wed, 28 Jul 2021 16:20:30 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:35558 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S231516AbhG1UU2 (ORCPT
-        <rfc822;linux-man@vger.kernel.org>); Wed, 28 Jul 2021 16:20:28 -0400
-Received: from mail-wm1-x32d.google.com (mail-wm1-x32d.google.com [IPv6:2a00:1450:4864:20::32d])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 28D70C0613C1
-        for <linux-man@vger.kernel.org>; Wed, 28 Jul 2021 13:20:25 -0700 (PDT)
-Received: by mail-wm1-x32d.google.com with SMTP id u15-20020a05600c19cfb02902501bdb23cdso5270738wmq.0
-        for <linux-man@vger.kernel.org>; Wed, 28 Jul 2021 13:20:25 -0700 (PDT)
+        with ESMTP id S231433AbhG1UUa (ORCPT
+        <rfc822;linux-man@vger.kernel.org>); Wed, 28 Jul 2021 16:20:30 -0400
+Received: from mail-wr1-x435.google.com (mail-wr1-x435.google.com [IPv6:2a00:1450:4864:20::435])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 4D2BEC061757
+        for <linux-man@vger.kernel.org>; Wed, 28 Jul 2021 13:20:27 -0700 (PDT)
+Received: by mail-wr1-x435.google.com with SMTP id p5so4018746wro.7
+        for <linux-man@vger.kernel.org>; Wed, 28 Jul 2021 13:20:27 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=gmail.com; s=20161025;
         h=from:to:cc:subject:date:message-id:in-reply-to:references
          :mime-version:content-transfer-encoding;
-        bh=rpVET20EG/zRaa9sXaTYj4JkzdTc0rkSIcvdLugHRSY=;
-        b=Kq4XVh0b14lJNNcZ58j4fGJuh4MgUvNB4v7bh44zlX79LusqFo+nLMfdciDMx/2d1C
-         yD4Dxo7wJkF5mOSXW9ukfXX2IRthsg4L4+UwbEYpCqpgZIv9D17P+Dh2CvVL6F4+aGl9
-         pesuYauMWmzBUuajmOL60moDJyIASA/KD/SKrDQHhVCOxcz70caZ7QXLADeicyDSBlP0
-         qVuPfysB4KmJrnllkXZNh4CXf+wYV+lQ67Msw1fghXFM/aEOFV/WwtSKF7RlPMhgOAE2
-         TIt2ko553r6Hbav+n7HwUgxAAZxGrGWrAlvbxcqALGi7ah7Lce9sTaFgSinDGMi1dHt7
-         KKlQ==
+        bh=Cvi4S0JuuIeTSSprK7UCDtNf8nWvwegqv65Z7fpgLmc=;
+        b=DcnyX4R1vDQ7qN3uyP88y/rlbPf0lmv2AhWSFgxc2WFVuFWAqs70tXFVostpOEH+pK
+         WWTS8nITl3shHM3aeHKLyxU333suYrIbz4XegpoxOYj7m/kHzL2D6Wq035cxqj/uwhoe
+         kQn46eN0oendQmkhJHBQyt7b6f5DGjvsj2syeVlXhpkQa1Vr/DQmVTHyMhDok947ea37
+         VLAEECWHVUHrVgJ07RdMSuYlCfGQQdxRj9c60UjM7XK/WLSIvKRXXIxmYigqvytYIHOP
+         +JJN17TSONvXWVdsgEuUu90bHVESDCbklkpUbuwNG5DCo25wRCGvqBrcLx92bJ+hfcAm
+         Zz5w==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
         h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
          :references:mime-version:content-transfer-encoding;
-        bh=rpVET20EG/zRaa9sXaTYj4JkzdTc0rkSIcvdLugHRSY=;
-        b=og61IuTIgFCXiSaKoPxEQ+NhhJmSpD594MIAyg8XzzxKhAkzPUrhuL6zOaDtG4hBbG
-         7MZgvvKkKO8XDF9zo/xV9kxqGsYaF+2dkla3qevenFPsFdFw1LYszRZkHiD+bMzhU4Vt
-         ZdYApXL9z1XOty5OUym86WK/RX7EYFluBlN/5GjcdX9EI2FbrtC6+pdKB2Wuzs2vcb5c
-         Gus5lS3JRFgyaGxDAfiQot1LY4GrSav3hoC/hm6z4ofewG8zwG5TUxgzcyp53+035KTo
-         MMSrxywpjJvfPvL9arMDRL0mjWNtahf9JqsUjKvtgZ1OHOVw8+UJNHsxnVmj8GUIfMCV
-         5Icg==
-X-Gm-Message-State: AOAM530z/MQqwnWheJMdvjb+wSC/BeFTaD6vcWBJ2e3YNNJbBthb6bwr
-        4AJ+daM+KbIY09T7iHBAxNo+tGOxWrM=
-X-Google-Smtp-Source: ABdhPJxb1c/W5x5ZwkX1CSMXE3DD7j8f1CYQky+v5tdu9ytQ7+psXl+3ACzYbvLUYugwozy1gzqxBg==
-X-Received: by 2002:a7b:c041:: with SMTP id u1mr1262856wmc.95.1627503623715;
-        Wed, 28 Jul 2021 13:20:23 -0700 (PDT)
+        bh=Cvi4S0JuuIeTSSprK7UCDtNf8nWvwegqv65Z7fpgLmc=;
+        b=I3LSu7r25ICtlV6kYO/7MtqxZUiX7+KckTayK9M1q7nil/v0dKEhd3bWk+JWRWzD11
+         DvOZ2bt1A70cfZ4+ulGqsB/wo96N318p3lGLo+pdD5BPdiG3c/uUANaVgzvMu4KvGpWP
+         JbC0+HBsCbNhnFVegXmHuJQFkMjFlYj0K1J0sAG1YJFOQ/VHmHovK4scQ/w0nhUH4v/0
+         5f486Tnv7eowB7EX3B3zQRrMYMXV8Us2PK+xj8Pd1OAe1g2bsggsZENIidDpUCE9Skug
+         x+KzS4sKU1yyxxSMErGDFAV8T4kxSMk0k63enc5XROB/GyxQH3HIhhmxchXM5IljJdRn
+         M/DA==
+X-Gm-Message-State: AOAM532kPerT0ngxWEQL1KnJq4ntnP0ouAimjM4v8gSLuNrkmUICSQOw
+        U31P9obhFlEGBlSbi/lY+ek=
+X-Google-Smtp-Source: ABdhPJwsokxnyzDMYWLp6mhuAV0lJvcnOxc8Fs30Ag9fZk6QOx0EUTsHMzvPNHNDURcLf0yowcxolQ==
+X-Received: by 2002:adf:f149:: with SMTP id y9mr1082490wro.413.1627503626006;
+        Wed, 28 Jul 2021 13:20:26 -0700 (PDT)
 Received: from sqli.sqli.com ([195.53.121.100])
-        by smtp.googlemail.com with ESMTPSA id o29sm879703wms.13.2021.07.28.13.20.22
+        by smtp.googlemail.com with ESMTPSA id o29sm879703wms.13.2021.07.28.13.20.25
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Wed, 28 Jul 2021 13:20:23 -0700 (PDT)
+        Wed, 28 Jul 2021 13:20:25 -0700 (PDT)
 From:   Alejandro Colomar <alx.manpages@gmail.com>
 To:     mtk.manpages@gmail.com
-Cc:     Alejandro Colomar <alx.manpages@gmail.com>,
-        linux-man@vger.kernel.org
-Subject: [PATCH 11/32] futex.2: Minor tweaks to Kurt's patch
-Date:   Wed, 28 Jul 2021 22:19:47 +0200
-Message-Id: <20210728202008.3158-12-alx.manpages@gmail.com>
+Cc:     Kir Kolyshkin <kolyshkin@gmail.com>, linux-man@vger.kernel.org,
+        Alejandro Colomar <alx.manpages@gmail.com>
+Subject: [PATCH 13/32] user_namespaces.7: fix a ref
+Date:   Wed, 28 Jul 2021 22:19:49 +0200
+Message-Id: <20210728202008.3158-14-alx.manpages@gmail.com>
 X-Mailer: git-send-email 2.32.0
 In-Reply-To: <20210728202008.3158-1-alx.manpages@gmail.com>
 References: <20210728202008.3158-1-alx.manpages@gmail.com>
@@ -72,266 +72,29 @@ Precedence: bulk
 List-ID: <linux-man.vger.kernel.org>
 X-Mailing-List: linux-man@vger.kernel.org
 
+From: Kir Kolyshkin <kolyshkin@gmail.com>
+
+The file being referred to no longer exists, as it was moved to
+*.rst first (commit 20a78ae9ed297f2) and then to under
+admin-guide (commit bf6b7a742e3f82b). Both those commits
+are from 2019 (Linux 5.3).
+
+Signed-off-by: Kir Kolyshkin <kolyshkin@gmail.com>
 Signed-off-by: Alejandro Colomar <alx.manpages@gmail.com>
 ---
- man2/futex.2 | 69 ++++++++++++++++++++++++++--------------------------
- 1 file changed, 34 insertions(+), 35 deletions(-)
+ man7/user_namespaces.7 | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
 
-diff --git a/man2/futex.2 b/man2/futex.2
-index 2f340e0e0..217b76734 100644
---- a/man2/futex.2
-+++ b/man2/futex.2
-@@ -222,9 +222,9 @@ This allows the kernel to make some additional performance optimizations.
- .\" taking reference counts on file backing store, and so on.
- .IP
- As a convenience,
--.IR <linux/futex.h>
-+.I <linux/futex.h>
- defines a set of constants with the suffix
--.BR _PRIVATE
-+.B _PRIVATE
- that are equivalents of all of the operations listed below,
- .\" except the obsolete FUTEX_FD, for which the "private" flag was
- .\" meaningless
-@@ -247,19 +247,19 @@ This option bit can be employed only with the
- and
- (since Linux v5.14.0)
- .\" commit bf22a6976897977b0a3f1aeba6823c959fc4fdae
--.BR FUTEX_LOCK_PI2
-+.B FUTEX_LOCK_PI2
- operations.
- .IP
- If this option is set, the kernel measures the
- .I timeout
- against the
--.BR CLOCK_REALTIME
-+.B CLOCK_REALTIME
- clock.
- .IP
- If this option is not set, the kernel measures the
- .I timeout
- against the
--.BR CLOCK_MONOTONIC
-+.B CLOCK_MONOTONIC
- clock.
+diff --git a/man7/user_namespaces.7 b/man7/user_namespaces.7
+index f2e02c978..518e7a3bb 100644
+--- a/man7/user_namespaces.7
++++ b/man7/user_namespaces.7
+@@ -1383,4 +1383,4 @@ main(int argc, char *argv[])
+ .BR pid_namespaces (7)
  .PP
- The operation specified in
-@@ -968,9 +968,8 @@ PI futexes are operated on by specifying one of the values listed below in
- Note that the PI futex operations must be used as paired operations
- and are subject to some additional requirements:
- .IP * 3
--.B FUTEX_LOCK_PI
--,
--.B FUTEX_LOCK_PI2
-+.BR FUTEX_LOCK_PI ,
-+.BR FUTEX_LOCK_PI2 ,
- and
- .B FUTEX_TRYLOCK_PI
- pair with
-@@ -1123,7 +1122,7 @@ The
- .IR uaddr2 ,
- .IR val ,
- and
--.IR val3
-+.I val3
- arguments are ignored.
- .\"
- .\""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
-@@ -1135,7 +1134,7 @@ This operation works similar like
- .BR FUTEX_LOCK_PI .
- The only difference is the
- timeout argument.
--.BR FUTEX_LOCK_PI2
-+.B FUTEX_LOCK_PI2
- has support for selectable clocks.
- .IP
- If
-@@ -1466,7 +1465,7 @@ The value pointed to by
- is not equal to the expected value
- .IR val3 .
- .TP
--.BR EAGAIN
-+.B EAGAIN
- .RB ( FUTEX_LOCK_PI ,
- .BR FUTEX_LOCK_PI2 ,
- .BR FUTEX_TRYLOCK_PI ,
-@@ -1480,7 +1479,7 @@ is about to exit,
- but has not yet handled the internal state cleanup.
- Try again.
- .TP
--.BR EDEADLK
-+.B EDEADLK
- .RB ( FUTEX_LOCK_PI ,
- .BR FUTEX_LOCK_PI2 ,
- .BR FUTEX_TRYLOCK_PI ,
-@@ -1522,18 +1521,18 @@ a spurious wakeup; since Linux 2.6.22, this no longer happens.
- .TP
- .B EINVAL
- The operation in
--.IR futex_op
-+.I futex_op
- is one of those that employs a timeout, but the supplied
- .I timeout
- argument was invalid
- .RI ( tv_sec
- was less than zero, or
--.IR tv_nsec
-+.I tv_nsec
- was not less than 1,000,000,000).
- .TP
- .B EINVAL
- The operation specified in
--.IR futex_op
-+.I futex_op
- employs one or both of the pointers
- .I uaddr
- and
-@@ -1545,17 +1544,17 @@ the address is not four-byte-aligned.
- .RB ( FUTEX_WAIT_BITSET ,
- .BR FUTEX_WAKE_BITSET )
- The bit mask supplied in
--.IR val3
-+.I val3
- is zero.
- .TP
- .B EINVAL
- .RB ( FUTEX_CMP_REQUEUE_PI )
- .I uaddr
- equals
--.IR uaddr2
-+.I uaddr2
- (i.e., an attempt was made to requeue to the same futex).
- .TP
--.BR EINVAL
-+.B EINVAL
- .RB ( FUTEX_FD )
- The signal number supplied in
- .I val
-@@ -1570,9 +1569,9 @@ is invalid.
- The kernel detected an inconsistency between the user-space state at
- .I uaddr
- and the kernel state\(emthat is, it detected a waiter which waits in
--.BR FUTEX_LOCK_PI
-+.B FUTEX_LOCK_PI
- or
--.BR FUTEX_LOCK_PI2
-+.B FUTEX_LOCK_PI2
- on
- .IR uaddr .
- .TP
-@@ -1588,7 +1587,7 @@ This indicates either state corruption
- or that the kernel found a waiter on
- .I uaddr
- which is waiting via
--.BR FUTEX_WAIT
-+.B FUTEX_WAIT
- or
- .BR FUTEX_WAIT_BITSET .
- .TP
-@@ -1601,9 +1600,9 @@ and the kernel state;
- .\"	The kernel sees: I have non PI state for a futex you tried to
- .\"     tell me was PI
- that is, the kernel detected a waiter which waits via
--.BR FUTEX_WAIT
-+.B FUTEX_WAIT
- or
--.BR FUTEX_WAIT_BITSET
-+.B FUTEX_WAIT_BITSET
- on
- .IR uaddr2 .
- .TP
-@@ -1613,9 +1612,9 @@ The kernel detected an inconsistency between the user-space state at
- .I uaddr
- and the kernel state;
- that is, the kernel detected a waiter which waits via
--.BR FUTEX_WAIT
-+.B FUTEX_WAIT
- or
--.BR FUTEX_WAIT_BITSET
-+.B FUTEX_WAIT_BITSET
- on
- .IR uaddr .
- .TP
-@@ -1627,9 +1626,9 @@ and the kernel state;
- that is, the kernel detected a waiter which waits on
- .I uaddr
- via
--.BR FUTEX_LOCK_PI
-+.B FUTEX_LOCK_PI
- or
--.BR FUTEX_LOCK_PI2
-+.B FUTEX_LOCK_PI2
- (instead of
- .BR FUTEX_WAIT_REQUEUE_PI ).
- .TP
-@@ -1656,7 +1655,7 @@ Invalid argument.
- .RB ( FUTEX_FD )
- The system-wide limit on the total number of open files has been reached.
- .TP
--.BR ENOMEM
-+.B ENOMEM
- .RB ( FUTEX_LOCK_PI ,
- .BR FUTEX_LOCK_PI2 ,
- .BR FUTEX_TRYLOCK_PI ,
-@@ -1669,7 +1668,7 @@ Invalid operation specified in
- .TP
- .B ENOSYS
- The
--.BR FUTEX_CLOCK_REALTIME
-+.B FUTEX_CLOCK_REALTIME
- option was specified in
- .IR futex_op ,
- but the accompanying operation was neither
-@@ -1679,7 +1678,7 @@ but the accompanying operation was neither
- nor
- .BR FUTEX_LOCK_PI2 .
- .TP
--.BR ENOSYS
-+.B ENOSYS
- .RB ( FUTEX_LOCK_PI ,
- .BR FUTEX_LOCK_PI2 ,
- .BR FUTEX_TRYLOCK_PI ,
-@@ -1690,7 +1689,7 @@ A run-time check determined that the operation is not available.
- The PI-futex operations are not implemented on all architectures and
- are not supported on some CPU variants.
- .TP
--.BR EPERM
-+.B EPERM
- .RB ( FUTEX_LOCK_PI ,
- .BR FUTEX_LOCK_PI2 ,
- .BR FUTEX_TRYLOCK_PI ,
-@@ -1703,11 +1702,11 @@ the futex at
- .IR uaddr2 ).
- (This may be caused by a state corruption in user space.)
- .TP
--.BR EPERM
-+.B EPERM
- .RB ( FUTEX_UNLOCK_PI )
- The caller does not own the lock represented by the futex word.
- .TP
--.BR ESRCH
-+.B ESRCH
- .RB ( FUTEX_LOCK_PI ,
- .BR FUTEX_LOCK_PI2 ,
- .BR FUTEX_TRYLOCK_PI ,
-@@ -1716,7 +1715,7 @@ The thread ID in the futex word at
- .I uaddr
- does not exist.
- .TP
--.BR ESRCH
-+.B ESRCH
- .RB ( FUTEX_CMP_REQUEUE_PI )
- The thread ID in the futex word at
- .I uaddr2
-@@ -1724,7 +1723,7 @@ does not exist.
- .TP
- .B ETIMEDOUT
- The operation in
--.IR futex_op
-+.I futex_op
- employed the timeout specified in
- .IR timeout ,
- and the timeout expired before the operation completed.
+ The kernel source file
+-.IR Documentation/namespaces/resource\-control.txt .
++.IR Documentation/admin\-guide/namespaces/resource\-control.rst .
 -- 
 2.32.0
 
