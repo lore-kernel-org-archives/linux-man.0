@@ -8,61 +8,61 @@ X-Spam-Status: No, score=-15.8 required=3.0 tests=BAYES_00,DKIM_SIGNED,
 	MAILING_LIST_MULTI,SPF_HELO_NONE,SPF_PASS,USER_AGENT_GIT autolearn=ham
 	autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id C5C31C432BE
-	for <linux-man@archiver.kernel.org>; Wed, 28 Jul 2021 20:20:31 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 11D0BC4320A
+	for <linux-man@archiver.kernel.org>; Wed, 28 Jul 2021 20:20:33 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.kernel.org (Postfix) with ESMTP id AE4D060ED4
-	for <linux-man@archiver.kernel.org>; Wed, 28 Jul 2021 20:20:31 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTP id EFCBF60ED4
+	for <linux-man@archiver.kernel.org>; Wed, 28 Jul 2021 20:20:32 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S231479AbhG1UUd (ORCPT <rfc822;linux-man@archiver.kernel.org>);
-        Wed, 28 Jul 2021 16:20:33 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:35568 "EHLO
+        id S231519AbhG1UUe (ORCPT <rfc822;linux-man@archiver.kernel.org>);
+        Wed, 28 Jul 2021 16:20:34 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:35580 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S231359AbhG1UUc (ORCPT
-        <rfc822;linux-man@vger.kernel.org>); Wed, 28 Jul 2021 16:20:32 -0400
-Received: from mail-wm1-x332.google.com (mail-wm1-x332.google.com [IPv6:2a00:1450:4864:20::332])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 1767DC061757
-        for <linux-man@vger.kernel.org>; Wed, 28 Jul 2021 13:20:29 -0700 (PDT)
-Received: by mail-wm1-x332.google.com with SMTP id n11so2228877wmd.2
-        for <linux-man@vger.kernel.org>; Wed, 28 Jul 2021 13:20:29 -0700 (PDT)
+        with ESMTP id S231359AbhG1UUe (ORCPT
+        <rfc822;linux-man@vger.kernel.org>); Wed, 28 Jul 2021 16:20:34 -0400
+Received: from mail-wr1-x42d.google.com (mail-wr1-x42d.google.com [IPv6:2a00:1450:4864:20::42d])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 14B25C061757
+        for <linux-man@vger.kernel.org>; Wed, 28 Jul 2021 13:20:31 -0700 (PDT)
+Received: by mail-wr1-x42d.google.com with SMTP id r2so4044043wrl.1
+        for <linux-man@vger.kernel.org>; Wed, 28 Jul 2021 13:20:31 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=gmail.com; s=20161025;
         h=from:to:cc:subject:date:message-id:in-reply-to:references
          :mime-version:content-transfer-encoding;
-        bh=hrkroiKCKWIWKVkFmqfh3Gmjrs2Mt2DxpZCEjTFNCwg=;
-        b=qg7OF9ByvIePdtzsqolUyL6EkNR5o3eU1fSqEMhbKm9L43triyzTtb7aAMauBUO3MS
-         EWBzd1PXiDT5gkrcYbC8soDHP92dLgMv0x/RB3biCYqccs/Tn3gn3gCEwEuBVinMLRwb
-         2TALo9mt7BVoRromep0UBAcnMLikAWDyeUKcYANVsEploAik01bvNYSMGdU0MQANkbl2
-         oI9mOr/+lViBGsVuJLLl7U3yT/DPB2c5w35i3tQS8AN2tw49+5V7ayVlH68A/YtWyFfk
-         GKrJZtqJz+xGhXa8UJs7cCHYYVa54/485DbAnZUZhK19bb7TCIVSUegY66q1bq9S9f9+
-         Tpjw==
+        bh=7SGIbjH+FgzP3TwtmKBI05PCmhiULK3U4QjrlysVGnA=;
+        b=F54nlS8P713iuUHaF4oKmkhT7FVaO4dj539kCLC7DNPiUh4YQt+rq0ySoO+MabKzP0
+         NqqaOV8bIL94JVbh7ZuDsS8U9Skg8BvVLwJsICn0fyF4EKL/LZupc5Eyjs6YruVmGb8o
+         PhFhZFajGQqfTzdhFAxYMfi7BV3VvMpKTGRucXVs7bBtfAzETjgI0Z/xvZTj5+Ubc+dj
+         yvk+3hRLSAAksq68B86DMU2XFLRcQONEx4LQlNJj4lR8JlL/ZgT3dcYHxGuHu58ycYzG
+         AiemRD1m8cAGrIIymFLQkNBwT56aj/X5ntei+K92KymaMd95iXWgwb/UUWWQiiy6ACah
+         zaPA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
         h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
          :references:mime-version:content-transfer-encoding;
-        bh=hrkroiKCKWIWKVkFmqfh3Gmjrs2Mt2DxpZCEjTFNCwg=;
-        b=lSfqgsANaAfloownmku+s5uugqItKrSvkufo+ykJYXwIOogYyE+3bHHV6ceVy5qBhT
-         CNOc9eprd24kP9glKmhsBHIJfMig98oUmap3uUWH83vLjTkBrHKTvqsDLqfev0J1dr6a
-         ge+Dihd9z0H3QRbrrOc6Ox0xzfosKEOfl+Os4M0TCyVT060iVMJIWcg1kl0Vod9cAHej
-         7BNTuo+P9ctTbihA0OzcnWajhhtukIeqfA0czvWg5UAlBy6maN3IrPF0ezwG8bjC+mwB
-         5WsYS/KEqG7fmDTbK0cpsm3lvfcAxYFBm2wV7c7sGom2r1yCyVN/3gcZfhHlTC7ZpSYj
-         +lNw==
-X-Gm-Message-State: AOAM5334xnJ21blwsgHUHCJpz6vD1vvXY0/voos7W3YcivO1qQDxd8zh
-        oMZfETm/vR8lQXJU0xumJxC+MUwNuWQ=
-X-Google-Smtp-Source: ABdhPJzHwhYp6e+OqPl3ow0b+7pwcm3DesA9i5PmPaanpi58S04MmTI1GWxkq+C/C7wAp+nAqYoTJg==
-X-Received: by 2002:a1c:7515:: with SMTP id o21mr11154081wmc.65.1627503627768;
-        Wed, 28 Jul 2021 13:20:27 -0700 (PDT)
+        bh=7SGIbjH+FgzP3TwtmKBI05PCmhiULK3U4QjrlysVGnA=;
+        b=mEoVfEMtaV1mDRsBu1F6WrOaIou4ZudYRfUqew72duiqVZTs4rMPWmWtAnCYLX0Y8o
+         GfaFLAAuTkfYgICZ/UXOAYG+/S+hfRuHgnkkYirB/Zq1vtnH/AQn2FKz2Zl8bOrg1tTg
+         dZYWDxm6XP0qFFKSSCWpBYYIl8Q2Au5BdyqgF/kEMMh6cc7dbWGOCR+HJ2KQKDp59f/r
+         B37iTYQuwwEAtEy0VvnYspelfOrGW7O1s6IAfU3zwH7Xd0PefN9ikcvuwazEdoPzTVRJ
+         xxUGkpStILxCwKX2TPKRpDo/iDub0vVPEX9lNNCr/lyPo050oImA2zabMAtkesjQlUVP
+         7mMw==
+X-Gm-Message-State: AOAM531e8iQ08roiYp5/Uo1JMQL5aszejMt2p++dFNTttUUgWfk8KLro
+        2WCrwXut6yRbFzDz6TLim48=
+X-Google-Smtp-Source: ABdhPJwSz6tR9hej5v2SDuQWbIOKeDwjAswK7YtIEQgViYwcomYR9SVH8J2muH2UVEhTk28wUVkf3A==
+X-Received: by 2002:a5d:6111:: with SMTP id v17mr1129851wrt.204.1627503629743;
+        Wed, 28 Jul 2021 13:20:29 -0700 (PDT)
 Received: from sqli.sqli.com ([195.53.121.100])
-        by smtp.googlemail.com with ESMTPSA id o29sm879703wms.13.2021.07.28.13.20.27
+        by smtp.googlemail.com with ESMTPSA id o29sm879703wms.13.2021.07.28.13.20.28
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Wed, 28 Jul 2021 13:20:27 -0700 (PDT)
+        Wed, 28 Jul 2021 13:20:29 -0700 (PDT)
 From:   Alejandro Colomar <alx.manpages@gmail.com>
 To:     mtk.manpages@gmail.com
 Cc:     Alejandro Colomar <alx.manpages@gmail.com>,
         linux-man@vger.kernel.org
-Subject: [PATCH 15/32] capabilities.7: Minor tweaks to Kir's patch
-Date:   Wed, 28 Jul 2021 22:19:51 +0200
-Message-Id: <20210728202008.3158-16-alx.manpages@gmail.com>
+Subject: [PATCH 17/32] seccomp_unotify.2: Minor tweaks to Rodrigo's patch
+Date:   Wed, 28 Jul 2021 22:19:53 +0200
+Message-Id: <20210728202008.3158-18-alx.manpages@gmail.com>
 X-Mailer: git-send-email 2.32.0
 In-Reply-To: <20210728202008.3158-1-alx.manpages@gmail.com>
 References: <20210728202008.3158-1-alx.manpages@gmail.com>
@@ -74,25 +74,69 @@ X-Mailing-List: linux-man@vger.kernel.org
 
 Signed-off-by: Alejandro Colomar <alx.manpages@gmail.com>
 ---
- man7/capabilities.7 | 5 +++--
- 1 file changed, 3 insertions(+), 2 deletions(-)
+ man2/seccomp_unotify.2 | 32 +++++++++++++++++---------------
+ 1 file changed, 17 insertions(+), 15 deletions(-)
 
-diff --git a/man7/capabilities.7 b/man7/capabilities.7
-index 2f9c9a61e..4d08545ed 100644
---- a/man7/capabilities.7
-+++ b/man7/capabilities.7
-@@ -353,8 +353,9 @@ Set arbitrary capabilities on a file.
- .\" commit db2e718a47984b9d71ed890eb2ea36ecf150de18
- Since Linux 5.12, this capability is
- also needed to map uid 0 (as in
--.BR unshare\ -Ur ,
--.RB see unshare (1).
-+.IR "unshare -Ur" ,
-+see
-+.BR unshare (1).
+diff --git a/man2/seccomp_unotify.2 b/man2/seccomp_unotify.2
+index 9bd27214f..ae449ae36 100644
+--- a/man2/seccomp_unotify.2
++++ b/man2/seccomp_unotify.2
+@@ -740,16 +740,18 @@ use the file descriptor number specified in the
+ .I newfd
+ field.
  .TP
- .B CAP_SETPCAP
- If file capabilities are supported (i.e., since Linux 2.6.24):
+-.BR SECCOMP_ADDFD_FLAG_SEND
+-Available since Linux 5.14, combines the
++.BR SECCOMP_ADDFD_FLAG_SEND " (since Linux 5.14)"
++Combines the
+ .B SECCOMP_IOCTL_NOTIF_ADDFD
+ ioctl with
+ .B SECCOMP_IOCTL_NOTIF_SEND
+-into an atomic operation. On successful invocation, the target process's
+-errno will be 0 and the return value will be the file descriptor number that was
+-installed in the target. If allocating the file descriptor in the tatget fails,
+-the target's syscall continues to be blocked until a successful response is
+-sent.
++into an atomic operation.
++On successful invocation, the target process's errno will be 0
++and the return value will be the file descriptor number
++that was installed in the target.
++If allocating the file descriptor in the tatget fails,
++the target's syscall continues to be blocked
++until a successful response is sent.
+ .RE
+ .TP
+ .I srcfd
+@@ -1149,14 +1151,6 @@ that would
+ normally be restarted by the
+ .BR SA_RESTART
+ flag.
+-.PP
+-Furthermore, if the supervisor response is a file descriptor
+-added with
+-.B SECCOMP_IOCTL_NOTIF_ADDFD,
+-then the flag
+-.B SECCOMP_ADDFD_FLAG_SEND
+-can be used to atomically add the file descriptor and return that value,
+-making sure no file descriptors are inadvertently leaked into the target.
+ .\" FIXME
+ .\" About the above, Kees Cook commented:
+ .\"
+@@ -1176,6 +1170,14 @@ making sure no file descriptors are inadvertently leaked into the target.
+ .\" calls because it's impossible for the kernel to restart the call
+ .\" with the right timeout value. I wonder what happens when those
+ .\" system calls are restarted in the scenario we're discussing.)
++.PP
++Furthermore, if the supervisor response is a file descriptor
++added with
++.B SECCOMP_IOCTL_NOTIF_ADDFD,
++then the flag
++.B SECCOMP_ADDFD_FLAG_SEND
++can be used to atomically add the file descriptor and return that value,
++making sure no file descriptors are inadvertently leaked into the target.
+ .SH BUGS
+ If a
+ .BR SECCOMP_IOCTL_NOTIF_RECV
 -- 
 2.32.0
 
