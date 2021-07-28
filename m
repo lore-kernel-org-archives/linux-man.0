@@ -2,67 +2,66 @@ Return-Path: <linux-man-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-15.8 required=3.0 tests=BAYES_00,DKIM_SIGNED,
+X-Spam-Status: No, score=-15.7 required=3.0 tests=BAYES_00,DKIM_SIGNED,
 	DKIM_VALID,DKIM_VALID_AU,FREEMAIL_FORGED_FROMDOMAIN,FREEMAIL_FROM,
 	HEADER_FROM_DIFFERENT_DOMAINS,INCLUDES_CR_TRAILER,INCLUDES_PATCH,
-	MAILING_LIST_MULTI,SPF_HELO_NONE,SPF_PASS,USER_AGENT_GIT autolearn=ham
-	autolearn_force=no version=3.4.0
+	MAILING_LIST_MULTI,SPF_HELO_NONE,SPF_PASS,URIBL_BLOCKED,USER_AGENT_GIT,
+	WEIRD_QUOTING autolearn=ham autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id BB0B8C4320E
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 2E5AEC4320A
 	for <linux-man@archiver.kernel.org>; Wed, 28 Jul 2021 20:20:27 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.kernel.org (Postfix) with ESMTP id A2F806103A
+	by mail.kernel.org (Postfix) with ESMTP id 17B0E60ED4
 	for <linux-man@archiver.kernel.org>; Wed, 28 Jul 2021 20:20:27 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S231516AbhG1UU2 (ORCPT <rfc822;linux-man@archiver.kernel.org>);
+        id S231469AbhG1UU2 (ORCPT <rfc822;linux-man@archiver.kernel.org>);
         Wed, 28 Jul 2021 16:20:28 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:35552 "EHLO
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:35542 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S231433AbhG1UU2 (ORCPT
-        <rfc822;linux-man@vger.kernel.org>); Wed, 28 Jul 2021 16:20:28 -0400
-Received: from mail-wm1-x329.google.com (mail-wm1-x329.google.com [IPv6:2a00:1450:4864:20::329])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 4877FC061765
-        for <linux-man@vger.kernel.org>; Wed, 28 Jul 2021 13:20:26 -0700 (PDT)
-Received: by mail-wm1-x329.google.com with SMTP id o5-20020a1c4d050000b02901fc3a62af78so5240761wmh.3
-        for <linux-man@vger.kernel.org>; Wed, 28 Jul 2021 13:20:26 -0700 (PDT)
+        with ESMTP id S231488AbhG1UU1 (ORCPT
+        <rfc822;linux-man@vger.kernel.org>); Wed, 28 Jul 2021 16:20:27 -0400
+Received: from mail-wm1-x332.google.com (mail-wm1-x332.google.com [IPv6:2a00:1450:4864:20::332])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 115A6C061757
+        for <linux-man@vger.kernel.org>; Wed, 28 Jul 2021 13:20:24 -0700 (PDT)
+Received: by mail-wm1-x332.google.com with SMTP id b128so2219563wmb.4
+        for <linux-man@vger.kernel.org>; Wed, 28 Jul 2021 13:20:23 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=gmail.com; s=20161025;
         h=from:to:cc:subject:date:message-id:in-reply-to:references
          :mime-version:content-transfer-encoding;
-        bh=4AH2EtWZstTGwgoaJpwf1jyNW4QP6knmlNHkLLFRP48=;
-        b=Lu0B76gtqNV4+jxzSvGPdS8Zk+tndx+7MNJJhMf4yya1HE3YFgy+/xjfUAdGRDopoO
-         ebPA8V6fI3DL/MRT/PSVyuSomlGCrqN6/jKMUM/BomUCtPmaR2VFE0TfS1n84weVyc53
-         SCRAOOW2aKlUsdhminXwagJ9r3UcHqgOLCmeyIfo0LFzgRx6sLG3JW6Y8n26OahGE+Oh
-         2itmKrF9hT1XzkO92jzix0Jt3h5HUoonDXqQwfO3pnayjj+Ckx9K3S4EMiSXrdXUI8gT
-         sM5SngPqpSs5glVz+NmUNRnbegPSj30KUL2JuMYedy2B10koqXmsaEBCUlJ6MdeiOBRZ
-         22yA==
+        bh=nKWi00SkNTiVmRSye1RhtdwEevbmohvVmQVm4i3GSYI=;
+        b=Pg0L55HTI+DQ2OPv8LWsAdIk/SHMTzEzwpn0iRLf9nKLm7Txb2GstZ6V5hC3xYV1lf
+         6fMPMZpQnumFkAa85olSap4aQmdomqGzfs42Q+vGgWy/XneJSzI8NfLf5akEanY6z0YJ
+         3NR72E7igjKDi51mQ7JnWdNgt3E78e5FETT3REu5XoiqBcD3phRVbnradCNhUBhyFBM3
+         unZAcWpUBce+pxyyXmb23hqo2/+UFr6CrvCatfxZ0AneHyn6GuXqgQ7OfMOlmPGCjM9s
+         TH1kYfD90f1V2IWQC9MO9i2ZJhtPg+dSdTKffVgK3TMwoyIKDj056DgkC3c/cIfxg8KV
+         afPw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
         h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
          :references:mime-version:content-transfer-encoding;
-        bh=4AH2EtWZstTGwgoaJpwf1jyNW4QP6knmlNHkLLFRP48=;
-        b=WsViZRP8wqlP1UxgIUvdG9Y+THUDWCMbxX09QFIF2b8fcs3EEIFJm2TzPfp078UFHB
-         W8lNysd+PFJ6yvizioG3+dmrvu04M9GKf4TbU9wdd8+eZaVobqGAWmjIIwIqi+HqGX9M
-         hxStRU7byuSHytKRYZjlYbXMfRItv4cDs4rBVbqS6F0rgVnmLCfC9psunWinYE8M7sDO
-         PyaNJghzJnUX3iFT/83tKGy0C3uGDqoOSpe7QG/LAxCmjm4eQQO7YMH2fx3NZWGXRSdL
-         o9kg/BKj44HAOTVLLMC9ZsAOegbXLIfuVCij+650M95iWta6hKfqYAp0YEFTsMHbgHb4
-         cbVA==
-X-Gm-Message-State: AOAM531kX9zj0jgKh3UyDlo6MiMkMPPCtic9H0du5+BazEJelnqCegTO
-        rIjlqOx2CrbS5xhYAktOHrHQlpRJ+VM=
-X-Google-Smtp-Source: ABdhPJzu4nCIc33i14QjElpIGkOMXv4eALORYmM4XSFhz5G5j82n/mi+qx4ZRaKPKPyuTp6LZ1hqAw==
-X-Received: by 2002:a05:600c:206:: with SMTP id 6mr11219105wmi.137.1627503624931;
-        Wed, 28 Jul 2021 13:20:24 -0700 (PDT)
+        bh=nKWi00SkNTiVmRSye1RhtdwEevbmohvVmQVm4i3GSYI=;
+        b=XGdzRbpC192lv1xAiUeCcQu9ITudam3nZczZpgZGOEdvg33sK9QOk2ns/qqesXrFi0
+         0m5ob6ygUvVhaniXsc3NjlYEsCbRIaL3rja6upN4IxYgPqXWyUq7n5QOg9cSY73eA4Zu
+         wDQBNyoz7YxMKcjVVjRtqREVxe6zkemC0cyk3syaSXdE3eR5OTGx9d9slZyQ15+bzwYC
+         UnDg4pDwpDSR3rLW/rtZw0fIxAY+ovfxdEcOaZEuxNJccnLkyeAhyD5WoiOHnhVeiGKo
+         HdCSMBQ5ououSXPFMJXaYnXctQdj7zmtV71K+MIquN4sbbgIjeVmS+uLPpy/5vR9Gt9p
+         tX8w==
+X-Gm-Message-State: AOAM532VV5bfrLPcjbAvcV6May8xhXHHZ+kTW3HPNnPs8JR0o+z5fEgF
+        pxjQ3fZjY00BiOwflXzzlHM=
+X-Google-Smtp-Source: ABdhPJxWwJEu+koS05I0FXCL3lXA2vKWzplQbT6N+e9n/6Hlq2I7F85NepbRcct1Q1Dxb/1P5HSu/Q==
+X-Received: by 2002:a1c:1bcd:: with SMTP id b196mr1304132wmb.160.1627503622663;
+        Wed, 28 Jul 2021 13:20:22 -0700 (PDT)
 Received: from sqli.sqli.com ([195.53.121.100])
-        by smtp.googlemail.com with ESMTPSA id o29sm879703wms.13.2021.07.28.13.20.23
+        by smtp.googlemail.com with ESMTPSA id o29sm879703wms.13.2021.07.28.13.20.21
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Wed, 28 Jul 2021 13:20:24 -0700 (PDT)
+        Wed, 28 Jul 2021 13:20:22 -0700 (PDT)
 From:   Alejandro Colomar <alx.manpages@gmail.com>
 To:     mtk.manpages@gmail.com
-Cc:     Kir Kolyshkin <kolyshkin@gmail.com>, linux-man@vger.kernel.org,
-        Alejandro Colomar <alx.manpages@gmail.com>
-Subject: [PATCH 12/32] capabilities.7: tfix
-Date:   Wed, 28 Jul 2021 22:19:48 +0200
-Message-Id: <20210728202008.3158-13-alx.manpages@gmail.com>
+Cc:     Kurt Kanzenbach <kurt@linutronix.de>, linux-man@vger.kernel.org
+Subject: [PATCH 10/32] futex.2: Document FUTEX_LOCK_PI2
+Date:   Wed, 28 Jul 2021 22:19:46 +0200
+Message-Id: <20210728202008.3158-11-alx.manpages@gmail.com>
 X-Mailer: git-send-email 2.32.0
 In-Reply-To: <20210728202008.3158-1-alx.manpages@gmail.com>
 References: <20210728202008.3158-1-alx.manpages@gmail.com>
@@ -72,30 +71,191 @@ Precedence: bulk
 List-ID: <linux-man.vger.kernel.org>
 X-Mailing-List: linux-man@vger.kernel.org
 
-From: Kir Kolyshkin <kolyshkin@gmail.com>
+From: Kurt Kanzenbach <kurt@linutronix.de>
 
-Add a missing comma.
+FUTEX_LOCK_PI2 is a new futex operation which was recently introduced into the
+Linux kernel. It works exactly like FUTEX_LOCK_PI. However, it has support for
+selectable clocks for timeouts. By default CLOCK_MONOTONIC is used. If
+FUTEX_CLOCK_REALTIME is specified then the timeout is measured against
+CLOCK_REALTIME.
 
-Fixes: 3dcdef9437fafb
-Signed-off-by: Kir Kolyshkin <kolyshkin@gmail.com>
-Signed-off-by: Alejandro Colomar <alx.manpages@gmail.com>
+This new operation addresses an inconsistency in the futex interface:
+FUTEX_LOCK_PI only works with timeouts based on CLOCK_REALTIME in contrast to
+all the other PI operations.
+
+Document the FUTEX_LOCK_PI2 command.
+
+Signed-off-by: Kurt Kanzenbach <kurt@linutronix.de>
 ---
- man7/capabilities.7 | 2 +-
- 1 file changed, 1 insertion(+), 1 deletion(-)
+ man2/futex.2 | 53 ++++++++++++++++++++++++++++++++++++++++++++++++----
+ 1 file changed, 49 insertions(+), 4 deletions(-)
 
-diff --git a/man7/capabilities.7 b/man7/capabilities.7
-index cf9dc190f..9f8f0087f 100644
---- a/man7/capabilities.7
-+++ b/man7/capabilities.7
-@@ -215,7 +215,7 @@ Lock memory
- .BR shmctl (2));
- .IP *
- Allocate memory using huge pages
--.RB ( memfd_create (2)
-+.RB ( memfd_create (2),
- .BR mmap (2),
- .BR shmctl (2)).
- .PD 0
+diff --git a/man2/futex.2 b/man2/futex.2
+index ada96c517..2f340e0e0 100644
+--- a/man2/futex.2
++++ b/man2/futex.2
+@@ -241,10 +241,13 @@ and so on.
+ This option bit can be employed only with the
+ .BR FUTEX_WAIT_BITSET ,
+ .BR FUTEX_WAIT_REQUEUE_PI ,
+-and
+ (since Linux 4.5)
+ .\" commit 337f13046ff03717a9e99675284a817527440a49
+-.BR FUTEX_WAIT
++.BR FUTEX_WAIT ,
++and
++(since Linux v5.14.0)
++.\" commit bf22a6976897977b0a3f1aeba6823c959fc4fdae
++.BR FUTEX_LOCK_PI2
+ operations.
+ .IP
+ If this option is set, the kernel measures the
+@@ -904,7 +907,9 @@ value to 0 if the previous value was the expected TID.
+ If a futex is already acquired (i.e., has a nonzero value),
+ waiters must employ the
+ .B FUTEX_LOCK_PI
+-operation to acquire the lock.
++or
++.B FUTEX_LOCK_PI2
++operations to acquire the lock.
+ If other threads are waiting for the lock, then the
+ .B FUTEX_WAITERS
+ bit is set in the futex value;
+@@ -964,6 +969,8 @@ Note that the PI futex operations must be used as paired operations
+ and are subject to some additional requirements:
+ .IP * 3
+ .B FUTEX_LOCK_PI
++,
++.B FUTEX_LOCK_PI2
+ and
+ .B FUTEX_TRYLOCK_PI
+ pair with
+@@ -1122,6 +1129,27 @@ arguments are ignored.
+ .\""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
+ .\"
+ .TP
++.BR FUTEX_LOCK_PI2 " (since Linux 5.14.0)"
++.\" commit bf22a6976897977b0a3f1aeba6823c959fc4fdae
++This operation works similar like
++.BR FUTEX_LOCK_PI .
++The only difference is the
++timeout argument.
++.BR FUTEX_LOCK_PI2
++has support for selectable clocks.
++.IP
++If
++.I timeout
++is not NULL, the structure it points to specifies
++an absolute timeout.
++If
++.I timeout
++is NULL, the operation can block indefinitely.
++.IP
++.\"
++.\""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
++.\"
++.TP
+ .BR FUTEX_TRYLOCK_PI " (since Linux 2.6.18)"
+ .\" commit c87e2837be82df479a6bae9f155c43516d2feebc
+ This operation tries to acquire the lock at
+@@ -1168,6 +1196,8 @@ arguments are ignored.
+ .\" commit c87e2837be82df479a6bae9f155c43516d2feebc
+ This operation wakes the top priority waiter that is waiting in
+ .B FUTEX_LOCK_PI
++or
++.B FUTEX_LOCK_PI2
+ on the futex address provided by the
+ .I uaddr
+ argument.
+@@ -1379,6 +1409,9 @@ Returns the number of waiters that were woken up.
+ .B FUTEX_LOCK_PI
+ Returns 0 if the futex was successfully locked.
+ .TP
++.B FUTEX_LOCK_PI2
++Returns 0 if the futex was successfully locked.
++.TP
+ .B FUTEX_TRYLOCK_PI
+ Returns 0 if the futex was successfully locked.
+ .TP
+@@ -1435,6 +1468,7 @@ is not equal to the expected value
+ .TP
+ .BR EAGAIN
+ .RB ( FUTEX_LOCK_PI ,
++.BR FUTEX_LOCK_PI2 ,
+ .BR FUTEX_TRYLOCK_PI ,
+ .BR FUTEX_CMP_REQUEUE_PI )
+ The futex owner thread ID of
+@@ -1448,6 +1482,7 @@ Try again.
+ .TP
+ .BR EDEADLK
+ .RB ( FUTEX_LOCK_PI ,
++.BR FUTEX_LOCK_PI2 ,
+ .BR FUTEX_TRYLOCK_PI ,
+ .BR FUTEX_CMP_REQUEUE_PI )
+ The futex word at
+@@ -1536,11 +1571,14 @@ The kernel detected an inconsistency between the user-space state at
+ .I uaddr
+ and the kernel state\(emthat is, it detected a waiter which waits in
+ .BR FUTEX_LOCK_PI
++or
++.BR FUTEX_LOCK_PI2
+ on
+ .IR uaddr .
+ .TP
+ .B EINVAL
+ .RB ( FUTEX_LOCK_PI ,
++.BR FUTEX_LOCK_PI2 ,
+ .BR FUTEX_TRYLOCK_PI ,
+ .BR FUTEX_UNLOCK_PI )
+ The kernel detected an inconsistency between the user-space state at
+@@ -1590,6 +1628,8 @@ that is, the kernel detected a waiter which waits on
+ .I uaddr
+ via
+ .BR FUTEX_LOCK_PI
++or
++.BR FUTEX_LOCK_PI2
+ (instead of
+ .BR FUTEX_WAIT_REQUEUE_PI ).
+ .TP
+@@ -1618,6 +1658,7 @@ The system-wide limit on the total number of open files has been reached.
+ .TP
+ .BR ENOMEM
+ .RB ( FUTEX_LOCK_PI ,
++.BR FUTEX_LOCK_PI2 ,
+ .BR FUTEX_TRYLOCK_PI ,
+ .BR FUTEX_CMP_REQUEUE_PI )
+ The kernel could not allocate memory to hold state information.
+@@ -1634,11 +1675,13 @@ option was specified in
+ but the accompanying operation was neither
+ .BR FUTEX_WAIT ,
+ .BR FUTEX_WAIT_BITSET ,
++.BR FUTEX_WAIT_REQUEUE_PI ,
+ nor
+-.BR FUTEX_WAIT_REQUEUE_PI .
++.BR FUTEX_LOCK_PI2 .
+ .TP
+ .BR ENOSYS
+ .RB ( FUTEX_LOCK_PI ,
++.BR FUTEX_LOCK_PI2 ,
+ .BR FUTEX_TRYLOCK_PI ,
+ .BR FUTEX_UNLOCK_PI ,
+ .BR FUTEX_CMP_REQUEUE_PI ,
+@@ -1649,6 +1692,7 @@ are not supported on some CPU variants.
+ .TP
+ .BR EPERM
+ .RB ( FUTEX_LOCK_PI ,
++.BR FUTEX_LOCK_PI2 ,
+ .BR FUTEX_TRYLOCK_PI ,
+ .BR FUTEX_CMP_REQUEUE_PI )
+ The caller is not allowed to attach itself to the futex at
+@@ -1665,6 +1709,7 @@ The caller does not own the lock represented by the futex word.
+ .TP
+ .BR ESRCH
+ .RB ( FUTEX_LOCK_PI ,
++.BR FUTEX_LOCK_PI2 ,
+ .BR FUTEX_TRYLOCK_PI ,
+ .BR FUTEX_CMP_REQUEUE_PI )
+ The thread ID in the futex word at
 -- 
 2.32.0
 
