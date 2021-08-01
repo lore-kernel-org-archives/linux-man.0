@@ -2,107 +2,145 @@ Return-Path: <linux-man-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-19.7 required=3.0 tests=BAYES_00,DKIMWL_WL_HIGH,
-	DKIM_SIGNED,DKIM_VALID,DKIM_VALID_AU,INCLUDES_CR_TRAILER,INCLUDES_PATCH,
-	MAILING_LIST_MULTI,SPF_HELO_NONE,SPF_PASS,USER_AGENT_GIT autolearn=ham
-	autolearn_force=no version=3.4.0
+X-Spam-Status: No, score=-4.2 required=3.0 tests=BAYES_00,DKIM_SIGNED,
+	DKIM_VALID,DKIM_VALID_AU,FREEMAIL_FORGED_FROMDOMAIN,FREEMAIL_FROM,
+	HEADER_FROM_DIFFERENT_DOMAINS,MAILING_LIST_MULTI,SPF_HELO_NONE,SPF_PASS,
+	USER_AGENT_SANE_1 autolearn=no autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id E365CC4338F
-	for <linux-man@archiver.kernel.org>; Sun,  1 Aug 2021 11:36:38 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id E6327C4338F
+	for <linux-man@archiver.kernel.org>; Sun,  1 Aug 2021 11:42:04 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.kernel.org (Postfix) with ESMTP id BE57A6109F
-	for <linux-man@archiver.kernel.org>; Sun,  1 Aug 2021 11:36:38 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTP id BD80D60EBB
+	for <linux-man@archiver.kernel.org>; Sun,  1 Aug 2021 11:42:04 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S231518AbhHALgp (ORCPT <rfc822;linux-man@archiver.kernel.org>);
-        Sun, 1 Aug 2021 07:36:45 -0400
-Received: from mail.kernel.org ([198.145.29.99]:59164 "EHLO mail.kernel.org"
-        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S231461AbhHALgp (ORCPT <rfc822;linux-man@vger.kernel.org>);
-        Sun, 1 Aug 2021 07:36:45 -0400
-Received: by mail.kernel.org (Postfix) with ESMTPSA id C730061078;
-        Sun,  1 Aug 2021 11:36:37 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-        s=k20201202; t=1627817797;
-        bh=aTYVWPMSLo/Ii1e3mHfgusDwiXDikVJa4J4P8E9B/ME=;
-        h=From:To:Subject:Date:In-Reply-To:References:From;
-        b=fllXKLG+6dW+08hivuiqoaZREkisjjHY0TJirumsIDNMu+PUJZPBgdOrkgTQJDADa
-         qyopIAh9V68q3aZsYPh4ITTmPC8uWFs1PT+TK3qtEmUob0g63vANdoT/IAM6irY6Lr
-         /5gOWDnE0zyacUBQI+fQX5xnvuSr6k5Izl/sppYm8QNizIPLu7kQR6E09bGMxJTag1
-         umGT9vQgWxTMsIZ4dJqi0X0K5qRu/f3JyoG+uLoktB9TI6r3sGjgePDe9n04A5nBG5
-         CMNMWUrmdzfa3sMdue/4EojU6CXrw4UhvJomEDzTTiP3lz+iAs5Xi2pQwUyalaCC+C
-         hEjsMSRGwhheQ==
-Received: by pali.im (Postfix)
-        id 9D944EF9; Sun,  1 Aug 2021 13:36:35 +0200 (CEST)
-From:   =?UTF-8?q?Pali=20Roh=C3=A1r?= <pali@kernel.org>
-To:     linux-man@vger.kernel.org,
-        Alejandro Colomar <alx.manpages@gmail.com>,
-        "G. Branden Robinson" <g.branden.robinson@gmail.com>,
-        Michael Kerrisk <mtk.manpages@gmail.com>
-Subject: [PATCH v2] termios.3: SPARC architecture has 4 different Bnnn constants
-Date:   Sun,  1 Aug 2021 13:35:35 +0200
-Message-Id: <20210801113535.11402-1-pali@kernel.org>
-X-Mailer: git-send-email 2.20.1
-In-Reply-To: <20210731145501.9944-1-pali@kernel.org>
-References: <20210731145501.9944-1-pali@kernel.org>
+        id S231546AbhHALmL (ORCPT <rfc822;linux-man@archiver.kernel.org>);
+        Sun, 1 Aug 2021 07:42:11 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:57820 "EHLO
+        lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S231461AbhHALmL (ORCPT
+        <rfc822;linux-man@vger.kernel.org>); Sun, 1 Aug 2021 07:42:11 -0400
+Received: from mail-pj1-x102a.google.com (mail-pj1-x102a.google.com [IPv6:2607:f8b0:4864:20::102a])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 7E88AC06175F
+        for <linux-man@vger.kernel.org>; Sun,  1 Aug 2021 04:42:02 -0700 (PDT)
+Received: by mail-pj1-x102a.google.com with SMTP id o44-20020a17090a0a2fb0290176ca3e5a2fso20885714pjo.1
+        for <linux-man@vger.kernel.org>; Sun, 01 Aug 2021 04:42:02 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20161025;
+        h=date:from:to:cc:subject:message-id:references:mime-version
+         :content-disposition:in-reply-to:user-agent;
+        bh=8wz0iqlcnGgxlISuFpPcdzviHwQEiG1YUSjZcQfpkyI=;
+        b=hFQdNCYQS8GKfXn4/Fr75GXRu5UqZvLMH3sXGiP3/vDIU5eE8PyKs3YwtUwfPqoRaR
+         ggdC4aPaVdzqNfuXoEejTS/xvELHbYCps4QyuIsV8b0mIhevCU6ATj5FfK/sMDtllRKy
+         9ALssP8HqN+Bd6WWQbPWKoVrBXBzhEinY8iJi5c2G0ndIWZWvXxmftJScapPUy6tf5eH
+         YjywfeX8EFUSt71lWZ43LSaTl5t3qjybxzlUZyqfHtkUNkBvm7bEud0WQJK6L5/exl16
+         BGUOWrSm8hiZkZf7a6t6KTUwUyBY/8ttcZWKqqx3AfmgoAWj2XZgwVGEjdwgpTUYi+Pu
+         YgSw==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20161025;
+        h=x-gm-message-state:date:from:to:cc:subject:message-id:references
+         :mime-version:content-disposition:in-reply-to:user-agent;
+        bh=8wz0iqlcnGgxlISuFpPcdzviHwQEiG1YUSjZcQfpkyI=;
+        b=l2OxIj2EKPXYXMtJx8NEBSDHaVKs1MFn2wnRhoBzPlaCmgwO+OXTy1AQw4+egFU334
+         BycqUTJ3eul7Ow88JMaJ5AHOR1Hu34yv5YqviG5nH6jfSO+sm3JOP4xTyWlOSOeQKlHY
+         x5DR97QEE/MpL83u8+Jh1+aNJLa4BNvNrlCkzFzx/1pX3rUHcJm+QERa+cNSfcLtly2H
+         FP8PtZysUgPh29p5OziYH70LmoHfDBtn+nI10KkzItSUbxLf54V6cdTb3bqo0sRSehRP
+         GS+H/H7x1jgsENpfZfn5OcuJdFzerXSsEfl+P+ysF3FYbPPelQ7QbqW2jJmdm1cB9IPY
+         cvNw==
+X-Gm-Message-State: AOAM530VikXqfntL172tALkzr+cn05bpRXaBMr2oqW1EK1cSKMhQ4y40
+        g5CiHaVv9CwaPPkvwxjuniY=
+X-Google-Smtp-Source: ABdhPJwBgPKdCzP4DYQxFXcQYUdeAIir0EuVdIBFjrZTfw4A8+4thgjhPz5RFo4PEbKVqkFicvwKHQ==
+X-Received: by 2002:a17:90a:2a45:: with SMTP id d5mr12781890pjg.122.1627818122095;
+        Sun, 01 Aug 2021 04:42:02 -0700 (PDT)
+Received: from localhost.localdomain ([1.145.37.91])
+        by smtp.gmail.com with ESMTPSA id mr18sm7532417pjb.39.2021.08.01.04.42.00
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Sun, 01 Aug 2021 04:42:01 -0700 (PDT)
+Date:   Sun, 1 Aug 2021 21:41:57 +1000
+From:   "G. Branden Robinson" <g.branden.robinson@gmail.com>
+To:     "Alejandro Colomar (man-pages)" <alx.manpages@gmail.com>
+Cc:     Michael Kerrisk <mtk.manpages@gmail.com>, linux-man@vger.kernel.org
+Subject: Re: [PATCH 2/2] man-pages.7: Update non-breaking space advice.
+Message-ID: <20210801114156.w3hmedegg5574zho@localhost.localdomain>
+References: <20210731034458.6s76okhgjxw42mpx@localhost.localdomain>
+ <e097bf4a-7188-e810-7d3b-e4d1469397d3@gmail.com>
+ <20210801101221.poigrttumltcdenl@localhost.localdomain>
+ <233dc372-453f-713e-13ef-cb59721e806a@gmail.com>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 8bit
+Content-Type: multipart/signed; micalg=pgp-sha256;
+        protocol="application/pgp-signature"; boundary="72i67eqqvagoyioc"
+Content-Disposition: inline
+In-Reply-To: <233dc372-453f-713e-13ef-cb59721e806a@gmail.com>
+User-Agent: NeoMutt/20180716
 Precedence: bulk
 List-ID: <linux-man.vger.kernel.org>
 X-Mailing-List: linux-man@vger.kernel.org
 
-SPARC is special, it does not have Bnnn constants for baud rates above
-2000000. Instead it defines 4 Bnnn constants with smaller baud rates.
 
-This difference between SPARC and non-SPARC architectures is present in
-both glibc API (termios.h) and also kernel ioctl API (asm/termbits.h).
+--72i67eqqvagoyioc
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+Content-Transfer-Encoding: quoted-printable
 
-Signed-off-by: Pali Rohár <pali@kernel.org>
----
- man3/termios.3 | 23 +++++++++++++++++++++++
- 1 file changed, 23 insertions(+)
+At 2021-08-01T12:49:39+0200, Alejandro Colomar (man-pages) wrote:
+> $ apt-file find git-send-email
+> git-doc: /usr/share/doc/git-doc/git-send-email.html
+> git-doc: /usr/share/doc/git-doc/git-send-email.txt
+> git-email: /usr/lib/git-core/git-send-email
+> git-email: /usr/share/man/man1/git-send-email.1.gz
+>=20
+> You should install git-email if you're on Debian.
 
-diff --git a/man3/termios.3 b/man3/termios.3
-index 7b195c95912b..500cf0713e4d 100644
---- a/man3/termios.3
-+++ b/man3/termios.3
-@@ -953,6 +953,24 @@ to by \fItermios_p\fP to \fIspeed\fP, which must be one of these constants:
- 	B1152000
- 	B1500000
- 	B2000000
-+.ft P
-+.fi
-+.PP
-+These constants are additionally supported on the SPARC architecture:
-+.PP
-+.nf
-+.ft B
-+	B76800
-+	B153600
-+	B307200
-+	B614400
-+.ft P
-+.fi
-+.PP
-+These constants are additionally supported on non-SPARC architectures:
-+.PP
-+.nf
-+.ft B
- 	B2500000
- 	B3000000
- 	B3500000
-@@ -960,6 +978,11 @@ to by \fItermios_p\fP to \fIspeed\fP, which must be one of these constants:
- .ft P
- .fi
- .PP
-+Due to differences between architectures, portable applications should check
-+if a particular
-+.BI B nnn
-+constant is defined prior to using it.
-+.PP
- The zero baud rate, \fBB0\fP,
- is used to terminate the connection.
- If B0 is specified, the modem control lines shall no longer be asserted.
--- 
-2.20.1
+Evidently!  Good grief, why is that split off?  <grumble>
 
+> apt-cache also helps if you don't know the exact name of the
+> git-send-email file:
+
+Yup, it was more like I did not even imagine that the package had been
+split up like that.  I thought there must be a licensing problem or
+something.
+
+> > I did a web search and did not find any reports that NeoMutt does
+> > violence to Git-formatted patches.  Perhaps it is GMail's fault?  (I
+> > use its SMPTS server to send mail.)  Does someone on this list have
+> > experience with this MUA and/or provider?  Is there a trick?
+>=20
+> I also use gmail, so their servers shouldn't cause any errors, I
+> guess.  But I'm no expert on emailing.
+
+Damn.  I really like GPG-signing my outbound mails, especially including
+patches.  I try to exemplify the audit trails I advocate.
+
+> [sendemail]
+> 	smtpuser =3D alx.manpages
+> 	smtpserver =3D smtp.googlemail.com
+> 	smtpencryption =3D tls
+> 	smtpserverport =3D 587
+> 	smtpPass =3D my_password_goes_here
+
+Thanks!  Without some NeoMutt help, it looks like this is my route
+forward.
+
+Regards,
+Branden
+
+--72i67eqqvagoyioc
+Content-Type: application/pgp-signature; name="signature.asc"
+
+-----BEGIN PGP SIGNATURE-----
+
+iQIzBAEBCAAdFiEEh3PWHWjjDgcrENwa0Z6cfXEmbc4FAmEGiIQACgkQ0Z6cfXEm
+bc7DJQ//R4XTawslDxNNbptajw6XjhPOh4Y4KgljE8tkMG5onF3fQgp9unGgrD0e
+CC07ATFF/Omw1JR98T1wnPHylK5VeU/BkB0Zw7uJC+esYSd1VVuqXHfAGw0AAxvy
+qjN1PKh9qsjSeXMTLGGyDQ1ZWF7bXGCkYjLG9IRHc60ZmWllJD9aYftHwM9+qGye
+yLoe15zLxs6h9qwFLYeMZygXe4wFfQxMErTk4Qdl0XecdHWIdWgb3XdUxfUoJ6fY
+LeEcvTdHCRUcwEChNTMQC5UTXA7fBbDqZwXnjZO2BJpv3O39N99ig+VWLnuI8GDu
+GmplviUEIIQI0csHVCvSwqICH+z7HhNLvYK16AAhDnGfqazmUXLlgCDdCeL0Pntr
+SEgsxOyf0hvlfOnHTYwGnJbSupTEkRtKDpOkkvWE2/ZbxdY0HSQ8CgsMfad5ceVv
+tFZdiiv1sZyhIks+ioBx1KkeyLLFySLbZ+EUUy+yTGCYVaAt5X3xdi+VEEnlEEcw
+AWff2k6yRwgz8cOA8qEijbyY6NXjSfEsL4pVzq6u6dZu+hbbEKhP0hhg3knId8gO
+9HsyMZ1vLRMd+YyTDaDDem1X06nzWbGAW+zwDoVa8RgKduqkLo3RdI+lc1Ubf7fB
+2xSPkTA+qXQtCjAq4+zyRNRXsBCZ9gNujkt85wkwZF8j7LIT+0o=
+=vcxN
+-----END PGP SIGNATURE-----
+
+--72i67eqqvagoyioc--
