@@ -7,165 +7,142 @@ X-Spam-Status: No, score=-4.2 required=3.0 tests=BAYES_00,DKIM_SIGNED,
 	HEADER_FROM_DIFFERENT_DOMAINS,MAILING_LIST_MULTI,SPF_HELO_NONE,SPF_PASS,
 	USER_AGENT_SANE_1 autolearn=no autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 69C8EC4338F
-	for <linux-man@archiver.kernel.org>; Sun,  1 Aug 2021 11:22:42 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 5BCB6C4338F
+	for <linux-man@archiver.kernel.org>; Sun,  1 Aug 2021 11:36:30 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.kernel.org (Postfix) with ESMTP id 414E86109F
-	for <linux-man@archiver.kernel.org>; Sun,  1 Aug 2021 11:22:42 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTP id 284A26109F
+	for <linux-man@archiver.kernel.org>; Sun,  1 Aug 2021 11:36:30 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S231791AbhHALWt (ORCPT <rfc822;linux-man@archiver.kernel.org>);
-        Sun, 1 Aug 2021 07:22:49 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:53180 "EHLO
+        id S231470AbhHALgh (ORCPT <rfc822;linux-man@archiver.kernel.org>);
+        Sun, 1 Aug 2021 07:36:37 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:56496 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S231461AbhHALWs (ORCPT
-        <rfc822;linux-man@vger.kernel.org>); Sun, 1 Aug 2021 07:22:48 -0400
-Received: from mail-pj1-x1034.google.com (mail-pj1-x1034.google.com [IPv6:2607:f8b0:4864:20::1034])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 5225EC06175F
-        for <linux-man@vger.kernel.org>; Sun,  1 Aug 2021 04:22:41 -0700 (PDT)
-Received: by mail-pj1-x1034.google.com with SMTP id nh14so9794362pjb.2
-        for <linux-man@vger.kernel.org>; Sun, 01 Aug 2021 04:22:41 -0700 (PDT)
+        with ESMTP id S231461AbhHALgg (ORCPT
+        <rfc822;linux-man@vger.kernel.org>); Sun, 1 Aug 2021 07:36:36 -0400
+Received: from mail-pj1-x102c.google.com (mail-pj1-x102c.google.com [IPv6:2607:f8b0:4864:20::102c])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 1D48EC06175F
+        for <linux-man@vger.kernel.org>; Sun,  1 Aug 2021 04:36:29 -0700 (PDT)
+Received: by mail-pj1-x102c.google.com with SMTP id j1so21553411pjv.3
+        for <linux-man@vger.kernel.org>; Sun, 01 Aug 2021 04:36:29 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=gmail.com; s=20161025;
         h=date:from:to:cc:subject:message-id:references:mime-version
          :content-disposition:in-reply-to:user-agent;
-        bh=pW2ydM6Gow27i6DHgIf7i+N87xhhUrXuYiqiWueiXYk=;
-        b=WLh1ufzSxnFX3632RLUJWAlA8f4+P44CWjdMOFOC+r41UAFjvSkfCyReYog8oxVM/m
-         Q2ns9bORJDmJ6uOmhQwVmlgT6J4lOTWdHYGCcqAU3DdRj+WIR3x7X5sX53KsiXsBePCV
-         7e//jBFNxzE90UaYOFS/ooHkhNkKtZ4hedg+Lu3S63MBVZh+Vtc6YSvzuguHkGUFWEiE
-         h87E3E37ugUkPBmtZcVW+Q8ohQDUZX9YP7NniCA8VbBOieN6e1h6vDsBj6aAbcmNnS7A
-         wtqO84BaawexhIjPqtygZFbEi4iyZuNhkcxEAQjODc93ioKq0Iyx9v4bFF6VHPEUpm/2
-         t6sA==
+        bh=VZisN3fhCEi2DEc5FDS9ww4yH+uW9lS1tHlYHyo3fMY=;
+        b=SqgPWki/UnWytTU0+ScOlptTzpd6Yfgc6yfMQC6x4bknRAYnoy7YI9Q+Ki1Wv2AzV5
+         WIxfnh9gvnK9D2jqFRw9JYAUuEuxtDMT1YqqAXXI8DBUV0g1eJe2EApNEUu6xJp44K0B
+         YIk9/RbZPRv1ZYASW86D3sxqWQrhcw+hrMKBQLZGF+iuiOVuJPiEhlysCcfriQ9WPdUS
+         kvoMDQvXa2mcZqSUMVDWKTXrh1aBFZAPfKLRAe4mfvk0mmMNfx1qiLPtVOfFb3Dy/pjZ
+         /sPobF6D5X8p583FRnsnhjA1A469nivOTpuF+Zyej46uOCV2CIkaQhYwBQ9VWUsrt8wg
+         2+0Q==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
         h=x-gm-message-state:date:from:to:cc:subject:message-id:references
          :mime-version:content-disposition:in-reply-to:user-agent;
-        bh=pW2ydM6Gow27i6DHgIf7i+N87xhhUrXuYiqiWueiXYk=;
-        b=PFyte298zr1vsUtSEfMdlz4hvwX4MVHCtMpFWFERzRE5tOZIH3izqc0dRjL7TAkVG1
-         A/PP/66Q+o374b+aC/w34hy5sJDwC2o9PWS/YCK5hZP1j64vgi3KVVWozFmKIfNotmbT
-         ZtcNYFIKvRwsBXg9LAvImyEFPT6WQyLVco08OWup3Yv6rv/II0brHj70nUOPukLKRJJY
-         fryx0l8iyn0A4q2YdJd/KjuLE+VKf7FOKu4Q85fbcqAr3QfmnYed+xHLN5PDfkJ+uv8O
-         OrCKO4kcob0eAiYX5H7WxzsQgTRuV7W7TX4HxEuf0rEYufYq4ztUZUT4J285MgjqLIRL
-         06AA==
-X-Gm-Message-State: AOAM531SgsaAxsEFqm8o9qBQ8vwWKZR/te2UrGgaBjpdFxigPfoxrRVX
-        pQbekL6S4PNtAul7y0gqyLc=
-X-Google-Smtp-Source: ABdhPJzYcauUWY+TwRz7Pay55V8sYLHPs8u/owHYg1PCH35RcV6P0Z8wVFKfP1KSq9fRM4/tAGcANw==
-X-Received: by 2002:a65:410a:: with SMTP id w10mr722430pgp.343.1627816960942;
-        Sun, 01 Aug 2021 04:22:40 -0700 (PDT)
+        bh=VZisN3fhCEi2DEc5FDS9ww4yH+uW9lS1tHlYHyo3fMY=;
+        b=Y9/F8KK1VFFVlWdCR0UTZVssAoqwP92Jga/1bZc4CxtDvu+HjJkRTHMmGiGhPnkXgl
+         6GwlqOe3PGIYflZTny9qDNtPatX37zBZQR0F6K9SnZ53lWZD9lGm9PhN/Hx7PRfymZSn
+         39F4CyYo9oaEMrnIYEsp5BgrYwier894wsCXK4NTMZRV6hPcfnyHNZDg1TWd5IXrganf
+         hI24d2s6FY8NUSWS0IXS0dr3VykROhA9htGM/Do2Yp8IODDrsH/E9WcOR19z1Yu0hWFb
+         ofA2scRGGLN+HhUr0MVuMlNbCCszPJeia3kRBt//WBlJp0hHzbcUOKTLaOuZLXiUIuk0
+         SASQ==
+X-Gm-Message-State: AOAM532umDz/Gg7MvPzvHkoFh6T9qI2vntQ16h5ra5i1wZSTheAzTQtf
+        tEuWfSRg1AphdGD6a/J15jo=
+X-Google-Smtp-Source: ABdhPJy0P9yU+ds/SfH0o5cOFJW0oUH/t91gW+yx6fKy45wV0dogufHYqdHDSgiVNuMLLCVwjB5ULQ==
+X-Received: by 2002:a17:90a:ce03:: with SMTP id f3mr12326502pju.30.1627817788655;
+        Sun, 01 Aug 2021 04:36:28 -0700 (PDT)
 Received: from localhost.localdomain ([1.145.37.91])
-        by smtp.gmail.com with ESMTPSA id s36sm9424464pgk.64.2021.08.01.04.22.38
+        by smtp.gmail.com with ESMTPSA id b7sm8066592pfl.195.2021.08.01.04.36.26
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Sun, 01 Aug 2021 04:22:40 -0700 (PDT)
-Date:   Sun, 1 Aug 2021 21:22:30 +1000
+        Sun, 01 Aug 2021 04:36:28 -0700 (PDT)
+Date:   Sun, 1 Aug 2021 21:36:24 +1000
 From:   "G. Branden Robinson" <g.branden.robinson@gmail.com>
-To:     Pali =?utf-8?B?Um9ow6Fy?= <pali@kernel.org>
-Cc:     linux-man@vger.kernel.org,
-        Alejandro Colomar <alx.manpages@gmail.com>,
-        Michael Kerrisk <mtk.manpages@gmail.com>
-Subject: Re: [PATCH] termios.3: SPARC architecture has 4 different Bnnn
- constants
-Message-ID: <20210801112229.w75qb3sggampa757@localhost.localdomain>
-References: <20210731145501.9944-1-pali@kernel.org>
+To:     "Alejandro Colomar (man-pages)" <alx.manpages@gmail.com>
+Cc:     linux-man@vger.kernel.org
+Subject: Re: [PATCH v2] mount_setattr.2: New manual page documenting the
+ mount_setattr() system call
+Message-ID: <20210801113623.lk5lfm4brhgx6hbq@localhost.localdomain>
+References: <20210730094121.3252024-1-brauner@kernel.org>
+ <9ba8d98e-dee9-1d8d-0777-bb5496103e24@gmail.com>
+ <20210731014251.whqfubv3hzu3mssw@localhost.localdomain>
+ <00d3c648-bdb5-3005-807f-ec2d3360f16a@gmail.com>
+ <20210801100234.mcgwwxr42wxwe7gf@localhost.localdomain>
+ <1cde7dff-b62b-4697-1229-dd02529b3110@gmail.com>
 MIME-Version: 1.0
 Content-Type: multipart/signed; micalg=pgp-sha256;
-        protocol="application/pgp-signature"; boundary="ejsrfuhv5ubzxiz3"
+        protocol="application/pgp-signature"; boundary="wiprcjkgaobxdr2f"
 Content-Disposition: inline
-In-Reply-To: <20210731145501.9944-1-pali@kernel.org>
+In-Reply-To: <1cde7dff-b62b-4697-1229-dd02529b3110@gmail.com>
 User-Agent: NeoMutt/20180716
 Precedence: bulk
 List-ID: <linux-man.vger.kernel.org>
 X-Mailing-List: linux-man@vger.kernel.org
 
 
---ejsrfuhv5ubzxiz3
-Content-Type: text/plain; charset=iso-8859-1
+--wiprcjkgaobxdr2f
+Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
 Content-Transfer-Encoding: quoted-printable
 
-Hi, Pali!
+At 2021-08-01T12:38:36+0200, Alejandro Colomar (man-pages) wrote:
+> What are "font escapes" and "italic correction escapes"?  I don't know
+> those technical terms.
 
-At 2021-07-31T16:55:01+0200, Pali Roh=E1r wrote:
-> SPARC is special, it does not have Bnnn constants for baud rates above
-> 2000000. Instead it defines 4 Bnnn constants with smaller baud rates.
+\f introduces a font escape sequence, which changes the font being used
+to set the text.  They go way back to 1970s AT&T troff.
+
+Italic correction escapes are a groff innovation for a typographical
+concept of ancient vintage.  They are spelled "\," and "\/" (these are
+the sorts of names you come up with when you run out of room in a
+one-character name space that has to be input from an ASCII keyboard).
+
+All are documented in groff(7)[1].  The italic correction escapes are
+discussed at greater length in groff_diff(7)[2] since they would be new
+to AT&T troff veterans.
+
+> Ahh, I used mgroff(1) (mental groff).  I should debug my mental
+> parser.
 >=20
-> This difference between SPARC and non-SPARC architectures is present
-> in both glibc API (termios.h) and also kernel ioctl API
-> (asm/termbits.h).
-[...]
->  	B1500000
->  	B2000000
-> +.ft P
+> So, as I suspected, that .IP is ignored, if my mental groff is working
+> correctly now.
 
-I see you're following existing termios(3) page practice here, so this
-feedback may be more for Alex and Michael than you; it's not a
-criticism.
+Well...it's not _ignored_, it's a macro--it gets interpolated and
+interpreted.  It just, in this case, doesn't do much if anything that
+isn't redundant.
 
-I would discourage the use of the *roff 'ft' request in man pages.
-Here, it is redunant because the following PP macro will set the font
-style back to roman anyway.
+> Since almost when I started here, I'm trying to have the man-pages be
+> consistent across all of the pages, both in terms of source code and
+> rendered output.  Not an easy thing...
+>=20
+> I hope that when I finish this (if it can ever be finished), reading
+> and writing man-pages is a simpler task for newbies :)
 
-I also discourage the use of tab characters in man page sources (outside
-of tbl(1) tables).
-
-I'll show my recommendation in a few lines.
-
-> +.fi
-> +.PP
-> +On SPARC architecture are additionally supported these constants:
-> +.PP
-> +.nf
-> +.ft B
-> +	B76800
-> +	B153600
-> +	B307200
-> +	B614400
-> +.ft P
-> +.fi
-
-Here's how I'd do that:
-
-=2EP
-On the SPARC architecture,
-the following additional constants are supported.
-=2ERS
-=2ETP
-=2EB B76800
-=2ETQ
-=2EB B153600
-=2ETQ
-=2EB B307200
-=2ETQ
-=2EB  B614400
-=2ERE
-
-Why would I do it this way?  I'm trying to keep the size of the language
-we ask man page writers to learn as small as possible, and I especially
-try to keep the number of *roff requests they have to know as close to
-zero as possible.  There are already two ways to change fonts: through
-macros and escape sequences.  Personally, I'd like to protect casual man
-page writers from having to learn the third.  (And, again, outside of
-tbl(1) tables, I'd prefer they not have to know the second [escapes].)
+I have similar goals.  It's a pleasure to work with you.  :D
 
 Regards,
 Branden
 
---ejsrfuhv5ubzxiz3
+[1] https://man7.org/linux/man-pages/man7/groff.7.html
+[2] https://man7.org/linux/man-pages/man7/groff_diff.7.html
+
+--wiprcjkgaobxdr2f
 Content-Type: application/pgp-signature; name="signature.asc"
 
 -----BEGIN PGP SIGNATURE-----
 
-iQIzBAEBCAAdFiEEh3PWHWjjDgcrENwa0Z6cfXEmbc4FAmEGg+0ACgkQ0Z6cfXEm
-bc6C0g//Vt4zs1cXx4z8Vn4QCnOIPE3pBwmnM38H5+4tx+raJWx2W+gAS1fT+esN
-MySYdWxGw9SHUHfcG13jIFOY4NWPLhFMSFUXT+ScsejNFTd4yyWrPn9E1piBK6Qo
-wBIdsnIsb2Q15+4I+D1D2IpcgyCpfxK4LAjJ1u1Cl22fUVkz/ixxOBTUbFHUroM9
-VNnVfZImKYiY8CLVMMVQSM4810k984jCLtocxOcRgQuUWRwRmL0Os0cdgTgvRxw2
-7XG8w7r+r3fuyfLk4/muvcY+cX+/devlRu3Ua+rr1u1n8hxg6ccs+N0HaygzeOlW
-zbKUJFTh5nDRi+0V55ceXcHLNcvbyy1pcFe87gQkwep2LHMrUIULFIDGcP1oe6lF
-ap0dm4KlFpCXS2KGD/c2J6vzaBfOGhBMAop3XfEVcUXm6lRXf1zrK4LnkDe8UtXK
-C0HHZ8ff2hHaZjva7718/cEVkslRWWSwm86sgSIp+kjT0pKcsuU3B2X1RLXd0Cv7
-hORpqr6kwKf/+KEPqrHXyk4JyUXsGA9pcVjALTJS/ZRAirTpL8DfxYIVf76VopG1
-/RtILGIdCrLIYkFfRubKdWW6j1y7fYnTwDaD++hO3qe/bEzgLq2vZdem0TS0qUcy
-PV5ZRFJ8tWtIHVw3IxAgFUQyHOemi4Foleq/tb20+C7DXsi2aio=
-=oXXt
+iQIzBAEBCAAdFiEEh3PWHWjjDgcrENwa0Z6cfXEmbc4FAmEGhzcACgkQ0Z6cfXEm
+bc5pWBAAm56RbOLgFy8U8y/HGBHhOkgm9K+sq/iRhSS9U/Y8M19lXChtEE3MbSJi
+LDucIHIs2bzdPBvfbCjwOFE5JSG3J00IWF2gFtGdMwEBwabYF30BFqyYWtwllLde
+btDH1tUM+U+/87I/igytbCCL6X6I4tzIpZ5TPGzuUOVLAPd7YCT5hpid1u2pSjMA
+Uyx8sdR+3V1rkp6h3SvD6trkZUxHYWzxW4lY5ZaVxIfzMl+Fx7jqWGbFv3phwHsb
+TsXHvuB+uylv8d61BhrHgNyv5JDmjbIyPA/6NUK8cbt+LXEdAYuGTxrKhobYw9n+
+Z5iPdwHi/M00mwwf3VRzFLRLU9g6CH6NORJReHA6hK0kC5n/uAzampmI5jkSEssD
+kh3Uh4ytWJIBFGsFonIcdc1mzTIdFrJf/fxTeSbcsS4PTrDda94zRO321Vsurvev
+E6L5TBIg8Th88zxWHh7IP8IAXDS7ud6VfhHw12tRfL+xiaNNTz4VY+3eWXwMWyah
+I5hrwBhyIikmO8Ztl0yczho606xxqY5UbUiKKdo119aP+Fl/KiqnaiN24sBfIWmE
+6U31Cu5t5MhvHeXJANJYOhCDNg1K/dFrJ8w97oC5IUWLKY6sG5T7rjA+y3yZNUer
+DQAo9kyFDud/CDJfU1vVNZxLrVdbqcZ8/iEJHakW/OGBUVIORqU=
+=8qV/
 -----END PGP SIGNATURE-----
 
---ejsrfuhv5ubzxiz3--
+--wiprcjkgaobxdr2f--
