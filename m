@@ -2,153 +2,98 @@ Return-Path: <linux-man-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-3.8 required=3.0 tests=BAYES_00,
-	HEADER_FROM_DIFFERENT_DOMAINS,MAILING_LIST_MULTI,SPF_HELO_NONE,SPF_PASS
-	autolearn=no autolearn_force=no version=3.4.0
+X-Spam-Status: No, score=-5.8 required=3.0 tests=BAYES_00,DKIM_SIGNED,
+	DKIM_VALID,DKIM_VALID_AU,HEADER_FROM_DIFFERENT_DOMAINS,MAILING_LIST_MULTI,
+	SPF_HELO_NONE,SPF_PASS autolearn=no autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 6EFC1C4320A
-	for <linux-man@archiver.kernel.org>; Wed, 11 Aug 2021 10:40:39 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 23B38C4338F
+	for <linux-man@archiver.kernel.org>; Wed, 11 Aug 2021 20:55:42 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.kernel.org (Postfix) with ESMTP id 466BB60560
-	for <linux-man@archiver.kernel.org>; Wed, 11 Aug 2021 10:40:39 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTP id EF4826104F
+	for <linux-man@archiver.kernel.org>; Wed, 11 Aug 2021 20:55:41 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S236946AbhHKKk7 (ORCPT <rfc822;linux-man@archiver.kernel.org>);
-        Wed, 11 Aug 2021 06:40:59 -0400
-Received: from mail.kernel.org ([198.145.29.99]:32790 "EHLO mail.kernel.org"
-        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S236855AbhHKKk6 (ORCPT <rfc822;linux-man@vger.kernel.org>);
-        Wed, 11 Aug 2021 06:40:58 -0400
-Received: by mail.kernel.org (Postfix) with ESMTPSA id C33EB60560;
-        Wed, 11 Aug 2021 10:40:32 +0000 (UTC)
-Date:   Wed, 11 Aug 2021 12:40:30 +0200
-From:   Christian Brauner <christian.brauner@ubuntu.com>
+        id S229655AbhHKU4E (ORCPT <rfc822;linux-man@archiver.kernel.org>);
+        Wed, 11 Aug 2021 16:56:04 -0400
+Received: from mail-40131.protonmail.ch ([185.70.40.131]:25406 "EHLO
+        mail-40131.protonmail.ch" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S229589AbhHKU4E (ORCPT
+        <rfc822;linux-man@vger.kernel.org>); Wed, 11 Aug 2021 16:56:04 -0400
+Date:   Wed, 11 Aug 2021 20:55:37 +0000
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=spmail.info;
+        s=protonmail3; t=1628715338;
+        bh=EJ/Yn/mNvpMKPkHKhKeQkFmJre4Pi9TamJs1Em7IIwg=;
+        h=Date:To:From:Cc:Reply-To:Subject:In-Reply-To:References:From;
+        b=fOlO6NiZBvl7xw17pp75Db1IcUe8rjqve1vK9C/Lgl9SYfihHG3I3Dr6TjawjU3qT
+         kchljVwScc5Xkf+kNg9SFSOaCtlfrLKmIxK459tqi73mLXsgrHOQDdwPBSxbPUlaFA
+         VEpGyBmjO+gkcuVI4y8Ey9+sWfE0HYnfdiS6wp5zksamfPc8QreDUvzm4qHfcTNod1
+         ZPzaUW4J5eFWwKO0pqyHL0vsfEdO6YSNQbggVkvj4a3UKp5A4GCbjO2vkU/jWuQ5Xb
+         GYgHzeP0PGOlLciTqYjkaS+6878z84YaqPNHClnMwj0DVQbAeA0Yq+tZlUkiPHQKQr
+         25Jh7MLUZQNew==
 To:     "Michael Kerrisk (man-pages)" <mtk.manpages@gmail.com>
-Cc:     Alejandro Colomar <alx.manpages@gmail.com>,
-        linux-fsdevel <linux-fsdevel@vger.kernel.org>,
-        lkml <linux-kernel@vger.kernel.org>,
-        linux-man <linux-man@vger.kernel.org>,
-        Christoph Hellwig <hch@infradead.org>
-Subject: Re: Questions re the new mount_setattr(2) manual page
-Message-ID: <20210811104030.in6f25hw5h5cotti@wittgenstein>
-References: <b58e2537-03f4-6f6c-4e1b-8ddd989624cc@gmail.com>
- <d5a8061a-3d8a-6353-5158-8feee0156c6b@gmail.com>
+From:   Sergey Petrakov <kr@spmail.info>
+Cc:     "Alejandro Colomar (man-pages)" <alx.manpages@gmail.com>,
+        linux-man@vger.kernel.org
+Reply-To: Sergey Petrakov <kr@spmail.info>
+Subject: Re: [PATCH 07/32] printf.3: wfix
+Message-ID: <bZx77Wr724ZA6_R6yNtLRnnVtw6BkglNw8OOn8wgTeqUQkweplmlpNpywT_orgMA6BjKkQ7_XKS60BXG1uIqu35Ov9onsqt_bBsGR-l34Ac=@spmail.info>
+In-Reply-To: <6372ea2d-e10b-0f71-126e-201363b0c6f9@gmail.com>
+References: <20210728202008.3158-1-alx.manpages@gmail.com> <20210728202008.3158-8-alx.manpages@gmail.com> <78b9440a-1e5b-3f2f-65f7-e222dfa1e477@gmail.com> <557edcab-8036-9249-e7bb-cb4e3765f59d@gmail.com> <5d08063e-5109-3ea3-30d0-77af0c842029@gmail.com> <6372ea2d-e10b-0f71-126e-201363b0c6f9@gmail.com>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=utf-8
-Content-Disposition: inline
-Content-Transfer-Encoding: 8bit
-In-Reply-To: <d5a8061a-3d8a-6353-5158-8feee0156c6b@gmail.com>
+Content-Transfer-Encoding: quoted-printable
 Precedence: bulk
 List-ID: <linux-man.vger.kernel.org>
 X-Mailing-List: linux-man@vger.kernel.org
 
-On Wed, Aug 11, 2021 at 12:47:14AM +0200, Michael Kerrisk (man-pages) wrote:
-> Hi Christian,
-> 
-> Some further questions...
-> 
-> In ERRORS there is:
-> 
->        EINVAL The underlying filesystem is mounted in a user namespace.
-> 
-> I don't understand this. What does it mean?
+Hello Michael and Alex,
 
-The underlying filesystem has been mounted in a mount namespace that is
-owned by a non-initial user namespace (Think of sysfs, overlayfs etc.).
+On Sunday, August 8th, 2021 at 02:10, Michael Kerrisk (man-pages) <mtk.manp=
+ages@gmail.com> wrote:
+> Hello Alex,
+>
+> On 8/8/21 12:32 AM, Alejandro Colomar (man-pages) wrote:
+>
+> > On 8/8/21 12:20 AM, Alejandro Colomar (man-pages) wrote:
+> >
+> > > stdio (7)', and it's only a ffix.
+> >
+> > s/7/3/
+>
+> I dropped the original patch, and made ir
+>
+> .BR stdio (3)
+>
+> This is a case where it would have been good to ask the
+> proposer for a commit message explaining the motivation for
+> the original patch (when that patch was submitted).
 
-> 
-> Also, there is this:
-> 
->        ENOMEM When  changing  mount  propagation to MS_SHARED, a new peer
->               group ID needs to be allocated for  all  mounts  without  a
->               peer  group  ID  set.  Allocation of this peer group ID has
->               failed.
-> 
->        ENOSPC When changing mount propagation to MS_SHARED,  a  new  peer
->               group  ID  needs  to  be allocated for all mounts without a
->               peer group ID set.  Allocation of this peer  group  ID  can
->               fail.  Note that technically further error codes are possi‐
->               ble that are specific to the ID  allocation  implementation
->               used.
-> 
-> What is the difference between these two error cases? (That is, in what 
-> circumstances will one get ENOMEM vs ENOSPC and vice versa?)
+A few paragraphs at the beginning of the description section
+of printf(3) briefly describe the functions in the printf()
+family. In these paragraphs, a word in italics almost always
+represents a token of C source code:
+1) the identifier (format, stream, str, fd, size, ap) or the
+   type (va_list) of a parameter in the function declarations
+   at the top of the man page;
+2) the identifier (va_end, va_arg) for a function-like macro;
+3) the identifier (stdout) for the standard output stream.
 
-I did really wonder whether to even include those errors and I regret
-having included them because they aren't worth a detailed discussion as
-I'd consider them kernel internal relevant errors rather than userspace
-relevant errors. In essence, peer group ids are allocated using the id
-infrastructure of the kernel. It can fail for two main reasons:
+There is one exception to this rule - stdio. This word
+represents a library, not a token. It's not a big problem,
+of course, but I think that similar formatting of different
+things may be confusing.
 
-1. ENOMEM there's not enough memory to allocate the relevant internal
-   structures needed for the bitmap.
-2. ENOSPC we ran out of ids, i.e. someone has somehow managed to
-   allocate so many peer groups and managed to keep the kernel running
-   (???) that the ida has ran out of ids.
+The original patch was an attempt to fix this issue. The final
+one (by Michael Kerrisk):
 
-Feel free to just drop those errors.
+-.I stdio
++.BR stdio (3)
 
-> 
-> And then:
-> 
->        EPERM  One  of  the mounts had at least one of MOUNT_ATTR_NOATIME,
->               MOUNT_ATTR_NODEV, MOUNT_ATTR_NODIRATIME, MOUNT_ATTR_NOEXEC,
->               MOUNT_ATTR_NOSUID, or MOUNT_ATTR_RDONLY set and the flag is
->               locked.  Mount attributes become locked on a mount if:
-> 
->               •  A new mount or mount tree is created causing mount prop‐
->                  agation  across  user  namespaces.  The kernel will lock
-> 
-> Propagation is done across mont points, not user namespaces.
-> should "across user namespaces" be "to a mount namespace owned 
-> by a different user namespace"? Or something else?
+is a more suitable solution.
 
-That's really splitting hairs. Of course this means that we're
-propagating into a mount namespace that is owned by a different user
-namespace though "crossing user namespaces" might have been the better
-choice.
+I'm sorry that I didn't include this explanation in the
+initial email.
 
-> 
->                  the aforementioned  flags  to  protect  these  sensitive
->                  properties from being altered.
-> 
->               •  A  new  mount  and user namespace pair is created.  This
->                  happens for  example  when  specifying  CLONE_NEWUSER  |
->                  CLONE_NEWNS  in unshare(2), clone(2), or clone3(2).  The
->                  aforementioned flags become locked to protect user name‐
->                  spaces from altering sensitive mount properties.
-> 
-> Again, this seems imprecise. Should it say something like:
-> "... to prevent changes to sensitive mount properties in the new 
-> mount namespace" ? Or perhaps you have a better wording.
+--
 
-That's not imprecise. What you want to protect against is altering
-sensitive mount properties from within a user namespace irrespective of
-whether or not the user namespace actually owns the mount namespace,
-i.e. even if you own the mount namespace you shouldn't be able to alter
-those properties. I concede though that "protect" should've been
-"prevent".
-
-You could probably say:
-
-	A  new  mount  and user namespace pair is created.  This
-	happens for  example  when  specifying  CLONE_NEWUSER  |
-	CLONE_NEWNS  in unshare(2), clone(2), or clone3(2).
-	The aforementioned flags become locked in the new mount
-	namespace to prevent sensitive mount properties from being
-	altered.
-	Since the newly created mount namespace will be owned by the
-	newly created user namespace a caller privileged in the newly
-	created user namespace would be able to alter senstive
-	mount properties. For example, without locking the read-only
-	property for the mounts in the new mount namespace such a caller
-	would be able to remount them read-write.
-
-(Fwiw, in this scenario there's a bit of (moderately sane) strangeness.
- A CLONE_NEWUSER | CLONE_NEWMNT will cause even stronger protection to
- kick in. For all mounts not marked as expired MNT_LOCKED will be set
- which means that a umount() on any such mount copied from the previous
- mount namespace will yield EINVAL implying from userspace' perspective
- it's not mounted - granted EINVAL is the ioctl() of multiplexing errnos
- - whereas a remount to alter a locked flag will yield EPERM.)
-
-Christian
+Regards,
+Sergey Petrakov
