@@ -2,260 +2,160 @@ Return-Path: <linux-man-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-8.8 required=3.0 tests=BAYES_00,
-	HEADER_FROM_DIFFERENT_DOMAINS,MAILING_LIST_MULTI,MENTIONS_GIT_HOSTING,
-	SPF_HELO_NONE,SPF_PASS autolearn=ham autolearn_force=no version=3.4.0
+X-Spam-Status: No, score=-4.2 required=3.0 tests=BAYES_00,DKIM_SIGNED,
+	DKIM_VALID,DKIM_VALID_AU,FREEMAIL_FORGED_FROMDOMAIN,FREEMAIL_FROM,
+	HEADER_FROM_DIFFERENT_DOMAINS,MAILING_LIST_MULTI,NICE_REPLY_A,SPF_HELO_NONE,
+	SPF_PASS,URIBL_BLOCKED,USER_AGENT_SANE_1 autolearn=no autolearn_force=no
+	version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 02209C4338F
-	for <linux-man@archiver.kernel.org>; Thu, 12 Aug 2021 09:08:19 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 71BE0C4338F
+	for <linux-man@archiver.kernel.org>; Thu, 12 Aug 2021 22:32:19 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.kernel.org (Postfix) with ESMTP id D7F0460E97
-	for <linux-man@archiver.kernel.org>; Thu, 12 Aug 2021 09:08:18 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTP id 48E4260FC0
+	for <linux-man@archiver.kernel.org>; Thu, 12 Aug 2021 22:32:19 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S235404AbhHLJIj (ORCPT <rfc822;linux-man@archiver.kernel.org>);
-        Thu, 12 Aug 2021 05:08:39 -0400
-Received: from mail.kernel.org ([198.145.29.99]:34220 "EHLO mail.kernel.org"
-        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S235131AbhHLJIf (ORCPT <rfc822;linux-man@vger.kernel.org>);
-        Thu, 12 Aug 2021 05:08:35 -0400
-Received: by mail.kernel.org (Postfix) with ESMTPSA id 4CBB060FC4;
-        Thu, 12 Aug 2021 09:08:08 +0000 (UTC)
-Date:   Thu, 12 Aug 2021 11:08:05 +0200
-From:   Christian Brauner <christian.brauner@ubuntu.com>
-To:     "Michael Kerrisk (man-pages)" <mtk.manpages@gmail.com>
-Cc:     Alejandro Colomar <alx.manpages@gmail.com>,
+        id S237504AbhHLWco (ORCPT <rfc822;linux-man@archiver.kernel.org>);
+        Thu, 12 Aug 2021 18:32:44 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:46894 "EHLO
+        lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S234716AbhHLWcn (ORCPT
+        <rfc822;linux-man@vger.kernel.org>); Thu, 12 Aug 2021 18:32:43 -0400
+Received: from mail-pj1-x102b.google.com (mail-pj1-x102b.google.com [IPv6:2607:f8b0:4864:20::102b])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 361E3C061756;
+        Thu, 12 Aug 2021 15:32:18 -0700 (PDT)
+Received: by mail-pj1-x102b.google.com with SMTP id a8so12313503pjk.4;
+        Thu, 12 Aug 2021 15:32:18 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20161025;
+        h=cc:subject:to:references:from:message-id:date:user-agent
+         :mime-version:in-reply-to:content-language:content-transfer-encoding;
+        bh=zp/Nu1LAn/XaXn+xRvyj50vtQNNKFYSlvk+KUuxDY/s=;
+        b=V2n2+nFPhssWpCrvcty6gMGdM25fYZwPJZ7z59ttqSdVrsllum+d+YsA+kcJn0V2CS
+         llNmgS39mTtQcFlvqOSBlv04WRJ5xfbRQrZPNi9rwKbTLwJTwJHWjACM2qoH9MYg8S/7
+         QK9h0x2kkh65TtM27XnlBT7Dj9IZ3zwY+mxd4Pcxug9rmP9Nt1OgsgqSqdXMXTuK5YYB
+         V6mbgys4IQ1Otc14pXItEI+CTt+eeFQMyNdQCZtqGbUOgaF39A8wNbhhfBNfiwpUOpAN
+         x6Qc6LAzzN2qvFoyf7SaGIcysgYMBfb9oOmHwmpO1FxbgzFPUtV2+D/YlzirJ/zXov1x
+         4kSQ==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20161025;
+        h=x-gm-message-state:cc:subject:to:references:from:message-id:date
+         :user-agent:mime-version:in-reply-to:content-language
+         :content-transfer-encoding;
+        bh=zp/Nu1LAn/XaXn+xRvyj50vtQNNKFYSlvk+KUuxDY/s=;
+        b=fFYOQkO+f2to6EPSAaBl2KpLz4ybwUh8V3Nm6MnrJ7acZoHw15/DGVXbPzhECTw15b
+         DAt+Zj5hytimS9ZXpt5qzGmy/NnKIgiO/whtGdHhQa5WhnI8DC79jjVAENi44FMJbspx
+         8d3n4b/cWO6m7KDPTyNxxYRSiZyD3rEyFgYDjwuoFkOHUlldWbgBmOunJ+5rv18O3Bn/
+         OxPYtKthswVEqvuBbYb/5bv/fpkneeDN/mFb3B94sYVqxOyMlE/asMkRwUlAWdN/51BL
+         QNTfzGCF4eriRQoOMVJACQCxUxKXtdvI8PWs7TD9aToi9L7l54Q/CyK99jyR/uyMyUx3
+         hWfw==
+X-Gm-Message-State: AOAM532NQ8L3yfxvOs0q0rG/2mtUHEqnq4/9orU1kE4kY4rCTi3K425T
+        jTdLomcoN4KyNaRznYuShH4=
+X-Google-Smtp-Source: ABdhPJwzjP00qTgEN2zu69i939n05bXEqD4vw4Ds+VJAT5xY0msyPJzmbTnPHmIeoAtA1cZ3rpjSAg==
+X-Received: by 2002:a62:fb0b:0:b029:3ca:1345:9fd8 with SMTP id x11-20020a62fb0b0000b02903ca13459fd8mr6170274pfm.14.1628807537598;
+        Thu, 12 Aug 2021 15:32:17 -0700 (PDT)
+Received: from [192.168.1.71] (122-61-176-117-fibre.sparkbb.co.nz. [122.61.176.117])
+        by smtp.gmail.com with ESMTPSA id x20sm4552303pfh.188.2021.08.12.15.32.13
+        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+        Thu, 12 Aug 2021 15:32:16 -0700 (PDT)
+Cc:     mtk.manpages@gmail.com, Alejandro Colomar <alx.manpages@gmail.com>,
         linux-fsdevel <linux-fsdevel@vger.kernel.org>,
         lkml <linux-kernel@vger.kernel.org>,
         linux-man <linux-man@vger.kernel.org>,
         Christoph Hellwig <hch@infradead.org>
 Subject: Re: Questions re the new mount_setattr(2) manual page
-Message-ID: <20210812090805.qkwjxnjitgaihlep@wittgenstein>
+To:     Christian Brauner <christian.brauner@ubuntu.com>
 References: <b58e2537-03f4-6f6c-4e1b-8ddd989624cc@gmail.com>
  <20210810143255.2tjdskubryir2prp@wittgenstein>
  <95c7683e-957a-5a78-6b81-2cb8e756315c@gmail.com>
  <20210811100711.i3wwoc3bhrf7bvle@wittgenstein>
  <ea2e81b7-10e1-88f3-bfcb-e36afc5567d6@gmail.com>
+ <20210812090805.qkwjxnjitgaihlep@wittgenstein>
+From:   "Michael Kerrisk (man-pages)" <mtk.manpages@gmail.com>
+Message-ID: <37a0c459-86f7-9686-4ae5-03316198d1cc@gmail.com>
+Date:   Fri, 13 Aug 2021 00:32:09 +0200
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
+ Thunderbird/78.11.0
 MIME-Version: 1.0
+In-Reply-To: <20210812090805.qkwjxnjitgaihlep@wittgenstein>
 Content-Type: text/plain; charset=utf-8
-Content-Disposition: inline
-Content-Transfer-Encoding: 8bit
-In-Reply-To: <ea2e81b7-10e1-88f3-bfcb-e36afc5567d6@gmail.com>
+Content-Language: en-US
+Content-Transfer-Encoding: 7bit
 Precedence: bulk
 List-ID: <linux-man.vger.kernel.org>
 X-Mailing-List: linux-man@vger.kernel.org
 
-On Thu, Aug 12, 2021 at 07:36:24AM +0200, Michael Kerrisk (man-pages) wrote:
-> Hello Christian,
-> 
-> Thanks for the answers.
-> 
-> A couple of small queries still below.
-> 
-> On 8/11/21 12:07 PM, Christian Brauner wrote:
-> > On Tue, Aug 10, 2021 at 11:06:52PM +0200, Michael Kerrisk (man-pages) wrote:
-> 
-> [...]
-> 
-> >>>>>       EINVAL The mount that is to be ID mapped is not a
-> >>>>>              detached/anonymous mount; that is, the mount is
-> >>>>
-> >>>> ???
-> >>>> What is a the distinction between "detached" and "anonymous"?
-> >>>> Or do you mean them to be synonymous? If so, then let's use
-> >>>> just one term, and I think "detached" is preferable.
-> >>>
-> >>> Yes, they are synonymous here. I list both because detached can
-> >>> potentially be confusing. A detached mount is a mount that has not been
-> >>> visible in the filesystem. But if you attached it an then unmount it
-> >>> right after and keep the fd for the mountpoint open it's a detached
-> >>> mount purely on a natural language level, I'd argue. But it's not a
-> >>> detached mount from the kernel's view anymore because it has been
-> >>> exposed in the filesystem and is thus not detached anymore.
-> >>> But I do prefer "detached" to "anonymous" and that confusion is very
-> >>> unlikely to occur.
-> >>
-> >> Thanks. I made it "detached". Elsewhere, the page already explains
-> >> that a detached mount is one that:
-> >>
-> >>           must have been created by calling open_tree(2) with the
-> >>           OPEN_TREE_CLONE flag and it must not already have been
-> >>           visible in the filesystem.
-> >>
-> >> Which seems a fine explanation. 
-> >>
-> >> ????
-> >> But, just a thought... "visible in the filesystem" seems not quite accurate. 
-> >> What you really mean I guess is that it must not already have been
-> >> /visible in the filesystem hierarchy/previously mounted/something else/,
-> >> right?
-> 
-> I suppose that I should have clarified that my main problem was
-> that you were using the word "filesystem" in a way that I find
-> unconventional/ambiguous. I mean, I normally take the term
-> "filesystem" to be "a storage system for folding files".
-> Here, you are using "filesystem" to mean something else, what 
-> I might call like "the single directory hierarchy" or "the
-> filesystem hierarchy" or "the list of mount points".
-> 
-> > A detached mount is created via the OPEN_TREE_CLONE flag. It is a
-> > separate new mount so "previously mounted" is not applicable.
-> > A detached mount is _related_ to what the MS_BIND flag gives you with
-> > mount(2). However, they differ conceptually and technically. A MS_BIND
-> > mount(2) is always visible in the fileystem when mount(2) returns, i.e.
-> > it is discoverable by regular path-lookup starting within the
-> > filesystem.
-> > 
-> > However, a detached mount can be seen as a split of MS_BIND into two
-> > distinct steps:
-> > 1. fd_tree = open_tree(OPEN_TREE_CLONE): create a new mount
-> > 2. move_mount(fd_tree, <somewhere>):     attach the mount to the filesystem
-> > 
-> > 1. and 2. together give you the equivalent of MS_BIND.
-> > In between 1. and 2. however the mount is detached. For the kernel
-> > "detached" means that an anonymous mount namespace is attached to it
-> > which doen't appear in proc and has a 0 sequence number (Technically,
-> > there's a bit of semantical argument to be made that "attached" and
-> > "detached" are ambiguous as they could also be taken to mean "does or
-> > does not have a parent mount". This ambiguity e.g. appears in
-> > do_move_mount(). That's why the kernel itself calls it an "anonymous
-> > mount". However, an OPEN_TREE_CLONE-detached mount of course doesn't
-> > have a parent mount so it works.).
-> > 
-> > For userspace it's better to think of detached and attached in terms of
-> > visibility in the filesystem or in a mount namespace. That's more
-> > straightfoward, more relevant, and hits the target in 90% of the cases.
-> > 
-> > However, the better and clearer picture is to say that a
-> > OPEN_TREE_CLONE-detached mount is a mount that has never been
-> > move_mount()ed. Which in turn can be defined as the detached mount has
-> > never been made visible in a mount namespace. Once that has happened the
-> > mount is irreversibly an attached mount.
-> > 
-> > I keep thinking that maybe we should just say "anonymous mount"
-> > everywhere. So changing the wording to:
-> 
-> I'm not against the word "detached". To user space, I think it is a
-> little more meaningful than "anonymous". For the moment, I'll stay with
-> "detached", but if you insist on "anonymous", I'll probably change it.
+Hi Christian,
 
-No, sounds good.
+[...]
 
-> 
-> > [...]
-> > EINVAL The mount that is to be ID mapped is not an anonymous mount;
-> > that is, the mount has already been visible in a mount namespace.
-> 
-> I like that text *a lot* better! Thanks very much for suggesting
-> wordings. It makes my life much easier. 
-> 
-> I've made the text:
-> 
->        EINVAL The mount that is to be ID mapped is not a detached
->               mount; that is, the mount has not previously been
->               visible in a mount namespace.
+Thanks for checking the various wordinfs.
 
-Sounds good.
+[...]
 
+>>>>>>>           int fd_tree = open_tree(-EBADF, source,
+>>>>>>>                        OPEN_TREE_CLONE | OPEN_TREE_CLOEXEC |
+>>>>>>>                        AT_EMPTY_PATH | (recursive ? AT_RECURSIVE : 0));
+>>>>>>
+>>>>>> ???
+>>>>>> What is the significance of -EBADF here? As far as I can tell, it
+>>>>>> is not meaningful to open_tree()?
+>>>>>
+>>>>> I always pass -EBADF for similar reasons to [2]. Feel free to just use -1.
+>>>>
+>>>> ????
+>>>> But here, both -EBADF and -1 seem to be wrong. This argument 
+>>>> is a dirfd, and so should either be a file descriptor or the
+>>>> value AT_FDCWD, right?
+>>>
+>>> [1]: In this code "source" is expected to be absolute. If it's not
+>>>      absolute we should fail. This can be achieved by passing -1/-EBADF,
+>>>      afaict.
+>>
+>> D'oh! Okay. I hadn't considered that use case for an invalid dirfd.
+>> (And now I've done some adjustments to openat(2),which contains a
+>> rationale for the *at() functions.)
+>>
+>> So, now I understand your purpose, but still the code is obscure,
+>> since
+>>
+>> * You use a magic value (-EBADF) rather than (say) -1.
+>> * There's no explanation (comment about) of the fact that you want
+>>   to prevent relative pathnames.
+>>
+>> So, I've changed the code to use -1, not -EBADF, and I've added some
+>> comments to explain that the intent is to prevent relative pathnames.
+>> Okay?
 > 
-> > [...]
-> > The mount must be an anonymous mount; that is, it must have been
-> > created by calling open_tree(2) with the OPEN_TREE_CLONE flag and it
-> > must not already have been visible in a mount namespace, i.e. it must
-> > not have been attached to the filesystem hierarchy with syscalls such
-> > as move_mount() syscall.
+> Sounds good.
 > 
-> And that too! I've made the text:
+>>
+>> But, there is still the meta question: what's the problem with using
+>> a relative pathname?
 > 
->        •  The mount must be a detached mount; that is, it must have
->           been created by calling open_tree(2) with the
->           OPEN_TREE_CLONE flag and it must not already have been
->           visible in a mount namespace.  (To put things another way:
->           the mount must not have been attached to the filesystem
->           hierarchy with a system call such as move_mount(2).)
+> Nothing per se. Ok, you asked so it's your fault:
+> When writing programs I like to never use relative paths with AT_FDCWD
+> because. Because making assumptions about the current working directory
+> of the calling process is just too easy to get wrong; especially when
+> pivot_root() or chroot() are in play.
+> My absolut preference (joke intended) is to open a well-known starting
+> point with an absolute path to get a dirfd and then scope all future
+> operations beneath that dirfd. This already works with old-style
+> openat() and _very_ cautious programming but openat2() and its
+> resolve-flag space have made this **chef's kiss**.
+> If I can't operate based on a well-known dirfd I use absolute paths with
+> a -EBADF dirfd passed to *at() functions.
 
-Sounds good.
+Thanks for the clarification. I've noted your rationale in a 
+comment in the manual page source so that future maintainers 
+will not be puzzled!
 
-> 
-> > [...]
-> > 
-> > (I'm using the formulation "with syscalls such as move_mount()" to
-> > future proof this. :)).
-> 
-> Fair enough.
-> 
-> >>>>>   EXAMPLES
-> >>>>
-> >>>> ???
-> >>>> Do you have a (preferably simple) example piece of code
-> >>>> somewhere for setting up an ID mapped mount?
-> >>
-> >> ????
-> >> I guess the best example is this:
-> >> https://github.com/brauner/mount-idmapped/
-> >> right?
-> > 
-> > Ah yes, sorry. I forgot to answer that yesterday. I sent you links via
-> > another medium but I repeat it here.
-> > There are two places. The link you have here is a private repo. But I've
-> > also merged a program alongside the fstests testsuite I merged:
-> > https://git.kernel.org/pub/scm/fs/xfs/xfstests-dev.git/tree/src/idmapped-mounts/mount-idmapped.c
-> > which should be nicer and has seen reviews by Amir and Christoph.
-> 
-> Thanks.
-> 
-> [...]
-> 
-> >>>>>           int fd_tree = open_tree(-EBADF, source,
-> >>>>>                        OPEN_TREE_CLONE | OPEN_TREE_CLOEXEC |
-> >>>>>                        AT_EMPTY_PATH | (recursive ? AT_RECURSIVE : 0));
-> >>>>
-> >>>> ???
-> >>>> What is the significance of -EBADF here? As far as I can tell, it
-> >>>> is not meaningful to open_tree()?
-> >>>
-> >>> I always pass -EBADF for similar reasons to [2]. Feel free to just use -1.
-> >>
-> >> ????
-> >> But here, both -EBADF and -1 seem to be wrong. This argument 
-> >> is a dirfd, and so should either be a file descriptor or the
-> >> value AT_FDCWD, right?
-> > 
-> > [1]: In this code "source" is expected to be absolute. If it's not
-> >      absolute we should fail. This can be achieved by passing -1/-EBADF,
-> >      afaict.
-> 
-> D'oh! Okay. I hadn't considered that use case for an invalid dirfd.
-> (And now I've done some adjustments to openat(2),which contains a
-> rationale for the *at() functions.)
-> 
-> So, now I understand your purpose, but still the code is obscure,
-> since
-> 
-> * You use a magic value (-EBADF) rather than (say) -1.
-> * There's no explanation (comment about) of the fact that you want
->   to prevent relative pathnames.
-> 
-> So, I've changed the code to use -1, not -EBADF, and I've added some
-> comments to explain that the intent is to prevent relative pathnames.
-> Okay?
+Cheers,
 
-Sounds good.
+Michael
 
-> 
-> But, there is still the meta question: what's the problem with using
-> a relative pathname?
 
-Nothing per se. Ok, you asked so it's your fault:
-When writing programs I like to never use relative paths with AT_FDCWD
-because. Because making assumptions about the current working directory
-of the calling process is just too easy to get wrong; especially when
-pivot_root() or chroot() are in play.
-My absolut preference (joke intended) is to open a well-known starting
-point with an absolute path to get a dirfd and then scope all future
-operations beneath that dirfd. This already works with old-style
-openat() and _very_ cautious programming but openat2() and its
-resolve-flag space have made this **chef's kiss**.
-If I can't operate based on a well-known dirfd I use absolute paths with
-a -EBADF dirfd passed to *at() functions.
 
-Christian
+-- 
+Michael Kerrisk
+Linux man-pages maintainer; http://www.kernel.org/doc/man-pages/
+Linux/UNIX System Programming Training: http://man7.org/training/
