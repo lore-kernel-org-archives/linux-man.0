@@ -6,34 +6,34 @@ X-Spam-Status: No, score=-5.2 required=3.0 tests=BAYES_00,
 	HEADER_FROM_DIFFERENT_DOMAINS,MAILING_LIST_MULTI,SPF_HELO_NONE,SPF_PASS,
 	URIBL_BLOCKED,USER_AGENT_SANE_1 autolearn=no autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 3E304C4338F
-	for <linux-man@archiver.kernel.org>; Tue, 17 Aug 2021 13:45:17 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 55E33C4338F
+	for <linux-man@archiver.kernel.org>; Tue, 17 Aug 2021 13:51:18 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.kernel.org (Postfix) with ESMTP id 202A160EE0
-	for <linux-man@archiver.kernel.org>; Tue, 17 Aug 2021 13:45:17 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTP id 3637C60EFE
+	for <linux-man@archiver.kernel.org>; Tue, 17 Aug 2021 13:51:18 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S237090AbhHQNpt (ORCPT <rfc822;linux-man@archiver.kernel.org>);
-        Tue, 17 Aug 2021 09:45:49 -0400
-Received: from luckmann.name ([213.239.213.133]:41993 "EHLO
+        id S237588AbhHQNvu (ORCPT <rfc822;linux-man@archiver.kernel.org>);
+        Tue, 17 Aug 2021 09:51:50 -0400
+Received: from luckmann.name ([213.239.213.133]:52477 "EHLO
         static.213-239-213-133.clients.your-server.de" rhost-flags-OK-OK-OK-OK)
-        by vger.kernel.org with ESMTP id S236635AbhHQNpt (ORCPT
-        <rfc822;linux-man@vger.kernel.org>); Tue, 17 Aug 2021 09:45:49 -0400
+        by vger.kernel.org with ESMTP id S233288AbhHQNvu (ORCPT
+        <rfc822;linux-man@vger.kernel.org>); Tue, 17 Aug 2021 09:51:50 -0400
 Received: from localhost (localhost [127.0.0.1])
   (uid 502)
   by static.213-239-213-133.clients.your-server.de with local
-  id 0000000000BD4001.00000000611BBBE9.00003142; Tue, 17 Aug 2021 15:38:49 +0200
-Date:   Tue, 17 Aug 2021 15:38:49 +0200
+  id 0000000000BD4001.00000000611BBED4.000032BB; Tue, 17 Aug 2021 15:51:16 +0200
+Date:   Tue, 17 Aug 2021 15:51:16 +0200
 From:   Helge Kreutzmann <debian@helgefjell.de>
 To:     "Michael Kerrisk (man-pages)" <mtk.manpages@gmail.com>
 Cc:     linux-man <linux-man@vger.kernel.org>
-Subject: Re: Errors in man pages, here: access.2
-Message-ID: <20210817133849.GB12220@Debian-50-lenny-64-minimal>
-References: <20210725170511.GA16224@Debian-50-lenny-64-minimal>
- <CAKgNAkhsN2-FfpRiyK++jGc2hpy2YCsNPjVhWHDdkG6t2tBcjA@mail.gmail.com>
+Subject: Re: Errors in man pages, here: shmop.2
+Message-ID: <20210817135116.GD12220@Debian-50-lenny-64-minimal>
+References: <20210725170914.GA16816@Debian-50-lenny-64-minimal>
+ <CAKgNAkizm0xZ3vr=mGRDgMOBZwps2RSkQxfR3vP-6Z8x_6MEJw@mail.gmail.com>
 Mime-Version: 1.0
-Content-Type: multipart/signed; micalg=pgp-sha256; protocol="application/pgp-signature"; boundary="=_luckmann.name-12610-1629207529-0001-2"
+Content-Type: multipart/signed; micalg=pgp-sha256; protocol="application/pgp-signature"; boundary="=_luckmann.name-12987-1629208276-0001-2"
 Content-Disposition: inline
-In-Reply-To: <CAKgNAkhsN2-FfpRiyK++jGc2hpy2YCsNPjVhWHDdkG6t2tBcjA@mail.gmail.com>
+In-Reply-To: <CAKgNAkizm0xZ3vr=mGRDgMOBZwps2RSkQxfR3vP-6Z8x_6MEJw@mail.gmail.com>
 X-Public-Key-URL: http://www.helgefjell.de/data/debian_neu.asc
 X-homepage: http://www.helgefjell.de/debian
 User-Agent: Mutt/1.10.1 (2018-07-13)
@@ -44,70 +44,69 @@ X-Mailing-List: linux-man@vger.kernel.org
 This is a MIME-formatted message.  If you see this text it means that your
 E-mail software does not support MIME-formatted messages.
 
---=_luckmann.name-12610-1629207529-0001-2
+--=_luckmann.name-12987-1629208276-0001-2
 Content-Type: text/plain; charset=utf-8
 Content-Disposition: inline
 Content-Transfer-Encoding: quoted-printable
 
 Hello Michael,
-On Sun, Jul 25, 2021 at 10:45:45PM +0200, Michael Kerrisk (man-pages) wrote:
-> On Sun, 25 Jul 2021 at 19:05, Helge Kreutzmann <debian@helgefjell.de> wro=
-te:
+On Mon, Jul 26, 2021 at 01:02:10AM +0200, Michael Kerrisk (man-pages) wrote:
+> > Man page: shmop.2
+> > Issue: file =E2=86=92 files
 > >
-> > I'm now reporting the errors for your project. If future reports
-> > should use another channel, please let me know.
-> >
-> > Man page: access.2
-> > Issue: FIXME: The if construct does not reeally work well, better: B<ac=
-cess>() and B<faccessat>() return the following exit codes:
-> >
-> > "B<access>()  and B<faccessat>()  shall fail if:"
+> > "The following header file is included by the \"reader\" and \"writer\"=
+ "
+> > "programs."
 >=20
-> I think the wording is okay. It appears in a number of pages.
+> The existing text looks correct to me. Please let me know further
+> details if you still think there's a problem after reviewing.
 
-I'm giving you a longer rationale for our report:
+Probably we do not understand the sentence correctly, so bear with me.
+Currently, the man page reads as follows:
 
-Currently the man page reads:
-       access() and faccessat() may fail if:
+   Program source: svshm_string.h
+       The following header file is included by the "reader" and "writer" p=
+rograms.
 
-       EFAULT pathname points outside your accessible address space.
+           #include <sys/types.h>
+           #include <sys/ipc.h>
+           #include <sys/shm.h>
+           #include <sys/sem.h>
+           #include <stdio.h>
+           #include <stdlib.h>
+           #include <string.h>
 
-       EINVAL mode was incorrectly specified.
+           #define errExit(msg)    do { perror(msg); exit(EXIT_FAILURE); \
+                                   } while (0)
 
-This looks like a sentence on the one hand and like a table on the
-other.
+The sentence in question seems to refer to the next paragraph, i.e.
+the beginning of the program source. There 7 header files (from
+types.h up to string.h) are mentioned. In the translation we also
+replaced the full stop by a colon. Since there are 7 header files, we
+assume that it needs to be plural.
 
-If it was a sentence, it could not be read, take the first case as an
-example:
-=E2=80=A6 may fail if EFAULT pathname points =E2=80=A6
+Now explaining this and reading it again, I think I understand the
+sentence now (better). The header file is "svshm_string.h" and thus
+singular. So logically (but it does not work in the overall formatting
+of the man page), the first two lines above would need to be read in a
+different order.=20
 
-So we thought it might be better like a table:
+       The following header file is included by the "reader" and "writer" p=
+rograms.
+   Program source: svshm_string.h
 
-       EXIT CODE     DESCRIPTION
-       EFAULT        pathname points outside your accessible address space.
+If this interpetation is correct, maybe the following change could be
+made:
 
-       EINVAL        mode was incorrectly specified.
+   Program source: svshm_string.h
+       This header file is included by the "reader" and "writer" programs:
+       ~~~~~~~~~~                                                       ~~
 
-
-To avoid the actual table formatting and keep it more sentence like we
-proposed the above suggestion.
-
-Another fix could be to move the "if" downwards and reword slightly:
-       access() and faccessat() may fail with
-
-       EFAULT if pathname points outside your accessible address space.
-
-       EINVAL if mode was incorrectly specified.
-
-And no, we did not check for other occurences.
-
-If you state the current wording is fine ("sloppy sentence") then I
-wont argue further of course, I'm not a native speaker, but we might
-translate it more freely.=20
+Once I've your confirmation, I'll align the translation.
 
 Greetings
 
-           Helge
+          Helge
 
 --=20
       Dr. Helge Kreutzmann                     debian@helgefjell.de
@@ -115,25 +114,25 @@ Greetings
         64bit GNU powered                     gpg signed mail preferred
            Help keep free software "libre": http://www.ffii.de/
 
---=_luckmann.name-12610-1629207529-0001-2
+--=_luckmann.name-12987-1629208276-0001-2
 Content-Type: application/pgp-signature; name="signature.asc"
 Content-Transfer-Encoding: 7bit
 
 -----BEGIN PGP SIGNATURE-----
 
-iQIzBAABCAAdFiEEbZZfteMW0gNUynuwQbqlJmgq5nAFAmEbu+YACgkQQbqlJmgq
-5nBjhQ//SZNB+ZArRnHgCsMvpK69d9994PkXvjdf7tNqPsOn/OekuBYUacyG7vt2
-1Txh+ovfOdVUJcl1Dka/rlsp0JP/pWe3fTyNyc+xwxE+7gTLvNroD7GmQ+EAxy+8
-Ad1Xbjx6UaN9OXpedRmSmpd2xSi8uud6X8Qb5jVJeaCjyVjnBk4IxER+bdNkKOiZ
-o4REg0/5e9paNLc3DeZNjHNmM/zAX+xU1pITvVgSIPryIpQQS8mjiQEwtm8tvRQn
-F/mCiO6X+u8WyTOcqyvihht+QfXfj9sRz5a3W+J+Dzj+2NZKUcdwA+Tc9fySBk43
-ewhhsMYdpsj445/tIab51mVD6TOeDspVyKgf8BXVukwGJ5+PK72DjPtVOehtU6gP
-E8CLZBmnTfnOv5KYqdTeF3MTUjPDgwwCERZvAZ7QKPtnBNmvnPmY8QNsuu7MZRhg
-Qk146eK+RRi3se9WZ1HbAxqWtXHUVYrqDmtCmT7ZlB/+IDfIt7kwBnncA4S2eXEK
-Hx3vdhyxkUIS2Icm2HYUUS69y5QU2bs204GjZGoL46pAMnm1JV4blMlZ79uS0J9p
-Rdy+6o/hn+jphGa+PhznxJdhNgGlQdSqtaJ76AxMwvJvg8t7tZ9ttBV/37M6GfeA
-rwrtpzd01cmeU42dgFSb90sX41HqDCuEZrb7LqiKxdnDd0NlNs4=
-=Trx0
+iQIzBAABCAAdFiEEbZZfteMW0gNUynuwQbqlJmgq5nAFAmEbvs4ACgkQQbqlJmgq
+5nDlTBAAsUQlsutYQpXUWBXVRfeHXtHG8iC+TZMy+ENwj134Is+vWsnuO9Lr3e9G
+XnioeGSTCo4p2GmP/yxUYw9+FEDVm3UIAQ2CGQDpalYOdcqKTi8FOAHSYwujNV2i
+nypYvbOvZMqbBETPWwvsA/eVZDBSqW0VEOjY6XQHVnIpn7SlvGiktr9A80nQa4e5
+lGvTpsSGqSoBMFZr1JnKJuv1BXCAd91s6yJ19zbnHaYHIW8E9qtEaYmqavRQR+zH
+UAidIT1cGyjxeAGFD4qNNBcvZmVRoXkfs0n8NWjTTKkopGS2jOYX41O7aSosgBmJ
+nC2XWmvy3SwRbx+Nvq3fOYyDp8c3HlB3cYkAG+S4dbr+HXHIFJQYQld9duQhuwOf
+7vdSw7zd7DTSshMLOOLvRZ+0onAuhJkaT1vE7LyI5pi7vTO7FO9pplJ8MoZ8Yroc
+38zlypreZdSFDJEr052msfnt4ss8ZDuWoX14sXgo4ojv9EM3bnJB6dkiyyn5m5C+
+0edevxKXSbU+7JJsG28qNKZrBptgqyUGEYQ4DTYekfIEVTUxwWrx9SjvXF+sA7PF
+JwnzQbU2MaP26bNFRoXO6caCukbkkqharmYeBS3PRZ48I3JcKjdBaIKXSARs5r5T
+mjk0FrF5C2gtk1RkyEwsxPJ66PGhMBMyGqDWRfX44976l5rrp2w=
+=+dnT
 -----END PGP SIGNATURE-----
 
---=_luckmann.name-12610-1629207529-0001-2--
+--=_luckmann.name-12987-1629208276-0001-2--
