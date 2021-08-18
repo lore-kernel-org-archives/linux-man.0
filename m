@@ -4,30 +4,30 @@ X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 X-Spam-Level: 
 X-Spam-Status: No, score=-16.8 required=3.0 tests=BAYES_00,
 	HEADER_FROM_DIFFERENT_DOMAINS,INCLUDES_CR_TRAILER,INCLUDES_PATCH,
-	MAILING_LIST_MULTI,SPF_HELO_NONE,SPF_PASS,URIBL_BLOCKED,USER_AGENT_GIT
-	autolearn=ham autolearn_force=no version=3.4.0
+	MAILING_LIST_MULTI,SPF_HELO_NONE,SPF_PASS,USER_AGENT_GIT autolearn=ham
+	autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 22B4FC43214
-	for <linux-man@archiver.kernel.org>; Wed, 18 Aug 2021 15:59:40 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id EF070C4338F
+	for <linux-man@archiver.kernel.org>; Wed, 18 Aug 2021 15:59:43 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.kernel.org (Postfix) with ESMTP id 066AD610D2
-	for <linux-man@archiver.kernel.org>; Wed, 18 Aug 2021 15:59:40 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTP id D90FB6103E
+	for <linux-man@archiver.kernel.org>; Wed, 18 Aug 2021 15:59:43 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S236839AbhHRQAN (ORCPT <rfc822;linux-man@archiver.kernel.org>);
-        Wed, 18 Aug 2021 12:00:13 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:43524 "EHLO
+        id S239876AbhHRQAR (ORCPT <rfc822;linux-man@archiver.kernel.org>);
+        Wed, 18 Aug 2021 12:00:17 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:43540 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S236905AbhHRQAN (ORCPT
-        <rfc822;linux-man@vger.kernel.org>); Wed, 18 Aug 2021 12:00:13 -0400
-Received: from smtp-42ad.mail.infomaniak.ch (smtp-42ad.mail.infomaniak.ch [IPv6:2001:1600:3:17::42ad])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 204C5C061764;
-        Wed, 18 Aug 2021 08:59:38 -0700 (PDT)
+        with ESMTP id S239861AbhHRQAP (ORCPT
+        <rfc822;linux-man@vger.kernel.org>); Wed, 18 Aug 2021 12:00:15 -0400
+Received: from smtp-42af.mail.infomaniak.ch (smtp-42af.mail.infomaniak.ch [IPv6:2001:1600:3:17::42af])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id D180BC0613CF
+        for <linux-man@vger.kernel.org>; Wed, 18 Aug 2021 08:59:40 -0700 (PDT)
 Received: from smtp-3-0000.mail.infomaniak.ch (unknown [10.4.36.107])
-        by smtp-2-3000.mail.infomaniak.ch (Postfix) with ESMTPS id 4GqXf03zpwzMqJwP;
-        Wed, 18 Aug 2021 17:59:36 +0200 (CEST)
+        by smtp-2-3000.mail.infomaniak.ch (Postfix) with ESMTPS id 4GqXf32BYBzMqJw7;
+        Wed, 18 Aug 2021 17:59:39 +0200 (CEST)
 Received: from localhost (unknown [23.97.221.149])
-        by smtp-3-0000.mail.infomaniak.ch (Postfix) with ESMTPA id 4GqXf01YGQzlh8TH;
-        Wed, 18 Aug 2021 17:59:36 +0200 (CEST)
+        by smtp-3-0000.mail.infomaniak.ch (Postfix) with ESMTPA id 4GqXf273nFzlh8TQ;
+        Wed, 18 Aug 2021 17:59:38 +0200 (CEST)
 From:   =?UTF-8?q?Micka=C3=ABl=20Sala=C3=BCn?= <mic@digikod.net>
 To:     Alejandro Colomar <alx.manpages@gmail.com>,
         "G . Branden Robinson" <g.branden.robinson@gmail.com>,
@@ -39,9 +39,9 @@ Cc:     =?UTF-8?q?Micka=C3=ABl=20Sala=C3=BCn?= <mic@digikod.net>,
         landlock@lists.linux.dev, linux-man@vger.kernel.org,
         linux-security-module@vger.kernel.org,
         =?UTF-8?q?Micka=C3=ABl=20Sala=C3=BCn?= <mic@linux.microsoft.com>
-Subject: [PATCH v4 2/4] landlock_create_ruleset.2: Document new syscall
-Date:   Wed, 18 Aug 2021 17:59:29 +0200
-Message-Id: <20210818155931.484070-3-mic@digikod.net>
+Subject: [PATCH v4 4/4] landlock_restrict_self.2: Document new syscall
+Date:   Wed, 18 Aug 2021 17:59:31 +0200
+Message-Id: <20210818155931.484070-5-mic@digikod.net>
 X-Mailer: git-send-email 2.32.0
 In-Reply-To: <20210818155931.484070-1-mic@digikod.net>
 References: <20210818155931.484070-1-mic@digikod.net>
@@ -58,11 +58,10 @@ This is an adaptation of
 https://www.kernel.org/doc/html/v5.13/userspace-api/landlock.html
 
 Signed-off-by: Mickaël Salaün <mic@linux.microsoft.com>
-Link: https://lore.kernel.org/r/20210818155931.484070-3-mic@digikod.net
+Link: https://lore.kernel.org/r/20210818155931.484070-5-mic@digikod.net
 ---
 
 Changes since v2:
-* Fix syscall signature (attr pointer).
 * Add an EXAMPLES section referring to landlock(7).
 * Change list order in the SEE ALSO section.
 * Fix .IR and .BR use as explained by Alejandro Colomar.
@@ -79,16 +78,16 @@ Changes since v1:
 * Add a "CONFORMING TO" section.
 * Replace "(2)" with "()" for the described syscall name.
 ---
- man2/landlock_create_ruleset.2 | 139 +++++++++++++++++++++++++++++++++
- 1 file changed, 139 insertions(+)
- create mode 100644 man2/landlock_create_ruleset.2
+ man2/landlock_restrict_self.2 | 133 ++++++++++++++++++++++++++++++++++
+ 1 file changed, 133 insertions(+)
+ create mode 100644 man2/landlock_restrict_self.2
 
-diff --git a/man2/landlock_create_ruleset.2 b/man2/landlock_create_ruleset.2
+diff --git a/man2/landlock_restrict_self.2 b/man2/landlock_restrict_self.2
 new file mode 100644
-index 000000000000..e1ca4bcf8c86
+index 000000000000..4b10997e2fb6
 --- /dev/null
-+++ b/man2/landlock_create_ruleset.2
-@@ -0,0 +1,139 @@
++++ b/man2/landlock_restrict_self.2
+@@ -0,0 +1,133 @@
 +.\" Copyright © 2017-2020 Mickaël Salaün <mic@digikod.net>
 +.\" Copyright © 2019-2020 ANSSI
 +.\" Copyright © 2021 Microsoft Corporation
@@ -115,108 +114,102 @@ index 000000000000..e1ca4bcf8c86
 +.\" the source, must acknowledge the copyright and authors of this work.
 +.\" %%%LICENSE_END
 +.\"
-+.TH LANDLOCK_CREATE_RULESET 2 2021-06-27 Linux "Linux Programmer's Manual"
++.TH LANDLOCK_RESTRICT_SELF 2 2021-06-27 Linux "Linux Programmer's Manual"
 +.SH NAME
-+landlock_create_ruleset \- create a new Landlock ruleset
++landlock_restrict_self \- enforce a Landlock ruleset
 +.SH SYNOPSIS
 +.nf
 +.BR "#include <linux/landlock.h>" "  /* Definition of " LANDLOCK_* " constants */"
 +.BR "#include <sys/syscall.h>" "     /* Definition of " SYS_* " constants */"
 +.PP
-+.BI "int syscall(SYS_landlock_create_ruleset,
-+.BI "            const struct landlock_ruleset_attr *" attr ,
-+.BI "            size_t " size " , __u32 " flags );
++.BI "int syscall(SYS_landlock_restrict_self, int " ruleset_fd ,
++.BI "            __u32 " flags );
 +.SH DESCRIPTION
-+A Landlock ruleset identifies a set of rules (i.e., actions on objects).
-+This
-+.BR landlock_create_ruleset ()
-+system call enables creating a new file descriptor identifying a ruleset.
-+This file descriptor can then be used by
-+.BR landlock_add_rule (2)
-+and
-+.BR landlock_restrict_self (2).
++Once a Landlock ruleset is populated with the desired rules, the
++.BR landlock_restrict_self ()
++system call enables enforcing this ruleset on the calling thread.
 +See
 +.BR landlock (7)
 +for a global overview.
 +.PP
-+.I attr
-+specifies the properties of the new ruleset.
-+It points to the following structure:
++A thread can be restricted with multiple rulesets that are then composed
++together to form the thread's Landlock domain.
++This can be seen as a stack of rulesets but it is implemented in a more
++efficient way.
++A domain can only be updated in such a way that the constraints of each
++past and future composed rulesets will restrict the thread and its future
++children for their entire life.
++It is then possible to gradually enforce tailored access control policies
++with multiple independant rulesets coming from different sources
++(e.g., init system configuration, user session policy,
++built-in application policy).
++However, most applications should only need one call to
++.BR landlock_restrict_self ()
++and they should avoid arbitrary numbers of such calls because of the
++composed rulesets limit.
++Instead, developers are encouraged to build a tailored ruleset thanks to
++multiple calls to
++.BR landlock_add_rule (2).
++.PP
++In order to enforce a ruleset, either the caller must have the
++.B CAP_SYS_ADMIN
++capability in its user namespace, or the thread must already have the
++.I no_new_privs
++bit set.
++As for
++.BR seccomp (2),
++this avoids scenarios where unprivileged processes can affect the behavior
++of privileged children (e.g., because of set-user-ID binaries).
++If that bit was not already set by an ancestor of this thread,
++the thread must make the following call:
 +.IP
-+.in +4n
 +.EX
-+struct landlock_ruleset_attr {
-+	__u64 handled_access_fs;
-+};
++prctl(PR_SET_NO_NEW_PRIVS, 1, 0, 0, 0);
 +.EE
-+.in
-+.IP
-+.I handled_access_fs
-+is a bitmask of actions that is handled by this ruleset and should then be
-+forbidden if no rule explicitly allow them
-+(see
-+.B Filesystem actions
-+in
-+.BR landlock (7)).
-+This enables simply restricting ambient rights
-+(e.g., global filesystem access) and is needed for compatibility reasons.
 +.PP
-+.I size
-+must be specified as
-+.I sizeof(struct landlock_ruleset_attr)
-+for compatibility reasons.
++.I ruleset_fd
++is a Landlock ruleset file descriptor obtained with
++.BR landlock_create_ruleset (2)
++and fully populated with a set of calls to
++.BR landlock_add_rule (2).
 +.PP
 +.I flags
-+must be 0 if
-+.I attr
-+is used.
-+Otherwise,
-+.I flags
-+can be set to:
-+.TP
-+.B LANDLOCK_CREATE_RULESET_VERSION
-+If
-+.I attr
-+is NULL and
-+.I size
-+is 0, then the returned value is the highest supported Landlock ABI version
-+(starting at 1).
-+This version can be used for a best-effort security approach,
-+which is encouraged when user space is not pinned to a specific kernel
-+version.
-+All features documented in these man pages are available with the version
-+1.
++must be 0.
 +.SH RETURN VALUE
 +On success,
-+.BR landlock_create_ruleset ()
-+returns a new Landlock ruleset file descriptor, or a Landlock ABI version
-+according to
-+.IR flags .
++.BR landlock_restrict_self ()
++returns 0.
 +.SH ERRORS
-+.BR landlock_create_ruleset ()
++.BR landlock_restrict_self ()
 +can failed for the following reasons:
 +.TP
 +.B EOPNOTSUPP
 +Landlock is supported by the kernel but disabled at boot time.
 +.TP
 +.B EINVAL
-+Unknown
-+.IR flags ,
-+or unknown access, or too small
-+.IR size .
++.I flags
++is not 0.
++.TP
++.B EBADF
++.I ruleset_fd
++is not a file descriptor for the current thread.
++.TP
++.B EBADFD
++.I ruleset_fd
++is not a ruleset file descriptor.
++.TP
++.B EPERM
++.I ruleset_fd
++has no read access to the underlying ruleset,
++or the calling thread is not running with
++.IR no_new_privs ,
++or it doesn't have the
++.B CAP_SYS_ADMIN
++in its user namespace.
 +.TP
 +.B E2BIG
-+.I size
-+is too big.
-+.TP
-+.B EFAULT
-+.I attr
-+was not a valid address.
-+.TP
-+.B ENOMSG
-+Empty accesses (i.e.,
-+.I attr->handled_access_fs
-+is 0).
++The maximum number of composed rulesets is reached for the calling thread.
++This limit is currently 64.
 +.SH VERSIONS
 +Landlock was added in Linux 5.13.
 +.SH CONFORMING TO
@@ -225,8 +218,8 @@ index 000000000000..e1ca4bcf8c86
 +See
 +.BR landlock (7).
 +.SH SEE ALSO
++.BR landlock_create_ruleset (2),
 +.BR landlock_add_rule (2),
-+.BR landlock_restrict_self (2),
 +.BR landlock (7)
 -- 
 2.32.0
