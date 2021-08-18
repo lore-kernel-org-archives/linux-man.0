@@ -2,237 +2,273 @@ Return-Path: <linux-man-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-16.8 required=3.0 tests=BAYES_00,
-	HEADER_FROM_DIFFERENT_DOMAINS,INCLUDES_CR_TRAILER,INCLUDES_PATCH,
-	MAILING_LIST_MULTI,SPF_HELO_NONE,SPF_PASS,URIBL_BLOCKED,USER_AGENT_GIT
-	autolearn=unavailable autolearn_force=no version=3.4.0
+X-Spam-Status: No, score=-11.2 required=3.0 tests=BAYES_00,DKIM_SIGNED,
+	DKIM_VALID,DKIM_VALID_AU,FREEMAIL_FORGED_FROMDOMAIN,FREEMAIL_FROM,
+	HEADER_FROM_DIFFERENT_DOMAINS,INCLUDES_PATCH,MAILING_LIST_MULTI,NICE_REPLY_A,
+	SPF_HELO_NONE,SPF_PASS,URIBL_BLOCKED,USER_AGENT_SANE_1 autolearn=unavailable
+	autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id A4A13C4320A
-	for <linux-man@archiver.kernel.org>; Wed, 18 Aug 2021 15:59:44 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 7E3E7C4338F
+	for <linux-man@archiver.kernel.org>; Wed, 18 Aug 2021 20:58:25 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.kernel.org (Postfix) with ESMTP id 90D86610C7
-	for <linux-man@archiver.kernel.org>; Wed, 18 Aug 2021 15:59:44 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTP id 5D6D1610A1
+	for <linux-man@archiver.kernel.org>; Wed, 18 Aug 2021 20:58:25 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S236905AbhHRQAS (ORCPT <rfc822;linux-man@archiver.kernel.org>);
-        Wed, 18 Aug 2021 12:00:18 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:43544 "EHLO
+        id S233794AbhHRU67 (ORCPT <rfc822;linux-man@archiver.kernel.org>);
+        Wed, 18 Aug 2021 16:58:59 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:56630 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S231938AbhHRQAQ (ORCPT
-        <rfc822;linux-man@vger.kernel.org>); Wed, 18 Aug 2021 12:00:16 -0400
-Received: from smtp-190d.mail.infomaniak.ch (smtp-190d.mail.infomaniak.ch [IPv6:2001:1600:3:17::190d])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id EBFE7C061764
-        for <linux-man@vger.kernel.org>; Wed, 18 Aug 2021 08:59:41 -0700 (PDT)
-Received: from smtp-2-0001.mail.infomaniak.ch (unknown [10.5.36.108])
-        by smtp-2-3000.mail.infomaniak.ch (Postfix) with ESMTPS id 4GqXf16XNKzMqJfg;
-        Wed, 18 Aug 2021 17:59:37 +0200 (CEST)
-Received: from localhost (unknown [23.97.221.149])
-        by smtp-2-0001.mail.infomaniak.ch (Postfix) with ESMTPA id 4GqXf14PG7zlh8mh;
-        Wed, 18 Aug 2021 17:59:37 +0200 (CEST)
-From:   =?UTF-8?q?Micka=C3=ABl=20Sala=C3=BCn?= <mic@digikod.net>
-To:     Alejandro Colomar <alx.manpages@gmail.com>,
-        "G . Branden Robinson" <g.branden.robinson@gmail.com>,
-        Michael Kerrisk <mtk.manpages@gmail.com>
-Cc:     =?UTF-8?q?Micka=C3=ABl=20Sala=C3=BCn?= <mic@digikod.net>,
-        Jann Horn <jannh@google.com>, Jonathan Corbet <corbet@lwn.net>,
-        Kees Cook <keescook@chromium.org>,
-        Vincent Dagonneau <vincent.dagonneau@ssi.gouv.fr>,
-        landlock@lists.linux.dev, linux-man@vger.kernel.org,
-        linux-security-module@vger.kernel.org,
-        =?UTF-8?q?Micka=C3=ABl=20Sala=C3=BCn?= <mic@linux.microsoft.com>
-Subject: [PATCH v4 3/4] landlock_add_rule.2: Document new syscall
-Date:   Wed, 18 Aug 2021 17:59:30 +0200
-Message-Id: <20210818155931.484070-4-mic@digikod.net>
-X-Mailer: git-send-email 2.32.0
-In-Reply-To: <20210818155931.484070-1-mic@digikod.net>
-References: <20210818155931.484070-1-mic@digikod.net>
+        with ESMTP id S233753AbhHRU67 (ORCPT
+        <rfc822;linux-man@vger.kernel.org>); Wed, 18 Aug 2021 16:58:59 -0400
+Received: from mail-pj1-x102b.google.com (mail-pj1-x102b.google.com [IPv6:2607:f8b0:4864:20::102b])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 34AABC061764;
+        Wed, 18 Aug 2021 13:58:24 -0700 (PDT)
+Received: by mail-pj1-x102b.google.com with SMTP id fa24-20020a17090af0d8b0290178bfa69d97so3332504pjb.0;
+        Wed, 18 Aug 2021 13:58:24 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20161025;
+        h=cc:subject:to:references:from:message-id:date:user-agent
+         :mime-version:in-reply-to:content-language:content-transfer-encoding;
+        bh=eqOo/6HQ3yqEsh3fgdKiKd/SoMq47M4f8HbYZUxUp64=;
+        b=uTqJEGsU3Kh/nFVcwOBLgzZcDftaXaoaXoL1X/nC0AJCQvXTYvw2ZxB9HJeoyPBLIl
+         R84XI176tCE3TKKPupcgfhlylMg/12mfGKf+KI7ifBcO0IK68JqMdknv4kM8yCVZ6LhZ
+         mR3hLEYC5j5GuWVEsw49mM3ZO9FESIgbiIRRm1U+1BcDjxXa991OQooGOzqbEAInU1EM
+         XDIHF0zlbZXEqDx02VgUXJ1uAM9rI6NLZXTvlXY6dJ3Nr6SQX7ir8+ht03z8S/gPSrbG
+         iFyE5mOGQ4GN11wWnnUBZyPCN4E0VJqpOMOYXoULWzAOxVbfj0PQTTBVfkCX6zYhJAXI
+         6bBQ==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20161025;
+        h=x-gm-message-state:cc:subject:to:references:from:message-id:date
+         :user-agent:mime-version:in-reply-to:content-language
+         :content-transfer-encoding;
+        bh=eqOo/6HQ3yqEsh3fgdKiKd/SoMq47M4f8HbYZUxUp64=;
+        b=lJAG/P3+CjyUX5j4Uh/ITCdMWJZENTyRJJVxykCWfHD8uxNlSw6iMbFYw/JpFpA150
+         /n0s3NPlWrM2lhsdlTkwAodpeXZ9Mto8HQ1SxU3CmrWcRGF3Z7lcumiNywnQGG5uZA6n
+         7I3Kb46gtLUpp2KriMW4VuULyFA0/6yWXx7qE+T+Yio7bpHgtH3LiBEI8VlQYL+VlXRB
+         msEXuq2fO4FR+wvbn1l7YiLszQL6vD1FClyIQSltVFJzZ4F1IbFVwORbJ185dLUOdLQQ
+         wTClCR0ke6+1xbKqmDMCMF3u+UcCT0hxspi3ycCt/DYXMjrHQ2djQl++nGtTXfxQqPXB
+         kepQ==
+X-Gm-Message-State: AOAM531iSMf76Pwy/v/N8lsstCkGjF2IGASwRPMCkj8YsVRgUVRkxXnX
+        dZL+prHi15t/yUShwuAo/Js=
+X-Google-Smtp-Source: ABdhPJwl/IKmfu2aNrkf75QS/Df1fV3xJdszoRbiJNETdwX6/g3h71/P/AFPN4obVLvRln+2tykVrg==
+X-Received: by 2002:a17:90a:c087:: with SMTP id o7mr11151357pjs.57.1629320303713;
+        Wed, 18 Aug 2021 13:58:23 -0700 (PDT)
+Received: from [192.168.1.71] (122-61-176-117-fibre.sparkbb.co.nz. [122.61.176.117])
+        by smtp.gmail.com with ESMTPSA id 4sm667832pjb.21.2021.08.18.13.58.18
+        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+        Wed, 18 Aug 2021 13:58:23 -0700 (PDT)
+Cc:     mtk.manpages@gmail.com, Pankaj Gupta <pankaj.gupta@ionos.com>,
+        Alejandro Colomar <alx.manpages@gmail.com>,
+        Andrew Morton <akpm@linux-foundation.org>,
+        Michal Hocko <mhocko@suse.com>,
+        Oscar Salvador <osalvador@suse.de>,
+        Jann Horn <jannh@google.com>, Mike Rapoport <rppt@kernel.org>,
+        Linux API <linux-api@vger.kernel.org>, linux-mm@kvack.org
+Subject: Re: [PATCH v2] madvise.2: Document MADV_POPULATE_READ and
+ MADV_POPULATE_WRITE
+To:     David Hildenbrand <david@redhat.com>, linux-man@vger.kernel.org
+References: <20210816081922.5155-1-david@redhat.com>
+ <d70ef542-051a-521f-807d-fa469b28e897@gmail.com>
+ <70792f9c-ace1-6876-378b-5388f7948a60@redhat.com>
+From:   "Michael Kerrisk (man-pages)" <mtk.manpages@gmail.com>
+Message-ID: <abec69cb-6db9-79ab-869e-907da573bfbc@gmail.com>
+Date:   Wed, 18 Aug 2021 22:58:13 +0200
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
+ Thunderbird/78.11.0
 MIME-Version: 1.0
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 8bit
+In-Reply-To: <70792f9c-ace1-6876-378b-5388f7948a60@redhat.com>
+Content-Type: text/plain; charset=utf-8
+Content-Language: en-US
+Content-Transfer-Encoding: 7bit
 Precedence: bulk
 List-ID: <linux-man.vger.kernel.org>
 X-Mailing-List: linux-man@vger.kernel.org
 
-From: Mickaël Salaün <mic@linux.microsoft.com>
+Hello David,
 
-This is an adaptation of
-https://www.kernel.org/doc/html/v5.13/userspace-api/landlock.html
+On 8/18/21 10:35 AM, David Hildenbrand wrote:
+> On 17.08.21 23:42, Michael Kerrisk (man-pages) wrote:
+>> Hello David,
+>>
+>> Thank you for writing this! Could you please take
+>> a look at the comments below and revise?
+> 
+> Hi Michael,
+> 
+> thanks for your valuable input. Your feedback will certainly make this 
+> easier to understand for people that are not heavily involved in MM work :)
+> 
+> [...]
+> 
+>>>   man2/madvise.2 | 107 +++++++++++++++++++++++++++++++++++++++++++++++++
+>>>   1 file changed, 107 insertions(+)
+>>>
+>>> diff --git a/man2/madvise.2 b/man2/madvise.2
+>>> index f1f384c0c..f6cea9ad2 100644
+>>> --- a/man2/madvise.2
+>>> +++ b/man2/madvise.2
+>>> @@ -469,6 +469,72 @@ If a page is file-backed and dirty, it will be written back to the backing
+>>>   storage.
+>>>   The advice might be ignored for some pages in the range when it is not
+>>>   applicable.
+>>> +.TP
+>>> +.BR MADV_POPULATE_READ " (since Linux 5.14)"
+>>> +Populate (prefault) page tables readable for the whole range without actually
+>>
+>> I have trouble to understand "Populate (prefault) page tables readable".
+>> Does it mean that it is just the page tables are being populated, and the
+>> PTEs are marked to indicate that the pages are readable? If yes, I
+>> think some rewording would help.
+> 
+> I actually tried phrasing it similar to our MAP_POPULATE documentation:
+> 	("Populate  (prefault)  page tables for a mapping.")
 
-Signed-off-by: Mickaël Salaün <mic@linux.microsoft.com>
-Link: https://lore.kernel.org/r/20210818155931.484070-4-mic@digikod.net
----
+Yeah, well that description is a bit thin too :-}.
 
-Changes since v2:
-* Fix syscall's rule_attr pointer.
-* Add an EXAMPLES section referring to landlock(7).
-* Change list order in the SEE ALSO section.
-* Fix .IR and .BR use as explained by Alejandro Colomar.
+> We will prefault all pages, faulting them in.
+>>
+>>> +reading memory.
+>>
+>> I don't understand "without actually reading memory"? Do you mean,
+>> "without actually  faulting in the pages"; or something else?
+> 
+> "Populate (prefault) page tables readable, faulting in all pages in the 
+> range just as if manually reading one byte of each page; however, avoid 
+> the actual memory access that would have been performed after handling 
+> the fault."
+> 
+> Does that make it clearer? (avoiding eventually touching the page at all 
+> can be beneficial, especially when dealing with DAX memory where memory 
+> access might be expensive)
 
-Changes since v1:
-* Replace all ".I" with ".IR", except when used for titles.
-* Append punctuation to ".IR" and ".BR" when it makes sense (requested
-  by Alejandro Colomar).
-* Cut lines according to the semantic newline rules (requested by
-  Alejandro Colomar).
-* Remove roman style from ".TP" section titles (requested by Alejandro
-  Colomar).
-* Add comma after "i.e." and "e.g.".
-* Add a "CONFORMING TO" section.
-* Replace "(2)" with "()" for the described syscall name.
----
- man2/landlock_add_rule.2 | 144 +++++++++++++++++++++++++++++++++++++++
- 1 file changed, 144 insertions(+)
- create mode 100644 man2/landlock_add_rule.2
+That text is much better. But, what's still not clear to me then is the
+dfference between mmap(2) MAP_POPULATE, and MADV_POPULATE_READ and
+MADV_POPULATE_WRITE. What is the differnece, and in what situations 
+would one prefer one or the other approach? I think it would be helpful
+if the manual page said something about these details.
 
-diff --git a/man2/landlock_add_rule.2 b/man2/landlock_add_rule.2
-new file mode 100644
-index 000000000000..eafb8f8201b7
---- /dev/null
-+++ b/man2/landlock_add_rule.2
-@@ -0,0 +1,144 @@
-+.\" Copyright © 2017-2020 Mickaël Salaün <mic@digikod.net>
-+.\" Copyright © 2019-2020 ANSSI
-+.\" Copyright © 2021 Microsoft Corporation
-+.\"
-+.\" %%%LICENSE_START(VERBATIM)
-+.\" Permission is granted to make and distribute verbatim copies of this
-+.\" manual provided the copyright notice and this permission notice are
-+.\" preserved on all copies.
-+.\"
-+.\" Permission is granted to copy and distribute modified versions of this
-+.\" manual under the conditions for verbatim copying, provided that the
-+.\" entire resulting derived work is distributed under the terms of a
-+.\" permission notice identical to this one.
-+.\"
-+.\" Since the Linux kernel and libraries are constantly changing, this
-+.\" manual page may be incorrect or out-of-date.  The author(s) assume no
-+.\" responsibility for errors or omissions, or for damages resulting from
-+.\" the use of the information contained herein.  The author(s) may not
-+.\" have taken the same level of care in the production of this manual,
-+.\" which is licensed free of charge, as they might when working
-+.\" professionally.
-+.\"
-+.\" Formatted or processed versions of this manual, if unaccompanied by
-+.\" the source, must acknowledge the copyright and authors of this work.
-+.\" %%%LICENSE_END
-+.\"
-+.TH LANDLOCK_ADD_RULE 2 2021-06-27 Linux "Linux Programmer's Manual"
-+.SH NAME
-+landlock_add_rule \- add a new Landlock rule to a ruleset
-+.SH SYNOPSIS
-+.nf
-+.BR "#include <linux/landlock.h>" "  /* Definition of " LANDLOCK_* " constants */"
-+.BR "#include <sys/syscall.h>" "     /* Definition of " SYS_* " constants */"
-+.PP
-+.BI "int syscall(SYS_landlock_add_rule, int " ruleset_fd ,
-+.BI "            enum landlock_rule_type " rule_type ,
-+.BI "            const void *" rule_attr ", __u32 " flags );
-+.SH DESCRIPTION
-+A Landlock rule describes an action on an object.
-+An object is currently a file hierarchy, and the related filesystem actions
-+are defined with a set of access rights.
-+This
-+.BR landlock_add_rule ()
-+system call enables adding a new Landlock rule to an existing ruleset
-+created with
-+.BR landlock_create_ruleset (2).
-+See
-+.BR landlock (7)
-+for a global overview.
-+.PP
-+.I ruleset_fd
-+is a Landlock ruleset file descriptor obtained with
-+.BR landlock_create_ruleset (2).
-+.PP
-+.I rule_type
-+identifies the structure type pointed to by
-+.IR rule_attr .
-+Currently, Linux supports the following
-+.I rule_type
-+value:
-+.TP
-+.B LANDLOCK_RULE_PATH_BENEATH
-+This defines the object type as a file hierarchy.
-+In this case,
-+.I rule_attr
-+points to the following structure:
-+.IP
-+.in +4n
-+.EX
-+struct landlock_path_beneath_attr {
-+    __u64 allowed_access;
-+    __s32 parent_fd;
-+} __attribute__((packed));
-+.EE
-+.in
-+.IP
-+.I allowed_access
-+contains a bitmask of allowed filesystem actions for this file hierarchy
-+(see
-+.B Filesystem actions
-+in
-+.BR landlock (7)).
-+.IP
-+.I parent_fd
-+is an opened file descriptor, preferably with the
-+.I O_PATH
-+flag,
-+which identifies the parent directory of the file hierarchy or
-+just a file.
-+.PP
-+.I flags
-+must be 0.
-+.SH RETURN VALUE
-+On success,
-+.BR landlock_add_rule ()
-+returns 0.
-+.SH ERRORS
-+.BR landlock_add_rule ()
-+can failed for the following reasons:
-+.TP
-+.B EOPNOTSUPP
-+Landlock is supported by the kernel but disabled at boot time.
-+.TP
-+.B EINVAL
-+.I flags
-+is not 0, or the rule accesses are inconsistent (i.e.,
-+.I rule_attr->allowed_access
-+is not a subset of the ruleset handled accesses).
-+.TP
-+.B ENOMSG
-+Empty accesses (i.e.,
-+.I rule_attr->allowed_access
-+is 0).
-+.TP
-+.B EBADF
-+.I ruleset_fd
-+is not a file descriptor for the current thread, or a member of
-+.I rule_attr
-+is not a file descriptor as expected.
-+.TP
-+.B EBADFD
-+.I ruleset_fd
-+is not a ruleset file descriptor, or a member of
-+.I rule_attr
-+is not the expected file descriptor type.
-+.TP
-+.B EPERM
-+.I ruleset_fd
-+has no write access to the underlying ruleset.
-+.TP
-+.B EFAULT
-+.I rule_attr
-+was not a valid address.
-+.SH VERSIONS
-+Landlock was added in Linux 5.13.
-+.SH CONFORMING TO
-+This system call is Linux-specific.
-+.SH EXAMPLES
-+See
-+.BR landlock (7).
-+.SH SEE ALSO
-+.BR landlock_create_ruleset (2),
-+.BR landlock_restrict_self (2),
-+.BR landlock (7)
+>>> +Depending on the underlying mapping,
+>>> +map the shared zeropage,
+>>> +preallocate memory or read the underlying file;
+>>> +files with holes might or might not preallocate blocks.
+>>> +Do not generate
+>>> +.B SIGBUS
+>>> +when populating fails,
+>>> +return an error instead.
+>>
+>> Better:
+>>
+>> [[
+>> If populating fails, a
+>> .B SIGBUS
+>> signal is not generated; instead, an error i returned.
+>> ]]
+>>
+> 
+> Sure, thanks.
+> 
+>>> +.IP
+>>> +If
+>>> +.B MADV_POPULATE_READ
+>>> +succeeds,
+>>> +all page tables have been populated (prefaulted) readable once.
+>>> +If
+>>> +.B MADV_POPULATE_READ
+>>> +fails,
+>>> +some page tables might have been populated.
+>>> +.IP
+>>> +.B MADV_POPULATE_READ
+>>> +cannot be applied to mappings without read permissions
+>>> +and special mappings,
+>>> +for example,
+>>> +marked with the kernel-internal
+>>
+>> s/marked/mappings marked/
+>>
+>>> +.B VM_PFNMAP
+>>> +and
+>>
+>> Just checking: should it be "and" or "or" here"?
+>>
+>> Looking at the EINVAL error below, I guess "or", and a better
+>> wording would be:
+>>
+>> [[
+>> ...for example, mappings marked with kernel-internal flags such as
+>> .B VMPPFNMAP
+>> or
+>> .BR BR_V_IO.
+>> ]]
+> 
+> Much better. Note that there might be more types of mappings that won't 
+> work (e.g., initially also secretmem IIRC).
+
+Ahh nice. Since there's about to be a memfd_secret() manual page, 
+I suggest adding also "or secret memory regions created using
+memfd_secret(2)".
+
+>>> +.BR VM_IO .
+>>> +.IP
+>>> +Note that with
+>>> +.BR MADV_POPULATE_READ ,
+>>> +the process can be killed at any moment when the system runs out of memory.
+>>> +.TP
+>>> +.BR MADV_POPULATE_WRITE " (since Linux 5.14)"
+>>> +Populate (prefault) page tables writable for the whole range without actually
+>>
+>> I have trouble to understand "Populate (prefault) page tables writable".
+>> Does it mean that it is just the page tables are being populated, and the
+>> PTEs are marked to indicate that the pages are writable? If yes, I
+>> think some rewording would help.
+>>
+>>> +writing memory.
+>>
+>> I don't understand "without actually writing memory"? Do you mean,
+>> "without actually  faulting in the pages"; or something else?
+>>
+> 
+> Similar to the other wording:
+> 
+> "Populate (prefault) page tables writable, faulting in all pages in the 
+> range just as if manually writing one byte of each page; however, avoid 
+> the actual memory access that would have been performed after handling 
+> the fault."
+
+Much better, but see also my comments above re MADV_POPULATE_READ.
+
+[...]
+
+>>> +.B EFAULT
+>>> +.I advice
+>>> +is
+>>> +.B MADV_POPULATE_READ
+>>> +or
+>>> +.BR MADV_POPULATE_WRITE ,
+>>> +and populating (prefaulting) page tables failed because a
+>>> +.B SIGBUS
+>>> +would have been generated on actual memory access and the reason is not a
+>>> +HW poisoned page.
+>>
+>> Maybe:
+>> s/.$/(see the description of MADV_HWPOISON in this page)./
+>> ?
+>>
+> 
+> Sure, we can add that. But note that MADV_HWPOISON is just one of many 
+> ways to HWpoison a page.
+
+Then maybe something like:
+
+"(HW poisoned pages can, for example, be created using the
+MADV_HWPOISON flag described elsewhere in this page.)"
+
+[...]
+
+Thanks,
+
+Michael
+
 -- 
-2.32.0
-
+Michael Kerrisk
+Linux man-pages maintainer; http://www.kernel.org/doc/man-pages/
+Linux/UNIX System Programming Training: http://man7.org/training/
