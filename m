@@ -2,383 +2,310 @@ Return-Path: <linux-man-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-16.8 required=3.0 tests=BAYES_00,DKIM_SIGNED,
-	DKIM_VALID,DKIM_VALID_AU,FREEMAIL_FORGED_FROMDOMAIN,FREEMAIL_FROM,
-	HEADER_FROM_DIFFERENT_DOMAINS,INCLUDES_CR_TRAILER,INCLUDES_PATCH,
-	MAILING_LIST_MULTI,NICE_REPLY_A,SPF_HELO_NONE,SPF_PASS,USER_AGENT_SANE_1
+X-Spam-Status: No, score=-16.5 required=3.0 tests=BAYES_00,DKIMWL_WL_HIGH,
+	DKIM_SIGNED,DKIM_VALID,DKIM_VALID_AU,HEADER_FROM_DIFFERENT_DOMAINS,
+	INCLUDES_CR_TRAILER,INCLUDES_PATCH,MAILING_LIST_MULTI,SPF_HELO_NONE,SPF_PASS
 	autolearn=unavailable autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 6ABB6C4320A
-	for <linux-man@archiver.kernel.org>; Thu, 19 Aug 2021 23:37:45 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 9F9B0C432BE
+	for <linux-man@archiver.kernel.org>; Mon, 23 Aug 2021 12:07:06 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.kernel.org (Postfix) with ESMTP id 4B2426108F
-	for <linux-man@archiver.kernel.org>; Thu, 19 Aug 2021 23:37:45 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTP id 874C86135F
+	for <linux-man@archiver.kernel.org>; Mon, 23 Aug 2021 12:07:06 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S236282AbhHSXiV (ORCPT <rfc822;linux-man@archiver.kernel.org>);
-        Thu, 19 Aug 2021 19:38:21 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:57812 "EHLO
-        lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S234182AbhHSXiV (ORCPT
-        <rfc822;linux-man@vger.kernel.org>); Thu, 19 Aug 2021 19:38:21 -0400
-Received: from mail-pg1-x52f.google.com (mail-pg1-x52f.google.com [IPv6:2607:f8b0:4864:20::52f])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 51D99C061575;
-        Thu, 19 Aug 2021 16:37:44 -0700 (PDT)
-Received: by mail-pg1-x52f.google.com with SMTP id k14so7402969pga.13;
-        Thu, 19 Aug 2021 16:37:44 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20161025;
-        h=cc:subject:to:references:from:message-id:date:user-agent
-         :mime-version:in-reply-to:content-language:content-transfer-encoding;
-        bh=fVsYdQiHx0h4ZWUnTXosYwgglKTKHF0RWgYAH4dAy6w=;
-        b=asuGf8gJrOv7qQMSPq3T0zxywtcWz8IVI3xPNpkAaSyVYR3pBzd5BxGQFt5DlkIM96
-         5mXr8y5XeQWd/7KGCI2WBw/KwMFtTV9I5OZcBy2E3yUzAvKhFTqyUjvSZlYMn0XtCDmN
-         gXtXNgbOa8a84Nw6HrjuL54q9nVljCO1E1n0f8ojFDXEBD7CcI65TvSCjnerlVHqnIFF
-         w8miUApg9HnJT7xF81Wd2YJJxmqRZHzSdWlx6BnNXVSNdQLrufSL7oPfFPCTWVT/KKTC
-         3fX33FAw5ZjXEEdM3d0zvrlK1k4UHuKCjEK1AzNLaagEFgJ/U5fYgilzlzqSoEXGku22
-         pugg==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20161025;
-        h=x-gm-message-state:cc:subject:to:references:from:message-id:date
-         :user-agent:mime-version:in-reply-to:content-language
-         :content-transfer-encoding;
-        bh=fVsYdQiHx0h4ZWUnTXosYwgglKTKHF0RWgYAH4dAy6w=;
-        b=T9oZlN97aV7if8X8s4lCc8GV8iloQIllPE5+xthe4jPixKMzOqPOQgyYEyiKHS9Uhq
-         786rycBITKhWlItye6eNREhl/yjErf7pWQdPDvsjQs/vTo+6A6V2VySSrVSnBowkzQlP
-         hQNS0H4k255EoNDSIsXzIDMc+Y8C7adCSO10+oYAYWd5hpbO7hk/HzZvIiqKwHZtirio
-         8fpeAAH2ZCNoA9BkulQaL5bAY81mXwp0fbIBs5S3LzlrZKmQraynDaIQY6EI6o5ktpA0
-         tmykIMoOa+INQM0P0u5gG5qkheMpFwNY/kG3EnqMtWaL6fiXPM/cVtaoGc0ck9Ci7Zsm
-         2msg==
-X-Gm-Message-State: AOAM533nH8yhKaGjCrcLaweIC/68nEtILvTOb7MEuA35vDNmCC91bsre
-        Vyj9VQejuArWC8+du1rf1f0=
-X-Google-Smtp-Source: ABdhPJx9OaQXVys1+GbaCZfGCvJuD0u16DYymYlIYToLzMhiezxcMNPTRkXkErpWX7fZDxA9EEl5Yw==
-X-Received: by 2002:a05:6a00:1626:b029:3e0:99b6:b320 with SMTP id e6-20020a056a001626b02903e099b6b320mr16889687pfc.25.1629416263843;
-        Thu, 19 Aug 2021 16:37:43 -0700 (PDT)
-Received: from [192.168.1.71] (122-61-176-117-fibre.sparkbb.co.nz. [122.61.176.117])
-        by smtp.gmail.com with ESMTPSA id w3sm4585534pfn.96.2021.08.19.16.37.40
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Thu, 19 Aug 2021 16:37:43 -0700 (PDT)
-Cc:     mtk.manpages@gmail.com, linux-man@vger.kernel.org,
-        linux-sgx@vger.kernel.org,
-        Dave Hansen <dave.hansen@linux.intel.com>,
-        Reinette Chatre <reinette.chatre@intel.com>
-Subject: Re: [PATCH v7] sgx.7: New page with overview of Software Guard
- eXtensions (SGX)
-To:     Jarkko Sakkinen <jarkko@kernel.org>
-References: <20210810211616.172775-1-jarkko@kernel.org>
-From:   "Michael Kerrisk (man-pages)" <mtk.manpages@gmail.com>
-Message-ID: <5f53f76d-456f-2049-05ea-e127804c3b14@gmail.com>
-Date:   Fri, 20 Aug 2021 01:37:36 +0200
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
- Thunderbird/78.11.0
+        id S235953AbhHWMHs (ORCPT <rfc822;linux-man@archiver.kernel.org>);
+        Mon, 23 Aug 2021 08:07:48 -0400
+Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124]:23454 "EHLO
+        us-smtp-delivery-124.mimecast.com" rhost-flags-OK-OK-OK-OK)
+        by vger.kernel.org with ESMTP id S233895AbhHWMHs (ORCPT
+        <rfc822;linux-man@vger.kernel.org>); Mon, 23 Aug 2021 08:07:48 -0400
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+        s=mimecast20190719; t=1629720425;
+        h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+         to:to:cc:cc:mime-version:mime-version:
+         content-transfer-encoding:content-transfer-encoding;
+        bh=iPSPC+NwQeFpMWMRRBx4FR2HEbNT0VSAkYeTuMe/Ulg=;
+        b=M7LGIkqiXdQi6IE1U9tQJpi6hlDS9rLI6tLJZDJwj6P0JRYGzmkqxfaqtdXNpoE5lQThsA
+        jiRcc+e116VPsnSAOfu6ww0kLTIZL5MXSlzFJCCztVTAYrp7ayxBZVuLguMX3ysr4HaXoK
+        gOnAV/PU4LY6hN9CUwDFfJXlXQORPnk=
+Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
+ [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
+ us-mta-420-nS38xyqLML2fy8_STjSe1g-1; Mon, 23 Aug 2021 08:06:57 -0400
+X-MC-Unique: nS38xyqLML2fy8_STjSe1g-1
+Received: from smtp.corp.redhat.com (int-mx01.intmail.prod.int.phx2.redhat.com [10.5.11.11])
+        (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
+        (No client certificate requested)
+        by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 3714E801A92;
+        Mon, 23 Aug 2021 12:06:53 +0000 (UTC)
+Received: from t480s.redhat.com (unknown [10.39.194.57])
+        by smtp.corp.redhat.com (Postfix) with ESMTP id DDFFA189C7;
+        Mon, 23 Aug 2021 12:06:46 +0000 (UTC)
+From:   David Hildenbrand <david@redhat.com>
+To:     linux-man@vger.kernel.org
+Cc:     David Hildenbrand <david@redhat.com>,
+        Pankaj Gupta <pankaj.gupta@ionos.com>,
+        Alejandro Colomar <alx.manpages@gmail.com>,
+        Michael Kerrisk <mtk.manpages@gmail.com>,
+        Andrew Morton <akpm@linux-foundation.org>,
+        Michal Hocko <mhocko@suse.com>,
+        Oscar Salvador <osalvador@suse.de>,
+        Jann Horn <jannh@google.com>, Mike Rapoport <rppt@kernel.org>,
+        Linux API <linux-api@vger.kernel.org>, linux-mm@kvack.org
+Subject: [PATCH v3] madvise.2: Document MADV_POPULATE_READ and MADV_POPULATE_WRITE
+Date:   Mon, 23 Aug 2021 14:06:45 +0200
+Message-Id: <20210823120645.8223-1-david@redhat.com>
 MIME-Version: 1.0
-In-Reply-To: <20210810211616.172775-1-jarkko@kernel.org>
-Content-Type: text/plain; charset=utf-8
-Content-Language: en-US
-Content-Transfer-Encoding: 7bit
+Content-Transfer-Encoding: 8bit
+X-Scanned-By: MIMEDefang 2.79 on 10.5.11.11
 Precedence: bulk
 List-ID: <linux-man.vger.kernel.org>
 X-Mailing-List: linux-man@vger.kernel.org
 
-Hello Jarkko
+MADV_POPULATE_READ and MADV_POPULATE_WRITE have been merged into
+upstream Linux via commit 4ca9b3859dac ("mm/madvise: introduce
+MADV_POPULATE_(READ|WRITE) to prefault page tables"), part of v5.14-rc1.
 
-On 8/10/21 11:16 PM, Jarkko Sakkinen wrote:
-> Cc: linux-man@vger.kernel.org
-> Cc: linux-sgx@vger.kernel.org
-> Cc: Dave Hansen <dave.hansen@linux.intel.com>
-> Cc: Reinette Chatre <reinette.chatre@intel.com>
-> Signed-off-by: Jarkko Sakkinen <jarkko@kernel.org>
-> ---
-> 
-> v7:
-> * Added more meat about the address space and API.
-> * Reorganized the text to have focus more on developer to have a big
->   picture of kernel provided interfaces.
-> v6:
-> * Small fixes based on Dave's and Reinette's feedback.
-> * Extended the "Permissions" section to cover mmap()
-> v5:
-> * Taking away hardware concepts and focusing more on the interface.
-> v4:
-> * Did a heavy edit trying to streamline the story a bit and focus on
->   stuff important to the user (e.g. lighten up x86 details).
-> v3:
-> * Overhaul based on Michael's comments. Most likely needs to be refined
->   in various places but this is at least a small step forward for sure.
-> v2:
-> * Fixed the semantic newlines convention and various style errors etc.
->   that were reported by Alenjandro and Michael.
-> * SGX was merged to v5.
-> 
->  man7/sgx.7 | 156 +++++++++++++++++++++++++++++++++++++++++++++++++++++
->  1 file changed, 156 insertions(+)
->  create mode 100644 man7/sgx.7
-> 
-> diff --git a/man7/sgx.7 b/man7/sgx.7
-> new file mode 100644
-> index 000000000..ab5a504fa
-> --- /dev/null
-> +++ b/man7/sgx.7
-> @@ -0,0 +1,156 @@
-> +.\" Copyright (C) 2021 Intel Corporation
-> +.\"
-> +.\" %%%LICENSE_START(VERBATIM)
-> +.\" Permission is granted to make and distribute verbatim copies of this
-> +.\" manual provided the copyright notice and this permission notice are
-> +.\" preserved on all copies.
-> +.\"
-> +.\" Permission is granted to copy and distribute modified versions of this
-> +.\" manual under the conditions for verbatim copying, provided that the
-> +.\" entire resulting derived work is distributed under the terms of a
-> +.\" permission notice identical to this one.
-> +.\"
-> +.\" Since the Linux kernel and libraries are constantly changing, this
-> +.\" manual page may be incorrect or out-of-date.  The author(s) assume no
-> +.\" responsibility for errors or omissions, or for damages resulting from
-> +.\" the use of the information contained herein.  The author(s) may not
-> +.\" have taken the same level of care in the production of this manual,
-> +.\" which is licensed free of charge, as they might when working
-> +.\" professionally.
-> +.\"
-> +.\" Formatted or processed versions of this manual, if unaccompanied by
-> +.\" the source, must acknowledge the copyright and authors of this work.
-> +.\" %%%LICENSE_END
-> +.\"
-> +.TH SGX 7 2021\-02\-02 "Linux" "Linux Programmer's Manual"
-> +.PP
-> +sgx - overview of Software Guard eXtensions
-> +.SH SYNOPSIS
-> +.EX
-> +.B #include <asm/sgx.h>
-> +.PP
-> +.IB enclave " = open(""/dev/sgx_enclave", " O_RDWR);"
-> +.EE
-> +.SH DESCRIPTION
+Further, commit eb2faa513c24 ("mm/madvise: report SIGBUS as -EFAULT for
+MADV_POPULATE_(READ|WRITE)"), part of v5.14-rc6, made sure that SIGBUS is
+converted to -EFAULT instead of -EINVAL.
 
-> +Intel Software Guard eXtensions (SGX) allow applications to host,
+Let's document the behavior and error conditions of these new madvise()
+options.
 
-s/host,/host/
+Acked-by: Pankaj Gupta <pankaj.gupta@ionos.com>
+Cc: Alejandro Colomar <alx.manpages@gmail.com>
+Cc: Michael Kerrisk <mtk.manpages@gmail.com>
+Cc: Andrew Morton <akpm@linux-foundation.org>
+Cc: Michal Hocko <mhocko@suse.com>
+Cc: Oscar Salvador <osalvador@suse.de>
+Cc: Jann Horn <jannh@google.com>
+Cc: Mike Rapoport <rppt@kernel.org>
+Cc: Linux API <linux-api@vger.kernel.org>
+Cc: linux-mm@kvack.org
+Signed-off-by: David Hildenbrand <david@redhat.com>
+---
 
-> +enclaves,
-> +protected executable objects in memory.
-> +As software entities enclaves are instances of
+v2 -> v3:
+- Refine what "populating readable/writable" means
+- Compare each version with MAP_POPULATE and give an example use case
+- Reword SIGBUS handling
+- Reword comment regarding special mappings and also add memfd_secret(2)
+- Reference MADV_HWPOISON when talking about HW poisoned pages
+- Minor cosmetic fixes
 
-s/entities/entities,/
+v1 -> v2:
+- Use semantic newlines in all cases
+- Add two missing "
+- Document -EFAULT handling
+- Rephrase some parts to make it more generic: VM_PFNMAP and VM_IO are only
+  examples for special mappings
 
-> +.I /dev/sgx_enclave.
+---
+ man2/madvise.2 | 156 +++++++++++++++++++++++++++++++++++++++++++++++++
+ 1 file changed, 156 insertions(+)
 
-What does the previous sentence mean? I'm sorry, it's
-not very clear.
-
-> +.PP
-> +SGX can be available only if the kernel was configured and built with the
-
-s/can be/is/
-
-> +.B CONFIG_X86_SGX
-> +option.
-> +You can verify that both the kernel and hardware have SGX enabled by
-> +checking that "sgx" appears in the
-> +.I flags
-> +field in
-> +.IR /proc/cpuinfo .
-> +.PP
-> +SGX must be enabled in BIOS.
-> +If SGX appears to be unsupported,
-> +ensure that SGX is enabled in the BIOS.
-> +If a BIOS presents a choice between
-> +.I Enabled
-> +and
-> +.I Software Enabled
-> +modes for SGX,
-> +choose
-> +.I Enabled.
-> +.PP
-> +Enclaves are shared objects, meaning that
-> +they can be shared with a
-> +.BR cmsg (3),
-
-How do they get shared with cmg()? This is unclear?
-Do you mean by passing a file descriptor over a UNIX
-domain socket, or something else?
-
-> +and inherited in a fork.
-> +.SS Address space
-> +The address range for an enclave must be reserved with
-> +.BR mmap (2).
-> +This must happen before the enclave construction can begin,
-> +because the enclave page addresses are fixed during its build time.
-> +.PP
-> +The CPU requires the size of the enclave to be power of two,
-
-Must the size also be >= page size? If so, that should be 
-mentioned.
-
-> +and the base address to be naturally aligned with the size.
-> +An appropriate address range can be found by an anonymous mapping:
-> +.PP
-> +.EX
-> +void *area = mmap(NULL, size * 2, PROT_NONE, MAP_PRIVATE | MAP_ANONYMOUS,
-> +                  -1, 0);
-> +
-> +/* Find the first address aligned to the size within the range. */
-> +void *base = ((uint64_t)area + size - 1) & ~(size - 1);
-
-
-> +.EE
-> +.PP
-> +.SS Ioctls
-> +Enclaves are managed with the
-> +.BR ioctl (2)
-> +interface defined and documented in
-> +.IR <asm/sgx.h>:
-
-
-> +.TP
-> +.IB SGX_IOC_ENCLAVE_CREATE
-> +Create SGX Enclave Control Structure (SECS) for an enclave.
-> +SECS is a hardware defined structure,
-> +which contains the properties of an enclave,
-> +such as its base address and size.
-
-Add a sentence:
-
-[[
-The ioctl argument has the type
-.IR "struct\ *sgx_enclave_create" .
-]]
-
-(I think this sentence helps the reader orient a little, 
-when reading the header file.)
-
-> +.TP
-> +.IB SGX_IOC_ENCLAVE_ADD_PAGES
-> +Populate a range of enclave pages with the page data provided by the caller.
-
-Add a sentence:
-
-[[
-The ioctl argument has the type
-.IR "struct\ *sgx_enclave_add_pages" .
-]]
-
-> +.TP
-> +.IB SGX_IOC_ENCLAVE_INIT
-> +Tell the CPU the prepare the enclave for use.
-
-s/the prepare/to prepare/
-
-> +After a successful initialization,
-> +no new pages can be added to the enclave.
-
-Add a sentence:
-
-[[
-The ioctl argument has the type
-.IR "struct\ *sgx_enclave_init" .
-]]
-
-Just looking in the header file, does SGX_IOC_ENCLAVE_PROVISION
-also need to be mentioned?
-
-> +.PP
-> +The details of what these operations actually mean in the hardware level can be
-
-s/in/at/
-
-> +found in the Intel Software Developers Manual.
-> +.SS vDSO
-> +A process can access enclave by entering into its address space through
-
-s/enclave/an enclave/
-
-> +a set of entry points,
-> +which must be defined during the construction process.
-> +This requires a complex sequence of CPU instructions,
-> +and kernel assisted exception handling.
-> +For these reasons,
-> +it is encapsulated into
-> +vDSO interface,
-
-s/vDSO/a vDSO/
-
-> +provided by
-> +.BR vdso_sgx_enter_enclave_t,
-
-s/,/ ,/
-
-> +which is located in
-
-s/located/declared/ ?
-
-> +.IR <asm/sgx.h>.
-> +.SS Permissions
-> +In order to build an enclave, a process must be able to call
-> +.IR mmap (2)
-> +with
-> +.IR PROT_EXEC
-> +set,
-> +because like for any other type of executable,
-
-s/because like for any/because, as with any/
-
-> +the page table permissions must be set appropriately.
-
-s/permissions/protections/
-
-> +Therefore,
-> +.I /dev/sgx_enclave
-> +must reside in a partition,
-> +which is not mounted with
-> +.B noexec
-> +set in the mount options.
-> +.PP
-> +During the build process each enclave page is assigned protection bits,
-> +as part of
-> +.BR ioctl(SGX_IOC_ENCLAVE_ADD_PAGES).
-
-In the previous sentence, you use "protections". In the following
-sentences you use "permissions". Best to be consistent. Let's
-use "protections", as per mmap(2).
-
-> +These permissions are also the maximum permissions to which the page can be be mapped.
-> +If
-> +.BR mmap (2)
-> +is called with surpassing permissions,
-
-s/surpassing/unexpected/
-s/permissions/protections/
-
-> +it will return
-> +.B -EACCES.
-> +If
-> +.BR ioctl(SGX_IOC_ENCLAVE_ADD_PAGES)
-> +is called after
-> +.BR mmap (2)
-> +with lower permissions,
-> +the process will eventually receive a
-
-I want to check the wording here, since "eventually"
-is often a false friend for nonnative speakers.
-
-In English, "eventually" means: at some (unknown) time in the future,
-something WILL happen. In other words, the happening is certain, but
-the timing is not. In various European languages, a similar sounding word
-in many cases has the sense of "possibly" or "may happen". Which do
-you mean to say?
-
-> +.BR SIGBUS
-> +signal,
-> +once it accesses the page for the first time.
-> +.SH VERSIONS
-> +The SGX feature was added in Linux 5.11.
-> +.SH SEE ALSO
-> +.BR ioctl (2),
-> +.BR mmap (2),
-> +.BR mprotect (2)
-> 
-
-
+diff --git a/man2/madvise.2 b/man2/madvise.2
+index f1f384c0c..37f6dd6fa 100644
+--- a/man2/madvise.2
++++ b/man2/madvise.2
+@@ -469,6 +469,106 @@ If a page is file-backed and dirty, it will be written back to the backing
+ storage.
+ The advice might be ignored for some pages in the range when it is not
+ applicable.
++.TP
++.BR MADV_POPULATE_READ " (since Linux 5.14)"
++"Populate (prefault) page tables readable,
++faulting in all pages in the range just as if manually reading from each page;
++however,
++avoid the actual memory access that would have been performed after handling
++the fault.
++.IP
++In contrast to
++.BR MAP_POPULATE ,
++.B MADV_POPULATE_READ
++does not hide errors,
++can be applied to (parts of) existing mappings and will always populate
++(prefault) page tables readable.
++One example use case is prefaulting a file mapping,
++reading all file content from disk;
++however,
++pages won't be dirtied and consequently won't have to be written back to disk
++when evicting the pages from memory.
++.IP
++Depending on the underlying mapping,
++map the shared zeropage,
++preallocate memory or read the underlying file;
++files with holes might or might not preallocate blocks.
++If populating fails,
++a
++.B SIGBUS
++signal is not generated; instead, an error is returned.
++.IP
++If
++.B MADV_POPULATE_READ
++succeeds,
++all page tables have been populated (prefaulted) readable once.
++If
++.B MADV_POPULATE_READ
++fails,
++some page tables might have been populated.
++.IP
++.B MADV_POPULATE_READ
++cannot be applied to mappings without read permissions
++and special mappings,
++for example,
++mappings marked with kernel-internal flags such as
++.B VM_PFNMAP
++or
++.BR VM_IO ,
++or secret memory regions created using
++.BR memfd_secret(2) .
++.IP
++Note that with
++.BR MADV_POPULATE_READ ,
++the process can be killed at any moment when the system runs out of memory.
++.TP
++.BR MADV_POPULATE_WRITE " (since Linux 5.14)"
++Populate (prefault) page tables writable,
++faulting in all pages in the range just as if manually writing to each
++each page;
++however,
++avoid the actual memory access that would have been performed after handling
++the fault.
++.IP
++In contrast to
++.BR MAP_POPULATE ,
++MADV_POPULATE_WRITE does not hide errors,
++can be applied to (parts of) existing mappings and will always populate
++(prefault) page tables writable.
++One example use case is preallocating memory,
++breaking any CoW (Copy on Write).
++.IP
++Depending on the underlying mapping,
++preallocate memory or read the underlying file;
++files with holes will preallocate blocks.
++If populating fails,
++a
++.B SIGBUS
++signal is not generated; instead, an error is returned.
++.IP
++If
++.B MADV_POPULATE_WRITE
++succeeds,
++all page tables have been populated (prefaulted) writable once.
++If
++.B MADV_POPULATE_WRITE
++fails,
++some page tables might have been populated.
++.IP
++.B MADV_POPULATE_WRITE
++cannot be applied to mappings without write permissions
++and special mappings,
++for example,
++mappings marked with kernel-internal flags such as
++.B VM_PFNMAP
++or
++.BR VM_IO ,
++or secret memory regions created using
++.BR memfd_secret(2) .
++.IP
++Note that with
++.BR MADV_POPULATE_WRITE ,
++the process can be killed at any moment when the system runs out of memory.
+ .SH RETURN VALUE
+ On success,
+ .BR madvise ()
+@@ -490,6 +590,22 @@ A kernel resource was temporarily unavailable.
+ .B EBADF
+ The map exists, but the area maps something that isn't a file.
+ .TP
++.B EFAULT
++.I advice
++is
++.B MADV_POPULATE_READ
++or
++.BR MADV_POPULATE_WRITE ,
++and populating (prefaulting) page tables failed because a
++.B SIGBUS
++would have been generated on actual memory access and the reason is not a
++HW poisoned page
++(HW poisoned pages can,
++for example,
++be created using the
++.B MADV_HWPOISON
++flag described elsewhere in this page).
++.TP
+ .B EINVAL
+ .I addr
+ is not page-aligned or
+@@ -533,6 +649,22 @@ or
+ .BR VM_PFNMAP
+ ranges.
+ .TP
++.B EINVAL
++.I advice
++is
++.B MADV_POPULATE_READ
++or
++.BR MADV_POPULATE_WRITE ,
++but the specified address range includes ranges with insufficient permissions
++or special mappings,
++for example,
++mappings marked with kernel-internal flags such a
++.B VM_IO
++or
++.BR VM_PFNMAP ,
++or secret memory regions created using
++.BR memfd_secret(2) .
++.TP
+ .B EIO
+ (for
+ .BR MADV_WILLNEED )
+@@ -548,6 +680,15 @@ Not enough memory: paging in failed.
+ Addresses in the specified range are not currently
+ mapped, or are outside the address space of the process.
+ .TP
++.B ENOMEM
++.I advice
++is
++.B MADV_POPULATE_READ
++or
++.BR MADV_POPULATE_WRITE ,
++and populating (prefaulting) page tables failed because there was not enough
++memory.
++.TP
+ .B EPERM
+ .I advice
+ is
+@@ -555,6 +696,20 @@ is
+ but the caller does not have the
+ .B CAP_SYS_ADMIN
+ capability.
++.TP
++.B EHWPOISON
++.I advice
++is
++.B MADV_POPULATE_READ
++or
++.BR MADV_POPULATE_WRITE ,
++and populating (prefaulting) page tables failed because a HW poisoned page
++(HW poisoned pages can,
++for example,
++be created using the
++.B MADV_HWPOISON
++flag described elsewhere in this page)
++was encountered.
+ .SH VERSIONS
+ Since Linux 3.18,
+ .\" commit d3ac21cacc24790eb45d735769f35753f5b56ceb
+@@ -602,6 +757,7 @@ from the system call, as it should).
+ .\" function first appeared in 4.4BSD.
+ .SH SEE ALSO
+ .BR getrlimit (2),
++.BR memfd_secret(2),
+ .BR mincore (2),
+ .BR mmap (2),
+ .BR mprotect (2),
 -- 
-Michael Kerrisk
-Linux man-pages maintainer; http://www.kernel.org/doc/man-pages/
-Linux/UNIX System Programming Training: http://man7.org/training/
+2.31.1
+
