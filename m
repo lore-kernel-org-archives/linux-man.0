@@ -2,76 +2,82 @@ Return-Path: <linux-man-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-19.4 required=3.0 tests=BAYES_00,DKIMWL_WL_HIGH,
-	DKIM_SIGNED,DKIM_VALID,DKIM_VALID_AU,INCLUDES_CR_TRAILER,INCLUDES_PATCH,
-	MAILING_LIST_MULTI,SPF_HELO_NONE,SPF_PASS,USER_AGENT_GIT autolearn=ham
-	autolearn_force=no version=3.4.0
+X-Spam-Status: No, score=-10.8 required=3.0 tests=BAYES_00,DKIM_SIGNED,
+	DKIM_VALID,DKIM_VALID_AU,HEADER_FROM_DIFFERENT_DOMAINS,MAILING_LIST_MULTI,
+	MENTIONS_GIT_HOSTING,SPF_HELO_NONE,SPF_PASS autolearn=ham autolearn_force=no
+	version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 1D456C433F5
-	for <linux-man@archiver.kernel.org>; Thu,  2 Sep 2021 23:29:20 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 5857DC433EF
+	for <linux-man@archiver.kernel.org>; Sat,  4 Sep 2021 02:29:12 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.kernel.org (Postfix) with ESMTP id EC1476108B
-	for <linux-man@archiver.kernel.org>; Thu,  2 Sep 2021 23:29:19 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTP id 3447060E8B
+	for <linux-man@archiver.kernel.org>; Sat,  4 Sep 2021 02:29:12 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S232931AbhIBXaS (ORCPT <rfc822;linux-man@archiver.kernel.org>);
-        Thu, 2 Sep 2021 19:30:18 -0400
-Received: from mail.kernel.org ([198.145.29.99]:37832 "EHLO mail.kernel.org"
-        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S230088AbhIBXaR (ORCPT <rfc822;linux-man@vger.kernel.org>);
-        Thu, 2 Sep 2021 19:30:17 -0400
-Received: by mail.kernel.org (Postfix) with ESMTPSA id AA92360F91;
-        Thu,  2 Sep 2021 23:29:18 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-        s=k20201202; t=1630625358;
-        bh=G8L+50J2bY97prOCo1Ec0nLnZFPrqF34MCjyuGOKIYM=;
-        h=From:To:Cc:Subject:Date:From;
-        b=DKMLNMhoL9YQKIJQSu2UBCJirB6sV7aoh9glWlDezAMjwnHhG87ozO8ktd381YSy/
-         7wMK9AqtBp0tmD/RCOWzcKtTu/umD3j1JU9nvNFYF/1qY8FhxNGctlqdtumSUkjrL6
-         HXqb87cZ2n5ztzyvWdIA4QoxyxFsyG2eXNRVgvE4F0NC1fkHr27XiFOuZ1Q5h48OfI
-         gSSff4iH8/tRs7OmFK/VctdGf/K7HzlxFA8cy2jLjmBVWwXCChA4TfyjhG8SUMpGan
-         FaZ+y+51tG0xzHRXjmsy+we4QIBOZzqnoOeByB0YGm9J8JW6lG72WCrbEuMwn1Czt5
-         aPhoRjLyOJgcQ==
-Received: by pali.im (Postfix)
-        id 3721910C6; Fri,  3 Sep 2021 01:29:16 +0200 (CEST)
-From:   =?UTF-8?q?Pali=20Roh=C3=A1r?= <pali@kernel.org>
-To:     "Alejandro Colomar (man-pages)" <alx.manpages@gmail.com>,
-        Michael Kerrisk <mtk.manpages@gmail.com>
-Cc:     =?UTF-8?q?Marek=20Beh=C3=BAn?= <kabel@kernel.org>,
-        libc-alpha@sourceware.org, linux-man@vger.kernel.org
-Subject: [PATCH] termios.3: CIBAUD and IBSHIFT are implemented on Linux, just unsupported by glibc
-Date:   Fri,  3 Sep 2021 01:29:00 +0200
-Message-Id: <20210902232900.2139-1-pali@kernel.org>
-X-Mailer: git-send-email 2.20.1
+        id S231389AbhIDCaM (ORCPT <rfc822;linux-man@archiver.kernel.org>);
+        Fri, 3 Sep 2021 22:30:12 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:33186 "EHLO
+        lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S234937AbhIDCaL (ORCPT
+        <rfc822;linux-man@vger.kernel.org>); Fri, 3 Sep 2021 22:30:11 -0400
+Received: from mail-ej1-x632.google.com (mail-ej1-x632.google.com [IPv6:2a00:1450:4864:20::632])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id BCB9EC061575
+        for <linux-man@vger.kernel.org>; Fri,  3 Sep 2021 19:29:10 -0700 (PDT)
+Received: by mail-ej1-x632.google.com with SMTP id i21so1656807ejd.2
+        for <linux-man@vger.kernel.org>; Fri, 03 Sep 2021 19:29:10 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=cs.unc.edu; s=google;
+        h=mime-version:from:date:message-id:subject:to:cc
+         :content-transfer-encoding;
+        bh=MrlN2AHnvuqoewEuf77VsbHFTuDPR9jtKRN0UKq0Zjs=;
+        b=e8+1yFjqHkpM/qKSl32qAdRQTfafdpmh6PxALkBFQGUB/a85UJCCpGrQKca+AvkM8p
+         /7++o/iFv4Lqc+5ojNPd3AzDJRjVTq1JTyn7RcVOZFMgOR+AFbXREpabhqfUvSiL9mrk
+         xdwQWE+deReWUV7x6m2BWMv6MJUilDg3GkDkc=
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20161025;
+        h=x-gm-message-state:mime-version:from:date:message-id:subject:to:cc
+         :content-transfer-encoding;
+        bh=MrlN2AHnvuqoewEuf77VsbHFTuDPR9jtKRN0UKq0Zjs=;
+        b=ec6Mt04BZ40HhNr/JwEk+LGd1LPqkAoXyfHT7XIiiavgmCOR4UyPxvTpCcDnuP2ts6
+         4qWJcHekGbulZaoLXeIn4BojnOFEKcTC40frmvrJbvhIzB67tQChd7BCuVTPlwZNai7P
+         Kcqy0bm9lI7ykrOIJ3wDJ0Wd4fybmV2UIhPSYvMucJ3Y0wowa4qrX2YM/3h9QbVWwZVh
+         HMXFlqTpoDthq3fTchNfhTvc94QNEnGCDt6Bj9ix9Thdo15MmcJVuJhpgv6UbCWyF/3p
+         NemafV5b+rcHkAMjSaMj7GTYLJNXDkKdWZFbk67eGbyYJFZ2rW678jQTJfPRZEHU/kiZ
+         g+eg==
+X-Gm-Message-State: AOAM530UX8vVqBfL4hMRgcRj8xm+AWIl9U0oeRZmT3itqfHjr7z2tXyA
+        WO9d78uf223E8quO0Z2WUJvS2W9Zh9Q2gwMDwDDlRYo+6bXx4A==
+X-Google-Smtp-Source: ABdhPJxerY273HKvxeY0GVF3yPwk1xhThBh8PU/2A8wR4/Gf12eUvu/UOSO5xVGb2EYEi4tmJR8X65mGlX9ZxXjnbOc=
+X-Received: by 2002:a17:906:7154:: with SMTP id z20mr1992097ejj.547.1630722549134;
+ Fri, 03 Sep 2021 19:29:09 -0700 (PDT)
 MIME-Version: 1.0
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 8bit
+From:   Sagar Patel <sagarmp@cs.unc.edu>
+Date:   Fri, 3 Sep 2021 22:28:58 -0400
+Message-ID: <CAMGmevBaX-PAuNfN6fANjipxnMO9JmnKdjTxaRVWMM78zC3mCQ@mail.gmail.com>
+Subject: Meaning of "Signed-off-by"
+To:     linux-man@vger.kernel.org
+Cc:     "Alejandro Colomar (man-pages)" <alx.manpages@gmail.com>,
+        mtk.manpages@gmail.com
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 Precedence: bulk
 List-ID: <linux-man.vger.kernel.org>
 X-Mailing-List: linux-man@vger.kernel.org
 
-Signed-off-by: Pali Rohár <pali@kernel.org>
----
- man3/termios.3 | 7 ++++++-
- 1 file changed, 6 insertions(+), 1 deletion(-)
+Hello,
 
-diff --git a/man3/termios.3 b/man3/termios.3
-index c11937458eac..d0630fe23040 100644
---- a/man3/termios.3
-+++ b/man3/termios.3
-@@ -348,7 +348,12 @@ bits.
- .B _BSD_SOURCE
- or
- .BR _SVID_SOURCE ]
--(Not implemented on Linux.)
-+(Not implemented in glibc, supported on Linux via
-+.BR TCGET *
-+and
-+.BR TCSET *
-+ioctls; see
-+.BR ioctl_tty (2))
- .TP
- .B CMSPAR
- (not in POSIX)
--- 
-2.20.1
+Does the man-pages project define the meaning of the "Signed-off-by"
+clause in a commit message? Per git-commit(1),
 
+> The meaning of a signoff depends on the project to which you're committin=
+g.
+
+But I couldn't find a reference to the meaning for man-pages. Is it
+the same as the linux kernel [1]?
+
+Since I couldn't find the meaning, I submitted a patch (which was
+subsequently accepted) without signing off on it. Sorry about that.
+
+[1]: https://github.com/torvalds/linux/blob/master/Documentation/process/su=
+bmitting-patches.rst#sign-your-work---the-developers-certificate-of-origin
+
+Thank you,
+=E2=80=94Sagar Patel
