@@ -8,114 +8,149 @@ X-Spam-Status: No, score=-15.7 required=3.0 tests=BAYES_00,DKIM_SIGNED,
 	MAILING_LIST_MULTI,SPF_HELO_NONE,SPF_PASS,USER_AGENT_GIT autolearn=ham
 	autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 09990C4332F
-	for <linux-man@archiver.kernel.org>; Fri, 10 Sep 2021 22:47:27 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 72AA4C433F5
+	for <linux-man@archiver.kernel.org>; Fri, 10 Sep 2021 22:47:28 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.kernel.org (Postfix) with ESMTP id E56C8611EF
-	for <linux-man@archiver.kernel.org>; Fri, 10 Sep 2021 22:47:26 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTP id 5BDBC611AD
+	for <linux-man@archiver.kernel.org>; Fri, 10 Sep 2021 22:47:28 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S231342AbhIJWsh (ORCPT <rfc822;linux-man@archiver.kernel.org>);
-        Fri, 10 Sep 2021 18:48:37 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:56844 "EHLO
+        id S230210AbhIJWsj (ORCPT <rfc822;linux-man@archiver.kernel.org>);
+        Fri, 10 Sep 2021 18:48:39 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:56854 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S231742AbhIJWsf (ORCPT
-        <rfc822;linux-man@vger.kernel.org>); Fri, 10 Sep 2021 18:48:35 -0400
-Received: from mail-wm1-x336.google.com (mail-wm1-x336.google.com [IPv6:2a00:1450:4864:20::336])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 28C63C061757
-        for <linux-man@vger.kernel.org>; Fri, 10 Sep 2021 15:47:24 -0700 (PDT)
-Received: by mail-wm1-x336.google.com with SMTP id c8-20020a7bc008000000b002e6e462e95fso2481501wmb.2
-        for <linux-man@vger.kernel.org>; Fri, 10 Sep 2021 15:47:24 -0700 (PDT)
+        with ESMTP id S232523AbhIJWsh (ORCPT
+        <rfc822;linux-man@vger.kernel.org>); Fri, 10 Sep 2021 18:48:37 -0400
+Received: from mail-wm1-x329.google.com (mail-wm1-x329.google.com [IPv6:2a00:1450:4864:20::329])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id A869DC061756
+        for <linux-man@vger.kernel.org>; Fri, 10 Sep 2021 15:47:25 -0700 (PDT)
+Received: by mail-wm1-x329.google.com with SMTP id c8-20020a7bc008000000b002e6e462e95fso2481527wmb.2
+        for <linux-man@vger.kernel.org>; Fri, 10 Sep 2021 15:47:25 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=gmail.com; s=20210112;
         h=from:to:cc:subject:date:message-id:in-reply-to:references
          :mime-version:content-transfer-encoding;
-        bh=Ex3h5MlwKZEaBA2bkMW7km+AO0otbH3dZ3zeaGuuRJ4=;
-        b=Qjzgw43WVrr4nhBexh/yLxOFG2610JCTNbAf4CO96PGFni0thVYgUCPHNzKd36xkOX
-         cnWnqEbBp3E+eCSrguC0YbPkc+CSlyO2pkMk3TVBv/R2D90jgF9JOeTAhfaZf9TzGRym
-         sphounx9R4HGLkMlEkzHKyOf1qaSCNe6jjzBsMPTxUjxReYRYVhiSjf6X+2XgghIwWkM
-         MPVyV3/AtyCvHNX9pQMnysUh3ZR88ojhg+zYpukeqCroDhQ5AOXr0VLJdwYzlLISprF6
-         1ZazZalHrB54qKMSjMINuwXQfpOv14Heq4wnI2VnWMEHKnE9w75J2M/XhEKMFd3mDFX9
-         jmeQ==
+        bh=C5pX/G8fgmCqNvpSTXlKu/EF+pA1YOSeN0csOSVZ2o4=;
+        b=f2aL6XOqZXUsPNMIgYwkfx+iA0Su6VORnpvInrzJX6EEs6mg9JexVH+Afl5w/lUPrx
+         QNK3GOPk7zxbfvjLTunyUDzyOPCJyXtPj/iZAtioOmDFqCjYl67XVNY1c2jO0eSkPEbV
+         SwjqUOvf6SgZN/8vx4ePPAjJdyjN0vSKewTlM+auKZUYFNN5C+wMOf/ensfxUW0UffAR
+         CT2DxvYS5seeugx2qog0YwOiMF1+cSlVSrfFa2Nagt8VnhhsYKbxD1xDZXTGc/OUxIpM
+         pZ+b36+31424MgE1KDI0gtiRUvvuOLa3l3KcWpXt4z+kixzKKCJCNv3pvhJgZ5dIj4ER
+         eFrA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20210112;
         h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
          :references:mime-version:content-transfer-encoding;
-        bh=Ex3h5MlwKZEaBA2bkMW7km+AO0otbH3dZ3zeaGuuRJ4=;
-        b=arM8769brVuc9bWj0/3FCAT0gxHcg3+fmVzqnlccp6yy//GI0vATsKwB5KaopTQe+P
-         aTDrGorwspJPnOkOK++tNVWS2f2OVIUwgFvKeP85vWy9xm+wMo7VIBuUByqiVd634uBq
-         q88ImNs1Pi6laO2d/l3OIojg8JFUFufd/Io5ciaKydubzL9FiTIweoQxhtWsiGwPjvfS
-         mzTk66u6MBcLsSbKPywkya2+6xNdtKkTXebZg2Wb/HuaTPtemE425tV5VEvBW3QIIWf6
-         8Ea62fV8q0+JIxsTsXqbwHfv2TBUsbbVJnVYZNHvQX9q7ZJ+L4ETNZV7iUsFNvEOZEXH
-         IwUA==
-X-Gm-Message-State: AOAM533cQYL8dF73U8Il/PXBjB0+Ojk06hWyTo1Jf0ETkr0F2QIT3Ji0
-        6U0B/jJWS1jWRU5T49zpXVsz+5+qYQ8=
-X-Google-Smtp-Source: ABdhPJwiYDtslxpSVXKd/019yHb1pOtsZmiI6ASJfjSaNsdsFYjTDni/CTxLGSvXn1GG3bRJqRDLQQ==
-X-Received: by 2002:a05:600c:2057:: with SMTP id p23mr21585wmg.25.1631314042792;
-        Fri, 10 Sep 2021 15:47:22 -0700 (PDT)
+        bh=C5pX/G8fgmCqNvpSTXlKu/EF+pA1YOSeN0csOSVZ2o4=;
+        b=abTbu6BNs/oVxj8Q3F6/nmMMYVXNpAks4Ts/ycVJceV4J05bT0FliixFM4Df1Aw3Lo
+         Kzd0YnVdmIvNxRbxUKR1D2EtWmDWXzYQLgERek9k6uLOw3zaJJzW9siDdQjdwue9tl78
+         2ThN7c7fJYPvFfDluzgzsa+z27W6Xg1mHJmi+qLaIqOChO3BYQtDyBo/lCZh6T0ZYoni
+         clDWxLbI2QySvNwJeJ++S3zkYEStQWegDzQZ8ADsqyB2tg17Z4HZHBUJWOqsefQwnfih
+         yiAoF2GJWKGqNQDFvoTxe9j6YBWBBN7cgHfAfcqb1htIVbmI3PtGc0DpmjVGVKR3/QF9
+         o3ZA==
+X-Gm-Message-State: AOAM530MurRl9zOQg2UyMF9fM3VlM0e/ZF2ErJu++3QNXuNEeKBv+xNe
+        WG70/hbcpSD5Kg6+PDA0nQw=
+X-Google-Smtp-Source: ABdhPJzYQXSnxHIcPtqnryhxvC2o4O2ZxpwBSbJmay4jpORQlEM3ZabpnDqD9CZp/LWm4svJuQ8ewA==
+X-Received: by 2002:a1c:f713:: with SMTP id v19mr24872wmh.188.1631314044311;
+        Fri, 10 Sep 2021 15:47:24 -0700 (PDT)
 Received: from sqli.alejandro-colomar.es ([170.253.36.171])
-        by smtp.googlemail.com with ESMTPSA id k18sm15520wmi.25.2021.09.10.15.47.22
+        by smtp.googlemail.com with ESMTPSA id k18sm15520wmi.25.2021.09.10.15.47.23
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Fri, 10 Sep 2021 15:47:22 -0700 (PDT)
+        Fri, 10 Sep 2021 15:47:24 -0700 (PDT)
 From:   Alejandro Colomar <alx.manpages@gmail.com>
 To:     mtk.manpages@gmail.com
 Cc:     Alejandro Colomar <alx.manpages@gmail.com>,
-        linux-man@vger.kernel.org, Mike Rapoport <rppt@kernel.org>
-Subject: [PATCH 03/15] memfd_secret.2: Minor tweaks to Mike's patch
-Date:   Sat, 11 Sep 2021 00:47:04 +0200
-Message-Id: <20210910224717.499502-4-alx.manpages@gmail.com>
+        linux-man@vger.kernel.org,
+        =?UTF-8?q?Pali=20Roh=C3=A1r?= <pali@kernel.org>
+Subject: [PATCH 05/15] ioctl_tty.2: Minor tweaks to Pali's patch
+Date:   Sat, 11 Sep 2021 00:47:06 +0200
+Message-Id: <20210910224717.499502-6-alx.manpages@gmail.com>
 X-Mailer: git-send-email 2.33.0
 In-Reply-To: <20210910224717.499502-1-alx.manpages@gmail.com>
 References: <20210910224717.499502-1-alx.manpages@gmail.com>
 MIME-Version: 1.0
+Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
 Precedence: bulk
 List-ID: <linux-man.vger.kernel.org>
 X-Mailing-List: linux-man@vger.kernel.org
 
-Cc: Mike Rapoport <rppt@kernel.org>
+Cc: Pali Rohár <pali@kernel.org>
 Signed-off-by: Alejandro Colomar <alx.manpages@gmail.com>
 ---
- man2/memfd_secret.2 | 6 ++----
- 1 file changed, 2 insertions(+), 4 deletions(-)
+ man2/ioctl_tty.2 | 26 +++++++++++++-------------
+ 1 file changed, 13 insertions(+), 13 deletions(-)
 
-diff --git a/man2/memfd_secret.2 b/man2/memfd_secret.2
-index 869480b48..1b4e82954 100644
---- a/man2/memfd_secret.2
-+++ b/man2/memfd_secret.2
-@@ -148,7 +148,6 @@ The
- .BR memfd_secret ()
- system call is Linux-specific.
- .SH NOTES
--.PP
- The
- .BR memfd_secret ()
- system call is designed to allow a user-space process
-@@ -160,7 +159,6 @@ memory ranges backed by
- in any circumstances, but nevertheless,
- it is much harder to exfiltrate data from these regions.
- .PP
--The
- .BR memfd_secret ()
- provides the following protections:
- .IP \(bu 3
-@@ -177,7 +175,7 @@ which significantly increases difficulty of the attack,
- especially when other protections like the kernel stack size limit
- and address space layout randomization are in place.
- .IP \(bu
--Prevent cross-process userspace memory exposures.
-+Prevent cross-process user-space memory exposures.
- Once a region for a
- .BR memfd_secret ()
- memory mapping is allocated,
-@@ -191,7 +189,7 @@ In order to access memory areas backed by
- .BR memfd_secret(),
- a kernel-side attack would need to
- either walk the page tables and create new ones,
--or spawn a new privileged userspace process to perform
-+or spawn a new privileged user-space process to perform
- secrets exfiltration using
- .BR ptrace (2).
- .PP
+diff --git a/man2/ioctl_tty.2 b/man2/ioctl_tty.2
+index fd1f3dc25..d0a10a508 100644
+--- a/man2/ioctl_tty.2
++++ b/man2/ioctl_tty.2
+@@ -772,17 +772,17 @@ Get or set arbitrary baudrate on the serial port.
+ int
+ main(int argc, char *argv[])
+ {
+-#ifndef BOTHER
++#if !defined BOTHER
+     fprintf(stderr, "BOTHER is unsupported\en");
+     /* Program may fallback to TCGETS/TCSETS with Bnnn constants */
+     exit(EXIT_FAILURE);
+ #else
+     /* Declare tio structure, its type depends on supported ioctl */
+-#ifdef TCGETS2
++# if defined TCGETS2
+     struct termios2 tio;
+-#else
++# else
+     struct termios tio;
+-#endif
++# endif
+     int fd, rc;
+ 
+     if (argc != 2 && argc != 3 && argc != 4) {
+@@ -797,11 +797,11 @@ main(int argc, char *argv[])
+     }
+ 
+     /* Get the current serial port settings via supported ioctl */
+-#ifdef TCGETS2
++# if defined TCGETS2
+     rc = ioctl(fd, TCGETS2, &tio);
+-#else
++# else
+     rc = ioctl(fd, TCGETS, &tio);
+-#endif
++# endif
+     if (rc) {
+         perror("TCGETS");
+         close(fd);
+@@ -822,11 +822,11 @@ main(int argc, char *argv[])
+         tio.c_ispeed = (argc == 4) ? atoi(argv[3]) : atoi(argv[2]);
+ 
+         /* Set new serial port settings via supported ioctl */
+-#ifdef TCSETS2
++# if defined TCSETS2
+         rc = ioctl(fd, TCSETS2, &tio);
+-#else
++# else
+         rc = ioctl(fd, TCSETS, &tio);
+-#endif
++# endif
+         if (rc) {
+             perror("TCSETS");
+             close(fd);
+@@ -834,11 +834,11 @@ main(int argc, char *argv[])
+         }
+ 
+         /* And get new values which were really configured */
+-#ifdef TCGETS2
++# if defined TCGETS2
+         rc = ioctl(fd, TCGETS2, &tio);
+-#else
++# else
+         rc = ioctl(fd, TCGETS, &tio);
+-#endif
++# endif
+         if (rc) {
+             perror("TCGETS");
+             close(fd);
 -- 
 2.33.0
 
