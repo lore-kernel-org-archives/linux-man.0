@@ -2,262 +2,142 @@ Return-Path: <linux-man-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-15.7 required=3.0 tests=BAYES_00,DKIM_SIGNED,
+X-Spam-Status: No, score=-16.6 required=3.0 tests=BAYES_00,DKIM_SIGNED,
 	DKIM_VALID,DKIM_VALID_AU,FREEMAIL_FORGED_FROMDOMAIN,FREEMAIL_FROM,
 	HEADER_FROM_DIFFERENT_DOMAINS,INCLUDES_CR_TRAILER,INCLUDES_PATCH,
-	MAILING_LIST_MULTI,SPF_HELO_NONE,SPF_PASS,USER_AGENT_GIT autolearn=ham
-	autolearn_force=no version=3.4.0
+	MAILING_LIST_MULTI,NICE_REPLY_A,SPF_HELO_NONE,SPF_PASS,USER_AGENT_SANE_1
+	autolearn=ham autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 79186C4332F
-	for <linux-man@archiver.kernel.org>; Fri, 10 Sep 2021 22:47:34 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id C96C7C433F5
+	for <linux-man@archiver.kernel.org>; Fri, 10 Sep 2021 22:53:21 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.kernel.org (Postfix) with ESMTP id 56DF1611AD
-	for <linux-man@archiver.kernel.org>; Fri, 10 Sep 2021 22:47:34 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTP id A4631611F2
+	for <linux-man@archiver.kernel.org>; Fri, 10 Sep 2021 22:53:21 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S233231AbhIJWsp (ORCPT <rfc822;linux-man@archiver.kernel.org>);
-        Fri, 10 Sep 2021 18:48:45 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:56894 "EHLO
+        id S232013AbhIJWyc (ORCPT <rfc822;linux-man@archiver.kernel.org>);
+        Fri, 10 Sep 2021 18:54:32 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:58098 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S233405AbhIJWsn (ORCPT
-        <rfc822;linux-man@vger.kernel.org>); Fri, 10 Sep 2021 18:48:43 -0400
-Received: from mail-wm1-x333.google.com (mail-wm1-x333.google.com [IPv6:2a00:1450:4864:20::333])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 6281AC061756
-        for <linux-man@vger.kernel.org>; Fri, 10 Sep 2021 15:47:31 -0700 (PDT)
-Received: by mail-wm1-x333.google.com with SMTP id u19-20020a7bc053000000b002f8d045b2caso2358697wmc.1
-        for <linux-man@vger.kernel.org>; Fri, 10 Sep 2021 15:47:31 -0700 (PDT)
+        with ESMTP id S234718AbhIJWyS (ORCPT
+        <rfc822;linux-man@vger.kernel.org>); Fri, 10 Sep 2021 18:54:18 -0400
+Received: from mail-wr1-x435.google.com (mail-wr1-x435.google.com [IPv6:2a00:1450:4864:20::435])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 2D1CEC061760
+        for <linux-man@vger.kernel.org>; Fri, 10 Sep 2021 15:53:06 -0700 (PDT)
+Received: by mail-wr1-x435.google.com with SMTP id z4so4711029wrr.6
+        for <linux-man@vger.kernel.org>; Fri, 10 Sep 2021 15:53:06 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=gmail.com; s=20210112;
-        h=from:to:cc:subject:date:message-id:in-reply-to:references
-         :mime-version:content-transfer-encoding;
-        bh=dRRZaUg21FtgVavv2sBOQvfY0tVJo005e5RuzBfJ+tc=;
-        b=MN6a4yu2H3kHCbGLMxqM+qzZ6gVky4cj9AFYD/teeewIDbJcscx+regujbJ+tmmNvB
-         SMzQpxCqvTj3KSa/EqBudgttSAZVIQbnpu8xp22k84W00XdpsF12biH5hj26+i95KfQS
-         H1mROOI1wtdZO/OPNOASQcJOQEXSpCVgAkrBh4KBt55bQSBE8J5Zhyeyf/5EdkwWtW3j
-         MYiqSn/m+ZOX9RCSEOIjrUyIH1f4NLgLTTclX0U0i8oQZVrWYaOn8FRYnWFgClc1B7uJ
-         lhw3HxeWCajbwQsszkgVElhA2QWE+oI++vT2d67mKaNvE5OZM5DnoVoI1iTEnKbk4sOA
-         E72Q==
+        h=subject:to:cc:references:from:message-id:date:user-agent
+         :mime-version:in-reply-to:content-language:content-transfer-encoding;
+        bh=JPN0ewIOI+KTTxV89qY8uRFe+F3KCg5DynsKRI3ylcs=;
+        b=DJyNI9e4F19pOvfBq9b9iPGDKHV2I7LhtehnTd3D2vkjoX2dKNVbs0H2kPTRKBr8H1
+         mPT7oyiex8XEIFrl8fWK39tbrLi7aFK/Ew5+Znv0lHAJ47rVS5fxaythXJtWUmwbJNDg
+         SnRiQoLMzWj48obibhuotohRVS/uUSuIdJrDdbRVNaDOudP00AaxcFu/3tf7ro5zHHYX
+         sbupEC3BfqW2Dz/SLo3IOtneUfq9A9m2cUz4LnlK/Zrrd9okK1hqDkN7X/XpXyrahk+b
+         ybpUQ836WhiAPzr8xWFjWITgWMdd0e9zjn7ob4Y6z3P5I2xtEGr/Wg6h1ShembwIwYkG
+         lkJQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20210112;
-        h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
-         :references:mime-version:content-transfer-encoding;
-        bh=dRRZaUg21FtgVavv2sBOQvfY0tVJo005e5RuzBfJ+tc=;
-        b=vhTUB0IGKsMaomAKONTpT8IIwtltx34WZZ6zqalGBg0WmILa8RYpZxIyCP6kXj/pfu
-         JoZioiigfu1xk7OSZQrmEfZ5zbVvKDca+bWZMzznlp3vRJ1F2PE7erj+KrsAEtg9GWnO
-         qUcalwn/7yAtL98Q3ZIT3vWczCuXpL+L8b/2LF9pe2+8JNGHT332Psq8yr1XM4MvQtE4
-         6n9LN6JpH1egSO9JodTQ4uIZWp3EfZOSzdFLnTVSIO70GYkc13jKE7khiq8zZuI3xT3e
-         3uI8SJIMf6Ya0QHKDbBqNxkS/Wk1Rzln7ZNDrfFB97VbHG7lyPuvonXl21XyyX81oZ7Q
-         y1Zw==
-X-Gm-Message-State: AOAM53298YUnkelWEohFkfWADQWQZkP1XJH/M7hN5og9ifqYECnrZ+hr
-        9SzFWjghMP7jXXdCo+rYuM8=
-X-Google-Smtp-Source: ABdhPJzMhtjtwvdYiY9NgfabDAVYVcovKtiEuGyRWnFHFzNf2QC8CgtrMgYwHr8u1tRLEfeF6GgAKA==
-X-Received: by 2002:a05:600c:4109:: with SMTP id j9mr34779wmi.88.1631314049978;
-        Fri, 10 Sep 2021 15:47:29 -0700 (PDT)
-Received: from sqli.alejandro-colomar.es ([170.253.36.171])
-        by smtp.googlemail.com with ESMTPSA id k18sm15520wmi.25.2021.09.10.15.47.29
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Fri, 10 Sep 2021 15:47:29 -0700 (PDT)
-From:   Alejandro Colomar <alx.manpages@gmail.com>
+        h=x-gm-message-state:subject:to:cc:references:from:message-id:date
+         :user-agent:mime-version:in-reply-to:content-language
+         :content-transfer-encoding;
+        bh=JPN0ewIOI+KTTxV89qY8uRFe+F3KCg5DynsKRI3ylcs=;
+        b=MuV0CxJD+ttFFMnB5Bi4HZuHq8z2L0qG20U4DVPM4GX6cOcYDwalpJqwQvfhGNJW9A
+         kLnL19mjLvwULZ9IOn86/CPognLsTtyqz01IiCSiP2LnVQBh9qiwZSvKUdNvwnczHCsO
+         Kioz7cpGhdrsQS9mjSPlfcFlP9ZIJorsUVaXcB0ZSWRSbQLwdJYAOHzGJVIjKCMveR81
+         lvAcxOd7AEYD1FrVKFbM1z20v9g0KXOlwKJzg54UtTeUGQX4sMMe943Ko16uorSNTqnJ
+         LNmDjhS6IH36n4P846YLv3lDK1Ui5CiI7Zx/hMzMQdQ92izFQtF3c1EDdHMVxabykn+u
+         ZziQ==
+X-Gm-Message-State: AOAM531os/dyHoBL8gr5JKJXRewXag/QFnw7nK7uGRSaETwiuhxMaaNH
+        Wcav03DWL+O5KR/0cLV4U2A=
+X-Google-Smtp-Source: ABdhPJwyeUoMrLmRU2su5AEc3lAbKFF71YBLq1qn6RgYdkgeHOWAc0/UU9/qh+09oBoSyy1zGu+1mw==
+X-Received: by 2002:adf:e6c5:: with SMTP id y5mr118348wrm.198.1631314384843;
+        Fri, 10 Sep 2021 15:53:04 -0700 (PDT)
+Received: from [10.168.10.11] ([170.253.36.171])
+        by smtp.gmail.com with ESMTPSA id y4sm1299wmi.22.2021.09.10.15.53.04
+        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+        Fri, 10 Sep 2021 15:53:04 -0700 (PDT)
+Subject: Re: [PATCH 09/15] clone.2: ERRORS: Add EACCESS with CLONE_INTO_CGROUP
+ + clone3
 To:     mtk.manpages@gmail.com
-Cc:     Greg Banks <gbanks@linkedin.com>, linux-man@vger.kernel.org,
-        Alejandro Colomar <alx.manpages@gmail.com>
-Subject: [PATCH 13/15] nscd.conf.5: describe reloading, clarifications
-Date:   Sat, 11 Sep 2021 00:47:14 +0200
-Message-Id: <20210910224717.499502-14-alx.manpages@gmail.com>
-X-Mailer: git-send-email 2.33.0
-In-Reply-To: <20210910224717.499502-1-alx.manpages@gmail.com>
+Cc:     linux-man@vger.kernel.org, Andrew Wock <ajwock@gmail.com>,
+        Christian Brauner <christian.brauner@ubuntu.com>
 References: <20210910224717.499502-1-alx.manpages@gmail.com>
+ <20210910224717.499502-10-alx.manpages@gmail.com>
+From:   "Alejandro Colomar (man-pages)" <alx.manpages@gmail.com>
+Message-ID: <842a7681-1a2a-4dc8-3f23-f191f6541a39@gmail.com>
+Date:   Sat, 11 Sep 2021 00:53:03 +0200
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
+ Thunderbird/78.13.0
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+In-Reply-To: <20210910224717.499502-10-alx.manpages@gmail.com>
+Content-Type: text/plain; charset=utf-8; format=flowed
+Content-Language: en-US
+Content-Transfer-Encoding: 7bit
 Precedence: bulk
 List-ID: <linux-man.vger.kernel.org>
 X-Mailing-List: linux-man@vger.kernel.org
 
-From: Greg Banks <gbanks@linkedin.com>
+Hi Michael,
 
-- Added a subsection of NOTES describing nscd's reloading behavior
-  and providing advice on how to configure it.
-- Clarifications for the threads, reload-count, positive-time-to-live,
-  check-files, and shared attributes.
+On 9/11/21 12:47 AM, Alejandro Colomar wrote:
+> [Andrew]:
+> I noticed that clone3 can send the EACCES errno after I wrote a
+> program that used clone3 with the CLONE_INTO_CGROUP flag.
+> To me, it's important to know what kind of failure occurred if the
+> clone3() fails, so I was glad that a unique errno is set for
+> this case, but it wasn't documented on the clone man page.
+> 
+> [Christian]:
+> In essence, any error that could occur during regular fs-based migration
+> at write-time can also occur during CLONE_INTO_CGROUP. The clone3()
+> manpage just has the inverse of that above statement:
+> 
+> "Note that all of the usual restrictions (described in cgroups(7)) on
+> placing a process into a version 2 cgroup apply."
+> 
+> Reported-by: Andrew Wock <ajwock@gmail.com>
+> Acked-by: Christian Brauner <christian.brauner@ubuntu.com>
+> Signed-off-by: Alejandro Colomar <alx.manpages@gmail.com>
 
-Derived by reading the nscd, libresolv and glibc source and some
-painful experience.
+I forgot to fix the author of the commit.  It should be Andrew, as he 
+provided the diff, eventhough I commited it.
 
-Signed-off-by: Greg Banks <gbanks@linkedin.com>
-Signed-off-by: Alejandro Colomar <alx.manpages@gmail.com>
----
- man5/nscd.conf.5 | 115 +++++++++++++++++++++++++++++++++++++++++++++--
- 1 file changed, 112 insertions(+), 3 deletions(-)
+Please fix that.
 
-diff --git a/man5/nscd.conf.5 b/man5/nscd.conf.5
-index 7356bf7c2..25ee4901b 100644
---- a/man5/nscd.conf.5
-+++ b/man5/nscd.conf.5
-@@ -1,5 +1,6 @@
- .\" Copyright (c) 1999, 2000 SuSE GmbH Nuernberg, Germany
- .\" Author: Thorsten Kukuk <kukuk@suse.de>
-+.\" Updates: Greg Banks <gbanks@linkedin.com> Copyright (c) 2021 Microsoft Corp.
- .\"
- .\" %%%LICENSE_START(GPLv2+_SW_3_PARA)
- .\" This program is free software; you can redistribute it and/or
-@@ -53,9 +54,13 @@ The default is 0.
- .B threads
- .I number
- .RS
--This is the number of threads that are started to wait for
-+This is the initial number of threads that are started to wait for
- requests.
- At least five threads will always be created.
-+The number of threads may increase dynamically up to
-+.B max\-threads
-+in response to demand from clients,
-+but never decreases.
- .RE
- .PP
- .B max\-threads
-@@ -83,9 +88,20 @@ Specifies the user who is allowed to request statistics.
- unlimited |
- .I number
- .RS
--Limit on the number of times a cached entry gets reloaded without being used
-+Sets a limit on the number of times a cached entry
-+gets reloaded without being used
- before it gets removed.
--The default is 5.
-+The limit can take values ranging from 0 to 254;
-+values 255 or higher behave the same as
-+.BR unlimited .
-+Limit values can be specified in either decimal
-+or hexadecimal with a "0x" prefix.
-+The special value
-+.B unlimited
-+is case-insensitive.
-+The default limit is 5.
-+A limit of 0 turns off the reloading feature.
-+See NOTES below for further discussion of reloading.
- .RE
- .PP
- .B paranoia
-@@ -128,6 +144,9 @@ in the specified cache for
- is in seconds.
- Larger values increase cache hit rates and reduce mean
- response times, but increase problems with cache coherence.
-+Note that for some name services (including specifically DNS)
-+the TTL returned from the name service is used and
-+this attribute is ignored.
- .RE
- .PP
- .B negative\-time\-to\-live
-@@ -166,6 +185,7 @@ The files are
- .IR /etc/passwd ,
- .IR /etc/group ,
- .IR /etc/hosts ,
-+.IR /etc/resolv.conf ,
- .IR /etc/services ,
- and
- .IR /etc/netgroup .
-@@ -194,6 +214,8 @@ is shared with the clients so
- that they can directly search in them instead of having to ask the
- daemon over the socket each time a lookup is performed.
- The default is no.
-+Note that a cache miss will still result in
-+asking the daemon over the socket.
- .RE
- .PP
- .B max\-db\-size
-@@ -236,6 +258,93 @@ from the source code of
- and are used if not overridden in the configuration file.
- The default values used in the configuration file of
- your distribution might differ.
-+.SS Reloading
-+.BR nscd (8)
-+has a feature called reloading,
-+whose behavior can be surprising.
-+.PP
-+Reloading is enabled when the
-+.B reload-count
-+attribute has a non-zero value.
-+The default value in the source code enables reloading,
-+although your distribution may differ.
-+.PP
-+When reloading is enabled,
-+positive cached entries (the results of successful queries)
-+do not simply expire when their TTL is up.
-+Instead, at the expiry time,
-+.B nscd
-+will "reload",
-+i.e.,
-+re-issue to the name service the same query that created the cached entry,
-+to get a new value to cache.
-+Depending on
-+.I /etc/nsswitch.conf
-+this may mean that a DNS, LDAP, or NIS request is made.
-+If the new query is successful,
-+reloading will repeat when the new value would expire,
-+until
-+.B reload-count
-+reloads have happened for the entry,
-+and only then will it actually be removed from the cache.
-+A request from a client which hits the entry will
-+reset the reload counter on the entry.
-+Purging the cache using
-+.I nscd\~-i
-+overrides the reload logic and removes the entry.
-+.PP
-+Reloading has the effect of extending cache entry TTLs
-+without compromising on cache coherency,
-+at the cost of additional load on the backing name service.
-+Whether this is a good idea on your system depends on
-+details of your applications' behavior,
-+your name service,
-+and the effective TTL values of your cache entries.
-+Note that for some name services
-+(for example, DNS),
-+the effective TTL is the value returned from the name service and
-+.I not
-+the value of the
-+.B positive\-time\-to\-live
-+attribute.
-+.PP
-+Please consider the following advice carefully:
-+.IP \(bu
-+If your application will make a second request for the same name,
-+after more than 1 TTL but before
-+.B reload\-count
-+TTLs,
-+and is sensitive to the latency of a cache miss,
-+then reloading may be a good idea for you.
-+.IP \(bu
-+If your name service is configured to return very short TTLs,
-+and your applications only make requests rarely under normal circumstances,
-+then reloading may result in additional load on your backing name service
-+without any benefit to applications,
-+which is probably a bad idea for you.
-+.IP \(bu
-+If your name service capacity is limited,
-+reloading may have the surprising effect of
-+increasing load on your name service instead of reducing it,
-+and may be a bad idea for you.
-+.IP \(bu
-+Setting
-+.B reload\-count
-+to
-+.B unlimited
-+is almost never a good idea,
-+as it will result in a cache that never expires entries
-+and puts never-ending additional load on the backing name service.
-+.PP
-+Some distributions have an init script for
-+.BR nscd (8)
-+with a
-+.I reload
-+command which uses
-+.I nscd\~-i
-+to purge the cache.
-+That use of the word "reload" is entirely different
-+from the "reloading" described here.
- .SH SEE ALSO
- .BR nscd (8)
- .\" .SH AUTHOR
+Thanks,
+
+Alex
+
+> ---
+>   man2/clone.2 | 10 ++++++++++
+>   1 file changed, 10 insertions(+)
+> 
+> diff --git a/man2/clone.2 b/man2/clone.2
+> index e381da165..90db92ad6 100644
+> --- a/man2/clone.2
+> +++ b/man2/clone.2
+> @@ -1209,6 +1209,16 @@ in the caller's context, no child process is created, and
+>   is set to indicate the error.
+>   .SH ERRORS
+>   .TP
+> +.BR EACCES " (" clone3 "() only)"
+> +.B CLONE_INTO_CGROUP
+> +was specified in
+> +.IR cl_args.flags ,
+> +but the restrictions (described in
+> +.BR cgroups (7))
+> +on placing the child process into the version 2 cgroup referred to by
+> +.I cl_args.cgroup
+> +are not met.
+> +.TP
+>   .B EAGAIN
+>   Too many processes are already running; see
+>   .BR fork (2).
+> 
+
+
 -- 
-2.33.0
-
+Alejandro Colomar
+Linux man-pages comaintainer; https://www.kernel.org/doc/man-pages/
+http://www.alejandro-colomar.es/
