@@ -1,106 +1,309 @@
 Return-Path: <linux-man-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
-X-Spam-Level: 
-X-Spam-Status: No, score=-4.3 required=3.0 tests=BAYES_00,DKIM_SIGNED,
-	DKIM_VALID,DKIM_VALID_AU,FREEMAIL_FORGED_FROMDOMAIN,FREEMAIL_FROM,
-	HEADER_FROM_DIFFERENT_DOMAINS,MAILING_LIST_MULTI,NICE_REPLY_A,SPF_HELO_NONE,
-	SPF_PASS,USER_AGENT_SANE_1 autolearn=no autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 4D3ECC433EF
-	for <linux-man@archiver.kernel.org>; Wed, 22 Sep 2021 09:12:38 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 63807C433EF
+	for <linux-man@archiver.kernel.org>; Fri, 24 Sep 2021 22:01:17 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.kernel.org (Postfix) with ESMTP id 3748B60F6E
-	for <linux-man@archiver.kernel.org>; Wed, 22 Sep 2021 09:12:38 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTP id 47185610D1
+	for <linux-man@archiver.kernel.org>; Fri, 24 Sep 2021 22:01:17 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S234376AbhIVJOH (ORCPT <rfc822;linux-man@archiver.kernel.org>);
-        Wed, 22 Sep 2021 05:14:07 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:38594 "EHLO
+        id S1344356AbhIXWCu (ORCPT <rfc822;linux-man@archiver.kernel.org>);
+        Fri, 24 Sep 2021 18:02:50 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:58042 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S234396AbhIVJOD (ORCPT
-        <rfc822;linux-man@vger.kernel.org>); Wed, 22 Sep 2021 05:14:03 -0400
-Received: from mail-wr1-x430.google.com (mail-wr1-x430.google.com [IPv6:2a00:1450:4864:20::430])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 39E6CC061574
-        for <linux-man@vger.kernel.org>; Wed, 22 Sep 2021 02:12:33 -0700 (PDT)
-Received: by mail-wr1-x430.google.com with SMTP id d21so4561531wra.12
-        for <linux-man@vger.kernel.org>; Wed, 22 Sep 2021 02:12:33 -0700 (PDT)
+        with ESMTP id S1344321AbhIXWCt (ORCPT
+        <rfc822;linux-man@vger.kernel.org>); Fri, 24 Sep 2021 18:02:49 -0400
+Received: from mail-vk1-xa2c.google.com (mail-vk1-xa2c.google.com [IPv6:2607:f8b0:4864:20::a2c])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 0B44AC061613
+        for <linux-man@vger.kernel.org>; Fri, 24 Sep 2021 15:01:16 -0700 (PDT)
+Received: by mail-vk1-xa2c.google.com with SMTP id b67so4506766vkb.13
+        for <linux-man@vger.kernel.org>; Fri, 24 Sep 2021 15:01:16 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20210112;
-        h=subject:from:to:cc:references:message-id:date:user-agent
-         :mime-version:in-reply-to:content-language:content-transfer-encoding;
-        bh=QI+BF5fVSmFevzT05qW/WGFMqvzcJj/HGqFbaSdePJQ=;
-        b=MgoVP2Y7pOJ0S3AgG1/RUqz5Nga7WohAVjtbeQxbCkdq38qcOp16o1tCl735EiKDaA
-         khJ1tJY7RJhL0tNUMXuyHKFz7rv9dVk4MhsX7Hv1ydByqCRDsmaq7omD4GNOqtKZEZTc
-         gZzPWH7avnI3iUcqcin6yKTHvgjOXI3cVYHQZeUBThw4ebs9WhovfiU9ax1/M6scQU2y
-         b3Qs3Ou1bB7kiRbMTlV3T85S024pVGRKMWkoMlKIggzvlmm9pMPjJ4sKgFuPr1O09860
-         CUUbGDl7A5r1ThH7NmbkLplka22DU+KXycWyIx9jJ/mRBKpYtSC2/4DsgUG3MWRDIn2k
-         L7XQ==
+        d=google.com; s=20210112;
+        h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+         :cc:content-transfer-encoding;
+        bh=70Ziw5c/h+Z1Js/UP9LzWd5OTChXBiQT9wwmlih1fBM=;
+        b=dk76utAdz2A0SLC2H2kLjsweX9e85nUeNFRzt5h00IflMYv1v/yjStScL3zOb/bwIY
+         isr2QyebRdZBWRckRpD2qUjVfusT3iUJ6S0pg0JYYCIHrUJ11/O3oAbnkZincXwG7hae
+         EPf3MrAWb6T8dG9InjAiLZ0Hej/PbZnEfFHFpteQiSp3yyzo2RIJ84pN3NUCkCa/CCI5
+         VKuNMwtlm1/BUXNi7zJ7CMksOj0PiPfG5BsGtGWS+f5b29xXpox0Whz5REJfQkVEyv9E
+         JFF4GK9QAzZ/pakCjGg8QXCRB2ziNRQv03RmReKLkgyLB7PMcRH3L7ELHoiNi6YR3Sou
+         khzA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20210112;
-        h=x-gm-message-state:subject:from:to:cc:references:message-id:date
-         :user-agent:mime-version:in-reply-to:content-language
-         :content-transfer-encoding;
-        bh=QI+BF5fVSmFevzT05qW/WGFMqvzcJj/HGqFbaSdePJQ=;
-        b=FDvQAdi72/DknrXg9D0g2G9P75+jszg1zTstgaHzlgu0xbrd9NeQT6KVdUhfKS/pN+
-         TbMvw1kGKHuw1B1WsL6AScDQa+7+joTvpuOW7Yiq+eRlGN9TON44xm5h9FXbN9uQzMyW
-         smS5k+vAnTV7kswL5hiYfZSfkTcIJYoBbSWYur42G2waBPZutN9A8Op3xjKsFOZPtfk9
-         kjSXI7XoYIljmPSggBERPgiLbtWKNDVxA9VF4oO1/gvoFSZBwrWOnCJavLOxS8uzhi3B
-         Iuxpss7jEaAzQEBrsuUG8QwJ4gtcNPb/UKxRQXyLRUVHaMfKP9Qeq2lkzHNV51A/EDU8
-         72AA==
-X-Gm-Message-State: AOAM530Xb9NkwKRFby8NzwgIeqfyJFYsnb4R8eHsQHoJXTcpR9DgMWzV
-        N4RhjlL+muO0c/PfdX7NzbHTIHt38Nw=
-X-Google-Smtp-Source: ABdhPJxUkeBA7xiG9st2r3eyiRQROMinF0nOWFwQ4K6EREQxGkgN3uWI4mDTOOoksEWgE2OED8LJqA==
-X-Received: by 2002:a1c:ac03:: with SMTP id v3mr9398196wme.127.1632301951822;
-        Wed, 22 Sep 2021 02:12:31 -0700 (PDT)
-Received: from [10.8.0.46] ([195.53.121.100])
-        by smtp.gmail.com with ESMTPSA id f18sm1798277wrw.63.2021.09.22.02.12.31
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Wed, 22 Sep 2021 02:12:31 -0700 (PDT)
-Subject: Re: [PATCH 1/2] rpmatch.3: remove first-character-only FUD
-From:   "Alejandro Colomar (man-pages)" <alx.manpages@gmail.com>
-To:     =?UTF-8?B?0L3QsNCx?= <nabijaczleweli@nabijaczleweli.xyz>
-Cc:     linux-man@vger.kernel.org
-References: <8f5f9b7d4f067a4a479fe400dee99120bf0a1abd.1632231952.git.nabijaczleweli@nabijaczleweli.xyz>
- <be1eaa87-3fa3-2e1f-7e6c-80362adbb935@gmail.com>
- <20210921160609.cq6vg2wqwchthqmt@tarta.nabijaczleweli.xyz>
- <38855813-ada0-24e1-2482-711d82af3e2a@gmail.com>
-Message-ID: <64095d5a-e561-d024-5256-2dccdd3b6de8@gmail.com>
-Date:   Wed, 22 Sep 2021 11:12:30 +0200
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
- Thunderbird/78.13.0
+        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+         :message-id:subject:to:cc:content-transfer-encoding;
+        bh=70Ziw5c/h+Z1Js/UP9LzWd5OTChXBiQT9wwmlih1fBM=;
+        b=HXZLLY/CHXZRr5DowviFBHcB3szxLG1m4mKvk6PF0WD+VI3DJGF8x36mmdryr2Cwey
+         vjrHpy8MH36vZufOxb9RlD8okGRmnsugMmKf5TuYH+L1WapqK9kgYEHIwXvBGr+1ZcB+
+         SwGKbmoSkuhIhDzsVMkag2zPzg8jtLBnsE/9l8PgsVHymtwOVpKCWkyQNtIhGyKYqr8n
+         e+lHQd8oCMr/QamlSYxeKWl0NXCqmLJF9JjpbXzyD/lrPX3W+BcFS9VebkLCYESxFIUr
+         kN/elF8V+1pNJ6gU/NXu/tyn2KdJXSwfw1/1NIKwKkdL1p+Cs6SvbhXtONuwa1VKqwrQ
+         W4aA==
+X-Gm-Message-State: AOAM530yS4okAzgaqTJ+Uwvlef/Ir4lUHqo5HULrBNX9uGZ2RGR2GUHd
+        rZr9CToxJ09p9tbTzO+BoC7viNV4taLAaZYyyjxQOQ==
+X-Google-Smtp-Source: ABdhPJwT8P05hkmLUZQKWk3NEVKNCy5ZhwVV+yjVvlgRlzmvb6fe0izcsXRume/4YBhKkPGs5nxZ5z1lTQRO3fY4qk8=
+X-Received: by 2002:a1f:5d04:: with SMTP id r4mr10554940vkb.6.1632520874904;
+ Fri, 24 Sep 2021 15:01:14 -0700 (PDT)
 MIME-Version: 1.0
-In-Reply-To: <38855813-ada0-24e1-2482-711d82af3e2a@gmail.com>
-Content-Type: text/plain; charset=utf-8; format=flowed
-Content-Language: en-US
-Content-Transfer-Encoding: 8bit
+References: <20210917041702.167622-1-weiwan@google.com> <c0617af0-fc29-5ac6-deb0-d0da3fcfc99d@gmail.com>
+In-Reply-To: <c0617af0-fc29-5ac6-deb0-d0da3fcfc99d@gmail.com>
+From:   Wei Wang <weiwan@google.com>
+Date:   Fri, 24 Sep 2021 15:01:03 -0700
+Message-ID: <CAEA6p_AoaQn=PmrtinzibzVwA1O2FZkda1coVGdzaJDY=g=ixw@mail.gmail.com>
+Subject: Re: [patch v2] tcp.7: Add description for TCP_FASTOPEN and
+ TCP_FASTOPEN_CONNECT options
+To:     "Alejandro Colomar (man-pages)" <alx.manpages@gmail.com>
+Cc:     netdev@vger.kernel.org, Yuchung Cheng <ycheng@google.com>,
+        Michael Kerrisk <mtk.manpages@gmail.com>,
+        linux-man@vger.kernel.org
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 Precedence: bulk
 List-ID: <linux-man.vger.kernel.org>
 X-Mailing-List: linux-man@vger.kernel.org
 
-Hi наб,
+On Mon, Sep 20, 2021 at 12:50 PM Alejandro Colomar (man-pages)
+<alx.manpages@gmail.com> wrote:
+>
+> Hello Wei,
+>
+> On 9/17/21 6:17 AM, Wei Wang wrote:
+> > TCP_FASTOPEN socket option was added by:
+> > commit 8336886f786fdacbc19b719c1f7ea91eb70706d4
+> > TCP_FASTOPEN_CONNECT socket option was added by the following patch
+> > series:
+> > commit 065263f40f0972d5f1cd294bb0242bd5aa5f06b2
+> > commit 25776aa943401662617437841b3d3ea4693ee98a
+> > commit 19f6d3f3c8422d65b5e3d2162e30ef07c6e21ea2
+> > commit 3979ad7e82dfe3fb94a51c3915e64ec64afa45c3
+> > Add detailed description for these 2 options.
+> > Also add descriptions for /proc entry tcp_fastopen and tcp_fastopen_key=
+.
+> >
+> > Signed-off-by: Wei Wang <weiwan@google.com>
+> > Reviewed-by: Yuchung Cheng <ycheng@google.com>
+>
+> Thanks for the patch (and the review, Yuchung)!
+>
+> Please see some comments below.
+>
+> Cheers,
+>
+> Alex
+>
+> > ---
+> > Change in v2: corrected some format issues
+> >
+> >   man7/tcp.7 | 110 ++++++++++++++++++++++++++++++++++++++++++++++++++++=
++
+> >   1 file changed, 110 insertions(+)
+> >
+> > diff --git a/man7/tcp.7 b/man7/tcp.7
+> > index 0a7c61a37..5a6fa7f50 100644
+> > --- a/man7/tcp.7
+> > +++ b/man7/tcp.7
+> > @@ -423,6 +423,28 @@ option.
+> >   .\" Since 2.4.0-test7
+> >   Enable RFC\ 2883 TCP Duplicate SACK support.
+> >   .TP
+> > +.IR tcp_fastopen  " (Bitmask; default: 0x1; since Linux 3.7)"
+> > +Enables RFC\ 7413 Fast Open support.
+> > +The flag is used as a bitmap with the following values:
+> > +.RS
+> > +.IP 0x1
+> > +Enables client side Fast Open support
+> > +.IP 0x2
+> > +Enables server side Fast Open support
+> > +.IP 0x4
+> > +Allows client side to transmit data in SYN without Fast Open option
+> > +.IP 0x200
+> > +Allows server side to accept SYN data without Fast Open option
+> > +.IP 0x400
+> > +Enables Fast Open on all listeners without
+> > +.B TCP_FASTOPEN
+> > +socket option
+> > +.RE
+> > +.TP
+> > +.IR tcp_fastopen_key " (since Linux 3.7)"
+> > +Set server side RFC\ 7413 Fast Open key to generate Fast Open cookie
+> > +when server side Fast Open support is enabled.
+> > +.TP
+> >   .IR tcp_ecn " (Integer; default: see below; since Linux 2.4)"
+> >   .\" Since 2.4.0-test7
+> >   Enable RFC\ 3168 Explicit Congestion Notification.
+> > @@ -1202,6 +1224,94 @@ Bound the size of the advertised window to this =
+value.
+> >   The kernel imposes a minimum size of SOCK_MIN_RCVBUF/2.
+> >   This option should not be used in code intended to be
+> >   portable.
+> > +.TP
+> > +.BR TCP_FASTOPEN " (since Linux 3.6)"
+> > +This option enables Fast Open (RFC\ 7413) on the listener socket.
+> > +The value specifies the maximum length of pending SYNs
+> > +(similar to the backlog argument in
+> > +.BR listen (2)).
+> > +Once enabled,
+> > +the listener socket grants the TCP Fast Open cookie on incoming
+> > +SYN with TCP Fast Open option.
+> > +.IP
+> > +More importantly it accepts the data in SYN with a valid Fast Open coo=
+kie
+> > +and responds SYN-ACK acknowledging both the data and the SYN sequence.
+> > +.BR accept (2)
+> > +returns a socket that is available for read and write when the handsha=
+ke
+> > +has not completed yet.
+> > +Thus the data exchange can commence before the handshake completes.
+> > +This option requires enabling the server-side support on sysctl
+> > +.IR net.ipv4.tcp_fastopen
+> > +(see above).
+> > +For TCP Fast Open client-side support,
+> > +see
+> > +.BR send (2)
+> > +.B MSG_FASTOPEN
+> > +or
+> > +.B TCP_FASTOPEN_CONNECT
+> > +below.
+> > +.TP
+> > +.BR TCP_FASTOPEN_CONNECT " (since Linux 4.11)"
+> > +This option enables an alternative way to perform Fast Open on the act=
+ive
+> > +side (client).
+> > +When this option is enabled,
+> > +.BR connect (2)
+> > +would behave differently depending if a Fast Open cookie is available =
+for
+> > +the destination.
+> > +.IP
+> > +If a cookie is not available (i.e. first contact to the destination),
+> > +.BR connect (2)
+> > +behaves as usual by sending a SYN immediately,
+> > +except the SYN would include an empty Fast Open cookie option to solic=
+it a
+> > +cookie.
+> > +.IP
+> > +If a cookie is available,
+> > +.BR connect (2)
+> > +would return 0 immediately but the SYN transmission is defered.
+> > +A subsequent
+> > +.BR write (2)
+> > +or
+> > +.BR sendmsg (2)
+> > +would trigger a SYN with data plus cookie in the Fast Open option.
+> > +In other words,
+> > +the actual connect operation is deferred until data is supplied.
+> > +.IP
+> > +.B Note:
+> > +While this option is designed for convenience,
+> > +enabling it does change the behaviors and might set new
+> > +.I errnos
+>
+> typo?
+>
+> errno values?
+>
+> > +of socket calls.
+>
+> The above is not very clear to me.
+>
+Will update.
 
-On 9/22/21 1:25 AM, Alejandro Colomar (man-pages) wrote:
+> > +With cookie present,
+> > +.BR write (2)
+> > +/
+>
+> Does this mean an "or"?  If so, prefer the "or".
+>
+Yes. Ack.
 
-> Since the C locale is the most important one, IMHO, and it is as 
-> problematic as the BUGS section mentions, I think we should keep the 
-> warning, and maybe add a mention that it depends on the locale.  What do 
-> you think?
+> > +.BR sendmsg (2)
+> > +must be called right after
+> > +.BR connect (2)
+> > +in order to send out SYN+data to complete 3WHS and establish connectio=
+n.
+> > +Calling
+> > +.BR read (2)
+> > +right after
+> > +.BR connect (2)
+> > +without
+> > +.BR write (2)
+> > +will cause the blocking socket to be blocked forever.
+>
+>
+> > +The application should use either
+> > +.B TCP_FASTOPEN_CONNECT
+> > +or
+> > +.BR send (2)
+>
+> This is not clear to me.  So TCP_FASTOPEN_CONNECT can use write(2) and
+> sendmsg(2) (mentioned above), and TCP_FASTOPEN can only use send(2)?  Or
+> what did you mean?
+>
 
-I mean, I agree with you that rpmatch(3) is **the correct** way of 
-checking for a yes/no user response, but the programmer should also be 
-aware of locale's (and especially the C locale) problems, so that he can 
-also do some extra work and try to fix the locale he expects to use.
+The application should either set TCP_FASTOPEN_CONNECT socket option
+before calling write() or sendmsg(), or call write() or sendmsg() with
+MSG_FASTOPEN flag directly, but not both at the same time.
 
-However, I also see it good if we move this bug to where the problem 
-really is (instead of here, which is where the problem is noticed), 
-which would be one of the locale pages (nl_langinfo(3) for example, as 
-you said).
+> > +with
+> > +.B MSG_FASTOPEN ,
+> > +instead of both on the same connection.
+>
+>  From "The application ...":
+> Does this have relation with the text just above it?  It appears to me
+> to be a more generic statement that both options shouldn't be mixed, so
+> maybe a new paragraph is more appropriate.
+>
 
-Thanks,
+I think a new line does make sense, since this is a general statement
+for TCP_FASTOPEN_CONNECT option.
 
-Alex
+> > +.IP
+> > +Here is the typical call flow with this new option:
+> > +  s =3D socket();
+> > +  setsockopt(s, IPPROTO_TCP, TCP_FASTOPEN_CONNECT, 1, ...);
+> > +  connect(s);
+> > +  write(s); // write() should always follow connect() in order to
+> > +            // trigger SYN to go out
+> > +  read(s)/write(s);
+> > +  ... > +  close(s);
+>
+> See man-pages(7):
+>
+>     Indentation of structure definitions, shell session  logs,  and
+>         so on
+>         When  structure  definitions, shell session logs, and so on
+>         are included in running  text,  indent  them  by  4  spaces
+>         (i.e.,  a  block  enclosed by .in +4n and .in), format them
+>         using the .EX and EE macros, and surround them  with  suit=E2=80=
+=90
+>         able paragraph markers (either .PP or .IP).  For example:
+>
+>                 .PP
+>                 .in +4n
+>                 .EX
+>                 int
+>                 main(int argc, char *argv[])
+>                 {
+>                     return 0;
+>                 }
+>                 .EE
+>                 .in
+>                 .PP
+>
+>
 
--- 
-Alejandro Colomar
-Linux man-pages comaintainer; https://www.kernel.org/doc/man-pages/
-http://www.alejandro-colomar.es/
+Ack. Thanks.
+Will send out a new version with the above addressed.
+
+> >   .SS Sockets API
+> >   TCP provides limited support for out-of-band data,
+> >   in the form of (a single byte of) urgent data.
+> >
+>
+>
+> --
+> Alejandro Colomar
+> Linux man-pages comaintainer; https://www.kernel.org/doc/man-pages/
+> http://www.alejandro-colomar.es/
