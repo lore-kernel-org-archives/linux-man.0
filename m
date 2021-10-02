@@ -2,66 +2,126 @@ Return-Path: <linux-man-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id C4FE5C433F5
-	for <linux-man@archiver.kernel.org>; Fri,  1 Oct 2021 12:13:09 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 5C1D3C433EF
+	for <linux-man@archiver.kernel.org>; Sat,  2 Oct 2021 12:18:50 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.kernel.org (Postfix) with ESMTP id A522561A8B
-	for <linux-man@archiver.kernel.org>; Fri,  1 Oct 2021 12:13:09 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTP id 39D3E61B06
+	for <linux-man@archiver.kernel.org>; Sat,  2 Oct 2021 12:18:50 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1354320AbhJAMOw (ORCPT <rfc822;linux-man@archiver.kernel.org>);
-        Fri, 1 Oct 2021 08:14:52 -0400
-Received: from mail.kernel.org ([198.145.29.99]:49154 "EHLO mail.kernel.org"
-        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S1354311AbhJAMOv (ORCPT <rfc822;linux-man@vger.kernel.org>);
-        Fri, 1 Oct 2021 08:14:51 -0400
-Received: by mail.kernel.org (Postfix) with ESMTPSA id 510EA619E7;
-        Fri,  1 Oct 2021 12:13:07 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-        s=k20201202; t=1633090387;
-        bh=pPgxMq0U5wKnAG+FvvoW1f4xApRT3cLSGCNvlB0Q2Vw=;
-        h=From:To:Cc:Subject:Date:From;
-        b=UW0PeLVxBtyLP/Of2EeRhoDDR8j2UJC1qm1k6K1cbz3ADTitIcLNoPaZp3mS5HyGS
-         bzbHoWgunGorrpT/jIx/iUJQoPmcd3lYeSp16Q7+GpXrYlsEvGjNV1CaafQF8e5Qqg
-         GPxB6HX8/29sf+UNt0IiqieEuxuLLmm0Uh+XotG/9ofHqVfv8Jko19iUhtJkPCoYL/
-         T78iNViMM6+UIEQ03jh9oAsWKLF8DsGfjKnjmt+rNOYbAvFy2kf29zu9xxwHEJc782
-         w6+7ccrFYFvyM7cn7ucDRS+o8t/WiSs6mIDkD2CmOhWKb8WEmS5Dgs3kZdA3+njtRZ
-         wC0uj2tJaIqeg==
-From:   Jeff Layton <jlayton@kernel.org>
-To:     linux-man@vger.kernel.org
-Cc:     alx.manpages@gmail.com, mtk.manpages@gmail.com,
-        linux-fsdevel@vger.kernel.org, linux-kernel@vger.kernel.org,
-        Jan Kara <jack@suse.cz>
-Subject: [PATCH] fcntl.2: note that mandatory locking is fully deprecated as of v5.15
-Date:   Fri,  1 Oct 2021 08:13:06 -0400
-Message-Id: <20211001121306.17339-1-jlayton@kernel.org>
-X-Mailer: git-send-email 2.31.1
+        id S233095AbhJBMUf (ORCPT <rfc822;linux-man@archiver.kernel.org>);
+        Sat, 2 Oct 2021 08:20:35 -0400
+Received: from 139-28-40-42.artus.net.pl ([139.28.40.42]:42270 "EHLO
+        tarta.nabijaczleweli.xyz" rhost-flags-OK-FAIL-OK-OK)
+        by vger.kernel.org with ESMTP id S233082AbhJBMUe (ORCPT
+        <rfc822;linux-man@vger.kernel.org>); Sat, 2 Oct 2021 08:20:34 -0400
+Received: from tarta.nabijaczleweli.xyz (unknown [192.168.1.250])
+        by tarta.nabijaczleweli.xyz (Postfix) with ESMTPSA id 525ED3612AB;
+        Sat,  2 Oct 2021 14:18:45 +0200 (CEST)
+DKIM-Signature: v=1; a=rsa-sha256; c=simple/simple; d=nabijaczleweli.xyz;
+        s=202006; t=1633177125;
+        bh=2kSej/vjeoVDrQQXuopCjVzxpb6o6GR9LEF79EZqCOw=;
+        h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+        b=kamMbhe5r5bMUQen1owWxiTZgGIGhiVeQgXALp1QmuAbAq91okEEwPwsFxBR8lLVU
+         dBWNDIwKN5IPtCLkQrBjEPdNnq+ELpg6yN5eZL8VasMdGzs9JQaj103LBQrmKotemB
+         EvwZKBhFL2QQSe+YnpBj9eaI3NOoBCUcKnY239UBAhyjyKaAC5vqHGkKNv5aGlQ8hJ
+         sqHj4vBdUrXSQYWPASpLtB4RBrTOExygvhbXcxS6MmoVZT9+xhC1cA4mGaZXq6YGUN
+         ZCOfowosWLjJ937YLS3a6Y/Js/d5PYHJWIP9PyWlmWXsiVof11p7/qNya/j/3wln5d
+         BdME5nom3n5Gg==
+Date:   Sat, 2 Oct 2021 14:18:44 +0200
+From:   =?utf-8?B?0L3QsNCx?= <nabijaczleweli@nabijaczleweli.xyz>
+To:     "Alejandro Colomar (man-pages)" <alx.manpages@gmail.com>
+Cc:     linux-man@vger.kernel.org
+Subject: [PATCH v2 1/2] rpmatch.3: clarify first-character-only FUD
+Message-ID: <39075e7155b7e992b6af5b548258a46d831e025d.1633177011.git.nabijaczleweli@nabijaczleweli.xyz>
+References: <8f5f9b7d4f067a4a479fe400dee99120bf0a1abd.1632231952.git.nabijaczleweli@nabijaczleweli.xyz>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+Content-Type: multipart/signed; micalg=pgp-sha512;
+        protocol="application/pgp-signature"; boundary="kw5hhzfxy3ubqr5b"
+Content-Disposition: inline
+In-Reply-To: <8f5f9b7d4f067a4a479fe400dee99120bf0a1abd.1632231952.git.nabijaczleweli@nabijaczleweli.xyz>
+User-Agent: NeoMutt/20210205
 Precedence: bulk
 List-ID: <linux-man.vger.kernel.org>
 X-Mailing-List: linux-man@vger.kernel.org
 
-Cc: Jan Kara <jack@suse.cz>
-Signed-off-by: Jeff Layton <jlayton@kernel.org>
+
+--kw5hhzfxy3ubqr5b
+Content-Type: text/plain; charset=utf-8
+Content-Disposition: inline
+Content-Transfer-Encoding: quoted-printable
+
+It's plain not true as-written =E2=80=92 locales can and do provide longer =
+matches
+(Aramaic has a "=E1=8A=A0=E1=8B=8E=E1=8A=95" alternative, for example) =E2=
+=80=92 but it's important to
+note that (a) this may be an issue and (b) nonetheless this is the right
+way to process this
+
+Signed-off-by: Ahelenia Ziemia=C5=84ska <nabijaczleweli@nabijaczleweli.xyz>
 ---
- man2/fcntl.2 | 4 ++--
- 1 file changed, 2 insertions(+), 2 deletions(-)
+This should resolve both the unnecessary FUD and the doubts it would
+raise, while preserving the note. I'm not sure I'd agree with C locale
+being the most important one (I'd put that burden on "the current one"),
+but it's mentioned here because English locales (and most other ones for
+YESEXPR/NOEXPR) derive from it.
 
-diff --git a/man2/fcntl.2 b/man2/fcntl.2
-index 7b5604e3a699..90e4c4a9f379 100644
---- a/man2/fcntl.2
-+++ b/man2/fcntl.2
-@@ -619,8 +619,8 @@ Because of these bugs,
- and the fact that the feature is believed to be little used,
- since Linux 4.5, mandatory locking has been made an optional feature,
- governed by a configuration option
--.RB ( CONFIG_MANDATORY_FILE_LOCKING ).
--This is an initial step toward removing this feature completely.
-+.RB ( CONFIG_MANDATORY_FILE_LOCKING ). This feature is no longer
-+supported at all in Linux 5.15 and above.
- .PP
- By default, both traditional (process-associated) and open file description
- record locks are advisory.
--- 
-2.31.1
+ man3/rpmatch.3 | 20 ++++++++------------
+ 1 file changed, 8 insertions(+), 12 deletions(-)
 
+diff --git a/man3/rpmatch.3 b/man3/rpmatch.3
+index 846c492b7..1f9732e3f 100644
+--- a/man3/rpmatch.3
++++ b/man3/rpmatch.3
+@@ -125,19 +125,15 @@ is available on a few other systems.
+ .\" It is available on at least AIX 5.1 and FreeBSD 6.0.
+ .SH BUGS
+ The
+-.BR rpmatch ()
+-implementation looks at only the first character
+-of
++.BR YESEXPR " and " NOEXPR
++of some locales (including "C") only inspect the first character of the
+ .IR response .
+-As a consequence, "nyes" returns 0, and
+-"ynever; not in a million years" returns 1.
+-It would be preferable to accept input strings much more
+-strictly, for example (using the extended regular
+-expression notation described in
+-.BR regex (7)):
+-.B \(ha([yY]|yes|YES)$
+-and
+-.BR \(ha([nN]|no|NO)$ .
++This can mean that "yno" et al. resolve to
++.BR 1 .
++This is an unfortunate historical side-effect which should be fixed in time
++with proper localisation, and should not deter from
++.BR rpmatch ()
++being the proper way to distinguish between binary answers.
+ .SH EXAMPLES
+ The following program displays the results when
+ .BR rpmatch ()
+--=20
+2.20.1
+
+
+--kw5hhzfxy3ubqr5b
+Content-Type: application/pgp-signature; name="signature.asc"
+
+-----BEGIN PGP SIGNATURE-----
+
+iQIzBAABCgAdFiEEfWlHToQCjFzAxEFjvP0LAY0mWPEFAmFYTiMACgkQvP0LAY0m
+WPFplQ//emcTgoDwco6uzvYbk9Qh1CGAnyCdAk5n9zSPhX4j/Ed1bxk7i9aMJB9k
+DzdrsrXj49SKjLLqYPvXkJy9LKh0iskWzkejPu8sKiJGK4GexlDnN0hZoaSAUYCv
+ByNqclgTsBOR3KyuVkvnwKrz9qsQoELzExOJp9o9JdvGc3yC6QniJ1iT7U1UWDRQ
+F9daMmHVpJC3YeAgqa0W6eYzv0z5ZOImSeivc4DjF/js/E3VTrjD+VKol0iAwVRO
+aVE3XDwOmKfSUl3wA3miCgfwZMDRcIKoFv1zTDB/1Y8LzoG0e1OZkGYxrtl0K3k3
+X1vbzPgI4Mk1wQh/qpAHL3Gh6Fukj6z+6DMLOfMq7eDFj4lUcM4y+BY13/dxK1Od
+z5Hf1RedlR8F45hLpO0p9dVlX/U6TVJ33OWEdPhNOlXpl9PnqUQUVBiu5hHZ0YK4
+y6L8SeZRhRCbRh7R9C4wSmda7zS4VQHOR0SNdnaMIvY9Pry/JxcFGwr6OhZ4MM/p
+D4mUQ7HKbUz75CT7tQG2OwNh+Q+p/gBW35BJKYuRzcHy8YacKmG8GHJ5hFJ62F6i
+3YaIJdlw+7fWrj1xquqHi0A1GDoQXJOpIrgrCpoOQNWpYNZW7NMp8omm38VcR0Ri
+5hN6nQRm0YeOpjvE6vPyKO8dTHDGVUb0Mn3KeSpWYSONb3BOirc=
+=zU6G
+-----END PGP SIGNATURE-----
+
+--kw5hhzfxy3ubqr5b--
