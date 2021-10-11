@@ -2,69 +2,64 @@ Return-Path: <linux-man-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id D08FDC433F5
-	for <linux-man@archiver.kernel.org>; Mon, 11 Oct 2021 15:43:50 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 3462BC433EF
+	for <linux-man@archiver.kernel.org>; Mon, 11 Oct 2021 15:43:51 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.kernel.org (Postfix) with ESMTP id B447960E94
-	for <linux-man@archiver.kernel.org>; Mon, 11 Oct 2021 15:43:50 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTP id 0B8ED60E94
+	for <linux-man@archiver.kernel.org>; Mon, 11 Oct 2021 15:43:51 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S242386AbhJKPpu (ORCPT <rfc822;linux-man@archiver.kernel.org>);
+        id S239249AbhJKPpu convert rfc822-to-8bit (ORCPT
+        <rfc822;linux-man@archiver.kernel.org>);
         Mon, 11 Oct 2021 11:45:50 -0400
-Received: from zimbra.cs.ucla.edu ([131.179.128.68]:48600 "EHLO
+Received: from zimbra.cs.ucla.edu ([131.179.128.68]:48604 "EHLO
         zimbra.cs.ucla.edu" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S239249AbhJKPpt (ORCPT
+        with ESMTP id S240727AbhJKPpt (ORCPT
         <rfc822;linux-man@vger.kernel.org>); Mon, 11 Oct 2021 11:45:49 -0400
-X-Greylist: delayed 419 seconds by postgrey-1.27 at vger.kernel.org; Mon, 11 Oct 2021 11:45:49 EDT
 Received: from localhost (localhost [127.0.0.1])
-        by zimbra.cs.ucla.edu (Postfix) with ESMTP id C6CE91600C5;
-        Mon, 11 Oct 2021 08:36:50 -0700 (PDT)
+        by zimbra.cs.ucla.edu (Postfix) with ESMTP id A4B361600C2;
+        Mon, 11 Oct 2021 08:37:26 -0700 (PDT)
 Received: from zimbra.cs.ucla.edu ([127.0.0.1])
         by localhost (zimbra.cs.ucla.edu [127.0.0.1]) (amavisd-new, port 10032)
-        with ESMTP id gfKmCxSh698a; Mon, 11 Oct 2021 08:36:50 -0700 (PDT)
+        with ESMTP id k3OriGxyBnXN; Mon, 11 Oct 2021 08:37:26 -0700 (PDT)
 Received: from localhost (localhost [127.0.0.1])
-        by zimbra.cs.ucla.edu (Postfix) with ESMTP id 1F1511600C2;
-        Mon, 11 Oct 2021 08:36:50 -0700 (PDT)
+        by zimbra.cs.ucla.edu (Postfix) with ESMTP id 03CE31600C3;
+        Mon, 11 Oct 2021 08:37:26 -0700 (PDT)
 X-Virus-Scanned: amavisd-new at zimbra.cs.ucla.edu
 Received: from zimbra.cs.ucla.edu ([127.0.0.1])
         by localhost (zimbra.cs.ucla.edu [127.0.0.1]) (amavisd-new, port 10026)
-        with ESMTP id hSheFlpbQJ0R; Mon, 11 Oct 2021 08:36:50 -0700 (PDT)
+        with ESMTP id k6kgaR7sFSQT; Mon, 11 Oct 2021 08:37:25 -0700 (PDT)
 Received: from [192.168.1.9] (cpe-172-91-119-151.socal.res.rr.com [172.91.119.151])
-        by zimbra.cs.ucla.edu (Postfix) with ESMTPSA id E602E1600C5;
-        Mon, 11 Oct 2021 08:36:49 -0700 (PDT)
-Subject: Re: [PATCH v2 1/2] ctime.3: mktime() may modify tm_hour due to
- tm_isdst
-To:     Alejandro Colomar <alx.manpages@gmail.com>, mtk.manpages@gmail.com,
-        linux-man@vger.kernel.org
+        by zimbra.cs.ucla.edu (Postfix) with ESMTPSA id CF0FB1600C2;
+        Mon, 11 Oct 2021 08:37:25 -0700 (PDT)
+Subject: Re: [PATCH] ctime.3: mktime() may modify tm_hour due to tm_isdst
+To:     "Alejandro Colomar (man-pages)" <alx.manpages@gmail.com>,
+        mtk.manpages@gmail.com, linux-man@vger.kernel.org
 Cc:     libc-alpha@sourceware.org
-References: <a8e09a03-3eb2-d6c0-c662-e3db800fe2fc@gmail.com>
- <20211011111237.9414-1-alx.manpages@gmail.com>
+References: <20211010105245.53896-1-alx.manpages@gmail.com>
+ <a8e09a03-3eb2-d6c0-c662-e3db800fe2fc@gmail.com>
 From:   Paul Eggert <eggert@cs.ucla.edu>
 Organization: UCLA Computer Science Department
-Message-ID: <1ca68ed3-93e7-c94a-1859-ab876412e4c7@cs.ucla.edu>
-Date:   Mon, 11 Oct 2021 08:36:49 -0700
+Message-ID: <6ccf0867-33fe-53f0-0bb9-bf25d09aabb6@cs.ucla.edu>
+Date:   Mon, 11 Oct 2021 08:37:25 -0700
 User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
  Thunderbird/78.13.0
 MIME-Version: 1.0
-In-Reply-To: <20211011111237.9414-1-alx.manpages@gmail.com>
+In-Reply-To: <a8e09a03-3eb2-d6c0-c662-e3db800fe2fc@gmail.com>
 Content-Type: text/plain; charset=utf-8; format=flowed
 Content-Language: en-US
-Content-Transfer-Encoding: 7bit
+Content-Transfer-Encoding: 8BIT
 Precedence: bulk
 List-ID: <linux-man.vger.kernel.org>
 X-Mailing-List: linux-man@vger.kernel.org
 
-On 10/11/21 4:12 AM, Alejandro Colomar wrote:
-> +If the initial value of
-> +.I tm_isdst
-> +is inconsistent with the one set by
-> +.BR mktime (),
-> +.I tm_hour
-> +(and possibly other fields)
-> +will be modified to normalize the time to the correct DST.
+On 10/11/21 3:27 AM, Alejandro Colomar (man-pages) wrote:
+> timegm(3) says that you should "avoid their use" because timegm(3) is a 
+> Linux and BSD extension, but its use can NOT be avoided (well, it can, 
+> but if not done very carefully, you are likely to introduce bugs due to 
+> setenv(3) not being thread-safe), so I'd remove that sentence from 
+> timegm(3).  I think it should be in POSIX.
 
-I don't see why this change is necessary. mktime normalizes all its 
-input fields: there's nothing special about tm_isdst and tm_hour.
+No, NetBSD's mktime_z should be in POSIX, as it nicely generalizes both 
+mktime and timegm.
 
-If normalization isn't explained clearly enough elsewhere in the man 
-page, that explanation should be fixed; there shouldn't be special-case 
-wording that implies that this is the only special case.
+mktime_z should also be in glibc, but that's another story....
