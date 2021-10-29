@@ -2,101 +2,93 @@ Return-Path: <linux-man-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id BCFC2C433EF
-	for <linux-man@archiver.kernel.org>; Thu, 28 Oct 2021 01:50:07 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id EBEFDC433F5
+	for <linux-man@archiver.kernel.org>; Fri, 29 Oct 2021 11:15:35 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.kernel.org (Postfix) with ESMTP id 94D4A6109E
-	for <linux-man@archiver.kernel.org>; Thu, 28 Oct 2021 01:50:07 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTP id C4160610D2
+	for <linux-man@archiver.kernel.org>; Fri, 29 Oct 2021 11:15:35 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S229614AbhJ1Bwd (ORCPT <rfc822;linux-man@archiver.kernel.org>);
-        Wed, 27 Oct 2021 21:52:33 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:58122 "EHLO
+        id S230492AbhJ2LSD (ORCPT <rfc822;linux-man@archiver.kernel.org>);
+        Fri, 29 Oct 2021 07:18:03 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:57240 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S229534AbhJ1Bwc (ORCPT
-        <rfc822;linux-man@vger.kernel.org>); Wed, 27 Oct 2021 21:52:32 -0400
-Received: from mail-wm1-x333.google.com (mail-wm1-x333.google.com [IPv6:2a00:1450:4864:20::333])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 5FAC5C061570
-        for <linux-man@vger.kernel.org>; Wed, 27 Oct 2021 18:50:06 -0700 (PDT)
-Received: by mail-wm1-x333.google.com with SMTP id 67-20020a1c1946000000b0030d4c90fa87so3820615wmz.2
-        for <linux-man@vger.kernel.org>; Wed, 27 Oct 2021 18:50:06 -0700 (PDT)
+        with ESMTP id S229930AbhJ2LSC (ORCPT
+        <rfc822;linux-man@vger.kernel.org>); Fri, 29 Oct 2021 07:18:02 -0400
+Received: from mail-wr1-x42a.google.com (mail-wr1-x42a.google.com [IPv6:2a00:1450:4864:20::42a])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 578A7C061570
+        for <linux-man@vger.kernel.org>; Fri, 29 Oct 2021 04:15:34 -0700 (PDT)
+Received: by mail-wr1-x42a.google.com with SMTP id m22so15735765wrb.0
+        for <linux-man@vger.kernel.org>; Fri, 29 Oct 2021 04:15:34 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=gmail.com; s=20210112;
-        h=message-id:date:mime-version:user-agent:subject:content-language:to
-         :cc:references:from:in-reply-to:content-transfer-encoding;
-        bh=IbgU10dkVudnPC2r0DtOU7vm4rKJZeXGaHAp5MDk6hs=;
-        b=XLj73xSEnZprV5LJY98GLveh4JT02bEmo3q+SjX2/eGcjDrRXoqTlb8j4cChNKejLX
-         Mp44dSoVwNlAsJFjpQluDnvVnm/2xnOqx0MDzOom+Zj6tXR6EBHxK0w0oWZ4kfavlLvK
-         KkbxgiRBfmkQbykTNWszGNhWh3/Fz8xk7iqQyoyOXnxd2sYYnkhii/+C7t9gJ5ZnGRm5
-         mge+EV1LVI2n8kF+WzpyZkGOucbqVSZbJAXwoDK/93t2QIrmXqdJ1qyLn+UscDMHg2W2
-         KO/AcaXpYBX8T+yInagQZGKXzaO9oAvTOJjet2DlmPeAlgqBasWiX0BpyxAKe+1KmQDM
-         RZIA==
+        h=message-id:date:mime-version:user-agent:content-language:to:from
+         :subject:content-transfer-encoding;
+        bh=GY/bpKU7TmlU09UnTy7kCbf5RrIbq8Ce58ehNrFtKkc=;
+        b=EOHNcaT8GfBHbPW0Y78okyhJvRFQYXXpZW/OgB/0k/nuD9TVJg2xp/PA2F3mZncnPh
+         9hNm0+X5c3W9bRdVVKhuFAOB7bJQTWNcTsX8ZwxekkUaazxKJxJaoHKHuPh8u6U08EoB
+         C1vPAO+uTsMzPSZzQWWThHLEd/f3rBLr4Hp9prbHmh6MOQudQs26xomsaLqCB0PlS8nn
+         4sMXUjcHXPUQLfXgNVL+KpM/TQFMCZoyqn2eh7XN3xL53wWBELA7GOPE203GI1rKLYFV
+         bLVV9+tQVWxaaK2lQx2rTRl2dFAOuOcWENRysXgEbvcqIh06YUwQ8F9MIk2haja4OSb2
+         debQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20210112;
-        h=x-gm-message-state:message-id:date:mime-version:user-agent:subject
-         :content-language:to:cc:references:from:in-reply-to
-         :content-transfer-encoding;
-        bh=IbgU10dkVudnPC2r0DtOU7vm4rKJZeXGaHAp5MDk6hs=;
-        b=FEMiIbETdg9lIVxzh1IdFrFqf3TlgzyzJnG9cjWHs8VJ7fb0j6RRJXQ9h2gm9UrZCt
-         XhG3/apSuR7ttWxtnC+Sm+kGysRJwY4NZhkrV+YMHgGhLiucdtloIz4R82CseYYcN7bQ
-         xSfbysT3zDQ+nHoTuAbQtbjJk79qM84bH2gK2V1LdA6XC2vSvN2fn2R2sMMrROz+WDcI
-         h6xgbP9JgvQKBLEq9f506XAGSt1j5y+ODQWVRrzClqZ73IRyWIjFPhJTrN59xC/8s4oY
-         p5p6/p0zL1S1BnzF08a2uro+51GZZBWM/OnxAtXSwhjicTqimq3s634u2uQk8notCP/K
-         /ePg==
-X-Gm-Message-State: AOAM530Wd0CFRoQBoA+EX0GYujBFFh2YICTbgFSEBkT8lGB3L15F2/QA
-        wkEHocK8cbywUx0Z1pqZzkQ=
-X-Google-Smtp-Source: ABdhPJxIKGBPgN2F66ynoz0xUDkg2p8rid6fI8QKFRi95E60/4tW8CaJDCMlQXJfNFFKZZOgFNuP+g==
-X-Received: by 2002:a1c:1941:: with SMTP id 62mr1281879wmz.131.1635385805091;
-        Wed, 27 Oct 2021 18:50:05 -0700 (PDT)
-Received: from [10.8.0.122] ([195.53.121.100])
-        by smtp.gmail.com with ESMTPSA id e17sm1704041wrx.18.2021.10.27.18.50.04
+        h=x-gm-message-state:message-id:date:mime-version:user-agent
+         :content-language:to:from:subject:content-transfer-encoding;
+        bh=GY/bpKU7TmlU09UnTy7kCbf5RrIbq8Ce58ehNrFtKkc=;
+        b=c3LlBfkk3WkvfGlc3Gue/F3g7AubYrjmDCI1FbBezfMh0goDEGePvSbu5bYTL+u7P7
+         j3D2w/kDFGXNfRDJfrNHjcD1gCjCQB6fJKiW63BB1KS/A/TdQLeXFiZuGOQ7dlilP05i
+         zgRyUd78lIQ+HRHKCKWpfs5ZueEWEH7vssm5xtrBm8d9HIeMgZw0blnfNgKtZAimT8gv
+         KmGUsTCul828qlIhpY8qcLweJ6buO0yU4/LJPZ33Rt1rYlbj+vERvtz16JDeUpaXXS3R
+         8C1P0sie3IMBX3K1uN36WXRx+D1GLJZj72W9rRnrFJUwKq6TNbYM4l+09BUwgqpuLSRO
+         Ipyg==
+X-Gm-Message-State: AOAM530am9S4EOnfJzQUxXfK0Kqt1bprqgdg+jrhs01NyRUC3i8onVXf
+        2ScuPbhaxTcjcU/l5DilWJqBHLNRuhg=
+X-Google-Smtp-Source: ABdhPJx1mfo4EPh9bqP8VnhmP6aEzKUK/l2bEX1SdVtzWTnI4i+jH3R/6/982RW6m5Fk4NLYJMsFeQ==
+X-Received: by 2002:a05:6000:15c6:: with SMTP id y6mr13715483wry.210.1635506132906;
+        Fri, 29 Oct 2021 04:15:32 -0700 (PDT)
+Received: from [10.168.10.11] ([170.253.36.171])
+        by smtp.gmail.com with ESMTPSA id d8sm5623172wrv.80.2021.10.29.04.15.32
         (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Wed, 27 Oct 2021 18:50:04 -0700 (PDT)
-Message-ID: <6888aca6-4623-bb17-ee6b-92eef5171f72@gmail.com>
-Date:   Thu, 28 Oct 2021 03:50:03 +0200
+        Fri, 29 Oct 2021 04:15:32 -0700 (PDT)
+Message-ID: <a0371f24-d8d3-07d9-83a3-00a4bf22c0f5@gmail.com>
+Date:   Fri, 29 Oct 2021 13:15:31 +0200
 MIME-Version: 1.0
 User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
  Thunderbird/91.2.1
-Subject: Re: [PATCH] ioctl.2: SEE ALSO: Add ioctl_ficlone
 Content-Language: en-US
-To:     Benjamin Peterson <benjamin@python.org>, linux-man@vger.kernel.org
-Cc:     mtk.manpages@gmail.com
-References: <20211027210732.454713-1-benjamin@python.org>
-From:   "Alejandro Colomar (man-pages)" <alx.manpages@gmail.com>
-In-Reply-To: <20211027210732.454713-1-benjamin@python.org>
+To:     Libc-alpha <libc-alpha@sourceware.org>,
+        linux-man <linux-man@vger.kernel.org>
+From:   Alejandro Colomar <colomar.6.4.3@gmail.com>
+Subject: Is getpass(3) really obsolete?
 Content-Type: text/plain; charset=UTF-8; format=flowed
 Content-Transfer-Encoding: 7bit
 Precedence: bulk
 List-ID: <linux-man.vger.kernel.org>
 X-Mailing-List: linux-man@vger.kernel.org
 
-Hello Benjamin,
+Hi,
 
-On 10/27/21 23:07, Benjamin Peterson wrote:
-> Signed-off-by: Benjamin Peterson <benjamin@python.org>
+As the manual pages says, SUSv2 marked it as LEGACY, and POSIX doesn't 
+have it at all.  The manual page goes further and says "This function is 
+obsolete. Do not use it." in its first lines.
 
-Patch applied.
+But, glibc doesn't seem to have deprecated this function at all.  And it 
+seems to be the most portable way to get a password, even if it's not in 
+POSIX.
+
+BSDs have readpassphrase(3), but glibc doesn't, so unless you recommend 
+using readpassphrase(3) from libbsd, or plan to add it to glibc, I think 
+getpass(3) should be the recommended function in Linux, and therefore we 
+should remove the hard words against it.
+
+As a real example, git(1) uses getpass(3).
+<https://github.com/git/git/blob/master/compat/terminal.c>
+
+What are your thoughts?
 
 Thanks,
 
 Alex
-
-> ---
->   man2/ioctl.2 | 1 +
->   1 file changed, 1 insertion(+)
-> 
-> diff --git a/man2/ioctl.2 b/man2/ioctl.2
-> index 85a9d2351..28d985a68 100644
-> --- a/man2/ioctl.2
-> +++ b/man2/ioctl.2
-> @@ -196,6 +196,7 @@ for the various architectures.
->   .BR fcntl (2),
->   .BR ioctl_console (2),
->   .BR ioctl_fat (2),
-> +.BR ioctl_ficlone (2),
->   .BR ioctl_ficlonerange (2),
->   .BR ioctl_fideduperange (2),
->   .BR ioctl_fslabel (2),
-> 
 
 
 -- 
