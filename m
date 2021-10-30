@@ -2,78 +2,92 @@ Return-Path: <linux-man-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 33D07C433EF
-	for <linux-man@archiver.kernel.org>; Sat, 30 Oct 2021 19:03:04 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 3D482C433FE
+	for <linux-man@archiver.kernel.org>; Sat, 30 Oct 2021 21:31:59 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.kernel.org (Postfix) with ESMTP id 18FE660F02
-	for <linux-man@archiver.kernel.org>; Sat, 30 Oct 2021 19:03:04 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTP id 2350160F4B
+	for <linux-man@archiver.kernel.org>; Sat, 30 Oct 2021 21:31:59 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S229658AbhJ3TFd (ORCPT <rfc822;linux-man@archiver.kernel.org>);
-        Sat, 30 Oct 2021 15:05:33 -0400
-Received: from mail.kernel.org ([198.145.29.99]:56024 "EHLO mail.kernel.org"
-        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S229641AbhJ3TFd (ORCPT <rfc822;linux-man@vger.kernel.org>);
-        Sat, 30 Oct 2021 15:05:33 -0400
-Received: by mail.kernel.org (Postfix) with ESMTPS id C17BB60F56
-        for <linux-man@vger.kernel.org>; Sat, 30 Oct 2021 19:03:02 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-        s=k20201202; t=1635620582;
-        bh=eEJZTta5pNqFYzA5sKbWVfrLP06rH7nFJQ83ijxFqpk=;
-        h=From:To:Subject:Date:In-Reply-To:References:From;
-        b=qdjafQoQ6FIk32MeFPxEBrO8wLCiJo/+MHT72j7EEoCEsAyir54E7jPIDvP9oh4R+
-         gT0vwbN/N82qO2nywoUEe1lKOwaMeBfOQ8vaFLLpBtT1YH50B7dnaNMEFnKMrHjZQ5
-         VBvC8EUqphp5wghcmIqExO+owfUF4me2HVNKhr2C6S3OYDpdUWemf1CP0/D16/0Y+g
-         a146USg0CfBRfNUUGK+FO9Bt8Xgx2xk7Ow6lmdNGTY1M+pzcIct6w0mqF95xh+fym4
-         D7pRBy9B24hiABdyNe/TNZcgyfl26QtSYAZxsC4ZTU0wfEojJxuumLf5WmMBKolyW2
-         9JXokjfjhwJVg==
-From:   bugzilla-daemon@bugzilla.kernel.org
-To:     linux-man@vger.kernel.org
-Subject: [Bug 214873] man 2 fsync implies possibility to return early
-Date:   Sat, 30 Oct 2021 19:03:02 +0000
-X-Bugzilla-Reason: None
-X-Bugzilla-Type: changed
-X-Bugzilla-Watch-Reason: AssignedTo
- documentation_man-pages@kernel-bugs.osdl.org
-X-Bugzilla-Product: Documentation
-X-Bugzilla-Component: man-pages
-X-Bugzilla-Version: unspecified
-X-Bugzilla-Keywords: 
-X-Bugzilla-Severity: low
-X-Bugzilla-Who: alx.manpages@gmail.com
-X-Bugzilla-Status: RESOLVED
-X-Bugzilla-Resolution: INVALID
-X-Bugzilla-Priority: P1
-X-Bugzilla-Assigned-To: documentation_man-pages@kernel-bugs.osdl.org
-X-Bugzilla-Flags: 
-X-Bugzilla-Changed-Fields: bug_status cc resolution
-Message-ID: <bug-214873-11311-gPedOAkIMi@https.bugzilla.kernel.org/>
-In-Reply-To: <bug-214873-11311@https.bugzilla.kernel.org/>
-References: <bug-214873-11311@https.bugzilla.kernel.org/>
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
-X-Bugzilla-URL: https://bugzilla.kernel.org/
-Auto-Submitted: auto-generated
+        id S231437AbhJ3Ve1 (ORCPT <rfc822;linux-man@archiver.kernel.org>);
+        Sat, 30 Oct 2021 17:34:27 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:57710 "EHLO
+        lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S230338AbhJ3Ve0 (ORCPT
+        <rfc822;linux-man@vger.kernel.org>); Sat, 30 Oct 2021 17:34:26 -0400
+Received: from mail-wm1-x32a.google.com (mail-wm1-x32a.google.com [IPv6:2a00:1450:4864:20::32a])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id A0415C061714;
+        Sat, 30 Oct 2021 14:31:55 -0700 (PDT)
+Received: by mail-wm1-x32a.google.com with SMTP id j128-20020a1c2386000000b003301a98dd62so6066293wmj.5;
+        Sat, 30 Oct 2021 14:31:55 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20210112;
+        h=from:to:cc:subject:date:message-id:in-reply-to:references
+         :mime-version:content-transfer-encoding;
+        bh=peorTGqhDd+FbCixcKr0Q6eTtZHCTSKsiHTZ3zkUsWk=;
+        b=VFJMdnVVQNwyZ0HekDUwbyv3IMSa6R+7ZFnIl9IMcxtYQKz4yyA8hB2owz8trrPMAd
+         DlYh2PuIJoHdCn5TKJ2OdEABzjUFMv3/LjU3PUI9UVQOpDFYRdDRUGDnGhPOgDy+jwd7
+         M63y+w1hibHu6VPS6bUdGwGAH4Pf0rINSSu5e7moWYXOM1FFfnaENoXQXK4aSU2VhLUQ
+         1EeINupVpG3okrJht/6UxVAvl6Aqi2yy3Wjy93v/W7BmrTb0u50bzdsTT/XqV2CjNmse
+         J0+LaEKH09MtTc/iKoyZV7CV2sIWIvgzSIS18Bcssob+befEtcOy2unaS3mpc/EJS53o
+         lzMQ==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20210112;
+        h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
+         :references:mime-version:content-transfer-encoding;
+        bh=peorTGqhDd+FbCixcKr0Q6eTtZHCTSKsiHTZ3zkUsWk=;
+        b=CT2IQJzYzZjwYs454cU+WoUy8ZaepgXMr3j0XWyl+1DRNN8TEItnB7wOjjY1KvDUwo
+         TzHqskuVZFawsCrOBQCqZuM2UPIOEUJcgTSCU1pM/T8dvJyqNuUJPgpxn04ALxidV5Kf
+         mMKgcju9EdgpnIVMa4iTV9PXtE7WOgo9/KwC+2Xa+FFNMf6qR3giS42ff/yCVe/Aide+
+         p+Q6sKr38TnMItK58iLs/lP2x+n52l8INyrM9tjBUodkxmSmQ4wf88IC3azLe98DOgvR
+         Towkvb9ElbULLaOdmwHvo9h3sRGpNWMR3ahhzvLm4jeSLU5XAKwCoDn8zeEWmKDONe0Z
+         DC4A==
+X-Gm-Message-State: AOAM533kp7ImAmfoBWjJM/8JLksvQyF1WCPI/1LC2jpMw0HPQ17aHvi5
+        FJVr8DrrCmHxSXeyFNHaMWc=
+X-Google-Smtp-Source: ABdhPJybMDAwhUGQCe/Gn6rSszx7jKKtDAx3FVFpKWdkgZkqRV3wAvV3DdPFyb5kNY6ptepOLIupTA==
+X-Received: by 2002:a7b:c5d4:: with SMTP id n20mr28770505wmk.32.1635629514096;
+        Sat, 30 Oct 2021 14:31:54 -0700 (PDT)
+Received: from sqli.sqli.com ([195.53.121.100])
+        by smtp.googlemail.com with ESMTPSA id c79sm2948689wme.43.2021.10.30.14.31.53
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Sat, 30 Oct 2021 14:31:53 -0700 (PDT)
+From:   Alejandro Colomar <alx.manpages@gmail.com>
+To:     mtk.manpages@gmail.com, linux-man@vger.kernel.org
+Cc:     git@vger.kernel.org, Alejandro Colomar <alx.manpages@gmail.com>,
+        linux-kernel@vger.kernel.org, libc-alpha@sourceware.org
+Subject: [PATCH 01/22] bdflush.2: SYNOPSIS: Mark as [[deprecated]]
+Date:   Sat, 30 Oct 2021 23:31:11 +0200
+Message-Id: <20211030213131.140429-2-alx.manpages@gmail.com>
+X-Mailer: git-send-email 2.33.1
+In-Reply-To: <20211030213131.140429-1-alx.manpages@gmail.com>
+References: <20211030213131.140429-1-alx.manpages@gmail.com>
 MIME-Version: 1.0
+Content-Transfer-Encoding: 8bit
 Precedence: bulk
 List-ID: <linux-man.vger.kernel.org>
 X-Mailing-List: linux-man@vger.kernel.org
 
-https://bugzilla.kernel.org/show_bug.cgi?id=3D214873
+This syscal is not supported anymore by glibc, and does nothing.
 
-Alejandro Colomar (man-pages) (alx.manpages@gmail.com) changed:
-
-           What    |Removed                     |Added
-----------------------------------------------------------------------------
-             Status|NEW                         |RESOLVED
-                 CC|                            |alx.manpages@gmail.com
-         Resolution|---                         |INVALID
-
---- Comment #3 from Alejandro Colomar (man-pages) (alx.manpages@gmail.com) =
+Signed-off-by: Alejandro Colomar <alx.manpages@gmail.com>
 ---
-Thanks, Jens.  I'll close this bug.
+ man2/bdflush.2 | 4 ++--
+ 1 file changed, 2 insertions(+), 2 deletions(-)
 
---=20
-You may reply to this email to add a comment.
+diff --git a/man2/bdflush.2 b/man2/bdflush.2
+index 710da7b18..8ad5dfc2b 100644
+--- a/man2/bdflush.2
++++ b/man2/bdflush.2
+@@ -31,8 +31,8 @@ bdflush \- start, flush, or tune buffer-dirty-flush daemon
+ .nf
+ .B #include <sys/kdaemon.h>
+ .PP
+-.BI "int bdflush(int "  func ", long *" address );
+-.BI "int bdflush(int "  func ", long " data );
++.BI "[[deprecated]] int bdflush(int "  func ", long *" address );
++.BI "[[deprecated]] int bdflush(int "  func ", long " data );
+ .fi
+ .PP
+ .IR Note :
+-- 
+2.33.1
 
-You are receiving this mail because:
-You are watching the assignee of the bug.=
