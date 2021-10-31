@@ -2,88 +2,97 @@ Return-Path: <linux-man-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 06506C433FE
-	for <linux-man@archiver.kernel.org>; Sat, 30 Oct 2021 21:32:56 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 26EE5C433EF
+	for <linux-man@archiver.kernel.org>; Sun, 31 Oct 2021 12:33:45 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.kernel.org (Postfix) with ESMTP id E181E60F4B
-	for <linux-man@archiver.kernel.org>; Sat, 30 Oct 2021 21:32:55 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTP id 07AF260F9E
+	for <linux-man@archiver.kernel.org>; Sun, 31 Oct 2021 12:33:45 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S232285AbhJ3VfZ (ORCPT <rfc822;linux-man@archiver.kernel.org>);
-        Sat, 30 Oct 2021 17:35:25 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:57888 "EHLO
-        lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S232043AbhJ3Vey (ORCPT
-        <rfc822;linux-man@vger.kernel.org>); Sat, 30 Oct 2021 17:34:54 -0400
-Received: from mail-wm1-x32d.google.com (mail-wm1-x32d.google.com [IPv6:2a00:1450:4864:20::32d])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id E25F6C06122B;
-        Sat, 30 Oct 2021 14:32:17 -0700 (PDT)
-Received: by mail-wm1-x32d.google.com with SMTP id 67-20020a1c1946000000b0030d4c90fa87so9273863wmz.2;
-        Sat, 30 Oct 2021 14:32:17 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20210112;
-        h=from:to:cc:subject:date:message-id:in-reply-to:references
-         :mime-version:content-transfer-encoding;
-        bh=bHhK0ZD61B9ZJ57BR0XAE37YZfQpUb2fDNd7FOBcgDg=;
-        b=ElmAba4vI1Y9zHJBu5or9aMazqitFFeG/MMzA6vZ61FnLhe9h0N7s02ga4MNDbQZOr
-         HgDFbwl6R5jPF8GkjF3zURLpKze1zqessZjh0hNYzChezsS+4XTyB015xSY8pMQbmFUq
-         vH6mr0iqWZ/wrmdE1TTPAamokWjNGqybNyExqOI0Aj8t20fb4kHYQMl30zS6fPH2pN5e
-         jEY+lTwed+Oa0V3I4aYDGMfq1Rra2aOoNDMEDcmaudgeCrOLgMRFn2Qo9xJcyXWa6WHa
-         yCmS2Q08JZwIobnS3J+VENQ23DR41SY+Va76/sR70KFz3te+cfrOTgFsD7sT7ujlQU4g
-         wNuA==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20210112;
-        h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
-         :references:mime-version:content-transfer-encoding;
-        bh=bHhK0ZD61B9ZJ57BR0XAE37YZfQpUb2fDNd7FOBcgDg=;
-        b=vGuYiYNLe85Gw1zMObzZGBFRHkRqggjAOuv6zJOfPYIOjzCwz7lbkIXjoGkddb7y/S
-         pFl97SnicUh2hze6uDfgfGBmAsXsKPa8oS99QOjYbwDGD/1OKpPkZeZRVCdjVJJnTZ/Y
-         RqKDS+0vlRTlgJYWUTY5hHUjZFnvJajsD+ARp8IV/SKSi1JV0Cw1nL+pp2MpLLB7Ckis
-         KfSeIVnpxZeroRK+5nCNFnEmzCzbVmMqNgu/yfcD7MTS1qALcHakS+l5ncvqM1pqE50w
-         0gqpy3U2uxP9p+syrxTeQsTsv9d2WRlrbeODp5PgKbbvKF/z3I5T5EK8GCE2c36WkTNN
-         T+Mg==
-X-Gm-Message-State: AOAM533WviaMiHXRGXZbqP+zhPGnnOPMdVnwKV6RRF5kN5AcX9+glPIe
-        9ktFzXJNkKtOvd7GpKa/60I=
-X-Google-Smtp-Source: ABdhPJzIXYy9HIlkbtZDdD/5DgzaY/OoMghF2QiqDRrQwN3fIhHjQdHyTpweN9yJDZeAbqjykStpGA==
-X-Received: by 2002:a1c:2386:: with SMTP id j128mr18506781wmj.8.1635629536530;
-        Sat, 30 Oct 2021 14:32:16 -0700 (PDT)
-Received: from sqli.sqli.com ([195.53.121.100])
-        by smtp.googlemail.com with ESMTPSA id c79sm2948689wme.43.2021.10.30.14.32.15
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Sat, 30 Oct 2021 14:32:16 -0700 (PDT)
-From:   Alejandro Colomar <alx.manpages@gmail.com>
-To:     mtk.manpages@gmail.com, linux-man@vger.kernel.org
-Cc:     git@vger.kernel.org, Alejandro Colomar <alx.manpages@gmail.com>,
-        linux-kernel@vger.kernel.org, libc-alpha@sourceware.org
-Subject: [PATCH 22/22] uselib.2: SYNOPSIS: Mark as [[deprecated]]
-Date:   Sat, 30 Oct 2021 23:31:32 +0200
-Message-Id: <20211030213131.140429-23-alx.manpages@gmail.com>
-X-Mailer: git-send-email 2.33.1
-In-Reply-To: <20211030213131.140429-1-alx.manpages@gmail.com>
-References: <20211030213131.140429-1-alx.manpages@gmail.com>
+        id S229863AbhJaMgP (ORCPT <rfc822;linux-man@archiver.kernel.org>);
+        Sun, 31 Oct 2021 08:36:15 -0400
+Received: from mail.kernel.org ([198.145.29.99]:34986 "EHLO mail.kernel.org"
+        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
+        id S229798AbhJaMgP (ORCPT <rfc822;linux-man@vger.kernel.org>);
+        Sun, 31 Oct 2021 08:36:15 -0400
+Received: by mail.kernel.org (Postfix) with ESMTPS id D498560FC1
+        for <linux-man@vger.kernel.org>; Sun, 31 Oct 2021 12:33:43 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+        s=k20201202; t=1635683623;
+        bh=t83qKgQjUxtgYAPQECCyMHkZ4TzcTghf6lDnX8n2aPs=;
+        h=From:To:Subject:Date:In-Reply-To:References:From;
+        b=C7YCGW0hgaq3dJ90BQurHnMWA4oknDoaU/F/DXaLP2j69GDf4i4V1Hkb4o8j34LtA
+         eKvqQGo3fe4JkQuaRmlt7kJge9uyYx2iw8tFAep4jVlgZSM74jIGsyYk9tVUEPlpua
+         UpM6Vc0Ab5G8bPUMbCNOfDNQRjtmhmcEQFlZZdkPlrTi79O89DFjdBBFQFmgftRK2A
+         uhHeCr0j7oM1EGC9GvixUshsQiWah84Nw2aqnG99wxQ369wyOzuHRSQqDKhw+JJTXy
+         zl2LJ8le+SAyzPZ+lwIpLF2y7rmlyazDCVYRTtslSwqotsvYdCdLWl+kTrDuUBiFUj
+         aYzKjKCZO9Ovw==
+From:   bugzilla-daemon@bugzilla.kernel.org
+To:     linux-man@vger.kernel.org
+Subject: [Bug 214873] man 2 fsync implies possibility to return early
+Date:   Sun, 31 Oct 2021 12:33:43 +0000
+X-Bugzilla-Reason: None
+X-Bugzilla-Type: changed
+X-Bugzilla-Watch-Reason: AssignedTo
+ documentation_man-pages@kernel-bugs.osdl.org
+X-Bugzilla-Product: Documentation
+X-Bugzilla-Component: man-pages
+X-Bugzilla-Version: unspecified
+X-Bugzilla-Keywords: 
+X-Bugzilla-Severity: low
+X-Bugzilla-Who: sworddragon2@gmail.com
+X-Bugzilla-Status: RESOLVED
+X-Bugzilla-Resolution: INVALID
+X-Bugzilla-Priority: P1
+X-Bugzilla-Assigned-To: documentation_man-pages@kernel-bugs.osdl.org
+X-Bugzilla-Flags: 
+X-Bugzilla-Changed-Fields: 
+Message-ID: <bug-214873-11311-wJr5YyKoLb@https.bugzilla.kernel.org/>
+In-Reply-To: <bug-214873-11311@https.bugzilla.kernel.org/>
+References: <bug-214873-11311@https.bugzilla.kernel.org/>
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
+X-Bugzilla-URL: https://bugzilla.kernel.org/
+Auto-Submitted: auto-generated
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
 Precedence: bulk
 List-ID: <linux-man.vger.kernel.org>
 X-Mailing-List: linux-man@vger.kernel.org
 
-Signed-off-by: Alejandro Colomar <alx.manpages@gmail.com>
----
- man2/uselib.2 | 2 +-
- 1 file changed, 1 insertion(+), 1 deletion(-)
+https://bugzilla.kernel.org/show_bug.cgi?id=3D214873
 
-diff --git a/man2/uselib.2 b/man2/uselib.2
-index f6feca9f0..32417c9d2 100644
---- a/man2/uselib.2
-+++ b/man2/uselib.2
-@@ -35,7 +35,7 @@ uselib \- load shared library
- .nf
- .B #include <unistd.h>
- .PP
--.BI "int uselib(const char *" library );
-+.BI "[[deprecated]] int uselib(const char *" library );
- .fi
- .PP
- .IR Note :
--- 
-2.33.1
+--- Comment #4 from sworddragon2@gmail.com ---
+(In reply to Jens Axboe from comment #2)
+> I don't know what the "see caches" mean in a few spots in the above
+> text?
 
+Dirty kernel cached data - as you described it.
+
+
+(In reply to Jens Axboe from comment #2)
+> If the device doesn't honor a cache flush (eg "all writes previously
+> acked are now stable"), then there's nothing the kernel can do about it.
+
+In such a case the kernel could still send out all dirty kernel cached data=
+ -
+but the manpage strictly states fsync() would return early here with "The c=
+all
+blocks until the device reports that the transfer has completed.". But in t=
+he
+previous sentences it states it would not.
+
+I assume if a storage device falsely claims the transfer has been completed
+fsync() would still send out dirty kernel cached data if any and blocks unt=
+il
+this is done as this would make sense. This ticket is about clarifying this=
+ in
+the manpage, e.g. if this assumption is correct the referenced sentence from
+above could be changed to "The call blocks until dirty writes are sent out =
+and
+the device reports that the transfer has completed." or more appropriate if
+needed.
+
+--=20
+You may reply to this email to add a comment.
+
+You are receiving this mail because:
+You are watching the assignee of the bug.=
