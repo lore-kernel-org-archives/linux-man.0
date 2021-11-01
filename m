@@ -2,151 +2,75 @@ Return-Path: <linux-man-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id D058EC433FE
-	for <linux-man@archiver.kernel.org>; Sat, 30 Oct 2021 22:23:49 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id EE7A3C433F5
+	for <linux-man@archiver.kernel.org>; Mon,  1 Nov 2021 21:31:43 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.kernel.org (Postfix) with ESMTP id 95F99603E9
-	for <linux-man@archiver.kernel.org>; Sat, 30 Oct 2021 22:23:49 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTP id C2F8860EB4
+	for <linux-man@archiver.kernel.org>; Mon,  1 Nov 2021 21:31:43 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S231459AbhJ3W0R convert rfc822-to-8bit (ORCPT
-        <rfc822;linux-man@archiver.kernel.org>);
-        Sat, 30 Oct 2021 18:26:17 -0400
-Received: from mail-ed1-f45.google.com ([209.85.208.45]:35710 "EHLO
-        mail-ed1-f45.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S230323AbhJ3W0R (ORCPT
-        <rfc822;linux-man@vger.kernel.org>); Sat, 30 Oct 2021 18:26:17 -0400
-Received: by mail-ed1-f45.google.com with SMTP id g8so51262503edb.2
-        for <linux-man@vger.kernel.org>; Sat, 30 Oct 2021 15:23:46 -0700 (PDT)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20210112;
-        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
-         :message-id:subject:to:content-transfer-encoding;
-        bh=6drv69/pM7yrcbQ7IO1p79Cg3RwPJZH2L/nzdEToZh0=;
-        b=7muEpjqtd+PVlno8+sTxx74uqz+YeJn6LsNLO8QG/+oFyormug4hB8ofxekJpQqyXK
-         gy0B07jshxA+lN0jN43mkwoLay0dMNPiQxH7oVgzlTXm4vyKBWwCkZclVfQrCtCL8yMJ
-         VjpEfZgXl5XIRD6yOiUVLEhU3Hr2ixTDvV/4WFuyQkWxkjTeqdg9wb88qMzHySvp+j2/
-         t5bm8PsiBAKPMgipWBxbBhGiWCE+DfPWeSkW5eSJ38cowDvHFQvgRCu6XzXHETFO0yeJ
-         dE/WndZBEKEM8BMBLWyJ+Neje8qNFOWGAxS5o096tFA9AIDXIMf1twjVV3yRpCutsbGG
-         SN/g==
-X-Gm-Message-State: AOAM531CGCjo/lw/8FECvxuIzdgnG1vusVzfyy8hyhg6PFaRuXnDDdBQ
-        FcZMRGtmAGM0DVIbGgg+myEeA72Vv9G7p0jWkZ4=
-X-Google-Smtp-Source: ABdhPJz1xSmLbbAAcEpLH+xnvpMtOgvtMfJxk8+wZGBqdO8IArlbu6GxdRxJsJUQJRUh842UnIDux7YPcD8WCzJ8yqM=
-X-Received: by 2002:a17:907:6e04:: with SMTP id sd4mr24343841ejc.40.1635632625633;
- Sat, 30 Oct 2021 15:23:45 -0700 (PDT)
+        id S231547AbhKAVeQ (ORCPT <rfc822;linux-man@archiver.kernel.org>);
+        Mon, 1 Nov 2021 17:34:16 -0400
+Received: from esa3.mentor.iphmx.com ([68.232.137.180]:27365 "EHLO
+        esa3.mentor.iphmx.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S232627AbhKAVeM (ORCPT
+        <rfc822;linux-man@vger.kernel.org>); Mon, 1 Nov 2021 17:34:12 -0400
+IronPort-SDR: /8HN5u0V/6s5RqgvNlgwtSwNOn50NbeGLkVH+Rq+EbZ33vL1yQ/iphhltyQl77gvnoBlQKI9OL
+ vxsRcHjgqSE3mNbIiOCptQhOaKcSlrrJv9QBA6sbLJi70+uqPriAs9bshSXuO8+60vTiJspyN2
+ ZboU4G+h+oFMML7swagd9ceFZ2UDikCZNtsiWfDkt+eCkcgI4kYsfIZJU9oLYUOJnOcnLwmFXR
+ UnTT+fW6VHbIk/bfjzWrLcGhXJlVKzkyLx9AutzC8uxJm0b+Iak4K+dr1oUljFi6D7oR0WQO79
+ YbcVJ9hgWyxFkog6Ft6JBaZ7
+X-IronPort-AV: E=Sophos;i="5.87,200,1631606400"; 
+   d="scan'208";a="67765910"
+Received: from orw-gwy-02-in.mentorg.com ([192.94.38.167])
+  by esa3.mentor.iphmx.com with ESMTP; 01 Nov 2021 13:31:37 -0800
+IronPort-SDR: AqggZ70hZ7ne6ghGXbhp8ZYTOSK3fcBwp71AIzUtLXST/I4o/lxxBaspP2JVGLJCbSnLShqsG4
+ i7vqSELD3O3Siip1zqojAEFrcshQZ3hO4Nk9yILzdQLMHV29p4mJ5jd8h1SgGDFUKPDAT7RXEW
+ Djo88BgcscRkD8R2eZ/XAglm4ns8/6xWBIezOMilZdnjta7PnHzLPHvJmD7GjmOS+urg4/npG/
+ kAPzyZ7S9TG5pyyb42q+x3ViBh+Bgjp5r5DPluZ446/fK4PjmrwzJcURuPt/pOJF1gHKc25QPN
+ 4J4=
+Date:   Mon, 1 Nov 2021 21:31:31 +0000
+From:   Joseph Myers <joseph@codesourcery.com>
+X-X-Sender: jsm28@digraph.polyomino.org.uk
+To:     "Alejandro Colomar (man-pages)" <alx.manpages@gmail.com>
+CC:     linux-man <linux-man@vger.kernel.org>,
+        Libc-alpha <libc-alpha@sourceware.org>,
+        =?ISO-8859-15?Q?=C6var_Arnfj=F6r=F0_Bjarmason?= <avarab@gmail.com>,
+        "tech@openbsd.org" <tech@openbsd.org>,
+        Klemens Nanni <kn@openbsd.org>,
+        Benoit Lecocq <benoit@openbsd.org>, <git@vger.kernel.org>
+Subject: Re: Is getpass(3) really obsolete?
+In-Reply-To: <fd78c241-c51e-03c6-1e6b-641536245fbd@gmail.com>
+Message-ID: <alpine.DEB.2.22.394.2111012124460.1978253@digraph.polyomino.org.uk>
+References: <a0371f24-d8d3-07d9-83a3-00a4bf22c0f5@gmail.com> <73ac38a2-c287-4cc1-4e9c-0f9766ac4c0c@gmail.com> <211029.86r1c43uwj.gmgdl@evledraar.gmail.com> <865e5899-b991-918d-8bc6-ced65a67a566@gmail.com> <alpine.DEB.2.22.394.2110291627330.1788146@digraph.polyomino.org.uk>
+ <fd78c241-c51e-03c6-1e6b-641536245fbd@gmail.com>
+User-Agent: Alpine 2.22 (DEB 394 2020-01-19)
 MIME-Version: 1.0
-References: <20211030213131.140429-1-alx.manpages@gmail.com>
-In-Reply-To: <20211030213131.140429-1-alx.manpages@gmail.com>
-From:   Junio C Hamano <gitster@pobox.com>
-Date:   Sat, 30 Oct 2021 15:23:34 -0700
-Message-ID: <CAPc5daWURksnU02wWZzBsx+6nsw82Lgd1K+rBRnmnqA1SJ0UBQ@mail.gmail.com>
-Subject: Re: [PATCH 00/22] man2: Add [[deprecated]] attribute
-To:     Alejandro Colomar <alx.manpages@gmail.com>
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: 8BIT
+Content-Type: text/plain; charset="US-ASCII"
+X-Originating-IP: [137.202.0.90]
+X-ClientProxiedBy: svr-ies-mbx-05.mgc.mentorg.com (139.181.222.5) To
+ svr-ies-mbx-01.mgc.mentorg.com (139.181.222.1)
 Precedence: bulk
 List-ID: <linux-man.vger.kernel.org>
 X-Mailing-List: linux-man@vger.kernel.org
 
-[jc: moved everybody else to bcc]
+On Sat, 30 Oct 2021, Alejandro Colomar (man-pages) via Libc-alpha wrote:
 
-Please do not spam the git mailing list with these manual page update
-patches. We may be interested in the final contents of the manual
-pages, we appreciate the work done by the linux-man project, but we
-already have our share of patch traffic on this list that people are
-swamped with.
+> > See the discussion of deprecation starting with
+> > <https://sourceware.org/pipermail/libc-alpha/2021-May/126356.html> (C2X
+> > has also deprecated those functions).  The comments in that thread
+> > supported marking the functions deprecated, but it needs someone to send a
+> > patch and I don't know what breakage might result in applications using
+> > those functions.
+> 
+> Thanks.  The latest draft for C2x that I know of is N2596.  Is there any newer
+> draft that I can consult for these things?  I see many proposals, but it's
 
+The latest public draft is N2731, but there are still various accepted 
+proposals not included in there, including N2566 (wording version 2) which 
+I believe was accepted in October 2020 (I think issue 68 in the (private) 
+C standard GitLab, for integrating that paper, has been incorrectly closed 
+without integrating it).
 
-2021年10月30日(土) 14:32 Alejandro Colomar <alx.manpages@gmail.com>:
->
-> Hello Michael,
->
-> I added the C2X [[deprecated]] attribute to the prototypes of some
-> system calls.  All of the cases where I added that were already
-> marked as deprecated or obsolete somewhere in the manual page,
-> so this is just about uniformity and visual effect rather than
-> a new deprecation notice.
->
-> There are cases where the syscalls have been simply removed, and
-> so they are obviously not to be used any more.
->
-> There are cases where some implementation (not necessarily Linux)
-> is dangerous.
->
-> In some other cases, the functions have been obsoleted by POSIX,
-> but are still there in Linux without any deprecation notices.
-> In these cases, if there's no clear replacement, or if the
-> replacement is not a straight drop-in, or if the replacement adds
-> more complexity, I didn't add the [[deprecated]] attribute.
->
-> A list of the system calls that I skipped in this patch set:
->
-> - utime(2)
->         Many filesystems have 1 second resolution, so it makes
->         sense to use it in those cases.  git(1) for example uses
->         utime(2) consistently.  Although deprecated by POSIX, it
->         is still part of POSIX; if it ever removes it, we can
->         reconsider.
->
-> - setpgrp(2) (the POSIX/SysV version)
->         POSIX deprecated it (not yet removed), but the manual page
->         doesn't mention any replacement.
->
-> Cheers,
->
-> Alex
->
->
-> ---
->
-> Alejandro Colomar (22):
->   bdflush.2: SYNOPSIS: Mark as [[deprecated]]
->   create_module.2: SYNOPSIS: Mark as [[deprecated]]
->   get_kernel_syms.2: SYNOPSIS: Mark as [[deprecated]]
->   getunwind.2: SYNOPSIS: Mark as [[deprecated]]
->   iopl.2: SYNOPSIS: Mark as [[deprecated]]
->   query_module.2: SYNOPSIS: Mark as [[deprecated]]
->   remap_file_pages.2: SYNOPSIS: Mark as [[deprecated]]
->   sigprocmask.2: SYNOPSIS: Mark the legacy system call as [[deprecated]]
->   statfs.2: SYNOPSIS: Mark as [[deprecated]]
->   stime.2: SYNOPSIS: Mark as [[deprecated]]
->   ustat.2: SYNOPSIS: Mark as [[deprecated]]
->   pthread_mutex_consistent.3: Mark *_np() old function as [[deprecated]]
->   sysctl.2: SYNOPSIS: Mark as [[deprecated]]
->   vfork.2: SYNOPSIS: Mark as [[deprecated]]
->   tkill.2: SYNOPSIS: Mark tkill() as [[deprecated]]
->   sgetmask.2: SYNOPSIS: Mark as [[deprecated]]
->   getitimer.2: SYNOPSIS: Mark as [[deprecated]]
->   futimesat.2: SYNOPSIS: Mark as [[deprecated]]
->   gettimeofday.2: SYNOPSIS: Mark as [[deprecated]]
->   setpgid.2: SYNOPSIS: Mark BSD versions of getpgrp() and setpgrp() as
->     [[deprecated]]
->   sysfs.2: SYNOPSIS: Mark as [[deprecated]]
->   uselib.2: SYNOPSIS: Mark as [[deprecated]]
->
->  man2/bdflush.2                  |  4 ++--
->  man2/create_module.2            |  2 +-
->  man2/futimesat.2                |  4 ++--
->  man2/get_kernel_syms.2          |  2 +-
->  man2/getitimer.2                |  7 ++++---
->  man2/gettimeofday.2             |  8 ++++----
->  man2/getunwind.2                |  3 ++-
->  man2/iopl.2                     |  2 +-
->  man2/query_module.2             |  5 +++--
->  man2/remap_file_pages.2         |  5 +++--
->  man2/setpgid.2                  |  8 ++++----
->  man2/sgetmask.2                 |  4 ++--
->  man2/sigprocmask.2              | 12 +++++++-----
->  man2/statfs.2                   |  4 ++--
->  man2/stime.2                    |  2 +-
->  man2/sysctl.2                   |  2 +-
->  man2/sysfs.2                    |  6 +++---
->  man2/tkill.2                    |  2 +-
->  man2/uselib.2                   |  2 +-
->  man2/ustat.2                    |  2 +-
->  man2/vfork.2                    |  2 +-
->  man3/pthread_mutex_consistent.3 |  1 +
->  22 files changed, 48 insertions(+), 41 deletions(-)
->
-> --
-> 2.33.1
->
+-- 
+Joseph S. Myers
+joseph@codesourcery.com
