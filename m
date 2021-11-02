@@ -2,62 +2,62 @@ Return-Path: <linux-man-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 213E8C433FE
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 90E14C4332F
 	for <linux-man@archiver.kernel.org>; Tue,  2 Nov 2021 18:15:46 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.kernel.org (Postfix) with ESMTP id 0AD1C6054E
+	by mail.kernel.org (Postfix) with ESMTP id 7AC4E6054E
 	for <linux-man@archiver.kernel.org>; Tue,  2 Nov 2021 18:15:46 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S235063AbhKBSSU (ORCPT <rfc822;linux-man@archiver.kernel.org>);
-        Tue, 2 Nov 2021 14:18:20 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:37546 "EHLO
+        id S235019AbhKBSSV (ORCPT <rfc822;linux-man@archiver.kernel.org>);
+        Tue, 2 Nov 2021 14:18:21 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:37556 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S235023AbhKBSSP (ORCPT
-        <rfc822;linux-man@vger.kernel.org>); Tue, 2 Nov 2021 14:18:15 -0400
-Received: from mail-wm1-x336.google.com (mail-wm1-x336.google.com [IPv6:2a00:1450:4864:20::336])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 55B8BC061714
-        for <linux-man@vger.kernel.org>; Tue,  2 Nov 2021 11:15:40 -0700 (PDT)
-Received: by mail-wm1-x336.google.com with SMTP id 77-20020a1c0450000000b0033123de3425so2717918wme.0
-        for <linux-man@vger.kernel.org>; Tue, 02 Nov 2021 11:15:40 -0700 (PDT)
+        with ESMTP id S235055AbhKBSSR (ORCPT
+        <rfc822;linux-man@vger.kernel.org>); Tue, 2 Nov 2021 14:18:17 -0400
+Received: from mail-wr1-x42e.google.com (mail-wr1-x42e.google.com [IPv6:2a00:1450:4864:20::42e])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 6F99EC061203
+        for <linux-man@vger.kernel.org>; Tue,  2 Nov 2021 11:15:42 -0700 (PDT)
+Received: by mail-wr1-x42e.google.com with SMTP id d3so34627921wrh.8
+        for <linux-man@vger.kernel.org>; Tue, 02 Nov 2021 11:15:42 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=gmail.com; s=20210112;
         h=from:to:cc:subject:date:message-id:in-reply-to:references
          :mime-version:content-transfer-encoding;
-        bh=K0n1lVSMiUtFsbNf6LG9WeD0xMSe0aSmho4oWx8Vb3E=;
-        b=ncDr/A02Dqh1FhjiSbLrpjPkOLb5P2l2A1fvFWrFuruNKoAhbI4fB3Aijeu4xemTVV
-         gCe6hJ6Y0KK3m8yLngkQlBFkVnrTZz/f55x23dNIdiV1yjFO8Q1+UhlC6we/tTPlsRRC
-         dlO3hKrg7tqnX4LwtctJcjR06llzRtf83f4Eds7GruDJoMlR2vtVY/mDdssDnGlsyShV
-         Y/JDE7PVctvEwKTdreLRScRINj0UQrTHO7fo6vkNXeP2O9WOgW5FutppWtJa6EVQ02Vr
-         FBnqLZJFemxabWHe5sJk1CIF4EM1grHagMEWyHEzZIrXnGPxK2maKsYT0d9zIVys0/a7
-         zHWQ==
+        bh=Rt7KdNR9g1Z7SzPkvmbkeIEOn+i1a2p1zelH1yrMgA8=;
+        b=fIR2GyNzjhqxDi4SNDxrPPz/6mJr8TWZl8/qya+y0db3dq+807uFkb76fBjdy3UQqV
+         o8gZMKmhsQqo9o9oa6sQN/XH3DRP6X9tVMVA6tfGzlBdOd1R5bgnna8TnRGg/Dkd98b/
+         1h3CSmFwLXnOOCe8oINOgbuCGJAWQEkj/Ps8ZVQxrebEQiNxU6OCuNaq+FWDheEmq3aZ
+         32WemtU/8qepIL0jQ6HKMZ5GOO3i1xzX8BLztFQCwDZfCumGnyuxkiava1V7UF1vQo6g
+         Yix5HIJXg9eBsNkEjTGGf7E/H6EO55k9yvSTL6JP3zLDQ3W8KwD2+em8J21qR9EGX4Y2
+         UJmA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20210112;
         h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
          :references:mime-version:content-transfer-encoding;
-        bh=K0n1lVSMiUtFsbNf6LG9WeD0xMSe0aSmho4oWx8Vb3E=;
-        b=c5dtjI5OIj5gHLyrdOmZFkHCU4Q1oycMY4ZUImQeNZufYxaS8aTo+/7buuLdDJ4vLo
-         xJdVuAGcV2rYWOySVG0Spo8zCW3WM5R5u391msfLqUbfrqtvQ4W+Kpqt+B6tDi8gQnKm
-         MACmMsgXCyL30x8WdmNWALQosVOmmqL0rIHktX0biJbdY61paNBf2aE+vJEcyrcOggvb
-         g1r3QcqbNu2o5BcppQRJbjSgDhKytXbR3Fy/Ff+MKZa3+ECnFcrXaVHHamJ+JL9+ZsYG
-         H3ro1ta72F/4aUTduQtTRPKWOjD3HAAOzhBxZB+t9hfyPlim8jbKnpcoSQAsd2oL8WqZ
-         eObw==
-X-Gm-Message-State: AOAM531nuarHYfXRe9I955GedksG/xcEkUFZ6rM5lvp1VuoNfxVY/16c
-        PrmcIa16dVUDsQLYOczXXyM=
-X-Google-Smtp-Source: ABdhPJzPrJrZZXCpN/Qlz4lSkCohKBdhVOyOfMmFp9D6tXvQLdoeL+Zguzf0EQbW9LtMZHiit/ztXA==
-X-Received: by 2002:a1c:a592:: with SMTP id o140mr8808154wme.10.1635876938913;
-        Tue, 02 Nov 2021 11:15:38 -0700 (PDT)
+        bh=Rt7KdNR9g1Z7SzPkvmbkeIEOn+i1a2p1zelH1yrMgA8=;
+        b=gIsJ5IEuQNnlAfVcwnIItQDS+2Cq1cu0toETqDja271zteYRFr3ZmNAkb7pENPNSA+
+         DEjFkKcJRrWB7C8onhkPL3foJ7lkL1inFXfEwWxt2IjvU6PnCelDOZQxLK931nkhC1L9
+         tv7tGO7YB6zJLr/usCXpPHRFEHCyuSPQ2MJWTbpAMOlxPgNOLzJuP4Rwa8oWS0sF2NM2
+         pOGHQVK5ikhbo3cCIZz7wBdZiGNmjjWaFAfEoRLbCkwb+a6NYrc+QDKxb69KHzCwxWsY
+         SqaZHLG2GJetvsQuh4YlXT/QsL5Juc4xVmEcaZL1NjubW3pAHen4UuD6f6lHOx2EC/gg
+         xBKA==
+X-Gm-Message-State: AOAM533ufWFoQZCC9GrAubjt6xiSJ5BvHJlJh0FYUSzG8G6nI6iyM+9Y
+        513IqP5ZPoe6zTWcqsR5BXTyL6MDdkU=
+X-Google-Smtp-Source: ABdhPJwJcPt6NzWalPr69Vdqysm4IsQDRoYu53Kk0ch7C66buYFPWhwuG1xKk60L3dnD6ew9VIrU/g==
+X-Received: by 2002:adf:ecca:: with SMTP id s10mr35461068wro.405.1635876941110;
+        Tue, 02 Nov 2021 11:15:41 -0700 (PDT)
 Received: from sqli.sqli.com ([195.53.121.100])
-        by smtp.googlemail.com with ESMTPSA id f18sm18467445wrg.3.2021.11.02.11.15.38
+        by smtp.googlemail.com with ESMTPSA id f18sm18467445wrg.3.2021.11.02.11.15.40
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Tue, 02 Nov 2021 11:15:38 -0700 (PDT)
+        Tue, 02 Nov 2021 11:15:40 -0700 (PDT)
 From:   Alejandro Colomar <alx.manpages@gmail.com>
 To:     mtk.manpages@gmail.com,
         "G . Branden Robinson" <g.branden.robinson@gmail.com>
 Cc:     Alejandro Colomar <alx.manpages@gmail.com>,
         linux-man@vger.kernel.org
-Subject: [RFC 34/37] lconv-struct.3, system_data_types.7: Move text to a separate page
-Date:   Tue,  2 Nov 2021 19:14:51 +0100
-Message-Id: <20211102181454.280919-35-alx.manpages@gmail.com>
+Subject: [RFC 36/37] div_t.3, lldiv_t.3, system_data_types.7: Move lldiv_t to div_t.3
+Date:   Tue,  2 Nov 2021 19:14:53 +0100
+Message-Id: <20211102181454.280919-37-alx.manpages@gmail.com>
 X-Mailer: git-send-email 2.33.1
 In-Reply-To: <20211102181454.280919-1-alx.manpages@gmail.com>
 References: <20211102181454.280919-1-alx.manpages@gmail.com>
@@ -69,120 +69,95 @@ X-Mailing-List: linux-man@vger.kernel.org
 
 Signed-off-by: Alejandro Colomar <alx.manpages@gmail.com>
 ---
- man3/lconv-struct.3      | 46 +++++++++++++++++++++++++++++++++++++-
- man7/system_data_types.7 | 48 ----------------------------------------
- 2 files changed, 45 insertions(+), 49 deletions(-)
+ man3/div_t.3             | 14 ++++++++++----
+ man3/lldiv_t.3           |  2 +-
+ man7/system_data_types.7 | 23 -----------------------
+ 3 files changed, 11 insertions(+), 28 deletions(-)
 
-diff --git a/man3/lconv-struct.3 b/man3/lconv-struct.3
-index db50c0f09..27a4d587d 100644
---- a/man3/lconv-struct.3
-+++ b/man3/lconv-struct.3
-@@ -1 +1,45 @@
--.so man7/system_data_types.7
-+.TH LCONV-STRUCT 3 2021-11-02 Linux "Linux Programmer's Manual"
-+.SH NAME
-+struct lconv \- numeric formatting information
-+.SH SYNOPSIS
-+.nf
-+.B #include <locale.h>
+diff --git a/man3/div_t.3 b/man3/div_t.3
+index 3d2697cac..34513ca91 100644
+--- a/man3/div_t.3
++++ b/man3/div_t.3
+@@ -1,6 +1,6 @@
+ .TH DIV_T 3 2021-11-02 Linux "Linux Programmer's Manual"
+ .SH NAME
+-div_t, ldiv_t, imaxdiv_t \- quotient and remainder of an integer division
++div_t, ldiv_t, lldiv_t, imaxdiv_t \- quotient and remainder of an integer division
+ .SH SYNOPSIS
+ .nf
+ .B #include <stdlib.h>
+@@ -15,6 +15,11 @@ div_t, ldiv_t, imaxdiv_t \- quotient and remainder of an integer division
+ .BR "    long rem;" "  /* Remainder */"
+ .B } ldiv_t;
+ .PP
++.B typedef struct {
++.BR "    long long quot;" " /* Quotient */"
++.BR "    long long rem;" "  /* Remainder */"
++.B } lldiv_t;
 +.PP
-+.BR "struct lconv {" "                /* Values in the \(dqC\(dq locale: */"
-+.BR "    char *decimal_point;" "      /* \(dq.\(dq */"
-+.BR "    char *thousands_sep;" "      /* \(dq\(dq */"
-+.BR "    char *grouping;" "           /* \(dq\(dq */"
-+.BR "    char *mon_decimal_point;" "  /* \(dq\(dq */"
-+.BR "    char *mon_thousands_sep;" "  /* \(dq\(dq */"
-+.BR "    char *mon_grouping;" "       /* \(dq\(dq */"
-+.BR "    char *positive_sign;" "      /* \(dq\(dq */"
-+.BR "    char *negative_sign;" "      /* \(dq\(dq */"
-+.BR "    char *currency_symbol;" "    /* \(dq\(dq */"
-+.BR "    char  frac_digits;" "        /* CHAR_MAX */"
-+.BR "    char  p_cs_precedes;" "      /* CHAR_MAX */"
-+.BR "    char  n_cs_precedes;" "      /* CHAR_MAX */"
-+.BR "    char  p_sep_by_space;" "     /* CHAR_MAX */"
-+.BR "    char  n_sep_by_space;" "     /* CHAR_MAX */"
-+.BR "    char  p_sign_posn;" "        /* CHAR_MAX */"
-+.BR "    char  n_sign_posn;" "        /* CHAR_MAX */"
-+.BR "    char *int_curr_symbol;" "    /* \(dq\(dq */"
-+.BR "    char  int_frac_digits;" "    /* CHAR_MAX */"
-+.BR "    char  int_p_cs_precedes;" "  /* CHAR_MAX */"
-+.BR "    char  int_n_cs_precedes;" "  /* CHAR_MAX */"
-+.BR "    char  int_p_sep_by_space;" " /* CHAR_MAX */"
-+.BR "    char  int_n_sep_by_space;" " /* CHAR_MAX */"
-+.BR "    char  int_p_sign_posn;" "    /* CHAR_MAX */"
-+.BR "    char  int_n_sign_posn;" "    /* CHAR_MAX */"
-+.B };
-+.fi
-+.SH DESCRIPTION
-+Contains members related to the formatting of numeric values.
-+In the "C" locale, its members have the values
-+shown in the comments above.
-+.SH CONFORMING TO
-+C11 and later; POSIX.1-2001 and later.
-+.SH SEE ALSO
-+.BR setlocale (3),
-+.BR localeconv (3),
-+.BR charsets (7),
-+.BR locale (7)
+ .B #include <inttypes.h>
+ .PP
+ .B typedef struct {
+@@ -23,9 +28,9 @@ div_t, ldiv_t, imaxdiv_t \- quotient and remainder of an integer division
+ .B } imaxdiv_t;
+ .fi
+ .SH DESCRIPTION
+-.RI [ l ] div_t
++.RI [[ l ] l ] div_t
+ is the type of the value returned by the
+-.RB [ l ] div (3)
++.RB [[ l ] l ] div (3)
+ function.
+ .PP
+ .I imaxdiv_t
+@@ -37,4 +42,5 @@ C99 and later; POSIX.1-2001 and later.
+ .SH SEE ALSO
+ .BR div (3),
+ .BR imaxdiv (3),
+-.BR ldiv (3)
++.BR ldiv (3),
++.BR lldiv (3)
+diff --git a/man3/lldiv_t.3 b/man3/lldiv_t.3
+index db50c0f09..e29b9e797 100644
+--- a/man3/lldiv_t.3
++++ b/man3/lldiv_t.3
+@@ -1 +1 @@
+-.so man7/system_data_types.7
++.so man3/div_t.3
 diff --git a/man7/system_data_types.7 b/man7/system_data_types.7
-index f4b30caba..25a45e318 100644
+index 4acce2e41..a39f7f269 100644
 --- a/man7/system_data_types.7
 +++ b/man7/system_data_types.7
-@@ -135,54 +135,6 @@ and
- types in this page.
- .RE
+@@ -137,29 +137,6 @@ types in this page.
  .\"------------------------------------- lconv ------------------------/
+ .\"------------------------------------- ldiv_t -----------------------/
+ .\"------------------------------------- lldiv_t ----------------------/
 -.TP
--.I lconv
+-.I lldiv_t
 -.RS
 -.IR Include :
--.IR <locale.h> .
+-.IR <stdlib.h> .
 -.PP
 -.EX
--struct lconv {                  /* Values in the "C" locale: */
--    char   *decimal_point;      /* "." */
--    char   *thousands_sep;      /* "" */
--    char   *grouping;           /* "" */
--    char   *mon_decimal_point;  /* "" */
--    char   *mon_thousands_sep;  /* "" */
--    char   *mon_grouping;       /* "" */
--    char   *positive_sign;      /* "" */
--    char   *negative_sign;      /* "" */
--    char   *currency_symbol;    /* "" */
--    char    frac_digits;        /* CHAR_MAX */
--    char    p_cs_precedes;      /* CHAR_MAX */
--    char    n_cs_precedes;      /* CHAR_MAX */
--    char    p_sep_by_space;     /* CHAR_MAX */
--    char    n_sep_by_space;     /* CHAR_MAX */
--    char    p_sign_posn;        /* CHAR_MAX */
--    char    n_sign_posn;        /* CHAR_MAX */
--    char   *int_curr_symbol;    /* "" */
--    char    int_frac_digits;    /* CHAR_MAX */
--    char    int_p_cs_precedes;  /* CHAR_MAX */
--    char    int_n_cs_precedes;  /* CHAR_MAX */
--    char    int_p_sep_by_space; /* CHAR_MAX */
--    char    int_n_sep_by_space; /* CHAR_MAX */
--    char    int_p_sign_posn;    /* CHAR_MAX */
--    char    int_n_sign_posn;    /* CHAR_MAX */
--};
+-typedef struct {
+-    long long   quot; /* Quotient */
+-    long long   rem;  /* Remainder */
+-} lldiv_t;
 -.EE
 -.PP
--Contains members related to the formatting of numeric values.
--In the "C" locale, its members have the values
--shown in the comments above.
+-It is the type of the value returned by the
+-.BR lldiv (3)
+-function.
 -.PP
 -.IR "Conforming to" :
--C11 and later; POSIX.1-2001 and later.
+-C99 and later; POSIX.1-2001 and later.
 -.PP
 -.IR "See also" :
--.BR setlocale (3),
--.BR localeconv (3),
--.BR charsets (7),
--.BR locale (7)
+-.BR lldiv (3)
 -.RE
- .\"------------------------------------- ldiv_t -----------------------/
+ .\"------------------------------------- mode_t -----------------------/
  .TP
- .I ldiv_t
+ .I mode_t
 -- 
 2.33.1
 
