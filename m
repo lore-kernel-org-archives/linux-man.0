@@ -2,62 +2,62 @@ Return-Path: <linux-man-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 4F33CC433F5
+	by smtp.lore.kernel.org (Postfix) with ESMTP id E32BCC43217
 	for <linux-man@archiver.kernel.org>; Tue,  2 Nov 2021 18:15:46 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.kernel.org (Postfix) with ESMTP id 3C09C60EBC
+	by mail.kernel.org (Postfix) with ESMTP id CF8CA6054E
 	for <linux-man@archiver.kernel.org>; Tue,  2 Nov 2021 18:15:46 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S234834AbhKBSSU (ORCPT <rfc822;linux-man@archiver.kernel.org>);
-        Tue, 2 Nov 2021 14:18:20 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:37552 "EHLO
+        id S234845AbhKBSSV (ORCPT <rfc822;linux-man@archiver.kernel.org>);
+        Tue, 2 Nov 2021 14:18:21 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:37562 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S235052AbhKBSSR (ORCPT
-        <rfc822;linux-man@vger.kernel.org>); Tue, 2 Nov 2021 14:18:17 -0400
-Received: from mail-wr1-x42c.google.com (mail-wr1-x42c.google.com [IPv6:2a00:1450:4864:20::42c])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id B4005C061714
-        for <linux-man@vger.kernel.org>; Tue,  2 Nov 2021 11:15:41 -0700 (PDT)
-Received: by mail-wr1-x42c.google.com with SMTP id c4so4686657wrd.9
-        for <linux-man@vger.kernel.org>; Tue, 02 Nov 2021 11:15:41 -0700 (PDT)
+        with ESMTP id S235057AbhKBSSS (ORCPT
+        <rfc822;linux-man@vger.kernel.org>); Tue, 2 Nov 2021 14:18:18 -0400
+Received: from mail-wr1-x42b.google.com (mail-wr1-x42b.google.com [IPv6:2a00:1450:4864:20::42b])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 70326C061205
+        for <linux-man@vger.kernel.org>; Tue,  2 Nov 2021 11:15:43 -0700 (PDT)
+Received: by mail-wr1-x42b.google.com with SMTP id d13so34664204wrf.11
+        for <linux-man@vger.kernel.org>; Tue, 02 Nov 2021 11:15:43 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=gmail.com; s=20210112;
         h=from:to:cc:subject:date:message-id:in-reply-to:references
          :mime-version:content-transfer-encoding;
-        bh=MOWGu77qp5n2dGC2PSqR6/fLGUQBOkzyUG5pNk1Ek8E=;
-        b=QG+8QLWhtQiW05MhgyXWb6vm5eiwMEhrHcA4hOz1rmyA9YWut3VVWYwwx2596OXUl4
-         64VjlSYFLMJW7MONrCyNwPxtxM7IcRGcVhwn4jhvbgpxosp22hulyBpRyDeI+lwlknJm
-         os7odIH7mdJv3ItiM1x9zDXVp4juGGx99NrKnQT3XzepJ6SBAWZ0r+7R8zVFTrHOAHUf
-         Cj35I+VcoKjw1oQHpxNb3GeXgwGCnDXFRsZjDatNwt2fYMNMYbxCOqcBsvZiwwprviZ+
-         QhEsoi6Y7tpAnByEPHEzhgp9yXcQIZiE4AGJ0W1Zd2ZIJxqpOVOllZ07SRPxUWjoDzPC
-         0q9g==
+        bh=KLTEBOX0/Yy/dHpu1WFc57p2Eoa+NHy7UNkdVferTXg=;
+        b=Y0diLfHVxRb2aOeCCx5LU0gW2cBEA9ijx24VKSznxFqg/elMfyEjAox+XLDNircUWD
+         fcQ8/b+IMw2frhC3Q3AVGebBjye4VpTIejvwUO1ucd5i1LCy9FUc+zVU9wby3DuMwsOh
+         aE68gsVo+rK4XGIAawjKBn9DIVQTx6XaeEq0w8eeXtZtRlMWF6VFInRFZ+VLiD1JpkE9
+         hfFr7frEhaUPVFag11DYX5rVhQET7a9227wouHPakCTl7JaryVd16R6I5OuXiadTtLxD
+         H8w4QXRe5bPMcq9vzclAY/aWJj2HG7kD5omGtl5c0ITfL43Rtcu+fOiuLrjnI/NkBBJS
+         K58w==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20210112;
         h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
          :references:mime-version:content-transfer-encoding;
-        bh=MOWGu77qp5n2dGC2PSqR6/fLGUQBOkzyUG5pNk1Ek8E=;
-        b=ADaJ7vHMHYsB6lLD7QHbopPHM4mQ3oUuE4nYwRGaUgbn889xFLprAy0kXl+Ce7JzJR
-         kuQLI7dSc2mm7xGIll69gWdDGaoxXvNw2mjK2Wv0bAne2JPm0FOeaaQWxFthBPDzsb3+
-         34M7JaANDIWeiS8kvR5VwIdItoXhs9BlnDVRTzOCe93gZBz2JOlapaDUVM+ar8SnFOs9
-         T0B/cqI6LcI40SXaor2APX7r58ani8RwJDZ/TNYn1pLzDtSU6UrehMYb6Ul4VWLb7Zf4
-         CZQnW7Ib7LdTp4MIA3qRYy7tihzhpB4ix0ikuoTd805oQSfJQz71B58iTIcK0zTm0ZaN
-         hotA==
-X-Gm-Message-State: AOAM533jzF0tpN8ypJi60Govvzjmv2v2Pzpw4OL3qAHCopbDlYCKGe8Z
-        cwRFdaYs//EylRYJU+FDIpDgqwPehxE=
-X-Google-Smtp-Source: ABdhPJx80zsTUeOv9mx8w4vEfuAanYt5J3/7E4fpem9w14O5cc5/J8xHZo3d3shfR0wBeMFZl97hKQ==
-X-Received: by 2002:adf:e6c5:: with SMTP id y5mr23047408wrm.79.1635876939950;
-        Tue, 02 Nov 2021 11:15:39 -0700 (PDT)
+        bh=KLTEBOX0/Yy/dHpu1WFc57p2Eoa+NHy7UNkdVferTXg=;
+        b=wPs5xqDgfTPUg6omSRwIFny4CQTBN0RhsVxBxNdGcaVIgYpCP9HQ4i3U7aigxTt556
+         ZyqupajsDJu17cDLrAE4NYsR2k6avtG9pD7wNnn8qsTRbfDkrvjylmHSwdclbiUWnNWf
+         rxOzODzbxGrReZybfIFrmPtVIISl5R5h4m3VDZmHUCA6PMI57s0UWHFuqC7eh1OGkLJk
+         iQK7fn5Y1nzrAAxDIa43PiRAHjl29wlCMn+F/+Oa4Rr3DLzexT0e0E3BxmTTHy1XEYQv
+         wE200oqxhCkXtX94YqSwUtV02ELk+RI4qvWErbk8vGDUts0jDFCPJ9vk9lDA83HLAxce
+         8KRg==
+X-Gm-Message-State: AOAM532+tyBEEhAeImAFkBmSOYLswI2NpJ6gra9b7YZRGpGx2Jyeu4et
+        sPU45qDjdvZswHr307h9PNQ=
+X-Google-Smtp-Source: ABdhPJxE8/vwgbYyTDZQ/Cnb6ocOGwu4czmNfXr9ywT6PN0PbEiMEmXiC05m5eqmy7j+sg4+IR7D2w==
+X-Received: by 2002:a05:6000:2a4:: with SMTP id l4mr22907150wry.238.1635876942100;
+        Tue, 02 Nov 2021 11:15:42 -0700 (PDT)
 Received: from sqli.sqli.com ([195.53.121.100])
-        by smtp.googlemail.com with ESMTPSA id f18sm18467445wrg.3.2021.11.02.11.15.39
+        by smtp.googlemail.com with ESMTPSA id f18sm18467445wrg.3.2021.11.02.11.15.41
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Tue, 02 Nov 2021 11:15:39 -0700 (PDT)
+        Tue, 02 Nov 2021 11:15:41 -0700 (PDT)
 From:   Alejandro Colomar <alx.manpages@gmail.com>
 To:     mtk.manpages@gmail.com,
         "G . Branden Robinson" <g.branden.robinson@gmail.com>
 Cc:     Alejandro Colomar <alx.manpages@gmail.com>,
         linux-man@vger.kernel.org
-Subject: [RFC 35/37] div_t.3, ldiv_t.3, system_data_types.7: Move ldiv_t to div_t.3
-Date:   Tue,  2 Nov 2021 19:14:52 +0100
-Message-Id: <20211102181454.280919-36-alx.manpages@gmail.com>
+Subject: [RFC 37/37] mode_t.3, system_data_types.7: Move text to a separate page
+Date:   Tue,  2 Nov 2021 19:14:54 +0100
+Message-Id: <20211102181454.280919-38-alx.manpages@gmail.com>
 X-Mailer: git-send-email 2.33.1
 In-Reply-To: <20211102181454.280919-1-alx.manpages@gmail.com>
 References: <20211102181454.280919-1-alx.manpages@gmail.com>
@@ -69,95 +69,90 @@ X-Mailing-List: linux-man@vger.kernel.org
 
 Signed-off-by: Alejandro Colomar <alx.manpages@gmail.com>
 ---
- man3/div_t.3             | 14 ++++++++++----
- man3/ldiv_t.3            |  2 +-
- man7/system_data_types.7 | 23 -----------------------
- 3 files changed, 11 insertions(+), 28 deletions(-)
+ man3/mode_t.3            | 32 +++++++++++++++++++++++++++++++-
+ man7/system_data_types.7 | 32 --------------------------------
+ 2 files changed, 31 insertions(+), 33 deletions(-)
 
-diff --git a/man3/div_t.3 b/man3/div_t.3
-index bf1687e0d..3d2697cac 100644
---- a/man3/div_t.3
-+++ b/man3/div_t.3
-@@ -1,6 +1,6 @@
- .TH DIV_T 3 2021-11-02 Linux "Linux Programmer's Manual"
- .SH NAME
--div_t, imaxdiv_t \- quotient and remainder of an integer division
-+div_t, ldiv_t, imaxdiv_t \- quotient and remainder of an integer division
- .SH SYNOPSIS
- .nf
- .B #include <stdlib.h>
-@@ -10,6 +10,11 @@ div_t, imaxdiv_t \- quotient and remainder of an integer division
- .BR "    int rem;" "  /* Remainder */"
- .B } div_t;
- .PP
-+.B typedef struct {
-+.BR "    long quot;" " /* Quotient */"
-+.BR "    long rem;" "  /* Remainder */"
-+.B } ldiv_t;
-+.PP
- .B #include <inttypes.h>
- .PP
- .B typedef struct {
-@@ -18,9 +23,9 @@ div_t, imaxdiv_t \- quotient and remainder of an integer division
- .B } imaxdiv_t;
- .fi
- .SH DESCRIPTION
--.I div_t
-+.RI [ l ] div_t
- is the type of the value returned by the
--.BR div (3)
-+.RB [ l ] div (3)
- function.
- .PP
- .I imaxdiv_t
-@@ -31,4 +36,5 @@ function.
- C99 and later; POSIX.1-2001 and later.
- .SH SEE ALSO
- .BR div (3),
--.BR imaxdiv (3)
-+.BR imaxdiv (3),
-+.BR ldiv (3)
-diff --git a/man3/ldiv_t.3 b/man3/ldiv_t.3
-index db50c0f09..e29b9e797 100644
---- a/man3/ldiv_t.3
-+++ b/man3/ldiv_t.3
-@@ -1 +1 @@
+diff --git a/man3/mode_t.3 b/man3/mode_t.3
+index db50c0f09..b2e5bf33d 100644
+--- a/man3/mode_t.3
++++ b/man3/mode_t.3
+@@ -1 +1,31 @@
 -.so man7/system_data_types.7
-+.so man3/div_t.3
++.TH MODE_T 3 2021-11-02 Linux "Linux Programmer's Manual"
++.SH NAME
++mode_t \- file attributes
++.SH SYNOPSIS
++.nf
++.B #include <sys/types.h>
++.PP
++.BR typedef " /* ... */ " mode_t;
++.fi
++.SH DESCRIPTION
++Used for some file attributes (e.g., file mode).
++According to POSIX,
++it shall be an integer type.
++.SH CONFORMING TO
++POSIX.1-2001 and later.
++.SH NOTES
++The following headers also provide this type:
++.IR <fcntl.h> ,
++.IR <ndbm.h> ,
++.IR <spawn.h> ,
++.IR <sys/ipc.h> ,
++.IR <sys/mman.h> ,
++and
++.IR <sys/stat.h> .
++.PP
++.SH SEE ALSO
++.BR chmod (2),
++.BR mkdir (2),
++.BR open (2),
++.BR umask (2),
++.BR stat-struct (3)
 diff --git a/man7/system_data_types.7 b/man7/system_data_types.7
-index 25a45e318..4acce2e41 100644
+index a39f7f269..f8971c6dd 100644
 --- a/man7/system_data_types.7
 +++ b/man7/system_data_types.7
-@@ -136,29 +136,6 @@ types in this page.
- .RE
- .\"------------------------------------- lconv ------------------------/
+@@ -138,38 +138,6 @@ types in this page.
  .\"------------------------------------- ldiv_t -----------------------/
+ .\"------------------------------------- lldiv_t ----------------------/
+ .\"------------------------------------- mode_t -----------------------/
 -.TP
--.I ldiv_t
+-.I mode_t
 -.RS
 -.IR Include :
--.IR <stdlib.h> .
+-.IR <sys/types.h> .
+-Alternatively,
+-.IR <fcntl.h> ,
+-.IR <ndbm.h> ,
+-.IR <spawn.h> ,
+-.IR <sys/ipc.h> ,
+-.IR <sys/mman.h> ,
+-or
+-.IR <sys/stat.h> .
 -.PP
--.EX
--typedef struct {
--    long    quot; /* Quotient */
--    long    rem;  /* Remainder */
--} ldiv_t;
--.EE
--.PP
--It is the type of the value returned by the
--.BR ldiv (3)
--function.
+-Used for some file attributes (e.g., file mode).
+-According to POSIX,
+-it shall be an integer type.
 -.PP
 -.IR "Conforming to" :
--C99 and later; POSIX.1-2001 and later.
+-POSIX.1-2001 and later.
 -.PP
 -.IR "See also" :
--.BR ldiv (3)
+-.BR chmod (2),
+-.BR mkdir (2),
+-.BR open (2),
+-.BR umask (2)
+-.PP
+-.IR "See also" :
+-the
+-.I stat
+-structure in this page.
 -.RE
- .\"------------------------------------- lldiv_t ----------------------/
+ .\"------------------------------------- off64_t ----------------------/
  .TP
- .I lldiv_t
+ .I off64_t
 -- 
 2.33.1
 
