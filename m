@@ -2,120 +2,109 @@ Return-Path: <linux-man-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 95CF4C433EF
-	for <linux-man@archiver.kernel.org>; Fri,  5 Nov 2021 17:19:28 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 76762C433F5
+	for <linux-man@archiver.kernel.org>; Sun,  7 Nov 2021 15:21:51 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.kernel.org (Postfix) with ESMTP id 6CB6961183
-	for <linux-man@archiver.kernel.org>; Fri,  5 Nov 2021 17:19:28 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTP id 4E18961186
+	for <linux-man@archiver.kernel.org>; Sun,  7 Nov 2021 15:21:51 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S232825AbhKERWH (ORCPT <rfc822;linux-man@archiver.kernel.org>);
-        Fri, 5 Nov 2021 13:22:07 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:38324 "EHLO
-        lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S230369AbhKERWG (ORCPT
-        <rfc822;linux-man@vger.kernel.org>); Fri, 5 Nov 2021 13:22:06 -0400
-Received: from mail-ua1-x931.google.com (mail-ua1-x931.google.com [IPv6:2607:f8b0:4864:20::931])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 1F580C061714
-        for <linux-man@vger.kernel.org>; Fri,  5 Nov 2021 10:19:27 -0700 (PDT)
-Received: by mail-ua1-x931.google.com with SMTP id az37so18350188uab.13
-        for <linux-man@vger.kernel.org>; Fri, 05 Nov 2021 10:19:27 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=google.com; s=20210112;
-        h=mime-version:references:in-reply-to:from:date:message-id:subject:to
-         :cc;
-        bh=j7e054TQxRkKePZRHPZZz/iNSezx3VyhNaeHe3JFl2M=;
-        b=LdK8LxByQTOLWBVrkBe6u7dVyQCQ45IhS5R06gyrw8ohKlumFT1O4JgjJdLS6WtVPx
-         k4VzKboyYmn1Ew9F2iYDddW4XzQninlCBniPW37bYHSqCFU74VzyjJ0P0d753EfbReyL
-         mLkh8z+7I3IHGd5ZCbQCc3NsJJ3Ali8DZpRxBqa1skLdSgrZfYKr+dqNK+NcTsEV6s2S
-         yLQVM0FL2XLaF+BVX6u+M0kmmZop042dJ7kq5LRrXkzBkTROvtV+Tn2cJUc6Sm6V6uA3
-         xbRXxwse9lCNAyh0UV0wS+BBMGf7OIdC+9m4/f+CyVNshAxOwuovjVb/JvWcEByaiGdu
-         9OlQ==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20210112;
-        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
-         :message-id:subject:to:cc;
-        bh=j7e054TQxRkKePZRHPZZz/iNSezx3VyhNaeHe3JFl2M=;
-        b=NLfWkSvWHohf8kxDIq7agQZr7+yLaI7bVqjjXVozHt2j1FvPptMD9xz9/aXdmldPqW
-         3MT82nA2d7L3JYejqmue8WfXy4UxVi47StfGkpC/pkSuGmMANWRYIW/YjxUIhsw5OscL
-         Pm6ph007YpfOEdjAuZGufNPdVQ+c6l7aw3WODh8O2A0Ma6m58QMRxAHl5V+t3LlwdX2Q
-         IIatiNI3lqL4M5dhRaxCyXEW8fBVvnofu1YHUeosuE0PVY5/Uz34lMA1MMB5QuA2arON
-         Pc/VpHWLhiGtDeFRizp+R4rTegAyNz7qyZpBGlgxIomKuDL9z9j09p56lZwDJsPYX9oV
-         CCaw==
-X-Gm-Message-State: AOAM530if+Ne3Aj70+R57gV3AmEbj4N0PrcnDJclQaFeOlzutveVFtm1
-        1D8gWylgiWlhSXh6fY5FSSfWWL1A4Z9Npyr71uwt6g==
-X-Google-Smtp-Source: ABdhPJyArVudCy9jJYcQJcDgH+JsX3zXk19/yUY1WztfAAeJ03CP9bpPgiHmL4gCP3Zf9Rxio93f+L2xs1ntUZ3FogY=
-X-Received: by 2002:a05:6102:481:: with SMTP id n1mr41880101vsa.18.1636132766138;
- Fri, 05 Nov 2021 10:19:26 -0700 (PDT)
-MIME-Version: 1.0
-References: <20210924235456.2413081-1-weiwan@google.com> <CAEA6p_CSbFFiEUQKy_n5dBd-oBWLq1L0CZYjECqBfjjkeQoSdg@mail.gmail.com>
- <6c5ac9d3-9e9a-12aa-7dc8-d89553790e7b@gmail.com>
-In-Reply-To: <6c5ac9d3-9e9a-12aa-7dc8-d89553790e7b@gmail.com>
-From:   Wei Wang <weiwan@google.com>
-Date:   Fri, 5 Nov 2021 10:19:15 -0700
-Message-ID: <CAEA6p_CXGaboJaO+LCM=c_tnf2P5oZZyXwJn1ybQDakWp+b=8g@mail.gmail.com>
-Subject: Re: [patch v3] tcp.7: Add description for TCP_FASTOPEN and
- TCP_FASTOPEN_CONNECT options
+        id S229955AbhKGPYd (ORCPT <rfc822;linux-man@archiver.kernel.org>);
+        Sun, 7 Nov 2021 10:24:33 -0500
+Received: from THBLACKELECTRIC.COM ([207.244.97.128]:40822 "EHLO lsw.cs1local"
+        rhost-flags-OK-OK-OK-FAIL) by vger.kernel.org with ESMTP
+        id S229878AbhKGPYc (ORCPT <rfc822;linux-man@vger.kernel.org>);
+        Sun, 7 Nov 2021 10:24:32 -0500
+Received: from [72.29.63.102] (helo=debian)
+        by lsw.cs1local with esmtpsa (TLS1.3:ECDHE_RSA_AES_256_GCM_SHA384:256)
+        (Exim 4.92)
+        (envelope-from <thb@b-tk.org>)
+        id 1mjjzQ-0002Xs-PU
+        for linux-man@vger.kernel.org; Sun, 07 Nov 2021 15:21:49 +0000
+Received: from thb by debian with local (Exim 4.94.2)
+        (envelope-from <thb@b-tk.org>)
+        id 1mjjHu-00035i-Ky; Sun, 07 Nov 2021 14:36:50 +0000
+Date:   Sun, 7 Nov 2021 14:36:50 +0000
+From:   "Thaddeus H. Black" <thb@debian.org>
 To:     "Alejandro Colomar (man-pages)" <alx.manpages@gmail.com>
-Cc:     Michael Kerrisk <mtk.manpages@gmail.com>,
-        linux-man@vger.kernel.org, netdev@vger.kernel.org,
-        Yuchung Cheng <ycheng@google.com>,
-        Neal Cardwell <ncardwell@google.com>,
-        Eric Dumazet <edumazet@google.com>
-Content-Type: text/plain; charset="UTF-8"
+Cc:     "G. Branden Robinson" <g.branden.robinson@gmail.com>,
+        linux-man@vger.kernel.org, Michael Kerrisk <mtk.manpages@gmail.com>
+Subject: Re: [PATCH v3] filename.7: new manual page
+Message-ID: <YYfkggpiE1D+HW9R@b-tk.org>
+References: <YWysyI6/sZtbQBBb@b-tk.org>
+ <YW2hzL5vDfVZIAXY@b-tk.org>
+ <22573673-bf1e-0f64-7e95-6cf0a23c2015@gmail.com>
+MIME-Version: 1.0
+Content-Type: multipart/signed; micalg=pgp-sha256;
+        protocol="application/pgp-signature"; boundary="CiD9xv/lYfQrLvVr"
+Content-Disposition: inline
+In-Reply-To: <22573673-bf1e-0f64-7e95-6cf0a23c2015@gmail.com>
+X-Spam_score: -0.7
+X-Spam_bar: /
 Precedence: bulk
 List-ID: <linux-man.vger.kernel.org>
 X-Mailing-List: linux-man@vger.kernel.org
 
-On Fri, Oct 15, 2021 at 3:12 PM Alejandro Colomar (man-pages)
-<alx.manpages@gmail.com> wrote:
->
-> Hi Wei,
->
-> On 10/15/21 6:08 PM, Wei Wang wrote:
-> > On Fri, Sep 24, 2021 at 4:54 PM Wei Wang <weiwan@google.com> wrote:
-> >>
-> >> TCP_FASTOPEN socket option was added by:
-> >> commit 8336886f786fdacbc19b719c1f7ea91eb70706d4
-> >> TCP_FASTOPEN_CONNECT socket option was added by the following patch
-> >> series:
-> >> commit 065263f40f0972d5f1cd294bb0242bd5aa5f06b2
-> >> commit 25776aa943401662617437841b3d3ea4693ee98a
-> >> commit 19f6d3f3c8422d65b5e3d2162e30ef07c6e21ea2
-> >> commit 3979ad7e82dfe3fb94a51c3915e64ec64afa45c3
-> >> Add detailed description for these 2 options.
-> >> Also add descriptions for /proc entry tcp_fastopen and tcp_fastopen_key.
-> >>
-> >> Signed-off-by: Wei Wang <weiwan@google.com>
-> >> ---
-> >
-> > Hi Alex,
-> >
-> > Does this version look OK to you to apply?
-> > Let me know.
->
-> Sorry, I missed that patch.
-> Thanks for the ping!  I'll try to have a look at it ASAP.
->
 
-Hi Alex,
+--CiD9xv/lYfQrLvVr
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+Content-Transfer-Encoding: quoted-printable
 
-I am not sure if this patch has been applied yet?
-If not, could you help take a look? Let me know if you'd like me to resend it.
+On Tue, Oct 19, 2021 at 03:38:09PM +0200, Alejandro Colomar (man-pages) wro=
+te:
+> 'git format-patch' is the preferred method :)
+>=20
+> What I missed here is the long (and great) commit message from v1, which =
+I'm
+> going to save as the commit message.  Please, when you send v4, include t=
+he
+> original text.
 
-Thanks.
-Wei
+Okay.
 
-> Thanks,
->
-> Alex
->
->
-> >
-> > Thanks.
-> > Wei
->
->
-> --
-> Alejandro Colomar
-> Linux man-pages comaintainer; https://www.kernel.org/doc/man-pages/
-> http://www.alejandro-colomar.es/
+> Ephemeral stuff that should not go into the commit message (like changelo=
+gs
+> between versions of the patch), you can put it above, in a "scissor patch"
+> format (see git-format-patch(1) if necessary).
+>=20
+> Or if it's short/simple enough, below the '---' (and just above the patch
+> itself; it is actually ignored by git, unless it's so complex that it is
+> misinterpreted as part of the patch).  This method is what I usually use,
+> since it doesn't require specifying '--scissors', and I usually only write
+> normal text that can't be confused with the patch.  I don't know if this =
+is
+> documented anywhere, but it's very useful.
+
+In view of feedback, v4 requires substantial rewriting.  Rewritten text
+wants polishing.  Polishing takes time.
+
+In short, I haven't forgotten, but v4 is not yet ready.
+
+Note to other readers:  if any latecomers to the conversation wish to
+suggest further significant changes, now would be the time to suggest;
+for once the draft has been reassembled and repolished, it will be too
+late.  Nonsubscribers can find v3 at [1].
+
+    1: https://www.spinics.net/lists/linux-man/msg21267.html
+
+--CiD9xv/lYfQrLvVr
+Content-Type: application/pgp-signature; name="signature.asc"
+
+-----BEGIN PGP SIGNATURE-----
+
+iQIzBAABCAAdFiEEM1APDU+pwMhnuF4GcGMmQy2FIrwFAmGH5H0ACgkQcGMmQy2F
+IrzSuA/+JvGsu/ylUxT7BswfQedk0il4di4X3Ic0Np+v874mzhzeK21KIuHePPT8
+LekhqnBF4FuBfWuQHTfqfI6oqlhUpgRNLZu5yNJtmx1EORu18WU38J7pwbHZSwCH
+Yr2tx7LKR0jk1jPgAxaBFiI4W1b3AF7MCAMn4OEG91aViAkGMcl42vTkyQmGAyGY
+NumoKAe+O5Y9mngGb6BVx3ItWd02SR4WLbne2FoavMBzUPXX4GUnrFKBxrwNtwIl
+s5UdfuhD+xN6og6HAFiOjnz8vKwdSEUAhDBkeHbs+J8TUKoLyn7euERndydDQd9e
+1YJEvrQS/RNaVmYLOR+4BZ4I3KbVluddKO8Q6sD9s50Tb3+kYBK3HbjRUny8Pqrd
+1oSuaOui1r0VIY6qDkmJEObDoltN+RaVPQHj/eloaKNW+1e3zgpg10i0vt9IYTCj
+m8KMCLTgn9UThipj/7WWFT+f82nch7W4ew3tEvUq5clr3okq0/UyRMzpNJHK98Df
+tnIz/iy+/0MEeGA09ghvj+tj/53ovH0dWInhwiGqbRmGp60VZk81SswBPu8IcBL2
+EdP6NOqnBjt3ns7qgvLoBNc22WWdRreSFqjDbOqo2PUEXhWym2yC2rWFMXAopmLg
+IBicgU986fFaqssB4GRBbqiR4NrqFvdot8NWtlVDvyUOS9bbLss=
+=VsZw
+-----END PGP SIGNATURE-----
+
+--CiD9xv/lYfQrLvVr--
