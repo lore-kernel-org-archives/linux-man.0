@@ -2,82 +2,86 @@ Return-Path: <linux-man-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 64A6BC433F5
-	for <linux-man@archiver.kernel.org>; Mon,  8 Nov 2021 08:05:34 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 48000C433F5
+	for <linux-man@archiver.kernel.org>; Tue,  9 Nov 2021 22:52:26 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.kernel.org (Postfix) with ESMTP id 3EA4161208
-	for <linux-man@archiver.kernel.org>; Mon,  8 Nov 2021 08:05:34 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTP id 2BF83610A0
+	for <linux-man@archiver.kernel.org>; Tue,  9 Nov 2021 22:52:26 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S230265AbhKHIIR (ORCPT <rfc822;linux-man@archiver.kernel.org>);
-        Mon, 8 Nov 2021 03:08:17 -0500
-Received: from zimbra.cs.ucla.edu ([131.179.128.68]:59060 "EHLO
-        zimbra.cs.ucla.edu" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S234057AbhKHIIQ (ORCPT
-        <rfc822;linux-man@vger.kernel.org>); Mon, 8 Nov 2021 03:08:16 -0500
-Received: from localhost (localhost [127.0.0.1])
-        by zimbra.cs.ucla.edu (Postfix) with ESMTP id 6EDA71600C4;
-        Mon,  8 Nov 2021 00:05:32 -0800 (PST)
-Received: from zimbra.cs.ucla.edu ([127.0.0.1])
-        by localhost (zimbra.cs.ucla.edu [127.0.0.1]) (amavisd-new, port 10032)
-        with ESMTP id r-NSlqfJD-Hs; Mon,  8 Nov 2021 00:05:31 -0800 (PST)
-Received: from localhost (localhost [127.0.0.1])
-        by zimbra.cs.ucla.edu (Postfix) with ESMTP id B23B51600FD;
-        Mon,  8 Nov 2021 00:05:31 -0800 (PST)
-X-Virus-Scanned: amavisd-new at zimbra.cs.ucla.edu
-Received: from zimbra.cs.ucla.edu ([127.0.0.1])
-        by localhost (zimbra.cs.ucla.edu [127.0.0.1]) (amavisd-new, port 10026)
-        with ESMTP id ePmSA2f5pJ75; Mon,  8 Nov 2021 00:05:31 -0800 (PST)
-Received: from [192.168.1.9] (cpe-172-91-119-151.socal.res.rr.com [172.91.119.151])
-        by zimbra.cs.ucla.edu (Postfix) with ESMTPSA id 810C61600C4;
-        Mon,  8 Nov 2021 00:05:31 -0800 (PST)
-Message-ID: <82810efd-eb98-0a1c-d9b7-602b51c1b5e7@cs.ucla.edu>
-Date:   Mon, 8 Nov 2021 00:05:31 -0800
+        id S243483AbhKIWzL (ORCPT <rfc822;linux-man@archiver.kernel.org>);
+        Tue, 9 Nov 2021 17:55:11 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:57866 "EHLO
+        lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S243290AbhKIWy5 (ORCPT
+        <rfc822;linux-man@vger.kernel.org>); Tue, 9 Nov 2021 17:54:57 -0500
+Received: from mail-lf1-x12e.google.com (mail-lf1-x12e.google.com [IPv6:2a00:1450:4864:20::12e])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id BAB13C04A41D
+        for <linux-man@vger.kernel.org>; Tue,  9 Nov 2021 14:28:11 -0800 (PST)
+Received: by mail-lf1-x12e.google.com with SMTP id bu18so1215270lfb.0
+        for <linux-man@vger.kernel.org>; Tue, 09 Nov 2021 14:28:11 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=google.com; s=20210112;
+        h=mime-version:from:date:message-id:subject:to:cc;
+        bh=MvDNfpr7cGeYQW494BeM5c6EyoTEZTzkAIfJaWCUni0=;
+        b=scZps4IbLGm/DEOEvqLeFHWzk39jGCgt6LjYAWUONqqmk6nnJvpBRFuaSYzceVtii5
+         gDdVkOyZP+6nF7HrfwC6s/r0TbKx4OOqdUgNxCJXTLwM8mVgm6ySqrIUVF4w0DN9DR1n
+         04EMzkq9YpJPdDXXsolTOHYzX1nweZeq3duqIv8+aG46Z7zMvQQ2Ro9x21/m2bVl/t7H
+         eWA6JU5WF4iTUEXE8zfLCWq++RGjZRg89/fIb+PCI/fA4RUJ5G+784U8jtAgZXoLWTyk
+         OYEcy3jYjG21qUtmAYDLzo6Sp0UZfwW1CT7JSCU9pYsTmIwnzmj1+zs2g8uojA0CPRdg
+         +R6A==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20210112;
+        h=x-gm-message-state:mime-version:from:date:message-id:subject:to:cc;
+        bh=MvDNfpr7cGeYQW494BeM5c6EyoTEZTzkAIfJaWCUni0=;
+        b=QsRqm3S/HkefylyFPS76DxbM+uPTNezI5WSLyhLKqgGZ/MzzeGjnvX6GLM+QxpolPc
+         wKo6VjlnQZWoHhUCuNSrKKQ6b8xKURrKC+iFGfjRhLknVo5Cz65uCcZoU/+fiE6Vi7/v
+         8QplpExPKR4FGBKNbzrTdf0f8EfWbtHjm09ahNXP3hRdLJF8vcN0H8M2f23jvac2AnmS
+         S4V3fQeolcBcKjbzZ4cpbK+gTypbJ4FERfq6NJmOvhBpQQhQkhlE2f1FtQdKYPoRJgSP
+         N++hZ+Pp6VGeKnhZr3MJxk860GBLDb6471G4PnwwH7hx2Cn7B/9aEiFjsWXFxmYOHlM0
+         tsfg==
+X-Gm-Message-State: AOAM532I/4oZ6bxp2+FDmLBu2OdEZRobJ5ULW+g3YqL8jlMeB/jDHcTl
+        e+x8nu6GZUbI5gL/v1VkRWxwUrd9M8NjN4ET/lW2WyQ4tUaH5oGF
+X-Google-Smtp-Source: ABdhPJwo8bMW37OmGpALHJb5yKqqO1CoIZKSCOCta1We/MzL+U6uC35V7fzQQRjJY9GaDO6tI2/Eh5r7TRRja+ZKnfw=
+X-Received: by 2002:a05:6512:3341:: with SMTP id y1mr10274415lfd.645.1636496889846;
+ Tue, 09 Nov 2021 14:28:09 -0800 (PST)
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
- Thunderbird/91.2.1
-Subject: Re: [PATCH v2 2/2] timegm.3: Remove recommendation against use of
- timegm()
-Content-Language: en-US
-To:     "Alejandro Colomar (man-pages)" <alx.manpages@gmail.com>
-Cc:     libc-alpha@sourceware.org, linux-man@vger.kernel.org,
-        Joseph Myers <joseph@codesourcery.com>
-References: <a8e09a03-3eb2-d6c0-c662-e3db800fe2fc@gmail.com>
- <20211011111237.9414-2-alx.manpages@gmail.com>
- <15d7b96d-13d0-86c1-48f3-24a637ab8e30@cs.ucla.edu>
- <e46d9e6b-c2c8-66e3-6b18-f24ef718f59f@gmail.com>
- <38fa4e31-f70d-f3f3-e964-b4831b750271@cs.ucla.edu>
- <532c26f8-25e4-699a-49be-a3368a6ea84d@gmail.com>
- <5cb8ec23-6e71-0619-3df4-b554942e66c6@cs.ucla.edu>
- <73e53c80-6bdf-0d50-f359-f98e1490d79e@gmail.com>
-From:   Paul Eggert <eggert@cs.ucla.edu>
-Organization: UCLA Computer Science Department
-In-Reply-To: <73e53c80-6bdf-0d50-f359-f98e1490d79e@gmail.com>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 7bit
+From:   enh <enh@google.com>
+Date:   Tue, 9 Nov 2021 14:27:59 -0800
+Message-ID: <CAJgzZoqZ1yfFtP0Zbc+i5aGS1bn6VJu2dHaa9CJhJr2P7QfSiQ@mail.gmail.com>
+Subject: [PATCH] pthread_atfork.3: wfix.
+To:     linux-man <linux-man@vger.kernel.org>
+Cc:     "Alejandro Colomar (man-pages)" <alx.manpages@gmail.com>,
+        "Michael Kerrisk (man-pages)" <mtk.manpages@gmail.com>
+Content-Type: text/plain; charset="UTF-8"
 Precedence: bulk
 List-ID: <linux-man.vger.kernel.org>
 X-Mailing-List: linux-man@vger.kernel.org
 
-On 11/4/21 17:47, Alejandro Colomar (man-pages) wrote:
-> Since C2X will add timegm(3), it's good news.
+Clarify that the pthread_atfork() callback list is a global, not
+per-thread.
 
-Yes at that point we can remove or reword the portability warning.
+The use of "this thread" implied to some readers that pthread_atfork()
+maintained per-thread lists of callbacks. Given that the next sentence
+already explains that the callbacks are run in the context of the thread
+that calls fork(), I actually think it would be fine not to mention
+threads at all in the earlier sentence, but for now I've gone with what
+I think was intended to be written.
+---
+ man3/pthread_atfork.3 | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
 
-
-> the following restriction could be added without altering the behavior of any existing program:
-> 
-> [
-> If any of the fields of 'struct tm' would overflow 'int32_t', the behavior of timegm(3) is undefined.
-> ]
-
-No, timegm should not be documented to have a 32-bit limit on struct tm 
-components. It should be documented only to have an int limit on struct 
-tm components. I.e., the same as mktime, localtime, gmtime, etc.
-
-
-> It would simplify very much glibc code, by imposing small restrictions to the user. 
-
-The general glibc philosophy is to not impose arbitrary limits on the 
-user, even if the limits are "small restrictions". Occasionally limits 
-need to be imposed anyway for a good reason, but there's no good reason 
-here.
+diff --git a/man3/pthread_atfork.3 b/man3/pthread_atfork.3
+index b727cb48e..3e61e797f 100644
+--- a/man3/pthread_atfork.3
++++ b/man3/pthread_atfork.3
+@@ -39,7 +39,7 @@ The
+ .BR pthread_atfork ()
+ function registers fork handlers that are to be executed when
+ .BR fork (2)
+-is called by this thread.
++is called by any thread in a process.
+ The handlers are executed in the context of the thread that calls
+ .BR fork (2).
+ .PP
+-- 
+2.34.0.rc0.344.g81b53c2807-goog
