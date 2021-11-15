@@ -2,62 +2,100 @@ Return-Path: <linux-man-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 3798CC433F5
-	for <linux-man@archiver.kernel.org>; Sat, 13 Nov 2021 13:00:18 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id B8DD9C433EF
+	for <linux-man@archiver.kernel.org>; Mon, 15 Nov 2021 02:26:11 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.kernel.org (Postfix) with ESMTP id 1C21460ED7
-	for <linux-man@archiver.kernel.org>; Sat, 13 Nov 2021 13:00:18 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTP id 9C12460D42
+	for <linux-man@archiver.kernel.org>; Mon, 15 Nov 2021 02:26:11 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S235742AbhKMNDJ (ORCPT <rfc822;linux-man@archiver.kernel.org>);
-        Sat, 13 Nov 2021 08:03:09 -0500
-Received: from mx1.riseup.net ([198.252.153.129]:50162 "EHLO mx1.riseup.net"
-        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S231555AbhKMNDJ (ORCPT <rfc822;linux-man@vger.kernel.org>);
-        Sat, 13 Nov 2021 08:03:09 -0500
-Received: from fews2.riseup.net (fews2-pn.riseup.net [10.0.1.84])
-        (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-         key-exchange X25519 server-signature RSA-PSS (2048 bits) server-digest SHA256
-         client-signature RSA-PSS (2048 bits) client-digest SHA256)
-        (Client CN "mail.riseup.net", Issuer "R3" (not verified))
-        by mx1.riseup.net (Postfix) with ESMTPS id 4HrwXw63hXzF43h;
-        Sat, 13 Nov 2021 05:00:16 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=riseup.net; s=squak;
-        t=1636808416; bh=DDpVinDyAs44ZcjcG6SKcVltubCLhQbqJsvrNp3kfTQ=;
-        h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-        b=ZsoydFEwhAIP4q13ukABWN3fJcepZVyi3hdGp70uc1lhYShoR9kIcmM51yD2BYa+d
-         llSnlZbVI8fCe5kYuVUPz/bMkr+qtkfUsit1XM1/mD073lyKJ3t8sYYVe4FV8J6FJ1
-         RKr6cB1+BnVlGIADzscOZcP3sv9UIrFa6s7aCKZ4=
-X-Riseup-User-ID: 85A17303C4C963F6D93623BD7658E191C2CB03F9F7C9583ED72E595416F753D3
-Received: from [127.0.0.1] (localhost [127.0.0.1])
-         by fews2.riseup.net (Postfix) with ESMTPSA id 4HrwXt3kX8z1xmv;
-        Sat, 13 Nov 2021 05:00:14 -0800 (PST)
-Date:   Sat, 13 Nov 2021 13:00:24 +0000
-From:   Samanta Navarro <ferivoz@riseup.net>
-To:     "G. Branden Robinson" <g.branden.robinson@gmail.com>
-Cc:     linux-man@vger.kernel.org, alx.manpages@gmail.com,
-        mtk.manpages@gmail.com
-Subject: Re: [patch] pthread_cancel.3, pthread_cleanup_push_defer_np.3,
- pthread_setcancelstate.3, pthread_testcancel.3, pthreads.7: tfix
-Message-ID: <20211113130024.zka6elp7mmshsrlv@localhost>
-References: <20211113115656.5oomvy443gapjtx4@localhost>
- <20211113124015.tr5wdkrxzinn4qjf@localhost.localdomain>
+        id S236222AbhKOC3F (ORCPT <rfc822;linux-man@archiver.kernel.org>);
+        Sun, 14 Nov 2021 21:29:05 -0500
+Received: from mail3.bemta25.messagelabs.com ([195.245.230.85]:42267 "EHLO
+        mail3.bemta25.messagelabs.com" rhost-flags-OK-OK-OK-OK)
+        by vger.kernel.org with ESMTP id S229716AbhKOC2q (ORCPT
+        <rfc822;linux-man@vger.kernel.org>); Sun, 14 Nov 2021 21:28:46 -0500
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=fujitsu.com;
+        s=170520fj; t=1636943151; i=@fujitsu.com;
+        bh=8PU2ndOgTJTCFEpbX0ABe3dgmDpGgS6NUKR2H0MSxE0=;
+        h=From:To:CC:Subject:Date:Message-ID:MIME-Version:Content-Type;
+        b=LrX0dJMD/21QnpiShZs0VTHwjflPFmm+fOl5LFMzc1T9UGdJmBaXZAqLRWDnO01uJ
+         c2cnOcBMhuULarc9I3LhxnAW9GiruZzZwhPOtTDGIRLRP/mDAs+GQvioHEXEBlaPwP
+         ByfjPgMPUT+h7e8rVfOCXdW6SopVPbDhWSLHjsDnMoxZ6N2ir0tUi970d+PmXHvv0m
+         5k4k+ACdUXuyKeFjVmkcGvgtRzXVjavwNGAwd4ffXgPAcrvIsCfNwPLdBbXif4bpxn
+         BP1iwO7zumWEgYHuZ+E99nB+aNyGg8RijReC7Q5hcq/Ykdvpmi4BS8I4qBFSe5nfOu
+         TIazk+GV1Icew==
+Received: from [100.112.196.154] (using TLSv1.2 with cipher DHE-RSA-AES256-GCM-SHA384 (256 bits))
+        by server-5.bemta.az-b.eu-west-1.aws.symcld.net id 1B/8F-05453-E25C1916; Mon, 15 Nov 2021 02:25:50 +0000
+X-Brightmail-Tracker: H4sIAAAAAAAAA+NgFlrPIsWRWlGSWpSXmKPExsViZ8MRqqt3dGK
+  iwe43shbTug+zWcye3sxksWb9DHaLUxMesDuweOycdZfd48yCI+wenzfJBTBHsWbmJeVXJLBm
+  vL97irngKEvFjx2/mBsYvzB3MXJxCAm8ZJSYsnU/lLOHUWLyqQb2LkZODjYBTYlnnQuYQWwRA
+  TOJ41t/sIDYzAKxEuvfdzCC2MICzhIPH/4Cq2ERUJXYN+UUE4jNK+AhcW79LTBbQkBBYsrD98
+  wQcUGJkzOfQM2RkDj44gUzRI2ixKWOb4wQdoXErFltTBMYeWchaZmFpGUBI9MqRvOkosz0jJL
+  cxMwcXUMDA11DQyNdQ0szXTMTvcQq3SS91FLd8tTiEl1DvcTyYr3iytzknBS9vNSSTYzAcEwp
+  OOKwg/H+6w96hxglOZiURHlLZ/YlCvEl5adUZiQWZ8QXleakFh9ilOHgUJLg1TwwMVFIsCg1P
+  bUiLTMHGBswaQkOHiURXrlDQGne4oLE3OLMdIjUKUZFKXHeru1ACQGQREZpHlwbLB4vMcpKCf
+  MyMjAwCPEUpBblZpagyr9iFOdgVBLmPXoYaApPZl4J3PRXQIuZgBbb3+sHWVySiJCSamDim+W
+  95cm7ht2XzvyblKQ0dWV8mvj6Fcek5sUf8VR7xRW9YqaW+N/5KobzeSMrrzmqy/p+rN0Zrn9m
+  hveT5v7r1wrLPq4Mj+RKY2HLlp/3IXbK08krgxauaujp6orN2duQxv9kRpnFd63pdbe7P7z6v
+  D3KzmByzcnwygqF+fv+++ye8Ez0tuCvTZPsdvp11xc5zhE2a5a0/FzWdn1fZLu01ZOvvhJKR2
+  aJa8S8bLd+/Lo5yzHoe7BOz22vZ22n2rgfVdfo+//hN0+KETziybovOWCT8sSs6I/GzouKJk9
+  L/h14Je6N3uEdwVkd4edyAzeonufeZaXNkSD29CpLseimOTUiB9sSbycJ1V7lC1NiKc5INNRi
+  LipOBADo/+s9QgMAAA==
+X-Env-Sender: xuyang2018.jy@fujitsu.com
+X-Msg-Ref: server-13.tower-285.messagelabs.com!1636943150!461946!1
+X-Originating-IP: [62.60.8.85]
+X-SYMC-ESS-Client-Auth: outbound-route-from=pass
+X-StarScan-Received: 
+X-StarScan-Version: 9.81.5; banners=-,-,-
+X-VirusChecked: Checked
+Received: (qmail 12843 invoked from network); 15 Nov 2021 02:25:50 -0000
+Received: from unknown (HELO mailhost4.uk.fujitsu.com) (62.60.8.85)
+  by server-13.tower-285.messagelabs.com with ECDHE-RSA-AES256-GCM-SHA384 encrypted SMTP; 15 Nov 2021 02:25:50 -0000
+Received: from R01UKEXCASM126.r01.fujitsu.local ([10.183.43.178])
+        by mailhost4.uk.fujitsu.com (8.14.5/8.14.5) with ESMTP id 1AF2Pdjx032255
+        (version=TLSv1/SSLv3 cipher=AES256-SHA bits=256 verify=FAIL);
+        Mon, 15 Nov 2021 02:25:44 GMT
+Received: from localhost.localdomain (10.167.220.84) by
+ R01UKEXCASM126.r01.fujitsu.local (10.183.43.178) with Microsoft SMTP Server
+ (TLS) id 15.0.1497.24; Mon, 15 Nov 2021 02:25:36 +0000
+From:   Yang Xu <xuyang2018.jy@fujitsu.com>
+To:     <alx.manpages@gmail.com>, <mtk.manpages@gmail.com>
+CC:     <linux-man@vger.kernel.org>, <jack@suse.cz>,
+        Yang Xu <xuyang2018.jy@fujitsu.com>
+Subject: [PATCH] quotactl.2: Add buggy version for Q_XQUOTARM ioctl
+Date:   Mon, 15 Nov 2021 10:26:07 +0800
+Message-ID: <1636943167-2213-1-git-send-email-xuyang2018.jy@fujitsu.com>
+X-Mailer: git-send-email 1.8.3.1
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20211113124015.tr5wdkrxzinn4qjf@localhost.localdomain>
+Content-Type: text/plain
+X-Originating-IP: [10.167.220.84]
+X-ClientProxiedBy: G08CNEXCHPEKD07.g08.fujitsu.local (10.167.33.80) To
+ R01UKEXCASM126.r01.fujitsu.local (10.183.43.178)
 Precedence: bulk
 List-ID: <linux-man.vger.kernel.org>
 X-Mailing-List: linux-man@vger.kernel.org
 
-On Sat, Nov 13, 2021 at 11:40:17PM +1100, G. Branden Robinson wrote:
-> > Changed cancelability to cancellability.
-> This is a localization issue.  Words like 'travel' and 'cancel' usually
-> decline to forms with a doubled 'l' in Commonwealth English but retain
-> an unmodified stem in U.S. English.
+Reviewed-by: Jan Kara <jack@suse.cz>
+Signed-off-by: Yang Xu <xuyang2018.jy@fujitsu.com>
+Signed-off-by: Alejandro Colomar <alx.manpages@gmail.com>
+---
+ man2/quotactl.2 | 3 ++-
+ 1 file changed, 2 insertions(+), 1 deletion(-)
 
-You are right. But e.g. pthread_cancel already contains cancellation.
-So I think that cancellability would be matching the already existing
-style. Or cancellation is also changed to cancelation.
+diff --git a/man2/quotactl.2 b/man2/quotactl.2
+index 5d2a673bd..fbf7cdc29 100644
+--- a/man2/quotactl.2
++++ b/man2/quotactl.2
+@@ -651,7 +651,8 @@ The
+ .I id
+ argument is ignored.
+ .TP
+-.B Q_XQUOTARM
++.BR Q_XQUOTARM " (buggy until Linux 3.16)"
++.\" 9da93f9b7cdf8ab28da6b364cdc1fafc8670b4dc
+ Free the disk space taken by disk quotas.
+ The
+ .I addr
+-- 
+2.23.0
 
-Sincerely,
-Samanta
