@@ -2,111 +2,97 @@ Return-Path: <linux-man-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id B6704C433EF
-	for <linux-man@archiver.kernel.org>; Sat, 20 Nov 2021 12:19:50 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 3EDE3C433EF
+	for <linux-man@archiver.kernel.org>; Sat, 20 Nov 2021 13:32:50 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S230480AbhKTMWx (ORCPT <rfc822;linux-man@archiver.kernel.org>);
-        Sat, 20 Nov 2021 07:22:53 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:39344 "EHLO
+        id S230245AbhKTNft (ORCPT <rfc822;linux-man@archiver.kernel.org>);
+        Sat, 20 Nov 2021 08:35:49 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:55554 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S230381AbhKTMWw (ORCPT
-        <rfc822;linux-man@vger.kernel.org>); Sat, 20 Nov 2021 07:22:52 -0500
-Received: from mail-io1-xd36.google.com (mail-io1-xd36.google.com [IPv6:2607:f8b0:4864:20::d36])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id B7A75C061574
-        for <linux-man@vger.kernel.org>; Sat, 20 Nov 2021 04:19:49 -0800 (PST)
-Received: by mail-io1-xd36.google.com with SMTP id e144so16368526iof.3
-        for <linux-man@vger.kernel.org>; Sat, 20 Nov 2021 04:19:49 -0800 (PST)
+        with ESMTP id S229539AbhKTNfs (ORCPT
+        <rfc822;linux-man@vger.kernel.org>); Sat, 20 Nov 2021 08:35:48 -0500
+Received: from mail-wm1-x32d.google.com (mail-wm1-x32d.google.com [IPv6:2a00:1450:4864:20::32d])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 80C86C061574
+        for <linux-man@vger.kernel.org>; Sat, 20 Nov 2021 05:32:45 -0800 (PST)
+Received: by mail-wm1-x32d.google.com with SMTP id g191-20020a1c9dc8000000b0032fbf912885so9664769wme.4
+        for <linux-man@vger.kernel.org>; Sat, 20 Nov 2021 05:32:45 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=gmail.com; s=20210112;
-        h=mime-version:references:in-reply-to:from:date:message-id:subject:to
-         :cc;
-        bh=72LEio0jQCbjjepJv2rGyviL0j9wl/sRKhNqLX+NrNs=;
-        b=Yxi6TzaFA2DmUuSfMtZkJnCmWzQCBDxE3hEANxqF3ZruTuq6yH59L6liSg5caagakG
-         RtSTADGFXtc5IoG2OifSkJO2aNyzey9CYbZcktM0jF4h+TIZIlEjKaWjPF3ccTwxVg3T
-         G3/GJmY/vr+UeSLzZzoI0BWS8FAS6SPFSqApJStnS8VsudjHBu6e803wiQoACIeJ1XKX
-         gqDGZK0DpQy9nMm1vnUOud90qm/iaysEkcr4QuS3aZrEojaupL/S53xOCg5Xsr1yUI+k
-         ReYeSPORQwfzOZ3MuCCoiCOSlvGNY6c5CArF/Ock3jy4a2TjR24jtY7W7X6OZmElxvUR
-         XzcQ==
+        h=message-id:date:mime-version:user-agent:subject:content-language:to
+         :cc:references:from:in-reply-to:content-transfer-encoding;
+        bh=/2kylWcJ8fzRx3+apy97BTKQaamE5JPIH/02Aw0Fj0c=;
+        b=EPOBW2cPyajPACHRurfC5ZKL7Qv4Z/C6ER5w4V5hytLLokeBiijENNgbM7woLtCcOv
+         bZr60TwPy5mhyFwBzApaDPS24SWFYFknnSrPZKB5jK0rzkeYdnDEyZVTQdA01RoFCGSJ
+         LHnrgORxfqHqeM9CPYtGGM84YbPvADd3KQOyn9qWZbumXanY/ySeSVmb5BSnoWXyx3qS
+         3Sf4B9JvzPwJYiUrYm9TX422UBGHVBX5GB3vqdUci5ZfRTFwpAQESkQ98XiESnkzx8UJ
+         hda8FHiaoVZlkWn1JdSgahtFQZX3vkqJgOV0iupIWKDpiqpncG+P9VaQmhGP8D/V+oSE
+         cKkg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20210112;
-        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
-         :message-id:subject:to:cc;
-        bh=72LEio0jQCbjjepJv2rGyviL0j9wl/sRKhNqLX+NrNs=;
-        b=i5lSbEXzganlvdDcCUoxuERc5ecj2Ft6bcy6XUn+zj9+5xmCOqt8E9n2H4ASC58PAF
-         uzwKbXYBXgmxSlDXAcFaFIGxdAvGMxXWK82Fws4T+s9hM4V2LOSdKzAj/D4QgOr8Zc9o
-         S5uLZ3CMm+DtlXwIVTe/wYtQCqnlgRGwz/0Z9Xogrh31xCMHpY/wgmil09Gqh7EcFYLT
-         bhSuoD2rL8/4wSsQO2eU8iNorDaFifYacwYtmcNFh1ygT7WjrJscB442hmQzAzv274y3
-         s+rGl7wod7as04p3lkP/YhXLvyxRJ0fz5fnJ5w3cYWs8wq3fhGnc6qtP5cYZvpg3hkQQ
-         VKBw==
-X-Gm-Message-State: AOAM530dh+7Of41SLBeEBo3BFnoyahyG4txRHNW3r8mTIGmFFcSpOrfo
-        hxvkiNkDwI2o9J6n1P5Q650BwXOM7H5wZLH/aGU=
-X-Google-Smtp-Source: ABdhPJw/3xz0/h+e1ZeSp4Nm1w9iVq41wp5HVsMMMdTprEdytwZ+K8RE9T5J3V+TMWnraAna8/+p4GMvtzjMWA/xEw4=
-X-Received: by 2002:a05:6602:29c2:: with SMTP id z2mr11165342ioq.196.1637410789195;
- Sat, 20 Nov 2021 04:19:49 -0800 (PST)
+        h=x-gm-message-state:message-id:date:mime-version:user-agent:subject
+         :content-language:to:cc:references:from:in-reply-to
+         :content-transfer-encoding;
+        bh=/2kylWcJ8fzRx3+apy97BTKQaamE5JPIH/02Aw0Fj0c=;
+        b=LLthsbCW1w83qAOYNKN/Z4MSuwobAFLjOeXHhgHjAxUCVdqpYlEbOMk2L4DN1DZgHW
+         OR1AtcaXBUN9/JcdzLFOnEIlHIaT2M0F/10em9AtG7+z0PTSDIoK6DMsTDIzzlk+6zYa
+         sNyl5KHXbXvbrmgbO5t5vcXnAgqVbYPUunKwNB2n4ZfdsgH6FU/SPGeKMJZOjZXuOT4b
+         MGR3lRUaaktlrkQbkuWdl9g82Gkb1Uz15NbYC3P9dj02sQKINgzjIXQe1DTHlT+L7nY0
+         WkNsbbtLf3ivwaHXYu+o3n3iH6HxiSpTbO4xEF/bO4IiQG5Of03qrz5sRlGhtEkb9zx8
+         smgA==
+X-Gm-Message-State: AOAM530bjr6RzdVS6mb0iNXlBAlud/MQ3dEAMSPXwKwdsU13Z4wQzpUj
+        cMb/h0IP3LjbSJ3IH/s0aO0=
+X-Google-Smtp-Source: ABdhPJzECxQTkYBzDfVoV4GThOKQdDkTi1fndCX068JqwY5JWp95R6lbjRNhJOT/sUESYnYBqLh1Ng==
+X-Received: by 2002:a05:600c:190b:: with SMTP id j11mr9941834wmq.112.1637415164031;
+        Sat, 20 Nov 2021 05:32:44 -0800 (PST)
+Received: from [10.168.10.170] ([170.253.36.171])
+        by smtp.gmail.com with ESMTPSA id u15sm3484460wmq.13.2021.11.20.05.32.43
+        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+        Sat, 20 Nov 2021 05:32:43 -0800 (PST)
+Message-ID: <3be6b8e7-cb69-a99b-6383-4fabdbdd46f9@gmail.com>
+Date:   Sat, 20 Nov 2021 14:32:42 +0100
 MIME-Version: 1.0
-References: <cover.1635135968.git.repnop@google.com> <6ea10a58db3446aabc729b1082611bdadb1ce4ed.1635135968.git.repnop@google.com>
-In-Reply-To: <6ea10a58db3446aabc729b1082611bdadb1ce4ed.1635135968.git.repnop@google.com>
-From:   Amir Goldstein <amir73il@gmail.com>
-Date:   Sat, 20 Nov 2021 14:19:38 +0200
-Message-ID: <CAOQ4uxj4xxp8g6Y0u1XtQ6hBBM=nba2j9XjJKp=Lg3yRzUE-Yg@mail.gmail.com>
-Subject: Re: [PATCH 1/1] Document the new fanotify initialization flag FAN_REPORT_PIDFD
-To:     Matthew Bobrowski <repnop@google.com>
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
+ Thunderbird/91.3.0
+Subject: Re: [PATCH 0/1] fanotify: Document FAN_REPORT_PIDFD Feature
+Content-Language: en-US
+To:     Amir Goldstein <amir73il@gmail.com>,
+        Matthew Bobrowski <repnop@google.com>
 Cc:     "Michael Kerrisk (man-pages)" <mtk.manpages@gmail.com>,
-        Alejandro Colomar <alx.manpages@gmail.com>,
-        linux-man <linux-man@vger.kernel.org>, Jan Kara <jack@suse.cz>
-Content-Type: text/plain; charset="UTF-8"
+        linux-man <linux-man@vger.kernel.org>, Jan Kara <jack@suse.cz>,
+        Gabriel Krisman Bertazi <krisman@collabora.com>
+References: <cover.1635135968.git.repnop@google.com>
+ <CAOQ4uxhUpnDVT6T-aGz2B_XUpRojJhVZG8Fw6XNegsWzXt+pDw@mail.gmail.com>
+From:   "Alejandro Colomar (man-pages)" <alx.manpages@gmail.com>
+In-Reply-To: <CAOQ4uxhUpnDVT6T-aGz2B_XUpRojJhVZG8Fw6XNegsWzXt+pDw@mail.gmail.com>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 7bit
 Precedence: bulk
 List-ID: <linux-man.vger.kernel.org>
 X-Mailing-List: linux-man@vger.kernel.org
 
-On Wed, Oct 27, 2021 at 12:28 PM Matthew Bobrowski <repnop@google.com> wrote:
->
-> This provides an explanation on the kind of additional information that can
-> be returned alongside the generic struct fanotify_event_metadata and in
-> what form this additional contextual information is delievered to a
-> listening application.
->
-> Signed-off-by: Matthew Bobrowski <repnop@google.com>
-> ---
->  man2/fanotify_init.2 | 54 +++++++++++++++++++++++++
->  man7/fanotify.7      | 95 +++++++++++++++++++++++++++++++++++++++++++-
->  2 files changed, 147 insertions(+), 2 deletions(-)
->
-> diff --git a/man2/fanotify_init.2 b/man2/fanotify_init.2
-> index 0d83e817f..f65b4fa10 100644
-> --- a/man2/fanotify_init.2
-> +++ b/man2/fanotify_init.2
-> @@ -298,6 +298,60 @@ for additional details.
->  This is a synonym for
->  .RB ( FAN_REPORT_DIR_FID | FAN_REPORT_NAME ).
->  .PP
-> +.TP
-> +.B FAN_REPORT_PIDFD " (since Linux 5.15)"
+Hi Amir,
 
-Matthew,
+On 11/20/21 11:36, Amir Goldstein wrote:
+> Alejandro,
+> 
+> Is there any changes of getting those long due 5.13 fanotify update
+> patches merged?
 
-For v2, please document commit id.
-Please also consider including below cleanup patch
-to document commit ids that we missed in v5.9 update.
+I thought I was waiting for an v2,
+since there was a bit of discussion in the patch thread,
+and some comments hinted that there would be a v2.
+
+See 
+<https://lore.kernel.org/linux-man/12909faf-1d45-1eee-aa6c-c7704518dc59@gmail.com/>
+
+Am I correct?
+
 
 Thanks,
-Amir.
+Alex
 
---- a/man2/fanotify_init.2
-+++ b/man2/fanotify_init.2
-@@ -213,6 +213,7 @@ See
- for additional details.
- .TP
- .BR FAN_REPORT_DIR_FID " (since Linux 5.9)"
-+.\" commit 83b7a59896dd24015a34b7f00027f0ff3747972f
- Events for fanotify groups initialized with this flag will contain
- (see exceptions below) additional information about a directory object
- correlated to an event.
-@@ -245,6 +246,7 @@ See
- for additional details.
- .TP
- .BR FAN_REPORT_NAME " (since Linux 5.9)"
-+.\" commit 929943b38daf817f2e6d303ea04401651fc3bc05
- Events for fanotify groups initialized with this flag will contain additional
- information about the name of the directory entry correlated to an event.
- This flag must be provided in conjunction with the flag
+
+-- 
+Alejandro Colomar
+Linux man-pages comaintainer; http://www.kernel.org/doc/man-pages/
+http://www.alejandro-colomar.es/
