@@ -2,68 +2,83 @@ Return-Path: <linux-man-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 7AC9BC433EF
-	for <linux-man@archiver.kernel.org>; Fri, 26 Nov 2021 14:04:07 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 2BF34C433F5
+	for <linux-man@archiver.kernel.org>; Sun, 28 Nov 2021 13:47:57 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S233993AbhKZOHT (ORCPT <rfc822;linux-man@archiver.kernel.org>);
-        Fri, 26 Nov 2021 09:07:19 -0500
-Received: from 10.mo552.mail-out.ovh.net ([87.98.187.244]:33845 "EHLO
-        10.mo552.mail-out.ovh.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1353601AbhKZOFT (ORCPT
-        <rfc822;linux-man@vger.kernel.org>); Fri, 26 Nov 2021 09:05:19 -0500
-X-Greylist: delayed 4203 seconds by postgrey-1.27 at vger.kernel.org; Fri, 26 Nov 2021 09:05:18 EST
-Received: from mxplan6.mail.ovh.net (unknown [10.108.4.240])
-        by mo552.mail-out.ovh.net (Postfix) with ESMTPS id 7AF3D210E8;
-        Fri, 26 Nov 2021 12:43:28 +0000 (UTC)
-Received: from jwilk.net (37.59.142.103) by DAG4EX2.mxp6.local (172.16.2.32)
- with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id 15.1.2308.20; Fri, 26 Nov
- 2021 13:43:27 +0100
-Authentication-Results: garm.ovh; auth=pass (GARM-103G00571b7843c-8e7b-42ba-a880-8cfbcd9ed963,
-                    CCE6078C6C5C0BEFF4033B362A984AD9811D4FE6) smtp.auth=jwilk@jwilk.net
-X-OVh-ClientIp: 5.172.255.93
-From:   Jakub Wilk <jwilk@jwilk.net>
-To:     Michael Kerrisk <mtk.manpages@gmail.com>
-CC:     <linux-man@vger.kernel.org>
-Subject: [PATCH 2/2] console_codes.4: tfix
-Date:   Fri, 26 Nov 2021 13:43:23 +0100
-Message-ID: <20211126124323.7496-2-jwilk@jwilk.net>
+        id S234103AbhK1NvK (ORCPT <rfc822;linux-man@archiver.kernel.org>);
+        Sun, 28 Nov 2021 08:51:10 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:55762 "EHLO
+        lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S236146AbhK1NtK (ORCPT
+        <rfc822;linux-man@vger.kernel.org>); Sun, 28 Nov 2021 08:49:10 -0500
+Received: from mail-wm1-x335.google.com (mail-wm1-x335.google.com [IPv6:2a00:1450:4864:20::335])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 70CD7C061574
+        for <linux-man@vger.kernel.org>; Sun, 28 Nov 2021 05:45:54 -0800 (PST)
+Received: by mail-wm1-x335.google.com with SMTP id c6-20020a05600c0ac600b0033c3aedd30aso10390001wmr.5
+        for <linux-man@vger.kernel.org>; Sun, 28 Nov 2021 05:45:54 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20210112;
+        h=from:to:cc:subject:date:message-id:mime-version
+         :content-transfer-encoding;
+        bh=XeC2uYshWtc4jiEVlIVdxr5oamkOCx2YpKuqNPL1f68=;
+        b=Ivw0q6+p1N5Q8FAm3ieu5Q7OvyxZpsobRR+QVZ2JWT9y7HhPgkDWOMcABBF53qifw5
+         m2RzxLwOxShIu9Ha2dj+KLuSdAayFt3qfva7GfH6iciz6dLnSaxJ9NNdUKHifKr8INfx
+         4JU9ORibqCZI8qidDmyWET0VJorOMn/uFqSTocFfRoYk8CvbJMHckADJ1g5500eZvP1q
+         Mzxx+JsmWOTH8ZQndiVhnxa+GW8WQHhgJry45uLWbWSLG/3wPsy2eKNoUjgY3TgdwfPC
+         3FEaAexUd+VbPnuwEpTl+wOD5bfIKHCVuZcDQr+yx/paU3FAAbgze6uMstOgObAOrtUB
+         oMWw==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20210112;
+        h=x-gm-message-state:from:to:cc:subject:date:message-id:mime-version
+         :content-transfer-encoding;
+        bh=XeC2uYshWtc4jiEVlIVdxr5oamkOCx2YpKuqNPL1f68=;
+        b=U+KTe0YfH02kmtjwgLRtLObum0ECY2Y9+cMnS8GXOcHmM4NFJEOQKy8h61xmoJtcV5
+         5RJypQnGs6VSnk4mUQkaT5ugI5B/qgoZLzd4M23yV2lrP4qgh0DEuajUb7BqbiOlriWG
+         H/3OUz7jssmfCtxmgK9E6h12IfNmhc7cMKxRonWOjwHBSKzaUyohNHrTzG9kAeHsnbuC
+         QAV6p4xecMowGUcX4CqG/nLTDHlisyWp2QJj6BTqTr2uTi0M836b0xVD3J96bEmW/hat
+         dGQ5pDi/an/6nCfZ1pv0pA3xVcIlIbBxsB/cbPSc/nI3yMVlF/AmJUJolTl3AMtj7ATB
+         oV3Q==
+X-Gm-Message-State: AOAM530Nfxx1BouutYZZzGH59CdNAxqrQctWwftRprb6qyUj1JOpkaw5
+        MpYdbZPct2KbYUIFNxDHPMC49qEJU6M8Nw==
+X-Google-Smtp-Source: ABdhPJzDEyCKP+P777Ljw+E/+/H0lj6Lunh7Y93osDCp+ujjPNbrspUTQLUyLH0S67sllQHFAwtwGQ==
+X-Received: by 2002:a1c:f416:: with SMTP id z22mr29759449wma.121.1638107152711;
+        Sun, 28 Nov 2021 05:45:52 -0800 (PST)
+Received: from localhost.localdomain (IGLD-84-229-75-209.inter.net.il. [84.229.75.209])
+        by smtp.gmail.com with ESMTPSA id k13sm10804381wri.6.2021.11.28.05.45.51
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Sun, 28 Nov 2021 05:45:52 -0800 (PST)
+From:   Micha Kalfon <smichak.uv@gmail.com>
+To:     mtk.manpages@gmail.com
+Cc:     linux-man@vger.kernel.org, Micha Kalfon <smichak.uv@gmail.com>
+Subject: [PATCH] pidfd_open.2: tfix
+Date:   Sun, 28 Nov 2021 15:45:40 +0200
+Message-Id: <20211128134540.29361-1-smichak.uv@gmail.com>
 X-Mailer: git-send-email 2.34.0
-In-Reply-To: <20211126124323.7496-1-jwilk@jwilk.net>
-References: <20211126124323.7496-1-jwilk@jwilk.net>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 7BIT
-Content-Type:   text/plain; charset=US-ASCII
-X-Originating-IP: [37.59.142.103]
-X-ClientProxiedBy: DAG3EX1.mxp6.local (172.16.2.21) To DAG4EX2.mxp6.local
- (172.16.2.32)
-X-Ovh-Tracer-GUID: eee2804c-04f5-45b2-94a4-8ba1bb1e7662
-X-Ovh-Tracer-Id: 15451850325674874845
-X-VR-SPAMSTATE: OK
-X-VR-SPAMSCORE: 0
-X-VR-SPAMCAUSE: gggruggvucftvghtrhhoucdtuddrgedvuddrhedvgdegvdcutefuodetggdotefrodftvfcurfhrohhfihhlvgemucfqggfjpdevjffgvefmvefgnecuuegrihhlohhuthemucehtddtnecunecujfgurhephffvufffkffojghfggfgtghisehtkeertdertddtnecuhfhrohhmpeflrghkuhgsucghihhlkhcuoehjfihilhhksehjfihilhhkrdhnvghtqeenucggtffrrghtthgvrhhnpeeulefftddufefggeehjeetgfevvdeljeehheegkedtkeetfeetgfffueetudffkeenucfkpheptddrtddrtddrtddpfeejrdehledrudegvddruddtfeenucevlhhushhtvghrufhiiigvpedtnecurfgrrhgrmhepmhhouggvpehsmhhtphhouhhtpdhhvghlohepmhigphhlrghniedrmhgrihhlrdhovhhhrdhnvghtpdhinhgvtheptddrtddrtddrtddpmhgrihhlfhhrohhmpehjfihilhhksehjfihilhhkrdhnvghtpdhrtghpthhtoheplhhinhhugidqmhgrnhesvhhgvghrrdhkvghrnhgvlhdrohhrgh
+Content-Transfer-Encoding: 8bit
 Precedence: bulk
 List-ID: <linux-man.vger.kernel.org>
 X-Mailing-List: linux-man@vger.kernel.org
 
-Signed-off-by: Jakub Wilk <jwilk@jwilk.net>
+See clone(2) on why the CLONE_PID flag is no longer relevant and was
+recycled for use as CLONE_PIDFD.
 ---
- man4/console_codes.4 | 2 +-
+ man2/pidfd_open.2 | 2 +-
  1 file changed, 1 insertion(+), 1 deletion(-)
 
-diff --git a/man4/console_codes.4 b/man4/console_codes.4
-index 24399925b..30cdd29c6 100644
---- a/man4/console_codes.4
-+++ b/man4/console_codes.4
-@@ -380,7 +380,7 @@ T}
- 90..97	T{
- set foreground to bright versions of 30..37
- T}
--100.107	T{
-+100..107	T{
- set background, same as 40..47 (bright not supported)
- T}
- .TE
+diff --git a/man2/pidfd_open.2 b/man2/pidfd_open.2
+index fd86015b6..9d9bee471 100644
+--- a/man2/pidfd_open.2
++++ b/man2/pidfd_open.2
+@@ -161,7 +161,7 @@ A PID file descriptor returned by
+ (or by
+ .BR clone (2)
+ with the
+-.BR CLONE_PID
++.BR CLONE_PIDFD
+ flag) can be used for the following purposes:
+ .IP \(bu 2
+ The
 -- 
 2.34.0
 
