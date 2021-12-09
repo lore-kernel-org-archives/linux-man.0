@@ -2,102 +2,165 @@ Return-Path: <linux-man-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id CFFFFC4332F
-	for <linux-man@archiver.kernel.org>; Wed,  8 Dec 2021 23:44:41 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 9162DC433EF
+	for <linux-man@archiver.kernel.org>; Thu,  9 Dec 2021 01:10:00 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S238031AbhLHXsN (ORCPT <rfc822;linux-man@archiver.kernel.org>);
-        Wed, 8 Dec 2021 18:48:13 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:57352 "EHLO
+        id S234907AbhLIBNc (ORCPT <rfc822;linux-man@archiver.kernel.org>);
+        Wed, 8 Dec 2021 20:13:32 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:48282 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S238078AbhLHXsM (ORCPT
-        <rfc822;linux-man@vger.kernel.org>); Wed, 8 Dec 2021 18:48:12 -0500
-Received: from mail-wr1-x42d.google.com (mail-wr1-x42d.google.com [IPv6:2a00:1450:4864:20::42d])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 26E5AC061746
-        for <linux-man@vger.kernel.org>; Wed,  8 Dec 2021 15:44:40 -0800 (PST)
-Received: by mail-wr1-x42d.google.com with SMTP id a9so6822067wrr.8
-        for <linux-man@vger.kernel.org>; Wed, 08 Dec 2021 15:44:40 -0800 (PST)
+        with ESMTP id S234813AbhLIBNc (ORCPT
+        <rfc822;linux-man@vger.kernel.org>); Wed, 8 Dec 2021 20:13:32 -0500
+Received: from mail-wr1-x434.google.com (mail-wr1-x434.google.com [IPv6:2a00:1450:4864:20::434])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 80FCAC061746
+        for <linux-man@vger.kernel.org>; Wed,  8 Dec 2021 17:09:59 -0800 (PST)
+Received: by mail-wr1-x434.google.com with SMTP id c4so7040404wrd.9
+        for <linux-man@vger.kernel.org>; Wed, 08 Dec 2021 17:09:59 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=google.com; s=20210112;
-        h=from:to:cc:subject:date:message-id:mime-version
-         :content-transfer-encoding;
-        bh=kFVK41JofwpvfmQo3kQReREBdDAkagHDg7fDli2qVs8=;
-        b=S+DeDtp9eEQg0uHPSC2AryFtBOTXp88+A+ztCYKdqkbp9nLgzHGP/jkBnz21BUQPW7
-         CVvHXP7CPJpx7FC3gJgtI+0hrqY48XAoBi0BYe2cE+kZEFPx5th40CVw0jZEGLRGHyGI
-         1ruQXgeNCzye1eojp47dKglQR1Y+DJpgGY+eLqa04vbC0o2pBOL5xh5If/GG6aGw0IJZ
-         Gxah8BURoN414PW8hpqF1tiQRuF/ueeKjxl3ZPGgjwulY6VQ9wKFbxQffKnVxlHjUq+Q
-         mNcIh0K+XO4jc5KuFws87WVzQIr3PNk1woOZEzyuPyp6qj5vrW3XjmMycLhggE82DhA+
-         7HlQ==
+        d=gmail.com; s=20210112;
+        h=message-id:date:mime-version:user-agent:subject:content-language:to
+         :references:cc:from:in-reply-to:content-transfer-encoding;
+        bh=oML9wbERAjD9qfEhNvI4VWwg5zkJcmd7DZtN63gEVWc=;
+        b=ax9gXJNq7BQZ1r9csJaIR/ia4uGLZvNbIazFb8wI98tbssG/eYJxc3Rlvel0PxF/Gm
+         ljduvBH3+LZJ28kbBaxkUOLuYsJ4rx68QEg/PTCy0gSRvC/Y8e1L91nqX9kj2wnd0/9a
+         dWJf8k79/4jWWxZVBnLoM8nljXso+MYIU2TN+t95qbgIgTXWj3iiXUzJJ92TKR/1D21x
+         zTlr/KplNiqqAwcEBHmMrmaGZPQbC/NYDaQkuVevYsNFRKVSHd5vpB7LPfHUpN7eoQ+I
+         N5KS7qZhCx0/PJ3FtsSoa1PL5kI8yQRvp38+EmE+UIgbAQybhaSmIj06NEDpRi0/8QIh
+         VD0g==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20210112;
-        h=x-gm-message-state:from:to:cc:subject:date:message-id:mime-version
+        h=x-gm-message-state:message-id:date:mime-version:user-agent:subject
+         :content-language:to:references:cc:from:in-reply-to
          :content-transfer-encoding;
-        bh=kFVK41JofwpvfmQo3kQReREBdDAkagHDg7fDli2qVs8=;
-        b=uOTmHaed7zkh/y4NaMll9g0fVI7ZCC6HL3+LCD1fZDxotd4rCOaKAYvII5XC9RuJQE
-         JMpC+shSMFPpPqwIngLKpeX9tuR9FFDL2/QvYqUGTwXpk9ow2SBCbzRkZ++o6vrIOuXg
-         0OLX/ZjP2kHaq58LO/pVRIDV+Ap8u7bm6YYqm7spNjgCNu2nU7AEt5kB0WmDRdjI208O
-         2WeBoyGjLDI8nXutcGK7WvUuwy2wM+VwtZjKmIDskau1PyyJqGi9VkN8yhlmkpZFw8sT
-         MsLkSK2E4a6OBhGBkguaTvPfSkQ2fdoPU2wP0eAjQKFH43n2ZU3jR1pLbnWgYDCH7J2K
-         cggA==
-X-Gm-Message-State: AOAM531GGkAO07t7TXquf7V2zIf0CwFevA4s9yME5D4DC1EMZ+rNfRNV
-        v2TuNwM/eNuSZfJ2EmmePAb/hTD2r1pR3g==
-X-Google-Smtp-Source: ABdhPJyhViRGvDdBucQ9QDyhkCeAyyrxMFhf3aGJyJz05ncbEvxGqUxFf1p5LUH3CwP+QzanvtsaQg==
-X-Received: by 2002:a5d:64c6:: with SMTP id f6mr2084311wri.330.1639007078526;
-        Wed, 08 Dec 2021 15:44:38 -0800 (PST)
-Received: from localhost ([2a02:168:96c5:1:55ed:514f:6ad7:5bcc])
-        by smtp.gmail.com with ESMTPSA id p12sm4005801wro.33.2021.12.08.15.44.37
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Wed, 08 Dec 2021 15:44:37 -0800 (PST)
-From:   Jann Horn <jannh@google.com>
-To:     linux-man@vger.kernel.org,
-        Alejandro Colomar <alx.manpages@gmail.com>,
-        Michael Kerrisk <mtk.manpages@gmail.com>
-Cc:     Jann Horn <jannh@google.com>
-Subject: [PATCH] kcmp.2: still depends on kconfig
-Date:   Thu,  9 Dec 2021 00:44:33 +0100
-Message-Id: <20211208234433.2392940-1-jannh@google.com>
-X-Mailer: git-send-email 2.34.1.400.ga245620fadb-goog
+        bh=oML9wbERAjD9qfEhNvI4VWwg5zkJcmd7DZtN63gEVWc=;
+        b=4hhaa1ELwuWCORudzZL0nFoWKiEiDZC6zquuBvUqDjVOGX0T4FR+bOL/NIl8mYprAj
+         JiIy01Np6LP9quMd8fNiyB7gP922q6fE9NP3qDLYoCKgeTk/PU+kAMkEi80rqvsIhZ2s
+         DRlcwbptoNqvWe7QarIymD4ZPJK1DrBAUCs5KFMGltken8sO8ap1ySFLB9xLWH44ZCkL
+         g7o3T3RDROM9DUMpM/d1+HI5QEl+FzqnmanbEyeOq0yQEWEi5s6NDujFPqhocL3QaauL
+         iLeHretdHSa+/h2+yVK6RZUEcx4cyPEDtq66U3O6XUvCDtQ0TDJJ9HYa9qGwT4N78zjM
+         n8Dw==
+X-Gm-Message-State: AOAM530Jnzb8yZh3D8o4XAjB7XYNb1X3ZFQYsM/6ykSldarYKoGg/0cQ
+        V+TIzTPiZqMVdIEBXtosT4eGrq3nNgU=
+X-Google-Smtp-Source: ABdhPJyo3YEqRasXIVpftqUz+QNV9i9tf3OsoS30Syn8WLrQwiWeqztLdiWzfmn5mOhLv/GFcGUUWg==
+X-Received: by 2002:adf:f60e:: with SMTP id t14mr2792561wrp.112.1639012198090;
+        Wed, 08 Dec 2021 17:09:58 -0800 (PST)
+Received: from [10.8.0.22] ([195.53.121.100])
+        by smtp.gmail.com with ESMTPSA id y12sm4178038wrn.73.2021.12.08.17.09.57
+        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+        Wed, 08 Dec 2021 17:09:57 -0800 (PST)
+Message-ID: <15d7e025-255d-798b-81a1-1229b5ae16e0@gmail.com>
+Date:   Thu, 9 Dec 2021 02:09:55 +0100
 MIME-Version: 1.0
-Content-Transfer-Encoding: quoted-printable
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
+ Thunderbird/91.3.2
+Subject: Re: [PATCH] kcmp.2: still depends on kconfig
+Content-Language: en-US
+To:     Jann Horn <jannh@google.com>
+References: <20211208234433.2392940-1-jannh@google.com>
+Cc:     Michael Kerrisk <mtk.manpages@gmail.com>, linux-man@vger.kernel.org
+From:   "Alejandro Colomar (man-pages)" <alx.manpages@gmail.com>
+In-Reply-To: <20211208234433.2392940-1-jannh@google.com>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 8bit
 Precedence: bulk
 List-ID: <linux-man.vger.kernel.org>
 X-Mailing-List: linux-man@vger.kernel.org
 
-The manpage claims that kcmp() is now available unconditionally. That's
-not true; from kernel/Makefile:
+Hi Jann,
 
-    obj-$(CONFIG_KCMP) +=3D kcmp.o
+On 12/9/21 00:44, Jann Horn wrote:
+> The manpage claims that kcmp() is now available unconditionally. That's
+> not true; from kernel/Makefile:
+> 
+>      obj-$(CONFIG_KCMP) += kcmp.o
+> 
+> This new Kconfig flag is forced on by CONFIG_CHECKPOINT_RESTORE as
+> before, but also by CONFIG_DRM, which means that pretty much any kernel
+> built to support desktop systems will implicitly have it available.
+> 
+> But if you compiled some kind of server/embedded kernel without DRM and
+> without CHECKPOINT_RESTORE, you'd have to flip on the expert config
+> option to get KCMP.
+> 
+> Signed-off-by: Jann Horn <jannh@google.com>
 
-This new Kconfig flag is forced on by CONFIG_CHECKPOINT_RESTORE as
-before, but also by CONFIG_DRM, which means that pretty much any kernel
-built to support desktop systems will implicitly have it available.
+Thanks!  Patch applied.
+I slightly modified the patch for the following reason:
 
-But if you compiled some kind of server/embedded kernel without DRM and
-without CHECKPOINT_RESTORE, you'd have to flip on the expert config
-option to get KCMP.
+man-pages(7):
+    Use semantic newlines
+        In the source of a manual page, new sentences  should  be
+        started  on new lines, and long sentences should be split
+        into lines at clause breaks (commas, semicolons,  colons,
+        and  so on).  This convention, sometimes known as "seman‐
+        tic newlines", makes it  easier  to  see  the  effect  of
+        patches,  which  often operate at the level of individual
+        sentences or sentence clauses.
 
-Signed-off-by: Jann Horn <jannh@google.com>
----
- man2/kcmp.2 | 4 +++-
- 1 file changed, 3 insertions(+), 1 deletion(-)
+So, instead of this:
+
+> diff --git a/man2/kcmp.2 b/man2/kcmp.2
+> index 7acfa8ef8b47..2e4495539645 100644
+> --- a/man2/kcmp.2
+> +++ b/man2/kcmp.2
+> @@ -317,7 +317,9 @@ checkpoint/restore in user space (CRIU) feature.
+>   process information via the
+>   .BR proc (5)
+>   filesystem; this was deemed to be unsuitable for security reasons.)
+> -Since Linux 5.12, this system call is made available unconditionally.
+> +Since Linux 5.12, this system call is also available if the kernel is configured
+> +with
+> +.BR CONFIG_KCMP .
+>   .PP
+>   See
+>   .BR clone (2)
+
+I applied this (only white-space source-code changes compared to yours):
+
+
+
+     kcmp.2: still depends on kconfig
+
+     The manpage claims that kcmp() is now available unconditionally. That's
+     not true; from kernel/Makefile:
+
+         obj-$(CONFIG_KCMP) += kcmp.o
+
+     This new Kconfig flag is forced on by CONFIG_CHECKPOINT_RESTORE as
+     before, but also by CONFIG_DRM, which means that pretty much any kernel
+     built to support desktop systems will implicitly have it available.
+
+     But if you compiled some kind of server/embedded kernel without DRM and
+     without CHECKPOINT_RESTORE, you'd have to flip on the expert config
+     option to get KCMP.
+
+     Signed-off-by: Jann Horn <jannh@google.com>
+     [alx: semantic newlines]
+     Signed-off-by: Alejandro Colomar <alx.manpages@gmail.com>
+
 
 diff --git a/man2/kcmp.2 b/man2/kcmp.2
-index 7acfa8ef8b47..2e4495539645 100644
+index 7acfa8ef8..278eafb02 100644
 --- a/man2/kcmp.2
 +++ b/man2/kcmp.2
 @@ -317,7 +317,9 @@ checkpoint/restore in user space (CRIU) feature.
- process information via the
- .BR proc (5)
- filesystem; this was deemed to be unsuitable for security reasons.)
+  process information via the
+  .BR proc (5)
+  filesystem; this was deemed to be unsuitable for security reasons.)
 -Since Linux 5.12, this system call is made available unconditionally.
-+Since Linux 5.12, this system call is also available if the kernel is conf=
-igured
-+with
++Since Linux 5.12,
++this system call is also available if the kernel is configured with
 +.BR CONFIG_KCMP .
- .PP
- See
- .BR clone (2)
+  .PP
+  See
+  .BR clone (2)
 
-base-commit: ae6b221882ce71ba82fcdbe02419a225111502f0
---=20
-2.34.1.400.ga245620fadb-goog
 
+
+Cheers,
+Alex
+
+
+-- 
+Alejandro Colomar
+Linux man-pages maintainer; https://www.kernel.org/doc/man-pages/
