@@ -2,111 +2,326 @@ Return-Path: <linux-man-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 63EA1C433F5
-	for <linux-man@archiver.kernel.org>; Fri, 10 Dec 2021 22:54:35 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id B545DC433FE
+	for <linux-man@archiver.kernel.org>; Sat, 11 Dec 2021 15:19:38 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S243121AbhLJW6K (ORCPT <rfc822;linux-man@archiver.kernel.org>);
-        Fri, 10 Dec 2021 17:58:10 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:34656 "EHLO
+        id S231292AbhLKPTi (ORCPT <rfc822;linux-man@archiver.kernel.org>);
+        Sat, 11 Dec 2021 10:19:38 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:51956 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S233008AbhLJW6J (ORCPT
-        <rfc822;linux-man@vger.kernel.org>); Fri, 10 Dec 2021 17:58:09 -0500
-Received: from mail-oi1-x22e.google.com (mail-oi1-x22e.google.com [IPv6:2607:f8b0:4864:20::22e])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 3FB92C061746
-        for <linux-man@vger.kernel.org>; Fri, 10 Dec 2021 14:54:34 -0800 (PST)
-Received: by mail-oi1-x22e.google.com with SMTP id t23so15272183oiw.3
-        for <linux-man@vger.kernel.org>; Fri, 10 Dec 2021 14:54:34 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20210112;
-        h=to:cc:from:subject:autocrypt:message-id:disposition-notification-to
-         :date:user-agent:mime-version:content-language
-         :content-transfer-encoding;
-        bh=G4xpccWtbxPqpe5ww+K16kMqIVpRWndgZckgCf7nZuk=;
-        b=eNt6SHDQbP4brFPFMgxKDehHBnvXQRhcHfg9xn9PTYcSa5dJXfCTczgnS8hYJJdcMp
-         7VWkvFIsE3nlc6OWOJ0gFzp95W38ge67bbSXcwHvjyqfxKSLq2csiyZb0i0AEMkVScdy
-         3Yg+FftraazHC5wc6Y3kvVTRuuF/OxzmHBcpAciD/Qw9B0F0PDKdGuhtnIzoNkBApQJk
-         75I5cfyxzM2W2zxca/pefjMvb6uVAsnzGLZDx6DwSgPSsEx8WTBi2KoXn0j1IC/JAlcK
-         kYkM6Kzu/6zOVWsXs9OQQ1G7dPlcwbXTg+rkIZR3xEz/pyNScGhLe2K9tN67biFHGxnP
-         v+VQ==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20210112;
-        h=x-gm-message-state:to:cc:from:subject:autocrypt:message-id
-         :disposition-notification-to:date:user-agent:mime-version
-         :content-language:content-transfer-encoding;
-        bh=G4xpccWtbxPqpe5ww+K16kMqIVpRWndgZckgCf7nZuk=;
-        b=Pn6kHQkfvnOlf6UqX+e4vg8bml8toiPIhJzzI/qHsqCXxD2E3T+7RD5QXZgMaPEPVl
-         Y/ISKmGTVO3VeXt2t7pr6PEoggJlUhwGt73rbHaj78OGM7/kNLRTkUBrfJ3RsY25qv2u
-         Nt0pij+RSxA6r2i5MJ7wVssNoMQ8Vlbcgl/bBTpNFE3RL41usBYJkSl4vvnvr4U1STRh
-         jKrJpsMyCfXyqDfymayo+a9HzVLnJ78/MX0rfwG3nbzuVg7cr1pvzn8QvyGG1+0YchZv
-         gbKvGFLkuUexkwjNNiT7A8ijvSrqEF2kJWhqP3S7jnqqOcZnLQqbttKkl8qqT1u3cGWs
-         6GTw==
-X-Gm-Message-State: AOAM533XooXt86Sh3cTlUaWyYUEFyBisQI3eSGZEbcddozYFzUqIqHtZ
-        QN6jpiHXn4cEERHoQ+QNGDEZhETWKBs2mAJ9
-X-Google-Smtp-Source: ABdhPJzsBqiBX4mup14INkyMM691yVmW6+hvyduO59Wuznsr8MSyBLC4UmKX5IryYj6bvPon82MYFg==
-X-Received: by 2002:aca:af42:: with SMTP id y63mr14839617oie.167.1639176873142;
-        Fri, 10 Dec 2021 14:54:33 -0800 (PST)
-Received: from [192.168.6.104] (66-76-46-195.nacdcmta02.com.sta.suddenlink.net. [66.76.46.195])
-        by smtp.gmail.com with ESMTPSA id a17sm1112139oiw.43.2021.12.10.14.54.32
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Fri, 10 Dec 2021 14:54:32 -0800 (PST)
-To:     alx.manpages@gmail.com, mtk.manpages@gmail.com
-Cc:     linux-man@vger.kernel.org
-From:   "David C. Rankin" <drankinatty@gmail.com>
-Subject: man 8 usermod -e, --expiredate EXPIRE_DATE information incorrect
- (can't be blank, must be -1 to clear)
-Autocrypt: addr=drankinatty@gmail.com; prefer-encrypt=mutual; keydata=
- xsDiBEbFKlYRBACibVGPMBW9U+zOxDNRuQQDyBgBrbepywe57NN9SMRDN2AWyX/jhAzchyrS
- Imk3xOQSUv3tjEX65cV3tA4hqsg8o9poMLwN/7/WUO7Gw8dyIGVptqVMHdrGktnZouaqGkg/
- v86FYf7hgyzfYZUmHOdO2Un8RR6wFiXjKZDyhelh0wCgtHWt/Sn9x+Ia2WvaLcLKPCNZnKsD
- /1GTwdYnL3mmMi1odttrtreXd7he7lMB/yC+IaO6DfEvl7ElR4h/S/34sjG+WciMJXTbGuOd
- 2B58Ec/FhkD0OIMyz6G6fEgbmnC3zUoJdne94sGE/tA7CjaWIPjn14qCHVKIAIo3lZN44cHr
- nCpdzB2Ao4V3HNc5pHMQv1ToB5dcA/9aJn99VdaWm3AXxFWRTFTm5HKk2WVoei0vYs4zdshd
- OEa8ZjxahmPwIsyfdoV1S6o5Y1vRwp1v1eAvyIqMXJvJ8xSn2U40Tf1CaHMxx+ynBa+VOlxr
- 1hvu8oGNGWHYu+zw5sZTn+lcDiQ6YVOU7UHlmHgy4kuCSQ0itbpRszrmvM1SRGF2aWQgQy4g
- UmFua2luLCBKLkQuLFAuRS4gKEEgZmV3IGdvb2QgbGluZXMgb2YgY29kZS4uLikgPGRhdmlk
- QHJhbmtpbmxhd2Zpcm0uY29tPsJgBBMRAgAgAhsDBgsJCAcDAgQVAggDBBYCAwECHgECF4AF
- AkjTLBgACgkQZMpuZ8Cyrcj9pgCgi/w1TzzWBEM0Fk59evxBFCHegREAnj/T50dSxbNPf0Om
- svvASItE/XDGzsFNBEbFKl0QCACKWJMwFsULm6+P+O7HapF6IvSkjjlKR+vPI9NqrLmhWpgF
- QA0Hn6wuqaV3Ul+DFXZJRVqNj5tai9AkW5m7bZtmPdKa9YJN/zPF0XbSiTUwONWzZCUdlDGk
- 8rh4Y5/2G3D7g0YxuFgkb0mqobHiX+2N3I5xcdQ4tXcxbYa4fV7vTNeeN9xAbQ17YRRDIsBO
- hbmjdCdXEkzlSUqmcCpNmbaZEE7BAn7jQmvgc6b/U063ZJU8zLksKtNKt5it/Tb+okjbjdnC
- mjV0xPZ1IqY5h0r1eldo3xYtK3rd/snwsibphHWNaXhUe1ANl2RhMtaRB0fXuumuFP1GJH+N
- GetqhQgPAAMFB/4yXt6nBHPDRGBUUMeJXkcCmR71QlC9QyFtzwX51ns48pX6yG3P48AN03f0
- n0JNGTYt4yuLG/9eDXET0oHXo3Zz/24Ga9HDcGlw3MYR6/0+uF8Chax/QqxdJiWWtVyxWCWh
- ETmaiW+5LKUVC6wvNwaTcFOacy3Wuhfcj3d3hqHIf4k/9U3ImfxUP7lomJtDQS44iFMFS96t
- rE6ySmBmxef0QYdLswzKzyj5f05QVK+qhmW+Ed/Izs7WBWLkLx2sFeaGU42SGoq/LgUb/SA8
- boQ53Bxo+VS3zrEEPHjH69EKleJRaVRSY5ZuuOEcvbpnQkYbN0ewpvYy1d9uNhmiVD+gwkkE
- GBECAAkFAkbFKl0CGwwACgkQZMpuZ8Cyrci7sgCeK1jWjhnbWWvpHWLbwlvIFwX4hNAAnAxJ
- Mh45mdv1t+Ga2amaUUWixmPI
-Message-ID: <57850ad8-4ef5-af6c-fb64-f7c640c3b40d@gmail.com>
-Date:   Fri, 10 Dec 2021 16:54:32 -0600
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
- Thunderbird/68.2.1
+        with ESMTP id S231290AbhLKPTh (ORCPT
+        <rfc822;linux-man@vger.kernel.org>); Sat, 11 Dec 2021 10:19:37 -0500
+Received: from ams.source.kernel.org (ams.source.kernel.org [IPv6:2604:1380:4601:e00::1])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 39804C061714;
+        Sat, 11 Dec 2021 07:19:37 -0800 (PST)
+Received: from smtp.kernel.org (relay.kernel.org [52.25.139.140])
+        (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+        (No client certificate requested)
+        by ams.source.kernel.org (Postfix) with ESMTPS id 94627B80AD2;
+        Sat, 11 Dec 2021 15:19:35 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id B607EC004DD;
+        Sat, 11 Dec 2021 15:19:33 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+        s=k20201202; t=1639235974;
+        bh=lL4QeahsLjPTtqYKJ1hENpidUMlh2yr0QhDC/iDrK2Q=;
+        h=Subject:From:To:Cc:Date:In-Reply-To:References:From;
+        b=YRWMgUiGk2XykumE3XjZWIVyS/JjtRHtuSWqISO9vIk0JP2FWXeU3HoYA+vrnp5dk
+         5FXLCG3D+U5f9DV7/X7XTBRFMGbzOM5mzBkKdzNZ4Cx9vPdjgaD1wa8bjlWj9K9DaY
+         Ja4BItEd0GonfuDtrP/Yn2BnmiMWIzbVWaoM5BAtZTX9SkJPXC3D4OaSR59mtt1pgl
+         uX28N2IqQ2onxdwxhKqHwD330zr1sXo74LKoUqp0CqPkFJDb7zP3mBxGx0evvV6KTC
+         iD5Gi3pd+/PtVYRn4sZv02c6Fo5AoiDft8Q+FTOvOamRUU73J3xh+8OJp2M0raYbaa
+         meDwU4pzs00rw==
+Message-ID: <e998dddb2efd158ac14dc3c5393efe882ca62d16.camel@kernel.org>
+Subject: Re: [PATCH v10] sgx.7: New page with overview of Software Guard
+ eXtensions (SGX)
+From:   Jarkko Sakkinen <jarkko@kernel.org>
+To:     Reinette Chatre <reinette.chatre@intel.com>,
+        Michael Kerrisk <mtk.manpages@gmail.com>
+Cc:     linux-man@vger.kernel.org, linux-sgx@vger.kernel.org,
+        dave.hansen@linux.intel.com, nathaniel@profian.com
+Date:   Sat, 11 Dec 2021 17:19:29 +0200
+In-Reply-To: <8f84b8e8-b478-bb81-4aa8-536df882a144@intel.com>
+References: <20211130175007.22903-1-jarkko@kernel.org>
+         <8f84b8e8-b478-bb81-4aa8-536df882a144@intel.com>
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
+User-Agent: Evolution 3.42.2 
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
-Content-Language: en-US
-Content-Transfer-Encoding: 8bit
 Precedence: bulk
 List-ID: <linux-man.vger.kernel.org>
 X-Mailing-List: linux-man@vger.kernel.org
 
-Dear usermod man page maintainers,
+On Wed, 2021-12-08 at 14:11 -0800, Reinette Chatre wrote:
+> Hi Jarkko,
+>=20
+> On 11/30/2021 9:50 AM, Jarkko Sakkinen wrote:
+> > Signed-off-by: Jarkko Sakkinen <jarkko@kernel.org>
+>=20
+> ...
+>=20
+> > +.TH SGX 7 2021\-02\-02 "Linux" "Linux Programmer's Manual"
+> > +.PP
+> > +sgx - overview of Software Guard eXtensions
+>=20
+> Is the "overview of" text necessary?
 
-  There is an error in the description of the option for:
+It's more or less a convention:
 
--e, --expiredate EXPIRE_DATE
+$ git grep "overview of" man7 | wc -l
+29
 
-  The man page states:
+> > +.SH SYNOPSIS
+> > +.EX
+> > +.B #include <asm/sgx.h>
+> > +.PP
+> > +.IB enclave " =3D open(""/dev/sgx_enclave", " O_RDWR);"
+>=20
+> I view the man page output using "man -l man7/sgx.7" and when I do so=20
+> the above line is unbalanced: "enclave" and (unexpectedly) the comma are=
+=20
+> underlined and the line is displayed with a single instance of a double=
+=20
+> quote: enclave =3D open("/dev/sgx_enclave, O_RDWR);
 
-An empty EXPIRE_DATE argument will disable the expiration of the account.
+After some trial and error, and looking at symlink.7, this seems to
+fix it:
 
-  This is incorrect. The EXPIRE_DATE argument CANNOT be empty or it will take
-the LOGIN as the value for the EXPIRE_DATE.
+-.IB enclave " =3D open(""/dev/sgx_enclave", " O_RDWR);"
++.IB enclave " =3D open(""/dev/sgx_enclave"", O_RDWR);"
 
-  Instead, the correct use is "-e -1" or "--expiredate -1" where "-1" (-one)
-is provided as the EXPIRE_DATE value.
+Does this fix for you?
 
-See, e.g.: https://stackoverflow.com/a/30769911/3422102
+> > +.EE
+> > +.SH DESCRIPTION
+> > +Intel Software Guard eXtensions (SGX) allow applications to host
+> > +enclaves,
+> > +protected executable objects in memory.
+> > +.PP
+> > +Enclaves are blobs of executable code,
+> > +running inside a CPU enforced container,
+> > +which is mapped to the process address space.
+> > +They are represented as the instances of
+> > +.I /dev/sgx_enclave.
 
--- 
-David C. Rankin, J.D.,P.E.
+.IR /dev/sgx_enclave .
+
+> > +They have a fixed set of entry points,
+> > +defined when the enclave is built.
+> > +.PP
+> > +SGX can be only available if the kernel is configured and built with t=
+he
+>=20
+> can be only -> can only be?
+
+Agreed, I'll fix this.
+
+> > +.B CONFIG_X86_SGX
+> > +option.
+> > +If CPU, BIOS and kernel have SGX enabled,
+> > +.I sgx
+> > +appears in the
+> > +.I flags
+> > +field of
+> > +.IR /proc/cpuinfo .
+> > +.PP
+> > +If SGX appears not to be available,
+> > +ensure that SGX is enabled in the BIOS.
+> > +If a BIOS presents a choice between
+> > +.I Enabled
+> > +and
+> > +.I Software Enabled
+> > +modes for SGX,
+> > +choose
+> > +.I Enabled.
+>=20
+> Earlier there is the underlined "/proc/cpuinfo" text followed by a=20
+> period and here the "Enabled" text is followed by a period. In this=20
+> instance the period is also underlined while previously it is not.=20
+> Looking at some other man pages it seems that the custom is that the=20
+> period should not be underlined and I will continue to point out=20
+> instances I noticed where this is not the case.
+
+This most related to my very weak understanding of troff syntax.
+
+I changed it to:
+
+-.I Enabled.
++.IR Enabled .
+
+This does seem to fix the issue, and aligns with this:
+
+https://www.gnu.org/software/groff/manual/html_node/Man-font-macros.html
+
+> > +.PP
+> > +.SS Memory mapping
+> > +The file descriptor for an enclave can be shared among multiple proces=
+ses.
+> > +An enclave is required by the CPU to be placed to an address,
+> > +which is a multiple of its size.
+> > +An address range containing a reasonable base address can be probed wi=
+th an anonymous
+> > +.BR mmap(2)
+> > +call:
+> > +.PP
+> > +.EX
+> > +void *area =3D mmap(NULL, size * 2, PROT_NONE, MAP_PRIVATE | MAP_ANONY=
+MOUS,
+> > +                  -1, 0);
+> > +
+> > +void *base =3D ((uint64_t)area + size - 1) & ~(size - 1);
+> > +.EE
+> > +.PP
+> > +The enclave file descriptor itself can be then mapped with the
+> > +.BR MAP_FIXED
+> > +flag set to the carved out memory.
+> > +.SS Construction
+> > +An enclave instance is created by opening
+> > +.I /dev/sgx_enclave.
+>=20
+> Underlined period above.
+
+Thanks. I spotted similar error also early in the text.
+
+> > +Its contents are populated with the
+> > +.BR ioctl (2)
+> > +interface in
+> > +.IR <asm/sgx.h>:
+>=20
+> Here also, should the above colon perhaps not be underlined?
+
+Yeah, similarly:
+
+.IR <asm/sgx.h>:
++.IR <asm/sgx.h> :
+
+> > +.TP
+> > +.IB SGX_IOC_ENCLAVE_CREATE
+> > +Create SGX Enclave Control Structure (SECS) for the enclave.
+> > +SECS is a hardware defined structure,
+> > +which contains the global properties of an enclave.
+> > +.IB SGX_IOC_ENCLAVE_CREATE
+> > +is a one-shot call that fixes enclave's address and
+>=20
+> fixes enclave's -> fixes the enclave's ?
+
+Ack.
+
+> > +size for the rest of its life-cycle.
+> > +.TP
+> > +.IB SGX_IOC_ENCLAVE_ADD_PAGES
+> > +Fill a range of the enclaves pages with the caller provided data and p=
+rotection bits.
+>=20
+> Should this be "the enclave's pages"?
+
+I think so.
+
+> > +Memory mappings of the enclave can only have protection bits set,
+> > +which are defined in this ioctl.
+>=20
+> This is a bit hard to understand. How about "Memory mappings of the=20
+> enclave can only set protection bits that are defined in this ioctl."
+
+Changed, thanks.
+
+> > +The pages added are either regular memory pages for code and data
+>=20
+> regular memory pages -> regular pages?
+
+Changed.
+
+>=20
+> ,
+> > +or thread control structures (TCS).
+> > +The latter define the entry points to the enclave,
+> > +which can be entered after the initialization.
+> > +.TP
+> > +.IB SGX_IOC_ENCLAVE_INIT
+> > +Initialize the enclave for the run-time.
+> > +After a successful initialization,
+> > +no new pages can be added to the enclave.
+> > +.SS Invocation
+> > +Thread control structure (TCS) page are the entry points to the enclav=
+e,
+>=20
+> page are -> pages are ?
+
+Thanks, good catch.
+
+> > +which further define an offset inside the enclave where the execution =
+begins.
+> > +The entry points are invoked with
+> > +.I __vdso_sgx_enter_enclave.
+>=20
+> Underlined period above.
+
+.I __vdso_sgx_enter_enclave.
++.IR __vdso_sgx_enter_enclave .
+
+> > +The prototype for the vDSO is defined by
+> > +.BR vdso_sgx_enter_enclave_t
+> > +in
+> > +.IR <asm/sgx.h>.
+>=20
+> Same above with the underlining of "."
+>=20
+> > +.SS Permissions
+> > +.PP
+> > +During the build process each enclave page is assigned protection bits=
+,
+> > +as part of
+> > +.BR ioctl(SGX_IOC_ENCLAVE_ADD_PAGES).
+> > +These protections are also the maximum protections to which the page c=
+an be be mapped.
+>=20
+> to which -> with which ?
+
+Ack.
+
+>=20
+> > +If
+> > +.BR mmap (2)_
+>=20
+> Unexpected "_" above
+
+Thanks.
+
+>=20
+> > +is called with higher protections than those defined during the build,
+> > +it will return
+> > +.B -EACCES.
+> > +If
+> > +.BR ioctl(SGX_IOC_ENCLAVE_ADD_PAGES)
+> > +is called after
+> > +.BR mmap (2)
+> > +with lower protections,
+> > +the caller receives
+> > +.BR SIGBUS,
+> > +once it accesses the page for the first time.
+> > +.SH VERSIONS
+> > +The SGX feature was added in Linux 5.11.
+>=20
+> This does not document the SGX_IOC_VEPC_REMOVE ioctl that was added in=
+=20
+> v5.16. How do you envision additions to this page as new features are=20
+> added to the Linux support of SGX?
+
+I started this before any of KVM stuff was in upstream. It'd be better
+to get the basic ioctl's done first. I cannot really give estimate for
+vepc at this point.
+
+For future features (e.g. SGX2), the expectation is that the feature is
+supported by an associated man page update.
+
+> > +.SH SEE ALSO
+> > +.BR ioctl (2),
+> > +.BR mmap (2),
+> > +.BR mprotect (2)
+> > \ No newline at end of file
+> >=20
+>=20
+> Reinette
+
+Thanks for valuable feedback.
+
+/Jarkko
