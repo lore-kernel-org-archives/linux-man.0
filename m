@@ -2,76 +2,66 @@ Return-Path: <linux-man-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id D76C8C433F5
-	for <linux-man@archiver.kernel.org>; Fri,  7 Jan 2022 17:23:02 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 1E37EC433EF
+	for <linux-man@archiver.kernel.org>; Fri,  7 Jan 2022 17:23:13 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S232691AbiAGRXC (ORCPT <rfc822;linux-man@archiver.kernel.org>);
-        Fri, 7 Jan 2022 12:23:02 -0500
-Received: from 3.mo560.mail-out.ovh.net ([46.105.58.226]:55935 "EHLO
-        3.mo560.mail-out.ovh.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1348528AbiAGRXC (ORCPT
-        <rfc822;linux-man@vger.kernel.org>); Fri, 7 Jan 2022 12:23:02 -0500
-X-Greylist: delayed 1785 seconds by postgrey-1.27 at vger.kernel.org; Fri, 07 Jan 2022 12:23:01 EST
-Received: from player758.ha.ovh.net (unknown [10.108.16.251])
-        by mo560.mail-out.ovh.net (Postfix) with ESMTP id 9CB5924AD4
-        for <linux-man@vger.kernel.org>; Fri,  7 Jan 2022 16:47:43 +0000 (UTC)
+        id S1348528AbiAGRXM (ORCPT <rfc822;linux-man@archiver.kernel.org>);
+        Fri, 7 Jan 2022 12:23:12 -0500
+Received: from 14.mo581.mail-out.ovh.net ([178.33.251.19]:46637 "EHLO
+        14.mo581.mail-out.ovh.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1348550AbiAGRXK (ORCPT
+        <rfc822;linux-man@vger.kernel.org>); Fri, 7 Jan 2022 12:23:10 -0500
+Received: from player758.ha.ovh.net (unknown [10.108.4.215])
+        by mo581.mail-out.ovh.net (Postfix) with ESMTP id 3B1FD24DBD
+        for <linux-man@vger.kernel.org>; Fri,  7 Jan 2022 16:47:14 +0000 (UTC)
 Received: from sk2.org (82-65-25-201.subs.proxad.net [82.65.25.201])
         (Authenticated sender: steve@sk2.org)
-        by player758.ha.ovh.net (Postfix) with ESMTPSA id 9586E261091F4;
-        Fri,  7 Jan 2022 16:47:36 +0000 (UTC)
-Authentication-Results: garm.ovh; auth=pass (GARM-104R00526e63394-2d56-41b5-86d9-b620093a5a29,
+        by player758.ha.ovh.net (Postfix) with ESMTPSA id AE8242610916B;
+        Fri,  7 Jan 2022 16:47:09 +0000 (UTC)
+Authentication-Results: garm.ovh; auth=pass (GARM-104R005a01ab0bf-4fdc-4cf9-8c3e-256c4059d633,
                     378F7200CA80B4250C2E4B9C353773DD9C33FBEE) smtp.auth=steve@sk2.org
 X-OVh-ClientIp: 82.65.25.201
 From:   Stephen Kitt <steve@sk2.org>
 To:     Alejandro Colomar <alx.manpages@gmail.com>,
         Michael Kerrisk <mtk.manpages@gmail.com>
 Cc:     linux-man@vger.kernel.org, Stephen Kitt <steve@sk2.org>
-Subject: [PATCH 9/9] malloc_info.3: Use intptr_t to store pointers
-Date:   Fri,  7 Jan 2022 17:46:21 +0100
-Message-Id: <20220107164621.275794-9-steve@sk2.org>
+Subject: [PATCH 3/9] inet.3: Switch to _DEFAULT_SOURCE in the example
+Date:   Fri,  7 Jan 2022 17:46:15 +0100
+Message-Id: <20220107164621.275794-3-steve@sk2.org>
 X-Mailer: git-send-email 2.30.2
 In-Reply-To: <20220107164621.275794-1-steve@sk2.org>
 References: <20220107164621.275794-1-steve@sk2.org>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
-X-Ovh-Tracer-Id: 7975593468907193990
+X-Ovh-Tracer-Id: 7967430694935627398
 X-VR-SPAMSTATE: OK
 X-VR-SPAMSCORE: 0
-X-VR-SPAMCAUSE: gggruggvucftvghtrhhoucdtuddrgedvuddrudegvddgieekucetufdoteggodetrfdotffvucfrrhhofhhilhgvmecuqfggjfdpvefjgfevmfevgfenuceurghilhhouhhtmecuhedttdenucenucfjughrpefhvffufffkofgjfhgggfestdekredtredttdenucfhrhhomhepufhtvghphhgvnhcumfhithhtuceoshhtvghvvgesshhkvddrohhrgheqnecuggftrfgrthhtvghrnhepjeelledvfeeiiedutdefveekgeeuheekkedvffegvdehudegkefgjeejkefgueegnecukfhppedtrddtrddtrddtpdekvddrieehrddvhedrvddtudenucevlhhushhtvghrufhiiigvpedunecurfgrrhgrmhepmhhouggvpehsmhhtphhouhhtpdhhvghlohepphhlrgihvghrjeehkedrhhgrrdhovhhhrdhnvghtpdhinhgvtheptddrtddrtddrtddpmhgrihhlfhhrohhmpehsthgvvhgvsehskhdvrdhorhhgpdhrtghpthhtoheplhhinhhugidqmhgrnhesvhhgvghrrdhkvghrnhgvlhdrohhrgh
+X-VR-SPAMCAUSE: gggruggvucftvghtrhhoucdtuddrgedvuddrudegvddgieekucetufdoteggodetrfdotffvucfrrhhofhhilhgvmecuqfggjfdpvefjgfevmfevgfenuceurghilhhouhhtmecuhedttdenucenucfjughrpefhvffufffkofgjfhgggfestdekredtredttdenucfhrhhomhepufhtvghphhgvnhcumfhithhtuceoshhtvghvvgesshhkvddrohhrgheqnecuggftrfgrthhtvghrnhepjeelledvfeeiiedutdefveekgeeuheekkedvffegvdehudegkefgjeejkefgueegnecukfhppedtrddtrddtrddtpdekvddrieehrddvhedrvddtudenucevlhhushhtvghrufhiiigvpedtnecurfgrrhgrmhepmhhouggvpehsmhhtphhouhhtpdhhvghlohepphhlrgihvghrjeehkedrhhgrrdhovhhhrdhnvghtpdhinhgvtheptddrtddrtddrtddpmhgrihhlfhhrohhmpehsthgvvhgvsehskhdvrdhorhhgpdhrtghpthhtoheplhhinhhugidqmhgrnhesvhhgvghrrdhkvghrnhgvlhdrohhrgh
 Precedence: bulk
 List-ID: <linux-man.vger.kernel.org>
 X-Mailing-List: linux-man@vger.kernel.org
 
-int isn't large enough to store pointers on all platforms, use
-intptr_t instead.
+_BSD_SOURCE has been obsolete for long enough that it seems reasonable
+to update the example program to use _DEFAULT_SOURCE instead.
 
 Signed-off-by: Stephen Kitt <steve@sk2.org>
 ---
- man3/malloc_info.3 | 4 ++--
- 1 file changed, 2 insertions(+), 2 deletions(-)
+ man3/inet.3 | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
 
-diff --git a/man3/malloc_info.3 b/man3/malloc_info.3
-index a5b8d34f9..3baa891fd 100644
---- a/man3/malloc_info.3
-+++ b/man3/malloc_info.3
-@@ -198,7 +198,7 @@ static int numThreads, numBlocks;
- static void *
- thread_func(void *arg)
- {
--    int tn = (int) arg;
-+    intptr_t tn = (intptr_t) arg;
- 
-     /* The multiplier \(aq(2 + tn)\(aq ensures that each thread (including
-        the main thread) allocates a different amount of memory. */
-@@ -237,7 +237,7 @@ main(int argc, char *argv[])
- 
-     /* Create threads that allocate different amounts of memory. */
- 
--    for (int tn = 0; tn < numThreads; tn++) {
-+    for (intptr_t tn = 0; tn < numThreads; tn++) {
-         errno = pthread_create(&thr[tn], NULL, thread_func,
-                                (void *) tn);
-         if (errno != 0)
+diff --git a/man3/inet.3 b/man3/inet.3
+index 657fe45e0..47d3ba160 100644
+--- a/man3/inet.3
++++ b/man3/inet.3
+@@ -305,7 +305,7 @@ Here are some example runs:
+ .SS Program source
+ \&
+ .EX
+-#define _BSD_SOURCE
++#define _DEFAULT_SOURCE
+ #include <arpa/inet.h>
+ #include <stdio.h>
+ #include <stdlib.h>
 -- 
 2.30.2
 
