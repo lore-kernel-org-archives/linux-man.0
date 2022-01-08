@@ -2,124 +2,92 @@ Return-Path: <linux-man-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id DA4DFC433EF
-	for <linux-man@archiver.kernel.org>; Sat,  8 Jan 2022 19:17:13 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 87242C433EF
+	for <linux-man@archiver.kernel.org>; Sat,  8 Jan 2022 19:20:55 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S232154AbiAHTRN (ORCPT <rfc822;linux-man@archiver.kernel.org>);
-        Sat, 8 Jan 2022 14:17:13 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:58130 "EHLO
+        id S230409AbiAHTUz (ORCPT <rfc822;linux-man@archiver.kernel.org>);
+        Sat, 8 Jan 2022 14:20:55 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:58914 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S230409AbiAHTRN (ORCPT
-        <rfc822;linux-man@vger.kernel.org>); Sat, 8 Jan 2022 14:17:13 -0500
-Received: from mail-wr1-x42a.google.com (mail-wr1-x42a.google.com [IPv6:2a00:1450:4864:20::42a])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id BE855C06173F
-        for <linux-man@vger.kernel.org>; Sat,  8 Jan 2022 11:17:12 -0800 (PST)
-Received: by mail-wr1-x42a.google.com with SMTP id r9so16355320wrg.0
-        for <linux-man@vger.kernel.org>; Sat, 08 Jan 2022 11:17:12 -0800 (PST)
+        with ESMTP id S230345AbiAHTUy (ORCPT
+        <rfc822;linux-man@vger.kernel.org>); Sat, 8 Jan 2022 14:20:54 -0500
+Received: from mail-wr1-x42e.google.com (mail-wr1-x42e.google.com [IPv6:2a00:1450:4864:20::42e])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 59422C06173F
+        for <linux-man@vger.kernel.org>; Sat,  8 Jan 2022 11:20:54 -0800 (PST)
+Received: by mail-wr1-x42e.google.com with SMTP id h10so7981796wrb.1
+        for <linux-man@vger.kernel.org>; Sat, 08 Jan 2022 11:20:54 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=gmail.com; s=20210112;
         h=message-id:date:mime-version:user-agent:subject:content-language:to
          :cc:references:from:in-reply-to:content-transfer-encoding;
-        bh=9lkdDMBtJttZ483v5dv5FLUhT81AehZTq80zcx/IeOQ=;
-        b=Gi7T4MZw7cab2ZXDu+7DH+DMjnkd4Ugp9S9604FEDgTZxRNGKsH6Fgb98a303NpKya
-         LhaAV3CmpM+JO4xj0F5Kl7WvkTaWPdWDew9WnkKk0J8rbzibuCcM+WV/ghymB0p3PnlF
-         0lVwm0ImGGPbt0oW5sqsBEF3dAJHQ+ia0iqm4A+nV63vvi9hlW4u+BKx8nAfQw0vvn5p
-         nn5tOoNkTwoYf1yRclG5QaAsalDw+tpy2sankhgBLICgOKCn5XTQWDHtdlflfEdz1X3E
-         r7+5Q2t4ECZzIO/Irh6cqXzwoQ/y1Ryb5vCXpO7OVQuCwcs0MwofOEkbXz+DgsklYzYm
-         m2Cg==
+        bh=UQMkMSZYqJ1qslX8JveeHHUUgb1mSqqwGURmPZdHqdo=;
+        b=D9kH3nNrb/pUZIsXMP+RyXIlv1shmEpd7vE4FHJZ0fHhjyIy21uNJ6F5WRrHNU2HqF
+         EXSJEhZF5fpC4xduZc+vpm2m9WbTKGyL5JJ9mo+4e5Cm6VR/hfI5VAJLcekFAs1LOBsy
+         LfsHy3/pm16Kn0cck8JyoRzJvWnLw2iwBuq5Fk2haauELgAz+ueXikJ9+cdhOjEbb1HW
+         CZI52CMzuLc8c0aync43QGW8IW8Emow07EUkiIF2dkSxTz+8N1XSqWf9748SRd528N7x
+         vgr9V2xsl7gCVFUaxYZXqzUXwO57T3i8r7MRHzp4o/FW3ZBcfQLhKpTZdiPt+vliaG4E
+         xPtA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20210112;
         h=x-gm-message-state:message-id:date:mime-version:user-agent:subject
          :content-language:to:cc:references:from:in-reply-to
          :content-transfer-encoding;
-        bh=9lkdDMBtJttZ483v5dv5FLUhT81AehZTq80zcx/IeOQ=;
-        b=aOTHCEsDx2mvpkSO1Fbcrqy5mUg9QuqOXp5khA0YCkwLlMlw85YgQGcz/XpdxlWasN
-         SG8BfSKEpTV3TWkLPcdM7iRjebGnHC0szeP38Qyr5dE0Uy4Q+W0a+jbqvvmLHJHVYqfM
-         Xub9SmQMfv65rGdyIzMyQkWTZTWbqTMujUOGGVBUfF7p/hPvTU9fo1xerWPyfrELDjGz
-         3FJt2vxucvBZPYlgt7i/EnHz6SMNC0Fd2zomer2r9X3ju3q/gTs0WtQRmwJSKER+wcPf
-         qighYaElfTrBtUBNEJfH8VAvC87zBZ4EDvGrST+4N/dOvBBjyHNQZoCxE98wfuRXESaL
-         8LpA==
-X-Gm-Message-State: AOAM532D0W7YgkICxiZvJ1X9VCK9LUB16IkJFm9+cbMUFoatAz9094hw
-        1c+w2AOJahgbu8vB5Ie/4R0=
-X-Google-Smtp-Source: ABdhPJy0QM4Ue74XMbQSUIic8kAwJv5RzSTc2o/Jpi0p/DQE9o+iuu9YgblC1sSoJVst2BUX01beaQ==
-X-Received: by 2002:a5d:64ef:: with SMTP id g15mr59631437wri.297.1641669431451;
-        Sat, 08 Jan 2022 11:17:11 -0800 (PST)
+        bh=UQMkMSZYqJ1qslX8JveeHHUUgb1mSqqwGURmPZdHqdo=;
+        b=x7M/lZg21gOQ2Bg80ARW09Q/9vuw1vZVxK4sFvEuDkaGp4kCGgbXDnG2ZKi0l+QzSW
+         MBxWzk51mvjr2zoo6xVUHo51N7b/Okx30j2Lnf9kKHME8hghQ70EkZtX0aSYHCm6WG6A
+         FUEBA54PZH3QakBDYn0X57cHSTKhZ7CGPIfOBYqxuPu8MEgzKUbzr7e4HN1TjPJ0XarL
+         1ykO+W/9XCHEcK6V5Hu9+CXgiC4HKxCJ7CJkQBeJyWTGSS6pqjOdXS6YKo+raVZDBIjY
+         uA09bvL6SbC1HJfCeGwreo/ph3wdaHXoOeQDcxjy1ovkYTtzByvSTLLbrn2+2N7494Uz
+         PwGg==
+X-Gm-Message-State: AOAM532ZUkYuOn+Lr4uMnn1DYwv4qCqhn+rNhVoDruxJdJkb0j4kT3HH
+        VlpAgPF49lHNLg84WfG0pV4=
+X-Google-Smtp-Source: ABdhPJzNj8dxxrUm4mAvUt69kOTY605rb5LTns8zqJ2oq9ZHqkzzl8FnAjr0Es3qIZiRt5j680pL2A==
+X-Received: by 2002:adf:c10e:: with SMTP id r14mr59739956wre.558.1641669652868;
+        Sat, 08 Jan 2022 11:20:52 -0800 (PST)
 Received: from [10.168.10.170] ([170.253.36.171])
-        by smtp.gmail.com with ESMTPSA id o16sm2385508wms.4.2022.01.08.11.17.10
+        by smtp.gmail.com with ESMTPSA id l4sm2322116wrm.62.2022.01.08.11.20.52
         (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Sat, 08 Jan 2022 11:17:11 -0800 (PST)
-Message-ID: <b459b3b1-c3c9-6ec6-0f12-e195e1d4fb52@gmail.com>
-Date:   Sat, 8 Jan 2022 20:17:10 +0100
+        Sat, 08 Jan 2022 11:20:52 -0800 (PST)
+Message-ID: <952e79b8-24fc-f635-c903-d709858a9127@gmail.com>
+Date:   Sat, 8 Jan 2022 20:20:51 +0100
 MIME-Version: 1.0
 User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
  Thunderbird/91.4.1
-Subject: Re: [PATCH 9/9] malloc_info.3: Use intptr_t to store pointers
+Subject: Re: [PATCH 7/9] pkeys.7: Update the example to match glibc
 Content-Language: en-US
-To:     Jakub Wilk <jwilk@jwilk.net>
-Cc:     Stephen Kitt <steve@sk2.org>,
-        Michael Kerrisk <mtk.manpages@gmail.com>,
-        linux-man@vger.kernel.org
+To:     Stephen Kitt <steve@sk2.org>
+Cc:     linux-man@vger.kernel.org, Michael Kerrisk <mtk.manpages@gmail.com>
 References: <20220107164621.275794-1-steve@sk2.org>
- <20220107164621.275794-9-steve@sk2.org>
- <b4622fe8-ec81-654f-fa32-bf2efa0459ea@gmail.com>
- <20220108103041.ui4uiqfpdrn5mt33@jwilk.net>
+ <20220107164621.275794-7-steve@sk2.org>
+ <c520d866-0b71-d756-58f6-f54be3560974@gmail.com>
+ <20220108151857.4d4454f7@heffalump.sk2.org>
 From:   "Alejandro Colomar (man-pages)" <alx.manpages@gmail.com>
-In-Reply-To: <20220108103041.ui4uiqfpdrn5mt33@jwilk.net>
+In-Reply-To: <20220108151857.4d4454f7@heffalump.sk2.org>
 Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 8bit
+Content-Transfer-Encoding: 7bit
 Precedence: bulk
 List-ID: <linux-man.vger.kernel.org>
 X-Mailing-List: linux-man@vger.kernel.org
 
-Hi Jakub,
+Hi Stephen,
 
-On 1/8/22 11:30, Jakub Wilk wrote:
-> For the record, this is what you get when you compile the original code 
-> on a 64-bit architecture:
+On 1/8/22 15:18, Stephen Kitt wrote:
+>> A part from that, I prefer EXAMPLES to be as simple as possible, so I'd
+>> do 2 patches.  One to match the definitions to the glibc ones, and then
+>> one commit removing old code, assuming glibc is new enough.  Would you
+>> mind sending a subsequent patch to remove everything under #if ... #endif?
 > 
->     $ gcc -Wall -pthread malloc_info-example.c
->     malloc_info-example.c: In function 'thread_func':
->     malloc_info-example.c:16:14: warning: cast from pointer to integer 
-> of different size [-Wpointer-to-int-cast]
->        16 |     int tn = (int) arg;
->           |              ^
->     malloc_info-example.c: In function 'main':
->     malloc_info-example.c:57:32: warning: cast to pointer from integer 
-> of different size [-Wint-to-pointer-cast]
->        57 |                                (void *) tn);
->           |                                ^
-> 
-> * Alejandro Colomar <alx.manpages@gmail.com>, 2022-01-08, 03:25:
->> On 1/7/22 17:46, Stephen Kitt wrote:
->>> int isn't large enough to store pointers on all platforms, use 
->>> intptr_t instead.
->>
->> Well, since the pointer came from a previous 'int', there should be no 
->> problem.  But since the C language (or even POSIX) is very permissive 
->> about what a conforming implementation can do with pointers, and it 
->> only guarantees conversions to/from [u]intptr_t, I'd take this patch 
->> for correctness.  However...
-> 
-> The standards guarantee that void* → intptr_t → void* round-trips, but 
-> that's not what this code does.
-> 
-> The example converts int → void* → int. Changing int to intptr_t makes 
-> the compiler warnings go away, but I don't think it improves correctness 
-> in any way.
-> 
+> Right, will do!
 
+If you know those functions enough and would like to send new pages for 
+them, that'd be great, but maybe too much to ask.  The simplest thing 
+would be enough, and if someone cares enough to add more info, we can 
+add it later.
 
-Hmm, you're right.
-Semantically, 'int' feels better, since the original data is 'int', not 
-a pointer.  So a cast here to pass through the pointer API would be ok. 
-  I don't think there's any arch where it would be a problem.
-
-I'll keep the program as is.
 
 Thanks,
 
 Alex
-
 
 -- 
 Alejandro Colomar
