@@ -2,99 +2,75 @@ Return-Path: <linux-man-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 918DCC433F5
-	for <linux-man@archiver.kernel.org>; Sat,  8 Jan 2022 17:58:48 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id C5B39C433F5
+	for <linux-man@archiver.kernel.org>; Sat,  8 Jan 2022 18:13:05 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S233129AbiAHR6s (ORCPT <rfc822;linux-man@archiver.kernel.org>);
-        Sat, 8 Jan 2022 12:58:48 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:41040 "EHLO
-        lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S230249AbiAHR6r (ORCPT
-        <rfc822;linux-man@vger.kernel.org>); Sat, 8 Jan 2022 12:58:47 -0500
-Received: from mail-wm1-x32e.google.com (mail-wm1-x32e.google.com [IPv6:2a00:1450:4864:20::32e])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 493EAC06173F
-        for <linux-man@vger.kernel.org>; Sat,  8 Jan 2022 09:58:47 -0800 (PST)
-Received: by mail-wm1-x32e.google.com with SMTP id l4so6053250wmq.3
-        for <linux-man@vger.kernel.org>; Sat, 08 Jan 2022 09:58:47 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20210112;
-        h=message-id:date:mime-version:user-agent:subject:content-language:to
-         :cc:references:from:in-reply-to:content-transfer-encoding;
-        bh=VE6D28z6ljYSiQNjNtQmbZcF0JT9OJsv3AqYuBZuQOI=;
-        b=Dx4IfIYn0tqVPjQAqDPHZM91MMqpnbfCiZcrue0KaMxCPFteDKIsJuyMzSi8gtgbZt
-         tiGHeH3uvtjNb+56f4Oddir6M/YiyV9FyQSKGtHiLGBGwwC/xsocdpIoLcBW0k8msqtq
-         G2J2Ugde9pKhuzDF/EIeO6mCj3j6EwBEOb8pQl8toBVJY5o/WA8ITtvydqEcaJ9DRk9L
-         jFTBf28h1tpFqfd41F4LALPypcK9tKBwADlBeto06l4e/Q4huBYWzBQHUGuFaN53M1VO
-         rKONU6S03o8J+vxmmYi1bcRDma3xHzhe51nvk6b3PqxX7GK/Ve3MFeNPxZWWJtA/P3oJ
-         xj6g==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20210112;
-        h=x-gm-message-state:message-id:date:mime-version:user-agent:subject
-         :content-language:to:cc:references:from:in-reply-to
-         :content-transfer-encoding;
-        bh=VE6D28z6ljYSiQNjNtQmbZcF0JT9OJsv3AqYuBZuQOI=;
-        b=XzJB4YBG9Jc9Kgwf0AU23F23STiI6Yp+47YTr3BA5JSWT1OX3hNcAvMfdw9qc/MwU3
-         4gfBXHPu/Jn+Yq1fgkc4k/3AxXWFlpZiZFlJVqUBlKY9QFujFTE7ySAVJmYdc0fZuQWA
-         cbKRc6bLePQ8TDlvW/SnF//gfpimFR0WPL1EGZe2Gsa0vfby+1hSK4ZcVpPf+J0PfH2a
-         xt+xxp2WN8MRUIZ2ZyEZSligFrNeVyu60wfGQp8Jk7lMFn2s0F7cmUtQ7bak9Lr89dbt
-         vtbIsx2/RcIiUg1itfDDddm8GIqmhJ+0Dk7/tPfen/h0eAap+aEWES/ml5DkfIKVyamF
-         e31w==
-X-Gm-Message-State: AOAM532fZ0e0HFbngNRVOaqqRMEmp1hlGSVMPi+YtFTmGj13XKLE2T8V
-        mLKGG63tE/BfH5T9ETwrYlk=
-X-Google-Smtp-Source: ABdhPJzlZjtjmGHEhwCL1xpW+UZgEYXI+HhPpYQ3NRdjXTTUQZATbGJGyEacuYyBiDjX3ckD72vN5w==
-X-Received: by 2002:a7b:cdef:: with SMTP id p15mr3706489wmj.141.1641664725785;
-        Sat, 08 Jan 2022 09:58:45 -0800 (PST)
-Received: from [10.168.10.170] ([170.253.36.171])
-        by smtp.gmail.com with ESMTPSA id t6sm2151503wrx.114.2022.01.08.09.58.44
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Sat, 08 Jan 2022 09:58:45 -0800 (PST)
-Message-ID: <62e71f12-0c4b-fe5e-29df-4b99c6fd2dd9@gmail.com>
-Date:   Sat, 8 Jan 2022 18:58:44 +0100
+        id S230009AbiAHSNF (ORCPT <rfc822;linux-man@archiver.kernel.org>);
+        Sat, 8 Jan 2022 13:13:05 -0500
+Received: from 18.mo582.mail-out.ovh.net ([46.105.73.110]:34219 "EHLO
+        18.mo582.mail-out.ovh.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S229933AbiAHSNF (ORCPT
+        <rfc822;linux-man@vger.kernel.org>); Sat, 8 Jan 2022 13:13:05 -0500
+X-Greylist: delayed 91535 seconds by postgrey-1.27 at vger.kernel.org; Sat, 08 Jan 2022 13:13:05 EST
+Received: from player157.ha.ovh.net (unknown [10.110.208.168])
+        by mo582.mail-out.ovh.net (Postfix) with ESMTP id 01AFC215D8
+        for <linux-man@vger.kernel.org>; Sat,  8 Jan 2022 15:43:32 +0000 (UTC)
+Received: from sk2.org (82-65-25-201.subs.proxad.net [82.65.25.201])
+        (Authenticated sender: steve@sk2.org)
+        by player157.ha.ovh.net (Postfix) with ESMTPSA id 7C4E7261BA4D4;
+        Sat,  8 Jan 2022 15:43:29 +0000 (UTC)
+Authentication-Results: garm.ovh; auth=pass (GARM-101G004b85e2552-d325-4d48-957b-14c7a27cfc62,
+                    E73EBA98AEB195A144C17DE4F959AB65BE9739A6) smtp.auth=steve@sk2.org
+X-OVh-ClientIp: 82.65.25.201
+From:   Stephen Kitt <steve@sk2.org>
+To:     Alejandro Colomar <alx.manpages@gmail.com>,
+        Michael Kerrisk <mtk.manpages@gmail.com>
+Cc:     linux-man@vger.kernel.org, Stephen Kitt <steve@sk2.org>
+Subject: [PATCH 1/5] mq_notify.3: Add signal.h for SIGEV_ constants
+Date:   Sat,  8 Jan 2022 16:43:00 +0100
+Message-Id: <20220108154304.1030478-1-steve@sk2.org>
+X-Mailer: git-send-email 2.30.2
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
- Thunderbird/91.4.1
-Subject: Re: [PATCH 6/9] newlocale.3: Use LC_GLOBAL_LOCALE, not ..._HANDLE
-Content-Language: en-US
-To:     Jakub Wilk <jwilk@jwilk.net>, Stephen Kitt <steve@sk2.org>
-Cc:     linux-man@vger.kernel.org, Michael Kerrisk <mtk.manpages@gmail.com>
-References: <20220107164621.275794-1-steve@sk2.org>
- <20220107164621.275794-6-steve@sk2.org>
- <ee6f8448-4a84-3a94-d6d0-e9eabc3705a1@gmail.com>
- <20220108091352.kxrbpbolcilgna5x@jwilk.net>
-From:   "Alejandro Colomar (man-pages)" <alx.manpages@gmail.com>
-In-Reply-To: <20220108091352.kxrbpbolcilgna5x@jwilk.net>
-Content-Type: text/plain; charset=UTF-8; format=flowed
 Content-Transfer-Encoding: 8bit
+X-Ovh-Tracer-Id: 12764327245256689286
+X-VR-SPAMSTATE: OK
+X-VR-SPAMSCORE: 0
+X-VR-SPAMCAUSE: gggruggvucftvghtrhhoucdtuddrgedvuddrudeghedgheegucetufdoteggodetrfdotffvucfrrhhofhhilhgvmecuqfggjfdpvefjgfevmfevgfenuceurghilhhouhhtmecuhedttdenucenucfjughrpefhvffufffkofgggfestdekredtredttdenucfhrhhomhepufhtvghphhgvnhcumfhithhtuceoshhtvghvvgesshhkvddrohhrgheqnecuggftrfgrthhtvghrnhepteegudfgleekieekteeggeetveefueefteeugfduieeitdfhhedtfeefkedvfeefnecukfhppedtrddtrddtrddtpdekvddrieehrddvhedrvddtudenucevlhhushhtvghrufhiiigvpedtnecurfgrrhgrmhepmhhouggvpehsmhhtphhouhhtpdhhvghlohepphhlrgihvghrudehjedrhhgrrdhovhhhrdhnvghtpdhinhgvtheptddrtddrtddrtddpmhgrihhlfhhrohhmpehsthgvvhgvsehskhdvrdhorhhgpdhrtghpthhtoheplhhinhhugidqmhgrnhesvhhgvghrrdhkvghrnhgvlhdrohhrgh
 Precedence: bulk
 List-ID: <linux-man.vger.kernel.org>
 X-Mailing-List: linux-man@vger.kernel.org
 
-Hi, Jakub!
+The example program needs signal.h to build correctly, since the
+SIGEV_ constants are defined through signal.h; also document that in
+the synopsis.
 
-On 1/8/22 10:13, Jakub Wilk wrote:
-> * Alejandro Colomar <alx.manpages@gmail.com>, 2022-01-08, 02:41:
->>>      /* Free the locale object. */
->>> -    uselocale(LC_GLOBAL_HANDLE);    /* So \(aqloc\(aq is no longer 
->>> in use */
->>> +    uselocale(LC_GLOBAL_LOCALE);    /* So \(aqloc\(aq is no longer 
->>> in use */
->>
->> Why?
-> 
-> $ gcc -Wall newlocale-example.c
-> newlocale-example.c: In function ‘main’:
-> newlocale-example.c:67:15: error: ‘LC_GLOBAL_HANDLE’ undeclared (first 
-> use in this function); did you mean ‘LC_GLOBAL_LOCALE’?
-> 
+Signed-off-by: Stephen Kitt <steve@sk2.org>
+---
+ man3/mq_notify.3 | 2 ++
+ 1 file changed, 2 insertions(+)
 
-That makes sense!  I applied the patch, and added that to the commit 
-message.
+diff --git a/man3/mq_notify.3 b/man3/mq_notify.3
+index 2c35a347d..222108d61 100644
+--- a/man3/mq_notify.3
++++ b/man3/mq_notify.3
+@@ -28,6 +28,7 @@ mq_notify \- register for notification when a message is available
+ .SH SYNOPSIS
+ .nf
+ .B #include <mqueue.h>
++.BR "#include <signal.h>           " "/* Definition of SIGEV_* constants */"
+ .PP
+ .BI "int mq_notify(mqd_t " mqdes ", const struct sigevent *" sevp );
+ .fi
+@@ -224,6 +225,7 @@ queue and then terminates the process.
+ #include <stdio.h>
+ #include <stdlib.h>
+ #include <unistd.h>
++#include <signal.h>
+ 
+ #define handle_error(msg) \e
+     do { perror(msg); exit(EXIT_FAILURE); } while (0)
 
-Thank you both,
-
-Alex
-
+base-commit: 88d2b3fdef39603bc6a608a0d814d1800b6a4089
 -- 
-Alejandro Colomar
-Linux man-pages maintainer; http://www.kernel.org/doc/man-pages/
-http://www.alejandro-colomar.es/
+2.30.2
+
