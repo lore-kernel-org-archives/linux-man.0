@@ -2,91 +2,73 @@ Return-Path: <linux-man-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 5527BC433F5
-	for <linux-man@archiver.kernel.org>; Sun,  9 Jan 2022 16:21:36 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 1D00EC433EF
+	for <linux-man@archiver.kernel.org>; Mon, 10 Jan 2022 16:23:14 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S234204AbiAIQVf (ORCPT <rfc822;linux-man@archiver.kernel.org>);
-        Sun, 9 Jan 2022 11:21:35 -0500
-Received: from 139-28-40-42.artus.net.pl ([139.28.40.42]:46452 "EHLO
-        tarta.nabijaczleweli.xyz" rhost-flags-OK-FAIL-OK-OK)
-        by vger.kernel.org with ESMTP id S234018AbiAIQVf (ORCPT
-        <rfc822;linux-man@vger.kernel.org>); Sun, 9 Jan 2022 11:21:35 -0500
-Received: from tarta.nabijaczleweli.xyz (unknown [192.168.1.250])
-        by tarta.nabijaczleweli.xyz (Postfix) with ESMTPSA id 02A7D1D5C;
-        Sun,  9 Jan 2022 17:21:33 +0100 (CET)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=nabijaczleweli.xyz;
-        s=202006; t=1641745293;
-        bh=99gsNbwgbIKvbjtgkM81dqA0Mu/WCGYbkbTOIAnWlY4=;
-        h=Date:From:To:Cc:Subject:From;
-        b=gjIHLbjHqxbasLzFFm57oGkl8CS92rST3gulELotX8o1bv0O4+rz94VWfCD/pr6nY
-         sEpNijNlg60XqACzh/sFTr7+rvZTUqUXna6KU2vxnH0qkqLhMcBURY6mCxQzaVUPzD
-         ZKf387LezXGOI70wYY4GBKPxXYK6UxnpO5ZQUbRnTrNjsIjKc55GWctwOX3M1lYTqV
-         pjav8qsKb+WvH5aRo/sHwegEbs/ad5hPUqfXXGGn12XF/INe0hZHXkR4G39Yzd+97Z
-         X5ovfwwclDbJ+N1fxOLNRl3+2K9QPiNtCXu4atkHZrrE5aDMjp8T2MmOGvc3DxO3sP
-         vN9l549JVI2zQ==
-Date:   Sun, 9 Jan 2022 17:21:31 +0100
-From:   =?utf-8?B?0L3QsNCx?= <nabijaczleweli@nabijaczleweli.xyz>
-To:     Alejandro Colomar <alx.manpages@gmail.com>
-Cc:     linux-man@vger.kernel.org
-Subject: [PATCH] pkeys.7: ffix
-Message-ID: <20220109162131.oi7qv4shvk2swsa2@tarta.nabijaczleweli.xyz>
+        id S237222AbiAJQXN convert rfc822-to-8bit (ORCPT
+        <rfc822;linux-man@archiver.kernel.org>);
+        Mon, 10 Jan 2022 11:23:13 -0500
+Received: from 7.mo548.mail-out.ovh.net ([46.105.33.25]:44933 "EHLO
+        7.mo548.mail-out.ovh.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S237264AbiAJQXN (ORCPT
+        <rfc822;linux-man@vger.kernel.org>); Mon, 10 Jan 2022 11:23:13 -0500
+X-Greylist: delayed 8707 seconds by postgrey-1.27 at vger.kernel.org; Mon, 10 Jan 2022 11:23:13 EST
+Received: from mxplan6.mail.ovh.net (unknown [10.109.156.235])
+        by mo548.mail-out.ovh.net (Postfix) with ESMTPS id CA69020EF5;
+        Mon, 10 Jan 2022 13:58:03 +0000 (UTC)
+Received: from jwilk.net (37.59.142.101) by DAG4EX2.mxp6.local (172.16.2.32)
+ with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id 15.1.2375.17; Mon, 10 Jan
+ 2022 14:58:01 +0100
+Authentication-Results: garm.ovh; auth=pass (GARM-101G00428a7357b-0d02-4dcf-a4a1-4b53d9a7d13f,
+                    DE943CAD4DEBA8806CEBEDCA4376D30DB4AB08BD) smtp.auth=jwilk@jwilk.net
+X-OVh-ClientIp: 5.172.255.144
+Date:   Mon, 10 Jan 2022 14:57:49 +0100
+From:   Jakub Wilk <jwilk@jwilk.net>
+To:     =?utf-8?B?0L3QsNCx?= <nabijaczleweli@nabijaczleweli.xyz>
+CC:     Alejandro Colomar <alx.manpages@gmail.com>,
+        <linux-man@vger.kernel.org>
+Subject: Re: [PATCH] personality.2: WHOLE_SECONDS never did anything
+Message-ID: <20220110135749.y2w6bpryrsk3qsvm@jwilk.net>
+References: <20220109155107.uthnq5f4zay5pnq4@tarta.nabijaczleweli.xyz>
 MIME-Version: 1.0
-Content-Type: multipart/signed; micalg=pgp-sha512;
-        protocol="application/pgp-signature"; boundary="hszeibd3nop3ugwn"
+Content-Type: text/plain; charset="utf-8"; format=flowed
 Content-Disposition: inline
-User-Agent: NeoMutt/20211029
+Content-Transfer-Encoding: 8BIT
+In-Reply-To: <20220109155107.uthnq5f4zay5pnq4@tarta.nabijaczleweli.xyz>
+X-Originating-IP: [37.59.142.101]
+X-ClientProxiedBy: DAG3EX2.mxp6.local (172.16.2.22) To DAG4EX2.mxp6.local
+ (172.16.2.32)
+X-Ovh-Tracer-GUID: 18fd8e1c-5a93-4a61-8a99-6ac134b4f0c4
+X-Ovh-Tracer-Id: 4281515871435282397
+X-VR-SPAMSTATE: OK
+X-VR-SPAMSCORE: 35
+X-VR-SPAMCAUSE: gggruggvucftvghtrhhoucdtuddrgedvuddrudehuddgfeefucetufdoteggodetrfdotffvucfrrhhofhhilhgvmecuqfggjfdpvefjgfevmfevgfenuceurghilhhouhhtmecuhedttdenucgfrhhlucfvnfffucdlfeehmdenucfjughrpeffhffvuffkfhggtggugfgjihesthhqredttddtjeenucfhrhhomheplfgrkhhusgcuhghilhhkuceojhifihhlkhesjhifihhlkhdrnhgvtheqnecuggftrfgrthhtvghrnhepfedvhfehjeeukeejhfefhfehlefhvdehjeehteejudfhleevgeejkeejtdetveefnecukfhppedtrddtrddtrddtpdefjedrheelrddugedvrddutddunecuvehluhhsthgvrhfuihiivgeptdenucfrrghrrghmpehmohguvgepshhmthhpohhuthdphhgvlhhopehmgihplhgrnheirdhmrghilhdrohhvhhdrnhgvthdpihhnvghtpedtrddtrddtrddtpdhmrghilhhfrhhomhepjhifihhlkhesjhifihhlkhdrnhgvthdprhgtphhtthhopehlihhnuhigqdhmrghnsehvghgvrhdrkhgvrhhnvghlrdhorhhg
 Precedence: bulk
 List-ID: <linux-man.vger.kernel.org>
 X-Mailing-List: linux-man@vger.kernel.org
 
+* наб <nabijaczleweli@nabijaczleweli.xyz>, 2022-01-09, 16:51:
+>--- a/man2/personality.2
+>+++ b/man2/personality.2
+>@@ -120,8 +120,8 @@ report a 2.6.40+ version number rather than a 3.x version number.
+> Added as a stopgap measure to support broken applications that
+> could not handle the kernel version-numbering switch from 2.6.x to 3.x.
+> .TP
+>-.BR WHOLE_SECONDS " (since Linux 1.2.0)"
+>-No effects(?).
+>+.BR WHOLE_SECONDS " (since Linux 1.1.14)"
+>+No effect.
 
---hszeibd3nop3ugwn
-Content-Type: text/plain; charset=utf-8
-Content-Disposition: inline
-Content-Transfer-Encoding: quoted-printable
+But in 1.1.14 the syscall in question didn't exist yet, and the constant 
+had a different value than currently. (Both things changed in 1.1.20.)
 
-Signed-off-by: Ahelenia Ziemia=C5=84ska <nabijaczleweli@nabijaczleweli.xyz>
----
- man7/pkeys.7 | 4 +---
- 1 file changed, 1 insertion(+), 3 deletions(-)
+Further down the man page says: "This system call first appeared in 
+Linux 1.1.20 (and thus first in a stable kernel release with Linux 
+1.2.0)"
 
-diff --git a/man7/pkeys.7 b/man7/pkeys.7
-index 73ddcdc43..0fff6493f 100644
---- a/man7/pkeys.7
-+++ b/man7/pkeys.7
-@@ -42,9 +42,7 @@ to change the contents of a register in order to remove w=
-rite
- access, or all access to a tagged page.
- .PP
- Protection keys work in conjunction with the existing
--.BR PROT_READ /
--.BR PROT_WRITE /
--.BR PROT_EXEC
-+.BR PROT_READ / PROT_WRITE / PROT_EXEC
- permissions passed to system calls such as
- .BR mprotect (2)
- and
---=20
-2.30.2
+So I think it's on purpose that only stable versions are mentioned 
+elsewhere. I'd keep the version number as is.
 
---hszeibd3nop3ugwn
-Content-Type: application/pgp-signature; name="signature.asc"
-
------BEGIN PGP SIGNATURE-----
-
-iQIzBAABCgAdFiEEfWlHToQCjFzAxEFjvP0LAY0mWPEFAmHbC4sACgkQvP0LAY0m
-WPEaTg/8CCRGUj82iuYcZnCbAAt6I7Kd+ljS80NTNlJaEo+lIncRTxHWMjMhJlM3
-LokV26QBISpnicIoYxJTMrjsmBd5OAKzy4+BAjURrhsBF+rmRZ3JReaBIukAPh/I
-OuJd1l9vbeu4Ui2tWy9u5UulEjdE2fjAvIFy94tNG53ArJZytdolHzYxmO5N+lGB
-fiFnElGwUa4OzHprOf8+Dcw4DqFWvwaRwcSLgcNW0PBedNMRV2sn45Ux3q81Ydel
-FIWtpEeCD7/3nZdvQ71v/GZIIADqHXLYyIZoNk2ZlL0HPYHrwRxplbT8GJ7kdh7s
-OtSAaLhmTg8+vTGL3YXB8oEu4KCxzSSVkkRpOGjiQA4fYtP5heHnu6QB8Os1S/Yi
-8ahDdmpR0KG8Odx+kZmdXQ9OsiBXWGpmnpoCe+ntAPuL64BDmN0nUKgpsTlt1tJB
-fRbYo02IStnEiRAtZs+zeS3VLISkv5lxck1a1iyuQ5ya3WPLCQ67zWKlMyluj6fu
-Ab9oDNHSt3DLrDHJR0o6Ky4CfPcUoyFh/Oywzk/9d0e4LHvugwWTkrhx8c+sNwBZ
-jTpS/GoUgy8nfpf1+sogPkRDnusI3AmkpPvW5bXsUF2kazlshZ3RV0lcsk+Bu8lj
-QRWZYFah0QUSgZVd0keA7IsexWFpvKlgBy7a7SK1+Rcs95ZVWDk=
-=3kXQ
------END PGP SIGNATURE-----
-
---hszeibd3nop3ugwn--
+-- 
+Jakub Wilk
