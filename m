@@ -2,181 +2,143 @@ Return-Path: <linux-man-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 51410C433EF
-	for <linux-man@archiver.kernel.org>; Thu, 13 Jan 2022 20:37:05 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 6D7E9C433F5
+	for <linux-man@archiver.kernel.org>; Fri, 14 Jan 2022 06:49:01 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S234115AbiAMUhE (ORCPT <rfc822;linux-man@archiver.kernel.org>);
-        Thu, 13 Jan 2022 15:37:04 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:35206 "EHLO
+        id S229748AbiANGtB (ORCPT <rfc822;linux-man@archiver.kernel.org>);
+        Fri, 14 Jan 2022 01:49:01 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:57670 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S230515AbiAMUhE (ORCPT
-        <rfc822;linux-man@vger.kernel.org>); Thu, 13 Jan 2022 15:37:04 -0500
-Received: from mail-wr1-x435.google.com (mail-wr1-x435.google.com [IPv6:2a00:1450:4864:20::435])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id D259DC061574
-        for <linux-man@vger.kernel.org>; Thu, 13 Jan 2022 12:37:03 -0800 (PST)
-Received: by mail-wr1-x435.google.com with SMTP id a5so12286803wrh.5
-        for <linux-man@vger.kernel.org>; Thu, 13 Jan 2022 12:37:03 -0800 (PST)
+        with ESMTP id S230223AbiANGtA (ORCPT
+        <rfc822;linux-man@vger.kernel.org>); Fri, 14 Jan 2022 01:49:00 -0500
+Received: from mail-qk1-x730.google.com (mail-qk1-x730.google.com [IPv6:2607:f8b0:4864:20::730])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 8758FC061574;
+        Thu, 13 Jan 2022 22:49:00 -0800 (PST)
+Received: by mail-qk1-x730.google.com with SMTP id 82so10011254qki.10;
+        Thu, 13 Jan 2022 22:49:00 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=gmail.com; s=20210112;
-        h=message-id:date:mime-version:user-agent:subject:content-language:to
-         :cc:references:from:in-reply-to:content-transfer-encoding;
-        bh=sEqvGhqJO2ofchKY3oAlQLBCJBJ6OeXPz+1YshtBPmc=;
-        b=OGNLEewBhEC85W20CxpMIJbpIoksFL5agXHgXMlrl8CE0W8wOBow2R32jcLM4ghskt
-         QrhtsK/n7jnPyubdWBMli73TzYe6KOxDgInk+IUOkNeVCFHqfaOfwugHEKEYI1aESPKW
-         ihFEhMBa3MuKZCtTKRbJabmrW7y3/LJDZdriIe4zq+PQU9j0aSaeXg2w5zABt/fH4Iyo
-         LPsJ5R3iQoTZnKmlW5bC0c6gZkRe5qBVA586tnR5r6G/naCyUvT0tXIbbGy+iZOhhRZ/
-         AZe+nfo6hD/74yvK7TK4xUvX2Q05hTuZlKYtu5ALcAbT53YU+0uAT4IN+bBwn+sJ6gcg
-         lKmg==
+        h=date:from:to:cc:subject:message-id:mime-version:content-disposition;
+        bh=B+fcba0guNJe05QgbJXwe+sMQe2m5ccQ8ajqhjcvHAE=;
+        b=ecmU7hZRNGjPS2XiyC0x8KenUkgVcZzEzqPlRh5jPDVUOuLvmP8aKk9OkWhIdvwWCJ
+         T097GxzoxSze7MoQR9hVpF2UxBYH+TFUbAAqX1ffTCXIBTbnTit4Nvc4CBhn4bRvCxs+
+         6rO9P6L12CyL5KAhjyTwPxanbieM7dAMSx2vBPpIyxZNywCUhEFYvh++oljd1vYNqgS4
+         0EglfMrjsN3+Ywy1gGHALjWmtsf6vDsbES7K9bJRIF/gFWZKRmiaPGGD2C0+IIDZDFEA
+         khuEOJcEYWOrWASuBwJEmEH7ruvVVejYu7UozhUMKCLeHseJbr5EtfqhhgMAABF4HVla
+         owVQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20210112;
-        h=x-gm-message-state:message-id:date:mime-version:user-agent:subject
-         :content-language:to:cc:references:from:in-reply-to
-         :content-transfer-encoding;
-        bh=sEqvGhqJO2ofchKY3oAlQLBCJBJ6OeXPz+1YshtBPmc=;
-        b=KZj+KGKSR8UE7hvuAHnv8ML1PYvDRAfXiV1oWgmLCf0I+8E6EHGxNCh8kuBPPuv3eQ
-         QE3XobEvVJcBPB8GfYM1r79CDN+hEz2oPfTrADy6o71ClqFR3IkiuZvA9hITMFktDTIS
-         w4J5WqCHA4as7yPi8tYmdm6b+L1GkSyoBdf6WKLuDed6qScOiHhwd+EmbBFtWdIeZuUm
-         bmHNbaJjmFqd5nf5SYIwrIUFfezFUxnswhbhNl3wzqc6urzdKz4Q6EljWLQBDKM0VXwV
-         nxrgpUAd4FJwO3dQWfo4e0SJyd297TCqR+9cx14uYa3LLP3mQOItLvNinapk0EV/Eu4O
-         QtPw==
-X-Gm-Message-State: AOAM531ZjE56ryV3bPEWWxcogVuhGpfEGmOmhLPoO7/ASjFZ/7tz7zss
-        eCgVGqhsWsSmojJvtTsxk0Ig+JcQtAc=
-X-Google-Smtp-Source: ABdhPJyGqKcmlLubjppfWsbzA+rRDpAeYrknyMGI4toXzWZ0ckvYC8HSRI/wQdTGIuKdhDLlCLeiwQ==
-X-Received: by 2002:a05:6000:1845:: with SMTP id c5mr5400719wri.499.1642106221898;
-        Thu, 13 Jan 2022 12:37:01 -0800 (PST)
-Received: from [192.168.0.160] ([170.253.36.171])
-        by smtp.gmail.com with ESMTPSA id w12sm3982840wrm.36.2022.01.13.12.37.00
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Thu, 13 Jan 2022 12:37:01 -0800 (PST)
-Message-ID: <8c62c971-273a-23cf-dce9-325608c97de0@gmail.com>
-Date:   Thu, 13 Jan 2022 21:37:00 +0100
+        h=x-gm-message-state:date:from:to:cc:subject:message-id:mime-version
+         :content-disposition;
+        bh=B+fcba0guNJe05QgbJXwe+sMQe2m5ccQ8ajqhjcvHAE=;
+        b=1KhQDO5VL0DicffcZZEyjANJKYpa5R8tl4jCuZ4rK1R+E7sCheDyF9Lx9seV89Zxbm
+         08twJD3CyC3D9ggwsaz0M5QNml7Q56NZrdMQajQQHGVAzHOmReIMnVYqGclJI4q+L/TJ
+         c+b6V2h39eOjvjnNUwrtoCcGYEVso4vZ4LhQ32etO13Oe6Ttf5zlazjVzUgA9VnNJPgn
+         sFdJxlIqa2poGcT3VsAKyPD7H/QASnVg7m+IgGL5ePfmhHQpPNYDPHoxY4K9lGjS/b52
+         3aqZutr5BP2PtWU35bUBuXvCecAycFvum84ibQPl/qc5pMDBOSOF5ApY/HzXn7IyFMNl
+         PQGQ==
+X-Gm-Message-State: AOAM530cgX8zEymAiWEY/38LMLxjhMWfAVvUkAPDrubEi6CpeHtU3hsA
+        eGnwpJGA5Za5md9AZRwe/sk8i38TgrE=
+X-Google-Smtp-Source: ABdhPJxpLJfkcIKmkzQboS/h9TEkXvXV4sh4EWp3uO/wDl8oH9bNtbWjfmEvNMtuTjduCYallcj9BA==
+X-Received: by 2002:a05:620a:f10:: with SMTP id v16mr5485570qkl.626.1642142939650;
+        Thu, 13 Jan 2022 22:48:59 -0800 (PST)
+Received: from vps.qemfd.net (vps.qemfd.net. [173.230.130.29])
+        by smtp.gmail.com with ESMTPSA id w9sm563358qkp.89.2022.01.13.22.48.58
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Thu, 13 Jan 2022 22:48:59 -0800 (PST)
+Received: from schwarzgerat.orthanc (schwarzgerat.danknet [192.168.128.2])
+        by vps.qemfd.net (Postfix) with ESMTP id 7A6DA2B5D4;
+        Fri, 14 Jan 2022 01:48:58 -0500 (EST)
+Received: by schwarzgerat.orthanc (Postfix, from userid 1000)
+        id 75B24600305; Fri, 14 Jan 2022 01:48:58 -0500 (EST)
+Date:   Fri, 14 Jan 2022 01:48:58 -0500
+From:   nick black <dankamongmen@gmail.com>
+To:     linux-man@vger.kernel.org
+Cc:     Alejandro Colomar <alx.manpages@gmail.com>,
+        Michael Kerrisk <mtk.manpages@gmail.com>,
+        linux-kernel@vger.kernel.org
+Subject: [patch] console_codes.4: ffix
+Message-ID: <YeEc2pYvKEckcAmv@schwarzgerat.orthanc>
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
- Thunderbird/91.5.0
-Subject: Re: [PATCH v2] epoll_ctl.2: replace input flag footnotes with a list
- section
-Content-Language: en-US
-To:     =?UTF-8?B?0L3QsNCx?= <nabijaczleweli@nabijaczleweli.xyz>
-Cc:     linux-man@vger.kernel.org
-References: <dcfa6694-fa4e-11c9-b146-e9d2e4b5cd3f@gmail.com>
- <20220113151410.wdioekjeinssfybz@tarta.nabijaczleweli.xyz>
-From:   "Alejandro Colomar (man-pages)" <alx.manpages@gmail.com>
-In-Reply-To: <20220113151410.wdioekjeinssfybz@tarta.nabijaczleweli.xyz>
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 8bit
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
 Precedence: bulk
 List-ID: <linux-man.vger.kernel.org>
 X-Mailing-List: linux-man@vger.kernel.org
 
-On 1/13/22 16:14, наб wrote:
-> This is shorter, clearly separates the events from the flags,
-> and more consistent (cf. EPOLLEXCLUSIVE which has a different message
-> than the rest)
-> 
-> Signed-off-by: Ahelenia Ziemiańska <nabijaczleweli@nabijaczleweli.xyz>
-> ---
-> You're right, and in the 3am curse I missed that I specified >=1
-> instead of >=0. Rewrote that as you suggested: one sentence at the top,
-> and two lists with short headings referencing it.
+Fix up the busted OSC command list (reset palette and
+set palette). Remove CSI prefix from the list of non-CSI
+escapes. End all items of said list with periods,
+matching other sections of the page.
 
+Signed-off-by: nick black <nickblack@linux.com>
+---
+ man4/console_codes.4 | 22 +++++++++++-----------
+ 1 file changed, 11 insertions(+), 11 deletions(-)
 
-Patch applied, наб.
+diff --git man4/console_codes.4 man4/console_codes.4
+index d549b76a9..001de1955 100644
+--- man4/console_codes.4
++++ man4/console_codes.4
+@@ -139,29 +139,28 @@ T}
+ ESC 8	DECRC	T{
+ Restore state most recently saved by ESC 7.
+ T}
+-ESC [	CSI	Control sequence introducer
+ ESC %		Start sequence selecting character set
+ ESC % @		\0\0\0Select default (ISO 646 / ISO 8859-1)
+ ESC % G		\0\0\0Select UTF-8
+ ESC % 8		\0\0\0Select UTF-8 (obsolete)
+ ESC # 8	DECALN	T{
+-DEC screen alignment test \- fill screen with E's
++DEC screen alignment test \- fill screen with E's.
+ T}
+ ESC (		T{
+ Start sequence defining G0 character set
+ (followed by one of B, 0, U, K, as below)
+ T}
+ ESC ( B		T{
+-Select default (ISO 8859-1 mapping)
++Select default (ISO 8859-1 mapping).
+ T}
+ ESC ( 0		T{
+-Select VT100 graphics mapping
++Select VT100 graphics mapping.
+ T}
+ ESC ( U		T{
+-Select null mapping \- straight to character ROM
++Select null mapping \- straight to character ROM.
+ T}
+ ESC ( K		T{
+-Select user mapping \- the map that is loaded by the utility \fBmapscrn\fP(8)
++Select user mapping \- the map that is loaded by the utility \fBmapscrn\fP(8).
+ T}
+ ESC )		T{
+ Start sequence defining G1 (followed by one of B, 0, U, K, as above).
+@@ -169,12 +168,13 @@ T}
+ ESC >	DECPNM	Set numeric keypad mode
+ ESC =	DECPAM	Set application keypad mode
+ ESC ]	OSC	T{
+-(Should be: Operating system command)
+-ESC ] P \fInrrggbb\fP: set palette, with parameter
+-given in 7 hexadecimal digits after the final P :-(.
+-Here \fIn\fP is the color (0\(en15), and \fIrrggbb\fP indicates
++Operating System Command prefix.
++T}
++ESC ] R		Reset palette.
++ESC ] P		T{
++Set palette, with parameter given in 7 hexadecimal digits \fInrrggbb\fP after
++the final P. Here \fIn\fP is the color (0\(en15), and \fIrrggbb\fP indicates
+ the red/green/blue values (0\(en255).
+-ESC ] R: reset palette
+ T}
+ .TE
+ .ad
+-- 
+2.34.1
 
-Thanks,
-
-Alex
-
-> 
->  man2/epoll_ctl.2 | 39 +++++++--------------------------------
->  1 file changed, 7 insertions(+), 32 deletions(-)
-> 
-> diff --git a/man2/epoll_ctl.2 b/man2/epoll_ctl.2
-> index ec31cac72..de6bcfb33 100644
-> --- a/man2/epoll_ctl.2
-> +++ b/man2/epoll_ctl.2
-> @@ -106,8 +106,11 @@ The
->  .I events
->  member of the
->  .I epoll_event
-> -structure is a bit mask composed by ORing together zero or more of
-> -the following available event types:
-> +structure is a bit mask composed by ORing together zero or more event types,
-> +returned by
-> +.BR epoll_wait (2),
-> +and input flags, which affect its behaviour, but aren't returned.
-> +The available event types are:
->  .TP
->  .B EPOLLIN
->  The associated file is available for
-> @@ -156,6 +159,8 @@ Note that when reading from a channel such as a pipe or a stream socket,
->  this event merely indicates that the peer closed its end of the channel.
->  Subsequent reads from the channel will return 0 (end of file)
->  only after all outstanding data in the channel has been consumed.
-> +.PP
-> +And the available input flags are:
->  .TP
->  .B EPOLLET
->  Requests edge-triggered notification for the associated file descriptor.
-> @@ -166,13 +171,6 @@ See
->  .BR epoll (7)
->  for more detailed information about edge-triggered and
->  level-triggered notification.
-> -.IP
-> -This flag is an input flag for the
-> -.I event.events
-> -field when calling
-> -.BR epoll_ctl ();
-> -it is never returned by
-> -.BR epoll_wait (2).
->  .TP
->  .BR EPOLLONESHOT " (since Linux 2.6.2)"
->  Requests one-shot notification for the associated file descriptor.
-> @@ -187,13 +185,6 @@ The user must call
->  with
->  .B EPOLL_CTL_MOD
->  to rearm the file descriptor with a new event mask.
-> -.IP
-> -This flag is an input flag for the
-> -.I event.events
-> -field when calling
-> -.BR epoll_ctl ();
-> -it is never returned by
-> -.BR epoll_wait (2).
->  .TP
->  .BR EPOLLWAKEUP " (since Linux 3.5)"
->  .\" commit 4d7e30d98939a0340022ccd49325a3d70f7e0238
-> @@ -222,13 +213,6 @@ or the clearing of
->  for the event file descriptor with
->  .BR EPOLL_CTL_MOD .
->  See also BUGS.
-> -.IP
-> -This flag is an input flag for the
-> -.I event.events
-> -field when calling
-> -.BR epoll_ctl ();
-> -it is never returned by
-> -.BR epoll_wait (2).
->  .TP
->  .BR EPOLLEXCLUSIVE " (since Linux 4.5)"
->  Sets an exclusive wakeup mode for the epoll file descriptor that is being
-> @@ -299,15 +283,6 @@ and specifies the target file descriptor
->  as an epoll instance will likewise fail.
->  The error in all of these cases is
->  .BR EINVAL .
-> -.IP
-> -The
-> -.BR EPOLLEXCLUSIVE
-> -flag is an input flag for the
-> -.I event.events
-> -field when calling
-> -.BR epoll_ctl ();
-> -it is never returned by
-> -.BR epoll_wait (2).
->  .SH RETURN VALUE
->  When successful,
->  .BR epoll_ctl ()
 
 -- 
-Alejandro Colomar
-Linux man-pages maintainer; https://www.kernel.org/doc/man-pages/
-http://www.alejandro-colomar.es/
+nick black -=- https://www.nick-black.com
+to make an apple pie from scratch,
+you need first invent a universe.
