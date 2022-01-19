@@ -2,53 +2,107 @@ Return-Path: <linux-man-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 0C44FC433F5
-	for <linux-man@archiver.kernel.org>; Tue, 18 Jan 2022 09:12:30 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 3C865C433EF
+	for <linux-man@archiver.kernel.org>; Wed, 19 Jan 2022 17:05:38 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1344572AbiARJM3 (ORCPT <rfc822;linux-man@archiver.kernel.org>);
-        Tue, 18 Jan 2022 04:12:29 -0500
-Received: from mail.neweas.com ([80.211.187.56]:46008 "EHLO mail.neweas.com"
-        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S1345404AbiARJM2 (ORCPT <rfc822;linux-man@vger.kernel.org>);
-        Tue, 18 Jan 2022 04:12:28 -0500
-Received: by mail.neweas.com (Postfix, from userid 1001)
-        id 27027A2CC6; Tue, 18 Jan 2022 09:11:48 +0000 (GMT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=neweas.com; s=mail;
-        t=1642497157; bh=344ka1ykJ0mvfujTlqCYPtTosUKgQHFWZmLJzFrWq60=;
-        h=Date:From:To:Subject:From;
-        b=DaU1Wr3MGBGfwq4v3dJJ8sYogyelt/eMk6AQ8V4giKdx4Uqyvzio9nKsZEZCDBcyY
-         vR0Vr2eiovdCk64H9fu46l1EKgD/w6ygP0GPxgAPpEZ8iKkc6Os4gbDkRtvj0v6Erb
-         oP+Dmu5Iv1PXifa4VH5slPh6b9sqJQl39ywkfxY6B+bnOx9RIZiVdNarpRwbuphSWe
-         cZSpdI/fk69y5QtdJ4SOnQyZSzKNUwoj1g1SE6IWKOWWjj/B9vCRc6HvIUl0MLgKq1
-         U/paFGXeNicXtIiRzs+VvRtZe7BZ3rFD2MdX/QmFw0gbDuiFVZT/HGXJKKrQRfaM9v
-         8hgQUzAZ7c7Eg==
-Received: by mail.neweas.com for <linux-man@vger.kernel.org>; Tue, 18 Jan 2022 09:10:59 GMT
-Message-ID: <20220118074501-0.1.3j.mibd.0.pq9g6j4bb2@neweas.com>
-Date:   Tue, 18 Jan 2022 09:10:59 GMT
-From:   =?UTF-8?Q? "Miguel_Rodr=C3=ADguez_Garc=C3=ADa" ?= 
-        <miguel.garcia@neweas.com>
-To:     <linux-man@vger.kernel.org>
-Subject: Servicio de la flota
-X-Mailer: mail.neweas.com
+        id S1356278AbiASRFg (ORCPT <rfc822;linux-man@archiver.kernel.org>);
+        Wed, 19 Jan 2022 12:05:36 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:53016 "EHLO
+        lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S243725AbiASRFg (ORCPT
+        <rfc822;linux-man@vger.kernel.org>); Wed, 19 Jan 2022 12:05:36 -0500
+Received: from mail-qt1-x82f.google.com (mail-qt1-x82f.google.com [IPv6:2607:f8b0:4864:20::82f])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 54715C061574;
+        Wed, 19 Jan 2022 09:05:36 -0800 (PST)
+Received: by mail-qt1-x82f.google.com with SMTP id v7so2588810qtw.13;
+        Wed, 19 Jan 2022 09:05:36 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20210112;
+        h=date:from:to:cc:subject:message-id:references:mime-version
+         :content-disposition:in-reply-to;
+        bh=xNn75qzGd+nXVzzF0p1+GWTBBuJh8tB0QC9sPPOPoXA=;
+        b=IUYiImLFgLU78AOUTXR831cGaiyP81q9NSSOZZ2cipZINeZmQ7JFs2NrHUtNbsGInd
+         H72z4Zvwto68QC257DI0lH2u/K3EraaRqvvA3mNGoePTEcF914PBsKhegWksOIpyXqik
+         fibHVhqhymWh3xVp37VLMJnjrDfUURNLDt8AjRGEEWMASo8lqK7k2RmQZL/IObhdg6u8
+         0Iw63nmaJbYM3dArTVMzacz/A27IOh4xyJ+9Lg5tKxWRz9rXnnojzoIl3v+nfVXgXfyH
+         /sg8hLcUt/mdwTF+6pd01gU60sUN0OFiPFlSiqlgaCNajcEHo6MZkRwWQDc5VHVRAvKg
+         MKyQ==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20210112;
+        h=x-gm-message-state:date:from:to:cc:subject:message-id:references
+         :mime-version:content-disposition:in-reply-to;
+        bh=xNn75qzGd+nXVzzF0p1+GWTBBuJh8tB0QC9sPPOPoXA=;
+        b=pKFmM9O1uoVFN9mksdqPieT6lMmQU6SIsE3gINsI8gk6DvvFvvqCbpqp2zp+Xo07Eb
+         Q66HXm3+cyNAEtsYYVwNjszXigiqEEmnJb8CRt0U2AGZUXei2oEfH8JDpRRJ5A7KIjv9
+         71513NLALg4y3cc2TN3gJF70SoxteJAUipcYzop6Afe1KA0SznHg2ITZHtXgHItKHUqG
+         YxOPiycyTK+M3n4yOXknp+7YCkz6Hu/w0WRXP1G+67UOXxTQjRBadRahTtmGwkIRg4tR
+         OAXIuiOqcLE+5FNV+nsojkGp2s4Z7eR6szcfLL98tL0omC79FimkB+4ZNlbb3B0QsuRv
+         k2dQ==
+X-Gm-Message-State: AOAM533AzacmdpodiXhMXOkFbgUtDjnvdQOzvAuhk2NvIN8Y59Su7O9M
+        9IDvOIghlU9vLYPyxboGWYos9Ed36wk=
+X-Google-Smtp-Source: ABdhPJy47q2V1IyLH6u81sprn0wRz8eHrH45ho8G02+/oBKHeAgc+IZMpN6H2VYHLkeCgYbpB45mDQ==
+X-Received: by 2002:a05:622a:343:: with SMTP id r3mr1255030qtw.443.1642611935363;
+        Wed, 19 Jan 2022 09:05:35 -0800 (PST)
+Received: from vps.qemfd.net (vps.qemfd.net. [173.230.130.29])
+        by smtp.gmail.com with ESMTPSA id z2sm7521qtj.62.2022.01.19.09.05.34
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Wed, 19 Jan 2022 09:05:34 -0800 (PST)
+Received: from schwarzgerat.orthanc (schwarzgerat.danknet [192.168.128.2])
+        by vps.qemfd.net (Postfix) with ESMTP id 575F82B2D5;
+        Wed, 19 Jan 2022 12:05:34 -0500 (EST)
+Received: by schwarzgerat.orthanc (Postfix, from userid 1000)
+        id 4C92460032B; Wed, 19 Jan 2022 12:05:34 -0500 (EST)
+Date:   Wed, 19 Jan 2022 12:05:34 -0500
+From:   nick black <dankamongmen@gmail.com>
+To:     "Alejandro Colomar (man-pages)" <alx.manpages@gmail.com>
+Cc:     linux-man@vger.kernel.org,
+        Michael Kerrisk <mtk.manpages@gmail.com>,
+        linux-kernel@vger.kernel.org
+Subject: Re: [patch] console_codes.4: ffix
+Message-ID: <YehE3p7es9/4wBuM@schwarzgerat.orthanc>
+References: <YeEc2pYvKEckcAmv@schwarzgerat.orthanc>
+ <98d87c52-da33-9ee4-b9df-253c8ae8e093@gmail.com>
 MIME-Version: 1.0
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <98d87c52-da33-9ee4-b9df-253c8ae8e093@gmail.com>
 Precedence: bulk
 List-ID: <linux-man.vger.kernel.org>
 X-Mailing-List: linux-man@vger.kernel.org
 
-Buenos d=C3=ADas:
+Alejandro Colomar (man-pages) left as an exercise for the reader:
+> As I understand it, it's there because CSI is not a CSI-prefixed sequence
+> (i.e., you have to first document CSI itself, and then in a different list
+> you can document sequences prefixed by CSI).
+> So I'd say it belongs there.
 
-Le escribo para hablarle sobre una de las mejores herramientas GPS en el =
-mercado.
+except this is literally in the table named "ESC- but not
+CSI-sequences". and it's not, by itself, a sequence. and it's
+detailed in the "ECMA-48 CSI Sequences" section below.
 
-La herramienta, que me gustar=C3=ADa presentarle brevemente, dispone de m=
-uchas funciones =C3=BAtiles para su trabajo, que optimizan los procesos d=
-e transporte y le ayudan a realizar tareas de campo de manera m=C3=A1s ef=
-iciente.
+so it is documented, near where it's relevant. IMHO.
 
-=C2=BFQuiere conocer los detalles?
+if we're going to keep it, we ought add OSC to this section by
+the same reasoning. i can do that and send a fresh patch, or you
+can do it to my patch, or we can do with what i have.
 
+> Maybe it should go into a separate subsection called "Operating system
+> commands"?
 
-Atentamente,
-Miguel Rodr=C3=ADguez Garc=C3=ADa
+well, there are only these few, and they are "ESC- but not CSI
+sequences". i don't honestly think the average reader cares
+whether something is a CSI or an OSC or linux-specific control
+sequence, especially since there's really no user-relevant
+reason as to why one is in any given group. but i can go ahead
+and break this section out if you'd like.
+
+put another way, some people might read the man page wanting to
+know "how do i change a color". i can't imagine anyone ever
+wanting to know "what are the various OSC-prefixed commands?"
+that said, i'm happy to introduce the substructure if it gets
+the formatting fixed =].
+
+-- 
+nick black -=- https://www.nick-black.com
+to make an apple pie from scratch,
+you need first invent a universe.
