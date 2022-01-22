@@ -2,130 +2,88 @@ Return-Path: <linux-man-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 60B32C433F5
-	for <linux-man@archiver.kernel.org>; Sat, 22 Jan 2022 09:05:02 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 42A26C433EF
+	for <linux-man@archiver.kernel.org>; Sat, 22 Jan 2022 23:53:02 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S233931AbiAVJFB (ORCPT <rfc822;linux-man@archiver.kernel.org>);
-        Sat, 22 Jan 2022 04:05:01 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:38062 "EHLO
-        lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S232330AbiAVJFB (ORCPT
-        <rfc822;linux-man@vger.kernel.org>); Sat, 22 Jan 2022 04:05:01 -0500
-Received: from mout-p-101.mailbox.org (mout-p-101.mailbox.org [IPv6:2001:67c:2050::465:101])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 021DDC06173B;
-        Sat, 22 Jan 2022 01:05:00 -0800 (PST)
-Received: from smtp202.mailbox.org (smtp202.mailbox.org [80.241.60.245])
-        (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-         key-exchange ECDHE (P-384) server-signature RSA-PSS (4096 bits) server-digest SHA256)
-        (No client certificate requested)
-        by mout-p-101.mailbox.org (Postfix) with ESMTPS id 4Jgr153n5tz9svd;
-        Sat, 22 Jan 2022 10:04:57 +0100 (CET)
-X-Virus-Scanned: amavisd-new at heinlein-support.de
-Date:   Sat, 22 Jan 2022 20:04:41 +1100
-From:   Aleksa Sarai <cyphar@cyphar.com>
-To:     Kir Kolyshkin <kolyshkin@gmail.com>
-Cc:     linux-man@vger.kernel.org,
-        Michael Kerrisk <mtk.manpages@gmail.com>,
-        David Herrmann <dh.herrmann@gmail.com>,
-        Andrew Morton <akpm@linux-foundation.org>,
-        Hugh Dickins <hughd@google.com>,
-        Mike Kravetz <mike.kravetz@oracle.com>, linux-mm@kvack.org,
-        linux-kernel@vger.kernel.org
-Subject: Re: [PATCH] fcntl.2: document F_GET_SEALS on tmpfs peculiarity
-Message-ID: <20220122090441.ktxh43lpgsd2dxj4@senku>
-References: <20220122005251.1441343-1-kolyshkin@gmail.com>
+        id S231800AbiAVXxB (ORCPT <rfc822;linux-man@archiver.kernel.org>);
+        Sat, 22 Jan 2022 18:53:01 -0500
+Received: from 139-28-40-42.artus.net.pl ([139.28.40.42]:39246 "EHLO
+        tarta.nabijaczleweli.xyz" rhost-flags-OK-FAIL-OK-OK)
+        by vger.kernel.org with ESMTP id S231288AbiAVXxB (ORCPT
+        <rfc822;linux-man@vger.kernel.org>); Sat, 22 Jan 2022 18:53:01 -0500
+Received: from tarta.nabijaczleweli.xyz (unknown [192.168.1.250])
+        by tarta.nabijaczleweli.xyz (Postfix) with ESMTPSA id 83DC32C70;
+        Sun, 23 Jan 2022 00:52:55 +0100 (CET)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=nabijaczleweli.xyz;
+        s=202006; t=1642895575;
+        bh=SidHPwHVugwoJ4faoHWM7OgtoJ79PHuCPn5CXPfhRKk=;
+        h=Date:From:To:Cc:Subject:From;
+        b=YorLnEQnAMBLjJG6PZSg/onA23USbCj/O5DfNPFwO68MMf+Wkar0IwvsdrKWEaRPz
+         l35/AroYXfgMZm+JzaVfCpO1Uy+m/feqOhPZsGBiMQJETikBl5WjgMabizcbbPjb6+
+         1UMQ0G6mAeZOj15iUSxcyUOIgDopYxuaoxCkr6sdpoyRUrOL+H/upPUA8WwzYQ6E7l
+         mM1LCbfs19GRTaUzpOlwV/r/Zi/05z6soWbYKSJ8OxYSIrUQsNt5N1BwMDabYXkkn0
+         xaOorxkHxbbfwAgiT05VKIw+tWDvKC6Qcrcs4xepvTXyAsIhlQ+qCYjQNuwaqvGaNm
+         w9aMSDo+Z44Qg==
+Date:   Sun, 23 Jan 2022 00:52:54 +0100
+From:   =?utf-8?B?0L3QsNCx?= <nabijaczleweli@nabijaczleweli.xyz>
+To:     "Alejandro Colomar (man-pages)" <alx.manpages@gmail.com>
+Cc:     linux-man@vger.kernel.org
+Subject: [PATCH] strsep.3: tfix
+Message-ID: <20220122235254.fkte4vesy3f5peke@tarta.nabijaczleweli.xyz>
 MIME-Version: 1.0
 Content-Type: multipart/signed; micalg=pgp-sha512;
-        protocol="application/pgp-signature"; boundary="envdxlah4rr2kem4"
+        protocol="application/pgp-signature"; boundary="qksaeq42uiclsox2"
 Content-Disposition: inline
-In-Reply-To: <20220122005251.1441343-1-kolyshkin@gmail.com>
+User-Agent: NeoMutt/20211029
 Precedence: bulk
 List-ID: <linux-man.vger.kernel.org>
 X-Mailing-List: linux-man@vger.kernel.org
 
 
---envdxlah4rr2kem4
-Content-Type: text/plain; charset=us-ascii
+--qksaeq42uiclsox2
+Content-Type: text/plain; charset=utf-8
 Content-Disposition: inline
 Content-Transfer-Encoding: quoted-printable
 
-Adding the maintainers of mm/{shmem,memfd}.c and fs/hugetlbfs/ just in
-case this was not intended behaviour.
+Signed-off-by: Ahelenia Ziemia=C5=84ska <nabijaczleweli@nabijaczleweli.xyz>
+---
+ man3/strsep.3 | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
 
-On 2022-01-21, Kir Kolyshkin <kolyshkin@gmail.com> wrote:
-> Currently, from the description of file sealing it can be deduced that
-> unless the fd is a memfd, all sealing operations fail with EINVAL.
->=20
-> Apparently, it's not true for tmpfs or hugetlbfs -- F_GET_SEALS returns
-> 1 (F_SEAL_SEAL) for an fd opened on these filesystems (probably because
-> those are used to back memfd files).
->=20
-> Fix the description to mention that peculiarity. Not knowing this can
-> result in incorrect code logic (see [1], where the code mistook a
-> descriptor of a file opened on on tmpfs for a memfd).
->=20
-> While at it, clarify that fcntl does not actually return EINVAL, but
-> sets errno to it (as it is usually said elsewhere).
->=20
-> [1] https://github.com/opencontainers/runc/pull/3342
->=20
-> Cc: Aleksa Sarai <cyphar@cyphar.com>
-> Cc: David Herrmann <dh.herrmann@gmail.com>
-> Signed-off-by: Kir Kolyshkin <kolyshkin@gmail.com>
-> ---
->  man2/fcntl.2 | 17 +++++++++++++++--
->  1 file changed, 15 insertions(+), 2 deletions(-)
->=20
-> diff --git a/man2/fcntl.2 b/man2/fcntl.2
-> index 7b5604e3a..f951b05ff 100644
-> --- a/man2/fcntl.2
-> +++ b/man2/fcntl.2
-> @@ -1402,10 +1402,23 @@ file seals can be applied only to a file descript=
-or returned by
->  (if the
->  .B MFD_ALLOW_SEALING
->  was employed).
-> -On other filesystems, all
-> +On all other filesystems, except
-> +.BR tmpfs (5)
-> +and
-> +.BR hugetlbfs ,
-> +all
->  .BR fcntl ()
-> -operations that operate on seals will return
-> +operations that operate on seals will fail with
-> +.I errno
-> +set to
->  .BR EINVAL .
-> +For a descriptor from a file on
-> +.BR tmpfs (5)
-> +or
-> +.BR hugetlbfs ,
-> +.B F_GET_SEALS
-> +returns
-> +.BR F_SEAL_SEAL .
->  .PP
->  Seals are a property of an inode.
->  Thus, all open file descriptors referring to the same inode share
-> --=20
-> 2.33.1
->=20
-
+diff --git a/man3/strsep.3 b/man3/strsep.3
+index 131963158..fb5f7fd1a 100644
+--- a/man3/strsep.3
++++ b/man3/strsep.3
+@@ -61,7 +61,7 @@ function returns NULL
+ and does nothing else.
+ Otherwise, this function finds the first token
+ in the string
+-.IR *stringp ,
++.I *stringp
+ that is delimited by one of the bytes in the string
+ .IR delim .
+ This token is terminated by overwriting the delimiter
 --=20
-Aleksa Sarai
-Senior Software Engineer (Containers)
-SUSE Linux GmbH
-<https://www.cyphar.com/>
+2.30.2
 
---envdxlah4rr2kem4
+--qksaeq42uiclsox2
 Content-Type: application/pgp-signature; name="signature.asc"
 
 -----BEGIN PGP SIGNATURE-----
 
-iHUEABYKAB0WIQSxZm6dtfE8gxLLfYqdlLljIbnQEgUCYevIpgAKCRCdlLljIbnQ
-EmUiAQDTNHQDDzlD7fS/Xwxwk5Zxh73/hn1PZUcq5/8zkcummgD/SaHHLa8KogLj
-nc5oNbmQK9xoMMbju8mARw7LIpqLmg8=
-=sgIs
+iQIzBAABCgAdFiEEfWlHToQCjFzAxEFjvP0LAY0mWPEFAmHsmNYACgkQvP0LAY0m
+WPGlrA/+N2WjeAL0rSkZmPIeVlfC+GWM4VDcymMxKnkgqJ7fIfc39YpDuEbaWXwH
+sjSr591HdWKgoB9e6ByFjOYaQ3VoA1TOwE3StEkoOb4Nu4edmoPDfSo06T0v7o8u
+81maak8CGfr5SXp5Njw/UZSwXDZM5NdTiaz290MrhfDCbf2QKXQRXWTaaQHAyCsc
+/llQaiVK5JgqwEiAwLCZZQOpKJoRixgKcisb1CKa6D69gxR603GLuJ6nZUDSMer0
+ai7i6nifekTRCmmUpfkS8hgnY4Jrf7wdpZmgO6NHgMz5Q0uqHLrSiLGo89QJ75IE
+fd+15/HvJzEnTm2NoSdJoUX4S9eS9v4bDfEtauPwRbaZp4qH47+cLMt9cAmeD69i
+48taBarfqA+rJPeovS1Mf/KmkfE0hJZrYomKGfAFTCrDyCdi3hXi8IgRTkkeRfge
+xkNiMSnRex8GBNfhe0To6WwJ3gYFKTXZYa1o1x5zmOSy3DxkXzhvhY2wZKSWOM9Q
+GeK71BHI0x5KcZgTk+SingkE8rU+HvUnO/CF3doQZQIAVtmHDPSVUD2VmkboXY5X
+oOprU7VbYKbC/BI9puk+hL4EjnjWNgtrJUwhp9USjbagw2fJtt/hfgERIlkcJe8U
+FV3doW9vz69OZHai60t5DrlGQPfcWtzgWTqOD52VAtI4mR/BJZk=
+=AfGs
 -----END PGP SIGNATURE-----
 
---envdxlah4rr2kem4--
+--qksaeq42uiclsox2--
