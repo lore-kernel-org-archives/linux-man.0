@@ -2,67 +2,63 @@ Return-Path: <linux-man-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 26728C433FE
-	for <linux-man@archiver.kernel.org>; Fri, 28 Jan 2022 01:19:45 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 739ACC433F5
+	for <linux-man@archiver.kernel.org>; Sat, 29 Jan 2022 04:25:19 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1345006AbiA1BTo (ORCPT <rfc822;linux-man@archiver.kernel.org>);
-        Thu, 27 Jan 2022 20:19:44 -0500
-Received: from dfw.source.kernel.org ([139.178.84.217]:55362 "EHLO
-        dfw.source.kernel.org" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1345005AbiA1BTo (ORCPT
-        <rfc822;linux-man@vger.kernel.org>); Thu, 27 Jan 2022 20:19:44 -0500
-Received: from smtp.kernel.org (relay.kernel.org [52.25.139.140])
-        (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
-        (No client certificate requested)
-        by dfw.source.kernel.org (Postfix) with ESMTPS id 8BBA461D9C;
-        Fri, 28 Jan 2022 01:19:43 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 6F604C340E4;
-        Fri, 28 Jan 2022 01:19:42 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-        s=k20201202; t=1643332783;
-        bh=uCxmkv3MsmS5VB5Uv/OVhQoVUNbJy7UDQlZjt6hiAaI=;
-        h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-        b=Swp5wEsyaGBL3jZu+pBH5cFfI4d70W75jYObACPQbTGg9lj/atw+rrc7pVpGGF6o+
-         8W5k1cT5aCX6p62R3VhjXh2zllx+rN5XQYbIevJTb77PKkyi6CyYWWQ61PJHHBf+2o
-         F2wCt8Lzeiki030oNfCJ25eGkyRv7hvwYjfE1UPUv0kKKwKoFFkWqz0raXKAUZpN85
-         I2ZT4KILVb7Bs9gMPYS+mzZrtOx6d2jn9V6em+NKZtZBbGP+Op41irXFAm4BbHYf87
-         rDdVQ2Wbj3meNvLLXCLaFto9HvsYsliDteQ53NH5UCC5bpXUvwdoS408nIw2/dJKjf
-         tDEz7XiRRKqSA==
-Date:   Fri, 28 Jan 2022 03:19:18 +0200
-From:   Jarkko Sakkinen <jarkko@kernel.org>
-To:     "Alejandro Colomar (man-pages)" <alx.manpages@gmail.com>
-Cc:     linux-man@vger.kernel.org, linux-sgx@vger.kernel.org,
-        Dave Hansen <dave.hansen@linux.intel.com>,
-        nathaniel@profian.com, Michael Kerrisk <mtk.manpages@gmail.com>,
-        Reinette Chatre <reinette.chatre@intel.com>
-Subject: Re: [PATCH v11] sgx.7: New page with overview of Software Guard
- eXtensions (SGX)
-Message-ID: <YfNElmmBbkw1Xpfy@iki.fi>
-References: <20211211153320.17438-1-jarkko@kernel.org>
- <c58f3951-282c-ef66-fc62-844da06c5af4@gmail.com>
+        id S1352359AbiA2EZS (ORCPT <rfc822;linux-man@archiver.kernel.org>);
+        Fri, 28 Jan 2022 23:25:18 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:33806 "EHLO
+        lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S230242AbiA2EZR (ORCPT
+        <rfc822;linux-man@vger.kernel.org>); Fri, 28 Jan 2022 23:25:17 -0500
+Received: from mail-il1-x135.google.com (mail-il1-x135.google.com [IPv6:2607:f8b0:4864:20::135])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id EC772C061714
+        for <linux-man@vger.kernel.org>; Fri, 28 Jan 2022 20:25:16 -0800 (PST)
+Received: by mail-il1-x135.google.com with SMTP id 15so7122599ilg.8
+        for <linux-man@vger.kernel.org>; Fri, 28 Jan 2022 20:25:16 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20210112;
+        h=mime-version:from:date:message-id:subject:to;
+        bh=L3colsMztaW5XG57xqkph6usOHkRgpAkZ38vVUzLouc=;
+        b=lYpIy507n+I0w9QKEq4aqWRP6spPRgathJGq39PxdJ17mZWYClMfzVBjIvbZ1dcs2u
+         woZ9Ky5FC+MxFs6wyUNAvgJOf3BbBfe/XG7kl+WRN7crhm0EoQkqHsGaqTiSzU8M6Zdy
+         3cK5jJumPtyNmCOXfgE8j+VjliVGOy0tvibDLtsGWNYYl9JwBBbfVdOOmEJfIi5H2dkT
+         KUItzomAK3JqY+rpe0uzp/byOPAammcJW4oL/k+1r3dzunAWG6THQjRH6+B1o0VqoQ0M
+         2HSyIRbQTIIrkRkiJYhGCtdU1NzsdsEzClFk93fyGLQNua4KcBIEBEACuuabKU4y4TOG
+         Zp7g==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20210112;
+        h=x-gm-message-state:mime-version:from:date:message-id:subject:to;
+        bh=L3colsMztaW5XG57xqkph6usOHkRgpAkZ38vVUzLouc=;
+        b=XFsYcAhTUHXeIxp5W1RS7ViKXNe5CqLn+bSp/EfzKBh+g/J/UcKwEIPbWawv+aKfGL
+         BOs7+bISjk6qPpat/s8JEl/CUAz/RFTd8Mdr6CMXxaRrbQHrQu6qxESiNAmQH2/aTZ9a
+         pZ5K9GGJchRmi6WbAEgIll+M6sXF65JhhrUlMEdpYhR4l7YGQ7d96B8RgwQfXf9K2Seo
+         eGiEFVxC3w/NKEqp6uuBdWbZxDToP9TqjcnhxzF9HtPrh4BxojsHjzaDN6qyc6UAuF8p
+         c9iVwW9E7WmwERcL6y4EImWZx4Wt8UpaPgK4PH1Jft1Swtnllabr5CSEeJjmRcEcc7JI
+         HBLQ==
+X-Gm-Message-State: AOAM531XzfodsMOXCpDYbbg3NRnT4FmGJqPDPipWos2FqdFsHOY9Y/c/
+        oIwqG70mlAkkolP8yAubT6qM4M16SglhW0FeAR5BkOtJ
+X-Google-Smtp-Source: ABdhPJyfEsNpfo/THtCcwOqmWy1yi9r6IQF3kd0aVMIUwEDGCHmDO0cwPAa/ywUrsSqVDK2WmSFSBPOdKORXeOCBbi4=
+X-Received: by 2002:a92:d78e:: with SMTP id d14mr7873118iln.222.1643430316395;
+ Fri, 28 Jan 2022 20:25:16 -0800 (PST)
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <c58f3951-282c-ef66-fc62-844da06c5af4@gmail.com>
+From:   Lao Shaw <laoshaw21@gmail.com>
+Date:   Fri, 28 Jan 2022 22:25:05 -0600
+Message-ID: <CABQ1peNegXXk9Lha0EA=pbgWdgjtKcf+RYj2UkN15qJ6VvqF2Q@mail.gmail.com>
+Subject: man string vs man string.h
+To:     mtk.manpages@gmail.com, linux-man@vger.kernel.org
+Content-Type: text/plain; charset="UTF-8"
 Precedence: bulk
 List-ID: <linux-man.vger.kernel.org>
 X-Mailing-List: linux-man@vger.kernel.org
 
-On Fri, Dec 17, 2021 at 02:50:56AM +0100, Alejandro Colomar (man-pages) wrote:
-> Hi Jarkko,
-> 
-> Please see some comments below.
-> 
-> Thanks,
-> Alex
+Under linux `man string` is ISO C at /usr/include/string.h, `man
+string.h` is for Posix manpages.
 
-Thank you. I've addressed all the comments below. However, I feel that
-/dev/sgx_provision is not properly documented at all. I also think that
-Reinette's argument for v10 was fair that "remove VEPC" ioctl that QEMU
-uses should not be left out from the initial patch set.
+unlike `man stdio` for ISO C, in particular, `man string` does not
+have APIs like `memcpy, memcmp` etc, which is in /usr/include/string.h
 
-I'm implementing user space that doest attestation, so I rather write a
-proper description of the attestation, once it is working, rather than add
-to the number of review rounds.
+What am I missing?
 
-BR, Jarkko
+Thanks,
+Shaw
