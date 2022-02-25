@@ -2,86 +2,131 @@ Return-Path: <linux-man-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 6BF36C433FE
-	for <linux-man@archiver.kernel.org>; Sun, 20 Feb 2022 20:04:48 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id B8089C433EF
+	for <linux-man@archiver.kernel.org>; Fri, 25 Feb 2022 18:46:11 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S238202AbiBTUFI (ORCPT <rfc822;linux-man@archiver.kernel.org>);
-        Sun, 20 Feb 2022 15:05:08 -0500
-Received: from mxb-00190b01.gslb.pphosted.com ([23.128.96.19]:42154 "EHLO
+        id S231376AbiBYSqm (ORCPT <rfc822;linux-man@archiver.kernel.org>);
+        Fri, 25 Feb 2022 13:46:42 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:50184 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S234114AbiBTUFI (ORCPT
-        <rfc822;linux-man@vger.kernel.org>); Sun, 20 Feb 2022 15:05:08 -0500
-Received: from ams.source.kernel.org (ams.source.kernel.org [145.40.68.75])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id A2C3D4B869;
-        Sun, 20 Feb 2022 12:04:46 -0800 (PST)
-Received: from smtp.kernel.org (relay.kernel.org [52.25.139.140])
-        (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
-        (No client certificate requested)
-        by ams.source.kernel.org (Postfix) with ESMTPS id 5CD26B80DBF;
-        Sun, 20 Feb 2022 20:04:45 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 82C81C340F0;
-        Sun, 20 Feb 2022 20:04:43 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-        s=k20201202; t=1645387484;
-        bh=OChxHZfNI+1N07VreIQzaoVdtEd8W6WVSjom4udJg9M=;
-        h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-        b=H40wTH7ieQmU6lagNgWWmC0gB6ok09qIsMUJNQV2EufOpaAnoFIR9v9yh2mREdY32
-         2h8OuzIFOeKy0bnPzd8/Ef2BvanKWyP/hKfz5akaWal9k8GhppriHlIjoryLclpuH7
-         P95i49+YZ0efu9CUaY9YZCu8bDufU67BDFLQYD5NGevUW70AOIMZdnJt16f016BDS9
-         w76Vyqst6GLVELzzZAh34wePuwt3+oaDehm8yyy4+vnAWeke/CufVrIemRnQzY8qOa
-         gxhMzMTNCy4154rqjyBgVUTsKuVrdqpMaeHoIQDdYUIvN60hcZBYqOGQ85drx2hBlO
-         YQMTT0rbYyYtw==
-Date:   Sun, 20 Feb 2022 21:05:23 +0100
-From:   Jarkko Sakkinen <jarkko@kernel.org>
-To:     "Alejandro Colomar (man-pages)" <alx.manpages@gmail.com>
-Cc:     linux-man@vger.kernel.org, linux-sgx@vger.kernel.org,
-        Dave Hansen <dave.hansen@linux.intel.com>,
-        nathaniel@profian.com, Michael Kerrisk <mtk.manpages@gmail.com>,
-        Reinette Chatre <reinette.chatre@intel.com>
-Subject: Re: [PATCH v11] sgx.7: New page with overview of Software Guard
- eXtensions (SGX)
-Message-ID: <YhKfA87I0BbkLg+m@iki.fi>
-References: <20211211153320.17438-1-jarkko@kernel.org>
- <c58f3951-282c-ef66-fc62-844da06c5af4@gmail.com>
- <YfNElmmBbkw1Xpfy@iki.fi>
- <0bdb594e-7c3d-e05a-0d40-eff92b4cd252@gmail.com>
+        with ESMTP id S229911AbiBYSql (ORCPT
+        <rfc822;linux-man@vger.kernel.org>); Fri, 25 Feb 2022 13:46:41 -0500
+X-Greylist: delayed 406 seconds by postgrey-1.37 at lindbergh.monkeyblade.net; Fri, 25 Feb 2022 10:46:08 PST
+Received: from mail.efficios.com (mail.efficios.com [167.114.26.124])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id AB76518F23E
+        for <linux-man@vger.kernel.org>; Fri, 25 Feb 2022 10:46:07 -0800 (PST)
+Received: from localhost (localhost [127.0.0.1])
+        by mail.efficios.com (Postfix) with ESMTP id DC7273E55F8;
+        Fri, 25 Feb 2022 13:39:20 -0500 (EST)
+Received: from mail.efficios.com ([127.0.0.1])
+        by localhost (mail03.efficios.com [127.0.0.1]) (amavisd-new, port 10032)
+        with ESMTP id 0o3zchip163a; Fri, 25 Feb 2022 13:39:20 -0500 (EST)
+Received: from localhost (localhost [127.0.0.1])
+        by mail.efficios.com (Postfix) with ESMTP id 545D83E527A;
+        Fri, 25 Feb 2022 13:39:20 -0500 (EST)
+DKIM-Filter: OpenDKIM Filter v2.10.3 mail.efficios.com 545D83E527A
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=efficios.com;
+        s=default; t=1645814360;
+        bh=a2w4lmWbmq0mOVG90UVy28DB6ZZPatk+XVMbEl8SRLA=;
+        h=Date:From:To:Message-ID:MIME-Version;
+        b=doD4rEhsUHLA4EXFaRuPa0LIqLvW82SrLaMMqM/cDvZYa/Yq2YADm8EdMLNDqtPi0
+         rH0CBL5y8HXxIXPzuj7R2b/g3ce7CiTGWLy2LqDiY17FT4kEVpY6Bh8JRtzQhGyQ4F
+         bNjGqctJOAmnyqMn+buZAVWED9Tzzfj4ojXS8vka1sgGGsbIfviK/qBldaGKbP7edz
+         SAfbaCXBVl2pqcrHOPk6dyeCgGjUMQkGKkYmGxEujus1yY8vw5fvbvz9XHBKpWH3u3
+         2ylUJInU1lwyhsEM5qAUQQZvxCd2ULVVrtG+veX/fvbZgDxZVoIKt/WPDOPDfnJ8PL
+         JcdCelL4NF2jw==
+X-Virus-Scanned: amavisd-new at efficios.com
+Received: from mail.efficios.com ([127.0.0.1])
+        by localhost (mail03.efficios.com [127.0.0.1]) (amavisd-new, port 10026)
+        with ESMTP id VMcpw5CecI2E; Fri, 25 Feb 2022 13:39:20 -0500 (EST)
+Received: from mail03.efficios.com (mail03.efficios.com [167.114.26.124])
+        by mail.efficios.com (Postfix) with ESMTP id 3C6583E5279;
+        Fri, 25 Feb 2022 13:39:20 -0500 (EST)
+Date:   Fri, 25 Feb 2022 13:39:20 -0500 (EST)
+From:   Mathieu Desnoyers <mathieu.desnoyers@efficios.com>
+To:     Jonathan Corbet <corbet@lwn.net>,
+        linux-man <linux-man@vger.kernel.org>
+Cc:     Peter Zijlstra <peterz@infradead.org>,
+        linux-kernel <linux-kernel@vger.kernel.org>,
+        Thomas Gleixner <tglx@linutronix.de>,
+        paulmck <paulmck@kernel.org>, Boqun Feng <boqun.feng@gmail.com>,
+        "H. Peter Anvin" <hpa@zytor.com>, Paul Turner <pjt@google.com>,
+        linux-api <linux-api@vger.kernel.org>,
+        Christian Brauner <christian.brauner@ubuntu.com>,
+        Florian Weimer <fw@deneb.enyo.de>,
+        David Laight <David.Laight@ACULAB.COM>,
+        carlos <carlos@redhat.com>, Peter Oskolkov <posk@posk.io>
+Message-ID: <1317699329.108531.1645814360159.JavaMail.zimbra@efficios.com>
+In-Reply-To: <8735k6ke34.fsf@meer.lwn.net>
+References: <20220218210633.23345-1-mathieu.desnoyers@efficios.com> <20220218210633.23345-10-mathieu.desnoyers@efficios.com> <87k0dikfxa.fsf@meer.lwn.net> <1323451367.108396.1645811762372.JavaMail.zimbra@efficios.com> <8735k6ke34.fsf@meer.lwn.net>
+Subject: Re: [RFC PATCH v2 09/11] sched: Introduce per memory space current
+ virtual cpu id
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <0bdb594e-7c3d-e05a-0d40-eff92b4cd252@gmail.com>
+Content-Type: text/plain; charset=utf-8
+Content-Transfer-Encoding: 7bit
+X-Originating-IP: [167.114.26.124]
+X-Mailer: Zimbra 8.8.15_GA_4203 (ZimbraWebClient - FF97 (Linux)/8.8.15_GA_4232)
+Thread-Topic: sched: Introduce per memory space current virtual cpu id
+Thread-Index: CaZeshN6ehwBX8NrJ0kfTDw8fz7SwQ==
 Precedence: bulk
 List-ID: <linux-man.vger.kernel.org>
 X-Mailing-List: linux-man@vger.kernel.org
 
-On Wed, Feb 09, 2022 at 09:19:54PM +0100, Alejandro Colomar (man-pages) wrote:
-> Hi Jarkko,
+----- On Feb 25, 2022, at 1:15 PM, Jonathan Corbet corbet@lwn.net wrote:
+
+> Mathieu Desnoyers <mathieu.desnoyers@efficios.com> writes:
 > 
-> On 1/28/22 02:19, Jarkko Sakkinen wrote:
-> > On Fri, Dec 17, 2021 at 02:50:56AM +0100, Alejandro Colomar (man-pages) wrote:
-> >> Hi Jarkko,
-> >>
-> >> Please see some comments below.
-> >>
-> >> Thanks,
-> >> Alex
-> > 
-> > Thank you. I've addressed all the comments below. However, I feel that
-> > /dev/sgx_provision is not properly documented at all. I also think that
-> > Reinette's argument for v10 was fair that "remove VEPC" ioctl that QEMU
-> > uses should not be left out from the initial patch set.
-> > 
-> > I'm implementing user space that doest attestation, so I rather write a
-> > proper description of the attestation, once it is working, rather than add
-> > to the number of review rounds.
+>> Some effective upper bounds for the number of vcpu ids observable in a process:
+>>
+>> - sysconf(3) _SC_NPROCESSORS_CONF,
+>> - the number of threads which exist concurrently in the process,
+>> - the number of cpus in the cpu affinity mask applied by sched_setaffinity,
+>>   except in corner-case situations such as cpu hotplug removing all cpus from
+>>   the affinity set,
+>> - cgroup cpuset "partition" limits,
+>>
+>> Note that AFAIR non-partition cgroup cpusets allow a cgroup to "borrow"
+>> additional cores from the rest of the system if they are idle, therefore
+>> allowing the number of concurrent threads to go beyond the specified limit.
+>>
+>> AFAIR the sched affinity mask is tweaked independently of the cgroup cpuset.
+>> Those are two mechanisms both affecting the scheduler task placement.
+>>
+>> I would expect the user-space code to use some sensible upper bound as a
+>> hint about how many per-vcpu data structure elements to expect (and how many
+>> to pre-allocate), but have a "lazy initialization" fall-back in case the
+>> vcpu id goes up to the number of configured processors - 1. And I suspect
+>> that even the number of configured processors may change with CRIU.
+>>
+>> If the above explanation makes sense (please let me know if I am wrong
+>> or missed something), I suspect I should add it to the commit message.
 > 
-> Fair enough.  Please send an v12 with those comments addressed, and I'll
-> merge it!  (if you miss anything, we'll fix it later, don't worry)
+> That helps, thanks.  I do think that something like this belongs in the
+> changelog - or, even better, in the upcoming restartable-sequences
+> section in the userspace-api documentation :)
 
-It took me two weeks to do the remote attestation implementation for Enarx
-project [*] but I needed to do it before continuing with the man page. I'll
-continue with this some time next week. It's not exactly directly attached
-to kernel API but I think it is good to bring some context on that.
+Just to confirm, when you say "userspace-api documentation" do you refer to
+man pages ?
 
-[*] https://github.com/enarx/enarx/pull/1329
+I did a few attempts at upstreaming a rseq.2 man page in 2020, but I have been
+stuck waiting for feedback from Michael Kerrisk since then.
 
-BR, Jarkko
+So for the moment I'm maintaining a rseq.2 man page here:
+
+https://git.kernel.org/pub/scm/libs/librseq/librseq.git/tree/doc/man/rseq.2
+
+I'd gladly accept some help to improve the documentation of rseq.
+
+Thanks,
+
+Mathieu
+
+> 
+> Thanks,
+> 
+> jon
+
+-- 
+Mathieu Desnoyers
+EfficiOS Inc.
+http://www.efficios.com
