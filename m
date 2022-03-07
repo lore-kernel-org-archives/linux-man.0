@@ -2,99 +2,97 @@ Return-Path: <linux-man-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 551ABC433F5
-	for <linux-man@archiver.kernel.org>; Sun,  6 Mar 2022 17:39:46 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 83846C433FE
+	for <linux-man@archiver.kernel.org>; Mon,  7 Mar 2022 18:48:05 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S232880AbiCFRkh (ORCPT <rfc822;linux-man@archiver.kernel.org>);
-        Sun, 6 Mar 2022 12:40:37 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:49166 "EHLO
+        id S241187AbiCGSs7 (ORCPT <rfc822;linux-man@archiver.kernel.org>);
+        Mon, 7 Mar 2022 13:48:59 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:49612 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S229955AbiCFRkh (ORCPT
-        <rfc822;linux-man@vger.kernel.org>); Sun, 6 Mar 2022 12:40:37 -0500
-Received: from mail-wr1-x42f.google.com (mail-wr1-x42f.google.com [IPv6:2a00:1450:4864:20::42f])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id AE73B1C915
-        for <linux-man@vger.kernel.org>; Sun,  6 Mar 2022 09:39:44 -0800 (PST)
-Received: by mail-wr1-x42f.google.com with SMTP id b5so19981235wrr.2
-        for <linux-man@vger.kernel.org>; Sun, 06 Mar 2022 09:39:44 -0800 (PST)
+        with ESMTP id S239995AbiCGSs6 (ORCPT
+        <rfc822;linux-man@vger.kernel.org>); Mon, 7 Mar 2022 13:48:58 -0500
+Received: from mail-pj1-x102c.google.com (mail-pj1-x102c.google.com [IPv6:2607:f8b0:4864:20::102c])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 177F74C788
+        for <linux-man@vger.kernel.org>; Mon,  7 Mar 2022 10:48:03 -0800 (PST)
+Received: by mail-pj1-x102c.google.com with SMTP id v4so14787276pjh.2
+        for <linux-man@vger.kernel.org>; Mon, 07 Mar 2022 10:48:03 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=gmail.com; s=20210112;
-        h=message-id:date:mime-version:user-agent:subject:content-language:to
-         :cc:references:from:in-reply-to:content-transfer-encoding;
-        bh=KXJgPrP5fUWRin6pA7R8hJfAfwmFivm2nKyP8yuX5pM=;
-        b=i8tWhqSYPSgD1F8nVRXkHVq0ChxoTHehMWwQ+cPcDrZV2a5mWX++ZvgNvfXdOb5x61
-         ZB/0lk8BX/4yUpZK30F7SRJ8nI3+GPoObcUYDPbZ9GXOZaApFfkek4+EEA58xHnuVX1P
-         jZjBBKO4lLHRzwnIJeD1dP1goAu9RgKQmVXb8qp+1un+UffRfmV9uGy6Qsjicr2AD1KR
-         X5mBlCK7CgEjhjPg8yhIxwe3DzU7TFsIrfe04pTBKiKOwNMkUMOTAL+qRtKXR/ws1hjO
-         otHqNPMKE93wGDjym90OSDqFnPQSWX0oZ6zBMhIpqW0IvIIMf70T52i/XfW6GT2QVOt4
-         yWlQ==
+        h=from:to:cc:subject:date:message-id:mime-version
+         :content-transfer-encoding;
+        bh=8cawUedO3MiZdBH5IaNGoO6gaFsJGnxRPeumYwcEFvE=;
+        b=HU6C9yy03NJRZkbgY1bu8iO3cicl+MngNKMUfRJ0jUqZnuC7P7bTL7AFMLcy+buiq9
+         a2YhYBWinbASKPzmHMYVSdz5m9lNWnLL8ggee0CRpLsqdTIjYcPFmObN0NJtEtBBblr9
+         K2DJOXUmuB66khzjw824WKgRyXhOWMVjGGEIKNg6opaZpOhSgkJcWCoXlSy5iI09Rn0E
+         76hToCG0ppU1mnblrRCNWBvX1Vp0aQnfOjs9Cc7h7G9HOKLkRyTyFRLPC8E/blD+FraJ
+         1ZJERAB+xBYPZK5l9ABvlsHQN6KVYlIYj3yQa7TO/jOtgsUwGT3inKQazYwKfe0cZdRn
+         po4A==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20210112;
-        h=x-gm-message-state:message-id:date:mime-version:user-agent:subject
-         :content-language:to:cc:references:from:in-reply-to
+        h=x-gm-message-state:from:to:cc:subject:date:message-id:mime-version
          :content-transfer-encoding;
-        bh=KXJgPrP5fUWRin6pA7R8hJfAfwmFivm2nKyP8yuX5pM=;
-        b=xemqtgQY7SYSNE4xDiU8oTfe5c8xit6GOMkcXCe0kFErhpsgZCwLPbKBQS7xGf5xqj
-         gTE0V2NdyUtpOu8aa7U1g+dJPm43sjmZQIeC9vV6HM9NeVdL1gcqSEwcpn6omFqCDpgT
-         a6kPK0kXzQw24IsL2ZghgaBt3dRP9nzxmplR+b8PJL42mrDMCjb+meI6BDJcSUrwhGha
-         MxiwiKQMwFGI25dGQi1+tOv+JxHQrj8SZFNgz+qUXd36Mwh6M5u5pwpHbYC4XghF70UF
-         cXR/FsHGXNA7kZXacEATKghGWVUnAE4yT5A9N/C08SMd7cnqvu7fZCqxuX7BUIjuA7iX
-         b3wQ==
-X-Gm-Message-State: AOAM53301bJ9eXnBBtqq9GcalwNrJ+qGZwQ/tnWT2QdUC+FMOFUyK3id
-        tzTu4dZ5+lm8ezd6SiZ4CnUWJV0msMJx6Ix5444=
-X-Google-Smtp-Source: ABdhPJzgtmY33bMpJDlZoddrDl2kN01DNSfYRL+q79e0QU/V4dAtQh/v33hjfS1jn8mlD39Us78HcQ==
-X-Received: by 2002:a05:6000:8a:b0:1f0:2d53:8589 with SMTP id m10-20020a056000008a00b001f02d538589mr5519375wrx.431.1646588383361;
-        Sun, 06 Mar 2022 09:39:43 -0800 (PST)
-Received: from [192.168.0.160] ([170.253.36.171])
-        by smtp.gmail.com with ESMTPSA id f10-20020a05600c154a00b0037bbbc15ca7sm36527707wmg.36.2022.03.06.09.39.42
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Sun, 06 Mar 2022 09:39:43 -0800 (PST)
-Message-ID: <2cf73e77-f734-9c95-81b9-6f343200f401@gmail.com>
-Date:   Sun, 6 Mar 2022 18:39:41 +0100
+        bh=8cawUedO3MiZdBH5IaNGoO6gaFsJGnxRPeumYwcEFvE=;
+        b=jDcCLe0paDvyen+0aM7JVgdfdXliywEJgDCHPu6V7/9FUkIaF9ae4dTfIbb0PMy0ZE
+         Mgk+QIDJ2tCXNgn/nluSR1z4ZtrQV6zvrg0CRK5CmiqlknftuBJ0VFErHcj6pPqrPn8J
+         roZ/JepQFOv1BoJd4zL2O3++uP6Y2C2HLfw34Si4ovjJrTaK5CV99zGWq4N9cDx3NdZX
+         eE5sD3Po6GsVvyJdgcuCs1XSD62ym18PqaQ6XZ+/TqPRoDA8/vMu2qyJrshAgEbu9rDF
+         p9ZzTYpH6PqGbEIcBIbc6Z3lfcG06BcAagkaOS+vjmhrWtjLpQMKemkO2QBkciMtHIYe
+         nwdQ==
+X-Gm-Message-State: AOAM531WQXvE/3ffT+HnoI5njSGZb3RBcUiWzZddfEB+UON7pygqA0bF
+        Bg7Poaq70ji4qvH891TAECF4MJOCeOE=
+X-Google-Smtp-Source: ABdhPJzeg9uAJPZN+8w5f9UvK4956cDh6EgmDJiTjvWSZ1epk2qe7kLdihq+zwRF+gI9+OZz2RzWFQ==
+X-Received: by 2002:a17:90a:2c0b:b0:1be:da5a:b294 with SMTP id m11-20020a17090a2c0b00b001beda5ab294mr358642pjd.9.1646678882174;
+        Mon, 07 Mar 2022 10:48:02 -0800 (PST)
+Received: from sc2-hs2-b1628.eng.vmware.com ([66.170.99.1])
+        by smtp.gmail.com with ESMTPSA id c18-20020a056a000ad200b004f0f9696578sm18624749pfl.141.2022.03.07.10.48.01
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Mon, 07 Mar 2022 10:48:01 -0800 (PST)
+From:   Nadav Amit <nadav.amit@gmail.com>
+X-Google-Original-From: Nadav Amit
+To:     linux-man@vger.kernel.org
+Cc:     Alejandro Colomar <alx.manpages@gmail.com>,
+        "Michael Kerrisk )" <mtk.manpages@gmail.com>,
+        Peter Xu <peterx@redhat.com>,
+        David Hildenbrand <david@redhat.com>,
+        Nadav Amit <namit@vmware.com>
+Subject: [PATCH 1/2] ioctl_userfaultfd.2: add UFFD_FEATURE_EXACT_ADDRESS
+Date:   Mon,  7 Mar 2022 18:48:51 +0000
+Message-Id: <20220307184852.20351-1-namit@vmware.com>
+X-Mailer: git-send-email 2.25.1
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
- Thunderbird/91.6.0
-Subject: Re: [patch] futex.2: tfix
-Content-Language: en-US
-To:     Davide Benini <davide.benini@gmail.com>
-Cc:     mtk.manpages@gmail.com, linux-man@vger.kernel.org
-References: <20220303140802.9930-1-davide.benini@gmail.com>
-From:   "Alejandro Colomar (man-pages)" <alx.manpages@gmail.com>
-In-Reply-To: <20220303140802.9930-1-davide.benini@gmail.com>
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 7bit
+Content-Transfer-Encoding: 8bit
 Precedence: bulk
 List-ID: <linux-man.vger.kernel.org>
 X-Mailing-List: linux-man@vger.kernel.org
 
-Hi Davide,
+From: Nadav Amit <namit@vmware.com>
 
-On 3/3/22 15:08, Davide Benini wrote:
-> ---
+Describe the new UFFD_FEATURE_EXACT_ADDRESS API feature.
 
-Patch applied.
+Signed-off-by: Nadav Amit <namit@vmware.com>
+---
+ man2/ioctl_userfaultfd.2 | 8 ++++++++
+ 1 file changed, 8 insertions(+)
 
-Thanks,
-
-Alex
-
->  man2/futex.2 | 2 +-
->  1 file changed, 1 insertion(+), 1 deletion(-)
-> 
-> diff --git a/man2/futex.2 b/man2/futex.2
-> index 1dd77ac2f..d2a99b2d3 100644
-> --- a/man2/futex.2
-> +++ b/man2/futex.2
-> @@ -1854,7 +1854,7 @@ fwait(uint32_t *futexp)
->  }
->  
->  /* Release the futex pointed to by \(aqfutexp\(aq: if the futex currently
-> -   has the value 0, set its value to 1 and the wake any futex waiters,
-> +   has the value 0, set its value to 1 and then wake any futex waiters,
->     so that if the peer is blocked in fwait(), it can proceed. */
->  
->  static void
-
+diff --git a/man2/ioctl_userfaultfd.2 b/man2/ioctl_userfaultfd.2
+index 504f61d4b..94480158e 100644
+--- a/man2/ioctl_userfaultfd.2
++++ b/man2/ioctl_userfaultfd.2
+@@ -214,6 +214,14 @@ memory accesses to the regions registered with userfaultfd.
+ If this feature bit is set,
+ .I uffd_msg.pagefault.feat.ptid
+ will be set to the faulted thread ID for each page-fault message.
++.TP
++.BR UFFD_FEATURE_EXACT_ADDRESS " (since Linux 5.18)"
++If this feature bit is set,
++.I uffd_msg.pagefault.address
++will be set to the exact page-fault address that was reported by the hardware,
++and will not mask the offset within the page.
++Note that old Linux versions might indicate the exact address as well,
++even though the feature bit is not set.
+ .PP
+ The returned
+ .I ioctls
 -- 
-Alejandro Colomar
-Linux man-pages comaintainer; https://www.kernel.org/doc/man-pages/
-http://www.alejandro-colomar.es/
+2.25.1
+
