@@ -2,30 +2,29 @@ Return-Path: <linux-man-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 19443C433EF
-	for <linux-man@archiver.kernel.org>; Mon, 14 Mar 2022 21:10:53 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id AD93AC433F5
+	for <linux-man@archiver.kernel.org>; Mon, 14 Mar 2022 21:26:31 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S241418AbiCNVMB (ORCPT <rfc822;linux-man@archiver.kernel.org>);
-        Mon, 14 Mar 2022 17:12:01 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:58864 "EHLO
+        id S239913AbiCNV1k (ORCPT <rfc822;linux-man@archiver.kernel.org>);
+        Mon, 14 Mar 2022 17:27:40 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:57578 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S235370AbiCNVMB (ORCPT
-        <rfc822;linux-man@vger.kernel.org>); Mon, 14 Mar 2022 17:12:01 -0400
-X-Greylist: delayed 417 seconds by postgrey-1.37 at lindbergh.monkeyblade.net; Mon, 14 Mar 2022 14:10:49 PDT
+        with ESMTP id S236574AbiCNV1k (ORCPT
+        <rfc822;linux-man@vger.kernel.org>); Mon, 14 Mar 2022 17:27:40 -0400
 Received: from mail.magicbluesmoke.com (smtp.magicbluesmoke.com [52.210.84.128])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id EA79FFD28
-        for <linux-man@vger.kernel.org>; Mon, 14 Mar 2022 14:10:49 -0700 (PDT)
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 63BF42C676
+        for <linux-man@vger.kernel.org>; Mon, 14 Mar 2022 14:26:29 -0700 (PDT)
 Received: from pbrady-fedora-PF1C3VX9.thefacebook.com (unknown [163.114.131.129])
         (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
         (No client certificate requested)
-        by mail.magicbluesmoke.com (Postfix) with ESMTPSA id 5D0864539E2;
-        Mon, 14 Mar 2022 21:03:50 +0000 (UTC)
+        by mail.magicbluesmoke.com (Postfix) with ESMTPSA id F18404539E2;
+        Mon, 14 Mar 2022 21:26:27 +0000 (UTC)
 From:   =?UTF-8?q?P=C3=A1draig=20Brady?= <P@draigBrady.com>
-To:     alx.manpages@gmail.com, linux-man@vger.kernel.org
+To:     linux-man@vger.kernel.org
 Cc:     =?UTF-8?q?P=C3=A1draig=20Brady?= <P@draigBrady.com>
-Subject: [PATCH] fix descriptions for AT_NO_AUTOMOUNT
-Date:   Mon, 14 Mar 2022 21:03:20 +0000
-Message-Id: <20220314210320.188347-1-P@draigBrady.com>
+Subject: [PATCH] stat.2, statx.2: Fix descriptions for AT_NO_AUTOMOUNT
+Date:   Mon, 14 Mar 2022 21:26:12 +0000
+Message-Id: <20220314212612.192646-1-P@draigBrady.com>
 X-Mailer: git-send-email 2.34.1
 In-Reply-To: <9488e311-ab35-96ee-7791-ec65fa6fe948@gmail.com>
 References: <9488e311-ab35-96ee-7791-ec65fa6fe948@gmail.com>
