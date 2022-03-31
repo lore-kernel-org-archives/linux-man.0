@@ -2,64 +2,89 @@ Return-Path: <linux-man-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 8476EC433EF
-	for <linux-man@archiver.kernel.org>; Wed, 30 Mar 2022 06:52:44 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 510D4C433F5
+	for <linux-man@archiver.kernel.org>; Thu, 31 Mar 2022 07:53:34 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S243451AbiC3Gy0 (ORCPT <rfc822;linux-man@archiver.kernel.org>);
-        Wed, 30 Mar 2022 02:54:26 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:41998 "EHLO
+        id S231654AbiCaHzS (ORCPT <rfc822;linux-man@archiver.kernel.org>);
+        Thu, 31 Mar 2022 03:55:18 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:52906 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S243450AbiC3GyY (ORCPT
-        <rfc822;linux-man@vger.kernel.org>); Wed, 30 Mar 2022 02:54:24 -0400
-Received: from mail-oa1-x2f.google.com (mail-oa1-x2f.google.com [IPv6:2001:4860:4864:20::2f])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id E5FF6B6E66
-        for <linux-man@vger.kernel.org>; Tue, 29 Mar 2022 23:52:36 -0700 (PDT)
-Received: by mail-oa1-x2f.google.com with SMTP id 586e51a60fabf-dee0378ce7so10831036fac.4
-        for <linux-man@vger.kernel.org>; Tue, 29 Mar 2022 23:52:36 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20210112;
-        h=mime-version:from:date:message-id:subject:to:cc;
-        bh=/dGVFug2C26buZoBC7WX2nst8ihb6F3XEwupdhlFgYk=;
-        b=i+05zz3eFqjX+MYxMxA84NPPaHtM90eP3RoszNY+ad7FhaFKCOPvacBx4vcMDW+nU1
-         qkZT52Zg4xry3GlW2zIkj3l/dGYbRq4dekVzTwTrzI5EClbeTMjCbfNs7K5e9pNHHLRu
-         k5vA0/EuerNhZigon4ws+rpg5onDK8S8wB8ynoYMQ9QGa2Z2NZhzbwTLcbrX+edFUtFZ
-         uXSHC1wkpv2mdifKl2RuaNbTqKff51Al6uRh2jW5j8ttOvrRPOx3tK8YxXYqqzb/E7Cy
-         uDUHoRHprk8Ux+G+nAzF4u8LvFZmiVc8f2oZVYHOEyAoIFJuTyKupsjySZiWU+UbhTpM
-         scoQ==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20210112;
-        h=x-gm-message-state:mime-version:from:date:message-id:subject:to:cc;
-        bh=/dGVFug2C26buZoBC7WX2nst8ihb6F3XEwupdhlFgYk=;
-        b=qnS0AiSKDbUG/ErI7EGBsEdSgHZg1VRgl4KbhM5Jsm79m4fA8aPfoYe+ECr08GLYbD
-         0LqiGZ6iaVUqjVyURHq2JLt3Ir5B/NASGdjRm1ZdFYNvLQOkIUQiGkWgPPQsQ19iioPD
-         werKwaX+ffPoEhW7A7usmc5DL5qXA43iOAE8jtnXQ+j9HBDXafcfvSSNcgTqArwiyAqS
-         McPajlHly9M1jvgaRWfxgPrzKuys7pOv1wuB61g8J59sW+kXVv31Mjvx37IaU5SpV7P7
-         GKUsmr4rtZyI4no7h/2jdXKaEJ0NR+5oKjIsdZbegWBG2RgujzHuGTOyw/fMf6B0XlJ4
-         dV0g==
-X-Gm-Message-State: AOAM530214mtzH9pUw3k6HeoJpsnLx0prZvOSnnscGoYwneGkjWuq0/0
-        Wv2Rnab9wzYzEo9waCMLy28cY2cse1HuFFXxxp/hivmaaZVnMQ==
-X-Google-Smtp-Source: ABdhPJyk7mqVRbmdYZ/8DjyYjSnDPmXs5zEzVu1m7JSxMm0O1mQC+5hStmzMG4Vz4b7QfOwwwanMsOD74CTHxNSnLRI=
-X-Received: by 2002:a05:6870:42cc:b0:dd:a03f:195e with SMTP id
- z12-20020a05687042cc00b000dda03f195emr1583556oah.234.1648623155716; Tue, 29
- Mar 2022 23:52:35 -0700 (PDT)
-MIME-Version: 1.0
-From:   Varun Vaishnav <gamelovr695@gmail.com>
-Date:   Wed, 30 Mar 2022 12:22:24 +0530
-Message-ID: <CAPAxGYY8H8MXF0kT5SQsrf+e95wqt4pSQ-5rngte2EYx+5fmjg@mail.gmail.com>
-Subject: Typo in shmctl man page
-To:     mtk.manpages@gmail.com
-Cc:     linux-man@vger.kernel.org
+        with ESMTP id S229447AbiCaHzQ (ORCPT
+        <rfc822;linux-man@vger.kernel.org>); Thu, 31 Mar 2022 03:55:16 -0400
+Received: from ams.source.kernel.org (ams.source.kernel.org [145.40.68.75])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 647EA25DC
+        for <linux-man@vger.kernel.org>; Thu, 31 Mar 2022 00:53:29 -0700 (PDT)
+Received: from smtp.kernel.org (relay.kernel.org [52.25.139.140])
+        (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+        (No client certificate requested)
+        by ams.source.kernel.org (Postfix) with ESMTPS id 0EA50B81E81
+        for <linux-man@vger.kernel.org>; Thu, 31 Mar 2022 07:53:28 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPS id AACE8C340F2
+        for <linux-man@vger.kernel.org>; Thu, 31 Mar 2022 07:53:26 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+        s=k20201202; t=1648713206;
+        bh=sah+8D7+ZtHR/spBDdfjPGUORXpKZAHJCqFJq3JthCQ=;
+        h=From:To:Subject:Date:In-Reply-To:References:From;
+        b=Bz08XljCe4j/EOL1gkLZ2nHpuwqdE+KmfzYb0J2AkiGUsHLylokLAHuf+Fnu1dGcP
+         +DWv2TLjFYHANFjVmy/d7CbV2ZqWxYtAz2oeVRsd7ot26aklPOLc3285WXhC7LSHSN
+         qtwSnr+xzK4xeLhXToHOjWmmcp7WUnyBhvHRrq6QNTQn7qnN/Ys4F6PrhDB3x3Li2L
+         wr1+fGT4HdoIKsnUHhSfWvYtthCYwYt/bpIV66XBHdubniJdYP3hZlnJFpWUDQkhpw
+         exc+bXfX7e7eQ1T2ZL4J/5ccRppVZ5WgdEnk/dZh0hLy/9u3ciABWLnrf4aTnta9Ab
+         jljitm+PZ/cDg==
+Received: by aws-us-west-2-korg-bugzilla-1.web.codeaurora.org (Postfix, from userid 48)
+        id 90901CAC6E2; Thu, 31 Mar 2022 07:53:26 +0000 (UTC)
+From:   bugzilla-daemon@kernel.org
+To:     linux-man@vger.kernel.org
+Subject: [Bug 215769] man 2 vfork() does not document corner case when PID ==
+ 1
+Date:   Thu, 31 Mar 2022 07:53:26 +0000
+X-Bugzilla-Reason: None
+X-Bugzilla-Type: changed
+X-Bugzilla-Watch-Reason: AssignedTo
+ documentation_man-pages@kernel-bugs.osdl.org
+X-Bugzilla-Product: Documentation
+X-Bugzilla-Component: man-pages
+X-Bugzilla-Version: unspecified
+X-Bugzilla-Keywords: 
+X-Bugzilla-Severity: normal
+X-Bugzilla-Who: socketpair@gmail.com
+X-Bugzilla-Status: NEW
+X-Bugzilla-Resolution: 
+X-Bugzilla-Priority: P1
+X-Bugzilla-Assigned-To: documentation_man-pages@kernel-bugs.osdl.org
+X-Bugzilla-Flags: 
+X-Bugzilla-Changed-Fields: 
+Message-ID: <bug-215769-11311-t9D0Rz5N6I@https.bugzilla.kernel.org/>
+In-Reply-To: <bug-215769-11311@https.bugzilla.kernel.org/>
+References: <bug-215769-11311@https.bugzilla.kernel.org/>
 Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
+X-Bugzilla-URL: https://bugzilla.kernel.org/
+Auto-Submitted: auto-generated
+MIME-Version: 1.0
 Precedence: bulk
 List-ID: <linux-man.vger.kernel.org>
 X-Mailing-List: linux-man@vger.kernel.org
 
-Greetings, I have found a small typo in man page for shmctl,
-man version : man 2.9.4
-OS: Ubuntu 21.10
-I checked the online man page also, the typo exists there.
-In the description for shm_dtime, there is a misspelled "this", it's
-typed as "tgis".
+https://bugzilla.kernel.org/show_bug.cgi?id=3D215769
 
-Regards,
-Varun Vaishnav
+--- Comment #3 from =D0=9A=D0=BE=D1=80=D0=B5=D0=BD=D0=B1=D0=B5=D1=80=D0=B3 =
+=D0=9C=D0=B0=D1=80=D0=BA (socketpair@gmail.com) ---
+Hi,
+I appreciate depth of information validation. Actually, you are right. vfor=
+k()
+DOES work with pid=3D1 processes. I figured out the cause in my case. In or=
+der to
+reproduce -- add unshare(CLONE_NEWTIME) just before vfork(). Now, I don't k=
+now
+if it's a bug in vfork() or in fork(). Yes, both are clone() actually.
+
+In any case, they should either both give EINVAL or both don't fail. But it=
+'s
+definitely bug in the kernel around CLONE_NEWTIME.
+
+--=20
+You may reply to this email to add a comment.
+
+You are receiving this mail because:
+You are watching the assignee of the bug.=
