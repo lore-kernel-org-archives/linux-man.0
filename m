@@ -2,103 +2,238 @@ Return-Path: <linux-man-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 74AFDC433F5
-	for <linux-man@archiver.kernel.org>; Sat,  2 Apr 2022 23:25:27 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 4C7EFC433FE
+	for <linux-man@archiver.kernel.org>; Mon,  4 Apr 2022 08:05:30 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S230236AbiDBX1R (ORCPT <rfc822;linux-man@archiver.kernel.org>);
-        Sat, 2 Apr 2022 19:27:17 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:45476 "EHLO
+        id S1377916AbiDDIHY (ORCPT <rfc822;linux-man@archiver.kernel.org>);
+        Mon, 4 Apr 2022 04:07:24 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:49036 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S230079AbiDBX1R (ORCPT
-        <rfc822;linux-man@vger.kernel.org>); Sat, 2 Apr 2022 19:27:17 -0400
-Received: from mail-wr1-x433.google.com (mail-wr1-x433.google.com [IPv6:2a00:1450:4864:20::433])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 2203CDFD3
-        for <linux-man@vger.kernel.org>; Sat,  2 Apr 2022 16:25:24 -0700 (PDT)
-Received: by mail-wr1-x433.google.com with SMTP id r13so9173540wrr.9
-        for <linux-man@vger.kernel.org>; Sat, 02 Apr 2022 16:25:24 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20210112;
-        h=message-id:date:mime-version:user-agent:subject:content-language:to
-         :cc:references:from:in-reply-to:content-transfer-encoding;
-        bh=MUMfBTzbwpJK59fMubC+5803zBL/Q8+SibJVwkRXd9c=;
-        b=K7yANhHG2hy4MlRhXNJficDZSGQeETHMJwqKO5OVCcEKo1h1D1hKgBGTApLM/NQndz
-         +G7PQByZAjkOeXwU9Z32Obx9AiupEvn15aY8U9JxwlJLhD422W7+tZSyoEey/4R2S/N9
-         mgZ8JZwHetZN8DctUSHFk5Ee5YnY803Peu/c3VP4U3bawS6h1oxyahjTKrvbEtdrzw6g
-         04dHSXWrRWKuRD/ajNfCsxcUxY8ADli49rbp+qxLLz3xeIMl1YZ8wVxGyKHDdGYL2v5i
-         cKge9+vqcEHo+h6jaas+xbliFPLUG0TDKato44tzcdVvDFiDJHH2dHzX9tXz5Fz9+JHJ
-         cFtA==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20210112;
-        h=x-gm-message-state:message-id:date:mime-version:user-agent:subject
-         :content-language:to:cc:references:from:in-reply-to
-         :content-transfer-encoding;
-        bh=MUMfBTzbwpJK59fMubC+5803zBL/Q8+SibJVwkRXd9c=;
-        b=COSxSeSd1C18vQZJ1O7Ry3ev8Mibl2A9XL3ayg5p97wwKYXMvTVC6JQMQKPpxVYcQg
-         nsxxEuJ6JPtO5l/s6akAc/wchGiltO8yDj0/i9jO11FPF12yipNKOuV9/3dSE2KToLcb
-         AUrwrUDhwhbVdQOfUvnIfSZPRM6gZwRx+r/6Bbeuz8FoRNQXn3CotWLWBXYRjAOjC2zA
-         t1Dv7ZZRcCvlyCbtVcuucpE6SPopZV8IUaUz3qmWe6wGVrYQ55AasSpQlQylAEfkoiEI
-         SD6hsy8ed+uNvR8NkEaopkufmvlyxAoQA69cqZhS3TijvyofNavxjkpn+E6NnlkHgH75
-         hL5w==
-X-Gm-Message-State: AOAM533x6NeiuYxbOrE8YaQDdDvyNRZbbpFS2/feOjoHze438lb+VlFD
-        KFEmqkbVnX9w/3xRjefZ8XPAPPm+FMJqYQ==
-X-Google-Smtp-Source: ABdhPJzNQ1yoEtSzn+AuU2PZN0FOrXzJCjG+0inXYz+01IMakuQgWFpt88SEgvt2zwc7qmBDjpNRrA==
-X-Received: by 2002:a5d:522f:0:b0:206:918:b653 with SMTP id i15-20020a5d522f000000b002060918b653mr2622881wra.342.1648941922619;
-        Sat, 02 Apr 2022 16:25:22 -0700 (PDT)
-Received: from [192.168.0.160] ([170.253.36.171])
-        by smtp.gmail.com with ESMTPSA id d14-20020a056000186e00b0020405198faasm6275273wri.52.2022.04.02.16.25.21
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Sat, 02 Apr 2022 16:25:22 -0700 (PDT)
-Message-ID: <496f2fe7-2f9f-4e67-f2fe-0996668a1245@gmail.com>
-Date:   Sun, 3 Apr 2022 01:25:20 +0200
+        with ESMTP id S1377907AbiDDIHW (ORCPT
+        <rfc822;linux-man@vger.kernel.org>); Mon, 4 Apr 2022 04:07:22 -0400
+Received: from dfw.source.kernel.org (dfw.source.kernel.org [IPv6:2604:1380:4641:c500::1])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 6617D31DF2
+        for <linux-man@vger.kernel.org>; Mon,  4 Apr 2022 01:05:27 -0700 (PDT)
+Received: from smtp.kernel.org (relay.kernel.org [52.25.139.140])
+        (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+        (No client certificate requested)
+        by dfw.source.kernel.org (Postfix) with ESMTPS id 05318612CE
+        for <linux-man@vger.kernel.org>; Mon,  4 Apr 2022 08:05:27 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPS id 6D3C9C34112
+        for <linux-man@vger.kernel.org>; Mon,  4 Apr 2022 08:05:26 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+        s=k20201202; t=1649059526;
+        bh=W9mDWpeD4eRGsQfg/MnE8TTaitrbcLP6PdIt2hQcycI=;
+        h=From:To:Subject:Date:In-Reply-To:References:From;
+        b=Td98qcpEIKMKFNsRuIg0/a8u5ZS0eelP9qBQ2ew1mTJ7IHg1X31EEGASg677oL6H/
+         CRHP9iE075uyR8kPCRU7XgjA/I3fnzq53HySGeTRcEvDKeKTkgSyNTM8uE/uthowka
+         eUxuzUlnExQMOoWDz17LJf0cUCrC07+hc9hmCHhBPz3BcFVWLtck038eCO7owoVoGg
+         npvJpCT4n54xp+JQUFJVim33xtreXbMF0ErQ02sp1flX92ydwn6GbWi5wN7j8fGqDi
+         I76D9xowQhywo+oWLoHWpZ3N/2ohDaDPTCgyxo8eoplr20Ktqwj4CxrnGwH7i/TCT+
+         tAsn180aJhuqA==
+Received: by aws-us-west-2-korg-bugzilla-1.web.codeaurora.org (Postfix, from userid 48)
+        id 5AF12CC13B0; Mon,  4 Apr 2022 08:05:26 +0000 (UTC)
+From:   bugzilla-daemon@kernel.org
+To:     linux-man@vger.kernel.org
+Subject: [Bug 215769] man 2 vfork() does not document corner case when PID ==
+ 1
+Date:   Mon, 04 Apr 2022 08:05:26 +0000
+X-Bugzilla-Reason: None
+X-Bugzilla-Type: changed
+X-Bugzilla-Watch-Reason: AssignedTo
+ documentation_man-pages@kernel-bugs.osdl.org
+X-Bugzilla-Product: Documentation
+X-Bugzilla-Component: man-pages
+X-Bugzilla-Version: unspecified
+X-Bugzilla-Keywords: 
+X-Bugzilla-Severity: normal
+X-Bugzilla-Who: brauner@kernel.org
+X-Bugzilla-Status: NEW
+X-Bugzilla-Resolution: 
+X-Bugzilla-Priority: P1
+X-Bugzilla-Assigned-To: documentation_man-pages@kernel-bugs.osdl.org
+X-Bugzilla-Flags: 
+X-Bugzilla-Changed-Fields: 
+Message-ID: <bug-215769-11311-pKnU8PIhyr@https.bugzilla.kernel.org/>
+In-Reply-To: <bug-215769-11311@https.bugzilla.kernel.org/>
+References: <bug-215769-11311@https.bugzilla.kernel.org/>
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
+X-Bugzilla-URL: https://bugzilla.kernel.org/
+Auto-Submitted: auto-generated
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
- Thunderbird/91.7.0
-Subject: Re: Functions missing from missing_pages.html
-Content-Language: en-US
-To:     Avinash Sonawane <rootkea@gmail.com>
-Cc:     mtk.manpages@gmail.com, linux-man@vger.kernel.org
-References: <20220331220454.6474e671@optimus>
- <1148e5eb-a308-eb57-e8ad-dcbf5709eb72@gmail.com>
- <20220403043508.42c59a5e@optimus>
-From:   "Alejandro Colomar (man-pages)" <alx.manpages@gmail.com>
-In-Reply-To: <20220403043508.42c59a5e@optimus>
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 7bit
 Precedence: bulk
 List-ID: <linux-man.vger.kernel.org>
 X-Mailing-List: linux-man@vger.kernel.org
 
-Hi Avinash,
+https://bugzilla.kernel.org/show_bug.cgi?id=3D215769
 
-On 4/3/22 01:05, Avinash Sonawane wrote:
-> On Sat, 2 Apr 2022 23:24:02 +0200
-> "Alejandro Colomar (man-pages)" <alx.manpages@gmail.com> wrote:
->  
->> Fixed with the patch below.
-> 
-> Cool!
-> 
-> Is the webpage https://www.kernel.org/doc/man-pages/missing_pages.html
-> generated from undocumented(3) manpage or does it also need to be
-> updated separately?
-> 
-> I still can't see the changes reflected on that webpage...
+--- Comment #6 from brauner@kernel.org ---
+On Sat, Apr 02, 2022 at 11:15:52PM +0200, Alejandro Colomar (man-pages) wro=
+te:
+> [Added some kernel CCs that may know what's going on]
+>=20
+> Hi,
+>=20
+> On 3/31/22 09:53, bugzilla-daemon@kernel.org wrote:
+> > https://bugzilla.kernel.org/show_bug.cgi?id=3D215769
+> >=20
+> > --- Comment #3 from =D0=9A=D0=BE=D1=80=D0=B5=D0=BD=D0=B1=D0=B5=D1=80=D0=
+=B3 =D0=9C=D0=B0=D1=80=D0=BA (socketpair@gmail.com) ---
+> > Hi,
+> > I appreciate depth of information validation. Actually, you are right.
+> vfork()
+> > DOES work with pid=3D1 processes. I figured out the cause in my case. In
+> order to
+> > reproduce -- add unshare(CLONE_NEWTIME) just before vfork(). Now, I don=
+'t
+> know
+> > if it's a bug in vfork() or in fork(). Yes, both are clone() actually.
+> >=20
+> > In any case, they should either both give EINVAL or both don't fail. But
+> it's
+> > definitely bug in the kernel around CLONE_NEWTIME.
+> >=20
+>=20
+> On 3/31/22 10:12, bugzilla-daemon@kernel.org wrote:
+> > https://bugzilla.kernel.org/show_bug.cgi?id=3D215769
+> >
+> > --- Comment #4 from =D0=9A=D0=BE=D1=80=D0=B5=D0=BD=D0=B1=D0=B5=D1=80=D0=
+=B3 =D0=9C=D0=B0=D1=80=D0=BA (socketpair@gmail.com) ---
+> > #define _GNU_SOURCE 1
+> > #include <stdio.h>
+> > #include <sched.h>
+> > #include <stdlib.h>
+> > #include <unistd.h>
+> > #include <sys/types.h>
+> > #include <sys/wait.h>
+> > #include <err.h>
+> >
+> > #ifndef CLONE_NEWTIME
+> > #define CLONE_NEWTIME   0x00000080
+> > #endif
+> >
+> > int main (void)
+> > {
+> >   if (unshare (CLONE_NEWTIME))  err (EXIT_FAILURE, "UNSHARE_NEWTIME");
+> >
+> >   pid_t pid;
+> >   switch (pid=3Dvfork ())
+> >   {
+> >   case 0:
+> >     _exit(0);
+> >   case -1:
+> >     err(EXIT_FAILURE, "vfork BUG");
+> >   default:
+> >     waitpid(pid, NULL, 0);
+> >   }
+> >   return 0;
+> > }
+> >
+>=20
+> I could reproduce it with the following code.  I tried
+> syscall(SYS_vfork) to make sure it's not a problem in the libc wrapper,
+> and to make sure I do call vfork(2).  If I replace vfork(2) with
+> fork(2), I don't get the error.
+>=20
+>=20
+> $ cat vfork.c
+> #define _GNU_SOURCE
+> #include <err.h>
+> #include <linux/sched.h>
+> #include <sched.h>
+> #include <signal.h>
+> #include <stdlib.h>
+> #include <sys/syscall.h>
+> #include <unistd.h>
+>=20
+> int main(void)
+> {
+>       pid_t pid;
+>=20
+>       if (unshare(CLONE_NEWTIME) =3D=3D -1)
+>               err(EXIT_FAILURE, "unshare(2)");
+>       if (signal(SIGCHLD, SIG_IGN) =3D=3D SIG_ERR)
+>               err(EXIT_FAILURE, "sigaction(2)");
+>       pid =3D syscall(SYS_vfork);
+>       switch (pid) {
+>       case 0:
+>               errx(EXIT_SUCCESS, "Grandchild exiting normally.");
+>       case -1:
+>               /* If we got here, the report is confirmed. */
+>               err(EXIT_FAILURE, "vfork(2)");
+>       default:
+>               errx(EXIT_SUCCESS, "Child exiting normally.");
+>       }
+> }
+>=20
+> $ cc -Wall -Wextra -Werror vfork.c
+> $ sudo ./a.out
+> a.out: vfork(2): Invalid argument
+>=20
+>=20
+>=20
+> $ grep_syscall_def vfork
+> kernel/fork.c:2711:
+> SYSCALL_DEFINE0(vfork)
+> {
+>       struct kernel_clone_args args =3D {
+>               .flags          =3D CLONE_VFORK | CLONE_VM,
+>               .exit_signal    =3D SIGCHLD,
+>       };
+>=20
+>       return kernel_clone(&args);
+> }
+>=20
+>=20
+> Maybe someone in the kernel can send some patch for the clone(2) and/or
+> vfork(2) manual pages that explains the reason (if it's intended).
 
-Thanks for reminding me that.  I imagined it was autogenerated, but it's
-not.  I'll fix the source code for the website too.
+Hey Alejandro,
 
-However, don't expect to see it updated online until the next release.
+I won't be able to send a patch very soon but I can at least explain why
+you see EINVAL. :)
 
-Thanks,
+This is intended.=20
 
-Alex
+vfork() suspends the parent process and the child process will share the
+same vm as the parent process. If the child process is in a new time
+namespace different from its parent process it is not allowed to be in
+the same threadgroup or share virtual memory with the parent process.
+That's why you see EINVAL.
 
-> 
-> Regards,
-> Avinash Sonawane (rootKea)
-> https://www.rootkea.me
+Note, the unshare(CLONE_NEWTIME) call will _not_ cause the calling
+process to be moved into a different time namespace. Only the newly
+created child process will be after a subsequent
+fork()/vfork()/clone()/clone3()...
 
--- 
-Alejandro Colomar
-Linux man-pages comaintainer; https://www.kernel.org/doc/man-pages/
-http://www.alejandro-colomar.es/
+The semantics are equivalent to that of CLONE_NEWPID in this regard. You
+can see this via /proc/<pid>/ns/ where you see two entries for pid
+namespaces and also two entries for time namespaces:
+
+* CLONE_NEWTIME
+  * /proc/<pid>/ns/time                 // current time namespace
+  * /proc/<pid>/ns/time_for_children    // time namespace for the new child
+process
+
+If during fork:
+
+parent_process->time !=3D parent_process->time_for_children
+
+and either CLONE_VM or CLONE_THREAD is set you see EINVAL.
+
+You can thus replicate the same error via:
+
+unshare(CLONE_NEWTIME)
+
+and a
+
+clone() or clone3() call with CLONE_VM or CLONE_THREAD.
+
+Christian
+
+--=20
+You may reply to this email to add a comment.
+
+You are receiving this mail because:
+You are watching the assignee of the bug.=
