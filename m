@@ -2,42 +2,42 @@ Return-Path: <linux-man-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 527EBC4332F
-	for <linux-man@archiver.kernel.org>; Wed,  6 Apr 2022 19:31:11 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 29D41C433F5
+	for <linux-man@archiver.kernel.org>; Wed,  6 Apr 2022 20:56:36 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S231811AbiDFTdE (ORCPT <rfc822;linux-man@archiver.kernel.org>);
-        Wed, 6 Apr 2022 15:33:04 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:51234 "EHLO
+        id S234278AbiDFU6a (ORCPT <rfc822;linux-man@archiver.kernel.org>);
+        Wed, 6 Apr 2022 16:58:30 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:58476 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S232089AbiDFTcu (ORCPT
-        <rfc822;linux-man@vger.kernel.org>); Wed, 6 Apr 2022 15:32:50 -0400
-Received: from dfw.source.kernel.org (dfw.source.kernel.org [139.178.84.217])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id C4AEA197FA3
-        for <linux-man@vger.kernel.org>; Wed,  6 Apr 2022 10:13:10 -0700 (PDT)
+        with ESMTP id S234992AbiDFU5v (ORCPT
+        <rfc822;linux-man@vger.kernel.org>); Wed, 6 Apr 2022 16:57:51 -0400
+Received: from dfw.source.kernel.org (dfw.source.kernel.org [IPv6:2604:1380:4641:c500::1])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 0F31A145997
+        for <linux-man@vger.kernel.org>; Wed,  6 Apr 2022 12:22:21 -0700 (PDT)
 Received: from smtp.kernel.org (relay.kernel.org [52.25.139.140])
         (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
         (No client certificate requested)
-        by dfw.source.kernel.org (Postfix) with ESMTPS id 5432561800
-        for <linux-man@vger.kernel.org>; Wed,  6 Apr 2022 17:13:10 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPS id B1A68C385A9
-        for <linux-man@vger.kernel.org>; Wed,  6 Apr 2022 17:13:09 +0000 (UTC)
+        by dfw.source.kernel.org (Postfix) with ESMTPS id 9689461CD4
+        for <linux-man@vger.kernel.org>; Wed,  6 Apr 2022 19:22:20 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPS id F32D3C385A3
+        for <linux-man@vger.kernel.org>; Wed,  6 Apr 2022 19:22:19 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-        s=k20201202; t=1649265189;
-        bh=W0Wo/Rv0yja6piKJhJ3/aO37/4jZG+qRGKgpQaRFoBE=;
+        s=k20201202; t=1649272940;
+        bh=6ebYNcZJ1ZmsSVUjcnD9j1nOi/r4A2XxWGvw/pcPevE=;
         h=From:To:Subject:Date:In-Reply-To:References:From;
-        b=mM4ebsP0EhL29HNl6wOoKNyounTS8e1bNINWvz/ipXpGjLMMuqNgBqDs0mWjjQhjC
-         52ig0MRxRqjGSwPyW/46rtLF08mKh4Wgy2wDlnd60Ne5ATX9NiCcm6PnpUcdAwLUpf
-         bsFWDBMui9XYMigaJ4YxmEmBp1zSMH/N3R0eBMzwUeiqt8ftvrhsoRFQYxD1inh8Hb
-         8d+efsEW6AQlockw5O/kmR/OtrjcbhM1ToEvPznBlr9fCBxbYdsLhhpQq8nLIVZkmC
-         057Ta7jjEvgAcJHk3weT+wNXzMtrGYPi21nxJILSpQI9jvhj1t9bi79T8vRjksTDD4
-         NERmO/LPGBZzQ==
+        b=A2f0TfTkNH+yW7F/o4F7Bn4Upa2rOuki4qJ4vtX/T5HE5viYSXsM/hF/yf7XoxY0O
+         jTQJ/CdprGqgEdVEFW6IHE9jgiaxOlwQH1dJIAUM0GIUVaCN2UQkmmRIKzoBvv2sr2
+         fcHnJ0omUxsiTcQtYKJcO8RGl9nDoG+AjMqpCPXouz5fe9TJc3VKAKCBgPm4+GloSt
+         rGhQq0HjA5rdjN+5KSQ10gyWlSlpNFBVMFmJEuA3JR4KpwxwxYuoMdXvNwdiJZG7Dt
+         HpwF9Ql1NIEzZNiL0GdphfOPr0PzVOcsbQcu0cNq0vJlYTFB7Xcvy0Oc6WRagmxfPA
+         QP6xtLyR0H4Zg==
 Received: by aws-us-west-2-korg-bugzilla-1.web.codeaurora.org (Postfix, from userid 48)
-        id 88EE1C05FD4; Wed,  6 Apr 2022 17:13:09 +0000 (UTC)
+        id D1019C05FD5; Wed,  6 Apr 2022 19:22:19 +0000 (UTC)
 From:   bugzilla-daemon@kernel.org
 To:     linux-man@vger.kernel.org
 Subject: [Bug 215769] man 2 vfork() does not document corner case when PID ==
  1
-Date:   Wed, 06 Apr 2022 17:13:09 +0000
+Date:   Wed, 06 Apr 2022 19:22:19 +0000
 X-Bugzilla-Reason: None
 X-Bugzilla-Type: changed
 X-Bugzilla-Watch-Reason: AssignedTo
@@ -47,14 +47,14 @@ X-Bugzilla-Component: man-pages
 X-Bugzilla-Version: unspecified
 X-Bugzilla-Keywords: 
 X-Bugzilla-Severity: normal
-X-Bugzilla-Who: fweimer@redhat.com
+X-Bugzilla-Who: alx.manpages@gmail.com
 X-Bugzilla-Status: NEW
 X-Bugzilla-Resolution: 
 X-Bugzilla-Priority: P1
 X-Bugzilla-Assigned-To: documentation_man-pages@kernel-bugs.osdl.org
 X-Bugzilla-Flags: 
-X-Bugzilla-Changed-Fields: cc
-Message-ID: <bug-215769-11311-TdK8U3qCW2@https.bugzilla.kernel.org/>
+X-Bugzilla-Changed-Fields: 
+Message-ID: <bug-215769-11311-EHdcWKyvOa@https.bugzilla.kernel.org/>
 In-Reply-To: <bug-215769-11311@https.bugzilla.kernel.org/>
 References: <bug-215769-11311@https.bugzilla.kernel.org/>
 Content-Type: text/plain; charset="UTF-8"
@@ -68,33 +68,19 @@ X-Mailing-List: linux-man@vger.kernel.org
 
 https://bugzilla.kernel.org/show_bug.cgi?id=3D215769
 
-Florian Weimer (fweimer@redhat.com) changed:
+--- Comment #12 from Alejandro Colomar (man-pages) (alx.manpages@gmail.com)=
+ ---
+> $ sudo ./vfork_newpid
+> vfork_newpid: PID: 8479
+> vfork_newpid: PID 8479 exiting after execve(2): Success
+> print_pid: PID 1 exiting.=20
 
-           What    |Removed                     |Added
-----------------------------------------------------------------------------
-                 CC|                            |fweimer@redhat.com
 
---- Comment #11 from Florian Weimer (fweimer@redhat.com) ---
-(In reply to brauner from comment #10)
-> glibc does vfork() via inline assembly massaging. There's probably
-> atfork handlers and a bunch of other stuff involved so it's difficult to
-> do a remote diagnosis.
+I definitely think this is a kernel (or glibc) bug.
+execve(2) is supposed to _never_ return 0 (and errno 0).
+I submitted a new bug to discuss it.
 
-glibc does not run fork handlers for vfork.
-
-> (And note that calling anything other than execve() or _exit() after
-> vfork() is basically undefined behavior.)
-
-Historically, glibc supports calling malloc after vfork, so that applicatio=
-ns
-can implement their own form of close_range by reading /proc/self/fd.
-
-I wonder if we need to handle CLONE_NEWTIME in posix_spawn in some way. Sur=
-ely
-that clone(CLONE_VM | CLONE_VFORK | SIGCHLD) call should fail as well if vf=
-ork
-is blocked after CLONE_NEWTIME, so CLONE_NEWTIME probably breaks posix_spaw=
-n.
+Please see <https://bugzilla.kernel.org/show_bug.cgi?id=3D215813>
 
 --=20
 You may reply to this email to add a comment.
