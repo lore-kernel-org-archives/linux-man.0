@@ -2,123 +2,75 @@ Return-Path: <linux-man-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 15958C433F5
-	for <linux-man@archiver.kernel.org>; Fri, 15 Apr 2022 23:31:05 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id F039DC433EF
+	for <linux-man@archiver.kernel.org>; Fri, 15 Apr 2022 23:33:13 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1356549AbiDOXdd (ORCPT <rfc822;linux-man@archiver.kernel.org>);
-        Fri, 15 Apr 2022 19:33:33 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:58828 "EHLO
+        id S231303AbiDOXfm (ORCPT <rfc822;linux-man@archiver.kernel.org>);
+        Fri, 15 Apr 2022 19:35:42 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:36262 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1356571AbiDOXd3 (ORCPT
-        <rfc822;linux-man@vger.kernel.org>); Fri, 15 Apr 2022 19:33:29 -0400
-Received: from mail-wm1-x32a.google.com (mail-wm1-x32a.google.com [IPv6:2a00:1450:4864:20::32a])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 0D96256C36
-        for <linux-man@vger.kernel.org>; Fri, 15 Apr 2022 16:30:57 -0700 (PDT)
-Received: by mail-wm1-x32a.google.com with SMTP id o20-20020a05600c511400b0038ebbbb2ad8so5783060wms.0
-        for <linux-man@vger.kernel.org>; Fri, 15 Apr 2022 16:30:56 -0700 (PDT)
+        with ESMTP id S231160AbiDOXfl (ORCPT
+        <rfc822;linux-man@vger.kernel.org>); Fri, 15 Apr 2022 19:35:41 -0400
+Received: from mail-wr1-x436.google.com (mail-wr1-x436.google.com [IPv6:2a00:1450:4864:20::436])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 3A5C77665D
+        for <linux-man@vger.kernel.org>; Fri, 15 Apr 2022 16:33:12 -0700 (PDT)
+Received: by mail-wr1-x436.google.com with SMTP id t1so12151201wra.4
+        for <linux-man@vger.kernel.org>; Fri, 15 Apr 2022 16:33:12 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=gmail.com; s=20210112;
-        h=from:to:cc:subject:date:message-id:in-reply-to:references
-         :mime-version:content-transfer-encoding;
-        bh=91ENE3tccwXrgjyzBHvCz+X5u9yVasrX4NOAH2E0fnM=;
-        b=g8MEuEB/UwCDC7drhsWaXalVS31uc71PJ1wqTucrSm2XIOPJHIXVxT2RqsE0kYg203
-         OxLq/wyzfyvq/IYzb9JbeSuG07HIwyWLbCb3rCrGiRctKhXz4AOoOnS4JKNsDIkE0IOQ
-         /bpU6irQnV3R015xCG8JTMCyA0BAHqMxCKZCwsZgj5/4g/NIcacL0+7wjyLAyD+z25bJ
-         5qgeBO/rmvz84SqB1OxvDQGzaZKyCojQ50JHRQD1IJ/FZTxoSFAf5z28Q6bnVSxXrqNr
-         xhK+l8/t9mZrftw0X0jqi2n4ZNyw5z2lFzolG3LbWklc1aj1jU0eZvWoF3Ew997r8fTW
-         y81g==
+        h=message-id:date:mime-version:user-agent:subject:content-language:to
+         :cc:references:from:in-reply-to:content-transfer-encoding;
+        bh=T7QowAv9X3Olr58ufmnUQQ6AR+tvvFtbjVIYW6Nmj20=;
+        b=ewCCg8YKZ37EfplxBdZn2iifMH6WWwPtZdl2WuDShULHXqX7HESXyimbOTu85y1agA
+         2lgaHIGWnxAIhkrKwVQEP5mrfjpMxHrMDUoSXUXmiCULBwBWz7a0+39Pj0ikabpvUYqs
+         4884xgdZco+D+UXazwzOjdjBUHi0b90rBLwCSHDBUQlF/CAha9zS1GJEnjxybXN5KLls
+         biAGuGaHnh36x0htIj4sHWMLFkTEjQfUdvmVQdIRl9P1GRjw+KjiG0Ypwnmq4od43Cqa
+         8u27qZ1deZEYW07zm7bMq50+qbr0tW0bwcGriLpSjQWwtZTbM3k0fhUIuAn/WxT0qtZp
+         iGHQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20210112;
-        h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
-         :references:mime-version:content-transfer-encoding;
-        bh=91ENE3tccwXrgjyzBHvCz+X5u9yVasrX4NOAH2E0fnM=;
-        b=jOIQf8DO0+B52+WmPNw/H2HJrHKQBw0zM1Foe4lIDJJGQuSuA4Gf/khpWImfpUzp7H
-         SdJRVb58l3eKTEpuotHizZILoOV9r7NBnia1dxPlFo8dyIv/BVtCAaPOWIuJtUTcG0g3
-         cX801xTR3/PeZrEQSLZyFe47ecjlR6hf2sIqmmGIbn04OgC4D3USxBmqKsA5bXMNcFnT
-         iLORf24rSghZxruiIBF+EQ8Lx6s9mzkRbjrXTTCgB+xHrx+XUzi4jaSeY+XNIN0P9ecn
-         yFnZFKVqOYqfvr+NmhogYItsNR44LNLeVo/6lXgHIMcom1P3l67y9/R8+8FYjtM/owSc
-         JhAg==
-X-Gm-Message-State: AOAM531IpsYrwC8VIT9JquUEy0EX3jDJv8Raf9F/lHSQ2klmG7f8Ny3j
-        281dLu5+cLfyqxjEXXjealE=
-X-Google-Smtp-Source: ABdhPJzgS/8uvso5n6Ww+g8J8YDocumQPJtl6v6odL4s2Ldbl1XNzAoniVTyEpj1sFdZ9oP/vQ3qXg==
-X-Received: by 2002:a05:600c:3b28:b0:38e:bb86:d68d with SMTP id m40-20020a05600c3b2800b0038ebb86d68dmr877068wms.135.1650065455652;
-        Fri, 15 Apr 2022 16:30:55 -0700 (PDT)
-Received: from asus5775.alejandro-colomar.es ([170.253.36.171])
-        by smtp.googlemail.com with ESMTPSA id q14-20020a1cf30e000000b0038986a18ec8sm5995473wmq.46.2022.04.15.16.30.54
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Fri, 15 Apr 2022 16:30:55 -0700 (PDT)
-From:   Alejandro Colomar <alx.manpages@gmail.com>
-To:     mtk.manpages@gmail.com
-Cc:     Alejandro Colomar <alx.manpages@gmail.com>,
-        linux-man@vger.kernel.org,
-        "G . Branden Robinson" <g.branden.robinson@gmail.com>,
-        nab <nabijaczleweli@nabijaczleweli.xyz>
-Subject: [PATCH 2/3] scripts/append_COLOPHON.sh: Add script to append the COLOPHON section
-Date:   Sat, 16 Apr 2022 01:30:47 +0200
-Message-Id: <20220415233048.70477-3-alx.manpages@gmail.com>
-X-Mailer: git-send-email 2.30.2
-In-Reply-To: <20220415233048.70477-1-alx.manpages@gmail.com>
-References: <20220415233048.70477-1-alx.manpages@gmail.com>
+        h=x-gm-message-state:message-id:date:mime-version:user-agent:subject
+         :content-language:to:cc:references:from:in-reply-to
+         :content-transfer-encoding;
+        bh=T7QowAv9X3Olr58ufmnUQQ6AR+tvvFtbjVIYW6Nmj20=;
+        b=nUA2OaiTCH58cp7piqJAmwUkoNXqHxxdOXR/VMEvzSsbPadEHVA0ijgomamfRl5Q/R
+         ArBVogfX4LDORq25O1EaV3QplZYGsTNWz7MNJfm7P2ZhUgYGcFJgt+ypwB9T2jupfT2U
+         pfs8GcDVwpBREyxqTK7uhoUsQBtu4wz0KAKvenFUzYrnZmwptr9zL40Pa26DzqOG96L5
+         SnuheztICRmSijuhncSAx9joR7L0w9QbyLa6bUrDddEQ2oFnaqv1y8sMthTbzaQ7lwGD
+         KX2yAiFGni1IADYSW4xPa7tRtgcowXP9XuvDI81rhi2OS9PF0hJayDCpPN3LUWJWFeMU
+         jurQ==
+X-Gm-Message-State: AOAM5300RYzwMLwbo0rtjE7sa3gJDyf4+pO2g2GKPqZTB9QIQLr5misG
+        /1wX2YqZde6Zj0a2z/VNKwc=
+X-Google-Smtp-Source: ABdhPJz0qdrqGAGU15Whg4GjhatYM83VZV7FKFPPzNDWhChPbkspcWg6iW/x8BDm7ks+WAFm5u7LWQ==
+X-Received: by 2002:a5d:59a4:0:b0:207:b394:bc49 with SMTP id p4-20020a5d59a4000000b00207b394bc49mr808667wrr.93.1650065590887;
+        Fri, 15 Apr 2022 16:33:10 -0700 (PDT)
+Received: from [192.168.0.160] ([170.253.36.171])
+        by smtp.gmail.com with ESMTPSA id v8-20020a1cf708000000b0034d7b5f2da0sm6121076wmh.33.2022.04.15.16.33.09
+        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+        Fri, 15 Apr 2022 16:33:10 -0700 (PDT)
+Message-ID: <abd2a499-cd4e-4ca4-3217-fd4012ed9b29@gmail.com>
+Date:   Sat, 16 Apr 2022 01:33:09 +0200
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
+ Thunderbird/91.7.0
+Subject: Re: [RFC 0/3] Prepare the Makefile and scripts/ for releasing
+Content-Language: en-US
+To:     mtk.manpages@gmail.com, nab <nabijaczleweli@nabijaczleweli.xyz>,
+        "G . Branden Robinson" <g.branden.robinson@gmail.com>
+Cc:     linux-man@vger.kernel.org
+References: <20220415233048.70477-1-alx.manpages@gmail.com>
+From:   Alejandro Colomar <alx.manpages@gmail.com>
+In-Reply-To: <20220415233048.70477-1-alx.manpages@gmail.com>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 7bit
 Precedence: bulk
 List-ID: <linux-man.vger.kernel.org>
 X-Mailing-List: linux-man@vger.kernel.org
 
-I first implemented it using cat <<-, but sed(1) is around 5 times
-faster, so even if it's a bit more complex and slightly less
-readable, let's use sed(1).
 
-Signed-off-by: Alejandro Colomar <alx.manpages@gmail.com>
----
- scripts/append_COLOPHON.sh | 38 ++++++++++++++++++++++++++++++++++++++
- 1 file changed, 38 insertions(+)
- create mode 100755 scripts/append_COLOPHON.sh
 
-diff --git a/scripts/append_COLOPHON.sh b/scripts/append_COLOPHON.sh
-new file mode 100755
-index 000000000..f277b997f
---- /dev/null
-+++ b/scripts/append_COLOPHON.sh
-@@ -0,0 +1,38 @@
-+#!/bin/sh
-+#
-+# append_COLOPHON.sh
-+#
-+# Append the COLOPHON section to the man pages.  This script should be
-+# run before running `make dist`.
-+#
-+########################################################################
-+# SPDX-License-Identifier: GPL-2.0-only
-+########################################################################
-+#
-+# (C) Copyright 2022, Alejandro Colomar
-+# These functions are free software; you can redistribute them and/or
-+# modify them under the terms of the GNU General Public License
-+# as published by the Free Software Foundation; version 2.
-+#
-+# These functions are distributed in the hope that they will be useful,
-+# but WITHOUT ANY WARRANTY; without even the implied warranty of
-+# MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
-+# GNU General Public License for more details
-+# (http://www.gnu.org/licenses/gpl-2.0.html).
-+#
-+########################################################################
-+find man?/ -not -type d \
-+|xargs sed -i "\$a \\
-+.SH COLOPHON\\
-+This page is part of release\\
-+$(git describe | sed 's/^man-pages-//')\\
-+of the Linux\\
-+.I man-pages\\
-+project.\\
-+A description of the project,\\
-+information about reporting bugs,\\
-+and the latest version of this page,\\
-+can be found at\\
-+.UR https://www.kernel.org/doc/man-pages/\\
-+.UE .
-+"
--- 
-2.30.2
+On 4/16/22 01:30, Alejandro Colomar wrote:
+> 	./scripts/append_COLOPHON.sh
+> 	make dist-gz
 
+I meant s/dist-gz/dist/
