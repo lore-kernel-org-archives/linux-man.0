@@ -2,75 +2,129 @@ Return-Path: <linux-man-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id F039DC433EF
-	for <linux-man@archiver.kernel.org>; Fri, 15 Apr 2022 23:33:13 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 6AB7AC433EF
+	for <linux-man@archiver.kernel.org>; Sat, 16 Apr 2022 10:58:13 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S231303AbiDOXfm (ORCPT <rfc822;linux-man@archiver.kernel.org>);
-        Fri, 15 Apr 2022 19:35:42 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:36262 "EHLO
+        id S231570AbiDPLAn (ORCPT <rfc822;linux-man@archiver.kernel.org>);
+        Sat, 16 Apr 2022 07:00:43 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:53854 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S231160AbiDOXfl (ORCPT
-        <rfc822;linux-man@vger.kernel.org>); Fri, 15 Apr 2022 19:35:41 -0400
-Received: from mail-wr1-x436.google.com (mail-wr1-x436.google.com [IPv6:2a00:1450:4864:20::436])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 3A5C77665D
-        for <linux-man@vger.kernel.org>; Fri, 15 Apr 2022 16:33:12 -0700 (PDT)
-Received: by mail-wr1-x436.google.com with SMTP id t1so12151201wra.4
-        for <linux-man@vger.kernel.org>; Fri, 15 Apr 2022 16:33:12 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20210112;
-        h=message-id:date:mime-version:user-agent:subject:content-language:to
-         :cc:references:from:in-reply-to:content-transfer-encoding;
-        bh=T7QowAv9X3Olr58ufmnUQQ6AR+tvvFtbjVIYW6Nmj20=;
-        b=ewCCg8YKZ37EfplxBdZn2iifMH6WWwPtZdl2WuDShULHXqX7HESXyimbOTu85y1agA
-         2lgaHIGWnxAIhkrKwVQEP5mrfjpMxHrMDUoSXUXmiCULBwBWz7a0+39Pj0ikabpvUYqs
-         4884xgdZco+D+UXazwzOjdjBUHi0b90rBLwCSHDBUQlF/CAha9zS1GJEnjxybXN5KLls
-         biAGuGaHnh36x0htIj4sHWMLFkTEjQfUdvmVQdIRl9P1GRjw+KjiG0Ypwnmq4od43Cqa
-         8u27qZ1deZEYW07zm7bMq50+qbr0tW0bwcGriLpSjQWwtZTbM3k0fhUIuAn/WxT0qtZp
-         iGHQ==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20210112;
-        h=x-gm-message-state:message-id:date:mime-version:user-agent:subject
-         :content-language:to:cc:references:from:in-reply-to
-         :content-transfer-encoding;
-        bh=T7QowAv9X3Olr58ufmnUQQ6AR+tvvFtbjVIYW6Nmj20=;
-        b=nUA2OaiTCH58cp7piqJAmwUkoNXqHxxdOXR/VMEvzSsbPadEHVA0ijgomamfRl5Q/R
-         ArBVogfX4LDORq25O1EaV3QplZYGsTNWz7MNJfm7P2ZhUgYGcFJgt+ypwB9T2jupfT2U
-         pfs8GcDVwpBREyxqTK7uhoUsQBtu4wz0KAKvenFUzYrnZmwptr9zL40Pa26DzqOG96L5
-         SnuheztICRmSijuhncSAx9joR7L0w9QbyLa6bUrDddEQ2oFnaqv1y8sMthTbzaQ7lwGD
-         KX2yAiFGni1IADYSW4xPa7tRtgcowXP9XuvDI81rhi2OS9PF0hJayDCpPN3LUWJWFeMU
-         jurQ==
-X-Gm-Message-State: AOAM5300RYzwMLwbo0rtjE7sa3gJDyf4+pO2g2GKPqZTB9QIQLr5misG
-        /1wX2YqZde6Zj0a2z/VNKwc=
-X-Google-Smtp-Source: ABdhPJz0qdrqGAGU15Whg4GjhatYM83VZV7FKFPPzNDWhChPbkspcWg6iW/x8BDm7ks+WAFm5u7LWQ==
-X-Received: by 2002:a5d:59a4:0:b0:207:b394:bc49 with SMTP id p4-20020a5d59a4000000b00207b394bc49mr808667wrr.93.1650065590887;
-        Fri, 15 Apr 2022 16:33:10 -0700 (PDT)
-Received: from [192.168.0.160] ([170.253.36.171])
-        by smtp.gmail.com with ESMTPSA id v8-20020a1cf708000000b0034d7b5f2da0sm6121076wmh.33.2022.04.15.16.33.09
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Fri, 15 Apr 2022 16:33:10 -0700 (PDT)
-Message-ID: <abd2a499-cd4e-4ca4-3217-fd4012ed9b29@gmail.com>
-Date:   Sat, 16 Apr 2022 01:33:09 +0200
+        with ESMTP id S231575AbiDPLAm (ORCPT
+        <rfc822;linux-man@vger.kernel.org>); Sat, 16 Apr 2022 07:00:42 -0400
+Received: from ams.source.kernel.org (ams.source.kernel.org [IPv6:2604:1380:4601:e00::1])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 60AF85A146
+        for <linux-man@vger.kernel.org>; Sat, 16 Apr 2022 03:58:11 -0700 (PDT)
+Received: from smtp.kernel.org (relay.kernel.org [52.25.139.140])
+        (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+        (No client certificate requested)
+        by ams.source.kernel.org (Postfix) with ESMTPS id 1836DB81D17
+        for <linux-man@vger.kernel.org>; Sat, 16 Apr 2022 10:58:10 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPS id BD4B4C385AA
+        for <linux-man@vger.kernel.org>; Sat, 16 Apr 2022 10:58:08 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+        s=k20201202; t=1650106688;
+        bh=2zdk6LCFHDRNDEvVjT6dFF3qrMCIqV+oH+I1mFjfdPQ=;
+        h=From:To:Subject:Date:From;
+        b=nSZhmIWfB4lrtVxy5h52cO5l3NY+nAHR+zC2hWYdnUnQ2qUfFZu+8SgFyKbqOkw/l
+         uQfdgBBi3a8cqaZ7NtX80esLG0aY9+iH3oew84mmtv5g+Bj6rQt9fdxwFeJhSAfLb+
+         HY2J8QNpwQ0pnjgkPHcqJ6sVvFv6iuMaLngw8EczsiXvMDh/wVB6SUHFTTiG//BYQl
+         bOZetx0CtHU9nyefFVoXmcCoWzaor8bEUOWzDdWB6re0YxgcIXS95efFMIJ9kDX8BY
+         rORZ4yJKRIJ2rIjs+8FQkKE2pXY9HcwDlpANAJwJTq3z6QxI3kq9J269Dy5ngaJs2T
+         sDJaZyZ/6yOOA==
+Received: by aws-us-west-2-korg-bugzilla-1.web.codeaurora.org (Postfix, from userid 48)
+        id A18B9C05FD0; Sat, 16 Apr 2022 10:58:08 +0000 (UTC)
+From:   bugzilla-daemon@kernel.org
+To:     linux-man@vger.kernel.org
+Subject: [Bug 215844] New: scanf manpage incorrectly says that ll (ell-ell)
+ is equivalent to L
+Date:   Sat, 16 Apr 2022 10:58:08 +0000
+X-Bugzilla-Reason: None
+X-Bugzilla-Type: new
+X-Bugzilla-Watch-Reason: AssignedTo
+ documentation_man-pages@kernel-bugs.osdl.org
+X-Bugzilla-Product: Documentation
+X-Bugzilla-Component: man-pages
+X-Bugzilla-Version: unspecified
+X-Bugzilla-Keywords: 
+X-Bugzilla-Severity: normal
+X-Bugzilla-Who: rootkea@gmail.com
+X-Bugzilla-Status: NEW
+X-Bugzilla-Resolution: 
+X-Bugzilla-Priority: P1
+X-Bugzilla-Assigned-To: documentation_man-pages@kernel-bugs.osdl.org
+X-Bugzilla-Flags: 
+X-Bugzilla-Changed-Fields: bug_id short_desc product version rep_platform
+ op_sys bug_status bug_severity priority component assigned_to reporter
+ cf_regression
+Message-ID: <bug-215844-11311@https.bugzilla.kernel.org/>
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
+X-Bugzilla-URL: https://bugzilla.kernel.org/
+Auto-Submitted: auto-generated
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
- Thunderbird/91.7.0
-Subject: Re: [RFC 0/3] Prepare the Makefile and scripts/ for releasing
-Content-Language: en-US
-To:     mtk.manpages@gmail.com, nab <nabijaczleweli@nabijaczleweli.xyz>,
-        "G . Branden Robinson" <g.branden.robinson@gmail.com>
-Cc:     linux-man@vger.kernel.org
-References: <20220415233048.70477-1-alx.manpages@gmail.com>
-From:   Alejandro Colomar <alx.manpages@gmail.com>
-In-Reply-To: <20220415233048.70477-1-alx.manpages@gmail.com>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 7bit
 Precedence: bulk
 List-ID: <linux-man.vger.kernel.org>
 X-Mailing-List: linux-man@vger.kernel.org
 
+https://bugzilla.kernel.org/show_bug.cgi?id=3D215844
 
+            Bug ID: 215844
+           Summary: scanf manpage incorrectly says that ll (ell-ell) is
+                    equivalent to L
+           Product: Documentation
+           Version: unspecified
+          Hardware: All
+                OS: Linux
+            Status: NEW
+          Severity: normal
+          Priority: P1
+         Component: man-pages
+          Assignee: documentation_man-pages@kernel-bugs.osdl.org
+          Reporter: rootkea@gmail.com
+        Regression: No
 
-On 4/16/22 01:30, Alejandro Colomar wrote:
-> 	./scripts/append_COLOPHON.sh
-> 	make dist-gz
+Hello!
 
-I meant s/dist-gz/dist/
+manpage of scanf says that "Specifying two l characters is equivalent to L".
+But that's not true.
+
+Please check the following code snippet:
+#include <stdio.h>
+
+int main(void)
+{
+        long double ld;
+        long long n;
+
+        scanf("%Lf", &ld);
+        scanf("%llf", &ld);
+
+        scanf("%Ln", &n);
+        scanf("%lln", &n);
+
+        return 0;
+}
+
+gcc throws these warnings correctly:
+warning: use of =E2=80=98ll=E2=80=99 length modifier with =E2=80=98f=E2=80=
+=99 type character has either no
+effect or undefined behavior [-Wformat=3D]
+    9 |         scanf("%llf", &ld);
+      |                   ^
+warning: use of =E2=80=98L=E2=80=99 length modifier with =E2=80=98n=E2=80=
+=99 type character has either no
+effect or undefined behavior [-Wformat=3D]
+   11 |         scanf("%Ln", &n);
+      |                  ^
+
+I think, we need to add separate entry for `ll` (ell-ell) like printf(3).
+
+Also, another related issue is that scanf(3) doesn't mention that conversion
+specifiers like `%Ld`, `%Li` etc. are GNU nonstandard extensions unlike
+printf(3) which clearly mentions the nonportable part.
+
+--=20
+You may reply to this email to add a comment.
+
+You are receiving this mail because:
+You are watching the assignee of the bug.=
