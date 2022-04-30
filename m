@@ -2,162 +2,154 @@ Return-Path: <linux-man-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 9378DC433F5
-	for <linux-man@archiver.kernel.org>; Wed, 27 Apr 2022 11:52:36 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 3A73CC433FE
+	for <linux-man@archiver.kernel.org>; Sat, 30 Apr 2022 13:48:22 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S233189AbiD0Lzp (ORCPT <rfc822;linux-man@archiver.kernel.org>);
-        Wed, 27 Apr 2022 07:55:45 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:59936 "EHLO
+        id S238513AbiD3Nvl (ORCPT <rfc822;linux-man@archiver.kernel.org>);
+        Sat, 30 Apr 2022 09:51:41 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:59138 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S233170AbiD0Lzo (ORCPT
-        <rfc822;linux-man@vger.kernel.org>); Wed, 27 Apr 2022 07:55:44 -0400
-Received: from mail-wm1-x330.google.com (mail-wm1-x330.google.com [IPv6:2a00:1450:4864:20::330])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 81C21167D9
-        for <linux-man@vger.kernel.org>; Wed, 27 Apr 2022 04:52:32 -0700 (PDT)
-Received: by mail-wm1-x330.google.com with SMTP id v64-20020a1cac43000000b0038cfd1b3a6dso3264405wme.5
-        for <linux-man@vger.kernel.org>; Wed, 27 Apr 2022 04:52:32 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20210112;
-        h=message-id:date:mime-version:user-agent:subject:content-language:to
-         :cc:references:from:in-reply-to:content-transfer-encoding;
-        bh=vNaSTiSVUNSViz+xv3hCR2DgLK9dk3Z6aSFid/6AEBc=;
-        b=XOj+eO08RjzXM7Jb8pGJZ/Y3rS3F1SrLrBGmtC6/1ILC+GGomeKTm2yYo8on+fwEgz
-         trKsjLSR2d7YvyrteMzs7Dgp8KotCGymDv6xasC4kWVZdp4s1wBkF1+k0IgO95vSONvg
-         MX+9XNuf/pI/wsIPBvrKNwnxcP+YzrG5qkKk3TcMLwcWkC2QwkJ1jqyF4+mTmkgr856Y
-         kBttEskA4l8rvaPpbsqeISrh4ofwYpwCd5CjHh8MjeHZXU9HZekhWreAmZQVZxbdmzM6
-         ilm8AIT5BW9nKCR2Jz8CaPHirxOg1GN3qcSpd4qPdjjlr9//l+kI3SSpJ6Rw0vFTdEyz
-         rgSw==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20210112;
-        h=x-gm-message-state:message-id:date:mime-version:user-agent:subject
-         :content-language:to:cc:references:from:in-reply-to
-         :content-transfer-encoding;
-        bh=vNaSTiSVUNSViz+xv3hCR2DgLK9dk3Z6aSFid/6AEBc=;
-        b=lmpDOH4rU6kF9p8FVR4ZARUSmj9JAtvxV3LDrsNm9snOK1a39E7mpae0AJwMd+APPj
-         Ij/Sszbwrtb5ZlxKO4wDWG7hspK/pi5JUe97N+pRUP3uVhZEHfv4W2O5jzX3AoMsOkE/
-         oV03RGIG3MTM4HiLvJXHdupDc9dCeF0lW1fHicSokr+FRhOZcF8kSjgdlHIvr7FJ3UHx
-         aE6EN3wMt7j8CzKk+irpF/hHsYMnpM0+JIFFizZ+kjws1ibV8ho0ktzXikPco8/J1slh
-         qGuVuW1aMlBalaw8VMkD4tPs4WKmTUBxFWskU1N+fc2BgF0g0shINxT0/vBaPPSVqLWy
-         AyYw==
-X-Gm-Message-State: AOAM531BT71V2Pn46XF0nRW/kSqwhdyYm8FK3cvpXBdfoQcYQTZ3U3LI
-        zePU9C+8dB7omRifeSe2WRg=
-X-Google-Smtp-Source: ABdhPJzniBm+gF43C8a/D7A0mbX4itDdEQhNUH8dZ5LIoWZsveuVMMyQ5jCP9CJFY+WwhQtpD4RRUg==
-X-Received: by 2002:a05:600c:a08:b0:392:a561:9542 with SMTP id z8-20020a05600c0a0800b00392a5619542mr25183332wmp.62.1651060350944;
-        Wed, 27 Apr 2022 04:52:30 -0700 (PDT)
-Received: from [192.168.0.160] ([170.253.36.171])
-        by smtp.gmail.com with ESMTPSA id v13-20020adfe28d000000b0020375f27a5asm14137912wri.4.2022.04.27.04.52.29
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Wed, 27 Apr 2022 04:52:30 -0700 (PDT)
-Message-ID: <ba1de951-082e-5c6e-73ef-21c401ed066c@gmail.com>
-Date:   Wed, 27 Apr 2022 13:52:28 +0200
+        with ESMTP id S234594AbiD3Nvj (ORCPT
+        <rfc822;linux-man@vger.kernel.org>); Sat, 30 Apr 2022 09:51:39 -0400
+Received: from JPN01-OS0-obe.outbound.protection.outlook.com (mail-os0jpn01on2128.outbound.protection.outlook.com [40.107.113.128])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 4CF6166CBC;
+        Sat, 30 Apr 2022 06:48:17 -0700 (PDT)
+ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
+ b=WPtH588ARqhvA8o2TkarAYyNEAjqMG2LcWiZAKfc3tYqS3xCN/62N1sm9q7D1sptsxWLGAKy4v8hoAKZBetRtpSNrXriJLu0S8veOJ2ZFifn9hXUhN9a0fpoXjZ94pm5c3RVvrGUJORW5V4WstXt4PhFiryd8UtTvmVzvWtYa3wFRTJdgiXGIngUgXt+Hcth51WrxfRyhe4JaltqKm3AjE9dxoW1gfJI83IhVs3xAglpD7LLcZiAfsVBEldDLaWSnm0OBZlA/aJBfyTDoVFaWObB90AbjbsmkddVn4SgjhDfptu8UB9POEctYLEWOpttPDw3MLfPwSKGcGXIfDBArg==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
+ s=arcselector9901;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
+ bh=M+gKlK7myVKHZqyCWusQle6tdHd9gd6nwgEnmnydETQ=;
+ b=nY/N6+Be/WflNql5UrioUkKf9h9lHZY2zd5oHKgLZDCeowo4pXYSQ9o1YMv89FbXAiUNndbZsvoGesL0qXfuMeZ0/diRsxTl4nehmNZkMkrDdRdfoIOOVH25Aw5+xTWrk2tFbHHxgP0tFsT5km6UvoLNK4V2L+o/DZrFa225HN1T9g8fDBWwmGQcwvGZdvyTO/V+1t0xFvRqdgys+RKw0SwDfJJxI1m+JA6MzofemhzU/A5TZmbS8YmD2c/VafC5MZllYLdrhkMnqwRnM6dpZ1Mryz5zsvUoc3BQnFF1veCq6v2iad9nEVAdzKSDB+6Ows89OUAF/sbOY0/MBZW16w==
+ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
+ smtp.mailfrom=zenithal.me; dmarc=pass action=none header.from=zenithal.me;
+ dkim=pass header.d=zenithal.me; arc=none
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=zenithal.me;
+ s=selector1;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=M+gKlK7myVKHZqyCWusQle6tdHd9gd6nwgEnmnydETQ=;
+ b=G3qgDSmEblQgtvpDbcOFIV7y5eclXC4HIdzuU2oYPjFOGcLggcmg22tv8Hwh1KEaDhv1sRzGkU/4vTAqMpUpeFtagkHr1WhGLgvlLJSU+qFUlYhkYULQgjXRemtCgEmM80uWeYmRBrsadCAB8VpEuBWwS/1YGcuhLkSjqc9RwMk=
+Authentication-Results: dkim=none (message not signed)
+ header.d=none;dmarc=none action=none header.from=zenithal.me;
+Received: from TYCP286MB1393.JPNP286.PROD.OUTLOOK.COM (2603:1096:400:c0::6) by
+ TYCP286MB1706.JPNP286.PROD.OUTLOOK.COM (2603:1096:400:187::8) with Microsoft
+ SMTP Server (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ 15.20.5206.13; Sat, 30 Apr 2022 13:48:11 +0000
+Received: from TYCP286MB1393.JPNP286.PROD.OUTLOOK.COM
+ ([fe80::bd99:5c83:e2dc:a8f7]) by TYCP286MB1393.JPNP286.PROD.OUTLOOK.COM
+ ([fe80::bd99:5c83:e2dc:a8f7%6]) with mapi id 15.20.5206.012; Sat, 30 Apr 2022
+ 13:48:10 +0000
+Date:   Sat, 30 Apr 2022 21:48:02 +0800
+From:   "Hongren (Zenithal) Zheng" <i@zenithal.me>
+To:     Palmer Dabbelt <palmer@dabbelt.com>,
+        Paul Walmsley <paul.walmsley@sifive.com>,
+        Albert Ou <aou@eecs.berkeley.edu>
+Cc:     Atish Patra <atishp@rivosinc.com>,
+        Anup Patel <anup@brainfault.org>,
+        Eric Biederman <ebiederm@xmission.com>,
+        Kees Cook <keescook@chromium.org>, linux-mm@kvack.org,
+        linux-riscv@lists.infradead.org, linux-kernel@vger.kernel.org,
+        linux-api@vger.kernel.org,
+        Michael Kerrisk <mtk.manpages@gmail.com>,
+        linux-man@vger.kernel.org, Jiatai He <jiatai2021@iscas.ac.cn>
+Subject: [PATCH 0/3] RISC-V: Add Bitmanip/Scalar Crypto HWCAP
+Message-ID: <Ym0+Erz5DEnB78vu@Sun>
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+X-Operating-System: Linux Sun 5.15.26
+X-Mailer: Mutt 2.2.1 (2022-02-19)
+X-ClientProxiedBy: SJ0PR05CA0208.namprd05.prod.outlook.com
+ (2603:10b6:a03:330::33) To TYCP286MB1393.JPNP286.PROD.OUTLOOK.COM
+ (2603:1096:400:c0::6)
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
- Thunderbird/91.8.0
-Subject: Re: (same) errors in ceil.3, floor.3, rint.3, and round.3
-Content-Language: en-US
-To:     "Dr. Wolfgang Armbruster" <dr.w.e.armbruster@gmail.com>
-Cc:     linux-man@vger.kernel.org, mtk.manpages@gmail.com
-References: <c6f78359-c187-d132-7d1b-05ffe131c39e@Gmail.Com>
-From:   Alejandro Colomar <alx.manpages@gmail.com>
-In-Reply-To: <c6f78359-c187-d132-7d1b-05ffe131c39e@Gmail.Com>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 7bit
+X-MS-PublicTrafficType: Email
+X-MS-Office365-Filtering-Correlation-Id: 853486b2-3137-4a52-36e2-08da2ab01077
+X-MS-TrafficTypeDiagnostic: TYCP286MB1706:EE_
+X-Microsoft-Antispam-PRVS: <TYCP286MB1706816689531A38448334A2BCFF9@TYCP286MB1706.JPNP286.PROD.OUTLOOK.COM>
+X-MS-Exchange-SenderADCheck: 1
+X-MS-Exchange-AntiSpam-Relay: 0
+X-Microsoft-Antispam: BCL:0;
+X-Microsoft-Antispam-Message-Info: G+eJOJ/Mj/awsD9vY2W5x1MDQdI91DefWCy2qd3jfPcYjVff1difs36b1kHDbW1vRObiEj4URKC4HXLpEJWNKp4M/DHiEZ71lLWfGB3DhaMZtBJ85roZxCwx3ivfvvqamIBho04k2t2DcY6CvXE4+YLEsStnhfRBrQkYySnNatP+R2T8tk5ZRXbgd6TvkWYcVIwLWiTjtRGoh/xKtF6NqKzinnYTnkiRdq0yc9SjDxMZOC37Pw1m5RBPvApUPIVxARS0XOCyDIOaAxaGztDYR4/W/FgQdfrKejiEzs2wjdZg1CydYYEY8xW799FFTSmLIbXxZ+S0Uq52E3jB+W+pZuZU2M3+LZqB8W7t9XDQ1qHUylHPgGPyCq+MBvyaut8pwPL1lBooeB1KqNCZ1hY3KpHU84xtfSiQGCaciqgLEysAeOYYPdG21EqJHhCTxKW6fF7aY/dRBqGWqahVWtssHGbLm0vDKTLoLuuMPuu9qeguC2PVMVONCzWhy7DERUQmcfStp3OBLvo1M9IXmBNXA2Azc0RzUUTbLzXddpeTORlrtPr9v+VQfjU3fjAIHn1AQOhfKuTdTxTsmClYpsGVhtb99ppEfq40xDtEWNYll/IZZ2RRdq1+KFQ79GB7TrLARqhs6ajgpcP3HhHl6ifcCMe4ZaEGHk95kzCDcV8uSFBOgmLzU7DRwAXkgOMe4KomHUu+r6eOfdhWnMK+wppUHqYuYWWL6LsAX8KNyfgjqDoXsa5S3F70PX5GySkZGBzFBW4IqpB4Jifzh+t181zVXzHZUc2hHyTYQrVCdsTU4CI=
+X-Forefront-Antispam-Report: CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:TYCP286MB1393.JPNP286.PROD.OUTLOOK.COM;PTR:;CAT:NONE;SFS:(13230001)(7916004)(366004)(376002)(346002)(396003)(136003)(39830400003)(6506007)(83380400001)(86362001)(966005)(6666004)(52116002)(6486002)(38100700002)(508600001)(6512007)(9686003)(186003)(8936002)(2906002)(316002)(786003)(33716001)(7416002)(66946007)(54906003)(66476007)(66556008)(110136005)(5660300002)(8676002)(4326008)(49092004)(67856001);DIR:OUT;SFP:1102;
+X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
+X-MS-Exchange-AntiSpam-MessageData-0: =?us-ascii?Q?fB7sDSH+cjlQIyzSiYme9UR9dMrVtO4h67CQgqbDsY/PvX5WvhU8I+x08nZP?=
+ =?us-ascii?Q?OmbiaRtR9M6zFVNJRj8n6M8jN4YJ1IsLhUrqT/ioFQEkQlZwls5MnIS+82GT?=
+ =?us-ascii?Q?b7RMZFXpUHaAKtG/UUMiRDT90G8evzneo7GptHK0+aSXPk3DSyB2m4We+JKj?=
+ =?us-ascii?Q?PWMBJOH1z5B/bCgCAEPPrv9fYiqVIwnwEDpTmM02keGYg1ccbuQ+3cwk09Nu?=
+ =?us-ascii?Q?J9oTxlyhO1okRWo7AtO5sa5hO2UkrTxgrvrXn5xk+8A3R/xg6SzWqxUfvibg?=
+ =?us-ascii?Q?a8NhgXR4WPux/2QAntFinkoc8uEu91p+8xjar2mrYW+1sl10bAYtf7lbHJyC?=
+ =?us-ascii?Q?YhC0uYekijDwglC0tqD7eqBxTgeNQdQ/EJt3oI3fAaHTWNE8Vp5Alcu5tgoU?=
+ =?us-ascii?Q?yzyshBQcMuVfbRKI93crVqPX+2vPdZ54Zq1u+oTSeWnR+i8VH8nFrjAsOuYk?=
+ =?us-ascii?Q?rf+hbV0rsnyb61Ap/RZC30HfnRJ7IXjQBSY7uKwlAed8piPP6Ly2FMKjiE1F?=
+ =?us-ascii?Q?gX/nc7tqQZPDCc7yJKP2B5g23PCCZtCUsEXBr/Ggm/Jvs+Q3U2l9lM3PEfDZ?=
+ =?us-ascii?Q?Zi16fDIsIDItva+boLdrrBPj71W+XI+/WTqsiEW1O3iEGSt/BLuQUIlE7dud?=
+ =?us-ascii?Q?CS1aXWdtw3R5AnQzK7pL3KYzkA1xpzHpdsg5OyNWKop26gXbTiGD/ufg5wJ8?=
+ =?us-ascii?Q?0NHjvfHHfxtKCzaGfp5RE6DU+gRGnHdUYur1aus0rfWs9HcslviAyKfY4/iW?=
+ =?us-ascii?Q?+hEJ+ExndBoIrCg4oaUP2dwUk3o9pQVhUrPcSiGxsR0jdS/Bcmw2D4qU952O?=
+ =?us-ascii?Q?Mf6UiGKrCE6z0rWKWKec8GF86t6Wp18dZ8X5Ag2TkfwzRBnWgDCPbYUtAkbo?=
+ =?us-ascii?Q?LEDmO72PLBBtx9h6lfKfnizamx9rcYrN6mcWJPHVYTAlpGual2tR3C17UMD7?=
+ =?us-ascii?Q?RPdHQ8G92GDhQmZ7k7fWOiTaho65BMw+DuFabj0aZr109450rxthEjtNWVBf?=
+ =?us-ascii?Q?gCdHwfN2QcG2wBQvRpCIIoLSchYe8JmP0GJNCkiIHKt998JEBoUrdGYGHfFx?=
+ =?us-ascii?Q?3QDDEFz1gi5KkxTVTUQsvTHfdmNgAa3SYgdvnUSh4HYwMNHt0a4o+Nar7XWn?=
+ =?us-ascii?Q?0G3uJJ9GCXbpW2G+rsm47Btz+Vfl/7a4Kg07ptYQ6lF8+xZtwvNjRlYdj6sK?=
+ =?us-ascii?Q?fyIeYEndh1EBesCsEYbcUkvSlcFzs420cnpNOhfnpKFQXR0JWqbWb/jJnHrp?=
+ =?us-ascii?Q?POz/ScjJ5cZcXCKrH3IPyWHzaOBYyllKhjwoq40v6ly9kRedlWPSyAoiUQYe?=
+ =?us-ascii?Q?T+LpCkgYbxDCPwyrERPW/GPKCOBjOyhmWNj+H9aTbzkzSYOp8Yh0V61Yx/Tf?=
+ =?us-ascii?Q?XJ54j1dL92P7LPtjrOKkb03gMM4orTuT201nIKHqfGGDuI0rW+ZSyKRjF7Yp?=
+ =?us-ascii?Q?sITx3HXSDya5ekQBPSN4932YeaszaeX1W9E2AVRnylh7I7CCtgeTlCXW13e9?=
+ =?us-ascii?Q?7nyNQB8zlc8058Ig3OYhA10UZZt3Jx09E6b7npGNfQ3i3I1/TR6KmwLXuyMD?=
+ =?us-ascii?Q?1IA4Dsw6+Se7c1NwTBole+EAIpr8JuZlZsBSAHGllyt/VR63rwk9QXuzvqbD?=
+ =?us-ascii?Q?cYkxwcyljqg6nuj2MIny+QImLVM2KBqfMSK4cIi5foR+Ank0dF7jb8kFeEKR?=
+ =?us-ascii?Q?fVVrCkeh63oO2clOF5mgOjZ8OE2VFfNJeqxmhIk9XptcF6H9e0yNhT6aoPue?=
+ =?us-ascii?Q?hLEbhQZUZQ=3D=3D?=
+X-OriginatorOrg: zenithal.me
+X-MS-Exchange-CrossTenant-Network-Message-Id: 853486b2-3137-4a52-36e2-08da2ab01077
+X-MS-Exchange-CrossTenant-AuthSource: TYCP286MB1393.JPNP286.PROD.OUTLOOK.COM
+X-MS-Exchange-CrossTenant-AuthAs: Internal
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 30 Apr 2022 13:48:10.8955
+ (UTC)
+X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
+X-MS-Exchange-CrossTenant-Id: 436d481c-43b1-4418-8d7f-84c1e4887cf0
+X-MS-Exchange-CrossTenant-MailboxType: HOSTED
+X-MS-Exchange-CrossTenant-UserPrincipalName: x3uNWMGI8dHouC7NVlLOmpQsuontxGVcNQcluuIsdfjWDXXRIavnaidhB0HVT1HK
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: TYCP286MB1706
 Precedence: bulk
 List-ID: <linux-man.vger.kernel.org>
 X-Mailing-List: linux-man@vger.kernel.org
 
-Hello Dr. Wolfgang Armbruster,
+This patchset proposes a currently viable and forward
+compatible way to expose the bitmanip/scalar crypto
+capability of the platform to the userspace.
 
-Thanks for the precise report.
-I applied the following patch.
+Currently viable refers to the property that hardware
+platforms can easily modify the riscv,isa field in DT to
+tell the kernel it has the capability. Note that QEMU
+has already done so in its device tree.
 
-Thanks,
+Forward compatible refers to the property that userspace
+can still detect the capability of the environment by
+using HWCAP regardless of how the mechanism changes
+below kernel in the future. I do know that it has not
+been settled how to discover a capability, but I think
+kernel has to offer some API after all, and HWCAP
+is the preferred way among other mechanisms for now.
 
-Alex
+More discussion on userspace discovering
+can be found on my PR to openssl
+https://github.com/openssl/openssl/pull/18197
 
----
+Hongren (Zenithal) Zheng (3):
+  RISC-V: add Bitmanip/Scalar Crypto parsing from DT
+  RISC-V: uapi: add HWCAP for Bitmanip/Scalar Crypto
+  RISC-V: HWCAP: parse Bitmanip/Scalar Crypto HWCAP from DT
 
-     ceil.3, floor.3, rint.3, round.3: Fix floating-point limit values
+ arch/riscv/include/asm/elf.h        |  2 +
+ arch/riscv/include/asm/hwcap.h      | 16 ++++++
+ arch/riscv/include/uapi/asm/hwcap.h | 22 ++++++++
+ arch/riscv/kernel/cpu.c             | 14 +++++
+ arch/riscv/kernel/cpufeature.c      | 79 +++++++++++++++++++++++++----
+ 5 files changed, 123 insertions(+), 10 deletions(-)
 
-     According to IEEE 754 - 2008 , section 3.3, table 3.2
-     <https://irem.univ-reunion.fr/IMG/pdf/ieee-754-2008.pdf>
-     the value of emax is described as
-     emax = +127 / +1023
+-- 
+2.35.1
 
-     <https://en.wikipedia.org/wiki/IEEE_754#Basic_and_interchange_formats>
-     states the same values.
-
-     Also, to be more precise about the number of mantissa bits,
-     clarify that the implicit bit is included in the count.
-
-     Reported-by: "Dr. Wolfgang Armbruster" <dr.w.e.armbruster@gmail.com>
-     Signed-off-by: Alejandro Colomar <alx.manpages@gmail.com>
-
-diff --git a/man3/ceil.3 b/man3/ceil.3
-index a01b75c5e..1b83258c1 100644
---- a/man3/ceil.3
-+++ b/man3/ceil.3
-@@ -93,8 +93,10 @@ so this error-handling stuff is just nonsense.
-  (More precisely, overflow can happen only when the maximum value
-  of the exponent is smaller than the number of mantissa bits.
-  For the IEEE-754 standard 32-bit and 64-bit floating-point numbers
--the maximum value of the exponent is 128 (respectively, 1024),
--and the number of mantissa bits is 24 (respectively, 53).)
-+the maximum value of the exponent is 127 (respectively, 1023),
-+and the number of mantissa bits
-+including the implicit bit
-+is 24 (respectively, 53).)
-  .PP
-  The integral value returned by these functions may be too large
-  to store in an integer type
-diff --git a/man3/floor.3 b/man3/floor.3
-index f502be22f..d64e4a512 100644
---- a/man3/floor.3
-+++ b/man3/floor.3
-@@ -92,8 +92,10 @@ so this error-handling stuff is just nonsense.
-  (More precisely, overflow can happen only when the maximum value
-  of the exponent is smaller than the number of mantissa bits.
-  For the IEEE-754 standard 32-bit and 64-bit floating-point numbers
--the maximum value of the exponent is 128 (respectively, 1024),
--and the number of mantissa bits is 24 (respectively, 53).)
-+the maximum value of the exponent is 127 (respectively, 1023),
-+and the number of mantissa bits
-+including the implicit bit
-+is 24 (respectively, 53).)
-  .SH SEE ALSO
-  .BR ceil (3),
-  .BR lrint (3),
-diff --git a/man3/rint.3 b/man3/rint.3
-index 70d2205d2..a15ca0d79 100644
---- a/man3/rint.3
-+++ b/man3/rint.3
-@@ -128,8 +128,10 @@ so this error-handling stuff is just nonsense.
-  (More precisely, overflow can happen only when the maximum value
-  of the exponent is smaller than the number of mantissa bits.
-  For the IEEE-754 standard 32-bit and 64-bit floating-point numbers
--the maximum value of the exponent is 128 (respectively, 1024),
--and the number of mantissa bits is 24 (respectively, 53).)
-+the maximum value of the exponent is 127 (respectively, 1023),
-+and the number of mantissa bits
-+including the implicit bit
-+is 24 (respectively, 53).)
-  .PP
-  If you want to store the rounded value in an integer type,
-  you probably want to use one of the functions described in
-diff --git a/man3/round.3 b/man3/round.3
-index 5b6169823..a3968ca88 100644
---- a/man3/round.3
-+++ b/man3/round.3
-@@ -93,8 +93,10 @@ so this error-handling stuff is just nonsense.
-  (More precisely, overflow can happen only when the maximum value
-  of the exponent is smaller than the number of mantissa bits.
-  For the IEEE-754 standard 32-bit and 64-bit floating-point numbers
--the maximum value of the exponent is 128 (respectively, 1024),
--and the number of mantissa bits is 24 (respectively, 53).)
-+the maximum value of the exponent is 127 (respectively, 1023),
-+and the number of mantissa bits
-+including the implicit bit
-+is 24 (respectively, 53).)
-  .PP
-  If you want to store the rounded value in an integer type,
-  you probably want to use one of the functions described in
