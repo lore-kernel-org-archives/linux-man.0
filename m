@@ -2,63 +2,48 @@ Return-Path: <linux-man-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 719C4C433EF
-	for <linux-man@archiver.kernel.org>; Wed,  4 May 2022 14:22:53 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 5D879C433EF
+	for <linux-man@archiver.kernel.org>; Thu,  5 May 2022 12:30:45 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S239066AbiEDO00 (ORCPT <rfc822;linux-man@archiver.kernel.org>);
-        Wed, 4 May 2022 10:26:26 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:41260 "EHLO
+        id S1376681AbiEEMeW (ORCPT <rfc822;linux-man@archiver.kernel.org>);
+        Thu, 5 May 2022 08:34:22 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:37184 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S238025AbiEDO0Z (ORCPT
-        <rfc822;linux-man@vger.kernel.org>); Wed, 4 May 2022 10:26:25 -0400
-Received: from mail-qv1-xf2b.google.com (mail-qv1-xf2b.google.com [IPv6:2607:f8b0:4864:20::f2b])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 9999A2019D;
-        Wed,  4 May 2022 07:22:49 -0700 (PDT)
-Received: by mail-qv1-xf2b.google.com with SMTP id jt15so930600qvb.8;
-        Wed, 04 May 2022 07:22:49 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20210112;
-        h=mime-version:references:in-reply-to:from:date:message-id:subject:to
-         :cc;
-        bh=JOJe8EFexHCJl/2Bc6RO8FsgtVtMHIZENqTmuqDEE2I=;
-        b=R+I1KpWncwM37jcDvaWaBIuoT9NF2QuLZPr3IjIF3/+9wYNZpMUCmWM4I8X+wd0R+j
-         4jCa+JKhojklqTV34Vg8ws3Oj4dt2uZ3xeqEHypoOH7pgSfZiWXKgAtZrCNR8OV5iOr9
-         N7Z9D3bLQTIAL14ZgAhrx9teDv5uV/2WjOwbkygKqUE6TcMQeMUXn1WQtyfO4RP0psnV
-         pTyNZ8JD/FOYiPBRQW9RN9KF0Q7I6RcCX8WLgk5BMVpfM/StWJDN+IIJXZKLDNqbHRJx
-         9mj1bVojs2UukUKW8UG5Xm5x0UKWCBJUxqN2XI2jMIuU0oaHoqazZWigbqbZ6h2kF7HO
-         u8CA==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20210112;
-        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
-         :message-id:subject:to:cc;
-        bh=JOJe8EFexHCJl/2Bc6RO8FsgtVtMHIZENqTmuqDEE2I=;
-        b=TrHsyD4Ex1gOrU53MOICf+G9y9zhcO0bChKTomw5a+cNtgNZTkzfMmaleA754KI8CU
-         W+7HTW92QUzltdD9SztzV6K0LDD34MYF2v6CgD0jw5oah3eRfJyZSATGuEKCczY3X6ak
-         SlfAzsJhW/HIngoWbatqeYD/oiVs7P1AcNc/luB+NrxxcSwfeA9fQZ72GjV1SQO4ngIy
-         eMamI+HldtmeTfVlqORWuafRjqbs+EpWiW0QRIbt6pa0QMTyPPbI7VB7oLXdOBQ0jA/g
-         Zvt/z9KhyqsEAIOcgV/ComeWKR0n11jG57praE3qi+EFDHTOuf6PjiMdr/DPIBsUushQ
-         adHQ==
-X-Gm-Message-State: AOAM531snmsNWPQRxsxwWcVcwOAlef24Qm0xTmPRGH9t2bcWUSUcPeI2
-        VuNIXi6O2jN618dTJrTaakiT1LrOZKS+SL3fvzs=
-X-Google-Smtp-Source: ABdhPJwSLcDDkqI8PXeUJie+v61GcNmYEMGXjvyoA5jowaY5/ifSkN39Q1mNINDyd/sv/G2PmFUQ5nrtxbNGknZIn08=
-X-Received: by 2002:a05:6214:1cc4:b0:435:35c3:f0f1 with SMTP id
- g4-20020a0562141cc400b0043535c3f0f1mr17657763qvd.0.1651674168694; Wed, 04 May
- 2022 07:22:48 -0700 (PDT)
-MIME-Version: 1.0
-References: <YnEeuw6fd1A8usjj@miu.piliscsaba.redhat.com> <20220503224305.GF1360180@dread.disaster.area>
- <CAJfpegt_p2Tg+Tr34PtKSXvTyTJdTTwALMPRVE8KK2NmNVZhEg@mail.gmail.com>
-In-Reply-To: <CAJfpegt_p2Tg+Tr34PtKSXvTyTJdTTwALMPRVE8KK2NmNVZhEg@mail.gmail.com>
-From:   Amir Goldstein <amir73il@gmail.com>
-Date:   Wed, 4 May 2022 17:22:37 +0300
-Message-ID: <CAOQ4uxhALMgZeFHpPhu8oshrBzBjHcV-vTpFO=b-MeQ3OsQ6Ug@mail.gmail.com>
-Subject: Re: [RFC PATCH] getting misc stats/attributes via xattr API
+        with ESMTP id S234283AbiEEMeV (ORCPT
+        <rfc822;linux-man@vger.kernel.org>); Thu, 5 May 2022 08:34:21 -0400
+Received: from us-smtp-delivery-74.mimecast.com (us-smtp-delivery-74.mimecast.com [170.10.129.74])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTP id CF92E4B1FA
+        for <linux-man@vger.kernel.org>; Thu,  5 May 2022 05:30:41 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+        s=mimecast20190719; t=1651753840;
+        h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+         to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+         in-reply-to:in-reply-to:references:references;
+        bh=YlZT13jIA/It2oCfOEpEIe9Baj4YpyTZ8d0J7CEtWsQ=;
+        b=XZoj8dcUSc6BlM/9iZNLH9CMjW1zEBVEKIKtQ1vjsFhwj/tmSKoSPfHiXO8TGri5iJQrrr
+        Bz4qtCtLcazOSlrYA6dMS6qgyeyBOqwavgKd6pfSCG/yIvGDnQ8KHSaTATAXrEHtxmI0WI
+        /nvbb/fyvUifIIQs4YRGB79JLDLZTlg=
+Received: from mimecast-mx02.redhat.com (mx3-rdu2.redhat.com
+ [66.187.233.73]) by relay.mimecast.com with ESMTP with STARTTLS
+ (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ us-mta-343-0xIDvD5lPEWJE6D9hkjW7Q-1; Thu, 05 May 2022 08:30:39 -0400
+X-MC-Unique: 0xIDvD5lPEWJE6D9hkjW7Q-1
+Received: from smtp.corp.redhat.com (int-mx10.intmail.prod.int.rdu2.redhat.com [10.11.54.10])
+        (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
+        (No client certificate requested)
+        by mimecast-mx02.redhat.com (Postfix) with ESMTPS id B60953810D27;
+        Thu,  5 May 2022 12:30:38 +0000 (UTC)
+Received: from ws.net.home (unknown [10.36.112.12])
+        by smtp.corp.redhat.com (Postfix) with ESMTPS id 06CB8463E1C;
+        Thu,  5 May 2022 12:30:35 +0000 (UTC)
+Date:   Thu, 5 May 2022 14:30:33 +0200
+From:   Karel Zak <kzak@redhat.com>
 To:     Miklos Szeredi <miklos@szeredi.hu>
-Cc:     Dave Chinner <david@fromorbit.com>,
-        linux-fsdevel <linux-fsdevel@vger.kernel.org>,
-        "Theodore Ts'o" <tytso@mit.edu>, Karel Zak <kzak@redhat.com>,
+Cc:     linux-fsdevel@vger.kernel.org, Dave Chinner <david@fromorbit.com>,
+        Theodore Ts'o <tytso@mit.edu>,
         Greg KH <gregkh@linuxfoundation.org>,
         Christian Brauner <brauner@kernel.org>,
-        linux-kernel <linux-kernel@vger.kernel.org>,
+        linux-kernel@vger.kernel.org,
         Linux API <linux-api@vger.kernel.org>,
         linux-man <linux-man@vger.kernel.org>,
         LSM <linux-security-module@vger.kernel.org>,
@@ -67,70 +52,55 @@ Cc:     Dave Chinner <david@fromorbit.com>,
         Linus Torvalds <torvalds@linux-foundation.org>,
         Al Viro <viro@zeniv.linux.org.uk>,
         Christian Brauner <christian@brauner.io>,
+        Amir Goldstein <amir73il@gmail.com>,
         James Bottomley <James.Bottomley@hansenpartnership.com>
-Content-Type: text/plain; charset="UTF-8"
+Subject: Re: [RFC PATCH] getting misc stats/attributes via xattr API
+Message-ID: <20220505123033.sgcyx7kfl4kcfcds@ws.net.home>
+References: <YnEeuw6fd1A8usjj@miu.piliscsaba.redhat.com>
+MIME-Version: 1.0
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <YnEeuw6fd1A8usjj@miu.piliscsaba.redhat.com>
+X-Scanned-By: MIMEDefang 2.85 on 10.11.54.10
 Precedence: bulk
 List-ID: <linux-man.vger.kernel.org>
 X-Mailing-List: linux-man@vger.kernel.org
 
-On Wed, May 4, 2022 at 10:18 AM Miklos Szeredi <miklos@szeredi.hu> wrote:
->
-> On Wed, 4 May 2022 at 00:43, Dave Chinner <david@fromorbit.com> wrote:
->
-> > "values" is a very generic name - probably should end up being
-> > something more descriptive of the functionality is provides,
-> > especially if the header file is going to be dumped in
-> > include/linux/. I don't really have a good suggestion at the moment,
-> > though.
->
-> The obvious ones are stat and attr, which are taken already.   Info is
-> probably too generic as well.
->
-> Ideas are welcome.
+On Tue, May 03, 2022 at 02:23:23PM +0200, Miklos Szeredi wrote:
+> Examples:
+> 
+> $ getfattr -etext -n ":" .
+> # file: .
+> :="mnt:\000mntns:"
+> 
+> $ getfattr -etext -n ":mnt:" .
+> # file: .
+> :mnt:="info"
+> 
+> $ getfattr -etext -n ":mnt:info" .
+> # file: .
+> :mnt:info="21 1 254:0 / / rw,relatime - ext4 /dev/root rw\012"
 
-I was thinking of "properties".
+Is there a way how to get mountinfo-like entry by mount ID for some
+sub-tree? Something like:
 
->
-> >
-> > ....
-> >
-> > > +
-> > > +enum {
-> > > +     VAL_MNT_INFO,
-> > > +};
-> > > +
-> > > +static struct val_desc val_mnt_group[] = {
-> > > +     { VD_NAME("info"),              .idx = VAL_MNT_INFO             },
-> > > +     { }
-> > > +};
-> > ....
-> > > +
-> > > +
-> > > +static struct val_desc val_toplevel_group[] = {
-> > > +     { VD_NAME("mnt:"),      .get = val_mnt_get,     },
-> > > +     { VD_NAME("mntns:"),    .get = val_mntns_get,   },
-> > > +     { },
-> > > +};
-> >
-> > I know this is an early POC, my main question is how do you
-> > envisiage this table driven structure being extended down from just
-> > the mount into the filesystem so we can expose filesystem specific
-> > information that isn't covered by generic interfaces like statx?
->
-> I was thinking of adding a i_op callback.   The details are a bit
-> fuzzy, since the vfs and the fs would have to work together when
-> listing the attributes and possibly also when retrieving the attribute
-> itself (think mount options).
->
+ getfattr -etext -n ":mnt:info:21" /
 
-No, please do not think mount options :)
-Please think of an interface that does not mix vfs and fs properties.
+The interface has to be consistent with some notification system (I
+see your question about fsnotify/fanotify at linux-fsdevel) and mount
+ID seems better than paths due to over-mounts, etc.
 
-Sure, with mount(2) you can mix fs and vfs options, but with the new interface
-they should be clearly separated for set and get if possible.
+> $ getfattr -etext -n ":mntns:" .
+> # file: .
+> :mntns:="21:\00022:\00024:\00025:\00023:\00026:\00027:\00028:\00029:\00030:\00031:"
+> 
+> $ getfattr -etext -n ":mntns:28:" .
+> # file: .
+> :mntns:28:="info"
 
-":mnt:info" key to get the effective mount options (as in /proc/$$/mountinfo)
-does not contradict that, because it can be read only.
+  Karel
 
-Thanks,
-Amir.
+-- 
+ Karel Zak  <kzak@redhat.com>
+ http://karelzak.blogspot.com
+
