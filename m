@@ -2,82 +2,134 @@ Return-Path: <linux-man-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 9A0D3C433F5
-	for <linux-man@archiver.kernel.org>; Fri,  6 May 2022 13:03:58 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id D6FC8C433EF
+	for <linux-man@archiver.kernel.org>; Sat,  7 May 2022 00:32:12 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1349647AbiEFNHj (ORCPT <rfc822;linux-man@archiver.kernel.org>);
-        Fri, 6 May 2022 09:07:39 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:60482 "EHLO
+        id S1445070AbiEGAfz (ORCPT <rfc822;linux-man@archiver.kernel.org>);
+        Fri, 6 May 2022 20:35:55 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:43154 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S237119AbiEFNHi (ORCPT
-        <rfc822;linux-man@vger.kernel.org>); Fri, 6 May 2022 09:07:38 -0400
-Received: from dfw.source.kernel.org (dfw.source.kernel.org [139.178.84.217])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 14C7F5DA4F
-        for <linux-man@vger.kernel.org>; Fri,  6 May 2022 06:03:55 -0700 (PDT)
-Received: from smtp.kernel.org (relay.kernel.org [52.25.139.140])
-        (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
-        (No client certificate requested)
-        by dfw.source.kernel.org (Postfix) with ESMTPS id 48A1762032
-        for <linux-man@vger.kernel.org>; Fri,  6 May 2022 13:03:55 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPS id A89BAC385A8
-        for <linux-man@vger.kernel.org>; Fri,  6 May 2022 13:03:54 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-        s=k20201202; t=1651842234;
-        bh=wrAMVlyJK127n9fH48AlFl1LIVHE7dE3FlioRwrDF/o=;
-        h=From:To:Subject:Date:In-Reply-To:References:From;
-        b=mwnRmGOvnzbOUNVVnJ6BvKTdEy9ArZW/TtiHjkTfF6fAe0/Lu8q++gLn0Uz2fkjIl
-         hAdFXwnkB8hx6aJ1Ua3PJTX18m5gj1o465ytX8DTNAgDK9yi5oRYEP9mrrdDFJeVPm
-         9X1NhPX1xAwqUE9+9FneI3CQJ5mGQxzvsyO1RWzydcOH0We6bIBlrgGjIseAOkN2w1
-         aTa1MfkCLP1WfgK6ufh+Cx8RR/iFIrSM63zZdB27TK8I30jckuiuGEq36cV3GplYV+
-         wwjJpPPVYqKfkTDyKEo98TMRWRNtv2ELMLe+sSXjls7YSkZDgGMYaJOOmbPSBhDGq+
-         WeU7Sv2mZ+7YA==
-Received: by aws-us-west-2-korg-bugzilla-1.web.codeaurora.org (Postfix, from userid 48)
-        id 924FBCAC6E2; Fri,  6 May 2022 13:03:54 +0000 (UTC)
-From:   bugzilla-daemon@kernel.org
-To:     linux-man@vger.kernel.org
-Subject: [Bug 89451] Running Chrubuntu, 14.04 LTS, messages on startup.
-Date:   Fri, 06 May 2022 13:03:54 +0000
-X-Bugzilla-Reason: None
-X-Bugzilla-Type: changed
-X-Bugzilla-Watch-Reason: AssignedTo
- documentation_man-pages@kernel-bugs.osdl.org
-X-Bugzilla-Product: Documentation
-X-Bugzilla-Component: man-pages
-X-Bugzilla-Version: unspecified
-X-Bugzilla-Keywords: 
-X-Bugzilla-Severity: normal
-X-Bugzilla-Who: hamdan@digitalbrolly.com
-X-Bugzilla-Status: RESOLVED
-X-Bugzilla-Resolution: INVALID
-X-Bugzilla-Priority: P1
-X-Bugzilla-Assigned-To: documentation_man-pages@kernel-bugs.osdl.org
-X-Bugzilla-Flags: 
-X-Bugzilla-Changed-Fields: cc
-Message-ID: <bug-89451-11311-cF6NB24d4N@https.bugzilla.kernel.org/>
-In-Reply-To: <bug-89451-11311@https.bugzilla.kernel.org/>
-References: <bug-89451-11311@https.bugzilla.kernel.org/>
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
-X-Bugzilla-URL: https://bugzilla.kernel.org/
-Auto-Submitted: auto-generated
+        with ESMTP id S1445071AbiEGAfw (ORCPT
+        <rfc822;linux-man@vger.kernel.org>); Fri, 6 May 2022 20:35:52 -0400
+Received: from mail104.syd.optusnet.com.au (mail104.syd.optusnet.com.au [211.29.132.246])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTP id AC6586543F;
+        Fri,  6 May 2022 17:32:07 -0700 (PDT)
+Received: from dread.disaster.area (pa49-181-2-147.pa.nsw.optusnet.com.au [49.181.2.147])
+        by mail104.syd.optusnet.com.au (Postfix) with ESMTPS id C2F1A5344B9;
+        Sat,  7 May 2022 10:32:02 +1000 (AEST)
+Received: from dave by dread.disaster.area with local (Exim 4.92.3)
+        (envelope-from <david@fromorbit.com>)
+        id 1nn8Ma-008ucI-Uc; Sat, 07 May 2022 10:32:00 +1000
+Date:   Sat, 7 May 2022 10:32:00 +1000
+From:   Dave Chinner <david@fromorbit.com>
+To:     tytso <tytso@mit.edu>
+Cc:     Miklos Szeredi <miklos@szeredi.hu>, linux-fsdevel@vger.kernel.org,
+        Karel Zak <kzak@redhat.com>,
+        Greg KH <gregkh@linuxfoundation.org>,
+        Christian Brauner <brauner@kernel.org>,
+        linux-kernel@vger.kernel.org,
+        Linux API <linux-api@vger.kernel.org>,
+        linux-man <linux-man@vger.kernel.org>,
+        LSM <linux-security-module@vger.kernel.org>,
+        Ian Kent <raven@themaw.net>,
+        David Howells <dhowells@redhat.com>,
+        Linus Torvalds <torvalds@linux-foundation.org>,
+        Al Viro <viro@zeniv.linux.org.uk>,
+        Christian Brauner <christian@brauner.io>,
+        Amir Goldstein <amir73il@gmail.com>,
+        James Bottomley <James.Bottomley@hansenpartnership.com>
+Subject: Re: [RFC PATCH] getting misc stats/attributes via xattr API
+Message-ID: <20220507003200.GM1949718@dread.disaster.area>
+References: <YnEeuw6fd1A8usjj@miu.piliscsaba.redhat.com>
+ <YnRf5CNN2yNKVu0B@mit.edu>
 MIME-Version: 1.0
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <YnRf5CNN2yNKVu0B@mit.edu>
+X-Optus-CM-Score: 0
+X-Optus-CM-Analysis: v=2.4 cv=VuxAv86n c=1 sm=1 tr=0 ts=6275be06
+        a=ivVLWpVy4j68lT4lJFbQgw==:117 a=ivVLWpVy4j68lT4lJFbQgw==:17
+        a=kj9zAlcOel0A:10 a=oZkIemNP1mAA:10 a=7-415B0cAAAA:8
+        a=6tRzxmq33S4bAUIDdMMA:9 a=CjuIK1q_8ugA:10 a=biEYGPWJfzWAr4FL6Ov7:22
 Precedence: bulk
 List-ID: <linux-man.vger.kernel.org>
 X-Mailing-List: linux-man@vger.kernel.org
 
-https://bugzilla.kernel.org/show_bug.cgi?id=3D89451
+On Thu, May 05, 2022 at 04:38:12PM -0700, tytso wrote:
+> On Tue, May 03, 2022 at 02:23:23PM +0200, Miklos Szeredi wrote:
+> > 
+> > : - root
+> > bar - an attribute
+> > foo: - a folder (can contain attributes and/or folders)
+> > 
+> > The contents of a folder is represented by a null separated list of names.
+> > 
+> > Examples:
+> > 
+> > $ getfattr -etext -n ":" .
+> > # file: .
+> > :="mnt:\000mntns:"
+> 
+> In your example, does it matter what "." is?  It looks like in some
+> cases, it makes no difference at all, and in other cases, like this,
+> '.' *does* matter:
+> 
+> > $ getfattr -etext -n ":mnt:info" .
+> > # file: .
+> > :mnt:info="21 1 254:0 / / rw,relatime - ext4 /dev/root rw\012"
+> 
+> Is that right?
+> 
+> > $ getfattr -etext -n ":mntns:" .
+> > # file: .
+> > :mntns:="21:\00022:\00024:\00025:\00023:\00026:\00027:\00028:\00029:\00030:\00031:"
+> 
+> What is this returning?  All possible mount name spaces?  Or all of
+> the mount spaces where '.' happens to exist?
+> 
+> Also, using the null character means that we can't really use shell
+> scripts calling getfattr.
 
-hamdan@digitalbrolly.com (hamdan@digitalbrolly.com) changed:
+Yeah, it should be returning an attr per namespace, not an attr
+whose value contains all the valid namespaces.
 
-           What    |Removed                     |Added
-----------------------------------------------------------------------------
-                 CC|                            |hamdan@digitalbrolly.com
+i.e. if the next level of the heirachy is 21, 22, 24, .... we should
+be seeing a listing of multiple attributes with naming like:
 
---- Comment #3 from hamdan@digitalbrolly.com (hamdan@digitalbrolly.com) ---
-https://mindqsystems.com/trainings/selenium-live-project/
+:mntns:21:
+:mntns:22:
+:mntns:24:
+....
 
---=20
-You may reply to this email to add a comment.
+rather than an attribute whose value contains the names of the
+attrbiutes in the next layer of the heirarchy. Then we can just
+pull the namespace we want and feed it directly to:
 
-You are receiving this mail because:
-You are watching the assignee of the bug.=
+$ getfattr -n ":mntns:21:"
+
+and we get a list of all the attributes available for that
+namespace...
+
+> I understand that the problem is that in
+> some cases, you might want to return a pathname, and NULL is the only
+> character which is guaranteed not to show up in a pathname.  However,
+> it makes parsing the returned value in a shell script exciting.
+
+We shouldn't be returning the names of children in an attribute
+value. We have a syscall API for doing this that - listxattr() will
+iterate attribute names just like a directory does with readdir()
+via listxattr(). IOWs, we should not need to encode the next layer
+of child attribute names into the value of the parent attribute - if
+we do a listxattr on a parent that has children, return the list of
+child names as individual attribute names....
+
+(Yes, I know listxattr null separates the attribute names - it's a
+godawful kernel API - but that's not the programmatic interface
+we should expose at the shell script level.)
+
+Cheers,
+
+Dave.
+-- 
+Dave Chinner
+david@fromorbit.com
