@@ -2,89 +2,100 @@ Return-Path: <linux-man-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 4F51EC433EF
-	for <linux-man@archiver.kernel.org>; Thu, 26 May 2022 18:21:53 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 924AAC433EF
+	for <linux-man@archiver.kernel.org>; Sun, 29 May 2022 11:14:56 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S234573AbiEZSVs (ORCPT <rfc822;linux-man@archiver.kernel.org>);
-        Thu, 26 May 2022 14:21:48 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:43314 "EHLO
+        id S229930AbiE2LOz (ORCPT <rfc822;linux-man@archiver.kernel.org>);
+        Sun, 29 May 2022 07:14:55 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:50070 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1349460AbiEZSVe (ORCPT
-        <rfc822;linux-man@vger.kernel.org>); Thu, 26 May 2022 14:21:34 -0400
-Received: from us-smtp-delivery-124.mimecast.com (us-smtp-delivery-124.mimecast.com [170.10.129.124])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTP id CB148225
-        for <linux-man@vger.kernel.org>; Thu, 26 May 2022 11:21:22 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
-        s=mimecast20190719; t=1653589281;
-        h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
-         to:to:cc:cc:mime-version:mime-version:content-type:content-type:
-         in-reply-to:in-reply-to:references:references;
-        bh=38XfMoTF5WehrxS/C0ikgszal87kQNkQiqnwAIHjLi4=;
-        b=JuSZcysjdovTSp2RjMdm1YoEACQDOZhjcGAB8R/6GCL93MtJ0fG1m3Xrz6rg2WuPHtDS4g
-        pDKjE3se73ITkR2584KqZoFPM7UqT81mzk3eC6xq5i6O1pUl1kZ3ujIAaEoGOgN2FBt9Hf
-        WFNx9Yef7+MKCHkDRaItPhK84BCLQ50=
-Received: from mail-io1-f71.google.com (mail-io1-f71.google.com
- [209.85.166.71]) by relay.mimecast.com with ESMTP with STARTTLS
- (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- us-mta-377-YDj6Gd0aNZ-UIySBQpddpg-1; Thu, 26 May 2022 14:21:20 -0400
-X-MC-Unique: YDj6Gd0aNZ-UIySBQpddpg-1
-Received: by mail-io1-f71.google.com with SMTP id i189-20020a6bb8c6000000b0065e475f5ca9so1457433iof.15
-        for <linux-man@vger.kernel.org>; Thu, 26 May 2022 11:21:20 -0700 (PDT)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20210112;
-        h=x-gm-message-state:date:from:to:cc:subject:message-id:references
-         :mime-version:content-disposition:in-reply-to;
-        bh=38XfMoTF5WehrxS/C0ikgszal87kQNkQiqnwAIHjLi4=;
-        b=VIxFK+97ZVZTLJtSxki1UU0tYcr4JKBbmGQaDYO7snMnIxugatm/cJ71EsKwKTcLH/
-         PGpk1Hyv+37rRnjHHoE9Ct59fL4w6ti1awIlXcqZO22z1IqsRW1d6QnZwxmymMyZHEIg
-         s6x4Zy32poGgTV7IwyGOjKA3KGTEPadvfSGJxn5/dycaKIem2JVMqyGn2HG88I2WHP4L
-         zRip6H5v2EAO0lURqSNtS43fmJJdzezpTEwPuqcQeT2nCXhwOusjoP7ohGq76E4lXF3V
-         M0EYF6XSLL1DZRpkR+0asQ480E/3hi/6Uranw+SYa05mMXdxDVgEYRX2ijHV8sMzfiKQ
-         XZeQ==
-X-Gm-Message-State: AOAM530Q1pT1frKItHEl/AtOcEQrsIGOyOPcBFWsu5tjrmrAs/vXepsX
-        A4ZoKbIylGxX/I2pAT2XGde0NzIcVaaNNiaczKzdk5gpa6lOvd251y26JTGFmuk8TSSG6GeLqTm
-        i0O028RbjP4JxR96+hZdx
-X-Received: by 2002:a05:6e02:1a83:b0:2d1:bb9a:bade with SMTP id k3-20020a056e021a8300b002d1bb9abademr9267857ilv.189.1653589279431;
-        Thu, 26 May 2022 11:21:19 -0700 (PDT)
-X-Google-Smtp-Source: ABdhPJyo5uCGVz7N4PsOjlmPY3+QoQqTSmWgB2Y2AsCOvEfX+S0xJlQO5axkD47k+matdsY1HWTlrw==
-X-Received: by 2002:a05:6e02:1a83:b0:2d1:bb9a:bade with SMTP id k3-20020a056e021a8300b002d1bb9abademr9267850ilv.189.1653589279231;
-        Thu, 26 May 2022 11:21:19 -0700 (PDT)
-Received: from xz-m1.local (cpec09435e3e0ee-cmc09435e3e0ec.cpe.net.cable.rogers.com. [99.241.198.116])
-        by smtp.gmail.com with ESMTPSA id n20-20020a922614000000b002d1d8de99e7sm615065ile.40.2022.05.26.11.21.17
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Thu, 26 May 2022 11:21:18 -0700 (PDT)
-Date:   Thu, 26 May 2022 14:21:17 -0400
-From:   Peter Xu <peterx@redhat.com>
-To:     Mike Kravetz <mike.kravetz@oracle.com>
-Cc:     linux-man@vger.kernel.org, linux-mm@kvack.org,
-        Alejandro Colomar <alx.manpages@gmail.com>,
-        Michael Kerrisk <mtk.manpages@gmail.com>,
-        David Hildenbrand <david@redhat.com>,
-        Axel Rasmussen <axelrasmussen@google.com>
-Subject: Re: [PATCH v2] madvise.2: Clarify addr/length and update hugetlb
- support
-Message-ID: <Yo/FHRV+i1VNf+o2@xz-m1.local>
-References: <20220526180950.13916-1-mike.kravetz@oracle.com>
+        with ESMTP id S229993AbiE2LOy (ORCPT
+        <rfc822;linux-man@vger.kernel.org>); Sun, 29 May 2022 07:14:54 -0400
+Received: from dfw.source.kernel.org (dfw.source.kernel.org [139.178.84.217])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 921C5986C8
+        for <linux-man@vger.kernel.org>; Sun, 29 May 2022 04:14:53 -0700 (PDT)
+Received: from smtp.kernel.org (relay.kernel.org [52.25.139.140])
+        (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+        (No client certificate requested)
+        by dfw.source.kernel.org (Postfix) with ESMTPS id C20DA60EF1
+        for <linux-man@vger.kernel.org>; Sun, 29 May 2022 11:14:52 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPS id 199E5C385B8
+        for <linux-man@vger.kernel.org>; Sun, 29 May 2022 11:14:52 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+        s=k20201202; t=1653822892;
+        bh=sbiILAykPopVo6iRws7aouGOLYDv2g2pyMl8tnkmQcA=;
+        h=From:To:Subject:Date:In-Reply-To:References:From;
+        b=KXanVk2k3tlPdFzhq/25nQMinLHCZARu2+hjiQ5LaqT8cP9BaNN51TIdX23dQP2Ba
+         +gk1BaVihLTIhOb4gSRmduaXFauMe6HlolWmiAaITZrSaWbcM/RsuuymjbsESeMDSW
+         m3nBWLLGpGjw9W8bCIFeFNxqxoGOdEqvoGOzCkAaqT83zs0Ug3btt9fXWrCKZPQmMr
+         e4oEKtxMp8NuxYr6h92+TEO3ZpgQmet7CGBH3ZVRVgP2DXVr0l3YTbLWKkDXXP888s
+         BlRoeeFnDbRTypHh7AgV3gQllCJgGQvfnh2VUinlu+C2r5/axXyIZ/IUPDtdk4iV7j
+         zupOd7ALAQ2QQ==
+Received: by aws-us-west-2-korg-bugzilla-1.web.codeaurora.org (Postfix, from userid 48)
+        id 0844BC05FD5; Sun, 29 May 2022 11:14:52 +0000 (UTC)
+From:   bugzilla-daemon@kernel.org
+To:     linux-man@vger.kernel.org
+Subject: [Bug 121891] Canadian Call's $@$@$@$@**@185587O92847+@***++ 7 ++++
+ E.p.s.o.n. p.r.i.n.t.e.r c.u.s.t.o.m.e.r S.u.p.p.o.rt p.h.o.n.e n.u.m.b.e.r
+ u.s.a. C.a.l.l.pdf
+Date:   Sun, 29 May 2022 11:14:51 +0000
+X-Bugzilla-Reason: None
+X-Bugzilla-Type: changed
+X-Bugzilla-Watch-Reason: AssignedTo
+ documentation_man-pages@kernel-bugs.osdl.org
+X-Bugzilla-Product: Documentation
+X-Bugzilla-Component: man-pages
+X-Bugzilla-Version: unspecified
+X-Bugzilla-Keywords: 
+X-Bugzilla-Severity: normal
+X-Bugzilla-Who: kaleabernathy@gmail.com
+X-Bugzilla-Status: RESOLVED
+X-Bugzilla-Resolution: INVALID
+X-Bugzilla-Priority: P1
+X-Bugzilla-Assigned-To: documentation_man-pages@kernel-bugs.osdl.org
+X-Bugzilla-Flags: 
+X-Bugzilla-Changed-Fields: cc
+Message-ID: <bug-121891-11311-yXK3cTWWl9@https.bugzilla.kernel.org/>
+In-Reply-To: <bug-121891-11311@https.bugzilla.kernel.org/>
+References: <bug-121891-11311@https.bugzilla.kernel.org/>
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
+X-Bugzilla-URL: https://bugzilla.kernel.org/
+Auto-Submitted: auto-generated
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
-Content-Disposition: inline
-In-Reply-To: <20220526180950.13916-1-mike.kravetz@oracle.com>
 Precedence: bulk
 List-ID: <linux-man.vger.kernel.org>
 X-Mailing-List: linux-man@vger.kernel.org
 
-On Thu, May 26, 2022 at 11:09:50AM -0700, Mike Kravetz wrote:
-> Clarify that madvise only works on full pages, and remove references
-> to 'bytes'.
-> 
-> Update MADV_DONTNEED and MADV_REMOVE sections to remove notes that
-> HugeTLB mappings are not supported.  Indicate the releases when they
-> were first supported as well as alignment restrictions.
-> 
-> Signed-off-by: Mike Kravetz <mike.kravetz@oracle.com>
+https://bugzilla.kernel.org/show_bug.cgi?id=3D121891
 
-Acked-by: Peter Xu <peterx@redhat.com>
+kaleabernathy@gmail.com changed:
 
--- 
-Peter Xu
+           What    |Removed                     |Added
+----------------------------------------------------------------------------
+                 CC|                            |kaleabernathy@gmail.com
 
+--- Comment #1 from kaleabernathy@gmail.com ---
+There is an evident copy and paste problem in the files gpmc.c (version 3.1=
+4)
+and omap-gpmc.c, as noted in the summary (version 4.6).
+
+The versions between these haven't been examined, although the problem is v=
+ery
+certainly there.
+
+GPMC_CONFIG4_WEEXTRADELAY is a constant that is declared but never utilized.
+
+GPMC_CONFIG4_OEEXTRADELAY is used instead where it should be.
+
+In version 3.14, the incorrect line is located at
+arch/arm/mach-omap2/gpmc.c:275.
+
+The incorrect line is located in drivers/memory/omap-gpmc.c:379 in 4.6
+https://cupcake-2048.com
+
+--=20
+You may reply to this email to add a comment.
+
+You are receiving this mail because:
+You are watching the assignee of the bug.=
