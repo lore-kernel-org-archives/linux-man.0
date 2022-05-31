@@ -2,81 +2,89 @@ Return-Path: <linux-man-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id D82C6C433EF
-	for <linux-man@archiver.kernel.org>; Sun, 29 May 2022 20:40:29 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 2E2BCC4332F
+	for <linux-man@archiver.kernel.org>; Tue, 31 May 2022 01:12:06 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S230098AbiE2Uk3 (ORCPT <rfc822;linux-man@archiver.kernel.org>);
-        Sun, 29 May 2022 16:40:29 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:37312 "EHLO
+        id S242670AbiEaBMF (ORCPT <rfc822;linux-man@archiver.kernel.org>);
+        Mon, 30 May 2022 21:12:05 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:48484 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S229782AbiE2Uk2 (ORCPT
-        <rfc822;linux-man@vger.kernel.org>); Sun, 29 May 2022 16:40:28 -0400
-Received: from mail-qv1-f41.google.com (mail-qv1-f41.google.com [209.85.219.41])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id B22A1B19
-        for <linux-man@vger.kernel.org>; Sun, 29 May 2022 13:40:26 -0700 (PDT)
-Received: by mail-qv1-f41.google.com with SMTP id v5so8452024qvs.10
-        for <linux-man@vger.kernel.org>; Sun, 29 May 2022 13:40:26 -0700 (PDT)
+        with ESMTP id S242242AbiEaBME (ORCPT
+        <rfc822;linux-man@vger.kernel.org>); Mon, 30 May 2022 21:12:04 -0400
+Received: from us-smtp-delivery-124.mimecast.com (us-smtp-delivery-124.mimecast.com [170.10.129.124])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTP id A30429398F
+        for <linux-man@vger.kernel.org>; Mon, 30 May 2022 18:12:03 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+        s=mimecast20190719; t=1653959522;
+        h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+         to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+         content-transfer-encoding:content-transfer-encoding;
+        bh=uY3Q5t/YVyCbs5m+kSxWQrSqX2D5qqz1qZgdmSgdE/A=;
+        b=bXujg+jNcEz5DWfC+aE+nZ7RI0eQe8c474js3L7x43AFLJa9y6Nt6rxvi1fBooxynjsWsV
+        QsLt5gzbcT9oK4LaZsyJLUEoCppzSmiqAJ6JYQivF/CpZyu4GRNxzfSK54tE14pfhQTDVn
+        VZX1MUgfeh3X+erxbYbZ4M5/Hx2CPK4=
+Received: from mail-il1-f199.google.com (mail-il1-f199.google.com
+ [209.85.166.199]) by relay.mimecast.com with ESMTP with STARTTLS
+ (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ us-mta-607-g_sbNlBiPFKKaEPDt84rww-1; Mon, 30 May 2022 21:12:01 -0400
+X-MC-Unique: g_sbNlBiPFKKaEPDt84rww-1
+Received: by mail-il1-f199.google.com with SMTP id g11-20020a056e021e0b00b002d1b5e8389bso9295862ila.2
+        for <linux-man@vger.kernel.org>; Mon, 30 May 2022 18:12:01 -0700 (PDT)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20210112;
-        h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
-         :references:mime-version:content-transfer-encoding;
-        bh=pQG/wxJHrFCtZzyT//DFS68PeenXkIBHvqUHNfOYKjQ=;
-        b=w/WDsH3UgBUH+LSe+oeqny2DffMQJVpayxSSVhwan/gtkQauXTIfcIoOupoaNYwh/7
-         cy4D8Xnjlh1kWEBV1nUmARlIN3A2rwt3749ibPW0qYb7SqeML1cciwWNTT2MdZuZn0QS
-         pMyTcTu2YlOp8XRJZ4eEzxWUQzjw6OpTLaGkHPTSCe5PjWw15ihC4r3Qft8e5y8iahY8
-         3E5w5v5JqAiIrvTcpsymwOQgrpUsM3jNALRkzimXqyvSd7IeOfZZqYEUdAUdpJIc6PrF
-         NB1OsBIphmaZUv+6KkiD4EbEbc4nlFkG4TQwuQ7E1LIzbSfQmGX/X1veq9SKkx1vq4EX
-         G6aA==
-X-Gm-Message-State: AOAM533ud7Lr8MdAEXVGCBJS2o+PVczF3xodbr0PIgfj6jWDQDaLwoHU
-        Od5/qhbTM3EG7T1nvR+cC0c=
-X-Google-Smtp-Source: ABdhPJw0Zq9Ua5TRfRLUr3jEc7NWKjvTR1qi/t26Q7Wm1MalmVAV036EtyvOOxXZMEVup9s44NfzgQ==
-X-Received: by 2002:ad4:5de2:0:b0:462:2cb8:2146 with SMTP id jn2-20020ad45de2000000b004622cb82146mr33010260qvb.110.1653856825793;
-        Sun, 29 May 2022 13:40:25 -0700 (PDT)
-Received: from localhost.localdomain ([2601:184:417f:5c0a:18f7:8cb3:d465:4430])
-        by smtp.gmail.com with ESMTPSA id q11-20020a37a70b000000b0069fc13ce211sm6490103qke.66.2022.05.29.13.40.25
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Sun, 29 May 2022 13:40:25 -0700 (PDT)
-From:   David Ward <david.ward@gatech.edu>
-To:     Michael Kerrisk <mtk.manpages@gmail.com>,
-        Alejandro Colomar <alx.manpages@gmail.com>
-Cc:     David Ward <david.ward@gatech.edu>,
-        Michael Welsh Duggan <mwd@cert.org>,
-        Nadav Har'El <nyh@math.technion.ac.il>,
-        linux-man@vger.kernel.org
-Subject: [PATCH RESEND] poll.2: Set fd to its bitwise complement to ignore
-Date:   Sun, 29 May 2022 16:37:37 -0400
-Message-Id: <20220529203737.290-1-david.ward@gatech.edu>
-X-Mailer: git-send-email 2.35.1.windows.2
-In-Reply-To: <20220516023344.803-1-david.ward@gatech.edu>
-References: <20220516023344.803-1-david.ward@gatech.edu>
+        h=x-gm-message-state:from:to:cc:subject:date:message-id:mime-version
+         :content-transfer-encoding;
+        bh=uY3Q5t/YVyCbs5m+kSxWQrSqX2D5qqz1qZgdmSgdE/A=;
+        b=fEInSDUdUzZCl50kYITqoes/c+atvvBMqxlCyAOmk7R4mAPZUkMAoDfbV4v9CEmHBU
+         4eEogv+naxr3Bl1E1NYHFrJysgMetk4IEAD10cbRgMcntAFqDa+vYpS2zM6AmxXlLQEV
+         btft8Vp3FoQHrLkUFJveihWGx4qqy2V1DVURoTCMiphhmurTHuJWEUnbTdSyAoVgTfMz
+         VYVVSaIS7jBB6XnsX6L2EVmLbL1QidVvNcB9ci/EcPn/+94kvv+ngjKaW/NVouMW2AuW
+         VSM9P5SqtNEp5W0Yy9lrNkMSdylkIb2E6igwQgXz3/NoCMn6KOU3nx00CIRECwyQOUIy
+         jmWA==
+X-Gm-Message-State: AOAM5322Y71kgiAm41eYER5cJjsxWDSt8VIs3aCwJZZ66PK9VyY8wsZZ
+        o6I5GCbntU+xdYqvpYyrrY3BOgjr5KiHaIHWW78hU8JTSNVZu8yyI8ynkq+9t3P0qUhW9K9hy/E
+        3ocNAPdddnW7ydMiU8bRn
+X-Received: by 2002:a92:ca45:0:b0:2d1:b7cf:26a9 with SMTP id q5-20020a92ca45000000b002d1b7cf26a9mr19174941ilo.52.1653959520447;
+        Mon, 30 May 2022 18:12:00 -0700 (PDT)
+X-Google-Smtp-Source: ABdhPJyeURDuT17RoMdt/uGX/WT1sdcY73aFHJEA9T6tFDlMEsYyTOLLFA+3AE/oWzP7hkMJWJHdWg==
+X-Received: by 2002:a92:ca45:0:b0:2d1:b7cf:26a9 with SMTP id q5-20020a92ca45000000b002d1b7cf26a9mr19174930ilo.52.1653959520215;
+        Mon, 30 May 2022 18:12:00 -0700 (PDT)
+Received: from localhost.localdomain (cpec09435e3e0ee-cmc09435e3e0ec.cpe.net.cable.rogers.com. [99.241.198.116])
+        by smtp.gmail.com with ESMTPSA id s6-20020a02c7c6000000b0032be3784b9bsm3158234jao.117.2022.05.30.18.11.58
+        (version=TLS1_3 cipher=TLS_CHACHA20_POLY1305_SHA256 bits=256/256);
+        Mon, 30 May 2022 18:11:59 -0700 (PDT)
+From:   Peter Xu <peterx@redhat.com>
+To:     linux-kernel@vger.kernel.org, linux-man@vger.kernel.org,
+        linux-mm@kvack.org
+Cc:     Alejandro Colomar <alx.manpages@gmail.com>,
+        Michael Kerrisk <mtk.manpages@gmail.com>,
+        Axel Rasmussen <axelrasmussen@google.com>,
+        Andrea Arcangeli <aarcange@redhat.com>, peterx@redhat.com,
+        Nadav Amit <nadav.amit@gmail.com>,
+        Andrew Morton <akpm@linux-foundation.org>
+Subject: [PATCH 0/2] userfaultfd.2: Update to latest
+Date:   Mon, 30 May 2022 21:11:55 -0400
+Message-Id: <20220531011157.46868-1-peterx@redhat.com>
+X-Mailer: git-send-email 2.32.0
+Content-Type: text/plain; charset="utf-8"
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 Precedence: bulk
 List-ID: <linux-man.vger.kernel.org>
 X-Mailing-List: linux-man@vger.kernel.org
 
-Unlike negating the fd, this works even for fd 0. It is a better fix for
-https://bugzilla.kernel.org/show_bug.cgi?id=79411.
+Add the two missing pieces till latest 5.19-rc1: the UFFD_USER_MODE_ONLY
+flag, and also the recent wr-protect support on shmem and hugetlbfs.
 
-Signed-off-by: David Ward <david.ward@gatech.edu>
----
- man2/poll.2 | 5 ++---
- 1 file changed, 2 insertions(+), 3 deletions(-)
+Please review, thanks.
 
-diff --git a/man2/poll.2 b/man2/poll.2
-index 205468f3e..cd65bc6e8 100644
---- a/man2/poll.2
-+++ b/man2/poll.2
-@@ -83,10 +83,9 @@ field returns zero.
- (This provides an easy way of ignoring a
- file descriptor for a single
- .BR poll ()
--call: simply negate the
-+call: simply set the
- .I fd
--field.
--Note, however, that this technique can't be used to ignore file descriptor 0.)
-+field to its bitwise complement.)
- .PP
- The field
- .I events
+Peter Xu (2):
+  userfaultfd.2: Add section for UFFD_USER_MODE_ONLY
+  userfaultfd.2: Update on write-protection support
+
+ man2/userfaultfd.2 | 22 +++++++++++++++++-----
+ 1 file changed, 17 insertions(+), 5 deletions(-)
+
+-- 
+2.32.0
+
