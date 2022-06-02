@@ -2,56 +2,63 @@ Return-Path: <linux-man-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 9406DC433EF
-	for <linux-man@archiver.kernel.org>; Wed,  1 Jun 2022 08:06:33 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id B4447C433EF
+	for <linux-man@archiver.kernel.org>; Thu,  2 Jun 2022 04:23:01 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S234295AbiFAIGb (ORCPT <rfc822;linux-man@archiver.kernel.org>);
-        Wed, 1 Jun 2022 04:06:31 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:46446 "EHLO
+        id S229753AbiFBEWy (ORCPT <rfc822;linux-man@archiver.kernel.org>);
+        Thu, 2 Jun 2022 00:22:54 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:48540 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1350507AbiFAIG3 (ORCPT
-        <rfc822;linux-man@vger.kernel.org>); Wed, 1 Jun 2022 04:06:29 -0400
-Received: from mail.slidebizcompany.com (mail.slidebizcompany.com [135.125.235.171])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id B43044704F
-        for <linux-man@vger.kernel.org>; Wed,  1 Jun 2022 01:06:27 -0700 (PDT)
-Received: by mail.slidebizcompany.com (Postfix, from userid 1002)
-        id DAE21A3472; Wed,  1 Jun 2022 08:06:16 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=slidebizcompany.com;
-        s=mail; t=1654070785;
-        bh=f01OOv7iZ6eKP39nAJoyJ+/Cmpugf6hkYKbYNn4lotU=;
-        h=Date:From:To:Subject:From;
-        b=spFGc5fuemEIYQiSPaA5zDr8LSSkU60HwfXE8TtMdfmgmj4eEW/GN3aSDnoR5+NPb
-         T6fbaS0hTXRWIJZvkCta94vYzUFrUAYTpw5kGQxK8PfAzG6C2RhsFf6JLmBmhNmOob
-         7ljF4NHrGCU5WqQ3Lxc+62wdIQMdWv9+bmWV8gpe3rqSL63KlLW+iO/La01+tp9H9H
-         LoB6Bcd3aueAq8mDvNWN4Az+DXJ0rUJhrMYq2tRsNRizIwnxykNevKOnAI2Ne8lbYe
-         7Kkvrvx/2lulQ4v0bsAqoUtjEQV3qgNRu7af0nltWb1ezAyyJgMVGv+GhhHlHGs4Le
-         0cFP9xSNgs0yQ==
-Received: by mail.slidebizcompany.com for <linux-man@vger.kernel.org>; Wed,  1 Jun 2022 08:06:12 GMT
-Message-ID: <20220601064500-0.1.1o.p7g2.0.20kda7a1j9@slidebizcompany.com>
-Date:   Wed,  1 Jun 2022 08:06:12 GMT
-From:   "Miguel Garcia" <miguel.garcia@slidebizcompany.com>
-To:     <linux-man@vger.kernel.org>
-Subject: Servicio de la flota
-X-Mailer: mail.slidebizcompany.com
+        with ESMTP id S229660AbiFBEWx (ORCPT
+        <rfc822;linux-man@vger.kernel.org>); Thu, 2 Jun 2022 00:22:53 -0400
+Received: from mail-ot1-x32a.google.com (mail-ot1-x32a.google.com [IPv6:2607:f8b0:4864:20::32a])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id D8C8B13CC9
+        for <linux-man@vger.kernel.org>; Wed,  1 Jun 2022 21:22:50 -0700 (PDT)
+Received: by mail-ot1-x32a.google.com with SMTP id t22-20020a0568301e3600b0060b333f7a1eso2691451otr.0
+        for <linux-man@vger.kernel.org>; Wed, 01 Jun 2022 21:22:50 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20210112;
+        h=mime-version:from:date:message-id:subject:to:cc;
+        bh=4uS/jhtVhxW14XX96pWClMn6NOZWkiOHoJGEPF2/5do=;
+        b=Ip4bGkeaoOm7fGKgt37lKfeFdXVzsAXn398n8d4aR16CJAH+DxPqYWsZIeeD90p/+B
+         /YxYo1UJ0WltvU4ACFxfyq/fRw3tqAXbnvUyI31AWQ68Z0k02vx+nTnxRV+g3ZfZinNx
+         9eJkwsPAjFvyFJajSLwtzYYMa2No0sShhAfK+gg2OQP4iDaO4Mj0DkhFQSocz3irjEC9
+         er2Om1rX1hk8PW/BT7v6wLCFDBWBr5Yd1Ui+1rjC/e0GRRvr+AM+yPU2LwCfJ5pvI8Tw
+         0LxpKuCa3eFf4IZaxfg1j3ZF9kPs2YwslDI5sVCBhF/Woknl8kv+iFbjG714xm7AAUs0
+         v4OA==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20210112;
+        h=x-gm-message-state:mime-version:from:date:message-id:subject:to:cc;
+        bh=4uS/jhtVhxW14XX96pWClMn6NOZWkiOHoJGEPF2/5do=;
+        b=kgRuNy1n550ehox0/EuyXkmbTQrh2RQyL2/kg7xIU7uxsr/2gT5pSUCVFJ1N0IeFru
+         g6jeL3UjppE2AXhISEAGnmizbNcz8v7GbgQw08i74HcAfOXZ8ScaWpmqxz7eW7VMrTOu
+         F0Z66HatJDpuDh+yad/7Rz3b0KynFLv9fTG8s6GHj8Af1WYCHSUOgYnPhbnKJqPP1k6V
+         272VML4eZhwFh5TW7oTAVwIe3WSbLep8o+L+T2OqJzV0rR58A3ecjbFo4dmB4Kdn8BZk
+         /bL2xqqhEdalitWa4W/JAqPlMdd95wr/YS1y0sSe38T3VeZFxzfn180jFQSbiI+Fb7Ne
+         SM9Q==
+X-Gm-Message-State: AOAM530OcbUi3VRNE8VxQYTqLN3NwByA03MHfZAYUizvDaWYhctoW49J
+        /OF8gDbKLFJN6PR83Zn7trQi6WY/vGacgJKP+BE=
+X-Google-Smtp-Source: ABdhPJx6YQOhDY+fIT327BTR7ZyVSLKyxC8AnPh2Ra+LM8HMsgrGxHITIxsMx3EQwFSpEVUCqNYNHbb40s3oSHdusWA=
+X-Received: by 2002:a9d:6ac8:0:b0:60b:cce:eff0 with SMTP id
+ m8-20020a9d6ac8000000b0060b0cceeff0mr1322422otq.75.1654143770247; Wed, 01 Jun
+ 2022 21:22:50 -0700 (PDT)
 MIME-Version: 1.0
+From:   "Joseph C. Sible" <josephcsible@gmail.com>
+Date:   Thu, 2 Jun 2022 00:22:33 -0400
+Message-ID: <CABpewhHabbxi=+h+pXbSBnwmbkpaZvCo5Vm3vujMg4UvxhtmkA@mail.gmail.com>
+Subject: close_range.2: misleading what CLOSE_RANGE_UNSHARE unshares
+To:     Michael Kerrisk-manpages <mtk.manpages@gmail.com>,
+        alx.manpages@gmail.com
+Cc:     linux-man@vger.kernel.org
 Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
 Precedence: bulk
 List-ID: <linux-man.vger.kernel.org>
 X-Mailing-List: linux-man@vger.kernel.org
 
-Buenos d=C3=ADas:
+The DESCRIPTION section of close_range.2 makes it sound like
+CLOSE_RANGE_UNSHARE will only unshare the file descriptors that you
+specified for it to close, but unsharing actually operates at the
+granularity of the file descriptor table, so any FDs that remained
+open as well as any opened in the future will be unshared too.
 
-Le escribo para hablarle sobre una de las mejores herramientas GPS en el =
-mercado.
-
-La herramienta, que me gustar=C3=ADa presentarle brevemente, dispone de m=
-uchas funciones =C3=BAtiles para su trabajo, que optimizan los procesos d=
-e transporte y le ayudan a realizar tareas de campo de manera m=C3=A1s ef=
-iciente.
-
-=C2=BFQuiere conocer los detalles?
-
-
-Atentamente,
-Miguel Garcia
+Joseph C. Sible
