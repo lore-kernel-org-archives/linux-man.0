@@ -2,57 +2,58 @@ Return-Path: <linux-man-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 1D32CC433EF
-	for <linux-man@archiver.kernel.org>; Fri,  3 Jun 2022 17:37:45 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 51865C433EF
+	for <linux-man@archiver.kernel.org>; Fri,  3 Jun 2022 17:37:48 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S237114AbiFCRho (ORCPT <rfc822;linux-man@archiver.kernel.org>);
-        Fri, 3 Jun 2022 13:37:44 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:45694 "EHLO
+        id S1344499AbiFCRhq (ORCPT <rfc822;linux-man@archiver.kernel.org>);
+        Fri, 3 Jun 2022 13:37:46 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:45940 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S232282AbiFCRhn (ORCPT
-        <rfc822;linux-man@vger.kernel.org>); Fri, 3 Jun 2022 13:37:43 -0400
+        with ESMTP id S1343591AbiFCRhq (ORCPT
+        <rfc822;linux-man@vger.kernel.org>); Fri, 3 Jun 2022 13:37:46 -0400
 Received: from us-smtp-delivery-124.mimecast.com (us-smtp-delivery-124.mimecast.com [170.10.129.124])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTP id 2161239BA7
-        for <linux-man@vger.kernel.org>; Fri,  3 Jun 2022 10:37:42 -0700 (PDT)
+        by lindbergh.monkeyblade.net (Postfix) with ESMTP id 6DFBC5130C
+        for <linux-man@vger.kernel.org>; Fri,  3 Jun 2022 10:37:45 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
-        s=mimecast20190719; t=1654277861;
+        s=mimecast20190719; t=1654277864;
         h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
          to:to:cc:cc:mime-version:mime-version:content-type:content-type:
-         content-transfer-encoding:content-transfer-encoding;
-        bh=4wY2ti1jWVmcco4dB7M/EO1qrDihEXd7FNjPS1P93a0=;
-        b=TThF/CzaQ9s6yp9IZ53mfrD6CL7mhqpuVKXnAQT3EL0f77Roqa2glZvbaHgxy5BxRtXX1G
-        OpfdbFlC312rDOA+VkZauUdEUBkfgSZ/9ABEbWiO2TzyWzQBHV7mtRA86utfTBg+Suu+pb
-        sBwUVeV2m8i4LhGu4GffD6KDFHi15TU=
-Received: from mail-il1-f199.google.com (mail-il1-f199.google.com
- [209.85.166.199]) by relay.mimecast.com with ESMTP with STARTTLS
+         content-transfer-encoding:content-transfer-encoding:
+         in-reply-to:in-reply-to:references:references;
+        bh=bvNdDteJSKV8nPr70UjTL9Ga0ysM0wiU173XEAoRmEg=;
+        b=IriE9KlhMvKj8jPcVWOeqVCyelsJt6vhmq4QIXHYZ8QrnVnX/+dKiLE0zQMtnhFcjUVvdy
+        d1TUi3fYBC4dxWP5hLQhBF5WmCjH5qhXnHsPpkFItq1fsu6Tm2UjAu/E7OBWBpA4qsna70
+        Yiw4mLYuy5/MkNcA18Crsq1jpmQ5IEU=
+Received: from mail-il1-f198.google.com (mail-il1-f198.google.com
+ [209.85.166.198]) by relay.mimecast.com with ESMTP with STARTTLS
  (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- us-mta-575-oxrReCNDMlGlZ3eWsZ_MPA-1; Fri, 03 Jun 2022 13:37:40 -0400
-X-MC-Unique: oxrReCNDMlGlZ3eWsZ_MPA-1
-Received: by mail-il1-f199.google.com with SMTP id r9-20020a92cd89000000b002d16798b3cfso6659828ilb.22
-        for <linux-man@vger.kernel.org>; Fri, 03 Jun 2022 10:37:39 -0700 (PDT)
+ us-mta-657-2J0bRc0lMLyVX5g1T9sSJg-1; Fri, 03 Jun 2022 13:37:43 -0400
+X-MC-Unique: 2J0bRc0lMLyVX5g1T9sSJg-1
+Received: by mail-il1-f198.google.com with SMTP id v1-20020a922e01000000b002d40b2f60e5so1608745ile.13
+        for <linux-man@vger.kernel.org>; Fri, 03 Jun 2022 10:37:43 -0700 (PDT)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20210112;
-        h=x-gm-message-state:from:to:cc:subject:date:message-id:mime-version
-         :content-transfer-encoding;
-        bh=4wY2ti1jWVmcco4dB7M/EO1qrDihEXd7FNjPS1P93a0=;
-        b=XQdHeDSerVoW45aUPiC/UhPVSdZuBCWX6rXZsre3jmckIc05tdgQCpPnLHEX6XZOO9
-         ItJ3ilZe7rLqTvvtdFc6jVOMwhSulnzaY2ROVnZe8gHYx5BJ1ovoPpz1eme5Dg7flQsc
-         kgrIz1u1OWG80heOfXqgG6x3A4to7Rn1jTixqNz/b1QwnZzrDqd5h5R47+qjSARtvhfO
-         cDAw03kEVYmEFuP972/cr4qN+02xtq2OuMGv753Ix8mXdui8TXTEIU/r6711CKh+4eZJ
-         1OkIk9rhk9Yw0sHmoV5ubjdDDza7Ly+7py26jN5wLz9ldCK8+PFNMdVUhHe4KRrAjPCk
-         ilUw==
-X-Gm-Message-State: AOAM5316GAHCC9yvGpdGbvfSkWHkAY84iqGyKnlhfRe5TLr7bdFx3XfK
-        t4vS7UHwRUmthZxjYjkv7D9fa9VbEQTxSAz6JVMiBCNEmLjc/fgwmcEBDUiR1Qck3SrQVE02gcj
-        E62ZEsOEl3vq2pBPnAXYn
-X-Received: by 2002:a05:6e02:1aa6:b0:2d1:b452:f143 with SMTP id l6-20020a056e021aa600b002d1b452f143mr6717747ilv.278.1654277859375;
-        Fri, 03 Jun 2022 10:37:39 -0700 (PDT)
-X-Google-Smtp-Source: ABdhPJxXXN7nQhcHYuKYC3FMdwo6WzrsYqUkRVcgdkpnlgAN7OoTQ+TqlM8ndxiikifU+UVw8ICjBA==
-X-Received: by 2002:a05:6e02:1aa6:b0:2d1:b452:f143 with SMTP id l6-20020a056e021aa600b002d1b452f143mr6717740ilv.278.1654277859142;
-        Fri, 03 Jun 2022 10:37:39 -0700 (PDT)
+        h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
+         :references:mime-version:content-transfer-encoding;
+        bh=bvNdDteJSKV8nPr70UjTL9Ga0ysM0wiU173XEAoRmEg=;
+        b=HFaGWbTRQjVHiia9quAVJyAA2K/Eme6bqehUcozMLNL8P/xWDYj98NNib/MOoceFs0
+         2G8j2RWjmE6jWQbwdukRT8J74ddEVH3N4QnbwpRrJi43aO3tqC1HnOqkoyCCsXSYsbX9
+         dcqUTyXBygFL1hpmPPaFFj+PFXFRYHgdujTozRFqZ8CwZ+TLacZZ4gBn+PTrxdpQcCAE
+         cA0GFKN4ZVzKKnz/OUcB/C8MFLAaEHnrQiM6Rw4jJPkpSOVTPwZ1xbivIbArmNXBnk8s
+         +GV0o7wThJLE2HC3Ud8kEQoTDYBGaVDMB6kPVEy7IFwA0L8k43FdoL/5zoCh7CWfl3hM
+         n+2w==
+X-Gm-Message-State: AOAM530L1US1Bf6IqGVTnYEd24hTYBwgFdVck4JO/0fqvggVbQXLRkM3
+        RDcgp41+jGGNzn67aalxuA1NnM8o8vd4KxVHFHq9BBfQiEECBbCaFpyKw9pXrvngCch2B8tY19z
+        22MvaRSsZfDz1T5YGt8nE
+X-Received: by 2002:a05:6e02:1c42:b0:2d1:aaac:ecc2 with SMTP id d2-20020a056e021c4200b002d1aaacecc2mr6160205ilg.128.1654277862906;
+        Fri, 03 Jun 2022 10:37:42 -0700 (PDT)
+X-Google-Smtp-Source: ABdhPJxD6QpwDL7Wd5u30b73amnDkQf+0XrVGTTVTW2Zv3Vw4x28t8LPwaKvFl/gRzlApcqbp9Utcw==
+X-Received: by 2002:a05:6e02:1c42:b0:2d1:aaac:ecc2 with SMTP id d2-20020a056e021c4200b002d1aaacecc2mr6160200ilg.128.1654277862717;
+        Fri, 03 Jun 2022 10:37:42 -0700 (PDT)
 Received: from localhost.localdomain (cpec09435e3e0ee-cmc09435e3e0ec.cpe.net.cable.rogers.com. [99.241.198.116])
-        by smtp.gmail.com with ESMTPSA id g23-20020a02bb97000000b0032e1e0ac289sm2791117jan.8.2022.06.03.10.37.37
+        by smtp.gmail.com with ESMTPSA id g23-20020a02bb97000000b0032e1e0ac289sm2791117jan.8.2022.06.03.10.37.40
         (version=TLS1_3 cipher=TLS_CHACHA20_POLY1305_SHA256 bits=256/256);
-        Fri, 03 Jun 2022 10:37:38 -0700 (PDT)
+        Fri, 03 Jun 2022 10:37:42 -0700 (PDT)
 From:   Peter Xu <peterx@redhat.com>
 To:     linux-kernel@vger.kernel.org, linux-man@vger.kernel.org,
         linux-mm@kvack.org
@@ -62,34 +63,60 @@ Cc:     Michael Kerrisk <mtk.manpages@gmail.com>,
         Nadav Amit <nadav.amit@gmail.com>,
         Axel Rasmussen <axelrasmussen@google.com>,
         Andrew Morton <akpm@linux-foundation.org>, peterx@redhat.com
-Subject: [PATCH v2 0/2] userfaultfd.2: Update to latest
-Date:   Fri,  3 Jun 2022 13:37:34 -0400
-Message-Id: <20220603173736.62581-1-peterx@redhat.com>
+Subject: [PATCH v2 2/2] userfaultfd.2: Update on write-protection support
+Date:   Fri,  3 Jun 2022 13:37:36 -0400
+Message-Id: <20220603173736.62581-3-peterx@redhat.com>
 X-Mailer: git-send-email 2.32.0
-Content-Type: text/plain; charset="utf-8"
+In-Reply-To: <20220603173736.62581-1-peterx@redhat.com>
+References: <20220603173736.62581-1-peterx@redhat.com>
 MIME-Version: 1.0
+Content-type: text/plain
 Content-Transfer-Encoding: 8bit
 Precedence: bulk
 List-ID: <linux-man.vger.kernel.org>
 X-Mailing-List: linux-man@vger.kernel.org
 
-v2:
-- Use semantic newlines always in patch 1 [Alex]
-- Fix s/.BR/.B/ in patch 2 [Alex]
-- Rebased to http://www.alejandro-colomar.es/src/alx/linux/man-pages/man-pages.git
+The shmem/hugetlbfs memory types are supported for write-protection
+messages very lately.  Update the man page to reflect that.
 
-Add the two missing pieces till latest 5.19-rc1: the UFFD_USER_MODE_ONLY
-flag, and also the recent wr-protect support on shmem and hugetlbfs.
+Signed-off-by: Peter Xu <peterx@redhat.com>
+---
+ man2/userfaultfd.2 | 9 ++++++---
+ 1 file changed, 6 insertions(+), 3 deletions(-)
 
-Please review, thanks.
-
-Peter Xu (2):
-  userfaultfd.2: Add section for UFFD_USER_MODE_ONLY
-  userfaultfd.2: Update on write-protection support
-
- man2/userfaultfd.2 | 23 ++++++++++++++++++-----
- 1 file changed, 18 insertions(+), 5 deletions(-)
-
+diff --git a/man2/userfaultfd.2 b/man2/userfaultfd.2
+index 6b9412aaf..9b5ec0358 100644
+--- a/man2/userfaultfd.2
++++ b/man2/userfaultfd.2
+@@ -270,13 +270,18 @@ Since Linux 4.11,
+ userfaultfd can be also used with hugetlbfs and shared memory mappings.
+ .\"
+ .SS Userfaultfd write-protect mode (since 5.7)
+-Since Linux 5.7, userfaultfd supports write-protect mode.
++Since Linux 5.7, userfaultfd supports write-protect mode for anonymous memory.
+ The user needs to first check availability of this feature using
+ .B UFFDIO_API
+ ioctl against the feature bit
+ .B UFFD_FEATURE_PAGEFAULT_FLAG_WP
+ before using this feature.
+ .PP
++Since Linux 5.19, the write-protection mode was also supported on shmem and hugetlbfs
++memory types.
++It can be detected with the feature bit
++.BR UFFD_FEATURE_WP_HUGETLBFS_SHMEM .
++.PP
+ To register with userfaultfd write-protect mode, the user needs to initiate the
+ .B UFFDIO_REGISTER
+ ioctl with mode
+@@ -327,8 +332,6 @@ ioctl, whose
+ should have the flag
+ .B UFFDIO_WRITEPROTECT_MODE_WP
+ cleared upon the faulted page or range.
+-.PP
+-Write-protect mode supports only private anonymous memory.
+ .\"
+ .SS Userfaultfd minor fault mode (since 5.13)
+ Since Linux 5.13,
 -- 
 2.32.0
 
