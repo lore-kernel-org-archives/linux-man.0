@@ -2,77 +2,76 @@ Return-Path: <linux-man-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id C58B4C43334
-	for <linux-man@archiver.kernel.org>; Tue,  7 Jun 2022 09:42:40 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 64DDCC43334
+	for <linux-man@archiver.kernel.org>; Tue,  7 Jun 2022 13:38:34 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S236678AbiFGJmj (ORCPT <rfc822;linux-man@archiver.kernel.org>);
-        Tue, 7 Jun 2022 05:42:39 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:51236 "EHLO
+        id S240600AbiFGNid (ORCPT <rfc822;linux-man@archiver.kernel.org>);
+        Tue, 7 Jun 2022 09:38:33 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:58988 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S232685AbiFGJmj (ORCPT
-        <rfc822;linux-man@vger.kernel.org>); Tue, 7 Jun 2022 05:42:39 -0400
-Received: from 10.mo552.mail-out.ovh.net (10.mo552.mail-out.ovh.net [87.98.187.244])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id C5E6017ABE
-        for <linux-man@vger.kernel.org>; Tue,  7 Jun 2022 02:42:35 -0700 (PDT)
-Received: from mxplan6.mail.ovh.net (unknown [10.109.146.241])
-        by mo552.mail-out.ovh.net (Postfix) with ESMTPS id 96C8022558;
-        Tue,  7 Jun 2022 09:17:45 +0000 (UTC)
-Received: from jwilk.net (37.59.142.105) by DAG4EX2.mxp6.local (172.16.2.32)
- with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id 15.1.2507.9; Tue, 7 Jun 2022
- 11:17:44 +0200
-Authentication-Results: garm.ovh; auth=pass (GARM-105G0063c23df8d-f7a9-4b43-aff3-3d2607b39351,
-                    77F503A048AE22D7459F5EB5ABCD7E3A41C53931) smtp.auth=jwilk@jwilk.net
-X-OVh-ClientIp: 5.172.255.124
-Date:   Tue, 7 Jun 2022 11:17:43 +0200
-From:   Jakub Wilk <jwilk@jwilk.net>
-To:     "G. Branden Robinson" <g.branden.robinson@gmail.com>
-CC:     Peter Xu <peterx@redhat.com>,
+        with ESMTP id S235395AbiFGNid (ORCPT
+        <rfc822;linux-man@vger.kernel.org>); Tue, 7 Jun 2022 09:38:33 -0400
+Received: from dfw.source.kernel.org (dfw.source.kernel.org [139.178.84.217])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 901FD5EDC6
+        for <linux-man@vger.kernel.org>; Tue,  7 Jun 2022 06:38:32 -0700 (PDT)
+Received: from smtp.kernel.org (relay.kernel.org [52.25.139.140])
+        (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+        (No client certificate requested)
+        by dfw.source.kernel.org (Postfix) with ESMTPS id 1EB44614BF
+        for <linux-man@vger.kernel.org>; Tue,  7 Jun 2022 13:38:32 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id AC5FCC385A5;
+        Tue,  7 Jun 2022 13:38:29 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+        s=k20201202; t=1654609111;
+        bh=efJDVYerGupKZgAhW7VtQnFdAI+4OkODBi8RLvSrNjs=;
+        h=From:To:Cc:Subject:Date:From;
+        b=hB2Tnzo3KHud5SXegk42vkNdDCIZDL2h01O2k3POo52O70JKfh0nBCAwG0RIryOdM
+         IN3qxTHcl/GNKNT2bbOZXDucWPquWWsAaUeCAb5d8vUVAmbgrfEfix9nvGlvXWw2pX
+         DI7iT8Xvu47jUVWyR2z48BnY1qzexSBJpNUqKm+qLAGVSwGUnGjUhaW/dLlm+nekA/
+         emh7NfdnAOVHAV/NmGFHXgroswSbrcz1prFM5pTfi2AMM0H5ER1ZqXyFYd9xjdMNac
+         +Jx1UvfcXZgJVBiKheGSJK9w5qAGQqP1LpgGvF1UkS+7QOxzs5H4aExwXXU4TXG1F9
+         cMcN5+g6qjQKg==
+From:   Christian Brauner <brauner@kernel.org>
+To:     linux-man@vger.kernel.org,
         Alejandro Colomar <alx.manpages@gmail.com>,
-        <linux-man@vger.kernel.org>
-Subject: Re: [PATCH v2 0/2] userfaultfd.2: Update to latest
-Message-ID: <20220607091743.qx5ngkcmjnte7wld@jwilk.net>
-References: <20220603173736.62581-1-peterx@redhat.com>
- <7acfdeb8-5dd3-dfe2-5717-b64006281a8f@gmail.com>
- <Yp5YGMFJWLtthc8U@xz-m1.local>
- <20220606213323.xtfx7qpab6dwdqpk@illithid>
+        Michael Kerrisk <mtk.manpages@gmail.com>
+Cc:     "Christian Brauner (Microsoft)" <brauner@kernel.org>,
+        Christoph Hellwig <hch@infradead.org>,
+        Aleksa Sarai <cyphar@cyphar.com>
+Subject: [PATCH 0/4] mount_setattr.2: updates
+Date:   Tue,  7 Jun 2022 15:38:16 +0200
+Message-Id: <20220607133820.1721352-1-brauner@kernel.org>
+X-Mailer: git-send-email 2.34.1
 MIME-Version: 1.0
-Content-Type: text/plain; charset="us-ascii"; format=flowed
-Content-Disposition: inline
-In-Reply-To: <20220606213323.xtfx7qpab6dwdqpk@illithid>
-X-Originating-IP: [37.59.142.105]
-X-ClientProxiedBy: DAG6EX1.mxp6.local (172.16.2.51) To DAG4EX2.mxp6.local
- (172.16.2.32)
-X-Ovh-Tracer-GUID: e4f76ba0-fad1-4d6b-abe9-a1c404683bfa
-X-Ovh-Tracer-Id: 1709397533713291232
-X-VR-SPAMSTATE: OK
-X-VR-SPAMSCORE: -100
-X-VR-SPAMCAUSE: gggruggvucftvghtrhhoucdtuddrgedvfedruddthedgudefucetufdoteggodetrfdotffvucfrrhhofhhilhgvmecuqfggjfdpvefjgfevmfevgfenuceurghilhhouhhtmecuhedttdenucesvcftvggtihhpihgvnhhtshculddquddttddmnecujfgurhepfffhvfevuffkfhggtggujghisehttdertddttddvnecuhfhrohhmpeflrghkuhgsucghihhlkhcuoehjfihilhhksehjfihilhhkrdhnvghtqeenucggtffrrghtthgvrhhnpeeutddtteelhfffuddvhefgfedujeeltdekheduveekkeelfeduuedvgeejudffgfenucfkpheptddrtddrtddrtddpfeejrdehledrudegvddruddtheenucevlhhushhtvghrufhiiigvpedtnecurfgrrhgrmhepmhhouggvpehsmhhtphhouhhtpdhhvghlohepmhigphhlrghniedrmhgrihhlrdhovhhhrdhnvghtpdhinhgvtheptddrtddrtddrtddpmhgrihhlfhhrohhmpehjfihilhhksehjfihilhhkrdhnvghtpdhnsggprhgtphhtthhopedupdhrtghpthhtoheplhhinhhugidqmhgrnhesvhhgvghrrdhkvghrnhgvlhdrohhrghdpoffvtefjohhsthepmhhoheehvd
+X-Developer-Signature: v=1; a=openpgp-sha256; l=661; h=from:subject; bh=ed4MXdSQNCXs/GnHFow06wCVn0itFgnA5kKwBrRgTMY=; b=owGbwMvMwCU28Zj0gdSKO4sYT6slMSTNDzletONHV5+0WvzxfJF3ofZucq43M/b9rWub+GJi4m/O j2LfO0pZGMS4GGTFFFkc2k3C5ZbzVGw2ytSAmcPKBDKEgYtTACai28jwP2LXFKHrXf8vLI57nnf1/U xGz1NL1/z967/LcBK75L4s0d8M/5359jKvap27xkLZ48jBzImieQJJGdNlPUP5rz61jo1gYwAA
+X-Developer-Key: i=brauner@kernel.org; a=openpgp; fpr=4880B8C9BD0E5106FC070F4F7B3C391EFEA93624
+Content-Transfer-Encoding: 8bit
 Precedence: bulk
 List-ID: <linux-man.vger.kernel.org>
 X-Mailing-List: linux-man@vger.kernel.org
 
-* G. Branden Robinson <g.branden.robinson@gmail.com>, 2022-06-06, 16:33:
->At 2022-06-06T15:40:08-0400, Peter Xu wrote:
->>>I think the patch below would improve a little bit the wording (and 
->>>newlines).  I still have a bit of trouble understanding "When a 
->>>kernel-originated fault was triggered on the registered range with 
->>>this userfaultfd".  Did you maybe mean "range registered" instead of 
->>>"registered range"?
->>
->>Since I'm not a native speaker I don't immediately see the difference 
->>between the two.
->
->Short answer: I think your existing wording is acceptable.
+From: "Christian Brauner (Microsoft)" <brauner@kernel.org>
 
-I think you missed the context. You get a different parse tree when you 
-swap the words:
+Hey everyone,
 
-   ...triggered (on the registered range) (with this userfaultfd).
+Here's a set of updates for the mount_setattr.2 man page.
+I would really appreciate it if groff syntax could be fixed up by
+maintainers. I tried my best to remember the guidelines though. :)
 
-vs
+Thanks!
+Christian
 
-   ...triggered (on the range (registered with this userfaultfd)).
+Christian Brauner (4):
+  mount_setattr.2: add and explain missing EBUSY error
+  mount_setattr.2: update conditions to create ID-mapped mounts
+  mount_setattr.2: update list of supported filesystems
+  mount_setattr.2: ffix
 
+ man2/mount_setattr.2 | 64 +++++++++++++++++++++++++++++++++++---------
+ 1 file changed, 52 insertions(+), 12 deletions(-)
+
+
+base-commit: ae6b221882ce71ba82fcdbe02419a225111502f0
 -- 
-Jakub Wilk
+2.34.1
+
