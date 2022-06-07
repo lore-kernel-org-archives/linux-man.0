@@ -2,142 +2,84 @@ Return-Path: <linux-man-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 954A8CCA47E
-	for <linux-man@archiver.kernel.org>; Tue,  7 Jun 2022 15:32:10 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 65128CCA47C
+	for <linux-man@archiver.kernel.org>; Tue,  7 Jun 2022 22:07:43 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S245385AbiFGPcJ (ORCPT <rfc822;linux-man@archiver.kernel.org>);
-        Tue, 7 Jun 2022 11:32:09 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:51194 "EHLO
+        id S1379499AbiFGWHl (ORCPT <rfc822;linux-man@archiver.kernel.org>);
+        Tue, 7 Jun 2022 18:07:41 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:40092 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1344112AbiFGPcA (ORCPT
-        <rfc822;linux-man@vger.kernel.org>); Tue, 7 Jun 2022 11:32:00 -0400
-Received: from mail-ed1-x52e.google.com (mail-ed1-x52e.google.com [IPv6:2a00:1450:4864:20::52e])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 658A6F551C;
-        Tue,  7 Jun 2022 08:31:57 -0700 (PDT)
-Received: by mail-ed1-x52e.google.com with SMTP id v25so23515011eda.6;
-        Tue, 07 Jun 2022 08:31:57 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=googlemail.com; s=20210112;
-        h=from:to:cc:subject:date:message-id:mime-version
-         :content-transfer-encoding;
-        bh=w0Hdg77AgoPG+P9TsvX0MGr6YMoh94u++wV7R/8mG6Q=;
-        b=UrlZfICkRAZGfTAxgXamkUF1euwIXz/dlpvevt15u/GXuGmNhmXjx+8+VHEyd1fe8z
-         Weg+hLtYIdvErfuTKGZe9T861PjQQqTb5yTkMVKRy2mRPzGshG+AtZSIJjfwnG8Hn7NF
-         0t7ik+wYMi689h3lZ70iLHInepJesqv/anMj7Nze/F7nNvBynY0INZ61KE008DZagKul
-         VtQ0A8MdGAjp/YefQZiN6B0tvOBfKQEgEwczSwGPRe3hhwXHFq4J1M+xIlrdmIPMyL5I
-         zoYW8xs+KCy0qqsfPUO6lRVGof3loBpEaijhmdt86A39468D5vZIz/HW+vAldcF9cjwe
-         JX8w==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20210112;
-        h=x-gm-message-state:from:to:cc:subject:date:message-id:mime-version
-         :content-transfer-encoding;
-        bh=w0Hdg77AgoPG+P9TsvX0MGr6YMoh94u++wV7R/8mG6Q=;
-        b=lAOSNdcFH0mdIO35+CBZO3bWJ8cR/cWl1DEVQvmBO/F7ol9GiSZOx2Kj7NDi/HI2Zp
-         Jtn/LG7kJOul1/Beuwe+5G0ZwNL1WGA+nVEfGM5BedNicYWwlSR0ByHaTu9sG78suATO
-         ypH7kGJMIwJDFYZeC4iwCE+tmHLfMFT2XnO75yJvsCpXfAn1Pg3yBn2uXPk8NkTgvcCN
-         ZtNy3IgOFdQFiPnSqV51vQgifdc+RPwotz/NXy3YNsIXVfHw5VIukltWJ4qKx1OvTiRg
-         b4l0eequIe1H1jL19uawr4NaObpRHMvOIKOjhviru7F1j+KqY0hu5ThYUvEpeD1VVjMO
-         /jyQ==
-X-Gm-Message-State: AOAM5304QAxzT4OROE68R7YorXXOy+a9ZoDiV9ETelW7GeUbDHlzlW9s
-        t+vXyhVt7fh29fiMTly1+cxhd/SsgQ8=
-X-Google-Smtp-Source: ABdhPJw5O8Mix5sJdiw5XuZUUJ6C5dUvQIiC5WMe0/YwVvV1sO2SkEmWjUN8DtVmS9GesJcUxvlSug==
-X-Received: by 2002:a05:6402:1341:b0:42a:f7cb:44dc with SMTP id y1-20020a056402134100b0042af7cb44dcmr34808302edw.165.1654615915837;
-        Tue, 07 Jun 2022 08:31:55 -0700 (PDT)
-Received: from debianHome.localdomain (dynamic-077-008-054-039.77.8.pool.telefonica.de. [77.8.54.39])
-        by smtp.gmail.com with ESMTPSA id jg36-20020a170907972400b00701eb600df8sm8143445ejc.169.2022.06.07.08.31.54
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Tue, 07 Jun 2022 08:31:55 -0700 (PDT)
-From:   =?UTF-8?q?Christian=20G=C3=B6ttsche?= <cgzones@googlemail.com>
-To:     selinux@vger.kernel.org
-Cc:     Miklos Szeredi <mszeredi@redhat.com>, linux-api@vger.kernel.org,
-        linux-man@vger.kernel.org,
-        Alexander Viro <viro@zeniv.linux.org.uk>,
-        linux-fsdevel@vger.kernel.org, linux-kernel@vger.kernel.org
-Subject: [RFC PATCH] f*xattr: allow O_PATH descriptors
-Date:   Tue,  7 Jun 2022 17:31:39 +0200
-Message-Id: <20220607153139.35588-1-cgzones@googlemail.com>
-X-Mailer: git-send-email 2.36.1
+        with ESMTP id S1383814AbiFGWGd (ORCPT
+        <rfc822;linux-man@vger.kernel.org>); Tue, 7 Jun 2022 18:06:33 -0400
+X-Greylist: delayed 721 seconds by postgrey-1.37 at lindbergh.monkeyblade.net; Tue, 07 Jun 2022 12:17:45 PDT
+Received: from h1.fbrelay.privateemail.com (h1.fbrelay.privateemail.com [131.153.2.42])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 0D3A0CFE03
+        for <linux-man@vger.kernel.org>; Tue,  7 Jun 2022 12:17:44 -0700 (PDT)
+Received: from MTA-11-3.privateemail.com (mta-11-1.privateemail.com [198.54.118.201])
+        (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+         key-exchange X25519 server-signature RSA-PSS (2048 bits))
+        (No client certificate requested)
+        by h1.fbrelay.privateemail.com (Postfix) with ESMTPS id 3015A1803763
+        for <linux-man@vger.kernel.org>; Tue,  7 Jun 2022 15:05:43 -0400 (EDT)
+Received: from mta-11.privateemail.com (localhost [127.0.0.1])
+        by mta-11.privateemail.com (Postfix) with ESMTP id C4A2D18000AC;
+        Tue,  7 Jun 2022 15:05:40 -0400 (EDT)
+Received: from warhead.local (unknown [10.20.151.191])
+        by mta-11.privateemail.com (Postfix) with ESMTPA id 913A118000A3;
+        Tue,  7 Jun 2022 15:05:36 -0400 (EDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=simple/simple; d=mebeim.net; s=default;
+        t=1654628740; bh=wpEEAvUo27xgEaZgl7yEQSMrYgWkp4fJBwSioHurTMA=;
+        h=From:To:Cc:Subject:Date:From;
+        b=xT9gDANMnez4lzrlGfME1d0s2sAzEwwrQGql4z1tCb4zTd66axSbMpQdKlxtvNXe2
+         F7mBNCjH40wUw5OFz7shkfdCUxsPn+I8m6SZYbT2qK549v+9h6xEbAmzhyPy9Q3ADM
+         IwaK/xa4P3FkzA2yD4a3P/MEqwFhD05vYcQhkLxjqRVEsTt408cYBLePfjwNmLIrF2
+         /28mWnri6QPiTFO/srH07eQWj99dd8T2f6wSz7m7IUpyhrPbHcfrec71N1ujqw+0A1
+         p0Pbtcb77fpC4jLpezGiEAJefsEogRr/ggQrJ7nF2DsuJ7/fqT0w94+nPZBHIWJckF
+         T4Pae9qRbA1Ng==
+From:   Marco Bonelli <marco@mebeim.net>
+To:     linux-man@vger.kernel.org
+Cc:     Alejandro Colomar <alx.manpages@gmail.com>,
+        Michael Kerrisk <mtk.manpages@gmail.com>,
+        Marco Bonelli <marco@mebeim.net>
+Subject: [PATCH] proc.5: Document bit 57 for /proc/[pid]/pagemap
+Date:   Tue,  7 Jun 2022 21:04:38 +0200
+Message-Id: <20220607190437.219724-1-marco@mebeim.net>
+X-Mailer: git-send-email 2.30.2
 MIME-Version: 1.0
-Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
+X-Virus-Scanned: ClamAV using ClamSMTP
 Precedence: bulk
 List-ID: <linux-man.vger.kernel.org>
 X-Mailing-List: linux-man@vger.kernel.org
 
-From: Miklos Szeredi <mszeredi@redhat.com>
+Bit 57 was introduced in Linux v5.14 to reflect the userfaultfd
+write-protect bit (commit fb8e37f35a2fe1f983ac21850e856e2c7498d469).
 
-Support file descriptors obtained via O_PATH for extended attribute
-operations.
-
-Extended attributes are for example used by SELinux for the security
-context of file objects. To avoid time-of-check-time-of-use issues while
-setting those contexts it is advisable to pin the file in question and
-operate on a file descriptor instead of the path name. This can be
-emulated in userspace via /proc/self/fd/NN [1] but requires a procfs,
-which might not be mounted e.g. inside of chroots, see[2].
-
-[1]: https://github.com/SELinuxProject/selinux/commit/7e979b56fd2cee28f647376a7233d2ac2d12ca50
-[2]: https://github.com/SELinuxProject/selinux/commit/de285252a1801397306032e070793889c9466845
-
-Original patch by Miklos Szeredi <mszeredi@redhat.com>
-https://patchwork.kernel.org/project/linux-fsdevel/patch/20200505095915.11275-6-mszeredi@redhat.com/
-
-> While this carries a minute risk of someone relying on the property of
-> xattr syscalls rejecting O_PATH descriptors, it saves the trouble of
-> introducing another set of syscalls.
->
-> Only file->f_path and file->f_inode are accessed in these functions.
->
-> Current versions return EBADF, hence easy to detect the presense of
-> this feature and fall back in case it's missing.
-
-CC: linux-api@vger.kernel.org
-CC: linux-man@vger.kernel.org
-Signed-off-by: Christian Göttsche <cgzones@googlemail.com>
+Signed-off-by: Marco Bonelli <marco@mebeim.net>
 ---
- fs/xattr.c | 8 ++++----
- 1 file changed, 4 insertions(+), 4 deletions(-)
+ man5/proc.5 | 6 +++++-
+ 1 file changed, 5 insertions(+), 1 deletion(-)
 
-diff --git a/fs/xattr.c b/fs/xattr.c
-index e8dd03e4561e..16360ac4eb1b 100644
---- a/fs/xattr.c
-+++ b/fs/xattr.c
-@@ -656,7 +656,7 @@ SYSCALL_DEFINE5(lsetxattr, const char __user *, pathname,
- SYSCALL_DEFINE5(fsetxattr, int, fd, const char __user *, name,
- 		const void __user *,value, size_t, size, int, flags)
- {
--	struct fd f = fdget(fd);
-+	struct fd f = fdget_raw(fd);
- 	int error = -EBADF;
- 
- 	if (!f.file)
-@@ -768,7 +768,7 @@ SYSCALL_DEFINE4(lgetxattr, const char __user *, pathname,
- SYSCALL_DEFINE4(fgetxattr, int, fd, const char __user *, name,
- 		void __user *, value, size_t, size)
- {
--	struct fd f = fdget(fd);
-+	struct fd f = fdget_raw(fd);
- 	ssize_t error = -EBADF;
- 
- 	if (!f.file)
-@@ -844,7 +844,7 @@ SYSCALL_DEFINE3(llistxattr, const char __user *, pathname, char __user *, list,
- 
- SYSCALL_DEFINE3(flistxattr, int, fd, char __user *, list, size_t, size)
- {
--	struct fd f = fdget(fd);
-+	struct fd f = fdget_raw(fd);
- 	ssize_t error = -EBADF;
- 
- 	if (!f.file)
-@@ -910,7 +910,7 @@ SYSCALL_DEFINE2(lremovexattr, const char __user *, pathname,
- 
- SYSCALL_DEFINE2(fremovexattr, int, fd, const char __user *, name)
- {
--	struct fd f = fdget(fd);
-+	struct fd f = fdget_raw(fd);
- 	int error = -EBADF;
- 
- 	if (!f.file)
+diff --git a/man5/proc.5 b/man5/proc.5
+index c668462..c4b4858 100644
+--- a/man5/proc.5
++++ b/man5/proc.5
+@@ -1761,10 +1761,14 @@ If set, the page is in swap space
+ 61 (since Linux 3.5)
+ The page is a file-mapped page or a shared anonymous page.
+ .TP
+-60\(en57 (since Linux 3.11)
++60\(en58 (since Linux 3.11)
+ Zero
+ .\" Not quite true; see commit 541c237c0923f567c9c4cabb8a81635baadc713f
+ .TP
++57 (since Linux 5.14)
++If set, the page is write-protected through
++.BR userfaultfd (2).
++.TP
+ 56 (since Linux 4.2)
+ .\" commit 77bb499bb60f4b79cca7d139c8041662860fcf87
+ .\" commit 83b4b0bb635eee2b8e075062e4e008d1bc110ed7
 -- 
-2.36.1
+2.30.2
 
