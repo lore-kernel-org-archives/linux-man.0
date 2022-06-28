@@ -2,74 +2,102 @@ Return-Path: <linux-man-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 1E472C433EF
-	for <linux-man@archiver.kernel.org>; Mon, 27 Jun 2022 12:41:25 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 47605C433EF
+	for <linux-man@archiver.kernel.org>; Tue, 28 Jun 2022 09:58:27 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S236174AbiF0MlV (ORCPT <rfc822;linux-man@archiver.kernel.org>);
-        Mon, 27 Jun 2022 08:41:21 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:44146 "EHLO
+        id S242568AbiF1J6Z (ORCPT <rfc822;linux-man@archiver.kernel.org>);
+        Tue, 28 Jun 2022 05:58:25 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:54900 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S236324AbiF0MlT (ORCPT
-        <rfc822;linux-man@vger.kernel.org>); Mon, 27 Jun 2022 08:41:19 -0400
-X-Greylist: delayed 550 seconds by postgrey-1.37 at lindbergh.monkeyblade.net; Mon, 27 Jun 2022 05:41:17 PDT
-Received: from smtp26.services.sfr.fr (smtp26.services.sfr.fr [93.17.128.199])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 667A9B4BD
-        for <linux-man@vger.kernel.org>; Mon, 27 Jun 2022 05:41:17 -0700 (PDT)
-X-mail-filterd: {"version":"1.3.4","queueID":"4LWnD36mSNz1LQL1r","contextId":"d984d6a6-66d4-4e09-8f95-60985446cfab"}
-Received: from [192.168.0.22] (89-159-200-5.rev.numericable.fr [89.159.200.5])
-        by msfrf2616.sfr.fr (SMTP Server) with ESMTP id 4LWnD36mSNz1LQL1r;
-        Mon, 27 Jun 2022 14:32:03 +0200 (CEST)
-X-mail-filterd: {"version":"1.3.4","queueID":"4LWnD35HRcz1LQKcr","contextId":"291aa456-40b5-42c8-aecf-69c5dbd52b8a"}
-X-sfr-mailing: LEGIT
-X-sfr-spamrating: 40
-X-sfr-spam: not-spam
-DKIM-Signature: v=1; a=rsa-sha256; c=simple/simple; d=waika9.com; s=202006;
- t=1656333123; h=Date:To:Cc:From:Subject; bh=BNTn6ov78UhGmU06sZoPcLBkLatsL+mZd
-  rRqCGqZrXs=; b=ZUltsqEUo3wMF91luiOW3d3Ay8zIUGNqZtV2g97m0Fjt5nF1bc8qUxOkpVAcU
-  nb/GJS3/rWKkO92e0fbaBf8guPmRbtaJzaosBeBBPXFt6dhwHEG6zG0SNrgCnFw7MFgMekbBu176
-  iPOmk6fLV0kJZkwzx1WCbHcH7OkIyipshi7G6cnU4UeJzG2Q2C8YQ74IMpBZqzJ65/aH5FUs9uw8
-  N47b18WjZt7RxcRY+N/2buPvAty0Isf+JdZj63HtxCSlg8FN2xoZ02zxUMwGVX1NONlTkHq1Fzq0
-  dBUq+sZRQbEgwwnECG/lXKJQOnMa37r5l3g56VXdiXHiRHiVksfxA==
-Received: from [192.168.0.22] (89-159-200-5.rev.numericable.fr [89.159.200.5])
-        (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+        with ESMTP id S244326AbiF1J6X (ORCPT
+        <rfc822;linux-man@vger.kernel.org>); Tue, 28 Jun 2022 05:58:23 -0400
+Received: from us-smtp-delivery-124.mimecast.com (us-smtp-delivery-124.mimecast.com [170.10.133.124])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTP id 152201178
+        for <linux-man@vger.kernel.org>; Tue, 28 Jun 2022 02:58:21 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+        s=mimecast20190719; t=1656410300;
+        h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+         to:to:cc:mime-version:mime-version:content-type:content-type;
+        bh=UIuxxqSaaKqvM4Y6rRMk120fyWmyyPsgazorgdkBL5A=;
+        b=XQ2YR2vrFALgTSs6rUVOL2fTwfjrfeG7tkkGpNTFdxT7VtKa+xhwB5xjsBmBRvKiGxyk8g
+        +dgrdbKtRcz1xg/OzXAfFFw1F51Lzky7HPVlhtV/+cJWz3G+PtOn7A12xIL2qZvYwDd+zx
+        HLy/AYSodP4KDMjmcBCvKlzxBM7uDBk=
+Received: from mimecast-mx02.redhat.com (mimecast-mx02.redhat.com
+ [66.187.233.88]) by relay.mimecast.com with ESMTP with STARTTLS
+ (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ us-mta-364-ZvfY_H4MMYi7uaUFy7-00A-1; Tue, 28 Jun 2022 05:58:19 -0400
+X-MC-Unique: ZvfY_H4MMYi7uaUFy7-00A-1
+Received: from smtp.corp.redhat.com (int-mx03.intmail.prod.int.rdu2.redhat.com [10.11.54.3])
+        (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
         (No client certificate requested)
-        (Authenticated sender: lucien.gentis@waika9.com)
-        by msfrf2616.sfr.fr (SMTP Server) with ESMTPSA id 4LWnD35HRcz1LQKcr;
-        Mon, 27 Jun 2022 14:32:03 +0200 (CEST)
-Authentication-Results: sfr.fr; auth=pass (PLAIN) smtp.auth=lucien.gentis@waika9.com
-Message-ID: <74fc13bc-50da-feef-e29a-6fd590682cc9@waika9.com>
-Date:   Mon, 27 Jun 2022 14:32:03 +0200
+        by mimecast-mx02.redhat.com (Postfix) with ESMTPS id EEF9780029D
+        for <linux-man@vger.kernel.org>; Tue, 28 Jun 2022 09:58:18 +0000 (UTC)
+Received: from oldenburg.str.redhat.com (unknown [10.39.193.0])
+        by smtp.corp.redhat.com (Postfix) with ESMTPS id 557A51121314
+        for <linux-man@vger.kernel.org>; Tue, 28 Jun 2022 09:58:18 +0000 (UTC)
+From:   Florian Weimer <fweimer@redhat.com>
+To:     linux-man@vger.kernel.org
+Subject: [PATCH] resolv: Document RES_NOAAAA and no-aaaa stub resolver options
+Date:   Tue, 28 Jun 2022 11:58:16 +0200
+Message-ID: <87o7ydgldz.fsf@oldenburg.str.redhat.com>
+User-Agent: Gnus/5.13 (Gnus v5.13) Emacs/27.2 (gnu/linux)
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
- Thunderbird/91.10.0
-Content-Language: fr
-To:     mtk.manpages@gmail.com, alx.manpages@gmail.com
-Cc:     linux-man@vger.kernel.org
-From:   Lucien Gentis <lucien.gentis@waika9.com>
-Subject: possible bug in getmntent (3) manpage
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 7bit
+Content-Type: text/plain
+X-Scanned-By: MIMEDefang 2.78 on 10.11.54.3
 Precedence: bulk
 List-ID: <linux-man.vger.kernel.org>
 X-Mailing-List: linux-man@vger.kernel.org
 
-Distribution: Debian 11 Bullseye
+Signed-off-by: Florian Weimer <fweimer@redhat.com>
 
-Hello,
+---
+ man3/resolver.3    |  8 ++++++++
+ man5/resolv.conf.5 | 15 +++++++++++++++
+ 2 files changed, 23 insertions(+)
 
-In getmntent_r function description:
-
-Shouldn't it be:
-
-"but stores the mntent struct in the provided *mntbuf"
-
-instead of:
-
-"but stores the struct mount in the provided *mntbuf"
-
-(I don't understand what "the struct mount" refers to)
-
-Best regards
-
-Lucien
+diff --git a/man3/resolver.3 b/man3/resolver.3
+index fa3e7971d..489b1e231 100644
+--- a/man3/resolver.3
++++ b/man3/resolver.3
+@@ -407,6 +407,14 @@ This option implies
+ .B RES_NOTLDQUERY
+ Do not look up unqualified name as a top-level domain (TLD).
+ .TP
++.B RES_NOAAAA
++Suppress queries for AAAA (IPv6 address) records.  See the description
++of the
++.B no-aaaa
++option in
++.BR resolv.conf (5)
++for details.
++.TP
+ .B RES_DEFAULT
+ Default option which implies:
+ .BR RES_RECURSE ,
+diff --git a/man5/resolv.conf.5 b/man5/resolv.conf.5
+index 81ed51b98..a0638bd85 100644
+--- a/man5/resolv.conf.5
++++ b/man5/resolv.conf.5
+@@ -349,6 +349,21 @@ option has been set correctly.
+ In glibc version 2.30 and earlier,
+ the AD is not set automatically in queries,
+ and is passed through unchanged to applications in responses.
++.TP
++.BR no\-aaaa " (since glibc 2.35)"
++.\" glibc commit f282cdbe7f436c75864e5640a409a10485e9abb2
++Sets
++.B RES_NOAAAA
++in
++.IR _res.options .
++This option disables outgoing AAAA (IPv6 address) queries in the stub
++resolver.  If necessary, AAAA queries are translated into A queries,
++to probe for the existence of host names.  (This preserves different
++error results for missing address data and hosts that do not exist.)
++This option is intended for diagnosing name resolution problems and to
++verify that automatic AAAA queries do not contribute to any DNS
++issues.  If the system has configured any IPv6 name servers, they can
++still be used even if this option is active.
+ .RE
+ .PP
+ The \fIsearch\fP keyword of a system's \fIresolv.conf\fP file can be
 
