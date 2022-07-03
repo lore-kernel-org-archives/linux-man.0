@@ -2,232 +2,191 @@ Return-Path: <linux-man-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id E0C9AC43334
-	for <linux-man@archiver.kernel.org>; Thu, 30 Jun 2022 19:06:24 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id C4AFEC433EF
+	for <linux-man@archiver.kernel.org>; Sun,  3 Jul 2022 18:08:41 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S236418AbiF3TGX (ORCPT <rfc822;linux-man@archiver.kernel.org>);
-        Thu, 30 Jun 2022 15:06:23 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:44024 "EHLO
+        id S230174AbiGCSIl (ORCPT <rfc822;linux-man@archiver.kernel.org>);
+        Sun, 3 Jul 2022 14:08:41 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:40824 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S236700AbiF3TGV (ORCPT
-        <rfc822;linux-man@vger.kernel.org>); Thu, 30 Jun 2022 15:06:21 -0400
-Received: from mail-wm1-x333.google.com (mail-wm1-x333.google.com [IPv6:2a00:1450:4864:20::333])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 0D4DF3F894
-        for <linux-man@vger.kernel.org>; Thu, 30 Jun 2022 12:06:18 -0700 (PDT)
-Received: by mail-wm1-x333.google.com with SMTP id i132-20020a1c3b8a000000b003a1888b9d36so153292wma.0
-        for <linux-man@vger.kernel.org>; Thu, 30 Jun 2022 12:06:18 -0700 (PDT)
+        with ESMTP id S229549AbiGCSIk (ORCPT
+        <rfc822;linux-man@vger.kernel.org>); Sun, 3 Jul 2022 14:08:40 -0400
+Received: from mail-wr1-x429.google.com (mail-wr1-x429.google.com [IPv6:2a00:1450:4864:20::429])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 0915060F6
+        for <linux-man@vger.kernel.org>; Sun,  3 Jul 2022 11:08:38 -0700 (PDT)
+Received: by mail-wr1-x429.google.com with SMTP id s1so10351887wra.9
+        for <linux-man@vger.kernel.org>; Sun, 03 Jul 2022 11:08:37 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=gmail.com; s=20210112;
-        h=from:to:cc:subject:date:message-id:in-reply-to:references
-         :mime-version:content-transfer-encoding;
-        bh=RiZLUJCq6NRigoXy+b2Oy3452vh6C6e3fSylJN6sGqY=;
-        b=dSeT3btuDXaMcqiybXfcpDEyRVaqNMIFtN3YLV2RjY3aWBRKUrKpYeXcnnSL5VYLbc
-         PEhO9gy1M2SEptHwTn6/fprgWVF0ZjGH2Mz3/d9SmCKpkpA7zs7Dmq3PTRptxFbN+H4m
-         K2EE6yAoT0DlkB16uego0Y+stpNroH3SAkgVU/1Kv+A1Uj4SF3emzPxVC4aHWx4WZ72W
-         Xf3NvRXD6KZfxMvm+ZA9k8GH9B5qceUDrs9iw4hpEBBqk4leh8HrUIVvlsQEhIKkmcNx
-         xxmCNHUeYV9JVbEXwAp+4iIz+8LFxSYQDN+gQ7kEv6QMkiGC0qMm4g4udO2xXhPK8KHm
-         qb2Q==
+        h=message-id:date:mime-version:user-agent:subject:content-language:to
+         :cc:references:from:in-reply-to:content-transfer-encoding;
+        bh=ct1aNdH9ogR/nWX3CkYpIsgT2Rrs0c3MSWUH3bOpLl0=;
+        b=k0A/ThXT7wyUOGcl0RZ1TnobLBTneMi02w7oy667OiOF3QBcY23UxRuR7Wfsn7Wpsy
+         FbFrHIfRpYGxSroqD+UiqOPNgc026L3LQWD39M+XITl6X2A/BHLmjBvcU8JVN/JG8u16
+         wRoqInVNuSBzImWSjBc4NQgyhk9xnG33Nm7kFHUiYXEttJGvW5nb0e6CfDCWecka5DXD
+         lTWOTesljLDyQpmoXCI/CO5pHrqAJQ0zqN8HDKNy4j6eVDNFbfPHNLEPctiWk0KBFpck
+         F6UnaInzbIbnL5dIFu7fBffctNqZAliTgog/Z1UwjYRhOx0CmjvTWsnnc48IsIn/wEV3
+         jaqQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20210112;
-        h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
-         :references:mime-version:content-transfer-encoding;
-        bh=RiZLUJCq6NRigoXy+b2Oy3452vh6C6e3fSylJN6sGqY=;
-        b=owetV/mDowuiLStlCo0sD9dvkplkebL/mQJa1H24WamUPQtJOMpVUhHmqxOIMBnBG8
-         jvlfNELLGf2ixDvZolKl8TLdxSltNgVxVKd0BijN8iw7CfWRu5XZG9Dn4Qfuo5Hnuhy3
-         isYSS7EE/ubN3SRtKQUS7wPR8bf4Qq0yfsKl31XAynI8j6CxXXOr8gocgQXco0HfF0z+
-         7oJb5neS3vnNwtqxCKQNvXiBJAQ79eJtOJIxsLS1pthjrGtwjB6JmnNBha0YN1vjVgQv
-         8HVvUcC4EhyTTp8fr/csMRATp/OfcGZ6Faz2NCErxxkJe44jfM/FI4gLLTbwz1YhWbbG
-         vMUw==
-X-Gm-Message-State: AJIora+khlJtXZEbMi2vW60hxNc4PS7uNru0CSZZ2fKd/yHblMSFe8sa
-        ArXdIZD5rR8bQ6jlCWvORpw=
-X-Google-Smtp-Source: AGRyM1uw5uWH0qttECE2/xbGcZI9A7Iswgtbir7b6PewLsSWSJwO132UeU6nYTrqU/e/vDpsIK1ehA==
-X-Received: by 2002:a05:600c:1d95:b0:3a0:3cf1:5eb4 with SMTP id p21-20020a05600c1d9500b003a03cf15eb4mr11804579wms.50.1656615977499;
-        Thu, 30 Jun 2022 12:06:17 -0700 (PDT)
-Received: from localhost.localdomain ([5.29.8.191])
-        by smtp.gmail.com with ESMTPSA id z21-20020a1c4c15000000b0039c871d3191sm7825220wmf.3.2022.06.30.12.06.16
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Thu, 30 Jun 2022 12:06:17 -0700 (PDT)
-From:   Amir Goldstein <amir73il@gmail.com>
-To:     Alejandro Colomar <alx.manpages@gmail.com>
-Cc:     Michael Kerrisk <mtk.manpages@gmail.com>, Jan Kara <jack@suse.cz>,
-        Matthew Bobrowski <repnop@google.com>,
-        linux-man@vger.kernel.org
-Subject: [PATCH v3 1/2] fanotify.7, fanotify_init.2: Document FAN_REPORT_TARGET_FID
-Date:   Thu, 30 Jun 2022 22:06:09 +0300
-Message-Id: <20220630190610.3043428-2-amir73il@gmail.com>
-X-Mailer: git-send-email 2.25.1
-In-Reply-To: <20220630190610.3043428-1-amir73il@gmail.com>
-References: <20220630190610.3043428-1-amir73il@gmail.com>
+        h=x-gm-message-state:message-id:date:mime-version:user-agent:subject
+         :content-language:to:cc:references:from:in-reply-to
+         :content-transfer-encoding;
+        bh=ct1aNdH9ogR/nWX3CkYpIsgT2Rrs0c3MSWUH3bOpLl0=;
+        b=6W7hUW66NlDIqt8IAoU9wablDsig9m0VHzG4YZ3+H5xM1EbtmoALHtkraomQgjImTI
+         mZho4cD8GixNR0ll9RVUeHhttw49N0zYDCL4nKYdpflDG3C3KJ2PI/oJ4BKr051nUED0
+         CgcnYP/94YbMQPfBd7uMH0EIRXcP7ZFWzskOk6sklRpp8Lv4ThR0cZ8KT6E8qneyBHL9
+         G3JpypUcAYYfcpM5Qdty3OEP0EPFpOXNtiiAKilATvuTxhfkXGSAtCnfA8zac4brCLZe
+         v6uePm/wATU2Q7iHUd1gzyjRcD1WYSXQdJsrZfyU4yQXZIuemjslg9mJj0iFVtd2114k
+         iAkQ==
+X-Gm-Message-State: AJIora8VvPNbGf+TKTQrsZKME9Ka0dSFVPlfetS0XE++GMyTqUNaQlty
+        AUnzSHJ3u9al3/OoR1RGgVQ=
+X-Google-Smtp-Source: AGRyM1vdV6OpHyaczYpF9peyJQsb2SP987DcAAap+zAAVIBD9iE32nz0odeSDhAcJwbh7Cmbgua85Q==
+X-Received: by 2002:adf:9d92:0:b0:21d:66c4:e311 with SMTP id p18-20020adf9d92000000b0021d66c4e311mr3722389wre.575.1656871716536;
+        Sun, 03 Jul 2022 11:08:36 -0700 (PDT)
+Received: from [192.168.0.160] ([170.253.36.171])
+        by smtp.gmail.com with ESMTPSA id v6-20020a5d6106000000b00213ba0cab3asm28506835wrt.44.2022.07.03.11.08.35
+        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+        Sun, 03 Jul 2022 11:08:35 -0700 (PDT)
+Message-ID: <f180eaf2-fa3b-27d2-3787-cb1c826430f1@gmail.com>
+Date:   Sun, 3 Jul 2022 20:08:34 +0200
 MIME-Version: 1.0
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
+ Thunderbird/91.11.0
+Subject: Re: [PATCH v2] environ.7: align PWD with the standard
+Content-Language: en-US
+To:     Stefan Puiu <stefan.puiu@gmail.com>,
+        =?UTF-8?B?0L3QsNCx?= <nabijaczleweli@nabijaczleweli.xyz>
+Cc:     lnx-man <linux-man@vger.kernel.org>
+References: <f4b9cfdd-7b5b-2b31-2c84-064fc2c3206b@gmail.com>
+ <20220619233934.25egwny37dzt7q3i@tarta.nabijaczleweli.xyz>
+ <CACKs7VDJx1QEkgmb2vJzhAbNwbH9xjd_-rhD+eBSbtBk9-PzAA@mail.gmail.com>
+ <20220620152317.nq4ehd5gtjmjxx2m@tarta.nabijaczleweli.xyz>
+ <CACKs7VBN8N4mUUFFxkL9jj1C+Uc1qvmwTp5xR+--OFb4LXo21w@mail.gmail.com>
+From:   Alejandro Colomar <alx.manpages@gmail.com>
+In-Reply-To: <CACKs7VBN8N4mUUFFxkL9jj1C+Uc1qvmwTp5xR+--OFb4LXo21w@mail.gmail.com>
+Content-Type: text/plain; charset=UTF-8; format=flowed
 Content-Transfer-Encoding: 8bit
 Precedence: bulk
 List-ID: <linux-man.vger.kernel.org>
 X-Mailing-List: linux-man@vger.kernel.org
 
-FAN_REPORT_TARGET_FID adds an information record about the child
-to directory entry modification events (create/delete/move).
+Hi Stefan, and наб,
 
-This flag also adds sanity checks that directory modification events
-(create,delete,moved) cannot be set in mask of a non-dir inode mark.
+On 6/21/22 23:35, Stefan Puiu wrote:
+> On Mon, Jun 20, 2022 at 6:23 PM наб <nabijaczleweli@nabijaczleweli.xyz> wrote:
+>>
+>> Hi!
+>>
+>> On Mon, Jun 20, 2022 at 11:55:18AM +0300, Stefan Puiu wrote:
+>>> On Mon, Jun 20, 2022 at 2:40 AM наб <nabijaczleweli@nabijaczleweli.xyz> wrote:
+>>>>
+>>>> Signed-off-by: Ahelenia Ziemiańska <nabijaczleweli@nabijaczleweli.xyz>
+>>>> ---
+>>>>   man7/environ.7 | 8 ++++++--
+>>>>   1 file changed, 6 insertions(+), 2 deletions(-)
+>>>>
+>>>> diff --git a/man7/environ.7 b/man7/environ.7
+>>>> index 019c5a25a..24446c709 100644
+>>>> --- a/man7/environ.7
+>>>> +++ b/man7/environ.7
+>>>> @@ -158,8 +158,12 @@ used by
+>>>>   to find manual pages, and so on.
+>>>>   .TP
+>>>>   .B PWD
+>>>> -The current working directory.
+>>>> -Set by some shells.
+>>>> +Absolute path to the current working directory;
+>>>> +required to be partially canonical (no
+>>>> +.I .\&
+>>>> +or
+>>>> +.I ..\&
+>>>> +components).
+>>>
+>>> If any shell decides to ignore that part of the spec, is there
+>>> anything preventing them?
+>> It no longer being a valid shell (if on startup) or providing an invalid
+>> cd built-in (when cding), from the stand-point of conformance to both
+>> the standard and historical shells.
+> 
+> My expectation from the Linux manual pages is that they document
+> behavior I'm likely to encounter in the real world on Linux, with
+> various libcs etc. Specs can be misread, misunderstood, ignored, or
+> can be wrong sometimes (see the discussion about fork being required
+> to be async signal safe, for example, the RH page here:
+> https://access.redhat.com/articles/2921161). So if I write software
+> that, say, does getent("PWD"), it's useful to know if there are cases
+> where that might not work. Even if POSIX requires PWD to be set,
+> that's not reassuring when my program crashes. That's why I asked if
+> you checked some shells to see what they do.
+> 
+> Also, I see there's already environ.3p for the POSIX version.
+> 
+>>
+>>> I would make it clear in the text that this
+>>> is a spec requirement, not a practical guarantee (e.g. "required by
+>>> <spec> to be ...").
+>> Those are one and the same, that's the point of SUS/POSIX
+>> (and conformance to historical implementations).
+>> Are you aware of one or are you just concern-trolling?
+> 
+> I don't know of a shell that doesn't set PWD, but since you said the
+> previous comment ("Some shells set it") was wrong, I assumed you had
+> checked that. I did try bash and busybox sh and they seem to set it,
+> but there are (quite) a few other shells out there.
 
-Note that while FAN_REPORT_TARGET_FID was merged to v5.17, the sanity
-checks resulting in ENOTDIR were merged as fix commits ceaf69f8eadc
-("fanotify: do not allow setting dirent events in mask of non-dir")
-and 8698e3bab4dd ("fanotify: refine the validation checks on non-dir
-inode mask") in later kernel releases.
 
-Reviewed-by: Matthew Bobrowski <repnop@google.com>
-Reviewed-by: Jan Kara <jack@suse.cz>
-Signed-off-by: Amir Goldstein <amir73il@gmail.com>
----
- man2/fanotify_init.2 | 40 +++++++++++++++++++++++++++++++++++++---
- man2/fanotify_mark.2 | 18 ++++++++++++++++++
- man7/fanotify.7      | 27 +++++++++++++--------------
- 3 files changed, 68 insertions(+), 17 deletions(-)
+Since no-one seems to know of a shell that deviates from this behavior, 
+and no-one replied in a couple of weeks, I'm going to assume that all 
+well-known shells follow POSIX, and that the wording was falling on the 
+safe side of things in the old times where following standards was not a 
+common thing to do (or maybe the page was written before there were any 
+standards).
 
-diff --git a/man2/fanotify_init.2 b/man2/fanotify_init.2
-index 9abec5fca..ac4d3a305 100644
---- a/man2/fanotify_init.2
-+++ b/man2/fanotify_init.2
-@@ -182,9 +182,11 @@ and
- .BR FAN_MOVE_SELF .
- All the events above require an fanotify group that identifies filesystem
- objects by file handles.
--Note that for the directory entry modification events the reported file handle
--identifies the modified directory and not the created/deleted/moved child
--object.
-+Note that without the flag
-+.BR FAN_REPORT_TARGET_FID ,
-+for the directory entry modification events,
-+there is an inforamtion record that identifies the modified directory
-+and not the created/deleted/moved child object.
- The use of
- .B FAN_CLASS_CONTENT
- or
-@@ -282,6 +284,38 @@ for additional details.
- .B FAN_REPORT_DFID_NAME
- This is a synonym for
- .RB ( FAN_REPORT_DIR_FID | FAN_REPORT_NAME ).
-+.TP
-+.BR FAN_REPORT_TARGET_FID " (since Linux 5.17)"
-+.\" commit d61fd650e9d206a71fda789f02a1ced4b19944c4
-+Events for fanotify groups initialized with this flag
-+will contain additional information about the child
-+correlated with directory entry modification events.
-+This flag must be provided in conjunction with the flags
-+.BR FAN_REPORT_FID ,
-+.B FAN_REPORT_DIR_FID
-+and
-+.BR FAN_REPORT_NAME .
-+or else the error
-+.B EINVAL
-+will be returned.
-+For the directory entry modification events
-+.BR FAN_CREATE ,
-+.BR FAN_DELETE ,
-+and
-+.BR FAN_MOVE ,
-+an additional record of type
-+.BR FAN_EVENT_INFO_TYPE_FID ,
-+is reported in addition to the information record of type
-+.B FAN_EVENT_INFO_TYPE_DFID
-+or
-+.BR FAN_EVENT_INFO_TYPE_DFID_NAME .
-+The additional record includes a file handle
-+that identifies the filesystem child object
-+that the directory entry is referring to.
-+.TP
-+.B FAN_REPORT_DFID_NAME_TARGET
-+This is a synonym for
-+.RB ( FAN_REPORT_DFID_NAME | FAN_REPORT_FID | FAN_REPORT_TARGET_FID ).
- .PP
- .TP
- .BR FAN_REPORT_PIDFD " (since Linux 5.15)"
-diff --git a/man2/fanotify_mark.2 b/man2/fanotify_mark.2
-index 3dc538b7f..80f73b983 100644
---- a/man2/fanotify_mark.2
-+++ b/man2/fanotify_mark.2
-@@ -473,6 +473,24 @@ and
- .I pathname
- do not specify a directory.
- .TP
-+.B ENOTDIR
-+The fanotify group was initialized with flag
-+.BR FAN_REPORT_TARGET_FID ,
-+.I mask
-+contains directory entry modification events
-+(e.g.,
-+.BR FAN_CREATE ,
-+.BR FAN_DELETE ) ,
-+or directory event flags
-+(e.g.,
-+.BR FAN_ONDIR ,
-+.BR FAN_EVENT_ON_CHILD ) ,
-+and
-+.I dirfd
-+and
-+.I pathname
-+do not specify a directory.
-+.TP
- .B EOPNOTSUPP
- The object indicated by
- .I pathname
-diff --git a/man7/fanotify.7 b/man7/fanotify.7
-index f4d391603..5f2c01408 100644
---- a/man7/fanotify.7
-+++ b/man7/fanotify.7
-@@ -171,14 +171,14 @@ alongside the generic
- structure.
- For example,
- if a notification group is initialized with
--.B FAN_REPORT_FID
-+.B FAN_REPORT_TARGET_FID
- and
- .BR FAN_REPORT_PIDFD ,
--then an event listener should also expect to receive both
-+then an event listener should expect to receive up to two
- .I fanotify_event_info_fid
--and
-+information records and one
- .I fanotify_event_info_pidfd
--structures alongside the generic
-+information record alongside the generic
- .I fanotify_event_metadata
- structure.
- Importantly,
-@@ -552,7 +552,15 @@ identifying a parent directory object, and one with
- .I info_type
- field value of
- .BR FAN_EVENT_INFO_TYPE_FID ,
--identifying a non-directory object.
-+identifying a child object.
-+Note that for the directory entry modification events
-+.BR FAN_CREATE ,
-+.BR FAN_DELETE ,
-+and
-+.BR FAN_MOVE ,
-+an information record identifying the created/deleted/moved child object
-+is reported only if an fanotify group was initialized with the flag
-+.BR FAN_REPORT_TARGET_FID.
- .TP
- .I fsid
- This is a unique identifier of the filesystem containing the object
-@@ -572,15 +580,6 @@ filesystem as returned by
- It can be used to uniquely identify a file on a filesystem and can be
- passed as an argument to
- .BR open_by_handle_at (2).
--Note that for the directory entry modification events
--.BR FAN_CREATE ,
--.BR FAN_DELETE ,
--and
--.BR FAN_MOVE ,
--the
--.I file_handle
--identifies the modified directory and not the created/deleted/moved child
--object.
- If the value of
- .I info_type
- field is
+So I applied the patch.
+
+> 
+> I don't know why you think that my question is some kind of trolling.
+> You can look up my contributions in the mailing list archive. It's
+> been a while since my last patch to the project; nowadays I follow
+> some of the mailing list discussions in my spare time and occasionally
+> chime in on people's patches. I get things wrong sometimes, of course,
+> but your reply is the first one that is defensive (and somewhat rude,
+> I would say). Probably a good indication that I need to find other
+> uses of my (spare) time.
+
+Thanks for following the list, I appreciate your reviews!
+
+> 
+>> Obviously, pretty much no part of this manual applies to csh
+>> because csh is its own 2BSD brand of insanity (in this case
+>> largely because it predates V7 (3BSD), and, hence, the environment).
+>> csh users understand they use a non-shell,
+> 
+> Well, this is the environ.7 man page, mostly useful to programmers
+> AFAICT, who don't have much control over what people use as their
+> shell. If they can set csh as their login shell, why should I assume
+> they won't? People have many reasons to choose the shell they run -
+> distro default, they like some features, speed, company policy, legacy
+> systems... Not sure POSIX compliance is high on that list.
+
+I checked csh(1) provides PWD, at least on my system (and in fact, it's 
+the only variable it sets):
+
+$ env -i csh
+% env
+PWD=/home/alx
+% csh -l
+% env
+PWD=/home/alx
+%
+
+I'm going to assume that the text is not true, unless someone reports 
+otherwise.
+
+Thanks you both!
+
+Alex
 -- 
-2.25.1
-
+Alejandro Colomar
+<http://www.alejandro-colomar.es/>
