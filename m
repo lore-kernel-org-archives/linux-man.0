@@ -2,87 +2,97 @@ Return-Path: <linux-man-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 27E57CCA479
-	for <linux-man@archiver.kernel.org>; Mon, 18 Jul 2022 16:38:39 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id F09B4C43334
+	for <linux-man@archiver.kernel.org>; Tue, 19 Jul 2022 01:56:10 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S233673AbiGRQiG (ORCPT <rfc822;linux-man@archiver.kernel.org>);
-        Mon, 18 Jul 2022 12:38:06 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:35966 "EHLO
+        id S236399AbiGSB4K (ORCPT <rfc822;linux-man@archiver.kernel.org>);
+        Mon, 18 Jul 2022 21:56:10 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:33266 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S233751AbiGRQiB (ORCPT
-        <rfc822;linux-man@vger.kernel.org>); Mon, 18 Jul 2022 12:38:01 -0400
-Received: from mail-pf1-x461.google.com (mail-pf1-x461.google.com [IPv6:2607:f8b0:4864:20::461])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 88C782AC6F
-        for <linux-man@vger.kernel.org>; Mon, 18 Jul 2022 09:38:00 -0700 (PDT)
-Received: by mail-pf1-x461.google.com with SMTP id w185so11133122pfb.4
-        for <linux-man@vger.kernel.org>; Mon, 18 Jul 2022 09:38:00 -0700 (PDT)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20210112;
-        h=x-gm-message-state:dkim-signature:mime-version:from:date:message-id
-         :subject:to:cc;
-        bh=5M8xTCi/D9QBPzkDI/2GgfE8i/nROeHNntYeysIAZy4=;
-        b=2Tj4EpEZxqwLVisv/RbwmC01uY1wCSHKn9XBPDoXvyDLPYfWRmDwxk4NUGjEShqFwp
-         G8DLcIz3nEvh7XpyByNawuCc/R/HwaY6fwstGTXY+Kkr6OCLKCmWNO5zpvNhXC7qGilK
-         L9DKWp4M6ZUP1OtSM78TWN8QVa9S1Gc3D2QgWxp8CG/qHN1dbcpTBb3lN5x0xIA+R4GH
-         fuotuMGGOJBHK5h7xR0XGFcyAt9+V7IKxlk3dfvTvbedui5uHVyf79+722MjbieDLq6H
-         nY3Vxb9kn38KvdUGf7mbwyYiJw1shUA05Lr1RpKL5CPM3csf6vOVvQg7Mq2mamlBNJf4
-         U22A==
-X-Gm-Message-State: AJIora8NTeUbAec9PtvkCxvT4A5wD7nZe11v0Ylq9+u5OJVX1ijj+oB9
-        KqS2+Qgv6SuRwoaXaDeNVW5XrqsWkkHqsXiCkFqUAXHm130jOg==
-X-Google-Smtp-Source: AGRyM1vgj2XRWFBL+KbjRW5XsGnNUKp8aKD+fMg618EXEoCj656t4l14wp97OzE9XSgjhJ3h9MwWEfTTzxH4
-X-Received: by 2002:a05:6a00:1410:b0:528:5a5a:d846 with SMTP id l16-20020a056a00141000b005285a5ad846mr29455000pfu.9.1658162280086;
-        Mon, 18 Jul 2022 09:38:00 -0700 (PDT)
-Received: from restore.menlosecurity.com ([34.202.62.172])
-        by smtp-relay.gmail.com with ESMTPS id u1-20020a170903124100b0016a4f37d292sm815800plh.126.2022.07.18.09.37.59
-        for <linux-man@vger.kernel.org>
-        (version=TLS1_2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128/128);
-        Mon, 18 Jul 2022 09:38:00 -0700 (PDT)
-X-Relaying-Domain: menlosecurity.com
-Received: from safemail-prod-02850030cr-re.menlosecurity.com (34.202.62.173)
-    by restore.menlosecurity.com (34.202.62.172)
-    with SMTP id fba94630-06b7-11ed-903e-f5958f0665dc;
-    Mon, 18 Jul 2022 16:38:00 GMT
-Received: from mail-yb1-f199.google.com (209.85.219.199)
-    by safemail-prod-02850030cr-re.menlosecurity.com (34.202.62.173)
-    with SMTP id fba94630-06b7-11ed-903e-f5958f0665dc;
-    Mon, 18 Jul 2022 16:37:59 GMT
-Received: by mail-yb1-f199.google.com with SMTP id u15-20020a25ab0f000000b0066e49f6c461so9051649ybi.2
-        for <linux-man@vger.kernel.org>; Mon, 18 Jul 2022 09:37:58 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=menlosecurity.com; s=google;
-        h=mime-version:from:date:message-id:subject:to:cc;
-        bh=5M8xTCi/D9QBPzkDI/2GgfE8i/nROeHNntYeysIAZy4=;
-        b=TmOP4SXEwxTYDpQt+xjGJ1NDHS3FXlYeuhtuc75Y6cH7QefHbeD4V3WPJr90o2UxCI
-         AA8JWyVagXViN0fC0oZDf/uNThILn+kybqbNkxqUtfYMeQrqx4jv2zis5HQzNHs9VG0p
-         UDfSE6fce0MvEkYxEhR3MOWSs/7RF1MN5V5S0=
-X-Received: by 2002:a81:34a:0:b0:31c:849b:a9a with SMTP id 71-20020a81034a000000b0031c849b0a9amr31479817ywd.422.1658162278061;
-        Mon, 18 Jul 2022 09:37:58 -0700 (PDT)
-X-Received: by 2002:a81:34a:0:b0:31c:849b:a9a with SMTP id 71-20020a81034a000000b0031c849b0a9amr31479801ywd.422.1658162277874;
- Mon, 18 Jul 2022 09:37:57 -0700 (PDT)
+        with ESMTP id S236409AbiGSB4I (ORCPT
+        <rfc822;linux-man@vger.kernel.org>); Mon, 18 Jul 2022 21:56:08 -0400
+Received: from tarta.nabijaczleweli.xyz (unknown [139.28.40.42])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTP id A69942714D
+        for <linux-man@vger.kernel.org>; Mon, 18 Jul 2022 18:56:05 -0700 (PDT)
+Received: from tarta.nabijaczleweli.xyz (unknown [192.168.1.250])
+        by tarta.nabijaczleweli.xyz (Postfix) with ESMTPSA id 95160610;
+        Tue, 19 Jul 2022 03:56:01 +0200 (CEST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=nabijaczleweli.xyz;
+        s=202205; t=1658195761;
+        bh=q+ZVy1YIgkjFsUdVdJuMXaOrGrassDkeqlEI2n1x2Zc=;
+        h=Date:From:To:Cc:Subject:From;
+        b=mZuADCBLjq692R5y3VrqqooI9tfZMKFPmcIteQQ00qlcXsffjGT/3gA6+6o5Iy7UV
+         3D8zaRIWRStO7xJdxWUvfgxXirzat/M7SsAU7in+RR+mfTGCovboBh6+Mn7cPYZDvN
+         ZwPIFXbg2UrOjC05GmCL99viSbqKryuQ87iEw8EfrigeMYLefAPxoR2/uSfRtykvUM
+         DT8Uoo28k3ptrXvcvqMVBpmQXmBqGxvpPMzyY+71zzl2ttGJMJapufQjRTvTb0T70O
+         bsrQ2NAr5IIx9OCTmBgx74K4uFijXbo2vUu5ajUjT/Mp7zPLNlhqRjlnIIe5dti7fp
+         d6lbsaPPjMO7IpyESk8x3ix3Adq3+WY6S8tytXLEnblBrCz+sH/mvB30BYOHU+bArx
+         JPGyQ/L+893XSBykLB+Qcd4np0TZcfTgHMgTbrQiiCXmpqkoG1XLZKv9UyvauUUzVv
+         efIVsbZbHjzOWTumYb3U4SvZ9lRgIXbgaKhMGfQyJhFvgn+jNmO4XWzJtzsMyG0Mrw
+         NzCBiPTRX5g7akZlraIQ95iwhbskWPFs1InJ+hvn0833juq5C9OeKPxGKKxfXwxi7g
+         yXErlKbrFB40QBBe3Bh6KcF0rq7QdYC7VVMwzhAqux6lX2/YOhe1hU8LA5mr2JFi6j
+         gyHXRBsAJZz65pcRUt2vYNuU=
+Date:   Tue, 19 Jul 2022 03:56:00 +0200
+From:   =?utf-8?B?0L3QsNCx?= <nabijaczleweli@nabijaczleweli.xyz>
+To:     "Alejandro Colomar (man-pages)" <alx.manpages@gmail.com>
+Cc:     linux-man@vger.kernel.org
+Subject: [PATCH 1/5] tm.3type: tfix
+Message-ID: <62c1b6748d2faa6263264b9fcaa064495357441b.1658195739.git.nabijaczleweli@nabijaczleweli.xyz>
 MIME-Version: 1.0
-From:   Rumen Telbizov <rumen.telbizov@menlosecurity.com>
-Date:   Mon, 18 Jul 2022 09:37:43 -0700
-Message-ID: <CA+FoirBpBrvp7Qme_sqViKf-90tG+s+tUZNy9fmZXEF5u4sx8w@mail.gmail.com>
-Subject: Update bpf-helpers(7) man page
-To:     mtk.manpages@gmail.com
-Cc:     linux-man@vger.kernel.org, quentin@isovalent.com
-Content-Type: text/plain; charset="UTF-8"
+Content-Type: multipart/signed; micalg=pgp-sha512;
+        protocol="application/pgp-signature"; boundary="sli6w3sgkyfpifnr"
+Content-Disposition: inline
+User-Agent: NeoMutt/20220429
 Precedence: bulk
 List-ID: <linux-man.vger.kernel.org>
 X-Mailing-List: linux-man@vger.kernel.org
 
-Hi Michael, everyone,
 
-I was directed to you by Quentin Monnet with regards to a missing
-function in the bpf-helpers(7) Linux man page. I found out that the
-man page doesn't have anything regarding bpf_redirect_neigh(). Quentin
-mentioned that he has a script which generates the man page from the
-comments in the source code, but then I am not sure how and when the
-man page is being generated so that it gets out of date. This function
-definitely has comments/documentation in the code and it works
-properly but is missing in the man page.
+--sli6w3sgkyfpifnr
+Content-Type: text/plain; charset=utf-8
+Content-Disposition: inline
+Content-Transfer-Encoding: quoted-printable
 
-Is this something you can help with?
+Signed-off-by: Ahelenia Ziemia=C5=84ska <nabijaczleweli@nabijaczleweli.xyz>
+---
+ man3/tm.3type | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
 
-Thank you,
-Rumen Telbizov
+diff --git a/man3/tm.3type b/man3/tm.3type
+index 28d6208fb..8ae3a531c 100644
+--- a/man3/tm.3type
++++ b/man3/tm.3type
+@@ -24,7 +24,7 @@ Standard C library
+ "   /* Day of the week [" 0 ", " 6 "] (Sunday =3D " 0 ") */"
+ .BR "    int  tm_yday;" \
+ "   /* Day of the year [" 0 ", " 365 "] (Jan/01 =3D " 0 ") */"
+-.BR "    int  tm_isdst;" "  /* Daylighgt savings flag */"
++.BR "    int  tm_isdst;" "  /* Daylight savings flag */"
+ .B };
+ .fi
+ .SH DESCRIPTION
+--=20
+2.30.2
+
+
+--sli6w3sgkyfpifnr
+Content-Type: application/pgp-signature; name="signature.asc"
+
+-----BEGIN PGP SIGNATURE-----
+
+iQIzBAABCgAdFiEEfWlHToQCjFzAxEFjvP0LAY0mWPEFAmLWDzAACgkQvP0LAY0m
+WPECIg//TlrWtth15Mb64Tw5FQxTi2VE/EeIX8AeBolZG1HZ7lsb7geDj9al11sO
+/eWQ6U5dxMNgCI+r6+ZOFj4avz+twkIO8hGsIGMstxukJO5Dub9nMOtVWXoRlXOx
+n/eM7xB729PmGvCpqGJI/Ltbv2s0Ib7cjwj9tHM7ZdmVTkHNIRm0FrL7KM0QmwBv
+kyRkboAyeqwa1RhA1WsGZG51KNLioqbTJ++plVpDKXJF64OXSvwMWhjJHOJOQlWM
+s5UQct9y+QMf/ktcHGd/hhA3J1ManGxlmDLwDDaD+lCN5aSDMxDCMpgLf8UF9syv
+5q/5tm/SfTYpt84PEzvdfd+b/GbGKx7cZ7cvx6C9IVDku0WvxIjj0KFK1QVloOMh
+Gc2yMELKI9Rp+JtlrBe3P2MItzdUkIqEWaD1+UGHs18f8a0yTlR2j0i2vEFhHHKZ
+DRKskmGL6wvhvduOQQz3p7n6FP2U3gcyogdYwk9WaIX5z1VImlHFo6R+zmYVsRuz
+NypB2jrtT/icY53FW+w2dZiFHjupWqAcMlrteFKbmSg5+8OptD7gXDOeuqVXtBnX
+tSdlUt6RgtlmhGG7ZVFpz3cpUI+X4w9Usz46vDmJEGDfXMB5h6AG2U2GIvItaciZ
+8cop12UN6tvYF7V5iQR/+BmCwdBPYefOEJw4Tum6qCnY6P6gSVI=
+=eZDA
+-----END PGP SIGNATURE-----
+
+--sli6w3sgkyfpifnr--
