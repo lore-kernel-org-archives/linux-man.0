@@ -2,91 +2,133 @@ Return-Path: <linux-man-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 56125C19F2D
-	for <linux-man@archiver.kernel.org>; Tue,  9 Aug 2022 16:59:01 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 209B6C19F2D
+	for <linux-man@archiver.kernel.org>; Tue,  9 Aug 2022 23:01:49 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S244966AbiHIQ7A (ORCPT <rfc822;linux-man@archiver.kernel.org>);
-        Tue, 9 Aug 2022 12:59:00 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:38982 "EHLO
+        id S229471AbiHIXBs (ORCPT <rfc822;linux-man@archiver.kernel.org>);
+        Tue, 9 Aug 2022 19:01:48 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:48440 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S243719AbiHIQ67 (ORCPT
-        <rfc822;linux-man@vger.kernel.org>); Tue, 9 Aug 2022 12:58:59 -0400
-Received: from mail-oo1-xc64.google.com (mail-oo1-xc64.google.com [IPv6:2607:f8b0:4864:20::c64])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id B987623BEF
-        for <linux-man@vger.kernel.org>; Tue,  9 Aug 2022 09:58:58 -0700 (PDT)
-Received: by mail-oo1-xc64.google.com with SMTP id u7-20020a4a8c07000000b00435ac1584a6so2214157ooj.1
-        for <linux-man@vger.kernel.org>; Tue, 09 Aug 2022 09:58:58 -0700 (PDT)
+        with ESMTP id S229445AbiHIXBr (ORCPT
+        <rfc822;linux-man@vger.kernel.org>); Tue, 9 Aug 2022 19:01:47 -0400
+Received: from mail-wm1-x32f.google.com (mail-wm1-x32f.google.com [IPv6:2a00:1450:4864:20::32f])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id DF89065825
+        for <linux-man@vger.kernel.org>; Tue,  9 Aug 2022 16:01:42 -0700 (PDT)
+Received: by mail-wm1-x32f.google.com with SMTP id ay36-20020a05600c1e2400b003a4e30d7995so170603wmb.5
+        for <linux-man@vger.kernel.org>; Tue, 09 Aug 2022 16:01:42 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20210112;
+        h=in-reply-to:from:content-language:references:cc:to:subject
+         :user-agent:mime-version:date:message-id:from:to:cc;
+        bh=tWL2WHYItslx3ulimswaHouHEGfamUH2cNSxDu7iEss=;
+        b=KLHTOzD7QFbkW0qw9Fe9ghEsXUGQ869j2CpaaU3B/DzI6DMZYvt+E7FfMGWG9DM6cX
+         lqf9flTxOX6pCIgsWSjVfecaYTHiVQuSw6YfZ2/4FgJdFhWnozOsgRCG665vZJme4ULr
+         hnO1rzG+rs8VA21QFodCRTJxtszWSc+zmXPDcsGuNJ1U2L50BnESyMtn7w7UNEW7RkhM
+         YpkYLMUNbcMD25yWtZPOWhYVRj046ESKQ0oRbTDY83NiyFQCX4rX+X+YPC5sOGaXo+Pz
+         C2oKrbpCz14NGi4hc/yPUVerR8iGckJCmiWMF2bUAKM1KWv7nS6/NnEAW0q2BsogjQ+S
+         UYZw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20210112;
-        h=cc:to:subject:message-id:date:from:in-reply-to:references
-         :mime-version:dkim-signature:x-gm-message-state:from:to:cc;
-        bh=+eQHMMdBs5N/rufefflqkz3jznRwu+OTj00XN5Kl+E4=;
-        b=X7PvOJrqe06TPH/x1aDMDl6lo8eSfcRISAlRr2xc2U4/QTppFNnM7d3/tkFSvT2QTQ
-         rm6MmuN330YQryPN80dFH+xVfihuDG3Svh61HWvJTaEogd0iPeT+RrvXm24W1ct/l+iH
-         zH69Y8Xt/ET7CYPIFID0u9Bao1atJHWh4ApLoQNOEc3kUF8aKx10rrvJBrdIElx5iGm2
-         1nqnV37wjBIT8t81FE5Eq0QhtpfG0Nh7CNcr0Te/2NtW/AI+5uPH+AMGq4l1+KrJ5cfO
-         cW/5wNdSo0wcHltRiKbFdQgYzDRjH9hwDivywdaBd+2V3/DUB7Sdh7bB3sP+KltUS1O1
-         gSCQ==
-X-Gm-Message-State: ACgBeo261PXtJcEumDMjVf7+3jh8R2nUn2rp03XAf5rykAdXPELl7r35
-        gjOEzA1H2dno9NcpMHzW1NyMaFt8TaMSxuPjE1zkcxA3iiffKA==
-X-Google-Smtp-Source: AA6agR6b0yAmnOJTInFcqtfH4hRfvrzlH1te1rvOiBvsIs/uHG+0W2Sw5X3B9QHEg557d3CewK2XUYhjG9mi
-X-Received: by 2002:a4a:8e54:0:b0:435:76f2:2ab7 with SMTP id z20-20020a4a8e54000000b0043576f22ab7mr8363386ook.60.1660064338156;
-        Tue, 09 Aug 2022 09:58:58 -0700 (PDT)
-Received: from restore.menlosecurity.com ([13.56.32.54])
-        by smtp-relay.gmail.com with ESMTPS id q3-20020a056870e60300b00100feb13b78sm1677257oag.3.2022.08.09.09.58.57
-        for <linux-man@vger.kernel.org>
-        (version=TLS1_2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128/128);
-        Tue, 09 Aug 2022 09:58:58 -0700 (PDT)
-X-Relaying-Domain: menlosecurity.com
-Received: from safemail-prod-02850030cr-re.menlosecurity.com (13.56.32.55)
-    by restore.menlosecurity.com (13.56.32.54)
-    with SMTP id 8ec9d080-1804-11ed-ae78-573a90385d8c;
-    Tue, 09 Aug 2022 16:58:58 GMT
-Received: from mail-yw1-f197.google.com (209.85.128.197)
-    by safemail-prod-02850030cr-re.menlosecurity.com (13.56.32.55)
-    with SMTP id 8ec9d080-1804-11ed-ae78-573a90385d8c;
-    Tue, 09 Aug 2022 16:58:57 GMT
-Received: by mail-yw1-f197.google.com with SMTP id 00721157ae682-31f5960500bso105177187b3.14
-        for <linux-man@vger.kernel.org>; Tue, 09 Aug 2022 09:58:57 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=menlosecurity.com; s=google;
-        h=cc:to:subject:message-id:date:from:in-reply-to:references
-         :mime-version:from:to:cc;
-        bh=+eQHMMdBs5N/rufefflqkz3jznRwu+OTj00XN5Kl+E4=;
-        b=DtLNgYbv/NpgFpqLo3b18NO8nc9YTIXSqrKxUY2P/0I4vEAC8PI8L3UUG7M+ONiNEV
-         iK+x2qBi3NbwJDQ0Ar4lpGYX0752sqUpgGPb0bD01DpA5Ze+gPeBEye9XcNIAPPHi+fJ
-         KZHQbxzGxor1fqxdzyZo2dNkzmjrdJAHHbG+U=
-X-Received: by 2002:a81:8886:0:b0:31f:639:8b97 with SMTP id y128-20020a818886000000b0031f06398b97mr23879940ywf.192.1660064336450;
-        Tue, 09 Aug 2022 09:58:56 -0700 (PDT)
-X-Received: by 2002:a81:8886:0:b0:31f:639:8b97 with SMTP id
- y128-20020a818886000000b0031f06398b97mr23879929ywf.192.1660064336308; Tue, 09
- Aug 2022 09:58:56 -0700 (PDT)
+        h=in-reply-to:from:content-language:references:cc:to:subject
+         :user-agent:mime-version:date:message-id:x-gm-message-state:from:to
+         :cc;
+        bh=tWL2WHYItslx3ulimswaHouHEGfamUH2cNSxDu7iEss=;
+        b=GiDHLt2UJWpuzunQKbJu3vdUZNrxvcZVWuA4ardjRYpfEjMe2Qjwq9TUlehuyd6IFH
+         YgGyXgiK3HFVq0cRksrD/CmEHb0RZ8UppKqeDhCVDlP7CjXtv/CqfpOovxwMdU0o27OK
+         57Yx4V4wkUa/8R4dTmPMS/mY6EiAbNIz3/1T+O52Eviq7Q5E1sE0vh50Q6ipFzzROvtr
+         xfQwmZL4bk4wG2pqX/DmZhPkU+pDR8RhuFuXo4o1I/Xd2Q/rwPbvhDCRyTJg1RX3BMyv
+         wt3kw3ZjrD++Zx2ouK0kNYShsmxMELcpW+Tm7VOBpBgUX11h//QOoo2oxpKHuWxDvPcn
+         svRQ==
+X-Gm-Message-State: ACgBeo0+sefEFYmuOf3xkRe+jKMAsHny75k57uZ77CmJFonamvF9kl3J
+        uFrEH8OgD+bdcv9ziYfRLKw=
+X-Google-Smtp-Source: AA6agR5T9SQJy626NBr47jjPKkz8AM0LgWSBqRTW+FwQkJ00BH42PJGJ/64PlJXaFoMxLjtyWrlmDw==
+X-Received: by 2002:a05:600c:3b8e:b0:3a5:2313:1db0 with SMTP id n14-20020a05600c3b8e00b003a523131db0mr344079wms.185.1660086101429;
+        Tue, 09 Aug 2022 16:01:41 -0700 (PDT)
+Received: from [192.168.0.160] ([170.253.36.171])
+        by smtp.gmail.com with ESMTPSA id x3-20020a05600c420300b003a54fffa809sm317973wmh.17.2022.08.09.16.01.40
+        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+        Tue, 09 Aug 2022 16:01:40 -0700 (PDT)
+Message-ID: <95f12d46-f6e6-25b0-123b-5ce2d24e3ec0@gmail.com>
+Date:   Wed, 10 Aug 2022 01:01:30 +0200
 MIME-Version: 1.0
-References: <CA+FoirA6PSOztihqrvOTVRKiSR8KnqiiZM-Tj9jVZjur3cia4w@mail.gmail.com>
-In-Reply-To: <CA+FoirA6PSOztihqrvOTVRKiSR8KnqiiZM-Tj9jVZjur3cia4w@mail.gmail.com>
-From:   Rumen Telbizov <rumen.telbizov@menlosecurity.com>
-Date:   Tue, 9 Aug 2022 09:58:45 -0700
-Message-ID: <CA+FoirDEkxx5=LJbkrxSbieEbN__3kk5KnSuFooeff+hUo8cCw@mail.gmail.com>
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
+ Thunderbird/102.1.0
 Subject: Re: man7.org update
-To:     Alejandro Colomar <alx.manpages@gmail.com>
+To:     Rumen Telbizov <rumen.telbizov@menlosecurity.com>,
+        Michael Kerrisk <mtk.manpages@gmail.com>
 Cc:     linux-man <linux-man@vger.kernel.org>,
         Quentin Monnet <quentin@isovalent.com>
-Content-Type: text/plain; charset="UTF-8"
+References: <CA+FoirA6PSOztihqrvOTVRKiSR8KnqiiZM-Tj9jVZjur3cia4w@mail.gmail.com>
+ <CA+FoirDEkxx5=LJbkrxSbieEbN__3kk5KnSuFooeff+hUo8cCw@mail.gmail.com>
+Content-Language: en-US
+From:   Alejandro Colomar <alx.manpages@gmail.com>
+In-Reply-To: <CA+FoirDEkxx5=LJbkrxSbieEbN__3kk5KnSuFooeff+hUo8cCw@mail.gmail.com>
+Content-Type: multipart/signed; micalg=pgp-sha256;
+ protocol="application/pgp-signature";
+ boundary="------------6gsv2ANmPZdt5yJ2gSQc7hQV"
 Precedence: bulk
 List-ID: <linux-man.vger.kernel.org>
 X-Mailing-List: linux-man@vger.kernel.org
 
-Hi Alejandro, list,
+This is an OpenPGP/MIME signed message (RFC 4880 and 3156)
+--------------6gsv2ANmPZdt5yJ2gSQc7hQV
+Content-Type: multipart/mixed; boundary="------------4dosjAzDsaCllHgP00Aa4tax";
+ protected-headers="v1"
+From: Alejandro Colomar <alx.manpages@gmail.com>
+To: Rumen Telbizov <rumen.telbizov@menlosecurity.com>,
+ Michael Kerrisk <mtk.manpages@gmail.com>
+Cc: linux-man <linux-man@vger.kernel.org>,
+ Quentin Monnet <quentin@isovalent.com>
+Message-ID: <95f12d46-f6e6-25b0-123b-5ce2d24e3ec0@gmail.com>
+Subject: Re: man7.org update
+References: <CA+FoirA6PSOztihqrvOTVRKiSR8KnqiiZM-Tj9jVZjur3cia4w@mail.gmail.com>
+ <CA+FoirDEkxx5=LJbkrxSbieEbN__3kk5KnSuFooeff+hUo8cCw@mail.gmail.com>
+In-Reply-To: <CA+FoirDEkxx5=LJbkrxSbieEbN__3kk5KnSuFooeff+hUo8cCw@mail.gmail.com>
 
-In short: Quentin and I were wondering if you know who maintains and updates
-https://man7.org/linux/man-pages/man7/bpf-helpers.7.html
+--------------4dosjAzDsaCllHgP00Aa4tax
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: base64
 
-This is with regards to the changes that we talked about previously to
-the bpf-helpers man page and the script that needs to be run in order
-to update the man page. Those changes don't seem to be reflected in
-the link above. Assuming that the script has been run already and all
-the changes are in place, do you have any idea when/who updates this
-page to reflect that?
+SGkgUnVtZW4sDQoNCk9uIDgvOS8yMiAxODo1OCwgUnVtZW4gVGVsYml6b3Ygd3JvdGU6DQo+
+IEhpIEFsZWphbmRybywgbGlzdCwNCj4gDQo+IEluIHNob3J0OiBRdWVudGluIGFuZCBJIHdl
+cmUgd29uZGVyaW5nIGlmIHlvdSBrbm93IHdobyBtYWludGFpbnMgYW5kIHVwZGF0ZXMNCj4g
+aHR0cHM6Ly9tYW43Lm9yZy9saW51eC9tYW4tcGFnZXMvbWFuNy9icGYtaGVscGVycy43Lmh0
+bWwNCg0KTWljaGFlbCBLZXJyaXNrLg0KPGh0dHBzOi8vbWFuNy5vcmcvPg0KDQpUaGF0J3Mg
+aGlzIG93biB3ZWJzaXRlLg0KDQo+IA0KPiBUaGlzIGlzIHdpdGggcmVnYXJkcyB0byB0aGUg
+Y2hhbmdlcyB0aGF0IHdlIHRhbGtlZCBhYm91dCBwcmV2aW91c2x5IHRvDQo+IHRoZSBicGYt
+aGVscGVycyBtYW4gcGFnZSBhbmQgdGhlIHNjcmlwdCB0aGF0IG5lZWRzIHRvIGJlIHJ1biBp
+biBvcmRlcg0KPiB0byB1cGRhdGUgdGhlIG1hbiBwYWdlLiBUaG9zZSBjaGFuZ2VzIGRvbid0
+IHNlZW0gdG8gYmUgcmVmbGVjdGVkIGluDQo+IHRoZSBsaW5rIGFib3ZlLiBBc3N1bWluZyB0
+aGF0IHRoZSBzY3JpcHQgaGFzIGJlZW4gcnVuIGFscmVhZHkgYW5kIGFsbA0KPiB0aGUgY2hh
+bmdlcyBhcmUgaW4gcGxhY2UsIGRvIHlvdSBoYXZlIGFueSBpZGVhIHdoZW4vd2hvIHVwZGF0
+ZXMgdGhpcw0KPiBwYWdlIHRvIHJlZmxlY3QgdGhhdD8NCg0KVGhlcmUgaGFzbid0IGJlZW4g
+YSBtYW4tcGFnZXMgcmVsZWFzZSB5ZXQgc2luY2UgdGhhdCBoYXBwZW5lZC4gDQpOb3JtYWxs
+eSwgTWljaGFlbCB1cGRhdGVzIHRoYXQgcGFnZSBhZnRlciBldmVyeSByZWxlYXNlIG9mIHRo
+ZSBMaW51eCANCm1hbi1wYWdlcy4NCg0KQ2hlZXJzLA0KDQpBbGV4DQoNCg0KLS0gDQpBbGVq
+YW5kcm8gQ29sb21hcg0KPGh0dHA6Ly93d3cuYWxlamFuZHJvLWNvbG9tYXIuZXMvPg0K
 
-Thanks,
-Rumen Telbizov
+--------------4dosjAzDsaCllHgP00Aa4tax--
+
+--------------6gsv2ANmPZdt5yJ2gSQc7hQV
+Content-Type: application/pgp-signature; name="OpenPGP_signature.asc"
+Content-Description: OpenPGP digital signature
+Content-Disposition: attachment; filename="OpenPGP_signature"
+
+-----BEGIN PGP SIGNATURE-----
+
+iQIzBAEBCgAdFiEE6jqH8KTroDDkXfJAnowa+77/2zIFAmLy50oACgkQnowa+77/
+2zKjEA//apjoZfdPE+USRu5wBFUviuqeU9o+mPOrQv8vTLlY5ixOU8UuqQTDUrs2
+KjDRuFl7coLk+GOWltOS4zZEx7HSATFZ4eglVPveyqYKHoghySmQSfLrjOvikS5K
+CAb05uAHyIMyJGqQFIUi+lykGYtUTs9HseUS/9jgdt72wPxuqmKfrCL5RFxwZgpw
+n/4PQkY7Ltps8hyTULQi946zW+s7cxVYAQGK9GqajYm/PfCQqqMg+RWjfOgfEbbk
+lkKuwn0pvcvd2rEUV4c0432djNZBBzzV9IvZewnniRgWV6oq37as0958Wu6eLGLx
+sIxy/YF4Jbua+h9uHlKlAZu49q4yCF136fFN7yXqztsuERnwoQFPcsOXDCzBhXg0
+2lR9eepOROO8FC41mKltKidfScmGp8FpGC2PPOdjUTsp+6v6ldapqZrY/syS8WLu
+hT5cfqs/Rne2xXAzTKOKm9rCicYNBBuj9lNYprhsyTFifyJ//OFKIbnKeWCNm4QX
+qRICapyJxL+6SQOINm8OEjBucn8ud1DR4gY8GAUIbTA23a/F2zKQBw6bC6KtR7Yk
+2WGIzdHe7aNsIOw/opR7UeooQuWsEvKED6rNSIUeCDhbkeFyqV9C3IwA56fhBsXZ
+OcEpUw4iNb/s2h/Xn0g+4Uij/RiYm37pFF2j7hRf8Rdjg+Ytia4=
+=efUP
+-----END PGP SIGNATURE-----
+
+--------------6gsv2ANmPZdt5yJ2gSQc7hQV--
