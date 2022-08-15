@@ -2,131 +2,115 @@ Return-Path: <linux-man-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 3C8F4C19F2C
-	for <linux-man@archiver.kernel.org>; Tue, 16 Aug 2022 05:14:16 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id BA68DC19F2C
+	for <linux-man@archiver.kernel.org>; Tue, 16 Aug 2022 05:16:15 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S232443AbiHPFON (ORCPT <rfc822;linux-man@archiver.kernel.org>);
-        Tue, 16 Aug 2022 01:14:13 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:55638 "EHLO
+        id S231164AbiHPFQO (ORCPT <rfc822;linux-man@archiver.kernel.org>);
+        Tue, 16 Aug 2022 01:16:14 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:55672 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S231313AbiHPFN4 (ORCPT
-        <rfc822;linux-man@vger.kernel.org>); Tue, 16 Aug 2022 01:13:56 -0400
-Received: from mail-wr1-x42e.google.com (mail-wr1-x42e.google.com [IPv6:2a00:1450:4864:20::42e])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 7BCDBEA332
-        for <linux-man@vger.kernel.org>; Mon, 15 Aug 2022 14:28:24 -0700 (PDT)
-Received: by mail-wr1-x42e.google.com with SMTP id n4so10405878wrp.10
-        for <linux-man@vger.kernel.org>; Mon, 15 Aug 2022 14:28:24 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20210112;
-        h=in-reply-to:from:references:to:content-language:subject:user-agent
-         :mime-version:date:message-id:from:to:cc;
-        bh=Hvz0Q5H28Kp8ao/I9HhZT8bLYgZ1fueLnwz+B+lUSYQ=;
-        b=frFXrpMy7grk8D20xzCQOiB99t0PZs5H6aRsFDTsykbirVBso74XT7PpeuE4/IBLe2
-         3mn8s6vXsHJgggPv6RAV7I4aBEovDjb8StWglZIIao0zXbk3l1AVwKrsAVmazeyVCvyD
-         +0mYgqhk66E4RThmYxLg0gZtkJgeKekEGl9+n9hTDQmXiEqG7o1KtMXKlM/Wc4OHWgb8
-         Weiv511L9fY1RX9pSw/bLBDLek+oZy7/AOhWUdd/hhwIwix3pOmqPKrliY4I1s0YJJDB
-         33YmlmAcURaWQOQs7SAQDFbQu3XYNFMA2Zn/JNyZGInz2iZtbz0EfOmZfLALRRFhr6cF
-         QOvQ==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20210112;
-        h=in-reply-to:from:references:to:content-language:subject:user-agent
-         :mime-version:date:message-id:x-gm-message-state:from:to:cc;
-        bh=Hvz0Q5H28Kp8ao/I9HhZT8bLYgZ1fueLnwz+B+lUSYQ=;
-        b=k5mXNCADuJMWlCgGYXZC3K11sFamRHIeU5SMOMFIAw2PMAR885pGNQuCYnSSJCdYGu
-         afavdTGBkWcr1cCgplH4Q1I3+emUpfHouf2lHzLjBDH9mOhmAAJiuurr5iXU7HujWIaN
-         ivPVDGZTVoLA/AeL3ckgWzOJi/GOAjFM86fC78S/0IxhMxJRq9I0tJgrl3rLu5PoQ246
-         Mx89ozqzbdCugJdf4J7Aifud2u6/Kp1jA10T1peOgQ3c9hIKvxR7nbIDBEaRCyo0Qbd+
-         IbVYOsxoB9Z6N7dh9inyVh2CVj9/5vHFLnQGxPaseyejHg8qBEeobqYtzXXteY5j0QyZ
-         ljXQ==
-X-Gm-Message-State: ACgBeo1OPkC5BQ/HJNaPjeOgrVIyLcU7f9JoP0bCKzSadSQP+qhyB0yT
-        udDm8ykWX6O7uWBxuj5rAr6HbCA5+K4=
-X-Google-Smtp-Source: AA6agR585dl6ba9bLdKFud1ZWZJhhRkA3Zd8T3KTy76Bjcm8CFuevl7YXQs2nOu45fbG+qP7iPpNKA==
-X-Received: by 2002:adf:fe0d:0:b0:220:5df9:e5cf with SMTP id n13-20020adffe0d000000b002205df9e5cfmr9987730wrr.332.1660598902613;
-        Mon, 15 Aug 2022 14:28:22 -0700 (PDT)
-Received: from [192.168.0.160] ([170.253.36.171])
-        by smtp.gmail.com with ESMTPSA id n5-20020a05600c3b8500b003a302fb9df7sm10855126wms.21.2022.08.15.14.28.21
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Mon, 15 Aug 2022 14:28:22 -0700 (PDT)
-Message-ID: <7e411c41-1c78-947e-2b46-029b2a32f383@gmail.com>
-Date:   Mon, 15 Aug 2022 23:28:21 +0200
+        with ESMTP id S231810AbiHPFP5 (ORCPT
+        <rfc822;linux-man@vger.kernel.org>); Tue, 16 Aug 2022 01:15:57 -0400
+Received: from tarta.nabijaczleweli.xyz (unknown [139.28.40.42])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTP id E2974F23F9
+        for <linux-man@vger.kernel.org>; Mon, 15 Aug 2022 14:34:04 -0700 (PDT)
+Received: from tarta.nabijaczleweli.xyz (unknown [192.168.1.250])
+        by tarta.nabijaczleweli.xyz (Postfix) with ESMTPSA id D985A1A88;
+        Mon, 15 Aug 2022 23:33:45 +0200 (CEST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=nabijaczleweli.xyz;
+        s=202205; t=1660599225;
+        bh=ZFusYtoXX/q1vCcIFg8oEsl5+9VDlw9OQ+nNlq8bn0Y=;
+        h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+        b=skkhyOYo3MLItOmzfj3e9+NRey+ZDayLQpWqAGKHuiOJfx5hAe8+OUH6EdYRslrbn
+         5Qzo+yL6vON1H5AFq1NJ2DRGJovSycVzTw/DSmbuUupNYAdgysHZ6k7Ox1pXD/YrEi
+         BGKtucLn5JgxoUNk8wJ+gp8a0g3Ylx856pvPRySRGC0NHEbDMN0Hmyt+cqGF4z/bRl
+         AN+IuBgqbC59j8hWqrROEVyAW78XyUnYc/GO73xH2ckp9nCPWW/do+a1gPSb2qXNQK
+         t6UY0H5DCWpRZtz7U0ycsDcTOjcn4si2yCjXtCXpsO64LazIsNCDzLlwxb9YEbZloD
+         u26voTaNmMTvz8r9mofPanGrCPYnnWcmVdVeLUr2wzoOR6Tc/XmSkjgCPHhfrYAGgp
+         dsMIen1RPjHBQb4GAwdzTzFfE68SBtycLzqkT5fCRFTPGyfDliXxxb+Ra55DDdVNz8
+         P+AzpMmIQuvOEdRZsuBHbwoFk5IC2s88kWQXWzgStgKVqkvP9E+WD3xlikUu9e3P2U
+         A7R1ZTny0H/GmDqRovGrkCBV3o3Sl6ZsRTHYcGck3R7ljMs45SdaCkRncbtdzAIAo7
+         +dlST2+EZ0WC4zHlSznLateW7wRinvOq086jiqlaUX9czVXaCjlUA6Cbqc0bXkRLju
+         I11ArEsZrw4jpBnKWJm/fZp0=
+Date:   Mon, 15 Aug 2022 23:33:44 +0200
+From:   =?utf-8?B?0L3QsNCx?= <nabijaczleweli@nabijaczleweli.xyz>
+To:     "Alejandro Colomar (man-pages)" <alx.manpages@gmail.com>
+Cc:     linux-man@vger.kernel.org
+Subject: [PATCH v3 2/3] futex.2, futex.7: {ftp://ftp =>
+ https://mirrors}.kernel.org
+Message-ID: <a7733389f92089ac77c97f279a1f3ea77a154c99.1660599213.git.nabijaczleweli@nabijaczleweli.xyz>
+References: <6d48a9a552a9390cd029f2a4ea582f4bd61c4d73.1659461236.git.nabijaczleweli@nabijaczleweli.xyz>
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
- Thunderbird/102.1.2
-Subject: Re: [PATCH] poll.2: tfix
-Content-Language: en-US
-To:     =?UTF-8?B?xaB0xJtww6FuIE7Em21lYw==?= <stepnem@gmail.com>,
-        linux-man@vger.kernel.org, Michael Kerrisk <mtk.manpages@gmail.com>
-References: <20220808150746.2227830-1-stepnem@gmail.com>
-From:   Alejandro Colomar <alx.manpages@gmail.com>
-In-Reply-To: <20220808150746.2227830-1-stepnem@gmail.com>
-Content-Type: multipart/signed; micalg=pgp-sha256;
- protocol="application/pgp-signature";
- boundary="------------Ieg8bQHD0KUJ79N8Gwmkb5WB"
+Content-Type: multipart/signed; micalg=pgp-sha512;
+        protocol="application/pgp-signature"; boundary="ymhxtk5wc55qhx3g"
+Content-Disposition: inline
+In-Reply-To: <6d48a9a552a9390cd029f2a4ea582f4bd61c4d73.1659461236.git.nabijaczleweli@nabijaczleweli.xyz>
+User-Agent: NeoMutt/20220429
 Precedence: bulk
 List-ID: <linux-man.vger.kernel.org>
 X-Mailing-List: linux-man@vger.kernel.org
 
-This is an OpenPGP/MIME signed message (RFC 4880 and 3156)
---------------Ieg8bQHD0KUJ79N8Gwmkb5WB
-Content-Type: multipart/mixed; boundary="------------2fSEEcttato2ERUwPPPmvEkm";
- protected-headers="v1"
-From: Alejandro Colomar <alx.manpages@gmail.com>
-To: =?UTF-8?B?xaB0xJtww6FuIE7Em21lYw==?= <stepnem@gmail.com>,
- linux-man@vger.kernel.org, Michael Kerrisk <mtk.manpages@gmail.com>
-Message-ID: <7e411c41-1c78-947e-2b46-029b2a32f383@gmail.com>
-Subject: Re: [PATCH] poll.2: tfix
-References: <20220808150746.2227830-1-stepnem@gmail.com>
-In-Reply-To: <20220808150746.2227830-1-stepnem@gmail.com>
 
---------------2fSEEcttato2ERUwPPPmvEkm
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: base64
+--ymhxtk5wc55qhx3g
+Content-Type: text/plain; charset=utf-8
+Content-Disposition: inline
+Content-Transfer-Encoding: quoted-printable
 
-SGkgxaB0xJtww6FuLA0KDQpPbiA4LzgvMjIgMTc6MDcsIMWgdMSbcMOhbiBOxJttZWMgd3Jv
-dGU6DQo+IEZpeGVzOiAwYmRkYTVkMDhlODIgKCJwb2xsLjI6IE5vdGUgdGhhdCBwb2xsKCkg
-ZXF1aXZhbGVudCBjb2RlIGZvciBwcG9sbCgpIGlzIG5vdCBxdWl0ZSBlcXVpdmFsZW50IikN
-Cj4gU2lnbmVkLW9mZi1ieTogxaB0xJtww6FuIE7Em21lYyA8c3RlcG5lbUBnbWFpbC5jb20+
-DQoNClBhdGNoIGFwcGxpZWQuDQoNClRoYW5rcywNCg0KQWxleA0KDQo+IC0tLQ0KPiAgIG1h
-bjIvcG9sbC4yIHwgNCArKy0tDQo+ICAgMSBmaWxlIGNoYW5nZWQsIDIgaW5zZXJ0aW9ucygr
-KSwgMiBkZWxldGlvbnMoLSkNCj4gDQo+IGRpZmYgLS1naXQgYS9tYW4yL3BvbGwuMiBiL21h
-bjIvcG9sbC4yDQo+IGluZGV4IGZmMjIwNDUyNDdmMy4uZDk4ZDk0MTcyYjA4IDEwMDY0NA0K
-PiAtLS0gYS9tYW4yL3BvbGwuMg0KPiArKysgYi9tYW4yL3BvbGwuMg0KPiBAQCAtMzUxLDcg
-KzM1MSw3IEBAIHZhbHVlLg0KPiAgIC5CIEVJTlZBTA0KPiAgIC5SQiAoIHBwb2xsICgpKQ0K
-PiAgIFRoZSB0aW1lb3V0IHZhbHVlIGV4cHJlc3NlZCBpbg0KPiAtLkkgKmlwDQo+ICsuSSAq
-dG1vX3ANCj4gICBpcyBpbnZhbGlkIChuZWdhdGl2ZSkuDQo+ICAgLlRQDQo+ICAgLkIgRU5P
-TUVNDQo+IEBAIC00NjgsNyArNDY4LDcgQEAgZmllbGQgaW4gYSBodW1hbi1yZWFkYWJsZSBm
-b3JtOw0KPiAgIGlmIHRoZSBmaWxlIGRlc2NyaXB0b3IgaXMgcmVhZGFibGUsIHJlYWRzIHNv
-bWUgZGF0YSBmcm9tIGl0LA0KPiAgIGFuZCBkaXNwbGF5cyB0aGF0IGRhdGEgb24gc3RhbmRh
-cmQgb3V0cHV0OyBhbmQNCj4gICAuSVAgXChidQ0KPiAtaWYgdGhlIGZpbGUgZGVzY3JpcHRv
-cnMgd2FzIG5vdCByZWFkYWJsZSwNCj4gK2lmIHRoZSBmaWxlIGRlc2NyaXB0b3Igd2FzIG5v
-dCByZWFkYWJsZSwNCj4gICBidXQgc29tZSBvdGhlciBldmVudCBvY2N1cnJlZCAocHJlc3Vt
-YWJseQ0KPiAgIC5CUiBQT0xMSFVQICksDQo+ICAgY2xvc2VzIHRoZSBmaWxlIGRlc2NyaXB0
-b3IuDQo+IA0KPiBiYXNlLWNvbW1pdDogMjI2Y2Q5NWQ3OGMyNGRlZTE2OWJiOTY5MTM3MjEy
-MjFmYjhmNjU2YQ0KDQotLSANCkFsZWphbmRybyBDb2xvbWFyDQo8aHR0cDovL3d3dy5hbGVq
-YW5kcm8tY29sb21hci5lcy8+DQo=
+The former doesn't exist; the latter is the new location with seemingly
+compatible data
 
---------------2fSEEcttato2ERUwPPPmvEkm--
+Signed-off-by: Ahelenia Ziemia=C5=84ska <nabijaczleweli@nabijaczleweli.xyz>
+---
+ man2/futex.2 | 2 +-
+ man7/futex.7 | 2 +-
+ 2 files changed, 2 insertions(+), 2 deletions(-)
 
---------------Ieg8bQHD0KUJ79N8Gwmkb5WB
-Content-Type: application/pgp-signature; name="OpenPGP_signature.asc"
-Content-Description: OpenPGP digital signature
-Content-Disposition: attachment; filename="OpenPGP_signature"
+diff --git a/man2/futex.2 b/man2/futex.2
+index a036ca47a..e8a8a5aa5 100644
+--- a/man2/futex.2
++++ b/man2/futex.2
+@@ -1981,7 +1981,7 @@ Drepper, U., 2011. \fIFutexes Are Tricky\fP,
+ .PP
+ Futex example library, futex-*.tar.bz2 at
+ .br
+-.UR ftp://ftp.kernel.org\:/pub\:/linux\:/kernel\:/people\:/rusty/
++.UR https://mirrors.kernel.org\:/pub\:/linux\:/kernel\:/people\:/rusty/
+ .UE
+ .\"
+ .\" FIXME(Torvald) We should probably refer to the glibc code here, in
+diff --git a/man7/futex.7 b/man7/futex.7
+index 18c2f5803..ec273c151 100644
+--- a/man7/futex.7
++++ b/man7/futex.7
+@@ -117,5 +117,5 @@ primitives; it is by no means the only one.
+ .I Fuss, Futexes and Furwocks: Fast Userlevel Locking in Linux
+ (proceedings of the Ottawa Linux Symposium 2002),
+ futex example library, futex-*.tar.bz2
+-.UR ftp://ftp.kernel.org\:/pub\:/linux\:/kernel\:/people\:/rusty/
++.UR https://mirrors.kernel.org\:/pub\:/linux\:/kernel\:/people\:/rusty/
+ .UE .
+--=20
+2.30.2
+
+
+--ymhxtk5wc55qhx3g
+Content-Type: application/pgp-signature; name="signature.asc"
 
 -----BEGIN PGP SIGNATURE-----
 
-iQIzBAEBCgAdFiEE6jqH8KTroDDkXfJAnowa+77/2zIFAmL6unUACgkQnowa+77/
-2zKXNw//SjJpLrXSgfG3PhpDfuCuaQRCAb4PQm3gmJiOCDbEZxbEDv2IFly8kMHG
-+O3cViY3OAX6F0gW7fB2jKbWxvLWcUKpYEgOmKW+6/UjTzhsNLxQktaxRMJcY6To
-N4To5nfuHZUx6fa6QxxxwSA5r4yKX4/bmdos8qsmosGrKGkDvdQHmSKOCwxp9Cos
-vQd4ID2WrrOhhIauAYYxeTgJJZEXqOrDn6VcnD31vBmNII2E6p/9Oh/ROtNC3aPD
-AD+u7zxrGQ6z3gSuNY6BYo41AE258U+xKcDMljZrBbMPIrVDw5rIN17cyFInIJpE
-z99cjZOyamlzQDep53dxvURqNVuYhIU0YY/TkpaH+l8xO8c9+wZJIyGOaFzPPpfZ
-mxKMve6+mSaweoOJ9ZuTXCY1a6Hod49ptUh/oA9b0pvtLGtj+p0ptld4/AmtPPlf
-Gzg+5G5/UyCT+IyBYEZentajOwnO5IZBjra+LbMdnnvK/YiDCl3gwNc9IRoluI7r
-gN9DSUdRpT+AjH+QytayAVhJMGNjlKo8w/H60c4sHhBiJsc76HiwD3GsDUstqjCb
-3I2cdJDTfK6zuQW1Qx2o5YIYOLr9q0ibmTXyWCO20VlQ8hwBUwgWPICgqAVHqUVx
-xtkDPa1k5MZnilA2RL/7nAoKlzbyFIdmSLPLs/QLOrCbh5z2j2I=
-=NKci
+iQIzBAABCgAdFiEEfWlHToQCjFzAxEFjvP0LAY0mWPEFAmL6u7gACgkQvP0LAY0m
+WPG7iRAApo2IMpKF2qBYo8DueZEvLBDjiHJtq6VKLbKsKQUDTKjhZ+I+jvw9+7Xt
+fMPlHNGOoMf3TCJ5568e5oZLuUuk3OQmi2YOIrm0IMHf6ergnmQazsjo0gW52v9o
+8Paq5tfEqw5mS/x/TpVsOXlKiZ2WjMlgRMTOYlAFABk9xsaxiDRESZ0AZ/20pA2o
+76UgzLionuO0vQqy3lErgXXusjZ96b7SfCyNIT51agEOTTbTSNWw7qZS9r5tCpYK
+pVW0Hej6ITOmgzuuxmuvHQWFGyhJFaoexOMknaTozrCsI/6ZgzjHZfGSwPdlkD6K
+XW+yRfVqaymp0Xv6JjjgTc1Ww4r3FR49vdVVM3eTsAJWh9sruNDgwLa2oTUSy+8V
+2f/n7oMQKCrOYPck0xYqFcffSmv8wrDsXl6OTWg9EEDqR6rKNZEhH7zyu1nT2gn0
+o1YskNenub2GFVrs+0QsxPjhoZN10GDKaZFYr00MIczHcwvuRa4+IFxi9Ceeab7K
+nZ9A7H4rsUahLjh6c3WVymL0HMt0jysVrlHdbk3FRdPVjK7wNRM3pp99XW55Qp+w
+0TiEnTobR5dvjwKhNkh0SikqRyMq5lA69XYxF5UqIqiU14RiRnnLmCpaU3R8A5Rn
+8IBUOZbDxryt7SzcijomV41zxmaAq6aIgiGNvbd/rIb+QqEPbCQ=
+=Jcsh
 -----END PGP SIGNATURE-----
 
---------------Ieg8bQHD0KUJ79N8Gwmkb5WB--
+--ymhxtk5wc55qhx3g--
