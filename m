@@ -2,175 +2,126 @@ Return-Path: <linux-man-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id AD935C25B0E
-	for <linux-man@archiver.kernel.org>; Tue, 16 Aug 2022 23:46:41 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 5BA1BC32771
+	for <linux-man@archiver.kernel.org>; Fri, 19 Aug 2022 12:39:39 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S237703AbiHPXql (ORCPT <rfc822;linux-man@archiver.kernel.org>);
-        Tue, 16 Aug 2022 19:46:41 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:43248 "EHLO
+        id S1348357AbiHSMji (ORCPT <rfc822;linux-man@archiver.kernel.org>);
+        Fri, 19 Aug 2022 08:39:38 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:48708 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S229675AbiHPXqk (ORCPT
-        <rfc822;linux-man@vger.kernel.org>); Tue, 16 Aug 2022 19:46:40 -0400
-Received: from mailx.courier-mta.com (mailx.courier-mta.com [96.56.228.18])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 64A7E915C2
-        for <linux-man@vger.kernel.org>; Tue, 16 Aug 2022 16:46:39 -0700 (PDT)
-Received: from monster.email-scan.com (monster.email-scan.com [::ffff:192.168.0.2])
-  (TLS: TLSv1.3,256bits,TLS_AES_256_GCM_SHA384)
-  by www.courier-mta.com with ESMTPS
-  id 00000000002A025B.0000000062FC2C5D.0000D81D; Tue, 16 Aug 2022 19:46:37 -0400
-Received: from monster.email-scan.com (localhost [127.0.0.1])
-  (IDENT: uid 1004)
-  by monster.email-scan.com with UTF8SMTP
-  id 000000000006027A.0000000062FC2C5D.0005AFA4; Tue, 16 Aug 2022 19:46:37 -0400
-References: <YvZj6emfWNfwRjwe@asta-kit.de> <20220812221035.xd4udngmz5erht5p@illithid> <CM52T3SFTBDU.21XFDQOUZP886@grinningface> <Yvj/CAUSL1jVbAot@asta-kit.de> <cone.1660522834.354716.280603.1004@monster.email-scan.com> <YvuS8w3yYOuj9tWF@asta-kit.de>
-Message-ID: <cone.1660693597.75726.370792.1004@monster.email-scan.com>
-X-Mailer: http://www.courier-mta.org/cone/
-From:   Sam Varshavchik <mrsam@courier-mta.com>
-To:     Ingo Schwarze <schwarze@usta.de>
-Cc:     DJ Chase <u9000@posteo.mx>, g.branden.robinson@gmail.com,
-        Alejandro Colomar <alx.manpages@gmail.com>,
-        linux-man@vger.kernel.org, groff@gnu.org
-Subject: Re: Standardize roff
-Date:   Tue, 16 Aug 2022 19:46:37 -0400
-Mime-Version: 1.0
-X-Mime-Autoconverted: from 8bit to quoted-printable by mimegpg
-Content-Type: multipart/signed;
-    boundary="=_monster.email-scan.com-370792-1660693597-0002";
-    micalg=pgp-sha1; protocol="application/pgp-signature"
+        with ESMTP id S235596AbiHSMjh (ORCPT
+        <rfc822;linux-man@vger.kernel.org>); Fri, 19 Aug 2022 08:39:37 -0400
+Received: from dfw.source.kernel.org (dfw.source.kernel.org [IPv6:2604:1380:4641:c500::1])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 8D5ED100F3F
+        for <linux-man@vger.kernel.org>; Fri, 19 Aug 2022 05:39:36 -0700 (PDT)
+Received: from smtp.kernel.org (relay.kernel.org [52.25.139.140])
+        (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+        (No client certificate requested)
+        by dfw.source.kernel.org (Postfix) with ESMTPS id 289136181A
+        for <linux-man@vger.kernel.org>; Fri, 19 Aug 2022 12:39:36 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPS id 854DAC433B5
+        for <linux-man@vger.kernel.org>; Fri, 19 Aug 2022 12:39:35 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+        s=k20201202; t=1660912775;
+        bh=OEmE1Ha7Zdeu8j0nm1D1Pl0/pjlIrwK1KTscGTgEWfM=;
+        h=From:To:Subject:Date:From;
+        b=c/5wrcS5mMWzXYVVsgW4GdcHgheiNxrE4MoXcwT0d/Gauh0tCQbZgDpDvvCQeQLzP
+         TAVd1A+85PbGzE7H88umITOYV4hImENvcgS/DWOUKxfDJekuo9Xo5KflFWVaUMXXMm
+         Ej48iJQSeg7tdCC1Ss+bqgNr8CuY/MnEod/xygXSJlGl/cYI7MTs7z2AEAYP44VfS0
+         Cc9lQqXYIr/WgGXeG+fRUbqNfUW1h9H55uyBm89uigLU3c1GJVIn5Zh8z/MzOfzsmI
+         Cn774pYM8zxbKUbKwAjzGP9SpgSS3sPRfwB1pxlQ8cVaxpt46zxZCS+g9n/KIgcbHD
+         wrmIUZJE7as1w==
+Received: by aws-us-west-2-korg-bugzilla-1.web.codeaurora.org (Postfix, from userid 48)
+        id 71FAFC433E4; Fri, 19 Aug 2022 12:39:35 +0000 (UTC)
+From:   bugzilla-daemon@kernel.org
+To:     linux-man@vger.kernel.org
+Subject: [Bug 216381] New: Microphone test online
+Date:   Fri, 19 Aug 2022 12:39:35 +0000
+X-Bugzilla-Reason: None
+X-Bugzilla-Type: new
+X-Bugzilla-Watch-Reason: AssignedTo
+ documentation_man-pages@kernel-bugs.osdl.org
+X-Bugzilla-Product: Documentation
+X-Bugzilla-Component: man-pages
+X-Bugzilla-Version: unspecified
+X-Bugzilla-Keywords: 
+X-Bugzilla-Severity: high
+X-Bugzilla-Who: mdmustaba736@gmail.com
+X-Bugzilla-Status: NEW
+X-Bugzilla-Resolution: 
+X-Bugzilla-Priority: P1
+X-Bugzilla-Assigned-To: documentation_man-pages@kernel-bugs.osdl.org
+X-Bugzilla-Flags: 
+X-Bugzilla-Changed-Fields: bug_id short_desc product version rep_platform
+ op_sys bug_status bug_severity priority component assigned_to reporter
+ cf_regression
+Message-ID: <bug-216381-11311@https.bugzilla.kernel.org/>
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
+X-Bugzilla-URL: https://bugzilla.kernel.org/
+Auto-Submitted: auto-generated
+MIME-Version: 1.0
 Precedence: bulk
 List-ID: <linux-man.vger.kernel.org>
 X-Mailing-List: linux-man@vger.kernel.org
 
-This is a MIME GnuPG-signed message.  If you see this text, it means that
-your E-mail or Usenet software does not support MIME signed messages.
-The Internet standard for MIME PGP messages, RFC 2015, was published in 1996.
-To open this message correctly you will need to install E-mail or Usenet
-software that supports modern Internet standards.
+https://bugzilla.kernel.org/show_bug.cgi?id=3D216381
 
---=_monster.email-scan.com-370792-1660693597-0002
-Content-Type: text/plain; format=flowed; delsp=yes; charset=utf-8
-Content-Transfer-Encoding: quoted-printable
-Content-Disposition: inline
+            Bug ID: 216381
+           Summary: Microphone test online
+           Product: Documentation
+           Version: unspecified
+          Hardware: Intel
+                OS: Linux
+            Status: NEW
+          Severity: high
+          Priority: P1
+         Component: man-pages
+          Assignee: documentation_man-pages@kernel-bugs.osdl.org
+          Reporter: mdmustaba736@gmail.com
+        Regression: No
 
-Ingo Schwarze writes:
+A microphone checker is an instrument that empowers you to check whether yo=
+ur
+mic is utilitarian and set up accurately. We should initially figure out its
+motivation prior to figuring out how to utilize it.
+https://a2z.tools/microphone-test
 
-> Hi San,
->
-> Sam Varshavchik wrote on Sun, Aug 14, 2022 at 08:20:34PM -0400:
-> > Ingo Schwarze writes:
-> >> DJ Chase wrote on Sat, Aug 13, 2022 at 05:27:34PM +0000:
->
-> >>> Have we ever considered a de jure *roff standard?
->
-> >> No, i think that would be pure madness given the amount of working
-> >> time available in any of the roff projects.
->
-> > I tinkered with something like this some years ago, but I took a slig=
-htly
-> > different approach.
-> >
-> > I converted man pages
->
-> What kind of manual pages?
+Coming up next are a few legitimizations for utilizing a mouthpiece analyze=
+r:
 
-The ones that are the subject of discussions on linux-man@vger.kernel.org=
-.
+Plan to test the usefulness of another receiver that you have as of late
+purchased or associated.
+To ensure you can utilize those gadgets to interface with sound during the
+gathering, test your receiver and speakers ahead of time.
+Might want to affirm that the headset mouthpiece is turned on.
+Ensure their voice isn't being mutilated by the PC mouthpiece.
+Verify whether the webcam incorporates a receiver.
+Verify whether different applications can perceive their receivers.
+Adoration for the mouthpiece visualizer.
+Only for interest.
+Normal Microphone Problems and Solutions
+Here is a rundown of a few fundamental issues that you can have with your
+mouthpiece and a few straightforward fixes to it:
 
-> > from 'roff source to Docbook XML using a =E2=80=A6 pretty large Perl =
-script.
->
-> That sounds very foolish on several levels.
+Choosing your feedback gadget is a typical issue for clients. Most framewor=
+ks
+have two mouthpieces; one is the PC mic, and the other is the headset mic. =
+You
+can fix it by guaranteeing you pick a headset receiver from the dropdown me=
+nu
+to talk utilizing one.
 
-Well, I had some free time the other day, and had nothing better to do.
+Your mic gets excessively near the sound source, which expands the unsettli=
+ng
+influence because of the vicinity impact. Moving the mic somewhat further a=
+way
+is a convenient solution to try not to sound excessively bassy. The bass no=
+ise
+decreases as the separation from the low-recurrence sound source develops.
 
-> First, and most obviously, you seem to be duplicating esr@'s work
-> on doclifter:
->
->   http://www.catb.org/~esr/doclifter/
->   https://gitlab.com/esr/doclifter/-/blob/master/doclifter
+--=20
+You may reply to this email to add a comment.
 
-Seems so, except that I tailored my logic to man pages, and specifically =
-to =20
-the linux-man@vger.kernel.org manpages.
-
-> Second, quick and dirty Perl-style parsing is usually not good
-> enough to parse roff code, and a huge script is not particularly
-> good for readability and maintainability.
-
-Yes, arbitrary roff code will not fly very far. But something that's =20
-tailored can produce productive results.
-
-> Yes, i know the same resevations would apply to esr@'s work,
-> which is a giant Python 3 script.  But at least there is some
-> evidence that his work was able to find significant numbers of
-> real issues in real manual pages.
-
-Yes, there are plenty of issues there. I fed quite a few patches to Mr. =20
-Kerrisk when he maintained them, based on my scripts chewing through them=
-. =20
-There were plenty of mismatched .nf/.fi, and other things of that sort.
-
-
-> > Once a year, or so, when I have nothing better to do I pull the curre=
-nt
-> > man  page tarball and reconvert it. I usually need to tinker the Perl
-> > script, here and there, each time.
-> >
-> > The Docbook folks provide a stylesheet that converts Docbook XML
-> > back to 'roff.
->
-> Yikes.  That thing is by far the worst man(7) code generator existing
-> on this planet.  If at all possible, you should avoid that toolchain
-> like the plague.
-
-I do not view it as an authoritative source of man sources, but more of =20
-backwards compatibility. I believe that for man pages, roff should've bee=
-n =20
-replaced by Docbook XML a long time ago.
-
-That was really the original impetus for my Perl hacking: to see how =20
-feasible it would be to convert the existing man pages to Docbook XML. My =20
-end result showed that at least that it was doable; and I think that the =20
-Docbook XML stylesheet for man pages would've been an acceptable way to g=
-et =20
-some roff source generated from Docbook XML that's shown by the man comma=
-nd.
-
-> > The end result you get is standardized 'roff, whatever that means.
->
-> Absolutely not.  The result is utter crap.  It is rarely even
-> syntactically valid, let alone reasonable style.
-
-I should've used "consistent" instead of "standardized". Different man pa=
-ges =20
-from different sources use different ways of rendering the same content, =20
-i.e. function names. Sometimes it's in bold. Sometimes it's in italic. =20
-Sometimes it's something else. With consistent semantic markup a <functio=
-n> =20
-in every man page would've produced the same markup in the generated roff =20
-source.
-
-
-
---=_monster.email-scan.com-370792-1660693597-0002
-Content-Type: application/pgp-signature
-Content-Transfer-Encoding: 7bit
-
------BEGIN PGP SIGNATURE-----
-
-iQIzBAABCAAdFiEEMWrVnbBKLOeG9ifkazpiviedvyUFAmL8LF0ACgkQazpivied
-vyW9uxAAg//Y+21ZxpCFW0RJlfJznPAqWHXd4ZyK8F6yoKZUA7lHAVoRan6qHWEE
-SPXhQebM+f6JjX2xgyBhXPH0dGMSDH3bPpsvHgMZlaNdAQsMbVKcAQw69D/QXfhB
-QyoG2HLs/BhbYSSNEaH06FN/vihu3KixWjYFdsTp/xZdPHwaYVfuBhubihBEfK+m
-AJqCP9g7PDq9Z202gst2Hfnfta68ElWPaKGRyt5OX9WjqtBpF0BVzAvtUEL6CFvg
-Z7D10vo9JBwASoLF7Qy30aHTCMs+0IXbjQ0OTVUI+JzLVlX4q4OtzgEE2I5kfGKX
-ZS+SNg35c7eidcuteDHkyvj+VsswLBpnmxUnNXZWRBEmveZwsMkDCZZPFVgu32vU
-27jprZl6PUOauhHI5AeOMZnXlXMyUrBuQdKoaivFz06fVK1hvqMqDyhDEqtxLOwE
-M5H7MS/CBXe1qNrHrT6U2/jdFUTjgfwgE28xlZAnnm576ZGMcuGsFEwFmngimIEy
-3wi8bVa8foJ96hThJG7bKEw1uMSHmvpibpodY9j5bRmUXzdgGartMSIUGzt3eVFV
-iFksMxjI+eaM3HvnE+X0Mwh6wGwCr9KBtUSxuBUKElR16JjmfqjqsbV/OqjV98Nv
-KcHRZrOgPs/BXOu1JBPmajBphf8bDvbzE6JGcCfhk5jlZ1W192M=
-=GDEx
------END PGP SIGNATURE-----
-
---=_monster.email-scan.com-370792-1660693597-0002--
+You are receiving this mail because:
+You are watching the assignee of the bug.=
