@@ -2,73 +2,72 @@ Return-Path: <linux-man-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 365E8C3F6B0
-	for <linux-man@archiver.kernel.org>; Fri, 19 Aug 2022 19:19:52 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 50FD8C32771
+	for <linux-man@archiver.kernel.org>; Fri, 19 Aug 2022 19:27:07 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1351265AbiHSTTu (ORCPT <rfc822;linux-man@archiver.kernel.org>);
-        Fri, 19 Aug 2022 15:19:50 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:34570 "EHLO
+        id S1351207AbiHST1G (ORCPT <rfc822;linux-man@archiver.kernel.org>);
+        Fri, 19 Aug 2022 15:27:06 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:50602 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1350338AbiHSTTP (ORCPT
-        <rfc822;linux-man@vger.kernel.org>); Fri, 19 Aug 2022 15:19:15 -0400
-Received: from 6.mo552.mail-out.ovh.net (6.mo552.mail-out.ovh.net [188.165.49.222])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id AD4BC58B64
-        for <linux-man@vger.kernel.org>; Fri, 19 Aug 2022 12:18:44 -0700 (PDT)
-Received: from mxplan6.mail.ovh.net (unknown [10.108.20.149])
-        by mo552.mail-out.ovh.net (Postfix) with ESMTPS id 6B13B20234;
-        Fri, 19 Aug 2022 18:03:36 +0000 (UTC)
-Received: from jwilk.net (37.59.142.96) by DAG4EX1.mxp6.local (172.16.2.31)
+        with ESMTP id S1349705AbiHST1F (ORCPT
+        <rfc822;linux-man@vger.kernel.org>); Fri, 19 Aug 2022 15:27:05 -0400
+X-Greylist: delayed 592 seconds by postgrey-1.37 at lindbergh.monkeyblade.net; Fri, 19 Aug 2022 12:27:03 PDT
+Received: from 9.mo548.mail-out.ovh.net (9.mo548.mail-out.ovh.net [46.105.48.137])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id F409181B2F
+        for <linux-man@vger.kernel.org>; Fri, 19 Aug 2022 12:27:03 -0700 (PDT)
+Received: from mxplan6.mail.ovh.net (unknown [10.108.16.193])
+        by mo548.mail-out.ovh.net (Postfix) with ESMTPS id 94738210FA;
+        Fri, 19 Aug 2022 19:09:24 +0000 (UTC)
+Received: from jwilk.net (37.59.142.103) by DAG4EX1.mxp6.local (172.16.2.31)
  with Microsoft SMTP Server (version=TLS1_2,
  cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id 15.1.2507.9; Fri, 19 Aug
- 2022 20:03:35 +0200
-Authentication-Results: garm.ovh; auth=pass (GARM-96R00183a6b088-887e-4b0e-9c3a-d78b862e87a9,
+ 2022 21:09:23 +0200
+Authentication-Results: garm.ovh; auth=pass (GARM-103G005fb4b967a-f229-4562-8a39-075f13e793d5,
                     504186192CBDCCB46C37AA7B8534EBBC1F215137) smtp.auth=jwilk@jwilk.net
-X-OVh-ClientIp: 5.172.255.96
-Date:   Fri, 19 Aug 2022 20:03:23 +0200
+X-OVh-ClientIp: 5.172.255.242
 From:   Jakub Wilk <jwilk@jwilk.net>
-To:     "G. Branden Robinson" <g.branden.robinson@gmail.com>
-CC:     Michael Kerrisk <mtk.manpages@gmail.com>,
-        <linux-man@vger.kernel.org>
-Subject: Re: [PATCH 1/2] system_data_types.7: srcfix
-Message-ID: <20220819180323.dbsgxh5qvcjabjm6@jwilk.net>
-References: <20200925080330.184303-1-colomar.6.4.3@gmail.com>
- <20200927061015.4obt73pdhyh7wecu@localhost.localdomain>
- <20200928132959.x4koforqnzohxh5u@jwilk.net>
- <9b8303fe-969e-c9f0-e3cd-0590b342d5bf@gmail.com>
- <20200930101213.2m2pt3jrspvcrxfx@localhost.localdomain>
+To:     Michael Kerrisk <mtk.manpages@gmail.com>,
+        Alejandro Colomar <alx.manpages@gmail.com>
+CC:     <linux-man@vger.kernel.org>
+Subject: [PATCH 05/10] dev_t.3type: tfix
+Date:   Fri, 19 Aug 2022 21:08:54 +0200
+Message-ID: <20220819190859.6248-5-jwilk@jwilk.net>
+X-Mailer: git-send-email 2.37.2
+In-Reply-To: <20220819190859.6248-1-jwilk@jwilk.net>
+References: <20220819190859.6248-1-jwilk@jwilk.net>
 MIME-Version: 1.0
-Content-Type: text/plain; charset="us-ascii"; format=flowed
-Content-Disposition: inline
-In-Reply-To: <20200930101213.2m2pt3jrspvcrxfx@localhost.localdomain>
-X-Originating-IP: [37.59.142.96]
+Content-Transfer-Encoding: 7BIT
+Content-Type:   text/plain; charset=US-ASCII
+X-Originating-IP: [37.59.142.103]
 X-ClientProxiedBy: DAG3EX2.mxp6.local (172.16.2.22) To DAG4EX1.mxp6.local
  (172.16.2.31)
-X-Ovh-Tracer-GUID: dd5997dc-c9d4-4308-9b1f-749e4c63a374
-X-Ovh-Tracer-Id: 15021756559965804509
+X-Ovh-Tracer-GUID: d70de9a4-6d46-48da-a4ab-766cbc5d9290
+X-Ovh-Tracer-Id: 16133019768731391968
 X-VR-SPAMSTATE: OK
-X-VR-SPAMSCORE: -100
-X-VR-SPAMCAUSE: gggruggvucftvghtrhhoucdtuddrgedvfedrvdeiuddguddvfecutefuodetggdotefrodftvfcurfhrohhfihhlvgemucfqggfjpdevjffgvefmvefgnecuuegrihhlohhuthemucehtddtnecusecvtfgvtghiphhivghnthhsucdlqddutddtmdenucfjughrpeffhffvvefukfhfgggtuggjihesthdtredttddtvdenucfhrhhomheplfgrkhhusgcuhghilhhkuceojhifihhlkhesjhifihhlkhdrnhgvtheqnecuggftrfgrthhtvghrnhepuedttdetlefhffduvdehgfefudejledtkeehudevkeekleefudeuvdegjedufffgnecukfhppedtrddtrddtrddtpdefjedrheelrddugedvrdelieenucevlhhushhtvghrufhiiigvpedtnecurfgrrhgrmhepmhhouggvpehsmhhtphhouhhtpdhhvghlohepmhigphhlrghniedrmhgrihhlrdhovhhhrdhnvghtpdhinhgvtheptddrtddrtddrtddpmhgrihhlfhhrohhmpehjfihilhhksehjfihilhhkrdhnvghtpdhnsggprhgtphhtthhopedupdhrtghpthhtoheplhhinhhugidqmhgrnhesvhhgvghrrdhkvghrnhgvlhdrohhrghdpoffvtefjohhsthepmhhoheehvd
+X-VR-SPAMSCORE: 0
+X-VR-SPAMCAUSE: gggruggvucftvghtrhhoucdtuddrgedvfedrvdeiuddgudefjecutefuodetggdotefrodftvfcurfhrohhfihhlvgemucfqggfjpdevjffgvefmvefgnecuuegrihhlohhuthemucehtddtnecunecujfgurhephffvvefufffkofgjfhgggfgtihesthekredtredttdenucfhrhhomheplfgrkhhusgcuhghilhhkuceojhifihhlkhesjhifihhlkhdrnhgvtheqnecuggftrfgrthhtvghrnhepieetheevtdffvddvkeegveeujeekheegteelvdehgfdtueejfffhleduveeuueevnecukfhppedtrddtrddtrddtpdefjedrheelrddugedvrddutdefnecuvehluhhsthgvrhfuihiivgepvdenucfrrghrrghmpehmohguvgepshhmthhpohhuthdphhgvlhhopehmgihplhgrnheirdhmrghilhdrohhvhhdrnhgvthdpihhnvghtpedtrddtrddtrddtpdhmrghilhhfrhhomhepjhifihhlkhesjhifihhlkhdrnhgvthdpnhgspghrtghpthhtohepuddprhgtphhtthhopehlihhnuhigqdhmrghnsehvghgvrhdrkhgvrhhnvghlrdhorhhgpdfovfetjfhoshhtpehmohehgeek
 Precedence: bulk
 List-ID: <linux-man.vger.kernel.org>
 X-Mailing-List: linux-man@vger.kernel.org
 
-* G. Branden Robinson <g.branden.robinson@gmail.com>, 2020-09-30 20:12:
->+\(bu Do I ever need to use an empty macro argument ("")?
->+Probably not.
+Signed-off-by: Jakub Wilk <jwilk@jwilk.net>
+---
+ man3type/dev_t.3type | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
 
-FWIW, man-pages(7) says it's OK to use empty string for the 4th 
-argument of .TH:
-
-"For library calls that are part of glibc or one of the other common GNU 
-libraries, just use GNU C Library, GNU, or an empty string."
-
-There used to be a lot of such .TH calls; now there's only a few left:
-
-$ grep -r '[.]TH .*""' man*/
-man7/posixoptions.7:.TH POSIXOPTIONS 7 2021-08-27 "" "Linux Programmer's Manual"
-man7/bpf-helpers.7:.TH BPF-HELPERS 7 "" "" ""
-man8/zdump.8:.TH ZDUMP 8 2020-04-27 "" "Linux System Administration"
-man8/zic.8:.TH ZIC 8 2020-08-13 "" "Linux System Administration"
-
+diff --git a/man3type/dev_t.3type b/man3type/dev_t.3type
+index e86aca7dc..5676b6909 100644
+--- a/man3type/dev_t.3type
++++ b/man3type/dev_t.3type
+@@ -6,7 +6,7 @@
+ .\"
+ .TH DEV_T 3type 2021-11-02 Linux "Linux Programmer's Manual"
+ .SH NAME
+-dev_t \- devide ID
++dev_t \- device ID
+ .SH LIBRARY
+ Standard C library
+ .RI ( libc )
 -- 
-Jakub Wilk
+2.37.2
+
