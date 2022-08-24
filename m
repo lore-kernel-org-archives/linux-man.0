@@ -2,144 +2,103 @@ Return-Path: <linux-man-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 2CD8CC32796
-	for <linux-man@archiver.kernel.org>; Tue, 23 Aug 2022 17:07:10 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 3C755C32793
+	for <linux-man@archiver.kernel.org>; Wed, 24 Aug 2022 01:21:44 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1343671AbiHWRHI (ORCPT <rfc822;linux-man@archiver.kernel.org>);
-        Tue, 23 Aug 2022 13:07:08 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:34930 "EHLO
+        id S233254AbiHXBVn (ORCPT <rfc822;linux-man@archiver.kernel.org>);
+        Tue, 23 Aug 2022 21:21:43 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:38152 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1343829AbiHWRDH (ORCPT
-        <rfc822;linux-man@vger.kernel.org>); Tue, 23 Aug 2022 13:03:07 -0400
-Received: from mail-wm1-x32b.google.com (mail-wm1-x32b.google.com [IPv6:2a00:1450:4864:20::32b])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id B54CF14F94B
-        for <linux-man@vger.kernel.org>; Tue, 23 Aug 2022 06:32:49 -0700 (PDT)
-Received: by mail-wm1-x32b.google.com with SMTP id m17-20020a7bce11000000b003a5bedec07bso9612538wmc.0
-        for <linux-man@vger.kernel.org>; Tue, 23 Aug 2022 06:32:49 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20210112;
-        h=in-reply-to:from:references:cc:to:content-language:subject
-         :user-agent:mime-version:date:message-id:from:to:cc;
-        bh=YQfYf/rjYnCVqTfGw+Gn3s8pIRA8HNTgJduRvB34bMQ=;
-        b=jTqOdbCAFA5zr7ednIyh3TS2bPSRXgvlheKXranBlW7lP7HOqxZisZi/vGfbgpKA1x
-         at1lZBDDUa4/rZiR+Rk4dPBlADjfJgCvOS3s10aQlizT2Uqql/GthLut4/RrlTdIR3fk
-         99PbaofyOOY+XQe8Bt7ZCF4aKFQCb8GUEQppHnoHt1MwmxS3NJuYuezGAp3f3bMK4EVW
-         KinGGszTKWMmC4iWaxh7qZMQ7iFxiQmyESUQdZiOXCZV3kJWlyBm16Q9hOblrqGX6u1v
-         Fq9eseZ9HFYyXA/vtGwe4CAIGJ/0M4jb+a6q4r2CK+HQqPUH0sex8nnZQuv3ENWV1ArZ
-         PKOQ==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20210112;
-        h=in-reply-to:from:references:cc:to:content-language:subject
-         :user-agent:mime-version:date:message-id:x-gm-message-state:from:to
-         :cc;
-        bh=YQfYf/rjYnCVqTfGw+Gn3s8pIRA8HNTgJduRvB34bMQ=;
-        b=dsaHbQsKj2DgtjnlhbpzEe3GFugBxfkNeFpREzq0Nh18pQoQJAXXleueuWIo9WWiam
-         JJucBQ2Dq+dNdnWXZ0mhDPBcc0ZV+vv2Gv/yTAfd8cfS6LrzOJMDdymDwyeaRbPaaO/B
-         YWthn+qbvSYehC02leJCVGknRvy9hZs/2rC4Aesgo3xmuMY7sPMlLXrsI1gsbSC0fbAL
-         3PqN49mSajXIg+XKKdKVhOHyKsfa8sDYhzTX+WNf7CwBsAz4u781UACL7KSw49+8+Sng
-         jmpfYh7DdlgwdNixr4s88mvJqtwkJG59a/jUOeKg/Dq7d8fY+QrcZGjU3n8ub74E2LVg
-         6qig==
-X-Gm-Message-State: ACgBeo3wczVh5FDbAFwL2aCorLcW5/ZQh1iCy5s+WswS/tpd98PyXVrl
-        K//Am7tVODILS9kYP+M9dZI=
-X-Google-Smtp-Source: AA6agR6WG/0ixSzU1QJoNcbKLedwAYfvBHXEooMbke0mz5+k0W0F30mVr9ZFWpN089OZHCsxQLu1+A==
-X-Received: by 2002:a05:600c:1497:b0:3a5:f608:d765 with SMTP id c23-20020a05600c149700b003a5f608d765mr2161649wmh.19.1661261568108;
-        Tue, 23 Aug 2022 06:32:48 -0700 (PDT)
-Received: from [192.168.0.160] ([170.253.36.171])
-        by smtp.gmail.com with ESMTPSA id i3-20020a05600c050300b003a60edc3a44sm21441082wmc.5.2022.08.23.06.32.47
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Tue, 23 Aug 2022 06:32:47 -0700 (PDT)
-Message-ID: <d7309d7a-445f-efd8-1739-9a9a8cb4eb95@gmail.com>
-Date:   Tue, 23 Aug 2022 15:32:46 +0200
+        with ESMTP id S231830AbiHXBVl (ORCPT
+        <rfc822;linux-man@vger.kernel.org>); Tue, 23 Aug 2022 21:21:41 -0400
+Received: from smtp-out1.suse.de (smtp-out1.suse.de [195.135.220.28])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id F031B9FC8
+        for <linux-man@vger.kernel.org>; Tue, 23 Aug 2022 18:21:40 -0700 (PDT)
+Received: from imap2.suse-dmz.suse.de (imap2.suse-dmz.suse.de [192.168.254.74])
+        (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+         key-exchange X25519 server-signature ECDSA (P-521) server-digest SHA512)
+        (No client certificate requested)
+        by smtp-out1.suse.de (Postfix) with ESMTPS id A836B224F0;
+        Wed, 24 Aug 2022 01:21:39 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
+        t=1661304099; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+         mime-version:mime-version:content-type:content-type:
+         content-transfer-encoding:content-transfer-encoding;
+        bh=poQDs59xIU6t57CbaCXsACqS10ybs92DtADLtLIcFeI=;
+        b=AziDPC2JV+Ps2KqfbCM4VlIS1DkyD0cBkSrHcDzgOPysnEJFsOA1PuVo5vwBVdhn2SlNpt
+        5PdlZqbXUg8ibeukS8/pC/QUJECpJjKSL3vTD6RLsJtvJa4L48xI3v6JDn1vPaXQlzyj6s
+        rCRTFz5L3udlqJFLfF1ZTEpv/X4rOxE=
+DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
+        s=susede2_ed25519; t=1661304099;
+        h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+         mime-version:mime-version:content-type:content-type:
+         content-transfer-encoding:content-transfer-encoding;
+        bh=poQDs59xIU6t57CbaCXsACqS10ybs92DtADLtLIcFeI=;
+        b=F3XReInxH+cXynqAKIt7/ilA/YEzIEvqen7UtQt329xsbUU5EYeggFNma341qqAd+Dwddr
+        XPKZ7yhp8x/tl/CQ==
+Received: from imap2.suse-dmz.suse.de (imap2.suse-dmz.suse.de [192.168.254.74])
+        (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+         key-exchange X25519 server-signature ECDSA (P-521) server-digest SHA512)
+        (No client certificate requested)
+        by imap2.suse-dmz.suse.de (Postfix) with ESMTPS id 265FD13A89;
+        Wed, 24 Aug 2022 01:21:37 +0000 (UTC)
+Received: from dovecot-director2.suse.de ([192.168.254.65])
+        by imap2.suse-dmz.suse.de with ESMTPSA
+        id MFA8NCF9BWN9WgAAMHmgww
+        (envelope-from <neilb@suse.de>); Wed, 24 Aug 2022 01:21:37 +0000
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: 7bit
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
- Thunderbird/102.1.2
-Subject: Re: [PATCH v2] _Generic.3: New page documenting _Generic()
-Content-Language: en-US
-To:     Florian Weimer <fweimer@redhat.com>
-Cc:     linux-man@vger.kernel.org, JeanHeyd Meneide <wg14@soasis.org>,
-        "G. Branden Robinson" <g.branden.robinson@gmail.com>,
-        Ingo Schwarze <schwarze@usta.de>
-References: <20220820171009.34196-1-alx.manpages@gmail.com>
- <20220821115506.22850-1-alx.manpages@gmail.com>
- <87mtbv4chu.fsf@oldenburg.str.redhat.com>
-From:   Alejandro Colomar <alx.manpages@gmail.com>
-In-Reply-To: <87mtbv4chu.fsf@oldenburg.str.redhat.com>
-Content-Type: multipart/signed; micalg=pgp-sha256;
- protocol="application/pgp-signature";
- boundary="------------EtPA23dc2qYUd9kEhSyi3CuW"
+From:   "NeilBrown" <neilb@suse.de>
+To:     Michael Kerrisk <mtk.manpages@gmail.com>, linux-man@vger.kernel.org
+Cc:     Jeff Layton <jlayton@kernel.org>
+Subject: [PATCH] utime.2, utimensat.2: explicitly mention ctime changing.
+Date:   Wed, 24 Aug 2022 11:21:34 +1000
+Message-id: <166130409455.27490.3548169201261980550@noble.neil.brown.name>
 Precedence: bulk
 List-ID: <linux-man.vger.kernel.org>
 X-Mailing-List: linux-man@vger.kernel.org
 
-This is an OpenPGP/MIME signed message (RFC 4880 and 3156)
---------------EtPA23dc2qYUd9kEhSyi3CuW
-Content-Type: multipart/mixed; boundary="------------BmoHqUSGEhrpIxqcrub0ONzg";
- protected-headers="v1"
-From: Alejandro Colomar <alx.manpages@gmail.com>
-To: Florian Weimer <fweimer@redhat.com>
-Cc: linux-man@vger.kernel.org, JeanHeyd Meneide <wg14@soasis.org>,
- "G. Branden Robinson" <g.branden.robinson@gmail.com>,
- Ingo Schwarze <schwarze@usta.de>
-Message-ID: <d7309d7a-445f-efd8-1739-9a9a8cb4eb95@gmail.com>
-Subject: Re: [PATCH v2] _Generic.3: New page documenting _Generic()
-References: <20220820171009.34196-1-alx.manpages@gmail.com>
- <20220821115506.22850-1-alx.manpages@gmail.com>
- <87mtbv4chu.fsf@oldenburg.str.redhat.com>
-In-Reply-To: <87mtbv4chu.fsf@oldenburg.str.redhat.com>
 
---------------BmoHqUSGEhrpIxqcrub0ONzg
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: base64
+utime and related calls always change the ctime.  It is worth making
+this explicit.
+This is clear from the code (vfs_utimes() in fs/utimes.c always sets
+ATTR_CTIME) and is documented in
+  https://pubs.opengroup.org/onlinepubs/007904875/functions/utimes.html
 
-SGkgRmxvcmlhbiwNCg0KT24gOC8yMy8yMiAwOTo1OCwgRmxvcmlhbiBXZWltZXIgd3JvdGU6
-DQoNCj4gTm90ZSB0aGF0IHRoaXMgYXBwcm9hY2ggZG9lcyBub3QgcmVhbGx5IHdvcmsgdGhh
-dCB3ZWxsIGluIHByYWN0aWNlDQo+IGJlY2F1c2UgbWFjcm9zIHVzaW5nIF9HZW5lcmljIGV4
-cGFuZCBhbGwgdGhlIGFsdGVybmF0aXZlcyAoaW4gY3VycmVudA0KPiBpbXBsZW1lbnRhdGlv
-bnM7IGRvaW5nIHRoaXMgZGlmZmVyZW50bHkgcmVxdWlyZXMgZGV2aWF0aW5nIGZyb20gdGhl
-DQo+IGxheWVyZWQgaW1wbGVtZW50YXRpb24gc3RyYXRlZ3kgc3VnZ2VzdGVkIGluIHRoZSBD
-IHN0YW5kYXJkKS4gIFRoaXMNCj4gbWVhbnMgdGhhdCBfR2VuZXJpYy11c2luZyBtYWNyb3Mg
-Y2FuIG9ubHkgYmUgbmVzdGVkIG1heWJlIHRocmVlIG9yIGZvdXINCj4gbGV2ZWxzIGRlZXAs
-IGRlcGVuZGluZyBvbiB0aGUgbnVtYmVyIG9mIF9HZW5lcmljIGFsdGVybmF0aXZlcyBvbiBl
-YWNoDQo+IGxldmVsLiAgRm9yIDx0Z21hdGguaD4sIHRoaXMgaXMgcmVhbGx5IG5vdCBlbm91
-Z2gsIHNvIGEgaGlnaC1xdWFsaXR5DQo+IGltcGxlbWVudGF0aW9uIG9mIDx0Z21hdGguaD4g
-dXNpbmcgX0dlbmVyaWMgaXMgbm90IGZlYXNpYmxlLiAgR0NDDQo+IHByb3ZpZGVzIF9fYnVp
-bHRpbl90Z21hdGgsIHdoaWNoIGlzIGRlc2lnbmVkIGluIHN1Y2ggYSB3YXkgdGhhdCB3aGVu
-DQo+IHVzZWQgaW4gYSBtYWNybywgdGhlIG1hY3JvIGFyZ3VtZW50IGlzIG9ubHkgZXhwYW5k
-ZWQgb25jZS4NCj4gDQo+IE1heWJlIG1lbnRpb24gdGhpcyB1bmRlciBCVUdTPw0KPiANCj4g
-QysrIHRlbXBsYXRlcyBkbyBub3Qgc3VmZmVyIGZyb20gdGhpcyBwYXJ0aWN1bGFyIHByb2Js
-ZW0uDQoNCg0KQWhoLCBJIGdldCBpdCBub3cuICBZb3UgbWVhbiB0aGF0IHRoZSBwcmVwcm9j
-ZXNzZWQgY29kZSBjb3VsZCBncm93IA0KZXhwb25lbnRpYWxseSwgZXZlbiBpZiB0aGUgYXNz
-ZW1ibHkgY29kZSBpcyBzYWZlIGZyb20gc3VjaCBibG9hdCwgcmlnaHQ/DQoNClllYWgsIHBy
-b2JhYmx5IHRoYXQgc2hvdWxkIGdvIGludG8gQ0FWRUFUUy4NCg0KV291bGQgeW91IG1pbmQg
-c2VuZGluZyBhIHBhdGNoPw0KDQpBbnl3YXksIGlmIHRoZSBzdGFuZGFyZCBkZWZpbmVkIGlu
-dG1heF90IGFzIGEgbWFjcm8sIGl0IHNob3VsZCBwcm9iYWJseSANCm5vdCBzcGVjaWZ5IGhv
-dyB0aGF0IG1hY3JvIGlzIGltcGxlbWVudGVkOyB0aGlzIGlzIGp1c3QgYSBzaW1wbGUgDQpz
-dWdnZXN0aW9uLCBidXQgYSBidWlsdGluIG9mIGNvdXJzZSB3b3VsZCBiZSBiZXR0ZXIuDQoN
-CkNoZWVycywNCg0KQWxleA0KDQotLSANCkFsZWphbmRybyBDb2xvbWFyDQo8aHR0cDovL3d3
-dy5hbGVqYW5kcm8tY29sb21hci5lcy8+DQo=
+Signed-off-by: NeilBrown <neilb@suse.de>
+---
+ man2/utime.2     | 2 ++
+ man2/utimensat.2 | 3 +++
+ 2 files changed, 5 insertions(+)
 
---------------BmoHqUSGEhrpIxqcrub0ONzg--
+diff --git a/man2/utime.2 b/man2/utime.2
+index 5338723574e2..7557d680afa3 100644
+--- a/man2/utime.2
++++ b/man2/utime.2
+@@ -39,6 +39,8 @@ to the
+ fields of
+ .I times
+ respectively.
++The status change time (ctime) will be set to the current time, even if the
++other time stamps don't actually change.
+ .PP
+ If
+ .I times
+diff --git a/man2/utimensat.2 b/man2/utimensat.2
+index 11cf3ee24129..2abf8e196ee1 100644
+--- a/man2/utimensat.2
++++ b/man2/utimensat.2
+@@ -101,6 +101,9 @@ If
+ .I times
+ is NULL, then both timestamps are set to the current time.
+ .\"
++.PP
++The status change time (ctime) will be set to the current time, even if the
++other time stamps don't actually change.
+ .SS Permissions requirements
+ To set both file timestamps to the current time (i.e.,
+ .I times
+-- 
+2.37.1
 
---------------EtPA23dc2qYUd9kEhSyi3CuW
-Content-Type: application/pgp-signature; name="OpenPGP_signature.asc"
-Content-Description: OpenPGP digital signature
-Content-Disposition: attachment; filename="OpenPGP_signature"
-
------BEGIN PGP SIGNATURE-----
-
-iQIzBAEBCgAdFiEE6jqH8KTroDDkXfJAnowa+77/2zIFAmME1v4ACgkQnowa+77/
-2zJPqxAAoplT8oWWdsbMPqb5R1TWSyamkxL3iLZnY+bQH2T7FyN0U3AjrBFz5PCj
-hieXu/mePevEnbqAAaoUiRr1oJLnSsLodaQ1lwpzH7Fq1vXWvnrLGNJhY3e+9SeH
-7gG1vYPig93UEqdpQYKlDZJfseFjV87ltGwOQRkjaCESsxG3plK5EoL92hJSdsKG
-fWQGTdH/vofZwAMTZDJLXEL0N/LL28zuZAz4MQ+9BIBioJFgOe5AsrCdPJ9E5VS0
-z6jGCUIiBGCLKnsx2cFt0rgwn2cM68qjlrLKaoISWvJsurvdovsXHp+CDj40hcj7
-uoMGDNwCrm88vYPxu15AvEJ/8cqbVRPYELgYrz/nxPZcLJHoP/gBcPZnUZhYx6sS
-gRNwbef7ONREMrxQ3M8L49zHMsLbjAFIk0UqW9sULGpBbAxeF9RjE/QdcmrflxB2
-P/cd2NIUW5265oBDadsx+c4aI0MPRH/WahgPuipl4oI2KFqLsgiwXndvKB79txKQ
-J4k5UfFPr542bTu6LUiF3vkWd6d3/GutgPaJ4RRf5TqjNUOZ+az42vfjqbwD16Pl
-4/f9SH+lsVGCYRKO1pKVWByp/SP2Uwjz6Ud1MpFhA+b9qKZNQzoRAxHxWGzWLeRi
-24ttRAMdgdfqhFzABsiq5wLuGdO15R2TiOnwOy3+1Nb6FUgKcIw=
-=MNRy
------END PGP SIGNATURE-----
-
---------------EtPA23dc2qYUd9kEhSyi3CuW--
