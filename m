@@ -2,90 +2,108 @@ Return-Path: <linux-man-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id D40C0ECAAD5
-	for <linux-man@archiver.kernel.org>; Tue,  6 Sep 2022 12:05:43 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 45261C54EE9
+	for <linux-man@archiver.kernel.org>; Tue,  6 Sep 2022 12:21:52 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S232625AbiIFMFm (ORCPT <rfc822;linux-man@archiver.kernel.org>);
-        Tue, 6 Sep 2022 08:05:42 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:37376 "EHLO
+        id S240046AbiIFMVu (ORCPT <rfc822;linux-man@archiver.kernel.org>);
+        Tue, 6 Sep 2022 08:21:50 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:35630 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S231562AbiIFMFl (ORCPT
-        <rfc822;linux-man@vger.kernel.org>); Tue, 6 Sep 2022 08:05:41 -0400
-X-Greylist: delayed 441 seconds by postgrey-1.37 at lindbergh.monkeyblade.net; Tue, 06 Sep 2022 05:05:37 PDT
-Received: from a7-11.smtp-out.eu-west-1.amazonses.com (a7-11.smtp-out.eu-west-1.amazonses.com [54.240.7.11])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 66DB56BCEE
-        for <linux-man@vger.kernel.org>; Tue,  6 Sep 2022 05:05:36 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/simple;
-        s=ehv72hrdm63prfxoar2vn7kuxcadjmfr; d=pxeger.com; t=1662465494;
-        h=Message-ID:Date:MIME-Version:Subject:To:References:From:In-Reply-To:Content-Type:Content-Transfer-Encoding;
-        bh=2VTgH3j6XZTE+d1rNBYJWuVynSVh+RLzZPzxB9ItrS8=;
-        b=F4ddoAGShoxY3BkJL956dk7vAwn29uGS8UdxvHM18JRSsJ30/buYHl3ZebVJnY1r
-        nFZDgEGIVkJnjwXTaQ3S8Zka45RwSUgRCOHPdqJeITcsL/PfuZLNu0xFetD31bU9vd5
-        e/f7uB1nlfDgcjdkHTeDroU5vOpYjcti/6tpeu1I=
-DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/simple;
-        s=ihchhvubuqgjsxyuhssfvqohv7z3u4hn; d=amazonses.com; t=1662465494;
-        h=Message-ID:Date:MIME-Version:Subject:To:References:From:In-Reply-To:Content-Type:Content-Transfer-Encoding:Feedback-ID;
-        bh=2VTgH3j6XZTE+d1rNBYJWuVynSVh+RLzZPzxB9ItrS8=;
-        b=n4UV6VziIQ0gzshBAxCVoxsKNyiWe0E3mS6QiXSMWkcOZHPDSyZJyJyjp4MbTBF+
-        cRAVEi5FUQSX4RjBGFqohWyMpheeg4GaxE8ZrjWbEaQv4PhG9PNXtYMijyz//Nx/h0b
-        RKn2Tbs357LgkGONZu6aM4JAZ28v+GzEihBUvCbo=
-Message-ID: <0102018312aa4b17-59210806-b085-41ce-b346-2d30f99effe7-000000@eu-west-1.amazonses.com>
-Date:   Tue, 6 Sep 2022 11:58:14 +0000
+        with ESMTP id S240047AbiIFMU6 (ORCPT
+        <rfc822;linux-man@vger.kernel.org>); Tue, 6 Sep 2022 08:20:58 -0400
+Received: from us-smtp-delivery-124.mimecast.com (us-smtp-delivery-124.mimecast.com [170.10.129.124])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id CDB3A71701
+        for <linux-man@vger.kernel.org>; Tue,  6 Sep 2022 05:17:52 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+        s=mimecast20190719; t=1662466671;
+        h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+         to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+         in-reply-to:in-reply-to:references:references;
+        bh=YjvVsGnaOPZ/gpG0KVHSfjbjbq9SkmePYc60DJuuWGs=;
+        b=MSpEL0chRJ4GyrN5Qq8vlyUPFNaQFVg1WlpU2PJgR+ycutjus6T8uBg5UcDdXy1VPxBHWQ
+        ynLqXa6eMeqc5FsKG6dgx2QkkAKeorGE0pxwS8ieDBj1YFQT/AWgZcOBWYB0GbYYUoSaj5
+        XuzheYB43yK2my4Y16tZ+EE4lYN8drc=
+Received: from mimecast-mx02.redhat.com (mx3-rdu2.redhat.com
+ [66.187.233.73]) by relay.mimecast.com with ESMTP with STARTTLS
+ (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ us-mta-47-HSUfhPJXM-2ppp1fdmrDZw-1; Tue, 06 Sep 2022 08:17:46 -0400
+X-MC-Unique: HSUfhPJXM-2ppp1fdmrDZw-1
+Received: from smtp.corp.redhat.com (int-mx10.intmail.prod.int.rdu2.redhat.com [10.11.54.10])
+        (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
+        (No client certificate requested)
+        by mimecast-mx02.redhat.com (Postfix) with ESMTPS id E76891C06901;
+        Tue,  6 Sep 2022 12:17:44 +0000 (UTC)
+Received: from oldenburg.str.redhat.com (unknown [10.39.192.109])
+        by smtp.corp.redhat.com (Postfix) with ESMTPS id E9F5940334C;
+        Tue,  6 Sep 2022 12:17:39 +0000 (UTC)
+From:   Florian Weimer <fweimer@redhat.com>
+To:     Jeff Layton <jlayton@kernel.org>
+Cc:     tytso@mit.edu, adilger.kernel@dilger.ca, djwong@kernel.org,
+        david@fromorbit.com, trondmy@hammerspace.com, neilb@suse.de,
+        viro@zeniv.linux.org.uk, zohar@linux.ibm.com, xiubli@redhat.com,
+        chuck.lever@oracle.com, lczerner@redhat.com, jack@suse.cz,
+        bfields@fieldses.org, brauner@kernel.org,
+        linux-man@vger.kernel.org, linux-api@vger.kernel.org,
+        linux-btrfs@vger.kernel.org, linux-fsdevel@vger.kernel.org,
+        linux-kernel@vger.kernel.org, ceph-devel@vger.kernel.org,
+        linux-ext4@vger.kernel.org, linux-nfs@vger.kernel.org,
+        linux-xfs@vger.kernel.org
+Subject: Re: [RFC PATCH v2] statx, inode: document the new STATX_INO_VERSION
+ field
+References: <20220901121714.20051-1-jlayton@kernel.org>
+        <874jxrqdji.fsf@oldenburg.str.redhat.com>
+        <81e57e81e4570d1659098f2bbc7c9049a605c5e8.camel@kernel.org>
+Date:   Tue, 06 Sep 2022 14:17:38 +0200
+In-Reply-To: <81e57e81e4570d1659098f2bbc7c9049a605c5e8.camel@kernel.org> (Jeff
+        Layton's message of "Thu, 01 Sep 2022 12:30:20 -0400")
+Message-ID: <87ilm066jh.fsf@oldenburg.str.redhat.com>
+User-Agent: Gnus/5.13 (Gnus v5.13) Emacs/27.2 (gnu/linux)
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
- Thunderbird/102.2.0
-Subject: Re: [patch] unshare.2: Add note about potential capabilities
- confusion
-Content-Language: en-US
-To:     Alejandro Colomar <alx.manpages@gmail.com>,
-        linux-man@vger.kernel.org
-References: <0102018312086c29-13598a55-2c20-47eb-a288-a5bbe6f1caff-000000@eu-west-1.amazonses.com>
- <294ebefd-48a7-e53d-7569-2efa1c717bf7@gmail.com>
-From:   Patrick Reader <_@pxeger.com>
-In-Reply-To: <294ebefd-48a7-e53d-7569-2efa1c717bf7@gmail.com>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 8bit
-Feedback-ID: 1.eu-west-1.O8fLL1RnZ8YOldtp6Bf8+xGGBJTnUb+xpx8eQnH6GAs=:AmazonSES
-X-SES-Outgoing: 2022.09.06-54.240.7.11
+Content-Type: text/plain
+X-Scanned-By: MIMEDefang 2.85 on 10.11.54.10
 Precedence: bulk
 List-ID: <linux-man.vger.kernel.org>
 X-Mailing-List: linux-man@vger.kernel.org
 
-On 06/09/2022 12:50, Alejandro Colomar wrote:
-> Would you mind fixing those small issues and send an v2?
+* Jeff Layton:
 
-Voilà!
+> All of the existing implementations use all 64 bits. If you were to
+> increment a 64 bit value every nanosecond, it will take >500 years for
+> it to wrap. I'm hoping that's good enough. ;)
+>
+> The implementation that all of the local Linux filesystems use track
+> whether the value has been queried using one bit, so there you only get
+> 63 bits of counter.
+>
+> My original thinking here was that we should leave the spec "loose" to
+> allow for implementations that may not be based on a counter. E.g. could
+> some filesystem do this instead by hashing certain metadata?
 
- From a63c099d31c8fd27af6428c4d9191df698b2c0e7 Mon Sep 17 00:00:00 2001
-From: Patrick Reader <_@pxeger.com>
-Date: Tue, 6 Sep 2022 12:56:12 +0100
-Subject: [PATCH 2/2] fix formatting
+Hashing might have collisions that could be triggered deliberately, so
+probably not a good idea.  It's also hard to argue that random
+collisions are unlikely.
 
----
-  man/man2/unshare.2 | 7 ++++---
-  1 file changed, 4 insertions(+), 3 deletions(-)
+> It's arguable though that the NFSv4 spec requires that this be based on
+> a counter, as the client is required to increment it in the case of
+> write delegations.
 
-diff --git a/man/man2/unshare.2 b/man/man2/unshare.2
-index 851129022..79a960728 100644
---- a/man/man2/unshare.2
-+++ b/man/man2/unshare.2
-@@ -464,9 +464,10 @@ Such functionality may be added in the future, if 
-required.
-  .PP
-  Creating all kinds of namespace, except user namespaces, requires the
-  .B CAP_SYS_ADMIN
--capability. However, since creating a user namespace automatically 
-confers a
--full set of capabilities, creating both a user namespace and any other type
--of namespace in the same
-+capability.
-+However, since creating a user namespace automatically confers a full 
-set of
-+capabilities,
-+creating both a user namespace and any other type of namespace in the same
-  .BR unshare ()
-  call does not require the
-  .B CAP_SYS_ADMIN
--- 
-2.37.3
+Yeah, I think it has to be monotonic.
+
+>> If the system crashes without flushing disks, is it possible to observe
+>> new file contents without a change of i_version?
+>
+> Yes, I think that's possible given the current implementations.
+>
+> We don't have a great scheme to combat that at the moment, other than
+> looking at this in conjunction with the ctime. As long as the clock
+> doesn't jump backward after the crash and it takes more than one jiffy
+> to get the host back up, then you can be reasonably sure that
+> i_version+ctime should never repeat.
+>
+> Maybe that's worth adding to the NOTES section of the manpage?
+
+I'd appreciate that.
+
+Thanks,
+Florian
 
