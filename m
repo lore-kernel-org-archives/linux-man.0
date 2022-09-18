@@ -2,172 +2,127 @@ Return-Path: <linux-man-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id AAF51ECAAA1
-	for <linux-man@archiver.kernel.org>; Fri, 16 Sep 2022 15:11:46 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 1F25CC54EE9
+	for <linux-man@archiver.kernel.org>; Sun, 18 Sep 2022 14:59:53 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S231645AbiIPPLn (ORCPT <rfc822;linux-man@archiver.kernel.org>);
-        Fri, 16 Sep 2022 11:11:43 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:50074 "EHLO
+        id S229514AbiIRO7v (ORCPT <rfc822;linux-man@archiver.kernel.org>);
+        Sun, 18 Sep 2022 10:59:51 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:41670 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S229714AbiIPPLk (ORCPT
-        <rfc822;linux-man@vger.kernel.org>); Fri, 16 Sep 2022 11:11:40 -0400
-Received: from dfw.source.kernel.org (dfw.source.kernel.org [139.178.84.217])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 4779DAA344;
-        Fri, 16 Sep 2022 08:11:39 -0700 (PDT)
-Received: from smtp.kernel.org (relay.kernel.org [52.25.139.140])
-        (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
-        (No client certificate requested)
-        by dfw.source.kernel.org (Postfix) with ESMTPS id CC5D162C56;
-        Fri, 16 Sep 2022 15:11:38 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 20D98C433D6;
-        Fri, 16 Sep 2022 15:11:36 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-        s=k20201202; t=1663341098;
-        bh=xvCxeZz4qr3XPSIp4Xc+yhFsHVPnIedgZs2G2tMZsFY=;
-        h=Subject:From:To:Cc:Date:In-Reply-To:References:From;
-        b=dflY6BY+7OgdppPwGYZ1j2a+2JWSUCq/paCdLXV43SC0YRNH9B1ZehljmY7G9jgUB
-         R+rM9MN6G0TxYueqvRv2PUYrwCdN0UYQBSdo/ssfH5paScu6u6nG9H1FhTRFVqTgnV
-         CDM4JmVTvgLtnXjop8rcMSH0BTec5Ri2zUU8JXcp64lS4X57v/A76eH+n2gNIog+yD
-         +jCeKc2Gv2fgbGnsA8Ipm2MgrEx/ZugChsvZxy+JkRqSV/xO8Edtk9rlY9neC/OxIz
-         37bpYnrUKpwjmWEgOvwAtmZo4hR/69GhVDEpM7zxq/Eh0xxPN8EamCTLOpo8NliT62
-         Bcm3mFB44vmxA==
-Message-ID: <24005713ad25370d64ab5bd0db0b2e4fcb902c1c.camel@kernel.org>
-Subject: Re: [man-pages RFC PATCH v4] statx, inode: document the new
- STATX_INO_VERSION field
-From:   Jeff Layton <jlayton@kernel.org>
-To:     Theodore Ts'o <tytso@mit.edu>, NeilBrown <neilb@suse.de>
-Cc:     Trond Myklebust <trondmy@hammerspace.com>,
-        "bfields@fieldses.org" <bfields@fieldses.org>,
-        "zohar@linux.ibm.com" <zohar@linux.ibm.com>,
-        "djwong@kernel.org" <djwong@kernel.org>,
-        "brauner@kernel.org" <brauner@kernel.org>,
-        "linux-xfs@vger.kernel.org" <linux-xfs@vger.kernel.org>,
-        "linux-api@vger.kernel.org" <linux-api@vger.kernel.org>,
-        "david@fromorbit.com" <david@fromorbit.com>,
-        "fweimer@redhat.com" <fweimer@redhat.com>,
-        "linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>,
-        "chuck.lever@oracle.com" <chuck.lever@oracle.com>,
-        "linux-man@vger.kernel.org" <linux-man@vger.kernel.org>,
-        "linux-nfs@vger.kernel.org" <linux-nfs@vger.kernel.org>,
-        "linux-ext4@vger.kernel.org" <linux-ext4@vger.kernel.org>,
-        "jack@suse.cz" <jack@suse.cz>,
-        "viro@zeniv.linux.org.uk" <viro@zeniv.linux.org.uk>,
-        "xiubli@redhat.com" <xiubli@redhat.com>,
-        "linux-fsdevel@vger.kernel.org" <linux-fsdevel@vger.kernel.org>,
-        "adilger.kernel@dilger.ca" <adilger.kernel@dilger.ca>,
-        "lczerner@redhat.com" <lczerner@redhat.com>,
-        "ceph-devel@vger.kernel.org" <ceph-devel@vger.kernel.org>,
-        "linux-btrfs@vger.kernel.org" <linux-btrfs@vger.kernel.org>
-Date:   Fri, 16 Sep 2022 11:11:34 -0400
-In-Reply-To: <7027d1c2923053fe763e9218d10ce8634b56e81d.camel@kernel.org>
-References: <20220912134208.GB9304@fieldses.org>
-         <166302447257.30452.6751169887085269140@noble.neil.brown.name>
-         <20220915140644.GA15754@fieldses.org>
-         <577b6d8a7243aeee37eaa4bbb00c90799586bc48.camel@hammerspace.com>
-         <1a968b8e87f054e360877c9ab8cdfc4cfdfc8740.camel@kernel.org>
-         <0646410b6d2a5d19d3315f339b2928dfa9f2d922.camel@hammerspace.com>
-         <34e91540c92ad6980256f6b44115cf993695d5e1.camel@kernel.org>
-         <871f9c5153ddfe760854ca31ee36b84655959b83.camel@hammerspace.com>
-         <e8922bc821a40f5a3f0a1301583288ed19b6891b.camel@kernel.org>
-         <166328063547.15759.12797959071252871549@noble.neil.brown.name>
-         <YyQdmLpiAMvl5EkU@mit.edu>
-         <7027d1c2923053fe763e9218d10ce8634b56e81d.camel@kernel.org>
-Content-Type: text/plain; charset="ISO-8859-15"
-Content-Transfer-Encoding: quoted-printable
-User-Agent: Evolution 3.44.4 (3.44.4-1.fc36) 
+        with ESMTP id S229533AbiIRO7t (ORCPT
+        <rfc822;linux-man@vger.kernel.org>); Sun, 18 Sep 2022 10:59:49 -0400
+X-Greylist: delayed 448 seconds by postgrey-1.37 at lindbergh.monkeyblade.net; Sun, 18 Sep 2022 07:59:46 PDT
+Received: from kiste.informatik.uni-erlangen.de (kiste.informatik.uni-erlangen.de [131.188.40.98])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 9DC41EE1E
+        for <linux-man@vger.kernel.org>; Sun, 18 Sep 2022 07:59:44 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=sicherha.de; h=
+ content-type:content-type:mime-version:references:in-reply-to
+ :message-id:date:date:subject:subject:from:from; s=dkim20200822;
+ t=1663512730; x=1664376731; bh=JJxQHTa3Aqp/dgwvdBehePejr1Xotzxn
+ CUhMpFZXndY=; b=ohoPKnDj1wz4G3dz4A9j9/rFMC54/hORy785m5Hw5rLbHd9A
+ 87F4XTuOURCDwJF/rrZHd4tFkSdFhnOA7JxUusKsNWlXiVJa8u40l5QvMuDNSING
+ JC7dfrXZhW/SsEXz4xYw+hwnFJrp+uJf0/rSoMKuJ9owC/x4uNQsvXZfyDJOda2E
+ RSfTj4/TjbtbLVnYKNeNHImJqEI/AxFDMWgG8fDSYNPUU1oOpJtjJ4AkDEH3OtTZ
+ JHsYykqzZ5sd3yYLUt7oC5yz2ONgj76wemSRl0SDPQxwwAEyvFebJZjlu0PQoQHf
+ PELL5POzU/e1ivWbxEENY4pqd4ugzXWbvlp05b5bFE3aEBShVVIuQWb/X9Gsr+LM
+ Qx9uEBGnYBFyJc1vmm20QxSF+/uZWitH/dQ6AY9dhghUIfLwhYDKxSNX2l4/JX+w
+ aYWx5zHpmdRdIgChLH7JX0+azyiOk6DeVNV6lsL5S0E11XnshEXG8883uOeVqBiu
+ dYmT9yO4MTXQsPNCAh0iI4I0OgHQ7J/iFJwa+bo5DRhb4NnEw5xRgo5rfSypiGzZ
+ +XEj/qY4T2/d0sKLdqyeUpkY0OjN3ws46H4NUSD2wIoil6Sel/IVEkpxETTp7pma
+ C/fQ4Iykl2DyVOw+8cZL2D3M7abaufXj6WJ9Nl91k4RB2xgX9PEI6hwRzWE=
+X-Virus-Scanned: Debian amavisd-new at sicherha.de
+Sender: christoph.erhardt@sicherha.de
+From:   Christoph Erhardt <christoph.erhardt@sicherha.de>
+To:     linux-man@vger.kernel.org
+Subject: Re: Is man-pages-posix redistributable?
+Date:   Sun, 18 Sep 2022 16:51:45 +0200
+Message-ID: <13285139.O9o76ZdvQC@delle>
+In-Reply-To: <3765026.aeNJFYEL58@delle>
+References: <3765026.aeNJFYEL58@delle>
 MIME-Version: 1.0
+Content-Type: multipart/signed; boundary="nextPart6831752.DvuYhMxLoT";
+ micalg="pgp-sha256"; protocol="application/pgp-signature"
 Precedence: bulk
 List-ID: <linux-man.vger.kernel.org>
 X-Mailing-List: linux-man@vger.kernel.org
 
-On Fri, 2022-09-16 at 07:36 -0400, Jeff Layton wrote:
-> On Fri, 2022-09-16 at 02:54 -0400, Theodore Ts'o wrote:
-> > On Fri, Sep 16, 2022 at 08:23:55AM +1000, NeilBrown wrote:
-> > > > > If the answer is that 'all values change', then why store the cra=
-sh
-> > > > > counter in the inode at all? Why not just add it as an offset whe=
-n
-> > > > > you're generating the user-visible change attribute?
-> > > > >=20
-> > > > > i.e. statx.change_attr =3D inode->i_version + (crash counter * of=
-fset)
-> >=20
-> > I had suggested just hashing the crash counter with the file system's
-> > on-disk i_version number, which is essentially what you are suggested.
-> >=20
-> > > > Yes, if we plan to ensure that all the change attrs change after a
-> > > > crash, we can do that.
-> > > >=20
-> > > > So what would make sense for an offset? Maybe 2**12? One would hope=
- that
-> > > > there wouldn't be more than 4k increments before one of them made i=
-t to
-> > > > disk. OTOH, maybe that can happen with teeny-tiny writes.
-> > >=20
-> > > Leave it up the to filesystem to decide.  The VFS and/or NFSD should
-> > > have not have part in calculating the i_version.  It should be entire=
-ly
-> > > in the filesystem - though support code could be provided if common
-> > > patterns exist across filesystems.
-> >=20
-> > Oh, *heck* no.  This parameter is for the NFS implementation to
-> > decide, because it's NFS's caching algorithms which are at stake here.
-> >=20
-> > As a the file system maintainer, I had offered to make an on-disk
-> > "crash counter" which would get updated when the journal had gotten
-> > replayed, in addition to the on-disk i_version number.  This will be
-> > available for the Linux implementation of NFSD to use, but that's up
-> > to *you* to decide how you want to use them.
-> >=20
-> > I was perfectly happy with hashing the crash counter and the i_version
-> > because I had assumed that not *that* much stuff was going to be
-> > cached, and so invalidating all of the caches in the unusual case
-> > where there was a crash was acceptable.  After all it's a !@#?!@
-> > cache.  Caches sometimmes get invalidated.  "That is the order of
-> > things." (as Ramata'Klan once said in "Rocks and Shoals")
-> >=20
-> > But if people expect that multiple TB's of data is going to be stored;
-> > that cache invalidation is unacceptable; and that a itsy-weeny chance
-> > of false negative failures which might cause data corruption might be
-> > acceptable tradeoff, hey, that's for the system which is providing
-> > caching semantics to determine.
-> >=20
-> > PLEASE don't put this tradeoff on the file system authors; I would
-> > much prefer to leave this tradeoff in the hands of the system which is
-> > trying to do the caching.
-> >=20
->=20
-> Yeah, if we were designing this from scratch, I might agree with leaving
-> more up to the filesystem, but the existing users all have pretty much
-> the same needs. I'm going to plan to try to keep most of this in the
-> common infrastructure defined in iversion.h.
->=20
-> Ted, for the ext4 crash counter, what wordsize were you thinking? I
-> doubt we'll be able to use much more than 32 bits so a larger integer is
-> probably not worthwhile. There are several holes in struct super_block
-> (at least on x86_64), so adding this field to the generic structure
-> needn't grow it.
+--nextPart6831752.DvuYhMxLoT
+Content-Transfer-Encoding: 7Bit
+Content-Type: text/plain; charset="us-ascii"; protected-headers="v1"
+From: Christoph Erhardt <christoph.erhardt@sicherha.de>
+To: linux-man@vger.kernel.org
+Subject: Re: Is man-pages-posix redistributable?
+Date: Sun, 18 Sep 2022 16:51:45 +0200
+Message-ID: <13285139.O9o76ZdvQC@delle>
+In-Reply-To: <3765026.aeNJFYEL58@delle>
+References: <3765026.aeNJFYEL58@delle>
+MIME-Version: 1.0
 
-That said, now that I've taken a swipe at implementing this, I need more
-information than just the crash counter. We need to multiply the crash
-counter with a reasonable estimate of the maximum number of individual
-writes that could occur between an i_version being incremented and that
-value making it to the backing store.
+Hi all,
 
-IOW, given a write that bumps the i_version to X, how many more write
-calls could race in before X makes it to the platter? I took a SWAG and
-said 4k in an earlier email, but I don't really have a way to know, and
-that could vary wildly with different filesystems and storage.
+who would be capable of answering that question?
 
-What I'd like to see is this in struct super_block:
+Thanks,
+Christoph
 
-	u32		s_version_offset;
+On Monday, 29 August 2022 08:14:22 CEST Christoph Erhardt wrote:
+> Hi list,
+> 
+> I have a question regarding the redistribution of man-pages-posix.
+> Prior to the 2017-a release, the POSIX_COPYRIGHT file contained the
+> following
+> paragraph:
+> > Redistribution of this material is permitted so long as this notice and
+> > the corresponding notices within each POSIX manual page are retained on
+> > any distribution, and the nroff source is included. Modifications to
+> > the text are permitted so long as any conflicts with the standard
+> > are clearly marked as such in the text.
+> 
+> In the 2017-a release, that paragraph has disappeared. I would like to
+> clarify the implications of that for downstream distributions.
+> 
+> The Fedora project, which is known to be very strict about licensing
+> concerns, sees the new licence as impermissible and has dropped the POSIX
+> man pages as a consequence:
+> https://bugzilla.redhat.com/show_bug.cgi?id=2116859
+> 
+> Now, Fedora's quasi-official way of dealing with such licensing issues would
+> be to add the item in question to RPM Fusion's 'nonfree' package
+> repository. I have opened an inclusion request:
+> https://bugzilla.rpmfusion.org/show_bug.cgi?id=6396
+> 
+> However, the discussion there has raised the question whether the contents
+> of man-pages-posix are redistributable *at all* - given that the clause
+> mentioning redistribution has vanished from the licence.
+> 
+> Could someone please clarify?
+> 
+> Thanks a lot,
+> Christoph
 
-...and then individual filesystems can calculate:
 
-	crash_counter * max_number_of_writes
+--nextPart6831752.DvuYhMxLoT
+Content-Type: application/pgp-signature; name="signature.asc"
+Content-Description: This is a digitally signed message part.
+Content-Transfer-Encoding: 7Bit
 
-and put the correct value in there at mount time.
+-----BEGIN PGP SIGNATURE-----
 
---=20
-Jeff Layton <jlayton@kernel.org>
+iQIzBAABCAAdFiEEwp5/nkNlccrQ2UKH4yzDBS9Gs8IFAmMnMIEACgkQ4yzDBS9G
+s8Kb6hAAjtaVXKWxpdKiiUqEDgY0hlqPEoh8gEEbkQbuBYKeSR87r/NMBChkNM5w
+k5l570C5OWrerJn4a59kADYa+jWWc6F4m+vnhhYuvRBeGeP3rS3tKYmM8s+wC4x3
+sjVl+BkzwidXK79+qB1H9TeBxZDmp89KkZxfMSJmfzVn6IwBAzWGgLEvoM+RbRI2
+CdSBQJ3SOB0dnbhAmNgdtJPQV2y/h1V4NeZjsMPFrwI7KFWjWi+m3BkR0k4Xyube
+XkfGg3IC58vzVbHSIhKC69nhMrXq9dRqNyjLpxM6mkTPHqDQbLi0cexlR3oCixNA
+LjfY4SOGJEq0YoiI+PGbb3y8qSI/MH6TwScmEQu4a7y/kK6jGYip0S5w+9Q6T8a3
+qgx2xD1QO3dZ3zLhggeHrt8icHNMebqWjt1uYl+nzKBNrmZHd8KY02KoRQB8G6Iy
+c1KQUHEriPZQ9ozUag5gWdkcM4mQl2cftCeuf0wkdGGobdWjzcY68XMnY33Z8247
+879uNb5RUb3x5njRqTjFh8fSkLshlW03WAr7/CPaqEM+PXJdfoVU5HD/m0UsFjMC
+s43BD/24YfdCGjY0LtBex3xb58W0321M1xskn3Sit36TgmZD+eVwV7iqjsbrtm5g
+Gr3v/r728fZZMX5XZALrumPwoL49MhYlOXDS8iRkuafp1YTv1ns=
+=1l8T
+-----END PGP SIGNATURE-----
+
+--nextPart6831752.DvuYhMxLoT--
+
+
