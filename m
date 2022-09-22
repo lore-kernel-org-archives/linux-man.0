@@ -2,170 +2,103 @@ Return-Path: <linux-man-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id C26CAC6FA8B
-	for <linux-man@archiver.kernel.org>; Thu, 22 Sep 2022 10:18:31 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 6444EC6FA82
+	for <linux-man@archiver.kernel.org>; Thu, 22 Sep 2022 20:08:33 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S231420AbiIVKS3 (ORCPT <rfc822;linux-man@archiver.kernel.org>);
-        Thu, 22 Sep 2022 06:18:29 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:34442 "EHLO
+        id S232065AbiIVUIc (ORCPT <rfc822;linux-man@archiver.kernel.org>);
+        Thu, 22 Sep 2022 16:08:32 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:53388 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S230125AbiIVKS1 (ORCPT
-        <rfc822;linux-man@vger.kernel.org>); Thu, 22 Sep 2022 06:18:27 -0400
-Received: from dfw.source.kernel.org (dfw.source.kernel.org [IPv6:2604:1380:4641:c500::1])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 70697DC127;
-        Thu, 22 Sep 2022 03:18:26 -0700 (PDT)
-Received: from smtp.kernel.org (relay.kernel.org [52.25.139.140])
-        (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
-        (No client certificate requested)
-        by dfw.source.kernel.org (Postfix) with ESMTPS id 0CCA062B00;
-        Thu, 22 Sep 2022 10:18:26 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 35CF4C433C1;
-        Thu, 22 Sep 2022 10:18:23 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-        s=k20201202; t=1663841905;
-        bh=unHNLjgsxiDp0S08RPmDJfG3btH8Okc+VlSD5IufLJI=;
-        h=Subject:From:To:Cc:Date:In-Reply-To:References:From;
-        b=M1OQe0cNsUxh7Q+Z8ii8q5aOdDgyIr1XG8dnke5SmJWCwHFnkij36gn/docRxA4yM
-         MuSoMVc/vYqYek/J5ljXykCsW/Yt2ds9nyIixqYhufxTMhY6oJxNVFkoWFncYeK0m3
-         B/nJNnHLSEQTDexJE9j9Vb3wh8FEM9lYjwpjP2gyi9PXGutwpEZWhrE3k508Za1OgR
-         LZ40Tq/pBypLlYOgS1YZq0P5n9qlmjmKTHq0R5Mvvb+Y1DgbfstiLRyhIFCk4NhAXp
-         9g4LRA9fYfU87UeWRmcF5b0izvQ9a6mwlwm75HPt8ZDaOPLnhtBnw+emqSPML4Jk0r
-         GZZonnTYPze8Q==
-Message-ID: <e04e349170bc227b330556556d0592a53692b5b5.camel@kernel.org>
-Subject: Re: [man-pages RFC PATCH v4] statx, inode: document the new
- STATX_INO_VERSION field
-From:   Jeff Layton <jlayton@kernel.org>
-To:     Dave Chinner <david@fromorbit.com>
-Cc:     Theodore Ts'o <tytso@mit.edu>, NeilBrown <neilb@suse.de>,
-        Trond Myklebust <trondmy@hammerspace.com>,
-        "bfields@fieldses.org" <bfields@fieldses.org>,
-        "zohar@linux.ibm.com" <zohar@linux.ibm.com>,
-        "djwong@kernel.org" <djwong@kernel.org>,
-        "brauner@kernel.org" <brauner@kernel.org>,
-        "linux-xfs@vger.kernel.org" <linux-xfs@vger.kernel.org>,
-        "linux-api@vger.kernel.org" <linux-api@vger.kernel.org>,
-        "fweimer@redhat.com" <fweimer@redhat.com>,
-        "linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>,
-        "chuck.lever@oracle.com" <chuck.lever@oracle.com>,
-        "linux-man@vger.kernel.org" <linux-man@vger.kernel.org>,
-        "linux-nfs@vger.kernel.org" <linux-nfs@vger.kernel.org>,
-        "linux-ext4@vger.kernel.org" <linux-ext4@vger.kernel.org>,
-        "jack@suse.cz" <jack@suse.cz>,
-        "viro@zeniv.linux.org.uk" <viro@zeniv.linux.org.uk>,
-        "xiubli@redhat.com" <xiubli@redhat.com>,
-        "linux-fsdevel@vger.kernel.org" <linux-fsdevel@vger.kernel.org>,
-        "adilger.kernel@dilger.ca" <adilger.kernel@dilger.ca>,
-        "lczerner@redhat.com" <lczerner@redhat.com>,
-        "ceph-devel@vger.kernel.org" <ceph-devel@vger.kernel.org>,
-        "linux-btrfs@vger.kernel.org" <linux-btrfs@vger.kernel.org>
-Date:   Thu, 22 Sep 2022 06:18:21 -0400
-In-Reply-To: <20220921214124.GS3600936@dread.disaster.area>
-References: <166328063547.15759.12797959071252871549@noble.neil.brown.name>
-         <YyQdmLpiAMvl5EkU@mit.edu>
-         <7027d1c2923053fe763e9218d10ce8634b56e81d.camel@kernel.org>
-         <24005713ad25370d64ab5bd0db0b2e4fcb902c1c.camel@kernel.org>
-         <20220918235344.GH3600936@dread.disaster.area>
-         <87fb43b117472c0a4c688c37a925ac51738c8826.camel@kernel.org>
-         <20220920001645.GN3600936@dread.disaster.area>
-         <5832424c328ea427b5c6ecdaa6dd53f3b99c20a0.camel@kernel.org>
-         <20220921000032.GR3600936@dread.disaster.area>
-         <93b6d9f7cf997245bb68409eeb195f9400e55cd0.camel@kernel.org>
-         <20220921214124.GS3600936@dread.disaster.area>
-Content-Type: text/plain; charset="ISO-8859-15"
-Content-Transfer-Encoding: quoted-printable
-User-Agent: Evolution 3.44.4 (3.44.4-1.fc36) 
-MIME-Version: 1.0
+        with ESMTP id S232241AbiIVUIb (ORCPT
+        <rfc822;linux-man@vger.kernel.org>); Thu, 22 Sep 2022 16:08:31 -0400
+Received: from mga06.intel.com (mga06b.intel.com [134.134.136.31])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 9D49FE6A39;
+        Thu, 22 Sep 2022 13:08:30 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+  t=1663877310; x=1695413310;
+  h=from:to:cc:subject:date:message-id:in-reply-to:
+   references;
+  bh=YMQAWurETlSCjBbvjxddlKNJW8TpNQNrIE4e8GG/gJs=;
+  b=ixR2OUx6+uGs5FmzLkBT5+BWXTGFO4EkwbIWO05ZFP9mXD0ArIoh1j68
+   ynYtdAH0lWcz7DpTPzkH8FyAZsnt4Ek9KJX9oYZ+Tcy/UO3drZCRsFRsN
+   Zl6IofT4vH96onKwtopi8TmcEB3RVfkWwu8h6xcQeEqKQW19HgD4e6J8y
+   6EyzMS1Ah7G3wXUuHwfnhMGMddjrntxixCS2loCVWvgPNVl88QubG2vLV
+   /Cg647H4fYb/IdLJP93rZN876CRraVPqKbop8YgcCpjIkCVTKLMV5uOMk
+   tMmWbYhlYvUz5JpWcXuEBZjWp9gPzW+Us1+Hj+UrktCIsC2+OjZZR+Tnk
+   A==;
+X-IronPort-AV: E=McAfee;i="6500,9779,10478"; a="362221576"
+X-IronPort-AV: E=Sophos;i="5.93,337,1654585200"; 
+   d="scan'208";a="362221576"
+Received: from orsmga003.jf.intel.com ([10.7.209.27])
+  by orsmga104.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 22 Sep 2022 13:08:14 -0700
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="5.93,337,1654585200"; 
+   d="scan'208";a="571117133"
+Received: from chang-linux-3.sc.intel.com ([172.25.66.173])
+  by orsmga003.jf.intel.com with ESMTP; 22 Sep 2022 13:08:13 -0700
+From:   "Chang S. Bae" <chang.seok.bae@intel.com>
+To:     x86@kernel.org, tglx@linutronix.de, mingo@redhat.com, bp@alien8.de,
+        dave.hansen@linux.intel.com
+Cc:     hpa@zytor.com, corbet@lwn.net, bagasdotme@gmail.com,
+        tony.luck@intel.com, yang.zhong@intel.com,
+        linux-doc@vger.kernel.org, linux-man@vger.kernel.org,
+        linux-kernel@vger.kernel.org, chang.seok.bae@intel.com
+Subject: [PATCH v5 1/4] Documentation/x86: Explain the purpose for dynamic features
+Date:   Thu, 22 Sep 2022 12:58:07 -0700
+Message-Id: <20220922195810.23248-2-chang.seok.bae@intel.com>
+X-Mailer: git-send-email 2.17.1
+In-Reply-To: <20220922195810.23248-1-chang.seok.bae@intel.com>
+References: <20220922195810.23248-1-chang.seok.bae@intel.com>
 Precedence: bulk
 List-ID: <linux-man.vger.kernel.org>
 X-Mailing-List: linux-man@vger.kernel.org
 
-On Thu, 2022-09-22 at 07:41 +1000, Dave Chinner wrote:
-> On Wed, Sep 21, 2022 at 06:33:28AM -0400, Jeff Layton wrote:
-> > On Wed, 2022-09-21 at 10:00 +1000, Dave Chinner wrote:
-> > > > How do we determine what that offset should be? Your last email
-> > > > suggested that there really is no limit to the number of i_version =
-bumps
-> > > > that can happen in memory before one of them makes it to disk. What=
- can
-> > > > we do to address that?
-> > >=20
-> > > <shrug>
-> > >=20
-> > > I'm just pointing out problems I see when defining this as behaviour
-> > > for on-disk format purposes. If we define it as part of the on-disk
-> > > format, then we have to be concerned about how it may be used
-> > > outside the scope of just the NFS server application.=20
-> > >=20
-> > > However, If NFS keeps this metadata and functionaly entirely
-> > > contained at the application level via xattrs, I really don't care
-> > > what algorithm NFS developers decides to use for their crash
-> > > sequencing. It's not my concern at this point, and that's precisely
-> > > why NFS should be using xattrs for this NFS specific functionality.
-> > >=20
-> >=20
-> > I get it: you'd rather not have to deal with what you see as an NFS
-> > problem, but I don't get how what you're proposing solves anything. We
-> > might be able to use that scheme to detect crashes, but that's only par=
-t
-> > of the problem (and it's a relatively simple part of the problem to
-> > solve, really).
-> >=20
-> > Maybe you can clarify it for me:
-> >=20
-> > Suppose we go with what you're saying and store some information in
-> > xattrs that allows us to detect crashes in some fashion. The server
-> > crashes and comes back up and we detect that there was a crash earlier.
-> >=20
-> > What does nfsd need to do now to ensure that it doesn't hand out a
-> > duplicate change attribute?=20
->=20
-> As I've already stated, the NFS server can hold the persistent NFS
-> crash counter value in a second xattr that it bumps whenever it
-> detects a crash and hence we take the local filesystem completely
-> out of the equation.  How the crash counter is then used by the nfsd
-> to fold it into the NFS protocol change attribute is a nfsd problem,
-> not a local filesystem problem.
->=20
+This summary will help to guide the proper use of the enabling model.
 
-Ok, assuming you mean put this in an xattr that lives at the root of the
-export? We only need this for IS_I_VERSION filesystems (btrfs, xfs, and
-ext4), and they all support xattrs so this scheme should work.
+Signed-off-by: Chang S. Bae <chang.seok.bae@intel.com>
+Reviewed-by: Tony Luck <tony.luck@intel.com>
+Cc: x86@kernel.org
+Cc: linux-kernel@vger.kernel.org
+Cc: linux-doc@vger.kernel.org
+---
+Changes from v4:
+* Re-write about the sigaltstack sizing (Dave Hansen).
+* Drop the second point as the case is not clear yet.
 
-> If you're worried about maximum number of writes outstanding vs
-> i_version bumps that are held in memory, then *bound the maximum
-> number of uncommitted i_version changes that the NFS server will
-> allow to build up in memory*. By moving the crash counter to being a
-> NFS server only function, the NFS server controls the entire
-> algorithm and it doesn't have to care about external 3rd party
-> considerations like local filesystems have to.
->=20
+Changes from v3:
+* Add as a new patch (Tony Luck).
+---
+ Documentation/x86/xstate.rst | 16 ++++++++++++++++
+ 1 file changed, 16 insertions(+)
 
-Yeah, this is the bigger consideration.
+diff --git a/Documentation/x86/xstate.rst b/Documentation/x86/xstate.rst
+index 5cec7fb558d6..e954e79af4ce 100644
+--- a/Documentation/x86/xstate.rst
++++ b/Documentation/x86/xstate.rst
+@@ -11,6 +11,22 @@ are enabled by XCR0 as well, but the first use of related instruction is
+ trapped by the kernel because by default the required large XSTATE buffers
+ are not allocated automatically.
+ 
++The purpose for dynamic features
++--------------------------------
++
++Legacy userspace libraries often have hard-coded, static sizes for
++alternate signal stacks, often using MINSIGSTKSZ which is typically 2KB.
++That stack must be able to store at *least* the signal frame that the
++kernel sets up before jumping into the signal handler. That signal frame
++must include an XSAVE buffer defined by the CPU.
++
++However, that means that the size of signal stacks is dynamic, not static,
++because different CPUs have differently-sized XSAVE buffers. A compiled-in
++size of 2KB with existing applications is too small for new CPU features
++like AMX. Instead of universally requiring larger stack, with the dynamic
++enabling, the kernel can enforce userspace applications to have
++properly-sized altstacks.
++
+ Using dynamically enabled XSTATE features in user space applications
+ --------------------------------------------------------------------
+ 
+-- 
+2.17.1
 
-> e.g. The NFS server can track the i_version values when the NFSD
-> syncs/commits a given inode. The nfsd can sample i_version it when
-> calls ->commit_metadata or flushed data on the inode, and then when
-> it peeks at i_version when gathering post-op attrs (or any other
-> getattr op) it can decide that there is too much in-memory change
-> (e.g. 10,000 counts since last sync) and sync the inode.
->=20
-> i.e. the NFS server can trivially cap the maximum number of
-> uncommitted NFS change attr bumps it allows to build up in memory.
-> At that point, the NFS server has a bound "maximum write count" that
-> can be used in conjunction with the xattr based crash counter to
-> determine how the change_attr is bumped by the crash counter.
-
-Well, not "trivially". This is the bit where we have to grow struct
-inode (or the fs-specific inode), as we'll need to know what the latest
-on-disk value is for the inode.
-
-I'm leaning toward doing this on the query side. Basically, when nfsd
-goes to query the i_version, it'll check the delta between the current
-version and the latest one on disk. If it's bigger than X then we'd just
-return NFS4ERR_DELAY to the client.
-
-If the delta is >X/2, maybe it can kick off a workqueue job or something
-that calls write_inode with WB_SYNC_ALL to try to get the thing onto the
-platter ASAP.
---=20
-Jeff Layton <jlayton@kernel.org>
