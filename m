@@ -2,72 +2,107 @@ Return-Path: <linux-man-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id BB6BDC433FE
-	for <linux-man@archiver.kernel.org>; Tue, 11 Oct 2022 10:09:11 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id BFFA8C433FE
+	for <linux-man@archiver.kernel.org>; Tue, 11 Oct 2022 20:47:10 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S229635AbiJKKJK (ORCPT <rfc822;linux-man@archiver.kernel.org>);
-        Tue, 11 Oct 2022 06:09:10 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:35504 "EHLO
+        id S229540AbiJKUrK (ORCPT <rfc822;linux-man@archiver.kernel.org>);
+        Tue, 11 Oct 2022 16:47:10 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:40412 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S229630AbiJKKJK (ORCPT
-        <rfc822;linux-man@vger.kernel.org>); Tue, 11 Oct 2022 06:09:10 -0400
-X-Greylist: delayed 11989 seconds by postgrey-1.37 at lindbergh.monkeyblade.net; Tue, 11 Oct 2022 03:09:08 PDT
-Received: from 10.mo548.mail-out.ovh.net (10.mo548.mail-out.ovh.net [46.105.77.235])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 943A36745F
-        for <linux-man@vger.kernel.org>; Tue, 11 Oct 2022 03:09:08 -0700 (PDT)
-Received: from mxplan6.mail.ovh.net (unknown [10.109.138.227])
-        by mo548.mail-out.ovh.net (Postfix) with ESMTPS id 2C02D2250F;
-        Tue, 11 Oct 2022 06:31:28 +0000 (UTC)
-Received: from jwilk.net (37.59.142.103) by DAG4EX1.mxp6.local (172.16.2.31)
- with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id 15.1.2507.12; Tue, 11 Oct
- 2022 08:31:25 +0200
-Authentication-Results: garm.ovh; auth=pass (GARM-103G0059d2b53a2-fdf5-49b2-8982-5ea1f4770896,
-                    BFFA122BD8CA4C6E4E903379B22456E68B469BCA) smtp.auth=jwilk@jwilk.net
-X-OVh-ClientIp: 5.172.255.168
-From:   Jakub Wilk <jwilk@jwilk.net>
-To:     Michael Kerrisk <mtk.manpages@gmail.com>,
-        Alejandro Colomar <alx.manpages@gmail.com>
-CC:     <linux-man@vger.kernel.org>
-Subject: [PATCH] Changes: tfix
-Date:   Tue, 11 Oct 2022 08:31:18 +0200
-Message-ID: <20221011063118.4953-1-jwilk@jwilk.net>
-X-Mailer: git-send-email 2.37.2
+        with ESMTP id S229663AbiJKUrJ (ORCPT
+        <rfc822;linux-man@vger.kernel.org>); Tue, 11 Oct 2022 16:47:09 -0400
+Received: from mail-wr1-x432.google.com (mail-wr1-x432.google.com [IPv6:2a00:1450:4864:20::432])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 66DB47FE62
+        for <linux-man@vger.kernel.org>; Tue, 11 Oct 2022 13:47:08 -0700 (PDT)
+Received: by mail-wr1-x432.google.com with SMTP id b4so23407318wrs.1
+        for <linux-man@vger.kernel.org>; Tue, 11 Oct 2022 13:47:08 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20210112;
+        h=content-transfer-encoding:in-reply-to:references:cc:to
+         :content-language:subject:user-agent:mime-version:date:message-id
+         :from:from:to:cc:subject:date:message-id:reply-to;
+        bh=DY5el2sUZLQiBv1qNVSnZpYbI4S2HZnWMz6RcgnA2lE=;
+        b=MWY/ouGcoCnIgXLcPvze4ODHB1vzVqpyU62KEzk1nl242m7jBxuAMW5bZvjjoBiT+z
+         3qmYHd2Yyn28Fl7CkwOWQsEh4m/hjyXjhVgeZYORmDBU08pBiIcod4JHlvmUvZnfHIvs
+         Tq+czz5Lj3CKt+l9BcfaIgCw5Qg0BOzGFG5jZLB5XoNTPadZKWprfdBiWNL0WHYWVesN
+         HiJY3ktKCo8uRRpRSht7ICzuDuhFJMEvUcE4r8Y+p3/1JuDVAWT4ajFfuKRG+Nbx8ped
+         BZG4WBSUDTt3gZWP9pEBdY0LKAGF5lAMGXr3R/XDv50Vbgk37R4B8Y6I/b0vn4qBkByI
+         H5qw==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20210112;
+        h=content-transfer-encoding:in-reply-to:references:cc:to
+         :content-language:subject:user-agent:mime-version:date:message-id
+         :from:x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
+        bh=DY5el2sUZLQiBv1qNVSnZpYbI4S2HZnWMz6RcgnA2lE=;
+        b=4TuTS7xH96aTUfMrOUKVromOgAgvRWvK2nLzPzusRnfv+3DE1zhp/8bF085vzDrVZD
+         DWEz/61NUARu0atXYLh/zxc7y9iuz2B3qCKw3Jc4gnZxXS/Yv/65WMKv3f+GzkMGtTNx
+         tuN/sBTQOyZR1qyel5ZKrW1srJ+sWGMqb8wFiZ67m/KVsktkKBg8wP1Znj9ig1SOV7uI
+         9M3vjOr6Z2kpRvq/KUTfPG4i1xD+ltKJX/DMwfMN3MQUBkmC/63s7x0xRkPZ+l4PMWbC
+         4msTyHd2IXJX3FfZ6EVwzL9MtCONKZrvVv4l28TWNB0QDgYyHEAWeiDPjNbnnehx/+sN
+         NmgA==
+X-Gm-Message-State: ACrzQf05mBWKsEpVQkesHnA+GfMIvQ4KRekd1+TWF3wEyJ033qlGfAtL
+        zY6xnIiBAjgVGErD9ubpdlPbOGZBoc8=
+X-Google-Smtp-Source: AMsMyM4rgHBK6sxMP52QZrtlTd+/vOrDT8q17E9xxNYRqoI01iP25QA0A+Aut7iXZqQQWdAUPM5K1A==
+X-Received: by 2002:a5d:4f10:0:b0:231:1c7b:e42 with SMTP id c16-20020a5d4f10000000b002311c7b0e42mr5405825wru.568.1665521226822;
+        Tue, 11 Oct 2022 13:47:06 -0700 (PDT)
+Received: from [192.168.0.160] ([170.253.36.171])
+        by smtp.gmail.com with ESMTPSA id a3-20020a05600c224300b003b49bd61b19sm25772wmm.15.2022.10.11.13.47.05
+        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+        Tue, 11 Oct 2022 13:47:06 -0700 (PDT)
+From:   Alejandro Colomar <alx.manpages@gmail.com>
+X-Google-Original-From: Alejandro Colomar <alx@kernel.org>
+Message-ID: <7c567161-070d-5c5f-17c7-fd7fd5295493@kernel.org>
+Date:   Tue, 11 Oct 2022 22:47:05 +0200
 MIME-Version: 1.0
-Content-Transfer-Encoding: 7BIT
-Content-Type:   text/plain; charset=US-ASCII
-X-Originating-IP: [37.59.142.103]
-X-ClientProxiedBy: DAG7EX1.mxp6.local (172.16.2.61) To DAG4EX1.mxp6.local
- (172.16.2.31)
-X-Ovh-Tracer-GUID: 58c62c8f-6b62-4d86-8d98-f21f2bdce6ad
-X-Ovh-Tracer-Id: 990791921857386464
-X-VR-SPAMSTATE: OK
-X-VR-SPAMSCORE: 0
-X-VR-SPAMCAUSE: gggruggvucftvghtrhhoucdtuddrgedvfedrfeejhedguddtjecutefuodetggdotefrodftvfcurfhrohhfihhlvgemucfqggfjpdevjffgvefmvefgnecuuegrihhlohhuthemucehtddtnecunecujfgurhephffvvefufffkofgggfgtihesthekredtredttdenucfhrhhomheplfgrkhhusgcuhghilhhkuceojhifihhlkhesjhifihhlkhdrnhgvtheqnecuggftrfgrthhtvghrnhepfefhteffhfffheetudefvdefheffgfduleejheeiteeihfefffejveeljeevheeinecukfhppedtrddtrddtrddtpdefjedrheelrddugedvrddutdefnecuvehluhhsthgvrhfuihiivgeptdenucfrrghrrghmpehmohguvgepshhmthhpohhuthdphhgvlhhopehmgihplhgrnheirdhmrghilhdrohhvhhdrnhgvthdpihhnvghtpedtrddtrddtrddtpdhmrghilhhfrhhomhepjhifihhlkhesjhifihhlkhdrnhgvthdpnhgspghrtghpthhtohepuddprhgtphhtthhopehlihhnuhigqdhmrghnsehvghgvrhdrkhgvrhhnvghlrdhorhhgpdfovfetjfhoshhtpehmohehgeek
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
+ Thunderbird/102.3.2
+Subject: Re: [PATCH v2] fanotify_mark.2: Document FAN_MARK_IGNORE
+Content-Language: en-US
+To:     Amir Goldstein <amir73il@gmail.com>
+Cc:     Jan Kara <jack@suse.cz>, Matthew Bobrowski <repnop@google.com>,
+        linux-man@vger.kernel.org
+References: <20221007061328.1326041-1-amir73il@gmail.com>
+ <96aeae1d-ee98-4bc4-6e82-60f902bdcf96@gmail.com>
+ <CAOQ4uxgqdhMgYZT3-6q+_=P_9Y7no9FopQ9nq2acPhSuEss34Q@mail.gmail.com>
+ <46c4f13c-c043-8c65-3417-61a51c97d60b@gmail.com>
+In-Reply-To: <46c4f13c-c043-8c65-3417-61a51c97d60b@gmail.com>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 8bit
 Precedence: bulk
 List-ID: <linux-man.vger.kernel.org>
 X-Mailing-List: linux-man@vger.kernel.org
 
-The past participle of "spread" is just "spread".
+Hi Amir,
 
-Signed-off-by: Jakub Wilk <jwilk@jwilk.net>
----
- Changes | 2 +-
- 1 file changed, 1 insertion(+), 1 deletion(-)
+On 10/10/22 22:16, Alejandro Colomar wrote:
+> Hi Amir,
+> 
+> On 10/10/22 20:02, Amir Goldstein wrote:
+> 
+>>>> +.RB ( FAN_MARK_IGNORE | FAN_MARK_IGNORED_SURV_MODIFY ).
+>>>
+>>> I'm not sure if I'd format this as code (italics) right?,
+>>> rather than separate constant names.
+>>>
+>>> Please check the below paragraphs from man-pages(7),
+>>> and I'll leave the decission up to you.
+>>>
+>>
+>> I kind of like it the way it is, which is also consistent with similar
+>> constructs in fanotify_init.2.
+>>
+>> Would you like me to post v3 for the 2 minor formatting fixes?
+>> Or will you make them on commit?
+> 
+> I can amend it; don't worry.  Let me prepare the repo after the release, 
+> and I'll apply this patch.  If I don't in a few days, please ping me.
 
-diff --git a/Changes b/Changes
-index 4c53dcc68..0569022a2 100644
---- a/Changes
-+++ b/Changes
-@@ -318,7 +318,7 @@ Global changes
- - Man dirs:
- 
-   - Move definitions of types to separate pages in man2type/ and
--    man3type/.  Previously, they were spreaded (and duplicated) in other
-+    man3type/.  Previously, they were spread (and duplicated) in other
-     pages, or in system_data_types.7 (with links in man3/).
- 
-   - Add man3head/ for pages that document header files.
+Patch applied.
+
+Cheers,
+
+Alex
+
+
 -- 
-2.37.2
-
+<http://www.alejandro-colomar.es/>
