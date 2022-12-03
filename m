@@ -2,61 +2,61 @@ Return-Path: <linux-man-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 7443EC4332F
-	for <linux-man@archiver.kernel.org>; Sat,  3 Dec 2022 20:24:24 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id C033CC4332F
+	for <linux-man@archiver.kernel.org>; Sat,  3 Dec 2022 20:24:29 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S230022AbiLCUYX (ORCPT <rfc822;linux-man@archiver.kernel.org>);
-        Sat, 3 Dec 2022 15:24:23 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:37714 "EHLO
+        id S230049AbiLCUY2 (ORCPT <rfc822;linux-man@archiver.kernel.org>);
+        Sat, 3 Dec 2022 15:24:28 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:38622 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S229955AbiLCUXg (ORCPT
-        <rfc822;linux-man@vger.kernel.org>); Sat, 3 Dec 2022 15:23:36 -0500
-Received: from mail-wr1-x42e.google.com (mail-wr1-x42e.google.com [IPv6:2a00:1450:4864:20::42e])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 551011C11F;
+        with ESMTP id S229972AbiLCUXr (ORCPT
+        <rfc822;linux-man@vger.kernel.org>); Sat, 3 Dec 2022 15:23:47 -0500
+Received: from mail-wm1-x32b.google.com (mail-wm1-x32b.google.com [IPv6:2a00:1450:4864:20::32b])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id ADEF61DDF4;
         Sat,  3 Dec 2022 12:23:32 -0800 (PST)
-Received: by mail-wr1-x42e.google.com with SMTP id bx10so13017099wrb.0;
+Received: by mail-wm1-x32b.google.com with SMTP id n9-20020a05600c3b8900b003d0944dba41so2317873wms.4;
         Sat, 03 Dec 2022 12:23:32 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=gmail.com; s=20210112;
         h=content-transfer-encoding:mime-version:references:in-reply-to
          :message-id:date:subject:cc:to:from:from:to:cc:subject:date
          :message-id:reply-to;
-        bh=6X5cczScoJwWo6pYAorZfC4d9KAmYpNe0qZkfHI6UHw=;
-        b=N1tmC+PIkfwA6v4xls18IqWMxs/dkKG4/lyeL631AjouLTJ5Znq2fI6kLcXhzoLib9
-         RwvL7d5S6+yXh1bFKnlO5UVi5PbSMILiPnxY7g9QtkPB8EDF0EBY9+TX33ohESh5u9zl
-         G946fWmWz031hOJkI8gXWFRr/8iTL/h3PoDBCbqFPV5etorlNoJXaA/XfNABoezsaeX8
-         RC432Nl+2YKbYyK4FqYensSTXlvw7XUXFujyS2XsMKfamiphLYXZXMF9nM0TDEzkduu0
-         Q6Ioz8jG5FwXtJe6RipVmsSMYOC6oPsRgtGyVzkqMtvoLlexgySQu6O9s4z6NfMxT8ub
-         AJ/w==
+        bh=SOu2KhQpO+4qdvGsqITXVC4GbRJMLiqUjUwKx6g/DNs=;
+        b=YaHaE6vmidu2f7WF/O68oe11t7TkH8nu4GDd9ZcoGqym1TM1Bh2RuakwBaJLCh8dDw
+         Y+3a/xy9Ox1xnLD+hZ+puN9uwqPLdMzUPtr97+ZjoKwQpt5bFPhEAGaCaSuAKMojrEX5
+         sb5hkXV+Y0vn60/XIvg6JY6wrvxsDtKYQZKcgoipkDT5SwKCQoujk+7IlUUpWiAn6ODt
+         U9ITRtRHdDHcs7U4coVcRp7jA+Pz+fRgq2XZc5k+xLZCn9cW7mwuMSXrR40lFwiSXcBy
+         P30wPHtg/pqQvFg/EvlWhI9vIgbq6wVjGUcZhrhXnxVPlED295VDvQcVrICnZnUk8o2Z
+         AAJw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20210112;
         h=content-transfer-encoding:mime-version:references:in-reply-to
          :message-id:date:subject:cc:to:from:x-gm-message-state:from:to:cc
          :subject:date:message-id:reply-to;
-        bh=6X5cczScoJwWo6pYAorZfC4d9KAmYpNe0qZkfHI6UHw=;
-        b=02F0B5GsR/mwMDpZ1AvOj41dWC8l9lMwOvxFxL7XtOzuefiBtmeIynlqE4kLBY0eQM
-         kv3pB+TwctVco2zEn9wGeXO2fziTvWYn36SjvxzraGeFUZP8nCSlCJbha+wNOdTZ8XP1
-         Y/wNdYzAbLEGKWfrJwenuJSRrEssMqZeKTsbbLvOVI8596qhknXQ7suBzFQHLL5Nnl+M
-         y0G9C/2+Hs3yjj0yw+P8YghUA5tik6rBJBA9LcP2wGBxHq5sV1/Q6gegV89wVMnPyye2
-         eIJVMKOOu0svqm6EUmRqfXkqeOychs0KNaFz9IUMN8qGFTgzFI+AQbg6h2RZ3AdwX3hQ
-         mIoQ==
-X-Gm-Message-State: ANoB5pmdJmaYwQcF9Lb7hIMvNODqFkMa7IO9536dK8ouatF5mYPioAt7
-        vWA0dmDpFbObhTBn5AxKl6NngdX3Z7U=
-X-Google-Smtp-Source: AA0mqf46qKsvuHx6LGdHgSj+R8oIly1y6dU7R+T+jyo+nO0N0GpHV5h2TOz7POEb0zWbM9/8f94Vkw==
-X-Received: by 2002:adf:e2c3:0:b0:236:65f2:eade with SMTP id d3-20020adfe2c3000000b0023665f2eademr33753858wrj.608.1670099010776;
-        Sat, 03 Dec 2022 12:23:30 -0800 (PST)
+        bh=SOu2KhQpO+4qdvGsqITXVC4GbRJMLiqUjUwKx6g/DNs=;
+        b=mdRSV8EH0/u6BpBJu06h27HtjP6JjAZKU8Yxp/76aSjFAAzduxpgr5BIPiY/RdDsys
+         z7u0hQ5HGJ4dX4NBvBLBg8nxlYUtgRtIczVy3SCjZjctdvIi9ZUBf+1x9GT90/tg5vvM
+         7v/Sm5Ts075kyc95JxcYYP1sz9yqL7Bj+g/olQodgJQX7ZLmfEWRMar4vpuDLOkqt592
+         7A5oqR2jg/WR6dYaQcQxnr+j/25PEP/OJp+o7kmEpsZr2vRuD/k3yCPqKgvKjADrmhsa
+         npn6aqJ1fTTq3xvNZh0i74FO2XENmVMhzJFVDJk/5uU3ShunzYPEmx2o04hbq38jNRFg
+         D7SA==
+X-Gm-Message-State: ANoB5pllLF5dyRieJWWQ+NKfG5y/AazWGXQU0WFSHIc4CiFPcTqw8yja
+        myOh8baU4wtHJElzjrN7Q7Zjjv/euBc=
+X-Google-Smtp-Source: AA0mqf71GmwCzZyZF8+CPwuQZFaKoyBHVfEEor9+hoGMDKF8ieghrFtcK9WSUaPAeS6pC/mzj8H2DA==
+X-Received: by 2002:a05:600c:3ac9:b0:3cf:cfc8:9450 with SMTP id d9-20020a05600c3ac900b003cfcfc89450mr42085437wms.99.1670099012246;
+        Sat, 03 Dec 2022 12:23:32 -0800 (PST)
 Received: from asus5775.alejandro-colomar.es ([170.253.36.171])
-        by smtp.googlemail.com with ESMTPSA id p17-20020a5d68d1000000b002420cfcd13dsm10064481wrw.105.2022.12.03.12.23.30
+        by smtp.googlemail.com with ESMTPSA id p17-20020a5d68d1000000b002420cfcd13dsm10064481wrw.105.2022.12.03.12.23.31
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Sat, 03 Dec 2022 12:23:30 -0800 (PST)
+        Sat, 03 Dec 2022 12:23:31 -0800 (PST)
 From:   Alejandro Colomar <alx.manpages@gmail.com>
 X-Google-Original-From: Alejandro Colomar <alx@kernel.org>
 To:     linux-man@vger.kernel.org
 Cc:     Alejandro Colomar <alx@kernel.org>, libc-alpha@sourceware.org,
         linux-kernel@vger.kernel.org
-Subject: [PATCH 15/41] getrlimit.2: SYNOPSIS: Add _Nullable
-Date:   Sat,  3 Dec 2022 21:22:51 +0100
-Message-Id: <20221203202317.252789-16-alx@kernel.org>
+Subject: [PATCH 17/41] listxattr.2: SYNOPSIS: Add _Nullable
+Date:   Sat,  3 Dec 2022 21:22:53 +0100
+Message-Id: <20221203202317.252789-18-alx@kernel.org>
 X-Mailer: git-send-email 2.38.1
 In-Reply-To: <20221203202317.252789-1-alx@kernel.org>
 References: <20221203202317.252789-1-alx@kernel.org>
@@ -68,25 +68,28 @@ X-Mailing-List: linux-man@vger.kernel.org
 
 Signed-off-by: Alejandro Colomar <alx@kernel.org>
 ---
- man2/getrlimit.2 | 5 +++--
- 1 file changed, 3 insertions(+), 2 deletions(-)
+ man2/listxattr.2 | 6 +++---
+ 1 file changed, 3 insertions(+), 3 deletions(-)
 
-diff --git a/man2/getrlimit.2 b/man2/getrlimit.2
-index c27709e18..56003da49 100644
---- a/man2/getrlimit.2
-+++ b/man2/getrlimit.2
-@@ -54,8 +54,9 @@ .SH SYNOPSIS
- .BI "int getrlimit(int " resource ", struct rlimit *" rlim );
- .BI "int setrlimit(int " resource ", const struct rlimit *" rlim );
+diff --git a/man2/listxattr.2 b/man2/listxattr.2
+index 87b49ebb8..8ca1b7f58 100644
+--- a/man2/listxattr.2
++++ b/man2/listxattr.2
+@@ -14,11 +14,11 @@ .SH SYNOPSIS
+ .nf
+ .B #include <sys/xattr.h>
  .PP
--.BI "int prlimit(pid_t "  pid ", int " resource ", const struct rlimit *" new_limit ,
--.BI "            struct rlimit *" old_limit );
-+.BI "int prlimit(pid_t "  pid ", int " resource ,
-+.BI "            const struct rlimit *_Nullable " new_limit ,
-+.BI "            struct rlimit *_Nullable " old_limit );
+-.BI "ssize_t listxattr(const char *" path ", char *" list \
++.BI "ssize_t listxattr(const char *" path ", char *_Nullable " list \
+ ", size_t " size );
+-.BI "ssize_t llistxattr(const char *" path ", char *" list \
++.BI "ssize_t llistxattr(const char *" path ", char *_Nullable " list \
+ ", size_t " size );
+-.BI "ssize_t flistxattr(int " fd ", char *" list ", size_t " size );
++.BI "ssize_t flistxattr(int " fd ", char *_Nullable " list ", size_t " size );
  .fi
- .PP
- .RS -4
+ .SH DESCRIPTION
+ Extended attributes are
 -- 
 2.38.1
 
