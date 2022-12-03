@@ -2,61 +2,61 @@ Return-Path: <linux-man-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id BBD7FC47088
-	for <linux-man@archiver.kernel.org>; Sat,  3 Dec 2022 20:25:40 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 327C5C4332F
+	for <linux-man@archiver.kernel.org>; Sat,  3 Dec 2022 20:25:45 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S230025AbiLCUZi (ORCPT <rfc822;linux-man@archiver.kernel.org>);
-        Sat, 3 Dec 2022 15:25:38 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:37644 "EHLO
+        id S230211AbiLCUZm (ORCPT <rfc822;linux-man@archiver.kernel.org>);
+        Sat, 3 Dec 2022 15:25:42 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:38110 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S230029AbiLCUYt (ORCPT
+        with ESMTP id S230119AbiLCUYt (ORCPT
         <rfc822;linux-man@vger.kernel.org>); Sat, 3 Dec 2022 15:24:49 -0500
-Received: from mail-wm1-x334.google.com (mail-wm1-x334.google.com [IPv6:2a00:1450:4864:20::334])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 882B31F61B;
-        Sat,  3 Dec 2022 12:23:48 -0800 (PST)
-Received: by mail-wm1-x334.google.com with SMTP id m19so5926416wms.5;
-        Sat, 03 Dec 2022 12:23:48 -0800 (PST)
+Received: from mail-wm1-x332.google.com (mail-wm1-x332.google.com [IPv6:2a00:1450:4864:20::332])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 783F91F2DD;
+        Sat,  3 Dec 2022 12:23:49 -0800 (PST)
+Received: by mail-wm1-x332.google.com with SMTP id f13-20020a1cc90d000000b003d08c4cf679so3166964wmb.5;
+        Sat, 03 Dec 2022 12:23:49 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=gmail.com; s=20210112;
         h=content-transfer-encoding:mime-version:references:in-reply-to
          :message-id:date:subject:cc:to:from:from:to:cc:subject:date
          :message-id:reply-to;
-        bh=Ef04MEi04LrCEedSfKxL4rs7BnKpg4NBQUeuW6ejwXw=;
-        b=JQyn9CNxjpRMBk12aH9G4r5s26RmNeuAf+wpvblYFPSxc2Tkf4eKP6XGVwO8r9wJYa
-         OKZ1VmnCwpGfgbeqpOFEOB6s9tSrqdUuH6dqOxEPG/PkOU1Y6TYBOO53dOjuQSK8Ijzs
-         kaUkMdCFp7TMhQVOq9FReSchw88o06+jKWaUYJ0u6S2i2TjdEAfrFlocxcPe5OxHuHCx
-         tMI59lRuRBAzh2lGmR9PbPfRk+hfdxRk8BaNakYhQlMg918GkwxWfIV9o66IpI4RIzAb
-         sYIZFkywewxTUOJnyBNuZpCh4VTk6Neb0UQ+C5t6etDVS8WaO7KEy0cGLYFMagmGgdwR
-         wy8Q==
+        bh=OzCQj1vYc0rQAUR5/LjGiTVeqqPjnOYMVn62iD1gcN4=;
+        b=EBfCfVeGhoWgCzR06lLE45xF+nZBVFbCxWwNYJiEmaxBSa84G9E7L8F9EqmwiEn0qh
+         mBuDFAyxnvGffU/TEO9w6NIq6v7Xn8CdPwP1JE1Lx974QYSN2VCGSukZUhIn6n/7pRSe
+         0MWTxvWNkO77wIMzfSghwoQtmdMkH933kIaOWJaRHyjs+ZyXTU7ypAjeJgW+Rc/pDXOT
+         TJs6JvTf1pemWav4ieLMTBO06caXZAJPomESs+vzG8ONSwo26UcWdEn2F8yCP5qCoCZX
+         55ezTlqFQS1paX6Ay/+GPig3Si/Meg07N1RoflnhzdIATLoil/WEyU9GmIOTnK/oGBI2
+         zwyA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20210112;
         h=content-transfer-encoding:mime-version:references:in-reply-to
          :message-id:date:subject:cc:to:from:x-gm-message-state:from:to:cc
          :subject:date:message-id:reply-to;
-        bh=Ef04MEi04LrCEedSfKxL4rs7BnKpg4NBQUeuW6ejwXw=;
-        b=pmYNC8SrYWmwEoEqvuQSaVldu2pfVO2T95DbtfhZu4V7zROuxjCCeu/CifgAfsxKM+
-         vQ6Tivh9IX7t4vlOhLFFtNT7ogbYlK/QCFKj3Fj7WiMNkdaIJYjLIOAhAlRiQDDEfB7V
-         15zalUQbJew6cj1gwYb1Q9ptGXVOtWvhm99L+z4HMOBRruhTiJK4ONZI1JCUCg8SI6XG
-         WbAv2qB2eZeomA7SIehH386zMUR9mOkJ7LuTesnbeRDeRKao6gMUKK/wuXZC3nHBLv8o
-         xn/Em++P98mZSQNQIIqn6a9fFYBynLSIYFgWEERJwJRh/PiyfsFg23RMpr7Xu4XQ/BoI
-         hwKQ==
-X-Gm-Message-State: ANoB5pnSiHIJzNGiE6Jq/jQZqX5ocT3loHPariEp9eHxvb2DRZYAsF41
-        wlNUR7XqI0EPDE0OhWcH11M8nRky8Vk=
-X-Google-Smtp-Source: AA0mqf5T2Wef18zNNcpwFtPGyN77AOhK9NeqSIC4ITPJWCkfiHYRiUVCLtjpjHcy8HBz7fT6crAc1Q==
-X-Received: by 2002:a05:600c:54c2:b0:3d0:734d:ed7 with SMTP id iw2-20020a05600c54c200b003d0734d0ed7mr12567985wmb.201.1670099022473;
-        Sat, 03 Dec 2022 12:23:42 -0800 (PST)
+        bh=OzCQj1vYc0rQAUR5/LjGiTVeqqPjnOYMVn62iD1gcN4=;
+        b=JvxpwmDQm7Yo1+Sm2gsI0V8Kyu802SjzCHlBHKxf3IGYKZmbDEDsTA8HfgBDhVDJr8
+         ojA32vfr2tsiizxNkWhtQ9Aj3tJ6Faa8cYkh3kmBpk1IqsVZdY6NHYQLSP5xHBpTZDp7
+         C9snfx6szxqbg2WHnXVwZEMvYeXStld0oniryTE9slXIHGlNEhz8t+4o9VIhYiOVWlfM
+         r9OQrQL6k5gXTHe5NZ+Ia17TZ8jvZQcSETfFTPPd09sZ1MKrbeM0XtmKORMb8RR82kBw
+         RmTXVIBfis890ntFc191DTDR94cORJqF/kkRSj9v7dXwNifhAoqvoGbjGYAgxY5JX9h8
+         rBXA==
+X-Gm-Message-State: ANoB5pmn22EZ9okdS/q4eBGcdL8OyiUnM82BnDBvsU1QyvZC3h/eVu94
+        eCu9taOWvwzCtxc6XRfxNfLJNeNiSjk=
+X-Google-Smtp-Source: AA0mqf6wQQsKz2AYWx37HRnvUF34hzV9OWNVQErVFjDEuPZrWwZJohINdfe8nMFh2ChyWj+wxmJihg==
+X-Received: by 2002:a05:600c:1d24:b0:3cf:6fd0:8168 with SMTP id l36-20020a05600c1d2400b003cf6fd08168mr41645317wms.206.1670099029096;
+        Sat, 03 Dec 2022 12:23:49 -0800 (PST)
 Received: from asus5775.alejandro-colomar.es ([170.253.36.171])
-        by smtp.googlemail.com with ESMTPSA id p17-20020a5d68d1000000b002420cfcd13dsm10064481wrw.105.2022.12.03.12.23.41
+        by smtp.googlemail.com with ESMTPSA id p17-20020a5d68d1000000b002420cfcd13dsm10064481wrw.105.2022.12.03.12.23.48
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Sat, 03 Dec 2022 12:23:42 -0800 (PST)
+        Sat, 03 Dec 2022 12:23:48 -0800 (PST)
 From:   Alejandro Colomar <alx.manpages@gmail.com>
 X-Google-Original-From: Alejandro Colomar <alx@kernel.org>
 To:     linux-man@vger.kernel.org
 Cc:     Alejandro Colomar <alx@kernel.org>, libc-alpha@sourceware.org,
         linux-kernel@vger.kernel.org
-Subject: [PATCH 31/41] sigprocmask.2: SYNOPSIS: Add _Nullable
-Date:   Sat,  3 Dec 2022 21:23:07 +0100
-Message-Id: <20221203202317.252789-32-alx@kernel.org>
+Subject: [PATCH 40/41] wait.2: SYNOPSIS: Add _Nullable
+Date:   Sat,  3 Dec 2022 21:23:16 +0100
+Message-Id: <20221203202317.252789-41-alx@kernel.org>
 X-Mailer: git-send-email 2.38.1
 In-Reply-To: <20221203202317.252789-1-alx@kernel.org>
 References: <20221203202317.252789-1-alx@kernel.org>
@@ -68,44 +68,24 @@ X-Mailing-List: linux-man@vger.kernel.org
 
 Signed-off-by: Alejandro Colomar <alx@kernel.org>
 ---
- man2/sigprocmask.2 | 15 ++++++++-------
- 1 file changed, 8 insertions(+), 7 deletions(-)
+ man2/wait.2 | 4 ++--
+ 1 file changed, 2 insertions(+), 2 deletions(-)
 
-diff --git a/man2/sigprocmask.2 b/man2/sigprocmask.2
-index 6fa655fea..ae65e3400 100644
---- a/man2/sigprocmask.2
-+++ b/man2/sigprocmask.2
-@@ -17,22 +17,23 @@ .SH SYNOPSIS
- .PP
+diff --git a/man2/wait.2 b/man2/wait.2
+index 7f958ea71..6a5a1309f 100644
+--- a/man2/wait.2
++++ b/man2/wait.2
+@@ -36,8 +36,8 @@ .SH SYNOPSIS
  .nf
- /* Prototype for the glibc wrapper function */
--.BI "int sigprocmask(int " how ", const sigset_t *restrict " set ,
--.BI "                           sigset_t *restrict " oldset );
-+.BI "int sigprocmask(int " how ", const sigset_t *_Nullable restrict " set ,
-+.BI "                           sigset_t *_Nullable restrict " oldset );
+ .B #include <sys/wait.h>
  .PP
- .BR "#include <signal.h>" "           /* Definition of " SIG_* " constants */"
- .BR "#include <sys/syscall.h>" "      /* Definition of " SYS_* " constants */"
- .B #include <unistd.h>
+-.BI "pid_t wait(int *" "wstatus" );
+-.BI "pid_t waitpid(pid_t " pid ", int *" wstatus ", int " options );
++.BI "pid_t wait(int *_Nullable " "wstatus" );
++.BI "pid_t waitpid(pid_t " pid ", int *_Nullable " wstatus ", int " options );
  .PP
- /* Prototype for the underlying system call */
--.BI "int syscall(SYS_rt_sigprocmask, int " how ", const kernel_sigset_t *" set ,
--.BI "                           kernel_sigset_t *" oldset \
--", size_t " sigsetsize );
-+.BI "int syscall(SYS_rt_sigprocmask, int " how ,
-+.BI "                           const kernel_sigset_t *_Nullable " set ,
-+.BI "                           kernel_sigset_t *_Nullable " oldset ,
-+.BI "                           size_t " sigsetsize );
- .PP
- /* Prototype for the legacy system call */
- .BI "[[deprecated]] int syscall(SYS_sigprocmask, int " how ,
--.BI "                           const old_kernel_sigset_t *" set ,
--.BI "                           old_kernel_sigset_t *" oldset );
-+.BI "                           const old_kernel_sigset_t *_Nullable " set ,
-+.BI "                           old_kernel_sigset_t *_Nullable " oldset );
- .fi
- .PP
- .RS -4
+ .BI "int waitid(idtype_t " idtype ", id_t " id \
+ ", siginfo_t *" infop ", int " options );
 -- 
 2.38.1
 
