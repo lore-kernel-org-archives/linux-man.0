@@ -2,61 +2,61 @@ Return-Path: <linux-man-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 5304AC47088
-	for <linux-man@archiver.kernel.org>; Sat,  3 Dec 2022 20:23:39 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 84840C4332F
+	for <linux-man@archiver.kernel.org>; Sat,  3 Dec 2022 20:23:40 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S229886AbiLCUXh (ORCPT <rfc822;linux-man@archiver.kernel.org>);
-        Sat, 3 Dec 2022 15:23:37 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:37692 "EHLO
+        id S229928AbiLCUXj (ORCPT <rfc822;linux-man@archiver.kernel.org>);
+        Sat, 3 Dec 2022 15:23:39 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:37608 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S229907AbiLCUXb (ORCPT
+        with ESMTP id S229934AbiLCUXb (ORCPT
         <rfc822;linux-man@vger.kernel.org>); Sat, 3 Dec 2022 15:23:31 -0500
-Received: from mail-wm1-x32a.google.com (mail-wm1-x32a.google.com [IPv6:2a00:1450:4864:20::32a])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 20D171CB39;
-        Sat,  3 Dec 2022 12:23:28 -0800 (PST)
-Received: by mail-wm1-x32a.google.com with SMTP id m19so5926135wms.5;
-        Sat, 03 Dec 2022 12:23:28 -0800 (PST)
+Received: from mail-wr1-x42b.google.com (mail-wr1-x42b.google.com [IPv6:2a00:1450:4864:20::42b])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id AC6511D678;
+        Sat,  3 Dec 2022 12:23:29 -0800 (PST)
+Received: by mail-wr1-x42b.google.com with SMTP id u12so11988208wrr.11;
+        Sat, 03 Dec 2022 12:23:29 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=gmail.com; s=20210112;
         h=content-transfer-encoding:mime-version:references:in-reply-to
          :message-id:date:subject:cc:to:from:from:to:cc:subject:date
          :message-id:reply-to;
-        bh=Fo4PuuGlZjIDX8OoQNd/kpvQDjajBgbFeWG8xmSL+08=;
-        b=FrbiAGKdfGsKM3qMItwtI25tm19bClEHW151TD+x62x2qsyYe6k7a3QTrLeF8trbWG
-         0YeG7n54IGWV4NUQwxjAueHatxNcgbUck5iIID05Q+Jlz16S6M6xnzrVCozGyjVQNJD6
-         3zXkeTiOglFDbOoNxTn7/IwRPAo6FXfuihf248Pt2nBEfAs82s6Mu3gbvFpdXIa8CL0B
-         RftnQudlbODI22UIpC7sviHtneCF1WsWqxXxdVxrY61YJ3iE6/pb3yA9GdcWUsym3vFV
-         YSM89lpGtFXfd8PJ9hB6Rw1DEVb4lv6FnXOIN1cn7w65FVnXpbQqoo5CJ1zIGb5iADFO
-         kMOQ==
+        bh=/6SAPNlYy4/4oIAE/X/j8E6sMMy4fbSi3qHB2oPK8tQ=;
+        b=Sqy2f9Kw45B5LtVREcmFtXC6kgOLM9z/DKy9vepDUw0iUxVJiLKsT9adVNnceCqTQQ
+         SGdx/urpUwx95yxvhAH53tFmDc5C171SgOTLkKruPw5oe7anHVhBHft5foZZLRj/Es3m
+         Pzycwr7ynq7Hp6AWWTtygZHLWDgytB7W46CD1kdUxnZiHixc6kgOdHJYLpkxI3TgsDf+
+         huWR84ydXCG9gefI15SoPHagIj/oXYU8qiquyrMDlh6htLGmbr2U3lo3RmOZPVGrEXEO
+         wPHjo5OB4nAu2U55mDVtyxIiKDq4PPbhIdQQvtXeqmIPCdmbWcerNzPXoVW9ZSKj694B
+         3MnA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20210112;
         h=content-transfer-encoding:mime-version:references:in-reply-to
          :message-id:date:subject:cc:to:from:x-gm-message-state:from:to:cc
          :subject:date:message-id:reply-to;
-        bh=Fo4PuuGlZjIDX8OoQNd/kpvQDjajBgbFeWG8xmSL+08=;
-        b=bslMgDMT6iKgavYKNIrz8ef/QyCr/wTKo4YK5bHqFVR4OjbfISmX/QUn9rVElcz+H3
-         X9ylSmicBYmf8bCwYLGkN2SyIE/r1WAtx0If1PWYLIPp6NaDDQkHAEyHHttzNFAV1/+t
-         iNSbrvV+QpnkPXNOPnusHRXsxqPggjU+pHslZFeWnh/zm3NTozfee/YUXuzYl/V4P7nm
-         GCAArBxjdd36rRnFVnp3lhs7evTdCf7MZmeXr+w/WXFcnC1Ui1tMaMT2QxFdn94w7uhq
-         1RXb9D0cyiZgRnU/i+Pr81faMoCAY5e2hAsfkIbJ/MnOkt2nuqqZrpRYDr9g1lVJjFYU
-         c6yQ==
-X-Gm-Message-State: ANoB5plyRmWfuOejptk2k6jizhqTxvs5sPGN7c++ngKMMT17LDYUmZ3O
-        QQf3nDQdOVHJOHiu9cOBpPVl2o5ttjs=
-X-Google-Smtp-Source: AA0mqf7PkRs3Z+n277w1pTUu7avDUmySGqQpIRobVlwYGImpP/t5BAy+q1auUrr7sal2Uch6L4OITA==
-X-Received: by 2002:a05:600c:35c7:b0:3cf:7dc1:f432 with SMTP id r7-20020a05600c35c700b003cf7dc1f432mr57454379wmq.148.1670099006539;
-        Sat, 03 Dec 2022 12:23:26 -0800 (PST)
+        bh=/6SAPNlYy4/4oIAE/X/j8E6sMMy4fbSi3qHB2oPK8tQ=;
+        b=mztV/jtntleFSeGi8YD+sZuVjiHLoyqdFPB9ML0AzvITZEtHwdSBJDrn4IET7iSGNX
+         5Tgy5H+8Dli3DKFVstv1ZH2aYZE9n7rjpSUEN6buocRi2Byl6Qwo9wuG6790IZITTEHM
+         iMFja+Qt0qe9SBM6RTpXzrt3Ndlx3yRiUoe4csjOusFIfUabhblSzI+vAqa0ELSuXDRq
+         YGl1gMgFnzmUiA5uaMFYXPeflrwz41Sd9cQiDQwFsaCKn1Ygbv52eblTcUugVeEyxVz5
+         VQSgF6imbE4NGtIwO5CMH11tbQxql3goZkcdDPDse4ASMHx9hkASacfCi7QujIf4AmcC
+         EOLg==
+X-Gm-Message-State: ANoB5pm9BatI5qZ3UyGLqYzLUiPmoeYDTHqc/ST+aKSjYRxhpeIjvKuU
+        5n/KjEYMkAYZyqQ48Lxtf0IPnMYweP4=
+X-Google-Smtp-Source: AA0mqf6TucN44gqORc68LHwv0vYrNPbZYj+mlwER3DRefzVBV04j1lBdMRURqmcTesK+IHOmFcfmRg==
+X-Received: by 2002:adf:ff88:0:b0:242:4a32:900e with SMTP id j8-20020adfff88000000b002424a32900emr3807744wrr.129.1670099009334;
+        Sat, 03 Dec 2022 12:23:29 -0800 (PST)
 Received: from asus5775.alejandro-colomar.es ([170.253.36.171])
-        by smtp.googlemail.com with ESMTPSA id p17-20020a5d68d1000000b002420cfcd13dsm10064481wrw.105.2022.12.03.12.23.25
+        by smtp.googlemail.com with ESMTPSA id p17-20020a5d68d1000000b002420cfcd13dsm10064481wrw.105.2022.12.03.12.23.28
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Sat, 03 Dec 2022 12:23:26 -0800 (PST)
+        Sat, 03 Dec 2022 12:23:29 -0800 (PST)
 From:   Alejandro Colomar <alx.manpages@gmail.com>
 X-Google-Original-From: Alejandro Colomar <alx@kernel.org>
 To:     linux-man@vger.kernel.org
 Cc:     Alejandro Colomar <alx@kernel.org>, libc-alpha@sourceware.org,
         linux-kernel@vger.kernel.org
-Subject: [PATCH 09/41] execve.2: SYNOPSIS: Add _Nullable
-Date:   Sat,  3 Dec 2022 21:22:45 +0100
-Message-Id: <20221203202317.252789-10-alx@kernel.org>
+Subject: [PATCH 13/41] getgroups.2: SYNOPSIS: Add _Nullable
+Date:   Sat,  3 Dec 2022 21:22:49 +0100
+Message-Id: <20221203202317.252789-14-alx@kernel.org>
 X-Mailer: git-send-email 2.38.1
 In-Reply-To: <20221203202317.252789-1-alx@kernel.org>
 References: <20221203202317.252789-1-alx@kernel.org>
@@ -68,24 +68,22 @@ X-Mailing-List: linux-man@vger.kernel.org
 
 Signed-off-by: Alejandro Colomar <alx@kernel.org>
 ---
- man2/execve.2 | 4 ++--
- 1 file changed, 2 insertions(+), 2 deletions(-)
+ man2/getgroups.2 | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
 
-diff --git a/man2/execve.2 b/man2/execve.2
-index 54c2d0040..35eba65f1 100644
---- a/man2/execve.2
-+++ b/man2/execve.2
-@@ -24,8 +24,8 @@ .SH SYNOPSIS
- .nf
- .B #include <unistd.h>
+diff --git a/man2/getgroups.2 b/man2/getgroups.2
+index 7ec9e5a68..f0687018d 100644
+--- a/man2/getgroups.2
++++ b/man2/getgroups.2
+@@ -23,7 +23,7 @@ .SH SYNOPSIS
  .PP
--.BI "int execve(const char *" pathname ", char *const " argv [],
--.BI "           char *const " envp []);
-+.BI "int execve(const char *" pathname ", char *const _Nullable " argv [],
-+.BI "           char *const _Nullable " envp []);
+ .B #include <grp.h>
+ .PP
+-.BI "int setgroups(size_t " size ", const gid_t *" list );
++.BI "int setgroups(size_t " size ", const gid_t *_Nullable " list );
  .fi
- .SH DESCRIPTION
- .BR execve ()
+ .PP
+ .RS -4
 -- 
 2.38.1
 
