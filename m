@@ -2,61 +2,61 @@ Return-Path: <linux-man-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 4EA29C47089
-	for <linux-man@archiver.kernel.org>; Sat,  3 Dec 2022 20:23:34 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 32734C352A1
+	for <linux-man@archiver.kernel.org>; Sat,  3 Dec 2022 20:23:38 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S229835AbiLCUXc (ORCPT <rfc822;linux-man@archiver.kernel.org>);
-        Sat, 3 Dec 2022 15:23:32 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:37606 "EHLO
+        id S229946AbiLCUXf (ORCPT <rfc822;linux-man@archiver.kernel.org>);
+        Sat, 3 Dec 2022 15:23:35 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:37684 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S229916AbiLCUXa (ORCPT
-        <rfc822;linux-man@vger.kernel.org>); Sat, 3 Dec 2022 15:23:30 -0500
-Received: from mail-wr1-x42b.google.com (mail-wr1-x42b.google.com [IPv6:2a00:1450:4864:20::42b])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 8F1CD1B9CC;
-        Sat,  3 Dec 2022 12:23:26 -0800 (PST)
-Received: by mail-wr1-x42b.google.com with SMTP id u12so11988061wrr.11;
-        Sat, 03 Dec 2022 12:23:26 -0800 (PST)
+        with ESMTP id S229925AbiLCUXb (ORCPT
+        <rfc822;linux-man@vger.kernel.org>); Sat, 3 Dec 2022 15:23:31 -0500
+Received: from mail-wr1-x436.google.com (mail-wr1-x436.google.com [IPv6:2a00:1450:4864:20::436])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 954401C920;
+        Sat,  3 Dec 2022 12:23:27 -0800 (PST)
+Received: by mail-wr1-x436.google.com with SMTP id h11so12906617wrw.13;
+        Sat, 03 Dec 2022 12:23:27 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=gmail.com; s=20210112;
         h=content-transfer-encoding:mime-version:references:in-reply-to
          :message-id:date:subject:cc:to:from:from:to:cc:subject:date
          :message-id:reply-to;
-        bh=HcOzxfVUIjeAxulrAa+VJqksZIEwezSj0SGLfMAddjU=;
-        b=HiOFmBBDt+26syw96lnG8oiLKaVxmzLoMp+QQ0WhvPaJzNse7bWBfZJfzuGOQt3V2K
-         vM2UFKVxO2dcWH1R6EqjNSxRD/fxjeAokD5A271XVAIDpUNSvEwTJpJ5lO/MLASqfOwJ
-         ZwaHfOybIx0vSVhf783tJwBChRBAr7O1tQOOhjh6jnh4SVkxuSNv8vJiI8rqzC308n1B
-         N3C5o9S4QE7E+FcPPY6V6cJcp9lTcKw0Dm3HT2BsrbL2zgPZozKwz3LoaLtIDKO19UaI
-         uZObTUT1Wo6mKj4C8y+3H+v2pd7wRlOKmliiN65SadzuMgufF8Uu1iOok0L0lwiQR8y7
-         rv9w==
+        bh=ghWwaWEuIAMENFFedwgVxMdBiogHqtj6RpZQ1NkhhcM=;
+        b=SMuvd9hcr+KuaJmMxpqyhLm493I/C3+kn1kYlRuGhOzRsf6R+8x+ckBoe2Rdb5g0Ti
+         JRb0+UQwT8KdTxocNZjcW1dwsUETcP5YCHRqr80tBdPjXDKx5Ys6Q94Ey82inmNjU8er
+         +2U8Jjyatd8c31QS4+myXf1VlGnZ2ljQRaW5E2ih0T5CDFoWZZlRUVeqyBUozk+93AeC
+         G4pSpmTj88kUcW8oWD5BdE2Om1STldLTEWWi6MIDfoluNl+nHYaFZD6KUquLyOJCfgG4
+         wvLsZ6caHRHnRxNZKUwUxwLb0d2WjMwmJIZF6AZsRYs+0VLYdmsh8mZEXfhtkKENqH55
+         brsg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20210112;
         h=content-transfer-encoding:mime-version:references:in-reply-to
          :message-id:date:subject:cc:to:from:x-gm-message-state:from:to:cc
          :subject:date:message-id:reply-to;
-        bh=HcOzxfVUIjeAxulrAa+VJqksZIEwezSj0SGLfMAddjU=;
-        b=NFldRKtoFNwGVrJezb9e109geCj2+lYXulvKBmUlun1KnXbMi4nvTm0BeisnzmBPRP
-         +Dhb3pS85YSHVu4a+toD8mwnVvOJaWQiQI2YZNRdzgyRVwFuW2ZMFiLiZRfc7x50cAis
-         1rMraIJN778oqQvn6KTynkJZwndSrEMIRi6Ky1ch7XYfCm7YdrEN/1PGUqD0FbjWv6wb
-         RMRiQtAT7Xd3vdarLiAuACZbyZqiI2uRUdI/HaLCHH0z4xHvRLHJdHOL+eR/yFTWSq8M
-         YsA5cy1QSb/PeddLXsmB83GrLn9xBZU0IsqioeLM5n1JOn6u5ykcO0HDaeC4L3PwtzQM
-         S5dA==
-X-Gm-Message-State: ANoB5pmJ2l+mEqNdRv35py+MnSnxW8Evq8lgBw6WnWncy6rfGnz3pFZu
-        1bZFq4XJR3ZVXNKUygf+KMlx8jdpi9Y=
-X-Google-Smtp-Source: AA0mqf4b14teh/jGSyfDuyFFtmw4lP4i0JI3nvvgbNHHuPgPaNVfspLA7mWF3A4R9WKsLqiMjuZtfA==
-X-Received: by 2002:adf:f182:0:b0:241:d820:8996 with SMTP id h2-20020adff182000000b00241d8208996mr37274937wro.562.1670099005145;
-        Sat, 03 Dec 2022 12:23:25 -0800 (PST)
+        bh=ghWwaWEuIAMENFFedwgVxMdBiogHqtj6RpZQ1NkhhcM=;
+        b=mpDJBaDfGe461oLlLFhGYiUAmL9uDVyuH2ABWACBykNN47Dr+cTtjx8oQaNbEM1KRw
+         jAZ00CrkXIYBdv5jJDImKkcuk8xUb2GXKlJYOIrPsE5H4hSf6yPiugyGjYhNkFkhTk94
+         tsNl1FMHoxcvMtJHHag/1yB23P3LcMD2lg9o1NkgKS2KeGDB7bjWokaRRIOp3IItLTNG
+         frQSVndjzYPPIUKIq73lQkD5XF3Xk86UeSPDQmpN92u+xpyX5QJkd30ousS3KxilhRz6
+         ygy3u/Q+SscMk0fgLdD/CPiZMM4W5OWCI7PNZOpdXtpxmkTqsc/1nnp/SuSK1k0erSj7
+         Hz+A==
+X-Gm-Message-State: ANoB5pmhzSsQzxnJ8Yj2xW0bPM4Mr/OGOmoqx47I5qDAPOvyyRcIcJVw
+        wJmHxdLfMmemIF8aZ4pxr5+m+EKRhxE=
+X-Google-Smtp-Source: AA0mqf7srF+OBwrTBV2ZVRrKfVP251JIku/9QiQ2H1atkE1U23g7lfD2vlppCDn80sHzdB0QHaIJIw==
+X-Received: by 2002:a5d:63d1:0:b0:242:1d01:16fd with SMTP id c17-20020a5d63d1000000b002421d0116fdmr16396345wrw.682.1670099007224;
+        Sat, 03 Dec 2022 12:23:27 -0800 (PST)
 Received: from asus5775.alejandro-colomar.es ([170.253.36.171])
-        by smtp.googlemail.com with ESMTPSA id p17-20020a5d68d1000000b002420cfcd13dsm10064481wrw.105.2022.12.03.12.23.24
+        by smtp.googlemail.com with ESMTPSA id p17-20020a5d68d1000000b002420cfcd13dsm10064481wrw.105.2022.12.03.12.23.26
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Sat, 03 Dec 2022 12:23:24 -0800 (PST)
+        Sat, 03 Dec 2022 12:23:26 -0800 (PST)
 From:   Alejandro Colomar <alx.manpages@gmail.com>
 X-Google-Original-From: Alejandro Colomar <alx@kernel.org>
 To:     linux-man@vger.kernel.org
 Cc:     Alejandro Colomar <alx@kernel.org>, libc-alpha@sourceware.org,
         linux-kernel@vger.kernel.org
-Subject: [PATCH 07/41] epoll_ctl.2: SYNOPSIS: Add _Nullable
-Date:   Sat,  3 Dec 2022 21:22:43 +0100
-Message-Id: <20221203202317.252789-8-alx@kernel.org>
+Subject: [PATCH 10/41] execveat.2: SYNOPSIS: Add _Nullable
+Date:   Sat,  3 Dec 2022 21:22:46 +0100
+Message-Id: <20221203202317.252789-11-alx@kernel.org>
 X-Mailer: git-send-email 2.38.1
 In-Reply-To: <20221203202317.252789-1-alx@kernel.org>
 References: <20221203202317.252789-1-alx@kernel.org>
@@ -68,22 +68,23 @@ X-Mailing-List: linux-man@vger.kernel.org
 
 Signed-off-by: Alejandro Colomar <alx@kernel.org>
 ---
- man2/epoll_ctl.2 | 2 +-
- 1 file changed, 1 insertion(+), 1 deletion(-)
+ man2/execveat.2 | 3 ++-
+ 1 file changed, 2 insertions(+), 1 deletion(-)
 
-diff --git a/man2/epoll_ctl.2 b/man2/epoll_ctl.2
-index 4da081159..dbe6c0bb2 100644
---- a/man2/epoll_ctl.2
-+++ b/man2/epoll_ctl.2
-@@ -15,7 +15,7 @@ .SH SYNOPSIS
- .B #include <sys/epoll.h>
+diff --git a/man2/execveat.2 b/man2/execveat.2
+index c54d30996..b8c3be237 100644
+--- a/man2/execveat.2
++++ b/man2/execveat.2
+@@ -15,7 +15,8 @@ .SH SYNOPSIS
+ .B #include <unistd.h>
  .PP
- .BI "int epoll_ctl(int " epfd ", int " op ", int " fd \
--", struct epoll_event *" event );
-+", struct epoll_event *_Nullable " event );
+ .BI "int execveat(int " dirfd ", const char *" pathname ,
+-.BI "             const char *const " argv "[], const char *const " envp [],
++.BI "             const char *const _Nullable " argv [],
++.BI "             const char *const _Nullable " envp [],
+ .BI "             int " flags );
  .fi
  .SH DESCRIPTION
- This system call is used to add, modify, or remove
 -- 
 2.38.1
 
