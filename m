@@ -2,28 +2,28 @@ Return-Path: <linux-man-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 44F91C3A5A7
+	by smtp.lore.kernel.org (Postfix) with ESMTP id A3DC6C47090
 	for <linux-man@archiver.kernel.org>; Sun,  4 Dec 2022 09:07:38 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S229997AbiLDJHh (ORCPT <rfc822;linux-man@archiver.kernel.org>);
+        id S230086AbiLDJHh (ORCPT <rfc822;linux-man@archiver.kernel.org>);
         Sun, 4 Dec 2022 04:07:37 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:33514 "EHLO
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:33782 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S230021AbiLDJH2 (ORCPT
-        <rfc822;linux-man@vger.kernel.org>); Sun, 4 Dec 2022 04:07:28 -0500
+        with ESMTP id S230070AbiLDJH3 (ORCPT
+        <rfc822;linux-man@vger.kernel.org>); Sun, 4 Dec 2022 04:07:29 -0500
 Received: from static.213-239-213-133.clients.your-server.de (luckmann.name [213.239.213.133])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id A4EB218B02
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 5BAFD17071
         for <linux-man@vger.kernel.org>; Sun,  4 Dec 2022 01:07:27 -0800 (PST)
 Received: from localhost (localhost [127.0.0.1])
   (uid 502)
   by static.213-239-213-133.clients.your-server.de with local
-  id 0000000000E541D0.00000000638C6349.0000042D; Sun, 04 Dec 2022 10:07:21 +0100
-Date:   Sun, 4 Dec 2022 10:07:21 +0100
+  id 0000000000E541D4.00000000638C634A.00000463; Sun, 04 Dec 2022 10:07:22 +0100
+Date:   Sun, 4 Dec 2022 10:07:22 +0100
 From:   Helge Kreutzmann <debian@helgefjell.de>
 To:     alx.manpages@gmail.com
 Cc:     mario.blaettermann@gmail.com, linux-man@vger.kernel.org
-Subject: Issue in man page user_namespaces.7
-Message-ID: <20221204090721.GA1054@Debian-50-lenny-64-minimal>
+Subject: Issue in man page wavelan.4
+Message-ID: <20221204090722.GA1108@Debian-50-lenny-64-minimal>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=utf-8
 Content-Disposition: inline
@@ -37,6 +37,7 @@ X-Mailing-List: linux-man@vger.kernel.org
 
 Without further ado, the following was found:
 
-Issue:    /proc/[pid]/setgroups → I</proc/[PID]/setgroups>
+Issue:    enable to disable → enable or disable
 
-"The /proc/[pid]/setgroups file"
+"Some of the mentioned features are optional.  You may enable to disable them "
+"by changing flags in the driver header and recompile."
