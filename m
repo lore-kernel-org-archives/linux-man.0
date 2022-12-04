@@ -2,28 +2,28 @@ Return-Path: <linux-man-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id BB4C6C3A5A7
-	for <linux-man@archiver.kernel.org>; Sun,  4 Dec 2022 09:07:25 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id A25ACC636F8
+	for <linux-man@archiver.kernel.org>; Sun,  4 Dec 2022 09:07:26 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S229919AbiLDJHY (ORCPT <rfc822;linux-man@archiver.kernel.org>);
-        Sun, 4 Dec 2022 04:07:24 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:33514 "EHLO
+        id S229861AbiLDJH0 (ORCPT <rfc822;linux-man@archiver.kernel.org>);
+        Sun, 4 Dec 2022 04:07:26 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:33550 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S230001AbiLDJHT (ORCPT
-        <rfc822;linux-man@vger.kernel.org>); Sun, 4 Dec 2022 04:07:19 -0500
+        with ESMTP id S230039AbiLDJHV (ORCPT
+        <rfc822;linux-man@vger.kernel.org>); Sun, 4 Dec 2022 04:07:21 -0500
 Received: from static.213-239-213-133.clients.your-server.de (luckmann.name [213.239.213.133])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 29ACF17072
-        for <linux-man@vger.kernel.org>; Sun,  4 Dec 2022 01:07:18 -0800 (PST)
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id E433417063
+        for <linux-man@vger.kernel.org>; Sun,  4 Dec 2022 01:07:20 -0800 (PST)
 Received: from localhost (localhost [127.0.0.1])
   (uid 502)
   by static.213-239-213-133.clients.your-server.de with local
-  id 0000000000E540C6.00000000638C6342.00000271; Sun, 04 Dec 2022 10:07:14 +0100
-Date:   Sun, 4 Dec 2022 10:07:14 +0100
+  id 0000000000E540D5.00000000638C6343.000002BB; Sun, 04 Dec 2022 10:07:15 +0100
+Date:   Sun, 4 Dec 2022 10:07:15 +0100
 From:   Helge Kreutzmann <debian@helgefjell.de>
 To:     alx.manpages@gmail.com
 Cc:     mario.blaettermann@gmail.com, linux-man@vger.kernel.org
-Subject: Issue in man page ascii.7
-Message-ID: <20221204090714.GA610@Debian-50-lenny-64-minimal>
+Subject: Issue in man page proc.5
+Message-ID: <20221204090715.GA682@Debian-50-lenny-64-minimal>
 Mime-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Transfer-Encoding: 7bit
@@ -37,23 +37,9 @@ X-Mailing-List: linux-man@vger.kernel.org
 
 Without further ado, the following was found:
 
-Issue:    In the right table, please add \& markup for end of sentence characters (? ! .) to get proper formatting in other locales. Thanks!
+Issue:    Has more fields in Linux 6.0.11
 
-"   2 3 4 5 6 7       30 40 50 60 70 80 90 100 110 120\n"
-" -------------      ---------------------------------\n"
-"0:   0 @ P \\` p     0:    (  2  E<lt>  F  P  Z  d   n   x\n"
-"1: ! 1 A Q a q     1:    )  3  =  G  Q  [  e   o   y\n"
-"2: \" 2 B R b r     2:    *  4  E<gt>  H  R  \\e  f   p   z\n"
-"3: # 3 C S c s     3: !  +  5  ?  I  S  ]  g   q   {\n"
-"4: $ 4 D T d t     4: \"  ,  6  @  J  T  \\(ha  h   r   |\n"
-"5: % 5 E U e u     5: #  -  7  A  K  U  _  i   s   }\n"
-"6: & 6 F V f v     6: $  .  8  B  L  V  \\`  j   t   \\(ti\n"
-"7: \\(aq 7 G W g w     7: %  /  9  C  M  W  a  k   u  DEL\n"
-"8: ( 8 H X h x     8: &  0  :  D  N  X  b  l   v\n"
-"9: ) 9 I Y i y     9: \\(aq  1  ;  E  O  Y  c  m   w\n"
-"A: * : J Z j z\n"
-"B: + ; K [ k {\n"
-"C: , E<lt> L \\e l |\n"
-"D: - = M ] m }\n"
-"E: . E<gt> N \\(ha n \\(ti\n"
-"F: / ? O _ o DEL\n"
+"sl  local_address rem_address   st tx_queue rx_queue tr rexmits  tm-E<gt>when uid\n"
+" 1: 01642C89:0201 0C642C89:03FF 01 00000000:00000001 01:000071BA 00000000 0\n"
+" 1: 00000000:0801 00000000:0000 0A 00000000:00000000 00:00000000 6F000100 0\n"
+" 1: 00000000:0201 00000000:0000 0A 00000000:00000000 00:00000000 00000000 0\n"
