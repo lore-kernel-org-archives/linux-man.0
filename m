@@ -2,122 +2,157 @@ Return-Path: <linux-man-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 4A105C4332F
-	for <linux-man@archiver.kernel.org>; Sun,  4 Dec 2022 23:19:28 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id AC00DC4332F
+	for <linux-man@archiver.kernel.org>; Sun,  4 Dec 2022 23:28:29 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S230385AbiLDXT1 (ORCPT <rfc822;linux-man@archiver.kernel.org>);
-        Sun, 4 Dec 2022 18:19:27 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:46626 "EHLO
+        id S230233AbiLDX22 (ORCPT <rfc822;linux-man@archiver.kernel.org>);
+        Sun, 4 Dec 2022 18:28:28 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:49948 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S229954AbiLDXT0 (ORCPT
-        <rfc822;linux-man@vger.kernel.org>); Sun, 4 Dec 2022 18:19:26 -0500
-X-Greylist: delayed 596 seconds by postgrey-1.37 at lindbergh.monkeyblade.net; Sun, 04 Dec 2022 15:19:25 PST
-Received: from supercat.cmpct.info (supercat.cmpct.info [71.19.146.230])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 9AC6D11C3A
-        for <linux-man@vger.kernel.org>; Sun,  4 Dec 2022 15:19:25 -0800 (PST)
-Received: from smtpclient.apple (unknown [82.8.138.118])
-        by supercat.cmpct.info (Postfix) with ESMTPSA id 423C13FC52;
-        Sun,  4 Dec 2022 23:09:26 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=cmpct.info;
-        s=default; t=1670195367;
-        bh=Fg8D8kw8uq0gLfQ6DoH8FzTXRfCTwxpdlzDsVDVnrGs=;
-        h=Subject:From:In-Reply-To:Date:Cc:References:To;
-        b=KQe5pcdHj8QL8biJ31dF9u93qOzlz5h/HZgZBK/vhK9j8fx9LNpSzs9+XXgwitJX1
-         5YqT3shXSf2PJ8VGw61YEJV78Hpjup7y4Lc266QZnj/X8zhCDWfA4al8BzW9ElvaBQ
-         ZfQ8foTSJrWX0F7aNCrxmr8Fvuti9B80HnoNMTo0=
-Content-Type: multipart/signed;
-        boundary="Apple-Mail=_6A8E0A9F-92EA-4E97-A80B-0E28EC607B77";
-        protocol="application/pgp-signature";
-        micalg=pgp-sha512
-Mime-Version: 1.0 (Mac OS X Mail 16.0 \(3731.200.110.1.12\))
+        with ESMTP id S229954AbiLDX20 (ORCPT
+        <rfc822;linux-man@vger.kernel.org>); Sun, 4 Dec 2022 18:28:26 -0500
+Received: from mail-wm1-x330.google.com (mail-wm1-x330.google.com [IPv6:2a00:1450:4864:20::330])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id B235DA1BD
+        for <linux-man@vger.kernel.org>; Sun,  4 Dec 2022 15:28:25 -0800 (PST)
+Received: by mail-wm1-x330.google.com with SMTP id j5-20020a05600c410500b003cfa9c0ea76so8750147wmi.3
+        for <linux-man@vger.kernel.org>; Sun, 04 Dec 2022 15:28:25 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20210112;
+        h=in-reply-to:from:references:cc:to:content-language:subject
+         :user-agent:mime-version:date:message-id:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=daIFigpfqeEXHyqnpJBdDzlbkr2Z/fF8RqF7U1qjnHo=;
+        b=kC/AuuRXDbxAHJmtfJqjdmmAXF7SrL40V2xggCT6uFkHOBiNJOYUrsAr6PVLBNnHmr
+         UCC7JgnZJoODGksW5CYQRK3vVSDxVEInLK3OZBo8V3tmHHWftlEbP/XY4JklHSwqFcwE
+         W7vEYbV4ExSKEcB7YgkO+N0Q1OjiShSdoHamdLsw76bx1qKYWi8TurPAFsdmbkK35dvu
+         1Bv4ikMK+hZGKha/SaXYhjITjFSujbJk5C58G9cfU45pZVpug4tdgMf7V7hkY4xdsrN6
+         1LGdf/S3FvtchiIHKE+YyaJOUGMDZWYJGQMl8DD6dBNokT1Czeu8gsm7vQlvRyINTuth
+         fQqw==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20210112;
+        h=in-reply-to:from:references:cc:to:content-language:subject
+         :user-agent:mime-version:date:message-id:x-gm-message-state:from:to
+         :cc:subject:date:message-id:reply-to;
+        bh=daIFigpfqeEXHyqnpJBdDzlbkr2Z/fF8RqF7U1qjnHo=;
+        b=LiPm1q/pDY28LKfd9eUbdaYLmoLjB6VHmstk83+vZSfzKT4Vn8WSXCmHqAQIPZ5Iv/
+         pn6AGEsURkODoQpkqzCygQDk0zRBIPLybouzfjkuEJqy5unrRkQ3MG2Xrcq4R41cLClm
+         9ffdATof46ZI4nz8a9JLU7hfv3JwfBcTtjJ6smMVrMMhaRRYIFPuPgIxn4f/5v351JVm
+         x0YzR89B7oSQY4Uv0FhL5VBHDn943mGJqR5YX7YOSXA1M+yhl7ci9xyNLuxPi08gG/iP
+         iZdb5Zb+pnRfpb/Hj/+1yk3Df27m0sHLf38sNBqWb6X61cCZrH7zQEMpBKE/GgQVpvH3
+         /DcQ==
+X-Gm-Message-State: ANoB5pmr3Tymebe3moBn0qYAomA2Ny97TnRK9meXIBvOchN0UFfLpEH/
+        XLPYplTJh8dAWoKiHvbTOXM=
+X-Google-Smtp-Source: AA0mqf4IwVQPjowdb7fOZK2U9JwFG3vH7ktGE/B0N73fkpfAmckuPGQI639Jiv0mnyeETgAFoYQpPQ==
+X-Received: by 2002:a7b:c4d8:0:b0:3cf:b0ed:de9d with SMTP id g24-20020a7bc4d8000000b003cfb0edde9dmr44319853wmk.188.1670196504118;
+        Sun, 04 Dec 2022 15:28:24 -0800 (PST)
+Received: from [192.168.0.160] ([170.253.36.171])
+        by smtp.gmail.com with ESMTPSA id a1-20020adffac1000000b0024194bba380sm12906244wrs.22.2022.12.04.15.28.23
+        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+        Sun, 04 Dec 2022 15:28:23 -0800 (PST)
+Message-ID: <9f628f84-5fd2-b226-215e-e20b4f459991@gmail.com>
+Date:   Mon, 5 Dec 2022 00:28:11 +0100
+MIME-Version: 1.0
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
+ Thunderbird/102.5.1
 Subject: Re: Issue in man page wcsncpy.3
-From:   Sam James <sam@cmpct.info>
-In-Reply-To: <EC7619DA-5D2E-4738-97D2-9A98D4108A02@gentoo.org>
-Date:   Sun, 4 Dec 2022 23:09:07 +0000
-Cc:     Alejandro Colomar <alx.manpages@gmail.com>,
-        Helge Kreutzmann <debian@helgefjell.de>,
+Content-Language: en-US
+To:     Sam James <sam@cmpct.info>, Sam James <sam@gentoo.org>
+Cc:     Helge Kreutzmann <debian@helgefjell.de>,
         GNU C Library <libc-alpha@sourceware.org>,
         mario.blaettermann@gmail.com, linux-man@vger.kernel.org
-Message-Id: <B67BFC03-D966-497B-94FC-499531EBE141@cmpct.info>
 References: <20221204090724.GA1249@Debian-50-lenny-64-minimal>
  <dbe4f048-4522-fcd2-3edf-ff192804c076@gmail.com>
  <EC7619DA-5D2E-4738-97D2-9A98D4108A02@gentoo.org>
-To:     Sam James <sam@gentoo.org>
-X-Mailer: Apple Mail (2.3731.200.110.1.12)
+ <B67BFC03-D966-497B-94FC-499531EBE141@cmpct.info>
+From:   Alejandro Colomar <alx.manpages@gmail.com>
+In-Reply-To: <B67BFC03-D966-497B-94FC-499531EBE141@cmpct.info>
+Content-Type: multipart/signed; micalg=pgp-sha256;
+ protocol="application/pgp-signature";
+ boundary="------------vRRjLFqujvgzjoKEFw3XR7p5"
 Precedence: bulk
 List-ID: <linux-man.vger.kernel.org>
 X-Mailing-List: linux-man@vger.kernel.org
 
+This is an OpenPGP/MIME signed message (RFC 4880 and 3156)
+--------------vRRjLFqujvgzjoKEFw3XR7p5
+Content-Type: multipart/mixed; boundary="------------TsWKkkMVsx4nujwlnDel4tYE";
+ protected-headers="v1"
+From: Alejandro Colomar <alx.manpages@gmail.com>
+To: Sam James <sam@cmpct.info>, Sam James <sam@gentoo.org>
+Cc: Helge Kreutzmann <debian@helgefjell.de>,
+ GNU C Library <libc-alpha@sourceware.org>, mario.blaettermann@gmail.com,
+ linux-man@vger.kernel.org
+Message-ID: <9f628f84-5fd2-b226-215e-e20b4f459991@gmail.com>
+Subject: Re: Issue in man page wcsncpy.3
+References: <20221204090724.GA1249@Debian-50-lenny-64-minimal>
+ <dbe4f048-4522-fcd2-3edf-ff192804c076@gmail.com>
+ <EC7619DA-5D2E-4738-97D2-9A98D4108A02@gentoo.org>
+ <B67BFC03-D966-497B-94FC-499531EBE141@cmpct.info>
+In-Reply-To: <B67BFC03-D966-497B-94FC-499531EBE141@cmpct.info>
 
---Apple-Mail=_6A8E0A9F-92EA-4E97-A80B-0E28EC607B77
-Content-Transfer-Encoding: quoted-printable
-Content-Type: text/plain;
-	charset=us-ascii
+--------------TsWKkkMVsx4nujwlnDel4tYE
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: base64
 
+SGkgU2FtLA0KDQpPbiAxMi81LzIyIDAwOjA5LCBTYW0gSmFtZXMgd3JvdGU6DQo+IA0KPiAN
+Cj4+IE9uIDQgRGVjIDIwMjIsIGF0IDIzOjA2LCBTYW0gSmFtZXMgdmlhIExpYmMtYWxwaGEg
+PGxpYmMtYWxwaGFAc291cmNld2FyZS5vcmc+IHdyb3RlOg0KPj4NCj4+DQo+Pg0KPj4+IE9u
+IDQgRGVjIDIwMjIsIGF0IDIwOjQyLCBBbGVqYW5kcm8gQ29sb21hciB2aWEgTGliYy1hbHBo
+YSA8bGliYy1hbHBoYUBzb3VyY2V3YXJlLm9yZz4gd3JvdGU6DQo+Pj4NCj4+PiBIaSBIZWxn
+ZSwgZ2xpYmMgZGV2ZWxvcGVycywNCj4+Pg0KPj4+IE9uIDEyLzQvMjIgMTA6MDcsIEhlbGdl
+IEtyZXV0em1hbm4gd3JvdGU6DQo+Pj4+IFdpdGhvdXQgZnVydGhlciBhZG8sIHRoZSBmb2xs
+b3dpbmcgd2FzIGZvdW5kOg0KPj4+PiBJc3N1ZTogICAgSXMgdGhlICJMIiBpbiB0aGUgYnJh
+Y2tldCAoZm9yIHRoZSBOVUxMIGNoYXJhY3RlcikgY29ycmVjdD8NCj4+Pj4gIlRoZSBCPHdj
+c25jcHk+KCkgIGZ1bmN0aW9uIGlzIHRoZSB3aWRlLWNoYXJhY3RlciBlcXVpdmFsZW50IG9m
+IHRoZSINCj4+Pj4gIkI8c3RybmNweT4oMykgIGZ1bmN0aW9uLiAgSXQgY29waWVzIGF0IG1v
+c3QgSTxuPiB3aWRlIGNoYXJhY3RlcnMgZnJvbSB0aGUiDQo+Pj4+ICJ3aWRlLWNoYXJhY3Rl
+ciBzdHJpbmcgcG9pbnRlZCB0byBieSBJPHNyYz4sIGluY2x1ZGluZyB0aGUgdGVybWluYXRp
+bmcgbnVsbCINCj4+Pj4gIndpZGUgY2hhcmFjdGVyIChMXFwoYXFcXGUwXFwoYXEpLCB0byB0
+aGUgYXJyYXkgcG9pbnRlZCB0byBieSBJPGRlc3Q+LiINCj4+Pj4gIkV4YWN0bHkgSTxuPiB3
+aWRlIGNoYXJhY3RlcnMgYXJlIHdyaXR0ZW4gYXQgSTxkZXN0Pi4gIElmIHRoZSBsZW5ndGgi
+DQo+Pj4+ICJJPHdjc2xlbihzcmMpPiBpcyBzbWFsbGVyIHRoYW4gSTxuPiwgdGhlIHJlbWFp
+bmluZyB3aWRlIGNoYXJhY3RlcnMgaW4gdGhlIg0KPj4+PiAiYXJyYXkgcG9pbnRlZCB0byBi
+eSBJPGRlc3Q+IGFyZSBmaWxsZWQgd2l0aCBudWxsIHdpZGUgY2hhcmFjdGVycy4gIElmIHRo
+ZSINCj4+Pj4gImxlbmd0aCBJPHdjc2xlbihzcmMpPiBpcyBncmVhdGVyIHRoYW4gb3IgZXF1
+YWwgdG8gSTxuPiwgdGhlIHN0cmluZyBwb2ludGVkIg0KPj4+PiAidG8gYnkgSTxkZXN0PiB3
+aWxsIG5vdCBiZSB0ZXJtaW5hdGVkIGJ5IGEgbnVsbCB3aWRlIGNoYXJhY3Rlci4iDQo+Pj4N
+Cj4+PiBBcyBhbiB1bnJlbGF0ZWQgbm90ZS4gIEkndmUgaGFkIHRoaXMgcnVubmluZyBpbiBt
+eSBtaW5kIGZvciBzb21lIHRpbWUuLi4geW91ciB2YXJpb3VzIGJ1ZyByZXBvcnRzIGZvciBz
+dHJuY3B5KDMpIGFuZCBzaW1pbGFyIHdpZGUgY2hhcmFjdGVyIGZ1bmN0aW9ucyBoYXZlIHRy
+aWdnZXJlZCB0aG9zZSB0aG91Z3RzLg0KPj4+DQo+Pj4gSSdtIGdvaW5nIHRvIG1hcmsgc3Ry
+bmNweSgzKSBhbmQgc2ltaWxhciBmdW5jdGlvbnMgYXMgZGVwcmVjYXRlZCwgZXZlbiBpZiBu
+byBsaWJjIG9yIHN0YW5kYXJkIGhhcyBkb25lIHNvLiAgVGhlcmUncyB3aWRlIGFncmVlbWVu
+dCAoYXQgbGVhc3QgaW4gc29tZSBjb21tdW5pdGllcykgdGhhdCBzdHJuY3B5KDMpIF9pcyBl
+dmlsXy4gIFRoZXJlJ3Mgc2ltcGx5IG5vIHVzZSBmb3IgaXQuDQo+Pj4NCj4+DQo+PiBQbGVh
+c2UgZG9uJ3QgZG8gdGhpcyB1bmlsYXRlcmFsbHkuIEFwcGxlIGRpZCB0aGlzIHVuaWxhdGVy
+YWxseSBmb3Igc3ByaW50ZiB3aGljaCBoYXMgY2F1c2VkIHByb2JsZW1zLCBhcyB3ZWxsLg0K
+PiANCj4gc25wcmludGYsIHRoYXQgaXMNCg0KTm8sIHRoZXkgZGVwcmVjYXRlZCBzcHJpbnRm
+KDMpLCBBRkFJSy4NCjxodHRwczovL2xpc3RzLmdudS5vcmcvci9idWctZ251bGliLzIwMjIt
+MTEvbXNnMDAwMTMuaHRtbD4NCg0KQ2hlZXJzLA0KDQpBbGV4DQoNCi0tIA0KPGh0dHA6Ly93
+d3cuYWxlamFuZHJvLWNvbG9tYXIuZXMvPg0K
 
+--------------TsWKkkMVsx4nujwlnDel4tYE--
 
-> On 4 Dec 2022, at 23:06, Sam James via Libc-alpha =
-<libc-alpha@sourceware.org> wrote:
->=20
->=20
->=20
->> On 4 Dec 2022, at 20:42, Alejandro Colomar via Libc-alpha =
-<libc-alpha@sourceware.org> wrote:
->>=20
->> Hi Helge, glibc developers,
->>=20
->> On 12/4/22 10:07, Helge Kreutzmann wrote:
->>> Without further ado, the following was found:
->>> Issue:    Is the "L" in the bracket (for the NULL character) =
-correct?
->>> "The B<wcsncpy>()  function is the wide-character equivalent of the"
->>> "B<strncpy>(3)  function.  It copies at most I<n> wide characters =
-from the"
->>> "wide-character string pointed to by I<src>, including the =
-terminating null"
->>> "wide character (L\\(aq\\e0\\(aq), to the array pointed to by =
-I<dest>."
->>> "Exactly I<n> wide characters are written at I<dest>.  If the =
-length"
->>> "I<wcslen(src)> is smaller than I<n>, the remaining wide characters =
-in the"
->>> "array pointed to by I<dest> are filled with null wide characters.  =
-If the"
->>> "length I<wcslen(src)> is greater than or equal to I<n>, the string =
-pointed"
->>> "to by I<dest> will not be terminated by a null wide character."
->>=20
->> As an unrelated note.  I've had this running in my mind for some =
-time... your various bug reports for strncpy(3) and similar wide =
-character functions have triggered those thougts.
->>=20
->> I'm going to mark strncpy(3) and similar functions as deprecated, =
-even if no libc or standard has done so.  There's wide agreement (at =
-least in some communities) that strncpy(3) _is evil_.  There's simply no =
-use for it.
->>=20
->=20
-> Please don't do this unilaterally. Apple did this unilaterally for =
-sprintf which has caused problems, as well.
-
-snprintf, that is
-
---Apple-Mail=_6A8E0A9F-92EA-4E97-A80B-0E28EC607B77
-Content-Transfer-Encoding: 7bit
-Content-Disposition: attachment;
-	filename=signature.asc
-Content-Type: application/pgp-signature;
-	name=signature.asc
-Content-Description: Message signed with OpenPGP
+--------------vRRjLFqujvgzjoKEFw3XR7p5
+Content-Type: application/pgp-signature; name="OpenPGP_signature.asc"
+Content-Description: OpenPGP digital signature
+Content-Disposition: attachment; filename="OpenPGP_signature"
 
 -----BEGIN PGP SIGNATURE-----
 
-iNUEARYKAH0WIQQlpruI3Zt2TGtVQcJzhAn1IN+RkAUCY40olF8UgAAAAAAuAChp
-c3N1ZXItZnByQG5vdGF0aW9ucy5vcGVucGdwLmZpZnRoaG9yc2VtYW4ubmV0MjVB
-NkJCODhERDlCNzY0QzZCNTU0MUMyNzM4NDA5RjUyMERGOTE5MAAKCRBzhAn1IN+R
-kPmxAQD+87QjBcpeI1Tcj6NUA6I1h6ZK6sQebxpolFlFRbqaigEA2aGKoHmoVaXR
-vc24L72BaJVyZJDZNYQQqfVZHBT+mgY=
-=AjxP
+iQIzBAEBCgAdFiEE6jqH8KTroDDkXfJAnowa+77/2zIFAmONLQsACgkQnowa+77/
+2zLf7Q//UHnmJ4PwqwOsPVpenpyUXxOat8ZijBrrH2ce4bBs4JoZkbYQmwV2p7s6
+CRzJs3kMnRaKtXOm30m8BEV6uA++2V1LyM8VJDOd6wfHQaqab+4mgQo2uMsYZMPS
+1MQTYMaQd0Bx6/d9243qrk0RpKzNk3KNB/Dimnw52o1jDTW/wVjd+UJe8v1gEs+M
+cPi8S/jHaAf3QvwLa9MuvBIYymoKaS6zmAo3die45IE4D/kvx7nyz2iWtvvUsUd6
+7A3KY1g1N3QYRZW5EDITiBpQwnUoUnqoV8hW/nYIKa2y0gHM+sz4tCpyGsRgq2P7
+2wHmA6eL3nQgbXO/FsVvmdjmCCPPkBgRyrcuuAijcbrAm8PfThMAoIdWxZMhboYr
+29e8GtDnZMLsvbRyVz+UZCwKOUQdWuW8nAoO77UddVFIh8badP9UsjQUsYRezgO+
+iq+Xczcyr3GlUBs2iMVyqUrQIUoxbeUHkIcQx2mRIA2CTejFh/BOV0QCYJgDzHPE
+LDDLpvy9vbFHyTkjqLb7fzKUWVXpzrZ6jBA/x81DEsxENTR0Nuzoi1kTJ5lnRU4c
+y0gKvY+GXcMNq1JGiJVxa9pSsmJs5dsK9wun8h08Z7/PYjUJLhBKvaARdS0UFIXS
+u9foXJ32Ih8/J7jtRX053rgAIISbttPGFjdZuPel+2AYP0k3qC0=
+=4lPS
 -----END PGP SIGNATURE-----
 
---Apple-Mail=_6A8E0A9F-92EA-4E97-A80B-0E28EC607B77--
+--------------vRRjLFqujvgzjoKEFw3XR7p5--
