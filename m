@@ -2,28 +2,28 @@ Return-Path: <linux-man-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id EE937C4708D
-	for <linux-man@archiver.kernel.org>; Sun,  4 Dec 2022 09:07:44 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id D4433C4708E
+	for <linux-man@archiver.kernel.org>; Sun,  4 Dec 2022 09:07:45 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S230001AbiLDJHn (ORCPT <rfc822;linux-man@archiver.kernel.org>);
-        Sun, 4 Dec 2022 04:07:43 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:33514 "EHLO
+        id S230099AbiLDJHo (ORCPT <rfc822;linux-man@archiver.kernel.org>);
+        Sun, 4 Dec 2022 04:07:44 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:33868 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S230078AbiLDJHb (ORCPT
-        <rfc822;linux-man@vger.kernel.org>); Sun, 4 Dec 2022 04:07:31 -0500
+        with ESMTP id S230025AbiLDJHc (ORCPT
+        <rfc822;linux-man@vger.kernel.org>); Sun, 4 Dec 2022 04:07:32 -0500
 Received: from static.213-239-213-133.clients.your-server.de (luckmann.name [213.239.213.133])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id ECAA8186FF
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 75F27186E6
         for <linux-man@vger.kernel.org>; Sun,  4 Dec 2022 01:07:30 -0800 (PST)
 Received: from localhost (localhost [127.0.0.1])
   (uid 502)
   by static.213-239-213-133.clients.your-server.de with local
-  id 0000000000E541DB.00000000638C634C.000004D9; Sun, 04 Dec 2022 10:07:24 +0100
-Date:   Sun, 4 Dec 2022 10:07:24 +0100
+  id 0000000000E541DF.00000000638C634D.00000509; Sun, 04 Dec 2022 10:07:25 +0100
+Date:   Sun, 4 Dec 2022 10:07:25 +0100
 From:   Helge Kreutzmann <debian@helgefjell.de>
 To:     alx.manpages@gmail.com
 Cc:     mario.blaettermann@gmail.com, linux-man@vger.kernel.org
-Subject: Issue in man page wcsncmp.3
-Message-ID: <20221204090724.GA1226@Debian-50-lenny-64-minimal>
+Subject: Issue in man page wcsspn.3
+Message-ID: <20221204090725.GA1274@Debian-50-lenny-64-minimal>
 Mime-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Transfer-Encoding: 7bit
@@ -37,11 +37,7 @@ X-Mailing-List: linux-man@vger.kernel.org
 
 Without further ado, the following was found:
 
-Issue:    Is the "L" in the bracket correct?
+Issue:    This does not match the description below
 
-"The B<wcsncmp>()  function is the wide-character equivalent of the "
-"B<strncmp>(3)  function.  It compares the wide-character string pointed to "
-"by I<s1> and the wide-character string pointed to by I<s2>, but at most I<n> "
-"wide characters from each string.  In each string, the comparison extends "
-"only up to the first occurrence of a null wide character (L\\(aq\\e0\\(aq), "
-"if any."
+"wcsspn - advance in a wide-character string, skipping any of a set of wide "
+"characters"
