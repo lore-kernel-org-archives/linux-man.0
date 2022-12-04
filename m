@@ -2,28 +2,28 @@ Return-Path: <linux-man-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id E731BC3A5A7
-	for <linux-man@archiver.kernel.org>; Sun,  4 Dec 2022 09:07:30 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 937A0C4708D
+	for <linux-man@archiver.kernel.org>; Sun,  4 Dec 2022 09:07:31 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S230054AbiLDJH3 (ORCPT <rfc822;linux-man@archiver.kernel.org>);
-        Sun, 4 Dec 2022 04:07:29 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:33680 "EHLO
+        id S229953AbiLDJHa (ORCPT <rfc822;linux-man@archiver.kernel.org>);
+        Sun, 4 Dec 2022 04:07:30 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:33640 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S230057AbiLDJHY (ORCPT
-        <rfc822;linux-man@vger.kernel.org>); Sun, 4 Dec 2022 04:07:24 -0500
+        with ESMTP id S230034AbiLDJHZ (ORCPT
+        <rfc822;linux-man@vger.kernel.org>); Sun, 4 Dec 2022 04:07:25 -0500
 Received: from static.213-239-213-133.clients.your-server.de (luckmann.name [213.239.213.133])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 459BF167D9
-        for <linux-man@vger.kernel.org>; Sun,  4 Dec 2022 01:07:23 -0800 (PST)
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id C1E2F17072
+        for <linux-man@vger.kernel.org>; Sun,  4 Dec 2022 01:07:24 -0800 (PST)
 Received: from localhost (localhost [127.0.0.1])
   (uid 502)
   by static.213-239-213-133.clients.your-server.de with local
-  id 0000000000E54091.00000000638C6346.00000365; Sun, 04 Dec 2022 10:07:18 +0100
+  id 0000000000E54095.00000000638C6346.0000037E; Sun, 04 Dec 2022 10:07:18 +0100
 Date:   Sun, 4 Dec 2022 10:07:18 +0100
 From:   Helge Kreutzmann <debian@helgefjell.de>
 To:     alx.manpages@gmail.com
 Cc:     mario.blaettermann@gmail.com, linux-man@vger.kernel.org
-Subject: Issue in man page ttytype.5
-Message-ID: <20221204090718.GA854@Debian-50-lenny-64-minimal>
+Subject: Issue in man page cgroup_namespaces.7
+Message-ID: <20221204090718.GA877@Debian-50-lenny-64-minimal>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=utf-8
 Content-Disposition: inline
@@ -37,9 +37,34 @@ X-Mailing-List: linux-man@vger.kernel.org
 
 Without further ado, the following was found:
 
-Issue:    I</dev/>) prefix → I</dev/> prefix)
+Issue:    user ID → UID
 
-"The I</etc/ttytype> file associates B<termcap>(5)/B<terminfo>(5)  terminal "
-"type names with tty lines.  Each line consists of a terminal type, followed "
-"by whitespace, followed by a tty name (a device name without the I</dev/>) "
-"prefix."
+"We have a cgroup directory, I</cg/1>, that is owned by user ID 9000."
+
+"We have a process, I<X>, also owned by user ID 9000, that is namespaced "
+"under the cgroup I</cg/1/2> (i.e., I<X> was placed in a new cgroup namespace "
+"via B<clone>(2)  or B<unshare>(2)  with the B<CLONE_NEWCGROUP> flag)."
+
+"In the absence of cgroup namespacing, because the cgroup directory I</cg/1> "
+"is owned (and writable) by UID 9000 and process I<X> is also owned by user "
+"ID 9000, process I<X> would be able to modify the contents of cgroups files "
+"(i.e., change cgroup settings) not only in I</cg/1/2> but also in the "
+"ancestor cgroup directory I</cg/1>.  Namespacing process I<X> under the "
+"cgroup directory I</cg/1/2>, in combination with suitable mount operations "
+"for the cgroup filesystem (as shown above), prevents it modifying files in "
+"I</cg/1>, since it cannot even see the contents of that directory (or of "
+"further removed cgroup ancestor directories).  Combined with correct "
+"enforcement of hierarchical limits, this prevents process I<X> from escaping "
+"the limits imposed by ancestor cgroups."
+
+"In the absence of cgroup namespacing, because the cgroup directory I</cg/1> "
+"is owned (and writable) by UID 9000 and process I<X> is also owned by user "
+"ID 9000, then process I<X> would be able to modify the contents of cgroups "
+"files (i.e., change cgroup settings) not only in I</cg/1/2> but also in the "
+"ancestor cgroup directory I</cg/1>.  Namespacing process I<X> under the "
+"cgroup directory I</cg/1/2>, in combination with suitable mount operations "
+"for the cgroup filesystem (as shown above), prevents it modifying files in "
+"I</cg/1>, since it cannot even see the contents of that directory (or of "
+"further removed cgroup ancestor directories).  Combined with correct "
+"enforcement of hierarchical limits, this prevents process I<X> from escaping "
+"the limits imposed by ancestor cgroups."
