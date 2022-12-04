@@ -2,35 +2,34 @@ Return-Path: <linux-man-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 4B880C4332F
-	for <linux-man@archiver.kernel.org>; Sun,  4 Dec 2022 20:51:15 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 6E0EEC4332F
+	for <linux-man@archiver.kernel.org>; Sun,  4 Dec 2022 20:51:30 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S230177AbiLDUvO (ORCPT <rfc822;linux-man@archiver.kernel.org>);
-        Sun, 4 Dec 2022 15:51:14 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:60616 "EHLO
+        id S230254AbiLDUv3 (ORCPT <rfc822;linux-man@archiver.kernel.org>);
+        Sun, 4 Dec 2022 15:51:29 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:60658 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S230108AbiLDUvN (ORCPT
-        <rfc822;linux-man@vger.kernel.org>); Sun, 4 Dec 2022 15:51:13 -0500
+        with ESMTP id S230108AbiLDUv2 (ORCPT
+        <rfc822;linux-man@vger.kernel.org>); Sun, 4 Dec 2022 15:51:28 -0500
 Received: from static.213-239-213-133.clients.your-server.de (luckmann.name [213.239.213.133])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id A5E3C12609
-        for <linux-man@vger.kernel.org>; Sun,  4 Dec 2022 12:51:12 -0800 (PST)
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 2DDE51260A
+        for <linux-man@vger.kernel.org>; Sun,  4 Dec 2022 12:51:27 -0800 (PST)
 Received: from localhost (localhost [127.0.0.1])
   (uid 502)
   by static.213-239-213-133.clients.your-server.de with local
-  id 0000000000E5E0DE.00000000638CFEDC.00003D96; Sun, 04 Dec 2022 21:11:08 +0100
-Date:   Sun, 4 Dec 2022 21:11:08 +0100
+  id 0000000000E5E0DD.00000000638CFDC0.00003CDC; Sun, 04 Dec 2022 21:06:24 +0100
+Date:   Sun, 4 Dec 2022 21:06:24 +0100
 From:   Helge Kreutzmann <debian@helgefjell.de>
 To:     Alejandro Colomar <alx.manpages@gmail.com>
-Cc:     mario.blaettermann@gmail.com, linux-man@vger.kernel.org,
-        "G. Branden Robinson" <g.branden.robinson@gmail.com>
-Subject: Re: Issue in man page cgroup_namespaces.7
-Message-ID: <20221204201107.GE15305@Debian-50-lenny-64-minimal>
-References: <20221204090718.GA877@Debian-50-lenny-64-minimal>
- <08577b8c-950d-d090-4efb-7ebbd4114f11@gmail.com>
+Cc:     mario.blaettermann@gmail.com, linux-man@vger.kernel.org
+Subject: Re: Issue in man page syscall.2
+Message-ID: <20221204200624.GC15305@Debian-50-lenny-64-minimal>
+References: <20221204090716.GA757@Debian-50-lenny-64-minimal>
+ <130212f5-5efe-b5ce-b3c8-360911585ff0@gmail.com>
 Mime-Version: 1.0
-Content-Type: multipart/signed; micalg=pgp-sha256; protocol="application/pgp-signature"; boundary="=_luckmann.name-15766-1670184668-0001-2"
+Content-Type: multipart/signed; micalg=pgp-sha256; protocol="application/pgp-signature"; boundary="=_luckmann.name-15580-1670184384-0001-2"
 Content-Disposition: inline
-In-Reply-To: <08577b8c-950d-d090-4efb-7ebbd4114f11@gmail.com>
+In-Reply-To: <130212f5-5efe-b5ce-b3c8-360911585ff0@gmail.com>
 X-Public-Key-URL: http://www.helgefjell.de/data/debian_neu.asc
 X-homepage: http://www.helgefjell.de/debian
 User-Agent: Mutt/1.10.1 (2018-07-13)
@@ -41,35 +40,53 @@ X-Mailing-List: linux-man@vger.kernel.org
 This is a MIME-formatted message.  If you see this text it means that your
 E-mail software does not support MIME-formatted messages.
 
---=_luckmann.name-15766-1670184668-0001-2
+--=_luckmann.name-15580-1670184384-0001-2
 Content-Type: text/plain; charset=utf-8
 Content-Disposition: inline
 Content-Transfer-Encoding: quoted-printable
 
 Hello Alejandro,
-On Sun, Dec 04, 2022 at 09:07:45PM +0100, Alejandro Colomar wrote:
+On Sun, Dec 04, 2022 at 09:00:20PM +0100, Alejandro Colomar wrote:
 > On 12/4/22 10:07, Helge Kreutzmann wrote:
 > > Without further ado, the following was found:
 > >=20
-> > Issue:    user ID =E2=86=92 UID
+> > Issue:    of 0 =E2=86=92 of I<r0>?
+> >=20
+> > "Since the offset argument is 64 bits, and the first argument (I<fd>)  =
+is"
+> > "passed in I<r0>, the caller must manually split and align the 64-bit v=
+alue"
+> > "so that it is passed in the I<r2>/I<r3> register pair.  That means ins=
+erting"
+> > "a dummy value into I<r1> (the second argument of 0).  Care also must b=
+e"
+> > "taken so that the split follows endian conventions (according to the C=
+ ABI"
+> > "for the platform)."
 >=20
-> IMO, (and I believe Branden will agree), user ID is more informative than
-> UID. If any change, I'd apply some consistency in the other direction (do=
-n't
-> know how much inconsistent the pages are regarding that): UID -> user ID.
+> The report is invalid:
 >=20
-> So, WONTFIX.  Thanks for the reports!
+>=20
+>            syscall(SYS_readahead, fd, 0,
+>                    (unsigned int) (offset & 0xFFFFFFFF),
+>                    (unsigned int) (offset >> 32),
+>                    count);
+>=20
+>        Since the offset argument is 64 bits, and the first argu=E2=80=90
+>        ment (fd) is passed in r0, the caller must manually split
+>        and align the 64=E2=80=90bit value so that it is  passed  in  the
+>        r2/r3  register pair.  That means inserting a dummy value
+>        into r1 (the second argument of 0).  Care  also  must  be
+>        taken  so  that the split follows endian conventions (ac=E2=80=90
+>        cording to the C ABI for the platform).
+>=20
+> It's saying that the second argument in the call above is the value 0.
 
-Noted.
-
-However, you might consider making the link once, i.e. on first
-occurence do
-user ID =E2=86=92 user ID (UID)
+Noted and thanks for the clarification!
 
 Greetings
 
-         Helge
-
+        Helge
 
 --=20
       Dr. Helge Kreutzmann                     debian@helgefjell.de
@@ -77,25 +94,25 @@ Greetings
         64bit GNU powered                     gpg signed mail preferred
            Help keep free software "libre": http://www.ffii.de/
 
---=_luckmann.name-15766-1670184668-0001-2
+--=_luckmann.name-15580-1670184384-0001-2
 Content-Type: application/pgp-signature; name="signature.asc"
 Content-Transfer-Encoding: 7bit
 
 -----BEGIN PGP SIGNATURE-----
 
-iQIzBAABCAAdFiEEbZZfteMW0gNUynuwQbqlJmgq5nAFAmOM/tsACgkQQbqlJmgq
-5nBpoxAAlV84sPipKhvjCV/gEJ0KaAm61E3a8bmikUEytKsEjwHmEp1J32I7rf+q
-hRAF+KJUcZ/QBS9fNABmFRXDQJp9sVruFWpRHfLsu/+kk1HZEOtmlCjoydII7HVv
-zHOH7QE3W7zkd+BZBpdH2XZTNmNgIkZyAcVCDPmyNqTwplJIZ6M3S73Qbp6QEL4Z
-eA9nBR0C7O4BuEIU7O1sMXnw0BQaWx/qahdisgnczEF3H2ov6TzTk3lAjLLhtqIH
-2wO/y7M/RLQK71yxMpt4KZ+NnZzQ3sIqGwHLKNXPpyV5LuQs8APT8cdDJma2eDhW
-vYhmN87H85cHAHMdQa84j9I1Gh/vVFTh8i1ZfqSYpjDYbQiICIXj+MhJexMvZLrD
-ni2uJdApJsUU5IXctC8ipm+FXVcYigxgux9/GZgqQuDM479DGzOpEREEyxpwpQXN
-BbiZgiN184xDYoUoQ5vnvcAR6dv6BC1MJWI9dkIhAwr7d0z516sV3db4EUWRI3Vp
-Pk/fHh7aiy1hEvd1DF6DtnQ4UuDZcRkSy+68OpYlL+/U8/B3v0cmld19YlwHNVPv
-wLHR3fwOue+mG6p6OFU3lK4pPK/Io8Eo/Ok9oc0R4NStNHIOA0tB+SZ2pBRfmvXf
-JzXIApuzMdWCLlFwgYjmxrUoB6HQFbFXrLwIZJKyxHOkIk5OG7I=
-=CXBH
+iQIzBAABCAAdFiEEbZZfteMW0gNUynuwQbqlJmgq5nAFAmOM/b8ACgkQQbqlJmgq
+5nAKOw//cjV2A9biL1bk9zuXLpNL3c7KP4hTKVAv5aYMBnkwCMO/0MDsIQuJdjcY
+6nwolUZGpSBAMtIz2hVBBhtQmEhX0FXt2Ssu0tFBIRiK+fkK11Go/ahH/XFu0XaW
+sRm8PWeiVrZUNS+1NfjPkYhmzUp6ZhqlzVM7MXtDKlv8gFLuIrxD9nr5OAbZ8Yo2
+8wEL+vOD5CKGNRf/Dhfegb0Gf9l8Jp+aFb4WCSMz8VcZ5xw1cBN46m191IifkmhH
+hv3Wt2bquP3m8+ym7pgiSl1MrS28ayTuKojzBvOGBrTfxCR/mhZYEhZm/8VeQx1Q
+z/lgLtgDxWUJ+ParRTk/L8hOgugdIZmynBzA+0pluOVcMUYkJbfeSKXDIZCdpebv
+ymBtEeKYTdX5hF5q6Tx3v1RusctgJ8EMF7wyL70/BddCqlGpHDfimnY8EP4jqVBc
+gAQCyCSRgpib4kx18Damzv8bR/DdSi12uNLQbZKj4i6c62LICayOxQTFTWaDUX6/
+tq67VzbTKjqD0gZhGSZeLNSqAjXgzhDD7FSGncVpuUUcJmQm8WLwUa77vJnXENEx
+8tEI9qaEWaBu2D8BFSrfMPryOQYVqCWUGZ+VSZuGpKzi/owOf3yT0fLs6lLioeoY
+Ecw0w/XcO5USh0Ck5feSn9CZ/8CnYEti2ofZE32Ow4ke2Tlx+ro=
+=XZ0N
 -----END PGP SIGNATURE-----
 
---=_luckmann.name-15766-1670184668-0001-2--
+--=_luckmann.name-15580-1670184384-0001-2--
