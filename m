@@ -2,174 +2,134 @@ Return-Path: <linux-man-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id EFD29C4332F
-	for <linux-man@archiver.kernel.org>; Mon,  5 Dec 2022 15:56:35 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 88900C47089
+	for <linux-man@archiver.kernel.org>; Mon,  5 Dec 2022 16:52:11 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S231160AbiLEP4f (ORCPT <rfc822;linux-man@archiver.kernel.org>);
-        Mon, 5 Dec 2022 10:56:35 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:33502 "EHLO
+        id S231841AbiLEQwK (ORCPT <rfc822;linux-man@archiver.kernel.org>);
+        Mon, 5 Dec 2022 11:52:10 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:46702 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S230228AbiLEP4e (ORCPT
-        <rfc822;linux-man@vger.kernel.org>); Mon, 5 Dec 2022 10:56:34 -0500
-Received: from mail-wr1-x42c.google.com (mail-wr1-x42c.google.com [IPv6:2a00:1450:4864:20::42c])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 8ABE813D44
-        for <linux-man@vger.kernel.org>; Mon,  5 Dec 2022 07:56:33 -0800 (PST)
-Received: by mail-wr1-x42c.google.com with SMTP id m14so19255200wrh.7
-        for <linux-man@vger.kernel.org>; Mon, 05 Dec 2022 07:56:33 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20210112;
-        h=in-reply-to:references:cc:to:from:content-language:subject
-         :user-agent:mime-version:date:message-id:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=Hzvd0SOAnLM0DL8rtNLu9pIm8UKAMg9PHwgytSJszRA=;
-        b=nFDdTmzuMDW7PmBYWCLpGJ3qP5DHSiLmeDXsmF8KPeV7udgyQ0adpLS9RxvvG5Px3X
-         CX9N+YmezH25Vtn9MykEZl7TK1JhldcgWWCrva8jKFQKhruRFygiRIXoormmI+FBp7h/
-         On1/JThP+xtNTSdFBxDjLBaw3nOHOthjK4SnTrMOs4zPXMRffKRDCW2N4UJDdTq8AG+x
-         qmVYqw1kr672uxbuje6BI1pjYl23mf4mrfYcsRdYRBKd2qY1Y/lHfaToQmdPB0Tty0ek
-         ChA5TLUKIthJQataRxtOhaDUFSRxDtg8Lu73fWpHtKXEeqbQClslkUTBKyeX+pfF+iQx
-         7qKA==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20210112;
-        h=in-reply-to:references:cc:to:from:content-language:subject
-         :user-agent:mime-version:date:message-id:x-gm-message-state:from:to
-         :cc:subject:date:message-id:reply-to;
-        bh=Hzvd0SOAnLM0DL8rtNLu9pIm8UKAMg9PHwgytSJszRA=;
-        b=NvvgYY4peMEzpJDis4WJ9uzsea1MOp3ABGNyjN4A62FDXiMYUcvyxbv3buJ+bhhHcr
-         hVD4muTYOVFKVcnzWlHXOihHqgeQn+4eePeUyOo21DZOHFlTfRfFac4FzO2sAwynjXd/
-         tx+GLqv5Jt7a3Jva1TUBcywSSo/UcSnIbfptYxYjhdvQicXAkNxgWI40g+QIzuMjs1Vl
-         h/rpD+ip+oj1NttA8C1/gTSmffDJUmcwemztOf/qRSeB1hMct5QCSufLK+cz3V5pCU42
-         ahBgi+UFnWGnRHDFz87VOGuQZwQfmQS7YoYywy/ZGwySsFn1Ed7HSqSE2uocjoqbKIRd
-         7Nrw==
-X-Gm-Message-State: ANoB5pmYOmffqqAq+HlzwIPWuonnXGyi9n1GGixbkw2gcDZiQsq+32L8
-        7lgQZGQg5DCMYcbQeCfR3fkHCglC88Q=
-X-Google-Smtp-Source: AA0mqf4gxr3JEYcHAktPHWU6zwTMbdZzH2BK+m4zCWawukbaTjALbvXSRGLPE5gygCQJO9NyC9sN2w==
-X-Received: by 2002:adf:ebcf:0:b0:22e:3275:983e with SMTP id v15-20020adfebcf000000b0022e3275983emr52090256wrn.71.1670255792060;
-        Mon, 05 Dec 2022 07:56:32 -0800 (PST)
-Received: from [192.168.0.160] ([170.253.36.171])
-        by smtp.gmail.com with ESMTPSA id j13-20020a056000124d00b002421db5f279sm14351521wrx.78.2022.12.05.07.56.31
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Mon, 05 Dec 2022 07:56:31 -0800 (PST)
-Message-ID: <73f64795-b4fe-956c-c20b-8e2a1fa05929@gmail.com>
-Date:   Mon, 5 Dec 2022 16:56:07 +0100
-MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
- Thunderbird/102.5.1
-Subject: Re: [PATCH] strcat.3, strncat.3: RIP strncat(3)
-Content-Language: en-US
-From:   Alejandro Colomar <alx.manpages@gmail.com>
-To:     linux-man@vger.kernel.org
-Cc:     Alejandro Colomar <alx@kernel.org>,
-        pkg-shadow-devel@alioth-lists.debian.net, libc-alpha@sourceware.org
-References: <20221205154904.15321-1-alx@kernel.org>
-In-Reply-To: <20221205154904.15321-1-alx@kernel.org>
-Content-Type: multipart/signed; micalg=pgp-sha256;
- protocol="application/pgp-signature";
- boundary="------------GGQRe43PotBjjMoH0Y9FRSop"
+        with ESMTP id S233066AbiLEQvN (ORCPT
+        <rfc822;linux-man@vger.kernel.org>); Mon, 5 Dec 2022 11:51:13 -0500
+Received: from static.213-239-213-133.clients.your-server.de (luckmann.name [213.239.213.133])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 2B1BA1EC42
+        for <linux-man@vger.kernel.org>; Mon,  5 Dec 2022 08:50:17 -0800 (PST)
+Received: from localhost (localhost [127.0.0.1])
+  (uid 502)
+  by static.213-239-213-133.clients.your-server.de with local
+  id 0000000000E5E0DC.00000000638E2147.00001533; Mon, 05 Dec 2022 17:50:15 +0100
+Date:   Mon, 5 Dec 2022 17:50:15 +0100
+From:   Helge Kreutzmann <debian@helgefjell.de>
+To:     Alejandro Colomar <alx.manpages@gmail.com>
+Cc:     mario.blaettermann@gmail.com, linux-man@vger.kernel.org
+Subject: Re: Issue in man page proc.5
+Message-ID: <20221205165015.GA5000@Debian-50-lenny-64-minimal>
+References: <20221204090715.GA682@Debian-50-lenny-64-minimal>
+ <09758b86-2f45-2ca4-4641-162c74683e3e@gmail.com>
+ <20221204200234.GA15305@Debian-50-lenny-64-minimal>
+ <9382edc7-2a58-5844-b7a2-4ee991af8d64@gmail.com>
+Mime-Version: 1.0
+Content-Type: multipart/signed; micalg=pgp-sha256; protocol="application/pgp-signature"; boundary="=_luckmann.name-5427-1670259015-0001-2"
+Content-Disposition: inline
+In-Reply-To: <9382edc7-2a58-5844-b7a2-4ee991af8d64@gmail.com>
+X-Public-Key-URL: http://www.helgefjell.de/data/debian_neu.asc
+X-homepage: http://www.helgefjell.de/debian
+User-Agent: Mutt/1.10.1 (2018-07-13)
 Precedence: bulk
 List-ID: <linux-man.vger.kernel.org>
 X-Mailing-List: linux-man@vger.kernel.org
 
-This is an OpenPGP/MIME signed message (RFC 4880 and 3156)
---------------GGQRe43PotBjjMoH0Y9FRSop
-Content-Type: multipart/mixed; boundary="------------8EZigGDHOBjIKEUIkKcb0ZeA";
- protected-headers="v1"
-From: Alejandro Colomar <alx.manpages@gmail.com>
-To: linux-man@vger.kernel.org
-Cc: Alejandro Colomar <alx@kernel.org>,
- pkg-shadow-devel@alioth-lists.debian.net, libc-alpha@sourceware.org
-Message-ID: <73f64795-b4fe-956c-c20b-8e2a1fa05929@gmail.com>
-Subject: Re: [PATCH] strcat.3, strncat.3: RIP strncat(3)
-References: <20221205154904.15321-1-alx@kernel.org>
-In-Reply-To: <20221205154904.15321-1-alx@kernel.org>
+This is a MIME-formatted message.  If you see this text it means that your
+E-mail software does not support MIME-formatted messages.
 
---------------8EZigGDHOBjIKEUIkKcb0ZeA
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: base64
+--=_luckmann.name-5427-1670259015-0001-2
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+Content-Transfer-Encoding: quoted-printable
 
-DQoNCk9uIDEyLzUvMjIgMTY6NDksIEFsZWphbmRybyBDb2xvbWFyIHdyb3RlOg0KPiBOZXZl
-ciB1c2UgdGhpcyBmdW5jdGlvbi4gIFJlYWxseS4NCj4gDQo+IENjOiA8cGtnLXNoYWRvdy1k
-ZXZlbEBhbGlvdGgtbGlzdHMuZGViaWFuLm5ldD4NCj4gQ2M6IDxsaWJjLWFscGhhQHNvdXJj
-ZXdhcmUub3JnPg0KPiBTaWduZWQtb2ZmLWJ5OiBBbGVqYW5kcm8gQ29sb21hciA8YWx4QGtl
-cm5lbC5vcmc+DQo+IC0tLQ0KPiANCj4gSGkhDQo+IA0KPiBUbyBzaGFkb3ctdXRpbHMgcmVh
-ZGVycywgSSd2ZSBzZWVuIHRoZXJlIGFyZSBhIGZldyB1c2VzIG9mIHN0cm5jYXQoMykgaW4N
-Cj4gc2hhZG93LXV0aWxzLiAgSSdsbCByZXZpZXcgbXkgY3VycmVudCBQUiBhYm91dCBzdHJp
-bmcgaGFuZGxpbmcgdG8gYWxzbw0KPiBhZGRyZXNzIHRoaXMgaXNzdWUuDQo+IA0KPiBUbyBn
-bGliYyByZWFkZXJzLCBwbGVhc2UgYnVyeSB0aGlzIGZ1bmN0aW9uIGRlZXAgZG93biBhcyBp
-ZiBpdCB3ZXJlDQo+IHJhZGlvYWN0aXZlIHdhc3RlLg0KPiANCj4gQ2hlZXJzLA0KPiANCj4g
-QWxleA0KPiANCg0KVGhlIHJlbmRlcmVkIHZlcnNpb24gb2YgdGhlIG5ldyBtYW51YWwgcGFn
-ZSBmb3Igc3RybmNweSgzKSBpczoNCg0KDQpzdHJuY2F0KDMpICAgICAgICAgICAgICBMaWJy
-YXJ5IEZ1bmN0aW9ucyBNYW51YWwgICAgICAgICAgICAgc3RybmNhdCgzKQ0KDQpOQU1FDQog
-ICAgICAgIHN0cm5jYXQgLSBjb25jYXRlbmF0ZSB0d28gc3RyaW5ncw0KDQpMSUJSQVJZDQog
-ICAgICAgIFN0YW5kYXJkIEMgbGlicmFyeSAobGliYywgLWxjKQ0KDQpTWU5PUFNJUw0KICAg
-ICAgICAjaW5jbHVkZSA8c3RyaW5nLmg+DQoNCiAgICAgICAgW1tkZXByZWNhdGVkXV0NCiAg
-ICAgICAgY2hhciAqc3RybmNhdChjaGFyIGRlc3RbcmVzdHJpY3Qgc3RybGVuKC5kZXN0KSAr
-IHN0cm5sZW4oLm4pICsgMV0sDQogICAgICAgICAgICAgICAgICAgICAgY29uc3QgY2hhciBz
-cmNbcmVzdHJpY3QgLm5dLA0KICAgICAgICAgICAgICAgICAgICAgIHNpemVfdCBuKTsNCg0K
-REVTQ1JJUFRJT04NCiAgICAgICAgTm90ZTogTmV2ZXIgdXNlIHRoaXMgZnVuY3Rpb24uDQoN
-CiAgICAgICAgRm9yICBzYWZlICBzdHJpbmcgY29uY2F0ZW5hdGlvbiwgc2VlIHN0cmxjYXQo
-M2JzZCkuICBGb3IgY29weWluZw0KICAgICAgICBvciBjb25jYXRlbmF0aW5nIGEgc3RyaW5n
-IGludG8gYSBmaXhlZOKAkGxlbmd0aCBidWZmZXIgd2l0aCAgemVyb+KAkA0KICAgICAgICBp
-bmcgb2YgdGhlIHJlc3QsIHNlZSBzdHBuY3B5KDMpLg0KDQogICAgICAgIHN0cm5jYXQoKSBh
-cHBlbmRzIGF0IG1vc3QgbiBjaGFyYWN0ZXJzIG9mIHNyYyB0byB0aGUgZW5kIG9mIGRzdC4N
-CiAgICAgICAgSXQgIGFsd2F5cyB0ZXJtaW5hdGVzIHdpdGggYSBudWxsIGNoYXJhY3RlciB0
-aGUgc3RyaW5nIHBsYWNlZCBpbg0KICAgICAgICBkZXN0Lg0KDQogICAgICAgIEEgc2ltcGxl
-IGltcGxlbWVudGF0aW9uIG9mIHN0cm5jYXQoKSBtaWdodCBiZToNCg0KICAgICAgICAgICAg
-Y2hhciAqDQogICAgICAgICAgICBzdHJuY2F0KGNoYXIgKmRlc3QsIGNvbnN0IGNoYXIgKnNy
-Yywgc2l6ZV90IG4pDQogICAgICAgICAgICB7DQogICAgICAgICAgICAgICAgcmV0dXJuIG1l
-bWNweShkZXN0ICsgc3RybGVuKGRlc3QpLCBzcmMsIHN0cm5sZW4oc3JjLCBuKSk7DQogICAg
-ICAgICAgICB9DQoNClJFVFVSTiBWQUxVRQ0KICAgICAgICBzdHJuY2F0KCkgcmV0dXJucyBh
-IHBvaW50ZXIgdG8gdGhlIHJlc3VsdGluZyBzdHJpbmcgZGVzdC4NCg0KQVRUUklCVVRFUw0K
-ICAgICAgICBGb3IgYW4gZXhwbGFuYXRpb24gb2YgdGhlIHRlcm1zIHVzZWQgaW4gdGhpcyAg
-c2VjdGlvbiwgIHNlZSAgYXTigJANCiAgICAgICAgdHJpYnV0ZXMoNykuDQogICAgICAgIOKU
-jOKUgOKUgOKUgOKUgOKUgOKUgOKUgOKUgOKUgOKUgOKUgOKUgOKUgOKUgOKUgOKUgOKUgOKU
-gOKUgOKUgOKUgOKUgOKUgOKUgOKUgOKUgOKUgOKUgOKUgOKUgOKUgOKUgOKUgOKUgOKUgOKU
-gOKUgOKUrOKUgOKUgOKUgOKUgOKUgOKUgOKUgOKUgOKUgOKUgOKUgOKUgOKUgOKUgOKUgOKU
-rOKUgOKUgOKUgOKUgOKUgOKUgOKUgOKUgOKUgOKUkA0KICAgICAgICDilIJJbnRlcmZhY2Ug
-ICAgICAgICAgICAgICAgICAgICAgICAgICAg4pSCIEF0dHJpYnV0ZSAgICAg4pSCIFZhbHVl
-ICAg4pSCDQogICAgICAgIOKUnOKUgOKUgOKUgOKUgOKUgOKUgOKUgOKUgOKUgOKUgOKUgOKU
-gOKUgOKUgOKUgOKUgOKUgOKUgOKUgOKUgOKUgOKUgOKUgOKUgOKUgOKUgOKUgOKUgOKUgOKU
-gOKUgOKUgOKUgOKUgOKUgOKUgOKUgOKUvOKUgOKUgOKUgOKUgOKUgOKUgOKUgOKUgOKUgOKU
-gOKUgOKUgOKUgOKUgOKUgOKUvOKUgOKUgOKUgOKUgOKUgOKUgOKUgOKUgOKUgOKUpA0KICAg
-ICAgICDilIJzdHJuY2F0KCkgICAgICAgICAgICAgICAgICAgICAgICAgICAg4pSCIFRocmVh
-ZCBzYWZldHkg4pSCIE1U4oCQU2FmZSDilIINCiAgICAgICAg4pSU4pSA4pSA4pSA4pSA4pSA
-4pSA4pSA4pSA4pSA4pSA4pSA4pSA4pSA4pSA4pSA4pSA4pSA4pSA4pSA4pSA4pSA4pSA4pSA
-4pSA4pSA4pSA4pSA4pSA4pSA4pSA4pSA4pSA4pSA4pSA4pSA4pSA4pSA4pS04pSA4pSA4pSA
-4pSA4pSA4pSA4pSA4pSA4pSA4pSA4pSA4pSA4pSA4pSA4pSA4pS04pSA4pSA4pSA4pSA4pSA
-4pSA4pSA4pSA4pSA4pSYDQoNClNUQU5EQVJEUw0KICAgICAgICBQT1NJWC4x4oCQMjAwMSwg
-UE9TSVguMeKAkDIwMDgsIEM4OSwgQzk5LCBTVnI0LCA0LjNCU0QuDQoNCkJVR1MNCiAgICAg
-ICAgQWxsLiAgU2VyaW91c2x5LCB0aGVyZeKAmXMgbm8gdXNlIGNhc2UgZm9yIHRoaXMgZnVu
-Y3Rpb24uDQoNCiAgICAgICAgSXQgIGhhcyAgYSB2ZXJ5IG1pc2xlYWRpbmcgbmFtZS4gIFRo
-aXMgZnVuY3Rpb24gaGFzIG5vIHJlbGF0aW9u4oCQDQogICAgICAgIHNoaXAgd2l0aCBzdHJu
-Y3B5KDMpLg0KDQogICAgICAgIFNpbmNlIGl0IGRvZXNu4oCZdCBrbm93IHRoZSBzaXplIG9m
-IHRoZSBkZXN0aW5hdGlvbiAgYnVmZmVyLCAgdGhpcw0KICAgICAgICBmdW5jdGlvbiAgY2Fu
-ICBlYXNpbHkgIHdyaXRlIHBhc3QgdGhlIGVuZCBvZiB0aGUgYXJyYXksIGJlaW5nIGFuDQog
-ICAgICAgIG9wZW4gZG9vciB0byBhbGwga2luZHMgb2YgY3JhY2tlcnMuDQoNClNFRSBBTFNP
-DQogICAgICAgIHN0cmNweSgzKSwgc3RyaW5nKDMpDQoNCkxpbnV4IG1hbuKAkHBhZ2VzICh1
-bnJlbGVhc2VkKSAgICAgKGRhdGUpICAgICAgICAgICAgICAgICAgICAgIHN0cm5jYXQoMykN
-Cg0KLS0gDQo8aHR0cDovL3d3dy5hbGVqYW5kcm8tY29sb21hci5lcy8+DQo=
+Hello Alejandro,
+On Sun, Dec 04, 2022 at 09:08:31PM +0100, Alejandro Colomar wrote:
+> On 12/4/22 21:02, Helge Kreutzmann wrote:
+> > Hello Alejandro,
+> > On Sun, Dec 04, 2022 at 08:52:33PM +0100, Alejandro Colomar wrote:
+> > > On 12/4/22 10:07, Helge Kreutzmann wrote:
+> > > > Without further ado, the following was found:
+> > > >=20
+> > > > Issue:    Has more fields in Linux 6.0.11
+> > > >=20
+> > > > "sl  local_address rem_address   st tx_queue rx_queue tr rexmits  t=
+m-E<gt>when uid\n"
+> > > > " 1: 01642C89:0201 0C642C89:03FF 01 00000000:00000001 01:000071BA 0=
+0000000 0\n"
+> > > > " 1: 00000000:0801 00000000:0000 0A 00000000:00000000 00:00000000 6=
+F000100 0\n"
+> > > > " 1: 00000000:0201 00000000:0000 0A 00000000:00000000 00:00000000 0=
+0000000 0\n"
+> > >=20
+> > > Please send a patch.
+> >=20
+> > On my machine using 6.0.11 I see the following:
+> >=20
+> > root@twentytwo:~# cat /proc/net/udp
+> >     sl  local_address rem_address   st tx_queue rx_queue tr tm->when re=
+trnsmt   uid  timeout inode ref pointer drops
+> > 12479: 20B2A8C0:0044 00000000:0000 07 00000000:00000000 00:00000000 000=
+00000     0        0 30919 2 00000000403ec9a8 0
+> > 13042: 00000000:0277 00000000:0000 07 00000000:00000000 00:00000000 000=
+00000     0        0 25698 2 00000000ad73fe45 0
+>=20
+> I don't understand the report very well.  If you don't mind, sending a pa=
+th
+> would make it more clear to me.  Thanks.
 
---------------8EZigGDHOBjIKEUIkKcb0ZeA--
+I can't really. Simply put:
 
---------------GGQRe43PotBjjMoH0Y9FRSop
-Content-Type: application/pgp-signature; name="OpenPGP_signature.asc"
-Content-Description: OpenPGP digital signature
-Content-Disposition: attachment; filename="OpenPGP_signature"
+1. The translator translated this part of the man page.
+
+2. He (just for fun) executed "cat /proc/net/udp" on his system.
+
+3. He saw a difference to what is shown in proc(5).
+
+4. He reported it.
+
+5. On your request, I also executed "cat /proc/net/udp" on my system.
+
+I have zero knowledge if this is a bug on my system, a (recent)
+change, done on purpose in the man page etc.=20
+
+So I mark this as WONTFIX for now, maybe the person who wrote this
+part of proc(5) can pick it up some day and check how to proceed best.
+
+Greetings
+
+        Helge
+
+
+--=20
+      Dr. Helge Kreutzmann                     debian@helgefjell.de
+           Dipl.-Phys.                   http://www.helgefjell.de/debian.php
+        64bit GNU powered                     gpg signed mail preferred
+           Help keep free software "libre": http://www.ffii.de/
+
+--=_luckmann.name-5427-1670259015-0001-2
+Content-Type: application/pgp-signature; name="signature.asc"
+Content-Transfer-Encoding: 7bit
 
 -----BEGIN PGP SIGNATURE-----
 
-iQIzBAEBCgAdFiEE6jqH8KTroDDkXfJAnowa+77/2zIFAmOOFJcACgkQnowa+77/
-2zLWQA//dme7Ytmj/GsjE061h8R16igs/liXPuNvMmfegBEdmKEQ1+XnxKdCfyTr
-V8qs32DycEMu5fLxLq1HOzdP62/e2MX1mq9EsvsjrAqT3+Ya4RBWPaGcxkPRI5qS
-GP4kVw7KvS3G+y2j/ouP+ASQ7DQHDHJFfd3lODJ/k4yHgkWk2Xs2hb15CRBxgcEo
-Zhj8NqxQkOd3zfx3E91shum3x7ufNJQHNIWZxhXgamFyHg2laUbeAgnyMdvrL4YQ
-g/FsUePw4eoa6RjHlRGuCOeKWwhjvT8TaP69wqYMrP+NJ2L4bweMRPSOlMwGrB2o
-GYTsqfQBPQd311/VegkXtMPW8cBQfFFYbYE5MZr1GvudIsChDjtX7ue5hN3LLho8
-olNl+bGMBoQIS+ZqNLdhEBt7m6HhD6+NKi2LP2oWhw39mVZ5q+9JyCzanxhZ3udQ
-j2gSirHxyVZF/N7BTD3WBWmmDelfuuXARfIY3oVSR4WnYYrCtO9P3lpSPOre9MMh
-JXBnpRia84yiqYCyzrsANGgLa1eE4MwchKwGKbNBYukoDHCBwlmm8HLD4ed5UB/B
-FdgbnYrglan9G21WOTodgdrZoji0n5Gucu+WJjhOVuNUi69ImqJuBpsVne0gLFvi
-Hlzj6oU09O9NvOplQOHdWKZKYOHnT/ka6l1AC/Tuallb1pcqUh4=
-=jdwX
+iQIzBAABCAAdFiEEbZZfteMW0gNUynuwQbqlJmgq5nAFAmOOIUEACgkQQbqlJmgq
+5nDnqw/8DmCA/u5w6KfkdGz1sDaQNezDsvuVe0c8sK8NPetNA06bkTSmf7p38pIE
+2feqXdoAGsWcY2cPsatZK/200bcS90/k9CTSH1ExCMT96k8eBv3IJ4uj2H247QzP
+FAv/QRcIEJGHIUZoiJ/rJTIB7v0vvKemxTbGwx4KEkFvF4C9KvmuhCyvRUjr+61t
+/EQGCJ4shBCPJ4g4eQ+vRvBtVM4Ss5AmTRuYIiuc9vm5n9GqZLZmJMm5V0zTtx6p
+6sbfvIJ+mLz2VS3fVxCPoYlTnTt0Z2LXIBgfRzlu/tEizlkepQiN++57Wp2SgFTq
+2XTjN+WMm3Pn+b4a+ALRI5FM2FSpV0pOvzBsy5AtQF8iGJAu+1I+Zllimvna3qr/
+JsC3IHQBHv51XB1eVBpnj1FifYGrQKzFoaT2GfK0o7VMBUbsprh9xb1dcfPwuLPP
+YdH0cZGTwRWuH5nUTszpocxZ7Z0zhSwp2ESm3ZGyTIq8pm5q6qaMpwYKZysdSGm/
+j0JSZn9dNKv65cLxsFFDZ4K4xqdFLpmfvChm5hvuufPvb+CgA2TetrNe8HVCR7TJ
+fBhfKrUNKEd1KDrvni27M9jex4Dn3pnfzY9WIgVBhKVCFG5zZWFvZBsN9LAZ87bf
+ODdrIb4kmALYKSMaQfXeP11JeGNIDvvHbToOcTk9lgyWrzTeGmQ=
+=aHK1
 -----END PGP SIGNATURE-----
 
---------------GGQRe43PotBjjMoH0Y9FRSop--
+--=_luckmann.name-5427-1670259015-0001-2--
