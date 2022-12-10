@@ -2,104 +2,117 @@ Return-Path: <linux-man-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 2D7EFC4332F
-	for <linux-man@archiver.kernel.org>; Sat, 10 Dec 2022 07:56:08 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id B1D89C4332F
+	for <linux-man@archiver.kernel.org>; Sat, 10 Dec 2022 08:01:45 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S229720AbiLJH4G (ORCPT <rfc822;linux-man@archiver.kernel.org>);
-        Sat, 10 Dec 2022 02:56:06 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:33382 "EHLO
+        id S229750AbiLJIBo convert rfc822-to-8bit (ORCPT
+        <rfc822;linux-man@archiver.kernel.org>);
+        Sat, 10 Dec 2022 03:01:44 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:34086 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S229494AbiLJH4G (ORCPT
-        <rfc822;linux-man@vger.kernel.org>); Sat, 10 Dec 2022 02:56:06 -0500
-Received: from static.213-239-213-133.clients.your-server.de (luckmann.name [213.239.213.133])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 7D6431DA40
-        for <linux-man@vger.kernel.org>; Fri,  9 Dec 2022 23:56:05 -0800 (PST)
-Received: from localhost (localhost [127.0.0.1])
-  (uid 502)
-  by static.213-239-213-133.clients.your-server.de with local
-  id 0000000000E54048.0000000063943B93.00007AD8; Sat, 10 Dec 2022 08:56:03 +0100
-Date:   Sat, 10 Dec 2022 08:56:03 +0100
-From:   Helge Kreutzmann <debian@helgefjell.de>
-To:     Alejandro Colomar <alx.manpages@gmail.com>
-Cc:     "G. Branden Robinson" <g.branden.robinson@gmail.com>,
-        Ingo Schwarze <schwarze@usta.de>,
-        Colin Watson <cjwatson@debian.org>, linux-man@vger.kernel.org,
-        Mario =?utf-8?Q?Bl=C3=A4ttermann?= <mario.blaettermann@gmail.com>,
-        Marcos Fouces <marcos@debian.org>,
-        "Dr. Tobias Quathamer" <toddy@debian.org>
-Subject: Re: man-db bugs? (was: Conflicting alias for some man pages)
-Message-ID: <20221210075603.GB4079@Debian-50-lenny-64-minimal>
-References: <20221203140116.GA15173@Debian-50-lenny-64-minimal>
- <1ac0914d-72f8-654b-c6b0-6be68f26a598@gmail.com>
- <4aaf7fb4-8d4b-e050-b376-9120d8c328ac@gmail.com>
- <20221209203719.yh5eosxv6ckgfuhz@illithid>
- <93e226a0-983b-f6d7-13bc-cd6240a45a93@gmail.com>
-Mime-Version: 1.0
-Content-Type: multipart/signed; micalg=pgp-sha256; protocol="application/pgp-signature"; boundary="=_luckmann.name-31448-1670658963-0001-2"
-Content-Disposition: inline
-In-Reply-To: <93e226a0-983b-f6d7-13bc-cd6240a45a93@gmail.com>
-X-Public-Key-URL: http://www.helgefjell.de/data/debian_neu.asc
-X-homepage: http://www.helgefjell.de/debian
-User-Agent: Mutt/1.10.1 (2018-07-13)
+        with ESMTP id S229721AbiLJIBn (ORCPT
+        <rfc822;linux-man@vger.kernel.org>); Sat, 10 Dec 2022 03:01:43 -0500
+X-Greylist: delayed 2768 seconds by postgrey-1.37 at lindbergh.monkeyblade.net; Sat, 10 Dec 2022 00:01:41 PST
+Received: from omr05.pc4.atmailcloud.com (omr05.pc4.atmailcloud.com [52.51.233.27])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 9CA142980A
+        for <linux-man@vger.kernel.org>; Sat, 10 Dec 2022 00:01:41 -0800 (PST)
+Received: from MRR.i-05b3a10130f6c691b
+         by OMR.i-0fc441b4575783f9f with esmtps
+        (envelope-from <hbezemer@kliksafe.nl>)
+        id 1p3u55-0004R1-66; Sat, 10 Dec 2022 07:15:31 +0000
+Received: from CMR-KS.i-003eb41df490dcd9a by MRR.i-05b3a10130f6c691b with esmtps
+        (envelope-from <hbezemer@kliksafe.nl>)
+        id 1p3u55-0006ci-45; Sat, 10 Dec 2022 07:15:31 +0000
+Received: from [213.247.101.105] (helo=misterbzr.localdomain)
+         by CMR-KS.i-003eb41df490dcd9a with esmtpsa
+        (envelope-from <hbezemer@kliksafe.nl>)
+        id 1p3u54-0004F7-1G; Sat, 10 Dec 2022 07:15:30 +0000
+Date:   Sat, 10 Dec 2022 08:15:27 +0100
+From:   hbezemer@kliksafe.nl
+To:     John Gardner <gardnerjohng@gmail.com>
+Cc:     Deri <deri@chuzzlewit.myzen.co.uk>,
+        "G. Branden Robinson" <g.branden.robinson@gmail.com>,
+        Mike Frysinger <vapier@gentoo.org>, groff@gnu.org,
+        linux-man@vger.kernel.org,
+        Alejandro Colomar <alx.manpages@gmail.com>
+Subject: Re: words (and commands) that I learnt because of Branden (was:
+ preferred /proc/<pid>/xxx style?)
+Message-ID: <20221210071527.WKsP8%hbezemer@kliksafe.nl>
+In-Reply-To: <CAGcdajfWk+=xR3UfAnNri0F7OL0mFJ4xsp=sQoWLo_-_G5wcBA@mail.gmail.com>
+References: <Y5MCsc/H9BV6RcST@vapier>
+ <20221209210340.azlp4t6c5myz534b@illithid>
+ <b2aba4a6-2a6a-74c6-97e8-3bc11018a623@gmail.com> <1825468.atdPhlSkOF@pip>
+ <CAGcdajfWk+=xR3UfAnNri0F7OL0mFJ4xsp=sQoWLo_-_G5wcBA@mail.gmail.com>
+User-Agent: s-nail v14.9.24
+MIME-Version: 1.0
+Content-Type: text/plain; charset=utf-8
+Content-Transfer-Encoding: 8BIT
+X-Atmail-Id: hbezemer@kliksafe.nl
+X-atmailcloud-spam-score: 0
+X-atmailcloud-spam-bar: /
+X-atmailcloud-spam-action: no action
 Precedence: bulk
 List-ID: <linux-man.vger.kernel.org>
 X-Mailing-List: linux-man@vger.kernel.org
 
-This is a MIME-formatted message.  If you see this text it means that your
-E-mail software does not support MIME-formatted messages.
+This thread made my morning and I fully agree: Love to read the elaborate delicately humourful e-mails.
+In Dutch there's a saying: Schrijvers zijn blijvers, which can be loosy translated as: Who writes, will be remembered. True in this case.
 
---=_luckmann.name-31448-1670658963-0001-2
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-Content-Transfer-Encoding: quoted-printable
+Regards,
 
-Hello Alejandro, hello Branden,
-On Fri, Dec 09, 2022 at 09:48:42PM +0100, Alejandro Colomar wrote:
-> On 12/9/22 21:37, G. Branden Robinson wrote:
-> > What I expected:
-> >=20
-> > $ whatis rindex
-> > rindex (3)           - locate character in string
-> > string (3)           - string operations
-> > [...and maybe others I haven't thought of]
-> >=20
-> > What I got:
-> > rindex (3)           - locate character in string
+Hans
+John Gardner <gardnerjohng@gmail.com> wrote:
 
-For completeness (when you try to trace this down) I get:
-helge@twentytwo:/scr/build/src/DCS$ apropos rindex
-index (3)            - findet ein Zeichen in einer Zeichenkette
-rindex (3)           - locate character in string
-XftCharIndex (3)     - X FreeType interface library
-
-Greetings
-
-           Helge
---=20
-      Dr. Helge Kreutzmann                     debian@helgefjell.de
-           Dipl.-Phys.                   http://www.helgefjell.de/debian.php
-        64bit GNU powered                     gpg signed mail preferred
-           Help keep free software "libre": http://www.ffii.de/
-
---=_luckmann.name-31448-1670658963-0001-2
-Content-Type: application/pgp-signature; name="signature.asc"
-Content-Transfer-Encoding: 7bit
-
------BEGIN PGP SIGNATURE-----
-
-iQIzBAABCAAdFiEEbZZfteMW0gNUynuwQbqlJmgq5nAFAmOUO5MACgkQQbqlJmgq
-5nAqUBAAi4ChsJkJu8cqF01om2Iq+4vBFJzb+K5WdWOKv32grar9aRlamfVHCLaY
-xkGnVnzUXlhjQZfrqyz/O6/nuAFL9KMT1L2ESQKeMaooVAFonh8aeSVDYgkTMdqd
-mjwn78bS/kKdeGlNGpTz1ve2GKRkHunoXDs/CA+PdWBQs45m6xQlWtsQGgVjt+yg
-n3+uZQ5omjGarqHe/uLeLF9SD9jTbnQEEbto3BQ1OVS+rJ/CBddQCCyD3ZG9+VNM
-5hC5NfeU5IEtYTQwkSW+fOXxQ0WyH0XuTl39UW9D3i/Dy9cgcYDBQSoJF+Cq9JAX
-lA4A+WaaJnjA/fyNfIYx5bpKChZGclE06/i5pqzuT2liypu3lr1Er8DIYZORiWqp
-qL5EF13fyFaUlpV+VjiQn6O2ldgPl2WbvmUWVRn8CE2BZtCKfNJorkhbapET/M3a
-AwA6vcScvkaNqdwjPBWucPQr9JHLr3BdoI/tFog1Tle4oSqD0kJ4c4fbFKQFu9zj
-deXe1MLu7dTT4aQeBlpfm1LZQqjQ5NTqbuLchOJflUsZPo+7nesCQ4V9IZB1/LCZ
-0zgSe415v7gB+jLWUPYIZVj9DcKIIC5M5n/zfsag+D7B9pSf1SUjnAI/J4+vikUi
-4oIywFHF4PsUQh7UHvc4svf6gyvY3VVW8t4HjVlkCG8XXWCAFho=
-=D2if
------END PGP SIGNATURE-----
-
---=_luckmann.name-31448-1670658963-0001-2--
+> >
+> >  Your emails are the reason I know and often use dict(1).  Lol.
+> 
+> 
+> Branden's e-mails are the reason I consult the Oxford English dictionary
+> far more often than I'm comfortable admitting. Either I'm learning obscure
+> words I know I'll never remember when I need them,[1] <#snarky-footnote-1>
+> or I'm asking myself *"wait, what does *X* mean, again…?"*, chiefly because
+> I don't read enough (non-technical) literature. :-(
+> 
+> And even when he *isn't* filling my notes file I use to horde definitions
+> of fancy-sounding words I probably won't ever use, I'm always admiring how
+> he manages to balance cheeky humour with informative, expressive writing
+> that brings the Camel Book's writing style to mind (seriously, when
+> discussing dry topics like typesetting and Unix orthography, a sense of
+> humour makes digestion *so* much easier).
+> 
+> Also, "*vituperator*" still reigns as my favourite Brandenism[2]
+> <#if-you-can-read-this-gmail-forgot-to-sanitise-my-fragment-identifier> to
+> date.
+> 
+> [1] Or awkwardly pigeonhole them into discussions when I do.
+> [2] An unintentional extension to a reader's vocabulary, often when you
+> least expect it.
+> [3] There's no third footnote, I just wanted to point out how infectious
+> Branden's writing style is.
+> 
+> 
+> On Sat, 10 Dec 2022 at 09:10, Deri <deri@chuzzlewit.myzen.co.uk> wrote:
+> 
+> > On Friday, 9 December 2022 21:09:57 GMT Alejandro Colomar wrote:
+> > > $ dict deriliction
+> > > No definitions found for "deriliction", perhaps you mean:
+> > > gcide:  Dereliction
+> > > wn:  dereliction
+> > > moby-thesaurus:  dereliction
+> > >
+> > > And yes, dereliction has a definition compatible with your use.
+> > >
+> > > Cheers,
+> > >
+> > > Alex
+> >
+> >
+> > If deriliction was a word I think it would be unsavoury. :-)
+> >
+> > Cheers
+> >
+> > Deri
+> >
+> >
+> >
+> >
