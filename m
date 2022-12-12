@@ -2,86 +2,118 @@ Return-Path: <linux-man-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id EE45BC00145
-	for <linux-man@archiver.kernel.org>; Mon, 12 Dec 2022 14:06:26 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id CC8FEC00145
+	for <linux-man@archiver.kernel.org>; Mon, 12 Dec 2022 14:24:28 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S232762AbiLLOGZ (ORCPT <rfc822;linux-man@archiver.kernel.org>);
-        Mon, 12 Dec 2022 09:06:25 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:36814 "EHLO
+        id S231194AbiLLOY1 (ORCPT <rfc822;linux-man@archiver.kernel.org>);
+        Mon, 12 Dec 2022 09:24:27 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:45726 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S232727AbiLLOGX (ORCPT
-        <rfc822;linux-man@vger.kernel.org>); Mon, 12 Dec 2022 09:06:23 -0500
-X-Greylist: delayed 520 seconds by postgrey-1.37 at lindbergh.monkeyblade.net; Mon, 12 Dec 2022 06:06:21 PST
-Received: from fester.cwi.nl (fester.cwi.nl [192.16.191.27])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 5CFE9E0C0
-        for <linux-man@vger.kernel.org>; Mon, 12 Dec 2022 06:06:21 -0800 (PST)
-Received: from localhost (86-83-142-118.fixed.kpn.net [86.83.142.118])
-        (authenticated bits=0)
-        by fester.cwi.nl (8.15.2/8.15.2/Debian-14~deb10u1) with ESMTPSA id 2BCDv5fF000833
-        (version=TLSv1.3 cipher=TLS_AES_256_GCM_SHA384 bits=256 verify=NOT);
-        Mon, 12 Dec 2022 14:57:06 +0100
-DKIM-Signature: v=1; a=rsa-sha256; c=simple/simple; d=cwi.nl; s=default;
-        t=1670853426; bh=aDaxEYe0ig1esf1UOVOa0+5UwVpEnMI6weg0rWc9lsI=;
-        h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-        b=od2tnzwHwGN4EY/RbD0VAkuT1WkgJ++4cnsKM5CJet4qrYnMvEv8jssXmOHhQ5f1K
-         x6kVNTP2h4rjF+1BB3QWiSTueQxNT8KLYpWTFkCkfVWWKCNryq4kqO6UmaUSPOTZiw
-         NlmZ3iTMnMbGX63n1NDLyN8BMIa2zR778jKdE/Q0=
-Date:   Mon, 12 Dec 2022 14:57:05 +0100
-From:   "Andries E. Brouwer" <aeb@cwi.nl>
-To:     "G. Branden Robinson" <g.branden.robinson@gmail.com>
-Cc:     Alejandro Colomar <alx.manpages@gmail.com>,
-        Colin Watson <cjwatson@debian.org>,
-        Ingo Schwarze <schwarze@usta.de>,
-        linux-man <linux-man@vger.kernel.org>, groff@gnu.org,
-        Michael Haardt <michael@moria.de>,
-        Andries Brouwer <Andries.Brouwer@cwi.nl>,
-        Michael Kerrisk <mtk.manpages@gmail.com>,
-        Douglas McIlroy <douglas.mcilroy@dartmouth.edu>,
-        "Andries E. Brouwer" <aeb@cwi.nl>
-Subject: Re: Ping^1: Chapters of the manual (was: Bug#1018737:
- /usr/bin/rst2man: rst2man: .TH 5th field shouldn't be empty)
-Message-ID: <20221212135705.GA138593@if>
-References: <a7b8c6b3-a8e8-6ab7-6cf4-118446849a9c@gmail.com>
- <dca0e251-7481-7f1e-4077-0ddee070a357@gmail.com>
- <20220906204245.hzhq2s7yha6zzgrh@illithid>
- <30e80fe0-f0ce-d6cd-ee40-28692e5a5f82@gmail.com>
- <5c1e8620-e4ff-c79a-1d4e-11f797276726@gmail.com>
- <20221116234049.GA1229865@if>
- <f306a83a-306d-e3d0-5d25-bf07da3da59f@gmail.com>
- <c23b1a4f-1269-55a6-53ac-abbd2cff5786@gmail.com>
- <b13137bb-8eb9-dc69-da3b-191eda8e5642@gmail.com>
- <20221212131922.e37ltilm6qv4invd@illithid>
+        with ESMTP id S231467AbiLLOY0 (ORCPT
+        <rfc822;linux-man@vger.kernel.org>); Mon, 12 Dec 2022 09:24:26 -0500
+Received: from mail-wm1-x335.google.com (mail-wm1-x335.google.com [IPv6:2a00:1450:4864:20::335])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id EAF6211477
+        for <linux-man@vger.kernel.org>; Mon, 12 Dec 2022 06:24:24 -0800 (PST)
+Received: by mail-wm1-x335.google.com with SMTP id bg10so5538931wmb.1
+        for <linux-man@vger.kernel.org>; Mon, 12 Dec 2022 06:24:24 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20210112;
+        h=content-transfer-encoding:mime-version:references:in-reply-to
+         :message-id:date:subject:cc:to:from:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=h5LtCu1OG7ST9zUwh85D4d56B1gQTrgTy6KgwrA7+tw=;
+        b=Z9LRJ0d4WtfGargJ6WwHSLaZ+xvl7tGVjLWiVxk54Z0y/1XBAUMsuvDEGkurWQwxOq
+         8ug2ujuiNBdPdISWVfWo5iwE5+kXwsnrE2azavQhkw08CxDrg/o+BMAm9d/6WVKXJ1Zm
+         qy+qN/5r2+iGrEqJkDVttGCksfn9lPPW4+MfUdx8aYbeYg7P/65IpO7fKHKY2VcGWRd3
+         kPFFQgOm27W53cqgiQmmuJv7LWycXCnmAL6CifVzZDHohyOjD6VlpZ15MmX4Ayx6MCwV
+         kGJnm/YMqhZ5m+eWccfABFr/isK/LSu3P85azOR2uCLFwQ3nW0s36qQvUlhNYNqFJrZq
+         Twaw==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20210112;
+        h=content-transfer-encoding:mime-version:references:in-reply-to
+         :message-id:date:subject:cc:to:from:x-gm-message-state:from:to:cc
+         :subject:date:message-id:reply-to;
+        bh=h5LtCu1OG7ST9zUwh85D4d56B1gQTrgTy6KgwrA7+tw=;
+        b=oHJ0DsJGnonjf3AJU3yzMYT5+//LX5CYjtjZGMn6PVa0omJOvZx27J1A+SHtEzWSrc
+         SH6xUhNY8D8GTQFzvrs437xJasbB7IA7793PLJZeiL/romtawvRansaUgT55d9Uas09D
+         Nu3iwA6BCIy2ld0qVNlceyNK2klHSaEN8FYDqbRtakEWS21UHENrw4LKdioaIp6b1srp
+         a1+V2Hh2Uf3CXhzW4NlkMMex/si3I3jUJVgPgFZb+R7u5WGYuAB3vgCuG0qAOnzNu3RB
+         4kU7pO91NJLSvUp4+Nh1nUxnOmuNf4kelHA92BEPMnSZ4/WTNiz4bXCIgYjmZrFG6Cez
+         L5Gg==
+X-Gm-Message-State: ANoB5pn5zgSHRshizt3E8uxoLy/HwVBZorNG4DPsBgdSpp2XPIwoMxUS
+        6/RDPD0h/i/aD9j7bfPkM9C2CzQwL08=
+X-Google-Smtp-Source: AA0mqf6qHpuW7VVJVUaiNjsWHvIGmKYUAs4s+DQosC51g6tp5aab351nNnb3Vl42uhz+Ep16qRXylw==
+X-Received: by 2002:a05:600c:4688:b0:3d0:480b:ac53 with SMTP id p8-20020a05600c468800b003d0480bac53mr12739495wmo.12.1670855063569;
+        Mon, 12 Dec 2022 06:24:23 -0800 (PST)
+Received: from asus5775.alejandro-colomar.es ([170.253.36.171])
+        by smtp.googlemail.com with ESMTPSA id j18-20020a5d5652000000b002427bfd17b6sm10802902wrw.63.2022.12.12.06.24.23
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Mon, 12 Dec 2022 06:24:23 -0800 (PST)
+From:   Alejandro Colomar <alx.manpages@gmail.com>
+X-Google-Original-From: Alejandro Colomar <alx@kernel.org>
+To:     linux-man@vger.kernel.org
+Cc:     Alejandro Colomar <alx@kernel.org>
+Subject: [PATCH 3/3] stpecpy.3, stpecpyx.3, strlcat.3, strlcpy.3, strscpy.3: Add new links to strcpy(3)
+Date:   Mon, 12 Dec 2022 15:24:18 +0100
+Message-Id: <20221212142418.27615-3-alx@kernel.org>
+X-Mailer: git-send-email 2.38.1
+In-Reply-To: <176225b0-4b0e-698b-b79e-f8ed78b4cf8c@gmail.com>
+References: <176225b0-4b0e-698b-b79e-f8ed78b4cf8c@gmail.com>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20221212131922.e37ltilm6qv4invd@illithid>
+Content-Transfer-Encoding: 8bit
 Precedence: bulk
 List-ID: <linux-man.vger.kernel.org>
 X-Mailing-List: linux-man@vger.kernel.org
 
-On Mon, Dec 12, 2022 at 07:19:22AM -0600, G. Branden Robinson wrote:
+Signed-off-by: Alejandro Colomar <alx@kernel.org>
+---
+ man3/stpecpy.3  | 1 +
+ man3/stpecpyx.3 | 1 +
+ man3/strlcat.3  | 1 +
+ man3/strlcpy.3  | 1 +
+ man3/strscpy.3  | 1 +
+ 5 files changed, 5 insertions(+)
+ create mode 100644 man3/stpecpy.3
+ create mode 100644 man3/stpecpyx.3
+ create mode 100644 man3/strlcat.3
+ create mode 100644 man3/strlcpy.3
+ create mode 100644 man3/strscpy.3
 
-> The 4.2BSD provenance is particularly valuable, in that it illustrates
-> how the terminology was retained
+diff --git a/man3/stpecpy.3 b/man3/stpecpy.3
+new file mode 100644
+index 000000000..ff7476a84
+--- /dev/null
++++ b/man3/stpecpy.3
+@@ -0,0 +1 @@
++.so man3/strcpy.3
+diff --git a/man3/stpecpyx.3 b/man3/stpecpyx.3
+new file mode 100644
+index 000000000..ff7476a84
+--- /dev/null
++++ b/man3/stpecpyx.3
+@@ -0,0 +1 @@
++.so man3/strcpy.3
+diff --git a/man3/strlcat.3 b/man3/strlcat.3
+new file mode 100644
+index 000000000..ff7476a84
+--- /dev/null
++++ b/man3/strlcat.3
+@@ -0,0 +1 @@
++.so man3/strcpy.3
+diff --git a/man3/strlcpy.3 b/man3/strlcpy.3
+new file mode 100644
+index 000000000..ff7476a84
+--- /dev/null
++++ b/man3/strlcpy.3
+@@ -0,0 +1 @@
++.so man3/strcpy.3
+diff --git a/man3/strscpy.3 b/man3/strscpy.3
+new file mode 100644
+index 000000000..ff7476a84
+--- /dev/null
++++ b/man3/strscpy.3
+@@ -0,0 +1 @@
++.so man3/strcpy.3
+-- 
+2.38.1
 
-Earlier I replied and showed a snapshot of the history.
-Contemporary:
-
-https://www.freebsd.org/cgi/man.cgi
-All Sections
-
-https://man.openbsd.org
-All Sections
-
-A random Oracle man page for SunOS:
-man pages section 2: System Calls
-
-https://developer.apple.com/documentation/os/reading_unix_manual_pages
-"Section 1 of the man pages covers command-line tools, section 2 covers system calls, section 3 covers user-space libraries, and so on."
-
-Etc.
-
-It may be true that there was historical use of "chapter", but
-all common places today have "section".
-
-Andries
