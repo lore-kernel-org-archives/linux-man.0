@@ -2,286 +2,1192 @@ Return-Path: <linux-man-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 9B8BAC4332F
-	for <linux-man@archiver.kernel.org>; Tue, 13 Dec 2022 23:25:09 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 2C0A3C10F1E
+	for <linux-man@archiver.kernel.org>; Wed, 14 Dec 2022 00:04:01 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S236570AbiLMXZI (ORCPT <rfc822;linux-man@archiver.kernel.org>);
-        Tue, 13 Dec 2022 18:25:08 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:38534 "EHLO
+        id S229820AbiLNAD7 (ORCPT <rfc822;linux-man@archiver.kernel.org>);
+        Tue, 13 Dec 2022 19:03:59 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:34602 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S237128AbiLMXYr (ORCPT
-        <rfc822;linux-man@vger.kernel.org>); Tue, 13 Dec 2022 18:24:47 -0500
-Received: from mail-ot1-x32e.google.com (mail-ot1-x32e.google.com [IPv6:2607:f8b0:4864:20::32e])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 9075C275DD
-        for <linux-man@vger.kernel.org>; Tue, 13 Dec 2022 15:24:10 -0800 (PST)
-Received: by mail-ot1-x32e.google.com with SMTP id x44-20020a05683040ac00b006707c74330eso816985ott.10
-        for <linux-man@vger.kernel.org>; Tue, 13 Dec 2022 15:24:10 -0800 (PST)
+        with ESMTP id S237034AbiLNADu (ORCPT
+        <rfc822;linux-man@vger.kernel.org>); Tue, 13 Dec 2022 19:03:50 -0500
+Received: from mail-wm1-x32a.google.com (mail-wm1-x32a.google.com [IPv6:2a00:1450:4864:20::32a])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 8F3676373
+        for <linux-man@vger.kernel.org>; Tue, 13 Dec 2022 16:03:47 -0800 (PST)
+Received: by mail-wm1-x32a.google.com with SMTP id b24-20020a05600c4a9800b003d21efdd61dso7952322wmp.3
+        for <linux-man@vger.kernel.org>; Tue, 13 Dec 2022 16:03:47 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=gmail.com; s=20210112;
-        h=in-reply-to:content-disposition:mime-version:references:message-id
-         :subject:cc:to:from:date:from:to:cc:subject:date:message-id:reply-to;
-        bh=OULe3Ib/ZD1jIXAKql+xgg1caBpNXdvPnFOkaFGpWGA=;
-        b=nzhbQHXIaDMhYzRr9b8yy73u110gdjbrxBriWOXTNSIu8EQmRIswovyYuZ6i1bhhfR
-         Tz5VEJpIJdggqVe+OwTU0wCvJWsK8+snHXVZTdCQHE0fW8o9tnHGhdIUy1lD6bAE0j5f
-         2a6rFdg85CwAnA+KcoL8mjjykiUroOQiIyMYwtJSZmXoRVszyeOTsPQbmdCoKtVl26Es
-         EAcQcQsii2j2t9TYZUJV9RiWP/C/aL7gIKGJREK5Q9AFCJPIBkZog+0omFVnTrZqtwV9
-         Fb0LzjvwE9wWE1VspdMukumdmBtLZ3Kg7bSXJO3Z2jXUaQaraRR0LmW96RD8ZK7en+R4
-         RN8w==
+        h=content-transfer-encoding:mime-version:references:in-reply-to
+         :message-id:date:subject:cc:to:from:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=MUHre3CsD735HP5L2KRPBOj2jTFepK9cM87Xgs1KOjM=;
+        b=Yf2WDYsgkTnNvJTXfRUrlXC9uNA8afSnCeqbMbC38JLqA2PYCi6pHMQFOE/gWcWviB
+         iX5icnUXRotKpWkMg6a73TiKjPdcfsG/QmAcZPvU5Rq6ml+gjdXEjqfu7efK+ca8+hUh
+         jWXfOs3DoHk0zK4ySRXMZjgsdoWFl+NDAXKx7hl6cI7bjbcQ+r1dkspKm6b+ddcNYriE
+         AwsqTk8G9YTYNJ0TWy4YbK3i/cH9jaBJiQ43XUEJZsPFNfO8vpZbcOhGn4A6liQNA1xQ
+         0YHPZ2VvBfdhj8KRMgzEFAdRoAcMvtEZg565ey5b4Pdv9lYMzzgGf9Bl+J6oNTyd/BDn
+         Ox/A==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20210112;
-        h=in-reply-to:content-disposition:mime-version:references:message-id
-         :subject:cc:to:from:date:x-gm-message-state:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=OULe3Ib/ZD1jIXAKql+xgg1caBpNXdvPnFOkaFGpWGA=;
-        b=p5hFtJq+1HEBo6awTaoe0aWbKv2GI7FClLC0cVb/W7SpkTDuMEGXbm9XnORCk9vyfH
-         I+iTaIM7qxWTMue06Wr1QnzIGn8Fj31wbrHE0BW7zkWtaSHQTsF36vF+BJuZXaiwz7fF
-         TZg8suGu+vJoGKjWtQgHzX+HCxzQ9j4CxGeQI9uAZ9FTG/m1hELb6S2fAhHhYm++ulFc
-         X4dRpbp9bc0xl0KlMqTIcsieapZDcico8WXb764R63//K7vUay7PSvbgr4z+kl8cyRmz
-         05zcui2CDfzqKgIfuA3s7v/Ibst7JeTZY07l60UCXTeIg113yqu3MQaBSK78cB0isUXY
-         8OxQ==
-X-Gm-Message-State: ANoB5pmC9n9rOIdTJFzvB6ZLxKXO+2Kd9pIQ2AP+E2zVO655q6Ip2XMt
-        oYAeBCp/IfncKnjpt00TGqjakP4ToaX6ZA==
-X-Google-Smtp-Source: AA0mqf53rrpn8qbNmramaVRhO/6F5lh1CEQG6htaytJS0GHZnZ6i14U2HT8GPuYThse3R0DLM6OnSw==
-X-Received: by 2002:a05:6830:9c2:b0:661:dfeb:ae27 with SMTP id y2-20020a05683009c200b00661dfebae27mr9591426ott.30.1670973849799;
-        Tue, 13 Dec 2022 15:24:09 -0800 (PST)
-Received: from illithid (ip68-12-97-90.ok.ok.cox.net. [68.12.97.90])
-        by smtp.gmail.com with ESMTPSA id bq20-20020a056830389400b00670679748f9sm1771514otb.49.2022.12.13.15.24.09
+        h=content-transfer-encoding:mime-version:references:in-reply-to
+         :message-id:date:subject:cc:to:from:x-gm-message-state:from:to:cc
+         :subject:date:message-id:reply-to;
+        bh=MUHre3CsD735HP5L2KRPBOj2jTFepK9cM87Xgs1KOjM=;
+        b=OG/LzxBizIq4wtlQSkErg84vaNYihUm2DkZBA7YAvXXY+A2H2f8xGxk2D3PIKovjpL
+         qzgdUDfidlMy4IzCpV2oDvuLah6L/AgeqD0DxalBp22WWd0U7rBg68+Ek2lAKL6fQTyd
+         lz9cktpmr0Cec7/LD8pJ4SrYwBnuel+Hu+EQv7DSwnnvNjLJZMI9Pt3DU5Mz7BjZvwgQ
+         dD877fXLvQ6LpfKJaKaaaPxe2z3WXSaV0JFLclzoTLGlle0xqgCH3bCFNdhuGcI88JB5
+         VbBh2tEFQGq2kj3p7zuxA1Eohkh78JOApHemUfxweeSEaR25lIrhnXrMT9TG7UodzScP
+         rgzA==
+X-Gm-Message-State: ANoB5pl4MNR0qL+B+HNtIbNrhQ9sbQyYD99PzWhlWb7UUu9fr7kdiamW
+        X5M3wVJuXGnE83yDz4E1zcw/47P0MeQ=
+X-Google-Smtp-Source: AA0mqf7yl73lZU6RL+QgO4CSfj7Qd3eA64eJtSoamsNGMA/e1cntXDnHeuwWp64oX1iSTYUtBPzwoA==
+X-Received: by 2002:a05:600c:35c6:b0:3cf:fc0b:3358 with SMTP id r6-20020a05600c35c600b003cffc0b3358mr17446742wmq.2.1670976225945;
+        Tue, 13 Dec 2022 16:03:45 -0800 (PST)
+Received: from asus5775.alejandro-colomar.es ([170.253.36.171])
+        by smtp.googlemail.com with ESMTPSA id m17-20020a05600c3b1100b003c6b7f5567csm4885489wms.0.2022.12.13.16.03.45
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Tue, 13 Dec 2022 15:24:09 -0800 (PST)
-Date:   Tue, 13 Dec 2022 17:24:07 -0600
-From:   "G. Branden Robinson" <g.branden.robinson@gmail.com>
-To:     Paul Eggert <eggert@cs.ucla.edu>
-Cc:     groff@gnu.org, linux-man@vger.kernel.org, tz@iana.org
-Subject: Re: [PATCH v2 3/4] zic.8: Use correct escape sequences instead of
- special characters
-Message-ID: <20221213232407.walpi6jmhbbtis3c@illithid>
-References: <20221123134827.10420-1-alx@kernel.org>
- <20221123134827.10420-3-alx@kernel.org>
- <2dc9b4ee-83c4-9a23-82d5-fd314efd648d@cs.ucla.edu>
- <f8fa5d28-034c-4080-98d7-a142f467b45e@cs.ucla.edu>
- <20221126211947.wzhb6zopmbsxqapj@illithid>
- <aaab0674-6e77-6f60-0c1a-1cc2188f5ece@cs.ucla.edu>
+        Tue, 13 Dec 2022 16:03:45 -0800 (PST)
+From:   Alejandro Colomar <alx.manpages@gmail.com>
+X-Google-Original-From: Alejandro Colomar <alx@kernel.org>
+To:     linux-man@vger.kernel.org
+Cc:     Alejandro Colomar <alx@kernel.org>,
+        Martin Sebor <msebor@redhat.com>,
+        "G. Branden Robinson" <g.branden.robinson@gmail.com>,
+        Douglas McIlroy <douglas.mcilroy@dartmouth.edu>,
+        Jakub Wilk <jwilk@jwilk.net>
+Subject: [PATCH v3 1/1] strcpy.3: Rewrite page to document all string-copying functions
+Date:   Wed, 14 Dec 2022 01:03:40 +0100
+Message-Id: <20221214000341.39846-2-alx@kernel.org>
+X-Mailer: git-send-email 2.38.1
+In-Reply-To: <20221212230044.86105-1-alx@kernel.org>
+References: <20221212230044.86105-1-alx@kernel.org>
 MIME-Version: 1.0
-Content-Type: multipart/signed; micalg=pgp-sha256;
-        protocol="application/pgp-signature"; boundary="4kl2jkidlxj4awzk"
-Content-Disposition: inline
-In-Reply-To: <aaab0674-6e77-6f60-0c1a-1cc2188f5ece@cs.ucla.edu>
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 8bit
 Precedence: bulk
 List-ID: <linux-man.vger.kernel.org>
 X-Mailing-List: linux-man@vger.kernel.org
 
+This is an opportunity to use consistent language across the
+documentation for all string-copying functions.
 
---4kl2jkidlxj4awzk
-Content-Type: text/plain; charset=utf-8
-Content-Disposition: inline
-Content-Transfer-Encoding: quoted-printable
+It is also easier to show the similarities and differences between all
+of the functions, so that a reader can use this page to know which
+function is needed for a given task.
 
-[dropping Alex and Geoff Clare of TOG, but keeping mailing lists because
-Paul corrected me on a significant point and I won't have anyone
-claiming I don't own up to my mistakes; still, length warning: 189
-lines]
+Many functions that are inferior to another one, have been marked as
+deprecated, notwithstanding the deprecation status in C libraries or
+any standards.  Alternatives have been given in the same page, with
+reference implementations.
 
-Hi Paul,
+Cc: Martin Sebor <msebor@redhat.com>
+Cc: "G. Branden Robinson" <g.branden.robinson@gmail.com>
+Cc: Douglas McIlroy <douglas.mcilroy@dartmouth.edu>
+Cc: Jakub Wilk <jwilk@jwilk.net>
+Signed-off-by: Alejandro Colomar <alx@kernel.org>
+---
+ man3/strcpy.3 | 1058 +++++++++++++++++++++++++++++++++++++++++++++----
+ 1 file changed, 970 insertions(+), 88 deletions(-)
 
-=2E..finally getting back to this, with belated thanks.
+diff --git a/man3/strcpy.3 b/man3/strcpy.3
+index 74c3180ae..e04a7b149 100644
+--- a/man3/strcpy.3
++++ b/man3/strcpy.3
+@@ -1,48 +1,767 @@
+-.\" Copyright (C) 1993 David Metcalfe (david@prism.demon.co.uk)
++.\" Copyright 2022 Alejandro Colomar <alx@kernel.org>
+ .\"
+-.\" SPDX-License-Identifier: Linux-man-pages-copyleft
+-.\"
+-.\" References consulted:
+-.\"     Linux libc source code
+-.\"     Lewine's _POSIX Programmer's Guide_ (O'Reilly & Associates, 1991)
+-.\"     386BSD man pages
+-.\" Modified Sat Jul 24 18:06:49 1993 by Rik Faith (faith@cs.unc.edu)
+-.\" Modified Fri Aug 25 23:17:51 1995 by Andries Brouwer (aeb@cwi.nl)
+-.\" Modified Wed Dec 18 00:47:18 1996 by Andries Brouwer (aeb@cwi.nl)
+-.\" 2007-06-15, Marc Boyer <marc.boyer@enseeiht.fr> + mtk
+-.\"     Improve discussion of strncpy().
++.\" SPDX-License-Identifier: BSD-3-Clause
+ .\"
+ .TH strcpy 3 (date) "Linux man-pages (unreleased)"
++.\" ----- NAME :: -----------------------------------------------------/
+ .SH NAME
+-strcpy \- copy a string
++stpcpy,
++strcpy, strcat,
++stpecpy, stpecpyx,
++strlcpy, strlcat,
++strscpy,
++stpncpy,
++strncpy,
++ustr2stp,
++strncat,
++mempcpy
++\- copy strings and character sequences
++.\" ----- LIBRARY :: --------------------------------------------------/
+ .SH LIBRARY
++.TP
++.BR stpcpy (3)
++.TQ
++.BR strcpy "(3), \c"
++.BR strcat (3)
++.TQ
++.BR stpncpy (3)
++.TQ
++.BR strncpy (3)
++.TQ
++.BR strncat (3)
++.TQ
++.BR mempcpy (3)
+ Standard C library
+ .RI ( libc ", " \-lc )
++.TP
++.BR stpecpy "(3), \c"
++.BR stpecpyx (3)
++Not provided by any library.
++.TP
++.BR strlcpy "(3), \c"
++.BR strlcat (3)
++Utility functions from BSD systems
++.RI ( libbsd ", " \-lbsd )
++.TP
++.BR strscpy (3)
++Not provided by any library.
++It is a Linux kernel internal function.
++.\" ----- SYNOPSIS :: -------------------------------------------------/
+ .SH SYNOPSIS
+ .nf
+ .B #include <string.h>
++.fi
++.\" ----- SYNOPSIS :: (Null-terminated) strings -----------------------/
++.SS Strings
++.nf
++// Chain-copy a string.
++.BI "char *stpcpy(char *restrict " dst ", const char *restrict " src );
+ .PP
+-.BI "char *strcpy(char *restrict " dest ", const char *restrict " src );
++// Copy/concatenate a string.
++.BI "char *strcpy(char *restrict " dst ", const char *restrict " src );
++.BI "char *strcat(char *restrict " dst ", const char *restrict " src );
++.PP
++// Chain-copy a string with truncation.
++.BI "char *stpecpy(char *" dst ", char " past_end "[0], \
++const char *restrict " src );
++.PP
++// Chain-copy a string with truncation and SIGSEGV on UB.
++.BI "char *stpecpyx(char *" dst ", char " past_end "[0], \
++const char *restrict " src );
++.PP
++// Copy/concatenate a string with truncation and SIGSEGV on UB.
++.BI "size_t strlcpy(char " dst "[restrict ." sz "], \
++const char *restrict " src ,
++.BI "               size_t " sz );
++.BI "size_t strlcat(char " dst "[restrict ." sz "], \
++const char *restrict " src ,
++.BI "               size_t " sz );
++.PP
++// Copy a string with truncation.
++.BI "ssize_t strscpy(char " dst "[restrict ." sz "], \
++const char " src "[restrict ." sz ],
++.BI "               size_t " sz );
++.fi
++.\" ----- SYNOPSIS :: Null-padded character sequences --------/
++.SS Null-padded character sequences
++.nf
++// Zero a fixed-width buffer, and
++// copy a string with truncation into a character sequence.
++.BI "char *stpncpy(char " dst "[restrict ." sz "], \
++const char *restrict " src ,
++.BI "               size_t " sz );
++.PP
++// Zero a fixed-width buffer, and
++// copy a string with truncation into a character sequence.
++.BI "char *strncpy(char " dest "[restrict ." sz "], \
++const char *restrict " src ,
++.BI "               size_t " sz );
++.PP
++// Chain-copy a null-padded character sequence into a string.
++.BI "char *ustr2stp(char *restrict " dst ", \
++const char " src "[restrict ." sz ],
++.BI "               size_t " sz );
++.PP
++// Concatenate a null-padded character sequence into a string.
++.BI "char *strncat(char *restrict " dst ", const char " src "[restrict ." sz ],
++.BI "               size_t " sz );
++.fi
++.\" ----- SYNOPSIS :: Measured character sequences --------------------/
++.SS Measured character sequences
++.nf
++// Chain-copy a measured character sequence.
++.BI "void *mempcpy(void *restrict " dst ", \
++const void " src "[restrict ." len ],
++.BI "               size_t " len );
++.fi
++.PP
++.RS -4
++Feature Test Macro Requirements for glibc (see
++.BR feature_test_macros (7)):
++.RE
++.PP
++.BR stpcpy (3),
++.BR stpncpy (3):
++.nf
++    Since glibc 2.10:
++        _POSIX_C_SOURCE >= 200809L
++    Before glibc 2.10:
++        _GNU_SOURCE
++.fi
++.PP
++.BR mempcpy (3):
++.nf
++    _GNU_SOURCE
+ .fi
+ .SH DESCRIPTION
+-The
+-.BR strcpy ()
+-function copies the string pointed to by
+-.IR src ,
+-including the terminating null byte (\(aq\e0\(aq),
+-to the buffer pointed to by
+-.IR dest .
+-The strings may not overlap, and the destination string
+-.I dest
+-must be large enough to receive the copy.
+-.I Beware of buffer overruns!
+-(See BUGS.)
++.\" ----- DESCRIPTION :: Terms (and abbreviations) :: -----------------/
++.SS Terms (and abbreviations)
++.\" ----- DESCRIPTION :: Terms (and abbreviations) :: string (str) ----/
++.TP
++.IR "string " ( str )
++is a sequence of zero or more non-null characters followed by a null byte.
++.\" ----- DESCRIPTION :: Terms (and abbreviations) :: null-padded character seq
++.TP
++.IR "character sequence " ( ustr )
++is a sequence of zero or more non-null characters.
++A program should never usa a character sequence where a string is required.
++However, with appropriate care,
++a string can be used in the place of a character sequence.
++.RS
++.TP
++.I null-padded character sequence
++Character sequences can be contained in fixed-width buffers,
++which contain padding null bytes after the character sequence,
++to fill the rest of the buffer
++without affecting the character sequence;
++however, those padding null bytes are not part of the character sequence.
++.\" ----- DESCRIPTION :: Terms (and abbreviations) :: measured character sequence
++.TP
++.I measured character sequence
++Character sequence delimited by its length.
++.RE
++.\" ----- DESCRIPTION :: Terms (and abbreviations) :: length (len) ----/
++.TP
++.IR "length " ( len )
++is the number of non-null characters in a string or character sequence.
++It is the return value of
++.I strlen(str)
++and of
++.IR "strnlen(ustr, sz)" .
++.\" ----- DESCRIPTION :: Terms (and abbreviations) :: size (sz) -------/
++.TP
++.IR "size " ( sz )
++refers to the entire buffer
++where the string or character sequence is contained.
++.\" ----- DESCRIPTION :: Terms (and abbreviations) :: end -------------/
++.TP
++.I end
++is the name of a pointer to the terminating null byte of a string,
++or a pointer to one past the last character of a character sequence.
++This is the return value of functions that allow chaining.
++It is equivalent to
++.IR &str[len] .
++.\" ----- DESCRIPTION :: Terms (and abbreviations) :: past_end --------/
++.TP
++.I past_end
++is the name of a pointer to one past the end of the buffer
++that contains a string or character sequence.
++It is equivalent to
++.IR &str[sz] .
++It is used as a sentinel value,
++to be able to truncate strings or character sequences
++instead of overrunning the containing buffer.
++.\" ----- DESCRIPTION :: Copy, concatenate, and chain-copy ------------/
++.SS Copy, concatenate, and chain-copy
++Originally,
++there was a distinction between functions that copy and those that concatenate.
++However, newer functions that copy while allowing chaining
++cover both use cases with a single API.
++They are also algorithmically faster,
++since they don't need to search for the end of the existing string.
++However, functions that concatenate have a much simpler use,
++so if performance is not important,
++it can make sense to use them for improving readability.
++.PP
++To chain copy functions,
++they need to return a pointer to the
++.IR end .
++That's a byproduct of the copy operation,
++so it has no performance costs.
++Functions that return such a pointer,
++and thus can be chained,
++have names of the form
++.RB * stp *()
++or
++.RB * memp *(),
++since it's also common to name the pointer just
++.IR p .
++.PP
++Chain-copying functions that truncate
++should accept a pointer to one past the end of the destination buffer,
++and have names of the form
++.RB * stpe *().
++This allows not having to recalculate the remaining size after each call.
++.\" ----- DESCRIPTION :: Truncate or not? -----------------------------/
++.SS Truncate or not?
++The first thing to note is that programmers should be careful with buffers,
++so they always have the correct size,
++and truncation is not necessary.
++.PP
++In most cases,
++truncation is not desired,
++and it is simpler to just do the copy.
++Simpler code is safer code.
++Programming against programming mistakes by adding more code
++just adds more points where mistakes can be made.
++.PP
++Nowadays,
++compilers can detect most programmer errors with features like
++compiler warnings,
++static analyzers, and
++.BR \%_FORTIFY_SOURCE
++(see
++.BR ftm (7)).
++Keeping the code simple
++helps these overflow-detection features be more precise.
++.PP
++When validating user input,
++however,
++it makes sense to truncate.
++Remember to check the return value of such function calls.
++.PP
++Functions that truncate:
++.IP \(bu 3
++.BR stpecpy (3)
++is the most efficient string copy function that performs truncation.
++It only requires to check for truncation once after all chained calls.
++.IP \(bu
++.BR stpecpyx (3)
++is a variant of
++.BR stpecpy (3)
++that consumes the entire source string,
++to catch bugs in the program
++by forcing a segmentation fault (as
++.BR strlcpy (3bsd)
++and
++.BR strlcat (3bsd)
++do).
++.IP \(bu
++.BR strlcpy (3bsd)
++and
++.BR strlcat (3bsd)
++are designed to crash if the input string is invalid
++(doesn't contain a terminating null byte).
++.IP \(bu
++.BR strscpy (3)
++reports an error instead of crashing (similar to
++.BR stpecpy (3)).
++.IP \(bu
++.BR stpncpy (3)
++and
++.BR strncpy (3)
++also truncate, but they don't write strings,
++but rather null-padded character sequences.
++.\" ----- DESCRIPTION :: Null-padded character sequences --------------/
++.SS Null-padded character sequences
++For historic reasons,
++some standard APIs,
++such as
++.BR utmpx (5),
++use null-padded character sequences in fixed-width buffers.
++To interface with them,
++specialized functions need to be used.
++.PP
++To copy strings into them, use
++.BR stpncpy (3).
++.PP
++To copy from an unterminated string within a fixed-width buffer into a string,
++ignoring any trailing null bytes in the source fixed-width buffer,
++you should use
++.BR ustr2stp (3)
++or
++.BR strncat (3).
++.\" ----- DESCRIPTION :: Measured character sequences -----------------/
++.SS Measured character sequences
++The simplest character sequence copying function is
++.BR mempcpy (3).
++It requires always knowing the length of your character sequences,
++for which structures can be used.
++It makes the code much faster,
++since you always know the length of your character sequences,
++and can do the minimal copies and length measurements.
++.BR mempcpy (3)
++copies character sequences,
++so you need to explicitly set the terminating null byte if you need a string.
++.PP
++The following code can be used to
++chain-copy from a measured character sequence into a string:
++.PP
++.in +4n
++.EX
++p = mempcpy(p, foo\->ustr, foo\->len);
++*p = \(aq\e0\(aq;
++.EE
++.in
++.PP
++The following code can be used to
++chain-copy from a measured character sequence into an unterminated string:
++.PP
++.in +4n
++.EX
++p = mempcpy(p, bar\->ustr, bar\->len);
++.EE
++.in
++.PP
++In programs that make considerable use of strings or character sequences,
++and need the best performance,
++using overlapping character sequences can make a big difference.
++It allows holding subsequences of a larger character sequence.
++while not duplicating memory
++nor using time to do a copy.
++.PP
++However, this is delicate,
++since it requires using character sequences.
++C library APIs use strings,
++so programs that use character sequences
++will have to take care of differentiating strings from character sequences.
++.\" ----- DESCRIPTION :: String vs character sequence -----------------/
++.SS String vs character sequence
++Some functions only operate on strings.
++Those require that the input
++.I src
++is a string,
++and guarantee an output string
++(even when truncation occurs).
++Functions that concatenate
++also require that
++.I dst
++holds a string before the call.
++List of functions:
++.IP \(bu 3
++.PD 0
++.BR stpcpy (3)
++.IP \(bu
++.BR strcpy "(3), \c"
++.BR strcat (3)
++.IP \(bu
++.BR stpecpy "(3), \c"
++.BR stpecpyx (3)
++.IP \(bu
++.BR strlcpy "(3bsd), \c"
++.BR strlcat (3bsd)
++.IP \(bu
++.BR strscpy (3)
++.PD
++.PP
++Other functions require an input string,
++but create a character sequence as output.
++These functions have confusing names,
++and have a long history of misuse.
++List of functions:
++.IP \(bu 3
++.PD 0
++.BR stpncpy (3)
++.IP \(bu
++.BR strncpy (3)
++.PD
++.PP
++Other functions operate on an input character sequence,
++and create an output string.
++Functions that concatenate
++also require that
++.I dst
++holds a string before the call.
++.BR strncat (3)
++has an even more misleading name than the functions above.
++List of functions:
++.IP \(bu 3
++.PD 0
++.BR ustr2stp (3)
++.IP \(bu
++.BR strncat (3)
++.PD
++.PP
++And the last one,
++operates on an input character sequence
++to create an output character sequence.
++But because it asks for the length,
++and a string is by nature composed of a character sequence of the same length
++plus a terminating null byte,
++a string is also accepted as input.
++Function:
++.IP \(bu 3
++.BR mempcpy (3)
++.\" ----- DESCRIPTION :: Functions :: ---------------------------------/
++.SS Functions
++.\" ----- DESCRIPTION :: Functions :: stpcpy(3) -----------------------/
++.TP
++.BR stpcpy (3)
++This function copies the input string into a destination string.
++The programmer is responsible for allocating a buffer large enough.
++It returns a pointer suitable for chaining.
++.IP
++An implementation of this function might be:
++.IP
++.in +4n
++.EX
++char *
++stpcpy(char *restrict dst, const char *restrict src)
++{
++    return mempcpy(dst, src, strlen(src));
++}
++.EE
++.in
++.\" ----- DESCRIPTION :: Functions :: strcpy(3), strcat(3) ------------/
++.TP
++.BR strcpy (3)
++.TQ
++.BR strcat (3)
++These functions copy the input string into a destination string.
++The programmer is responsible for allocating a buffer large enough.
++The return value is useless.
++.IP
++.BR stpcpy (3)
++is a faster alternative to these functions.
++.IP
++An implementation of these functions might be:
++.IP
++.in +4n
++.EX
++char *
++strcpy(char *restrict dst, const char *restrict src)
++{
++    stpcpy(dst, src);
++    return dst;
++}
++
++char *
++strcat(char *restrict dst, const char *restrict src)
++{
++    stpcpy(dst + strlen(dst), src);
++    return dst;
++}
++.EE
++.in
++.\" ----- DESCRIPTION :: Functions :: stpecpy(3), stpecpyx(3) ---------/
++.TP
++.BR stpecpy (3)
++.TQ
++.BR stpecpyx (3)
++These functions copy the input string into a destination string.
++If the destination buffer,
++limited by a pointer to one past the end of it,
++isn't large enough to hold the copy,
++the resulting string is truncated
++(but it is guaranteed to be null-terminated).
++They return a pointer suitable for chaining.
++Truncation needs to be detected only once after the last chained call.
++.BR stpecpyx (3)
++has identical semantics to
++.BR stpecpy (3),
++except that it forces a SIGSEGV if the
++.I src
++pointer is not a string.
++.IP
++These functions are not provided by any library,
++but you can define them with the following reference implementations:
++.IP
++.in +4n
++.EX
++/* This code is in the public domain. */
++char *
++stpecpy(char *dst, char past_end[0],
++        const char *restrict src)
++{
++    char *p;
++
++    if (dst == past_end)
++        return past_end;
++
++    p = memccpy(dst, src, \(aq\e0\(aq, past_end \- dst);
++    if (p != NULL)
++        return p \- 1;
++
++    /* truncation detected */
++    past_end[\-1] = \(aq\e0\(aq;
++    return past_end;
++}
++
++/* This code is in the public domain. */
++char *
++stpecpyx(char *dst, char past_end[0],
++         const char *restrict src)
++{
++    if (src[strlen(src)] != \(aq\e0\(aq)
++        raise(SIGSEGV);
++
++    return stpecpy(dst, past_end, src);
++}
++.EE
++.in
++.\" ----- DESCRIPTION :: Functions :: strlcpy(3bsd), strlcat(3bsd) ----/
++.TP
++.BR strlcpy (3bsd)
++.TQ
++.BR strlcat (3bsd)
++These functions copy the input string into a destination string.
++If the destination buffer,
++limited by its size,
++isn't large enough to hold the copy,
++the resulting string is truncated
++(but it is guaranteed to be null-terminated).
++They return the length of the total string they tried to create.
++These functions force a SIGSEGV if the
++.I src
++pointer is not a string.
++.IP
++.BR stpecpyx (3)
++is a faster alternative to these functions.
++.\" ----- DESCRIPTION :: Functions :: strscpy(3) ----------------------/
++.TP
++.BR strscpy (3)
++This function copies the input string into a destination string.
++If the destination buffer,
++limited by its size,
++isn't large enough to hold the copy,
++the resulting string is truncated
++(but it is guaranteed to be null-terminated).
++It returns the length of the destination string, or
++.B \-E2BIG
++on truncation.
++.IP
++.BR stpecpy (3)
++is a simpler and faster alternative to this function.
++.RE
++.\" ----- DESCRIPTION :: Functions :: stpncpy(3) ----------------------/
++.TP
++.BR stpncpy (3)
++This function copies the input string into
++a destination null-padded character sequence in a fixed-width buffer.
++If the destination buffer,
++limited by its size,
++isn't large enough to hold the copy,
++the resulting character sequence is truncated.
++Since it creates a character sequence,
++it doesn't need to write a terminating null byte.
++It returns a pointer suitable for chaining,
++but it's not ideal for that.
++Truncation needs to be detected only once after the last chained call.
++.IP
++If you're going to use this function in chained calls,
++it would be useful to develop a similar function
++that accepts a pointer to one past the end of the buffer instead of a size.
++.IP
++An implementation of this function might be:
++.IP
++.in +4n
++.EX
++char *
++stpncpy(char *restrict dst, const char *restrict src,
++        size_t sz)
++{
++    char  *p;
++
++    bzero(dst, sz);
++    p = memccpy(dst, src, \(aq\e0\(aq, sz);
++    if (p == NULL)
++        return dst + sz;
++
++    return p \- 1;
++}
++.EE
++.in
++.\" ----- DESCRIPTION :: Functions :: ustr2stp(3) ---------------------/
++.TP
++.BR ustr2stp (3)
++This function copies the input character sequence
++contained in a null-padded wixed-width buffer,
++into a destination string.
++The programmer is responsible for allocating a buffer large enough.
++It returns a pointer suitable for chaining.
++.IP
++A truncating version of this function doesn't exist,
++since the size of the original character sequence is always known,
++so it wouldn't be very useful.
++.IP
++This function is not provided by any library,
++but you can define it with the following reference implementation:
++.IP
++.in +4n
++.EX
++/* This code is in the public domain. */
++char *
++ustr2stp(char *restrict dst, const char *restrict src,
++         size_t sz)
++{
++    char  *end;
++
++    end = memccpy(dst, src, \(aq\e0\(aq, sz)) ?: dst + sz;
++    *end = \(aq\e0\(aq;
++
++    return end;
++}
++.EE
++.in
++.\" ----- DESCRIPTION :: Functions :: strncpy(3) ----------------------/
++.TP
++.BR strncpy (3)
++This function is identical to
++.BR stpncpy (3)
++except for the useless return value.
++Due to the return value,
++with this function it's hard to correctly check for truncation.
++.IP
++.BR stpncpy (3)
++is a simpler alternative to this function.
++.IP
++An implementation of this function might be:
++.IP
++.in +4n
++.EX
++char *
++strncpy(char *restrict dst, const char *restrict src,
++        size_t sz)
++{
++    stpncpy(dst, src, sz);
++    return dst;
++}
++.EE
++.in
++.\" ----- DESCRIPTION :: Functions :: strncat(3) ----------------------/
++.TP
++.BR strncat (3)
++Do not confuse this function with
++.BR strncpy (3);
++they are not related at all.
++.IP
++This function concatenates the input character sequence
++contained in a null-padded wixed-width buffer,
++into a destination string.
++The programmer is responsible for allocating a buffer large enough.
++The return value is useless.
++.IP
++.BR ustr2stp (3)
++is a faster alternative to this function.
++.IP
++An implementation of this function might be:
++.IP
++.in +4n
++.EX
++char *
++strncat(char *restrict dst, const char *restrict src,
++        size_t sz)
++{
++    ustr2stp(dst + strlen(dst), src, sz);
++    return dst;
++}
++.EE
++.in
++.\" ----- DESCRIPTION :: Functions :: mempcpy(3) ----------------------/
++.TP
++.BR mempcpy (3)
++This function copies the input character sequence,
++limited by its length,
++into a destination character sequence.
++The programmer is responsible for allocating a buffer large enough.
++It returns a pointer suitable for chaining.
++.IP
++An implementation of this function might be:
++.IP
++.in +4n
++.EX
++void *
++mempcpy(void *restrict dst, const void *restrict src,
++        size_t len)
++{
++    return memcpy(dst, src, len) + len;
++}
++.EE
++.in
++.\" ----- RETURN VALUE :: ---------------------------------------------/
+ .SH RETURN VALUE
+-The
+-.BR strcpy ()
+-function returns a pointer to
+-the destination string
+-.IR dest .
++The following functions return
++a pointer to the terminating null byte in the destination string.
++.IP \(bu 3
++.PD 0
++.BR stpcpy (3)
++.IP \(bu
++.BR ustr2stp (3)
++.PD
++.PP
++The following functions return
++a pointer to the terminating null byte in the destination string,
++except when truncation occurs;
++if truncation occurs,
++they return a pointer to one past the end of the destination buffer
++.RI ( past_end ).
++.IP \(bu 3
++.BR stpecpy (3),
++.BR stpecpyx (3)
++.PP
++The following function returns
++a pointer to one after the last character
++in the destination character sequence;
++if truncation occurs,
++that pointer is equivalent to
++a pointer to one past the end of the destination buffer.
++.IP \(bu 3
++.BR stpncpy (3)
++.PP
++The following function returns
++a pointer to one after the last character
++in the destination character sequence.
++.IP \(bu 3
++.BR mempcpy (3)
++.PP
++The following functions return
++the length of the total string that they tried to create
++(as if truncation didn't occur).
++.IP \(bu 3
++.BR strlcpy (3bsd),
++.BR strlcat (3bsd)
++.PP
++The following function returns
++the length of the destination string, or
++.B \-E2BIG
++on truncation.
++.IP \(bu 3
++.BR strscpy (3)
++.PP
++The following functions return the
++.I dst
++pointer,
++which is useless.
++.IP \(bu 3
++.PD 0
++.BR strcpy (3),
++.BR strcat (3)
++.IP \(bu
++.BR strncpy (3)
++.IP \(bu
++.BR strncat (3)
++.PD
++.\" ----- ATTRIBUTES :: -----------------------------------------------/
+ .SH ATTRIBUTES
+ For an explanation of the terms used in this section, see
+ .BR attributes (7).
+@@ -54,73 +773,236 @@ .SH ATTRIBUTES
+ l l l.
+ Interface	Attribute	Value
+ T{
+-.BR strcpy ()
++.BR stpcpy (),
++.BR strcpy (),
++.BR strcat (),
++.BR stpecpy (),
++.BR stpecpyx ()
++.BR strlcpy (),
++.BR strlcat (),
++.BR strscpy (),
++.BR stpncpy (),
++.BR strncpy (),
++.BR ustr2stp (),
++.BR strncat (),
++.BR mempcpy ()
+ T}	Thread safety	MT-Safe
+ .TE
+ .hy
+ .ad
+ .sp 1
++.\" ----- STANDARDS :: ------------------------------------------------/
+ .SH STANDARDS
+-POSIX.1-2001, POSIX.1-2008, C89, C99, SVr4, 4.3BSD.
+-.SH NOTES
+-.SS strlcpy()
+-Some systems (the BSDs, Solaris, and others) provide the following function:
++.TP
++.BR strcpy "(3), \c"
++.BR strcat (3)
++.TQ
++.BR strncpy (3)
++.TQ
++.BR strncat (3)
++POSIX.1‐2001, POSIX.1‐2008, C89, C99, SVr4, 4.3BSD.
++.TP
++.BR stpcpy (3)
++.\" This function was added to POSIX.1-2008.
++.\" Before that, it was not part of
++.\" the C or POSIX.1 standards, nor customary on UNIX systems.
++.\" It first appeared at least as early as 1986,
++.\" in the Lattice C AmigaDOS compiler,
++.\" then in the GNU fileutils and GNU textutils in 1989,
++.\" and in the GNU C library by 1992.
++.\" It is also present on the BSDs.
++.TQ
++.BR stpncpy (3)
++.\" This function was added to POSIX.1-2008.
++.\" Before that, it was a GNU extension.
++.\" It first appeared in glibc 1.07 in 1993.
++POSIX.1-2008.
++.TP
++.BR strlcpy "(3bsd), \c"
++.BR strlcat (3bsd)
++Functions originated in OpenBSD and present in some Unix systems.
++.TP
++.BR mempcpy (3)
++This function is a GNU extension.
++.TP
++.BR strscpy (3)
++Linux kernel internal function.
++.TP
++.BR stpecpy "(3), \c"
++.BR stpecpyx (3)
++.TQ
++.BR ustr2stp (3)
++Not defined by any standards nor libraries.
++.\" ----- CAVEATS :: --------------------------------------------------/
++.SH CAVEATS
++Don't mix chain calls to truncating and non-truncating functions.
++It is conceptually wrong
++unless you know that the first part of a copy will always fit.
++Anyway, the performance difference will probably be negligible,
++so it will probably be more clear if you use consistent semantics:
++either truncating or non-truncating.
++Calling a non-truncating function after a truncating one is necessarily wrong.
+ .PP
++Some of the functions described here are not provided by any library;
++you should write your own copy if you want to use them.
++See STANDARDS.
++.\" ----- BUGS :: -----------------------------------------------------/
++.SH BUGS
++All concatenation
++.RB (* cat ())
++functions share the same performance problem:
++.UR https://www.joelonsoftware.com/\:2001/12/11/\:back\-to\-basics/
++Shlemiel the painter
++.UE .
++.\" ----- EXAMPLES :: -------------------------------------------------/
++.SH EXAMPLES
++The following are examples of correct use of each of these functions.
++.\" ----- EXAMPLES :: stpcpy(3) ---------------------------------------/
++.TP
++.BR stpcpy (3)
+ .in +4n
+ .EX
+-size_t strlcpy(char *dest, const char *src, size_t size);
++p = buf;
++p = stpcpy(p, "Hello ");
++p = stpcpy(p, "world");
++p = stpcpy(p, "!");
++len = p \- buf;
++puts(buf);
+ .EE
+ .in
+-.PP
+-.\" http://static.usenix.org/event/usenix99/full_papers/millert/millert_html/index.html
+-.\"     "strlcpy and strlcat - consistent, safe, string copy and concatenation"
+-.\"     1999 USENIX Annual Technical Conference
+-This function is similar to
+-.BR strcpy (),
+-but it copies at most
+-.I size\-1
+-bytes to
+-.IR dest ,
+-truncating the string as necessary.
+-It always adds a terminating null byte.
+-This function fixes some of the problems of
+-.BR strcpy ()
+-but the caller must still handle the possibility of data loss if
+-.I size
+-is too small.
+-The return value of the function is the length of
+-.IR src ,
+-which allows truncation to be easily detected:
+-if the return value is greater than or equal to
+-.IR size ,
+-truncation occurred.
+-If loss of data matters, the caller
+-.I must
+-either check the arguments before the call,
+-or test the function return value.
+-.BR strlcpy ()
+-is not present in glibc and is not standardized by POSIX,
+-.\" https://lwn.net/Articles/506530/
+-but is available on Linux via the
+-.I libbsd
+-library.
+-.SH BUGS
+-If the destination string of a
+-.BR strcpy ()
+-is not large enough, then anything might happen.
+-Overflowing fixed-length string buffers is a favorite cracker technique
+-for taking complete control of the machine.
+-Any time a program reads or copies data into a buffer,
+-the program first needs to check that there's enough space.
+-This may be unnecessary if you can show that overflow is impossible,
+-but be careful: programs can get changed over time,
+-in ways that may make the impossible possible.
++.\" ----- EXAMPLES :: strcpy(3), strcat(3) ----------------------------/
++.TP
++.BR strcpy (3)
++.TQ
++.BR strcat (3)
++.in +4n
++.EX
++strcpy(buf, "Hello ");
++strcat(buf, "world");
++strcat(buf, "!");
++len = strlen(buf);
++puts(buf);
++.EE
++.in
++.\" ----- EXAMPLES :: stpecpy(3), stpecpyx(3) -------------------------/
++.TP
++.BR stpecpy (3)
++.TQ
++.BR stpecpyx (3)
++.in +4n
++.EX
++past_end = buf + sizeof(buf);
++p = buf;
++p = stpecpy(p, past_end, "Hello ");
++p = stpecpy(p, past_end, "world");
++p = stpecpy(p, past_end, "!");
++if (p == past_end) {
++    p\-\-;
++    goto toolong;
++}
++len = p \- buf;
++puts(buf);
++.EE
++.in
++.\" ----- EXAMPLES :: strlcpy(3bsd), strlcat(3bsd) --------------------/
++.TP
++.BR strlcpy (3bsd)
++.TQ
++.BR strlcat (3bsd)
++.in +4n
++.EX
++if (strlcpy(buf, "Hello ", sizeof(buf)) >= sizeof(buf))
++    goto toolong;
++if (strlcat(buf, "world", sizeof(buf)) >= sizeof(buf))
++    goto toolong;
++len = strlcat(buf, "!", sizeof(buf));
++if (len >= sizeof(buf))
++    goto toolong;
++puts(buf);
++.EE
++.in
++.\" ----- EXAMPLES :: strscpy(3) --------------------------------------/
++.TP
++.BR strscpy (3)
++.in +4n
++.EX
++len = strscpy(buf, "Hello world!", sizeof(buf));
++if (len == \-E2BIG)
++    goto toolong;
++puts(buf);
++.EE
++.in
++.\" ----- EXAMPLES :: stpncpy(3) --------------------------------------/
++.TP
++.BR stpncpy (3)
++.in +4n
++.EX
++past_end = buf + sizeof(buf);
++end = stpncpy(buf, "Hello world!", sizeof(buf));
++if (end == past_end)
++    goto toolong;
++len = end \- buf;
++for (size_t i = 0; i < sizeof(buf); i++)
++    putchar(buf[i]);
++.EE
++.in
++.\" ----- EXAMPLES :: strncpy(3) --------------------------------------/
++.TP
++.BR strncpy (3)
++.in +4n
++.EX
++strncpy(buf, "Hello world!", sizeof(buf));
++if (buf + sizeof(buf) \- 1 == \(aq\e0\(aq)
++    goto toolong;
++len = strnlen(buf, sizeof(buf));
++for (size_t i = 0; i < sizeof(buf); i++)
++    putchar(buf[i]);
++.EE
++.in
++.\" ----- EXAMPLES :: ustr2stp(3) -------------------------------------/
++.TP
++.BR ustr2stp (3)
++.in +4n
++.EX
++p = buf;
++p = ustr2stp(p, "Hello ", 6);
++p = ustr2stp(p, "world", 42);  // Padding null bytes ignored.
++p = ustr2stp(p, "!", 1);
++len = p \- buf;
++puts(buf);
++.EE
++.in
++.\" ----- EXAMPLES :: strncat(3) --------------------------------------/
++.TP
++.BR strncat (3)
++.in +4n
++.EX
++buf[0] = \(aq\e0\(aq;  // There's no 'cpy' function to this 'cat'.
++strncat(buf, "Hello ", 6);
++strncat(buf, "world", 42);  // Padding null bytes ignored.
++strncat(buf, "!", 1);
++len = strlen(buf);
++puts(buf);
++.EE
++.in
++.\" ----- EXAMPLES :: mempcpy(3) --------------------------------------/
++.TP
++.BR mempcpy (3)
++.in +4n
++.EX
++p = buf;
++p = mempcpy(p, "Hello ", 6);
++p = mempcpy(p, "world", 5);
++p = mempcpy(p, "!", 1);
++p = \(aq\e0\(aq;
++len = p \- buf;
++puts(buf);
++.EE
++.in
++.\" ----- SEE ALSO :: -------------------------------------------------/
+ .SH SEE ALSO
+-.BR bcopy (3),
+-.BR memccpy (3),
++.BR bzero (3),
+ .BR memcpy (3),
+-.BR memmove (3),
+-.BR stpcpy (3),
+-.BR strdup (3),
+-.BR string (3),
+-.BR wcscpy (3)
++.BR memccpy (3),
++.BR mempcpy (3),
++.BR string (3)
+-- 
+2.38.1
 
-At 2022-11-26T16:12:25-0800, Paul Eggert wrote:
-> On 2022-11-26 13:19, G. Branden Robinson wrote:
-> > I would attach scans of Tables I and II from "NROFF/TROFF User's
-> > Manual", the version dated 1976, published with Volume 2 of the Unix
-> > Programmer's Manual (1979)
->=20
-> Thanks for looking into this. It took me a trip down memory lane as I
-> believe I was the first person to submit a computer-typeset PhD thesis
-> to UCLA.
-
-Cheers!
-
-> I used 7th Edition Unix troff along with the C/A/T phototypesetter
-> that was troff's main target in the 1970s. (As an aside, the C/A/T was
-> why stderr was invented; see Diomidis Spinellis's "The Birth of
-> Standard Error" 2013-12-11 <https://www.spinellis.gr/blog/20131211/>.)
-
-I'll bet a lot of readers didn't know that one, but I did, and when I
-found out about it via the TUHS list I was so tickled that I added a
-link to groff's Texinfo manual.
-
-  standard error stream.  The notation then serves to identify the
-  output stream and does not necessarily mean that an error has
-  occurred.@footnote{Unix and related operating systems distinguish
-  standard output and standard error streams @emph{because} of
-  @code{troff}:@:
-  @uref{https://minnie.tuhs.org/pipermail/tuhs/2013-December/006113.html}.}
-
-> Solaris 10 /usr/bin/troff is largely unchanged from 1970s troff, and
-> supports \(ga but none of the other escapes you mention, I expect
-> because they were not present in the Bell Labs special font version 4
-> and Commercial II that Unix assumed on the C/A/T.
-
-I admit to some shock here.  The 1976 version of Ossanna's nroff/troff
-manual, CSTR #54, explicitly documents--
-
---wait, no it doesn't.
-
-<blinks>
-
-[Some UTF-8 follows, because it's essential to the discussion of
-glyph/character repertoire.]
-
-Apparently I outright hallucinated the presence of \(ha and \(ti in
-"Table II: Input Naming Conventions for =E2=80=99, =E2=80=98, and =E2=80=94=
- and for Non-ASCII
-Special Characters".  \(ga is there like you said but \(ha and \(ti are
-not.  I managed to sustain this delusion despite acquiring a paper copy
-of the HRW 1983 printing of both volumes of the Version 7 Unix
-Programmer's Manual (typeset with the C/A/T itself), and reading it with
-especially loving attention to the troff material.  By God, I told
-myself, I'll figure this stuff out.
-
-Hrm.  Vexing.
-
-Lest some readers think this is a ridiculous thing to have gotten wrong,
-permit me to quote one of the paragraphs interstitially present in
-"Table II"'s 2 tables spread over 2 pages.  Times--and the Times
-font--were very different in 1973, when the Bell Labs CSRC took delivery
-of the C/A/T.
-
-"The ASCII characters @, #, ", =E2=80=99, =E2=80=98, <, >, \, {, }, =CB=9C,=
- =CB=86, and _ exist
-_only_ on the special font and are printed as a 1-em space if that font
-is not mounted."
-
-So why did I use so much non-Basic Latin Unicode to quote a list of
-_ASCII_ characters from the CSTR #54 document?  Because that's what they
-_look like_.  Some material in the groff_char(7) man page speaks to it.
-
-History
-    A consideration of the typefaces originally available to AT&T nroff
-    and troff illuminates many conventions that one might regard as
-    idiosyncratic fifty years afterward.  (See section =E2=80=9CHistory=E2=
-=80=9D of
-    roff(7) for more context.)  The face used by the Teletype Model 37
-    terminals of the Murray Hill Unix Room was based on ASCII, but
-    assigned multiple meanings to several code points, as suggested by
-    that standard.  Decimal 34 (") served as a dieresis accent and
-    neutral double quotation mark; decimal 39 (') as an acute accent,
-    apostrophe, and closing (right) single quotation mark; decimal 45
-    (-) as a hyphen and a minus sign; decimal 94 (^) as a circumflex
-    accent and caret; decimal 96 (`) as a grave accent and opening
-    (left) single quotation mark; and decimal 126 (~) as a tilde accent
-    and (with a half=E2=80=90line motion) swung dash.  The Model 37 bore an
-    optional extended character set offering upright Greek letters and
-    several mathematical symbols; these were documented as early as the
-    kbd(VII) man page of the (First Edition) Unix Programmer=E2=80=99s Manu=
-al.
-
-    At the time Graphic Systems delivered the C/A/T phototypesetter to
-    AT&T, the ASCII character set was not considered a standard basis
-    for a glyph repertoire by traditional typographers.  In the stock
-    Times roman, italic, and bold styles available, several ASCII
-    characters were not present at all, nor was most of the Teletype=E2=80=
-=99s
-    extended character set.  AT&T commissioned a =E2=80=9Cspecial=E2=80=9D =
-font to
-    ensure no loss of repertoire.
-
-(Nit: one character, the broken bar =C2=A6, got lost anyway.  I guess no one
-missed it.)
-
-> The source code of 7th Edition Unix troff agrees with Solaris 10
-> behavior here, and this also agrees with 7th Edition Unix
-> /usr/doc/troff/table2 which documents \(ga but none of the other
-> escapes you mentioned. I'm a bit surprised that the printed manuals
-> you mention disagree with 7th Edition Unix,
-
-Imagine how surprised I was when I found I had deceived myself!  Usually
-my vision sucks this badly only when reviewing my _own_ work.
-
-None of these three appear in the 1992 revision of CSTR #54 (revised by
-Kernighan and documenting device-independent troff extensions).  I would
-say they are GNU extensions, but two others that one might impugn with
-such a descriptor are \(aq and \(dq (along with \(ga) appear in
-Documenter's Workbench (DWB) troff 3.3 font descriptions for its
-PostScript driver,[1] which I have no reason to believe isn't about 10
-years older than that version of CSTR #54.  Device-independent troff
-made it easy to specify your own special character names; people did.
-
-> but anyway it doesn't matter all that much since Solaris 10 is what it
-> is.
-
-Agreed.  And even though someone could have added special character
-aliases of "ASCII" glyphs in Solaris's font description files 30+ years
-ago, they didn't.  Perhaps the reason was a feeling that nothing good
-ever came from GNU; a more likely explanation to me is a dedication of
-religious intensity to the principle of inertia, similarly to why
-Solaris kept the World's Worst Bourne Shell implementation, compliant
-with no published standard ever, as /bin/sh for something like 30 years.
-
-(Think I'm kidding?  https://www.in-ulm.de/~mascheck/bourne/segv.html )
-
-> On other words, on Solaris 10 if I take this file 'foo':
->=20
-> 	.nf
-> 	default font
-> 	aq |\(aq| |'|
-> 	ga |\(ga| |`|
-> 	ha |\(ha| |^|
-> 	ti |\(ti| |~|
-> 	.ft CW
-> 	CW font
-> 	aq |\(aq| |'|
-> 	ga |\(ga| |`|
-> 	ha |\(ha| |^|
-> 	ti |\(ti| |~|
->=20
-> and run the shell command:
->=20
->    /usr/bin/troff foo | /usr/lib/lp/postscript/dpost >foo.ps
->=20
-> I get the attached file foo.ps, and 'evince' says only \(ga works and
-> even there it's barely usable in the default font, as shown in the
-> attached screenshot foo.png of 'evince' displaying foo.ps.
-
-Right.  With the undefinedness of \(ha and \(ti as well as \(aq now
-clear to me, nothing about your output surprises me.
-
-> > .ie \n(.g .q \f(CR!$%&\(aq()*,/:;<=3D>?@[\e]\(ha\(ga{|}\(ti\fP .
-> > .el .ie t .q \f(CW!$%&'()*,/:;<=3D>?@[\e]\(ha\(ga{|}\(ti\fP .
-> > .    el   .q !$%&'()*,/:;<=3D>?@[\e]\(ha\(ga{|}\(ti .
->=20
-> With Solaris 10 in mind, in the second line of your proposed code the
-> \f(CW...\fP and the \(ga are OK but the \(ha, \(ga, \(ti are dubious
-> so I installed the attached patch instead.
-
-Quite sensible.  As we discussed elsewhere, Solaris troff is scheduled
-for retirement in January 2024, and groff 1.22.3 succeeded it.  While
-old, it certainly supports \(aq, \(ha, and \(ti.
-
-Thank you again for knocking the scales off my eyes here.
-
-Regards,
-Branden
-
-[1] https://github.com/n-t-roff/DWB3.3/blob/master/postscript/devopost/R
-
---4kl2jkidlxj4awzk
-Content-Type: application/pgp-signature; name="signature.asc"
-
------BEGIN PGP SIGNATURE-----
-
-iQIzBAABCAAdFiEEh3PWHWjjDgcrENwa0Z6cfXEmbc4FAmOZCY8ACgkQ0Z6cfXEm
-bc6hmw/+IMvPEooIBGXYW8oQFMyBs+vKveU43iT/y8VtckQxliiG5NvFhLAn/qkl
-uZhMR3ACQXLWjy+unR9kNHErucNBSuUZkLWpMWc8wq/sbdvPGkhMF9x7MmMlu2yh
-uB6I5s2k1gmL6C25hjAaFIDwikdppZHZWSQwD1Ez/DXvS7uE5kYqOv1nynfNkarj
-N0dQJSTtGRx74swmsJRjJDTChNmj6Mgy50QSWkx61x3rS5XnWKiBhMmbptS/GFik
-jmfgvGWzpOKVK8CRzpEeQbuBayTqjKkZbAYJizmyQ+ch6yZRJMsraQhQo+zCOBla
-NhFWxi9ry0FHsDAA1/Z9CYZuXMZzrOE9JBsY6oYmTYTVexMMh1MHmEUHcaEzGYyo
-ZmSOOl+3/+ffPszJBIWhG7Q8GzmvVwpXAdgGFn3SnJfws8xRgo/s2D2Q1TdDjePk
-je27vhTL+R8MljZFTvPcYSDXMvExovn+Zr9Oc4Uill6YATTJGYnQOhUU4W1oXaZc
-iUhqdHLj9qgZz1qO46FILZc4dceG4mr4DONDKqGcj6B56GL1T5xaULuD1ClPHAFc
-OSfgE2NL5RRhuZOyHd0Ytc3MfpZry9Oct/wMi4scbM4zbay+uj13TnqrBFXvHNoO
-Yha1yQhUJm5aVzczhf2AOsOj142I3Z3BvVeuuAkx7VajahX4adc=
-=QWwo
------END PGP SIGNATURE-----
-
---4kl2jkidlxj4awzk--
