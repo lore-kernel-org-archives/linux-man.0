@@ -2,66 +2,67 @@ Return-Path: <linux-man-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 1E52FC4332F
-	for <linux-man@archiver.kernel.org>; Mon, 19 Dec 2022 21:02:38 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 32C38C001B2
+	for <linux-man@archiver.kernel.org>; Mon, 19 Dec 2022 21:02:39 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S232517AbiLSVCg (ORCPT <rfc822;linux-man@archiver.kernel.org>);
-        Mon, 19 Dec 2022 16:02:36 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:40288 "EHLO
+        id S232535AbiLSVCh (ORCPT <rfc822;linux-man@archiver.kernel.org>);
+        Mon, 19 Dec 2022 16:02:37 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:40298 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S229690AbiLSVCe (ORCPT
-        <rfc822;linux-man@vger.kernel.org>); Mon, 19 Dec 2022 16:02:34 -0500
-Received: from mail-wm1-x32d.google.com (mail-wm1-x32d.google.com [IPv6:2a00:1450:4864:20::32d])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id C269EB4B7
-        for <linux-man@vger.kernel.org>; Mon, 19 Dec 2022 13:02:32 -0800 (PST)
-Received: by mail-wm1-x32d.google.com with SMTP id ay40so7345640wmb.2
-        for <linux-man@vger.kernel.org>; Mon, 19 Dec 2022 13:02:32 -0800 (PST)
+        with ESMTP id S231305AbiLSVCf (ORCPT
+        <rfc822;linux-man@vger.kernel.org>); Mon, 19 Dec 2022 16:02:35 -0500
+Received: from mail-wr1-x42f.google.com (mail-wr1-x42f.google.com [IPv6:2a00:1450:4864:20::42f])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id A89E07678
+        for <linux-man@vger.kernel.org>; Mon, 19 Dec 2022 13:02:34 -0800 (PST)
+Received: by mail-wr1-x42f.google.com with SMTP id h12so9891627wrv.10
+        for <linux-man@vger.kernel.org>; Mon, 19 Dec 2022 13:02:34 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=gmail.com; s=20210112;
         h=content-transfer-encoding:mime-version:references:in-reply-to
          :message-id:date:subject:cc:to:from:from:to:cc:subject:date
          :message-id:reply-to;
-        bh=LUiJozbSwzrZ0Lc9HLDzbr5vDh8QDRPkrdepAhcXC38=;
-        b=AQykM3mBb/C6TcCqNEUgxhwqplCQ9cynnIxmz4LnipLNXmz0sFadE61c3A9qo7JOVQ
-         M0O7VOMIgO3QRD0NgGbJFZLod+K+BSeAFqa+BzXfpnTDA9N25tdGHipf6ziRHPJm8K4b
-         xk1Cg8jh/vybv/j0KuYwft6gsrPHyXGofiw8fL48O0zJOjH12GZNqobAoPFvAXFNlg9B
-         G4nbtU5e6QMGH24gRLzwKYFsen5BvS0yzBDlDsBmHjTZsuQM4JGCr2AgMxfnLxsrOiOj
-         Rn7Dj1w8KuVqSWBfL4KzzxxUTkeLzBWDslXuEVzhOC9btAxIsHLZNVqmXLkOL+LJyloS
-         nSRQ==
+        bh=JSeP1JeU1kUQ+iflrGuoJEo4M9adF33ipq6HFR5Qjpc=;
+        b=VjheYjAGV0vKp6xMzO6RI3NMIBYl7qLnE3lXwYg6m70ccw6ex0sxFpHR2DETMxTPWH
+         Vs6HFiDt6kOAo+wd8Azd8swei1j+7P7/XscasVzaYvr9QIwjrqPostRNXWIk4EFggeKM
+         M7fvokg6uxEQ6fQVeU7IWSTmJyK/kTbDPn0FVhqhi+ECM6PVjCGnjkSjgGv0Ba9E0Pt5
+         mkTwGydjM2g8d0JOhH2aWqcXqPQuxWQohsScsu0+ZtObhk9Hrg1tO3VRoHaN9dLOlaoH
+         4DpEEizCJYgqgE0YlTY7Y3ze8ilDqZ3bKZ/CcuJr1ZPTRcIhSzc1SDFKddZdNpAr3mvf
+         V5OA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20210112;
         h=content-transfer-encoding:mime-version:references:in-reply-to
          :message-id:date:subject:cc:to:from:x-gm-message-state:from:to:cc
          :subject:date:message-id:reply-to;
-        bh=LUiJozbSwzrZ0Lc9HLDzbr5vDh8QDRPkrdepAhcXC38=;
-        b=z+JeUOgukD7ubClk8ijfHQjBGYG2Ua6tRPA7F46dnyxqKOX6f+oGJ+UQnek8CCPF9h
-         x3awv/xTf3s9aHN6SkqOq84FdlyShyvINs384xY5T8oZ6vWAWce6aVl9nCyEFKH36eN3
-         Vq2ClmlX6mXUv1btthh6hPHoGE7fnDLswGk5AX5SU9Z0A6tm7WfPaf3LV5OkJxX8qyJu
-         1Htc/BL7SeWWEY4o2S3EbIU7yvQpnMW8k8x9ezAZ0HBgq95e3nDSDWRew/3yC1nJK0Dn
-         kmlnd5a6VzdepHk+ttVvtzFO8x4E0iRPE0nD97XAst5zpuUMMd9PTThQ2R16mUPKMxE6
-         SgDw==
-X-Gm-Message-State: ANoB5pk5Tt+XGbax7BWe+q0myeX3MR4fap3VIR5n/UmNca+bb3hi+snH
-        Rw7q16/gQ0nTyxx+jqyRzRYQuVeHNnA=
-X-Google-Smtp-Source: AA0mqf5ppzJYtgD21DAg9pj5QvhQ7unPOFx9SfBY1IpTWKNMjQ9MjYD8DtG9YqLeBTTFSnVfexShHQ==
-X-Received: by 2002:a7b:c4d2:0:b0:3d1:f270:a81e with SMTP id g18-20020a7bc4d2000000b003d1f270a81emr35116235wmk.17.1671483751269;
-        Mon, 19 Dec 2022 13:02:31 -0800 (PST)
+        bh=JSeP1JeU1kUQ+iflrGuoJEo4M9adF33ipq6HFR5Qjpc=;
+        b=Izt/QOuWTHlfqiRstc64rXoqzZhtfBpyJYXotJxkA+umgAAMDbQ2klkRI5Vyjfllgo
+         ZYgTA1HQa8SRy8vAo9NJOV5Nz3S64/Q7x7avGDJI6/owkSJcf5ws3eWRvENv6aI+Jtnk
+         GjdioxL5+mttCX5nWHWCElw1fqL18MC2kd9dEWwRETkwLCAlu93qfi3+dz5T+EQJ4+a4
+         XbDWicvHKcTFmORSnlWNODjhUbm/K9XjdAcQqaOJ530JyiZOazQWRzN2J80eQLUAxuzK
+         5VwgWUD5QPwCLpzP4UoI7rDibhsInMtoICTpBsHld20heVAOQXDo5k9ppb9AnwrIf+7U
+         06Kw==
+X-Gm-Message-State: ANoB5pme2fX681iz6NJeqwG8+09eXSBmtjmHmFWJl7rMYdYhKUMSVYyG
+        y4mWv63D74zc4YtoY1xZoot/scNf2E4=
+X-Google-Smtp-Source: AA0mqf5AyDuN5MIQ9wqX87XRMEiSm9IZHPUV2PLj7/fwBiIBQZZmCNWcplarSPb6RfYiInn7dUVwiA==
+X-Received: by 2002:a5d:5402:0:b0:242:12cf:fba7 with SMTP id g2-20020a5d5402000000b0024212cffba7mr25939469wrv.14.1671483753271;
+        Mon, 19 Dec 2022 13:02:33 -0800 (PST)
 Received: from asus5775.alejandro-colomar.es ([170.253.36.171])
-        by smtp.googlemail.com with ESMTPSA id k11-20020a5d6d4b000000b0022584c82c80sm10888516wri.19.2022.12.19.13.02.30
+        by smtp.googlemail.com with ESMTPSA id k11-20020a5d6d4b000000b0022584c82c80sm10888516wri.19.2022.12.19.13.02.32
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Mon, 19 Dec 2022 13:02:30 -0800 (PST)
+        Mon, 19 Dec 2022 13:02:32 -0800 (PST)
 From:   Alejandro Colomar <alx.manpages@gmail.com>
 X-Google-Original-From: Alejandro Colomar <alx@kernel.org>
-To:     linux-man@vger.kernel.org, Martin Sebor <msebor@redhat.com>,
+To:     linux-man@vger.kernel.org
+Cc:     Alejandro Colomar <alx@kernel.org>,
+        Martin Sebor <msebor@redhat.com>,
         "G. Branden Robinson" <g.branden.robinson@gmail.com>,
         Douglas McIlroy <douglas.mcilroy@dartmouth.edu>,
         Jakub Wilk <jwilk@jwilk.net>, Serge Hallyn <serge@hallyn.com>,
         Iker Pedrosa <ipedrosa@redhat.com>,
         Andrew Pinski <pinskia@gmail.com>,
         Stefan Puiu <stefan.puiu@gmail.com>
-Cc:     Alejandro Colomar <alx@kernel.org>
-Subject: [PATCH v6 0/5] Rewrite documentation for string-copying functions
-Date:   Mon, 19 Dec 2022 22:02:04 +0100
-Message-Id: <20221219210208.10860-1-alx@kernel.org>
+Subject: [PATCH v6 2/5] stpecpy.3, stpecpyx.3, ustpcpy.3, ustr2stp.3, zustr2stp.3, zustr2ustp.3: Add new links to string_copy(7)
+Date:   Mon, 19 Dec 2022 22:02:06 +0100
+Message-Id: <20221219210208.10860-3-alx@kernel.org>
 X-Mailer: git-send-email 2.39.0
 In-Reply-To: <20221215002648.35111-1-alx@kernel.org>
 References: <20221215002648.35111-1-alx@kernel.org>
@@ -71,79 +72,72 @@ Precedence: bulk
 List-ID: <linux-man.vger.kernel.org>
 X-Mailing-List: linux-man@vger.kernel.org
 
-
-Hi,
-
-Yet another revision of this patch set.
-
-v6:
-
--  Fixed a link page (stpcpy(3)).
-
--  Use malloc(3) in the examples, to show that buffers need to be
-   properly allocated before these calls.
-
--  Return to the example program of strncat(3) that showed a more
-   reallistic use (based on groff(1)'s source code, plus some
-   imagination).
-
--  Use the term 'end' for one after the last element of an array, to be
-   consistent with C++ (as Andrew pointed out).  It is also less to
-   type, and using end for the end of the string and past_end for the
-   buffer was a bit confusing, since it wasn't true that
-   'end == past_end - 1'.  Now, I don't have a term for the end of a
-   string, so I used the description instead of a term.  The name of
-   such pointers is called 'p', following tradition (and the name of
-   mempcpy(3) and stpcpy(3) and others).
-
-
-This is likely to be the last revision before pushing.  I don't expect
-important changes to occur, and I think we can improve the page once
-it's been published.  This is already a big improvement over what we've
-had for many years, and worth of being released to the public.
-
-
-Cheers,
-
-Alex
-
-
-P.S.: I'm writing a library that implements the functions suggested here
-that are not part of libc.  The code is already done, and I'm now
-working on the build system.  After that, manual pages and Debian
-packaging (I'll need help for the latter), and it'll be done.
-
-
-Alejandro Colomar (5):
-  string_copy.7: Add page to document all string-copying functions
-  stpecpy.3, stpecpyx.3, ustpcpy.3, ustr2stp.3, zustr2stp.3,
-    zustr2ustp.3: Add new links to string_copy(7)
-  stpcpy.3, strcpy.3, strcat.3: Document in a single page
-  stpncpy.3, strncpy.3: Document in a single page
-  strncat.3: Rewrite to be consistent with string_copy.7.
-
- man3/stpcpy.3      | 116 +-----
- man3/stpecpy.3     |   1 +
- man3/stpecpyx.3    |   1 +
- man3/stpncpy.3     | 166 +++++----
- man3/strcat.3      | 162 +--------
- man3/strcpy.3      | 234 ++++++++-----
- man3/strncat.3     | 157 +++------
- man3/strncpy.3     | 130 +------
- man3/ustpcpy.3     |   1 +
- man3/ustr2stp.3    |   1 +
- man3/zustr2stp.3   |   1 +
- man3/zustr2ustp.3  |   1 +
- man7/string_copy.7 | 855 +++++++++++++++++++++++++++++++++++++++++++++
- 13 files changed, 1172 insertions(+), 654 deletions(-)
+Cc: Martin Sebor <msebor@redhat.com>
+Cc: "G. Branden Robinson" <g.branden.robinson@gmail.com>
+Cc: Douglas McIlroy <douglas.mcilroy@dartmouth.edu>
+Cc: Jakub Wilk <jwilk@jwilk.net>
+Cc: Serge Hallyn <serge@hallyn.com>
+Cc: Iker Pedrosa <ipedrosa@redhat.com>
+Cc: Andrew Pinski <pinskia@gmail.com>
+Cc: Stefan Puiu <stefan.puiu@gmail.com>
+Signed-off-by: Alejandro Colomar <alx@kernel.org>
+---
+ man3/stpecpy.3    | 1 +
+ man3/stpecpyx.3   | 1 +
+ man3/ustpcpy.3    | 1 +
+ man3/ustr2stp.3   | 1 +
+ man3/zustr2stp.3  | 1 +
+ man3/zustr2ustp.3 | 1 +
+ 6 files changed, 6 insertions(+)
  create mode 100644 man3/stpecpy.3
  create mode 100644 man3/stpecpyx.3
  create mode 100644 man3/ustpcpy.3
  create mode 100644 man3/ustr2stp.3
  create mode 100644 man3/zustr2stp.3
  create mode 100644 man3/zustr2ustp.3
- create mode 100644 man7/string_copy.7
 
+diff --git a/man3/stpecpy.3 b/man3/stpecpy.3
+new file mode 100644
+index 000000000..6ff53887b
+--- /dev/null
++++ b/man3/stpecpy.3
+@@ -0,0 +1 @@
++.so man7/string_copy.7
+diff --git a/man3/stpecpyx.3 b/man3/stpecpyx.3
+new file mode 100644
+index 000000000..6ff53887b
+--- /dev/null
++++ b/man3/stpecpyx.3
+@@ -0,0 +1 @@
++.so man7/string_copy.7
+diff --git a/man3/ustpcpy.3 b/man3/ustpcpy.3
+new file mode 100644
+index 000000000..6ff53887b
+--- /dev/null
++++ b/man3/ustpcpy.3
+@@ -0,0 +1 @@
++.so man7/string_copy.7
+diff --git a/man3/ustr2stp.3 b/man3/ustr2stp.3
+new file mode 100644
+index 000000000..6ff53887b
+--- /dev/null
++++ b/man3/ustr2stp.3
+@@ -0,0 +1 @@
++.so man7/string_copy.7
+diff --git a/man3/zustr2stp.3 b/man3/zustr2stp.3
+new file mode 100644
+index 000000000..6ff53887b
+--- /dev/null
++++ b/man3/zustr2stp.3
+@@ -0,0 +1 @@
++.so man7/string_copy.7
+diff --git a/man3/zustr2ustp.3 b/man3/zustr2ustp.3
+new file mode 100644
+index 000000000..6ff53887b
+--- /dev/null
++++ b/man3/zustr2ustp.3
+@@ -0,0 +1 @@
++.so man7/string_copy.7
 -- 
 2.39.0
 
