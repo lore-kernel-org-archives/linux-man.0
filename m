@@ -2,358 +2,253 @@ Return-Path: <linux-man-owner@vger.kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 6FECEC46467
-	for <linux-man@archiver.kernel.org>; Sat,  7 Jan 2023 09:55:27 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 3B08DC54EBE
+	for <linux-man@archiver.kernel.org>; Sat,  7 Jan 2023 09:55:28 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S230439AbjAGJy4 (ORCPT <rfc822;linux-man@archiver.kernel.org>);
-        Sat, 7 Jan 2023 04:54:56 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:47994 "EHLO
+        id S231833AbjAGJy7 (ORCPT <rfc822;linux-man@archiver.kernel.org>);
+        Sat, 7 Jan 2023 04:54:59 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:48224 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S231896AbjAGJy0 (ORCPT
-        <rfc822;linux-man@vger.kernel.org>); Sat, 7 Jan 2023 04:54:26 -0500
-Received: from mail-ot1-x336.google.com (mail-ot1-x336.google.com [IPv6:2607:f8b0:4864:20::336])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 32A34840A0
-        for <linux-man@vger.kernel.org>; Sat,  7 Jan 2023 01:54:25 -0800 (PST)
-Received: by mail-ot1-x336.google.com with SMTP id p17-20020a9d6951000000b00678306ceb94so2301134oto.5
-        for <linux-man@vger.kernel.org>; Sat, 07 Jan 2023 01:54:25 -0800 (PST)
+        with ESMTP id S236909AbjAGJyo (ORCPT
+        <rfc822;linux-man@vger.kernel.org>); Sat, 7 Jan 2023 04:54:44 -0500
+Received: from mail-oi1-x22a.google.com (mail-oi1-x22a.google.com [IPv6:2607:f8b0:4864:20::22a])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 1C9F584092
+        for <linux-man@vger.kernel.org>; Sat,  7 Jan 2023 01:54:41 -0800 (PST)
+Received: by mail-oi1-x22a.google.com with SMTP id o66so3041223oia.6
+        for <linux-man@vger.kernel.org>; Sat, 07 Jan 2023 01:54:41 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=gmail.com; s=20210112;
         h=content-disposition:mime-version:message-id:subject:cc:to:from:date
          :from:to:cc:subject:date:message-id:reply-to;
-        bh=XDBemVTUBmmJqYEH0cw3ytrt5a7Z4p/5b+gofa2Vu0U=;
-        b=GT93C07D3ayV9r+3UolUVrkHVoUosirIZPlOr80IaO2TbHak54STnrRunLVNdRM9g3
-         VC4BScESUNr2oesETA7cFCjdTnUNrS2mfjW7JYP/naytu1mr1LfSaxlfD4E9AE8EDoSW
-         uToSXzuaceuVprkPyLK4ni9zxV7qngV64obhb0f5nwcI0pMpmu+JIseNpd7l2TWV0mB9
-         Y68Qbc3UBPADMlHVQ9YzUXnAoL6qDtuOfPI9x0eUCZHvI7cFY7S/5fh6YYgZgFfU7VCc
-         jntZi8D7qhNTsZ6Hrn+zG4CXiTajsVytY/jIYL5SsKMJcEziA8jy0A96l/tH0AMACGDe
-         BhDg==
+        bh=l/sWDsp3UkeNDifCaMVTVEOnf7cJv3H7TxLAaG/zAro=;
+        b=L4jptzWYEM2ojX75xonxjr8hts7SYviYqrF8ro7rMtk5mlSYb+ZP+mNs1aW42IjGmn
+         rQK2Y47f6M75aK8Z6DE3CZIUcMa7VF+DKVlSrIaXX6NpWqza6ZGbCJ4yP+wGTdU1+trx
+         SFGRHCaIRBS7jF0FWc+h6YwGkUJbuVgpM43F98QTY1V4qCOZb7eVUy7q9UgHRmO7Cgcb
+         HB3W9lyK+xIja4NqKc/bY5i6JDBxuPPK5TydBRGXUJ4HJSBw3z5DMLE1iLg7snnP7RRW
+         IuKf8m+k2TpjfTEwuu2BBGZj1TaKeegKDfvsVqxI8Mmu4c79dvPd2JIju1fDymu62GNu
+         u4oA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20210112;
         h=content-disposition:mime-version:message-id:subject:cc:to:from:date
          :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
-        bh=XDBemVTUBmmJqYEH0cw3ytrt5a7Z4p/5b+gofa2Vu0U=;
-        b=XqZRNdbu39LHDS5nrOHWw13APT7+d8lHZTS23xiGa8yhvJ3+KJw+YWm6B5i9fql1Ma
-         lueC4PzjYcAKjxSN6rl6nIZtu4McmSLszeikG9ExEZk0MkQ/Ia93LG6hXKTXXR8j5EuN
-         My5ebvYy7c+MApmp0mPTc6IvEi+LyqbZ0NDJystZMifBOcs6P8tenx/cKQnNrWn3lWza
-         OstfCbJeZIUTCMZBBJMrOPP0DVHlQiBT32fhWYhTYZ6KTsKxP1gS8MWOE6lZNTM751GJ
-         TiLF6+p8v8viwIQdAhuIG/igFCaHk0ziGyUPELMCTg0IVbwWw9H/oBcG43YHhgqcvLK7
-         axGA==
-X-Gm-Message-State: AFqh2krb2L34pm42acMBMLsOruysH0xU/70eqxCGIO8MX0RCJZuY8RRm
-        5n++1ZUirN9G3mD9J3J/XpikEE3lciM=
-X-Google-Smtp-Source: AMrXdXtjva4jAl+NR/uGwIQzNKvgwwJ4q2wyaz9DCOPJnZf9EupsMQ+syjQZCnMqEU8AQXuxFPwG2g==
-X-Received: by 2002:a05:6830:1f23:b0:678:281e:f0 with SMTP id e3-20020a0568301f2300b00678281e00f0mr31295514oth.5.1673085264454;
-        Sat, 07 Jan 2023 01:54:24 -0800 (PST)
+        bh=l/sWDsp3UkeNDifCaMVTVEOnf7cJv3H7TxLAaG/zAro=;
+        b=dlj+o7SWtEPWzt8E5V91mQ1+K5jie9ESWtSc6+KzJDj2QASS2MLtKiqEKf6ZcPum3K
+         22CF/PWxdbfMeAuwLiBRp/8HheOAuUICaEX3DG6/Hk6OKa2QQ4iOt9JHVYVTy8zXO9NR
+         EwMcZjJ/LMd/AOxLePdzh9wpQjAMOewtRZILkkLKCvRCxc9+RklNuLqXVZgy5JyhAbvd
+         WD59NARrV7ID2ssvt9H3sIhY6SH0QMXUl6mkgrBgnMbpONfHmzYznRmnG3Yn9F8Jivzw
+         NepZXqUfHfCeTajcUErH4/wmi7Vl9k00pcw+i2ZjebsyBWrDgu9SnzP8+jjukDxllQfF
+         +x1A==
+X-Gm-Message-State: AFqh2kpR2aUpjn5zFDbC+2NFPwPcq0gG7ewCtw1QkFtjXDyruOkMtSMQ
+        qjTtrXp/Q3y2B014Y9WpgTkou0wEfoE=
+X-Google-Smtp-Source: AMrXdXt6wt6SbAB5hpD2dlAox6AFkFwW47rjhWZNfp4m0eS6Xdw8dV8+yTlaHeojzcQ4hhcB/PWjfg==
+X-Received: by 2002:aca:ea41:0:b0:363:ad33:9065 with SMTP id i62-20020acaea41000000b00363ad339065mr9954570oih.53.1673085280339;
+        Sat, 07 Jan 2023 01:54:40 -0800 (PST)
 Received: from illithid (ip68-12-97-90.ok.ok.cox.net. [68.12.97.90])
-        by smtp.gmail.com with ESMTPSA id v20-20020a05683018d400b00670641eb272sm1658489ote.20.2023.01.07.01.54.23
+        by smtp.gmail.com with ESMTPSA id 15-20020aca090f000000b003509cc4ad4esm1329909oij.39.2023.01.07.01.54.39
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Sat, 07 Jan 2023 01:54:24 -0800 (PST)
-Date:   Sat, 7 Jan 2023 03:54:22 -0600
+        Sat, 07 Jan 2023 01:54:39 -0800 (PST)
+Date:   Sat, 7 Jan 2023 03:54:38 -0600
 From:   "G. Branden Robinson" <g.branden.robinson@gmail.com>
 To:     Alejandro Colomar <alx.manpages@gmail.com>
 Cc:     linux-man@vger.kernel.org
-Subject: [PATCH v4 02/10] ldconfig.8: Revise and update for glibc 2.32
-Message-ID: <20230107095422.44loq4pzsfjktvpz@illithid>
+Subject: [PATCH v4 04/10] libc.7: wfix
+Message-ID: <20230107095438.y4e3jh7nlrlrvagv@illithid>
 MIME-Version: 1.0
 Content-Type: multipart/signed; micalg=pgp-sha256;
-        protocol="application/pgp-signature"; boundary="e5gjgxy5bsdes4mg"
+        protocol="application/pgp-signature"; boundary="642lqgc3qsu5ki6f"
 Content-Disposition: inline
 Precedence: bulk
 List-ID: <linux-man.vger.kernel.org>
 X-Mailing-List: linux-man@vger.kernel.org
 
 
---e5gjgxy5bsdes4mg
+--642lqgc3qsu5ki6f
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
 Content-Transfer-Encoding: quoted-printable
 
-* Recast summary description to identify relevance of libraries.
-* Drop `-V` option from synopsis; it doesn't make any sense combined
-  with the operation mode shown, and no other "get out quick" option,
-  including its synonym `--version`, is documented in the synopsis.
-* Clarify that the "links" manipulated by the program are symbolic.
-* Discuss caching feature separately from symbolic link management.
-* Clarify how ldconfig can be run by unprivileged users (probably for
-  troubleshooting).
-* Recast example of shared library linkage chain and motivate the
-  existence for each link or file.  Define term "soname" and present it
-  in lowercase like other Linux man-pages, instead of full caps.
-* Document auxiliary cache file, which apparently has been described
-  nowhere but a source comment in the original commit 15 years ago.
-* Document that `-C` implies `-i`.  See elf/ldconfig.c:162.
-* Clarify how `-l` option works (a little).
-* Drop mention of "quiet mode", which does not seem to exist.
-* Be explicit that `-p`/`--print-cache` option exits early; i.e., it
-  doesn't undertake ldconfig's primary function.
-* Document `--usage` and `-?`/`--help` options.
-* Clarify what `-v`/`--verbose` does.
-* Clarify that `-V`/`--version` exits early.
-* Expand description of "ld.so.conf" file to discuss "include" and
-  "hwcap" features.  Describe these as "directives" (though the latter
-  died upstream in glibc 2.32 before we got around to documenting it).
-  Document ld.so.conf's comment syntax.
-* Document handling of leading spaces and empty lines in ld.so.conf.
-* Document location of auxiliary cache file.
+* Say "GNU/Linux distributions" instead of "Linux distributions".
+* Clarify claim about popularity of glibc.
+* Tighten wording.
 
 Signed-off-by: G. Branden Robinson <g.branden.robinson@gmail.com>
 ---
- man8/ldconfig.8 | 121 +++++++++++++++++++++++++++++++++++++-----------
- 1 file changed, 95 insertions(+), 26 deletions(-)
+ man7/libc.7 | 103 ++++++++++++++++++++++++++++------------------------
+ 1 file changed, 55 insertions(+), 48 deletions(-)
 
-diff --git a/man8/ldconfig.8 b/man8/ldconfig.8
-index 36b891dab..5b671f0a1 100644
---- a/man8/ldconfig.8
-+++ b/man8/ldconfig.8
-@@ -7,12 +7,12 @@
- .\"   Change listed order of /usr/lib and /lib
- .TH ldconfig 8 (date) "Linux man-pages (unreleased)"
- .SH NAME
--ldconfig \- configure dynamic linker run-time bindings
-+ldconfig \- configure library bindings used by run-time dynamic linker
- .SH SYNOPSIS
- .SY /sbin/ldconfig
- .\" TODO?: -c, --format, -i, --ignore-aux-cache, --print-cache,
- .\" --verbose, -V, --version, -?, --help, --usage
--.RB [ \-nNvVX ]
-+.RB [ \-nNvX ]
- .RB [ \-C\~\c
- .IR cache ]
- .RB [ \-f\~\c
-@@ -31,8 +31,10 @@ ldconfig \- configure dynamic linker run-time bindings
- .YS
- .SH DESCRIPTION
- .B \%ldconfig
--creates the necessary links and cache to the most recent shared
--libraries found in the directories specified on the command line,
-+creates the necessary symbolic links
-+to the most recent versions of the shared libraries
-+found in the directories
-+specified on the command line,
- in the file
- .IR /etc/ld.so.conf ,
- and in the trusted directories,
-@@ -50,7 +52,8 @@ and
- .I /usr/lib64
- are used for 64-bit libraries.
+diff --git a/man7/libc.7 b/man7/libc.7
+index 43ec0269f..c6180075c 100644
+--- a/man7/libc.7
++++ b/man7/libc.7
+@@ -16,80 +16,88 @@ Because of some history
+ use of the term \(lqlibc\(rq
+ to refer to the standard C library is somewhat ambiguous on Linux.
+ .SS glibc
+-By far the most widely used C library on Linux is the
++The standard libc most popularly used with the Linux kernel is
+ .UR http://www.gnu.org\:/software\:/libc/
+ GNU C Library
+ .UE ,
+-often referred to as
++widely called
+ .IR glibc .
+-This is the C library that is nowadays used in all
+-major Linux distributions.
+-It is also the C library whose details are documented
++This implementation is nowadays used
++in all major GNU/Linux distributions.
++Its details are documented
+ in the relevant pages of the
++Linux
+ .I man-pages
+-project
+-(primarily in Section 3 of the manual).
+-Documentation of glibc is also available in the glibc manual,
+-available via the command
+-.IR "info libc" .
+-Release 1.0 of glibc was made in September 1992.
++project,
++primarily in section 3 of the manual.
++glibc also offers a manual of its own in Texinfo format,
++browsable at the command line with
++.RI \(lq "info libc" \(rq.
++Version 1.0 of glibc was released in September 1992.
+ (There were earlier 0.x releases.)
+-The next major release of glibc was 2.0,
++The next major release of glibc was 2.0
+ at the beginning of 1997.
  .PP
--The cache is used by the run-time linker,
-+It also maintains a cache
-+used by the run-time linker,
- .I ld.so
- or
- .IR ld\-linux.so .
-@@ -61,8 +64,11 @@ determining which versions should have their links updat=
-ed.
- .\" 8ee878592c4a642937152c8308b8faef86bcfc40 (2022-07-14) as "obsolete
- .\" for over twenty years".
- .B \%ldconfig
--should normally be run by the superuser as it may require write
--permission on some root owned directories and files.
-+is normally run by the superuser
-+since it may require write permission
-+on some root-owned directories and files.
-+.RI \%\(lq ldconfig\~\-p \(rq
-+can be run without such privileges.
- .PP
- .B \%ldconfig
- will look only at files that are named
-@@ -74,10 +80,7 @@ Other files will be ignored.
- Also,
- .B \%ldconfig
- expects a certain pattern to how the symbolic links are set up,
--like this example,
--where the middle file
--.RB ( libfoo.so.1
--here) is the SONAME for the library:
-+as in the following.
- .PP
- .in +4n
- .EX
-@@ -85,8 +88,26 @@ libfoo.so \-> libfoo.so.1 \-> libfoo.so.1.12
- .EE
- .in
- .PP
--Failure to follow this pattern may result in compatibility issues
--after an upgrade.
-+The name
-+.B libfoo.so
-+is used when preparing object code that uses shared libraries.
-+.B libfoo.so.1
-+is the
+-The pathname
++The file
+ .I /lib/libc.so.6
+-(or something similar)
+-is normally a symbolic link that
+-points to the location of the glibc library,
+-and executing this pathname will cause glibc to display
+-various information about the version installed on your system.
++or similar
++is normally a symbolic link to the glibc library.
++Execute it to display information about the version installed on your
++system.
+ .SS Linux libc
+-In the early to mid 1990s,
+-there was for a while
++In the early to mid-1990s,
+ .IR "Linux libc" ,
+-a fork of glibc 1.x created by Linux developers who felt that glibc
+-development at the time was not sufficing for the needs of Linux.
++a fork of glibc\~1,
++was maintained by Linux developers
++who felt that glibc development at the time
++did not meet the Linux user community's needs.
+ Often,
+-this library was referred to (ambiguously) as just \(lqlibc\(rq.
++this library was referred to,
++simply and ambiguously,
++as \(lqlibc\(rq.
+ Linux libc released major versions 2, 3, 4, and 5,
+-as well as many minor versions of those releases.
+-Linux libc4 was the last version to use the a.out binary format,
+-and the first version to provide (primitive) shared library support.
+-Linux libc 5 was the first version to support the ELF binary format;
+-this version used the shared library soname
++along with many minor updates.
++Linux libc\~4 was the last to use the
++object file format called \(lqa.out\(rq,
++and the first on Linux to provide (primitive) shared library support.
++Linux libc\~5 was the first on Linux to support ELF object code;
++it employed the
 +.I soname
 +(shared object name)
-+used at run time,
-+by which object code locates its shared library dependencies.
-+.B libfoo.so.1.12
-+is the shared library.
-+This practice enables upward-compatible upgrades of shared libraries;
-+a change in the version number after the soname indicates that no
-+\(lqbreak\(rq in the ABI
-+(application binary interface)
-+has occurred.
-+.PP
-+.B ldconfig
-+maintains an auxiliary cache file that helps it to avoid re-reading
-+libraries that have not changed since the last time it was run.
- .SH OPTIONS
- .TP
- .BI \-c\~ fmt
-@@ -102,9 +123,9 @@ which is one of
- or
- .BR \%compat .
- Since glibc 2.32,
-+.\" commit cad64f778aced84efdaa04ae64f8737b86f063ab
- the default is
- .BR new .
--.\" commit cad64f778aced84efdaa04ae64f8737b86f063ab
- Before that,
- it was
- .BR \%compat .
-@@ -114,6 +135,8 @@ Use
- .I cache
- instead of
- .IR /etc/ld.so.cache .
-+Implies
-+.BR \-i .
- .TP
- .BI \-f\~ conf
- Use
-@@ -151,27 +174,29 @@ links are still updated.
- .B \-p
- .TQ
- .B \-\-print\-cache
--Print the lists of directories and candidate libraries stored in
--the current cache.
-+Report the libraries stored in the cache and exit.
- .TP
- .BI \-r\~ root
- Change to and use
- .I root
- as the root directory.
- .TP
-+.B \-\-usage
-+Report a terse usage message and exit.
-+.TP
- .B \-v
- .TQ
- .B \-\-verbose
--Verbose mode.
--Print current version number,
-+Operate verbosely;
-+for each library,
-+report the current version number,
- the name of each directory as it is scanned,
- and any links that are created.
--Overrides quiet mode.
- .TP
- .B \-V
- .TQ
- .B \-\-version
--Print program version.
-+Report program version information and exit.
- .TP
- .B \-X
- Don't update links.
-@@ -179,26 +204,70 @@ Unless
- .B \-N
- is also specified,
- the cache is still rebuilt.
-+.TP
-+.B \-?
-+.TQ
-+.B \-\-help
-+Report a usage message and exit.
- .SH FILES
--.\" FIXME Since glibc-2.3.4, "include" directives are supported in ld.so.c=
-onf
--.\"
--.\" FIXME Since glibc-2.4, "hwcap" directives are supported in ld.so.conf
--.PD 0
- .TP
- .I /lib/ld.so
- is the run-time linker/loader.
- .TP
- .I /etc/ld.so.conf
-+.RS
- contains a list of directories,
- one per line,
--in which to search for libraries.
-+in which to search for libraries;
-+or a multi-word
-+.I directive
-+further configuring the run-time linker/loader.
-+A number sign
-+.RB ( # )
-+introduces a comment that extends to the end of the line;
-+this character is thus not supported in directives or directory names.
-+Leading spaces are removed.
-+Empty lines are ignored.
-+.PP
-+Since glibc\~2.3.4,
-+.\" commit 8e115d80b07f17a11690c108918f847846a752da
-+a directive in the form
-+.RS
-+.EX
-+include\~\c
-+.I filename\~\c
-+\&.\|.\|.
-+.EE
-+.RE
-+is supported;
-+each
-+.I filename
-+is recursively opened and read.
-+.\" XXX: ...with no detection of cycles!
-+.I filename
-+can be a
-+.BR glob (3)
-+pattern.
-+This feature enables libraries or packages to manage shared library
-+placement in a modular way.
-+.PP
-+In glibc\~2.4,
-+.\" commit ab1d521db39bf4371c7db96e8a0fcd4857ee70ed
-+a
-+.B \%hwcap
-+directive was introduced,
-+but it is no longer supported as of glibc\~2.32.
-+.\" commit 31563b68410ff8e9490c5aafca31ec71b38f87a5
-+.RE
- .TP
- .I /etc/ld.so.cache
- contains an ordered list of libraries found in the directories
- specified in
- .IR /etc/ld.so.conf ,
- as well as those found in the trusted directories.
--.PD
-+.TP
-+.I /var/cache/ldconfig/aux\-cache
-+is the auxiliary cache.
+ .IR libc.so.5 .
+ For a while,
+-Linux libc was the standard C library in many Linux distributions.
++Linux libc was the standard C library in many GNU/Linux distributions.
+ .PP
+-However,
+-notwithstanding the original motivations of the Linux libc effort,
+-by the time glibc 2.0 was released
+-(in 1997),
++Notwithstanding the original motivations of the Linux libc effort,
++by the time glibc 2.0 was released,
+ it was clearly superior to Linux libc,
+-and all major Linux distributions that had been using Linux libc
+-soon switched back to glibc.
+-To avoid any confusion with Linux libc versions,
+-glibc 2.0 and later used the shared library soname
+-.IR libc.so.6 .
++and all major GNU/Linux distributions that had been using Linux libc
++soon switched (back) to glibc.
++To avoid confusion with Linux libc versioning,
++glibc 2.0 and later use the soname
++.I libc.so.6
++on Linux systems to indicate their status as successors
++to Linux libc\~5.
+ .PP
+ Since the switch from Linux libc to glibc 2.0 occurred long ago,
+ .I man-pages
+ no longer takes care to document Linux libc details.
+ Nevertheless,
+-the history is visible in vestiges of information
+-about Linux libc that remain in a few manual pages,
++vestiges of this history linger in comments
++about Linux libc in a few manual pages\(em\
+ in particular,
+ references to
+ .I libc4
+ and
+ .IR libc5 .
+ .SS Other C libraries
+-There are various other less widely used C libraries for Linux.
+-These libraries are generally smaller than glibc,
+-both in terms of features and memory footprint,
+-and often intended for building small binaries,
+-perhaps targeted at development for embedded Linux systems.
++Other,
++less widely used,
++C libraries for Linux exist.
++They are generally smaller than glibc
++in terms of features and memory footprint,
++and are often intended for building small binaries,
++such as those targetting embedded systems.
+ Among such libraries are
+ .UR http://www\:.uclibc\:.org/
+ .I uClibc
+@@ -101,10 +109,9 @@ and
+ .UR http://www\:.musl\-libc\:.org/
+ .I "musl libc"
+ .UE .
+-Details of these libraries are covered by the
++Details of these are offered by Linux
+ .I man-pages
+-project,
+-where they are known.
++where known.
  .SH SEE ALSO
- .BR ldd (1),
- .BR ld.so (8)
+ .BR syscalls (2),
+ .BR getauxval (3),
 --=20
 2.30.2
 
 
---e5gjgxy5bsdes4mg
+--642lqgc3qsu5ki6f
 Content-Type: application/pgp-signature; name="signature.asc"
 
 -----BEGIN PGP SIGNATURE-----
 
-iQIzBAABCAAdFiEEh3PWHWjjDgcrENwa0Z6cfXEmbc4FAmO5QU4ACgkQ0Z6cfXEm
-bc5adQ//W1BCjrJ/vrpMgUzS7GMXmzVzxE9lixMAF+NtV6O2AoP8isaoc2HxEyeQ
-PTRw35HffJKeuGZKuEt05v0rm0o3ypqUikiiWfM15DqPTfPPCUDqRxCVhyVDm5Xk
-CetJW+8su3L/IBulFE/7yPlXFRctyGKa/WWB5bEJgF9Ki1n6bTgyx93xRNMCUyDk
-WQogEJlxv5m9bf97lC+gvoPm/NJ/iiG2VlSDgCs80YJwwawW/tWMEk9FsBDXqr+E
-T2FQagmwydlwJgZEOZ0ssDFMPoHr+4cmlQ9sbxk+6oJmG9Ohjn+6IDCCzBvE7AYE
-S4UVZlYv3TfLtQ7OTdfHhloaA27yJWW2HWBDF3fzrgAenh6+7W8ec/IkzoDJrh4T
-Zy0qrdGNHAah3VsRi95sxP2VlWso1YLZtMsHpa/pMj2a/SY7JXqpvuTZJcnW75rp
-80PP5TCZ2ZGZ96N5WxCmp6V4tf2B1PHe70HuKgM5RYj70WH6MQAapHEKEeVBrQFN
-ofMS1v3igC6ggWbkcFuSC3eJhvKUCwOOhXj/ZtvvzfCUc2si2MavDde8PHKL+uU0
-cEOtETlunAdEHAnlZKnrD3GC4iV73z+TW0TGM+Qvnd8l8dKJaEDh/pSclYIIFUY/
-aQipTcOLkraviRTCl1XjdTr1u8yVXZRcZIWYzuLYqsZ7DqthvWQ=
-=L+x4
+iQIzBAABCAAdFiEEh3PWHWjjDgcrENwa0Z6cfXEmbc4FAmO5QV4ACgkQ0Z6cfXEm
+bc4f6w/+KgLZlAlmwHK9sngfmcwdX8yIN75EhSILsPSCKYEVPnbM9QImzw3XAaDb
+tfGfVSgJdBdxTgTwRjybDdMGFkR4MTeyjDN/uuJEWZ8a0Xq6mY9cz+vxwN68XZuc
+O6T/YsIbP+E7XmYzEIbHWoR0+z5epmf5R8clu9OVbz+o7BhBp6xPdtKklWhzf8W7
+hxbw4vOjHUhf4LNOxKU3J2/tpRYGcgaI5YGf8N35k7TVLGZOqnkOV6OqIVAKEzOl
+SsnYkTHMxkZM4l7PEL2672RgGYpOozwWlibLPmBsFC9wKImpHpCPQkEkBb23nN+x
+GD1JY+j9ktEI/Ip0aDKH0PH9qzfsfhMQMHDZs4xxLwsuRAygygM93CxHb2lCB/hj
+sMPrKvs8gM/1hHtv13un/cdzaWV2e02jaJ6jKBOdFI/DdYNZ4G/y3rm2C3t03oD2
+U2X3vIQ1ilwJNZMuhPxZ1dIjT65/Q6vvHu8R6342byQHBhiQpNKc4/zCU7xhTxuz
+QGZ3BxpBJpvwusSOIugYQP2Wk4SRuoW4B905/tLypt6JSiDuIeac/DBPdD/OtlQW
+/EeTYVm2zdKuTY7tQjzCyDJCVkUrCw2QLPhYSeTH7LFd8GTnKfJxcEdSEm/GHaOl
+FGE0ARIujncp/UXbHhnjoH9ZeWXkK7L+CSRsrmSm7f9KIKGAYqU=
+=9mLJ
 -----END PGP SIGNATURE-----
 
---e5gjgxy5bsdes4mg--
+--642lqgc3qsu5ki6f--
