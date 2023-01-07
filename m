@@ -2,112 +2,138 @@ Return-Path: <linux-man-owner@vger.kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 701A8C677F0
-	for <linux-man@archiver.kernel.org>; Sat,  7 Jan 2023 09:54:56 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 0C787C54EBC
+	for <linux-man@archiver.kernel.org>; Sat,  7 Jan 2023 09:55:28 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S231934AbjAGJy1 (ORCPT <rfc822;linux-man@archiver.kernel.org>);
-        Sat, 7 Jan 2023 04:54:27 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:47872 "EHLO
+        id S229972AbjAGJy5 (ORCPT <rfc822;linux-man@archiver.kernel.org>);
+        Sat, 7 Jan 2023 04:54:57 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:47994 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S231960AbjAGJyE (ORCPT
-        <rfc822;linux-man@vger.kernel.org>); Sat, 7 Jan 2023 04:54:04 -0500
-Received: from mail-ot1-x32b.google.com (mail-ot1-x32b.google.com [IPv6:2607:f8b0:4864:20::32b])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id CBF967D1E4
-        for <linux-man@vger.kernel.org>; Sat,  7 Jan 2023 01:54:03 -0800 (PST)
-Received: by mail-ot1-x32b.google.com with SMTP id r2-20020a9d7cc2000000b006718a7f7fbaso2299676otn.2
-        for <linux-man@vger.kernel.org>; Sat, 07 Jan 2023 01:54:03 -0800 (PST)
+        with ESMTP id S236836AbjAGJyh (ORCPT
+        <rfc822;linux-man@vger.kernel.org>); Sat, 7 Jan 2023 04:54:37 -0500
+Received: from mail-ot1-x330.google.com (mail-ot1-x330.google.com [IPv6:2607:f8b0:4864:20::330])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id CDE4887F01
+        for <linux-man@vger.kernel.org>; Sat,  7 Jan 2023 01:54:33 -0800 (PST)
+Received: by mail-ot1-x330.google.com with SMTP id x44-20020a05683040ac00b006707c74330eso2283673ott.10
+        for <linux-man@vger.kernel.org>; Sat, 07 Jan 2023 01:54:33 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=gmail.com; s=20210112;
         h=content-disposition:mime-version:message-id:subject:cc:to:from:date
          :from:to:cc:subject:date:message-id:reply-to;
-        bh=VN0l+97RMg1YV2dO5JMRg0hysODDuzrQz563fUrpxq0=;
-        b=oiDkLml4rM6diJCFCh+qyEWEdKL7K4SxWb/7pZpXMfKBKhW2fKKS4MOywg++VTg1kb
-         8jI50oD5X0x0xpeSW9UgKocfyna/rmSDuMtubQKDKs3PEDlMgt0T4sqjaV+q9+kMUmZ9
-         P2wsRHUZyrUhnlQF9W1CkS8+PYF659TK29bAjgk4GuJrEzgVOg88ijE1qNgbpcXX9HL/
-         QtB4AZEnSiJxjReY/QDfFb22gBJSAoUxqlkKWkXXLqQ480F527t1kVx2dww9pqqc9BNN
-         wONpYzQOpd5eQceucnz2Z6nz4TJhL8LBYrAITa0ISTVqAQAuXgoe8t8gXuUvafexobWg
-         vJgw==
+        bh=LBo8BLofE16ihbohEZ8pXgUUFF/yPGcVWzi28oW57mU=;
+        b=NjoMf1kPjs9HeeEZYrO+xtcVAO0SlViICUagX4N7NPP8QClrnaR2hYmap9RREejw22
+         T7V1IsfuFZLApU4pHuGpwhBbbZ5NBam5bcAzVN15RBgfmCveQgFzMy2sqhK55b9o+dsl
+         joxyxsUEGi7NDsmtX6bAxye9le6dWwDu7eSweCDPm1cgoTqD8oqUrS3R1RN9JHrm/Cfv
+         /+tWm+nbookvC/Ixb2Thyz1/PSIDkyWFCrlcULd0vgCD2C0bjsH1GUkupULu0pktJwTb
+         5tBdKTrrlgGCe2gYgAbaqEIBWG4f8MajpG0eebpFUDf7bZKEKAq6b26kci+pVNawm4h5
+         0G2g==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20210112;
         h=content-disposition:mime-version:message-id:subject:cc:to:from:date
          :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
-        bh=VN0l+97RMg1YV2dO5JMRg0hysODDuzrQz563fUrpxq0=;
-        b=MI44INjx/kJB9C/ad8TxzkutK3/143DEhsDqDxhjRAsf1H8+K0GSVr9d1K1/r0iJR9
-         yhwKQBUZcrCfM3Rh9eQS+U/LqHBB1b97N97JpSqEZqInF165E/c+QA7XEN7m+IpxBJWe
-         7Hnv2nnJQuQOllTxWhgl9eHjbg8AC+vaFr+9HMhFEgB/VYUjcct81LHLMinl+x4l9lN4
-         EFCQRXrK6wm9GjlQh0sAevl1KrPouAJdTIGKeGZO8IUNth14mBg8lDgTvZQdCCcctsND
-         rrAbRiL8Zfj5ORhcN38GIC3PxwV2sFqWEUTVzAnD6NwWWQnGXh6JRIEvLuyjyFW/Bok9
-         ZdCA==
-X-Gm-Message-State: AFqh2konKiOnlyIIxti3dIFWjTeUtLYO30F6OCA4p8eALHgaDrPbh0DC
-        LrXfiHmnwurVdv+wuk0hL3LEWx6YA/0=
-X-Google-Smtp-Source: AMrXdXtHH0+oIUp1eHLpZ+jQPUrV/8wJmtIgHHFPJtkISbFfSJFYzQybtbt3FevyCkc+0pcLBFxdbw==
-X-Received: by 2002:a9d:7408:0:b0:676:1802:661f with SMTP id n8-20020a9d7408000000b006761802661fmr26864452otk.25.1673085243143;
-        Sat, 07 Jan 2023 01:54:03 -0800 (PST)
+        bh=LBo8BLofE16ihbohEZ8pXgUUFF/yPGcVWzi28oW57mU=;
+        b=x8mIz/UN2R+nvv8Ko1mBAHoSjmNiP3Onq4TQNbUZnUAhsz1bQg5CNYhm6y9jVvz8v9
+         d3Y7vw7c0J4tBXgsHPbA0zp3ETiyvyc9AaH08JeR7ThzMz4U7QaOP43UX/WMBwJB1ocB
+         YfEKtQ82BatABRdV17HJ3+fcWvBCG2YFFsHorv3lEGT1Rg/Lwv0YgaICrzB9y36nrm/u
+         bHS50L9XlYWdEEN+BAuuxdsS51/mRxhOo2iDsAEYkueUFG9CA1Yc4Zd1RnOMpPMk/JdR
+         WTJxONyco2CEGROtKoAFRQ/zcK06tr8BLVgDAlatUhhYbey47kLtS+a60oYhetnOUTT2
+         KSiw==
+X-Gm-Message-State: AFqh2krJ0RZa5j1RbHfzpeGnAG7CKcFsfDQJVreaC6heSX6/6o/bPtlz
+        9BW+f2RaPDwj1PB4vjdVKwYW8pm1MSk=
+X-Google-Smtp-Source: AMrXdXtfbjkwzHdljo6Xzoq2C84d+IWVSs74GfrVoLZs8c6h9JCvHl6cJCIJ+EE4VXfNonud/0t84A==
+X-Received: by 2002:a05:6830:612:b0:670:97e8:bb88 with SMTP id w18-20020a056830061200b0067097e8bb88mr35874305oti.28.1673085273164;
+        Sat, 07 Jan 2023 01:54:33 -0800 (PST)
 Received: from illithid (ip68-12-97-90.ok.ok.cox.net. [68.12.97.90])
-        by smtp.gmail.com with ESMTPSA id r7-20020a056830418700b006706e4f6863sm1628457otu.75.2023.01.07.01.54.02
+        by smtp.gmail.com with ESMTPSA id d21-20020a9d4f15000000b006704589eb54sm1634960otl.74.2023.01.07.01.54.32
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Sat, 07 Jan 2023 01:54:02 -0800 (PST)
-Date:   Sat, 7 Jan 2023 03:54:01 -0600
+        Sat, 07 Jan 2023 01:54:32 -0800 (PST)
+Date:   Sat, 7 Jan 2023 03:54:31 -0600
 From:   "G. Branden Robinson" <g.branden.robinson@gmail.com>
 To:     Alejandro Colomar <alx.manpages@gmail.com>
 Cc:     linux-man@vger.kernel.org
-Subject: [PATCH v4 00/10] ldconfig.8, libc.7, intro.3 revisions
-Message-ID: <20230107095401.7nn77xl5twx5iho3@illithid>
+Subject: [PATCH v4 03/10] libc.7: ffix
+Message-ID: <20230107095431.6rnc3hczostxl2iv@illithid>
 MIME-Version: 1.0
 Content-Type: multipart/signed; micalg=pgp-sha256;
-        protocol="application/pgp-signature"; boundary="a5dsgty2vww2vwgn"
+        protocol="application/pgp-signature"; boundary="6sa5ibacsf6cjvpn"
 Content-Disposition: inline
 Precedence: bulk
 List-ID: <linux-man.vger.kernel.org>
 X-Mailing-List: linux-man@vger.kernel.org
 
 
---a5dsgty2vww2vwgn
+--6sa5ibacsf6cjvpn
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
+Content-Transfer-Encoding: quoted-printable
 
-Hi Alex,
-
-v4:
-
-* Drop segments already merged upstream.
-* ldconfig.8: Resequence segment excising documentation of libc{4,5}
-  support to first per request.  Delete the material instead of
-  commenting it out.
-* Relocate segment applying *roff hyphenation character to man page
-  cross-reference to end of sequence per request.
-
-v3:
-
-* Segregate style changes into srcfix, ffix, wfix commits.
-* Use SY/YS groff man(7) extensions to set ldconfig(8) synopsis.
-
-v2:
-
-* No longer migrates `PP` macros to `P`.
-* No longer migrates ASCII "arrow" `->` to troff special character.
-* Changes to each page split into markup, style, and content changes.
+* Set page topic in lowercase.
+* Use typographer's quotation marks instead of '"' for quotation.
+* Hyperlink the text "GNU C Library" to its website.
 
 Signed-off-by: G. Branden Robinson <g.branden.robinson@gmail.com>
+---
+ man7/libc.7 | 11 ++++++-----
+ 1 file changed, 6 insertions(+), 5 deletions(-)
 
---a5dsgty2vww2vwgn
+diff --git a/man7/libc.7 b/man7/libc.7
+index bba49da42..43ec0269f 100644
+--- a/man7/libc.7
++++ b/man7/libc.7
+@@ -7,17 +7,18 @@
+ .SH NAME
+ libc \- overview of standard C libraries on Linux
+ .SH DESCRIPTION
+-The term "libc" is commonly used as a shorthand for
+-the "standard C library",
++The term \(lqlibc\(rq is commonly used as a shorthand for
++the \(lqstandard C library\(rq
+ a library of standard functions that can be used by all C programs
+ (and sometimes by programs in other languages).
+ Because of some history
+ (see below),
+-use of the term "libc"
++use of the term \(lqlibc\(rq
+ to refer to the standard C library is somewhat ambiguous on Linux.
+ .SS glibc
+-By far the most widely used C library on Linux is the GNU C Library
++By far the most widely used C library on Linux is the
+ .UR http://www.gnu.org\:/software\:/libc/
++GNU C Library
+ .UE ,
+ often referred to as
+ .IR glibc .
+@@ -50,7 +51,7 @@ there was for a while
+ a fork of glibc 1.x created by Linux developers who felt that glibc
+ development at the time was not sufficing for the needs of Linux.
+ Often,
+-this library was referred to (ambiguously) as just "libc".
++this library was referred to (ambiguously) as just \(lqlibc\(rq.
+ Linux libc released major versions 2, 3, 4, and 5,
+ as well as many minor versions of those releases.
+ Linux libc4 was the last version to use the a.out binary format,
+--=20
+2.30.2
+
+
+--6sa5ibacsf6cjvpn
 Content-Type: application/pgp-signature; name="signature.asc"
 
 -----BEGIN PGP SIGNATURE-----
 
-iQIzBAABCAAdFiEEh3PWHWjjDgcrENwa0Z6cfXEmbc4FAmO5QTEACgkQ0Z6cfXEm
-bc5Wfg//QS42ZTf8POMXvJJdJRs55G3HTWEj1kunR7EJgtzCXK6X0wnc1h6hmSFn
-jkkFFsKq+PsDIB2YLdg4HnBwru+6ZWITFjiRJypW6rdYyLGSH+Nlg4bSJvLRrvfp
-E9ElEZeOcxq46OrwlW172pHpptUSHMMJ2iU8G7R7dPoG7IFx+meIf215U6N29AfX
-6Bd7y/Ho0MqDxIN32TC5IdgdDmhFQbt5+hmPQUitiwL+rbW/8YOYGePYD3SXUpN7
-K7GrAoRMppGrKHiQmk2hXrVzi3pETmf8t38Bw3ONqFrDvMb1g41a9m7hHauw9y5h
-lMGImk/rGAFlWWsRq3I06+9Boqe143jQQSUWJ5RKhVGNXN39r8izk0m3hFVDZg+N
-ujGI+1/o2uhLvzd51Mg0UKQxvjuVJeyKoL6uFmGALK7FWY+SMOfwfF+6WwKIZaS8
-yywO4qOSzXqRn0/MNsKBfZWovFQx9qmpbwHBRDkwNGyksksF+8xTZr2GgGGtS2Ph
-BIYuw+bDR0S3dvavZjyixvg9JOZ7mIZFc1ZRV4YRwH+h8GVDVTAxfldCyqeW6XSR
-EL6EsIaR0v71W4/MPAS8w+13YB0khWyv5eDlc+rXGQa1okSLWFmlcZIdECRbqwWH
-JUBmrtoiMGc4L0CZYg4A2Qvr8VYz7Vu4GTk/Fs/Ra05UpvGtJ2o=
-=+hs0
+iQIzBAABCAAdFiEEh3PWHWjjDgcrENwa0Z6cfXEmbc4FAmO5QVcACgkQ0Z6cfXEm
+bc4ceQ/+IAkQuhD42x1CJD+WX0bUZgbLJbW24LTxfvb9sdPmPSs7cpk4c8fsQhOw
+WFlxYY6AMoo0NYpnP+l6uTiQ6oyMrjAMr5tXpIV5/j+IKnronoy3xvbvq2aEPMsh
+TX0oimXdETqKIsB4Axv2kKz+/C5uDybNEHZMmRZ7oIOY8oDTeC3/Nz95ghKePPuL
+pzPMH2Hrx36f/K69reWpE+3ghfi2b+2UiK9+wf/T0GwGQm17HK4baIcHuOiy71SK
+WLmJfq4kTQKAIDkRx0jp2zEZZjDC3RKQNrdy2cUteN47/iKFCG12yT45vFt4MNSC
+wk7kv22HOWsYajYqteQavUbBlR5UEN+UwHb9ye+3kRA7inndHqLL+8Jzr4TC/XcU
+noRn7oLG/3MZLeKpkKUBOHkLk5dFHPLyYMWd6I/f3MQ137HtMKm+X2irwOfGi1HO
+91ENc579auI+f9zRYp2n6r1we3gTq1ygLPXizVi0Gqisxxb0uLJj0cXgC4v0VzM5
+4QNSgq88FsLGcCHRECQBmjv2B/oYO8UaPQ66mgnU0roxmH/n4ShEZ16c8c9zT+B3
+n2iYP6WRGYrobmPeFUQnDWAuxRWulAcmnP9eBLXVHJDYr3Lu3dOpuCx+dHoH4y4H
+Q0Nva1JRvnIwOU9vG+Tqe29aEEKEQvPgMyRpMVUPHbT+BcEcsC8=
+=jnmN
 -----END PGP SIGNATURE-----
 
---a5dsgty2vww2vwgn--
+--6sa5ibacsf6cjvpn--
