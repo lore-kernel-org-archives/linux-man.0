@@ -2,62 +2,145 @@ Return-Path: <linux-man-owner@vger.kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 561D2C54EBD
-	for <linux-man@archiver.kernel.org>; Thu, 12 Jan 2023 08:52:24 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 3DE11C3DA78
+	for <linux-man@archiver.kernel.org>; Sat, 14 Jan 2023 22:03:42 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S236436AbjALIwV (ORCPT <rfc822;linux-man@archiver.kernel.org>);
-        Thu, 12 Jan 2023 03:52:21 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:46150 "EHLO
+        id S230410AbjANWDk (ORCPT <rfc822;linux-man@archiver.kernel.org>);
+        Sat, 14 Jan 2023 17:03:40 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:57652 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S239576AbjALIvm (ORCPT
-        <rfc822;linux-man@vger.kernel.org>); Thu, 12 Jan 2023 03:51:42 -0500
-Received: from mail.glencoeaur.com (mail.glencoeaur.com [217.61.97.113])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 67A801EC45
-        for <linux-man@vger.kernel.org>; Thu, 12 Jan 2023 00:50:00 -0800 (PST)
-Received: by mail.glencoeaur.com (Postfix, from userid 1001)
-        id EA23181E40; Thu, 12 Jan 2023 08:31:02 +0000 (GMT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=glencoeaur.com;
-        s=mail; t=1673512264;
-        bh=2S0GQFScndXkBEK4sqdoOhOYLqsB2sEH8Q5XQfVvKpo=;
-        h=Date:From:To:Subject:From;
-        b=Zo8A5rkhp6Xe4hFmgI1XtkTCHsPkiTkrfkJOOzkrZaanitJqo3WeLLpUXgW7StCzd
-         nFposKAEQLxJkNIh71LsaYbwSXFJzY+XehJeVnHssB27wSMequ/Ow6Bl0Wv9JL3nKn
-         s/l7fsJaGADyMg+LlYKOBggng64JacUZKCV+EFBGFn8Vh2y/1Q90oQ+cdBXeAddfQn
-         7FfiC+p0TyhNULEimGoOoV4pNcsbFW3mq9Duotaem8Z/SwoU0mKRzfLQRCgGW8cV1o
-         dN6HmHiBxbHpaP2pQsM3N/xxWRWSjqppZVicFo9SONq70oKiqkjIijmEx2wwKFHzie
-         kjVHXvxUquv9w==
-Received: by mail.glencoeaur.com for <linux-man@vger.kernel.org>; Thu, 12 Jan 2023 08:31:00 GMT
-Message-ID: <20230112074500-0.1.z.3eyj.0.p0qb2q9mvf@glencoeaur.com>
-Date:   Thu, 12 Jan 2023 08:31:00 GMT
-From:   "Zbynek Spacek" <zbynek.spacek@glencoeaur.com>
-To:     <linux-man@vger.kernel.org>
-Subject: Silikonmischungen
-X-Mailer: mail.glencoeaur.com
+        with ESMTP id S230381AbjANWDj (ORCPT
+        <rfc822;linux-man@vger.kernel.org>); Sat, 14 Jan 2023 17:03:39 -0500
+Received: from mail-wr1-x42e.google.com (mail-wr1-x42e.google.com [IPv6:2a00:1450:4864:20::42e])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 0D84C5B94
+        for <linux-man@vger.kernel.org>; Sat, 14 Jan 2023 14:03:37 -0800 (PST)
+Received: by mail-wr1-x42e.google.com with SMTP id bk16so24098846wrb.11
+        for <linux-man@vger.kernel.org>; Sat, 14 Jan 2023 14:03:36 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20210112;
+        h=content-transfer-encoding:in-reply-to:from:cc:content-language
+         :references:to:subject:user-agent:mime-version:date:message-id
+         :sender:from:to:cc:subject:date:message-id:reply-to;
+        bh=z/P7lBMGdEaCEGFcDzCNc8dd9atr3bYTb6S8JCtfDLs=;
+        b=n4w/AaJtw660ebHFUDcSgPCWdwpPS/rMWN07RVFBI8URzVEX1AIm62CCBIHjwn5YJ7
+         DDY+5dam1pfPNAbOrgUy36FtVjy7tkj2Mp7OoEogwiydJNVd9K58QEbBNhqvj7qxUK8H
+         tRlrZ2hg+NwiwaDKXCEQDqVIHwoJyRHXYsLF+UdckBtRIN65qVrtC3Q9EkPJGVjNtVw4
+         oMXUdN2qrtMH2vQudSSkiODNbBOHdLg0ANGf3Tld4pimFk3aprXktZpu9Z8Ndl8DDP3n
+         kon+MHEguTi5yneGfgwv3ocM+HkO/2KWicDLxl+RiyM5vhIEA/uQ4pAgImoljYGlrJBW
+         eFQA==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20210112;
+        h=content-transfer-encoding:in-reply-to:from:cc:content-language
+         :references:to:subject:user-agent:mime-version:date:message-id
+         :sender:x-gm-message-state:from:to:cc:subject:date:message-id
+         :reply-to;
+        bh=z/P7lBMGdEaCEGFcDzCNc8dd9atr3bYTb6S8JCtfDLs=;
+        b=T5eKRx0JZtBtHQU8PDQWl+8swTOfklq7XQUeZXoBepO6yG+mrxR6deZZBeAU+LgDcj
+         RgyP2wMIOomxF7WO2DaR6K3EwhrPe6dDLFq9fT19bMFrbmBdVAChDY0Pnd7a2peUbzvR
+         SgT6X7b+BBBPGB3BBaKZBqHnRhYJzCI1bEFyKSdDSNcNi4GAOs8jyLLKHifPMkyMR6mb
+         iIOA9S+dqXizGL7Hna9jKivK8G1BiGVTIzQPB+PNCegjQTPcw9PoyVjcKfOoL1xzmv/z
+         CTotkwMWWcg0JwquIKU8yQGMzrgFvzYwoacA7HpGg3ZmOWVXLuhQADqM3RoOJc3P656b
+         ZkgA==
+X-Gm-Message-State: AFqh2kph8qUKxnkNiuYIQWvuVT+LieDrglAHMstG6wVSAOc8j2IFmL5B
+        yL2RwsB38RqV6kfWsRdziXq5HeDqrkQ=
+X-Google-Smtp-Source: AMrXdXvFBf9Y8KBxIZG1zywdrhbK2gmb9fO714r0cAx14XZcIz0Q0uT/6viaPwsaWR4sf1JAKPXpsQ==
+X-Received: by 2002:adf:f74c:0:b0:2bd:e960:9850 with SMTP id z12-20020adff74c000000b002bde9609850mr3741946wrp.0.1673733815406;
+        Sat, 14 Jan 2023 14:03:35 -0800 (PST)
+Received: from [192.168.0.160] ([170.253.36.171])
+        by smtp.gmail.com with ESMTPSA id c18-20020adffb52000000b0025e86026866sm26307369wrs.0.2023.01.14.14.03.34
+        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+        Sat, 14 Jan 2023 14:03:34 -0800 (PST)
+Sender: Alejandro Colomar <alx.mailinglists@gmail.com>
+Message-ID: <fd3af7b2-5ffa-bee1-4644-f102075f7102@gmail.com>
+Date:   Sat, 14 Jan 2023 23:03:33 +0100
 MIME-Version: 1.0
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
+ Thunderbird/102.6.0
+Subject: Re: Question about makevarescape.sed in groff-1.22.4 tarball
+To:     "G. Branden Robinson" <g.branden.robinson@gmail.com>, groff@gnu.org
+References: <BYAPR15MB3064D2D4AE7968ACDDDA415B98C39@BYAPR15MB3064.namprd15.prod.outlook.com>
+ <20230114051626.ag5nz2mfzsmonvh7@illithid>
+Content-Language: en-US
+Cc:     "Thaddeus H. Black" <thb@debian.org>,
+        linux-man <linux-man@vger.kernel.org>
+From:   Alejandro Colomar <alx.manpages@gmail.com>
+In-Reply-To: <20230114051626.ag5nz2mfzsmonvh7@illithid>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 8bit
 Precedence: bulk
 List-ID: <linux-man.vger.kernel.org>
 X-Mailing-List: linux-man@vger.kernel.org
 
-Good morning,
+Hi Branden,
 
-do you need intermediates for processing, plastics (e.g. rubber) or silic=
-one mixtures?
+On 1/14/23 06:16, G. Branden Robinson wrote:
+> Hi Mike,
+> 
+> At 2023-01-14T04:49:08+0000, Mike Fulton wrote:
+>> The last line of the makevarescape.sed is:
+>>
+>> ```
+>> s|[^ ]/\+|&\\\\:|g
+>> ```
+>>
+>> I do not understand why it is making the change it is,
+> 
+> It is adding hyphenless break points to file specifications and URLs.
+> This is mentioned in the groff_man(7) page.
+> 
+>                When rendered by groff to a TTY or PostScript output de‐
+>                vice,
+> 
+>                       Contact
+>                       .MT fred.foonly@\:fubar.net
+>                       Fred Foonly
+>                       .ME
+>                       for more information.
+> 
+>                displays   as:   “Contact   Fred   Foonly  ⟨fred.foonly@
+>                fubar.net⟩ for more information.”.
+> 
+>                The use  of  ‘\:’  to  insert  hyphenless  discretionary
+>                breaks is a groff extension and can be omitted.
+> 
+> The overall function of makevarescape.sed is explained around line 825
+> of the "Makefile.am" file.
+> 
+>> but if I do
+>>
+>> ```
+>> ./configure --prefix=/Users/fultonm@ca.ibm.com/Documents/Development/mine<mailto:--prefix=/Users/fultonm@ca.ibm.com/Documents/Development/mine>
+>> ```
+> 
+> This looks like it might have been double-pasted...is that right?
+> 
+>> On my Mac, or a similar type of line under z/OS, then the man pages
+>> seem to have strange escape sequences added to them.  For example, on
+>> my Mac, this results in the line:
+>>
+>> ```
+>> .I /Users/fultonm@ca.ibm.com/Documents/Development/mine/share/groff/1.22.4/tmac/\:tty\-char.tmac<mailto:/Users/fultonm@ca.ibm.com/Documents/Development/mine/share/groff/1.22.4/tmac/\:tty\-char.tmac>
+>> ```
+>>
+>> Being generated in the ./src/roff/nroff/nroff.1 file
+> 
+> Maybe it wasn't double-pasted.  If not, then I feel like a ./configure
+> prefix setting of this complexity was not anticipated by groff, and
+> possibly not by other software using GNU Autotools, either.
+> 
+> Please confirm:
+> 
+> You can
+> 
+> cd /Users/fultonm@ca.ibm.com/Documents/Development/mine<mailto:--prefix=/Users/fultonm@ca.ibm.com/Documents/Development/mine>
 
-We provide a wide range of silicone rubbers with various properties, sili=
-cone mixtures from renowned manufacturers such as Wacker, Elastosil LR an=
-d dyes, stabilizers, primers and anti-adhesive additives.
+Wow, if this is a real pathname, I guess it's time to ping Thaddeus about 
+filename.7 :P
 
-We also produce technical silicone compounds with increased resistance to=
- oils, resistant to high temperatures and water vapor, conductive and man=
-y more.
+<https://lore.kernel.org/linux-man/YW2hzL5vDfVZIAXY@b-tk.org/T/#u>
 
-We provide fast order fulfillment, timely deliveries and cost optimizatio=
-n.
-
-Can I introduce what we can offer you?
-
-
-Best regards
-Zbynek Spacek
+> 
+> on these systems?
+> 
+> Regards,
+> Branden
