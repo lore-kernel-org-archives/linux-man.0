@@ -2,143 +2,83 @@ Return-Path: <linux-man-owner@vger.kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id E3C0FC54E76
-	for <linux-man@archiver.kernel.org>; Tue, 17 Jan 2023 18:43:25 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id C9B68C38159
+	for <linux-man@archiver.kernel.org>; Thu, 19 Jan 2023 01:50:16 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S231950AbjAQSnO (ORCPT <rfc822;linux-man@archiver.kernel.org>);
-        Tue, 17 Jan 2023 13:43:14 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:56270 "EHLO
+        id S229665AbjASBtp (ORCPT <rfc822;linux-man@archiver.kernel.org>);
+        Wed, 18 Jan 2023 20:49:45 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:50734 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S232608AbjAQScS (ORCPT
-        <rfc822;linux-man@vger.kernel.org>); Tue, 17 Jan 2023 13:32:18 -0500
-Received: from mail-oo1-xc2f.google.com (mail-oo1-xc2f.google.com [IPv6:2607:f8b0:4864:20::c2f])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 3BE3241B72
-        for <linux-man@vger.kernel.org>; Tue, 17 Jan 2023 10:04:11 -0800 (PST)
-Received: by mail-oo1-xc2f.google.com with SMTP id d16-20020a4a5210000000b004f23d1aea58so4388080oob.3
-        for <linux-man@vger.kernel.org>; Tue, 17 Jan 2023 10:04:11 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20210112;
-        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
-         :to:from:from:to:cc:subject:date:message-id:reply-to;
-        bh=cvzEDQmPvMAP7PKqE7zzoQpzT4CiAyklkGQgAYqxHRk=;
-        b=QeywlLZ76kqUtlWPs3FhHA9qwJSy3XehdGePR2g9OnC1Z5R3TFsg1winAxdOeid62h
-         mLshx3sCmNxlgZC6uhlpo+Fa+Dh0dpx10OULxn/hhqI08Upwv1F9p0qHln4dJXM2h4fw
-         R6kKqbN030pY9VT/SOwMjUi+9X4G4zHNWT8sBxxpF1Ewr60hJqhchuBtXHBRELAxz8jI
-         Rz2IFMmhC7OembWLgnNKNXsnd3KkCTIWPH0uOkybAAvVns2WiigeB4eEC6G+7dGmuSdK
-         Qe+zpiB3SH8Gd/vroJF9S8FkS9WJYNY4CifZBk8556FatZ3IerD4Xfp9/je5DgcE7mNT
-         BJfw==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20210112;
-        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
-         :to:from:x-gm-message-state:from:to:cc:subject:date:message-id
-         :reply-to;
-        bh=cvzEDQmPvMAP7PKqE7zzoQpzT4CiAyklkGQgAYqxHRk=;
-        b=OTxj3kNiZ0M5v0G+z6MTST/dwao3PMKgMUBbdHwQ5j0Q+K4BCbefVBXFrhTFzNyP+p
-         lJ7i5hIcEicav4hhYwLWJVA+o1FvBQNBuDBjRweSA91qvpenGRsGzmni/Ez4rjm/lq88
-         a1pZMmNUJcRFPQDorxj9ATFj57MhLgNqB32bxy6FV1guwEx2H/XDd5JhH/hIviuEQj3M
-         wAo0+SG5GKXbH+6XPAp6c30ENqVvZ58zlvFZcIvLu2ZDd0YYJblXRSywLUWqEEg0HOjw
-         plYxmnq4Hts+oLeYSI+NmEWKdT0KIu+u3s0Ax6i+Hv4OkV3bT2QtgAZW6q49mdYn65ay
-         H18A==
-X-Gm-Message-State: AFqh2koCc6DnCzDRd0D0jWEj6xwwbVgq9k+so2oityaef00PbMeryH+n
-        c0lwe9535c+gaAojp0Dd0iiUW0rUcghalg==
-X-Google-Smtp-Source: AMrXdXtGgylhMBZqG9KpczJ7kvgx5D9sQwhsHym7/NmNiAYuXVJ/CGi7Sy1Bd+d+90l6FDU1DS+ybQ==
-X-Received: by 2002:a4a:8c6e:0:b0:4fa:325e:ebb0 with SMTP id v43-20020a4a8c6e000000b004fa325eebb0mr788385ooj.5.1673978650110;
-        Tue, 17 Jan 2023 10:04:10 -0800 (PST)
-Received: from instant-on1.fyre.ibm.com ([129.41.87.2])
-        by smtp.gmail.com with ESMTPSA id r4-20020a4aad04000000b004a394578e14sm15281873oon.32.2023.01.17.10.04.08
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Tue, 17 Jan 2023 10:04:09 -0800 (PST)
-From:   Younes Manton <younes.m@gmail.com>
-To:     mtk.manpages@gmail.com, alx.manpages@gmail.com
-Cc:     linux-man@vger.kernel.org, Younes Manton <younes.m@gmail.com>
-Subject: [PATCH] proc.5: Fix caps needed to read map_files contents
-Date:   Tue, 17 Jan 2023 10:03:36 -0800
-Message-Id: <20230117180336.352611-1-younes.m@gmail.com>
-X-Mailer: git-send-email 2.34.1
+        with ESMTP id S229699AbjASBrl (ORCPT
+        <rfc822;linux-man@vger.kernel.org>); Wed, 18 Jan 2023 20:47:41 -0500
+Received: from ams.source.kernel.org (ams.source.kernel.org [145.40.68.75])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 456625D7E8
+        for <linux-man@vger.kernel.org>; Wed, 18 Jan 2023 17:46:34 -0800 (PST)
+Received: from smtp.kernel.org (relay.kernel.org [52.25.139.140])
+        (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+        (No client certificate requested)
+        by ams.source.kernel.org (Postfix) with ESMTPS id DC213B81FBC
+        for <linux-man@vger.kernel.org>; Thu, 19 Jan 2023 01:46:32 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPS id 87A45C433F2
+        for <linux-man@vger.kernel.org>; Thu, 19 Jan 2023 01:46:31 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+        s=k20201202; t=1674092791;
+        bh=gGyxkemQpBMFoaxaYW4VN1S55VWcRVYPXXlYE7EJHd0=;
+        h=From:To:Subject:Date:In-Reply-To:References:From;
+        b=AnGOLbQV+5OzoUf+LupgD1MzgQ6OUgmvJmwEJBCWLEcBMINvTAO08MrXijI0xQTvf
+         a+biEhOp7WNEoH0UbQjyIHMgEDfXIQ5wu1HP4c2DBxO7FhXcqa67T0sLlWDmqs3bcR
+         P4UcfG4pRc2bSZUUisp170rkWs9Mstb9dcZroU4eSOjQouAITEY9XCh9q8e5rnutk4
+         zy5SElfCt9hspke+Fqs7+OXR8SyI/30OA0spxDwH1utPI1Jb9KLW8va+ETrNIGOGtD
+         tTZnjpv75vg20ZPwLdaV1WZDh4Bl9JW0CEtGRfLuNfa7GhFK2awJHyF2crhpqWwQPy
+         3voJuwPN55Q9Q==
+Received: by aws-us-west-2-korg-bugzilla-1.web.codeaurora.org (Postfix, from userid 48)
+        id 7557CC43145; Thu, 19 Jan 2023 01:46:31 +0000 (UTC)
+From:   bugzilla-daemon@kernel.org
+To:     linux-man@vger.kernel.org
+Subject: [Bug 216951] close_range(2) needs refreshing for glibc inclusion;
+ closefrom(2) page missing
+Date:   Thu, 19 Jan 2023 01:46:31 +0000
+X-Bugzilla-Reason: None
+X-Bugzilla-Type: changed
+X-Bugzilla-Watch-Reason: AssignedTo
+ documentation_man-pages@kernel-bugs.osdl.org
+X-Bugzilla-Product: Documentation
+X-Bugzilla-Component: man-pages
+X-Bugzilla-Version: unspecified
+X-Bugzilla-Keywords: 
+X-Bugzilla-Severity: normal
+X-Bugzilla-Who: sam@gentoo.org
+X-Bugzilla-Status: NEW
+X-Bugzilla-Resolution: 
+X-Bugzilla-Priority: P1
+X-Bugzilla-Assigned-To: documentation_man-pages@kernel-bugs.osdl.org
+X-Bugzilla-Flags: 
+X-Bugzilla-Changed-Fields: short_desc
+Message-ID: <bug-216951-11311-BBapLPGK7D@https.bugzilla.kernel.org/>
+In-Reply-To: <bug-216951-11311@https.bugzilla.kernel.org/>
+References: <bug-216951-11311@https.bugzilla.kernel.org/>
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
+X-Bugzilla-URL: https://bugzilla.kernel.org/
+Auto-Submitted: auto-generated
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
 Precedence: bulk
 List-ID: <linux-man.vger.kernel.org>
 X-Mailing-List: linux-man@vger.kernel.org
 
-imachug@yandex.ru testing CRIU noticed that the documentation for
-proc's map_files directory with respect to CAP_CHECKPOINT_RESTORE and
-namespaces appears to be wrong. The text reads:
+https://bugzilla.kernel.org/show_bug.cgi?id=3D216951
 
-> since Linux 5.9, the reading process must have
-> either CAP_SYS_ADMIN or CAP_CHECKPOINT_RESTORE in the user
-> namespace where it resides.
+Sam James (sam@gentoo.org) changed:
 
-The reporter noted that the user actually needs the capabilities in
-the initial user namespace, not in the namespace the process resides
-in. As far as I can tell this appears to be the case.
+           What    |Removed                     |Added
+----------------------------------------------------------------------------
+            Summary|close_range(2) page         |close_range(2) needs
+                   |missing; closefrom(2) needs |refreshing for glibc
+                   |refreshing for glibc        |inclusion; closefrom(2)
+                   |inclusion                   |page missing
 
-The text was introduced in 167f94b707148bcd46fe39c7d4ebfada9eed88f6
-and refers to kernel commit 12886f8ab10ce6a09af1d92535d49c81aaa215a8.
+--=20
+You may reply to this email to add a comment.
 
-The code and message in the kernel commit refer to the initial user namespace.
-
-An example program and shell session verifying the existing behaviour
-follows:
-
-$ uname -r
-5.15.0-52-generic
-
-$ ./test.sh
-+ make rmf
-cc rmf.c -o rmf
-+ sudo setcap cap_checkpoint_restore-eip ./rmf
-+ ./rmf
-19582: =
-Can't read map_files/ entry: Operation not permitted
-+ sudo setcap cap_checkpoint_restore+eip ./rmf
-+ ./rmf
-19588: cap_checkpoint_restore=ep
-+ unshare --user ./rmf
-19591: cap_checkpoint_restore=ep
-Can't read map_files/ entry: Operation not permitted
-
-$ cat rmf.c
-
-int main(int argc, char **argv)
-{
-    DIR *mfd;
-    struct dirent *mfe;
-    struct stat mfstat;
-    int ret;
-
-    system("getpcaps $PPID");
-
-    chdir("/proc/self/map_files");
-    mfd = opendir(".");
-    do {
-        mfe = readdir(mfd);
-    } while (!strcmp(mfe->d_name, ".") || !strcmp(mfe->d_name, ".."));
-    if (ret = stat(mfe->d_name, &mfstat))
-        perror("Can't read map_files/ entry");
-    closedir(mfd);
-
-    return ret;
-}
-
-Signed-off-by: Younes Manton <younes.m@gmail.com>
----
- man5/proc.5 | 2 +-
- 1 file changed, 1 insertion(+), 1 deletion(-)
-
-diff --git a/man5/proc.5 b/man5/proc.5
-index 1217cea89..981310562 100644
---- a/man5/proc.5
-+++ b/man5/proc.5
-@@ -1267,7 +1267,7 @@ since Linux 5.9, the reading process must have either
- .B CAP_SYS_ADMIN
- or
- .B CAP_CHECKPOINT_RESTORE
--in the user namespace where it resides.
-+in the initial (i.e. root) user namespace.
- .TP
- .IR /proc/ pid /maps
- A file containing the currently mapped memory regions and their access
--- 
-2.34.1
-
+You are receiving this mail because:
+You are watching the assignee of the bug.=
