@@ -2,28 +2,28 @@ Return-Path: <linux-man-owner@vger.kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 12E3BC38142
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 275C8C54E94
 	for <linux-man@archiver.kernel.org>; Sun, 22 Jan 2023 19:36:32 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S230368AbjAVTga (ORCPT <rfc822;linux-man@archiver.kernel.org>);
-        Sun, 22 Jan 2023 14:36:30 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:53172 "EHLO
+        id S229795AbjAVTgb (ORCPT <rfc822;linux-man@archiver.kernel.org>);
+        Sun, 22 Jan 2023 14:36:31 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:53188 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S229795AbjAVTg2 (ORCPT
+        with ESMTP id S230366AbjAVTg2 (ORCPT
         <rfc822;linux-man@vger.kernel.org>); Sun, 22 Jan 2023 14:36:28 -0500
 Received: from static.213-239-213-133.clients.your-server.de (luckmann.name [213.239.213.133])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id E6D141ABC8
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 090B71ABDD
         for <linux-man@vger.kernel.org>; Sun, 22 Jan 2023 11:36:27 -0800 (PST)
 Received: from localhost (localhost [127.0.0.1])
   (uid 502)
   by static.213-239-213-133.clients.your-server.de with local
-  id 0000000000E58124.0000000063CD8F0D.0000706E; Sun, 22 Jan 2023 20:31:25 +0100
-Date:   Sun, 22 Jan 2023 20:31:24 +0100
+  id 0000000000E58126.0000000063CD8F0D.00007087; Sun, 22 Jan 2023 20:31:25 +0100
+Date:   Sun, 22 Jan 2023 20:31:25 +0100
 From:   Helge Kreutzmann <debian@helgefjell.de>
 To:     alx.manpages@gmail.com
 Cc:     mario.blaettermann@gmail.com, linux-man@vger.kernel.org
 Subject: Issue in man page mount_namespaces.7
-Message-ID: <20230122193124.GA28765@Debian-50-lenny-64-minimal>
+Message-ID: <20230122193125.GA28792@Debian-50-lenny-64-minimal>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=utf-8
 Content-Disposition: inline
@@ -37,9 +37,10 @@ X-Mailing-List: linux-man@vger.kernel.org
 
 Without further ado, the following was found:
 
-Issue:    mount point → mount
+Issue:    mount point → mount ?
 
-"Here, I<A> is a mount on I<B/b>, where I<B> is the parent mount and I<b> is "
-"a subdirectory path under the mount point I<B>.  If B<B> is shared, then all "
-"most-recently-mounted mounts at I<b> on mounts that receive propagation from "
-"mount I<B> and do not have submounts under them are unmounted."
+"The propagation type assigned to a new mount depends on the propagation type "
+"of the parent mount.  If the mount has a parent (i.e., it is a non-root "
+"mount point) and the propagation type of the parent is B<MS_SHARED>, then "
+"the propagation type of the new mount is also B<MS_SHARED>.  Otherwise, the "
+"propagation type of the new mount is B<MS_PRIVATE>."
