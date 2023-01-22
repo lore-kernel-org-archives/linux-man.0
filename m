@@ -2,28 +2,28 @@ Return-Path: <linux-man-owner@vger.kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 26E41C54E94
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 4734CC25B4E
 	for <linux-man@archiver.kernel.org>; Sun, 22 Jan 2023 19:36:37 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S231468AbjAVTgg (ORCPT <rfc822;linux-man@archiver.kernel.org>);
+        id S230520AbjAVTgg (ORCPT <rfc822;linux-man@archiver.kernel.org>);
         Sun, 22 Jan 2023 14:36:36 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:53326 "EHLO
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:53330 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S230520AbjAVTge (ORCPT
+        with ESMTP id S231130AbjAVTge (ORCPT
         <rfc822;linux-man@vger.kernel.org>); Sun, 22 Jan 2023 14:36:34 -0500
 Received: from static.213-239-213-133.clients.your-server.de (luckmann.name [213.239.213.133])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 698AE1ABDD
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 851911ABE0
         for <linux-man@vger.kernel.org>; Sun, 22 Jan 2023 11:36:33 -0800 (PST)
 Received: from localhost (localhost [127.0.0.1])
   (uid 502)
   by static.213-239-213-133.clients.your-server.de with local
-  id 0000000000E58153.0000000063CD8F10.0000715A; Sun, 22 Jan 2023 20:31:28 +0100
-Date:   Sun, 22 Jan 2023 20:31:28 +0100
+  id 0000000000E5814C.0000000063CD8F12.000071C8; Sun, 22 Jan 2023 20:31:30 +0100
+Date:   Sun, 22 Jan 2023 20:31:30 +0100
 From:   Helge Kreutzmann <debian@helgefjell.de>
 To:     alx.manpages@gmail.com
 Cc:     mario.blaettermann@gmail.com, linux-man@vger.kernel.org
-Subject: Issue in man page regex.3
-Message-ID: <20230122193128.GA29001@Debian-50-lenny-64-minimal>
+Subject: Issue in man page string.3
+Message-ID: <20230122193130.GA29111@Debian-50-lenny-64-minimal>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=utf-8
 Content-Disposition: inline
@@ -37,12 +37,7 @@ X-Mailing-List: linux-man@vger.kernel.org
 
 Without further ado, the following was found:
 
-Issue:    null byte → NUL byte
+Issue:    I<dst> → I<dest>
 
-"B<regerror>()  is passed the error code, I<errcode>, the pattern buffer, "
-"I<preg>, a pointer to a character string buffer, I<errbuf>, and the size of "
-"the string buffer, I<errbuf_size>.  It returns the size of the I<errbuf> "
-"required to contain the null-terminated error message string.  If both "
-"I<errbuf> and I<errbuf_size> are nonzero, I<errbuf> is filled in with the "
-"first I<errbuf_size - 1> characters of the error message and a terminating "
-"null byte (\\(aq\\e0\\(aq)."
+"B<size_t strxfrm(char >I<dst>B<[restrict .>I<n>B<], const char >I<src>B<[restrict .>I<n>B<],>\n"
+"B<        size_t >I<n>B<);>\n"
