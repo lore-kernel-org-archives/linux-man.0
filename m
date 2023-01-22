@@ -2,28 +2,28 @@ Return-Path: <linux-man-owner@vger.kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 32763C25B4E
-	for <linux-man@archiver.kernel.org>; Sun, 22 Jan 2023 19:36:45 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 8F0ADC25B4E
+	for <linux-man@archiver.kernel.org>; Sun, 22 Jan 2023 19:36:47 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S230099AbjAVTgo (ORCPT <rfc822;linux-man@archiver.kernel.org>);
-        Sun, 22 Jan 2023 14:36:44 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:53628 "EHLO
+        id S231383AbjAVTgr (ORCPT <rfc822;linux-man@archiver.kernel.org>);
+        Sun, 22 Jan 2023 14:36:47 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:53704 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S231389AbjAVTgn (ORCPT
-        <rfc822;linux-man@vger.kernel.org>); Sun, 22 Jan 2023 14:36:43 -0500
+        with ESMTP id S231485AbjAVTgq (ORCPT
+        <rfc822;linux-man@vger.kernel.org>); Sun, 22 Jan 2023 14:36:46 -0500
 Received: from static.213-239-213-133.clients.your-server.de (luckmann.name [213.239.213.133])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id D63371E5E5
-        for <linux-man@vger.kernel.org>; Sun, 22 Jan 2023 11:36:40 -0800 (PST)
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 06CB81E5F6
+        for <linux-man@vger.kernel.org>; Sun, 22 Jan 2023 11:36:43 -0800 (PST)
 Received: from localhost (localhost [127.0.0.1])
   (uid 502)
   by static.213-239-213-133.clients.your-server.de with local
-  id 0000000000E58195.0000000063CD8F15.000072A9; Sun, 22 Jan 2023 20:31:33 +0100
-Date:   Sun, 22 Jan 2023 20:31:33 +0100
+  id 0000000000E58199.0000000063CD8F16.000072D9; Sun, 22 Jan 2023 20:31:34 +0100
+Date:   Sun, 22 Jan 2023 20:31:34 +0100
 From:   Helge Kreutzmann <debian@helgefjell.de>
 To:     alx.manpages@gmail.com
 Cc:     mario.blaettermann@gmail.com, linux-man@vger.kernel.org
-Subject: Issue in man page charsets.7
-Message-ID: <20230122193133.GA29336@Debian-50-lenny-64-minimal>
+Subject: Issue in man page _exit.2
+Message-ID: <20230122193134.GA29386@Debian-50-lenny-64-minimal>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=utf-8
 Content-Disposition: inline
@@ -37,11 +37,9 @@ X-Mailing-List: linux-man@vger.kernel.org
 
 Without further ado, the following was found:
 
-Issue:    set → character set
+Issue:    POSIIX.1 → POSIX.1
 
-"Here are brief descriptions of each set:"
-
-"This set does not exist."
-
-"This set covers many Southeast European languages, and most importantly "
-"supports Romanian more completely than Latin-2."
+"The text above in DESCRIPTION describes the traditional effect of "
+"B<_exit>(), which is to terminate a process, and these are the semantics "
+"specified by POSIIX.1 and implemented by the C library wrapper function.  On "
+"modern systems, this means termination of all threads in the process."
