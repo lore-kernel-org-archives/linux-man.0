@@ -2,28 +2,28 @@ Return-Path: <linux-man-owner@vger.kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 60A9CC38142
-	for <linux-man@archiver.kernel.org>; Sun, 22 Jan 2023 19:36:27 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 80364C25B4E
+	for <linux-man@archiver.kernel.org>; Sun, 22 Jan 2023 19:36:28 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S230354AbjAVTg1 (ORCPT <rfc822;linux-man@archiver.kernel.org>);
+        id S230357AbjAVTg1 (ORCPT <rfc822;linux-man@archiver.kernel.org>);
         Sun, 22 Jan 2023 14:36:27 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:53138 "EHLO
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:53148 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S229795AbjAVTg0 (ORCPT
-        <rfc822;linux-man@vger.kernel.org>); Sun, 22 Jan 2023 14:36:26 -0500
+        with ESMTP id S229795AbjAVTg1 (ORCPT
+        <rfc822;linux-man@vger.kernel.org>); Sun, 22 Jan 2023 14:36:27 -0500
 Received: from static.213-239-213-133.clients.your-server.de (luckmann.name [213.239.213.133])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id B7D4D1ABC8
-        for <linux-man@vger.kernel.org>; Sun, 22 Jan 2023 11:36:25 -0800 (PST)
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id D8A501ABC8
+        for <linux-man@vger.kernel.org>; Sun, 22 Jan 2023 11:36:26 -0800 (PST)
 Received: from localhost (localhost [127.0.0.1])
   (uid 502)
   by static.213-239-213-133.clients.your-server.de with local
-  id 0000000000E5811D.0000000063CD8F0C.0000703C; Sun, 22 Jan 2023 20:31:24 +0100
+  id 0000000000E58120.0000000063CD8F0C.00007053; Sun, 22 Jan 2023 20:31:24 +0100
 Date:   Sun, 22 Jan 2023 20:31:24 +0100
 From:   Helge Kreutzmann <debian@helgefjell.de>
 To:     alx.manpages@gmail.com
 Cc:     mario.blaettermann@gmail.com, linux-man@vger.kernel.org
 Subject: Issue in man page motd.5
-Message-ID: <20230122193124.GA28717@Debian-50-lenny-64-minimal>
+Message-ID: <20230122193124.GA28740@Debian-50-lenny-64-minimal>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=utf-8
 Content-Disposition: inline
@@ -37,6 +37,7 @@ X-Mailing-List: linux-man@vger.kernel.org
 
 Without further ado, the following was found:
 
-Issue:    B<issue>(5)  B<pam_motd>(8) → B<issue>(5), B<pam_motd>(8)
+Issue:    B<pam_motd>(8)  B<login>(1) → B<pam_motd>(8) from B<login>(1)
 
-"B<login>(1), B<issue>(5)  B<pam_motd>(8)"
+"The contents of I</etc/motd> are displayed by B<pam_motd>(8)  B<login>(1)  "
+"after a successful login but just before it executes the login shell."
