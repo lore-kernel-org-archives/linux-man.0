@@ -2,28 +2,28 @@ Return-Path: <linux-man-owner@vger.kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 70771C54EED
-	for <linux-man@archiver.kernel.org>; Sun, 22 Jan 2023 19:36:34 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 664FCC38142
+	for <linux-man@archiver.kernel.org>; Sun, 22 Jan 2023 19:36:35 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S230489AbjAVTgd (ORCPT <rfc822;linux-man@archiver.kernel.org>);
-        Sun, 22 Jan 2023 14:36:33 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:53222 "EHLO
+        id S230371AbjAVTge (ORCPT <rfc822;linux-man@archiver.kernel.org>);
+        Sun, 22 Jan 2023 14:36:34 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:53254 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S231130AbjAVTgb (ORCPT
-        <rfc822;linux-man@vger.kernel.org>); Sun, 22 Jan 2023 14:36:31 -0500
+        with ESMTP id S231131AbjAVTgc (ORCPT
+        <rfc822;linux-man@vger.kernel.org>); Sun, 22 Jan 2023 14:36:32 -0500
 Received: from static.213-239-213-133.clients.your-server.de (luckmann.name [213.239.213.133])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id D2C961ABDD
-        for <linux-man@vger.kernel.org>; Sun, 22 Jan 2023 11:36:30 -0800 (PST)
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 056F51ABEB
+        for <linux-man@vger.kernel.org>; Sun, 22 Jan 2023 11:36:31 -0800 (PST)
 Received: from localhost (localhost [127.0.0.1])
   (uid 502)
   by static.213-239-213-133.clients.your-server.de with local
-  id 0000000000E5812D.0000000063CD8F0E.000070BA; Sun, 22 Jan 2023 20:31:26 +0100
-Date:   Sun, 22 Jan 2023 20:31:26 +0100
+  id 0000000000E5817E.0000000063CD8F11.00007197; Sun, 22 Jan 2023 20:31:29 +0100
+Date:   Sun, 22 Jan 2023 20:31:29 +0100
 From:   Helge Kreutzmann <debian@helgefjell.de>
 To:     alx.manpages@gmail.com
 Cc:     mario.blaettermann@gmail.com, linux-man@vger.kernel.org
-Subject: Issue in man page namespaces.7
-Message-ID: <20230122193125.GA28843@Debian-50-lenny-64-minimal>
+Subject: Issue in man page session-keyring.7
+Message-ID: <20230122193129.GA29064@Debian-50-lenny-64-minimal>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=utf-8
 Content-Disposition: inline
@@ -37,6 +37,11 @@ X-Mailing-List: linux-man@vger.kernel.org
 
 Without further ado, the following was found:
 
-Issue:    /proc/sys/user → I</proc/sys/user>
+Issue:    PAM → B<PAM>(7)
 
-"The /proc/sys/user directory"
+"The session keyring is a keyring used to anchor keys on behalf of a "
+"process.  It is typically created by B<pam_keyinit>(8)  when a user logs in "
+"and a link will be added that refers to the B<user-keyring>(7).  Optionally, "
+"PAM may revoke the session keyring on logout.  (In typical configurations, "
+"PAM does do this revocation.)  The session keyring has the name "
+"(description)  I<_ses>."
