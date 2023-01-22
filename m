@@ -2,28 +2,28 @@ Return-Path: <linux-man-owner@vger.kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id D5F9EC54EED
-	for <linux-man@archiver.kernel.org>; Sun, 22 Jan 2023 19:36:38 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 54F45C54E94
+	for <linux-man@archiver.kernel.org>; Sun, 22 Jan 2023 19:36:39 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S230224AbjAVTgi (ORCPT <rfc822;linux-man@archiver.kernel.org>);
+        id S231130AbjAVTgi (ORCPT <rfc822;linux-man@archiver.kernel.org>);
         Sun, 22 Jan 2023 14:36:38 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:53382 "EHLO
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:53388 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S231383AbjAVTgf (ORCPT
+        with ESMTP id S231389AbjAVTgf (ORCPT
         <rfc822;linux-man@vger.kernel.org>); Sun, 22 Jan 2023 14:36:35 -0500
 Received: from static.213-239-213-133.clients.your-server.de (luckmann.name [213.239.213.133])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id E35951B568
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id E99731ABF9
         for <linux-man@vger.kernel.org>; Sun, 22 Jan 2023 11:36:34 -0800 (PST)
 Received: from localhost (localhost [127.0.0.1])
   (uid 502)
   by static.213-239-213-133.clients.your-server.de with local
-  id 0000000000E58185.0000000063CD8F13.000071FB; Sun, 22 Jan 2023 20:31:31 +0100
-Date:   Sun, 22 Jan 2023 20:31:31 +0100
+  id 0000000000E58191.0000000063CD8F15.00007277; Sun, 22 Jan 2023 20:31:33 +0100
+Date:   Sun, 22 Jan 2023 20:31:33 +0100
 From:   Helge Kreutzmann <debian@helgefjell.de>
 To:     alx.manpages@gmail.com
 Cc:     mario.blaettermann@gmail.com, linux-man@vger.kernel.org
-Subject: Issue in man page ttytype.5
-Message-ID: <20230122193131.GA29164@Debian-50-lenny-64-minimal>
+Subject: Issue in man page wctype.3
+Message-ID: <20230122193133.GA29288@Debian-50-lenny-64-minimal>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=utf-8
 Content-Disposition: inline
@@ -37,9 +37,8 @@ X-Mailing-List: linux-man@vger.kernel.org
 
 Without further ado, the following was found:
 
-Issue:    I</dev/>prefix → I</dev/> prefix
+Issue:    all locales. → all locales:
 
-"The I</etc/ttytype> file associates B<termcap>(5)  and B<terminfo>(5)  "
-"terminal type names with tty lines.  Each line consists of a terminal type, "
-"followed by whitespace, followed by a tty name (a device name without the I</"
-"dev/>prefix)."
+"The B<wctype>()  function returns a property, given by its name.  The set of "
+"valid names depends on the B<LC_CTYPE> category of the current locale, but "
+"the following names are valid in all locales."
