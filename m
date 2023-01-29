@@ -2,101 +2,156 @@ Return-Path: <linux-man-owner@vger.kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id C3602C38142
-	for <linux-man@archiver.kernel.org>; Sat, 28 Jan 2023 20:41:51 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 516DBC05027
+	for <linux-man@archiver.kernel.org>; Sun, 29 Jan 2023 14:38:35 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S230482AbjA1Ulu (ORCPT <rfc822;linux-man@archiver.kernel.org>);
-        Sat, 28 Jan 2023 15:41:50 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:60652 "EHLO
+        id S230220AbjA2Oie (ORCPT <rfc822;linux-man@archiver.kernel.org>);
+        Sun, 29 Jan 2023 09:38:34 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:37562 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S230087AbjA1Ult (ORCPT
-        <rfc822;linux-man@vger.kernel.org>); Sat, 28 Jan 2023 15:41:49 -0500
-X-Greylist: delayed 90 seconds by postgrey-1.37 at lindbergh.monkeyblade.net; Sat, 28 Jan 2023 12:41:45 PST
-Received: from omta002.cacentral1.a.cloudfilter.net (omta002.cacentral1.a.cloudfilter.net [3.97.99.33])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id BC82B16AE6
-        for <linux-man@vger.kernel.org>; Sat, 28 Jan 2023 12:41:45 -0800 (PST)
-Received: from shw-obgw-4002a.ext.cloudfilter.net ([10.228.9.250])
-        by cmsmtp with ESMTP
-        id LcXUpcl1dl2xSLrzip1cbz; Sat, 28 Jan 2023 20:40:14 +0000
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=shaw.ca; s=s20180605;
-        t=1674938414; bh=piBaLV+CYLoCE/OwsBRVXiMcCU/5swLzULQ7km4BBuQ=;
-        h=Date:Reply-To:To:Cc:From:Subject;
-        b=aIfdQYJJFHGA0GNALJ3M3yzsuB5jeZzWXE8vsJf8waVlutdkBT7cX6FZbgV802oiV
-         +CT5PLPcWz0N3fiKJo9kp5lz+ND9IiS607r4jFdV4heBFhKTPjBoyPUBDgfILQC+NH
-         8UcoxFt42n2K3/1iZUMq9K6267aGZmEPeRbu9DAYZq2a21FDlkUZN5wkzfdQocHMIp
-         0TZJkDWCTVe0vBx0KOybQ8H+kU3h0QiLG95fC6CfAMjkUULUTDfzGXBBPd8BP+j87d
-         DfuEo+G0DNxwGDktMCYSTr9CkPgIsTwfzDwNxMLnOQObVb6PorQe8GZOGuZtqghUQ/
-         jz+7BT2NrLdUQ==
-Received: from [10.0.0.5] ([184.64.124.72])
-        by cmsmtp with ESMTP
-        id LrzhpvxvlyAOeLrzipuxIK; Sat, 28 Jan 2023 20:40:14 +0000
-X-Authority-Analysis: v=2.4 cv=e5oV9Il/ c=1 sm=1 tr=0 ts=63d5882e
- a=oHm12aVswOWz6TMtn9zYKg==:117 a=oHm12aVswOWz6TMtn9zYKg==:17
- a=IkcTkHD0fZMA:10 a=aVn4rjLt-QJO4qNxf38A:9 a=QEXdDO2ut3YA:10
-Message-ID: <19a71139-7807-2692-3eec-16a0f754911d@Shaw.ca>
-Date:   Sat, 28 Jan 2023 13:40:10 -0700
+        with ESMTP id S229835AbjA2Oid (ORCPT
+        <rfc822;linux-man@vger.kernel.org>); Sun, 29 Jan 2023 09:38:33 -0500
+Received: from mail-wr1-x435.google.com (mail-wr1-x435.google.com [IPv6:2a00:1450:4864:20::435])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id B7EFD5FC1
+        for <linux-man@vger.kernel.org>; Sun, 29 Jan 2023 06:38:31 -0800 (PST)
+Received: by mail-wr1-x435.google.com with SMTP id q5so8942475wrv.0
+        for <linux-man@vger.kernel.org>; Sun, 29 Jan 2023 06:38:31 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20210112;
+        h=in-reply-to:from:references:cc:to:content-language:subject
+         :user-agent:mime-version:date:message-id:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=rCAIV8t+IXk4ONHPYIuOTpYPdkoT1rRiKv0RNLfE36Q=;
+        b=IfZzD3AKZkpDZA9ak9+QQnFaKHRqio4uHCZ+V7/dKMKIAx/URwgUw9bqkovTDupLjj
+         y6RyVrZ/v/PdJrtt3Rh8kYVEfTTkZ/mOgfU6BlULlAL5E0WfyP4dAyu+p+zIsqIZoVDY
+         iThHrrAVVdJfyrDbf6nzDD5aElHy7devYv0zz7cte9sHIpXAFvHgkeRI+bb/9lIPU8Sm
+         8ctpJfGpHCn5nEoWkwhUqULspVhe+z8HWkHf7DKXWD79R42SJ/GCLPs36vMOOoh+Yn0W
+         FTIcx/st9adNEthE0rAycZ0fFLKQMxaYiSEfwD7+9TFKCoErjOkXdg9B3AhsIaJZmth9
+         e4QA==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20210112;
+        h=in-reply-to:from:references:cc:to:content-language:subject
+         :user-agent:mime-version:date:message-id:x-gm-message-state:from:to
+         :cc:subject:date:message-id:reply-to;
+        bh=rCAIV8t+IXk4ONHPYIuOTpYPdkoT1rRiKv0RNLfE36Q=;
+        b=uefdC7qlUhXscUa6rwWhn6OQ652lNNC4EQiafZ9REaok+UbiyqZsFNPj5g3Z9Yd2M5
+         qYGyOZKIYXMbM611bQoW1vnMbUXaRy767of0d8J8ZACn5plA2uKSqmxPfWXCVLI0J7ky
+         fpqUbqCDEAt373jRxhuXjalCe8AthF4B8N43/o6MCBPnxzi6sebYCwt4YEXjFjMhq4l5
+         qcHEvuH2fkP0DP2RW9IWYbDTuGq8xanmgZk+zOUeC+AuylGIRcxgLtT9phkbb888O+gl
+         CLv7jxkFpNo3Y7lpPuVHu/66jPbNkpblpz1sGNgkXBnefuwgJRve70ZYM1T1xRJfHZAM
+         b5MQ==
+X-Gm-Message-State: AO0yUKUvK44LY0ZYOxiblo6Hfd2I6lvOln8aNv6Crb5nJA5oq6TgOaia
+        On1NXZkgwiA97/IQJD9OKjOY/r94LyQ=
+X-Google-Smtp-Source: AK7set9I3s7HUZcffVM75baJHkr6ICQR+MzfOurdoyqHEgEd4JwrhX71hNZrcuWwCiv6vnUKl0PIdw==
+X-Received: by 2002:adf:decc:0:b0:2bf:b119:e6e2 with SMTP id i12-20020adfdecc000000b002bfb119e6e2mr18636624wrn.47.1675003109990;
+        Sun, 29 Jan 2023 06:38:29 -0800 (PST)
+Received: from [192.168.0.160] ([170.253.36.171])
+        by smtp.gmail.com with ESMTPSA id s5-20020a5d5105000000b002bdfcd8c77csm9249168wrt.101.2023.01.29.06.38.29
+        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+        Sun, 29 Jan 2023 06:38:29 -0800 (PST)
+Message-ID: <717e8fb9-9159-65f8-093e-a117c82be704@gmail.com>
+Date:   Sun, 29 Jan 2023 15:38:21 +0100
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (Windows NT 10.0; Win64; x64; rv:102.0) Gecko/20100101
- Thunderbird/102.6.1
-Reply-To: Linux Man-Pages <linux-man@vger.kernel.org>
-Content-Language: en-CA
-To:     Alejandro Colomar <alx.manpages@gmail.com>
-Cc:     Michael Kerrisk <mtk.manpages@gmail.com>,
-        Linux Man-Pages <linux-man@vger.kernel.org>
-From:   Brian Inglis <Brian.Inglis@Shaw.ca>
-Subject: Using C23 digit separators not locale digit grouping characters
-Organization: Inglis
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 8bit
-X-CMAE-Envelope: MS4xfOOgaWKtHOZEbQ99rzCsOcJF6DjsDVfSuL2vkH3JcQUuSFVmdtDLguZICCt4li8ScZ5AU7Mg1GRemI4HY2+Hpg76FiHW8GIsn7HBfVTmOmtbh7gBjIs4
- MCe4nMMTYPP+P0IaiODMphGcH2I+2AcehREyK66wecwhZQb8YkY90bpRi5UAriWK3YvPq3lagidbhHPV+AQQBH4wS3fdx6Sspp7RpV55LzD+kRfEdCDkAFyY
- ZkxfBw5CRKFVZlrpPMdwWavhr98NDwW7bZRSWot19uM=
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
+ Thunderbird/102.6.0
+Subject: Re: Using C23 digit separators not locale digit grouping characters
+Content-Language: en-US
+To:     Brian Inglis <Brian.Inglis@Shaw.ca>,
+        =?UTF-8?B?0L3QsNCx?= <nabijaczleweli@nabijaczleweli.xyz>
+Cc:     Linux Man-Pages <linux-man@vger.kernel.org>
+References: <19a71139-7807-2692-3eec-16a0f754911d@Shaw.ca>
+From:   Alejandro Colomar <alx.manpages@gmail.com>
+In-Reply-To: <19a71139-7807-2692-3eec-16a0f754911d@Shaw.ca>
+Content-Type: multipart/signed; micalg=pgp-sha256;
+ protocol="application/pgp-signature";
+ boundary="------------rBtVMvmSYnc1XtROL0dPQDUi"
 Precedence: bulk
 List-ID: <linux-man.vger.kernel.org>
 X-Mailing-List: linux-man@vger.kernel.org
 
-Hi folks,
+This is an OpenPGP/MIME signed message (RFC 4880 and 3156)
+--------------rBtVMvmSYnc1XtROL0dPQDUi
+Content-Type: multipart/mixed; boundary="------------28meZobo0wj3LPrEbMsUxDFG";
+ protected-headers="v1"
+From: Alejandro Colomar <alx.manpages@gmail.com>
+To: Brian Inglis <Brian.Inglis@Shaw.ca>,
+ =?UTF-8?B?0L3QsNCx?= <nabijaczleweli@nabijaczleweli.xyz>
+Cc: Linux Man-Pages <linux-man@vger.kernel.org>
+Message-ID: <717e8fb9-9159-65f8-093e-a117c82be704@gmail.com>
+Subject: Re: Using C23 digit separators not locale digit grouping characters
+References: <19a71139-7807-2692-3eec-16a0f754911d@Shaw.ca>
+In-Reply-To: <19a71139-7807-2692-3eec-16a0f754911d@Shaw.ca>
 
-Seeing the recent tv_nsec patches drop the standard locale digit grouping 
-characters "," from the member range [0-999,999,999] made me regret the loss of 
-the punctuation which provides better and quicker comprehension of long strings 
-of digits.
+--------------28meZobo0wj3LPrEbMsUxDFG
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: base64
 
-It may be time to consider using the locale independent C23 digit separator 
-characters "'" wherever more than a handful of digits occur, possibly convert 
-grouping character uses in existing man pages as they are changed, and specify a 
-future standard policy approach to provide better and quicker comprehension of 
-long strings of digits: perhaps using a new digit separator register and glyph 
-escape sequence \*ds \*[ds] \[ds] \(ds if not in use by base groff?
+SGkgQnJpYW4gYW5kINC90LDQsSENCg0KT24gMS8yOC8yMyAyMTo0MCwgQnJpYW4gSW5nbGlz
+IHdyb3RlOg0KPiBIaSBmb2xrcywNCj4gDQo+IFNlZWluZyB0aGUgcmVjZW50IHR2X25zZWMg
+cGF0Y2hlcyBkcm9wIHRoZSBzdGFuZGFyZCBsb2NhbGUgZGlnaXQgZ3JvdXBpbmcgDQo+IGNo
+YXJhY3RlcnMgIiwiIGZyb20gdGhlIG1lbWJlciByYW5nZSBbMC05OTksOTk5LDk5OV0gbWFk
+ZSBtZSByZWdyZXQgdGhlIGxvc3Mgb2YgDQo+IHRoZSBwdW5jdHVhdGlvbiB3aGljaCBwcm92
+aWRlcyBiZXR0ZXIgYW5kIHF1aWNrZXIgY29tcHJlaGVuc2lvbiBvZiBsb25nIHN0cmluZ3Mg
+DQo+IG9mIGRpZ2l0cy4NCg0KTmljZSEgRGlkbid0IHJlbWVtYmVyIGFib3V0IHRoYXQgc2Vw
+YXJhdG9yLiAgSXQgbWFrZXMgYSBsb3Qgb2Ygc2Vuc2UgdG8gdXNlIGl0IA0KaW4gY29tbWVu
+dHMgYW5kIHRoZSBsaWtlcyBpbiB0aGUgcGFnZXMuICBNYXliZSB3ZSBzaG91bGQgYmUgYSBi
+aXQgbW9yZSBjYXV0aW91cyANCmluIHNvdXJjZSBjb2RlIGV4YW1wbGVzLCBidXQgZGVmaW5p
+dGVseSBmb3IgYmlnIG51bWJlcnMgb3V0c2lkZSBvZiBydW5uaW5nIGNvZGUgDQpzaG91bGQg
+aGF2ZSB0aGVtLg0KDQrQvdCw0LEsIHdvdWxkIHlvdSBwbGVhc2UgdXBkYXRlIHlvdXIgcGF0
+Y2hlcyB3aXRoIHRoYXQ/ICBJIGFsc28gaGF2ZSBhIGZldyBjb21tZW50cyANCnRoYXQgSSds
+bCB3cml0ZSBpbiBhIG1vbWVudCBpbiBhbnN3ZXJzIHRvIHlvdXIgcGF0Y2hlcy4NCg0KQ2hl
+ZXJzLA0KDQpBbGV4DQoNCj4gDQo+IEl0IG1heSBiZSB0aW1lIHRvIGNvbnNpZGVyIHVzaW5n
+IHRoZSBsb2NhbGUgaW5kZXBlbmRlbnQgQzIzIGRpZ2l0IHNlcGFyYXRvciANCj4gY2hhcmFj
+dGVycyAiJyIgd2hlcmV2ZXIgbW9yZSB0aGFuIGEgaGFuZGZ1bCBvZiBkaWdpdHMgb2NjdXIs
+IHBvc3NpYmx5IGNvbnZlcnQgDQo+IGdyb3VwaW5nIGNoYXJhY3RlciB1c2VzIGluIGV4aXN0
+aW5nIG1hbiBwYWdlcyBhcyB0aGV5IGFyZSBjaGFuZ2VkLCBhbmQgc3BlY2lmeSBhIA0KPiBm
+dXR1cmUgc3RhbmRhcmQgcG9saWN5IGFwcHJvYWNoIHRvIHByb3ZpZGUgYmV0dGVyIGFuZCBx
+dWlja2VyIGNvbXByZWhlbnNpb24gb2YgDQo+IGxvbmcgc3RyaW5ncyBvZiBkaWdpdHM6IHBl
+cmhhcHMgdXNpbmcgYSBuZXcgZGlnaXQgc2VwYXJhdG9yIHJlZ2lzdGVyIGFuZCBnbHlwaCAN
+Cj4gZXNjYXBlIHNlcXVlbmNlIFwqZHMgXCpbZHNdIFxbZHNdIFwoZHMgaWYgbm90IGluIHVz
+ZSBieSBiYXNlIGdyb2ZmPw0KDQpUaGUgc2VxdWVuY2UgZm9yIHRoZSB1bnNsYW50ZWQgc2lu
+Z2xlIHF1b3RlIGlzIFwoYXEuDQoNCldlIGNvdWxkIGFkZCBzb21ld2hlcmUgaW4gbWFuLXBh
+Z2VzKDcpIHRoYXQgZGVjaW1hbCBudW1iZXJzIHNob3VsZCB1c2UgYSANCnNlcGFyYXRvciBl
+dmVyeSAzIGRpZ2l0cywgYW5kIGhleCBhbmQgYmluYXJ5IHNob3VsZCB1c2UgaXQgZXZlcnkg
+NCBkaWdpdHMuDQoNCj4gDQo+IEFzIHdlbGwgYXMgdGhlIHJlY2VudGx5IG1vZGlmaWVkIHBh
+Z2VzOg0KPiANCj4gY2xvY2tfZ2V0cmVzLjINCj4gdGltZXJfc2V0dGltZS4yDQo+IHRpbWVy
+ZmRfY3JlYXRlLjINCj4gdXRpbWVuc2F0LjINCj4gDQo+IHRoZXJlIGFwcGVhciB0byBiZSBv
+YnZpb3VzIG9jY3VycmVuY2VzIGluIG9ubHkgdGhlIGZvbGxvd2luZyBwYWdlczoNCj4gDQo+
+IGZ1dGV4LjINCj4gcmVhZC4yDQo+IHNlbmRmaWxlLjINCj4gd3JpdGUuMg0KPiBtYWxsb3B0
+LjMNCj4ga2V5cmluZ3MuNw0KPiBtcV9vdmVydmlldy43DQo+IHNjaGVkLjcNCj4gdGltZV9u
+YW1lc3BhY2VzLjcNCj4gDQo+IGJ1dCB0aGVyZSBhcHBlYXIgdG8gYmUgYWJvdXQgNDAwIHBh
+Z2VzIHdpdGggbW9yZSB0aGFuIDYgZGVjaW1hbCBkaWdpdCBzdHJpbmdzIA0KPiAoc29tZSBz
+cHVyaW91cyBnbGliYyBoZXggY29tbWl0cyBhbmQgYWRkcmVzcyBvdXRwdXRzKSB3aGVyZSBp
+dCBjb3VsZCBwZXJoYXBzIA0KPiBoZWxwLCBzdWNoIGFzIGluIFBPU0lYIHZlcnNpb24gZGF0
+ZXMgZS5nLiAyMDAxJzEyTCwgYW5kIHVuZG91YnRlZGx5IG1vcmUgd2l0aCANCj4gbG9uZyBk
+aWdpdCBzdHJpbmdzIGluIG90aGVyIHJhZGl4ZXMuDQoNCldvdWxkIHlvdSBtaW5kIHByZXBh
+cmluZyBhIHBhdGNoIGZvciBhbGwgb2YgdGhvc2U/ICBJZiB5b3UnbGwgZG8gaXQsIGJldHRl
+ciB3YWl0IA0KdW50aWwgd2UgbWVyZ2Ug0L3QsNCxJ3MgcGF0Y2hlcywgdG8gYXZvaWQgY29u
+ZmxpY3RzLg0KDQpDaGVlcnMsDQoNCkFsZXgNCg0KPiANCg0KLS0gDQo8aHR0cDovL3d3dy5h
+bGVqYW5kcm8tY29sb21hci5lcy8+DQo=
 
-As well as the recently modified pages:
+--------------28meZobo0wj3LPrEbMsUxDFG--
 
-clock_getres.2
-timer_settime.2
-timerfd_create.2
-utimensat.2
+--------------rBtVMvmSYnc1XtROL0dPQDUi
+Content-Type: application/pgp-signature; name="OpenPGP_signature.asc"
+Content-Description: OpenPGP digital signature
+Content-Disposition: attachment; filename="OpenPGP_signature"
 
-there appear to be obvious occurrences in only the following pages:
+-----BEGIN PGP SIGNATURE-----
 
-futex.2
-read.2
-sendfile.2
-write.2
-mallopt.3
-keyrings.7
-mq_overview.7
-sched.7
-time_namespaces.7
+iQIzBAEBCgAdFiEE6jqH8KTroDDkXfJAnowa+77/2zIFAmPWhN0ACgkQnowa+77/
+2zJFFw//bDLeWIGtsiQNzlP03DXxu7OZt8LHmxwPGE6BB5DqAm2mUi6MCo7jftSx
+P/dEUmY0pRWIo677g6d09WKSxPVuIMxG9jJpM7IdDwmuPDL3CgrdV6ga0SvsX9+4
+f5STOO7XLOdXP7ZiRNLYR506eGVb4JGogsn7bD4mvMdLDPAp8HjMoZvDuzklntXl
+yC1zdxVxcuPTV8mWMZ07xtPHLaDzuhmkeFqXBfzHs2kWzNJFHllo3TvQ/uhlhOPy
+JwDgh8i21ztGgcLXRhgHeXzFlTQobaANFjrzMNPOCtyYT53NG1mJm/DfsglG2KZP
+wna3MkFNIweeWWVJgtIlU+9/J7DvcS3Cr+6BI9MfvscWjOLxods5Q+FxjvTFMugh
+D27vjXXoKsuC/1P2cHGE46gkdk2imaJH3iBLGT2txj4RxVzmTK3Pxrru1Zf5nyoj
+9ZQv9+IKNHCGHgJOUprE0998WpaGsn8ASfAe+yPXuI61y9Eo3pQxnIBN1ezOEj+H
+hEkvCY4SZ+uE0vJRHtq7Aqsr6R+W1B8RxRWc+iJJG4Gyi157zuN/LmMqHfCJlslC
+zNwGa8hD3y0DGStbw0MbjUJYoO0zGyJFvGpqBOE7OgWANuq8bX+W/yNpIc3eo94o
+RC1yBc2+gAKTz3TYjhwJ8fpBgvstvAKCMCALMz9F71XLXbHh9Ng=
+=UoNn
+-----END PGP SIGNATURE-----
 
-but there appear to be about 400 pages with more than 6 decimal digit strings 
-(some spurious glibc hex commits and address outputs) where it could perhaps 
-help, such as in POSIX version dates e.g. 2001'12L, and undoubtedly more with 
-long digit strings in other radixes.
-
--- 
-Take care. Thanks, Brian Inglis			Calgary, Alberta, Canada
-
-La perfection est atteinte			Perfection is achieved
-non pas lorsqu'il n'y a plus rien à ajouter	not when there is no more to add
-mais lorsqu'il n'y a plus rien à retirer	but when there is no more to cut
-			-- Antoine de Saint-Exupéry
+--------------rBtVMvmSYnc1XtROL0dPQDUi--
