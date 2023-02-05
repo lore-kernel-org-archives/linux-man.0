@@ -2,222 +2,206 @@ Return-Path: <linux-man-owner@vger.kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id C22ABC636CD
-	for <linux-man@archiver.kernel.org>; Sun,  5 Feb 2023 23:59:13 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id E9E85C636CC
+	for <linux-man@archiver.kernel.org>; Mon,  6 Feb 2023 00:00:09 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S229468AbjBEX7M (ORCPT <rfc822;linux-man@archiver.kernel.org>);
-        Sun, 5 Feb 2023 18:59:12 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:37728 "EHLO
+        id S229508AbjBFAAJ (ORCPT <rfc822;linux-man@archiver.kernel.org>);
+        Sun, 5 Feb 2023 19:00:09 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:37844 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S229508AbjBEX7L (ORCPT
-        <rfc822;linux-man@vger.kernel.org>); Sun, 5 Feb 2023 18:59:11 -0500
-Received: from omta001.cacentral1.a.cloudfilter.net (omta001.cacentral1.a.cloudfilter.net [3.97.99.32])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id AB0C215CB6
-        for <linux-man@vger.kernel.org>; Sun,  5 Feb 2023 15:59:10 -0800 (PST)
-Received: from shw-obgw-4003a.ext.cloudfilter.net ([10.228.9.183])
-        by cmsmtp with ESMTP
-        id OcxYplyWvc9C4OoubpRsZC; Sun, 05 Feb 2023 23:59:09 +0000
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=shaw.ca; s=s20180605;
-        t=1675641549; bh=GolmpVA+8iSsaNjAlPymh2vgQqYbI2Lsx/H9H2hN/ps=;
-        h=From:To:Cc:Subject:Date:In-Reply-To:References;
-        b=rSi2ydO3wF7dz/Lil5QjYQKNiRgIXMqG62OLE4y1E8ddqKeg/es6QYen/CTOo1kEm
-         ti9CNjX6Eqcw5ec8UER03rCnegqb4tCXWJFLi1uNEml9KmR6Fd0LPCHIpiomgNUdrC
-         AH6LdyIGOXAo3AbjgRnhEdJdIDVQZ1ETTcyBDykiWninkY0dmdKFPcSA2ph9Fkl7XH
-         Umd4rE9yAIAfJC6mvSAmJmR/0uRkxBekffeHKnmnofIBBfTn6yzm2L1hF97Dd7FVLt
-         thksFXDMH5QVmfkL1VpVc/vewjQ9LILyObcSBiHyVh5Xk/zu/j/ofQvQ/mFsOW13nv
-         Bdesv4QMF/U6w==
-Received: from localhost.localdomain ([184.64.124.72])
-        by cmsmtp with ESMTP
-        id OouZp57sIcyvuOoubpez0p; Sun, 05 Feb 2023 23:59:09 +0000
-X-Authority-Analysis: v=2.4 cv=VbHkgXl9 c=1 sm=1 tr=0 ts=63e042cd
- a=oHm12aVswOWz6TMtn9zYKg==:117 a=oHm12aVswOWz6TMtn9zYKg==:17
- a=r77TgQKjGQsHNAKrUKIA:9 a=pyfBKZyxqbpXIr2M4tYA:9 a=QEXdDO2ut3YA:10
- a=lVMPgzCyRmk84YZQn8YA:9 a=B2y7HmGcmWMA:10
-From:   Brian Inglis <Brian.Inglis@Shaw.ca>
-To:     Linux Man-Pages <linux-man@vger.kernel.org>
-Cc:     Alejandro Colomar <alx.manpages@gmail.com>
-Subject: [PATCH 07/11] man2/statfs.2: punctuate hex in docs with digit separators
-Date:   Sun,  5 Feb 2023 16:58:51 -0700
-Message-Id: <20230205235855.64261-3-Brian.Inglis@Shaw.ca>
-X-Mailer: git-send-email 2.39.0
-In-Reply-To: <20230205235855.64261-1-Brian.Inglis@Shaw.ca>
-References: <20230205235855.64261-1-Brian.Inglis@Shaw.ca>
+        with ESMTP id S229503AbjBFAAI (ORCPT
+        <rfc822;linux-man@vger.kernel.org>); Sun, 5 Feb 2023 19:00:08 -0500
+Received: from mail-wm1-x32f.google.com (mail-wm1-x32f.google.com [IPv6:2a00:1450:4864:20::32f])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id DCC7D14EA3
+        for <linux-man@vger.kernel.org>; Sun,  5 Feb 2023 16:00:06 -0800 (PST)
+Received: by mail-wm1-x32f.google.com with SMTP id m16-20020a05600c3b1000b003dc4050c94aso7584869wms.4
+        for <linux-man@vger.kernel.org>; Sun, 05 Feb 2023 16:00:06 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20210112;
+        h=in-reply-to:from:references:cc:to:content-language:subject
+         :user-agent:mime-version:date:message-id:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=wh/a1GdPDitVhBWZSiqH9XwhJ1wrRxj9Efs36XUINDk=;
+        b=U2/UH6iNdq+gEmUNTYVfjbwgY+/XGJjkm4dBr5zrZ9TXa8bf3tig6ilKsu34yGy2dN
+         MKou9plrd2NmJVCSIXCxtc9Ig6sLJcSYbuuVxfDcZpY4OBz5OXFqnuC+GaRUWXiBApi2
+         nm8oTmWeezbTJ6tTnLnbPYouRGx4OXCJ3CyY+HZM+YFyHP+oKmgw9o+etWAebdR6kTDd
+         +DbHxmr8ce6+haS9ldmLxyTjGVOtcLwXvwIQXH9bWA9urRT4fz5m4njLTTKtk6E1MEFI
+         ZCod75oW9OEFi+yOBmhxjjOU2Ppm7rkszWgVpHFIzJ77fnqNQOiHX/Zx++rCtQKNInB+
+         SSog==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20210112;
+        h=in-reply-to:from:references:cc:to:content-language:subject
+         :user-agent:mime-version:date:message-id:x-gm-message-state:from:to
+         :cc:subject:date:message-id:reply-to;
+        bh=wh/a1GdPDitVhBWZSiqH9XwhJ1wrRxj9Efs36XUINDk=;
+        b=xDG8OZerwrU8SMnOIywTlxrJ8n6qe0TxKKimvHInALCaeKi44ZcaQ6L4spWvyIPict
+         Bb9JXxodoYi7dSWYBZxZVsUXINoPmWPJ2TFSU3AzQgBFNaW0CDbcqaWpPaQf9+eJfrNJ
+         j8xgou/9xNFTiEGRb9+fg52tjjYPwhH3z8sJxhRX8Od0F8zeOO9XdxiPeSJKmCf063wF
+         /pbOrOAQI9rBWr4IxzDCsI8egATbHsvLC05Eyr6NxSWEK0SAG87Ur7LODSk220rRYENs
+         mkyL9FYL+TMQr1AliHE8GBhldg93C1rtFwzjE682a4+QBun5PWgmsWH+sZb48wFGd6Dc
+         /LXA==
+X-Gm-Message-State: AO0yUKWJIVDQVtfRWQLYoZZ8KvDE9rWmC4Vn8A1goKh1QZPs8oFw2Ov8
+        qiGHwjGBvlIj9DqLyZtoqeXY1s3eMgM=
+X-Google-Smtp-Source: AK7set+92ZcGnNdRoC7OM156EQH+UnyKPsC5KxQTZyO53qIo1/mv9LHI2IZpZEXNYFhxOz8emEo8cA==
+X-Received: by 2002:a1c:4c17:0:b0:3da:2a59:8a4f with SMTP id z23-20020a1c4c17000000b003da2a598a4fmr17053062wmf.38.1675641605423;
+        Sun, 05 Feb 2023 16:00:05 -0800 (PST)
+Received: from [192.168.0.160] ([170.253.36.171])
+        by smtp.gmail.com with ESMTPSA id h12-20020adff4cc000000b002c3d814cc63sm6686091wrp.76.2023.02.05.16.00.04
+        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+        Sun, 05 Feb 2023 16:00:04 -0800 (PST)
+Message-ID: <29bb163d-ab7b-2fb7-a1c8-cfd720984a8d@gmail.com>
+Date:   Mon, 6 Feb 2023 00:59:48 +0100
 MIME-Version: 1.0
-Content-Type: multipart/mixed; boundary="------------2.39.0"
-Content-Transfer-Encoding: 8bit
-X-CMAE-Envelope: MS4xfJpSF5yReTdztE18kIJhGCIdmbIwmOGDzveGHL8+Y8qiCf1C27Fn7teErUYyXVxNutgPNoEJTTuzbHouZy7U1TxR1URRbq5YGrLfbr7SbJroWb1F2/RQ
- M0JbNmwFsQLIGINMyI+Bd52kfZGUlWgadZSYuhODgXBcjKoTx32mvOW7SF1t0XZFMCwuqNVv8/5tkwQAhUJHLwE8twnPtkBXzsxFeAbJhg64fidhelY9/pwb
- IDvaX9VJvjyN0kpkI5FXWBu0oogTHBprEL9LclcMjKUBfk8jVzGvAfB9RTAWoCgr
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
+ Thunderbird/102.7.1
+Subject: Re: [PATCH] sockaddr.3type: BUGS: Document that libc should be fixed
+ using a union
+Content-Language: en-US
+To:     Rich Felker <dalias@libc.org>
+Cc:     linux-man@vger.kernel.org, Alejandro Colomar <alx@kernel.org>,
+        GCC <gcc@gcc.gnu.org>, glibc <libc-alpha@sourceware.org>,
+        =?UTF-8?Q?Bastien_Roucari=c3=a8s?= <rouca@debian.org>,
+        Stefan Puiu <stefan.puiu@gmail.com>,
+        Igor Sysoev <igor@sysoev.ru>,
+        Andrew Clayton <a.clayton@nginx.com>,
+        Richard Biener <richard.guenther@gmail.com>,
+        Zack Weinberg <zack@owlfolio.org>,
+        Florian Weimer <fweimer@redhat.com>,
+        Joseph Myers <joseph@codesourcery.com>,
+        Jakub Jelinek <jakub@redhat.com>,
+        Eric Blake <eblake@redhat.com>
+References: <20230205152835.17413-1-alx@kernel.org>
+ <20230205234359.GF3298@brightrain.aerifal.cx>
+From:   Alejandro Colomar <alx.manpages@gmail.com>
+In-Reply-To: <20230205234359.GF3298@brightrain.aerifal.cx>
+Content-Type: multipart/signed; micalg=pgp-sha256;
+ protocol="application/pgp-signature";
+ boundary="------------x95GfUR0cu0Edh05BSjdG2MZ"
 Precedence: bulk
 List-ID: <linux-man.vger.kernel.org>
 X-Mailing-List: linux-man@vger.kernel.org
 
-This is a multi-part message in MIME format.
---------------2.39.0
-Content-Type: text/plain; charset=UTF-8; format=fixed
-Content-Transfer-Encoding: 8bit
+This is an OpenPGP/MIME signed message (RFC 4880 and 3156)
+--------------x95GfUR0cu0Edh05BSjdG2MZ
+Content-Type: multipart/mixed; boundary="------------IQfC8VJhVwILpv50iyFR9e7c";
+ protected-headers="v1"
+From: Alejandro Colomar <alx.manpages@gmail.com>
+To: Rich Felker <dalias@libc.org>
+Cc: linux-man@vger.kernel.org, Alejandro Colomar <alx@kernel.org>,
+ GCC <gcc@gcc.gnu.org>, glibc <libc-alpha@sourceware.org>,
+ =?UTF-8?Q?Bastien_Roucari=c3=a8s?= <rouca@debian.org>,
+ Stefan Puiu <stefan.puiu@gmail.com>, Igor Sysoev <igor@sysoev.ru>,
+ Andrew Clayton <a.clayton@nginx.com>,
+ Richard Biener <richard.guenther@gmail.com>,
+ Zack Weinberg <zack@owlfolio.org>, Florian Weimer <fweimer@redhat.com>,
+ Joseph Myers <joseph@codesourcery.com>, Jakub Jelinek <jakub@redhat.com>,
+ Eric Blake <eblake@redhat.com>
+Message-ID: <29bb163d-ab7b-2fb7-a1c8-cfd720984a8d@gmail.com>
+Subject: Re: [PATCH] sockaddr.3type: BUGS: Document that libc should be fixed
+ using a union
+References: <20230205152835.17413-1-alx@kernel.org>
+ <20230205234359.GF3298@brightrain.aerifal.cx>
+In-Reply-To: <20230205234359.GF3298@brightrain.aerifal.cx>
 
----
- man2/statfs.2 | 110 +++++++++++++++++++++++++-------------------------
- 1 file changed, 55 insertions(+), 55 deletions(-)
+--------------IQfC8VJhVwILpv50iyFR9e7c
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: base64
 
+SGkgUmljaCwNCg0KT24gMi82LzIzIDAwOjQzLCBSaWNoIEZlbGtlciB3cm90ZToNCj4gT24g
+U3VuLCBGZWIgMDUsIDIwMjMgYXQgMDQ6Mjg6MzZQTSArMDEwMCwgQWxlamFuZHJvIENvbG9t
+YXIgd3JvdGU6DQo+PiBBcyBkaXNjdXNzZWQgYmVmb3JlLCBhbmQgQmFzdGllbiBhbmQgSSBz
+ZWVtIHRvIGFncmVlLCBpZGVhbGx5IHdlIHNob3VsZA0KPj4gZGVmaW5lIHRoZSBmb2xsb3dp
+bmcgdHlwZXM6DQo+Pg0KPj4gICAgICBzdHJ1Y3Qgc29ja2FkZHJfc3RvcmFnZSB7DQo+PiAg
+ICAgICAgICB1bmlvbiB7DQo+PiAgICAgICAgICAgICAgc3RydWN0IHsNCj4+ICAgICAgICAg
+ICAgICAgICAgc2FfZmFtaWx5X3QgICAgICBzc19mYW1pbHk7DQo+PiAgICAgICAgICAgICAg
+fTsNCj4+ICAgICAgICAgICAgICBzdHJ1Y3Qgc29ja2FkZHJfaW4gICBzaW47DQo+PiAgICAg
+ICAgICAgICAgc3RydWN0IHNvY2thZGRyX2luNiAgc2luNjsNCj4+ICAgICAgICAgICAgICBz
+dHJ1Y3Qgc29ja2FkZHJfdW4gICBzdW47DQo+PiAgICAgICAgICAgICAgLy8gLi4uDQo+PiAg
+ICAgICAgICB9Ow0KPj4gICAgICB9Ow0KPiANCj4gQUZBSUsgdGhpcyBpcyBub3QgcGVybWl0
+dGVkIGJlY2F1c2Ugb2YgbmFtZXNwYWNlLiBzeXMvc29ja2V0LmggaXMgbm90DQo+IHBlcm1p
+dHRlZCB0byBleHBvc2Ugc29ja2FkZHJfe2luLGluNix1bn0uIEFuZCBpZiB5b3UgZGVmaW5l
+ZA0KPiBkaWZmZXJlbnRseS10YWdnZWQgc3RydWN0dXJlcyB3aXRoIHRoZSBzYW1lIGNvbnRl
+bnRzLCBpdCB3b3VsZCBub3QgZG8NCj4gYW55IGdvb2Q7IGFjY2Vzc2luZyB0aGUgbWVtYmVy
+cyB3aXRoIHRoZSB3cm9uZy10YWdnZWQgc3RydWN0IHR5cGUNCj4gd291bGQgc3RpbGwgYmUg
+VUIuDQoNCkknbSBub3Qgc3VyZS4gIElTTyBDIGhhcyB0aGF0IHJlc3RyaWN0aW9uIHRoYXQg
+YSBoZWFkZXIgY2FuIG9ubHkgZGVmaW5lIHdoYXQgdGhlIA0Kc3RhbmRhcmQgc2F5cyBpdCBk
+ZWZpbmVzLiAgSG93ZXZlciwgZG9lcyBQT1NJWCBoYXZlIHRoZSBzYW1lIHJlc3RyaWN0aW9u
+PyANCkRvZXNuJ3QgUE9TSVggYWxsb3cgaW5jbHVkaW5nIGFueSBvdGhlciBQT1NJWCBoZWFk
+ZXJzIChtYXliZSBpdCBkb2VzLCBidXQgSUlSQyANCml0IGRvZXNuJ3QpPyAgU2luY2UgPHN5
+cy9zb2NrZXQuaD4gaXMganVzdCBhIFBPU0lYIHRoaW5nLCB0aGF0J3MgdGhlIG9ubHkgDQpz
+dGFuZGFyZCB3ZSBzaG91bGQgY2FyZSBhYm91dC4NCg0KPiANCj4gUmVhbGx5LCB0aGVyZSBp
+cyBubyBhY3Rpb24gbmVlZGVkIGhlcmUuIE5vdGhpbmcgaXMgd3Jvbmcgb24gbGliYydzDQo+
+IHNpZGUuIFRoZSBwcm9ibGVtIGlzIGp1c3QgdGhhdCB0aGUgdHlwZSBpcyAqbm90IHVzZWZ1
+bCBmb3IgYW55dGhpbmcqDQo+IGFuZCBzaG91bGQgbm90IGJlIHVzZWQgZXhjZXB0IGluIHRo
+ZSBjb250ZXh0IG9mIHNpemVvZiwgd2hpY2ggaXMNCj4gcHVyZWx5IGEgZG9jdW1lbnRhdGlv
+biBpc3N1ZS4NCj4gDQo+PiAgICAgIHN0cnVjdCBbW2RlcHJlY2F0ZWRdXSBzb2NrYWRkciB7
+DQo+PiAgICAgICAgICBzYV9mYW1pbHlfdCAgICAgICAgICAgICAgc2FfZmFtaWx5Ow0KPj4g
+ICAgICB9Ow0KPj4NCj4+ICAgICAgdW5pb24gW1tnbnU6OnRyYW5zcGFyZW50X3VuaW9uXV0g
+c29ja2FkZHJfcHRyIHsNCj4+ICAgICAgICAgIHN0cnVjdCBzb2NrYWRkcl9zdG9yYWdlICAq
+c3M7DQo+PiAgICAgICAgICBzdHJ1Y3Qgc29ja2FkZHIgICAgICAgICAgKnNhOw0KPj4gICAg
+ICB9Ow0KPj4NCj4+IEFuZCB0aGVuIHdlIGNvdWxkIGRlZmluZSBBUElzIGxpa2U6DQo+Pg0K
+Pj4gICAgICBpbnQgYmluZChpbnQgc29ja2ZkLCBjb25zdCB1bmlvbiBzb2NrYWRkcl9wdHIg
+KmFkZHIsIHNvY2tsZW5fdCBsZW4pOw0KPiANCj4gWW91IGNhbm5vdCBqdXN0IGNoYW5nZSBB
+UElzIGJlY2F1c2UgeW91IHdpc2ggdGhleSB3ZXJlIGRpZmZlcmVudC4NCg0KVGhpcyBBUEkg
+aXMgY29tcGF0aWJsZS4gIEluIGZhY3QsIGl0IGFscmVhZHkgaXMgbm93IGxpa2UgdGhhdDoN
+Cg0KYWx4QGRlYmlhbjovdXNyL2luY2x1ZGUkIGdyZXBjIGJpbmQNCi4veDg2XzY0LWxpbnV4
+LWdudS9zeXMvc29ja2V0Lmg6MTEyOg0KZXh0ZXJuIGludCBiaW5kIChpbnQgX19mZCwgX19D
+T05TVF9TT0NLQUREUl9BUkcgX19hZGRyLCBzb2NrbGVuX3QgX19sZW4pDQogICAgICBfX1RI
+Uk9XOw0KDQphbHhAZGViaWFuOi91c3IvaW5jbHVkZSQgc2VkIC1uIDgzLDg0cCB4ODZfNjQt
+bGludXgtZ251L3N5cy9zb2NrZXQuaA0KdHlwZWRlZiB1bmlvbiB7IF9fU09DS0FERFJfQUxM
+VFlQRVMNCgkgICAgICB9IF9fQ09OU1RfU09DS0FERFJfQVJHIF9fYXR0cmlidXRlX18gKChf
+X3RyYW5zcGFyZW50X3VuaW9uX18pKTsNCg0KDQo+IElkZWFsbHkgYmluZCwgZXRjLiB3b3Vs
+ZCBqdXN0IHRha2Ugdm9pZCAqLA0KDQp2b2lkICogaXMgYSBiaXQgdG9vIG11Y2ggdW5zYWZl
+LiAgR0NDJ3MgdHJhbnNwYXJlbnQgdW5pb25zIGFyZSBhIHJlc3RyaWN0ZWQgDQpjYXRjaC1t
+YW55IHBvaW50ZXIsIHJhdGhlciB0aGFuIGEgY2F0Y2gtYWxsLg0KDQo+IHdoaWNoIGlzIHdo
+YXQgdGhlIHN0cnVjdA0KPiBzb2NrYWRkciAqIGlzIGJlaW5nIHVzZWQgYXMuDQoNCkFuZCBp
+biBmYWN0LCB2b2lkKiB3b3VsZG4ndCBzb2xlIHRoZSB1bmlvbiBwcm9ibGVtLg0KDQo+IEJ1
+dCB0aGV5IGRvbid0LCBzbyBjYWxsZXJzIGhhdmUgdG8gY2FzdC4NCg0KV2l0aCB0aGUgY3Vy
+cmVudCBnbGliYyBpbXBsZW1lbnRhdGlvbiwgeW91IGRvbid0IG5lZWQgdG8gY2FzdCwgdGhh
+bmtzIHRvIHRoZSANCltbZ251Ojp0cmFuc3BhcmVudF91bmlvbl1dOg0KDQoNCmFseEBkZWJp
+YW46fi90bXAkIGNhdCBzb2NrLmMNCiNkZWZpbmUgX0dOVV9TT1VSQ0UNCiNpbmNsdWRlIDxz
+eXMvc29ja2V0Lmg+DQojaW5jbHVkZSA8c3lzL3VuLmg+DQoNCmludA0KYmluZF91bihpbnQg
+c2ZkLCBjb25zdCBzdHJ1Y3Qgc29ja2FkZHJfdW4gKmFkZHIsIHNvY2tsZW5fdCBsZW4pDQp7
+DQoJcmV0dXJuIGJpbmQoc2ZkLCBhZGRyLCBsZW4pOw0KfQ0KYWx4QGRlYmlhbjp+L3RtcCQg
+Y2MgLVdhbGwgLVdleHRyYSBzb2NrLmMgLVMNCmFseEBkZWJpYW46fi90bXAkIGNsYW5nIC1X
+YWxsIC1XZXh0cmEgc29jay5jIC1TDQphbHhAZGViaWFuOn4vdG1wJA0KDQoNCj4gSXQncyB1
+Z2x5IGJ1dCBpdCdzIHJlYWxseSBub3QgYSBiaWcgZGVhbC4gTXVjaCBsZXNzIG9mIGEgYmln
+IGRlYWwgdGhhbg0KPiBicmVha2luZyB0aGUgaW50ZXJmYWNlIGJlY2F1c2UgeW91IHRoaW5r
+IGl0IHdvdWxkIGxvb2sgcHJldHRpZXIgaWYgaXQNCj4gaGFkIGJlZW4gZG9uZSBkaWZmZXJl
+bnRseS4NCg0KSXQncyBub3QgYnJlYWtpbmcgdGhlIGludGVyZmFjZTsgbm90IGluIEdOVSBD
+LiAgQ3VycmVudCBjb2RlIHN0aWxsIGZhbGxzIGJhY2sgdG8gDQp0aGUgYSBQT1NJWC1jb21w
+bHlpbmcgVUItaW52b2tpbmcgaW50ZXJmYWNlIHdoZW4geW91IGRvbid0IGFzayBmb3IgX0dO
+VV9TT1VSQ0UsIA0KYnV0IHdlIGNhbiBrZWVwIHRoYXQuICBJJ20gb25seSBhc2tpbmcgdGhh
+dCB3ZSBmaXggdGhlIEdOVSBDIHZlcnNpb24uICBNb3Jlb3ZlciwgDQppbiBQT1NJWC1jb21w
+bHlpbmcgY29kZSwgeW91IGNhbiBrZWVwIHRoZSBpbnRlcmZhY2UgcG9pbnRlciwgc2luY2Ug
+eW91J2xsIG5lZWQgDQp0byBjYXN0IGFueXdheSwgYnV0IGNhbiBzdGlsbCBtYWtlIHNvY2th
+ZGRyX3N0b3JhZ2UgYmUgaW1wbGVtZW50ZWQgdGhyb3VnaCBhbiANCmFub255bW91cyB1bmlv
+bi4NCg0KQ2hlZXJzLA0KDQpBbGV4DQoNCj4gDQo+IFJpY2gNCg0KLS0gDQo8aHR0cDovL3d3
+dy5hbGVqYW5kcm8tY29sb21hci5lcy8+DQpHUEcga2V5IGZpbmdlcnByaW50OiBBOTM0ODU5
+NENFMzEyODNBODI2RkJERDhENTc2MzNENDQxRTI1QkI1DQo=
 
---------------2.39.0
-Content-Type: text/x-patch; name="0007-man2-statfs.2-punctuate-hex-in-docs-with-digit-separ.patch"
-Content-Transfer-Encoding: 8bit
-Content-Disposition: attachment; filename="0007-man2-statfs.2-punctuate-hex-in-docs-with-digit-separ.patch"
+--------------IQfC8VJhVwILpv50iyFR9e7c--
 
-diff --git a/man2/statfs.2 b/man2/statfs.2
-index 8c4d6236f258..b2831b3a85b3 100644
---- a/man2/statfs.2
-+++ b/man2/statfs.2
-@@ -58,90 +58,90 @@ The following filesystem types may appear in
- .EX
- ADFS_SUPER_MAGIC      0xadf5
- AFFS_SUPER_MAGIC      0xadff
--AFS_SUPER_MAGIC       0x5346414f
--ANON_INODE_FS_MAGIC   0x09041934 /* Anonymous inode FS (for
-+AFS_SUPER_MAGIC       0x5346\[aq]414f
-+ANON_INODE_FS_MAGIC   0x0904\[aq]1934 /* Anonymous inode FS (for
-                                     pseudofiles that have no name;
-                                     e.g., epoll, signalfd, bpf) */
- AUTOFS_SUPER_MAGIC    0x0187
--BDEVFS_MAGIC          0x62646576
--BEFS_SUPER_MAGIC      0x42465331
--BFS_MAGIC             0x1badface
--BINFMTFS_MAGIC        0x42494e4d
--BPF_FS_MAGIC          0xcafe4a11
--BTRFS_SUPER_MAGIC     0x9123683e
--BTRFS_TEST_MAGIC      0x73727279
--CGROUP_SUPER_MAGIC    0x27e0eb   /* Cgroup pseudo FS */
--CGROUP2_SUPER_MAGIC   0x63677270 /* Cgroup v2 pseudo FS */
--CIFS_MAGIC_NUMBER     0xff534d42
--CODA_SUPER_MAGIC      0x73757245
--COH_SUPER_MAGIC       0x012ff7b7
--CRAMFS_MAGIC          0x28cd3d45
--DEBUGFS_MAGIC         0x64626720
-+BDEVFS_MAGIC          0x6264\[aq]6576
-+BEFS_SUPER_MAGIC      0x4246\[aq]5331
-+BFS_MAGIC             0x1bad\[aq]face
-+BINFMTFS_MAGIC        0x4249\[aq]4e4d
-+BPF_FS_MAGIC          0xcafe\[aq]4a11
-+BTRFS_SUPER_MAGIC     0x9123\[aq]683e
-+BTRFS_TEST_MAGIC      0x7372\[aq]7279
-+CGROUP_SUPER_MAGIC    0x27\[aq]e0eb   /* Cgroup pseudo FS */
-+CGROUP2_SUPER_MAGIC   0x6367\[aq]7270 /* Cgroup v2 pseudo FS */
-+CIFS_MAGIC_NUMBER     0xff53\[aq]4d42
-+CODA_SUPER_MAGIC      0x7375\[aq]7245
-+COH_SUPER_MAGIC       0x012f\[aq]f7b7
-+CRAMFS_MAGIC          0x28cd\[aq]3d45
-+DEBUGFS_MAGIC         0x6462\[aq]6720
- DEVFS_SUPER_MAGIC     0x1373     /* Linux 2.6.17 and earlier */
- DEVPTS_SUPER_MAGIC    0x1cd1
- ECRYPTFS_SUPER_MAGIC  0xf15f
--EFIVARFS_MAGIC        0xde5e81e4
--EFS_SUPER_MAGIC       0x00414a53
-+EFIVARFS_MAGIC        0xde5e\[aq]81e4
-+EFS_SUPER_MAGIC       0x0041\[aq]4a53
- EXT_SUPER_MAGIC       0x137d     /* Linux 2.0 and earlier */
- EXT2_OLD_SUPER_MAGIC  0xef51
- EXT2_SUPER_MAGIC      0xef53
- EXT3_SUPER_MAGIC      0xef53
- EXT4_SUPER_MAGIC      0xef53
--F2FS_SUPER_MAGIC      0xf2f52010
--FUSE_SUPER_MAGIC      0x65735546
--FUTEXFS_SUPER_MAGIC   0xbad1dea  /* Unused */
-+F2FS_SUPER_MAGIC      0xf2f5\[aq]2010
-+FUSE_SUPER_MAGIC      0x6573\[aq]5546
-+FUTEXFS_SUPER_MAGIC   0xbad\[aq]1dea  /* Unused */
- HFS_SUPER_MAGIC       0x4244
--HOSTFS_SUPER_MAGIC    0x00c0ffee
--HPFS_SUPER_MAGIC      0xf995e849
--HUGETLBFS_MAGIC       0x958458f6
-+HOSTFS_SUPER_MAGIC    0x00c0\[aq]ffee
-+HPFS_SUPER_MAGIC      0xf995\[aq]e849
-+HUGETLBFS_MAGIC       0x9584\[aq]58f6
- ISOFS_SUPER_MAGIC     0x9660
- JFFS2_SUPER_MAGIC     0x72b6
--JFS_SUPER_MAGIC       0x3153464a
-+JFS_SUPER_MAGIC       0x3153\[aq]464a
- MINIX_SUPER_MAGIC     0x137f     /* original minix FS */
- MINIX_SUPER_MAGIC2    0x138f     /* 30 char minix FS */
- MINIX2_SUPER_MAGIC    0x2468     /* minix V2 FS */
- MINIX2_SUPER_MAGIC2   0x2478     /* minix V2 FS, 30 char names */
- MINIX3_SUPER_MAGIC    0x4d5a     /* minix V3 FS, 60 char names */
--MQUEUE_MAGIC          0x19800202 /* POSIX message queue FS */
-+MQUEUE_MAGIC          0x1980\[aq]0202 /* POSIX message queue FS */
- MSDOS_SUPER_MAGIC     0x4d44
--MTD_INODE_FS_MAGIC    0x11307854
-+MTD_INODE_FS_MAGIC    0x1130\[aq]7854
- NCP_SUPER_MAGIC       0x564c
- NFS_SUPER_MAGIC       0x6969
- NILFS_SUPER_MAGIC     0x3434
--NSFS_MAGIC            0x6e736673
--NTFS_SB_MAGIC         0x5346544e
--OCFS2_SUPER_MAGIC     0x7461636f
-+NSFS_MAGIC            0x6e73\[aq]6673
-+NTFS_SB_MAGIC         0x5346\[aq]544e
-+OCFS2_SUPER_MAGIC     0x7461\[aq]636f
- OPENPROM_SUPER_MAGIC  0x9fa1
--OVERLAYFS_SUPER_MAGIC 0x794c7630
--PIPEFS_MAGIC          0x50495045
-+OVERLAYFS_SUPER_MAGIC 0x794c\[aq]7630
-+PIPEFS_MAGIC          0x5049\[aq]5045
- PROC_SUPER_MAGIC      0x9fa0     /* /proc FS */
--PSTOREFS_MAGIC        0x6165676c
-+PSTOREFS_MAGIC        0x6165\[aq]676c
- QNX4_SUPER_MAGIC      0x002f
--QNX6_SUPER_MAGIC      0x68191122
--RAMFS_MAGIC           0x858458f6
--REISERFS_SUPER_MAGIC  0x52654973
-+QNX6_SUPER_MAGIC      0x6819\[aq]1122
-+RAMFS_MAGIC           0x8584\[aq]58f6
-+REISERFS_SUPER_MAGIC  0x5265\[aq]4973
- ROMFS_MAGIC           0x7275
--SECURITYFS_MAGIC      0x73636673
--SELINUX_MAGIC         0xf97cff8c
--SMACK_MAGIC           0x43415d53
-+SECURITYFS_MAGIC      0x7363\[aq]6673
-+SELINUX_MAGIC         0xf97c\[aq]ff8c
-+SMACK_MAGIC           0x4341\[aq]5d53
- SMB_SUPER_MAGIC       0x517b
--SMB2_MAGIC_NUMBER     0xfe534d42
--SOCKFS_MAGIC          0x534f434b
--SQUASHFS_MAGIC        0x73717368
--SYSFS_MAGIC           0x62656572
--SYSV2_SUPER_MAGIC     0x012ff7b6
--SYSV4_SUPER_MAGIC     0x012ff7b5
--TMPFS_MAGIC           0x01021994
--TRACEFS_MAGIC         0x74726163
--UDF_SUPER_MAGIC       0x15013346
--UFS_MAGIC             0x00011954
-+SMB2_MAGIC_NUMBER     0xfe53\[aq]4d42
-+SOCKFS_MAGIC          0x534f\[aq]434b
-+SQUASHFS_MAGIC        0x7371\[aq]7368
-+SYSFS_MAGIC           0x6265\[aq]6572
-+SYSV2_SUPER_MAGIC     0x012f\[aq]f7b6
-+SYSV4_SUPER_MAGIC     0x012f\[aq]f7b5
-+TMPFS_MAGIC           0x0102\[aq]1994
-+TRACEFS_MAGIC         0x7472\[aq]6163
-+UDF_SUPER_MAGIC       0x1501\[aq]3346
-+UFS_MAGIC             0x0001\[aq]1954
- USBDEVICE_SUPER_MAGIC 0x9fa2
--V9FS_MAGIC            0x01021997
--VXFS_SUPER_MAGIC      0xa501fcf5
--XENFS_SUPER_MAGIC     0xabba1974
--XENIX_SUPER_MAGIC     0x012ff7b4
--XFS_SUPER_MAGIC       0x58465342
--_XIAFS_SUPER_MAGIC    0x012fd16d /* Linux 2.0 and earlier */
-+V9FS_MAGIC            0x0102\[aq]1997
-+VXFS_SUPER_MAGIC      0xa501\[aq]fcf5
-+XENFS_SUPER_MAGIC     0xabba\[aq]1974
-+XENIX_SUPER_MAGIC     0x012f\[aq]f7b4
-+XFS_SUPER_MAGIC       0x5846\[aq]5342
-+_XIAFS_SUPER_MAGIC    0x012f\[aq]d16d /* Linux 2.0 and earlier */
- .EE
- .in
- .PP
+--------------x95GfUR0cu0Edh05BSjdG2MZ
+Content-Type: application/pgp-signature; name="OpenPGP_signature.asc"
+Content-Description: OpenPGP digital signature
+Content-Disposition: attachment; filename="OpenPGP_signature"
 
---------------2.39.0--
+-----BEGIN PGP SIGNATURE-----
 
+iQIzBAEBCgAdFiEE6jqH8KTroDDkXfJAnowa+77/2zIFAmPgQvQACgkQnowa+77/
+2zJCkg/+JVsU+rMHSuUcnxOGJCCmZ/dyPFPkWfBpgUqrw8PZrAZu8QLjMsJxs3E1
+VOmIegSjfG1tAWn8s5Pnx3gjjPVh1dT7n3+P5GF+yhFP0TM0my8vX8AtvOCraxIw
+FbLhOnWPabLK71ibE2+IvNuAZvvaukyy0I0AQsjzd7I83wGbybbvSMTz0o6DBlTe
+DnTOUBbQLGyHKPCCXznEfKl+XlLhjBowH/jTbD/8kwfFiESscr90n0rI+RzLxQZp
+sZBO2eXLdqtiFSuJRaqm7PnWxQHOc96NvVOY9RIghH6sOOKcUlBfBZ7XiTpqQTT9
+Pn6eKyjbKJ0yKFt17R2padaDi/mJ62QCAbyBQut/CtnsoLeqxkLxkofkcdB/+P48
+mVUi9L8GGb9bWsJ0MB4x1xq5zRINZZwhGfLw5oKV0aE9Ek+GMp2PUVQHVkzNp+Mv
+oMF+sehJjzDYkK7I8nDe7a3tILl9PdUQ7848f7ihy8Ev2eAl0zI/ueO4Ah+h+56B
+Yl+zTvKlJEYEWDYV88oFAZ9HclzCiwwgyiNpNk1yAFR8GOlvV92i/4fSWYuBwfky
+8NshzXCl2+8IF5tQRMVN/xIKqfA0Ub0Dmme6jHInP32Ly8GyIBnGhBoweryinJJu
+amR91Trr0uZIb5WShfNMEDJQFYEJ33Oh9v/7EKzPQBKhcYx8gDU=
+=8Bao
+-----END PGP SIGNATURE-----
 
+--------------x95GfUR0cu0Edh05BSjdG2MZ--
