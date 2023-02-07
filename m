@@ -2,72 +2,143 @@ Return-Path: <linux-man-owner@vger.kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 3C2F2C636D4
-	for <linux-man@archiver.kernel.org>; Tue,  7 Feb 2023 20:11:54 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id BCCE6C636CC
+	for <linux-man@archiver.kernel.org>; Tue,  7 Feb 2023 20:11:57 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S229688AbjBGULx (ORCPT <rfc822;linux-man@archiver.kernel.org>);
-        Tue, 7 Feb 2023 15:11:53 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:56892 "EHLO
+        id S229888AbjBGUL5 (ORCPT <rfc822;linux-man@archiver.kernel.org>);
+        Tue, 7 Feb 2023 15:11:57 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:57078 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S229704AbjBGULu (ORCPT
-        <rfc822;linux-man@vger.kernel.org>); Tue, 7 Feb 2023 15:11:50 -0500
+        with ESMTP id S229704AbjBGULz (ORCPT
+        <rfc822;linux-man@vger.kernel.org>); Tue, 7 Feb 2023 15:11:55 -0500
 Received: from omta001.cacentral1.a.cloudfilter.net (omta001.cacentral1.a.cloudfilter.net [3.97.99.32])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 34981658B
-        for <linux-man@vger.kernel.org>; Tue,  7 Feb 2023 12:11:47 -0800 (PST)
-Received: from shw-obgw-4001a.ext.cloudfilter.net ([10.228.9.142])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 511E11C321
+        for <linux-man@vger.kernel.org>; Tue,  7 Feb 2023 12:11:53 -0800 (PST)
+Received: from shw-obgw-4002a.ext.cloudfilter.net ([10.228.9.250])
         by cmsmtp with ESMTP
-        id PTlHpqc9bc9C4PUJfpYP8c; Tue, 07 Feb 2023 20:11:47 +0000
+        id PSpnpqVImc9C4PUJlpYPA8; Tue, 07 Feb 2023 20:11:53 +0000
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=shaw.ca; s=s20180605;
-        t=1675800707; bh=gvhgllWTn4xRp5dHAWzZPZVW8tAtZOOSf+PlFPCNKXo=;
+        t=1675800713; bh=l+qyiddfvvI9emP4zI1lWGQT1mjNhtgNhOJw7mK5GeM=;
         h=From:To:Cc:Subject:Date:In-Reply-To:References;
-        b=muUlKru9qli8bUoGZZGsCtv1/xqsVIZYLKKMyavHkmne8ShpGlYLtK/A/T+mCYAeM
-         9FirtL7h87HDrtVtN2uqNy9bNKOQsNTvnx0zlnV84V5MdRsg5dTDOMZvOHnECBx6MK
-         rAp8iRez786FLtogjLNhmrqT5s9e5fSBJBjsDnuzqsK1ldf1lj6KQM2tYnH8T6kowI
-         azjKwGAfO+6t6edbj6TswfVTbonC7wohR9vVZAtxWRTZb/hf2THxcBAeoJztxpgSkY
-         Y+vImYB/yIQtHUnDpwfnwvRhI0tpwDlCctCZfY4vDrQRCbboqHUY33lYeJiZdYdThE
-         OGeaMqkOp5ntQ==
+        b=p0j5xLOagMVmfOt/mqgit1Egz4JToWWmCd4tGQ2Spt0KNl7cSi/yf6m9a5DlE0e+L
+         8i2N4Ws4j6n1QtstGyWrdLYe4Z0EthYge3MysONL+LFTRCp5ErZpT/mMjZJGsQAMD9
+         xEmAyXryYC0ct4DO6A1WvsmyulFWenWLwcKy9cq9bdJfJ2ozIKPR3ol13Fkt8tl6Lx
+         Imf+vJGO9UU/GzFCtvat8yok6ALWFErMcFJNbMMsdOMCsYW4TKeZoRuX3oD/V/QQ1k
+         CVE82kgsmyJSiBVcjfB1cWi6Ilu+CM6tpplvRdxuJltqKhvtDGQgGqafQntQ6nsnDG
+         otNQxYJr7Fhzw==
 Received: from localhost.localdomain ([184.64.102.149])
         by cmsmtp with ESMTP
-        id PUJdpfnuvHFsOPUJep7rPJ; Tue, 07 Feb 2023 20:11:47 +0000
-X-Authority-Analysis: v=2.4 cv=XZqaca15 c=1 sm=1 tr=0 ts=63e2b083
+        id PUJlp7yPryAOePUJlpHLT6; Tue, 07 Feb 2023 20:11:53 +0000
+X-Authority-Analysis: v=2.4 cv=e5oV9Il/ c=1 sm=1 tr=0 ts=63e2b089
  a=DxHlV3/gbUaP7LOF0QAmaA==:117 a=DxHlV3/gbUaP7LOF0QAmaA==:17
- a=iqSyOaP4YS47XGSMiOkA:9
+ a=2WzCN0r21_IaNLv3IZsA:9
 From:   Brian Inglis <Brian.Inglis@Shaw.ca>
 To:     Linux Man-Pages <linux-man@vger.kernel.org>
 Cc:     Alejandro Colomar <alx.manpages@gmail.com>
-Subject: [PATCH 02/11] man2/spu_run.2: fix example comment status code or-ed value
-Date:   Tue,  7 Feb 2023 13:11:23 -0700
-Message-Id: <fde9ec8187bbb7d2b30b0cf5b5cd0d67190fcc2b.1675800581.git.Brian.Inglis@Shaw.ca>
+Subject: [PATCH 04/11] man2/open.2: punctuate octal perms with digit separators
+Date:   Tue,  7 Feb 2023 13:11:25 -0700
+Message-Id: <55dc9a52adaa99408437708f8141d44aade52464.1675800581.git.Brian.Inglis@Shaw.ca>
 X-Mailer: git-send-email 2.39.0
 In-Reply-To: <4f2f18f59261d9da0d7e1c530ad6e63b6b367a2d.1675800581.git.Brian.Inglis@Shaw.ca>
 References: <4f2f18f59261d9da0d7e1c530ad6e63b6b367a2d.1675800581.git.Brian.Inglis@Shaw.ca>
 MIME-Version: 1.0
 Organization: Systematic Software
 Content-Transfer-Encoding: 8bit
-X-CMAE-Envelope: MS4xfAGpQUqEjIKBsBGMsRHnAR1JTAiBq+ksy/rhB7plXVaRWE0YzIeWALe5HZ9vqGbHvFPbnmlv463C9VCvApigul9cSDkvHujtKJDNX29hj5OsFDNjDzJT
- fpUL4sqsGR9W63PbwjVHr/CSpl5wtJR0+m4KqfzlVLOwMs7rOwsRSV2mCSnjroXh2pxqx6EchZdEDI1zjLPV8niqD/pMVmqNJhmmqC/tE+jk6EpQAX2+kVGs
- OOZ8OPRoXsozVCxPvbvNo473TUqrG0LKg0g9eS+v4/MK/ps5mnZmnt+tF8xETAbv
+X-CMAE-Envelope: MS4xfDlsJKH6lJ8NEQo1zR0oiT3moMN3DCWLin7AMHXw7FvO1pzg/9T2q2euoOSy74YSnlei4ipbwP2Alu4ZBShHS3ELeZz/tQujvuNGz0+O9HPoruuPSWa1
+ hKxO+FQNHBACJV0bSyTfLHjPauWqIBs0gNf6vXOVCC6BijJ751JU2nuJtSutDjHQmrPoWg+mintAJIBZ7zBjxg6stBy3koQ53ujdBozp4dmtVCoa7ubrI+Rb
+ DrPmrtF1OdFSGL03ogVK714I4Xu+mLEJzkXTCQrPVtXfWPd6TZCoHeSERcVPJl9Z
 Precedence: bulk
 List-ID: <linux-man.vger.kernel.org>
 X-Mailing-List: linux-man@vger.kernel.org
 
 ---
- man2/spu_run.2 | 2 +-
- 1 file changed, 1 insertion(+), 1 deletion(-)
+ man2/open.2 | 32 ++++++++++++++++----------------
+ 1 file changed, 16 insertions(+), 16 deletions(-)
 
-diff --git a/man2/spu_run.2 b/man2/spu_run.2
-index 00d552986052..139f10a97a80 100644
---- a/man2/spu_run.2
-+++ b/man2/spu_run.2
-@@ -245,7 +245,7 @@ int main(void)
-         err(EXIT_FAILURE, "open");
- 
-     /*
--     * We should see a status code of 0x1234002:
-+     * We should see a status code of 0x12340002:
-      *   0x00000002 (spu was stopped due to stop\-and\-signal)
-      * | 0x12340000 (the stop\-and\-signal code)
-      */
+diff --git a/man2/open.2 b/man2/open.2
+index fc796e25537d..82e3e2102e7c 100644
+--- a/man2/open.2
++++ b/man2/open.2
+@@ -308,40 +308,40 @@ The following symbolic constants are provided for
+ .RS
+ .TP 9
+ .B S_IRWXU
+-00700 user (file owner) has read, write, and execute permission
++00\[aq]700 user (file owner) has read, write, and execute permission
+ .TP
+ .B S_IRUSR
+-00400 user has read permission
++00\[aq]400 user has read permission
+ .TP
+ .B S_IWUSR
+-00200 user has write permission
++00\[aq]200 user has write permission
+ .TP
+ .B S_IXUSR
+-00100 user has execute permission
++00\[aq]100 user has execute permission
+ .TP
+ .B S_IRWXG
+-00070 group has read, write, and execute permission
++00\[aq]070 group has read, write, and execute permission
+ .TP
+ .B S_IRGRP
+-00040 group has read permission
++00\[aq]040 group has read permission
+ .TP
+ .B S_IWGRP
+-00020 group has write permission
++00\[aq]020 group has write permission
+ .TP
+ .B S_IXGRP
+-00010 group has execute permission
++00\[aq]010 group has execute permission
+ .TP
+ .B S_IRWXO
+-00007 others have read, write, and execute permission
++00\[aq]007 others have read, write, and execute permission
+ .TP
+ .B S_IROTH
+-00004 others have read permission
++00\[aq]004 others have read permission
+ .TP
+ .B S_IWOTH
+-00002 others have write permission
++00\[aq]002 others have write permission
+ .TP
+ .B S_IXOTH
+-00001 others have execute permission
++00\[aq]001 others have execute permission
+ .RE
+ .IP
+ According to POSIX, the effect when other bits are set in
+@@ -352,14 +352,14 @@ On Linux, the following bits are also honored in
+ .RS
+ .TP 9
+ .B S_ISUID
+-0004000 set-user-ID bit
++0\[aq]004\[aq]000 set-user-ID bit
+ .TP
+ .B S_ISGID
+-0002000 set-group-ID bit (see
++0\[aq]002\[aq]000 set-group-ID bit (see
+ .BR inode (7)).
+ .TP
+ .B S_ISVTX
+-0001000 sticky bit (see
++0\[aq]001\[aq]000 sticky bit (see
+ .BR inode (7)).
+ .RE
+ .TP
+@@ -1319,7 +1319,7 @@ flags are not specified in POSIX.1-2001,
+ but are specified in POSIX.1-2008.
+ Since glibc 2.12, one can obtain their definitions by defining either
+ .B _POSIX_C_SOURCE
+-with a value greater than or equal to 200809L or
++with a value greater than or equal to 2008\[aq]09L or
+ .B _XOPEN_SOURCE
+ with a value greater than or equal to 700.
+ In glibc 2.11 and earlier, one obtains the definitions by defining
 -- 
 2.39.0
 
