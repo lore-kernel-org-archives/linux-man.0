@@ -2,126 +2,160 @@ Return-Path: <linux-man-owner@vger.kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id AF404C636CC
-	for <linux-man@archiver.kernel.org>; Tue,  7 Feb 2023 20:11:53 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id B63F7C64EC4
+	for <linux-man@archiver.kernel.org>; Tue,  7 Feb 2023 20:11:54 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S229699AbjBGULv (ORCPT <rfc822;linux-man@archiver.kernel.org>);
-        Tue, 7 Feb 2023 15:11:51 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:56918 "EHLO
+        id S229732AbjBGULx (ORCPT <rfc822;linux-man@archiver.kernel.org>);
+        Tue, 7 Feb 2023 15:11:53 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:56964 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S229688AbjBGULt (ORCPT
-        <rfc822;linux-man@vger.kernel.org>); Tue, 7 Feb 2023 15:11:49 -0500
-Received: from omta001.cacentral1.a.cloudfilter.net (omta001.cacentral1.a.cloudfilter.net [3.97.99.32])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 188257D9F
-        for <linux-man@vger.kernel.org>; Tue,  7 Feb 2023 12:11:46 -0800 (PST)
+        with ESMTP id S229888AbjBGULv (ORCPT
+        <rfc822;linux-man@vger.kernel.org>); Tue, 7 Feb 2023 15:11:51 -0500
+Received: from omta002.cacentral1.a.cloudfilter.net (omta002.cacentral1.a.cloudfilter.net [3.97.99.33])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id D753F86A3
+        for <linux-man@vger.kernel.org>; Tue,  7 Feb 2023 12:11:48 -0800 (PST)
 Received: from shw-obgw-4001a.ext.cloudfilter.net ([10.228.9.142])
         by cmsmtp with ESMTP
-        id PPnVpq98Qc9C4PUJepYP8I; Tue, 07 Feb 2023 20:11:46 +0000
+        id POpMpwFuQl2xSPUJfpXoUZ; Tue, 07 Feb 2023 20:11:47 +0000
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=shaw.ca; s=s20180605;
-        t=1675800706; bh=RtaQhehYvSPn1H8HcoeVdKSO90ijZKT+uInx0l6v4Xk=;
-        h=From:To:Cc:Subject:Date;
-        b=avR1pROTxMujVwYQB2VOrfpl27Sq9ARpTjba8soDm4GNQhLjQPF8BHzdQMsMKO23H
-         nTVch/DtAphhzrVuB13c+2BgLfZ7KxXyWPj7JreTXZw0RuZ8Fga7jLqCx0/WP/YW7S
-         d4jJQ+G8MtAQ1LXFh/x09ufutcGjq+/Q/52+ydCKXs46T+51umEVsJ0eiCC731NqOy
-         vBrU580srM6q76kwQkEREII3p0cs1kNnJjhm7oEqkqzIZy+GgkJVwWw4R75XwHLUn2
-         9mBEZffOfWaALKrE06z+z2jwEBP9OaUtgByBoje5JiAU36zOzKS+HDljkBokjtv6wJ
-         XqOEPUf6sTkKA==
+        t=1675800707; bh=AT0GMG1cRQYKQ3hNtWRzeD/YEKR4RYnIOfTV1ZtQk/g=;
+        h=From:To:Cc:Subject:Date:In-Reply-To:References;
+        b=sVbslMIcytcNqAF/VY/CCc8Y4wsOEmXiaO9fzwLnT/LFDfzeteudjRFxIfIb6MBv8
+         L8HBZhTylijnwpX+nzMX3oS7lJwVe23T62JcJyivzwppRbxh0bv4vaowo3U3hIlWif
+         e9D7kfmtXBYvvdkejkdyceoqEkyJm+IuwwXA79LBUEMZAijIuL1fIgtTVgtxjNVoVr
+         ClfIK0DLUHHqaDpbKG0xTmYjU58ciVfKdY1TcEqC45F+6ZIVmLvZ0Br1pw2lKIQCvH
+         awFkFmW0qBztqQtMOj+ikeLow4aPdKeo4xv4kjO8gIm6A5uVCxsWkcvBPk0TvbCI0v
+         MTJzm+ELmaTQg==
 Received: from localhost.localdomain ([184.64.102.149])
         by cmsmtp with ESMTP
-        id PUJdpfnuvHFsOPUJdp7rP8; Tue, 07 Feb 2023 20:11:46 +0000
-X-Authority-Analysis: v=2.4 cv=XZqaca15 c=1 sm=1 tr=0 ts=63e2b082
+        id PUJdpfnuvHFsOPUJfp7rPV; Tue, 07 Feb 2023 20:11:47 +0000
+X-Authority-Analysis: v=2.4 cv=XZqaca15 c=1 sm=1 tr=0 ts=63e2b083
  a=DxHlV3/gbUaP7LOF0QAmaA==:117 a=DxHlV3/gbUaP7LOF0QAmaA==:17
- a=ImTWgHHYzgMeW_-uSB4A:9
+ a=q6Okrd4aG7f5TziWnMIA:9
 From:   Brian Inglis <Brian.Inglis@Shaw.ca>
 To:     Linux Man-Pages <linux-man@vger.kernel.org>
 Cc:     Alejandro Colomar <alx.manpages@gmail.com>
-Subject: man2/: punctuate long numeric strings with digit separators
-Date:   Tue,  7 Feb 2023 13:11:21 -0700
-Message-Id: <20230207201132.49747-1-Brian.Inglis@Shaw.ca>
+Subject: [PATCH 03/11] man2/: use consistent interval notation for value ranges
+Date:   Tue,  7 Feb 2023 13:11:24 -0700
+Message-Id: <188dd356c182de2de1d362a680ed6af7132543bc.1675800581.git.Brian.Inglis@Shaw.ca>
 X-Mailer: git-send-email 2.39.0
+In-Reply-To: <4f2f18f59261d9da0d7e1c530ad6e63b6b367a2d.1675800581.git.Brian.Inglis@Shaw.ca>
+References: <4f2f18f59261d9da0d7e1c530ad6e63b6b367a2d.1675800581.git.Brian.Inglis@Shaw.ca>
 MIME-Version: 1.0
+Organization: Systematic Software
 Content-Transfer-Encoding: 8bit
-X-CMAE-Envelope: MS4xfL+u2PUXm32P7BA+/AlRBrEPdJENSFUV0P+jk4C1Orx0JFoDxgy0SuPMy4Pc+6YARXwy2MSgExnngppot7iV+d874ZtAh4ixM+/A6mWUsacP5EloMAiI
- uyf/v4XAtuJB/0jc7WMqGOoZ+fWlLjQMBK3GiYNla2Mzh9ygG6fXrqqrtCv+cba31/szbAyY/XDJm1J2gpYOf27tNqtR5bNDTlj7XvJtVoYrpQUd1QZy+Xuf
- hvRaI+mOqom247uvX2x4rf4j3BWCQonXxJOMAfWdhdz0TDDUs4tVFC6YgtAKay3h
+X-CMAE-Envelope: MS4xfAGpQUqEjIKBsBGMsRHnAR1JTAiBq+ksy/rhB7plXVaRWE0YzIeWALe5HZ9vqGbHvFPbnmlv463C9VCvApigul9cSDkvHujtKJDNX29hj5OsFDNjDzJT
+ fpUL4sqsGR9W63PbwjVHr/CSpl5wtJR0+m4KqfzlVLOwMs7rOwsRSV2mCSnjroXh2pxqx6EchZdEDI1zjLPV8niqD/pMVmqNJhmmqC/tE+jk6EpQAX2+kVGs
+ OOZ8OPRoXsozVCxPvbvNo473TUqrG0LKg0g9eS+v4/MK/ps5mnZmnt+tF8xETAbv
 Precedence: bulk
 List-ID: <linux-man.vger.kernel.org>
 X-Mailing-List: linux-man@vger.kernel.org
 
-man2/: use C digit separators with \\[aq] to show "'" or ISO/IEC
-suffixes to clarify long binary, octal, hex, decimal numeric strings;
-use consistent interval notation for value ranges;
-fix minor discrepancies.
+---
+ man2/clock_getres.2    | 2 +-
+ man2/clock_nanosleep.2 | 2 +-
+ man2/getitimer.2       | 4 ++--
+ man2/gettimeofday.2    | 2 +-
+ man2/nanosleep.2       | 4 ++--
+ man2/utimensat.2       | 2 +-
+ 6 files changed, 8 insertions(+), 8 deletions(-)
 
-[PATCH 01/11] man2/shmget.2: fix limit units suffix from SI to IEC
-[PATCH 02/11] man2/spu_run.2: fix example comment status code or-ed
-[PATCH 03/11] man2/: use consistent interval notation for value
-[PATCH 04/11] man2/open.2: punctuate octal perms with digit
-[PATCH 05/11] man2/reboot.2: show BCD dates in hex not decimal
-[PATCH 06/11] man2/reboot.2: punctuate hex in docs with digit
-[PATCH 07/11] man2/statfs.2: punctuate hex in docs with digit
-[PATCH 08/11] man2/adjtimex.2: use ISO/IEC suffixes and digit
-[PATCH 09/11] man2/getrandom.2: change limit to use IEC suffix
-[PATCH 10/11] man2/futex.2: change limit to use ISO suffix
-[PATCH 11/11] man2/: punctuate long numeric strings with digit
-
-Brian Inglis (11):
-  man2/shmget.2: fix limit units suffix from SI to IEC
-  man2/spu_run.2: fix example comment status code or-ed value
-  man2/: use consistent interval notation for value ranges
-  man2/open.2: punctuate octal perms with digit separators
-  man2/reboot.2: show BCD dates in hex not decimal
-  man2/reboot.2: punctuate hex in docs with digit separators
-  man2/statfs.2: punctuate hex in docs with digit separators
-  man2/adjtimex.2: use ISO/IEC suffixes and digit separators in ranges
-    and example docs
-  man2/getrandom.2: change limit to use IEC suffix
-  man2/futex.2: change limit to use ISO suffix
-  man2/: punctuate long numeric strings with digit separators
-
- man2/add_key.2         |   2 +-
- man2/adjtimex.2        |  12 ++---
- man2/clock_getres.2    |   2 +-
- man2/clock_nanosleep.2 |   2 +-
- man2/eventfd.2         |   6 +--
- man2/execve.2          |   2 +-
- man2/fcntl.2           |   4 +-
- man2/futex.2           |   2 +-
- man2/getitimer.2       |   4 +-
- man2/getrandom.2       |   2 +-
- man2/gettimeofday.2    |   2 +-
- man2/ioctl.2           |   4 +-
- man2/ioctl_console.2   |   2 +-
- man2/ioctl_getfsmap.2  |   4 +-
- man2/ioperm.2          |   2 +-
- man2/kexec_load.2      |   2 +-
- man2/link.2            |   4 +-
- man2/msgget.2          |   2 +-
- man2/nanosleep.2       |   4 +-
- man2/open.2            |  32 ++++++------
- man2/pciconfig_read.2  |   2 +-
- man2/perf_event_open.2 |   2 +-
- man2/personality.2     |   8 +--
- man2/prctl.2           |   2 +-
- man2/read.2            |   2 +-
- man2/reboot.2          |  24 ++++-----
- man2/semget.2          |   4 +-
- man2/sendfile.2        |   2 +-
- man2/shmget.2          |   2 +-
- man2/sigaction.2       |   4 +-
- man2/spu_run.2         |   8 +--
- man2/statfs.2          | 110 ++++++++++++++++++++---------------------
- man2/statx.2           |   2 +-
- man2/syscall.2         |   2 +-
- man2/timer_settime.2   |   4 +-
- man2/timerfd_create.2  |   2 +-
- man2/truncate.2        |   4 +-
- man2/utimensat.2       |   6 +--
- man2/write.2           |   2 +-
- 39 files changed, 144 insertions(+), 144 deletions(-)
-
+diff --git a/man2/clock_getres.2 b/man2/clock_getres.2
+index 501c878cae4e..ee0fa6735865 100644
+--- a/man2/clock_getres.2
++++ b/man2/clock_getres.2
+@@ -272,7 +272,7 @@ does not refer to a valid instance of a clock object.
+ .I tp.tv_sec
+ is negative or
+ .I tp.tv_nsec
+-is outside the range [0..999,999,999].
++is outside the range [0, 999,999,999].
+ .TP
+ .B EINVAL
+ The
+diff --git a/man2/clock_nanosleep.2 b/man2/clock_nanosleep.2
+index 5afc2025c853..5da8d15699c2 100644
+--- a/man2/clock_nanosleep.2
++++ b/man2/clock_nanosleep.2
+@@ -158,7 +158,7 @@ The sleep was interrupted by a signal handler; see
+ .B EINVAL
+ The value in the
+ .I tv_nsec
+-field was not in the range 0 to 999999999 or
++field was not in the range [0, 999999999] or
+ .I tv_sec
+ was negative.
+ .TP
+diff --git a/man2/getitimer.2 b/man2/getitimer.2
+index 093752b620ed..80745dd78c99 100644
+--- a/man2/getitimer.2
++++ b/man2/getitimer.2
+@@ -158,7 +158,7 @@ or (since Linux 2.6.22) one of the
+ .I tv_usec
+ fields in the structure pointed to by
+ .I new_value
+-contains a value outside the range 0 to 999999.
++contains a value outside the range [0, 999999].
+ .SH STANDARDS
+ POSIX.1-2001, SVr4, 4.4BSD (this call first appeared in 4.2BSD).
+ POSIX.1-2008 marks
+@@ -253,7 +253,7 @@ POSIX.1-2001 says that
+ .BR setitimer ()
+ should fail if a
+ .I tv_usec
+-value is specified that is outside of the range 0 to 999999.
++value is specified that is outside of the range [0, 999999].
+ However, up to and including Linux 2.6.21,
+ Linux does not give an error, but instead silently
+ adjusts the corresponding seconds value for the timer.
+diff --git a/man2/gettimeofday.2 b/man2/gettimeofday.2
+index 6f1cd33d6512..d7219f9d42a4 100644
+--- a/man2/gettimeofday.2
++++ b/man2/gettimeofday.2
+@@ -152,7 +152,7 @@ is invalid.
+ .I tv.tv_sec
+ is negative or
+ .I tv.tv_usec
+-is outside the range [0..999,999].
++is outside the range [0, 999999].
+ .TP
+ .BR EINVAL " (since Linux 4.3)"
+ .\" commit e1d7ba8735551ed79c7a0463a042353574b96da3
+diff --git a/man2/nanosleep.2 b/man2/nanosleep.2
+index a6f9e627f4eb..12e0cee84b85 100644
+--- a/man2/nanosleep.2
++++ b/man2/nanosleep.2
+@@ -66,7 +66,7 @@ The
+ structure
+ is used to specify intervals of time with nanosecond precision.
+ .PP
+-The value of the nanoseconds field must be in the range 0 to 999999999.
++The value of the nanoseconds field must be in the range [0, 999999999].
+ .PP
+ Compared to
+ .BR sleep (3)
+@@ -106,7 +106,7 @@ again and continue with the pause.
+ .B EINVAL
+ The value in the
+ .I tv_nsec
+-field was not in the range 0 to 999999999 or
++field was not in the range [0, 999999999] or
+ .I tv_sec
+ was negative.
+ .SH STANDARDS
+diff --git a/man2/utimensat.2 b/man2/utimensat.2
+index 7f43aab7bdcf..1d9206ed0ced 100644
+--- a/man2/utimensat.2
++++ b/man2/utimensat.2
+@@ -272,7 +272,7 @@ Invalid value in
+ .B EINVAL
+ Invalid value in one of the
+ .I tv_nsec
+-fields (value outside range 0 to 999,999,999, and not
++fields (value outside range [0, 999999999], and not
+ .B UTIME_NOW
+ or
+ .BR UTIME_OMIT );
 -- 
 2.39.0
-
-
 
