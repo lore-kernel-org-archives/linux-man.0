@@ -2,156 +2,59 @@ Return-Path: <linux-man-owner@vger.kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id BD0D9C636CC
-	for <linux-man@archiver.kernel.org>; Tue,  7 Feb 2023 20:35:34 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 38B95C636CC
+	for <linux-man@archiver.kernel.org>; Tue,  7 Feb 2023 20:35:51 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S230131AbjBGUfd (ORCPT <rfc822;linux-man@archiver.kernel.org>);
-        Tue, 7 Feb 2023 15:35:33 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:34738 "EHLO
+        id S229457AbjBGUft (ORCPT <rfc822;linux-man@archiver.kernel.org>);
+        Tue, 7 Feb 2023 15:35:49 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:34832 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S229559AbjBGUfc (ORCPT
-        <rfc822;linux-man@vger.kernel.org>); Tue, 7 Feb 2023 15:35:32 -0500
-Received: from omta001.cacentral1.a.cloudfilter.net (omta001.cacentral1.a.cloudfilter.net [3.97.99.32])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 6472837B78
-        for <linux-man@vger.kernel.org>; Tue,  7 Feb 2023 12:35:31 -0800 (PST)
-Received: from shw-obgw-4003a.ext.cloudfilter.net ([10.228.9.183])
-        by cmsmtp with ESMTP
-        id PL9zppmXPc9C4PUgcpYV4L; Tue, 07 Feb 2023 20:35:30 +0000
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=shaw.ca; s=s20180605;
-        t=1675802130; bh=58cIBGTeVfeoU0lkxu8UO868KH2lEKwWFkuarsG6mIk=;
-        h=From:To:Cc:Subject:Date:In-Reply-To:References;
-        b=brBjQ4Tt6et3ZlNNbbMUOvoo4qRqZs2MGCZ5m7ZAPjaVNaKHRBRZ1SB3rpohib5jR
-         D92KFwoqQM+JuGRVKB2riwwM0oQdsMNhZhjYgNin6WgW+9bgPh5eSjH2sZClRnAHfE
-         kj+jnyRoaukIsRJYOcZgGA/6UgkMqM0wWZLKzd1gHYOPyGb4XxQbMkkk5XOyrG6h+l
-         mSLqq8z9PWxpuTHqW8MtcSWM7amJBOL92VmX0d3UKUk5hkpPYrSbSZc2oCaPGWNxLZ
-         TYVl06B2qAKFjOUqesLuEncjQ8+dqxNV1mrQlOo/PCD8UdodRI/4qDvZODc6YPs/uy
-         rIsudI4R8+VMg==
-Received: from localhost.localdomain ([184.64.102.149])
-        by cmsmtp with ESMTP
-        id PUgbpGeL4cyvuPUgcpjUuX; Tue, 07 Feb 2023 20:35:30 +0000
-X-Authority-Analysis: v=2.4 cv=VbHkgXl9 c=1 sm=1 tr=0 ts=63e2b612
- a=DxHlV3/gbUaP7LOF0QAmaA==:117 a=DxHlV3/gbUaP7LOF0QAmaA==:17
- a=r77TgQKjGQsHNAKrUKIA:9 a=rcOpL44KfLnM241yspEA:9 a=QEXdDO2ut3YA:10
- a=2WzCN0r21_IaNLv3IZsA:9 a=B2y7HmGcmWMA:10
-From:   Brian Inglis <Brian.Inglis@Shaw.ca>
-To:     Linux Man-Pages <linux-man@vger.kernel.org>
-Cc:     Alejandro Colomar <alx.manpages@gmail.com>
-Subject: [PATCH 04/11] man2/open.2: punctuate octal perms with digit separators
-Date:   Tue,  7 Feb 2023 13:32:53 -0700
-Message-Id: <20230207203300.49894-5-Brian.Inglis@Shaw.ca>
-X-Mailer: git-send-email 2.39.0
-In-Reply-To: <20230207203300.49894-1-Brian.Inglis@Shaw.ca>
-References: <20230207203300.49894-1-Brian.Inglis@Shaw.ca>
+        with ESMTP id S229992AbjBGUfs (ORCPT
+        <rfc822;linux-man@vger.kernel.org>); Tue, 7 Feb 2023 15:35:48 -0500
+Received: from 1.mo552.mail-out.ovh.net (1.mo552.mail-out.ovh.net [178.32.96.117])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 7979338019
+        for <linux-man@vger.kernel.org>; Tue,  7 Feb 2023 12:35:46 -0800 (PST)
+Received: from mxplan6.mail.ovh.net (unknown [10.108.4.132])
+        by mo552.mail-out.ovh.net (Postfix) with ESMTPS id F24FF29C54;
+        Tue,  7 Feb 2023 20:26:47 +0000 (UTC)
+Received: from jwilk.net (37.59.142.99) by DAG4EX1.mxp6.local (172.16.2.31)
+ with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id 15.1.2507.17; Tue, 7 Feb
+ 2023 21:26:47 +0100
+Authentication-Results: garm.ovh; auth=pass (GARM-99G00386a5cb52-ad43-4387-b7c6-b73dd350eff4,
+                    4730C7FD3C8BF8B026F70320F7F88D0531F9AA9D) smtp.auth=jwilk@jwilk.net
+X-OVh-ClientIp: 5.172.255.70
+Date:   Tue, 7 Feb 2023 21:26:46 +0100
+From:   Jakub Wilk <jwilk@jwilk.net>
+To:     "G. Branden Robinson" <g.branden.robinson@gmail.com>
+CC:     <platform-testers@gnu.org>, <groff@gnu.org>,
+        <linux-man@vger.kernel.org>
+Subject: Re: verification instructions for groff 1.23.0.rc2
+Message-ID: <20230207202646.rrqn2qrlzag4al4k@jwilk.net>
+References: <20230204184818.ich3vavrjsdg7hxd@illithid>
+ <20230204222031.yp5sxjbtovcrdzi6@illithid>
 MIME-Version: 1.0
-Content-Type: multipart/mixed; boundary="------------2.39.0"
-Content-Transfer-Encoding: 8bit
-X-CMAE-Envelope: MS4xfAnQOzO8xBrHzy2uBpsfQWDiDXIdipQ5GDRbFgSlE3Ihz2Yf/MdvaYrrSwtiibtxyHmkWNNB5EnNLVUT4BcLr8LaQUdUGvNPvYLmUzWN1XPDcj35NPlR
- 9gweiYeRt60UrOHm3LAreprqq1/1xDaW8IdwhMlR6imK63cLjJztbzw497Q2oVecwmWlSXNGAL1/XP+oJoHnFw925L927Bpvm3ZjX27sOAdmMC3Q5iCatj/e
- +NHLjNB1gOBdx6/UTHo09FSWgp7hb6bSt6sJCfEgd16W6J1+fnodK00qdAL5QIXn
+Content-Type: text/plain; charset="us-ascii"; format=flowed
+Content-Disposition: inline
+In-Reply-To: <20230204222031.yp5sxjbtovcrdzi6@illithid>
+X-Originating-IP: [37.59.142.99]
+X-ClientProxiedBy: DAG3EX1.mxp6.local (172.16.2.21) To DAG4EX1.mxp6.local
+ (172.16.2.31)
+X-Ovh-Tracer-GUID: 81daebc3-0adb-4f07-b61d-3f63a9fbe29a
+X-Ovh-Tracer-Id: 12972337255869634528
+X-VR-SPAMSTATE: OK
+X-VR-SPAMSCORE: -100
+X-VR-SPAMCAUSE: gggruggvucftvghtrhhoucdtuddrgedvhedrudegkedgudefgecutefuodetggdotefrodftvfcurfhrohhfihhlvgemucfqggfjpdevjffgvefmvefgnecuuegrihhlohhuthemucehtddtnecusecvtfgvtghiphhivghnthhsucdlqddutddtmdenucfjughrpeffhffvvefukfhfgggtuggjihesthdtredttddtvdenucfhrhhomheplfgrkhhusgcuhghilhhkuceojhifihhlkhesjhifihhlkhdrnhgvtheqnecuggftrfgrthhtvghrnheptddvtddvuefgjeeuveeijeekuddvhfevuedujeevueekffeltdeigfdvkeetveeunecuffhomhgrihhnpeguvggsihgrnhdrohhrghenucfkphepuddvjedrtddrtddruddpfeejrdehledrudegvddrleelnecuvehluhhsthgvrhfuihiivgeptdenucfrrghrrghmpehinhgvthepuddvjedrtddrtddruddpmhgrihhlfhhrohhmpeeojhifihhlkhesjhifihhlkhdrnhgvtheqpdhnsggprhgtphhtthhopedupdhrtghpthhtohepghdrsghrrghnuggvnhdrrhhosghinhhsohhnsehgmhgrihhlrdgtohhmpdhplhgrthhfohhrmhdqthgvshhtvghrshesghhnuhdrohhrghdpghhrohhffhesghhnuhdrohhrghdplhhinhhugidqmhgrnhesvhhgvghrrdhkvghrnhgvlhdrohhrghdpoffvtefjohhsthepmhhoheehvddpmhhouggvpehsmhhtphhouhht
 Precedence: bulk
 List-ID: <linux-man.vger.kernel.org>
 X-Mailing-List: linux-man@vger.kernel.org
 
-This is a multi-part message in MIME format.
---------------2.39.0
-Content-Type: text/plain; charset=UTF-8; format=fixed
-Content-Transfer-Encoding: 8bit
+* G. Branden Robinson <g.branden.robinson@gmail.com>, 2023-02-04 16:20:
+>      gpg --keyserver pgp.mit.edu --recv-keys \
+>        2D0C08D2B0AD0D3D8626670272D23FBAC99D4E75
 
----
- man2/open.2 | 32 ++++++++++++++++----------------
- 1 file changed, 16 insertions(+), 16 deletions(-)
+Beware that this may import unrelated keys to your keyring:
+https://bugs.debian.org/909755
 
-
---------------2.39.0
-Content-Type: text/x-patch; name="0004-man2-open.2-punctuate-octal-perms-with-digit-separat.patch"
-Content-Transfer-Encoding: 8bit
-Content-Disposition: attachment; filename="0004-man2-open.2-punctuate-octal-perms-with-digit-separat.patch"
-
-diff --git a/man2/open.2 b/man2/open.2
-index fc796e25537d..82e3e2102e7c 100644
---- a/man2/open.2
-+++ b/man2/open.2
-@@ -308,40 +308,40 @@ The following symbolic constants are provided for
- .RS
- .TP 9
- .B S_IRWXU
--00700 user (file owner) has read, write, and execute permission
-+00\[aq]700 user (file owner) has read, write, and execute permission
- .TP
- .B S_IRUSR
--00400 user has read permission
-+00\[aq]400 user has read permission
- .TP
- .B S_IWUSR
--00200 user has write permission
-+00\[aq]200 user has write permission
- .TP
- .B S_IXUSR
--00100 user has execute permission
-+00\[aq]100 user has execute permission
- .TP
- .B S_IRWXG
--00070 group has read, write, and execute permission
-+00\[aq]070 group has read, write, and execute permission
- .TP
- .B S_IRGRP
--00040 group has read permission
-+00\[aq]040 group has read permission
- .TP
- .B S_IWGRP
--00020 group has write permission
-+00\[aq]020 group has write permission
- .TP
- .B S_IXGRP
--00010 group has execute permission
-+00\[aq]010 group has execute permission
- .TP
- .B S_IRWXO
--00007 others have read, write, and execute permission
-+00\[aq]007 others have read, write, and execute permission
- .TP
- .B S_IROTH
--00004 others have read permission
-+00\[aq]004 others have read permission
- .TP
- .B S_IWOTH
--00002 others have write permission
-+00\[aq]002 others have write permission
- .TP
- .B S_IXOTH
--00001 others have execute permission
-+00\[aq]001 others have execute permission
- .RE
- .IP
- According to POSIX, the effect when other bits are set in
-@@ -352,14 +352,14 @@ On Linux, the following bits are also honored in
- .RS
- .TP 9
- .B S_ISUID
--0004000 set-user-ID bit
-+0\[aq]004\[aq]000 set-user-ID bit
- .TP
- .B S_ISGID
--0002000 set-group-ID bit (see
-+0\[aq]002\[aq]000 set-group-ID bit (see
- .BR inode (7)).
- .TP
- .B S_ISVTX
--0001000 sticky bit (see
-+0\[aq]001\[aq]000 sticky bit (see
- .BR inode (7)).
- .RE
- .TP
-@@ -1319,7 +1319,7 @@ flags are not specified in POSIX.1-2001,
- but are specified in POSIX.1-2008.
- Since glibc 2.12, one can obtain their definitions by defining either
- .B _POSIX_C_SOURCE
--with a value greater than or equal to 200809L or
-+with a value greater than or equal to 2008\[aq]09L or
- .B _XOPEN_SOURCE
- with a value greater than or equal to 700.
- In glibc 2.11 and earlier, one obtains the definitions by defining
-
---------------2.39.0--
-
-
+-- 
+Jakub Wilk
