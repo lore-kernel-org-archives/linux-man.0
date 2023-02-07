@@ -2,59 +2,97 @@ Return-Path: <linux-man-owner@vger.kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 38B95C636CC
-	for <linux-man@archiver.kernel.org>; Tue,  7 Feb 2023 20:35:51 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 0FE87C636CC
+	for <linux-man@archiver.kernel.org>; Tue,  7 Feb 2023 20:45:11 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S229457AbjBGUft (ORCPT <rfc822;linux-man@archiver.kernel.org>);
-        Tue, 7 Feb 2023 15:35:49 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:34832 "EHLO
+        id S229632AbjBGUpK (ORCPT <rfc822;linux-man@archiver.kernel.org>);
+        Tue, 7 Feb 2023 15:45:10 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:39144 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S229992AbjBGUfs (ORCPT
-        <rfc822;linux-man@vger.kernel.org>); Tue, 7 Feb 2023 15:35:48 -0500
-Received: from 1.mo552.mail-out.ovh.net (1.mo552.mail-out.ovh.net [178.32.96.117])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 7979338019
-        for <linux-man@vger.kernel.org>; Tue,  7 Feb 2023 12:35:46 -0800 (PST)
-Received: from mxplan6.mail.ovh.net (unknown [10.108.4.132])
-        by mo552.mail-out.ovh.net (Postfix) with ESMTPS id F24FF29C54;
-        Tue,  7 Feb 2023 20:26:47 +0000 (UTC)
-Received: from jwilk.net (37.59.142.99) by DAG4EX1.mxp6.local (172.16.2.31)
- with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id 15.1.2507.17; Tue, 7 Feb
- 2023 21:26:47 +0100
-Authentication-Results: garm.ovh; auth=pass (GARM-99G00386a5cb52-ad43-4387-b7c6-b73dd350eff4,
-                    4730C7FD3C8BF8B026F70320F7F88D0531F9AA9D) smtp.auth=jwilk@jwilk.net
-X-OVh-ClientIp: 5.172.255.70
-Date:   Tue, 7 Feb 2023 21:26:46 +0100
-From:   Jakub Wilk <jwilk@jwilk.net>
-To:     "G. Branden Robinson" <g.branden.robinson@gmail.com>
-CC:     <platform-testers@gnu.org>, <groff@gnu.org>,
-        <linux-man@vger.kernel.org>
-Subject: Re: verification instructions for groff 1.23.0.rc2
-Message-ID: <20230207202646.rrqn2qrlzag4al4k@jwilk.net>
-References: <20230204184818.ich3vavrjsdg7hxd@illithid>
- <20230204222031.yp5sxjbtovcrdzi6@illithid>
+        with ESMTP id S229574AbjBGUpJ (ORCPT
+        <rfc822;linux-man@vger.kernel.org>); Tue, 7 Feb 2023 15:45:09 -0500
+Received: from omta001.cacentral1.a.cloudfilter.net (omta001.cacentral1.a.cloudfilter.net [3.97.99.32])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 3039B6E98
+        for <linux-man@vger.kernel.org>; Tue,  7 Feb 2023 12:45:08 -0800 (PST)
+Received: from shw-obgw-4004a.ext.cloudfilter.net ([10.228.9.227])
+        by cmsmtp with ESMTP
+        id POtYpq3f8c9C4PUpvpYXBZ; Tue, 07 Feb 2023 20:45:07 +0000
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=shaw.ca; s=s20180605;
+        t=1675802707; bh=6ZxJp9F1huItBYuq2UcqzOG0Dx11SY/DCAl+u5lkMoE=;
+        h=From:To:Cc:Subject:Date:In-Reply-To:References;
+        b=uHDOT1VpUT/0P8gIW2plLII1GKI9fDnyzbgJSEpZqEWhY+C9OZQFl5XEWoCnBX9ty
+         gQhlq+28w0Bb5vwCueNjzhIb8wPE4hWqhyaV1vaDjrRS3+xA2q4M0E1pXS9kkuO7tE
+         uR/+HAULnVBBKSy4f58SrU8a2whQ9V3Jg85ryQm5+0+sDrRJQIWJQECIYdo1MAkFIZ
+         5aHhwprZFafaZ8gufhaa8ultLzBJMyHtwbCna+bAsDbeVuQsdLg6Xqlq91gAOgOHqu
+         rqgecOb4AHmec9yMIRyseiwIGa7agu2Z6WrHoRvFLs49WfSoeRF5TIy7vTzqOYBCQI
+         s69rILA8jODow==
+Received: from localhost.localdomain ([184.64.102.149])
+        by cmsmtp with ESMTP
+        id PUpupprh93fOSPUpupIwIT; Tue, 07 Feb 2023 20:45:07 +0000
+X-Authority-Analysis: v=2.4 cv=J8G5USrS c=1 sm=1 tr=0 ts=63e2b853
+ a=DxHlV3/gbUaP7LOF0QAmaA==:117 a=DxHlV3/gbUaP7LOF0QAmaA==:17
+ a=r77TgQKjGQsHNAKrUKIA:9 a=fXi9tmOXr48sxnaAg-8A:9 a=QEXdDO2ut3YA:10
+ a=zvtHh1bzAPjQFlfCYOsA:9 a=B2y7HmGcmWMA:10
+From:   Brian Inglis <Brian.Inglis@Shaw.ca>
+To:     Linux Man-Pages <linux-man@vger.kernel.org>
+Cc:     Alejandro Colomar <alx.manpages@gmail.com>
+Subject: [PATCH 05/11] man2/reboot.2: show BCD dates in hex not decimal
+Date:   Tue,  7 Feb 2023 13:32:54 -0700
+Message-Id: <20230207203300.49894-6-Brian.Inglis@Shaw.ca>
+X-Mailer: git-send-email 2.39.0
+In-Reply-To: <20230207203300.49894-1-Brian.Inglis@Shaw.ca>
+References: <20230207203300.49894-1-Brian.Inglis@Shaw.ca>
 MIME-Version: 1.0
-Content-Type: text/plain; charset="us-ascii"; format=flowed
-Content-Disposition: inline
-In-Reply-To: <20230204222031.yp5sxjbtovcrdzi6@illithid>
-X-Originating-IP: [37.59.142.99]
-X-ClientProxiedBy: DAG3EX1.mxp6.local (172.16.2.21) To DAG4EX1.mxp6.local
- (172.16.2.31)
-X-Ovh-Tracer-GUID: 81daebc3-0adb-4f07-b61d-3f63a9fbe29a
-X-Ovh-Tracer-Id: 12972337255869634528
-X-VR-SPAMSTATE: OK
-X-VR-SPAMSCORE: -100
-X-VR-SPAMCAUSE: gggruggvucftvghtrhhoucdtuddrgedvhedrudegkedgudefgecutefuodetggdotefrodftvfcurfhrohhfihhlvgemucfqggfjpdevjffgvefmvefgnecuuegrihhlohhuthemucehtddtnecusecvtfgvtghiphhivghnthhsucdlqddutddtmdenucfjughrpeffhffvvefukfhfgggtuggjihesthdtredttddtvdenucfhrhhomheplfgrkhhusgcuhghilhhkuceojhifihhlkhesjhifihhlkhdrnhgvtheqnecuggftrfgrthhtvghrnheptddvtddvuefgjeeuveeijeekuddvhfevuedujeevueekffeltdeigfdvkeetveeunecuffhomhgrihhnpeguvggsihgrnhdrohhrghenucfkphepuddvjedrtddrtddruddpfeejrdehledrudegvddrleelnecuvehluhhsthgvrhfuihiivgeptdenucfrrghrrghmpehinhgvthepuddvjedrtddrtddruddpmhgrihhlfhhrohhmpeeojhifihhlkhesjhifihhlkhdrnhgvtheqpdhnsggprhgtphhtthhopedupdhrtghpthhtohepghdrsghrrghnuggvnhdrrhhosghinhhsohhnsehgmhgrihhlrdgtohhmpdhplhgrthhfohhrmhdqthgvshhtvghrshesghhnuhdrohhrghdpghhrohhffhesghhnuhdrohhrghdplhhinhhugidqmhgrnhesvhhgvghrrdhkvghrnhgvlhdrohhrghdpoffvtefjohhsthepmhhoheehvddpmhhouggvpehsmhhtphhouhht
+Content-Type: multipart/mixed; boundary="------------2.39.0"
+Content-Transfer-Encoding: 8bit
+X-CMAE-Envelope: MS4xfIN0HRDh/u16LdheOEXdDv0n0O/9vKblwB/cmlrNjD2bsNhkv2eGvMbiXgAXH3VD3bQTOoFKK8ZVW4dUjixYTQvd8UQ4GgdxOteIkQyBUfjUCrg/BpgM
+ jlcqwwlM4SKiY3om9EdHx6r3BKqp8sAkrWOw1pqtLAT4QvcfHy1wEwIQjZGPvLfJgXhJNhuey1Wdf6ibbizWAu0/jWllgKMoWUSc/+GNGkMLundJXdX9drwy
+ s2AEgjR2GUtWQW9Zb48bvOg1svMQPvm21lLAbhxfqxlbTcmbIKu7SD0HFRZkVIvD
 Precedence: bulk
 List-ID: <linux-man.vger.kernel.org>
 X-Mailing-List: linux-man@vger.kernel.org
 
-* G. Branden Robinson <g.branden.robinson@gmail.com>, 2023-02-04 16:20:
->      gpg --keyserver pgp.mit.edu --recv-keys \
->        2D0C08D2B0AD0D3D8626670272D23FBAC99D4E75
+This is a multi-part message in MIME format.
+--------------2.39.0
+Content-Type: text/plain; charset=UTF-8; format=fixed
+Content-Transfer-Encoding: 8bit
 
-Beware that this may import unrelated keys to your keyring:
-https://bugs.debian.org/909755
+---
+ man2/reboot.2 | 8 ++++----
+ 1 file changed, 4 insertions(+), 4 deletions(-)
 
--- 
-Jakub Wilk
+
+--------------2.39.0
+Content-Type: text/x-patch; name="0005-man2-reboot.2-show-BCD-dates-in-hex-not-decimal.patch"
+Content-Transfer-Encoding: 8bit
+Content-Disposition: attachment; filename="0005-man2-reboot.2-show-BCD-dates-in-hex-not-decimal.patch"
+
+diff --git a/man2/reboot.2 b/man2/reboot.2
+index fcdc56a93e38..d20fdf31a451 100644
+--- a/man2/reboot.2
++++ b/man2/reboot.2
+@@ -51,16 +51,16 @@ equals
+ .I magic2
+ equals
+ .B LINUX_REBOOT_MAGIC2
+-(that is, 672274793).
++(that is, 0x28121969).
+ However, since Linux 2.1.17 also
+ .B LINUX_REBOOT_MAGIC2A
+-(that is, 85072278)
++(that is, 0x05121996)
+ and since Linux 2.1.97 also
+ .B LINUX_REBOOT_MAGIC2B
+-(that is, 369367448)
++(that is, 0x16041998)
+ and since Linux 2.5.71 also
+ .B LINUX_REBOOT_MAGIC2C
+-(that is, 537993216)
++(that is, 0x20112000)
+ are permitted as values for
+ .IR magic2 .
+ (The hexadecimal values of these constants are meaningful.)
+
+--------------2.39.0--
+
+
