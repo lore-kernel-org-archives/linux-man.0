@@ -2,132 +2,72 @@ Return-Path: <linux-man-owner@vger.kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 671FCC636CC
-	for <linux-man@archiver.kernel.org>; Tue,  7 Feb 2023 12:58:56 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 04BC2C636D3
+	for <linux-man@archiver.kernel.org>; Tue,  7 Feb 2023 20:11:53 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S231371AbjBGM6z (ORCPT <rfc822;linux-man@archiver.kernel.org>);
-        Tue, 7 Feb 2023 07:58:55 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:44282 "EHLO
+        id S229559AbjBGULu (ORCPT <rfc822;linux-man@archiver.kernel.org>);
+        Tue, 7 Feb 2023 15:11:50 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:56920 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S231809AbjBGM6y (ORCPT
-        <rfc822;linux-man@vger.kernel.org>); Tue, 7 Feb 2023 07:58:54 -0500
-Received: from mail-wr1-x42f.google.com (mail-wr1-x42f.google.com [IPv6:2a00:1450:4864:20::42f])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 4EFB439B8B
-        for <linux-man@vger.kernel.org>; Tue,  7 Feb 2023 04:58:50 -0800 (PST)
-Received: by mail-wr1-x42f.google.com with SMTP id y1so13479936wru.2
-        for <linux-man@vger.kernel.org>; Tue, 07 Feb 2023 04:58:50 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20210112;
-        h=in-reply-to:from:cc:references:to:content-language:subject
-         :user-agent:mime-version:date:message-id:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=6Bp9gatkyTZV+sZlD44uSzs3boQVmmkXJnrSEUxU5wg=;
-        b=oBQEEz3QlU5uriaBgD/BLTS/yhj4xjdbWc5fPdnVGjXsxNgIaz6l7/YCOIxodqTYiD
-         XU/vdNLPbjnAlcJVcVGPG+9rZW/6+nqhO3pChxP7c9qe3HzsKAdMnXnFlI0RQiXcoO02
-         0TOcRgTeRaa0iJbgCuktJ+ZXfEVvz6wg+3OPnrnLN36k70hGekQlQjayHAr6hLuvB9mr
-         uFsWMWAn1MV8c+XjGpJmPv3cB/ZD3XEFayc16xw/igXOzhZjeTPWs2ieWhiMfMGHn/pO
-         Z3M9uJVqpNsJXw5V5QRw2kGUXZ/uu6BzjSAc/F1heYiGJyNECOmEk1pQa30zl8dD6ECH
-         Z+oA==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20210112;
-        h=in-reply-to:from:cc:references:to:content-language:subject
-         :user-agent:mime-version:date:message-id:x-gm-message-state:from:to
-         :cc:subject:date:message-id:reply-to;
-        bh=6Bp9gatkyTZV+sZlD44uSzs3boQVmmkXJnrSEUxU5wg=;
-        b=k+FQ9PEZzBqLK0bTduFu1P5gUozaNk2fe2ABsiI+jaxtHnXBxOqNlxDKASpP2qUVxM
-         E1NfyzkPgqEgnNhErF67Er+TwuT4tL7I2EWtEZbG/pPS7/xH7Oj+McajbL+rt6I9ihc7
-         6B580WVOv+ACXM/d7EYK+Ynn/iL5OSG3qN+V3d0c8zFXAgCp7VTRnuGn/DZNdEkit/Av
-         0RRWSez9Pnz83NJX0TUWcH4S3tNJC8e61mSfgglm5Z6xOPpWBOcOXSE7rTU8bXVJOquZ
-         bd8K1F5Rly8COMyBA3sqzy+5WkOmLZMN1XTHsquIU6BSmJTFhHkF+SYkvgk0MY9cC+4H
-         M9hQ==
-X-Gm-Message-State: AO0yUKV/9rueiITcK/thFFRln6kOxhG1AH6BypxHwbiHMz4K+asTe5/7
-        0glduvXsLmheebdJucck+hM=
-X-Google-Smtp-Source: AK7set97A8/AlV1CyMumQg2TXYr1yCkj8qMd41FfIbbZtziqLXfbXi+7XC/D8xIwyQbCjWZKUXl8qg==
-X-Received: by 2002:a5d:510e:0:b0:2c3:f0ed:4beb with SMTP id s14-20020a5d510e000000b002c3f0ed4bebmr2668347wrt.70.1675774728724;
-        Tue, 07 Feb 2023 04:58:48 -0800 (PST)
-Received: from [192.168.0.160] ([170.253.36.171])
-        by smtp.gmail.com with ESMTPSA id l10-20020a5d6d8a000000b002bfb5bda59asm11899482wrs.25.2023.02.07.04.58.47
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Tue, 07 Feb 2023 04:58:48 -0800 (PST)
-Message-ID: <dc630b03-6624-84b9-5c31-351f9671c9df@gmail.com>
-Date:   Tue, 7 Feb 2023 13:58:46 +0100
+        with ESMTP id S229699AbjBGULt (ORCPT
+        <rfc822;linux-man@vger.kernel.org>); Tue, 7 Feb 2023 15:11:49 -0500
+Received: from omta001.cacentral1.a.cloudfilter.net (omta001.cacentral1.a.cloudfilter.net [3.97.99.32])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 86E36A5CD
+        for <linux-man@vger.kernel.org>; Tue,  7 Feb 2023 12:11:47 -0800 (PST)
+Received: from shw-obgw-4001a.ext.cloudfilter.net ([10.228.9.142])
+        by cmsmtp with ESMTP
+        id PNfIppxJWc9C4PUJepYP8U; Tue, 07 Feb 2023 20:11:46 +0000
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=shaw.ca; s=s20180605;
+        t=1675800706; bh=wZq3M+LEU0SAZl+ii3GfvV1qPDhPS3QoxxPJrn3tmj8=;
+        h=From:To:Cc:Subject:Date:In-Reply-To:References;
+        b=TLL9zU7LWfkGm2W7MKHc0T7n6NCzhvZHD38FDq1lP7WQcNWqW1J8zLe+h8Hu67l4K
+         C4WNKhXNtTlpYts76Q1yNd6A8i/zQoyGbYu7vFR08CJaDQZSwpWdGpFITmBEEbJsmb
+         9nHx26y6XIZZWXmEsovG3v5w3E0Xb23lbDtTTCznUEqgOMGtAsPl/UeLdWX6j9GzOw
+         HhPpu2COB+3q+GgMh6PZ/PRuBOdPvcVq1dPHdZ/G6m+gyRr4k8A4SR0wv/sqRhYSEY
+         BuMSg90O1bQ6S0XYazaG7eH9eFFm8hcGpDQwSiQ0LiYNT5Vw9B3BTxY273oq++rDih
+         QkVfPqNbaXsFQ==
+Received: from localhost.localdomain ([184.64.102.149])
+        by cmsmtp with ESMTP
+        id PUJdpfnuvHFsOPUJep7rPD; Tue, 07 Feb 2023 20:11:46 +0000
+X-Authority-Analysis: v=2.4 cv=XZqaca15 c=1 sm=1 tr=0 ts=63e2b082
+ a=DxHlV3/gbUaP7LOF0QAmaA==:117 a=DxHlV3/gbUaP7LOF0QAmaA==:17
+ a=JjFQb_LDtpKBWWSn7NYA:9
+From:   Brian Inglis <Brian.Inglis@Shaw.ca>
+To:     Linux Man-Pages <linux-man@vger.kernel.org>
+Cc:     Alejandro Colomar <alx.manpages@gmail.com>
+Subject: [PATCH 01/11] man2/shmget.2: fix limit units suffix from SI to IEC
+Date:   Tue,  7 Feb 2023 13:11:22 -0700
+Message-Id: <4f2f18f59261d9da0d7e1c530ad6e63b6b367a2d.1675800581.git.Brian.Inglis@Shaw.ca>
+X-Mailer: git-send-email 2.39.0
+In-Reply-To: <20230207201132.49747-1-Brian.Inglis@Shaw.ca>
+References: <20230207201132.49747-1-Brian.Inglis@Shaw.ca>
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
- Thunderbird/102.7.1
-Subject: Re: man kcompactd missing
-Content-Language: en-US
-To:     ijaaskelainen@outlook.com, linux-man@vger.kernel.org
-References: <GV1PR10MB6241C10CBC1414734F920FBAA3DB9@GV1PR10MB6241.EURPRD10.PROD.OUTLOOK.COM>
-Cc:     Andrew Morton <akpm@linux-foundation.org>,
-        Muchun Song <muchun.song@linux.dev>,
-        David Hildenbrand <david@redhat.com>,
-        Kefeng Wang <wangkefeng.wang@huawei.com>,
-        William Lam <william.lam@bytedance.com>,
-        Punit Agrawal <punit.agrawal@bytedance.com>,
-        Mel Gorman <mgorman@techsingularity.net>
-From:   Alejandro Colomar <alx.manpages@gmail.com>
-In-Reply-To: <GV1PR10MB6241C10CBC1414734F920FBAA3DB9@GV1PR10MB6241.EURPRD10.PROD.OUTLOOK.COM>
-Content-Type: multipart/signed; micalg=pgp-sha256;
- protocol="application/pgp-signature";
- boundary="------------i2uSzSahRkMXGP6cMcV8uJiG"
+Organization: Systematic Software
+Content-Transfer-Encoding: 8bit
+X-CMAE-Envelope: MS4xfL+u2PUXm32P7BA+/AlRBrEPdJENSFUV0P+jk4C1Orx0JFoDxgy0SuPMy4Pc+6YARXwy2MSgExnngppot7iV+d874ZtAh4ixM+/A6mWUsacP5EloMAiI
+ uyf/v4XAtuJB/0jc7WMqGOoZ+fWlLjQMBK3GiYNla2Mzh9ygG6fXrqqrtCv+cba31/szbAyY/XDJm1J2gpYOf27tNqtR5bNDTlj7XvJtVoYrpQUd1QZy+Xuf
+ hvRaI+mOqom247uvX2x4rf4j3BWCQonXxJOMAfWdhdz0TDDUs4tVFC6YgtAKay3h
 Precedence: bulk
 List-ID: <linux-man.vger.kernel.org>
 X-Mailing-List: linux-man@vger.kernel.org
 
-This is an OpenPGP/MIME signed message (RFC 4880 and 3156)
---------------i2uSzSahRkMXGP6cMcV8uJiG
-Content-Type: multipart/mixed; boundary="------------OOTFNzwmAyCq93O66iWweOXh";
- protected-headers="v1"
-From: Alejandro Colomar <alx.manpages@gmail.com>
-To: ijaaskelainen@outlook.com, linux-man@vger.kernel.org
-Cc: Andrew Morton <akpm@linux-foundation.org>,
- Muchun Song <muchun.song@linux.dev>, David Hildenbrand <david@redhat.com>,
- Kefeng Wang <wangkefeng.wang@huawei.com>,
- William Lam <william.lam@bytedance.com>,
- Punit Agrawal <punit.agrawal@bytedance.com>,
- Mel Gorman <mgorman@techsingularity.net>
-Message-ID: <dc630b03-6624-84b9-5c31-351f9671c9df@gmail.com>
-Subject: Re: man kcompactd missing
-References: <GV1PR10MB6241C10CBC1414734F920FBAA3DB9@GV1PR10MB6241.EURPRD10.PROD.OUTLOOK.COM>
-In-Reply-To: <GV1PR10MB6241C10CBC1414734F920FBAA3DB9@GV1PR10MB6241.EURPRD10.PROD.OUTLOOK.COM>
+---
+ man2/shmget.2 | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
 
---------------OOTFNzwmAyCq93O66iWweOXh
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: base64
+diff --git a/man2/shmget.2 b/man2/shmget.2
+index cdb2d3bee4b5..4bc18bedf3a9 100644
+--- a/man2/shmget.2
++++ b/man2/shmget.2
+@@ -354,7 +354,7 @@ for a discussion of why this default value (rather than
+ is used.
+ .IP
+ From Linux 2.2 up to Linux 3.15, the default value of
+-this limit was 0x2000000 (32\ MB).
++this limit was 0x2000000 (32\ MiB).
+ .IP
+ Because it is not possible to map just part of a shared memory segment,
+ the amount of virtual memory places another limit on the maximum size of a
+-- 
+2.39.0
 
-SGVsbG8sDQoNCk9uIDIvNy8yMyAwODoxNywgaWphYXNrZWxhaW5lbkBvdXRsb29rLmNvbSB3
-cm90ZToNCj4gQ2FuIHlvdSBpbXBsZW1lbnQgaXQ/DQoNCkkndmUgQ0NlZCBzb21lIExpbnV4
-IGRldmVsb3BlcnMgdGhhdCBhcHBlYXIgaW4gdGhlIGxhdGVzdCBjb21taXRzIHRoYXQgYXBw
-ZWFyIGluIA0KYGdpdCBsb2cgLS1ncmVwIGtjb21wYWN0ZGAuICBUaGV5IHNob3VsZCBiZSBp
-biBhIG11Y2ggYmV0dGVyIHBvc2l0aW9uIHRvIHdyaXRlIGEgDQptYW51YWwgcGFnZSBmb3Ig
-aXQgaWYgdGhleSBjb25zaWRlciBpdCBhcHByb3ByaWF0ZS4gIEkgZGlkbid0IGV2ZW4ga25v
-dyANCmtjb21wYWN0ZCBleGlzdGVkIHVudGlsIHlvdXIgZW1haWwgOikNCg0KQ2hlZXJzDQoN
-CkFsZXgNCg0KDQotLSANCjxodHRwOi8vd3d3LmFsZWphbmRyby1jb2xvbWFyLmVzLz4NCkdQ
-RyBrZXkgZmluZ2VycHJpbnQ6IEE5MzQ4NTk0Q0UzMTI4M0E4MjZGQkREOEQ1NzYzM0Q0NDFF
-MjVCQjUNCg==
-
---------------OOTFNzwmAyCq93O66iWweOXh--
-
---------------i2uSzSahRkMXGP6cMcV8uJiG
-Content-Type: application/pgp-signature; name="OpenPGP_signature.asc"
-Content-Description: OpenPGP digital signature
-Content-Disposition: attachment; filename="OpenPGP_signature"
-
------BEGIN PGP SIGNATURE-----
-
-iQIzBAEBCgAdFiEE6jqH8KTroDDkXfJAnowa+77/2zIFAmPiSwYACgkQnowa+77/
-2zLR0A//QR+pYvj4k7ZOxCnSP68SdOtNS+LIBiQIcATsBjFhlPcs1XUnAbqPSkUm
-9naHSX6UbHBKyZMGjBxox5v7xzsNk+x1/9qqpkvxADawIptyqR92G5Lxg/uuYLdq
-XXTpbdu34kfjm1NdAM4Ji3gn85z9x/a9+1XJEPm5XO0v9fNcfDvp7pNdu9gLSo+G
-41s5RinztiW10bAMcPt6KFY7K3U0pPaMZIFW2p1YZZLGNK507hnuA/5wZcxk9I0E
-R3+/6cHwMCyJFg5yoR/A5to4IOMspY5B0pAeaaWLeZq9VuYHTm7x+v7E1RKWOxxy
-XtI+vvQwt6UzM38rJfFIr1rS/JS3A5aHOSVTxRh/GMMyJJYn4S2KTvj3RRCD+gr/
-5BtHWYamqFkaCA0yoGV1HvoXjX8IFQbIY0Q1o44H8OGStJkyOI9g9H98/FJ/GT+I
-lPFxTI/JaWyac84MFoqba2X81nsfrN872N7fDnclzCAspUf8uiVZ/3DkPo9+K6pC
-wj7Kxfu4VF6fM6S3EiY9ZDpIy/274Scs99oxfqIPGZDvfqqEL4Ur+P0tZO+mmlPj
-kC2jmF9pPLWGqHyeRYugYYk1M4D1PVEb1bdQx50vktsWG7TStguyNApXDfhb/GPP
-x03eiWzUCvPHBrVF/fUWjXStTcJsGRWCOqzt26tK2GrytXJIpTU=
-=qW0l
------END PGP SIGNATURE-----
-
---------------i2uSzSahRkMXGP6cMcV8uJiG--
