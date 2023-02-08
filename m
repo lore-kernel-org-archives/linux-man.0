@@ -2,69 +2,96 @@ Return-Path: <linux-man-owner@vger.kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 1A4D3C636D3
-	for <linux-man@archiver.kernel.org>; Wed,  8 Feb 2023 22:19:37 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 234A9C636D3
+	for <linux-man@archiver.kernel.org>; Wed,  8 Feb 2023 22:33:51 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S232395AbjBHWTg (ORCPT <rfc822;linux-man@archiver.kernel.org>);
-        Wed, 8 Feb 2023 17:19:36 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:43336 "EHLO
+        id S230259AbjBHWdu (ORCPT <rfc822;linux-man@archiver.kernel.org>);
+        Wed, 8 Feb 2023 17:33:50 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:48104 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S232394AbjBHWTf (ORCPT
-        <rfc822;linux-man@vger.kernel.org>); Wed, 8 Feb 2023 17:19:35 -0500
-X-Greylist: delayed 4648 seconds by postgrey-1.37 at lindbergh.monkeyblade.net; Wed, 08 Feb 2023 14:19:33 PST
-Received: from 8.mo548.mail-out.ovh.net (8.mo548.mail-out.ovh.net [46.105.45.231])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id B0E2C22DD6
-        for <linux-man@vger.kernel.org>; Wed,  8 Feb 2023 14:19:33 -0800 (PST)
-Received: from mxplan6.mail.ovh.net (unknown [10.108.1.125])
-        by mo548.mail-out.ovh.net (Postfix) with ESMTPS id E6A4421AB8;
-        Wed,  8 Feb 2023 21:00:49 +0000 (UTC)
-Received: from jwilk.net (37.59.142.106) by DAG4EX1.mxp6.local (172.16.2.31)
- with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id 15.1.2507.17; Wed, 8 Feb
- 2023 22:00:49 +0100
-Authentication-Results: garm.ovh; auth=pass (GARM-106R0064440b74c-cfb5-4f62-800e-e122532b8ec9,
-                    B413E5F6520D8A934FFE2695BEAF4415CF07930B) smtp.auth=jwilk@jwilk.net
-X-OVh-ClientIp: 5.172.255.182
-Date:   Wed, 8 Feb 2023 22:00:47 +0100
-From:   Jakub Wilk <jwilk@jwilk.net>
-To:     Tom Schwindl <schwindl@posteo.de>
-CC:     Alejandro Colomar <alx.manpages@gmail.com>,
-        Brian Inglis <Brian.Inglis@Shaw.ca>,
-        <linux-man@vger.kernel.org>
-Subject: Re: Using C23 digit separators not locale digit grouping characters
-Message-ID: <20230208210047.53poygyjqxffxodn@jwilk.net>
-References: <19a71139-7807-2692-3eec-16a0f754911d@Shaw.ca>
- <717e8fb9-9159-65f8-093e-a117c82be704@gmail.com>
- <aebef9ae-1bd0-b0e7-b333-7269dbaf50a2@Shaw.ca>
- <5c2be1e7-4c75-dc20-8d2e-a528edea7e32@gmail.com>
- <f93b5307-4f11-eeeb-3a52-1dc1b4ea0ac8@Shaw.ca>
- <8ecb3f01-2035-9408-9605-1e64e6f25b5a@gmail.com>
- <CQ8YOCHX1IZ1.C1YACUOT0QD3@morphine>
+        with ESMTP id S230289AbjBHWdt (ORCPT
+        <rfc822;linux-man@vger.kernel.org>); Wed, 8 Feb 2023 17:33:49 -0500
+Received: from omta001.cacentral1.a.cloudfilter.net (omta001.cacentral1.a.cloudfilter.net [3.97.99.32])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 763441729
+        for <linux-man@vger.kernel.org>; Wed,  8 Feb 2023 14:33:47 -0800 (PST)
+Received: from shw-obgw-4002a.ext.cloudfilter.net ([10.228.9.250])
+        by cmsmtp with ESMTP
+        id PnpwpsMYoc9C4Pt0cpcsVv; Wed, 08 Feb 2023 22:33:46 +0000
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=shaw.ca; s=s20180605;
+        t=1675895626; bh=vy5W6XXNeKOHj3G2bGAAwpr5YVEeTOfYadXr0x3asJM=;
+        h=Date:Reply-To:Subject:To:Cc:References:From:In-Reply-To;
+        b=T3dH958Q5c6p7Kifcur98sahbb/KFHl909NQiFGNsZzXpmCQhzUbey+9gTK/ogNrz
+         EzJm7OdFPtKFXlqoGFsjoQGY2bCPtfzmz3THbEUyM2ggt92QZgEdH7wqFIp0Sj90b4
+         2kriSlv3f2t/C6SVpusHANSdlLH6jxapb0hnm8cqW4sdIaAROR8/WJX3BpzlqdBlfD
+         tRx14nZ8KqNaVp9PQnGCf0ED+Oh3CRBHyOD0gxaqjsph6VpD8Ty0Qss6kX54uvmI4E
+         2ngpHbpeF1RInz2TleLk8HujDQFsQEfhZk0+gD6/5AEfHNMnDLTv4I81SeNKWTxFF2
+         23h1sB4BBSLFA==
+Received: from [10.0.0.5] ([184.64.102.149])
+        by cmsmtp with ESMTP
+        id Pt0bpEr9XyAOePt0bpKJP9; Wed, 08 Feb 2023 22:33:46 +0000
+X-Authority-Analysis: v=2.4 cv=e5oV9Il/ c=1 sm=1 tr=0 ts=63e4234a
+ a=DxHlV3/gbUaP7LOF0QAmaA==:117 a=DxHlV3/gbUaP7LOF0QAmaA==:17
+ a=IkcTkHD0fZMA:10 a=E6R8t--6F-UgR3yW7QkA:9 a=QEXdDO2ut3YA:10
+Message-ID: <716eb1e9-8e51-b25f-2476-6e3d635d2538@Shaw.ca>
+Date:   Wed, 8 Feb 2023 15:33:45 -0700
 MIME-Version: 1.0
-Content-Type: text/plain; charset="us-ascii"; format=flowed
-Content-Disposition: inline
-In-Reply-To: <CQ8YOCHX1IZ1.C1YACUOT0QD3@morphine>
-X-Originating-IP: [37.59.142.106]
-X-ClientProxiedBy: DAG9EX1.mxp6.local (172.16.2.81) To DAG4EX1.mxp6.local
- (172.16.2.31)
-X-Ovh-Tracer-GUID: 95a32c8f-e653-4176-93e5-ed154bc2ba42
-X-Ovh-Tracer-Id: 973058995782080480
-X-VR-SPAMSTATE: OK
-X-VR-SPAMSCORE: -100
-X-VR-SPAMCAUSE: gggruggvucftvghtrhhoucdtuddrgedvhedrudehuddgkeduucetufdoteggodetrfdotffvucfrrhhofhhilhgvmecuqfggjfdpvefjgfevmfevgfenuceurghilhhouhhtmecuhedttdenucesvcftvggtihhpihgvnhhtshculddquddttddmnecujfgurhepfffhvfevuffkfhggtggujghisehttdertddttddvnecuhfhrohhmpeflrghkuhgsucghihhlkhcuoehjfihilhhksehjfihilhhkrdhnvghtqeenucggtffrrghtthgvrhhnpeeutddtteelhfffuddvhefgfedujeeltdekheduveekkeelfeduuedvgeejudffgfenucfkphepuddvjedrtddrtddruddpfeejrdehledrudegvddruddtieenucevlhhushhtvghrufhiiigvpedtnecurfgrrhgrmhepihhnvghtpeduvdejrddtrddtrddupdhmrghilhhfrhhomhepoehjfihilhhksehjfihilhhkrdhnvghtqedpnhgspghrtghpthhtohepuddprhgtphhtthhopehstghhfihinhgulhesphhoshhtvghordguvgdprghlgidrmhgrnhhprghgvghssehgmhgrihhlrdgtohhmpdeurhhirghnrdfknhhglhhishesufhhrgifrdgtrgdplhhinhhugidqmhgrnhesvhhgvghrrdhkvghrnhgvlhdrohhrghdpoffvtefjohhsthepmhhoheegkedpmhhouggvpehsmhhtphhouhht
+User-Agent: Mozilla/5.0 (Windows NT 10.0; Win64; x64; rv:102.0) Gecko/20100101
+ Thunderbird/102.6.1
+Reply-To: Brian.Inglis@Shaw.ca
+Subject: Re: [PATCH v2 10/11] man2/futex.2: change limit to use ISO multiple
+ symbol
+Content-Language: en-CA
+To:     Linux Man-Pages <linux-man@vger.kernel.org>
+Cc:     Jakub Wilk <jwilk@jwilk.net>, Tom Schwindl <schwindl@posteo.de>,
+        Alejandro Colomar <alx.manpages@gmail.com>
+References: <cover.1675830945.git.Brian.Inglis@Shaw.ca>
+ <dbcc41d977d4eeac999a0381ff9a411453b838fe.1675830945.git.Brian.Inglis@Shaw.ca>
+ <b10498de-f55e-e39f-a051-3bbab2682ea5@gmail.com>
+From:   Brian Inglis <Brian.Inglis@Shaw.ca>
+Organization: Inglis
+In-Reply-To: <b10498de-f55e-e39f-a051-3bbab2682ea5@gmail.com>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 8bit
+X-CMAE-Envelope: MS4xfB9BipOiaVnf9rPdO5zwT5I+Rno4LK/FvY0TukoDl890AQ2njDHNdc1WPqvFS+vIViWC6LHxoeeCmr8rkcgkTYvk7YHlANu3No2d5bHKcRNQhSbOKEVk
+ Yfc+hb+u7pDDEZ9g9xZUfxIrsPQYAz2n4kOvR/MyJVQ1I7cHgGljYz7HUzqX9VQn65kVj6h3DeN224eWDWsoPBaQIgDx6bMVqNM23dFSwOtXB+9/Xn6qGxB1
+ aUKgSzCYBZJB6WrwzQiKEYeEXWArMicrxnSyEknV6q4g0EsKXrljHpf0eAyQRLeA
 Precedence: bulk
 List-ID: <linux-man.vger.kernel.org>
 X-Mailing-List: linux-man@vger.kernel.org
 
-* Tom Schwindl <schwindl@posteo.de>, 2023-02-03 13:27:
->I wonder if I'm the only one who thinks that the digit separators look 
->irritating for both, hex and octal.
+On 2023-02-08 14:12, Alejandro Colomar wrote:
+> Hi Brian,
+> 
+> On 2/8/23 21:27, Brian Inglis wrote:
+>> ---
+>>   man2/futex.2 | 2 +-
+>>   1 file changed, 1 insertion(+), 1 deletion(-)
+>>
+>>
+>> v2-0010-man2-futex.2-change-limit-to-use-ISO-suffix.patch
+>>
+>> diff --git a/man2/futex.2 b/man2/futex.2
+>> index b815056d231c..b9331ead985f 100644
+>> --- a/man2/futex.2
+>> +++ b/man2/futex.2
+>> @@ -1536,7 +1536,7 @@ argument was invalid
+>>   .RI ( tv_sec
+>>   was less than zero, or
+>>   .I tv_nsec
+>> -was not less than 1,000,000,000).
+>> +was not less than 1G).
+> 
+> For nanoseconds, I think 1G is a bit weird.  Since you cant say 1 Gns, I'd rather keep the value.  Anyway, 1_000_000_000 or 1'000'000'000, or whatever separator we use) is something quite readable  in the context of nanoseconds.
 
-Not only you.
-
-I think C23's choice of separator is particularly bad. I found underscores 
-(used in Perl, Ruby, Python 3, Java, Rust, and likely many others) more 
-palatable.
+SI actually allows Gns (/nGs?) and they cancel to s, but either looks weird 
+here, so okay if you don't like the G in text and want to keep the long form.
+[I was used to the UK(/EU?) (electronics?) convention of using the SI prefix 
+instead of a decimal point e.g. 3k6s 31M536s etc. so not much looks off to me.]
 
 -- 
-Jakub Wilk
+Take care. Thanks, Brian Inglis			Calgary, Alberta, Canada
+
+La perfection est atteinte			Perfection is achieved
+non pas lorsqu'il n'y a plus rien à ajouter	not when there is no more to add
+mais lorsqu'il n'y a plus rien à retirer	but when there is no more to cut
+			-- Antoine de Saint-Exupéry
