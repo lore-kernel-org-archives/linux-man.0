@@ -2,115 +2,161 @@ Return-Path: <linux-man-owner@vger.kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 59242C64EC6
-	for <linux-man@archiver.kernel.org>; Wed,  8 Feb 2023 21:05:34 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id AACB1C05027
+	for <linux-man@archiver.kernel.org>; Wed,  8 Feb 2023 21:06:37 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S231532AbjBHVFc (ORCPT <rfc822;linux-man@archiver.kernel.org>);
-        Wed, 8 Feb 2023 16:05:32 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:40506 "EHLO
+        id S229972AbjBHVGg (ORCPT <rfc822;linux-man@archiver.kernel.org>);
+        Wed, 8 Feb 2023 16:06:36 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:41500 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S232572AbjBHVFL (ORCPT
-        <rfc822;linux-man@vger.kernel.org>); Wed, 8 Feb 2023 16:05:11 -0500
-Received: from omta001.cacentral1.a.cloudfilter.net (omta001.cacentral1.a.cloudfilter.net [3.97.99.32])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id D78445FFF
-        for <linux-man@vger.kernel.org>; Wed,  8 Feb 2023 13:05:06 -0800 (PST)
-Received: from shw-obgw-4003a.ext.cloudfilter.net ([10.228.9.183])
-        by cmsmtp with ESMTP
-        id PlzUpsA4bc9C4PrWUpcTr8; Wed, 08 Feb 2023 20:58:34 +0000
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=shaw.ca; s=s20180605;
-        t=1675889914; bh=QZHCRKlC3Evkyc4bpQQj4h0pkBFIfp8yn4xL8N05Luc=;
-        h=Date:Reply-To:Subject:From:To:Cc:References:In-Reply-To;
-        b=MeGngRqpKTH+XLwKazoWA5IYRWEPr2wl0ESupG77Lz6Pg3V19A7dVfjMG7EyDcxuj
-         dnycJfEvVjW9r0vLF0ig6dN/6/zjVRf8inXfl5DO382YWFniPO3fhMU27k+qNCK47k
-         2eEXm6hPSOQn+LudgR2VsA1ZMXg8wzRgzlJmBipcHUQTskWSd9cx9l81VNcJRv+VAA
-         1vawgTe0oiorJ5crm1D8TMRbDgoYF3KBbwQFCVDEJpvybpj9tPDGiNscPMgNyIiiBc
-         O/senr7PCuLKjRhpZSUTdvfxBnFONmTkgVq6rwdxvjafXtSmu3RPHFMuD0uXtg8eg4
-         wHI+XHn+spQzg==
-Received: from [10.0.0.5] ([184.64.102.149])
-        by cmsmtp with ESMTP
-        id PrWUpMziecyvuPrWUpm9gD; Wed, 08 Feb 2023 20:58:34 +0000
-X-Authority-Analysis: v=2.4 cv=VbHkgXl9 c=1 sm=1 tr=0 ts=63e40cfa
- a=DxHlV3/gbUaP7LOF0QAmaA==:117 a=DxHlV3/gbUaP7LOF0QAmaA==:17
- a=IkcTkHD0fZMA:10 a=8pif782wAAAA:8 a=HjEdur_ZAAAA:8 a=LwdL1O_TZ2HsuN0FNq8A:9
- a=QEXdDO2ut3YA:10 a=aD4WmjVXVPxnezg8-Tec:22
-Message-ID: <1b4cf8b5-12a1-3f3b-339a-31a8f557cea3@Shaw.ca>
-Date:   Wed, 8 Feb 2023 13:58:33 -0700
+        with ESMTP id S229617AbjBHVGf (ORCPT
+        <rfc822;linux-man@vger.kernel.org>); Wed, 8 Feb 2023 16:06:35 -0500
+Received: from mail-wr1-x42c.google.com (mail-wr1-x42c.google.com [IPv6:2a00:1450:4864:20::42c])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 0AD7F421D
+        for <linux-man@vger.kernel.org>; Wed,  8 Feb 2023 13:06:35 -0800 (PST)
+Received: by mail-wr1-x42c.google.com with SMTP id h16so18143720wrz.12
+        for <linux-man@vger.kernel.org>; Wed, 08 Feb 2023 13:06:34 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20210112;
+        h=in-reply-to:from:references:cc:to:content-language:subject
+         :user-agent:mime-version:date:message-id:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=ySQkj6nPl8ShBH//iQ/f3TakSj0cuu6auzFqlxvoJQM=;
+        b=XikkRzPMuheepqOo8S/wzpvo/AFEazbUTHsfmOsRHdLb9kbKJd1V5OwWAMBdlo7DOh
+         slI8Mfj13c7hLg6mHkEjQrllkEfexCq1CgE862aT0Y/sy1Zq+81l3BY1jHvamBk7Aoht
+         xmmv0u38nh4H2eL7gEYZL0uO7wbkZhUVwFJtfEXcT4ZpCrZCNj8FVuIoeomlSp9aV2vD
+         u2Nw690svhV1Ly+axm/rWaEcCunRLWahKsEqoMk8AvgYmxnOCRQkXECHCY8XtRvWxHl+
+         flaNDOZXux67kIL5Gy7BRA3KmLW0pieNed2ZuL4wDecXAurJEtRgm0YDvPmTWr8zvg7o
+         9T3A==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20210112;
+        h=in-reply-to:from:references:cc:to:content-language:subject
+         :user-agent:mime-version:date:message-id:x-gm-message-state:from:to
+         :cc:subject:date:message-id:reply-to;
+        bh=ySQkj6nPl8ShBH//iQ/f3TakSj0cuu6auzFqlxvoJQM=;
+        b=RMBg9csxmP5rI4dk8MRakeDKmTpGl4IJ7jvB+oi1XCG0m19FIHm2FeVtmuNJTz1NQu
+         cK+tvr5rzJ8qCoZgxMqzi7ALCLVohbwkHXbz784eb4SRykq4+EyNlzGHm130dQADMjyY
+         FfKUoFTgSi1xNAqZrCvs3YYX/iT1SoEqZelniLHP8HpiRVtboq5ZB5kuzpNJhfyg39eR
+         kJ+nTe//CkCmJeeNigf42pDkzTbYp3Dz73GSh9Y4MCSkBWTfZ5o1xHXVYAM0bB0yDs5O
+         76wGNVysOU+lMApfeptzyKpF/9bKQ4H+s0Tp34e0FIm5AabGqdQpP1K/vL7uW1zILYDM
+         6SwQ==
+X-Gm-Message-State: AO0yUKXbwqFjJQjNxe93WSYqOIwG9MOC4JXeODRnpbLGV1F4H3LxviOu
+        b8RwHLH7LzTsegwKAuRVWJFNzPZcyvM=
+X-Google-Smtp-Source: AK7set806nnwthzSg8kx6pciAHpYZ6fub3XSbcLXh5acdoPnU9bWGEERC92lqkZffvs1Lu6At8VFAA==
+X-Received: by 2002:a5d:4fc8:0:b0:2c3:ea56:81c7 with SMTP id h8-20020a5d4fc8000000b002c3ea5681c7mr8635142wrw.43.1675890393591;
+        Wed, 08 Feb 2023 13:06:33 -0800 (PST)
+Received: from [192.168.0.160] ([170.253.36.171])
+        by smtp.gmail.com with ESMTPSA id h1-20020a5d4301000000b002c3b2afae00sm14191712wrq.41.2023.02.08.13.06.32
+        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+        Wed, 08 Feb 2023 13:06:33 -0800 (PST)
+Message-ID: <cef9233c-3b00-7b0c-6446-cb55b0f4d3ed@gmail.com>
+Date:   Wed, 8 Feb 2023 22:06:31 +0100
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (Windows NT 10.0; Win64; x64; rv:102.0) Gecko/20100101
- Thunderbird/102.6.1
-Reply-To: Brian.Inglis@Shaw.ca
-Subject: Re: [PATCH 01/11] man2/shmget.2: fix limit units suffix from SI to
- IEC
-Content-Language: en-CA
-From:   Brian Inglis <Brian.Inglis@Shaw.ca>
-To:     Linux Man-Pages <linux-man@vger.kernel.org>
-Cc:     Alejandro Colomar <alx.manpages@gmail.com>
-References: <20230207201132.49747-1-Brian.Inglis@Shaw.ca>
- <4f2f18f59261d9da0d7e1c530ad6e63b6b367a2d.1675800581.git.Brian.Inglis@Shaw.ca>
- <5683f0e0-f561-d7e8-8727-c1453178bba0@gmail.com>
- <0ff16070-522a-d943-f7b5-3696f002c520@Shaw.ca>
- <155f2766-394d-8b89-71b0-a7021701d818@gmail.com>
- <6d8a77e6-013f-e96a-0b6c-39c238a91831@Shaw.ca>
-Organization: Inglis
-In-Reply-To: <6d8a77e6-013f-e96a-0b6c-39c238a91831@Shaw.ca>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 8bit
-X-CMAE-Envelope: MS4xfIrAujk4OX2DkgDZW+STASzGGX0G2Yo00CxPHg2psIjK6pHZmP+NyB0d2zoPH/UI8Vx5eVflsBhCEsmNLuyHfvbKPayWY0ZQXhJ2BcMBEy99ZMwPdbOU
- DMizumnsM13WbVuoWligsOToFdwYwJ+VDqZNUGh9g58qZ4kqmKuwqQP50vk72+fXWEXdsp5T5AIVWBu/zNeoqF/hqTVB/wBSFwBy70pN+hlc9/akZKyZFcUc
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
+ Thunderbird/102.7.1
+Subject: Re: Using C23 digit separators not locale digit grouping characters
+Content-Language: en-US
+To:     Jakub Wilk <jwilk@jwilk.net>, Tom Schwindl <schwindl@posteo.de>
+Cc:     Brian Inglis <Brian.Inglis@Shaw.ca>, linux-man@vger.kernel.org
+References: <19a71139-7807-2692-3eec-16a0f754911d@Shaw.ca>
+ <717e8fb9-9159-65f8-093e-a117c82be704@gmail.com>
+ <aebef9ae-1bd0-b0e7-b333-7269dbaf50a2@Shaw.ca>
+ <5c2be1e7-4c75-dc20-8d2e-a528edea7e32@gmail.com>
+ <f93b5307-4f11-eeeb-3a52-1dc1b4ea0ac8@Shaw.ca>
+ <8ecb3f01-2035-9408-9605-1e64e6f25b5a@gmail.com>
+ <CQ8YOCHX1IZ1.C1YACUOT0QD3@morphine>
+ <20230208210047.53poygyjqxffxodn@jwilk.net>
+From:   Alejandro Colomar <alx.manpages@gmail.com>
+In-Reply-To: <20230208210047.53poygyjqxffxodn@jwilk.net>
+Content-Type: multipart/signed; micalg=pgp-sha256;
+ protocol="application/pgp-signature";
+ boundary="------------z6NKAfPtCf10zaZF55R54ajN"
 Precedence: bulk
 List-ID: <linux-man.vger.kernel.org>
 X-Mailing-List: linux-man@vger.kernel.org
 
-On 2023-02-08 07:06, Brian Inglis wrote:
-> On 2023-02-08 03:59, Alejandro Colomar wrote:
->> On 2/8/23 04:58, Brian Inglis wrote:
->>> TL;DR: They are bit/byte unit prefixes kibi..., ... but abstract value suffix
->>> symbols, which is how I think of them, and mainly how we use them. Perhaps we
->>> should just call them all multiples or symbosl, as we only sometimes(/rarely?)
->>> use them as unit prefixes (and seldom written out, only to explain the weird Xi
->>> notation)? Feel free to change the titles and log messages as you see fit.
->>
->> Indeed, I had doubts about using them as suffixes because that's incorrect 
->> according to the SI, but it makes sense and improves documentation, so I'm
->> fine with the use as suffixes now. However, I'm still concerned with calling
->> them suffixes. How about multipliers? Does it make sense to you?
->>> [BT;DT: Many discussions about units over the decades, including various
->>> *industry* conventions about "accepted" units, values, and conversion factors,
->>> invariant regardless of SI and CODATA.
->>>
->>> ISO/BIPM etc. uses SI to mean decimal *metric* unit prefixes (and notes that SI
->>> does not support non-physical units of information) and IEC to mean binary unit
->>> prefixes for bits, bytes, and also allows Hertz so far. See refs from:
->>>
->>> https://en.wikipedia.org/wiki/Binary_prefix#cite_note-bipm-book-91
-> 
->>> https://www.bipm.org/documents/20126/41483022/SI-Brochure-9-EN.pdf#page=29
-> 
->> Thanks.  It now makes sense.  Looks like the SI talks about them, but only 
->> takes them as defined by IEC, and doesn't incorporate them as their own.
->> So, using IEC seems correct (as SI does itself).
-> 
->> BTW, this was one of the few patches that I received inline :/
-> 
->>> On 2023-02-07 16:44, Alejandro Colomar wrote:
->>>> The subject is not correct, IMO.  The SI also defines the Ki, Mi, ... 
->>>> prefixes for binary multipliers.
->>>> Also, they are prefixes, not suffixes.
+This is an OpenPGP/MIME signed message (RFC 4880 and 3156)
+--------------z6NKAfPtCf10zaZF55R54ajN
+Content-Type: multipart/mixed; boundary="------------kWLAMCbjrdAN3UGOmS12RQI0";
+ protected-headers="v1"
+From: Alejandro Colomar <alx.manpages@gmail.com>
+To: Jakub Wilk <jwilk@jwilk.net>, Tom Schwindl <schwindl@posteo.de>
+Cc: Brian Inglis <Brian.Inglis@Shaw.ca>, linux-man@vger.kernel.org
+Message-ID: <cef9233c-3b00-7b0c-6446-cb55b0f4d3ed@gmail.com>
+Subject: Re: Using C23 digit separators not locale digit grouping characters
+References: <19a71139-7807-2692-3eec-16a0f754911d@Shaw.ca>
+ <717e8fb9-9159-65f8-093e-a117c82be704@gmail.com>
+ <aebef9ae-1bd0-b0e7-b333-7269dbaf50a2@Shaw.ca>
+ <5c2be1e7-4c75-dc20-8d2e-a528edea7e32@gmail.com>
+ <f93b5307-4f11-eeeb-3a52-1dc1b4ea0ac8@Shaw.ca>
+ <8ecb3f01-2035-9408-9605-1e64e6f25b5a@gmail.com>
+ <CQ8YOCHX1IZ1.C1YACUOT0QD3@morphine>
+ <20230208210047.53poygyjqxffxodn@jwilk.net>
+In-Reply-To: <20230208210047.53poygyjqxffxodn@jwilk.net>
 
-> I have regenerated with format-patch -v2 --inline and will later edit and resend 
-> as suggested and hopefully you will get what you expect to review.
+--------------kWLAMCbjrdAN3UGOmS12RQI0
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: quoted-printable
 
-Hi Alex,
+Hi Jakub!
 
-I changed send-email to send 1/minute and v2 seems to have succeeded as a series 
-with a cover letter and Content-Disposition: inline in my copies, so hopefully 
-you see them as you expect, and no other project I next send patches to will 
-object to inline. ;^>
+On 2/8/23 22:00, Jakub Wilk wrote:
+> * Tom Schwindl <schwindl@posteo.de>, 2023-02-03 13:27:
+>> I wonder if I'm the only one who thinks that the digit separators look=
+=20
+>> irritating for both, hex and octal.
+>=20
+> Not only you.
+>=20
+> I think C23's choice of separator is particularly bad. I found undersco=
+res=20
+> (used in Perl, Ruby, Python 3, Java, Rust, and likely many others) more=
+=20
+> palatable.
 
--- 
-Take care. Thanks, Brian Inglis			Calgary, Alberta, Canada
+IIRC, that was suggested at some point for C23, but don't remember; maybe=
+ it's a glitch in my memory (I think it was suggested for separating bina=
+ry (0b) input).  I can't understand how they chose ', especially when in =
+some countries it's used as the decimal point  (I don't know if that's of=
+ficial, but I've seen it in hand-written text quite often here in Spain).=
+  I agree that it's probably one of the worst separators they could have =
+chosen.
 
-La perfection est atteinte			Perfection is achieved
-non pas lorsqu'il n'y a plus rien à ajouter	not when there is no more to add
-mais lorsqu'il n'y a plus rien à retirer	but when there is no more to cut
-			-- Antoine de Saint-Exupéry
+Do you think we should use an underscore in the manual pages?  Or what wo=
+uld you do?
+
+Thanks,
+
+Alex
+
+>=20
+
+--=20
+<http://www.alejandro-colomar.es/>
+GPG key fingerprint: A9348594CE31283A826FBDD8D57633D441E25BB5
+
+--------------kWLAMCbjrdAN3UGOmS12RQI0--
+
+--------------z6NKAfPtCf10zaZF55R54ajN
+Content-Type: application/pgp-signature; name="OpenPGP_signature.asc"
+Content-Description: OpenPGP digital signature
+Content-Disposition: attachment; filename="OpenPGP_signature"
+
+-----BEGIN PGP SIGNATURE-----
+
+iQIzBAEBCgAdFiEE6jqH8KTroDDkXfJAnowa+77/2zIFAmPkDtcACgkQnowa+77/
+2zKfCg/+Nk//f6XGBTbaR1rfS4IRPfQSKoacuu9W0zceYpfaF7PuEa2bKsGtUv1m
+XGB87Djl7y3quNRx0BeKMHBa8dvZ8cFt2I6SGRi0XsWVJFEhpu6VXVHCuk/Yh1jB
+iVYm5W/glL0h70zOdXYxAa+fH2+dt+0rfEaRRNnL4CMYE3gKdLHVcqbIQ6dPCdJr
+gsDOUKhOzqfFfXVcNhxALhshvLIqafjQEuyH6pF5FDt+RnqyH6M0L5NHnYkLw0B3
+20pCLepMTR0MbGI2ty84sGMBEqdzNfECEK7025dRVQFyCASvot7lZImeL3AQ9XV1
+msEnIryWCR8VuT5KpRRxhYj6Wu9uWYI5aMZgPLce2n6b8E3JMsIJUepKQ6m6vG9X
+eaRXBxbpyXNgIttYuHtSP/K2gtVq9bO3CfVo/w68ceBYel/M6O8y2LT0buIx4kJF
+s8sJfQSUSi2mD21dwoLJqQWYzVaQij86UbSCh7FedFz+h/2a2xKv/X13k+kp+i44
+UbCoFNV63cf8wfXjliOjkAcqlooCTW2N1MdLUhvCltNauK65RUrhWZW+6JPXl5c6
+A92jQXTW0K1vkAH7kd7O5hrgUdasryGpusigS5OV0HzRo+vEbFcbrPhv2msP+qPh
+8t0nC64VexIxAZtEPv/njfQcqWvaqx2vXbu2U21MLz/9/+854Qk=
+=gKuv
+-----END PGP SIGNATURE-----
+
+--------------z6NKAfPtCf10zaZF55R54ajN--
