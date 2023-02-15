@@ -2,89 +2,89 @@ Return-Path: <linux-man-owner@vger.kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 94823C636D4
-	for <linux-man@archiver.kernel.org>; Wed, 15 Feb 2023 21:10:49 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 8BB54C6379F
+	for <linux-man@archiver.kernel.org>; Wed, 15 Feb 2023 21:11:34 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S229664AbjBOVKs (ORCPT <rfc822;linux-man@archiver.kernel.org>);
-        Wed, 15 Feb 2023 16:10:48 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:38666 "EHLO
+        id S230262AbjBOVLd (ORCPT <rfc822;linux-man@archiver.kernel.org>);
+        Wed, 15 Feb 2023 16:11:33 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:43770 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S229783AbjBOVJp (ORCPT
-        <rfc822;linux-man@vger.kernel.org>); Wed, 15 Feb 2023 16:09:45 -0500
-Received: from mail-wm1-x32c.google.com (mail-wm1-x32c.google.com [IPv6:2a00:1450:4864:20::32c])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id D4C8E2885C
-        for <linux-man@vger.kernel.org>; Wed, 15 Feb 2023 13:08:59 -0800 (PST)
-Received: by mail-wm1-x32c.google.com with SMTP id r18so57874wmq.5
-        for <linux-man@vger.kernel.org>; Wed, 15 Feb 2023 13:08:59 -0800 (PST)
+        with ESMTP id S230371AbjBOVK6 (ORCPT
+        <rfc822;linux-man@vger.kernel.org>); Wed, 15 Feb 2023 16:10:58 -0500
+Received: from mail-wm1-x329.google.com (mail-wm1-x329.google.com [IPv6:2a00:1450:4864:20::329])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id A891210F4
+        for <linux-man@vger.kernel.org>; Wed, 15 Feb 2023 13:10:55 -0800 (PST)
+Received: by mail-wm1-x329.google.com with SMTP id f47-20020a05600c492f00b003dc584a7b7eso2646706wmp.3
+        for <linux-man@vger.kernel.org>; Wed, 15 Feb 2023 13:10:55 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=gmail.com; s=20210112;
         h=in-reply-to:from:references:to:content-language:subject:user-agent
          :mime-version:date:message-id:from:to:cc:subject:date:message-id
          :reply-to;
-        bh=mLusFxV0OVeNGQbYZkyQJZIdOgIORNtUNGc9Qj7oUd8=;
-        b=p7/vKFzlPU+r/Efvj3Nc+OlzpWr78vLFwE3yEXyx2UfP0s6/gaWikXiz2HxIqKPSd+
-         7a1uuOpddpT+Vg7lVfr4X4mH3znSfm6J61JVm/xhKhN1J/YjfkEBWOEDLGwAp6EVzbje
-         P2AOurATABHtm5JzrYlrbXlgVYd+998hMFcL9tFon0VFayVoAgd4xjU/89oXYbsGzAcs
-         SFCzDb3QSMmd4aBVJRjR8tr7LyAHj81GbD6JBwDNZfy+YmWDLXaDjUfAlkvrBL6DHGx0
-         pZo4VMO89c+Zx7pQNTLbPl+Ge2+DCXPyv5apnJIJapbDkZb6FS3f5F6NS1yZfLnrqLc/
-         Xang==
+        bh=OQV5aLkbfM58cMp44rJjm2cn/3fOLDxvuWOiUu7eaHQ=;
+        b=qTQYcfHiWzGV14f7jHmIPJlfSUhYkVCcfI6miasxekr0M93HGtACigZBPlQKX4384E
+         Vyi0veDufJ25tIGpV1HBAwRjeRs5pjcZymRhN+8JUhHFFEm7VWmq29x1YEgaEry1pgWH
+         2TQlZSQWI9XZUGY0POqwstNmBdzfcED1uidtfQJ0bjhVj4L56PUb1CDUAgwTaLH89WmN
+         /IcHSEpLRpkTC5aGjy45BQtpHRy2qaIgAhjGokSMroKfZjPO0QmRqWjP5uZUXtrYzjjh
+         Zdbg+pIjVNHkQkM+lTpRqQbAgiP8NAtYg3YKM6dyvKSzjP4RvWy8YbIu+3z/TwPSDoYc
+         JRqA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20210112;
         h=in-reply-to:from:references:to:content-language:subject:user-agent
          :mime-version:date:message-id:x-gm-message-state:from:to:cc:subject
          :date:message-id:reply-to;
-        bh=mLusFxV0OVeNGQbYZkyQJZIdOgIORNtUNGc9Qj7oUd8=;
-        b=Ws2qS+ZeDQu31ZKBIbP0+xgrVRY98aIdjykVESZgrBlzyy7wf12gNZM9RcRQgOBdFz
-         f1VB+op5hL8oB3/x8M88cSNfBzmsSFsh22fTUXpSgEfthocSLVLU3kO9D2KyoC3Aa96f
-         fmpB2NcHJc+4J2FuSXLePtCI0odCO1XpbwTBw+JW47NpzsxAhUZcmsXaygTF7i8GBGQP
-         hasoHnWM+3usIFRSHapkNBf9VQx7ah00nCc2OvS5MMZaNlnZ1NuM8iG+Gp4aRDTaFIoQ
-         1AK/jNoQOrmg5A4Ax+STbd+LlJLQFFM42YQDmllPBq/Agy39wrkhIpBSk0CtoPne/YLH
-         8ymQ==
-X-Gm-Message-State: AO0yUKXlvQTbFhx4Yonv64L+7vr4phq7CKV3M2jmLYABW7k3kZTDmzF3
-        Nb8vmBpPolbMjjwo31K5rKD9MpUjiOA=
-X-Google-Smtp-Source: AK7set+6NglJ0SeyKy9GPCgEIcb5rz24g4J0O5ieIugNXv53RIPcNp2SRqiFXnZEUHAxRJV2SuvEZg==
-X-Received: by 2002:a05:600c:1694:b0:3da:270b:ba6b with SMTP id k20-20020a05600c169400b003da270bba6bmr3012575wmn.41.1676495334547;
-        Wed, 15 Feb 2023 13:08:54 -0800 (PST)
+        bh=OQV5aLkbfM58cMp44rJjm2cn/3fOLDxvuWOiUu7eaHQ=;
+        b=Tcp7onJ10/Dt2QCgvdp8iK91rOLpnunAn6VBy4VdUhTlWuNJj7XdJ+gW79YBKVfwct
+         WzOK4MnRXRB3HDW6ri86+vnhsmm/NdOJltTjUd1X2qCQoZtTzpclhKhfLPPI/X8rW3mZ
+         y9tj6OCIvetsIrgt45XgUJN7NPL2jDBAnEKheOy9sfu4FWaatBEhMjj61oXP+bnuF1gb
+         teVOaUIrCSbcf6bXkBzQWwvmQqOVepJ+3OuPxNTM3ujiaGOvY5to23vcYcg6J204433U
+         +ztHrVP7FPZyklRNWc9m93/fjvIX0+hjVtqv0Y/bhVMJbNbEKrR+ZCA0WCd/k+6vi3Ng
+         Hrag==
+X-Gm-Message-State: AO0yUKV+jQb/AYcyDt4m2z7yG3/iUZwjcvyNlPl95uz+LddCXDQgzwMZ
+        Md2JFTz4IMtaz1Igl5Rt4uU=
+X-Google-Smtp-Source: AK7set8yPWG7xMq5LzV9/mq2VN7WQbbBEYKHtkttnZqAjVfOE7erNckEqw1G4dEKR6OSmfZ+sowdog==
+X-Received: by 2002:a05:600c:1716:b0:3dc:5302:ad9 with SMTP id c22-20020a05600c171600b003dc53020ad9mr3586138wmn.27.1676495454139;
+        Wed, 15 Feb 2023 13:10:54 -0800 (PST)
 Received: from [192.168.0.160] ([170.253.36.171])
-        by smtp.gmail.com with ESMTPSA id l19-20020a1ced13000000b003e1f6e18c95sm3206117wmh.21.2023.02.15.13.08.53
+        by smtp.gmail.com with ESMTPSA id l9-20020a05600c4f0900b003dff870ce0esm3667186wmq.2.2023.02.15.13.10.53
         (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Wed, 15 Feb 2023 13:08:54 -0800 (PST)
-Message-ID: <e46c1a6a-e4d0-5019-f977-ad01e0694e3c@gmail.com>
-Date:   Wed, 15 Feb 2023 22:08:53 +0100
+        Wed, 15 Feb 2023 13:10:53 -0800 (PST)
+Message-ID: <804a2b6d-e1d7-3d23-7768-d0ee4933dd68@gmail.com>
+Date:   Wed, 15 Feb 2023 22:10:52 +0100
 MIME-Version: 1.0
 User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
  Thunderbird/102.7.1
-Subject: Re: [PATCH v3 3/6] man2/: add C digit separators to clarify POSIX
- feature release dates
+Subject: Re: [PATCH v3 5/6] man2/chmod.2: add C digit separators to clarify
+ POSIX feature release dates and long numeric digit strings
 Content-Language: en-US
 To:     Brian Inglis <Brian.Inglis@Shaw.ca>,
         Linux Man Pages <linux-man@vger.kernel.org>
 References: <cover.1676489380.git.Brian.Inglis@Shaw.ca>
- <d47cf59d1b4d921aeeb9cbedc06323c4108303b3.1676489381.git.Brian.Inglis@Shaw.ca>
+ <4c53ab820fbbeb3f3170f8d1d81a14713f256dd9.1676489381.git.Brian.Inglis@Shaw.ca>
 From:   Alejandro Colomar <alx.manpages@gmail.com>
-In-Reply-To: <d47cf59d1b4d921aeeb9cbedc06323c4108303b3.1676489381.git.Brian.Inglis@Shaw.ca>
+In-Reply-To: <4c53ab820fbbeb3f3170f8d1d81a14713f256dd9.1676489381.git.Brian.Inglis@Shaw.ca>
 Content-Type: multipart/signed; micalg=pgp-sha256;
  protocol="application/pgp-signature";
- boundary="------------hCXpYTD0jWK3qoQ7t5wByc8I"
+ boundary="------------xYMf2PscB8rXtntWzDKQrPiN"
 Precedence: bulk
 List-ID: <linux-man.vger.kernel.org>
 X-Mailing-List: linux-man@vger.kernel.org
 
 This is an OpenPGP/MIME signed message (RFC 4880 and 3156)
---------------hCXpYTD0jWK3qoQ7t5wByc8I
-Content-Type: multipart/mixed; boundary="------------J0cBXTDV7x9VYRbajP3WdjVa";
+--------------xYMf2PscB8rXtntWzDKQrPiN
+Content-Type: multipart/mixed; boundary="------------YHIFj47g4rpGDklB0IRzIUrS";
  protected-headers="v1"
 From: Alejandro Colomar <alx.manpages@gmail.com>
 To: Brian Inglis <Brian.Inglis@Shaw.ca>,
  Linux Man Pages <linux-man@vger.kernel.org>
-Message-ID: <e46c1a6a-e4d0-5019-f977-ad01e0694e3c@gmail.com>
-Subject: Re: [PATCH v3 3/6] man2/: add C digit separators to clarify POSIX
- feature release dates
+Message-ID: <804a2b6d-e1d7-3d23-7768-d0ee4933dd68@gmail.com>
+Subject: Re: [PATCH v3 5/6] man2/chmod.2: add C digit separators to clarify
+ POSIX feature release dates and long numeric digit strings
 References: <cover.1676489380.git.Brian.Inglis@Shaw.ca>
- <d47cf59d1b4d921aeeb9cbedc06323c4108303b3.1676489381.git.Brian.Inglis@Shaw.ca>
-In-Reply-To: <d47cf59d1b4d921aeeb9cbedc06323c4108303b3.1676489381.git.Brian.Inglis@Shaw.ca>
+ <4c53ab820fbbeb3f3170f8d1d81a14713f256dd9.1676489381.git.Brian.Inglis@Shaw.ca>
+In-Reply-To: <4c53ab820fbbeb3f3170f8d1d81a14713f256dd9.1676489381.git.Brian.Inglis@Shaw.ca>
 
---------------J0cBXTDV7x9VYRbajP3WdjVa
+--------------YHIFj47g4rpGDklB0IRzIUrS
 Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: quoted-printable
 
@@ -92,580 +92,138 @@ Hi Brian,
 
 On 2/15/23 21:17, Brian Inglis wrote:
 > ---
->  man2/access.2           | 2 +-
->  man2/brk.2              | 4 ++--
->  man2/chdir.2            | 2 +-
->  man2/chown.2            | 4 ++--
->  man2/clock_getres.2     | 2 +-
->  man2/clock_nanosleep.2  | 2 +-
->  man2/fsync.2            | 4 ++--
->  man2/gethostname.2      | 2 +-
->  man2/getpagesize.2      | 4 ++--
->  man2/getsid.2           | 2 +-
->  man2/link.2             | 2 +-
->  man2/mkdir.2            | 4 ++--
->  man2/nanosleep.2        | 2 +-
->  man2/open.2             | 4 ++--
->  man2/posix_fadvise.2    | 2 +-
->  man2/pread.2            | 2 +-
->  man2/readlink.2         | 4 ++--
->  man2/rename.2           | 2 +-
->  man2/seteuid.2          | 2 +-
->  man2/setpgid.2          | 2 +-
->  man2/sigaltstack.2      | 2 +-
->  man2/sigwaitinfo.2      | 2 +-
->  man2/stat.2             | 4 ++--
->  man2/symlink.2          | 4 ++--
->  man2/timer_create.2     | 2 +-
->  man2/timer_delete.2     | 2 +-
->  man2/timer_getoverrun.2 | 2 +-
->  man2/truncate.2         | 4 ++--
->  man2/unlink.2           | 2 +-
->  man2/vfork.2            | 2 +-
->  man2/wait.2             | 4 ++--
->  man2/wait4.2            | 2 +-
->  32 files changed, 43 insertions(+), 43 deletions(-)
+>  man2/chmod.2 | 30 +++++++++++++++---------------
+>  1 file changed, 15 insertions(+), 15 deletions(-)
 >=20
-> diff --git a/man2/access.2 b/man2/access.2
-> index d3deeecba0c7..4c93a132b209 100644
-> --- a/man2/access.2
-> +++ b/man2/access.2
-> @@ -56,7 +56,7 @@ Feature Test Macro Requirements for glibc (see
->  .BR faccessat ():
+> diff --git a/man2/chmod.2 b/man2/chmod.2
+> index 8b5db74ed7e3..674b54368314 100644
+> --- a/man2/chmod.2
+> +++ b/man2/chmod.2
+> @@ -37,7 +37,7 @@ Feature Test Macro Requirements for glibc (see
 >  .nf
->      Since glibc 2.10:
-> -        _POSIX_C_SOURCE >=3D 200809L
-> +        _POSIX_C_SOURCE >=3D 2008\[aq]09L
->      Before glibc 2.10:
->          _ATFILE_SOURCE
->  .fi
-> diff --git a/man2/brk.2 b/man2/brk.2
-> index 31c167c56955..298fd006d742 100644
-> --- a/man2/brk.2
-> +++ b/man2/brk.2
-> @@ -32,13 +32,13 @@ Feature Test Macro Requirements for glibc (see
->      Since glibc 2.19:
->          _DEFAULT_SOURCE
->              || ((_XOPEN_SOURCE >=3D 500) &&
-> -                ! (_POSIX_C_SOURCE >=3D 200112L))
-> +                ! (_POSIX_C_SOURCE >=3D 2001\[aq]12L))
->  .\"    (_XOPEN_SOURCE >=3D 500 ||
->  .\"        _XOPEN_SOURCE && _XOPEN_SOURCE_EXTENDED) &&
->      From glibc 2.12 to glibc 2.19:
->          _BSD_SOURCE || _SVID_SOURCE
->              || ((_XOPEN_SOURCE >=3D 500) &&
-> -                ! (_POSIX_C_SOURCE >=3D 200112L))
-> +                ! (_POSIX_C_SOURCE >=3D 2001\[aq]12L))
->  .\"    (_XOPEN_SOURCE >=3D 500 ||
->  .\"        _XOPEN_SOURCE && _XOPEN_SOURCE_EXTENDED) &&
->      Before glibc 2.12:
-> diff --git a/man2/chdir.2 b/man2/chdir.2
-> index 0bbff4e87842..cca6a568871c 100644
-> --- a/man2/chdir.2
-> +++ b/man2/chdir.2
-> @@ -33,7 +33,7 @@ Feature Test Macro Requirements for glibc (see
->  .nf
->      _XOPEN_SOURCE >=3D 500
->  .\"    || _XOPEN_SOURCE && _XOPEN_SOURCE_EXTENDED
-> -        || /* Since glibc 2.12: */ _POSIX_C_SOURCE >=3D 200809L
-> +        || /* Since glibc 2.12: */ _POSIX_C_SOURCE >=3D 2008\[aq]09L
->          || /* glibc up to and including 2.19: */ _BSD_SOURCE
->  .fi
->  .SH DESCRIPTION
-> diff --git a/man2/chown.2 b/man2/chown.2
-> index d66b66f544cb..5c87dfa6aa9b 100644
-> --- a/man2/chown.2
-> +++ b/man2/chown.2
-> @@ -44,7 +44,7 @@ Feature Test Macro Requirements for glibc (see
->  .BR fchown (),
->  .BR lchown ():
->  .nf
-> -    /* Since glibc 2.12: */ _POSIX_C_SOURCE >=3D 200809L
-> +    /* Since glibc 2.12: */ _POSIX_C_SOURCE >=3D 2008\[aq]09L
->          || _XOPEN_SOURCE >=3D 500
->  .\"    || _XOPEN_SOURCE && _XOPEN_SOURCE_EXTENDED
->          || /* glibc <=3D 2.19: */ _BSD_SOURCE
-> @@ -53,7 +53,7 @@ Feature Test Macro Requirements for glibc (see
->  .BR fchownat ():
->  .nf
->      Since glibc 2.10:
-> -        _POSIX_C_SOURCE >=3D 200809L
-> +        _POSIX_C_SOURCE >=3D 2008\[aq]09L
->      Before glibc 2.10:
->          _ATFILE_SOURCE
->  .fi
-> diff --git a/man2/clock_getres.2 b/man2/clock_getres.2
-> index 8d90baaaabd6..b6a3bedbd944 100644
-> --- a/man2/clock_getres.2
-> +++ b/man2/clock_getres.2
-> @@ -39,7 +39,7 @@ Feature Test Macro Requirements for glibc (see
->  .BR clock_gettime (),
->  .BR clock_settime ():
->  .nf
-> -    _POSIX_C_SOURCE >=3D 199309L
-> +    _POSIX_C_SOURCE >=3D 1993\[aq]09L
->  .fi
->  .SH DESCRIPTION
->  The function
-> diff --git a/man2/clock_nanosleep.2 b/man2/clock_nanosleep.2
-> index 5da8d15699c2..fe78d6bedb11 100644
-> --- a/man2/clock_nanosleep.2
-> +++ b/man2/clock_nanosleep.2
-> @@ -30,7 +30,7 @@ Feature Test Macro Requirements for glibc (see
->  .PP
->  .BR clock_nanosleep ():
->  .nf
-> -    _POSIX_C_SOURCE >=3D 200112L
-> +    _POSIX_C_SOURCE >=3D 2001\[aq]12L
->  .fi
->  .SH DESCRIPTION
->  Like
-> diff --git a/man2/fsync.2 b/man2/fsync.2
-> index 9dc99a15a20e..78fc6013b773 100644
-> --- a/man2/fsync.2
-> +++ b/man2/fsync.2
-> @@ -41,12 +41,12 @@ Feature Test Macro Requirements for glibc (see
->          No feature test macros need be defined
->      glibc up to and including 2.15:
->          _BSD_SOURCE || _XOPEN_SOURCE
-> -            || /* Since glibc 2.8: */ _POSIX_C_SOURCE >=3D 200112L
-> +            || /* Since glibc 2.8: */ _POSIX_C_SOURCE >=3D 2001\[aq]12=
-L
->  .fi
->  .PP
->  .BR fdatasync ():
->  .nf
-> -    _POSIX_C_SOURCE >=3D 199309L || _XOPEN_SOURCE >=3D 500
-> +    _POSIX_C_SOURCE >=3D 1993\[aq]09L || _XOPEN_SOURCE >=3D 500
->  .fi
->  .SH DESCRIPTION
->  .BR fsync ()
-> diff --git a/man2/gethostname.2 b/man2/gethostname.2
-> index bc74610c9c5d..e6d3b5837c2c 100644
-> --- a/man2/gethostname.2
-> +++ b/man2/gethostname.2
-> @@ -30,7 +30,7 @@ Feature Test Macro Requirements for glibc (see
->  .PP
->  .BR gethostname ():
->  .nf
-> -    _XOPEN_SOURCE >=3D 500 || _POSIX_C_SOURCE >=3D 200112L
-> +    _XOPEN_SOURCE >=3D 500 || _POSIX_C_SOURCE >=3D 2001\[aq]12L
->          || /* glibc 2.19 and earlier */ _BSD_SOURCE
->  .\" The above is something of a simplification
->  .\" also before glibc 2.3 there was a bit churn
-> diff --git a/man2/getpagesize.2 b/man2/getpagesize.2
-> index 39af55619be4..356bb42f08f1 100644
-> --- a/man2/getpagesize.2
-> +++ b/man2/getpagesize.2
-> @@ -23,9 +23,9 @@ Feature Test Macro Requirements for glibc (see
->  .BR getpagesize ():
->  .nf
->      Since glibc 2.20:
-> -        _DEFAULT_SOURCE || ! (_POSIX_C_SOURCE >=3D 200112L)
-> +        _DEFAULT_SOURCE || ! (_POSIX_C_SOURCE >=3D 2001\[aq]12L)
->      glibc 2.12 to glibc 2.19:
-> -        _BSD_SOURCE || ! (_POSIX_C_SOURCE >=3D 200112L)
-> +        _BSD_SOURCE || ! (_POSIX_C_SOURCE >=3D 2001\[aq]12L)
->      Before glibc 2.12:
->          _BSD_SOURCE || _XOPEN_SOURCE >=3D 500
->  .\"        || _XOPEN_SOURCE && _XOPEN_SOURCE_EXTENDED
-> diff --git a/man2/getsid.2 b/man2/getsid.2
-> index 3afccbd9d6bf..355c4df2601a 100644
-> --- a/man2/getsid.2
-> +++ b/man2/getsid.2
-> @@ -27,7 +27,7 @@ Feature Test Macro Requirements for glibc (see
->  .nf
->      _XOPEN_SOURCE >=3D 500
->  .\"    || _XOPEN_SOURCE && _XOPEN_SOURCE_EXTENDED
-> -        || /* Since glibc 2.12: */ _POSIX_C_SOURCE >=3D 200809L
-> +        || /* Since glibc 2.12: */ _POSIX_C_SOURCE >=3D 2008\[aq]09L
->  .fi
->  .SH DESCRIPTION
->  .BR getsid ()
-> diff --git a/man2/link.2 b/man2/link.2
-> index 60b739eba152..49526bfe36d4 100644
-> --- a/man2/link.2
-> +++ b/man2/link.2
-> @@ -36,7 +36,7 @@ Feature Test Macro Requirements for glibc (see
->  .BR linkat ():
->  .nf
->      Since glibc 2.10:
-> -        _POSIX_C_SOURCE >=3D 200809L
-> +        _POSIX_C_SOURCE >=3D 2008\[aq]09L
->      Before glibc 2.10:
->          _ATFILE_SOURCE
->  .fi
-> diff --git a/man2/mkdir.2 b/man2/mkdir.2
-> index b1339a49a513..68539ab7e1ab 100644
-> --- a/man2/mkdir.2
-> +++ b/man2/mkdir.2
-> @@ -32,7 +32,7 @@ Feature Test Macro Requirements for glibc (see
->  .BR mkdirat ():
->  .nf
->      Since glibc 2.10:
-> -        _POSIX_C_SOURCE >=3D 200809L
-> +        _POSIX_C_SOURCE >=3D 2008\[aq]09L
->      Before glibc 2.10:
->          _ATFILE_SOURCE
->  .fi
-> @@ -49,7 +49,7 @@ It is modified by the process's
->  .I umask
->  in the usual way: in the absence of a default ACL, the mode of the
->  created directory is
-> -.RI ( mode " & \[ti]" umask " & 0777)."
-> +.RI ( mode " & \[ti]" umask " & 0\[aq]777)."
+>  .BR fchmod ():
+>      Since glibc 2.24:
+> -        _POSIX_C_SOURCE >=3D 199309L
+> +        _POSIX_C_SOURCE >=3D 1993\[aq]09L
 
-This seems an accident in the patch :)
-
->  Whether other
->  .I mode
->  bits are honored for the created directory depends on the operating sy=
-stem.
-> diff --git a/man2/nanosleep.2 b/man2/nanosleep.2
-> index 12e0cee84b85..4732ef705fe0 100644
-> --- a/man2/nanosleep.2
-> +++ b/man2/nanosleep.2
-> @@ -33,7 +33,7 @@ Feature Test Macro Requirements for glibc (see
->  .PP
->  .BR nanosleep ():
->  .nf
-> -    _POSIX_C_SOURCE >=3D 199309L
-> +    _POSIX_C_SOURCE >=3D 1993\[aq]09L
->  .fi
->  .SH DESCRIPTION
->  .BR nanosleep ()
-> diff --git a/man2/open.2 b/man2/open.2
-> index aefcae1e601e..1bb3640014e6 100644
-> --- a/man2/open.2
-> +++ b/man2/open.2
-> @@ -60,7 +60,7 @@ Feature Test Macro Requirements for glibc (see
->  .BR openat ():
->  .nf
->      Since glibc 2.10:
-> -        _POSIX_C_SOURCE >=3D 200809L
-> +        _POSIX_C_SOURCE >=3D 2008\[aq]09L
->      Before glibc 2.10:
->          _ATFILE_SOURCE
->  .fi
-> @@ -1772,7 +1772,7 @@ In Linux 2.4,
->  most filesystems based on block devices require that
->  the file offset and the length and memory address of all I/O segments
->  be multiples of the filesystem block size
-> -(typically 4096 bytes).
-> +(typically 4Ki bytes).
->  In Linux 2.6.0,
->  this was relaxed to the logical block size of the block device
->  (typically 512 bytes).
-> diff --git a/man2/posix_fadvise.2 b/man2/posix_fadvise.2
-> index 57c65c810791..cb9b6ea24dd8 100644
-> --- a/man2/posix_fadvise.2
-> +++ b/man2/posix_fadvise.2
-> @@ -28,7 +28,7 @@ Feature Test Macro Requirements for glibc (see
->  .PP
->  .BR posix_fadvise ():
->  .nf
-> -    _POSIX_C_SOURCE >=3D 200112L
-> +    _POSIX_C_SOURCE >=3D 2001\[aq]12L
->  .fi
->  .SH DESCRIPTION
->  Programs can use
-> diff --git a/man2/pread.2 b/man2/pread.2
-> index 9a9763323518..7a8fce5764d5 100644
-> --- a/man2/pread.2
-> +++ b/man2/pread.2
-> @@ -27,7 +27,7 @@ Feature Test Macro Requirements for glibc (see
->  .BR pwrite ():
->  .nf
->      _XOPEN_SOURCE >=3D 500
-> -        || /* Since glibc 2.12: */ _POSIX_C_SOURCE >=3D 200809L
-> +        || /* Since glibc 2.12: */ _POSIX_C_SOURCE >=3D 2008\[aq]09L
->  .fi
->  .SH DESCRIPTION
->  .BR pread ()
-> diff --git a/man2/readlink.2 b/man2/readlink.2
-> index de158da7e355..e23564450af2 100644
-> --- a/man2/readlink.2
-> +++ b/man2/readlink.2
-> @@ -40,7 +40,7 @@ Feature Test Macro Requirements for glibc (see
->  .PP
->  .BR readlink ():
->  .nf
-> -    _XOPEN_SOURCE >=3D 500 || _POSIX_C_SOURCE >=3D 200112L
-> +    _XOPEN_SOURCE >=3D 500 || _POSIX_C_SOURCE >=3D 2001\[aq]12L
->  .\"    || _XOPEN_SOURCE && _XOPEN_SOURCE_EXTENDED
->          || /* glibc <=3D 2.19: */ _BSD_SOURCE
->  .fi
-> @@ -48,7 +48,7 @@ Feature Test Macro Requirements for glibc (see
->  .BR readlinkat ():
->  .nf
->      Since glibc 2.10:
-> -        _POSIX_C_SOURCE >=3D 200809L
-> +        _POSIX_C_SOURCE >=3D 2008\[aq]09L
->      Before glibc 2.10:
->          _ATFILE_SOURCE
->  .fi
-> diff --git a/man2/rename.2 b/man2/rename.2
-> index 08e7958f3220..7e4b33cdb9d8 100644
-> --- a/man2/rename.2
-> +++ b/man2/rename.2
-> @@ -40,7 +40,7 @@ Feature Test Macro Requirements for glibc (see
->  .nf
->  .BR renameat ():
->      Since glibc 2.10:
-> -        _POSIX_C_SOURCE >=3D 200809L
-> +        _POSIX_C_SOURCE >=3D 2008\[aq]09L
->      Before glibc 2.10:
->          _ATFILE_SOURCE
->  .PP
-> diff --git a/man2/seteuid.2 b/man2/seteuid.2
-> index 14b23b3f40b0..4dd30ecfc012 100644
-> --- a/man2/seteuid.2
-> +++ b/man2/seteuid.2
-> @@ -28,7 +28,7 @@ Feature Test Macro Requirements for glibc (see
->  .BR seteuid (),
->  .BR setegid ():
->  .nf
-> -    _POSIX_C_SOURCE >=3D 200112L
-> +    _POSIX_C_SOURCE >=3D 2001\[aq]12L
->          || /* glibc <=3D 2.19: */ _BSD_SOURCE
->  .fi
->  .SH DESCRIPTION
-> diff --git a/man2/setpgid.2 b/man2/setpgid.2
-> index 52c5bd5fcc10..4cf35c3a0c03 100644
-> --- a/man2/setpgid.2
-> +++ b/man2/setpgid.2
-> @@ -46,7 +46,7 @@ Feature Test Macro Requirements for glibc (see
->  .nf
->      _XOPEN_SOURCE >=3D 500
->  .\"    || _XOPEN_SOURCE && _XOPEN_SOURCE_EXTENDED
-> -        || /* Since glibc 2.12: */ _POSIX_C_SOURCE >=3D 200809L
-> +        || /* Since glibc 2.12: */ _POSIX_C_SOURCE >=3D 2008\[aq]09L
->  .fi
->  .PP
->  .BR setpgrp "() (POSIX.1):"
-> diff --git a/man2/sigaltstack.2 b/man2/sigaltstack.2
-> index cdc8a8e39f70..45d6db43a0c8 100644
-> --- a/man2/sigaltstack.2
-> +++ b/man2/sigaltstack.2
-> @@ -27,7 +27,7 @@ Feature Test Macro Requirements for glibc (see
->  .nf
->      _XOPEN_SOURCE >=3D 500
->  .\"    || _XOPEN_SOURCE && _XOPEN_SOURCE_EXTENDED
-> -        || /* Since glibc 2.12: */ _POSIX_C_SOURCE >=3D 200809L
-> +        || /* Since glibc 2.12: */ _POSIX_C_SOURCE >=3D 2008\[aq]09L
->          || /* glibc <=3D 2.19: */ _BSD_SOURCE
->  .fi
->  .SH DESCRIPTION
-> diff --git a/man2/sigwaitinfo.2 b/man2/sigwaitinfo.2
-> index 42209c1806e9..791dc418d6c4 100644
-> --- a/man2/sigwaitinfo.2
-> +++ b/man2/sigwaitinfo.2
-> @@ -28,7 +28,7 @@ Feature Test Macro Requirements for glibc (see
->  .BR sigwaitinfo (),
->  .BR sigtimedwait ():
->  .nf
-> -    _POSIX_C_SOURCE >=3D 199309L
-> +    _POSIX_C_SOURCE >=3D 1993\[aq]09L
->  .fi
->  .SH DESCRIPTION
->  .BR sigwaitinfo ()
-> diff --git a/man2/stat.2 b/man2/stat.2
-> index 8479befccd8d..4bd67667b5c2 100644
-> --- a/man2/stat.2
-> +++ b/man2/stat.2
-> @@ -49,14 +49,14 @@ Feature Test Macro Requirements for glibc (see
->      /* Since glibc 2.20 */ _DEFAULT_SOURCE
->          || _XOPEN_SOURCE >=3D 500
->  .\"   _XOPEN_SOURCE && _XOPEN_SOURCE_EXTENDED
-> -        || /* Since glibc 2.10: */ _POSIX_C_SOURCE >=3D 200112L
-> +        || /* Since glibc 2.10: */ _POSIX_C_SOURCE >=3D 2001\[aq]12L
->          || /* glibc 2.19 and earlier */ _BSD_SOURCE
->  .fi
->  .PP
->  .BR fstatat ():
->  .nf
->      Since glibc 2.10:
-> -        _POSIX_C_SOURCE >=3D 200809L
-> +        _POSIX_C_SOURCE >=3D 2008\[aq]09L
->      Before glibc 2.10:
->          _ATFILE_SOURCE
->  .fi
-> diff --git a/man2/symlink.2 b/man2/symlink.2
-> index 13b2ed1ccd5b..34078fabfe01 100644
-> --- a/man2/symlink.2
-> +++ b/man2/symlink.2
-> @@ -36,7 +36,7 @@ Feature Test Macro Requirements for glibc (see
->  .PP
->  .BR symlink ():
->  .nf
-> -    _XOPEN_SOURCE >=3D 500 || _POSIX_C_SOURCE >=3D 200112L
-> +    _XOPEN_SOURCE >=3D 500 || _POSIX_C_SOURCE >=3D 2001\[aq]12L
->  .\"    || _XOPEN_SOURCE && _XOPEN_SOURCE_EXTENDED
->          || /* glibc <=3D 2.19: */ _BSD_SOURCE
->  .fi
-> @@ -44,7 +44,7 @@ Feature Test Macro Requirements for glibc (see
->  .BR symlinkat ():
->  .nf
->      Since glibc 2.10:
-> -        _POSIX_C_SOURCE >=3D 200809L
-> +        _POSIX_C_SOURCE >=3D 2008\[aq]09L
->      Before glibc 2.10:
->          _ATFILE_SOURCE
->  .fi
-> diff --git a/man2/timer_create.2 b/man2/timer_create.2
-> index 6d49da17f89a..0f26075e457c 100644
-> --- a/man2/timer_create.2
-> +++ b/man2/timer_create.2
-> @@ -26,7 +26,7 @@ Feature Test Macro Requirements for glibc (see
->  .PP
->  .BR timer_create ():
->  .nf
-> -    _POSIX_C_SOURCE >=3D 199309L
-> +    _POSIX_C_SOURCE >=3D 1993\[aq]09L
->  .fi
->  .SH DESCRIPTION
->  .BR timer_create ()
-> diff --git a/man2/timer_delete.2 b/man2/timer_delete.2
-> index c489d9ec0dff..e0397af5bf4f 100644
-> --- a/man2/timer_delete.2
-> +++ b/man2/timer_delete.2
-> @@ -23,7 +23,7 @@ Feature Test Macro Requirements for glibc (see
->  .PP
->  .BR timer_delete ():
->  .nf
-> -    _POSIX_C_SOURCE >=3D 199309L
-> +    _POSIX_C_SOURCE >=3D 1993\[aq]09L
->  .fi
->  .SH DESCRIPTION
->  .BR timer_delete ()
-> diff --git a/man2/timer_getoverrun.2 b/man2/timer_getoverrun.2
-> index 3591e5de5df5..690c19937799 100644
-> --- a/man2/timer_getoverrun.2
-> +++ b/man2/timer_getoverrun.2
-> @@ -23,7 +23,7 @@ Feature Test Macro Requirements for glibc (see
->  .PP
->  .BR timer_getoverrun ():
->  .nf
-> -    _POSIX_C_SOURCE >=3D 199309L
-> +    _POSIX_C_SOURCE >=3D 1993\[aq]09L
->  .fi
->  .SH DESCRIPTION
->  .BR timer_getoverrun ()
-> diff --git a/man2/truncate.2 b/man2/truncate.2
-> index 8a00ec3ffba2..bb57666e64b1 100644
-> --- a/man2/truncate.2
-> +++ b/man2/truncate.2
-> @@ -35,7 +35,7 @@ Feature Test Macro Requirements for glibc (see
->  .nf
->      _XOPEN_SOURCE >=3D 500
->  .\"    || _XOPEN_SOURCE && _XOPEN_SOURCE_EXTENDED
-> -        || /* Since glibc 2.12: */ _POSIX_C_SOURCE >=3D 200809L
-> +        || /* Since glibc 2.12: */ _POSIX_C_SOURCE >=3D 2008\[aq]09L
->          || /* glibc <=3D 2.19: */ _BSD_SOURCE
->  .fi
->  .PP
-> @@ -43,7 +43,7 @@ Feature Test Macro Requirements for glibc (see
->  .nf
->      _XOPEN_SOURCE >=3D 500
->  .\"    || _XOPEN_SOURCE && _XOPEN_SOURCE_EXTENDED
-> -        || /* Since glibc 2.3.5: */ _POSIX_C_SOURCE >=3D 200112L
-> +        || /* Since glibc 2.3.5: */ _POSIX_C_SOURCE >=3D 2001\[aq]12L
->          || /* glibc <=3D 2.19: */ _BSD_SOURCE
->  .fi
->  .SH DESCRIPTION
-> diff --git a/man2/unlink.2 b/man2/unlink.2
-> index 954a19f1534a..4c296e73086b 100644
-> --- a/man2/unlink.2
-> +++ b/man2/unlink.2
-> @@ -36,7 +36,7 @@ Feature Test Macro Requirements for glibc (see
->  .BR unlinkat ():
->  .nf
->      Since glibc 2.10:
-> -        _POSIX_C_SOURCE >=3D 200809L
-> +        _POSIX_C_SOURCE >=3D 2008\[aq]09L
->      Before glibc 2.10:
->          _ATFILE_SOURCE
->  .fi
-> diff --git a/man2/vfork.2 b/man2/vfork.2
-> index 5e6b8226c301..e3c82f1d6bc4 100644
-> --- a/man2/vfork.2
-> +++ b/man2/vfork.2
-> @@ -27,7 +27,7 @@ Feature Test Macro Requirements for glibc (see
->  .BR vfork ():
->  .nf
->      Since glibc 2.12:
-> -        (_XOPEN_SOURCE >=3D 500) && ! (_POSIX_C_SOURCE >=3D 200809L)
-> +        (_XOPEN_SOURCE >=3D 500)         (_XOPEN_SOURCE >=3D 500) && !=
- (_POSIX_C_SOURCE >=3D 200809L)        (_XOPEN_SOURCE >=3D 500) && ! (_PO=
-SIX_C_SOURCE >=3D 200809L) ! (_POSIX_C_SOURCE >=3D 2008\[aq]09L)
-
-Something is weird in this change.
+Please keep all POSIX dates in a single separate patch
+(unless there's another reason that I'm not seeing).
 
 Cheers,
+
 Alex
 
->              || /* Since glibc 2.19: */ _DEFAULT_SOURCE
->              || /* glibc <=3D 2.19: */ _BSD_SOURCE
->      Before glibc 2.12:
-> diff --git a/man2/wait.2 b/man2/wait.2
-> index e2dcd59bda09..ad031d40ca07 100644
-> --- a/man2/wait.2
-> +++ b/man2/wait.2
-> @@ -53,11 +53,11 @@ Feature Test Macro Requirements for glibc (see
->  .BR waitid ():
+>  .\"        || (_XOPEN_SOURCE && _XOPEN_SOURCE_EXTENDED)
+>      glibc 2.19 to glibc 2.23
+>          _POSIX_C_SOURCE
+> @@ -45,7 +45,7 @@ Feature Test Macro Requirements for glibc (see
+>          _BSD_SOURCE || _POSIX_C_SOURCE
+>      glibc 2.12 to glibc 2.16:
+>          _BSD_SOURCE || _XOPEN_SOURCE >=3D 500
+> -            || _POSIX_C_SOURCE >=3D 200809L
+> +            || _POSIX_C_SOURCE >=3D 2008\[aq]09L
+>      glibc 2.11 and earlier:
+>          _BSD_SOURCE || _XOPEN_SOURCE >=3D 500
+>  .\"        || (_XOPEN_SOURCE && _XOPEN_SOURCE_EXTENDED)
+> @@ -54,7 +54,7 @@ Feature Test Macro Requirements for glibc (see
+>  .BR fchmodat ():
 >  .nf
->      Since glibc 2.26:
-> -        _XOPEN_SOURCE >=3D 500 || _POSIX_C_SOURCE >=3D 200809L
-> +        _XOPEN_SOURCE >=3D 500 || _POSIX_C_SOURCE >=3D 2008\[aq]09L
->  .\"    (_XOPEN_SOURCE && _XOPEN_SOURCE_EXTENDED)
->      glibc 2.25 and earlier:
->          _XOPEN_SOURCE
-> -            || /* Since glibc 2.12: */ _POSIX_C_SOURCE >=3D 200809L
-> +            || /* Since glibc 2.12: */ _POSIX_C_SOURCE >=3D 2008\[aq]0=
-9L
->              || /* glibc <=3D 2.19: */ _BSD_SOURCE
+>      Since glibc 2.10:
+> -        _POSIX_C_SOURCE >=3D 200809L
+> +        _POSIX_C_SOURCE >=3D 2008\[aq]09L
+>      Before glibc 2.10:
+>          _ATFILE_SOURCE
 >  .fi
->  .SH DESCRIPTION
-> diff --git a/man2/wait4.2 b/man2/wait4.2
-> index a5b38108d318..703df0797f80 100644
-> --- a/man2/wait4.2
-> +++ b/man2/wait4.2
-> @@ -36,7 +36,7 @@ Feature Test Macro Requirements for glibc (see
->      Since glibc 2.26:
->          _DEFAULT_SOURCE
->              || (_XOPEN_SOURCE >=3D 500 &&
-> -                ! (_POSIX_C_SOURCE >=3D 200112L
-> +                ! (_POSIX_C_SOURCE >=3D 2001\[aq]12L
->                     || _XOPEN_SOURCE >=3D 600))
->      From glibc 2.19 to glibc 2.25:
->          _DEFAULT_SOURCE || _XOPEN_SOURCE >=3D 500
+> @@ -82,11 +82,11 @@ The new file mode is specified in
+>  which is a bit mask created by ORing together zero or
+>  more of the following:
+>  .TP 18
+> -.BR S_ISUID "  (04000)"
+> +.BR S_ISUID "  (04\[aq]000)"
+>  set-user-ID (set process effective user ID on
+>  .BR execve (2))
+>  .TP
+> -.BR S_ISGID "  (02000)"
+> +.BR S_ISGID "  (02\[aq]000)"
+>  set-group-ID (set process effective group ID on
+>  .BR execve (2);
+>  mandatory locking, as described in
+> @@ -96,36 +96,36 @@ take a new file's group from parent directory, as d=
+escribed in
+>  and
+>  .BR mkdir (2))
+>  .TP
+> -.BR S_ISVTX "  (01000)"
+> +.BR S_ISVTX "  (01\[aq]000)"
+>  sticky bit (restricted deletion flag, as described in
+>  .BR unlink (2))
+>  .TP
+> -.BR S_IRUSR "  (00400)"
+> +.BR S_IRUSR "  (00\[aq]400)"
+>  read by owner
+>  .TP
+> -.BR S_IWUSR "  (00200)"
+> +.BR S_IWUSR "  (00\[aq]200)"
+>  write by owner
+>  .TP
+> -.BR S_IXUSR "  (00100)"
+> +.BR S_IXUSR "  (00\[aq]100)"
+>  execute/search by owner ("search" applies for directories,
+>  and means that entries within the directory can be accessed)
+>  .TP
+> -.BR S_IRGRP "  (00040)"
+> +.BR S_IRGRP "  (00\[aq]040)"
+>  read by group
+>  .TP
+> -.BR S_IWGRP "  (00020)"
+> +.BR S_IWGRP "  (00\[aq]020)"
+>  write by group
+>  .TP
+> -.BR S_IXGRP "  (00010)"
+> +.BR S_IXGRP "  (00\[aq]010)"
+>  execute/search by group
+>  .TP
+> -.BR S_IROTH "  (00004)"
+> +.BR S_IROTH "  (00\[aq]004)"
+>  read by others
+>  .TP
+> -.BR S_IWOTH "  (00002)"
+> +.BR S_IWOTH "  (00\[aq]002)"
+>  write by others
+>  .TP
+> -.BR S_IXOTH "  (00001)"
+> +.BR S_IXOTH "  (00\[aq]001)"
+>  execute/search by others
+>  .PP
+>  The effective UID of the calling process must match the owner of the f=
+ile,
 
 --=20
 <http://www.alejandro-colomar.es/>
 GPG key fingerprint: A9348594CE31283A826FBDD8D57633D441E25BB5
 
---------------J0cBXTDV7x9VYRbajP3WdjVa--
+--------------YHIFj47g4rpGDklB0IRzIUrS--
 
---------------hCXpYTD0jWK3qoQ7t5wByc8I
+--------------xYMf2PscB8rXtntWzDKQrPiN
 Content-Type: application/pgp-signature; name="OpenPGP_signature.asc"
 Content-Description: OpenPGP digital signature
 Content-Disposition: attachment; filename="OpenPGP_signature"
 
 -----BEGIN PGP SIGNATURE-----
 
-iQIzBAEBCgAdFiEE6jqH8KTroDDkXfJAnowa+77/2zIFAmPtSeUACgkQnowa+77/
-2zIYmA//REONgRmSDjQz9Vs/EjGAdk89j0egopeovCTCwnMC87OM056ryp09LKAO
-EPQ7jtVuRWFkeTqfKpWGjg15+ld3VeZy+GHCXAWZ74k2U3eLWVJEjIaOpVBCv9e9
-513qCbz6RUCnvmKlUNOIq8qauSFUpXB7KtW9SAgcm1HcZhjU7WtmoZEGeqj/F2T4
-mt3zBL4as35WwEUtWLL79NRhmkk/KXOqyGjFQ9aSYSo15FVYbJRkMPCrpA1B323y
-17wBpAY8P8B0OLoEGrx0VgnGMnAP7vXUzcfIrCu02gdv1z6ChJNVFjyB7N2O7SkB
-fxBXnyYHU0Y8kRfomRcRw4bE6XBBYpWni0RQY7B4PhwWttHwXav0mvrAhXkuVtlx
-Ko7Rpojv/Es+6UEcmW1nrcozoI4VD8+yQOHn7BlVUJ60/7ns7wAt4sWmc80M8IPu
-F28jFpnWCbVcxn5ageksjO1nVvEkBrIC3t2EwdX7SUHe/7INS4Wz/Lwk6VAAUnzX
-9LjsFQGJ8KqzxLDNJRZPaM7EVh8/I4MHiUGqsKSL7nRhKiGr2MCmODvzYY8aztzd
-Wl/HdaAOnldnZ6QMkEC81gZ2zXmM+FMY1W3hIFAMJW1nfJisJZ7ggd6dZBIGG9ka
-h/1NW9shZfnXUk3+DHoB0wT6rR7yKd6lhab3PT8uHrcF9SaxNY0=
-=xcpt
+iQIzBAEBCgAdFiEE6jqH8KTroDDkXfJAnowa+77/2zIFAmPtSlwACgkQnowa+77/
+2zKr2w/+MtbA7ejlXXGvTeKZDkqNLwG4/Q/b11O+fGIO/h5VmnDPB01SO5U3v9Th
+pIZbt7xJ6ozcU0lMmhGAWFuN1JZsK07h+3yMfwGmBXuBOV7tOmK12vBiHoYIsdeL
+4zyagRpmYGGMmTz8kr8LStEjFS6jKcmslP4o/3J6mk2JR4NqaK8RSrKEdxqTUGAN
+hyPgH2ijYDl4Wh4HYQWmFvU2z4Eno125ILU26XoxPnK5EECtqzgmgNP0ef+r0ZWx
+LleELPZ862jq0JGa3O+FM5mGuacoMYt56fl9oUvT/v80hfLAbxwEafmrYKi0o6sA
+M/FErRMXKzYOleCi84yBI/klkcuEEwDgo5nxT1QBnZRljYqAU064s9TX4+pKvQWa
+8YUP/P12Tyor4cerQ3UxiTFliCwCw2E0GJn6cBivD8MLW1JHeVMtGmTFHxFEsuoM
+5r5WdUx2ozRPkRGTWH8sJQ8c7hv+bPXrR1bRErKT50ZeEkSamrtheVFOflby8nW+
+0SGBNk2yoBs/pY8h0oTiMClMmQYSq5muCBmnCWcemxkrKYU6f0kcO/yqcgmIMBvz
+Ya4EgRz1sy6X7PGNSF4y5RInr18qYgm3szHuLQrPY3MZlDtiuEJSaRzuFBMuCmrB
+HbqjqPhp3eWRwDfMmV8YQ5b76uOUIykX/gJzJ3KQE/g6xCzES4c=
+=Cl5l
 -----END PGP SIGNATURE-----
 
---------------hCXpYTD0jWK3qoQ7t5wByc8I--
+--------------xYMf2PscB8rXtntWzDKQrPiN--
