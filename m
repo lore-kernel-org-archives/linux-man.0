@@ -2,196 +2,155 @@ Return-Path: <linux-man-owner@vger.kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id BCB33C64ED6
-	for <linux-man@archiver.kernel.org>; Mon, 27 Feb 2023 13:29:11 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id E1EDCC64ED6
+	for <linux-man@archiver.kernel.org>; Mon, 27 Feb 2023 15:08:47 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S229775AbjB0N3K (ORCPT <rfc822;linux-man@archiver.kernel.org>);
-        Mon, 27 Feb 2023 08:29:10 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:42296 "EHLO
+        id S230130AbjB0PIr (ORCPT <rfc822;linux-man@archiver.kernel.org>);
+        Mon, 27 Feb 2023 10:08:47 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:51930 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S229616AbjB0N3I (ORCPT
-        <rfc822;linux-man@vger.kernel.org>); Mon, 27 Feb 2023 08:29:08 -0500
-Received: from mail-wr1-x431.google.com (mail-wr1-x431.google.com [IPv6:2a00:1450:4864:20::431])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 7BE72EFB4
-        for <linux-man@vger.kernel.org>; Mon, 27 Feb 2023 05:29:04 -0800 (PST)
-Received: by mail-wr1-x431.google.com with SMTP id v16so3417360wrn.0
-        for <linux-man@vger.kernel.org>; Mon, 27 Feb 2023 05:29:04 -0800 (PST)
+        with ESMTP id S230145AbjB0PIq (ORCPT
+        <rfc822;linux-man@vger.kernel.org>); Mon, 27 Feb 2023 10:08:46 -0500
+Received: from mail-wr1-x429.google.com (mail-wr1-x429.google.com [IPv6:2a00:1450:4864:20::429])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id C99A1BB86
+        for <linux-man@vger.kernel.org>; Mon, 27 Feb 2023 07:08:44 -0800 (PST)
+Received: by mail-wr1-x429.google.com with SMTP id l25so6588732wrb.3
+        for <linux-man@vger.kernel.org>; Mon, 27 Feb 2023 07:08:44 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=gmail.com; s=20210112;
-        h=in-reply-to:from:content-language:references:cc:to:subject
-         :user-agent:mime-version:date:message-id:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=Ai5tnO0iPvJKjeOO2Q5VJess+G80ZSHMQuZDme2xibI=;
-        b=RoVp9+X2WEhV+SeswKHRCQaQTn3KQ1Jro5os0fGmX3nCLAFOyv+vRdqIT7m1l0Fwjt
-         2IRdcWBG8kM9GQ0V5ZS0cOgyi/sH5HjzNMVELglIVK3U1x/ns3BLAWP4RB7CHS2+ql58
-         Y/fKkC2Pf0UnyIa2XRkqeScSNtmghydtCAMrpF1C/VbdXt7VBQzWgOpRuJm1ELkGrlCD
-         FPU+K+HZAbyOn0dk0rbojGk3V3KEu+Gf8mTcZDRNKsB2+K6pzRJHvm1QfY26MpxfeNfA
-         hc6mA99KnUlTlZVi1oPzLhPjqdycDC9LdQgiu3dXt+5QAQlQWrRkMSVvomCgxsKrPgeB
-         IHxQ==
+        h=in-reply-to:from:references:to:content-language:subject:user-agent
+         :mime-version:date:message-id:from:to:cc:subject:date:message-id
+         :reply-to;
+        bh=bVRTQL/i8pJhrw9lv6FiCNX7YNcqP0LgPnP3ZSvZnSg=;
+        b=qdBll0bI3F2Li/qQrNFu4cJGI77Is9AWZiRJvAVN7mUcBu7Ejavq5OhdU66QJMi4kX
+         vf9dinGwTx8rgmiXuF/hVF9+/kWSiubLK0syOw5HTP3sShnlG+FUFxl6EGYI4WEriGFN
+         7j+19nZuxGekuafz/M6DMJDcVTpNHATCxalzn4Opn7facoXkrWc1aoUMLNlCYvY2XdcN
+         1toNSr7/8wQTMywygsgSIWTO7wFN/qaAastA2JKkFjxQabEzEyaDuq1ozqte+5XcEQA6
+         fbRO5e2fFJSA+jRchTPeqUzdB1jo92ynIqoFMEfG9w/FNj3uRSi+jEzs9A3Kiju60eAB
+         L4dQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20210112;
-        h=in-reply-to:from:content-language:references:cc:to:subject
-         :user-agent:mime-version:date:message-id:x-gm-message-state:from:to
-         :cc:subject:date:message-id:reply-to;
-        bh=Ai5tnO0iPvJKjeOO2Q5VJess+G80ZSHMQuZDme2xibI=;
-        b=5IPb3/zBNEelPk0jYmbZZu0S6ZfKziTwNaBdSKCuSAZVmwnxHyqGocKwRIhUZN8ZnF
-         EuUZPTMNppSEqXKodiIdzDCRlCMVCT1Ayziod1CDWO1WmeOVyfM+33E7ypGKWl+t+ybP
-         El/2frgqjd/H1HB47J+ZR2nmQkVgVAQRA/ETaPb7n6510S6F24u7NIBwCo5LcNju2J7H
-         gOiIVFjRFLSQES4dfEkcrZmFx68hK/WrFZv2vwxSOUbvRu9o4SsaITLDpS82LAspIqIR
-         kMmf/kLgdtyMAUEyfhvb86JKCehWTl8IVj6pHe72M/bkoRH0NeNKWevd8m6Ckgb/RwFI
-         jxSQ==
-X-Gm-Message-State: AO0yUKXINfkf2OtbCOWWceM8bhIG7oCx6lMo+cL5al4iAUfaGsrllqro
-        jVw9hmMaCjXedaYBQsujzmo=
-X-Google-Smtp-Source: AK7set9Qbg0TODOhFPrHfPbIhsG93PFS3zHKhNlUxazUC53OqANrrsc+98iE2VzejsrO6e4J/MZYwg==
-X-Received: by 2002:adf:d84b:0:b0:2c9:f488:5f54 with SMTP id k11-20020adfd84b000000b002c9f4885f54mr4469012wrl.57.1677504542842;
-        Mon, 27 Feb 2023 05:29:02 -0800 (PST)
+        h=in-reply-to:from:references:to:content-language:subject:user-agent
+         :mime-version:date:message-id:x-gm-message-state:from:to:cc:subject
+         :date:message-id:reply-to;
+        bh=bVRTQL/i8pJhrw9lv6FiCNX7YNcqP0LgPnP3ZSvZnSg=;
+        b=rcUmIMU4T5ayvF6d+9A3f8fIzFrHZMxs/OrfNQuFGB9oCZCBZC/QG05yIVGhMNa+V/
+         UrShGH8f/oW5lhtV7yFOYnzYxNBWDpsi563eh4FiwUh5TmXdss6wfUPB10qxiErxYg8P
+         Nobq1rxJEuYnZYbfJ/J6bd9sX1whZ0SXV6cEE4QMb92v3uKCn7LI1ZtitaOuIIiOWWvV
+         w+X2ZHilTIDdKdkUed4FZJ+pvoN6gwYF8nPBhiEkrTEZia4/emx8zERT+V3Wyr/c9u8Y
+         Na0dZ8cjjzQkPhCs9bDZNrzMRg/9MprtYag+Wfto0+j8mOu1KkqGCWyQ6FOyvGL7tfWD
+         lEFg==
+X-Gm-Message-State: AO0yUKUCbe5zqrEwlmTt5HYd/+wNg8xM9tKjsl19lX7AQs+6Gce8VJyn
+        s3T6q98wnrP0Z05Wu5NlMSk=
+X-Google-Smtp-Source: AK7set+jaDwG1ikTXIIj0NL3hIT+z2C7x9IerasgCCujD4RYiBmsKKL32pisiGmoo6EEk6jmu71q6Q==
+X-Received: by 2002:adf:f6c1:0:b0:2c9:5dd8:2978 with SMTP id y1-20020adff6c1000000b002c95dd82978mr5010371wrp.59.1677510523203;
+        Mon, 27 Feb 2023 07:08:43 -0800 (PST)
 Received: from [192.168.0.160] ([170.253.36.171])
-        by smtp.gmail.com with ESMTPSA id u26-20020a05600c441a00b003e21638c0edsm9357073wmn.45.2023.02.27.05.29.01
+        by smtp.gmail.com with ESMTPSA id g10-20020a7bc4ca000000b003dc4a47605fsm13270325wmk.8.2023.02.27.07.08.42
         (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Mon, 27 Feb 2023 05:29:02 -0800 (PST)
-Message-ID: <d9c8e11d-9586-a13f-6195-f376cbbc444a@gmail.com>
-Date:   Mon, 27 Feb 2023 14:28:45 +0100
+        Mon, 27 Feb 2023 07:08:42 -0800 (PST)
+Message-ID: <c6c01640-fd16-cf6c-5c37-1c622d5b64c5@gmail.com>
+Date:   Mon, 27 Feb 2023 16:08:34 +0100
 MIME-Version: 1.0
 User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
  Thunderbird/102.7.1
-Subject: Re: [PATCH] ptrace.2: Add details about usage of
- PTRACE_GET_SYSCALL_INFO
-To:     =?UTF-8?B?zqbPjs+EzrfPgiDOks6xzrvOsc+DzrnOrM60zrfPgg==?= 
-        <fvalasiad@gmail.com>, linux-man@vger.kernel.org
-Cc:     mtk.manpages@gmail.com, lineprinter0@gmail.com, ldv@strace.io
-References: <20230225105601.6079-1-fvalasiad@gmail.com>
- <20230226232201.4237-1-fvalasiad@gmail.com>
- <34ef0c13-5673-68c5-a998-8ff36979b672@gmail.com>
- <c91f899c-8c11-7ecc-a811-4efa88bc6a1d@gmail.com>
+Subject: Re: man-intro(1) [patch]
 Content-Language: en-US
+To:     "James K. Lowden" <jklowden@schemamania.org>,
+        linux-man@vger.kernel.org
+References: <20230227052537.96f59b7905f3c8535cb9bc00@schemamania.org>
 From:   Alejandro Colomar <alx.manpages@gmail.com>
-In-Reply-To: <c91f899c-8c11-7ecc-a811-4efa88bc6a1d@gmail.com>
+In-Reply-To: <20230227052537.96f59b7905f3c8535cb9bc00@schemamania.org>
 Content-Type: multipart/signed; micalg=pgp-sha256;
  protocol="application/pgp-signature";
- boundary="------------XOWTD0QtYXhvjfx1J2jBgGiS"
+ boundary="------------oUeAtkXdj78BWxF7ZFv05T2B"
 Precedence: bulk
 List-ID: <linux-man.vger.kernel.org>
 X-Mailing-List: linux-man@vger.kernel.org
 
 This is an OpenPGP/MIME signed message (RFC 4880 and 3156)
---------------XOWTD0QtYXhvjfx1J2jBgGiS
-Content-Type: multipart/mixed; boundary="------------inqyJg2FtL2VAjN2pi6yA8II";
+--------------oUeAtkXdj78BWxF7ZFv05T2B
+Content-Type: multipart/mixed; boundary="------------2R3RS426QUcV1M7ClRkPUdK3";
  protected-headers="v1"
 From: Alejandro Colomar <alx.manpages@gmail.com>
-To: =?UTF-8?B?zqbPjs+EzrfPgiDOks6xzrvOsc+DzrnOrM60zrfPgg==?=
- <fvalasiad@gmail.com>, linux-man@vger.kernel.org
-Cc: mtk.manpages@gmail.com, lineprinter0@gmail.com, ldv@strace.io
-Message-ID: <d9c8e11d-9586-a13f-6195-f376cbbc444a@gmail.com>
-Subject: Re: [PATCH] ptrace.2: Add details about usage of
- PTRACE_GET_SYSCALL_INFO
-References: <20230225105601.6079-1-fvalasiad@gmail.com>
- <20230226232201.4237-1-fvalasiad@gmail.com>
- <34ef0c13-5673-68c5-a998-8ff36979b672@gmail.com>
- <c91f899c-8c11-7ecc-a811-4efa88bc6a1d@gmail.com>
-In-Reply-To: <c91f899c-8c11-7ecc-a811-4efa88bc6a1d@gmail.com>
+To: "James K. Lowden" <jklowden@schemamania.org>, linux-man@vger.kernel.org
+Message-ID: <c6c01640-fd16-cf6c-5c37-1c622d5b64c5@gmail.com>
+Subject: Re: man-intro(1) [patch]
+References: <20230227052537.96f59b7905f3c8535cb9bc00@schemamania.org>
+In-Reply-To: <20230227052537.96f59b7905f3c8535cb9bc00@schemamania.org>
 
---------------inqyJg2FtL2VAjN2pi6yA8II
+--------------2R3RS426QUcV1M7ClRkPUdK3
 Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: quoted-printable
 
-On 2/27/23 01:41, =CE=A6=CF=8E=CF=84=CE=B7=CF=82 =CE=92=CE=B1=CE=BB=CE=B1=
-=CF=83=CE=B9=CE=AC=CE=B4=CE=B7=CF=82 wrote:
-> Ah yes sorry for the confusion.
->=20
-> First name is =CE=A6=CF=8E=CF=84=CE=B9=CE=BF=CF=82, surname =CE=92=CE=B1=
-=CE=BB=CE=B1=CF=83=CE=B9=CE=AC=CE=B4=CE=B7=CF=82,
-> just call me Fotis!
+Hi James,
 
-Hi Fotis,  :)
+On 2/27/23 11:25, James K. Lowden wrote:
+> On Wed, 7 Sep 2022 00:13:18 +0200
+> Alejandro Colomar <alx.manpages@gmail.com>=20
+> wrote to <groff@gnu.org>:
+>=20
+>> If someone wants to send it as a patch, I'm open to discussing it.
+>> I remember having some concerns when I read the page, but I don't=20
+>> remember now about them.  I'd be happy to discuss it with a patch
+>> sent to linux-man@.
+>=20
+> Greetings, sirs!=20
+>=20
+> Some months ago, pursuant to a discussion on the groff mailing list, I
+> took it upon myself to write an introduction to the man(1) system.
+> Following a few comments and Alejandro's invitation, a modified version=
+
+> is attached for your consideration. =20
+
+Could you please send it inline?  It's easier to quote-reply that way.
+If you fear that your mailer will mess with the patch, you can send it
+both inline and attached.  If you use git-format-patch(1) and
+git-send-email(1), the preferred way is --no-attach, I think.
 
 >=20
-> we use both formats in Greece, confusing i know . :D
+> The audience is a complete novice or anyone struggling to use the
+> manual. I hope it's a top-down view from that user's perspective. =20
 >=20
-> It's fine by me, you know best! But if I have to point something it's=20
-> that Dmitry didn't like the word "Fixed" and we in fact agreed to repla=
-ce:
->=20
-> Fixed incomplete doc.  PTRACE_GET_SYSCALL_INFO's description wouldn't
->      inform the user that they need to enable PTRACE_O_TRACESYSGOOD to =
-get
->      detailed information from said operation.
->=20
-> with:
->=20
-> Document the role of PTRACE_O_TRACESYSGOOD option in connection with
->      PTRACE_GET_SYSCALL_INFO.
->=20
-> So perhaps you'd want to look into that? Can probably communicate on=20
-> this with Dmitry so we can all agree to something.
->=20
-> I repeat though, from me it's all good, you know best!
+> The work is wholly mine.  Given the option, I'd contribute it to the
+> public domain. =20
 
-Ahh, sorry, I forgot about that.  I reworded it to the following:
+The work is yours, so the option is wholly yours :-)
 
-
-    ptrace.2: Add details about usage of PTRACE_GET_SYSCALL_INFO
-   =20
-    Document the role of PTRACE_O_TRACESYSGOOD option in connection with
-    PTRACE_GET_SYSCALL_INFO.
-   =20
-    Came upon this after writing a test program using PTRACE_O_TRACESYSGO=
-OD.
-    After failing to find what's wrong I posted a StackOverflow question
-    which you can find right here:
-    <https://stackoverflow.com/questions/72410182/ptrace-get-syscall-info=
--always-returns-info-op-as-ptrace-syscall-info-none>
-   =20
-    Nate Eldredge found out what happens by looking into the kernel's sou=
-rce
-    code, here is a link to the relevant part
-    <https://github.com/torvalds/linux/blob/8291eaafed36f575f23951f3ce184=
-07f480e9ecf/kernel/ptrace.c#L1018>
-   =20
-    In the code it can be seen that the union is filled if and only if th=
-e
-    signal matches "SIGTRAP | 0x80", a signal which is only sent if the
-    PTRACE_O_TRACESYSGOOD option is set.  You can read about that in the
-    PTRACE_O_TRACESYSGOOD section of ptrace(2)'s manual.
-   =20
-    Complements: fc91449cb "ptrace.2: Document PTRACE_GET_SYSCALL_INFO"
-    Cowritten-by: Dmitry V. Levin <ldv@strace.io>
-    Signed-off-by: Dmitry V. Levin <ldv@strace.io>
-    Signed-off-by: Fotios Valasiadis <fvalasiad@gmail.com>
-    Acked-by: Nate Eldredge <nate@thatsmathematics.com>
-    Cc: Elvira Khabirova <lineprinter0@gmail.com>
-    Signed-off-by: Alejandro Colomar <alx@kernel.org>
-
-Cheers!
+Cheers,
 
 Alex
 
+>=20
+> --jkl
+>=20
 
 --=20
 <http://www.alejandro-colomar.es/>
 GPG key fingerprint: A9348594CE31283A826FBDD8D57633D441E25BB5
 
---------------inqyJg2FtL2VAjN2pi6yA8II--
+--------------2R3RS426QUcV1M7ClRkPUdK3--
 
---------------XOWTD0QtYXhvjfx1J2jBgGiS
+--------------oUeAtkXdj78BWxF7ZFv05T2B
 Content-Type: application/pgp-signature; name="OpenPGP_signature.asc"
 Content-Description: OpenPGP digital signature
 Content-Disposition: attachment; filename="OpenPGP_signature"
 
 -----BEGIN PGP SIGNATURE-----
 
-iQIzBAEBCgAdFiEE6jqH8KTroDDkXfJAnowa+77/2zIFAmP8sA0ACgkQnowa+77/
-2zJhxhAAjVmN8cisT40d7gzw0eSZ/tp0AkUcEzLJHocfxRZ5Nw4m1EMLFmzCCala
-8awKG7fF4juiqqrdfiD7b9ZlvQkbkyJKY/fchufsYhauXKSuhM3PBa/ASmntWIDS
-kb+SxHmGjhb07rspjRIwmU40hlcPyibT4jHEzraJZ0uwmL4P5XWSA80kB5If1Ts3
-7toDKFtcTaoqVRDeL4ZPH8tifbkMbL6RL5c8Am5rv5WTUIN57Zr5cXcaQyDjzrTW
-S0/jSucn82imDpVukBW3I4mcMREKGYG1TLE7lfrAfcsYHV1vYWgT9f+f4OS37TEv
-WYGjRvV1dQy7NSxKqyj36tUFMhV0khqYVQaSsF54p+EN5DRg0Mi2rYkDBfkeou88
-5ex6XBt2VFLPUyKMEoU3HeYahGGlJQ6hn2KXYAFl5rfYHWu8ip4fy9/wZMbxb4OG
-0zMX+Gn/2VUyQfwgz+2n3+llM+fVFdLAGtsJoyLfZ2LAgY1LtdXjDLZd2CuwAjK8
-BcDRDXOBFYnE2XhUOL2rWOifWB9XKPkYHTalpcBA5mgRsdpTAnojuKYl3Odr7N/C
-bxiIAzWGVcKsgkihyC+LN0kh0KdWNWU37ENFGaxkHyo0mO75aSEFM13MisczQuO/
-itOaPRsPj9D4xdTR/tEwM7C9N5KKkeQM/538KnPkM6nyWEu6EeI=
-=Z9px
+iQIzBAEBCgAdFiEE6jqH8KTroDDkXfJAnowa+77/2zIFAmP8x3IACgkQnowa+77/
+2zKKSg//cCZADAbM/sWN/rmdzR3WbRi6jz5RsYokYq9Xu0Tn6giwpKTg/B86UiOQ
+Qq2K/JUWOdi8UQi4D90+j7KRXpXecVVngcY5QZYqzMJEMiK/VHhh8/VOXBme73Z9
+erHdbAXvGOvOIvuAO0H7xydNtQcg5ei1VjSdvke7rE6EVJLh02GaEqKVcaiPrcM6
+CJXOF6bfXe8WTPbK4OFY7dV1qPx3uIjsRbdVlkUKsKR1IvHHzXT8sXXWkwhpza0p
+5lPgcmeDU/wfEWbxFhwr6tnFbvUdN7v/XAFIqjoKtUnyUqCnUjkJLOIICs7Xgs1I
+AnPGWZ3yU4PWGy/Ibr7Dxt+13ww0oR/fK+FvsWFRDfLVOGJ3wXxKKFQdD8VGSPH5
+Jw/hNSStpBG4HyMFMLvJv+zyE2MaWD5MXGrUvAnB/m8z6pzjS5snePRNtBouXuBP
+9G4F9f6dQ/kRCWt/LO871q9MWBF+I0NQcroyUs/iFNSfjQZPT3aJvQl5aI5jUtdU
+5gD55n8UzzavxNXM+B2ZKPT41Wk099lGyq0gDWzPRAP5xw6X2c7by/WRdUFE1kgh
+KgdkNaMsvlQuDkUOnrNkoUpjaezKEyuGgl+lfsNilZVQDRElXTXaYQgqiQNzaaE8
+iUP/rs9gCuvGuvT9o00xWdzXD1Lk1oD0Jl+TcrRxBGI7Hyc1Vbs=
+=sehW
 -----END PGP SIGNATURE-----
 
---------------XOWTD0QtYXhvjfx1J2jBgGiS--
+--------------oUeAtkXdj78BWxF7ZFv05T2B--
