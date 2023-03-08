@@ -2,62 +2,78 @@ Return-Path: <linux-man-owner@vger.kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 6CFDAC678D5
-	for <linux-man@archiver.kernel.org>; Wed,  8 Mar 2023 15:24:37 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 27473C64EC4
+	for <linux-man@archiver.kernel.org>; Wed,  8 Mar 2023 15:24:50 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S231213AbjCHPYg (ORCPT <rfc822;linux-man@archiver.kernel.org>);
-        Wed, 8 Mar 2023 10:24:36 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:40454 "EHLO
+        id S231661AbjCHPYs (ORCPT <rfc822;linux-man@archiver.kernel.org>);
+        Wed, 8 Mar 2023 10:24:48 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:40642 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S230360AbjCHPYf (ORCPT
-        <rfc822;linux-man@vger.kernel.org>); Wed, 8 Mar 2023 10:24:35 -0500
+        with ESMTP id S231582AbjCHPYq (ORCPT
+        <rfc822;linux-man@vger.kernel.org>); Wed, 8 Mar 2023 10:24:46 -0500
 Received: from alerce.blitiri.com.ar (alerce.blitiri.com.ar [IPv6:2001:bc8:228b:9000::1])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 204CEA336A
-        for <linux-man@vger.kernel.org>; Wed,  8 Mar 2023 07:24:33 -0800 (PST)
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id E00A0C5616
+        for <linux-man@vger.kernel.org>; Wed,  8 Mar 2023 07:24:45 -0800 (PST)
 Received: from localhost.localdomain
         by sdfg.com.ar (chasquid) with ESMTPSA
         tls TLS_AES_128_GCM_SHA256
         (over submission, TLS-1.3, envelope from "rodrigo@sdfg.com.ar")
-        ; Wed, 08 Mar 2023 15:22:42 +0000
+        ; Wed, 08 Mar 2023 15:22:51 +0000
 From:   Rodrigo Campos <rodrigo@sdfg.com.ar>
 To:     Alejandro Colomar <alx@kernel.org>
 Cc:     linux-man@vger.kernel.org, Christian Brauner <brauner@kernel.org>,
         Rodrigo Campos <rodrigo@sdfg.com.ar>
-Subject: [PATCH 0/2] user_namespaces.7: Add note about PR_SET_DUMPABLE on nested userns
-Date:   Wed,  8 Mar 2023 16:22:17 +0100
-Message-Id: <20230308152219.595611-1-rodrigo@sdfg.com.ar>
+Subject: [PATCH 2/2] user_namespaces.7: Add note about PR_SET_DUMPABLE on nested userns
+Date:   Wed,  8 Mar 2023 16:22:19 +0100
+Message-Id: <20230308152219.595611-3-rodrigo@sdfg.com.ar>
 X-Mailer: git-send-email 2.39.2
+In-Reply-To: <20230308152219.595611-1-rodrigo@sdfg.com.ar>
+References: <20230308152219.595611-1-rodrigo@sdfg.com.ar>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 Precedence: bulk
 List-ID: <linux-man.vger.kernel.org>
 X-Mailing-List: linux-man@vger.kernel.org
 
-Hi!
+In order to create a nested user namespace, we need to re-set the
+PR_SET_DUMPABLE attribute after switching the effective UID/GID. Clarify
+this in the section about nested user namespaces.
 
-This patchset is mostly about adding a clarification note for nested user
-namespaces. I hit that issue and I think having it properly documented would
-have been nice.
+Having this note would have saved me some time debugging.
 
-I'm adding Christian Brauner on Cc:, as a developer that has the knowledge to
-review this.
-
-While I was there, I also send a patch to clarify the CONTRIBUTING file. It
-says to mail both maintainers, but only one listed. I thought Michael address
-was missing, until I understood that he is not active anymore.
-
-
-Best,
-Rodrigo
-
-Rodrigo Campos (2):
-  CONTRIBUTING: Fix typo, there is one active maintainer
-  user_namespaces.7: Add note about PR_SET_DUMPABLE on nested userns
-
- CONTRIBUTING           |  2 +-
+Signed-off-by: Rodrigo Campos <rodrigo@sdfg.com.ar>
+---
  man7/user_namespaces.7 | 17 +++++++++++++++++
- 2 files changed, 18 insertions(+), 1 deletion(-)
+ 1 file changed, 17 insertions(+)
 
+diff --git man7/user_namespaces.7 man7/user_namespaces.7
+index 6647b02bf..18d85a5d6 100644
+--- man7/user_namespaces.7
++++ man7/user_namespaces.7
+@@ -91,6 +91,23 @@ The
+ operation can be used to discover the parental relationship
+ between user namespaces; see
+ .BR ioctl_ns (2).
++.PP
++When creating a user namespace is often common to change the effective UID and
++GID of the process to the ones in the user namespace. Bear in mind that doing
++so, as described in
++.BR prctl (2),
++the
++.B PR_SET_DUMPABLE
++attribute is reset. 
++If a process is not dumpable,
++the ownership of files in the process's
++.IR /proc/ pid
++directory is affected as described in
++.BR proc (5).
++Therefore, you may want to reset
++.B PR_SET_DUMPABLE
++after changing the effective UID/GID, in order to be allowed to write the
++mapping files of a nested user namespace.
+ .\"
+ .\" ============================================================
+ .\"
 -- 
 2.39.2
 
