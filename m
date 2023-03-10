@@ -2,115 +2,120 @@ Return-Path: <linux-man-owner@vger.kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 53BB1C6FA99
-	for <linux-man@archiver.kernel.org>; Fri, 10 Mar 2023 07:23:01 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 787B0C64EC4
+	for <linux-man@archiver.kernel.org>; Fri, 10 Mar 2023 08:32:04 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S229914AbjCJHXA (ORCPT <rfc822;linux-man@archiver.kernel.org>);
-        Fri, 10 Mar 2023 02:23:00 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:34468 "EHLO
+        id S229823AbjCJIcA (ORCPT <rfc822;linux-man@archiver.kernel.org>);
+        Fri, 10 Mar 2023 03:32:00 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:39772 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S230124AbjCJHW7 (ORCPT
-        <rfc822;linux-man@vger.kernel.org>); Fri, 10 Mar 2023 02:22:59 -0500
-Received: from smtp.smtpout.orange.fr (smtp-16.smtpout.orange.fr [80.12.242.16])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTP id 05B3BFFBF0
-        for <linux-man@vger.kernel.org>; Thu,  9 Mar 2023 23:22:51 -0800 (PST)
-Received: from [192.168.1.28] ([90.112.30.115])
-        by smtp.orange.fr with ESMTPA
-        id aWyEphE40pT0waWyFpygEa; Fri, 10 Mar 2023 08:15:19 +0100
-X-ME-Helo: [192.168.1.28]
-X-ME-Auth: cGpmbG95ZEB3YW5hZG9vLmZy
-X-ME-Date: Fri, 10 Mar 2023 08:15:19 +0100
-X-ME-IP: 90.112.30.115
-Message-ID: <36fa486f-1ea4-99f9-0240-4f1691cdbfde@wanadoo.fr>
-Date:   Fri, 10 Mar 2023 08:15:18 +0100
-MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
- Thunderbird/102.8.0
-Subject: Re: Issues in manpage memalign
-To:     Xi Ruoyao <xry111@xry111.site>,
+        with ESMTP id S230309AbjCJIbx (ORCPT
+        <rfc822;linux-man@vger.kernel.org>); Fri, 10 Mar 2023 03:31:53 -0500
+Received: from xry111.site (xry111.site [IPv6:2001:470:683e::1])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id EB0A1C3E19
+        for <linux-man@vger.kernel.org>; Fri, 10 Mar 2023 00:31:37 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=xry111.site;
+        s=default; t=1678437094;
+        bh=EmbAO+todPKo1nmmj6g1PCiloaDbN6T0wbKVKxWs0BU=;
+        h=Subject:From:To:Cc:Date:In-Reply-To:References:From;
+        b=l7S4BdLy6mCqU7WGxLCiSuZ9Kmy/yF5CU/Ti26iLtH+DmstB/h9BNZmMG0UxqoYUx
+         yExwlnT8sdZjrtwTPxXma1DuD5a8TcPZ2lMY7ew7n/7WNQqK0wCcqBJel/0zf4vjoH
+         LHB8k5+s3RyFhWe1ckh65tw2NsG2kONbhrVpmhGc=
+Received: from [192.168.124.9] (unknown [113.140.11.5])
+        (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+         key-exchange ECDHE (P-256) server-signature ECDSA (P-384) server-digest SHA384)
+        (Client did not present a certificate)
+        (Authenticated sender: xry111@xry111.site)
+        by xry111.site (Postfix) with ESMTPSA id C78DA664F6;
+        Fri, 10 Mar 2023 03:31:32 -0500 (EST)
+Message-ID: <fa44d14af10807c397932e9d74b03ac36603b65e.camel@xry111.site>
+Subject: Re: nextafter underflow and errno in Glibc
+From:   Xi Ruoyao <xry111@xry111.site>
+To:     Pascal Cuoq <cuoq@trust-in-soft.com>,
         Alejandro Colomar <alx.manpages@gmail.com>,
-        GNU C Library <libc-alpha@sourceware.org>
-Cc:     linux-man@vger.kernel.org
-References: <d79b505c-5b19-331c-5b25-d40adc9cc843@wanadoo.fr>
- <77cfc3d2-cd41-13a7-bdb9-ced179531f33@gmail.com>
- <99154d24d07cfa550a1ec4f3c5e5f5d222c7fabb.camel@xry111.site>
-Content-Language: en-GB
-From:   Paul Floyd <pjfloyd@wanadoo.fr>
-In-Reply-To: <99154d24d07cfa550a1ec4f3c5e5f5d222c7fabb.camel@xry111.site>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 8bit
+        "mtk.manpages@gmail.com" <mtk.manpages@gmail.com>
+Cc:     "linux-man@vger.kernel.org" <linux-man@vger.kernel.org>,
+        Guillaume Cluzel <guillaume.cluzel@trust-in-soft.com>,
+        GNU C Library <libc-alpha@sourceware.org>,
+        Andreas Schwab <schwab@linux-m68k.org>
+Date:   Fri, 10 Mar 2023 16:31:17 +0800
+In-Reply-To: <PR0P264MB07941B6AF99182D1CE404018C0BA9@PR0P264MB0794.FRAP264.PROD.OUTLOOK.COM>
+References: <PR0P264MB07941B6AF99182D1CE404018C0BA9@PR0P264MB0794.FRAP264.PROD.OUTLOOK.COM>
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
+User-Agent: Evolution 3.46.4 
+MIME-Version: 1.0
 Precedence: bulk
 List-ID: <linux-man.vger.kernel.org>
 X-Mailing-List: linux-man@vger.kernel.org
 
+On Fri, 2023-03-10 at 07:34 +0000, Pascal Cuoq via Libc-alpha wrote:
+> Hello,
+>=20
+> I do not feel confident sending a patch for the following reason:
+>=20
+> Glibc commit 85422c2acba83852396c9d9fd22ff0493e3606fe does contain a
+> partial description of the specification that Glibc strives to
+> implement:
+>=20
+> =C2=A0=C2=A0=C2=A0 This patch makes them do so in cases that should inclu=
+de all the cases
+> =C2=A0=C2=A0=C2=A0 where such errno setting is required by glibc's goals =
+for when to set
+> =C2=A0=C2=A0=C2=A0 errno (but not all cases of underflow where the result=
+ is nonzero and
+> =C2=A0=C2=A0=C2=A0 so glibc's goals do not require errno setting).
+>=20
+> However much remains unclear (for me!) about the specification that
+> Glibc strives to implement. Does this mean that the specification is
+> actually non-deterministic and that the manpage should contain a
+> sentence saying =E2=80=9Cwhen the result of nextafter applied to distinct
+> arguments x and y is subnormal, nextafter reserves the right to set
+> errno to ERANGE but offers not guarantees of doing so; if the result
+> is zero, errno is guaranteed to be set to ERANGE=E2=80=9D?
 
-On 10/03/2023 05:05, Xi Ruoyao wrote:
->
->>> There is a missing EINVAL description. If the alignment is so large that
->>> the allocation will not be possible to satisfy then the call will fail
->>> and set errno to EINVAL.
-> POSIX says it should be ENOMEM:
->
-> [ENOMEM]
-> There is insufficient memory available with the requested alignment.
->
-> https://pubs.opengroup.org/onlinepubs/9699919799/functions/posix_memalign.html
->
-> And it seems also true with Glibc (at least Glibc-2.37):
->
-> $ cat t.c
-> #include <stdlib.h>
-> #include <stdio.h>
->
-> int main()
-> {
-> 	void *p;
-> 	if (posix_memalign(&p, sizeof(void *) << 55, 1) != 0)
-> 		perror("posix_memalign");
-> }
-> $ cc t.c
-> $ ./a.out
-> posix_memalign: Cannot allocate memory
+> This does not make sense to me: how does one choose one's own
+> specification for nextafter, over which one has full control, for a
+> basic function that does not need to allocate resources, and make this
+> specification non-deterministic? Does the non-determinism apply to the
+> floating-point underflow exception as well?
 
-I was referring to memalign / aligned_alloc. The ERRORS section of the 
-manpage doesn't specify which errors apply to which functions.
+The C17 standard says:
 
-Here is an example
+The result underflows if the magnitude of the mathematical result is so
+small that the mathematical result cannot be represented, without
+extraordinary roundoff error, in an object of the specified type. If the
+result underflows, the function returns an implementation-defined value
+whose magnitude is no greater than the smallest normalized positive
+number in the specified type; if the integer expression math_errhandling
+& MATH_ERRNO is nonzero, whether errno acquires the value ERANGE is
+implementation-defined; if the integer expression math_errhandling &
+MATH_ERREXCEPT is nonzero, whether the "underflow" floating-point
+exception is raised is implementation-defined.
 
-#include <stdlib.h>
-#include <malloc.h>
+"Implementation-defined" means the implementation (Glibc here) has the
+freedom to decide what to do, but it has to be documented.  It's
+documented in Glibc manual section 20.5.4:
 
-int main()
-{
-   void *p;
-   if ((p == memalign(0xabcdef0123456789, 1)) == 0)
-      perror("memalign");
-}
+When underflow occurs, the underflow exception is raised, and zero
+(appropriately signed) or a subnormal value, as appropriate for the
+mathematical result of the function and the rounding mode, is returned.
+=E2=80=98errno=E2=80=99 may be set to =E2=80=98ERANGE=E2=80=99, but this is=
+ not guaranteed; it is
+intended that the GNU C Library should set it when the underflow is to
+an appropriately signed zero, but not necessarily for other underflows.
 
-This does satisfy
+> But then again, I notice that the current manpage description is
+> already non-deterministic: a result that should be subnormal can be
+> 0.0, confirming that I do not understand Glibc's goals. In these
+> conditions I could not do a good job describing the specification that
+> Glibc implements.
 
-EINVAL The alignmentargument was not a power of two, or was not a 
-multiple of sizeof(void*).
+Just copy from Glibc manual.  But IMO man-page is not a Glibc manual (if
+you need Glibc manual you can just read Glibc manual), so a vague "may"
+clause like "the errno MAY be set to ERANGE" should be enough (and it's
+always true regardless which libc implementation is used).=20
 
-but that is purely a coincidence. The code in gblic that triggers the 
-error is
-
-│    3537 /* If the alignment is greater than SIZE_MAX / 2 + 1 it cannot 
-be a
-│    3538      power of 2 and will cause overflow in the check below.  */
-│    3539 if(alignment >SIZE_MAX /2+1)
-│    3540 {
-│ >  3541       __set_errno (EINVAL);
-│    3542 return0;
-│    3543 }
-
-
-If the power-of-two constraint existed this condition would be 
-redundant. The next power of two greater than SIZE_MAX / 2 + 1 is 
-SIZE_MAX + 1 which cannot be represented in a word.
-
-
-Regards
-
-Paul
-
+--=20
+Xi Ruoyao <xry111@xry111.site>
+School of Aerospace Science and Technology, Xidian University
