@@ -2,205 +2,143 @@ Return-Path: <linux-man-owner@vger.kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 60AEEC6FA99
-	for <linux-man@archiver.kernel.org>; Fri, 10 Mar 2023 22:11:03 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id DFBFEC6FD1E
+	for <linux-man@archiver.kernel.org>; Fri, 10 Mar 2023 23:44:25 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S230493AbjCJWLC (ORCPT <rfc822;linux-man@archiver.kernel.org>);
-        Fri, 10 Mar 2023 17:11:02 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:34580 "EHLO
+        id S232016AbjCJXoY (ORCPT <rfc822;linux-man@archiver.kernel.org>);
+        Fri, 10 Mar 2023 18:44:24 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:35178 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S231667AbjCJWJj (ORCPT
-        <rfc822;linux-man@vger.kernel.org>); Fri, 10 Mar 2023 17:09:39 -0500
-Received: from mail-ed1-x52d.google.com (mail-ed1-x52d.google.com [IPv6:2a00:1450:4864:20::52d])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 772A28A5A
-        for <linux-man@vger.kernel.org>; Fri, 10 Mar 2023 14:09:10 -0800 (PST)
-Received: by mail-ed1-x52d.google.com with SMTP id ay14so26208362edb.11
-        for <linux-man@vger.kernel.org>; Fri, 10 Mar 2023 14:09:10 -0800 (PST)
+        with ESMTP id S232017AbjCJXoJ (ORCPT
+        <rfc822;linux-man@vger.kernel.org>); Fri, 10 Mar 2023 18:44:09 -0500
+Received: from mail-wr1-x436.google.com (mail-wr1-x436.google.com [IPv6:2a00:1450:4864:20::436])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 8FA20141618
+        for <linux-man@vger.kernel.org>; Fri, 10 Mar 2023 15:43:56 -0800 (PST)
+Received: by mail-wr1-x436.google.com with SMTP id h11so6493275wrm.5
+        for <linux-man@vger.kernel.org>; Fri, 10 Mar 2023 15:43:56 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20210112; t=1678486138;
-        h=content-transfer-encoding:mime-version:references:in-reply-to
-         :message-id:date:subject:cc:to:from:from:to:cc:subject:date
+        d=gmail.com; s=20210112; t=1678491834;
+        h=in-reply-to:from:references:cc:to:content-language:subject
+         :user-agent:mime-version:date:message-id:from:to:cc:subject:date
          :message-id:reply-to;
-        bh=0lKeDd3VBI2M1Nqk5ezX1R/6WnZjczS9i9hxGFBKuB0=;
-        b=DoSQHIuYQRxat9aPwVP9dRcIIpmhJ9d5mKmZXzEoce9cpj1fXzZs6iljF2wPsvOybR
-         et+L8WHtVkGbkA3K8ARnxDbGy6SIZuhQItmiBjwf2O7355KVEk3KIb8az6ETV4syUVzh
-         rwjJFHZwltxc7cOhbVWRTynecgAW/Juwg6mK8LoIcuucQlUw37BHfrDRO/3auld44U7H
-         2yrz2oIc/znvIh8XzyzbRpi0CRkrJAuz67ixiB1X+rL//6yjAX0veng2QiC9zVKuzxSQ
-         y3m8kj53BAjliJeR3ym9x3YBfmZq1gswRQrWMQodRv6MiQuIWCmqDzH3X8xxVlUs0Hbf
-         WAzg==
+        bh=+yTvNalGEMEU6jfk20vEt4BWimUfL/op9ChLWPV510U=;
+        b=i6R+ImII0iPLgM90eEyGuv9m2n1v/W3XIS4scrrWIwn+cRh7LJuY6GBunRNSKl/nPK
+         On3ypigJROZNM20ob1YKWRUVuSSz1FedTI4iEzzWSs/uoB+HoFP2B0TLVDDXWt6U+uyP
+         JcEKowW6QU1gULiwfDSmvGnJYGmYUvYKQip7bqf4zFUL04BBklcYfk+7Ob9XzCawsjzF
+         jQCwYw6R9S3V/HOfKwoU6kjwYcY0Ke1qbDr94whLDvr41DgNBiZauSVxYtTF8JWXzAQD
+         y6na5qfybwMdW13elB1QlzMS+fCPEDGwICJ2GJ0OEjp3AZfdeRq6+1GOdtvMkkX+1Fry
+         6bfw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20210112; t=1678486138;
-        h=content-transfer-encoding:mime-version:references:in-reply-to
-         :message-id:date:subject:cc:to:from:x-gm-message-state:from:to:cc
-         :subject:date:message-id:reply-to;
-        bh=0lKeDd3VBI2M1Nqk5ezX1R/6WnZjczS9i9hxGFBKuB0=;
-        b=8C487L06hvn5gYzOJj3FCYJeNrHO28vfJLzPRkvs9CpoqAJ3WiMLwsJ1LfKYN4Q3/w
-         fj8yrn5c0/LqLAzLBxt7vDQmQoG9PFZFtfYnmUDIJH70kwKZRPamYJBb57q7wBnuO1xi
-         LEWTXRch37aUJohB2zusKjWADJckGh+YXoF0Sjoa+N+Up8paZqlSNv689wGC0iRhlRb9
-         43f3cgS/qZqIiDIzf0A3dTGHLpFGAHPEgQVPvAzb7opo40+StO13hms97wOLcOgGl3hv
-         9QorQGC53WstPTHdgnCS7PX+3mB1CHIjZK0V343M3zLP7oH5ejuzorQy7IRCAXyBIlYF
-         +uSg==
-X-Gm-Message-State: AO0yUKWhXuYXBLq0+AHhJolHGMIoM1u34+oBxbJxTcjWE9Cklf8e4Vqa
-        z9lUzy0MieRPldCtpZhQCYs=
-X-Google-Smtp-Source: AK7set+eACYNDSDM1dLb2oIE5d4fhEls+3NI9I1gJJiu8lwsYBe1/mZhUIm3zgYwEC3WBqfrxlSUCg==
-X-Received: by 2002:a50:ee92:0:b0:4c2:96d0:c0cb with SMTP id f18-20020a50ee92000000b004c296d0c0cbmr27614237edr.23.1678486138107;
-        Fri, 10 Mar 2023 14:08:58 -0800 (PST)
-Received: from localhost ([2a02:168:633b:1:7c09:9c3b:256e:8ba1])
-        by smtp.gmail.com with ESMTPSA id l13-20020a1709065a8d00b008b17ed98d05sm341286ejq.120.2023.03.10.14.08.57
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Fri, 10 Mar 2023 14:08:57 -0800 (PST)
-From:   =?UTF-8?q?G=C3=BCnther=20Noack?= <gnoack3000@gmail.com>
-To:     Alejandro Colomar <alx.manpages@gmail.com>,
-        =?UTF-8?q?Micka=C3=ABl=20Sala=C3=BCn?= <mic@digikod.net>
-Cc:     Michael Kerrisk <mtk.manpages@gmail.com>,
-        linux-man@vger.kernel.org,
-        =?UTF-8?q?G=C3=BCnther=20Noack?= <gnoack3000@gmail.com>
-Subject: [PATCH v4 2/3] landlock.7: Document Landlock ABI v3 (file truncation; Linux 6.2)
-Date:   Fri, 10 Mar 2023 23:08:50 +0100
-Message-Id: <20230310220851.22261-2-gnoack3000@gmail.com>
-X-Mailer: git-send-email 2.39.2
-In-Reply-To: <20230310220851.22261-1-gnoack3000@gmail.com>
-References: <20230310220851.22261-1-gnoack3000@gmail.com>
+        d=1e100.net; s=20210112; t=1678491834;
+        h=in-reply-to:from:references:cc:to:content-language:subject
+         :user-agent:mime-version:date:message-id:x-gm-message-state:from:to
+         :cc:subject:date:message-id:reply-to;
+        bh=+yTvNalGEMEU6jfk20vEt4BWimUfL/op9ChLWPV510U=;
+        b=ONSFeH+rsErHEK3FArf3BZ/zsQZbBMKusNcra7LGQBm0arNBDoeUlf8FFn3jaSpqm/
+         KgYtxZauZNaU8Lvxk9hIEdsOh9X/+tzuKnsUwChOtze5UqVKyUIMnqhNYtuRdsMCklV1
+         D0T7RkSKMDmexrvyFo4Om92+iYUCiGz1+l9s1LaDcpJOEY9ch4HFjICWbEe/CAuf+7Z3
+         2XLorL0XNeAM2VI2MPNlU5E9kFYsqaQvNfqJxf4uwij1AINvKyal5dlBJhTvNZZhV8Ng
+         TIG23ZxfZruyCqz0Mbg8Tv5fggOHdH86IUODtE3q7NjASqbDLQiUkY4+OuujWKrR+KoD
+         nkgg==
+X-Gm-Message-State: AO0yUKWYql8NY3pQpcYQcP2PT7yipm2Hu0qI2Pv4Pj7+zKjoNp3tpMnW
+        87DXJI9amv6R/RvFb508mMFaZoz9NrU=
+X-Google-Smtp-Source: AK7set/RAmbqI1FesqyhuMQk8tRTi0llJuFA681QZtxzRUhtMD0BjqMU5Xzrz5DGZ3/1BhsUsJk87Q==
+X-Received: by 2002:adf:f7c5:0:b0:2c7:bbe:4572 with SMTP id a5-20020adff7c5000000b002c70bbe4572mr18386645wrq.39.1678491834482;
+        Fri, 10 Mar 2023 15:43:54 -0800 (PST)
+Received: from [192.168.0.160] ([170.253.51.134])
+        by smtp.gmail.com with ESMTPSA id p8-20020a5d4588000000b002c54536c662sm913714wrq.34.2023.03.10.15.43.53
+        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+        Fri, 10 Mar 2023 15:43:54 -0800 (PST)
+Message-ID: <cd2dcfa2-9779-64ac-80a0-0288469b77e7@gmail.com>
+Date:   Sat, 11 Mar 2023 00:43:53 +0100
 MIME-Version: 1.0
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 8bit
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
+ Thunderbird/102.8.0
+Subject: Re: [PATCH] standards.7: ffix
+Content-Language: en-US
+To:     Jakub Wilk <jwilk@jwilk.net>
+Cc:     linux-man@vger.kernel.org
+References: <20230310134959.6667-1-jwilk@jwilk.net>
+From:   Alejandro Colomar <alx.manpages@gmail.com>
+In-Reply-To: <20230310134959.6667-1-jwilk@jwilk.net>
+Content-Type: multipart/signed; micalg=pgp-sha256;
+ protocol="application/pgp-signature";
+ boundary="------------SV8MIIeqvVLLG52L1YcEkFzt"
 Precedence: bulk
 List-ID: <linux-man.vger.kernel.org>
 X-Mailing-List: linux-man@vger.kernel.org
 
-https://git.kernel.org/torvalds/c/299e2b1967578b1442128ba8b3e86ed3427d3651
+This is an OpenPGP/MIME signed message (RFC 4880 and 3156)
+--------------SV8MIIeqvVLLG52L1YcEkFzt
+Content-Type: multipart/mixed; boundary="------------a6PfMzAaaZLJQ7oRwZZltXvo";
+ protected-headers="v1"
+From: Alejandro Colomar <alx.manpages@gmail.com>
+To: Jakub Wilk <jwilk@jwilk.net>
+Cc: linux-man@vger.kernel.org
+Message-ID: <cd2dcfa2-9779-64ac-80a0-0288469b77e7@gmail.com>
+Subject: Re: [PATCH] standards.7: ffix
+References: <20230310134959.6667-1-jwilk@jwilk.net>
+In-Reply-To: <20230310134959.6667-1-jwilk@jwilk.net>
 
-Signed-off-by: Günther Noack <gnoack3000@gmail.com>
-Reviewed-by: Mickaël Salaün <mic@digikod.net>
----
- man7/landlock.7 | 83 +++++++++++++++++++++++++++++++++++++++++++++++--
- 1 file changed, 81 insertions(+), 2 deletions(-)
+--------------a6PfMzAaaZLJQ7oRwZZltXvo
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: quoted-printable
 
-diff --git a/man7/landlock.7 b/man7/landlock.7
-index d3a7ec0d2..9c305edef 100644
---- a/man7/landlock.7
-+++ b/man7/landlock.7
-@@ -64,9 +64,39 @@ Execute a file.
- .TP
- .B LANDLOCK_ACCESS_FS_WRITE_FILE
- Open a file with write access.
-+.IP
-+When opening files for writing,
-+you will often additionally need the
-+.B LANDLOCK_ACCESS_FS_TRUNCATE
-+right.
-+In many cases,
-+these system calls truncate existing files when overwriting them
-+(e.g.,
-+.BR creat (2)).
- .TP
- .B LANDLOCK_ACCESS_FS_READ_FILE
- Open a file with read access.
-+.TP
-+.B LANDLOCK_ACCESS_FS_TRUNCATE
-+Truncate a file with
-+.BR truncate (2),
-+.BR ftruncate (2),
-+.BR creat (2),
-+or
-+.BR open (2)
-+with
-+.BR O_TRUNC .
-+Whether an opened file can be truncated with
-+.BR ftruncate (2)
-+is determined during
-+.BR open (2),
-+in the same way as read and write permissions are checked during
-+.BR open (2)
-+using
-+.B LANDLOCK_ACCESS_FS_READ_FILE
-+and
-+.BR LANDLOCK_ACCESS_FS_WRITE_FILE .
-+This access right is available since the third version of the Landlock ABI.
- .PP
- A directory can receive access rights related to files or directories.
- The following access right is applied to the directory itself,
-@@ -231,6 +261,53 @@ To be allowed to use
- and related syscalls on a target process,
- a sandboxed process should have a subset of the target process rules,
- which means the tracee must be in a sub-domain of the tracer.
-+.\"
-+.SS Truncating files
-+The operations covered by
-+.B LANDLOCK_ACCESS_FS_WRITE_FILE
-+and
-+.B LANDLOCK_ACCESS_FS_TRUNCATE
-+both change the contents of a file and sometimes overlap in
-+non-intuitive ways.
-+It is recommended to always specify both of these together.
-+.PP
-+A particularly surprising example is
-+.BR creat (2).
-+The name suggests that this system call requires
-+the rights to create and write files.
-+However, it also requires the truncate right
-+if an existing file under the same name is already present.
-+.PP
-+It should also be noted that truncating files does not require the
-+.B LANDLOCK_ACCESS_FS_WRITE_FILE
-+right.
-+Apart from the
-+.BR truncate (2)
-+system call, this can also be done through
-+.BR open (2)
-+with the flags
-+.IR "O_RDONLY\ |\ O_TRUNC" .
-+.PP
-+When opening a file, the availability of the
-+.B LANDLOCK_ACCESS_FS_TRUNCATE
-+right is associated with the newly created file descriptor
-+and will be used for subsequent truncation attempts using
-+.BR ftruncate (2).
-+The behavior is similar to opening a file for reading or writing,
-+where permissions are checked during
-+.BR open (2),
-+but not during the subsequent
-+.BR read (2)
-+and
-+.BR write (2)
-+calls.
-+.PP
-+As a consequence,
-+it is possible to have multiple open file descriptors for the same file,
-+where one grants the right to truncate the file and the other does not.
-+It is also possible to pass such file descriptors between processes,
-+keeping their Landlock properties,
-+even when these processes do not have an enforced Landlock ruleset.
- .SH VERSIONS
- Landlock was introduced in Linux 5.13.
- .PP
-@@ -257,6 +334,8 @@ _	_	_
- \^	\^	LANDLOCK_ACCESS_FS_MAKE_SYM
- _	_	_
- 2	5.19	LANDLOCK_ACCESS_FS_REFER
-+_	_	_
-+3	6.2	LANDLOCK_ACCESS_FS_TRUNCATE
- .TE
- .sp 1
- .PP
-@@ -302,7 +381,6 @@ in kernel logs.
- It is currently not possible to restrict some file-related actions
- accessible through these system call families:
- .BR chdir (2),
--.BR truncate (2),
- .BR stat (2),
- .BR flock (2),
- .BR chmod (2),
-@@ -340,7 +418,8 @@ attr.handled_access_fs =
-         LANDLOCK_ACCESS_FS_MAKE_FIFO |
-         LANDLOCK_ACCESS_FS_MAKE_BLOCK |
-         LANDLOCK_ACCESS_FS_MAKE_SYM |
--        LANDLOCK_ACCESS_FS_REFER;
-+        LANDLOCK_ACCESS_FS_REFER |
-+        LANDLOCK_ACCESS_FS_TRUNCATE;
- 
- ruleset_fd = landlock_create_ruleset(&attr, sizeof(attr), 0);
- if (ruleset_fd == \-1) {
--- 
-2.39.2
+Hi Jakub,
 
+On 3/10/23 14:49, Jakub Wilk wrote:
+> Signed-off-by: Jakub Wilk <jwilk@jwilk.net>
+
+I see you're following the discussion about standards :)
+
+Patch applied.  Thanks!
+
+Alex
+
+> ---
+>  man7/standards.7 | 2 +-
+>  1 file changed, 1 insertion(+), 1 deletion(-)
+>=20
+> diff --git a/man7/standards.7 b/man7/standards.7
+> index 3073025fd..54dd2eb30 100644
+> --- a/man7/standards.7
+> +++ b/man7/standards.7
+> @@ -132,7 +132,7 @@ describing real-time facilities
+>  for portable operating systems, ratified by ISO in 1996
+>  .RI ( "ISO/IEC 9945-1:1996" ).
+>  .TP
+> -.B POSIX.1c " (formerly known as \fIPOSIX.4a\fP)"
+> +.BR POSIX.1c " (formerly known as \fIPOSIX.4a\fP)"
+>  IEEE Std 1003.1c-1995, which describes the POSIX threads interfaces.
+>  .TP
+>  .B POSIX.1d
+
+--=20
+<http://www.alejandro-colomar.es/>
+GPG key fingerprint: A9348594CE31283A826FBDD8D57633D441E25BB5
+
+--------------a6PfMzAaaZLJQ7oRwZZltXvo--
+
+--------------SV8MIIeqvVLLG52L1YcEkFzt
+Content-Type: application/pgp-signature; name="OpenPGP_signature.asc"
+Content-Description: OpenPGP digital signature
+Content-Disposition: attachment; filename="OpenPGP_signature"
+
+-----BEGIN PGP SIGNATURE-----
+
+iQIzBAEBCgAdFiEE6jqH8KTroDDkXfJAnowa+77/2zIFAmQLwLkACgkQnowa+77/
+2zL9cA/9HNBw2p/cGr/aGN3ykH5jmJk+xZHN8mCVQgZsg+bTRmqIjwBpt53NxYj9
+inZUUiZGnExdxB1AJmtpOzW9Ep5QmlZp9xAW0kdSOTaTFshtofvMxdVCNFGeDImo
+Qs6+h5g8YcdTnTXvlOwwaRS7EAEy6rEXQ0CaA/bLzgtj2UatW4m9sBW65YznZJ8I
+H9b1NghtxOGG8vCT8PR+O0D6eAD1GxgyxaW7VJCWAtTbcUwfC4awHsk4DmDf5nIS
+mQOZmLSBFYIx6c54TxTJp+AQ+K2znfQkgVIRBximc3c87MIs5Ja/yivjP0AQH4Ng
+rOHzRMsu9Mp1mfmlgqilRmG6VVHGsyhFC57DHSE7a5qy42pYLUAk5pWApiBcDCCy
+Eg8PTVA5b8FtYqfhb1n0Czgo+FoXEO0zcKBedugGg0I0FMyxihH/VNvdbMTBCSGY
+T+eyRrH+E70BPVhNvPhJUuWPdi+jV1tXLgITHnw0RY7Sa7pKzKsBEFuWvEg4Ajqw
+kfNV1dAE9Y/eqafjlUVaq9UfamM9/fwo5PETpPMOA223s3o3C/rLC4fRTmUQKJQ4
+yBkI/fXiFoTW0M9y42ue3Ra5jlZBpmzJai2+Xhh4ba2FVkDoUXfyytgP5Z7Mj2r1
+J2tt3BCRl1PpFVyP19v98dRBAn0dh/m5QGuMJaY3RNWsm1/Fz1w=
+=uzhB
+-----END PGP SIGNATURE-----
+
+--------------SV8MIIeqvVLLG52L1YcEkFzt--
