@@ -2,108 +2,72 @@ Return-Path: <linux-man-owner@vger.kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 0BCD7C61DA4
-	for <linux-man@archiver.kernel.org>; Sat, 11 Mar 2023 14:21:11 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 9EA2EC6FD1C
+	for <linux-man@archiver.kernel.org>; Sat, 11 Mar 2023 17:13:58 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S230193AbjCKOVJ (ORCPT <rfc822;linux-man@archiver.kernel.org>);
-        Sat, 11 Mar 2023 09:21:09 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:41452 "EHLO
+        id S229469AbjCKRN6 (ORCPT <rfc822;linux-man@archiver.kernel.org>);
+        Sat, 11 Mar 2023 12:13:58 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:53806 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S230199AbjCKOU1 (ORCPT
-        <rfc822;linux-man@vger.kernel.org>); Sat, 11 Mar 2023 09:20:27 -0500
-Received: from mout02.posteo.de (mout02.posteo.de [185.67.36.66])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 06E11305E1
-        for <linux-man@vger.kernel.org>; Sat, 11 Mar 2023 06:18:56 -0800 (PST)
-Received: from submission (posteo.de [185.67.36.169]) 
-        by mout02.posteo.de (Postfix) with ESMTPS id 8F127240344
-        for <linux-man@vger.kernel.org>; Sat, 11 Mar 2023 15:18:25 +0100 (CET)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=posteo.de; s=2017;
-        t=1678544305; bh=+ZbJvXTLkaL5HZ24miqeiJ/RVViVEX/AOfgL5c9qelY=;
-        h=Date:Subject:Cc:From:To:From;
-        b=MU4S14DxnaFEaz6vQI/g6LoMWTLOC/Nla26oZr8JyS2pOwB6fgupqtw59AewaOKAr
-         oUcxqKzHw1828gXPb0ElsF/Wk3RctGrGotcnaM4zZW5m90zsEamoRl6jS5rwRb71cs
-         b3CIsVK4b33vXpVEQLfBmx+9GmweIR3/pAGFO5znubOw5mSdpxIe7TCQujORBpXPOB
-         8nRt2cQc+LISmfqkpLmIXqGoMKgAGzBKc2wEorTBYt1N598giMWlja/7o96/P1VZLt
-         6V1uXls8E1Uz9Lv9zfj1jUZ0TkkCxmyQd9DPxfvW5YJyX5sOKg2r/XjQAWYjSdz1Kk
-         snLITR7ah1cbA==
-Received: from customer (localhost [127.0.0.1])
-        by submission (posteo.de) with ESMTPSA id 4PYlQ85xJkz6trW;
-        Sat, 11 Mar 2023 15:18:24 +0100 (CET)
+        with ESMTP id S229552AbjCKRN5 (ORCPT
+        <rfc822;linux-man@vger.kernel.org>); Sat, 11 Mar 2023 12:13:57 -0500
+Received: from static.213-239-213-133.clients.your-server.de (luckmann.name [213.239.213.133])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 8F51A38EAA
+        for <linux-man@vger.kernel.org>; Sat, 11 Mar 2023 09:13:55 -0800 (PST)
+Received: from localhost (localhost [127.0.0.1])
+  (uid 502)
+  by static.213-239-213-133.clients.your-server.de with local
+  id 0000000000E540C5.00000000640CB6D2.00001274; Sat, 11 Mar 2023 18:13:54 +0100
+Date:   Sat, 11 Mar 2023 18:13:54 +0100
+From:   Helge Kreutzmann <debian@helgefjell.de>
+To:     alx.manpages@gmail.com
+Cc:     mario.blaettermann@gmail.com, linux-man@vger.kernel.org
+Subject: Dear linux man-pages maintainer,
+Message-ID: <20230311171354.GA4709@Debian-50-lenny-64-minimal>
 Mime-Version: 1.0
-Content-Transfer-Encoding: quoted-printable
-Content-Type: text/plain; charset=UTF-8
-Date:   Sat, 11 Mar 2023 14:17:35 +0000
-Message-Id: <CR3MA1O55PTL.Z871EDUY4TFS@morphine>
-Subject: Re: [PATCH] CONTRIBUTING: tfix
-Cc:     <alx@kernel.org>, <alx.manpages@gmail.com>,
-        <linux-man@vger.kernel.org>
-From:   "Tom Schwindl" <schwindl@posteo.de>
-To:     "G. Branden Robinson" <g.branden.robinson@gmail.com>
-References: <20230309073900.11503-1-schwindl@posteo.de>
- <20230309152857.usupq3b4ekjhi7pv@illithid>
-In-Reply-To: <20230309152857.usupq3b4ekjhi7pv@illithid>
+Content-Type: text/plain; charset=us-ascii
+Content-Transfer-Encoding: 7bit
+Content-Disposition: inline
+X-Public-Key-URL: http://www.helgefjell.de/data/debian_neu.asc
+X-homepage: http://www.helgefjell.de/debian
+User-Agent: Mutt/1.10.1 (2018-07-13)
 Precedence: bulk
 List-ID: <linux-man.vger.kernel.org>
 X-Mailing-List: linux-man@vger.kernel.org
 
-Hi Branden,
+Without further ado, the following was found:
 
-On Thu Mar 9, 2023 at 4:28 PM CET, G. Branden Robinson wrote:
-> [natural language grammar]
->
-> Hi Tom,
->
-> At 2023-03-09T07:39:00+0000, Tom Schwindl wrote:
-> > as I'm not a native speaker, I wonder if the "be" is correct in this
-> > context.  I haven't changed it for now because it's likely that it's
-> > just me who thinks that this sounds awkward.
-> [...]
-> >         Please CC any relevant developers and mailing lists that may
-> >         know about or be interested in the discussion.
->
-> In this respect, English is subject to mechanical analysis to resolve
-> the issue.  You will observe the presence of a coordinating conjunction
-> ("and" or "or"; there are others but these are by far the most common).
-> You can decide the grammar of the sentence by eliminating one of the
-> branches of the conjunction.
->
-> ...that (may (know about) or (be interested in) the discussion).
->
-> Possibly one of the sources of confusion here is that the conjunction is
-> applied after the modal auxiliary verb "may".
->
-> While that's not non-standard,[1] it does reveal that a recast to more
-> clearly apply the coordinating conjunction after the _sub_ordinating
-> conjunction "that", as follows.
->
-> ...that (may know about) or (may be interested in) the discussion.
->
-> The fact that I need fewer pairs of parentheses to suggest the
-> recommended parse might indeed recommend it over the former alternative.
->
-> Do not underestimate the power of conjunction elimination; I frequently
-> use this tool to decide grammatical questions in my own writing.[2]  I
-> cannot think of a time that it has led me to an incorrect construction.
->
-> Lest anyone feel badly, I note that native English speakers often screw
-> up much simpler applications of coordinating conjunctions than this.
->
-> *Jackie and me are going to the beach.
-> *This discussion is to be kept between you and I.
->
-> Both are wrong, wrong, wrong, but you run into them all the time even in
-> attempts at formal writing (particularly the latter--people get anxious,
-> it seems, and think that this error somehow puts their text into a
-> higher register).
->
-> Regards,
-> Branden
->
-> [1] Example: "The market is full of things that you might need or want."
-> [2] which can get highfalutin' and florid, to say nothing of loquacious
+the manpage-l10n project maintains a large number of translations of
+man pages both from a large variety of sources (including man-pages) as
+well for a large variety of target languages.
 
-Thanks for the thorough explanation! I really appreciate it.
+During their work translators notice different possible issues in the
+original (english) man pages. Sometimes this is a straightforward
+typo, sometimes a hard to read sentence, sometimes this is a
+convention not held up and sometimes we simply do not understand the
+original.
 
---=20
-Best Regards,
-Tom Schwindl
+We use several distributions as sources and update regularly (at
+least every 2 month). This means we are fairly recent (some
+distributions like archlinux also update frequently) but might miss
+the latest upstream version once in a while, so the error might be
+already fixed. We apologize and ask you to close the issue immediately
+if this should be the case, but given the huge volume of projects and
+the very limited number of volunteers we are not able to double check
+each and every issue.
+
+Secondly we translators see the manpages in the neutral po format,
+i.e. converted and harmonized, but not the original source (be it man,
+groff, xml or other). So we cannot provide a true patch (where
+possible), but only an approximation which you need to convert into
+your source format.
+
+Finally the issues I'm reporting have accumulated over time and are
+not always discovered by me, so sometimes my description of the
+problem my be a bit limited - do not hesitate to ask so we can clarify
+them.
+
+I'm now reporting the errors for your project. If future reports
+should use another channel, please let me know.
+
+Please note that B<> means bold and I<> means italic.
