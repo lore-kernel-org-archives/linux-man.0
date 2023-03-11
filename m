@@ -2,28 +2,28 @@ Return-Path: <linux-man-owner@vger.kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id CB150C74A5B
-	for <linux-man@archiver.kernel.org>; Sat, 11 Mar 2023 17:14:06 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 6AADCC7618A
+	for <linux-man@archiver.kernel.org>; Sat, 11 Mar 2023 17:14:07 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S229925AbjCKROF (ORCPT <rfc822;linux-man@archiver.kernel.org>);
-        Sat, 11 Mar 2023 12:14:05 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:54260 "EHLO
+        id S229922AbjCKROG (ORCPT <rfc822;linux-man@archiver.kernel.org>);
+        Sat, 11 Mar 2023 12:14:06 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:54370 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S229922AbjCKROD (ORCPT
-        <rfc822;linux-man@vger.kernel.org>); Sat, 11 Mar 2023 12:14:03 -0500
+        with ESMTP id S229927AbjCKROE (ORCPT
+        <rfc822;linux-man@vger.kernel.org>); Sat, 11 Mar 2023 12:14:04 -0500
 Received: from static.213-239-213-133.clients.your-server.de (luckmann.name [213.239.213.133])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id E296A39BA1
-        for <linux-man@vger.kernel.org>; Sat, 11 Mar 2023 09:14:01 -0800 (PST)
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 3C9A139BA1
+        for <linux-man@vger.kernel.org>; Sat, 11 Mar 2023 09:14:02 -0800 (PST)
 Received: from localhost (localhost [127.0.0.1])
   (uid 502)
   by static.213-239-213-133.clients.your-server.de with local
-  id 0000000000E541A9.00000000640CB6D7.000013B6; Sat, 11 Mar 2023 18:13:59 +0100
-Date:   Sat, 11 Mar 2023 18:13:59 +0100
+  id 0000000000E541AB.00000000640CB6D8.000013ED; Sat, 11 Mar 2023 18:14:00 +0100
+Date:   Sat, 11 Mar 2023 18:14:00 +0100
 From:   Helge Kreutzmann <debian@helgefjell.de>
 To:     alx.manpages@gmail.com
 Cc:     mario.blaettermann@gmail.com, linux-man@vger.kernel.org
 Subject: Issue in man page charsets.7
-Message-ID: <20230311171359.GA5028@Debian-50-lenny-64-minimal>
+Message-ID: <20230311171359.GA5084@Debian-50-lenny-64-minimal>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=utf-8
 Content-Disposition: inline
@@ -37,23 +37,18 @@ X-Mailing-List: linux-man@vger.kernel.org
 
 Without further ado, the following was found:
 
-Issue:    ISO 2375 → ISO/IEC 2375
+Issue:    ISO 10646 → ISO/IEC 10646
 
-"A 94-character set is designated as GI<n> character set by an escape "
-"sequence ESC ( xx (for G0), ESC ) xx (for G1), ESC * xx (for G2), ESC + xx "
-"(for G3), where xx is a symbol or a pair of symbols found in the ISO 2375 "
-"International Register of Coded Character Sets.  For example, ESC ( @ "
-"selects the ISO 646 character set as G0, ESC ( A selects the UK standard "
-"character set (with pound instead of number sign), ESC ( B selects ASCII "
-"(with dollar instead of currency sign), ESC ( M selects a character set for "
-"African languages, ESC ( ! A selects the Cuban character set, and so on."
-msgstr ""
-"Ein 94-Zeichen Satz wird durch eine Escape-Sequenz ESC ( xx (für G0), ESC ) "
-"xx (für G1), ESC * xx (für G2), ESC + xx (für G3) bezeichnet, wobei xx ein "
-"im internationalen Register von kodierten Zeichensätzen in ISO/IEC 2375 "
-"gefundenes Symbol oder ein Paar von Symbolen ist. Beispielsweise wählt ESC "
-"( @ den ISO-646-Zeichensatz als G0, ESC ( A wählt den UK-Standardzeichensatz "
-"(mit Pfundzeichen statt des Nummernzeichens), ESC ( B wählt ASCII (mit "
-"Dollarzeichen anstelle des Währungszeichens), ESC ( M wählt einen "
-"Zeichensatz für afrikanische Sprachen ESC ( ! A wählt den kubanischen "
-"Zeichensatz und so weiter."
+"Unicode (ISO 10646) is a standard which aims to unambiguously represent "
+"every character in every human language.  Unicode's structure permits 20.1 "
+"bits to encode every character.  Since most computers don't include 20.1-bit "
+"integers, Unicode is usually encoded as 32-bit integers internally and "
+"either a series of 16-bit integers (UTF-16) (needing two 16-bit integers "
+"only when encoding certain rare characters) or a series of 8-bit bytes "
+"(UTF-8)."
+
+"A byte 110xxxxx is the start of a 2-byte code, and 110xxxxx 10yyyyyy is "
+"assembled into 00000xxx xxyyyyyy.  A byte 1110xxxx is the start of a 3-byte "
+"code, and 1110xxxx 10yyyyyy 10zzzzzz is assembled into xxxxyyyy yyzzzzzz.  "
+"(When UTF-8 is used to code the 31-bit ISO 10646 then this progression "
+"continues up to 6-byte codes.)"
