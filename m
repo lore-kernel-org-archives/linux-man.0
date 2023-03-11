@@ -2,28 +2,28 @@ Return-Path: <linux-man-owner@vger.kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 9EA2EC6FD1C
-	for <linux-man@archiver.kernel.org>; Sat, 11 Mar 2023 17:13:58 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 1EA4DC61DA4
+	for <linux-man@archiver.kernel.org>; Sat, 11 Mar 2023 17:13:59 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S229469AbjCKRN6 (ORCPT <rfc822;linux-man@archiver.kernel.org>);
+        id S229912AbjCKRN6 (ORCPT <rfc822;linux-man@archiver.kernel.org>);
         Sat, 11 Mar 2023 12:13:58 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:53806 "EHLO
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:53838 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S229552AbjCKRN5 (ORCPT
+        with ESMTP id S229848AbjCKRN5 (ORCPT
         <rfc822;linux-man@vger.kernel.org>); Sat, 11 Mar 2023 12:13:57 -0500
 Received: from static.213-239-213-133.clients.your-server.de (luckmann.name [213.239.213.133])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 8F51A38EAA
-        for <linux-man@vger.kernel.org>; Sat, 11 Mar 2023 09:13:55 -0800 (PST)
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 024BC91B50
+        for <linux-man@vger.kernel.org>; Sat, 11 Mar 2023 09:13:56 -0800 (PST)
 Received: from localhost (localhost [127.0.0.1])
   (uid 502)
   by static.213-239-213-133.clients.your-server.de with local
-  id 0000000000E540C5.00000000640CB6D2.00001274; Sat, 11 Mar 2023 18:13:54 +0100
-Date:   Sat, 11 Mar 2023 18:13:54 +0100
+  id 0000000000E540D1.00000000640CB6D3.0000128B; Sat, 11 Mar 2023 18:13:55 +0100
+Date:   Sat, 11 Mar 2023 18:13:55 +0100
 From:   Helge Kreutzmann <debian@helgefjell.de>
 To:     alx.manpages@gmail.com
 Cc:     mario.blaettermann@gmail.com, linux-man@vger.kernel.org
-Subject: Dear linux man-pages maintainer,
-Message-ID: <20230311171354.GA4709@Debian-50-lenny-64-minimal>
+Subject: Issue in man page dsp56k.4
+Message-ID: <20230311171354.GA4732@Debian-50-lenny-64-minimal>
 Mime-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Transfer-Encoding: 7bit
@@ -37,37 +37,6 @@ X-Mailing-List: linux-man@vger.kernel.org
 
 Without further ado, the following was found:
 
-the manpage-l10n project maintains a large number of translations of
-man pages both from a large variety of sources (including man-pages) as
-well for a large variety of target languages.
+Issue:    dsp56k -> I<dsp56k>
 
-During their work translators notice different possible issues in the
-original (english) man pages. Sometimes this is a straightforward
-typo, sometimes a hard to read sentence, sometimes this is a
-convention not held up and sometimes we simply do not understand the
-original.
-
-We use several distributions as sources and update regularly (at
-least every 2 month). This means we are fairly recent (some
-distributions like archlinux also update frequently) but might miss
-the latest upstream version once in a while, so the error might be
-already fixed. We apologize and ask you to close the issue immediately
-if this should be the case, but given the huge volume of projects and
-the very limited number of volunteers we are not able to double check
-each and every issue.
-
-Secondly we translators see the manpages in the neutral po format,
-i.e. converted and harmonized, but not the original source (be it man,
-groff, xml or other). So we cannot provide a true patch (where
-possible), but only an approximation which you need to convert into
-your source format.
-
-Finally the issues I'm reporting have accumulated over time and are
-not always discovered by me, so sometimes my description of the
-problem my be a bit limited - do not hesitate to ask so we can clarify
-them.
-
-I'm now reporting the errors for your project. If future reports
-should use another channel, please let me know.
-
-Please note that B<> means bold and I<> means italic.
+"dsp56k"
