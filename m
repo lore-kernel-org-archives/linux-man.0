@@ -2,38 +2,34 @@ Return-Path: <linux-man-owner@vger.kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 5E7ACC6FA99
-	for <linux-man@archiver.kernel.org>; Sun, 12 Mar 2023 06:03:03 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 58694C6FD19
+	for <linux-man@archiver.kernel.org>; Sun, 12 Mar 2023 06:03:41 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S229621AbjCLGDC (ORCPT <rfc822;linux-man@archiver.kernel.org>);
-        Sun, 12 Mar 2023 01:03:02 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:33834 "EHLO
+        id S229642AbjCLGDk (ORCPT <rfc822;linux-man@archiver.kernel.org>);
+        Sun, 12 Mar 2023 01:03:40 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:35916 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S229534AbjCLGDB (ORCPT
-        <rfc822;linux-man@vger.kernel.org>); Sun, 12 Mar 2023 01:03:01 -0500
+        with ESMTP id S229534AbjCLGDj (ORCPT
+        <rfc822;linux-man@vger.kernel.org>); Sun, 12 Mar 2023 01:03:39 -0500
 Received: from static.213-239-213-133.clients.your-server.de (luckmann.name [213.239.213.133])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 7FCA2C66C
-        for <linux-man@vger.kernel.org>; Sat, 11 Mar 2023 22:02:57 -0800 (PST)
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 27B233BDA7
+        for <linux-man@vger.kernel.org>; Sat, 11 Mar 2023 22:03:37 -0800 (PST)
 Received: from localhost (localhost [127.0.0.1])
   (uid 502)
   by static.213-239-213-133.clients.your-server.de with local
-  id 0000000000E5403E.00000000640D6B10.00004B3E; Sun, 12 Mar 2023 07:02:56 +0100
-Date:   Sun, 12 Mar 2023 07:02:56 +0100
+  id 0000000000E540D2.00000000640D61D5.00004221; Sun, 12 Mar 2023 06:23:33 +0100
+Date:   Sun, 12 Mar 2023 06:23:33 +0100
 From:   Helge Kreutzmann <debian@helgefjell.de>
-To:     Seth David Schoen <schoen@loyalty.org>
-Cc:     Alejandro Colomar <alx.manpages@gmail.com>,
-        mario.blaettermann@gmail.com, linux-man@vger.kernel.org
-Subject: Re: Dear linux man-pages maintainer,
-Message-ID: <20230312060256.GJ7927@Debian-50-lenny-64-minimal>
-References: <20230311171354.GA4709@Debian-50-lenny-64-minimal>
- <20230311185634.GA441010@demorgan>
- <5f55b64b-0cdf-6a2f-3af8-b9dd9e8ff070@gmail.com>
- <20230312052006.GF7927@Debian-50-lenny-64-minimal>
- <20230312054710.GB441010@demorgan>
+To:     Alejandro Colomar <alx.manpages@gmail.com>
+Cc:     mario.blaettermann@gmail.com, linux-man@vger.kernel.org
+Subject: Re: Issue in man page nfsservctl.2
+Message-ID: <20230312052333.GG7927@Debian-50-lenny-64-minimal>
+References: <20230311171355.GA4755@Debian-50-lenny-64-minimal>
+ <730751cc-f526-2378-98ba-36834f4c5d8e@gmail.com>
 Mime-Version: 1.0
-Content-Type: multipart/signed; micalg=pgp-sha256; protocol="application/pgp-signature"; boundary="=_luckmann.name-19262-1678600976-0001-2"
+Content-Type: multipart/signed; micalg=pgp-sha256; protocol="application/pgp-signature"; boundary="=_luckmann.name-16929-1678598613-0001-2"
 Content-Disposition: inline
-In-Reply-To: <20230312054710.GB441010@demorgan>
+In-Reply-To: <730751cc-f526-2378-98ba-36834f4c5d8e@gmail.com>
 X-Public-Key-URL: http://www.helgefjell.de/data/debian_neu.asc
 X-homepage: http://www.helgefjell.de/debian
 User-Agent: Mutt/1.10.1 (2018-07-13)
@@ -44,67 +40,26 @@ X-Mailing-List: linux-man@vger.kernel.org
 This is a MIME-formatted message.  If you see this text it means that your
 E-mail software does not support MIME-formatted messages.
 
---=_luckmann.name-19262-1678600976-0001-2
+--=_luckmann.name-16929-1678598613-0001-2
 Content-Type: text/plain; charset=utf-8
 Content-Disposition: inline
 Content-Transfer-Encoding: quoted-printable
 
-Hello Seth,
-On Sat, Mar 11, 2023 at 09:47:10PM -0800, Seth David Schoen wrote:
-> Helge Kreutzmann writes:
->=20
-> > Sigh, learning more and more the finer details of English.
+Hello Alex,
+On Sun, Mar 12, 2023 at 12:31:05AM +0100, Alejandro Colomar wrote:
+> On 3/11/23 18:13, Helge Kreutzmann wrote:
+> > Without further ado, the following was found:
 > >=20
-> > I just wonder, since these are technical documents, if this is
-> > supporting understanding or reducing it? Personllay I prefer one word
-> > for one concept.
+> > Issue:    mountd(8) =E2=86=92 B<mountd>(8)
 >=20
-> There's a commonly-suggested rule in style guides that "open" compound
-> nouns (those still written as multiple distinct words) should be
-> hyphenated when used to modify another noun, but not when an open
-> compound noun occurs as a noun by itself.
->=20
-> So for example, we might have "Richard Stallman wrote several
-> free-software licenses", but "Richard Stallman originated the modern
-> concept of free software".
+> We don't use that formatting in example code.
 
-Thanks for this extensive explanation. I simply guess there are
-several englishes and it evolves (as stated by the article you cited).
-When I was in school (this includes American high school in early
-90's) I think I learned that hyphens are quite uncommon in english.
-Recently I also got the explanation, that "email" is correct (as well
-as e-mail is).
+I think I saw it elsewhere, but then probably from one of our ~ 100
+other projects.
 
-> We might sort of analogize it to the German rule for the case where a
-> proper name is used as a part of the proper name of something else
-> (like a street, school, or prize).  There German expects to hyphenate
-> the entire resulting phrase, like
->=20
-> Heinrich-B=C3=B6ll-Preis
-=E2=80=A6
-> even though the original proper names (Heinrich B=C3=B6ll, Kaiser Wilhelm,
-> Karl Marx, etc.) aren't hyphenated when used in their original sense to
-> refer to _people_.  While this English rule isn't exactly the same,
-> it also shows a propensity for using a hyphen when a noun is used in
-> one context, but not when the same noun is used in a different context.
-
-As a German native speaker, this sort of reminded me on this one.
-(Just to note, that this rule is a little bit more complicated and
-also evolving).
-
-Probably this is a similar trend like with commas. As I never mastered
-them correctly in English in school, I asked a PhD student for English
-(in a German university) about the rules and she basically said: if in
-doubt, don't use a comma. And gave me a few cheat sheets when commas
-are used. This was ~ 15 years ago.
-
-Now I see many commas, like we do in German. Including large commits
-adding them.
-
-I just wonder if reporting "errors" like these in man-pages makes
-sense. Looking at this conversion you are very well aware of all the
-details of English, so my 5 cents are probably more distracting /
-confusing than helpful? (Though I learn a lot form them).
+(And again, for hyperlinking etc. I think it can be helpful; I just
+checked, even with formatting I can simply copy that code out - so
+there is not disadvantage?)
 
 Greetings
 
@@ -116,25 +71,25 @@ Greetings
         64bit GNU powered                     gpg signed mail preferred
            Help keep free software "libre": http://www.ffii.de/
 
---=_luckmann.name-19262-1678600976-0001-2
+--=_luckmann.name-16929-1678598613-0001-2
 Content-Type: application/pgp-signature; name="signature.asc"
 Content-Transfer-Encoding: 7bit
 
 -----BEGIN PGP SIGNATURE-----
 
-iQIzBAABCAAdFiEEbZZfteMW0gNUynuwQbqlJmgq5nAFAmQNawoACgkQQbqlJmgq
-5nCTgg//aZSza5jA+VHPqkkLOFAS7g9Nml7cmy1qtxUH5n8N7VuW5nrG9Eg6lXvW
-IEi1qLY3aMSGhyaVy/32QDxY0DNsF3S6l80phh7ndnJBFDwsCnCM6oT0+Tt5rELq
-Gcih9Xf6uj91w7c1S3iCl4SlkC+01hQ9WTJmO2tQTxap4bCTbC5FJUMi8ABSDN5Y
-u/x4MUJ4y8Dzu4xoN98Mb6FZLcVKycxZJFTO/iA1b3iiLxAYR0e9p6HJb4hqwCFv
-pAqWPhejMD4yWr/LLVTcq1rcfmix5PKzyV6NHUeKANdE9UeZWlR7Qy3WQiZJXLBS
-ugrzakqBvTIpgaqXyPJtLb2KZrawJV9SZcuKu7nSA6DC+5IPksbnMRqHRdNxX2Zx
-vQ4v1FW86y/0fl1e9tST8H0KNdPzKlY0OuWXV5mopD/FuqWdsstYKmE976x8HpET
-uMHbINlVuUtEEL/bWYemyXuhCMXEQ4+8PZYDvFJUMN+rHKGQ+Ad4lojMYPG3YHbF
-qdeJPAtL9v1KHrO3DLqHqNifgirX+Qk2YTeiGZg3b0zULakls4G/NvzuaeyKuFhL
-L4GIjUwtjZYkt1ve+FOtQQG4++R6zdNhuh70vwuQO3ofpayispSrWg0cvHSGW+eD
-vBHlf8coUd2OADu4UYAERPIjw2mHJEQPK+V+aY23L9xzxv70H6g=
-=HmeL
+iQIzBAABCAAdFiEEbZZfteMW0gNUynuwQbqlJmgq5nAFAmQNYdQACgkQQbqlJmgq
+5nCsxw//URd/ZD61v7mH5YhRZ+u+bndAZ5YUuPBZnRMEOsJ3S5SBEP6o2MSNuQbW
+4GNTdnG7dhcFnRkfeNHquw/d5YWh5zJR/LEgqzCzIBfXEd/ZyOMygF3oJztd6qVi
+gtSzPwwAohNU5AkSr1Vf9MaFuT5fOjK7bOfrVaJAJJhX3Pc9b8q6TshRl9Wdh2+w
+H1fNnwUc3ElnL9TEkTlKWPdwMtvibLGpDaHBrHcq0y9IwqyYhpyVHljcOGgdQHd3
+LHSCBiC51maEADinra/BnHlkIMa9FDmE6KBUvyjVqjDo/nT1Ti6Y5Y6tByQs+NQx
+By0hEyQDZ83qkff5OMnfDgkBPc8S6Yd6bFUTdpZOToPNoiWBPQfryUrKlUi8G4TZ
+ZMYXNnQIgFGiBuJFBNxrHRkvl9xg7FjByBIvwL21El7ZOLwoGAknt8hXtbGhvpxL
+/7bQ5oZBMQNUt9wSV3GFOsDHI3HtleVxxFL8EFUC4JpD27JUQN2FY5oCUvkb7FiD
+j4+Ew4nvAcRp2HRzPU2R+Yirwkz+VQsZ9/TKmBJqWBB+5MLZlp06BN+/qF7EmJEI
+J8NwNIB/WsS9Ktdi6vhvEGLqt0Wx+083PCbOeQSYkBIfCWZwhd22uLBt5X5DIGnP
+tTlkGhVXpJfURVYzSHA7z/v4Ig4KB3VNqbCx+Mjc50xKCm/iCOk=
+=Hrpv
 -----END PGP SIGNATURE-----
 
---=_luckmann.name-19262-1678600976-0001-2--
+--=_luckmann.name-16929-1678598613-0001-2--
