@@ -2,36 +2,38 @@ Return-Path: <linux-man-owner@vger.kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 50508C6FA99
-	for <linux-man@archiver.kernel.org>; Sun, 12 Mar 2023 06:00:19 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 5E7ACC6FA99
+	for <linux-man@archiver.kernel.org>; Sun, 12 Mar 2023 06:03:03 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S229618AbjCLGAR (ORCPT <rfc822;linux-man@archiver.kernel.org>);
-        Sun, 12 Mar 2023 01:00:17 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:60522 "EHLO
+        id S229621AbjCLGDC (ORCPT <rfc822;linux-man@archiver.kernel.org>);
+        Sun, 12 Mar 2023 01:03:02 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:33834 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S229534AbjCLGAR (ORCPT
-        <rfc822;linux-man@vger.kernel.org>); Sun, 12 Mar 2023 01:00:17 -0500
+        with ESMTP id S229534AbjCLGDB (ORCPT
+        <rfc822;linux-man@vger.kernel.org>); Sun, 12 Mar 2023 01:03:01 -0500
 Received: from static.213-239-213-133.clients.your-server.de (luckmann.name [213.239.213.133])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id DB8F73B649
-        for <linux-man@vger.kernel.org>; Sat, 11 Mar 2023 22:00:13 -0800 (PST)
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 7FCA2C66C
+        for <linux-man@vger.kernel.org>; Sat, 11 Mar 2023 22:02:57 -0800 (PST)
 Received: from localhost (localhost [127.0.0.1])
   (uid 502)
   by static.213-239-213-133.clients.your-server.de with local
-  id 0000000000E5403E.00000000640D6106.00007800; Sun, 12 Mar 2023 06:20:06 +0100
-Date:   Sun, 12 Mar 2023 06:20:06 +0100
+  id 0000000000E5403E.00000000640D6B10.00004B3E; Sun, 12 Mar 2023 07:02:56 +0100
+Date:   Sun, 12 Mar 2023 07:02:56 +0100
 From:   Helge Kreutzmann <debian@helgefjell.de>
-To:     Alejandro Colomar <alx.manpages@gmail.com>
-Cc:     Seth David Schoen <schoen@loyalty.org>,
+To:     Seth David Schoen <schoen@loyalty.org>
+Cc:     Alejandro Colomar <alx.manpages@gmail.com>,
         mario.blaettermann@gmail.com, linux-man@vger.kernel.org
 Subject: Re: Dear linux man-pages maintainer,
-Message-ID: <20230312052006.GF7927@Debian-50-lenny-64-minimal>
+Message-ID: <20230312060256.GJ7927@Debian-50-lenny-64-minimal>
 References: <20230311171354.GA4709@Debian-50-lenny-64-minimal>
  <20230311185634.GA441010@demorgan>
  <5f55b64b-0cdf-6a2f-3af8-b9dd9e8ff070@gmail.com>
+ <20230312052006.GF7927@Debian-50-lenny-64-minimal>
+ <20230312054710.GB441010@demorgan>
 Mime-Version: 1.0
-Content-Type: multipart/signed; micalg=pgp-sha256; protocol="application/pgp-signature"; boundary="=_luckmann.name-30720-1678598406-0001-2"
+Content-Type: multipart/signed; micalg=pgp-sha256; protocol="application/pgp-signature"; boundary="=_luckmann.name-19262-1678600976-0001-2"
 Content-Disposition: inline
-In-Reply-To: <5f55b64b-0cdf-6a2f-3af8-b9dd9e8ff070@gmail.com>
+In-Reply-To: <20230312054710.GB441010@demorgan>
 X-Public-Key-URL: http://www.helgefjell.de/data/debian_neu.asc
 X-homepage: http://www.helgefjell.de/debian
 User-Agent: Mutt/1.10.1 (2018-07-13)
@@ -42,37 +44,67 @@ X-Mailing-List: linux-man@vger.kernel.org
 This is a MIME-formatted message.  If you see this text it means that your
 E-mail software does not support MIME-formatted messages.
 
---=_luckmann.name-30720-1678598406-0001-2
-Content-Type: text/plain; charset=us-ascii
+--=_luckmann.name-19262-1678600976-0001-2
+Content-Type: text/plain; charset=utf-8
 Content-Disposition: inline
 Content-Transfer-Encoding: quoted-printable
 
-Hello Alex,
-On Sun, Mar 12, 2023 at 12:29:45AM +0100, Alejandro Colomar wrote:
-> On 3/11/23 19:56, Seth David Schoen wrote:
-> > I am not the maintainer or anything, but I think it's great that
-> > translators give feedback on the original text.
-> >=20
-> > I have two disagreements with your changes:
-
-> > (2) You proposed correcting "runlevel" to "run level".  The word
-> > "runlevel" is a coinage by operating system developers; in ordinary
-> > English it would indeed have to be two words, but it's common to write
-> > it with no space in this context.
+Hello Seth,
+On Sat, Mar 11, 2023 at 09:47:10PM -0800, Seth David Schoen wrote:
+> Helge Kreutzmann writes:
 >=20
-> About this, in the Linux man-pages we tend to favor correct English,
-> and not words like runlevel or userspace.  So, when it is a noun it
-> is run level, and when it's an adjective, it's run-level.  I'll have
-> a look at it, and see what needs fixing.
+> > Sigh, learning more and more the finer details of English.
+> >=20
+> > I just wonder, since these are technical documents, if this is
+> > supporting understanding or reducing it? Personllay I prefer one word
+> > for one concept.
+>=20
+> There's a commonly-suggested rule in style guides that "open" compound
+> nouns (those still written as multiple distinct words) should be
+> hyphenated when used to modify another noun, but not when an open
+> compound noun occurs as a noun by itself.
+>=20
+> So for example, we might have "Richard Stallman wrote several
+> free-software licenses", but "Richard Stallman originated the modern
+> concept of free software".
 
-Sigh, learning more and more the finer details of English.
+Thanks for this extensive explanation. I simply guess there are
+several englishes and it evolves (as stated by the article you cited).
+When I was in school (this includes American high school in early
+90's) I think I learned that hyphens are quite uncommon in english.
+Recently I also got the explanation, that "email" is correct (as well
+as e-mail is).
 
-I just wonder, since these are technical documents, if this is
-supporting understanding or reducing it? Personllay I prefer one word
-for one concept.
+> We might sort of analogize it to the German rule for the case where a
+> proper name is used as a part of the proper name of something else
+> (like a street, school, or prize).  There German expects to hyphenate
+> the entire resulting phrase, like
+>=20
+> Heinrich-B=C3=B6ll-Preis
+=E2=80=A6
+> even though the original proper names (Heinrich B=C3=B6ll, Kaiser Wilhelm,
+> Karl Marx, etc.) aren't hyphenated when used in their original sense to
+> refer to _people_.  While this English rule isn't exactly the same,
+> it also shows a propensity for using a hyphen when a noun is used in
+> one context, but not when the same noun is used in a different context.
 
-Just to complete the picture: Is "runlevel" (i.e. one word) ever
-correct?
+As a German native speaker, this sort of reminded me on this one.
+(Just to note, that this rule is a little bit more complicated and
+also evolving).
+
+Probably this is a similar trend like with commas. As I never mastered
+them correctly in English in school, I asked a PhD student for English
+(in a German university) about the rules and she basically said: if in
+doubt, don't use a comma. And gave me a few cheat sheets when commas
+are used. This was ~ 15 years ago.
+
+Now I see many commas, like we do in German. Including large commits
+adding them.
+
+I just wonder if reporting "errors" like these in man-pages makes
+sense. Looking at this conversion you are very well aware of all the
+details of English, so my 5 cents are probably more distracting /
+confusing than helpful? (Though I learn a lot form them).
 
 Greetings
 
@@ -84,25 +116,25 @@ Greetings
         64bit GNU powered                     gpg signed mail preferred
            Help keep free software "libre": http://www.ffii.de/
 
---=_luckmann.name-30720-1678598406-0001-2
+--=_luckmann.name-19262-1678600976-0001-2
 Content-Type: application/pgp-signature; name="signature.asc"
 Content-Transfer-Encoding: 7bit
 
 -----BEGIN PGP SIGNATURE-----
 
-iQIzBAABCAAdFiEEbZZfteMW0gNUynuwQbqlJmgq5nAFAmQNYQYACgkQQbqlJmgq
-5nB/rA//Uu8aMtj+m1w9DWS2VP+E9dKfu3uFrWacPYp7rp2ondz0p2DdiWJI/0+c
-q2/vjmD1QB4tNvjSoYAIMUY4d99Zy7mTpa1opIzIdFASgSKwHyTEDgyueOKdoISH
-jz6LpPnLKx1bezAt15nmnyLqu5DeLbpU+fFmzq8W4X+THF89bFwLh/4RnBBK/PI1
-akr1a6gc2OFGRpcTB2UK4y5VtL8K6LgJmAdIxHoHy3ySf+ERzxjLELzxR0X4kkqb
-erDpzuMIK6IqYowrvJHQpOrrxgOwwViSLVa0Ajk79SDiiHLKHLkec51w64WjXoWW
-xbkgBR+tnKcdADRaIqsAR//GdQfKK1NMGCyF87gVciBTLQXLUoiQ5vrwB73PSJLk
-q3fNDK0Eu43/FdL5RWG4lv2HB/DykbwTB1jmnfGF+94K6LWTwX8uqd5vKTf5BHI8
-ie/Cn3xal5gypz2QmbOluWexwtJF1KptgLuA0C9LA5DmoEtY3r0FxxpkLhltPRa4
-ga5HxJWDe8DpswzVb9j30xU6L8iz894+XWFVScmn0EoXLTGIkrXHOo7xeHvXYMrv
-wHIXY3CqNBizT3R5gCXrhztjH1dxoLKaWYQ+NrsMThw9uGRL1SctwHKIKUaJCn3V
-tkv16gRPpUYMd+Rmai0E30NXBnPXGBxPkUCGzukXFgqa18DFNYc=
-=xxQc
+iQIzBAABCAAdFiEEbZZfteMW0gNUynuwQbqlJmgq5nAFAmQNawoACgkQQbqlJmgq
+5nCTgg//aZSza5jA+VHPqkkLOFAS7g9Nml7cmy1qtxUH5n8N7VuW5nrG9Eg6lXvW
+IEi1qLY3aMSGhyaVy/32QDxY0DNsF3S6l80phh7ndnJBFDwsCnCM6oT0+Tt5rELq
+Gcih9Xf6uj91w7c1S3iCl4SlkC+01hQ9WTJmO2tQTxap4bCTbC5FJUMi8ABSDN5Y
+u/x4MUJ4y8Dzu4xoN98Mb6FZLcVKycxZJFTO/iA1b3iiLxAYR0e9p6HJb4hqwCFv
+pAqWPhejMD4yWr/LLVTcq1rcfmix5PKzyV6NHUeKANdE9UeZWlR7Qy3WQiZJXLBS
+ugrzakqBvTIpgaqXyPJtLb2KZrawJV9SZcuKu7nSA6DC+5IPksbnMRqHRdNxX2Zx
+vQ4v1FW86y/0fl1e9tST8H0KNdPzKlY0OuWXV5mopD/FuqWdsstYKmE976x8HpET
+uMHbINlVuUtEEL/bWYemyXuhCMXEQ4+8PZYDvFJUMN+rHKGQ+Ad4lojMYPG3YHbF
+qdeJPAtL9v1KHrO3DLqHqNifgirX+Qk2YTeiGZg3b0zULakls4G/NvzuaeyKuFhL
+L4GIjUwtjZYkt1ve+FOtQQG4++R6zdNhuh70vwuQO3ofpayispSrWg0cvHSGW+eD
+vBHlf8coUd2OADu4UYAERPIjw2mHJEQPK+V+aY23L9xzxv70H6g=
+=HmeL
 -----END PGP SIGNATURE-----
 
---=_luckmann.name-30720-1678598406-0001-2--
+--=_luckmann.name-19262-1678600976-0001-2--
