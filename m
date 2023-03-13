@@ -2,101 +2,80 @@ Return-Path: <linux-man-owner@vger.kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 3701DC6FD19
-	for <linux-man@archiver.kernel.org>; Mon, 13 Mar 2023 13:46:57 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id B4BF8C61DA4
+	for <linux-man@archiver.kernel.org>; Mon, 13 Mar 2023 16:02:05 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S231172AbjCMNq4 (ORCPT <rfc822;linux-man@archiver.kernel.org>);
-        Mon, 13 Mar 2023 09:46:56 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:47082 "EHLO
+        id S229992AbjCMQCE (ORCPT <rfc822;linux-man@archiver.kernel.org>);
+        Mon, 13 Mar 2023 12:02:04 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:39980 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S231182AbjCMNqx (ORCPT
-        <rfc822;linux-man@vger.kernel.org>); Mon, 13 Mar 2023 09:46:53 -0400
-Received: from mail-io1-xd49.google.com (mail-io1-xd49.google.com [IPv6:2607:f8b0:4864:20::d49])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id A74E96C6BF
-        for <linux-man@vger.kernel.org>; Mon, 13 Mar 2023 06:46:41 -0700 (PDT)
-Received: by mail-io1-xd49.google.com with SMTP id i2-20020a5d9e42000000b0074cfcc4ed07so6505236ioi.22
-        for <linux-man@vger.kernel.org>; Mon, 13 Mar 2023 06:46:41 -0700 (PDT)
+        with ESMTP id S230521AbjCMQCD (ORCPT
+        <rfc822;linux-man@vger.kernel.org>); Mon, 13 Mar 2023 12:02:03 -0400
+Received: from mail-il1-x12a.google.com (mail-il1-x12a.google.com [IPv6:2607:f8b0:4864:20::12a])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 5DD4B73039
+        for <linux-man@vger.kernel.org>; Mon, 13 Mar 2023 09:02:02 -0700 (PDT)
+Received: by mail-il1-x12a.google.com with SMTP id x10so7151256ill.12
+        for <linux-man@vger.kernel.org>; Mon, 13 Mar 2023 09:02:02 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=google.com; s=20210112; t=1678715201;
-        h=cc:to:from:subject:message-id:references:mime-version:in-reply-to
-         :date:from:to:cc:subject:date:message-id:reply-to;
-        bh=1qQVYxCacPSdSamfkz2QnUkPnT0E1Pc2RcshIcrlTNo=;
-        b=Fqq4VU9otzmbXNowF8c/sQ7f381wWLu5z9kIPKbdUrGe2LF19GxDHjcXtcqeOhHTsv
-         4UZDyznkfg3eUQcbhqpe33/XdLSTi7ngg7VVXYnTQ6ogEwuth+UrqVby9ek3QYSvmsfh
-         Hw8GflnUv9vUV7Tui7tVT+llMjzgpy3Mv7gIJnYHJ6d37K6gB34Yxwz2j83TAUvJ5LWD
-         Xvpj/7kKC9JsBvkXajzcjDcr2ZY1gNiLZWFJrkBDI0vQfppJwGqOzRRF/kKZP3p7aDOH
-         Hn+PNlBdQ1ETUG3x6fyxsgpESx3BgRNGDZizDqmYDm6OPDSB3s+rgpZcfzV9Bhmg9aRP
-         OjfQ==
+        d=google.com; s=20210112; t=1678723321;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=H+xY2nVz/Ox3K/46E7s1LMqKz4xiup9uCNT+kycNbuM=;
+        b=hmBY2L8MS+qeFzLKESr/080AgcjIlUxguRA7Wcl3NPZgpVv73a2giQdoLK6EtFQnCs
+         yw5W5eWK3FI/xfYAop44H8bLzJg4Ia89a78aCYUl9n1iyhiNQXODUBvXnloxMPJfNyyK
+         96HRFL/xdLrQXE2TxOTF20r5YKkvQRso75Yp9TokhzvCwwSBtXXIJn4c1TRQI3w6uWbX
+         2aRGXZdQoecxIjE/5Q5iEjd6u/afbIv35bJxxQz/Mb9f/P8X8UYr9BpigeuS1R5Utff7
+         T3drpVMsFfzSIVw8D1OLX3mlMC/o9++0DfwYoc5+t3x5oNkFFIRHYhKPn5hELYWfwrGY
+         kA8A==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20210112; t=1678715201;
-        h=cc:to:from:subject:message-id:references:mime-version:in-reply-to
-         :date:x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
-        bh=1qQVYxCacPSdSamfkz2QnUkPnT0E1Pc2RcshIcrlTNo=;
-        b=4ftgwYyxatnvaLKwGJz0TaUHhnmGEVoENbOhQlAZ1DPRoC4oQQjupu6M4fpwU3eDFa
-         A7fxgGJrc8k42agadN0DxZklZ9CHusVRwewOw/ZhVnBjEoJvge+wvMi7W9n2I5CVw7Ez
-         BovgPZ+6RdIIbRM5SVb86pqJT/Bh5CuxVYt04Ju5B7OitPDk5uyQ5t2zQ0X5N5+NG8Va
-         IGCapUR5cVGqpWwJVIjHIC9r2VqruK1i9rjp6YrETauyfK+BfGZXy6a5kMZHAUU6M31J
-         MLzPa3G2cIhIUpU0fDnxb9eNXpyhRF05xf46JED/IbYlRsGXClsK4jWGCLijRXQhqL4W
-         tHWg==
-X-Gm-Message-State: AO0yUKVfGyVl9cDWkaypahkOta/ipuLF+t5DX+Bf/nmAL76pnW/pCzPB
-        JuYb4vX7bXoDZPMp5EmbVU8OUnMSOLTMhw==
-X-Google-Smtp-Source: AK7set8Oq3ZGF1tLgR4CzsCrn1Qck4uk8hM7d2XDNOASIKn/MV0uPISVvNOEtt6qd3yAvQ7WCy7wHbcvlIKltg==
-X-Received: from talumbau.c.googlers.com ([fda3:e722:ac3:cc00:2b:ff92:c0a8:90d])
- (user=talumbau job=sendgmr) by 2002:a5d:960e:0:b0:74c:8ba9:290e with SMTP id
- w14-20020a5d960e000000b0074c8ba9290emr15585050iol.2.1678715201070; Mon, 13
- Mar 2023 06:46:41 -0700 (PDT)
-Date:   Mon, 13 Mar 2023 13:46:14 +0000
-In-Reply-To: <20230313134614.780515-1-talumbau@google.com>
-Mime-Version: 1.0
-References: <20230313134614.780515-1-talumbau@google.com>
-X-Mailer: git-send-email 2.40.0.rc1.284.g88254d51c5-goog
-Message-ID: <20230313134614.780515-2-talumbau@google.com>
-Subject: [PATCH v2 1/1] posix_fadvise.2: NOREUSE now supported.
+        d=1e100.net; s=20210112; t=1678723321;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
+         :subject:date:message-id:reply-to;
+        bh=H+xY2nVz/Ox3K/46E7s1LMqKz4xiup9uCNT+kycNbuM=;
+        b=EXTlxrJ51LQpVpFeqJg9chOnslpqIDu68tHh10Xf5W9N6nPCi9eUUelulxI8wgD7Y9
+         GR1mgVqdwbs2CnokEWsbgp/45BCFoiNqK+z+c2bwsr5VyeOWEjFK6UM2hm5PtDLrlE+N
+         QQY/Eoaor0b0eSylvSbyH5+UwL9KjFG2B1BSjzolhlTLyw5ewwxn4YBDkbabs/1d8gbc
+         GQKnDv3cYBhO9ufPnV8a12VoOR8igrmRXvf2MeqS0eLlSD30o51BCNTzTWHqNXdCArFm
+         PGvRU2UUSK2EX51Wak4E/JXbailISwbmJpsG30e1tptfWxwrZAQRJaXz0PLE6uj992r9
+         H0Pg==
+X-Gm-Message-State: AO0yUKWy2yWpZO5SXMEdOnXWXg+4sUDOK/DrfuaoYJvCn+GyHG3ms/7h
+        EJO2QaQR7j2A/2Mp5ASkmiuhhepuDqOrRWAlmuFRiw==
+X-Google-Smtp-Source: AK7set98u2F5M7tI5HlWfeK/UWz+N041r5hLXSxXG6wJMPnmUhnHX5wK1NUXdqi1CGlRzVlilyRoArOZW4cXnrFlPCo=
+X-Received: by 2002:a92:c04d:0:b0:30b:d67e:dbe3 with SMTP id
+ o13-20020a92c04d000000b0030bd67edbe3mr111363ilf.3.1678723321495; Mon, 13 Mar
+ 2023 09:02:01 -0700 (PDT)
+MIME-Version: 1.0
+References: <20230313134614.780515-1-talumbau@google.com> <20230313134614.780515-2-talumbau@google.com>
+ <20230313145209.snt5ci5sjop2utq4@jwilk.net>
+In-Reply-To: <20230313145209.snt5ci5sjop2utq4@jwilk.net>
 From:   "T.J. Alumbaugh" <talumbau@google.com>
-To:     Alejandro Colomar <alx.manpages@gmail.com>
-Cc:     Andrew Morton <akpm@linux-foundation.org>,
-        Yu Zhao <yuzhao@google.com>, linux-man@vger.kernel.org,
-        "T.J. Alumbaugh" <talumbau@google.com>
+Date:   Mon, 13 Mar 2023 10:01:25 -0600
+Message-ID: <CABmGT5GOHfpNfU=vJttS-yce02h0XPnxAewskXyNzMmADef_RQ@mail.gmail.com>
+Subject: Re: [PATCH v2 1/1] posix_fadvise.2: NOREUSE now supported.
+To:     Jakub Wilk <jwilk@jwilk.net>
+Cc:     Alejandro Colomar <alx.manpages@gmail.com>,
+        Andrew Morton <akpm@linux-foundation.org>,
+        Yu Zhao <yuzhao@google.com>, linux-man@vger.kernel.org
 Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 Precedence: bulk
 List-ID: <linux-man.vger.kernel.org>
 X-Mailing-List: linux-man@vger.kernel.org
 
-POSIX_FADVISE_NOREUSE is now supported in Linux[1].
-Updates text regarding former no op behavior. Indicates the readahead
-policy and treatment of file pages read with this flag.
+On Mon, Mar 13, 2023 at 9:41=E2=80=AFAM Jakub Wilk <jwilk@jwilk.net> wrote:
+>
+> * T.J. Alumbaugh <talumbau@google.com>, 2023-03-13 13:46:
+> >POSIX_FADVISE_NOREUSE is now supported in Linux[1].
+>
+> s/FADVISE/FADV/?
 
-[1]: https://lore.kernel.org/linux-mm/20221230215252.2628425-2-yuzhao@google.com/
+Yes, you are right. Thanks for the correction. The git commit is
+correct, but I made this error in the cover letter email.
 
-Signed-off-by: T.J. Alumbaugh <talumbau@google.com>
----
- man2/posix_fadvise.2 | 6 +++++-
- 1 file changed, 5 insertions(+), 1 deletion(-)
+-T.J.
 
-diff --git a/man2/posix_fadvise.2 b/man2/posix_fadvise.2
-index 57c65c810..f7faefa0a 100644
---- a/man2/posix_fadvise.2
-+++ b/man2/posix_fadvise.2
-@@ -64,7 +64,10 @@ The specified data will be accessed only once.
- .IP
- Before Linux 2.6.18, \fBPOSIX_FADV_NOREUSE\fP had the
- same semantics as \fBPOSIX_FADV_WILLNEED\fP.
--This was probably a bug; since Linux 2.6.18, this flag is a no-op.
-+This was probably a bug; from Linux 2.6.18 until Linux 6.2 this flag was
-+a no-op. From Linux 6.3 and beyond, \fBPOSIX_FADV_NOREUSE\fP signals
-+that that the LRU algorithm can ignore access to mapped page cache marked
-+by this flag. This is useful, for example, while streaming large files.
- .TP
- .B POSIX_FADV_WILLNEED
- The specified data will be accessed in the near future.
-@@ -154,6 +157,7 @@ in POSIX.1-2001 TC1.
- Under Linux, \fBPOSIX_FADV_NORMAL\fP sets the readahead window to the
- default size for the backing device; \fBPOSIX_FADV_SEQUENTIAL\fP doubles
- this size, and \fBPOSIX_FADV_RANDOM\fP disables file readahead entirely.
-+\fBPOSIX_FADV_NOREUSE\fP does not modify the readahead window size.
- These changes affect the entire file, not just the specified region
- (but other open file handles to the same file are unaffected).
- .PP
--- 
-2.40.0.rc1.284.g88254d51c5-goog
-
+>
+> --
+> Jakub Wilk
