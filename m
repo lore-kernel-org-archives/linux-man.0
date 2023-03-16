@@ -2,224 +2,161 @@ Return-Path: <linux-man-owner@vger.kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id D1BD4C6FD1F
-	for <linux-man@archiver.kernel.org>; Thu, 16 Mar 2023 20:49:12 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 775CFC6FD1F
+	for <linux-man@archiver.kernel.org>; Thu, 16 Mar 2023 21:21:55 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S229674AbjCPUtM (ORCPT <rfc822;linux-man@archiver.kernel.org>);
-        Thu, 16 Mar 2023 16:49:12 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:58382 "EHLO
+        id S229521AbjCPVVy (ORCPT <rfc822;linux-man@archiver.kernel.org>);
+        Thu, 16 Mar 2023 17:21:54 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:44376 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S229521AbjCPUtL (ORCPT
-        <rfc822;linux-man@vger.kernel.org>); Thu, 16 Mar 2023 16:49:11 -0400
-Received: from us-smtp-delivery-124.mimecast.com (us-smtp-delivery-124.mimecast.com [170.10.133.124])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 071901633E
-        for <linux-man@vger.kernel.org>; Thu, 16 Mar 2023 13:48:22 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
-        s=mimecast20190719; t=1678999701;
-        h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
-         to:to:cc; bh=2DBviDjtVQ2jlrN5MbFFdCqpk4s86RnQ7ojkrXt030w=;
-        b=AJZ50Ye9SHM6+OyVrnSuyDqRjXyfNz4niE0nwoZNgn7zTg50V0AzmDGmf7H9T+P68ozjbX
-        vym9FETMdKHkce/Up8LULulYWYFZswWa0ClgvblsdFfhop/3QVGe0Nqma1O3bRX8BaB6od
-        4MhSZ8IFmlPrkdh/mMTnLD9ts4w1j8Y=
-Received: from mimecast-mx02.redhat.com (mx3-rdu2.redhat.com
- [66.187.233.73]) by relay.mimecast.com with ESMTP with STARTTLS
- (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- us-mta-176-ickaWx0kPyKBtEgPHZcUlg-1; Thu, 16 Mar 2023 16:48:18 -0400
-X-MC-Unique: ickaWx0kPyKBtEgPHZcUlg-1
-Received: from smtp.corp.redhat.com (int-mx02.intmail.prod.int.rdu2.redhat.com [10.11.54.2])
-        (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
-        (No client certificate requested)
-        by mimecast-mx02.redhat.com (Postfix) with ESMTPS id C3C023815F76;
-        Thu, 16 Mar 2023 20:48:17 +0000 (UTC)
-Received: from greed.delorie.com (unknown [10.22.8.48])
-        by smtp.corp.redhat.com (Postfix) with ESMTPS id AF97F40C6E67;
-        Thu, 16 Mar 2023 20:48:17 +0000 (UTC)
-Received: from greed.delorie.com.redhat.com (localhost [127.0.0.1])
-        by greed.delorie.com (8.15.2/8.15.2) with ESMTP id 32GKmHSF3599040;
-        Thu, 16 Mar 2023 16:48:17 -0400
-Date:   Thu, 16 Mar 2023 16:48:17 -0400
-Message-Id: <xnv8j02zji.fsf@greed.delorie.com>
-From:   DJ Delorie <dj@redhat.com>
-To:     libc-alpha@sourceware.org, linux-man@vger.kernel.org
-Subject: [patch] aligned_alloc: conform to C17
-X-Scanned-By: MIMEDefang 3.1 on 10.11.54.2
+        with ESMTP id S229516AbjCPVVx (ORCPT
+        <rfc822;linux-man@vger.kernel.org>); Thu, 16 Mar 2023 17:21:53 -0400
+Received: from mail-wr1-x434.google.com (mail-wr1-x434.google.com [IPv6:2a00:1450:4864:20::434])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 9555BCD642
+        for <linux-man@vger.kernel.org>; Thu, 16 Mar 2023 14:21:47 -0700 (PDT)
+Received: by mail-wr1-x434.google.com with SMTP id r18so2784259wrx.1
+        for <linux-man@vger.kernel.org>; Thu, 16 Mar 2023 14:21:47 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20210112; t=1679001706;
+        h=in-reply-to:from:content-language:references:cc:to:subject
+         :user-agent:mime-version:date:message-id:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=GanScnflezjdwJR65ifUz6VrNDM04LNEBP6FWots+ts=;
+        b=Q8hUCb0mYuM6hRE5sJnePhjtuEa+U7Tq4+mSgIGybdnk2O8b/OulU6rA9D57HUqZMm
+         JM5GS6+QZHDafd4MZmGIVM+9RN0bxd/lMdsboOIDm32UCkfVcvh3t6OpjV7qugL7s56s
+         EkXdpWM9yhUPU0TtxDFx19hHkywe9P1qtenf2SrgZBuyykuSZSBaa4vIu3j/9p51NlGZ
+         Aa9HGoRIarVje/gB7OCocM+XBp8Nk94pQfDF7LjSFBjjxQt7MY030vEC1x8zFQ/8hXrl
+         e8Im6ysYWZeghPSoif57m8J9uNLfjR0g4iaC/rG9eMcRLwLJlkv92Sa6nujntQRd+LGJ
+         3GQw==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20210112; t=1679001706;
+        h=in-reply-to:from:content-language:references:cc:to:subject
+         :user-agent:mime-version:date:message-id:x-gm-message-state:from:to
+         :cc:subject:date:message-id:reply-to;
+        bh=GanScnflezjdwJR65ifUz6VrNDM04LNEBP6FWots+ts=;
+        b=slx0gTMAhpucE+e4WR7iYRVHwOUCCuilXp9NaVsJDJUnpJnznqcnDDqjbs3yt6uliD
+         edLlh0x0nodOuiE4H0VUGfRMtASV83T8C9HyYNdjmZZDA4zs1xyWE/AXL1524kuxz48y
+         6MRpfOE9xx71Ljakb1Vpv2jQ0CVkTUslDg50nhWe29E8oHynZqvQkFrmsI+sbTfa+n5V
+         7QbX8oEh3PjdOuMQJqjNMMuce62WA+LM7MvLCwN4Ub0vMwn4GcUYH8b3O4KUS1dcFUgp
+         VtL7i9bZxLvo+r1ER5NtKM7T7tBOtX4J6Zp7VHFvYqp1zHEPh6PTgCb7hY841gEkhskh
+         O6oA==
+X-Gm-Message-State: AO0yUKWEnGklmGArGHC1S1FmaWwSiz1u9/7as1ROj9UeAKU3dEfjKeJ5
+        LjjAycrZSVsHqEM3asLEW0zk3lWOuoQ=
+X-Google-Smtp-Source: AK7set+C/QlLUX2vGl7JBq9cHz9deBAu+K4TLL4BcuvS64acCocyWVhXnnTcidBG8clDOwJSJj4VIQ==
+X-Received: by 2002:a5d:4405:0:b0:2c7:e5f:e0e0 with SMTP id z5-20020a5d4405000000b002c70e5fe0e0mr5734593wrq.65.1679001705893;
+        Thu, 16 Mar 2023 14:21:45 -0700 (PDT)
+Received: from [192.168.0.160] ([170.253.51.134])
+        by smtp.gmail.com with ESMTPSA id k2-20020a5d6e82000000b002c55b0e6ef1sm393588wrz.4.2023.03.16.14.21.44
+        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+        Thu, 16 Mar 2023 14:21:45 -0700 (PDT)
+Message-ID: <0d391f3d-732b-7f58-57b7-b947b70e0ce2@gmail.com>
+Date:   Thu, 16 Mar 2023 22:21:34 +0100
+MIME-Version: 1.0
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
+ Thunderbird/102.8.0
+Subject: Re: online manual pages
+To:     enh <enh@google.com>
+Cc:     Deri <deri@chuzzlewit.myzen.co.uk>,
+        linux-man <linux-man@vger.kernel.org>
+References: <665dd2b3-3e55-5dfc-1c59-666c479c73fd@gmail.com>
+ <CAJgzZooxvLtnkb5+9JH3bAtqtqVDEYxw9+OSjaWZr57vMBurTw@mail.gmail.com>
+Content-Language: en-US
+From:   Alejandro Colomar <alx.manpages@gmail.com>
+In-Reply-To: <CAJgzZooxvLtnkb5+9JH3bAtqtqVDEYxw9+OSjaWZr57vMBurTw@mail.gmail.com>
+Content-Type: multipart/signed; micalg=pgp-sha256;
+ protocol="application/pgp-signature";
+ boundary="------------haoN285MOw2Q56WnF9u6PEZP"
 Precedence: bulk
 List-ID: <linux-man.vger.kernel.org>
 X-Mailing-List: linux-man@vger.kernel.org
 
+This is an OpenPGP/MIME signed message (RFC 4880 and 3156)
+--------------haoN285MOw2Q56WnF9u6PEZP
+Content-Type: multipart/mixed; boundary="------------VM7m2ne9EJHCRzeXiOEIPRv1";
+ protected-headers="v1"
+From: Alejandro Colomar <alx.manpages@gmail.com>
+To: enh <enh@google.com>
+Cc: Deri <deri@chuzzlewit.myzen.co.uk>, linux-man <linux-man@vger.kernel.org>
+Message-ID: <0d391f3d-732b-7f58-57b7-b947b70e0ce2@gmail.com>
+Subject: Re: online manual pages
+References: <665dd2b3-3e55-5dfc-1c59-666c479c73fd@gmail.com>
+ <CAJgzZooxvLtnkb5+9JH3bAtqtqVDEYxw9+OSjaWZr57vMBurTw@mail.gmail.com>
+In-Reply-To: <CAJgzZooxvLtnkb5+9JH3bAtqtqVDEYxw9+OSjaWZr57vMBurTw@mail.gmail.com>
 
-References:
-https://patchwork.sourceware.org/project/glibc/patch/33ec9e0c1e587813b90e8aa771c2c8e6e379dd48.camel@posteo.net/
-https://sourceware.org/bugzilla/show_bug.cgi?id=20137
-https://sourceware.org/pipermail/libc-alpha/2023-February/145858.html
+--------------VM7m2ne9EJHCRzeXiOEIPRv1
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: quoted-printable
 
-The memory.texi portion matches Martin's proposed patch.
+Hi,
 
-man page portion, quoted to avoid CI/CD issues (I can send an official
-patch separately after the glibc patch is applied):
+On 3/16/23 18:55, enh wrote:
+> On Sun, Feb 12, 2023 at 1:37=E2=80=AFPM Alejandro Colomar <alx.manpages=
+@gmail.com>
+> wrote:
+>=20
+>> Hi Elliott,
+>>
+>> I've pushed the new PDF book of the Linux man-pages (Deri produced the=
 
-> diff --git a/man3/posix_memalign.3 b/man3/posix_memalign.3
-> index f5d6618b7..a73ff0421 100644
-> --- a/man3/posix_memalign.3
-> +++ b/man3/posix_memalign.3
-> @@ -91,9 +91,8 @@ The function
->  is the same as
->  .BR memalign (),
->  except for the added restriction that
-> -.I size
-> -should be a multiple of
-> -.IR alignment .
-> +.I alignment
-> +must be a power of two.
->  .PP
->  The obsolete function
->  .BR valloc ()
+>> scripts to produce it) to kernel.org with the 6.03 release of the Linu=
+x
+>> man-pages.  Since you mentioned that you needed Michael to maintain th=
+e
+>> pages in man7, and we don't seem to be able to contact him to do so, m=
+aybe
+>> this is good enough for you for now.  Please have a look at <
+>> https://mirrors.edge.kernel.org/pub/linux/docs/man-pages/book/man-page=
+s-6.03.pdf>
+>> and see if it serves your purpose.  Maybe you can suggest some improve=
+ments.
+>>
+>> You can already link to specific pages (and specific sections within
+>> pages) within that online PDF.
+>>
+>=20
+> how does that work? i've never seen a link to a page _within_ a pdf fil=
+e...
 
+How does that work, as in, how is it implemented?  I don't know.  That's
+Deri's specialty (and in general, groff maintainers).
 
-From 4767e0e764e1a7a5ef01e303f503036379dd42c5 Mon Sep 17 00:00:00 2001
-From: DJ Delorie <dj@redhat.com>
-Date: Thu, 16 Mar 2023 01:33:41 -0400
-Subject: aligned_alloc: conform to C17
+How does that work, as in, how do I get a link to a page within a PDF?
 
-This patch adds the strict checking for power-of-two alignments
-in aligned_alloc(), and updates the manual accordingly.
+<https://mirrors.edge.kernel.org/pub/linux/docs/man-pages/book/man-pages-=
+6.03.pdf#acct_2>
 
-diff --git a/malloc/Versions b/malloc/Versions
-index c763395c6d..28f41a94f3 100644
---- a/malloc/Versions
-+++ b/malloc/Versions
-@@ -67,6 +67,9 @@ libc {
-   GLIBC_2.33 {
-     mallinfo2;
-   }
-+  GLIBC_2.38 {
-+    __libc_aligned_alloc;
-+  }
-   GLIBC_PRIVATE {
-     # Internal startup hook for libpthread.
-     __libc_malloc_pthread_startup;
-diff --git a/malloc/malloc-debug.c b/malloc/malloc-debug.c
-index 3867d15698..4d2ec04a1a 100644
---- a/malloc/malloc-debug.c
-+++ b/malloc/malloc-debug.c
-@@ -268,7 +268,8 @@ __debug_realloc (void *oldmem, size_t bytes)
- strong_alias (__debug_realloc, realloc)
- 
- static void *
--_debug_mid_memalign (size_t alignment, size_t bytes, const void *address)
-+_debug_mid_memalign (size_t alignment, size_t bytes, const void *address,
-+		     int check_alignment)
- {
-   void *(*hook) (size_t, size_t, const void *) =
-     atomic_forced_read (__memalign_hook);
-@@ -281,9 +282,15 @@ _debug_mid_memalign (size_t alignment, size_t bytes, const void *address)
-   if ((!__is_malloc_debug_enabled (MALLOC_MCHECK_HOOK)
-        || !memalign_mcheck_before (alignment, &bytes, &victim)))
-     {
--      victim = (__is_malloc_debug_enabled (MALLOC_CHECK_HOOK)
--		? memalign_check (alignment, bytes)
--		: __libc_memalign (alignment, bytes));
-+      if (check_alignment && !powerof2 (alignment))
-+	{
-+	  __set_errno (EINVAL);
-+	  victim = NULL;
-+	}
-+      else
-+	victim = (__is_malloc_debug_enabled (MALLOC_CHECK_HOOK)
-+		  ? memalign_check (alignment, bytes)
-+		  : __libc_memalign (alignment, bytes));
-     }
-   if (__is_malloc_debug_enabled (MALLOC_MCHECK_HOOK) && victim != NULL)
-     victim = memalign_mcheck_after (victim, alignment, orig_bytes);
-@@ -296,10 +303,15 @@ _debug_mid_memalign (size_t alignment, size_t bytes, const void *address)
- static void *
- __debug_memalign (size_t alignment, size_t bytes)
- {
--  return _debug_mid_memalign (alignment, bytes, RETURN_ADDRESS (0));
-+  return _debug_mid_memalign (alignment, bytes, RETURN_ADDRESS (0), 0);
- }
- strong_alias (__debug_memalign, memalign)
--strong_alias (__debug_memalign, aligned_alloc)
-+static void *
-+__debug_aligned_alloc (size_t alignment, size_t bytes)
-+{
-+  return _debug_mid_memalign (alignment, bytes, RETURN_ADDRESS (0), 1);
-+}
-+strong_alias (__debug_aligned_alloc, aligned_alloc)
- 
- static void *
- __debug_pvalloc (size_t bytes)
-diff --git a/malloc/malloc.c b/malloc/malloc.c
-index 76c50e3f58..09619ed168 100644
---- a/malloc/malloc.c
-+++ b/malloc/malloc.c
-@@ -656,6 +656,9 @@ libc_hidden_proto (__libc_realloc)
- void*  __libc_memalign(size_t, size_t);
- libc_hidden_proto (__libc_memalign)
- 
-+void * __libc_aligned_alloc (size_t alignment, size_t bytes);
-+libc_hidden_proto (__libc_aligned_alloc)
-+
- /*
-   valloc(size_t n);
-   Equivalent to memalign(pagesize, n), where pagesize is the page
-@@ -3509,6 +3512,27 @@ __libc_memalign (size_t alignment, size_t bytes)
-   void *address = RETURN_ADDRESS (0);
-   return _mid_memalign (alignment, bytes, address);
- }
-+libc_hidden_def (__libc_memalign)
-+
-+/* For ISO C11.  */
-+void *
-+__libc_aligned_alloc (size_t alignment, size_t bytes)
-+{
-+  if (!__malloc_initialized)
-+    ptmalloc_init ();
-+
-+  /* Similar to memalign, but ISO C17 requires an error for invalid
-+     alignments.  Valid alignments are non-negative powers of two.  */
-+  if (!powerof2 (alignment))
-+    {
-+      __set_errno (EINVAL);
-+      return 0;
-+    }
-+
-+  void *address = RETURN_ADDRESS (0);
-+  return _mid_memalign (alignment, bytes, address);
-+}
-+libc_hidden_def (__libc_aligned_alloc)
- 
- static void *
- _mid_memalign (size_t alignment, size_t bytes, void *address)
-@@ -3567,9 +3591,6 @@ _mid_memalign (size_t alignment, size_t bytes, void *address)
-           ar_ptr == arena_for_chunk (mem2chunk (p)));
-   return tag_new_usable (p);
- }
--/* For ISO C11.  */
--weak_alias (__libc_memalign, aligned_alloc)
--libc_hidden_def (__libc_memalign)
- 
- void *
- __libc_valloc (size_t bytes)
-@@ -5903,6 +5924,7 @@ weak_alias (__libc_mallinfo, mallinfo)
- strong_alias (__libc_mallinfo2, __mallinfo2)
- weak_alias (__libc_mallinfo2, mallinfo2)
- strong_alias (__libc_mallopt, __mallopt) weak_alias (__libc_mallopt, mallopt)
-+weak_alias (__libc_aligned_alloc, aligned_alloc)
- 
- weak_alias (__malloc_stats, malloc_stats)
- weak_alias (__malloc_usable_size, malloc_usable_size)
-diff --git a/manual/memory.texi b/manual/memory.texi
-index 9d3398a326..8952ff2bfa 100644
---- a/manual/memory.texi
-+++ b/manual/memory.texi
-@@ -995,7 +995,7 @@ power of two than that, use @code{aligned_alloc} or @code{posix_memalign}.
- @c Alias to memalign.
- The @code{aligned_alloc} function allocates a block of @var{size} bytes whose
- address is a multiple of @var{alignment}.  The @var{alignment} must be a
--power of two and @var{size} must be a multiple of @var{alignment}.
-+power of two.
- 
- The @code{aligned_alloc} function returns a null pointer on error and sets
- @code{errno} to one of the following values:
+Go to that PDF, and there are links; copy one and share it.  It has
+bookmarks, so you can navigate with the left panel too.
 
+Cheers,
+Alex
+
+--=20
+<http://www.alejandro-colomar.es/>
+GPG key fingerprint: A9348594CE31283A826FBDD8D57633D441E25BB5
+
+--------------VM7m2ne9EJHCRzeXiOEIPRv1--
+
+--------------haoN285MOw2Q56WnF9u6PEZP
+Content-Type: application/pgp-signature; name="OpenPGP_signature.asc"
+Content-Description: OpenPGP digital signature
+Content-Disposition: attachment; filename="OpenPGP_signature"
+
+-----BEGIN PGP SIGNATURE-----
+
+iQIzBAEBCgAdFiEE6jqH8KTroDDkXfJAnowa+77/2zIFAmQTiF8ACgkQnowa+77/
+2zIP1Q/9ERGS6yn21lUZIpG53LaqRqRmWrKJ0QZqSU9CiiOg4g5l8afX8NKfmEFB
+SS7Tdyr8qDU6QfV5QlTac5NDpWfpwUHZjhS38bYMfOpMh3WHkW15CblQ9tmOtT01
+2njuHH3xOfHW3mFQ37KwwmIwDz7j4W0g92tazyAgaHDnoIM0fjAQ2q5VZ9z1Rcbu
+BUtjPVLHmQyLuB+vqvr/6asaU5f3LONwdfeLsNDHrExa2dbeqaubZuVCo5jv2dlx
+/T95PfMudLgQYUfcDWJgcp9NoudQNs5sGbs3zKxY+9xJflBznoaDC2yTOCPA4m6o
+oMZ5DUkDS4iFiRsiDJysT0n8XMKyzHep1iojAXNajHLY9GFIkuqeOd/cdIi8hn0i
+U5+wdDgkwAZ7/ccngjHt3UTP8q5SJU6e4qrgNolTMK2im5nM962O1Facmj7av84k
+72BDmJvmhk+FDqrWz2G3m/TwBNw4s3slhFv8yF5tGWyvrouxQ31boMs2jkRTCd/+
+zCCYl7KZ/N5gzqBVVosZ1vR6lZcd/G0GuzYjMOKd3V+M8TCdY3A+zFqFkbYWhXyD
+0oVHTI8HSU55SnqqeMQs1G19NpgKLgB6rjjDXg2zq1vSGLKNUVC/JiBDzqg7v0b7
+yEXafegQyjG3z3ovdZAOs69wG3Al0A/Mc99lQGtsiomXn3mGeh8=
+=ANnL
+-----END PGP SIGNATURE-----
+
+--------------haoN285MOw2Q56WnF9u6PEZP--
