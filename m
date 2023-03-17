@@ -2,71 +2,134 @@ Return-Path: <linux-man-owner@vger.kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 51C74C74A5B
-	for <linux-man@archiver.kernel.org>; Thu, 16 Mar 2023 22:00:31 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 0ADB1C74A5B
+	for <linux-man@archiver.kernel.org>; Fri, 17 Mar 2023 13:14:38 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S229890AbjCPWAa (ORCPT <rfc822;linux-man@archiver.kernel.org>);
-        Thu, 16 Mar 2023 18:00:30 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:34018 "EHLO
+        id S229516AbjCQNOh (ORCPT <rfc822;linux-man@archiver.kernel.org>);
+        Fri, 17 Mar 2023 09:14:37 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:59752 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S229849AbjCPWA3 (ORCPT
-        <rfc822;linux-man@vger.kernel.org>); Thu, 16 Mar 2023 18:00:29 -0400
-Received: from zimbra.cs.ucla.edu (zimbra.cs.ucla.edu [131.179.128.68])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id C140069CEB
-        for <linux-man@vger.kernel.org>; Thu, 16 Mar 2023 15:00:28 -0700 (PDT)
-Received: from localhost (localhost [127.0.0.1])
-        by zimbra.cs.ucla.edu (Postfix) with ESMTP id 7652E160081;
-        Thu, 16 Mar 2023 15:00:28 -0700 (PDT)
-Received: from zimbra.cs.ucla.edu ([127.0.0.1])
-        by localhost (zimbra.cs.ucla.edu [127.0.0.1]) (amavisd-new, port 10032)
-        with ESMTP id Y9XRZ8Pz7BHA; Thu, 16 Mar 2023 15:00:27 -0700 (PDT)
-Received: from localhost (localhost [127.0.0.1])
-        by zimbra.cs.ucla.edu (Postfix) with ESMTP id B3416160092;
-        Thu, 16 Mar 2023 15:00:27 -0700 (PDT)
-DKIM-Filter: OpenDKIM Filter v2.9.2 zimbra.cs.ucla.edu B3416160092
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=cs.ucla.edu;
-        s=78364E5A-2AF3-11ED-87FA-8298ECA2D365; t=1679004027;
-        bh=dhR5N5g30cwvGXLa1YkShO0OapM0+kmglmDAFRgFing=;
-        h=Message-ID:Date:MIME-Version:Subject:To:From:Content-Type:
-         Content-Transfer-Encoding;
-        b=XK0iPRZ7RUoM5mp2hmzyHPq/dUbgr3KCM8FuRBkqOHpTRfHCafCMxbxycTVFg7t7F
-         eELfbHj9R7To5uv8PYJfk7Du0XMYINxch3nPYHKBBYvmBFs5oECOgyqFOZKJY3MBWA
-         mL9npFQqVn4N3K9rEXgG3TIMMPKIgzfTBapUyLrk=
-X-Virus-Scanned: amavisd-new at zimbra.cs.ucla.edu
-Received: from zimbra.cs.ucla.edu ([127.0.0.1])
-        by localhost (zimbra.cs.ucla.edu [127.0.0.1]) (amavisd-new, port 10026)
-        with ESMTP id t_RBzg2kZlkr; Thu, 16 Mar 2023 15:00:27 -0700 (PDT)
-Received: from [131.179.64.200] (Penguin.CS.UCLA.EDU [131.179.64.200])
-        by zimbra.cs.ucla.edu (Postfix) with ESMTPSA id 8ED0E160081;
-        Thu, 16 Mar 2023 15:00:27 -0700 (PDT)
-Message-ID: <429de040-82a7-7c0e-82df-42adca64a670@cs.ucla.edu>
-Date:   Thu, 16 Mar 2023 15:00:27 -0700
+        with ESMTP id S229562AbjCQNOg (ORCPT
+        <rfc822;linux-man@vger.kernel.org>); Fri, 17 Mar 2023 09:14:36 -0400
+Received: from mail-wr1-x429.google.com (mail-wr1-x429.google.com [IPv6:2a00:1450:4864:20::429])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 09CAA41087
+        for <linux-man@vger.kernel.org>; Fri, 17 Mar 2023 06:14:32 -0700 (PDT)
+Received: by mail-wr1-x429.google.com with SMTP id t15so4384734wrz.7
+        for <linux-man@vger.kernel.org>; Fri, 17 Mar 2023 06:14:31 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20210112; t=1679058870;
+        h=subject:from:to:content-language:user-agent:mime-version:date
+         :message-id:from:to:cc:subject:date:message-id:reply-to;
+        bh=9xHJX2Dnf7DwzeHqiXCaz5/VuEA7KmPBVK0Mqtin75Y=;
+        b=ZJ37QvMRuO0I0XzwpVlQ0IdmfA5tfoBKubISouhDqCpyEPg+kTGtmboo3wcHCzyVDE
+         68fSMyxhEWN4z1HN3FFhntRQXe4VuqLM/xOFxfgZbW6XeKjC/UiShjZYAoEsqs1J93O/
+         fMg+TVvddUsSVoE2lbDA8rMB+8ElnKXLTqRBWktHRnWOron2FLUqscupmqMuN//e7dIb
+         mMd2NEna3wttuJS3PggGQOwDX4WiefYcqBeB6KUshGSwP9GgctihJ9sfhQ8VM7oj5AAY
+         Kkrt6JeM4hE+V9pjGy05ksWPWFBJkogmDqPT6DlZDY0YgWO6R1x59FzD/SpsvBKRGs86
+         U25A==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20210112; t=1679058870;
+        h=subject:from:to:content-language:user-agent:mime-version:date
+         :message-id:x-gm-message-state:from:to:cc:subject:date:message-id
+         :reply-to;
+        bh=9xHJX2Dnf7DwzeHqiXCaz5/VuEA7KmPBVK0Mqtin75Y=;
+        b=qaYQXPuYDOSUhHgkp/kkSWhQGgoLDMz8mRwjDXp1S2mUOScZZvfSAAtPjvvbHFN1sU
+         sUKhriM+RL9MeVS63xqqa1CCWx8W6jEjhUkH+vV9M+LTZrCJDvrH6Z21gpLgRTcP2Xx3
+         Ds1JxHV59CXIPA53+wVrFEo4pt8IZI/UFfIVgEn/yn09JsvUrrOVDIKmlGXU2vbjM00w
+         PSWZM/YCZVExiMMpT+LzfL79wXaUdQGWqhm9mgv3z1u6LImlu16f/2s/G81T7bhtosW7
+         zj7T6lI3xv7Yhm8a6u7xzvydhn43NECjpl737VYdG5mv2jE8aiPl5LW1hp+bFWA6XIJl
+         C4zg==
+X-Gm-Message-State: AO0yUKWkVzr+9NgNP89uuVmAL2tvef3TIPgqdtdDC0AkmppUTJ/a/ND9
+        iBkzn22ESsMbCe8MLEAYusms9KHdMPI=
+X-Google-Smtp-Source: AK7set/+iMPJ+qcVD1TR2ZjcVOSdvmcbFmhu/Gy6w+fteMpniocuGNq0u7DnauFPxJbyI6pFWEtJ2g==
+X-Received: by 2002:a5d:5964:0:b0:2ce:a6a9:bd58 with SMTP id e36-20020a5d5964000000b002cea6a9bd58mr6620225wri.26.1679058870141;
+        Fri, 17 Mar 2023 06:14:30 -0700 (PDT)
+Received: from [192.168.0.160] ([170.253.51.134])
+        by smtp.gmail.com with ESMTPSA id t10-20020a05600c450a00b003e7c89b3514sm7992113wmo.23.2023.03.17.06.14.29
+        for <linux-man@vger.kernel.org>
+        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+        Fri, 17 Mar 2023 06:14:29 -0700 (PDT)
+Message-ID: <99d0a14b-41f0-8392-6558-add8091cbd9a@gmail.com>
+Date:   Fri, 17 Mar 2023 14:14:21 +0100
 MIME-Version: 1.0
 User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
  Thunderbird/102.8.0
-Subject: Re: [patch] aligned_alloc: conform to C17
 Content-Language: en-US
-To:     DJ Delorie <dj@redhat.com>
-References: <xnv8j02zji.fsf@greed.delorie.com>
-From:   Paul Eggert <eggert@cs.ucla.edu>
-Organization: UCLA Computer Science Department
-Cc:     libc-alpha@sourceware.org, linux-man@vger.kernel.org
-In-Reply-To: <xnv8j02zji.fsf@greed.delorie.com>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 7bit
+To:     linux-man <linux-man@vger.kernel.org>
+From:   Alejandro Colomar <alx.manpages@gmail.com>
+Subject: Order of sections VERSIONS, ATTRIBUTES, STANDARDS, and HISTORY
+Content-Type: multipart/signed; micalg=pgp-sha256;
+ protocol="application/pgp-signature";
+ boundary="------------1vtH40C4H1X8jUxBK131liX3"
 Precedence: bulk
 List-ID: <linux-man.vger.kernel.org>
 X-Mailing-List: linux-man@vger.kernel.org
 
-On 3/16/23 13:48, DJ Delorie via Libc-alpha wrote:
-> +  /* Similar to memalign, but ISO C17 requires an error for invalid
-> +     alignments.  Valid alignments are non-negative powers of two.  */
-> +  if (!powerof2 (alignment))
+This is an OpenPGP/MIME signed message (RFC 4880 and 3156)
+--------------1vtH40C4H1X8jUxBK131liX3
+Content-Type: multipart/mixed; boundary="------------xGIk2R5IhLsn3KUPO7aLPxX7";
+ protected-headers="v1"
+From: Alejandro Colomar <alx.manpages@gmail.com>
+To: linux-man <linux-man@vger.kernel.org>
+Message-ID: <99d0a14b-41f0-8392-6558-add8091cbd9a@gmail.com>
+Subject: Order of sections VERSIONS, ATTRIBUTES, STANDARDS, and HISTORY
 
-powerof2 (0) == 1, unfortunately. Does the C standard let aligned_alloc 
-(alignment, size) succeed when ALIGNMENT is zero? I think not, as zero 
-is 2**-Infinity, and -Infinity is not non-negative. So that line should 
-be changed to something like 'if (!powerof2 (alignment) || alignment == 0)'.
+--------------xGIk2R5IhLsn3KUPO7aLPxX7
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: quoted-printable
 
-There may be other occurrences of this issue in Glibc already; I haven't 
-checked.
+Hi,
+
+man-pages(7) has the following order:
+
+              NAME
+              ...
+              VERSIONS         [Normally only in Sections 2, 3]
+              ATTRIBUTES       [Normally only in Sections 2, 3]
+              STANDARDS
+              ...
+              SEE ALSO
+
+There's no HISTORY, which I'm going to add, right after STANDARDS,
+since it's very related.  I'm not convinced by attributes being
+between VERSIONS and STANDARDS, since those two are also very related
+but have nothing in common with ATTRIBUTES.
+
+I propose changing to the following order:
+
+    ATTRIBUTES, VERSIONS (moved), STANDARDS, HISTORY (new).
+
+So that the three related sections are together.  Any opinions?
+
+Thanks,
+Alex
+
+--=20
+<http://www.alejandro-colomar.es/>
+GPG key fingerprint: A9348594CE31283A826FBDD8D57633D441E25BB5
+
+--------------xGIk2R5IhLsn3KUPO7aLPxX7--
+
+--------------1vtH40C4H1X8jUxBK131liX3
+Content-Type: application/pgp-signature; name="OpenPGP_signature.asc"
+Content-Description: OpenPGP digital signature
+Content-Disposition: attachment; filename="OpenPGP_signature"
+
+-----BEGIN PGP SIGNATURE-----
+
+iQIzBAEBCgAdFiEE6jqH8KTroDDkXfJAnowa+77/2zIFAmQUZ64ACgkQnowa+77/
+2zJW6A/+P5Z5lNwOSE9ge/vqGTwqH+YWHXSdhSiqRJUbMo91s6FZvjiUJ88eknBv
+EWBX88246UMCeyg6/tu7Aykc9Yy0UcpGpDeBRfoltajlhBpW683JR7SV1qRKxp7p
+1nKKi6YCaQWpmjcxyIPCfm+6Hp38EAJoDhFAllK+NNebYemuZsQSVr+HfoyvxHqv
+YHJH7aqAIehdNZL9vDjaqfr1X3YQgviZaAUtzUnMLVY6vodIA/vjYXpa3Wvhi6Qz
+c0R282KyB5j0VmFUAwJpYdPEgPdl0d68MvOT8GbSPNuWRkb96wU9dsImD6gOOfeH
+/7TPrXiwFojE6gWdgRMa9CstamX6Z3LhKxIJINaUMEEY0LxkZbOPJUJ5+zDbBYx5
+S2rFsinlPY2pVvACGed3g7D3gO4j8Y5SoM6BePfKQYTJsiQWUFY1rHzxdgSdnVOi
+xrR3PCreeJUNjoLFCETpRplzF1IWXgQoj+bf9uKHf7kkDfHcsELJ8PEiAyy2EW46
+WMCkzi2gLCZSKijevOvIF3WzVNs5CgDYBzuisqv2PIo3ILgiijVZE4TS69Zi30Yw
+ZWkwr52alL2t+Bm/ATLzRYu6eqnMPDm550H0Lj3gtRz10MTHDt6O5XJ1yfY8blCk
+mCkTQYuFI/wY45/YAdZFvflDgnMjXyFZ8kF/3pJhBdf2FgATgqg=
+=DWxY
+-----END PGP SIGNATURE-----
+
+--------------1vtH40C4H1X8jUxBK131liX3--
