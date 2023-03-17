@@ -2,80 +2,150 @@ Return-Path: <linux-man-owner@vger.kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id BA2E6C6FD1D
-	for <linux-man@archiver.kernel.org>; Fri, 17 Mar 2023 22:10:06 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 49E58C6FD1D
+	for <linux-man@archiver.kernel.org>; Fri, 17 Mar 2023 23:05:23 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S229533AbjCQWKG (ORCPT <rfc822;linux-man@archiver.kernel.org>);
-        Fri, 17 Mar 2023 18:10:06 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:55312 "EHLO
+        id S229516AbjCQXFU (ORCPT <rfc822;linux-man@archiver.kernel.org>);
+        Fri, 17 Mar 2023 19:05:20 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:38994 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S229799AbjCQWKF (ORCPT
-        <rfc822;linux-man@vger.kernel.org>); Fri, 17 Mar 2023 18:10:05 -0400
-X-Greylist: delayed 1147 seconds by postgrey-1.37 at lindbergh.monkeyblade.net; Fri, 17 Mar 2023 15:10:00 PDT
-Received: from 2.mo552.mail-out.ovh.net (2.mo552.mail-out.ovh.net [178.33.105.233])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 87C5439CE4
-        for <linux-man@vger.kernel.org>; Fri, 17 Mar 2023 15:09:59 -0700 (PDT)
-Received: from mxplan6.mail.ovh.net (unknown [10.109.138.233])
-        by mo552.mail-out.ovh.net (Postfix) with ESMTPS id E4F082B22B;
-        Fri, 17 Mar 2023 21:31:51 +0000 (UTC)
-Received: from jwilk.net (37.59.142.106) by DAG4EX1.mxp6.local (172.16.2.31)
- with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id 15.1.2507.23; Fri, 17 Mar
- 2023 22:31:51 +0100
-Authentication-Results: garm.ovh; auth=pass (GARM-106R006101b1cbb-c81c-44d0-a630-6bd7db8aaf6f,
-                    7BE97D1000CF9539D0ABE71C84E8B582AAA28F94) smtp.auth=jwilk@jwilk.net
-X-OVh-ClientIp: 5.172.255.170
-Date:   Fri, 17 Mar 2023 22:31:49 +0100
-From:   Jakub Wilk <jwilk@jwilk.net>
-To:     Alejandro Colomar <alx.manpages@gmail.com>
-CC:     <linux-man@vger.kernel.org>, Alejandro Colomar <alx@kernel.org>,
-        <libc-alpha@sourceware.org>, "Jason A. Donenfeld" <Jason@zx2c4.com>
-Subject: Re: [PATCH] arc4random.3: New page documenting the arc4random(3)
- family of functions
-Message-ID: <20230317213149.cp6nx6fhrmq56msv@jwilk.net>
-References: <20230101162627.28031-1-alx@kernel.org>
- <fd5ee7bd-f4a6-52a6-2f69-7c3547e549c6@gmail.com>
+        with ESMTP id S229733AbjCQXEp (ORCPT
+        <rfc822;linux-man@vger.kernel.org>); Fri, 17 Mar 2023 19:04:45 -0400
+Received: from mail-wr1-x433.google.com (mail-wr1-x433.google.com [IPv6:2a00:1450:4864:20::433])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 5CD373770B
+        for <linux-man@vger.kernel.org>; Fri, 17 Mar 2023 16:04:36 -0700 (PDT)
+Received: by mail-wr1-x433.google.com with SMTP id r18so5738019wrx.1
+        for <linux-man@vger.kernel.org>; Fri, 17 Mar 2023 16:04:36 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20210112; t=1679094274;
+        h=in-reply-to:from:references:cc:to:content-language:subject
+         :user-agent:mime-version:date:message-id:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=lfl8Yq6tqOqgzkYZcjxSzLEWT3CrmXxhl0f3O+/q/Ak=;
+        b=FeShV7qiJBZmH0WuyYI2H0zvaeZt7nmSgxGlzWZ/Gf7tAa6KVfxC1i+9viPFJWl5ax
+         1HXycrKj3s3Mnw/QYf5I8wohJwnIjEcyJ6Wj3gStPkuSeD5vZSQOWLiyjNVf87xF6hmu
+         ml4zFPqM2yf98bZvPLDRDNigJHtB2bn7fXjJkURykJu1HkqKugEY6Ti3FsYTWL86Z9/m
+         Ny0+2+/5C6x/rQaR5jhm+p5MwgLaSBk1JG6isUsBWNJYRm9Qjwi2R2gIaECS4Ngr8BpQ
+         pghFKf84RyOls9L1siAimB/Uhndj5owTZleWTDvQBctfVcpkMP3ybY8QkEH5OivBlz/m
+         a+Lg==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20210112; t=1679094274;
+        h=in-reply-to:from:references:cc:to:content-language:subject
+         :user-agent:mime-version:date:message-id:x-gm-message-state:from:to
+         :cc:subject:date:message-id:reply-to;
+        bh=lfl8Yq6tqOqgzkYZcjxSzLEWT3CrmXxhl0f3O+/q/Ak=;
+        b=sfLtwQh+vIieL3F5rEgnNT9EpTr6EYm2UTzV5ySYhUULo+tkIjEchZH22xNFGUljbt
+         0mGhUPtGawslaMArmp61B72OjW7heEqMk35iGQ4b2hJ7L6eUy05t2RZIthgmbrQZKyFX
+         X7DIf+ssyJZEH1lUyPB24UBAnplsSvA8NC+/iiyXjGOVhz9K0OoTsKRENIE4yrVGa2db
+         1SWb2vSRzGf89vB4sGh0g9Po71da3LXO8N7AIsJ6p+IepSw22ptec0ZyhiUlv56GlFsQ
+         regyS3uvsVc8FGsHzG1uP8BUGuuVDkT5Z4k8u9s0foT3k1rEXBlVfQpITFBaPuzOKyeT
+         YH7g==
+X-Gm-Message-State: AO0yUKXblm5SD/9UEJLimSZfNC6ufGnifWmmXyyECSsD3qMYW+WbObBt
+        fId0wOzdDna1WZRB5YY/HZs=
+X-Google-Smtp-Source: AK7set9n1fQcu9YUoLq2MqntfkgZmJZpRvO7TTTCuZ+nx/LRYmpSqZrSoduuk3yfhGY0A8FTyQyEbw==
+X-Received: by 2002:a5d:40ca:0:b0:2d4:493c:81ad with SMTP id b10-20020a5d40ca000000b002d4493c81admr1106509wrq.5.1679094274503;
+        Fri, 17 Mar 2023 16:04:34 -0700 (PDT)
+Received: from [192.168.0.160] ([170.253.51.134])
+        by smtp.gmail.com with ESMTPSA id b5-20020adfee85000000b002c573778432sm2926152wro.102.2023.03.17.16.04.33
+        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+        Fri, 17 Mar 2023 16:04:34 -0700 (PDT)
+Message-ID: <e86e7e9f-64bd-7d08-38c6-a892dc08af46@gmail.com>
+Date:   Sat, 18 Mar 2023 00:04:25 +0100
 MIME-Version: 1.0
-Content-Type: text/plain; charset="utf-8"; format=flowed
-Content-Disposition: inline
-Content-Transfer-Encoding: 8bit
-In-Reply-To: <fd5ee7bd-f4a6-52a6-2f69-7c3547e549c6@gmail.com>
-X-Originating-IP: [37.59.142.106]
-X-ClientProxiedBy: DAG6EX1.mxp6.local (172.16.2.51) To DAG4EX1.mxp6.local
- (172.16.2.31)
-X-Ovh-Tracer-GUID: 26735445-ff63-437f-933d-1f3f96ec61e2
-X-Ovh-Tracer-Id: 15872655414283982755
-X-VR-SPAMSTATE: OK
-X-VR-SPAMSCORE: -100
-X-VR-SPAMCAUSE: gggruggvucftvghtrhhoucdtuddrgedvhedrvdefvddgudeglecutefuodetggdotefrodftvfcurfhrohhfihhlvgemucfqggfjpdevjffgvefmvefgnecuuegrihhlohhuthemucehtddtnecusecvtfgvtghiphhivghnthhsucdlqddutddtmdenucfjughrpeffhffvvefukfhfgggtugfgjghisehtkeertddttdejnecuhfhrohhmpeflrghkuhgsucghihhlkhcuoehjfihilhhksehjfihilhhkrdhnvghtqeenucggtffrrghtthgvrhhnpeetgedvgfduueegffeftdffueeftedvgfdtteekieevhffhuefgheeuieevgfeijeenucfkphepuddvjedrtddrtddruddpfeejrdehledrudegvddruddtieenucevlhhushhtvghrufhiiigvpedtnecurfgrrhgrmhepihhnvghtpeduvdejrddtrddtrddupdhmrghilhhfrhhomhepoehjfihilhhksehjfihilhhkrdhnvghtqedpnhgspghrtghpthhtohepuddprhgtphhtthhopegrlhigrdhmrghnphgrghgvshesghhmrghilhdrtghomhdplhhinhhugidqmhgrnhesvhhgvghrrdhkvghrnhgvlhdrohhrghdprghlgieskhgvrhhnvghlrdhorhhgpdhlihgstgdqrghlphhhrgesshhouhhrtggvfigrrhgvrdhorhhgpdflrghsohhnseiigidvtgegrdgtohhmpdfovfetjfhoshhtpehmohehhedvpdhmohguvgepshhmthhpohhuth
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
+ Thunderbird/102.8.0
+Subject: Re: [PATCH] pthreads.7: tfix
+Content-Language: en-US
+To:     Tom Schwindl <schwindl@posteo.de>,
+        Alejandro Colomar <alx@kernel.org>
+Cc:     linux-man@vger.kernel.org
+References: <20230317220419.1348-1-schwindl@posteo.de>
+From:   Alejandro Colomar <alx.manpages@gmail.com>
+In-Reply-To: <20230317220419.1348-1-schwindl@posteo.de>
+Content-Type: multipart/signed; micalg=pgp-sha256;
+ protocol="application/pgp-signature";
+ boundary="------------Lqo5NPG52WrqCBw0f0ykF6b0"
 Precedence: bulk
 List-ID: <linux-man.vger.kernel.org>
 X-Mailing-List: linux-man@vger.kernel.org
 
-* Alejandro Colomar <alx.manpages@gmail.com>, 2023-01-01 17:27:
->arc4random_uniform() returns a random number less than upper_bound for 
->valid input, or 0 when upper_bound is invalid.
+This is an OpenPGP/MIME signed message (RFC 4880 and 3156)
+--------------Lqo5NPG52WrqCBw0f0ykF6b0
+Content-Type: multipart/mixed; boundary="------------8N4zWdNflQxIMcpoCYLoNFJg";
+ protected-headers="v1"
+From: Alejandro Colomar <alx.manpages@gmail.com>
+To: Tom Schwindl <schwindl@posteo.de>, Alejandro Colomar <alx@kernel.org>
+Cc: linux-man@vger.kernel.org
+Message-ID: <e86e7e9f-64bd-7d08-38c6-a892dc08af46@gmail.com>
+Subject: Re: [PATCH] pthreads.7: tfix
+References: <20230317220419.1348-1-schwindl@posteo.de>
+In-Reply-To: <20230317220419.1348-1-schwindl@posteo.de>
 
-Is the "or 0 ..." thing part of the API? I could find anything like that 
-in glibc docs or BSD man pages.
+--------------8N4zWdNflQxIMcpoCYLoNFJg
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: quoted-printable
 
->STANDARDS
->       These nonstandard functions are present in several Unix systems.
+Hi Tom,
 
-That's not really helpful. Also, the VERSIONS section is missing ("every 
-new interface should include a VERSIONS section").
+On 3/17/23 23:04, Tom Schwindl wrote:
+> Signed-off-by: Tom Schwindl <schwindl@posteo.de>
+> ---
+>  man7/pthreads.7 | 2 +-
+>  1 file changed, 1 insertion(+), 1 deletion(-)
 
-In contrast, the libbsd man page is much more informative:
+Please also fix the other cases:
 
->These functions first appeared in OpenBSD 2.1, FreeBSD 3.0, NetBSD 
->1.6, and DragonFly 1.0.  The functions arc4random(), arc4random_buf() 
->and arc4random_uniform() appeared in glibc 2.36.
->
->The original version of this random number generator used the RC4 (also 
->known as ARC4) algorithm.  In OpenBSD 5.5 it was replaced with the 
->ChaCha20 cipher, and it may be replaced again in the future as 
->cryptographic techniques advance.  A good mnemonic is “A Replacement 
->Call for Random”.
+$ grep -rni cancellation man*
+man3/pthread_cancel.3:64:Cancellation clean-up handlers are popped
+man7/pthreads.7:238:.SS Cancellation points
+man7/attributes.7:70:.\" AC in AC-Safe stands for Asynchronous Cancellati=
+on.
 
--- 
-Jakub Wilk
+Thanks,
+
+Alex
+
+>=20
+> diff --git a/man7/pthreads.7 b/man7/pthreads.7
+> index e0aad99215d4..50d211a9adba 100644
+> --- a/man7/pthreads.7
+> +++ b/man7/pthreads.7
+> @@ -235,7 +235,7 @@ pthread_setcancelstate()
+>  pthread_setcanceltype()
+>  .EE
+>  .in
+> -.SS Cancellation points
+> +.SS Cancelation points
+>  POSIX.1 specifies that certain functions must,
+>  and certain other functions may, be cancelation points.
+>  If a thread is cancelable, its cancelability type is deferred,
+
+--=20
+<http://www.alejandro-colomar.es/>
+GPG key fingerprint: A9348594CE31283A826FBDD8D57633D441E25BB5
+
+--------------8N4zWdNflQxIMcpoCYLoNFJg--
+
+--------------Lqo5NPG52WrqCBw0f0ykF6b0
+Content-Type: application/pgp-signature; name="OpenPGP_signature.asc"
+Content-Description: OpenPGP digital signature
+Content-Disposition: attachment; filename="OpenPGP_signature"
+
+-----BEGIN PGP SIGNATURE-----
+
+iQIzBAEBCgAdFiEE6jqH8KTroDDkXfJAnowa+77/2zIFAmQU8fkACgkQnowa+77/
+2zKjXw/8CL/7YiY2IcZie1zOWWUWneZwfCmZu7VVdv+IdmI+L7eilquX34L/0NhI
+HJv+tJQR4smSsSpr2WczG7dyuT7dCTnYgTelsucXRIcoGh4kGtRsTv4szwhJWv4x
+jxtao4Wa6zWXt/iMEP9pqnodypIDfU+Zz6/ns6uWV9EHDKvYw18zo2wGS5OPND8O
+BnMdykX+hUC4+cIBzkOhDtbWh8TvRIKQZHe5KpYV1wsMZpKBneqjfhmHgZykIbVK
+de4a7pNcvcJgXCJslZB2i7eeINlhkYphNliiTEPlIpnNMQgpVv/4OIxpJgOmNjPc
+WBWWKtvPE9ilawLpk0TXMap/CdhREeLO989535iX2pbZJS/bOO3icDlN+srLckp6
++k1KkKG5zXipykp2xCKvvcyRMpMIaaxolzw7Oq/+VHaCUTRZQQDOu8CSKm+ncasQ
+ghQjKEc8imhrAts/o1zbgih3Kf1e51QZ6aM2xcMeC+brB9Euuc7uZOi35P8+7VB4
+C+zv/v5vH0DZLmBBrU4OYDubvGMum3uV0eYW+YFQ+tvhpMrSyXkHc+eCMq7nN6Uu
+SFTcD39bj8nJibs57F6fzE7GXVKYHfipLwyuY261kTtPXKOr1pLncUnRE/xAku4i
+LwrhAK3r4/Guji338xyd/MExxbbQrRQ1gUp517HyFe97hWMhZrw=
+=Tbv7
+-----END PGP SIGNATURE-----
+
+--------------Lqo5NPG52WrqCBw0f0ykF6b0--
