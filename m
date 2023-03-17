@@ -2,63 +2,80 @@ Return-Path: <linux-man-owner@vger.kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 78F4AC6FD1D
-	for <linux-man@archiver.kernel.org>; Fri, 17 Mar 2023 22:05:21 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id BA2E6C6FD1D
+	for <linux-man@archiver.kernel.org>; Fri, 17 Mar 2023 22:10:06 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S230091AbjCQWFU (ORCPT <rfc822;linux-man@archiver.kernel.org>);
-        Fri, 17 Mar 2023 18:05:20 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:49648 "EHLO
+        id S229533AbjCQWKG (ORCPT <rfc822;linux-man@archiver.kernel.org>);
+        Fri, 17 Mar 2023 18:10:06 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:55312 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S229872AbjCQWFT (ORCPT
-        <rfc822;linux-man@vger.kernel.org>); Fri, 17 Mar 2023 18:05:19 -0400
-Received: from mout02.posteo.de (mout02.posteo.de [185.67.36.66])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 6F4E926CFE
-        for <linux-man@vger.kernel.org>; Fri, 17 Mar 2023 15:05:18 -0700 (PDT)
-Received: from submission (posteo.de [185.67.36.169]) 
-        by mout02.posteo.de (Postfix) with ESMTPS id BE0322406E2
-        for <linux-man@vger.kernel.org>; Fri, 17 Mar 2023 23:05:16 +0100 (CET)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=posteo.de; s=2017;
-        t=1679090716; bh=u3kw9mkWJ2t5vPrUMMHqMNZAgmvgKw3kWL50XcqXOlA=;
-        h=From:To:Cc:Subject:Date:From;
-        b=NODstHs6BKbAXlxO8fTd8z5GUQyA7oHmtuRElA0ZiNRHEs7HCes5Lwp5lQU23ou0N
-         7gzXJfKjHWi4vnklTPS6LcdTW6x130IV/MnfGa3tY7ug5qIsLpLX1Ia7yolfHCdCEp
-         xIa8j6b+I4uYyGJk3wdVpEgZ5qJ+CHGdE8g2hvMQZJC6DX+rQatIERlA38UDXUntZd
-         sH/g+4Jl9RpLtS+fJmOZ+JEXtPM65ph+zpguRh1KGkpO+Xvqk/SnyN18q4bJ6SprWm
-         E45lTSjMQnFmuUwwX5CWiz+yiomGH+91ufcT1uIi9Az6E5W0/Qhdj1+snm+N1/mgN1
-         abDHDQeaYzzBQ==
-Received: from customer (localhost [127.0.0.1])
-        by submission (posteo.de) with ESMTPSA id 4PddV36kdPz9rxF;
-        Fri, 17 Mar 2023 23:05:15 +0100 (CET)
-From:   Tom Schwindl <schwindl@posteo.de>
-To:     Alejandro Colomar <alx@kernel.org>
-Cc:     linux-man@vger.kernel.org
-Subject: [PATCH] pthreads.7: tfix
-Date:   Fri, 17 Mar 2023 22:04:19 +0000
-Message-Id: <20230317220419.1348-1-schwindl@posteo.de>
+        with ESMTP id S229799AbjCQWKF (ORCPT
+        <rfc822;linux-man@vger.kernel.org>); Fri, 17 Mar 2023 18:10:05 -0400
+X-Greylist: delayed 1147 seconds by postgrey-1.37 at lindbergh.monkeyblade.net; Fri, 17 Mar 2023 15:10:00 PDT
+Received: from 2.mo552.mail-out.ovh.net (2.mo552.mail-out.ovh.net [178.33.105.233])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 87C5439CE4
+        for <linux-man@vger.kernel.org>; Fri, 17 Mar 2023 15:09:59 -0700 (PDT)
+Received: from mxplan6.mail.ovh.net (unknown [10.109.138.233])
+        by mo552.mail-out.ovh.net (Postfix) with ESMTPS id E4F082B22B;
+        Fri, 17 Mar 2023 21:31:51 +0000 (UTC)
+Received: from jwilk.net (37.59.142.106) by DAG4EX1.mxp6.local (172.16.2.31)
+ with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id 15.1.2507.23; Fri, 17 Mar
+ 2023 22:31:51 +0100
+Authentication-Results: garm.ovh; auth=pass (GARM-106R006101b1cbb-c81c-44d0-a630-6bd7db8aaf6f,
+                    7BE97D1000CF9539D0ABE71C84E8B582AAA28F94) smtp.auth=jwilk@jwilk.net
+X-OVh-ClientIp: 5.172.255.170
+Date:   Fri, 17 Mar 2023 22:31:49 +0100
+From:   Jakub Wilk <jwilk@jwilk.net>
+To:     Alejandro Colomar <alx.manpages@gmail.com>
+CC:     <linux-man@vger.kernel.org>, Alejandro Colomar <alx@kernel.org>,
+        <libc-alpha@sourceware.org>, "Jason A. Donenfeld" <Jason@zx2c4.com>
+Subject: Re: [PATCH] arc4random.3: New page documenting the arc4random(3)
+ family of functions
+Message-ID: <20230317213149.cp6nx6fhrmq56msv@jwilk.net>
+References: <20230101162627.28031-1-alx@kernel.org>
+ <fd5ee7bd-f4a6-52a6-2f69-7c3547e549c6@gmail.com>
 MIME-Version: 1.0
+Content-Type: text/plain; charset="utf-8"; format=flowed
+Content-Disposition: inline
 Content-Transfer-Encoding: 8bit
+In-Reply-To: <fd5ee7bd-f4a6-52a6-2f69-7c3547e549c6@gmail.com>
+X-Originating-IP: [37.59.142.106]
+X-ClientProxiedBy: DAG6EX1.mxp6.local (172.16.2.51) To DAG4EX1.mxp6.local
+ (172.16.2.31)
+X-Ovh-Tracer-GUID: 26735445-ff63-437f-933d-1f3f96ec61e2
+X-Ovh-Tracer-Id: 15872655414283982755
+X-VR-SPAMSTATE: OK
+X-VR-SPAMSCORE: -100
+X-VR-SPAMCAUSE: gggruggvucftvghtrhhoucdtuddrgedvhedrvdefvddgudeglecutefuodetggdotefrodftvfcurfhrohhfihhlvgemucfqggfjpdevjffgvefmvefgnecuuegrihhlohhuthemucehtddtnecusecvtfgvtghiphhivghnthhsucdlqddutddtmdenucfjughrpeffhffvvefukfhfgggtugfgjghisehtkeertddttdejnecuhfhrohhmpeflrghkuhgsucghihhlkhcuoehjfihilhhksehjfihilhhkrdhnvghtqeenucggtffrrghtthgvrhhnpeetgedvgfduueegffeftdffueeftedvgfdtteekieevhffhuefgheeuieevgfeijeenucfkphepuddvjedrtddrtddruddpfeejrdehledrudegvddruddtieenucevlhhushhtvghrufhiiigvpedtnecurfgrrhgrmhepihhnvghtpeduvdejrddtrddtrddupdhmrghilhhfrhhomhepoehjfihilhhksehjfihilhhkrdhnvghtqedpnhgspghrtghpthhtohepuddprhgtphhtthhopegrlhigrdhmrghnphgrghgvshesghhmrghilhdrtghomhdplhhinhhugidqmhgrnhesvhhgvghrrdhkvghrnhgvlhdrohhrghdprghlgieskhgvrhhnvghlrdhorhhgpdhlihgstgdqrghlphhhrgesshhouhhrtggvfigrrhgvrdhorhhgpdflrghsohhnseiigidvtgegrdgtohhmpdfovfetjfhoshhtpehmohehhedvpdhmohguvgepshhmthhpohhuth
 Precedence: bulk
 List-ID: <linux-man.vger.kernel.org>
 X-Mailing-List: linux-man@vger.kernel.org
 
-Signed-off-by: Tom Schwindl <schwindl@posteo.de>
----
- man7/pthreads.7 | 2 +-
- 1 file changed, 1 insertion(+), 1 deletion(-)
+* Alejandro Colomar <alx.manpages@gmail.com>, 2023-01-01 17:27:
+>arc4random_uniform() returns a random number less than upper_bound for 
+>valid input, or 0 when upper_bound is invalid.
 
-diff --git a/man7/pthreads.7 b/man7/pthreads.7
-index e0aad99215d4..50d211a9adba 100644
---- a/man7/pthreads.7
-+++ b/man7/pthreads.7
-@@ -235,7 +235,7 @@ pthread_setcancelstate()
- pthread_setcanceltype()
- .EE
- .in
--.SS Cancellation points
-+.SS Cancelation points
- POSIX.1 specifies that certain functions must,
- and certain other functions may, be cancelation points.
- If a thread is cancelable, its cancelability type is deferred,
+Is the "or 0 ..." thing part of the API? I could find anything like that 
+in glibc docs or BSD man pages.
+
+>STANDARDS
+>       These nonstandard functions are present in several Unix systems.
+
+That's not really helpful. Also, the VERSIONS section is missing ("every 
+new interface should include a VERSIONS section").
+
+In contrast, the libbsd man page is much more informative:
+
+>These functions first appeared in OpenBSD 2.1, FreeBSD 3.0, NetBSD 
+>1.6, and DragonFly 1.0.  The functions arc4random(), arc4random_buf() 
+>and arc4random_uniform() appeared in glibc 2.36.
+>
+>The original version of this random number generator used the RC4 (also 
+>known as ARC4) algorithm.  In OpenBSD 5.5 it was replaced with the 
+>ChaCha20 cipher, and it may be replaced again in the future as 
+>cryptographic techniques advance.  A good mnemonic is “A Replacement 
+>Call for Random”.
+
 -- 
-2.40.0
-
+Jakub Wilk
