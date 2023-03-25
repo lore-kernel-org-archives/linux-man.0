@@ -2,38 +2,36 @@ Return-Path: <linux-man-owner@vger.kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 28352C6FD1F
-	for <linux-man@archiver.kernel.org>; Sat, 25 Mar 2023 20:47:27 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id EE101C6FD1F
+	for <linux-man@archiver.kernel.org>; Sat, 25 Mar 2023 20:55:15 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S229460AbjCYUrZ (ORCPT <rfc822;linux-man@archiver.kernel.org>);
-        Sat, 25 Mar 2023 16:47:25 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:33928 "EHLO
+        id S229564AbjCYUzO (ORCPT <rfc822;linux-man@archiver.kernel.org>);
+        Sat, 25 Mar 2023 16:55:14 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:36620 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S229446AbjCYUrZ (ORCPT
-        <rfc822;linux-man@vger.kernel.org>); Sat, 25 Mar 2023 16:47:25 -0400
-X-Greylist: delayed 588 seconds by postgrey-1.37 at lindbergh.monkeyblade.net; Sat, 25 Mar 2023 13:47:23 PDT
+        with ESMTP id S229446AbjCYUzN (ORCPT
+        <rfc822;linux-man@vger.kernel.org>); Sat, 25 Mar 2023 16:55:13 -0400
 Received: from mx10.gouders.net (mx10.gouders.net [202.61.206.94])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 8D36459C3
-        for <linux-man@vger.kernel.org>; Sat, 25 Mar 2023 13:47:23 -0700 (PDT)
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 592FDA5CB
+        for <linux-man@vger.kernel.org>; Sat, 25 Mar 2023 13:55:12 -0700 (PDT)
 Received: from localhost (ip-109-42-176-176.web.vodafone.de [109.42.176.176])
         (authenticated bits=0)
-        by mx10.gouders.net (8.17.1.9/8.16.1) with ESMTPSA id 32PKlKlt013934
+        by mx10.gouders.net (8.17.1.9/8.16.1) with ESMTPSA id 32PKbWre013470
         (version=TLSv1.3 cipher=TLS_AES_256_GCM_SHA384 bits=256 verify=NO);
-        Sat, 25 Mar 2023 21:47:21 +0100
+        Sat, 25 Mar 2023 21:37:33 +0100
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=gouders.net; s=gnet;
-        t=1679777241; bh=Lqr+cjrvBQ128TETdcjoM0vkXz0vYuFFUMe9WHbvCL8=;
-        h=From:To:Subject:References:Date;
-        b=Feo4diBSiUmqFfnaJeg+wR7897hRn8buoiEMjxh33BdUu0VBmWvPljegaNtuVJ6ml
-         8PpBRvrtI5zYuDZ7WACUVWCmEhWLFVKT4bnPFOEDptY+8RohHfcRm1T1Znc+JlzkDU
-         HxKnnUm1qObStYD3UovGY1oNeb7G1IxWayD1TvQI=
+        t=1679776653; bh=Lqr+cjrvBQ128TETdcjoM0vkXz0vYuFFUMe9WHbvCL8=;
+        h=From:To:To:Subject:Date;
+        b=jlfDeWhpFWSI2ZTIo6TwRtNQXFUXeKn4boWUkNW4r7Me1yAH6hFRpXjToRcuRM3gl
+         4x8UmsVC03cGTPY4k2rmX7B15KG/Tk73rGBLfiqcPXO/zU0ErjYLj6QbzRapoEmU9X
+         t1MI8FmE9CxOUirwfPvMDr6df1s/BkNH9U4y0tyU=
 From:   Dirk Gouders <dirk@gouders.net>
-To:     Alejandro Colomar <alx.manpages@gmail.com>,
-        linux-man@vger.kernel.org
+To:     Alejandro Colomar <alx.manpages@gmail.com>
+To:     linux-man@vger.kernel.org
 Subject: Playground pager lsp(1)
-References: <ghileoo9dk.fsf@gouders.net>
 User-Agent: Gnus/5.13 (Gnus v5.13) Emacs/28.2 (gnu/linux)
-Date:   Sat, 25 Mar 2023 21:47:15 +0100
-Message-ID: <ghbkkgo8x8.fsf@gouders.net>
+Date:   Sat, 25 Mar 2023 21:37:27 +0100
+Message-ID: <ghileoo9dk.fsf@gouders.net>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=utf-8
 Content-Transfer-Encoding: quoted-printable
