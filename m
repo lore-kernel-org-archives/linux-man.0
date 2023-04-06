@@ -2,103 +2,95 @@ Return-Path: <linux-man-owner@vger.kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 11B75C76196
-	for <linux-man@archiver.kernel.org>; Thu,  6 Apr 2023 08:13:47 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 4BC07C7618D
+	for <linux-man@archiver.kernel.org>; Thu,  6 Apr 2023 08:48:44 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S235958AbjDFINq (ORCPT <rfc822;linux-man@archiver.kernel.org>);
-        Thu, 6 Apr 2023 04:13:46 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:56796 "EHLO
+        id S236287AbjDFIsn (ORCPT <rfc822;linux-man@archiver.kernel.org>);
+        Thu, 6 Apr 2023 04:48:43 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:34590 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S236038AbjDFINk (ORCPT
-        <rfc822;linux-man@vger.kernel.org>); Thu, 6 Apr 2023 04:13:40 -0400
-Received: from eggs.gnu.org (eggs.gnu.org [IPv6:2001:470:142:3::10])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 9F4D2659A
-        for <linux-man@vger.kernel.org>; Thu,  6 Apr 2023 01:13:34 -0700 (PDT)
-Received: from fencepost.gnu.org ([2001:470:142:3::e])
-        by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
-        (Exim 4.90_1)
-        (envelope-from <eliz@gnu.org>)
-        id 1pkKkP-0000MC-3C; Thu, 06 Apr 2023 04:13:33 -0400
-DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed; d=gnu.org;
-        s=fencepost-gnu-org; h=MIME-version:References:Subject:In-Reply-To:To:From:
-        Date; bh=mJ1RmMGdN7o9kQm7vdgPqVjI+C3kJWxB5e8TJlTi7MU=; b=KXmXgWXruay+KEcztm7j
-        mu8Z3zQPO3zExNkIbpfEUM8ytopTG4hZT8i3oowoMMVCLJXvzGSMvrovDM6D/uSzJZu4Ls4r9Zfby
-        9FOAucBIP6dqFgZiN+LpKGETfnIagPfYPrKOgK4DrzCAj0Axc+PxQ5g4eRv9bcabs8opAoXx47nx3
-        G+38kb3ozXqvdw0AAYm+I357n7RcUGZ5WUYL8Ah25Y/0sYmmYhC5/kkvEdpFOSth3ww4YaqKRcT/3
-        QiwJ5rSajF4H0OuX6mx1BLdOWii3/SV22aELU577IwPcaIoWHgI7SgkoWyk2gf+O3hKuLH5okNeDN
-        AKcaw9v3MFPbkA==;
-Received: from [87.69.77.57] (helo=home-c4e4a596f7)
-        by fencepost.gnu.org with esmtpsa (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
-        (Exim 4.90_1)
-        (envelope-from <eliz@gnu.org>)
-        id 1pkKkO-000422-5D; Thu, 06 Apr 2023 04:13:32 -0400
-Date:   Thu, 06 Apr 2023 11:14:01 +0300
-Message-Id: <83r0sxqvg6.fsf@gnu.org>
-From:   Eli Zaretskii <eliz@gnu.org>
-To:     Arsen =?utf-8?Q?Arsenovi=C4=87?= <arsen@aarsen.me>
-Cc:     GavinSmith0123@gmail.com, dirk@gouders.net, alx.manpages@gmail.com,
+        with ESMTP id S236263AbjDFIsf (ORCPT
+        <rfc822;linux-man@vger.kernel.org>); Thu, 6 Apr 2023 04:48:35 -0400
+Received: from mail-wm1-x32e.google.com (mail-wm1-x32e.google.com [IPv6:2a00:1450:4864:20::32e])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id EE30D83DC
+        for <linux-man@vger.kernel.org>; Thu,  6 Apr 2023 01:48:27 -0700 (PDT)
+Received: by mail-wm1-x32e.google.com with SMTP id n19-20020a05600c501300b003f064936c3eso2537660wmr.0
+        for <linux-man@vger.kernel.org>; Thu, 06 Apr 2023 01:48:27 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20210112; t=1680770906; x=1683362906;
+        h=in-reply-to:content-disposition:mime-version:references:message-id
+         :subject:cc:to:date:from:from:to:cc:subject:date:message-id:reply-to;
+        bh=toVgTGrtLweBpLeqbEfnfC7n7F5jzT+Ctf2NfZKYJRA=;
+        b=fjxRjnlcJGSOVrZy99FNJP0Ms+3hoo6Je1LYiHmGUoOkJXyjc6EeYc+WeqbZZsWiD5
+         WNbD6NNWIjtMzwz26pux2wY4so3iZZ8ke06aJFZTyekVHoWIIAxXFNhWcW7U8PBlniMl
+         S70JNzbx2dPWaaO/DMVXOsM4pTeIbJ6/tDz2SHIrdqxCxZ3Ie6aFin0eEwcxj94kHfwP
+         EQ3NK3etSRr0v8CE3nu/5UPbQcQVUNNWuiaG2xKhXyAX/H3dMXGVn6d4WnABAVmwDrUo
+         8bjPLc+RBmEVNv31sn28XVEjQ5lKlDAgllIuwiSBn/1duvOfrvPUZ5I6xPYf3WakJQsN
+         r3Xg==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20210112; t=1680770906; x=1683362906;
+        h=in-reply-to:content-disposition:mime-version:references:message-id
+         :subject:cc:to:date:from:x-gm-message-state:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=toVgTGrtLweBpLeqbEfnfC7n7F5jzT+Ctf2NfZKYJRA=;
+        b=D4W3D1wE8KAUF8ZD/ZUjx2w4QbGhe0L5nHst88uoLvyoUy83n9mLoBpTXYkaf9R5Mb
+         MXe6rmoA6666MU6dU1r20jiAiZAl5AJ2flbLgFHrdhnU4ilMYyUkaIvGeF0xrUd4NFwC
+         63wSvQ5kDhpDhp9bjUrGoArzEZXeiuxLJ0wtnuOYrpBbc7mAWvb5eyJhXNEKRvAvD7Xr
+         u5EsXHoaJLVRnZAPBqDopBcxLPs4Bs5uqvQbsg3gSj+u9PHBEKNvPdxs9Ly4EqiiNhQa
+         JYpGbzKvDIfpfeuVEWjX2ou91EvE/tCJ3XvRLbacuieCB7qk0kQL1PVYvxZRVUKwrVRn
+         dVdw==
+X-Gm-Message-State: AAQBX9ezL20nk76Fhecm4YUP6hhrgFYYCuAX2lfRQwXn3UwS0U77nUgP
+        dpQPnxZPe+xVAwCC1zIOrKg=
+X-Google-Smtp-Source: AKy350Zt8d7Ne4gyvt+zaFGzhmiYMTGkDoIwwdkkeyH7hOfqnUblM7Pr3woHIvruUyDvVRVs1ASMcQ==
+X-Received: by 2002:a7b:c34a:0:b0:3ef:f26b:a187 with SMTP id l10-20020a7bc34a000000b003eff26ba187mr6616015wmj.0.1680770906194;
+        Thu, 06 Apr 2023 01:48:26 -0700 (PDT)
+Received: from localhost (93.7.115.87.dyn.plus.net. [87.115.7.93])
+        by smtp.gmail.com with ESMTPSA id z6-20020a05600c220600b003ed246c1d28sm916377wml.44.2023.04.06.01.48.25
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Thu, 06 Apr 2023 01:48:25 -0700 (PDT)
+From:   Gavin Smith <gavinsmith0123@gmail.com>
+X-Google-Original-From: Gavin Smith <GavinSmith0123@gmail.com>
+Date:   Thu, 6 Apr 2023 09:48:24 +0100
+To:     Eli Zaretskii <eliz@gnu.org>
+Cc:     Alejandro Colomar <alx.manpages@gmail.com>, dirk@gouders.net,
         linux-man@vger.kernel.org, help-texinfo@gnu.org
-In-Reply-To: <865yaa81ru.fsf@aarsen.me> (message from Arsen =?utf-8?Q?Arse?=
- =?utf-8?Q?novi=C4=87?= on Wed,
-        05 Apr 2023 22:38:12 +0200)
-Subject: Re: A less presumptive .info? (was: Re: Playground pager lsp(1))
-References: <ghileoo9dk.fsf@gouders.net> <ghbkkgo8x8.fsf@gouders.net>
+Subject: Re: Playground pager lsp(1)
+Message-ID: <ZC6HWJ7LmRmxD5CF@starmint>
+References: <ghileoo9dk.fsf@gouders.net>
+ <ghbkkgo8x8.fsf@gouders.net>
  <073413e2-7d35-f0d7-26eb-f66908d7af6a@gmail.com>
- <ghedoy8x5y.fsf@gouders.net> <87y1n6o1b3.fsf@aarsen.me>
- <ghpm8iyzqj.fsf@gouders.net> <83zg7mqha4.fsf@gnu.org> <865yaa81ru.fsf@aarsen.me>
-MIME-version: 1.0
-Content-type: text/plain; charset=utf-8
-Content-Transfer-Encoding: 8bit
+ <834jpuuc1a.fsf@gnu.org>
+ <6ea6d1fe-375f-487a-b524-adc86880d3de@gmail.com>
+ <83sfddqvk3.fsf@gnu.org>
+MIME-Version: 1.0
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <83sfddqvk3.fsf@gnu.org>
 Precedence: bulk
 List-ID: <linux-man.vger.kernel.org>
 X-Mailing-List: linux-man@vger.kernel.org
 
-> From: Arsen Arsenović <arsen@aarsen.me>
-> Cc: Dirk Gouders <dirk@gouders.net>, alx.manpages@gmail.com,
->  linux-man@vger.kernel.org, help-texinfo@gnu.org
-> Date: Wed, 05 Apr 2023 22:38:12 +0200
+On Thu, Apr 06, 2023 at 11:11:40AM +0300, Eli Zaretskii wrote:
+> How do you find the description of, say, "dereference symbolic link"
+> (to take just a random example from the Emacs manual) when the actual
+> text of the manual include neither this string nor matches for any
+> related regular expressions, like "dereference.*link"?
 > 
-> I've been casually wondering if creating a new format that can host more
-> formatting options and uses more precise syntax than 'plaintext with
-> some binary tags' would be a decent thing to work on.
+> The way Info does it is to use the index (which should be present in
+> any respectable reference document) to find description of the
+> corresponding subject.  The indexing, which is done by the author of
+> the document, if it's a good indexing, should include index entries
+> that specify subjects the reader could have in mind when he/she is
+> looking for this kind of information.
 > 
-> My thoughts were brief and undeveloped as this was thought of on the
-> commute, but something that retains the binary offsets for indices and
-> tags, but stores formatted data (perhaps as s-exprs, those would be easy
-> to parse).  It is always easier to remove information than to
-> reintroduce it.
-> 
-> Such a structure should resemble the input language, but with far less
-> complexity (e.g. something at the level of abstraction that HTML5 sits
-> at, so, macros would be expanded, and we'd be dealing with lists of
-> paragraphs and formatted blocks, etc.).
-> 
-> This would allow for the reflowing that was talked about in this thread,
-> and provide more readable output in graphical contexts, as it wouldn't
-> be data generated with the assumption of a monospace font (rather, the
-> format could store whether your context wants monospace or proportional
-> fonts at a given point), or data generated for a given screen size, or
-> with a given indentation size, or with the assumption of a lack of
-> features like italics, etc.
-> 
-> For instance, info2html used by the KDE info viewer currently produces
-> quite terrible results, because it fails to implement the heuristics the
-> Info viewers have properly.  This problem would be hard to have with a
-> better "at-rest" format for Info pages.
-> 
-> The alternative is, of course, bringing HTML up to par feature-wise
-> (wrt. indices etc), but that'd be on the other end of the extreme, where
-> instead of being too easy to parse and lacking important information,
-> it'd be oververbose with and difficult to parse (not that such a thing
-> should not be done too, so that folks using ordinary browsers can enjoy
-> documentation, and so that projects can provide more accessible
-> documentation by the merit of more people having HTML than Info
-> viewers).
-> 
-> WDYT folks?
+> The corresponding index-searching commands of Info readers are a
+> primary means for finding information quickly and efficiently,
+> avoiding too many false positives and also avoiding frustrating
+> misses, i.e., searches that fail to find anything pertinent.
 
-Gavin will tell, but AFAIU our plan is to develop js as the means
-towards the goals you mentioned.  That will allow using HTML browsers
-to read Texinfo documentation without losing the functionalities of
-the Info readers we value.  HTML rendering reflows as integral part of
-its workings, so that problem is not an issue if this plan succeeds.
+In the future, there should be a local documentation search driven
+by AI algorithms which handles synonyms and rewordings, so that if
+the user searched for "dereference", they also found text about
+"following a reference" even if the word "dereference" wasn't used.
+Think of it like a version of G**gle running on your own machine.
+Implementing such a thing is beyond me, though.
