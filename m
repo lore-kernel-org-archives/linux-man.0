@@ -2,131 +2,75 @@ Return-Path: <linux-man-owner@vger.kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 07AE1C7618E
-	for <linux-man@archiver.kernel.org>; Fri, 21 Apr 2023 15:06:03 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 99171C77B71
+	for <linux-man@archiver.kernel.org>; Fri, 21 Apr 2023 15:16:33 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S232177AbjDUPGC (ORCPT <rfc822;linux-man@archiver.kernel.org>);
-        Fri, 21 Apr 2023 11:06:02 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:44916 "EHLO
+        id S232134AbjDUPQd (ORCPT <rfc822;linux-man@archiver.kernel.org>);
+        Fri, 21 Apr 2023 11:16:33 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:53106 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S230310AbjDUPGB (ORCPT
-        <rfc822;linux-man@vger.kernel.org>); Fri, 21 Apr 2023 11:06:01 -0400
-Received: from mail-ed1-x531.google.com (mail-ed1-x531.google.com [IPv6:2a00:1450:4864:20::531])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 5FD1210DD
-        for <linux-man@vger.kernel.org>; Fri, 21 Apr 2023 08:06:00 -0700 (PDT)
-Received: by mail-ed1-x531.google.com with SMTP id 4fb4d7f45d1cf-5066ce4f725so2555709a12.1
-        for <linux-man@vger.kernel.org>; Fri, 21 Apr 2023 08:06:00 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20221208; t=1682089559; x=1684681559;
-        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
-         :to:from:from:to:cc:subject:date:message-id:reply-to;
-        bh=sH6d//JAJDx98FXYOqYJFPuOMmQHPhcC1d/OLSd3Vok=;
-        b=NeSWmSQk4RDf6tEtnBe1pAR6OIyJjhA21MBwVR3JpM8gGz8xWq5OyiCp6sVBAnWVPW
-         2RHeFvxWc8G+aj0wsuHCuBu5d8IKPMBQWR8Cj+7KaF6UNS3HGxagQoTxvn5ogWjpb4/S
-         oceJmOrtGkLOa2YcwZMiPYR/Tff5IjuKmVlMVoBVi4Vbe0kJM0JEDVf6NbEe9DbYdVP5
-         KGCyVgoYUfIrj7ZGR/DNikvJ8QSfqAR1pfqfrNumBI1u6qOk1Rgkoch9Hqsz2Vwt8GBV
-         1n7tEFbHJRpkXtD8IhnbO8NAfgyh1ou6yAx390sPOo5I0aqY+1WciLtTjsaQeaKa7wLB
-         v+aw==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20221208; t=1682089559; x=1684681559;
-        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
-         :to:from:x-gm-message-state:from:to:cc:subject:date:message-id
-         :reply-to;
-        bh=sH6d//JAJDx98FXYOqYJFPuOMmQHPhcC1d/OLSd3Vok=;
-        b=lMjfd2yPw7qw9hvDtBRlNXm1zvQbpWUdrq4P2HJvY8scvg6c04HLSUy9/bnTWCcWd+
-         kewdVjzJaoiNnBqDri6grvQXf9YW7EQ/jGILFsLxhKLfd6vWj0cMApQq2IAIMvV+8Np7
-         ZQLC45FQJNVl8JS1BB/p56aOyrHvurCl750Ti/9FYHfhZ55YNT5ItCgqvZTCz6k21OEX
-         T/fx8KWp7XO0whvTz5O9aKmgAeTTQH6IxgoxvtPOq2mV23l+a5ewPmTOLm4necPhH4G9
-         mWnJxehPJAXEMb8ms4MDMnwAFL5apvwaaBqDVWgdDBaooXjU1lDGgh03L5XajG23ra9q
-         f/KQ==
-X-Gm-Message-State: AAQBX9cb1s3S/G4vWlGfoynA5u2vnCUYOi13OSCwSx/okKbippwvelhg
-        55BK11AQzjwROYh4WaA5wRbNW0vumgo=
-X-Google-Smtp-Source: AKy350ZE4ctX7b63qpO4uqY3BMgAZDvTD0c13MvhDenBsDR9Mn9g2s5Tk275cpSeQMbiIfyn3Pe8+A==
-X-Received: by 2002:a17:906:151b:b0:94f:562b:2979 with SMTP id b27-20020a170906151b00b0094f562b2979mr2975798ejd.31.1682089558645;
-        Fri, 21 Apr 2023 08:05:58 -0700 (PDT)
-Received: from localhost ([2a02:168:633b:1:9d6a:15a4:c7d1:a0f0])
-        by smtp.gmail.com with ESMTPSA id oq27-20020a170906cc9b00b0094f410225c7sm2137194ejb.169.2023.04.21.08.05.58
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Fri, 21 Apr 2023 08:05:58 -0700 (PDT)
-From:   =?UTF-8?q?G=C3=BCnther=20Noack?= <gnoack3000@gmail.com>
-To:     Alejandro Colomar <alx.manpages@gmail.com>
-Cc:     linux-man@vger.kernel.org,
-        =?UTF-8?q?G=C3=BCnther=20Noack?= <gnoack3000@gmail.com>
-Subject: [PATCH] mount_setattr.2, openat2.2, bpf-helpers.7, landlock.7: wfix
-Date:   Fri, 21 Apr 2023 17:05:55 +0200
-Message-Id: <20230421150555.5075-1-gnoack3000@gmail.com>
-X-Mailer: git-send-email 2.40.0
+        with ESMTP id S229877AbjDUPQc (ORCPT
+        <rfc822;linux-man@vger.kernel.org>); Fri, 21 Apr 2023 11:16:32 -0400
+X-Greylist: delayed 4200 seconds by postgrey-1.37 at lindbergh.monkeyblade.net; Fri, 21 Apr 2023 08:16:30 PDT
+Received: from 1.mo548.mail-out.ovh.net (1.mo548.mail-out.ovh.net [178.32.121.110])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 650F693F6
+        for <linux-man@vger.kernel.org>; Fri, 21 Apr 2023 08:16:30 -0700 (PDT)
+Received: from mxplan6.mail.ovh.net (unknown [10.108.16.62])
+        by mo548.mail-out.ovh.net (Postfix) with ESMTPS id C1B722048C;
+        Fri, 21 Apr 2023 12:46:32 +0000 (UTC)
+Received: from jwilk.net (37.59.142.99) by DAG4EX1.mxp6.local (172.16.2.31)
+ with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id 15.1.2507.23; Fri, 21 Apr
+ 2023 14:46:31 +0200
+Authentication-Results: garm.ovh; auth=pass (GARM-99G0038115d8a2-a8c5-47a4-a1c8-a05d3d0fa36f,
+                    5A732DE9D2D1B83706EA79E4755B3824E8629304) smtp.auth=jwilk@jwilk.net
+X-OVh-ClientIp: 5.172.255.86
+Date:   Fri, 21 Apr 2023 14:46:30 +0200
+From:   Jakub Wilk <jwilk@jwilk.net>
+To:     =?utf-8?B?0L3QsNCx?= <nabijaczleweli@nabijaczleweli.xyz>
+CC:     Alejandro Colomar <alx.manpages@gmail.com>,
+        <linux-man@vger.kernel.org>
+Subject: Re: [PATCH v7 4/8] regex.3: Improve REG_STARTEND
+Message-ID: <20230421124630.dn2vc6fsdc3mo4ao@jwilk.net>
+References: <8c4487ff-17c6-f4f6-d8cf-59a82d9daeca@gmail.com>
+ <sowec336dkzypq6kjouieoyesyfdejmo3j2err3kc4xcpine4l@2takvti7yrem>
+ <5918ccbe-d218-df42-cf0f-5eb7b3354e2b@gmail.com>
+ <atartvvgxjv7wk5rvdtiyrxjc22lnsgkf75hy3nz3m7fw3m6j4@i7khsjrvuise>
+ <20230421101957.3hpuzx4pwgwgjbjg@jwilk.net>
+ <qczn5qtfnn5girkwm7peng6lg6arcgm4xxd5jgfryuhwgspeaw@nkdqyubmztzp>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=UTF-8
+Content-Type: text/plain; charset="utf-8"; format=flowed
+Content-Disposition: inline
 Content-Transfer-Encoding: 8bit
+In-Reply-To: <qczn5qtfnn5girkwm7peng6lg6arcgm4xxd5jgfryuhwgspeaw@nkdqyubmztzp>
+X-Originating-IP: [37.59.142.99]
+X-ClientProxiedBy: DAG5EX1.mxp6.local (172.16.2.41) To DAG4EX1.mxp6.local
+ (172.16.2.31)
+X-Ovh-Tracer-GUID: d62735bf-dbc6-46ca-9557-da8fabb78870
+X-Ovh-Tracer-Id: 9630947806544910301
+X-VR-SPAMSTATE: OK
+X-VR-SPAMSCORE: 23
+X-VR-SPAMCAUSE: gggruggvucftvghtrhhoucdtuddrgedvhedrfedtgedgheehucetufdoteggodetrfdotffvucfrrhhofhhilhgvmecuqfggjfdpvefjgfevmfevgfenuceurghilhhouhhtmecuhedttdenucgfrhhlucfvnfffucdlvdefmdenucfjughrpeffhffvvefukfhfgggtugfgjghisehtkeertddttdejnecuhfhrohhmpeflrghkuhgsucghihhlkhcuoehjfihilhhksehjfihilhhkrdhnvghtqeenucggtffrrghtthgvrhhnpefftdegkedufeeiudehueeljeejfeetudffgfffveettdelffdugefgheetveehieenucffohhmrghinhepuggvsghirghnrdhorhhgnecukfhppeduvdejrddtrddtrddupdefjedrheelrddugedvrdelledphedrudejvddrvdehhedrkeeinecuvehluhhsthgvrhfuihiivgeptdenucfrrghrrghmpehinhgvthepuddvjedrtddrtddruddpmhgrihhlfhhrohhmpeeojhifihhlkhesjhifihhlkhdrnhgvtheqpdhnsggprhgtphhtthhopedupdhrtghpthhtohepnhgrsghijhgrtgiilhgvfigvlhhisehnrggsihhjrggtiihlvgifvghlihdrgiihiidprghlgidrmhgrnhhprghgvghssehgmhgrihhlrdgtohhmpdhlihhnuhigqdhmrghnsehvghgvrhdrkhgvrhhnvghlrdhorhhgpdfovfetjfhoshhtpehmohehgeekpdhmohguvgepshhmthhpohhuth
 Precedence: bulk
 List-ID: <linux-man.vger.kernel.org>
 X-Mailing-List: linux-man@vger.kernel.org
 
-Spell "run time" in two words, as documented in man-pages(7).
+* наб <nabijaczleweli@nabijaczleweli.xyz>, 2023-04-21 13:34:
+>>>/etc/bash.bashrc: line 7: PS1: unbound variable
+>>How come? bash is not supposed to read bashrc if the shell is 
+>>non-interactive (unless you instruct it otherwise).
+>No clue, surprised me as well, esp. since I didn't see any funny bash 
+>flags to force interactivity.
 
-Signed-off-by: Günther Noack <gnoack3000@gmail.com>
----
- man2/mount_setattr.2 | 2 +-
- man2/openat2.2       | 2 +-
- man7/bpf-helpers.7   | 2 +-
- man7/landlock.7      | 2 +-
- 4 files changed, 4 insertions(+), 4 deletions(-)
+I did some googling, which led me to this this:
+https://lists.debian.org/Ywohi2WEtK+TtquZ@wooledge.org
 
-diff --git a/man2/mount_setattr.2 b/man2/mount_setattr.2
-index 24801a4bd..8df02641a 100644
---- a/man2/mount_setattr.2
-+++ b/man2/mount_setattr.2
-@@ -862,7 +862,7 @@ may change in the future
- user-space applications should zero-fill
- .I struct mount_attr
- to ensure that recompiling the program with new headers will not result in
--spurious errors at runtime.
-+spurious errors at run time.
- The simplest way is to use a designated initializer:
- .PP
- .in +4n
-diff --git a/man2/openat2.2 b/man2/openat2.2
-index e90211fad..182851089 100644
---- a/man2/openat2.2
-+++ b/man2/openat2.2
-@@ -545,7 +545,7 @@ may change in the future (with new fields being added when system headers are
- updated), user-space applications should zero-fill
- .I struct open_how
- to ensure that recompiling the program with new headers will not result in
--spurious errors at runtime.
-+spurious errors at run time.
- The simplest way is to use a designated
- initializer:
- .PP
-diff --git a/man7/bpf-helpers.7 b/man7/bpf-helpers.7
-index 26ddf8369..663dfd1d1 100644
---- a/man7/bpf-helpers.7
-+++ b/man7/bpf-helpers.7
-@@ -3025,7 +3025,7 @@ copied and the last byte is set to NUL.
- On success, returns the number of bytes that were written,
- including the terminal NUL. This makes this helper useful in
- tracing programs for reading strings, and more importantly to
--get its length at runtime. See the following snippet:
-+get its length at run time. See the following snippet:
- .INDENT 7.0
- .INDENT 3.5
- .sp
-diff --git a/man7/landlock.7 b/man7/landlock.7
-index b6c9d3821..250b69635 100644
---- a/man7/landlock.7
-+++ b/man7/landlock.7
-@@ -251,7 +251,7 @@ will stay enforced on all this thread's descendants.
- This allows creating standalone and modular security policies
- per application,
- which will automatically be composed between themselves
--according to their runtime parent policies.
-+according to their run time parent policies.
- .\"
- .SS Ptrace restrictions
- A sandboxed process has less privileges than a non-sandboxed process and
+I can reproduce the bug in unstable:
 
-base-commit: 59e44e4511391a98f531c08aaba17391f3b7075b
+    $ (SSH_CLIENT=moo bash -uc true)
+    /etc/bash.bashrc: line 7: PS1: unbound variable
+
+What is this I don't even.
+
 -- 
-2.40.0
-
+Jakub Wilk
