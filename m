@@ -2,42 +2,42 @@ Return-Path: <linux-man-owner@vger.kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id D2D88C77B73
-	for <linux-man@archiver.kernel.org>; Fri, 19 May 2023 02:11:25 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id A10B4C77B73
+	for <linux-man@archiver.kernel.org>; Fri, 19 May 2023 02:28:18 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S229782AbjESCLY (ORCPT <rfc822;linux-man@archiver.kernel.org>);
-        Thu, 18 May 2023 22:11:24 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:42554 "EHLO
+        id S229493AbjESC2S (ORCPT <rfc822;linux-man@archiver.kernel.org>);
+        Thu, 18 May 2023 22:28:18 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:45988 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S229458AbjESCLX (ORCPT
-        <rfc822;linux-man@vger.kernel.org>); Thu, 18 May 2023 22:11:23 -0400
-Received: from dfw.source.kernel.org (dfw.source.kernel.org [IPv6:2604:1380:4641:c500::1])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 69B4410C2
-        for <linux-man@vger.kernel.org>; Thu, 18 May 2023 19:11:22 -0700 (PDT)
+        with ESMTP id S229655AbjESC2R (ORCPT
+        <rfc822;linux-man@vger.kernel.org>); Thu, 18 May 2023 22:28:17 -0400
+Received: from dfw.source.kernel.org (dfw.source.kernel.org [139.178.84.217])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id BFD27E5C
+        for <linux-man@vger.kernel.org>; Thu, 18 May 2023 19:28:14 -0700 (PDT)
 Received: from smtp.kernel.org (relay.kernel.org [52.25.139.140])
         (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
         (No client certificate requested)
-        by dfw.source.kernel.org (Postfix) with ESMTPS id 003C265394
-        for <linux-man@vger.kernel.org>; Fri, 19 May 2023 02:11:21 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPS id 6224CC433EF
-        for <linux-man@vger.kernel.org>; Fri, 19 May 2023 02:11:21 +0000 (UTC)
+        by dfw.source.kernel.org (Postfix) with ESMTPS id 5F138653A1
+        for <linux-man@vger.kernel.org>; Fri, 19 May 2023 02:28:14 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPS id BF430C4339B
+        for <linux-man@vger.kernel.org>; Fri, 19 May 2023 02:28:13 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-        s=k20201202; t=1684462281;
-        bh=JMmP22norpIl4qXf2WqvpqSrGen+gL6KSW4mg+ptfI8=;
+        s=k20201202; t=1684463293;
+        bh=kYtCWxi3gVZf06/SHvEFi7kdPVDJCftJ1R/xRhHe3W0=;
         h=From:To:Subject:Date:In-Reply-To:References:From;
-        b=OW5MDQ1OmDgwmqgHftj+DixMatAHTK7kHV+W9N18uT9TpHc9lYuS9eaS3UmwyrXpB
-         cyASzQYSirsa8gK71YWgZKtaga9axYQgDKcH//8D9bexibsM6PPdc4eK0/HP2gwMNx
-         bNEcU0HLAdvhM97KdsWHhgrIop8PtfDFOT6aU+LywBPYk3v8YsGH22kQtEXpVn1pTe
-         Cj0b4yJpc9rIGyVBBaTGiVDKQ8cgTfshpSqenmgHElD+CsbpaLYvb8p0+BCTlpkVTK
-         kfeVEPSgJhWP3eJApMqmg2CwlrpN+UwbIqJy2QSMSvu8PgsNf0lbJ0a6TpzrwpVmMv
-         xJRQhZSdIuHow==
+        b=M4kJ/xD0IXNR8Drutu2ZuFbpt6pqSaZ3btYrOj4LrOHh+NE9qyBCZIP/Ndtrgk9Ck
+         gZXTtWAV/OEBXwquNnlW9y7TrWKKZ9CV9CxgeQKIsuVi/wsY2dHG8NQQqwizcRkU5W
+         Vo0/srwagWn1ydPPog+k/rR/+gTC6A5GZ137LsjCNwLW0l6GWmF7XcOCQDLWkPUNDG
+         VbFm50/8+fflTBX/htkRzNncHqyUQ5hVpz1K7TLqQD9zyMiOSxcnj9NMt9GWPIgzU6
+         L/mMHnBYqPD1WpDdhyTavXjPOkHyPzuzN74u/V/+OtoEmRgr3c3G/5JktKwTPakFAN
+         Z+g5MfGBZu1ZA==
 Received: by aws-us-west-2-korg-bugzilla-1.web.codeaurora.org (Postfix, from userid 48)
-        id 45BAFC43144; Fri, 19 May 2023 02:11:21 +0000 (UTC)
+        id A7D49C43144; Fri, 19 May 2023 02:28:13 +0000 (UTC)
 From:   bugzilla-daemon@kernel.org
 To:     linux-man@vger.kernel.org
 Subject: [Bug 216667] Self-contradictory description of inheritable
  capability set
-Date:   Fri, 19 May 2023 02:11:21 +0000
+Date:   Fri, 19 May 2023 02:28:13 +0000
 X-Bugzilla-Reason: None
 X-Bugzilla-Type: changed
 X-Bugzilla-Watch-Reason: AssignedTo
@@ -53,8 +53,8 @@ X-Bugzilla-Resolution:
 X-Bugzilla-Priority: P1
 X-Bugzilla-Assigned-To: documentation_man-pages@kernel-bugs.osdl.org
 X-Bugzilla-Flags: 
-X-Bugzilla-Changed-Fields: cc
-Message-ID: <bug-216667-11311-znCAseg8xB@https.bugzilla.kernel.org/>
+X-Bugzilla-Changed-Fields: 
+Message-ID: <bug-216667-11311-2jwcSW44IY@https.bugzilla.kernel.org/>
 In-Reply-To: <bug-216667-11311@https.bugzilla.kernel.org/>
 References: <bug-216667-11311@https.bugzilla.kernel.org/>
 Content-Type: text/plain; charset="UTF-8"
@@ -68,36 +68,41 @@ X-Mailing-List: linux-man@vger.kernel.org
 
 https://bugzilla.kernel.org/show_bug.cgi?id=3D216667
 
-Monthero Ronald (rhmcruiser@gmail.com) changed:
+--- Comment #2 from Monthero Ronald (rhmcruiser@gmail.com) ---
+If curious you can also check the process capabilities set and decode their
+capabilities set flags for -  permitted, inherited and ambient as below.
+The capabilities set can differ based on process , user and privileges=20
 
-           What    |Removed                     |Added
-----------------------------------------------------------------------------
-                 CC|                            |rhmcruiser@gmail.com
+Example:
 
---- Comment #1 from Monthero Ronald (rhmcruiser@gmail.com) ---
+test$ ps alx | grep docker=20
+4     0    2068       1  20   0 1834532 76808 -     Ssl  ?          0:16
+/usr/bin/dockerd -H fd:// --containerd=3D/run/containerd/containerd.sock
+0  1000   70187   65976  20   0  17868  2504 pipe_r S+   pts/7      0:00 gr=
+ep
+--color=3Dauto docker
+test$=20
+test$ egrep Cap  /proc/2068/status=20
+CapInh: 0000000000000000
+CapPrm: 000001ffffffffff
+CapEff: 000001ffffffffff
+CapBnd: 000001ffffffffff
+CapAmb: 0000000000000000
+test$=20
 
-It's to make a distinction between a root user and non root user for the
-process. The first part of the paragraph below is for root user and the lat=
-er
-part is for execve run as non root user. And on other hand applications ( u=
-sing
-execve) that run with few elevated capability flags can use ambient
-capabilities.  The statement you quoted from man page  - Inheritable section
-below:=20
----=20
-Inheritable
-              This  is  a  set of capabilities preserved across an execve(2=
-).=20
-Inheritable capabilities remain inheritable when executing
-              any program, and inheritable capabilities are added to the
-permitted set when executing a program that has the  correspond=E2=80=90
-              ing bits set in the file inheritable set.
+Decode the capability flags for this process
 
-              Because inheritable capabilities are not generally preserved
-across execve(2) when running as a non-root user, applications
-              that wish to run helper programs with elevated capabilities
-should consider using ambient capabilities, described below.
----
+test$ capsh --decode=3D000001ffffffffff
+0x000001ffffffffff=3Dcap_chown,cap_dac_override,cap_dac_read_search,cap_fow=
+ner,cap_fsetid,cap_kill,cap_setgid,cap_setuid,cap_setpcap,cap_linux_immutab=
+le,cap_net_bind_service,cap_net_broadcast,cap_net_admin,cap_net_raw,cap_ipc=
+_lock,cap_ipc_owner,cap_sys_module,cap_sys_rawio,cap_sys_chroot,cap_sys_ptr=
+ace,cap_sys_pacct,cap_sys_admin,cap_sys_boot,cap_sys_nice,cap_sys_resource,=
+cap_sys_time,cap_sys_tty_config,cap_mknod,cap_lease,cap_audit_write,cap_aud=
+it_control,cap_setfcap,cap_mac_override,cap_mac_admin,cap_syslog,cap_wake_a=
+larm,cap_block_suspend,cap_audit_read,cap_perfmon,cap_bpf,cap_checkpoint_re=
+store
+test$
 
 --=20
 You may reply to this email to add a comment.
