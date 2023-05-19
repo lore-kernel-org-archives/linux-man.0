@@ -2,63 +2,88 @@ Return-Path: <linux-man-owner@vger.kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id E6792C77B75
-	for <linux-man@archiver.kernel.org>; Fri, 19 May 2023 10:37:18 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 9E59FC77B75
+	for <linux-man@archiver.kernel.org>; Fri, 19 May 2023 11:30:03 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S231140AbjESKhR (ORCPT <rfc822;linux-man@archiver.kernel.org>);
-        Fri, 19 May 2023 06:37:17 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:55762 "EHLO
+        id S229929AbjESLaC (ORCPT <rfc822;linux-man@archiver.kernel.org>);
+        Fri, 19 May 2023 07:30:02 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:60920 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S231491AbjESKhB (ORCPT
-        <rfc822;linux-man@vger.kernel.org>); Fri, 19 May 2023 06:37:01 -0400
-X-Greylist: delayed 580 seconds by postgrey-1.37 at lindbergh.monkeyblade.net; Fri, 19 May 2023 03:36:23 PDT
-Received: from dcvr.yhbt.net (dcvr.yhbt.net [173.255.242.215])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 793931991
-        for <linux-man@vger.kernel.org>; Fri, 19 May 2023 03:36:23 -0700 (PDT)
-Received: from localhost (dcvr.yhbt.net [127.0.0.1])
-        by dcvr.yhbt.net (Postfix) with ESMTP id C0C381F542;
-        Fri, 19 May 2023 10:26:43 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=80x24.org;
-        s=selector1; t=1684492003;
-        bh=cNSyz450mALWz0WlZCgLkM6HNb3f5o5kSStgWs1ao5Y=;
-        h=From:To:Cc:Subject:Date:From;
-        b=U1mFWA6s6NxH+5+YuhLIo+lo311zSCkdqrpQb07yRTgYsi7LbCCqOLxX7ViQSTv4X
-         94S8aLDwmOxrVojWCR0UbA9gqGx9kUbx3sQR0h90txJ3J0Bj13qbSTSXjvU7EBHhtr
-         pDppQcpNTuVcmv5QGXTuKD33FgecLYONBL/xMNRs=
-From:   Eric Wong <e@80x24.org>
-To:     Alejandro Colomar <alx@kernel.org>
-Cc:     linux-man@vger.kernel.org, Eric Wong <e@80x24.org>
-Subject: [PATCH] system_data_types.7: tfix
-Date:   Fri, 19 May 2023 10:26:43 +0000
-Message-ID: <20230519102643.3615995-1-e@80x24.org>
+        with ESMTP id S229842AbjESLaB (ORCPT
+        <rfc822;linux-man@vger.kernel.org>); Fri, 19 May 2023 07:30:01 -0400
+Received: from dfw.source.kernel.org (dfw.source.kernel.org [IPv6:2604:1380:4641:c500::1])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 9102D132
+        for <linux-man@vger.kernel.org>; Fri, 19 May 2023 04:30:00 -0700 (PDT)
+Received: from smtp.kernel.org (relay.kernel.org [52.25.139.140])
+        (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+        (No client certificate requested)
+        by dfw.source.kernel.org (Postfix) with ESMTPS id 1788461727
+        for <linux-man@vger.kernel.org>; Fri, 19 May 2023 11:30:00 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPS id 6ED29C4339B
+        for <linux-man@vger.kernel.org>; Fri, 19 May 2023 11:29:59 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+        s=k20201202; t=1684495799;
+        bh=1CeRwpJDMi3IcmNAZo5/ht7ntBbUX8FTzCzU7TlNNT4=;
+        h=From:To:Subject:Date:In-Reply-To:References:From;
+        b=GtN8Qvj1K6cgKWjdrigAVJLgSPImuKrwAnTJSC/tFWzuta/U54w6g3C9COzi4KnD4
+         mW25iqMqMBEvF3SVYpjyGo3zPLpM3ZOWE8pbIGR0fwzLr/RjP+jyi920tW4VbcgkMN
+         CvtONsqNDsUS8CCIRk4m8z6ZN/KmjCtxNsycp7BzzBTBDvhGEMMRAUNiXJTp8zrvL4
+         QSV+shqBj67Efq+w9ey94SVjLnWYnqPfa4szLsL3fPh8k6vmXoCeLXqeXk1TXr4qKk
+         EMFxQuy+VOOOBGn5aYr1SerLZjzZRpy5DH8MvEzwLA091tNO7ZevXXS0CrBC0JMBR5
+         5aqU9QjpqGnSQ==
+Received: by aws-us-west-2-korg-bugzilla-1.web.codeaurora.org (Postfix, from userid 48)
+        id 5B273C43145; Fri, 19 May 2023 11:29:59 +0000 (UTC)
+From:   bugzilla-daemon@kernel.org
+To:     linux-man@vger.kernel.org
+Subject: [Bug 217435] man-pages using groff's new MR macro render incorrectly
+ on man7.org/linux
+Date:   Fri, 19 May 2023 11:29:59 +0000
+X-Bugzilla-Reason: None
+X-Bugzilla-Type: changed
+X-Bugzilla-Watch-Reason: AssignedTo
+ documentation_man-pages@kernel-bugs.osdl.org
+X-Bugzilla-Product: Documentation
+X-Bugzilla-Component: man-pages
+X-Bugzilla-Version: unspecified
+X-Bugzilla-Keywords: 
+X-Bugzilla-Severity: normal
+X-Bugzilla-Who: alx@kernel.org
+X-Bugzilla-Status: NEW
+X-Bugzilla-Resolution: 
+X-Bugzilla-Priority: P3
+X-Bugzilla-Assigned-To: documentation_man-pages@kernel-bugs.osdl.org
+X-Bugzilla-Flags: 
+X-Bugzilla-Changed-Fields: 
+Message-ID: <bug-217435-11311-vktCEMdYS3@https.bugzilla.kernel.org/>
+In-Reply-To: <bug-217435-11311@https.bugzilla.kernel.org/>
+References: <bug-217435-11311@https.bugzilla.kernel.org/>
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
+X-Bugzilla-URL: https://bugzilla.kernel.org/
+Auto-Submitted: auto-generated
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
 Precedence: bulk
 List-ID: <linux-man.vger.kernel.org>
 X-Mailing-List: linux-man@vger.kernel.org
 
-The actual field names omit the 'g', matching sigevent.7.
+https://bugzilla.kernel.org/show_bug.cgi?id=3D217435
 
-Signed-off-by: Eric Wong <e@80x24.org>
----
- I really don't understand why the 'g' is omitted to give us
- this footgun; `struct sigevent' has longer field names...
+--- Comment #4 from Alejandro Colomar (alx@kernel.org) ---
+The github repository tells in various places (description, README) that
+it's just a mirror, and that the official repository and website are at
+<kernel.org>.
 
- man7/system_data_types.7 | 4 ++--
- 1 file changed, 2 insertions(+), 2 deletions(-)
+Anyway, the bug report is for the HTML rendering in <man7.org>, so
+Jakub's comment is right, and you should direct your report to Michael
+at his email address.  I'm not saying that he'll answer, though, as I
+didn't receive any answers to other reports from myself.  :s
 
-diff --git a/man7/system_data_types.7 b/man7/system_data_types.7
-index 6bbf71004..1840a40fa 100644
---- a/man7/system_data_types.7
-+++ b/man7/system_data_types.7
-@@ -183,8 +183,8 @@ POSIX.1-2001 and later.
- .PP
- .EX
- union sigval {
--    int     sigval_int; /* Integer value */
--    void   *sigval_ptr; /* Pointer value */
-+    int     sival_int; /* Integer value */
-+    void   *sival_ptr; /* Pointer value */
- };
- .EE
- .PP
+
+Cheers,
+Alex
+
+--=20
+You may reply to this email to add a comment.
+
+You are receiving this mail because:
+You are watching the assignee of the bug.=
