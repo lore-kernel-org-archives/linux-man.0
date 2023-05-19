@@ -2,42 +2,42 @@ Return-Path: <linux-man-owner@vger.kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 05DDFC77B75
-	for <linux-man@archiver.kernel.org>; Fri, 19 May 2023 13:26:25 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 46102C77B7F
+	for <linux-man@archiver.kernel.org>; Fri, 19 May 2023 13:26:33 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S229749AbjESN0Y (ORCPT <rfc822;linux-man@archiver.kernel.org>);
-        Fri, 19 May 2023 09:26:24 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:48464 "EHLO
+        id S230422AbjESN0c (ORCPT <rfc822;linux-man@archiver.kernel.org>);
+        Fri, 19 May 2023 09:26:32 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:48512 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S229605AbjESN0X (ORCPT
-        <rfc822;linux-man@vger.kernel.org>); Fri, 19 May 2023 09:26:23 -0400
-Received: from dfw.source.kernel.org (dfw.source.kernel.org [IPv6:2604:1380:4641:c500::1])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id ABBDD119
-        for <linux-man@vger.kernel.org>; Fri, 19 May 2023 06:26:22 -0700 (PDT)
+        with ESMTP id S229605AbjESN0b (ORCPT
+        <rfc822;linux-man@vger.kernel.org>); Fri, 19 May 2023 09:26:31 -0400
+Received: from dfw.source.kernel.org (dfw.source.kernel.org [139.178.84.217])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 32FAECE
+        for <linux-man@vger.kernel.org>; Fri, 19 May 2023 06:26:31 -0700 (PDT)
 Received: from smtp.kernel.org (relay.kernel.org [52.25.139.140])
         (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
         (No client certificate requested)
-        by dfw.source.kernel.org (Postfix) with ESMTPS id 4046C65581
-        for <linux-man@vger.kernel.org>; Fri, 19 May 2023 13:26:22 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPS id 94ABCC433EF
-        for <linux-man@vger.kernel.org>; Fri, 19 May 2023 13:26:21 +0000 (UTC)
+        by dfw.source.kernel.org (Postfix) with ESMTPS id C46AD61351
+        for <linux-man@vger.kernel.org>; Fri, 19 May 2023 13:26:30 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPS id 306F0C4339C
+        for <linux-man@vger.kernel.org>; Fri, 19 May 2023 13:26:30 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-        s=k20201202; t=1684502781;
-        bh=mGJwG7hYmB8GQ74OufkIN5yx1FkN7cVycads2dPoajo=;
+        s=k20201202; t=1684502790;
+        bh=XLxKklrlTGdN5oiN+VGK/Xg5bZFO1o80+9VnDbdukIM=;
         h=From:To:Subject:Date:In-Reply-To:References:From;
-        b=lsBPPi7Uk9nkmhycenZzChBB9F2DAOclIL0f7OGmpMwJkIYVaJOU1XVWwQVZtYhTS
-         +sMvsR01h0FKJXOJak/9JpkzwU01lInWMckyKU/j5uP27icW29HYvnFhU776NUvBWc
-         Kl7BWOOV7/x8pEXLYxsZL7DR7PUS7RgOgSoZ99pG3vTBgCAxFv8IQZQ6Lkl5ktje5D
-         kx3sTMZghDPGqMFGghDxEgm8ccl6hf/E238nU6KwmyuAXcerIWfxQ6nEWFHvmHsC+e
-         QK3ReNKmsx1gWIFB4KX8ss6jY9tB1811GXPL8u68nBLW9XhlqH7zPUDbLMrLqsy1hI
-         XMeeCUci50QZg==
+        b=LSoEJoHCwr5JaYyc6Z44Pz+ou/WtKRVdpFQhDvZwNPU06xkdKyqPxgdpi6e0UE7RX
+         8h9BurH2HybtFftPkIbWXoNoqYmTU6u85JNnv96V8Kc5vKjvKH4NYR8phBmyJEncns
+         t63tzYSaMYQj7g1o0KEp4eApZmd8ajFzHRsixxrlMavsSs+Wq23b5+cdoNuhqzergz
+         4dTJz9xETBTtCpXRMgYcjmNeNow4bw9qZnS2VGXR2+A+sq2hnwtTRb+P6nnCU3wwZZ
+         FO+TCCsrFLo39PsCcXRRF0PSMzycZAfYkCtFANdM99hyUrZRZjhgiG9305CD+xlmlb
+         qqlxTqNU45xGA==
 Received: by aws-us-west-2-korg-bugzilla-1.web.codeaurora.org (Postfix, from userid 48)
-        id 7B0E0C43143; Fri, 19 May 2023 13:26:21 +0000 (UTC)
+        id 21530C43143; Fri, 19 May 2023 13:26:30 +0000 (UTC)
 From:   bugzilla-daemon@kernel.org
 To:     linux-man@vger.kernel.org
 Subject: [Bug 216667] Self-contradictory description of inheritable
  capability set
-Date:   Fri, 19 May 2023 13:26:21 +0000
+Date:   Fri, 19 May 2023 13:26:29 +0000
 X-Bugzilla-Reason: None
 X-Bugzilla-Type: changed
 X-Bugzilla-Watch-Reason: AssignedTo
@@ -48,13 +48,13 @@ X-Bugzilla-Version: unspecified
 X-Bugzilla-Keywords: 
 X-Bugzilla-Severity: normal
 X-Bugzilla-Who: alx@kernel.org
-X-Bugzilla-Status: NEW
+X-Bugzilla-Status: NEEDINFO
 X-Bugzilla-Resolution: 
 X-Bugzilla-Priority: P1
 X-Bugzilla-Assigned-To: documentation_man-pages@kernel-bugs.osdl.org
 X-Bugzilla-Flags: 
-X-Bugzilla-Changed-Fields: 
-Message-ID: <bug-216667-11311-BudgeiL3jD@https.bugzilla.kernel.org/>
+X-Bugzilla-Changed-Fields: bug_status
+Message-ID: <bug-216667-11311-kNwirljwCM@https.bugzilla.kernel.org/>
 In-Reply-To: <bug-216667-11311@https.bugzilla.kernel.org/>
 References: <bug-216667-11311@https.bugzilla.kernel.org/>
 Content-Type: text/plain; charset="UTF-8"
@@ -68,9 +68,11 @@ X-Mailing-List: linux-man@vger.kernel.org
 
 https://bugzilla.kernel.org/show_bug.cgi?id=3D216667
 
---- Comment #3 from Alejandro Colomar (alx@kernel.org) ---
-If you still feel some wording could be improved, I encourage you to send
-a patch, according to the ./CONTRIBUTING file in the repo.
+Alejandro Colomar (alx@kernel.org) changed:
+
+           What    |Removed                     |Added
+----------------------------------------------------------------------------
+             Status|NEW                         |NEEDINFO
 
 --=20
 You may reply to this email to add a comment.
