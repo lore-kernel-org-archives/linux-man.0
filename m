@@ -2,129 +2,221 @@ Return-Path: <linux-man-owner@vger.kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id ADE2AC7EE3A
-	for <linux-man@archiver.kernel.org>; Sun, 21 May 2023 11:47:41 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id CEBDEC7EE23
+	for <linux-man@archiver.kernel.org>; Sun, 21 May 2023 14:41:56 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S231204AbjEULrM (ORCPT <rfc822;linux-man@archiver.kernel.org>);
-        Sun, 21 May 2023 07:47:12 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:36926 "EHLO
+        id S229629AbjEUOl4 (ORCPT <rfc822;linux-man@archiver.kernel.org>);
+        Sun, 21 May 2023 10:41:56 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:44966 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S231608AbjEUKkV (ORCPT
-        <rfc822;linux-man@vger.kernel.org>); Sun, 21 May 2023 06:40:21 -0400
-Received: from mail-wr1-x430.google.com (mail-wr1-x430.google.com [IPv6:2a00:1450:4864:20::430])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 054FCFD
-        for <linux-man@vger.kernel.org>; Sun, 21 May 2023 03:31:43 -0700 (PDT)
-Received: by mail-wr1-x430.google.com with SMTP id ffacd0b85a97d-307d58b3efbso3072037f8f.0
-        for <linux-man@vger.kernel.org>; Sun, 21 May 2023 03:31:42 -0700 (PDT)
+        with ESMTP id S229571AbjEUOlz (ORCPT
+        <rfc822;linux-man@vger.kernel.org>); Sun, 21 May 2023 10:41:55 -0400
+Received: from mail-wm1-x32c.google.com (mail-wm1-x32c.google.com [IPv6:2a00:1450:4864:20::32c])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id D2D3EC2
+        for <linux-man@vger.kernel.org>; Sun, 21 May 2023 07:41:52 -0700 (PDT)
+Received: by mail-wm1-x32c.google.com with SMTP id 5b1f17b1804b1-3f60444238cso1403485e9.3
+        for <linux-man@vger.kernel.org>; Sun, 21 May 2023 07:41:52 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20221208; t=1684665101; x=1687257101;
-        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
-         :to:from:from:to:cc:subject:date:message-id:reply-to;
-        bh=96pmJrFhcqPLmwcJl2U62Hjc4aR0AxZXld7WLQoykv4=;
-        b=lmboMgOFCO8lZ66uhQXDEhAV4rzGrUinrsDa0k5pAqD9vqn6fqqYVQj5uov6H8d3ud
-         WMWtSezcOw9Pc1IrbsNj9L75lWPUDi7DbG3OCnRSrPfleCgUYt7z54cLZTMOAN8IEzs1
-         ncM8CpptrWoP328/fojmYMQ/4t86ohDC/dEDOPmPchubrlJb06lSgaRtizMzsKn4rKj0
-         G/5W6GUODfEQIvIRPnDPYveBrMIgXZ9vY7edxecdqegBjtexslwDzchrFyk+6Ksw069M
-         xC8qhp5CxdUb8bUbZlD45/STCrwlIPuVkgXCi4HMhHDcFY1JzDbeUJCxCIWnl/jbW0n2
-         DX7w==
+        d=gmail.com; s=20221208; t=1684680111; x=1687272111;
+        h=in-reply-to:from:references:cc:to:content-language:subject
+         :user-agent:mime-version:date:message-id:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=8rQ3+TH63yzYPGsS1YMgyC+ES1WvgW7p3rpuxrAyxSI=;
+        b=khFd0t/K6dRY9E6aWydoIsDdOxb6Agl5feDHBh4FVGV+cBIyCZX9XA7pTgJ1jQdkmA
+         LxA/H/Tngec9mlFxtCy92OFHLEAluj2tsGBYq1arFfdToghWkyiNsCdVjUSYsDEPmVqB
+         QruB0aNKTfjGi6s/gMJCimuQPw2HhiO0nTB0X7TTEpp0M+usZV+8vt4mo254kKxnD65a
+         1r3x/6Bg4pgWE/lpoyJMTIJlhtt7vbltKN/XGsKSX1nJKbVh4lcIn6Rw4QUoTQaoHKIH
+         +2DwV/jiPFO8vbnoPhk/Z2MhA1Nsa5Qp3MZOZAG1ITL/FA/TQlN4n/zSSVcGou6pUhUX
+         vOIQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20221208; t=1684665101; x=1687257101;
-        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
-         :to:from:x-gm-message-state:from:to:cc:subject:date:message-id
-         :reply-to;
-        bh=96pmJrFhcqPLmwcJl2U62Hjc4aR0AxZXld7WLQoykv4=;
-        b=JAKyi8TCq9MYzXxAdzygujRb0Vk9eAq0fmgxp3j3GodHMFQDCG/wZT4iuFaAiR4wnc
-         P1jHUVAC64EcuoY0zN4DQ6anl+q3G4fXIAL6ynigfG6Gd3OvNXEln0AtkQ0Y8wHCC5bH
-         y8iKavQpE99Kv5LJsRS+/nQnt08XeX9wgE8aBbMmrcs2YrpzKNSbM/ZSZcHopR+hGS+L
-         R6vKwXfeu7OsQuzjABKz6ryECA4u1hW72T+0p42Of7n/xalbonQ0qGbIisUW2+gZ29Zm
-         vBpQyzYLVTCZuene0DEKKsablaRfmZjZrRBDqzK9Rle2lGnC5Iql00F98GPlLqn10Qb5
-         byNw==
-X-Gm-Message-State: AC+VfDzJNvTyevrBuz09zv8HfFB0+nlU0lREuaICvU/9QYULlmQBUarE
-        ul9be0ROMcBwWnHgp+d3ia3v3jYdG4w=
-X-Google-Smtp-Source: ACHHUZ5Dnpq/v0EjkjwXdqTkoMHkh22EgrsT29L0eMqNNOvNI6PZ0dcXX7r8fX+UUZVm8Ci8EF/tkw==
-X-Received: by 2002:adf:cd10:0:b0:306:2c16:8359 with SMTP id w16-20020adfcd10000000b003062c168359mr5262759wrm.39.1684665101194;
-        Sun, 21 May 2023 03:31:41 -0700 (PDT)
-Received: from asus5775.alejandro-colomar.es ([170.253.51.134])
-        by smtp.googlemail.com with ESMTPSA id j11-20020a5d604b000000b003062c0ef959sm4311461wrt.69.2023.05.21.03.31.40
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Sun, 21 May 2023 03:31:40 -0700 (PDT)
-From:   Alejandro Colomar <alx.manpages@gmail.com>
-X-Google-Original-From: Alejandro Colomar <alx@kernel.org>
-To:     linux-man@vger.kernel.org
+        d=1e100.net; s=20221208; t=1684680111; x=1687272111;
+        h=in-reply-to:from:references:cc:to:content-language:subject
+         :user-agent:mime-version:date:message-id:x-gm-message-state:from:to
+         :cc:subject:date:message-id:reply-to;
+        bh=8rQ3+TH63yzYPGsS1YMgyC+ES1WvgW7p3rpuxrAyxSI=;
+        b=GEcO5nfH8o1Zf/Iazx6Lz78olp/qQUUHe+J54kJCpm8Jew7zFgquimVrqvVVkeGL4U
+         CMY/HB0UbPda/7UcJhNBedXiY2/+PKT5EIpKIF4hnylx1hNlQ/eKs8GVBGZr5EBJsvtE
+         oWTRZjGelyGU6kCV0C9OJDlJ+S3xFvIX9Cd09hQo88/uQb2cwnZSpKbgtJDJkGpfCwZ9
+         gIcg3Wv/HQHIRlah2Y+hpJgaghrf1c8UJdgtAeY0iNS2/K7LPQc93fu8GvQWuRumGWqY
+         ZsOJ3QpNo6Sv1syfmLxPQqcT0S8rVKsRK3sYDtz+RXyriWyYrhjhCc0o/g5iCtSZ5oB/
+         uOrg==
+X-Gm-Message-State: AC+VfDxsxCx30wt8qdMp4YvCpibD5wHLdLOjQF6Kpz6w/mwMkOhX8V7q
+        BmkK6UqE9Px/t/aOdTFaW6514oVKl1s=
+X-Google-Smtp-Source: ACHHUZ4cttYTZp8K7LfHpi+9ayAFN7yAu4GlykcOjPLsq7nHarF3DWIb5krwNYrUi6gDPugdY1K4jA==
+X-Received: by 2002:a7b:c04c:0:b0:3f4:9bee:b9c with SMTP id u12-20020a7bc04c000000b003f49bee0b9cmr5453309wmc.18.1684680111090;
+        Sun, 21 May 2023 07:41:51 -0700 (PDT)
+Received: from [192.168.0.160] ([170.253.51.134])
+        by smtp.gmail.com with ESMTPSA id l11-20020a1ced0b000000b003f182a10106sm5307398wmh.8.2023.05.21.07.41.50
+        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+        Sun, 21 May 2023 07:41:50 -0700 (PDT)
+Message-ID: <5d2a1776-66fc-4a76-a28e-31c613d3af3a@gmail.com>
+Date:   Sun, 21 May 2023 16:41:49 +0200
+MIME-Version: 1.0
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
+ Thunderbird/102.11.0
+Subject: Re: [PATCH] iconv.3: Clarify the behavior when input is
+ untranslatable
+Content-Language: en-US
+To:     Bruno Haible <bruno@clisp.org>, linux-man@vger.kernel.org
 Cc:     Reuben Thomas <rrt@sc3d.org>,
         Steffen Nurpmeso <steffen@sdaoden.eu>,
-        Bruno Haible <bruno@clisp.org>,
         Martin Sebor <msebor@redhat.com>,
         Alejandro Colomar <alx@kernel.org>
-Subject: [PATCH] iconv.3: Clarify the behavior when input is untranslatable
-Date:   Sun, 21 May 2023 12:31:28 +0200
-Message-Id: <20230521103128.8472-1-alx@kernel.org>
-X-Mailer: git-send-email 2.40.1
-MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+References: <20230521103128.8472-1-alx@kernel.org> <18117042.sWSEgdgrri@nimes>
+From:   Alejandro Colomar <alx.manpages@gmail.com>
+In-Reply-To: <18117042.sWSEgdgrri@nimes>
+Content-Type: multipart/signed; micalg=pgp-sha256;
+ protocol="application/pgp-signature";
+ boundary="------------7vjLtDWThC6EaKLNk11pbJeQ"
 Precedence: bulk
 List-ID: <linux-man.vger.kernel.org>
 X-Mailing-List: linux-man@vger.kernel.org
 
-From: Reuben Thomas <rrt@sc3d.org>
+This is an OpenPGP/MIME signed message (RFC 4880 and 3156)
+--------------7vjLtDWThC6EaKLNk11pbJeQ
+Content-Type: multipart/mixed; boundary="------------FY1bMM4h0TmeGjYIEyUJDAwb";
+ protected-headers="v1"
+From: Alejandro Colomar <alx.manpages@gmail.com>
+To: Bruno Haible <bruno@clisp.org>, linux-man@vger.kernel.org
+Cc: Reuben Thomas <rrt@sc3d.org>, Steffen Nurpmeso <steffen@sdaoden.eu>,
+ Martin Sebor <msebor@redhat.com>, Alejandro Colomar <alx@kernel.org>
+Message-ID: <5d2a1776-66fc-4a76-a28e-31c613d3af3a@gmail.com>
+Subject: Re: [PATCH] iconv.3: Clarify the behavior when input is
+ untranslatable
+References: <20230521103128.8472-1-alx@kernel.org> <18117042.sWSEgdgrri@nimes>
+In-Reply-To: <18117042.sWSEgdgrri@nimes>
 
-The manual page does not fully reflect the behaviour of glibc's
-iconv(3).  The manual page says:
+--------------FY1bMM4h0TmeGjYIEyUJDAwb
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: quoted-printable
 
-    The conversion can stop for four reasons:
+Hi Bruno
 
-    -  An invalid multibyte sequence is encountered in the input.  In
-       this case, it sets errno to EILSEQ and returns (size_t) -1.
-       *inbuf is left pointing to the beginning of the invalid multibyte
-       sequence.
+On 5/21/23 13:11, Bruno Haible wrote:
+> Alejandro Colomar wrote:
+>> This patch adds language that reflects the actual behavior, by adding =
+an
+>> explicit bullet that distinguishes this case.
+>=20
+> That is the right approach. Thanks for taking the initiative.
+>=20
+> But I think that more details should be added, so that programmers are
+> not surprised if their program behaves differently on, say, musl libc
+> or FreeBSD than on glibc.
+>=20
+> Find attached my take to describe the condition appropriately.
 
-    [...]
+Thanks!
 
-The phrase "An invalid multibyte sequence is encountered in the input"
-is confusing, because it suggests that it refers only to the validity of
-the input per se (e.g. a non-UTF-8 sequence in input purporting to be
-UTF-8).
+>=20
+> Bruno
+>=20
 
-However, according to the original author of the manual page, Bruno
-Haible[1], it also refers to input that cannot be translated to the
-desired output encoding; and indeed, glibc's iconv returns EILSEQ when
-the input cannot be translated, even though it is valid.
+> @@ -80,6 +80,34 @@ .SH DESCRIPTION
+>  \fI*inbuf\fP
+>  is left pointing to the beginning of the invalid multibyte sequence.
+>  .IP \[bu]
+> +A multibyte sequence is encountered that is valid but that cannot be
+> +translated to the character encoding of the output.  This condition
 
-This patch adds language that reflects the actual behavior, by adding an
-explicit bullet that distinguishes this case.
+Please use semantic newlines.  See man-pages(7):
+   Use semantic newlines
+       In the source of a manual page, new sentences should be started
+       on  new  lines,  long  sentences  should be split into lines at
+       clause breaks (commas, semicolons, colons, and so on), and long
+       clauses should be split at phrase boundaries.  This convention,
+       sometimes known as "semantic newlines", makes it easier to  see
+       the  effect of patches, which often operate at the level of in=E2=80=
+=90
+       dividual sentences, clauses, or phrases.
 
-Link: [1] <https://sourceware.org/bugzilla/show_bug.cgi?id=29913#c4>
-Link: <https://bugzilla.kernel.org/show_bug.cgi?id=217059>
-Reported-by: Reuben Thomas <rrt@sc3d.org>
-Cc: Steffen Nurpmeso <steffen@sdaoden.eu>
-Cc: Bruno Haible <bruno@clisp.org>
-Cc: Martin Sebor <msebor@redhat.com>
-Signed-off-by: Alejandro Colomar <alx@kernel.org>
 
-f
----
- man3/iconv.3 | 8 ++++++++
- 1 file changed, 8 insertions(+)
+> +depends on the implementation and on the conversion descriptor.
+> +In the GNU C library and GNU libiconv, if
+> +.I cd
+> +was created without the suffix
+> +.B //TRANSLIT
+> +or
+> +.BR //IGNORE ,
+> +the conversion is strict: lossy conversions produce this condition.
+> +If the suffix
+> +.B //TRANSLIT
+> +was specified, transliteration can avoid this condition in some cases.=
 
-diff --git a/man3/iconv.3 b/man3/iconv.3
-index 66f59b8c3..6bb27c802 100644
---- a/man3/iconv.3
-+++ b/man3/iconv.3
-@@ -80,6 +80,14 @@ .SH DESCRIPTION
- \fI*inbuf\fP
- is left pointing to the beginning of the invalid multibyte sequence.
- .IP \[bu]
-+An multibyte sequence is encountered in the input which
-+cannot be translated to the character encoding of the output.
-+In this case,
-+it sets \fIerrno\fP to \fBEILSEQ\fP and returns
-+.IR (size_t)\ \-1 .
-+\fI*inbuf\fP
-+is left pointing to the beginning of the invalid multibyte sequence.
-+.IP \[bu]
- The input byte sequence has been entirely converted,
- that is, \fI*inbytesleft\fP has gone down to 0.
- In this case,
--- 
-2.40.1
 
+What do you mean by "can" and "some cases"?
+
+> +In the musl C library, this condition cannot occur because a conversio=
+n to
+> +.B '*'
+
+I recommend either using \[aq]*\[aq] for producing valid C code,
+or just having an unquoted *.
+
+> +is used as a fallback.
+> +In the FreeBSD, NetBSD, and Solaris implementations of
+> +.BR iconv ,
+
+=2EBR iconv () ,
+
+> +this condition cannot occur either, because a conversion to
+> +.B '?'
+
+Similar stuff here.
+
+> +is used as a fallback.
+> +When this condition is met,
+> +.B iconv
+
+And here.
+
+> +sets \fIerrno\fP to \fBEILSEQ\fP and returns
+
+=2EI errno
+
+=2EB EILSEQ
+
+I know in other places in the page we use \f, but I'll fix
+that at some point.  Please use macros for new code.
+
+Cheers,
+Alex
+
+> +.IR (size_t)\ \-1 .
+> +\fI*inbuf\fP
+> +is left pointing to the beginning of the invalid multibyte sequence.
+> +.IP \[bu]
+>  The input byte sequence has been entirely converted,
+>  that is, \fI*inbytesleft\fP has gone down to 0.
+>  In this case,
+
+
+--=20
+<http://www.alejandro-colomar.es/>
+GPG key fingerprint: A9348594CE31283A826FBDD8D57633D441E25BB5
+
+--------------FY1bMM4h0TmeGjYIEyUJDAwb--
+
+--------------7vjLtDWThC6EaKLNk11pbJeQ
+Content-Type: application/pgp-signature; name="OpenPGP_signature.asc"
+Content-Description: OpenPGP digital signature
+Content-Disposition: attachment; filename="OpenPGP_signature"
+
+-----BEGIN PGP SIGNATURE-----
+
+iQIzBAEBCgAdFiEE6jqH8KTroDDkXfJAnowa+77/2zIFAmRqLa0ACgkQnowa+77/
+2zL7uw/+MRdxyNS6ORuDAp5oVhhrMCp+c3b2cbxJOScuALVGdt5S56+DSeIV4lvQ
+NR12TT86586BDRO2xRxldECfXwz2hIqSeSJ1MLun/Gr+B1iF8eLGR9oqzrvCztSn
+YSDGadjhmfqPLseg39/ppOcpFQuTHdYxspXI7Hi5WoC4I5HuthCLgu71UafOyxyM
+RLmIdqkOP/IH8YrqqBiHXdtrmm0HEtkNNm0PQJ65BHuAYLBwnU0BTK3cs8v2w+JH
++JZOAmfAXRsLvE9axBIvY8nN8WiJW2nzQiDYqmo9VBRxVSS8u+1NwK1nFQQ6fDPy
+oKwhVkFbAuwJR3e9hTH/a7pfod9UfQnEh4t8rm6E7c8LNRUsuYgaTh3F1fUIVTGS
+WUePNopIo47BrdA1e7VozH9kaSoAaNx0vKsrHGtuUFZ5uledA3xIM9+d7hTLi/UI
+3RBAEom5Q+Rnukq8IwsRnNcDj7x2/5oAYdoPCccXOx/h/R7ELrlTqO3kY9ACcVs/
++PPXEE6N5L8JOGR9+F7L5lV5O3BWAQXAjwMmwPfby0npq5OeTlwKAt2WhRstRcea
+7J+H+PhtSc28kw7h5rozz9vDqMJ/XTNvSxhFpL//vg8gP+P1I9TP+LlKJBTRU109
+jwHmOQtuoYf2x7x+LjRRMdd9zMScJ9A8K8hDvChFWO4iDXc6hBw=
+=yIct
+-----END PGP SIGNATURE-----
+
+--------------7vjLtDWThC6EaKLNk11pbJeQ--
