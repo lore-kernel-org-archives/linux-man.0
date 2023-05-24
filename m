@@ -2,73 +2,89 @@ Return-Path: <linux-man-owner@vger.kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 82188C7EE23
-	for <linux-man@archiver.kernel.org>; Wed, 24 May 2023 16:00:19 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id C14EDC7EE2D
+	for <linux-man@archiver.kernel.org>; Wed, 24 May 2023 16:00:51 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S237921AbjEXQAR (ORCPT <rfc822;linux-man@archiver.kernel.org>);
-        Wed, 24 May 2023 12:00:17 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:55486 "EHLO
+        id S238023AbjEXQAu (ORCPT <rfc822;linux-man@archiver.kernel.org>);
+        Wed, 24 May 2023 12:00:50 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:55514 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S238826AbjEXQAF (ORCPT
-        <rfc822;linux-man@vger.kernel.org>); Wed, 24 May 2023 12:00:05 -0400
-Received: from dfw.source.kernel.org (dfw.source.kernel.org [IPv6:2604:1380:4641:c500::1])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 4FD13199E
-        for <linux-man@vger.kernel.org>; Wed, 24 May 2023 08:59:23 -0700 (PDT)
-Received: from smtp.kernel.org (relay.kernel.org [52.25.139.140])
-        (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
-        (No client certificate requested)
-        by dfw.source.kernel.org (Postfix) with ESMTPS id ED860632B7
-        for <linux-man@vger.kernel.org>; Wed, 24 May 2023 15:59:21 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPS id 62C14C433A1
-        for <linux-man@vger.kernel.org>; Wed, 24 May 2023 15:59:21 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-        s=k20201202; t=1684943961;
-        bh=DViy8ie/ofdpzVf/sUWiPnTHYEeeF8aOd+ZwQ7rXUdw=;
-        h=From:To:Subject:Date:In-Reply-To:References:From;
-        b=FlhB9h4lAmRInjOI7XTmt8Hhcp7pNRIC60+cRmYS50HJE/K8QxC2x9+YBTdUnBiMX
-         E2Ed48VEfhqusjiUp23M779/hdVlzfaduMmqiWqEDTS972BZdhL+BgiQ0dobgEDeNq
-         1pJ0QpPT5D3mhYtS9lCmMt2jBN27BzM+kNFIiJHxOsi178dEQoG6mMoxI9NeZ5Ccjz
-         JYThrTFAMoPINHUlG+1Ipilu5p0JhOUEA8fiFByqtOThLxtzJFpheGG6hrupWjYF9A
-         a8s0pmsW3rGExtRAOqSYKS8hEcQoZyD3WYL1wVK2tO5QAQsIzc1IEpmAhZGrfsUkxj
-         tViRNOJ1q4DDQ==
-Received: by aws-us-west-2-korg-bugzilla-1.web.codeaurora.org (Postfix, from userid 48)
-        id 4D45DC43144; Wed, 24 May 2023 15:59:21 +0000 (UTC)
-From:   bugzilla-daemon@kernel.org
-To:     linux-man@vger.kernel.org
-Subject: [Bug 216951] close_range(2) needs refreshing for glibc inclusion;
- closefrom(2) page missing
-Date:   Wed, 24 May 2023 15:59:21 +0000
-X-Bugzilla-Reason: None
-X-Bugzilla-Type: changed
-X-Bugzilla-Watch-Reason: AssignedTo
- documentation_man-pages@kernel-bugs.osdl.org
-X-Bugzilla-Product: Documentation
-X-Bugzilla-Component: man-pages
-X-Bugzilla-Version: unspecified
-X-Bugzilla-Keywords: 
-X-Bugzilla-Severity: normal
-X-Bugzilla-Who: hi@alyssa.is
-X-Bugzilla-Status: NEEDINFO
-X-Bugzilla-Resolution: 
-X-Bugzilla-Priority: P1
-X-Bugzilla-Assigned-To: documentation_man-pages@kernel-bugs.osdl.org
-X-Bugzilla-Flags: 
-X-Bugzilla-Changed-Fields: 
-Message-ID: <bug-216951-11311-uCSX1Qc4Iq@https.bugzilla.kernel.org/>
-In-Reply-To: <bug-216951-11311@https.bugzilla.kernel.org/>
+        with ESMTP id S238039AbjEXQAg (ORCPT
+        <rfc822;linux-man@vger.kernel.org>); Wed, 24 May 2023 12:00:36 -0400
+Received: from wout3-smtp.messagingengine.com (wout3-smtp.messagingengine.com [64.147.123.19])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 65DD91A6
+        for <linux-man@vger.kernel.org>; Wed, 24 May 2023 08:59:43 -0700 (PDT)
+Received: from compute4.internal (compute4.nyi.internal [10.202.2.44])
+        by mailout.west.internal (Postfix) with ESMTP id 052A03200BC1;
+        Wed, 24 May 2023 11:59:11 -0400 (EDT)
+Received: from mailfrontend2 ([10.202.2.163])
+  by compute4.internal (MEProxy); Wed, 24 May 2023 11:59:12 -0400
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=alyssa.is; h=cc
+        :cc:content-type:content-type:date:date:from:from:in-reply-to
+        :in-reply-to:message-id:mime-version:references:reply-to:sender
+        :subject:subject:to:to; s=fm3; t=1684943951; x=1685030351; bh=ES
+        EjLvIKzlZpmAQrazcr+3zsW8Pbz25u0+z/e+wqwvI=; b=ZZRpAPKjs87x8poGIP
+        ZsJ/U5F9O2t7UKaxaJiIbBdlwu6xVs1DMHomlSK4060jd3by7YJBeGzQPMF4CNWX
+        LAYv+lC0hJp7ivpReBqs9pE+S13KCuvvYd0YqP6mOYL/J0f1l0ywe3xQESurnsjs
+        qyS6eKgSADheKyvwDsDO5M+NKSafqEmSLNwEqIE0CncFrswUwlfUB5vhHhTRowMW
+        hgSZKifF0Su9+edA7Isozi916KbrdIUgrwkJXTV66TUemJ1ydn60VKrd8zLPFx0p
+        Fi3L4rbBH0CEzAB6H+SC8lFo/Wxj3EIQ9oLlqu8DgZpPCK6UHoYlSTcOFaRtdTUS
+        ImjQ==
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=
+        messagingengine.com; h=cc:cc:content-type:content-type:date:date
+        :feedback-id:feedback-id:from:from:in-reply-to:in-reply-to
+        :message-id:mime-version:references:reply-to:sender:subject
+        :subject:to:to:x-me-proxy:x-me-proxy:x-me-sender:x-me-sender
+        :x-sasl-enc; s=fm1; t=1684943951; x=1685030351; bh=ESEjLvIKzlZpm
+        AQrazcr+3zsW8Pbz25u0+z/e+wqwvI=; b=MD/r7fP12fFsZO7jxcXrmxgV4NgoD
+        c2mKREUsyac1bgsfrZGDMquIAAaJLIsoY4zKvY6N1cSHAja3I+DRybfwjw91n810
+        yn6C9QrvJ5Rc/sgJAZ2y8m9K+osI6M13J6oVh2nuZxAnTRQfuGfx8dAmV9fWMxMi
+        yOOT7Xz/uDe2w8O43PZoesa3dlL4DM4jEvrPiaBJMB7bn7wosu1dzyr56Lt/850d
+        BoHlCZ5Co3x9HHZs9jcZ4deyLAoK6H9Sra/SzxDbMtjsr3r0NjO9UjIu2naKOX1m
+        Gy+KfbAwr3p7a8KZ/B1PBx2l1AqMUWvjQSteHhFLtMZLMtUW8AqRGt79Q==
+X-ME-Sender: <xms:TzRuZLYxGQ2BpYNHoDP6ofThfNQ0PsqhmgTnYkwSPn1PhjWirD-Ilw>
+    <xme:TzRuZKbKISa2WjV8-Yg8Qx7CAu-0df4OidVGbyy6GoMhtxdQU3zWzgqjgZBe0IRz_
+    pQCRHoP9Kr5qKXbGw>
+X-ME-Received: <xmr:TzRuZN_E3FQqT1y0wQbU2TnyRzspTqAaEuAatrqtxQSr3fo5AdNnx_o3dStPbyjIqQYER-6x6mrwt2PBtwU_vKYT_EQv4jsASQ>
+X-ME-Proxy-Cause: gggruggvucftvghtrhhoucdtuddrgedvhedrfeejhedgleefucetufdoteggodetrfdotf
+    fvucfrrhhofhhilhgvmecuhfgrshhtofgrihhlpdfqfgfvpdfurfetoffkrfgpnffqhgen
+    uceurghilhhouhhtmecufedttdenucenucfjughrpeffhffvvefukfhfgggtuggjsehgtd
+    erredttdejnecuhfhrohhmpeetlhihshhsrgcutfhoshhsuceohhhisegrlhihshhsrgdr
+    ihhsqeenucggtffrrghtthgvrhhnpeegjeeigeejhffgffehueeludevhfeiffefudegvd
+    egudfhudejheefhfeugfeghfenucevlhhushhtvghrufhiiigvpedtnecurfgrrhgrmhep
+    mhgrihhlfhhrohhmpehhihesrghlhihsshgrrdhish
+X-ME-Proxy: <xmx:TzRuZBqZV5-yHPO2rMtBj0r81TDk39Pus2j8_2ZDcEdAX6dc6HLgOA>
+    <xmx:TzRuZGpQFXj7_eNGjm__MX8-CdnquSLblhtx81uvEQMS7AY6raU9bA>
+    <xmx:TzRuZHQV8dV3H0guJa_NyY2uD6DkQVVPnm4IYcElqFfwocgescUgEg>
+    <xmx:TzRuZNT-QywqiMWNskZVlw3k6G3hCZoo8BV_9VOBsfXPOi6YpWAPBA>
+Feedback-ID: i12284293:Fastmail
+Received: by mail.messagingengine.com (Postfix) with ESMTPA; Wed,
+ 24 May 2023 11:59:11 -0400 (EDT)
+Received: by x220.qyliss.net (Postfix, from userid 1000)
+        id 0D2F05164; Wed, 24 May 2023 13:37:50 +0000 (UTC)
+Date:   Wed, 24 May 2023 13:37:49 +0000
+From:   Alyssa Ross <hi@alyssa.is>
+To:     bugzilla-daemon@kernel.org
+Cc:     linux-man@vger.kernel.org
+Subject: Re: [Bug 216951] New: close_range(2) page missing; closefrom(2)
+ needs refreshing for glibc inclusion
+Message-ID: <20230524133749.zvfxbnlkgdpmww6o@x220>
 References: <bug-216951-11311@https.bugzilla.kernel.org/>
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
-X-Bugzilla-URL: https://bugzilla.kernel.org/
-Auto-Submitted: auto-generated
 MIME-Version: 1.0
+Content-Type: multipart/signed; micalg=pgp-sha256;
+        protocol="application/pgp-signature"; boundary="pdgaxfwbxwi3ipyw"
+Content-Disposition: inline
+In-Reply-To: <bug-216951-11311@https.bugzilla.kernel.org/>
 Precedence: bulk
 List-ID: <linux-man.vger.kernel.org>
 X-Mailing-List: linux-man@vger.kernel.org
 
-https://bugzilla.kernel.org/show_bug.cgi?id=3D216951
 
---- Comment #2 from Alyssa Ross (hi@alyssa.is) ---
+--pdgaxfwbxwi3ipyw
+Content-Type: text/plain; charset=utf-8
+Content-Disposition: inline
+Content-Transfer-Encoding: quoted-printable
+
 On Thu, Jan 19, 2023 at 01:45:57AM +0000, bugzilla-daemon@kernel.org wrote:
 > man-pages currently doesn't document closefrom(2) at all, and is outdated=
  wrt
@@ -76,8 +92,24 @@ On Thu, Jan 19, 2023 at 01:45:57AM +0000, bugzilla-daemon@kernel.org wrote:
 Shouldn't it be closefrom(3)?  There's no closefrom syscall =E2=80=94 Glibc
 implements it using close_range (if available).
 
---=20
-You may reply to this email to add a comment.
+--pdgaxfwbxwi3ipyw
+Content-Type: application/pgp-signature; name="signature.asc"
 
-You are receiving this mail because:
-You are watching the assignee of the bug.=
+-----BEGIN PGP SIGNATURE-----
+
+iQIzBAABCAAdFiEEH9wgcxqlHM/ARR3h+dvtSFmyccAFAmRuEyQACgkQ+dvtSFmy
+ccD6QQ/8CbzaXl4EqoXCDNmeEF2omz5uRZKVIP0A/NTdH6bNa4igDMewa6QKNGvB
+PG2U0LaLPo5BBxz7BCiBBknhxQg9R60sZDBPDVq64/v3aOmChdoqW9cjeH4txVqR
+fWlYpAFFaaMegfz+4edgpZQr33mga6d39xx7zL85lsAffqlbvEUvjETUJSHVbmNu
+KuXerr6G6jB7O9oa8tiSwdBm3OpQLkI9JcEjqrtoBaSWJkgAbh8QraO0ENu+4enb
+eOd48B4a0a9RuE6bmfjtQNmnutUfq4d055KFjHdv9dpCgKcwvHM0gZ3k2r2HlQ9E
+3IF/sAPiGZUuq+QlPPFqJlCV29aZilBSr9tJScxdC8mFObGJqmn5F5DUFbdWhXuN
+eFumruaXAlPWQlGGhoo3OgsPSG4cMdcHKgiiD39Z25MZgvfcWBz80tzSjyxZrbO0
+R9eGaQHIyiXbGkIxkJPDSASwCiPfB5KNRVB/Ib/4cK/zKPors1jWfKmdF61ve40D
+VcSdbJOlmGxJmiLA+HrIZ802r2f+cVAc1afsh8lRfNS+rWjHD7re1LW692eUdmMi
+K/T2fk92/NzmRXax4L51LAOuNVclcMax3OhZiG9INO0JUs106kPN4Wyo+vjFCStt
+TexyAkyWoQEt5xexsE2AqnVrK3iP0r8qJh0GVB2DiG22+QYuV90=
+=Iw/L
+-----END PGP SIGNATURE-----
+
+--pdgaxfwbxwi3ipyw--
