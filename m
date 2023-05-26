@@ -2,99 +2,77 @@ Return-Path: <linux-man-owner@vger.kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 0794FC77B7A
-	for <linux-man@archiver.kernel.org>; Fri, 26 May 2023 16:21:54 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 4F2B4C77B7A
+	for <linux-man@archiver.kernel.org>; Fri, 26 May 2023 21:07:11 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S236450AbjEZQVx (ORCPT <rfc822;linux-man@archiver.kernel.org>);
-        Fri, 26 May 2023 12:21:53 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:34454 "EHLO
+        id S243860AbjEZVHK (ORCPT <rfc822;linux-man@archiver.kernel.org>);
+        Fri, 26 May 2023 17:07:10 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:60828 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S229833AbjEZQVw (ORCPT
-        <rfc822;linux-man@vger.kernel.org>); Fri, 26 May 2023 12:21:52 -0400
-X-Greylist: delayed 1483 seconds by postgrey-1.37 at lindbergh.monkeyblade.net; Fri, 26 May 2023 09:21:48 PDT
-Received: from smtp102.ord1d.emailsrvr.com (smtp102.ord1d.emailsrvr.com [184.106.54.102])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 8E646BC
-        for <linux-man@vger.kernel.org>; Fri, 26 May 2023 09:21:48 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=mev.co.uk;
-        s=20221208-6x11dpa4; t=1685116625;
-        bh=Vl0LEKXXPwCJQh89XjvpmIEFMksHRoHT6ivMqLgaBLY=;
-        h=Date:Subject:To:From:From;
-        b=ni6IUiEov1JEWBw+qIYmSvsEonOoeE9bVgk7VJ8ODSXbJr8X8PkbKXtQ0sPPU57ox
-         ovBkjjwiRqDtis81W5EKvbVnTH/DWMuxrX0poRmToo36mv0vJaVdqpWeb3/Ua5N4U1
-         ytj6wnWIj8dTSOTHZ86EaNH+hr23umXuT1tF4xOs=
-X-Auth-ID: abbotti@mev.co.uk
-Received: by smtp13.relay.ord1d.emailsrvr.com (Authenticated sender: abbotti-AT-mev.co.uk) with ESMTPSA id 8A7DEC0139;
-        Fri, 26 May 2023 11:57:04 -0400 (EDT)
-Message-ID: <9e01f0fe-137d-4e5d-6151-a2f4c3b91bd7@mev.co.uk>
-Date:   Fri, 26 May 2023 16:57:03 +0100
+        with ESMTP id S230058AbjEZVHJ (ORCPT
+        <rfc822;linux-man@vger.kernel.org>); Fri, 26 May 2023 17:07:09 -0400
+Received: from bombadil.infradead.org (bombadil.infradead.org [IPv6:2607:7c80:54:3::133])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 620D0BC;
+        Fri, 26 May 2023 14:07:07 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
+        d=infradead.org; s=bombadil.20210309; h=Sender:Content-Transfer-Encoding:
+        MIME-Version:Message-Id:Date:Subject:Cc:To:From:Reply-To:Content-Type:
+        Content-ID:Content-Description:In-Reply-To:References;
+        bh=1ogg/PUbTxKmhWJC/1xhoXa1dzdnZDY8ZuRWFCmZ38s=; b=0CftGiEnPzro23zYDvjoLbTFuY
+        rqII7GAY5PmjLXehFY5Msk61fmrmnxv/iFFbFHZG+DNz5DTQeMpTaBcuX0gWbyUeB5JB3fQfzA+kz
+        fzptzQXE+XrWAbMiezOCIrxOV0IuwLfF7FCG2gyB0DE5gbz2L0KfgjW3Bk4V0j7UiSFI4ZSFIJJr4
+        jyVf6puAi6HAZKAOHTNvCqL6Z1DEJtp2HYSBPi/zys75bwYb+23doVm93UdkVBX/T9iihvITcWI+r
+        M4+rCBQwC3bY412UlfWIrjczePv/jpUHL6dzZQ+BiMpnm4Skwd1bjpxDdxWu/pR5RPP1xvasBu+gO
+        zLzoa2FA==;
+Received: from mcgrof by bombadil.infradead.org with local (Exim 4.96 #2 (Red Hat Linux))
+        id 1q2eeO-003vDt-0W;
+        Fri, 26 May 2023 21:07:04 +0000
+From:   Luis Chamberlain <mcgrof@kernel.org>
+To:     alx@kernel.org, linux-man@vger.kernel.org,
+        linux-api@vger.kernel.org
+Cc:     hughd@google.com, p.raghav@samsung.com, da.gomez@samsung.com,
+        rohan.puri@samsung.com, rpuri.linux@gmail.com,
+        a.manzanares@samsung.com, dave@stgolabs.net, yosryahmed@google.com,
+        keescook@chromium.org, mcgrof@kernel.org, patches@lists.linux.dev,
+        linux-fsdevel@vger.kernel.org, linux-mm@kvack.org,
+        linux-kernel@vger.kernel.org
+Subject: [PATCH] tmpfs.5: extend with new noswap documentation
+Date:   Fri, 26 May 2023 14:07:03 -0700
+Message-Id: <20230526210703.934922-1-mcgrof@kernel.org>
+X-Mailer: git-send-email 2.38.1
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
- Thunderbird/102.10.0
-Subject: Re: [PATCH] fgetc.3: Describe handling of ungetc(EOF, stream)
-Content-Language: en-GB
-To:     Alejandro Colomar <alx.manpages@gmail.com>,
-        Alejandro Colomar <alx@kernel.org>
-Cc:     linux-man@vger.kernel.org
-References: <20230526151941.25428-1-abbotti@mev.co.uk>
- <903e67f1-6304-862b-7d8a-0ff5db965318@gmail.com>
-From:   Ian Abbott <abbotti@mev.co.uk>
-Organization: MEV Ltd.
-In-Reply-To: <903e67f1-6304-862b-7d8a-0ff5db965318@gmail.com>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 7bit
-X-Classification-ID: 9fdfd40f-9ba4-429d-aed8-244c6600a33f-1-1
+Content-Transfer-Encoding: 8bit
+Sender: Luis Chamberlain <mcgrof@infradead.org>
 Precedence: bulk
 List-ID: <linux-man.vger.kernel.org>
 X-Mailing-List: linux-man@vger.kernel.org
 
-On 26/05/2023 16:28, Alejandro Colomar wrote:
-> Hi Ian!
-> 
-> On 5/26/23 17:19, Ian Abbott wrote:
->> As per the C standard, calling ungetc() with the character parameter
->> equal to EOF causes it to fail, returning EOF.
->>
->> Signed-off-by: Ian Abbott <abbotti@mev.co.uk>
->> ---
->>   man3/fgetc.3 | 8 +++++++-
->>   1 file changed, 7 insertions(+), 1 deletion(-)
->>
->> diff --git a/man3/fgetc.3 b/man3/fgetc.3
->> index 75dcaeaf6..d6bf62327 100644
->> --- a/man3/fgetc.3
->> +++ b/man3/fgetc.3
->> @@ -62,7 +62,13 @@ A terminating null byte (\[aq]\e0\[aq])
->>   is stored after the last character in the buffer.
->>   .PP
->>   .BR ungetc ()
->> -pushes
->> +returns
->> +.B EOF
->> +if the value of
->> +.I c
->> +equals that of the macro
->> +.BR EOF ,
->> +otherwise it pushes
-> 
-> I would put that detail at the end of the description, rather than
-> the beginning.  In C code, that kind of short-cutting can help
-> reading, but in the manual, it's better left as a detail at the end
-> of it, to give it less importance.
+Linux commit 2c6efe9cf2d7 ("shmem: add support to ignore swap")
+merged as of v6.4 added support to disable swap for tmpfs mounts.
 
-OK, but I think it would still need some sort of remark in the first 
-sentence to indicate that it does not always apply.  Maybe something 
-along the lines of:
+This extends the man page to document that.
 
-   normally pushes c back to stream,  ...
+Signed-off-by: Luis Chamberlain <mcgrof@kernel.org>
+---
+ man5/tmpfs.5 | 5 +++++
+ 1 file changed, 5 insertions(+)
 
-Then add the c==EOF exception as a new paragraph along the lines of:
-
-   If the value of c equals that of the macro EOF, nothing is
-   pushed back to the stream and an error is returned.
-
+diff --git a/man5/tmpfs.5 b/man5/tmpfs.5
+index 09d9558985e9..f7f90f112103 100644
+--- a/man5/tmpfs.5
++++ b/man5/tmpfs.5
+@@ -99,6 +99,11 @@ suffixes like
+ .BR size ,
+ but not a % suffix.
+ .TP
++.BR noswap "(since Linux 6.4)"
++.\" commit 2c6efe9cf2d7841b75fe38ed1adbd41a90f51ba0
++Disables swap. Remounts must respect the original settings.
++By default swap is enabled.
++.TP
+ .BR mode "=\fImode\fP"
+ Set initial permissions of the root directory.
+ .TP
 -- 
--=( Ian Abbott <abbotti@mev.co.uk> || MEV Ltd. is a company  )=-
--=( registered in England & Wales.  Regd. number: 02862268.  )=-
--=( Regd. addr.: S11 & 12 Building 67, Europa Business Park, )=-
--=( Bird Hall Lane, STOCKPORT, SK3 0XA, UK. || www.mev.co.uk )=-
+2.39.2
 
