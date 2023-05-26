@@ -2,69 +2,83 @@ Return-Path: <linux-man-owner@vger.kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id A6F09C77B73
-	for <linux-man@archiver.kernel.org>; Fri, 26 May 2023 15:32:05 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 4E1CCC7EE31
+	for <linux-man@archiver.kernel.org>; Fri, 26 May 2023 15:35:02 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S237475AbjEZPcF (ORCPT <rfc822;linux-man@archiver.kernel.org>);
-        Fri, 26 May 2023 11:32:05 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:37706 "EHLO
+        id S244099AbjEZPfB (ORCPT <rfc822;linux-man@archiver.kernel.org>);
+        Fri, 26 May 2023 11:35:01 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:39988 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S229880AbjEZPcE (ORCPT
-        <rfc822;linux-man@vger.kernel.org>); Fri, 26 May 2023 11:32:04 -0400
-X-Greylist: delayed 1196 seconds by postgrey-1.37 at lindbergh.monkeyblade.net; Fri, 26 May 2023 08:32:01 PDT
-Received: from 3.mo548.mail-out.ovh.net (3.mo548.mail-out.ovh.net [188.165.32.156])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 61212A3
-        for <linux-man@vger.kernel.org>; Fri, 26 May 2023 08:32:01 -0700 (PDT)
-Received: from mxplan6.mail.ovh.net (unknown [10.108.4.47])
-        by mo548.mail-out.ovh.net (Postfix) with ESMTPS id 5602E231D9;
-        Fri, 26 May 2023 14:53:31 +0000 (UTC)
-Received: from jwilk.net (37.59.142.96) by DAG4EX1.mxp6.local (172.16.2.31)
- with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id 15.1.2507.23; Fri, 26 May
- 2023 16:53:30 +0200
-Authentication-Results: garm.ovh; auth=pass (GARM-96R001f88f3afd-04b9-4d95-824d-b4e003d478da,
-                    F4F83329209D592252FA6A68FA60AFCB8F36FF1B) smtp.auth=jwilk@jwilk.net
-X-OVh-ClientIp: 5.172.255.18
-From:   Jakub Wilk <jwilk@jwilk.net>
-To:     Michael Kerrisk <mtk.manpages@gmail.com>,
-        Alejandro Colomar <alx.manpages@gmail.com>
-CC:     <linux-man@vger.kernel.org>
-Subject: [PATCH] malloc.3: srcfix
-Date:   Fri, 26 May 2023 16:53:28 +0200
-Message-ID: <20230526145328.3135-1-jwilk@jwilk.net>
-X-Mailer: git-send-email 2.40.1
+        with ESMTP id S244192AbjEZPe7 (ORCPT
+        <rfc822;linux-man@vger.kernel.org>); Fri, 26 May 2023 11:34:59 -0400
+Received: from smtp78.iad3a.emailsrvr.com (smtp78.iad3a.emailsrvr.com [173.203.187.78])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 69DCF1BD
+        for <linux-man@vger.kernel.org>; Fri, 26 May 2023 08:34:51 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=mev.co.uk;
+        s=20221208-6x11dpa4; t=1685115290;
+        bh=Fg0qRKDP9oiYCzt5rXhRsJEy2VA9105zJvRfeEsyj04=;
+        h=Date:Subject:To:From:From;
+        b=uFQO0y10G7M9u4XQ9N5l++PxYkYPaP1pt0ym6mAIhLkgk8crlq1mTf+pijBlXRO5v
+         ZyCU1ykg4gR5i7FVqXFrepTA3L9X85AxHiivwh6HoZRPeARptmKQg1fFEzDY8cuebJ
+         QVrYnWSfWA4hii/XlXpfA4QhFUi03yGQum1TRk3k=
+X-Auth-ID: abbotti@mev.co.uk
+Received: by smtp26.relay.iad3a.emailsrvr.com (Authenticated sender: abbotti-AT-mev.co.uk) with ESMTPSA id 0256D4231;
+        Fri, 26 May 2023 11:34:49 -0400 (EDT)
+Message-ID: <8736b814-5cb7-d891-45b6-9b86062e1078@mev.co.uk>
+Date:   Fri, 26 May 2023 16:34:49 +0100
 MIME-Version: 1.0
-Content-Transfer-Encoding: 7BIT
-Content-Type:   text/plain; charset=US-ASCII
-X-Originating-IP: [37.59.142.96]
-X-ClientProxiedBy: DAG5EX2.mxp6.local (172.16.2.42) To DAG4EX1.mxp6.local
- (172.16.2.31)
-X-Ovh-Tracer-GUID: 826777ba-cfcc-4745-9ebb-b41efdcaedce
-X-Ovh-Tracer-Id: 14405607834764564448
-X-VR-SPAMSTATE: OK
-X-VR-SPAMSCORE: 0
-X-VR-SPAMCAUSE: gggruggvucftvghtrhhoucdtuddrgedvhedrfeejledgkedtucetufdoteggodetrfdotffvucfrrhhofhhilhgvmecuqfggjfdpvefjgfevmfevgfenuceurghilhhouhhtmecuhedttdenucenucfjughrpefhvfevufffkffoggfgtghisehtkeertdertddtnecuhfhrohhmpeflrghkuhgsucghihhlkhcuoehjfihilhhksehjfihilhhkrdhnvghtqeenucggtffrrghtthgvrhhnpeefhfetfffhffehtedufedvfeehfffgudeljeehieetiefhfeffjeevleejveehieenucfkphepuddvjedrtddrtddruddpfeejrdehledrudegvddrleeipdehrddujedvrddvheehrddukeenucevlhhushhtvghrufhiiigvpedtnecurfgrrhgrmhepihhnvghtpeduvdejrddtrddtrddupdhmrghilhhfrhhomhepoehjfihilhhksehjfihilhhkrdhnvghtqedpnhgspghrtghpthhtohepuddprhgtphhtthhopehmthhkrdhmrghnphgrghgvshesghhmrghilhdrtghomhdprghlgidrmhgrnhhprghgvghssehgmhgrihhlrdgtohhmpdhlihhnuhigqdhmrghnsehvghgvrhdrkhgvrhhnvghlrdhorhhgpdfovfetjfhoshhtpehmohehgeekpdhmohguvgepshhmthhpohhuth
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
+ Thunderbird/102.10.0
+Subject: Re: [PATCH] fgetc.3: Describe handling of ungetc(EOF, stream)
+To:     Alejandro Colomar <alx@kernel.org>
+Cc:     linux-man@vger.kernel.org
+References: <20230526151941.25428-1-abbotti@mev.co.uk>
+Content-Language: en-GB
+From:   Ian Abbott <abbotti@mev.co.uk>
+Organization: MEV Ltd.
+In-Reply-To: <20230526151941.25428-1-abbotti@mev.co.uk>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 7bit
+X-Classification-ID: f8a10614-159e-409d-8ad7-50b92b84542c-1-1
 Precedence: bulk
 List-ID: <linux-man.vger.kernel.org>
 X-Mailing-List: linux-man@vger.kernel.org
 
-Signed-off-by: Jakub Wilk <jwilk@jwilk.net>
----
- man3/malloc.3 | 2 +-
- 1 file changed, 1 insertion(+), 1 deletion(-)
+On 26/05/2023 16:19, Ian Abbott wrote:
+> As per the C standard, calling ungetc() with the character parameter
+> equal to EOF causes it to fail, returning EOF.
+> 
+> Signed-off-by: Ian Abbott <abbotti@mev.co.uk>
+> ---
+>   man3/fgetc.3 | 8 +++++++-
+>   1 file changed, 7 insertions(+), 1 deletion(-)
+> 
+> diff --git a/man3/fgetc.3 b/man3/fgetc.3
+> index 75dcaeaf6..d6bf62327 100644
+> --- a/man3/fgetc.3
+> +++ b/man3/fgetc.3
+> @@ -62,7 +62,13 @@ A terminating null byte (\[aq]\e0\[aq])
+>   is stored after the last character in the buffer.
+>   .PP
+>   .BR ungetc ()
+> -pushes
+> +returns
+> +.B EOF
+> +if the value of
+> +.I c
+> +equals that of the macro
+> +.BR EOF ,
+> +otherwise it pushes
+>   .I c
+>   back to
+>   .IR stream ,
 
-diff --git a/man3/malloc.3 b/man3/malloc.3
-index 0ada87a92..b26a1955e 100644
---- a/man3/malloc.3
-+++ b/man3/malloc.3
-@@ -1,6 +1,6 @@
- '\" t
- .\" Copyright (c) 1993 by Thomas Koenig (ig25@rz.uni-karlsruhe.de)
--.\" and Copyright i2007, 2012, 2018, Michael Kerrisk <mtk.manpages@gmail.com>
-+.\" and Copyright 2007, 2012, 2018, Michael Kerrisk <mtk.manpages@gmail.com>
- .\"
- .\" SPDX-License-Identifier: Linux-man-pages-copyleft
- .\"
+Sorry, I've just realized my English grammar usage was a bit poor there. 
+  I'll send a v2 patch.
+
 -- 
-2.40.1
+-=( Ian Abbott <abbotti@mev.co.uk> || MEV Ltd. is a company  )=-
+-=( registered in England & Wales.  Regd. number: 02862268.  )=-
+-=( Regd. addr.: S11 & 12 Building 67, Europa Business Park, )=-
+-=( Bird Hall Lane, STOCKPORT, SK3 0XA, UK. || www.mev.co.uk )=-
 
