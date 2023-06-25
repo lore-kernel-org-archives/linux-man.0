@@ -2,131 +2,98 @@ Return-Path: <linux-man-owner@vger.kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id C91E9EB64DA
-	for <linux-man@archiver.kernel.org>; Sat, 24 Jun 2023 12:13:37 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id A3E6EEB64DC
+	for <linux-man@archiver.kernel.org>; Sun, 25 Jun 2023 12:06:28 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S232892AbjFXMNg (ORCPT <rfc822;linux-man@archiver.kernel.org>);
-        Sat, 24 Jun 2023 08:13:36 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:46572 "EHLO
+        id S231905AbjFYMG1 (ORCPT <rfc822;linux-man@archiver.kernel.org>);
+        Sun, 25 Jun 2023 08:06:27 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:47124 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S230001AbjFXMNf (ORCPT
-        <rfc822;linux-man@vger.kernel.org>); Sat, 24 Jun 2023 08:13:35 -0400
-Received: from tarta.nabijaczleweli.xyz (unknown [139.28.40.42])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTP id 59EA81BFC
-        for <linux-man@vger.kernel.org>; Sat, 24 Jun 2023 05:13:32 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=nabijaczleweli.xyz;
-        s=202305; t=1687608810;
-        bh=daspThnYFNpee96pPlKx+2t9i+a9aWeXxuxzYwEwWfY=;
-        h=Date:From:To:Cc:Subject:From;
-        b=Nfa5l0Q2n9QEYBYSE4W4edczG2y9mOrrYAzO4k+x52OEc4AdMnlykK1DoQaOBybsh
-         XXwo4vG0Stt7FSQ2DmFethlgJdEaPTstDW11QBgQXFgsTnmkUJbiiQh43OAR/ICpAq
-         78I0zxY+qKwWn3WFQ4n2QIEFCmOExqkd22YwVus/9zIt/NlRhCbtJnTvH9P8bxDWu+
-         yJUQtuzeCrPOwm/TY//3/DFh5R+/4Yc0AQvAAXJzpke70Fi/4g3RKsSRf94ztm2kNM
-         GxxMHvOEGT2SRjB6lok05HYYD4ITOu9NZ4MLN2LA2RvLix6+Kn1yZrgfrMbXQudArj
-         //lIkRyhrx9Aw==
-Received: from tarta.nabijaczleweli.xyz (unknown [192.168.1.250])
-        by tarta.nabijaczleweli.xyz (Postfix) with ESMTPSA id 3B3A8150A;
-        Sat, 24 Jun 2023 14:13:30 +0200 (CEST)
-Date:   Sat, 24 Jun 2023 14:13:29 +0200
-From:   =?utf-8?B?0L3QsNCx?= <nabijaczleweli@nabijaczleweli.xyz>
-To:     "Alejandro Colomar (man-pages)" <alx.manpages@gmail.com>
-Cc:     linux-man@vger.kernel.org
-Subject: [PATCH] poll.2: explicitly say what happens for regular files &c.
-Message-ID: <h2mlruw5d63kkzfd7277qhqc6izaq32fuwxiuk5q3k3j55lul7@jowskzwxe3mf>
+        with ESMTP id S231249AbjFYMG1 (ORCPT
+        <rfc822;linux-man@vger.kernel.org>); Sun, 25 Jun 2023 08:06:27 -0400
+Received: from dfw.source.kernel.org (dfw.source.kernel.org [139.178.84.217])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 4A910115
+        for <linux-man@vger.kernel.org>; Sun, 25 Jun 2023 05:06:26 -0700 (PDT)
+Received: from smtp.kernel.org (relay.kernel.org [52.25.139.140])
+        (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+         key-exchange X25519 server-signature RSA-PSS (2048 bits))
+        (No client certificate requested)
+        by dfw.source.kernel.org (Postfix) with ESMTPS id D1D6860B6A
+        for <linux-man@vger.kernel.org>; Sun, 25 Jun 2023 12:06:25 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPS id 30591C433C8
+        for <linux-man@vger.kernel.org>; Sun, 25 Jun 2023 12:06:25 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+        s=k20201202; t=1687694785;
+        bh=8gx+/r1bE3AmOCRhHrDO0g/Sdi79FXi2dao98GEAxNY=;
+        h=From:To:Subject:Date:In-Reply-To:References:From;
+        b=Fj5bP7oC77EQQSx8NknM7+QjeFZFRpO4NEPcd4d4eygjPAWyuS3uAgbHfFZ0IowdL
+         KWDyzickuiuul/UnpOme95O7W/EYUEB72ehvfHFhnChEN3+pMWcCLb12Zu9S0b2qjP
+         7wB1CzSz5h3tQ/qZA5zOT4coIreqml1GtAIdiJd4k18RX9nqgK8Stw1M10T60nzG0T
+         vLLZXqQOWvr+0xTM000Za8+GRYxX8hyFGmJgfO4JCvqAmIOBmsk37w7UVPMBzTL+77
+         FFCpjzytLW14EjuzMEWuR5c0KvvutcMJPI8kB4Y8TpD0THrjTwf+nvttCjNj8wHg8a
+         dINMIxxV66Sfw==
+Received: by aws-us-west-2-korg-bugzilla-1.web.codeaurora.org (Postfix, from userid 48)
+        id 0C979C53BCD; Sun, 25 Jun 2023 12:06:25 +0000 (UTC)
+From:   bugzilla-daemon@kernel.org
+To:     linux-man@vger.kernel.org
+Subject: [Bug 217547] The shell example in time_namespaces doesn't behave as
+ documented
+Date:   Sun, 25 Jun 2023 12:06:24 +0000
+X-Bugzilla-Reason: None
+X-Bugzilla-Type: changed
+X-Bugzilla-Watch-Reason: AssignedTo
+ documentation_man-pages@kernel-bugs.osdl.org
+X-Bugzilla-Product: Documentation
+X-Bugzilla-Component: man-pages
+X-Bugzilla-Version: unspecified
+X-Bugzilla-Keywords: 
+X-Bugzilla-Severity: normal
+X-Bugzilla-Who: kernel@t-8ch.de
+X-Bugzilla-Status: NEW
+X-Bugzilla-Resolution: 
+X-Bugzilla-Priority: P3
+X-Bugzilla-Assigned-To: documentation_man-pages@kernel-bugs.osdl.org
+X-Bugzilla-Flags: 
+X-Bugzilla-Changed-Fields: cc
+Message-ID: <bug-217547-11311-W3Pn2jEsM9@https.bugzilla.kernel.org/>
+In-Reply-To: <bug-217547-11311@https.bugzilla.kernel.org/>
+References: <bug-217547-11311@https.bugzilla.kernel.org/>
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
+X-Bugzilla-URL: https://bugzilla.kernel.org/
+Auto-Submitted: auto-generated
 MIME-Version: 1.0
-Content-Type: multipart/signed; micalg=pgp-sha512;
-        protocol="application/pgp-signature"; boundary="2vlxkzdbu7kh2sey"
-Content-Disposition: inline
-User-Agent: NeoMutt/20230517
 Precedence: bulk
 List-ID: <linux-man.vger.kernel.org>
 X-Mailing-List: linux-man@vger.kernel.org
 
+https://bugzilla.kernel.org/show_bug.cgi?id=3D217547
 
---2vlxkzdbu7kh2sey
-Content-Type: text/plain; charset=utf-8
-Content-Disposition: inline
-Content-Transfer-Encoding: quoted-printable
+Thomas Wei=C3=9Fschuh (kernel@t-8ch.de) changed:
 
-Naively, one may consider being "ready" to mean, for example,
-  lseek(0, 0, SEEK_END); poll({.fd =3D 0, .events =3D POLLIN}, 0);
-to be able to say whether new data has appeared at the end of the file.
+           What    |Removed                     |Added
+----------------------------------------------------------------------------
+                 CC|                            |kernel@t-8ch.de
 
-This is not the case, and poll() is only meaningful as
-"will a read or a write sleep": regular files and block devices are
-always ready to return an empty read in this case, for example,
-and you need to use inotify to achieve this.
+--- Comment #1 from Thomas Wei=C3=9Fschuh (kernel@t-8ch.de) ---
+It seems in commit 2b5f9dad32ed ("fs/exec: switch timens when a task gets a=
+ new
+mm")=20
+the time namespace is frozen on exec().
 
-Under Linux this is governed by DEFAULT_POLLMASK
-  (EPOLLIN | EPOLLOUT | EPOLLRDNORM | EPOLLWRNORM)
-being returned if no explicit poll operation is defined for the file.
+begin_new_exec()
+  exec_task_namespaces()
+    timens_on_fork()
+      timens_commit()
+        timens_set_vvar_page()
+          ns->frozen_offsets =3D true
 
-As contrast, unpollables like the above are refused by epoll_ctl(ADD).
+As a workaround you could use "unshare -T --monotonic $((2*24*60*60))" to l=
+et
+unshare set the offsets directly.
 
-I explicitly hit the two keywords I searched for (regular, block)
-before just writing a test program to confirm that poll() behaved as
-expected and is not a good fit for my use-case.
-
-This behaviour is guaranteed by POSIX (Issue 8 Draft 3):
-51381  The poll( ) and ppoll( ) functions shall support regular files, term=
-inal and pseudo-terminal
-51382  devices, FIFOs, pipes, and sockets. The behavior of poll( ) and ppol=
-l( ) on elements of fds that refer
-51383  to other types of file is unspecified.
-
-51384  Regular files shall always poll TRUE for reading and writing.
-
-51385  A file descriptor for a socket that is listening for connections sha=
-ll indicate that it is ready for
-51386  reading, once connections are available. A file descriptor for a soc=
-ket that is connecting
-51387  asynchronously shall indicate that it is ready for writing, once a c=
-onnection has been established.
-
-Signed-off-by: Ahelenia Ziemia=C5=84ska <nabijaczleweli@nabijaczleweli.xyz>
----
- man2/poll.2 | 7 +++++++
- 1 file changed, 7 insertions(+)
-
-diff --git a/man2/poll.2 b/man2/poll.2
-index 0b834306a..c2982a243 100644
---- a/man2/poll.2
-+++ b/man2/poll.2
-@@ -123,6 +123,13 @@ .SH DESCRIPTION
- .IP \[bu]
- the timeout expires.
- .PP
-+Being "ready" means that the requested operation will not block; thus,
-+.BR poll ()ing
-+regular files, block devices, and other files with no reasonable
-+polling semantic
-+.I always
-+returns instantly as ready to read and write.
-+.PP
- Note that the
- .I timeout
- interval will be rounded up to the system clock granularity,
 --=20
-2.39.2
+You may reply to this email to add a comment.
 
---2vlxkzdbu7kh2sey
-Content-Type: application/pgp-signature; name="signature.asc"
-
------BEGIN PGP SIGNATURE-----
-
-iQIzBAABCgAdFiEEfWlHToQCjFzAxEFjvP0LAY0mWPEFAmSW3egACgkQvP0LAY0m
-WPFziA//aK5PQkEp7EsioJVD6kFU/TzHF9GDt2qNoHtnrJxxB7QMXBIwxmxlbRtJ
-KJAKA0QTqPvMzslkneNZ/bBm680owqAiuVYPO1egXTYXmpqLY7Nfs1wosWWe+mD3
-v5sWAlmMsXycMzXDhdOoPYIsJn9/m5aATX+gMQsMSXL05bzEK7f7CRHzb+7AMY3C
-ZD/vKPbQbb85QmAWGZU6GZ/Ue+bbqIq93nj/qZVrefjoJtR7iy1c2CFz61YJzf/L
-Lq4bqcsiF7QYTYMJkk61Wit/B6ON1GwJvcnQU7PvITnZwqhbXJhsPi+rttRw2Npu
-+5+wU5m47RvUCQG3sGxxHyIV7JyhH8WC/K5zBU8xSyDaM6DdMYV7LH9sYIA71Qj9
-7W6B2yb+BOf/bCstAl9o9q05iQBs9cVyAG7HCO2m94mFbEdqPfOhxcOBVGmJBQsW
-vmKMIBidpYcvGMpteHTDcXl7quFahNSectCcRS0Y/6Caon8XTsppg4lkcWBLMtVz
-Ij8jSCDLyocq3VD5zOZL1y8d0PiUDEFQ7paURIrGRIuttFeiMHhMTGz+945dmgTG
-0vI/4E83km1TNlfZRLikj7Ls5FMeLSppAmMsj+25HbgdWONyrE/YovOLLcfKPIcF
-h2JljCT4xSB00ciHvrvDQlqLTHrU8k1czwSBPGxx3nqOvUu1EBo=
-=HYF+
------END PGP SIGNATURE-----
-
---2vlxkzdbu7kh2sey--
+You are receiving this mail because:
+You are watching the assignee of the bug.=
