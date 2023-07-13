@@ -2,73 +2,82 @@ Return-Path: <linux-man-owner@vger.kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 0F853EB64D9
-	for <linux-man@archiver.kernel.org>; Wed, 12 Jul 2023 11:11:58 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 979D4EB64DD
+	for <linux-man@archiver.kernel.org>; Thu, 13 Jul 2023 08:35:47 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S231641AbjGLLL5 (ORCPT <rfc822;linux-man@archiver.kernel.org>);
-        Wed, 12 Jul 2023 07:11:57 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:43708 "EHLO
+        id S234418AbjGMIfq (ORCPT <rfc822;linux-man@archiver.kernel.org>);
+        Thu, 13 Jul 2023 04:35:46 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:38438 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S230022AbjGLLL4 (ORCPT
-        <rfc822;linux-man@vger.kernel.org>); Wed, 12 Jul 2023 07:11:56 -0400
-Received: from mout01.posteo.de (mout01.posteo.de [185.67.36.65])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id D7D1E10FC
-        for <linux-man@vger.kernel.org>; Wed, 12 Jul 2023 04:11:52 -0700 (PDT)
-Received: from submission (posteo.de [185.67.36.169]) 
-        by mout01.posteo.de (Postfix) with ESMTPS id 09CC7240028
-        for <linux-man@vger.kernel.org>; Wed, 12 Jul 2023 13:11:45 +0200 (CEST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=posteo.de; s=2017;
-        t=1689160305; bh=7iEqVhvDB4W29RROrWgbRphMBvMevWtHz9WNcmKt6ZE=;
-        h=Mime-Version:Content-Transfer-Encoding:Date:Message-Id:Cc:Subject:
-         From:To:From;
-        b=pBpn/2fT+7uPm9ETHtIlbj2j3PkpE0M9zUJBBfLtet7JNwNS3obK259m0IM6HJ2vb
-         Ky6UD2+BalzefOCTUUe53sA2vDZAiLFMAaJ4O1dWup1ZgvWRdQ09YmSvhmmftTU0F6
-         m3YIOoFXaoI16oQH5o+dLQ+yJ0MdQjhnULdtAgoWCZtcjOND79mDzCHQf7Rc74w9xp
-         4Qws2w72IEMYqPRoL35Jx+TxosSP1Mm7cVSi5Xj00sfStdZrqVagnv0Ph61cNrLe+w
-         Ua3s/4F4goaPditD9mNg/GCmrxQNqcqkX9k+LB7ZD1ypdKKIwnjVLXWhavIVK3EynY
-         tZ0b9FCAFHl6Q==
-Received: from customer (localhost [127.0.0.1])
-        by submission (posteo.de) with ESMTPSA id 4R1FS02xzJz6tw8;
-        Wed, 12 Jul 2023 13:11:44 +0200 (CEST)
-Mime-Version: 1.0
-Content-Transfer-Encoding: quoted-printable
-Content-Type: text/plain; charset=UTF-8
-Date:   Wed, 12 Jul 2023 11:10:04 +0000
-Message-Id: <CU05BHAWN21Y.98KQTC6T5HQH@morphine>
-Cc:     <linux-man@vger.kernel.org>
-Subject: Re: [PATCH] rtnetlink.7: Document IFLA_PERM_ADDRESS
-From:   "Tom Schwindl" <schwindl@posteo.de>
-To:     "Linus Heckemann" <git@sphalerite.org>,
-        "Alejandro Colomar" <alx@kernel.org>
-References: <20230711211350.1247303-1-git@sphalerite.org>
-In-Reply-To: <20230711211350.1247303-1-git@sphalerite.org>
+        with ESMTP id S234468AbjGMIfT (ORCPT
+        <rfc822;linux-man@vger.kernel.org>); Thu, 13 Jul 2023 04:35:19 -0400
+Received: from us-smtp-delivery-124.mimecast.com (us-smtp-delivery-124.mimecast.com [170.10.129.124])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 878E4448D
+        for <linux-man@vger.kernel.org>; Thu, 13 Jul 2023 01:26:10 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+        s=mimecast20190719; t=1689236769;
+        h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+         to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+         in-reply-to:in-reply-to:references:references;
+        bh=j0xjvYNvA3LFBlOYyjvo6bta5YRavXJ+gtqfnlZHk4g=;
+        b=MidEDqiI5wuw3iaJOT2s0SCra1nINZhPJ8Jozquerz7LjBpBHbZ9BBdjXMJ0+kZ92GjcMn
+        +z8AHBz8qO+3QX+4A6PVuS9CGdK5I1UsS/JgJJREed5M1XV/IMY8gl39Oy5wOopv1HS97s
+        SsZZD/GMBGC045YVYHSczffoGtYGy2Y=
+Received: from mimecast-mx02.redhat.com (66.187.233.73 [66.187.233.73]) by
+ relay.mimecast.com with ESMTP with STARTTLS (version=TLSv1.2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ us-mta-564-H9GwFPrwNvSNc9Y91l1R6Q-1; Thu, 13 Jul 2023 04:12:03 -0400
+X-MC-Unique: H9GwFPrwNvSNc9Y91l1R6Q-1
+Received: from smtp.corp.redhat.com (int-mx09.intmail.prod.int.rdu2.redhat.com [10.11.54.9])
+        (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
+        (No client certificate requested)
+        by mimecast-mx02.redhat.com (Postfix) with ESMTPS id 841123C0BE24;
+        Thu, 13 Jul 2023 08:12:03 +0000 (UTC)
+Received: from oldenburg.str.redhat.com (unknown [10.2.16.19])
+        by smtp.corp.redhat.com (Postfix) with ESMTPS id EE8F4492B01;
+        Thu, 13 Jul 2023 08:12:01 +0000 (UTC)
+From:   Florian Weimer <fweimer@redhat.com>
+To:     Shani Leviim <sleviim@redhat.com>
+Cc:     alx@kernel.org, linux-man@vger.kernel.org,
+        automotive-devel@redhat.com, "Carlos O'Donell" <carlos@redhat.com>,
+        Sergei Gromeniuk <sgromeni@redhat.com>,
+        Gobinda Das <godas@redhat.com>
+Subject: Re: [patch] strerror.3: Change strerror() reference from MT-Unsafe
+ to MT-Safe
+References: <CAMO6KYomqkRFVnE1gfNa=htbZ5oBrVAm+AsFVqc6+vqZ0YxnAw@mail.gmail.com>
+Date:   Thu, 13 Jul 2023 10:12:00 +0200
+In-Reply-To: <CAMO6KYomqkRFVnE1gfNa=htbZ5oBrVAm+AsFVqc6+vqZ0YxnAw@mail.gmail.com>
+        (Shani Leviim's message of "Wed, 12 Jul 2023 21:46:37 +0300")
+Message-ID: <878rbk1b8v.fsf@oldenburg.str.redhat.com>
+User-Agent: Gnus/5.13 (Gnus v5.13) Emacs/28.2 (gnu/linux)
+MIME-Version: 1.0
+Content-Type: text/plain
+X-Scanned-By: MIMEDefang 3.1 on 10.11.54.9
 Precedence: bulk
 List-ID: <linux-man.vger.kernel.org>
 X-Mailing-List: linux-man@vger.kernel.org
 
-Hi Linus,
+* Shani Leviim:
 
-On Tue Jul 11, 2023 at 11:13 PM CEST, Linus Heckemann wrote:
-> ---
->  man7/rtnetlink.7 | 1 +
->  1 file changed, 1 insertion(+)
->
-> diff --git a/man7/rtnetlink.7 b/man7/rtnetlink.7
-> index 2ce541c37..6061b5fd4 100644
-> --- a/man7/rtnetlink.7
-> +++ b/man7/rtnetlink.7
-> @@ -105,6 +105,7 @@ IFLA_QDISC:asciiz string:Queueing discipline
->  IFLA_STATS:T{
->  see below
->  T}:Interface Statistics
-> +IFLA_PERM_ADDRESS:hardware address:hardware address provided by device (=
-since 5.5)
->  .TE
->  .IP
->  The value type for
+> @@ -169,6 +172,16 @@ is too small and
+>  is unknown).
+>  The string always includes a terminating null byte (\(aq\e0\(aq).
+>  .\"
+> +.PP
+> +The automatically generated buffer for
+> +.BR strerror ()
+> +and
+> +.BR strerror_l ()
+> +is sufficient to avoid an
+> +.B ERANGE
+> +error when calling
+> +.BR strerror_r ().
+> +.PP
 
-As far as I can see this was already done by commit e10078cd496e5471.
+I think this gives the wrong impression that the pointer returned by
+strerror/strerror_l can be used with strerror_r.  This is not the case
+because the application does not own that buffer, or know its length.
 
---=20
-Best Regards,
-Tom Schwindl
+Thanks,
+Florian
+
