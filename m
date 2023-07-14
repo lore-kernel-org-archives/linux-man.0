@@ -2,42 +2,42 @@ Return-Path: <linux-man-owner@vger.kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 3AD70EB64DA
-	for <linux-man@archiver.kernel.org>; Fri, 14 Jul 2023 04:05:45 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 0B825EB64DA
+	for <linux-man@archiver.kernel.org>; Fri, 14 Jul 2023 04:08:36 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S234925AbjGNEFn (ORCPT <rfc822;linux-man@archiver.kernel.org>);
-        Fri, 14 Jul 2023 00:05:43 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:58692 "EHLO
+        id S233666AbjGNEIe (ORCPT <rfc822;linux-man@archiver.kernel.org>);
+        Fri, 14 Jul 2023 00:08:34 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:59318 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S229463AbjGNEFm (ORCPT
-        <rfc822;linux-man@vger.kernel.org>); Fri, 14 Jul 2023 00:05:42 -0400
-Received: from dfw.source.kernel.org (dfw.source.kernel.org [IPv6:2604:1380:4641:c500::1])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 28D691FD8
-        for <linux-man@vger.kernel.org>; Thu, 13 Jul 2023 21:05:42 -0700 (PDT)
+        with ESMTP id S229463AbjGNEId (ORCPT
+        <rfc822;linux-man@vger.kernel.org>); Fri, 14 Jul 2023 00:08:33 -0400
+Received: from dfw.source.kernel.org (dfw.source.kernel.org [139.178.84.217])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 046252713
+        for <linux-man@vger.kernel.org>; Thu, 13 Jul 2023 21:08:33 -0700 (PDT)
 Received: from smtp.kernel.org (relay.kernel.org [52.25.139.140])
         (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
          key-exchange X25519 server-signature RSA-PSS (2048 bits))
         (No client certificate requested)
-        by dfw.source.kernel.org (Postfix) with ESMTPS id 9D47161BCE
-        for <linux-man@vger.kernel.org>; Fri, 14 Jul 2023 04:05:41 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id F1EEEC433C8;
-        Fri, 14 Jul 2023 04:05:40 +0000 (UTC)
+        by dfw.source.kernel.org (Postfix) with ESMTPS id 9678061BCE
+        for <linux-man@vger.kernel.org>; Fri, 14 Jul 2023 04:08:32 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id DECBEC433C7;
+        Fri, 14 Jul 2023 04:08:31 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-        s=k20201202; t=1689307541;
-        bh=HaHL8F1ur2/nlapPFZlIcnxBCNIL0W4xq/CmghqIFEA=;
+        s=k20201202; t=1689307712;
+        bh=4S1grJh1/bWHWeboA+M1tvvqRNq3jrdpnayjNm/ulOU=;
         h=From:To:Cc:Subject:Date:From;
-        b=VEiAD8wx8QSrMPkV+ySf9HSnemMaGVmpUkVeMbixuF3nH/7i33F16qhgYLfbG+6wy
-         PC8bKsUVv9HqxeVkkETVkfE7dcTq3gbISqXBCwnwOkFX1c7wgAtjTAMwtqxCkJpizF
-         WqITaJMq+y5rqBoJNVVnC7GwTF42olCZmiA2foFLxyNRidaLAhlGSNWYFDO76WuafN
-         5H413ymwpWt/kbJBKs75LcvsHngzjZuHcIpNLuo7lbIanuoIucW8yLVCcmepsy4UeH
-         mOKBwbUqlkfehLJAZXIq6D7gjAfcc7IGmBnaeQSPkQQxCKdhtyvYP3k3LshPGWrgu/
-         DlLO/BHD/LH0A==
+        b=UuBag1xjhSq0GxDrdmWog4Dbj0vDrZs5QmHPAFfgb2944ccYVnHB5ymSgNBTPJJqY
+         xWMIY2N3/Lcjyz81vkwljH+xxqOOl9xlqKWgKMssiJtPFPOsdcWwuMGjlxbrzLmglz
+         1KaC7XplVmp1LnlSTZb8UnRgvD6MuNbdYoWU1LymecMtxjP3PZDCM+8pAQUg5JkEEH
+         P4YdzCbkmjB+C4GW5+k7110ycaDKU9H9YzM6j7pNA3/Zl7o+Zch8V2OFqYigegFx4V
+         FDaEqoZH61lXEnU37K4MIUoEOCKBq7Q5BT4rTYNuI917+tS35t2PtbRmSExkdh95hg
+         oCNABb9LL9LNg==
 From:   Eric Biggers <ebiggers@kernel.org>
 To:     Alejandro Colomar <alx.manpages@gmail.com>
 Cc:     linux-man@vger.kernel.org
-Subject: [PATCH] prctl.2: tfix
-Date:   Thu, 13 Jul 2023 21:05:17 -0700
-Message-ID: <20230714040517.5989-1-ebiggers@kernel.org>
+Subject: [PATCH] socket.7: tfix
+Date:   Thu, 13 Jul 2023 21:08:12 -0700
+Message-ID: <20230714040812.6384-1-ebiggers@kernel.org>
 X-Mailer: git-send-email 2.41.0
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
@@ -49,30 +49,22 @@ From: Eric Biggers <ebiggers@google.com>
 
 Signed-off-by: Eric Biggers <ebiggers@google.com>
 ---
- man2/prctl.2 | 6 +++---
- 1 file changed, 3 insertions(+), 3 deletions(-)
+ man7/socket.7 | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
 
-diff --git a/man2/prctl.2 b/man2/prctl.2
-index 30211a9e2..fe403d76a 100644
---- a/man2/prctl.2
-+++ b/man2/prctl.2
-@@ -2030,13 +2030,13 @@ Return unaligned access control bits, in the location pointed to by
- .\" prctl PR_GET_AUXV
+diff --git a/man7/socket.7 b/man7/socket.7
+index 59a7a3f49..985f52e55 100644
+--- a/man7/socket.7
++++ b/man7/socket.7
+@@ -539,7 +539,7 @@ flows are received.
+ It allows each worker thread to be associated with
+ a NIC HW receive queue and service all the connection
+ requests received on that RX queue.
+-This mapping between a app thread and
++This mapping between an app thread and
+ a HW NIC queue streamlines the
+ flow of data from the NIC to the application.
  .TP
- .BR PR_GET_AUXV " (since Linux 6.4)"
--Get the auxilliary vector (auxv) into the buffer pointed to by
-+Get the auxiliary vector (auxv) into the buffer pointed to by
- .IR "(void\~*) arg2" ,
- whose length is given by \fIarg3\fP.
--If the buffer is not long enough for the full auxilliary vector,
-+If the buffer is not long enough for the full auxiliary vector,
- the copy will be truncated.
- Return (as the function result)
--the full length of the auxilliary vector.
-+the full length of the auxiliary vector.
- \fIarg4\fP and \fIarg5\fP must be 0.
- .SH RETURN VALUE
- On success,
 -- 
 2.41.0
 
