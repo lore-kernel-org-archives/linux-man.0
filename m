@@ -2,1664 +2,683 @@ Return-Path: <linux-man-owner@vger.kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 9FF80C001DE
-	for <linux-man@archiver.kernel.org>; Mon, 31 Jul 2023 21:48:05 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id F3B50C001DF
+	for <linux-man@archiver.kernel.org>; Mon, 31 Jul 2023 22:20:37 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S231551AbjGaVsE (ORCPT <rfc822;linux-man@archiver.kernel.org>);
-        Mon, 31 Jul 2023 17:48:04 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:57284 "EHLO
+        id S229865AbjGaWUh (ORCPT <rfc822;linux-man@archiver.kernel.org>);
+        Mon, 31 Jul 2023 18:20:37 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:45232 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S231600AbjGaVsA (ORCPT
-        <rfc822;linux-man@vger.kernel.org>); Mon, 31 Jul 2023 17:48:00 -0400
-Received: from dfw.source.kernel.org (dfw.source.kernel.org [139.178.84.217])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id D40E11713
-        for <linux-man@vger.kernel.org>; Mon, 31 Jul 2023 14:47:54 -0700 (PDT)
-Received: from smtp.kernel.org (relay.kernel.org [52.25.139.140])
-        (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-         key-exchange X25519 server-signature RSA-PSS (2048 bits))
-        (No client certificate requested)
-        by dfw.source.kernel.org (Postfix) with ESMTPS id 48B7F6129B
-        for <linux-man@vger.kernel.org>; Mon, 31 Jul 2023 21:47:54 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id C94EDC433C8;
-        Mon, 31 Jul 2023 21:47:52 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-        s=k20201202; t=1690840073;
-        bh=V8UA9mqLSSuzj+S9x6+jFuK3gFHmY+9/em7vFgl7G90=;
-        h=Date:Subject:To:Cc:References:From:In-Reply-To:From;
-        b=FGHKRtZHSjq9EAoAVnykdFl21wanHZToYdhiuZ0K2hQBiCfx8vfcmuiKNQpwv1Orc
-         2Hwb+GKko24CGkTHbeud8u/l5i+/7PpMmwSHzl0am/vrS/74TYCpsaOTdMFgfMNwzb
-         mglesOblA8pM//C/u7ru2kXKDrfFqf8JSjdqvutND97e63UpT5dWxVJbVJYlazHPF0
-         zhHauCYyFnJyXLgyxjCkgLdqTXilFT4Lz03u7u70HgpSpYa53A+TLeuCvsdbAZcjXV
-         6DoTbtj8Omv/kygFHTF29a7bfqFiuKR1gauJ+VtzMGh0ew/Do/l4pxg3BJ5Tvk/w5q
-         7JZxPCWjFVo7A==
-Message-ID: <a57068eb-83dc-5018-281d-8c122b6ccb6e@kernel.org>
-Date:   Mon, 31 Jul 2023 23:47:50 +0200
+        with ESMTP id S229827AbjGaWUg (ORCPT
+        <rfc822;linux-man@vger.kernel.org>); Mon, 31 Jul 2023 18:20:36 -0400
+Received: from mail-oi1-x234.google.com (mail-oi1-x234.google.com [IPv6:2607:f8b0:4864:20::234])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 18BD0173B
+        for <linux-man@vger.kernel.org>; Mon, 31 Jul 2023 15:20:31 -0700 (PDT)
+Received: by mail-oi1-x234.google.com with SMTP id 5614622812f47-3a3efee1d44so3947939b6e.3
+        for <linux-man@vger.kernel.org>; Mon, 31 Jul 2023 15:20:31 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20221208; t=1690842030; x=1691446830;
+        h=in-reply-to:content-disposition:mime-version:references:message-id
+         :subject:cc:to:from:date:from:to:cc:subject:date:message-id:reply-to;
+        bh=2y+XuI66qhKQp0XrvFcSsqbD65KOJrX0aeTM0AZxb04=;
+        b=EpW7vXDSpqgvmLvetTwSgtXCxWlvjDm03NniRi1o7EGxLwKc32AFCbtjcsM9QhpuZc
+         BdVc3BZS3fBdHIqpymSu17xW1eVrCmRVrLmdUU7aiOGQdTF9l/Bi/QokoFeRkzNlrFlM
+         wvGzcNr18PUpKc+qi2U7chDDX4h0KPAP3Wkd1e+kMeQ8tXJ+cH5BHiSawdb24bxWJ+vN
+         Y7WTXJ8NQBKo6cJf044Se6sjiKN4BosyeCn+Nl0tNXzGAIYruv4hyGwCRCFeTH3B+XCT
+         UuJVaeEMUL/C/JcUKO0wrQtHzxbTtLcEN4MyltMTjUViVBfzCnMm5GtLPibXnjKqXe1o
+         dc4g==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20221208; t=1690842030; x=1691446830;
+        h=in-reply-to:content-disposition:mime-version:references:message-id
+         :subject:cc:to:from:date:x-gm-message-state:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=2y+XuI66qhKQp0XrvFcSsqbD65KOJrX0aeTM0AZxb04=;
+        b=N61JjX7f6378tIpKOqpI6jARBN5dHlTyH+tRnKvHKOrjX+EbkV45tkRWBGJBcuYpfX
+         6Q2eZ5N18w/7bTdvAbde13XYYxgmrGR7wssBIdzeUzPLWDIETjh+oNKJGDTpw1VDFYyL
+         LtcdYbh5BUOzzxXafdnJcvE2QxknHzkYwU/Piy2Sph9OdV1NyfKlmdhW69TDLEgjoTqa
+         1xI+qfrfKPeZPY9/izEYPSz48g6lmRHfIL3YD4aWfAnhxDQbPc02ksiOUj71jqqXTM1P
+         e+MYtKnGK9kEynWuSZFJLO1CPJCkbzZapVBvex9w7yBx3YV6XbNt0xiu6S/pR+ktKX1g
+         Rhcw==
+X-Gm-Message-State: ABy/qLaabKrwm96V7BIaDiIS4GVK4xEWVlT7VuksBMSTG9Jvh3+Ja1iV
+        xvfWadEVnYAamCW3YM+4V6zQkNAiKnE=
+X-Google-Smtp-Source: APBJJlEg3qOMVkvbfb1VMK3k+T3K0OG6Av9vzaAw7hRKQG6yx5nA88rohcP0CjoG0KieK0fl2UYxcg==
+X-Received: by 2002:a05:6808:16ab:b0:3a4:894a:9f57 with SMTP id bb43-20020a05680816ab00b003a4894a9f57mr13707200oib.6.1690842030001;
+        Mon, 31 Jul 2023 15:20:30 -0700 (PDT)
+Received: from illithid (ip68-12-97-90.ok.ok.cox.net. [68.12.97.90])
+        by smtp.gmail.com with ESMTPSA id y1-20020a056808060100b003a4825088ffsm1302558oih.51.2023.07.31.15.20.29
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Mon, 31 Jul 2023 15:20:29 -0700 (PDT)
+Date:   Mon, 31 Jul 2023 17:20:27 -0500
+From:   "G. Branden Robinson" <g.branden.robinson@gmail.com>
+To:     groff@gnu.org
+Cc:     Alejandro Colomar <alx@kernel.org>, linux-man@vger.kernel.org
+Subject: Re: boldface, italics, spaces and ellipses in synopses of commands,
+ and *nix history
+Message-ID: <20230731222027.efuv6zetn2fh3fjg@illithid>
+References: <20230730152149.ajvi7zhskzzsp5jz@illithid>
+ <76ee749c-6220-81e3-3c2d-af52da823ba4@kernel.org>
+ <20230730154541.uitln7ioq4bw6xkq@illithid>
+ <02dce126-966c-b7f8-4b26-2fb6ce11b30f@kernel.org>
+ <20230730161304.ywc7jyz7hlbjqpsd@illithid>
+ <ZMefhujNRqiKVR9a@fluorine.ljabl.com>
+ <20230731154535.iqx4zuzztcum6f66@illithid>
+ <ZMgAC_-lM62BHKV0@fluorine.ljabl.com>
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
- Thunderbird/102.13.1
-Subject: Re: [PATCH v2] man*/: ffix (migrate to `MR`)
-Content-Language: en-US
-To:     "G. Branden Robinson" <g.branden.robinson@gmail.com>
-Cc:     linux-man@vger.kernel.org
-References: <20230731175251.67rgt2r4sweutnay@illithid>
-From:   Alejandro Colomar <alx@kernel.org>
-Organization: Linux
-In-Reply-To: <20230731175251.67rgt2r4sweutnay@illithid>
 Content-Type: multipart/signed; micalg=pgp-sha256;
- protocol="application/pgp-signature";
- boundary="------------BM4PLl3gCVzQ6DBKXtDhQKgc"
+        protocol="application/pgp-signature"; boundary="e5qjyh4ossuqe7wm"
+Content-Disposition: inline
+In-Reply-To: <ZMgAC_-lM62BHKV0@fluorine.ljabl.com>
 Precedence: bulk
 List-ID: <linux-man.vger.kernel.org>
 X-Mailing-List: linux-man@vger.kernel.org
 
-This is an OpenPGP/MIME signed message (RFC 4880 and 3156)
---------------BM4PLl3gCVzQ6DBKXtDhQKgc
-Content-Type: multipart/mixed; boundary="------------mUNlBtappm4CyS50XfLeJXlE";
- protected-headers="v1"
-From: Alejandro Colomar <alx@kernel.org>
-To: "G. Branden Robinson" <g.branden.robinson@gmail.com>
-Cc: linux-man@vger.kernel.org
-Message-ID: <a57068eb-83dc-5018-281d-8c122b6ccb6e@kernel.org>
-Subject: Re: [PATCH v2] man*/: ffix (migrate to `MR`)
-References: <20230731175251.67rgt2r4sweutnay@illithid>
-In-Reply-To: <20230731175251.67rgt2r4sweutnay@illithid>
 
---------------mUNlBtappm4CyS50XfLeJXlE
-Content-Type: text/plain; charset=UTF-8
+--e5qjyh4ossuqe7wm
+Content-Type: multipart/mixed; boundary="2wa4bw67atuqqd5a"
+Content-Disposition: inline
+
+
+--2wa4bw67atuqqd5a
+Content-Type: text/plain; charset=utf-8
+Content-Disposition: inline
 Content-Transfer-Encoding: quoted-printable
 
-Hi Branden!
+Hi Lennart,
 
-On 2023-07-31 19:52, G. Branden Robinson wrote:
-> Use the man(7) macro `MR`, new to groff 1.23.0, instead of font style
-> alternation macros to mark up man page cross reference.
+At 2023-07-31T18:40:11+0000, Lennart Jablonka wrote:
+> > > I=E2=80=99d argue that=E2=80=99s acceptable for those utilities adher=
+ing to the
+> > > POSIX Utility Syntax Guidelines;  that is, those that just use
+> > > getopt.
+[...]
+> Actually, reading it again, I would just drop the ellipsis.
 >=20
-> Background (from the groff 1.23.0 release announcement and "NEWS" file)=
-:
+> 	foobar [-v]
 >=20
-> o The an (man) macro package supports a new macro, `MR`, intended for
->   use by man page cross references in preference to the font style
->   alternation macros historically used.  Where before you would write
->     .BR ls (1).
->   or
->     .IR ls (1).
->   you should now write
->     .MR ls 1 .
->   (the third argument, typically used for trailing punctuation, is
->   optional).  Because the macro semantically identifies a man page, it
->   can create a clickable hyperlink ("man:ls(1)" for the above example)
->   on supporting devices.  Furthermore, a new string, `MF`, defines the
->   font to be used for setting the man page topic (the first argument to=
+> 	 -v  Be more verbose.  This option can be specified
+> 	     multiple times to increase the verbosity level.
 
->   `MR` and `TH`), permitting configuration by distributions, sites, and=
+That's fine.  Syntactical issues can always be kicked upstairs to the
+semantic level.  At some cost.
 
->   users.
+> > Applying the rules of prose here is what makes me nervous about your
+> > interpretation.  And POSIX's, for that matter; `argv` processing is
+> > far less forgiving of whitespace errors than readers of prose are.
 >=20
->   Inclusion of the `MR` macro was prompted by its introduction to
->   Plan 9 from User Space's troff in August 2020.  Its purpose is to
->   ameliorate several long-standing problems with man page cross
->   references: (1) the package's lack of inherent hyperlink support for
->   them; (2) false-positive identification of strings resembling man pag=
-e
->   cross references (as can happen with "exit(1)", "while(1)",
->   "sleep(5)", "time(0)" and others) by terminal emulators and other
->   programs; (3) the unwanted intrusion of hyphens into man page topics,=
+> Oh, but synopses are prose!
 
->   which frustrates copy-and-paste operations (this problem has always
->   been avoidable through use of the \% escape sequence, but cross
->   references are frequent in man pages and some page authors are
->   inexpert *roff users); and (4) deep divisions in man page maintenance=
+Maybe we're using different definitions of "prose".  I reckon I'm using
+it to mean "sentential, natural language utterances that are not verse".
 
->   communities over which typeface should be used to set the man page
->   topic (italics, roman, or bold).
-> [...]
-> o The an (man) macro package can now produce clickable hyperlinks withi=
-n
->   terminal emulators, using the OSC 8 support added to grotty(1) (see
->   below).  The groff man(7) extension macros `UR` and `MT`, present
->   since 2007, expose this feature.  At present the feature is disabled
->   by default in `man.local` pending more widespread recognition of OSC =
-8
->   sequences in pager programs.  The package now recognizes a `U`
->   register to enable hyperlinks in any output driver supporting them.
+> You say that you want unambiguous synopses, I agree;  but you still
+> need to read the options=E2=80=99 descriptions to know all about the util=
+ity=E2=80=99s
+> command-line syntax.
+
+Normally, you don't.  Not to grasp its _syntax_.
+
+> You don=E2=80=99t embed regular expressions for the arguments in the syno=
+psis.
+
+No, because synopsis syntax maps to a subset of regular expression
+syntax.
+
+foo -> foo
+foo? -> [foo]
+foo+ -> foo ...
+foo* -> [foo] ...
+(foo|bar)? -> [foo|bar]
+
+It's a little clumsier, formally, to express alternation of a mandatory
+argument.
+
+baz (foo|bar) -> baz foo
+                 baz bar
+
+This is a concern mostly for interfaces like tar(1)'s, which seems to
+trip up everybody when they first learn it.
+
+> While there are styles for specifying different requirements, like
+> having multiple symbolic command lines for alternatives with largely
+> different syntaxes (e.g., a symbolic command line per sub-command),
+
+A gentler version of this is seen in grotty(1), where the availability
+of certain options is modal.
+
+    grotty [-dfho] [-i|-r] [-F dir] [file ...]
+
+    grotty -c [-bBdfhouU] [-F dir] [file ...]
+
+    grotty --help
+
+    grotty -v
+    grotty --version
+
+> there are still requirements only expressed in the DESCRIPTION:  One
+> option might be optional unless a certain other option is given.
+
+You can get a fair way toward that; see above.
+
+> You wouldn=E2=80=99t write [-a] [-b -a], you=E2=80=99d just write [-a]
+> [-b], or rather [-ab].
+
+I might critique this if I understood what you were trying to
+express with it.
+
+> If you should follow quite strict rules in you synopses (and you
+> should), it still is more or less free-form.
+
+I invite you to review the synopsis suggestions offered in
+groff_man_style(7) and point out any ambiguity problems more severe than
+those of POSIX's Guidelines conventions.  I didn't have those in mind
+when writing them--just general practice, which is chaotic and not
+difficult to improve upon.
+
+> Exactly.   Which means:  All we can and something we should do is have
+> guidelines.   Saying nothing of what those guidelines should be.
+
+We can say more than that.  If no objective criteria for comparing
+synopsis language conventions exist, then let's develop some.
+
+> > I know, and I hate it; the ellipsis doesn't merit italicization any
+> > more than option brackets do.  mdoc(7) is expressive enough that you
+> > don't actually type the brackets; you use its `Op` macro.  To me, it
+> > is telling that, thus having full control of the styling of synopsis
+> > brackets, mdoc's author(s) (most prominently Cynthia Livingston, in
+> > the macro language's second and final edition) set them in roman.[7]
 >=20
->   Use a command like
->     printf '\033]8;;man:grotty(1)\033\\grotty(1)\033]8;;\033\\\n' | mor=
-e
->   to check your terminal and pager for OSC 8 support.  If you see
->   "grotty(1)" and no additional garbage characters, then you may wish t=
-o
->   edit "man.local" to remove the lines that disable this feature.
+> I=E2=80=99m inclined to agree, though here I value convention over taste=
+=E2=80=94and
+> the convention for mdoc manuals has been from the start to italicize
+> the ellipses.
+
+I'm not anxious to sacrifice so much to taste.  :)
+
+> > Thanks for raising this.  The fix was straightforward, and you can
+> > expect it in my next push to groff Git.[9]
+
+I may not be willing to die on this hill, but I'm willing to risk being
+MEDEVACed from it.  It won't matter, if everybody who really cares about
+mdoc(7) is loyal to mandoc(1) unto death, which seems to approximately
+be the case.
+
+My goal is that it not be obvious to the causal reader of a man page
+whether man(7) or mdoc(7) was used to compose it.  So I'm not tolerant
+of gratuitous rendering differences, and in groff 1.23.0 I made changes
+to both packages to align them better with each other.  I'm happy if
+only an expert man page author can tell without looking at the source.
+
+> Heh, that sneaky spreading of ellipses is funny.
+
+Alex had a comment about that too, and I remember making a mental note
+to respond to it, but not actually doing so.  So I will now.  You may
+already know this, but on terminal devices, \| (like \^) does not render
+as anything at all.  So we lose the interest of maybe 95% of the man
+page reading community right away.
+
+Illustration attached, in source and a PNG of rendered PostScript.
+
+> I don=E2=80=99t think it should be there, but whatever.
+
+It's a practice that has at least a decade on mdoc(7)'s italic ellipsis.
+
+https://minnie.tuhs.org/cgi-bin/utree.pl?file=3DV7/usr/man/man0/intro
+
+> Do note that this only works if the ellipsis is its own argument:  Not
+> having read doc.tmac more closely this looks like it somewhat
+> contradicts your position on spaces with ellipses.
+
+The position I adopted was not ab initio but a consequence of other
+rules I apply to synopsis interpretation.  I'm not enamored of option
+reduplication (i.e., "-vvvv")--just accept an integral option argument,
+you lazy sods--nor of any strain it puts on my synopsis guidelines.
+
+> 	foobar [-o option] ...  \" .Ar ...
 >=20
-> When the text of all Linux man-pages documents (excluding those
-> containing only `so` requests) is dumped, with adjustment mode 'l'
-> ("-dAD=3Dl") and automatic hyphenation disabled ("-rHY=3D0") before and=
-
-> after this change, there is no change to rendered output.
-
-It would be interesting to see a script that corroborates the above
-paragraph.  It might help other projects that may want to migrate to MR.
-
+> 	 -o option  Apply more options.  Because there=E2=80=99s only so
+> 	            much space for single-letter options, you see.
 >=20
-> When automatic hyphenation is enabled, this change suppresses
-> hyphenation of approximately 3,100+ man page names when cross reference=
-d
-> when using the default terminal width of 80 (meaning that the text
-> is formatted for a line length of 78 for historical reasons).
+> 	The -o options:
 >=20
-> I prepared this change with the following GNU sed script.
+> 	.\" .Ar v...
+> 	 v...  Be verbose.  The more v, the more verbose.
 >=20
-> \# Handle simplest cases: ".BR foo (1)" and ".IR foo (1)".
+> Oops, now the first ellipsis looks better than the second one.   Yeah,
+> I dislike that hack.
 
-What I do to avoid git messing with these comments is to write a leading
-space.  For git, only '#' in column 1 are special.  Since most compilers
-and interpreters allow a space before a commented line, a leading space
-is fine.
+It may not be clear to everyone, but mdoc(7)'s special handling of "..."
+only applies when it appears as its own token.  _But_ there are a lot of
+rules about how mdoc(7) processes tokens in its utterly bespoke approach
+to input interpretation, unlike any other *roff macro package.
 
-I've edited the commit message to have spaces, so that it's directly
-pastable into a MR.sed script.  Oh, and I included "$ cat MR.sed;" in
-the commit message; I couldn't not do it.  :)
+For example, I cannot completely account for the behavior of:
 
-> s/^.[BI]R \(\\%\)*\([.@_[:alnum:]\\-]\+\) (\([1-9a-z]\+\))$/.MR \2 \3/
-> \# Handle case: trailing punctuation, as in ".IR foo (1),".
-> s/^.[BI]R \(\\%\)*\([.@_[:alnum:]\\-]\+\) (\([1-9a-z]\+\))\([^[:space:]=
-]\+\)$/.MR \2 \3 \4/
-> \# Handle case: leading punctuation, as in ".RI ( foo (1)".
-> s/^.R[BI] \(\\%\)*\([^[:space:]]\+\) \([.@_[:alnum:]\\-]\+\) (\([1-9a-z=
-]\+\))\([^[:space:]]\+\)$/\\%\2\\c\n.MR \3 \4 \5/
-> \# Handle case: 3rd+ arguments or trailing comments.  This case is rare=
+=2EFl x Op Fl v Ar file ... Op Fl v... Op Fl v Ns ...
 
-> \# and will require manual fixup if there are 4+ arguments to MR.  Use
-> \# groff -man -rCHECKSTYLE=3D1 to have them automatically reported.
-> s/^.[BI]R \(\\%\)*\([.@_[:alnum:]\\-]\+\) (\([1-8a-z]\+\))\( .*\)/.MR \=
-2 \3\4/
+And bugs _have_ been found both in groff's and mandoc's implementations.
+
+As another case--a real-world one--the correct resolution of
+https://savannah.gnu.org/bugs/?63289 is not yet decidable to me.
+
+If I ever master the package, maybe I'll get a chance to improve the
+groff_mdoc(7) page.
+
+> What I found in 4.3BSD-Reno=E2=80=99s mdoc.samples(7) and think is funny:
 >=20
-> Confirmed no errors arising in `MR` argument count as follows.
+> 	[mdoc's] purpose is to allow translation of man pages from
+> 	.Xr troff 1
+> 	to
+> 	.Xr TeX Coming\ Soon
+> 	and vice versa.
 >=20
-> $ groff --version | head -n 1
-> GNU groff version 1.23.0
-> $ groff -z -t -rCHECKSTYLE=3D1 -m andoc -T utf8 -P -cbou \
->   $(grep -L '^\.so ' man*/* | sort) 2>&1 | grep MR | grep . \
->   || echo "IT'S CLEAN"
-> IT'S CLEAN
+> Is (was then) there an equivalent to nroff for TeX?   I think not.
+
+Nope.  Interconvertibility of *roff and TeX may have been a forlorn hope
+at the time, but even if not, the issue was muddled for about 20 years
+by the Web appearing and SGML and then XML sucking up every molecule of
+oxygen (and talent) in the problem space.  (It inhaled James Clark, I
+assume to his remunerative benefit.)  Nowadays the best hope would
+appear to lie in pandoc, which at least had the wisdom to build on a
+foundation that should be strong enough for the task: Haskell.
+
+> > And so it was done.  In bold.  Because that's all VGA had to offer.
+> > Man pages had demanded since 1979 that three text styles be
+> > available.  The display hardware that every 386BSD and Linux user
+> > was running supported two.  The, uh, obvious solution was just to
+> > use bold for everything.  Screw italics, who needs 'em?  And thus,
+> > the man(1)-using community ejected itself from paradise with such
+> > force that it forgot that man page cross references (or to a large
+> > extent, anything else) were ever set in italics in the first place.
 >=20
-> Signed-off-by: "G. Branden Robinson" <g.branden.robinson@gmail.com>
+> So that=E2=80=99s why!
 
-I've applied the patch (or rather, the script), but won't push it yet.
-If you send a run of commands that prove no differences before and
-after, I'll amend the commit message with it.
+It's conjecture that I have shared several times before, in forums where
+people who are placed to know better could tell me I'm full of fecalith.
 
-Thank you!
+If I ever run into Rik Faith, I'll ask him.  If he doesn't know, or know
+who can tell me, perhaps no one does.  It might have been one of those
+decisions made by community gestalt rather than any deliberative
+process.
 
-Cheers,
-Alex
-
-> ---
->  man1/getent.1                        | 120 ++---
->  man1/iconv.1                         |  24 +-
->  man1/intro.1                         |  54 +--
->  man1/ldd.1                           |  16 +-
->  man1/locale.1                        |  16 +-
->  man1/localedef.1                     |  15 +-
->  man1/memusage.1                      |  58 +--
->  man1/memusagestat.1                  |   8 +-
->  man1/mtrace.1                        |  10 +-
->  man1/pldd.1                          |  12 +-
->  man1/sprof.1                         |   6 +-
->  man1/time.1                          |  32 +-
->  man2/_exit.2                         |  44 +-
->  man2/_syscall.2                      |  12 +-
->  man2/accept.2                        |  46 +-
->  man2/access.2                        |  42 +-
->  man2/acct.2                          |   8 +-
->  man2/add_key.2                       |  41 +-
->  man2/adjtimex.2                      |  26 +-
->  man2/alarm.2                         |  30 +-
->  man2/alloc_hugepages.2               |   4 +-
->  man2/arch_prctl.2                    |  22 +-
->  man2/bdflush.2                       |   6 +-
->  man2/bind.2                          |  48 +-
->  man2/bpf.2                           |  28 +-
->  man2/brk.2                           |  14 +-
->  man2/cacheflush.2                    |   2 +-
->  man2/capget.2                        |  26 +-
->  man2/chdir.2                         |  14 +-
->  man2/chmod.2                         |  38 +-
->  man2/chown.2                         |  30 +-
->  man2/chroot.2                        |  26 +-
->  man2/clock_getres.2                  |  58 +--
->  man2/clock_nanosleep.2               |  42 +-
->  man2/clone.2                         | 217 ++++-----
->  man2/close.2                         |  42 +-
->  man2/close_range.2                   |  16 +-
->  man2/connect.2                       |  32 +-
->  man2/copy_file_range.2               |  10 +-
->  man2/create_module.2                 |   8 +-
->  man2/delete_module.2                 |  18 +-
->  man2/dup.2                           |  28 +-
->  man2/epoll_create.2                  |  14 +-
->  man2/epoll_ctl.2                     |  46 +-
->  man2/epoll_wait.2                    |  26 +-
->  man2/eventfd.2                       | 108 ++---
->  man2/execve.2                        | 134 +++---
->  man2/execveat.2                      |  22 +-
->  man2/exit_group.2                    |   6 +-
->  man2/fallocate.2                     |  32 +-
->  man2/fanotify_init.2                 |  42 +-
->  man2/fanotify_mark.2                 |  44 +-
->  man2/fcntl.2                         | 252 +++++-----
->  man2/flock.2                         |  58 +--
->  man2/fork.2                          | 119 ++---
->  man2/fsync.2                         |  40 +-
->  man2/futex.2                         |  34 +-
->  man2/futimesat.2                     |  26 +-
->  man2/get_kernel_syms.2               |  12 +-
->  man2/get_mempolicy.2                 |  32 +-
->  man2/get_robust_list.2               |  18 +-
->  man2/getcpu.2                        |  16 +-
->  man2/getdents.2                      |  16 +-
->  man2/getdomainname.2                 |  14 +-
->  man2/getgid.2                        |  10 +-
->  man2/getgroups.2                     |  26 +-
->  man2/gethostname.2                   |  16 +-
->  man2/getitimer.2                     |  29 +-
->  man2/getpagesize.2                   |   8 +-
->  man2/getpeername.2                   |  26 +-
->  man2/getpid.2                        |  46 +-
->  man2/getpriority.2                   |  22 +-
->  man2/getrandom.2                     |  20 +-
->  man2/getresuid.2                     |  10 +-
->  man2/getrlimit.2                     | 140 +++---
->  man2/getrusage.2                     |  18 +-
->  man2/getsid.2                        |  10 +-
->  man2/getsockname.2                   |  12 +-
->  man2/getsockopt.2                    |  26 +-
->  man2/gettid.2                        |  38 +-
->  man2/gettimeofday.2                  |  38 +-
->  man2/getuid.2                        |  10 +-
->  man2/getunwind.2                     |   4 +-
->  man2/getxattr.2                      |  30 +-
->  man2/init_module.2                   |  16 +-
->  man2/inotify_add_watch.2             |  14 +-
->  man2/inotify_init.2                  |  14 +-
->  man2/inotify_rm_watch.2              |   8 +-
->  man2/intro.2                         |  54 +--
->  man2/io_cancel.2                     |  14 +-
->  man2/io_destroy.2                    |  14 +-
->  man2/io_getevents.2                  |  22 +-
->  man2/io_setup.2                      |  16 +-
->  man2/io_submit.2                     |  30 +-
->  man2/ioctl.2                         |  34 +-
->  man2/ioctl_console.2                 |  50 +-
->  man2/ioctl_fat.2                     |  22 +-
->  man2/ioctl_ficlonerange.2            |   6 +-
->  man2/ioctl_fideduperange.2           |   6 +-
->  man2/ioctl_fslabel.2                 |   6 +-
->  man2/ioctl_getfsmap.2                |   4 +-
->  man2/ioctl_iflags.2                  |  42 +-
->  man2/ioctl_ns.2                      |  28 +-
->  man2/ioctl_pipe.2                    |   8 +-
->  man2/ioctl_tty.2                     |  48 +-
->  man2/ioctl_userfaultfd.2             |  54 +--
->  man2/ioperm.2                        |  14 +-
->  man2/iopl.2                          |  12 +-
->  man2/ioprio_set.2                    |  23 +-
->  man2/ipc.2                           |  34 +-
->  man2/kcmp.2                          |  42 +-
->  man2/kexec_load.2                    |  12 +-
->  man2/keyctl.2                        | 244 +++++-----
->  man2/kill.2                          |  28 +-
->  man2/landlock_add_rule.2             |  16 +-
->  man2/landlock_create_ruleset.2       |  16 +-
->  man2/landlock_restrict_self.2        |  18 +-
->  man2/link.2                          |  38 +-
->  man2/listen.2                        |  26 +-
->  man2/listxattr.2                     |  32 +-
->  man2/llseek.2                        |  14 +-
->  man2/lookup_dcookie.2                |   6 +-
->  man2/lseek.2                         |  20 +-
->  man2/madvise.2                       |  68 +--
->  man2/mbind.2                         |  42 +-
->  man2/membarrier.2                    |   2 +-
->  man2/memfd_create.2                  |  68 +--
->  man2/memfd_secret.2                  |  38 +-
->  man2/migrate_pages.2                 |  30 +-
->  man2/mincore.2                       |  16 +-
->  man2/mkdir.2                         |  30 +-
->  man2/mknod.2                         |  40 +-
->  man2/mlock.2                         |  46 +-
->  man2/mmap.2                          |  82 ++--
->  man2/mmap2.2                         |  20 +-
->  man2/modify_ldt.2                    |  12 +-
->  man2/mount.2                         |  74 +--
->  man2/mount_setattr.2                 |  76 +--
->  man2/move_pages.2                    |  28 +-
->  man2/mprotect.2                      |  22 +-
->  man2/mq_getsetattr.2                 |  10 +-
->  man2/mremap.2                        |  38 +-
->  man2/msgctl.2                        |  24 +-
->  man2/msgget.2                        |  20 +-
->  man2/msgop.2                         |  18 +-
->  man2/msync.2                         |   8 +-
->  man2/nanosleep.2                     |  36 +-
->  man2/nfsservctl.2                    |   4 +-
->  man2/nice.2                          |  28 +-
->  man2/open.2                          | 320 ++++++-------
->  man2/open_by_handle_at.2             |  24 +-
->  man2/openat2.2                       |  48 +-
->  man2/outb.2                          |   8 +-
->  man2/pause.2                         |   8 +-
->  man2/pciconfig_read.2                |   2 +-
->  man2/perf_event_open.2               | 100 ++--
->  man2/perfmonctl.2                    |  14 +-
->  man2/personality.2                   |  20 +-
->  man2/pidfd_getfd.2                   |  26 +-
->  man2/pidfd_open.2                    |  60 +--
->  man2/pidfd_send_signal.2             |  30 +-
->  man2/pipe.2                          |  46 +-
->  man2/pivot_root.2                    |  36 +-
->  man2/pkey_alloc.2                    |  10 +-
->  man2/poll.2                          |  42 +-
->  man2/posix_fadvise.2                 |  26 +-
->  man2/prctl.2                         | 259 ++++++-----
->  man2/pread.2                         |  26 +-
->  man2/process_madvise.2               |  30 +-
->  man2/process_vm_readv.2              |  10 +-
->  man2/ptrace.2                        | 277 +++++------
->  man2/query_module.2                  |  14 +-
->  man2/quotactl.2                      |  14 +-
->  man2/read.2                          |  40 +-
->  man2/readahead.2                     |  12 +-
->  man2/readdir.2                       |  10 +-
->  man2/readlink.2                      |  28 +-
->  man2/readv.2                         |  40 +-
->  man2/reboot.2                        |  36 +-
->  man2/recv.2                          |  80 ++--
->  man2/recvmmsg.2                      |  28 +-
->  man2/remap_file_pages.2              |  24 +-
->  man2/removexattr.2                   |  26 +-
->  man2/rename.2                        |  26 +-
->  man2/request_key.2                   |  78 ++--
->  man2/restart_syscall.2               |  20 +-
->  man2/rmdir.2                         |  18 +-
->  man2/rt_sigqueueinfo.2               |  38 +-
->  man2/s390_guarded_storage.2          |   4 +-
->  man2/s390_pci_mmio_write.2           |   4 +-
->  man2/s390_runtime_instr.2            |   6 +-
->  man2/s390_sthyi.2                    |   4 +-
->  man2/sched_get_priority_max.2        |  16 +-
->  man2/sched_rr_get_interval.2         |   8 +-
->  man2/sched_setaffinity.2             |  72 +--
->  man2/sched_setattr.2                 |  78 ++--
->  man2/sched_setparam.2                |  34 +-
->  man2/sched_setscheduler.2            |  56 +--
->  man2/sched_yield.2                   |   2 +-
->  man2/seccomp.2                       | 141 +++---
->  man2/seccomp_unotify.2               | 178 +++----
->  man2/select.2                        |  66 +--
->  man2/select_tut.2                    |  84 ++--
->  man2/semctl.2                        |  32 +-
->  man2/semget.2                        |  36 +-
->  man2/semop.2                         |  34 +-
->  man2/send.2                          |  78 ++--
->  man2/sendfile.2                      |  26 +-
->  man2/sendmmsg.2                      |  18 +-
->  man2/set_mempolicy.2                 |  30 +-
->  man2/set_thread_area.2               |  18 +-
->  man2/set_tid_address.2               |  12 +-
->  man2/seteuid.2                       |  20 +-
->  man2/setfsgid.2                      |  14 +-
->  man2/setfsuid.2                      |  16 +-
->  man2/setgid.2                        |  14 +-
->  man2/setns.2                         |  38 +-
->  man2/setpgid.2                       |  42 +-
->  man2/setresuid.2                     |  22 +-
->  man2/setreuid.2                      |  24 +-
->  man2/setsid.2                        |  24 +-
->  man2/setuid.2                        |  22 +-
->  man2/setxattr.2                      |  28 +-
->  man2/sgetmask.2                      |  10 +-
->  man2/shmctl.2                        |  35 +-
->  man2/shmget.2                        |  32 +-
->  man2/shmop.2                         |  24 +-
->  man2/shutdown.2                      |   8 +-
->  man2/sigaction.2                     | 136 +++---
->  man2/sigaltstack.2                   |  32 +-
->  man2/signal.2                        |  60 +--
->  man2/signalfd.2                      | 130 +++---
->  man2/sigpending.2                    |  24 +-
->  man2/sigprocmask.2                   |  42 +-
->  man2/sigreturn.2                     |  20 +-
->  man2/sigsuspend.2                    |  30 +-
->  man2/sigwaitinfo.2                   |  40 +-
->  man2/socket.2                        | 120 ++---
->  man2/socketcall.2                    |  84 ++--
->  man2/socketpair.2                    |  16 +-
->  man2/splice.2                        |  26 +-
->  man2/spu_create.2                    |  28 +-
->  man2/spu_run.2                       |  18 +-
->  man2/stat.2                          |  38 +-
->  man2/statfs.2                        |  36 +-
->  man2/statx.2                         |  66 +--
->  man2/stime.2                         |  10 +-
->  man2/subpage_prot.2                  |   6 +-
->  man2/swapon.2                        |  14 +-
->  man2/symlink.2                       |  32 +-
->  man2/sync.2                          |  10 +-
->  man2/sync_file_range.2               |  10 +-
->  man2/syscall.2                       |  54 +--
->  man2/syscalls.2                      | 128 ++---
->  man2/sysctl.2                        |   4 +-
->  man2/sysfs.2                         |   6 +-
->  man2/sysinfo.2                       |   2 +-
->  man2/syslog.2                        |  10 +-
->  man2/tee.2                           |  18 +-
->  man2/time.2                          |  16 +-
->  man2/timer_create.2                  |  64 +--
->  man2/timer_delete.2                  |  12 +-
->  man2/timer_getoverrun.2              |  26 +-
->  man2/timer_settime.2                 |  20 +-
->  man2/timerfd_create.2                | 113 ++---
->  man2/times.2                         |  22 +-
->  man2/tkill.2                         |  16 +-
->  man2/truncate.2                      |  24 +-
->  man2/umask.2                         |  47 +-
->  man2/umount.2                        |  14 +-
->  man2/uname.2                         |  12 +-
->  man2/unimplemented.2                 |  26 +-
->  man2/unlink.2                        |  44 +-
->  man2/unshare.2                       |  77 +--
->  man2/uselib.2                        |  26 +-
->  man2/userfaultfd.2                   | 106 ++---
->  man2/ustat.2                         |   6 +-
->  man2/utime.2                         |  20 +-
->  man2/utimensat.2                     |  46 +-
->  man2/vfork.2                         |  88 ++--
->  man2/vhangup.2                       |   6 +-
->  man2/vmsplice.2                      |  18 +-
->  man2/wait.2                          |  80 ++--
->  man2/wait4.2                         |  28 +-
->  man2/write.2                         |  56 +--
->  man2type/open_how.2type              |   4 +-
->  man3/CPU_SET.3                       |  14 +-
->  man3/INFINITY.3                      |   4 +-
->  man3/MAX.3                           |   8 +-
->  man3/MB_CUR_MAX.3                    |  12 +-
->  man3/MB_LEN_MAX.3                    |   2 +-
->  man3/_Generic.3                      |   2 +-
->  man3/__ppc_get_timebase.3            |   4 +-
->  man3/__ppc_set_ppr_med.3             |   4 +-
->  man3/__ppc_yield.3                   |   4 +-
->  man3/__setfpucw.3                    |  24 +-
->  man3/a64l.3                          |  10 +-
->  man3/abort.3                         |  24 +-
->  man3/abs.3                           |  14 +-
->  man3/acos.3                          |  20 +-
->  man3/acosh.3                         |  18 +-
->  man3/addseverity.3                   |   8 +-
->  man3/adjtime.3                       |  14 +-
->  man3/aio_cancel.3                    |  36 +-
->  man3/aio_error.3                     |  32 +-
->  man3/aio_fsync.3                     |  28 +-
->  man3/aio_init.3                      |   2 +-
->  man3/aio_read.3                      |  34 +-
->  man3/aio_return.3                    |  32 +-
->  man3/aio_suspend.3                   |  36 +-
->  man3/aio_write.3                     |  32 +-
->  man3/alloca.3                        |  24 +-
->  man3/arc4random.3                    |  14 +-
->  man3/argz_add.3                      |   8 +-
->  man3/asin.3                          |  20 +-
->  man3/asinh.3                         |  16 +-
->  man3/asprintf.3                      |  16 +-
->  man3/assert.3                        |  10 +-
->  man3/assert_perror.3                 |  12 +-
->  man3/atan.3                          |  20 +-
->  man3/atan2.3                         |  18 +-
->  man3/atanh.3                         |  18 +-
->  man3/atexit.3                        |  36 +-
->  man3/atof.3                          |  14 +-
->  man3/atoi.3                          |  12 +-
->  man3/backtrace.3                     |  24 +-
->  man3/basename.3                      |   8 +-
->  man3/bcmp.3                          |   4 +-
->  man3/bcopy.3                         |  22 +-
->  man3/bindresvport.3                  |  12 +-
->  man3/bsd_signal.3                    |  28 +-
->  man3/bsearch.3                       |  12 +-
->  man3/bstring.3                       |  24 +-
->  man3/bswap.3                         |   4 +-
->  man3/btowc.3                         |  12 +-
->  man3/btree.3                         |  18 +-
->  man3/byteorder.3                     |  10 +-
->  man3/bzero.3                         |   8 +-
->  man3/cabs.3                          |  10 +-
->  man3/cacos.3                         |   8 +-
->  man3/cacosh.3                        |  12 +-
->  man3/canonicalize_file_name.3        |  10 +-
->  man3/carg.3                          |   6 +-
->  man3/casin.3                         |   8 +-
->  man3/casinh.3                        |  12 +-
->  man3/catan.3                         |  10 +-
->  man3/catanh.3                        |  12 +-
->  man3/catgets.3                       |   8 +-
->  man3/catopen.3                       |  12 +-
->  man3/cbrt.3                          |   8 +-
->  man3/ccos.3                          |  12 +-
->  man3/ccosh.3                         |  10 +-
->  man3/ceil.3                          |  16 +-
->  man3/cexp.3                          |  12 +-
->  man3/cexp2.3                         |   8 +-
->  man3/cfree.3                         |  22 +-
->  man3/cimag.3                         |   8 +-
->  man3/circleq.3                       |   4 +-
->  man3/clearenv.3                      |  30 +-
->  man3/clock.3                         |  16 +-
->  man3/clock_getcpuclockid.3           |  16 +-
->  man3/clog.3                          |  14 +-
->  man3/clog10.3                        |  12 +-
->  man3/clog2.3                         |  10 +-
->  man3/closedir.3                      |  16 +-
->  man3/cmsg.3                          |  18 +-
->  man3/confstr.3                       |  18 +-
->  man3/conj.3                          |   8 +-
->  man3/copysign.3                      |   6 +-
->  man3/cos.3                           |  22 +-
->  man3/cosh.3                          |  18 +-
->  man3/cpow.3                          |   8 +-
->  man3/cproj.3                         |   6 +-
->  man3/creal.3                         |   8 +-
->  man3/crypt.3                         |  24 +-
->  man3/csin.3                          |  12 +-
->  man3/csinh.3                         |  12 +-
->  man3/csqrt.3                         |   8 +-
->  man3/ctan.3                          |  12 +-
->  man3/ctanh.3                         |  12 +-
->  man3/ctermid.3                       |   6 +-
->  man3/ctime.3                         |  40 +-
->  man3/daemon.3                        |  26 +-
->  man3/dbopen.3                        |  46 +-
->  man3/des_crypt.3                     |  10 +-
->  man3/difftime.3                      |  14 +-
->  man3/dirfd.3                         |  28 +-
->  man3/div.3                           |   8 +-
->  man3/dl_iterate_phdr.3               |  16 +-
->  man3/dladdr.3                        |  16 +-
->  man3/dlerror.3                       |  12 +-
->  man3/dlinfo.3                        |  22 +-
->  man3/dlopen.3                        |  50 +-
->  man3/dlsym.3                         |  28 +-
->  man3/drand48.3                       |   8 +-
->  man3/drand48_r.3                     |  12 +-
->  man3/duplocale.3                     |  28 +-
->  man3/dysize.3                        |   6 +-
->  man3/ecvt.3                          |  18 +-
->  man3/ecvt_r.3                        |  24 +-
->  man3/encrypt.3                       |  10 +-
->  man3/end.3                           |  14 +-
->  man3/endian.3                        |  10 +-
->  man3/envz_add.3                      |   6 +-
->  man3/erf.3                           |  12 +-
->  man3/erfc.3                          |  12 +-
->  man3/err.3                           |  16 +-
->  man3/errno.3                         |  30 +-
->  man3/error.3                         |  20 +-
->  man3/ether_aton.3                    |   4 +-
->  man3/euidaccess.3                    |  32 +-
->  man3/exec.3                          |  32 +-
->  man3/exit.3                          |  56 +--
->  man3/exp.3                           |  18 +-
->  man3/exp10.3                         |  18 +-
->  man3/exp2.3                          |  20 +-
->  man3/expm1.3                         |  12 +-
->  man3/fabs.3                          |  16 +-
->  man3/fclose.3                        |  26 +-
->  man3/fcloseall.3                     |  14 +-
->  man3/fdim.3                          |   8 +-
->  man3/fenv.3                          |   4 +-
->  man3/ferror.3                        |  22 +-
->  man3/fexecve.3                       |  20 +-
->  man3/fflush.3                        |  28 +-
->  man3/ffs.3                           |   6 +-
->  man3/fgetc.3                         |  38 +-
->  man3/fgetgrent.3                     |  24 +-
->  man3/fgetpwent.3                     |  26 +-
->  man3/fgetwc.3                        |  16 +-
->  man3/fgetws.3                        |  12 +-
->  man3/fileno.3                        |  18 +-
->  man3/finite.3                        |   8 +-
->  man3/flockfile.3                     |  18 +-
->  man3/floor.3                         |  16 +-
->  man3/fma.3                           |  12 +-
->  man3/fmax.3                          |   8 +-
->  man3/fmemopen.3                      |  32 +-
->  man3/fmin.3                          |   8 +-
->  man3/fmod.3                          |   8 +-
->  man3/fmtmsg.3                        |   8 +-
->  man3/fnmatch.3                       |  14 +-
->  man3/fopen.3                         |  49 +-
->  man3/fopencookie.3                   |  20 +-
->  man3/fpathconf.3                     |  16 +-
->  man3/fpclassify.3                    |  12 +-
->  man3/fpurge.3                        |  14 +-
->  man3/fputwc.3                        |  14 +-
->  man3/fputws.3                        |  12 +-
->  man3/fread.3                         |  18 +-
->  man3/frexp.3                         |   8 +-
->  man3/fseek.3                         |  20 +-
->  man3/fseeko.3                        |  14 +-
->  man3/ftime.3                         |  14 +-
->  man3/ftok.3                          |  22 +-
->  man3/fts.3                           |  36 +-
->  man3/ftw.3                           |  28 +-
->  man3/futimes.3                       |  18 +-
->  man3/fwide.3                         |  10 +-
->  man3/gamma.3                         |  26 +-
->  man3/gcvt.3                          |  16 +-
->  man3/get_nprocs.3                    |   6 +-
->  man3/get_phys_pages.3                |   6 +-
->  man3/getaddrinfo.3                   |  50 +-
->  man3/getaddrinfo_a.3                 |  36 +-
->  man3/getauxval.3                     |  22 +-
->  man3/getcontext.3                    |  48 +-
->  man3/getcwd.3                        |  34 +-
->  man3/getdate.3                       |  26 +-
->  man3/getdirentries.3                 |  12 +-
->  man3/getdtablesize.3                 |  16 +-
->  man3/getentropy.3                    |  14 +-
->  man3/getenv.3                        |  24 +-
->  man3/getfsent.3                      |   8 +-
->  man3/getgrent.3                      |  28 +-
->  man3/getgrent_r.3                    |  32 +-
->  man3/getgrnam.3                      |  24 +-
->  man3/getgrouplist.3                  |  18 +-
->  man3/gethostbyname.3                 |  59 +--
->  man3/gethostid.3                     |  14 +-
->  man3/getifaddrs.3                    |  32 +-
->  man3/getipnodebyname.3               |  16 +-
->  man3/getline.3                       |  18 +-
->  man3/getloadavg.3                    |   8 +-
->  man3/getlogin.3                      |  18 +-
->  man3/getmntent.3                     |  16 +-
->  man3/getnameinfo.3                   |  42 +-
->  man3/getnetent.3                     |   8 +-
->  man3/getnetent_r.3                   |  14 +-
->  man3/getopt.3                        |  16 +-
->  man3/getpass.3                       |  10 +-
->  man3/getprotoent.3                   |  12 +-
->  man3/getprotoent_r.3                 |  14 +-
->  man3/getpt.3                         |  18 +-
->  man3/getpw.3                         |  22 +-
->  man3/getpwent.3                      |  28 +-
->  man3/getpwent_r.3                    |  28 +-
->  man3/getpwnam.3                      |  30 +-
->  man3/getrpcent.3                     |  10 +-
->  man3/getrpcent_r.3                   |  14 +-
->  man3/getrpcport.3                    |   2 +-
->  man3/gets.3                          |  36 +-
->  man3/getservent.3                    |  12 +-
->  man3/getservent_r.3                  |  14 +-
->  man3/getspnam.3                      |  16 +-
->  man3/getsubopt.3                     |  10 +-
->  man3/getttyent.3                     |   6 +-
->  man3/getusershell.3                  |   6 +-
->  man3/getutent.3                      |  16 +-
->  man3/getutmp.3                       |   8 +-
->  man3/getw.3                          |  20 +-
->  man3/getwchar.3                      |  10 +-
->  man3/glob.3                          |  44 +-
->  man3/gnu_get_libc_version.3          |   4 +-
->  man3/grantpt.3                       |  20 +-
->  man3/group_member.3                  |  12 +-
->  man3/gsignal.3                       |  18 +-
->  man3/hash.3                          |  20 +-
->  man3/hsearch.3                       |  12 +-
->  man3/hypot.3                         |  10 +-
->  man3/iconv.3                         |  10 +-
->  man3/iconv_close.3                   |   8 +-
->  man3/iconv_open.3                    |  16 +-
->  man3/if_nameindex.3                  |  28 +-
->  man3/if_nametoindex.3                |  12 +-
->  man3/ilogb.3                         |  14 +-
->  man3/index.3                         |  16 +-
->  man3/inet.3                          |  28 +-
->  man3/inet_net_pton.3                 |   6 +-
->  man3/inet_ntop.3                     |  14 +-
->  man3/inet_pton.3                     |  20 +-
->  man3/initgroups.3                    |  12 +-
->  man3/insque.3                        |   6 +-
->  man3/intro.3                         |  30 +-
->  man3/isalpha.3                       |  46 +-
->  man3/isatty.3                        |   6 +-
->  man3/isfdtype.3                      |  10 +-
->  man3/isgreater.3                     |   8 +-
->  man3/iswalnum.3                      |   8 +-
->  man3/iswalpha.3                      |   8 +-
->  man3/iswblank.3                      |  10 +-
->  man3/iswcntrl.3                      |   8 +-
->  man3/iswctype.3                      |  30 +-
->  man3/iswdigit.3                      |   8 +-
->  man3/iswgraph.3                      |   8 +-
->  man3/iswlower.3                      |  10 +-
->  man3/iswprint.3                      |   8 +-
->  man3/iswpunct.3                      |   8 +-
->  man3/iswspace.3                      |   8 +-
->  man3/iswupper.3                      |  10 +-
->  man3/iswxdigit.3                     |   8 +-
->  man3/j0.3                            |  10 +-
->  man3/key_setsecret.3                 |   4 +-
->  man3/killpg.3                        |  20 +-
->  man3/ldexp.3                         |  12 +-
->  man3/lgamma.3                        |   8 +-
->  man3/lio_listio.3                    |  40 +-
->  man3/list.3                          |   4 +-
->  man3/localeconv.3                    |  26 +-
->  man3/lockf.3                         |  14 +-
->  man3/log.3                           |  18 +-
->  man3/log10.3                         |  22 +-
->  man3/log1p.3                         |  12 +-
->  man3/log2.3                          |  20 +-
->  man3/logb.3                          |  10 +-
->  man3/login.3                         |  14 +-
->  man3/lrint.3                         |  22 +-
->  man3/lround.3                        |  24 +-
->  man3/lsearch.3                       |   8 +-
->  man3/lseek64.3                       |  14 +-
->  man3/makecontext.3                   |  26 +-
->  man3/makedev.3                       |  10 +-
->  man3/mallinfo.3                      |  38 +-
->  man3/malloc.3                        |  50 +-
->  man3/malloc_get_state.3              |  20 +-
->  man3/malloc_hook.3                   |  26 +-
->  man3/malloc_info.3                   |  20 +-
->  man3/malloc_stats.3                  |  20 +-
->  man3/malloc_trim.3                   |  16 +-
->  man3/malloc_usable_size.3            |   8 +-
->  man3/mallopt.3                       |  68 +--
->  man3/matherr.3                       |  18 +-
->  man3/mblen.3                         |   6 +-
->  man3/mbrlen.3                        |   4 +-
->  man3/mbrtowc.3                       |   6 +-
->  man3/mbsinit.3                       |  18 +-
->  man3/mbsnrtowcs.3                    |  14 +-
->  man3/mbsrtowcs.3                     |  12 +-
->  man3/mbstowcs.3                      |  14 +-
->  man3/mbtowc.3                        |  16 +-
->  man3/mcheck.3                        |  16 +-
->  man3/memccpy.3                       |  14 +-
->  man3/memchr.3                        |  28 +-
->  man3/memcmp.3                        |  16 +-
->  man3/memcpy.3                        |  22 +-
->  man3/memfrob.3                       |   6 +-
->  man3/memmem.3                        |   6 +-
->  man3/memmove.3                       |  16 +-
->  man3/mempcpy.3                       |  12 +-
->  man3/memset.3                        |  10 +-
->  man3/mkdtemp.3                       |  20 +-
->  man3/mkfifo.3                        |  26 +-
->  man3/mkstemp.3                       |  24 +-
->  man3/mktemp.3                        |  20 +-
->  man3/modf.3                          |   8 +-
->  man3/mpool.3                         |  20 +-
->  man3/mq_close.3                      |  20 +-
->  man3/mq_getattr.3                    |  30 +-
->  man3/mq_notify.3                     |  30 +-
->  man3/mq_open.3                       |  36 +-
->  man3/mq_receive.3                    |  28 +-
->  man3/mq_send.3                       |  28 +-
->  man3/mq_unlink.3                     |  16 +-
->  man3/mtrace.3                        |  31 +-
->  man3/nan.3                           |  14 +-
->  man3/netlink.3                       |   6 +-
->  man3/newlocale.3                     |  26 +-
->  man3/nextafter.3                     |   8 +-
->  man3/nextup.3                        |   6 +-
->  man3/nl_langinfo.3                   |  62 +--
->  man3/ntp_gettime.3                   |  14 +-
->  man3/offsetof.3                      |   2 +-
->  man3/on_exit.3                       |  20 +-
->  man3/open_memstream.3                |  28 +-
->  man3/opendir.3                       |  24 +-
->  man3/openpty.3                       |  14 +-
->  man3/perror.3                        |  14 +-
->  man3/popen.3                         |  42 +-
->  man3/posix_fallocate.3               |  18 +-
->  man3/posix_madvise.3                 |  10 +-
->  man3/posix_memalign.3                |  26 +-
->  man3/posix_openpt.3                  |  24 +-
->  man3/posix_spawn.3                   | 170 +++----
->  man3/pow.3                           |  12 +-
->  man3/pow10.3                         |   8 +-
->  man3/powerof2.3                      |   4 +-
->  man3/printf.3                        |  46 +-
->  man3/profil.3                        |  16 +-
->  man3/program_invocation_name.3       |   2 +-
->  man3/psignal.3                       |  16 +-
->  man3/pthread_atfork.3                |  28 +-
->  man3/pthread_attr_init.3             |  40 +-
->  man3/pthread_attr_setaffinity_np.3   |  16 +-
->  man3/pthread_attr_setdetachstate.3   |  26 +-
->  man3/pthread_attr_setguardsize.3     |  26 +-
->  man3/pthread_attr_setinheritsched.3  |  35 +-
->  man3/pthread_attr_setschedparam.3    |  30 +-
->  man3/pthread_attr_setschedpolicy.3   |  26 +-
->  man3/pthread_attr_setscope.3         |  20 +-
->  man3/pthread_attr_setsigmask_np.3    |  20 +-
->  man3/pthread_attr_setstack.3         |  32 +-
->  man3/pthread_attr_setstackaddr.3     |  20 +-
->  man3/pthread_attr_setstacksize.3     |  20 +-
->  man3/pthread_cancel.3                |  34 +-
->  man3/pthread_cleanup_push.3          |  34 +-
->  man3/pthread_cleanup_push_defer_np.3 |  24 +-
->  man3/pthread_create.3                |  72 +--
->  man3/pthread_detach.3                |  24 +-
->  man3/pthread_equal.3                 |   8 +-
->  man3/pthread_exit.3                  |  22 +-
->  man3/pthread_getattr_default_np.3    |  30 +-
->  man3/pthread_getattr_np.3            |  36 +-
->  man3/pthread_getcpuclockid.3         |  22 +-
->  man3/pthread_join.3                  |  18 +-
->  man3/pthread_kill.3                  |  22 +-
->  man3/pthread_kill_other_threads_np.3 |  18 +-
->  man3/pthread_mutex_consistent.3      |  14 +-
->  man3/pthread_mutexattr_getpshared.3  |   4 +-
->  man3/pthread_mutexattr_init.3        |   8 +-
->  man3/pthread_mutexattr_setrobust.3   |  34 +-
->  man3/pthread_rwlockattr_setkind_np.3 |   4 +-
->  man3/pthread_self.3                  |  14 +-
->  man3/pthread_setaffinity_np.3        |  34 +-
->  man3/pthread_setcancelstate.3        |  22 +-
->  man3/pthread_setconcurrency.3        |   6 +-
->  man3/pthread_setname_np.3            |  10 +-
->  man3/pthread_setschedparam.3         |  40 +-
->  man3/pthread_setschedprio.3          |  30 +-
->  man3/pthread_sigmask.3               |  32 +-
->  man3/pthread_sigqueue.3              |  26 +-
->  man3/pthread_spin_init.3             |  16 +-
->  man3/pthread_spin_lock.3             |  12 +-
->  man3/pthread_testcancel.3            |  14 +-
->  man3/pthread_tryjoin_np.3            |  22 +-
->  man3/pthread_yield.3                 |  14 +-
->  man3/ptsname.3                       |  18 +-
->  man3/putenv.3                        |  14 +-
->  man3/putgrent.3                      |  10 +-
->  man3/putpwent.3                      |  18 +-
->  man3/puts.3                          |  28 +-
->  man3/putwchar.3                      |  10 +-
->  man3/qecvt.3                         |  24 +-
->  man3/qsort.3                         |  16 +-
->  man3/raise.3                         |  18 +-
->  man3/rand.3                          |  16 +-
->  man3/random.3                        |  16 +-
->  man3/random_r.3                      |  22 +-
->  man3/rcmd.3                          |  24 +-
->  man3/re_comp.3                       |   8 +-
->  man3/readdir.3                       |  38 +-
->  man3/readdir_r.3                     |  22 +-
->  man3/realpath.3                      |  30 +-
->  man3/recno.3                         |  26 +-
->  man3/regex.3                         |   8 +-
->  man3/remainder.3                     |  14 +-
->  man3/remove.3                        |  30 +-
->  man3/remquo.3                        |  16 +-
->  man3/resolver.3                      |  24 +-
->  man3/rewinddir.3                     |  14 +-
->  man3/rexec.3                         |  16 +-
->  man3/rint.3                          |  20 +-
->  man3/round.3                         |  22 +-
->  man3/roundup.3                       |  12 +-
->  man3/rpc.3                           |  14 +-
->  man3/rpmatch.3                       |  24 +-
->  man3/rtime.3                         |  17 +-
->  man3/rtnetlink.3                     |  10 +-
->  man3/scalb.3                         |  16 +-
->  man3/scalbln.3                       |  16 +-
->  man3/scandir.3                       |  40 +-
->  man3/scanf.3                         |  30 +-
->  man3/sched_getcpu.3                  |  12 +-
->  man3/seekdir.3                       |  24 +-
->  man3/sem_close.3                     |  16 +-
->  man3/sem_destroy.3                   |  16 +-
->  man3/sem_getvalue.3                  |  12 +-
->  man3/sem_init.3                      |  28 +-
->  man3/sem_open.3                      |  18 +-
->  man3/sem_post.3                      |  16 +-
->  man3/sem_unlink.3                    |  12 +-
->  man3/sem_wait.3                      |  22 +-
->  man3/setaliasent.3                   |  10 +-
->  man3/setbuf.3                        |  24 +-
->  man3/setenv.3                        |  14 +-
->  man3/setjmp.3                        |  10 +-
->  man3/setlocale.3                     |  36 +-
->  man3/setlogmask.3                    |  10 +-
->  man3/setnetgrent.3                   |  10 +-
->  man3/shm_open.3                      |  48 +-
->  man3/siginterrupt.3                  |   8 +-
->  man3/signbit.3                       |   6 +-
->  man3/significand.3                   |   8 +-
->  man3/sigpause.3                      |  22 +-
->  man3/sigqueue.3                      |  34 +-
->  man3/sigset.3                        |  53 +--
->  man3/sigsetops.3                     |  14 +-
->  man3/sigvec.3                        |  43 +-
->  man3/sigwait.3                       |  26 +-
->  man3/sin.3                           |  22 +-
->  man3/sincos.3                        |  16 +-
->  man3/sinh.3                          |  18 +-
->  man3/sleep.3                         |  22 +-
->  man3/slist.3                         |   4 +-
->  man3/sockatmark.3                    |  16 +-
->  man3/sqrt.3                          |  12 +-
->  man3/sscanf.3                        |  32 +-
->  man3/stailq.3                        |   4 +-
->  man3/static_assert.3                 |   4 +-
->  man3/statvfs.3                       |  26 +-
->  man3/stdarg.3                        |  10 +-
->  man3/stdin.3                         |  46 +-
->  man3/stdio.3                         |  24 +-
->  man3/stdio_ext.3                     |   8 +-
->  man3/stpncpy.3                       |  10 +-
->  man3/strcasecmp.3                    |  16 +-
->  man3/strchr.3                        |  22 +-
->  man3/strcmp.3                        |  24 +-
->  man3/strcoll.3                       |  18 +-
->  man3/strcpy.3                        |  14 +-
->  man3/strdup.3                        |  24 +-
->  man3/strerror.3                      |  18 +-
->  man3/strfmon.3                       |  12 +-
->  man3/strfromd.3                      |  12 +-
->  man3/strfry.3                        |   6 +-
->  man3/strftime.3                      |  48 +-
->  man3/string.3                        |  52 +--
->  man3/strlen.3                        |  12 +-
->  man3/strncat.3                       |  10 +-
->  man3/strnlen.3                       |   6 +-
->  man3/strpbrk.3                       |  18 +-
->  man3/strptime.3                      |  24 +-
->  man3/strsep.3                        |  24 +-
->  man3/strsignal.3                     |   8 +-
->  man3/strspn.3                        |  20 +-
->  man3/strstr.3                        |  22 +-
->  man3/strtod.3                        |  26 +-
->  man3/strtoimax.3                     |  16 +-
->  man3/strtok.3                        |  22 +-
->  man3/strtol.3                        |  20 +-
->  man3/strtoul.3                       |  22 +-
->  man3/strverscmp.3                    |  20 +-
->  man3/strxfrm.3                       |  20 +-
->  man3/swab.3                          |   4 +-
->  man3/sysconf.3                       |  52 +--
->  man3/syslog.3                        |  26 +-
->  man3/system.3                        |  52 +--
->  man3/sysv_signal.3                   |  22 +-
->  man3/tailq.3                         |   4 +-
->  man3/tan.3                           |  20 +-
->  man3/tanh.3                          |  16 +-
->  man3/tcgetpgrp.3                     |   8 +-
->  man3/tcgetsid.3                      |   6 +-
->  man3/telldir.3                       |  18 +-
->  man3/tempnam.3                       |  30 +-
->  man3/termios.3                       |  74 +--
->  man3/tgamma.3                        |  14 +-
->  man3/timegm.3                        |  18 +-
->  man3/timeradd.3                      |   6 +-
->  man3/tmpfile.3                       |  14 +-
->  man3/tmpnam.3                        |  28 +-
->  man3/toascii.3                       |  10 +-
->  man3/toupper.3                       |  20 +-
->  man3/towctrans.3                     |  10 +-
->  man3/towlower.3                      |  16 +-
->  man3/towupper.3                      |  16 +-
->  man3/trunc.3                         |  16 +-
->  man3/tsearch.3                       |  10 +-
->  man3/ttyname.3                       |  14 +-
->  man3/ttyslot.3                       |  20 +-
->  man3/tzset.3                         |  22 +-
->  man3/ualarm.3                        |  45 +-
->  man3/ulimit.3                        |  18 +-
->  man3/undocumented.3                  | 264 +++++------
->  man3/ungetwc.3                       |   6 +-
->  man3/unlocked_stdio.3                |  10 +-
->  man3/unlockpt.3                      |  14 +-
->  man3/updwtmp.3                       |   8 +-
->  man3/uselocale.3                     |  28 +-
->  man3/usleep.3                        |  46 +-
->  man3/wcpcpy.3                        |  10 +-
->  man3/wcpncpy.3                       |  10 +-
->  man3/wcrtomb.3                       |   6 +-
->  man3/wcscasecmp.3                    |  15 +-
->  man3/wcscat.3                        |  12 +-
->  man3/wcschr.3                        |  14 +-
->  man3/wcscmp.3                        |  10 +-
->  man3/wcscpy.3                        |  14 +-
->  man3/wcscspn.3                       |  10 +-
->  man3/wcsdup.3                        |  14 +-
->  man3/wcslen.3                        |   8 +-
->  man3/wcsncasecmp.3                   |  15 +-
->  man3/wcsncat.3                       |   8 +-
->  man3/wcsncmp.3                       |   8 +-
->  man3/wcsncpy.3                       |   6 +-
->  man3/wcsnlen.3                       |  10 +-
->  man3/wcsnrtombs.3                    |  12 +-
->  man3/wcspbrk.3                       |  10 +-
->  man3/wcsrchr.3                       |   8 +-
->  man3/wcsrtombs.3                     |  12 +-
->  man3/wcsspn.3                        |   8 +-
->  man3/wcsstr.3                        |   8 +-
->  man3/wcstoimax.3                     |  18 +-
->  man3/wcstok.3                        |   8 +-
->  man3/wcstombs.3                      |  14 +-
->  man3/wcswidth.3                      |   6 +-
->  man3/wctob.3                         |  12 +-
->  man3/wctomb.3                        |  16 +-
->  man3/wctrans.3                       |   6 +-
->  man3/wctype.3                        |   6 +-
->  man3/wcwidth.3                       |   6 +-
->  man3/wmemchr.3                       |   8 +-
->  man3/wmemcmp.3                       |   8 +-
->  man3/wmemcpy.3                       |  14 +-
->  man3/wmemmove.3                      |   8 +-
->  man3/wmemset.3                       |   6 +-
->  man3/wordexp.3                       |  16 +-
->  man3/wprintf.3                       |  48 +-
->  man3/xcrypt.3                        |   4 +-
->  man3/xdr.3                           |  12 +-
->  man3/y0.3                            |  10 +-
->  man3const/EOF.3const                 |   4 +-
->  man3const/EXIT_SUCCESS.3const        |   6 +-
->  man3const/NULL.3const                |   8 +-
->  man3head/printf.h.3head              |  22 +-
->  man3head/sysexits.h.3head            |  12 +-
->  man3type/FILE.3type                  |  16 +-
->  man3type/aiocb.3type                 |  18 +-
->  man3type/blkcnt_t.3type              |   2 +-
->  man3type/blksize_t.3type             |   2 +-
->  man3type/cc_t.3type                  |   2 +-
->  man3type/clock_t.3type               |   4 +-
->  man3type/clockid_t.3type             |  10 +-
->  man3type/dev_t.3type                 |   6 +-
->  man3type/div_t.3type                 |  10 +-
->  man3type/epoll_event.3type           |   4 +-
->  man3type/fenv_t.3type                |   4 +-
->  man3type/id_t.3type                  |  46 +-
->  man3type/intN_t.3type                |  10 +-
->  man3type/intmax_t.3type              |  12 +-
->  man3type/intptr_t.3type              |   8 +-
->  man3type/iovec.3type                 |   4 +-
->  man3type/itimerspec.3type            |   6 +-
->  man3type/lconv.3type                 |   8 +-
->  man3type/mode_t.3type                |  10 +-
->  man3type/off_t.3type                 |  28 +-
->  man3type/ptrdiff_t.3type             |   6 +-
->  man3type/size_t.3type                |  34 +-
->  man3type/sockaddr.3type              |  34 +-
->  man3type/stat.3type                  |  14 +-
->  man3type/time_t.3type                |  12 +-
->  man3type/timer_t.3type               |  10 +-
->  man3type/timespec.3type              |  14 +-
->  man3type/timeval.3type               |  18 +-
->  man3type/tm.3type                    |  20 +-
->  man3type/va_list.3type               |  16 +-
->  man3type/void.3type                  |  14 +-
->  man4/cciss.4                         |  18 +-
->  man4/console_codes.4                 |  30 +-
->  man4/cpuid.4                         |   6 +-
->  man4/dsp56k.4                        |  10 +-
->  man4/fd.4                            |  18 +-
->  man4/full.4                          |   6 +-
->  man4/fuse.4                          |  28 +-
->  man4/hd.4                            |   8 +-
->  man4/hpsa.4                          |  33 +-
->  man4/initrd.4                        |  16 +-
->  man4/intro.4                         |   6 +-
->  man4/lirc.4                          |  16 +-
->  man4/loop.4                          |  32 +-
->  man4/lp.4                            |  16 +-
->  man4/mem.4                           |   6 +-
->  man4/mouse.4                         |   6 +-
->  man4/null.4                          |   8 +-
->  man4/pts.4                           |  24 +-
->  man4/ram.4                           |   6 +-
->  man4/random.4                        |  34 +-
->  man4/rtc.4                           |  56 +--
->  man4/sd.4                            |  16 +-
->  man4/sk98lin.4                       |  12 +-
->  man4/smartpqi.4                      |  14 +-
->  man4/st.4                            |  28 +-
->  man4/tty.4                           |  28 +-
->  man4/ttyS.4                          |  12 +-
->  man4/vcs.4                           |  18 +-
->  man4/veth.4                          |  12 +-
->  man4/wavelan.4                       |  22 +-
->  man5/acct.5                          |  12 +-
->  man5/charmap.5                       |  12 +-
->  man5/core.5                          |  97 ++--
->  man5/dir_colors.5                    |  18 +-
->  man5/elf.5                           |  38 +-
->  man5/erofs.5                         |  12 +-
->  man5/filesystems.5                   |  46 +-
->  man5/ftpusers.5                      |   6 +-
->  man5/gai.conf.5                      |   4 +-
->  man5/group.5                         |  24 +-
->  man5/host.conf.5                     |  18 +-
->  man5/hosts.5                         |  14 +-
->  man5/hosts.equiv.5                   |   6 +-
->  man5/intro.5                         |   2 +-
->  man5/issue.5                         |   6 +-
->  man5/locale.5                        |  58 +--
->  man5/motd.5                          |   6 +-
->  man5/networks.5                      |  16 +-
->  man5/nologin.5                       |   6 +-
->  man5/nscd.conf.5                     |  10 +-
->  man5/nss.5                           |  18 +-
->  man5/nsswitch.conf.5                 |  32 +-
->  man5/passwd.5                        |  48 +-
->  man5/proc.5                          | 668 ++++++++++++++-------------=
-
->  man5/protocols.5                     |   2 +-
->  man5/repertoiremap.5                 |  10 +-
->  man5/resolv.conf.5                   |  36 +-
->  man5/rpc.5                           |   2 +-
->  man5/securetty.5                     |  12 +-
->  man5/services.5                      |  48 +-
->  man5/shells.5                        |   8 +-
->  man5/slabinfo.5                      |   2 +-
->  man5/sysfs.5                         |  12 +-
->  man5/termcap.5                       |  10 +-
->  man5/tmpfs.5                         |  37 +-
->  man5/ttytype.5                       |  14 +-
->  man5/tzfile.5                        |  24 +-
->  man5/utmp.5                          |  78 ++--
->  man7/address_families.7              |  38 +-
->  man7/aio.7                           |  76 +--
->  man7/armscii-8.7                     |   8 +-
->  man7/arp.7                           |  16 +-
->  man7/ascii.7                         |  34 +-
->  man7/attributes.7                    |  20 +-
->  man7/boot.7                          |  34 +-
->  man7/bootparam.7                     |  22 +-
->  man7/capabilities.7                  | 413 +++++++++--------
->  man7/cgroup_namespaces.7             |  34 +-
->  man7/cgroups.7                       |  74 +--
->  man7/charsets.7                      |  14 +-
->  man7/complex.7                       |  52 +--
->  man7/cp1251.7                        |  16 +-
->  man7/cp1252.7                        |  14 +-
->  man7/cpuset.7                        | 158 +++----
->  man7/credentials.7                   | 259 ++++++-----
->  man7/ddp.7                           |  20 +-
->  man7/environ.7                       | 110 ++---
->  man7/epoll.7                         | 117 ++---
->  man7/fanotify.7                      | 116 ++---
->  man7/feature_test_macros.7           |  58 +--
->  man7/fifo.7                          |  20 +-
->  man7/futex.7                         |  24 +-
->  man7/glob.7                          |  12 +-
->  man7/hier.7                          |  28 +-
->  man7/hostname.7                      |  20 +-
->  man7/icmp.7                          |   8 +-
->  man7/inode.7                         |  72 +--
->  man7/inotify.7                       | 142 +++---
->  man7/intro.7                         |   2 +-
->  man7/ip.7                            | 171 +++----
->  man7/ipc_namespaces.7                |  20 +-
->  man7/ipv6.7                          |  28 +-
->  man7/iso_8859-1.7                    |  12 +-
->  man7/iso_8859-10.7                   |   8 +-
->  man7/iso_8859-11.7                   |   8 +-
->  man7/iso_8859-13.7                   |   8 +-
->  man7/iso_8859-14.7                   |   8 +-
->  man7/iso_8859-15.7                   |  12 +-
->  man7/iso_8859-16.7                   |  10 +-
->  man7/iso_8859-2.7                    |  12 +-
->  man7/iso_8859-3.7                    |   8 +-
->  man7/iso_8859-4.7                    |   8 +-
->  man7/iso_8859-5.7                    |  14 +-
->  man7/iso_8859-6.7                    |   8 +-
->  man7/iso_8859-7.7                    |   8 +-
->  man7/iso_8859-8.7                    |   8 +-
->  man7/iso_8859-9.7                    |   8 +-
->  man7/keyrings.7                      | 152 +++---
->  man7/koi8-r.7                        |  14 +-
->  man7/koi8-u.7                        |  14 +-
->  man7/landlock.7                      |  86 ++--
->  man7/libc.7                          |  14 +-
->  man7/locale.7                        | 127 ++---
->  man7/mailaddr.7                      |   8 +-
->  man7/man-pages.7                     |  50 +-
->  man7/man.7                           |  42 +-
->  man7/math_error.7                    |  38 +-
->  man7/mount_namespaces.7              | 155 ++++---
->  man7/mq_overview.7                   |  94 ++--
->  man7/namespaces.7                    |  99 ++--
->  man7/netdevice.7                     |  20 +-
->  man7/netlink.7                       |  32 +-
->  man7/network_namespaces.7            |  37 +-
->  man7/nptl.7                          |  50 +-
->  man7/numa.7                          |  26 +-
->  man7/packet.7                        |  54 +--
->  man7/path_resolution.7               |  40 +-
->  man7/persistent-keyring.7            |  52 +--
->  man7/pid_namespaces.7                | 108 ++---
->  man7/pipe.7                          |  94 ++--
->  man7/pkeys.7                         |  34 +-
->  man7/posixoptions.7                  |  18 +-
->  man7/process-keyring.7               |  26 +-
->  man7/pthreads.7                      | 175 +++----
->  man7/pty.7                           |  56 +--
->  man7/queue.7                         |  12 +-
->  man7/random.7                        |  26 +-
->  man7/raw.7                           |  41 +-
->  man7/regex.7                         |   8 +-
->  man7/rtld-audit.7                    |  18 +-
->  man7/rtnetlink.7                     |  14 +-
->  man7/sched.7                         | 190 ++++----
->  man7/sem_overview.7                  |  61 +--
->  man7/session-keyring.7               |  54 +--
->  man7/shm_overview.7                  |  58 +--
->  man7/sigevent.7                      |  26 +-
->  man7/signal-safety.7                 |  38 +-
->  man7/signal.7                        | 372 +++++++--------
->  man7/sock_diag.7                     |  26 +-
->  man7/socket.7                        | 264 +++++------
->  man7/spufs.7                         | 140 +++---
->  man7/standards.7                     |  18 +-
->  man7/string_copying.7                | 176 +++----
->  man7/suffixes.7                      |   6 +-
->  man7/symlink.7                       | 174 +++----
->  man7/system_data_types.7             |  56 +--
->  man7/sysvipc.7                       |  66 +--
->  man7/tcp.7                           | 136 +++---
->  man7/termio.7                        |  22 +-
->  man7/thread-keyring.7                |  26 +-
->  man7/time.7                          | 124 ++---
->  man7/time_namespaces.7               |  48 +-
->  man7/udp.7                           |  68 +--
->  man7/udplite.7                       |  26 +-
->  man7/unicode.7                       |  14 +-
->  man7/unix.7                          | 166 +++----
->  man7/uri.7                           |  20 +-
->  man7/user-keyring.7                  |  44 +-
->  man7/user-session-keyring.7          |  44 +-
->  man7/user_namespaces.7               | 226 ++++-----
->  man7/utf-8.7                         |  14 +-
->  man7/uts_namespaces.7                |  32 +-
->  man7/vdso.7                          |  22 +-
->  man7/vsock.7                         |  40 +-
->  man7/x25.7                           |  12 +-
->  man7/xattr.7                         |  40 +-
->  man8/iconvconfig.8                   |   8 +-
->  man8/intro.8                         |   2 +-
->  man8/ld.so.8                         |  53 +--
->  man8/ldconfig.8                      |   4 +-
->  man8/nscd.8                          |  28 +-
->  man8/sln.8                           |   8 +-
->  man8/zdump.8                         |  12 +-
->  man8/zic.8                           |   6 +-
->  1100 files changed, 15657 insertions(+), 15493 deletions(-)
+> > It didn't take a genius to figure out that you could fake having
+> > additional styles by applying color attributes to man pages (as was
+> > done in GNU ls in early days--was it in "fileutils" back then?).
+> > This, too, started a tradition that persists to this day.
 >=20
-> diff --git a/man1/getent.1 b/man1/getent.1
-> index e9c5efb8a..4c9b419da 100644
-> --- a/man1/getent.1
-> +++ b/man1/getent.1
-> @@ -35,10 +35,10 @@ .SH DESCRIPTION
->  When no
->  .I key
->  is provided, use
-> -.BR sethostent (3),
-> -.BR gethostent (3),
-> +.MR sethostent 3 ,
-> +.MR gethostent 3 ,
->  and
-> -.BR endhostent (3)
-> +.MR endhostent 3
->  to enumerate the hosts database.
->  This is identical to using
->  .BR hosts .
-> @@ -47,7 +47,7 @@ .SH DESCRIPTION
->  arguments are provided, pass each
->  .I key
->  in succession to
-> -.BR getaddrinfo (3)
-> +.MR getaddrinfo 3
->  with the address family
->  .BR AF_UNSPEC ,
->  enumerating each socket address structure returned.
-> @@ -64,7 +64,7 @@ .SH DESCRIPTION
->  but use the address family
->  .BR AF_INET6 .
->  The call to
-> -.BR getaddrinfo (3)
-> +.MR getaddrinfo 3
->  in this case includes the
->  .B AI_V4MAPPED
->  flag.
-> @@ -73,17 +73,17 @@ .SH DESCRIPTION
->  When no
->  .I key
->  is provided, use
-> -.BR setaliasent (3),
-> -.BR getaliasent (3),
-> +.MR setaliasent 3 ,
-> +.MR getaliasent 3 ,
->  and
-> -.BR endaliasent (3)
-> +.MR endaliasent 3
->  to enumerate the aliases database.
->  When one or more
->  .I key
->  arguments are provided, pass each
->  .I key
->  in succession to
-> -.BR getaliasbyname (3)
-> +.MR getaliasbyname 3
->  and display the result.
->  .TP
->  .B ethers
-> @@ -92,9 +92,9 @@ .SH DESCRIPTION
->  arguments are provided, pass each
->  .I key
->  in succession to
-> -.BR ether_aton (3)
-> +.MR ether_aton 3
->  and
-> -.BR ether_hostton (3)
-> +.MR ether_hostton 3
->  until a result is obtained, and display the result.
->  Enumeration is not supported on
->  .BR ethers ,
-> @@ -106,59 +106,59 @@ .SH DESCRIPTION
->  When no
->  .I key
->  is provided, use
-> -.BR setgrent (3),
-> -.BR getgrent (3),
-> +.MR setgrent 3 ,
-> +.MR getgrent 3 ,
->  and
-> -.BR endgrent (3)
-> +.MR endgrent 3
->  to enumerate the group database.
->  When one or more
->  .I key
->  arguments are provided, pass each numeric
->  .I key
->  to
-> -.BR getgrgid (3)
-> +.MR getgrgid 3
->  and each nonnumeric
->  .I key
->  to
-> -.BR getgrnam (3)
-> +.MR getgrnam 3
->  and display the result.
->  .TP
->  .B gshadow
->  When no
->  .I key
->  is provided, use
-> -.BR setsgent (3),
-> -.BR getsgent (3),
-> +.MR setsgent 3 ,
-> +.MR getsgent 3 ,
->  and
-> -.BR endsgent (3)
-> +.MR endsgent 3
->  to enumerate the gshadow database.
->  When one or more
->  .I key
->  arguments are provided, pass each
->  .I key
->  in succession to
-> -.BR getsgnam (3)
-> +.MR getsgnam 3
->  and display the result.
->  .TP
->  .B hosts
->  When no
->  .I key
->  is provided, use
-> -.BR sethostent (3),
-> -.BR gethostent (3),
-> +.MR sethostent 3 ,
-> +.MR gethostent 3 ,
->  and
-> -.BR endhostent (3)
-> +.MR endhostent 3
->  to enumerate the hosts database.
->  When one or more
->  .I key
->  arguments are provided, pass each
->  .I key
->  to
-> -.BR gethostbyaddr (3)
-> +.MR gethostbyaddr 3
->  or
-> -.BR gethostbyname2 (3),
-> +.MR gethostbyname2 3 ,
->  depending on whether a call to
-> -.BR inet_pton (3)
-> +.MR inet_pton 3
->  indicates that the
->  .I key
->  is an IPv6 or IPv4 address or not, and display the result.
-> @@ -169,7 +169,7 @@ .SH DESCRIPTION
->  arguments are provided, pass each
->  .I key
->  in succession to
-> -.BR getgrouplist (3)
-> +.MR getgrouplist 3
->  and display the result.
->  Enumeration is not supported on
->  .BR initgroups ,
-> @@ -183,9 +183,9 @@ .SH DESCRIPTION
->  is provided, pass the
->  .I key
->  to
-> -.BR setnetgrent (3)
-> +.MR setnetgrent 3
->  and, using
-> -.BR getnetgrent (3)
-> +.MR getnetgrent 3
->  display the resulting string triple
->  .RI ( hostname ", " username ", " domainname ).
->  Alternatively, three
-> @@ -196,7 +196,7 @@ .SH DESCRIPTION
->  and
->  .I domainname
->  to match to a netgroup name via
-> -.BR innetgr (3).
-> +.MR innetgr 3 .
->  Enumeration is not supported on
->  .BR netgroup ,
->  so either one or three
-> @@ -207,122 +207,122 @@ .SH DESCRIPTION
->  When no
->  .I key
->  is provided, use
-> -.BR setnetent (3),
-> -.BR getnetent (3),
-> +.MR setnetent 3 ,
-> +.MR getnetent 3 ,
->  and
-> -.BR endnetent (3)
-> +.MR endnetent 3
->  to enumerate the networks database.
->  When one or more
->  .I key
->  arguments are provided, pass each numeric
->  .I key
->  to
-> -.BR getnetbyaddr (3)
-> +.MR getnetbyaddr 3
->  and each nonnumeric
->  .I key
->  to
-> -.BR getnetbyname (3)
-> +.MR getnetbyname 3
->  and display the result.
->  .TP
->  .B passwd
->  When no
->  .I key
->  is provided, use
-> -.BR setpwent (3),
-> -.BR getpwent (3),
-> +.MR setpwent 3 ,
-> +.MR getpwent 3 ,
->  and
-> -.BR endpwent (3)
-> +.MR endpwent 3
->  to enumerate the passwd database.
->  When one or more
->  .I key
->  arguments are provided, pass each numeric
->  .I key
->  to
-> -.BR getpwuid (3)
-> +.MR getpwuid 3
->  and each nonnumeric
->  .I key
->  to
-> -.BR getpwnam (3)
-> +.MR getpwnam 3
->  and display the result.
->  .TP
->  .B protocols
->  When no
->  .I key
->  is provided, use
-> -.BR setprotoent (3),
-> -.BR getprotoent (3),
-> +.MR setprotoent 3 ,
-> +.MR getprotoent 3 ,
->  and
-> -.BR endprotoent (3)
-> +.MR endprotoent 3
->  to enumerate the protocols database.
->  When one or more
->  .I key
->  arguments are provided, pass each numeric
->  .I key
->  to
-> -.BR getprotobynumber (3)
-> +.MR getprotobynumber 3
->  and each nonnumeric
->  .I key
->  to
-> -.BR getprotobyname (3)
-> +.MR getprotobyname 3
->  and display the result.
->  .TP
->  .B rpc
->  When no
->  .I key
->  is provided, use
-> -.BR setrpcent (3),
-> -.BR getrpcent (3),
-> +.MR setrpcent 3 ,
-> +.MR getrpcent 3 ,
->  and
-> -.BR endrpcent (3)
-> +.MR endrpcent 3
->  to enumerate the rpc database.
->  When one or more
->  .I key
->  arguments are provided, pass each numeric
->  .I key
->  to
-> -.BR getrpcbynumber (3)
-> +.MR getrpcbynumber 3
->  and each nonnumeric
->  .I key
->  to
-> -.BR getrpcbyname (3)
-> +.MR getrpcbyname 3
->  and display the result.
->  .TP
->  .B services
->  When no
->  .I key
->  is provided, use
-> -.BR setservent (3),
-> -.BR getservent (3),
-> +.MR setservent 3 ,
-> +.MR getservent 3 ,
->  and
-> -.BR endservent (3)
-> +.MR endservent 3
->  to enumerate the services database.
->  When one or more
->  .I key
->  arguments are provided, pass each numeric
->  .I key
->  to
-> -.BR getservbynumber (3)
-> +.MR getservbynumber 3
->  and each nonnumeric
->  .I key
->  to
-> -.BR getservbyname (3)
-> +.MR getservbyname 3
->  and display the result.
->  .TP
->  .B shadow
->  When no
->  .I key
->  is provided, use
-> -.BR setspent (3),
-> -.BR getspent (3),
-> +.MR setspent 3 ,
-> +.MR getspent 3 ,
->  and
-> -.BR endspent (3)
-> +.MR endspent 3
->  to enumerate the shadow database.
->  When one or more
->  .I key
->  arguments are provided, pass each
->  .I key
->  in succession to
-> -.BR getspnam (3)
-> +.MR getspnam 3
->  and display the result.
->  .RE
->  .SH OPTIONS
-> @@ -379,4 +379,4 @@ .SH EXIT STATUS
->  .IR database .
->  .RE
->  .SH SEE ALSO
-> -.BR nsswitch.conf (5)
-> +.MR nsswitch.conf 5
-> [DIFF TRUNCATED DUE TO IMMENSE SIZE AND VGER RESTRICTIONS]
+> Couldn=E2=80=99t they have rendered italics as a different color then?
 
---=20
-<http://www.alejandro-colomar.es/>
-GPG key fingerprint: A9348594CE31283A826FBDD8D57633D441E25BB5
+They could, and before long, they did.  The Linux console driver _today_
+by default (at least on my Debian-based box) renders bold in bright
+white (stroke thickness does not vary, I assume because the tiny font
+and therefore character cell size cannot accommodate anything wider),
+underscored cells in cyan, and "true" italics in (light) green.
 
+Back in the day (1990s) you'd get red for bold, I think, and blue for
+underscore (which was a stupid choice, because it had low contrast with
+the black background--but it stuck for years; this might also have been
+a factor in driving man page authors to use bold for everything).[1]
+Sometimes the colors were reversed, thanks to a magnificent own-goal in
+the chaotic days of early ncurses development.[2]  By the time _that_
+got fixed, followers of the displaced ncurses maintainer swore that
+they'd never use it or terminfo again, and pledged undying loyalty to
+S-Lang, the moldering corpse of termcap, or programming the terminal
+directly, because who cares about portability?  Some of these are the
+same people who will, upon considering any exhibit of code they don't
+like, play the "layering violation" card as the first or second move,
+often without any consideration of how that term actually _applies_.
 
---------------mUNlBtappm4CyS50XfLeJXlE--
+I would advise against anyone playing a drinking game wherein they throw
+one back every time I complain about something.  It'd be lethal.
 
---------------BM4PLl3gCVzQ6DBKXtDhQKgc
-Content-Type: application/pgp-signature; name="OpenPGP_signature.asc"
-Content-Description: OpenPGP digital signature
-Content-Disposition: attachment; filename="OpenPGP_signature"
+> > Anyway, an italic ellipsis in a synopsis is always wrong, I submit.
+>=20
+> If using mdoc, it=E2=80=99s less wrong to follow the established, if bad,
+> convention of making ellipses for arguments italic, I submit.
+
+If I see you from the MEDEVAC chopper, I'll wave.
+
+> > I also don't approve of the esthetics of boldfaced man page cross
+> > references.  They are neither typographically pleasant nor
+> > historically informed.
+>=20
+> And here you have my fullest agreement.
+
+I even persuaded Ingo.[3]  Not to change mandoc(1), but to concede the
+historical point.  Which feels to me like a bigger win anyway.
+
+> Wouldn=E2=80=99t it be easiest to let grotty use terminfo?   Then whoever
+> wishes to have colorful man pages would simply write a terminfo file
+> and set MANROFFOPT=3D-P-Txterm-colorful.
+
+Indeed.
+
+https://savannah.gnu.org/bugs/?63583
+
+Regards,
+Branden
+
+[1] As far as I know, it was a long time before anyone in the free Unix
+    world bothered to support SGR 3 [real italics].  I have no doubt
+    that the ritual auto-da-f=C3=A9 of loyalty to Teletype Model 37-esque
+    overstriking largely accounts for this passivity.  It is a bitter
+    indictment of our community that we stuck to stuff like ul(1) and
+    col(1) to massage the output of nroff(1) when even Unix Version 7
+    (1979) nroff countenanced the achievement of stylistic markup via
+    escape sequences, as I confirmed first-hand.
+
+    https://lists.gnu.org/archive/html/groff/2022-06/msg00048.html
+
+    ...just not for the default output device.  The Teletype was
+    manufactured by Western Electric.  This is the same company--the
+    same subsidiary of the AT&T monopoly--that manufactured telephones.
+    Our community's loyalty to overstriking is closely analogous to
+    insisting upon being able to connect a rotary dial telephone to the
+    existing network.  No, worse--to placing a rotary dial on everyone's
+    mobile phone by default and requiring an upgrade to touch-tone
+    dialing.  (And yes, I know mobile communications are not conducted
+    using DTMF; even land lines migrated away from that after the phone
+    phreaks figured out how to issue administrative commands in-band via
+    that means.  That's the point.  The zombie inertia in this area is
+    breathtaking.  Is it unconscious rather than deliberate?  So much
+    the worse.)
+
+[2] https://invisible-island.net/ncurses/ncurses.faq.html#interchanged_colo=
+rs
+[3] https://lists.gnu.org/archive/html/groff/2021-08/msg00034.html
+
+--2wa4bw67atuqqd5a
+Content-Type: application/x-troff-man
+Content-Disposition: attachment; filename="ellipsis-spacing.man"
+Content-Transfer-Encoding: quoted-printable
+
+=2ETH foo 7 2023-07-31 "groff test suite"=0A.SH Name=0Afoo \- frobnicate a =
+bar=0A.SH Description=0ALet us distinguish an ellipsis .\|.\|.\&=0Afrom a m=
+ere series of three dots ...=0A.P=0ASee you later!=0A
+--2wa4bw67atuqqd5a
+Content-Type: image/png
+Content-Disposition: attachment; filename="ellipsis-spacing.png"
+Content-Transfer-Encoding: base64
+
+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
+Q/alq3oumpz3rj537O0LTZ5/3XZxHIuI7L1Nock5btP0dqJTvJ7beE2I1O+/Tcs/dIYTALx1
+5x471x03i5xx7HzIlhdSsVWSUn/s7+n7fr4f6XQ6rcyjSVqt1+vt3MpD72ddZzsxvf90cRsS
+AHhvfN/Pt9TT+zQXt1Lyfb/0nrhYLNRkMlGGYeRb7PV6PeX7vorjOM9Lv88X93ju9/uq2+3m
+79v9fn/rVobFvNf3iV4ul5XpittI6Xqu12Xb8fWyLcsq7YutrzdxHOdbPuljup10mxTrUqeu
+ms5bbx06mUwqz18pVWpny7JUHMdqMpmobrerptNp/pg6bb5On3fxOR4Oh2oymTQ6//W27vf7
+ldfXOuc9nU5Vt9vNy51Op/n1N47jfLsvXSe9r/l6XZfLZb5HufzfFpt6S9M6z79+TvW5FvvF
+rr5f5xyb9q0qp3w9122TQ+pdt//WKX/XaxoAvgSXGDvvGzcrdd6x85VSSjUJUiRJIjc3NzKb
+zSojHVmWSZIkYprm3vtJmqQV+RwF1/cHVkVjdH62be+N1jiOI7Zt1/qGAgDwB/3t5rb3Wv1e
+3Ol0dk6trpuuad2yLCtdU6IoqnVd2KVJXfe1z3o6/a11lmVb09fN85LeQh3rPv9NPi+s53/p
+c2yqrddE3f7bVvkA8B5cauy8b9xczO8cY+fGQQfP88T3/YtNg9OrpB8TLJjP5xKGIQsbAQAA
+AABaccmx8ynGzSKnGTvvXdMhyzIZDAb5PSFhGF50dsBoNJLr6+uDTzpJEonjmIADAAAAAOBk
+3tLY+dhxs8jpxs57ZzqkaSrX19f5yuNvZcDeZKVNLU3TfGEzAAAAAABO5S2OnQ8ZN4ucduxc
+6/YKvT/47e3tQftyAgAAAADwpWPsvKnxmg4AAAAAAAB17F3TAQAAAAAA4BAEHQAAAAAAQCsI
+OgAAAAAAgFYQdAAAAAAAAK0g6AAAAAAAAFpB0AEAAAAAALSCoAMAAAAAAGgFQQcAAAAAANAK
+gg4AAAAAAKAVBB0AAAAAAEArCDoAAAAAAIBWEHQAAAAAAACtIOgAAAAAAABaQdABAAAAAAC0
+gqADAAAAAABoBUEHAAAAAADQCoIOAAAAAACgFQQdAAAAAABAKwg6AAAAAACAVhB0AAAAAAAA
+rSDoAAAAAAAAWkHQAQAAAAAAtIKgAwAAAAAAaAVBBwAAAAAA0AqCDgAAAAAAoBUEHQAAAAAA
+QCsIOgAAAAAAgFYQdAAAAAAAAK0g6AAAAAAAAFpB0AEAAAAAALSCoAMAAAAAAGgFQQcAAAAA
+ANAKgg4AAAAAAKAVBB0AAAAAAEArCDoAAAAAAIBWEHQAAAAAAACtIOgAAAAAAABaQdABAAAA
+AAC0gqADAAAAAABoBUEHAAAAAADQCoIOAAAAAACgFQQdAAAAAABAKwg6AAAAAACAVhB0AAAA
+AAAArSDoAAAAAAAAWkHQAQAAAAAAtIKgAwAAAAAAaAVBBwAAAAAA0AqCDgAAAAAAoBUEHQAA
+AAAAQCsIOgAAAAAAgFYQdAAAAAAAAK0g6AAAAAAAAFpB0AEAAAAAALSCoAMAAAAAAGgFQQcA
+AAAAANCKb/YlSNNU0jQtHTNNU2zb3kibZZkkSbJx3HGcI6oIAAAAAADeo71BhyzLxHVdeXl5
+KR0Pw7AymJCmqfi+Ly8vL9Lr9eTu7u50tQUAAAAAAO/GlVJK7UuUZZk4jlMKPBiGIUmSSKfT
+2UifpqlcX1/LcrkU0zRPW2MAAAAAAPAu1FrTwTTNjVkNq9VKBoOBZFm2kV4HIgg4AAAAAADw
+9Wq0kGSv1yv9/+XlRVzXPWmFAAAAAADAl2Hvmg5Ftm3L3d2djMfj/Njj46OYpime59XKI01T
+SZJE4jiW6+trsW17Y1HKqsUr9UyLKIokDEO5ubmRwWCQ/z3LMpnP5/mtIFULXRYV83Ech1kZ
+AAAAAACcWOMtM0ejkQyHw9Kxh4cHmc/nOx+XZZkMBgOxbTtf82E2m8nNzY10Op3Srhdpmorr
+unJ7e5v/6PUjbm9v5eHhQe7u7sS27TzY0Ol0ZDwey/39vdzc3GydgTGfz8U0TXFdV25ubmQ2
+m0mn05EgCJo2BQAAAAAA2KHWQpIikg/i9YwG27Y3FpaMoiifYXB1dSXFrEejkTw+Pkq/388D
+FFmWyYcPH/LHp2mazziYz+elnS96vV4+w2I0GslqtRIRkeFwKGmayv39vSRJIvf39/lj4jgu
+zXiIokhub29FRGQ2m+VrUug6bNuRAwAAAAAANNd4poMWRZFYlpX/f7VayWg0qlxYUuTzbRgi
+Ik9PT/mshuItDavVqjRbYv12B8/zZDAY5D/FekRRJI7jbMxuiKKo9P/pdJr/roMLpmnm5+H7
+/p6zBgAAAAAAdR0cdDBNU+bzuRiGkR97eXkpBQSK9CKUhmFsXT9hsVhsLa84Y6H4+KotO7Xl
+cpn/nqapPD8/78zj6elpa14AAAAAAKCZRgtJrrNtWzzPKy0s+fz8XLmegp6RYNt2HrCI4/iY
+4hvZtjCliGysJ7ErkAEAAAAAAOo5Kugg8nl9hcViIQ8PD/mx4u9Ftm3LdDqVIAjEtu1SsKJt
+YRiW/q8XlAQAAAAAAO04+PaKIs/zNna0WKd3mHh4eBDHcSSKoq23YrRBLyCpFWc3AAAAAACA
+0ztJ0EHkc+Ch2+1W/i1N09KOE+ec4aCt3zJB0AEAAAAAgHadLOhQtbCkFkVRHnAo2rbTRRs6
+nU6+mKXI550qiuVnWSa2bZ+1TgAAAAAAfMlqBx3SNJX5fL5zUN7pdDa2qdTHi1zXFdd1ZTAY
+lIIUWZblj18vp7gQ5HqwoC7P8/LfX19fxbbtvC56jQnWeQAAAAAA4DT2Bh30oo9PT0/5QH3X
+Wgy2bYvv+6VjjuNIv9/P///y8iJJkojneTIajfLjOqgxn89Lx3UeaZqK67ry+PhYykunLe5I
+oeteDDTYti1hGIplWSLyOfDw8PAgQRDI/f39RpkAAAAAAOBwV0op1UbGnudtbJ2ZJIlkWSam
+aYpt2/lxPbtBb6d5DsUZGevBCgAAAAAAcLzWgg4AAAAAAODrdrKFJAEAAAAAAIoIOgAAAAAA
+gFYQdAAAAAAAAK0g6AAAAAAAAFpB0AEAAAAAALSCoAMAAAAAAGgFQQcAAAAAANAKgg4AAAAA
+AKAVBB0AAAAAAEArCDoAAAAAAIBWEHQ4kyzLxHVdGY1G0ul0ZDQaSZZll67WUdo8pyzLZD6f
+y2g0kiRJTpJnMW/btsV13ZPm+9a12aYAAAAAUIWgw5k4jiM3NzcSBIEMBgN5fHx89wO/Ns9p
+Op3KdDqVx8fHkwdn0jSVl5cXmc/nJ833rWuzTQEAAACgCkGHMwiCQF5eXmQwGIiIiOd5Eoah
+OI5z4Zodru1z8jyvtfaxbVviOJYoilrJvyjLMknTtPVy6mizTQEAAACgCkGHM4jjeOPYex/8
+vfdzsm1bOp1O6+W4rvtmgg4AAAAAcG4EHc7gSxx0fonndGpBEMjj4+OlqwEAAAAAF0PQoUVB
+EIjjOPk6B47jiOM4GwsYpmkqo9Eo/9m1KGOTtJc6p/l8LoPBQFzXlfl8LqZpimmaeaDikHNw
+XVdM05Srqyuxbbt0a0Sapvm6Eq7rSpIk4jiOXF1dSafT2biNIkkScV23cqZDlmUyGo1kMBjk
+datacNJ13bw8x3FkMBiU6u+6rozH4/x3x3EkCIJSHUajkTiOI6Zpltp0n31l17WrTeuWte+5
+BgAAAPCVU2hdr9dT25o6jmNlGIbyfT8/tlwulWVZyrIstVwuD0rbtm3n5Pt+/rd+v68mk4ka
+DodKRFQcx43OYTKZKBFRvV5PTSYTNZvN8rxERIVhqJT63C46bb/fV8PhUIVhqGazmTIMQxmG
+kecZhmGedr3+i8VCGYah4jjeqMNkMtk4VqyrZVmq1+uV8tPpdD21OI5Vr9fLH6/P3zAMtVgs
+drZ73bL3PX5fm9Ypa99zDQAAAAAEHc5gV9Ch1+upbre7cdz3/Xwwd0jatu06p9lstrU+Tc6h
+asBfPF4caIdhqEREDYfDUtp+v1858K8KOuiBeJHOt3hcn3txMF7VHtuCDpZlqdlsVpl2vfx1
+dcvepkmb1ilr13MNAAAAAN+0M38CdaRpKs/PzzIcDjf+NhqNZDwey9PTk2RZJlmW1U5rmuZG
+mizLak/fN01TbNtufkKFx4vIxu0LTc63eA63t7eltPf39/Lw8CDPz88badfPve5ikUmSyPPz
+s9zf35eOO44jSqnSsSAISuXq56duOa+vrzKdTsX3/fy4vh1h33N0TNlFddq0TlnbnmsAAAAA
+EBEh6HBBeqBZFSQQEen1evL8/FwaiNZJW7WLRJIkGwPNbXq9XivbSTY53107YZimKd1uV15e
+XvamratuQEbkjwF2FEUShqF8+PCh9mN1uwZBcFBg55iyd6lq07bKAgAAAPD1IOjwBjQZ8DZJ
+W2TbtoRhWCvttqDAqRx6DkW6jqeq62KxEBGpNWtALzapZwOISO22XS6Xtcs5ddn7rLdpm2UB
+AAAA+DoQdLggPbjbNwi3bbv29Ptt357rHRIuqcn51mEYxlG3gRRdX1+LyOdB9WAw2Ph7mqb5
+N/+O40iWZQft0FAsZ9uMFNM0t96ucEzZdRTbtO2yAAAAAHz52DLzgmzbFsuyZLVaVd7OkCSJ
+DIfDfI2FumnfqlOeg95y8lR0oOHx8XEjKJIkSb7+QpIk8vLy0mgNg+KgXQcagiDYKCfLMvF9
+f2veh5TdRLFN2y4LAAAAwNeBoMMZVX1jPJ/PRURkOp2WjnueV/q3adpzqTqnXd+MH3IO67ci
+eJ4nnU5nY9HHKnVvYzBNUyaTiYiI3NzciOu6Mp/PxXVdGQwGeVk6IPL8/CxRFEmWZeJ5Xh5A
+SNM0/13PaojjWEQ+r43Q6XRkOBzKarUSx3HE8zyJokg8zxPHcWQ8Hu+sY92ym7bLepvWLYtZ
+EAAAAAB2+bfvvvvuu0tX4kuVpqlMp1P5z//8TxER+fXXX2W1WpVuCfj222/lr3/9q0RRJD/+
++KN8+vRJoiiSn3/+Wf7xj3/It99+e1DaS52T53ny448/ym+//SafPn2Sq6sr+fjxo/z5z39u
+fA7X19fy66+/yvfffy9pmsrPP/8sQRDIn/70JwmCoHS7xnfffSevr6/y6dMn+fDhg9i2LUEQ
+yPfffy//+7//K7/++qt8/PhRfvvtN/nuu+/k5eVFRER+//13ub6+FtM05fb2Vn7//Xf55Zdf
+5JdffpH5fC5/+tOfZD6f5/UyTTNP89NPP8lsNpPxeCymacovv/wiP/74o3z8+FFs25ZOpyO+
+78u//vUv+f777+Xm5kZs25a//OUvopTKB/Q//fSTKKXkhx9+2Hm7SJOyt6nbpnXK+p//+R95
+fn7e+lwDAAAAwJVa3w8QF5OmqaRpKrZt773FoEnat6rJOejbMc6xLoXeXrTT6Wy9vSBNU8my
+rDTAj6Jo41x0XlXnWKecY8rep06bnqosAAAAAF8ngg4AAAAAAKAVrOkAAAAAAABaQdABAAAA
+AAC0gqADAAAAAABoBUEHAAAAAADQCoIOAAAAAACgFQQdAAAAAABAKwg6AAAAAACAVhB0AAAA
+AAAArSDoAAAAAAAAWkHQAQAAAAAAtIKgAwAAAAAAaAVBBwAAAAAA0AqCDgAAAAAAoBUEHQAA
+AAAAQCsIOgAAAAAAgFYQdAAAAAAAAK0g6AAAAAAAAFpB0AEAAAAAALTim30JkiSRLMv2ZuQ4
+zkkq9Ba4ritpmsrd3Z0MBoMvrjwAAAAAAM7hSimldiVIkkRms5k8PDyUjne73TzQMJ/P5fX1
+VbrdrozHYxmNRu3VuGVBEMh4PBYREcMwJE1TMU3zJHmnaSqdTuds5QEAAAAAcEl7b6+wbVs8
+z5Ner1c67nle/pOmqQyHQ3l5eZHxeCy2bdeaHfEWLRaL/PfVaiVpmp4k3yzLxLbts5UHAAAA
+AMClnWxNhyAI8sDEy8uLOI7zLgMP4/FYLMsSEZHJZFIZKDiE4ziyWq3OVh4AAAAAAJe2d02H
+JsbjsTw/P4vI58CD67oSBMEpi2hdp9M5+WyD0WgkLy8vZysPAAAAAIC34KRBh8FgIIZh5N/o
+Pz4+yv39/cY6BlEUSRiGcnNzI47jVK5hkGWZRFEkcRzL7e2t2Ladr3ewnp/I5/USoiiSxWIh
+t7e3+XoTWZZJkiSltLZti2ma+XoV4/E4H/yvBwB0PlV/07MS5vO5ZFkmjuNszFQYjUby+PhY
+Onf92CzLtpa3LkmS/LFV5Wyrn2mapfZmoUoAAAAAwNmomnq9nhKR/CcMw1rpptNp/rfZbKYM
+w1DdblfNZjPV7/eVYRjK9/1SHnEc5+mm06maTCbKMIzKcpfLZV7mZDJRk8lEiYiyLEvFcawW
+i4Xq9/sbdR8OhxvHwjBUlmWVjmthGKput7txbrpe+qff76vlcqmUUmo6nZb+1qQ8bbFYlM7P
+931lGEZ+frvqN5vNNo51u928fgAAAAAAtOnkQQc96Nc/k8lEKfV5UFwcDCv1OWBQlZ8eyC8W
+i/xYHMcb6ZbLZT6o1uUopfI8LcvaOCYiqtfrqW63WwoY6MfPZrOtQYDiOegBfBzHarlclgIb
+/X5/62PW7SpvsVjkdSyen25jwzA2Ag/FvCzLUr7v58Ge9XMFAAAAAKBNJ1tIcht9a8N0Os2P
+6VsITNPMF1H0fV9EPt9+oG/PKN4uYNu2DIfDUt6u6+ZrJdze3ubHDcMQEZHX19ed9ZrP52IY
+hhiGkW9b2WS7yvv7+/wWBv14EZGnp6fa6zTsKm80GuVtcXNzkx/X57parXZuT+p5noxGIxkM
+BqV067ebAAAAAADQhtaDDqZpSpqm+QKT+pim12d4enraeOzt7a24rpvvghEEQWmthuJaCcW1
+EPQWnzqQUZWvfkyWZZJlWeU6EXXOrap8Edladl112kzk84Kd24IITQIoAAAAAACcWutBh6rd
+GRzHyX+KA+Y0TcW27XymgojIw8ODfPjwoRR8ENn9bf1oNJIoirbOAjjHtpTHbhe6a6ZE1cKc
+AAAAAAC8NSfdvUJkMxhwd3cns9msdGw+n+/8Fj6KInEcJ7+1QORz8CGKIomiKN95oijLsjf1
+zf6x22A2uQViuVweVRYAAAAAAG04+UyH4mDZsiyxbbu03sJ6mip6e8zhcFia9fDy8pKvDbE+
+W+GtrVNw7GyKJo//8OHDUWUBAAAAANCGkwYd5vN5aXZCEAQisnk7wK4AQRAE+WyGIAjy4MP6
+Y9fzDMPw6Pqf0vX19VGP3xV0WL91Y309CQAAAAAA3oKTBh2KO1T4vp8PhjudjvR6vdLfigPn
+LMvEtm3JskwWi0VpEUYdfNCP18GG9TyDINgIZiRJcvRtDnXN5/P8d8MwZDAYVKYrLoq5i2ma
+pWDLtvUser3eWdaoAAAAAACgqdpBh/Vv14uDV7W8RwAAFcRJREFU+SRJxLZteXl5EcMwZDab
+bSzi6Hle/vvr66vYti2u64rrumLbtozH43xNhqenp62D8ru7u1Ke+vaL1WoljuOI53kSRVGe
+d6fT2aj7rlkR60GKXQtCuq4raZpKmqalgMv9/X1+LuvrTIxGI3FdVxaLxd7yiudXrLP+3TCM
+UrvWda5ADAAAAADgK6f2mE6nqtvtKhHZ+Ol2u8owDGVZlur3+8r3fbVcLrfmFYahsiyrlIdh
+GMr3/TzNZDJRlmWpbrer+v2+mkwmqt/vKxFR0+l0I884jivrN5lM1HK5VIvForLM4XCoFotF
+KS/f95VhGKW0lmXl6cIwLP1tOp2W8jYMQ00mk406DofD0uOGw2Gt8pRSarlcql6vl5/TZDJR
+hmGoXq+n4jjO081ms43z1HlNp9ON9un1evueegAAAAAAjnKllFJtBjWqFLd4XF+PIE1TMU1T
+TNPMZxGIfF7jYNfuFEmS5LME9qU9pt7FRTHDMBTHcfLz2VWurl+n09lYj6KOYlscmgcAAAAA
+AOd0kaDDe7Ut6AAAAAAAADadfMtMAAAAAAAAEYIOjexaTBMAAAAAAJQRdKgpCIKNHTlc1904
+BgAAAAAAPmNNBwAAAAAA0ApmOgAAAAAAgFYQdAAAAAAAAK0g6AAAAAAAAFpB0AEAAAAAALSC
+oAMAAAAAAGgFQYcWBUEgrutu/ERRdOmqnVWWZRIEgQwGg41zz7JMbNsW13VPVtYp8zu1Q+qX
+ZZnM53MZjUYSBEGLtTuvJEnE8zyxbbvW8XM9t2+9DzWVZVm+vW+n05HRaCRZll26WnhD3lOf
+P7Y/fwnvp7uuqQAAvEkKrQrDUImIEhHV7/fVcrm8dJXObjKZKMuylIioMAxLf4vjWImIsizr
+JGWdOr9TO6R+vu+rXq+nRERNJpMWa3c+YRiqyWSSvzb2HVfqfM/tW+9DTXW7XTWbzZRSKm/b
+9dchvm7vqc8f25+/hPfTXddUAADeIoIOZ6A/HLT1AWe5XKrFYtFK3qey68NhHMcH1X/beR+a
+37kcUj/dfu/1Q/I23W53I7iw6/i5ntu33ofq8n1/ox0ZpKDKe+jzh/TnquvEl/B+eooA4nv4
+7AAA+DJwe8UZdDqdVvN3XVfSNG21jDbZtn1QG20770PzO5e3Xr9zMk2z0fFztd2X8hzFcbxx
+zHGcC9QEb9176POH9Of3fn1sE20DADgXgg7vXBAE8vj4eOlqnN3Xet5AEwwo8CVp2p+5TmxH
+2wAAzomgwxuWJImMRiNxHEdM0xTHcSRJkvzvruvKeDzOf3ccZ+vCWEmSyGAwKKXJskw8zxPH
+cTa+LcqyTEajUb745WAwqL3ImH7sYDDI/911jq7rbnzDtqv8Xee9Lb80TfOFt1zXlSRJxHEc
+ubq6kk6nU7kYl66DPge90FoURRJFkWRZ1rhdDznfdfP5XDqdTl73+Xy+tX3XFfN2HEcGg0Fp
+EbZD2qnKvr57iKq2Ky6o5rruRtusvx7qtPMpnqNLC4Kg1Oa6L+r6zufzUpuZpimmaeaDujRN
+876/bcG+Yts7jpO3z9XVlVxdXeVlRVGU9yHTNBst3revv1Y5db329eV9bVknj13nUqfPHVvH
+bX2+bt2PeW3U6Wv7+nOVutfHfe+nddquznN7zHtik2tqnfbc1zbv6b0OAPBOXPr+jq/BIYtW
+xXGser1evvDkcrlUlmUpwzBK92A2ua9z232sun5Fw+GwlG6xWKher7e3jOVyqQzDUL7vl87F
+MIyNeu5aNHBf+VXnvW8RQv23fr+vhsOhCsNQzWYzZRiGMgxj41y63W6pDvrxvV5PTSaT/Hmo
+266nOF9dp/W611mgVOdRTGtZVqmcQ9ppXd2+W9VG245va7vionDdbjev72QyyfucXnROqf3t
+fMxz9BZVtW+xzfr9vppMJmo4HCoRUXEc56/X4mtYP4eWZeXP62KxyNvKsqy87ReLRb4mx2Qy
+yV8rcRzn/eBU/bXKKeu1ry/va8s6eexSp88dW8d975t16n7oa6NuX9O2vV9ss+36WPf9tM5r
+pU77HNMHmlxTm7Tnrs8O7/G9DgDwthF0OINDgg6WZZUGS0pVD27bCjoYhqGGw2HpWPGDzDbD
+4VB1u93K49vqWfVhd1/5u867Kj+l/thJZD3ffr+/kZdesKx4bLFY5EGHoibteuz5rpexq13X
+6foUP3hW1bFJO1Wp23e3lb/reFXbzWazyrz1c1hckb9uvz7kOXqLtrWjbrN+v1/5mKrXsG7P
+4mP0a2I9vU67/pw0eb+q21+rnKpedfryrrasm8c2dfrcKeqoVHWfr1v3Q18bTfqaTn/KoEOd
+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
+AAAASUVORK5CYII=
+
+--2wa4bw67atuqqd5a--
+
+--e5qjyh4ossuqe7wm
+Content-Type: application/pgp-signature; name="signature.asc"
 
 -----BEGIN PGP SIGNATURE-----
 
-iQIzBAEBCgAdFiEE6jqH8KTroDDkXfJAnowa+77/2zIFAmTILAYACgkQnowa+77/
-2zL7sA//Y/GHY5qJWvgXv49RvYBcFi2f0Qhy7J34Wu1XtFUB118svZu5PTAcMQlr
-Nwc3A7XJbGA21Ml4mG6pc6PUd29jwa2KWtCaq4ej3zjizbRP/55CkBLcLahTgLfg
-3YAHvaJRenZK0rKxSysWbPbpH+DoyVfn/pX3OBU7cwaONLBFy/9vfW2Ki+Qr48er
-lybXjlRBWOhDpy2uMDtyPiWjidAGEmyyvEEQjSfvU7cP33qGC3CFcKmk8fXMCT2o
-XK338lTFYfdsoAzofTI0QPMuMH5yqAejmFtkCY5wntCkLxqHTdVwcpKjtFgXs2/y
-THnlj5XWz66M4E2nzoQzVlUfgf5qr8OtZBio5N59timAnOQnL+EKlbTePeXPm4M6
-JDe/yMJ/SF6POySZd9M4efr39Z9Jys+GnY0mMXM/fl+5vbaTqA+8Xi02c89TesoC
-8XrJ7FU9pS5QWidPFd5DQH7X5Ru38Zb0T/BHcwp858fovmAIvyIuP5fQ9PG3GHqz
-7LpuXycOX3QtYi3CSZhnq4zKajNBdhtLgdlEBsAQ6xZ30K7Pcrmk0E2Z4kThYFiQ
-tVvf0Tf4cN3rB/CBh4uHLJVc3fScVXMPy4E1nsSmsHUl1IwgdlmrIKvp6uzmHtSd
-ZI43DBxsAUPsVwDRVzDTg13OfqAa2z9TRa/obXV49IQ3w489w50=
-=pxLA
+iQIzBAABCAAdFiEEh3PWHWjjDgcrENwa0Z6cfXEmbc4FAmTIM6MACgkQ0Z6cfXEm
+bc6fUA//YcjSY5MvsQNnt/nf9dQ8/o5GN6M6cf7kIg/IGHYWng+jcxeREA8iSq6H
+CjsMjD2y+pO/gcH3lx78OP85ITjQ9HTMRs4B5pqShbuKtEjMHCAmyRHmN105PdYV
+dtpd1WuThhqIR68lBjd/OYJSuQl/oWZDLTlQ8JgqMV3nFGcw+z9990nWZ0+RXjgE
+PmnNotD7noVaCXZ6zHt0kQFm1jlSzFpfd7X5O/jyhCNL04RQxjrY4bAKw/k5CmnQ
+IUdRCQkspoXCK4Lu2/dRe/vRKxHAZCLZXEtyLYWe+aSK7viS3FDnNf1NLbxO9C22
+KUZtEqV00QYv+u357fnYVB+p5GxhxreLQzwkk0NaTuFR0nTXBUiYFVeqeyw9wgOB
+6qlYmBzQRICkcAvDoBE4tvVGI6PSH7bh3jW/ZuhX6YTzbJZNJoKhbcz541AnPMTt
+pb93uLq/ogPlpHt2/kGiSpXpEwZZ9OAL+GbDISX75eNLeho/7tVA9EtQQ0HEgArU
+pkD5dbCD4ml/MFfuCsKVil4zqmFZ93vP4x8v0UrTnELEy55D2UrqYuTEHhfakzpR
+LAxAZyfswlZaLJyJdzAiXrcGF99zJq2Ij8mlEyOlsOeWvRHJJbRy8Ri9LI5G39dq
+Jyi5O/BfvbBw+qfY0p58wWI1ADtyDElHWJFtogs/4WE5vGzqhIk=
+=hJNt
 -----END PGP SIGNATURE-----
 
---------------BM4PLl3gCVzQ6DBKXtDhQKgc--
+--e5qjyh4ossuqe7wm--
