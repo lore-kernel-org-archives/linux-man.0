@@ -2,130 +2,87 @@ Return-Path: <linux-man-owner@vger.kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 504E0C04A94
-	for <linux-man@archiver.kernel.org>; Fri,  4 Aug 2023 15:03:41 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 32875C0015E
+	for <linux-man@archiver.kernel.org>; Mon,  7 Aug 2023 01:17:42 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S229584AbjHDPDk (ORCPT <rfc822;linux-man@archiver.kernel.org>);
-        Fri, 4 Aug 2023 11:03:40 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:44180 "EHLO
+        id S230354AbjHGBRl (ORCPT <rfc822;linux-man@archiver.kernel.org>);
+        Sun, 6 Aug 2023 21:17:41 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:53418 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S230262AbjHDPDj (ORCPT
-        <rfc822;linux-man@vger.kernel.org>); Fri, 4 Aug 2023 11:03:39 -0400
-Received: from tarta.nabijaczleweli.xyz (tarta.nabijaczleweli.xyz [139.28.40.42])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTP id EC0854C02
-        for <linux-man@vger.kernel.org>; Fri,  4 Aug 2023 08:03:30 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=nabijaczleweli.xyz;
-        s=202305; t=1691161409;
-        bh=Qzw6XNAPedoIorwXFASpI6R9qkrd4gjA7dvs6CQJBGw=;
-        h=Date:From:To:Subject:References:In-Reply-To:From;
-        b=V3mni5VAVM3n6kQXk87AeZZpXhyU/e7ODF3F8pKJhvNS8K87+gGAyK81xjW5qZCse
-         iyv+cfJzcCPlhfPs+RwOG5ePpamHtWRNhEbknMQ9qXdj0K5LaY3mBkB9hov9hlk/z3
-         5uvlB13Jzt7h/Jo2HCQhS4zS6OA9JEcdbGhVTd/TIuHz9m2fbvpG1tRIiIFj4ONaRm
-         p1b9vbpLiUAF3NjsIGx0oeqg0/WIETm7FrV5AudWc5TmRmkpfnakrUel4/gbSq/JDX
-         o5nK4VwAjBluLacaVVKqfZ1fowrzfkhJuuunDVfeTSO6KtWHqxkhteUkvcMOdKcSPb
-         /jdPGo4wwW1GA==
-Received: from tarta.nabijaczleweli.xyz (unknown [192.168.1.250])
-        by tarta.nabijaczleweli.xyz (Postfix) with ESMTPSA id 942F65716;
-        Fri,  4 Aug 2023 17:03:29 +0200 (CEST)
-Date:   Fri, 4 Aug 2023 17:03:28 +0200
-From:   =?utf-8?B?0L3QsNCx?= <nabijaczleweli@nabijaczleweli.xyz>
-To:     Guillem Jover <guillem@hadrons.org>,
-        Alejandro Colomar <alx@kernel.org>, linux-man@vger.kernel.org
-Subject: [PATCH v3] fsync.2: no writability requirements
-Message-ID: <6y74nb7ygo2r2amygscvzzzjaqaglgusebkk5jrr2ephf4lomr@vvalk7o3hqkj>
-References: <5lp4wlvjlptmb6iklqi57qgznrnwkvntlykadli3xnarevhmrz@x23swc6t3qap>
+        with ESMTP id S229470AbjHGBRk (ORCPT
+        <rfc822;linux-man@vger.kernel.org>); Sun, 6 Aug 2023 21:17:40 -0400
+X-Greylist: delayed 90 seconds by postgrey-1.37 at lindbergh.monkeyblade.net; Sun, 06 Aug 2023 18:17:39 PDT
+Received: from omta002.cacentral1.a.cloudfilter.net (omta002.cacentral1.a.cloudfilter.net [3.97.99.33])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id C4F371711
+        for <linux-man@vger.kernel.org>; Sun,  6 Aug 2023 18:17:39 -0700 (PDT)
+Received: from shw-obgw-4002a.ext.cloudfilter.net ([10.228.9.250])
+        by cmsmtp with ESMTP
+        id SddjqpQdp6NwhSoquq8KTm; Mon, 07 Aug 2023 01:16:08 +0000
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=shaw.ca; s=s20180605;
+        t=1691370968; bh=LKpxX/KvYCljehCiQqGOFW/TLikSm23BbkfUUnCxWtg=;
+        h=From:To:Cc:Subject:Date;
+        b=uf/dgT82UfF2gOOhtRnTwl0wYXOfM3uTDQsBm/lZueN24mkRi03TpWuLO1L47uqOX
+         Vq5Tzyl22lCoMnG24QgogYBB1u5r0vlNeJuW0QZsGa9l0ssNW6P7qE0Ass81nRhZkr
+         N6ZlE9qxZPcr7EwFENhf/9ehw6AzDGhddveh1s9xo37mM9mPNrxYZtstIeT+3CLhkt
+         m6L0BrfU6MTkWFPR0TTkhgZQnj5URBTii/BuWm9pecHu20uv11iGsBqaz1E4hAYN3U
+         vghyDgo6Ai7EKhwDAbQ92RtvQ266TcM1CRbLdQYu+QrxPD3KM/U/JxC2PZdaG5v1Kk
+         n1hG07UrBAXEQ==
+Received: from BWINGLISD.cg.shawcable.net. ([184.64.102.149])
+        by cmsmtp with ESMTP
+        id SoqtqjLjYyAOeSoqtqgNla; Mon, 07 Aug 2023 01:16:08 +0000
+X-Authority-Analysis: v=2.4 cv=e5oV9Il/ c=1 sm=1 tr=0 ts=64d045d8
+ a=DxHlV3/gbUaP7LOF0QAmaA==:117 a=DxHlV3/gbUaP7LOF0QAmaA==:17 a=_Dj-zB-qAAAA:8
+ a=vXAFJ_YfTBguEfhQoZ4A:9
+From:   Brian Inglis <Brian.Inglis@Shaw.ca>
+To:     linux-man@vger.kernel.org
+Cc:     Alejandro Colomar <alx@kernel.org>,
+        Brian Inglis <Brian.Inglis@Shaw.ca>
+Subject: [PATCH] scripts/LinuxManBook/gropdf: use symlink instead of hard coded groff version
+Date:   Sun,  6 Aug 2023 19:16:01 -0600
+Message-Id: <094c0eacf60998465be28c605bef69f2f5742459.1691370798.git.Brian.Inglis@Shaw.ca>
+X-Mailer: git-send-email 2.39.0
 MIME-Version: 1.0
-Content-Type: multipart/signed; micalg=pgp-sha512;
-        protocol="application/pgp-signature"; boundary="f6g5ecpz57d733sg"
-Content-Disposition: inline
-In-Reply-To: <5lp4wlvjlptmb6iklqi57qgznrnwkvntlykadli3xnarevhmrz@x23swc6t3qap>
-User-Agent: NeoMutt/20230517
+Content-Transfer-Encoding: 8bit
+X-CMAE-Envelope: MS4xfKDaqE/WnojK2hwmiFqw2rITvuLzFJIaEA6YTTB6D8c/zHMBhqsQjtAE0YSyyM+c/nTnlUiMkLMr0jE4qvv9vSHsS/oOxubJ5QVNmXVJXp3XgylohnN+
+ 1hRsvlF/Q3Lm13mlAvUP1x4TXTM8usP/7d7ivgnLwn2P5lxcfWyjYa86peAglXPcnUhLGw1H04pJ/9wC9ZXMKeHrcZb1DcTukwsOkoEQXgQpBSJjBYY7VXK+
+ RSQwbE/VtAMVAnMx/glL6kC2UTuUIWTdKaD/JzXwuaOwA9FbshTJPIzVmlrVOAXCHWY6TQymK43m85wSRbzj1g==
 Precedence: bulk
 List-ID: <linux-man.vger.kernel.org>
 X-Mailing-List: linux-man@vger.kernel.org
 
+man-pages custom script gropdf has hard coded groff version used in font path
+groff provides symlink current for version to avoid the issue; use it in gropdf
+specify failing font path used to open font description file in error message
 
---f6g5ecpz57d733sg
-Content-Type: text/plain; charset=utf-8
-Content-Disposition: inline
-Content-Transfer-Encoding: quoted-printable
-
-Since Issue 3 (original release), fsync() was required to operate on
-all valid fds. Since Issue 7 2018, fdatasync() is as well (and required
-writability only by editorial mistake):
-  https://www.austingroupbugs.net/view.php?id=3D501
-
-"Some UNIXes require the fd to be writable" is a
-needlessly-adversarial-to-the-user =E2=80=92
-  https://101010.pl/@eater@cijber.social/110824211348995583
-=E2=80=92 way of saying "HP-UX and AIX have always been broken": just say t=
-hat.
-
-Originally appeared in 4.2BSD (4.1c.2BSD) so touch that as well since
-we're mentioning the original interface.
-
-Signed-off-by: Ahelenia Ziemia=C5=84ska <nabijaczleweli@nabijaczleweli.xyz>
+Signed-off-by: Brian Inglis <Brian.Inglis@Shaw.ca>
 ---
- man2/fsync.2 | 15 ++++++++-------
- 1 file changed, 8 insertions(+), 7 deletions(-)
+ scripts/LinuxManBook/gropdf | 6 +++---
+ 1 file changed, 3 insertions(+), 3 deletions(-)
 
-diff --git a/man2/fsync.2 b/man2/fsync.2
-index 1043e6a1b..036af0a9e 100644
---- a/man2/fsync.2
-+++ b/man2/fsync.2
-@@ -155,16 +155,10 @@ .SH VERSIONS
- .\" POSIX.1-2001: It shall be defined to -1 or 0 or 200112L.
- .\" -1: unavailable, 0: ask using sysconf().
- .\" glibc defines them to 1.
--.PP
--On some UNIX systems (but not Linux),
--.I fd
--must be a
--.I writable
--file descriptor.
- .SH STANDARDS
- POSIX.1-2008.
- .SH HISTORY
--POSIX.1-2001, 4.3BSD.
-+POSIX.1-2001, 4.2BSD.
- .PP
- In Linux 2.2 and earlier,
- .BR fdatasync ()
-@@ -181,6 +175,13 @@ .SH HISTORY
- or
- .BR sdparm (8)
- to guarantee safe operation.
-+.PP
-+Under AT&T UNIX System V Release 4
-+.I fd
-+needs to be opened for writing.
-+This is by itself incompatible with the original BSD interface
-+and forbidden by POSIX,
-+but nevertheless survives in HP-UX and AIX.
- .SH SEE ALSO
- .BR sync (1),
- .BR bdflush (2),
---=20
-2.39.2
+diff --git a/scripts/LinuxManBook/gropdf b/scripts/LinuxManBook/gropdf
+index 8474e583f57d..fb205395015b 100755
+--- a/scripts/LinuxManBook/gropdf
++++ b/scripts/LinuxManBook/gropdf
+@@ -58,8 +58,8 @@ else
+ 
+ my %cfg;
+ 
+-$cfg{GROFF_VERSION}='1.22.4';
+-$cfg{GROFF_FONT_PATH}='/usr/share/groff/site-font:/usr/share/groff/1.22.4/font:/usr/lib/font';
++$cfg{GROFF_VERSION}='current';
++$cfg{GROFF_FONT_PATH}="/usr/share/groff/site-font:/usr/share/groff/$cfg{GROFF_VERSION}/font:/usr/lib/font";
+ $cfg{RT_SEP}=':';
+ binmode(STDOUT);
+ 
+@@ -690,7 +690,7 @@ sub LoadDesc
+     my $f;
+ 
+     OpenFile(\$f,$fontdir,"DESC");
+-    Msg(1,"Failed to open 'DESC'") if !defined($f);
++    Msg(1,"Failed to open 'DESC' in '$fontdir'") if !defined($f);
+ 
+     while (<$f>)
+     {
+-- 
+2.39.0
 
---f6g5ecpz57d733sg
-Content-Type: application/pgp-signature; name="signature.asc"
-
------BEGIN PGP SIGNATURE-----
-
-iQIzBAABCgAdFiEEfWlHToQCjFzAxEFjvP0LAY0mWPEFAmTNE0AACgkQvP0LAY0m
-WPEWlxAAhLPwohlRSuDYnGZUyRckfWrXf+d64/jFpSyl4PUByn3hGCKX/Qdj4QcU
-0qWMhVb/pFNZl50C2wMTQXZBNxIArPDBbrqpUkDMDUoJZpZjBJznmpyn0YpxeWAY
-X5flPfquMN7kP8oybAPx09Z9mvhPdUjqzciiW1w/Bz4sSKJWpxWQA+aTOQAhAng0
-ZBSnJA1WMKCqPv5JUZ/G513lRkDFKUjCZXgpe/3oLGveNpcUQCmI/78rIZTavpTi
-yJ6EkwpiAxeu+0HzFk6YrEqZl1e3RvFnoTj+fDXiuE7hUVIfUpkZh9MUBvxPW8hu
-0Ias2cG4GtBwAuFdGuUyPmnNw2XBBCLkvgsNc5+B35GrCOcva926rJ52sZFqk7bf
-+MWVbG5aaZ9k4Zlf7mlh+OLWoXYzpeFsLzijW1dN8i2RW8CXfGJd5eHb6e0B1fTk
-UpnFVltlRZBvOLl/qYu4CjeQrxqsQbnNVdbHkoHlcDy/NdcuEtDVheKfUUbXIODu
-AA4MLIhG4tKBETlzyj0iqjGgmGzfw+k1tiptuaQQGEhUqmF6ckBJ0NA6GaBlazRN
-dEbyoT84PaqmQ03SUg8IvYJ3ncpK2s+ubHwIDp1sov1jd1mRGvwKYrNxJBC5Jf5U
-QNOKaZ1YxDQBUa/o0SxVLme3v9YQasmmx+gToffhmaNAuJjjbro=
-=UdkB
------END PGP SIGNATURE-----
-
---f6g5ecpz57d733sg--
