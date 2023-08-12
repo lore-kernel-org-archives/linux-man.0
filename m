@@ -2,79 +2,122 @@ Return-Path: <linux-man-owner@vger.kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 62720C04A6A
-	for <linux-man@archiver.kernel.org>; Sat, 12 Aug 2023 19:20:52 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 7887CC0015E
+	for <linux-man@archiver.kernel.org>; Sat, 12 Aug 2023 20:10:35 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S229766AbjHLTUr (ORCPT <rfc822;linux-man@archiver.kernel.org>);
-        Sat, 12 Aug 2023 15:20:47 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:37526 "EHLO
+        id S231209AbjHLUKb (ORCPT <rfc822;linux-man@archiver.kernel.org>);
+        Sat, 12 Aug 2023 16:10:31 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:51868 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S229475AbjHLTUq (ORCPT
-        <rfc822;linux-man@vger.kernel.org>); Sat, 12 Aug 2023 15:20:46 -0400
-X-Greylist: delayed 1001 seconds by postgrey-1.37 at lindbergh.monkeyblade.net; Sat, 12 Aug 2023 12:20:47 PDT
-Received: from smtpout2.mo529.mail-out.ovh.net (smtpout2.mo529.mail-out.ovh.net [79.137.123.220])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 8300F19A4
-        for <linux-man@vger.kernel.org>; Sat, 12 Aug 2023 12:20:47 -0700 (PDT)
-Received: from mxplan6.mail.ovh.net (unknown [10.108.20.27])
-        by mo529.mail-out.ovh.net (Postfix) with ESMTPS id 62E3220D1A;
-        Sat, 12 Aug 2023 19:04:04 +0000 (UTC)
-Received: from jwilk.net (37.59.142.98) by DAG4EX1.mxp6.local (172.16.2.31)
- with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id 15.1.2507.31; Sat, 12 Aug
- 2023 21:04:03 +0200
-Authentication-Results: garm.ovh; auth=pass (GARM-98R0027ed3b39e-2457-45fb-94cd-93eb0d64c377,
-                    1D58BEC4FDBFA159762EB1A57AE992C71166E087) smtp.auth=jwilk@jwilk.net
-X-OVh-ClientIp: 5.172.255.228
-Date:   Sat, 12 Aug 2023 21:04:01 +0200
-From:   Jakub Wilk <jwilk@jwilk.net>
-To:     Alejandro Colomar <alx@kernel.org>
-CC:     =?utf-8?B?0L3QsNCx?= <nabijaczleweli@nabijaczleweli.xyz>,
-        <linux-man@vger.kernel.org>
-Subject: Re: [PATCH] tmpfs.5: document size/blocks=0 and nr_inodes=0 <=>
+        with ESMTP id S231223AbjHLUKa (ORCPT
+        <rfc822;linux-man@vger.kernel.org>); Sat, 12 Aug 2023 16:10:30 -0400
+Received: from tarta.nabijaczleweli.xyz (tarta.nabijaczleweli.xyz [139.28.40.42])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTP id F3EF5E6F
+        for <linux-man@vger.kernel.org>; Sat, 12 Aug 2023 13:10:06 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=nabijaczleweli.xyz;
+        s=202305; t=1691870612;
+        bh=HXgVfQLpUe3BJLUsz2ZIKbmHFu4wapyJ7B0L02ZZaaQ=;
+        h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+        b=IhxOmEMqUV/8LeY9o+Tvu2u86w+ZEGN6nm67NgrLCiVI/Xdj6LYz/Wi19qgPCbyJl
+         Nwf+PWhjO6M5+KoC4FPO+7RZciMVwnFcjuVAjy0w5V71OWoakbDOGlyNSAcZrh/ert
+         yhc6d9GM3mFQBA9LlDjYebSmCSUhRhQtbmInG+0OLBLNaBXvp5AKvN+XF8qlbJ0GKA
+         83HEZS8YHns7e8YmfogdZ4ExtYcQR2kQeOZe3M85z0n9e6WYTOSalMXopG5I4gy/6n
+         Ne7BF2p7wFTYCGFn97ohajF9GyyPOtwlwcIFr9a1/DjFO28tZIaYCeTmxKrq0ICe26
+         vCPp1l5x6vZuw==
+Received: from tarta.nabijaczleweli.xyz (unknown [192.168.1.250])
+        by tarta.nabijaczleweli.xyz (Postfix) with ESMTPSA id 0D51C8398;
+        Sat, 12 Aug 2023 22:03:32 +0200 (CEST)
+Date:   Sat, 12 Aug 2023 22:03:30 +0200
+From:   =?utf-8?B?0L3QsNCx?= <nabijaczleweli@nabijaczleweli.xyz>
+To:     alx@kernel.org
+Cc:     linux-man@vger.kernel.org
+Subject: [PATCH v2] tmpfs.5: document size/blocks=0 and nr_inodes=0 <=>
  unlimited
-Message-ID: <20230812190401.4bf7xay4fws43tza@jwilk.net>
-References: <s5j5wmngs2hpb5yx7frmb2uq5hc3clcpyfr65tzwmu3263bvc4@go2wfetupvjj>
- <118e7b3e-9d89-32f0-781f-0e74fc7279fe@gmail.com>
+Message-ID: <yqduyx6v7k3ziu2fcwoqibrwwrg2fznga6l5xsvwgxvnkcsu4m@gqbl5hu4bw5m>
+References: <20230812190401.4bf7xay4fws43tza@jwilk.net>
 MIME-Version: 1.0
-Content-Type: text/plain; charset="us-ascii"; format=flowed
+Content-Type: multipart/signed; micalg=pgp-sha512;
+        protocol="application/pgp-signature"; boundary="byhriauexhe3rg6e"
 Content-Disposition: inline
-In-Reply-To: <118e7b3e-9d89-32f0-781f-0e74fc7279fe@gmail.com>
-X-Originating-IP: [37.59.142.98]
-X-ClientProxiedBy: DAG7EX1.mxp6.local (172.16.2.61) To DAG4EX1.mxp6.local
- (172.16.2.31)
-X-Ovh-Tracer-GUID: 1002aa44-ba3e-4703-8a41-a87ca83fe02e
-X-Ovh-Tracer-Id: 15538544617716635613
-X-VR-SPAMSTATE: OK
-X-VR-SPAMSCORE: 0
-X-VR-SPAMCAUSE: gggruggvucftvghtrhhoucdtuddrgedviedruddttddgudeftdcutefuodetggdotefrodftvfcurfhrohhfihhlvgemucfqggfjpdevjffgvefmvefgnecuuegrihhlohhuthemucehtddtnecunecujfgurhepfffhvfevuffkfhggtggujghisehttdertddttddvnecuhfhrohhmpeflrghkuhgsucghihhlkhcuoehjfihilhhksehjfihilhhkrdhnvghtqeenucggtffrrghtthgvrhhnpeeutddtteelhfffuddvhefgfedujeeltdekheduveekkeelfeduuedvgeejudffgfenucfkphepuddvjedrtddrtddruddpfeejrdehledrudegvddrleekpdehrddujedvrddvheehrddvvdeknecuvehluhhsthgvrhfuihiivgeptdenucfrrghrrghmpehinhgvthepuddvjedrtddrtddruddpmhgrihhlfhhrohhmpeeojhifihhlkhesjhifihhlkhdrnhgvtheqpdhnsggprhgtphhtthhopedupdhrtghpthhtoheprghlgieskhgvrhhnvghlrdhorhhgpdhnrggsihhjrggtiihlvgifvghlihesnhgrsghijhgrtgiilhgvfigvlhhirdighiiipdhlihhnuhigqdhmrghnsehvghgvrhdrkhgvrhhnvghlrdhorhhgpdfovfetjfhoshhtpehmohehvdelpdhmohguvgepshhmthhpohhuth
+In-Reply-To: <20230812190401.4bf7xay4fws43tza@jwilk.net>
+User-Agent: NeoMutt/20230517
 Precedence: bulk
 List-ID: <linux-man.vger.kernel.org>
 X-Mailing-List: linux-man@vger.kernel.org
 
-* Alejandro Colomar <colomar.6.4.3@gmail.com>, 2023-08-12 20:08:
->>Bitten by this again. Behaviour blames back to at least 2005 (so 
->>probably original to shmem.c), documented upstream in tmpfs.txt.
 
-(I've been bitten by this too!)
+--byhriauexhe3rg6e
+Content-Type: text/plain; charset=utf-8
+Content-Disposition: inline
+Content-Transfer-Encoding: quoted-printable
 
->This is a bit unclear to me.  I guess you refer to the Linux kernel as 
->"upstream", but the Linux kernel repository doesn't have a tmpfs.txt 
->file.  I recall that they moved their .txt docs to .rst, so would you 
->please share the full link to the .txt file that you refer?  That way 
->you can ask git(1) to show the history of that file even if it doesn't 
->exist now.
+Bitten by this again. Behaviour blames back to at least 2005
+(probably original to shmem.c), documented upstream in
+Documentation/filesystems/tmpfs.rst (formerly .txt).
 
-You can ask git for history of tmpfs.txt even if you don't know the 
-exact location, although admittedly it's pretty slow:
+For example:
+  # mount -t tmpfs -o size=3D0 tmpfs /etc/
+  # df /etc/
+  Filesystem 1k-blocks Used Avail Use% Mounted on
+  tmpfs              0    0     0    - /etc
+  # head -c100M  < /dev/urandom > /etc/passwd
+  # df /etc/
+  Filesystem 1k-blocks Used Avail Use% Mounted on
+  tmpfs              0    0     0    - /etc
+  # ls -l /etc/passwd
+  -rw-r--r-- 1 0 0 104857600 08-12 19:55 /etc/passwd
+  # du /etc/passwd
+  204800  /etc/passwd
+whereas the current manual insinuates head should ENOSPC instantly.
 
-    $ git log --oneline -1 '**/tmpfs.txt'
-    7e7cd458b810 docs: filesystems: convert tmpfs.txt to ReST
+Signed-off-by: Ahelenia Ziemia=C5=84ska <nabijaczleweli@nabijaczleweli.xyz>
+---
+ man5/tmpfs.5 | 4 ++++
+ 1 file changed, 4 insertions(+)
 
-    $ git show --oneline --stat 7e7cd458b810
-    7e7cd458b810 docs: filesystems: convert tmpfs.txt to ReST
-     Documentation/filesystems/index.rst                |  1 +
-     Documentation/filesystems/{tmpfs.txt => tmpfs.rst} | 44 +++++++++++++++++++++++++++++---------------
-     2 files changed, 30 insertions(+), 15 deletions(-)
+diff --git a/man5/tmpfs.5 b/man5/tmpfs.5
+index cdd5f2fd8..5274e632d 100644
+--- a/man5/tmpfs.5
++++ b/man5/tmpfs.5
+@@ -51,6 +51,8 @@ .SS Mount options
+ .BR size "=3D\fIbytes\fP"
+ Specify an upper limit on the size of the filesystem.
+ The size is given in bytes, and rounded up to entire pages.
++The limit is removed if the size is
++.BR 0 .
+ .IP
+ The size may have a
+ .BR k ,
+@@ -89,6 +91,8 @@ .SS Mount options
+ The maximum number of inodes for this instance.
+ The default is half of the number of your physical RAM pages, or (on a
+ machine with highmem) the number of lowmem RAM pages, whichever is smaller.
++The limit is removed if the number is
++.BR 0 .
+ .IP
+ Inodes may be specified with
+ .BR k ,
+--=20
+2.39.2
 
--- 
-Jakub Wilk
+--byhriauexhe3rg6e
+Content-Type: application/pgp-signature; name="signature.asc"
+
+-----BEGIN PGP SIGNATURE-----
+
+iQIzBAABCgAdFiEEfWlHToQCjFzAxEFjvP0LAY0mWPEFAmTX5ZIACgkQvP0LAY0m
+WPGvMw//VaynhZfoQDwIdZHyI56e/83J/Psxaf77HcKXpM5T6QOwpqoUCBIQnXM+
+/sR5Yq6RfFuqFIejt8eJx3DVBVa/um0VDuY9lvH3D3g+fvCykUx7CVx82kRoJ8ef
+KM98u56FxWZiSwZ7K1A7n6gyFPWAcxJ/xnKkeESfuR8Sqbi8O5sllk2q1t09ao+C
+mMqxFmnRsbDCd8YSTy3tiAsh6dzrB+2Hl6esZLgrmE4nBzv7IVwPoOMXZeDnPjkF
+67oHnG5prhv15VxhXn9WdSi7UwnLBW6f3a0qFmW2DqsL2T+9K/iJuUqItNW8w8O9
+PuAC4bxT88GHyGOQMc45wq51sfFwWJ4pc386euVb0A88eUjteTcEE1K+dRi6WMO1
+fmNpIOngFOeREmURU/O7gwwVEqVoocfQLQVsODfcw9e5JwuE9zwUSWXh9gdhccMG
+PivH93mcdwFgkylGSTBjWyC8lA8AwAbjOEGMzv3pOywRjWcMYOiqZYcnjNwRwKAa
+S2BA+J7l4r0vyrmT6N0LvMbU6WHOEBqd4U26tShs0tGvqlmXnCvx7z38N+BYHEMf
+QJ1K1Bpe3S2lQ31la+fAbNYRLzfhIH1k4MQ8PSjzSi/QJE4kH4Vo44qZMCtqK0kR
+UiY3I4+aIwVrbDNM608LW+K7j40MK8M3/c+ObeBJuMd0L4MlTrE=
+=+gMR
+-----END PGP SIGNATURE-----
+
+--byhriauexhe3rg6e--
