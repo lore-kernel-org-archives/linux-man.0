@@ -2,130 +2,142 @@ Return-Path: <linux-man-owner@vger.kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 68F59C0015E
-	for <linux-man@archiver.kernel.org>; Sat, 12 Aug 2023 20:24:51 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 65B68C001B0
+	for <linux-man@archiver.kernel.org>; Sat, 12 Aug 2023 20:49:04 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S229749AbjHLUYr (ORCPT <rfc822;linux-man@archiver.kernel.org>);
-        Sat, 12 Aug 2023 16:24:47 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:41286 "EHLO
+        id S229649AbjHLUtA (ORCPT <rfc822;linux-man@archiver.kernel.org>);
+        Sat, 12 Aug 2023 16:49:00 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:33588 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S229558AbjHLUYq (ORCPT
-        <rfc822;linux-man@vger.kernel.org>); Sat, 12 Aug 2023 16:24:46 -0400
-Received: from queue02a.mail.zen.net.uk (queue02a.mail.zen.net.uk [212.23.3.234])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 2C710ED
-        for <linux-man@vger.kernel.org>; Sat, 12 Aug 2023 13:24:48 -0700 (PDT)
-Received: from [212.23.1.21] (helo=smarthost01b.ixn.mail.zen.net.uk)
-        by queue02a.mail.zen.net.uk with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
-        (Exim 4.90_1)
-        (envelope-from <deri@chuzzlewit.myzen.co.uk>)
-        id 1qUupQ-0003A7-5X
-        for linux-man@vger.kernel.org; Sat, 12 Aug 2023 20:03:16 +0000
-Received: from [82.71.22.80] (helo=pip.localnet)
-        by smarthost01b.ixn.mail.zen.net.uk with esmtpsa (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
-        (Exim 4.90_1)
-        (envelope-from <deri@chuzzlewit.myzen.co.uk>)
-        id 1qUuoR-0007U5-ME; Sat, 12 Aug 2023 20:02:15 +0000
-From:   Deri <deri@chuzzlewit.myzen.co.uk>
-To:     linux-man@vger.kernel.org, Brian.Inglis@shaw.ca
-Cc:     Alejandro Colomar <alx@kernel.org>
-Subject: Re: No 6.05/.01 pdf book available
-Date:   Sat, 12 Aug 2023 21:02:15 +0100
-Message-ID: <3258129.44csPzL39Z@pip>
-In-Reply-To: <7f020624-ebc9-5eb8-b87f-8f954a8084a0@Shaw.ca>
-References: <094c0eacf60998465be28c605bef69f2f5742459.1691370798.git.Brian.Inglis@Shaw.ca> <21975186.EfDdHjke4D@pip> <7f020624-ebc9-5eb8-b87f-8f954a8084a0@Shaw.ca>
+        with ESMTP id S229596AbjHLUs7 (ORCPT
+        <rfc822;linux-man@vger.kernel.org>); Sat, 12 Aug 2023 16:48:59 -0400
+Received: from dfw.source.kernel.org (dfw.source.kernel.org [IPv6:2604:1380:4641:c500::1])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 9B37E10F2
+        for <linux-man@vger.kernel.org>; Sat, 12 Aug 2023 13:49:02 -0700 (PDT)
+Received: from smtp.kernel.org (relay.kernel.org [52.25.139.140])
+        (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+         key-exchange X25519 server-signature RSA-PSS (2048 bits))
+        (No client certificate requested)
+        by dfw.source.kernel.org (Postfix) with ESMTPS id 2B54E60FAD
+        for <linux-man@vger.kernel.org>; Sat, 12 Aug 2023 20:49:02 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id CF84EC433C8;
+        Sat, 12 Aug 2023 20:49:00 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+        s=k20201202; t=1691873341;
+        bh=JCAgJIfBcBA8QuvsvxJY4RL1MAkIC1RUp0SljhycwD0=;
+        h=Date:Subject:To:Cc:References:From:In-Reply-To:From;
+        b=WjIMcGTD3QyBIsvRP8CR9xAw4zdxPZbGkL/0hBAUfcXDsVbxpJKPPS/wORfTF8u/E
+         TSOnR7D5xZzF1E+tAG9hL6pUJniTxg5VkaFw2T0J9JtBbwucqukcanuR9Nnmp72g/m
+         0UiuyH0yid3WIsduRn8KxWjFoBOxK2V15PohlSbdB9zui9kqbWcdcig86ZmRZSs/YC
+         8EimPRnlzu9YI6CChKgVoEIb8GO3us2NMGYNSrAaDQaniKNeQEpANjOOV6miKxGJuz
+         li0R9Fh5L4yJ5+rdIlLEqByXCmCmF60QG1vB6I2pOz7AOkdYHTP+evnOyV5XMn0NIA
+         VmOYTbEKQk0Kg==
+Message-ID: <40ecd524-8914-1dac-ef85-130cedd799a3@kernel.org>
+Date:   Sat, 12 Aug 2023 22:48:58 +0200
 MIME-Version: 1.0
-Content-Transfer-Encoding: 7Bit
-Content-Type: text/plain; charset="us-ascii"
-X-Originating-smarthost01b-IP: [82.71.22.80]
-Feedback-ID: 82.71.22.80
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
+ Thunderbird/102.13.1
+Subject: Re: [PATCH] tmpfs.5: document size/blocks=0 and nr_inodes=0 <=>
+ unlimited
+Content-Language: en-US
+To:     Jakub Wilk <jwilk@jwilk.net>
+Cc:     =?UTF-8?B?0L3QsNCx?= <nabijaczleweli@nabijaczleweli.xyz>,
+        linux-man@vger.kernel.org
+References: <s5j5wmngs2hpb5yx7frmb2uq5hc3clcpyfr65tzwmu3263bvc4@go2wfetupvjj>
+ <118e7b3e-9d89-32f0-781f-0e74fc7279fe@gmail.com>
+ <20230812190401.4bf7xay4fws43tza@jwilk.net>
+From:   Alejandro Colomar <alx@kernel.org>
+Organization: Linux
+In-Reply-To: <20230812190401.4bf7xay4fws43tza@jwilk.net>
+Content-Type: multipart/signed; micalg=pgp-sha256;
+ protocol="application/pgp-signature";
+ boundary="------------6WzngeDq0wTvTfudpMl4WkzC"
 Precedence: bulk
 List-ID: <linux-man.vger.kernel.org>
 X-Mailing-List: linux-man@vger.kernel.org
 
-On Saturday, 12 August 2023 18:02:24 BST Brian Inglis wrote:
-> On 2023-08-07 17:14, Deri wrote:
-> > On Monday, 7 August 2023 09:45:22 BST Alejandro Colomar wrote:
-> >> Nevertheless, now I remember Deri told me he hardcoded a lot of stuff
-> >> for 1.22.4 which should be removed after the release of 1.23.0, so it
-> >> seems that the time has come to chop a lot of stuff from there.
-> >> 
-> >> Deri, would you mind simplifying the scripts assuming a Build-dep of
-> >> groff(>=1.23.0)?
-> > 
-> > Hi Alex, Brian,
-> > 
-> > I have done some work on building the pdf. One improvement is any warnings
-> > output by groff, i.e. use of the deprecated .PDF macro, now identify the
-> > particular man page and line number accurately.
-> > 
-> > I have attached two new replacement LinuxManBook directories. The first,
-> > 1.23.0, will run on a stock groff 1.23.0 system. The second, 1.23.0+, runs
-> > with the latest gropdf which has a number of advantages for this project -
-> > you will find the resulting pdf to be more than 5mb smaller, and the page
-> > numbers in the overview pane match up with the page number at the bottom
-> > of each page.
-> > 
-> > The file NewGropdf.pdf contains description of some of the features in the
-> > new gropdf.
-> > 
-> > Both of these should continue to work if the groff version changes, thanks
-> > to Brian's helpful suggestion to include /usr/share/groff/current in the
-> > font path, but I have achieved this by specifying it in an -F flag rather
-> > than patching gropdf.
-> 
-> Nice work Deri!
-> 
-> The official 6.05.01 book hyphenates words across page breaks more than
-> standard 1.23.0 and new 1.23.0+ gropdf books.
+This is an OpenPGP/MIME signed message (RFC 4880 and 3156)
+--------------6WzngeDq0wTvTfudpMl4WkzC
+Content-Type: multipart/mixed; boundary="------------kJbc0bHaHOKyhEX2aTidFQyL";
+ protected-headers="v1"
+From: Alejandro Colomar <alx@kernel.org>
+To: Jakub Wilk <jwilk@jwilk.net>
+Cc: =?UTF-8?B?0L3QsNCx?= <nabijaczleweli@nabijaczleweli.xyz>,
+ linux-man@vger.kernel.org
+Message-ID: <40ecd524-8914-1dac-ef85-130cedd799a3@kernel.org>
+Subject: Re: [PATCH] tmpfs.5: document size/blocks=0 and nr_inodes=0 <=>
+ unlimited
+References: <s5j5wmngs2hpb5yx7frmb2uq5hc3clcpyfr65tzwmu3263bvc4@go2wfetupvjj>
+ <118e7b3e-9d89-32f0-781f-0e74fc7279fe@gmail.com>
+ <20230812190401.4bf7xay4fws43tza@jwilk.net>
+In-Reply-To: <20230812190401.4bf7xay4fws43tza@jwilk.net>
 
-Hi Brian,
+--------------kJbc0bHaHOKyhEX2aTidFQyL
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: quoted-printable
 
-I'd like to investigate this to understand why this is happening, please can 
-you give me example page numbers which illustrate this.
+On 2023-08-12 21:04, Jakub Wilk wrote:
+> * Alejandro Colomar <colomar.6.4.3@gmail.com>, 2023-08-12 20:08:
+>>> Bitten by this again. Behaviour blames back to at least 2005 (so=20
+>>> probably original to shmem.c), documented upstream in tmpfs.txt.
+>=20
+> (I've been bitten by this too!)
+>=20
+>> This is a bit unclear to me.  I guess you refer to the Linux kernel as=
+=20
+>> "upstream", but the Linux kernel repository doesn't have a tmpfs.txt=20
+>> file.  I recall that they moved their .txt docs to .rst, so would you =
 
-> File sizes are official 6.05.01 ~13.3MB, 200k more than standard 1.23.0
-> ~13MB, which is >~5MB more than new 1.23.0+ gropdf <~8MB.
-> 
-> I now see page footers on all pages!
-> 
-> I noticed that new 1.23.0+ seems to set some lines, especially tables, a
-> little tighter (perhaps because of space handling), but *only* the first
-> page "intro(1)" has half the normal spacing from the page header to the
-> first heading!
+>> please share the full link to the .txt file that you refer?  That way =
 
-Yes, I can see the difference in intro(1) and I can see a bug in the version 
-of an.tmac I provided which may affect hyphenation. Also a page number example 
-of the tighter table would be helpful.
+>> you can ask git(1) to show the history of that file even if it doesn't=
+=20
+>> exist now.
+>=20
+> You can ask git for history of tmpfs.txt even if you don't know the=20
+> exact location, although admittedly it's pretty slow:
+>=20
+>     $ git log --oneline -1 '**/tmpfs.txt'
+>     7e7cd458b810 docs: filesystems: convert tmpfs.txt to ReST
+>=20
+>     $ git show --oneline --stat 7e7cd458b810
+>     7e7cd458b810 docs: filesystems: convert tmpfs.txt to ReST
+>      Documentation/filesystems/index.rst                |  1 +
+>      Documentation/filesystems/{tmpfs.txt =3D> tmpfs.rst} | 44 ++++++++=
++++++++++++++++++++++---------------
+>      2 files changed, 30 insertions(+), 15 deletions(-)
 
-> [I also noticed that *poppler* `pdf2text -layout` (used to diff the content
-> amd layout) prints the .SH NAME and options dashes as en-dash from the
-> official 6.05.01 book, but prints minus from standard 1.23.0 and new
-> 1.23.0+ gropdf.]
+Interesting.  Thanks!
 
-This is intentional (and probably desirable). The pdf has a mapping so that 
-the groff character \- is displayed as HYPHEN (U+0201) but when text is copy/
-pasted from the pdf it is converted to HYPHEN-MINUS (U+002D) which is the 
-character you get when you hit hyphen on the keyboard. This means that if you 
-are copy/pasteing from examples in the man page which includes hyphens then 
-your shell will interpret it correctly.
+>=20
 
-> I notice a number of widows and orphans, but that may be the man macros or
-> groff commands not checking for sufficient space left on the page before
-> rendering text: allowing 4em before heading spacing, 3em before para
-> spacing would probably help, at the cost of larger bottom margins; and
-> groff footers need to allow extra space to prevent widows by allowing them
-> to intrude.
-
-This probably needs a bit of tender curation! Bear in mind that the 
-BuildLinuxMan.pl script uses the flags "-dpaper=a4 -P-pa4" so if the man page 
-author has designed for a different page size the widows/orphans may well be 
-different.
-
-Thanks for your help.
-
-Cheers
-
-Deri
+--=20
+<http://www.alejandro-colomar.es/>
+GPG key fingerprint: A9348594CE31283A826FBDD8D57633D441E25BB5
 
 
+--------------kJbc0bHaHOKyhEX2aTidFQyL--
 
+--------------6WzngeDq0wTvTfudpMl4WkzC
+Content-Type: application/pgp-signature; name="OpenPGP_signature.asc"
+Content-Description: OpenPGP digital signature
+Content-Disposition: attachment; filename="OpenPGP_signature"
+
+-----BEGIN PGP SIGNATURE-----
+
+iQIzBAEBCgAdFiEE6jqH8KTroDDkXfJAnowa+77/2zIFAmTX8DoACgkQnowa+77/
+2zKMQRAAjxJn8naUwzlpMEAk/0Z8lJ6s1r8dkHVUpwlK2drlgcpGaOhQ9AJEhJmA
+v+eH7R7EBqs2RxThDj375Uj83v2zzm1WfZeQ9rZL1xuE2AOy1v61LCfXwD2uAsGN
+vdhDd6jj0lHvY3BvNI5CZtUwPLy21XbmX293HKUxFA54zUZCmk6vNpkz2VxjJ5SN
+wJHIxsRwqCgMviybxmCrzbXk11iIjB1aS/nBBxKjWNBGc2fm8Nb7ozgovGlNRtZX
+GoQzxzb3KN7WuR/qGMrXTKF/mTu8RxWWK0KkOutfqYRG571BJNs/cgaC9IDeLqNf
+2GuIHeneNPLg1KqKnCbNvJrG+WqqwThXqhqNykuGgq+kN2ocOq0uPfRzgXNv25c9
+1SMcPS33UDHzytLos1zSuuNDx4qnZ/a2VMqYwpv9pdqTnhfo4HbG94YjyOKWnw2H
+j/x8MKmOl5WzJDLNRU+RZ3KiXio4VMvYTeiEHEerQu+JFvYmwF87Kx+DIN7RMkkh
+EhRYJ3rkBowM+VDJ49asy3fYSItG7ztgZQYxqMLBHYTdLApYYJDXVlu173YqDHSU
+t9vkeJ6pOyMZJdv8qPzfrb+nY1roIyc8Oxy0QrNCcBTeQHBMsjSWZsc+7ZMoLM07
+FyTEKQr4SDw5lueWhFYwI9JbC51fwbMGDZctcwYIVDhhPNRinzk=
+=K0/A
+-----END PGP SIGNATURE-----
+
+--------------6WzngeDq0wTvTfudpMl4WkzC--
