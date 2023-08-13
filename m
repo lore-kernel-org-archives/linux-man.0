@@ -2,164 +2,158 @@ Return-Path: <linux-man-owner@vger.kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id BF036C25B74
-	for <linux-man@archiver.kernel.org>; Sun, 13 Aug 2023 21:48:09 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id A7C57EB64DD
+	for <linux-man@archiver.kernel.org>; Sun, 13 Aug 2023 22:07:13 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S230170AbjHMVsI (ORCPT <rfc822;linux-man@archiver.kernel.org>);
-        Sun, 13 Aug 2023 17:48:08 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:33818 "EHLO
+        id S229957AbjHMWHM (ORCPT <rfc822;linux-man@archiver.kernel.org>);
+        Sun, 13 Aug 2023 18:07:12 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:45062 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S229522AbjHMVrW (ORCPT
-        <rfc822;linux-man@vger.kernel.org>); Sun, 13 Aug 2023 17:47:22 -0400
-Received: from mail-oa1-x2a.google.com (mail-oa1-x2a.google.com [IPv6:2001:4860:4864:20::2a])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 7CE842D55
-        for <linux-man@vger.kernel.org>; Sun, 13 Aug 2023 14:47:20 -0700 (PDT)
-Received: by mail-oa1-x2a.google.com with SMTP id 586e51a60fabf-1bfc2b68090so2871006fac.3
-        for <linux-man@vger.kernel.org>; Sun, 13 Aug 2023 14:47:20 -0700 (PDT)
+        with ESMTP id S229799AbjHMWHL (ORCPT
+        <rfc822;linux-man@vger.kernel.org>); Sun, 13 Aug 2023 18:07:11 -0400
+Received: from mail-ot1-x331.google.com (mail-ot1-x331.google.com [IPv6:2607:f8b0:4864:20::331])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 3E7FD18C
+        for <linux-man@vger.kernel.org>; Sun, 13 Aug 2023 15:07:10 -0700 (PDT)
+Received: by mail-ot1-x331.google.com with SMTP id 46e09a7af769-6bcb15aa074so2395041a34.0
+        for <linux-man@vger.kernel.org>; Sun, 13 Aug 2023 15:07:10 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20221208; t=1691963240; x=1692568040;
+        d=gmail.com; s=20221208; t=1691964429; x=1692569229;
         h=in-reply-to:content-disposition:mime-version:references:message-id
          :subject:cc:to:from:date:from:to:cc:subject:date:message-id:reply-to;
-        bh=R4+a6SozvZyxWQD42CgDDu9oRYDBzwrmd9QMxQ6+LXw=;
-        b=I6pfJPS2ak9oV0bBXRoq3jJox4cpvlfFI6eceQ8rg18Yy/pZcN/A0a9h/4qD/q2Kxo
-         Ox15m83pqUUqti6lYd/6/rEAFhcZGhDue60Dv2GILZapG9q6BfJ3rmzmxZhZOoUmnHNP
-         J7B3ceAKGga75yMA9+rZOKXmXi9VAUvbx+ZxYLrPqisHfyz1hTZHSvPWSK2n+yLpMLHx
-         28WCN28dP/7JzupOnbEYwlDCA8/rxryBW1U5SEwvtIFxTbi7/OX2RxmNm+df6P66irvZ
-         zuzW3S+8lQcMaaCEvTuYdFVqjE+UpwtnSUBebQ5PkRWgfYbvakmLlDPPHkkCV+bKWkSt
-         Tp4Q==
+        bh=4+lK+U6tKpO74zGqRTF66Q/nI2oexExnlmjbaQaInlU=;
+        b=I9ZtReYZdjyOft2Yi4AeYK0LS/8bzVW1M1Z4K7x6Vu0SG2ozsJNp01cfqvItXMqeGs
+         tFPVs6smMZSnIcYjpImXV0jissPLvX3lPB4QvJv6GUKDKjuLu1Kt+oio1zBFqm2sVed/
+         5cKIFnn5WULLbrCU1sFEmR3N3RmnoFVeWgSnOBCZ84VXShb56k67SbFIbNw/qQB4pw2w
+         vwEwnZWurCeUWLA4K7OmmWodML8s7ieQndU87vcUXvAup31wUFSuWu9cQdx6MZL80ljY
+         QZqof6mEuC17deWq0HAAaVrW+QRqqmp2f4tDlYXpP8WBW+ko+Hpn2RI6gzttpxbeQn0T
+         3Qtw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20221208; t=1691963240; x=1692568040;
+        d=1e100.net; s=20221208; t=1691964429; x=1692569229;
         h=in-reply-to:content-disposition:mime-version:references:message-id
          :subject:cc:to:from:date:x-gm-message-state:from:to:cc:subject:date
          :message-id:reply-to;
-        bh=R4+a6SozvZyxWQD42CgDDu9oRYDBzwrmd9QMxQ6+LXw=;
-        b=Qlsegulv7FWRZgsI9JNfzane/+7oxBSgAKQJZJhBI7Xqfl1ZXgEKrI8fxZVOfEyXRs
-         sx60z0J8Af2vXIw8AP6V1VsEm7wmj+Jt0zbcQI0maWf55BAnMytwdCNvY5fkPnICFABK
-         ZbVv2m2Powkf64gvrPJwAhQAQDWQAlHLHK3UxdIfRhCr/HZuwZeNXIgrIazclFECt4lf
-         f21MaA5mjF9bcE3PSW+M9Km4tyswevzihf+1m+DUpZfxQ6AQPRno1fmsB0cLOyM/yttr
-         hGOj0IyXb08OoGwPi6z+MTrmuu2a9dmVtWfQJPVMLd29+dlODe0hNC5gBxcHV894TzxE
-         OVVg==
-X-Gm-Message-State: AOJu0YzsN+ReeHt4N18qt42SGsxgtwaXWxdjBzdYFhUJULWC1oUsbRbU
-        QhNrnNN4hUB5VhjphuI7nfpigWFXmBU=
-X-Google-Smtp-Source: AGHT+IFNMnVkKqUf2+vijDlXpblCTgGoZDfd5szD5tQmuCp0ELdKHP3cN3v3m3H9RUVduPWPmpNjhA==
-X-Received: by 2002:a05:6870:219d:b0:1bb:8842:7b5c with SMTP id l29-20020a056870219d00b001bb88427b5cmr7411176oae.43.1691963239759;
-        Sun, 13 Aug 2023 14:47:19 -0700 (PDT)
+        bh=4+lK+U6tKpO74zGqRTF66Q/nI2oexExnlmjbaQaInlU=;
+        b=Tkphv7ps8+zmu21C2Ybjjt4/EN/cVkc7HH/x2lJhzsavsFBY+9+vslHEtEyMUqO/pZ
+         UU1w9PFzLshBVpV1GcQDhxdga8HqAc1E3Q8S2rWtV0N9jWwNWS8nkfk/kzzvXfqi9p/D
+         1AIkRJAQPEHV3WaHxlnWcsZ2ZB+lqoF0EJpSeNtiVGo2hMZXgwJnT+T/hsvEZuw1RFL8
+         aY6hyX7TioFhnQybVMGIip2Okq5iRZp/3AjUvRl2y0xd2FysqT3EuGMyDLvQTniUjxdd
+         ysHS79vBOzpvOmUvW3+C0GDaKfeMVkJG9Fmx33rAXhf1dcEDCPynAZUzOyMOUN79yLtr
+         YWpg==
+X-Gm-Message-State: AOJu0YyjhMo4byjUS8I6k1XPwnUNQO1oC69YrNu0cpIIfc4gmzjIxPK7
+        WSwoyGjhHOleVRdtarLZTFY=
+X-Google-Smtp-Source: AGHT+IEmjxcK5jDvbbABhBRI8h+OKZ6AQo9en5kilOyFc1C/ps/DmqxWzVIe9qIKJDcfR4AigQFXQg==
+X-Received: by 2002:a05:6830:3487:b0:6ba:864e:c5de with SMTP id c7-20020a056830348700b006ba864ec5demr6159450otu.8.1691964429497;
+        Sun, 13 Aug 2023 15:07:09 -0700 (PDT)
 Received: from illithid (ip68-12-97-90.ok.ok.cox.net. [68.12.97.90])
-        by smtp.gmail.com with ESMTPSA id k4-20020a056870350400b001bf120a44f7sm4482517oah.33.2023.08.13.14.47.18
+        by smtp.gmail.com with ESMTPSA id s13-20020a9d758d000000b006b753685cc5sm3724046otk.79.2023.08.13.15.07.08
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Sun, 13 Aug 2023 14:47:19 -0700 (PDT)
-Date:   Sun, 13 Aug 2023 16:47:17 -0500
+        Sun, 13 Aug 2023 15:07:09 -0700 (PDT)
+Date:   Sun, 13 Aug 2023 17:07:07 -0500
 From:   "G. Branden Robinson" <g.branden.robinson@gmail.com>
 To:     Brian Inglis <Brian.Inglis@Shaw.ca>
-Cc:     linux-man@vger.kernel.org, Alejandro Colomar <alx@kernel.org>,
-        Deri <deri@chuzzlewit.myzen.co.uk>
-Subject: hyphens at ends of pages (was: No 6.05/.01 pdf book available)
-Message-ID: <20230813214717.su46tr6jqfist26d@illithid>
-References: <094c0eacf60998465be28c605bef69f2f5742459.1691370798.git.Brian.Inglis@Shaw.ca>
- <21975186.EfDdHjke4D@pip>
- <7f020624-ebc9-5eb8-b87f-8f954a8084a0@Shaw.ca>
- <3258129.44csPzL39Z@pip>
- <1b955f49-8181-5bd5-b818-020c6b5287dd@Shaw.ca>
+Cc:     Linux Man-Pages <linux-man@vger.kernel.org>,
+        Alejandro Colomar <alx.manpages@gmail.com>
+Subject: Re: [PATCH] man-pages-posix-2017/man1p/dd.1p: added missing
+ ASCII-EBCDIC tables
+Message-ID: <20230813220707.vis3pmy57fj4bfew@illithid>
+References: <084cb8c0074b11327c68fb60b9c5c6238eed7df1.1691960082.git.Brian.Inglis@Shaw.ca>
 MIME-Version: 1.0
 Content-Type: multipart/signed; micalg=pgp-sha256;
-        protocol="application/pgp-signature"; boundary="uf2csf3kpy6difcc"
+        protocol="application/pgp-signature"; boundary="sfdv2oln32kivjzl"
 Content-Disposition: inline
-In-Reply-To: <1b955f49-8181-5bd5-b818-020c6b5287dd@Shaw.ca>
+In-Reply-To: <084cb8c0074b11327c68fb60b9c5c6238eed7df1.1691960082.git.Brian.Inglis@Shaw.ca>
 Precedence: bulk
 List-ID: <linux-man.vger.kernel.org>
 X-Mailing-List: linux-man@vger.kernel.org
 
 
---uf2csf3kpy6difcc
-Content-Type: text/plain; charset=utf-8
+--sfdv2oln32kivjzl
+Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
 Content-Transfer-Encoding: quoted-printable
 
 Hi Brian,
 
-At 2023-08-13T14:30:34-0600, Brian Inglis wrote:
-> Please see attached awk script and logs showing pages with end of page
-> "hyphens" in text of PDFs from `pdftotext -layout`: "official" PDF has
-> 47, newer PDFs break only at 5 compound word joins or double dashes.
+At 2023-08-13T15:01:44-0600, Brian Inglis wrote:
+> I have an OpenGroup/UNIX.org/Austin Group/POSIX account, so added the
+> missing ASCII-EBCDIC tables by copying from the POSIX PDF, as copying
+> data is fair use, and the man page copy itself is authorized.
+>=20
+> As an aside to that, those ASCII-EBCDIC tables support characters from
+> the old ISO 2033:1983 MICR/OCR character sets now in Unicode OCR block
+> U+2440-U+245F, which appears only in a few fonts like Unifont and SIL
+> LastResort (and MS Segoe UI Symbol), and are still available as TTF
+> (some font formats and support are being dropped in favour of OTF).
+>=20
+> They appear normal on my screen running 'man 1p dd' on my system which
+> has those fallback fonts installed.
+>=20
+> Is it sufficient to run the groff addition install-font.sh script on
+> those fonts and add them to the config as .special, or is anything
+> else required to register and render the glyphs on other devices?
 
-If hyphenation is occurring at the ends of pages but otherwise normally,
-then that is a symptom of the *roff automatic hyphenation mode being set
-wrong.  The most likely suspect is an argument-free `.hy` invocation
-somewhere in the page sources.
+That sounds correct to me.
 
-This is why I have nattered on about not messing with the hyphenation
-mode in man page sources in recent mails (and commit messages) to this
-list.[1]
+> Or should I take this up on the groff list?
 
-In groff 1.23.0, we smuggled some of the explanation of *roff
-hyphenation out of our Texinfo manual into the groff(7) page.  I'm
-trimming a few sentences man page authors don't need.
+See if the gropdf(1) and/or grops(1) pages in groff 1.23.0 get the
+essential information across; if either one doesn't (independently of
+the other), please report a bug against groff.
 
-Hyphenation
-     When filling, groff hyphenates words as needed at user=E2=80=90specifi=
-ed
-     and automatically determined hyphenation points.  Explicitly
-     hyphenated words such as =E2=80=9Cmother=E2=80=90in=E2=80=90law=E2=80=
-=9D are always eligible for
-     breaking after each of their hyphens.  The hyphenation character \%
-     and non=E2=80=90printing break point \: escape sequences may be used to
-     control the hyphenation and breaking of individual words.  [...]
-     Otherwise, groff determines hyphenation points automatically by
-     default.
+> +.sp
 
-     Several requests influence automatic hyphenation.  Because
-     conventions vary, a variety of hyphenation modes is available to
-     the .hy request; these determine whether hyphenation will apply to
-     a word prior to breaking a line at the end of a page (more or less;
-     see below for details), and at which positions within that word
-     automatically determined hyphenation points are permissible.  The
-     default is =E2=80=9C1=E2=80=9D for historical reasons, but this is not=
- an
-     appropriate value for the English hyphenation patterns used by
-     groff; localization macro files loaded by troffrc and macro
-     packages often override it.
+Just use a paragraphing macro call here, like `.P`.
 
-     0    disables hyphenation.
-
-     1    enables hyphenation except after the first and before the last
-          character of a word.
-
-     The remaining values =E2=80=9Cimply=E2=80=9D 1; that is, they enable h=
-yphenation
-     under the same conditions as =E2=80=9C.hy 1=E2=80=9D, and then apply o=
-r lift
-     restrictions relative to that basis.
-
-     2    disables hyphenation of the last word on a page.  (Hyphenation
-          is prevented if the next page location trap is closer to the
-          vertical drawing position than the next text baseline would
-          be.  See section =E2=80=9CTraps=E2=80=9D below.)
+> +.TS
+> +centre;
+> +l   cB sB cB sB cB sB cB sB cB sB cB sB cB sB cB sB
+> +l    _ _   _ _   _ _   _ _   _ _   _ _   _ _   _ _
+> +nB | n l | n l | n l | n l | n l | n l | n l | n l |
+> +.
+> +\&	0	1	2	3	4	5	6	7
+> +\&
+> +0000	0000	NUL	0001	SOH	0002	STX	0003	ETX	0067	EOT	0055	ENQ	0056	ACK	0057=
+	BEL
 [...]
+
+I guess it's hard to change the tab character for this ultra-wide table
+since every printable ASCII character is represented in it, and tbl
+affords no mechanism to escape the tab character.
+
+> +.TE
+> +.IP
+> +.SB Note:
+
+There's no reason to use `SB` (a SunOS extension) anymore since groff
+1.22.4 (2018) and mandoc 1.14.2 (2017).
+
+=2EIP
+=2ESM
+=2EB Note:
+
+will work fine.
 
 Regards,
 Branden
 
-[1] https://lore.kernel.org/linux-man/20230730200321.ocribgmh2fmk2gto@illit=
-hid/
-
---uf2csf3kpy6difcc
+--sfdv2oln32kivjzl
 Content-Type: application/pgp-signature; name="signature.asc"
 
 -----BEGIN PGP SIGNATURE-----
 
-iQIzBAABCAAdFiEEh3PWHWjjDgcrENwa0Z6cfXEmbc4FAmTZT10ACgkQ0Z6cfXEm
-bc5GNw/+Kku+cmS3d+UaGIC+Liui4fFHfkY8rCAwPGRhPzxzrINkk+RAvZovwQNA
-gF3zc861adKihgQExjIAjdPrUES4V60+x6I6wvwyZFBBX0hvcMWE9WOzCAzHZvrc
-c10o4cXWH7nAwS6Ufwp2ucGQ+rwEyGEp/BkkP505B8D5veYL6e9Edxr++wvocPok
-gT6qt2lcExdB03popveUXpT3z+e4li4Mq0snYR1VYHjmQURPe/EC7yGroRE5Zq3C
-u2/trp+hnFMI9/AbBfKeCbVzfN5jbvUYVruruUhrzgrNtN/iqdpf3iVkKfEhOe6d
-3nTBsD2pmhotTMzlum7NhbIrruUB80n6IR6KzaUagkNz6wY1SAnAzvOF3i2v88Vo
-HMkYkS1DoR7UXDBBxZamX1V3NnvXW+5gDb/mCIVkTrWoP9KUl99VuMmSSJ4LigBd
-twpF+cTYkNsblaGGfycNTEn1wBBT1/f8JzgjbRCuyX67pVltC6IfX/gKb/OmgPQr
-1mz/j/QDYRGHg5q4ypJr9JduMn8pev3k7C1Jeyst97vTdwIedgJzb6fc4lA++jCj
-wpxDS89alMGTEZbjYkCY3PGoVlLHDtfVIc5WA0B2uVBSXD6Tg8PKfTWSeSHoHz4A
-P2Ktbxd27ZEPanplW9Fk4FeI+eCFFHT0FfnC8ecfFDrmO+zr+8g=
-=/0CY
+iQIzBAABCAAdFiEEh3PWHWjjDgcrENwa0Z6cfXEmbc4FAmTZVAMACgkQ0Z6cfXEm
+bc4EchAAqDHWWeYHU3NH4W1tpqGx+A6C843Ib30ZdtT3MMRtkNThgBg6qam1BEDa
+yGT8dBA4jP9ZUWpyiX339xZMdizj6F+UEnxr+fI6psqtX/5RPKVySOiqBEuMViLm
+hGFvB3hXn6w5JU4TNo5h324OwVqmWrxdZEgEF/dF1yG153d4NSrZ1nvNkOyQtuuX
+6NufkVW/HLTxvJYwhKt3W29PKoBtEDhXbMCOpc7/2nd9TR7ZpBaheLtHunQQ1CjR
+gDQmSMYDocONBvxZxc3/NwDUgt+8G1yB1MsHs92JDBTwP26PHVRZmBjH+cHKjB2N
+uOde5IyEpNqEkEBcRcSdoF3iLajWNa2CLuqgwEMhOGbzza4TYU0aCZhZU5L9H9GJ
+wTYGlourCE9aLYD0/Cag9jnXR9Fzqf2FeyocsaZvZ693LVifq2nzI3xPxvsvU9qK
+/LWSimgNylf3fyQGvhNRDFda0KHjPkt+zajDhLYuC+QxR7UCh3YmnkFLufTXFcKD
+8gYFTZzRPlJ/5xwBE07fkl7oMuHiu9V1gEradicqRO3h9y2636sGCRhxlk/Dnl1N
+AJuJ1/esC8SvAtcWg6/QKd/FTLpJnFgkyVjijGUNgXKez9rId9+kMRKacgku9sbg
+M4qCYiVJ+tWZi+1TOoLamToS/hQulc6+UI5TFpXvYgGDE+ozpeU=
+=Gd9J
 -----END PGP SIGNATURE-----
 
---uf2csf3kpy6difcc--
+--sfdv2oln32kivjzl--
