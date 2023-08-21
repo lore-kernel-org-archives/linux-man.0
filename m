@@ -2,49 +2,49 @@ Return-Path: <linux-man-owner@vger.kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id EEE59EE49A5
-	for <linux-man@archiver.kernel.org>; Mon, 21 Aug 2023 19:56:03 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id BBA82EE49A5
+	for <linux-man@archiver.kernel.org>; Mon, 21 Aug 2023 19:56:17 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S229819AbjHUT4E (ORCPT <rfc822;linux-man@archiver.kernel.org>);
-        Mon, 21 Aug 2023 15:56:04 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:52656 "EHLO
+        id S229823AbjHUT4S (ORCPT <rfc822;linux-man@archiver.kernel.org>);
+        Mon, 21 Aug 2023 15:56:18 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:40752 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S229803AbjHUT4D (ORCPT
-        <rfc822;linux-man@vger.kernel.org>); Mon, 21 Aug 2023 15:56:03 -0400
-Received: from esa.microchip.iphmx.com (esa.microchip.iphmx.com [68.232.153.233])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id F22F310F
-        for <linux-man@vger.kernel.org>; Mon, 21 Aug 2023 12:55:57 -0700 (PDT)
+        with ESMTP id S229820AbjHUT4R (ORCPT
+        <rfc822;linux-man@vger.kernel.org>); Mon, 21 Aug 2023 15:56:17 -0400
+Received: from esa.microchip.iphmx.com (esa.microchip.iphmx.com [68.232.154.123])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id A3BE010E
+        for <linux-man@vger.kernel.org>; Mon, 21 Aug 2023 12:56:15 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=microchip.com; i=@microchip.com; q=dns/txt; s=mchp;
-  t=1692647758; x=1724183758;
+  t=1692647775; x=1724183775;
   h=from:to:cc:subject:date:message-id:in-reply-to:
    references:mime-version:content-transfer-encoding;
-  bh=DfZaNcwTzMsTsMqyLgCUmiaz6u7Nrw2nxBZjuKA4s3M=;
-  b=1KJUHoTu7PxH8utQUNR97/0yIi5BNkdfyVvzNrBjQXfH68FlqLwAcn5T
-   DjcjYGp4SlTivOw8swsI3K0ChKGQexDCqlH2zEN1cRmbM+OyzZFX/OJXT
-   VMj4N2DGOkR3aPzEYAhyi0Z6+CJ0tisOUNHSKITK6AywcM5zQKGgs3aII
-   pOFATjUPke2pRy9UC8A4AtXfrMiQxyM4Wc4u+BMx6XKp0e7eCnCJvFHHk
-   PVPUJMPyTbhyuLya/YunXxCVgUIlIbdg72JFfp56hd/GkmUaRgbSvch57
-   l0gUs+q3EdKH7JJi4dz+1ETGaNQ0b1GqX6htbtyCxnxQXTjNDExezxWiw
-   g==;
+  bh=N+P31NfWUwFWrZtvAfN4L++5w/vHyJdvSQ1UO5G0r/4=;
+  b=iky6/ljQ4Ly0kKhlzJdBkPe/WAiCvArffT+k4KbJqugDiXrdBrWBZPdz
+   1GFbgyIdmP2ROly9P9MxjoxsvIi1F/wb7dj2ljoZKcJEFVw0RmFQQjohh
+   QIAtiw9fSaPmT0ITQjuc/o2wrovzFg888meiGVTczmgjqYHLEugHYfr4+
+   mxTU46VM8OEAXvnErEvxTqmqjA337SkVTQtp2FPX+ditKR2aEPlIL4O0O
+   topftq/zDI0CJp0WGuFnsTK3dnoazriYJQldP9S5YogLSpZmqYnXqk9uS
+   qkquahDuA6owa5csiPrQ86GUrL47hX0YNfYD1MHG7jx/iXt73/PKq6DmT
+   A==;
 X-IronPort-AV: E=Sophos;i="6.01,191,1684825200"; 
-   d="scan'208";a="230959320"
+   d="scan'208";a="520039"
 X-Amp-Result: SKIPPED(no attachment in message)
 Received: from unknown (HELO email.microchip.com) ([170.129.1.10])
-  by esa5.microchip.iphmx.com with ESMTP/TLS/AES256-SHA256; 21 Aug 2023 12:55:51 -0700
+  by esa2.microchip.iphmx.com with ESMTP/TLS/AES256-SHA256; 21 Aug 2023 12:56:15 -0700
 Received: from chn-vm-ex02.mchp-main.com (10.10.87.72) by
  chn-vm-ex02.mchp-main.com (10.10.87.72) with Microsoft SMTP Server
  (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
- 15.1.2507.21; Mon, 21 Aug 2023 12:55:24 -0700
+ 15.1.2507.21; Mon, 21 Aug 2023 12:55:23 -0700
 Received: from brunhilda.pdev.net (10.10.115.15) by chn-vm-ex02.mchp-main.com
  (10.10.85.144) with Microsoft SMTP Server id 15.1.2507.21 via Frontend
- Transport; Mon, 21 Aug 2023 12:55:24 -0700
+ Transport; Mon, 21 Aug 2023 12:55:23 -0700
 From:   Don Brace <don.brace@microchip.com>
 To:     <mtk.manpages@gmail.com>
 CC:     <linux-man@vger.kernel.org>
-Subject: [PATCH v2 10/10] smartpqi: add sg entry to see_also
-Date:   Mon, 21 Aug 2023 14:57:26 -0500
-Message-ID: <20230821195726.446748-11-don.brace@microchip.com>
+Subject: [PATCH v2 08/10] smartpqi: add host attributes
+Date:   Mon, 21 Aug 2023 14:57:24 -0500
+Message-ID: <20230821195726.446748-9-don.brace@microchip.com>
 X-Mailer: git-send-email 2.42.0.rc2
 In-Reply-To: <20230821195726.446748-1-don.brace@microchip.com>
 References: <20230821195726.446748-1-don.brace@microchip.com>
@@ -55,8 +55,13 @@ Precedence: bulk
 List-ID: <linux-man.vger.kernel.org>
 X-Mailing-List: linux-man@vger.kernel.org
 
-The sg driver can interface with smartpqi. Add
-this into the SEE ALSO section of the man page.
+Add in some host level sysfs entries:
+enable_stream_detection - Send RAID 5/6 writes down the normal I/O path.
+                          Allow for full-stripe write requests.
+ssd_smart_path_enabled  - Indicates that our Accelerated I/O path is
+                          enabled. (AIO).
+enable_r5_writes        - Allow RAID 5 write operations down the AIO path.
+enable_r6_writes        - Allow RAID 6 write operations down the AIO path.
 
 Reviewed-by: Scott Benesh <scott.benesh@microchip.com>
 Reviewed-by: Scott Teel <scott.teel@microchip.com>
@@ -64,23 +69,77 @@ Reviewed-by: Mike McGowen <mike.mcgowen@microchip.com>
 Reviewed-by: Kevin Barnett <kevin.barnett@microchip.com>
 Signed-off-by: Don Brace <don.brace@microchip.com>
 ---
- man4/smartpqi.4 | 3 ++-
- 1 file changed, 2 insertions(+), 1 deletion(-)
+ man4/smartpqi.4 | 57 +++++++++++++++++++++++++++++++++++++++++++++++++
+ 1 file changed, 57 insertions(+)
 
 diff --git a/man4/smartpqi.4 b/man4/smartpqi.4
-index 3de8b0c97423..7c1da3c80d57 100644
+index 635b3fa185ab..19708a01f531 100644
 --- a/man4/smartpqi.4
 +++ b/man4/smartpqi.4
-@@ -462,7 +462,8 @@ which can be found by searching for the specific controller at
- .BR cciss (4),
- .BR hpsa (4),
- .BR sd (4),
--.BR st (4)
-+.BR st (4),
-+.BR sg (4)
- .PP
- .I Documentation/ABI/testing/sysfs\-bus\-pci\-devices\-cciss
- in the Linux kernel source tree.
+@@ -235,6 +235,63 @@ $ \c
+ Adaptec
+ .EE
+ .in
++.TP
++.IR /sys/class/scsi_host/host*/enable_stream_detection
++The
++.I enable_stream_detection
++attribute is read-write.
++This attribute enables/disables stream detection in the driver.
++Enabling stream detection can improve sequential write performance for ioaccel-enabled volumes. See the
++.BI ssd_smart_path_enabled
++disk attribute section for details on ioaccel-enabled volumes.
++The default value is 1 (stream detection enabled).
++.IP
++Enable example:
++.IP
++.in +4n
++.EX
++$ \c
++.B echo 1 > /sys/class/scsi_host/host1/enable_stream_detection
++.EE
++.in
++.TP
++.IR /sys/class/scsi_host/host*/enable_r5_writes
++The
++.I enable_r5_writes
++attribute is read-write.
++This attribute enables/disables RAID 5 write operations for ioaccel-enabled volumes.
++Enabling can improve sequential write performance. See the
++.BI ssd_smart_path_enabled
++disk attribute section for details on ioaccel-enabled volumes.
++The default value is 1 (RAID 5 writes enabled).
++.IP
++Enable example:
++.IP
++.in +4n
++.EX
++$ \c
++.B echo 1 > /sys/class/scsi_host/host1/enable_r5_writes
++.EE
++.in
++.TP
++.IR /sys/class/scsi_host/host*/enable_r6_writes
++The
++.I enable_r6_writes
++attribute is read-write.
++This attribute enables/disables RAID 6 write operations for ioaccel-enabled volumes.
++Enabling can improve sequential write performance. See the
++.BI ssd_smart_path_enabled
++disk attribute section for details on ioaccel-enabled volumes.
++The default value is 1 (RAID 6 writes enabled).
++.IP
++Enable example:
++.IP
++.in +4n
++.EX
++$ \c
++.B echo 1 > /sys/class/scsi_host/host1/enable_r6_writes
++.EE
++.in
+ .SS SmartPQI-specific disk attribute files in \f[BI]/sys\fP
+ In the file specifications below,
+ .I c
 -- 
 2.42.0.rc2
 
