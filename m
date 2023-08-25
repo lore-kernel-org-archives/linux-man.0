@@ -2,115 +2,155 @@ Return-Path: <linux-man-owner@vger.kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 8301FC7EE2C
-	for <linux-man@archiver.kernel.org>; Fri, 25 Aug 2023 10:20:30 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 7212AC3DA66
+	for <linux-man@archiver.kernel.org>; Fri, 25 Aug 2023 12:34:39 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S240672AbjHYKT6 (ORCPT <rfc822;linux-man@archiver.kernel.org>);
-        Fri, 25 Aug 2023 06:19:58 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:43328 "EHLO
+        id S243057AbjHYMeJ (ORCPT <rfc822;linux-man@archiver.kernel.org>);
+        Fri, 25 Aug 2023 08:34:09 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:45318 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S244388AbjHYKTo (ORCPT
-        <rfc822;linux-man@vger.kernel.org>); Fri, 25 Aug 2023 06:19:44 -0400
-Received: from mail-wr1-x431.google.com (mail-wr1-x431.google.com [IPv6:2a00:1450:4864:20::431])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 4877D212C
-        for <linux-man@vger.kernel.org>; Fri, 25 Aug 2023 03:19:10 -0700 (PDT)
-Received: by mail-wr1-x431.google.com with SMTP id ffacd0b85a97d-31c8321c48fso94838f8f.1
-        for <linux-man@vger.kernel.org>; Fri, 25 Aug 2023 03:19:10 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20221208; t=1692958748; x=1693563548;
-        h=content-transfer-encoding:in-reply-to:references:to
-         :content-language:subject:reply-to:user-agent:mime-version:date
-         :message-id:from:from:to:cc:subject:date:message-id:reply-to;
-        bh=dZHK+WvDSRhQQ2O41H6J3OnZ/wRQjIg5YdbPD/LvnlQ=;
-        b=r40dptDN58Gw8nPtcD2C2RTzDwFztvkwY+d47U/tdgSDrFbqwQX19EoEnYOuJgAEhh
-         qXwuQqaewzeOpSLj1aPBgu/kn+PKK1Hc1AegE+Y7z2Csw9NUjEMvaSHe1kqaE+S4SJtb
-         iqRwMAI7jTJWrw/FQ5M5U68LLdJGFFzoHYb5wIce/5UWt/fs/gpl94qviyj+MyX55DqJ
-         v/XTt6hBeClOE2jO5zDzo5/cFA724KIV4lh4RJRWH//JUEyiJPkx4GDaigA116CU9l1g
-         F7sTyB3nW/gAxmKxZxaFyueXZ3E69RZOcLWn1G+v/dAchCcjOx//yQCY3XjYHuaa8gFi
-         ob8w==
+        with ESMTP id S244899AbjHYMeD (ORCPT
+        <rfc822;linux-man@vger.kernel.org>); Fri, 25 Aug 2023 08:34:03 -0400
+Received: from us-smtp-delivery-124.mimecast.com (us-smtp-delivery-124.mimecast.com [170.10.129.124])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id DF0F626AF
+        for <linux-man@vger.kernel.org>; Fri, 25 Aug 2023 05:32:45 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+        s=mimecast20190719; t=1692966758;
+        h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+         to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+         content-transfer-encoding:content-transfer-encoding:
+         in-reply-to:in-reply-to:references:references;
+        bh=5wXP7X/6rZaJWONOSKjenEhS2VhNigdmZcqBn/d2VmE=;
+        b=Rwxhi7AHNXplUWuOdxIO+iKUNSfM6fB/YyfgeilYklptR1LIMZ8FS99DEtfC8TL193+zgt
+        7DFCwS43QV6xuN6v9TE0pVY3ehb+oembDnqtOIaIqvGWibHlVFd7yNxjoooTMcrLAS2pym
+        cYLSK60iQm2iDVEBZwBUtWVsDc+zYpA=
+Received: from mail-ej1-f70.google.com (mail-ej1-f70.google.com
+ [209.85.218.70]) by relay.mimecast.com with ESMTP with STARTTLS
+ (version=TLSv1.3, cipher=TLS_AES_256_GCM_SHA384) id
+ us-mta-669--9VxQe_mNDatRzNRP61iXA-1; Fri, 25 Aug 2023 08:32:37 -0400
+X-MC-Unique: -9VxQe_mNDatRzNRP61iXA-1
+Received: by mail-ej1-f70.google.com with SMTP id a640c23a62f3a-99c0bd2ca23so65439766b.2
+        for <linux-man@vger.kernel.org>; Fri, 25 Aug 2023 05:32:36 -0700 (PDT)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20221208; t=1692958748; x=1693563548;
-        h=content-transfer-encoding:in-reply-to:references:to
-         :content-language:subject:reply-to:user-agent:mime-version:date
-         :message-id:from:x-gm-message-state:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=dZHK+WvDSRhQQ2O41H6J3OnZ/wRQjIg5YdbPD/LvnlQ=;
-        b=f23nL0CSNv0QNvHp2CHUMwdoFHqTbWDeq2+xgbhhGs4sxRmfPUrRU8+LXomCEBPu5/
-         k2o1Jg/+2Q2fFNGVt+amY32zVeuKtIgkZR37srYFgGRxN56eYqDkOWzvYPCcA3BhV1fh
-         zHITF+Yk0vBsZb03MKBn4nbqLlPAQS2QFk4L9qI+mP6XVFdx+XIru3IwTu6Jy1uQJujY
-         Obf6ZMgACtr6gJStdvDpo1+S6rulKqVRen1jn9ITLb8wIVnZ9zzUao8U7ss02+EwZsFH
-         VOTkOZNnG3S9r//LE9yyJCc+0Q4sAV41XIb63odn1CbtvGxfqlosSKH4fOCZgkp0rQYU
-         ONbA==
-X-Gm-Message-State: AOJu0YxRpzHa0Ivjx1eu65Jdha29uMzL6KWIECrNJEs1qijykF1U+mwb
-        AxuLR1r/INfrTA3VaWcSRusbmbyPqWc=
-X-Google-Smtp-Source: AGHT+IENR/nuOuI/WktzUacMb70YXcZGQ/J7dvYaRzMojovjjQ8qilnx1oWWBsTkPPRah58Lg+nyAg==
-X-Received: by 2002:a5d:5272:0:b0:313:e391:e492 with SMTP id l18-20020a5d5272000000b00313e391e492mr17499270wrc.17.1692958748256;
-        Fri, 25 Aug 2023 03:19:08 -0700 (PDT)
-Received: from [192.168.0.160] ([170.253.40.43])
-        by smtp.gmail.com with ESMTPSA id u13-20020a5d514d000000b0031ae2a7adb5sm1767264wrt.85.2023.08.25.03.19.07
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Fri, 25 Aug 2023 03:19:07 -0700 (PDT)
-From:   Alejandro Colomar <colomar.6.4.3@gmail.com>
-X-Google-Original-From: Alejandro Colomar <alx.manpages@gmail.com>
-Message-ID: <7a7d0ca1-865f-5e12-be0d-b21dcae9e2de@gmail.com>
-Date:   Fri, 25 Aug 2023 12:19:06 +0200
+        d=1e100.net; s=20221208; t=1692966756; x=1693571556;
+        h=in-reply-to:content-transfer-encoding:content-disposition
+         :mime-version:references:message-id:subject:cc:to:from:date
+         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
+        bh=5wXP7X/6rZaJWONOSKjenEhS2VhNigdmZcqBn/d2VmE=;
+        b=VHTiCBbspuKOv9fO3nAhBe/Lqy+5nju0RlKXl0+Ve4qWRtTNCYtYW3qmeMYYdDbdks
+         /zD9Bl5VV3heFU8aZxXMjczwwjoQ7zCT74Zgyhrp90tgCko/lXx8ZWdmhZbpMeZvGTH3
+         /8ecEk6506DugPJ17K4lKtwENacYKIhCmmemjUGhGnqfBDFIST34iABmA5NDKxT/eXY+
+         LVFyOvubns4gRSo0FJCZ0UNx9uo0sHYQ2cDALdP33tx4brOqigNw8u2l6llRUlLVkjFf
+         wb5m1kgujuirFO14KP7Kke5Kvqz8TFK1ZM6VabgdlXFaUBe0paTyNktnf8AScY5f1oD+
+         KoqQ==
+X-Gm-Message-State: AOJu0Yzpd377al21Nrv2xamWj/3Bz78xvXjGtyAafIrqF4HmEz3BbG7V
+        w/ViabxnH/ZWzY8MgrD4u5UC6WGTTh9rszUCK5YU8fj+ahVhC6kmxy3bqP3+4nmFkxqGw6dBDXv
+        5BGmpV4wDKHFj48Y4AuT4
+X-Received: by 2002:a17:906:7695:b0:9a1:bd82:de35 with SMTP id o21-20020a170906769500b009a1bd82de35mr7359577ejm.3.1692966756118;
+        Fri, 25 Aug 2023 05:32:36 -0700 (PDT)
+X-Google-Smtp-Source: AGHT+IEklG7YUNLGF8PDZeA7Jqic0wa/dZ09N1NinemgNMSGeNhdg97ejTz6ywQiOan7Dt7Xd/9Jlg==
+X-Received: by 2002:a17:906:7695:b0:9a1:bd82:de35 with SMTP id o21-20020a170906769500b009a1bd82de35mr7359569ejm.3.1692966755778;
+        Fri, 25 Aug 2023 05:32:35 -0700 (PDT)
+Received: from cremorrah (ip-86-49-234-148.bb.vodafone.cz. [86.49.234.148])
+        by smtp.gmail.com with ESMTPSA id d7-20020a1709064c4700b0099bd453357esm925582ejw.41.2023.08.25.05.32.34
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Fri, 25 Aug 2023 05:32:35 -0700 (PDT)
+Date:   Fri, 25 Aug 2023 14:32:33 +0200
+From:   =?utf-8?B?VG9tw6HFoSBHb2xlbWJpb3Zza8O9?= <tgolembi@redhat.com>
+To:     Gabriel Ravier <gabravier@gmail.com>
+Cc:     Alejandro Colomar <alx@kernel.org>, linux-man@vger.kernel.org,
+        Carlos O'Donell <carlos@redhat.com>,
+        Glibc <libc-alpha@sourceware.org>
+Subject: Re: [PATCH] abort.3: Note that the glibc implementation is not
+ async-signal-safe
+Message-ID: <ZOifYfs4fxIbk-NF@cremorrah>
+References: <07404317c21c86c517bc84357f91c4e179542906.1690372376.git.tgolembi@redhat.com>
+ <ZOThpIa46irPESgE@cremorrah>
+ <45b86bac-faeb-b39a-6be4-5c5f1c4bdc6e@gmail.com>
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
- Thunderbird/102.13.1
-Reply-To: alx@kernel.org
-Subject: Re: [Bug 217821] New: document that Linux' open(2) uses ENXIO in case
- of sockets, while POSIX mandates EOPNOTSUPP
-Content-Language: en-US
-To:     bugzilla-daemon@kernel.org, linux-man@vger.kernel.org
-References: <bug-217821-11311@https.bugzilla.kernel.org/>
-In-Reply-To: <bug-217821-11311@https.bugzilla.kernel.org/>
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 7bit
+Content-Type: text/plain; charset=utf-8
+Content-Disposition: inline
+Content-Transfer-Encoding: 8bit
+In-Reply-To: <45b86bac-faeb-b39a-6be4-5c5f1c4bdc6e@gmail.com>
 Precedence: bulk
 List-ID: <linux-man.vger.kernel.org>
 X-Mailing-List: linux-man@vger.kernel.org
 
-Hi Chris,
+On Thu, Aug 24, 2023 at 11:07:00PM +0100, Gabriel Ravier wrote:
+> On 8/22/23 17:26, Tomáš Golembiovský via Libc-alpha wrote:
+> > Hi,
+> > 
+> > gentle reminder that this has not received any attention yet.
+> I assume this is because there are currently efforts to make glibc's
+> implementation async-signal-safe - which would make this proposed note quite
+> quickly inaccurate
 
-On 2023-08-25 03:07, bugzilla-daemon@kernel.org wrote:
-> https://bugzilla.kernel.org/show_bug.cgi?id=217821
-> 
->             Bug ID: 217821
->            Summary: document that Linux' open(2) uses ENXIO in case of
->                     sockets, while POSIX mandates EOPNOTSUPP
->            Product: Documentation
->            Version: unspecified
->           Hardware: All
->                 OS: Linux
->             Status: NEW
->           Severity: enhancement
->           Priority: P3
->          Component: man-pages
->           Assignee: documentation_man-pages@kernel-bugs.osdl.org
->           Reporter: calestyo@scientia.org
->         Regression: No
-> 
-> Hey.
-> 
-> It seems that under Linux, when using a socket file with the open(2) family of
-> functions, the error is:
->> ENXIO  The file is a UNIX domain socket.
-> 
-> OTOH, POSIX specifies[0]:
->> [EOPNOTSUPP]
->>    The path argument names a socket.
-> 
-> 
-> Maybe it makes sense to document that? Possibly right at the ENXIO descripton
-> and even additionally in the STANDARDS section?
-> 
-> I could write a patch if you tell me which you like.
+I suppose you're referring to this: 
 
-Sure.  Please check the ./CONTRIBUTING file in the repository.
+https://inbox.sourceware.org/libc-alpha/20230803173436.4146900-1-adhemerval.zanella@linaro.org/
 
-Cheers,
-Alex
+I was not aware of that. Thanks for bringing that to my attention.
 
--- 
-<http://www.alejandro-colomar.es/>
-GPG key fingerprint: A9348594CE31283A826FBDD8D57633D441E25BB5
+> (though the fact it has been async-signal-unsafe until
+> now still seems notable enough to be mentioned here).
+
+Yes, even when this is fixed having a BUGS section with something like
+"In glibc X.Y.Z and earlier the function was not AS-safe.", might be a
+good idea.
+
+    Tomas
+
+> > 
+> > Thanks,
+> > 
+> >      Tomas
+> > 
+> > On Wed, Jul 26, 2023 at 01:55:27PM +0200, Tomáš Golembiovský wrote:
+> > > See https://sourceware.org/bugzilla/show_bug.cgi?id=26275
+> > > 
+> > > Cc: Carlos O'Donell <carlos@redhat.com>
+> > > Cc: Glibc <libc-alpha@sourceware.org>
+> > > Signed-off-by: Tomáš Golembiovský <tgolembi@redhat.com>
+> > > ---
+> > >   man3/abort.3         | 6 ++++++
+> > >   man7/signal-safety.7 | 5 +++++
+> > >   2 files changed, 11 insertions(+)
+> > > 
+> > > diff --git a/man3/abort.3 b/man3/abort.3
+> > > index 0b57e10ed..827d5c9db 100644
+> > > --- a/man3/abort.3
+> > > +++ b/man3/abort.3
+> > > @@ -85,6 +85,12 @@ terminates the process without flushing streams.
+> > >   POSIX.1 permits either possible behavior, saying that
+> > >   .BR abort ()
+> > >   "may include an attempt to effect fclose() on all open streams".
+> > > +.SH BUGS
+> > > +The glibc implementation of
+> > > +.BR abort ()
+> > > +is not async-signal-safe,
+> > > +.\" FIXME . https://sourceware.org/bugzilla/show_bug.cgi?id=26275
+> > > +in violation of the requirements of POSIX.1.
+> > >   .SH SEE ALSO
+> > >   .BR gdb (1),
+> > >   .BR sigaction (2),
+> > > diff --git a/man7/signal-safety.7 b/man7/signal-safety.7
+> > > index 3d6ddc7eb..431a22f89 100644
+> > > --- a/man7/signal-safety.7
+> > > +++ b/man7/signal-safety.7
+> > > @@ -335,6 +335,11 @@ The glibc implementation of
+> > >   is not async-signal-safe because it uses
+> > >   .BR pthread_mutex_lock (3)
+> > >   internally.
+> > > +.IP \[bu]
+> > > +.\" FIXME . https://sourceware.org/bugzilla/show_bug.cgi?id=26275
+> > > +The glibc implementation of
+> > > +.BR abort (3)
+> > > +is not async-signal-safe.
+> > >   .SH SEE ALSO
+> > >   .BR sigaction (2),
+> > >   .BR signal (7),
+> > > -- 
+> > > 2.41.0
+> > > 
+> 
+
