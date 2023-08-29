@@ -2,33 +2,33 @@ Return-Path: <linux-man-owner@vger.kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 1F5AAC83F18
-	for <linux-man@archiver.kernel.org>; Tue, 29 Aug 2023 20:59:33 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 31BB5C83F1D
+	for <linux-man@archiver.kernel.org>; Tue, 29 Aug 2023 20:59:34 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S240548AbjH2U7D (ORCPT <rfc822;linux-man@archiver.kernel.org>);
-        Tue, 29 Aug 2023 16:59:03 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:42854 "EHLO
+        id S240561AbjH2U7G (ORCPT <rfc822;linux-man@archiver.kernel.org>);
+        Tue, 29 Aug 2023 16:59:06 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:42820 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S240630AbjH2U6y (ORCPT
+        with ESMTP id S240633AbjH2U6y (ORCPT
         <rfc822;linux-man@vger.kernel.org>); Tue, 29 Aug 2023 16:58:54 -0400
 Received: from lithops.sigma-star.at (lithops.sigma-star.at [195.201.40.130])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 988EFCC2;
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 9719A1BC;
         Tue, 29 Aug 2023 13:58:49 -0700 (PDT)
 Received: from localhost (localhost [127.0.0.1])
-        by lithops.sigma-star.at (Postfix) with ESMTP id CF4F46418DB0;
-        Tue, 29 Aug 2023 22:58:47 +0200 (CEST)
+        by lithops.sigma-star.at (Postfix) with ESMTP id F197D623489A;
+        Tue, 29 Aug 2023 22:58:46 +0200 (CEST)
 Received: from lithops.sigma-star.at ([127.0.0.1])
         by localhost (lithops.sigma-star.at [127.0.0.1]) (amavisd-new, port 10032)
-        with ESMTP id CkVWw-zOtbhk; Tue, 29 Aug 2023 22:58:47 +0200 (CEST)
+        with ESMTP id Y3sq38MqC2IP; Tue, 29 Aug 2023 22:58:46 +0200 (CEST)
 Received: from localhost (localhost [127.0.0.1])
-        by lithops.sigma-star.at (Postfix) with ESMTP id 78DEF623489F;
-        Tue, 29 Aug 2023 22:58:47 +0200 (CEST)
+        by lithops.sigma-star.at (Postfix) with ESMTP id 8F80A6234894;
+        Tue, 29 Aug 2023 22:58:46 +0200 (CEST)
 Received: from lithops.sigma-star.at ([127.0.0.1])
         by localhost (lithops.sigma-star.at [127.0.0.1]) (amavisd-new, port 10026)
-        with ESMTP id Ug5bhtGMYFuy; Tue, 29 Aug 2023 22:58:47 +0200 (CEST)
+        with ESMTP id dWL4oQjI8eUY; Tue, 29 Aug 2023 22:58:46 +0200 (CEST)
 Received: from blindfold.corp.sigma-star.at (84-115-238-89.cable.dynamic.surfer.at [84.115.238.89])
-        by lithops.sigma-star.at (Postfix) with ESMTPSA id EF4EB6418DB0;
-        Tue, 29 Aug 2023 22:58:46 +0200 (CEST)
+        by lithops.sigma-star.at (Postfix) with ESMTPSA id F2D166418DB0;
+        Tue, 29 Aug 2023 22:58:45 +0200 (CEST)
 From:   Richard Weinberger <richard@nod.at>
 To:     alx@kernel.org, serge@hallyn.com, christian@brauner.io,
         ipedrosa@redhat.com, gscrivan@redhat.com,
@@ -36,76 +36,50 @@ To:     alx@kernel.org, serge@hallyn.com, christian@brauner.io,
 Cc:     acl-devel@nongnu.org, linux-man@vger.kernel.org,
         linux-api@vger.kernel.org, linux-fsdevel@vger.kernel.org,
         ebiederm@xmission.com, Richard Weinberger <richard@nod.at>
-Subject: [PATCH 2/3] user_namespaces.7: Document pitfall with negative permissions and user namespaces
-Date:   Tue, 29 Aug 2023 22:58:32 +0200
-Message-Id: <20230829205833.14873-3-richard@nod.at>
+Subject: [PATCH 0/3] Document impact of user namespaces and negative permissions
+Date:   Tue, 29 Aug 2023 22:58:30 +0200
+Message-Id: <20230829205833.14873-1-richard@nod.at>
 X-Mailer: git-send-email 2.26.2
-In-Reply-To: <20230829205833.14873-1-richard@nod.at>
-References: <20230829205833.14873-1-richard@nod.at>
 MIME-Version: 1.0
 Content-Transfer-Encoding: quoted-printable
 Precedence: bulk
 List-ID: <linux-man.vger.kernel.org>
 X-Mailing-List: linux-man@vger.kernel.org
 
-It is little known that user namespaces and some helpers
-can be used to bypass negative permissions.
+I'm sending out this patch series to document the current situation regar=
+ding
+negative permissions and user namespaces.
 
-Signed-off-by: Richard Weinberger <richard@nod.at>
----
-This patch applies to the Linux man-pages project.
----
- man7/user_namespaces.7 | 29 +++++++++++++++++++++++++++++
- 1 file changed, 29 insertions(+)
+From what I understand, the general agreement is that negative permission=
+s
+are not recommended and should be avoided. This is why the ability to som=
+ewhat
+bypass these permissions using user namespaces is tolerated, as it's deem=
+ed
+not worth the complexity to address this without breaking exsting program=
+s such
+as podman.
 
-diff --git a/man7/user_namespaces.7 b/man7/user_namespaces.7
-index a65854d737cf..4927e194bcdc 100644
---- a/man7/user_namespaces.7
-+++ b/man7/user_namespaces.7
-@@ -1067,6 +1067,35 @@ the remaining unsupported filesystems
- Linux 3.12 added support for the last of the unsupported major filesyste=
-ms,
- .\" commit d6970d4b726cea6d7a9bc4120814f95c09571fc3
- XFS.
-+.SS Negative permissions and Linux user namespaces
-+While it is technically feasible to establish negative permissions throu=
-gh
-+DAC or ACL settings, such an approach is widely regarded as a suboptimal
-+practice. Furthermore, the utilization of Linux user namespaces introduc=
-es the
-+potential to circumvent specific negative permissions.  This issue stems
-+from the fact that privileged helpers, such as
-+.BR newuidmap (1) ,
-+enable unprivileged users to create user namespaces with subordinate use=
-r and
-+group IDs. As a consequence, users can drop group memberships, resulting
-+in a situation where negative permissions based on group membership no l=
-onger
-+apply.
-+
-+Example:
-+.in +4n
-+.EX
-+$ \fBid\fP
-+uid=3D1000(rw) gid=3D1000(rw) groups=3D1000(rw),1001(nogames)
-+$ \fBunshare -S 0 -G 0 --map-users=3D100000,0,65536 --map-groups=3D10000=
-0,0,65536 id\fP
-+uid=3D0(root) gid=3D0(root) groups=3D0(root)
-+.EE
-+.in
-+
-+User rw got rid of it's supplementary groups and can now access files th=
-at
-+have been protected using negative permissions that match groups such as=
- \fBnogames\fP.
-+Please note that the
-+.BR unshare (1)
-+tool uses internally
-+.BR newuidmap (1) .
-+
- .\"
- .SH EXAMPLES
- The program below is designed to allow experimenting with
+To be clear, the current way of bypassing negative permissions, whether D=
+AC or
+ACL, isn't a result of a kernel flaw. The kernel issue related to this wa=
+s
+resolved with CVE-2014-8989. Currently, certain privileged helpers like
+newuidmap allow regular users to create user namespaces with subordinate =
+user
+and group ID mappings.
+This allows users to effectively drop their extra group memberships.
+
+I recently stumbled upon this behavior while looking into how rootless co=
+ntainers
+work. In conversations with the maintainers of the shadow package, I lear=
+ned that
+this behavior is both known and intended.
+So, let's make sure to document it as well.
+
+Thanks,
+//richard
+
 --=20
 2.26.2
 
