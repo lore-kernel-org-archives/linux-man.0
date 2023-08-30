@@ -2,144 +2,93 @@ Return-Path: <linux-man-owner@vger.kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id C3834C83F18
-	for <linux-man@archiver.kernel.org>; Tue, 29 Aug 2023 21:41:57 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id C1B1CC83F37
+	for <linux-man@archiver.kernel.org>; Wed, 30 Aug 2023 18:47:03 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S238782AbjH2Vla (ORCPT <rfc822;linux-man@archiver.kernel.org>);
-        Tue, 29 Aug 2023 17:41:30 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:33472 "EHLO
+        id S242115AbjH3Spy (ORCPT <rfc822;linux-man@archiver.kernel.org>);
+        Wed, 30 Aug 2023 14:45:54 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:38066 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S241271AbjH2Vky (ORCPT
-        <rfc822;linux-man@vger.kernel.org>); Tue, 29 Aug 2023 17:40:54 -0400
-Received: from dfw.source.kernel.org (dfw.source.kernel.org [IPv6:2604:1380:4641:c500::1])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id CCF47CED;
-        Tue, 29 Aug 2023 14:40:49 -0700 (PDT)
+        with ESMTP id S242375AbjH3ITN (ORCPT
+        <rfc822;linux-man@vger.kernel.org>); Wed, 30 Aug 2023 04:19:13 -0400
+Received: from dfw.source.kernel.org (dfw.source.kernel.org [139.178.84.217])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id C12B6113;
+        Wed, 30 Aug 2023 01:19:10 -0700 (PDT)
 Received: from smtp.kernel.org (relay.kernel.org [52.25.139.140])
         (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
          key-exchange X25519 server-signature RSA-PSS (2048 bits))
         (No client certificate requested)
-        by dfw.source.kernel.org (Postfix) with ESMTPS id AF6636186D;
-        Tue, 29 Aug 2023 21:40:38 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 0A859C433C8;
-        Tue, 29 Aug 2023 21:40:35 +0000 (UTC)
+        by dfw.source.kernel.org (Postfix) with ESMTPS id 5DB56620E0;
+        Wed, 30 Aug 2023 08:19:10 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 2DD6CC433C8;
+        Wed, 30 Aug 2023 08:19:07 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-        s=k20201202; t=1693345238;
-        bh=G/IXVEbHXbA/TNJfDio2u2EqSl6QI/byoc4E/Nv9cN0=;
-        h=Date:Subject:To:Cc:References:From:In-Reply-To:From;
-        b=bCQk3rTf7Ez3IOhyIvVhdAoR78ip8YgIYMZeHYRU+T30zLVM6ukBh5y7DYVkEvHz5
-         cvvTse4kRdCkdeML65OSlWIisYrp+25eaRG9/4T9UdV6YtA4cgPV0gM8gHvgbsNP3k
-         7fy3OeglHZaufir7pMNz99HCRqZPlnX2Sn3Q51UN8vSUq/noboS1O/jNKeYPwpGrXb
-         siQ10pie8Q1sxbrLwnsXNqpkY2J4JwVmOCD67j5Znj8MSSD3a3DBkTJcNTpmFiybvb
-         PcGyBdQUJKiwjsbxkG2lOkQYqC4lJO/huaKWVxtSvUp9AUc+bxa6gh6X7gYl3rFu5K
-         t6SSRPcIypOCg==
-Message-ID: <941ad196-c6ae-728c-a8d5-2a866c20114a@kernel.org>
-Date:   Tue, 29 Aug 2023 23:40:34 +0200
-MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
- Thunderbird/102.13.1
-Subject: Re: [PATCH 2/3] user_namespaces.7: Document pitfall with negative
- permissions and user namespaces
-Content-Language: en-US
+        s=k20201202; t=1693383549;
+        bh=NGgSh0cGcSG/JR6ENnpJlFzHhIu4tT8GFV3OV5qe3zk=;
+        h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+        b=J8ht0AZ058W0q8ut1p0NTaAP8d84wWktL9IrTZOzBEXz+AsieH/c788d2YV/+uIHR
+         4jZZjV5KPQcIHZFjefxklyND18RL2B0aWaJH3WkroslcEBg7I5HMv7vEn1BC4mw8VN
+         dbcQm9/PU/pAzzm0xrEfm1MSbqQv+EO0Fr2pi2mnUDXKC6/K9VnHZpX9JJmaEuZXlF
+         fmGNDyDrnAQt+qpb90wbIfB9tpExuZExgmUi/QDCQ27pkpETKHpYAV2f9qAAL6DshC
+         4fav8jnlOETggUKEEj5Jf/Tnhfqh02EVtSKPe74tINsNa9SinJYjgrtJcjuoAPq/tB
+         wbHyq0XA529JA==
+Date:   Wed, 30 Aug 2023 10:19:04 +0200
+From:   Christian Brauner <brauner@kernel.org>
 To:     Richard Weinberger <richard@nod.at>
-Cc:     "Serge E. Hallyn" <serge@hallyn.com>,
-        christian <christian@brauner.io>, ipedrosa <ipedrosa@redhat.com>,
-        gscrivan <gscrivan@redhat.com>,
-        =?UTF-8?Q?Andreas_Gr=c3=bcnbacher?= <andreas.gruenbacher@gmail.com>,
-        acl-devel <acl-devel@nongnu.org>,
-        linux-man <linux-man@vger.kernel.org>,
-        linux-api <linux-api@vger.kernel.org>,
-        linux-fsdevel <linux-fsdevel@vger.kernel.org>,
-        ebiederm <ebiederm@xmission.com>
+Cc:     alx@kernel.org, serge@hallyn.com, christian@brauner.io,
+        ipedrosa@redhat.com, gscrivan@redhat.com,
+        andreas.gruenbacher@gmail.com, acl-devel@nongnu.org,
+        linux-man@vger.kernel.org, linux-api@vger.kernel.org,
+        linux-fsdevel@vger.kernel.org, ebiederm@xmission.com
+Subject: Re: [PATCH 1/3] man: Document pitfall with negative permissions and
+ user namespaces
+Message-ID: <20230830-seilwinde-kunst-eebb96620782@brauner>
 References: <20230829205833.14873-1-richard@nod.at>
- <20230829205833.14873-3-richard@nod.at>
- <51d4691d-dbc8-2e70-edc8-3b5814213c3f@kernel.org>
- <300010998.1870230.1693345150665.JavaMail.zimbra@nod.at>
-From:   Alejandro Colomar <alx@kernel.org>
-Organization: Linux
-In-Reply-To: <300010998.1870230.1693345150665.JavaMail.zimbra@nod.at>
-Content-Type: multipart/signed; micalg=pgp-sha256;
- protocol="application/pgp-signature";
- boundary="------------hdbah5UsGbLpBhayX3BQA1Wr"
+ <20230829205833.14873-2-richard@nod.at>
+MIME-Version: 1.0
+Content-Type: text/plain; charset=utf-8
+Content-Disposition: inline
+In-Reply-To: <20230829205833.14873-2-richard@nod.at>
 Precedence: bulk
 List-ID: <linux-man.vger.kernel.org>
 X-Mailing-List: linux-man@vger.kernel.org
 
-This is an OpenPGP/MIME signed message (RFC 4880 and 3156)
---------------hdbah5UsGbLpBhayX3BQA1Wr
-Content-Type: multipart/mixed; boundary="------------22zWt3urw070L00gNi9pBi0X";
- protected-headers="v1"
-From: Alejandro Colomar <alx@kernel.org>
-To: Richard Weinberger <richard@nod.at>
-Cc: "Serge E. Hallyn" <serge@hallyn.com>, christian <christian@brauner.io>,
- ipedrosa <ipedrosa@redhat.com>, gscrivan <gscrivan@redhat.com>,
- =?UTF-8?Q?Andreas_Gr=c3=bcnbacher?= <andreas.gruenbacher@gmail.com>,
- acl-devel <acl-devel@nongnu.org>, linux-man <linux-man@vger.kernel.org>,
- linux-api <linux-api@vger.kernel.org>,
- linux-fsdevel <linux-fsdevel@vger.kernel.org>,
- ebiederm <ebiederm@xmission.com>
-Message-ID: <941ad196-c6ae-728c-a8d5-2a866c20114a@kernel.org>
-Subject: Re: [PATCH 2/3] user_namespaces.7: Document pitfall with negative
- permissions and user namespaces
-References: <20230829205833.14873-1-richard@nod.at>
- <20230829205833.14873-3-richard@nod.at>
- <51d4691d-dbc8-2e70-edc8-3b5814213c3f@kernel.org>
- <300010998.1870230.1693345150665.JavaMail.zimbra@nod.at>
-In-Reply-To: <300010998.1870230.1693345150665.JavaMail.zimbra@nod.at>
+On Tue, Aug 29, 2023 at 10:58:31PM +0200, Richard Weinberger wrote:
+> It is little known that user namespaces and some helpers
+> can be used to bypass negative permissions.
+> 
+> Signed-off-by: Richard Weinberger <richard@nod.at>
+> ---
+> This patch applies to the acl software project.
+> ---
+>  man/man5/acl.5 | 15 +++++++++++++++
+>  1 file changed, 15 insertions(+)
+> 
+> diff --git a/man/man5/acl.5 b/man/man5/acl.5
+> index 0db86b325617..2ed144742e37 100644
+> --- a/man/man5/acl.5
+> +++ b/man/man5/acl.5
+> @@ -495,5 +495,20 @@ These non-portable extensions are available on Linux systems.
+>  .Xr acl_from_mode 3 ,
+>  .Xr acl_get_perm 3 ,
+>  .Xr acl_to_any_text 3
+> +.Sh NOTES
+> +.Ss Negative permissions and Linux user namespaces
+> +While it is technically feasible to establish negative permissions through
+> +ACLs, such an approach is widely regarded as a suboptimal practice.
+> +Furthermore, the utilization of Linux user namespaces introduces the
+> +potential to circumvent specific negative permissions.  This issue stems
+> +from the fact that privileged helpers, such as
+> +.Xr newuidmap 1 ,
+> +enable unprivileged users to create user namespaces with subordinate user and
+> +group IDs. As a consequence, users can drop group memberships, resulting
+> +in a situation where negative permissions based on group membership no longer
+> +apply.
+> +For more details, please refer to the
+> +.Xr user_namespaces 7
+> +documentation.
+>  .Sh AUTHOR
+>  Andreas Gruenbacher, <andreas.gruenbacher@gmail.com>
 
---------------22zWt3urw070L00gNi9pBi0X
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: quoted-printable
-
-On 2023-08-29 23:39, Richard Weinberger wrote:
-> ----- Urspr=C3=BCngliche Mail -----
->> Von: "Alejandro Colomar" <alx@kernel.org>
->> $ unshare =E2=80=90S 0 =E2=80=90G 0 =E2=80=90=E2=80=90map=E2=80=90user=
-s=3D100000,0,65536 =E2=80=90=E2=80=90map=E2=80=90groups=3D100000,0,65536 =
-id
->> unshare: failed to execute =E2=80=90S: No such file or directory
->=20
-> Well, maybe your unshare tool is too old.
-> AFAIK it uses newuidmap only in recent versions.
-
-I'm on Debian Sid.  That's quite unlikely :p
-(Although Debian Sid still runs make-4.3, so it wouldn't be crazy).
-
->=20
-> You can achieve the very same als using podman in rootless mode.
-> e.g.
-> podman run -it -v /scratch:/scratch/ bash -c "cat /scratch/games/game.t=
-xt"
->=20
-> Thanks,
-> //richard
-
---=20
-<http://www.alejandro-colomar.es/>
-GPG key fingerprint: A9348594CE31283A826FBDD8D57633D441E25BB5
-
-
---------------22zWt3urw070L00gNi9pBi0X--
-
---------------hdbah5UsGbLpBhayX3BQA1Wr
-Content-Type: application/pgp-signature; name="OpenPGP_signature.asc"
-Content-Description: OpenPGP digital signature
-Content-Disposition: attachment; filename="OpenPGP_signature"
-
------BEGIN PGP SIGNATURE-----
-
-iQIzBAEBCgAdFiEE6jqH8KTroDDkXfJAnowa+77/2zIFAmTuZdIACgkQnowa+77/
-2zJ/yA//Wu0ZmKl7U/cReJWoZ3OeUjJYt/vHjm5gTUYYaViVVAGLiErshcL5I6E7
-ZCCoCXZcAblxBBahQp3+LzhmPdBBviwxCQfQKcb2wNOPpX0h6tPAwY98PzzFbomQ
-BsqeKUYoth90jN8YFd/liV86M5/zHJTA8F3LHLkMXtSsPvYspbCWYqfEgKrmY0ia
-SN++xNLLiVAyfIJlB6bWd1OROJTm+o+sInsQyHNpSmy7dh5n0wgQyBnYk1qQ+P+n
-9MlSmQ4/C+RkTNIvaPLqodInLC+RGyJrwm9xeZKgqnpaTg3EM69q16ncdgl1oj3E
-MrMwozfUxj9vJ7+9cMC8xxiUbdwDMWCyYmB+oeYZtBGLjssqllbMMUE1gwEczsmk
-FxvVF4iZJ+tmBQ6JIVKQoGcKYMl68cNYgc8LJaBXn+9lufG53q1bwf1KrfiZthOz
-UrGxAhVOr+4JhEa0Ow7VbyPpSy3b13mytMJUCe+iEmw5ecT6zm7hC6hczSnIqCnQ
-fQaF12NByEr7KmhbysBv7CG8OPR0SQea6EfsSH9r6Oy0ipqdavCeg7J3ATz7hcTU
-rMg/qysPo3md7zNfZbCFWg/7vSe7RMrcP3ywGCi06mxs2J0yFi/H8AA+tNK0kdR7
-bC5Xi00FtAnyQ9bxEHatSc5AwC2ILEizUlJLOFm0hDaWpsqfFhM=
-=d9yg
------END PGP SIGNATURE-----
-
---------------hdbah5UsGbLpBhayX3BQA1Wr--
+Looks good to me,
+Acked-by: Christian Brauner <brauner@kernel.org>
