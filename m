@@ -2,164 +2,94 @@ Return-Path: <linux-man-owner@vger.kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id D023FC83F33
-	for <linux-man@archiver.kernel.org>; Mon,  4 Sep 2023 14:29:32 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id C2927C83F33
+	for <linux-man@archiver.kernel.org>; Mon,  4 Sep 2023 15:59:08 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S233928AbjIDO3e (ORCPT <rfc822;linux-man@archiver.kernel.org>);
-        Mon, 4 Sep 2023 10:29:34 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:43572 "EHLO
+        id S233957AbjIDP7K (ORCPT <rfc822;linux-man@archiver.kernel.org>);
+        Mon, 4 Sep 2023 11:59:10 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:60038 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S233338AbjIDO3d (ORCPT
-        <rfc822;linux-man@vger.kernel.org>); Mon, 4 Sep 2023 10:29:33 -0400
+        with ESMTP id S1353290AbjIDP7I (ORCPT
+        <rfc822;linux-man@vger.kernel.org>); Mon, 4 Sep 2023 11:59:08 -0400
 Received: from tarta.nabijaczleweli.xyz (tarta.nabijaczleweli.xyz [139.28.40.42])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id AC479E5C
-        for <linux-man@vger.kernel.org>; Mon,  4 Sep 2023 07:29:24 -0700 (PDT)
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id BB58C1985
+        for <linux-man@vger.kernel.org>; Mon,  4 Sep 2023 08:58:36 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=nabijaczleweli.xyz;
-        s=202305; t=1693837760;
-        bh=lLt2+ZwvgClKGH4Jv9MEexrN/zTFU1+FpSe9ofOk75s=;
-        h=Date:From:To:Cc:Subject:From;
-        b=bZRSyKS2Dsdr4yUss7+uVYb3xOpIlz34LtKXy2PitxY7iUVqqkcR56MQzxdTbYmdA
-         9eiVGYveL5FTqpFdMFKVRPxIBwsa6iC/pMmKvCih7aX+OIh5L2Qj2F0sjttZtJYuQ+
-         f2rSjOGYx33+dxRaqMKofk/qCccbLvcI4pcUcqJ11SzfIGl2nOd8G3yFFC05NAc4Gb
-         Q0s3zLmyRYhwXOvz/4TygTcCXA1Lp5We8myotA+yIEIXYBLUCUaCQSynMtazQlYItY
-         ifXkptw5ekHOYgkTlTPAEeLDhalBb9NvYXrBRsDRU6G4/4LMk8M50T0F/0hsx/OnOW
-         MA0wMiyW3djng==
+        s=202305; t=1693843098;
+        bh=OPFAyyz9munSkHIE6jCa+kJpmEoeSlLGO4QVh0aN1/0=;
+        h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+        b=SS/LVRG5/wtd+PBCys7ndquuBLL9ZCtf0YNeUYnxeSQtY57Wo/9fmTtfiJWR7vuUs
+         UbmOQ/Dh4hrOx/YvQVSERSCq1jkB9q3UQhcFVMV+NzfrenOOThAlCiYs0jJKGakaK9
+         mYJPeaLoKU4+LeoveFmKSVNKaD5j5ZM/dqe1HnXqmnzAWIUFZMymsUAJaEWCV/lO24
+         qvY23y3NEZt6cZKzHb1NdLi7Xx41gfjyDDDyBUo4FjOgQplKWmhVriyXKRtEwI810p
+         Mg9ztQAYJxHE2hhGk0WiRMtS8ZJQPywv0RAtHTBkVOqc98T+hAt75WAyflaUvVDkQQ
+         52hQeos0Z3U3g==
 Received: from tarta.nabijaczleweli.xyz (unknown [192.168.1.250])
-        by tarta.nabijaczleweli.xyz (Postfix) with ESMTPSA id CCFC6B536;
-        Mon,  4 Sep 2023 16:29:20 +0200 (CEST)
-Date:   Mon, 4 Sep 2023 16:29:19 +0200
+        by tarta.nabijaczleweli.xyz (Postfix) with ESMTPSA id 70FC3B0C6;
+        Mon,  4 Sep 2023 17:58:18 +0200 (CEST)
+Date:   Mon, 4 Sep 2023 17:58:17 +0200
 From:   =?utf-8?B?0L3QsNCx?= <nabijaczleweli@nabijaczleweli.xyz>
-To:     "Alejandro Colomar (man-pages)" <alx.manpages@gmail.com>
-Cc:     linux-man@vger.kernel.org
-Subject: [PATCH] ioctl.2: note "int request" form, HISTORYise a bit
-Message-ID: <israsi2qmpudilwpy2h6vj4dda7jofrc3oolhrcs4cpwvwzl5x@ur3oua7jxgs3>
+To:     Jakub Wilk <jwilk@jwilk.net>
+Cc:     Alejandro Colomar <alx.manpages@gmail.com>,
+        linux-man@vger.kernel.org
+Subject: Re: [PATCH] ioctl.2: note "int request" form, HISTORYise a bit
+Message-ID: <zo54uc5bxatm7pjctsds623nmo75l3ydjzp5w7loiylbf4nacj@jli3dc5fdbrk>
+References: <israsi2qmpudilwpy2h6vj4dda7jofrc3oolhrcs4cpwvwzl5x@ur3oua7jxgs3>
+ <20230904154150.25pvoitudtdwqfla@jwilk.net>
 MIME-Version: 1.0
 Content-Type: multipart/signed; micalg=pgp-sha512;
-        protocol="application/pgp-signature"; boundary="dl2424yk4ufpexb6"
+        protocol="application/pgp-signature"; boundary="esilhgor267yeao6"
 Content-Disposition: inline
+In-Reply-To: <20230904154150.25pvoitudtdwqfla@jwilk.net>
 User-Agent: NeoMutt/20230517
 Precedence: bulk
 List-ID: <linux-man.vger.kernel.org>
 X-Mailing-List: linux-man@vger.kernel.org
 
 
---dl2424yk4ufpexb6
+--esilhgor267yeao6
 Content-Type: text/plain; charset=utf-8
 Content-Disposition: inline
 Content-Transfer-Encoding: quoted-printable
 
-Bit me in https://github.com/thecoshman/http/issues/155:
-musl (and, thus, bionic) takes an int!
+On Mon, Sep 04, 2023 at 05:41:50PM +0200, Jakub Wilk wrote:
+> * =D0=BD=D0=B0=D0=B1 <nabijaczleweli@nabijaczleweli.xyz>, 2023-09-04 16:2=
+9:
+> > POSIX says nothing about ioctl:
+> Yes it does say _something_:
+> https://pubs.opengroup.org/onlinepubs/9699919799/functions/ioctl.html
+Shaded OB XSR (obsolescent, STREAMS),
+FUTURE DIREXIONS say "we're removing this next release" (effectively).
 
-Kill the "POSIX says 'request' is int" comment,
-POSIX says nothing about ioctl:
-it invented tc[gs]etattr() and tc[gs]etwinsize() to avoid having
-ioctl() at all, and STREAMS is long dead from POSIX.
+Linux doesn't have STREAMS, so this doesn't apply, and even if it did,
+> > STREAMS is long dead from POSIX.
+> What do you mean?
+It's obsolescent in issue 7 and completely gone from issue 8,
+and ioctl() is completely gone with it:
+  STANDARDS
+          None.
+is correct.
 
-Note how the interface evolved in HISTORY. The NetBSD CVS has
-  revision 1.1
-  date: 1993-03-21 10:45:37 +0100;  author: cgd;  state: Exp;
-  branches:  1.1.1;
-  Initial revision
-  ----------------------------
-  revision 1.1.1.2
-  date: 1995-02-27 11:49:43 +0100;  author: cgd;  state: Exp;  lines: +6
-  -6;
-  from Lite
-  ----------------------------
-  revision 1.1.1.1
-  date: 1993-03-21 10:45:37 +0100;  author: cgd;  state: Exp;  lines: +0
-  -0;
-  initial import of 386bsd-0.1 sources
-  ----------------------------
-and it's char * in 1.1.1.1 and 1.1.1.2 but ... in 1.1, so hell knows.
+Best,
 
-Signed-off-by: Ahelenia Ziemia=C5=84ska <nabijaczleweli@nabijaczleweli.xyz>
----
- man2/ioctl.2 | 40 ++++++++++++++++++++++++++++++++++++----
- 1 file changed, 36 insertions(+), 4 deletions(-)
-
-diff --git a/man2/ioctl.2 b/man2/ioctl.2
-index 6b55d47c9..a658da354 100644
---- a/man2/ioctl.2
-+++ b/man2/ioctl.2
-@@ -20,9 +20,8 @@ .SH SYNOPSIS
- .nf
- .B #include <sys/ioctl.h>
- .PP
--.BI "int ioctl(int " fd ", unsigned long " request ", ...);"
--.\" POSIX says 'request' is int, but glibc has the above
--.\" See https://bugzilla.kernel.org/show_bug.cgi?id=3D42705
-+.BI "int ioctl(int " fd ", unsigned long " request ", ...);" "\fR  /* glib=
-c, BSD */\fP"
-+.BI "int ioctl(int " fd ", int " request ", ...);" "\fR            /* musl=
-, other UNIX */\fP"
- .fi
- .SH DESCRIPTION
- The
-@@ -103,7 +102,40 @@ .SH VERSIONS
- .SH STANDARDS
- None.
- .SH HISTORY
--Version\~7 AT&T UNIX.
-+Version\~7 AT&T UNIX has
-+.nf
-+.ti +.5i
-+.BI "ioctl(int " fildes ", int " request ", struct sgttyb *" argp );
-+.fi
-+(where
-+.B struct sgttyb
-+has historically been used by
-+.BR stty (2)
-+and
-+.BR gtty(2),
-+and is polymorphic by request type (like a
-+.B void *
-+would be, if it had been available)).
-+.PP
-+SysIII documents
-+.I arg
-+without a type at all.
-+.PP
-+4.3BSD has
-+.nf
-+.ti +.5i
-+.BI "ioctl(int " d ", unsigned long " request ", char *" argp );
-+.fi
-+(with
-+.B char *
-+similarly in for
-+.BR "void *" ).
-+.PP
-+SysVr4 has
-+.nf
-+.ti +.5i
-+.BI "int ioctl(int " fildes ", int " request ", ... /* " arg " */);"
-+.fi
- .SH NOTES
- In order to use this call, one needs an open file descriptor.
- Often the
---=20
-2.39.2
-
---dl2424yk4ufpexb6
+--esilhgor267yeao6
 Content-Type: application/pgp-signature; name="signature.asc"
 
 -----BEGIN PGP SIGNATURE-----
 
-iQIzBAABCgAdFiEEfWlHToQCjFzAxEFjvP0LAY0mWPEFAmT16b8ACgkQvP0LAY0m
-WPGKKQ//eEWMlJuD6WWniW/tTvpX4x5UgTID7/piY/fDVPJZ+eaap8twSaR6/XJL
-CTlBYPBUhtI3+9PtP+GKYC+F0ldc7VSot0ALpQJRD6HVdVIEqKKEFV/yPe77kY4r
-wBMXzTgxljvupWezX5lAnHdWImllz90rHotLImHy7rZEHqD8GfzejQYQj4VlwGkv
-RU0gVIi97XyC+GoZNhfba7iXsOniT17fVPRXT6+5qbpVmq/U7d0BcekxbydqZJi1
-j4LSbO0pss1XXF8xrtMDIQ9NPDb4kBp95ENSWzTj3yCbRn57c+kiVWVTZFpMaO3S
-hXJpFs33Ck0vcRbT56WB2qTgddGLXlSzwFYVH80Y+xlst+BRSArAZ0pYoPItmImT
-ZZcouCQMQPYkVYGdi3d1GMZXl2RSiig0FVzlZp59n0KHmxsV9iw7v2l45R5c0Ciq
-kpHLWBTkJn4h99Lp49bjgib8XOIL1X1CJZ7U6wKMNTsGHY0wQmLQkdwO9M/pfFkP
-KCd7+Bp4eDTtkHj5H1u6MnuGsqijyI9/PZ3P0NA2wL7MuhWEB1y0+C221uHSjQKn
-hY3xmfKS1Jw4C80oxmitpPOP2IzWx2uNPhWDX/NkH9diKMqQ75B8afQvRTlUpp61
-n59Vc9fXfvozXZhIdDC15CZ3xQtRB4+0gtSlcbXEuFhSasUTsXA=
-=Vjxh
+iQIzBAABCgAdFiEEfWlHToQCjFzAxEFjvP0LAY0mWPEFAmT1/pcACgkQvP0LAY0m
+WPHaGxAAtt6aFbqzOS9Y6l2UHLNb3C176ERSAIt5FuNWgqlkLOmPCwMp0VDKP3rG
+6EWoO2C+Jfx9oxpkhMfYfW1yHgHEQuheZeCP6fTXsg4WGX1ge6UGHDWAGbMNFn2u
+Bs0Pu7qHtWBFKJeoTZiRy+Hl9ZwV3DyDbOIwFiCpJYq8qSyPDgs56XZsC9YvATw5
+BCE0qVB66ZyEmofR/JdoS0PQ2ADJOVl3GQE+p8jMZuejQQeLUUJfdbs9Du1Octdr
+ByGW2dA8lOe98ubHamcMwWE0UxEt5vJETKZiGzZAoIrsuKH0SHND51FFjVj2VR9w
+Jql5sc6iKbZHsgay8Gi/SOumC7bzo0C2uQZCecisRFz1Nqasl0nzUFm/etEY/52W
+88SW8asRzoc5rtg/56dS0jZ8brWhDpMEtrAOhfktJ88cq8W9XIYOslEbLSgtzlx8
+MBPcKlsAMpAVBgy8tWH6CJ7Gq/6hBW8OPaHuZMpEMyrmax7bHGFlAkPUYgiSrPmx
+qbdbbfRVCTn4Nr9SrPYMeSsd5DIMB0prftrfvNrl1gUcShB+ZpiduE83LwfKQ6dR
+ZnHSPDy6m5cf6diVyfDegN+r1ss1nAduGv/tRrhtDQ2DViDu7JTG54A0bXd2hdzh
+OIjZmizHLVyN+Twl6Lj+ue9MtclgT2iVAQylv5cDf+8jXDjy61Y=
+=LkW+
 -----END PGP SIGNATURE-----
 
---dl2424yk4ufpexb6--
+--esilhgor267yeao6--
