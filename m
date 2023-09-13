@@ -2,59 +2,59 @@ Return-Path: <linux-man-owner@vger.kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 45513EDEC77
-	for <linux-man@archiver.kernel.org>; Wed, 13 Sep 2023 15:23:43 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 05540EDEC73
+	for <linux-man@archiver.kernel.org>; Wed, 13 Sep 2023 15:23:57 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S239049AbjIMPXp (ORCPT <rfc822;linux-man@archiver.kernel.org>);
-        Wed, 13 Sep 2023 11:23:45 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:43446 "EHLO
+        id S241746AbjIMPYA (ORCPT <rfc822;linux-man@archiver.kernel.org>);
+        Wed, 13 Sep 2023 11:24:00 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:43524 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S239088AbjIMPXl (ORCPT
-        <rfc822;linux-man@vger.kernel.org>); Wed, 13 Sep 2023 11:23:41 -0400
-Received: from us-smtp-delivery-124.mimecast.com (us-smtp-delivery-124.mimecast.com [170.10.133.124])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTP id 722111BCB
-        for <linux-man@vger.kernel.org>; Wed, 13 Sep 2023 08:22:46 -0700 (PDT)
+        with ESMTP id S241482AbjIMPXn (ORCPT
+        <rfc822;linux-man@vger.kernel.org>); Wed, 13 Sep 2023 11:23:43 -0400
+Received: from us-smtp-delivery-124.mimecast.com (us-smtp-delivery-124.mimecast.com [170.10.129.124])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTP id 6AA5B1BE3
+        for <linux-man@vger.kernel.org>; Wed, 13 Sep 2023 08:22:50 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
-        s=mimecast20190719; t=1694618565;
+        s=mimecast20190719; t=1694618569;
         h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
          to:to:cc:cc:mime-version:mime-version:
          content-transfer-encoding:content-transfer-encoding:
          in-reply-to:in-reply-to:references:references;
-        bh=FTfXorS8NWDW0bcx6yY89gzPkWn52B0igCnyNn6sVfo=;
-        b=bKaRgB7I5OYQPveuDKRkkA+4IVtvOhzIH3mjG1DrrrsIAPludRxF1hmaTkRR30chI4LNYp
-        KuIspELHajlApASpLfVUpff2lDdGwdgzWCBhVNkOFRgz2NiJyggV27Jkx7sOpNOAtKXvAA
-        M4wVsPS/dah1QVF7GlIU/Yf6oUMCEwY=
+        bh=TIhG5T2KIKMdZjw60PIq0vQttf6HwO/EKV4ZJ8HdZ78=;
+        b=KLu2GdUcy0blz8trPMsr+pl6e5J0Wr6k8BlBgb1Vxf9W9xnUX6GPrxQLEOTL+KFkve9/Rn
+        0hCZ6bVhMRvNohZxqTsrhDzWumFjr4mYH/SH1XX9e1lamks/2pm5m4RrTrZ72OBsXhXG5a
+        8aQG7Kupw/hdb5C/u0QDPDdeNMbTvVA=
 Received: from mail-ej1-f71.google.com (mail-ej1-f71.google.com
  [209.85.218.71]) by relay.mimecast.com with ESMTP with STARTTLS
  (version=TLSv1.3, cipher=TLS_AES_256_GCM_SHA384) id
- us-mta-608-UgxXxFpcNga7Y-MqyyeG6g-1; Wed, 13 Sep 2023 11:22:44 -0400
-X-MC-Unique: UgxXxFpcNga7Y-MqyyeG6g-1
-Received: by mail-ej1-f71.google.com with SMTP id a640c23a62f3a-99bcb13d8ddso471220066b.0
-        for <linux-man@vger.kernel.org>; Wed, 13 Sep 2023 08:22:44 -0700 (PDT)
+ us-mta-205-HZyaSuhNMtObYvry8LXYpg-1; Wed, 13 Sep 2023 11:22:48 -0400
+X-MC-Unique: HZyaSuhNMtObYvry8LXYpg-1
+Received: by mail-ej1-f71.google.com with SMTP id a640c23a62f3a-9ad8a967a30so142852366b.0
+        for <linux-man@vger.kernel.org>; Wed, 13 Sep 2023 08:22:48 -0700 (PDT)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1694618563; x=1695223363;
+        d=1e100.net; s=20230601; t=1694618567; x=1695223367;
         h=content-transfer-encoding:mime-version:references:in-reply-to
          :message-id:date:subject:cc:to:from:x-gm-message-state:from:to:cc
          :subject:date:message-id:reply-to;
-        bh=FTfXorS8NWDW0bcx6yY89gzPkWn52B0igCnyNn6sVfo=;
-        b=V2ossPl32R+FViJLW7sYWRecNstMZiOrhWMtgbyfzbYW5pFRJOTFrbYBaaegGuApCC
-         tH2oE3NYyp5rp+J+PHDeF5LfmBDDIbo94MDTsXtOoljLR1kOkRd56HFnAz+PgXgfALjs
-         3JGuG3BysUgogxbXT3zmwbuJfMKVzZPcnk0IsDr7xUlfXyjWo1dfcR0liB4xBncH+/OF
-         HXlKirp1Sfxi7DZWGj6VJCLKllNWTLNdw56BX4A+6gkHtunusX+fzjxVvPCYG0xJ+mh4
-         WBfChmiSykdB5S4PFaJpX+jdFniSLVUXq6h4j3Tk0L0cLCz/JH4GbK9J9r6DHcBI+Jls
-         dIEA==
-X-Gm-Message-State: AOJu0Yw+JSbYZIetCCeJuSw2oCxQalRde//Mlt+gpmkt7UXWdKS4RkMa
-        J/IS4pl4J0YhMU8kDlPf48dbwSMays/J+p/9T1kGpSn+sufj7w63G9Xgv5Imp0tG1Wlwq9Ms12y
-        i7gjGbYAmWzrXU3I4WnfE
-X-Received: by 2002:a17:906:8a4a:b0:9a2:1e03:1573 with SMTP id gx10-20020a1709068a4a00b009a21e031573mr2203454ejc.65.1694618563220;
-        Wed, 13 Sep 2023 08:22:43 -0700 (PDT)
-X-Google-Smtp-Source: AGHT+IEPav7CS9OAXNz5wCBb3Ckycl9EWcatp0ojEQPYZQSdhbugHLMMEeHnm8tMl75k1c+1hzp+Ig==
-X-Received: by 2002:a17:906:8a4a:b0:9a2:1e03:1573 with SMTP id gx10-20020a1709068a4a00b009a21e031573mr2203439ejc.65.1694618562971;
-        Wed, 13 Sep 2023 08:22:42 -0700 (PDT)
+        bh=TIhG5T2KIKMdZjw60PIq0vQttf6HwO/EKV4ZJ8HdZ78=;
+        b=ov1ZYNsVJBoutAD4N0efupe/g/5lBhkRbwgU51qIX8m5Ums4GaUDeeDovY+8FoE/yR
+         1PW+DDbs31x+xRzditZeP1z4BwQ9vAvDqUG0saIvoBMwXaNJ071JAJfLCsVfU6ANCQzb
+         ilpZGNOZhxgi2c9oYn/vOCZmaOJPv5NmNvt0YMv0yk99AkEJHVe7eiaSdOJBJJcNerct
+         wGRrCkmu8Db7vPATzoIDHOfmTnemArfgFjSxruvI8Isbn+iXomkG2hznyISGGh1p9eMt
+         H5ZFVy1ue63hCn0O8T3YYXNLfxdZRnphMhhk5eIpYbgkEc3LTx4ixPzT9A/Xc/BXIFIP
+         YEOQ==
+X-Gm-Message-State: AOJu0YxGBrUdZM8hYrU7fQm8Cig+OlA/3Z0C+hmckE6QY2UW8P5FNGOg
+        mrS1RI8xBF/zetiSVVZAdMJ5T5kBAKr2CQy4zykPe0UQlFawzyE9FoYybzOwVQvFvk+bUCP013q
+        1L5wWThbVWPILX4Ep8/+x
+X-Received: by 2002:a17:906:20dd:b0:9a6:5696:388e with SMTP id c29-20020a17090620dd00b009a65696388emr2105311ejc.77.1694618567061;
+        Wed, 13 Sep 2023 08:22:47 -0700 (PDT)
+X-Google-Smtp-Source: AGHT+IGUbVOcJrl/IQ8dCV2GLwgGWT9XogEbtVBr/RtvLl6AfXCidW8q9QonDLUeH+Pc13/vJ+qjnA==
+X-Received: by 2002:a17:906:20dd:b0:9a6:5696:388e with SMTP id c29-20020a17090620dd00b009a65696388emr2105305ejc.77.1694618566882;
+        Wed, 13 Sep 2023 08:22:46 -0700 (PDT)
 Received: from maszat.piliscsaba.szeredi.hu (79-120-253-96.pool.digikabel.hu. [79.120.253.96])
-        by smtp.gmail.com with ESMTPSA id q18-20020a170906a09200b0099b8234a9fesm8640663ejy.1.2023.09.13.08.22.41
+        by smtp.gmail.com with ESMTPSA id q18-20020a170906a09200b0099b8234a9fesm8640663ejy.1.2023.09.13.08.22.44
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Wed, 13 Sep 2023 08:22:41 -0700 (PDT)
+        Wed, 13 Sep 2023 08:22:45 -0700 (PDT)
 From:   Miklos Szeredi <mszeredi@redhat.com>
 To:     linux-fsdevel@vger.kernel.org
 Cc:     linux-kernel@vger.kernel.org, linux-api@vger.kernel.org,
@@ -65,9 +65,9 @@ Cc:     linux-kernel@vger.kernel.org, linux-api@vger.kernel.org,
         Al Viro <viro@zeniv.linux.org.uk>,
         Christian Brauner <christian@brauner.io>,
         Amir Goldstein <amir73il@gmail.com>
-Subject: [RFC PATCH 1/3] add unique mount ID
-Date:   Wed, 13 Sep 2023 17:22:34 +0200
-Message-ID: <20230913152238.905247-2-mszeredi@redhat.com>
+Subject: [RFC PATCH 3/3] add listmnt(2) syscall
+Date:   Wed, 13 Sep 2023 17:22:36 +0200
+Message-ID: <20230913152238.905247-4-mszeredi@redhat.com>
 X-Mailer: git-send-email 2.41.0
 In-Reply-To: <20230913152238.905247-1-mszeredi@redhat.com>
 References: <20230913152238.905247-1-mszeredi@redhat.com>
@@ -77,92 +77,129 @@ Precedence: bulk
 List-ID: <linux-man.vger.kernel.org>
 X-Mailing-List: linux-man@vger.kernel.org
 
-If a mount is released then it's mnt_id can immediately be reused.  This is
-bad news for user interfaces that want to uniquely identify a mount.
+Add way to query the children of a particular mount.  This is a more
+flexible way to iterate the mount tree than having to parse the complete
+/proc/self/mountinfo.
 
-Implementing a unique mount ID is trivial (use a 64bit counter).
-Unfortunately userspace assumes 32bit size and would overflow after the
-counter reaches 2^32.
+Lookup the mount by the old (32bit) or new (64bit) mount ID.  If a mount
+needs to be queried based on path, then statx(2) can be used to first query
+the mount ID belonging to the path.
 
-Introduce a new 64bit ID alongside the old one.  Allow new interfaces to
-work on both the old and new IDs by starting the counter from 2^32.
+Return an array of new (64bit) mount ID's.  Without privileges only mounts
+are listed which are reachable from the task's root.
 
 Signed-off-by: Miklos Szeredi <mszeredi@redhat.com>
 ---
- fs/mount.h                | 3 ++-
- fs/namespace.c            | 4 ++++
- fs/stat.c                 | 9 +++++++--
- include/uapi/linux/stat.h | 1 +
- 4 files changed, 14 insertions(+), 3 deletions(-)
+ arch/x86/entry/syscalls/syscall_64.tbl |  1 +
+ fs/namespace.c                         | 51 ++++++++++++++++++++++++++
+ include/linux/syscalls.h               |  2 +
+ include/uapi/asm-generic/unistd.h      |  5 ++-
+ 4 files changed, 58 insertions(+), 1 deletion(-)
 
-diff --git a/fs/mount.h b/fs/mount.h
-index 130c07c2f8d2..a14f762b3f29 100644
---- a/fs/mount.h
-+++ b/fs/mount.h
-@@ -72,7 +72,8 @@ struct mount {
- 	struct fsnotify_mark_connector __rcu *mnt_fsnotify_marks;
- 	__u32 mnt_fsnotify_mask;
- #endif
--	int mnt_id;			/* mount identifier */
-+	int mnt_id;			/* mount identifier, reused */
-+	u64 mnt_id_unique;		/* mount ID unique until reboot */
- 	int mnt_group_id;		/* peer group identifier */
- 	int mnt_expiry_mark;		/* true if marked for expiry */
- 	struct hlist_head mnt_pins;
+diff --git a/arch/x86/entry/syscalls/syscall_64.tbl b/arch/x86/entry/syscalls/syscall_64.tbl
+index 6d807c30cd16..0d9a47b0ce9b 100644
+--- a/arch/x86/entry/syscalls/syscall_64.tbl
++++ b/arch/x86/entry/syscalls/syscall_64.tbl
+@@ -376,6 +376,7 @@
+ 452	common	fchmodat2		sys_fchmodat2
+ 453	64	map_shadow_stack	sys_map_shadow_stack
+ 454	common	statmnt			sys_statmnt
++455	common	listmnt			sys_listmnt
+ 
+ #
+ # Due to a historical design error, certain syscalls are numbered differently
 diff --git a/fs/namespace.c b/fs/namespace.c
-index e157efc54023..de47c5f66e17 100644
+index 088a52043bba..5362b1ffb26f 100644
 --- a/fs/namespace.c
 +++ b/fs/namespace.c
-@@ -68,6 +68,9 @@ static u64 event;
- static DEFINE_IDA(mnt_id_ida);
- static DEFINE_IDA(mnt_group_ida);
- 
-+/* Don't allow confusion with mount ID allocated wit IDA */
-+static atomic64_t mnt_id_ctr = ATOMIC64_INIT(1ULL << 32);
-+
- static struct hlist_head *mount_hashtable __read_mostly;
- static struct hlist_head *mountpoint_hashtable __read_mostly;
- static struct kmem_cache *mnt_cache __read_mostly;
-@@ -131,6 +134,7 @@ static int mnt_alloc_id(struct mount *mnt)
- 	if (res < 0)
- 		return res;
- 	mnt->mnt_id = res;
-+	mnt->mnt_id_unique = atomic64_inc_return(&mnt_id_ctr);
- 	return 0;
+@@ -4988,6 +4988,57 @@ SYSCALL_DEFINE5(statmnt, u64, mnt_id,
+ 	return err;
  }
  
-diff --git a/fs/stat.c b/fs/stat.c
-index 6822ac77aec2..46d901b6b2de 100644
---- a/fs/stat.c
-+++ b/fs/stat.c
-@@ -280,8 +280,13 @@ static int vfs_statx(int dfd, struct filename *filename, int flags,
- 
- 	error = vfs_getattr(&path, stat, request_mask, flags);
- 
--	stat->mnt_id = real_mount(path.mnt)->mnt_id;
--	stat->result_mask |= STATX_MNT_ID;
-+	if (request_mask & STATX_MNT_ID_UNIQUE) {
-+		stat->mnt_id = real_mount(path.mnt)->mnt_id_unique;
-+		stat->result_mask |= STATX_MNT_ID_UNIQUE;
-+	} else {
-+		stat->mnt_id = real_mount(path.mnt)->mnt_id;
-+		stat->result_mask |= STATX_MNT_ID;
++static long do_listmnt(struct vfsmount *mnt, u64 __user *buf, size_t bufsize,
++		      const struct path *root)
++{
++	struct mount *r, *m = real_mount(mnt);
++	struct path rootmnt = { .mnt = root->mnt, .dentry = root->mnt->mnt_root };
++	long ctr = 0;
++
++	if (!capable(CAP_SYS_ADMIN) &&
++	    !is_path_reachable(m, mnt->mnt_root, &rootmnt))
++		return -EPERM;
++
++	list_for_each_entry(r, &m->mnt_mounts, mnt_child) {
++		if (!capable(CAP_SYS_ADMIN) &&
++		    !is_path_reachable(r, r->mnt.mnt_root, root))
++			continue;
++
++		if (ctr >= bufsize)
++			return -EOVERFLOW;
++		if (put_user(r->mnt_id_unique, buf + ctr))
++			return -EFAULT;
++		ctr++;
++		if (ctr < 0)
++			return -ERANGE;
 +	}
++	return ctr;
++}
++
++SYSCALL_DEFINE4(listmnt, u64, mnt_id, u64 __user *, buf, size_t, bufsize,
++		unsigned int, flags)
++{
++	struct vfsmount *mnt;
++	struct path root;
++	long err;
++
++	if (flags)
++		return -EINVAL;
++
++	down_read(&namespace_sem);
++	mnt = lookup_mnt_in_ns(mnt_id, current->nsproxy->mnt_ns);
++	err = -ENOENT;
++	if (mnt) {
++		get_fs_root(current->fs, &root);
++		err = do_listmnt(mnt, buf, bufsize, &root);
++		path_put(&root);
++	}
++	up_read(&namespace_sem);
++
++	return err;
++}
++
++
+ static void __init init_mount_tree(void)
+ {
+ 	struct vfsmount *mnt;
+diff --git a/include/linux/syscalls.h b/include/linux/syscalls.h
+index 1099bd307fa7..5d776cdb6f18 100644
+--- a/include/linux/syscalls.h
++++ b/include/linux/syscalls.h
+@@ -411,6 +411,8 @@ asmlinkage long sys_fstatfs64(unsigned int fd, size_t sz,
+ asmlinkage long sys_statmnt(u64 mnt_id, u64 mask,
+ 			    struct statmnt __user *buf, size_t bufsize,
+ 			    unsigned int flags);
++asmlinkage long sys_listmnt(u64 mnt_id, u64 __user *buf, size_t bufsize,
++			    unsigned int flags);
+ asmlinkage long sys_truncate(const char __user *path, long length);
+ asmlinkage long sys_ftruncate(unsigned int fd, unsigned long length);
+ #if BITS_PER_LONG == 32
+diff --git a/include/uapi/asm-generic/unistd.h b/include/uapi/asm-generic/unistd.h
+index 640997231ff6..a2b41370f603 100644
+--- a/include/uapi/asm-generic/unistd.h
++++ b/include/uapi/asm-generic/unistd.h
+@@ -826,8 +826,11 @@ __SYSCALL(__NR_fchmodat2, sys_fchmodat2)
+ #define __NR_statmnt   454
+ __SYSCALL(__NR_statmnt, sys_statmnt)
  
- 	if (path.mnt->mnt_root == path.dentry)
- 		stat->attributes |= STATX_ATTR_MOUNT_ROOT;
-diff --git a/include/uapi/linux/stat.h b/include/uapi/linux/stat.h
-index 7cab2c65d3d7..2f2ee82d5517 100644
---- a/include/uapi/linux/stat.h
-+++ b/include/uapi/linux/stat.h
-@@ -154,6 +154,7 @@ struct statx {
- #define STATX_BTIME		0x00000800U	/* Want/got stx_btime */
- #define STATX_MNT_ID		0x00001000U	/* Got stx_mnt_id */
- #define STATX_DIOALIGN		0x00002000U	/* Want/got direct I/O alignment info */
-+#define STATX_MNT_ID_UNIQUE	0x00004000U	/* Want/got extended stx_mount_id */
++#define __NR_listmnt   455
++__SYSCALL(__NR_listmnt, sys_listmnt)
++
+ #undef __NR_syscalls
+-#define __NR_syscalls 455
++#define __NR_syscalls 456
  
- #define STATX__RESERVED		0x80000000U	/* Reserved for future struct statx expansion */
- 
+ /*
+  * 32 bit systems traditionally used different
 -- 
 2.41.0
 
