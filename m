@@ -2,239 +2,85 @@ Return-Path: <linux-man-owner@vger.kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id D4C14C04FFB
-	for <linux-man@archiver.kernel.org>; Wed, 20 Sep 2023 20:11:25 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 85A0CC27C7B
+	for <linux-man@archiver.kernel.org>; Wed, 20 Sep 2023 21:30:32 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S230299AbjITUL3 (ORCPT <rfc822;linux-man@archiver.kernel.org>);
-        Wed, 20 Sep 2023 16:11:29 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:37938 "EHLO
+        id S229520AbjITVag (ORCPT <rfc822;linux-man@archiver.kernel.org>);
+        Wed, 20 Sep 2023 17:30:36 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:52264 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S230344AbjITULU (ORCPT
-        <rfc822;linux-man@vger.kernel.org>); Wed, 20 Sep 2023 16:11:20 -0400
-Received: from mail.cs.ucla.edu (mail.cs.ucla.edu [131.179.128.66])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 1B4181AA
-        for <linux-man@vger.kernel.org>; Wed, 20 Sep 2023 13:11:01 -0700 (PDT)
-Received: from localhost (localhost [127.0.0.1])
-        by mail.cs.ucla.edu (Postfix) with ESMTP id 2CA483C00D18D;
-        Wed, 20 Sep 2023 13:11:01 -0700 (PDT)
-Received: from mail.cs.ucla.edu ([127.0.0.1])
-        by localhost (mail.cs.ucla.edu [127.0.0.1]) (amavisd-new, port 10032)
-        with ESMTP id MAPuBmJYZuB7; Wed, 20 Sep 2023 13:11:00 -0700 (PDT)
-Received: from localhost (localhost [127.0.0.1])
-        by mail.cs.ucla.edu (Postfix) with ESMTP id 946063C00D194;
-        Wed, 20 Sep 2023 13:11:00 -0700 (PDT)
-DKIM-Filter: OpenDKIM Filter v2.10.3 mail.cs.ucla.edu 946063C00D194
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=cs.ucla.edu;
-        s=9D0B346E-2AEB-11ED-9476-E14B719DCE6C; t=1695240660;
-        bh=YC8AHLU8nuzDsnxELRsn+4rSY6QQhWclCjNbc1Xc1YY=;
-        h=Message-ID:Date:MIME-Version:To:From;
-        b=Q/DFgw22wmwEzh+Am6WgXLzS8pn8MADUSvRYHCJ63ab3vgTiH1wKDJFnbvO4hSD0O
-         cvSegtEdbvUjOyw+/bM5V10S+Hx0E7GLfLgxn+N+DDK4iWKEOpnlWyU9j0tDthwK6C
-         s07fB9jisGxWDhuMcX/vKXD5kCDwwHYXYANyOFHolMPXQ3jQIvZI2Uz8arWgwCTG29
-         OhAMwmjePgTkbaaTdnsLXB4mjENnJaNLOGwxnBMM45hTNBM1GOpAsedhIeqP5UOh7t
-         7u6WS3YnYE7LcUhAwiInSfZ29MnvCYcWqVxY7wY2kzbAW/eFU0GMc7mu2CtrQAEqmI
-         vyI8VHC7JwXUA==
-X-Virus-Scanned: amavisd-new at mail.cs.ucla.edu
-Received: from mail.cs.ucla.edu ([127.0.0.1])
-        by localhost (mail.cs.ucla.edu [127.0.0.1]) (amavisd-new, port 10026)
-        with ESMTP id guykZRsDy8iL; Wed, 20 Sep 2023 13:11:00 -0700 (PDT)
-Received: from [192.168.254.12] (unknown [47.147.225.57])
-        by mail.cs.ucla.edu (Postfix) with ESMTPSA id 725503C00D18D;
-        Wed, 20 Sep 2023 13:11:00 -0700 (PDT)
-Content-Type: multipart/mixed; boundary="------------DgiaZqIII6FI9n7BInOmn0WM"
-Message-ID: <e06035f7-145a-13cd-554c-ca65a3d8f98a@cs.ucla.edu>
-Date:   Wed, 20 Sep 2023 13:10:59 -0700
+        with ESMTP id S229574AbjITVaf (ORCPT
+        <rfc822;linux-man@vger.kernel.org>); Wed, 20 Sep 2023 17:30:35 -0400
+Received: from mail-qv1-xf29.google.com (mail-qv1-xf29.google.com [IPv6:2607:f8b0:4864:20::f29])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id D5F54CF
+        for <linux-man@vger.kernel.org>; Wed, 20 Sep 2023 14:30:29 -0700 (PDT)
+Received: by mail-qv1-xf29.google.com with SMTP id 6a1803df08f44-65637c04014so1278556d6.3
+        for <linux-man@vger.kernel.org>; Wed, 20 Sep 2023 14:30:29 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=google.com; s=20230601; t=1695245428; x=1695850228; darn=vger.kernel.org;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=fY0UvEkKdo6g9mXThesw0BKoq3Ay1mjDZTJP6Rhwq14=;
+        b=CWK0G2+eJugbYr09qYYZjCtp3cqD6LZK0ekhdGV/YO6HrI2pyLYKXIKsKj8Jb9b6r7
+         ovasHMZ0tOuwSYVX8VUxvbMYcIOOi/HT7b7VT7LderxpMFH/3hQi2u4TCFN3x1w3Z7tc
+         I8VwnDvKlYowXZ/nU5PcWssLzhH4eZu20gl0uDKZ5OMIwmeiVi9XTvoE3fnOjF8Hs+0F
+         L23bS31j6bTJ5em/4IjIdL91EOo0RAmYOj2zdoCWTA4EvYIlBAKaDSwZZHF9C3jTyNVP
+         KqRsaZoOiYEZPz0CaYXXlBBo2sy1ashuvdyeRtsAG4TNsG4asfTfiYzhOdWtPCdGPsRc
+         +5Lw==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1695245428; x=1695850228;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
+         :subject:date:message-id:reply-to;
+        bh=fY0UvEkKdo6g9mXThesw0BKoq3Ay1mjDZTJP6Rhwq14=;
+        b=CkshRD/ua9NasETEgamB6hrKH4G+bZc+69Xyy55LRS8+8o5mdg07i4vC8KO6xX/HQL
+         yTFXmL9xKasV3bWzQN6CdpbClUKqfDr97Em7SpbSUfc+jD6XnLhuApNdyH0Gd/4MGVtA
+         g4Mjt//Lu4eYGTetMQKIlYKS6uwBDgCnWcXg6zNj6xTzjLjsXKioslvRzc9AMk8BVo15
+         xJJfm9UzKRgCCiONhksojFMXlRRQ7i2ErZ77Zv6UWkpWiTKqW2H9gdBv2rKaIaq3e2sa
+         FQCrUG5dJF8Fgox4PJnb7MAxSrbrWPqc3nOfSpoOGFMsdroet9CIUI930kgmcbJs1pQW
+         74MA==
+X-Gm-Message-State: AOJu0YyL/QBD17xGpiKJQA6cH2ufJxOJuoZHEgg4bRIhcxYTbsBmFFvn
+        ll3DN/EY7I/OlYXD2Bjq6ksvuZoqYFPOykUIYv9n+g==
+X-Google-Smtp-Source: AGHT+IHaudEt3lZwQQc719xT0Mutj18vS489ulUEYcDEwiHP4wZcdBCVq4BdMemH5z+T27qB7sSVwzA0C9x31e++PYg=
+X-Received: by 2002:a0c:b382:0:b0:64f:4ec5:12c6 with SMTP id
+ t2-20020a0cb382000000b0064f4ec512c6mr3416973qve.26.1695245428508; Wed, 20 Sep
+ 2023 14:30:28 -0700 (PDT)
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
- Thunderbird/102.15.1
-To:     enh <enh@google.com>
+References: <CAJgzZoqty5f=ivODLB6pvZpm4bZWAt83ET5jpMwrEb9oVqS6MQ@mail.gmail.com>
+ <fa623e75-e5bf-b32d-8ce8-27ed59ae03d7@cs.ucla.edu> <CAJgzZorrrPLSJ-EWrsGcXg9y-ipVsX9FjHtdeh1x15yY7c-eHw@mail.gmail.com>
+ <e06035f7-145a-13cd-554c-ca65a3d8f98a@cs.ucla.edu>
+In-Reply-To: <e06035f7-145a-13cd-554c-ca65a3d8f98a@cs.ucla.edu>
+From:   enh <enh@google.com>
+Date:   Wed, 20 Sep 2023 14:30:13 -0700
+Message-ID: <CAJgzZorUUsoC77+LE=XpvB3mmUbZEXyzvVi4+0FKqdjRevC3AQ@mail.gmail.com>
+Subject: Re: [PATCH] difftime.3: be more explict about "difference".
+To:     Paul Eggert <eggert@cs.ucla.edu>
 Cc:     linux-man <linux-man@vger.kernel.org>,
         "Alejandro Colomar (man-pages)" <alx.manpages@gmail.com>
-References: <CAJgzZoqty5f=ivODLB6pvZpm4bZWAt83ET5jpMwrEb9oVqS6MQ@mail.gmail.com>
- <fa623e75-e5bf-b32d-8ce8-27ed59ae03d7@cs.ucla.edu>
- <CAJgzZorrrPLSJ-EWrsGcXg9y-ipVsX9FjHtdeh1x15yY7c-eHw@mail.gmail.com>
-Content-Language: en-US
-From:   Paul Eggert <eggert@cs.ucla.edu>
-Organization: UCLA Computer Science Department
-Subject: Re: [PATCH] difftime.3: be more explict about "difference".
-In-Reply-To: <CAJgzZorrrPLSJ-EWrsGcXg9y-ipVsX9FjHtdeh1x15yY7c-eHw@mail.gmail.com>
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 Precedence: bulk
 List-ID: <linux-man.vger.kernel.org>
 X-Mailing-List: linux-man@vger.kernel.org
 
-This is a multi-part message in MIME format.
---------------DgiaZqIII6FI9n7BInOmn0WM
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: quoted-printable
+that looks really good. i'm glad i poked you with my terrible patch. thanks=
+!
 
-On 2023-09-20 07:13, enh wrote:
-> that's why i added you --- to suggest better wording =F0=9F=A4=A3
-
-I noodled around a bit. There are several mistakes about timestamps in=20
-the man pages. difftime, for example, copies the C standard's "calendar=20
-time" wording but in Linux it's just a seconds count and need not have=20
-anything to do with 1970 or any other calendar. And there are lots of=20
-other howlers about leap seconds and 2038, improperly parenthesized=20
-macros, unclear wording like "incremental adjustments", out-of-date=20
-references, etc.
-
-Attached is a proposed patch to fix the problems I found before I ran=20
-out of time. I haven't checked formatting. I'm sure it could be improved=20
-further.
-
---------------DgiaZqIII6FI9n7BInOmn0WM
-Content-Type: text/x-patch; charset=UTF-8;
- name="0001-Improve-timestamp-documentation.patch"
-Content-Disposition: attachment;
- filename="0001-Improve-timestamp-documentation.patch"
-Content-Transfer-Encoding: base64
-
-RnJvbSBjYWMzZGMzMGNlYWFmZTBlMGViOWY1MTU3YTI0NDg1MzRhZTg3NTYzIE1vbiBTZXAg
-MTcgMDA6MDA6MDAgMjAwMQpGcm9tOiBQYXVsIEVnZ2VydCA8ZWdnZXJ0QGNzLnVjbGEuZWR1
-PgpEYXRlOiBXZWQsIDIwIFNlcCAyMDIzIDEyOjU3OjM2IC0wNzAwClN1YmplY3Q6IFtQQVRD
-SF0gSW1wcm92ZSB0aW1lc3RhbXAgZG9jdW1lbnRhdGlvbgoKSW1wcm92ZSBkaXNjdXNzaW9u
-IG9mIGxlYXAgc2Vjb25kcywgeWVhci0yMDM4IGV0Yy4KLS0tCiBtYW4yL2Nsb2NrX2dldHJl
-cy4yICAgIHwgMzcgKysrKysrKysrKysrKysrKysrKysrKysrKystLS0tLS0tLS0tLQogbWFu
-Mi9jbG9ja19uYW5vc2xlZXAuMiB8ICAyICstCiBtYW4yL3RpbWUuMiAgICAgICAgICAgIHwg
-MzYgKysrKysrKysrKysrKysrKy0tLS0tLS0tLS0tLS0tLS0tLS0tCiBtYW4yL3RpbWVyX2Ny
-ZWF0ZS4yICAgIHwgIDIgKy0KIG1hbjMvZGlmZnRpbWUuMyAgICAgICAgfCAyMyArKysrKysr
-LS0tLS0tLS0tLS0tLS0tLQogbWFuM3R5cGUvdGltZV90LjN0eXBlICB8ICAyICsrCiA2IGZp
-bGVzIGNoYW5nZWQsIDUzIGluc2VydGlvbnMoKyksIDQ5IGRlbGV0aW9ucygtKQoKZGlmZiAt
-LWdpdCBhL21hbjIvY2xvY2tfZ2V0cmVzLjIgYi9tYW4yL2Nsb2NrX2dldHJlcy4yCmluZGV4
-IDFjZTYxOGMwMC4uOTM5YWNmYTExIDEwMDY0NAotLS0gYS9tYW4yL2Nsb2NrX2dldHJlcy4y
-CisrKyBiL21hbjIvY2xvY2tfZ2V0cmVzLjIKQEAgLTEwMSw5ICsxMDEsMTcgQEAgQSBzZXR0
-YWJsZSBzeXN0ZW0td2lkZSBjbG9jayB0aGF0IG1lYXN1cmVzIHJlYWwgKGkuZS4sIHdhbGwt
-Y2xvY2spIHRpbWUuCiBTZXR0aW5nIHRoaXMgY2xvY2sgcmVxdWlyZXMgYXBwcm9wcmlhdGUg
-cHJpdmlsZWdlcy4KIFRoaXMgY2xvY2sgaXMgYWZmZWN0ZWQgYnkgZGlzY29udGludW91cyBq
-dW1wcyBpbiB0aGUgc3lzdGVtIHRpbWUKIChlLmcuLCBpZiB0aGUgc3lzdGVtIGFkbWluaXN0
-cmF0b3IgbWFudWFsbHkgY2hhbmdlcyB0aGUgY2xvY2spLAotYW5kIGJ5IHRoZSBpbmNyZW1l
-bnRhbCBhZGp1c3RtZW50cyBwZXJmb3JtZWQgYnkKLS5CUiBhZGp0aW1lICgzKQotYW5kIE5U
-UC4KK2FuZCBieSBmcmVxdWVuY3kgYWRqdXN0bWVudHMgcGVyZm9ybWVkIGJ5IE5UUCBhbmQg
-c2ltaWxhcgorYXBwbGljYXRpb25zIHZpYQorLkJSIGFkanRpbWUgKDMpLAorLkJSIGFkanRp
-bWV4ICgyKSwKKy5CUiBjbG9ja19hZGp0aW1lICgyKSwKK2FuZAorLkJSIG50cF9hZGp0aW1l
-ICgzKS4KK1RoaXMgY2xvY2sgbm9ybWFsbHkgY291bnRzIHRoZSBudW1iZXIgb2Ygc2Vjb25k
-cyBzaW5jZSAxOTcwLTAxLTAxCiswMDowMDowMCBDb29yZGluYXRlZCBVbml2ZXJzYWwgVGlt
-ZSAoVVRDKSBleGNlcHQgdGhhdCBpdCBpZ25vcmVzIGxlYXAgc2Vjb25kczsKK25lYXIgYSBs
-ZWFwIHNlY29uZCBpdCBpcyB0eXBpY2FsbHkgYWRqdXN0ZWQgYnkgTlRQIHRvIHN0YXkgcm91
-Z2hseSBpbgorc3luYyB3aXRoIFVUQy4KIC5UUAogLkJSIENMT0NLX1JFQUxUSU1FX0FMQVJN
-ICIgKHNpbmNlIExpbnV4IDMuMDsgTGludXgtc3BlY2lmaWMpIgogTGlrZQpAQCAtMTI2LDkg
-KzEzNCw5IEBAIGFuZCBwcm9iYWJseSBhbHNvIGFyY2hpdGVjdHVyZSBzdXBwb3J0IGZvciB0
-aGlzIGZsYWcgaW4gdGhlCiAuQlIgQ0xPQ0tfVEFJICIgKHNpbmNlIExpbnV4IDMuMTA7IExp
-bnV4LXNwZWNpZmljKSIKIC5cIiBjb21taXQgMWZmM2M5Njc3YmZmN2U0NjhlMGM0ODdkMGZm
-ZWZlNGU5MDFkMzNmNAogQSBub25zZXR0YWJsZSBzeXN0ZW0td2lkZSBjbG9jayBkZXJpdmVk
-IGZyb20gd2FsbC1jbG9jayB0aW1lCi1idXQgaWdub3JpbmcgbGVhcCBzZWNvbmRzLgorYnV0
-IGNvdW50aW5nIGxlYXAgc2Vjb25kcy4KIFRoaXMgY2xvY2sgZG9lcwotbm90IGV4cGVyaWVu
-Y2UgZGlzY29udGludWl0aWVzIGFuZCBiYWNrd2FyZHMganVtcHMgY2F1c2VkIGJ5IE5UUAor
-bm90IGV4cGVyaWVuY2UgZGlzY29udGludWl0aWVzIG9yIGZyZXF1ZW5jeSBhZGp1c3RtZW50
-cyBjYXVzZWQgYnkKIGluc2VydGluZyBsZWFwIHNlY29uZHMgYXMKIC5CIENMT0NLX1JFQUxU
-SU1FCiBkb2VzLgpAQCAtMTQ2LDkgKzE1NCw3IEBAIFRoZQogLkIgQ0xPQ0tfTU9OT1RPTklD
-CiBjbG9jayBpcyBub3QgYWZmZWN0ZWQgYnkgZGlzY29udGludW91cyBqdW1wcyBpbiB0aGUg
-c3lzdGVtIHRpbWUKIChlLmcuLCBpZiB0aGUgc3lzdGVtIGFkbWluaXN0cmF0b3IgbWFudWFs
-bHkgY2hhbmdlcyB0aGUgY2xvY2spLAotYnV0IGlzIGFmZmVjdGVkIGJ5IHRoZSBpbmNyZW1l
-bnRhbCBhZGp1c3RtZW50cyBwZXJmb3JtZWQgYnkKLS5CUiBhZGp0aW1lICgzKQotYW5kIE5U
-UC4KK2J1dCBpcyBhZmZlY3RlZCBieSBmcmVxdWVuY3kgYWRqdXN0bWVudHMuCiBUaGlzIGNs
-b2NrIGRvZXMgbm90IGNvdW50IHRpbWUgdGhhdCB0aGUgc3lzdGVtIGlzIHN1c3BlbmRlZC4K
-IEFsbAogLkIgQ0xPQ0tfTU9OT1RPTklDCkBAIC0xNzAsOSArMTc2LDcgQEAgYW5kIHByb2Jh
-Ymx5IGFsc28gYXJjaGl0ZWN0dXJlIHN1cHBvcnQgZm9yIHRoaXMgZmxhZyBpbiB0aGUKIFNp
-bWlsYXIgdG8KIC5CUiBDTE9DS19NT05PVE9OSUMgLAogYnV0IHByb3ZpZGVzIGFjY2VzcyB0
-byBhIHJhdyBoYXJkd2FyZS1iYXNlZCB0aW1lCi10aGF0IGlzIG5vdCBzdWJqZWN0IHRvIE5U
-UCBhZGp1c3RtZW50cyBvcgotdGhlIGluY3JlbWVudGFsIGFkanVzdG1lbnRzIHBlcmZvcm1l
-ZCBieQotLkJSIGFkanRpbWUgKDMpLgordGhhdCBpcyBub3Qgc3ViamVjdCB0byBmcmVxdWVu
-Y3kgYWRqdXN0bWVudHMuCiBUaGlzIGNsb2NrIGRvZXMgbm90IGNvdW50IHRpbWUgdGhhdCB0
-aGUgc3lzdGVtIGlzIHN1c3BlbmRlZC4KIC5UUAogLkJSIENMT0NLX0JPT1RUSU1FICIgKHNp
-bmNlIExpbnV4IDIuNi4zOTsgTGludXgtc3BlY2lmaWMpIgpAQCAtMzA0LDYgKzMwOCwxNyBA
-QCBoYXMgZGlzYXBwZWFyZWQgYWZ0ZXIgaXRzIGNoYXJhY3RlciBkZXZpY2Ugd2FzIG9wZW5l
-ZC4KIFRoZSBvcGVyYXRpb24gaXMgbm90IHN1cHBvcnRlZCBieSB0aGUgZHluYW1pYyBQT1NJ
-WCBjbG9jayBkZXZpY2UKIHNwZWNpZmllZC4KIC5UUAorLkIgRU9WRVJGTE9XCitUaGUgdGlt
-ZXN0YW1wIHdvdWxkIG5vdCBmaXQgaW4KKy5JIHRpbWVfdAorcmFuZ2UuICBUaGlzIGNhbiBo
-YXBwZW4gaWYgYW4gZXhlY3V0YWJsZSB3aXRoIDMyLWJpdAorLkkgdGltZV90CitpcyBydW4g
-b24gYSA2NC1iaXQga2VybmVsIHdoZW4gdGhlIHRpbWUgaXMKKzIwMzgtMDEtMTkgMDM6MTQ6
-MDggVVRDIG9yIGxhdGVyLgorSG93ZXZlciwgd2hlbiB0aGUgc3lzdGVtIHRpbWUgaXMgb3V0
-IG9mCisuSSB0aW1lX3QKK3JhbmdlIGluIG90aGVyIHNpdHVhdGlvbnMsIHRoZSBiZWhhdmlv
-ciBpcyB1bmRlZmluZWQuCisuVFAKIC5CIEVQRVJNCiAuQlIgY2xvY2tfc2V0dGltZSAoKQog
-ZG9lcyBub3QgaGF2ZSBwZXJtaXNzaW9uIHRvIHNldCB0aGUgY2xvY2sgaW5kaWNhdGVkLgpk
-aWZmIC0tZ2l0IGEvbWFuMi9jbG9ja19uYW5vc2xlZXAuMiBiL21hbjIvY2xvY2tfbmFub3Ns
-ZWVwLjIKaW5kZXggMzhhYmNhNmRlLi5lODA5MzMzYjYgMTAwNjQ0Ci0tLSBhL21hbjIvY2xv
-Y2tfbmFub3NsZWVwLjIKKysrIGIvbWFuMi9jbG9ja19uYW5vc2xlZXAuMgpAQCAtNTksNyAr
-NTksNyBAQCBUaGlzIGFyZ3VtZW50IGNhbiBoYXZlIG9uZSBvZiB0aGUgZm9sbG93aW5nIHZh
-bHVlczoKIEEgc2V0dGFibGUgc3lzdGVtLXdpZGUgcmVhbC10aW1lIGNsb2NrLgogLlRQCiAu
-QlIgQ0xPQ0tfVEFJICIgKHNpbmNlIExpbnV4IDMuMTApIgotQSBzeXN0ZW0td2lkZSBjbG9j
-ayBkZXJpdmVkIGZyb20gd2FsbC1jbG9jayB0aW1lIGJ1dCBpZ25vcmluZyBsZWFwIHNlY29u
-ZHMuCitBIHN5c3RlbS13aWRlIGNsb2NrIGRlcml2ZWQgZnJvbSB3YWxsLWNsb2NrIHRpbWUg
-YnV0IGNvdW50aW5nIGxlYXAgc2Vjb25kcy4KIC5UUAogLkIgQ0xPQ0tfTU9OT1RPTklDCiBB
-IG5vbnNldHRhYmxlLCBtb25vdG9uaWNhbGx5IGluY3JlYXNpbmcgY2xvY2sgdGhhdCBtZWFz
-dXJlcyB0aW1lCmRpZmYgLS1naXQgYS9tYW4yL3RpbWUuMiBiL21hbjIvdGltZS4yCmluZGV4
-IDY1ZGI2N2EzNC4uNGEwOTE4ZDMzIDEwMDY0NAotLS0gYS9tYW4yL3RpbWUuMgorKysgYi9t
-YW4yL3RpbWUuMgpAQCAtMzUsNiArMzUsMTcgQEAgT24gZXJyb3IsIFxmSSgodGltZV90KVwg
-XC0xKVxmUCBpcyByZXR1cm5lZCwgYW5kCiBpcyBzZXQgdG8gaW5kaWNhdGUgdGhlIGVycm9y
-LgogLlNIIEVSUk9SUwogLlRQCisuQiBFT1ZFUkZMT1cKK1RoZSB0aW1lIGNhbm5vdCBiZSBy
-ZXByZXNlbnRlZCBhcyBhCisuSSB0aW1lX3QKK3ZhbHVlLiAgVGhpcyBjYW4gaGFwcGVuIGlm
-IGFuIGV4ZWN1dGFibGUgd2l0aCAzMi1iaXQKKy5JIHRpbWVfdAoraXMgcnVuIG9uIGEgNjQt
-Yml0IGtlcm5lbCB3aGVuIHRoZSB0aW1lIGlzCisyMDM4LTAxLTE5IDAzOjE0OjA4IFVUQyBv
-ciBsYXRlci4KK0hvd2V2ZXIsIHdoZW4gdGhlIHN5c3RlbSB0aW1lIGlzIG91dCBvZgorLkkg
-dGltZV90CityYW5nZSBpbiBvdGhlciBzaXR1YXRpb25zLCB0aGUgYmVoYXZpb3IgaXMgdW5k
-ZWZpbmVkLgorLlRQCiAuQiBFRkFVTFQKIC5JIHRsb2MKIHBvaW50cyBvdXRzaWRlIHlvdXIg
-YWNjZXNzaWJsZSBhZGRyZXNzIHNwYWNlIChidXQgc2VlIEJVR1MpLgpAQCAtNjAsMjkgKzcx
-LDE0IEBAIGluIHdoaWNoIGNhc2UgdGhleSBhcmUgbGVhcCB5ZWFycy4KIFRoaXMgdmFsdWUg
-aXMgbm90IHRoZSBzYW1lIGFzIHRoZSBhY3R1YWwgbnVtYmVyIG9mIHNlY29uZHMgYmV0d2Vl
-biB0aGUgdGltZQogYW5kIHRoZSBFcG9jaCwgYmVjYXVzZSBvZiBsZWFwIHNlY29uZHMgYW5k
-IGJlY2F1c2Ugc3lzdGVtIGNsb2NrcyBhcmUgbm90CiByZXF1aXJlZCB0byBiZSBzeW5jaHJv
-bml6ZWQgdG8gYSBzdGFuZGFyZCByZWZlcmVuY2UuCi1UaGUgaW50ZW50aW9uIGlzIHRoYXQg
-dGhlIGludGVycHJldGF0aW9uIG9mIHNlY29uZHMgc2luY2UgdGhlIEVwb2NoIHZhbHVlcyBi
-ZQotY29uc2lzdGVudDsgc2VlIFBPU0lYLjEtMjAwOCBSYXRpb25hbGUgQS40LjE1IGZvciBm
-dXJ0aGVyIHJhdGlvbmFsZS4KK0xpbnV4IHN5c3RlbXMgbm9ybWFsbHkgZm9sbG93IHRoZSBQ
-T1NJWCByZXF1aXJlbWVudCB0aGF0IHRoaXMgdmFsdWUKK2lnbm9yZSBsZWFwIHNlY29uZHMs
-IHNvIHRoYXQgY29uZm9ybWluZyBzeXN0ZW1zIGludGVycHJldCBpdCBjb25zaXN0ZW50bHk7
-CitzZWUgUE9TSVguMS0yMDE4IFJhdGlvbmFsZSBBLjQuMTYuCiAuUFAKLU9uIExpbnV4LCBh
-IGNhbGwgdG8KLS5CUiB0aW1lICgpCi13aXRoCi0uSSB0bG9jCi1zcGVjaWZpZWQgYXMgTlVM
-TCBjYW5ub3QgZmFpbCB3aXRoIHRoZSBlcnJvcgotLkJSIEVPVkVSRkxPVyAsCi1ldmVuIG9u
-IEFCSXMgd2hlcmUKLS5JIHRpbWVfdAotaXMgYSBzaWduZWQgMzItYml0IGludGVnZXIgYW5k
-IHRoZSBjbG9jayByZWFjaGVzIG9yIGV4Y2VlZHMgMioqMzEgc2Vjb25kcwotKDIwMzgtMDEt
-MTkgMDM6MTQ6MDggVVRDLCBpZ25vcmluZyBsZWFwIHNlY29uZHMpLgotKFBPU0lYLjEgcGVy
-bWl0cywgYnV0IGRvZXMgbm90IHJlcXVpcmUsIHRoZQotLkIgRU9WRVJGTE9XCi1lcnJvciBp
-biB0aGUgY2FzZSB3aGVyZSB0aGUgc2Vjb25kcyBzaW5jZSB0aGUgRXBvY2ggd2lsbCBub3Qg
-Zml0IGluCi0uSVIgdGltZV90IC4pCi1JbnN0ZWFkLCB0aGUgYmVoYXZpb3Igb24gTGludXgg
-aXMgdW5kZWZpbmVkIHdoZW4gdGhlIHN5c3RlbSB0aW1lIGlzIG91dCBvZiB0aGUKLS5JIHRp
-bWVfdAotcmFuZ2UuCiBBcHBsaWNhdGlvbnMgaW50ZW5kZWQgdG8gcnVuIGFmdGVyIDIwMzgg
-c2hvdWxkIHVzZSBBQklzIHdpdGgKIC5JIHRpbWVfdAotd2lkZXIgdGhhbiAzMiBiaXRzLgor
-d2lkZXIgdGhhbiAzMiBiaXRzOyBzZWUKKy5CUiB0aW1lX3QgKDN0eXBlKS4KIC5TUyBDIGxp
-YnJhcnkva2VybmVsIGRpZmZlcmVuY2VzCiBPbiBzb21lIGFyY2hpdGVjdHVyZXMsIGFuIGlt
-cGxlbWVudGF0aW9uIG9mCiAuQlIgdGltZSAoKQpkaWZmIC0tZ2l0IGEvbWFuMi90aW1lcl9j
-cmVhdGUuMiBiL21hbjIvdGltZXJfY3JlYXRlLjIKaW5kZXggYTM5ODdiYjFlLi5lYTQ5NDcy
-OTkgMTAwNjQ0Ci0tLSBhL21hbjIvdGltZXJfY3JlYXRlLjIKKysrIGIvbWFuMi90aW1lcl9j
-cmVhdGUuMgpAQCAtOTYsNyArOTYsNyBAQCBUaGUgY2FsbGVyIG11c3QgaGF2ZSB0aGUKIGNh
-cGFiaWxpdHkgaW4gb3JkZXIgdG8gc2V0IGEgdGltZXIgYWdhaW5zdCB0aGlzIGNsb2NrLgog
-LlRQCiAuQlIgQ0xPQ0tfVEFJICIgKHNpbmNlIExpbnV4IDMuMTApIgotQSBzeXN0ZW0td2lk
-ZSBjbG9jayBkZXJpdmVkIGZyb20gd2FsbC1jbG9jayB0aW1lIGJ1dCBpZ25vcmluZyBsZWFw
-IHNlY29uZHMuCitBIHN5c3RlbS13aWRlIGNsb2NrIGRlcml2ZWQgZnJvbSB3YWxsLWNsb2Nr
-IHRpbWUgYnV0IGNvdW50aW5nIGxlYXAgc2Vjb25kcy4KIC5QUAogU2VlCiAuQlIgY2xvY2tf
-Z2V0cmVzICgyKQpkaWZmIC0tZ2l0IGEvbWFuMy9kaWZmdGltZS4zIGIvbWFuMy9kaWZmdGlt
-ZS4zCmluZGV4IGYxZWVjNjczYi4uN2RhMjRhMzRjIDEwMDY0NAotLS0gYS9tYW4zL2RpZmZ0
-aW1lLjMKKysrIGIvbWFuMy9kaWZmdGltZS4zCkBAIC0yNiw5ICsyNiwxMyBAQCBUaGUKIGZ1
-bmN0aW9uIHJldHVybnMgdGhlIG51bWJlciBvZiBzZWNvbmRzIGVsYXBzZWQKIGJldHdlZW4g
-dGltZSBcZkl0aW1lMVxmUCBhbmQgdGltZSBcZkl0aW1lMFxmUCwgcmVwcmVzZW50ZWQgYXMg
-YQogLklSIGRvdWJsZSAuCi1FYWNoIG9mIHRoZSB0aW1lcyBpcyBzcGVjaWZpZWQgaW4gY2Fs
-ZW5kYXIgdGltZSwgd2hpY2ggbWVhbnMgaXRzCi12YWx1ZSBpcyBhIG1lYXN1cmVtZW50IChp
-biBzZWNvbmRzKSByZWxhdGl2ZSB0byB0aGUKLUVwb2NoLCAxOTcwLTAxLTAxIDAwOjAwOjAw
-ICswMDAwIChVVEMpLgorRWFjaCB0aW1lIGlzIGEgY291bnQgb2Ygc2Vjb25kcy4KKy5QUAor
-LkJJICJkaWZmdGltZSggdGltZTEgIiwgIiB0aW1lMCApCithY3RzIGxpa2UKKy5CSSAoIHRp
-bWUxIFwtIHRpbWUyICkKK2V4Y2VwdCB0aGF0IHRoZSByZXN1bHQgZG9lcyBub3Qgb3ZlcmZs
-b3cgYW5kIGlzIHJvdW5kZWQgdG8KKy5CUiBkb3VibGUgLgogLlNIIEFUVFJJQlVURVMKIEZv
-ciBhbiBleHBsYW5hdGlvbiBvZiB0aGUgdGVybXMgdXNlZCBpbiB0aGlzIHNlY3Rpb24sIHNl
-ZQogLkJSIGF0dHJpYnV0ZXMgKDcpLgpAQCAtNDcsMTkgKzUxLDYgQEAgVH0JVGhyZWFkIHNh
-ZmV0eQlNVC1TYWZlCiBDMTEsIFBPU0lYLjEtMjAwOC4KIC5TSCBISVNUT1JZCiBQT1NJWC4x
-LTIwMDEsIEM4OSwgU1ZyNCwgNC4zQlNELgotLlNIIE5PVEVTCi1PbiBhIFBPU0lYIHN5c3Rl
-bSwKLS5JIHRpbWVfdAotaXMgYW4gYXJpdGhtZXRpYyB0eXBlLCBhbmQgb25lIGNvdWxkIGp1
-c3QKLWRlZmluZQotLlBQCi0uaW4gKzRuCi0uRVgKLSNkZWZpbmUgbXlfZGlmZnRpbWUodDEs
-dDApIChkb3VibGUpKHQxIFwtIHQwKQotLkVFCi0uaW4KLS5QUAotd2hlbiB0aGUgcG9zc2li
-bGUgb3ZlcmZsb3cgaW4gdGhlIHN1YnRyYWN0aW9uIGlzIG5vdCBhIGNvbmNlcm4uCiAuU0gg
-U0VFIEFMU08KIC5CUiBkYXRlICgxKSwKIC5CUiBnZXR0aW1lb2ZkYXkgKDIpLApkaWZmIC0t
-Z2l0IGEvbWFuM3R5cGUvdGltZV90LjN0eXBlIGIvbWFuM3R5cGUvdGltZV90LjN0eXBlCmlu
-ZGV4IDJiYTRmNjgzMy4uODhjNjQ0NGIzIDEwMDY0NAotLS0gYS9tYW4zdHlwZS90aW1lX3Qu
-M3R5cGUKKysrIGIvbWFuM3R5cGUvdGltZV90LjN0eXBlCkBAIC04MSw2ICs4MSw4IEBAIHRo
-ZSB3aWR0aCBvZgogLkkgdGltZV90CiBjYW4gYmUgY29udHJvbGxlZCB3aXRoIHRoZSBmZWF0
-dXJlIHRlc3QgbWFjcm8KIC5CUiBfVElNRV9CSVRTIC4KK1NlZQorLkJSIGZlYXR1cmVfdGVz
-dF9tYWNyb3MgKDcpLgogLlBQCiBUaGUgZm9sbG93aW5nIGhlYWRlcnMgYWxzbyBwcm92aWRl
-CiAuSVIgdGltZV90IDoKLS0gCjIuNDEuMAoK
-
---------------DgiaZqIII6FI9n7BInOmn0WM--
+On Wed, Sep 20, 2023 at 1:11=E2=80=AFPM Paul Eggert <eggert@cs.ucla.edu> wr=
+ote:
+>
+> On 2023-09-20 07:13, enh wrote:
+> > that's why i added you --- to suggest better wording =F0=9F=A4=A3
+>
+> I noodled around a bit. There are several mistakes about timestamps in
+> the man pages. difftime, for example, copies the C standard's "calendar
+> time" wording but in Linux it's just a seconds count and need not have
+> anything to do with 1970 or any other calendar. And there are lots of
+> other howlers about leap seconds and 2038, improperly parenthesized
+> macros, unclear wording like "incremental adjustments", out-of-date
+> references, etc.
+>
+> Attached is a proposed patch to fix the problems I found before I ran
+> out of time. I haven't checked formatting. I'm sure it could be improved
+> further.
