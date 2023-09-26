@@ -2,52 +2,52 @@ Return-Path: <linux-man-owner@vger.kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id B8960E7D27E
-	for <linux-man@archiver.kernel.org>; Tue, 26 Sep 2023 19:13:02 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 28450E7E65A
+	for <linux-man@archiver.kernel.org>; Tue, 26 Sep 2023 19:13:03 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S229580AbjIZTNH (ORCPT <rfc822;linux-man@archiver.kernel.org>);
+        id S235674AbjIZTNH (ORCPT <rfc822;linux-man@archiver.kernel.org>);
         Tue, 26 Sep 2023 15:13:07 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:55628 "EHLO
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:55640 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S235679AbjIZTND (ORCPT
-        <rfc822;linux-man@vger.kernel.org>); Tue, 26 Sep 2023 15:13:03 -0400
+        with ESMTP id S235687AbjIZTNE (ORCPT
+        <rfc822;linux-man@vger.kernel.org>); Tue, 26 Sep 2023 15:13:04 -0400
 Received: from esa.microchip.iphmx.com (esa.microchip.iphmx.com [68.232.153.233])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 7008411D
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id AC078136
         for <linux-man@vger.kernel.org>; Tue, 26 Sep 2023 12:12:57 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=microchip.com; i=@microchip.com; q=dns/txt; s=mchp;
   t=1695755578; x=1727291578;
   h=from:to:cc:subject:date:message-id:in-reply-to:
    references:mime-version:content-transfer-encoding;
-  bh=DNSZIsYar+ky9doixI2jU3jKzeiFysX5pLNUjp1layA=;
-  b=U0fLkACNq11KVlacVNxNnivcZLWVUGw4yDYBFa9ImP0DCaNPNA+e/+rY
-   FlGCrcz8uJG2rhgj8fIH0huPdHzD61h1xPrUjg6GBzp4LvRVLiWIL0az7
-   oEJiDgiUuymDVotHMV86QYtGcLqvEFHXI4irB5Sjx4oFpF7nB4IB+HXKR
-   U0uPL99JT5x78q5J5f2GxLSlJ2UNqx7q+TC3jEfGE6i8uGJKtfGVPPxfs
-   NpxVlSZUtM9LPZz6a9tkIYTjycBiHkwjLk+PJZs+zNcBLm7jIbLHfU7O2
-   GWN1jNqLd5WHNbSaLqVf+/v76YToIrJgXow2hkRq2NpCdgCqW7nCMAeiH
+  bh=Gj8DIF1T1uNBINTrLbSg0eI92yaSz/EIFbhzA1iAvyA=;
+  b=iaOmh/0cvpxgIH8sTA6vJJotRmpanP9eXlPEn84QIHtJzpTPBif8p2KI
+   X0qCzmo1WUWeuxv6hr4t2c3Vqy9npeqkWBqTJQ9buuDjo8B5IIuckErUM
+   IbIr7aibXcFjIs94pT8Js3DYWAU5DNMuFlSae+gPP0OAF+elFV5B5xkxN
+   c4v184Hp/cBXjgmgh+mltlNTNUy6hEbx/B0WAqsyazoxoFh/A+TDg1j7m
+   SgNn4z91V0n3tl9BoeaFo+R8nOX/ZX4gt5+iyHFDRtNr2GL0TPVIr77nz
+   Pr0mOL8UbNqc+BNPA50wSfZzfUe6GR4/1T5jImSJkT4mpHcL1VdUzVz+7
    g==;
 X-CSE-ConnectionGUID: QkVnHYi7QvGtzdlA0nOndg==
-X-CSE-MsgGUID: Ih2Ud+8jS3C6ASeCFELh+Q==
+X-CSE-MsgGUID: SKDCFb7WSUKc9VQkqEposQ==
 X-ThreatScanner-Verdict: Negative
 X-IronPort-AV: E=Sophos;i="6.03,178,1694761200"; 
-   d="scan'208";a="237306755"
+   d="scan'208";a="237306756"
 X-Amp-Result: SKIPPED(no attachment in message)
 Received: from unknown (HELO email.microchip.com) ([170.129.1.10])
   by esa5.microchip.iphmx.com with ESMTP/TLS/ECDHE-RSA-AES128-GCM-SHA256; 26 Sep 2023 12:12:56 -0700
 Received: from chn-vm-ex04.mchp-main.com (10.10.85.152) by
  chn-vm-ex02.mchp-main.com (10.10.85.144) with Microsoft SMTP Server
  (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
- 15.1.2507.21; Tue, 26 Sep 2023 12:12:54 -0700
+ 15.1.2507.21; Tue, 26 Sep 2023 12:12:55 -0700
 Received: from brunhilda.pdev.net (10.10.85.11) by chn-vm-ex04.mchp-main.com
  (10.10.85.152) with Microsoft SMTP Server id 15.1.2507.21 via Frontend
- Transport; Tue, 26 Sep 2023 12:12:54 -0700
+ Transport; Tue, 26 Sep 2023 12:12:55 -0700
 From:   Don Brace <don.brace@microchip.com>
 To:     <mtk.manpages@gmail.com>, <alx@kernel.org>
 CC:     <linux-man@vger.kernel.org>
-Subject: [PATCH v3 04/10] smartpqi: add module parameter ctrl_ready_timeout
-Date:   Tue, 26 Sep 2023 14:11:59 -0500
-Message-ID: <20230926191206.627678-5-don.brace@microchip.com>
+Subject: [PATCH v3 07/10] smartpqi: update device attribute descriptions
+Date:   Tue, 26 Sep 2023 14:12:02 -0500
+Message-ID: <20230926191206.627678-8-don.brace@microchip.com>
 X-Mailer: git-send-email 2.42.0.158.g94e83dcf5b
 In-Reply-To: <20230926191206.627678-1-don.brace@microchip.com>
 References: <20230926191206.627678-1-don.brace@microchip.com>
@@ -58,8 +58,7 @@ Precedence: bulk
 List-ID: <linux-man.vger.kernel.org>
 X-Mailing-List: linux-man@vger.kernel.org
 
-Allow user to change the length of time that the driver
-will wait for the controller to become ready.
+Small updates to device attribute descriptions.
 
 Reviewed-by: Scott Benesh <scott.benesh@microchip.com>
 Reviewed-by: Scott Teel <scott.teel@microchip.com>
@@ -67,33 +66,31 @@ Reviewed-by: Mike McGowen <mike.mcgowen@microchip.com>
 Reviewed-by: Kevin Barnett <kevin.barnett@microchip.com>
 Signed-off-by: Don Brace <don.brace@microchip.com>
 ---
- man4/smartpqi.4 | 6 ++++++
- 1 file changed, 6 insertions(+)
+ man4/smartpqi.4 | 4 ++--
+ 1 file changed, 2 insertions(+), 2 deletions(-)
 
 diff --git a/man4/smartpqi.4 b/man4/smartpqi.4
-index 613ef330aef1..f04472836210 100644
+index 165eee6848c3..635b3fa185ab 100644
 --- a/man4/smartpqi.4
 +++ b/man4/smartpqi.4
-@@ -17,6 +17,7 @@ smartpqi \- Microchip Smart Storage SCSI driver
- .RB [ expose_ld_first= { 0 | 1 }]
- .RB [ hide_vsep= { 0 | 1 }]
- .RB [ disable_managed_interrupts= { 0 | 1 }]
-+.RB [ ctrl_ready_timeout= { 0 | 30-1800 }]
- .YS
- .SH DESCRIPTION
- .B smartpqi
-@@ -107,6 +108,11 @@ Disables driver utilization of Linux kernel managed interrupts for
- controllers. The managed interrupts feature automatically distributes
- interrupts to all available CPUs and assigns SMP affinity.
- The default value is 0 (managed interrupts enabled).
-+.TP
-+.BR ctrl_ready_timeout= { 0 | 30-1800 }
-+This option specifies the timeout in seconds for the driver to wait
-+for controller ready. The valid range is 0 or 30-1800. The default value
-+is 0, which causes the driver to use a timeout of 180 seconds.
- .SH FILES
- .SS Device nodes
- Logical drives are accessed via the SCSI disk driver
+@@ -250,7 +250,7 @@ is the logical unit number (LUN).
+ The
+ .I raid_level
+ attribute is read-only.
+-This attribute contains the RAID level of each logical drive.
++This attribute contains the RAID level of the logical volume.
+ .IP
+ For example:
+ .IP
+@@ -266,7 +266,7 @@ RAID 0
+ The
+ .I sas_address
+ attribute is read-only.
+-This attribute contains the unique identifier of the disk.
++This attribute contains the SAS address of the device.
+ .IP
+ For example:
+ .IP
 -- 
 2.42.0.158.g94e83dcf5b
 
