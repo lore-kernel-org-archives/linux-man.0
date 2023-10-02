@@ -2,52 +2,52 @@ Return-Path: <linux-man-owner@vger.kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 8A78DE784BA
-	for <linux-man@archiver.kernel.org>; Mon,  2 Oct 2023 19:51:18 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 8DCADE77350
+	for <linux-man@archiver.kernel.org>; Mon,  2 Oct 2023 19:51:19 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S238933AbjJBTvT (ORCPT <rfc822;linux-man@archiver.kernel.org>);
-        Mon, 2 Oct 2023 15:51:19 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:60154 "EHLO
+        id S238935AbjJBTvU (ORCPT <rfc822;linux-man@archiver.kernel.org>);
+        Mon, 2 Oct 2023 15:51:20 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:60206 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S229750AbjJBTvR (ORCPT
-        <rfc822;linux-man@vger.kernel.org>); Mon, 2 Oct 2023 15:51:17 -0400
+        with ESMTP id S238954AbjJBTvS (ORCPT
+        <rfc822;linux-man@vger.kernel.org>); Mon, 2 Oct 2023 15:51:18 -0400
 Received: from esa.microchip.iphmx.com (esa.microchip.iphmx.com [68.232.153.233])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id A1873DA
-        for <linux-man@vger.kernel.org>; Mon,  2 Oct 2023 12:51:14 -0700 (PDT)
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 30EB7D9
+        for <linux-man@vger.kernel.org>; Mon,  2 Oct 2023 12:51:16 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=microchip.com; i=@microchip.com; q=dns/txt; s=mchp;
-  t=1696276275; x=1727812275;
+  t=1696276276; x=1727812276;
   h=from:to:cc:subject:date:message-id:in-reply-to:
    references:mime-version:content-transfer-encoding;
-  bh=X2X57mt8fzijpXb13IwkmNrHw7A5OjtNBoPKBTmLins=;
-  b=ZhSLiXIlyzVZ8BCHwi3iQPTu1BOt3BWo5LHUR10SU8kHoI16G2jtT8aw
-   Grz+fCYFJhQcdwk4itpQUNGEOPNLlBbix/6QZu906WKlI2lKkZcs7kNFZ
-   VQcFrCX+Df/P+/cOD3+hrCYd/rYRj9nEWCizb9a2EKRhhNP4jkmwAqJMU
-   QhRh4ZAScfA97uIXO+SbT2UZZ1N4r2AoSe3cS8d9B+UdJqhCEqia6jLTe
-   y2aPBk2uzPb0Ng1Z9G7BGhWYMxdef64qTc2hfdHqfr3Qxer8C7v+1Pomb
-   IC3J08BK0avExlJWVtesH5Jptrk0Li+KQQsoOHni3VPc13GHNqqWHuWG2
-   g==;
+  bh=TIBMZQTTHUgKNdsHYDoz0vGdLaAa0F00TJwLFecov0c=;
+  b=MHnzXN4AJR6wZRlQiqs+TdFFm1iHcBpmG40doSypViA1sb42sfFndvmd
+   8aYYkm5s3lRhvYkreS/MIydCOwge7PoCBixeKKjjXbXShp42eVL2SgmD4
+   gu6w+mapLfR0rFbB0Uejln5Wvnl3dVOhhEftRJFHVH5tFzsSuot37fqZD
+   C9HFSHz8DrBjT7EQfW6pV+c7BQ0s53cn02BDuvB2ENX8mOjDU2CGRQScT
+   dxuJQMUjbykNJC//VdPb6pCMTFJMkR5eeP8rjF50l+c33hGxsgE77b18X
+   gMPQ/mdctnVWWLe5QtOwoPB50nJ8aZwhGsNXyYpsIdUwdB9X3gqdTEcuP
+   w==;
 X-CSE-ConnectionGUID: wxLD4crfTBmP3fcAafztCg==
-X-CSE-MsgGUID: 5oLbfW9yTMO092yDVIlg+g==
+X-CSE-MsgGUID: bdyVVJ7FRZ+41KXd7wV0iA==
 X-ThreatScanner-Verdict: Negative
 X-IronPort-AV: E=Sophos;i="6.03,194,1694761200"; 
-   d="scan'208";a="238286347"
+   d="scan'208";a="238286358"
 X-Amp-Result: SKIPPED(no attachment in message)
 Received: from unknown (HELO email.microchip.com) ([170.129.1.10])
-  by esa5.microchip.iphmx.com with ESMTP/TLS/ECDHE-RSA-AES128-GCM-SHA256; 02 Oct 2023 12:51:14 -0700
+  by esa5.microchip.iphmx.com with ESMTP/TLS/ECDHE-RSA-AES128-GCM-SHA256; 02 Oct 2023 12:51:15 -0700
 Received: from chn-vm-ex03.mchp-main.com (10.10.85.151) by
  chn-vm-ex04.mchp-main.com (10.10.85.152) with Microsoft SMTP Server
  (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
- 15.1.2507.21; Mon, 2 Oct 2023 12:51:13 -0700
+ 15.1.2507.21; Mon, 2 Oct 2023 12:51:14 -0700
 Received: from brunhilda.pdev.net (10.10.85.11) by chn-vm-ex03.mchp-main.com
  (10.10.85.151) with Microsoft SMTP Server id 15.1.2507.21 via Frontend
- Transport; Mon, 2 Oct 2023 12:51:13 -0700
+ Transport; Mon, 2 Oct 2023 12:51:14 -0700
 From:   Don Brace <don.brace@microchip.com>
 To:     <alx@kernel.org>
 CC:     <linux-man@vger.kernel.org>
-Subject: [PATCH v4 1/5] smartpqi: add module parameter ctrl_ready_timeout
-Date:   Mon, 2 Oct 2023 14:54:00 -0500
-Message-ID: <20231002195404.153182-2-don.brace@microchip.com>
+Subject: [PATCH v4 4/5] smartpqi: add host attributes
+Date:   Mon, 2 Oct 2023 14:54:03 -0500
+Message-ID: <20231002195404.153182-5-don.brace@microchip.com>
 X-Mailer: git-send-email 2.42.0.296.g493f462273
 In-Reply-To: <20231002195404.153182-1-don.brace@microchip.com>
 References: <20231002195404.153182-1-don.brace@microchip.com>
@@ -58,8 +58,13 @@ Precedence: bulk
 List-ID: <linux-man.vger.kernel.org>
 X-Mailing-List: linux-man@vger.kernel.org
 
-Allow user to change the length of time that the driver
-will wait for the controller to become ready.
+Add in some host level sysfs entries:
+enable_stream_detection - Send RAID 5/6 writes down the normal I/O path.
+                          Allow for full-stripe write requests.
+ssd_smart_path_enabled  - Indicates that our Accelerated I/O path is
+                          enabled. (AIO).
+enable_r5_writes        - Allow RAID 5 write operations down the AIO path.
+enable_r6_writes        - Allow RAID 6 write operations down the AIO path.
 
 Reviewed-by: Scott Benesh <scott.benesh@microchip.com>
 Reviewed-by: Scott Teel <scott.teel@microchip.com>
@@ -67,33 +72,79 @@ Reviewed-by: Mike McGowen <mike.mcgowen@microchip.com>
 Reviewed-by: Kevin Barnett <kevin.barnett@microchip.com>
 Signed-off-by: Don Brace <don.brace@microchip.com>
 ---
- man4/smartpqi.4 | 6 ++++++
- 1 file changed, 6 insertions(+)
+ man4/smartpqi.4 | 59 +++++++++++++++++++++++++++++++++++++++++++++++++
+ 1 file changed, 59 insertions(+)
 
 diff --git a/man4/smartpqi.4 b/man4/smartpqi.4
-index 32f9240e37f2..5ccbbe1c4ef1 100644
+index c51405c8b9cc..c36eebf0ecd1 100644
 --- a/man4/smartpqi.4
 +++ b/man4/smartpqi.4
-@@ -17,6 +17,7 @@ smartpqi \- Microchip Smart Storage SCSI driver
- .RB [ expose_ld_first= { 0 | 1 }]
- .RB [ hide_vsep= { 0 | 1 }]
- .RB [ disable_managed_interrupts= { 0 | 1 }]
-+.RB [ ctrl_ready_timeout= { 0 | 30-1800 }]
- .YS
- .SH DESCRIPTION
- .B smartpqi
-@@ -107,6 +108,11 @@ Disables driver utilization of Linux kernel managed interrupts for controllers.
- The managed interrupts feature automatically distributes interrupts
- to all available CPUs and assigns SMP affinity.
- The default value is 0 (managed interrupts enabled).
+@@ -235,6 +235,65 @@ $ \c
+ Adaptec
+ .EE
+ .in
 +.TP
-+.BR ctrl_ready_timeout= { 0 | 30-1800 }
-+This option specifies the timeout in seconds for the driver to wait
-+for controller ready. The valid range is 0 or 30-1800. The default value
-+is 0, which causes the driver to use a timeout of 180 seconds.
- .SH FILES
- .SS Device nodes
- Logical drives are accessed via the SCSI disk driver
++.I /sys/class/scsi_host/host*/enable_stream_detection
++The
++.I enable_stream_detection
++attribute is read-write.
++This attribute enables/disables stream detection in the driver.
++Enabling stream detection can improve sequential write performance for
++ioaccel-enabled volumes. See the
++.BI ssd_smart_path_enabled
++disk attribute section for details on ioaccel-enabled volumes.
++The default value is 1 (stream detection enabled).
++.IP
++Enable example:
++.IP
++.in +4n
++.EX
++$ \c
++.B echo 1 > /sys/class/scsi_host/host1/enable_stream_detection
++.EE
++.in
++.TP
++.I /sys/class/scsi_host/host*/enable_r5_writes
++The
++.I enable_r5_writes
++attribute is read-write.
++This attribute enables/disables RAID 5 write operations for ioaccel-enabled
++volumes. Enabling can improve sequential write performance. See the
++.BI ssd_smart_path_enabled
++disk attribute section for details on ioaccel-enabled volumes.
++The default value is 1 (RAID 5 writes enabled).
++.IP
++Enable example:
++.IP
++.in +4n
++.EX
++$ \c
++.B echo 1 > /sys/class/scsi_host/host1/enable_r5_writes
++.EE
++.in
++.TP
++.I /sys/class/scsi_host/host*/enable_r6_writes
++The
++.I enable_r6_writes
++attribute is read-write.
++This attribute enables/disables RAID 6 write operations for
++ioaccel-enabled volumes. Enabling can improve sequential write performance.
++See the
++.BI ssd_smart_path_enabled
++disk attribute section for details on ioaccel-enabled volumes.
++The default value is 1 (RAID 6 writes enabled).
++.IP
++Enable example:
++.IP
++.in +4n
++.EX
++$ \c
++.B echo 1 > /sys/class/scsi_host/host1/enable_r6_writes
++.EE
++.in
+ .SS SmartPQI-specific disk attribute files in \f[BI]/sys\fP
+ In the file specifications below,
+ .I c
 -- 
 2.42.0.296.g493f462273
 
