@@ -2,52 +2,52 @@ Return-Path: <linux-man-owner@vger.kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id DD532E7AD75
-	for <linux-man@archiver.kernel.org>; Tue,  3 Oct 2023 15:57:47 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id AA069E7AD74
+	for <linux-man@archiver.kernel.org>; Tue,  3 Oct 2023 15:57:48 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S231417AbjJCP5s (ORCPT <rfc822;linux-man@archiver.kernel.org>);
-        Tue, 3 Oct 2023 11:57:48 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:37286 "EHLO
+        id S231733AbjJCP5u (ORCPT <rfc822;linux-man@archiver.kernel.org>);
+        Tue, 3 Oct 2023 11:57:50 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:37202 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S232085AbjJCP5r (ORCPT
-        <rfc822;linux-man@vger.kernel.org>); Tue, 3 Oct 2023 11:57:47 -0400
+        with ESMTP id S232405AbjJCP5s (ORCPT
+        <rfc822;linux-man@vger.kernel.org>); Tue, 3 Oct 2023 11:57:48 -0400
 Received: from esa.microchip.iphmx.com (esa.microchip.iphmx.com [68.232.153.233])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 3340AD9
-        for <linux-man@vger.kernel.org>; Tue,  3 Oct 2023 08:57:44 -0700 (PDT)
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id A06A7A6
+        for <linux-man@vger.kernel.org>; Tue,  3 Oct 2023 08:57:45 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=microchip.com; i=@microchip.com; q=dns/txt; s=mchp;
-  t=1696348664; x=1727884664;
+  t=1696348666; x=1727884666;
   h=from:to:cc:subject:date:message-id:in-reply-to:
    references:mime-version:content-transfer-encoding;
-  bh=KETMTlbJgxNSbDe5CB67nLO5oaGWnzRr9uvLiHSoxyc=;
-  b=MKWiG64lQMG1SCn+j4iDdfjc+t+acioi7ODhYH13Y4icJZ7/l4Z/F0gt
-   zO4YFVCs9VCnsN+Q9l1Z+TaeddroCa2Rqpx0BCgZTKXUhTlhoVZJRZd3N
-   VXVFQPxtk8AlJzHumqCr0JeXQmipQPIoS4pjUPFW1Kai3RstDTBl78nAf
-   AjgzVibJVQl9s5A7nuhZxWY5f9Mtcx+PDOrMjb2KSh/XNk57G6r3s6hYs
-   au8BJ5Na3rGyWqsCz3B32TPlRhaexbEp1lqYtHVqc9BEMN2L0hOjwFAEL
-   9pNQ7r+5LiYhr6qLsTInsO9EB0d46HyPx09Pi5l55pJ+424e+97HDCQes
+  bh=Ayy+zzMs4smtCjnl14UpZMsWVvQ/e5yNgtiqh2EbBEI=;
+  b=pRZTOO02MzO1n7rq48aPJ1LCpvgyqxrwECJQDjumqUO8IFo0sOzEReXI
+   S7dSyw//TFhDitDcke2rH1HIQ89Avdr4zqEt+Rx8Wki1BI/ymAM4cAA3b
+   RAJ5ZXFjN30PKzDjwtxtur18F0NwBxZ3YhhbJN4reFYDaBJNTLd8B7JeN
+   Kv+90jE1AC3xy/gYAzFb4aUNh9GH33cy+JTZyUhy565lq8jY1f426WFBj
+   z9XY2FoIn/DNFIpzxYcX/99PD+4/ixTTom9cDHboT+CITx0xmXT9eCRI2
+   9SR4UA2hbDlY5ct64ZVyeqIM16BGbaUMgZfXSWMMAthq01a6yic+drLiy
    Q==;
 X-CSE-ConnectionGUID: RQKvV8nBTsWC7xqOG9DlTQ==
-X-CSE-MsgGUID: UkuhZprqSlmz1g0b0B+16A==
+X-CSE-MsgGUID: qZVm1xRwTDC46q7QdtO2Vg==
 X-ThreatScanner-Verdict: Negative
 X-IronPort-AV: E=Sophos;i="6.03,197,1694761200"; 
-   d="scan'208";a="7844536"
+   d="scan'208";a="7844537"
 X-Amp-Result: SKIPPED(no attachment in message)
 Received: from unknown (HELO email.microchip.com) ([170.129.1.10])
   by esa3.microchip.iphmx.com with ESMTP/TLS/ECDHE-RSA-AES128-GCM-SHA256; 03 Oct 2023 08:57:44 -0700
 Received: from chn-vm-ex03.mchp-main.com (10.10.85.151) by
  chn-vm-ex04.mchp-main.com (10.10.85.152) with Microsoft SMTP Server
  (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
- 15.1.2507.21; Tue, 3 Oct 2023 08:57:33 -0700
+ 15.1.2507.21; Tue, 3 Oct 2023 08:57:35 -0700
 Received: from brunhilda.pdev.net (10.10.85.11) by chn-vm-ex03.mchp-main.com
  (10.10.85.151) with Microsoft SMTP Server id 15.1.2507.21 via Frontend
- Transport; Tue, 3 Oct 2023 08:57:33 -0700
+ Transport; Tue, 3 Oct 2023 08:57:35 -0700
 From:   Don Brace <don.brace@microchip.com>
 To:     <alx@kernel.org>
 CC:     <linux-man@vger.kernel.org>
-Subject: [PATCH v5 1/6] smartpqi: add module parameter ctrl_ready_timeout
-Date:   Tue, 3 Oct 2023 11:00:19 -0500
-Message-ID: <20231003160024.231729-2-don.brace@microchip.com>
+Subject: [PATCH v5 5/6] smartpqi: add device attributes
+Date:   Tue, 3 Oct 2023 11:00:23 -0500
+Message-ID: <20231003160024.231729-6-don.brace@microchip.com>
 X-Mailer: git-send-email 2.42.0.296.g493f462273
 In-Reply-To: <20231003160024.231729-1-don.brace@microchip.com>
 References: <20231003160024.231729-1-don.brace@microchip.com>
@@ -58,8 +58,14 @@ Precedence: bulk
 List-ID: <linux-man.vger.kernel.org>
 X-Mailing-List: linux-man@vger.kernel.org
 
-Allow user to change the length of time that the driver
-will wait for the controller to become ready.
+Add in some device level sysfs entry descriptions:
+lunid
+unique_id
+path_info
+raid_bypass_cnt
+sas_ncq_prio_enable
+
+These have already been provided by the driver.
 
 Reviewed-by: Scott Benesh <scott.benesh@microchip.com>
 Reviewed-by: Scott Teel <scott.teel@microchip.com>
@@ -67,34 +73,115 @@ Reviewed-by: Mike McGowen <mike.mcgowen@microchip.com>
 Reviewed-by: Kevin Barnett <kevin.barnett@microchip.com>
 Signed-off-by: Don Brace <don.brace@microchip.com>
 ---
- man4/smartpqi.4 | 7 +++++++
- 1 file changed, 7 insertions(+)
+ man4/smartpqi.4 | 95 +++++++++++++++++++++++++++++++++++++++++++++++++
+ 1 file changed, 95 insertions(+)
 
 diff --git a/man4/smartpqi.4 b/man4/smartpqi.4
-index 32f9240e37f2..a045f957d006 100644
+index 0059cd111adc..464ef89919a9 100644
 --- a/man4/smartpqi.4
 +++ b/man4/smartpqi.4
-@@ -17,6 +17,7 @@ smartpqi \- Microchip Smart Storage SCSI driver
- .RB [ expose_ld_first= { 0 | 1 }]
- .RB [ hide_vsep= { 0 | 1 }]
- .RB [ disable_managed_interrupts= { 0 | 1 }]
-+.RB [ ctrl_ready_timeout= { 0 | 30-1800 }]
- .YS
- .SH DESCRIPTION
- .B smartpqi
-@@ -107,6 +108,12 @@ Disables driver utilization of Linux kernel managed interrupts for controllers.
- The managed interrupts feature automatically distributes interrupts
- to all available CPUs and assigns SMP affinity.
- The default value is 0 (managed interrupts enabled).
+@@ -362,6 +362,101 @@ $ \c
+ 0
+ .EE
+ .in
 +.TP
-+.BR ctrl_ready_timeout= { 0 | 30-1800 }
-+This option specifies the timeout in seconds for the driver to wait
-+for the controller to be ready.
-+The valid range is 0 or 30-1800. The default value is 0,
-+which causes the driver to use a timeout of 180 seconds.
- .SH FILES
- .SS Device nodes
- Logical drives are accessed via the SCSI disk driver
++.I /sys/class/scsi_disk/c : b : t : l/device/lunid
++The
++.I lunid
++attribute is read-only.
++This attribute contains the SCSI LUN ID for the device.
++.IP
++For example:
++.IP
++.in +4n
++.EX
++$ \c
++.B cat /sys/class/scsi_disk/13:1:0:3/device/lunid
++0x0300004000000000
++.EE
++.in
++.TP
++.I /sys/class/scsi_disk/c : b : t : l/device/unique_id
++The
++.I unique_id
++attribute is read-only.
++This attribute contains a 16-byte ID that uniquely identifies the device
++within the controller.
++.IP
++For example:
++.IP
++.in +4n
++.EX
++$ \c
++.B cat /sys/class/scsi_disk/13:1:0:3/device/unique_id
++600508B1001C6D4723A8E98D704FDB94
++.EE
++.in
++.TP
++.I /sys/class/scsi_disk/c : b : t : l/device/path_info
++The
++.I path_info
++attribute is read-only.
++This attribute contains the c:b:t:l of the device along with the device
++type and whether the device is Active or Inactive.
++If the device is an HBA device,
++.I path_info
++will also display the PORT, BOX, and BAY the device is plugged into.
++.IP
++For example:
++.IP
++.in +4n
++.EX
++$ \c
++.B cat /sys/class/scsi_disk/13:1:0:3/device/path_info
++[13:1:0:3]    Direct-Access     Active
++
++$ \c
++.B cat /sys/class/scsi_disk/12:0:9:0/device/path_info
++[12:0:9:0]  Direct-Access   PORT: C1 BOX: 1 BAY: 14 Inactive
++[12:0:9:0]  Direct-Access   PORT: C0 BOX: 1 BAY: 14 Active
++.EE
++.in
++.TP
++.I /sys/class/scsi_disk/13:1:0:3/device/raid_bypass_cnt
++The
++.I raid_bypass_cnt
++attribute is read-only.
++This attribute contains the number of I/O requests that have gone
++through the ioaccel path for ioaccel-enabled volumes.
++See the
++.BI ssd_smart_path_enabled
++disk attribute section for details on ioaccel-enabled volumes.
++.IP
++For example:
++.IP
++.in +4n
++.EX
++$ \c
++.B cat /sys/class/scsi_disk/13:1:0:3/device/raid_bypass_cnt
++0x300
++.EE
++.in
++.TP
++.I /sys/class/scsi_disk/13:1:0:3/device/sas_ncq_prio_enable
++The
++.I sas_ncq_prio_enable
++attribute is read/write.
++This attribute enables SATA NCQ priority support.
++This attribute works only when device has NCQ support and
++controller firmware can handle IO with NCQ priority attribute.
++.IP
++For example:
++.IP
++.in +4n
++.EX
++$ \c
++.B echo 1 > /sys/class/scsi_disk/13:1:0:3/device/sas_ncq_prio_enable
++.EE
++.in
+ .SH VERSIONS
+ The
+ .B smartpqi
 -- 
 2.42.0.296.g493f462273
 
