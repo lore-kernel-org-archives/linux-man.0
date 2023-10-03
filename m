@@ -2,56 +2,57 @@ Return-Path: <linux-man-owner@vger.kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id B5E31E8FDAF
-	for <linux-man@archiver.kernel.org>; Tue,  3 Oct 2023 19:46:03 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id AB210E8FDB1
+	for <linux-man@archiver.kernel.org>; Tue,  3 Oct 2023 19:46:07 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S240979AbjJCTqE (ORCPT <rfc822;linux-man@archiver.kernel.org>);
-        Tue, 3 Oct 2023 15:46:04 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:38998 "EHLO
+        id S241004AbjJCTqI (ORCPT <rfc822;linux-man@archiver.kernel.org>);
+        Tue, 3 Oct 2023 15:46:08 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:39016 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S240977AbjJCTqC (ORCPT
-        <rfc822;linux-man@vger.kernel.org>); Tue, 3 Oct 2023 15:46:02 -0400
-Received: from mail-yb1-xb49.google.com (mail-yb1-xb49.google.com [IPv6:2607:f8b0:4864:20::b49])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 0320CAB
-        for <linux-man@vger.kernel.org>; Tue,  3 Oct 2023 12:45:57 -0700 (PDT)
-Received: by mail-yb1-xb49.google.com with SMTP id 3f1490d57ef6-d852a6749baso1642731276.0
-        for <linux-man@vger.kernel.org>; Tue, 03 Oct 2023 12:45:56 -0700 (PDT)
+        with ESMTP id S240984AbjJCTqE (ORCPT
+        <rfc822;linux-man@vger.kernel.org>); Tue, 3 Oct 2023 15:46:04 -0400
+Received: from mail-yw1-x1149.google.com (mail-yw1-x1149.google.com [IPv6:2607:f8b0:4864:20::1149])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 611D793
+        for <linux-man@vger.kernel.org>; Tue,  3 Oct 2023 12:46:01 -0700 (PDT)
+Received: by mail-yw1-x1149.google.com with SMTP id 00721157ae682-59b59e1ac70so19830087b3.1
+        for <linux-man@vger.kernel.org>; Tue, 03 Oct 2023 12:46:01 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=google.com; s=20230601; t=1696362356; x=1696967156; darn=vger.kernel.org;
+        d=google.com; s=20230601; t=1696362360; x=1696967160; darn=vger.kernel.org;
         h=cc:to:from:subject:message-id:references:mime-version:in-reply-to
          :date:from:to:cc:subject:date:message-id:reply-to;
-        bh=LZEL2BMjxz1i5idDbV1660WVS0O86XmSCyt1X5bcmDM=;
-        b=Mq+RXsAdEu8Agt8QFclfS9ZJWQeyPjWgzORyR7dQ5ZrZPp2vHmiXbJ8Hq0EpBo7Bjm
-         DYaSmQPC1pDTdIxAGyi+usEAYI7R/RqxhbshCoE/FO/i6WfTuEF/WukwvjRfHVN85UrN
-         v4fae/nl9HnRZZnb5Mi3EijH5EH3/ntBGOSXkDECrLT7KvigehvgWLyP5bvP78N889rC
-         OGsVX1N6VIlUQF5Y7NU1C5vUlAhG4YW77ueRx0S2I1zYYj5Qcv5vKOsDRiglJTFK7Z8p
-         sfnQH9Tj3M8uHD3OHsapFSGsUwwvZeyCSw1l+DN30ac1rAIHut9N5EwZb3pL9nZWitjx
-         A2gg==
+        bh=nSwsPxGjU1Rb9Mh5qgmhu8siiN6wKhSBap+YrmkGvmo=;
+        b=Pd9SK3SCC8XYtdvCkW9OWI3b/vojrwi3PAWRiKO3zZhpTS8aEFKNymTz+mUdWvW9Ua
+         r3frU1La3/2MjnYK3/E7NCxEbv+gf6utCPmir5kKSFOb0AdvxWLviV1yBg0EdqeFZYyy
+         V5LWYJ2FjpmdQghLZxeFlNIxIzan/BIJxg7kFcOTZKNiFlPvvS4YPi/ho65NEtLjV87i
+         84GZygbITCqJcyiwIYxOODwu7ijuFGOEVwC09T1sn38VSk3wriZkQRqDyBXTLCEjeph8
+         fQHNeY8b6nTwk9VvRXhg2++Z6xaJjAd470hbYnvgrr6EXpa7M5cBkhWPFYo3/s7cbfXW
+         QtMQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1696362356; x=1696967156;
+        d=1e100.net; s=20230601; t=1696362360; x=1696967160;
         h=cc:to:from:subject:message-id:references:mime-version:in-reply-to
          :date:x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
-        bh=LZEL2BMjxz1i5idDbV1660WVS0O86XmSCyt1X5bcmDM=;
-        b=mBOl/ct9R9/NwdzIn0FRtngpYgPuZTY7JHESnQBHMVFCphUnhVjaxp4OtoA4pvvnER
-         Et9NYepSj6JKNl+MQ10eFL5BUkCJiel0usxt+2yVY9wT0b5pqDu8mTT0MFFO8QcbXEh0
-         8cvyAiaMOEY78dfbaAMqEZIvk09Mfy1YkABY5rA+1f4EVJa0C1xzXDauGi13OKIGs2WE
-         sCljdJcPBV3eoT2MvfjgqSQCUodY8j5ByDn7DoZgbpSrufH02YYQ5hv5KrlmVvYMme5Y
-         Ne6I/CDhRtaC4v9Np0Zm+/jXUnozuEBpPAnjaYAhFsMEey3lf4ZvPKuCzTffPCxa07xU
-         OPDQ==
-X-Gm-Message-State: AOJu0YxYqmS/yzKA855GGfyGD4xlssYk6VHldd9DzN03VdMFn13atG0t
-        rmInAIKNY+r9+SGqa65eOu0itaCoNRos1Jf5qZYQ
-X-Google-Smtp-Source: AGHT+IGkq/Yho3MXhu4mjlOqZnh1sbMKJRwQFyyu29+TZYNFidmM+AVkw+octliNf2IRJpTmHxGFJHSGs+YhAb5n0ehq
+        bh=nSwsPxGjU1Rb9Mh5qgmhu8siiN6wKhSBap+YrmkGvmo=;
+        b=Q97ZiOc1r1p56yovZiVUSdg545WaFItTSuKevxYG/j4744mI8KMITSTeVflR20EM42
+         uudI2WubR141d/6JFZ2fikPlHQWeEf6e9F9Y3ADIc7qWhNXdMngn82GsGH4Y0B62Jc3v
+         G84poQXYt/zGVU9s11cJJiIiXTGOyRbq+2cu8/9ve96jYPQtHv6eMw7yBCCiC+bsLEkd
+         lWZNL69eAC9wmVDGeUzpL5SlVCUi9X6JfK7TfI5qY2iK5h/6MTnpzO0AF/t5mMogrZj5
+         ZKgjvAWkvA4IzxM7iRi9arGMEKR56J84Pw6r4xErn9tYmVyeTWukFoZvF5wWQ8X2J5k5
+         h+MA==
+X-Gm-Message-State: AOJu0Yxa81xU4gYmMy0z+2GpuyPxl7Qk1CmZIogQXt0QI8Ulzuy0V2wa
+        Z6GlKLm0lJH4EUHOmKDrpt3izA0nUaPadPQqg5dg
+X-Google-Smtp-Source: AGHT+IG3ycgZ1ANRvhM0b8aR3O2JnbWKMJw5/2E7Y5Hu+lkyPvKs0PdaMQEwpxKlWPfeoGQhQE8730YP86ImtOIxI0CZ
 X-Received: from axel.svl.corp.google.com ([2620:15c:2a3:200:6577:b8c1:dd2d:1c93])
- (user=axelrasmussen job=sendgmr) by 2002:a25:d816:0:b0:d7b:9fad:6b9e with
- SMTP id p22-20020a25d816000000b00d7b9fad6b9emr3353ybg.1.1696362356219; Tue,
- 03 Oct 2023 12:45:56 -0700 (PDT)
-Date:   Tue,  3 Oct 2023 12:45:43 -0700
+ (user=axelrasmussen job=sendgmr) by 2002:a81:ae53:0:b0:59b:f138:c843 with
+ SMTP id g19-20020a81ae53000000b0059bf138c843mr9811ywk.3.1696362360670; Tue,
+ 03 Oct 2023 12:46:00 -0700 (PDT)
+Date:   Tue,  3 Oct 2023 12:45:45 -0700
 In-Reply-To: <20231003194547.2237424-1-axelrasmussen@google.com>
 Mime-Version: 1.0
 References: <20231003194547.2237424-1-axelrasmussen@google.com>
 X-Mailer: git-send-email 2.42.0.609.gbb76f46606-goog
-Message-ID: <20231003194547.2237424-2-axelrasmussen@google.com>
-Subject: [PATCH v2 1/5] ioctl_userfaultfd.2: describe two-step feature handshake
+Message-ID: <20231003194547.2237424-4-axelrasmussen@google.com>
+Subject: [PATCH v2 3/5] ioctl_userfaultfd.2: clarify the state of the
+ uffdio_api structure on error
 From:   Axel Rasmussen <axelrasmussen@google.com>
 To:     Alejandro Colomar <alx@kernel.org>, Peter Xu <peterx@redhat.com>
 Cc:     linux-man@vger.kernel.org, linux-mm@kvack.org,
@@ -62,82 +63,55 @@ Precedence: bulk
 List-ID: <linux-man.vger.kernel.org>
 X-Mailing-List: linux-man@vger.kernel.org
 
-Fully describe how UFFDIO_API can be used to perform a two-step feature
-handshake, and also note the case where this isn't necessary (programs
-which don't depend on any extra features).
+The old FIXME noted that the zeroing was done to differentiate the two
+EINVAL cases. It's possible something like this was true historically,
+but in current Linux we zero it in *both* EINVAL cases, so this is at
+least no longer true.
 
-This lets us clean up an old FIXME asking for this to be described.
+After reading the code, I can't determine any clear reason why we zero
+it in some cases but not in others. So, some simple advice we can give
+userspace is: if an error occurs, treat the contents of the structure as
+unspecified. Just re-initialize it before retrying UFFDIO_API again.
 
 Signed-off-by: Axel Rasmussen <axelrasmussen@google.com>
 ---
- man2/ioctl_userfaultfd.2 | 37 +++++++++++++++++++++----------------
- 1 file changed, 21 insertions(+), 16 deletions(-)
+ man2/ioctl_userfaultfd.2 | 16 ++++++++--------
+ 1 file changed, 8 insertions(+), 8 deletions(-)
 
 diff --git a/man2/ioctl_userfaultfd.2 b/man2/ioctl_userfaultfd.2
-index b5281ec4c..ef352a69d 100644
+index 28dd2fcdd..2ee6a0532 100644
 --- a/man2/ioctl_userfaultfd.2
 +++ b/man2/ioctl_userfaultfd.2
-@@ -82,7 +82,6 @@ struct uffdio_api {
- The
- .I api
- field denotes the API version requested by the application.
--.PP
- The kernel verifies that it can support the requested API version,
- and sets the
- .I features
-@@ -92,6 +91,25 @@ fields to bit masks representing all the available features and the generic
- .BR ioctl (2)
- operations available.
- .PP
-+Since Linux 4.11,
-+applications should use the
-+.I features
-+field to perform a two-step handshake.
-+First,
-+.BR UFFDIO_API
-+is called with the
-+.I features
-+field set to zero.
-+The kernel responsds by setting all supported feature bits.
-+.PP
-+Applications which do not require any specific features
-+can begin using the userfaultfd immediately.
-+Applications which do need specific features
-+should call
-+.BR UFFDIO_API
-+again with a subset of the reported feature bits set
-+to enable those features.
-+.PP
- Before Linux 4.11, the
- .I features
- field must be initialized to zero before the call to
-@@ -101,24 +119,11 @@ and zero (i.e., no feature bits) is placed in the
- field by the kernel upon return from
- .BR ioctl (2).
- .PP
--Starting from Linux 4.11, the
--.I features
--field can be used to ask whether particular features are supported
--and explicitly enable userfaultfd features that are disabled by default.
--The kernel always reports all the available features in the
--.I features
--field.
--.PP
--To enable userfaultfd features the application should set
--a bit corresponding to each feature it wants to enable in the
--.I features
--field.
--If the kernel supports all the requested features it will enable them.
--Otherwise it will zero out the returned
-+If the application sets unsupported feature bits,
-+the kernel will zero out the returned
- .I uffdio_api
- structure and return
- .BR EINVAL .
--.\" FIXME add more details about feature negotiation and enablement
- .PP
- The following feature bits may be set:
+@@ -248,6 +248,14 @@ operation returns 0 on success.
+ On error, \-1 is returned and
+ .I errno
+ is set to indicate the error.
++If an error occurs,
++the kernel may zero the provided
++.I uffdio_api
++structure.
++The caller should treat its contents as unspecified,
++and reinitialize it before re-attempting another
++.B UFFDIO_API
++call.
+ Possible errors include:
  .TP
+ .B EFAULT
+@@ -281,14 +289,6 @@ feature was enabled,
+ but the calling process doesn't have the
+ .B CAP_SYS_PTRACE
+ capability.
+-.\" FIXME In the above error case, the returned 'uffdio_api' structure is
+-.\" zeroed out. Why is this done? This should be explained in the manual page.
+-.\"
+-.\" Mike Rapoport:
+-.\"     In my understanding the uffdio_api
+-.\"     structure is zeroed to allow the caller
+-.\"     to distinguish the reasons for -EINVAL.
+-.\"
+ .SS UFFDIO_REGISTER
+ (Since Linux 4.3.)
+ Register a memory address range with the userfaultfd object.
 -- 
 2.42.0.609.gbb76f46606-goog
 
