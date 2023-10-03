@@ -2,152 +2,325 @@ Return-Path: <linux-man-owner@vger.kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id B43BEE74919
-	for <linux-man@archiver.kernel.org>; Mon,  2 Oct 2023 19:51:36 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id D8A62E776DB
+	for <linux-man@archiver.kernel.org>; Tue,  3 Oct 2023 00:17:44 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S229499AbjJBTvh (ORCPT <rfc822;linux-man@archiver.kernel.org>);
-        Mon, 2 Oct 2023 15:51:37 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:46236 "EHLO
+        id S229789AbjJCARq (ORCPT <rfc822;linux-man@archiver.kernel.org>);
+        Mon, 2 Oct 2023 20:17:46 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:54546 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S229497AbjJBTvh (ORCPT
-        <rfc822;linux-man@vger.kernel.org>); Mon, 2 Oct 2023 15:51:37 -0400
-Received: from esa.microchip.iphmx.com (esa.microchip.iphmx.com [68.232.154.123])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 4F94C91
-        for <linux-man@vger.kernel.org>; Mon,  2 Oct 2023 12:51:34 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
-  d=microchip.com; i=@microchip.com; q=dns/txt; s=mchp;
-  t=1696276294; x=1727812294;
-  h=from:to:cc:subject:date:message-id:mime-version:
-   content-transfer-encoding;
-  bh=Kqz3f/GWaJd1cTMX10r8SIlkPYuoquCMt6a9kYZBChw=;
-  b=UOTgzvBm39xUib91AtEEQmVlrKp3AbEwDuj6xVV4ijvusnuaz9xzEXuy
-   Zj6owcXSU7Y06lgykTi34DZyZi7UfMdUYXoy1XGpCJPeftuYZQyUII+rS
-   OYLS+AZyI+b/z0yxWun6DowGSAPiIJRstT/oY2+w3379mpvK9pW7EqFN7
-   ImX4g15jjiZ+OitrMD97ObbHKdqPJT1ePulkzKN6rtihxeLXM8COfPJhC
-   19HTkAr3xREgZ2gjuUH0FWKTN9BPMa2s1HDeGyQr4QoRBfEraVVPRYFTz
-   z7PYu76Txnl8z/9jD42cpQk1hddsVeDK+dIrxIWNyrC3bmtnk3leVgWA9
-   A==;
-X-CSE-ConnectionGUID: 08Jzd6qFSxGjVLEywQdRMw==
-X-CSE-MsgGUID: 8Mz69L8OQzW5yfIP1t8oOw==
-X-ThreatScanner-Verdict: Negative
-X-IronPort-AV: E=Sophos;i="6.03,194,1694761200"; 
-   d="scan'208";a="7726003"
-X-Amp-Result: SKIPPED(no attachment in message)
-Received: from unknown (HELO email.microchip.com) ([170.129.1.10])
-  by esa2.microchip.iphmx.com with ESMTP/TLS/ECDHE-RSA-AES128-GCM-SHA256; 02 Oct 2023 12:51:33 -0700
-Received: from chn-vm-ex03.mchp-main.com (10.10.85.151) by
- chn-vm-ex02.mchp-main.com (10.10.85.144) with Microsoft SMTP Server
- (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
- 15.1.2507.21; Mon, 2 Oct 2023 12:51:13 -0700
-Received: from brunhilda.pdev.net (10.10.85.11) by chn-vm-ex03.mchp-main.com
- (10.10.85.151) with Microsoft SMTP Server id 15.1.2507.21 via Frontend
- Transport; Mon, 2 Oct 2023 12:51:13 -0700
-From:   Don Brace <don.brace@microchip.com>
-To:     <alx@kernel.org>
-CC:     <linux-man@vger.kernel.org>
-Subject: [PATCH v4 0/5] smartpqi man page updates
-Date:   Mon, 2 Oct 2023 14:53:59 -0500
-Message-ID: <20231002195404.153182-1-don.brace@microchip.com>
-X-Mailer: git-send-email 2.42.0.296.g493f462273
+        with ESMTP id S229595AbjJCARp (ORCPT
+        <rfc822;linux-man@vger.kernel.org>); Mon, 2 Oct 2023 20:17:45 -0400
+Received: from smtp.kernel.org (relay.kernel.org [52.25.139.140])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 9120BA7
+        for <linux-man@vger.kernel.org>; Mon,  2 Oct 2023 17:17:42 -0700 (PDT)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 9203EC433C7;
+        Tue,  3 Oct 2023 00:17:41 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+        s=k20201202; t=1696292262;
+        bh=QRgsIf08qNRTj+WbXRe6ZbCa7DknVjzDliGFfP9o+N8=;
+        h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+        b=Ux1TxChmo5SwNl4fgsrUVmi7NFHAysIe2J2FRkx9ONd9HxgwJJ85Z3pLOGoXD3NkT
+         sUeKeKKwV/mDoeiSjVwHSP2CQWHfcVOqW9HG+rQXZnmrYJYNwkkHQVzqg+Xqct0fJa
+         PPrLPzqCY7fcOqvPIKfNYpoV1wkiz6tnahTs0zQPHrjKHi6DDCdA3yQfIp9yIx9tGW
+         Lhd/H3G3Kj+8zmUBbSTX8Jv/HBvbxT715YYhrlL0Uv/Nnm8bFrMtHQQaDlbBjAq3s5
+         GUcooAZna3++yM9QT0jptRe9/tQnlh1FpflmVKwQM50G2nQ6SKDfCzUZZAEUDn8o5M
+         RBvr4qvRzp0GQ==
+Date:   Tue, 3 Oct 2023 02:17:32 +0200
+From:   Alejandro Colomar <alx@kernel.org>
+To:     Quentin Armitage <quentin@armitage.org.uk>
+Cc:     linux-man@vger.kernel.org
+Subject: Re: [patch v2] truncate.2: EINVAL is returned for non regular files
+ except directories
+Message-ID: <ZRtdo6mTiMBmjGbX@debian>
+References: <0feddd7ac2b9d59dd8c35e4b3452dfaad7d57788.camel@armitage.org.uk>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
-Content-Type: text/plain
+Content-Type: multipart/signed; micalg=pgp-sha512;
+        protocol="application/pgp-signature"; boundary="+GEUX1y/AL3QCv0B"
+Content-Disposition: inline
+In-Reply-To: <0feddd7ac2b9d59dd8c35e4b3452dfaad7d57788.camel@armitage.org.uk>
 Precedence: bulk
 List-ID: <linux-man.vger.kernel.org>
 X-Mailing-List: linux-man@vger.kernel.org
 
-These patches are based the man page content found in
-git://git.kernel.org/pub/scm/docs/man-pages/man-pages.git
 
-The Linux man page smartpqi.4 is out-of-date with the man page provided
-by our out-of-box driver. This patch series brings the Linux man page up
-to date.
+--+GEUX1y/AL3QCv0B
+Content-Type: text/plain; protected-headers=v1; charset=utf-8
+Content-Disposition: inline
+Content-Transfer-Encoding: quoted-printable
+Date: Tue, 3 Oct 2023 02:17:32 +0200
+From: Alejandro Colomar <alx@kernel.org>
+To: Quentin Armitage <quentin@armitage.org.uk>
+Cc: linux-man@vger.kernel.org
+Subject: Re: [patch v2] truncate.2: EINVAL is returned for non regular files
+ except directories
 
-The changes are:
-smarpqi-update-copyright-and-email-addresses
-    The copyright, email, and URLs have changed to Microchip.
-smartpqi-update-module-parameter-descriptions
-    We changed some descriptions of some of our module parameters.
-    Clarifies what their default values are.
-smartpqi-add-module-parameter_disable_managed_interrupts
-    We added a new module parameter to allow users to disable how
-    interrupts are managed allowing them to change affinity.
-smartpqi-add-module-parameter_ctrl_ready_timeout
-    We added a new module parameter to allow users to change how
-    long the driver waits for the controller becomes ready. The
-    default is 180 seconds and can be changed from 30-1800 seconds.
-    The longer wait times are useful for large configurations.
-smartpqi-update_FILES_section
-    Minor change to the FILES section. The word "Logical" was changed to
-    "Disk" since HBA disks are also supported.
-smartpqi-update-host-attribute-descriptions
-    Updated the descriptions of existing host attributes accessed through
-    sysfs.
-smartpqi-update-device-attribute-descriptions
-    Updated the descriptions of existing device attributes accessed through
-    sysfs.
-smartpqi-add-host-attributes
-    We added some new host attributes:
-       enable_stream_detection: For RAID5/6 sequential write operations, this
-             can help increase IOPS. Reduces Read/Modify/Write operations.
-             This is for AIO capable devices. (Volumes consisting of non-rotating
-             media).
-       enable_r5_writes: Send down RAID 5 write operations down the AIO path.
-       enable_r6_writes: Send down RAID 6 write operations down the AIO path.
-smartpqi-add-device-attributes
-    We added some new device attributes:
-       lunid - SCSI LUN ID
-       unique_id - 16-byte ID that uniquely identifies the device within the controller.
-       path_info - Host:Bus:Target:Lun (h:b:t:l), device type, Active/Inactive
-       raid_bypass_cnt - Count of the number of request sent down the AIO path.
-       sas_ncq_prio_enable - Enables SATA NCQ priority support.
-smartpqi-add-sg-entry-to-see_also
-    Simple addition of the sg(4) driver to the SEE ALSO section.
+Hi Quentin,
 
-Changes since V3:
-    Updated content for the following pages due to reviews by:
-    Alejandro Colomar <alx@kernel.org>
+On Sun, Oct 01, 2023 at 03:57:19PM +0100, Quentin Armitage wrote:
+> truncate(2) returns EINVAL if the file argument is a socket, a FIFO or
+> a character or block=C2=A0device. The current man page indicates that
+> ftruncate() returns EINVAL for an fd that does=C2=A0not reference a regul=
+ar
+> file, but for truncate() the only reason given for returning EINVAL is
+> that the length is invalid.
+>=20
+> The following test program demonstrates the errors returned by truncate():
+> =3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=
+=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=
+=3D=3D=3D=3D
 
-      smartpqi: add module parameter ctrl_ready_timeout
-      Link: https://lore.kernel.org/linux-man/axwssorupkp6fv3b7zqgjyd243exvhlw7rle2ftyy43jxhm4yf@woxzbz4hm766/
+I tweaked the program a little bit.
 
-      smartpqi: update FILES section
-      Link: https://lore.kernel.org/linux-man/fwpvmbussvf2zzug5bsqhrd7mvwcvdllvna6a4ngke3hw6w5am@b4icgpgirck4/
+> #define _GNU_SOURCE
+>=20
+> #include <unistd.h>
+> #include <stdio.h>
+> #include <stdlib.h>
+> #include <errno.h>
+> #include <sys/types.h>
+> #include <fcntl.h>
+> #include <sys/stat.h>
+> #include <sys/sysmacros.h>
+> #include <string.h>
+> #include <err.h>
 
-      smartpqi: update host attribute descriptions
-      Link: https://lore.kernel.org/linux-man/ss7k5ooeoi7y56j6otvdpwhgd5yltzk6nt5l6ujiiupxzpmrdx@zrcvhw364ejx/
+Add a space before the '#', so that git doesn't mess with it so easily.
 
-      smartpqi: add host attributes
-      Link: https://lore.kernel.org/linux-man/nbt3jt7busx6akj7ykaxs7df6vlbbxtvcdy4ckvlp7saol3djl@rb6ckz3lzzot/
+Also, sort(1).
 
-      smartpqi: add device attributes
-      Link: https://lore.kernel.org/linux-man/ytcsqleu53iwpn5gsjmmuoqz2cy5oegvvafwlwxn422bcn3a5e@ne3khvixxzuq/
+>=20
+> struct {
+>   const char *fname;
 
-    The other patches have already been applied and were removed from the
-    remaining patch set after a rebase.
+Use 4-space indent.
 
-    Thanks for your attention and reviews for these patches.
+>   mode_t mode;
+>   unsigned dev_maj;
+>   unsigned dev_min;
+> } nodes[] =3D {
+>   { "/tmp/trunc_file", S_IFREG | 0666 },
 
-Changes since V2:
-    Resending due to bad e-mail address for maintainer.
+Explicitly set ,0 ,0
 
-Changes since V1:
-    Broke up the large patch into multiple smaller patches due to review by:
-    Alejandro Colomar <alx@kernel.org>
-    Link: https://lore.kernel.org/all/096ed4d5-945f-5ac9-eba3-c9be5d32cfe8@kernel.org/
+>   { "/tmp/trunc_fifo", S_IFIFO | 0666 },
+>   { "/tmp/trunc_socket", S_IFSOCK | 0666 },
+>   { "/tmp/trunc_char_dev", S_IFCHR | 0666, 10, 7},  // Second Amiga mouse=
+, /dev/amigamouse1
+>   { "/tmp/trunc_blk_dev", S_IFBLK | 0666, 13, 3 },  // Was XT disk /dev/x=
+d3
+>   { "/tmp/trunc_dir", 0666 },
+> };
+>=20
+> int main(int C, char **V)
 
----
+int main(void)
 
-Don Brace (5):
-  smartpqi: add module parameter ctrl_ready_timeout
-  smartpqi: update FILES section
-  smartpqi: update host attribute descriptions
-  smartpqi: add host attributes
-  smartpqi: add device attributes
+is legal ISO C.  Since you're not using them, you can just use void.
 
- man4/smartpqi.4 | 182 ++++++++++++++++++++++++++++++++++++++++++------
- 1 file changed, 162 insertions(+), 20 deletions(-)
+> {
+>   int n;
+>   int ret;
+>=20
+>   for (n =3D 0; n < sizeof(nodes) / sizeof(nodes[0]); n++) {
 
--- 
-2.42.0.296.g493f462273
+We prefer C99 variables for loops (defined in the for line).
+Also, 'n' should be of type size_t.
 
+>     /* Create the nodes */
+>     if (!(nodes[n].mode & S_IFMT))
+>       ret =3D mkdir(nodes[n].fname, nodes[n].mode);
+>     else
+>       ret =3D mknod(nodes[n].fname, nodes[n].mode,
+>                   makedev(nodes[n].dev_maj, nodes[n].dev_min));
+>=20
+>     if (ret) {
+>       warn("mknod(%s) errno %d", nodes[n].fname, errno);
+
+With a recent-enough glibc, the following is a bit simpler:
+
+warn("mknod(\"%s\"): %#m", nodes[n].fname);
+
+>       continue;
+>     }
+>=20
+>     /* Returns EINVAL for IFSOCK, IFIFO, S_IFBLK, S_IFCHR, EISDIR for a d=
+irectory */
+>     ret =3D truncate(nodes[n].fname, 0);
+>=20
+>     if (ret)
+>       warn("truncate(\"%s\") failed with errno %s", nodes[n].fname,
+>               strerrorname_np(errno));
+
+For consistency, the same goes here:
+
+warnc(ret =3D=3D -1 ? errno : 0, "truncate(\"%s\"): %#m", nodes[n].fname);
+
+(I also used stderr for success, since it's still an error report;
+it just says there are no errors.)
+
+warnc(3) is available via libbsd (glibc could catch up here).
+
+>     else
+>       printf("truncate(\"%s\") succeeded\n", nodes[n].fname);
+>=20
+>     /* Remove the nodes */
+>     if (!(nodes[n].mode & S_IFMT))
+>       ret =3D rmdir(nodes[n].fname);
+>     else
+>       ret =3D unlink(nodes[n].fname);
+>     if (ret)
+>       warn("unlink(%s) errno %d", nodes[n].fname, errno);
+>   }
+> }
+> =3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=
+=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=
+=3D=3D=3D=3D
+>=20
+> Compile the program and run it as user root.
+>=20
+> output (if program name is trunc) should be:
+> truncate("/tmp/trunc_file") succeeded
+> trunc: truncate("/tmp/trunc_fifo") failed with errno EINVAL: Invalid argu=
+ment
+> trunc: truncate("/tmp/trunc_socket") failed with errno EINVAL: Invalid ar=
+gument
+> trunc: truncate("/tmp/trunc_char_dev") failed with errno EINVAL: Invalid =
+argument
+> trunc: truncate("/tmp/trunc_blk_dev") failed with errno EINVAL: Invalid a=
+rgument
+> trunc: truncate("/tmp/trunc_dir") failed with errno EISDIR: Is a directory
+
+Here's what I tweaked, if you want to just pick it:
+
+
+=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=
+=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=
+=3D=3D=3D
+ #define _GNU_SOURCE
+
+ #include <err.h>
+ #include <errno.h>
+ #include <fcntl.h>
+ #include <stdio.h>
+ #include <stdlib.h>
+ #include <string.h>
+ #include <sys/stat.h>
+ #include <sys/sysmacros.h>
+ #include <sys/types.h>
+ #include <unistd.h>
+
+struct {
+    const char *fname;
+    mode_t mode;
+    unsigned dev_maj;
+    unsigned dev_min;
+} nodes[] =3D {
+    {"/tmp/trunc_file", S_IFREG | 0666, 0, 0},
+    {"/tmp/trunc_fifo", S_IFIFO | 0666, 0, 0},
+    {"/tmp/trunc_socket", S_IFSOCK | 0666, 0, 0},
+    {"/tmp/trunc_char_dev", S_IFCHR | 0666, 10, 7},  // Second Amiga mouse,=
+ /dev/amigamouse1
+    {"/tmp/trunc_blk_dev", S_IFBLK | 0666, 13, 3},  // Was XT disk /dev/xd3
+    {"/tmp/trunc_dir", 0666, 0, 0},
+};
+
+int
+main(void)
+{
+    int  ret;
+
+    for (size_t n =3D 0; n < sizeof(nodes) / sizeof(nodes[0]); n++) {
+        /* Create the nodes */
+        if (!(nodes[n].mode & S_IFMT))
+            ret =3D mkdir(nodes[n].fname, nodes[n].mode);
+        else
+            ret =3D mknod(nodes[n].fname, nodes[n].mode,
+                        makedev(nodes[n].dev_maj, nodes[n].dev_min));
+
+        if (ret =3D=3D -1) {
+            warn("mknod(\"%s\") %#m", nodes[n].fname);
+            continue;
+        }
+
+        /* Returns EINVAL for IFSOCK, IFIFO, S_IFBLK, S_IFCHR, EISDIR for a=
+ directory */
+        ret =3D truncate(nodes[n].fname, 0);
+        warnc(ret =3D=3D -1 ? errno : 0, "truncate(\"%s\"): %#m", nodes[n].=
+fname);
+
+        /* Remove the nodes */
+        ret =3D (nodes[n].mode & S_IFMT) ? unlink(nodes[n].fname)
+                                       : rmdir(nodes[n].fname);
+        if (ret =3D=3D -1)
+            warn("unlink(\"%s\"): %#m", nodes[n].fname);
+    }
+}
+=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=
+=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=
+=3D=3D=3D
+Compile the program with $(pkgconf --cflags --libs libbsd-overlay)
+Run it as user root.
+
+The output (if program name is trunc) should be:
+trunc: truncate("/tmp/trunc_file"): 0: Success
+trunc: truncate("/tmp/trunc_fifo"): EINVAL: Invalid argument
+trunc: truncate("/tmp/trunc_socket"): EINVAL: Invalid argument
+trunc: truncate("/tmp/trunc_char_dev"): EINVAL: Invalid argument
+trunc: truncate("/tmp/trunc_blk_dev"): EINVAL: Invalid argument
+trunc: truncate("/tmp/trunc_dir"): EISDIR: Is a directory
+
+
+
+>=20
+> Signed-off-by: Quentin Armitage <quentin@armitage.org.uk>
+>=20
+> diff --git a/man2/truncate.2 b/man2/truncate.2
+> index 703f598b3..44750b9e2 100644
+> --- a/man2/truncate.2
+> +++ b/man2/truncate.2
+> @@ -112,7 +112,9 @@ and
+>  .B EINVAL
+>  The argument
+>  .I length
+> -is negative or larger than the maximum file size.
+> +is negative or larger than the maximum file size,
+> +or the named file is a socket, a FIFO,
+> +or a block or character device.
+
+The same page has the following below, for ftruncate(2):
+
+       EINVAL fd does not reference a regular file or a  POSIX  shared
+              memory object.
+
+You could check that to have consistent wording in both.
+
+Cheers,
+Alex
+
+>  .TP
+>  .B EIO
+>  An I/O error occurred updating the inode.
+>=20
+
+--+GEUX1y/AL3QCv0B
+Content-Type: application/pgp-signature; name="signature.asc"
+
+-----BEGIN PGP SIGNATURE-----
+
+iQIzBAABCgAdFiEE6jqH8KTroDDkXfJAnowa+77/2zIFAmUbXZwACgkQnowa+77/
+2zLgwBAAmZJ/+FJAqSFuh2sqK0uzRyb0xOeOU2yd+6ddLxoPf7TxcgOs/QuaadPD
+NiUnYBzZ/YDEaxA96QsVUl0vkm4ByABTCT7gVpds+j45YezP26CEN62rbdmsaZxT
+yfL0gytAdg1cSowuCAqo/HsRmhuWNt+4XyBOSOPPsk2SravVXj5wjV/4BA1PJg4f
+Y6FJFEhMXiqjfS/t9us/vCNSzKhZGg+yWZV4DI150dDAbk2cTXw11ilmflQIb2yF
+03cs9+qaaT3OMrs6vFg2QFTB0hCMj+z4aaUNXM8tjzI7OEaJ0CcPZEwMPz497bXA
+uH8hDY62H5S21tuc1+TZ1pxDbU/Sag4H0NnQHAADPkggUtBOX0020AhylwbFDoqE
+6V7aam5CWk6GgRNLF3imZvfwPomdELTRmwybJuOisU3jZUnNay4qmLnV8mVJ2iQc
+3taenXvyk1jR2DR2IOtjFqnMHur1dYIW2zqRTz3NvL2gwR5ksdmdHE6ZuE1PrbEH
+Za0ld4Tr0sh3Y3dZ1/QyX8IyllWi8MhfRaZo5YCLCKnVvwBdIEyMX1/hWwQmifN4
+XxaYhpphhMDUa9KLlL4/cthktHZPWEX3NaXSY0yzJ5X1goFMM+lPmUUD9v9TGFyd
+DkfTswVwahNDK6bTgcDEOt9VjPmu8lOOlCb6ZrtgVjQAWLfUNnQ=
+=a9ak
+-----END PGP SIGNATURE-----
+
+--+GEUX1y/AL3QCv0B--
