@@ -2,52 +2,52 @@ Return-Path: <linux-man-owner@vger.kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 16335E7AD77
-	for <linux-man@archiver.kernel.org>; Tue,  3 Oct 2023 15:57:59 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 3E953E7AD76
+	for <linux-man@archiver.kernel.org>; Tue,  3 Oct 2023 15:57:58 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S231922AbjJCP57 (ORCPT <rfc822;linux-man@archiver.kernel.org>);
-        Tue, 3 Oct 2023 11:57:59 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:45294 "EHLO
+        id S231851AbjJCP56 (ORCPT <rfc822;linux-man@archiver.kernel.org>);
+        Tue, 3 Oct 2023 11:57:58 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:55296 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S237235AbjJCP56 (ORCPT
+        with ESMTP id S231922AbjJCP56 (ORCPT
         <rfc822;linux-man@vger.kernel.org>); Tue, 3 Oct 2023 11:57:58 -0400
 Received: from esa.microchip.iphmx.com (esa.microchip.iphmx.com [68.232.153.233])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 26528AF
-        for <linux-man@vger.kernel.org>; Tue,  3 Oct 2023 08:57:56 -0700 (PDT)
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 8D92EB7
+        for <linux-man@vger.kernel.org>; Tue,  3 Oct 2023 08:57:55 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=microchip.com; i=@microchip.com; q=dns/txt; s=mchp;
-  t=1696348676; x=1727884676;
+  t=1696348675; x=1727884675;
   h=from:to:cc:subject:date:message-id:in-reply-to:
    references:mime-version:content-transfer-encoding;
-  bh=Q71QnSLqZWwfrHeexAwpd4WcjwsxU1QOBjLqi64h04g=;
-  b=mf7+Yj59OBgGD/5tQOLn0aEiTPuVtCBy4Ew6ru25zu8p4q42TOEDrOJt
-   rcJTU9hBTTIcewf8BbJ0l4giLXgrj4CXX/ZBONqlr6+ihpz/nxJymRd3E
-   UO9h4IamWzRbUQwk/xV1IGMdSIXhc6qO+QtP4SYqFOiqiVNSYQvbgYYfv
-   h5lEPB+7CbobCm3/9hJLAFi/+A/aNGmXuxrl2hbbIRj/zJI1p6+jYkR4T
-   2u29JVLdnUQ8d6TizWo/v4FL25AGiaZ70xSta/dUV1lVouRmX+RF2UEFW
-   T51Dm9guvfXAm9wlrDQWzOtGM2aCkhTYtr3snRhYg/QxmOtdArYKMCIrn
-   g==;
+  bh=trZstkUPIPvpXf1Lr1+slx46124dF9O/zLblQFR7Q6c=;
+  b=rv73pZF3VkvR7TXEamtSeWaAQkuizk92e5MLjC3Ua0UjEtctshJ08v89
+   OIdwLd8EVjiLB/micEsJX8J+39dKRS/2qj37UlRJ8PbQ0HAUS8S0oNARW
+   WB3DhuFKpv3hr+stUJOQQBH8L/8O794mY5Be6JAZ7yiE2m35ZObdyDxjh
+   /fZ9Ouka5vUnFPmHiPDsG/h0mbcP0OAc0gGgJVC/xhSHavryDWGteXKRV
+   UOAQx4DyhLGPBIIRNHCqlZRUYNaiIvIMPoavGtacwQ7b+HZ8fVm32vZMW
+   XkX6p+tq4Y4vorczAKJsVZO/UXJ3DeAm1Ls7DxmfflQULp08if9u+Sq2U
+   w==;
 X-CSE-ConnectionGUID: z1jAWWweQMqREDbH4gjiHw==
-X-CSE-MsgGUID: ap2N20LVTeW+CUqqehOnJw==
+X-CSE-MsgGUID: LoPfYZzcRAywEXXirtHfhw==
 X-ThreatScanner-Verdict: Negative
 X-IronPort-AV: E=Sophos;i="6.03,197,1694761200"; 
-   d="scan'208";a="238453658"
+   d="scan'208";a="238453657"
 X-Amp-Result: SKIPPED(no attachment in message)
 Received: from unknown (HELO email.microchip.com) ([170.129.1.10])
   by esa5.microchip.iphmx.com with ESMTP/TLS/ECDHE-RSA-AES128-GCM-SHA256; 03 Oct 2023 08:57:55 -0700
 Received: from chn-vm-ex03.mchp-main.com (10.10.85.151) by
  chn-vm-ex01.mchp-main.com (10.10.85.143) with Microsoft SMTP Server
  (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
- 15.1.2507.21; Tue, 3 Oct 2023 08:57:35 -0700
+ 15.1.2507.21; Tue, 3 Oct 2023 08:57:34 -0700
 Received: from brunhilda.pdev.net (10.10.85.11) by chn-vm-ex03.mchp-main.com
  (10.10.85.151) with Microsoft SMTP Server id 15.1.2507.21 via Frontend
- Transport; Tue, 3 Oct 2023 08:57:35 -0700
+ Transport; Tue, 3 Oct 2023 08:57:34 -0700
 From:   Don Brace <don.brace@microchip.com>
 To:     <alx@kernel.org>
 CC:     <linux-man@vger.kernel.org>
-Subject: [PATCH v5 6/6] smartpqi: add HISTORY section
-Date:   Tue, 3 Oct 2023 11:00:24 -0500
-Message-ID: <20231003160024.231729-7-don.brace@microchip.com>
+Subject: [PATCH v5 3/6] smartpqi: update host attribute descriptions
+Date:   Tue, 3 Oct 2023 11:00:21 -0500
+Message-ID: <20231003160024.231729-4-don.brace@microchip.com>
 X-Mailer: git-send-email 2.42.0.296.g493f462273
 In-Reply-To: <20231003160024.231729-1-don.brace@microchip.com>
 References: <20231003160024.231729-1-don.brace@microchip.com>
@@ -58,32 +58,57 @@ Precedence: bulk
 List-ID: <linux-man.vger.kernel.org>
 X-Mailing-List: linux-man@vger.kernel.org
 
-Enumerate old sysfs entries replaced by newer entries.
+Minor description changes for host attributes.
 
-Suggested-by: Alejandro Colomar <alx@kernel.org>
+Just some small changes to the host attribute descriptions.
+Remove the "version" sysfs entry. This entry was changed
+to two sysfs entries: driver_version and firmware_version.
+
+Reviewed-by: Scott Benesh <scott.benesh@microchip.com>
+Reviewed-by: Scott Teel <scott.teel@microchip.com>
+Reviewed-by: Mike McGowen <mike.mcgowen@microchip.com>
+Reviewed-by: Kevin Barnett <kevin.barnett@microchip.com>
 Signed-off-by: Don Brace <don.brace@microchip.com>
 ---
- man4/smartpqi.4 | 7 +++++++
- 1 file changed, 7 insertions(+)
+ man4/smartpqi.4 | 21 ++-------------------
+ 1 file changed, 2 insertions(+), 19 deletions(-)
 
 diff --git a/man4/smartpqi.4 b/man4/smartpqi.4
-index 464ef89919a9..a66e785a0464 100644
+index 3b7cbb749153..f9560fe3ef14 100644
 --- a/man4/smartpqi.4
 +++ b/man4/smartpqi.4
-@@ -468,6 +468,13 @@ refer to the User Guide for the controller,
- which can be found by searching for the specific controller at
- .UR https://www.microchip.com/design-centers/storage
- .UE .
-+.SH HISTORY
-+.I /sys/class/scsi_host/host*/version
-+was replaced by two sysfs entries:
-+.IP
-+.I /sys/class/scsi_host/host*/driver_version
-+.IP
-+.I /sys/class/scsi_host/host*/firmware_version
- .SH SEE ALSO
- .BR cciss (4),
- .BR hpsa (4),
+@@ -136,29 +136,12 @@ The host
+ attribute is a write-only attribute.
+ Writing to this attribute will cause the driver to scan for new,
+ changed, or removed devices (e.g., hot-plugged tape drives, or newly
+-configured or deleted logical drives) and notify the SCSI mid-layer of
++configured or deleted logical volumes) and notify the SCSI mid-layer of
+ any changes detected.
+ Usually this action is triggered automatically by configuration
+ changes, so the user should not normally have to write to this file.
+ Doing so may be useful when hot-plugging devices such as tape drives or
+-entire storage boxes containing pre-configured logical drives.
+-.TP
+-.IR /sys/class/scsi_host/host * /version
+-The host
+-.I version
+-attribute is a read-only attribute.
+-This attribute contains the driver version and the controller firmware
+-version.
+-.IP
+-For example:
+-.IP
+-.in +4n
+-.EX
+-$ \c
+-.B cat /sys/class/scsi_host/host1/version
+-driver: 1.1.2\-126
+-firmware: 1.29\-112
+-.EE
++entire storage boxes containing pre-configured logical volumes.
+ .in
+ .TP
+ .IR /sys/class/scsi_host/host * /lockup_action
 -- 
 2.42.0.296.g493f462273
 
