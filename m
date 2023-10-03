@@ -2,88 +2,95 @@ Return-Path: <linux-man-owner@vger.kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 72DCEE7AD74
-	for <linux-man@archiver.kernel.org>; Tue,  3 Oct 2023 15:58:10 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id C8747E8FDB1
+	for <linux-man@archiver.kernel.org>; Tue,  3 Oct 2023 19:45:57 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S231888AbjJCP6L (ORCPT <rfc822;linux-man@archiver.kernel.org>);
-        Tue, 3 Oct 2023 11:58:11 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:46768 "EHLO
+        id S230390AbjJCTp6 (ORCPT <rfc822;linux-man@archiver.kernel.org>);
+        Tue, 3 Oct 2023 15:45:58 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:38940 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S232405AbjJCP6L (ORCPT
-        <rfc822;linux-man@vger.kernel.org>); Tue, 3 Oct 2023 11:58:11 -0400
-Received: from esa.microchip.iphmx.com (esa.microchip.iphmx.com [68.232.154.123])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 767229E
-        for <linux-man@vger.kernel.org>; Tue,  3 Oct 2023 08:58:08 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
-  d=microchip.com; i=@microchip.com; q=dns/txt; s=mchp;
-  t=1696348688; x=1727884688;
-  h=from:to:cc:subject:date:message-id:in-reply-to:
-   references:mime-version:content-transfer-encoding;
-  bh=dpyyhkPeo9t4lxy+oC+r5krHxDRgBmzOXZr6GrlERaI=;
-  b=BKGo7FL2R6VvUh67elvEs62EukpbHrmcf7RvPH8N8XXcJHa327a3RuSp
-   FYlPee9N6ePyuIBbqOqYcSMz62rrEECPyVGJ8TisnVJ6BVvHjA+jtbW3Q
-   I2fNeedYwKSzd8t9hpFxVJXLZL/8eSJGk9nTLkiNlsk7Dg66U8awJI2af
-   mSKxYr2rc9olFY3gZ9AsSEcEYJry+ZZfxcPSaQ/98WaRcW6BT0s++GXLe
-   d+OdQJbsUu3+6HBkq7AGVu6v8FchvqjlM0PAtl3BF0WO3Oeh2ce15pJiT
-   Lg4XkqwCyCV0GuvIUsK/mwqNUTYq8m6wySYFo7tBl8gmCmsM+jUbzaf3/
-   w==;
-X-CSE-ConnectionGUID: a7KbDaHGTPOUpp/PKUBfnw==
-X-CSE-MsgGUID: h5Vkn6m3QV2Ql1nPqBmXhA==
-X-ThreatScanner-Verdict: Negative
-X-IronPort-AV: E=Sophos;i="6.03,197,1694761200"; 
-   d="scan'208";a="7736522"
-X-Amp-Result: SKIPPED(no attachment in message)
-Received: from unknown (HELO email.microchip.com) ([170.129.1.10])
-  by esa4.microchip.iphmx.com with ESMTP/TLS/ECDHE-RSA-AES128-GCM-SHA256; 03 Oct 2023 08:58:07 -0700
-Received: from chn-vm-ex03.mchp-main.com (10.10.85.151) by
- chn-vm-ex01.mchp-main.com (10.10.85.143) with Microsoft SMTP Server
- (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
- 15.1.2507.21; Tue, 3 Oct 2023 08:57:34 -0700
-Received: from brunhilda.pdev.net (10.10.85.11) by chn-vm-ex03.mchp-main.com
- (10.10.85.151) with Microsoft SMTP Server id 15.1.2507.21 via Frontend
- Transport; Tue, 3 Oct 2023 08:57:34 -0700
-From:   Don Brace <don.brace@microchip.com>
-To:     <alx@kernel.org>
-CC:     <linux-man@vger.kernel.org>
-Subject: [PATCH v5 2/6] smartpqi: update FILES section
-Date:   Tue, 3 Oct 2023 11:00:20 -0500
-Message-ID: <20231003160024.231729-3-don.brace@microchip.com>
-X-Mailer: git-send-email 2.42.0.296.g493f462273
-In-Reply-To: <20231003160024.231729-1-don.brace@microchip.com>
-References: <20231003160024.231729-1-don.brace@microchip.com>
-MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
-Content-Type: text/plain
+        with ESMTP id S231567AbjJCTp6 (ORCPT
+        <rfc822;linux-man@vger.kernel.org>); Tue, 3 Oct 2023 15:45:58 -0400
+Received: from mail-yb1-xb4a.google.com (mail-yb1-xb4a.google.com [IPv6:2607:f8b0:4864:20::b4a])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 02B7EAB
+        for <linux-man@vger.kernel.org>; Tue,  3 Oct 2023 12:45:55 -0700 (PDT)
+Received: by mail-yb1-xb4a.google.com with SMTP id 3f1490d57ef6-d81a47e12b5so1962095276.0
+        for <linux-man@vger.kernel.org>; Tue, 03 Oct 2023 12:45:54 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=google.com; s=20230601; t=1696362354; x=1696967154; darn=vger.kernel.org;
+        h=cc:to:from:subject:message-id:mime-version:date:from:to:cc:subject
+         :date:message-id:reply-to;
+        bh=viodXw7fUNfO/LRa8b1+fBrUho8mNoQloTZPtSZSDRw=;
+        b=3iw7OeSMlok5fWAsQ3kzXk8gjk93xJV/CYmLAXoVpXCpl6Nr0CJPYZl3n74zJFa69I
+         4WfG4atV7WTdsAOpuzpKucANzacVek9OBJmRVsYf26ynV47+qf3KzcHkJqinzIiIQj4z
+         KaILlLwxqf4eDiuW3/rfAC0fw+1dBvhkkyShs3u56z7P0Ow4bhn/iB+WRbXkfucn8M5Y
+         IM0pK8tKn9qX1REtLsHwaT1KNinPNrwJqiJhsmuJltnCAQgosFVxZg/ftxQRAJq/mmuD
+         l1L8EkNOnn9TZ8Y/5InYgByLZNJGTr1cCP/yFyk+7Gza19XG0jqvqReUNKUZIesgGPlf
+         07wg==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1696362354; x=1696967154;
+        h=cc:to:from:subject:message-id:mime-version:date:x-gm-message-state
+         :from:to:cc:subject:date:message-id:reply-to;
+        bh=viodXw7fUNfO/LRa8b1+fBrUho8mNoQloTZPtSZSDRw=;
+        b=IqnwccZCgy3rsz//AfOAkmb/yQsdpbyFZKNKT6fx737m4JfUrTo+62lxiNBRVTgGkL
+         aC16rAcs0jTwpRW8/taHiRouV3CywRJhHtzDGWr5vY2krNwOo+ezvaGvcq+dL2NtxaSe
+         BcrIxTrQnxR9J62yVSdXzr7D5AOdUiipUCi5Ej3jZ83YUU4v7+PyLnZI0rGuQdSY9HDM
+         +VCiGati5yxNy8ppGGz+ewMa+hQKRVLgpSUQxcVFuw2Qmkr7mB9mkXzFquxJv01y8I8f
+         wSUlTL0YFaDdSoPxXT1CGJqgIeqIeWtAYxuV57/PsPPr2LTey+5Jl/das7hrcEyOvSJJ
+         81Jw==
+X-Gm-Message-State: AOJu0YwJnZN8LsapIHU4SOhsjdKscrIl0+PK4mTMzFb7Xu/b9MDLuf+c
+        /0trrd5p7lHtcNmN4lDMmdFyCgQklc6PN8YnoZJc
+X-Google-Smtp-Source: AGHT+IE1qDM9+kU7Ss8mySYaAf902Q/5KzDumW0lXdocj5baqcxCFc8Tn3xnpSAJmfEEpIjlChC5Hmp+tjwfE2JiWuwX
+X-Received: from axel.svl.corp.google.com ([2620:15c:2a3:200:6577:b8c1:dd2d:1c93])
+ (user=axelrasmussen job=sendgmr) by 2002:a25:c785:0:b0:d85:b46f:4375 with
+ SMTP id w127-20020a25c785000000b00d85b46f4375mr3284ybe.6.1696362354244; Tue,
+ 03 Oct 2023 12:45:54 -0700 (PDT)
+Date:   Tue,  3 Oct 2023 12:45:42 -0700
+Mime-Version: 1.0
+X-Mailer: git-send-email 2.42.0.609.gbb76f46606-goog
+Message-ID: <20231003194547.2237424-1-axelrasmussen@google.com>
+Subject: [PATCH v2 0/5] userfaultfd man page updates
+From:   Axel Rasmussen <axelrasmussen@google.com>
+To:     Alejandro Colomar <alx@kernel.org>, Peter Xu <peterx@redhat.com>
+Cc:     linux-man@vger.kernel.org, linux-mm@kvack.org,
+        linux-kernel@vger.kernel.org,
+        Axel Rasmussen <axelrasmussen@google.com>
+Content-Type: text/plain; charset="UTF-8"
 Precedence: bulk
 List-ID: <linux-man.vger.kernel.org>
 X-Mailing-List: linux-man@vger.kernel.org
 
-Minor description changes for Device nodes.
+This series includes only the remaining patches not applied from v1, with
+review comments addressed. This series is based on the "contrib" branch.
 
-Change "Logical drives" to "Disk drives".
+Changelog:
 
-Reviewed-by: Scott Benesh <scott.benesh@microchip.com>
-Reviewed-by: Scott Teel <scott.teel@microchip.com>
-Reviewed-by: Mike McGowen <mike.mcgowen@microchip.com>
-Reviewed-by: Kevin Barnett <kevin.barnett@microchip.com>
-Signed-off-by: Don Brace <don.brace@microchip.com>
----
- man4/smartpqi.4 | 2 +-
- 1 file changed, 1 insertion(+), 1 deletion(-)
+v1->v2:
+ - In patch 1 (patch 5 in v1), change "after" to "since" for consistency and to
+   be clear that we mean 4.11+ (inclusive).
+ - In patch 2 (patch 7 in v1), reorder error codes alphabetically (EINVAL then
+   EPERM).
+ - In patch 3 (patch 8 in v1), resolve conflicts with earlier review comments.
 
-diff --git a/man4/smartpqi.4 b/man4/smartpqi.4
-index a045f957d006..3b7cbb749153 100644
---- a/man4/smartpqi.4
-+++ b/man4/smartpqi.4
-@@ -116,7 +116,7 @@ The valid range is 0 or 30-1800. The default value is 0,
- which causes the driver to use a timeout of 180 seconds.
- .SH FILES
- .SS Device nodes
--Logical drives are accessed via the SCSI disk driver
-+Disk drives are accessed via the SCSI disk driver
- .RI ( sd ),
- tape drives via the SCSI tape driver
- .RI ( st ),
--- 
-2.42.0.296.g493f462273
+Original cover letter:
+
+Various updates for userfaultfd man pages. To summarize the changes:
+
+- Correctly / fully describe the two-step feature support handshake process.
+- Describe new UFFDIO_POISON ioctl.
+- Other small improvements (missing ioctls, error codes, etc).
+
+Axel Rasmussen (5):
+  ioctl_userfaultfd.2: describe two-step feature handshake
+  ioctl_userfaultfd.2: correct and update UFFDIO_API ioctl error codes
+  ioctl_userfaultfd.2: clarify the state of the uffdio_api structure on
+    error
+  ioctl_userfaultfd.2: fix / update UFFDIO_REGISTER error code list
+  ioctl_userfaultfd.2: document new UFFDIO_POISON ioctl
+
+ man2/ioctl_userfaultfd.2 | 226 +++++++++++++++++++++++++++++++--------
+ 1 file changed, 181 insertions(+), 45 deletions(-)
+
+--
+2.42.0.609.gbb76f46606-goog
 
