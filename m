@@ -2,113 +2,57 @@ Return-Path: <linux-man-owner@vger.kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 0C7AAE8FDB5
-	for <linux-man@archiver.kernel.org>; Tue,  3 Oct 2023 19:52:00 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 542C9E8FDD1
+	for <linux-man@archiver.kernel.org>; Wed,  4 Oct 2023 07:48:54 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S240981AbjJCTwB (ORCPT <rfc822;linux-man@archiver.kernel.org>);
-        Tue, 3 Oct 2023 15:52:01 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:45004 "EHLO
+        id S241569AbjJDHsz (ORCPT <rfc822;linux-man@archiver.kernel.org>);
+        Wed, 4 Oct 2023 03:48:55 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:53802 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S240985AbjJCTwA (ORCPT
-        <rfc822;linux-man@vger.kernel.org>); Tue, 3 Oct 2023 15:52:00 -0400
-Received: from esa.microchip.iphmx.com (esa.microchip.iphmx.com [68.232.153.233])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 0BB03A1
-        for <linux-man@vger.kernel.org>; Tue,  3 Oct 2023 12:51:58 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
-  d=microchip.com; i=@microchip.com; q=dns/txt; s=mchp;
-  t=1696362717; x=1727898717;
-  h=from:to:cc:subject:date:message-id:in-reply-to:
-   references:mime-version:content-transfer-encoding;
-  bh=tPmb4I4Iwihk1rmUSBwQiAJ9gC8Ms0c8+AEnfJuRdpA=;
-  b=M0ULs65KpS2LrX5tXSUxgprUMGlzFxTM9FHJ6KmzMC/turm+gPey5R5J
-   EQoBj5lWeZye8uSJW3RvC+TRj33W3xEuoLs3AYX0t7fR1wJNof3Uj/xtV
-   6ozdCrRDCu6uGo/5+2GByQkBzjm7sCBb/mO9+n09Hi1pIaXpe2P/T4j/B
-   M9kU06WbGdVnL9c4l0ttDK/mUvpBQ/zMde2ggpIwg7v4fCkFT5vjuey+I
-   brdIOq6HpvFQcTc25T3DR5+aLQorxzbHomaimEeJfgzfLqJvT8Ui8C6KN
-   w1jUYsf9Pog4uq3pJZaITU4QRF+8hCE2Uq+e89O+PNmA1GqOqfZC0aOUu
-   g==;
-X-CSE-ConnectionGUID: PERcvWxwSMWyMCgYNEDaRA==
-X-CSE-MsgGUID: YAIyMpdoQSOix9aVs61EBg==
-X-ThreatScanner-Verdict: Negative
-X-IronPort-AV: E=Sophos;i="6.03,198,1694761200"; 
-   d="scan'208";a="8177846"
-X-Amp-Result: SKIPPED(no attachment in message)
-Received: from unknown (HELO email.microchip.com) ([170.129.1.10])
-  by esa1.microchip.iphmx.com with ESMTP/TLS/ECDHE-RSA-AES128-GCM-SHA256; 03 Oct 2023 12:51:56 -0700
-Received: from chn-vm-ex01.mchp-main.com (10.10.85.143) by
- chn-vm-ex02.mchp-main.com (10.10.85.144) with Microsoft SMTP Server
- (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
- 15.1.2507.21; Tue, 3 Oct 2023 12:51:50 -0700
-Received: from brunhilda.pdev.net (10.10.85.11) by chn-vm-ex01.mchp-main.com
- (10.10.85.143) with Microsoft SMTP Server id 15.1.2507.21 via Frontend
- Transport; Tue, 3 Oct 2023 12:51:49 -0700
-From:   Don Brace <don.brace@microchip.com>
-To:     <alx@kernel.org>
-CC:     <linux-man@vger.kernel.org>
-Subject: [PATCH v6 3/6] smartpqi: update host attribute descriptions
-Date:   Tue, 3 Oct 2023 14:54:36 -0500
-Message-ID: <20231003195439.253129-4-don.brace@microchip.com>
-X-Mailer: git-send-email 2.42.0.296.g493f462273
-In-Reply-To: <20231003195439.253129-1-don.brace@microchip.com>
-References: <20231003195439.253129-1-don.brace@microchip.com>
+        with ESMTP id S241559AbjJDHsy (ORCPT
+        <rfc822;linux-man@vger.kernel.org>); Wed, 4 Oct 2023 03:48:54 -0400
+X-Greylist: delayed 449 seconds by postgrey-1.37 at lindbergh.monkeyblade.net; Wed, 04 Oct 2023 00:48:51 PDT
+Received: from mail.citycodes.pl (mail.citycodes.pl [158.255.215.195])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 1F99AA7
+        for <linux-man@vger.kernel.org>; Wed,  4 Oct 2023 00:48:51 -0700 (PDT)
+Received: by mail.citycodes.pl (Postfix, from userid 1001)
+        id E107A1F452; Wed,  4 Oct 2023 09:40:58 +0200 (CEST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=citycodes.pl; s=mail;
+        t=1696405280; bh=mMhfBvhM53FtUQl1P3lyeSY5aDBQYiR8qQBy6YFQHi0=;
+        h=Date:From:To:Subject:From;
+        b=UV6BnmorXWmeOEwrR/i5q0jLlEgIb8EHdBnWb6MqpSquZqdmEyjiNzCaRKR3pVhIZ
+         mkFP0DnewENpCPmaigptxczC2aDzYeLXSAH3UYyvK55b4E4DKbpi36DQAMGX7ygbgf
+         I3iaCHPAUPFY/+J3CtZFDwCgp0Urqv7YO1xbdZNonTTYqWILbu20JeJmLW5xL8WuRR
+         NHleHU3JpAQG4ujrEzJymzu7d2uZa0hylmmVoOJYajHa3HKsIpVIHg9PiucJGbz7/C
+         HNT3c4xOCEHVRFYItRqf3r50/sXPFpm6+DJAJWXEO0OaUtdhOm4LFzYgQ33rosF/AK
+         Ldz89lmuyd0/A==
+Received: by mail.citycodes.pl for <linux-man@vger.kernel.org>; Wed,  4 Oct 2023 07:40:44 GMT
+Message-ID: <20231004084500-0.1.7v.j0nc.0.rbo02zr8zq@citycodes.pl>
+Date:   Wed,  4 Oct 2023 07:40:44 GMT
+From:   "Kamil Lasek" <kamil.lasek@citycodes.pl>
+To:     <linux-man@vger.kernel.org>
+Subject: =?UTF-8?Q?Rozszerzenie_Programu_M=C3=B3j_Pr=C4=85d_5.0?=
+X-Mailer: mail.citycodes.pl
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
-Content-Type: text/plain
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 Precedence: bulk
 List-ID: <linux-man.vger.kernel.org>
 X-Mailing-List: linux-man@vger.kernel.org
 
-Minor description changes for host attributes.
+Szanowni Pa=C5=84stwo!
 
-Just some small changes to the host attribute descriptions.
-Remove the "version" sysfs entry. This entry was changed
-to two sysfs entries: driver_version and firmware_version.
+W ramach nowej edycji programu M=C3=B3j Pr=C4=85d mog=C4=85 otrzyma=C4=87=
+ Pa=C5=84stwo dofinansowanie na zakup i monta=C5=BC fotowoltaiki i/lub ma=
+gazynu energii. Maksymalna kwota dofinansowania wynosi 58 tys. z=C5=82.=20
 
-Reviewed-by: Scott Benesh <scott.benesh@microchip.com>
-Reviewed-by: Scott Teel <scott.teel@microchip.com>
-Reviewed-by: Mike McGowen <mike.mcgowen@microchip.com>
-Reviewed-by: Kevin Barnett <kevin.barnett@microchip.com>
-Signed-off-by: Don Brace <don.brace@microchip.com>
----
- man4/smartpqi.4 | 21 ++-------------------
- 1 file changed, 2 insertions(+), 19 deletions(-)
+Jako firma wyspecjalizowana w tym zakresie zajmiemy si=C4=99 Pa=C5=84stwa=
+ wnioskiem o dofinansowanie oraz instalacj=C4=85 i serwisem dopasowanych =
+do Pa=C5=84stwa budynku paneli s=C5=82onecznych.
 
-diff --git a/man4/smartpqi.4 b/man4/smartpqi.4
-index 92bc5402b866..5ff134a4821a 100644
---- a/man4/smartpqi.4
-+++ b/man4/smartpqi.4
-@@ -136,29 +136,12 @@ The host
- attribute is a write-only attribute.
- Writing to this attribute will cause the driver to scan for new,
- changed, or removed devices (e.g., hot-plugged tape drives, or newly
--configured or deleted logical drives) and notify the SCSI mid-layer of
-+configured or deleted logical volumes) and notify the SCSI mid-layer of
- any changes detected.
- Usually this action is triggered automatically by configuration
- changes, so the user should not normally have to write to this file.
- Doing so may be useful when hot-plugging devices such as tape drives or
--entire storage boxes containing pre-configured logical drives.
--.TP
--.IR /sys/class/scsi_host/host * /version
--The host
--.I version
--attribute is a read-only attribute.
--This attribute contains the driver version and the controller firmware
--version.
--.IP
--For example:
--.IP
--.in +4n
--.EX
--$ \c
--.B cat /sys/class/scsi_host/host1/version
--driver: 1.1.2\-126
--firmware: 1.29\-112
--.EE
-+entire storage boxes containing pre-configured logical volumes.
- .in
- .TP
- .IR /sys/class/scsi_host/host * /lockup_action
--- 
-2.42.0.296.g493f462273
+B=C4=99d=C4=99 wdzi=C4=99czny za informacj=C4=99 czy s=C4=85 Pa=C5=84stwo=
+ zainteresowani.
 
+
+Pozdrawiam,
+Kamil Lasek
