@@ -2,75 +2,58 @@ Return-Path: <linux-man-owner@vger.kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 0B287E92713
-	for <linux-man@archiver.kernel.org>; Thu,  5 Oct 2023 14:43:13 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 881A6E92716
+	for <linux-man@archiver.kernel.org>; Thu,  5 Oct 2023 16:15:55 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S237034AbjJEOmv (ORCPT <rfc822;linux-man@archiver.kernel.org>);
-        Thu, 5 Oct 2023 10:42:51 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:49620 "EHLO
+        id S240502AbjJEQPc (ORCPT <rfc822;linux-man@archiver.kernel.org>);
+        Thu, 5 Oct 2023 12:15:32 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:44952 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S236232AbjJEOhD (ORCPT
-        <rfc822;linux-man@vger.kernel.org>); Thu, 5 Oct 2023 10:37:03 -0400
-Received: from out2-smtp.messagingengine.com (out2-smtp.messagingengine.com [66.111.4.26])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 2D0B73F016;
-        Thu,  5 Oct 2023 07:02:52 -0700 (PDT)
-Received: from compute4.internal (compute4.nyi.internal [10.202.2.44])
-        by mailout.nyi.internal (Postfix) with ESMTP id 08D525C025F;
-        Thu,  5 Oct 2023 00:23:41 -0400 (EDT)
-Received: from mailfrontend2 ([10.202.2.163])
-  by compute4.internal (MEProxy); Thu, 05 Oct 2023 00:23:41 -0400
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=themaw.net; h=cc
-        :cc:content-transfer-encoding:content-type:content-type:date
-        :date:from:from:in-reply-to:in-reply-to:message-id:mime-version
-        :references:reply-to:sender:subject:subject:to:to; s=fm1; t=
-        1696479821; x=1696566221; bh=Z9/BddHtqtTSTcngqikz3LcXGL1B2ri4Bu8
-        DyrtBFpA=; b=ZATk2PEGSVbByPxxMHhCET54U+sK7GsAptaPN938K3RVWhuGZ5y
-        1MPF+9p64wEAdmCwLrRQXrxD/Z8DVIFcnUnqWreXfhPid6+S7dKJ/TEGIN/wGi+b
-        w7UeuMfX/bLTSQO+fVc34VBq1wO1dUgJOvxF0tpJTnyQf5cE3IPdC2sYfKA0jAjG
-        5+IYUWyKC3qnAOwJfJdm5vsBkqiziGe+7EGb5i4r5JXCRTl9hWca88GkjTghPVez
-        acMX6X1LbL2muWnR1934QI1V9CGQfyDgJAgufvqQ2Kw6mzMfrzzzygVbLH2Ee0dr
-        54v+p6eYw+ouexAq5fVz/hwiI28hqHXDmsQ==
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=
-        messagingengine.com; h=cc:cc:content-transfer-encoding
-        :content-type:content-type:date:date:feedback-id:feedback-id
-        :from:from:in-reply-to:in-reply-to:message-id:mime-version
-        :references:reply-to:sender:subject:subject:to:to:x-me-proxy
-        :x-me-proxy:x-me-sender:x-me-sender:x-sasl-enc; s=fm2; t=
-        1696479821; x=1696566221; bh=Z9/BddHtqtTSTcngqikz3LcXGL1B2ri4Bu8
-        DyrtBFpA=; b=l1tqXNRK10fDiiVcNwtJA0uOc/5R0o5gnOO61e6/GXPLBmaxAmP
-        Oes8qYtqeVZfnPgVVCdc+RXPh8Gw9bfax7tqiszQxZsc85fSVpprBRMLvFkJmvnH
-        AhuqzooUTZ3Ah1sL4WvIfKU7IApqwjqXF/qoM9FYe9hU9wotxuQwckbMOMgEs8JM
-        TWOrzse4ZMt0lJw+bjUgBvNWj8zsbaiaoj4aFj16uOh6cmN1xnxFqsMEU0vEg1qx
-        BnLb9yq7cETJbSx70aGg7piPq5Ve5NY2TfQmWSplWeVPXzqFIsG5cJ8txrx7Ofi+
-        zpApTEwfl5TEODfW27Y5c9DHpS3Oza52BjQ==
-X-ME-Sender: <xms:SzoeZVQem9RMqeDhYeJaTvhJcFyq8Erl84K7YNXvrekTeVeuRl77JQ>
-    <xme:SzoeZex9sfi01AN7RobO41A27ETMlq08vkJbH__Szc2EzG4-TijY3Rs1Donu3wGlw
-    2oRFxP9O-RN>
-X-ME-Received: <xmr:SzoeZa39pA9oM1GJ4l2oTNh7mzcWmIitokwjaPOcg3v-vpVeSsY8LGcWiTNs_xPb6X8aH0DdfOhih5BftqSNWevnZ0dPSJDOjZDm1mo-eBNYrvT9r9S8pdCg>
-X-ME-Proxy-Cause: gggruggvucftvghtrhhoucdtuddrgedvkedrgeefgdekvdcutefuodetggdotefrodftvf
-    curfhrohhfihhlvgemucfhrghsthforghilhdpqfgfvfdpuffrtefokffrpgfnqfghnecu
-    uegrihhlohhuthemuceftddtnecusecvtfgvtghiphhivghnthhsucdlqddutddtmdenuc
-    fjughrpefkffggfgfuvfevfhfhjggtgfesthekredttdefjeenucfhrhhomhepkfgrnhcu
-    mfgvnhhtuceorhgrvhgvnhesthhhvghmrgifrdhnvghtqeenucggtffrrghtthgvrhhnpe
-    egvdetvedvfeeivdeuueejgeetvdehlefhheethfekgfejueffgeeugfekudfhjeenucev
-    lhhushhtvghrufhiiigvpedtnecurfgrrhgrmhepmhgrihhlfhhrohhmpehrrghvvghnse
-    hthhgvmhgrfidrnhgvth
-X-ME-Proxy: <xmx:SzoeZdDciAtZwRk0Yzved4E9M2AnwsGT0W61S7IhiM0cqL1pTlvSgQ>
-    <xmx:SzoeZeiorAuaxLm_o3gm8qM5bD_cHVJOcDx1E1A_txs2tFOUDKYmXg>
-    <xmx:SzoeZRr3Cn8PLYe1aG08RrTR45DiIX7qCZO690Qp2De1v4Np-NTcwg>
-    <xmx:TToeZe5FzehY4x2bDePAxtenrqdu9Dbp12yeuFC_F0HeclaNBJgGDg>
-Feedback-ID: i31e841b0:Fastmail
-Received: by mail.messagingengine.com (Postfix) with ESMTPA; Thu,
- 5 Oct 2023 00:23:33 -0400 (EDT)
-Message-ID: <a25f2736-1837-f4ca-b401-85db24f46452@themaw.net>
-Date:   Thu, 5 Oct 2023 12:23:29 +0800
+        with ESMTP id S241046AbjJEQNY (ORCPT
+        <rfc822;linux-man@vger.kernel.org>); Thu, 5 Oct 2023 12:13:24 -0400
+Received: from mail-ej1-x62b.google.com (mail-ej1-x62b.google.com [IPv6:2a00:1450:4864:20::62b])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 885A153404
+        for <linux-man@vger.kernel.org>; Thu,  5 Oct 2023 08:47:33 -0700 (PDT)
+Received: by mail-ej1-x62b.google.com with SMTP id a640c23a62f3a-9936b3d0286so216651866b.0
+        for <linux-man@vger.kernel.org>; Thu, 05 Oct 2023 08:47:33 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=szeredi.hu; s=google; t=1696520852; x=1697125652; darn=vger.kernel.org;
+        h=cc:to:subject:message-id:date:from:in-reply-to:references
+         :mime-version:from:to:cc:subject:date:message-id:reply-to;
+        bh=UIbClnluXXm7tzBo8R0egubgbNZCa9FUtfT45WqWEaw=;
+        b=A34CFJbJNOQHh16uipq42ogpUAnfu4V8c8TuMTe/W6ZS1fj+RCy9MC+AIcWpP+Va53
+         BrKyct1gSCxej2UGQ7ePhqm1IqeTUBo3LST6tXYw94/POs4sNnk3OzFmEeWubPXegQ06
+         Y+qEX7z1Ug88Eb3dLZARoAga7Mza2twAsUyrQ=
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1696520852; x=1697125652;
+        h=cc:to:subject:message-id:date:from:in-reply-to:references
+         :mime-version:x-gm-message-state:from:to:cc:subject:date:message-id
+         :reply-to;
+        bh=UIbClnluXXm7tzBo8R0egubgbNZCa9FUtfT45WqWEaw=;
+        b=LawjslZq931KlNrR715KaZRJJcPVIneyZ7ay23M3idMQNsUL4539VL/MBPDSM4IWUf
+         MxPGqZcFs2c3mrLD8XcdXl3vXFBc9qxbgw/pljbiukH6pzNjK4V5RCmI0DmiurTS2ZGq
+         SNyh63uxFYbmrLBqfvVt8lKQ+29i2W+dHBBU3WBmsh5aMlDRmCJGks1R54X6Kl3dPFEE
+         jRDUScR733NUoWoPtaaVR9TT7F52QtXlyOVT0aFaZ3/Uaz5rPd9P82huBY8mB8uNDyGR
+         gwrHBrU+PVHuyMEQ86aw0VyZodgrwUM45khfZA1YcsnlD5xmMWkXXycxGbAY96DHhsn+
+         dImw==
+X-Gm-Message-State: AOJu0YxiKH11p6SyBbLRWbJvMDx+DUJ1TKXMtCtU4o///AK1uJD8Ird1
+        V6piVlKVBAgPQjy+J3km6jcqaDZiH7ZAflP5aGFaMQ==
+X-Google-Smtp-Source: AGHT+IGsngpSrcqd6kKV9Bco2sKwkS1oFAFzCv5dVv+U0Wu/XKkes83ujmyHOcp2jA+PoEmRR/awY7L3W30UVlh+yEI=
+X-Received: by 2002:a17:906:cc50:b0:9ae:7611:99bb with SMTP id
+ mm16-20020a170906cc5000b009ae761199bbmr5442107ejb.59.1696520851931; Thu, 05
+ Oct 2023 08:47:31 -0700 (PDT)
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
- Thunderbird/102.13.0
+References: <20230928130147.564503-1-mszeredi@redhat.com> <20230928130147.564503-5-mszeredi@redhat.com>
+ <CAHC9VhQD9r+Qf5Vz1XmxUdJJJO7HNTKdo8Ux=n+xkxr=JGFMrw@mail.gmail.com>
+ <CAJfpegsPbDgaz46x4Rr9ZgCpF9rohVHsvuWtQ5LNAdiYU_D4Ww@mail.gmail.com> <a25f2736-1837-f4ca-b401-85db24f46452@themaw.net>
+In-Reply-To: <a25f2736-1837-f4ca-b401-85db24f46452@themaw.net>
+From:   Miklos Szeredi <miklos@szeredi.hu>
+Date:   Thu, 5 Oct 2023 17:47:20 +0200
+Message-ID: <CAJfpegv78njkWdaShTskKXoGOpKAndvYYJwq7CLibiu+xmLCvg@mail.gmail.com>
 Subject: Re: [PATCH v3 4/4] add listmount(2) syscall
-To:     Miklos Szeredi <miklos@szeredi.hu>,
-        Paul Moore <paul@paul-moore.com>
-Cc:     Miklos Szeredi <mszeredi@redhat.com>,
+To:     Ian Kent <raven@themaw.net>
+Cc:     Paul Moore <paul@paul-moore.com>,
+        Miklos Szeredi <mszeredi@redhat.com>,
         linux-fsdevel@vger.kernel.org, linux-kernel@vger.kernel.org,
         linux-api@vger.kernel.org, linux-man@vger.kernel.org,
         linux-security-module@vger.kernel.org, Karel Zak <kzak@redhat.com>,
@@ -82,110 +65,40 @@ Cc:     Miklos Szeredi <mszeredi@redhat.com>,
         Matthew House <mattlloydhouse@gmail.com>,
         Florian Weimer <fweimer@redhat.com>,
         Arnd Bergmann <arnd@arndb.de>
-References: <20230928130147.564503-1-mszeredi@redhat.com>
- <20230928130147.564503-5-mszeredi@redhat.com>
- <CAHC9VhQD9r+Qf5Vz1XmxUdJJJO7HNTKdo8Ux=n+xkxr=JGFMrw@mail.gmail.com>
- <CAJfpegsPbDgaz46x4Rr9ZgCpF9rohVHsvuWtQ5LNAdiYU_D4Ww@mail.gmail.com>
-Content-Language: en-US
-From:   Ian Kent <raven@themaw.net>
-In-Reply-To: <CAJfpegsPbDgaz46x4Rr9ZgCpF9rohVHsvuWtQ5LNAdiYU_D4Ww@mail.gmail.com>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 8bit
+Content-Type: text/plain; charset="UTF-8"
 Precedence: bulk
 List-ID: <linux-man.vger.kernel.org>
 X-Mailing-List: linux-man@vger.kernel.org
 
-On 5/10/23 12:01, Miklos Szeredi wrote:
-> On Wed, 4 Oct 2023 at 21:38, Paul Moore <paul@paul-moore.com> wrote:
->> On Thu, Sep 28, 2023 at 9:04 AM Miklos Szeredi <mszeredi@redhat.com> wrote:
->>> Add way to query the children of a particular mount.  This is a more
->>> flexible way to iterate the mount tree than having to parse the complete
->>> /proc/self/mountinfo.
->>>
->>> Lookup the mount by the new 64bit mount ID.  If a mount needs to be queried
->>> based on path, then statx(2) can be used to first query the mount ID
->>> belonging to the path.
->>>
->>> Return an array of new (64bit) mount ID's.  Without privileges only mounts
->>> are listed which are reachable from the task's root.
->>>
->>> Signed-off-by: Miklos Szeredi <mszeredi@redhat.com>
->>> ---
->>>   arch/x86/entry/syscalls/syscall_32.tbl |  1 +
->>>   arch/x86/entry/syscalls/syscall_64.tbl |  1 +
->>>   fs/namespace.c                         | 69 ++++++++++++++++++++++++++
->>>   include/linux/syscalls.h               |  3 ++
->>>   include/uapi/asm-generic/unistd.h      |  5 +-
->>>   include/uapi/linux/mount.h             |  3 ++
->>>   6 files changed, 81 insertions(+), 1 deletion(-)
->> ...
->>
->>> diff --git a/fs/namespace.c b/fs/namespace.c
->>> index 3326ba2b2810..050e2d2af110 100644
->>> --- a/fs/namespace.c
->>> +++ b/fs/namespace.c
->>> @@ -4970,6 +4970,75 @@ SYSCALL_DEFINE4(statmount, const struct __mount_arg __user *, req,
->>>          return ret;
->>>   }
->>>
->>> +static long do_listmount(struct vfsmount *mnt, u64 __user *buf, size_t bufsize,
->>> +                        const struct path *root, unsigned int flags)
->>> +{
->>> +       struct mount *r, *m = real_mount(mnt);
->>> +       struct path rootmnt = {
->>> +               .mnt = root->mnt,
->>> +               .dentry = root->mnt->mnt_root
->>> +       };
->>> +       long ctr = 0;
->>> +       bool reachable_only = true;
->>> +       int err;
->>> +
->>> +       err = security_sb_statfs(mnt->mnt_root);
->>> +       if (err)
->>> +               return err;
->>> +
->>> +       if (flags & LISTMOUNT_UNREACHABLE) {
->>> +               if (!capable(CAP_SYS_ADMIN))
->>> +                       return -EPERM;
->>> +               reachable_only = false;
->>> +       }
->>> +
->>> +       if (reachable_only && !is_path_reachable(m, mnt->mnt_root, &rootmnt))
->>> +               return capable(CAP_SYS_ADMIN) ? 0 : -EPERM;
->>> +
->>> +       list_for_each_entry(r, &m->mnt_mounts, mnt_child) {
->>> +               if (reachable_only &&
->>> +                   !is_path_reachable(r, r->mnt.mnt_root, root))
->>> +                       continue;
->> I believe we would want to move the security_sb_statfs() call from
->> above to down here; something like this I think ...
->>
->>    err = security_sb_statfs(r->mnt.mnt_root);
->>    if (err)
->>      /* if we can't access the mount, pretend it doesn't exist */
->>      continue;
-> Hmm.  Why is this specific to listing mounts (i.e. why doesn't readdir
-> have a similar filter)?
+On Thu, 5 Oct 2023 at 06:23, Ian Kent <raven@themaw.net> wrote:
+
+> The proc interfaces essentially use <mount namespace>->list to provide
 >
-> Also why hasn't this come up with regards to the proc interfaces that
-> list mounts?
-
-The proc interfaces essentially use <mount namespace>->list to provide
-
-the mounts that can be seen so it's filtered by mount namespace of the
-
-task that's doing the open().
-
-
-See fs/namespace.c:mnt_list_next() and just below the m_start(), m_next(),
-
-etc.
-
-
-Ian
-
+> the mounts that can be seen so it's filtered by mount namespace of the
 >
-> I just want to understand the big picture here.
+> task that's doing the open().
 >
-> Thanks,
-> Miklos
+>
+> See fs/namespace.c:mnt_list_next() and just below the m_start(), m_next(),
+
+/proc/$PID/mountinfo will list the mount namespace of $PID.  Whether
+current task has permission to do so is decided at open time.
+
+listmount() will list the children of the given mount ID.  The mount
+ID is looked up in the task's mount namespace, so this cannot be used
+to list mounts of other namespaces.  It's a more limited interface.
+
+I sort of understand the reasoning behind calling into a security hook
+on entry to statmount() and listmount().  And BTW I also think that if
+statmount() and listmount() is limited in this way, then the same
+limitation should be applied to the proc interfaces.  But that needs
+to be done real carefully because it might cause regressions.  OTOH if
+it's only done on the new interfaces, then what is the point, since
+the old interfaces will be available indefinitely?
+
+Also I cannot see the point in hiding some mount ID's from the list.
+It seems to me that the list is just an array of numbers that in
+itself doesn't carry any information.
+
+Thanks,
+Miklos
