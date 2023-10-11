@@ -2,53 +2,55 @@ Return-Path: <linux-man-owner@vger.kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id AF2BBCDB47A
-	for <linux-man@archiver.kernel.org>; Wed, 11 Oct 2023 19:00:34 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 55DF9CDB47C
+	for <linux-man@archiver.kernel.org>; Wed, 11 Oct 2023 19:00:36 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S233130AbjJKTAd (ORCPT <rfc822;linux-man@archiver.kernel.org>);
-        Wed, 11 Oct 2023 15:00:33 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:34168 "EHLO
+        id S232906AbjJKTAf (ORCPT <rfc822;linux-man@archiver.kernel.org>);
+        Wed, 11 Oct 2023 15:00:35 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:34180 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S232906AbjJKTAc (ORCPT
-        <rfc822;linux-man@vger.kernel.org>); Wed, 11 Oct 2023 15:00:32 -0400
+        with ESMTP id S232997AbjJKTAe (ORCPT
+        <rfc822;linux-man@vger.kernel.org>); Wed, 11 Oct 2023 15:00:34 -0400
 Received: from esa.microchip.iphmx.com (esa.microchip.iphmx.com [68.232.153.233])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id C80459D
-        for <linux-man@vger.kernel.org>; Wed, 11 Oct 2023 12:00:29 -0700 (PDT)
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 146FF9E
+        for <linux-man@vger.kernel.org>; Wed, 11 Oct 2023 12:00:32 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=microchip.com; i=@microchip.com; q=dns/txt; s=mchp;
-  t=1697050830; x=1728586830;
-  h=from:to:cc:subject:date:message-id:mime-version:
-   content-transfer-encoding;
-  bh=ULqHl9K81KISVbPp0gA4o58eDg4atX6dm7V1InIwmZo=;
-  b=wCpMq6wptMEmtCsAhT8Pj3rilLla+/gENLhzjjGCDbejI3nsnjcbczfj
-   D+JwNyKokcLhJjFtOXB6le/cAVwyza6epUQUP+mLPo7G7RsvaJSHLX9qY
-   7rDSNXVAw9PfakJ6/gg+cxU5XIqLCHgsgDhH6Gw35booq2t9RmAzKQGNU
-   yBBMncKMFlY+MkzJj19ieIiKJG9HOfHzTzJ+qvvqWwaytN8N+QyMFbwNq
-   C9XSiFQHosIik0ij/82k5kn20aMNpa8E84Y1cgPuVOn7yibNDeJ6RNKkU
-   Jls+r3RvZ+OzQVSShop8eFW8fNFquTveWfwFOQKlWZaoL9mD5UQljcmU0
-   Q==;
+  t=1697050832; x=1728586832;
+  h=from:to:cc:subject:date:message-id:in-reply-to:
+   references:mime-version:content-transfer-encoding;
+  bh=uFfaeOxXMxvPmBFCEyORXEnbP6rK3ZhEFgP0uSw36UA=;
+  b=cObFWvj87XQwjeNorAEFabl6qIREuESGFsthDaoeaatY/Mll+Qok3Q0j
+   G0MURo6/RaXJ1/xfdvjfUsomIJp4gI+W2+mgIYg5DVc2ANxl7i+xvAE0W
+   MMPrMLsZYzmY5Mnfa2e0pIFTnKEwt4lmi25vtCRLmLNpk4HDrs8BOzqwC
+   NdnTF++chbh60KgOTntDdU/P765AOEhiBra4R2HJQADJb9VyjUuAx0mZ2
+   b5+HoMu9GLOb6RX++tgUdLeNpqLtVldUPOX1tZuKTybqdq9WK8rYjR6DU
+   1LScvVmrcaAFlAIKJUqK+u63NXv7mjESDZ3NDahRDrXw3as39Bl9RCnc8
+   g==;
 X-CSE-ConnectionGUID: 5jFMxdJ9SaKUzSd4LFN18w==
-X-CSE-MsgGUID: i6srzQnaSMaqpflCQN6h0A==
+X-CSE-MsgGUID: qxIiuwrSSTKIV7KHWRw+7Q==
 X-ThreatScanner-Verdict: Negative
 X-IronPort-AV: E=Sophos;i="6.03,216,1694761200"; 
-   d="scan'208";a="9936484"
+   d="scan'208";a="9936485"
 X-Amp-Result: SKIPPED(no attachment in message)
 Received: from unknown (HELO email.microchip.com) ([170.129.1.10])
-  by esa3.microchip.iphmx.com with ESMTP/TLS/ECDHE-RSA-AES128-GCM-SHA256; 11 Oct 2023 12:00:29 -0700
+  by esa3.microchip.iphmx.com with ESMTP/TLS/ECDHE-RSA-AES128-GCM-SHA256; 11 Oct 2023 12:00:30 -0700
 Received: from chn-vm-ex02.mchp-main.com (10.10.85.144) by
  chn-vm-ex01.mchp-main.com (10.10.85.143) with Microsoft SMTP Server
  (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
- 15.1.2507.21; Wed, 11 Oct 2023 12:00:24 -0700
+ 15.1.2507.21; Wed, 11 Oct 2023 12:00:25 -0700
 Received: from brunhilda.pdev.net (10.10.85.11) by chn-vm-ex02.mchp-main.com
  (10.10.85.144) with Microsoft SMTP Server id 15.1.2507.21 via Frontend
- Transport; Wed, 11 Oct 2023 12:00:24 -0700
+ Transport; Wed, 11 Oct 2023 12:00:25 -0700
 From:   Don Brace <don.brace@microchip.com>
 To:     <alx@kernel.org>
 CC:     <linux-man@vger.kernel.org>
-Subject: [PATCH v7 0/4] smartpqi man page updates
-Date:   Wed, 11 Oct 2023 14:00:20 -0500
-Message-ID: <20231011190024.42728-1-don.brace@microchip.com>
+Subject: [PATCH v7 2/4] smartpqi: remove sysfs entry for version
+Date:   Wed, 11 Oct 2023 14:00:22 -0500
+Message-ID: <20231011190024.42728-3-don.brace@microchip.com>
 X-Mailer: git-send-email 2.42.0.345.gaab89be2eb
+In-Reply-To: <20231011190024.42728-1-don.brace@microchip.com>
+References: <20231011190024.42728-1-don.brace@microchip.com>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 Content-Type: text/plain
@@ -56,134 +58,67 @@ Precedence: bulk
 List-ID: <linux-man.vger.kernel.org>
 X-Mailing-List: linux-man@vger.kernel.org
 
-These patches are based the man page content found in
-git://git.kernel.org/pub/scm/docs/man-pages/man-pages.git
+Remove the "version" sysfs entry. This entry was changed into
+two sysfs entries: driver_version and firmware_version.
 
-The Linux man page smartpqi.4 is out-of-date with the man page provided
-by our out-of-box driver. This patch series brings the Linux man page up
-to date.
+Add HISTORY section.
+Enumerate old sysfs entries replaced by newer entries.
 
-The changes are:
-smarpqi-update-copyright-and-email-addresses
-    The copyright, email, and URLs have changed to Microchip.
-smartpqi-update-module-parameter-descriptions
-    We changed some descriptions of some of our module parameters.
-    Clarifies what their default values are.
-smartpqi-add-module-parameter_disable_managed_interrupts
-    We added a new module parameter to allow users to disable how
-    interrupts are managed allowing them to change affinity.
-smartpqi-add-module-parameter_ctrl_ready_timeout
-    We added a new module parameter to allow users to change how
-    long the driver waits for the controller becomes ready. The
-    default is 180 seconds and can be changed from 30-1800 seconds.
-    The longer wait times are useful for large configurations.
-smartpqi-update_FILES_section
-    Minor change to the FILES section. The word "Logical" was changed to
-    "Disk" since HBA disks are also supported.
-smartpqi-update-host-attribute-descriptions
-    Updated the descriptions of existing host attributes accessed through
-    sysfs.
-smartpqi-update-device-attribute-descriptions
-    Updated the descriptions of existing device attributes accessed through
-    sysfs.
-smartpqi-add-host-attributes
-    We added some new host attributes:
-       enable_stream_detection: For RAID5/6 sequential write operations, this
-             can help increase IOPS. Reduces Read/Modify/Write operations.
-             This is for AIO capable devices. (Volumes consisting of non-rotating
-             media).
-       enable_r5_writes: Send down RAID 5 write operations down the AIO path.
-       enable_r6_writes: Send down RAID 6 write operations down the AIO path.
-smartpqi-add-device-attributes
-    We added some new device attributes:
-       lunid - SCSI LUN ID
-       unique_id - 16-byte ID that uniquely identifies the device within the controller.
-       path_info - Host:Bus:Target:Lun (h:b:t:l), device type, Active/Inactive
-       raid_bypass_cnt - Count of the number of request sent down the AIO path.
-       sas_ncq_prio_enable - Enables SATA NCQ priority support.
-smartpqi-add-sg-entry-to-see_also
-    Simple addition of the sg(4) driver to the SEE ALSO section.
+Signed-off-by: Don Brace <don.brace@microchip.com>
 
-    Changes since V6:
-    patch "(smartpqi-add-module-parameter_ctrl_ready_timeout)" was
-    applied.
-    patch "(smartpqi-update_FILES_section)" was applied.
-    Some minor updates requested by Alejandro Colomar <alx@kernel.org>
-    Thanks Alejandro for your review and suggestions.
+smartpqi: add HISTORY section
 
-    The V7 updates include the following patches:
+Enumerate old sysfs entries replaced by newer entries.
 
-    smartpqi-update-host-attribute-descriptions
-      Moved the sysfs entry removal description for "version"
-    smartpqi-remove-sysfs-entry-for-version
-      New patch for removal of sysfs entry for "version".
-      Added HISTORY section.
-      Alejandro Colomar <alx@kernel.org>
-      Link: https://marc.info/?l=linux-man&m=169680471921234&w=2
-
-Changes since V5:
-    smartpqi: add module parameter ctrl_ready_timeout
-      Forgot to change the range of values for ctrl_ready_timeout.
-      Changed 0 or 30,1800 to 0 or [30,1800]
-      Alejandro Colomar <alx@kernel.org>
-      Link: https://lore.kernel.org/linux-man/ZRtfS8DIxlqNN-XH@debian/
-      Sorry about that. Thanks for your review.
-
-Changes since V4:
-    Added patch smartpqi-add-HISTORY-section
-      Added HISTORY section to explain that the sysfs entry for 'version'
-      was replaced by two new sysfs entries: driver_version, and firmware_version.
-      Suggested-by: Alejandro Colomar <alx@kernel.org>
-      Link: https://lore.kernel.org/linux-man/ZRtgG396-1Cj4gn2@debian/
-
-    smartpqi: add module parameter ctrl_ready_timeout
-      Minor update to parameter description due to suggestion by:
-      Alejandro Colomar <alx@kernel.org>
-      Link: https://lore.kernel.org/linux-man/ZRtfS8DIxlqNN-XH@debian/
-
-Changes since V3:
-    Updated content for the following pages due to reviews by:
-    Alejandro Colomar <alx@kernel.org>
-
-      smartpqi: add module parameter ctrl_ready_timeout
-      Link: https://lore.kernel.org/linux-man/axwssorupkp6fv3b7zqgjyd243exvhlw7rle2ftyy43jxhm4yf@woxzbz4hm766/
-
-      smartpqi: update FILES section
-      Link: https://lore.kernel.org/linux-man/fwpvmbussvf2zzug5bsqhrd7mvwcvdllvna6a4ngke3hw6w5am@b4icgpgirck4/
-
-      smartpqi: update host attribute descriptions
-      Link: https://lore.kernel.org/linux-man/ss7k5ooeoi7y56j6otvdpwhgd5yltzk6nt5l6ujiiupxzpmrdx@zrcvhw364ejx/
-
-      smartpqi: add host attributes
-      Link: https://lore.kernel.org/linux-man/nbt3jt7busx6akj7ykaxs7df6vlbbxtvcdy4ckvlp7saol3djl@rb6ckz3lzzot/
-
-      smartpqi: add device attributes
-      Link: https://lore.kernel.org/linux-man/ytcsqleu53iwpn5gsjmmuoqz2cy5oegvvafwlwxn422bcn3a5e@ne3khvixxzuq/
-
-    The other patches have already been applied and were removed from the
-    remaining patch set after a rebase.
-
-    Thanks for your attention and reviews for these patches.
-
-Changes since V2:
-    Resending due to bad e-mail address for maintainer.
-
-Changes since V1:
-    Broke up the large patch into multiple smaller patches due to review by:
-    Alejandro Colomar <alx@kernel.org>
-    Link: https://lore.kernel.org/all/096ed4d5-945f-5ac9-eba3-c9be5d32cfe8@kernel.org/
-
+Suggested-by: Alejandro Colomar <alx@kernel.org>
+Signed-off-by: Don Brace <don.brace@microchip.com>
 ---
+ man4/smartpqi.4 | 25 +++++++------------------
+ 1 file changed, 7 insertions(+), 18 deletions(-)
 
-Don Brace (4):
-  smartpqi: update host attribute descriptions
-  smartpqi: remove sysfs entry for version
-  smartpqi: add host attributes
-  smartpqi: add device attributes
-
- man4/smartpqi.4 | 186 ++++++++++++++++++++++++++++++++++++++++++------
- 1 file changed, 166 insertions(+), 20 deletions(-)
-
+diff --git a/man4/smartpqi.4 b/man4/smartpqi.4
+index 1e5b6d76f548..89387c0498fd 100644
+--- a/man4/smartpqi.4
++++ b/man4/smartpqi.4
+@@ -145,24 +145,6 @@ changes, so the user should not normally have to write to this file.
+ Doing so may be useful when hot-plugging devices such as tape drives or
+ entire storage boxes containing pre-configured logical volumes.
+ .TP
+-.IR /sys/class/scsi_host/host * /version
+-The host
+-.I version
+-attribute is a read-only attribute.
+-This attribute contains the driver version and the controller firmware
+-version.
+-.IP
+-For example:
+-.IP
+-.in +4n
+-.EX
+-$ \c
+-.B cat /sys/class/scsi_host/host1/version
+-driver: 1.1.2\-126
+-firmware: 1.29\-112
+-.EE
+-.in
+-.TP
+ .IR /sys/class/scsi_host/host * /lockup_action
+ The host
+ .I lockup_action
+@@ -330,6 +312,13 @@ refer to the User Guide for the controller,
+ which can be found by searching for the specific controller at
+ .UR https://www.microchip.com/design-centers/storage
+ .UE .
++.SH HISTORY
++.I /sys/class/scsi_host/host*/version
++was replaced by two sysfs entries:
++.IP
++.I /sys/class/scsi_host/host*/driver_version
++.IP
++.I /sys/class/scsi_host/host*/firmware_version
+ .SH SEE ALSO
+ .BR cciss (4),
+ .BR hpsa (4),
 -- 
 2.42.0.345.gaab89be2eb
 
