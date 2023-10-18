@@ -2,176 +2,122 @@ Return-Path: <linux-man-owner@vger.kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 0C312CDB474
-	for <linux-man@archiver.kernel.org>; Tue, 17 Oct 2023 23:24:43 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id D538BCDB482
+	for <linux-man@archiver.kernel.org>; Wed, 18 Oct 2023 17:29:05 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S235092AbjJQXYm (ORCPT <rfc822;linux-man@archiver.kernel.org>);
-        Tue, 17 Oct 2023 19:24:42 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:58300 "EHLO
+        id S231767AbjJRR3F (ORCPT <rfc822;linux-man@archiver.kernel.org>);
+        Wed, 18 Oct 2023 13:29:05 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:38082 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S235099AbjJQXYY (ORCPT
-        <rfc822;linux-man@vger.kernel.org>); Tue, 17 Oct 2023 19:24:24 -0400
-Received: from smtp.kernel.org (relay.kernel.org [52.25.139.140])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 2859E10C4;
-        Tue, 17 Oct 2023 16:23:51 -0700 (PDT)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 2EE3BC433C8;
-        Tue, 17 Oct 2023 23:23:49 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-        s=k20201202; t=1697585030;
-        bh=qN2ECKk/Cxny8jJMFG/9Fq46QS+Q6UKOKWNC96Q0tdY=;
-        h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-        b=STwpUSkGknWcmTQ0Ye9D79+LBBNd2KWCDK8vBqmq+OOe0v3ZFC/+SyBt6WE5BoC3G
-         kn1a1/JvL6PQdMzqIX8HMZcFCX7a7eBDnQ3zwYWoVMBKVDrjrZhcngcjFynYSGfcXS
-         77k9vlQQDoQDTnP1tvlrZG5lv6E9xt0BIBIFdLMZ/pxOYscDedtBJ04QYzWvH236p/
-         qCl+GHIQGbZijukhcObO2QXP0tfLSrGCiengsytaGlZUoUHaiRvH7SAJSmlnJcjIkn
-         nwKaH4j/lutkv4UlHuOf6a/9i+4UqkIAIdP0E0M73jnakugD/zSFQ+QGWCa1MutCgK
-         2k0d76TTPtDzw==
-Date:   Wed, 18 Oct 2023 01:23:46 +0200
-From:   Alejandro Colomar <alx@kernel.org>
-To:     Axel Rasmussen <axelrasmussen@google.com>
-Cc:     Mike Rapoport <rppt@kernel.org>, Peter Xu <peterx@redhat.com>,
-        linux-man@vger.kernel.org, linux-mm@kvack.org,
-        linux-kernel@vger.kernel.org
-Subject: Re: [PATCH v3 2/3] ioctl_userfaultfd.2: fix / update UFFDIO_REGISTER
- error code list
-Message-ID: <ZS8XglFnkdMdILaw@debian>
-References: <20231017230110.3170850-1-axelrasmussen@google.com>
- <20231017230110.3170850-3-axelrasmussen@google.com>
+        with ESMTP id S231279AbjJRR26 (ORCPT
+        <rfc822;linux-man@vger.kernel.org>); Wed, 18 Oct 2023 13:28:58 -0400
+Received: from mail-ot1-x32f.google.com (mail-ot1-x32f.google.com [IPv6:2607:f8b0:4864:20::32f])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 10F023AA6
+        for <linux-man@vger.kernel.org>; Wed, 18 Oct 2023 10:21:13 -0700 (PDT)
+Received: by mail-ot1-x32f.google.com with SMTP id 46e09a7af769-6c4b9e09521so4647856a34.3
+        for <linux-man@vger.kernel.org>; Wed, 18 Oct 2023 10:21:13 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=linaro.org; s=google; t=1697649672; x=1698254472; darn=vger.kernel.org;
+        h=content-transfer-encoding:mime-version:references:in-reply-to
+         :message-id:date:subject:cc:to:from:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=klXkZHLLpiX89Lsv/d2hEHtUAw6lPuE7GbN9cEfooUA=;
+        b=mqrROINl3f02IqHjRMAuDNPkQZ7fU5AjtvEaCFn7B7N7p0ZSquZHj4jD2vgCYrDGzp
+         nhLZV8VSYfIOZ9ZJfhEIpNGad+pHJ/yq7Ug5iK7upBzR+rJ0+jIT6Bekhh1/nunYZwSt
+         HBjjr8/LIJnhoH7WPsAC+UPDZFpzkRghslQkOwh91rpjd8lpsAGOAZ7HqAnxo/lWAMOR
+         wYESx7s4V1j69aMZi5i0XYNNKwQpy9cqEz9YvgZ8EOf7rhhiOwybglnn5pjkKH0rAYvK
+         r4N6AuokuKfaGORSuYImFQJjgV90+R+b8NWfwTl4FSeFXRCv/WDdOiqL3CKlTFEDiMMB
+         OyIA==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1697649672; x=1698254472;
+        h=content-transfer-encoding:mime-version:references:in-reply-to
+         :message-id:date:subject:cc:to:from:x-gm-message-state:from:to:cc
+         :subject:date:message-id:reply-to;
+        bh=klXkZHLLpiX89Lsv/d2hEHtUAw6lPuE7GbN9cEfooUA=;
+        b=kQMsuJZo1qtJgwrtbmWL+VSys3jRq7MZuuieelgZ67siVw7H9r3+MtJkDh0XFFwNDS
+         GksFIeWVtObLUdUUKAQbBu+aphI4MtekVlmOsw2pu/DBtcI/RRWjDdXcv8fzNpqdx1SG
+         681tc9zyVSOYnhJZJL24G7NBn6SLhMVndg4LTkie+heruLYccmLk5NKvO3fOSJR+HKkb
+         Nm04Z4Zgj882DwbbZtV6p+H8bNxbC5rRLlXVqGj5tVw35RNn28DM2IOA5G90LRIorNA6
+         +6C+9enH+vJSQkGQWkfmBfP1QrmWXHES25xwWSCUYy8Skadnn6bDu1MESPuE/1G4aziH
+         eNUA==
+X-Gm-Message-State: AOJu0YwMVQKNzkn4KwjyMUk4xYY1ClZz7Shbh0gYP6UweALM6tILMgYQ
+        sxM0TnYtmm/mfvnLJfcyRGZJZE4k5CnozMOEkYaO3w==
+X-Google-Smtp-Source: AGHT+IHHVB2LKBQrVHCz277Q9cu1xsnq8JJOB/GsOGuxS+HJzJHqR1yItkgtd2YWTMQZlaLE9rFBVQ==
+X-Received: by 2002:a9d:7486:0:b0:6af:9b42:9794 with SMTP id t6-20020a9d7486000000b006af9b429794mr5884364otk.35.1697649671874;
+        Wed, 18 Oct 2023 10:21:11 -0700 (PDT)
+Received: from mandiga.. ([2804:1b3:a7c3:a647:e0e3:84ab:f290:d748])
+        by smtp.gmail.com with ESMTPSA id fa36-20020a056a002d2400b006b2e07a6235sm3574777pfb.136.2023.10.18.10.21.10
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Wed, 18 Oct 2023 10:21:11 -0700 (PDT)
+From:   Adhemerval Zanella <adhemerval.zanella@linaro.org>
+To:     linux-man@vger.kernel.org
+Cc:     alx.manpages@gmail.com
+Subject: [PATCH 1/5] ld.so.8: Update environment variables from recent glibc versions
+Date:   Wed, 18 Oct 2023 14:21:00 -0300
+Message-Id: <20231018172104.1196993-2-adhemerval.zanella@linaro.org>
+X-Mailer: git-send-email 2.34.1
+In-Reply-To: <20231018172104.1196993-1-adhemerval.zanella@linaro.org>
+References: <20231018172104.1196993-1-adhemerval.zanella@linaro.org>
 MIME-Version: 1.0
-Content-Type: multipart/signed; micalg=pgp-sha512;
-        protocol="application/pgp-signature"; boundary="1zR/LIJPaF8GvZmk"
-Content-Disposition: inline
-In-Reply-To: <20231017230110.3170850-3-axelrasmussen@google.com>
+Content-Transfer-Encoding: 8bit
 Precedence: bulk
 List-ID: <linux-man.vger.kernel.org>
 X-Mailing-List: linux-man@vger.kernel.org
 
+Recent glibc version removed support for LD_TRACE_PRELINKING,
+LD_ASSUME_KERNEL, and LD_USE_LOAD_BIAS.
 
---1zR/LIJPaF8GvZmk
-Content-Type: text/plain; protected-headers=v1; charset=utf-8
-Content-Disposition: inline
-Content-Transfer-Encoding: quoted-printable
-Date: Wed, 18 Oct 2023 01:23:46 +0200
-From: Alejandro Colomar <alx@kernel.org>
-To: Axel Rasmussen <axelrasmussen@google.com>
-Cc: Mike Rapoport <rppt@kernel.org>, Peter Xu <peterx@redhat.com>,
-	linux-man@vger.kernel.org, linux-mm@kvack.org,
-	linux-kernel@vger.kernel.org
-Subject: Re: [PATCH v3 2/3] ioctl_userfaultfd.2: fix / update UFFDIO_REGISTER
- error code list
+Also adds a note for LD_HWCAP_MASk that since 2.26 the environment
+variable might be ignored if glibc does not support tunables.
 
-Hi Axel, Mike,
+Signed-off-by: Adhemerval Zanella <adhemerval.zanella@linaro.org>
+---
+ man8/ld.so.8 | 11 ++++++-----
+ 1 file changed, 6 insertions(+), 5 deletions(-)
 
-On Tue, Oct 17, 2023 at 04:01:09PM -0700, Axel Rasmussen wrote:
-> The list of error codes in the man page was out of date with respect to
-> the current state of the kernel. Some errors were partially /
-> incorrectly described.
->=20
-> Update the error code listing, so it matches the current state of the
-> kernel, and correctly describes all the errors.
->=20
-> Signed-off-by: Axel Rasmussen <axelrasmussen@google.com>
+diff --git a/man8/ld.so.8 b/man8/ld.so.8
+index 900f3a9b9..5b5c22825 100644
+--- a/man8/ld.so.8
++++ b/man8/ld.so.8
+@@ -310,7 +310,7 @@ A nonzero value may have been set by a Linux Security Module.
+ .SS Environment variables
+ Among the more important environment variables are the following:
+ .TP
+-.BR LD_ASSUME_KERNEL " (since glibc 2.2.3)"
++.BR LD_ASSUME_KERNEL " (from glibc 2.2.3 to 2.36)"
+ Each shared object can inform the dynamic linker of the minimum kernel ABI
+ version that it requires.
+ (This requirement is encoded in an ELF note section that is viewable via
+@@ -627,8 +627,9 @@ Since glibc 2.3.4,
+ .B LD_DYNAMIC_WEAK
+ is ignored in secure-execution mode.
+ .TP
+-.BR LD_HWCAP_MASK " (since glibc 2.1)"
+-Mask for hardware capabilities.
++.BR LD_HWCAP_MASK " (from glibc 2.1 to glibc 2.38)"
++Mask for hardware capabilities.  Since glibc 2.26 the option might be ignored
++if glibc does not support tunables.
+ .TP
+ .BR LD_ORIGIN_PATH " (since glibc 2.1)"
+ Path where the binary is found.
+@@ -691,7 +692,7 @@ Since glibc 2.3.4,
+ .B LD_SHOW_AUXV
+ is ignored in secure-execution mode.
+ .TP
+-.BR LD_TRACE_PRELINKING " (since glibc 2.4)"
++.BR LD_TRACE_PRELINKING " (from glibc 2.4 to glibc 2.35)"
+ If this environment variable is defined,
+ trace prelinking of the object whose name is assigned to
+ this environment variable.
+@@ -702,7 +703,7 @@ If the object name is not recognized,
+ .\" (This is what seems to happen, from experimenting)
+ then all prelinking activity is traced.
+ .TP
+-.BR LD_USE_LOAD_BIAS " (since glibc 2.3.3)"
++.BR LD_USE_LOAD_BIAS " (from glibc 2.3.3 to 2.35)"
+ .\" http://sources.redhat.com/ml/libc-hacker/2003-11/msg00127.html
+ .\" Subject: [PATCH] Support LD_USE_LOAD_BIAS
+ .\" Jakub Jelinek
+-- 
+2.34.1
 
-I'll wait a bit before applying this one, in case Mike (or Peter) want
-to review it.
-
-The other two, you can find them here, as usual:
-<https://www.alejandro-colomar.es/src/alx/linux/man-pages/man-pages.git/com=
-mit/?h=3Dcontrib&id=3D9ae03d21383151794b118ac8dd98b4d6e26c9689>
-<https://www.alejandro-colomar.es/src/alx/linux/man-pages/man-pages.git/com=
-mit/?h=3Dcontrib&id=3D5f1acc81e55540d1276977e66d64649c6ca7b58b>
-
-And BTW, while running `make lint build check`, I caught some accidents
-=66rom a previous patch from yours:
-<https://www.alejandro-colomar.es/src/alx/linux/man-pages/man-pages.git/com=
-mit/?h=3Dcontrib&id=3Dbf8647d1d82205934776b474fe89e5f30e03ad25>
-
-Cheers,
-Alex
-
-> ---
->  man2/ioctl_userfaultfd.2 | 33 +++++++++++++++++++--------------
->  1 file changed, 19 insertions(+), 14 deletions(-)
->=20
-> diff --git a/man2/ioctl_userfaultfd.2 b/man2/ioctl_userfaultfd.2
-> index 82aee667c..40528001e 100644
-> --- a/man2/ioctl_userfaultfd.2
-> +++ b/man2/ioctl_userfaultfd.2
-> @@ -413,8 +413,6 @@ On error, \-1 is returned and
->  .I errno
->  is set to indicate the error.
->  Possible errors include:
-> -.\" FIXME Is the following error list correct?
-> -.\"
->  .TP
->  .B EBUSY
->  A mapping in the specified range is registered with another
-> @@ -433,21 +431,28 @@ field; or the
->  field was zero.
->  .TP
->  .B EINVAL
-> -There is no mapping in the specified address range.
-> -.TP
-> -.B EINVAL
-> -.I range.start
-> +The specified address range was invalid.
-> +More specifically,
-> +no mapping exists in the given range,
-> +or the mapping that exists there is invalid
-> +(e.g. unsupported type of memory),
-> +or the range values
-> +.RI ( range.start
-> +or
-> +.IR range.len )
-> +are not multiples of the relevant page size,
->  or
->  .I range.len
-> -is not a multiple of the system page size; or,
-> -.I range.len
-> -is zero; or these fields are otherwise invalid.
-> +is zero.
->  .TP
-> -.B EINVAL
-> -There as an incompatible mapping in the specified address range.
-> -.\" Mike Rapoport:
-> -.\" ENOMEM if the process is exiting and the
-> -.\" mm_struct has gone by the time userfault grabs it.
-> +.B ENOMEM
-> +The process is exiting,
-> +and its address space has already been torn down
-> +when userfaultfd attempts to reference it.
-> +.TP
-> +.B EPERM
-> +The userfaultfd would allow writing to a file backing the mapping,
-> +but the calling process lacks such write permissions.
->  .SS UFFDIO_UNREGISTER
->  (Since Linux 4.3.)
->  Unregister a memory address range from userfaultfd.
-> --=20
-> 2.42.0.655.g421f12c284-goog
->=20
-
---=20
-<https://www.alejandro-colomar.es/>
-
---1zR/LIJPaF8GvZmk
-Content-Type: application/pgp-signature; name="signature.asc"
-
------BEGIN PGP SIGNATURE-----
-
-iQIzBAABCgAdFiEE6jqH8KTroDDkXfJAnowa+77/2zIFAmUvF4IACgkQnowa+77/
-2zIhGA/+MK4uCVY4B5Pzdede4hVOluo1X1mpyfxn13Sn2XIsl5HK7Ofu/Z6tlZIQ
-NmSG9z0BdvmwzhfWP5dkE9s/bRayn8mIr0i1F0GmqH7jBzgLSkPDSg12+lJ5Vikw
-30bT5APaUTG/SWQtsgNkqksJfBB6r+x4Mp9FllryxvbKsNxDJn6tXyuARSrlLhlt
-tPPzjSm6S9ZPytyZPHkQKpzKIUNqalx20VWiLhXiuw2zL3ags3DNyyg3tvnOG7yS
-4sVpxI/pm9ch+I+PPJCnXIwVO+20kG7NZqOso1Uuny2gQ1/Nk5XmhgXos9KmrIhM
-GUcZ2ZJ/4JlOX5ISOF3uGMxknRyqCqM6MrH6rFH46Hmvct1ZPoyLCsqkhctxvc1b
-Rb/YWk9y+1cnVPJCsVLz3VwWAOrtCKwr+xUO+Upjy+KDX7k50MkdRpUNsHmtAH7n
-Bpkj57JWfsUUsZTxy+2KwPRNdp+KuG5W3/iUestIw/6wXEVA3DKHfF0+or9lQwkf
-tIiaNbqH3+i9vJ1pyyuXZTrKYFzzdharCJTs8ZbIvva9i0HQSy0kfYnc1laPabGg
-vlgMMJaLG+ZkafWe8LYTmUJmrawaegkwA2rxhdgyNZ09NPCMrcLCW7yEKnQXA3+s
-F2rTVrizUtVYWyQa4gvfntyuW4VQL2RyKwQcvSFmfUp7le3FdQQ=
-=irXp
------END PGP SIGNATURE-----
-
---1zR/LIJPaF8GvZmk--
