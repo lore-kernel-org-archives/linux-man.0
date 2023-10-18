@@ -2,59 +2,59 @@ Return-Path: <linux-man-owner@vger.kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id A795ACDB483
-	for <linux-man@archiver.kernel.org>; Wed, 18 Oct 2023 17:31:45 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id D33C9CDB47E
+	for <linux-man@archiver.kernel.org>; Wed, 18 Oct 2023 17:32:24 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S231949AbjJRRbo (ORCPT <rfc822;linux-man@archiver.kernel.org>);
-        Wed, 18 Oct 2023 13:31:44 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:38082 "EHLO
+        id S231313AbjJRRcY (ORCPT <rfc822;linux-man@archiver.kernel.org>);
+        Wed, 18 Oct 2023 13:32:24 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:38318 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S231641AbjJRRbM (ORCPT
-        <rfc822;linux-man@vger.kernel.org>); Wed, 18 Oct 2023 13:31:12 -0400
-Received: from mail-pf1-x430.google.com (mail-pf1-x430.google.com [IPv6:2607:f8b0:4864:20::430])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id AAF2B3AA4
-        for <linux-man@vger.kernel.org>; Wed, 18 Oct 2023 10:21:19 -0700 (PDT)
-Received: by mail-pf1-x430.google.com with SMTP id d2e1a72fcca58-694ed847889so5824076b3a.2
-        for <linux-man@vger.kernel.org>; Wed, 18 Oct 2023 10:21:19 -0700 (PDT)
+        with ESMTP id S232183AbjJRRbw (ORCPT
+        <rfc822;linux-man@vger.kernel.org>); Wed, 18 Oct 2023 13:31:52 -0400
+Received: from mail-oo1-xc2c.google.com (mail-oo1-xc2c.google.com [IPv6:2607:f8b0:4864:20::c2c])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id D23823AA7
+        for <linux-man@vger.kernel.org>; Wed, 18 Oct 2023 10:21:14 -0700 (PDT)
+Received: by mail-oo1-xc2c.google.com with SMTP id 006d021491bc7-57bce354d94so3648079eaf.2
+        for <linux-man@vger.kernel.org>; Wed, 18 Oct 2023 10:21:14 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=linaro.org; s=google; t=1697649679; x=1698254479; darn=vger.kernel.org;
+        d=linaro.org; s=google; t=1697649673; x=1698254473; darn=vger.kernel.org;
         h=content-transfer-encoding:mime-version:references:in-reply-to
          :message-id:date:subject:cc:to:from:from:to:cc:subject:date
          :message-id:reply-to;
-        bh=RavjDLpnLiTbxRS0gzzgynvrIwajO5sx2/BL10Gg55g=;
-        b=uX+FFAQ+LIstBlPqVJz4E+FBbk550rYDvC0SuAFtiqpt1QtoTX4sdxfqXk2UWrzcvn
-         afB5l0Gj+8kxoC0Xbi8gb8FJ+fbnK11J8nDoPD7kz5DXK6TjGLK9NR86DjZS16GJ0M5+
-         nzfKgrZeT3tkvQulpoTwZpIZtIiV0RfW1gn4ZXnBswfBZj4i8x4i5trRB0h08X8+tmsM
-         0Ln62mGxOL47krEL0riMeZJfpK6xwfnD5zk9Mfw5uB5aL2/o1Ph7XFlmGUnYr06U0ub5
-         2Gt1xZgOcnJkzk4AcfFC2AGwIVymhY0/ivFgsPzoJk7+KOrm6MJ0jI7d+gh3887DiZi5
-         M2Bw==
+        bh=WRLeXfheZQKlkK/holiVRk9VBonwhbwPZDwH85K2DJg=;
+        b=IjCQeejwb22kfxB26uwMhl9yjuS1k/CWOASX0EaStk9BwMgi0PFuAnj1N61Z5J/yQS
+         CinU4SXEtDLhyxugnb50EJbpsj4EjN7uBVgG3vkjT7KjoWcAdKS1qbllig7Lwv8/mRdL
+         o46cDRTLYvvS2+LfYR/uJvY8kTonc6Z9rfmQEDbCVAUzG25TgrmOhh1PKDO2UWJKU7Q2
+         kDN44q/5EXBqlK9fr3VFZUdI/N2cN1EWWtVOcNfy2KLMTs7fGzqCdOAFJXOwQndHvKOB
+         DVlhMkNw/2IXCrv5ocmU0WKFarkY4kMApThXOcKhHDB1GrCl/buRD9Xv53osQWJLP3g7
+         vBqw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1697649679; x=1698254479;
+        d=1e100.net; s=20230601; t=1697649673; x=1698254473;
         h=content-transfer-encoding:mime-version:references:in-reply-to
          :message-id:date:subject:cc:to:from:x-gm-message-state:from:to:cc
          :subject:date:message-id:reply-to;
-        bh=RavjDLpnLiTbxRS0gzzgynvrIwajO5sx2/BL10Gg55g=;
-        b=QZ9ZxavL+8UjpsZPKyD7U8GOHB/502Efjc9Asdv/k5cWW8rV9DQ8B9A5YML4Od7DD/
-         jfwkDXXWBgVCWNf5kUYoVA+rH75OVmPR2Cu6ZrgguTmuy4ExwkU9Fs8cEGKjF2NqgzQA
-         6ObxdA8y6prJ1QRmxZRBZiriLuJZ62CRTKFj/QhrgGbpDqS8tZbx/rSScFBqfExdCswQ
-         HJRedyAFb3qkNQIErZn9D6omTTShbytrMhRn1+j/cJ4ilieUZ6n6ZC7p0Es9eBHQmn/y
-         nBfmxXBU+kT1iNtv/xR3QD74S00DKPYwg+27juwqlwik76tslQVIv7RTj+kAPfK6WdKK
-         Jtfg==
-X-Gm-Message-State: AOJu0YwrLh1LbmqiLpZ51FVxpljOa6MdKMN4tH4XzNja4+E+0Njy6F74
-        P1pT47lahAByk1+SJpuQefZBV3h98KBMmnRr2GYvBQ==
-X-Google-Smtp-Source: AGHT+IGO36LFyd4RoRg6KK9QqYrXFrafPUItx0ZV5xaYip2VumutMFBwElTiRcpSnDZtYXn1LoyzHg==
-X-Received: by 2002:a05:6a00:1389:b0:6be:5367:2131 with SMTP id t9-20020a056a00138900b006be53672131mr6428775pfg.24.1697649678653;
-        Wed, 18 Oct 2023 10:21:18 -0700 (PDT)
+        bh=WRLeXfheZQKlkK/holiVRk9VBonwhbwPZDwH85K2DJg=;
+        b=IHLRHs1t3KpIPYSwtlXt2RdtbOtyuZf9xzrWFdC4jkHtFH2E5Asv9U4lYBxcgbWpWS
+         ZZ3WQnGeNKwgWd9mA0MMgv7bzEO+heNoiTIrBjWx/1f5s5X5gPL3Plc61eBldYEJSnqX
+         jtRx/RwILVHi8jvemSB95cXNsm89uqvQqZAM7qomcvUpeRaSh5FtjI3IycTjrNJotp5K
+         hfxaIv7l+sNiH+8oUEjWmzfIVxyQuQlb5HgYko/awBe7y8Zd8fEPkb83HNSDe2XzH8/7
+         AzU/tnm3GJOgznWMH15c6PvKj4Yx7C69b6wijEiuf4OEwl1NoKnlXTtfGCjf4eDY9uWn
+         DZfA==
+X-Gm-Message-State: AOJu0YwOU6B37g8M0VnvwjKDG0yjW+qsbY8USDLKuD61GcM/1D4phDPq
+        8HAZhjeNLsL/lJpd+yoOp2K+IlpDa4eF4fvud7BhFg==
+X-Google-Smtp-Source: AGHT+IHAUPlfKYtmCRMHW9pGl1A74NtzS4mGdV9PyFiFcm19wzF7Gj3b2epAZGlvGjh3qjzg81gd2g==
+X-Received: by 2002:a05:6359:318b:b0:166:d2ff:267e with SMTP id ri11-20020a056359318b00b00166d2ff267emr4887332rwb.21.1697649673566;
+        Wed, 18 Oct 2023 10:21:13 -0700 (PDT)
 Received: from mandiga.. ([2804:1b3:a7c3:a647:e0e3:84ab:f290:d748])
-        by smtp.gmail.com with ESMTPSA id fa36-20020a056a002d2400b006b2e07a6235sm3574777pfb.136.2023.10.18.10.21.17
+        by smtp.gmail.com with ESMTPSA id fa36-20020a056a002d2400b006b2e07a6235sm3574777pfb.136.2023.10.18.10.21.12
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Wed, 18 Oct 2023 10:21:18 -0700 (PDT)
+        Wed, 18 Oct 2023 10:21:13 -0700 (PDT)
 From:   Adhemerval Zanella <adhemerval.zanella@linaro.org>
 To:     linux-man@vger.kernel.org
 Cc:     alx.manpages@gmail.com
-Subject: [PATCH 5/5] ld.so.8: Describe the --list-diagnostics loader option
-Date:   Wed, 18 Oct 2023 14:21:04 -0300
-Message-Id: <20231018172104.1196993-6-adhemerval.zanella@linaro.org>
+Subject: [PATCH 2/5] ld.so.8: Clarify LD_PROFILE in secure-execution mode
+Date:   Wed, 18 Oct 2023 14:21:01 -0300
+Message-Id: <20231018172104.1196993-3-adhemerval.zanella@linaro.org>
 X-Mailer: git-send-email 2.34.1
 In-Reply-To: <20231018172104.1196993-1-adhemerval.zanella@linaro.org>
 References: <20231018172104.1196993-1-adhemerval.zanella@linaro.org>
@@ -64,32 +64,50 @@ Precedence: bulk
 List-ID: <linux-man.vger.kernel.org>
 X-Mailing-List: linux-man@vger.kernel.org
 
-It was added on glibc 2.33 as a way to print system diagnostic
-information in a machine-readable format.
+Different than specified, glibc 2.2.5 does not ignore LD_PROFILE in
+secure-execution mode.  Instead, it uses the default LD_PROFILE_OUTPUT
+(/var/profile) folder.
 
 Signed-off-by: Adhemerval Zanella <adhemerval.zanella@linaro.org>
 ---
- man8/ld.so.8 | 7 +++++++
- 1 file changed, 7 insertions(+)
+ man8/ld.so.8 | 15 ++++++---------
+ 1 file changed, 6 insertions(+), 9 deletions(-)
 
 diff --git a/man8/ld.so.8 b/man8/ld.so.8
-index 0e742cddd..66f14aef4 100644
+index 5b5c22825..74286d583 100644
 --- a/man8/ld.so.8
 +++ b/man8/ld.so.8
-@@ -246,6 +246,13 @@ are delimited by colons or spaces.
- .B \-\-list
- List all dependencies and how they are resolved.
+@@ -664,7 +664,7 @@ Profiling output is appended to the file whose name is:
+ .IP
+ Since glibc 2.2.5,
+ .B LD_PROFILE
+-is ignored in secure-execution mode.
++uses a different default path in secure-execution mode.
  .TP
-+.BR \-\-list\-diagnostics " (since glibc 2.33)
-+Print system diagnostic information in a machine-readable format, such as some
-+internal loader variables, the auxiliary vector (see
-+.BR getauxval (3)),
-+and the environment variables.  On some architecture, the command might print
-+additional information (like the cpu features used in GNU indirect function
-+selection on x86).
- .BR \-\-list\-tunables " (since glibc 2.33)"
- Print the names and values of all tunables,
- along with the minimum and maximum allowed values.
+ .BR LD_PROFILE_OUTPUT " (since glibc 2.1)"
+ Directory where
+@@ -672,16 +672,13 @@ Directory where
+ output should be written.
+ If this variable is not defined, or is defined as an empty string,
+ then the default is
+-.IR /var/tmp .
++.IR /var/tmp
++or
++.IR /var/profile
++in secure-execution mode.
+ .IP
+ .B LD_PROFILE_OUTPUT
+-is ignored in secure-execution mode; instead
+-.I /var/profile
+-is always used.
+-(This detail is relevant only before glibc 2.2.5,
+-since in later glibc versions,
+-.B LD_PROFILE
+-is also ignored in secure-execution mode.)
++is ignored in secure-execution mode.
+ .TP
+ .BR LD_SHOW_AUXV " (since glibc 2.1)"
+ If this environment variable is defined (with any value),
 -- 
 2.34.1
 
