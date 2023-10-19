@@ -2,125 +2,127 @@ Return-Path: <linux-man-owner@vger.kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 638B0CDB483
-	for <linux-man@archiver.kernel.org>; Thu, 19 Oct 2023 12:51:12 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id AFE9CCDB483
+	for <linux-man@archiver.kernel.org>; Thu, 19 Oct 2023 13:00:57 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S235319AbjJSMvL (ORCPT <rfc822;linux-man@archiver.kernel.org>);
-        Thu, 19 Oct 2023 08:51:11 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:42550 "EHLO
+        id S1345953AbjJSNA5 (ORCPT <rfc822;linux-man@archiver.kernel.org>);
+        Thu, 19 Oct 2023 09:00:57 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:37404 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S235364AbjJSMvK (ORCPT
-        <rfc822;linux-man@vger.kernel.org>); Thu, 19 Oct 2023 08:51:10 -0400
+        with ESMTP id S1345992AbjJSNAl (ORCPT
+        <rfc822;linux-man@vger.kernel.org>); Thu, 19 Oct 2023 09:00:41 -0400
 Received: from smtp.kernel.org (relay.kernel.org [52.25.139.140])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id E29FAF7
-        for <linux-man@vger.kernel.org>; Thu, 19 Oct 2023 05:51:07 -0700 (PDT)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id B1DBEC433C8;
-        Thu, 19 Oct 2023 12:51:06 +0000 (UTC)
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id C80F249EC
+        for <linux-man@vger.kernel.org>; Thu, 19 Oct 2023 05:58:30 -0700 (PDT)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id D36C3C433CD;
+        Thu, 19 Oct 2023 12:56:38 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-        s=k20201202; t=1697719867;
-        bh=ISG25fAQsirPMTdVc5798EW81AyJADrvSxe2djp78Pc=;
+        s=k20201202; t=1697720199;
+        bh=9Uf65HPjYot7hnhgBy85klD5z2mzCBwHOPVoWAlGeHg=;
         h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-        b=jeWMU+WcjdpKfT95XoKJHgjzaXLp45x8SfFPeW2JP2B5IWeqKUZaGKTP0JGpHbkFy
-         cBSQjDHVN2x5wCZkhDGhTqy4KoZrcUlCmjX7HEmnHSqtb5+JaFRltpS4xkgpnqCIp+
-         i9qQtHpSnnb5LarQkGzInHOqogILt+lq+sgQW2pf//qfpRcvifEVNfVwfZBZwgyTTe
-         k8oJaMwY3LqVaNNMmH1yu7KNXKLnuGvoCrlS+UTyzjVprLWGo7o3++vsaQM06CGiz6
-         34vDMWGhEXzL2kUhzoCt8zc5hKkbsNrU7W4bxWLICeRkkAsI8VWBASx7u70Es7PAtR
-         +CVRsSgMRuhMg==
-Date:   Thu, 19 Oct 2023 14:51:04 +0200
+        b=mhqJhgSpjbxebAZKDF0cwJh5HwRqp+JR7njAIWC77D4kToGuBAGEErZA3orcTnzr+
+         uKnU0C+jR2yJ06Bv6aJf4yMZcAoGEtPAc8yrU7mqA05lBGoKhSr8pR/2wv/XdrSnTX
+         6lplEnDIYgZxUvuubv2wT1GKEggWLrj4BU/WicfaHnzoOAX3oWMfgHRAjaH09wDzjJ
+         GzRht6xdvKyIMDJ+RxZKvQz2SXJwgWrHf+mGd1NNPzS+jtry7Sdm6HqxK06VYwLaG9
+         cN2MRRtswIE1GIYr/VvROg3Ggi2iFk05HAIFAWEjJf5jGcBDeSlNT5KvOrf3mdbGrm
+         KvuWg9dUhRjDg==
+Date:   Thu, 19 Oct 2023 14:56:36 +0200
 From:   Alejandro Colomar <alx@kernel.org>
-To:     Muhammad Usama Anjum <usama.anjum@collabora.com>
-Cc:     kernel@collabora.com, linux-man@vger.kernel.org
-Subject: Re: [PATCH 2/2] ioctl_pagemap_scan: add page for pagemap_scan IOCTL
-Message-ID: <ZTEmONWZRiqCVRyx@debian>
-References: <20231017150138.3406580-1-usama.anjum@collabora.com>
- <20231017150138.3406580-2-usama.anjum@collabora.com>
- <ZS7Ah-DnCOzxc1Yx@debian>
- <aae0ba48-7919-4656-8fe0-731ccd79ff95@collabora.com>
+To:     Adhemerval Zanella <adhemerval.zanella@linaro.org>
+Cc:     linux-man@vger.kernel.org
+Subject: Re: [PATCH v2 1/2] ld.so.8: Clarify LD_PROFILE in secure-execution
+ mode
+Message-ID: <ZTEnhCGvc6yNedct@debian>
+References: <20231019123139.1808532-1-adhemerval.zanella@linaro.org>
+ <20231019123139.1808532-2-adhemerval.zanella@linaro.org>
 MIME-Version: 1.0
 Content-Type: multipart/signed; micalg=pgp-sha512;
-        protocol="application/pgp-signature"; boundary="CP6PHeVbIlZ17i9u"
+        protocol="application/pgp-signature"; boundary="jzDObKzmDWRrCe6m"
 Content-Disposition: inline
-In-Reply-To: <aae0ba48-7919-4656-8fe0-731ccd79ff95@collabora.com>
+In-Reply-To: <20231019123139.1808532-2-adhemerval.zanella@linaro.org>
 Precedence: bulk
 List-ID: <linux-man.vger.kernel.org>
 X-Mailing-List: linux-man@vger.kernel.org
 
 
---CP6PHeVbIlZ17i9u
+--jzDObKzmDWRrCe6m
 Content-Type: text/plain; protected-headers=v1; charset=utf-8
 Content-Disposition: inline
 Content-Transfer-Encoding: quoted-printable
-Date: Thu, 19 Oct 2023 14:51:04 +0200
+Date: Thu, 19 Oct 2023 14:56:36 +0200
 From: Alejandro Colomar <alx@kernel.org>
-To: Muhammad Usama Anjum <usama.anjum@collabora.com>
-Cc: kernel@collabora.com, linux-man@vger.kernel.org
-Subject: Re: [PATCH 2/2] ioctl_pagemap_scan: add page for pagemap_scan IOCTL
+To: Adhemerval Zanella <adhemerval.zanella@linaro.org>
+Cc: linux-man@vger.kernel.org
+Subject: Re: [PATCH v2 1/2] ld.so.8: Clarify LD_PROFILE in secure-execution
+ mode
 
-Hi Muhammad,
+Hi Adhemerval,
 
-On Thu, Oct 19, 2023 at 05:31:32PM +0500, Muhammad Usama Anjum wrote:
-> Hi Alex,
+On Thu, Oct 19, 2023 at 09:31:38AM -0300, Adhemerval Zanella wrote:
+> Different than specified, glibc 2.2.5 does not ignore LD_PROFILE in
+> secure-execution mode.  Instead, it uses the default LD_PROFILE_OUTPUT
+> (/var/profile) folder.
 >=20
-> Thank you for taking time to review. I'll fix everything and run lint
-> before sending next revision.
+> Signed-off-by: Adhemerval Zanella <adhemerval.zanella@linaro.org>
 
-Thanks.
+Patch applied.  Thanks,
 
-[...]
-
-> >> +.SH DESCRIPTION
-> >> +This
-> >> +.BR ioctl (2)
-> >> +is used to get and optionally clear some specific flags from page tab=
-le entries.
-> >> +
-> >=20
-> > Please use an empty roff(7) request instead of a empty input line.  That
-> > is, use a line with just a '.', that is, s/^$/./
-
-Another thing you can use is a comment:
-
-=2E\"
-
-This is more commonly found in other pages in this repository.
-
-Cheers,
 Alex
 
-> >=20
-> > 	$ make lint build check --debug=3Dprint
-> > 	TROFF	.tmp/man/man2/ioctl_pagemap_scan.2.cat.set
-> > 	! (troff -wbreak  -man  -Tutf8 -rLL=3D78n -rCHECKSTYLE=3D3 -ww  <.tmp/=
-man/man2/ioctl_pagemap_scan.2.cat.troff 2>&1 >.tmp/man/man2/ioctl_pagemap_s=
-can.2.cat.set \
-> > 	   | grep -v -f './share/lint/groff/man.ignore.grep' \
-> > 	   ||:; \
-> > 	) \
-> > 	| grep ^ >&2
-> > 	an.tmac:man2/ioctl_pagemap_scan.2:25: style: blank line in input
-> > 	...
+> ---
+>  man8/ld.so.8 | 6 +-----
+>  1 file changed, 1 insertion(+), 5 deletions(-)
+>=20
+> diff --git a/man8/ld.so.8 b/man8/ld.so.8
+> index d4eb27a70..cf03cb85e 100644
+> --- a/man8/ld.so.8
+> +++ b/man8/ld.so.8
+> @@ -687,7 +687,7 @@ Profiling output is appended to the file whose name i=
+s:
+>  .IP
+>  Since glibc 2.2.5,
+>  .B LD_PROFILE
+> -is ignored in secure-execution mode.
+> +uses a different default path in secure-execution mode.
+>  .TP
+>  .BR LD_PROFILE_OUTPUT " (since glibc 2.1)"
+>  Directory where
+> @@ -701,10 +701,6 @@ then the default is
+>  is ignored in secure-execution mode; instead
+>  .I /var/profile
+>  is always used.
+> -(This detail is relevant only before glibc 2.2.5,
+> -since in later glibc versions,
+> -.B LD_PROFILE
+> -is also ignored in secure-execution mode.)
+>  .TP
+>  .BR LD_SHOW_AUXV " (since glibc 2.1)"
+>  If this environment variable is defined (with any value),
+> --=20
+> 2.34.1
+>=20
 
 --=20
 <https://www.alejandro-colomar.es/>
 
---CP6PHeVbIlZ17i9u
+--jzDObKzmDWRrCe6m
 Content-Type: application/pgp-signature; name="signature.asc"
 
 -----BEGIN PGP SIGNATURE-----
 
-iQIzBAABCgAdFiEE6jqH8KTroDDkXfJAnowa+77/2zIFAmUxJjgACgkQnowa+77/
-2zK6Qg/8D4mcfKgnrVt0lpubyFOVwCbIgucL/VTpmNcT3KRKT18DXMArpPZE0lqN
-s22gsFrKUvSsy0Kcdfvb8oGJSa0niyqvL/BQqSVr6hdOX+k8tzJtbndSCtLJUGgi
-5lSxTSJ8Ux4c+kNcqvfYFArU0rzgheoDosuDu0ss8WlsAGxwMAkDGETfLo1JP7zO
-7PkwNL5fRSPQ2zTtQJH53n/Lv32ouvHByrNXgBkq6ZtFqmTguXCoswOYimuJDbh2
-8rLqLfxHmCUIaGxv3RmmgmWUDfGWfm2XqCWMea6k+a2Q7qd3x08S4I2VXrBF2r34
-sWyhPuegcO4+QXp/toph0qkTqqQVjQg4bebPvs5VF3Dni9vDE351YANkmTfk3UQE
-PdBY+Vv8EG+7nDuuqIj+VlwzA7qUHNySpaOX7PeKb6pzQztAuHfBheEOIxKcoe4R
-j5ksXwi5VHmSTp2q19+m+S91WUNPiB2/d8sVuw4ultJNRij5vTaqUZhILON3mjPF
-Zu0QFJR8miBHOEoq7Od+LbpqDLxgnXLrFILfAGKA6CDz/5/BSJfK1FU6E8kPgOHe
-u74xfJXodBhTVcCb30Nn/Crq396jgytUQGxokAS0eAzyuobEkwI8IH36hKCYW1+m
-gVWk78MIYXzrUIdAv0nJlApb4Nl097Ropu1DrBgcFvSeQcvOIg0=
-=Kiha
+iQIzBAABCgAdFiEE6jqH8KTroDDkXfJAnowa+77/2zIFAmUxJ4QACgkQnowa+77/
+2zI1lBAAlY61vizirxf9QFZQeuoP8biKJYjHbD6YcWvhr65jsyZUn4mZCvpUvh02
+6fNYOObfg1XK4LWa9YSYaT2LxG1P+9rVbuF77TSqa3Um4iNu7MM+FhpTBq0R2fF1
+LpVyOD1ZcWmLRnACisyEVYlF28gDhTQ0ptuZyVKxQr2Xq6mukfbqziiwQk1WfjkI
+Aw/B/eNnur+3aEcCmEjKBuJBSnUi223M7uZfHX+0KTys8NAv3YMXqX3Lt/qNp3HN
+h6Itx7I6HeSdvZYVU5w/pJpkazEVdoD2F3YaohlyAqZlAA1PS/NBkkJL4qFLoz6X
+Q764bGVQD+3SCBbXRTSh7IXaO20ewvtBHEZBCGWntVigfiYDu+MPTC2mXbjM995t
+g/837HhkkNLL4s5J9mkt0pLsfY4/MnhwLdGsn1YBxYS+NsCl42Q4Ylm0NkuZoq6+
+7DKsKMuFfdOEeMq+fdLLfG19sl2jyQnjljQEkNbB7FDWML5sBIvrqdBVaG2jdRic
+yLIff5bbtBYXjyRgLBFKOjtdg2Qjv7QrZx67uA2xNCmCN2Du29Fa7xi8SKjONnm7
+ReomoLvOZi8ccqdWMQXPmtb9vEKcMZQ+j0TdK5KmFf/nvjN8lwlvM+hgCquxkCm7
+avG00YMAbcYClN6VqcYx1OrHBSvB1W0sDYybLWOiYDItjRI8yM0=
+=TXPb
 -----END PGP SIGNATURE-----
 
---CP6PHeVbIlZ17i9u--
+--jzDObKzmDWRrCe6m--
