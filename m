@@ -2,59 +2,59 @@ Return-Path: <linux-man-owner@vger.kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id B4227C25B47
-	for <linux-man@archiver.kernel.org>; Wed, 25 Oct 2023 14:03:03 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 81D74C25B6D
+	for <linux-man@archiver.kernel.org>; Wed, 25 Oct 2023 14:04:11 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1344530AbjJYODD (ORCPT <rfc822;linux-man@archiver.kernel.org>);
-        Wed, 25 Oct 2023 10:03:03 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:32904 "EHLO
+        id S1344697AbjJYODu (ORCPT <rfc822;linux-man@archiver.kernel.org>);
+        Wed, 25 Oct 2023 10:03:50 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:44194 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S234520AbjJYODC (ORCPT
-        <rfc822;linux-man@vger.kernel.org>); Wed, 25 Oct 2023 10:03:02 -0400
+        with ESMTP id S235058AbjJYODt (ORCPT
+        <rfc822;linux-man@vger.kernel.org>); Wed, 25 Oct 2023 10:03:49 -0400
 Received: from us-smtp-delivery-124.mimecast.com (us-smtp-delivery-124.mimecast.com [170.10.133.124])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id AA2D7185
-        for <linux-man@vger.kernel.org>; Wed, 25 Oct 2023 07:02:12 -0700 (PDT)
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 115A8D50
+        for <linux-man@vger.kernel.org>; Wed, 25 Oct 2023 07:02:33 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
-        s=mimecast20190719; t=1698242531;
+        s=mimecast20190719; t=1698242553;
         h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
          to:to:cc:cc:mime-version:mime-version:
          content-transfer-encoding:content-transfer-encoding:
          in-reply-to:in-reply-to:references:references;
-        bh=Rktb275++autG2dBh3wJ1wvqmgDO3Aq+V8t/EjWFz4M=;
-        b=hNcE+vYBA75nj3NMEyqXOLqHTrnPMXtfWSASoQLwAb2BtOY8TIxKekbKMg+rUt07Zxji0e
-        EPqWUcL9J8cS4D7Z30pnyWLmFWW1ca9OjZJwiaZrKU6PunQ1s7ON/roLacoNUva6AC3MJw
-        zU+1KBPZ/NEi7VFdT/NS1PYlFM4tbCo=
+        bh=4bwGq/C+5APOsCqFrwpf0XoGoPuUJR4+QLSXHx9atCw=;
+        b=K1GE7+tS8gy0QgnqTFTS+gCMJcFCQSB+/C5G660Hl1XVss+SUAQGDyRtpv9EZX7TTuRACz
+        nNNTp4hslO7ZRR4c3UU/amXWwEdE4o4oMUI1VCU85DDB4utjRQ600aR5m/zmiBdJX14lkC
+        Yh1URgNcc1JXPna5rZrrON6RcIQnfMg=
 Received: from mail-ej1-f71.google.com (mail-ej1-f71.google.com
  [209.85.218.71]) by relay.mimecast.com with ESMTP with STARTTLS
  (version=TLSv1.3, cipher=TLS_AES_256_GCM_SHA384) id
- us-mta-108-d1_xF4-GN1mB3b5kLT5i_Q-1; Wed, 25 Oct 2023 10:02:10 -0400
-X-MC-Unique: d1_xF4-GN1mB3b5kLT5i_Q-1
-Received: by mail-ej1-f71.google.com with SMTP id a640c23a62f3a-9b274cc9636so356055466b.0
-        for <linux-man@vger.kernel.org>; Wed, 25 Oct 2023 07:02:09 -0700 (PDT)
+ us-mta-690-TAwoPBP-PUiNDmae52bgtw-1; Wed, 25 Oct 2023 10:02:17 -0400
+X-MC-Unique: TAwoPBP-PUiNDmae52bgtw-1
+Received: by mail-ej1-f71.google.com with SMTP id a640c23a62f3a-9b98d8f6bafso375078866b.1
+        for <linux-man@vger.kernel.org>; Wed, 25 Oct 2023 07:02:16 -0700 (PDT)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1698242529; x=1698847329;
+        d=1e100.net; s=20230601; t=1698242535; x=1698847335;
         h=content-transfer-encoding:mime-version:references:in-reply-to
          :message-id:date:subject:cc:to:from:x-gm-message-state:from:to:cc
          :subject:date:message-id:reply-to;
-        bh=Rktb275++autG2dBh3wJ1wvqmgDO3Aq+V8t/EjWFz4M=;
-        b=XoGylkZ5z5PgwGTaOwmgtOxNBqJhqm8RKSK9VDVFo+w/5jgNT9Z0b9S1+46dHbxF5r
-         fJRBOMEa/JDBYy9js8/ksD+256sQemU4wMLQK8N9ahMeBDzyvIZAtB0dPVkuiCsFBbGc
-         Ii6yH95famuG/xx7m1gVlssNQY+iEcYrVXAR70H7eMSJgtrAPYgl0kzrCvSv5GK37nb2
-         Tx3zuY9zW6jIClaxcE11HX25h4XcOZrhNbwCLiDsBqdivOUodt/QCfggRpCV2tL5ZEcH
-         sH4WT/ho+WbAM/COfdLFYrUP80VuO4AyiaXwLLIeIh7Hjv1qSOT9ORIfZPZB15vQpzkH
-         aqhQ==
-X-Gm-Message-State: AOJu0YyKBVrQOE0YGRfTBlcfM9oDxlhwafaEf6SLVvkSfBLMLf9LxL+c
-        sQmyp///Y7j78SMpD55J53YqSwghF9ijxGGQbMWYWoRGMcLDv2O1qnwRkVZZMuNBM+34h1nEDw5
-        wjHVDZvzcuVXlJjTl+sRV
-X-Received: by 2002:a17:907:da3:b0:9c6:7ec2:e14e with SMTP id go35-20020a1709070da300b009c67ec2e14emr14335798ejc.50.1698242529023;
-        Wed, 25 Oct 2023 07:02:09 -0700 (PDT)
-X-Google-Smtp-Source: AGHT+IH+8SDOqqdIbWYcTzs6rDMO30AFnhMq2M9Jv3S4dbLlbYvENSTjg76T9Wfx8VJm7Ip4DabhCA==
-X-Received: by 2002:a17:907:da3:b0:9c6:7ec2:e14e with SMTP id go35-20020a1709070da300b009c67ec2e14emr14335764ejc.50.1698242528629;
-        Wed, 25 Oct 2023 07:02:08 -0700 (PDT)
+        bh=4bwGq/C+5APOsCqFrwpf0XoGoPuUJR4+QLSXHx9atCw=;
+        b=sF9ArWtQQqcR+R8J8W5Zkn47MmBkMz92byMfDGD9ljagl8juFxUrI6Dwq4FW4NFW4y
+         Cqfwb8kE7zyywvaUWHYp9BVKj3MHpGJEbyOJZhCtTR2bff7PUBEn5NoTa7l5FvvgeRAZ
+         1TNzW0i9i000lW0kY1UV6v9MKmHIkCs55MSjnrTXNir1wWptd14BDeSGcka3Z+2FNjfO
+         7sHgUF5srWTvQdfE5IcAD4DWLZ/wOSo6Ghp7mjGoFOghz2M7V8nnry4RQcgxuz2+OUSU
+         9z+q+SdMV33FOWvsULPd4WlOtFS208arMkJSZtwZJKw7Rr8PPG79rhbRPyW4XxGrLoPf
+         i1hQ==
+X-Gm-Message-State: AOJu0YyTb616hx7mdV2RH7f/MWGYFOM0O0dSxxCrBQN9YgJSWF0y31yI
+        ULz7cBzqWj49dONiyrtu1A7UDuXzsR62uMfuS8RhUksdXfFhN8KjNZX1+qHiVxEd85hujxjnSa3
+        zxdJGRJ8iZZNuaiy1hB3Zpy9owizL
+X-Received: by 2002:a17:906:3e54:b0:9c3:bb0e:d4c7 with SMTP id t20-20020a1709063e5400b009c3bb0ed4c7mr9498287eji.28.1698242535390;
+        Wed, 25 Oct 2023 07:02:15 -0700 (PDT)
+X-Google-Smtp-Source: AGHT+IFP25qBhJxT4qXiqjdZQb/HVco5wkgj/lhRNtDMYF4zMn2TOmKwTlFkjQyOsrNX64rUB3w+YQ==
+X-Received: by 2002:a17:906:3e54:b0:9c3:bb0e:d4c7 with SMTP id t20-20020a1709063e5400b009c3bb0ed4c7mr9498262eji.28.1698242534928;
+        Wed, 25 Oct 2023 07:02:14 -0700 (PDT)
 Received: from maszat.piliscsaba.szeredi.hu (92-249-235-200.pool.digikabel.hu. [92.249.235.200])
-        by smtp.gmail.com with ESMTPSA id vl9-20020a170907b60900b00989828a42e8sm9857073ejc.154.2023.10.25.07.02.07
+        by smtp.gmail.com with ESMTPSA id vl9-20020a170907b60900b00989828a42e8sm9857073ejc.154.2023.10.25.07.02.13
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Wed, 25 Oct 2023 07:02:08 -0700 (PDT)
+        Wed, 25 Oct 2023 07:02:13 -0700 (PDT)
 From:   Miklos Szeredi <mszeredi@redhat.com>
 To:     linux-fsdevel@vger.kernel.org
 Cc:     linux-kernel@vger.kernel.org, linux-api@vger.kernel.org,
@@ -68,9 +68,9 @@ Cc:     linux-kernel@vger.kernel.org, linux-api@vger.kernel.org,
         Matthew House <mattlloydhouse@gmail.com>,
         Florian Weimer <fweimer@redhat.com>,
         Arnd Bergmann <arnd@arndb.de>
-Subject: [PATCH v4 1/6] add unique mount ID
-Date:   Wed, 25 Oct 2023 16:01:59 +0200
-Message-ID: <20231025140205.3586473-2-mszeredi@redhat.com>
+Subject: [PATCH v4 5/6] add listmount(2) syscall
+Date:   Wed, 25 Oct 2023 16:02:03 +0200
+Message-ID: <20231025140205.3586473-6-mszeredi@redhat.com>
 X-Mailer: git-send-email 2.41.0
 In-Reply-To: <20231025140205.3586473-1-mszeredi@redhat.com>
 References: <20231025140205.3586473-1-mszeredi@redhat.com>
@@ -80,92 +80,166 @@ Precedence: bulk
 List-ID: <linux-man.vger.kernel.org>
 X-Mailing-List: linux-man@vger.kernel.org
 
-If a mount is released then its mnt_id can immediately be reused.  This is
-bad news for user interfaces that want to uniquely identify a mount.
+Add way to query the children of a particular mount.  This is a more
+flexible way to iterate the mount tree than having to parse the complete
+/proc/self/mountinfo.
 
-Implementing a unique mount ID is trivial (use a 64bit counter).
-Unfortunately userspace assumes 32bit size and would overflow after the
-counter reaches 2^32.
+Allow listing either
 
-Introduce a new 64bit ID alongside the old one.  Initialize the counter to
-2^32, this guarantees that the old and new IDs are never mixed up.
+ - immediate child mounts only, or
+
+ - recursively all descendant mounts (depth first).
+
+Lookup the mount by the new 64bit mount ID.  If a mount needs to be queried
+based on path, then statx(2) can be used to first query the mount ID
+belonging to the path.
+
+Return an array of new (64bit) mount ID's.  Without privileges only mounts
+are listed which are reachable from the task's root.
 
 Signed-off-by: Miklos Szeredi <mszeredi@redhat.com>
 ---
- fs/mount.h                | 3 ++-
- fs/namespace.c            | 4 ++++
- fs/stat.c                 | 9 +++++++--
- include/uapi/linux/stat.h | 1 +
- 4 files changed, 14 insertions(+), 3 deletions(-)
+ fs/namespace.c             | 93 ++++++++++++++++++++++++++++++++++++++
+ include/linux/syscalls.h   |  3 ++
+ include/uapi/linux/mount.h |  9 ++++
+ 3 files changed, 105 insertions(+)
 
-diff --git a/fs/mount.h b/fs/mount.h
-index 130c07c2f8d2..a14f762b3f29 100644
---- a/fs/mount.h
-+++ b/fs/mount.h
-@@ -72,7 +72,8 @@ struct mount {
- 	struct fsnotify_mark_connector __rcu *mnt_fsnotify_marks;
- 	__u32 mnt_fsnotify_mask;
- #endif
--	int mnt_id;			/* mount identifier */
-+	int mnt_id;			/* mount identifier, reused */
-+	u64 mnt_id_unique;		/* mount ID unique until reboot */
- 	int mnt_group_id;		/* peer group identifier */
- 	int mnt_expiry_mark;		/* true if marked for expiry */
- 	struct hlist_head mnt_pins;
 diff --git a/fs/namespace.c b/fs/namespace.c
-index e157efc54023..e02bc5f41c7b 100644
+index a980c250a3a6..0afe2344bba6 100644
 --- a/fs/namespace.c
 +++ b/fs/namespace.c
-@@ -68,6 +68,9 @@ static u64 event;
- static DEFINE_IDA(mnt_id_ida);
- static DEFINE_IDA(mnt_group_ida);
- 
-+/* Don't allow confusion with old 32bit mount ID */
-+static atomic64_t mnt_id_ctr = ATOMIC64_INIT(1ULL << 32);
-+
- static struct hlist_head *mount_hashtable __read_mostly;
- static struct hlist_head *mountpoint_hashtable __read_mostly;
- static struct kmem_cache *mnt_cache __read_mostly;
-@@ -131,6 +134,7 @@ static int mnt_alloc_id(struct mount *mnt)
- 	if (res < 0)
- 		return res;
- 	mnt->mnt_id = res;
-+	mnt->mnt_id_unique = atomic64_inc_return(&mnt_id_ctr);
- 	return 0;
+@@ -4958,6 +4958,99 @@ SYSCALL_DEFINE4(statmount, const struct __mount_arg __user *, req,
+ 	return ret;
  }
  
-diff --git a/fs/stat.c b/fs/stat.c
-index d43a5cc1bfa4..77878ae48a0f 100644
---- a/fs/stat.c
-+++ b/fs/stat.c
-@@ -243,8 +243,13 @@ static int vfs_statx(int dfd, struct filename *filename, int flags,
- 
- 	error = vfs_getattr(&path, stat, request_mask, flags);
- 
--	stat->mnt_id = real_mount(path.mnt)->mnt_id;
--	stat->result_mask |= STATX_MNT_ID;
-+	if (request_mask & STATX_MNT_ID_UNIQUE) {
-+		stat->mnt_id = real_mount(path.mnt)->mnt_id_unique;
-+		stat->result_mask |= STATX_MNT_ID_UNIQUE;
-+	} else {
-+		stat->mnt_id = real_mount(path.mnt)->mnt_id;
-+		stat->result_mask |= STATX_MNT_ID;
++static struct mount *listmnt_first(struct mount *root)
++{
++	return list_first_entry_or_null(&root->mnt_mounts, struct mount, mnt_child);
++}
++
++static struct mount *listmnt_next(struct mount *curr, struct mount *root, bool recurse)
++{
++	if (recurse)
++		return next_mnt(curr, root);
++	if (!list_is_head(curr->mnt_child.next, &root->mnt_mounts))
++		return list_next_entry(curr, mnt_child);
++	return NULL;
++}
++
++static long do_listmount(struct vfsmount *mnt, u64 __user *buf, size_t bufsize,
++			 const struct path *root, unsigned int flags)
++{
++	struct mount *r, *m = real_mount(mnt);
++	struct path rootmnt = {
++		.mnt = root->mnt,
++		.dentry = root->mnt->mnt_root
++	};
++	long ctr = 0;
++	bool reachable_only = true;
++	bool recurse = flags & LISTMOUNT_RECURSIVE;
++	int err;
++
++	err = security_sb_statfs(mnt->mnt_root);
++	if (err)
++		return err;
++
++	if (flags & LISTMOUNT_UNREACHABLE) {
++		if (!capable(CAP_SYS_ADMIN))
++			return -EPERM;
++		reachable_only = false;
 +	}
++
++	if (reachable_only && !is_path_reachable(m, mnt->mnt_root, &rootmnt))
++		return capable(CAP_SYS_ADMIN) ? 0 : -EPERM;
++
++	for (r = listmnt_first(m); r; r = listmnt_next(r, m, recurse)) {
++		if (reachable_only &&
++		    !is_path_reachable(r, r->mnt.mnt_root, root))
++			continue;
++
++		if (ctr >= bufsize)
++			return -EOVERFLOW;
++		if (put_user(r->mnt_id_unique, buf + ctr))
++			return -EFAULT;
++		ctr++;
++		if (ctr < 0)
++			return -ERANGE;
++	}
++	return ctr;
++}
++
++SYSCALL_DEFINE4(listmount, const struct __mount_arg __user *, req,
++		u64 __user *, buf, size_t, bufsize, unsigned int, flags)
++{
++	struct __mount_arg kreq;
++	struct vfsmount *mnt;
++	struct path root;
++	u64 mnt_id;
++	long err;
++
++	if (flags & ~(LISTMOUNT_UNREACHABLE | LISTMOUNT_RECURSIVE))
++		return -EINVAL;
++
++	if (copy_from_user(&kreq, req, sizeof(kreq)))
++		return -EFAULT;
++	mnt_id = kreq.mnt_id;
++
++	down_read(&namespace_sem);
++	if (mnt_id == LSMT_ROOT)
++		mnt = &current->nsproxy->mnt_ns->root->mnt;
++	else
++		mnt = lookup_mnt_in_ns(mnt_id, current->nsproxy->mnt_ns);
++
++	err = -ENOENT;
++	if (mnt) {
++		get_fs_root(current->fs, &root);
++		/* Skip unreachable for LSMT_ROOT */
++		if (mnt_id == LSMT_ROOT && !(flags & LISTMOUNT_UNREACHABLE))
++			mnt = root.mnt;
++		err = do_listmount(mnt, buf, bufsize, &root, flags);
++		path_put(&root);
++	}
++	up_read(&namespace_sem);
++
++	return err;
++}
++
++
+ static void __init init_mount_tree(void)
+ {
+ 	struct vfsmount *mnt;
+diff --git a/include/linux/syscalls.h b/include/linux/syscalls.h
+index ba371024d902..38f3da7e04d1 100644
+--- a/include/linux/syscalls.h
++++ b/include/linux/syscalls.h
+@@ -413,6 +413,9 @@ asmlinkage long sys_fstatfs64(unsigned int fd, size_t sz,
+ asmlinkage long sys_statmount(const struct __mount_arg __user *req,
+ 			      struct statmnt __user *buf, size_t bufsize,
+ 			      unsigned int flags);
++asmlinkage long sys_listmount(const struct __mount_arg __user *req,
++			      u64 __user *buf, size_t bufsize,
++			      unsigned int flags);
+ asmlinkage long sys_truncate(const char __user *path, long length);
+ asmlinkage long sys_ftruncate(unsigned int fd, unsigned long length);
+ #if BITS_PER_LONG == 32
+diff --git a/include/uapi/linux/mount.h b/include/uapi/linux/mount.h
+index d2c988ab526b..704c408cc662 100644
+--- a/include/uapi/linux/mount.h
++++ b/include/uapi/linux/mount.h
+@@ -194,4 +194,13 @@ struct __mount_arg {
+ #define STMT_MNT_POINT		0x00000010U	/* Want/got mnt_point */
+ #define STMT_FS_TYPE		0x00000020U	/* Want/got fs_type */
  
- 	if (path.mnt->mnt_root == path.dentry)
- 		stat->attributes |= STATX_ATTR_MOUNT_ROOT;
-diff --git a/include/uapi/linux/stat.h b/include/uapi/linux/stat.h
-index 7cab2c65d3d7..2f2ee82d5517 100644
---- a/include/uapi/linux/stat.h
-+++ b/include/uapi/linux/stat.h
-@@ -154,6 +154,7 @@ struct statx {
- #define STATX_BTIME		0x00000800U	/* Want/got stx_btime */
- #define STATX_MNT_ID		0x00001000U	/* Got stx_mnt_id */
- #define STATX_DIOALIGN		0x00002000U	/* Want/got direct I/O alignment info */
-+#define STATX_MNT_ID_UNIQUE	0x00004000U	/* Want/got extended stx_mount_id */
- 
- #define STATX__RESERVED		0x80000000U	/* Reserved for future struct statx expansion */
- 
++/* listmount(2) flags */
++#define LISTMOUNT_UNREACHABLE	0x01	/* List unreachable mounts too */
++#define LISTMOUNT_RECURSIVE	0x02	/* List a mount tree */
++
++/*
++ * Special @mnt_id values that can be passed to listmount
++ */
++#define LSMT_ROOT		0xffffffffffffffff	/* root mount */
++
+ #endif /* _UAPI_LINUX_MOUNT_H */
 -- 
 2.41.0
 
