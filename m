@@ -2,280 +2,620 @@ Return-Path: <linux-man-owner@vger.kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 2639BC0032E
-	for <linux-man@archiver.kernel.org>; Wed, 25 Oct 2023 14:30:40 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 2285EC0032E
+	for <linux-man@archiver.kernel.org>; Wed, 25 Oct 2023 14:39:55 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1344661AbjJYOaj (ORCPT <rfc822;linux-man@archiver.kernel.org>);
-        Wed, 25 Oct 2023 10:30:39 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:52146 "EHLO
+        id S1343802AbjJYOjy (ORCPT <rfc822;linux-man@archiver.kernel.org>);
+        Wed, 25 Oct 2023 10:39:54 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:44066 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S232846AbjJYOah (ORCPT
-        <rfc822;linux-man@vger.kernel.org>); Wed, 25 Oct 2023 10:30:37 -0400
-Received: from smtp.kernel.org (relay.kernel.org [52.25.139.140])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 2E15A18A
-        for <linux-man@vger.kernel.org>; Wed, 25 Oct 2023 07:30:35 -0700 (PDT)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 1F435C433D9;
-        Wed, 25 Oct 2023 14:30:33 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-        s=k20201202; t=1698244234;
-        bh=on9DDne8XnDRO5Oze+LZ9PCoy6rW44aal41lqAsKtZQ=;
-        h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-        b=CpXfcqEcN/IQn6G+aFGhywvPsUNjDJQHHOn28NFCHZyAdf2uMKRp98aLm+QZGsVlw
-         JEbBkY0dvOstHlmm5DGA+jmygZ3YjqRHMJXazK5KQNH96GZi2vrzJIycoBn6EKKOWo
-         k8V2Lh9nIz7i11H9nM5JOLfQ96fXowp5kbTXUYPShTUq0NmPYSb+6mchqJgj1l+WxQ
-         pETij8o+b+bOQ8k4fA7V1b1QeJ5oKz/jFDQBfR9NmENzXHB1/24RP6qkAFojdydjTh
-         CWEg11Q0AQ67XTq13kRJm07XV5+6X4nxFEZAezJE3lerVgTaysSgiF2BeI+datd+NR
-         TysQNEcQ6/rzw==
-Date:   Wed, 25 Oct 2023 16:30:31 +0200
-From:   Alejandro Colomar <alx@kernel.org>
-To:     Don Brace <don.brace@microchip.com>
-Cc:     linux-man@vger.kernel.org
-Subject: Re: [PATCH v10 0/1] smartpqi man page updates
-Message-ID: <ZTkmh8aUrJ3rCdAn@debian>
-References: <20231025142235.82218-1-don.brace@microchip.com>
+        with ESMTP id S1344711AbjJYODv (ORCPT
+        <rfc822;linux-man@vger.kernel.org>); Wed, 25 Oct 2023 10:03:51 -0400
+Received: from us-smtp-delivery-124.mimecast.com (us-smtp-delivery-124.mimecast.com [170.10.133.124])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 8868C18B
+        for <linux-man@vger.kernel.org>; Wed, 25 Oct 2023 07:02:14 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+        s=mimecast20190719; t=1698242533;
+        h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+         to:to:cc:cc:mime-version:mime-version:
+         content-transfer-encoding:content-transfer-encoding:
+         in-reply-to:in-reply-to:references:references;
+        bh=TqU5OFpUfnWoX0zEapwC2eTdGB2uJF4AL25ESnXjaJg=;
+        b=jTTfnNhoSYqQgGUgThvHJM/nlXqavRonoectv7SNzNTE1vQSNFzB8gYJ+Yrx65WwGx7GsO
+        Np/iDx64ChhxLuqhLQditqWsipR62TuoU+GrZc0L5j9899KN+uYz69EPz0Dq4jeqMy5knH
+        1a2oLQFvHvTuBFBRuFcMUDj2zosMjSk=
+Received: from mail-ej1-f69.google.com (mail-ej1-f69.google.com
+ [209.85.218.69]) by relay.mimecast.com with ESMTP with STARTTLS
+ (version=TLSv1.3, cipher=TLS_AES_256_GCM_SHA384) id
+ us-mta-210-8u9adGYVNCWQALgY8IfEQA-1; Wed, 25 Oct 2023 10:02:12 -0400
+X-MC-Unique: 8u9adGYVNCWQALgY8IfEQA-1
+Received: by mail-ej1-f69.google.com with SMTP id a640c23a62f3a-9bea60bd1adso98077766b.0
+        for <linux-man@vger.kernel.org>; Wed, 25 Oct 2023 07:02:11 -0700 (PDT)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1698242531; x=1698847331;
+        h=content-transfer-encoding:mime-version:references:in-reply-to
+         :message-id:date:subject:cc:to:from:x-gm-message-state:from:to:cc
+         :subject:date:message-id:reply-to;
+        bh=TqU5OFpUfnWoX0zEapwC2eTdGB2uJF4AL25ESnXjaJg=;
+        b=HPRg2Tysep8XMErjiZpng25va8cZO6WPQSZWXWV2F2XAcBD4VGGiEWeD9xPFpPokND
+         +xS39SNFePGsXF7++G8nSWNVztPXv0kz0hlOSpkhtXhgTfxYVMLGzdmM2jNDpMbIAz0h
+         R/fqHoBJuCS1Zv1nPSC4z5U/+AOLhkTL0+XjlJDwWBkzRzOMW5CRjRX/zfFj5EsuBZVR
+         tasRtWch7V4FdkMiuudcXqa5neMYeiNOPnp9UPOmMMEIRGltkGD7MU2TawOWdVgK8rGI
+         OQuUytgdEXmThp50n22N/m+EnAjgM4dCptWyDIJ34qIuMzOUgzXsO1udEHTYnQfArU+y
+         USyw==
+X-Gm-Message-State: AOJu0YzkmpYuj1hLpKdY+84BsYcoDuvWDGXGLaZ/7nSv8C4kJH5aFrnE
+        gatI8lauLapOjXnbGWA5KjeNbyEaoFe25r/zG+U76eS4otIzTXILEMny/Cn67nxRqUQXGcO1Myh
+        n/r5aZYbwKU295FNowUrF
+X-Received: by 2002:a17:907:7e8b:b0:9a9:fa4a:5a4e with SMTP id qb11-20020a1709077e8b00b009a9fa4a5a4emr17952686ejc.13.1698242530709;
+        Wed, 25 Oct 2023 07:02:10 -0700 (PDT)
+X-Google-Smtp-Source: AGHT+IGbrxV78iGRyEXr71q2p/3MfdOAn7enEaIs3/+ho4rI94gfuZM96AuUtMY9RGXlfJnr6Bb2PA==
+X-Received: by 2002:a17:907:7e8b:b0:9a9:fa4a:5a4e with SMTP id qb11-20020a1709077e8b00b009a9fa4a5a4emr17952652ejc.13.1698242530313;
+        Wed, 25 Oct 2023 07:02:10 -0700 (PDT)
+Received: from maszat.piliscsaba.szeredi.hu (92-249-235-200.pool.digikabel.hu. [92.249.235.200])
+        by smtp.gmail.com with ESMTPSA id vl9-20020a170907b60900b00989828a42e8sm9857073ejc.154.2023.10.25.07.02.08
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Wed, 25 Oct 2023 07:02:09 -0700 (PDT)
+From:   Miklos Szeredi <mszeredi@redhat.com>
+To:     linux-fsdevel@vger.kernel.org
+Cc:     linux-kernel@vger.kernel.org, linux-api@vger.kernel.org,
+        linux-man@vger.kernel.org, linux-security-module@vger.kernel.org,
+        Karel Zak <kzak@redhat.com>, Ian Kent <raven@themaw.net>,
+        David Howells <dhowells@redhat.com>,
+        Linus Torvalds <torvalds@linux-foundation.org>,
+        Al Viro <viro@zeniv.linux.org.uk>,
+        Christian Brauner <christian@brauner.io>,
+        Amir Goldstein <amir73il@gmail.com>,
+        Matthew House <mattlloydhouse@gmail.com>,
+        Florian Weimer <fweimer@redhat.com>,
+        Arnd Bergmann <arnd@arndb.de>
+Subject: [PATCH v4 2/6] mounts: keep list of mounts in an rbtree
+Date:   Wed, 25 Oct 2023 16:02:00 +0200
+Message-ID: <20231025140205.3586473-3-mszeredi@redhat.com>
+X-Mailer: git-send-email 2.41.0
+In-Reply-To: <20231025140205.3586473-1-mszeredi@redhat.com>
+References: <20231025140205.3586473-1-mszeredi@redhat.com>
 MIME-Version: 1.0
-Content-Type: multipart/signed; micalg=pgp-sha512;
-        protocol="application/pgp-signature"; boundary="xLqkRDkV0XO+Nzoj"
-Content-Disposition: inline
-In-Reply-To: <20231025142235.82218-1-don.brace@microchip.com>
+Content-Transfer-Encoding: 8bit
 Precedence: bulk
 List-ID: <linux-man.vger.kernel.org>
 X-Mailing-List: linux-man@vger.kernel.org
 
+When adding a mount to a namespace insert it into an rbtree rooted in the
+mnt_namespace instead of a linear list.
 
---xLqkRDkV0XO+Nzoj
-Content-Type: text/plain; protected-headers=v1; charset=utf-8
-Content-Disposition: inline
-Content-Transfer-Encoding: quoted-printable
-Date: Wed, 25 Oct 2023 16:30:31 +0200
-From: Alejandro Colomar <alx@kernel.org>
-To: Don Brace <don.brace@microchip.com>
-Cc: linux-man@vger.kernel.org
-Subject: Re: [PATCH v10 0/1] smartpqi man page updates
+The mnt.mnt_list is still used to set up the mount tree and for
+propagation, but not after the mount has been added to a namespace.  Hence
+mnt_list can live in union with rb_node.  Use MNT_ONRB mount flag to
+validate that the mount is on the correct list.
 
-Hi Don,
+This allows removing the cursor used for reading /proc/$PID/mountinfo.  The
+mnt_id_unique of the next mount can be used as an index into the seq file.
 
-On Wed, Oct 25, 2023 at 09:22:34AM -0500, Don Brace wrote:
-> These patches are based the man page content found in
-> git://git.kernel.org/pub/scm/docs/man-pages/man-pages.git
->=20
-> The Linux man page smartpqi.4 is out-of-date with the man page provided
-> by our out-of-box driver. This patch series brings the Linux man page up
-> to date.
->=20
-> The changes are:
-> smarpqi-update-copyright-and-email-addresses
->     The copyright, email, and URLs have changed to Microchip.
-> smartpqi-update-module-parameter-descriptions
->     We changed some descriptions of some of our module parameters.
->     Clarifies what their default values are.
-> smartpqi-add-module-parameter_disable_managed_interrupts
->     We added a new module parameter to allow users to disable how
->     interrupts are managed allowing them to change affinity.
-> smartpqi-add-module-parameter_ctrl_ready_timeout
->     We added a new module parameter to allow users to change how
->     long the driver waits for the controller becomes ready. The
->     default is 180 seconds and can be changed from 30-1800 seconds.
->     The longer wait times are useful for large configurations.
-> smartpqi-update_FILES_section
->     Minor change to the FILES section. The word "Logical" was changed to
->     "Disk" since HBA disks are also supported.
-> smartpqi-update-host-attribute-descriptions
->     Updated the descriptions of existing host attributes accessed through
->     sysfs.
-> smartpqi-update-device-attribute-descriptions
->     Updated the descriptions of existing device attributes accessed throu=
-gh
->     sysfs.
-> smartpqi-add-host-attributes
->     We added some new host attributes:
->        enable_stream_detection: For RAID5/6 sequential write operations, =
-this
->              can help increase IOPS. Reduces Read/Modify/Write operations.
->              This is for AIO capable devices. (Volumes consisting of non-=
-rotating
->              media).
->        enable_r5_writes: Send down RAID 5 write operations down the AIO p=
-ath.
->        enable_r6_writes: Send down RAID 6 write operations down the AIO p=
-ath.
-> smartpqi-add-device-attributes
->     We added some new device attributes:
->        lunid - SCSI LUN ID
->        unique_id - 16-byte ID that uniquely identifies the device within =
-the controller.
->        path_info - Host:Bus:Target:Lun (h:b:t:l), device type, Active/Ina=
-ctive
->        raid_bypass_cnt - Count of the number of request sent down the AIO=
- path.
->        sas_ncq_prio_enable - Enables SATA NCQ priority support.
-> smartpqi-add-sg-entry-to-see_also
->     Simple addition of the sg(4) driver to the SEE ALSO section.
->=20
-> Changes since V9:
->=20
->     Only 1 patch remaining.
->=20
->     smartpqi-remove-sysfs-entry-for-version
->       Added the kernel patch that changed the sysfs entry for "version"
->       into two entries "driver_version" and "firmware_version" and the
->       date this patch went into Linus's tree.
->=20
->       Alejandro Colomar <alx@kernel.org>
->       Link: https://lore.kernel.org/linux-man/ZThOy783p2lCDQcF@debian/
->=20
->       Thanks Alejandro for your work in getting these patches applied.
+Tested by inserting 100k bind mounts, unsharing the mount namespace, and
+unmounting.  No performance regressions have been observed.
 
-Thank you for your patience!  :)
+For the last mount in the 100k list the statmount() call was more than 100x
+faster due to the mount ID lookup not having to do a linear search.  This
+patch makes the overhead of mount ID lookup non-observable in this range.
 
-Patch set fully applied.  You can find it here:
-<https://www.alejandro-colomar.es/src/alx/linux/man-pages/man-pages.git/com=
-mit/?h=3Dcontrib&id=3Dcae9da3fbbac173fb094acf4cfc027739d1caf9a>
+Signed-off-by: Miklos Szeredi <mszeredi@redhat.com>
+---
+ fs/mount.h            |  24 +++---
+ fs/namespace.c        | 190 ++++++++++++++++++++----------------------
+ fs/pnode.c            |   2 +-
+ fs/proc_namespace.c   |   3 -
+ include/linux/mount.h |   5 +-
+ 5 files changed, 106 insertions(+), 118 deletions(-)
 
-Cheers,
-Alex
+diff --git a/fs/mount.h b/fs/mount.h
+index a14f762b3f29..4a42fc68f4cc 100644
+--- a/fs/mount.h
++++ b/fs/mount.h
+@@ -8,19 +8,13 @@
+ struct mnt_namespace {
+ 	struct ns_common	ns;
+ 	struct mount *	root;
+-	/*
+-	 * Traversal and modification of .list is protected by either
+-	 * - taking namespace_sem for write, OR
+-	 * - taking namespace_sem for read AND taking .ns_lock.
+-	 */
+-	struct list_head	list;
+-	spinlock_t		ns_lock;
++	struct rb_root		mounts; /* Protected by namespace_sem */
+ 	struct user_namespace	*user_ns;
+ 	struct ucounts		*ucounts;
+ 	u64			seq;	/* Sequence number to prevent loops */
+ 	wait_queue_head_t poll;
+ 	u64 event;
+-	unsigned int		mounts; /* # of mounts in the namespace */
++	unsigned int		nr_mounts; /* # of mounts in the namespace */
+ 	unsigned int		pending_mounts;
+ } __randomize_layout;
+ 
+@@ -55,7 +49,10 @@ struct mount {
+ 	struct list_head mnt_child;	/* and going through their mnt_child */
+ 	struct list_head mnt_instance;	/* mount instance on sb->s_mounts */
+ 	const char *mnt_devname;	/* Name of device e.g. /dev/dsk/hda1 */
+-	struct list_head mnt_list;
++	union {
++		struct rb_node mnt_node;	/* Under ns->mounts */
++		struct list_head mnt_list;
++	};
+ 	struct list_head mnt_expire;	/* link in fs-specific expiry list */
+ 	struct list_head mnt_share;	/* circular list of shared mounts */
+ 	struct list_head mnt_slave_list;/* list of slave mounts */
+@@ -128,7 +125,6 @@ struct proc_mounts {
+ 	struct mnt_namespace *ns;
+ 	struct path root;
+ 	int (*show)(struct seq_file *, struct vfsmount *);
+-	struct mount cursor;
+ };
+ 
+ extern const struct seq_operations mounts_op;
+@@ -147,4 +143,12 @@ static inline bool is_anon_ns(struct mnt_namespace *ns)
+ 	return ns->seq == 0;
+ }
+ 
++static inline void move_from_ns(struct mount *mnt, struct list_head *dt_list)
++{
++	WARN_ON(!(mnt->mnt.mnt_flags & MNT_ONRB));
++	mnt->mnt.mnt_flags &= ~MNT_ONRB;
++	rb_erase(&mnt->mnt_node, &mnt->mnt_ns->mounts);
++	list_add_tail(&mnt->mnt_list, dt_list);
++}
++
+ extern void mnt_cursor_del(struct mnt_namespace *ns, struct mount *cursor);
+diff --git a/fs/namespace.c b/fs/namespace.c
+index e02bc5f41c7b..0eab47ffc76c 100644
+--- a/fs/namespace.c
++++ b/fs/namespace.c
+@@ -732,21 +732,6 @@ struct vfsmount *lookup_mnt(const struct path *path)
+ 	return m;
+ }
+ 
+-static inline void lock_ns_list(struct mnt_namespace *ns)
+-{
+-	spin_lock(&ns->ns_lock);
+-}
+-
+-static inline void unlock_ns_list(struct mnt_namespace *ns)
+-{
+-	spin_unlock(&ns->ns_lock);
+-}
+-
+-static inline bool mnt_is_cursor(struct mount *mnt)
+-{
+-	return mnt->mnt.mnt_flags & MNT_CURSOR;
+-}
+-
+ /*
+  * __is_local_mountpoint - Test to see if dentry is a mountpoint in the
+  *                         current mount namespace.
+@@ -765,19 +750,15 @@ static inline bool mnt_is_cursor(struct mount *mnt)
+ bool __is_local_mountpoint(struct dentry *dentry)
+ {
+ 	struct mnt_namespace *ns = current->nsproxy->mnt_ns;
+-	struct mount *mnt;
++	struct mount *mnt, *n;
+ 	bool is_covered = false;
+ 
+ 	down_read(&namespace_sem);
+-	lock_ns_list(ns);
+-	list_for_each_entry(mnt, &ns->list, mnt_list) {
+-		if (mnt_is_cursor(mnt))
+-			continue;
++	rbtree_postorder_for_each_entry_safe(mnt, n, &ns->mounts, mnt_node) {
+ 		is_covered = (mnt->mnt_mountpoint == dentry);
+ 		if (is_covered)
+ 			break;
+ 	}
+-	unlock_ns_list(ns);
+ 	up_read(&namespace_sem);
+ 
+ 	return is_covered;
+@@ -1024,6 +1005,30 @@ void mnt_change_mountpoint(struct mount *parent, struct mountpoint *mp, struct m
+ 	mnt_add_count(old_parent, -1);
+ }
+ 
++static inline struct mount *node_to_mount(struct rb_node *node)
++{
++	return rb_entry(node, struct mount, mnt_node);
++}
++
++static void mnt_add_to_ns(struct mnt_namespace *ns, struct mount *mnt)
++{
++	struct rb_node **link = &ns->mounts.rb_node;
++	struct rb_node *parent = NULL;
++
++	WARN_ON(mnt->mnt.mnt_flags & MNT_ONRB);
++	mnt->mnt_ns = ns;
++	while (*link) {
++		parent = *link;
++		if (mnt->mnt_id_unique < node_to_mount(parent)->mnt_id_unique)
++			link = &parent->rb_left;
++		else
++			link = &parent->rb_right;
++	}
++	rb_link_node(&mnt->mnt_node, parent, link);
++	rb_insert_color(&mnt->mnt_node, &ns->mounts);
++	mnt->mnt.mnt_flags |= MNT_ONRB;
++}
++
+ /*
+  * vfsmount lock must be held for write
+  */
+@@ -1037,12 +1042,13 @@ static void commit_tree(struct mount *mnt)
+ 	BUG_ON(parent == mnt);
+ 
+ 	list_add_tail(&head, &mnt->mnt_list);
+-	list_for_each_entry(m, &head, mnt_list)
+-		m->mnt_ns = n;
++	while (!list_empty(&head)) {
++		m = list_first_entry(&head, typeof(*m), mnt_list);
++		list_del(&m->mnt_list);
+ 
+-	list_splice(&head, n->list.prev);
+-
+-	n->mounts += n->pending_mounts;
++		mnt_add_to_ns(n, m);
++	}
++	n->nr_mounts += n->pending_mounts;
+ 	n->pending_mounts = 0;
+ 
+ 	__attach_mnt(mnt, parent);
+@@ -1190,7 +1196,7 @@ static struct mount *clone_mnt(struct mount *old, struct dentry *root,
+ 	}
+ 
+ 	mnt->mnt.mnt_flags = old->mnt.mnt_flags;
+-	mnt->mnt.mnt_flags &= ~(MNT_WRITE_HOLD|MNT_MARKED|MNT_INTERNAL);
++	mnt->mnt.mnt_flags &= ~(MNT_WRITE_HOLD|MNT_MARKED|MNT_INTERNAL|MNT_ONRB);
+ 
+ 	atomic_inc(&sb->s_active);
+ 	mnt->mnt.mnt_idmap = mnt_idmap_get(mnt_idmap(&old->mnt));
+@@ -1415,65 +1421,57 @@ struct vfsmount *mnt_clone_internal(const struct path *path)
+ 	return &p->mnt;
+ }
+ 
+-#ifdef CONFIG_PROC_FS
+-static struct mount *mnt_list_next(struct mnt_namespace *ns,
+-				   struct list_head *p)
++/*
++ * Returns the mount which either has the specified mnt_id, or has the next
++ * smallest id afer the specified one.
++ */
++static struct mount *mnt_find_id_at(struct mnt_namespace *ns, u64 mnt_id)
+ {
+-	struct mount *mnt, *ret = NULL;
++	struct rb_node *node = ns->mounts.rb_node;
++	struct mount *ret = NULL;
+ 
+-	lock_ns_list(ns);
+-	list_for_each_continue(p, &ns->list) {
+-		mnt = list_entry(p, typeof(*mnt), mnt_list);
+-		if (!mnt_is_cursor(mnt)) {
+-			ret = mnt;
+-			break;
++	while (node) {
++		struct mount *m = node_to_mount(node);
++
++		if (mnt_id <= m->mnt_id_unique) {
++			ret = node_to_mount(node);
++			if (mnt_id == m->mnt_id_unique)
++				break;
++			node = node->rb_left;
++		} else {
++			node = node->rb_right;
+ 		}
+ 	}
+-	unlock_ns_list(ns);
+-
+ 	return ret;
+ }
+ 
++#ifdef CONFIG_PROC_FS
++
+ /* iterator; we want it to have access to namespace_sem, thus here... */
+ static void *m_start(struct seq_file *m, loff_t *pos)
+ {
+ 	struct proc_mounts *p = m->private;
+-	struct list_head *prev;
+ 
+ 	down_read(&namespace_sem);
+-	if (!*pos) {
+-		prev = &p->ns->list;
+-	} else {
+-		prev = &p->cursor.mnt_list;
+ 
+-		/* Read after we'd reached the end? */
+-		if (list_empty(prev))
+-			return NULL;
+-	}
+-
+-	return mnt_list_next(p->ns, prev);
++	return mnt_find_id_at(p->ns, *pos);
+ }
+ 
+ static void *m_next(struct seq_file *m, void *v, loff_t *pos)
+ {
+-	struct proc_mounts *p = m->private;
+-	struct mount *mnt = v;
++	struct mount *next = NULL, *mnt = v;
++	struct rb_node *node = rb_next(&mnt->mnt_node);
+ 
+ 	++*pos;
+-	return mnt_list_next(p->ns, &mnt->mnt_list);
++	if (node) {
++		next = node_to_mount(node);
++		*pos = next->mnt_id_unique;
++	}
++	return next;
+ }
+ 
+ static void m_stop(struct seq_file *m, void *v)
+ {
+-	struct proc_mounts *p = m->private;
+-	struct mount *mnt = v;
+-
+-	lock_ns_list(p->ns);
+-	if (mnt)
+-		list_move_tail(&p->cursor.mnt_list, &mnt->mnt_list);
+-	else
+-		list_del_init(&p->cursor.mnt_list);
+-	unlock_ns_list(p->ns);
+ 	up_read(&namespace_sem);
+ }
+ 
+@@ -1491,14 +1489,6 @@ const struct seq_operations mounts_op = {
+ 	.show	= m_show,
+ };
+ 
+-void mnt_cursor_del(struct mnt_namespace *ns, struct mount *cursor)
+-{
+-	down_read(&namespace_sem);
+-	lock_ns_list(ns);
+-	list_del(&cursor->mnt_list);
+-	unlock_ns_list(ns);
+-	up_read(&namespace_sem);
+-}
+ #endif  /* CONFIG_PROC_FS */
+ 
+ /**
+@@ -1640,7 +1630,10 @@ static void umount_tree(struct mount *mnt, enum umount_tree_flags how)
+ 	/* Gather the mounts to umount */
+ 	for (p = mnt; p; p = next_mnt(p, mnt)) {
+ 		p->mnt.mnt_flags |= MNT_UMOUNT;
+-		list_move(&p->mnt_list, &tmp_list);
++		if (p->mnt.mnt_flags & MNT_ONRB)
++			move_from_ns(p, &tmp_list);
++		else
++			list_move(&p->mnt_list, &tmp_list);
+ 	}
+ 
+ 	/* Hide the mounts from mnt_mounts */
+@@ -1660,7 +1653,7 @@ static void umount_tree(struct mount *mnt, enum umount_tree_flags how)
+ 		list_del_init(&p->mnt_list);
+ 		ns = p->mnt_ns;
+ 		if (ns) {
+-			ns->mounts--;
++			ns->nr_mounts--;
+ 			__touch_mnt_namespace(ns);
+ 		}
+ 		p->mnt_ns = NULL;
+@@ -1786,14 +1779,16 @@ static int do_umount(struct mount *mnt, int flags)
+ 
+ 	event++;
+ 	if (flags & MNT_DETACH) {
+-		if (!list_empty(&mnt->mnt_list))
++		if (mnt->mnt.mnt_flags & MNT_ONRB ||
++		    !list_empty(&mnt->mnt_list))
+ 			umount_tree(mnt, UMOUNT_PROPAGATE);
+ 		retval = 0;
+ 	} else {
+ 		shrink_submounts(mnt);
+ 		retval = -EBUSY;
+ 		if (!propagate_mount_busy(mnt, 2)) {
+-			if (!list_empty(&mnt->mnt_list))
++			if (mnt->mnt.mnt_flags & MNT_ONRB ||
++			    !list_empty(&mnt->mnt_list))
+ 				umount_tree(mnt, UMOUNT_PROPAGATE|UMOUNT_SYNC);
+ 			retval = 0;
+ 		}
+@@ -2211,9 +2206,9 @@ int count_mounts(struct mnt_namespace *ns, struct mount *mnt)
+ 	unsigned int mounts = 0;
+ 	struct mount *p;
+ 
+-	if (ns->mounts >= max)
++	if (ns->nr_mounts >= max)
+ 		return -ENOSPC;
+-	max -= ns->mounts;
++	max -= ns->nr_mounts;
+ 	if (ns->pending_mounts >= max)
+ 		return -ENOSPC;
+ 	max -= ns->pending_mounts;
+@@ -2357,8 +2352,12 @@ static int attach_recursive_mnt(struct mount *source_mnt,
+ 		touch_mnt_namespace(source_mnt->mnt_ns);
+ 	} else {
+ 		if (source_mnt->mnt_ns) {
++			LIST_HEAD(head);
++
+ 			/* move from anon - the caller will destroy */
+-			list_del_init(&source_mnt->mnt_ns->list);
++			for (p = source_mnt; p; p = next_mnt(p, source_mnt))
++				move_from_ns(p, &head);
++			list_del_init(&head);
+ 		}
+ 		if (beneath)
+ 			mnt_set_mountpoint_beneath(source_mnt, top_mnt, smp);
+@@ -2669,11 +2668,10 @@ static struct file *open_detached_copy(struct path *path, bool recursive)
+ 
+ 	lock_mount_hash();
+ 	for (p = mnt; p; p = next_mnt(p, mnt)) {
+-		p->mnt_ns = ns;
+-		ns->mounts++;
++		mnt_add_to_ns(ns, p);
++		ns->nr_mounts++;
+ 	}
+ 	ns->root = mnt;
+-	list_add_tail(&ns->list, &mnt->mnt_list);
+ 	mntget(&mnt->mnt);
+ 	unlock_mount_hash();
+ 	namespace_unlock();
+@@ -3736,9 +3734,8 @@ static struct mnt_namespace *alloc_mnt_ns(struct user_namespace *user_ns, bool a
+ 	if (!anon)
+ 		new_ns->seq = atomic64_add_return(1, &mnt_ns_seq);
+ 	refcount_set(&new_ns->ns.count, 1);
+-	INIT_LIST_HEAD(&new_ns->list);
++	new_ns->mounts = RB_ROOT;
+ 	init_waitqueue_head(&new_ns->poll);
+-	spin_lock_init(&new_ns->ns_lock);
+ 	new_ns->user_ns = get_user_ns(user_ns);
+ 	new_ns->ucounts = ucounts;
+ 	return new_ns;
+@@ -3785,7 +3782,6 @@ struct mnt_namespace *copy_mnt_ns(unsigned long flags, struct mnt_namespace *ns,
+ 		unlock_mount_hash();
+ 	}
+ 	new_ns->root = new;
+-	list_add_tail(&new_ns->list, &new->mnt_list);
+ 
+ 	/*
+ 	 * Second pass: switch the tsk->fs->* elements and mark new vfsmounts
+@@ -3795,8 +3791,8 @@ struct mnt_namespace *copy_mnt_ns(unsigned long flags, struct mnt_namespace *ns,
+ 	p = old;
+ 	q = new;
+ 	while (p) {
+-		q->mnt_ns = new_ns;
+-		new_ns->mounts++;
++		mnt_add_to_ns(new_ns, q);
++		new_ns->nr_mounts++;
+ 		if (new_fs) {
+ 			if (&p->mnt == new_fs->root.mnt) {
+ 				new_fs->root.mnt = mntget(&q->mnt);
+@@ -3838,10 +3834,9 @@ struct dentry *mount_subtree(struct vfsmount *m, const char *name)
+ 		mntput(m);
+ 		return ERR_CAST(ns);
+ 	}
+-	mnt->mnt_ns = ns;
+ 	ns->root = mnt;
+-	ns->mounts++;
+-	list_add(&mnt->mnt_list, &ns->list);
++	ns->nr_mounts++;
++	mnt_add_to_ns(ns, mnt);
+ 
+ 	err = vfs_path_lookup(m->mnt_root, m,
+ 			name, LOOKUP_FOLLOW|LOOKUP_AUTOMOUNT, &path);
+@@ -4019,10 +4014,9 @@ SYSCALL_DEFINE3(fsmount, int, fs_fd, unsigned int, flags,
+ 		goto err_path;
+ 	}
+ 	mnt = real_mount(newmount.mnt);
+-	mnt->mnt_ns = ns;
+ 	ns->root = mnt;
+-	ns->mounts = 1;
+-	list_add(&mnt->mnt_list, &ns->list);
++	ns->nr_mounts = 1;
++	mnt_add_to_ns(ns, mnt);
+ 	mntget(newmount.mnt);
+ 
+ 	/* Attach to an apparent O_PATH fd with a note that we need to unmount
+@@ -4693,10 +4687,9 @@ static void __init init_mount_tree(void)
+ 	if (IS_ERR(ns))
+ 		panic("Can't allocate initial namespace");
+ 	m = real_mount(mnt);
+-	m->mnt_ns = ns;
+ 	ns->root = m;
+-	ns->mounts = 1;
+-	list_add(&m->mnt_list, &ns->list);
++	ns->nr_mounts = 1;
++	mnt_add_to_ns(ns, m);
+ 	init_task.nsproxy->mnt_ns = ns;
+ 	get_mnt_ns(ns);
+ 
+@@ -4823,18 +4816,14 @@ static bool mnt_already_visible(struct mnt_namespace *ns,
+ 				int *new_mnt_flags)
+ {
+ 	int new_flags = *new_mnt_flags;
+-	struct mount *mnt;
++	struct mount *mnt, *n;
+ 	bool visible = false;
+ 
+ 	down_read(&namespace_sem);
+-	lock_ns_list(ns);
+-	list_for_each_entry(mnt, &ns->list, mnt_list) {
++	rbtree_postorder_for_each_entry_safe(mnt, n, &ns->mounts, mnt_node) {
+ 		struct mount *child;
+ 		int mnt_flags;
+ 
+-		if (mnt_is_cursor(mnt))
+-			continue;
+-
+ 		if (mnt->mnt.mnt_sb->s_type != sb->s_type)
+ 			continue;
+ 
+@@ -4882,7 +4871,6 @@ static bool mnt_already_visible(struct mnt_namespace *ns,
+ 	next:	;
+ 	}
+ found:
+-	unlock_ns_list(ns);
+ 	up_read(&namespace_sem);
+ 	return visible;
+ }
+diff --git a/fs/pnode.c b/fs/pnode.c
+index e4d0340393d5..a799e0315cc9 100644
+--- a/fs/pnode.c
++++ b/fs/pnode.c
+@@ -468,7 +468,7 @@ static void umount_one(struct mount *mnt, struct list_head *to_umount)
+ 	mnt->mnt.mnt_flags |= MNT_UMOUNT;
+ 	list_del_init(&mnt->mnt_child);
+ 	list_del_init(&mnt->mnt_umounting);
+-	list_move_tail(&mnt->mnt_list, to_umount);
++	move_from_ns(mnt, to_umount);
+ }
+ 
+ /*
+diff --git a/fs/proc_namespace.c b/fs/proc_namespace.c
+index 250eb5bf7b52..73d2274d5f59 100644
+--- a/fs/proc_namespace.c
++++ b/fs/proc_namespace.c
+@@ -283,8 +283,6 @@ static int mounts_open_common(struct inode *inode, struct file *file,
+ 	p->ns = ns;
+ 	p->root = root;
+ 	p->show = show;
+-	INIT_LIST_HEAD(&p->cursor.mnt_list);
+-	p->cursor.mnt.mnt_flags = MNT_CURSOR;
+ 
+ 	return 0;
+ 
+@@ -301,7 +299,6 @@ static int mounts_release(struct inode *inode, struct file *file)
+ 	struct seq_file *m = file->private_data;
+ 	struct proc_mounts *p = m->private;
+ 	path_put(&p->root);
+-	mnt_cursor_del(p->ns, &p->cursor);
+ 	put_mnt_ns(p->ns);
+ 	return seq_release_private(inode, file);
+ }
+diff --git a/include/linux/mount.h b/include/linux/mount.h
+index 4f40b40306d0..7952eddc835c 100644
+--- a/include/linux/mount.h
++++ b/include/linux/mount.h
+@@ -50,8 +50,7 @@ struct path;
+ #define MNT_ATIME_MASK (MNT_NOATIME | MNT_NODIRATIME | MNT_RELATIME )
+ 
+ #define MNT_INTERNAL_FLAGS (MNT_SHARED | MNT_WRITE_HOLD | MNT_INTERNAL | \
+-			    MNT_DOOMED | MNT_SYNC_UMOUNT | MNT_MARKED | \
+-			    MNT_CURSOR)
++			    MNT_DOOMED | MNT_SYNC_UMOUNT | MNT_MARKED | MNT_ONRB)
+ 
+ #define MNT_INTERNAL	0x4000
+ 
+@@ -65,7 +64,7 @@ struct path;
+ #define MNT_SYNC_UMOUNT		0x2000000
+ #define MNT_MARKED		0x4000000
+ #define MNT_UMOUNT		0x8000000
+-#define MNT_CURSOR		0x10000000
++#define MNT_ONRB		0x10000000
+ 
+ struct vfsmount {
+ 	struct dentry *mnt_root;	/* root of the mounted tree */
+-- 
+2.41.0
 
->=20
-> Changes since V8:
->     smartpqi-update-host-attribute-descriptions
->       I added an explanation for changing "logical drives" to "logical vo=
-lumes".
->       Alejandro Colomar <alx@kernel.org>
->       Link: https://lore.kernel.org/linux-man/ZS3IKF9XHOuQaMMt@debian/
->=20
->     smartpqi-add-device-attributes
->       Changed the sysfs entry from a specific Host:Bus:Target:Lun to gene=
-ric
->       c : b : t : l
->       Shortened some lines.
->       Alejandro Colomar <alx@kernel.org>
->       Link: https://lore.kernel.org/linux-man/ZS3MwU7MNF3p7yes@debian/
->=20
-> Changes since V7:
->=20
->     smartpqi-update-host-attribute-descriptions
->       I had removed some patch context, but did not update the patch
->       description to reflect the updated patch.
->       Alejandro Colomar <alx@kernel.org>
->       Link: https://marc.info/?l=3Dlinux-man&m=3D169732291731554&w=3D2
->     smartpqi: add device attributes
->       Changed the sysfs path entry for each device attribute from ".I" to=
- ".IR".
->       Alejandro Colomar <alx@kernel.org>
->       Link: https://marc.info/?l=3Dlinux-man&m=3D169732400031940&w=3D2
->=20
->     Thanks Alejandro for your review and suggestions.
->=20
-> Changes since V6:
->     patch "(smartpqi-add-module-parameter_ctrl_ready_timeout)" was
->     applied.
->     patch "(smartpqi-update_FILES_section)" was applied.
->     Some minor updates requested by Alejandro Colomar <alx@kernel.org>
->     Thanks Alejandro for your review and suggestions.
->=20
->     The V7 updates include the following patches:
->=20
->     smartpqi-update-host-attribute-descriptions
->       Moved the sysfs entry removal description for "version"
->     smartpqi-remove-sysfs-entry-for-version
->       New patch for removal of sysfs entry for "version".
->       Added HISTORY section.
->       Alejandro Colomar <alx@kernel.org>
->       Link: https://marc.info/?l=3Dlinux-man&m=3D169680471921234&w=3D2
->=20
-> Changes since V5:
->     smartpqi: add module parameter ctrl_ready_timeout
->       Forgot to change the range of values for ctrl_ready_timeout.
->       Changed 0 or 30,1800 to 0 or [30,1800]
->       Alejandro Colomar <alx@kernel.org>
->       Link: https://lore.kernel.org/linux-man/ZRtfS8DIxlqNN-XH@debian/
->       Sorry about that. Thanks for your review.
->=20
-> Changes since V4:
->     Added patch smartpqi-add-HISTORY-section
->       Added HISTORY section to explain that the sysfs entry for 'version'
->       was replaced by two new sysfs entries: driver_version, and firmware=
-_version.
->       Suggested-by: Alejandro Colomar <alx@kernel.org>
->       Link: https://lore.kernel.org/linux-man/ZRtgG396-1Cj4gn2@debian/
->=20
->     smartpqi: add module parameter ctrl_ready_timeout
->       Minor update to parameter description due to suggestion by:
->       Alejandro Colomar <alx@kernel.org>
->       Link: https://lore.kernel.org/linux-man/ZRtfS8DIxlqNN-XH@debian/
->=20
-> Changes since V3:
->     Updated content for the following pages due to reviews by:
->     Alejandro Colomar <alx@kernel.org>
->=20
->       smartpqi: add module parameter ctrl_ready_timeout
->       Link: https://lore.kernel.org/linux-man/axwssorupkp6fv3b7zqgjyd243e=
-xvhlw7rle2ftyy43jxhm4yf@woxzbz4hm766/
->=20
->       smartpqi: update FILES section
->       Link: https://lore.kernel.org/linux-man/fwpvmbussvf2zzug5bsqhrd7mvw=
-cvdllvna6a4ngke3hw6w5am@b4icgpgirck4/
->=20
->       smartpqi: update host attribute descriptions
->       Link: https://lore.kernel.org/linux-man/ss7k5ooeoi7y56j6otvdpwhgd5y=
-ltzk6nt5l6ujiiupxzpmrdx@zrcvhw364ejx/
->=20
->       smartpqi: add host attributes
->       Link: https://lore.kernel.org/linux-man/nbt3jt7busx6akj7ykaxs7df6vl=
-bbxtvcdy4ckvlp7saol3djl@rb6ckz3lzzot/
->=20
->       smartpqi: add device attributes
->       Link: https://lore.kernel.org/linux-man/ytcsqleu53iwpn5gsjmmuoqz2cy=
-5oegvvafwlwxn422bcn3a5e@ne3khvixxzuq/
->=20
->     The other patches have already been applied and were removed from the
->     remaining patch set after a rebase.
->=20
->     Thanks for your attention and reviews for these patches.
->=20
-> Changes since V2:
->     Resending due to bad e-mail address for maintainer.
->=20
-> Changes since V1:
->     Broke up the large patch into multiple smaller patches due to review =
-by:
->     Alejandro Colomar <alx@kernel.org>
->     Link: https://lore.kernel.org/all/096ed4d5-945f-5ac9-eba3-c9be5d32cfe=
-8@kernel.org/
->=20
-> ---
->=20
-> Don Brace (1):
->   smartpqi: remove sysfs entry for version
->=20
->  man4/smartpqi.4 | 25 +++++++------------------
->  1 file changed, 7 insertions(+), 18 deletions(-)
->=20
-> --=20
-> 2.42.0.482.g2e8e77cbac
->=20
-
---=20
-<https://www.alejandro-colomar.es/>
-
---xLqkRDkV0XO+Nzoj
-Content-Type: application/pgp-signature; name="signature.asc"
-
------BEGIN PGP SIGNATURE-----
-
-iQIzBAABCgAdFiEE6jqH8KTroDDkXfJAnowa+77/2zIFAmU5JocACgkQnowa+77/
-2zK5gg/8CFV7FHj4E3z4a1halF5QQ0zC5uysAo0LL+CrpH1bP2sMFhVCngYV/CFq
-ypwqvNAOVWPob0cv60qk+UvExWIOPdT8bz1qUIpbW3DJX9xBrv3Jj7/n7cQ47tSW
-ehKLeWK95lezsFoQDULM+hp2N/vkDwCX47Ap0CcVK0Pj3KoEwGYTJQAZGxvvpqEP
-JJFyL7iUS1zhjnvs1bJqbJ3EmsCsUrtwKGbDVE5ujKWqQsl7NqQflIjWWwxh4LAh
-JkwDA9PiBY4GOwQZoV8lMynA9L8t9QcC9LScgdsih+J2bZNbFIod1NrxvN1nfvgX
-2ubbRDcJ6ksh3LVYde1Rq9v/Fu6kIbQwNRkwGh3BI/4fmh8KIeinvaSlDcH4CvCV
-Bo86DeQRpPqWCOMrB9T/7JI5a2cBMr8MwBt+0azKEU3ckaWDYWHvvgLuu4GGkZQC
-5y41C19hJd/+Qtgx49gNqMuA8vNpdvKKFy9mc7dsvTyWs50NbRe+4WLUM1+Cbqrt
-k1u09Tw6ut/MKEQIlvp7NHQ2/iq50UhX4GAyKCXBzMjcdGLeB7DTvoGIUlO/jSN3
-yvpdC4o29RJ8sycvVFNMwEGUK8bJzvt2PHhvSuEsTM6IcUbPolISD9b5WDU9p5bA
-5nNBkOCRC45dQxAUIBDvedY8H7N4nUdU9nfuq3r2LZsut8eZu3c=
-=P+HX
------END PGP SIGNATURE-----
-
---xLqkRDkV0XO+Nzoj--
