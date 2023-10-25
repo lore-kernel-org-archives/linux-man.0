@@ -2,59 +2,59 @@ Return-Path: <linux-man-owner@vger.kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id B8D2BC25B70
+	by smtp.lore.kernel.org (Postfix) with ESMTP id EBEE2C25B72
 	for <linux-man@archiver.kernel.org>; Wed, 25 Oct 2023 14:04:11 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1344522AbjJYODv (ORCPT <rfc822;linux-man@archiver.kernel.org>);
-        Wed, 25 Oct 2023 10:03:51 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:44134 "EHLO
+        id S235038AbjJYOEL (ORCPT <rfc822;linux-man@archiver.kernel.org>);
+        Wed, 25 Oct 2023 10:04:11 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:44144 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S235064AbjJYODt (ORCPT
-        <rfc822;linux-man@vger.kernel.org>); Wed, 25 Oct 2023 10:03:49 -0400
+        with ESMTP id S1344688AbjJYODu (ORCPT
+        <rfc822;linux-man@vger.kernel.org>); Wed, 25 Oct 2023 10:03:50 -0400
 Received: from us-smtp-delivery-124.mimecast.com (us-smtp-delivery-124.mimecast.com [170.10.129.124])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id D1E35199
-        for <linux-man@vger.kernel.org>; Wed, 25 Oct 2023 07:02:20 -0700 (PDT)
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 252C51A5
+        for <linux-man@vger.kernel.org>; Wed, 25 Oct 2023 07:02:23 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
-        s=mimecast20190719; t=1698242540;
+        s=mimecast20190719; t=1698242542;
         h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
          to:to:cc:cc:mime-version:mime-version:
          content-transfer-encoding:content-transfer-encoding:
          in-reply-to:in-reply-to:references:references;
-        bh=EC7RFMR3rA+1DRsmRuXrj1V+WaMGVpdP+bUvoE8xfhg=;
-        b=HDECItOP9L2+uAH1MssFAO4S6q2z19xgzFF9BHpp9eSqTAO8hGMwTA7WU94CvfvF8SL7Cb
-        lHjKer3/ZNKr7F+pOqpSlue2mNdXDVuPAhIKhVU2qOLvo5s+DUKgdEz/blT7IOzTR9VpMq
-        lNt4GBx9vhwGWQctkU1x/m4GFSCUkVA=
-Received: from mail-ej1-f70.google.com (mail-ej1-f70.google.com
- [209.85.218.70]) by relay.mimecast.com with ESMTP with STARTTLS
+        bh=XEx2f+3WyjfEN8nno/L3GWupAAdRJt4O0xkLy6vl9ko=;
+        b=ZwAEXUySISA9l854dLT+mzOdEVZrHKqLGqyEjakI+gKZQfcEldmRhelrcWuNU+/p6Mma5s
+        9ghQ2DHxpnYQrrj1t9Ugle0/3+x7IcYp2qfiUAZ8HYKhRSCVhbtkvE0C3Qet1mXEk8tHtc
+        YVdSqqj//CxXQeNh4kzHkmq0AdiuYcU=
+Received: from mail-ej1-f71.google.com (mail-ej1-f71.google.com
+ [209.85.218.71]) by relay.mimecast.com with ESMTP with STARTTLS
  (version=TLSv1.3, cipher=TLS_AES_256_GCM_SHA384) id
- us-mta-673-l33uAAIzPUyQP43l4tIVsA-1; Wed, 25 Oct 2023 10:02:18 -0400
-X-MC-Unique: l33uAAIzPUyQP43l4tIVsA-1
-Received: by mail-ej1-f70.google.com with SMTP id a640c23a62f3a-9c75b999aaaso360990766b.2
-        for <linux-man@vger.kernel.org>; Wed, 25 Oct 2023 07:02:18 -0700 (PDT)
+ us-mta-29-9sjKIE9HNe6ZAwPUP7ps7w-1; Wed, 25 Oct 2023 10:02:15 -0400
+X-MC-Unique: 9sjKIE9HNe6ZAwPUP7ps7w-1
+Received: by mail-ej1-f71.google.com with SMTP id a640c23a62f3a-9bea60bd1adso98085266b.0
+        for <linux-man@vger.kernel.org>; Wed, 25 Oct 2023 07:02:14 -0700 (PDT)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1698242537; x=1698847337;
+        d=1e100.net; s=20230601; t=1698242533; x=1698847333;
         h=content-transfer-encoding:mime-version:references:in-reply-to
          :message-id:date:subject:cc:to:from:x-gm-message-state:from:to:cc
          :subject:date:message-id:reply-to;
-        bh=EC7RFMR3rA+1DRsmRuXrj1V+WaMGVpdP+bUvoE8xfhg=;
-        b=fzIirHkIAsKD35rewK684YuMPIW00pps2e3iaWs4kqRNXBIXrQ+s4j8rD5RbsM0pa0
-         vC5XFNbvI6JoRyFnKSetfvQ9H0lngx3vRi7HaYH2Vudmd5aJx0qssA15uwpgMJPvB9du
-         HQG4B0yErYjBc4X4nHLudEjETzvTzbPj9gq7VsG+WwfapEiiAPFArgx+856hjgwzdLmo
-         H0JgwKM3qPs5gq40TcXpNtmuiCIvyaTjICkIHize0a7Ln/U7vycCCdoxFlnxpS+J5m/T
-         WeMYjFC848Sk6A1EZpzZHpGrjJ/sSdmy8Xp7Ll0eQFodO6/ZT4hrPRPNM8evQ3ShrWDX
-         yZ1g==
-X-Gm-Message-State: AOJu0Yw8NfyS3EcLcuk1Is1g6AhMTgfEulP7yW7EjJ7gG6skyg8ZqxAp
-        d2/K3j18Q3k5M1EmPO/WGQo5v5vqa4oDmo/kT8rr+5mFT9NWUp5TC5i3IHeSdWNRoBD4Gvlz0SK
-        t8BGAJCGj62YZXEru1oaP
-X-Received: by 2002:a17:907:6093:b0:9ba:2f20:3d7b with SMTP id ht19-20020a170907609300b009ba2f203d7bmr13334966ejc.71.1698242537078;
-        Wed, 25 Oct 2023 07:02:17 -0700 (PDT)
-X-Google-Smtp-Source: AGHT+IEjMjmoMNoYOpgsb76Zi6H4tYS6A+eLzcgNpATF2jXSDinHL2btMGhhvP35HJjX0s8ljGUJzA==
-X-Received: by 2002:a17:907:6093:b0:9ba:2f20:3d7b with SMTP id ht19-20020a170907609300b009ba2f203d7bmr13334928ejc.71.1698242536775;
-        Wed, 25 Oct 2023 07:02:16 -0700 (PDT)
+        bh=XEx2f+3WyjfEN8nno/L3GWupAAdRJt4O0xkLy6vl9ko=;
+        b=Q+p/uRSnTna9AFTgJvocrc6lFFTmmls5HxlRsmu3C3HyLh/TX5KubJyk8p+ZTE6KAZ
+         AbFzIC4zrCsSx0wuV6dWyDyaf7Ku6j3A8VIP9kPIrnYZtY6wfQ/dfAkfw/G/swcBWXrU
+         CmLLwHYpuOYl9D/b5yqNvkYb6bWZ9MK9wwxn80QtM4i+KXVoPAGH6oaXX5tYFkS9whdC
+         L6SGsetqvNp5Uc/9cxf++dfj3qXBXJjToXZ6QQfb2cyr8FBbP5DFUIXPtfbVdVZcYKNb
+         1rqiFHUg9lvIe75Fva+5Opzj1fcrmU1avi17XaOHmZ+o3TIfxyqBgXdN6eJ4mgMaS4w6
+         MTjw==
+X-Gm-Message-State: AOJu0YxIy7zlvckpn585f24Qy3NZQYJmja3tZt31KYJsURlSj2TkwK5z
+        A8MF7ZcDfGT76+YBHw78G4oEu3jKxHAi845L7xQRJhudgaHm54wbVAwhqUXY2Yp5zTSIIZ7EYI1
+        RakBfZPxY7Us5wWlt+7iv
+X-Received: by 2002:a17:907:97cc:b0:9a5:9f3c:961e with SMTP id js12-20020a17090797cc00b009a59f3c961emr14833573ejc.18.1698242533350;
+        Wed, 25 Oct 2023 07:02:13 -0700 (PDT)
+X-Google-Smtp-Source: AGHT+IFmce8EbgYDdhdsywUowDHi/7yLCcYQCCY7TtCnZTLmu1xGtDmupYnM1RFd/HemJA2KX7UkXg==
+X-Received: by 2002:a17:907:97cc:b0:9a5:9f3c:961e with SMTP id js12-20020a17090797cc00b009a59f3c961emr14833549ejc.18.1698242532906;
+        Wed, 25 Oct 2023 07:02:12 -0700 (PDT)
 Received: from maszat.piliscsaba.szeredi.hu (92-249-235-200.pool.digikabel.hu. [92.249.235.200])
-        by smtp.gmail.com with ESMTPSA id vl9-20020a170907b60900b00989828a42e8sm9857073ejc.154.2023.10.25.07.02.15
+        by smtp.gmail.com with ESMTPSA id vl9-20020a170907b60900b00989828a42e8sm9857073ejc.154.2023.10.25.07.02.11
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Wed, 25 Oct 2023 07:02:15 -0700 (PDT)
+        Wed, 25 Oct 2023 07:02:12 -0700 (PDT)
 From:   Miklos Szeredi <mszeredi@redhat.com>
 To:     linux-fsdevel@vger.kernel.org
 Cc:     linux-kernel@vger.kernel.org, linux-api@vger.kernel.org,
@@ -68,9 +68,9 @@ Cc:     linux-kernel@vger.kernel.org, linux-api@vger.kernel.org,
         Matthew House <mattlloydhouse@gmail.com>,
         Florian Weimer <fweimer@redhat.com>,
         Arnd Bergmann <arnd@arndb.de>
-Subject: [PATCH v4 6/6] wire up syscalls for statmount/listmount
-Date:   Wed, 25 Oct 2023 16:02:04 +0200
-Message-ID: <20231025140205.3586473-7-mszeredi@redhat.com>
+Subject: [PATCH v4 4/6] add statmount(2) syscall
+Date:   Wed, 25 Oct 2023 16:02:02 +0200
+Message-ID: <20231025140205.3586473-5-mszeredi@redhat.com>
 X-Mailer: git-send-email 2.41.0
 In-Reply-To: <20231025140205.3586473-1-mszeredi@redhat.com>
 References: <20231025140205.3586473-1-mszeredi@redhat.com>
@@ -80,243 +80,410 @@ Precedence: bulk
 List-ID: <linux-man.vger.kernel.org>
 X-Mailing-List: linux-man@vger.kernel.org
 
-Wire up all archs.
+Add a way to query attributes of a single mount instead of having to parse
+the complete /proc/$PID/mountinfo, which might be huge.
 
+Lookup the mount the new 64bit mount ID.  If a mount needs to be queried
+based on path, then statx(2) can be used to first query the mount ID
+belonging to the path.
+
+Design is based on a suggestion by Linus:
+
+  "So I'd suggest something that is very much like "statfsat()", which gets
+   a buffer and a length, and returns an extended "struct statfs" *AND*
+   just a string description at the end."
+
+The interface closely mimics that of statx.
+
+Handle ASCII attributes by appending after the end of the structure (as per
+above suggestion).  Pointers to strings are stored in u64 members to make
+the structure the same regardless of pointer size.  Strings are nul
+terminated.
+
+Link: https://lore.kernel.org/all/CAHk-=wh5YifP7hzKSbwJj94+DZ2czjrZsczy6GBimiogZws=rg@mail.gmail.com/
 Signed-off-by: Miklos Szeredi <mszeredi@redhat.com>
 ---
- arch/alpha/kernel/syscalls/syscall.tbl      | 3 +++
- arch/arm/tools/syscall.tbl                  | 3 +++
- arch/arm64/include/asm/unistd32.h           | 4 ++++
- arch/ia64/kernel/syscalls/syscall.tbl       | 3 +++
- arch/m68k/kernel/syscalls/syscall.tbl       | 3 +++
- arch/microblaze/kernel/syscalls/syscall.tbl | 3 +++
- arch/mips/kernel/syscalls/syscall_n32.tbl   | 3 +++
- arch/mips/kernel/syscalls/syscall_n64.tbl   | 3 +++
- arch/mips/kernel/syscalls/syscall_o32.tbl   | 3 +++
- arch/parisc/kernel/syscalls/syscall.tbl     | 3 +++
- arch/powerpc/kernel/syscalls/syscall.tbl    | 3 +++
- arch/s390/kernel/syscalls/syscall.tbl       | 3 +++
- arch/sh/kernel/syscalls/syscall.tbl         | 3 +++
- arch/sparc/kernel/syscalls/syscall.tbl      | 3 +++
- arch/x86/entry/syscalls/syscall_32.tbl      | 3 +++
- arch/x86/entry/syscalls/syscall_64.tbl      | 2 ++
- arch/xtensa/kernel/syscalls/syscall.tbl     | 3 +++
- include/uapi/asm-generic/unistd.h           | 8 +++++++-
- 18 files changed, 58 insertions(+), 1 deletion(-)
+ fs/namespace.c             | 277 +++++++++++++++++++++++++++++++++++++
+ include/linux/syscalls.h   |   5 +
+ include/uapi/linux/mount.h |  56 ++++++++
+ 3 files changed, 338 insertions(+)
 
-diff --git a/arch/alpha/kernel/syscalls/syscall.tbl b/arch/alpha/kernel/syscalls/syscall.tbl
-index ad37569d0507..6c23bf68eff0 100644
---- a/arch/alpha/kernel/syscalls/syscall.tbl
-+++ b/arch/alpha/kernel/syscalls/syscall.tbl
-@@ -492,3 +492,6 @@
- 560	common	set_mempolicy_home_node		sys_ni_syscall
- 561	common	cachestat			sys_cachestat
- 562	common	fchmodat2			sys_fchmodat2
-+# 563 reserved for map_shadow_stack
-+564	common	statmount			sys_statmount
-+565	common	listmount			sys_listmount
-diff --git a/arch/arm/tools/syscall.tbl b/arch/arm/tools/syscall.tbl
-index c572d6c3dee0..d110a832899b 100644
---- a/arch/arm/tools/syscall.tbl
-+++ b/arch/arm/tools/syscall.tbl
-@@ -466,3 +466,6 @@
- 450	common	set_mempolicy_home_node		sys_set_mempolicy_home_node
- 451	common	cachestat			sys_cachestat
- 452	common	fchmodat2			sys_fchmodat2
-+# 453 reserved for map_shadow_stack
-+454	common	statmount			sys_statmount
-+455	common	listmount			sys_listmount
-diff --git a/arch/arm64/include/asm/unistd32.h b/arch/arm64/include/asm/unistd32.h
-index 78b68311ec81..b0a994c9ff3c 100644
---- a/arch/arm64/include/asm/unistd32.h
-+++ b/arch/arm64/include/asm/unistd32.h
-@@ -911,6 +911,10 @@ __SYSCALL(__NR_set_mempolicy_home_node, sys_set_mempolicy_home_node)
- __SYSCALL(__NR_cachestat, sys_cachestat)
- #define __NR_fchmodat2 452
- __SYSCALL(__NR_fchmodat2, sys_fchmodat2)
-+#define __NR_statmount 454
-+__SYSCALL(__NR_statmount, sys_statmount)
-+#define __NR_listmount 455
-+__SYSCALL(__NR_listmount, sys_listmount)
+diff --git a/fs/namespace.c b/fs/namespace.c
+index 7a33ea391a02..a980c250a3a6 100644
+--- a/fs/namespace.c
++++ b/fs/namespace.c
+@@ -4681,6 +4681,283 @@ int show_path(struct seq_file *m, struct dentry *root)
+ 	return 0;
+ }
  
- /*
-  * Please add new compat syscalls above this comment and update
-diff --git a/arch/ia64/kernel/syscalls/syscall.tbl b/arch/ia64/kernel/syscalls/syscall.tbl
-index 83d8609aec03..c5f45a8fc834 100644
---- a/arch/ia64/kernel/syscalls/syscall.tbl
-+++ b/arch/ia64/kernel/syscalls/syscall.tbl
-@@ -373,3 +373,6 @@
- 450	common	set_mempolicy_home_node		sys_set_mempolicy_home_node
- 451	common	cachestat			sys_cachestat
- 452	common	fchmodat2			sys_fchmodat2
-+# 453 reserved for map_shadow_stack
-+454	common	statmount			sys_statmount
-+455	common	listmount			sys_listmount
-diff --git a/arch/m68k/kernel/syscalls/syscall.tbl b/arch/m68k/kernel/syscalls/syscall.tbl
-index 259ceb125367..b9cabb746487 100644
---- a/arch/m68k/kernel/syscalls/syscall.tbl
-+++ b/arch/m68k/kernel/syscalls/syscall.tbl
-@@ -452,3 +452,6 @@
- 450	common	set_mempolicy_home_node		sys_set_mempolicy_home_node
- 451	common	cachestat			sys_cachestat
- 452	common	fchmodat2			sys_fchmodat2
-+# 453 reserved for map_shadow_stack
-+454	common	statmount			sys_statmount
-+455	common	listmount			sys_listmount
-diff --git a/arch/microblaze/kernel/syscalls/syscall.tbl b/arch/microblaze/kernel/syscalls/syscall.tbl
-index a3798c2637fd..89c4ed548ce8 100644
---- a/arch/microblaze/kernel/syscalls/syscall.tbl
-+++ b/arch/microblaze/kernel/syscalls/syscall.tbl
-@@ -458,3 +458,6 @@
- 450	common	set_mempolicy_home_node		sys_set_mempolicy_home_node
- 451	common	cachestat			sys_cachestat
- 452	common	fchmodat2			sys_fchmodat2
-+# 453 reserved for map_shadow_stack
-+454	common	statmount			sys_statmount
-+455	common	listmount			sys_listmount
-diff --git a/arch/mips/kernel/syscalls/syscall_n32.tbl b/arch/mips/kernel/syscalls/syscall_n32.tbl
-index 152034b8e0a0..a9d561698fe2 100644
---- a/arch/mips/kernel/syscalls/syscall_n32.tbl
-+++ b/arch/mips/kernel/syscalls/syscall_n32.tbl
-@@ -391,3 +391,6 @@
- 450	n32	set_mempolicy_home_node		sys_set_mempolicy_home_node
- 451	n32	cachestat			sys_cachestat
- 452	n32	fchmodat2			sys_fchmodat2
-+# 453 reserved for map_shadow_stack
-+454	n32	statmount			sys_statmount
-+455	n32	listmount			sys_listmount
-diff --git a/arch/mips/kernel/syscalls/syscall_n64.tbl b/arch/mips/kernel/syscalls/syscall_n64.tbl
-index cb5e757f6621..80a056866da7 100644
---- a/arch/mips/kernel/syscalls/syscall_n64.tbl
-+++ b/arch/mips/kernel/syscalls/syscall_n64.tbl
-@@ -367,3 +367,6 @@
- 450	common	set_mempolicy_home_node		sys_set_mempolicy_home_node
- 451	n64	cachestat			sys_cachestat
- 452	n64	fchmodat2			sys_fchmodat2
-+# 453 reserved for map_shadow_stack
-+454	n64	statmount			sys_statmount
-+455	n64	listmount			sys_listmount
-diff --git a/arch/mips/kernel/syscalls/syscall_o32.tbl b/arch/mips/kernel/syscalls/syscall_o32.tbl
-index 1a646813afdc..139ddc691176 100644
---- a/arch/mips/kernel/syscalls/syscall_o32.tbl
-+++ b/arch/mips/kernel/syscalls/syscall_o32.tbl
-@@ -440,3 +440,6 @@
- 450	o32	set_mempolicy_home_node		sys_set_mempolicy_home_node
- 451	o32	cachestat			sys_cachestat
- 452	o32	fchmodat2			sys_fchmodat2
-+# 453 reserved for map_shadow_stack
-+454	o32	statmount			sys_statmount
-+455	o32	listmount			sys_listmount
-diff --git a/arch/parisc/kernel/syscalls/syscall.tbl b/arch/parisc/kernel/syscalls/syscall.tbl
-index e97c175b56f9..46fa753f0d64 100644
---- a/arch/parisc/kernel/syscalls/syscall.tbl
-+++ b/arch/parisc/kernel/syscalls/syscall.tbl
-@@ -451,3 +451,6 @@
- 450	common	set_mempolicy_home_node		sys_set_mempolicy_home_node
- 451	common	cachestat			sys_cachestat
- 452	common	fchmodat2			sys_fchmodat2
-+# 453 reserved for map_shadow_stack
-+454	common	statmount			sys_statmount
-+455	common	listmount			sys_listmount
-diff --git a/arch/powerpc/kernel/syscalls/syscall.tbl b/arch/powerpc/kernel/syscalls/syscall.tbl
-index 20e50586e8a2..106937744525 100644
---- a/arch/powerpc/kernel/syscalls/syscall.tbl
-+++ b/arch/powerpc/kernel/syscalls/syscall.tbl
-@@ -539,3 +539,6 @@
- 450 	nospu	set_mempolicy_home_node		sys_set_mempolicy_home_node
- 451	common	cachestat			sys_cachestat
- 452	common	fchmodat2			sys_fchmodat2
-+# 453 reserved for map_shadow_stack
-+454	common	statmount			sys_statmount
-+455	common	listmount			sys_listmount
-diff --git a/arch/s390/kernel/syscalls/syscall.tbl b/arch/s390/kernel/syscalls/syscall.tbl
-index 0122cc156952..57dd9202f8d7 100644
---- a/arch/s390/kernel/syscalls/syscall.tbl
-+++ b/arch/s390/kernel/syscalls/syscall.tbl
-@@ -455,3 +455,6 @@
- 450  common	set_mempolicy_home_node	sys_set_mempolicy_home_node	sys_set_mempolicy_home_node
- 451  common	cachestat		sys_cachestat			sys_cachestat
- 452  common	fchmodat2		sys_fchmodat2			sys_fchmodat2
-+# 453 reserved for map_shadow_stack
-+454  common	statmount		sys_statmount			sys_statmount
-+455  common	listmount		sys_listmount			sys_listmount
-diff --git a/arch/sh/kernel/syscalls/syscall.tbl b/arch/sh/kernel/syscalls/syscall.tbl
-index e90d585c4d3e..0c7407a0e32c 100644
---- a/arch/sh/kernel/syscalls/syscall.tbl
-+++ b/arch/sh/kernel/syscalls/syscall.tbl
-@@ -455,3 +455,6 @@
- 450	common	set_mempolicy_home_node		sys_set_mempolicy_home_node
- 451	common	cachestat			sys_cachestat
- 452	common	fchmodat2			sys_fchmodat2
-+# 453 reserved for map_shadow_stack
-+454	common	statmount			sys_statmount
-+455	common	listmount			sys_listmount
-diff --git a/arch/sparc/kernel/syscalls/syscall.tbl b/arch/sparc/kernel/syscalls/syscall.tbl
-index 4ed06c71c43f..a0fd36469478 100644
---- a/arch/sparc/kernel/syscalls/syscall.tbl
-+++ b/arch/sparc/kernel/syscalls/syscall.tbl
-@@ -498,3 +498,6 @@
- 450	common	set_mempolicy_home_node		sys_set_mempolicy_home_node
- 451	common	cachestat			sys_cachestat
- 452	common	fchmodat2			sys_fchmodat2
-+# 453 reserved for map_shadow_stack
-+454	common	statmount			sys_statmount
-+455	common	listmount			sys_listmount
-diff --git a/arch/x86/entry/syscalls/syscall_32.tbl b/arch/x86/entry/syscalls/syscall_32.tbl
-index 2d0b1bd866ea..4f41977bd4c1 100644
---- a/arch/x86/entry/syscalls/syscall_32.tbl
-+++ b/arch/x86/entry/syscalls/syscall_32.tbl
-@@ -457,3 +457,6 @@
- 450	i386	set_mempolicy_home_node		sys_set_mempolicy_home_node
- 451	i386	cachestat		sys_cachestat
- 452	i386	fchmodat2		sys_fchmodat2
-+# 563 reserved for map_shadow_stack
-+454	i386	statmount		sys_statmount
-+455	i386	listmount		sys_listmount
-diff --git a/arch/x86/entry/syscalls/syscall_64.tbl b/arch/x86/entry/syscalls/syscall_64.tbl
-index 1d6eee30eceb..a1b3ce7d22cc 100644
---- a/arch/x86/entry/syscalls/syscall_64.tbl
-+++ b/arch/x86/entry/syscalls/syscall_64.tbl
-@@ -375,6 +375,8 @@
- 451	common	cachestat		sys_cachestat
- 452	common	fchmodat2		sys_fchmodat2
- 453	64	map_shadow_stack	sys_map_shadow_stack
-+454	common	statmount		sys_statmount
-+455	common	listmount		sys_listmount
- 
- #
- # Due to a historical design error, certain syscalls are numbered differently
-diff --git a/arch/xtensa/kernel/syscalls/syscall.tbl b/arch/xtensa/kernel/syscalls/syscall.tbl
-index fc1a4f3c81d9..73378984702b 100644
---- a/arch/xtensa/kernel/syscalls/syscall.tbl
-+++ b/arch/xtensa/kernel/syscalls/syscall.tbl
-@@ -423,3 +423,6 @@
- 450	common	set_mempolicy_home_node		sys_set_mempolicy_home_node
- 451	common	cachestat			sys_cachestat
- 452	common	fchmodat2			sys_fchmodat2
-+# 453 reserved for map_shadow_stack
-+454	common	statmount			sys_statmount
-+455	common	listmount			sys_listmount
-diff --git a/include/uapi/asm-generic/unistd.h b/include/uapi/asm-generic/unistd.h
-index abe087c53b4b..8df6a747e21a 100644
---- a/include/uapi/asm-generic/unistd.h
-+++ b/include/uapi/asm-generic/unistd.h
-@@ -823,8 +823,14 @@ __SYSCALL(__NR_cachestat, sys_cachestat)
- #define __NR_fchmodat2 452
- __SYSCALL(__NR_fchmodat2, sys_fchmodat2)
- 
-+#define __NR_statmount   454
-+__SYSCALL(__NR_statmount, sys_statmount)
++static struct vfsmount *lookup_mnt_in_ns(u64 id, struct mnt_namespace *ns)
++{
++	struct mount *mnt = mnt_find_id_at(ns, id);
 +
-+#define __NR_listmount   455
-+__SYSCALL(__NR_listmount, sys_listmount)
++	if (!mnt || mnt->mnt_id_unique != id)
++		return NULL;
 +
- #undef __NR_syscalls
--#define __NR_syscalls 453
-+#define __NR_syscalls 456
++	return &mnt->mnt;
++}
++
++struct stmt_state {
++	struct statmnt __user *const buf;
++	size_t const bufsize;
++	struct vfsmount *const mnt;
++	u64 const mask;
++	struct seq_file seq;
++	struct path root;
++	struct statmnt sm;
++	size_t pos;
++	int err;
++};
++
++typedef int (*stmt_func_t)(struct stmt_state *);
++
++static int stmt_string_seq(struct stmt_state *s, stmt_func_t func)
++{
++	size_t rem = s->bufsize - s->pos - sizeof(s->sm);
++	struct seq_file *seq = &s->seq;
++	int ret;
++
++	seq->count = 0;
++	seq->size = min(seq->size, rem);
++	seq->buf = kvmalloc(seq->size, GFP_KERNEL_ACCOUNT);
++	if (!seq->buf)
++		return -ENOMEM;
++
++	ret = func(s);
++	if (ret)
++		return ret;
++
++	if (seq_has_overflowed(seq)) {
++		if (seq->size == rem)
++			return -EOVERFLOW;
++		seq->size *= 2;
++		if (seq->size > MAX_RW_COUNT)
++			return -ENOMEM;
++		kvfree(seq->buf);
++		return 0;
++	}
++
++	/* Done */
++	return 1;
++}
++
++static void stmt_string(struct stmt_state *s, u64 mask, stmt_func_t func,
++		       u32 *str)
++{
++	int ret = s->pos + sizeof(s->sm) >= s->bufsize ? -EOVERFLOW : 0;
++	struct statmnt *sm = &s->sm;
++	struct seq_file *seq = &s->seq;
++
++	if (s->err || !(s->mask & mask))
++		return;
++
++	seq->size = PAGE_SIZE;
++	while (!ret)
++		ret = stmt_string_seq(s, func);
++
++	if (ret < 0) {
++		s->err = ret;
++	} else {
++		seq->buf[seq->count++] = '\0';
++		if (copy_to_user(s->buf->str + s->pos, seq->buf, seq->count)) {
++			s->err = -EFAULT;
++		} else {
++			*str = s->pos;
++			s->pos += seq->count;
++		}
++	}
++	kvfree(seq->buf);
++	sm->mask |= mask;
++}
++
++static void stmt_numeric(struct stmt_state *s, u64 mask, stmt_func_t func)
++{
++	if (s->err || !(s->mask & mask))
++		return;
++
++	s->err = func(s);
++	s->sm.mask |= mask;
++}
++
++static u64 mnt_to_attr_flags(struct vfsmount *mnt)
++{
++	unsigned int mnt_flags = READ_ONCE(mnt->mnt_flags);
++	u64 attr_flags = 0;
++
++	if (mnt_flags & MNT_READONLY)
++		attr_flags |= MOUNT_ATTR_RDONLY;
++	if (mnt_flags & MNT_NOSUID)
++		attr_flags |= MOUNT_ATTR_NOSUID;
++	if (mnt_flags & MNT_NODEV)
++		attr_flags |= MOUNT_ATTR_NODEV;
++	if (mnt_flags & MNT_NOEXEC)
++		attr_flags |= MOUNT_ATTR_NOEXEC;
++	if (mnt_flags & MNT_NODIRATIME)
++		attr_flags |= MOUNT_ATTR_NODIRATIME;
++	if (mnt_flags & MNT_NOSYMFOLLOW)
++		attr_flags |= MOUNT_ATTR_NOSYMFOLLOW;
++
++	if (mnt_flags & MNT_NOATIME)
++		attr_flags |= MOUNT_ATTR_NOATIME;
++	else if (mnt_flags & MNT_RELATIME)
++		attr_flags |= MOUNT_ATTR_RELATIME;
++	else
++		attr_flags |= MOUNT_ATTR_STRICTATIME;
++
++	if (is_idmapped_mnt(mnt))
++		attr_flags |= MOUNT_ATTR_IDMAP;
++
++	return attr_flags;
++}
++
++static u64 mnt_to_propagation_flags(struct mount *m)
++{
++	u64 propagation = 0;
++
++	if (IS_MNT_SHARED(m))
++		propagation |= MS_SHARED;
++	if (IS_MNT_SLAVE(m))
++		propagation |= MS_SLAVE;
++	if (IS_MNT_UNBINDABLE(m))
++		propagation |= MS_UNBINDABLE;
++	if (!propagation)
++		propagation |= MS_PRIVATE;
++
++	return propagation;
++}
++
++static int stmt_sb_basic(struct stmt_state *s)
++{
++	struct super_block *sb = s->mnt->mnt_sb;
++
++	s->sm.sb_dev_major = MAJOR(sb->s_dev);
++	s->sm.sb_dev_minor = MINOR(sb->s_dev);
++	s->sm.sb_magic = sb->s_magic;
++	s->sm.sb_flags = sb->s_flags & (SB_RDONLY|SB_SYNCHRONOUS|SB_DIRSYNC|SB_LAZYTIME);
++
++	return 0;
++}
++
++static int stmt_mnt_basic(struct stmt_state *s)
++{
++	struct mount *m = real_mount(s->mnt);
++
++	s->sm.mnt_id = m->mnt_id_unique;
++	s->sm.mnt_parent_id = m->mnt_parent->mnt_id_unique;
++	s->sm.mnt_id_old = m->mnt_id;
++	s->sm.mnt_parent_id_old = m->mnt_parent->mnt_id;
++	s->sm.mnt_attr = mnt_to_attr_flags(&m->mnt);
++	s->sm.mnt_propagation = mnt_to_propagation_flags(m);
++	s->sm.mnt_peer_group = IS_MNT_SHARED(m) ? m->mnt_group_id : 0;
++	s->sm.mnt_master = IS_MNT_SLAVE(m) ? m->mnt_master->mnt_group_id : 0;
++
++	return 0;
++}
++
++static int stmt_propagate_from(struct stmt_state *s)
++{
++	struct mount *m = real_mount(s->mnt);
++
++	if (!IS_MNT_SLAVE(m))
++		return 0;
++
++	s->sm.propagate_from = get_dominating_id(m, &current->fs->root);
++
++	return 0;
++}
++
++static int stmt_mnt_root(struct stmt_state *s)
++{
++	struct seq_file *seq = &s->seq;
++	int err = show_path(seq, s->mnt->mnt_root);
++
++	if (!err && !seq_has_overflowed(seq)) {
++		seq->buf[seq->count] = '\0';
++		seq->count = string_unescape_inplace(seq->buf, UNESCAPE_OCTAL);
++	}
++	return err;
++}
++
++static int stmt_mnt_point(struct stmt_state *s)
++{
++	struct vfsmount *mnt = s->mnt;
++	struct path mnt_path = { .dentry = mnt->mnt_root, .mnt = mnt };
++	int err = seq_path_root(&s->seq, &mnt_path, &s->root, "");
++
++	return err == SEQ_SKIP ? 0 : err;
++}
++
++static int stmt_fs_type(struct stmt_state *s)
++{
++	struct seq_file *seq = &s->seq;
++	struct super_block *sb = s->mnt->mnt_sb;
++
++	seq_puts(seq, sb->s_type->name);
++	return 0;
++}
++
++static int do_statmount(struct stmt_state *s)
++{
++	struct statmnt *sm = &s->sm;
++	struct mount *m = real_mount(s->mnt);
++	size_t copysize = min_t(size_t, s->bufsize, sizeof(*sm));
++	int err;
++
++	err = security_sb_statfs(s->mnt->mnt_root);
++	if (err)
++		return err;
++
++	if (!capable(CAP_SYS_ADMIN) &&
++	    !is_path_reachable(m, m->mnt.mnt_root, &s->root))
++		return -EPERM;
++
++	stmt_numeric(s, STMT_SB_BASIC, stmt_sb_basic);
++	stmt_numeric(s, STMT_MNT_BASIC, stmt_mnt_basic);
++	stmt_numeric(s, STMT_PROPAGATE_FROM, stmt_propagate_from);
++	stmt_string(s, STMT_FS_TYPE, stmt_fs_type, &sm->fs_type);
++	stmt_string(s, STMT_MNT_ROOT, stmt_mnt_root, &sm->mnt_root);
++	stmt_string(s, STMT_MNT_POINT, stmt_mnt_point, &sm->mnt_point);
++
++	if (s->err)
++		return s->err;
++
++	/* Return the number of bytes copied to the buffer */
++	sm->size = copysize + s->pos;
++
++	if (copy_to_user(s->buf, sm, copysize))
++		return -EFAULT;
++
++	return 0;
++}
++
++SYSCALL_DEFINE4(statmount, const struct __mount_arg __user *, req,
++		struct statmnt __user *, buf, size_t, bufsize,
++		unsigned int, flags)
++{
++	struct vfsmount *mnt;
++	struct __mount_arg kreq;
++	int ret;
++
++	if (flags)
++		return -EINVAL;
++
++	if (copy_from_user(&kreq, req, sizeof(kreq)))
++		return -EFAULT;
++
++	down_read(&namespace_sem);
++	mnt = lookup_mnt_in_ns(kreq.mnt_id, current->nsproxy->mnt_ns);
++	ret = -ENOENT;
++	if (mnt) {
++		struct stmt_state s = {
++			.mask = kreq.request_mask,
++			.buf = buf,
++			.bufsize = bufsize,
++			.mnt = mnt,
++		};
++
++		get_fs_root(current->fs, &s.root);
++		ret = do_statmount(&s);
++		path_put(&s.root);
++	}
++	up_read(&namespace_sem);
++
++	return ret;
++}
++
+ static void __init init_mount_tree(void)
+ {
+ 	struct vfsmount *mnt;
+diff --git a/include/linux/syscalls.h b/include/linux/syscalls.h
+index 22bc6bc147f8..ba371024d902 100644
+--- a/include/linux/syscalls.h
++++ b/include/linux/syscalls.h
+@@ -74,6 +74,8 @@ struct landlock_ruleset_attr;
+ enum landlock_rule_type;
+ struct cachestat_range;
+ struct cachestat;
++struct statmnt;
++struct __mount_arg;
  
- /*
-  * 32 bit systems traditionally used different
+ #include <linux/types.h>
+ #include <linux/aio_abi.h>
+@@ -408,6 +410,9 @@ asmlinkage long sys_statfs64(const char __user *path, size_t sz,
+ asmlinkage long sys_fstatfs(unsigned int fd, struct statfs __user *buf);
+ asmlinkage long sys_fstatfs64(unsigned int fd, size_t sz,
+ 				struct statfs64 __user *buf);
++asmlinkage long sys_statmount(const struct __mount_arg __user *req,
++			      struct statmnt __user *buf, size_t bufsize,
++			      unsigned int flags);
+ asmlinkage long sys_truncate(const char __user *path, long length);
+ asmlinkage long sys_ftruncate(unsigned int fd, unsigned long length);
+ #if BITS_PER_LONG == 32
+diff --git a/include/uapi/linux/mount.h b/include/uapi/linux/mount.h
+index bb242fdcfe6b..d2c988ab526b 100644
+--- a/include/uapi/linux/mount.h
++++ b/include/uapi/linux/mount.h
+@@ -138,4 +138,60 @@ struct mount_attr {
+ /* List of all mount_attr versions. */
+ #define MOUNT_ATTR_SIZE_VER0	32 /* sizeof first published struct */
+ 
++
++/*
++ * Structure for getting mount/superblock/filesystem info with statmount(2).
++ *
++ * The interface is similar to statx(2): individual fields or groups can be
++ * selected with the @mask argument of statmount().  Kernel will set the @mask
++ * field according to the supported fields.
++ *
++ * If string fields are selected, then the caller needs to pass a buffer that
++ * has space after the fixed part of the structure.  Nul terminated strings are
++ * copied there and offsets relative to @str are stored in the relevant fields.
++ * If the buffer is too small, then EOVERFLOW is returned.  The actually used
++ * size is returned in @size.
++ */
++struct statmnt {
++	__u32 size;		/* Total size, including strings */
++	__u32 __spare1;
++	__u64 mask;		/* What results were written */
++	__u32 sb_dev_major;	/* Device ID */
++	__u32 sb_dev_minor;
++	__u64 sb_magic;		/* ..._SUPER_MAGIC */
++	__u32 sb_flags;		/* MS_{RDONLY,SYNCHRONOUS,DIRSYNC,LAZYTIME} */
++	__u32 fs_type;		/* [str] Filesystem type */
++	__u64 mnt_id;		/* Unique ID of mount */
++	__u64 mnt_parent_id;	/* Unique ID of parent (for root == mnt_id) */
++	__u32 mnt_id_old;	/* Reused IDs used in proc/.../mountinfo */
++	__u32 mnt_parent_id_old;
++	__u64 mnt_attr;		/* MOUNT_ATTR_... */
++	__u64 mnt_propagation;	/* MS_{SHARED,SLAVE,PRIVATE,UNBINDABLE} */
++	__u64 mnt_peer_group;	/* ID of shared peer group */
++	__u64 mnt_master;	/* Mount receives propagation from this ID */
++	__u64 propagate_from;	/* Propagation from in current namespace */
++	__u32 mnt_root;		/* [str] Root of mount relative to root of fs */
++	__u32 mnt_point;	/* [str] Mountpoint relative to current root */
++	__u64 __spare2[50];
++	char str[];		/* Variable size part containing strings */
++};
++
++/*
++ * To be used on the kernel ABI only for passing 64bit arguments to statmount(2)
++ */
++struct __mount_arg {
++	__u64 mnt_id;
++	__u64 request_mask;
++};
++
++/*
++ * @mask bits for statmount(2)
++ */
++#define STMT_SB_BASIC		0x00000001U     /* Want/got sb_... */
++#define STMT_MNT_BASIC		0x00000002U	/* Want/got mnt_... */
++#define STMT_PROPAGATE_FROM	0x00000004U	/* Want/got propagate_from */
++#define STMT_MNT_ROOT		0x00000008U	/* Want/got mnt_root  */
++#define STMT_MNT_POINT		0x00000010U	/* Want/got mnt_point */
++#define STMT_FS_TYPE		0x00000020U	/* Want/got fs_type */
++
+ #endif /* _UAPI_LINUX_MOUNT_H */
 -- 
 2.41.0
 
