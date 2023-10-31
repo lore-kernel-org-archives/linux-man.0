@@ -2,133 +2,110 @@ Return-Path: <linux-man-owner@vger.kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 62DEBC4332F
-	for <linux-man@archiver.kernel.org>; Tue, 31 Oct 2023 14:06:00 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 30FE8C4332F
+	for <linux-man@archiver.kernel.org>; Tue, 31 Oct 2023 14:32:14 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S233002AbjJaOF6 (ORCPT <rfc822;linux-man@archiver.kernel.org>);
-        Tue, 31 Oct 2023 10:05:58 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:52780 "EHLO
+        id S233467AbjJaOcP (ORCPT <rfc822;linux-man@archiver.kernel.org>);
+        Tue, 31 Oct 2023 10:32:15 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:36164 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1344308AbjJaMlG (ORCPT
-        <rfc822;linux-man@vger.kernel.org>); Tue, 31 Oct 2023 08:41:06 -0400
-Received: from smtp.kernel.org (relay.kernel.org [52.25.139.140])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 9CAF797
-        for <linux-man@vger.kernel.org>; Tue, 31 Oct 2023 05:41:02 -0700 (PDT)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 53E7EC433C7;
-        Tue, 31 Oct 2023 12:41:01 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-        s=k20201202; t=1698756062;
-        bh=JXTFK2uEV1Wx5leC/02pLKP5YIpI2eCyRihNuqb/bZQ=;
-        h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-        b=IDvCFKaDTvw3Zn+CmPPAw6i3HDZGS1p7BC/eW6tfKRNSU+aKjKQvcjrcfgK2+TTJw
-         cbmLwl9KRR1U+/a8A4GsoPOVOIP80kPEoRXt8RCxm0iVUDj8Heq8cEsYI1PrRJhQVn
-         KNjO8eQhZ7bUewR+WksSagDNGQOTC1qxqrZzRZMZuyktA1QOcgQOy6FPyAcY8hC6Wc
-         aEXzVwK/vGI+agIuebkvsCs26IRxr2UDg2WVcsBaAYik92xD4Bx2xZ3Npl3P+o3qVF
-         IoWlfheL5bmu9eqXKFM6zOTgXaYfWXHV3inQLLJxoRCDlWnjTjN6r5zxCfuEHK1fzW
-         7Ow42fuW4pBOQ==
-Date:   Tue, 31 Oct 2023 13:40:58 +0100
-From:   Alejandro Colomar <alx@kernel.org>
-To:     Bruno Haible <bruno@clisp.org>
-Cc:     linux-man@vger.kernel.org, alx.manpages@gmail.com
-Subject: Re: [PATCH] prctl.2: Fix typo
-Message-ID: <ZUD12kxqzd0PsT_E@debian>
-References: <4678853.9Mp67QZiUf@nimes>
+        with ESMTP id S231286AbjJaOcO (ORCPT
+        <rfc822;linux-man@vger.kernel.org>); Tue, 31 Oct 2023 10:32:14 -0400
+Received: from mail-ed1-x535.google.com (mail-ed1-x535.google.com [IPv6:2a00:1450:4864:20::535])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id E8C3DC9
+        for <linux-man@vger.kernel.org>; Tue, 31 Oct 2023 07:32:11 -0700 (PDT)
+Received: by mail-ed1-x535.google.com with SMTP id 4fb4d7f45d1cf-53de0d1dc46so9798214a12.3
+        for <linux-man@vger.kernel.org>; Tue, 31 Oct 2023 07:32:11 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20230601; t=1698762730; x=1699367530; darn=vger.kernel.org;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=pYkF1pgkKsV2HtPR+M+fVg6faWCeYfW3CX9Dbh26WGg=;
+        b=WI0yXZO4KSFeRvYbjUAxvXnGAQ34/XZLD69WnT5xLagETRnwLHcePgYRbA6+8pLzxt
+         atDjxqSs8Fc+XZepNrdrIE/VCZyj/Kb1offdyWqBx6pZQI0mwpIkmXazG5LGJlNrYThL
+         n6Iq1hi86cq+kPO617FJp32T8G9aur36Dnt3v1t8S8zOJ8QhW3+PvwzL8u6yE6HOIUL7
+         wYrHvGX+ntZ5u+NnHwaZ8c+FvSvsGIUKHqQQ17RPLv58qXZe7D6jWIuQPTjFfTvqihPX
+         BeYNZJ2llrYTEVyi+cSsh0MfACjt9/HWqdSv2PPHdVbcweQr3E5MF+/Kq/kSJvX6H6NC
+         uGbw==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1698762730; x=1699367530;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
+         :subject:date:message-id:reply-to;
+        bh=pYkF1pgkKsV2HtPR+M+fVg6faWCeYfW3CX9Dbh26WGg=;
+        b=psxlKe+D37ywZwghT8fwNZnXs5scGWl0W1BrfSgTYkCNqo8McP6BsGbQQbknmnGWJb
+         C6n5lBAlthScMDG7GXDn6E2M4dUtOhDT3q78jCIGkCA/ErJ6lOTiYiMz3bpZ68PEaT/P
+         Ly1yHVMwL4l6dFIz+Kpo9JQLzDhhzC91ex4rtOfVy6RCiJTE7VKx4TEjDjp5QbWYzboW
+         ZEU8lLcJd41+Xio0auebmR2mD9m2r0Z7sm5hESSN+rfWwWr8Pn4NEoeVDjEEX8ZbXn0N
+         bl/dtzue8scKcBAZLo8IWPQMC//bDdZLi7oivJzUf5IqSICMr7hNJkIJTFEPzvxP7buH
+         eilA==
+X-Gm-Message-State: AOJu0Yy3uk/teac2EWnCxm5jdmRLbcstplV7MXdhRoQXMpQx7wrcmObn
+        eNHtBGz8sVBxy3JcVEbcQC4kk3TPEAlS3sBpm7I=
+X-Google-Smtp-Source: AGHT+IEdv23Ibo47KVNkR94Bw9ee5rLo54urh1qDL3NRFtmEvwR/kiTbmV4p1+T3U+sB3UzeGk72/ZJ8EXQE4u2V7gE=
+X-Received: by 2002:a50:9f82:0:b0:53d:e139:64a5 with SMTP id
+ c2-20020a509f82000000b0053de13964a5mr12500441edf.27.1698762730145; Tue, 31
+ Oct 2023 07:32:10 -0700 (PDT)
 MIME-Version: 1.0
-Content-Type: multipart/signed; micalg=pgp-sha512;
-        protocol="application/pgp-signature"; boundary="ImsisF+M0VBUYjNz"
-Content-Disposition: inline
-In-Reply-To: <4678853.9Mp67QZiUf@nimes>
+References: <4678853.9Mp67QZiUf@nimes> <ZUD12kxqzd0PsT_E@debian>
+In-Reply-To: <ZUD12kxqzd0PsT_E@debian>
+From:   Stefan Puiu <stefan.puiu@gmail.com>
+Date:   Tue, 31 Oct 2023 16:31:58 +0200
+Message-ID: <CACKs7VCi-MZfrhPLGqPDz71ciTBkKGriMwJQAy16WoP--P6=QQ@mail.gmail.com>
+Subject: Re: [PATCH] prctl.2: Fix typo
+To:     Alejandro Colomar <alx@kernel.org>
+Cc:     Bruno Haible <bruno@clisp.org>, linux-man@vger.kernel.org,
+        alx.manpages@gmail.com
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 Precedence: bulk
 List-ID: <linux-man.vger.kernel.org>
 X-Mailing-List: linux-man@vger.kernel.org
 
+Hi Alex and Bruno,
 
---ImsisF+M0VBUYjNz
-Content-Type: text/plain; protected-headers=v1; charset=utf-8
-Content-Disposition: inline
-Content-Transfer-Encoding: quoted-printable
-Date: Tue, 31 Oct 2023 13:40:58 +0100
-From: Alejandro Colomar <alx@kernel.org>
-To: Bruno Haible <bruno@clisp.org>
-Cc: linux-man@vger.kernel.org, alx.manpages@gmail.com
-Subject: Re: [PATCH] prctl.2: Fix typo
+On Tue, Oct 31, 2023 at 4:06=E2=80=AFPM Alejandro Colomar <alx@kernel.org> =
+wrote:
+>
+> Hi Bruno,
+>
+> On Sun, Oct 29, 2023 at 09:51:55PM +0100, Bruno Haible wrote:
+> > The synopsis of the prctl.2 page has:
+> >
+> >        int prctl(int option, ...
+> >
+> > This makes no sense, because
+> >   - the first argument is not optional; it is mandatory.
+> >   - the title of the page is "operations on a process or thread".
+> >
+> > It is thus clear that the first argument indicates the operation to per=
+form.
+> >
+> > Find attached the correction.
+>
+> Agree.  I've seen there are other similarly incorrect uses of the word
+> "option" where "operation" should have been used in the same page (but
+> there are some that are correctly used).  Would you mind checking the
+> entire page for those other replacements?
 
-Hi Bruno,
+Hmm, 'option' is not the same as 'optional'. I guess the first
+parameter can be seen as an 'option' passed to prctl() along with some
+other parameters, right?
 
-On Sun, Oct 29, 2023 at 09:51:55PM +0100, Bruno Haible wrote:
-> The synopsis of the prctl.2 page has:
->=20
->        int prctl(int option, ...
->=20
-> This makes no sense, because
->   - the first argument is not optional; it is mandatory.
->   - the title of the page is "operations on a process or thread".
->=20
-> It is thus clear that the first argument indicates the operation to perfo=
-rm.
->=20
-> Find attached the correction.
+Also, there are multiple occurrences of 'option' in the page (e.g.
+'This option is mainly intended...'), so only changing the argument
+name would introduce an inconsistency in the page. The argument is
+also called '__option' in glibc headers on my system (in
+/usr/include/x86_64-linux-gnu/sys/prctl.h):
 
-Agree.  I've seen there are other similarly incorrect uses of the word
-"option" where "operation" should have been used in the same page (but
-there are some that are correctly used).  Would you mind checking the
-entire page for those other replacements?
+/* Control process execution.  */
+#ifndef __USE_TIME_BITS64
+extern int prctl (int __option, ...) __THROW;
+#else
+# ifdef __REDIRECT
+extern int __REDIRECT_NTH (prctl, (int __option, ...), __prctl_time64);
 
-> From a373bed1d7cd571cffc5ea1a8c6377efbe8fa51c Mon Sep 17 00:00:00 2001
-> From: Bruno Haible <bruno@clisp.org>
-> Date: Sun, 29 Oct 2023 21:46:49 +0100
-> Subject: [PATCH] prctl.2: Fix typo
->=20
-> ---
+So, I would say I'm not sure this improves things.
 
-Please include the explanation from above in the commit message.
-
-Thanks,
-Alex
-
->  man2/prctl.2 | 2 +-
->  1 file changed, 1 insertion(+), 1 deletion(-)
->=20
-> diff --git a/man2/prctl.2 b/man2/prctl.2
-> index f72aeb700..b5be0def6 100644
-> --- a/man2/prctl.2
-> +++ b/man2/prctl.2
-> @@ -46,7 +46,7 @@ Standard C library
->  .nf
->  .B #include <sys/prctl.h>
->  .PP
-> -.BI "int prctl(int " option ", ..."
-> +.BI "int prctl(int " operation ", ..."
->  .BI "          \fR/*\fP unsigned long " arg2 ", unsigned long " arg3 ,
->  .BI "          unsigned long " arg4 ", unsigned long " arg5 " \fR*/\fP )=
-;"
->  .fi
-> --=20
-> 2.34.1
->=20
-
-
---=20
-<https://www.alejandro-colomar.es/>
-
---ImsisF+M0VBUYjNz
-Content-Type: application/pgp-signature; name="signature.asc"
-
------BEGIN PGP SIGNATURE-----
-
-iQIzBAABCgAdFiEE6jqH8KTroDDkXfJAnowa+77/2zIFAmVA9doACgkQnowa+77/
-2zJKZg//d/aQ8tBxupTMq9fV5j6/5qv0JO0YdENlYDjeWcHO91Mw0m7QdMWSVbLK
-58NGfJpy0WOfMYa/WD8yJ22+RrE6TvpPfDBQz+deL0LZz6emalN93dVf55HnP/Z4
-WsXKMk25z8hDAf1zzTnnPeEOu6P95C5yVZRAX5P06Iebz3c40SwRjJcBjrvFCSQq
-X60Y8JsBpk/0rg/kGanmydXrF4OWCkuT5MAmbBZ+cmtSVzkxbDfDS26ItBQO69aN
-LmTi+8vgJTSOL9EutvCISSTQB667GXmxeWFXyKYcJW+6+Fb+8Vjm/YTJBaJ4VAD4
-ub/GrAA8tV1tQ9zFNOZcHmqHlxvE7oLtpNV/nIvkWiaTCmaZ0m3wdaTpSkG9nSlt
-gyo4IzDOdL59benT2l68aoy+JqB0QLQFzPTaP3MvZTNN9hdOcZH49RCfz+dlS3U0
-C9M+bpW2Dmd20WfaNEk6pEcNkgne8XtnuVMjIER6tVmOAX0P0NPdSjjo3pMUT0t4
-OQN52KGGrJ14J+zMJyLBvZmkWrBx3743caJLSu4GZRQEymCaAELq8qzUSADVvRv/
-/jgdHhjmNmkSwIecIOGrlKytjaNko27n3T5pclg8DMpzzG5YOlNJPodANBt8X8tH
-FAlnrS9t6tXjWxFOfwdAlDvmoxVn5qN/2hp2fhF1OQoo5Vqbj74=
-=OJF6
------END PGP SIGNATURE-----
-
---ImsisF+M0VBUYjNz--
+Just my 2 cents,
+Stefan.
