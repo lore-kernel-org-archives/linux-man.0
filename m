@@ -2,93 +2,63 @@ Return-Path: <linux-man-owner@vger.kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 0FDD1C4332F
-	for <linux-man@archiver.kernel.org>; Wed,  1 Nov 2023 16:22:45 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 2DDC8C4332F
+	for <linux-man@archiver.kernel.org>; Wed,  1 Nov 2023 16:23:37 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S233492AbjKAQWp (ORCPT <rfc822;linux-man@archiver.kernel.org>);
-        Wed, 1 Nov 2023 12:22:45 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:34246 "EHLO
+        id S233394AbjKAQXh (ORCPT <rfc822;linux-man@archiver.kernel.org>);
+        Wed, 1 Nov 2023 12:23:37 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:42816 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S232538AbjKAQWp (ORCPT
-        <rfc822;linux-man@vger.kernel.org>); Wed, 1 Nov 2023 12:22:45 -0400
-Received: from mail.helgefjell.de (unknown [IPv6:2a01:4f8:261:4d55::2])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 2608EFD
-        for <linux-man@vger.kernel.org>; Wed,  1 Nov 2023 09:22:38 -0700 (PDT)
-Received: from localhost (localhost [127.0.0.1])
-  (uid 1002)
-  by mail.helgefjell.de with local
-  id 0000000000020147.0000000065427B4D.000FC696; Wed, 01 Nov 2023 16:22:37 +0000
-Date:   Wed, 1 Nov 2023 16:22:37 +0000
-From:   Helge Kreutzmann <debian@helgefjell.de>
-To:     Alejandro Colomar <alx@kernel.org>
-Cc:     mario.blaettermann@gmail.com, linux-man@vger.kernel.org
-Subject: Re: Issue in man page mount_namespaces.7
-Message-ID: <ZUJ7TcmUWb9vWTod@meinfjell.helgefjelltest.de>
-References: <ZUJaY1wRIqZXKjpA@meinfjell.helgefjelltest.de>
- <ZUJ1VK9_7tBuMBBg@debian>
-Mime-Version: 1.0
-Content-Type: multipart/signed; micalg=pgp-sha256; protocol="application/pgp-signature"; boundary="=_meinfjell-1033878-1698855757-0001-2"
+        with ESMTP id S232538AbjKAQXh (ORCPT
+        <rfc822;linux-man@vger.kernel.org>); Wed, 1 Nov 2023 12:23:37 -0400
+Received: from 1.mo552.mail-out.ovh.net (1.mo552.mail-out.ovh.net [178.32.96.117])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 392F5FD
+        for <linux-man@vger.kernel.org>; Wed,  1 Nov 2023 09:23:34 -0700 (PDT)
+Received: from mxplan6.mail.ovh.net (unknown [10.108.20.2])
+        by mo552.mail-out.ovh.net (Postfix) with ESMTPS id 9C0EB2D830;
+        Wed,  1 Nov 2023 16:15:03 +0000 (UTC)
+Received: from jwilk.net (37.59.142.95) by DAG4EX1.mxp6.local (172.16.2.31)
+ with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id 15.1.2507.34; Wed, 1 Nov
+ 2023 17:15:02 +0100
+Authentication-Results: garm.ovh; auth=pass (GARM-95G001b4b19a32-e33a-49b2-a984-a5017a42316f,
+                    C3C47EF67A37C87AE86152C9AD52F034635D95B4) smtp.auth=jwilk@jwilk.net
+X-OVh-ClientIp: 5.172.255.239
+Date:   Wed, 1 Nov 2023 17:15:00 +0100
+From:   Jakub Wilk <jwilk@jwilk.net>
+To:     Helge Kreutzmann <debian@helgefjell.de>
+CC:     Alejandro Colomar <alx.manpages@gmail.com>,
+        Mario =?utf-8?Q?Bl=C3=A4ttermann?= <mario.blaettermann@gmail.com>,
+        <linux-man@vger.kernel.org>
+Subject: Re: Issue in man page clog.3
+Message-ID: <20231101161500.ko2nejsen2o3i4pj@jwilk.net>
+References: <ZUJaYtPeCL1kXYwl@meinfjell.helgefjelltest.de>
+MIME-Version: 1.0
+Content-Type: text/plain; charset="utf-8"; format=flowed
 Content-Disposition: inline
-In-Reply-To: <ZUJ1VK9_7tBuMBBg@debian>
-X-Public-Key-URL: http://www.helgefjell.de/data/debian_neu.asc
-X-homepage: http://www.helgefjell.de/debian
+Content-Transfer-Encoding: 8bit
+In-Reply-To: <ZUJaYtPeCL1kXYwl@meinfjell.helgefjelltest.de>
+X-Originating-IP: [37.59.142.95]
+X-ClientProxiedBy: DAG8EX1.mxp6.local (172.16.2.71) To DAG4EX1.mxp6.local
+ (172.16.2.31)
+X-Ovh-Tracer-GUID: 2fd713af-09d1-4f83-bcb8-425a7cffb320
+X-Ovh-Tracer-Id: 8756968004356069344
+X-VR-SPAMSTATE: OK
+X-VR-SPAMSCORE: 0
+X-VR-SPAMCAUSE: gggruggvucftvghtrhhoucdtuddrgedvkedruddtgedgkeeiucetufdoteggodetrfdotffvucfrrhhofhhilhgvmecuqfggjfdpvefjgfevmfevgfenuceurghilhhouhhtmecuhedttdenucenucfjughrpeffhffvvefukfhfgggtugfgjghisehtkeertddttdejnecuhfhrohhmpeflrghkuhgsucghihhlkhcuoehjfihilhhksehjfihilhhkrdhnvghtqeenucggtffrrghtthgvrhhnpeetgedvgfduueegffeftdffueeftedvgfdtteekieevhffhuefgheeuieevgfeijeenucfkphepuddvjedrtddrtddruddpfeejrdehledrudegvddrleehpdehrddujedvrddvheehrddvfeelnecuvehluhhsthgvrhfuihiivgeptdenucfrrghrrghmpehinhgvthepuddvjedrtddrtddruddpmhgrihhlfhhrohhmpeeojhifihhlkhesjhifihhlkhdrnhgvtheqpdhnsggprhgtphhtthhopedupdhrtghpthhtohepuggvsghirghnsehhvghlghgvfhhjvghllhdruggvpdgrlhigrdhmrghnphgrghgvshesghhmrghilhdrtghomhdpmhgrrhhiohdrsghlrggvthhtvghrmhgrnhhnsehgmhgrihhlrdgtohhmpdhlihhnuhigqdhmrghnsehvghgvrhdrkhgvrhhnvghlrdhorhhgpdfovfetjfhoshhtpehmohehhedvpdhmohguvgepshhmthhpohhuth
 Precedence: bulk
 List-ID: <linux-man.vger.kernel.org>
 X-Mailing-List: linux-man@vger.kernel.org
 
-This is a MIME-formatted message.  If you see this text it means that your
-E-mail software does not support MIME-formatted messages.
+* Helge Kreutzmann <debian@helgefjell.de>, 2023-11-01 14:02:
+>Issue:    [-pi,pi] means both -pi and pi are included, this does not make sense, either one must be out of the interval?
 
---=_meinfjell-1033878-1698855757-0001-2
-Content-Type: text/plain; charset=utf-8
-Content-Disposition: inline
-Content-Transfer-Encoding: quoted-printable
+The man page is consistent with the C standard, which says the return 
+value is "in the interval [−iπ, +iπ] along the imaginary axis".
 
-Hello Alejandro
-Am Wed, Nov 01, 2023 at 04:57:08PM +0100 schrieb Alejandro Colomar:
-> On Wed, Nov 01, 2023 at 02:02:11PM +0000, Helge Kreutzmann wrote:
-> > Without further ado, the following was found:
-> >=20
-> > Issue:    mount point =E2=86=92 mount ?
->=20
-> I'm not sure that improves significantly.  Is there any difference
-> between a 'mount' and a 'mount point'?
+I think they mean π rounded to the nearest representable value.
+And indeed, the imaginary part of clog(-1 - DBL_EPSILON * I) is -M_PI, 
+and the imaginary part of clog(-1 + DBL_EPSILON * I) is +M_PI.
 
-Some time ago many man pages changed from mount point =E2=86=92 mount, and I
-thought this was a left over.
-
-If, technically speaking, mount point is correct here, then do not
-change, of course.
-
-Greetings
-
-         Helge
-
---=20
-      Dr. Helge Kreutzmann                     debian@helgefjell.de
-           Dipl.-Phys.                   http://www.helgefjell.de/debian.php
-        64bit GNU powered                     gpg signed mail preferred
-           Help keep free software "libre": http://www.ffii.de/
-
---=_meinfjell-1033878-1698855757-0001-2
-Content-Type: application/pgp-signature; name="signature.asc"
-Content-Transfer-Encoding: 7bit
-
------BEGIN PGP SIGNATURE-----
-
-iQIzBAABCAAdFiEEbZZfteMW0gNUynuwQbqlJmgq5nAFAmVCe00ACgkQQbqlJmgq
-5nABKg/8Dm/iE3lIGUNVFSDqMUTURiN1IZm0Lhk3m7ixdc07TYxYsQnM6IgsnsS5
-tO9PVbKWFLiwFH8kWCLtaQnVUbd8vzI9H6oNZpqGxwQTo1zq5lI4NWnOm/qtCkqj
-pEXvJXaYKZGoMcG9NuERTo1htj3THBAWUdFoAuX6Y5BPqRdA0t2itja+F5ZF7Xgx
-BAbgid2Izcqymfy9cLYPqMuzSv8fGTt/FPfNXuzLPtRb0CdJZCMDl7Y/6JUHd9Jz
-SC17CgAgD8X26gGZqY3KV5nKnNYkaR53U9Ga4Rr/jmvPWDcb7j3LsNbR5VMf23Ea
-AfBB7Xz1QvP35EcBgBIrvwJVHYE9+VvCQK33XF/GW3huEWmUG3Rqc6T6V5Iu9EKd
-CziGWQ1scWhC6kyrdtr6JOA80btNk6Pxc+4pEJ92hPT2qIF9/rp9r1AyhyfasTV9
-4qL/2g+lcd639RPSi0GW4v6glD9sStZN1vThai8V1mVUUOPc7vZB+LBTwvwIdlqz
-MewFLp61gADQGHy/m6dM3GiHqS9vX2h6ySOteAlb0SLgrYi0p7gE1phXBslzHYUE
-Fc0NNbNrxhuxIPVPPW5A38D7YatZu7ClfQ4I6sgp3OEoSU4/RYeIZvWHS0TP/KQz
-2lVYdbA3ykEsqTRnIZd4mpn5DXN91MgZr9M8sCxupK3bi140NFg=
-=z4wO
------END PGP SIGNATURE-----
-
---=_meinfjell-1033878-1698855757-0001-2--
+-- 
+Jakub Wilk
