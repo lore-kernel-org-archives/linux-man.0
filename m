@@ -2,105 +2,103 @@ Return-Path: <linux-man-owner@vger.kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id BF85CC4332F
-	for <linux-man@archiver.kernel.org>; Wed,  1 Nov 2023 17:09:05 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 4C97EC4332F
+	for <linux-man@archiver.kernel.org>; Wed,  1 Nov 2023 17:25:52 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1344351AbjKARJG (ORCPT <rfc822;linux-man@archiver.kernel.org>);
-        Wed, 1 Nov 2023 13:09:06 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:58294 "EHLO
+        id S232292AbjKARZx (ORCPT <rfc822;linux-man@archiver.kernel.org>);
+        Wed, 1 Nov 2023 13:25:53 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:59842 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1344643AbjKARJE (ORCPT
-        <rfc822;linux-man@vger.kernel.org>); Wed, 1 Nov 2023 13:09:04 -0400
-Received: from smtp.kernel.org (relay.kernel.org [52.25.139.140])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 17624119
-        for <linux-man@vger.kernel.org>; Wed,  1 Nov 2023 10:08:59 -0700 (PDT)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 89E19C433CD;
-        Wed,  1 Nov 2023 17:08:57 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-        s=k20201202; t=1698858538;
-        bh=B5QTE8HNnicb6P7GDkMLT2H0IXWN/bWDNW8Yq7eC9ak=;
-        h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-        b=kvwWhiw5k27bLohpvnIh20RxPCxkSS6abQHRpk95xP/LjZkfCb3IwBTFWt1TWsfFq
-         /JJ6ZtYt5VFT/u+9YWEeKY5d1202sJqI7A4z2PIS04eiTRoV9ZNNQS8JSYZrSC8puv
-         1jVndyV76laP4OKwGpOJ4Vyi0vNbiYqs2G9eSCLwoOgWleFKoGHbShqCShtUUeiNJa
-         LgOpaHNd0hNOhJi9AHJaq/c7n58lyEMOWntaaDGIoXCfVidS1dPU25gqojj03lhxXX
-         yF984tmtcu0tfrxf5FtXyzv7MsScYWktHlXb9wkHUIGm19ykdGf+oZBfEUeXvUSUIz
-         /yGfG9Od1RJsg==
-Date:   Wed, 1 Nov 2023 18:08:55 +0100
-From:   Alejandro Colomar <alx@kernel.org>
-To:     Jakub Wilk <jwilk@jwilk.net>
-Cc:     Helge Kreutzmann <debian@helgefjell.de>,
-        Alejandro Colomar <alx.manpages@gmail.com>,
-        Mario =?utf-8?Q?Bl=C3=A4ttermann?= <mario.blaettermann@gmail.com>,
-        linux-man@vger.kernel.org
-Subject: Re: Issue in man page clog.3
-Message-ID: <ZUKGJ7RCTTWYJyN6@debian>
-References: <ZUJaYtPeCL1kXYwl@meinfjell.helgefjelltest.de>
- <20231101161500.ko2nejsen2o3i4pj@jwilk.net>
-MIME-Version: 1.0
-Content-Type: multipart/signed; micalg=pgp-sha512;
-        protocol="application/pgp-signature"; boundary="aloEipybPY9k7KKF"
+        with ESMTP id S1344537AbjKARFg (ORCPT
+        <rfc822;linux-man@vger.kernel.org>); Wed, 1 Nov 2023 13:05:36 -0400
+Received: from mail.helgefjell.de (unknown [IPv6:2a01:4f8:261:4d55::2])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 0BE5DFD
+        for <linux-man@vger.kernel.org>; Wed,  1 Nov 2023 10:05:30 -0700 (PDT)
+Received: from localhost (localhost [127.0.0.1])
+  (uid 1002)
+  by mail.helgefjell.de with local
+  id 000000000002006F.0000000065428557.000FD0CF; Wed, 01 Nov 2023 17:05:27 +0000
+Date:   Wed, 1 Nov 2023 17:05:27 +0000
+From:   Helge Kreutzmann <debian@helgefjell.de>
+To:     Alejandro Colomar <alx@kernel.org>
+Cc:     mario.blaettermann@gmail.com, linux-man@vger.kernel.org
+Subject: Re: Issue in man page hostname.7
+Message-ID: <ZUKFV1p3pffJEHzz@meinfjell.helgefjelltest.de>
+References: <ZUJaY9YthI-EXLzi@meinfjell.helgefjelltest.de>
+ <ZUJxn0JHxBasvKGf@debian>
+ <ZUJy3qmi9tRg0x-4@meinfjell.helgefjelltest.de>
+ <ZUKEB7bFCE-btgFZ@debian>
+Mime-Version: 1.0
+Content-Type: multipart/signed; micalg=pgp-sha256; protocol="application/pgp-signature"; boundary="=_meinfjell-1036495-1698858327-0001-2"
 Content-Disposition: inline
-In-Reply-To: <20231101161500.ko2nejsen2o3i4pj@jwilk.net>
+In-Reply-To: <ZUKEB7bFCE-btgFZ@debian>
+X-Public-Key-URL: http://www.helgefjell.de/data/debian_neu.asc
+X-homepage: http://www.helgefjell.de/debian
 Precedence: bulk
 List-ID: <linux-man.vger.kernel.org>
 X-Mailing-List: linux-man@vger.kernel.org
 
+This is a MIME-formatted message.  If you see this text it means that your
+E-mail software does not support MIME-formatted messages.
 
---aloEipybPY9k7KKF
-Content-Type: text/plain; protected-headers=v1; charset=utf-8
+--=_meinfjell-1036495-1698858327-0001-2
+Content-Type: text/plain; charset=utf-8
 Content-Disposition: inline
 Content-Transfer-Encoding: quoted-printable
-Date: Wed, 1 Nov 2023 18:08:55 +0100
-From: Alejandro Colomar <alx@kernel.org>
-To: Jakub Wilk <jwilk@jwilk.net>
-Cc: Helge Kreutzmann <debian@helgefjell.de>,
-	Alejandro Colomar <alx.manpages@gmail.com>,
-	Mario =?utf-8?Q?Bl=C3=A4ttermann?= <mario.blaettermann@gmail.com>,
-	linux-man@vger.kernel.org
-Subject: Re: Issue in man page clog.3
 
-On Wed, Nov 01, 2023 at 05:15:00PM +0100, Jakub Wilk wrote:
-> * Helge Kreutzmann <debian@helgefjell.de>, 2023-11-01 14:02:
-> > Issue:    [-pi,pi] means both -pi and pi are included, this does not ma=
-ke sense, either one must be out of the interval?
+Hello Alejandro,
+Am Wed, Nov 01, 2023 at 05:59:51PM +0100 schrieb Alejandro Colomar:
+> On Wed, Nov 01, 2023 at 03:46:38PM +0000, Helge Kreutzmann wrote:
+> > Hello Alejandro,
+> > Am Wed, Nov 01, 2023 at 04:41:19PM +0100 schrieb Alejandro Colomar:
+> > > On Wed, Nov 01, 2023 at 02:02:11PM +0000, Helge Kreutzmann wrote:
+> > > > Without further ado, the following was found:
+> > > >=20
+> > > > Issue:    B<nsswitch.conf> =E2=86=92 I<nsswitch.conf>
+> > >=20
+> > > Please explain why.
+> >=20
+> > Filenames are usually in italics, not bold.
 >=20
-> The man page is consistent with the C standard, which says the return val=
-ue
-> is "in the interval [=E2=88=92i=CF=80, +i=CF=80] along the imaginary axis=
-".
+> If it's a filename, I think the full path would be better.  It could
+> also be a manual page reference, in which case, it's lacking the section.
 >=20
-> I think they mean =CF=80 rounded to the nearest representable value.
-> And indeed, the imaginary part of clog(-1 - DBL_EPSILON * I) is -M_PI, and
-> the imaginary part of clog(-1 + DBL_EPSILON * I) is +M_PI.
+> I think the manual page reference would be better, but I'm not sure.
+> What do you think?
 
-Ahh, thanks a lot, Jakub!
+Yes.
 
->=20
-> --=20
-> Jakub Wilk
+I'd prefer the latter, i.e. with section.
+
+Greetings
+
+        Helge
 
 --=20
-<https://www.alejandro-colomar.es/>
+      Dr. Helge Kreutzmann                     debian@helgefjell.de
+           Dipl.-Phys.                   http://www.helgefjell.de/debian.php
+        64bit GNU powered                     gpg signed mail preferred
+           Help keep free software "libre": http://www.ffii.de/
 
---aloEipybPY9k7KKF
+--=_meinfjell-1036495-1698858327-0001-2
 Content-Type: application/pgp-signature; name="signature.asc"
+Content-Transfer-Encoding: 7bit
 
 -----BEGIN PGP SIGNATURE-----
 
-iQIzBAABCgAdFiEE6jqH8KTroDDkXfJAnowa+77/2zIFAmVChicACgkQnowa+77/
-2zIsHQ//Uw46FzxepDYOlh0A4TqEQwDQF7DEmF3TmdBZ8DARa/Med/2anIOjnBJ6
-G7jXYmMhNN2nrv0t7HJZC0xx15aa6UynjXofOpvhUjbc7lqAegkgVwrpdVcyn31U
-WFXB+uX3Z+DGGU5/BtZ9PybZbkZ8wi2caP3fS/7HhvUrHpxrIUVs+I+UsqgnYwpP
-i8W/Wvi634j2Fh2gOb5ULobswcqMCKL4uQipx/WQAkQTV2mpIY60Oaaj/X8AXBgt
-L5+TW/Y1od6afae9ySdPQrWCIN/aLuQnNVXRENSpMfnX1TdbsTVWXGz5oOrxmcJw
-yUvkteiiotGfceqOib8UfFIVrrsJySfstzPG5bAwz7QmsC8oMNEDLkBcJ8PIPJLW
-mOkMraQ1pNe4vsISbd0N0MNLTGl2ho12fanedBmVIh/lWAAq2jRStDP+3HgdUeXt
-Q8z7Sku5qu0N/wmL6A62aTrRB+Tjs+pEOLiH1To33v0XbhjLsveMN0uySECci5oF
-ueP28EpYZHlQRm1c2/AzjbyQxg1PxEJaVa4c75Qw5FzftZ+qy5mN6LzwDhB/HfUe
-hrymKHjxf7L1FViNO58qX0w/LA/sH1wZiA7qDqkZlEG0z6B79WiMpNC7x9nM41xO
-fQZUwMJPuLdj1y6h9t5g5Whm3Crtms8GE+mcfydgwpoXTY32uKw=
-=MeI6
+iQIzBAABCAAdFiEEbZZfteMW0gNUynuwQbqlJmgq5nAFAmVChVEACgkQQbqlJmgq
+5nDGPA/8DVysN5ULmFQBl23MSLxNzXKlAhMGhPKugywgDTbE5EtFXiiKQS/sqkrm
+GdrxmZjMqkKrm7VUWN8u8s4bEtxibxpPCloczfB8Q2P6sVkEi3cftqvpAnZGoPOv
+Bzibi6w5NbSWeK3aG2k/2hK8Bee7oD41QS7L6YqIQloDJmey5kLP3A62VRdeTB+i
+ZKthMskyt4SO8fkbHwrE9DMi113Bin4dll+GrZKnfIbDHLCCXF1b+ZpBU6B3q76q
+R9Eh8qK/wsZG7tHpd3AWtWoqKLzPMs90x6UMkPUoIdxWfcFyJ1FzkGMBww+ik3OK
+6VG4da0KU6kME7xPbnATHLCBfgFYOD/aNOknKP2n2gmKoPXBdRNht/kd2h/eE45+
+vFZ7xxlOJlipTbQhpiPSrm3OPEjnHtfQrrYLmKt/h3QVTkXleNujrQOzOm0mdsTw
+d44XW3Taj3XnpgzlxlraqauFW/myrTA/6Rcp9gfXPZy9MLmwEG8YdXLEnQQ+b3j2
+qJ+y9DBBbBB4T9HZSWcn8QLUBoF2iYA88eW/djWd9zCluXLwqq/nVQ4JsxFupGng
+OWcJ/WXye1/BOcge7q65NLCOwjczpk5dihm+GrJxd5xtvrvg1RMs0Lo1xFDkHqIZ
+J/peDqCi8nBIlxpHOS1aZJJJUFVzuQaZc91OC5IPJ9ItoKFNRLE=
+=93oV
 -----END PGP SIGNATURE-----
 
---aloEipybPY9k7KKF--
+--=_meinfjell-1036495-1698858327-0001-2--
