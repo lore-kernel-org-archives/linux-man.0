@@ -2,28 +2,28 @@ Return-Path: <linux-man-owner@vger.kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 9C0DBC4167B
-	for <linux-man@archiver.kernel.org>; Wed,  1 Nov 2023 14:07:31 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id AEE9EC4167D
+	for <linux-man@archiver.kernel.org>; Wed,  1 Nov 2023 14:07:32 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S235509AbjKAOHc (ORCPT <rfc822;linux-man@archiver.kernel.org>);
-        Wed, 1 Nov 2023 10:07:32 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:41214 "EHLO
+        id S235094AbjKAOHd (ORCPT <rfc822;linux-man@archiver.kernel.org>);
+        Wed, 1 Nov 2023 10:07:33 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:41240 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1344324AbjKAOHb (ORCPT
-        <rfc822;linux-man@vger.kernel.org>); Wed, 1 Nov 2023 10:07:31 -0400
+        with ESMTP id S235523AbjKAOHc (ORCPT
+        <rfc822;linux-man@vger.kernel.org>); Wed, 1 Nov 2023 10:07:32 -0400
 Received: from mail.helgefjell.de (unknown [IPv6:2a01:4f8:261:4d55::2])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id AAE18118
-        for <linux-man@vger.kernel.org>; Wed,  1 Nov 2023 07:07:28 -0700 (PDT)
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id A9527129
+        for <linux-man@vger.kernel.org>; Wed,  1 Nov 2023 07:07:29 -0700 (PDT)
 Received: from localhost (localhost [127.0.0.1])
   (uid 1002)
   by mail.helgefjell.de with local
-  id 0000000000021538.0000000065425A64.000FADE7; Wed, 01 Nov 2023 14:02:12 +0000
-Date:   Wed, 1 Nov 2023 14:02:12 +0000
+  id 000000000002153F.0000000065425A65.000FAE17; Wed, 01 Nov 2023 14:02:13 +0000
+Date:   Wed, 1 Nov 2023 14:02:13 +0000
 From:   Helge Kreutzmann <debian@helgefjell.de>
 To:     alx.manpages@gmail.com
 Cc:     mario.blaettermann@gmail.com, linux-man@vger.kernel.org
-Subject: Issue in man page catan.3
-Message-ID: <ZUJaZKJAbhWGdLrn@meinfjell.helgefjelltest.de>
+Subject: Issue in man page charsets.7
+Message-ID: <ZUJaZQbrNBXHz4oK@meinfjell.helgefjelltest.de>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=utf-8
 Content-Disposition: inline
@@ -36,8 +36,9 @@ X-Mailing-List: linux-man@vger.kernel.org
 
 Without further ado, the following was found:
 
-Issue:    y → of I<y>
+Issue:    ISO → ISO/IEC
 
-"These functions calculate the complex arc tangent of I<z>.  If "
-"I<y\\~=\\~catan(z)>, then I<z\\~=\\~ctan(y)>.  The real part of y is chosen "
-"in the interval [-pi/2,pi/2]."
+"The ISO 2022 and 4873 standards describe a font-control model based on VT100 "
+"practice.  This model is (partially) supported by the Linux kernel and by "
+"B<xterm>(1).  Several ISO 2022-based character encodings have been defined, "
+"especially for Japanese."
