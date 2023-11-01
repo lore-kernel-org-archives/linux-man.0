@@ -2,28 +2,28 @@ Return-Path: <linux-man-owner@vger.kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 0BE34C001DB
-	for <linux-man@archiver.kernel.org>; Wed,  1 Nov 2023 14:07:26 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 13EF4C001B0
+	for <linux-man@archiver.kernel.org>; Wed,  1 Nov 2023 14:07:25 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1344200AbjKAOH0 (ORCPT <rfc822;linux-man@archiver.kernel.org>);
-        Wed, 1 Nov 2023 10:07:26 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:36012 "EHLO
+        id S1344082AbjKAOHZ (ORCPT <rfc822;linux-man@archiver.kernel.org>);
+        Wed, 1 Nov 2023 10:07:25 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:35990 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1343846AbjKAOHY (ORCPT
-        <rfc822;linux-man@vger.kernel.org>); Wed, 1 Nov 2023 10:07:24 -0400
+        with ESMTP id S1344165AbjKAOHW (ORCPT
+        <rfc822;linux-man@vger.kernel.org>); Wed, 1 Nov 2023 10:07:22 -0400
 Received: from mail.helgefjell.de (unknown [IPv6:2a01:4f8:261:4d55::2])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 7C68710C
-        for <linux-man@vger.kernel.org>; Wed,  1 Nov 2023 07:07:21 -0700 (PDT)
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id E857A10C
+        for <linux-man@vger.kernel.org>; Wed,  1 Nov 2023 07:07:19 -0700 (PDT)
 Received: from localhost (localhost [127.0.0.1])
   (uid 1002)
   by mail.helgefjell.de with local
-  id 000000000002151B.0000000065425A64.000FAD6F; Wed, 01 Nov 2023 14:02:12 +0000
+  id 00000000000214E4.0000000065425A64.000FAD27; Wed, 01 Nov 2023 14:02:12 +0000
 Date:   Wed, 1 Nov 2023 14:02:12 +0000
 From:   Helge Kreutzmann <debian@helgefjell.de>
 To:     alx.manpages@gmail.com
 Cc:     mario.blaettermann@gmail.com, linux-man@vger.kernel.org
-Subject: Issue in man page regex.7
-Message-ID: <ZUJaZLJyT5jFlHmX@meinfjell.helgefjelltest.de>
+Subject: Issue in man page readlink.2
+Message-ID: <ZUJaZIaqGk23UECp@meinfjell.helgefjelltest.de>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=utf-8
 Content-Disposition: inline
@@ -36,14 +36,68 @@ X-Mailing-List: linux-man@vger.kernel.org
 
 Without further ado, the following was found:
 
-Issue 1:  alphabetic?
-Issue 2:  multiple cases → both cases?
+Issue:    the link target → link target
 
-"If case-independent matching is specified, the effect is much as if all case "
-"distinctions had vanished from the alphabet.  When an alphabetic that exists "
-"in multiple cases appears as an ordinary character outside a bracket "
-"expression, it is effectively transformed into a bracket expression "
-"containing both cases, for example, \\[aq]x\\[aq] becomes \"I<[xX]>\".  When "
-"it appears inside a bracket expression, all case counterparts of it are "
-"added to the bracket expression, so that, for example, \"I<[x]>\" becomes "
-"\"I<[xX]>\" and \"I<[\\[ha]x]>\" becomes \"I<[\\[ha]xX]>\"."
+"#include E<lt>limits.hE<gt>\n"
+"#include E<lt>stdio.hE<gt>\n"
+"#include E<lt>stdlib.hE<gt>\n"
+"#include E<lt>sys/stat.hE<gt>\n"
+"#include E<lt>unistd.hE<gt>\n"
+"\\&\n"
+"int\n"
+"main(int argc, char *argv[])\n"
+"{\n"
+"    char         *buf;\n"
+"    ssize_t      nbytes, bufsiz;\n"
+"    struct stat  sb;\n"
+"\\&\n"
+"    if (argc != 2) {\n"
+"        fprintf(stderr, \"Usage: %s E<lt>pathnameE<gt>\\en\", argv[0]);\n"
+"        exit(EXIT_FAILURE);\n"
+"    }\n"
+"\\&\n"
+"    if (lstat(argv[1], &sb) == -1) {\n"
+"        perror(\"lstat\");\n"
+"        exit(EXIT_FAILURE);\n"
+"    }\n"
+"\\&\n"
+"    /* Add one to the link size, so that we can determine whether\n"
+"       the buffer returned by readlink() was truncated. */\n"
+"\\&\n"
+"    bufsiz = sb.st_size + 1;\n"
+"\\&\n"
+"    /* Some magic symlinks under (for example) /proc and /sys\n"
+"       report \\[aq]st_size\\[aq] as zero. In that case, take PATH_MAX as\n"
+"       a \"good enough\" estimate. */\n"
+"\\&\n"
+"    if (sb.st_size == 0)\n"
+"        bufsiz = PATH_MAX;\n"
+"\\&\n"
+"    buf = malloc(bufsiz);\n"
+"    if (buf == NULL) {\n"
+"        perror(\"malloc\");\n"
+"        exit(EXIT_FAILURE);\n"
+"    }\n"
+"\\&\n"
+"    nbytes = readlink(argv[1], buf, bufsiz);\n"
+"    if (nbytes == -1) {\n"
+"        perror(\"readlink\");\n"
+"        exit(EXIT_FAILURE);\n"
+"    }\n"
+"\\&\n"
+"    /* Print only \\[aq]nbytes\\[aq] of \\[aq]buf\\[aq], as it doesn't contain a terminating\n"
+"       null byte (\\[aq]\\e0\\[aq]). */\n"
+"    printf(\"\\[aq]%s\\[aq] points to \\[aq]%.*s\\[aq]\\en\", argv[1], (int) nbytes, buf);\n"
+"\\&\n"
+"    /* If the return value was equal to the buffer size, then the\n"
+"       the link target was larger than expected (perhaps because the\n"
+"       target was changed between the call to lstat() and the call to\n"
+"       readlink()). Warn the user that the returned target may have\n"
+"       been truncated. */\n"
+"\\&\n"
+"    if (nbytes == bufsiz)\n"
+"        printf(\"(Returned buffer may have been truncated)\\en\");\n"
+"\\&\n"
+"    free(buf);\n"
+"    exit(EXIT_SUCCESS);\n"
+"}\n"
