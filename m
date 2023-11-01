@@ -2,28 +2,28 @@ Return-Path: <linux-man-owner@vger.kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 6B0E3C0018A
-	for <linux-man@archiver.kernel.org>; Wed,  1 Nov 2023 14:07:16 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 08AEDC4708E
+	for <linux-man@archiver.kernel.org>; Wed,  1 Nov 2023 14:07:17 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S235187AbjKAOHR (ORCPT <rfc822;linux-man@archiver.kernel.org>);
+        id S235372AbjKAOHR (ORCPT <rfc822;linux-man@archiver.kernel.org>);
         Wed, 1 Nov 2023 10:07:17 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:57624 "EHLO
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:57608 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S235372AbjKAOHQ (ORCPT
+        with ESMTP id S235094AbjKAOHQ (ORCPT
         <rfc822;linux-man@vger.kernel.org>); Wed, 1 Nov 2023 10:07:16 -0400
 Received: from mail.helgefjell.de (unknown [IPv6:2a01:4f8:261:4d55::2])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 1ECF6118
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 4256710D
         for <linux-man@vger.kernel.org>; Wed,  1 Nov 2023 07:07:13 -0700 (PDT)
 Received: from localhost (localhost [127.0.0.1])
   (uid 1002)
   by mail.helgefjell.de with local
-  id 00000000000209A0.0000000065425A62.000FAC00; Wed, 01 Nov 2023 14:02:10 +0000
+  id 0000000000020675.0000000065425A62.000FAB94; Wed, 01 Nov 2023 14:02:10 +0000
 Date:   Wed, 1 Nov 2023 14:02:10 +0000
 From:   Helge Kreutzmann <debian@helgefjell.de>
 To:     alx.manpages@gmail.com
 Cc:     mario.blaettermann@gmail.com, linux-man@vger.kernel.org
-Subject: Issue in man page getgrent.3
-Message-ID: <ZUJaYkEfZ2HQMbgG@meinfjell.helgefjelltest.de>
+Subject: Issue in man page execve.2
+Message-ID: <ZUJaYiMc1nM_GhB3@meinfjell.helgefjelltest.de>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=utf-8
 Content-Disposition: inline
@@ -36,13 +36,14 @@ X-Mailing-List: linux-man@vger.kernel.org
 
 Without further ado, the following was found:
 
-Issue:    NULL-terminated →  NUL-terminated
+Issue:    NULL pointer → NULL
 
-msgid ""
-"struct group {\n"
-"    char   *gr_name;        /* group name */\n"
-"    char   *gr_passwd;      /* group password */\n"
-"    gid_t   gr_gid;         /* group ID */\n"
-"    char  **gr_mem;         /* NULL-terminated array of pointers\n"
-"                               to names of group members */\n"
-"};\n"
+"I<argv> is an array of pointers to strings passed to the new program as its "
+"command-line arguments.  By convention, the first of these strings (i.e., "
+"I<argv[0]>)  should contain the filename associated with the file being "
+"executed.  The I<argv> array must be terminated by a NULL pointer.  (Thus, "
+"in the new program, I<argv[argc]> will be NULL.)"
+
+"I<envp> is an array of pointers to strings, conventionally of the form "
+"B<key=value>, which are passed as the environment of the new program.  The "
+"I<envp> array must be terminated by a NULL pointer."
