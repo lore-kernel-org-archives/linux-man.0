@@ -2,100 +2,143 @@ Return-Path: <linux-man-owner@vger.kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 8B375C4332F
-	for <linux-man@archiver.kernel.org>; Sun,  5 Nov 2023 12:13:48 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 8CFA3C4332F
+	for <linux-man@archiver.kernel.org>; Sun,  5 Nov 2023 21:16:32 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S229527AbjKEMNt (ORCPT <rfc822;linux-man@archiver.kernel.org>);
-        Sun, 5 Nov 2023 07:13:49 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:45332 "EHLO
+        id S229448AbjKEVQc (ORCPT <rfc822;linux-man@archiver.kernel.org>);
+        Sun, 5 Nov 2023 16:16:32 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:52798 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S229447AbjKEMNs (ORCPT
-        <rfc822;linux-man@vger.kernel.org>); Sun, 5 Nov 2023 07:13:48 -0500
-Received: from smtp.kernel.org (relay.kernel.org [52.25.139.140])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 34547C5
-        for <linux-man@vger.kernel.org>; Sun,  5 Nov 2023 04:13:46 -0800 (PST)
-Received: by smtp.kernel.org (Postfix) with ESMTPS id CEAC4C433CC
-        for <linux-man@vger.kernel.org>; Sun,  5 Nov 2023 12:13:45 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-        s=k20201202; t=1699186425;
-        bh=dvwMz0vO5wDsMtu9hAAapCyl6o6Uen5HwgI+IRlkjbk=;
-        h=From:To:Subject:Date:From;
-        b=OsJcllUCIEsDGjI383uaz3gl64YmPyLX6kezIDIq+92rwXTdqssF4CpPuaCbbS5oD
-         2CQmddbDAm2r2OVo3YjVA3Mhm1JsYXNrTpy1le+Nlu73K67os9T1eoLflMjsme0Er8
-         rbTm6UsR77xSKAJt0XOx9ny3g274+oC1cpWRXM+3rjkpy2AIkAq0eHc2d903z4l4kX
-         jm1jY5cHVG+Wn4S8BjIgA2L63nu63o19p7ZFPEvfzvoSY8friOY6F9hxUNHlWLbqCu
-         YEzynjZqDA5esuTzXxXH+BeHgDSZWXx+WQO5QyS+sjD74SbEg3YmPsAR6e/k18DZVh
-         KGL2x50RwVFng==
-Received: by aws-us-west-2-korg-bugzilla-1.web.codeaurora.org (Postfix, from userid 48)
-        id C1711C53BD3; Sun,  5 Nov 2023 12:13:45 +0000 (UTC)
-From:   bugzilla-daemon@kernel.org
-To:     linux-man@vger.kernel.org
-Subject: [Bug 218105] New: Incorrect path name in description of creating a
- threaded cgroups tree
-Date:   Sun, 05 Nov 2023 12:13:45 +0000
-X-Bugzilla-Reason: None
-X-Bugzilla-Type: new
-X-Bugzilla-Watch-Reason: AssignedTo
- documentation_man-pages@kernel-bugs.osdl.org
-X-Bugzilla-Product: Documentation
-X-Bugzilla-Component: man-pages
-X-Bugzilla-Version: unspecified
-X-Bugzilla-Keywords: 
-X-Bugzilla-Severity: normal
-X-Bugzilla-Who: goeran@uddeborg.se
-X-Bugzilla-Status: NEW
-X-Bugzilla-Resolution: 
-X-Bugzilla-Priority: P3
-X-Bugzilla-Assigned-To: documentation_man-pages@kernel-bugs.osdl.org
-X-Bugzilla-Flags: 
-X-Bugzilla-Changed-Fields: bug_id short_desc product version rep_platform
- op_sys bug_status bug_severity priority component assigned_to reporter
- cf_regression
-Message-ID: <bug-218105-11311@https.bugzilla.kernel.org/>
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
-X-Bugzilla-URL: https://bugzilla.kernel.org/
-Auto-Submitted: auto-generated
+        with ESMTP id S229447AbjKEVQb (ORCPT
+        <rfc822;linux-man@vger.kernel.org>); Sun, 5 Nov 2023 16:16:31 -0500
+Received: from mail-wr1-x42e.google.com (mail-wr1-x42e.google.com [IPv6:2a00:1450:4864:20::42e])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 25FAFC0
+        for <linux-man@vger.kernel.org>; Sun,  5 Nov 2023 13:16:28 -0800 (PST)
+Received: by mail-wr1-x42e.google.com with SMTP id ffacd0b85a97d-32faea0fa1fso1991392f8f.1
+        for <linux-man@vger.kernel.org>; Sun, 05 Nov 2023 13:16:28 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=jguk.org; s=google; t=1699218986; x=1699823786; darn=vger.kernel.org;
+        h=content-transfer-encoding:in-reply-to:from:references:cc:to
+         :content-language:subject:user-agent:mime-version:date:message-id
+         :from:to:cc:subject:date:message-id:reply-to;
+        bh=wFMu9pYiHbEk9/lw5O7iJnW733z23hnRYcMoOGIF91M=;
+        b=jtyV1O35eoUBuFHN8gxcTZ35TaoJOquiEy+Ed2Qurkqel97TnvDnUFptmHhjnQSVqL
+         0AlKOZi8eVagJjC1xcqNuTctFEXDhZjftvPtrfQXHz7Btoz3MfITNlozQ2l3F8GUhyXe
+         UuIYmZSltZwz9JPzraWD56nv4rvzes2wQa79CoHphDVhXjz4HxIU27gtsL+h/QKXHZCn
+         0P7gzP6N3zHq92alagZV+aBLksaewsaybsUxLzYboMLCemprRGqofw3Reewk3CfPGlEq
+         3/nsh+9FZIEjKPMhOohbjmSKxEGl5rFDhUPeP14bHVuP6VKku4UuN6+/KD6XVT1rXHm0
+         qnhg==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1699218986; x=1699823786;
+        h=content-transfer-encoding:in-reply-to:from:references:cc:to
+         :content-language:subject:user-agent:mime-version:date:message-id
+         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
+        bh=wFMu9pYiHbEk9/lw5O7iJnW733z23hnRYcMoOGIF91M=;
+        b=iQaDoF1zJm2jCvYg2peh2gTgV8DFK5zTlI7ON4W84lnUaSEzF5gWAz94OyQi15i4hZ
+         jqff3ReihiQJHa2Nt32SoRd13vK5Yc8gW88EmXfVXoPMFpCfMeX0vtAFD8DYKL4LUt4u
+         FhggfbkbchNDr5fTOtOUT1Mhzj+mRlxGHzGU7W6RojZl/aYD/Sj5mnIIyA//QNRKBS2k
+         cPV8zT2Evlmvpma+mlLE+XTASvmB+vKcQjfEA49clFn6YvSAJwzR8abfIoJBr2ysuaM9
+         gF1zTz2morSRAzBjJ3qxiguhtbkBdwK3lczuKfNyCUgZF1IipOQ41xMU/4UKfIKvpLJP
+         qkHw==
+X-Gm-Message-State: AOJu0Yw4Elp03qkyF5/dzzQVVZ589BHCPF8G006Vzh+znZtGyVhuBQDn
+        0t0cVHX4W+yUdR3S8XpxceFjnQ==
+X-Google-Smtp-Source: AGHT+IEK3NrELiun742Jaf4K2efDCyBvPQmCmdpR90xysJIaExnAq4YYOPpUfwluJWneQtcXH5VVkA==
+X-Received: by 2002:a05:6000:400e:b0:32d:d4c5:272b with SMTP id cp14-20020a056000400e00b0032dd4c5272bmr13079399wrb.26.1699218986563;
+        Sun, 05 Nov 2023 13:16:26 -0800 (PST)
+Received: from [192.168.0.12] (cpc87345-slou4-2-0-cust172.17-4.cable.virginm.net. [81.101.252.173])
+        by smtp.gmail.com with ESMTPSA id m12-20020a5d56cc000000b003232f167df5sm7585602wrw.108.2023.11.05.13.16.25
+        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+        Sun, 05 Nov 2023 13:16:26 -0800 (PST)
+Message-ID: <aeb55af5-1017-4ffd-9824-30b43d5748e3@jguk.org>
+Date:   Sun, 5 Nov 2023 21:16:25 +0000
 MIME-Version: 1.0
+User-Agent: Mozilla Thunderbird
+Subject: Re: strncpy clarify result may not be null terminated
+Content-Language: en-GB
+To:     Michael Kerrisk <mtk.manpages@gmail.com>
+Cc:     linux-man <linux-man@vger.kernel.org>,
+        Alejandro Colomar <alx@kernel.org>
+References: <cfbd8674-fe6a-4430-95f1-ec8bde7da32e@jguk.org>
+ <ZUacobMq0l_O8gjg@debian>
+From:   Jonny Grant <jg@jguk.org>
+In-Reply-To: <ZUacobMq0l_O8gjg@debian>
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 8bit
 Precedence: bulk
 List-ID: <linux-man.vger.kernel.org>
 X-Mailing-List: linux-man@vger.kernel.org
 
-https://bugzilla.kernel.org/show_bug.cgi?id=3D218105
 
-            Bug ID: 218105
-           Summary: Incorrect path name in description of creating a
-                    threaded cgroups tree
-           Product: Documentation
-           Version: unspecified
-          Hardware: All
-                OS: Linux
-            Status: NEW
-          Severity: normal
-          Priority: P3
-         Component: man-pages
-          Assignee: documentation_man-pages@kernel-bugs.osdl.org
-          Reporter: goeran@uddeborg.se
-        Regression: No
 
-The manual page for cgroups.7 explains how to create a threaded subtree in =
-this
-way:
+On 04/11/2023 19:33, Alejandro Colomar wrote:
+> Hi Jonny,
+> 
+> On Sat, Nov 04, 2023 at 11:27:44AM +0000, Jonny Grant wrote:
+>> Hello
+>> I have a suggestion for strncpy.
+>>
+>> C23 draft states this caveat for strncpy. 
+>>
+>> "373) Thus, if there is no null character in the first n characters of the array pointed to by s2, the result will not be null-
+>> terminated."
+>>
+>>
+>> https://man7.org/linux/man-pages/man3/strncpy.3.html
+>>
+>> "If the destination buffer, limited by its size, isn't large
+>> enough to hold the copy, the resulting character sequence is
+>> truncated. "
+> 
+> The use of the term "character sequence" instead of "string" isn't
+> casual.  A "string" is a sequence of zero or more non-zero characters,
+> followed by exactly one NUL.  A "character sequence" is a sequence of
+> zero or more non-zero characters, period.
+> 
+> To be clearer in that regard, the CAVEATS section of the same page says
+> this:
+> 
+> CAVEATS
+>      The name of these functions is confusing.  These  functions  pro‐
+>      duce   a  null‐padded  character  sequence,  not  a  string  (see
+>      string_copying(7)).
+> 
+> Saying that these functions don't produce a string should warn anyone
+> thinking it would.  The page string_copying(7) goes into more detail.
+> 
+>>
+>> How about clarifying this as:
+>>
+>>
+>> "If the destination buffer, limited by its size, isn't large
+>> enough to hold the copy, the resulting character sequence is
+>> truncated; where there is no null terminating byte in the first n
+>> characters the result will not be null terminated. "
+> 
+> strncpy(3) should !*NEVER*! be used to produce a string.
+> I don't think that should be conditional.  Your suggested change could
+> induce to the mistake of thinking that strncpy(3) is useful if the size
+> of the buffer is enough.  Do not ever use that function for producing
+> strings.  Use something else, like strlcpy(3), strcpy(3), or stpecpy(3).
+> 
+> Cheers,
+> Alex
+> 
+>>
+>> Kind regards, Jonny
 
-    1. In an existing cgroup, z, that currently has the type domain, we (1)
-       enable  one  or  more  threaded controllers and (2) make a process a
-       member of z.  (These two steps can be done in either  order.)   This
-       has the following consequences:
 
-       *  The type of z becomes domain threaded.
+Michael, what do you think about this documentation suggestion I have made. Interested to hear your opinion.
 
-       *  All  of the descendant cgroups of x that were not already of type
-          threaded are converted to type domain invalid.
+Should the man page follow the C spec description of the strncpy function and how when it copies the arrays, it may leave the resulting array of characters not terminated, and warn about this pitfall.
 
-Where the last bullet talks about "x", it should surely talk about "z".
+C99 had this, and it is still there in latest C23 draft - worth clarifying on strncpy(3)?
 
---=20
-You may reply to this email to add a comment.
+"7.21.2.4 The strncpy function"
 
-You are receiving this mail because:
-You are watching the assignee of the bug.=
+"269) Thus, if there is no null character in the first n characters of the array pointed to by s2, the result will
+not be null-terminated."
+
+Note, I'm not using strncpy myself, it's a documentation clarification proposal.
+
+Kind regards
+Jonny
