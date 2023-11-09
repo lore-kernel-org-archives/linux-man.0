@@ -2,69 +2,92 @@ Return-Path: <linux-man-owner@vger.kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 96159C4332F
-	for <linux-man@archiver.kernel.org>; Thu,  9 Nov 2023 18:03:08 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 68A08C4332F
+	for <linux-man@archiver.kernel.org>; Thu,  9 Nov 2023 18:11:13 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S231845AbjKISDK (ORCPT <rfc822;linux-man@archiver.kernel.org>);
-        Thu, 9 Nov 2023 13:03:10 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:52792 "EHLO
+        id S1344920AbjKISLO (ORCPT <rfc822;linux-man@archiver.kernel.org>);
+        Thu, 9 Nov 2023 13:11:14 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:46572 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S231478AbjKISDJ (ORCPT
-        <rfc822;linux-man@vger.kernel.org>); Thu, 9 Nov 2023 13:03:09 -0500
-X-Greylist: delayed 518 seconds by postgrey-1.37 at lindbergh.monkeyblade.net; Thu, 09 Nov 2023 10:03:05 PST
-Received: from mail-out.m-online.net (mail-out.m-online.net [IPv6:2001:a60:0:28:0:1:25:1])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 9D1693A92
-        for <linux-man@vger.kernel.org>; Thu,  9 Nov 2023 10:03:05 -0800 (PST)
-Received: from frontend01.mail.m-online.net (unknown [192.168.8.182])
-        by mail-out.m-online.net (Postfix) with ESMTP id 4SR8jB6ttWz1sBpn;
-        Thu,  9 Nov 2023 18:54:22 +0100 (CET)
-Received: from localhost (dynscan1.mnet-online.de [192.168.6.68])
-        by mail.m-online.net (Postfix) with ESMTP id 4SR8j958P3z1qqlS;
-        Thu,  9 Nov 2023 18:54:21 +0100 (CET)
-X-Virus-Scanned: amavis at mnet-online.de
-Received: from mail.mnet-online.de ([192.168.8.182])
- by localhost (dynscan1.mail.m-online.net [192.168.6.68]) (amavis, port 10024)
- with ESMTP id KIBVRoCB9FFK; Thu,  9 Nov 2023 18:54:20 +0100 (CET)
-X-Auth-Info: D65YmtZh6ceQvVaqRvkaF4nrFBgkdpw2aViQlao8oenppB0ki/kwgFEEIWX55RnC
-Received: from igel.home (aftr-62-216-205-82.dynamic.mnet-online.de [62.216.205.82])
-        (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-         key-exchange X25519 server-signature RSA-PSS (2048 bits) server-digest SHA256)
-        (No client certificate requested)
-        by mail.mnet-online.de (Postfix) with ESMTPSA;
-        Thu,  9 Nov 2023 18:54:20 +0100 (CET)
-Received: by igel.home (Postfix, from userid 1000)
-        id 243B22C1376; Thu,  9 Nov 2023 18:54:20 +0100 (CET)
-From:   Andreas Schwab <schwab@linux-m68k.org>
-To:     DJ Delorie <dj@redhat.com>
-Cc:     Alejandro Colomar <alx@kernel.org>, jg@jguk.org,
-        eggert@cs.ucla.edu, linux-man@vger.kernel.org,
-        libc-alpha@sourceware.org, mattlloydhouse@gmail.com,
-        xxc3ncoredxx@gmail.com, kukuk@suse.com,
-        adhemerval.zanella@linaro.org, zack@owlfolio.org,
-        g.branden.robinson@gmail.com, carlos@redhat.com
-Subject: Re: [PATCH] stpncpy.3, string_copying.7: Clarify that st[rp]ncpy()
- do NOT produce a string
-In-Reply-To: <xncywirg0m.fsf@greed.delorie.com> (DJ Delorie's message of "Thu,
-        09 Nov 2023 12:30:17 -0500")
-References: <ZUz0igot_qFs3BJX@debian> <xncywirg0m.fsf@greed.delorie.com>
-X-Yow:  I'm pretending I'm pulling in a TROUT!  Am I doing it correctly??
-Date:   Thu, 09 Nov 2023 18:54:20 +0100
-Message-ID: <87o7g2ersj.fsf@igel.home>
-User-Agent: Gnus/5.13 (Gnus v5.13)
+        with ESMTP id S1344906AbjKISLN (ORCPT
+        <rfc822;linux-man@vger.kernel.org>); Thu, 9 Nov 2023 13:11:13 -0500
+Received: from mail.cs.ucla.edu (mail.cs.ucla.edu [131.179.128.66])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 9644825B4
+        for <linux-man@vger.kernel.org>; Thu,  9 Nov 2023 10:11:11 -0800 (PST)
+Received: from localhost (localhost [127.0.0.1])
+        by mail.cs.ucla.edu (Postfix) with ESMTP id 40EB93C011BDC;
+        Thu,  9 Nov 2023 10:11:11 -0800 (PST)
+Received: from mail.cs.ucla.edu ([127.0.0.1])
+        by localhost (mail.cs.ucla.edu [127.0.0.1]) (amavisd-new, port 10032)
+        with ESMTP id u3ooyhGvNewr; Thu,  9 Nov 2023 10:11:11 -0800 (PST)
+Received: from localhost (localhost [127.0.0.1])
+        by mail.cs.ucla.edu (Postfix) with ESMTP id E42783C011BDE;
+        Thu,  9 Nov 2023 10:11:10 -0800 (PST)
+DKIM-Filter: OpenDKIM Filter v2.10.3 mail.cs.ucla.edu E42783C011BDE
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=cs.ucla.edu;
+        s=9D0B346E-2AEB-11ED-9476-E14B719DCE6C; t=1699553470;
+        bh=ZQamnXHbJT4VVtSioVHHxz0yLNDu3DEErvwwr+u9RXQ=;
+        h=Message-ID:Date:MIME-Version:To:From;
+        b=f5Moe9f116PuzTREujKc6l1R273JUiOPJH6y9SbUZBKMhyPG77FfhhKRhdTgpaDkN
+         2Vho4Gq2WCKVNkT7HtxAiekeM494kZH8R/sU6SxnHd2wPmY2FRsgiB0nTz6Aq4UZnD
+         EyaceFko3ylreT1xBu7FB7mh06a97NLuTHK0TzqqL9Df+s3raj8Sjxok9cNFgRyq4S
+         R3foDEpmZtrS0vwTeyiyfR+TuOjWiVAJcpSN6aaVSW5J0kUXQeFLuhxiRYabjC31Mh
+         kTqa0NIo8F3/CBtKqBv9fHeZK6QYugCvw/A749wKtAjZqwsjrtZDrQycPlN1WsB4Q5
+         fl8kqWBjs52kw==
+X-Virus-Scanned: amavisd-new at mail.cs.ucla.edu
+Received: from mail.cs.ucla.edu ([127.0.0.1])
+        by localhost (mail.cs.ucla.edu [127.0.0.1]) (amavisd-new, port 10026)
+        with ESMTP id o4Fkr0D7Afas; Thu,  9 Nov 2023 10:11:10 -0800 (PST)
+Received: from [192.168.254.12] (unknown [47.148.192.211])
+        by mail.cs.ucla.edu (Postfix) with ESMTPSA id B9DC23C011BDA;
+        Thu,  9 Nov 2023 10:11:10 -0800 (PST)
+Message-ID: <f10a21e1-570c-4166-b060-afb2de93aede@cs.ucla.edu>
+Date:   Thu, 9 Nov 2023 10:11:10 -0800
 MIME-Version: 1.0
-Content-Type: text/plain
+User-Agent: Mozilla Thunderbird
+Subject: Re: strncpy clarify result may not be null terminated
+To:     Alejandro Colomar <alx@kernel.org>, Jonny Grant <jg@jguk.org>
+Cc:     Matthew House <mattlloydhouse@gmail.com>,
+        linux-man <linux-man@vger.kernel.org>,
+        GNU C Library <libc-alpha@sourceware.org>
+References: <cfbd8674-fe6a-4430-95f1-ec8bde7da32e@jguk.org>
+ <ZUacobMq0l_O8gjg@debian> <aeb55af5-1017-4ffd-9824-30b43d5748e3@jguk.org>
+ <ZUgl2HPJvUge7XYN@debian> <d40fffcb-524d-44b6-a252-b55a8ddc9fee@jguk.org>
+ <ZUo6btEFD_z_3NcF@devuan> <20231108021240.176996-1-mattlloydhouse@gmail.com>
+ <ZUvilH5kuQfTuZjy@debian> <20231109031345.245703-1-mattlloydhouse@gmail.com>
+ <250e0401-2eaa-461f-ae20-a7f44d0bc5ad@jguk.org> <ZUzEw2j6gHF5WtsO@debian>
+Content-Language: en-US
+From:   Paul Eggert <eggert@cs.ucla.edu>
+Organization: UCLA Computer Science Department
+In-Reply-To: <ZUzEw2j6gHF5WtsO@debian>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 7bit
 Precedence: bulk
 List-ID: <linux-man.vger.kernel.org>
 X-Mailing-List: linux-man@vger.kernel.org
 
-On Nov 09 2023, DJ Delorie wrote:
+On 2023-11-09 03:38, Alejandro Colomar wrote:
+> If you are consistent in checking the return value of strlcpy(3) and
+> reporting an error, it's the best standard alternative nowadays.
 
-> The pedant in me says it should be NUL bytes (or NUL's), not null bytes.
-> nul/NUL is a character, null/NULL is a pointer.
+Not necessarily. strlcpy is subject to denial-of-service attacks if the 
+attacker has control of the source string and can attack by using long 
+source strings. strncpy, as bad as it is, does not have this problem.
 
-NUL is the ASCII abbreviation for Null (see RFC 20).
+Instead of this:
 
--- 
-Andreas Schwab, schwab@linux-m68k.org
-GPG Key fingerprint = 7578 EB47 D4E5 4D69 2510  2552 DF73 E780 A9DA AEC1
-"And now for something completely different."
+    if (strlcpy (dst, src, dstsize) == dstsize)
+      return failure;
+
+applications that want want to copy a string into a small nonempty 
+fixed-size buffer, failing if the string doesn't fit, should do 
+something like this:
+
+    if (strncpy (dst, src, dstsize)[dstsize - 1])
+      return failure;
+
+This avoids the denial-of-service attack and is portable all the way 
+back to K&R C.
+
+It's unfortunate that strlcpy was misdesigned but here we are.
+
