@@ -1,52 +1,26 @@
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+	(No client certificate requested)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id C667A1804A;
+	Wed, 29 Nov 2023 09:53:02 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=redhat.com header.i=@redhat.com header.b="KWzajuFq"
-Received: from us-smtp-delivery-124.mimecast.com (us-smtp-delivery-124.mimecast.com [170.10.133.124])
-	by lindbergh.monkeyblade.net (Postfix) with ESMTPS id B850ED51
-	for <linux-man@vger.kernel.org>; Tue, 28 Nov 2023 08:04:08 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
-	s=mimecast20190719; t=1701187445;
-	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
-	 to:to:cc:cc:mime-version:mime-version:
-	 content-transfer-encoding:content-transfer-encoding:
-	 in-reply-to:in-reply-to:references:references;
-	bh=omywh3uYUA+OP9xtT6bY+D59biyAwUJXDod3WOPdRWc=;
-	b=KWzajuFqxzQRey8wsCi9uxiSzh2gXf1SVHxIa200eCucA1YDknxkxbD+IPET6hgKKr1RqR
-	6EOhJ/VM/OmFUJnpprCRhxnZZcBXYvuGEzj8x3052UYjOEWCJi6WWKUeFuXXUct+wMFnVl
-	JlJBv5u7GPXLe+eq6p4XLzXTSas5MBU=
-Received: from mail-wr1-f69.google.com (mail-wr1-f69.google.com
- [209.85.221.69]) by relay.mimecast.com with ESMTP with STARTTLS
- (version=TLSv1.3, cipher=TLS_AES_256_GCM_SHA384) id
- us-mta-652-W-OZgwo_MG67IcF9yZrGIQ-1; Tue, 28 Nov 2023 11:03:53 -0500
-X-MC-Unique: W-OZgwo_MG67IcF9yZrGIQ-1
-Received: by mail-wr1-f69.google.com with SMTP id ffacd0b85a97d-33309619b52so749445f8f.1
-        for <linux-man@vger.kernel.org>; Tue, 28 Nov 2023 08:03:51 -0800 (PST)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1701187429; x=1701792229;
-        h=content-transfer-encoding:mime-version:references:in-reply-to
-         :message-id:date:subject:cc:to:from:x-gm-message-state:from:to:cc
-         :subject:date:message-id:reply-to;
-        bh=omywh3uYUA+OP9xtT6bY+D59biyAwUJXDod3WOPdRWc=;
-        b=lywwSkoR5YEZ82nRXCRiob0IjrKLvhv8o4YFiKkkPU2op5AY5e9KSIKfyQiwPwWvoT
-         SgKBy2Ewi91CcEQbATAnyBF6CVSPVo8QiXD8yy2a/vNS330kMPJmCvNI7FSdKR0frTaS
-         irTKQ62pX9PCKZWwd6sj5ThR9fcRoSi8j2ZPArmsWyDxmz0qbbCYKMmNkxRjXEkUdTVQ
-         DbZC/nuhYqZbW2gwbXU+KvIZQ2sbshPfawZgRRNAq82jj+x+R03Ze/giSJtM4VfYlkBA
-         i/ztKl4BgNA5HAnybe6YREEmUbtpkd4/a67EVTDGQqAFxw1TaSs0iw8Js5famKVbluGy
-         GOqQ==
-X-Gm-Message-State: AOJu0Yy8LxGcjPvPBHajEsbQbr3LIUFKFOGmdYZG8IKpt24a/gFzsfiQ
-	dPtu1AXLJaGH+lkzHsOyW9av6feto3hvvNoI4+116vWV3byDDGGHg5BhmnJzSua33QhiKgn4fq9
-	MnhcDGRcAdhyeKm10vKSX
-X-Received: by 2002:adf:f1c1:0:b0:333:57:52dc with SMTP id z1-20020adff1c1000000b00333005752dcmr6968618wro.28.1701187429399;
-        Tue, 28 Nov 2023 08:03:49 -0800 (PST)
-X-Google-Smtp-Source: AGHT+IEjBXrvjTmUnqUbvz6X5Z6wicgMGQwKTpwouHd6eOg+ohVwquafvdjG1qDYQ2HQi5uGrlK3bQ==
-X-Received: by 2002:adf:f1c1:0:b0:333:57:52dc with SMTP id z1-20020adff1c1000000b00333005752dcmr6968581wro.28.1701187429027;
-        Tue, 28 Nov 2023 08:03:49 -0800 (PST)
-Received: from maszat.piliscsaba.szeredi.hu (89-148-117-163.pool.digikabel.hu. [89.148.117.163])
-        by smtp.gmail.com with ESMTPSA id w27-20020adf8bdb000000b00332e5624a31sm14745352wra.84.2023.11.28.08.03.46
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Tue, 28 Nov 2023 08:03:47 -0800 (PST)
-From: Miklos Szeredi <mszeredi@redhat.com>
-To: Christian Brauner <christian@brauner.io>
-Cc: linux-api@vger.kernel.org,
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="tm+z5j3Q"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id D5D63C433C8;
+	Wed, 29 Nov 2023 09:52:59 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+	s=k20201202; t=1701251582;
+	bh=M/wrwBoAhY/EOGRi2rNjTTgsi/b3VYc9j7tgxbCLpL4=;
+	h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
+	b=tm+z5j3QeKUul/UAWCffXevjUUzFl3znKaxyEIQgOGQYawvbFoSSVU3341cwFrTex
+	 3SJy5Lj4mdhvpqjdpWRFFG1v1dFAVI+OkB2MrCZIP4y8ER5mrewszXlYlWcHb3UywU
+	 GjsaFDpjUYhAR4gtOjS44Z7mP/+D9ZhJebUAcBVCg8a/GvgDSHU67y4f0u3l84zrCR
+	 FqGjFTR92inF5rlwhaInSmMVJBl2W1VlfjGTFo7yY9xOUEpd5Bby7rPZI2yz++Baln
+	 5MmmB2v0IcD5sBZTEDPGZz4jWJK9BTutg0yS+9gslDNjeuugBrOZVOIl4oh/Ke9lUA
+	 v5BfjZzGawPfQ==
+From: Christian Brauner <brauner@kernel.org>
+To: Miklos Szeredi <mszeredi@redhat.com>
+Cc: Christian Brauner <brauner@kernel.org>,
+	linux-api@vger.kernel.org,
 	linux-man@vger.kernel.org,
 	linux-security-module@vger.kernel.org,
 	Karel Zak <kzak@redhat.com>,
@@ -54,10 +28,10 @@ Cc: linux-api@vger.kernel.org,
 	Ian Kent <raven@themaw.net>,
 	David Howells <dhowells@redhat.com>,
 	Al Viro <viro@zeniv.linux.org.uk>
-Subject: [PATCH 3/4] listmount: small changes in semantics
-Date: Tue, 28 Nov 2023 17:03:34 +0100
-Message-ID: <20231128160337.29094-4-mszeredi@redhat.com>
-X-Mailer: git-send-email 2.41.0
+Subject: Re: [PATCH 0/4] listmount changes
+Date: Wed, 29 Nov 2023 10:52:12 +0100
+Message-ID: <20231129-rinnen-gekapert-c3875be7c9da@brauner>
+X-Mailer: git-send-email 2.42.0
 In-Reply-To: <20231128160337.29094-1-mszeredi@redhat.com>
 References: <20231128160337.29094-1-mszeredi@redhat.com>
 Precedence: bulk
@@ -66,106 +40,48 @@ List-Id: <linux-man.vger.kernel.org>
 List-Subscribe: <mailto:linux-man+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-man+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
+Content-Type: text/plain; charset="utf-8"
+X-Developer-Signature: v=1; a=openpgp-sha256; l=1660; i=brauner@kernel.org; h=from:subject:message-id; bh=t4fv6b9d28Re5kYhLcaI3zsHZPY8Eee8QVWBDmRIpNg=; b=owGbwMvMwCU28Zj0gdSKO4sYT6slMaSmc5456bm3/Jry9Pw3LJNbzHhrJM/O1HBeWLYj+GmKo JO3qPDSjlIWBjEuBlkxRRaHdpNwueU8FZuNMjVg5rAygQxh4OIUgImo2zL8Ff76QOrOyooJXdM3 Fjb9fJli8tiIZ3dixMumrNfu8WvK1jAy/O/TKIquz3NKl/+VemLR9ptqrnsPv14d/ub93beJvLc vcgMA
+X-Developer-Key: i=brauner@kernel.org; a=openpgp; fpr=4880B8C9BD0E5106FC070F4F7B3C391EFEA93624
 Content-Transfer-Encoding: 8bit
 
-1) Make permission checking consistent with statmount(2): fail if mount is
-unreachable from current root.  Previously it failed if mount was
-unreachable from root->mnt->mnt_root.
+On Tue, 28 Nov 2023 17:03:31 +0100, Miklos Szeredi wrote:
+> This came out from me thinking about the best libc API.  It contains a few
+> changes that simplify and (I think) improve the interface.
+> 
+> Tree:
+> 
+>   git://git.kernel.org/pub/scm/linux/kernel/git/vfs/vfs.git#vfs.mount
+> 
+> [...]
 
-2) List all submounts, even if unreachable from current root.  This is
-safe, since 1) will prevent listing unreachable mounts for unprivileged
-users.
+Afaict, all changes as discussed. Thanks. I folded the fixes into the
+main commit. Links to the patches that were folded are in the commit
+message and explained in there as well. The final commit is now rather
+small and easy to read.
 
-3) LSMT_ROOT is unchaged, it lists mounts under current root.
-
-Signed-off-by: Miklos Szeredi <mszeredi@redhat.com>
 ---
- fs/namespace.c | 39 ++++++++++++++-------------------------
- 1 file changed, 14 insertions(+), 25 deletions(-)
 
-diff --git a/fs/namespace.c b/fs/namespace.c
-index ad62cf7ee334..10cd651175b5 100644
---- a/fs/namespace.c
-+++ b/fs/namespace.c
-@@ -5004,37 +5004,26 @@ static struct mount *listmnt_next(struct mount *curr)
- 	return node_to_mount(rb_next(&curr->mnt_node));
- }
- 
--static ssize_t do_listmount(struct mount *first, struct vfsmount *mnt,
-+static ssize_t do_listmount(struct mount *first, struct path *orig, u64 mnt_id,
- 			    u64 __user *buf, size_t bufsize,
- 			    const struct path *root)
- {
--	struct mount *r, *m = real_mount(mnt);
--	struct path rootmnt = {
--		.mnt = root->mnt,
--		.dentry = root->mnt->mnt_root
--	};
--	struct path orig;
-+	struct mount *r;
- 	ssize_t ctr;
- 	int err;
- 
--	if (!is_path_reachable(m, mnt->mnt_root, &rootmnt))
--		return capable(CAP_SYS_ADMIN) ? 0 : -EPERM;
-+	if (!capable(CAP_SYS_ADMIN) &&
-+	    !is_path_reachable(real_mount(orig->mnt), orig->dentry, root))
-+		return -EPERM;
- 
--	err = security_sb_statfs(mnt->mnt_root);
-+	err = security_sb_statfs(orig->dentry);
- 	if (err)
- 		return err;
- 
--	if (root->mnt == mnt) {
--		orig = *root;
--	} else {
--		orig.mnt = mnt;
--		orig.dentry = mnt->mnt_root;
--	}
--
- 	for (ctr = 0, r = first; r; r = listmnt_next(r)) {
--		if (r == m)
-+		if (r->mnt_id_unique == mnt_id)
- 			continue;
--		if (!is_path_reachable(r, r->mnt.mnt_root, &orig))
-+		if (!is_path_reachable(r, r->mnt.mnt_root, orig))
- 			continue;
- 
- 		if (ctr >= bufsize)
-@@ -5053,9 +5042,8 @@ SYSCALL_DEFINE4(listmount, const struct mnt_id_req __user *, req,
- {
- 	struct mnt_namespace *ns = current->nsproxy->mnt_ns;
- 	struct mnt_id_req kreq;
--	struct vfsmount *mnt;
- 	struct mount *first;
--	struct path root;
-+	struct path root, orig;
- 	u64 mnt_id;
- 	ssize_t ret;
- 
-@@ -5071,16 +5059,17 @@ SYSCALL_DEFINE4(listmount, const struct mnt_id_req __user *, req,
- 	down_read(&namespace_sem);
- 	get_fs_root(current->fs, &root);
- 	if (mnt_id == LSMT_ROOT) {
--		mnt = root.mnt;
-+		orig = root;
- 	} else {
- 		ret = -ENOENT;
--		mnt  = lookup_mnt_in_ns(mnt_id, ns);
--		if (!mnt)
-+		orig.mnt  = lookup_mnt_in_ns(mnt_id, ns);
-+		if (!orig.mnt)
- 			goto err;
-+		orig.dentry = orig.mnt->mnt_root;
- 	}
- 	first = node_to_mount(rb_first(&ns->mounts));
- 
--	ret = do_listmount(first, mnt, buf, bufsize, &root);
-+	ret = do_listmount(first, &orig, mnt_id, buf, bufsize, &root);
- err:
- 	path_put(&root);
- 	up_read(&namespace_sem);
--- 
-2.41.0
+Applied to the vfs.mount branch of the vfs/vfs.git tree.
+Patches in the vfs.mount branch should appear in linux-next soon.
 
+Please report any outstanding bugs that were missed during review in a
+new review to the original patch series allowing us to drop it.
+
+It's encouraged to provide Acked-bys and Reviewed-bys even though the
+patch has now been applied. If possible patch trailers will be updated.
+
+Note that commit hashes shown below are subject to change due to rebase,
+trailer updates or similar. If in doubt, please check the listed branch.
+
+tree:   https://git.kernel.org/pub/scm/linux/kernel/git/vfs/vfs.git
+branch: vfs.mount
+
+[1/4] listmount: rip out flags
+      https://git.kernel.org/vfs/vfs/c/735b1c55d14a (folded)
+[2/4] listmount: list mounts in ID order
+      https://git.kernel.org/vfs/vfs/c/735b1c55d14a (folded)
+[3/4] listmount: small changes in semantics
+      https://git.kernel.org/vfs/vfs/c/735b1c55d14a (folded)
+[4/4] listmount: allow continuing
+      https://git.kernel.org/vfs/vfs/c/735b1c55d14a (folded)
