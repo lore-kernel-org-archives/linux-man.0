@@ -1,53 +1,124 @@
-X-Greylist: delayed 1203 seconds by postgrey-1.37 at lindbergh.monkeyblade.net; Thu, 30 Nov 2023 14:50:46 PST
-Received: from 9.mo548.mail-out.ovh.net (9.mo548.mail-out.ovh.net [46.105.48.137])
-	by lindbergh.monkeyblade.net (Postfix) with ESMTPS id DBF7F194
-	for <linux-man@vger.kernel.org>; Thu, 30 Nov 2023 14:50:46 -0800 (PST)
-Received: from mxplan6.mail.ovh.net (unknown [10.108.1.250])
-	by mo548.mail-out.ovh.net (Postfix) with ESMTPS id 4501F20584;
-	Thu, 30 Nov 2023 22:13:03 +0000 (UTC)
-Received: from jwilk.net (37.59.142.109) by DAG4EX1.mxp6.local (172.16.2.31)
- with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id 15.1.2507.35; Thu, 30 Nov
- 2023 23:13:02 +0100
-Authentication-Results: garm.ovh; auth=pass (GARM-109S003044215fd-2458-48b6-b939-86979da7b74b,
-                    37D3812BCA6D87C94946FD64308F71709B7C725B) smtp.auth=jwilk@jwilk.net
-X-OVh-ClientIp: 31.175.208.160
-Date: Thu, 30 Nov 2023 23:13:01 +0100
-From: Jakub Wilk <jwilk@jwilk.net>
-To: Alejandro Colomar <alx@kernel.org>
-CC: Florian Weimer <fweimer@redhat.com>, <libc-help@sourceware.org>,
-	<linux-man@vger.kernel.org>, Iker Pedrosa <ipedrosa@redhat.com>,
-	<~hallyn/shadow@lists.sr.ht>, Michael Kerrisk <mtk.manpages@gmail.com>
-Subject: Re: strtol(3) setting of errno
-Message-ID: <20231130221301.nteiaukktf6om6un@jwilk.net>
-References: <ZWhUR9AqoSLKeT46@debian>
- <87cyvrv4bl.fsf@oldenburg.str.redhat.com>
- <ZWiCsBkRpOLEc1Y3@debian>
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+	(No client certificate requested)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 9D59A36AE5
+	for <linux-man@vger.kernel.org>; Thu, 30 Nov 2023 23:07:24 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org;
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="s1IINCv5"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 3C7B9C433C7;
+	Thu, 30 Nov 2023 23:07:22 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+	s=k20201202; t=1701385644;
+	bh=3jQbVY5LviK3haKVTEpWKQOW8V40mDP6pP/jmNhBzO8=;
+	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+	b=s1IINCv5RObUUvTJb+gblL35BQMhFfajGEd6vJ9hqGoCUe54MYN5NRWuj8K4DdJcH
+	 xuKk6vhZAyBpfhP2v+SBsDIiMuSdYIC3qfAX9ISX3ohLV1LCPMbeBVLF2L9u66rymF
+	 3kDMwKsW4Vr+LJjCbiBLqhNEgOA6Drd9BBJp+qbxkndZ0ZSo3EE4pRsW5o6RAvRvZp
+	 JGKexhbchkthk3WMqB3vm1JdYcVoCdlsGH0vXEfaSkedBa/Tu/nfmGtfL+OZVYz0u2
+	 wcNBP+Qj8VsUCwzqBVwVv/a4YnzAnXixN2wNedmjCDYhVrNO99WqsAtxCoVkda+FjX
+	 bc6wBdBxvb9iA==
+Date: Fri, 1 Dec 2023 00:07:20 +0100
+From: Alejandro Colomar <alx@kernel.org>
+To: linux-man@vger.kernel.org
+Cc: Alejandro Colomar <alx@kernel.org>, libc-help@sourceware.org,
+	~hallyn/shadow@lists.sr.ht, Jakub Wilk <jwilk@jwilk.net>,
+	Florian Weimer <fweimer@redhat.com>,
+	Iker Pedrosa <ipedrosa@redhat.com>,
+	Michael Kerrisk <mtk.manpages@gmail.com>
+Subject: [PATCH v2] strtol.3, strtoul.3: ERRORS: Clarify that these don't set
+ errno on success
+Message-ID: <20231130230635.4004-3-alx@kernel.org>
+References: <20231130152910.322395-2-alx@kernel.org>
 Precedence: bulk
 X-Mailing-List: linux-man@vger.kernel.org
 List-Id: <linux-man.vger.kernel.org>
 List-Subscribe: <mailto:linux-man+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-man+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset="us-ascii"; format=flowed
+Content-Type: multipart/signed; micalg=pgp-sha512;
+	protocol="application/pgp-signature"; boundary="yG6dJQ3pnLG9YuKe"
 Content-Disposition: inline
-In-Reply-To: <ZWiCsBkRpOLEc1Y3@debian>
-X-ClientProxiedBy: DAG5EX2.mxp6.local (172.16.2.42) To DAG4EX1.mxp6.local
- (172.16.2.31)
-X-Ovh-Tracer-GUID: d05c00b4-96a0-466f-bbc0-1d5b63209747
-X-Ovh-Tracer-Id: 643733272058713961
-X-VR-SPAMSTATE: OK
-X-VR-SPAMSCORE: -100
-X-VR-SPAMCAUSE: gggruggvucftvghtrhhoucdtuddrgedvkedrudeijedgudehjecutefuodetggdotefrodftvfcurfhrohhfihhlvgemucfqggfjpdevjffgvefmvefgnecuuegrihhlohhuthemucehtddtnecusecvtfgvtghiphhivghnthhsucdlqddutddtmdenucfjughrpeffhffvvefukfhfgggtuggjihesthdtredttddtvdenucfhrhhomheplfgrkhhusgcuhghilhhkuceojhifihhlkhesjhifihhlkhdrnhgvtheqnecuggftrfgrthhtvghrnhepuedttdetlefhffduvdehgfefudejledtkeehudevkeekleefudeuvdegjedufffgnecukfhppeduvdejrddtrddtrddupdefjedrheelrddugedvrddutdelpdefuddrudejhedrvddtkedrudeitdenucevlhhushhtvghrufhiiigvpedtnecurfgrrhgrmhepihhnvghtpeduvdejrddtrddtrddupdhmrghilhhfrhhomhepoehjfihilhhksehjfihilhhkrdhnvghtqedpnhgspghrtghpthhtohepuddprhgtphhtthhopegrlhigsehkvghrnhgvlhdrohhrghdpfhifvghimhgvrhesrhgvughhrghtrdgtohhmpdhlihgstgdqhhgvlhhpsehsohhurhgtvgifrghrvgdrohhrghdplhhinhhugidqmhgrnhesvhhgvghrrdhkvghrnhgvlhdrohhrghdpihhpvggurhhoshgrsehrvgguhhgrthdrtghomhdpmihhrghllhihnhdsshhhrgguohifsehlihhsthhsrdhsrhdrhhhtpdhmthhkrdhmrghnphgrghgvshesghhmrghilhdrtghomhdpoffvtefjohhsthepmhhohe
- egkedpmhhouggvpehsmhhtphhouhht
+In-Reply-To: <20231130152910.322395-2-alx@kernel.org>
+X-Mailer: git-send-email 2.42.0
 
-* Alejandro Colomar <alx@kernel.org>, 2023-11-30 13:40:
->Since POSIX doesn't specify, I assume it allows setting errno on 
->success, as with any other libc function.  That includes setting errno 
->on a successful call that returns 0.
 
-No? "These functions shall not change the setting of errno if 
-successful."
+--yG6dJQ3pnLG9YuKe
+Content-Type: text/plain; protected-headers=v1; charset=utf-8
+Content-Disposition: inline
+Content-Transfer-Encoding: quoted-printable
+Date: Fri, 1 Dec 2023 00:07:20 +0100
+From: Alejandro Colomar <alx@kernel.org>
+To: linux-man@vger.kernel.org
+Cc: Alejandro Colomar <alx@kernel.org>, libc-help@sourceware.org,
+	~hallyn/shadow@lists.sr.ht, Jakub Wilk <jwilk@jwilk.net>,
+	Florian Weimer <fweimer@redhat.com>,
+	Iker Pedrosa <ipedrosa@redhat.com>,
+	Michael Kerrisk <mtk.manpages@gmail.com>
+Subject: [PATCH v2] strtol.3, strtoul.3: ERRORS: Clarify that these don't set
+ errno on success
 
--- 
-Jakub Wilk
+That's a guarantee made by POSIX.
+
+Reported-by: Jakub Wilk <jwilk@jwilk.net>
+Cc: Florian Weimer <fweimer@redhat.com>
+Cc: Iker Pedrosa <ipedrosa@redhat.com>
+Cc: Michael Kerrisk <mtk.manpages@gmail.com>
+Signed-off-by: Alejandro Colomar <alx@kernel.org>
+---
+ man3/strtol.3  | 3 +++
+ man3/strtoul.3 | 3 +++
+ 2 files changed, 6 insertions(+)
+
+diff --git a/man3/strtol.3 b/man3/strtol.3
+index 01c658025..1f1f98216 100644
+--- a/man3/strtol.3
++++ b/man3/strtol.3
+@@ -124,6 +124,9 @@ .SH RETURN VALUE
+ and
+ .BR LONG_MAX ).
+ .SH ERRORS
++This function does not modify
++.I errno
++on success.
+ .TP
+ .B EINVAL
+ (not in C99)
+diff --git a/man3/strtoul.3 b/man3/strtoul.3
+index a01a1d8db..32bd36dfc 100644
+--- a/man3/strtoul.3
++++ b/man3/strtoul.3
+@@ -124,6 +124,9 @@ .SH RETURN VALUE
+ instead of
+ .BR ULONG_MAX ).
+ .SH ERRORS
++This function does not modify
++.I errno
++on success.
+ .TP
+ .B EINVAL
+ (not in C99)
+--=20
+2.42.0
+
+
+--yG6dJQ3pnLG9YuKe
+Content-Type: application/pgp-signature; name="signature.asc"
+
+-----BEGIN PGP SIGNATURE-----
+
+iQIzBAABCgAdFiEE6jqH8KTroDDkXfJAnowa+77/2zIFAmVpFagACgkQnowa+77/
+2zI1dA/+MUTHKpy2nMcw+9kvTAsQKNjkgFe0fCtuT9fuqSEn3UpmNB8VwIlJBc3x
+DunXv5T/3gBW96IITpR3iAeOMv+efzA3KEN7B8MhovnAp1UebpLxRprPWBY7iU/a
+0jObOUoxGrRBfxxTWszSXDtGeqsV8yQSfqehJmaBFOqBuOOyRcorVPCea3MGBRGU
+fEUgKWfPSuhNmfq2jKjr6L6Iu8hqQEOpKJJywjXE7hnm+TYASLQmgtUnGcumJe1S
+62iQTL1+0D0BYz466ZaHqtX6dOP0nzriq2UMHVvAMlagLBVsNsI7yWH/TMWDvcGS
+j2ybz7uYqXhmr2nvXB5Y7GwjabDKFe+rFen7eD4HyGQkU0ZbFl7+5MYLXvBHiZNz
+pySrYKDxej+uWzOFltz4yiKT6Wa8pq2NYyieLW0xmlhkg6r1Y08DpaltBUOv0gVx
+ikFj4qWD3twLdNBaA/zlNmdwJZX65rmjyhm50IqrxapETP/nUQWD6VVwDtC5irlN
+mEgwIC3IKehdJHYKVpyWMHETEh9HMxD1lBy20h5ssENdJ2noJ201dFqOzMr8ZXPb
+bgan1jQER5r/2fcha/xwY827fY9Qs5DZqdsB7l6SSlVgGpRIxPzTs5dGcOQsk7tN
+Yyi/cGBtERMRu84y0PjdWRJNJs5+86AlwbuaRvMpcOjrA6fHCyk=
+=KCP+
+-----END PGP SIGNATURE-----
+
+--yG6dJQ3pnLG9YuKe--
