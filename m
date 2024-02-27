@@ -1,62 +1,76 @@
-Received: from vmicros1.altlinux.org (vmicros1.altlinux.org [194.107.17.57])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 2E9B41E866
-	for <linux-man@vger.kernel.org>; Mon, 26 Feb 2024 18:56:01 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=194.107.17.57
+Received: from cilium.nesselzelle.de (cilium.nesselzelle.de [138.201.35.114])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+	(No client certificate requested)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 48DFF376
+	for <linux-man@vger.kernel.org>; Tue, 27 Feb 2024 18:14:59 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=138.201.35.114
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1708973765; cv=none; b=bfpKe1qx/7C2KCEVu7Oa/2GaBLVRsbxGV75yFPQVZqx0p4u/cb0HoUg8VdEAgblGMwDQULoVNzSHjIvAQVkxMZCft55s0MvsTx3DIjTeKSPUQ5SozN1XZQGzZF81nj/uW5zJoO9BL3zcybMf4wJ4lFThv+YNZU3xN1GxWTdyJyk=
+	t=1709057700; cv=none; b=EjDA44xDjNgU6T5RKaUeTUvrfKqZDuPJlCiDS+J1RDchMc0HCcX+wIvnvVsXBcbWF3oyXXe9xbE8YGWb9fUdrWlgGRTlIdBDYHCopSIXDjKPoBIqNxPCP2c8VFNoP9ekmiBSaUMAL3jNT9aegJNHY+hI2kJIAhVoKI1/nmHmVS8=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1708973765; c=relaxed/simple;
-	bh=3O3YeZHwQgtPMm24sQOuVBKUHnYAcC05s8hJoXyJZlQ=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=ki+yzMFnyRTJae9s9ZN/ItwUaEDKkJ6+VMEKDKMP7+tP1SjNlLOBK5kUeDhTGhMy17BhEMJ61bLmP25kqQ+JAPJqaYdk+xrfxlSguuoU4t6cbZiA2HPs5zEAkOA9PRV2k6MxGTv2ZmuoVu5ux3UhBW5dBdH/hjPDtK3FaEvWT3M=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=altlinux.org; spf=pass smtp.mailfrom=altlinux.org; arc=none smtp.client-ip=194.107.17.57
-Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=altlinux.org
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=altlinux.org
-Received: from mua.local.altlinux.org (mua.local.altlinux.org [192.168.1.14])
-	by vmicros1.altlinux.org (Postfix) with ESMTP id 921D272C8CC;
-	Mon, 26 Feb 2024 21:55:54 +0300 (MSK)
-Received: by mua.local.altlinux.org (Postfix, from userid 508)
-	id 7F9127CCB3A; Mon, 26 Feb 2024 20:55:54 +0200 (IST)
-Date: Mon, 26 Feb 2024 20:55:54 +0200
-From: "Dmitry V. Levin" <ldv@altlinux.org>
-To: Alexander Ofitserov <oficerovas@altlinux.org>
-Cc: Alejandro Colomar <alx@kernel.org>, linux-man@vger.kernel.org,
-	dutyrok@altlinux.org, kovalev@altlinux.org,
-	"G. Branden Robinson" <branden@debian.org>,
-	Stefan Puiu <stefan.puiu@gmail.com>
-Subject: Re: [PATCH v3] delete_module.2: Update man to current syscall
- behaviour
-Message-ID: <20240226185554.GA19542@altlinux.org>
-References: <20240226120856.21493-1-oficerovas@altlinux.org>
+	s=arc-20240116; t=1709057700; c=relaxed/simple;
+	bh=E1sL2fm9S/KdcwGDmscJLJUQAGxk3rlvy6MsjhZSbmY=;
+	h=Date:From:To:CC:Subject:In-Reply-To:References:Message-ID:
+	 MIME-Version:Content-Type; b=rcsQbeUMz+EdR2uWcbEv1ETcMnu9JXICZX29l8ZQgpKH/vyf0Hw1xgHTQiA0scMfgXsDawagShokBOac0ilVi0f8QNMMlDV6GUZeJYiGla5QpO3rXzFFCqMXesWUGHdmWC909FoNkeQM/WQ+9RuSA1yESAK309KhC5zy0nXYZQ0=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=orgis.org; spf=pass smtp.mailfrom=orgis.org; arc=none smtp.client-ip=138.201.35.114
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=orgis.org
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=orgis.org
+X-Bogosity: Ham, spamicity=0.000000
+Received: from localhost (zentriol.nesselzelle.de [144.76.80.99])
+	by cilium.nesselzelle.de (Postfix) with ESMTPSA id F0B9440081;
+	Tue, 27 Feb 2024 18:14:56 +0000 (UTC)
+Date: Tue, 27 Feb 2024 19:14:55 +0100
+From: Thomas Orgis <thomas@orgis.org>
+To: Alejandro Colomar <alx@kernel.org>, linux-man@vger.kernel.org
+CC: Eric Blake <eblake@redhat.com>
+Subject: =?US-ASCII?Q?Re=3A_=5BPATCH_2/2=5D_sigaction=2E2=3A_HISTORY=3A_S?= =?US-ASCII?Q?ome_constants_are_or_were_XSI_extensions?=
+User-Agent: K-9 Mail for Android
+In-Reply-To: <20240225115307.438556-3-alx@kernel.org>
+References: <20240214095707.1824c25c@plasteblaster> <20240225115307.438556-1-alx@kernel.org> <20240225115307.438556-3-alx@kernel.org>
+Message-ID: <CB3A0C8D-43F9-4681-A8C1-7F9EC779FBE9@orgis.org>
 Precedence: bulk
 X-Mailing-List: linux-man@vger.kernel.org
 List-Id: <linux-man.vger.kernel.org>
 List-Subscribe: <mailto:linux-man+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-man+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20240226120856.21493-1-oficerovas@altlinux.org>
+Content-Type: text/plain;
+ charset=utf-8
+Content-Transfer-Encoding: quoted-printable
 
-On Mon, Feb 26, 2024 at 03:08:56PM +0300, Alexander Ofitserov wrote:
-> Parameter O_NONBLOCK described in man doesn't exist anymore
-> in kernel versions 3.13+, which is quite old,
-> only O_TRUNC parameter present for current kernel version,
-> O_NONBLOCK does nothing.
-> 
-> v2 -> v3:
-> subsection Linux 3.12 and earlier renamed to O_NONBLOCK
-> removed info about arguments for kernels 3.12 and earlier
-> added semantic newlines
-> 
-> v1 -> v2:
-> added behaviour of syscall for kernel 3.12 and earlier
-> in history section
-> added commit hash to commit message
+Looks fine to me, thanks=2E Now one can deduce that an additional feature t=
+est
+macro might be needed=2E
 
-Looks like the change of the commit message introduced in v2
-has been reverted.
+Am 25=2E Februar 2024 12:53:19 MEZ schrieb Alejandro Colomar <alx@kernel=
+=2Eorg>:
+>Reported-by: Thomas Orgis <thomas@orgis=2Eorg>
+>Cc: Eric Blake <eblake@redhat=2Ecom>
+>Signed-off-by: Alejandro Colomar <alx@kernel=2Eorg>
+>---
+> man2/sigaction=2E2 | 10 +++++++++-
+> 1 file changed, 9 insertions(+), 1 deletion(-)
+>
+>diff --git a/man2/sigaction=2E2 b/man2/sigaction=2E2
+>index b64dcaf2b=2E=2Edaca34a27 100644
+>--- a/man2/sigaction=2E2
+>+++ b/man2/sigaction=2E2
+>@@ -1026,7 +1026,15 @@ =2ESH HISTORY
+> =2EBR SA_RESETHAND ,
+> =2EBR SA_RESTART ,
+> and
+>-=2EBR SA_SIGINFO =2E
+>+=2EB SA_SIGINFO
+>+as XSI extensions=2E
+>+POSIX=2E1-2008 moved
+>+=2EBR SA_NODEFER ,
+>+=2EBR SA_RESETHAND ,
+>+=2EBR SA_RESTART ,
+>+and
+>+=2EB SA_SIGINFO
+>+to the base specifications=2E
+> Use of these latter values in
+> =2EI sa_flags
+> may be less portable in applications intended for older
 
-
--- 
-ldv
+--=20
+sent from mobile device, trustworthy or not
