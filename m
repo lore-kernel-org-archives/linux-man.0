@@ -1,40 +1,40 @@
 Received: from tarta.nabijaczleweli.xyz (tarta.nabijaczleweli.xyz [139.28.40.42])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 49F6544369
-	for <linux-man@vger.kernel.org>; Wed, 13 Mar 2024 14:26:56 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id C536FA41
+	for <linux-man@vger.kernel.org>; Wed, 13 Mar 2024 14:35:21 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=139.28.40.42
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1710340018; cv=none; b=u/cKL40paGWqQO/UQjdJeGJs8MX0isY2UqAaCaAO2g9Yqo2l5Kl2AnINuO30slzOlO96ALmYFoZvVwam37I6m2UkLnK5FiEJdl0449r2pT7iusUEY5JwCzCry2Kka0ItEtuJh9T9p2DK76qDZHw8Pzr9XX4ZWMKH+I7yRHi8Wh4=
+	t=1710340523; cv=none; b=HS5rJ2UyojJXDX/tdwlRj1K7epP0C4qCL4UMdivxUqRRSRiDD8eMXycdIFmxCfsd7YinCvfXE6Ol8ciBMzUXIuCmswNUlGr0wYib7G/OYNQ1OHpS58baFu6G4gTWM4FQlmn5rZIfLlMqsUsEmD8UT7ct/SB9cZ8hgcKcXb2jHPw=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1710340018; c=relaxed/simple;
-	bh=kbtC6vIPG/ADNkucl0Rezmwu2GQNEGcP7k0zoAidT2o=;
+	s=arc-20240116; t=1710340523; c=relaxed/simple;
+	bh=Ch/kIo0VqnsK4dn2gdLQBOBFju2/xVOPbGoUr4OV6+s=;
 	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=nj08HAdPxx1s5z1wTGs1nSvhsK8KXHIvlosMjcpMgQUpTnqaLqyveBpBQtKcW1DjsmtYMXAqfecQCmQcNSYnqWdIruNle8o/7akhzFxsQ+bC974I2csGzO/0K/kA+143NC0e+iiWdMNU6AMYUIZCQAdFSsEFOQ9haFkGIvDvlMY=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=nabijaczleweli.xyz; spf=pass smtp.mailfrom=nabijaczleweli.xyz; dkim=pass (2048-bit key) header.d=nabijaczleweli.xyz header.i=@nabijaczleweli.xyz header.b=FauAzi29; arc=none smtp.client-ip=139.28.40.42
+	 Content-Type:Content-Disposition:In-Reply-To; b=F3fdd5ZfOvvTfzM0IsuT471umDwsfkABzLJ6JNw64xm4Vhqp4ynpqFLOr1wsV765DaBwCQEMf6rZkVpK6z1XT7akzyaBUGyq03zHUYuYVDhvm9el02qgJdJnURtpPJJwx36cUX7sXf7bn3dVQgektWvo1g3LCRfo2ILr2jvpIOQ=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=nabijaczleweli.xyz; spf=pass smtp.mailfrom=nabijaczleweli.xyz; dkim=pass (2048-bit key) header.d=nabijaczleweli.xyz header.i=@nabijaczleweli.xyz header.b=Ge3ltj+T; arc=none smtp.client-ip=139.28.40.42
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=nabijaczleweli.xyz
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=nabijaczleweli.xyz
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=nabijaczleweli.xyz header.i=@nabijaczleweli.xyz header.b="FauAzi29"
+	dkim=pass (2048-bit key) header.d=nabijaczleweli.xyz header.i=@nabijaczleweli.xyz header.b="Ge3ltj+T"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=nabijaczleweli.xyz;
-	s=202305; t=1710340014;
-	bh=kbtC6vIPG/ADNkucl0Rezmwu2GQNEGcP7k0zoAidT2o=;
+	s=202305; t=1710340009;
+	bh=Ch/kIo0VqnsK4dn2gdLQBOBFju2/xVOPbGoUr4OV6+s=;
 	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-	b=FauAzi29dcwrWfh1idoyOJp+D8xG5InmlfteVrkvphXnmAsVIVV8K2XJoUdmRrX2L
-	 13YpGgDZtfRQGgMQFu4un2Q2wLWGKCO+Rncm+LBsIr78kLzYmOZtDQQNyfGHIkd6zj
-	 EUVLUzbT2I1qoO5E4NlQsxgRI1McVN2ehUdtYTE8kbe7/Wga2RNczi5InrHJePSYNU
-	 X8a+AtvvcwXK8x8/zJJJon3+XEmJgPP1SeIUInHW8A9x2q1mG+7wV7k1lYSKqU+Lin
-	 BDAyt9m3dOb580zHfy3BULdIKvfBO+y7pAWeucY1kiivqzXBuvRhWB50SPO85UfD3S
-	 QHCRrxB9StEnQ==
+	b=Ge3ltj+TzPO31zk+isOzn55QctYK0Y8xEqfWU4uofEykkJyv0BnfdVf38lKlYgR5A
+	 3iRzpQvHIYfxa1tIkfSKbYsDzUrOi9sVaA9azpYLXJ/RTmGghi9SPRHHKzhSMq4BM9
+	 f18B0XANPk6QaD8qU3ioIHkjd0dfxRL95rRSk2XlnbBkBvJ39YHr8BdqDONf8tnAgY
+	 fDDvgy8lcvGom9ss3qI0PY3c/IeUpH0j4V9+Kf2U9f0G4LsgY4+fBQokNT1tmK3qLI
+	 Zqjs5XFRSU37h1jaZfkECNDwIRgwBslx41qOwSQRGLqrW8nhfrQyx5MnqXbuBpBZg4
+	 hWNeN42yLeOiA==
 Received: from tarta.nabijaczleweli.xyz (unknown [192.168.1.250])
-	by tarta.nabijaczleweli.xyz (Postfix) with ESMTPSA id 8F9C11016;
-	Wed, 13 Mar 2024 15:26:54 +0100 (CET)
-Date: Wed, 13 Mar 2024 15:26:54 +0100
+	by tarta.nabijaczleweli.xyz (Postfix) with ESMTPSA id 0D3861010;
+	Wed, 13 Mar 2024 15:26:49 +0100 (CET)
+Date: Wed, 13 Mar 2024 15:26:48 +0100
 From: =?utf-8?B?0L3QsNCx?= <nabijaczleweli@nabijaczleweli.xyz>
 To: Alejandro Colomar <alx@kernel.org>
 Cc: linux-man@vger.kernel.org
-Subject: [PATCH 6/6] getrusage.2, proc_pid_io.5: crosslink
-Message-ID: <9a382ec3d10bc896e818bd1a932ea9c95756d048.1710339990.git.nabijaczleweli@nabijaczleweli.xyz>
+Subject: [PATCH 3/6] proc_pid_io.5: wfix
+Message-ID: <b59362221695a6671c767e9b3adf4e671193acb2.1710339990.git.nabijaczleweli@nabijaczleweli.xyz>
 References: <1513ee2073bcf0fae7bb720bcee8a8de847e5cf5.1710339990.git.nabijaczleweli@nabijaczleweli.xyz>
 Precedence: bulk
 X-Mailing-List: linux-man@vger.kernel.org
@@ -43,67 +43,62 @@ List-Subscribe: <mailto:linux-man+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-man+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 Content-Type: multipart/signed; micalg=pgp-sha512;
-	protocol="application/pgp-signature"; boundary="rf7yxebtzxr2235e"
+	protocol="application/pgp-signature"; boundary="v3iv6s3ub24wrlrt"
 Content-Disposition: inline
 In-Reply-To: <1513ee2073bcf0fae7bb720bcee8a8de847e5cf5.1710339990.git.nabijaczleweli@nabijaczleweli.xyz>
 User-Agent: NeoMutt/20231221-2-4202cf-dirty
 
 
---rf7yxebtzxr2235e
+--v3iv6s3ub24wrlrt
 Content-Type: text/plain; charset=utf-8
 Content-Disposition: inline
 Content-Transfer-Encoding: quoted-printable
 
-These serve the same purpose from different perspectives
-
 Signed-off-by: Ahelenia Ziemia=C5=84ska <nabijaczleweli@nabijaczleweli.xyz>
 ---
- man2/getrusage.2   | 3 ++-
- man5/proc_pid_io.5 | 1 +
- 2 files changed, 3 insertions(+), 1 deletion(-)
+ man5/proc_pid_io.5 | 8 ++++----
+ 1 file changed, 4 insertions(+), 4 deletions(-)
 
-diff --git a/man2/getrusage.2 b/man2/getrusage.2
-index 8baff09c4..2ae9dafa4 100644
---- a/man2/getrusage.2
-+++ b/man2/getrusage.2
-@@ -246,4 +246,5 @@ .SH SEE ALSO
- .BR wait (2),
- .BR wait4 (2),
- .BR clock (3),
--.BR proc_pid_stat (5)
-+.BR proc_pid_stat (5),
-+.BR proc_pid_io (5)
 diff --git a/man5/proc_pid_io.5 b/man5/proc_pid_io.5
-index 181717192..d0116ba13 100644
+index f66d8c635..4d97bd95f 100644
 --- a/man5/proc_pid_io.5
 +++ b/man5/proc_pid_io.5
-@@ -92,4 +92,5 @@ .SH DESCRIPTION
- access mode
- .BR PTRACE_MODE_READ_FSCREDS .
+@@ -88,9 +88,9 @@ .SH DESCRIPTION
+ while process B is updating one of these 64-bit counters,
+ process A could see an intermediate result.
+ .IP
+-Permission to access this file is governed by a ptrace access mode
+-.B PTRACE_MODE_READ_FSCREDS
+-check; see
+-.BR ptrace (2).
++Permission to access this file is governed by
++.BR ptrace (2)
++access mode
++.BR PTRACE_MODE_READ_FSCREDS .
  .SH SEE ALSO
-+.BR getrusage (2),
  .BR proc (5)
 --=20
 2.39.2
 
---rf7yxebtzxr2235e
+
+--v3iv6s3ub24wrlrt
 Content-Type: application/pgp-signature; name="signature.asc"
 
 -----BEGIN PGP SIGNATURE-----
 
-iQIzBAABCgAdFiEEfWlHToQCjFzAxEFjvP0LAY0mWPEFAmXxt64ACgkQvP0LAY0m
-WPF92A//Vi1xB14OvEdmXOgFafgAOxIay0GsukQwojItTntGxQ3P5v8OHsClln4V
-fiDa8TIDBuWcOttkq+QJjTX74DsUZc57ydyQtepAE+J0ct+c7SeRHvJyh5bZn5TL
-PFIYevfXaQ5jCx3DCMT3DyE4QxrvJ5e1oc+Kid8D/goNcBgkJ6Az17O2a4zHL2zv
-Zgqvu7FZagfseghxfrhZ5aNdTyCRMTqtK6evvCqQL5u1ee+unZjbrW9VyKkjwrwJ
-Jdfv8UrRjPY1dUiRx4B2WkD3k3zfMN9rMmJMDwnMy17ROC6Kz2N2YYHaZxfRUBWW
-0EWfBWV3GlYa5TGi1cgr/CjV3kl9+lRfCNsojqxl34H3z2MWiPZVE/XA7saZ3DN3
-eIeanhxcdaoc3CFRb5BeJK+RO2PNNr4GdPzsYCMSHfGMRrkJzbWrdYgZFSx6MyVY
-qLxG2EHKlIq/V+a6crxgWLs8GZJhyVeHSsrOf6Jbbk9yMBxb0Y9eeGb9mU5gvR5/
-XjQSMTvTlkfzXLWuuW9rALVEg9jb7R3rAivpTnk8VimfdG1jlOd9M+LdxdLUeSPq
-uhI2EgEokpFQyxWaMpwAB2IohvQ+bVfdb6anBD8bRdS/qEplkj9jGkLuNrhIg1te
-DRso58Ca+SEGmhlXPPmCs5kxcNx4o/kSk7e3m414Qak2SJx8e2g=
-=x6Je
+iQIzBAABCgAdFiEEfWlHToQCjFzAxEFjvP0LAY0mWPEFAmXxt6gACgkQvP0LAY0m
+WPH6LA//acnm98wq3HqBtSKgZy29aZUtWC/s2IAf7VPMAbgTZhgHb2+GijeGd/O2
+ncSne2Aw0P4tWG/WEGqHG1ogPOAMjJmqRW1HDm+C4FlVqN8ftU06yYn/PU5+BFTU
+ObUBvnxBNzgIpY0JFB42PWQUqozKj1IHc/nZX2Jf2DvgoJFTYAIUadRzh/fBWdcD
+Pb9G7PTMDBGCNaBCj9uDUoAEkXR/u3tIx29izyJgGqqq8XkoIbFXjqV9O5sGAKlh
+q5DlPJGC9jrIpMUT2az35AIkIluRAyHmDJ2IG69OXQcmlESSh9OhvGdjZ8m3cJCY
+unfhdHZ1p8NoBEj/ppbUC/Lfp6NQ4XonZXG+9NjcGBdRe2sz4zYlWWkY/JxSjIb3
+6Qw3eCIsC/DE3klvRfUHPaToWRGfgPJV6JSd0gS42mIaJY1uvs6T9Hr0vAodZHbk
+rdveVAvLCKT57idDcK1dxJEkmex1bmUHP/bgByrTzVWHt/PG3FyuRmZQHbyyzIgB
+Aj3iCCjhrKqB4oOZ4ZjrwjIi0qk8kFcIHdEYIeBbjUsAf6Pg+hMMuJypAZszi/QC
+kP3aeVaSqAHjQQs2OMZdT4gpk6+MPhFpiBuNbu0WRftduqIv+tuABBF5IoTXHl49
+nWC8exkTGDE5cZRbi5UKKJ9uCKBsl+pGAOz2sTDgkUcARSNtMUM=
+=2uuP
 -----END PGP SIGNATURE-----
 
---rf7yxebtzxr2235e--
+--v3iv6s3ub24wrlrt--
