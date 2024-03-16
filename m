@@ -1,242 +1,416 @@
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-qk1-f178.google.com (mail-qk1-f178.google.com [209.85.222.178])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 572921BF27
-	for <linux-man@vger.kernel.org>; Sat, 16 Mar 2024 21:06:55 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 8D2641879;
+	Sat, 16 Mar 2024 22:41:26 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.222.178
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1710623216; cv=none; b=X6q/ozswrIkAgAeCnYlWXCI1WCX3N81Kk9PS3BmYGGy/i9yuskGZxCrLLbrShWxPzACohr9ukl4Wj4kjIw1xxFFbdmt7k+3jVcd1ymaMpZ6AGspKDsuheqHu9wtvdMSg4+q+lQQcepFtiJkvUsnO0wGylN5ElDXUlAf8DKsiEOs=
+	t=1710628888; cv=none; b=MfK1cBTAi4fBlGMaMZ5dJd4Vc6iywHEzeTEwFKtQ0/OP+XwPwH6wLIOnYKNAJSFMbauVVAJPhE8u9KCrH1YoHiXCS+fJRQoDlbFWtm8m6e6JpmKis/80C62FsZvy8H+HR0EGHRSzn4GNYZZ1M/Xh5T6w0px5AQR6GgbOSQM0MPg=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1710623216; c=relaxed/simple;
-	bh=9vCPJNoeK4EJiUDmaa8c/mw8NAZICijZeR73sxjBfcE=;
+	s=arc-20240116; t=1710628888; c=relaxed/simple;
+	bh=mQKcSBjm9Efe65g7RepiJwJkRTMwmtmEBZpAHWyfFzo=;
 	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=OYWpOuSUWwbG6jjQHxNzSPeAqmck75ppIQvEz97erKTwNW3akxfqR2kzSyoQetl38DkMAYVjjyyTwEJZciSpS9LkBqo7VS4fR2wCT4woEj44Rapsfv6grsjaKAuARtAEfY6W+H/vTUwBkoHciVV/pKctq/flPGN6yCOWDnLGESg=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=PJ4xcu88; arc=none smtp.client-ip=10.30.226.201
+	 Content-Type:Content-Disposition:In-Reply-To; b=lxVcCmIHN+uozZ9PLWULcnoy28i6Ptyrivdz43rTTPdnEV5N26whHQjRtWat/JefehZgKz9m9nT2igSFrupllXyXvQh95RoV7rhdMvEEEb2ACDyZyrb6o2dTyrCW1hGK2aQ64My16ys1exTIz4ZoGjZn2x5+F5T0rLK0nPpHL1Y=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=d+aGHncW; arc=none smtp.client-ip=209.85.222.178
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="PJ4xcu88"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id B2534C433C7;
-	Sat, 16 Mar 2024 21:06:54 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1710623215;
-	bh=9vCPJNoeK4EJiUDmaa8c/mw8NAZICijZeR73sxjBfcE=;
-	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-	b=PJ4xcu88GVJtPgIzpCsdzEBwkXiam7EBgddVhJulaNXX+s4K40JqGIGI+EzzoH93T
-	 ibXo88FBpT0mgpUQGtYUed1fi6v2NTzYkKlX+9cEl4UtI5IXza/CqpHFDQeliZ10UE
-	 jrhWs8TepEYcmIHd6FIM+7OpUSf1e+h1bHaDJADMDKfqr4xMjuL65L5N2DBqiA0zlr
-	 03KsDTvG3GXn/6ETnG3cU5OQNhIbqg5zlVFheSFNh4xslLJh5q8I3pUGnHrWdCRbww
-	 lhzS2LaSkJKadVAz8h9wZsx5RfdL7OS3X3XjXx1Zw09vIgum/TBOg08i8QX6aJ3yvZ
-	 jMEowryyzw5sQ==
-Date: Sat, 16 Mar 2024 22:06:52 +0100
-From: Alejandro Colomar <alx@kernel.org>
-To: Svetly Todorov <svetly.todorov@memverge.com>
-Cc: linux-man@vger.kernel.org, gregory.price@memverge.com,
-	ying.huang@intel.com
-Subject: Re: [PATCH v4] man2: add MPOL_WEIGHTED_INTERLEAVE documentation
-Message-ID: <ZfYJ7MQdjRC3-mzN@debian>
-References: <20240316-weighted_interleave-v4-1-6ab516f12ced@memverge.com>
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="d+aGHncW"
+Received: by mail-qk1-f178.google.com with SMTP id af79cd13be357-789de1f59feso206625285a.3;
+        Sat, 16 Mar 2024 15:41:26 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20230601; t=1710628885; x=1711233685; darn=vger.kernel.org;
+        h=in-reply-to:content-disposition:mime-version:references:message-id
+         :subject:cc:to:from:date:from:to:cc:subject:date:message-id:reply-to;
+        bh=LZxHdyx+B12eh8vC+iPWJzgL1KXUeE9iLRFvVuj1xbI=;
+        b=d+aGHncWc6RZCF6x9WOW7LF69DejdGD1awAoVcbsZo3z1qHQqwF9sxXmIdD6G9LJx9
+         5iZTfmGQqv/WZeuXlG5tp8qkmRuV2dQZHNXmdUVHmDhN6DmiMoaGAGEHD9Hm6UAZVwU1
+         rKSxWM+WAW8rRhXGbiP1n/dIrRsOoXKCqbVRarvHAM/vqAVWobslffTde1yDJwMgna78
+         kuwIGVd2YYp6LH/izr/Kd84ID1JPI8Qt/urffGg0wbGmeKhORxi0s6fTuic3/wErvL4u
+         UshM33OFT1VFJROI/hrIu13pHi4Cu/k/rbjXBTlxRPzY48IZMMKRzWj0lhHEyFa3j/sl
+         RWDQ==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1710628885; x=1711233685;
+        h=in-reply-to:content-disposition:mime-version:references:message-id
+         :subject:cc:to:from:date:x-gm-message-state:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=LZxHdyx+B12eh8vC+iPWJzgL1KXUeE9iLRFvVuj1xbI=;
+        b=tuyXu0Z8Weqcu3P0b/jEIOwXEuYQoMNENDTerRK7cie3KCioixD/ABfK/cAQ7bpgrY
+         bRUCb1HVKqX1iMejzi6af8cvwURinlZRma4gCBEk32rXyNKIRUvT23pfTfWwTTLUdJn4
+         U7L1bNRRyRRq1YAmr4I7N6O0lvuOhjfVcDpS4+zVBcgjyIMCv6UB90hlFNNNZ8ptGlZr
+         3fhMYaQuh7+epRL2/ugl5ZuNQjSEp7FL5VOeR7VhNLE8cPu8QYMEVOVBUAxL0ZfebCTx
+         LwB6xiQNedbmTuufDgnCZzmbpVorTQveXvqUeZ87z5Vo+7AwWWzFXz/zHQiRfRGCVr6/
+         pSXg==
+X-Forwarded-Encrypted: i=1; AJvYcCV4Qbh8RC/BOgoreFp4w0dTJBHNEQo6seYEi4rSLVHJky4xvS2pKQfadLDMUmBs6hSVaovoxIN86n8MFmiWO0BeRbpnwg02Pm25
+X-Gm-Message-State: AOJu0Yy8hrQWMFQzaEQz7+gxt3Nl+U4FNjB0xamxa7eP7D6Dpg36NrE8
+	gtaLJY/GF4TwUpKTxLd2Hd5b1oTCVcnSQGQ7e1P2YvVcnTMCHwEq
+X-Google-Smtp-Source: AGHT+IHk7fqjiQ+Prbc0EZSPAkrG9TAVYuSv369bPuFzbeRdFbvMshWoENtshVqbgqShCZuCiBm1tA==
+X-Received: by 2002:ac8:7c52:0:b0:430:c775:a08 with SMTP id o18-20020ac87c52000000b00430c7750a08mr1280847qtv.31.1710628876285;
+        Sat, 16 Mar 2024 15:41:16 -0700 (PDT)
+Received: from localhost ([2601:8c:502:14f0:acdd:1182:de4a:7f88])
+        by smtp.gmail.com with ESMTPSA id cr13-20020a05622a428d00b00430b0f40532sm2023936qtb.9.2024.03.16.15.41.14
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Sat, 16 Mar 2024 15:41:15 -0700 (PDT)
+Date: Sat, 16 Mar 2024 14:41:13 -0400
+From: Oliver Crumrine <ozlinuxc@gmail.com>
+To: Alejandro Colomar <alx@kernel.org>
+Cc: linux-kernel@vger.kernel.org, linux-man@vger.kernel.org
+Subject: Re: [PATCH] ip.7: Add not supported by SOCK_STREAM to socket options
+Message-ID: <f7pbphvm5cqgdblxyhbz6xucfu3fvfmvhidl2hftqirr6bn2bh@sfz26be5ss5e>
+References: <hxiq3upwxs3j5mc5arwlx4jriqm7fq5z54wroc4h4kqcq4gq7m@uwnoq2vnkhup>
+ <ZeXzuWVmC9AnsECt@debian>
+ <7ubz52rfdl2i76sotvd3s4thv6jvbfao6zct3sywqus2owlvkx@wpbeqqdvipo4>
+ <ZehMWQ0LkemsTHAC@debian>
+ <CAK1VsR0XZMgUW8qMQMcDPohD8-+OZsgW68sZegLbVy6cdoWucQ@mail.gmail.com>
+ <ZehrtwSDQV-X7BXV@debian>
+ <CAK1VsR3MsyphK+=rA7XcEigiSd6J_-QsVW+8hH1fU9xmRY3nGQ@mail.gmail.com>
+ <CAK1VsR2zaCT3Bs1cwCEfLhAPXjwNk1byzNq5y32C736=hxqjoA@mail.gmail.com>
+ <ZfX0EBsVl4a5FQ_L@debian>
 Precedence: bulk
 X-Mailing-List: linux-man@vger.kernel.org
 List-Id: <linux-man.vger.kernel.org>
 List-Subscribe: <mailto:linux-man+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-man+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: multipart/signed; micalg=pgp-sha512;
-	protocol="application/pgp-signature"; boundary="FdKt1SRUib9T5Dgq"
+Content-Type: multipart/mixed; boundary="hsznaki4gb2vrgr5"
 Content-Disposition: inline
-In-Reply-To: <20240316-weighted_interleave-v4-1-6ab516f12ced@memverge.com>
+In-Reply-To: <ZfX0EBsVl4a5FQ_L@debian>
 
 
---FdKt1SRUib9T5Dgq
-Content-Type: text/plain; protected-headers=v1; charset=utf-8
+--hsznaki4gb2vrgr5
+Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-Content-Transfer-Encoding: quoted-printable
-Date: Sat, 16 Mar 2024 22:06:52 +0100
-From: Alejandro Colomar <alx@kernel.org>
-To: Svetly Todorov <svetly.todorov@memverge.com>
-Cc: linux-man@vger.kernel.org, gregory.price@memverge.com,
-	ying.huang@intel.com
-Subject: Re: [PATCH v4] man2: add MPOL_WEIGHTED_INTERLEAVE documentation
 
-Hi Svetly,
+On Sat, Mar 16, 2024 at 08:33:36PM +0100, Alejandro Colomar wrote:
+> Hi Oliver,
+> 
+> On Wed, Mar 13, 2024 at 02:27:17PM -0400, Oliver Crumrine wrote:
+> > > Hi Alex,
+> > > I apologize for your repeated troubles with my test program.
+> > > I have attached a video of myself using it in the method that I
+> > > described to you. (I emailed you off-list as to avoid sending a 12
+> > > MB video to the whole list)
+> > >
+> > > If you are using it in the same way that works for me, I don't know
+> > > what the problem is. If I could've been clearer in my instructions, let
+> > > me know for the future.
+> > >
+> > > Thanks,
+> > > Oliver
+> > 
+> > Hi Alex,
+> > Were you able to make any progress whatsoever with this test program?
+> 
+> I'm sorry, but I haven't been able to reproduce the behavior.  The test
+> programs have several problems which I reported in previous mails.
+> Maybe there's something that makes it unstable and in your system
+> behaves differently?  Please clean up those examples, and try to run
+> them in a different system, and maybe then I can reproduce it.
+> 
+> Have a lovely day!
+> Alex
+> 
+> 
+> $ uname -a
+> Linux debian 6.8.0-rc7-alx-dirty #3 SMP PREEMPT_DYNAMIC Mon Mar  4 15:24:33 CET 2024 x86_64 GNU/Linux
+> 
+> -- 
+> <https://www.alejandro-colomar.es/>
+Hi Alex,
+I have cleaned up my test programs. I have also tested them on other
+systems (including on systems which I had installed the rc7 kernel
+onto). In the very slight chance that your netcat isn't working, (very 
+narrow chances, but still there), I have attached client programs to go 
+along with the servers.
+Thanks,
+Oliver
 
-On Sat, Mar 16, 2024 at 12:50:47PM -0700, Svetly Todorov wrote:
->=20
->=20
-> ---
-> Adding documentation for the new MPOL_WEIGHTED_INTERLEAVE mode in the same
-> manpages that mention MPOL_INTERLEAVE; namely, mbind(2), set_mempolicy(2),
-> and get_mempolicy(2).
->=20
-> Descriptions were based on the changes introduced in this patch:=20
-> https://lore.kernel.org/all/20240202170238.90004-4-gregory.price@memverge=
-=2Ecom/
->=20
-> Which was upstreamed to 6.9 here:
-> https://lore.kernel.org/linux-mm/20240313200532.34e4cff216acd3db8def4637@=
-linux-foundation.org/
->=20
-> To: alx@kernel.org
-> Cc: linux-man@vger.kernel.org
-> Cc: gregory.price@memverge.com
-> Cc: ying.huang@intel.com
-> Signed-off-by: Svetly Todorov <svetly.todorov@memverge.com>
->=20
-> Changes in v4:
-> - BR -> B in get_mempolicy
-> - use roman for ellipses; format using \|
-> - Link to v3: https://lore.kernel.org/r/20240315-weighted_interleave-v3-1=
--416a1ab01524@memverge.com
->=20
-> Changes in v3:
-> - italicize paths
-> - Link to v2: https://lore.kernel.org/r/20240315-weighted_interleave-v2-1=
--b742a48750b0@memverge.com
->=20
-> Changes in v2:
-> - make flag documentation implementation-agnostic
-> - Link to v1: https://lore.kernel.org/r/20240314-weighted_interleave-v1-1=
--ce85d64db0d4@memverge.com
-> ---
->  man2/get_mempolicy.2 |  8 ++++++--
->  man2/mbind.2         | 17 +++++++++++++++++
->  man2/set_mempolicy.2 | 17 +++++++++++++++++
->  3 files changed, 40 insertions(+), 2 deletions(-)
->=20
-> diff --git a/man2/get_mempolicy.2 b/man2/get_mempolicy.2
-> index 5248f04ba..a81b84a00 100644
-> --- a/man2/get_mempolicy.2
-> +++ b/man2/get_mempolicy.2
-> @@ -137,7 +137,9 @@ specifies
->  but not
->  .BR MPOL_F_ADDR ,
->  and the thread's current policy is
-> -.BR MPOL_INTERLEAVE ,
-> +.B MPOL_INTERLEAVE
-> +or
-> +.BR MPOL_WEIGHTED_INTERLEAVE ,
->  then
->  .BR get_mempolicy ()
->  will return in the location pointed to by a non-NULL
-> @@ -206,7 +208,9 @@ specified
->  but not
->  .B MPOL_F_ADDR
->  and the current thread policy is not
-> -.BR MPOL_INTERLEAVE .
-> +.B MPOL_INTERLEAVE
-> +or
-> +.BR MPOL_WEIGHTED_INTERLEAVE .
->  Or,
->  .I flags
->  specified
-> diff --git a/man2/mbind.2 b/man2/mbind.2
-> index b0e961f9c..cd4e6f4a4 100644
-> --- a/man2/mbind.2
-> +++ b/man2/mbind.2
-> @@ -105,6 +105,7 @@ argument must specify one of
->  .BR MPOL_DEFAULT ,
->  .BR MPOL_BIND ,
->  .BR MPOL_INTERLEAVE ,
-> +.BR MPOL_WEIGHTED_INTERLEAVE ,
->  .BR MPOL_PREFERRED ,
->  or
->  .B MPOL_LOCAL
-> @@ -243,6 +244,22 @@ at least 1\ MB or bigger with a fairly uniform acces=
-s pattern.
->  Accesses to a single page of the area will still be limited to
->  the memory bandwidth of a single node.
->  .TP
-> +.B MPOL_WEIGHTED_INTERLEAVE
 
-We should document the kernel version that added this.
-Please look for other (since ...) in the same page.
+--hsznaki4gb2vrgr5
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: attachment; filename="testDgramSocketClient.c"
 
-Have a lovely night!
-Alex
+#include <stdio.h>
+#include <err.h>
+#include <string.h>
+#include <stdlib.h>
+#include <arpa/inet.h>
+#include <sys/socket.h>
+#include <unistd.h>
 
-> +This mode interleaves page allocations across the nodes specified in
-> +.I nodemask
-> +according to the weights in
-> +.IR /sys/kernel/mm/mempolicy/weighted_interleave .
-> +For example, if bits 0, 2, and 5 are raised in
-> +.IR nodemask ,
-> +and the contents of
-> +.IR /sys/kernel/mm/mempolicy/weighted_interleave/node0 ,
-> +.IR /sys/ .\|.\|. /node2 ,
-> +and
-> +.IR /sys/ .\|.\|. /node5
-> +are 4, 7, and 9, respectively,
-> +then pages in this region will be allocated on nodes 0, 2, and 5
-> +in a 4:7:9 ratio.
-> +.TP
->  .B MPOL_PREFERRED
->  This mode sets the preferred node for allocation.
->  The kernel will try to allocate pages from this
-> diff --git a/man2/set_mempolicy.2 b/man2/set_mempolicy.2
-> index fc3ad9df8..f9837d918 100644
-> --- a/man2/set_mempolicy.2
-> +++ b/man2/set_mempolicy.2
-> @@ -63,6 +63,7 @@ argument must specify one of
->  .BR MPOL_DEFAULT ,
->  .BR MPOL_BIND ,
->  .BR MPOL_INTERLEAVE ,
-> +.BR MPOL_WEIGHTED_INTERLEAVE ,
->  .BR MPOL_PREFERRED ,
->  or
->  .B MPOL_LOCAL
-> @@ -199,6 +200,22 @@ the memory bandwidth of a single node.
->  .\" To be effective the memory area should be fairly large,
->  .\" at least 1 MB or bigger.
->  .TP
-> +.B MPOL_WEIGHTED_INTERLEAVE
-> +This mode interleaves page allocations across the nodes specified in
-> +.I nodemask
-> +according to the weights in
-> +.IR /sys/kernel/mm/mempolicy/weighted_interleave .
-> +For example, if bits 0, 2, and 5 are raised in
-> +.IR nodemask ,
-> +and the contents of
-> +.IR /sys/kernel/mm/mempolicy/weighted_interleave/node0 ,
-> +.IR /sys/ .\|.\|. /node2 ,
-> +and
-> +.IR /sys/ .\|.\|. /node5
-> +are 4, 7, and 9, respectively,
-> +then pages in this region will be allocated on nodes 0, 2, and 5
-> +in a 4:7:9 ratio.
-> +.TP
->  .B MPOL_PREFERRED
->  This mode sets the preferred node for allocation.
->  The kernel will try to allocate pages from this node first
->=20
-> ---
-> base-commit: a4ea5f76215dcf1d8d017eb65ab12919ccf09f3f
-> change-id: 20240313-weighted_interleave-e8141ed754f9
->=20
-> Best regards,
-> --=20
-> Svetly Todorov <svetly.todorov@memverge.com>
->=20
+#define PORT 8888 //The port on which to send data
+#define ADDR "127.0.0.1" //The internet address to send packets to
 
---=20
-<https://www.alejandro-colomar.es/>
+int main(void){
+	int s;
+	struct sockaddr_in server_addr;
 
---FdKt1SRUib9T5Dgq
-Content-Type: application/pgp-signature; name="signature.asc"
+	int send_len;
+	char buf[] = "testing 1 2 3\n";
 
------BEGIN PGP SIGNATURE-----
+	s = socket(AF_INET, SOCK_DGRAM, IPPROTO_UDP);
+	if(s == -1){
+		err(1, "error creating socket");
+	}
 
-iQIzBAABCgAdFiEE6jqH8KTroDDkXfJAnowa+77/2zIFAmX2CewACgkQnowa+77/
-2zKpehAAh3tBjZHr0pGA2fuj2aH/Bl9gXvNAqZxD5J+BIhvOck2QBdHE/+QUto54
-ZU45ehbvvRXqd3sSS3dJVMehiCE+NwGh4Pr4ULHJbu7GEbQRUZziiUj1jMLRHp3I
-fESN2sl4jfBNnBphqYCOYyO7nSNm+94z/nPIvxJYzz7PQ+3PNoQt3yqPEI7l5vD2
-JaDk3exQlt/kdf6C+DienRaGFsrWTboqXWhCdpHJUO6BrPP+YbmtNqG7rzdP8GAM
-UtTIjP325weGECQHHKmEFZmj3H/4LaTR6LMwp3VS83z2c+ccvJOmWkU0cXDp9Oj2
-gzhsvvTHeC7GlEvIoInLUqj7CSrjtdBLrUL6vDEYRqYMkh38I+kdKh2bTVCYjIJg
-MiTAM3aTMEna2aYketxIio147hKAajbs+8bG2/vfn/UkmGjSBoOjH9TISia6OUe5
-2F8BS584ENc7/CyZ0vnazIYGVyWDbJVkopqiFoVL+y1chTNJvaFZcrXo/H2ZSgMe
-/X0JsTFzrNLHDV3sZpvEczaLJqWp6GZCQroLfRRbMh0zIjg+VSYG++qB2hvPsicF
-f9fl0hzK+KMVEBcJiX82nhQOZnL0Z/nS0o5/9whHZfnoEjcpLPfG5x+nTRgaaSF5
-f3nfxyEKbUJA+M5X1nsHmgsIjL97eQsB98SjvxrZso2OhDsBMU0=
-=Wplb
------END PGP SIGNATURE-----
+	memset((char*)&server_addr, 0, sizeof(server_addr));
+	
+	server_addr.sin_family = AF_INET;
+	server_addr.sin_port = htons(PORT);
+	if(inet_pton(AF_INET, ADDR, &server_addr.sin_addr) != 1){ //I realize I'm checking the return value differently here. If you read the man page for inet_pton, it'll make sense.
+		err(1, "error converting network address");
+	}
 
---FdKt1SRUib9T5Dgq--
+	if(sendto(s, buf, strlen(buf), 0, (struct sockaddr*)&server_addr, sizeof(server_addr)) == -1){
+		err(1, "error sending data");
+	}
+	
+	close(s);
+
+
+}
+
+--hsznaki4gb2vrgr5
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: attachment; filename="testDgramSocketServer.c"
+
+#include<stdio.h>
+#include<err.h>
+#include<string.h>
+#include<stdlib.h>
+#include<arpa/inet.h>
+#include<sys/socket.h>
+#include<unistd.h>
+
+#define PORT 8888	//The port on which to listen for incoming data
+
+
+//Hi Alex,
+//These are the two lines that allow you to switch between the three socket options outlined in my patch
+//The socket options tell the kernel to add a control message (cmsg), allowing the program
+//to recieve the data it is requesting. The three options are: IP_RECVTOS for the type of service byte,
+//IP_RECVORIGDSTADDR for the orignial dst address, and IP_PKTINFO for some random packet info.
+#define SOCKOPT IP_RECVORIGDSTADDR
+//This field is synonymous with the above one. Valid options are: IP_TOS, IP_ORIGDSTADDR, and IP_PKTINFO
+#define RECIVEOPTION IP_ORIGDSTADDR
+
+int main(void){
+	struct sockaddr_in local_addr;
+	
+	int s;
+	int recv_len;
+	char buf[BUFSIZ];
+	
+	s = socket(AF_INET, SOCK_DGRAM, IPPROTO_UDP);
+	if (s == -1){
+		err(1, "error creating socket");
+	}
+	
+	memset((char *) &local_addr, 0, sizeof(local_addr));
+	
+	local_addr.sin_family = AF_INET;
+	local_addr.sin_port = htons(PORT);
+	local_addr.sin_addr.s_addr = htonl(INADDR_ANY);
+
+	int yes = 1;
+	if(setsockopt(s, IPPROTO_IP, SOCKOPT, &yes, sizeof(yes)) == -1){
+		err(1, "error setting socket option");
+	}
+
+
+	if(bind(s, (struct sockaddr*)&local_addr, sizeof(local_addr) ) == -1){
+		err(1, "error binding to port. try changing it or running as root");
+	}
+
+	while(1){
+		struct msghdr mhdr;
+		struct iovec iov[1];
+		struct cmsghdr *cmhdr;
+		char control[1000];
+		char databuf[1500];
+		unsigned char tos = 0;
+		
+		mhdr.msg_name = &local_addr;
+		mhdr.msg_namelen = sizeof(local_addr);
+		mhdr.msg_iov = iov;
+		mhdr.msg_iovlen = 1;
+		mhdr.msg_control = &control;
+		mhdr.msg_controllen = sizeof(control);
+		iov[0].iov_base = databuf;
+		iov[0].iov_len = sizeof(databuf);
+		memset(databuf, 0, sizeof(databuf));	
+		
+		//this is blocking
+		if ((recv_len = recvmsg(s, &mhdr, 0)) == -1){
+			err(1, "recvmsg");
+		}
+		cmhdr = CMSG_FIRSTHDR(&mhdr);
+		while (cmhdr) {
+			printf("cmsg recieved\n");
+    		    if (cmhdr->cmsg_level == IPPROTO_IP && cmhdr->cmsg_type == RECIVEOPTION) {
+    		        //read the byte recieved
+			    tos = ((unsigned char *)CMSG_DATA(cmhdr))[0];
+    		    }
+    		    cmhdr = CMSG_NXTHDR(&mhdr, cmhdr);
+    		}
+		//print out the first byte of data recieved in hex. You can verify this in wireshark if you like.
+    		printf("data read: %sbyte = %02X\n", databuf, tos); 	
+		
+	}
+
+	close(s);
+	return 0;
+}
+
+--hsznaki4gb2vrgr5
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: attachment; filename="testStreamSocketClient.c"
+
+#include <stdio.h>
+#include <err.h>
+#include <string.h>
+#include <stdlib.h>
+#include <arpa/inet.h>
+#include <sys/socket.h>
+#include <unistd.h>
+
+#define PORT 8888 //The port on which to send data
+#define ADDR "127.0.0.1" //The internet address to send packets to
+
+int main(void){
+	int s;
+	struct sockaddr_in server_addr;
+
+	int send_len;
+	char buf[] = "testing 1 2 3\n";
+
+	s = socket(AF_INET, SOCK_STREAM, 0);
+	if(s == -1){
+		err(1, "error creating socket");
+	}
+
+	memset((char*)&server_addr, 0, sizeof(server_addr));
+	
+	server_addr.sin_family = AF_INET;
+	server_addr.sin_port = htons(PORT);
+	if(inet_pton(AF_INET, ADDR, &server_addr.sin_addr) != 1){ // I realize I'm checking the return value differently here. If you read the man page for inet_pton, it'll make sense.
+		err(1, "error converting network address");
+	}
+
+	if(connect(s, (struct sockaddr*)&server_addr, sizeof(server_addr)) == -1){
+		err(1, "error connecting");
+	}
+	if(send(s, buf, strlen(buf), 0) == -1){
+		err(1, "error sending data");
+	}
+	
+	close(s);
+
+
+}
+
+--hsznaki4gb2vrgr5
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: attachment; filename="testStreamSocketServer.c"
+
+#include<stdio.h>
+#include<err.h>
+#include<string.h>
+#include<stdlib.h>
+#include<arpa/inet.h>
+#include<sys/socket.h>
+#include<unistd.h>
+
+#define PORT 8888	//The port on which to listen for incoming data
+
+
+//Hi Alex,
+//These are the two lines that allow you to switch between the three socket options outlined in my patch
+//The socket options tell the kernel to add a control message (cmsg), allowing the program
+//to recieve the data it is requesting. The three options are: IP_RECVTOS for the type of service byte,
+//IP_RECVORIGDSTADDR for the orignial dst address, and IP_PKTINFO for some random packet info.
+#define SOCKOPT IP_RECVORIGDSTADDR
+//This field is synonymous with the above one. Valid options are: IP_TOS, IP_ORIGDSTADDR, and IP_PKTINFO
+#define RECIVEOPTION IP_ORIGDSTADDR
+
+int main(void){
+	struct sockaddr_in local_addr;
+	
+	int s;
+	int recv_len;
+	char buf[BUFSIZ];
+	
+	s = socket(AF_INET, SOCK_STREAM, 0);
+	if (s == -1){
+		err(1, "error creating socket");
+	}
+	
+	memset((char *) &local_addr, 0, sizeof(local_addr));
+	
+	local_addr.sin_family = AF_INET;
+	local_addr.sin_port = htons(PORT);
+	local_addr.sin_addr.s_addr = htonl(INADDR_ANY);
+
+	int yes = 1;
+	if(setsockopt(s, IPPROTO_IP, SOCKOPT, &yes, sizeof(yes)) == -1){
+		err(1, "error setting socket option");
+	}
+
+
+	if(bind(s, (struct sockaddr*)&local_addr, sizeof(local_addr) ) == -1){
+		err(1, "error binding to port. try changing it or running as root");
+	}
+	
+	if(listen(s, 10) == -1){ //10 is the backlog of un-accepted connections. its just an arbitrary number
+		err(1, "error listening on port");
+	}
+
+	while(1){
+		int connfd = accept(s, (struct sockaddr*)NULL, NULL);
+		if(connfd == -1){
+			err(1, "error accepting connection");
+		}
+		if(setsockopt(s, IPPROTO_IP, SOCKOPT, &yes, sizeof(yes)) == -1){ //stream sockets should have this set on the connected socket as well. I left it above for uniformity between the two programs.
+			err(1, "error setting socket option");
+		}
+	
+		struct msghdr mhdr;
+		struct iovec iov[1];
+		struct cmsghdr *cmhdr;
+		char control[1000];
+		char databuf[1500];
+		unsigned char tos = 0;
+		
+		mhdr.msg_name = &local_addr;
+		mhdr.msg_namelen = sizeof(local_addr);
+		mhdr.msg_iov = iov;
+		mhdr.msg_iovlen = 1;
+		mhdr.msg_control = &control;
+		mhdr.msg_controllen = sizeof(control);
+		iov[0].iov_base = databuf;
+		iov[0].iov_len = sizeof(databuf);
+		memset(databuf, 0, sizeof(databuf));	
+		
+		//this is blocking
+		if ((recv_len = recvmsg(connfd, &mhdr, 0)) == -1){
+			err(1, "recvmsg\n");
+		}
+		cmhdr = CMSG_FIRSTHDR(&mhdr);
+		while (cmhdr) {
+			printf("cmsg recieved\n");
+    		    if (cmhdr->cmsg_level == IPPROTO_IP && cmhdr->cmsg_type == RECIVEOPTION) {
+    		        //read the byte recieved
+			    tos = ((unsigned char *)CMSG_DATA(cmhdr))[0];
+    		    }
+    		    cmhdr = CMSG_NXTHDR(&mhdr, cmhdr);
+    		}
+		//print out the first byte of data recieved in hex. You can verify this in wireshark if you like.
+    		printf("data read: %sbyte = %02X\n", databuf, tos); 	
+		close(connfd);
+	}
+
+	close(s);
+	return 0;
+}
+
+--hsznaki4gb2vrgr5--
