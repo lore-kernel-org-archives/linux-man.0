@@ -1,62 +1,37 @@
-Received: from mail-qk1-f178.google.com (mail-qk1-f178.google.com [209.85.222.178])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 8D2641879;
-	Sat, 16 Mar 2024 22:41:26 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.222.178
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 87A151852;
+	Sun, 17 Mar 2024 02:02:57 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1710628888; cv=none; b=MfK1cBTAi4fBlGMaMZ5dJd4Vc6iywHEzeTEwFKtQ0/OP+XwPwH6wLIOnYKNAJSFMbauVVAJPhE8u9KCrH1YoHiXCS+fJRQoDlbFWtm8m6e6JpmKis/80C62FsZvy8H+HR0EGHRSzn4GNYZZ1M/Xh5T6w0px5AQR6GgbOSQM0MPg=
+	t=1710640977; cv=none; b=M3CSP2iwGUcsXA4oBJYR98PTppUqC8h0rsVR8utMupic2G9kIzh9PFShn6sZDHf9xyuzkf4KFurj02cX2AOiyfsmkdv9Pz8lXmpOBwlKXGko/CSZcZbrYp+9WTp81jyvG6yBtyDhVXlWwqC1+jW2+VoO340f84l8aZzs5fEtaKE=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1710628888; c=relaxed/simple;
-	bh=mQKcSBjm9Efe65g7RepiJwJkRTMwmtmEBZpAHWyfFzo=;
+	s=arc-20240116; t=1710640977; c=relaxed/simple;
+	bh=aGNL0ORK5Yg7KGt1wFML6LVxENOk0w67An6EMwdAaLI=;
 	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=lxVcCmIHN+uozZ9PLWULcnoy28i6Ptyrivdz43rTTPdnEV5N26whHQjRtWat/JefehZgKz9m9nT2igSFrupllXyXvQh95RoV7rhdMvEEEb2ACDyZyrb6o2dTyrCW1hGK2aQ64My16ys1exTIz4ZoGjZn2x5+F5T0rLK0nPpHL1Y=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=d+aGHncW; arc=none smtp.client-ip=209.85.222.178
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
+	 Content-Type:Content-Disposition:In-Reply-To; b=cI4F5gX989YnbttGCwrEtfL+ijQ+vw6Q1BJRer3uTJjWyI4T5lNYecuEjJSpzUCYB8T45g1gVLv6LNBGmSNHQmuuntSnhWQBgcWjX6XGjLMGoNDXyghweGYSo/tgI1ZMhxo/PyikELLr82iWiLUesYXVAcTaRDFnJLIXJBpTy8k=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=LIOwEAeE; arc=none smtp.client-ip=10.30.226.201
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="d+aGHncW"
-Received: by mail-qk1-f178.google.com with SMTP id af79cd13be357-789de1f59feso206625285a.3;
-        Sat, 16 Mar 2024 15:41:26 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1710628885; x=1711233685; darn=vger.kernel.org;
-        h=in-reply-to:content-disposition:mime-version:references:message-id
-         :subject:cc:to:from:date:from:to:cc:subject:date:message-id:reply-to;
-        bh=LZxHdyx+B12eh8vC+iPWJzgL1KXUeE9iLRFvVuj1xbI=;
-        b=d+aGHncWc6RZCF6x9WOW7LF69DejdGD1awAoVcbsZo3z1qHQqwF9sxXmIdD6G9LJx9
-         5iZTfmGQqv/WZeuXlG5tp8qkmRuV2dQZHNXmdUVHmDhN6DmiMoaGAGEHD9Hm6UAZVwU1
-         rKSxWM+WAW8rRhXGbiP1n/dIrRsOoXKCqbVRarvHAM/vqAVWobslffTde1yDJwMgna78
-         kuwIGVd2YYp6LH/izr/Kd84ID1JPI8Qt/urffGg0wbGmeKhORxi0s6fTuic3/wErvL4u
-         UshM33OFT1VFJROI/hrIu13pHi4Cu/k/rbjXBTlxRPzY48IZMMKRzWj0lhHEyFa3j/sl
-         RWDQ==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1710628885; x=1711233685;
-        h=in-reply-to:content-disposition:mime-version:references:message-id
-         :subject:cc:to:from:date:x-gm-message-state:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=LZxHdyx+B12eh8vC+iPWJzgL1KXUeE9iLRFvVuj1xbI=;
-        b=tuyXu0Z8Weqcu3P0b/jEIOwXEuYQoMNENDTerRK7cie3KCioixD/ABfK/cAQ7bpgrY
-         bRUCb1HVKqX1iMejzi6af8cvwURinlZRma4gCBEk32rXyNKIRUvT23pfTfWwTTLUdJn4
-         U7L1bNRRyRRq1YAmr4I7N6O0lvuOhjfVcDpS4+zVBcgjyIMCv6UB90hlFNNNZ8ptGlZr
-         3fhMYaQuh7+epRL2/ugl5ZuNQjSEp7FL5VOeR7VhNLE8cPu8QYMEVOVBUAxL0ZfebCTx
-         LwB6xiQNedbmTuufDgnCZzmbpVorTQveXvqUeZ87z5Vo+7AwWWzFXz/zHQiRfRGCVr6/
-         pSXg==
-X-Forwarded-Encrypted: i=1; AJvYcCV4Qbh8RC/BOgoreFp4w0dTJBHNEQo6seYEi4rSLVHJky4xvS2pKQfadLDMUmBs6hSVaovoxIN86n8MFmiWO0BeRbpnwg02Pm25
-X-Gm-Message-State: AOJu0Yy8hrQWMFQzaEQz7+gxt3Nl+U4FNjB0xamxa7eP7D6Dpg36NrE8
-	gtaLJY/GF4TwUpKTxLd2Hd5b1oTCVcnSQGQ7e1P2YvVcnTMCHwEq
-X-Google-Smtp-Source: AGHT+IHk7fqjiQ+Prbc0EZSPAkrG9TAVYuSv369bPuFzbeRdFbvMshWoENtshVqbgqShCZuCiBm1tA==
-X-Received: by 2002:ac8:7c52:0:b0:430:c775:a08 with SMTP id o18-20020ac87c52000000b00430c7750a08mr1280847qtv.31.1710628876285;
-        Sat, 16 Mar 2024 15:41:16 -0700 (PDT)
-Received: from localhost ([2601:8c:502:14f0:acdd:1182:de4a:7f88])
-        by smtp.gmail.com with ESMTPSA id cr13-20020a05622a428d00b00430b0f40532sm2023936qtb.9.2024.03.16.15.41.14
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Sat, 16 Mar 2024 15:41:15 -0700 (PDT)
-Date: Sat, 16 Mar 2024 14:41:13 -0400
-From: Oliver Crumrine <ozlinuxc@gmail.com>
-To: Alejandro Colomar <alx@kernel.org>
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="LIOwEAeE"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 44B2FC433C7;
+	Sun, 17 Mar 2024 02:02:56 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+	s=k20201202; t=1710640977;
+	bh=aGNL0ORK5Yg7KGt1wFML6LVxENOk0w67An6EMwdAaLI=;
+	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+	b=LIOwEAeEptr5OzmP9XQd/Y6mNmrfbkAfovJi9DZ1jJq4EazKaNWuV0vOJEPkHW9W0
+	 h76APTB00wICXhVgGuWcny/TlbEGOPy0TZC9Py1ZQd926tUc83Kf0EZH56y506gISA
+	 tcAyC5PqlE/BS5d5GQmn/gFf7rJHyjfmhhqnYFKpdhpp859+8thUGIzd7LICG2lgjj
+	 PnOZxeuNhteS4Zk0fIfIxLJihVG95sF1mSK9QIS2kyGlU3O1UKF2rvwiv9eWJny4lB
+	 AdUvkkXSxQIn0842msx1Vi5Eei/ONpUB3gKDObDL3hn8AJ3w1giPIOelCeuvz9jeo0
+	 T8ZI0c9C+ZIog==
+Date: Sun, 17 Mar 2024 03:02:53 +0100
+From: Alejandro Colomar <alx@kernel.org>
+To: Oliver Crumrine <ozlinuxc@gmail.com>
 Cc: linux-kernel@vger.kernel.org, linux-man@vger.kernel.org
 Subject: Re: [PATCH] ip.7: Add not supported by SOCK_STREAM to socket options
-Message-ID: <f7pbphvm5cqgdblxyhbz6xucfu3fvfmvhidl2hftqirr6bn2bh@sfz26be5ss5e>
+Message-ID: <ZfZPTsdxElzcqtpe@debian>
 References: <hxiq3upwxs3j5mc5arwlx4jriqm7fq5z54wroc4h4kqcq4gq7m@uwnoq2vnkhup>
  <ZeXzuWVmC9AnsECt@debian>
  <7ubz52rfdl2i76sotvd3s4thv6jvbfao6zct3sywqus2owlvkx@wpbeqqdvipo4>
@@ -66,351 +41,429 @@ References: <hxiq3upwxs3j5mc5arwlx4jriqm7fq5z54wroc4h4kqcq4gq7m@uwnoq2vnkhup>
  <CAK1VsR3MsyphK+=rA7XcEigiSd6J_-QsVW+8hH1fU9xmRY3nGQ@mail.gmail.com>
  <CAK1VsR2zaCT3Bs1cwCEfLhAPXjwNk1byzNq5y32C736=hxqjoA@mail.gmail.com>
  <ZfX0EBsVl4a5FQ_L@debian>
+ <f7pbphvm5cqgdblxyhbz6xucfu3fvfmvhidl2hftqirr6bn2bh@sfz26be5ss5e>
 Precedence: bulk
 X-Mailing-List: linux-man@vger.kernel.org
 List-Id: <linux-man.vger.kernel.org>
 List-Subscribe: <mailto:linux-man+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-man+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: multipart/mixed; boundary="hsznaki4gb2vrgr5"
+Content-Type: multipart/signed; micalg=pgp-sha512;
+	protocol="application/pgp-signature"; boundary="DerL+hS3gSxsbeQl"
 Content-Disposition: inline
-In-Reply-To: <ZfX0EBsVl4a5FQ_L@debian>
+In-Reply-To: <f7pbphvm5cqgdblxyhbz6xucfu3fvfmvhidl2hftqirr6bn2bh@sfz26be5ss5e>
 
 
---hsznaki4gb2vrgr5
-Content-Type: text/plain; charset=us-ascii
+--DerL+hS3gSxsbeQl
+Content-Type: text/plain; protected-headers=v1; charset=utf-8
 Content-Disposition: inline
+Content-Transfer-Encoding: quoted-printable
+Date: Sun, 17 Mar 2024 03:02:53 +0100
+From: Alejandro Colomar <alx@kernel.org>
+To: Oliver Crumrine <ozlinuxc@gmail.com>
+Cc: linux-kernel@vger.kernel.org, linux-man@vger.kernel.org
+Subject: Re: [PATCH] ip.7: Add not supported by SOCK_STREAM to socket options
 
-On Sat, Mar 16, 2024 at 08:33:36PM +0100, Alejandro Colomar wrote:
-> Hi Oliver,
-> 
-> On Wed, Mar 13, 2024 at 02:27:17PM -0400, Oliver Crumrine wrote:
+Hi Oliver,
+
+On Sat, Mar 16, 2024 at 02:41:13PM -0400, Oliver Crumrine wrote:
+> On Sat, Mar 16, 2024 at 08:33:36PM +0100, Alejandro Colomar wrote:
+> > Hi Oliver,
+> >=20
+> > On Wed, Mar 13, 2024 at 02:27:17PM -0400, Oliver Crumrine wrote:
+> > > > Hi Alex,
+> > > > I apologize for your repeated troubles with my test program.
+> > > > I have attached a video of myself using it in the method that I
+> > > > described to you. (I emailed you off-list as to avoid sending a 12
+> > > > MB video to the whole list)
+> > > >
+> > > > If you are using it in the same way that works for me, I don't know
+> > > > what the problem is. If I could've been clearer in my instructions,=
+ let
+> > > > me know for the future.
+> > > >
+> > > > Thanks,
+> > > > Oliver
+> > >=20
 > > > Hi Alex,
-> > > I apologize for your repeated troubles with my test program.
-> > > I have attached a video of myself using it in the method that I
-> > > described to you. (I emailed you off-list as to avoid sending a 12
-> > > MB video to the whole list)
-> > >
-> > > If you are using it in the same way that works for me, I don't know
-> > > what the problem is. If I could've been clearer in my instructions, let
-> > > me know for the future.
-> > >
-> > > Thanks,
-> > > Oliver
-> > 
-> > Hi Alex,
-> > Were you able to make any progress whatsoever with this test program?
-> 
-> I'm sorry, but I haven't been able to reproduce the behavior.  The test
-> programs have several problems which I reported in previous mails.
-> Maybe there's something that makes it unstable and in your system
-> behaves differently?  Please clean up those examples, and try to run
-> them in a different system, and maybe then I can reproduce it.
-> 
-> Have a lovely day!
-> Alex
-> 
-> 
-> $ uname -a
-> Linux debian 6.8.0-rc7-alx-dirty #3 SMP PREEMPT_DYNAMIC Mon Mar  4 15:24:33 CET 2024 x86_64 GNU/Linux
-> 
-> -- 
-> <https://www.alejandro-colomar.es/>
-Hi Alex,
-I have cleaned up my test programs. I have also tested them on other
-systems (including on systems which I had installed the rc7 kernel
-onto). In the very slight chance that your netcat isn't working, (very 
-narrow chances, but still there), I have attached client programs to go 
-along with the servers.
-Thanks,
-Oliver
+> > > Were you able to make any progress whatsoever with this test program?
+> >=20
+> > I'm sorry, but I haven't been able to reproduce the behavior.  The test
+> > programs have several problems which I reported in previous mails.
+> > Maybe there's something that makes it unstable and in your system
+> > behaves differently?  Please clean up those examples, and try to run
+> > them in a different system, and maybe then I can reproduce it.
+> >=20
+> > Have a lovely day!
+> > Alex
+> >=20
+> >=20
+> > $ uname -a
+> > Linux debian 6.8.0-rc7-alx-dirty #3 SMP PREEMPT_DYNAMIC Mon Mar  4 15:2=
+4:33 CET 2024 x86_64 GNU/Linux
+> >=20
+> > --=20
+> > <https://www.alejandro-colomar.es/>
+> Hi Alex,
+> I have cleaned up my test programs. I have also tested them on other
+> systems (including on systems which I had installed the rc7 kernel
+> onto). In the very slight chance that your netcat isn't working, (very=20
+> narrow chances, but still there), I have attached client programs to go=
+=20
+> along with the servers.
+> Thanks,
+> Oliver
+
+I still get warnings when compiling them.  There's clearly dead code in
+them.
+
+alx@debian:~/tmp$ cc -Wall -Wextra ds.c -o ds
+ds.c: In function =E2=80=98main=E2=80=99:
+ds.c:26:14: warning: unused variable =E2=80=98buf=E2=80=99 [-Wunused-variab=
+le]
+   26 |         char buf[BUFSIZ];
+      |              ^~~
+alx@debian:~/tmp$ cc -Wall -Wextra dc.c -o dc
+dc.c: In function =E2=80=98main=E2=80=99:
+dc.c:16:13: warning: unused variable =E2=80=98send_len=E2=80=99 [-Wunused-v=
+ariable]
+   16 |         int send_len;
+      |             ^~~~~~~~
 
 
---hsznaki4gb2vrgr5
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: attachment; filename="testDgramSocketClient.c"
+> #include <stdio.h>
+> #include <err.h>
+> #include <string.h>
+> #include <stdlib.h>
+> #include <arpa/inet.h>
+> #include <sys/socket.h>
+> #include <unistd.h>
+>=20
+> #define PORT 8888 //The port on which to send data
+> #define ADDR "127.0.0.1" //The internet address to send packets to
+>=20
+> int main(void){
+> 	int s;
+> 	struct sockaddr_in server_addr;
+>=20
+> 	int send_len;
+> 	char buf[] =3D "testing 1 2 3\n";
+>=20
+> 	s =3D socket(AF_INET, SOCK_DGRAM, IPPROTO_UDP);
+> 	if(s =3D=3D -1){
+> 		err(1, "error creating socket");
+> 	}
+>=20
+> 	memset((char*)&server_addr, 0, sizeof(server_addr));
 
-#include <stdio.h>
-#include <err.h>
-#include <string.h>
-#include <stdlib.h>
-#include <arpa/inet.h>
-#include <sys/socket.h>
-#include <unistd.h>
+You shouldn't be casting pointers that you pass to memset(3).  It
+accepts almost anything.  That cast defeats the little type safety that
+it has.
 
-#define PORT 8888 //The port on which to send data
-#define ADDR "127.0.0.1" //The internet address to send packets to
+> =09
+> 	server_addr.sin_family =3D AF_INET;
+> 	server_addr.sin_port =3D htons(PORT);
+> 	if(inet_pton(AF_INET, ADDR, &server_addr.sin_addr) !=3D 1){ //I realize =
+I'm checking the return value differently here. If you read the man page fo=
+r inet_pton, it'll make sense.
+> 		err(1, "error converting network address");
+> 	}
+>=20
+> 	if(sendto(s, buf, strlen(buf), 0, (struct sockaddr*)&server_addr, sizeof=
+(server_addr)) =3D=3D -1){
+> 		err(1, "error sending data");
+> 	}
+> =09
+> 	close(s);
+>=20
+>=20
 
-int main(void){
-	int s;
-	struct sockaddr_in server_addr;
+Why two blanks here?
 
-	int send_len;
-	char buf[] = "testing 1 2 3\n";
+> }
 
-	s = socket(AF_INET, SOCK_DGRAM, IPPROTO_UDP);
-	if(s == -1){
-		err(1, "error creating socket");
-	}
+> #include<stdio.h>
+> #include<err.h>
+> #include<string.h>
+> #include<stdlib.h>
+> #include<arpa/inet.h>
+> #include<sys/socket.h>
+> #include<unistd.h>
+>=20
+> #define PORT 8888	//The port on which to listen for incoming data
+>=20
+>=20
+> //Hi Alex,
+> //These are the two lines that allow you to switch between the three sock=
+et options outlined in my patch
+> //The socket options tell the kernel to add a control message (cmsg), all=
+owing the program
+> //to recieve the data it is requesting. The three options are: IP_RECVTOS=
+ for the type of service byte,
+> //IP_RECVORIGDSTADDR for the orignial dst address, and IP_PKTINFO for som=
+e random packet info.
+> #define SOCKOPT IP_RECVORIGDSTADDR
+> //This field is synonymous with the above one. Valid options are: IP_TOS,=
+ IP_ORIGDSTADDR, and IP_PKTINFO
+> #define RECIVEOPTION IP_ORIGDSTADDR
+>=20
+> int main(void){
+> 	struct sockaddr_in local_addr;
+> =09
+> 	int s;
+> 	int recv_len;
+> 	char buf[BUFSIZ];
+> =09
+> 	s =3D socket(AF_INET, SOCK_DGRAM, IPPROTO_UDP);
+> 	if (s =3D=3D -1){
+> 		err(1, "error creating socket");
+> 	}
+> =09
+> 	memset((char *) &local_addr, 0, sizeof(local_addr));
+> =09
+> 	local_addr.sin_family =3D AF_INET;
+> 	local_addr.sin_port =3D htons(PORT);
+> 	local_addr.sin_addr.s_addr =3D htonl(INADDR_ANY);
+>=20
+> 	int yes =3D 1;
+> 	if(setsockopt(s, IPPROTO_IP, SOCKOPT, &yes, sizeof(yes)) =3D=3D -1){
+> 		err(1, "error setting socket option");
+> 	}
+>=20
+>=20
+> 	if(bind(s, (struct sockaddr*)&local_addr, sizeof(local_addr) ) =3D=3D -1=
+){
+> 		err(1, "error binding to port. try changing it or running as root");
+> 	}
+>=20
+> 	while(1){
+> 		struct msghdr mhdr;
+> 		struct iovec iov[1];
+> 		struct cmsghdr *cmhdr;
+> 		char control[1000];
+> 		char databuf[1500];
+> 		unsigned char tos =3D 0;
+> 	=09
+> 		mhdr.msg_name =3D &local_addr;
+> 		mhdr.msg_namelen =3D sizeof(local_addr);
+> 		mhdr.msg_iov =3D iov;
+> 		mhdr.msg_iovlen =3D 1;
+> 		mhdr.msg_control =3D &control;
+> 		mhdr.msg_controllen =3D sizeof(control);
+> 		iov[0].iov_base =3D databuf;
+> 		iov[0].iov_len =3D sizeof(databuf);
+> 		memset(databuf, 0, sizeof(databuf));=09
+> 	=09
+> 		//this is blocking
+> 		if ((recv_len =3D recvmsg(s, &mhdr, 0)) =3D=3D -1){
+> 			err(1, "recvmsg");
+> 		}
+> 		cmhdr =3D CMSG_FIRSTHDR(&mhdr);
+> 		while (cmhdr) {
+> 			printf("cmsg recieved\n");
+>     		    if (cmhdr->cmsg_level =3D=3D IPPROTO_IP && cmhdr->cmsg_type =3D=
+=3D RECIVEOPTION) {
 
-	memset((char*)&server_addr, 0, sizeof(server_addr));
-	
-	server_addr.sin_family = AF_INET;
-	server_addr.sin_port = htons(PORT);
-	if(inet_pton(AF_INET, ADDR, &server_addr.sin_addr) != 1){ //I realize I'm checking the return value differently here. If you read the man page for inet_pton, it'll make sense.
-		err(1, "error converting network address");
-	}
-
-	if(sendto(s, buf, strlen(buf), 0, (struct sockaddr*)&server_addr, sizeof(server_addr)) == -1){
-		err(1, "error sending data");
-	}
-	
-	close(s);
-
-
-}
-
---hsznaki4gb2vrgr5
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: attachment; filename="testDgramSocketServer.c"
-
-#include<stdio.h>
-#include<err.h>
-#include<string.h>
-#include<stdlib.h>
-#include<arpa/inet.h>
-#include<sys/socket.h>
-#include<unistd.h>
-
-#define PORT 8888	//The port on which to listen for incoming data
-
-
-//Hi Alex,
-//These are the two lines that allow you to switch between the three socket options outlined in my patch
-//The socket options tell the kernel to add a control message (cmsg), allowing the program
-//to recieve the data it is requesting. The three options are: IP_RECVTOS for the type of service byte,
-//IP_RECVORIGDSTADDR for the orignial dst address, and IP_PKTINFO for some random packet info.
-#define SOCKOPT IP_RECVORIGDSTADDR
-//This field is synonymous with the above one. Valid options are: IP_TOS, IP_ORIGDSTADDR, and IP_PKTINFO
-#define RECIVEOPTION IP_ORIGDSTADDR
-
-int main(void){
-	struct sockaddr_in local_addr;
-	
-	int s;
-	int recv_len;
-	char buf[BUFSIZ];
-	
-	s = socket(AF_INET, SOCK_DGRAM, IPPROTO_UDP);
-	if (s == -1){
-		err(1, "error creating socket");
-	}
-	
-	memset((char *) &local_addr, 0, sizeof(local_addr));
-	
-	local_addr.sin_family = AF_INET;
-	local_addr.sin_port = htons(PORT);
-	local_addr.sin_addr.s_addr = htonl(INADDR_ANY);
-
-	int yes = 1;
-	if(setsockopt(s, IPPROTO_IP, SOCKOPT, &yes, sizeof(yes)) == -1){
-		err(1, "error setting socket option");
-	}
-
-
-	if(bind(s, (struct sockaddr*)&local_addr, sizeof(local_addr) ) == -1){
-		err(1, "error binding to port. try changing it or running as root");
-	}
-
-	while(1){
-		struct msghdr mhdr;
-		struct iovec iov[1];
-		struct cmsghdr *cmhdr;
-		char control[1000];
-		char databuf[1500];
-		unsigned char tos = 0;
-		
-		mhdr.msg_name = &local_addr;
-		mhdr.msg_namelen = sizeof(local_addr);
-		mhdr.msg_iov = iov;
-		mhdr.msg_iovlen = 1;
-		mhdr.msg_control = &control;
-		mhdr.msg_controllen = sizeof(control);
-		iov[0].iov_base = databuf;
-		iov[0].iov_len = sizeof(databuf);
-		memset(databuf, 0, sizeof(databuf));	
-		
-		//this is blocking
-		if ((recv_len = recvmsg(s, &mhdr, 0)) == -1){
-			err(1, "recvmsg");
-		}
-		cmhdr = CMSG_FIRSTHDR(&mhdr);
-		while (cmhdr) {
-			printf("cmsg recieved\n");
-    		    if (cmhdr->cmsg_level == IPPROTO_IP && cmhdr->cmsg_type == RECIVEOPTION) {
-    		        //read the byte recieved
-			    tos = ((unsigned char *)CMSG_DATA(cmhdr))[0];
-    		    }
-    		    cmhdr = CMSG_NXTHDR(&mhdr, cmhdr);
-    		}
-		//print out the first byte of data recieved in hex. You can verify this in wireshark if you like.
-    		printf("data read: %sbyte = %02X\n", databuf, tos); 	
-		
-	}
-
-	close(s);
-	return 0;
-}
-
---hsznaki4gb2vrgr5
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: attachment; filename="testStreamSocketClient.c"
-
-#include <stdio.h>
-#include <err.h>
-#include <string.h>
-#include <stdlib.h>
-#include <arpa/inet.h>
-#include <sys/socket.h>
-#include <unistd.h>
-
-#define PORT 8888 //The port on which to send data
-#define ADDR "127.0.0.1" //The internet address to send packets to
-
-int main(void){
-	int s;
-	struct sockaddr_in server_addr;
-
-	int send_len;
-	char buf[] = "testing 1 2 3\n";
-
-	s = socket(AF_INET, SOCK_STREAM, 0);
-	if(s == -1){
-		err(1, "error creating socket");
-	}
-
-	memset((char*)&server_addr, 0, sizeof(server_addr));
-	
-	server_addr.sin_family = AF_INET;
-	server_addr.sin_port = htons(PORT);
-	if(inet_pton(AF_INET, ADDR, &server_addr.sin_addr) != 1){ // I realize I'm checking the return value differently here. If you read the man page for inet_pton, it'll make sense.
-		err(1, "error converting network address");
-	}
-
-	if(connect(s, (struct sockaddr*)&server_addr, sizeof(server_addr)) == -1){
-		err(1, "error connecting");
-	}
-	if(send(s, buf, strlen(buf), 0) == -1){
-		err(1, "error sending data");
-	}
-	
-	close(s);
+Don't mix spaces and tabs.
 
 
-}
+Have a lovely night!
+Alex
 
---hsznaki4gb2vrgr5
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: attachment; filename="testStreamSocketServer.c"
+>     		        //read the byte recieved
+> 			    tos =3D ((unsigned char *)CMSG_DATA(cmhdr))[0];
+>     		    }
+>     		    cmhdr =3D CMSG_NXTHDR(&mhdr, cmhdr);
+>     		}
+> 		//print out the first byte of data recieved in hex. You can verify this=
+ in wireshark if you like.
+>     		printf("data read: %sbyte =3D %02X\n", databuf, tos); =09
+> 	=09
+> 	}
+>=20
+> 	close(s);
+> 	return 0;
+> }
 
-#include<stdio.h>
-#include<err.h>
-#include<string.h>
-#include<stdlib.h>
-#include<arpa/inet.h>
-#include<sys/socket.h>
-#include<unistd.h>
+> #include <stdio.h>
+> #include <err.h>
+> #include <string.h>
+> #include <stdlib.h>
+> #include <arpa/inet.h>
+> #include <sys/socket.h>
+> #include <unistd.h>
+>=20
+> #define PORT 8888 //The port on which to send data
+> #define ADDR "127.0.0.1" //The internet address to send packets to
+>=20
+> int main(void){
+> 	int s;
+> 	struct sockaddr_in server_addr;
+>=20
+> 	int send_len;
+> 	char buf[] =3D "testing 1 2 3\n";
+>=20
+> 	s =3D socket(AF_INET, SOCK_STREAM, 0);
+> 	if(s =3D=3D -1){
+> 		err(1, "error creating socket");
+> 	}
+>=20
+> 	memset((char*)&server_addr, 0, sizeof(server_addr));
+> =09
+> 	server_addr.sin_family =3D AF_INET;
+> 	server_addr.sin_port =3D htons(PORT);
+> 	if(inet_pton(AF_INET, ADDR, &server_addr.sin_addr) !=3D 1){ // I realize=
+ I'm checking the return value differently here. If you read the man page f=
+or inet_pton, it'll make sense.
+> 		err(1, "error converting network address");
+> 	}
+>=20
+> 	if(connect(s, (struct sockaddr*)&server_addr, sizeof(server_addr)) =3D=
+=3D -1){
+> 		err(1, "error connecting");
+> 	}
+> 	if(send(s, buf, strlen(buf), 0) =3D=3D -1){
+> 		err(1, "error sending data");
+> 	}
+> =09
+> 	close(s);
+>=20
+>=20
+> }
 
-#define PORT 8888	//The port on which to listen for incoming data
+> #include<stdio.h>
+> #include<err.h>
+> #include<string.h>
+> #include<stdlib.h>
+> #include<arpa/inet.h>
+> #include<sys/socket.h>
+> #include<unistd.h>
+>=20
+> #define PORT 8888	//The port on which to listen for incoming data
+>=20
+>=20
+> //Hi Alex,
+> //These are the two lines that allow you to switch between the three sock=
+et options outlined in my patch
+> //The socket options tell the kernel to add a control message (cmsg), all=
+owing the program
+> //to recieve the data it is requesting. The three options are: IP_RECVTOS=
+ for the type of service byte,
+> //IP_RECVORIGDSTADDR for the orignial dst address, and IP_PKTINFO for som=
+e random packet info.
+> #define SOCKOPT IP_RECVORIGDSTADDR
+> //This field is synonymous with the above one. Valid options are: IP_TOS,=
+ IP_ORIGDSTADDR, and IP_PKTINFO
+> #define RECIVEOPTION IP_ORIGDSTADDR
+>=20
+> int main(void){
+> 	struct sockaddr_in local_addr;
+> =09
+> 	int s;
+> 	int recv_len;
+> 	char buf[BUFSIZ];
+> =09
+> 	s =3D socket(AF_INET, SOCK_STREAM, 0);
+> 	if (s =3D=3D -1){
+> 		err(1, "error creating socket");
+> 	}
+> =09
+> 	memset((char *) &local_addr, 0, sizeof(local_addr));
+> =09
+> 	local_addr.sin_family =3D AF_INET;
+> 	local_addr.sin_port =3D htons(PORT);
+> 	local_addr.sin_addr.s_addr =3D htonl(INADDR_ANY);
+>=20
+> 	int yes =3D 1;
+> 	if(setsockopt(s, IPPROTO_IP, SOCKOPT, &yes, sizeof(yes)) =3D=3D -1){
+> 		err(1, "error setting socket option");
+> 	}
+>=20
+>=20
+> 	if(bind(s, (struct sockaddr*)&local_addr, sizeof(local_addr) ) =3D=3D -1=
+){
+> 		err(1, "error binding to port. try changing it or running as root");
+> 	}
+> =09
+> 	if(listen(s, 10) =3D=3D -1){ //10 is the backlog of un-accepted connecti=
+ons. its just an arbitrary number
+> 		err(1, "error listening on port");
+> 	}
+>=20
+> 	while(1){
+> 		int connfd =3D accept(s, (struct sockaddr*)NULL, NULL);
+> 		if(connfd =3D=3D -1){
+> 			err(1, "error accepting connection");
+> 		}
+> 		if(setsockopt(s, IPPROTO_IP, SOCKOPT, &yes, sizeof(yes)) =3D=3D -1){ //=
+stream sockets should have this set on the connected socket as well. I left=
+ it above for uniformity between the two programs.
+> 			err(1, "error setting socket option");
+> 		}
+> =09
+> 		struct msghdr mhdr;
+> 		struct iovec iov[1];
+> 		struct cmsghdr *cmhdr;
+> 		char control[1000];
+> 		char databuf[1500];
+> 		unsigned char tos =3D 0;
+> 	=09
+> 		mhdr.msg_name =3D &local_addr;
+> 		mhdr.msg_namelen =3D sizeof(local_addr);
+> 		mhdr.msg_iov =3D iov;
+> 		mhdr.msg_iovlen =3D 1;
+> 		mhdr.msg_control =3D &control;
+> 		mhdr.msg_controllen =3D sizeof(control);
+> 		iov[0].iov_base =3D databuf;
+> 		iov[0].iov_len =3D sizeof(databuf);
+> 		memset(databuf, 0, sizeof(databuf));=09
+> 	=09
+> 		//this is blocking
+> 		if ((recv_len =3D recvmsg(connfd, &mhdr, 0)) =3D=3D -1){
+> 			err(1, "recvmsg\n");
+> 		}
+> 		cmhdr =3D CMSG_FIRSTHDR(&mhdr);
+> 		while (cmhdr) {
+> 			printf("cmsg recieved\n");
+>     		    if (cmhdr->cmsg_level =3D=3D IPPROTO_IP && cmhdr->cmsg_type =3D=
+=3D RECIVEOPTION) {
+>     		        //read the byte recieved
+> 			    tos =3D ((unsigned char *)CMSG_DATA(cmhdr))[0];
+>     		    }
+>     		    cmhdr =3D CMSG_NXTHDR(&mhdr, cmhdr);
+>     		}
+> 		//print out the first byte of data recieved in hex. You can verify this=
+ in wireshark if you like.
+>     		printf("data read: %sbyte =3D %02X\n", databuf, tos); =09
+> 		close(connfd);
+> 	}
+>=20
+> 	close(s);
+> 	return 0;
+> }
 
 
-//Hi Alex,
-//These are the two lines that allow you to switch between the three socket options outlined in my patch
-//The socket options tell the kernel to add a control message (cmsg), allowing the program
-//to recieve the data it is requesting. The three options are: IP_RECVTOS for the type of service byte,
-//IP_RECVORIGDSTADDR for the orignial dst address, and IP_PKTINFO for some random packet info.
-#define SOCKOPT IP_RECVORIGDSTADDR
-//This field is synonymous with the above one. Valid options are: IP_TOS, IP_ORIGDSTADDR, and IP_PKTINFO
-#define RECIVEOPTION IP_ORIGDSTADDR
+--=20
+<https://www.alejandro-colomar.es/>
 
-int main(void){
-	struct sockaddr_in local_addr;
-	
-	int s;
-	int recv_len;
-	char buf[BUFSIZ];
-	
-	s = socket(AF_INET, SOCK_STREAM, 0);
-	if (s == -1){
-		err(1, "error creating socket");
-	}
-	
-	memset((char *) &local_addr, 0, sizeof(local_addr));
-	
-	local_addr.sin_family = AF_INET;
-	local_addr.sin_port = htons(PORT);
-	local_addr.sin_addr.s_addr = htonl(INADDR_ANY);
+--DerL+hS3gSxsbeQl
+Content-Type: application/pgp-signature; name="signature.asc"
 
-	int yes = 1;
-	if(setsockopt(s, IPPROTO_IP, SOCKOPT, &yes, sizeof(yes)) == -1){
-		err(1, "error setting socket option");
-	}
+-----BEGIN PGP SIGNATURE-----
 
+iQIzBAABCgAdFiEE6jqH8KTroDDkXfJAnowa+77/2zIFAmX2T00ACgkQnowa+77/
+2zIgIQ/8De8if4ixwezxA7Iebs6XD9XXNDVT8gY/Va3xrqWOWPgmw8JIRmYjEZTL
+BTyD5V1N0LWZ1BDidIpMfgO6rTSYJ0ThhWNe5G4yGBUsk+CVe2V5xahwo4dfVc6t
+HcZOiQvZ1/qV9UOTL2MiHxSHTtowGh/ws4pPtS2+Zz95kcoWuXXQYr//sOS7jkvI
+qhPmZgsd0rKFNRefNcgdSGugqCgQkcYhE5mQE1/icKtxCDa0pqtRCOUfSMwGtKbg
+jY5g53M6VpcZQMoFiBWpPibbdSkMh0TMoROEisWdMV5FzCmEhdEYl0YhOm+9bIF/
+7elwwNLAzSSXirhWe18t9GL/XGKIRYoNMfJYji7oFhgYeWHL6fKWORwrzKm2urtX
+ntEVmrawK0i2q5N0mnSa434E/8WlXi5wIxMMSV5/UOiPdGHWmbVcLlcgaqBdMNS9
+42Dx5OmSk1k0sSlzjQVWJi/ylr1UkJB631Ihf8drJpOQjBAgsPDcHjEZlSFiYi2f
+Axji8wZQ3L5JhZq9bvWDafkKKw4F0XrbArTxVDKLhG4DjMbuvE9nvPVNDWDtcbYH
+pM7SPBuqkkH20sCDikfoToocmWxns7yPHZRe5zi6EuaUktLMYBhigucM/1nhMYVh
+BT3zA79WSF35KPzzfgXXke/XJBFUQYmWE+DT07//JrxAh4EY31c=
+=PNHx
+-----END PGP SIGNATURE-----
 
-	if(bind(s, (struct sockaddr*)&local_addr, sizeof(local_addr) ) == -1){
-		err(1, "error binding to port. try changing it or running as root");
-	}
-	
-	if(listen(s, 10) == -1){ //10 is the backlog of un-accepted connections. its just an arbitrary number
-		err(1, "error listening on port");
-	}
-
-	while(1){
-		int connfd = accept(s, (struct sockaddr*)NULL, NULL);
-		if(connfd == -1){
-			err(1, "error accepting connection");
-		}
-		if(setsockopt(s, IPPROTO_IP, SOCKOPT, &yes, sizeof(yes)) == -1){ //stream sockets should have this set on the connected socket as well. I left it above for uniformity between the two programs.
-			err(1, "error setting socket option");
-		}
-	
-		struct msghdr mhdr;
-		struct iovec iov[1];
-		struct cmsghdr *cmhdr;
-		char control[1000];
-		char databuf[1500];
-		unsigned char tos = 0;
-		
-		mhdr.msg_name = &local_addr;
-		mhdr.msg_namelen = sizeof(local_addr);
-		mhdr.msg_iov = iov;
-		mhdr.msg_iovlen = 1;
-		mhdr.msg_control = &control;
-		mhdr.msg_controllen = sizeof(control);
-		iov[0].iov_base = databuf;
-		iov[0].iov_len = sizeof(databuf);
-		memset(databuf, 0, sizeof(databuf));	
-		
-		//this is blocking
-		if ((recv_len = recvmsg(connfd, &mhdr, 0)) == -1){
-			err(1, "recvmsg\n");
-		}
-		cmhdr = CMSG_FIRSTHDR(&mhdr);
-		while (cmhdr) {
-			printf("cmsg recieved\n");
-    		    if (cmhdr->cmsg_level == IPPROTO_IP && cmhdr->cmsg_type == RECIVEOPTION) {
-    		        //read the byte recieved
-			    tos = ((unsigned char *)CMSG_DATA(cmhdr))[0];
-    		    }
-    		    cmhdr = CMSG_NXTHDR(&mhdr, cmhdr);
-    		}
-		//print out the first byte of data recieved in hex. You can verify this in wireshark if you like.
-    		printf("data read: %sbyte = %02X\n", databuf, tos); 	
-		close(connfd);
-	}
-
-	close(s);
-	return 0;
-}
-
---hsznaki4gb2vrgr5--
+--DerL+hS3gSxsbeQl--
