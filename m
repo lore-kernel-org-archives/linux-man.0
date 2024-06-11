@@ -1,55 +1,55 @@
 Received: from mail.cs.ucla.edu (mail.cs.ucla.edu [131.179.128.66])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 5B6C83218B
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 89E4F364AE
 	for <linux-man@vger.kernel.org>; Tue, 11 Jun 2024 15:30:24 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=131.179.128.66
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1718119825; cv=none; b=jOIpfc0hpugH6htD2DzdC0gtvxUVhMaunDLUTc0zj3fdnlyu6r5cCp+LNa38tmAX6FTD/iTryPY0i3+sTnbW11wFLxRUZowF+c2/HkbP6byvJnNITeX/bPcp5RArhZwQcyMTUtFcl+oiGSblZ5zd0FhqDwPL152cRiHI6NQ0MLo=
+	t=1718119825; cv=none; b=bONq73Zq1eBSoc57q4LvwMQGM81lYEfGQgV+l9815lGj7Cki23z3Bgkx5tA1tXjrYNlWkPNPPbXfOf7pbE6ws2t4asITQcwWVDjnTbgqvY5luht6JAF15HO+rmKmBr7Lcf/4gDZotpJqgnZZcvusr8NuvOXle+zsKU+d5twMOTw=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
 	s=arc-20240116; t=1718119825; c=relaxed/simple;
-	bh=ra2+u6up2pg5AoqkecLWXdjYzLRnRrotkV40MR2nS4U=;
+	bh=vuSrmJZ7SvDohk7h+IyhPpuUOeOM7TelZJi2mClaTCw=;
 	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
-	 MIME-Version; b=ACWt91jHLHr3rMnNoXjN9gBzGr/yhastDJNg5svw1RIWhgLEaVGphljR/5OXVwG1KPEWCLaZnYQUOqzyaNzWC7OWov8ieBY0HXOqtrOan1wekgw2J9Vjsx2t/lpZT6YALR8yAvALniPw7q7YnoLhWxrRYVgjSmkpBX7XnFpWRqE=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=cs.ucla.edu; spf=pass smtp.mailfrom=cs.ucla.edu; dkim=pass (2048-bit key) header.d=cs.ucla.edu header.i=@cs.ucla.edu header.b=eEoCYO+4; arc=none smtp.client-ip=131.179.128.66
+	 MIME-Version; b=HG9X20bsMTZvfL0snkt8b2tLmQWDN7bPNYD0zWfcKZGmQ3joDfLfvkMpv8WzqZZUutTlLuQpNbjJqy5lXcY/4mghgm98/GPf2NywQXcyHm0WW/YjDL/nUnYzwqY6pPT3zi4T0SSBoDevaqkV6tsKoCQbjTxh1W8zGaoYmg8HQXU=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=cs.ucla.edu; spf=pass smtp.mailfrom=cs.ucla.edu; dkim=pass (2048-bit key) header.d=cs.ucla.edu header.i=@cs.ucla.edu header.b=ZZkIu5IC; arc=none smtp.client-ip=131.179.128.66
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=cs.ucla.edu
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=cs.ucla.edu
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=cs.ucla.edu header.i=@cs.ucla.edu header.b="eEoCYO+4"
+	dkim=pass (2048-bit key) header.d=cs.ucla.edu header.i=@cs.ucla.edu header.b="ZZkIu5IC"
 Received: from localhost (localhost [127.0.0.1])
-	by mail.cs.ucla.edu (Postfix) with ESMTP id 8DE393C00E403;
+	by mail.cs.ucla.edu (Postfix) with ESMTP id 98EFC3C00E406;
 	Tue, 11 Jun 2024 08:30:22 -0700 (PDT)
 Received: from mail.cs.ucla.edu ([127.0.0.1])
  by localhost (mail.cs.ucla.edu [127.0.0.1]) (amavis, port 10032) with ESMTP
- id wM2SOAnGXteM; Tue, 11 Jun 2024 08:30:22 -0700 (PDT)
+ id nmKEOn0X902J; Tue, 11 Jun 2024 08:30:22 -0700 (PDT)
 Received: from localhost (localhost [127.0.0.1])
-	by mail.cs.ucla.edu (Postfix) with ESMTP id 36AC23C00E400;
+	by mail.cs.ucla.edu (Postfix) with ESMTP id 576333C0140A4;
 	Tue, 11 Jun 2024 08:30:22 -0700 (PDT)
-DKIM-Filter: OpenDKIM Filter v2.10.3 mail.cs.ucla.edu 36AC23C00E400
+DKIM-Filter: OpenDKIM Filter v2.10.3 mail.cs.ucla.edu 576333C0140A4
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=cs.ucla.edu;
 	s=9D0B346E-2AEB-11ED-9476-E14B719DCE6C; t=1718119822;
-	bh=ra2+u6up2pg5AoqkecLWXdjYzLRnRrotkV40MR2nS4U=;
+	bh=vuSrmJZ7SvDohk7h+IyhPpuUOeOM7TelZJi2mClaTCw=;
 	h=From:To:Date:Message-ID:MIME-Version;
-	b=eEoCYO+4r1oWQGYdWJY6sgAMMj01kx/4AkzCpOH/2KNDUFbmfpFtNCz590zksFaAT
-	 bNf1xlP7/MdtizeuZJJHVSZEyb3yMUk5CerkeSmyLwrZSwyWdRxSUczTKbT0byPnWi
-	 BOOzEBGZrEbiO0Q/+hebx/YXXKUUhYLgPg/gd3jRk/IdL0r0TNHJFlvVVA/ijx4iEw
-	 wJ+Rb+xuvPKafVjr+HQoaAAFre6TZjX3S7KXBmJY4fXq/+xAPv5hYSNdLR4QwSryCA
-	 4g94Y5AoKjvsYeEhT8FfIO9d+7pMrax6nEvtBVbN6bLrfJs8A4UyMD+iWsPVRemJ7v
-	 jIOj6n/wTkHfQ==
+	b=ZZkIu5ICPZKqG60Qpvx1aTkD+wWL3FbUBtYKadSK0cEPXTW0vgOj3s4hH4mVJkkiX
+	 KQAkESu6yYwW14rPKwyKyDVfCavE4c8ROEEcY62+gbAXrWany63QO0CgnD2vvJYy40
+	 yghxdBbtewfuoSSITJKlJ8gSUaL4iaCprYJJnL46Qn9XkcpajsQxws4vIqNsAID5H8
+	 rTO/zh9kqrHO7hQtNBHKedqEnM6Eybv/mU3fkdm5rfcouDAU43VaLR1gXsTaVFJAtd
+	 Llvk/XLvh7ox1Pt8Gy5M0pAh70J2rY6DswoTq3WqWZYPMg4NrIRugb/g+HN6Q2PukY
+	 8g+tDx/29Qlfg==
 X-Virus-Scanned: amavis at mail.cs.ucla.edu
 Received: from mail.cs.ucla.edu ([127.0.0.1])
  by localhost (mail.cs.ucla.edu [127.0.0.1]) (amavis, port 10026) with ESMTP
- id PjdaVSoz71d8; Tue, 11 Jun 2024 08:30:22 -0700 (PDT)
+ id yg1JFMPiD9dI; Tue, 11 Jun 2024 08:30:22 -0700 (PDT)
 Received: from penguin.cs.ucla.edu (Penguin.CS.UCLA.EDU [131.179.64.200])
-	by mail.cs.ucla.edu (Postfix) with ESMTPSA id 1D5323C00E404;
+	by mail.cs.ucla.edu (Postfix) with ESMTPSA id 31C5B3C00E406;
 	Tue, 11 Jun 2024 08:30:22 -0700 (PDT)
 From: Paul Eggert <eggert@cs.ucla.edu>
 To: Alejandro Colomar <alx@kernel.org>,
 	linux-man@vger.kernel.org
 Cc: Paul Eggert <eggert@cs.ucla.edu>
-Subject: [PATCH 06/12] tzset: use NZ's current rules in example
-Date: Tue, 11 Jun 2024 08:29:09 -0700
-Message-ID: <20240611153005.3066-6-eggert@cs.ucla.edu>
+Subject: [PATCH 08/12] tzset: omit colon in example
+Date: Tue, 11 Jun 2024 08:29:11 -0700
+Message-ID: <20240611153005.3066-8-eggert@cs.ucla.edu>
 X-Mailer: git-send-email 2.45.2
 In-Reply-To: <d054fc63-6ea4-425b-94ce-14402d448ccf@cs.ucla.edu>
 References: <d054fc63-6ea4-425b-94ce-14402d448ccf@cs.ucla.edu>
@@ -62,29 +62,22 @@ MIME-Version: 1.0
 Content-Transfer-Encoding: quoted-printable
 
 ---
- man/man3/tzset.3 | 6 +++---
- 1 file changed, 3 insertions(+), 3 deletions(-)
+ man/man3/tzset.3 | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
 
 diff --git a/man/man3/tzset.3 b/man/man3/tzset.3
-index 717b1fec9..0b813c568 100644
+index f3e6c8748..4c7e286fe 100644
 --- a/man/man3/tzset.3
 +++ b/man/man3/tzset.3
-@@ -153,12 +153,12 @@ If omitted, the default is 02:00:00.
- Here is an example for New Zealand,
- where the standard time (NZST) is 12 hours ahead of UTC,
- and daylight saving time (NZDT), 13 hours ahead of UTC,
--runs from the first Sunday in October to the third Sunday in March,
--and the changeovers happen at the default time of 02:00:00:
-+runs from September's last Sunday, at the default time 02:00:00,
-+to April's first Sunday at 03:00:00.
+@@ -189,7 +189,7 @@ Here's an example, once more for New Zealand:
  .P
  .in +4n
  .EX
--TZ=3D"NZST\-12:00:00NZDT\-13:00:00,M10.1.0,M3.3.0"
-+TZ=3D"NZST\-12:00:00NZDT\-13:00:00,M9.5.0,M4.1.0/3"
+-TZ=3D":Pacific/Auckland"
++TZ=3D"Pacific/Auckland"
  .EE
  .in
- .P
+ .SH ENVIRONMENT
 --=20
 2.45.2
 
