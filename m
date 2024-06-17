@@ -1,64 +1,64 @@
-Received: from mail-oi1-f170.google.com (mail-oi1-f170.google.com [209.85.167.170])
+Received: from mail-oi1-f176.google.com (mail-oi1-f176.google.com [209.85.167.176])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 8646C163A97
-	for <linux-man@vger.kernel.org>; Mon, 17 Jun 2024 23:11:06 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.167.170
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 713DD199396
+	for <linux-man@vger.kernel.org>; Mon, 17 Jun 2024 23:11:08 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.167.176
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1718665867; cv=none; b=Ggl3Ss2yix5xRZhrHQruJqZT5F7iHLXGgzEqTYiOrpLD5opPNNYFk8js7+/5LKtLrK/th2xKsiQsN+qJ6yEkq6yGMtHvURzXlhZuqdSzM1HBRPUqMhKFefRoX/2L3I6/f0PWBOaD8EzRlorFNjCRyJd4Awtr9YHxMQYHnoB5GGU=
+	t=1718665869; cv=none; b=ibNdqfQqhwvcGySXfS3uFboZe4F33rjnePbAzchxQ7DKZxZ2ER7PkkTBafubWCA3BOw0HpeXhrwJRzSkapumYpJ56e1O2b9svvRZIPOK7Y5KVZfKYlAyqgQQco0fTtGxunVrK8zv23MVoKniC3sTRsTpByk2DtXVFlF0BNhmEsc=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1718665867; c=relaxed/simple;
-	bh=bxv+/cVEhsCH/GXwwLRWKe4PrucYRuquIpU5D4UY1KE=;
+	s=arc-20240116; t=1718665869; c=relaxed/simple;
+	bh=6dG07ze1UIkbmFv/wXs8JIjULmRV3CT/QZgxQuVb3RM=;
 	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
-	 MIME-Version; b=f7tteFRDQbWhewUgrL0YdoDKly81SXXqiDFGMQpa9nGttGPNSrOrFBsnlhu99RZC2OF2B1a33FXYbnpevD0A5rgyyt7IV/vvHMzbeTtd9OqvsxU1OO+ZXF955bw70m+Qj5SVBW8Ef5a/JvUgGyrLaRMMshfec/BpTBd4zsor4Gw=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=GVEl/BuO; arc=none smtp.client-ip=209.85.167.170
+	 MIME-Version; b=kUvTd51ah76Fgvr1XyW0C+Nwz6qWmw4Je3V5wD86sQtTicnrJyo+oKvCKL4P/JUpPjDU+MorvP+EVHuWG3K8Fy9O+EtWtErgSDXXmVmSIjQ7+lwhD5fXzEq0n+3Z8vZp7OvM3A25/9+daCDhs6b9Qdmw9qhAZkkEv7/PUZ5BUiI=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=iRd0Avw2; arc=none smtp.client-ip=209.85.167.176
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="GVEl/BuO"
-Received: by mail-oi1-f170.google.com with SMTP id 5614622812f47-3d215a594b9so2593725b6e.3
-        for <linux-man@vger.kernel.org>; Mon, 17 Jun 2024 16:11:06 -0700 (PDT)
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="iRd0Avw2"
+Received: by mail-oi1-f176.google.com with SMTP id 5614622812f47-3c9d70d93dbso3112851b6e.3
+        for <linux-man@vger.kernel.org>; Mon, 17 Jun 2024 16:11:08 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1718665865; x=1719270665; darn=vger.kernel.org;
+        d=gmail.com; s=20230601; t=1718665867; x=1719270667; darn=vger.kernel.org;
         h=content-transfer-encoding:mime-version:references:in-reply-to
          :message-id:date:subject:cc:to:from:from:to:cc:subject:date
          :message-id:reply-to;
-        bh=m4hKfCsSvnFuWZcNbA8B4CyFQky7Ti9MymJXIHxdECs=;
-        b=GVEl/BuOK3+08hefdl019TjCbNDipD332o8Sm5U1teaofHRTvujFKp0GzAUvVxAWa6
-         QuoEYhRLBER6jobd2SNfnZS0d29ETXOVeSL6R78rjdZ0e9janNWGPG/JJZ//3XOFJ1oO
-         CujzMUOzDKgKq2TxC4VhU8fS+Qwi9bb5MBpCu7deIbM2JqOqcsS60gRG1b/UR3LAKBoM
-         1XDwVzzBb5xetXR+Yhnj4hUFi7a5NwuejYar/yaElNrKkRVz57Ef2/KTALtRsv7e54GR
-         QvI6IwS4AG3QOB6kKaRSt3tP/kfGRb5DfuIf4u5KLBimhR0nucovW19yzc3aKQLkbG/K
-         fMIQ==
+        bh=9tkXUtBZdh2ADDxXcw+cbyFToz81vTaJBfE6TzaNPXs=;
+        b=iRd0Avw2k6zfu8DnqZ8PvI9rHLiqV64szr4NQWENT7b6+UfF4OSfql76wrgCFgK54M
+         pvROFhcgCm0c4IF9vE3TAWKg7eUhwFzLJulau0Fl1HS/q1DHihNk9rcsv/DM7vaoFacZ
+         mwhofcKzHx55meflMVvEz34SkuSod9a6EcWjrb8QpfUo7aAh5anQ61U8xi8OZRdPQigT
+         BwRh4hnW5IVg2Pbpuw9aTMsBBZSpOc5i8N1X59+ZcyZwHK+HTBqc40JFXb5Mp5/uF0pv
+         dhvYogpLoybzC8aENwcerwKvRS6fimVrq39cieU0MApJMQeqNtSq1tJc0snMQ4ZwT1/1
+         9u4w==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1718665865; x=1719270665;
+        d=1e100.net; s=20230601; t=1718665867; x=1719270667;
         h=content-transfer-encoding:mime-version:references:in-reply-to
          :message-id:date:subject:cc:to:from:x-gm-message-state:from:to:cc
          :subject:date:message-id:reply-to;
-        bh=m4hKfCsSvnFuWZcNbA8B4CyFQky7Ti9MymJXIHxdECs=;
-        b=EMpC1fWCu4vKgy7BZzx7+eCu4QjBKdn0GkqGd9r3SloGhMAThAgn4M7IB+tsrKjSgJ
-         7oAnQJkMqLOvYvh4GarxFL2nnKB5S/M70yEG5C5aAS3I1ap/C3iATboT5FfeNjUCMIpr
-         sFcZ3ERCWO/oLb5po/R2wHgFl4n1BRbP5DezFotFiQ93vTEKHsu/JEaVTwYp6jew8+wM
-         /TPKFqWKgPBu7mM90KZrxjx5lTGEZpFIHjnRvTbg9YlQpNGT3gfe/GtkNQ/X4YDkVJc7
-         7XBkFOFPt0KVmA7HLhfBcL3Tbqv3pz6/fAn0dKl4kAAVBqn5sJG0PjTjsTMqcpCTgU9F
-         Ox2A==
-X-Forwarded-Encrypted: i=1; AJvYcCUlTzhHi/tY1EE1YcTxFuLyiWJeJykxasMGjPVNQPAAcXKYFyR9xgZOGnv4LUP1S02mJn7VDLaIFR5CA+bwsk+xg9xKFQSHh1i2
-X-Gm-Message-State: AOJu0Yw4fzdgYbu7jgvsK5Or6r8lbec0LdIoFS1XQkwIxbJKtOZRDsPZ
-	lt/uxMzoDwCFwsyLTYDD8WS6aOGIuiTH/V0oxVoklPsRHq1iS1lWd97hirt+
-X-Google-Smtp-Source: AGHT+IEC0bzcUEsoO8OiuVP/8aCU3f9alLpZzU8NLFcUXi5r7Zf34C+3cd5dkPBoe2CJZAS+4n9ieA==
-X-Received: by 2002:a05:6870:618b:b0:250:876d:2a74 with SMTP id 586e51a60fabf-2584298566dmr11552952fac.30.1718665865395;
-        Mon, 17 Jun 2024 16:11:05 -0700 (PDT)
+        bh=9tkXUtBZdh2ADDxXcw+cbyFToz81vTaJBfE6TzaNPXs=;
+        b=MgNecc1qar8fnSqrfr0FguasfCyyGQawdrxHz05E2HfC/TDC3VtxT8CW4KGQAGsdBN
+         wPF4EP4kJE2NF/xTMljpZ/XiGIgouddnXaQPnSA6OSDyUwphLWDvdFVzDSThV7MR81iE
+         qANGWHTzPZZ6kZ86L09AppadAT3Gf/1mRoPnCR4F4/41ScyPEqSqa2eNtRcrUamDxI4D
+         G70bxigeKoGuUPBCj7kZ5L8EGPsI14Q4jJEfZL1dEbiXvtdvHavHUKdtE6SrSW1QoorG
+         mLU8pjqlGe+SIRVVAjhTgAPokMRYW43/XC8DgG4WdZu5QusPDbUyu5vubCmESwCQIMk8
+         pRTQ==
+X-Forwarded-Encrypted: i=1; AJvYcCXHwEXc9UQ9KmyRzqm7mb6kqnvGpT30ZsNSXJkaEz2bbCnzJfxErWy/XtWPkkZAQ/DL8NoTgasMBTYVoxQSOOeyhOV+tdjDDCHa
+X-Gm-Message-State: AOJu0YxzcqbaebHIJuHitTTk8fFUWOPTkxNUzADLk6jggZHFb57eZehZ
+	fZSeEQdy9bnG4wCyeteAZ5KEXshFl3tOvX4wLNJzrPmn9YKJwxc1
+X-Google-Smtp-Source: AGHT+IGof/HkfAS4e8J0WnjTgpzmnqENVRBrju6o/GiVzR7oJhfaVGOfUDbN+MBeSbC/BRV6JSu+7w==
+X-Received: by 2002:a05:6808:1150:b0:3d5:108a:5b04 with SMTP id 5614622812f47-3d5108a5e01mr932378b6e.28.1718665867568;
+        Mon, 17 Jun 2024 16:11:07 -0700 (PDT)
 Received: from kir-tp1.redhat.com (c-67-160-124-188.hsd1.wa.comcast.net. [67.160.124.188])
-        by smtp.gmail.com with ESMTPSA id af79cd13be357-798abc105b4sm471409985a.79.2024.06.17.16.11.04
+        by smtp.gmail.com with ESMTPSA id af79cd13be357-798abc105b4sm471409985a.79.2024.06.17.16.11.06
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Mon, 17 Jun 2024 16:11:05 -0700 (PDT)
+        Mon, 17 Jun 2024 16:11:07 -0700 (PDT)
 From: Kir Kolyshkin <kolyshkin@gmail.com>
 To: Alejandro Colomar <alx@kernel.org>
 Cc: Kir Kolyshkin <kolyshkin@gmail.com>,
 	linux-man@vger.kernel.org
-Subject: [PATCH 11/16] nice.2: fix wrong section reference
-Date: Mon, 17 Jun 2024 16:10:23 -0700
-Message-ID: <20240617231035.1766780-12-kolyshkin@gmail.com>
+Subject: [PATCH 13/16] readdir.2: fix wrong section reference
+Date: Mon, 17 Jun 2024 16:10:25 -0700
+Message-ID: <20240617231035.1766780-14-kolyshkin@gmail.com>
 X-Mailer: git-send-email 2.45.2
 In-Reply-To: <20240617231035.1766780-1-kolyshkin@gmail.com>
 References: <20240617231035.1766780-1-kolyshkin@gmail.com>
@@ -72,7 +72,7 @@ Content-Transfer-Encoding: 8bit
 
 The man page says:
 
-> On success, the new nice value is returned (but see NOTES below).
+> There is no definition of struct old_linux_dirent; see NOTES.
 
 Since the commit 4131356cd ("man*/, man-pages.7: VERSIONS, STANDARDS,
 HISTORY: Reorganize sections"), this information is in VERSIONS.
@@ -80,22 +80,22 @@ HISTORY: Reorganize sections"), this information is in VERSIONS.
 Fixes: 4131356cd ("man*/, man-pages.7: VERSIONS, STANDARDS, HISTORY: Reorganize sections")
 Signed-off-by: Kir Kolyshkin <kolyshkin@gmail.com>
 ---
- man/man2/nice.2 | 2 +-
+ man/man2/readdir.2 | 2 +-
  1 file changed, 1 insertion(+), 1 deletion(-)
 
-diff --git a/man/man2/nice.2 b/man/man2/nice.2
-index 20d8d8ec1..743286eae 100644
---- a/man/man2/nice.2
-+++ b/man/man2/nice.2
-@@ -51,7 +51,7 @@ .SH DESCRIPTION
- .BR getrlimit (2)
- for details.
- .SH RETURN VALUE
--On success, the new nice value is returned (but see NOTES below).
-+On success, the new nice value is returned (but see VERSIONS below).
- On error, \-1 is returned, and
- .I errno
- is set to indicate the error.
+diff --git a/man/man2/readdir.2 b/man/man2/readdir.2
+index 1fb02f7d5..e4b58a652 100644
+--- a/man/man2/readdir.2
++++ b/man/man2/readdir.2
+@@ -25,7 +25,7 @@ .SH SYNOPSIS
+ .IR Note :
+ There is no definition of
+ .BR "struct old_linux_dirent" ;
+-see NOTES.
++see VERSIONS.
+ .SH DESCRIPTION
+ This is not the function you are interested in.
+ Look at
 -- 
 2.45.2
 
