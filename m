@@ -1,96 +1,118 @@
-Received: from mo4-p00-ob.smtp.rzone.de (mo4-p00-ob.smtp.rzone.de [81.169.146.220])
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 7DB161865A
-	for <linux-man@vger.kernel.org>; Fri, 28 Jun 2024 11:22:37 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=pass smtp.client-ip=81.169.146.220
-ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1719573760; cv=pass; b=SrZZh5CSLuWt+CW1yB12MkLPPI8qI7gyYlMtzDNnzvPDRF/8X9Y5EpVAfPZ6sj87P4MmDwlNBc1UKw+Iux3vZiIlc+oi2WFkaGXQWM6ZnPz6UdGTGSBnxRumm8WVX1F58INpXAsPKZffyJrcLHVtThUhCdSwdxQG+h+cq5+1zwM=
-ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1719573760; c=relaxed/simple;
-	bh=CsbAeC7MkJCiJugzgZGVM0AP0P1m/Vezbj/RO7uO4xo=;
-	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
-	 MIME-Version:Content-Type; b=CwWVMO9KK4ln1Fh19JgC3isGx7xxBhBWnjRCDcumGbDZvCEipe127Xajtk7un0pxC+oLa1SEGoUIbt1zSOJc+fFzaCBNDjUNzJXcBbxxp3MVUT9FYXx7Qo/x4YfkzcNhM9/DMzNYwHYZ44dLBgKAkGQiCMijhXfO/adV72K9MkE=
-ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=clisp.org; spf=none smtp.mailfrom=clisp.org; dkim=pass (2048-bit key) header.d=clisp.org header.i=@clisp.org header.b=EktAs/8+; dkim=permerror (0-bit key) header.d=clisp.org header.i=@clisp.org header.b=dyaPRCrP; arc=pass smtp.client-ip=81.169.146.220
-Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=clisp.org
-Authentication-Results: smtp.subspace.kernel.org; spf=none smtp.mailfrom=clisp.org
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id D15E4481D7
+	for <linux-man@vger.kernel.org>; Fri, 28 Jun 2024 11:23:47 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
+ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
+	t=1719573827; cv=none; b=TFGn5kCdlRNChc1DSQoysyKLkIIxFxBh0dRSfTnDxCx8KREy+z203ZrOYC2RHAHGC+LycMsd0lfjkTQlAuVkoYL26NJxP77N4LyjMbzlj8N98Key5GL/37R1g/dgF2UgX4/eAIXb6dQSSf2TNYcePtjmMka0bhcun+y8PC6ViWM=
+ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
+	s=arc-20240116; t=1719573827; c=relaxed/simple;
+	bh=fCaNG2hYYT/5H2XMrORbhKITzbHPMpQdO+BbBzK5iNk=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=VRQhxdAi6koZ+cjBS5RWNPwFIJPBsCr5f+KVf08ttj/y3YsivLEKN/IIkRZVKdqA3nYbwiWqYtc5R4t2Cl6wvVX40LQDKdcqEcTzNbySK2N6UKhcPfbwAdmlVpohM4tQ/EX5Z4FOALgxB6NHzRFw/6YXniijabryTdIpNRulgcg=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=DulgG3fL; arc=none smtp.client-ip=10.30.226.201
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=clisp.org header.i=@clisp.org header.b="EktAs/8+";
-	dkim=permerror (0-bit key) header.d=clisp.org header.i=@clisp.org header.b="dyaPRCrP"
-ARC-Seal: i=1; a=rsa-sha256; t=1719573027; cv=none;
-    d=strato.com; s=strato-dkim-0002;
-    b=BGcGWZj1WhxVLPnnhEaJw2jIZ87cTKlwHLDXfINDULNmeP75Wab5yRIDQ+8ghBQ8Nz
-    97APcorhRzNu9FNAIcaZGTHYQpO8d92+0i3+8llPsndmG/D4p9cNT5xwDkxDsynkq+ma
-    TVONMFUOuy4chgyIxO4RHugPeU2sZGcO05V9PnJZkPkcIHcNi+dbqJQ4DZonHNK1QqIl
-    KONT6ILL4J7RLB75HKgEpk2xHQOb2Ez5emdUH8vYfx/KuToEhC2aN6DOeBCmZQ5tCLSY
-    MaxU38+VonCgMeXonrqVj+69hmDS+Xvf1QRlmHYHk8a5Wqp+5Hv5sY8gsrdvZzYEgdPv
-    HmOw==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; t=1719573027;
-    s=strato-dkim-0002; d=strato.com;
-    h=References:In-Reply-To:Message-ID:Date:Subject:Cc:To:From:Cc:Date:
-    From:Subject:Sender;
-    bh=CsbAeC7MkJCiJugzgZGVM0AP0P1m/Vezbj/RO7uO4xo=;
-    b=YFL4qu9suun31tXS623SYxahRhGjUNGIhwDTG/qzLipxgG8DLbGY80GXZup75POHEX
-    Kh7OLg0PIKapcv9hKtaAWHryhjDydYFSwZJg8KfpDZ6Zo69/UEgcskjJxr0qTg5dFnut
-    RZeQmgULChOXBzJ4LY7h0zG+KtxIJxnT1ZTZ3IAoTINKhbbgVwpIS6cNMLHYqyvWUVtk
-    K3owedA7vXmgrOM5UsxrMwf946CyAeGppG7x9vZvCR/g3JdXHY4fFIiqE/ws4S1u6OvS
-    NWIHY5yT8196Qv0XDWXz2gcCWkW/b0zhEXe6yNhGHSfU2XI1cdhrVxBZM6ZVIT4iuQwJ
-    /rxA==
-ARC-Authentication-Results: i=1; strato.com;
-    arc=none;
-    dkim=none
-X-RZG-CLASS-ID: mo00
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; t=1719573027;
-    s=strato-dkim-0002; d=clisp.org;
-    h=References:In-Reply-To:Message-ID:Date:Subject:Cc:To:From:Cc:Date:
-    From:Subject:Sender;
-    bh=CsbAeC7MkJCiJugzgZGVM0AP0P1m/Vezbj/RO7uO4xo=;
-    b=EktAs/8+IjuaULV2NWf82FF0WlKd3BLDVO9JQV17KKw3TGN9NpR7xtkCSZXEasnQY1
-    0Ya1FFElpqs+wRTmxcWFbZpbUlDpyT0R6k3/ZX6HH8g7Cm3ToM5UWbx6tyExeBv+Izd+
-    bPdX9iUivi77W7UAWwbu492TPg4nV43skfsLegOp7eOwMv3XYY4Kn+uQ26eJH/qyPuDc
-    NoP7dDxT9K+JysXGeQAvdwr3o/2alFTMny8OKCMAf6Ke9+u27EzNvne06J7z4iZQNJDz
-    6ddA9I7vPYa+3IODe8p9m5N8wSa2ak3npj2gD1zCbm5h9GinqZI6cgrq48nohzSE9cdz
-    g7uQ==
-DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; t=1719573027;
-    s=strato-dkim-0003; d=clisp.org;
-    h=References:In-Reply-To:Message-ID:Date:Subject:Cc:To:From:Cc:Date:
-    From:Subject:Sender;
-    bh=CsbAeC7MkJCiJugzgZGVM0AP0P1m/Vezbj/RO7uO4xo=;
-    b=dyaPRCrPnSuEzeXIMAZ+n3er5m4qx6+NRCBNZtuwPa1QeZT6kVUwv0nOEy5AhgjbUy
-    OpGjCNCROrvaApwnsqCA==
-X-RZG-AUTH: ":Ln4Re0+Ic/6oZXR1YgKryK8brlshOcZlIWs+iCP5vnk6shH0WWb0LN8XZoH94zq68+3cfpPD1KcccAaO63yQU6el7azvLdTwvA=="
-Received: from nimes.localnet
-    by smtp.strato.de (RZmta 50.5.0 AUTH)
-    with ESMTPSA id N0957e05SBARyID
-	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256 bits))
-	(Client did not present a certificate);
-    Fri, 28 Jun 2024 13:10:27 +0200 (CEST)
-From: Bruno Haible <bruno@clisp.org>
-To: Alejandro Colomar <alx@kernel.org>
-Cc: linux-man@vger.kernel.org
-Subject: Re: setcontext was removed in POSIX.1-2008
-Date: Fri, 28 Jun 2024 13:10:27 +0200
-Message-ID: <9340430.UesdLuknzO@nimes>
-In-Reply-To: <qhi5oglxihr5ztjpp34bzgqh26l7nhegoja7hxj3xue2jrdzxz@34vhgndb5sql>
-References: <28696710.B0YPrGVBQ4@nimes> <qhi5oglxihr5ztjpp34bzgqh26l7nhegoja7hxj3xue2jrdzxz@34vhgndb5sql>
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="DulgG3fL"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 7E2A3C116B1;
+	Fri, 28 Jun 2024 11:23:46 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+	s=k20201202; t=1719573827;
+	bh=fCaNG2hYYT/5H2XMrORbhKITzbHPMpQdO+BbBzK5iNk=;
+	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+	b=DulgG3fLurpL3jJBDUHvZOhwXdPu3CrbBtPmFTCpnqSl3HzFDKF687OJqo0TcdZ+9
+	 HPlG23+qEdZzpAt7WX0rDkiUa3nzxKNvNxTiwdMXjEL5/PzXzRD3F7aD6xXTfrfs9y
+	 Iyn9nYfGivPDDIVPahyQq78kEWSFtoulsK2PhWRkAxnAS2nFwJFzc/vcsp28/ge5JC
+	 5Tw+RvB83nq+OlnLWOHsRKWu1tZsysq0CPfTUeTB5PUwgzO9t0ZWSGvBfvNJY1rjR2
+	 4UVSr4zMtvsu6ciUj63AUDZ6rC2BvniBWc8mM6G+eLv5IyJZjcGQDMQyJq2qgyIl7g
+	 g23UL1UfnNb0g==
+Date: Fri, 28 Jun 2024 13:23:44 +0200
+From: Alejandro Colomar <alx@kernel.org>
+To: Charlie Jenkins <charlie@rivosinc.com>
+Cc: Alexandre Ghiti <alexghiti@rivosinc.com>, linux-man@vger.kernel.org
+Subject: Re: [PATCH v2] prctl.2: Add PR_RISCV_SET_ICACHE_FLUSH_CTX
+Message-ID: <xsma4ago4umlvz2fnopwg5qyfd7tg376g2ddumfj3yf4nqsesv@rkmsudvmzvl3>
+References: <20240212-fencei_prctl-v2-1-32d940981b05@rivosinc.com>
+ <ZdFaStMt83D-i8yH@debian>
+ <ZnyHEiYs/V/zwJXq@ghost>
 Precedence: bulk
 X-Mailing-List: linux-man@vger.kernel.org
 List-Id: <linux-man.vger.kernel.org>
 List-Subscribe: <mailto:linux-man+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-man+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 7Bit
-Content-Type: text/plain; charset="us-ascii"
-
-Alejandro Colomar wrote:
-> This was fixed in
-
-Thanks!
-
-I had looked at "gitk man/man3/getcontext.3", but the move and move-back
-of the file fooled me.
-
-Bruno
+Content-Type: multipart/signed; micalg=pgp-sha512;
+	protocol="application/pgp-signature"; boundary="xejnpiy24iq47rif"
+Content-Disposition: inline
+In-Reply-To: <ZnyHEiYs/V/zwJXq@ghost>
 
 
+--xejnpiy24iq47rif
+Content-Type: text/plain; protected-headers=v1; charset=utf-8
+Content-Disposition: inline
+Content-Transfer-Encoding: quoted-printable
+From: Alejandro Colomar <alx@kernel.org>
+To: Charlie Jenkins <charlie@rivosinc.com>
+Cc: Alexandre Ghiti <alexghiti@rivosinc.com>, linux-man@vger.kernel.org
+Subject: Re: [PATCH v2] prctl.2: Add PR_RISCV_SET_ICACHE_FLUSH_CTX
+References: <20240212-fencei_prctl-v2-1-32d940981b05@rivosinc.com>
+ <ZdFaStMt83D-i8yH@debian>
+ <ZnyHEiYs/V/zwJXq@ghost>
+MIME-Version: 1.0
+In-Reply-To: <ZnyHEiYs/V/zwJXq@ghost>
 
+Hi Charlie,
+
+On Wed, Jun 26, 2024 at 02:24:34PM GMT, Charlie Jenkins wrote:
+> On Sun, Feb 18, 2024 at 02:15:53AM +0100, Alejandro Colomar wrote:
+> > Hi Charlie,
+> >=20
+> > On Mon, Feb 12, 2024 at 09:19:21PM -0500, Charlie Jenkins wrote:
+> > > I have proposed and documented the PR_RISCV_SET_ICACHE_FLUSH_CTX flag
+> > > for prctl(2) to LKML. It has been reviewed and is expected to land
+> > > during the Linux version 6.9 merge window. This adds the relevant
+> > > documentation from that patch.
+> > >=20
+> > > Signed-off-by: Charlie Jenkins <charlie@rivosinc.com>
+> > > ---
+> > > I have proposed and documented the PR_RISCV_SET_ICACHE_FLUSH_CTX
+> > > flag for prctl(2) to LKML. It has been reviewed and is expected to la=
+nd
+> > > during the Linux version 6.9 merge window.
+> >=20
+> > Can you please ping when that happens?  The below LGTM.
+>=20
+> This patch ended up missing a merge window but it is now in the release
+> candidates for 6.10. The hash is 6b9391b581fd ("riscv: Include
+> riscv_set_icache_flush_ctx prctl").
+
+Thanks for the ping!  Would you mind resending the patch if it's easy
+for you?  I don't have it locally.
+
+Have a lovely day!
+Alex
+
+--=20
+<https://www.alejandro-colomar.es/>
+
+--xejnpiy24iq47rif
+Content-Type: application/pgp-signature; name="signature.asc"
+
+-----BEGIN PGP SIGNATURE-----
+
+iQIzBAABCgAdFiEE6jqH8KTroDDkXfJAnowa+77/2zIFAmZ+nUAACgkQnowa+77/
+2zL94w//TnvFXJBYnHAwf0RxaczHwC0vtXY/sV+OGrxEDA0N3ko3ydO9eLfUDl/g
+CiptJzZ0q8wxF3FVbUZGje7bLO/DWkPC8AoaGmJsniI6QBBFoVIfYZKfMTH5GYRw
+8jpkc/VMb2zZLyZ59Edz9PQEfR5dB0mTjt7uRCrluCDcLU8oSl5Z2o8RchMwsZpO
+6KEtdFwEwEj7mGJjE0YbjBVoebKL0dhrqCd4LYt1ZGg0VkafK1lEC4SuDwi3odMG
+RgAbH9pQKlbdTvIWqyNQWaXYl5bat3kI1FxdQj61rFWWw0ZljrQK+NHP+sHw7Y/l
+w1JwOrnDZB7vWFVBcaugzavsjkivk+nJQzRNCPSJ+q8LfOxspv4z8t/DqzKzBhxV
+kULZT4XUutjVF0NsI1Wd6kCPiUqCrFZmoJpz2Kxovbno89eBcNu1JQFy1n6bc44U
+jsXdD81zDWQ2XjVSKLpfN3m8DgEb6G8M42tbFcgF2z8UZQsep34Vf+DxmbjZ4jAo
+qDBUVKB+E3V1kq4eKLg4RJ2Lvep2AiZBbGxhHMpCJfDJi9BTv39vjHLw30cpboDI
+l7XEKcoiu2psZUoWi4rsLI7gsmt/Ma8LHgQzEfG6uu+YNTyUbtVOHY0QTgYoTHO0
+qpR2OTVe1Vf8mYEiwl2bjadGGxQryLoAkHXmJFrFEyNUym3iVwE=
+=F3yv
+-----END PGP SIGNATURE-----
+
+--xejnpiy24iq47rif--
