@@ -1,41 +1,42 @@
 Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id C9B2D28DCC
-	for <linux-man@vger.kernel.org>; Fri, 26 Jul 2024 21:49:45 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id C99E938396
+	for <linux-man@vger.kernel.org>; Fri, 26 Jul 2024 22:26:10 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1722030586; cv=none; b=F/W06P3Rny7gm8ULgyOS/oIIZzGiiQ3R9hVxsH+F3DhGY9asZ7L2iEMNO6T7Bq/jvx9vTWqOmeu/9iev5BKtPXxifxKNAuWwfRbPpkuErBQlvkn0z4vHbf5rfnvqc/6EIxohsM28/mVnoauYlMb0dsepXiQ0bBfrNUKhNmloz0I=
+	t=1722032770; cv=none; b=KFBMM3s2WEWQQl/pxN2/aAj6qNsuAOJ2uUdTN6LMHBnolX7AKqvrN15zQ1nQOojY76VIjhmxeMi82cdhQxhNvZKz3JgYdjSxkUEpna+tZoTZdFRSBNXirxLLfvmQUByxCJ5jAzXm3Vixg5Tf2xybs3ynDGI6aLPJMpe3nstSwpg=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1722030586; c=relaxed/simple;
-	bh=28rGbs5gnCOPb7NeVvOelfTeFOamz5WX/A2wdCOXmhg=;
+	s=arc-20240116; t=1722032770; c=relaxed/simple;
+	bh=JVO5dSx9/XW1AHbbkL62PD2JNrZeGBNCCO2uqB0b++8=;
 	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=jRvhLcrQak2EYB+yN6ozwL7Fwlb6ujJEVqh3eY+vkEI6JTyAYR5BXx/cxvo9YlZOJGv4ClPiHVjTCT6lntSuf1/GRLj/4qMLzuD1PJi45VynvP6acvo9mvN578hOgTPz80s8CANSl5OSb4NaCcKlqBfARTGMh3j6+zx0wC4Eo2k=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=fd448i7v; arc=none smtp.client-ip=10.30.226.201
+	 Content-Type:Content-Disposition:In-Reply-To; b=D8rwEZk0uyno0teapM3zVxn3VEGDCBK3Ohl/bKfUFQtYsEd7BtwCenDEolEfZnKWIY9rTYDOaOfq+gqfvVjqZqUSZB7tg/mHkaeMMX7vN9ybF9558CFLi86AXXzp4gjSyIBSn2QPdq79K+tsAaUm0XR+Kuw+JRm8IAJQfvfL684=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=urMD3B7E; arc=none smtp.client-ip=10.30.226.201
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="fd448i7v"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id B4896C32782;
-	Fri, 26 Jul 2024 21:49:42 +0000 (UTC)
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="urMD3B7E"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id ABE41C32782;
+	Fri, 26 Jul 2024 22:26:07 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1722030585;
-	bh=28rGbs5gnCOPb7NeVvOelfTeFOamz5WX/A2wdCOXmhg=;
+	s=k20201202; t=1722032770;
+	bh=JVO5dSx9/XW1AHbbkL62PD2JNrZeGBNCCO2uqB0b++8=;
 	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-	b=fd448i7vnjpbvrHOYOqqSzj7EeWXCIEIHQNMc24Rl1cOz9iB6BOda7wtPn24KsloE
-	 hM/Jh6+D3o49XkeU0hm0H7BS8GdPDbQiUVKUF0sy092ZdLAw3DjkazmZob3+MrlvP3
-	 PB6q1BJnuye6/8px6PZoHppZTWFNHLrXvKYI2BLTtDPFiseS6AexmB95t3dTHtkGXB
-	 2h6hhTy6/gKqDTFnpR8Tav7IFknx379MieJkUpZTyiB6i521FdvvCdM7gL0cWMLJqK
-	 lVL1wTVcYYnC0TJrapyh7eo+ZQvD8v7r/7ogXBTS5C9eeAGqz94gPxgZ1BCAru9d1H
-	 ffDqyQQugMgzQ==
-Date: Fri, 26 Jul 2024 23:49:40 +0200
+	b=urMD3B7E3AY5MuQIa6BQvaBVN/7xyd+biWf7PdRDAoVQ4d8d0jy4Mhzhk7TkU/4yx
+	 V6tqvWfcau6FJzISXHEVb6tLs5E6RHtghpqUOC1DdQUnNOHPtWp6hF0ZNpTWeWUv7L
+	 zFUFO/GVVHdNEKBzOk9d95EdaMWrEk7NQtJMLGnCok59vRVamLwziHVxT9SlbbTLkz
+	 OjCCxIKemj766kDiEeQU8S5gwoMftgURrzEyLNtBqB3voiCs7blkJGXeLRFFLS26VD
+	 Aaeh+22nc7WHRZYUQ+du/LMGL0Ncet4t0YXAoJHh0J7LNgTF9GWfQj1NuxjJla02Qj
+	 gskFnsKtrJF3g==
+Date: Sat, 27 Jul 2024 00:26:05 +0200
 From: Alejandro Colomar <alx@kernel.org>
-To: Joseph Myers <josmyers@redhat.com>
-Cc: libc-alpha@sourceware.org, uecker@tugraz.at, gcc@gcc.gnu.org, 
-	Paul Eggert <eggert@cs.ucla.edu>, linux-man@vger.kernel.org, xry111@xry111.site, jakub@redhat.com, 
-	lh_mouse@126.com, jwakely.gcc@gmail.com, Richard.Earnshaw@arm.com, sam@gentoo.org, 
-	ben.boeckel@kitware.com, heiko.eissfeldt@siemens.com, dmalcolm@redhat.com
+To: Martin Uecker <muecker@gwdg.de>
+Cc: Joseph Myers <josmyers@redhat.com>, libc-alpha@sourceware.org, 
+	gcc@gcc.gnu.org, Paul Eggert <eggert@cs.ucla.edu>, linux-man@vger.kernel.org, 
+	xry111@xry111.site, jakub@redhat.com, lh_mouse@126.com, jwakely.gcc@gmail.com, 
+	Richard.Earnshaw@arm.com, sam@gentoo.org, ben.boeckel@kitware.com, 
+	heiko.eissfeldt@siemens.com, dmalcolm@redhat.com
 Subject: Re: n3294 - The restrict function attribute as a replacement of the
  restrict qualifier
-Message-ID: <td4gjpccgfoszwnya4be7qrx5ahayohw2jhtc3v6kvuiy5dgpo@7idffrvo4hrh>
+Message-ID: <rep4dolvep7xx77tirmdknhci5ogliqj44ufngop5b3xjjacoc@2azllzbk3lpw>
 References: <20240705130249.14116-2-alx@kernel.org>
  <xjoazfkcloggmceefxusjusbksfslgpdpoph4ixdtp4kbu4kua@vdh73ba7k2zq>
  <2zazxwbvnjd5vqqqz66fpqdpzqnwjujwxeltz5rhu7camgsdmg@vvbalwgwmek3>
@@ -44,6 +45,8 @@ References: <20240705130249.14116-2-alx@kernel.org>
  <48bf010-43ec-6761-13b1-55864296a90@redhat.com>
  <amyvxtyogghmybjpyqa26reuztb7ilvwxbzv4w3npehcstpzeu@j5pt4pwpqnjn>
  <b7d6847e-9028-cc8d-62c4-89bb83f52c8@redhat.com>
+ <td4gjpccgfoszwnya4be7qrx5ahayohw2jhtc3v6kvuiy5dgpo@7idffrvo4hrh>
+ <e3c35a4013c804aab50b453d90c178ec9eea70e5.camel@gwdg.de>
 Precedence: bulk
 X-Mailing-List: linux-man@vger.kernel.org
 List-Id: <linux-man.vger.kernel.org>
@@ -51,21 +54,22 @@ List-Subscribe: <mailto:linux-man+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-man+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 Content-Type: multipart/signed; micalg=pgp-sha512;
-	protocol="application/pgp-signature"; boundary="fy3xhuoez2ve6nls"
+	protocol="application/pgp-signature"; boundary="4dkimbgd623qnyie"
 Content-Disposition: inline
-In-Reply-To: <b7d6847e-9028-cc8d-62c4-89bb83f52c8@redhat.com>
+In-Reply-To: <e3c35a4013c804aab50b453d90c178ec9eea70e5.camel@gwdg.de>
 
 
---fy3xhuoez2ve6nls
+--4dkimbgd623qnyie
 Content-Type: text/plain; protected-headers=v1; charset=utf-8
 Content-Disposition: inline
 Content-Transfer-Encoding: quoted-printable
 From: Alejandro Colomar <alx@kernel.org>
-To: Joseph Myers <josmyers@redhat.com>
-Cc: libc-alpha@sourceware.org, uecker@tugraz.at, gcc@gcc.gnu.org, 
-	Paul Eggert <eggert@cs.ucla.edu>, linux-man@vger.kernel.org, xry111@xry111.site, jakub@redhat.com, 
-	lh_mouse@126.com, jwakely.gcc@gmail.com, Richard.Earnshaw@arm.com, sam@gentoo.org, 
-	ben.boeckel@kitware.com, heiko.eissfeldt@siemens.com, dmalcolm@redhat.com
+To: Martin Uecker <muecker@gwdg.de>
+Cc: Joseph Myers <josmyers@redhat.com>, libc-alpha@sourceware.org, 
+	gcc@gcc.gnu.org, Paul Eggert <eggert@cs.ucla.edu>, linux-man@vger.kernel.org, 
+	xry111@xry111.site, jakub@redhat.com, lh_mouse@126.com, jwakely.gcc@gmail.com, 
+	Richard.Earnshaw@arm.com, sam@gentoo.org, ben.boeckel@kitware.com, 
+	heiko.eissfeldt@siemens.com, dmalcolm@redhat.com
 Subject: Re: n3294 - The restrict function attribute as a replacement of the
  restrict qualifier
 References: <20240705130249.14116-2-alx@kernel.org>
@@ -76,77 +80,49 @@ References: <20240705130249.14116-2-alx@kernel.org>
  <48bf010-43ec-6761-13b1-55864296a90@redhat.com>
  <amyvxtyogghmybjpyqa26reuztb7ilvwxbzv4w3npehcstpzeu@j5pt4pwpqnjn>
  <b7d6847e-9028-cc8d-62c4-89bb83f52c8@redhat.com>
+ <td4gjpccgfoszwnya4be7qrx5ahayohw2jhtc3v6kvuiy5dgpo@7idffrvo4hrh>
+ <e3c35a4013c804aab50b453d90c178ec9eea70e5.camel@gwdg.de>
 MIME-Version: 1.0
-In-Reply-To: <b7d6847e-9028-cc8d-62c4-89bb83f52c8@redhat.com>
+In-Reply-To: <e3c35a4013c804aab50b453d90c178ec9eea70e5.camel@gwdg.de>
 
-On Fri, Jul 26, 2024 at 09:22:42PM GMT, Joseph Myers wrote:
-> On Fri, 26 Jul 2024, Alejandro Colomar via Gcc wrote:
+On Sat, Jul 27, 2024 at 12:03:20AM GMT, Martin Uecker wrote:
+> > Maybe if GNU C compilers (GCC and Clang) add it first as an extension,
+> > adding diagnostics, it would help.
 >=20
-> > > See reflector message SC22WG14.18575, 17 Nov 2020 (the former conveno=
-r=20
-> > > replying when I asked about just that paper).
-> >=20
-> > Where can I find reflector messages?
+> Both GCC and Clang already have such diagnostics and/or run-time checks:
 >=20
-> https://www.open-std.org/jtc1/sc22/wg14/18575
+> https://godbolt.org/z/MPnxqb9h7
 
-Thanks!
+Hi Martin,
 
->=20
-> > And another one to propose that [n] means the same as [static n] except
-> > for the nonnull property of static.
->=20
-> I'm not convinced that introducing extra undefined behavior for things=20
-> that have been valid since C89 (which would be the effect of such a chang=
-e=20
-> for any code that passes a smaller array) is a good idea - the general=20
-> mood is to *reduce* undefined behavior.
+I guess that's prior art enough to make this UB in ISO C.  Is there any
+paper for this already?  Does any of your paper cover that?  Should I
+prepare one?
 
-While [n] has always _officially_ meant the same as [], it has never
-made any sense to write code like that.  Unofficially, it has always
-meant the obvious thing.
-
-Maybe if GNU C compilers (GCC and Clang) add it first as an extension,
-adding diagnostics, it would help.
-
-Does anyone know of any existing code that uses [n] for meaning anything
-other than "n elements are available to the function"?
-
-Functions that specify [n] most likely (definitely?) already mean that
-n elements are accessed, and thus passing something different than n
-elements results in UB one way or another.  Having the compiler enforce
-that via diagnostics and UB is probably an improvement.
-
-Cheers,
+Have a lovely night!
 Alex
-
->=20
-> --=20
-> Joseph S. Myers
-> josmyers@redhat.com
->=20
 
 --=20
 <https://www.alejandro-colomar.es/>
 
---fy3xhuoez2ve6nls
+--4dkimbgd623qnyie
 Content-Type: application/pgp-signature; name="signature.asc"
 
 -----BEGIN PGP SIGNATURE-----
 
-iQIzBAABCgAdFiEE6jqH8KTroDDkXfJAnowa+77/2zIFAmakGfQACgkQnowa+77/
-2zLNLBAAgeijgSiL5oLidzBYrDvGcamdX/3LzEKZj1rck3DlzFD03YPvkXkQMVoC
-x9IvzcIB1wkH41F1MVuGFphFMK+aOYtePkWBEsI1kK78yXpY9zmXJbOzlrGo0iKB
-DG7gV6A0/VW6rGDXOYD3sR0Vrexw0YkxZixp3mQVZR7cddEhBj97XtKn0nEc8ltC
-Y1CUVZ62m6bD3uQ06Yp8RT9obpjQo6ps5j9j1sWsRb+pNA6kx2/tRH9/EDVsiBoi
-55fAGh7v6mwuVgvT3SOGk6YvuBmz9DkQYobzw5jD+FNlsCjYWqGcKkeQa2g4FmPn
-nQlOIh5lyfAuuOibWBZqJEwwnneJ1DNhv9mUtogackKA7AtwPpBHzNM50/v8Ex4b
-DNHmFjJZK4s8Bml1nSWD4BYPw4fagZX91xV6+ts++bc5/uYGOYGBuJcuCAX8yK0S
-5Tt//+p8r7t1WO6GdXYU4+xS+AsUn6wTnWiI7i13K27XYAneghHpMWmaouec5xab
-QF8kdIsyeHcnT6g49jb/9ph5zOVxdeI0aXCYjl6uQziFyJ9zoFtzB2Z9aiAUIv5o
-CniJAOxQ+SDVQWziF/0h+eBE1xHyTboc9GhJrz3QW6nsBGbvyvJZ3YYb2JBXcMRG
-dQCLUNh52NylNdeIileGx8vPR6KShSnx4NMriMNRqdLVYlndduM=
-=XKuc
+iQIzBAABCgAdFiEE6jqH8KTroDDkXfJAnowa+77/2zIFAmakIn0ACgkQnowa+77/
+2zI33hAAgCJMIcX+rUhElLbtlGGsj542iBA8UvKND+qvy9o8NZZRBouiBoWWzdVR
+GPosiijk4F+BIFigJA3u7zFjjOvZUBRqsl+dNx1Dx1anSgMkr0mWOpDd5f7xHZOA
+7Lj52r7+/o8SNQT3dRCZofMMPtLV8d7oAV8Twj1lTnYVN1VeKzqk8kYN3w9wxqPk
+eqvu1RivxcMHJ4pCOQZ9oPewHbCyLuubwtuyf/NgYio9AT4mOZagHiwWUoxjX2oO
+kpxQENp2+laemwjJmTqD+jjU53FWKPjHqHm/tHcisqwg+exo/px/l39Z8S4vGU83
+z1TuIIMUaqsgb3BTfA0sAQYyU3FVd91fr12/L0TkyYC/fa8h52gw8j6Ivyqa3zlb
+/3yn8F1dWJ9IfqWaTUqCl6exHh8maSXIDvnimvTBSDkY+9SyQpm7T1Ji2s/SNyex
+Qo7hSJbnC/2Nvxy1kR1RF293q5drDzIjR5KYrtxFdTxIanUg8LduxlXvW9g4zUzF
+V74DrT6tnnBj+ViyEAGvqOSw1AfW9hDAljqYHaP87qFyJNT5IuHeUwbqJ89ULy0i
+1/9DdO/L2F+qdldTpURF0erQ03ODQ3Tiji5hJ5ocqW2aIobN9RLCxJfCaFbQrp8O
+90msxGhwwhLzXjB8TtvTnnYJCdcoantWRbtGjVUosU+xWOt65Qc=
+=cL4+
 -----END PGP SIGNATURE-----
 
---fy3xhuoez2ve6nls--
+--4dkimbgd623qnyie--
