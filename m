@@ -1,116 +1,83 @@
-Received: from mail-yw1-f201.google.com (mail-yw1-f201.google.com [209.85.128.201])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from cventin.lip.ens-lyon.fr (cventin.lip.ens-lyon.fr [140.77.13.17])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 7577813AA31
-	for <linux-man@vger.kernel.org>; Thu,  8 Aug 2024 10:09:13 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.128.201
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 53402187854
+	for <linux-man@vger.kernel.org>; Thu,  8 Aug 2024 11:56:12 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=140.77.13.17
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1723111754; cv=none; b=QF2rtTHdvL0qlhabQHLlh7ZZzDYJwNdNpYtDwlhbgNi6L+0wWzaJZRGV6lvE16xPYuKc9z2uNQMUoKXeN8n1L8fY6X3yg+ta3klQFupJXo+0BGHOEBBoWc/khaCqdzozEIVPE9APqpEeqA9xLYvKm9B3XeNAeQMF3gXyFQFb4Q8=
+	t=1723118174; cv=none; b=OlWdhWlmkhhZPXauLIjWsiv6yy0gGFbSiG+zJV64QrqDsKMps8jsVavnXEfw79/6I+62dINRo7zKE3Jy7piSTQ1gH3Se4uWdtxyiZtbYgruniJ/0UDWTZ7vW6oJcu277TL0ZN0zlbjU95ua/0WJwhA8t5Ibrzx4sDWn9HOSlS0U=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1723111754; c=relaxed/simple;
-	bh=HKtj1ndDuzb9dZ37UX6AC8KqXdSs/qDBsdJu+7KBoyY=;
-	h=Date:In-Reply-To:Mime-Version:References:Message-ID:Subject:From:
-	 To:Cc:Content-Type; b=N/IFvlqkgLuJXYNek7vwCjAgPdA2YoAezH6TW8ZT5VLFEbaQToJ5vdFQiHnUbd6iRInwysdazmlXtJPZCaWW6K2U+Zre3hGGlhzIesmKRrZW4gJ3bD9A5Ahrs3tgN5MNg35E38JtMLnBL4EFC+hd6SwPkNyRGuvnGfUzWjGhcsI=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=google.com; spf=pass smtp.mailfrom=flex--gnoack.bounces.google.com; dkim=pass (2048-bit key) header.d=google.com header.i=@google.com header.b=4QQBgOlr; arc=none smtp.client-ip=209.85.128.201
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=google.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=flex--gnoack.bounces.google.com
-Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=google.com header.i=@google.com header.b="4QQBgOlr"
-Received: by mail-yw1-f201.google.com with SMTP id 00721157ae682-672bea19bedso17951417b3.3
-        for <linux-man@vger.kernel.org>; Thu, 08 Aug 2024 03:09:13 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=google.com; s=20230601; t=1723111752; x=1723716552; darn=vger.kernel.org;
-        h=content-transfer-encoding:cc:to:from:subject:message-id:references
-         :mime-version:in-reply-to:date:from:to:cc:subject:date:message-id
-         :reply-to;
-        bh=Gmf1lDVYQNOTrvjtggcYQl2+7HL3Ap0SPuSuDWB4G9o=;
-        b=4QQBgOlrtfaG9f/SjfixowxDbdK1BptGYtz5oaL3bSo3TVeotcOpd6TKFlVz4U+5BC
-         t9Ps0ujS8CjPvWv9h1rMgumIQU+CZAvPVELEvvxTIlLUpDOVfTUQcnItgoBzW8F7WoHb
-         xyySEfn+ALpEDaVPaQIcbh4Lgh+TXjLFJoUdG/cO22aL1qOsp3LHs84N1vgsr4gyUMN3
-         DPNsId+u/UbDXmuWZKJKFJtPHJJusOrTSzB8/jvbB4atYp2+g3qKWWBhgPyzgmBizikg
-         K+/IHmV2NaR3OTGuWp+QiI2N/HS9wB1NBwXxjA7rOPAout3FT6LTZgA94NlzdCrDQamq
-         bpfw==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1723111752; x=1723716552;
-        h=content-transfer-encoding:cc:to:from:subject:message-id:references
-         :mime-version:in-reply-to:date:x-gm-message-state:from:to:cc:subject
-         :date:message-id:reply-to;
-        bh=Gmf1lDVYQNOTrvjtggcYQl2+7HL3Ap0SPuSuDWB4G9o=;
-        b=wvtw+5ZZAua+xhOneh6JuJQO7hOWKv0MxU2V/HNsECHOfUPMtl3U+hdB7Jo+aPLM8F
-         7LJhJ1h8KQqRiIRWxX/nU6U4qBgVzB99LyD7nA929I3dHpGrKRqyHFKZqFTZmptp3LC2
-         fQ5iuSqLyuK8pHlqKJsIXFTFdAwA97eDyCgaVCExA+Oue89mv4nxfS2rNU4EDX9RdQAV
-         yGk+80h3fHfdNnCw5jSxAOtYqCeuBCA7cRjfu+l3Y+YFSP0dNGMzTe68GKXA/RmLaKNO
-         Np/dlDiayexckSYOBMJww0FjKDCdXPy4DVN1+7tjfBlFn5b+U5W0Di7wDCvGE6/0w9Us
-         Tsxg==
-X-Forwarded-Encrypted: i=1; AJvYcCUFuzwv0JxB+fqYhbTf6hGTvG+6WqV4NFPHavSamEw3Su4hoGTuMQddLiDri5WHXjI3umiz9g4lzPndzEU/NcFGnvkpqHqbogQL
-X-Gm-Message-State: AOJu0Yy2JkHTBuvE9E3sYeeKGk8sBweuMetzRDPgN1jB17ey/1bhbEvE
-	Z8pLXpU8W03EiSTlpzitUNnumHrGqtRvCNbYHe/IfRqTh7ix2NceZNbpaIO51UB6gKekPe3tvq+
-	qQA==
-X-Google-Smtp-Source: AGHT+IFnMu6Vl7oOZoonbiTCgGX+6r7qD0FAdNu3kCBg2W8Y++fW20NrMX4CxUsMAfeBFzWpT/N0nYDbm1s=
-X-Received: from swim.c.googlers.com ([fda3:e722:ac3:cc00:31:98fb:c0a8:1605])
- (user=gnoack job=sendgmr) by 2002:a0d:cdc4:0:b0:650:93e3:fe73 with SMTP id
- 00721157ae682-69bfa879220mr35397b3.5.1723111752311; Thu, 08 Aug 2024 03:09:12
- -0700 (PDT)
-Date: Thu, 8 Aug 2024 12:09:10 +0200
-In-Reply-To: <d06be80a-44ca-3eac-6b04-b5d2336309f0@huawei.com>
+	s=arc-20240116; t=1723118174; c=relaxed/simple;
+	bh=aFLSnWpT/edj665B9FNr5iw74KdN2m6IGntMKe8JQzQ=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=OGHH33CmsN/WDBC1+DohwdGct+ICPPTAcMDO+7zS5I1DIbqkLLtXfFsa11zjPOoN4zJy0SwkBR6Xct9KcT4aoLWbSSNDB24Nqynat4xs5cPJE3Sy5y4uWK9kgehDRpLVzQZJH7qu8Mm9e0zIwrdHIAO//tXJG2RrPkJupA3Lkz4=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=vinc17.net; spf=pass smtp.mailfrom=vinc17.net; arc=none smtp.client-ip=140.77.13.17
+Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=vinc17.net
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=vinc17.net
+Received: from vlefevre by cventin.lip.ens-lyon.fr with local (Exim 4.98)
+	(envelope-from <vincent@vinc17.net>)
+	id 1sc1kY-00000000ndn-22ac;
+	Thu, 08 Aug 2024 13:56:10 +0200
+Date: Thu, 8 Aug 2024 13:56:10 +0200
+From: Vincent Lefevre <vincent@vinc17.net>
+To: Alejandro Colomar <alx@kernel.org>
+Cc: Michael Kerrisk <mtk.manpages@gmail.com>, linux-man@vger.kernel.org
+Subject: [PATCH v2] nextup.3: minor improvements
+Message-ID: <20240808115610.GC2669@cventin.lip.ens-lyon.fr>
+References: <20240807105617.GH3221@qaa.vinc17.org>
+ <oa5aca4pqtnnwjopngqkouwueglyujmusnms535mgh4ipyawbk@4wonm4ymhcdv>
+ <20240808025636.GE3086@qaa.vinc17.org>
+ <wpkh52aryrsgp52qur6igf5uwidbhetszb4krfcfgfpyarv7yg@abea5srk4kuy>
 Precedence: bulk
 X-Mailing-List: linux-man@vger.kernel.org
 List-Id: <linux-man.vger.kernel.org>
 List-Subscribe: <mailto:linux-man+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-man+unsubscribe@vger.kernel.org>
-Mime-Version: 1.0
-References: <20240723101917.90918-1-gnoack@google.com> <20240723101917.90918-3-gnoack@google.com>
- <lejbnx6uijbneira3l7wxvheurflymuzbxzpeoz7q6hxt6b7bj@7yrhpwxyccqy>
- <ZqoixhC_jvuiK0m4@google.com> <d06be80a-44ca-3eac-6b04-b5d2336309f0@huawei.com>
-Message-ID: <ZrSZRi5BPelnaq6X@google.com>
-Subject: Re: [PATCH v3 2/2] landlock.7: Document Landlock ABI version 5 (IOCTL)
-From: "=?utf-8?Q?G=C3=BCnther?= Noack" <gnoack@google.com>
-To: "Konstantin Meskhidze (A)" <konstantin.meskhidze@huawei.com>
-Cc: Alejandro Colomar <alx@kernel.org>, "=?utf-8?Q?Micka=C3=ABl_Sala=C3=BCn?=" <mic@digikod.net>, linux-man@vger.kernel.org, 
-	Artem Kuzin <artem.kuzin@huawei.com>
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: quoted-printable
+MIME-Version: 1.0
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <wpkh52aryrsgp52qur6igf5uwidbhetszb4krfcfgfpyarv7yg@abea5srk4kuy>
+X-Mailer-Info: https://www.vinc17.net/mutt/
+User-Agent: Mutt/2.2.13+77 (9dc98409) vl-169878 (2024-06-20)
 
-On Wed, Aug 07, 2024 at 03:09:02PM +0300, Konstantin Meskhidze (A) wrote:
-> 7/31/2024 2:40 PM, G=C3=BCnther Noack =D0=BF=D0=B8=D1=88=D0=B5=D1=82:
-> > Konstantin: I would still appreciate if you could have a look and sign-=
-off on
-> > the networking documentation patch as well, since you are the original =
-author of
-> > much of that documentation on the kernel side.
->=20
-> Hi G=C3=BCnther. I have checked the patch. It looks good, I left one ques=
-tion
-> there. Please check it. Do I really need to sign-off it?
+The current "If x is 0" condition is a bit misleading because "is"
+is not the equality test (just like when saying "x is NaN") and 0
+as a FP number stands for +0, while this condition should apply to
+both -0 and +0.
+Replace this condition by "If x is +0 or -0".
 
-Thank you, Konstantin!
+Replace "Nan" by "NaN" (typography used everywhere else).
 
-I would like to put both your "Co-developed-by" and "Signed-off-by" into th=
-e
-patch, because:
+Signed-off-by: Vincent Lefevre <vincent@vinc17.net>
+---
+ man/man3/nextup.3 | 7 ++++---
+ 1 file changed, 4 insertions(+), 3 deletions(-)
 
-  (a) We should give you credit for the documentation that you've written :=
--),
-      and this man page change is based on your documentation in the kernel
-      Documentation/ directory and headers.
+diff --git a/man/man3/nextup.3 b/man/man3/nextup.3
+index 285c2bcda..568f3b13f 100644
+--- a/man/man3/nextup.3
++++ b/man/man3/nextup.3
+@@ -38,8 +38,9 @@ is the smallest representable negative number in the corresponding type,
+ these functions return \-0.
+ If
+ .I x
+-is 0, the returned value is the smallest representable positive number
+-of the corresponding type.
++is +0 or \-0,
++the returned value is
++the smallest representable positive number of the corresponding type.
+ .P
+ If
+ .I x
+@@ -52,7 +53,7 @@ of the corresponding type.
+ .P
+ If
+ .I x
+-is Nan,
++is NaN,
+ the returned value is NaN.
+ .P
+ The value returned by
+-- 
+2.45.2
 
-  (b) Committing this man-page change would put it under the
-      "Linux-man-pages-copyleft" license, which is different than the licen=
-ses
-      used for the kernel, where the documentation was originally written. =
- I
-      would like to add your "Co-developed-by" and "Signed-off-by", so that=
- it's
-      clear that we all agree on this.
-
-For reference, the rules for "Co-developed-by" are also discussed in [1].
-
-Would that work for you, if we put your "Co-developed-by" and "Signed-off-b=
-y"
-lines on the "ABI version 4" man page commit?
-
-Thanks,
-=E2=80=94G=C3=BCnther
-
-[1] https://www.kernel.org/doc/html/latest/process/submitting-patches.html#=
-when-to-use-acked-by-cc-and-co-developed-by
