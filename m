@@ -1,44 +1,44 @@
 Received: from mail.helgefjell.de (mail.helgefjell.de [142.132.201.35])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 1634B176FB0
-	for <linux-man@vger.kernel.org>; Sun, 17 Nov 2024 10:51:41 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id C30A483A17
+	for <linux-man@vger.kernel.org>; Sun, 17 Nov 2024 10:51:42 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=142.132.201.35
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1731840703; cv=none; b=OcUbUdgxPRllPXZGEavrlLamk1NhK0gCoYPUGRVw7E1IE+DtlpEpG0wK8Ru5wqhiUWKXHwvsJsgPA2LN7P1RhGnZgwDX7UsxxWZXEmKwH2EThdtKbOE3VM8CHTxL6Z1d1d+28JAhQa5SGjJoQoUpYpxOsrlNpGe4ASvzVSB+jZU=
+	t=1731840704; cv=none; b=rc+s5oYUgi6fyWxM9PcJtvgeoFudR2eX60EQnlw+nlzLrXB06RiQXHCmNDGYlwJjS8NDgmmM34aj9+xSVWitcgdTeQDpIAu0jvS43bfV8F9A+wjXGustFNgKmXsTX/SaYiKMtT7Pu42ZnUKwEcom1N3J3UpFFQIUIDhD4EFTq+s=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1731840703; c=relaxed/simple;
-	bh=qMWxy2Ff42Np1QomYpsLYvWp/VJv1Zk38s5kUUf7E3k=;
+	s=arc-20240116; t=1731840704; c=relaxed/simple;
+	bh=oI5BxC0yZm6CT243bLR2qkR8cNgibsLgouwypUUuHlo=;
 	h=Date:From:To:Cc:Subject:Message-ID:Mime-Version:Content-Type:
-	 Content-Disposition; b=TZHdJj8mQkYdherMmtz2TrcG6+O5eiB6DktpyFNMAgKbRIhkspKAZzU3vB/6sVPhWn68B/F7tinQ5qfi+FcE3z0QKd7tGtvwf2d3WkgccR8BxS9hIzeqWI5c1GR77/fnkvncjTr5w3yf4HGLFzRxVP+0PjmA6bVMJCshmdBKPEE=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=helgefjell.de; spf=pass smtp.mailfrom=helgefjell.de; dkim=pass (2048-bit key) header.d=helgefjell.de header.i=@helgefjell.de header.b=UNj6a98Y; arc=none smtp.client-ip=142.132.201.35
+	 Content-Disposition; b=Bi++hXXEhzmdxtQ0y7en9H6srOpI745KYYuXJ+RQa+Abh45RZ/dyHXL9K8U+/Z7YFbHJNuQdFbkCqcg06r8ElZKwQhb59/f0WcUKbM6egrHJ4NhFTl4gkiQB2t0FLlEa1H7uFfeuEZ6NYmm6NOX0+1V7ljWdcB37XZK/W05smK0=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=helgefjell.de; spf=pass smtp.mailfrom=helgefjell.de; dkim=pass (2048-bit key) header.d=helgefjell.de header.i=@helgefjell.de header.b=V3G+rmt0; arc=none smtp.client-ip=142.132.201.35
 Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=helgefjell.de
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=helgefjell.de
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=helgefjell.de header.i=@helgefjell.de header.b="UNj6a98Y"
+	dkim=pass (2048-bit key) header.d=helgefjell.de header.i=@helgefjell.de header.b="V3G+rmt0"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=helgefjell.de;
 	s=selector.helgefjell; t=1731840384;
-	bh=yjb0qDpYifybauypiOuH+oU+kbw2FtPU4Q+JzGWlHrM=;
+	bh=qoBUONrP5ET4y6WDpiPoZtz2yQiZ2X7OO2Y0bJcgStA=;
 	h=Date:From:To:Cc:Subject;
-	b=UNj6a98YicTF/t30ADRAr+Xqyi3z5oHp973KxITJpPAOFiDBoWrJyv4Vtc0m880An
-	 mfhH6K1DAn5hmUM8HzkaR7X3viKdrabvBVpbWGUD4jywoJzBIDc5c6tUi5gblmSAoY
-	 GCAhzKxyYRtVptbHBa7xcT4SHtb/Hunsk2vX/6nnPeTYpQpDcYAhNh3tPL59Y6S9+M
-	 n1loF6e1L56ONhML2OgVvkcipTZ4C5GrPwBsD/s89Vt2HyxxeemFWXm58Q7Vu+cJqX
-	 3jZp9IaVCybNaW4cL1d1vGEm7HsxvLAi80UV08thNbwiD5blWJjHixJnEowd73Rv9O
-	 rRVHp2SXNI72A==
+	b=V3G+rmt00make+krZ45J2/7wQXQFRilY2zWCZEvcDDFnasgLjOUq2r++KkTW9eeMv
+	 I+uMMfpBDMXi3gg9uPyITTyyfPRZuJxZBCNzabObgEAn+btzDEmBzOyojo2Al5JXtn
+	 STbnjQMw6brU89J3g7ZF9RyalKmza/ZAEHpPZH2xnbYO7yDfeWv+fc1pJW/788e3OA
+	 8b4MFAHF+u8RksBnI5oD+DQYKdeNFyLBfm3i6LhbQkMfeStGHTp5CBEvTMKxrZTuMg
+	 LlbOG+hs4RUMEFSxSdOXFXf/92MWxOGCSDHNCf2CmK6OqZxqup6HJGbx/0G+ecQwon
+	 W7krQQ0NZfZFg==
 Original-Subject: Issue in man page time.1
 Author: Helge Kreutzmann <debian@helgefjell.de>
 Original-Cc: mario.blaettermann@gmail.com, linux-man@vger.kernel.org
 Received: from localhost (localhost [127.0.0.1])
   (uid 1002)
   by mail.helgefjell.de with local
-  id 000000000002164E.000000006739C980.003FC53F; Sun, 17 Nov 2024 10:46:24 +0000
+  id 0000000000021647.000000006739C980.003FC526; Sun, 17 Nov 2024 10:46:24 +0000
 Date: Sun, 17 Nov 2024 10:46:24 +0000
 From: Helge Kreutzmann <debian@helgefjell.de>
 To: alx@kernel.org
 Cc: mario.blaettermann@gmail.com, linux-man@vger.kernel.org
 Subject: Issue in man page time.1
-Message-ID: <ZznJgFxUqytE7-eR@meinfjell.helgefjelltest.de>
+Message-ID: <ZznJgGCgquI-itJ8@meinfjell.helgefjelltest.de>
 Precedence: bulk
 X-Mailing-List: linux-man@vger.kernel.org
 List-Id: <linux-man.vger.kernel.org>
@@ -53,17 +53,9 @@ X-homepage: http://www.helgefjell.de/debian
 
 Without further ado, the following was found:
 
-Issue:    Remove hard line breaks, they are not necessary, rather use a separate paragraph for the last two lines
+Issue:    Should be two paragraphs and the first without "no-wrap"
 
-"The format string\n"
-"I<FORMAT>\n"
-"controls the contents of the\n"
-"B<time>\n"
-"output.  The format string can be set using the `-f' or `--format', `-v' or\n"
-"`--verbose', or `-p' or `--portability' options.  If they are not\n"
-"given, but the\n"
-"I<TIME>\n"
-"environment variable is set, its value is used as the format string.\n"
-"Otherwise, a built-in default format is used.  The default format is:\n"
-"  %Uuser %Ssystem %Eelapsed %PCPU (%Xtext+%Ddata %Mmax)k\n"
-"  %Iinputs+%Ooutputs (%Fmajor+%Rminor)pagefaults %Wswaps\n"
+"Use the following format string, for conformance with POSIX standard 1003.2:\n"
+"          real %e\n"
+"          user %U\n"
+"          sys %S\n"
