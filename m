@@ -1,44 +1,44 @@
 Received: from mail.helgefjell.de (mail.helgefjell.de [142.132.201.35])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 0F31115B0F2
-	for <linux-man@vger.kernel.org>; Sun, 17 Nov 2024 10:51:38 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id D25EB13212B
+	for <linux-man@vger.kernel.org>; Sun, 17 Nov 2024 10:51:39 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=142.132.201.35
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1731840700; cv=none; b=q0oQ10KVOsvMWYYLDfI8j5YmIG4da0hMeR21o+1hpj40YKqXVNe2+fyyCJhWEhIMk8Aolc2gKgO8ovE6dGXJAgC2+idk/TXG+yOHZh+M0h6fbW58VuT+9NFjXqhS5XoHzJG5vwBQZc00T/WpXwCNE5dCqlvGHIapdRdav+wo3Jk=
+	t=1731840701; cv=none; b=gp/BTji7KDjqBDiQ36J/xX6lZjvygpsqxVF37+giB17RC+AE++3lyMQBKO+XYzyvH+Zkovoz8gSr6qnXE5LLx1IjcyZbmedO7i+LF2H/NLhebIiAAsVUqstGbD6LMI/nIeXAbsk506xEA1PpRZ1ktVsyW5NCO2BQZUllyV6kM7M=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1731840700; c=relaxed/simple;
-	bh=/7VNzKW4Hnquxpg5NM2CqM4Pyk7PI4DM4nU7WeY4Zsc=;
+	s=arc-20240116; t=1731840701; c=relaxed/simple;
+	bh=MFp8FOblJnzCQVr4dSm+KhHgDmcVNuVHtqlVXaE9ZtU=;
 	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
-	 Content-Disposition; b=o1shcMgg5yHYF6Fb4BYIJR6QHcyMAQSV0nzVt55Y6n92N4NEQpMPWf/AusDYO47f6cm4StxMawXsZeDpy+WRtxZHE81OyNu27pfadWUlaKDMDvoRLIGua1VXLh3aJ0q4zvqjT/HWzWfKSPSfk6k6iduZW/KvbO4Lp+dU86DgasY=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=helgefjell.de; spf=pass smtp.mailfrom=helgefjell.de; dkim=pass (2048-bit key) header.d=helgefjell.de header.i=@helgefjell.de header.b=JyB/FcYn; arc=none smtp.client-ip=142.132.201.35
+	 Content-Disposition; b=t4r4x6Z888PXOko2RrxyYgvwNaymWrs3LZf6MsFoPJZLmItPEZ/1QLHuFDO5GGKhqHnmvOqHZpeeij7Z3EBHBCCbbYd7xtQGyw0oT+Z66JT1qfGcAg+ZDx4XTMQ25FDb+m3+1kDC+F6rbB4UkSbcY7OjOnF+nar3s7x2NBENLvQ=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=helgefjell.de; spf=pass smtp.mailfrom=helgefjell.de; dkim=pass (2048-bit key) header.d=helgefjell.de header.i=@helgefjell.de header.b=jAIHPZJp; arc=none smtp.client-ip=142.132.201.35
 Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=helgefjell.de
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=helgefjell.de
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=helgefjell.de header.i=@helgefjell.de header.b="JyB/FcYn"
+	dkim=pass (2048-bit key) header.d=helgefjell.de header.i=@helgefjell.de header.b="jAIHPZJp"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=helgefjell.de;
-	s=selector.helgefjell; t=1731840384;
-	bh=2t1kxlucPJAfQTfRZN0db2F+ARC+oCPnEOpMrXm9H5s=;
+	s=selector.helgefjell; t=1731840383;
+	bh=SHhTC3Ku8lWYJHF8DQAVAl0ZDa64m2Y8Mb/H27ZT/JI=;
 	h=Date:From:To:Cc:Subject;
-	b=JyB/FcYnW+EaNszdXwMyxt40avjXzO6YACpTEERc+LtkBl1RefHz99PULiNvKT2wB
-	 6uZISXJTMONRI1NoEjr9nc6aQM6uwTNVGEDDsYxaVgeteijbruWiUPOSLmqS5fbIlB
-	 xcokKCRoA/2WuKQ1UqQkJ9Mt/9LCimaCVQn3KWAexZwwCNXrohylGesPeHm2etM1pt
-	 ZKzUdsBjt6Ck0zTidY7XSfo2r0JSwRPI1JowVaTyFP2eiCl72dG3EoUqifX3RxCx9A
-	 GSOuTnqnnn4vEwWlK71FI4pi7zICxjFYwihz/NhMv5UI49LeYq0RG4ztHnV5R+pIJC
-	 nw6WO6jIGbYUA==
+	b=jAIHPZJpTFVg8IeZLOF5KUPr1OG3ETAwrHE2GfGh2CU8lLPi84jgV9Ckalz+kUA2x
+	 9xSsJMDl/Smj1VaPFU4O222hQG2iEPht39PZrMnGwTEfTUXnXbhXFaBiAcXkgBtmdF
+	 wTlPMYLbpjra+jRnZ8HZQttJYTpW2LEqzLlDr9tEA5n0+bfTcpsJu7BZ97/NOWyw0t
+	 dNRl/YcvnynKHHPScRj79NQo+p0ujcfpoQa1D4aTmh3CSBf60ka8QN1RE8x0lBVqoJ
+	 t/x92w1it1MN48YUVka9lQNfvBOky29OkVGRViVXjQHUVgxsVe4L5/xnlG5sdDGIn+
+	 qzZnB3fi19URQ==
 Original-Subject: Issue in man page sscanf.3
 Author: Helge Kreutzmann <debian@helgefjell.de>
 Original-Cc: mario.blaettermann@gmail.com, linux-man@vger.kernel.org
 Received: from localhost (localhost [127.0.0.1])
   (uid 1002)
   by mail.helgefjell.de with local
-  id 0000000000021110.000000006739C980.003FC4A9; Sun, 17 Nov 2024 10:46:24 +0000
-Date: Sun, 17 Nov 2024 10:46:24 +0000
+  id 0000000000020956.000000006739C97F.003FC45E; Sun, 17 Nov 2024 10:46:23 +0000
+Date: Sun, 17 Nov 2024 10:46:23 +0000
 From: Helge Kreutzmann <debian@helgefjell.de>
 To: alx@kernel.org
 Cc: mario.blaettermann@gmail.com, linux-man@vger.kernel.org
 Subject: Issue in man page sscanf.3
-Message-ID: <ZznJgJrfwS4O3toC@meinfjell.helgefjelltest.de>
+Message-ID: <ZznJfzfiBOnRbni5@meinfjell.helgefjelltest.de>
 Precedence: bulk
 X-Mailing-List: linux-man@vger.kernel.org
 List-Id: <linux-man.vger.kernel.org>
@@ -53,11 +53,8 @@ X-homepage: http://www.helgefjell.de/debian
 
 Without further ado, the following was found:
 
-Issue:    on other architectures → on other plattforms
+Issue:    I<info> → B<info>(1)
 
-"Some combinations of the type modifiers and conversion specifiers defined by "
-"C99 do not make sense (e.g., B<%Ld>).  While they may have a well-defined "
-"behavior on Linux, this need not to be so on other architectures.  Therefore "
-"it usually is better to use modifiers that are not defined by C99 at all, "
-"that is, use B<q> instead of B<L> in combination with B<d>, B<i>, B<o>, "
-"B<u>, B<x>, and B<X> conversions or B<ll>."
+"The Linux version of these functions is based on the I<GNU> I<libio> "
+"library.  Take a look at the I<info> documentation of I<GNU> I<libc "
+"(glibc-1.08)> for a more concise description."
