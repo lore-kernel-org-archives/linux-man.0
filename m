@@ -1,62 +1,58 @@
 Received: from mail.helgefjell.de (mail.helgefjell.de [142.132.201.35])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 099ED224EA
-	for <linux-man@vger.kernel.org>; Sun, 17 Nov 2024 10:51:33 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 1E3FF14A4D4
+	for <linux-man@vger.kernel.org>; Sun, 17 Nov 2024 10:51:34 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=142.132.201.35
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1731840695; cv=none; b=u+p5LZKIVJhB45IOVsKBBh+n/AqbaQXsi4rVyo2Zn+mLm/0pp6YXBWgnxr9DVKnMYs3/j/1MrugqXCin3UHuiHk89ysuICqJpies0qyX25FE7NNrw/1NA4ssJkJWzYx0LhU9QnYtVD7MCLfzd4xoCujHER5rOE5uOvNT/eg8ubw=
+	t=1731840696; cv=none; b=d8jlQ8CIDbIyjcIBNqyLBKXE55GQbI+sp+OjhusEkgzZvr5//MADflOmlUJ4krTRXd3H0cAhFFW8lBKvxXxpm62IMOlbR7duMmZuiDKIFt0WnAR4fWgYHK58zAzt+UPn7ppkuYX/z9TbiwkNHCLneUoIo5HRBOCh8qsRZ4FdPY0=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1731840695; c=relaxed/simple;
-	bh=1961/WEhebxghLj2JShK9GBvKcFsy6106UAuPGfzwT8=;
-	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
-	 Content-Disposition; b=jV6wmQkXAh59wKXvs55mXQOopVFJtmyw9SP/KWAAxer2vSdHe6X3zYhFViVsxBOXcw1VGmmdH4Av79yvlEtV9fxLoWpWl/74JQ/EOltQYWUtgMSiqzLx76hBjOqA6mAQkJkDhzrOGAXuaCX9uOhfw5I6ZAAnvSHxGirbGdOEX5g=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=helgefjell.de; spf=pass smtp.mailfrom=helgefjell.de; dkim=pass (2048-bit key) header.d=helgefjell.de header.i=@helgefjell.de header.b=C64lfjpW; arc=none smtp.client-ip=142.132.201.35
+	s=arc-20240116; t=1731840696; c=relaxed/simple;
+	bh=W70ul3HtAfY3JxYPrbjK/OiFU78Dta1bxvNHRZVNUcw=;
+	h=Date:From:To:Cc:Subject:Message-ID:Mime-Version:Content-Type:
+	 Content-Disposition; b=j0zakEiI2FLQuEbYK+4HOlsIWROnAJ9UOgz1OEXSBaH+6RNWhGBVKYRUIdRZwmvP8Z8CJTJYEsl447gB9LJAr5rQaxdsRXYOelJuCWoGzfR98R34gjozqMEwwC9WJ+oNTtIUCZWKdcDlgjAVBxS6BrModN5/FvO28cXpS8aODuk=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=helgefjell.de; spf=pass smtp.mailfrom=helgefjell.de; dkim=pass (2048-bit key) header.d=helgefjell.de header.i=@helgefjell.de header.b=dGtzsQUA; arc=none smtp.client-ip=142.132.201.35
 Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=helgefjell.de
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=helgefjell.de
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=helgefjell.de header.i=@helgefjell.de header.b="C64lfjpW"
+	dkim=pass (2048-bit key) header.d=helgefjell.de header.i=@helgefjell.de header.b="dGtzsQUA"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=helgefjell.de;
 	s=selector.helgefjell; t=1731840383;
-	bh=9IjARrt2emmf1F7NYrwp5zxriOHlLzIbHWyL3y6Tvo4=;
+	bh=sqcnCFntCKodigjpoaRDBKE8SD0vGcuRezH3BMHQuIc=;
 	h=Date:From:To:Cc:Subject;
-	b=C64lfjpWOr7LnNsS4PqURqJlmyWFcLpKzud3jXR+pw+FMzSA6h5jWnhwK6AvzBrxz
-	 +4zutORq9OR59UBNqdSO5OUCSM9srFocXuGc08EUu9eJEGA30cY/vkAeI4ejYJXNT2
-	 k0TwEevcyyv2cKoJPXrCuemrMNDPUNscfPH/78CMbHVZpjJArBDIRLyBLHgYha9B0X
-	 iQidhC/rXHbAhNGwVM45vpLcStljkBAaP9sH7XLTPKL84E+IXQgXt/4JkSUVTepFFB
-	 +5t5W6WR9jL1LxqzNoHohWkWsb3o538yG5Z1UrTr+mhj2tmFk5W9uB1bART5/L5laP
-	 3ohQvF3zBDQcw==
-Original-Subject: Issue in man page s390_pci_mmio_write.2
+	b=dGtzsQUAAz6pZyaqeu1G22WS1Pa+6aUK+QNczoJ/HUNenDY0cmC2kj6coXypKZyg1
+	 Vv5FHWZ+HIgm+g1Lct+lcbMeSD62OfSYN51eV5jG7Tln0aRn6+u6qz/IA0gpzbIchR
+	 c2TKHI0OvMLYkXd8+cy7E9imlds//lZh2F0+sCQ3Dqdp9aJBmoS3qvb5gWAABIi3WU
+	 kf+jkRUWAGbGGISq9xJAvBnL0ts5b3KRDXA7GS5j/VdpqEEOSltFmCjFI7cExXEqc+
+	 1zKi/HiAfWWndBmA3aW1rpQ+jACWjgF/downJpxmLWF4iwfHdadTsyOh47XfCSKe1q
+	 qPTb/BWl7bWiQ==
+Original-Subject: Issue in man page remquo.3
 Author: Helge Kreutzmann <debian@helgefjell.de>
 Original-Cc: mario.blaettermann@gmail.com, linux-man@vger.kernel.org
 Received: from localhost (localhost [127.0.0.1])
   (uid 1002)
   by mail.helgefjell.de with local
-  id 0000000000020747.000000006739C97F.003FC3E1; Sun, 17 Nov 2024 10:46:23 +0000
+  id 00000000000206C6.000000006739C97F.003FC3C8; Sun, 17 Nov 2024 10:46:23 +0000
 Date: Sun, 17 Nov 2024 10:46:23 +0000
 From: Helge Kreutzmann <debian@helgefjell.de>
 To: alx@kernel.org
 Cc: mario.blaettermann@gmail.com, linux-man@vger.kernel.org
-Subject: Issue in man page s390_pci_mmio_write.2
-Message-ID: <ZznJfzz4dlbC_-ao@meinfjell.helgefjelltest.de>
+Subject: Issue in man page remquo.3
+Message-ID: <ZznJf900B2F5LgrV@meinfjell.helgefjelltest.de>
 Precedence: bulk
 X-Mailing-List: linux-man@vger.kernel.org
 List-Id: <linux-man.vger.kernel.org>
 List-Subscribe: <mailto:linux-man+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-man+unsubscribe@vger.kernel.org>
-MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
+Mime-Version: 1.0
+Content-Type: text/plain; charset=us-ascii
+Content-Transfer-Encoding: 7bit
 Content-Disposition: inline
-Content-Transfer-Encoding: 8bit
 X-Public-Key-URL: http://www.helgefjell.de/data/debian_neu.asc
 X-homepage: http://www.helgefjell.de/debian
 
 Without further ado, the following was found:
 
-Issue:    to the user-space buffer I<user_buffer> → and writes them to the user-space buffer I<user_buffer>
+Issue:    Why is this no-wrap?
 
-"The B<s390_pci_mmio_write>()  system call writes I<length> bytes of data "
-"from the user-space buffer I<user_buffer> to the PCI MMIO memory location "
-"specified by I<mmio_addr>.  The B<s390_pci_mmio_read>()  system call reads "
-"I<length> bytes of data from the PCI MMIO memory location specified by "
-"I<mmio_addr> to the user-space buffer I<user_buffer>."
+"Domain error: I<x> is an infinity or I<y> is 0, and the other argument is not a NaN"
