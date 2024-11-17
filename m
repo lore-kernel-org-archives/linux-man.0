@@ -1,44 +1,44 @@
 Received: from mail.helgefjell.de (mail.helgefjell.de [142.132.201.35])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 1CD9B1392
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 1CDD6224EA
 	for <linux-man@vger.kernel.org>; Sun, 17 Nov 2024 10:51:29 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=142.132.201.35
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1731840691; cv=none; b=deQKLZyJ0ynkmUEnK8X9XFAUMlt3IKmWw52bCo5VQsoOvLkRzshe67wzV2xaXoSXZy3VrV+xSsKJ3+pkAmfw2RaWpVtuOLku+XA6OSjTTJDvWMID3o/2oWwhxTcBzFg/jKh07eYqfy7Vzvc2FCGC9glCslqt7NgEdk5nraAPDOY=
+	t=1731840691; cv=none; b=f5COseYth3qrh9uDcaWmNOPAaKnQaVIIb59fTOm7rlli9ayNgb95eky8a9buwh607jVMJxEdoxQJeyoTjeV2lFhuMcZzAZcpBEmOm+2fa23ixesxMKvXANxkhGAcvpfXtLBY9GTDK4J3jnMlAMvuTAKgsgRyPTOKARJtEUc0Zw0=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
 	s=arc-20240116; t=1731840691; c=relaxed/simple;
-	bh=klKF3mpsrETCbCn6EgyurNlkdJ6Z40QJAdhrQK6NU2A=;
+	bh=SSZzREe94s+MTY4OeOVDsRrOxL2fka/+Bp/2Ec2UFV0=;
 	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
-	 Content-Disposition; b=ALVPWkeSW6YD5NkL6HBsYY8HVzfPcKD8Rsr0Qau8X8/9wuVLjvD8QGmOsk1uHG0ihH40sXl709/Q50nKfYVjiscxL91xyJDF65z7PPP4p7ce8fROtjQt9fepFt9XT/GXTWSbH7DcSp+1pC70g1nbkqDSqgnwmwg6mWCVcW/ORw0=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=helgefjell.de; spf=pass smtp.mailfrom=helgefjell.de; dkim=pass (2048-bit key) header.d=helgefjell.de header.i=@helgefjell.de header.b=oxHExWRc; arc=none smtp.client-ip=142.132.201.35
+	 Content-Disposition; b=nCftq5tyCippzmUNtDrl2WAmUXyJiwjiqrMm3QmTPTpIXdXMakGRGdxN7hyBQ6r6Qe3zlcdVGIpocJTTnyhZxSXxhasJO+Tr2Tm2yt4NLJo35U43L3tpnHyoOeEQuRFU6Z28VJtHZGQgyO7BtcYvab+oPJnbts0/JkTZsHyD3lE=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=helgefjell.de; spf=pass smtp.mailfrom=helgefjell.de; dkim=pass (2048-bit key) header.d=helgefjell.de header.i=@helgefjell.de header.b=W+OBCzVw; arc=none smtp.client-ip=142.132.201.35
 Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=helgefjell.de
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=helgefjell.de
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=helgefjell.de header.i=@helgefjell.de header.b="oxHExWRc"
+	dkim=pass (2048-bit key) header.d=helgefjell.de header.i=@helgefjell.de header.b="W+OBCzVw"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=helgefjell.de;
 	s=selector.helgefjell; t=1731840381;
-	bh=8D2kqxy88qkEFoykVZsW0e6GnFiSaD5BCfD7jkBK/FM=;
+	bh=/iGjN4UJvF9n5LEsUbJG+3kQKrbcck/N6oEXlNQc6uM=;
 	h=Date:From:To:Cc:Subject;
-	b=oxHExWRcXXoinwsqjlf+wEwBDP2Acof+IHrFv7QQzbi5uUTnOVVNjczHNGBEdg9xb
-	 AQfp0XH2YRA7m/FS32orb7EVijvKmc2NSRuO0Fpex9J+PyOPys1IJYtyQbznnZGtFN
-	 I4w8LzqWiUKIzXkaaJyrx3kk/Y2i50VWwjHkFIwaaOr2ZHB99QmEo8603nalI+yyC/
-	 Ms1FmC3sD5Q3ALEbvRdIQGEwiL3NkyBBh2kWZsdPPq09x7/NL+Lj8VykEYTra0Zjvx
-	 eaFJjeT2jqzeH2CgdzAk3kF3s314BOBNFbyWgfn3z0nK5LsY77F2nkX1bjfys8mwk8
-	 rTqNCYBxZSqDA==
-Original-Subject: Issue in man page getrpcent_r.3
+	b=W+OBCzVw2q+a4pWVBn35NJU8SWDmQhbRQZzL/sfU/mnRYBfYxZcwzx1LbIDmPBava
+	 Ho3Jnh+PxnVcDpV22kdfGCKPOereoAvkFr9TzY5vM947ki9FIc0ThxDfElmQ8Na4nU
+	 L8n0WQeFvjPXTgIw/KPS7+n3hQ65CBZTf5aE5sDwLH/AriGvKJ0pjn5PGxQFn/aFmV
+	 1ZEH3+9xrOG4Tbdft5Wl1lyWSCOeaFHRNO8w9Aawl9s8zWDnVfqz92FcfHF3G9a65V
+	 MYzNdBFsbgCHS/SGWAUp07xjBMNu1KkMLS+jRhMDuD/Ews5ketn9apjsVNYBkF9k0H
+	 S8cskuRo2P8hA==
+Original-Subject: Issue in man page ldd.1
 Author: Helge Kreutzmann <debian@helgefjell.de>
 Original-Cc: mario.blaettermann@gmail.com, linux-man@vger.kernel.org
 Received: from localhost (localhost [127.0.0.1])
   (uid 1002)
   by mail.helgefjell.de with local
-  id 00000000000200F6.000000006739C97D.003FC26B; Sun, 17 Nov 2024 10:46:21 +0000
+  id 0000000000020122.000000006739C97D.003FC288; Sun, 17 Nov 2024 10:46:21 +0000
 Date: Sun, 17 Nov 2024 10:46:21 +0000
 From: Helge Kreutzmann <debian@helgefjell.de>
 To: alx@kernel.org
 Cc: mario.blaettermann@gmail.com, linux-man@vger.kernel.org
-Subject: Issue in man page getrpcent_r.3
-Message-ID: <ZznJfcq7xl4n6oXL@meinfjell.helgefjelltest.de>
+Subject: Issue in man page ldd.1
+Message-ID: <ZznJfTPKVPkL2Oki@meinfjell.helgefjelltest.de>
 Precedence: bulk
 X-Mailing-List: linux-man@vger.kernel.org
 List-Id: <linux-man.vger.kernel.org>
@@ -53,7 +53,9 @@ X-homepage: http://www.helgefjell.de/debian
 
 Without further ado, the following was found:
 
-Issue:    I<result> → I<*result> ?
+Issue:    results → result
 
-"On error, record not found (B<getrpcbyname_r>(), B<getrpcbynumber_r>()), or "
-"end of input (B<getrpcent_r>())  I<result> is set to NULL."
+"B<ldd> does not work with some extremely old a.out programs which were built "
+"before B<ldd> support was added to the compiler releases.  If you use B<ldd> "
+"on one of these programs, the program will attempt to run with I<argc> = 0 "
+"and the results will be unpredictable."
