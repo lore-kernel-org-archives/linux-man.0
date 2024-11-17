@@ -1,67 +1,65 @@
 Received: from mail.helgefjell.de (mail.helgefjell.de [142.132.201.35])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id C8FDF224EA
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id EF9A113212B
 	for <linux-man@vger.kernel.org>; Sun, 17 Nov 2024 10:51:37 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=142.132.201.35
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1731840699; cv=none; b=HbpNi8DRGwfKlb24wjtnXnw7a52syDjAdGkGA6sVCJgTl6vQM/784bp6Snj+SD34ZjcdZ3pZxKPA9HCR/3C725Yxs+xzCLisQW65lLJ2KFshVcqFm+qO5Jsfw2t5mMJOeckGGmy0YUeG76jLgL4ffkqPx/r7ToPHh7xEsp6Uz5w=
+	t=1731840699; cv=none; b=e9BRaHK6L27CYkaQMXvHB3OGCN9FsGdtxfQ5kFREKdCibJnOxxib1J7kU9ok59El2jYWIrn29Ib1B3IIf8+gMqVvCSC3OblaLQA50nD+R9+NELMxDr++lOxrsUBBBbowCzZTYOuGm0lZOXyx2596wTXX+mfZGCegmZM9ucx2fP8=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
 	s=arc-20240116; t=1731840699; c=relaxed/simple;
-	bh=Mm+F4A7Ek370CDGzdsjc3XsHW7/kpa6qNBxWuQXgurw=;
-	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
-	 Content-Disposition; b=XYfMe7wm9zvNebZz2ILV2vaSfNcTQ7qyB9BN8crGHXoyBulmve56M45I7UbtYSEN2NcC971cruOaGl+DVqSPQ2j013aHJDLJgAASTYZQSNdJkLwkoSsQaHQEAoxdv5+Zjb98UQkJBAwEBJR21G0XQJdpVhgHw/anCyLdq9vCOmc=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=helgefjell.de; spf=pass smtp.mailfrom=helgefjell.de; dkim=pass (2048-bit key) header.d=helgefjell.de header.i=@helgefjell.de header.b=nR7WdN0N; arc=none smtp.client-ip=142.132.201.35
+	bh=4BYLa8rCo54HxC1M0TyP0W5anJEFC2oKkiSbXSoomuo=;
+	h=Date:From:To:Cc:Subject:Message-ID:Mime-Version:Content-Type:
+	 Content-Disposition; b=u1fgOlF04uRqrqtxO80NWWa73TVa3tfvV7zQU0UtgdmYK7F8NZEhLRmtvvQZ+QcGcJS+lPqMXyG/V63PrPzRqKKqh4VqaF/AofmqTc3Fb6+xBYCpUEAAVTawHmg4rvr5LmugMreIhF95Tu1wKusvHULCMxcJkUDaxIc15LBKeMQ=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=helgefjell.de; spf=pass smtp.mailfrom=helgefjell.de; dkim=pass (2048-bit key) header.d=helgefjell.de header.i=@helgefjell.de header.b=q3eW35QN; arc=none smtp.client-ip=142.132.201.35
 Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=helgefjell.de
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=helgefjell.de
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=helgefjell.de header.i=@helgefjell.de header.b="nR7WdN0N"
+	dkim=pass (2048-bit key) header.d=helgefjell.de header.i=@helgefjell.de header.b="q3eW35QN"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=helgefjell.de;
-	s=selector.helgefjell; t=1731840384;
-	bh=vZNsNpI+9mIRMpbqWllxx/v4gTVTrq23TaORyzihkWs=;
+	s=selector.helgefjell; t=1731840383;
+	bh=aJe8yA5u3VN9EE1Pt/sLe1EvvElyvt7Fa8WiODEOb9w=;
 	h=Date:From:To:Cc:Subject;
-	b=nR7WdN0NKAOhwY49rTvnO4HjXmQOUs8lMw+F1prVviWjpXFZDU+C6NNDgevRBlpuO
-	 vkS6r9qoBM4bHBR6ixwLrhjg8BsRdJIGevlgPOzTraXi3U0cXNV/moO1eiVuYWE4H/
-	 o3xtoLv8EM2nXtOieMVxKYCczU1mtekuvZW0pbY8G3yFlneMilip61tHmViARDTnwq
-	 OF4kemfgldY9gVuFVMyg1RCYRo1JVDlzrgwTvrGP76XdCTio7UyYKgwg7DPpyMaunG
-	 7yF3CA9hmb0XD1uQ6USFQ9LOBgsGF+RUBdV8muqDZHnCPk7U9ivtRhut/dv/694+y/
-	 1TqkSm8Qr0vfA==
-Original-Subject: Issue in man page attributes.7
+	b=q3eW35QNnmeidez4dxYgyI6xaheIlfEGqeu3HQ5aHsbxh0oNRK/jhdaSAMiXRXUeJ
+	 WiX2ucAWYwijlfVIQgoxw9bRvcaD15cOijCTiwn8SMO69eKw+cNHWYXGiyrl+8veMW
+	 DUfIV251XP41N/ZfRdaSeS0gx2RvSj+EfzkL2RlG3H8oUCHuHRmlYMei60p22zfFDs
+	 XDZjifMKAXscGsHvTMtvBJvAUOzE5TNaH8R0JfAncQ4m7VOoB/jnFl3w6NLn5Xhi/W
+	 AO7rTxdntLOZZw7Rjt87JgTZ1gqiUMj0LT99dr+TR9dfYzV7NgilnNU0AeJ1nr6z8K
+	 VXk1AbSkzaYew==
+Original-Subject: Issue in man page sscanf.3
 Author: Helge Kreutzmann <debian@helgefjell.de>
 Original-Cc: mario.blaettermann@gmail.com, linux-man@vger.kernel.org
 Received: from localhost (localhost [127.0.0.1])
   (uid 1002)
   by mail.helgefjell.de with local
-  id 0000000000020A7A.000000006739C980.003FC490; Sun, 17 Nov 2024 10:46:24 +0000
-Date: Sun, 17 Nov 2024 10:46:24 +0000
+  id 0000000000020981.000000006739C97F.003FC477; Sun, 17 Nov 2024 10:46:23 +0000
+Date: Sun, 17 Nov 2024 10:46:23 +0000
 From: Helge Kreutzmann <debian@helgefjell.de>
 To: alx@kernel.org
 Cc: mario.blaettermann@gmail.com, linux-man@vger.kernel.org
-Subject: Issue in man page attributes.7
-Message-ID: <ZznJgI1T6Sq11qnk@meinfjell.helgefjelltest.de>
+Subject: Issue in man page sscanf.3
+Message-ID: <ZznJf8X73k2a4ms7@meinfjell.helgefjelltest.de>
 Precedence: bulk
 X-Mailing-List: linux-man@vger.kernel.org
 List-Id: <linux-man.vger.kernel.org>
 List-Subscribe: <mailto:linux-man+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-man+unsubscribe@vger.kernel.org>
-MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
+Mime-Version: 1.0
+Content-Type: text/plain; charset=us-ascii
+Content-Transfer-Encoding: 7bit
 Content-Disposition: inline
-Content-Transfer-Encoding: 8bit
 X-Public-Key-URL: http://www.helgefjell.de/data/debian_neu.asc
 X-homepage: http://www.helgefjell.de/debian
 
 Without further ado, the following was found:
 
-Issue 1:  The function → Functions marked with
-Issue 2:  reads → read
+Issue:    Why is "Undefined Behaviour" capitalized?
 
-"The function marked with I<hostid> as an MT-Safety issue reads from the "
-"system-wide data structures that hold the \"host ID\" of the machine.  These "
-"data structures cannot generally be modified atomically.  Since it is "
-"expected that the \"host ID\" will not normally change, the function that "
-"reads from it (B<gethostid>(3))  is regarded as safe, whereas the function "
-"that modifies it (B<sethostid>(3))  is marked with I<const:hostid>, "
-"indicating it may require special care if it is to be called.  In this "
-"specific case, the special care amounts to system-wide (not merely intra-"
-"process) coordination."
+"Use of the numeric conversion specifiers produces Undefined Behavior for "
+"invalid input.  See E<.UR https://port70.net/\\:%7Ensz/\\:c/\\:c11/\\:n1570."
+"html\\:#7.21.6.2p10> C11 7.21.6.2/10 E<.UE .> This is a bug in the ISO C "
+"standard, and not an inherent design issue with the API.  However, current "
+"implementations are not safe from that bug, so it is not recommended to use "
+"them.  Instead, programs should use functions such as B<strtol>(3)  to parse "
+"numeric input.  Alternatively, mitigate it by specifying a maximum field "
+"width."
