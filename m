@@ -1,44 +1,44 @@
 Received: from mail.helgefjell.de (mail.helgefjell.de [142.132.201.35])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 76450167DB7
-	for <linux-man@vger.kernel.org>; Sun, 17 Nov 2024 10:46:37 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 7A1B917A58F
+	for <linux-man@vger.kernel.org>; Sun, 17 Nov 2024 10:46:38 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=142.132.201.35
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1731840398; cv=none; b=KppjQQBIAR3jMyw3nH1dgzMWldvUwNI8gGoBF/ZioZqHEIpgVYUBg4z4ytlz0H7B9UoaQAfXikIZ46VN24Jv3QmYWpBczG3ltZ0IiUN9h7FHkJlICTWcXG5vZ6C6z2gjUs1MMN7KJLMn/mvb4GL5I9DTPRjf+PbGbwuskufdjmU=
+	t=1731840399; cv=none; b=T1EMIXu/6Hwylqd7sGxkeDLwSAzwrXvGNi8rlZITl3S4YgePx1WTjti4YbV8skm9WNwoXA6xKbbnhSgUU1sNUqkiKSa7Fau0IAm9iAe5u+Edtzia+iOOhFa7x+7xs6rIHm/yXqcj7m/Hep1quAbUklJr9mKkPvHaxjaEmVhWQf0=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1731840398; c=relaxed/simple;
-	bh=guRNddT0KBiiUSPu1lpXK+RxVx9ozNoehRj6PXz46aQ=;
+	s=arc-20240116; t=1731840399; c=relaxed/simple;
+	bh=L0PBs2pOasBC1YOCJ6JDb7gBEX34UCBvAID/DhSzb9M=;
 	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
-	 Content-Disposition; b=cMeCl2czpmwV9tIWIG5+cGjy7tLvpYy3h9pEAEotWS88Xwyo46Ci3iL1ZUSsJ9SRtxBarJYFS3Gibm5wPasjUEP4VfVNO22yUy8X0jvJ+BlSF3zHk660TXcmop/5K60g3xJkvBC9Ol1GvN65WtyLrzC8qKYsb8JJbEdhPq9os/I=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=helgefjell.de; spf=pass smtp.mailfrom=helgefjell.de; dkim=pass (2048-bit key) header.d=helgefjell.de header.i=@helgefjell.de header.b=EnHv3VYz; arc=none smtp.client-ip=142.132.201.35
+	 Content-Disposition; b=EN5CgSLEY07l3uE6J7nqklCThwNjp8+2h1owwsjsSBRZYapHtF6VToVHx6v80of3yopx69pOrYnaxPe0aioDKUv3hmCkymOFa/C4vdu2e8OWl8PTNj9Ptho1+hO87kCTrsBomz3cVo7A7n3qGZJT4+tHPrzPpKz1R8L21v1H4sA=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=helgefjell.de; spf=pass smtp.mailfrom=helgefjell.de; dkim=pass (2048-bit key) header.d=helgefjell.de header.i=@helgefjell.de header.b=RXel+zrn; arc=none smtp.client-ip=142.132.201.35
 Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=helgefjell.de
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=helgefjell.de
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=helgefjell.de header.i=@helgefjell.de header.b="EnHv3VYz"
+	dkim=pass (2048-bit key) header.d=helgefjell.de header.i=@helgefjell.de header.b="RXel+zrn"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=helgefjell.de;
-	s=selector.helgefjell; t=1731840385;
-	bh=vHGHWthwJATpiwFDnx4jz858jcAMWnEEggzxNprInAQ=;
+	s=selector.helgefjell; t=1731840386;
+	bh=ZOeDRV1TQIkzm5XOCJBP1+WdFEFSblxAea6OWcTdbAE=;
 	h=Date:From:To:Cc:Subject;
-	b=EnHv3VYzaEJ32VMLVDEUoubRRT0sx+0UsdAOGNV3meZLrDmIKRe43djwpDizOObrK
-	 vnkEGCWZGM71bsi1MPj/uMvqqrP/jBoS6DpUcah5VAA6zCtRUHXVHG1zgyFj4C3s8w
-	 Ijb7EdGWTUcCOryLUhamqLWVK5f+pa1xwQGFtfp+FH7sCodQbkzjlEdjwA94BPYSpJ
-	 jX3V6z5SHlXDLr/1jC2KDUUkMojS5sELu6qOAp8/h0p8LcTkiPZjZs9obW3QrRsRkK
-	 hZp4pHl7z48UpZey6MCdHKenJDg4cjfbvFGTrXaTHYY/xo8wgAZ6LJu7rWtG38w7Qc
-	 ZoYj1UoLiVpHQ==
-Original-Subject: Issue in man page fmod.3
+	b=RXel+zrnUMsaKlMqiTx0BOSWTxn2Huq50jgn+pI8yhaYfP6z7lkPzIM2W0ZrYXEFO
+	 A7xqMwS2BjgGvyHmRLCAy4l2GnhJFFgLAcTN16D6dQpmwKc2tuZqi9mTr6GRH65UyD
+	 FKdRl3pQCOwx/W2dxjAeYSqGMWTBcfLo1IlsK0xfxBHRo9+ZTZ/sTGWA24daENwN23
+	 XhYlxd0x3Ff5tzB59akwz2a8dlCI+lU4n9olu5sIxRXcw7AMBVTthdjkC4z8yqHzgN
+	 KV1I2qtqmYJKtWnjzJMJ4aUtNGn6UxDPf7mMjCUkPiQVerpp9bmHJq0eoHEjd6VKjY
+	 RKqc7K2mdsiZg==
+Original-Subject: Issue in man page getdents.2
 Author: Helge Kreutzmann <debian@helgefjell.de>
 Original-Cc: mario.blaettermann@gmail.com, linux-man@vger.kernel.org
 Received: from localhost (localhost [127.0.0.1])
   (uid 1002)
   by mail.helgefjell.de with local
-  id 00000000000216A8.000000006739C981.003FC60A; Sun, 17 Nov 2024 10:46:25 +0000
-Date: Sun, 17 Nov 2024 10:46:25 +0000
+  id 00000000000216B0.000000006739C982.003FC63C; Sun, 17 Nov 2024 10:46:26 +0000
+Date: Sun, 17 Nov 2024 10:46:26 +0000
 From: Helge Kreutzmann <debian@helgefjell.de>
 To: alx@kernel.org
 Cc: mario.blaettermann@gmail.com, linux-man@vger.kernel.org
-Subject: Issue in man page fmod.3
-Message-ID: <ZznJgQGHh77fpY8Z@meinfjell.helgefjelltest.de>
+Subject: Issue in man page getdents.2
+Message-ID: <ZznJgidnFAE3KqQe@meinfjell.helgefjelltest.de>
 Precedence: bulk
 X-Mailing-List: linux-man@vger.kernel.org
 List-Id: <linux-man.vger.kernel.org>
@@ -53,8 +53,10 @@ X-homepage: http://www.helgefjell.de/debian
 
 Without further ado, the following was found:
 
-Issue 1:  Either B<fmod>() → B<fmod>    or → I<fmod>()
-Issue 2:  What does "cost a branch" really mean? Branch of execution?
+Issue:    B<readdir>(3)B<.> → B<readdir>(3).
 
-"An alternate way to express this is with I<fmod(fmod(x, y) + y, y)>, but the "
-"second B<fmod>()  usually costs way more than the one branch."
+"I<d_ino> is an inode number.  I<d_off> is a filesystem-specific value with "
+"no specific meaning to user space, though on older filesystems it used to be "
+"the distance from the start of the directory to the start of the next "
+"I<linux_dirent>; see B<readdir>(3)B<.> I<d_reclen> is the size of this "
+"entire I<linux_dirent>.  I<d_name> is a null-terminated filename."
