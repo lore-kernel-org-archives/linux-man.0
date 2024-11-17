@@ -1,44 +1,44 @@
 Received: from mail.helgefjell.de (mail.helgefjell.de [142.132.201.35])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 1E3FF14A4D4
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 2034215B0F2
 	for <linux-man@vger.kernel.org>; Sun, 17 Nov 2024 10:51:34 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=142.132.201.35
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1731840696; cv=none; b=d8jlQ8CIDbIyjcIBNqyLBKXE55GQbI+sp+OjhusEkgzZvr5//MADflOmlUJ4krTRXd3H0cAhFFW8lBKvxXxpm62IMOlbR7duMmZuiDKIFt0WnAR4fWgYHK58zAzt+UPn7ppkuYX/z9TbiwkNHCLneUoIo5HRBOCh8qsRZ4FdPY0=
+	t=1731840696; cv=none; b=RY3av1x60dXMQPJ6NTfluKlgOMGceRm3+tIe7XAMlHOcqqo/lplJ9y/rD+0QmczyYANuAjj0r1UzIFDiBtazLMwrjyIQ2aana0Mx1b2Per27q0W9UIV71rCg8v6MTQe0hNOKtfIDAN6vFvwPN5vsB9ExiAySU9iCttX/IZY785w=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
 	s=arc-20240116; t=1731840696; c=relaxed/simple;
-	bh=W70ul3HtAfY3JxYPrbjK/OiFU78Dta1bxvNHRZVNUcw=;
+	bh=t5aki67jHhuyqZrb66tFnTon1OcnMivx5cBVhHKccsE=;
 	h=Date:From:To:Cc:Subject:Message-ID:Mime-Version:Content-Type:
-	 Content-Disposition; b=j0zakEiI2FLQuEbYK+4HOlsIWROnAJ9UOgz1OEXSBaH+6RNWhGBVKYRUIdRZwmvP8Z8CJTJYEsl447gB9LJAr5rQaxdsRXYOelJuCWoGzfR98R34gjozqMEwwC9WJ+oNTtIUCZWKdcDlgjAVBxS6BrModN5/FvO28cXpS8aODuk=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=helgefjell.de; spf=pass smtp.mailfrom=helgefjell.de; dkim=pass (2048-bit key) header.d=helgefjell.de header.i=@helgefjell.de header.b=dGtzsQUA; arc=none smtp.client-ip=142.132.201.35
+	 Content-Disposition; b=hiR5HMA6CD8JgsOOCYycwQl4rSN92StJPsNFwiwrn9y74ZtP79nbpFT4yiX83Vi3QEvBOVAoVXgAKCWTgXsvL0G0vaw5oknUfxcnZkS+LZYHwtXnYAzKrW+m5gSMXsxCcDHEh4HI3CZMMD+YsMN+9rCRke8TbCPkJir1WxJWvTg=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=helgefjell.de; spf=pass smtp.mailfrom=helgefjell.de; dkim=pass (2048-bit key) header.d=helgefjell.de header.i=@helgefjell.de header.b=AKYNgp3k; arc=none smtp.client-ip=142.132.201.35
 Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=helgefjell.de
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=helgefjell.de
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=helgefjell.de header.i=@helgefjell.de header.b="dGtzsQUA"
+	dkim=pass (2048-bit key) header.d=helgefjell.de header.i=@helgefjell.de header.b="AKYNgp3k"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=helgefjell.de;
-	s=selector.helgefjell; t=1731840383;
-	bh=sqcnCFntCKodigjpoaRDBKE8SD0vGcuRezH3BMHQuIc=;
+	s=selector.helgefjell; t=1731840382;
+	bh=Y+mQ77LGRuI897YeQbSz1g18QyXLiTvUGjtcoWzK3XQ=;
 	h=Date:From:To:Cc:Subject;
-	b=dGtzsQUAAz6pZyaqeu1G22WS1Pa+6aUK+QNczoJ/HUNenDY0cmC2kj6coXypKZyg1
-	 Vv5FHWZ+HIgm+g1Lct+lcbMeSD62OfSYN51eV5jG7Tln0aRn6+u6qz/IA0gpzbIchR
-	 c2TKHI0OvMLYkXd8+cy7E9imlds//lZh2F0+sCQ3Dqdp9aJBmoS3qvb5gWAABIi3WU
-	 kf+jkRUWAGbGGISq9xJAvBnL0ts5b3KRDXA7GS5j/VdpqEEOSltFmCjFI7cExXEqc+
-	 1zKi/HiAfWWndBmA3aW1rpQ+jACWjgF/downJpxmLWF4iwfHdadTsyOh47XfCSKe1q
-	 qPTb/BWl7bWiQ==
-Original-Subject: Issue in man page remquo.3
+	b=AKYNgp3kRHIrGwgCLG1GwXLKDryib2E7/aumC5Ou407dyhZAjyofh9ziD0hEuzwQY
+	 C2KiEIWTbj3sLkDN8lzGScNg0wmne3d5mlxNKCaP9N2ywn17OcfBkc5EidsrCUk1Xk
+	 xKfl17QlpSZtii8M65gOQse2u1Kgz65goptB+AndAVUQl0H1aZVLjFJXoWGLu9608C
+	 gqlCrbeskPrcj3c6KtbiEJ35oPA40GHtKIoWtmjc8Ul+AZyhWcDDOmhNKcii9vx1Vl
+	 Sev1Se4iAXfZGqND4TqzBMT5H/zO4yYpczHcfC7mgMHOARbAqZ0VDgFjHh2O5hVp9K
+	 G2pQZRqpDBYfA==
+Original-Subject: Issue in man page regex.7
 Author: Helge Kreutzmann <debian@helgefjell.de>
 Original-Cc: mario.blaettermann@gmail.com, linux-man@vger.kernel.org
 Received: from localhost (localhost [127.0.0.1])
   (uid 1002)
   by mail.helgefjell.de with local
-  id 00000000000206C6.000000006739C97F.003FC3C8; Sun, 17 Nov 2024 10:46:23 +0000
-Date: Sun, 17 Nov 2024 10:46:23 +0000
+  id 0000000000020672.000000006739C97E.003FC3AF; Sun, 17 Nov 2024 10:46:22 +0000
+Date: Sun, 17 Nov 2024 10:46:22 +0000
 From: Helge Kreutzmann <debian@helgefjell.de>
 To: alx@kernel.org
 Cc: mario.blaettermann@gmail.com, linux-man@vger.kernel.org
-Subject: Issue in man page remquo.3
-Message-ID: <ZznJf900B2F5LgrV@meinfjell.helgefjelltest.de>
+Subject: Issue in man page regex.7
+Message-ID: <ZznJfodBCrTTrRbU@meinfjell.helgefjelltest.de>
 Precedence: bulk
 X-Mailing-List: linux-man@vger.kernel.org
 List-Id: <linux-man.vger.kernel.org>
@@ -53,6 +53,13 @@ X-homepage: http://www.helgefjell.de/debian
 
 Without further ado, the following was found:
 
-Issue:    Why is this no-wrap?
+Issue:    alphabetic? Do you mean alphabet?
 
-"Domain error: I<x> is an infinity or I<y> is 0, and the other argument is not a NaN"
+"If case-independent matching is specified, the effect is much as if all case "
+"distinctions had vanished from the alphabet.  When an alphabetic that exists "
+"in multiple cases appears as an ordinary character outside a bracket "
+"expression, it is effectively transformed into a bracket expression "
+"containing both cases, for example, \\[aq]x\\[aq] becomes \"I<[xX]>\".  When "
+"it appears inside a bracket expression, all case counterparts of it are "
+"added to the bracket expression, so that, for example, \"I<[x]>\" becomes "
+"\"I<[xX]>\" and \"I<[\\[ha]x]>\" becomes \"I<[\\[ha]xX]>\"."
