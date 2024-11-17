@@ -1,44 +1,44 @@
 Received: from mail.helgefjell.de (mail.helgefjell.de [142.132.201.35])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 8570483A17
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id A41E614A617
 	for <linux-man@vger.kernel.org>; Sun, 17 Nov 2024 10:46:36 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=142.132.201.35
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1731840397; cv=none; b=qR4b4hdLoy2dvvKeJE33F/Epxd8aWISo3YkohgLrTuJkrKSHGt4JJ735hWVa2XJA9VVv7XnIZJZrw2uxWLcdOsrlRf2h93sUVp+h9S3GhV4m3i+N1FxKfsRSrg9usN9vf5dIO+IdNhnvi4kcHHimul76fwlHHf5rt0anPAErLQ8=
+	t=1731840398; cv=none; b=QHeAT0vcHN2OwAVOvLn8kae2zk6ialigdiB3COfeTpoJV23efZnBPfYhS+j/6OIuc+XAENnZkhgp0h2d+tsUCZr1SkoW4ppCu8VUaujRHYRD2ydGcDDs7Lxs1Ya8JSvyHm0XlQSJn2weDHdR89MfboieQUsUotY3wZBS6UBnF8k=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1731840397; c=relaxed/simple;
-	bh=8vDhdQZcf5uryHUkDVNue5GByyaYBAudnuV2A8gufug=;
+	s=arc-20240116; t=1731840398; c=relaxed/simple;
+	bh=1RqMaKb0ZZcnrRN2JJ5k1LlklvwFwTUkDxquCz2wxHE=;
 	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
-	 Content-Disposition; b=TB9FibYQ6yoPKtI55rR79oLwZLI3xbsDTa/OvUOJmwq42+5ut/HmYW2D58L8sfb4ymvWP3ajBSrTZWyo+eHPFwgh/7ltP6AKY7pionYXAEb7DGSbwX3z1hIoaIm0e6wnaRDZpm11ccU6nrJyeMeWgbv4Urvty5qBh6YwRU3JyCQ=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=helgefjell.de; spf=pass smtp.mailfrom=helgefjell.de; dkim=pass (2048-bit key) header.d=helgefjell.de header.i=@helgefjell.de header.b=qGF9l9kT; arc=none smtp.client-ip=142.132.201.35
+	 Content-Disposition; b=bHXthhe17Zeq/g7FUiSCoEXULf/FyKfmfcBuRafDyYLqd2N4p4wWNHLvO5+ST3Wm8+ZMUj5g6aeSUwwy5tGjXpGg1BTK++xRdjAbSH3p63zU0zt2+1Nt09irlFUjrcMlFTYM+9Jdo2y/dIhDO4YBNn3S3XsRk28p7dhyNcEa+Hc=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=helgefjell.de; spf=pass smtp.mailfrom=helgefjell.de; dkim=pass (2048-bit key) header.d=helgefjell.de header.i=@helgefjell.de header.b=I07EObFc; arc=none smtp.client-ip=142.132.201.35
 Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=helgefjell.de
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=helgefjell.de
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=helgefjell.de header.i=@helgefjell.de header.b="qGF9l9kT"
+	dkim=pass (2048-bit key) header.d=helgefjell.de header.i=@helgefjell.de header.b="I07EObFc"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=helgefjell.de;
 	s=selector.helgefjell; t=1731840385;
-	bh=WZddB7N64Cp3ADW49vVXLwqXt5Klr437rf5l+DBnCoc=;
+	bh=D/gkDSX3ZsvEu05wLTXtQLHuiUjW7w0zpalfzxak1bg=;
 	h=Date:From:To:Cc:Subject;
-	b=qGF9l9kTSJgMMzU03sRT/c8gh4DQbuiubvMngklBlivixcJ6UVzD4jZNh3Ok0BuPG
-	 BsMmWI7b592PbnYACOR4/Nq3M3QHRPx83DfQaFPAl6DAnBE3Vp2Cy/fSyjjmzJlg5S
-	 q25nRmU1lHp14etMxgUTQCxwYjcItMXlTf/4MKmSNnCG1lZId9N8fAhd7uIyjf2UBA
-	 BhQ7Mogjb/HGg5yS8AioT8qw6PMVv4SQqWt8fKAm+53AvaP06O+gG3iQgpy4oGxBQg
-	 /1Y/I26QhtqEyOCq1m4uNBEVsu0SpuPysC186Nf3S1HR53Rp5efi4xOhWEAScR6mod
-	 nGttunQFtcjtw==
-Original-Subject: Issue in man page clone.2
+	b=I07EObFcDLNKghpLuNDvYKwgy7oQbMtkW7d/oH29AROeDZsIphE85Z6IBNMplFTJU
+	 BuDhjb8Eep6sYU3oIqyxXTAAVfFS8yWXu5OpZgxso0650ROqQYTV2mwlKnwxhpPNeN
+	 FfVNfDyGOPgg50lWyuXt12I+LlKePxwlx4c07d9pkaZMGnR0xNxqb0yglIZ+xve5i3
+	 guPFle04WIZOOvvxQgfvtQRv7VLfgdQSoXSyV4s6C/NvF9IFI3QBSB2F1aTF9r1v2q
+	 hkuwM5A42VCu0dD7yLYxAh/L4CnvnMT1hqT5oMpdStO6RIcxWAHoVgn/uyjQ7ZQOn+
+	 ++z5Rgx7YVteQ==
+Original-Subject: Issue in man page fmod.3
 Author: Helge Kreutzmann <debian@helgefjell.de>
 Original-Cc: mario.blaettermann@gmail.com, linux-man@vger.kernel.org
 Received: from localhost (localhost [127.0.0.1])
   (uid 1002)
   by mail.helgefjell.de with local
-  id 0000000000021699.000000006739C981.003FC5D8; Sun, 17 Nov 2024 10:46:25 +0000
+  id 00000000000216A4.000000006739C981.003FC5F1; Sun, 17 Nov 2024 10:46:25 +0000
 Date: Sun, 17 Nov 2024 10:46:25 +0000
 From: Helge Kreutzmann <debian@helgefjell.de>
 To: alx@kernel.org
 Cc: mario.blaettermann@gmail.com, linux-man@vger.kernel.org
-Subject: Issue in man page clone.2
-Message-ID: <ZznJge9al7KNW0tN@meinfjell.helgefjelltest.de>
+Subject: Issue in man page fmod.3
+Message-ID: <ZznJgTA9xeSYKNwA@meinfjell.helgefjelltest.de>
 Precedence: bulk
 X-Mailing-List: linux-man@vger.kernel.org
 List-Id: <linux-man.vger.kernel.org>
@@ -53,7 +53,7 @@ X-homepage: http://www.helgefjell.de/debian
 
 Without further ado, the following was found:
 
-Issue:    I<exit_signal.> → I<exit_signal>.
+Issue:    fmod → B<fmod>
 
-"B<CLONE_THREAD> or B<CLONE_PARENT> was specified in the I<flags> mask, but a "
-"signal was specified in I<exit_signal>."
+"To obtain the modulus, more specifically, the Least Positive Residue, you "
+"will need to adjust the result from fmod like so:"
