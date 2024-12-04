@@ -1,40 +1,43 @@
 Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 212C41531E8
-	for <linux-man@vger.kernel.org>; Wed,  4 Dec 2024 20:35:23 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 5E8AE18F2DD
+	for <linux-man@vger.kernel.org>; Wed,  4 Dec 2024 20:43:29 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1733344524; cv=none; b=IEDqSVciGGgbhhFpsmGosRGbLicneVxR6lqq8FUo8CCaGZjpkzGux1CUDJ+ewj7NOXTnD5jeJj5rhVZvsGtn1t0knPKVXCjj6CzqI6nx9b5ZCXW6Ewya3zIaPIFuMgbCAisN8wAQxlZSs70opyeXcWggGdGTsj1cVzJME8f2O6w=
+	t=1733345009; cv=none; b=iYVP55DwXPBtNKaSA0n+6zayJ6CBq2oOczJ/cPQNgcDdips8I7nwLQo5BDTgV9rSv5JI+Gk1KO+9ZY7QiKlDICAeK6wQiSE+5vgQ6dj74Nt8YKbsbXOmvFBoVylF4fB797qh0bF1nWgZRD7J0pykOWG8qQuaGi+KwWzIV2Y8KhI=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1733344524; c=relaxed/simple;
-	bh=WKfcSoHJpJwsvMb1b71cxn2gHvsl3Pzgk6eM9XBEfa4=;
+	s=arc-20240116; t=1733345009; c=relaxed/simple;
+	bh=XR5muXRsoiKL66/IaC2dfHb2T6zawUsttrsyRerIvSY=;
 	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=LKcjrx/SYCsikwSU7NR3JWP4RSKK+x36vP04cIQOH0BtENw2cvrPlFUqbNKgeOebaJ+oJN9BNWSbaZIE81XrS6wYX2zimRD81esAwsrEtrv+pVZ4VBqBIhZUjF14Ls/ajLmA4mjLotOZzbGPcGI42Wsi4ztaUL8qHfDexF4c2A4=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=m/uG5S5I; arc=none smtp.client-ip=10.30.226.201
+	 Content-Type:Content-Disposition:In-Reply-To; b=CjyCurlBbrc4+VcOd9uyqQnOje2MA8IU35S25RvKy3mF2o9YXK6OTonMhi9sHR8gXsaILmtbCC5NG4fScJ8laQhgXtBNWhJfxCJNj+iF7idul4hHKJ15JF4WwnmKykxevBBLhw2Ex22q/u8qXODDCBL7lWFHQ4P+mUrPJ5e32ck=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=t32uNqOF; arc=none smtp.client-ip=10.30.226.201
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="m/uG5S5I"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id D11A6C4CECD;
-	Wed,  4 Dec 2024 20:35:22 +0000 (UTC)
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="t32uNqOF"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 3C9E3C4CECD;
+	Wed,  4 Dec 2024 20:43:27 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1733344523;
-	bh=WKfcSoHJpJwsvMb1b71cxn2gHvsl3Pzgk6eM9XBEfa4=;
+	s=k20201202; t=1733345008;
+	bh=XR5muXRsoiKL66/IaC2dfHb2T6zawUsttrsyRerIvSY=;
 	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-	b=m/uG5S5IZkE1b1JS0xqMbyfzDBnOFqsVpMX5Qs3aOpbTdun/PWXeeOI//U645z7iP
-	 Upb+a8i77bOY7V5njYSowOrnZfHcm/XHOM8kVuuhFUD8XbcDGwJ0A1+d6XarQkxoyx
-	 8B5o4L3bVUqY2KK6x8R71QCnt1+5fCzCe3jntqen7TVST0txwuFxUSzn73tdqqgYOy
-	 M7HGWT59VKrxyFXXmZpgg9huV1OIVQBHivpy2n+h1cGNkyHtbFGWud6m5yJPVPEGfT
-	 CUhpOgTQTDYzswNPeT8+JtzIG1eJ9/V0CkK1V7x7hhW/tCOg+K1nJ3oHbTVLJVKCvX
-	 khL016pTo9xbA==
-Date: Wed, 4 Dec 2024 21:35:20 +0100
+	b=t32uNqOFTtw6qocbjbN8Pxuw5DAuxok0WzkUp6HusWphwdmMPE8wtr8F53WDc6DUe
+	 Iihafoeom05n6Ycm8fuAyVMJq3QV6WoHwcsBuisrujWyGdcEk5leALVzE2+YTO3xMq
+	 tKSRByVuJbWgmk+vBHVqSSUpuYSQvQRSBGxJIc/WlpvzAhS+FmBY48Ffwjliv5EjgA
+	 WDDLw0rmyM/82zpAn5WEmpkqO1oMO/uAs6thx7ZyjzvUlsiSV00fGatgHCqy0wcX3T
+	 3/EcfpknCihRPexV6Jyy0hUx6Vd+Vf9RFY2IFV4QG6mVXZ2dFu/xNwedmcLcq6msiv
+	 8PSp/sl9UKHoQ==
+Date: Wed, 4 Dec 2024 21:43:25 +0100
 From: Alejandro Colomar <alx@kernel.org>
-To: "Luis Claudio R. Goncalves" <lgoncalv@redhat.com>
-Cc: tyberry@redhat.com, linux-man@vger.kernel.org
-Subject: Re: [PATCH v2] madvise: MADV_SOFT_OFFLINE requests can return -EBUSY
-Message-ID: <20241204203520.iu4mayydvyagjehg@devuan>
-References: <Z0XzU9R9Kx0RoeUG@redhat.com>
- <20241128113548.zgq6qizi6ieid6fy@devuan>
- <Z0o1izFIKYzSrci-@uudg.org>
+To: Lorenzo Stoakes <lorenzo.stoakes@oracle.com>
+Cc: linux-man@vger.kernel.org, Suren Baghdasaryan <surenb@google.com>,
+	"Liam R . Howlett" <Liam.Howlett@oracle.com>,
+	Matthew Wilcox <willy@infradead.org>,
+	Vlastimil Babka <vbabka@suse.cz>, Jann Horn <jannh@google.com>,
+	linux-mm@kvack.org
+Subject: Re: [PATCH man-pages v3] madvise.2: add MADV_GUARD_INSTALL,
+ MADV_GUARD_REMOVE description
+Message-ID: <20241204204325.duakx2b2x6d5ci7s@devuan>
+References: <20241202165829.72121-1-lorenzo.stoakes@oracle.com>
 Precedence: bulk
 X-Mailing-List: linux-man@vger.kernel.org
 List-Id: <linux-man.vger.kernel.org>
@@ -42,144 +45,203 @@ List-Subscribe: <mailto:linux-man+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-man+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 Content-Type: multipart/signed; micalg=pgp-sha512;
-	protocol="application/pgp-signature"; boundary="lde7onqy2b55qwgz"
+	protocol="application/pgp-signature"; boundary="yjqig6nxssy37vh4"
 Content-Disposition: inline
-In-Reply-To: <Z0o1izFIKYzSrci-@uudg.org>
+In-Reply-To: <20241202165829.72121-1-lorenzo.stoakes@oracle.com>
 
 
---lde7onqy2b55qwgz
+--yjqig6nxssy37vh4
 Content-Type: text/plain; protected-headers=v1; charset=utf-8
 Content-Disposition: inline
 Content-Transfer-Encoding: quoted-printable
-Subject: Re: [PATCH v2] madvise: MADV_SOFT_OFFLINE requests can return -EBUSY
+Subject: Re: [PATCH man-pages v3] madvise.2: add MADV_GUARD_INSTALL,
+ MADV_GUARD_REMOVE description
 MIME-Version: 1.0
 
-Hi Luis, Tyonnchie,
+Hi Lorenzo,
 
-On Fri, Nov 29, 2024 at 06:43:39PM -0300, Luis Claudio R. Goncalves wrote:
-> On Thu, Nov 28, 2024 at 12:35:48PM +0100, Alejandro Colomar wrote:
-> > Hi Tyonnchie,
-> >=20
-> > On Tue, Nov 26, 2024 at 11:12:03AM -0500, tyberry@redhat.com wrote:
-> > > If the page could not be offlined madvise will return -EBUSY. This mi=
-ght occur if the page is currently in use or locked.
-> >=20
-> > Could you show this in a small example program (if possible)?
-> > Like 30 lines or so.  If not, it's okay.
+On Mon, Dec 02, 2024 at 04:58:29PM +0000, Lorenzo Stoakes wrote:
+> Lightweight guard region support has been added to Linux 6.13, which adds
+> MADV_GUARD_INSTALL and MADV_GUARD_REMOVE flags to the madvise() system
+> call. Therefore, update the manpage for madvise() and describe these
+> operations.
 >=20
-> Hi Alejandro!
->=20
-> Given the ongoing holidays, let me take the liberty of giving some context
-> in order to keep the conversation going.
->=20
-> We received reports of failed LTP madvise11[1] tests. The errors looked
-> like this:
->=20
->     madvise11.c:409: TINFO: Spawning 4 threads, with a total of 640 memor=
-y pages
->     madvise11.c:132: TFAIL: madvise failed: EBUSY (16)
->     madvise11.c:163: TINFO: Thread  [0]  returned 16, failed.
->     madvise11.c:191: TFAIL: thread  [0]  - exited with errors
->     madvise11.c:163: TINFO: Thread  [2]  returned 0, succeeded.
->     madvise11.c:163: TINFO: Thread  [3]  returned 0, succeeded.
->     madvise11.c:163: TINFO: Thread  [1]  returned 0, succeeded.
->     madvise11.c:361: TINFO: Restore 629 Soft-offlined pages
->     madvise11.c:290: TWARN: write(3,0x7ffce114b8a0,8) failed: EBUSY (16)
->=20
-> Clearly the problem had to do with -EBUSY being returned by a madvise()
-> operation. The bug was initially reported on kernels with PREEMPT_RT
-> enabled but we soon observed that the problem also happened with the stock
-> kernel, though requiring more repetitions to trigger issue.
->=20
-> After debug and investigation we observed that the -EBUSY return was a va=
-lid
-> case in the kernel code and was not being handled by the test. A fix was
-> sent to the LTP project by Li Wang[2], specifically for the madvise11 tes=
-t.
->=20
-> In this process, we noticed that the man pages did not mention -EBUSY as a
-> possible result of a failed offlining operation, as described by Tyonnchi=
-e.
->=20
-> I hope this helps!
+> Signed-off-by: Lorenzo Stoakes <lorenzo.stoakes@oracle.com>
 
-Thanks!  I've applied the patch, with some tweaks:
-<https://www.alejandro-colomar.es/src/alx/linux/man-pages/man-pages.git/com=
-mit/?h=3Dcontrib&id=3D3205359a3a7079d9d40a50388e851874729a827a>
+Thanks for the patch!  A few minor comments below.
 
-I added an Acked-by on your behalf, Luis.
+> ---
+> v3:
+> * Don't describe SIGSEGV as a fatal signal as per Jann.
+>=20
+> v2:
+> * Updated to use semantic newlines as suggested by Alejandro.
+> * Avoided emboldening parens as suggested by Alejandro.
+> * One very minor grammatical fix.
+> https://lore.kernel.org/all/20241129155943.85215-1-lorenzo.stoakes@oracle=
+=2Ecom
+>=20
+> v1:
+> https://lore.kernel.org/all/20241129093205.8664-1-lorenzo.stoakes@oracle.=
+com
+>=20
+>  man/man2/madvise.2 | 93 ++++++++++++++++++++++++++++++++++++++++++++++
+>  1 file changed, 93 insertions(+)
+>=20
+> diff --git a/man/man2/madvise.2 b/man/man2/madvise.2
+> index 4f2210ee2..4cb5e7302 100644
+> --- a/man/man2/madvise.2
+> +++ b/man/man2/madvise.2
+> @@ -676,6 +676,91 @@ or secret memory regions created using
+>  Note that with
+>  .BR MADV_POPULATE_WRITE ,
+>  the process can be killed at any moment when the system runs out of memo=
+ry.
+> +.TP
+> +.BR MADV_GUARD_INSTALL " (since Linux 6.13)"
+> +Install a lightweight guard region into the range specified by
+> +.I addr
+> +and
+> +.IR size ,
+> +causing any read or write in the range to result in a
+> +.B SIGSEGV
+> +signal being raised.
+> +.IP
+> +If the region maps memory pages they will be cleared as part of the oper=
+ation,
+> +though if
+> +.B MADV_GUARD_INSTALL
+> +is applied to regions containing pre-existing lightweight guard regions,
+> +they are left in place.
+> +.IP
+> +This operation is only supported for writable anonymous private mappings=
+ which
+> +have not been mlock'd.
+> +An
+> +.B EINVAL
+> +error is returned if it is attempted on any other kind of mapping.
+> +.IP
+> +This operation is more efficient than mapping a new region of memory
+> +.BR PROT_NONE ,
+> +as it does not require the establishment of new mappings,
+> +instead regions of an existing mapping simply have their page tables
+> +manipulated to establish the desired behavior.
+> +No additional memory is used.
+> +.IP
+> +Lightweight guard regions remain on fork
+> +(except for any parts which have had
+> +.B MADV_WIPEONFORK
+> +applied to them),
+> +and are not removed by
+> +.BR MADV_DONTNEED ,
+> +.BR MADV_FREE ,
+> +.BR MADV_PAGEOUT ,
+> +or
+> +.BR MADV_COLD .
+> +.IP
+> +Attempting to
+> +.BR mlock ()
 
+We should specify the chapter in the manual: (2)
+
+> +lightweight guard regions will fail,
+> +as will
+> +.B MADV_POPULATE_READ
+> +or
+> +.BR MADV_POPULATE_WRITE .
+> +.IP
+> +If the mapping has its attributes changed,
+> +or is split or partially unmapped,
+> +any existing guard regions remain in place
+> +(except if they are unmapped).
+> +.IP
+> +If a mapping is moved using
+> +.BR mremap (),
+
+Same here.
+
+> +lightweight guard regions are moved with it.
+> +.IP
+> +Lightweight guard regions are removed when unmapped,
+> +on process teardown,
+> +or when the
+> +.B MADV_GUARD_REMOVE
+> +operation is applied to them.
+> +.TP
+> +.BR MADV_GUARD_REMOVE " (since Linux 6.13)"
+> +Remove any lightweight guard regions which exist in the range specified =
+by
+> +.I addr
+> +and
+> +.IR size .
+> +.IP
+> +All mappings in the range other than lightweight guard regions are left =
+in place
+> +(including mlock'd mappings).
+> +The operation is,
+> +however,
+> +only valid for writable anonymous private mappings,
+
+Wouldn't it be better to say "valid only" instead of "only valid"?
+
+(Non-native speaker here, though.)
 
 Have a lovely night!
 Alex
 
->=20
-> Best regards,
-> Luis
->=20
-> [1] https://github.com/linux-test-project/ltp/blob/master/testcases/kerne=
-l/syscalls/madvise/madvise11.c
-> [2] https://lists.linux.it/pipermail/ltp/2024-May/038310.html
->=20
->=20
-> > Have a lovely day!
-> > Alex
-> >=20
-> > >=20
-> > > Signed-off-by: Tyonnchie Berry <tyberry@redhat.com>
-> > >=20
-> > > ---
-> > >=20
-> > > diff --git a/man/man2/madvise.2 b/man/man2/madvise.2
-> > > index 4f2210ee2..c10dcd599 100644
-> > > --- a/man/man2/madvise.2
-> > > +++ b/man/man2/madvise.2
-> > > @@ -702,6 +702,13 @@ The map exists, but the area maps something that=
- isn't a file.
-> > >  .BR MADV_COLLAPSE )
-> > >  Could not charge hugepage to cgroup: cgroup limit exceeded.
-> > >  .TP
-> > > +.B EBUSY
-> > > +(for
-> > > +.B MADV_SOFT_OFFLINE )
-> > > +If any pages within the add+length range could not be offlined,
-> > > +madvise will return -EBUSY.
-> > > +This might occur if the page is currently in use or locked.
-> > > +.TP
-> > >  .B EFAULT
-> > >  .I advice
-> > >  is
-> > >=20
-> >=20
-> > --=20
-> > <https://www.alejandro-colomar.es/>
->=20
->=20
-> ---end quoted text---
-
-
+> +returning an
+> +.B EINVAL
+> +error otherwise.
+> +.IP
+> +When lightweight guard regions are removed,
+> +they act as empty regions of the containing mapping.
+> +Since only writable anonymous private mappings are supported,
+> +they therefore become zero-fill-on-demand pages.
+> +.IP
+> +If any transparent huge pages are encountered in the operation,
+> +they are left in place.
+>  .SH RETURN VALUE
+>  On success,
+>  .BR madvise ()
+> @@ -787,6 +872,14 @@ or
+>  or secret memory regions created using
+>  .BR memfd_secret(2) .
+>  .TP
+> +.B EINVAL
+> +.I advice
+> +is
+> +.B MADV_GUARD_INSTALL
+> +or
+> +.BR MADV_GUARD_REMOVE ,
+> +but the specified address range contains an unsupported mapping.
+> +.TP
+>  .B EIO
+>  (for
+>  .BR MADV_WILLNEED )
+> --
+> 2.47.1
 
 --=20
 <https://www.alejandro-colomar.es/>
 
---lde7onqy2b55qwgz
+--yjqig6nxssy37vh4
 Content-Type: application/pgp-signature; name="signature.asc"
 
 -----BEGIN PGP SIGNATURE-----
 
-iQIzBAABCgAdFiEE6jqH8KTroDDkXfJAnowa+77/2zIFAmdQvQgACgkQnowa+77/
-2zL9VA//Qh+keEW7r1ziNeZAoeeFJ+vvkH5G84oyYBvl8fUflRch9J1HY4WgcC0R
-GoSm9whVaQUK6g1YDp0jkKPpSigOxkyrDvacX71iP69o9f1fOL+88IX1zPc5T5a/
-jqX+HpLQ4nL4JDmztVoOrJWqY+T1ar2eWIlKSPFnmjLF+8kDjcjX+AL+pCPLQDuM
-t1x1+z7gT9KZYxd8nBgO1USbv2sNh4ujiFvlvNhOeIc1VTYvQZhTHtwxXfVC4BIj
-RjyLixfJVHqCgu30N3swtaPX6YgjuTzbmgT7ts7NNyDKjFF3b0Xgf2/66hu77mpV
-4kZKKINpxK+REXgatBa5OvEEL2suXKbxrUmiaiGDN3tO74RrX63ARNiOThPHrnbS
-+0cccq7pk+gxMam/v0wPglq+hf3VqKhkNcE/Shygik5AcU0Ahw8GJwPSRXCxkczG
-RaIOt6xtVV8Hqdgq++gQDXloQPFS7wfqh5Kk/dUSfxfKmly5wDwLcjmd4ezhzpJM
-L7nwGXsYNiFv9ugfm3QeznMzzqYd+ZYct6e/9NJDTJmx1BXZUOnIXMKLUb5usIye
-r+eWdquMjLAqcNskvqguRTx6qr/gmfL4WixhGYbRHibL45j4Xi1SvSXbA/Tcpnod
-xTBXHb5IHa8MCnomfykfOo8klQ7D2ymoYE8RJShsrRdpXop2ebk=
-=nU1y
+iQIzBAABCgAdFiEE6jqH8KTroDDkXfJAnowa+77/2zIFAmdQvuwACgkQnowa+77/
+2zKLSA/9G2cUNwzbArc7HOxWxnsWYMFZfEa3noxMAksVsAtuBIywCVNNAeBj2QBh
+ohmFPRFGnV6jJflvuCOVCupAmRK5WxucKkQHJGyQfGy+OaQ33kTYzjijqyBZSTqX
+dX7GXgOIiYHC/oxXy1fsNE+PWDl8wsTiSlXNMJ56xedzEPLFkuAI//1I9lkPYaB+
+gRGkFOD9+TB/6/g5FjmfQAmEeeIMtVl+TviJKBCvzHiKm9EymVRU/FxORWBJzPvS
++BRlTe7A461tdIA4fCgKkQu7Q/uZgLmXS6Mgu31RiOee5ENSA9OR6AoPxZhXqiKo
+h9BEBRRuc3k0+H3sf0T22ZU4QF5accxBgH+s+T+/kdFglg81KXYnnoIW5Cy28wcT
+SfP8IAksdJhhnlH6XyTPAXBaNs6GtZ4MKsSieN/JKyyR+UeW6mW5tg9/k70TNbpg
+fVEYAHw1WFzMWWZtNZrZB503QI0rIyYXu/xQ8mklLs/2Oc9IQPKU9VNhYGCEo99D
+RIST5ulO8iM4lGltbvXFQkO4pxy75KKu2kzl//7nQ+B0KQf7FSTGw+zk6Ev25Gf6
+iNfgrhOzCQHdWw0TrU46YE8lhX+yjL7soW8NGzW+ZEOevaiRMIv7IfqBQ01eoo01
+kByhZACWwqzcS8hPn4lbkoS3bEpIWuzZLG3S9PzaJR2wUmG9Yhk=
+=bpqb
 -----END PGP SIGNATURE-----
 
---lde7onqy2b55qwgz--
+--yjqig6nxssy37vh4--
