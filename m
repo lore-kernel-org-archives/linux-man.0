@@ -1,79 +1,142 @@
-Received: from out162-62-57-87.mail.qq.com (out162-62-57-87.mail.qq.com [162.62.57.87])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from smtp-out2.suse.de (smtp-out2.suse.de [195.135.223.131])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 73726433B1
-	for <linux-man@vger.kernel.org>; Mon, 16 Dec 2024 10:02:05 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=162.62.57.87
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id AEB3C1B4F3A
+	for <linux-man@vger.kernel.org>; Mon, 16 Dec 2024 10:23:31 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=195.135.223.131
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1734343331; cv=none; b=g+kteC7tjqNTYsca+qt/gF/H63ap7nI4r5WZVG8aiWsPkFHmCf496NW2Sshuze1A3g2+WnmxcB6JBOk6wloIJ6HZQNcQf1h7uyMFko0fQIX8iuvM+4gB/RsTjd/5ymxjC4XCA9xFB9JQIcQVms19euZHVnBbYtToIZnWbXvf6bQ=
+	t=1734344613; cv=none; b=u5+OY9ujgxHvAtnnf6T9qssNJozw0vRMutLE7Q/md2eyJnbdWzTQlS5HabdUxUbUJvgHNo3Zbfn/rzi/BlBckYO1Pd4xt9YtoEulRO0PxLYHDeZ8/rtNX2gZzTP33jpiKDShVtkdhDTSnfKjoeTSR7siRWbKbWH6MgoSzoBKJSY=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1734343331; c=relaxed/simple;
-	bh=Z5exKOlgBPXtV6meYf1khEXcpL0NoUkOGoXz5IKk+gI=;
-	h=Message-ID:Date:MIME-Version:From:To:Cc:Subject:Content-Type; b=jVONZKxJM4PqG/kslH7/ZTECX/KvF6XeCEAQdW7wuwJ0NRArZrHWD887swrx1S/gxgFXNRAyDPYcHRCOSG5zQEud1adn5ZtnKLgo/JdBRcCjx4bZYtQU23FPdoeUnwce0YABfhWTytjrDmn3eUueX0tK+CSuYoyk/qnsxQZ04+g=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=qq.com; spf=pass smtp.mailfrom=qq.com; dkim=pass (1024-bit key) header.d=qq.com header.i=@qq.com header.b=dklcpUIX; arc=none smtp.client-ip=162.62.57.87
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=qq.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=qq.com
+	s=arc-20240116; t=1734344613; c=relaxed/simple;
+	bh=Yx1lsXDOGca9SpLp0GKkowsh32wqD+tt5UnM5NzGjCU=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=d/jDOpAyCuO6sC4y4huCxxgoC0ViiJNtZqPZtuLgatUqqpv4fPlCas4VVp/dqZomtGRA5JV57RqeLM5C7S83zCJW+goC3JK5zMUNmxtfkmitYr8ir+1Bcg2OcmhrOIrFM1XU5KqBHsZ5QqdfKKJoJJ7asoKCYNgDok234JGDu1c=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=suse.cz; spf=pass smtp.mailfrom=suse.cz; dkim=pass (1024-bit key) header.d=suse.cz header.i=@suse.cz header.b=u4rcqcBZ; dkim=permerror (0-bit key) header.d=suse.cz header.i=@suse.cz header.b=qZR5pPiK; dkim=pass (1024-bit key) header.d=suse.cz header.i=@suse.cz header.b=u4rcqcBZ; dkim=permerror (0-bit key) header.d=suse.cz header.i=@suse.cz header.b=qZR5pPiK; arc=none smtp.client-ip=195.135.223.131
+Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=suse.cz
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=suse.cz
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=qq.com header.i=@qq.com header.b="dklcpUIX"
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=qq.com; s=s201512;
-	t=1734343015; bh=Z5exKOlgBPXtV6meYf1khEXcpL0NoUkOGoXz5IKk+gI=;
-	h=Date:From:To:Cc:Subject;
-	b=dklcpUIX6wMrMNO3dQYZjKp+gNm4N08+/uMwjMGtGNoocJsMYY9MfDkvB3/TtUUyW
-	 PeMCAoIpwe4pBkBA3ZHlQWvG4mFn7YI+llJ7wzmrV9OfutER0ElfNRBAS1qYCtfH4n
-	 3oaADr/v7XPNU/DPnEDPOKoY8emg9dTDi2WJzA58=
-Received: from [IPV6:2402:f000:5:1800:e4ea:faa2:bef4:1871] ([2402:f000:5:1800:e4ea:faa2:bef4:1871])
-	by newxmesmtplogicsvrsza29-0.qq.com (NewEsmtp) with SMTP
-	id E368A813; Mon, 16 Dec 2024 17:56:54 +0800
-X-QQ-mid: xmsmtpt1734343014tipaw289f
-Message-ID: <tencent_C8D6922C0F618F0B4470A55DEAE00B236105@qq.com>
-X-QQ-XMAILINFO: NVQMfSTXSDo/yMbgPWroWRk2F5c6VglQDrYmpebFDSBndV2eTZ8WLHcX251wD/
-	 smEZJ8o7sc1tgl5LPR2ly9FdgGqbx05DYJfG/LNI/EtpF6g5jsSkltQegTJRBVScRGWVxhJyIQ6u
-	 rqGMt3M3ndafC6DaYO2gIpcxK9R5X8ZNOxm+Wqwx4Incvicy8+Y4LrxJNj9B+OzPRdPqGsf+Q4Ba
-	 vfiPSfKkv0BJ2YGrWz7R9pHtkLlIPIyjd+WeGndFYlgcg1u5++3u95HQdzR5KJD7gJVLvjOyKnlI
-	 W/9RYIk+4/kylhH1K4zmMd3ytha31xDPNdL/cxRoCJwvKIFVpoBIgzXZmJwOmwIWRfvngKyV7XYi
-	 gpBD5JtZ2f2+HrVOFw6e7uNSSuLLzrIYmRvKCj369asCpv9/AEJEG9Ppg+8Wx0L2uawPBHrXZ4KA
-	 dAIAnq0mX7iH9Nm6Hx/+vTXT9ISflVzEfBU1XBcdcLR6OHSNwpNawZfWbPXG8yCF28FDcOHPI1tI
-	 3GjvqxcGgf59kdSfHm1VV/fbZOszne5Z6Of/DTFUCnX+BueiTUzBvIB2HBPfsWPabRQrwAJ6bZbF
-	 PA9UrRbnWsOLOOk5R3GF/Xv2Q90So1UVjnuyFJ0oMyXwslPouSOeg46o+KkByxJf0wMkq/1SPmf0
-	 koNdZmBvrXO26EWdPoM7GAUvwJMuQearFc4Ewr3/fM+MPqCEPfx2NBRGhAJOzL0MSGkPCiAdU5tK
-	 /k7EXYDJTtm/yHrhzn/fLzqOW7OCEIhJ2jGXCPLPqzJhHC1JIDO4UWQ6vIN2GYrjIWi6LMZH08Zz
-	 4mBaq07zALTXjkYlFBUVmPHKkD4Cof8KAmQOSwr74n9AUSSC0eSraYDZbAsQM6egkEV9wI5UjIKY
-	 o4I0b3YIjyAHP4EV/5oB5kXpt0f9TggwHDRIqV36BtlDsa1Bem2rsSUICC3zoSJTYe3HEfTHlC8i
-	 UBWGFehOXftTa2yAQmgi9dr+KnWSjTw+LW9UDJfN0=
-X-QQ-XMRINFO: OD9hHCdaPRBwq3WW+NvGbIU=
-X-OQ-MSGID: <f6699239-9d39-409f-babe-d6f4652fe7e1@qq.com>
-Date: Mon, 16 Dec 2024 17:56:51 +0800
+	dkim=pass (1024-bit key) header.d=suse.cz header.i=@suse.cz header.b="u4rcqcBZ";
+	dkim=permerror (0-bit key) header.d=suse.cz header.i=@suse.cz header.b="qZR5pPiK";
+	dkim=pass (1024-bit key) header.d=suse.cz header.i=@suse.cz header.b="u4rcqcBZ";
+	dkim=permerror (0-bit key) header.d=suse.cz header.i=@suse.cz header.b="qZR5pPiK"
+Received: from imap1.dmz-prg2.suse.org (imap1.dmz-prg2.suse.org [IPv6:2a07:de40:b281:104:10:150:64:97])
+	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
+	(No client certificate requested)
+	by smtp-out2.suse.de (Postfix) with ESMTPS id C0B581F449;
+	Mon, 16 Dec 2024 10:23:29 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.cz; s=susede2_rsa;
+	t=1734344609; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+	 mime-version:mime-version:content-type:content-type:
+	 in-reply-to:in-reply-to:references:references;
+	bh=mWi9KvhRAPShJXnTXBErogARnigwxe1GXi53/3bWm48=;
+	b=u4rcqcBZnuN5r4nDUMjPEQq0WzmFQ5ue06+D5+vEDRRCzM8O55677Y9/bGd18uNxB0hr5x
+	CEqIJ8ynRGV9hAvm5ZVK7Ll7JGHdrRR65HPX7R0t0GJ928FkGiyPishjKfBe7knXEO6bpw
+	5N/EjyFNUb+EGVq/XQnhB5cyKXrRDvg=
+DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.cz;
+	s=susede2_ed25519; t=1734344609;
+	h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+	 mime-version:mime-version:content-type:content-type:
+	 in-reply-to:in-reply-to:references:references;
+	bh=mWi9KvhRAPShJXnTXBErogARnigwxe1GXi53/3bWm48=;
+	b=qZR5pPiKHJFVjnok4GXytqSBKaAERrE1BwW/zW3oVncknqcZ/qsfrAqnnT1hxBlWsswESu
+	/YNvOhILSSbS4vDw==
+Authentication-Results: smtp-out2.suse.de;
+	dkim=pass header.d=suse.cz header.s=susede2_rsa header.b=u4rcqcBZ;
+	dkim=pass header.d=suse.cz header.s=susede2_ed25519 header.b=qZR5pPiK
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.cz; s=susede2_rsa;
+	t=1734344609; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+	 mime-version:mime-version:content-type:content-type:
+	 in-reply-to:in-reply-to:references:references;
+	bh=mWi9KvhRAPShJXnTXBErogARnigwxe1GXi53/3bWm48=;
+	b=u4rcqcBZnuN5r4nDUMjPEQq0WzmFQ5ue06+D5+vEDRRCzM8O55677Y9/bGd18uNxB0hr5x
+	CEqIJ8ynRGV9hAvm5ZVK7Ll7JGHdrRR65HPX7R0t0GJ928FkGiyPishjKfBe7knXEO6bpw
+	5N/EjyFNUb+EGVq/XQnhB5cyKXrRDvg=
+DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.cz;
+	s=susede2_ed25519; t=1734344609;
+	h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+	 mime-version:mime-version:content-type:content-type:
+	 in-reply-to:in-reply-to:references:references;
+	bh=mWi9KvhRAPShJXnTXBErogARnigwxe1GXi53/3bWm48=;
+	b=qZR5pPiKHJFVjnok4GXytqSBKaAERrE1BwW/zW3oVncknqcZ/qsfrAqnnT1hxBlWsswESu
+	/YNvOhILSSbS4vDw==
+Received: from imap1.dmz-prg2.suse.org (localhost [127.0.0.1])
+	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
+	(No client certificate requested)
+	by imap1.dmz-prg2.suse.org (Postfix) with ESMTPS id ADA68137CF;
+	Mon, 16 Dec 2024 10:23:29 +0000 (UTC)
+Received: from dovecot-director2.suse.de ([2a07:de40:b281:106:10:150:64:167])
+	by imap1.dmz-prg2.suse.org with ESMTPSA
+	id gH72J6H/X2fhIAAAD6G6ig
+	(envelope-from <chrubis@suse.cz>); Mon, 16 Dec 2024 10:23:29 +0000
+Date: Mon, 16 Dec 2024 11:23:44 +0100
+From: Cyril Hrubis <chrubis@suse.cz>
+To: Alejandro Colomar <alx@kernel.org>
+Cc: David Howells <dhowells@redhat.com>, linux-man@vger.kernel.org
+Subject: Re: ioctl_pipe(2): SYNOPSIS: $1
+Message-ID: <Z1__sIy3Kyka0nrS@yuki.lan>
+References: <20241214180348.pp4vrlnxqpo6cus6@devuan>
+ <20241214180423.2thsuyyfosrlyajb@devuan>
 Precedence: bulk
 X-Mailing-List: linux-man@vger.kernel.org
 List-Id: <linux-man.vger.kernel.org>
 List-Subscribe: <mailto:linux-man+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-man+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-From: Dashuai Wu <3380520452@qq.com>
-To: alx@kernel.org
-Cc: linux-man@vger.kernel.org
-Subject: Inconsistencies between Linux Kernel Documentation and Man Pages
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 8bit
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20241214180423.2thsuyyfosrlyajb@devuan>
+X-Rspamd-Queue-Id: C0B581F449
+X-Spam-Level: 
+X-Spamd-Result: default: False [-3.51 / 50.00];
+	BAYES_HAM(-3.00)[99.99%];
+	SUBJECT_HAS_CURRENCY(1.00)[];
+	NEURAL_HAM_LONG(-1.00)[-1.000];
+	R_DKIM_ALLOW(-0.20)[suse.cz:s=susede2_rsa,suse.cz:s=susede2_ed25519];
+	NEURAL_HAM_SHORT(-0.20)[-1.000];
+	MIME_GOOD(-0.10)[text/plain];
+	MX_GOOD(-0.01)[];
+	DKIM_SIGNED(0.00)[suse.cz:s=susede2_rsa,suse.cz:s=susede2_ed25519];
+	FUZZY_BLOCKED(0.00)[rspamd.com];
+	RBL_SPAMHAUS_BLOCKED_OPENRESOLVER(0.00)[2a07:de40:b281:104:10:150:64:97:from];
+	MIME_TRACE(0.00)[0:+];
+	TO_MATCH_ENVRCPT_ALL(0.00)[];
+	SPAMHAUS_XBL(0.00)[2a07:de40:b281:104:10:150:64:97:from];
+	ARC_NA(0.00)[];
+	FROM_HAS_DN(0.00)[];
+	DKIM_TRACE(0.00)[suse.cz:+];
+	TO_DN_SOME(0.00)[];
+	RECEIVED_SPAMHAUS_BLOCKED_OPENRESOLVER(0.00)[2a07:de40:b281:106:10:150:64:167:received];
+	RCVD_COUNT_TWO(0.00)[2];
+	FROM_EQ_ENVFROM(0.00)[];
+	RCVD_TLS_ALL(0.00)[];
+	RCVD_VIA_SMTP_AUTH(0.00)[];
+	MISSING_XM_UA(0.00)[];
+	ASN(0.00)[asn:25478, ipnet:::/0, country:RU];
+	RCPT_COUNT_THREE(0.00)[3];
+	DBL_BLOCKED_OPENRESOLVER(0.00)[imap1.dmz-prg2.suse.org:helo,imap1.dmz-prg2.suse.org:rdns]
+X-Rspamd-Server: rspamd2.dmz-prg2.suse.org
+X-Rspamd-Action: no action
+X-Spam-Score: -3.51
+X-Spam-Flag: NO
 
-Hi，
-I noticed an inconsistency between the ARP manual page and the Linux kernel
-documentation regarding kernel parameters.
+Hi!
+> > The manual page ioctl_pipe(2) has this synopsis:
+> > 
+> >        int ioctl(int pipefd[1], IOC_WATCH_QUEUE_SET_SIZE, int size);
+> >        int ioctl(int pipefd[1], IOC_WATCH_QUEUE_SET_FILTER,
+> >                  struct watch_notification_filter *filter);
+> > 
+> > Which says the $1 is an array of int (the type is declared as int[1]).
+> > However, this is incorrect, since the first argument is of course a
+> > plain int, a single file descriptor.  Would you mind revising the page?
 
-The ARP manual page
-https://www.man7.org/linux/man-pages/man7/arp.7.html
-does not contain information about the deprecation of the 'unres_qlen'
-parameter and its replacement 'unres_qlen_bytes', while this information is
-present in the kernel documentation
-https://www.kernel.org/doc/html/latest/networking/ip-sysctl.html.
+That looks indeed wrong, I suppose that we need just 'int pipefd' there.
 
-Would it be possible to update the ARP manual page to reflect these changes
-and maintain consistency with the kernel documentation?
+And looking at the kernel both pipe file descriptors seems to get the
+exact same fops so it shouldn't matter on which end we call the ioctl().
 
-Thank you for your attention to this matter.
-
-Best regards.
-
-Dashuai Wu
-
+-- 
+Cyril Hrubis
+chrubis@suse.cz
