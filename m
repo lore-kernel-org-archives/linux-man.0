@@ -1,85 +1,112 @@
-Received: from us-smtp-delivery-124.mimecast.com (us-smtp-delivery-124.mimecast.com [170.10.133.124])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from box.jasonyundt.email (box.jasonyundt.email [104.248.224.157])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 228F1246A09
-	for <linux-man@vger.kernel.org>; Wed, 15 Jan 2025 09:01:39 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=170.10.133.124
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 1BC584D8DA
+	for <linux-man@vger.kernel.org>; Wed, 15 Jan 2025 16:21:10 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=104.248.224.157
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1736931702; cv=none; b=hhaJeslFBpGG8TTBD24MCoevnjspg8HxhAqOIaOSih9iasMrQnd2Mq7LQjaQYxPe8ySwlCt+vzpi22Jh3m+YIl3QTCgP99ZTkDgy66F7BwUEhWLs4Pl26SbXAX4g1prWO3agcPLMOww3W3t4IUUE0FUgWq6NAz2T7ztyHzlFFxA=
+	t=1736958073; cv=none; b=S/tiA3AugnjNxsAlK3xCMGUVaxMkxx1AglWl9KKoGsUWdaqvnF6cQcmCRLFUJW4A1XB37lXXs9KWgwIojz8wTGURWp7CSi9oZFVpNmnx468BoALGYHULeDYvmmjv4hkGWzrvlfynqKkgSY+ezMF/aJWr1J/IUS4KDWlYJrEakE8=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1736931702; c=relaxed/simple;
-	bh=W7a9GsMbQ7TAXNiFIUJ7Y9F+bCzHvm083ADjSSVlUTU=;
-	h=From:To:Cc:Subject:In-Reply-To:References:Date:Message-ID:
-	 MIME-Version:Content-Type; b=agmKvX2dIbvEJttfwcqP8RYgtaRzTXJvbjCoxhKb35fGXffHD0vxa4iCxODCfhzCYvlEwO1ZsIokJozjAkTPaX+yXJjZbergUlVN8wQjExvTJ+ai8MbJiqMVq21fqYjAzCWm37C56bI+CO1p+y563oouuymF0hOTMPwOVZyvyHU=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=redhat.com; spf=pass smtp.mailfrom=redhat.com; dkim=pass (1024-bit key) header.d=redhat.com header.i=@redhat.com header.b=OsziDGCE; arc=none smtp.client-ip=170.10.133.124
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=redhat.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=redhat.com
+	s=arc-20240116; t=1736958073; c=relaxed/simple;
+	bh=LzerSbXxqHZnl48xC50zNKggwHAnn+t8cF2p4fs5wns=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=MxuBh/mLO4QaU/gAP5ArcjBW06CDaEn982TjntB7nE/NQq+z84bbC5cOBXbNevkNIPjRy0ZpQVW2ZJAlgnEuHLbHx+9I0kJeL5GPuHoPWtO36Oq4183BNjL7X66IHBrvsG7c09VP0fJYMGFQRwgf82pZ0cZx+d/YV6dzP4Vi4Fs=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=jasonyundt.email; spf=pass smtp.mailfrom=jasonyundt.email; dkim=pass (2048-bit key) header.d=jasonyundt.email header.i=@jasonyundt.email header.b=m6NDVbUD; arc=none smtp.client-ip=104.248.224.157
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=jasonyundt.email
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=jasonyundt.email
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=redhat.com header.i=@redhat.com header.b="OsziDGCE"
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
-	s=mimecast20190719; t=1736931698;
-	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
-	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
-	 in-reply-to:in-reply-to:references:references;
-	bh=uxbLXEE6ExxXcqn/HKi1qjKIzthEQ0o/WR1J/cAvRLI=;
-	b=OsziDGCEV2BEAm4PUCwcBivyBqEwzV/PkOri3MajoteSj3+IRlYh6KQ4dQ0kqC3xAmr7Qw
-	nWNn7NebpOIVelMgNBhqFKebNDgCQ+o27eITjLJ8NmyVVSl9qSHgrNIuu2Qm9r9Z1Hr9y1
-	XnnTlvVcpj7qXa2J7L8OyMJpp8s3AMk=
-Received: from mx-prod-mc-04.mail-002.prod.us-west-2.aws.redhat.com
- (ec2-54-186-198-63.us-west-2.compute.amazonaws.com [54.186.198.63]) by
- relay.mimecast.com with ESMTP with STARTTLS (version=TLSv1.3,
- cipher=TLS_AES_256_GCM_SHA384) id us-mta-536-en2vN0RmNB6r7ty4vxxVVA-1; Wed,
- 15 Jan 2025 04:01:35 -0500
-X-MC-Unique: en2vN0RmNB6r7ty4vxxVVA-1
-X-Mimecast-MFC-AGG-ID: en2vN0RmNB6r7ty4vxxVVA
-Received: from mx-prod-int-04.mail-002.prod.us-west-2.aws.redhat.com (mx-prod-int-04.mail-002.prod.us-west-2.aws.redhat.com [10.30.177.40])
+	dkim=pass (2048-bit key) header.d=jasonyundt.email header.i=@jasonyundt.email header.b="m6NDVbUD"
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=jasonyundt.email;
+	s=mail; t=1736958063;
+	bh=LzerSbXxqHZnl48xC50zNKggwHAnn+t8cF2p4fs5wns=;
+	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+	b=m6NDVbUDG3XLSUhcHo9z2dxtseZVVsgaTkmB1cZzfJWdyRqFiLFcs0dBEVIZhJXCl
+	 HFreglg2WtTufYwOgEVZNGfGKucreRVmWV8GIjjKCintavTLLJKmubEWfuBSQ9XA7G
+	 KwhUATFAnWtsmPNRcYMBvrAq4eyHRd7cKVkhtiOiFitV3J9uhDtRPgjCRcyXsyiguH
+	 k0CFlSwtANT7epyM8qKQ+umExdCKZEe0NbIon0FxaWmjdjVW9ULL8xNcs/bvW2quG6
+	 EmZJDYhIEnlWvNZmV9X5cV4IrMioslyrkg0GTQ3y64A2FmQrpa6nPFOHgkiJdA1sme
+	 AsnHNHjGUcLCw==
+Received: from authenticated-user (box.jasonyundt.email [104.248.224.157])
 	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
 	 key-exchange X25519 server-signature RSA-PSS (2048 bits) server-digest SHA256)
 	(No client certificate requested)
-	by mx-prod-mc-04.mail-002.prod.us-west-2.aws.redhat.com (Postfix) with ESMTPS id 9A08D19560B4;
-	Wed, 15 Jan 2025 09:01:33 +0000 (UTC)
-Received: from oldenburg.str.redhat.com (unknown [10.2.16.35])
-	by mx-prod-int-04.mail-002.prod.us-west-2.aws.redhat.com (Postfix) with ESMTPS id 2EA5019560AD;
-	Wed, 15 Jan 2025 09:01:31 +0000 (UTC)
-From: Florian Weimer <fweimer@redhat.com>
-To: Jason Yundt <jason@jasonyundt.email>
-Cc: Alejandro Colomar <alx@kernel.org>,  linux-man@vger.kernel.org
+	by box.jasonyundt.email (Postfix) with ESMTPSA id AF8277E26E;
+	Wed, 15 Jan 2025 11:21:03 -0500 (EST)
+Date: Wed, 15 Jan 2025 11:21:02 -0500
+From: Jason Yundt <jason@jasonyundt.email>
+To: Alejandro Colomar <alx@kernel.org>
+Cc: linux-man@vger.kernel.org, Florian Weimer <fweimer@redhat.com>
 Subject: Re: [PATCH v2] man/man7/path-format.7: Add file documenting format
  of pathnames
-In-Reply-To: <20250114125453.27520-1-jason@jasonyundt.email> (Jason Yundt's
-	message of "Tue, 14 Jan 2025 07:54:45 -0500")
+Message-ID: <rltbzsovlb3yapb5r2t7gsv3b433i7kfuo27raojktdkabhlcz@p26ufmtcjhih>
 References: <20250113213301.410280-1-jason@jasonyundt.email>
-	<20250114125453.27520-1-jason@jasonyundt.email>
-Date: Wed, 15 Jan 2025 10:01:29 +0100
-Message-ID: <87ikqglac6.fsf@oldenburg.str.redhat.com>
-User-Agent: Gnus/5.13 (Gnus v5.13)
+ <20250114125453.27520-1-jason@jasonyundt.email>
+ <4hr3zjbop6w5bsvcm4op32akjibwt4vkz52itcdjsdjpsvp7cs@nfahhxnwzlsk>
+ <r6bjj4gemyri65nlgq5pm4sro5cdkuml4d5f5nelyuebinb2u7@yuf4ducafb2v>
+ <lkualciyuk7hv7dcpcvp5xprtq3gmiscogr5lcjhvh56cia2my@bm5opv5k3adj>
 Precedence: bulk
 X-Mailing-List: linux-man@vger.kernel.org
 List-Id: <linux-man.vger.kernel.org>
 List-Subscribe: <mailto:linux-man+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-man+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain
-X-Scanned-By: MIMEDefang 3.0 on 10.30.177.40
+Content-Type: text/plain; charset=utf-8
+Content-Disposition: inline
+Content-Transfer-Encoding: 8bit
+In-Reply-To: <lkualciyuk7hv7dcpcvp5xprtq3gmiscogr5lcjhvh56cia2my@bm5opv5k3adj>
 
-* Jason Yundt:
+On Wed, Jan 15, 2025 at 12:06:10AM +0100, Alejandro Colomar wrote:
+> Hmmm, yep, let's make it pathname(7).
 
-> +The kernel stores paths as null-terminated byte sequences.
-> +As far as the kernel is concerned, there are only three rules for paths:
-> +.IP \[bu]
-> +The last byte in the sequence needs to be a null byte.
-> +.IP \[bu]
-> +Any other bytes in the sequence need to be non-null bytes.
-> +.IP \[bu]
-> +A 0x2F byte is always interpreted as a directory separator (/).
+OK, I’ll submit a new version that uses pathname(7) as the title.
 
-There are also rules about overall length.  Some pathnames cannot be
-resolved by the kernel directly, even though they exist and can be
-resolved piecewise, say using openat.
+> Makes sense.  How about a null-terminated string?
 
-There are also places with more stringent pathname limits, like the
-sun_path in AF_LOCAL socket addresses.
+The term null-terminated string still has some of the problems that I
+mentioned earlier.  Specifically, people think of null-terminated
+strings as sequences of characters.  It’s easier to understand how the
+kernel handles paths if you think of paths as sequences of bytes, not as
+sequences of characters.
 
-Thanks,
-Florian
+Also, people typically make assumptions about the encoding of
+null-terminated strings in the C programming language.  It’s reasonable
+to assume that a char * is encoded in the execution character set, that
+a wchar_t * is encoded in the wide execution character set, that a
+char8_t * is encoded in UTF-8, that a char16_t * is encoded in UTF-16
+and that a char32_t * is encoded in UTF-32.  Paths don’t necessarily
+have one character encoding, and their character encoding may not be any
+of those.
 
+> > I have a concern about programs failing hard when paths contain
+> > non-ASCII characters.  I have a lot of songs and medleys saved on my
+> > computer.  The paths for over 10,000 of them contain non-ASCII
+> > characters.  Most of those non-ASCII characters come from Chinese,
+> > Japanese or Korean characters that are in the titles of songs or
+> > medleys.  If programs failed hard on paths that contain non-ASCII
+> > characters, what impact would that have on my music collection?
+> 
+> The core utils (e.g., rm(1) et al.) are nice and work well for arbitrary
+> characters, to allow you to fix them.  But yeah, most high level
+> programs and (especially) scripts aren't so nice.  Think for example of
+> makefiles, where handling files with spaces correctly is almost
+> impossible.
+
+I agree that the core utils work well with arbitrary paths.  I’m not so
+sure that most high level programs and scripts don’t work well with
+spaces and non-ASCII characters.  Most of the high level programs and
+scripts that I personally use work fine with paths that contain spaces
+and non-ASCII characters, but I don’t know if most programs and scripts
+in general work that well.  I also agree that handling spaces correctly
+in makefiles is almost impossible which is why I don’t use makefiles for
+my own personal projects.
+
+That being said, I think that you misunderstood my two questions.  You
+told me the current state of things.  I’m not asking about the current
+state of things, I’m asking about a hypothetical future where programs
+started to “assume the Portable Filename Character Set (or at most some
+subset of ASCII), and fail hard outside of that”.  If we start making
+that recommendation and programs start following that recommendation,
+then it sounds like I wouldn’t be able to do anything with a large part
+of my music collection, and it sounds like I wouldn’t be able to use the
+symbolic links that are in my /dev/disks/by-partlabel directory.  Am I
+understanding your recommendation correctly?
