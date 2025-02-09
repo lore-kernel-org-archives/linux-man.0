@@ -1,190 +1,282 @@
-Received: from mail-ot1-f48.google.com (mail-ot1-f48.google.com [209.85.210.48])
+Received: from mail-lj1-f179.google.com (mail-lj1-f179.google.com [209.85.208.179])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 52FD9196
-	for <linux-man@vger.kernel.org>; Sun,  9 Feb 2025 00:45:36 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.210.48
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id D36AC819
+	for <linux-man@vger.kernel.org>; Sun,  9 Feb 2025 01:25:46 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.208.179
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1739061937; cv=none; b=lhnseUao89hPq5w3xjbzYWRqgyG2Zxvw5Vf4eOV9Tmxdj4GS2NJ765ycsom7BMLdDKdcv/5b3QewEPK12FTCMVB87uKA/0Z9gcanlP2LBtajna374hjW206+l7eGDEcZHY9c5RKuwQp2vK/dM7QuWpZQkbSgKi2xEW48gXDXRDQ=
+	t=1739064348; cv=none; b=XTX5kQ0N/L5g7JqTFsZjmniUuZQygWrWSp9mxmf4zYPzJj4O5nmZb6LVorvZ2YtDyab2uMdSANpwrypu5xiNYiBANl11FWzVEWeb/fbh0SJ0ObFZFdUbJnSJQ3PpaVuE8mFDhp2mxXqeizDTFE6xA0iMAXurDIEE89+jTHAq10g=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1739061937; c=relaxed/simple;
-	bh=C8F0UIef4XR8p5OU/l19O6mRvkE7a+9zrksMIjwRXvc=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=d3UTbIGNDvtfc+uaSSkpoprPP9ye19S0vz0+Z7tuiWroG1Jq//r8zvelGfPD77asPKrT4PKm2HDTOcQhHdA2CoEXG3okk0lMCM8sQGXCH4bidFCDJik/QzwxZu+CUgQHbAOEFNoUOezj+NCQLpFzHCh/at60aE9YUwzhQKPfPeo=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=MKWgc0+e; arc=none smtp.client-ip=209.85.210.48
+	s=arc-20240116; t=1739064348; c=relaxed/simple;
+	bh=WfQ/8nTX5TDYDMH4GhUgWBERFEr1hlDLllWTuSs+kJI=;
+	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
+	 To:Cc:Content-Type; b=QyvGVMDDTWpYP4qcPfJ1uOvmBaTSKZVx5qC9QdgLaXjUH1/VCoVo3nZFq7jmgsC9b2RYikqUhyHvZ0vypRWWmQy2vjpfFhnhIPExVWpte+hqnSoy5C6vA0HMMVuAfCv6OPfTrZbTLtvjC11jRqNohcGMCryEk+EPCnyfvaAu0fk=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=i6PNQLyD; arc=none smtp.client-ip=209.85.208.179
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="MKWgc0+e"
-Received: by mail-ot1-f48.google.com with SMTP id 46e09a7af769-71e3f291ad6so2369392a34.0
-        for <linux-man@vger.kernel.org>; Sat, 08 Feb 2025 16:45:36 -0800 (PST)
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="i6PNQLyD"
+Received: by mail-lj1-f179.google.com with SMTP id 38308e7fff4ca-30229d5b21cso29885791fa.1
+        for <linux-man@vger.kernel.org>; Sat, 08 Feb 2025 17:25:46 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1739061935; x=1739666735; darn=vger.kernel.org;
-        h=in-reply-to:content-disposition:mime-version:references:message-id
-         :subject:cc:to:from:date:from:to:cc:subject:date:message-id:reply-to;
-        bh=1DyD3hhFGxZD1HBW/z/bmK1LNW3IYkoGgWtK4G2unzo=;
-        b=MKWgc0+eNvIsPL0xF2JseKc1lB4htJyl1qGo8SE1bGKtXQId60VVSB0Vf/xStsLshS
-         eZqjMHVf1nrM8p1anHysEIQ347YfnL6tD53cr8qgz5oJQNRH07aCFerKaqY0gQWU8fcO
-         Bdf8gjAJs+Au50puooxX8mEDR7P+08D2uCs09kiqzhz2kwVCU6Y1tKx0nCCIH//Uzz8Z
-         vl+7oA74fXmnPMnb4sOm8k0aWN0WAD6b7FjZBGBcb3dWCH647722dnapvFglNoKjmYtb
-         o5aojyABv82OJ1vTCAwSkjq/HR3kKGv3WvATow6WNqx2TyG207MA487cGeFfWsAO49LK
-         X3Vg==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1739061935; x=1739666735;
-        h=in-reply-to:content-disposition:mime-version:references:message-id
-         :subject:cc:to:from:date:x-gm-message-state:from:to:cc:subject:date
+        d=gmail.com; s=20230601; t=1739064345; x=1739669145; darn=vger.kernel.org;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:from:to:cc:subject:date
          :message-id:reply-to;
-        bh=1DyD3hhFGxZD1HBW/z/bmK1LNW3IYkoGgWtK4G2unzo=;
-        b=Ko51MdW9dtrGkQAKiEuiAhAUD6rTXMKWihV48ynLSzuGY7q0RUckhF3PZwsvf4jXFb
-         6ahmHv2mmtbbwkZNaSiadaioCiyLSrcKHjwZiScFTSvCRLLAjcqO3D2mrGrnbraA4NMV
-         mYWPKyuljm5NIJ2pNFTW9lgIp3niu3V6OfTqSv1pkOp8uuXXd/kN/UpjiKRai5BIRlcw
-         bTWK0rzsNmM2ec1KvL6+sPVQ7fcmN4qKqSjhwVTbhXDG0zApy08iYGHuElUxz6YYvNwa
-         MDXzkCL3Zghxn3fuqZ0SAru2rWGGYIBGtj4hry87+o0Joal4a7AgQzw4CNBzulS/zAEa
-         /2rQ==
-X-Gm-Message-State: AOJu0Yzu40OACrwACCd1ZGtUKUvUyeYbR3PchM2ZjXm5wvxcwmpeCTg6
-	nqHK13mSeabQHmDq/k+K/Dz61/70JOjDKqhQgadeG8gMw45oEE96
-X-Gm-Gg: ASbGncv4sQJDeiZRwjBiZ5rrzbFUjcWim6+a5U755RzY1MxsGzM0fYu16zxi8oM047H
-	0QzdhI6F1+d96Y5B/vm5kxxoxsac5giIaC/4mYmEkVN69uFJLF9phMMeU40PsfGXu4cIPCP6EC3
-	BkuzWtjIhTeN3YYb2CO7RPsc1X4uJJc0h/kAujpjltsNVpbQ3fnjZgc/jOSdoESaCH3AmVOIsVz
-	oYxGcdOysFljgYlNLVBscRVhmfvjgn7kpg29abqQ+y8cn+k+d7Ur6BrKJeLSZMuWZ8TyLY6L0Al
-	bLtKIw==
-X-Google-Smtp-Source: AGHT+IEYYiyFTT0Qchk1aZxsiGXiyNtzE5snJmTe9ThXka+ti+RrqpYKyR98cqJ9mFN73bM/HyJyKQ==
-X-Received: by 2002:a05:6830:6404:b0:71d:eee3:fd22 with SMTP id 46e09a7af769-726b87a23edmr6085249a34.5.1739061935189;
-        Sat, 08 Feb 2025 16:45:35 -0800 (PST)
-Received: from illithid ([2600:1700:957d:1d70::49])
-        by smtp.gmail.com with ESMTPSA id 46e09a7af769-726af914f1csm1711467a34.3.2025.02.08.16.45.32
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Sat, 08 Feb 2025 16:45:33 -0800 (PST)
-Date: Sat, 8 Feb 2025 18:45:31 -0600
-From: "G. Branden Robinson" <g.branden.robinson@gmail.com>
-To: Alejandro Colomar <alx@kernel.org>
-Cc: linux-man@vger.kernel.org, Jason Yundt <jason@jasonyundt.email>,
-	groff@gnu.org
-Subject: Re: [PATCH v1] CONTRIBUTING.d/style/c: Add coding style for the
- example programs
-Message-ID: <20250209004531.bayfkwan2sr2vncz@illithid>
-References: <63bd996581c9ceedf9752852831e984c9ff00306.1739054584.git.alx@kernel.org>
- <qdcjd7falwasz4fakmt6mraw6omkt3gdhfi5o4teigxwobtoqq@ga5bgz26yoas>
- <20250208234619.a3zfan43cawwhae2@illithid>
- <sxeh5c2rcyyp7eakkmjsxvdhiugw34ytqe3rqk3khi6mjpuikn@qglzlxykjlvs>
+        bh=ZMBmTl+6KkL8RRHvrPgesW1wxJUhGrAhT3lnGHkJ+Ug=;
+        b=i6PNQLyDWll65LT5HdpGnlYgKVbEV0NWWQJzkYPY2cbTex1wiMfedJc+MkaZpf3gtC
+         N07LxSKPKz5rJoc6lfGVgQsCjgYkMqzHpRZlZ3hTpOvhV7RfYThpkZweq3WM4WqY2jiy
+         cI1XWiPgoXdbJ6gn9BsT9oc3WqWs8uDxJfFfy7ArbZGKumnRdUTvL/siPDWugPvbT/G8
+         s9jmJ0WMtIj8su25LcQHj/CKGouivr7myjN8fUHWI2H7IVKL6onZRz6x5HK3agV84dDO
+         /9fJgKitY9gmWpufIcr0KM0TTbxAyh5PoO26jBfEeStext/iD5c8hHJ7jWQaBushx/X5
+         QpGA==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1739064345; x=1739669145;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
+         :subject:date:message-id:reply-to;
+        bh=ZMBmTl+6KkL8RRHvrPgesW1wxJUhGrAhT3lnGHkJ+Ug=;
+        b=cjBCVw8Ohgjz9up5QU7+lAFUXeE9lPIIxDOHzBqVuUIKV8MHKRtcNEBo8+6zUWryd3
+         rQ+2+FWirUYlpRpVDUEWsknjqs0usXPubQ0ck0vu0rfn4gSiOzq0Ptk+06X/VKUS72Ep
+         HX3N2LBRNbwVJvssJ/CYGwUd3nRLtWCPiAsIbX3gp3fuQrz/0cHyWMTx3UpGTKgvNQ0z
+         wsgAG5fxY3rhTl+Y7pPxZFWRENU9ZQ1pcrq6tVcGQOsAaDIRZZRqE7DrNKmo/VbN3Ag/
+         RtK24OPDLw3BwRxhBul/Agvbmzzelfk86PDKU8u7rJcL9Z2n0qcFLFy5GLEJ9K6bZbsh
+         9Dfg==
+X-Gm-Message-State: AOJu0YxYO6Lo2cpQje+pp1ScnBRQkD4aQt8umYngvnaYUVdCP1hIBPpG
+	NI5YbCHtMhY6lgNHI9Bm2fi2/xuqJ2COFvUFYfcLSMfBxKpeqOStJx1sJXxf7ojoIhCvx1ZS34+
+	R9OR/Vj5sJ6hEaHNuG8ZUK6jbUhxpVA==
+X-Gm-Gg: ASbGncvLlxMVJM42hSp55naGy6go1EMwYj2zqu74hVA8gLd/Ifqcul2Kz3T/dXcQg8T
+	NoX1x+/xhOHg6yRCL5pF7db/L8GyHMNq9jSS6LKHzU3knEa02jVxFfqzLl7Z/KQ9xMVXSI8qC/s
+	atROwuaFsKQ1C/5QSjW2G0iiaNbnE=
+X-Google-Smtp-Source: AGHT+IGS1cIx9dlWm6EI1mNZgB/RAa2aG+c1qDK6NbaxQXB/7bWCAKTFJMtYYftJ/bRCIz5R/YmkUcMDBYXW3haPjXc=
+X-Received: by 2002:a2e:9f4b:0:b0:308:e3ee:8773 with SMTP id
+ 38308e7fff4ca-308e3eea069mr7628341fa.17.1739064344458; Sat, 08 Feb 2025
+ 17:25:44 -0800 (PST)
 Precedence: bulk
 X-Mailing-List: linux-man@vger.kernel.org
 List-Id: <linux-man.vger.kernel.org>
 List-Subscribe: <mailto:linux-man+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-man+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: multipart/signed; micalg=pgp-sha256;
-	protocol="application/pgp-signature"; boundary="7du5bxtrjbv6b2vq"
-Content-Disposition: inline
-In-Reply-To: <sxeh5c2rcyyp7eakkmjsxvdhiugw34ytqe3rqk3khi6mjpuikn@qglzlxykjlvs>
-
-
---7du5bxtrjbv6b2vq
-Content-Type: text/plain; protected-headers=v1; charset=us-ascii
-Content-Disposition: inline
+References: <c6990f9c922bd8b842589c700efde8f7a00ab68b.1739046395.git.mark.hsj@gmail.com>
+ <qrlytrdkrmaebyntohfmnczxjgzdoky3jxtilghgxe6ookw5qk@qfkxpzlu3bbf>
+In-Reply-To: <qrlytrdkrmaebyntohfmnczxjgzdoky3jxtilghgxe6ookw5qk@qfkxpzlu3bbf>
+From: Mark Harris <mark.hsj@gmail.com>
+Date: Sat, 8 Feb 2025 17:25:33 -0800
+X-Gm-Features: AWEUYZn3RXbc9Rfg2rJnMuyuZKA6d1LgZlsI2fgHI57Pne2BT2kUYPfjUc7sxIU
+Message-ID: <CAMdZqKHLX0LeHNxKxW94LugHmrk52LrG3SOLG9ObzYzED+hwvg@mail.gmail.com>
+Subject: Re: [PATCH] man/man3/timespec_get.3: Correct return value and clarify description
+To: Alejandro Colomar <alx@kernel.org>
+Cc: linux-man@vger.kernel.org, =?UTF-8?B?0L3QsNCx?= <nabijaczleweli@nabijaczleweli.xyz>
+Content-Type: text/plain; charset="UTF-8"
 Content-Transfer-Encoding: quoted-printable
-Subject: Re: [PATCH v1] CONTRIBUTING.d/style/c: Add coding style for the
- example programs
-MIME-Version: 1.0
 
-Hi Alex,
+On Sat, Feb 8, 2025 at 1:03=E2=80=AFPM Alejandro Colomar <alx@kernel.org> w=
+rote:
+>
+> Hi Mark,
+>
+> On Sat, Feb 08, 2025 at 12:41:42PM -0800, Mark Harris wrote:
+> > - 0, not -1, is returned for an unsupported time base or error
+> >   (C23 7.29.2.6, 7.29.2.7; POSIX.1-2024 line 74358).
+>
+> LGTM.  C23 7.19.2.6p4 says
+>
+>         If the timespec_get function is successful it returns the
+>         nonzero value base; otherwise, it returns zero.
+>
+> > - Clarify that any supported value of base is always nonzero (i.e.,
+> >   there is no overlap between the two return value cases that may
+> >   require errno or some other source to disambiguate)
+> >   (C23 7.29.2.6, 7.29.2.7; POSIX.1-2024 line 74357).
+>
+> LGTM.  The paragraph quoted above confirms this.
+>
+> > - Clarify that timespec_getres(NULL, base) is a valid call to check
+> >   whether the specified time base is supported (C23 7.29.2.7).
+>
+> LGTM.
+>
+> > - Clarify that the resolution for a particular time base is constant
+> >   for the lifetime of the process (i.e., there is no need to retrieve
+> >   it repeatedly) (C23 7.29.2.7).
+>
+> LGTM.  C23 7.19.2.7p2 says
+>
+>         For each supported base, multiple calls to the timespec_getres
+>         function during the same program execution shall have identical
+>         results.
+>
+> > - Calls to these functions are not technically equivalent to any
+> >   clock_* function call; at least the return value will be different.
+>
+> It would be interesting to clarify if they are equivalent except for the
+> return value.
 
-At 2025-02-09T00:59:50+0100, Alejandro Colomar wrote:
-> On Sat, Feb 08, 2025 at 05:46:19PM -0600, G. Branden Robinson wrote:
-> > _If_ you advise the use of tab characters _only_ when filling is
-> > disabled, as, apropos of the Subject line, is the case in
-> > (displayed) code examples, you should be fine.
->=20
-> Yes, I'm proposing using tabs exclusively within EX/EE.
->=20
-> > However, you will get 8 character cells per tab stop and I am _not_
-> > sure it's portable to expect, or to try to configure, anything else.
->=20
-> Are you sure?  I'm getting 5 characters per cell, which is what has
-> prevented me from doing it more happily.  I would have done it already
-> if I had seen 8 chars-per-tab.
+The clock_* functions also specify that errno is set to certain values
+on error, but the timespec_* functions do not guarantee this.  So
+instead I just state that the time and resolution are the same.
 
-Good thing I looped in the groff list; this way more people got to see
-me make a fool of myself.
+>
+> > - The ERRORS section is removed, because it states only what is true
+> >   for every function that does not state otherwise (i.e., errno might
+> >   be affected by underlying system calls).
+>
+> LGTM.
+>
+> > Signed-off-by: Mark Harris <mark.hsj@gmail.com>
+>
+> Please add appropriate tags:
+>
+>         Fixes: 7bda5119fe5e (2024-09-08; "timespec_get.3, timespec_getres=
+.3: Add page and link page")
+>         Cc: =D0=BD=D0=B0=D0=B1 <nabijaczleweli@nabijaczleweli.xyz>
+>
+> > ---
+> >  man/man3/timespec_get.3 | 62 ++++++++++++++++++++++++-----------------
+> >  1 file changed, 36 insertions(+), 26 deletions(-)
+> >
+> > diff --git a/man/man3/timespec_get.3 b/man/man3/timespec_get.3
+> > index 8c8d45d33..7993e138a 100644
+> > --- a/man/man3/timespec_get.3
+> > +++ b/man/man3/timespec_get.3
+> > @@ -18,37 +18,47 @@ .SH SYNOPSIS
+> >  .BI "int timespec_getres(struct timespec *" tp ", int " base );
+> >  .fi
+> >  .SH DESCRIPTION
+> > -.I timespec_get(tp, TIME_UTC)
+> > -is defined as
+> > -.IR "clock_gettime(CLOCK_REALTIME, tp)" .
+> > +The
+> > +.BR timespec_get ()
+> > +function stores the current time, based on the specified time base, in=
+ the
+> > +.I struct timespec
+>
+> I would say
+>
+>         .BR timespec (3type)
+>         structure
 
-You're right.  Here's why.
+Ok.
 
-https://git.savannah.gnu.org/cgit/groff.git/tree/tmac/an.tmac?h=3D1.23.0#n1=
-62
+>
+> We usually say XXX structure in the manual pages, instead of struct XXX.
+> Just for consistency, I'd follow that.
+>
+> > +pointed to by
+> > +.IR res .
+> >  .P
+> > -.I timespec_getres(res, TIME_UTC)
+> > -is equivalent to
+> > -.IR "clock_getres(CLOCK_REALTIME, res)" .
+> > +The
+> > +.BR timespec_getres ()
+> > +function stores the resolution of times retrieved by
+> > +.BR timespec_get ()
+> > +with the specified time base in the
+> > +.I struct timespec
+> > +pointed to by
+> > +.IR tp ,
+> > +if
+> > +.I tp
+> > +is non-NULL.
+> > +For a particular time base,
+> > +the resolution is constant for the lifetime of the calling process.
+>
+> LGTM.
+>
+> >  .P
+> >  .B TIME_UTC
+> > -is universally guaranteed to be a valid
+> > -.IR base ,
+> > -and is the only one supported under Linux.
+> > -Some other systems support different time bases.
+> > +is always a supported time base,
+> > +and is the only time base supported on Linux.
+> > +The time and resolution in this time base is the same as that retrieve=
+d by
+>
+> Maybe s/is/are/ and s/that/those/?
 
-My days of furious hacking on the man(7) macro package seem mostly to be
-in the past, and I'm spending much more time on GNU troff itself of
-late.  So I insensibly crafted a demonstrator for the formatter's own
-behavior, not incorporating that of the macro package.
+Ok.
 
-> Why am I not seeing 8-char indents?
+>
+> > +.I clock_gettime(CLOCK_REALTIME, res)
+> > +and
+> > +.IR "clock_getres(CLOCK_REALTIME, tp)" ,
+>
+> I'd use a non-breaking space:
+>
+>         .I clock_gettime(CLOCK_REALTIME,\~res)
+>         and
+>         .IR clock_getres(CLOCK_REALTIME,\~tp) ,
 
-Because the package redefines the tab stops.
+Ok.
 
-This rears the head of the portability beast a bit higher.
+>
+> > +respectively.
+> > +Other systems may support additional time bases.
+>
+> LGTM.
+>
+> >  .SH RETURN VALUE
+> > -On success,
+> > +.BR timespec_get ()
+> > +returns the nonzero value
+>
+> I think I'd remove "value".  What do you think?
 
-Famous Original Doug's man(7) in Seventh Edition Unix also set the tab
-stops at every half-inch.
+Ok, if you think that is sufficiently clear I will remove "value" and
+s/represents/is/ (below).
 
-https://minnie.tuhs.org/cgi-bin/utree.pl?file=3DV7/usr/lib/tmac/tmac.an
+>
+> > +.I base
+> > +if it represents a supported time base
+> > +and the current time was successfully retrieved, or 0 otherwise.
+>
+> D'oh.  Someone designed another non-standard return value.  <facepalm/>
 
-So does Heirloom Doctools.  So does mandoc(1).
+I agree that the return value is unusual, but of the dozens of
+interfaces to get high resolution time we have finally stumbled onto
+one that Linux, BSD, macOS, and Windows could all agree to support (at
+least for TIME_UTC), and the unusual return value is less ugly than a
+bunch of #ifdefs.
 
-Neatroff doesn't ship its own man(7) implementation, and Plan 9 and
-Solaris 10 troffs, and whatever other System V troffs still exist,
-I'll wager have no relevance to the Linux man-pages project.
 
-Fortunately grotty(1)'s different idea of how wide a tab stop is doesn't
-pose a problem.  It renders a page as a rectangular grid of character
-cells, populates those cells where the formatter (which knows the
-document's tab stops) tells it to, then, if it's been given the `-h`
-option, it uses 8-column tab stops to optimize output.  But, provided
-the Unix terminal driver's tab stops are also configured to every 8
-columns,[1] this causes no alteration of the output.
+ - Mark
 
-This works out okay because there's no such thing as a "tab stop" in the
-formatter's page description language.
-
-This half-inch tab stop default would seem to foreclose the possibility
-of using hard tabs for code examples in your man page sources, unless
-you want to depart from Ingo's and my man(7) portability advice
-regarding the use of formatter requests.
-
-Regards,
-Branden
-
-[1] ...which is almost always true, and while traditionally this was
-    configurable on Unix systems,[2] it's possible that userland and/or
-    terminal driver support has bitrotted to nonfunctionality on
-    Linux-based systems, or was never implemented in the first place.
-
-    See subsection "Tabs and Initialization" of terminfo(5).
-
-[2] ...because of the long shadow cast by typewriters (the original Unix
-    terminal devices) and the corresponding more "manual" and
-    labor-intensive table composition procedures they required.
-    Similarly, newspaper-style page composition with "cut" and "paste"
-    operations involving scissors and adhesive are fading from memory--
-    as is the Aldus PageMaker product that largely killed the practice.
-
---7du5bxtrjbv6b2vq
-Content-Type: application/pgp-signature; name="signature.asc"
-
------BEGIN PGP SIGNATURE-----
-
-iQIzBAABCAAdFiEEh3PWHWjjDgcrENwa0Z6cfXEmbc4FAmen+qQACgkQ0Z6cfXEm
-bc7VKw//ezLBVd2C3RW1Lj0EX5yFa2/Sgvb/BodwQzWRshk14yfBFhXdNdOVl+6p
-t80DBMUzhc+sTifmWbEwPiym+UsxJBpXT7fO/Aga6Ne5bCtLBvdJSqaKIBHGm2Aw
-0HWy9GeoUKAoTLHDKvbZUQWCf3zhVfJ9v5fG+BIilXqn/agpiV/CxvHE5VV2PZaS
-rwedc4DaLLytMapXIj/hY30rQRb2hqQkybb75NVCZdInv+Z2TMk9vIBVw1RSGJ6I
-4ZYNLFT3oZlsYEbLGSt8W5KjlFsJv//oH1VLXwIPQlXDKgG6KLjt+46XvbkWEMoO
-Oncdp6RKXQ4lGWictD5gf76I3Mc2Uh9DDUjgQwtvpvOXwVG0nfo2SO3ZHsVTXTUk
-E/h/ZnUQ+adG6JcKZE/o3WTjlL4mQ9AhxlxHttH4S4jJrwBCxwiirG7kR+2x+m5N
-KthWCpABkEFCWUBodyGsK3nVHK6iRExvQmMdlWDa6V6eRJVarw2SxqCOEY9Gew/D
-/ukFL2zLkXr/G8Ktinl7CDYBx4EYNs8vxbUQu6tIDjLUH0YAVGxPjMUlXD3LSdzv
-nQW1f2+8GMsLhYSCZ/ddOrqRw+cDhSh5s5AxWEMTh0Lh5DtLlpZQ++SW1CdE1seA
-VTwgmbw84b8N2kS0XFI/NqE30/dNli0D8ZQScNTmTxxVkRUe4TY=
-=TaFC
------END PGP SIGNATURE-----
-
---7du5bxtrjbv6b2vq--
+>
+>
+> Have a lovely night!
+> Alex
+>
+> > +.P
+> > +.BR timespec_getres ()
+> > +returns the nonzero value
+> >  .I base
+> > -is returned.
+> > -On error,
+> > -\-1 is returned.
+> > -.SH ERRORS
+> > -Some C libraries
+> > -.I may
+> > -set
+> > -.I errno
+> > -to the same value as would be set by
+> > -.BR clock_gettime (2)
+> > -or
+> > -.BR clock_getres (2).
+> > -Neither C nor POSIX specify this,
+> > -but they don't really indicate it shouldn't happen, either.
+> > -Don't rely on this.
+> > +if it represents a supported time base, or 0 otherwise.
+> >  .SH ATTRIBUTES
+> >  For an explanation of the terms used in this section, see
+> >  .BR attributes (7).
+> > --
+> > 2.48.0
+> >
+>
+> --
+> <https://www.alejandro-colomar.es/>
