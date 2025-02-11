@@ -1,126 +1,99 @@
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-pj1-f54.google.com (mail-pj1-f54.google.com [209.85.216.54])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 76D132505BB
-	for <linux-man@vger.kernel.org>; Mon, 10 Feb 2025 22:17:48 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 7EEE81F8AE2;
+	Tue, 11 Feb 2025 15:18:49 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.216.54
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1739225868; cv=none; b=WplM61PISrU4SYo9gTzXxoqlRyWVgjBZDsMToeR0sYlZuWbzX//tLQtHGkG4zVnAwfWOwar16sntI7w0oyucdttDXI5SsvvMz6PtxpOlmxPfDwg+pbwg7MPyILh987whRFqGBFxLhW8iblSMG7w9H6jt97jI19zPv6za/8XChq4=
+	t=1739287130; cv=none; b=ME4awv6HNQfTuTDQQZw943Cgu6clKvDBmx8GUIEPHExDT71TDemxPY/elTZ2Tl2YjMJmBaFdTLKctBlc7in9IbFn5w2j2JE07u8rXBFY/sKGyluLW0qK4Kc4Pzsi1Ts4eTAJc2xVYdHBe56+3IXoLpAN383ts+YFHz4VL0Ztn5E=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1739225868; c=relaxed/simple;
-	bh=QCz9nEmO8iNuUSMqlImlcMfIarRyqseWM3u6WSfa0r4=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=lvYXQki4qG+7zmFEgEz+Fc+bOUElUiLC5I8Qd6RLH5m1cNCo/yUwn3m2XD3rbpY+qe8N1vUmLxRVJViRTYOP5fjILiy19iWQVW4P0KtSE3af8qd1W8SLC/3dRTmGrk4Y6usU7CXd/jvXveECCIuPr52lcAd1TB5sbNe4KoXI/hQ=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=tr6kXfro; arc=none smtp.client-ip=10.30.226.201
+	s=arc-20240116; t=1739287130; c=relaxed/simple;
+	bh=WvJeLkplpOnW2HwevNTVcMQld9wJtdh1MKgRLdFMZDI=;
+	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
+	 To:Cc:Content-Type; b=m3n8ep+6HSVWD+SLisJND/5N2JKuYPd+pXMvyG1LeKWawG2koTl9aDQRxSV2xlEVdeZPJi/mVTslnPAOByHNCgISW5s1Esz1MFDMov6zFIJ0UA4qDiF5Sx0+N7TixrfkyOA1w511UKTJQYuNfsNcZbZoh+/6BV5W8ztJ39BX/g0=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=LbSo3RE6; arc=none smtp.client-ip=209.85.216.54
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="tr6kXfro"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id A35FEC4CED1;
-	Mon, 10 Feb 2025 22:17:47 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1739225868;
-	bh=QCz9nEmO8iNuUSMqlImlcMfIarRyqseWM3u6WSfa0r4=;
-	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-	b=tr6kXfroA0NBHV/8NjHo+WeW5bzmh48Uqg1qIR2hwtJORC7Hurq3O5G45qubPSinx
-	 hQXNrxWu5RlqiriPzvSWh6UJpexEATHAjvUehUyDQQuGTwuqMwYzQIEWqT75ljeWYC
-	 mygEu1LpnqVJDh1fOlP/jZYqdHdB3vThb6OzPiJ+PMnGm/EcOdvQNW5GF4LWCnXdpJ
-	 cQbrAqz2IMu992Dj1Ijl3lCW295YlyqXV42wpupwBoFyHE085sX+b4T8ARVe+yZv+Q
-	 6Q2cbkesx1tJDTQCEsNRTm754gO6mz9Jb9u6fGTN9vJf45Vkp1QmMRnzaQOO/dbEwT
-	 k6v+SoeIGB3iQ==
-Date: Mon, 10 Feb 2025 23:18:24 +0100
-From: Alejandro Colomar <alx@kernel.org>
-To: enh <enh@google.com>
-Cc: linux-man <linux-man@vger.kernel.org>
-Subject: Re: _exit.2
-Message-ID: <hcskguffgnwgcvkonmwyj46s5icp2vwge2j54x3hdzglxyuvu6@3z7k7zhqsqa5>
-References: <CAJgzZooL9dCC+zXXZVpntRSPtPWbHR0vXYOMrVp-tJiE=JXaaw@mail.gmail.com>
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="LbSo3RE6"
+Received: by mail-pj1-f54.google.com with SMTP id 98e67ed59e1d1-2f2f5e91393so1498425a91.0;
+        Tue, 11 Feb 2025 07:18:49 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20230601; t=1739287129; x=1739891929; darn=vger.kernel.org;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=WvJeLkplpOnW2HwevNTVcMQld9wJtdh1MKgRLdFMZDI=;
+        b=LbSo3RE6tjSAc8GCCKtEvzIDUIkzfTSXsC5A1f8W6XAmYV3A3nQRY55xaPYeEa84Qx
+         2ap/OFJVVJD4hCaAyDPv7yZK//bIqhDBoGbg9tSiKNJdd/DSCrpiknRBu9t75jeZ+k3f
+         Tn2vbl8z4QO5feZ3124VXdoxxEmR/PlttMPWANyrgXgQR8h1yrkK3ySm8OWzqRQ0Vnuu
+         Xp+UMGBDV9fSXhoJba0SyOaT3ERK2zp/N8le+qfb2yka3anV533JoYwK0r/Mw89rH56h
+         nv9GFPEiiQrkHcJCG75uWFTb6XhsMemRDregKhoTwAii9gX0+Dr3IY+AwKNviLn8nR3I
+         7J2w==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1739287129; x=1739891929;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
+         :subject:date:message-id:reply-to;
+        bh=WvJeLkplpOnW2HwevNTVcMQld9wJtdh1MKgRLdFMZDI=;
+        b=ivm2us3Dwp/mDAglGB1XSqPjtb8jJP1Op48SMmVV5UI69wtvJodVjMOsz2XaxafUa7
+         J8tCTWuv4gMejw0w7vba4Lo5Jxb5B7PqqPMnnMZX1eVRYun7fRB0wRCJHDNKfSlSaMnE
+         GmngEEM7e3ig6esVSP4bghhzhVSYsxqt7tjJ+MUI0TGdZAlNArBpsnMZr3YzEXOhfAgM
+         cRWXwSZd9amPCI4ZluOqNo/P8Z0c+H+dHBHmTcVNHLKdyqtXTdpykyXFhU9LLO7NZGoF
+         ZvmawNBtYqJjgYqh+ThxsozXRv3P1qOZtwOI2LbbuGpsonkgIa6I/hcxgaB+S5XYcSQW
+         ehwA==
+X-Forwarded-Encrypted: i=1; AJvYcCUmdcBHogrkq6ureBQQ9GojX+PDmuThB45QD9RPgDd6RBPogWIFM64q1PtPv/blSmtyfv8+hhrrXzebYlE=@vger.kernel.org, AJvYcCXDStBn3SbJC0ynMMj29cDWY37Etbji52j5NMx2Mgdy+L4w1A/Hb/p9O1r/Nidok2FO9pGbvzpGi/HaTpTveNE=@vger.kernel.org, AJvYcCXfUDvBRlaD36YpEbT8RVyrDRB8QcAFI7y4Q9sfY+G8UTIZGu+6+KVtx5N6gcl/8qf0jo+g352jW3xK@vger.kernel.org
+X-Gm-Message-State: AOJu0YziuligqRD0nKmY+uCos61kQO2MObkj2idNRR/dc5p5neazezV0
+	hZ175NwfXrl5G2FGdr0ErXsQKx5z6/zUHD15BZ27mKia+0qAVF6v39SFxcPK9c+lCjSR8jassNd
+	ghmH1hvp8XILdhL3N/6u/ugBnIZ4=
+X-Gm-Gg: ASbGncvAXBJWAE1sGVw6+oJn/Cam99XLcLb7E+0YbShghKyeHpSZbsKiNQruV2bJCU4
+	4297t1jKLh81/ZAyASKlsqKiamphA+dca4IQ7Ng3DEAaJs1ONunA5EXt+E0VtKo6BiIwcnvlq
+X-Google-Smtp-Source: AGHT+IGzJkzVrpMALwsxqLHKqev6ECJUX+YW82mjcNjNCg8Wu8nBA+8vD/kiTP2MhGhH35rWwsHBxm0QfPgIBCcXiK0=
+X-Received: by 2002:a17:90b:3891:b0:2fa:17d2:158 with SMTP id
+ 98e67ed59e1d1-2faa490a9c4mr1792843a91.0.1739287128622; Tue, 11 Feb 2025
+ 07:18:48 -0800 (PST)
 Precedence: bulk
 X-Mailing-List: linux-man@vger.kernel.org
 List-Id: <linux-man.vger.kernel.org>
 List-Subscribe: <mailto:linux-man+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-man+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: multipart/signed; micalg=pgp-sha512;
-	protocol="application/pgp-signature"; boundary="qnqtohsnngozsydp"
-Content-Disposition: inline
-In-Reply-To: <CAJgzZooL9dCC+zXXZVpntRSPtPWbHR0vXYOMrVp-tJiE=JXaaw@mail.gmail.com>
-
-
---qnqtohsnngozsydp
-Content-Type: text/plain; protected-headers=v1; charset=utf-8
-Content-Disposition: inline
+References: <20250210-aligned-alloc-v4-1-609c3a6fe139@gmail.com>
+In-Reply-To: <20250210-aligned-alloc-v4-1-609c3a6fe139@gmail.com>
+From: Miguel Ojeda <miguel.ojeda.sandonis@gmail.com>
+Date: Tue, 11 Feb 2025 16:18:35 +0100
+X-Gm-Features: AWEUYZnC3aCDrPsPnwgIWLOJD4mf_4uv6coex7poBSP5UJ65YitdeiLOgh1U4bU
+Message-ID: <CANiq72n2J5N1c=-PV+-2n71WsmzWy+HH6K_YdobyWK2wYx0A-g@mail.gmail.com>
+Subject: Re: [PATCH v4] rust: alloc: satisfy POSIX alignment requirement
+To: Tamir Duberstein <tamird@gmail.com>
+Cc: Danilo Krummrich <dakr@kernel.org>, Miguel Ojeda <ojeda@kernel.org>, DJ Delorie <dj@redhat.com>, 
+	Eric Blake <eblake@redhat.com>, Will Newton <will.newton@linaro.org>, 
+	Paul Eggert <eggert@cs.ucla.edu>, Alex Gaynor <alex.gaynor@gmail.com>, 
+	Boqun Feng <boqun.feng@gmail.com>, Gary Guo <gary@garyguo.net>, 
+	=?UTF-8?Q?Bj=C3=B6rn_Roy_Baron?= <bjorn3_gh@protonmail.com>, 
+	Benno Lossin <benno.lossin@proton.me>, Andreas Hindborg <a.hindborg@kernel.org>, 
+	Alice Ryhl <aliceryhl@google.com>, Trevor Gross <tmgross@umich.edu>, rust-for-linux@vger.kernel.org, 
+	linux-man@vger.kernel.org, linux-kernel@vger.kernel.org
+Content-Type: text/plain; charset="UTF-8"
 Content-Transfer-Encoding: quoted-printable
-From: Alejandro Colomar <alx@kernel.org>
-To: enh <enh@google.com>
-Cc: linux-man <linux-man@vger.kernel.org>
-Subject: Re: _exit.2
-References: <CAJgzZooL9dCC+zXXZVpntRSPtPWbHR0vXYOMrVp-tJiE=JXaaw@mail.gmail.com>
-MIME-Version: 1.0
-In-Reply-To: <CAJgzZooL9dCC+zXXZVpntRSPtPWbHR0vXYOMrVp-tJiE=JXaaw@mail.gmail.com>
 
-Hey Elliott!
+On Mon, Feb 10, 2025 at 3:55=E2=80=AFPM Tamir Duberstein <tamird@gmail.com>=
+ wrote:
+>
+> Fixes: dd09538fb409 ("rust: alloc: implement `Cmalloc` in module allocato=
+r_test")
+>
 
-On Mon, Feb 10, 2025 at 03:08:46PM -0500, enh wrote:
-> currently _exit.2 has:
->=20
-> STANDARDS         top
->        _exit()
->               POSIX.1-2008.
->=20
->        _Exit()
->               C11, POSIX.1-2008.
->=20
-> HISTORY         top
->        POSIX.1-2001, SVr4, 4.3BSD.
->=20
->        _Exit() was introduced by C99.
->=20
-> the C99 for _Exit() is correct (so the C11 is wrong), and _exit() was
+Hmm... The newline issue is still present in newer series you are
+sending. Maintainers need to fix this manually, so please fix it on
+your side.
 
-In STANDARDS, I list the current version of standards that provide a
-function.  Thus, I need to update most entries to say C23.  Give me some
-time.  :)
+> Acked-by: Danilo Krummrich <dakr@kernel.org>
 
-In HISTORY, I document the first version of each standard that provided
-a function (thus, C99 is appropriate there).
+I understand that you re-picked the v2 ack, since it is (at least the
+code) similar again now, right?
 
-> in POSIX before 2008:
-> https://pubs.opengroup.org/onlinepubs/7908799/xsh/_exit.html --- but
-> then maybe i misunderstand the difference between STANDARDS and
-> HISTORY because i don't really see why both exist here. is STANDARDS
-> meant to be the _current_ standards? (in which case it's still wrong,
-> and should be C23?)
+Thanks!
 
-Yep.  I should revise all the references to C11 to C23, and POSIX.1-2008
-to POSIX.1-2024.  I'll need to sit down and check all functions in the
-standards to see if anything changed for any of them, so it'll take some
-time.  I welcome patches for that, if anyone had the time to check any
-of them.  :-)
-
-
-Have a lovely night!
-Alex=20
-
---=20
-<https://www.alejandro-colomar.es/>
-
---qnqtohsnngozsydp
-Content-Type: application/pgp-signature; name="signature.asc"
-
------BEGIN PGP SIGNATURE-----
-
-iQIzBAABCgAdFiEE6jqH8KTroDDkXfJAnowa+77/2zIFAmeqeykACgkQnowa+77/
-2zL7ZQ//bEMJfwE036fUs9Q8zLPIOHervaglxrQQoLhlK6ViBc0vz2pM8TysMJg2
-1/ZxTBTXNx0R6kmt6rLtip6YGXmmkbbdNdCeaKjce4RK01igZMiU+8WERPzTToqF
-g0f11vYozMuQEt3l/asROX3aawSDVd2QuZJkbovS757j6QWMBWRfV0aWqd2XZ1ZS
-8USwtwTyvbiGr8T24J3o9zWNdp1FOdepwRbccm07DGNwox5QgEJFNiNL7KODdSKm
-ebSUSZm2yg7wEUXAXfetWPUpopP5p6/98u2+X05yp1voMrkhTtM0iaTgCE+AVWlR
-TdaVxWDdO1naSWEJQIrFWkqpTxDuEoY0YsIxrqzgXdopAndYi5/2HL7T795b6ER6
-SxIlfpFkbQJGvAbwvxHzwVRifXgmyIiAdMg6hl/JeTDmN1+2nZc1hMSYzJ1LZbev
-8K7bFU0vlhNYyEd0XHij+7l83Rg6jm9sDHOVoXcQAjGSiWNpMaCmMy5qp1j+QXhO
-qdoIdaXvIRU+tubSfeAcXWvktfeBrGPXTroELvmYjtvmeA3WHYt4XEDgqVsz2jf2
-tyBJRjXQWiN1mbI9x/pjedo7j8L9meA06ZGRGJoRogm2Pd2c4MgIm7U9PU+aZkin
-Sf7/im4mFYDSaxPJ/T1YwHUiCsNdD9Sii1pS0+w9ReBCHikBc14=
-=BaBj
------END PGP SIGNATURE-----
-
---qnqtohsnngozsydp--
+Cheers,
+Miguel
