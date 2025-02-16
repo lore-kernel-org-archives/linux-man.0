@@ -1,37 +1,37 @@
 Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id E28779454
-	for <linux-man@vger.kernel.org>; Sun, 16 Feb 2025 20:03:02 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 7ABB618DF6B
+	for <linux-man@vger.kernel.org>; Sun, 16 Feb 2025 20:24:20 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1739736183; cv=none; b=R7WrwPEzwBT7pyIEdkHI6IZfLmGyINxpuHCQkSRGYQCajq5+01j/JoBio3ERw3VQ85yi0qERGemgjxpJG/7qFF1OIPwKBQ8SVHc1vq16nJB+ZTmz94nS8hGrZ+rsVpDmocAH85myqlmC5GUfciM7f5jqIo3C8mgEhywtaGfzwqw=
+	t=1739737460; cv=none; b=X8DPE0HxV/woE6OgC+zi/VZkomipFRafCGMWL/2+gf9L/E0Bln3yAi4DN9p0ewK6u5frV21lxC3ANkoXgecxvrje5/Tz2TamkXJB/7WsCpqrV58iBT1oxpa+wz6tx65oPVwgcCt/0s1YMCcE7XxWwqobSs/GnwWa1zbIOmVXhF4=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1739736183; c=relaxed/simple;
-	bh=DmxMjD/F8RGhoD9GX5LCZybU9vwC0Q/vDMm5lpupvmw=;
+	s=arc-20240116; t=1739737460; c=relaxed/simple;
+	bh=X96kU4CaW2w01p3tTbj+ZQ6siNgxCFk5BfIO0Vubnak=;
 	h=From:To:Subject:Date:Message-ID:In-Reply-To:References:
-	 Content-Type:MIME-Version; b=CMI3oBryg2eRyvIZ672KXZixJrkWpep8taLxLaiJ/yQIOpg6RbX63s4kWNTPaZ0M6qp+qmlTk75254kR2Er/tKyB1k7D42d+X4FDULMiDnqjm20/6ECCyy5qXgDtq41dAIznaeCL7lP9Oe1EwPaUbjotBJBLBTFblOY89u1jpHw=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=L5qUMm13; arc=none smtp.client-ip=10.30.226.201
+	 Content-Type:MIME-Version; b=C2YjVsw1iwCqUd5LjvHwYREX175qFIXhc2U1PrpStY4NqDa04Qj/QOe7jLrUAueg6EbGElsZy4oTEPL8QmPTHkEUOBwkfOFA4w/q0wmvBKtgTDGqsRd9utzT5B3bXN8faA1W4kHvF4ixpO+6eqs3Fdym39bo8hTnvhnTjBSUha8=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=W5MRrA1J; arc=none smtp.client-ip=10.30.226.201
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="L5qUMm13"
-Received: by smtp.kernel.org (Postfix) with ESMTPS id 60C19C4CEDD
-	for <linux-man@vger.kernel.org>; Sun, 16 Feb 2025 20:03:02 +0000 (UTC)
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="W5MRrA1J"
+Received: by smtp.kernel.org (Postfix) with ESMTPS id D68EFC4CEDD
+	for <linux-man@vger.kernel.org>; Sun, 16 Feb 2025 20:24:19 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1739736182;
-	bh=DmxMjD/F8RGhoD9GX5LCZybU9vwC0Q/vDMm5lpupvmw=;
+	s=k20201202; t=1739737459;
+	bh=X96kU4CaW2w01p3tTbj+ZQ6siNgxCFk5BfIO0Vubnak=;
 	h=From:To:Subject:Date:In-Reply-To:References:From;
-	b=L5qUMm138rtKbN3ABXF+AqCm8rSaQq/uXIzNv8ep4qe5uoZpuWgKwsTMdl/Gf6z5X
-	 9/5Rgc9NJFDJCAUEM1EZqfj0QPnEehBsJwnrQ9qijbL3tOJpngFjJe7mz1IKKe7ozf
-	 sqJMyP3QBBAE51DB4CuiNDJQBM1axTXbybbCzm8kI3khQhV8s5qvw10VI9YZSZDs0K
-	 t1AGaBzG/4hbQR+yUOaBX1sSKw0tYP6WCpJg3YqJqrCgztiNtVFaH22E3DR5HMlu+H
-	 Z80V42yii+Uxz5DVzEXi3UAK4YuljlRaHGQMatuy/vHv0s6Wnk9Qtn9SwbVQU+FWri
-	 QtlwOtGNwWX3Q==
+	b=W5MRrA1JDdGhDa69Pe0a9/0ZLjOHYtMDJs4GR0P+7KBwXGrSSwBtmuRmN1PmEs+Zq
+	 iT/hhz3HanmnX2WjvGKeGFHYTZS1ZwPqptAIMd4wbZYfznNcDBvahB4fFdzJWpdrYZ
+	 u9i2O6Xf11gGPMft65MybIOdNl9GOiyarTkZvpmE9FsLD5timddLlEEqNTCUdRkLFO
+	 o+Fv4cg1zGhRM34XPhPGkJ/AYTmLbp5DcV983jfevkKIH/ur3V2BzUC02CIFiB/NSw
+	 w8KHdQPWMf7zmlyrp1sahHTXkiJJIGolsZzAC18BzOmcHj3BHDnDF4AkL6U829mFXB
+	 gn7WJt4gcwa4Q==
 Received: by aws-us-west-2-korg-bugzilla-1.web.codeaurora.org (Postfix, from userid 48)
-	id 4EDE2C3279F; Sun, 16 Feb 2025 20:03:02 +0000 (UTC)
+	id C7D36C41612; Sun, 16 Feb 2025 20:24:19 +0000 (UTC)
 From: bugzilla-daemon@kernel.org
 To: linux-man@vger.kernel.org
 Subject: [Bug 217709] Mistake in example in mount_namespaces(7)
-Date: Sun, 16 Feb 2025 20:03:02 +0000
+Date: Sun, 16 Feb 2025 20:24:19 +0000
 X-Bugzilla-Reason: None
 X-Bugzilla-Type: changed
 X-Bugzilla-Watch-Reason: AssignedTo
@@ -41,14 +41,14 @@ X-Bugzilla-Component: man-pages
 X-Bugzilla-Version: unspecified
 X-Bugzilla-Keywords: 
 X-Bugzilla-Severity: low
-X-Bugzilla-Who: alx@kernel.org
+X-Bugzilla-Who: goeran@uddeborg.se
 X-Bugzilla-Status: RESOLVED
 X-Bugzilla-Resolution: CODE_FIX
 X-Bugzilla-Priority: P3
 X-Bugzilla-Assigned-To: documentation_man-pages@kernel-bugs.osdl.org
 X-Bugzilla-Flags: 
-X-Bugzilla-Changed-Fields: bug_status resolution
-Message-ID: <bug-217709-11311-Cr98WlnhMR@https.bugzilla.kernel.org/>
+X-Bugzilla-Changed-Fields: 
+Message-ID: <bug-217709-11311-mOLWNtwkwE@https.bugzilla.kernel.org/>
 In-Reply-To: <bug-217709-11311@https.bugzilla.kernel.org/>
 References: <bug-217709-11311@https.bugzilla.kernel.org/>
 Content-Type: text/plain; charset="UTF-8"
@@ -64,12 +64,15 @@ MIME-Version: 1.0
 
 https://bugzilla.kernel.org/show_bug.cgi?id=3D217709
 
-Alejandro Colomar (alx@kernel.org) changed:
+--- Comment #8 from G=C3=B6ran Uddeborg (goeran@uddeborg.se) ---
+> Is there anything we could improve in
+> the contributing guidelines that would have made it easier to figure it
+> out?
 
-           What    |Removed                     |Added
-----------------------------------------------------------------------------
-             Status|NEW                         |RESOLVED
-         Resolution|---                         |CODE_FIX
+I didn't mean to say it was something bad or missing in the guidelines. Just
+that it takes a little time to understand a new and unfamiliar workflow.
+
+It didn't take THAT long time! :-)
 
 --=20
 You may reply to this email to add a comment.
