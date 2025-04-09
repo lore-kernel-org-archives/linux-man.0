@@ -1,128 +1,200 @@
-Received: from mail-wm1-f43.google.com (mail-wm1-f43.google.com [209.85.128.43])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id DDA7C143748
-	for <linux-man@vger.kernel.org>; Wed,  9 Apr 2025 20:03:25 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.128.43
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 77F8021ABA4
+	for <linux-man@vger.kernel.org>; Wed,  9 Apr 2025 20:41:36 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1744229007; cv=none; b=PzIkV1OdiUyYwM1FH7E1Z2u1GeXdJ9XfOYZVyz+n7EyNQglgcHz0G2Wk6Le0cNOvKYPvjGzPGIocPWBruWE7rwafSd8I5L9vF9QN0rQgQfX1+BGe50dvaGLJ5R/A/qo3WFWIZ2gRczT0bfMpMbXRwNVFBXyurAhCG77v1k0FA5Q=
+	t=1744231296; cv=none; b=ssXBz/ZgIqkcUvyXJfZlmZ7neTAI/QQTQQdi/EOSbHmyVBmAOBx+DH08XUMo20Txj7KfhaKa6XOEgzXg2Wj7mHlzbfiRjuvpkx0PxlbREAYfcEfLrb/mQ8WSuPOkZxyG4sBeurJPSaiPHo9RW5BUp5DpG/N+ikhh02CcN57zhYM=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1744229007; c=relaxed/simple;
-	bh=2q8RemfWk+iqHKKYxGihb6hG4Sg1PwqdaIhIoRf5TSU=;
-	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version; b=C5jtIa5nTGqx1AD2G3tswHfbXjgewXsp1zppZdQUyqL81HmdUBE2K2EFhXfz2irLpq1misvLG8bxEf3WPSF5rDj2APngrWfiKbrtHXgR2rfqHnxR2Lg/Ea5/HqXeMjmllyC51rEwk3zr14XHin/sA22mm7h431wpClxQ8k/f1nY=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=google.com; spf=pass smtp.mailfrom=google.com; dkim=pass (2048-bit key) header.d=google.com header.i=@google.com header.b=zV71S9FN; arc=none smtp.client-ip=209.85.128.43
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=google.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=google.com
+	s=arc-20240116; t=1744231296; c=relaxed/simple;
+	bh=jXivwuavSOU3+rUAUb9IJLDEN9Sj9dovjGxSv6pGLZY=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=FLAMXBPa4qj7ONJxxR2ywqKrF4PaZNl/eTFlj0jAVAaNPkmGnM46+M4BmFda4Bt6M+32Vl26FNswMst5iRoU30GQsekcXY5RO6T3l5Ift/z4HIbUQL0/vzkGJQ8daZjYYoQHfPJNEqIB5wAAdXjWd3TvSbFp0RYgF5oV6UKeQHo=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=SSnBUc2q; arc=none smtp.client-ip=10.30.226.201
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=google.com header.i=@google.com header.b="zV71S9FN"
-Received: by mail-wm1-f43.google.com with SMTP id 5b1f17b1804b1-43ef83a6bfaso1485e9.1
-        for <linux-man@vger.kernel.org>; Wed, 09 Apr 2025 13:03:25 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=google.com; s=20230601; t=1744229004; x=1744833804; darn=vger.kernel.org;
-        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
-         :to:from:from:to:cc:subject:date:message-id:reply-to;
-        bh=ibP2CU6RAFJSeqUSlrkOvkOcHxqYPK+98gOWakQDC6c=;
-        b=zV71S9FN4s/kalw5hWFvZJeqpIErv4Db7oMo9v5CbODqtJdhbQEeaASJEhm2p9vjMo
-         Ovi1MfEV8+dklMop5vrZHTZ2rmWUfokVBcr3Kd0tngWlq2jUy7YMnpXVGAe5KyK7UtoD
-         zYzmucM9fDOxHjiW2wcdgzeU5XAMPP+qilF7TMVLDGM19KuJvzH3DfwOfmN3DsEPoLBe
-         Ihu80MzWS/v0ZP7lZeAVWRVoG1c3eLT2w85yFo621ZZkNwvaERbYn7/Sgv2wYpaEjrhW
-         JK+JnylixDqTIqLhrHwoFtxQ9bmXTzgJfWL67n4FkiD4486fUakm1slOQ9IzSoxMSHH5
-         nhHA==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1744229004; x=1744833804;
-        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
-         :to:from:x-gm-message-state:from:to:cc:subject:date:message-id
-         :reply-to;
-        bh=ibP2CU6RAFJSeqUSlrkOvkOcHxqYPK+98gOWakQDC6c=;
-        b=nILk+nqhONbuGRF8Ah94ji/x5O8WpHpQ8hklt3KUWvuOAI5dSEwYnxCUS7bNDDaoLG
-         xwRNJR6ivKmLHz3W5Mk3CwF3+QkQQpDqj/1CQSvhBULRHkOcqOAzDnh78jA4GLXEHEcr
-         +pSRvb1mvDR0IFaGmIPv6KMdYmA3cA69XxYpB29c4lrgXqDeIemutK6JmVOIRwSZGexy
-         Vt+XF0EoPVdx1qKDG2D1vdvpcGmOv6/mgGcU6kirnpkHwKbCNplHx9mU32cjsFi44F8v
-         MiFpDZnwNGfyItDuPJBfwU4Id3Z1kkgpPfvZbAcdkL3dFrvLD/U5DSrCR3Gi/JZhQAFa
-         JrZw==
-X-Gm-Message-State: AOJu0YyDEanSeUCAV6WbbG7aPO57BdKQfagIClw1s9AB71/XR9+QMhQM
-	V45GxNho+OXmxpD4eKnN4TK3Ie8Y/nhf8SuwRe4jbqEJCxC2TQq8dyAD0Cp1OA==
-X-Gm-Gg: ASbGncvYjrQKXvg62fQs6D+FLNcPTwDFuozv3rNJT3ETe0CxTEeySqE2qh8ZQl9mlRs
-	5srGeM6sr5UQElY06VxgUP7krEplOKm07QcZuc2t43b4qSa7QmqBW2kjXAQdYhByR+n5pd6Px8G
-	MGYOYOgErAtZaUBBgVVv1yJfXuL1BAMxS85MCoy+Xi+pPG5Tl2jlIA+ygTMfkeYPA3bpiL587BS
-	BFqBpwJ6C+EAbP1GywdHs5GBDo7Pvm+C5IgqvrJD32CsVrB5U3dTKjj4xZCpRkNBT8z+QAekzGK
-	srPhrucfGhJPO9kbzItPv0VsCCvK3A==
-X-Google-Smtp-Source: AGHT+IG6niI2hvwR6UeodCm2LxQ33raWiJJ1zWlTTycqnhO+IaVHjMAPiCodW4wIumoymwLCneEXbw==
-X-Received: by 2002:a05:600c:3b09:b0:43b:bf3f:9664 with SMTP id 5b1f17b1804b1-43f2e2df5a2mr114045e9.5.1744229003612;
-        Wed, 09 Apr 2025 13:03:23 -0700 (PDT)
-Received: from localhost ([2a00:79e0:9d:4:3a4a:b867:2c16:399f])
-        by smtp.gmail.com with UTF8SMTPSA id 5b1f17b1804b1-43f2338d757sm26436995e9.5.2025.04.09.13.03.22
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Wed, 09 Apr 2025 13:03:22 -0700 (PDT)
-From: Jann Horn <jannh@google.com>
-To: Alejandro Colomar <alx@kernel.org>
-Cc: linux-man@vger.kernel.org,
-	Andrew Morton <akpm@linux-foundation.org>,
-	"Liam R . Howlett" <Liam.Howlett@oracle.com>,
-	Lorenzo Stoakes <lorenzo.stoakes@oracle.com>,
-	Vlastimil Babka <vbabka@suse.cz>,
-	linux-mm@kvack.org
-Subject: [PATCH man] mmap.2: Document danger of mappings larger than PTRDIFF_MAX
-Date: Wed,  9 Apr 2025 22:03:16 +0200
-Message-ID: <20250409200316.1555164-1-jannh@google.com>
-X-Mailer: git-send-email 2.49.0.504.g3bcea36a83-goog
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="SSnBUc2q"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 7564AC4CEE2;
+	Wed,  9 Apr 2025 20:41:34 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+	s=k20201202; t=1744231296;
+	bh=jXivwuavSOU3+rUAUb9IJLDEN9Sj9dovjGxSv6pGLZY=;
+	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+	b=SSnBUc2q8YgPo2Kxqw+Y6dMa3XRKzYxg46NPqTtJu5P2xDv2jDawgnhsPxZwAk27z
+	 ZoQr3M29OQVx35/Yw/KrrOFnLJfrazgl93JRrC1xrKvj6IuxRnSoASOwDmajICzXox
+	 1ZapWsYcnxW6Jt6GPyu5JhI1pLNvBtc0p5S1E3szV2KWppfF/Sic85Eia4NlscCI6c
+	 OZbclNyFwIJqltS19/UMLznkWrsEHQrkOUX8YWIsK9AHyarbO0nQXu00u8HVIg52PT
+	 tgmPPVSVLdb6RBXu0631GWq3i8yZ9XsE6uvcE3v5oFXVC4dlwHZAW7VUZWi9G+Qbtk
+	 O8Oy759yMNHtw==
+Date: Wed, 9 Apr 2025 22:41:31 +0200
+From: Alejandro Colomar <alx@kernel.org>
+To: Jann Horn <jannh@google.com>
+Cc: linux-man@vger.kernel.org, Andrew Morton <akpm@linux-foundation.org>, 
+	"Liam R . Howlett" <Liam.Howlett@oracle.com>, Lorenzo Stoakes <lorenzo.stoakes@oracle.com>, 
+	Vlastimil Babka <vbabka@suse.cz>, linux-mm@kvack.org
+Subject: Re: [PATCH man] mmap.2: Document danger of mappings larger than
+ PTRDIFF_MAX
+Message-ID: <eou3zcpvohbtr3ixeibqec4grb5jdf35ss7xi5fy5qjgpxysde@fenpacxwsnqb>
+References: <20250409200316.1555164-1-jannh@google.com>
 Precedence: bulk
 X-Mailing-List: linux-man@vger.kernel.org
 List-Id: <linux-man.vger.kernel.org>
 List-Subscribe: <mailto:linux-man+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-man+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+Content-Type: multipart/signed; micalg=pgp-sha512;
+	protocol="application/pgp-signature"; boundary="yusnn73qo2ipjwdy"
+Content-Disposition: inline
+In-Reply-To: <20250409200316.1555164-1-jannh@google.com>
 
-References:
- - C99 draft: https://www.open-std.org/jtc1/sc22/wg14/www/docs/n1124.pdf
-   section "6.5.6 Additive operators", paragraph 9
- - object size restriction in GCC:
-   https://gcc.gnu.org/legacy-ml/gcc/2011-08/msg00221.html
- - glibc malloc restricts object size to <=PTRDIFF_MAX in
-   checked_request2size()
----
-I'm not sure if we can reasonably do anything about this in the kernel,
-given that the kernel does not really have any idea of what userspace
-object sizes look like, or whether userspace even wants C semantics.
-But we can at least document it...
 
-@man-pages maintainer: Please wait a few days before applying this;
-I imagine there might be some discussion about this.
+--yusnn73qo2ipjwdy
+Content-Type: text/plain; protected-headers=v1; charset=utf-8
+Content-Disposition: inline
+Content-Transfer-Encoding: quoted-printable
+From: Alejandro Colomar <alx@kernel.org>
+To: Jann Horn <jannh@google.com>
+Cc: linux-man@vger.kernel.org, Andrew Morton <akpm@linux-foundation.org>, 
+	"Liam R . Howlett" <Liam.Howlett@oracle.com>, Lorenzo Stoakes <lorenzo.stoakes@oracle.com>, 
+	Vlastimil Babka <vbabka@suse.cz>, linux-mm@kvack.org
+Subject: Re: [PATCH man] mmap.2: Document danger of mappings larger than
+ PTRDIFF_MAX
+References: <20250409200316.1555164-1-jannh@google.com>
+MIME-Version: 1.0
+In-Reply-To: <20250409200316.1555164-1-jannh@google.com>
 
- man/man2/mmap.2 | 17 +++++++++++++++++
- 1 file changed, 17 insertions(+)
+Hi Jan,
 
-diff --git a/man/man2/mmap.2 b/man/man2/mmap.2
-index caf822103..9cb7dacf3 100644
---- a/man/man2/mmap.2
-+++ b/man/man2/mmap.2
-@@ -785,6 +785,23 @@ correspond to added or removed regions of the file is unspecified.
- An application can determine which pages of a mapping are
- currently resident in the buffer/page cache using
- .BR mincore (2).
-+.P
-+Unlike typical
-+.BR malloc (3)
-+implementations,
-+.BR mmap ()
-+does not prevent creating objects larger than
-+.B PTRDIFF_MAX.
-+Objects that are larger than
-+.B PTRDIFF_MAX
-+only work in limited ways in standard C (in particular, pointer subtraction
-+results in undefined behavior if the result would be bigger than
-+.B PTRDIFF_MAX).
-+On top of that, GCC also assumes that no object is bigger than
-+.B PTRDIFF_MAX.
-+.B PTRDIFF_MAX
-+is usually half of the address space size; so for 32-bit processes, it is
-+usually 0x7fffffff (almost 2 GiB).
- .\"
- .SS Using MAP_FIXED safely
- The only safe use for
+On Wed, Apr 09, 2025 at 10:03:16PM +0200, Jann Horn wrote:
+> References:
+>  - C99 draft: https://www.open-std.org/jtc1/sc22/wg14/www/docs/n1124.pdf
+>    section "6.5.6 Additive operators", paragraph 9
+>  - object size restriction in GCC:
+>    https://gcc.gnu.org/legacy-ml/gcc/2011-08/msg00221.html
+>  - glibc malloc restricts object size to <=3DPTRDIFF_MAX in
+>    checked_request2size()
+> ---
+> I'm not sure if we can reasonably do anything about this in the kernel,
+> given that the kernel does not really have any idea of what userspace
+> object sizes look like,
 
-base-commit: 4c4d9f0f5148caf1271394018d0f7381c1b8b400
--- 
-2.49.0.504.g3bcea36a83-goog
+Hmmm.  Maybe it could reject PTRDIFF_MAX within the kernel, which would
+at least work for cases where user-space ptrdiff_t matches the kernel's
+ptrdiff_t?  Then only users where they don't match would be unprotected,
+but those are hopefully extra careful.
 
+> or whether userspace even wants C semantics.
+
+I guess any language will have to link to C at some point, or have
+inherent limitations similar to those of C.
+
+> But we can at least document it...
+
+Yep.  Most people are unaware of this, and believe they can get
+SIZE_MAX.
+
+>=20
+> @man-pages maintainer: Please wait a few days before applying this;
+> I imagine there might be some discussion about this.
+
+Okay; see some minor comments below.
+
+>=20
+>  man/man2/mmap.2 | 17 +++++++++++++++++
+>  1 file changed, 17 insertions(+)
+>=20
+> diff --git a/man/man2/mmap.2 b/man/man2/mmap.2
+> index caf822103..9cb7dacf3 100644
+> --- a/man/man2/mmap.2
+> +++ b/man/man2/mmap.2
+> @@ -785,6 +785,23 @@ correspond to added or removed regions of the file i=
+s unspecified.
+>  An application can determine which pages of a mapping are
+>  currently resident in the buffer/page cache using
+>  .BR mincore (2).
+> +.P
+> +Unlike typical
+> +.BR malloc (3)
+> +implementations,
+> +.BR mmap ()
+> +does not prevent creating objects larger than
+> +.B PTRDIFF_MAX.
+
+=2EBR PTRDIFF_MAX .
+
+(since you want the '.' not bold, but roman)
+
+> +Objects that are larger than
+> +.B PTRDIFF_MAX
+> +only work in limited ways in standard C (in particular, pointer subtract=
+ion
+
+Please break the line also before the '('.
+
+> +results in undefined behavior if the result would be bigger than
+> +.B PTRDIFF_MAX).
+
+=2EBR PTRDIFF_MAX ).
+
+(same reasons)
+
+> +On top of that, GCC also assumes that no object is bigger than
+> +.B PTRDIFF_MAX.
+
+=2EBR PTRDIFF_MAX .
+
+> +.B PTRDIFF_MAX
+> +is usually half of the address space size; so for 32-bit processes, it is
+
+Please break the line after ';' and after ',' (and not after 'is').
+
+See also man-pages(7):
+
+$ MANWIDTH=3D72 man man-pages | sed -n '/Use semantic newlines/,/^$/p'
+   Use semantic newlines
+     In the source of a manual page, new sentences should be started on
+     new lines, long sentences should be split  into  lines  at  clause
+     breaks  (commas,  semicolons, colons, and so on), and long clauses
+     should be split at phrase boundaries.  This convention,  sometimes
+     known as "semantic newlines", makes it easier to see the effect of
+     patches, which often operate at the level of individual sentences,
+     clauses, or phrases.
+
+
+Have a lovely night!
+Alex
+
+> +usually 0x7fffffff (almost 2 GiB).
+>  .\"
+>  .SS Using MAP_FIXED safely
+>  The only safe use for
+>=20
+> base-commit: 4c4d9f0f5148caf1271394018d0f7381c1b8b400
+> --=20
+> 2.49.0.504.g3bcea36a83-goog
+>=20
+
+--=20
+<https://www.alejandro-colomar.es/>
+
+--yusnn73qo2ipjwdy
+Content-Type: application/pgp-signature; name="signature.asc"
+
+-----BEGIN PGP SIGNATURE-----
+
+iQIzBAABCgAdFiEES7Jt9u9GbmlWADAi64mZXMKQwqkFAmf223UACgkQ64mZXMKQ
+wqn/Xg//bmmBgN4nFWRHGZDffDb5bEZG7Za3ET26J/jtj6Xlfqt+VvOK8eJd+oyu
+S6wfew6hA2IDEEa8cZ7paVNjZ+iXkNw8g2X9SXRdwiAy9j4np1ZdkhJoNnosFKjj
+OqFocG8E/m4l9RiPjqhXITkbz6j+450VNnhf7KJpNWUU+SvZrGV6GvfxCTpIXp4V
+VWpw1uOsgSJg4vVrPWbgOPvSip3wLJjoyEou2aR8k+noQ3p+YZwbZNqk1URbCBlq
+aVswI5qGc7kpY2H7MOCaAoTtYAKGsb5hGEE78x5jPpE7LOJDt8qDAxhM2QEiZtWi
+LALPqXjWDiRo1xjW0uUhFnLgGSKyK2V4CltQJ/8tsdsiXhVTiNUovxlsZsIU7Rvj
+km9BA05lXRS8WHEynUNOs3/Pr06Irm0SEOTKKBAEOVbSlS32N7alqlA94iOTovSi
+0YyuUl3iEpxle0ORnfA01pm+dpUp7dB2NuiQ/G+jKej8CWClfNIlWg7RCMOGDLX5
+ceiIOUC3/kcFcdfnl5Y166fPY2ZLNeClC6hIkACffrKmhhlGEn0jY9un/FwbbuIF
+pGj+Txc3qFG4M7szfY8o6ZmCpjARnqR8Sv7bR6DQeSikuA0GFs5noxuWYyCUHkDg
+tf5C1eA3u6z37cv9jetwKMiw60gGlW591lIBuO7M3/f1iKIiuKQ=
+=FW8P
+-----END PGP SIGNATURE-----
+
+--yusnn73qo2ipjwdy--
